@@ -4,76 +4,21 @@
 
 <chapter id="usage-contact">
   <title>Working with Your Contacts</title>
-  <abstract>
-    <para>
-      The <application>Evolution</application> address book can
-      handle all of the functions of an address book, phone book, or
-      Rolodex.  Of course, it's a lot easier to update
-      <application>Evolution</application> than it is to change an
-      actual paper book. <application>Evolution</application> also
-      allows easy synchronization with hand-held devices.  Since
-      <application>Evolution</application> supports the <glossterm
-      linkend="ldap">LDAP</glossterm> directory protocol, you can use
-      it with almost any type of existing directory server on your
-      network.
-    </para>
-    <para>
-      Another advantage of the <application>Evolution</application>
-      address book is its integration with the rest of the
-      application.  When you look for someone's address, you can also
-      see a history of appointments with that person.  Or, you can
-      create address cards from emails with just a few clicks.  In
-      addition, searches and folders work in the same way they do in
-      the rest of <application>Evolution</application>.
-    </para>
-    <para>
-      This chapter will show you how to use the
-      <application>Evolution</application> address book to organize
-      any amount of contact information, share addresses over a
-      network, and several ways to save time with everyday tasks. To
-      learn about configuring the address book, see <xref
-      linkend="config-prefs-contact">.
-    </para>
-  </abstract>
-  <sect1 id="usage-contact-basic">
-    <title>Getting Started With the Address Book</title>	
-    
-    <figure id="usage-contact-fig">
-      <title>Evolution Contact Interface</title>
-      <screenshot>
-	<screeninfo>Evolution Contact List Window</screeninfo>
-	<graphic fileref="figures/contact" format="png" srccredit="Kevin Breit">
-	</graphic>
-      </screenshot>
-    </figure>
-
-    <para>
-      <inlinegraphic fileref="figures/full-1" format="png"></inlinegraphic>
-      <guilabel>Contact List</guilabel>
-    </para>
-
-    <para>
-      The <guilabel>Contact List</guilabel> lists your contacts.
-    </para>
-
-    <para>
-       To open your address book, click on
-       <guibutton>Contacts</guibutton> in the shortcut bar, or select
-       one of your contacts folders from the folder bar.  <xref
-       linkend="usage-contact-fig"> shows the address book in all
-       its organizational glory.  By default, the address book
-       shows all your cards in alphabetical order, in a <glossterm
-       linkend="minicard">minicard</glossterm> view.  You can select
-       other views from the <guimenu>View</guimenu> menu, and adjust
-       the width of the columns by clicking and dragging the grey
-       column dividers.
-    </para>
+      <para>
+        This chapter will show you how to use the
+        <application>Evolution</application> address book to organize
+        any amount of contact information, share addresses over a
+        network, and several ways to save time with everyday tasks. To
+        learn about configuring the address book, see <xref
+        linkend="config-prefs-contact">.
+      </para>
 
     <para>
        The toolbar for the address book is quite simple.
        <itemizedlist>
 	<listitem><para>
-           <guibutton>New</guibutton> creates a new card.
+           Click <guibutton>New</guibutton> to create a new card, or double-click 
+           in a blank space in the contact list. 
 	</para></listitem>
 
 	<listitem><para>
@@ -108,7 +53,6 @@
        more than a few people listed, you'll want some way of finding
        them more quickly, which is why there's a search feature.
     </para>
-  </sect1>
 
   <sect1 id="usage-contact-cards">
     <title>The Contact Editor</title>

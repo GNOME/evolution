@@ -1,69 +1,29 @@
 <!--
 <!DOCTYPE Chapter PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN">
 -->
+
 <chapter id="usage-mail">
   <title>Using Evolution for Email</title>
-  <abstract>
-    <title> A Guide to the Evolution Mailer</title>
-    <para>
-       <application>Evolution</application> email is like other email
-       programs in all the ways that matter:
-     <itemizedlist>
-       <listitem>
-         <para>
-           It can sort and organize your mail in a wide variety of ways with
-           folders, searches, and filters.
-         </para>
-       </listitem>
-       <listitem>
-         <para>
-          It can send and receive mail in HTML or as plain text, and
-          makes it easy to send and recieve multiple file attachments.
-         </para>
-       </listitem>
-       <listitem>
-         <para>
-           It supports multiple mail sources, including <glossterm
-           linkend="imap">IMAP</glossterm>, <glossterm
-           linkend="pop">POP3</glossterm>, local
-           <systemitem><filename>mbox</filename></systemitem> and
-           <systemitem><filename>mh</filename></systemitem> files, and
-           even NNTP messages (newsgroups), which aren't technically
-           email.
-         </para>
-	</listitem>
-	<listitem>
-	  <para>
-	    Lets you enhance your security with encryption.
-	  </para>
-	</listitem>
-     </itemizedlist>
-    </para>
-    <para>
-      However, <application>Evolution</application> has some important
-      differences.  First, it's built to handle very large amounts of
-      mail.  Both the <link
-      linkend="usage-mail-organize-filters">filtering</link> and <link
-      linkend="usage-mail-organize-search">searching</link> functions
-      were built for speed and efficiency on large volumes of
-      mail. There's also the <application>Evolution</application>
-      <link linkend="usage-mail-organize-vFolders">vFolder</link>, an
-      advanced organizational feature not found in mainstream mail
-      clients.  If you get a lot of mail, or if you keep every message
-      you get in case you need to refer to it later, you'll find this
-      feature especially useful.
-    </para>
-  </abstract>
+  <para>
+     This chapter, and <xref linkend="usage-mail-organize">, will
+     provide you with an in-depth guide to the capabilities of
+     Evolution as a mail client.  For information about how to set up
+     your mail account, see <xref linkend="config-prefs-mail">.
+  </para>
 
   <sect1 id="usage-mail-getnsend-read">
-      <title>Reading Mail</title>
-      <para>
-       You can start reading email by clicking
-       <guibutton>Inbox</guibutton> in the shortcut bar. The first
-       time you use <application>Evolution</application>, it will
-       start with the <interface>Inbox</interface> open and show you a
-       message from Ximian welcoming you to the application.
-      </para>
+      <title>Reading Mail</title>    
+    <para>
+        Start the mail client by clicking on the
+        <guibutton>Inbox</guibutton> icon in the shortcut bar, or by
+        selecting a mail folder in the folder bar.  To read a message,
+        select it in the message list; if you'd like to see it in its
+        own window, double-click on it or press
+          <keycombo action="simul">
+		<keycap>Ctrl</keycap>
+		<keycap>O</keycap>
+	      </keycombo>.
+     </para>
 
       <tip id="spaceandbs">
 	<title>Reading Mail with the Keyboard</title>
@@ -74,80 +34,6 @@
 	</para>
       </tip>
 
-      <para>
-        Your <application>Evolution</application>
-        <guilabel>Inbox</guilabel> will look something like the one in
-        <xref linkend="usage-mail-intro-fig">.
-        If you find the <interface>view pane</interface> too small, you can resize
-        the pane, enlarge the whole window, or double-click on the
-        message in the <interface>message list</interface> to have it
-        open in a new window.  To change the sizes of a pane, just click
-        and hold on the divider between the two panes.  Then you can drag
-        up and down to select the size of the panes.  Just like with
-        folders, you can right-click on messages in the message list and
-        get a menu of possible actions.
-     </para>
-
- <!-- ==============Figure=================================== -->
-
-      <figure id="usage-mail-intro-fig">
-          <title>Evolution Mail</title>
-          <screenshot>
-            <screeninfo>Inbox</screeninfo>
-            <graphic fileref="figures/mail-inbox" format="png" srccredit="Kevin Breit">
-        </graphic>
-        </screenshot>
-      </figure>
-<!-- ==============End of Figure============================== -->
-
-    <para>
-      <inlinegraphic fileref="figures/full-1" format="png"></inlinegraphic>
-      <guilabel>Email Viewer</guilabel>
-    </para>
-    
-    <para>
-      This is where your email is displayed.
-    </para>
-
-    <para>
-      <inlinegraphic fileref="figures/full-2" format="png"></inlinegraphic>
-      <guilabel>Email List</guilabel>
-    </para>
-    
-    <para>
-      The <guilabel>Email List</guilabel> displays all the emails that you
-      have.  This includes all your read, unread, and email that is flagged 
-      to be deleted.
-    </para>
-    
-    <para>
-      Most of the mail-related actions you'll want to perform are
-      listed in the <guimenu>Message</guimenu> menu in the menu bar.
-      The most frequently used ones, like
-      <guimenuitem>Reply</guimenuitem> and
-      <guimenuitem>Forward</guimenuitem>, also appear as buttons in
-      the toolbar. Almost all of them are also located in the
-      right-click menu and as keyboard shortcuts, which tend to be
-      faster once you get the hang of them.  You can choose whichever
-      way you like best; the idea is that the software should work the
-      way you want, rather than making you work the way the it does.
-      
-      <tip id="view-headers">
-	<title>Email Headers</title>
-	<para>
-	  To look at the complete headers for email messages, select
-	  <menuchoice><guimenu>View</guimenu><guisubmenu>Message
-	  Display</guisubmenu><guimenuitem>Show Full
-	  Headers</guimenuitem></menuchoice>. To see absolutely every
-	  bit, choose
-	  <menuchoice><guimenu>View</guimenu><guisubmenu>Message
-	  Display</guisubmenu><guimenuitem>Show Email Source
-	  </guimenuitem></menuchoice>.
-       </para>
-      </tip>
-
-    </para>
-    
     <sect2 id="usage-mail-listorder">
       <title>Sorting the message list</title>
       <para>
@@ -166,6 +52,21 @@
 	instructions on how to customize your message display
 	columns in <xref linkend="usage-mail-organize-columns">.
       </para>
+
+      <tip id="view-headers">
+	<title>Email Headers</title>
+	<para>
+	  To look at the complete headers for email messages, select
+	  <menuchoice><guimenu>View</guimenu><guisubmenu>Message
+	  Display</guisubmenu><guimenuitem>Show Full
+	  Headers</guimenuitem></menuchoice>. To see absolutely every
+	  bit, choose
+	  <menuchoice><guimenu>View</guimenu><guisubmenu>Message
+	  Display</guisubmenu><guimenuitem>Show Email Source
+	  </guimenuitem></menuchoice>.
+       </para>
+      </tip>
+
       <para>
 	You can also choose a threaded message view. Select
 	<menuchoice> 
@@ -912,16 +813,15 @@ with quoted materials and the relevant replies interspersed-->
           <para>
             Some people do not have HTML-capable mail clients, or
             prefer not to receive HTML-enhanced mail because it is
-            slower to download and display.  <emphasis>Some</emphasis>
-            people don't like HTML mail and
-            get very angry if you send them HTML mail, which is why
+            slower to download and display. Because some people may
+            prefer not to get HTML mail,
             <application>Evolution</application> sends plain text
             unless you explicitly ask for HTML.  To send HTML mail,
             you will need to select <menuchoice>
             <guimenu>Format</guimenu> <guimenuitem>
-            HTML</guimenuitem></menuchoice>.  Alternately, you can set
-            your default mail format preferences in the mail
-            configuration dialog.  See <xref
+            HTML</guimenuitem></menuchoice>.  To send all your mail as
+            HTML, you can set your default mail format preferences in
+            the mail configuration dialog.  See <xref
             linkend="config-prefs-mail-other"> for more information.
           </para>
         </note>

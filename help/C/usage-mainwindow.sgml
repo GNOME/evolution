@@ -24,11 +24,13 @@
     </para>
 
     <sect2 id="first-step">
-      <title>Step 1 of 4</title>
+      <title>Defining Your Identity</title>
       <para>
 	The Identity window is the first of four steps in the
 	assistant.  The identity step will ask you to enter your basic
-	personal information.
+	personal information.  You can define multiple identities
+	later on with the <menuchoice><guimenu>Tools</guimenu>
+	<guimenuitem>Mail Settings</guimenuitem></menuchoice> tool.
 	<itemizedlist>
 	  <listitem>
 	    <para>
@@ -60,7 +62,7 @@
     </sect2>
 
     <sect2 id="second-step">
-      <title>Step 2 of 4</title>
+      <title>Recieving Email</title>
       <para>
 	The <guilabel>Recieving Email</guilabel> step lets you configure
 	receving email people have sent you.
@@ -135,7 +137,7 @@
       </para>
     </sect2>
     <sect2 id="third-step">
-      <title>Step 3 or 4</title>
+      <title>Sending Email</title>
       <para>
 	The <guilabel>Sending Email</guilabel> step lets you configure sending 
 	email.
@@ -202,13 +204,10 @@
     </sect2>
 
   <sect2 id="fourth-step">
-      <title>Step 4 of 4</title>
+      <title>Importing Mail (Optional)</title>
       <para>
-	Chances are, <application>Evolution</application> isn't your first email
-	program.  You're probably switching from another program and will want
-	access to your email from your old program.  It's for exactly these 
-	situations that <application>Evolution</application> includes an import 
-	feature.
+	If <application>Evolution</application> finds mail or address
+	files from another application, it will offer to import them.
       </para>
       <para>
 	<application>Evolution</application> can import the following types of
@@ -522,7 +521,7 @@
 
     </para>
     <tip id="foldertips">
-    <title>Navigating without the Folder Bar</title>
+    <title>Navigating without the Folder Bar or the Shortcut Bar</title>
        <para>
          You don't need the folder bar or the shortcut bar to move
          around the main window. You can use <keycap>Tab</keycap> to
@@ -535,9 +534,8 @@
      </tip>
 
     <para>
-       If you get any serious amount of mail, you'll want more folders
-       than just your Inbox.  
-	To create a new folder:
+       If you get large volumes of mail, you'll want more folders than
+       just your Inbox.  To create a new folder:
 	<orderedlist numeration="arabic">
 	  <listitem>
 	    <para>
@@ -758,10 +756,275 @@
       everything that's going on.
     </para>
     </sect2>
-  </sect1>
- 
-</chapter>
+    <sect2 id="basics-summary">
+      <title>Introducing the Summary</title>
+      <para>
+         The Ximian Evolution Summary provides you with a quick
+         run-down of important information: your appointments for a
+         given day, how much new mail you have, headlines from
+         selected news services, and so forth. To see the Summary,
+         click on the <guibutton>Summary</guibutton> button in the
+         shortcut bar, or select the <guilabel>Summary</guilabel>
+         folder in the folder bar.
+      </para>
 
+      <para>
+        FIXME: Insert picture of the Summary and labels here.
+      </para>
+
+      <para>
+        To add additional services to your Summary, or to edit the
+        existing services, select
+        <menuchoice>
+	  <guimenu>Tools</guimenu> 
+	  <guimenuitem>Summary Settings</guimenuitem> 
+	</menuchoice>.
+      </para>
+
+    </sect2>
+
+    <sect2 id="basics-mail">
+      <title>Introducing Email</title>
+      <para>
+         <application>Evolution</application> email is like other
+         email programs in several ways:
+     <itemizedlist>
+	  <listitem>
+	    <para>
+              It can sort and organize your mail in a wide variety of
+              ways with folders, searches, and filters.
+           </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+              It can send and receive mail in HTML or as plain text,
+              and makes it easy to send and recieve multiple file
+              attachments.
+           </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+              It supports multiple mail sources, including <glossterm
+              linkend="imap">IMAP</glossterm>, <glossterm
+              linkend="pop">POP3</glossterm>, local
+              <systemitem><filename>mbox</filename></systemitem> and
+              <systemitem><filename>mh</filename></systemitem> files,
+              and even NNTP messages (newsgroups), which aren't
+              technically email.
+            </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      It lets you guard your privacy with encryption.
+	    </para>
+	  </listitem>
+	</itemizedlist>
+      </para>
+      <para>
+        However, <application>Evolution</application> has some
+        important differences.  First, it's built to handle very large
+        amounts of mail.  Both the <link
+        linkend="usage-mail-organize-filters">filtering</link> and
+        <link linkend="usage-mail-organize-search">searching</link>
+        functions were built for speed and efficiency on large volumes
+        of mail. There's also the <application>Evolution</application>
+        <link linkend="usage-mail-organize-vFolders">vFolder</link>,
+        an advanced organizational feature not found in mainstream
+        mail clients.  If you get a lot of mail, or if you keep every
+        message you get in case you need to refer to it later, you'll
+        find this feature especially useful.
+     </para>
+     <para>
+        Here's what the mailer looks like:
+
+ <!-- ==============Figure=================================== -->
+
+      <figure id="usage-mail-intro-fig">
+          <title>Evolution Mail</title>
+          <screenshot>
+            <screeninfo>Inbox</screeninfo>
+            <graphic fileref="figures/mail-inbox" format="png" srccredit="Kevin Breit">
+        </graphic>
+        </screenshot>
+      </figure>
+<!-- ==============End of Figure============================== -->
+</para>
+      <para>
+        <inlinegraphic fileref="figures/full-1"
+        format="png"></inlinegraphic> <guilabel>Email
+        Viewer</guilabel>
+      </para>
+    
+      <para>
+        This is where your email is displayed.
+      </para>
+
+      <para>
+        <inlinegraphic fileref="figures/full-2"
+        format="png"></inlinegraphic> <guilabel>Email List</guilabel>
+      </para>
+    
+      <para>
+        The <guilabel>Email List</guilabel> displays all the emails
+        that you have.  This includes all your read, unread, and email
+        that is flagged to be deleted.
+      </para>
+
+      <para>
+     If you find the <interface>view pane</interface> too small, you can resize
+        the pane, enlarge the whole window, or double-click on the
+        message in the <interface>message list</interface> to have it
+        open in a new window.  To change the sizes of a pane, just click
+        and hold on the divider between the two panes.  Then you can drag
+        up and down to select the size of the panes.  Just like with
+        folders, you can right-click on messages in the message list and
+        get a menu of possible actions.
+      </para>
+      <para>
+        Most of the mail-related actions you'll want to perform are
+        listed in the <guimenu>Message</guimenu> menu in the menu bar.
+        The most frequently used ones, like
+        <guimenuitem>Reply</guimenuitem> and
+        <guimenuitem>Forward</guimenuitem>, also appear as buttons in
+        the toolbar. Almost all of them are also located in the
+        right-click menu and as keyboard shortcuts, which tend to be
+        faster once you get the hang of them.  You can choose
+        whichever way you like best; the idea is that the software
+        should work the way you want, rather than making you work the
+        way the it does.
+      </para>
+
+       <para>
+         For an in-depth guide to the email capabilities of Ximian
+         Evolution, read <xref linkend="usage-mail">.
+      </para>
+    </sect2>
+    <sect2 id="basics-calendar">
+      <title>Introducing the Calendar</title>
+      <para>
+       To begin using the calendar, select
+       <guibutton>Calendar</guibutton> from the <interface>shortcut
+       bar</interface>.  By default, the calendar starts showing
+       today's schedule on a ruled background.  At the upper right,
+       there's a monthly calendar you can use to switch days.  Below
+       that, there's a <guilabel>TaskPad</guilabel>, where you can
+       keep a list of tasks separate from your calendar appointments.
+       The day view in the calendar looks like this:
+
+   <!-- ============== Figure ============================= -->
+    <figure id="usage-calendar-fig">
+      <title>Evolution Calendar View</title>
+      <screenshot>
+	<screeninfo>Evolution Contact Manager Window</screeninfo>
+	<graphic fileref="figures/calendar" format="png" srccredit="Aaron Weber">
+	</graphic>
+      </screenshot>
+    </figure>
+  <!-- ============== End of Figure ============================= --> 
+
+    </para>
+
+      <para>
+        <inlinegraphic fileref="figures/full-1"
+        format="png"></inlinegraphic> <guilabel>Appointment
+        List</guilabel>
+      </para>
+  
+      <para>
+	The <guilabel>Appointment List</guilabel> is responsible for showing you all of
+	your scheduled appointments, whether they are all day appointments or simply one time
+	appointments that last a half an hour.
+      </para>
+
+      <para>
+	<inlinegraphic fileref="figures/full-2" format="png"></inlinegraphic>
+	<guilabel>Todo List</guilabel>
+      </para>
+
+      <para>
+        The <guilabel>Todo List</guilabel> compliments the
+        <guilabel>Appointment List </guilabel> as it keeps track of
+        tasks which don't have any time associated with them.  These
+        may include "" or "Call Repairman".  </para>
+
+      <para>
+	<inlinegraphic fileref="figures/full-3" format="png"></inlinegraphic>
+	<guilabel>Calendar Window</guilabel>
+      </para>
+
+      <para>
+	The <guilabel>Calendar Window</guilabel> has a graphical representation of
+	the calendar, so you can select what days to view in the <guilabel>Appointment
+	List</guilabel>.
+      </para>
+
+      <para>
+          For more information about the calendar
+          read <xref linkend="usage-calendar">.
+      </para>
+
+    </sect2>
+    <sect2 id="basics-contacts">
+      <title>Introducing the Address Book</title>
+      <para>
+        The <application>Evolution</application> address book can
+        handle all of the functions of an address book, phone book, or
+        Rolodex.  Of course, it's a lot easier to update
+        <application>Evolution</application> than it is to change an
+        actual paper book. <application>Evolution</application> also
+        allows easy synchronization with hand-held devices.  Since
+        <application>Evolution</application> supports the <glossterm
+        linkend="ldap">LDAP</glossterm> directory protocol, you can
+        use it with almost any type of existing directory server on
+        your network.
+      </para>
+      <para>
+        Another advantage of the <application>Evolution</application>
+        address book is its integration with the rest of the
+        application.  For example, you can create an address card from
+        an email just by right-clicking on the sender's email address.
+      </para>
+      <para>
+        To open your address book, click on
+        <guibutton>Contacts</guibutton> in the shortcut bar, or select
+        one of your contacts folders from the folder bar.  <xref
+        linkend="usage-contact-fig"> shows the address book in all its
+        organizational glory.  By default, the address book shows all
+        your cards in alphabetical order, in a <glossterm
+        linkend="minicard">minicard</glossterm> view.  You can select
+        other views from the <guimenu>View</guimenu> menu, and adjust
+        the width of the columns by clicking and dragging the grey
+        column dividers.
+      </para>
+      <para>
+        The address book looks like this:
+
+      <figure id="usage-contact-fig">
+	<title>Evolution Contact Interface</title>
+	<screenshot>
+	  <screeninfo>Evolution Contact List Window</screeninfo>
+	  <graphic fileref="figures/contact" format="png" srccredit="Kevin Breit">
+  	  </graphic>
+	</screenshot>
+      </figure>
+     </para>
+      <para>
+        <inlinegraphic fileref="figures/full-1"
+        format="png"></inlinegraphic> <guilabel>Contact
+        List</guilabel>
+      </para>
+
+      <para>
+        The <guilabel>Contact List</guilabel> lists your contacts.
+      </para>
+      <para>
+          For detailed instructions on how to use the address book,
+          read <xref linkend="usage-contact">.
+      </para>
+    </sect2>
+
+  </sect1>
+</chapter>
 
 
 

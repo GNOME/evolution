@@ -4,66 +4,15 @@
 
 <chapter id="usage-calendar">
   <title>Managing your Schedule</title>
-  <para>
-    To begin using the calendar, select
-    <guibutton>Calendar</guibutton> from the <interface>shortcut
-    bar</interface>.  By default, the calendar starts showing today's
-    schedule on a ruled background.  At the upper right, there's a
-    monthly calendar you can use to switch days.  Below that, there's
-    a <guilabel>TaskPad</guilabel>, where you can keep a list of tasks
-    separate from your calendar appointments.  The calendar's daily
-    view is shown in <xref linkend="usage-calendar-fig">.
 
-   <!-- ============== Figure ============================= -->
-    <figure id="usage-calendar-fig">
-      <title>Evolution Calendar View</title>
-      <screenshot>
-	<screeninfo>Evolution Contact Manager Window</screeninfo>
-	<graphic fileref="figures/calendar" format="png" srccredit="Aaron Weber">
-	</graphic>
-      </screenshot>
-    </figure>
-  <!-- ============== End of Figure ============================= --> 
+     <para>
+      This chapter will show you how to use the Ximian Evolution
+      Calendar to manage your schedule alone or in conjunction with
+      others.
+     </para>
 
-  </para>
-
-  <para>
-    <inlinegraphic fileref="figures/full-1" format="png"></inlinegraphic>
-    <guilabel>Appointment List</guilabel>
-  </para>
-  
-  <para>
-    The <guilabel>Appointment List</guilabel> is responsible for showing you all of
-    your scheduled appointments, whether they are all day appointments or simply one time
-    appointments that last a half an hour.
-  </para>
-
-  <para>
-    <inlinegraphic fileref="figures/full-2" format="png"></inlinegraphic>
-    <guilabel>Todo List</guilabel>
-  </para>
-  
-  <para>
-    The <guilabel>Todo List</guilabel> compliments the <guilabel>Appointment List
-    </guilabel> as it keeps track of your chores or tasks which don't have
-    any time associated with them.  These may include "Clean Room" or "Call
-    Repairman".
-  </para>
-
-  <para>
-    <inlinegraphic fileref="figures/full-3" format="png"></inlinegraphic>
-    <guilabel>Calendar Window</guilabel>
-  </para>
-  
-  <para>
-    The <guilabel>Calendar Window</guilabel> has a graphical representation of
-    the calendar, so you can select what days to view in the <guilabel>Appointment
-    List</guilabel>.
-  </para>
-  
     <sect1 id ="usage-calendar-view"> 
     <title>Ways of Looking at your Calendar</title>
-
     <para>
        The toolbar offers you four different views of your calendar:
        one day, five days, a week, or a month at once. Press the
@@ -86,19 +35,6 @@
        <guibutton>Go To</guibutton> and select the date in the dialog
        box that appears.
     </para>
-
-
-<!-- ############### FIXME FIXME FIXME ############
-Feature not yet implemented, and may not be implemented due to
-lack of time, resources, and interest.
-    <para>
-       In addition, <application>Evolution</application> supports
-       Hebrew, Muslim, and other calendar formats.  To switch to a
-       different calendar format, choose
-       <guimenuitem>GUIMENUITEM</guimenuitem> from the
-       <guimenu>GUIMENU</guimenu>.
-    </para>
-################  END FIXME AREA   ##################   -->
 
   </sect1>
   <sect1 id="usage-calendar-apts">

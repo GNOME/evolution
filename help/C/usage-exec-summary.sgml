@@ -1,27 +1,21 @@
 <chapter id="usage-exec-summary">
    <title>Using the Ximian Evolution Summary</title>
-    <para>
-       The Ximian Evolution Summary is designed to show you a
-       summary of important information: the appointments for a given
-       day, important email, and so forth. To see the Summary, 
-       click on the <guibutton>Summary</guibutton>
-       button in the shortcut bar, or select the
-       <guilabel>Summary</guilabel> folder in the folder
-       bar.
-    </para>
+
 
     <sect1 id="exec-intro">
       <title>Introducing Summary</title>
       <para>
-        The first thing you'll want to do with Summary
-        is add a service. Go to
-      <menuchoice>
-	<guimenu>Tools</guimenu>
-	<guimenuitem>Summary Settings</guimenuitem>
-      </menuchoice>
-      then select one of the available
-      services.  Services may vary depending upon your system, but
-      most installations will have at least the following options:
+         The Ximian Evolution Summary can show you what you need to
+         know at a glance.  To make it work for you, you can customize
+         it so it displays the information you want, when you want it.
+      </para>
+      <para>
+        To begin customizing your Summary, select <menuchoice>
+        <guimenu>Tools</guimenu> <guimenuitem>Summary
+        Settings</guimenuitem> </menuchoice>, then select one of the
+        available services.  Services may vary depending upon your
+        system, but most installations will have at least the
+        following options:
       <variablelist>
 
 	<varlistentry>
@@ -175,13 +169,3 @@
     </sect2>
   </sect1>
 </chapter>
-
-
-
-
-
-
-
-
-
-

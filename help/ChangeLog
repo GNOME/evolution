@@ -1,12 +1,35 @@
+2001-08-20  Aaron Weber  <aaron@ximian.com>
+
+	* C/usage-exec-summary.sgml: Moved introductory/basic content to the
+	usage-mainwindow.sgml file. Rewrote intro.
+
+	* C/usage-contact.sgml: Moved introductory/basic content to the
+	usage-mainwindow.sgml file.Rewrote intro.
+
+	* C/usage-calendar.sgml: Moved introductory/basic content to the
+	usage-mainwindow.sgml file.Rewrote intro.
+
+	* C/usage-mail.sgml: Moved introductory/basic content to the
+	usage-mainwindow.sgml file.Rewrote intro.
+
+	* C/usage-mainwindow.sgml: Put summary-type info into
+	this file from other chapters.
+	
+	* C/topic.dat: New file. Help Menu info.
+
 2001-08-20  Kevin Breit  <battery841@mediaone.net>
 
 	* C/usage-calendar.sgml: Did more event -> appointment conversions.
 
 2001-08-18  Kevin Breit  <battery841@mediaone.net>
 
-	* C/usage-calendar.sgml: Renamed events to appointments (please review for me as it was a simple regex replace).
+	* C/usage-calendar.sgml: Renamed events to appointments (please
+	review for me as it was a simple regex replace).
 
-	* C/usage-mail.sgml: Removed "emoticon" and "root of all evil", removed gargantuan, removed instances of "the the", changes Virtual Folders to vFolders, renamed "Attachements and HTML Mail" section, reworded "Embellish" to say "Enhance"
+	* C/usage-mail.sgml: Removed "emoticon" and "root of all evil",
+	removed gargantuan, removed instances of "the the", changes
+	Virtual Folders to vFolders, renamed "Attachements and HTML Mail"
+	section, reworded "Embellish" to say "Enhance"
 
 2001-08-17  Aaron Weber  <aaron@ximian.com>
 
