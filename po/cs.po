@@ -2,25 +2,24 @@
 # Copyright (C) YEAR Free Software Foundation, Inc.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2002-04-17 11:01-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Last-Translator: Radka Doulíková <doulikova@centrum.cz>\n"
+"Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=ISO-8859-2\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: addressbook/backend/ebook/GNOME_Evolution_Addressbook_LDIF_Importer.oaf.in.h:1
 msgid "Factory to import LDIF files into Evolution."
-msgstr ""
+msgstr "Továrna pro importování souborù LDIF do Evolution."
 
 #: addressbook/backend/ebook/GNOME_Evolution_Addressbook_LDIF_Importer.oaf.in.h:2
 msgid "Imports LDIF files into Evolution."
-msgstr ""
+msgstr "Importuje soubory LDIF do Evolution."
 
 #: addressbook/backend/ebook/GNOME_Evolution_Addressbook_VCard_Importer.oaf.in.h:1
 msgid "Factory to import VCard files into Evolution."
@@ -33,33 +32,33 @@ msgstr ""
 #: addressbook/backend/ebook/e-card-simple.c:60
 #: addressbook/gui/widgets/e-addressbook-view.c:333
 msgid "File As"
-msgstr ""
+msgstr "Ulo¾ jako"
 
 #: addressbook/backend/ebook/e-card-simple.c:61
 #: my-evolution/e-summary-table.c:59
 msgid "Name"
-msgstr ""
+msgstr "Jméno"
 
 #: addressbook/backend/ebook/e-card-simple.c:62
 #: addressbook/gui/widgets/e-addressbook-view.c:335
 msgid "Email"
-msgstr ""
+msgstr "E-mail"
 
 #: addressbook/backend/ebook/e-card-simple.c:63
 #: addressbook/gui/contact-editor/e-contact-editor.c:1731
 msgid "Primary"
-msgstr ""
+msgstr "Hlavní"
 
 #: addressbook/backend/ebook/e-card-simple.c:63
 msgid "Prim"
-msgstr ""
+msgstr "Hl."
 
 #: addressbook/backend/ebook/e-card-simple.c:64
 #: addressbook/backend/ebook/e-card-simple.c:94
 #: addressbook/gui/contact-editor/e-contact-editor.c:1716
 #: addressbook/gui/widgets/e-addressbook-view.c:367
 msgid "Assistant"
-msgstr ""
+msgstr "Asistent"
 
 #: addressbook/backend/ebook/e-card-simple.c:65
 #: addressbook/backend/ebook/e-card-simple.c:70
@@ -67,26 +66,26 @@ msgstr ""
 #: addressbook/gui/contact-editor/e-contact-editor.c:1717
 #: addressbook/gui/contact-editor/e-contact-editor.c:1784
 msgid "Business"
-msgstr ""
+msgstr "Práce"
 
 #: addressbook/backend/ebook/e-card-simple.c:65
 #: addressbook/backend/ebook/e-card-simple.c:70
 msgid "Bus"
-msgstr ""
+msgstr "Pr."
 
 #: addressbook/backend/ebook/e-card-simple.c:66
 #: addressbook/gui/contact-editor/e-contact-editor.c:1720
 msgid "Callback"
-msgstr ""
+msgstr "Zpìtný dotaz"
 
 #: addressbook/backend/ebook/e-card-simple.c:67
 #: addressbook/gui/contact-editor/e-contact-editor.c:1722
 msgid "Company"
-msgstr ""
+msgstr "Spoleènost"
 
 #: addressbook/backend/ebook/e-card-simple.c:67
 msgid "Comp"
-msgstr ""
+msgstr "Spol."
 
 #: addressbook/backend/ebook/e-card-simple.c:68
 #: addressbook/backend/ebook/e-card-simple.c:71
@@ -94,187 +93,187 @@ msgstr ""
 #: addressbook/gui/contact-editor/e-contact-editor.c:1723
 #: addressbook/gui/contact-editor/e-contact-editor.c:1785
 msgid "Home"
-msgstr ""
+msgstr "Domù"
 
 #: addressbook/backend/ebook/e-card-simple.c:69
 #: addressbook/gui/widgets/e-addressbook-view.c:342
 msgid "Organization"
-msgstr ""
+msgstr "Organizace"
 
 #: addressbook/backend/ebook/e-card-simple.c:69
 msgid "Org"
-msgstr ""
+msgstr "Org."
 
 #: addressbook/backend/ebook/e-card-simple.c:72
 #: addressbook/gui/contact-editor/contact-editor.glade.h:20
 #: addressbook/gui/contact-editor/e-contact-editor.c:1727
 msgid "Mobile"
-msgstr ""
+msgstr "Mobilní"
 
 #: addressbook/backend/ebook/e-card-simple.c:73
 #: addressbook/gui/contact-editor/e-contact-editor.c:1721
 msgid "Car"
-msgstr ""
+msgstr "Auto"
 
 #: addressbook/backend/ebook/e-card-simple.c:74
 #: addressbook/gui/contact-editor/contact-editor.glade.h:6
 #: addressbook/gui/contact-editor/e-contact-editor.c:1719
 #: addressbook/gui/widgets/e-addressbook-view.c:347
 msgid "Business Fax"
-msgstr ""
+msgstr "Fax - práce"
 
 #: addressbook/backend/ebook/e-card-simple.c:74
 msgid "Bus Fax"
-msgstr ""
+msgstr "Fax - pr."
 
 #: addressbook/backend/ebook/e-card-simple.c:75
 #: addressbook/gui/contact-editor/e-contact-editor.c:1725
 #: addressbook/gui/widgets/e-addressbook-view.c:348
 msgid "Home Fax"
-msgstr ""
+msgstr "Fax - domov"
 
 #: addressbook/backend/ebook/e-card-simple.c:76
 #: addressbook/gui/contact-editor/e-contact-editor.c:1718
 msgid "Business 2"
-msgstr ""
+msgstr "Práce 2"
 
 #: addressbook/backend/ebook/e-card-simple.c:76
 msgid "Bus 2"
-msgstr ""
+msgstr "Pr. 2"
 
 #: addressbook/backend/ebook/e-card-simple.c:77
 #: addressbook/gui/contact-editor/e-contact-editor.c:1724
 msgid "Home 2"
-msgstr ""
+msgstr "Domov 2"
 
 #: addressbook/backend/ebook/e-card-simple.c:78
 #: addressbook/gui/contact-editor/e-contact-editor.c:1726
 #: addressbook/gui/widgets/e-addressbook-view.c:351
 msgid "ISDN"
-msgstr ""
+msgstr "ISDN"
 
 #: addressbook/backend/ebook/e-card-simple.c:79
 #: addressbook/backend/ebook/e-card-simple.c:85
 #: addressbook/gui/contact-editor/e-contact-editor.c:1728
 #: addressbook/gui/contact-editor/e-contact-editor.c:1786
 msgid "Other"
-msgstr ""
+msgstr "Dal¹í"
 
 #: addressbook/backend/ebook/e-card-simple.c:80
 #: addressbook/gui/contact-editor/e-contact-editor.c:1729
 #: addressbook/gui/widgets/e-addressbook-view.c:353
 msgid "Other Fax"
-msgstr ""
+msgstr "Dal¹í fax"
 
 #: addressbook/backend/ebook/e-card-simple.c:81
 #: addressbook/gui/contact-editor/e-contact-editor.c:1730
 #: addressbook/gui/widgets/e-addressbook-view.c:354
 msgid "Pager"
-msgstr ""
+msgstr "Pager"
 
 #: addressbook/backend/ebook/e-card-simple.c:82
 #: addressbook/gui/contact-editor/e-contact-editor.c:1732
 #: addressbook/gui/widgets/e-addressbook-view.c:355
 msgid "Radio"
-msgstr ""
+msgstr "Rádio"
 
 #: addressbook/backend/ebook/e-card-simple.c:83
 #: addressbook/gui/contact-editor/e-contact-editor.c:1733
 #: addressbook/gui/widgets/e-addressbook-view.c:356
 msgid "Telex"
-msgstr ""
+msgstr "Telex"
 
 #: addressbook/backend/ebook/e-card-simple.c:84
 #: addressbook/gui/widgets/e-addressbook-view.c:357
 msgid "TTY"
-msgstr ""
+msgstr "TTY"
 
 #: addressbook/backend/ebook/e-card-simple.c:86
 #: addressbook/gui/component/e-address-popup.c:484
 #: addressbook/gui/contact-editor/e-contact-editor.c:1759
 #: addressbook/gui/widgets/e-addressbook-view.c:359
 msgid "Email 2"
-msgstr ""
+msgstr "2. e-mail"
 
 #: addressbook/backend/ebook/e-card-simple.c:87
 #: addressbook/gui/component/e-address-popup.c:494
 #: addressbook/gui/contact-editor/e-contact-editor.c:1760
 #: addressbook/gui/widgets/e-addressbook-view.c:360
 msgid "Email 3"
-msgstr ""
+msgstr "3. e-mail"
 
 #: addressbook/backend/ebook/e-card-simple.c:88
 #: addressbook/gui/widgets/e-addressbook-view.c:361
 msgid "Web Site"
-msgstr ""
+msgstr "Webová stránka"
 
 #: addressbook/backend/ebook/e-card-simple.c:88
 msgid "Url"
-msgstr ""
+msgstr "Url"
 
 #: addressbook/backend/ebook/e-card-simple.c:89
 #: addressbook/gui/widgets/e-addressbook-view.c:362
 msgid "Department"
-msgstr ""
+msgstr "Oddìlení"
 
 #: addressbook/backend/ebook/e-card-simple.c:89
 msgid "Dep"
-msgstr ""
+msgstr "Odd."
 
 #: addressbook/backend/ebook/e-card-simple.c:90
 #: addressbook/gui/widgets/e-addressbook-view.c:363
 msgid "Office"
-msgstr ""
+msgstr "Kanceláø"
 
 #: addressbook/backend/ebook/e-card-simple.c:90
 msgid "Off"
-msgstr ""
+msgstr "Kanc."
 
 #: addressbook/backend/ebook/e-card-simple.c:91
 #: addressbook/gui/widgets/e-addressbook-view.c:364
 msgid "Title"
-msgstr ""
+msgstr "Titul"
 
 #: addressbook/backend/ebook/e-card-simple.c:92
 #: addressbook/gui/widgets/e-addressbook-view.c:365
 msgid "Profession"
-msgstr ""
+msgstr "Povolání"
 
 #: addressbook/backend/ebook/e-card-simple.c:92
 msgid "Prof"
-msgstr ""
+msgstr "Pov."
 
 #: addressbook/backend/ebook/e-card-simple.c:93
 #: addressbook/gui/widgets/e-addressbook-view.c:366
 msgid "Manager"
-msgstr ""
+msgstr "Vedoucí"
 
 #: addressbook/backend/ebook/e-card-simple.c:93
 msgid "Man"
-msgstr ""
+msgstr "Ved."
 
 #: addressbook/backend/ebook/e-card-simple.c:94
 msgid "Ass"
-msgstr ""
+msgstr "Asist."
 
 #: addressbook/backend/ebook/e-card-simple.c:95
 #: addressbook/gui/widgets/e-addressbook-view.c:368
 msgid "Nickname"
-msgstr ""
+msgstr "Pøezdívka"
 
 #: addressbook/backend/ebook/e-card-simple.c:95
 msgid "Nick"
-msgstr ""
+msgstr "Pøezd."
 
 #: addressbook/backend/ebook/e-card-simple.c:96
 #: addressbook/gui/widgets/e-addressbook-view.c:369
 msgid "Spouse"
-msgstr ""
+msgstr "Partner/-ka"
 
 #: addressbook/backend/ebook/e-card-simple.c:97
 #: addressbook/gui/widgets/e-addressbook-view.c:370
 msgid "Note"
-msgstr ""
+msgstr "Poznámka"
 
 #: addressbook/backend/ebook/e-card-simple.c:98
 msgid "Calendar URI"
@@ -295,24 +294,24 @@ msgstr ""
 
 #: addressbook/backend/ebook/e-card-simple.c:100
 msgid "Anniversary"
-msgstr ""
+msgstr "Výroèí"
 
 #: addressbook/backend/ebook/e-card-simple.c:100
 msgid "Anniv"
-msgstr ""
+msgstr "Výr."
 
 #: addressbook/backend/ebook/e-card-simple.c:101
 msgid "Birth Date"
-msgstr ""
+msgstr "Narozeniny"
 
 #: addressbook/backend/ebook/e-card-simple.c:104
 #: calendar/gui/e-calendar-table.etspec.h:4
 msgid "Categories"
-msgstr ""
+msgstr "Kategorie"
 
 #: addressbook/backend/ebook/e-card-simple.c:105
 msgid "Family Name"
-msgstr ""
+msgstr "Pøíjmení"
 
 #: addressbook/backend/ebook/e-card-simple.c:792
 #, c-format
@@ -341,12 +340,12 @@ msgstr ""
 #: tools/evolution-addressbook-export.c:60
 #: tools/evolution-addressbook-import.c:86
 msgid "Could not initialize Bonobo"
-msgstr ""
+msgstr "Není mo¾né spustit Bonobo"
 
 #: addressbook/backend/pas/pas-backend-file.c:261
 #: addressbook/backend/pas/pas-backend-ldap.c:2738
 msgid "Searching..."
-msgstr ""
+msgstr "Vyhledávám..."
 
 #: addressbook/backend/pas/pas-backend-file.c:263
 msgid "Loading..."
@@ -355,31 +354,31 @@ msgstr ""
 #. need a different error message here.
 #: addressbook/backend/pas/pas-backend-file.c:272
 msgid "Error in search expression."
-msgstr ""
+msgstr "Chyba v hledaném výrazu."
 
 #: addressbook/backend/pas/pas-backend-ldap.c:1129
 msgid "Adding card to LDAP server..."
-msgstr ""
+msgstr "Pøidávám kartu do serveru LDAP..."
 
 #: addressbook/backend/pas/pas-backend-ldap.c:1232
 msgid "Removing card from LDAP server..."
-msgstr ""
+msgstr "Odstraòuji kartu ze serveru LDAP..."
 
 #: addressbook/backend/pas/pas-backend-ldap.c:1468
 msgid "Modifying card from LDAP server..."
-msgstr ""
+msgstr "Upravuji kartu ze serveru LDAP..."
 
 #: addressbook/backend/pas/pas-backend-ldap.c:2592
 msgid "Restarting search."
-msgstr ""
+msgstr "Znovu spou¹tím vyhledávání."
 
 #: addressbook/backend/pas/pas-backend-ldap.c:2684
 msgid "Receiving LDAP search results..."
-msgstr ""
+msgstr "Pøijímám výsledky hledání LDAP"
 
 #: addressbook/backend/pas/pas-backend-ldap.c:2765
 msgid "Error performing search"
-msgstr ""
+msgstr "Chyba pøi provádìní hledání"
 
 #: addressbook/backend/pas/pas-backend-ldap.c:2789
 msgid "Could not parse query string"
@@ -401,13 +400,13 @@ msgstr ""
 #: calendar/conduits/calendar/calendar-conduit.c:1203
 #: calendar/conduits/todo/todo-conduit.c:889
 msgid "Could not start wombat server"
-msgstr ""
+msgstr "Není mo¾né spustit server wobat"
 
 #: addressbook/conduit/address-conduit.c:1355
 #: calendar/conduits/calendar/calendar-conduit.c:1204
 #: calendar/conduits/todo/todo-conduit.c:890
 msgid "Could not start wombat"
-msgstr ""
+msgstr "Není mo¾né spustit wombat"
 
 #: addressbook/conduit/address-conduit.c:1385
 #: addressbook/conduit/address-conduit.c:1388
@@ -477,120 +476,123 @@ msgstr ""
 #: calendar/gui/dialogs/comp-editor-util.c:366 shell/e-local-storage.c:172
 #: shell/e-shortcuts.c:1042
 msgid "Contacts"
-msgstr ""
+msgstr "Kontakty"
 
 #: addressbook/gui/component/addressbook-component.c:72
 msgid "Folder containing contact information"
-msgstr ""
+msgstr "Slo¾ka obsahující kontaktní informace"
 
 #: addressbook/gui/component/addressbook-component.c:74
 msgid "LDAP Server"
-msgstr ""
+msgstr "Server LDAP"
 
 #: addressbook/gui/component/addressbook-component.c:74
 msgid "LDAP server containing contact information"
-msgstr ""
+msgstr "Server LDAP obsahující kontaktní informace"
 
 #: addressbook/gui/component/addressbook-component.c:562
 msgid "New Contact"
-msgstr ""
+msgstr "Nový kontakt"
 
 #: addressbook/gui/component/addressbook-component.c:562
 #: ui/evolution-addressbook.xml.h:32
 msgid "_Contact"
-msgstr ""
+msgstr "_Kontakt"
 
 #: addressbook/gui/component/addressbook-component.c:565
 msgid "New Contact List"
-msgstr ""
+msgstr "Nový seznam kontaktù"
 
 #: addressbook/gui/component/addressbook-component.c:565
 msgid "Contact _List"
-msgstr ""
+msgstr "_Seznam kontaktù"
 
 #: addressbook/gui/component/addressbook-config.c:238
 msgid "Edit Addressbook"
-msgstr ""
+msgstr "Uprav adresáø"
 
 #: addressbook/gui/component/addressbook-config.glade.h:1
 msgid "100"
-msgstr ""
+msgstr "100"
 
 #: addressbook/gui/component/addressbook-config.glade.h:2
 msgid "389"
-msgstr ""
+msgstr "389"
 
 #: addressbook/gui/component/addressbook-config.glade.h:3
 msgid "A_uthenticate with server using:"
-msgstr ""
+msgstr "_Ovìøit s pou¾íváním serveru"
 
 #: addressbook/gui/component/addressbook-config.glade.h:4
 msgid "Account Name"
-msgstr ""
+msgstr "Jméno úètu"
 
 #: addressbook/gui/component/addressbook-config.glade.h:5
 msgid "Add Addressbook"
-msgstr ""
+msgstr "Pøidej adresáø"
 
 #: addressbook/gui/component/addressbook-config.glade.h:6
 msgid "Addressbook Sources"
-msgstr ""
+msgstr "Zdroje adresáøe"
 
 #: addressbook/gui/component/addressbook-config.glade.h:7
 msgid "Advanced"
-msgstr ""
+msgstr "Pokroèilý"
 
 #: addressbook/gui/component/addressbook-config.glade.h:8
 msgid "Base"
-msgstr ""
+msgstr "Základ"
 
 #: addressbook/gui/component/addressbook-config.glade.h:9
 #: calendar/gui/dialogs/task-editor.c:178
 msgid "Basic"
-msgstr ""
+msgstr "Základní"
 
 #: addressbook/gui/component/addressbook-config.glade.h:10
 msgid "Check this if the server requires you to authenticate."
-msgstr ""
+msgstr "Zkontrolovat toto, pokud server po¾aduje va¹e ovìøení"
 
 #: addressbook/gui/component/addressbook-config.glade.h:11
 msgid "De_lete"
-msgstr ""
+msgstr "_Smazat"
 
 #: addressbook/gui/component/addressbook-config.glade.h:12
 msgid "Distinguished name (DN)"
-msgstr ""
+msgstr "Rozli¹ovací jméno (RN)"
 
 #: addressbook/gui/component/addressbook-config.glade.h:13
 msgid "Email address"
-msgstr ""
+msgstr "E-mailová adresa"
 
 #: addressbook/gui/component/addressbook-config.glade.h:14
 msgid ""
 "Evolution will use this Distinquished Name (DN) to authenticate you with the "
 "server"
 msgstr ""
+"Evolution bude pou¾ívat toto rozli¹ovací jméno (RN) k va¹emu ovìøení na "
+"serveru"
 
 #: addressbook/gui/component/addressbook-config.glade.h:15
 msgid ""
 "Evolution will use this email address to authenticate you with the server"
 msgstr ""
+"Evolution bude pou¾ívat tuto e-mailovou adresu k va¹emu ovìøení na serveru"
 
 #: addressbook/gui/component/addressbook-config.glade.h:16
 msgid "One"
-msgstr ""
+msgstr "Jeden"
 
 #: addressbook/gui/component/addressbook-config.glade.h:17
 msgid "Search _base:"
-msgstr ""
+msgstr "_Základ vyhledávání:"
 
 #: addressbook/gui/component/addressbook-config.glade.h:18
 msgid "Search s_cope: "
-msgstr ""
+msgstr "_Rozsah vyhledávání:"
 
 #: addressbook/gui/component/addressbook-config.glade.h:19
 msgid "Server Name"
-msgstr ""
+msgstr "Jméno serveru"
 
 #: addressbook/gui/component/addressbook-config.glade.h:20
 msgid "Sub"
@@ -599,28 +601,36 @@ msgstr ""
 #: addressbook/gui/component/addressbook-config.glade.h:21
 msgid "The information below is required in order to add an addressbook.  "
 msgstr ""
+"Ní¾e uvedená informace je po¾adována k tomu, aby mohl být pøidán adresáø"
 
 #: addressbook/gui/component/addressbook-config.glade.h:22
 msgid "This information is not required for most ldap servers. "
-msgstr ""
+msgstr "Tato informace není po¾adována pro vìt¹inu serverù ldap"
 
 #: addressbook/gui/component/addressbook-config.glade.h:23
 msgid ""
 "This information is used by your ldap server to specify which nodes are used "
 "in a search. Contact your server administrator for more information."
 msgstr ""
+"Tuto informaci pou¾ívá vá¹ server ldap pro upøesnìní toho, které uzly jsou "
+"pou¾ívány pøi vyhledávání. Pro více informací kontaktujte svého "
+"administrátora."
 
 #: addressbook/gui/component/addressbook-config.glade.h:24
 msgid ""
 "This is the base node for all your searches on the ldap server. Contact your "
 "server administrator for more information."
 msgstr ""
+"Toto je základní uzel pro v¹echna va¹e vyhledávání na serveru ldap. Pro více "
+"informací kontaktujte svého administrátora"
 
 #: addressbook/gui/component/addressbook-config.glade.h:25
 msgid ""
 "This is the maximum number of cards to download.  Setting this number too "
 "large will slow down this addressbook."
 msgstr ""
+"Toto je maximální poèet karet, které mohou být sta¾eny. Pokud nastavíte "
+"toto èíslo pøíli¹ vysoké, zpomalí se tento adresáø."
 
 #: addressbook/gui/component/addressbook-config.glade.h:26
 msgid ""
@@ -645,7 +655,7 @@ msgstr ""
 
 #: addressbook/gui/component/addressbook-config.glade.h:30
 msgid "_Account name:"
-msgstr ""
+msgstr "_Název úètu:"
 
 #: addressbook/gui/component/addressbook-config.glade.h:31
 #: addressbook/gui/contact-editor/contact-editor.glade.h:30
@@ -653,15 +663,15 @@ msgstr ""
 #: calendar/gui/dialogs/alarm-page.glade.h:8 filter/filter.glade.h:7
 #: mail/mail-config.glade.h:147
 msgid "_Add"
-msgstr ""
+msgstr "_Pøidat"
 
 #: addressbook/gui/component/addressbook-config.glade.h:32
 msgid "_Distinguished Name:"
-msgstr ""
+msgstr "_Rozli¹ovací jméno:"
 
 #: addressbook/gui/component/addressbook-config.glade.h:33
 msgid "_Download Limit"
-msgstr ""
+msgstr "_Omezení stahování"
 
 #: addressbook/gui/component/addressbook-config.glade.h:34
 #: filter/filter.glade.h:9 mail/mail-config.glade.h:157
@@ -671,11 +681,11 @@ msgstr ""
 #: ui/evolution-signature-editor.xml.h:10 ui/evolution-subscribe.xml.h:10
 #: ui/evolution-tasks.xml.h:17
 msgid "_Edit"
-msgstr ""
+msgstr "_Upravit"
 
 #: addressbook/gui/component/addressbook-config.glade.h:35
 msgid "_Email address:"
-msgstr ""
+msgstr "_E-mailová adresa:"
 
 #: addressbook/gui/component/addressbook-config.glade.h:36
 msgid "_Port:"
@@ -683,20 +693,20 @@ msgstr ""
 
 #: addressbook/gui/component/addressbook-config.glade.h:37
 msgid "_Server name:"
-msgstr ""
+msgstr "Název _serveru:"
 
 #: addressbook/gui/component/addressbook-factory.c:72
 #: calendar/gui/alarm-notify/notify-main.c:174 calendar/gui/main.c:135
 msgid "Could not initialize gnome-vfs"
-msgstr ""
+msgstr "Není mo¾né spustit gnome-vfs"
 
 #: addressbook/gui/component/addressbook-storage.c:168
 msgid "Other Contacts"
-msgstr ""
+msgstr "Dal¹í kontakty"
 
 #: addressbook/gui/component/addressbook.c:516
 msgid "Unable to open addressbook"
-msgstr ""
+msgstr "Není mo¾né otevøít adresáø"
 
 #: addressbook/gui/component/addressbook.c:525
 msgid ""
@@ -704,6 +714,8 @@ msgid ""
 "means you have entered an incorrect URI, or the LDAP server\n"
 "is down"
 msgstr ""
+"Není mo¾né otevøít tento adresáø. To znamená,\n"
+"¾e jste zadali nesprávné URI nebo ¾e server LDAP spadl"
 
 #: addressbook/gui/component/addressbook.c:530
 msgid ""
@@ -727,36 +739,36 @@ msgstr ""
 
 #: addressbook/gui/component/addressbook.c:770
 msgid "Name begins with"
-msgstr ""
+msgstr "Jméno zaèíná na"
 
 #: addressbook/gui/component/addressbook.c:771
 msgid "Email is"
-msgstr ""
+msgstr "E-mail je"
 
 #: addressbook/gui/component/addressbook.c:772
 #: calendar/gui/cal-search-bar.c:53
 msgid "Category is"
-msgstr ""
+msgstr "Kategorie je"
 
 #. We attach subitems below
 #: addressbook/gui/component/addressbook.c:773
 #: calendar/gui/cal-search-bar.c:49
 msgid "Any field contains"
-msgstr ""
+msgstr "Jakékoliv políèko obsahuje"
 
 #: addressbook/gui/component/addressbook.c:774 widgets/misc/e-filter-bar.h:99
 msgid "Advanced..."
-msgstr ""
+msgstr "Pokroèilý..."
 
 #. All, unmatched, separator
 #: addressbook/gui/component/addressbook.c:1002
 #: calendar/gui/cal-search-bar.c:382
 msgid "Any Category"
-msgstr ""
+msgstr "Jakákoliv kategorie"
 
 #: addressbook/gui/component/addressbook.c:1084
 msgid "The URI that the Folder Browser will display"
-msgstr ""
+msgstr "URI, kterou prohlí¾eè slo¾ek zobrazí"
 
 #.
 #. * This is the code for the UI thingie that lets you manipulate the e-mail
@@ -765,27 +777,27 @@ msgstr ""
 #.
 #: addressbook/gui/component/e-address-popup.c:178
 msgid "(none)"
-msgstr ""
+msgstr "(¾ádný)"
 
 #: addressbook/gui/component/e-address-popup.c:474
 #: addressbook/gui/contact-editor/contact-editor.glade.h:26
 #: addressbook/gui/contact-editor/e-contact-editor.c:1758
 msgid "Primary Email"
-msgstr ""
+msgstr "Hlavní e-mail"
 
 #: addressbook/gui/component/e-address-popup.c:587
 msgid "Select an Action"
-msgstr ""
+msgstr "Vybrat èinnost"
 
 #: addressbook/gui/component/e-address-popup.c:593
 #, c-format
 msgid "Create a new contact \"%s\""
-msgstr ""
+msgstr "Vytvoøit nový kontakt \\\"%s\\\""
 
 #: addressbook/gui/component/e-address-popup.c:605
 #, c-format
 msgid "Add address to existing contact \"%s\""
-msgstr ""
+msgstr "Pøidat adresu k existujícímu konaktu \\\"%s\\\""
 
 #: addressbook/gui/component/e-address-popup.c:891
 msgid "Querying Addressbook..."
@@ -795,13 +807,13 @@ msgstr ""
 #: addressbook/gui/component/e-address-widget.c:387
 #: addressbook/gui/component/select-names/e-select-names-popup.c:306
 msgid "Edit Contact Info"
-msgstr ""
+msgstr "Upravit kontaktní info"
 
 #: addressbook/gui/component/e-address-popup.c:1003
 #: addressbook/gui/component/e-address-widget.c:423
 #: addressbook/gui/component/select-names/e-select-names-popup.c:485
 msgid "Add to Contacts"
-msgstr ""
+msgstr "Pøidat ke kontaktùm"
 
 #: addressbook/gui/component/e-address-popup.c:1046
 msgid "Merge E-Mail Address"
@@ -809,11 +821,11 @@ msgstr ""
 
 #: addressbook/gui/component/e-address-widget.c:364
 msgid "Disable Queries"
-msgstr ""
+msgstr "Znemo¾nit dotazy"
 
 #: addressbook/gui/component/e-address-widget.c:364
 msgid "Enable Queries (Dangerous!)"
-msgstr ""
+msgstr "Umo¾nit dotazy (nebezpeèné!)"
 
 #: addressbook/gui/component/select-names/GNOME_Evolution_Addressbook_SelectNames.oaf.in.h:1
 msgid "Evolution's addressbook name selection interface."
@@ -828,19 +840,19 @@ msgstr ""
 #: composer/e-msg-composer-attachment-bar.c:505 filter/filter-filter.c:437
 #: filter/filter-rule.c:638 shell/e-shortcuts-view.c:180
 msgid "Remove"
-msgstr ""
+msgstr "Odstranit"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:178
 msgid "Remove All"
-msgstr ""
+msgstr "Odstranit v¹e"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:202
 msgid "Send HTML Mail?"
-msgstr ""
+msgstr "Poslat HTML dopis?"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:405
 msgid "Edit Contact List"
-msgstr ""
+msgstr "Upravit seznam kontaktù"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:423
 msgid "Unnamed Contact List"
