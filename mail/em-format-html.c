@@ -604,7 +604,7 @@ efh_format_secure(EMFormat *emf, CamelStream *stream, CamelMimePart *part, Camel
 
 		classid = g_strdup_printf("smime:///em-format-html/%s/icon/signed", emf->part_id->str);
 		camel_stream_printf(stream, "<td valign=\"top\"><img src=\"%s\"></td><td valign=\"top\" width=\"100%%\">", classid);
-		iconpath = e_icon_factory_get_icon_filename (smime_sign_table[valid->sign.status].icon, 48);
+		iconpath = e_icon_factory_get_icon_filename (smime_sign_table[valid->sign.status].icon, E_ICON_SIZE_DIALOG);
 		iconpart = em_format_html_file_part((EMFormatHTML *)emf, "image/png", iconpath);
 		if (iconpart) {
 			(void)em_format_add_puri(emf, sizeof(EMFormatPURI), classid, iconpart, efh_write_image);

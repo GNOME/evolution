@@ -1,5 +1,26 @@
 2004-04-19  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* message-tag-followup.c (construct): Same.
+
+	* message-list.c (message_list_init_images): Same.
+
+	* mail-send-recv.c (build_dialog): Same.
+
+	* mail-mt.c (do_op_status): Same.
+
+	* mail-config-druid.c (evolution_mail_config_wizard_new): Same.
+
+	* em-popup.c (em_popup_create_menu): Same.
+
+	* em-format-html-display.c (efhd_format_prefix): Same.
+
+	* em-format-html.c (efh_format_secure): Same as below.
+
+	* em-folder-tree.c (render_pixbuf): Don't use absolute icon sizes,
+	use the e-icon-factory enums.
+
+2004-04-19  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* em-composer-prefs.h: Removed variables that got re-added with
 	the icon-theme patch somehow.
 

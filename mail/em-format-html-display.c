@@ -844,8 +844,8 @@ efhd_xpkcs7mime_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 	/* FIXME: need to have it based on encryption and signing too */
 	name = smime_sign_table[po->valid->sign.status].icon;
 
-	pixbuf = e_icon_factory_get_icon (name, 24);
-
+	pixbuf = e_icon_factory_get_icon (name, E_ICON_SIZE_LARGE_TOOLBAR);
+	
 	icon = gtk_image_new_from_pixbuf (pixbuf);
 	g_object_unref(pixbuf);
 	gtk_widget_show(icon);
@@ -977,7 +977,7 @@ static void efhd_format_prefix(EMFormat *emf, CamelStream *stream)
 	camel_stream_printf(stream, "<table border=1 width=\"100%%\" cellspacing=2 cellpadding=2><tr>");
 
 	comp = camel_folder_get_message_user_tag(emf->folder, emf->uid, "completed-on");
-	iconpath = e_icon_factory_get_icon_filename (comp && comp[0] ? "stock_flag-for-followup-done" : "stock_flag-for-followup", 16);
+	iconpath = e_icon_factory_get_icon_filename (comp && comp[0] ? "stock_flag-for-followup-done" : "stock_flag-for-followup", E_ICON_SIZE_MENU);
 	if (iconpath) {
 		CamelMimePart *iconpart;
 

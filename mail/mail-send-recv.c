@@ -397,7 +397,7 @@ build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destinati
 		} else if (info->timeout_id == 0)
 			info->timeout_id = g_timeout_add (STATUS_TIMEOUT, operation_status_timeout, info);
 		
-		pixbuf = e_icon_factory_get_icon ("stock_mail-receive", 24);
+		pixbuf = e_icon_factory_get_icon ("stock_mail-receive", E_ICON_SIZE_LARGE_TOOLBAR);
 		recv_icon = gtk_image_new_from_pixbuf (pixbuf);
 		gdk_pixbuf_unref (pixbuf);
 		
@@ -452,7 +452,7 @@ build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destinati
 		} else if (info->timeout_id == 0)
 			info->timeout_id = g_timeout_add (STATUS_TIMEOUT, operation_status_timeout, info);
 		
-		pixbuf = e_icon_factory_get_icon ("stock_mail-send", 24);
+		pixbuf = e_icon_factory_get_icon ("stock_mail-send", E_ICON_SIZE_LARGE_TOOLBAR);
 		send_icon  = gtk_image_new_from_pixbuf (pixbuf);
 		gdk_pixbuf_unref (pixbuf);
 		

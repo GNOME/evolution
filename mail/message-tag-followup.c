@@ -302,7 +302,7 @@ construct (MessageTagEditor *editor)
 	gtk_box_set_child_packing (GTK_BOX (GTK_DIALOG (editor)->vbox), widget, TRUE, TRUE, 6, GTK_PACK_START);
 	
 	widget = glade_xml_get_widget (gui, "pixmap");
-	pixbuf = e_icon_factory_get_icon ("stock_mail-flag-for-followup", 48);
+	pixbuf = e_icon_factory_get_icon ("stock_mail-flag-for-followup", E_ICON_SIZE_DIALOG);
 	gtk_image_set_from_pixbuf ((GtkImage *)widget, pixbuf);
 	g_object_unref (pixbuf);
 	

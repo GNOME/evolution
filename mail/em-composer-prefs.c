@@ -100,7 +100,7 @@ em_composer_prefs_class_init (EMComposerPrefsClass *klass)
 static void
 em_composer_prefs_init (EMComposerPrefs *prefs)
 {
-	prefs->enabled_pixbuf = e_icon_factory_get_icon ("stock_mark", 16);
+	prefs->enabled_pixbuf = e_icon_factory_get_icon ("stock_mark", E_ICON_SIZE_MENU);
 	prefs->sig_hash = g_hash_table_new (g_direct_hash, g_direct_equal);
 }
 

@@ -295,8 +295,8 @@ em_popup_create_menu(EMPopup *emp, guint32 hide_mask, guint32 disable_mask)
 			if (item->image) {
 				GdkPixbuf *pixbuf;
 				GtkWidget *image;
-
-				pixbuf = e_icon_factory_get_icon ((char *)item->image, 16);
+				
+				pixbuf = e_icon_factory_get_icon ((char *)item->image, E_ICON_SIZE_MENU);
 				image = gtk_image_new_from_pixbuf (pixbuf);
 				g_object_unref (pixbuf);
 

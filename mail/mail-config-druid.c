@@ -621,7 +621,7 @@ mail_config_druid_new (void)
 	for (i = 0; i < num_wizard_pages; i++) {
 		page = glade_xml_get_widget (mcw->gui->xml,
 					     wizard_pages[i].page_name);
-		icon = e_icon_factory_get_icon (wizard_pages[i].icon_name, 48);
+		icon = e_icon_factory_get_icon (wizard_pages[i].icon_name, E_ICON_SIZE_DIALOG);
 		gnome_druid_page_standard_set_logo (GNOME_DRUID_PAGE_STANDARD (page), icon);
 		g_object_unref (icon);
 		g_ptr_array_add (mcw->interior_pages, page);
@@ -748,7 +748,7 @@ evolution_mail_config_wizard_new (void)
 	
 	wizard = evolution_wizard_new ();
 	for (i = 0; i < MAIL_CONFIG_WIZARD_NUM_PAGES; i++) {
-		icon = e_icon_factory_get_icon (wizard_pages[i].icon_name, 48);
+		icon = e_icon_factory_get_icon (wizard_pages[i].icon_name, E_ICON_SIZE_DIALOG);
 		evolution_wizard_add_page (wizard, _(wizard_pages[i].title),
 					   icon, get_page (mcw->gui->xml, i));
 		g_object_unref (icon);

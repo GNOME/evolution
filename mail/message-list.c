@@ -1227,9 +1227,8 @@ message_list_init_images (void)
 	if (states_pixmaps [0].pixbuf)
 		return;
 	
-	for (i = 0; states_pixmaps [i].icon_name; i++){
-		states_pixmaps [i].pixbuf = e_icon_factory_get_icon (states_pixmaps [i].icon_name, 16);
-	}
+	for (i = 0; states_pixmaps[i].icon_name; i++)
+		states_pixmaps[i].pixbuf = e_icon_factory_get_icon (states_pixmaps[i].icon_name, E_ICON_SIZE_MENU);
 }
 
 static char *

@@ -892,7 +892,7 @@ static void do_op_status(struct _mail_msg *mm)
 			data->activity_state = 1;
 			
 			if (progress_icon == NULL)
-				progress_icon = e_icon_factory_get_icon ("stock_mail-unread", 16);
+				progress_icon = e_icon_factory_get_icon ("stock_mail-unread", E_ICON_SIZE_MENU);
 			
 			MAIL_MT_UNLOCK (mail_msg_lock);
 			if (msg->ops->describe_msg)
