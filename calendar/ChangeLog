@@ -1,3 +1,9 @@
+2003-03-01  Hans Petter Jansson  <hpj@ximian.com>
+
+	* Makefile.am: Do importers after the other dirs, as it relies on
+	generated files from there. This is still not optimal... Should
+	probably introduce dependencies.
+
 2003-02-28  Hans Petter Jansson  <hpj@ximian.com>
 
 	* importers/Makefile.am: Shlibify.
