@@ -7,7 +7,7 @@ IDL_GENERATED =                 			\
 	Evolution-Addressbook-SelectNames-stubs.c
 
 $(IDL_GENERATED): $(IDLS)
-	$(ORBIT_IDL) -I $(srcdir) $(IDL_INCLUDES)   \
+	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl `$(GNOME_CONFIG) --cflags idl`   \
                 $(top_srcdir)/addressbook/gui/component/select-names/Evolution-Addressbook-SelectNames.idl
 
 BUILT_SOURCES = $(IDL_GENERATED)
@@ -64,6 +64,8 @@ libcal_dialogs_a_SOURCES =	\
 	meeting-page.h		\
 	recurrence-page.c	\
 	recurrence-page.h	\
+	recur-comp.c		\
+	recur-comp.h		\
 	save-comp.c		\
 	save-comp.h		\
 	schedule-page.c		\
