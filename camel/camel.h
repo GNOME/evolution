@@ -35,9 +35,7 @@ extern "C" {
 
 #include <camel/camel-data-wrapper.h>
 #include <camel/camel-exception.h>
-#include <camel/camel-folder-pt-proxy.h>
 #include <camel/camel-folder.h>
-#include <camel/camel-marshal-utils.h>
 #include <camel/camel-medium.h>
 #include <camel/camel-mime-filter-basic.h>
 #include <camel/camel-mime-filter-charset.h>
@@ -51,7 +49,6 @@ extern "C" {
 #include <camel/camel-mime-utils.h>
 #include <camel/camel-movemail.h>
 #include <camel/camel-multipart.h>
-#include <camel/camel-op-queue.h>
 #include <camel/camel-provider.h>
 #include <camel/camel-seekable-stream.h>
 #include <camel/camel-seekable-substream.h>
@@ -63,7 +60,6 @@ extern "C" {
 #include <camel/camel-stream-fs.h>
 #include <camel/camel-stream-mem.h>
 #include <camel/camel-stream.h>
-#include <camel/camel-thread-proxy.h>
 #include <camel/camel-transport.h>
 #include <camel/camel-url.h>
 #include <camel/gmime-content-field.h>
