@@ -1,5 +1,9 @@
 2001-08-11  Jason Leach  <jleach@ximian.com>
 
+	* mail-offline-handler.c (impl_goOnline): Set the session as
+	online so auto mail checking (and the composer) will be doing the
+	right things when you go online.  Bug #6343 and #4601.
+
 	* folder-browser.c: Make the right click "Resend..." into "Edit as
 	New Message...", bug #6838.
 

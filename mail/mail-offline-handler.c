@@ -170,6 +170,9 @@ impl_goOnline (PortableServer_Servant servant,
 	offline_handler = MAIL_OFFLINE_HANDLER (bonobo_object_from_servant (servant));
 	priv = offline_handler->priv;
 
+	/* Enable auto-mail-checking */
+	camel_session_set_online (session, TRUE);
+
 	mail_storages_foreach (storage_go_online, NULL);
 }
 
