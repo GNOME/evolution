@@ -1,3 +1,11 @@
+2001-10-17  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (check_send_configuration): Don't use
+	gnome_dialog_run_and_close() here, we can easily get away with
+	just using a gtk_widget_show().
+	(providers_config): Don't use a gnome_dialog_run_and_close() here
+	either.
+
 2001-10-17    <NotZed@Ximian.com>
 
 	* mail-callbacks.c (empty_trash): Only empty trash on enabled

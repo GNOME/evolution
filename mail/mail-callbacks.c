@@ -193,7 +193,10 @@ check_send_configuration (FolderBrowser *fb)
 							     "before you can compose mail."),
 							   GTK_WINDOW (gtk_widget_get_ancestor (GTK_WIDGET (fb),
 												GTK_TYPE_WINDOW)));
-		gnome_dialog_run_and_close (GNOME_DIALOG (message));
+		
+		gnome_dialog_set_close (GNOME_DIALOG (message), TRUE);
+		gtk_widget_show (message);
+		
 		return FALSE;
 	}
 	
@@ -205,7 +208,10 @@ check_send_configuration (FolderBrowser *fb)
 							     "before you can compose mail."),
 							   GTK_WINDOW (gtk_widget_get_ancestor (GTK_WIDGET (fb),
 												GTK_TYPE_WINDOW)));
-		gnome_dialog_run_and_close (GNOME_DIALOG (message));
+		
+		gnome_dialog_set_close (GNOME_DIALOG (message), TRUE);
+		gtk_widget_show (message);
+		
 		return FALSE;
 	}
 	
@@ -368,7 +374,7 @@ ask_confirm_for_only_bcc (EMsgComposer *composer, gboolean hidden_list_case)
 	} else {
 		first_text = _("This message contains only Bcc recipients.");
 	}
-
+	
 	message_text = g_strdup_printf ("%s\n%s", first_text,
 					_("It is possible that the mail server may reveal the recipients "
 					  "by adding an Apparently-To header.\nSend anyway?"));
@@ -449,9 +455,9 @@ composer_get_message (EMsgComposer *composer)
 	message = e_msg_composer_get_message (composer);
 	if (message == NULL)
 		return NULL;
-
+	
 	recipients = e_msg_composer_get_recipients (composer);
-
+	
 	/* Check for invalid recipients */
 	if (recipients) {
 		gboolean have_invalid = FALSE;
@@ -514,27 +520,27 @@ composer_get_message (EMsgComposer *composer)
 	
 	if (iaddr && num_addrs == camel_address_length (CAMEL_ADDRESS (iaddr))) {
 		/* this means that the only recipients are Bcc's */
-
+		
 		/* OK, this is an abusive hack.  If someone sends a mail with a
 		   hidden contact list on to to: line and no other recipients,
 		   they will unknowingly create a message with only bcc: recipients.
 		   We try to detect this and pass a flag to ask_confirm_for_only_bcc,
 		   so that it can present the user with a dialog whose text has been
 		   modified to reflect this situation. */
-
+		
 		const gchar *to_header = camel_medium_get_header (CAMEL_MEDIUM (message), CAMEL_RECIPIENT_TYPE_TO);
 		gboolean hidden_list_case = FALSE;
-
+		
 		if (to_header && !strcmp (to_header, "Undisclosed-Recipient:;"))
 			hidden_list_case = TRUE;
-
+		
 		if (!ask_confirm_for_only_bcc (composer, hidden_list_case)) {
 			camel_object_unref (CAMEL_OBJECT (message));
 			message = NULL;
 			goto finished;
 		}
 	}
-
+	
 	/* Only show this warning if our default is to send html.  If it isn't, we've
 	   manually switched into html mode in the composer and (presumably) had a good
 	   reason for doing this. */
@@ -574,11 +580,11 @@ composer_get_message (EMsgComposer *composer)
 		camel_medium_set_header (CAMEL_MEDIUM (message), "X-Evolution-Transport", account->transport->url);
 		camel_medium_set_header (CAMEL_MEDIUM (message), "X-Evolution-Fcc", account->sent_folder_uri);
 	}
-
+	
 	/* Get the message recipients and 'touch' them, boosting their use scores */
 	recipients = e_msg_composer_get_recipients (composer);
 	e_destination_touchv (recipients);
-
+	
  finished:
 	e_destination_freev (recipients);
 	return message;
@@ -2106,19 +2112,29 @@ vfolder_edit_vfolders (BonoboUIComponent *uih, void *user_data, const char *path
 	vfolder_edit ();
 }
 
+
+static MailAccountsDialog *accounts_dialog = NULL;
+
+static void
+accounts_dialog_close (GtkWidget *widget, gpointer user_data)
+{
+	accounts_dialog = NULL;
+}
+
 void
 providers_config (BonoboUIComponent *uih, void *user_data, const char *path)
 {
-	static MailAccountsDialog *dialog = NULL;
 	FolderBrowser *fb = user_data;
 	
-	if (!dialog) {
-		dialog = mail_accounts_dialog_new (fb->shell);
-		e_gnome_dialog_set_parent (GNOME_DIALOG (dialog), FB_WINDOW (fb));
-		gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
-		dialog = NULL;
+	if (!accounts_dialog) {
+		accounts_dialog = mail_accounts_dialog_new (fb->shell);
+		e_gnome_dialog_set_parent (GNOME_DIALOG (accounts_dialog), FB_WINDOW (fb));
+		gtk_signal_connect (GTK_OBJECT (accounts_dialog), "destroy",
+				    accounts_dialog_close, NULL);
+		gnome_dialog_set_close (GNOME_DIALOG (accounts_dialog), TRUE);
+		gtk_widget_show (GTK_WIDGET (accounts_dialog));
 	} else {
-		gdk_window_raise (GTK_WIDGET (dialog)->window);
+		gdk_window_raise (GTK_WIDGET (accounts_dialog)->window);
 	}
 }
 
