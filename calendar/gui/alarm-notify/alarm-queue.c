@@ -388,76 +388,66 @@ add_component_alarms (ClientAlarms *ca, ECalComponentAlarms *alarms)
 static void
 load_alarms (ClientAlarms *ca, time_t start, time_t end)
 {
-	/* create the live query */
-	if (!ca->query) {
-		char *str_query, *iso_start, *iso_end;
+	char *str_query, *iso_start, *iso_end;
 
-		iso_start = isodate_from_time_t (start);
-		if (!iso_start)
-			return;
+	iso_start = isodate_from_time_t (start);
+	if (!iso_start)
+		return;
                                                                                
-		iso_end = isodate_from_time_t (end);
-		if (!iso_end) {
-			g_free (iso_start);
-			return;
-		}
-
-		str_query = g_strdup_printf ("(has-alarms-in-range? (make-time \"%s\") (make-time \"%s\"))",
-					     iso_start, iso_end);
+	iso_end = isodate_from_time_t (end);
+	if (!iso_end) {
 		g_free (iso_start);
-		g_free (iso_end);
-
-		/* FIXME: handle errors */
-		if (!e_cal_get_query (ca->client, str_query, &ca->query, NULL)) {
-			g_warning (G_STRLOC ": Could not get query for client");
-		} else {
-			g_signal_connect (G_OBJECT (ca->query), "objects_added",
-					  G_CALLBACK (query_objects_changed_cb), ca);
-			g_signal_connect (G_OBJECT (ca->query), "objects_modified",
-					  G_CALLBACK (query_objects_changed_cb), ca);
-			g_signal_connect (G_OBJECT (ca->query), "objects_removed",
-					  G_CALLBACK (query_objects_removed_cb), ca);
-
-			e_cal_view_start (ca->query);
-		}
-
-		g_free (str_query);
+		return;
 	}
+
+	str_query = g_strdup_printf ("(has-alarms-in-range? (make-time \"%s\") (make-time \"%s\"))",
+				     iso_start, iso_end);
+	g_free (iso_start);
+	g_free (iso_end);
+
+	/* create the live query */
+	if (ca->query) {
+		g_object_unref (ca->query);
+		ca->query = NULL;
+	}
+
+	/* FIXME: handle errors */
+	if (!e_cal_get_query (ca->client, str_query, &ca->query, NULL)) {
+		g_warning (G_STRLOC ": Could not get query for client");
+	} else {
+		g_signal_connect (G_OBJECT (ca->query), "objects_added",
+				  G_CALLBACK (query_objects_changed_cb), ca);
+		g_signal_connect (G_OBJECT (ca->query), "objects_modified",
+				  G_CALLBACK (query_objects_changed_cb), ca);
+		g_signal_connect (G_OBJECT (ca->query), "objects_removed",
+				  G_CALLBACK (query_objects_removed_cb), ca);
+
+		e_cal_view_start (ca->query);
+	}
+
+	g_free (str_query);
 }
 
 /* Loads today's remaining alarms for a client */
 static void
 load_alarms_for_today (ClientAlarms *ca)
 {
-	time_t now, day_end;
+	time_t now, from, day_end;
 	icaltimezone *zone;
 
 	now = time (NULL);
 
+	/* Make sure we don't miss some events from the last notification.
+	 * We add 1 to the saved_notification_time to make the time ranges
+	 * half-open; we do not want to display the "last" displayed alarm
+	 * twice, once when it occurs and once when the alarm daemon restarts.
+	 */
+	from = MIN (config_data_get_last_notification_time () + 1, now);
 	zone = config_data_get_timezone ();
 
 	g_message ("Loading alarms for today");
 	day_end = time_day_end_with_zone (now, zone);
-	load_alarms (ca, now, day_end);
-}
-
-/* Adds any alarms that should have occurred while the alarm daemon was not
- * running.
- */
-static void
-load_missed_alarms (ClientAlarms *ca)
-{
-	time_t now;
-
-	now = time (NULL);
-
-	g_assert (saved_notification_time != -1);
-
-	/* We add 1 to the saved_notification_time to make the time ranges
-	 * half-open; we do not want to display the "last" displayed alarm
-	 * twice, once when it occurs and once when the alarm daemon restarts.
-	 */
-	load_alarms (ca, saved_notification_time + 1, now);
+	load_alarms (ca, from, day_end);
 }
 
 /* Called when a calendar client finished loading; we load its alarms */
@@ -472,7 +462,6 @@ cal_opened_cb (ECal *client, ECalendarStatus status, gpointer data)
 		return;
 
 	load_alarms_for_today (ca);
-	load_missed_alarms (ca);
 }
 
 /* Looks up a component's queued alarm structure in a client alarms structure */
@@ -591,16 +580,16 @@ query_objects_changed_cb (ECal *client, GList *objects, gpointer data)
 			ECalComponentAlarmInstance *instance;
 			gpointer alarm_id;
 			QueuedAlarm *qa;
-			
+
 			instance = sl->data;
-			
+
 			alarm_id = alarm_add (instance->trigger, alarm_trigger_cb, cqa, NULL);
 			if (!alarm_id) {
 				g_message (G_STRLOC ": Could not schedule a trigger for "
 					   "%ld, discarding...", (long) instance->trigger);
 				continue;
 			}
-			
+
 			qa = g_new (QueuedAlarm, 1);
 			qa->alarm_id = alarm_id;
 			qa->instance = instance;
@@ -1312,7 +1301,6 @@ alarm_queue_add_client (ECal *client)
 
 	if (e_cal_get_load_state (client) == E_CAL_LOAD_LOADED) {
 		load_alarms_for_today (ca);
-		load_missed_alarms (ca);
 	} else {
 		g_signal_connect (client, "cal_opened",
 				  G_CALLBACK (cal_opened_cb),
