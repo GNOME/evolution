@@ -468,16 +468,6 @@ e_book_listener_pop_response (EBookListener *listener)
 	return resp;
 }
 
-void
-e_book_listener_unpop_response (EBookListener *listener,
-				EBookListenerResponse *resp)
-{
-	g_return_if_fail (listener != NULL);
-	g_return_if_fail (E_IS_BOOK_LISTENER (listener));
-
-	listener->priv->response_queue = g_list_prepend (listener->priv->response_queue, resp);
-}
-
 static EBookStatus
 e_book_listener_convert_status (const GNOME_Evolution_Addressbook_BookListener_CallStatus status)
 {

@@ -1,5 +1,12 @@
 2001-06-11  Christopher James Lahey  <clahey@ximian.com>
 
+	* backend/ebook/e-book-listener.c,
+	backend/ebook/e-book-listener.h, backend/ebook/e-book.c: Rolled
+	back the change 2 ago, dated 06/11/2001 01:51 in CVS, involving
+	e-book-listener.[ch] and e-book.c.
+
+2001-06-11  Christopher James Lahey  <clahey@ximian.com>
+
 	* backend/ebook/e-book.c (e_book_load_uri,
 	e_book_get_supported_fields, e_book_authenticate_user,
 	e_book_remove_card_by_id, e_book_add_vcard, e_book_commit_vcard,
@@ -10,6 +17,8 @@
 	e_book_unqueue_op so that the op could be unqueued if the CORBA
 	call fails.
 
+2001-06-11  Christopher James Lahey  <clahey@ximian.com>
+
 	* backend/ebook/e-book-listener.c, backend/ebook/e-book-listener.h
 	(e_book_listener_unpop_response): Added this function to put a
 	response back into the queue.
@@ -19,6 +28,8 @@
 	yet when we get the response.  In this case we unpop the response.
 	Also, when queueing an op, we check to see if there are any
 	responses waiting.
+
+	* This change has been reverted.
 
 2001-06-11  Christopher James Lahey  <clahey@ximian.com>
 

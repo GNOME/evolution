@@ -64,8 +64,6 @@ typedef struct {
 	EBookViewListener *listener;
 } EBookOp;
 
-static gboolean check_listener_queue_idle (gpointer closure);
-
 /*
  * Local response queue management.
  */
@@ -77,8 +75,6 @@ e_book_queue_op (EBook    *book,
 {
 	EBookOp *op;
 
-	g_print ("Queue Op\n");
-
 	op           = g_new0 (EBookOp, 1);
 	op->tag      = book->priv->op_tag++;
 	op->active   = TRUE;
@@ -88,11 +84,6 @@ e_book_queue_op (EBook    *book,
 
 	book->priv->pending_ops =
 		g_list_append (book->priv->pending_ops, op);
-
-	if (e_book_listener_check_pending (book->priv->listener)) {
-		gtk_object_ref (GTK_OBJECT (book));
-		g_idle_add (check_listener_queue_idle, book);
-	}
 
 	return op->tag;
 }
@@ -126,8 +117,6 @@ e_book_pop_op (EBook *book)
 	GList   *popped;
 	EBookOp *op;
 
-	g_print ("Pop Op\n");
-
 	if (book->priv->pending_ops == NULL)
 		return NULL;
 
@@ -160,7 +149,7 @@ e_book_cancel_op (EBook *book, guint tag)
 	return cancelled;
 }
 
-static gboolean
+static void
 e_book_do_response_create_card (EBook                 *book,
 				EBookListenerResponse *resp)
 {
@@ -169,17 +158,18 @@ e_book_do_response_create_card (EBook                 *book,
 	op = e_book_pop_op (book);
 
 	if (op == NULL) {
-		return FALSE;
+		g_warning ("e_book_do_response_create_card: Cannot find operation "
+			   "in local op queue!\n");
+		return;
 	}
 
 	if (op->cb)
 		((EBookIdCallback) op->cb) (book, resp->status, resp->id, op->closure);
 	g_free (resp->id);
 	g_free (op);
-	return TRUE;
 }
 
-static gboolean
+static void
 e_book_do_response_generic (EBook                 *book,
 			    EBookListenerResponse *resp)
 {
@@ -188,17 +178,17 @@ e_book_do_response_generic (EBook                 *book,
 	op = e_book_pop_op (book);
 
 	if (op == NULL) {
-		return FALSE;
+		g_warning ("e_book_do_response_generic: Cannot find operation "
+			   "in local op queue!\n");
 	}
 
 	if (op->cb)
 		((EBookCallback) op->cb) (book, resp->status, op->closure);
 
 	g_free (op);
-	return TRUE;
 }
 
-static gboolean
+static void
 e_book_do_response_get_cursor (EBook                 *book,
 			       EBookListenerResponse *resp)
 {
@@ -209,7 +199,9 @@ e_book_do_response_get_cursor (EBook                 *book,
 	op = e_book_pop_op (book);
 
 	if (op == NULL) {
-		return FALSE;
+		g_warning ("e_book_do_response_get_cursor: Cannot find operation "
+			   "in local op queue!\n");
+		return;
 	}
 
 	cursor = e_card_cursor_new(resp->cursor);
@@ -238,12 +230,11 @@ e_book_do_response_get_cursor (EBook                 *book,
 	gtk_object_unref(GTK_OBJECT(cursor));
 	
 	g_free (op);
-	return TRUE;
 }
 
 
 
-static gboolean
+static void
 e_book_do_response_get_view (EBook                 *book,
 			     EBookListenerResponse *resp)
 {
@@ -254,7 +245,9 @@ e_book_do_response_get_view (EBook                 *book,
 	op = e_book_pop_op (book);
 
 	if (op == NULL) {
-		return FALSE;
+		g_warning ("e_book_do_response_get_view: Cannot find operation "
+			   "in local op queue!\n");
+		return;
 	}
 	
 	book_view = e_book_view_new(resp->book_view, op->listener);
@@ -287,10 +280,9 @@ e_book_do_response_get_view (EBook                 *book,
 	bonobo_object_unref(BONOBO_OBJECT(op->listener));
 	
 	g_free (op);
-	return TRUE;
 }
 
-static gboolean
+static void
 e_book_do_response_get_changes (EBook                 *book,
 				EBookListenerResponse *resp)
 {
@@ -301,7 +293,9 @@ e_book_do_response_get_changes (EBook                 *book,
 	op = e_book_pop_op (book);
 
 	if (op == NULL) {
-		return FALSE;
+		g_warning ("e_book_do_response_get_changes: Cannot find operation "
+			   "in local op queue!\n");
+		return;
 	}
 
 	book_view = e_book_view_new (resp->book_view, op->listener);
@@ -331,53 +325,30 @@ e_book_do_response_get_changes (EBook                 *book,
 	bonobo_object_unref(BONOBO_OBJECT(op->listener));
 	
 	g_free (op);
-	return TRUE;
 }
 
-static gboolean
+static void
 e_book_do_response_open (EBook                 *book,
 			 EBookListenerResponse *resp)
 {
 	EBookOp *op;
-
-	op = e_book_pop_op (book);
-
-	if (op == NULL) {
-		return FALSE;
-	}
 
 	if (resp->status == E_BOOK_STATUS_SUCCESS) {
 		book->priv->corba_book  = resp->book;
 		book->priv->load_state  = URILoaded;
 	}
 
-	if (op->cb)
-		((EBookCallback) op->cb) (book, resp->status, op->closure);
-	g_free (op);
-	return TRUE;
-}
-
-static gboolean
-e_book_do_response_get_supported_fields (EBook                 *book,
-					 EBookListenerResponse *resp)
-{
-	EBookOp *op;
-
 	op = e_book_pop_op (book);
 
 	if (op == NULL) {
-		return FALSE;
+		g_warning ("e_book_do_response_open: Cannot find operation "
+			   "in local op queue!\n");
+		return;
 	}
 
-	if (op->cb) {
-		if (op->active)
-			((EBookFieldsCallback) op->cb) (book, resp->status, resp->fields, op->closure);
-		else
-			((EBookFieldsCallback) op->cb) (book, E_BOOK_STATUS_CANCELLED, NULL, op->closure);
-	}
-
+	if (op->cb)
+		((EBookCallback) op->cb) (book, resp->status, op->closure);
 	g_free (op);
-	return TRUE;
 }
 
 static void
@@ -406,6 +377,30 @@ e_book_do_writable_event (EBook                 *book,
 			 resp->writable);
 }
 
+static void
+e_book_do_response_get_supported_fields (EBook                 *book,
+					 EBookListenerResponse *resp)
+{
+	EBookOp *op;
+
+	op = e_book_pop_op (book);
+
+	if (op == NULL) {
+		g_warning ("e_book_do_response_get_supported_fields: Cannot find operation "
+			   "in local op queue!\n");
+		return;
+	}
+
+	if (op->cb) {
+		if (op->active)
+			((EBookFieldsCallback) op->cb) (book, resp->status, resp->fields, op->closure);
+		else
+			((EBookFieldsCallback) op->cb) (book, E_BOOK_STATUS_CANCELLED, NULL, op->closure);
+	}
+
+	g_free (op);
+}
+
 /*
  * Reading notices out of the EBookListener's queue.
  */
@@ -413,7 +408,6 @@ static void
 e_book_check_listener_queue (EBookListener *listener, EBook *book)
 {
 	EBookListenerResponse *resp;
-	gboolean handled = FALSE;
 
 	resp = e_book_listener_pop_response (listener);
 
@@ -422,65 +416,45 @@ e_book_check_listener_queue (EBookListener *listener, EBook *book)
 
 	switch (resp->op) {
 	case CreateCardResponse:
-		handled = e_book_do_response_create_card (book, resp);
+		e_book_do_response_create_card (book, resp);
 		break;
 	case RemoveCardResponse:
 	case ModifyCardResponse:
 	case AuthenticationResponse:
-		handled = e_book_do_response_generic (book, resp);
+		e_book_do_response_generic (book, resp);
 		break;
 	case GetCursorResponse:
-		handled = e_book_do_response_get_cursor (book, resp);
+		e_book_do_response_get_cursor (book, resp);
 		break;
 	case GetBookViewResponse:
-		handled = e_book_do_response_get_view(book, resp);
+		e_book_do_response_get_view(book, resp);
 		break;
 	case GetChangesResponse:
-		handled = e_book_do_response_get_changes(book, resp);
+		e_book_do_response_get_changes(book, resp);
 		break;
 	case OpenBookResponse:
-		handled = e_book_do_response_open (book, resp);
+		e_book_do_response_open (book, resp);
 		break;
 	case GetSupportedFieldsResponse:
-		handled = e_book_do_response_get_supported_fields (book, resp);
+		e_book_do_response_get_supported_fields (book, resp);
 		break;
 
 	case OpenProgressEvent:
 		e_book_do_progress_event (book, resp);
-		handled = TRUE;
 		break;
 	case LinkStatusEvent:
 		e_book_do_link_event (book, resp);
-		handled = TRUE;
 		break;
 	case WritableStatusEvent:
 		e_book_do_writable_event (book, resp);
-		handled = TRUE;
 		break;
 	default:
 		g_error ("EBook: Unknown operation %d in listener queue!\n",
 			 resp->op);
-		handled = TRUE;
-		break;
 	}
 
-	if (handled)
-		g_free (resp);
-	else
-		e_book_listener_unpop_response (listener, resp);
+	g_free (resp);
 }
-
-static gboolean
-check_listener_queue_idle (gpointer closure)
-{
-	EBook *book = closure;
-	if (!GTK_OBJECT_DESTROYED (GTK_OBJECT (book))) {
-		e_book_check_listener_queue (book->priv->listener, book);
-	}
-	gtk_object_unref (GTK_OBJECT (book));
-	return FALSE;
-}
-
 
 /**
  * e_book_load_uri:
