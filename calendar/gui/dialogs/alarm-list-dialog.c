@@ -93,16 +93,23 @@ sensitize_buttons (Dialog *dialog)
 {
 	GtkTreeSelection *selection;
 	GtkTreeIter iter;
-	gboolean have_selected;
+	gboolean have_selected, read_only = FALSE;
+	GError *error = NULL;
+
+	if (!e_cal_is_read_only (dialog->ecal, &read_only, &error)) {
+		if (error->code != E_CALENDAR_STATUS_BUSY)
+			read_only = TRUE;
+		g_error_free (error);
+	}
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (dialog->list));
 	have_selected = gtk_tree_selection_get_selected (selection, NULL, &iter);
 
-	if (e_cal_get_one_alarm_only (dialog->ecal) && have_selected)
+	if ((e_cal_get_one_alarm_only (dialog->ecal) && have_selected) || read_only)
 		gtk_widget_set_sensitive (dialog->add, FALSE);
 	else
 		gtk_widget_set_sensitive (dialog->add, TRUE);
-	gtk_widget_set_sensitive (dialog->delete, have_selected);
+	gtk_widget_set_sensitive (dialog->delete, have_selected && !read_only);
 }
 
 /* Callback used for the "add reminder" button */

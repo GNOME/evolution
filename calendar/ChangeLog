@@ -1,3 +1,14 @@
+2004-12-06  Rodrigo Moya <rodrigo@novell.com>
+
+	Fixes #67403
+
+	* gui/dialogs/event-page.c (sensitize_widgets): don't unsensitize
+	the 'Customize' button, to allow users to look at the alarm list
+	for read only events.
+
+	* gui/dialogs/alarm-list-dialog.c (sensitize_buttons): unsensitize
+	buttons if the event is read only.
+
 2004-12-02  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* gui/dialogs/task-editor.[ch] (task_editor_new), (task_editor_construct),
@@ -35,6 +46,7 @@
 	week_view->last_edited_comp_string for the same reason above.
 	
 2004-11-29  Chenthill Palanisamy  <pchenthill@novell.com>
+
 	* calendar-errors.xml.h: committng this file. Missed to
 	commit this one.
 
