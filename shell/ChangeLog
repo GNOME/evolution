@@ -1,5 +1,9 @@
 2003-11-13  Ettore Perazzoli  <ettore@ximian.com>
 
+	* main.c (DEVELOPMENT_WARNING): Define.
+
+2003-11-13  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell.c (e_shell_send_receive): New.
 
 	* Evolution-Component.idl (Component.sendAndReceive): New.

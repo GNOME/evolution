@@ -35,6 +35,7 @@
 #include <gconf/gconf-client.h>
 
 #include <gtk/gtkalignment.h>
+#include <gtk/gtkbox.h>
 #include <gtk/gtkframe.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkmain.h>
@@ -77,7 +78,10 @@
 
 #include <pthread.h>
 
-
+
+#define DEVELOPMENT_WARNING
+
+
 static EShell *shell = NULL;
 
 /* Command-line options.  */
@@ -89,7 +93,7 @@ static char *default_component_id = NULL;
 
 extern char *evolution_debug_log;
 
-
+
 static GtkWidget *
 quit_box_new (void)
 {
@@ -161,7 +165,7 @@ shell_weak_notify (void *data,
 	bonobo_main_quit ();
 }
 
-
+
 #ifdef KILL_PROCESS_CMD
 
 static void
@@ -214,7 +218,7 @@ kill_old_dataserver (void)
 }
 #endif
 
-
+
 #ifdef DEVELOPMENT_WARNING
 
 /* Warning dialog to scare people off a little bit.  */
@@ -248,6 +252,7 @@ show_development_warning (GtkWindow *parent)
 	GConfClient *client;
 	char *text;
 
+	puts (__FUNCTION__);
 	client = gconf_client_get_default ();
 
 	if (gconf_client_get_bool (client, "/apps/evolution/shell/skip_warning_dialog", NULL)) {
@@ -278,7 +283,7 @@ show_development_warning (GtkWindow *parent)
                   "\n"
 		  "We hope that you enjoy the results of our hard work, and we\n"
 		  "eagerly await your contributions!\n"),
-		"1.2.x (1.2.2)");
+		"1.4");
 	label = gtk_label_new (text);
 	g_free(text);
 
@@ -318,6 +323,7 @@ static void
 window_map_callback (GtkWidget *widget,
 		     void *data)
 {
+	puts (__FUNCTION__);
 	g_signal_handlers_disconnect_by_func (widget, G_CALLBACK (window_map_callback), data);
 
 	show_development_warning (GTK_WINDOW (widget));
@@ -328,6 +334,7 @@ new_window_created_callback (EShell *shell,
 			     EShellWindow *window,
 			     void *data)
 {
+	puts (__FUNCTION__);
 	g_signal_handlers_disconnect_by_func (shell, G_CALLBACK (new_window_created_callback), data);
 
 	g_signal_connect (window, "map", G_CALLBACK (window_map_callback), NULL);
@@ -335,7 +342,7 @@ new_window_created_callback (EShell *shell,
 
 #endif /* DEVELOPMENT_WARNING */
 
-
+
 /* This is for doing stuff that requires the GTK+ loop to be running already.  */
 
 static gint
