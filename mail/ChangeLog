@@ -1,5 +1,8 @@
 2001-08-09  Peter Williams  <peterw@ximian.com>
 
+	* folder-browser.c (on_key_press): The bonobo menu items now
+	handle 'n' and 'p'.
+
 	* message-list.c (message_list_select): Fix inline documentation.
 
 2001-08-09  Anna Marie Dirks <anna@ximian.com>
