@@ -1,3 +1,8 @@
+2002-07-09  Peter Williams  <peterw@ximian.com>
+
+	* Makefile.am: Reference the renamed Evolution-Wombat.idl
+	instead of wombat.idl.
+
 2002-01-27  Ettore Perazzoli  <ettore@ximian.com>
 
 	* Makefile.am: Use WOMBAT_CFLAGS.

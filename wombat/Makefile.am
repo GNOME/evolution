@@ -55,8 +55,11 @@ oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)
 
 @XML_I18N_MERGE_OAF_RULE@
 
+idldir = $(datadir)/idl
 
-EXTRA_DIST = $(oaf_DATA) $(oaf_in_files) wombat.idl \
+idl_DATA = Evolution-Wombat.idl
+
+EXTRA_DIST = $(oaf_DATA) $(oaf_in_files) \
 	     GNOME_Evolution_WombatLDAP.oaf.in GNOME_Evolution_WombatNOLDAP.oaf.in
 
 if ENABLE_PURIFY
