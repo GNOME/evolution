@@ -48,31 +48,31 @@ typedef struct _EMsgComposerClass  EMsgComposerClass;
 
 struct _EMsgComposer {
 	GnomeApp parent;
-
+	
 	BonoboUIHandler *uih;
-
+	
 	GtkWidget *hdrs;
 	GPtrArray *extra_hdr_names, *extra_hdr_values;
-
+	
 	GtkWidget *editor;
-
+	
 	GtkWidget *attachment_bar;
 	GtkWidget *attachment_scroll_frame;
-
+	
 	GtkWidget *address_dialog;
-
+	
 	Bonobo_PersistFile   persist_file_interface;
 	Bonobo_PersistStream persist_stream_interface;
-
+	
 	char *sig_file;
-
+	
 	gboolean attachment_bar_visible : 1;
 	gboolean send_html : 1;
 };
 
 struct _EMsgComposerClass {
 	GnomeAppClass parent_class;
-
+	
 	void (* send) (EMsgComposer *composer);
 	void (* postpone) (EMsgComposer *composer);
 };

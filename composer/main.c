@@ -19,17 +19,17 @@ send_cb (EMsgComposer *composer,
 	CamelMimeMessage *message;
 	CamelStream *stream;
 	gint stdout_dup;
-
+	
 	message = e_msg_composer_get_message (composer);
-
+	
 	stdout_dup = dup (1);
 	stream = camel_stream_fs_new_with_fd (stdout_dup);
 	camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message),
 					    stream);
 	camel_stream_close (stream);
-
+	
 	camel_object_unref (CAMEL_OBJECT (message));
-
+	
 #if 0
 	gtk_widget_destroy (GTK_WIDGET (composer));
 	gtk_main_quit ();
@@ -40,12 +40,12 @@ static guint
 create_composer (void)
 {
 	GtkWidget *composer;
-
+	
 	composer = e_msg_composer_new ();
 	gtk_widget_show (composer);
-
+	
 	gtk_signal_connect (GTK_OBJECT (composer), "send", GTK_SIGNAL_FUNC (send_cb), NULL);
-
+	
 	return FALSE;
 }
 

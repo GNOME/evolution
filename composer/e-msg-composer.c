@@ -682,8 +682,15 @@ menu_file_send_cb (BonoboUIHandler *uih,
 		   void *data,
 		   const char *path)
 {
-	/* FIXME: We should really write this to Outbox in the future? */
 	gtk_signal_emit (GTK_OBJECT (data), signals[SEND]);
+}
+
+static void
+menu_file_send_later_cb (BonoboUIHandler *uih,
+			 void *data,
+			 const char *path)
+{
+	gtk_signal_emit (GTK_OBJECT (data), signals[POSTPONE]);
 }
 
 static void
@@ -916,7 +923,7 @@ create_menubar_file (EMsgComposer *composer,
 					    NULL, -1,
 					    BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
 					    0, 0);
-
+	
 	bonobo_ui_handler_menu_new_item (uih, "/File/Open",
 					 _("_Open..."),
 					 _("Load a previously saved message"),
@@ -925,7 +932,7 @@ create_menubar_file (EMsgComposer *composer,
 					 GNOME_STOCK_MENU_OPEN,
 					 0, 0,
 					 menu_file_open_cb, composer);
-
+	
 	bonobo_ui_handler_menu_new_item (uih, "/File/Save",
 					 _("_Save..."),
 					 _("Save message"),
@@ -934,7 +941,7 @@ create_menubar_file (EMsgComposer *composer,
 					 GNOME_STOCK_MENU_SAVE,
 					 0, 0,
 					 menu_file_save_cb, composer);
-
+	
 	bonobo_ui_handler_menu_new_item (uih, "/File/Save as",
 					 _("_Save as..."),
 					 _("Save message with a different name"),
@@ -943,7 +950,7 @@ create_menubar_file (EMsgComposer *composer,
 					 GNOME_STOCK_MENU_SAVE_AS,
 					 0, 0,
 					 menu_file_save_as_cb, composer);
-
+	
 	bonobo_ui_handler_menu_new_item (uih, "/File/Save in folder",
 					 _("Save in _folder..."),
 					 _("Save the message in a specified folder"),
@@ -951,9 +958,9 @@ create_menubar_file (EMsgComposer *composer,
 					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
 					 0, 0,
 					 NULL, composer);
-
+	
 	bonobo_ui_handler_menu_new_separator (uih, "/File/Separator1", -1);
-
+	
 	bonobo_ui_handler_menu_new_item (uih, "/File/Insert text file",
 					 _("_Insert text file... (FIXME)"),
 					 _("Insert a file as text into the message"),
@@ -961,20 +968,29 @@ create_menubar_file (EMsgComposer *composer,
 					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
 					 0, 0,
 					 menu_file_insert_file_cb, composer);
-
+	
 	bonobo_ui_handler_menu_new_separator (uih, "/File/Separator2", -1);
-
-	bonobo_ui_handler_menu_new_item (uih, "/File/Send",
-					 _("_Send"),
-					 _("Send the message"),
+	
+	bonobo_ui_handler_menu_new_item (uih, "/File/Send Now",
+					 _("Send _Now"),
+					 _("Send the message now"),
 					 -1,
 					 BONOBO_UI_HANDLER_PIXMAP_STOCK,
 					 GNOME_STOCK_MENU_MAIL_SND,
 					 0, 0,
 					 menu_file_send_cb, composer);
-
+	
+	bonobo_ui_handler_menu_new_item (uih, "/File/Send Later",
+					 _("Send _Later"),
+					 _("Send the message later"),
+					 -1,
+					 BONOBO_UI_HANDLER_PIXMAP_STOCK,
+					 GNOME_STOCK_MENU_MAIL_SND,
+					 0, 0,
+					 menu_file_send_later_cb, composer);
+	
 	bonobo_ui_handler_menu_new_separator (uih, "/File/Separator3", -1);
-
+	
 	bonobo_ui_handler_menu_new_item (uih, "/File/Close",
 					 _("_Close..."),
 					 _("Quit the message composer"),
@@ -1005,14 +1021,14 @@ create_menubar_format (EMsgComposer *composer,
 					    NULL, -1,
 					    BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
 					    0, 0);
-
+	
 	bonobo_ui_handler_menu_new_toggleitem (uih, "/Format/HTML",
 					       _("HTML"),
 					       _("Send the mail in HTML format"),
 					       -1,
 					       0, 0,
 					       menu_format_html_cb, composer);
-
+	
 	bonobo_ui_handler_menu_set_toggle_state (uih, "/Format/HTML", composer->send_html);
 }
 
@@ -1025,7 +1041,7 @@ create_menubar_view (EMsgComposer *composer,
 					    NULL, -1,
 					    BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
 					    0, 0);
-
+	
 	bonobo_ui_handler_menu_new_toggleitem (uih, "/View/Show attachments",
 					       _("Show _attachments"),
 					       _("Show/hide attachments"),
@@ -1038,10 +1054,10 @@ static void
 create_menubar (EMsgComposer *composer)
 {
 	BonoboUIHandler *uih;
-
+	
 	uih = composer->uih;
 	bonobo_ui_handler_create_menubar (uih);
-
+	
 	create_menubar_file   (composer, uih);
 	create_menubar_edit   (composer, uih);
 	create_menubar_format (composer, uih);
@@ -1055,10 +1071,10 @@ static void
 create_toolbar (EMsgComposer *composer)
 {
 	BonoboUIHandler *uih;
-
+	
 	uih = composer->uih;
 	bonobo_ui_handler_create_toolbar (uih, "Toolbar");
-
+	
 	bonobo_ui_handler_toolbar_new_item (uih,
 					    "/Toolbar/Send",
 					    _("Send"),
@@ -1068,7 +1084,7 @@ create_toolbar (EMsgComposer *composer)
 					    GNOME_STOCK_PIXMAP_MAIL_SND,
 					    0, 0,
 					    menu_file_send_cb, composer);
-
+	
 	bonobo_ui_handler_toolbar_new_item (uih,
 					    "/Toolbar/Attach",
 					    _("Attach"),
@@ -1090,7 +1106,7 @@ attachment_bar_changed_cb (EMsgComposerAttachmentBar *bar,
 	EMsgComposer *composer;
 	
 	composer = E_MSG_COMPOSER (data);
-
+	
 	if (e_msg_composer_attachment_bar_get_num_attachments (bar) > 0)
 		e_msg_composer_show_attachments (composer, TRUE);
 	else
@@ -1105,22 +1121,22 @@ destroy (GtkObject *object)
 {
 	EMsgComposer *composer;
 	CORBA_Environment ev;
-
+	
 	composer = E_MSG_COMPOSER (object);
-
+	
 	bonobo_object_unref (BONOBO_OBJECT (composer->uih));
 
 	/* FIXME?  I assume the Bonobo widget will get destroyed
            normally?  */
-
+	
 	if (composer->address_dialog != NULL)
 		gtk_widget_destroy (composer->address_dialog);
 	if (composer->hdrs != NULL)
 		gtk_widget_destroy (composer->hdrs);
-
+	
 	if (composer->extra_hdr_names) {
 		int i;
-
+		
 		for (i = 0; i < composer->extra_hdr_names->len; i++) {
 			g_free (composer->extra_hdr_names->pdata[i]);
 			g_free (composer->extra_hdr_values->pdata[i]);
@@ -1128,21 +1144,21 @@ destroy (GtkObject *object)
 		g_ptr_array_free (composer->extra_hdr_names, TRUE);
 		g_ptr_array_free (composer->extra_hdr_values, TRUE);
 	}
-
+	
 	CORBA_exception_init (&ev);
-
+	
 	if (composer->persist_stream_interface != CORBA_OBJECT_NIL) {
 		Bonobo_Unknown_unref (composer->persist_stream_interface, &ev);
 		CORBA_Object_release (composer->persist_stream_interface, &ev);
 	}
-
+	
 	if (composer->persist_file_interface != CORBA_OBJECT_NIL) {
 		Bonobo_Unknown_unref (composer->persist_file_interface, &ev);
 		CORBA_Object_release (composer->persist_file_interface, &ev);
 	}
-
+	
 	CORBA_exception_free (&ev);
-
+	
 	if (GTK_OBJECT_CLASS (parent_class)->destroy != NULL)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
@@ -1155,7 +1171,7 @@ delete_event (GtkWidget *widget,
 	      GdkEventAny *event)
 {
 	do_exit (E_MSG_COMPOSER (widget));
-
+	
 	return TRUE;
 }
 
@@ -1165,16 +1181,16 @@ class_init (EMsgComposerClass *klass)
 {
 	GtkObjectClass *object_class;
 	GtkWidgetClass *widget_class;
-
+	
 	object_class = GTK_OBJECT_CLASS (klass);
 	widget_class = GTK_WIDGET_CLASS (klass);
-
+	
 	object_class->destroy = destroy;
-
+	
 	widget_class->delete_event = delete_event;
-
+	
 	parent_class = gtk_type_class (gnome_app_get_type ());
-
+	
 	signals[SEND] =
 		gtk_signal_new ("send",
 				GTK_RUN_LAST,
@@ -1182,7 +1198,7 @@ class_init (EMsgComposerClass *klass)
 				GTK_SIGNAL_OFFSET (EMsgComposerClass, send),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
-
+	
 	signals[POSTPONE] =
 		gtk_signal_new ("postpone",
 				GTK_RUN_LAST,
@@ -1190,7 +1206,7 @@ class_init (EMsgComposerClass *klass)
 				GTK_SIGNAL_OFFSET (EMsgComposerClass, postpone),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
-
+	
 	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 }
 
@@ -1198,21 +1214,21 @@ static void
 init (EMsgComposer *composer)
 {
 	composer->uih                      = NULL;
-
+	
 	composer->hdrs                     = NULL;
 	composer->extra_hdr_names          = g_ptr_array_new ();
 	composer->extra_hdr_values         = g_ptr_array_new ();
-
+	
 	composer->editor                   = NULL;
-
+	
 	composer->address_dialog           = NULL;
-
+	
 	composer->attachment_bar           = NULL;
 	composer->attachment_scroll_frame  = NULL;
-
+	
 	composer->persist_file_interface   = CORBA_OBJECT_NIL;
 	composer->persist_stream_interface = CORBA_OBJECT_NIL;
-
+	
 	composer->attachment_bar_visible   = FALSE;
 	composer->send_html                = FALSE;
 }
@@ -1222,7 +1238,7 @@ GtkType
 e_msg_composer_get_type (void)
 {
 	static GtkType type = 0;
-
+	
 	if (type == 0) {
 		static const GtkTypeInfo info = {
 			"EMsgComposer",
@@ -1234,10 +1250,10 @@ e_msg_composer_get_type (void)
 			/* reserved_2 */ NULL,
 			(GtkClassInitFunc) NULL,
 		};
-
+		
 		type = gtk_type_unique (gnome_app_get_type (), &info);
 	}
-
+	
 	return type;
 }
 

@@ -3,6 +3,10 @@
 	* e-msg-composer.c (e_msg_composer_get_sig_file): This needs to
 	return a const char * and not a char *, because we're not actually
 	allocating memory here.
+	(create_menubar_file): Changed "Send" to "Send Now" and added
+	"Send Later"
+	(menu_file_send_later_cb): New callback that emits the POSTPONE
+	signal (equivalent to "Send Later"
 
 2000-08-28  Jeffrey Stedfast  <fejj@helixcode.com>
 
