@@ -5269,9 +5269,7 @@ e_day_view_reshape_long_event (EDayView *day_view,
 		text_w = item_w;
 	} else {
 		/* Get the requested size of the label. */
-		gtk_object_get (GTK_OBJECT (event->canvas_item),
-				"text", &text,
-				NULL);
+		g_object_get (G_OBJECT (event->canvas_item), "text", &text, NULL);
 		text_width = 0;
 		if (text) {
 			end_of_line = strchr (text, '\n');
@@ -5443,12 +5441,12 @@ e_day_view_reshape_main_canvas_resize_bars (EDayView *day_view)
 	   hide the resize bars. */
 	if (day != -1 && day == day_view->drag_event_day
 	    && event_num == day_view->drag_event_num) {
-		gtk_object_get (GTK_OBJECT (day_view->drag_rect_item),
-				"x1", &x,
-				"y1", &y,
-				"x2", &w,
-				"y2", &h,
-				NULL);
+		g_object_get (G_OBJECT (day_view->drag_rect_item),
+			      "x1", &x,
+			      "y1", &y,
+			      "x2", &w,
+			      "y2", &h,
+			      NULL);
 		w -= x;
 		x++;
 		h -= y;
@@ -6012,9 +6010,9 @@ e_day_view_start_editing_event (EDayView *day_view,
 	}
 
 	/* Try to move the cursor to the end of the text. */
-	gtk_object_get (GTK_OBJECT (event->canvas_item),
-			"event_processor", &event_processor,
-			NULL);
+	g_object_get (G_OBJECT (event->canvas_item),
+		      "event_processor", &event_processor,
+		      NULL);
 	if (event_processor) {
 		command.action = E_TEP_MOVE;
 		command.position = E_TEP_END_OF_BUFFER;
@@ -6063,9 +6061,9 @@ cancel_editing (EDayView *day_view)
 	/* Reset the text to what was in the component */
 
 	cal_component_get_summary (event->comp, &summary);
-	gtk_object_set (GTK_OBJECT (event->canvas_item),
-			"text", summary.value ? summary.value : "",
-			NULL);
+	g_object_set (G_OBJECT (event->canvas_item),
+		      "text", summary.value ? summary.value : "",
+		      NULL);
 
 	/* Stop editing */
 	e_day_view_stop_editing_event (day_view);
@@ -6207,9 +6205,9 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 	day_view->resize_bars_event_day = -1;
 	day_view->resize_bars_event_num = -1;
 
-	gtk_object_get (GTK_OBJECT (event->canvas_item),
-			"text", &text,
-			NULL);
+	g_object_get (G_OBJECT (event->canvas_item),
+		      "text", &text,
+		      NULL);
 	g_assert (text != NULL);
 
 	if (string_is_empty (text) && !cal_comp_is_on_server (event->comp, day_view->client)) {

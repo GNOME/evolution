@@ -344,11 +344,11 @@ e_calendar_table_init (ECalendarTable *cal_table)
 	 * Normal string fields.
 	 */
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
-	gtk_object_set (GTK_OBJECT (cell),
-			"strikeout_column", CAL_COMPONENT_FIELD_COMPLETE,
-			"bold_column", CAL_COMPONENT_FIELD_OVERDUE,
-			"color_column", CAL_COMPONENT_FIELD_COLOR,
-			NULL);
+	g_object_set (G_OBJECT (cell),
+		      "strikeout_column", CAL_COMPONENT_FIELD_COMPLETE,
+		      "bold_column", CAL_COMPONENT_FIELD_OVERDUE,
+		      "color_column", CAL_COMPONENT_FIELD_COLOR,
+		      NULL);
 
 	e_table_extras_add_cell (extras, "calstring", cell);
 
@@ -357,11 +357,11 @@ e_calendar_table_init (ECalendarTable *cal_table)
 	 * Date fields.
 	 */
 	cell = e_cell_date_edit_text_new (NULL, GTK_JUSTIFY_LEFT);
-	gtk_object_set (GTK_OBJECT (cell),
-			"strikeout_column", CAL_COMPONENT_FIELD_COMPLETE,
-			"bold_column", CAL_COMPONENT_FIELD_OVERDUE,
-			"color_column", CAL_COMPONENT_FIELD_COLOR,
-			NULL);
+	g_object_set (G_OBJECT (cell),
+		      "strikeout_column", CAL_COMPONENT_FIELD_COMPLETE,
+		      "bold_column", CAL_COMPONENT_FIELD_OVERDUE,
+		      "color_column", CAL_COMPONENT_FIELD_COLOR,
+		      NULL);
 
 	popup_cell = e_cell_date_edit_new ();
 	e_cell_popup_set_child (E_CELL_POPUP (popup_cell), cell);
@@ -380,12 +380,12 @@ e_calendar_table_init (ECalendarTable *cal_table)
 
 	/* Classification field. */
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
-	gtk_object_set (GTK_OBJECT (cell),
-			"strikeout_column", CAL_COMPONENT_FIELD_COMPLETE,
-			"bold_column", CAL_COMPONENT_FIELD_OVERDUE,
-			"color_column", CAL_COMPONENT_FIELD_COLOR,
-			"editable", FALSE,
-			NULL);
+	g_object_set (G_OBJECT (cell),
+		      "strikeout_column", CAL_COMPONENT_FIELD_COMPLETE,
+		      "bold_column", CAL_COMPONENT_FIELD_OVERDUE,
+		      "color_column", CAL_COMPONENT_FIELD_COLOR,
+		      "editable", FALSE,
+		      NULL);
 
 	popup_cell = e_cell_combo_new ();
 	e_cell_popup_set_child (E_CELL_POPUP (popup_cell), cell);
@@ -402,12 +402,12 @@ e_calendar_table_init (ECalendarTable *cal_table)
 
 	/* Priority field. */
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
-	gtk_object_set (GTK_OBJECT (cell),
-			"strikeout_column", CAL_COMPONENT_FIELD_COMPLETE,
-			"bold_column", CAL_COMPONENT_FIELD_OVERDUE,
-			"color_column", CAL_COMPONENT_FIELD_COLOR,
-			"editable", FALSE,
-			NULL);
+	g_object_set (G_OBJECT (cell),
+		      "strikeout_column", CAL_COMPONENT_FIELD_COMPLETE,
+		      "bold_column", CAL_COMPONENT_FIELD_OVERDUE,
+		      "color_column", CAL_COMPONENT_FIELD_COLOR,
+		      "editable", FALSE,
+		      NULL);
 
 	popup_cell = e_cell_combo_new ();
 	e_cell_popup_set_child (E_CELL_POPUP (popup_cell), cell);
@@ -425,11 +425,11 @@ e_calendar_table_init (ECalendarTable *cal_table)
 
 	/* Percent field. */
 	cell = e_cell_percent_new (NULL, GTK_JUSTIFY_LEFT);
-	gtk_object_set (GTK_OBJECT (cell),
-			"strikeout_column", CAL_COMPONENT_FIELD_COMPLETE,
-			"bold_column", CAL_COMPONENT_FIELD_OVERDUE,
-			"color_column", CAL_COMPONENT_FIELD_COLOR,
-			NULL);
+	g_object_set (G_OBJECT (cell),
+		      "strikeout_column", CAL_COMPONENT_FIELD_COMPLETE,
+		      "bold_column", CAL_COMPONENT_FIELD_OVERDUE,
+		      "color_column", CAL_COMPONENT_FIELD_COLOR,
+		      NULL);
 
 	popup_cell = e_cell_combo_new ();
 	e_cell_popup_set_child (E_CELL_POPUP (popup_cell), cell);
@@ -454,12 +454,12 @@ e_calendar_table_init (ECalendarTable *cal_table)
 
 	/* Transparency field. */
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
-	gtk_object_set (GTK_OBJECT (cell),
-			"strikeout_column", CAL_COMPONENT_FIELD_COMPLETE,
-			"bold_column", CAL_COMPONENT_FIELD_OVERDUE,
-			"color_column", CAL_COMPONENT_FIELD_COLOR,
-			"editable", FALSE,
-			NULL);
+	g_object_set (G_OBJECT (cell),
+		      "strikeout_column", CAL_COMPONENT_FIELD_COMPLETE,
+		      "bold_column", CAL_COMPONENT_FIELD_OVERDUE,
+		      "color_column", CAL_COMPONENT_FIELD_COLOR,
+		      "editable", FALSE,
+		      NULL);
 
 	popup_cell = e_cell_combo_new ();
 	e_cell_popup_set_child (E_CELL_POPUP (popup_cell), cell);
@@ -475,12 +475,12 @@ e_calendar_table_init (ECalendarTable *cal_table)
 
 	/* Status field. */
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
-	gtk_object_set (GTK_OBJECT (cell),
-			"strikeout_column", CAL_COMPONENT_FIELD_COMPLETE,
-			"bold_column", CAL_COMPONENT_FIELD_OVERDUE,
-			"color_column", CAL_COMPONENT_FIELD_COLOR,
-			"editable", FALSE,
-			NULL);
+	g_object_set (G_OBJECT (cell),
+		      "strikeout_column", CAL_COMPONENT_FIELD_COMPLETE,
+		      "bold_column", CAL_COMPONENT_FIELD_OVERDUE,
+		      "color_column", CAL_COMPONENT_FIELD_COLOR,
+		      "editable", FALSE,
+		      NULL);
 
 	popup_cell = e_cell_combo_new ();
 	e_cell_popup_set_child (E_CELL_POPUP (popup_cell), cell);

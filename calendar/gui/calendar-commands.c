@@ -477,7 +477,7 @@ control_util_show_settings (GnomeCalendar *gcal)
 	GNOME_Evolution_ShellView shell_view;
 	CORBA_Environment ev;
 
-	control = gtk_object_get_data (GTK_OBJECT (gcal), "control");
+	control = g_object_get_data (G_OBJECT (gcal), "control");
 	if (control == NULL)
 		return;
 
@@ -601,7 +601,7 @@ gcal_calendar_focus_change_cb (GnomeCalendar *gcal, gboolean in, gpointer data)
 
 	control = BONOBO_CONTROL (data);
 
-	focus = gtk_object_get_data (GTK_OBJECT (control), "focus_data");
+	focus = g_object_get_data (G_OBJECT (control), "focus_data");
 	g_assert (focus != NULL);
 
 	if (in) {
@@ -627,7 +627,7 @@ gcal_taskpad_focus_change_cb (GnomeCalendar *gcal, gboolean in, gpointer data)
 
 	control = BONOBO_CONTROL (data);
 
-	focus = gtk_object_get_data (GTK_OBJECT (control), "focus_data");
+	focus = g_object_get_data (G_OBJECT (control), "focus_data");
 	g_assert (focus != NULL);
 
 	if (in) {
@@ -754,7 +754,7 @@ calendar_control_activate (BonoboControl *control,
 	focus->calendar_focused = FALSE;
 	focus->taskpad_focused = FALSE;
 
-	gtk_object_set_data (GTK_OBJECT (control), "focus_data", focus);
+	g_object_set_data (G_OBJECT (control), "focus_data", focus);
 }
 
 void
@@ -768,10 +768,10 @@ calendar_control_deactivate (BonoboControl *control, GnomeCalendar *gcal)
 
 	gnome_calendar_set_ui_component (gcal, uic);
 
-	focus = gtk_object_get_data (GTK_OBJECT (control), "focus_data");
+	focus = g_object_get_data (G_OBJECT (control), "focus_data");
 	g_assert (focus != NULL);
 
-	gtk_object_remove_data (GTK_OBJECT (control), "focus_data");
+	g_object_set_data (G_OBJECT (control), "focus_data", NULL);
 	g_free (focus);
 
 	gnome_calendar_discard_view_menus (gcal);

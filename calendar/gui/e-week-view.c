@@ -2789,9 +2789,7 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 			/* Get the width of the text of the event. This is a
 			   bit of a hack. It would be better if EText could
 			   tell us this. */
-			gtk_object_get (GTK_OBJECT (span->text_item),
-					"text", &text,
-					NULL);
+			g_object_get (G_OBJECT (span->text_item), "text", &text, NULL);
 			text_width = 0;
 			if (text) {
 				/* It should only have one line of text in it.
@@ -2943,9 +2941,7 @@ e_week_view_start_editing_event (EWeekView *week_view,
 	e_canvas_item_grab_focus (span->text_item, TRUE);
 
 	/* Try to move the cursor to the end of the text. */
-	gtk_object_get (GTK_OBJECT (span->text_item),
-			"event_processor", &event_processor,
-			NULL);
+	g_object_get (G_OBJECT (span->text_item), "event_processor", &event_processor, NULL);
 	if (event_processor) {
 		command.action = E_TEP_MOVE;
 		command.position = E_TEP_END_OF_BUFFER;
@@ -2992,9 +2988,7 @@ cancel_editing (EWeekView *week_view)
 	/* Reset the text to what was in the component */
 
 	cal_component_get_summary (event->comp, &summary);
-	gtk_object_set (GTK_OBJECT (span->text_item),
-			"text", summary.value ? summary.value : "",
-			NULL);
+	g_object_set (G_OBJECT (span->text_item), "text", summary.value ? summary.value : "", NULL);
 
 	/* Stop editing */
 	e_week_view_stop_editing_event (week_view);
@@ -3218,9 +3212,7 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 	if (!uid)
 		return;
 
-	gtk_object_get (GTK_OBJECT (span->text_item),
-			"text", &text,
-			NULL);
+	g_object_get (G_OBJECT (span->text_item), "text", &text, NULL);
 	g_assert (text != NULL);
 
 	if (string_is_empty (text) && !cal_comp_is_on_server (event->comp, week_view->client)) {

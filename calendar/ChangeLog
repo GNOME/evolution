@@ -1,25 +1,53 @@
 2002-11-08  Ettore Perazzoli  <ettore@ximian.com>
 
-	* calendar-commands.c: Use g_object_ref()/g_object_unref() instead
-	of gtk_object_ref/gtk_object_unref().
-	* calendar-config.c: Likewise.
-	* calendar-model.c: Likewise.
-	* comp-editor-factory.c: Likewise.
-	* comp-util.c: Likewise.
-	* e-calendar-table.c: Likewise.
-	* e-day-view.c: Likewise.
-	* e-itip-control.c: Likewise.
-	* e-meeting-model.c: Likewise.
-	* e-meeting-time-sel.c: Likewise.
-	* e-tasks.c: Likewise.
-	* e-timezone-entry.c: Likewise.
-	* e-week-view.c: Likewise.
-	* gnome-cal.c: Likewise.
-	* goto.c: Likewise.
-	* itip-utils.c: Likewise.
-	* print.c: Likewise.
-	* tasks-control.c: Likewise.
-	* tasks-migrate.c: Likewise.
+	* gui/calendar-commands.c (calendar_control_deactivate): Use
+	g_object_set_data(..., NULL) instead of gtk_object_remove_data().
+
+	* gui/calendar-commands.c: Use g_object_{set,get}_* functions
+	instead of gtk_object_{set,get}_*.
+	* gui/calendar-commands.c: Likewise.
+	* gui/calendar-config.c: Likewise.
+	* gui/control-factory.c: Likewise.
+	* gui/e-calendar-table.c: Likewise.
+	* gui/e-comp-editor-registry.c: Likewise.
+	* gui/e-day-view-main-item.c: Likewise.
+	* gui/e-day-view-time-item.c: Likewise.
+	* gui/e-day-view-top-item.c: Likewise.
+	* gui/e-day-view.c: Likewise.
+	* gui/e-meeting-attendee.c: Likewise.
+	* gui/e-meeting-model.c: Likewise.
+	* gui/e-meeting-time-sel-item.c: Likewise.
+	* gui/e-meeting-time-sel.c: Likewise.
+	* gui/e-week-view-event-item.c: Likewise.
+	* gui/e-week-view-layout.c: Likewise.
+	* gui/e-week-view-main-item.c: Likewise.
+	* gui/e-week-view-titles-item.c: Likewise.
+	* gui/e-week-view.c: Likewise.
+	* gui/gnome-cal.c: Likewise.
+	* gui/print.c: Likewise.
+
+2002-11-08  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/calendar-commands.c: Use g_object_ref()/g_object_unref()
+	instead of gtk_object_ref/gtk_object_unref().
+	* gui/calendar-config.c: Likewise.
+	* gui/calendar-model.c: Likewise.
+	* gui/comp-editor-factory.c: Likewise.
+	* gui/comp-util.c: Likewise.
+	* gui/e-calendar-table.c: Likewise.
+	* gui/e-day-view.c: Likewise.
+	* gui/e-itip-control.c: Likewise.
+	* gui/e-meeting-model.c: Likewise.
+	* gui/e-meeting-time-sel.c: Likewise.
+	* gui/e-tasks.c: Likewise.
+	* gui/e-timezone-entry.c: Likewise.
+	* gui/e-week-view.c: Likewise.
+	* gui/gnome-cal.c: Likewise.
+	* gui/goto.c: Likewise.
+	* gui/itip-utils.c: Likewise.
+	* gui/print.c: Likewise.
+	* gui/tasks-control.c: Likewise.
+	* gui/tasks-migrate.c: Likewise.
 
 	* gui/cal-search-bar.c: Use g_object_new() instead of
 	gtk_type_new().

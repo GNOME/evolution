@@ -349,7 +349,7 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingModel *em
 	filename = g_strdup_printf ("%s/config/et-header-meeting-time-sel", evolution_dir);
 	mts->model = emm;
 	if (mts->model)
-		gtk_object_ref (GTK_OBJECT (mts->model));
+		g_object_ref (mts->model);
 
 	g_signal_connect (mts->model, "model_rows_inserted", G_CALLBACK (rows_inserted_cb), mts);
 	g_signal_connect (mts->model, "model_cell_changed", G_CALLBACK (cell_changed_cb), mts);
@@ -1399,7 +1399,7 @@ e_meeting_time_selector_on_invite_others_button_draw (GtkWidget *button,
 	gboolean click_to_add = TRUE;
 	
 	real_table = e_table_scrolled_get_table (E_TABLE_SCROLLED (mts->etable));
-	gtk_object_get (GTK_OBJECT (real_table), "use_click_to_add", &click_to_add, NULL);
+	g_object_get (G_OBJECT (real_table), "use_click_to_add", &click_to_add, NULL);
 
 	gtk_widget_set_sensitive (button, click_to_add);
 }

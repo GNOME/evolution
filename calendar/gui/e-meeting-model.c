@@ -880,7 +880,7 @@ build_etable (ETableModel *model, const gchar *spec_file, const gchar *state_fil
 
 	etable = e_table_scrolled_new_from_spec_file (model, extras, spec_file, NULL);
 	real_table = e_table_scrolled_get_table (E_TABLE_SCROLLED (etable));
-	gtk_object_set (GTK_OBJECT (real_table), "uniform_row_height", TRUE, NULL);
+	g_object_set (G_OBJECT (real_table), "uniform_row_height", TRUE, NULL);
 	e_table_load_state (real_table, state_file);
 
 #if 0
@@ -1630,7 +1630,7 @@ e_meeting_model_etable_click_to_add (EMeetingModel *im, gboolean click_to_add)
 		ets = l->data;
 		real_table = e_table_scrolled_get_table (ets);
 
-		gtk_object_set (GTK_OBJECT (real_table), "use_click_to_add", click_to_add, NULL);
+		g_object_set (G_OBJECT (real_table), "use_click_to_add", click_to_add, NULL);
 	}
 }
 

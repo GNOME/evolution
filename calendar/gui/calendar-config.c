@@ -594,14 +594,14 @@ calendar_config_configure_e_cell_date_edit	(ECellDateEdit	*ecde)
 		end_hour++;
 
 	e_cell_date_edit_freeze (ecde);
-	gtk_object_set (GTK_OBJECT (ecde),
-			"use_24_hour_format", use_24_hour,
+	g_object_set (G_OBJECT (ecde),
+		      "use_24_hour_format", use_24_hour,
 #if 0
-			/* We use the default 0 - 24 now. */
-			"lower_hour", start_hour,
-			"upper_hour", end_hour,
+		      /* We use the default 0 - 24 now. */
+		      "lower_hour", start_hour,
+		      "upper_hour", end_hour,
 #endif
-			NULL);
+		      NULL);
 	e_cell_date_edit_thaw (ecde);
 
 	e_cell_date_edit_text_set_timezone (ecd, zone);

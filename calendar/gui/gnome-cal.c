@@ -1272,9 +1272,9 @@ set_view (GnomeCalendar	*gcal, GnomeCalendarViewType view_type,
 	/* For the week & month views we want the selection in the date
 	   navigator to be rounded to the nearest week when the arrow buttons
 	   are pressed to move to the previous/next month. */
-	gtk_object_set (GTK_OBJECT (priv->date_navigator->calitem),
-			"round_selection_when_moving", round_selection,
-			NULL);
+	g_object_set (G_OBJECT (priv->date_navigator->calitem),
+		      "round_selection_when_moving", round_selection,
+		      NULL);
 }
 
 /**
@@ -1472,10 +1472,10 @@ gnome_calendar_set_pane_positions	(GnomeCalendar	*gcal)
 	e_calendar_get_border_size (priv->date_navigator,
 				    &top_border, &bottom_border,
 				    &left_border, &right_border);
-	gtk_object_get (GTK_OBJECT (priv->date_navigator->calitem),
-			"row_height", &row_height,
-			"column_width", &col_width,
-			NULL);
+	g_object_get (G_OBJECT (priv->date_navigator->calitem),
+		      "row_height", &row_height,
+		      "column_width", &col_width,
+		      NULL);
 
 	if (priv->current_view_type == GNOME_CAL_MONTH_VIEW && !priv->range_selected) {
 		right_pane_width = priv->hpane_pos_month_view;
@@ -2643,10 +2643,10 @@ gnome_calendar_update_paned_quanta (GnomeCalendar	*gcal)
 	e_calendar_get_border_size (priv->date_navigator,
 				    &top_border, &bottom_border,
 				    &left_border, &right_border);
-	gtk_object_get (GTK_OBJECT (priv->date_navigator->calitem),
-			"row_height", &row_height,
-			"column_width", &col_width,
-			NULL);
+	g_object_get (G_OBJECT (priv->date_navigator->calitem),
+		      "row_height", &row_height,
+		      "column_width", &col_width,
+		      NULL);
 
 	/* The EPaned quantum feature works better if we add on the calendar
 	   borders to the quantum size. Otherwise if you shrink the date
@@ -2661,12 +2661,8 @@ gnome_calendar_update_paned_quanta (GnomeCalendar	*gcal)
 	   resize the widgets as the bar is dragged. Otherwise the user has
 	   to mess around to get the number of months that they want. */
 #if 1
-	gtk_object_set (GTK_OBJECT (priv->hpane),
-			"quantum", (guint) col_width,
-			NULL);
-	gtk_object_set (GTK_OBJECT (priv->vpane),
-			"quantum", (guint) row_height,
-			NULL);
+	g_object_set (G_OBJECT (priv->hpane), "quantum", (guint) col_width, NULL);
+	g_object_set (G_OBJECT (priv->vpane), "quantum", (guint) row_height, NULL);
 #endif
 
 	gnome_calendar_set_pane_positions (gcal);
@@ -2690,10 +2686,10 @@ gnome_calendar_on_date_navigator_size_allocate (GtkWidget     *widget,
 	e_calendar_get_border_size (priv->date_navigator,
 				    &top_border, &bottom_border,
 				    &left_border, &right_border);
-	gtk_object_get (GTK_OBJECT (priv->date_navigator->calitem),
-			"row_height", &row_height,
-			"column_width", &col_width,
-			NULL);
+	g_object_get (G_OBJECT (priv->date_navigator->calitem),
+		      "row_height", &row_height,
+		      "column_width", &col_width,
+		      NULL);
 
 	/* We subtract one from each dimension since we added 1 in
 	   set_view(). */
