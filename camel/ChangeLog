@@ -1,5 +1,8 @@
 2001-08-10  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/imap/camel-imap-folder.c (imap_rescan): Don't
+	g_strdup() the uid into the trigger_event call.
+
 	* providers/pop3/camel-pop3-folder.c (pop3_get_message_stream):
 	Set the total bytes expected to 0 if the response is empty too.
 	(pop3_refresh_info): Return of there was an error generating pop3
