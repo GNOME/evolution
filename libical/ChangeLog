@@ -1,3 +1,8 @@
+2001-06-26  Damon Chaplin  <damon@ximian.com>
+
+	* zoneinfo/*: stripped all blank lines from iCalendar files.
+	Apparently they aren't exactly legal. Oops.
+
 2001-06-15  JP Rosevear  <jpr@ximian.com>
 
 	* zoneinfo/Makefile.am: Extra dist the zones.tab information
