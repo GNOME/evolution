@@ -640,7 +640,7 @@ importer_file_page_new (ImportData *data)
 	gtk_container_set_border_width (GTK_CONTAINER (table), 8);
 	gtk_box_pack_start (GTK_BOX (page->vbox), table, TRUE, TRUE, 0);
 
-	label = gtk_label_new_with_mnemonic (_("_Filename:"));
+	label = gtk_label_new (_("Filename:"));
 	gtk_table_attach (GTK_TABLE (table), label, 0, 1, row, row + 1, 
 			  GTK_FILL, 0, 0, 0);
 	gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
@@ -651,11 +651,10 @@ importer_file_page_new (ImportData *data)
 
 	gtk_table_attach (GTK_TABLE (table), page->filename, 1, 2, 
 			  row, row + 1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
-	gtk_label_set_mnemonic_widget(GTK_LABEL(label), page->filename);
 
 	row++;
 
-	label = gtk_label_new_with_mnemonic (_("File _type:"));
+	label = gtk_label_new (_("File type:"));
 	gtk_table_attach (GTK_TABLE (table), label, 0, 1, row, row + 1,
 			  GTK_FILL, 0, 0, 0);
 	gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
@@ -665,7 +664,6 @@ importer_file_page_new (ImportData *data)
 	gtk_option_menu_set_menu (GTK_OPTION_MENU (page->filetype), page->menu);
 	gtk_table_attach (GTK_TABLE (table), page->filetype, 1, 2, 
 			  row, row + 1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
-	gtk_label_set_mnemonic_widget(GTK_LABEL(label), page->filetype);
 
 	gtk_widget_show_all (table);
 
@@ -680,11 +678,12 @@ importer_type_page_new (ImportData *data)
 	page = g_new0 (ImportDialogTypePage, 1);
 
 	page->vbox = gtk_vbox_new (FALSE, 5);
-	page->intelligent = gtk_radio_button_new_with_mnemonic (NULL, 
-							     _("Import data and settings from _older programs"));
+	page->intelligent = gtk_radio_button_new_with_label (NULL, 
+							     _("Import data and settings from older programs"));
 	gtk_box_pack_start (GTK_BOX (page->vbox), page->intelligent, FALSE, FALSE, 0);
-	page->file = gtk_radio_button_new_with_mnemonic_from_widget (GTK_RADIO_BUTTON (page->intelligent),
-								  _("Import a _single file"));
+
+	page->file = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON (page->intelligent),
+								  _("Import a single file"));
 	gtk_box_pack_start (GTK_BOX (page->vbox), page->file, FALSE, FALSE, 0);
 	gtk_widget_show_all (page->vbox);
 	return page;
@@ -740,7 +739,8 @@ prepare_intelligent_page (GnomeDruidPage *page,
 	GtkWidget *dialog;
 	ImportDialogImporterPage *import;
 	GList *l, *importers;
-	GtkWidget *table, *no_data;
+	GtkWidget *table;
+	GtkLabel *no_data;
 	int running = 0;
 
 	if (data->importerpage->prepared == TRUE) {
@@ -1189,8 +1189,7 @@ show_import_wizard (BonoboUIComponent *component,
 	g_signal_connect (data->druid, "cancel",
 			  G_CALLBACK (import_druid_cancel), data);
 
-	gtk_button_set_use_underline ((GtkButton *)((GnomeDruid *)data->druid)->finish, TRUE);
-	gtk_button_set_label((GtkButton *)((GnomeDruid *)data->druid)->finish, _("_Import"));
+	gtk_button_set_label((GtkButton *)((GnomeDruid *)data->druid)->finish, _("Import"));
 
 	data->start = GNOME_DRUID_PAGE_EDGE (glade_xml_get_widget (data->wizard, "page0"));
 

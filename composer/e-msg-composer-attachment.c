@@ -186,22 +186,23 @@ e_msg_composer_attachment_new (const char *file_name,
 		return NULL;
 	}
 	
+	wrapper = camel_data_wrapper_new ();
+	camel_data_wrapper_construct_from_stream (wrapper, stream);
+	
 	mime_type = e_msg_composer_guess_mime_type (file_name);
 	if (mime_type) {
 		if (!strcasecmp (mime_type, "message/rfc822")) {
+			camel_object_unref (wrapper);
 			wrapper = (CamelDataWrapper *) camel_mime_message_new ();
-		} else {
-			wrapper = camel_data_wrapper_new ();
+			
+			camel_stream_reset (stream);
+			camel_data_wrapper_construct_from_stream (wrapper, stream);
 		}
 		
-		camel_data_wrapper_construct_from_stream (wrapper, stream);
 		camel_data_wrapper_set_mime_type (wrapper, mime_type);
 		g_free (mime_type);
-	} else {
-		wrapper = camel_data_wrapper_new ();
-		camel_data_wrapper_construct_from_stream (wrapper, stream);
+	} else
 		camel_data_wrapper_set_mime_type (wrapper, "application/octet-stream");
-	}
 	
 	camel_object_unref (stream);
 	
@@ -210,7 +211,7 @@ e_msg_composer_attachment_new (const char *file_name,
 	camel_object_unref (wrapper);
 	
 	camel_mime_part_set_disposition (part, disposition);
-	filename = g_path_get_basename (file_name);
+	filename = g_path_get_basename(file_name);
 	camel_mime_part_set_filename (part, filename);
 	g_free (filename);
 	

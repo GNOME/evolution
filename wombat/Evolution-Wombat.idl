@@ -9,7 +9,12 @@
 module GNOME {
 module Evolution {
 
-	interface Config {
+	interface WombatClient : Bonobo::Unknown {
+		string getPassword (in string prompt, in string key);
+		void   forgetPassword (in string key);
+	};
+
+	interface Config : Bonobo::Unknown {
 	};
 
 	interface WombatInterfaceCheck : Bonobo::Unknown {

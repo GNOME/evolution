@@ -63,7 +63,7 @@ struct _EItipControlPrivate {
 	CalClient *event_client;
 	GPtrArray *task_clients;
 	CalClient *task_client;
-
+	
 	char *vcalendar;
 	CalComponent *comp;
 	icalcomponent *main_comp;
@@ -273,13 +273,13 @@ find_server (GPtrArray *servers, CalComponent *comp)
 	cal_component_get_uid (comp, &uid);	
 	for (i = 0; i < servers->len; i++) {
 		CalClient *client;
-		icalcomponent *icalcomp;
+		CalComponent *found_comp;
 		CalClientGetStatus status;
 		
 		client = g_ptr_array_index (servers, i);
-		status = cal_client_get_object (client, uid, &icalcomp);
+		status = cal_client_get_object (client, uid, &found_comp);
 		if (status == CAL_CLIENT_GET_SUCCESS) {
-			icalcomponent_free (icalcomp);
+			g_object_unref (found_comp);
 			g_object_ref (client);
 
 			return client;
@@ -401,9 +401,9 @@ destroy (GtkObject *obj)
 {
 	EItipControl *itip = E_ITIP_CONTROL (obj);
 	EItipControlPrivate *priv;
-
+	
 	priv = itip->priv;
-
+	  
 	priv->destroyed = TRUE;
 
 	(* GTK_OBJECT_CLASS (parent_class)->destroy) (obj);
@@ -572,7 +572,7 @@ write_label_piece (EItipControl *itip, CalComponentDateTime *dt,
 {
 	EItipControlPrivate *priv;
 	struct tm tmp_tm;
-	char time_buf[64];
+	char time_buf[64], *time_utf8;
 	icaltimezone *zone = NULL;
 	char *display_name;
 
@@ -1218,7 +1218,6 @@ get_real_item (EItipControl *itip)
 {
 	EItipControlPrivate *priv;
 	CalComponent *comp;
-	icalcomponent *icalcomp;
 	CalComponentVType type;
 	CalClientGetStatus status = CAL_CLIENT_GET_NOT_FOUND;
 	const char *uid;
@@ -1231,11 +1230,11 @@ get_real_item (EItipControl *itip)
 	switch (type) {
 	case CAL_COMPONENT_EVENT:
 		if (priv->event_client != NULL)
-			status = cal_client_get_object (priv->event_client, uid, &icalcomp);
+			status = cal_client_get_object (priv->event_client, uid, &comp);
 		break;
 	case CAL_COMPONENT_TODO:
 		if (priv->task_client != NULL)
-			status = cal_client_get_object (priv->task_client, uid, &icalcomp);
+			status = cal_client_get_object (priv->task_client, uid, &comp);
 		break;
 	default:
 		status = CAL_CLIENT_GET_NOT_FOUND;
@@ -1243,13 +1242,6 @@ get_real_item (EItipControl *itip)
 
 	if (status != CAL_CLIENT_GET_SUCCESS)
 		return NULL;
-
-	comp = cal_component_new ();
-	if (!cal_component_set_icalcomponent (comp, icalcomp)) {
-		g_object_unref (comp);
-		icalcomponent_free (icalcomp);
-		return NULL;
-	}
 
 	return comp;
 }
@@ -1914,7 +1906,6 @@ update_attendee_status (EItipControl *itip)
 	CalClient *client;
 	CalClientGetStatus status;
 	CalComponent *comp = NULL;
-	icalcomponent *icalcomp = NULL;
 	CalComponentVType type;
 	const char *uid;
 	GtkWidget *dialog;
@@ -1936,47 +1927,41 @@ update_attendee_status (EItipControl *itip)
 	
 	/* Obtain our version */
 	cal_component_get_uid (priv->comp, &uid);
-	status = cal_client_get_object (client, uid, &icalcomp);
+	status = cal_client_get_object (client, uid, &comp);
 
 	if (status == CAL_CLIENT_GET_SUCCESS) {
 		GSList *attendees;
 
-		comp = cal_component_new ();
-		if (!cal_component_set_icalcomponent (comp, icalcomp)) {
-			icalcomponent_free (icalcomp);
+		cal_component_get_attendee_list (priv->comp, &attendees);
+		if (attendees != NULL) {
+			CalComponentAttendee *a = attendees->data;
+			icalproperty *prop;
 
-			dialog = gnome_warning_dialog (_("Object is invalid and cannot be updated\n"));
-		} else {
-			cal_component_get_attendee_list (priv->comp, &attendees);
-			if (attendees != NULL) {
-				CalComponentAttendee *a = attendees->data;
-				icalproperty *prop;
-
-				prop = find_attendee (icalcomp, itip_strip_mailto (a->value));
-
-				if (prop == NULL) {
-					dialog = gnome_question_dialog_modal (_("This response is not from a current "
-										"attendee.  Add as an attendee?"),
-									      NULL, NULL);
-					if (gnome_dialog_run_and_close (GNOME_DIALOG (dialog)) == GNOME_YES) {
-						change_status (icalcomp,
-							       itip_strip_mailto (a->value),
-							       a->status);
-						cal_component_rescan (comp);
-					} else {
-						goto cleanup;
-					}
-				} else if (a->status == ICAL_PARTSTAT_NONE || a->status == ICAL_PARTSTAT_X) {
-					dialog = gnome_warning_dialog (_("Attendee status could "
-									 "not be updated because "
-									 "of an invalid status!\n"));
-					goto cleanup;
-				} else {
-					change_status (icalcomp,
+			prop = find_attendee (cal_component_get_icalcomponent (comp),
+					      itip_strip_mailto (a->value));
+			
+			if (prop == NULL) {
+				dialog = gnome_question_dialog_modal (_("This response is not from a current "
+									"attendee.  Add as an attendee?"),
+								      NULL, NULL);
+				if (gnome_dialog_run_and_close (GNOME_DIALOG (dialog)) == GNOME_YES) {
+					change_status (cal_component_get_icalcomponent (comp),
 						       itip_strip_mailto (a->value),
 						       a->status);
-					cal_component_rescan (comp);			
+					cal_component_rescan (comp);
+				} else {
+					goto cleanup;
 				}
+			} else if (a->status == ICAL_PARTSTAT_NONE || a->status == ICAL_PARTSTAT_X) {
+				dialog = gnome_warning_dialog (_("Attendee status could "
+								 "not be updated because "
+								 "of an invalid status!\n"));
+				goto cleanup;
+			} else {
+				change_status (cal_component_get_icalcomponent (comp),
+					       itip_strip_mailto (a->value),
+					       a->status);
+				cal_component_rescan (comp);				
 			}
 		}
 
@@ -2194,7 +2179,7 @@ default_server_started_cb (CalClient *client, CalClientOpenStatus status, gpoint
 	EItipControlPrivate *priv;
 	GtkWidget *button;
 	CalComponentVType vtype;
-
+	
 	priv = context->itip->priv;	
 
 	if (status != CAL_CLIENT_OPEN_SUCCESS ||

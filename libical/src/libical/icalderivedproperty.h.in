@@ -3,7 +3,7 @@
   FILE: icalderivedproperties.{c,h}
   CREATOR: eric 09 May 1999
   
-  $Id: icalderivedproperty.h.in,v 1.2 2003/09/11 22:04:19 hansp Exp $
+  $Id: icalderivedproperty.h.in,v 1.1 2001/04/17 17:23:17 jpr Exp $
     
  (C) COPYRIGHT 2000, Eric Busboom, http://www.softwarestudio.org
  ======================================================================*/
@@ -17,6 +17,7 @@
 #include "icalderivedvalue.h"  
 #include "icalrecur.h"
 
-typedef struct icalproperty_impl icalproperty;
+typedef void icalproperty;
 
-<insert_code_here>
+
+/* Everything below this line is machine generated. Do not edit. */

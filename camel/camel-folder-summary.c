@@ -23,15 +23,15 @@
 #include <config.h>
 #endif
 
-#include <stdlib.h>
-#include <string.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <pthread.h>
-#include <unistd.h>
 #include <fcntl.h>
-#include <errno.h>
+
+#include <unistd.h>
 #include <ctype.h>
+#include <string.h>
+#include <errno.h>
+#include <stdlib.h>
 
 #include <gal/util/e-iconv.h>
 
@@ -50,20 +50,24 @@
 #include <camel/camel-stream-null.h>
 #include <camel/camel-stream-filter.h>
 
-#include <camel/camel-string-utils.h>
-
+#include "string-utils.h"
 #include "e-util/md5-utils.h"
 #include "e-util/e-memory.h"
 
 #include "camel-private.h"
 
+#ifdef ENABLE_THREADS
+#include <pthread.h>
 
 static pthread_mutex_t info_lock = PTHREAD_MUTEX_INITIALIZER;
 
 /* this lock is ONLY for the standalone messageinfo stuff */
 #define GLOBAL_INFO_LOCK(i) pthread_mutex_lock(&info_lock)
 #define GLOBAL_INFO_UNLOCK(i) pthread_mutex_unlock(&info_lock)
-
+#else
+#define GLOBAL_INFO_LOCK(i) 
+#define GLOBAL_INFO_UNLOCK(i) 
+#endif
 
 /* this should probably be conditional on it existing */
 #define USE_BSEARCH
@@ -147,7 +151,7 @@ camel_folder_summary_init (CamelFolderSummary *s)
 
 	p = _PRIVATE(s) = g_malloc0(sizeof(*p));
 
-	p->filter_charset = g_hash_table_new (camel_strcase_hash, camel_strcase_equal);
+	p->filter_charset = g_hash_table_new(g_strcase_hash, g_strcase_equal);
 
 	s->message_info_size = sizeof(CamelMessageInfo);
 	s->content_info_size = sizeof(CamelMessageContentInfo);
@@ -166,12 +170,14 @@ camel_folder_summary_init (CamelFolderSummary *s)
 
 	s->messages = g_ptr_array_new();
 	s->messages_uid = g_hash_table_new(g_str_hash, g_str_equal);
-	
+
+#ifdef ENABLE_THREADS
 	p->summary_lock = g_mutex_new();
 	p->io_lock = g_mutex_new();
 	p->filter_lock = g_mutex_new();
 	p->alloc_lock = g_mutex_new();
 	p->ref_lock = g_mutex_new();
+#endif
 }
 
 static void free_o_name(void *key, void *value, void *data)
@@ -219,13 +225,15 @@ camel_folder_summary_finalize (CamelObject *obj)
 		camel_object_unref((CamelObject *)p->filter_stream);
 	if (p->index)
 		camel_object_unref((CamelObject *)p->index);
-	
+
+#ifdef ENABLE_THREADS
 	g_mutex_free(p->summary_lock);
 	g_mutex_free(p->io_lock);
 	g_mutex_free(p->filter_lock);
 	g_mutex_free(p->alloc_lock);
 	g_mutex_free(p->ref_lock);
-	
+#endif
+
 	g_free(p);
 }
 
@@ -2193,7 +2201,7 @@ summary_build_content_info_message(CamelFolderSummary *s, CamelMessageInfo *msgi
 		}
 		idx_id = camel_stream_filter_add(p->filter_stream, (CamelMimeFilter *)p->filter_index);
 
-		camel_data_wrapper_decode_to_stream(containee, (CamelStream *)p->filter_stream);
+		camel_data_wrapper_write_to_stream(containee, (CamelStream *)p->filter_stream);
 		camel_stream_flush((CamelStream *)p->filter_stream);
 
 		camel_stream_filter_remove(p->filter_stream, idx_id);

@@ -4,23 +4,6 @@
 	non-focusable again.  The right fix for A11Y is to add
 	accelerators.
 
-2003-09-11  Federico Mena Quintero  <federico@ximian.com>
-
-	* e-msg-composer.h (EMsgComposer): Added an entry_uic field for a
-	BonoboUIComponent for the non-control entries (e.g. the Subject
-	line).
-
-	* e-msg-composer.c (create_composer): Set autoactivate to true on
-	the HTML control's BonoboControlFrame.
-	(setup_ui): Create the composer->entry_uic.
-	(destroy): Free the composer->entry_uic.
-	(entry_verbs): New array of verbs for the non-control entries.
-	Moved the Edit* verbs to here, as they should not be part of the
-	main set.
-	(composer_entry_focus_in_event_cb): Load
-	evolution-composer-entries.xml here for the non-control entries' UI.
-	(composer_entry_focus_out_event_cb): Remove the menu items.
-
 2003-08-22  Antonio Xu  <antonio.xu@sun.com>
 
 	* e-msg-composer-attachment.c (): Connect response signal to
@@ -43,29 +26,7 @@
 2003-08-13  Lorenzo Gil Sanchez  <lgs@sicem.biz>
 
 	* e-msg-composer-hdrs.c (account_removed_cb): fixed an insulting
-	error message. Fixes bug #47413.
-
-2003-08-13  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* e-msg-composer-attachment-bar.c (update): This needs to use
-	camel_data_wrapper_decode_to_stream() rather than
-	write_to_stream(). Also simplify a bit - no sense looping to load
-	the pixbuf data into the gdk-pixbuf loader 4K at a time when we
-	have the whole thing in a memory buffer already. Once done, unref
-	the stream instead of closing it so we don't leak.
-	(attach_to_multipart): Use decode_to_stream().
-
-	* e-msg-composer-attachment.c (e_msg_composer_attachment_new):
-	Avoid constructing thwe data-wrapper from the stream twice for
-	message/rfc822 parts.
-
-2003-07-16  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* e-msg-composer-attachment-bar.c (attach_to_multipart): don't set
-	the rawtext bit anymore.
-
-	* e-msg-composer.c (build_message): Convert the plain part's
-	content stream from UTF-8 to whatever charset we want.
+	error message.
 
 2003-07-31  Antonio Xu  <antonio.xu@sun.com>
 
@@ -73,45 +34,29 @@
 	mozilla browser link to make composer support to handle mozilla
 	DnD data.  [#47131]
 
-2003-07-28  Antonio Xu <antonio.xu@sun.com>
+2003-07-29  Dan Winship  <danw@ximian.com>
 
-	* e-msg-composer-attachment-bar.c  (update): add
-	gdk_pixbuf_loader_close to close pix buffer loading.  [#45908]
-
-2003-07-25  Larry Ewing  <lewing@ximian.com>
-
-	* e-msg-composer.c (GNOME_GTKHTML_EDITOR_CONTROL_ID): require the
-	new composer control version.
-
-2003-07-17  Michel Daenzer  <michel@daenzer.net>
-
-	* e-msg-composer.c (autosave_manager_query_load_orphans): Set
-	default answer of dialog to 'yes' to try and prevent autosaved
-	messages from getting lost accidentally.
-
-2003-07-23  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* e-msg-composer-attachment-bar.c (attach_to_multipart): Revert my
-	previous changes here too.
-
-	* e-msg-composer.c (build_message): Revert my previous changes.
-
-2003-07-23  Dan Winship  <danw@ximian.com>
+	* e-msg-composer-attachment-bar.c (pixbuf_for_mime_type): Gone.
+	(update): Use e_icon_for_mime_type instead.
 
 	* bad-icon.xpm: Remove this. It was only used by e-icon-list,
 	which is no longer there.
 
 	* composer-marshal.list: Likewise
 
-	* Makefile.am: Update
+	* Makefile.am: Remove bad-icon.xpm and composer-marshal refs.
+	(INCLUDES): remove EVOLUTION_IMAGESDIR define
 
-2003-07-21  Jeffrey Stedfast  <fejj@ximian.com>
+2003-07-28  Antonio Xu <antonio.xu@sun.com>
 
-	* e-msg-composer.c (build_message): Init charset to NULL.
+	* e-msg-composer-attachment-bar.c (update): add
+	gdk_pixbuf_loader_close to close pix buffer loading.  [#45908]
 
-2003-07-21  Dan Winship  <danw@ximian.com>
+2003-07-17  Michel DÃ¤nzer  <michel@daenzer.net>
 
-	* e-msg-composer.c (build_message): Make this work again.
+	* e-msg-composer.c (autosave_manager_query_load_orphans): Set
+	default answer of dialog to 'yes' to try and prevent autosaved
+	messages from getting lost accidentally.
 
 2003-07-17  Maxx Cao  <maxx.cao@sun.com>
 
@@ -120,18 +65,10 @@
 	* e-msg-composer-hdrs.c (header_new_recipient): To/cc/bcc buttons
 	made focusable.
 
-2003-07-16  Jeffrey Stedfast  <fejj@ximian.com>
+2003-07-17  Jeffrey Stedfast  <fejj@ximian.com>
 
-	* e-msg-composer-attachment-bar.c (attach_to_multipart): don't set
-	the rawtext bit anymore.
-
-	* e-msg-composer.c (build_message): Convert the plain part's
-	content stream from UTF-8 to whatever charset we want.
-
-2003-07-16  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* e-msg-composer-attachment-bar.c (popup_menu_event): Fix warnings
-	and other breakage introduced by Maxx.
+	* e-msg-composer-attachment-bar.c (popup_menu_event): Fix some
+	compiler warnings introduced by the previous commit.
 
 2002-07-14  Maxx Cao  <maxx.cao@sun.com>
 
@@ -143,18 +80,6 @@
 	(popup_menu_placement_callback): function added to place the popup 
 	menu to the center of attachment icon, in case it is activated by 
 	keyboard.
-	
-2003-07-07  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* e-msg-composer.c (e_msg_composer_new_with_message): Updated to
-	use camel_strcase_hash/equal.
-
-2003-07-01  Dan Winship  <danw@ximian.com>
-
-	* e-msg-composer-attachment-bar.c (pixbuf_for_mime_type): Gone.
-	(update): Use e_icon_for_mime_type instead.
-
-	* Makefile.am (INCLUDES): remove EVOLUTION_IMAGESDIR define
 
 2003-06-25  Antonio Xu  <antonio.xu@sun.com>
 

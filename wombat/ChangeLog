@@ -1,8 +1,8 @@
-2003-06-26  Rodrigo Moya <rodrigo@ximian.com>
+2003-09-09  egallego@telefonica.net
 
-	* Evolution-Wombat.idl: removed WombatClient interface.
+	Fixes #46130
 
-	* Makefile.am: don't link libwombat in.
+	* Evolution-Wombat.idl: base interfaces on Bonobo::Unknown.
 
 2003-06-16  Frederic Crozat  <fcrozat@mandrakesoft.com>
 

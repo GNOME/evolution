@@ -164,6 +164,8 @@ backend_cal_opened_offline (CalClient *client, CalClientOpenStatus status, gpoin
 static void
 backend_cal_opened_online (CalClient *client, CalClientOpenStatus status, gpointer data)
 {
+	CalendarOfflineHandler *offline_handler = data;
+
 	if (status != CAL_CLIENT_OPEN_SUCCESS) {
 		g_object_unref (G_OBJECT (client));
 		return;

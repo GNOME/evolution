@@ -1,13 +1,44 @@
-2003-08-22  Not Zed  <NotZed@Ximian.com>
+2003-09-11  Jeffrey Stedfast  <fejj@ximian.com>
 
-	* mail-format.c (write_date): translate the local time format.
+	* mail-format.c (handle_text_plain): Don't set inend until after
+	we've appended the '\n', this fixes bug #48345. Instead of passing
+	inend to handle_uuencode(), scan for a "\nend\n" and use that as
+	the max end boundary - fixes bug #48184. Also don't bother
+	checking lineptr against "begin ..." if inptr == inend, since it
+	couldn't possibly be the start of a uuencoded blob.
 
-2003-08-20  David Woodhouse  <dwmw2@infradead.org>
+2003-09-10  Jeffrey Stedfast  <fejj@ximian.com>
 
-	* mail-format.c (write_date): Use e_utf8_strftime() to generate
-	localised time; avoid gratuitous extra translation and array of
-	day names, and the autoconf magic which made Not Zed dislike the
-	inclusion of the timezone name.
+	* mail-account-gui.c (mail_account_gui_save): Allow the user to
+	select any fodler for his/her Drafts and Sent folders. Fixes bug
+	#45412.
+
+2003-09-08  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-display.c (invisible_selection_clear_event_callback): Don't
+	clear the clipboard. Fixes bug #48203.
+
+2003-09-09  Not Zed  <NotZed@Ximian.com>
+
+	* mail-send-recv.c (build_dialogue): use an eclippedlabel for
+	status.  Fixed all uses.
+
+2003-09-09  Not Zed  <NotZed@Ximian.com>
+
+	* folder-browser.c (folder_browser_set_message_preview): clear the
+	'loaded uid' when we hide, so when we re-show it reloads.
+
+2003-09-02  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-format.c (handle_text_plain): Scan for uuencoded parts and
+	show them as separate attachments if we encounter any. Works
+	around Broken Mailers (tm). Also fixes bug #43808.
+
+2003-08-28  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-display.c (on_link_clicked): Don't pass cid: nor
+	thismessage: urls off to gnome_url_show(). See discussion of bug
+	#47541.
 
 2003-08-14  Jeffrey Stedfast  <fejj@ximian.com>
 
@@ -18,97 +49,19 @@
 	append to the account Sent folder, try again with the local Sent
 	folder. Fixes bug #46512.
 
-2003-08-18  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* mail-session.c (main_get_filter_driver): Removed the
-	new-mail-notification mess.
-
-	* mail-folder-cache.c (notify_idle_cb): New idle callback to alert
-	the user about new mail.
-	(notify_type_changed): New function to intercept user changes to
-	his/her notification settings changes.
-	(real_flush_updates): Initialise new mail notification if not yet
-	initialised and setup an idle callback if none is already set.
-	(update_1folder): Now takes an additional argument `new' which
-	states whether or not the fodler got any new mail so that we may
-	handle notify the user (if needed).
-	(folder_changed): Pass in the number of new messages received.
-
-2003-08-19  Not Zed  <NotZed@Ximian.com>
-
-	* mail-callbacks.c (mail_generate_reply): Added a comment for
-	translators.
-
-2003-08-19  David Woodhouse  <dwmw2@infradead.org>
-
-	* mail-callbacks.c (mail_generate_reply): Add a timezone offset to
-	the attribution string.
-
-2003-08-19  Not Zed  <NotZed@Ximian.com>
-
-	* mail-format.c (write_date): Added translation for day and
-	localtime strings.  Also removed the tz_zone stuff, and just use
-	'localtime' always.
-
-2003-08-15  David Woodhouse  <dwmw2@infradead.org>
-
-	* mail-format.c (write_date): Show date in localtime too.
-
 2003-08-19  Harry Lu  <harry.lu@sun.com>
 
 	** For #45348
 
-	* mail-display.c (mail_display_render): Change "%P" to "%p" so 
+	* mail-display.c (mail_display_render): Change "%P" to "%p" so
 	that strftime() can work under solaris.
 
 2003-08-13  Suresh Chandrasekharan <suresh.chandrasekharan@sun.com>
-	
-	* e-searching-tokenizer.c (searcher_next_token): Fix for 45818 (
-	i18n mail messages search only produces '[?]'). Now multibyte
-	character selection works correctly. But due to associated gtkhtml
-	bug, the find button functionallity for multibyte characters is
-	broken.
 
-2003-08-12  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* mail-tools.h: Removed unused function prototype.
-
-2003-08-11  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* mail-session.c (remove_timeout): Removed.
-	(register_timeout): Removed.
-
-2003-08-05  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* mail-format.c (handle_multipart_encrypted): Updated for
-	CamelMimePart::content_type changes.
-
-	* mail-ops.c (save_part_save): Use
-	camel_data_wrapper_decode_to_stream() here.
-
-	* mail-display.c (drag_data_get_cb): Updated for
-	CamelMimePart::content_type changes.
-	(do_attachment_header): Same.
-
-2003-07-31  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* mail-format.c (mail_format_raw_message): Updated to pass FALSE
-	as the 'decode' param to
-	mail_format_data_wrapper_write_to_stream().
-	(mail_format_data_wrapper_write_to_stream): Now takes a boolean
-	arg telling whether to decode or not. Also reworked the charset
-	logic now that camel doesn't handle this for us any longer.
-	(mail_format_get_data_wrapper_text): Updated.
-	(handle_text_plain): Same.
-	(handle_text_enriched): Here too.
-
-	* mail-display.c (do_attachment_header): Call decode_to_stream
-	here instead of write_to_stream.
-	(do_external_viewer): Same.
-	(on_url_requested): Same. Also updated for
-	mail_format_data_wrapper_write_to_stream().
-	(try_part_urls): Call decode_to_stream.
-	(drag_data_get_cb): Same.
+	* e-searching-tokenizer.c (searcher_next_token): Fix for 45818 ( i18n
+	mail messages search only produces '[?]'). Now multibyte character
+	selection works correctly. But due to associated gtkhtml bug, the find
+	button functionallity for multibyte characters is broken.
 
 2003-08-05  Not Zed  <NotZed@Ximian.com>
 
@@ -163,73 +116,21 @@
 	CamelOperation argument, for overriding the status handler.  Fixed
 	most calles to pass NULL to use the default.
 
-2003-08-01 Harry Lu  <harry.lu@sun.com>
-
-	*Fix for bug #6951
-
-	* mail-display.c (launch_cb): Bypass the new added menu item.
-	(save_all_parts_cb): New function. Do the real save-all work.
-	(save_all_parts): New function. Get the directory to save to.
-	(save_all_cb): New function. The call-back function for the new 
-	added menu item.
-	(pixmap_press): Add the new menu item "Save All Attachment...".
-	(ptr_array_free_notify): A simple wrapper function to free the
-	pointer array.
-	(do_attachment_header): Save attachment pointer in an array for 
-	"Save All Attachment" use.
-
 2003-08-01  Yuedong Du  <yuedong.du@sun.com>
 
 	* message-browser.c (on_key_press): close mail message window
 	using 'ESC' key, fix bug #47087
 
-2003-07-28  Jeffrey Stedfast  <fejj@ximian.com>
+2003-07-29  Dan Winship  <danw@ximian.com>
 
-	* mail-crypto.c: Removed smime functions as they were stale.
+	* mail-display.c (pixbuf_for_mime_type): Gone
+	(pixbuf_gen_idle): Use e_icon_for_mime_type instead.
 
 2003-07-25  Jeffrey Stedfast  <fejj@ximian.com>
 
-	* message-browser.c (message_browser_new): Handle our own Delete
-	key presses. Fixes bug #45597.
-
-2003-07-23  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* mail-format.c (mail_format_data_wrapper_write_to_stream): Revert
-	prior changes.
-
-2003-07-23  Dan Winship  <danw@ximian.com>
-
-	* folder-browser.c (message_list_drag_data_get): Fix type warnings
-	(folder_browser_toggle_caret_mode): Remove unused variable.
-
-	* folder-browser-ui.c (basename): remove unused function
-
-	* mail-account-gui.c (mail_account_gui_build_extra_conf): Fix
-	warnings
-
-	* mail-callbacks.c (empty_trash): Remove unused variable.
-
-	* mail-display.c: #include gal/widgets/e-gui-utils.h for
-	e_auto_kill_popup_menu_on_selection_done
-
-	* mail-importer.c: #include e-util/e-path.h for e_path_to_physical
-
-	* mail-session.c (main_play_sound): don't declare filename to be
-	const and then free it.
-
-	* mail-vfolder.c (vfolder_edit_rule, vfolder_gui_add_rule): Fix
-	casts
-
-	* message-list.c (build_flat_diff): Fix a typo in the
-	non-BROKEN_ETREE code
-
-2003-07-16  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* mail-format.c (handle_multipart_encrypted): We don't have
-	camel_pgp_mime_is_rfc2015_encrypted() anymore so just look at the
-	protocol for now.
-	(mail_format_data_wrapper_write_to_stream): Updated for the new
-	way camel handles content objects.
+	* message-browser.c (on_key_press): New callback function to
+	override the behaviour of hitting the Delete key. Fixes bug
+	#45597.
 
 2003-07-15  Federico Mena Quintero  <federico@ximian.com>
 
@@ -239,17 +140,20 @@
 
 	* component-factory.c (destination_folder_handle_drop): Likewise.
 
-2003-07-15  Yuedong Du  <yuedong.du@sun.com>
-
-	* mail-config.c: (config_write_style), (mail_config_init): remove
-	the use of caret mode widget style.
-	* mail-display.c: (display_notify), (mail_display_new): use new
-	gtkhtml api to set caret mode.
-
 2003-07-11  Antonio Xu  <antonio.xu@sun.com>
 
 	* folder-browser-ui.c: Change the EditPaste mask to IS_0MESSAGE so
 	that it is always activatable. Fixes bug #46018.
+
+2003-07-02  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-tools.c (mail_tool_forward_message): Strip the signature
+	from the body text. Fixes bug #45523. While we're here, also fix
+	the code to quote exactly the same way as the
+	mail_tool_quote_message() function.
+	(mail_tool_quote_message): The last arg should not be
+	'want_plain', because that arg is for whether or not the body
+	should be quoted.
 
 2003-07-04  Maxx Cao  <maxx.cao@sun.com>
 
@@ -265,57 +169,12 @@
 	(popup_menu_placement_callback): Function added to place popup
 	menu (of attachment) beside button when activated by keyboard.
 
-2003-07-10  Yuedong Du  <yuedong.du@sun.com>
-
-	* evolution-mail.schemas: add a gconf key corresponding to newly 
-	introduced caret mode of gtkhtml widget.
-
-	* folder-browser-ui.c: new verb handling, corresponding the new menu
-	entry for the caret mode flag. 
-
-	* folder-browser.h: declaration of new verb handler to the menu entry 
-	that turn caret mode on/off. The function just set the new introduced
-	gconf key.
-
-	* folder-browser.c: ditto
-
-	* mail-config.c: lstione to the new gconf key, and when caret mode 
-	flag is set/unset,change the style of gtkhtml widget. see bug
-	#44607.
-
-2003-07-09  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* mail-crypto.h: Removed camel-pgp-mime.h, it no longer exists.
-
-	* mail-format.c: Remove camel-pgp-mime.h
-
-2003-07-07  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* mail-callbacks.c (mail_generate_reply): Use
-	camel_strcase_hash/equal.
-
-	* upgrade-mailer.c: Updated to use the camel-file-utils version of
-	mkdir.
-
 2003-07-02  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* mail-tools.c (mail_tool_forward_message): Strip the signature
-	from the body text. Fixes bug #45523. While we're here, also fix
-	the code to quote exactly the same way as the
-	mail_tool_quote_message() function.
-	(mail_tool_quote_message): The last arg should not be
-	'want_plain', because that arg is for whether or not the body
-	should be quoted.
 
 	* folder-browser.c (message_list_drag_data_get): Apply a
 	From-filter when dragging as a test/uri-list and
 	message/rfc822. Fixes bug #45617. Also free the uids ptrarray for
 	the text/uri-list case.
-
-2003-07-01  Dan Winship  <danw@ximian.com>
-
-	* mail-display.c (pixbuf_for_mime_type): Gone
-	(pixbuf_gen_idle): Use e_icon_for_mime_type instead.
 
 2003-06-27  Jeffrey Stedfast  <fejj@ximian.com>
 

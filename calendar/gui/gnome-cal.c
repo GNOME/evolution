@@ -40,11 +40,9 @@
 #include <cal-util/timeutil.h>
 #include "widgets/menus/gal-view-menus.h"
 #include "e-comp-editor-registry.h"
-#include "dialogs/delete-error.h"
 #include "dialogs/event-editor.h"
 #include "dialogs/task-editor.h"
 #include "comp-util.h"
-#include "e-cal-model-calendar.h"
 #include "e-day-view.h"
 #include "e-day-view-time-item.h"
 #include "e-week-view.h"
@@ -58,7 +56,6 @@
 #include "calendar-view-factory.h"
 #include "tag-calendar.h"
 #include "misc.h"
-#include "ea-calendar.h"
 
 extern ECompEditorRegistry *comp_editor_registry;
 
@@ -69,6 +66,9 @@ struct _GnomeCalendarPrivate {
 	/*
 	 * The Calendar Folder.
 	 */
+
+	/* The calendar client object we monitor */
+	CalClient *client;
 
 	/* Set of categories from the calendar client */
 	GPtrArray *cal_categories;
@@ -110,7 +110,7 @@ struct _GnomeCalendarPrivate {
 	GtkWidget   *month_view;
 
 	/* Calendar query for the date navigator */
-	GList       *dn_queries; /* list of CalQueries */
+	CalQuery    *dn_query;
 	char        *sexp;
 	guint        query_timeout;
 	
@@ -143,10 +143,6 @@ struct _GnomeCalendarPrivate {
 	   'dates-shown-changed' signal.*/
 	time_t visible_start;
 	time_t visible_end;
-
-	/* Calendar query for purging old events */
-	GList *exp_queries;
-	time_t exp_older_than;
 };
 
 /* Signal IDs */
@@ -352,9 +348,6 @@ gnome_calendar_class_init (GnomeCalendarClass *class)
 				      "goto_date",1,
 				      G_TYPE_ENUM,
 				      GNOME_CAL_GOTO_SAME_DAY_OF_NEXT_WEEK);
-	/* init the accessibility support for gnome_calendar */
-	gnome_calendar_a11y_init ();
-
 }
 
 /* Callback used when the calendar query reports of an updated object */
@@ -365,8 +358,7 @@ dn_query_obj_updated_cb (CalQuery *query, const char *uid,
 {
 	GnomeCalendar *gcal;
 	GnomeCalendarPrivate *priv;
-	CalComponent *comp = NULL;
-	icalcomponent *icalcomp;
+	CalComponent *comp;
 	CalClientGetStatus status;
 
 	gcal = GNOME_CALENDAR (data);
@@ -382,32 +374,27 @@ dn_query_obj_updated_cb (CalQuery *query, const char *uid,
 		return;
 	}
 
-	status = cal_client_get_object (cal_query_get_client (query), uid, &icalcomp);
+	status = cal_client_get_object (priv->client, uid, &comp);
 
 	switch (status) {
 	case CAL_CLIENT_GET_SUCCESS:
-		comp = cal_component_new ();
-		if (!cal_component_set_icalcomponent (comp, icalcomp)) {
-			g_object_unref (comp);
-			icalcomponent_free (icalcomp);
-			return;
-		}
+		/* Everything is fine */
 		break;
 
 	case CAL_CLIENT_GET_SYNTAX_ERROR:
 		g_message ("dn_query_obj_updated_cb(): Syntax error while getting object `%s'", uid);
-		return;
+		break;
 
 	case CAL_CLIENT_GET_NOT_FOUND:
 		/* The object is no longer in the server, so do nothing */
-		return;
+		break;
 
 	default:
 		g_assert_not_reached ();
 		return;
 	}
 
-	tag_calendar_by_comp (priv->date_navigator, comp, cal_query_get_client (query), NULL,
+	tag_calendar_by_comp (priv->date_navigator, comp, priv->client, NULL,
 			      FALSE, TRUE);
 	g_object_unref (comp);
 }
@@ -602,61 +589,46 @@ update_query (GnomeCalendar *gcal)
 	GnomeCalendarPrivate *priv;
 	CalQuery *old_query;
 	char *real_sexp;
-	GList *l, *client_list;
 
 	priv = gcal->priv;
 
 	e_calendar_item_clear_marks (priv->date_navigator->calitem);
 
-	e_cal_view_set_status_message (E_CAL_VIEW (priv->week_view), _("Searching"));
+	if (!(priv->client
+	      && cal_client_get_load_state (priv->client) == CAL_CLIENT_LOAD_LOADED))
+		return;
 
-	/* free the previous queries */
-	for (l = priv->dn_queries; l != NULL; l = l->next) {
-		old_query = l->data;
+	old_query = priv->dn_query;
+	priv->dn_query = NULL;
 
-		if (old_query) {
-			g_signal_handlers_disconnect_matched (old_query, G_SIGNAL_MATCH_DATA,
-							      0, 0, NULL, NULL, gcal);
-			g_object_unref (old_query);
-		}
+	if (old_query) {
+		g_signal_handlers_disconnect_matched (old_query, G_SIGNAL_MATCH_DATA,
+						      0, 0, NULL, NULL, gcal);
+		g_object_unref (old_query);
 	}
-
-	g_list_free (priv->dn_queries);
-	priv->dn_queries = NULL;
 
 	g_assert (priv->sexp != NULL);
 
 	real_sexp = adjust_query_sexp (gcal, priv->sexp);
-	if (!real_sexp) {
-		e_cal_view_set_status_message (E_CAL_VIEW (priv->week_view), NULL);
+	if (!real_sexp)
 		return; /* No time range is set, so don't start a query */
-	}
 
-	/* create queries for each loaded client */
-	client_list = e_cal_model_get_client_list (e_cal_view_get_model (E_CAL_VIEW (priv->day_view)));
-	for (l = client_list; l != NULL; l = l->next) {
-		old_query = cal_client_get_query ((CalClient *) l->data, real_sexp);
-		if (!old_query) {
-			g_message ("update_query(): Could not create the query");
-			continue;
-		}
-
-		g_signal_connect (old_query, "obj_updated",
-				  G_CALLBACK (dn_query_obj_updated_cb), gcal);
-		g_signal_connect (old_query, "obj_removed",
-				  G_CALLBACK (dn_query_obj_removed_cb), gcal);
-		g_signal_connect (old_query, "query_done",
-				  G_CALLBACK (dn_query_query_done_cb), gcal);
-		g_signal_connect (old_query, "eval_error",
-				  G_CALLBACK (dn_query_eval_error_cb), gcal);
-
-		priv->dn_queries = g_list_append (priv->dn_queries, old_query);
-	}
-
-	g_list_free (client_list);
+	priv->dn_query = cal_client_get_query (priv->client, real_sexp);
 	g_free (real_sexp);
 
-	e_cal_view_set_status_message (E_CAL_VIEW (priv->week_view), NULL);
+	if (!priv->dn_query) {
+		g_message ("update_query(): Could not create the query");
+		return;
+	}
+
+	g_signal_connect (priv->dn_query, "obj_updated",
+			  G_CALLBACK (dn_query_obj_updated_cb), gcal);
+	g_signal_connect (priv->dn_query, "obj_removed",
+			  G_CALLBACK (dn_query_obj_removed_cb), gcal);
+	g_signal_connect (priv->dn_query, "query_done",
+			  G_CALLBACK (dn_query_query_done_cb), gcal);
+	g_signal_connect (priv->dn_query, "eval_error",
+			  G_CALLBACK (dn_query_eval_error_cb), gcal);
 }
 
 /**
@@ -670,7 +642,7 @@ void
 gnome_calendar_set_query (GnomeCalendar *gcal, const char *sexp)
 {
 	GnomeCalendarPrivate *priv;
-	ECalModel *model;
+	CalendarModel *model;
 
 	g_return_if_fail (gcal != NULL);
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
@@ -688,12 +660,33 @@ gnome_calendar_set_query (GnomeCalendar *gcal, const char *sexp)
 	update_query (gcal);
 
 	/* Set the query on the main view */
-	model = e_cal_view_get_model (E_CAL_VIEW (gnome_calendar_get_current_view_widget (gcal)));
-	e_cal_model_set_query (model, sexp);
+
+	switch (priv->current_view_type) {
+	case GNOME_CAL_DAY_VIEW:
+		e_day_view_set_query (E_DAY_VIEW (priv->day_view), sexp);
+		break;
+
+	case GNOME_CAL_WORK_WEEK_VIEW:
+		e_day_view_set_query (E_DAY_VIEW (priv->work_week_view), sexp);
+		break;
+
+	case GNOME_CAL_WEEK_VIEW:
+		e_week_view_set_query (E_WEEK_VIEW (priv->week_view), sexp);
+		break;
+
+	case GNOME_CAL_MONTH_VIEW:
+		e_week_view_set_query (E_WEEK_VIEW (priv->month_view), sexp);
+		break;
+
+	default:
+		g_warning ("A penguin bit my hand!");
+		g_assert_not_reached ();
+	}
 
 	/* Set the query on the task pad */
+
 	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo));
-	e_cal_model_set_query (model, sexp);
+	calendar_model_set_query (model, sexp);
 }
 
 /* Returns the current time, for the ECalendarItem. */
@@ -732,7 +725,7 @@ search_bar_category_changed_cb (CalSearchBar *cal_search, const char *category, 
 {
 	GnomeCalendar *gcal;
 	GnomeCalendarPrivate *priv;
-	ECalModel *model;
+	CalendarModel *model;
 
 	gcal = GNOME_CALENDAR (data);
 	priv = gcal->priv;
@@ -743,7 +736,7 @@ search_bar_category_changed_cb (CalSearchBar *cal_search, const char *category, 
 	e_week_view_set_default_category (E_WEEK_VIEW (priv->month_view), category);
 
 	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo));
-	e_cal_model_set_default_category (model, category);
+	calendar_model_set_default_category (model, category);
 }
 
 static void
@@ -829,8 +822,8 @@ setup_widgets (GnomeCalendar *gcal)
 	GnomeCalendarPrivate *priv;
 	GtkWidget *w;
 	gchar *filename;
+	CalendarModel *model;
 	ETable *etable;
-	ECalModel *model;
 
 	priv = gcal->priv;
 
@@ -889,6 +882,8 @@ setup_widgets (GnomeCalendar *gcal)
 	/* The ToDo list. */
 	priv->todo = e_calendar_table_new ();
 	calendar_config_configure_e_calendar_table (E_CALENDAR_TABLE (priv->todo));
+	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo));
+	calendar_model_set_new_comp_vtype (model, CAL_COMPONENT_TODO);
 	gtk_paned_pack2 (GTK_PANED (priv->vpane), priv->todo, TRUE, TRUE);
 	gtk_widget_show (priv->todo);
 
@@ -907,7 +902,7 @@ setup_widgets (GnomeCalendar *gcal)
 
 	/* The Day View. */
 	priv->day_view = e_day_view_new ();
-	e_cal_view_set_calendar (E_CAL_VIEW (priv->day_view), gcal);
+	e_day_view_set_calendar (E_DAY_VIEW (priv->day_view), gcal);
 	gtk_widget_show (priv->day_view);
 	gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook),
 				  priv->day_view, gtk_label_new (""));
@@ -921,7 +916,7 @@ setup_widgets (GnomeCalendar *gcal)
 	e_day_view_set_work_week_view (E_DAY_VIEW (priv->work_week_view),
 				       TRUE);
 	e_day_view_set_days_shown (E_DAY_VIEW (priv->work_week_view), 5);
-	e_cal_view_set_calendar (E_CAL_VIEW (priv->work_week_view), gcal);
+	e_day_view_set_calendar (E_DAY_VIEW (priv->work_week_view), gcal);
 	gtk_widget_show (priv->work_week_view);
 	gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook),
 				  priv->work_week_view, gtk_label_new (""));
@@ -932,7 +927,7 @@ setup_widgets (GnomeCalendar *gcal)
 
 	/* The Week View. */
 	priv->week_view = e_week_view_new ();
-	e_cal_view_set_calendar (E_CAL_VIEW (priv->week_view), gcal);
+	e_week_view_set_calendar (E_WEEK_VIEW (priv->week_view), gcal);
 	gtk_widget_show (priv->week_view);
 	gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook),
 				  priv->week_view, gtk_label_new (""));
@@ -943,7 +938,7 @@ setup_widgets (GnomeCalendar *gcal)
 
 	/* The Month View. */
 	priv->month_view = e_week_view_new ();
-	e_cal_view_set_calendar (E_CAL_VIEW (priv->month_view), gcal);
+	e_week_view_set_calendar (E_WEEK_VIEW (priv->month_view), gcal);
 	e_week_view_set_multi_week_view (E_WEEK_VIEW (priv->month_view), TRUE);
 	gtk_widget_show (priv->month_view);
 	gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook),
@@ -952,14 +947,6 @@ setup_widgets (GnomeCalendar *gcal)
 			  G_CALLBACK (view_selection_changed_cb), gcal);
 
 	connect_week_view_focus (gcal, E_WEEK_VIEW (priv->month_view));
-
-	model = (ECalModel *) e_cal_model_calendar_new ();
-	e_cal_view_set_model (E_CAL_VIEW (priv->day_view), model);
-	e_cal_view_set_model (E_CAL_VIEW (priv->work_week_view), model);
-	e_cal_view_set_model (E_CAL_VIEW (priv->week_view), model);
-	e_cal_view_set_model (E_CAL_VIEW (priv->month_view), model);
-
-	g_object_unref (model);
 
 	gnome_calendar_update_config_settings (gcal, TRUE);
 }
@@ -980,7 +967,7 @@ gnome_calendar_init (GnomeCalendar *gcal)
 	priv->range_selected = FALSE;
 
 	setup_widgets (gcal);
-	priv->dn_queries = NULL;
+	priv->dn_query = NULL;
 	priv->sexp = g_strdup ("#t"); /* Match all */
 
 	priv->selection_start_time = time_day_begin_with_zone (time (NULL),
@@ -992,8 +979,6 @@ gnome_calendar_init (GnomeCalendar *gcal)
 
 	priv->visible_start = -1;
 	priv->visible_end = -1;
-
-	priv->exp_queries = NULL;
 }
 
 /* Frees a set of categories */
@@ -1025,37 +1010,22 @@ gnome_calendar_destroy (GtkObject *object)
 	priv = gcal->priv;
 
 	if (priv) {
-		GList *l, *client_list;
-
 		free_categories (priv->cal_categories);
 		priv->cal_categories = NULL;
 
 		free_categories (priv->tasks_categories);
 		priv->tasks_categories = NULL;
 
-		/* disconnect from signals on all the clients */
-		client_list = e_cal_model_get_client_list (e_cal_view_get_model (E_CAL_VIEW (priv->week_view)));
-		for (l = client_list; l != NULL; l = l->next) {
-			g_signal_handlers_disconnect_matched ((CalClient *) l->data, G_SIGNAL_MATCH_DATA,
-							      0, 0, NULL, NULL, gcal);
-		}
-
-		g_list_free (client_list);
-		
 		/* Save the TaskPad layout. */
 		filename = g_strdup_printf ("%s/config/TaskPad", evolution_dir);
 		e_calendar_table_save_state (E_CALENDAR_TABLE (priv->todo), filename);
 		g_free (filename);
 
-		if (priv->dn_queries) {
-			for (l = priv->dn_queries; l != NULL; l = l->next) {
-				g_signal_handlers_disconnect_matched ((CalQuery *) l->data, G_SIGNAL_MATCH_DATA,
-								      0, 0, NULL, NULL, gcal);
-				g_object_unref ((CalQuery *) l->data);
-			}
-
-			g_list_free (priv->dn_queries);
-			priv->dn_queries = NULL;
+		if (priv->dn_query) {
+			g_signal_handlers_disconnect_matched (priv->dn_query, G_SIGNAL_MATCH_DATA,
+							      0, 0, NULL, NULL, gcal);
+			g_object_unref (priv->dn_query);
+			priv->dn_query = NULL;
 		}
 
 		if (priv->sexp) {
@@ -1066,6 +1036,13 @@ gnome_calendar_destroy (GtkObject *object)
 		if (priv->query_timeout) {
 			g_source_remove (priv->query_timeout);
 			priv->query_timeout = 0;
+		}
+	
+		if (priv->client) {
+			g_signal_handlers_disconnect_matched (priv->client, G_SIGNAL_MATCH_DATA,
+							      0, 0, NULL, NULL, gcal);
+			g_object_unref (priv->client);
+			priv->client = NULL;
 		}
 
 		if (priv->task_pad_client) {
@@ -1083,19 +1060,6 @@ gnome_calendar_destroy (GtkObject *object)
 		if (priv->view_menus) {
 			g_object_unref (priv->view_menus);
 			priv->view_menus = NULL;
-		}
-
-		if (priv->exp_queries) {
-			GList *l;
-
-			for (l = priv->exp_queries; l != NULL; l = l->next) {
-				g_signal_handlers_disconnect_matched ((CalQuery *) l->data, G_SIGNAL_MATCH_DATA,
-								      0, 0, NULL, NULL, gcal);
-				g_object_unref (l->data);
-			}
-
-			g_list_free (priv->exp_queries);
-			priv->exp_queries = NULL;
 		}
 
 		g_free (priv);
@@ -1233,9 +1197,35 @@ gnome_calendar_update_view_times (GnomeCalendar *gcal)
 
 	priv = gcal->priv;
 
-	e_cal_view_set_selected_time_range (E_CAL_VIEW (gnome_calendar_get_current_view_widget (gcal)),
-					    priv->selection_start_time,
-					    priv->selection_end_time);
+	switch (priv->current_view_type) {
+	case GNOME_CAL_DAY_VIEW:
+		e_day_view_set_selected_time_range (E_DAY_VIEW (priv->day_view),
+						    priv->selection_start_time,
+						    priv->selection_end_time);
+		break;
+
+	case GNOME_CAL_WORK_WEEK_VIEW:
+		e_day_view_set_selected_time_range (E_DAY_VIEW (priv->work_week_view),
+						    priv->selection_start_time,
+						    priv->selection_end_time);
+		break;
+
+	case GNOME_CAL_WEEK_VIEW:
+		e_week_view_set_selected_time_range (E_WEEK_VIEW (priv->week_view),
+						     priv->selection_start_time,
+						     priv->selection_end_time);
+		break;
+
+	case GNOME_CAL_MONTH_VIEW:
+		e_week_view_set_selected_time_range (E_WEEK_VIEW (priv->month_view),
+						     priv->selection_start_time,
+						     priv->selection_end_time);
+		break;
+
+	default:
+		g_warning ("My penguin is gone!");
+		g_assert_not_reached ();
+	}
 }
 
 static void
@@ -1258,6 +1248,12 @@ gnome_calendar_direction (GnomeCalendar *gcal, int direction)
 		break;
 
 	case GNOME_CAL_WORK_WEEK_VIEW:
+		start_time = time_add_week_with_zone (start_time, direction,
+						      priv->zone);
+		end_time = time_add_week_with_zone (end_time, direction,
+						    priv->zone);
+		break;
+
 	case GNOME_CAL_WEEK_VIEW:
 		start_time = time_add_week_with_zone (start_time, direction,
 						      priv->zone);
@@ -1328,7 +1324,27 @@ focus_current_view (GnomeCalendar *gcal)
 
 	priv = gcal->priv;
 
-	gtk_widget_grab_focus (gnome_calendar_get_current_view_widget (gcal));
+	switch (priv->current_view_type) {
+	case GNOME_CAL_DAY_VIEW:
+		gtk_widget_grab_focus (priv->day_view);
+		break;
+
+	case GNOME_CAL_WORK_WEEK_VIEW:
+		gtk_widget_grab_focus (priv->work_week_view);
+		break;
+
+	case GNOME_CAL_WEEK_VIEW:
+		gtk_widget_grab_focus (priv->week_view);
+		break;
+
+	case GNOME_CAL_MONTH_VIEW:
+		gtk_widget_grab_focus (priv->month_view);
+		break;
+
+	default:
+		g_warning ("A penguin fell on its face!");
+		g_assert_not_reached ();
+	}
 }
 
 void
@@ -1555,8 +1571,7 @@ gnome_calendar_setup_view_menus (GnomeCalendar *gcal, BonoboUIComponent *uic)
 		gal_view_collection_load (collection);
 	}
 
-	priv->view_instance = gal_view_instance_new (collection,
-						     cal_client_get_uri (gnome_calendar_get_default_client (gcal)));
+	priv->view_instance = gal_view_instance_new (collection, cal_client_get_uri (priv->client));
 
 	priv->view_menus = gal_view_menus_new (priv->view_instance);
 	gal_view_menus_set_show_define_views (priv->view_menus, FALSE);
@@ -1716,6 +1731,11 @@ client_cal_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer da
 
 	switch (status) {
 	case CAL_CLIENT_OPEN_SUCCESS:
+		/* If this is the main CalClient, update the Date Navigator. */
+		if (client == priv->client) {
+			priv->query_timeout = g_timeout_add (100, update_query_timeout, gcal);
+		}
+
 		/* Set the client's default timezone, if we have one. */
 		if (priv->zone) {
 			cal_client_set_default_timezone (client, priv->zone);
@@ -1725,16 +1745,12 @@ client_cal_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer da
 		uristr = get_uri_without_password (cal_client_get_uri (client));
 		msg = g_strdup_printf (_("Adding alarms for %s"), uristr);
 		g_free (uristr);
-		if (client == priv->task_pad_client) {
-			e_calendar_table_set_status_message (E_CALENDAR_TABLE (priv->todo), msg);
-			e_cal_model_add_client (e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo)),
-						priv->task_pad_client);
+		if (client == priv->client) {
+			e_week_view_set_status_message (E_WEEK_VIEW (priv->week_view), msg);
 		}
-		else {
-			e_cal_view_set_status_message (E_CAL_VIEW (priv->week_view), msg);
-			e_cal_model_add_client (e_cal_view_get_model (E_CAL_VIEW (priv->week_view)), client);
-
-			priv->query_timeout = g_timeout_add (100, update_query_timeout, gcal);
+		else if (client == priv->task_pad_client) {
+			calendar_model_set_status_message (
+				e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo)), msg);
 		}
 		g_free (msg);
 
@@ -1763,10 +1779,13 @@ client_cal_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer da
 		return;
 	}
 
-	if (client == priv->task_pad_client)
-		e_calendar_table_set_status_message (E_CALENDAR_TABLE (priv->todo), NULL);
-	else
-		e_cal_view_set_status_message (E_CAL_VIEW (priv->week_view), NULL);
+	if (client == priv->client) {
+		e_week_view_set_status_message (E_WEEK_VIEW (priv->week_view), NULL);
+	}
+	else if (client == priv->task_pad_client) {
+		calendar_model_set_status_message (
+			e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo)), NULL);
+	}
 }
 
 /* Duplicates an array of categories */
@@ -1869,13 +1888,14 @@ client_categories_changed_cb (CalClient *client, GPtrArray *categories, gpointer
 	gcal = GNOME_CALENDAR (data);
 	priv = gcal->priv;
 
-	if (client == priv->task_pad_client) {
-		free_categories (priv->tasks_categories);
-		priv->tasks_categories = copy_categories (categories);
-	} else {
+	if (client == priv->client) {
 		free_categories (priv->cal_categories);
 		priv->cal_categories = copy_categories (categories);
-	}
+	} else if (client == priv->task_pad_client) {
+		free_categories (priv->tasks_categories);
+		priv->tasks_categories = copy_categories (categories);
+	} else
+		g_assert_not_reached ();
 
 	merged = merge_categories (priv->cal_categories, priv->tasks_categories);
 	cal_search_bar_set_categories (CAL_SEARCH_BAR (priv->search_bar), merged);
@@ -1913,22 +1933,26 @@ backend_died_cb (CalClient *client, gpointer data)
 	gcal = GNOME_CALENDAR (data);
 	priv = gcal->priv;
 
-	uristr = get_uri_without_password (cal_client_get_uri (client));
-	if (client == priv->task_pad_client) {
-		message = g_strdup_printf (_("The task backend for\n%s\n has crashed. "
-					     "You will have to restart Evolution in order "
-					     "to use it again"),
-					   uristr);
-		e_calendar_table_set_status_message (E_CALENDAR_TABLE (priv->todo), NULL);
-	} else {
+	uristr = get_uri_without_password (cal_client_get_uri (priv->client));
+	if (client == priv->client) {
 		message = g_strdup_printf (_("The calendar backend for\n%s\n has crashed. "
 					     "You will have to restart Evolution in order "
 					     "to use it again"),
 					   uristr);
-		e_cal_view_set_status_message (E_CAL_VIEW (priv->day_view), NULL);
-		e_cal_view_set_status_message (E_CAL_VIEW (priv->work_week_view), NULL);
-		e_cal_view_set_status_message (E_CAL_VIEW (priv->week_view), NULL);
-		e_cal_view_set_status_message (E_CAL_VIEW (priv->month_view), NULL);
+		e_day_view_set_status_message (E_DAY_VIEW (priv->day_view), NULL);
+		e_day_view_set_status_message (E_DAY_VIEW (priv->work_week_view), NULL);
+		e_week_view_set_status_message (E_WEEK_VIEW (priv->week_view), NULL);
+		e_week_view_set_status_message (E_WEEK_VIEW (priv->month_view), NULL);
+	} else if (client == priv->task_pad_client) {
+		message = g_strdup_printf (_("The task backend for\n%s\n has crashed. "
+					     "You will have to restart Evolution in order "
+					     "to use it again"),
+					   uristr);
+		calendar_model_set_status_message (
+			e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo)), NULL);
+	} else {
+		message = NULL;
+		g_assert_not_reached ();
 	}
 
 	gnome_error_dialog_parented (message, GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (gcal))));
@@ -1941,11 +1965,37 @@ gnome_calendar_construct (GnomeCalendar *gcal)
 {
 	GnomeCalendarPrivate *priv;
 	GnomeCalendarViewType view_type;
+	CalendarModel *model;
 
 	g_return_val_if_fail (gcal != NULL, NULL);
 	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), NULL);
 
 	priv = gcal->priv;
+
+	/*
+	 * Calendar Folder Client.
+	 */
+	priv->client = cal_client_new ();
+	if (!priv->client)
+		return NULL;
+
+	g_signal_connect (priv->client, "cal_opened",
+			  G_CALLBACK (client_cal_opened_cb), gcal);
+	g_signal_connect (priv->client, "backend_error",
+			  G_CALLBACK (backend_error_cb), gcal);
+	g_signal_connect (priv->client, "categories_changed",
+			  G_CALLBACK (client_categories_changed_cb), gcal);
+	g_signal_connect (priv->client, "backend_died",
+			  G_CALLBACK (backend_died_cb), gcal);
+
+	e_day_view_set_cal_client (E_DAY_VIEW (priv->day_view),
+				   priv->client);
+	e_day_view_set_cal_client (E_DAY_VIEW (priv->work_week_view),
+				   priv->client);
+	e_week_view_set_cal_client (E_WEEK_VIEW (priv->week_view),
+				    priv->client);
+	e_week_view_set_cal_client (E_WEEK_VIEW (priv->month_view),
+				    priv->client);
 
 	/*
 	 * TaskPad Folder Client.
@@ -1962,6 +2012,11 @@ gnome_calendar_construct (GnomeCalendar *gcal)
 			  G_CALLBACK (client_categories_changed_cb), gcal);
 	g_signal_connect (priv->task_pad_client, "backend_died",
 			  G_CALLBACK (backend_died_cb), gcal);
+
+	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo));
+	g_assert (model != NULL);
+
+	calendar_model_set_cal_client (model, priv->task_pad_client, CALOBJ_TYPE_TODO);
 
 	/* Get the default view to show. */
 	view_type = calendar_config_get_default_view ();
@@ -2000,15 +2055,15 @@ gnome_calendar_set_ui_component (GnomeCalendar *gcal,
 }
 
 /**
- * gnome_calendar_get_calendar_model:
+ * gnome_calendar_get_cal_client:
  * @gcal: A calendar view.
  *
- * Queries the calendar model object that a calendar view is using.
+ * Queries the calendar client interface object that a calendar view is using.
  *
  * Return value: A calendar client interface object.
  **/
-ECalModel *
-gnome_calendar_get_calendar_model (GnomeCalendar *gcal)
+CalClient *
+gnome_calendar_get_cal_client (GnomeCalendar *gcal)
 {
 	GnomeCalendarPrivate *priv;
 
@@ -2017,18 +2072,7 @@ gnome_calendar_get_calendar_model (GnomeCalendar *gcal)
 
 	priv = gcal->priv;
 
-	return e_cal_view_get_model (E_CAL_VIEW (priv->week_view));
-}
-
-/**
- * gnome_calendar_get_default_client
- */
-CalClient *
-gnome_calendar_get_default_client (GnomeCalendar *gcal)
-{
-	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), NULL);
-
-	return e_cal_model_get_default_client (e_cal_view_get_model (E_CAL_VIEW (gcal->priv->week_view)));
+	return priv->client;
 }
 
 /**
@@ -2103,12 +2147,12 @@ gboolean
 gnome_calendar_open (GnomeCalendar *gcal, const char *str_uri)
 {
 	GnomeCalendarPrivate *priv;
+	char *tasks_uri;
 	gboolean success;
 	EUri *uri;
 	char *message;
 	char *real_uri;
 	char *urinopwd;
-	CalClient *client;
 
 	g_return_val_if_fail (gcal != NULL, FALSE);
 	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), FALSE);
@@ -2117,46 +2161,72 @@ gnome_calendar_open (GnomeCalendar *gcal, const char *str_uri)
 	priv = gcal->priv;
 
 	g_return_val_if_fail (
+		cal_client_get_load_state (priv->client) == CAL_CLIENT_LOAD_NOT_LOADED,
+		FALSE);
+
+	g_return_val_if_fail (
 		cal_client_get_load_state (priv->task_pad_client) == CAL_CLIENT_LOAD_NOT_LOADED,
 		FALSE);
 
 	uri = e_uri_new (str_uri);
-        if (!uri || !g_strncasecmp (uri->protocol, "file", 4))
-                real_uri = g_concat_dir_and_file (str_uri, "calendar.ics");
-        else
-                real_uri = g_strdup (str_uri);
+	if (!uri || !g_strncasecmp (uri->protocol, "file", 4))
+		real_uri = g_concat_dir_and_file (str_uri, "calendar.ics");
+	else
+		real_uri = g_strdup (str_uri);
 
-	urinopwd = get_uri_without_password (str_uri);
+	urinopwd = get_uri_without_password (real_uri);
 	message = g_strdup_printf (_("Opening calendar at %s"), urinopwd);
 	g_free (urinopwd);
-	e_cal_view_set_status_message (E_CAL_VIEW (priv->week_view), message);
+	e_week_view_set_status_message (E_WEEK_VIEW (priv->week_view), message);
 	g_free (message);
 
-	client = cal_client_new ();
-	g_signal_connect (G_OBJECT (client), "cal_opened", G_CALLBACK (client_cal_opened_cb), gcal);
-	g_signal_connect (G_OBJECT (client), "backend_error", G_CALLBACK (backend_error_cb), gcal);
-	g_signal_connect (G_OBJECT (client), "categories_changed", G_CALLBACK (client_categories_changed_cb), gcal);
-	g_signal_connect (G_OBJECT (client), "backend_died", G_CALLBACK (backend_died_cb), gcal);
-
-	if (!cal_client_open_calendar (client, real_uri, FALSE)) {
-		g_warning (G_STRLOC ": Could not issue the request to open the calendar folder");
-		g_object_unref (client);
-		e_cal_view_set_status_message (E_CAL_VIEW (priv->week_view), NULL);
+	if (!cal_client_open_calendar (priv->client, real_uri, FALSE)) {
+		g_message ("gnome_calendar_open(): Could not issue the request to open the calendar folder");
+		g_free (real_uri);
+		e_uri_free (uri);
+		e_week_view_set_status_message (E_WEEK_VIEW (priv->week_view), NULL);
 
 		return FALSE;
 	}
 
 	/* Open the appropriate Tasks folder to show in the TaskPad */
-	e_calendar_table_set_status_message (E_CALENDAR_TABLE (priv->todo),
-					     _("Opening default tasks folder"));
-	success = cal_client_open_default_tasks (priv->task_pad_client, FALSE);
+
+	if (!uri) {
+		tasks_uri = g_strdup_printf ("%s/local/Tasks/tasks.ics", evolution_dir);
+		message = g_strdup_printf (_("Opening tasks at %s"), tasks_uri);
+		calendar_model_set_status_message (
+			e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo)), message);
+		g_free (message);
+
+		success = cal_client_open_calendar (priv->task_pad_client, tasks_uri, FALSE);
+		g_free (tasks_uri);
+	}
+	else {
+		if (!g_strncasecmp (uri->protocol, "file", 4)) {
+			tasks_uri = g_strdup_printf ("%s/local/Tasks/tasks.ics", evolution_dir);
+			message = g_strdup_printf (_("Opening tasks at %s"), tasks_uri);
+			calendar_model_set_status_message (
+				e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo)), message);
+			g_free (message);
+
+			success = cal_client_open_calendar (priv->task_pad_client, tasks_uri, FALSE);
+			g_free (tasks_uri);
+		}
+		else {
+			calendar_model_set_status_message (
+				e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo)),
+				_("Opening default tasks folder"));
+			success = cal_client_open_default_tasks (priv->task_pad_client, FALSE);
+		}
+	}
 
 	g_free (real_uri);
-        e_uri_free (uri);
+	e_uri_free (uri);
 
 	if (!success) {
 		g_message ("gnome_calendar_open(): Could not issue the request to open the tasks folder");
-		e_calendar_table_set_status_message (E_CALENDAR_TABLE (priv->todo), NULL);
+		calendar_model_set_status_message (
+			e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo)), NULL);
 		return FALSE;
 	}
 
@@ -2177,7 +2247,6 @@ gnome_calendar_update_config_settings (GnomeCalendar *gcal,
 	gint start_hour, start_minute, end_hour, end_minute;
 	gboolean use_24_hour, show_event_end, compress_weekend;
 	char *location;
-	GList *client_list;
 
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
 
@@ -2254,30 +2323,20 @@ gnome_calendar_update_config_settings (GnomeCalendar *gcal,
 	location = calendar_config_get_timezone ();
 	priv->zone = icaltimezone_get_builtin_timezone (location);
 
-	client_list = e_cal_model_get_client_list (e_cal_view_get_model (E_CAL_VIEW (priv->week_view)));
-	if (client_list) {
-		GList *l;
-
-		for (l = client_list; l != NULL; l = l->next) {
-			CalClient *client = l->data;
-
-			if (cal_client_get_load_state (client) == CAL_CLIENT_LOAD_LOADED)
-				cal_client_set_default_timezone (client, priv->zone);
-		}
-
-		g_list_free (client_list);
+	if (priv->client
+	    && cal_client_get_load_state (priv->client) == CAL_CLIENT_LOAD_LOADED) {
+		cal_client_set_default_timezone (priv->client, priv->zone);
 	}
-
 	if (priv->task_pad_client
 	    && cal_client_get_load_state (priv->task_pad_client) == CAL_CLIENT_LOAD_LOADED) {
 		cal_client_set_default_timezone (priv->task_pad_client,
 						 priv->zone);
 	}
 
-	e_cal_view_set_timezone (E_CAL_VIEW (priv->day_view), priv->zone);
-	e_cal_view_set_timezone (E_CAL_VIEW (priv->work_week_view), priv->zone);
-	e_cal_view_set_timezone (E_CAL_VIEW (priv->week_view), priv->zone);
-	e_cal_view_set_timezone (E_CAL_VIEW (priv->month_view), priv->zone);
+	e_day_view_set_timezone (E_DAY_VIEW (priv->day_view), priv->zone);
+	e_day_view_set_timezone (E_DAY_VIEW (priv->work_week_view), priv->zone);
+	e_week_view_set_timezone (E_WEEK_VIEW (priv->week_view), priv->zone);
+	e_week_view_set_timezone (E_WEEK_VIEW (priv->month_view), priv->zone);
 
 	if (initializing) {
 		priv->hpane_pos = calendar_config_get_hpane_pos ();
@@ -2337,42 +2396,37 @@ gnome_calendar_get_selected_time_range (GnomeCalendar *gcal,
 }
 
 void
-gnome_calendar_edit_object (GnomeCalendar *gcal, CalClient *client, icalcomponent *icalcomp, gboolean meeting)
+gnome_calendar_edit_object (GnomeCalendar *gcal, CalComponent *comp, 
+			    gboolean meeting)
 {
 	GnomeCalendarPrivate *priv;
 	CompEditor *ce;
 	const char *uid;
-	CalComponent *comp;
 
+	g_return_if_fail (gcal != NULL);
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
-	g_return_if_fail (IS_CAL_CLIENT (client));
-	g_return_if_fail (icalcomp != NULL);
+	g_return_if_fail (comp != NULL);
 
 	priv = gcal->priv;
 
-	uid = icalcomponent_get_uid (icalcomp);
+	cal_component_get_uid (comp, &uid);
 
 	ce = e_comp_editor_registry_find (comp_editor_registry, uid);
 	if (!ce) {
 		EventEditor *ee;
 
-		ee = event_editor_new (client);
+		ee = event_editor_new (priv->client);
 		if (!ee) {
 			g_message ("gnome_calendar_edit_object(): Could not create the event editor");
 			return;
 		}
 		ce = COMP_EDITOR (ee);
-
-		comp = cal_component_new ();
-		cal_component_set_icalcomponent (comp, icalcomponent_new_clone (icalcomp));
-
+		
 		comp_editor_edit_comp (ce, comp);
 		if (meeting)
 			event_editor_show_meeting (ee);
 
 		e_comp_editor_registry_add (comp_editor_registry, ce, FALSE);
-
-		g_object_unref (comp);
 	}
 
 	comp_editor_focus (ce);
@@ -2399,7 +2453,6 @@ gnome_calendar_new_appointment_for (GnomeCalendar *cal,
 	struct icaltimetype itt;
 	CalComponentDateTime dt;
 	CalComponent *comp;
-	icalcomponent *icalcomp;
 	CalComponentTransparency transparency;
 	const char *category;
 
@@ -2414,9 +2467,7 @@ gnome_calendar_new_appointment_for (GnomeCalendar *cal,
 	else
 		dt.tzid = icaltimezone_get_tzid (priv->zone);
 
-	icalcomp = e_cal_model_create_component_with_defaults (e_cal_view_get_model (E_CAL_VIEW (priv->week_view)));
-	comp = cal_component_new ();
-	cal_component_set_icalcomponent (comp, icalcomp);
+	comp = cal_comp_event_new_with_defaults (priv->client);
 
 	/* DTSTART, DTEND */
 
@@ -2453,7 +2504,7 @@ gnome_calendar_new_appointment_for (GnomeCalendar *cal,
 
 	cal_component_commit_sequence (comp);
 
-	gnome_calendar_edit_object (cal, gnome_calendar_get_default_client (cal), icalcomp, meeting);
+	gnome_calendar_edit_object (cal, comp, meeting);
 	g_object_unref (comp);
 }
 
@@ -2489,7 +2540,6 @@ gnome_calendar_new_task		(GnomeCalendar *gcal)
 	GnomeCalendarPrivate *priv;
 	TaskEditor *tedit;
 	CalComponent *comp;
-	icalcomponent *icalcomp;
 	const char *category;
 
 	g_return_if_fail (gcal != NULL);
@@ -2499,9 +2549,7 @@ gnome_calendar_new_task		(GnomeCalendar *gcal)
 
 	tedit = task_editor_new (priv->task_pad_client);
 
-	icalcomp = e_cal_model_create_component_with_defaults (e_cal_view_get_model (E_CAL_VIEW (priv->week_view)));
-	comp = cal_component_new ();
-	cal_component_set_icalcomponent (comp, icalcomp);
+	comp = cal_comp_task_new_with_defaults (priv->client);
 
 	category = cal_search_bar_get_category (CAL_SEARCH_BAR (priv->search_bar));
 	cal_component_set_categories (comp, category);
@@ -2525,8 +2573,31 @@ gnome_calendar_get_current_time_range (GnomeCalendar *gcal,
 
 	priv = gcal->priv;
 
-	e_cal_view_get_selected_time_range (E_CAL_VIEW (gnome_calendar_get_current_view_widget (gcal)),
-					    start_time, end_time);
+	switch (priv->current_view_type) {
+	case GNOME_CAL_DAY_VIEW:
+		e_day_view_get_selected_time_range (E_DAY_VIEW (priv->day_view),
+						    start_time, end_time);
+		break;
+
+	case GNOME_CAL_WORK_WEEK_VIEW:
+		e_day_view_get_selected_time_range (E_DAY_VIEW (priv->work_week_view),
+						    start_time, end_time);
+		break;
+
+	case GNOME_CAL_WEEK_VIEW:
+		e_week_view_get_selected_time_range (E_WEEK_VIEW (priv->week_view),
+						     start_time, end_time);
+		break;
+
+	case GNOME_CAL_MONTH_VIEW:
+		e_week_view_get_selected_time_range (E_WEEK_VIEW (priv->month_view),
+						     start_time, end_time);
+		break;
+
+	default:
+		g_message ("My penguin is gone!");
+		g_assert_not_reached ();
+	}
 }
 
 
@@ -2544,8 +2615,26 @@ gnome_calendar_get_visible_time_range (GnomeCalendar *gcal,
 
 	priv = gcal->priv;
 
-	retval = e_cal_view_get_visible_time_range (E_CAL_VIEW (gnome_calendar_get_current_view_widget (gcal)),
-						    start_time, end_time);
+	switch (priv->current_view_type) {
+	case GNOME_CAL_DAY_VIEW:
+		retval = e_day_view_get_visible_time_range (E_DAY_VIEW (priv->day_view), start_time, end_time);
+		break;
+
+	case GNOME_CAL_WORK_WEEK_VIEW:
+		retval = e_day_view_get_visible_time_range (E_DAY_VIEW (priv->work_week_view), start_time, end_time);
+		break;
+
+	case GNOME_CAL_WEEK_VIEW:
+		retval = e_week_view_get_visible_time_range (E_WEEK_VIEW (priv->week_view), start_time, end_time);
+		break;
+
+	case GNOME_CAL_MONTH_VIEW:
+		retval = e_week_view_get_visible_time_range (E_WEEK_VIEW (priv->month_view), start_time, end_time);
+		break;
+
+	default:
+		g_assert_not_reached ();
+	}
 
 	return retval;
 }
@@ -2791,7 +2880,22 @@ gnome_calendar_cut_clipboard (GnomeCalendar *gcal)
 	location = get_focus_location (gcal);
 
 	if (location == FOCUS_CALENDAR) {
-		e_cal_view_cut_clipboard (E_CAL_VIEW (gnome_calendar_get_current_view_widget (gcal)));
+		switch (priv->current_view_type) {
+		case GNOME_CAL_DAY_VIEW :
+			e_day_view_cut_clipboard (E_DAY_VIEW (priv->day_view));
+			break;
+		case GNOME_CAL_WORK_WEEK_VIEW :
+			e_day_view_cut_clipboard (E_DAY_VIEW (priv->work_week_view));
+			break;
+		case GNOME_CAL_WEEK_VIEW :
+			e_week_view_cut_clipboard (E_WEEK_VIEW (priv->week_view));
+			break;
+		case GNOME_CAL_MONTH_VIEW :
+			e_week_view_cut_clipboard (E_WEEK_VIEW (priv->month_view));
+			break;
+		default:
+			g_assert_not_reached ();
+		}
 	} else if (location == FOCUS_TASKPAD)
 		e_calendar_table_cut_clipboard (E_CALENDAR_TABLE (priv->todo));
 	else
@@ -2809,7 +2913,22 @@ gnome_calendar_copy_clipboard (GnomeCalendar *gcal)
 	location = get_focus_location (gcal);
 
 	if (location == FOCUS_CALENDAR) {
-		e_cal_view_copy_clipboard (E_CAL_VIEW (gnome_calendar_get_current_view_widget (gcal)));
+		switch (priv->current_view_type) {
+		case GNOME_CAL_DAY_VIEW :
+			e_day_view_copy_clipboard (E_DAY_VIEW (priv->day_view));
+			break;
+		case GNOME_CAL_WORK_WEEK_VIEW :
+			e_day_view_copy_clipboard (E_DAY_VIEW (priv->work_week_view));
+			break;
+		case GNOME_CAL_WEEK_VIEW :
+			e_week_view_copy_clipboard (E_WEEK_VIEW (priv->week_view));
+			break;
+		case GNOME_CAL_MONTH_VIEW :
+			e_week_view_copy_clipboard (E_WEEK_VIEW (priv->month_view));
+			break;
+		default:
+			g_assert_not_reached ();
+		}
 	} else if (location == FOCUS_TASKPAD)
 		e_calendar_table_copy_clipboard (E_CALENDAR_TABLE (priv->todo));
 	else
@@ -2827,7 +2946,20 @@ gnome_calendar_paste_clipboard (GnomeCalendar *gcal)
 	location = get_focus_location (gcal);
 
 	if (location == FOCUS_CALENDAR) {
-		e_cal_view_paste_clipboard (E_CAL_VIEW (gnome_calendar_get_current_view_widget (gcal)));
+		switch (priv->current_view_type) {
+		case GNOME_CAL_DAY_VIEW :
+			e_day_view_paste_clipboard (E_DAY_VIEW (priv->day_view));
+			break;
+		case GNOME_CAL_WORK_WEEK_VIEW :
+			e_day_view_paste_clipboard (E_DAY_VIEW (priv->work_week_view));
+			break;
+		case GNOME_CAL_WEEK_VIEW :
+			e_week_view_paste_clipboard (E_WEEK_VIEW (priv->week_view));
+			break;
+		case GNOME_CAL_MONTH_VIEW :
+			e_week_view_paste_clipboard (E_WEEK_VIEW (priv->month_view));
+			break;
+		}
 	} else if (location == FOCUS_TASKPAD)
 		e_calendar_table_paste_clipboard (E_CALENDAR_TABLE (priv->todo));
 	else
@@ -2934,7 +3066,10 @@ gnome_calendar_delete_selection		(GnomeCalendar  *gcal)
 	if (location == FOCUS_CALENDAR) {
 		view = gnome_calendar_get_current_view_widget (gcal);
 
-		e_cal_view_delete_selected_events (E_CAL_VIEW (view));
+		if (E_IS_DAY_VIEW (view))
+			e_day_view_delete_event (E_DAY_VIEW (view));
+		else
+			e_week_view_delete_event (E_WEEK_VIEW (view));
 	} else if (location == FOCUS_TASKPAD)
 		e_calendar_table_delete_selected (E_CALENDAR_TABLE (priv->todo));
 	else
@@ -2957,193 +3092,12 @@ gnome_calendar_delete_selected_occurrence (GnomeCalendar *gcal)
 	if (location == FOCUS_CALENDAR) {
 
 		view = gnome_calendar_get_current_view_widget (gcal);
-		e_cal_view_delete_selected_occurrence (E_CAL_VIEW (view));
-	}
-}
-
-void
-gnome_calendar_unrecur_selection (GnomeCalendar *gcal)
-{
-	GnomeCalendarPrivate *priv;
-	FocusLocation location;
-	GtkWidget *view;
-
-	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
-
-	priv = gcal->priv;
-
-	location = get_focus_location (gcal);
-
-	if (location == FOCUS_CALENDAR) {
-
-		view = gnome_calendar_get_current_view_widget (gcal);
 
 		if (E_IS_DAY_VIEW (view))
-			e_day_view_unrecur_appointment (E_DAY_VIEW (view));
+			e_day_view_delete_occurrence (E_DAY_VIEW (view));
 		else
-			e_week_view_unrecur_appointment (E_WEEK_VIEW (view));
+			e_week_view_delete_occurrence (E_WEEK_VIEW (view));
 	}
-}
-
-typedef struct {
-	gboolean remove;
-	GnomeCalendar *gcal;
-} obj_updated_closure;
-
-static gboolean
-check_instance_cb (CalComponent *comp,
-		   time_t instance_start,
-		   time_t instance_end,
-		   gpointer data)
-{
-	obj_updated_closure *closure = data;
-
-	if (instance_start >= closure->gcal->priv->exp_older_than ||
-	    instance_end >= closure->gcal->priv->exp_older_than) {
-		closure->remove = FALSE;
-		return FALSE;
-	}
-
-	closure->remove = TRUE;
-	return TRUE;
-}
-
-static void
-purging_obj_updated_cb (CalQuery *query, const char *uid,
-			gboolean query_in_progress, int n_scanned, int total,
-			gpointer data)
-{
-	GnomeCalendarPrivate *priv;
-	GnomeCalendar *gcal = data;
-	CalComponent *comp;
-	icalcomponent *icalcomp;
-	obj_updated_closure closure;
-	gchar *msg;
-
-	priv = gcal->priv;
-
-	if (cal_client_get_object (cal_query_get_client (query), uid, &icalcomp) != CAL_CLIENT_GET_SUCCESS)
-		return;
-
-	comp = cal_component_new ();
-	if (!cal_component_set_icalcomponent (comp, icalcomp)) {
-		g_object_unref (comp);
-		icalcomponent_free (icalcomp);
-		return;
-	}
-
-	msg = g_strdup_printf (_("Purging event %s"), uid);
-
-	/* further filter the event, to check the last recurrence end date */
-	if (cal_component_has_recurrences (comp)) {
-		closure.remove = TRUE;
-		closure.gcal = gcal;
-
-		cal_recur_generate_instances (comp, priv->exp_older_than, -1,
-					      (CalRecurInstanceFn) check_instance_cb,
-					      &closure,
-					      (CalRecurResolveTimezoneFn) cal_client_resolve_tzid_cb,
-					      cal_query_get_client (query), priv->zone);
-
-		if (closure.remove) {
-			e_cal_view_set_status_message (E_CAL_VIEW (priv->week_view), msg);
-			delete_error_dialog (cal_client_remove_object (cal_query_get_client (query), uid),
-					     CAL_COMPONENT_EVENT);
-		}
-	} else {
-		e_cal_view_set_status_message (E_CAL_VIEW (priv->week_view), msg);
-		delete_error_dialog (cal_client_remove_object (cal_query_get_client (query), uid), CAL_COMPONENT_EVENT);
-	}
-
-	g_object_unref (comp);
-	g_free (msg);
-}
-
-static void
-purging_eval_error_cb (CalQuery *query, const char *error_str, gpointer data)
-{
-	GnomeCalendarPrivate *priv;
-	GnomeCalendar *gcal = data;
-
-	priv = gcal->priv;
-
-	e_cal_view_set_status_message (E_CAL_VIEW (priv->week_view), NULL);
-
-	g_signal_handlers_disconnect_matched (query, G_SIGNAL_MATCH_DATA,
-					      0, 0, NULL, NULL, gcal);
-
-	priv->exp_queries = g_list_remove (priv->exp_queries, query);
-	g_object_unref (query);
-}
-
-static void
-purging_query_done_cb (CalQuery *query, CalQueryDoneStatus status, const char *error_str, gpointer data)
-{
-	GnomeCalendarPrivate *priv;
-	GnomeCalendar *gcal = data;
-
-	priv = gcal->priv;
-
-	e_cal_view_set_status_message (E_CAL_VIEW (priv->week_view), NULL);
-
-	g_signal_handlers_disconnect_matched (query, G_SIGNAL_MATCH_DATA,
-					      0, 0, NULL, NULL, gcal);
-
-	priv->exp_queries = g_list_remove (priv->exp_queries, query);
-	g_object_unref (query);
-}
-
-void
-gnome_calendar_purge (GnomeCalendar *gcal, time_t older_than)
-{
-	GnomeCalendarPrivate *priv;
-	char *sexp, *start, *end;
-	GList *client_list, *l;
-
-	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
-
-	priv = gcal->priv;
-
-	/* if we have a query, we are already purging */
-	if (priv->exp_queries)
-		return;
-
-	priv->exp_older_than = older_than;
-	start = isodate_from_time_t (0);
-	end = isodate_from_time_t (older_than);
-	sexp = g_strdup_printf ("(and (= (get-vtype) \"VEVENT\")"
-				"     (occur-in-time-range? (make-time \"%s\")"
-				"                           (make-time \"%s\")))",
-				start, end);
-
-	e_cal_view_set_status_message (E_CAL_VIEW (priv->week_view), _("Purging"));
-
-	client_list = e_cal_model_get_client_list (e_cal_view_get_model (E_CAL_VIEW (priv->week_view)));
-	for (l = client_list; l != NULL; l = l->next) {
-		CalQuery *exp_query;
-
-		if (cal_client_is_read_only ((CalClient *) l->data))
-			continue;
-
-		exp_query = cal_client_get_query ((CalClient *) l->data, sexp);
-		if (!exp_query) {
-			e_cal_view_set_status_message (E_CAL_VIEW (priv->week_view), NULL);
-			g_message ("gnome_calendar_purge(): Could not create the query");
-			continue;
-		}
-	
-		g_signal_connect (exp_query, "obj_updated", G_CALLBACK (purging_obj_updated_cb), gcal);
-		g_signal_connect (exp_query, "query_done", G_CALLBACK (purging_query_done_cb), gcal);
-		g_signal_connect (exp_query, "eval_error", G_CALLBACK (purging_eval_error_cb), gcal);
-
-		priv->exp_queries = g_list_append (priv->exp_queries, exp_query);
-	}
-
-	g_list_free (client_list);
-	g_free (sexp);
-	g_free (start);
-	g_free (end);
-
 }
 
 ECalendarTable*
@@ -3154,26 +3108,3 @@ gnome_calendar_get_task_pad	(GnomeCalendar *gcal)
 	return E_CALENDAR_TABLE (gcal->priv->todo);
 }
 
-GtkWidget *
-gnome_calendar_get_e_calendar_widget (GnomeCalendar *gcal)
-{
- 	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), NULL);
- 
- 	return GTK_WIDGET(gcal->priv->date_navigator);
-}
- 
-GtkWidget *
-gnome_calendar_get_search_bar_widget (GnomeCalendar *gcal)
-{
- 	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), NULL);
- 
- 	return GTK_WIDGET(gcal->priv->search_bar);
-}
-
-GtkWidget *
-gnome_calendar_get_view_notebook_widget (GnomeCalendar *gcal)
-{
- 	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), NULL);
- 
- 	return GTK_WIDGET(gcal->priv->notebook);
-}

@@ -1,7 +1,4 @@
-#ifndef WIN32
-#include "config.h"
-#endif
-#ifndef HAVE_SNPRINTF
+#ifdef __osf__
 /*
  * Revision 12: http://theos.com/~deraadt/snprintf.c
  *
@@ -28,14 +25,12 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef WIN32
 #include <sys/param.h>
-#include <sys/mman.h>
-#include <unistd.h>
-#endif
 #include <sys/types.h>
+#include <sys/mman.h>
 #include <signal.h>
 #include <stdio.h>
+#include <unistd.h>
 #include <string.h>
 #if __STDC__
 #include <stdarg.h>

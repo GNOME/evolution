@@ -1,3 +1,252 @@
+Evolution 1.4.5, 2003-09-15
+---------------------------
+
+Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
+
+  * Addressbook
+
+    #46706 - Evo hangs when forward one contact. (gilbert.fang@sun.com)
+
+  * Calendar
+
+  * Calendar
+
+    #29032 - "% finished" changes if status is touched (Hans Petter)
+    #43558 - Validation error in non-ASCII locales (Suresh
+             Chandrasekharan)
+    #44972 - Appointment Notification List not translated to German
+             (Lorenzo Gil)
+    #46130 - evolution fails to build with error undefined reference to
+             `ORBIT_SERVANT_SET_CLASSINFO' (egallego@telefonica.net)
+    #46769 - No warning when creating a task with due date earlier than
+             start date (Harry Lu)
+    #47464 - Strange behavior after cutting meeting page's organizer
+             to blank (Harry Lu)
+    #47667 - Crash when leaving meeting invite (Hans Petter)
+    #47863 - Evolution crash/hangs on deleting tasks folder (Jack Jia)
+
+  * Mail
+
+    #32732 - Job queuing conflicts for long operations (Michael)
+    #43808 - Uuencoded files are not detected in messages (Jeff)
+    #45348 - %P instead of %p as description for a 'Follow up
+             overdue'-task (Harry Lu)
+    #45412 - Sent and Draft message folders are not being saved (Jeff)
+    #45594 - Failure in hostname lookup, pthread errors (Michael)
+    #45818 - I18N mail messages search only produces '[?]' (Suresh
+             Chandrasekharan)
+    #46168 - Chinese character set aliases updated (Suresh
+             Chandrasekharan)
+    #46512 - mailer should never leave sent messages in Outbox (Jeff)
+    #46674 - Western european mails garbled from IMAP (Michael)
+    #47087 - Close mail message using 'ESC' key (Yuedong Du)
+    #47208 - '#t' expression breaks for vFolders but not filters
+             (Michael)
+    #47224 - dragging of attachments broken (Michael)
+    #47541 - Hyperlink cannot be opened in mozilla browser (Jeff)
+    #47765 - Crash with vFolder definition, introduced by #47208
+             (Michael)
+    #48184 - Not displaying all of the uuencoded files attached to a
+             an Email (Jeff)
+    #48203 - Copy link location loses clipboard contents when
+             selecting text elsewhere (Jeff)
+    #48345 - 256-byte-long message is misdisplayed (Jeff)
+
+  * Shell
+
+    #47875 - Default shortcuts being added to the wrong group
+             (Calvin Liu, Ettore)
+    #48388 - Occasional hang when double-right-clicking on a folder
+             (Ettore)
+
+  * Summary
+
+    #21879 - Bermuda missing from weather locations (Lorenzo Gil
+             Sanchez)
+    #47461 - Appointment summaries show %P instead of AM/PM (Harry
+             Lu)
+    #47563 - Crash on Solaris caused by GConf schema problems (Jack
+             Jia)
+    #48175 - Wrong color settings of task will crash evolution
+             (Calvin Liu)
+
+Other bugs fixed:
+
+  * Addressbook
+
+    - Unref the EComponentListener before unloading the CORBA object
+      (Rodrigo)
+    - Chain lots of destroy/dispose methods throughout the addressbook,
+      and free some double free/unrefs (Hans Petter)
+    - Build/install related fixes for libebook/libeselectnames. (Dan)
+
+  * Calendar
+
+    - Fixed session management in alarm daemon (Rodrigo)
+    - Statically link todo conduit with libwombat (Frederic)
+    - Dont compile calendar IDL into the GUI, it's already in cal-client (Dan)
+    - Ensure alarm daemon gets UTF-8 strings from gettext (Frederic)
+    - Added missing object finalization chaining (Hans Petter)
+    - Removed nested main loops from iTip control, and make it work
+      asynchronously (Hans Petter)
+    - Use Alt+O to open tasks/events (Andrew Wu)
+    - Fixed some mnemonics on event editor (Jack Jia)
+
+  * Mail
+
+    - An automatic removal of 1 or 2 vFolder would fail (Michael)
+    - Made the To/Cc/Bcc buttons in the composer unfocusable, so you
+      can properly tab between the entries again (Ettore)
+
+  * Shell
+
+    - Migration of shortcuts using non-ASCII labels from 1.4 not
+      working properly (Frederic Crozat)
+    - Memory leaks (Dan)
+
+Updated translations:
+
+    - ca (Enric Balletbò i Serra)
+    - cs (Miloslav Trmac)
+    - cy (Dafydd Harries)
+    - de (Christian Neumair, Stephan Richter, Claudia Walenzyk)
+    - el (Nikos Charonitakis)
+    - es (Pablo Gonzalo del Campo)
+    - fi (Ilkka Tuohela)
+    - fr (Christophe Merlet, Nicolas Brouard)
+    - hu (Andras Timar)
+    - ja (Takeshi AIHANA, SUN Localization Team)
+    - ms (MIMOS Open Source Development Group)
+    - nl (Vincent van Adrighem)
+    - no (Kjartan Maraas)
+    - pl (Artur Flinta)
+    - pt (Duarte Loreto)
+    - sr (Danilo Šegan)
+    - sv (Christian Rose)
+    - sv (Christian Rose)
+    - zh_CN (Wang Jian)
+
+
+Evolution 1.4.4, 2003-07-28
+---------------------------
+
+Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
+
+  * Addressbook
+
+    #30839 - Selecting multiple names in contact list won't print.
+             (Toshok)
+
+  * Calendar
+
+    #41676 - Can create "Run a program" reminder" without entering a
+	     program.  (Rodrigo)
+    #45236 - Crash when editing tasks.  (Federico)
+    #45274 - Tab through events in week view.  (Bolian Yin)
+    #45328 - Alt+PageUp/PageDown, go to the first/last day in current month
+             in dayview.  (Bolian Yin)
+    #45329 - Alt+PageUp/PageDown, go to the first/last day in current month
+             in weekview.  (Bolian Yin)
+    #45524 - Doesn't use stock icons.  (Rodrigo)
+    #45767 - Evolution 1.4.1 building failed with Forte on Solaris8.  (Antonio Xu)
+    #45772 - In DayView, Alt+ Left Arrow / Right Arrow, Go to the same
+             day in the previous/next week.  (Andrew Wu)
+    #45774 - In DayView, Home/End, Select the time that begins/ends
+	     your work day. (Andrew Wu)
+    #45910 - Application crash when assigning tasks.  (Jack Jia, Rodrigo)
+    #46075 - Same date can be added repeatedly in Exceptions date list.
+             (Harry Lu)
+
+  * Mail
+
+    #42573 - IMAP APPEND buggy.  (Timo Sirainen)
+    #46013 - Can't focus on To/Cc button in composer.  (Maxx Cao)
+    #46018 - Cannot paste cut/copied mail into empty folder.
+             (Antonio Xu)
+    #46346 - Wrong default for startup dialog about restoring
+             autosaved items.  (Michel D�nzer)
+    #46398 - Crash when dragging files to message list.  (Federico)
+    #45826 - Shift+f10 should activate popup menu when focus on
+             attachment.  (Maxx Cao)
+
+  * Shell
+
+    #45982 - Don't overwrite folders on rename.  (Ettore)
+    #46026 - Startup wizard misbehavior.  (Antonio Xu)
+    #46284 - Startup wizard misbehavior.  (Antonio Xu)
+    #46700 - Crash when closing offline dialog.  (Yuedong Du)
+
+Other bugs fixed:
+
+  * Addressbook
+
+    - Make prints use the "Sans" font instead of "Helvetica".  (Akira
+      TAGOH)
+
+  * Mail
+
+    - Changed the accelerator for "Mark All as Read" so it doesn't
+      conflict.  (Anna)
+
+Updated translations:
+
+  - cs (Miloslav Trmac)
+  - cy (Dafydd Harries, Telsa Gwynne)
+  - es (Pablo Gonzalo del Campo)
+  - ja (Takeshi AIHANA)
+  - ms (Hasbullah Bin Bit)
+  - nl (Vincent van Adrighem)
+  - pl (Artur Flinta)
+  - pt (Duarte Loreto)
+  - pt_BR (Gustavo Maciel Dias Vieira)
+  - sr (Danilo Šegan)
+  - sv (Christian Rose)
+
+
+Evolution 1.4.3, 2003-07-08
+---------------------------
+
+Bugs fixed:
+
+  * Addressbook
+
+    - Fixed a race condition that could cause a crash on exit and some
+      memory leaks.  (Dan)
+
+  * Calendar
+
+    - Make it compile against GTK 2.0 again.  (Rodrigo)
+
+Updated translations:
+
+  - cs (Miloslav Trmac)
+  - hu (Andras Timar)
+
+
+Evolution 1.4.2, 2003-06-30
+---------------------------
+
+Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
+
+  * Calendar
+
+    #44719 - Alarm Notify window is not sticky any more (Rodrigo)
+    #44723 - Alarm Notify - Displays _originally entered_ summary (Rodrigo)
+    #45276 - Use the key "Esc" to escape editing current event and give focus
+             to day/week view (Bolian Yin)
+
+Other bugs
+
+  * Calendar
+
+    - Made all dialogs be centered on the Evolution window (Rodrigo)
+
+  * Mail
+
+    - Fixed a charset handling problem in the message composer, which
+      was introduced in 1.4.1.
+
+
 Evolution 1.4.1, 2003-06-25
 ---------------------------
 
@@ -46,8 +295,12 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
              evolution mail (suresh.chandrasekharan@sun.com)
     #45063 - Message display refreshes when new mail arrives,
     	     introducted by #33593 (Michael)
-    #45386 - Warnings when sending mail (Michael)
-    #45368 - Crash when closing the folder browser
+    #31745 - Cannot view mails under '#mh' namespace.  Temporary
+             workaround, strip #'s (Michael)
+    #43887 - Replying to Mail.App richtext mails quotes the raw
+	     richtext (Michael)
+    #45288 - Crash reading mail (Larry)
+    #45368 - Crash closing popup mail viewer (Dan)
 
   * Summary
 

@@ -3,7 +3,7 @@
  * Authors: Dan Winship <danw@ximian.com>
  *          Jeffrey Stedfast <fejj@ximian.com>
  *
- *  Copyright 2000-2003 Ximian, Inc. (www.ximian.com)
+ *  Copyright 2000, 2003 Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -40,15 +40,14 @@
 #include <gal/util/e-iconv.h>
 
 #include <camel/camel-mime-utils.h>
+#include <camel/camel-pgp-mime.h>
 #include <camel/camel-stream-null.h>
 #include <camel/camel-stream-filter.h>
 #include <camel/camel-multipart-signed.h>
 #include <camel/camel-mime-filter-enriched.h>
 #include <camel/camel-mime-filter-tohtml.h>
-#include <camel/camel-mime-filter-windows.h>
 
 #include <e-util/e-trie.h>
-#include <e-util/e-time-utils.h>
 
 #include "mail.h"
 #include "mail-tools.h"
@@ -117,6 +116,14 @@ free_data_urls (gpointer urls)
 	g_hash_table_destroy (urls);
 }
 
+static void
+fake_free (CamelObject *deadbeef, gpointer event_data, gpointer user_data)
+{
+	CamelObject *obj = user_data;
+	
+	camel_object_unref (obj);
+}
+
 /**
  * mail_format_mime_message: 
  * @mime_message: the input mime message
@@ -138,6 +145,7 @@ mail_format_mime_message (CamelMimeMessage *mime_message, MailDisplay *md,
 		g_datalist_set_data_full (md->data, "part_urls", hash,
 					  free_part_urls);
 	}
+	
 	hash = g_datalist_get_data (md->data, "data_urls");
 	if (!hash) {
 		hash = g_hash_table_new (g_str_hash, g_str_equal);
@@ -149,12 +157,6 @@ mail_format_mime_message (CamelMimeMessage *mime_message, MailDisplay *md,
 	if (!hash) {
 		hash = g_hash_table_new (NULL, NULL);
 		g_datalist_set_data_full (md->data, "attachment_states", hash,
-					  (GDestroyNotify) g_hash_table_destroy);
-	}
-	hash = g_datalist_get_data (md->data, "fake_parts");
-	if (!hash) {
-		hash = g_hash_table_new (NULL, NULL);
-		g_datalist_set_data_full (md->data, "fake_parts", hash,
 					  (GDestroyNotify) g_hash_table_destroy);
 	}
 	
@@ -195,7 +197,7 @@ mail_format_raw_message (CamelMimeMessage *mime_message, MailDisplay *md,
 	
 	camel_stream_write_string ((CamelStream *) stream, STANDARD_ISSUE_TABLE_OPEN "<tr><td><tt>");
 	
-	mail_format_data_wrapper_write_to_stream (wrapper, FALSE, md, (CamelStream *) filtered_stream);
+	mail_format_data_wrapper_write_to_stream (wrapper, md, (CamelStream *) filtered_stream);
 	camel_object_unref (filtered_stream);
 	
 	camel_stream_write_string ((CamelStream *) stream, "</tt></td></tr></table>");
@@ -783,42 +785,8 @@ write_date (MailDisplayStream *stream, CamelMimeMessage *message, int flags)
 	datestr = camel_medium_get_header (CAMEL_MEDIUM (message), "Date");
 	
 	if (datestr) {
-		int msg_offset;
-		time_t msg_date;
-		struct tm local;
-		int local_tz;
-
-		msg_date = header_decode_date(datestr, &msg_offset);
-		e_localtime_with_offset(msg_date, &local, &local_tz);
-
-		write_field_row_begin(stream, _("Date"), flags);
-		camel_stream_printf((CamelStream *)stream, "%s", datestr);
-
-		/* Convert message offset to minutes (e.g. -0400 --> -240) */
-		msg_offset = ((msg_offset / 100) * 60) + (msg_offset % 100);
-		/* Turn into offset from localtime, not UTC */
-		msg_offset -= local_tz / 60;
-
-		if (msg_offset) {
-			/* Message timezone different from local. Show both */
-			char buf[30];
-
-			msg_offset += (local.tm_hour * 60) + local.tm_min;
-
-			if (msg_offset >= (24 * 60) || msg_offset < 0) {
-				/* Timezone conversion crossed midnight. Show day */
-				/* translators: strftime format for local time equivalent in Date header display */
-				e_utf8_strftime(buf, 29, _("<I> (%a, %R %Z)</I>"), &local);
-			} else {
-				e_utf8_strftime(buf, 29, _("<I> (%R %Z)</I>"), &local);
-			}
-
-			/* I doubt any locales put '%' in time representation
-			   but just in case... */
-			camel_stream_printf((CamelStream *)stream,  "%s", buf);
-		}
-					     
-		camel_stream_printf ((CamelStream *) stream, "</td> </tr>");
+		write_field_row_begin (stream, _("Date"), flags);
+		camel_stream_printf ((CamelStream *) stream, "%s</td> </tr>", datestr);
 	}
 }
 
@@ -1153,74 +1121,67 @@ mail_content_loaded (CamelDataWrapper *wrapper, MailDisplay *md, gboolean redisp
 
 
 ssize_t
-mail_format_data_wrapper_write_to_stream (CamelDataWrapper *wrapper, gboolean decode, MailDisplay *mail_display, CamelStream *stream)
+mail_format_data_wrapper_write_to_stream (CamelDataWrapper *wrapper, MailDisplay *mail_display, CamelStream *stream)
 {
-	CamelStreamFilter *filter_stream;
-	CamelMimeFilterCharset *filter;
-	CamelContentType *content_type;
-	GConfClient *gconf;
-	ssize_t nwritten;
-	char *charset;
+	CamelStreamFilter *filtered_stream;
+	ssize_t written;
 	
-	gconf = mail_config_get_gconf_client ();
+	filtered_stream = camel_stream_filter_new_with_stream (stream);
 	
-	content_type = camel_data_wrapper_get_mime_type_field (wrapper);
-	
-	/* find out the charset the user wants to override to */
-	if (mail_display && mail_display->charset) {
-		/* user override charset */
-		charset = g_strdup (mail_display->charset);
-	} else if (content_type && (charset = (char *) header_content_type_param (content_type, "charset"))) {
-		/* try to use the charset declared in the Content-Type header */
-		if (!strncasecmp (charset, "iso-8859-", 9)) {
-			/* Since a few Windows mailers like to claim they sent
-			 * out iso-8859-# encoded text when they really sent
-			 * out windows-cp125#, do some simple sanity checking
-			 * before we move on... */
-			CamelMimeFilterWindows *windows;
-			CamelStream *null;
+	if (wrapper->rawtext || (mail_display && mail_display->charset)) {
+		CamelMimeFilterCharset *filter;
+		CamelContentType *content_type;
+		GConfClient *gconf;
+		char *charset;
+		
+		gconf = mail_config_get_gconf_client ();
+		
+		content_type = camel_data_wrapper_get_mime_type_field (wrapper);
+		
+		if (!wrapper->rawtext) {
+			/* data wrapper had been successfully converted to UTF-8 using the mime
+			   part's charset, but the user thinks he knows best so we'll let him
+			   shoot himself in the foot here... */
 			
-			null = camel_stream_null_new ();
-			filter_stream = camel_stream_filter_new_with_stream (null);
-			camel_object_unref (null);
-			
-			windows = (CamelMimeFilterWindows *) camel_mime_filter_windows_new (charset);
-			camel_stream_filter_add (filter_stream, (CamelMimeFilter *) windows);
-			
-			if (decode)
-				camel_data_wrapper_decode_to_stream (wrapper, (CamelStream *) filter_stream);
+			/* get the original charset of the mime part */
+			charset = (char *) (content_type ? header_content_type_param (content_type, "charset") : NULL);
+			if (!charset)
+				charset = gconf_client_get_string (gconf, "/apps/evolution/mail/format/charset", NULL);
 			else
-				camel_data_wrapper_write_to_stream (wrapper, (CamelStream *) filter_stream);
-			camel_stream_flush ((CamelStream *) filter_stream);
-			camel_object_unref (filter_stream);
+				charset = g_strdup (charset);
 			
-			charset = g_strdup (camel_mime_filter_windows_real_charset (windows));
-			camel_object_unref (windows);
-		} else {
-			charset = g_strdup (charset);
+			/* since the content is already in UTF-8, we need to decode into the
+			   original charset before we can convert back to UTF-8 using the charset
+			   the user is overriding with... */
+			if ((filter = camel_mime_filter_charset_new_convert ("utf-8", charset))) {
+				camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (filter));
+				camel_object_unref (filter);
+			}
+			
+			g_free (charset);
 		}
-	} else {
-		/* default to user's locale charset? */
-		charset = gconf_client_get_string (gconf, "/apps/evolution/mail/format/charset", NULL);
+		
+		/* find out the charset the user wants to override to */
+		if (mail_display && mail_display->charset)
+			charset = g_strdup (mail_display->charset);
+		else if (content_type && (charset = (char *) header_content_type_param (content_type, "charset")))
+			charset = g_strdup (charset);
+		else
+			charset = gconf_client_get_string (gconf, "/apps/evolution/mail/format/charset", NULL);
+		
+		if ((filter = camel_mime_filter_charset_new_convert (charset, "utf-8"))) {
+			camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (filter));
+			camel_object_unref (filter);
+		}
+		
+		g_free (charset);
 	}
 	
-	filter_stream = camel_stream_filter_new_with_stream (stream);
+	written = camel_data_wrapper_write_to_stream (wrapper, CAMEL_STREAM (filtered_stream));
+	camel_stream_flush (CAMEL_STREAM (filtered_stream));
+	camel_object_unref (filtered_stream);
 	
-	if ((filter = camel_mime_filter_charset_new_convert (charset, "UTF-8"))) {
-		camel_stream_filter_add (filter_stream, (CamelMimeFilter *) filter);
-		camel_object_unref (filter);
-	}
-	
-	g_free (charset);
-	
-	if (decode)
-		nwritten = camel_data_wrapper_decode_to_stream (wrapper, (CamelStream *) filter_stream);
-	else
-		nwritten = camel_data_wrapper_write_to_stream (wrapper, (CamelStream *) filter_stream);
-	camel_stream_flush ((CamelStream *) filter_stream);
-	camel_object_unref (filter_stream);
-	
-	return nwritten;
+	return written;
 }
 
 /* Return the contents of a data wrapper, or %NULL if it contains only
@@ -1237,7 +1198,7 @@ mail_format_get_data_wrapper_text (CamelDataWrapper *wrapper, MailDisplay *mail_
 	ba = g_byte_array_new ();
 	camel_stream_mem_set_byte_array (CAMEL_STREAM_MEM (memstream), ba);
 	
-	mail_format_data_wrapper_write_to_stream (wrapper, TRUE, mail_display, memstream);
+	mail_format_data_wrapper_write_to_stream (wrapper, mail_display, memstream);
 	camel_object_unref (memstream);
 	
 	for (text = ba->data, end = text + ba->len; text < end; text++) {
@@ -1261,6 +1222,90 @@ write_hr (MailDisplayStream *stream)
 				   "</td></tr></table>\n");
 }
 
+static CamelMimePart *
+handle_uuencode (const char **in, const char *inend)
+{
+	const char *lineptr, *inptr = *in;
+	CamelDataWrapper *content;
+	CamelMimePart *mime_part;
+	unsigned char *outbuf;
+	CamelStream *stream;
+	GByteArray *buffer;
+	size_t buflen = 0;
+	guint32 save = 0;
+	int state;
+	
+	buffer = g_byte_array_new ();
+	g_byte_array_set_size (buffer, inend - inptr);
+	
+	state = CAMEL_UUDECODE_STATE_BEGIN;
+	
+	outbuf = buffer->data;
+	
+	while (inptr < inend) {
+		size_t n;
+		
+		lineptr = inptr;
+		
+		while (*inptr != '\n')
+			inptr++;
+		
+		if (inptr != inend)
+			inptr++;
+		
+		n = uudecode_step ((unsigned char *) lineptr, inptr - lineptr, outbuf, &state, &save);
+		outbuf += n;
+		buflen += n;
+		
+		if (state & CAMEL_UUDECODE_STATE_END) {
+			/* uudecode_step() sets STATE_END when it
+			 * encounters the end of the encoded data, not
+			 * when it encounters "^end\n" so we need to
+			 * check the next line and if it is "end\n",
+			 * then skip it (or, if it is a "`\n" we need
+			 * to skip that and then check the next line
+			 * for "end\n").
+			 */
+			
+		uu_end:
+			if (inptr < inend) {
+				lineptr = inptr;
+				
+				while (*inptr != '\n')
+					inptr++;
+				
+				if (inptr != inend)
+					inptr++;
+				
+				if (strncmp (lineptr, "end\n", 4) != 0)
+					inptr = lineptr;
+				else if (strncmp (lineptr, "`\n", 2) == 0)
+					goto uu_end;
+			}
+			
+			break;
+		}
+	}
+	
+	g_byte_array_set_size (buffer, (int) buflen);
+	stream = camel_stream_mem_new_with_byte_array (buffer);
+	
+	content = camel_data_wrapper_new ();
+	camel_data_wrapper_construct_from_stream (content, stream);
+	camel_object_unref (stream);
+	
+	camel_data_wrapper_set_mime_type (content, "application/octet-stream");
+	
+	mime_part = camel_mime_part_new ();
+	camel_medium_set_content_object ((CamelMedium *) mime_part, content);
+	camel_mime_part_set_encoding (mime_part, CAMEL_MIME_PART_ENCODING_UUENCODE);
+	camel_object_unref (content);
+	
+	*in = inptr;
+	
+	return mime_part;
+}
+
 /*----------------------------------------------------------------------*
  *                     Mime handling functions
  *----------------------------------------------------------------------*/
@@ -1277,6 +1322,7 @@ handle_text_plain (CamelMimePart *part, const char *mime_type,
 	GConfClient *gconf;
 	guint32 flags, rgb = 0;
 	GdkColor colour;
+	GByteArray *text;
 	char *buf;
 	
 	gconf = mail_config_get_gconf_client ();
@@ -1309,12 +1355,82 @@ handle_text_plain (CamelMimePart *part, const char *mime_type,
 	camel_stream_filter_add (filtered_stream, html_filter);
 	camel_object_unref (html_filter);
 	
-	camel_stream_write_string ((CamelStream *) stream, STANDARD_ISSUE_TABLE_OPEN "<tr><td><tt>\n");
-	
 	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));
-	mail_format_data_wrapper_write_to_stream (wrapper, TRUE, md, (CamelStream *) filtered_stream);
 	
-	camel_stream_write_string ((CamelStream *) stream, "</tt></td></tr></table>\n");
+	text = mail_format_get_data_wrapper_text (wrapper, md);
+	if (text && text->len > 0) {
+		const char *lineptr, *inptr, *inend;
+		
+		camel_stream_write_string ((CamelStream *) stream, STANDARD_ISSUE_TABLE_OPEN "<tr><td><tt>\n");
+		
+		inend = text->data + text->len;
+		g_byte_array_append (text, "\n", 1);
+		inend = text->data + text->len - 1;
+		inptr = text->data;
+		
+		while (inptr < inend) {
+			lineptr = inptr;
+			
+			while (*inptr != '\n')
+				inptr++;
+			
+			if (inptr == inend)
+				goto plain_text;
+			
+			inptr++;
+			
+			if (!strncmp (lineptr, "begin ", 6) && lineptr[6] >= '0' && lineptr[6] <= '7') {
+				const char *q, *p = lineptr + 7;
+				CamelMimePart *uu_part;
+				char *filename;
+				int n = 1;
+				
+				while (n <= 4 && *p >= '0' && *p <= '7') {
+					p++;
+					n++;
+				}
+				
+				if (*p != ' ')
+					goto plain_text;
+				
+				p++;
+				q = inptr - 1;
+				filename = g_strndup (p, q - p);
+				
+				/* close the plain-text display */
+				camel_stream_flush ((CamelStream *) filtered_stream);
+				camel_stream_write_string ((CamelStream *) stream, "</tt></td></tr></table>\n");
+				
+				/* create the fake part... */
+				if (!(q = strstr (inptr, "\nend\n")))
+					q = inend;
+				else
+					q += 5;
+				
+				uu_part = handle_uuencode (&inptr, q);
+				camel_mime_part_set_filename (uu_part, filename);
+				g_free (filename);
+				
+				/* this is so when the next message gets displayed, these parts get free'd */
+				camel_object_hook_event (part, "finalize", fake_free, uu_part);
+				
+				/* display the uuencoded part */
+				format_mime_part (uu_part, md, stream);
+				
+				/* re-open the plain text display */
+				camel_stream_write_string ((CamelStream *) stream, STANDARD_ISSUE_TABLE_OPEN "<tr><td><tt>\n");
+			} else {
+			plain_text:
+				camel_stream_write ((CamelStream *) filtered_stream, lineptr, inptr - lineptr);
+			}
+		}
+		
+		camel_stream_flush ((CamelStream *) filtered_stream);
+		camel_stream_write_string ((CamelStream *) stream, "</tt></td></tr></table>\n");
+	}
+	
+	if (text != NULL)
+		g_byte_array_free (text, TRUE);
 	
 	camel_object_unref (filtered_stream);
 	
@@ -1347,7 +1463,7 @@ handle_text_enriched (CamelMimePart *part, const char *mime_type,
 	
 	camel_stream_write_string ((CamelStream *) stream, STANDARD_ISSUE_TABLE_OPEN "<tr><td><tt>\n");	
 	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));
-	mail_format_data_wrapper_write_to_stream (wrapper, TRUE, md, (CamelStream *) filtered_stream);
+	mail_format_data_wrapper_write_to_stream (wrapper, md, (CamelStream *) filtered_stream);
 	
 	camel_stream_write_string ((CamelStream *) stream, "</tt></td></tr></table>\n");
 	camel_object_unref (filtered_stream);
@@ -1438,13 +1554,11 @@ handle_multipart_encrypted (CamelMimePart *part, const char *mime_type,
 	CamelMimePart *mime_part;
 	CamelCipherContext *cipher;
 	CamelDataWrapper *wrapper;
-	const char *protocol;
 	CamelException ex;
 	gboolean handled;
 	
 	/* Currently we only handle RFC2015-style PGP encryption. */
-	protocol = header_content_type_param (((CamelDataWrapper *) part)->mime_type, "protocol");
-	if (!protocol || strcmp (protocol, "application/pgp-encrypted") != 0)
+	if (!camel_pgp_mime_is_rfc2015_encrypted (part))
 		return handle_multipart_mixed (part, mime_type, md, stream);
 	
 	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));

@@ -1,9 +1,2 @@
+Makefile.in
 Makefile
-.deps
-.libs
-*.lo
-*.la
-*.pyc
-LibicalWrap.c
-LibicalWrap_wrap.doc
-config.c

@@ -3,18 +3,12 @@
 	** For bug #48175
 	* e-summary-tasks.c: set default value for colour if it's empty
 
-2003-08-26  Rodrigo Moya <rodrigo@ximian.com>
-
-	* e-summary-tasks.c:
-	* e-summary-calendar.c (uids_to_array): use correct type for arguments
-	to cal_client_get_object.
-
 2003-08-19  Harry Lu  <harry.lu@sun.com>
 
 	** For bug #47461.
-
-	* e-summary-calendar.c: (generate_html): Change "%P" to "%p" so that
-	strftime() can work under solaris.
+	
+	* e-summary-calendar.c (generate_html): Change "%P" to "%p" so
+	that strftime() can work under solaris.
 
 2003-08-12  Jack Jia  <jack.jia@sun.com>
 
@@ -29,22 +23,11 @@
 
 2003-08-11  Ettore Perazzoli  <ettore@ximian.com>
 
-	Patch from Lorenzo Gil Sanchez <lgs@sicem.biz>
+	Patch from: Lorenzo Gil Sanchez <lgs@sicem.biz>
 
 	* Locations: Added Bermuda to the list of countries under the
 	'Central and South America' region.  [#21879]
 	
-2003-07-23  Dan Winship  <danw@ximian.com>
-
-	* e-summary-factory.c (e_summary_factory_new_control): Fix a
-	warning.
-
-	* e-summary-rdf.c (tree_walk): Fix a warning
-
-	* e-summary-weather.c (e_summary_weather_get_html): Remove an
-	unused variable.
-	(weather_make_html): Likewise.
-
 2003-06-23  Dan Winship  <danw@ximian.com>
 
 	* e-summary-calendar.c (setup_gconf_client): Don't call

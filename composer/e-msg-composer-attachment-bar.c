@@ -44,12 +44,12 @@
 
 #include <gal/util/e-iconv.h>
 
-#include <camel/camel-data-wrapper.h>
-#include <camel/camel-stream-fs.h>
-#include <camel/camel-stream-null.h>
-#include <camel/camel-stream-filter.h>
-#include <camel/camel-mime-filter-bestenc.h>
-#include <camel/camel-mime-part.h>
+#include "camel/camel-data-wrapper.h"
+#include "camel/camel-stream-fs.h"
+#include "camel/camel-stream-null.h"
+#include "camel/camel-stream-filter.h"
+#include "camel/camel-mime-filter-bestenc.h"
+#include "camel/camel-mime-part.h"
 
 #include "e-util/e-gui-utils.h"
 
@@ -235,23 +235,42 @@ update (EMsgComposerAttachmentBar *bar)
 		
 		if (image && attachment->pixbuf_cache == NULL) {
 			CamelDataWrapper *wrapper;
-			CamelStreamMem *mstream;
+			CamelStream *mstream;
 			GdkPixbufLoader *loader;
 			gboolean error = TRUE;
+			char tmp[4096];
+			int t;
 			
 			wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (attachment->body));
-			mstream = (CamelStreamMem *) camel_stream_mem_new ();
+			mstream = camel_stream_mem_new ();
 			
-			camel_data_wrapper_decode_to_stream (wrapper, (CamelStream *) mstream);
+			camel_data_wrapper_write_to_stream (wrapper, mstream);
+			
+			camel_stream_reset (mstream);
 			
 			/* Stream image into pixbuf loader */
 			loader = gdk_pixbuf_loader_new ();
-			error = !gdk_pixbuf_loader_write (loader, mstream->buffer->data, mstream->buffer->len, NULL);
-			gdk_pixbuf_loader_close (loader, NULL);
+			do {
+				t = camel_stream_read (mstream, tmp, 4096);
+				if (t > 0) {
+					error = !gdk_pixbuf_loader_write (loader, tmp, t, NULL);
+					if (error) {
+						break;
+					}
+				} else {
+					if (camel_stream_eos (mstream))
+						break;
+					error = TRUE;
+					break;
+				}
+				
+			} while (!camel_stream_eos (mstream));
 			
 			if (!error) {
 				int ratio, width, height;
-				
+
+				gdk_pixbuf_loader_close (loader, NULL);
+
 				/* Shrink pixbuf */
 				pixbuf = gdk_pixbuf_loader_get_pixbuf (loader);
 				width = gdk_pixbuf_get_width (pixbuf);
@@ -281,8 +300,9 @@ update (EMsgComposerAttachmentBar *bar)
 			}
 			
 			/* Destroy everything */
+			gdk_pixbuf_loader_close (loader, NULL);
 			g_object_unref (loader);
-			camel_object_unref (mstream);
+			camel_stream_close (mstream);
 		}
 		
 		desc = camel_mime_part_get_description (attachment->body);
@@ -509,14 +529,13 @@ destroy (GtkObject *object)
 
 /* GtkWidget methods.  */
 
-
 static void
 popup_menu_placement_callback (GtkMenu *menu, int *x, int *y, gboolean *push_in, gpointer user_data)
 {
 	EMsgComposerAttachmentBar *bar;
 	GnomeIconList *icon_list;
-	GList *selection;
 	GnomeCanvasPixbuf *image;
+	GList *selection;
 	
 	bar = E_MSG_COMPOSER_ATTACHMENT_BAR (user_data);
 	icon_list = GNOME_ICON_LIST (user_data);
@@ -534,6 +553,7 @@ popup_menu_placement_callback (GtkMenu *menu, int *x, int *y, gboolean *push_in,
 	/* Put menu to the center of icon. */
 	*x += (int)(image->item.x1 + image->item.x2) / 2;
 	*y += (int)(image->item.y1 + image->item.y2) / 2;
+
 }
 
 static gboolean 
@@ -555,8 +575,7 @@ popup_menu_event (GtkWidget *widget)
 	return TRUE;
 }
 
-
-static int
+static gint
 button_press_event (GtkWidget *widget,
 		    GdkEventButton *event)
 {
@@ -727,22 +746,29 @@ attach_to_multipart (CamelMultipart *multipart,
 	if (!CAMEL_IS_MULTIPART (content)) {
 		if (header_content_type_is (content_type, "text", "*")) {
 			CamelMimePartEncodingType encoding;
-			CamelStreamFilter *filter_stream;
+			CamelStreamFilter *filtered_stream;
 			CamelMimeFilterBestenc *bestenc;
 			CamelStream *stream;
 			const char *charset;
 			char *type;
 			
-			charset = header_content_type_param (content_type, "charset");
+			/* assume that if a charset is set, that the content is in UTF-8
+			 * or else already has rawtext set to TRUE */
+			if (!(charset = header_content_type_param (content_type, "charset"))) {
+				/* Let camel know that this text part was read in raw and thus is not in
+				 * UTF-8 format so that when it writes this part out, it doesn't try to
+				 * convert it from UTF-8 into the @default_charset charset. */
+				content->rawtext = TRUE;
+			}
 			
 			stream = camel_stream_null_new ();
-			filter_stream = camel_stream_filter_new_with_stream (stream);
+			filtered_stream = camel_stream_filter_new_with_stream (stream);
 			bestenc = camel_mime_filter_bestenc_new (CAMEL_BESTENC_GET_ENCODING);
-			camel_stream_filter_add (filter_stream, CAMEL_MIME_FILTER (bestenc));
-			camel_object_unref (stream);
+			camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (bestenc));
+			camel_object_unref (CAMEL_OBJECT (stream));
 			
-			camel_data_wrapper_decode_to_stream (content, CAMEL_STREAM (filter_stream));
-			camel_object_unref (filter_stream);
+			camel_data_wrapper_write_to_stream (content, CAMEL_STREAM (filtered_stream));
+			camel_object_unref (CAMEL_OBJECT (filtered_stream));
 			
 			encoding = camel_mime_filter_bestenc_get_best_encoding (bestenc, CAMEL_BESTENC_8BIT);
 			camel_mime_part_set_encoding (attachment->body, encoding);
@@ -768,9 +794,10 @@ attach_to_multipart (CamelMultipart *multipart,
 				g_free (type);
 			}
 			
-			camel_object_unref (bestenc);
+			camel_object_unref (CAMEL_OBJECT (bestenc));
 		} else if (!CAMEL_IS_MIME_MESSAGE (content)) {
-			camel_mime_part_set_encoding (attachment->body, CAMEL_MIME_PART_ENCODING_BASE64);
+			camel_mime_part_set_encoding (attachment->body,
+						      CAMEL_MIME_PART_ENCODING_BASE64);
 		}
 	}
 	

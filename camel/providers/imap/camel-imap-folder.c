@@ -66,9 +66,8 @@
 #include "camel-stream-filter.h"
 #include "camel-stream-mem.h"
 #include "camel-stream.h"
+#include "string-utils.h"
 #include "camel-private.h"
-#include "camel-string-utils.h"
-#include "camel-file-utils.h"
 
 
 #define d(x)
@@ -218,7 +217,7 @@ camel_imap_folder_new (CamelStore *parent, const char *folder_name,
 	const char *short_name;
 	char *summary_file;
 
-	if (camel_mkdir (folder_dir, S_IRWXU) != 0) {
+	if (camel_mkdir_hier (folder_dir, S_IRWXU) != 0) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Could not create directory %s: %s"),
 				      folder_dir, g_strerror (errno));
@@ -1732,7 +1731,7 @@ get_content (CamelImapFolder *imap_folder, const char *uid,
 		body_mp = camel_multipart_signed_new ();
 		/* need to set this so it grabs the boundary and other info about the signed type */
 		/* we assume that part->content_type is more accurate/full than ci->type */
-		camel_data_wrapper_set_mime_type_field (CAMEL_DATA_WRAPPER (body_mp), CAMEL_DATA_WRAPPER (part)->mime_type);
+		camel_data_wrapper_set_mime_type_field (CAMEL_DATA_WRAPPER (body_mp), part->content_type);
 		
 		spec = g_alloca (strlen (part_spec) + 6);
 		sprintf (spec, part_spec[0] ? "%s.TEXT" : "TEXT", part_spec);
@@ -1761,7 +1760,7 @@ get_content (CamelImapFolder *imap_folder, const char *uid,
 		
 		/* need to set this so it grabs the boundary and other info about the multipart */
 		/* we assume that part->content_type is more accurate/full than ci->type */
-		camel_data_wrapper_set_mime_type_field (CAMEL_DATA_WRAPPER (body_mp), CAMEL_DATA_WRAPPER (part)->mime_type);
+		camel_data_wrapper_set_mime_type_field (CAMEL_DATA_WRAPPER (body_mp), part->content_type);
 		
 		speclen = strlen (part_spec);
 		child_spec = g_malloc (speclen + 17); /* dot + 10 + dot + MIME + nul */

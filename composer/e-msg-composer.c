@@ -1,7 +1,7 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 /* e-msg-composer.c
  *
- * Copyright (C) 1999-2003 Ximian, Inc. (www.ximian.com)
+ * Copyright (C) 1999  Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -80,10 +80,9 @@
 #include "e-util/e-dialog-utils.h"
 #include "widgets/misc/e-charset-picker.h"
 
-#include <camel/camel-session.h>
-#include <camel/camel-charset-map.h>
-#include <camel/camel-stream-filter.h>
-#include <camel/camel-mime-filter-charset.h>
+#include "camel/camel.h"
+#include "camel/camel-charset-map.h"
+#include "camel/camel-session.h"
 
 #include "mail/mail-callbacks.h"
 #include "mail/mail-crypto.h"
@@ -103,7 +102,7 @@
 #include "Editor.h"
 #include "listener.h"
 
-#define GNOME_GTKHTML_EDITOR_CONTROL_ID "OAFIID:GNOME_GtkHTML_Editor:3.1"
+#define GNOME_GTKHTML_EDITOR_CONTROL_ID "OAFIID:GNOME_GtkHTML_Editor:3.0"
 
 #define d(x) x
 
@@ -214,7 +213,7 @@ best_encoding (GByteArray *buf, const char *charset)
 	do {
 		out = outbuf;
 		outlen = sizeof (outbuf);
-		status = e_iconv (cd, (const char **) &in, &inlen, &out, &outlen);
+		status = e_iconv (cd, &in, &inlen, &out, &outlen);
 		for (ch = out - 1; ch >= outbuf; ch--) {
 			if ((unsigned char)*ch > 127)
 				count++;
@@ -348,16 +347,16 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 	EMsgComposerAttachmentBar *attachment_bar =
 		E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar);
 	EMsgComposerHdrs *hdrs = E_MSG_COMPOSER_HDRS (composer->hdrs);
+	CamelMimeMessage *new;
+	GByteArray *data;
 	CamelDataWrapper *plain, *html, *current;
 	CamelMimePartEncodingType plain_encoding;
-	CamelMultipart *body = NULL;
+	const char *charset;
 	CamelContentType *type;
-	CamelMimeMessage *new;
-	const char *charset = NULL;
 	CamelStream *stream;
+	CamelMultipart *body = NULL;
 	CamelMimePart *part;
 	CamelException ex;
-	GByteArray *data;
 	int i;
 	
 	if (composer->persist_stream_interface == CORBA_OBJECT_NIL)
@@ -404,27 +403,12 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 			header_content_type_set_param (type, "charset", charset);
 	}
 	
-	stream = camel_stream_mem_new_with_byte_array (data);
-	
-	/* convert the stream to the appropriate charset */
-	if (charset && strcasecmp (charset, "UTF-8") != 0) {
-		CamelStreamFilter *filter_stream;
-		CamelMimeFilterCharset *filter;
-		
-		filter_stream = camel_stream_filter_new_with_stream (stream);
-		camel_object_unref (stream);
-		
-		stream = (CamelStream *) filter_stream;
-		filter = camel_mime_filter_charset_new_convert ("UTF-8", charset);
-		camel_stream_filter_add (filter_stream, (CamelMimeFilter *) filter);
-		camel_object_unref (filter);
-	}
-	
-	/* construct the content object */
 	plain = camel_data_wrapper_new ();
+	plain->rawtext = FALSE;
+	
+	stream = camel_stream_mem_new_with_byte_array (data);
 	camel_data_wrapper_construct_from_stream (plain, stream);
 	camel_object_unref (stream);
-	
 	camel_data_wrapper_set_mime_type_field (plain, type);
 	header_content_type_unref (type);
 	
@@ -450,6 +434,7 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 		}
 		
 		html = camel_data_wrapper_new ();
+		html->rawtext = FALSE;
 		
 		stream = camel_stream_mem_new_with_byte_array (data);
 		camel_data_wrapper_construct_from_stream (html, stream);
@@ -1409,14 +1394,14 @@ autosave_manager_query_load_orphans (AutosaveManager *am, GtkWindow *parent)
 	if (match != NULL) {
 		GtkWidget *dialog;
 
-		dialog = gtk_message_dialog_new (parent,
-						 GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT,
-						 GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
-						 _("Ximian Evolution has found unsaved files from a previous session.\n"
-						   "Would you like to try to recover them?"));
+		dialog = gtk_message_dialog_new(parent,
+						GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT,
+						GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
+						_("Ximian Evolution has found unsaved files from a previous session.\n"
+						  "Would you like to try to recover them?"));
 		gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_YES);
-		load = gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_YES;
-		gtk_widget_destroy (dialog);
+		load = gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_YES;
+		gtk_widget_destroy(dialog);
 	}
 	
 	while (match != NULL) {
@@ -1956,6 +1941,11 @@ static BonoboUIVerb verbs [] = {
 	
 	BONOBO_UI_VERB ("FileSend", menu_file_send_cb),
 	
+	BONOBO_UI_VERB ("EditCut", menu_edit_cut_cb),
+	BONOBO_UI_VERB ("EditCopy", menu_edit_copy_cb),
+	BONOBO_UI_VERB ("EditPaste", menu_edit_paste_cb),
+	BONOBO_UI_VERB ("SelectAll", menu_edit_select_all_cb),
+	
 	BONOBO_UI_VERB ("DeleteAll", menu_edit_delete_all_cb),
 	
 	BONOBO_UI_VERB_END
@@ -2218,10 +2208,6 @@ setup_ui (EMsgComposer *composer)
 	mail_config_signature_register_client ((MailConfigSignatureClient) sig_event_client, composer);
 	
 	bonobo_ui_component_thaw (composer->uic, NULL);
-
-	/* Create the UIComponent for the non-control entries */
-
-	composer->entry_uic = bonobo_ui_component_new_default ();
 }
 
 
@@ -2462,11 +2448,6 @@ destroy (GtkObject *object)
 	if (composer->uic) {
 		bonobo_object_unref (BONOBO_OBJECT (composer->uic));
 		composer->uic = NULL;
-	}
-
-	if (composer->entry_uic) {
-		bonobo_object_unref (BONOBO_OBJECT (composer->entry_uic));
-		composer->entry_uic = NULL;
 	}
 	
 	/* FIXME?  I assume the Bonobo widget will get destroyed
@@ -2854,36 +2835,15 @@ composer_key_pressed (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 	return FALSE; /* Not handled. */
 }
 
-/* Verbs for non-control entries */
-static BonoboUIVerb entry_verbs [] = {
-	BONOBO_UI_VERB ("EditCut", menu_edit_cut_cb),
-	BONOBO_UI_VERB ("EditCopy", menu_edit_copy_cb),
-	BONOBO_UI_VERB ("EditPaste", menu_edit_paste_cb),
-	BONOBO_UI_VERB ("EditSelectAll", menu_edit_select_all_cb),
-	BONOBO_UI_VERB_END
-};
 
 /* All this snot is so that Cut/Copy/Paste work. */
 static gboolean
 composer_entry_focus_in_event_cb (GtkWidget *widget, GdkEventFocus *event, gpointer user_data)
 {
 	EMsgComposer *composer = user_data;
-	BonoboUIContainer *container;
-
-	composer->focused_entry = widget;
-
-	container = bonobo_window_get_ui_container (BONOBO_WINDOW (composer));
-	bonobo_ui_component_set_container (composer->entry_uic, bonobo_object_corba_objref (BONOBO_OBJECT (container)), NULL);
-
-	bonobo_ui_component_add_verb_list_with_data (composer->entry_uic, entry_verbs, composer);
-
-	bonobo_ui_component_freeze (composer->entry_uic, NULL);
-
-	bonobo_ui_util_set_ui (composer->entry_uic, PREFIX,
-			       EVOLUTION_UIDIR "/evolution-composer-entries.xml",
-			       "evolution-composer-entries", NULL);
 	
-	bonobo_ui_component_thaw (composer->entry_uic, NULL);
+	composer->focused_entry = widget;
+	bonobo_ui_component_add_verb_list_with_data (composer->uic, verbs, composer);
 	
 	return FALSE;
 }
@@ -2895,8 +2855,6 @@ composer_entry_focus_out_event_cb (GtkWidget *widget, GdkEventFocus *event, gpoi
 	
 	g_assert (composer->focused_entry == widget);
 	composer->focused_entry = NULL;
-
-	bonobo_ui_component_unset_container (composer->entry_uic, NULL);
 	
 	return FALSE;
 }
@@ -2910,12 +2868,12 @@ setup_cut_copy_paste (EMsgComposer *composer)
 	hdrs = (EMsgComposerHdrs *) composer->hdrs;
 	
 	entry = e_msg_composer_hdrs_get_subject_entry (hdrs);
-	g_signal_connect (entry, "focus_in_event", G_CALLBACK (composer_entry_focus_in_event_cb), composer);
-	g_signal_connect (entry, "focus_out_event", G_CALLBACK (composer_entry_focus_out_event_cb), composer);
+	g_signal_connect (entry, "focus-in-event", G_CALLBACK (composer_entry_focus_in_event_cb), composer);
+	g_signal_connect (entry, "focus-out-event", G_CALLBACK (composer_entry_focus_out_event_cb), composer);
 	
 	entry = e_msg_composer_hdrs_get_reply_to_entry (hdrs);
-	g_signal_connect (entry, "focus_in_event", G_CALLBACK (composer_entry_focus_in_event_cb), composer);
-	g_signal_connect (entry, "focus_out_event", G_CALLBACK (composer_entry_focus_out_event_cb), composer);
+	g_signal_connect (entry, "focus-in-event", G_CALLBACK (composer_entry_focus_in_event_cb), composer);
+	g_signal_connect (entry, "focus-out-event", G_CALLBACK (composer_entry_focus_out_event_cb), composer);
 }
 
 static void
@@ -2949,7 +2907,6 @@ create_composer (int visible_mask)
 	CORBA_Environment ev;
 	GConfClient *gconf;
 	int vis;
-	BonoboControlFrame *control_frame;
 	
 	composer = g_object_new (E_TYPE_MSG_COMPOSER, "win_name", _("Compose a message"), NULL);
 	gtk_window_set_title ((GtkWindow *) composer, _("Compose a message"));
@@ -3020,9 +2977,6 @@ create_composer (int visible_mask)
 		gtk_object_destroy (GTK_OBJECT (composer));
 		return NULL;
 	}
-
-	control_frame = bonobo_widget_get_control_frame (BONOBO_WIDGET (composer->editor));
-	bonobo_control_frame_set_autoactivate (control_frame, TRUE);
 	
 	/* let the editor know which mode we are in */
 	bonobo_widget_set_property (BONOBO_WIDGET (composer->editor), 
@@ -3611,8 +3565,8 @@ e_msg_composer_new_with_message (CamelMimeMessage *message)
 	}
 	
 	if (postto == NULL) {
-		auto_cc = g_hash_table_new (camel_strcase_hash, camel_strcase_equal);
-		auto_bcc = g_hash_table_new (camel_strcase_hash, camel_strcase_equal);
+		auto_cc = g_hash_table_new (g_strcase_hash, g_strcase_equal);
+		auto_bcc = g_hash_table_new (g_strcase_hash, g_strcase_equal);
 		
 		if (account) {
 			CamelInternetAddress *iaddr;

@@ -1,6 +1,10 @@
 Makefile
 .deps
-.libs
+Makefile.in
 *.lo
 *.la
+.libs
+y.output
+icalsslexer.c
+icalssyacc.c
 icalss.h

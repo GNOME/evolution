@@ -319,7 +319,7 @@ message_list_drag_data_get (ETree *tree, int row, ETreePath path, int col,
 		CamelMimeMessage *message;
 		CamelMimeFilter *filter;
 		CamelStream *fstream;
-		CamelStreamFilter *stream;
+		CamelStream *stream;
 		char *uri_list;
 		int fd;
 		
@@ -365,20 +365,20 @@ message_list_drag_data_get (ETree *tree, int row, ETreePath path, int col,
 		
 		stream = camel_stream_filter_new_with_stream (fstream);
 		filter = camel_mime_filter_from_new ();
-		camel_stream_filter_add (stream, filter);
+		camel_stream_filter_add (CAMEL_STREAM_FILTER (stream), filter);
 		camel_object_unref (filter);
 		
 		camel_stream_write (fstream, "From - \n", 8);
-		camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), CAMEL_STREAM (stream));
+		camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), stream);
 		camel_object_unref (message);
-		camel_stream_flush (CAMEL_STREAM (stream));
+		camel_stream_flush (stream);
 		
 		for (i = 1; i < uids->len; i++) {
 			message = camel_folder_get_message (fb->folder, uids->pdata[i], NULL);
 			camel_stream_write (fstream, "From - \n", 8);
-			camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), CAMEL_STREAM (stream));
+			camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), stream);
 			camel_object_unref (message);
-			camel_stream_flush (CAMEL_STREAM (stream));
+			camel_stream_flush (stream);
 			g_free (uids->pdata[i]);
 		}
 		
@@ -1185,6 +1185,8 @@ folder_browser_set_message_preview (FolderBrowser *folder_browser, gboolean show
 		do_message_selected (folder_browser);
 		set_cursor_pos (folder_browser, y);
 	} else {
+		g_free(folder_browser->loaded_uid);
+		folder_browser->loaded_uid = NULL;
 		gtk_widget_hide (GTK_WIDGET (folder_browser->mail_display));
 		mail_display_set_message (folder_browser->mail_display, NULL, NULL, NULL);
 		folder_browser_ui_message_loaded (folder_browser);
@@ -1380,23 +1382,6 @@ folder_browser_toggle_hide_deleted (BonoboUIComponent           *component,
 	
 	if (!(fb->folder && (fb->folder->folder_flags & CAMEL_FOLDER_IS_TRASH)))
 		message_list_set_hidedeleted (fb->message_list, atoi (state));
-}
-
-void
-folder_browser_toggle_caret_mode(BonoboUIComponent	*component,
-				   const char		* path,
-				   Bonobo_UIComponent_EventType type,
-				   const char		* state,
-				   gpointer		user_data)
-{
-	GConfClient *gconf;
-	
-        if (type != Bonobo_UIComponent_STATE_CHANGED)
-		return;
-
-	gconf = mail_config_get_gconf_client ();
-	gconf_client_set_bool (gconf, "/apps/evolution/mail/display/caret_mode",
-			       atoi(state), NULL);
 }
 
 void
@@ -2249,7 +2234,6 @@ on_key_press (GtkWidget *widget, GdkEventKey *key, gpointer data)
 	case GDK_KP_Delete:
 		delete_msg (NULL, fb);
 		return TRUE;
-		
 	case GDK_Menu:
 		on_right_click (fb->message_list->tree, row, path, 2,
 				(GdkEvent *)key, fb);

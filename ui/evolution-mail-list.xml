@@ -113,7 +113,7 @@
     <submenu name="Actions" _label="_Actions">
       <placeholder name="ComponentActionsPlaceholder">
         <placeholder name="MailListActions">
-          <menuitem name="FolderExpunge" verb="" _label="E_xpunge"/>
+          <menuitem name="FolderExpunge" verb="" _label="_Expunge"/>
         </placeholder>
       </placeholder>
     </submenu>

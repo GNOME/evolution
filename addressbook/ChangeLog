@@ -1,20 +1,23 @@
-2003-09-11  Dan Winship  <danw@ximian.com>
+2003-09-05  Dan Winship  <danw@ximian.com>
 
-	* backend/ebook/Makefile.am (privlib_LTLIBRARIES): Remove
-	libebook-static.la
+	* gui/component/select-names/Makefile.am: Make libeselectnames.la
+	be noinst: it depends on a symbol in libevolution-addressbook
+	(addressbook_load_uri), so it's not usable as a standalone library
+	anyway.
 
-	* conduit/Makefile.am (libeaddress_conduit_la_LIBADD): Use
-	non-static versions of libraries: the static ones were only needed
-	for libtool 1.3.
+2003-09-04  Dan Winship  <danw@ximian.com>
+
+	* conduit/Makefile.am (libeaddress_conduit_la_LIBADD):
+	s/libeconduit-static/libeconduit/
 
 2003-08-26  JP Rosevear  <jpr@ximian.com>
- 
- 	* conduit/address-conduit.c (ecard_from_remote_record): duplicate
- 	the extra address lines
-	
-2003-08-20  Gilbert Fang  <gilbert.fang@sun.com>
 
-        * gui/widgets/e-addressbook-util.c
+	* conduit/address-conduit.c (ecard_from_remote_record): duplicate
+	the extra address lines
+
+2003-08-18  Gilbert Fang  <gilbert.fang@sun.com>
+
+        * addressbook/gui/widgets/e-addressbook-util.c
         (e_addressbook_send_card_list): use memcpy to assign
         CORBA_char_sequence instead of strcpy. (#46706)
 
@@ -48,7 +51,6 @@
 
 	* gui/widgets/e-addressbook-reflow-adapter.c (addressbook_dispose):
 	Chain.
-	(addressbook_finalize): Chain.
 
 	* gui/widgets/e-addressbook-table-adapter.c (addressbook_dispose):
 	Chain.
@@ -84,36 +86,6 @@
 	* printing/e-contact-print-envelope.c (ecpe_print): Use 'Sans'
 	instead of 'Helvetica' for the font name.
 	* printing/e-contact-print.c (e_contact_build_style): Likewise.
-
-2003-07-23  Dan Winship  <danw@ximian.com>
-
-	* backend/ebook/Makefile.am: use EVO_MARSHAL_RULE
-	* backend/pas/Makefile.am: Likewise
-	* gui/component/select-names/Makefile.am: Likewise
-	* gui/contact-editor/Makefile.am: Likewise
-	* gui/contact-list-editor/Makefile.am: Likewise
-	* gui/widgets/Makefile.am: Likewise
-
-	* gui/contact-editor/e-contact-editor.c
-	(e_contact_editor_class_init):
-	s/ece_marshal/e_contact_editor_marshal/
-
-	* gui/contact-list-editor/e-contact-list-editor.c
-	(e_contact_list_editor_class_init): Likewise for ecle_marshal
-
-	* gui/search/e-addressbook-search-dialog.c
-	(e_addressbook_search_dialog_init): Remove gtk_window_set_policy
-	call since that function is deprecated and it was just setting
-	everything to the default values anyway.
-
-	* gui/widgets/e-addressbook-util.c: #include gal/util/e-util.h for
-	e_free_object_list.
-
-2003-07-22  Dan Winship  <danw@ximian.com>
-
-	* backend/ebook/e-card.c: (e_card_new,
-	e_card_new_with_default_charset): Make the "vcard" arg const.
-	...: add lots and lots of other consts as a side effect
 
 2003-06-30  Dan Winship  <danw@ximian.com>
 

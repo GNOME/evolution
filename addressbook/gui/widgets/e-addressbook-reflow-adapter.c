@@ -110,17 +110,6 @@ addressbook_dispose(GObject *object)
 }
 
 static void
-addressbook_finalize(GObject *object)
-{
-	EAddressbookReflowAdapter *adapter = E_ADDRESSBOOK_REFLOW_ADAPTER(object);
-
-	g_free (adapter->priv);
-
-	if (G_OBJECT_CLASS (parent_class)->finalize)
-		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
-}
-
-static void
 addressbook_set_width (EReflowModel *erm, int width)
 {
 }
@@ -387,7 +376,6 @@ e_addressbook_reflow_adapter_class_init (GObjectClass *object_class)
 	object_class->set_property = addressbook_set_property;
 	object_class->get_property = addressbook_get_property;
 	object_class->dispose = addressbook_dispose;
-	object_class->finalize = addressbook_finalize;
 
 	g_object_class_install_property (object_class, PROP_BOOK, 
 					 g_param_spec_object ("book",

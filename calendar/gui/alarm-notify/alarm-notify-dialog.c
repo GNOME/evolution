@@ -40,7 +40,6 @@
 #include "cal-util/timeutil.h"
 #include "alarm-notify-dialog.h"
 #include "config-data.h"
-#include "util.h"
 
 
 GtkWidget *make_html_display (gchar *widget_name, char *s1, char *s2, int scroll, int shadow);
@@ -216,6 +215,25 @@ write_times (GtkHTMLStream *stream, char *start, char *end)
 
 }
 
+/* Converts a time_t to a string, relative to the specified timezone */
+static char *
+timet_to_str_with_zone (time_t t, icaltimezone *zone)
+{
+	struct icaltimetype itt;
+	struct tm tm;
+	char buf[256];
+
+	if (t == -1)
+		return g_strdup (_("invalid time"));
+
+	itt = icaltime_from_timet_with_zone (t, FALSE, zone);
+	tm = icaltimetype_to_tm (&itt);
+
+	e_time_format_date_and_time (&tm, config_data_get_24_hour_format (),
+				     FALSE, FALSE, buf, sizeof (buf));
+	return g_strdup (buf);
+}
+
 /* Creates a heading for the alarm notification dialog */
 static void
 write_html_heading (GtkHTMLStream *stream, const char *message,
@@ -300,6 +318,7 @@ alarm_notify_dialog (time_t trigger, time_t occur_start, time_t occur_end,
 	GtkHTMLStream *stream;
 	icaltimezone *current_zone;
 	char *buf, *title;
+	GdkPixbuf *pixbuf;
 
 	g_return_val_if_fail (trigger != -1, NULL);
 
@@ -379,7 +398,10 @@ alarm_notify_dialog (time_t trigger, time_t occur_start, time_t occur_end,
 		gtk_widget_realize (an->dialog);
 
 	gtk_window_stick (GTK_WINDOW (an->dialog));
-	gtk_window_set_icon_from_file (GTK_WINDOW (an->dialog), EVOLUTION_IMAGESDIR "/alarm.png", NULL);
+
+	pixbuf = gdk_pixbuf_new_from_file (EVOLUTION_IMAGESDIR "/alarm.png", NULL);
+	gtk_window_set_icon (GTK_WINDOW (an->dialog), pixbuf);
+	g_object_unref (pixbuf);
 
 	gtk_widget_show (an->dialog);
 	return an;

@@ -6,7 +6,7 @@
  * Author :
  *  Bertrand Guiheneuf <bertrand@helixcode.com>
  *
- * Copyright 1999-2003 Ximian, Inc. (www.ximian.com)
+ * Copyright 1999, 2000 Ximian, Inc. (www.ximian.com)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -27,13 +27,17 @@
 #include <config.h>
 #endif
 
+#include <sys/types.h>
+#include <sys/time.h>
 #include <ctype.h>
 #include <stdlib.h>
 #include <string.h>
-#include <pthread.h>
 #include <errno.h>
 
+#ifdef ENABLE_THREADS
+#include <pthread.h>
 #include "e-util/e-msgport.h"
+#endif
 
 #include "e-util/e-host-utils.h"
 
@@ -91,10 +95,12 @@ static void
 camel_service_init (void *o, void *k)
 {
 	CamelService *service = o;
-	
+
 	service->priv = g_malloc0(sizeof(*service->priv));
+#ifdef ENABLE_THREADS
 	service->priv->connect_lock = e_mutex_new(E_MUTEX_REC);
 	service->priv->connect_op_lock = e_mutex_new(E_MUTEX_SIMPLE);
+#endif
 }
 
 static void
@@ -119,9 +125,10 @@ camel_service_finalize (CamelObject *object)
 	if (service->session)
 		camel_object_unref (CAMEL_OBJECT (service->session));
 	
+#ifdef ENABLE_THREADS
 	e_mutex_destroy (service->priv->connect_lock);
 	e_mutex_destroy (service->priv->connect_op_lock);
-	
+#endif
 	g_free (service->priv);
 }
 
@@ -683,7 +690,9 @@ camel_service_gethost (CamelService *service, CamelException *ex)
 #endif
 
 struct _lookup_msg {
+#ifdef ENABLE_THREADS
 	EMsg msg;
+#endif
 	unsigned int cancelled:1;
 	const char *name;
 	int len;
@@ -702,13 +711,16 @@ get_hostbyname(void *data)
 
 	while ((info->result = e_gethostbyname_r(info->name, &info->hostbuf, info->hostbufmem, info->hostbuflen, &info->herr)) == ERANGE) {
 		d(printf("gethostbyname fialed?\n"));
+#ifdef ENABLE_THREADS
 		pthread_testcancel();
+#endif
                 info->hostbuflen *= 2;
                 info->hostbufmem = g_realloc(info->hostbufmem, info->hostbuflen);
 	}
 
 	d(printf("gethostbyname ok?\n"));
-	
+
+#ifdef ENABLE_THREADS
 	/* If we got cancelled, dont reply, just free it */
 	if (info->cancelled) {
 		g_free(info->hostbufmem);
@@ -716,19 +728,21 @@ get_hostbyname(void *data)
 	} else {
 		e_msgport_reply((EMsg *)info);
 	}
-	
+#endif
 	return NULL;
 }
 
 struct hostent *
 camel_gethostbyname (const char *name, CamelException *exout)
 {
+#ifdef ENABLE_THREADS
 	int fdmax, status, fd, cancel_fd;
+#endif
 	struct _lookup_msg *msg;
 	CamelException ex;
-	
+
 	g_return_val_if_fail(name != NULL, NULL);
-	
+
 	if (camel_operation_cancel_check(NULL)) {
 		camel_exception_set (exout, CAMEL_EXCEPTION_USER_CANCEL, _("Cancelled"));
 		return NULL;
@@ -742,10 +756,13 @@ camel_gethostbyname (const char *name, CamelException *exout)
 	msg->hostbufmem = g_malloc(msg->hostbuflen);
 	msg->name = name;
 	msg->result = -1;
-	
+
+#ifdef ENABLE_THREADS
 	cancel_fd = camel_operation_cancel_fd(NULL);
 	if (cancel_fd == -1) {
+#endif
 		get_hostbyname(msg);
+#ifdef ENABLE_THREADS
 	} else {
 		EMsgPort *reply_port;
 		pthread_t id;
@@ -791,7 +808,8 @@ camel_gethostbyname (const char *name, CamelException *exout)
 		}
 		e_msgport_destroy(reply_port);
 	}
-	
+#endif
+
 	camel_operation_end(NULL);
 
 	if (!camel_exception_is_set(&ex)) {
@@ -820,24 +838,27 @@ static void *
 get_hostbyaddr (void *data)
 {
 	struct _lookup_msg *info = data;
-	
+
 	while ((info->result = e_gethostbyaddr_r (info->name, info->len, info->type, &info->hostbuf,
 						  info->hostbufmem, info->hostbuflen, &info->herr)) == ERANGE) {
 		d(printf ("gethostbyaddr fialed?\n"));
+#ifdef ENABLE_THREADS
 		pthread_testcancel ();
+#endif
                 info->hostbuflen *= 2;
                 info->hostbufmem = g_realloc (info->hostbufmem, info->hostbuflen);
 	}
 	
 	d(printf ("gethostbyaddr ok?\n"));
 	
+#ifdef ENABLE_THREADS
 	if (info->cancelled) {
 		g_free(info->hostbufmem);
 		g_free(info);
 	} else {
 		e_msgport_reply((EMsg *)info);
 	}
-	
+#endif
 	return NULL;
 }
 
@@ -845,7 +866,9 @@ get_hostbyaddr (void *data)
 struct hostent *
 camel_gethostbyaddr (const char *addr, int len, int type, CamelException *exout)
 {
+#ifdef ENABLE_THREADS
 	int fdmax, status, fd, cancel_fd;
+#endif
 	struct _lookup_msg *msg;
 	CamelException ex;
 
@@ -866,10 +889,13 @@ camel_gethostbyaddr (const char *addr, int len, int type, CamelException *exout)
 	msg->len = len;
 	msg->type = type;
 	msg->result = -1;
-	
+
+#ifdef ENABLE_THREADS
 	cancel_fd = camel_operation_cancel_fd (NULL);
 	if (cancel_fd == -1) {
+#endif
 		get_hostbyaddr (msg);
+#ifdef ENABLE_THREADS
 	} else {
 		EMsgPort *reply_port;
 		pthread_t id;
@@ -917,9 +943,10 @@ camel_gethostbyaddr (const char *addr, int len, int type, CamelException *exout)
 		
 		e_msgport_destroy (reply_port);
 	}
+#endif
 	
 	camel_operation_end (NULL);
-	
+
 	if (!camel_exception_is_set(&ex)) {
 		if (msg->result == 0)
 			return &msg->hostbuf;

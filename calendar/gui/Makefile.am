@@ -57,7 +57,6 @@ INCLUDES =						\
 	-I$(top_srcdir)/addressbook/backend		\
 	-I$(top_builddir)/addressbook/backend		\
 	-I$(top_srcdir)/widgets				\
-	-I$(top_srcdir)/a11y/calendar			\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"	\
@@ -83,6 +82,8 @@ libevolution_calendar_la_SOURCES =		\
 	calendar-commands.h			\
 	calendar-component.c			\
 	calendar-component.h			\
+	calendar-model.c			\
+	calendar-model.h			\
 	calendar-offline-handler.c		\
 	calendar-offline-handler.h		\
 	calendar-view.c				\
@@ -97,14 +98,6 @@ libevolution_calendar_la_SOURCES =		\
 	control-factory.h			\
 	e-alarm-list.c				\
 	e-alarm-list.h				\
-	e-cal-model-calendar.c			\
-	e-cal-model-calendar.h			\
-	e-cal-model-tasks.c			\
-	e-cal-model-tasks.h			\
-	e-cal-model.c				\
-	e-cal-model.h				\
-	e-cal-view.c				\
-	e-cal-view.h				\
 	e-calendar-table.h			\
 	e-calendar-table.c			\
 	e-cell-date-edit-text.h			\
@@ -179,7 +172,6 @@ libevolution_calendar_la_LIBADD =					\
 	$(top_builddir)/calendar/gui/dialogs/libcal-dialogs.la		\
 	$(top_builddir)/widgets/e-timezone-dialog/libetimezonedialog.la	\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la			\
-	$(top_builddir)/a11y/calendar/libevolution-calendar-a11y.la                       \
 	$(EVOLUTION_CALENDAR_LIBS)
 
 libevolution_calendar_la_LDFLAGS = -avoid-version -module

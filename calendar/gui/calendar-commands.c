@@ -8,7 +8,6 @@
  * Authors: Miguel de Icaza <miguel@ximian.com>
  *          Federico Mena-Quintero <federico@ximian.com>
  *          Seth Alves <alves@hungry.com>
- *          Rodrigo Moya <rodrigo@ximian.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -35,11 +34,9 @@
 
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gtk/gtkfilesel.h>
-#include <gtk/gtklabel.h>
 #include <gtk/gtkmain.h>
 #include <gtk/gtksignal.h>
-#include <gtk/gtkspinbutton.h>
-#include <gtk/gtkmessagedialog.h>
+
 #include <libgnome/gnome-util.h>
 #include <libgnomeui/gnome-dialog-util.h>
 #include <libgnomeui/gnome-messagebox.h>
@@ -314,8 +311,8 @@ static void
 publish_freebusy_cmd (BonoboUIComponent *uic, gpointer data, const gchar *path)
 {
 	GnomeCalendar *gcal;
-	GList *client_list, *cl;
-	GList *comp_list = NULL;
+	CalClient *client;
+	GList *comp_list;
 	icaltimezone *utc;
 	time_t start = time (NULL), end;
 
@@ -325,74 +322,20 @@ publish_freebusy_cmd (BonoboUIComponent *uic, gpointer data, const gchar *path)
 	start = time_day_begin_with_zone (start, utc);
 	end = time_add_week_with_zone (start, 6, utc);
 
-	client_list = e_cal_model_get_client_list (gnome_calendar_get_calendar_model (gcal));
-	for (cl = client_list; cl != NULL; cl = cl->next) {
-		GList *tmp_comp_list;
+	client = gnome_calendar_get_cal_client (gcal);
+	comp_list = cal_client_get_free_busy (client, NULL, start, end);
+	if (comp_list) {
+		GList *l;
 
-		tmp_comp_list = cal_client_get_free_busy ((CalClient *) cl->data, NULL, start, end);
-		if (tmp_comp_list) {
-			GList *l;
+		for (l = comp_list; l; l = l->next) {
+			CalComponent *comp = CAL_COMPONENT (l->data);
+			itip_send_comp (CAL_COMPONENT_METHOD_PUBLISH, comp, client, NULL);
 
-			for (l = comp_list; l; l = l->next) {
-				CalComponent *comp = CAL_COMPONENT (l->data);
-				itip_send_comp (CAL_COMPONENT_METHOD_PUBLISH, comp, (CalClient *) cl->data, NULL);
-
-				g_object_unref (comp);
-			}
-
-			g_list_free (comp_list);
+			g_object_unref (comp);
 		}
+
+ 		g_list_free (comp_list);
 	}
-
-	g_list_free (client_list);
-}
-
-static void
-purge_cmd (BonoboUIComponent *uic, gpointer data, const gchar *path)
-{
-	GnomeCalendar *gcal;
-	GtkWidget *dialog, *parent, *box, *label, *spin;
-	int response;
-
-	gcal = GNOME_CALENDAR (data);
-
-	/* create the dialog */
-	parent = gtk_widget_get_toplevel (GTK_WIDGET (gcal));
-	dialog = gtk_message_dialog_new (
-		(GtkWindow *)parent,
-		GTK_DIALOG_DESTROY_WITH_PARENT,
-		GTK_MESSAGE_WARNING,
-		GTK_BUTTONS_OK_CANCEL,
-		_("This operation will permanently erase all events older than the selected amount of time. If you continue, you will not be able to recover these events."));
-	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_CANCEL);
-
-	box = gtk_hbox_new (FALSE, 6);
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), box, TRUE, FALSE, 6);
-
-	label = gtk_label_new (_("Purge events older than"));
-	gtk_box_pack_start (GTK_BOX (box), label, TRUE, FALSE, 6);
-	spin = gtk_spin_button_new_with_range (0.0, 1000.0, 1.0);
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (spin), 60.0);
-	gtk_box_pack_start (GTK_BOX (box), spin, FALSE, FALSE, 6);
-	label = gtk_label_new (_("days"));
-	gtk_box_pack_start (GTK_BOX (box), label, TRUE, FALSE, 6);
-
-	gtk_widget_show_all (box);
-
-	/* run the dialog */
-	response = gtk_dialog_run (GTK_DIALOG (dialog));
-	if (response == GTK_RESPONSE_OK) {
-		gint days;
-		time_t tt;
-
-		days = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (spin));
-		tt = time (NULL);
-		tt -= (days * (24 * 3600));
-
-		gnome_calendar_purge (gcal, tt);
-	}
-
-	gtk_widget_destroy (dialog);
 }
 
 /* Does a queryInterface on the control's parent control frame for the ShellView interface */
@@ -425,15 +368,16 @@ get_shell_view_interface (BonoboControl *control)
 	return shell_view;
 }
 
-const gchar *
-calendar_get_text_for_folder_bar_label (GnomeCalendar *gcal)
+/* Displays the currently displayed time range in the folder bar label on the
+   shell view, according to which view we are showing. */
+void
+calendar_set_folder_bar_label (GnomeCalendar *gcal, BonoboControl *control)
 {
 	icaltimezone *zone;
 	struct icaltimetype start_tt, end_tt;
 	time_t start_time, end_time;
 	struct tm start_tm, end_tm;
-	static char buffer[512];
-	char end_buffer[256];
+	char buffer[512], end_buffer[256];
 	GnomeCalendarViewType view;
 
 	gnome_calendar_get_visible_time_range (gcal, &start_time, &end_time);
@@ -517,17 +461,8 @@ calendar_get_text_for_folder_bar_label (GnomeCalendar *gcal)
 		break;
 	default:
 		g_assert_not_reached ();
-		return NULL;
 	}
-	return buffer;
-}
 
-/* Displays the currently displayed time range in the folder bar label on the
-   shell view, according to which view we are showing. */
-void
-calendar_set_folder_bar_label (GnomeCalendar *gcal, BonoboControl *control)
-{
-	char *buffer = (char *)calendar_get_text_for_folder_bar_label (gcal);
 	control_util_set_folder_bar_label (control, buffer);
 }
 
@@ -595,7 +530,7 @@ sensitize_calendar_commands (GnomeCalendar *gcal, BonoboControl *control, gboole
 	g_assert (uic != NULL);
 
 	n_selected = enable ? gnome_calendar_get_num_events_selected (gcal) : 0;
-	read_only = cal_client_is_read_only (e_cal_model_get_default_client (gnome_calendar_get_calendar_model (gcal)));
+	read_only = cal_client_is_read_only (gnome_calendar_get_cal_client (gcal));
 
 	bonobo_ui_component_set_prop (uic, "/commands/Cut", "sensitive",
 				      n_selected == 0 || read_only ? "0" : "1",
@@ -613,20 +548,19 @@ sensitize_calendar_commands (GnomeCalendar *gcal, BonoboControl *control, gboole
 	/* occurrence-related menu items */
 	has_recurrences = FALSE;
 	if (n_selected > 0 && !read_only) {
-		ECalViewEvent *event;
-		GList *list;
+		CalComponent *comp;
 		GtkWidget *view;
 
 		view = gnome_calendar_get_current_view_widget (gcal);
-		list = e_cal_view_get_selected_events (E_CAL_VIEW (view));
-		if (list) {
-			event = (ECalViewEvent *) list->data;
-			g_list_free (list);
-		} else
-			event = NULL;
+		if (E_IS_DAY_VIEW (view))
+			comp = e_day_view_get_selected_event (E_DAY_VIEW (view));
+		else if (E_IS_WEEK_VIEW (view))
+			comp = e_week_view_get_selected_event (E_WEEK_VIEW (view));
+		else
+			comp = NULL;
 
-		if (event) {
-			if (cal_util_component_has_recurrences (event->comp_data->icalcomp))
+		if (comp) {
+			if (cal_component_has_recurrences (comp))
 				has_recurrences = TRUE;
 		}
 	}
@@ -785,7 +719,6 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB ("ShowMonthView", show_month_view_clicked),
 
 	BONOBO_UI_VERB ("PublishFreeBusy", publish_freebusy_cmd),
-	BONOBO_UI_VERB ("CalendarPurge", purge_cmd),
 
 	BONOBO_UI_VERB_END
 };

@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- *  Copyright (C) 2000-2003 Ximian Inc.
+ *  Copyright (C) 2000 Ximian Inc.
  *
  *  Authors: Michael Zucchi <notzed@ximian.com>
  *           Jeffrey Stedfast <fejj@ximian.com>
@@ -27,22 +27,23 @@
 #endif
 
 #include <stdio.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <sys/param.h>  /* for MAXHOSTNAMELEN */
+#include <fcntl.h>
 #include <stdlib.h>
 #include <string.h>
-#include <sys/types.h>
-#include <sys/param.h>  /* for MAXHOSTNAMELEN */
-#include <sys/stat.h>
-#include <pthread.h>
 #include <unistd.h>
-#include <regex.h>
-#include <fcntl.h>
-#include <errno.h>
-#include <ctype.h>
-#include <time.h>
 
 #ifndef MAXHOSTNAMELEN
 #define MAXHOSTNAMELEN 1024
 #endif
+
+#include <time.h>
+
+#include <ctype.h>
+#include <errno.h>
+#include <regex.h>
 
 #include <glib.h>
 #include <gal/util/e-iconv.h>
@@ -51,6 +52,10 @@
 #include "camel-mime-utils.h"
 #include "camel-charset-map.h"
 #include "camel-service.h"  /* for camel_gethostbyname() */
+
+#ifdef ENABLE_THREADS
+#include <pthread.h>
+#endif
 
 #ifndef CLEAN_DATE
 #include "broken-date-parser.h"
@@ -1772,17 +1777,17 @@ header_decode_atom(const char **in)
 }
 
 static char *
-header_decode_word (const char **in)
+header_decode_word(const char **in)
 {
 	const char *inptr = *in;
-	
-	header_decode_lwsp (&inptr);
+
+	header_decode_lwsp(&inptr);
 	if (*inptr == '"') {
 		*in = inptr;
-		return header_decode_quoted_string (in);
+		return header_decode_quoted_string(in);
 	} else {
 		*in = inptr;
-		return header_decode_atom (in);
+		return header_decode_atom(in);
 	}
 }
 
@@ -2277,7 +2282,7 @@ header_decode_addrspec(const char **in)
 	header_decode_lwsp(&inptr);
 
 	/* addr-spec */
-	word = header_decode_word (&inptr);
+	word = header_decode_word(&inptr);
 	if (word) {
 		addr = g_string_append(addr, word);
 		header_decode_lwsp(&inptr);
@@ -2285,7 +2290,7 @@ header_decode_addrspec(const char **in)
 		while (*inptr == '.' && word) {
 			inptr++;
 			addr = g_string_append_c(addr, '.');
-			word = header_decode_word (&inptr);
+			word = header_decode_word(&inptr);
 			if (word) {
 				addr = g_string_append(addr, word);
 				header_decode_lwsp(&inptr);
@@ -2346,7 +2351,7 @@ header_decode_mailbox(const char **in, const char *charset)
 	addr = g_string_new("");
 
 	/* for each address */
-	pre = header_decode_word (&inptr);
+	pre = header_decode_word(&inptr);
 	header_decode_lwsp(&inptr);
 	if (!(*inptr == '.' || *inptr == '@' || *inptr==',' || *inptr=='\0')) {
 		/* ',' and '\0' required incase it is a simple address, no @ domain part (buggy writer) */
@@ -2360,7 +2365,7 @@ header_decode_mailbox(const char **in, const char *charset)
 			last = pre;
 			g_free(text);
 
-			pre = header_decode_word (&inptr);
+			pre = header_decode_word(&inptr);
 			if (pre) {
 				size_t l = strlen (last);
 				size_t p = strlen (pre);
@@ -2378,7 +2383,7 @@ header_decode_mailbox(const char **in, const char *charset)
 				while (!pre && *inptr && *inptr != '<') {
 					w(g_warning("Working around stupid mailer bug #5: unescaped characters in names"));
 					name = g_string_append_c(name, *inptr++);
-					pre = header_decode_word (&inptr);
+					pre = header_decode_word(&inptr);
 				}
 			}
 			g_free(last);
@@ -2405,7 +2410,7 @@ header_decode_mailbox(const char **in, const char *charset)
 					w(g_warning("broken route-address, missing ':': %s", *in));
 				}
 			}
-			pre = header_decode_word (&inptr);
+			pre = header_decode_word(&inptr);
 			header_decode_lwsp(&inptr);
 		} else {
 			w(g_warning("broken address? %s", *in));
@@ -2422,7 +2427,7 @@ header_decode_mailbox(const char **in, const char *charset)
 	while (*inptr == '.' && pre) {
 		inptr++;
 		g_free(pre);
-		pre = header_decode_word (&inptr);
+		pre = header_decode_word(&inptr);
 		addr = g_string_append_c(addr, '.');
 		if (pre)
 			addr = g_string_append(addr, pre);
@@ -2543,13 +2548,12 @@ header_decode_mailbox(const char **in, const char *charset)
 		
 		address = header_address_new_name(name ? name->str : "", addr->str);
 	}
-	
-	d(printf("got mailbox: %s\n", addr->str));
-	
+
 	g_string_free(addr, TRUE);
 	if (name)
 		g_string_free(name, TRUE);
-	
+
+	d(printf("got mailbox: %s\n", addr->str));
 	return address;
 }
 
@@ -2563,7 +2567,7 @@ header_decode_address(const char **in, const char *charset)
 
 	/* pre-scan, trying to work out format, discard results */
 	header_decode_lwsp(&inptr);
-	while ((pre = header_decode_word (&inptr))) {
+	while ( (pre = header_decode_word(&inptr)) ) {
 		group = g_string_append(group, pre);
 		group = g_string_append(group, " ");
 		g_free(pre);
@@ -3775,9 +3779,14 @@ header_raw_clear(struct _header_raw **list)
 char *
 header_msgid_generate (void)
 {
+#ifdef ENABLE_THREADS
 	static pthread_mutex_t count_lock = PTHREAD_MUTEX_INITIALIZER;
 #define COUNT_LOCK() pthread_mutex_lock (&count_lock)
 #define COUNT_UNLOCK() pthread_mutex_unlock (&count_lock)
+#else
+#define COUNT_LOCK()
+#define COUNT_UNLOCK()
+#endif /* ENABLE_THREADS */
 	char host[MAXHOSTNAMELEN];
 	struct hostent *h = NULL;
 	static int count = 0;

@@ -6,7 +6,7 @@ INCLUDES =								\
 	-DG_LOG_DOMAIN=__FILE__						\
 	$(GNOME_FULL_CFLAGS)
 
-noinst_LTLIBRARIES =	\
+privlib_LTLIBRARIES =		\
 	libetimezonedialog.la
 
 libetimezonedialog_la_SOURCES =	\

@@ -2101,7 +2101,7 @@ save_part_save (struct _mail_msg *mm)
 		filtered_stream = stream_fs;
 	}
 	
-	if (camel_data_wrapper_decode_to_stream (data, filtered_stream) == -1
+	if (camel_data_wrapper_write_to_stream (data, filtered_stream) == -1
 	    || camel_stream_flush (filtered_stream) == -1)
 		camel_exception_setv (&mm->ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Could not write data: %s"),
