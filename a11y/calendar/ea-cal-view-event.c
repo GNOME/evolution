@@ -42,6 +42,11 @@ static void ea_cal_view_get_extents (AtkComponent *component,
 				     gint *x, gint *y, gint *width, gint *height,
 				     AtkCoordType coord_type);
 
+#ifdef ACC_DEBUG
+static gint n_ea_cal_view_event_created = 0, n_ea_cal_view_event_destroyed = 0;
+static void ea_cal_view_finalize (GObject *object);
+#endif
+
 static gpointer parent_class = NULL;
 
 GType
@@ -100,6 +105,10 @@ static void
 ea_cal_view_event_class_init (EaCalViewEventClass *klass)
 {
 	AtkObjectClass *class = ATK_OBJECT_CLASS (klass);
+#ifdef ACC_DEBUG
+	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
+	gobject_class->finalize = ea_cal_view_finalize;
+#endif
 
 	parent_class = g_type_class_peek_parent (klass);
 
@@ -110,6 +119,15 @@ ea_cal_view_event_class_init (EaCalViewEventClass *klass)
 	class->get_index_in_parent = ea_cal_view_event_get_index_in_parent;
 
 }
+
+#ifdef ACC_DEBUG
+static void ea_cal_view_finalize (GObject *object)
+{
+	++n_ea_cal_view_event_destroyed;
+	printf ("ACC_DEBUG: n_ea_cal_view_event_destroyed = %d\n",
+		n_ea_cal_view_event_destroyed);
+}
+#endif
 
 AtkObject* 
 ea_cal_view_event_new (GObject *obj)
@@ -157,8 +175,9 @@ ea_cal_view_event_new (GObject *obj)
 			event_role = atk_role_register ("Calendar Event");
 		atk_obj->role = event_role;
 #ifdef ACC_DEBUG
-		printf ("EvoAcc: ea_cal_view_event created %p for item=%p\n",
-			atk_obj, target_obj);
+		++n_ea_cal_view_event_created;
+		printf ("ACC_DEBUG: n_ea_cal_view_event_created = %d\n",
+			n_ea_cal_view_event_created);
 #endif
 	}
 
@@ -173,73 +192,70 @@ ea_cal_view_event_new (GObject *obj)
 static G_CONST_RETURN gchar*
 ea_cal_view_event_get_name (AtkObject *accessible)
 {
+	AtkGObjectAccessible *atk_gobj;
+	GObject *g_obj;
+	ECalViewEvent *event;
+	gchar *tmp_name;
+	gchar *new_name = g_strdup ("");
+        const char *summary;
+
+
 	g_return_val_if_fail (EA_IS_CAL_VIEW_EVENT (accessible), NULL);
 
-	if (accessible->name)
-		return accessible->name;
-	else {
-		AtkGObjectAccessible *atk_gobj;
-		GObject *g_obj;
-		ECalViewEvent *event;
-		gchar *tmp_name;
-		gchar *new_name = g_strdup ("");
-		const char *summary;
+	atk_gobj = ATK_GOBJECT_ACCESSIBLE (accessible);
+	g_obj = atk_gobject_accessible_get_object (atk_gobj);
+	if (!g_obj || !E_IS_TEXT (g_obj))
+		return NULL;
+	event = ea_calendar_helpers_get_cal_view_event_from (GNOME_CANVAS_ITEM(g_obj));
 
-		atk_gobj = ATK_GOBJECT_ACCESSIBLE (accessible);
-		g_obj = atk_gobject_accessible_get_object (atk_gobj);
-		if (!g_obj || !E_IS_TEXT (g_obj))
-			return NULL;
-		event = ea_calendar_helpers_get_cal_view_event_from (GNOME_CANVAS_ITEM(g_obj));
-
-		if (event && event->comp_data) {
-			if (cal_util_component_has_alarms (event->comp_data->icalcomp)) {
-				tmp_name = new_name;
-				new_name = g_strconcat (new_name, "alarm ", NULL);
-				g_free (tmp_name);
-			}
-
-			if (cal_util_component_has_recurrences (event->comp_data->icalcomp)) {
-				tmp_name = new_name;
-				new_name = g_strconcat (new_name, "recurrence ", NULL);
-				g_free (tmp_name);
-			}
-
-			if (event->different_timezone) {
-				tmp_name = new_name;
-				new_name = g_strconcat (new_name, "time-zone ", NULL);
-				g_free (tmp_name);
-			}
-
-			if (cal_util_component_has_organizer (event->comp_data->icalcomp)) {
-				tmp_name = new_name;
-				new_name = g_strconcat (new_name, "meeting ", NULL);
-				g_free (tmp_name);
-			}
-		}
-		tmp_name = new_name;
-		new_name = g_strconcat (new_name, "event. Summary is ", NULL);
-		g_free (tmp_name);
-
-		summary = icalcomponent_get_summary (event->comp_data->icalcomp);
-		if (summary) {
+	if (event && event->comp_data) {
+		if (cal_util_component_has_alarms (event->comp_data->icalcomp)) {
 			tmp_name = new_name;
-			new_name = g_strconcat (new_name, summary, NULL);
-			g_free (tmp_name);
-		}
-		else {
-			tmp_name = new_name;
-			new_name = g_strconcat (new_name, "empty", NULL);
+			new_name = g_strconcat (new_name, "alarm ", NULL);
 			g_free (tmp_name);
 		}
 
-		ATK_OBJECT_CLASS (parent_class)->set_name (accessible, new_name);
-#ifdef ACC_DEBUG
-		printf("EvoAcc:  name for event accobj=%p, is %s\n",
-		       accessible, new_name);
-#endif
-		g_free (new_name);
-		return accessible->name;
+		if (cal_util_component_has_recurrences (event->comp_data->icalcomp)) {
+			tmp_name = new_name;
+			new_name = g_strconcat (new_name, "recurrence ", NULL);
+			g_free (tmp_name);
+		}
+
+		if (event->different_timezone) {
+			tmp_name = new_name;
+			new_name = g_strconcat (new_name, "time-zone ", NULL);
+			g_free (tmp_name);
+		}
+
+		if (cal_util_component_has_organizer (event->comp_data->icalcomp)) {
+			tmp_name = new_name;
+			new_name = g_strconcat (new_name, "meeting ", NULL);
+			g_free (tmp_name);
+		}
 	}
+	tmp_name = new_name;
+	new_name = g_strconcat (new_name, "event. Summary is ", NULL);
+	g_free (tmp_name);
+
+	summary = icalcomponent_get_summary (event->comp_data->icalcomp);
+	if (summary) {
+		tmp_name = new_name;
+		new_name = g_strconcat (new_name, summary, NULL);
+		g_free (tmp_name);
+	}
+	else {
+		tmp_name = new_name;
+		new_name = g_strconcat (new_name, "empty", NULL);
+		g_free (tmp_name);
+	}
+
+	ATK_OBJECT_CLASS (parent_class)->set_name (accessible, new_name);
+#ifdef ACC_DEBUG
+	printf("EvoAcc:  name for event accobj=%p, is %s\n",
+	       (void *)accessible, new_name);
+#endif
+	g_free (new_name);
+	return accessible->name;
 }
 
 static G_CONST_RETURN gchar*

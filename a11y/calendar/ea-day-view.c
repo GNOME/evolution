@@ -112,7 +112,7 @@ ea_day_view_new (GtkWidget *widget)
 	atk_object_initialize (accessible, widget);
 
 #ifdef ACC_DEBUG
-	printf ("EvoAcc: ea_day_view created %p\n", accessible);
+	printf ("EvoAcc: ea_day_view created %p\n", (void *)accessible);
 #endif
 
 	return accessible;
@@ -122,6 +122,12 @@ static G_CONST_RETURN gchar*
 ea_day_view_get_name (AtkObject *accessible)
 {
 	EDayView *day_view;
+	GnomeCalendar *gcal;
+	const gchar *label_text;
+	GnomeCalendarViewType view_type;
+	gchar buffer[128] = "";
+	gint n_events;
+
 
 	g_return_val_if_fail (EA_IS_DAY_VIEW (accessible), NULL);
 
@@ -129,23 +135,24 @@ ea_day_view_get_name (AtkObject *accessible)
 		return NULL;
 	day_view = E_DAY_VIEW (GTK_ACCESSIBLE (accessible)->widget);
 
-	if (!accessible->name) {
-		GnomeCalendar *gcal;
-		const gchar *label_text;
-		GnomeCalendarViewType view_type;
+	gcal = e_cal_view_get_calendar (E_CAL_VIEW (day_view));
+	label_text = calendar_get_text_for_folder_bar_label (gcal);
 
-		gcal = e_cal_view_get_calendar (E_CAL_VIEW (day_view));
-		label_text = calendar_get_text_for_folder_bar_label (gcal);
-
-		view_type = gnome_calendar_get_view (gcal);
-		if (view_type == GNOME_CAL_WORK_WEEK_VIEW)
-			accessible->name = g_strconcat ("work week view :",
-							label_text,
-							NULL);
-		else
-			accessible->name = g_strconcat ("day view :",
-							label_text, NULL);
-	}
+	n_events = atk_object_get_n_accessible_children (accessible);
+	/* the child main item is always there */
+	--n_events;
+	if (n_events > 0)
+		g_snprintf (buffer, sizeof (buffer),
+			    ", %d events", n_events);
+	view_type = gnome_calendar_get_view (gcal);
+	if (view_type == GNOME_CAL_WORK_WEEK_VIEW)
+		accessible->name = g_strconcat ("work week view :",
+						label_text, buffer,
+						NULL);
+	else
+		accessible->name = g_strconcat ("day view :",
+						label_text, buffer,
+						NULL);
 	return accessible->name;
 }
 
@@ -196,7 +203,8 @@ ea_day_view_get_n_children (AtkObject *accessible)
 		child_num += day_view->events[day]->len;
 	}
 
-	return child_num;
+	/* "+1" for the main item */
+	return child_num + 1;
 }
 
 static AtkObject *
@@ -218,28 +226,36 @@ ea_day_view_ref_child (AtkObject *accessible, gint index)
 		return NULL;
 	day_view = E_DAY_VIEW (GTK_ACCESSIBLE (accessible)->widget);
 
-	/* a long event */
-	if (index < day_view->long_events->len) {
-		event = &g_array_index (day_view->long_events,
-					EDayViewEvent, index);
+	if (index == 0) {
+		/* index == 0 is the main item */
+		atk_object = atk_gobject_accessible_for_object (G_OBJECT (day_view->main_canvas_item));
+		g_object_ref (atk_object);
 	}
 	else {
-		index -= day_view->long_events->len;
-		day = 0;
-		while (index >= day_view->events[day]->len) {
-			index -= day_view->events[day]->len;
-			++day;
+		--index;
+		/* a long event */
+		if (index < day_view->long_events->len) {
+			event = &g_array_index (day_view->long_events,
+						EDayViewEvent, index);
 		}
+		else {
+			index -= day_view->long_events->len;
+			day = 0;
+			while (index >= day_view->events[day]->len) {
+				index -= day_view->events[day]->len;
+				++day;
+			}
 
-		event = &g_array_index (day_view->events[day],
-					EDayViewEvent, index);
-	}
-	if (event && event->canvas_item) {
-		/* Not use atk_gobject_accessible_for_object here,
-		 * we need to do special thing here
-		 */
-		atk_object = ea_calendar_helpers_get_accessible_for (event->canvas_item);
-		g_object_ref (atk_object);
+			event = &g_array_index (day_view->events[day],
+						EDayViewEvent, index);
+		}
+		if (event && event->canvas_item) {
+			/* Not use atk_gobject_accessible_for_object here,
+			 * we need to do special thing here
+			 */
+			atk_object = ea_calendar_helpers_get_accessible_for (event->canvas_item);
+			g_object_ref (atk_object);
+		}
 	}
 	return atk_object;
 }

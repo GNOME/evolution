@@ -1,3 +1,16 @@
+2003-11-04  Bolian Yin <bolian.yin@sun.com>
+
+	Fixes # 48509
+
+	* new files:
+		ea-cell-table.h ea-cell-table.c
+	* calendar/Makefile.am: add entries for new files
+	* calendar/New files added:
+		ea-day-view-main-item.c ea-day-view-main-item.h
+		ea-day-view-cell.c ea-day-view-cell.h
+	* Add debug info and remove some non-C99 compilers warnings.
+	* calendar/ea-cal-view: add action interface. 
+
 2003-10-09  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* calendar/Makefile.am: INCLUDE path fixes for changes made to

@@ -28,12 +28,12 @@
 #include "e-day-view.h"
 #include "e-week-view.h"
 #include "calendar-commands.h"
+#include "goto.h"
 #include <glib/gstrfuncs.h>
 
 static void ea_cal_view_class_init (EaCalViewClass *klass);
 
 static AtkObject* ea_cal_view_get_parent (AtkObject *accessible);
-static gint ea_cal_view_get_index_in_parent (AtkObject *accessible);
 static void ea_cal_view_real_initialize (AtkObject *accessible, gpointer data);
 
 static void ea_cal_view_event_changed_cb (ECalView *cal_view,
@@ -41,7 +41,18 @@ static void ea_cal_view_event_changed_cb (ECalView *cal_view,
 static void ea_cal_view_event_added_cb (ECalView *cal_view,
                                         ECalViewEvent *event, gpointer data);
 
+static gboolean idle_dates_changed (gpointer data);
 static void ea_cal_view_dates_change_cb (GnomeCalendar *gcal, gpointer data);
+
+static void atk_action_interface_init (AtkActionIface *iface);
+static gboolean action_interface_do_action (AtkAction *action, gint i);
+static gint action_interface_get_n_actions (AtkAction *action);
+static G_CONST_RETURN gchar*
+action_interface_get_description(AtkAction *action, gint i);
+static G_CONST_RETURN gchar*
+action_interface_get_keybinding (AtkAction *action, gint i);
+static G_CONST_RETURN gchar*
+action_interface_action_get_name(AtkAction *action, gint i);
 
 static gpointer parent_class = NULL;
 
@@ -67,6 +78,12 @@ ea_cal_view_get_type (void)
 			NULL /* value table */
 		};
 
+		static const GInterfaceInfo atk_action_info = {
+			(GInterfaceInitFunc) atk_action_interface_init,
+			(GInterfaceFinalizeFunc) NULL,
+			NULL
+		};
+
 		/*
 		 * Figure out the size of the class and instance
 		 * we are run-time deriving from (GailWidget, in this case)
@@ -82,6 +99,8 @@ ea_cal_view_get_type (void)
 
 		type = g_type_register_static (derived_atk_type,
 					       "EaCalView", &tinfo, 0);
+		g_type_add_interface_static (type, ATK_TYPE_ACTION,
+					     &atk_action_info);
 	}
 
 	return type;
@@ -95,7 +114,6 @@ ea_cal_view_class_init (EaCalViewClass *klass)
 	parent_class = g_type_class_peek_parent (klass);
 
 	class->get_parent = ea_cal_view_get_parent;
-	class->get_index_in_parent = ea_cal_view_get_index_in_parent;
 	class->initialize = ea_cal_view_real_initialize;
 }
 
@@ -120,12 +138,15 @@ ea_cal_view_real_initialize (AtkObject *accessible, gpointer data)
 {
 	ECalView *cal_view;
 	GnomeCalendar *gcal;
+	static AtkRole role = ATK_ROLE_INVALID;
 
 	g_return_if_fail (EA_IS_CAL_VIEW (accessible));
 	g_return_if_fail (E_IS_CAL_VIEW (data));
 
         ATK_OBJECT_CLASS (parent_class)->initialize (accessible, data);
-	accessible->role = ATK_ROLE_CANVAS;
+	if (role == ATK_ROLE_INVALID)
+		role = atk_role_register ("Calendar View");
+	accessible->role = role;
 	cal_view = E_CAL_VIEW (data);
 
 	/* add listener for event_changed, event_added
@@ -164,12 +185,6 @@ ea_cal_view_get_parent (AtkObject *accessible)
 	return gtk_widget_get_accessible (GTK_WIDGET(gnomeCalendar));
 }
 
-static gint
-ea_cal_view_get_index_in_parent (AtkObject *accessible)
-{
-	return 1;
-}
-
 static void
 ea_cal_view_event_changed_cb (ECalView *cal_view, ECalViewEvent *event,
                               gpointer data)
@@ -201,7 +216,7 @@ ea_cal_view_event_changed_cb (ECalView *cal_view, ECalViewEvent *event,
 	}
 	if (event_atk_obj) {
 #ifdef ACC_DEBUG
-		printf ("AccDebug: event=%p changed\n", event);
+		printf ("AccDebug: event=%p changed\n", (void *)event);
 #endif
 		g_object_notify (G_OBJECT(event_atk_obj), "accessible-name");
 		g_signal_emit_by_name (event_atk_obj, "visible_data_changed");
@@ -245,27 +260,181 @@ ea_cal_view_event_added_cb (ECalView *cal_view, ECalViewEvent *event,
 		if (index < 0)
 			return;
 #ifdef ACC_DEBUG
-		printf ("AccDebug: event=%p added\n", event);
+		printf ("AccDebug: event=%p added\n", (void *)event);
 #endif
 		g_signal_emit_by_name (atk_obj, "children_changed::add",
 				       index, event_atk_obj, NULL);
 	}
 }
 
+static gboolean
+idle_dates_changed (gpointer data)
+{
+	AtkObject *ea_cal_view;
+
+	g_return_val_if_fail (data, FALSE);
+	g_return_val_if_fail (EA_IS_CAL_VIEW (data), FALSE);
+
+	ea_cal_view = ATK_OBJECT(data);
+
+	if (ea_cal_view->name) {
+		g_free (ea_cal_view->name);
+		ea_cal_view->name = NULL;
+	}
+	g_object_notify (G_OBJECT (ea_cal_view), "accessible-name");
+	g_signal_emit_by_name (ea_cal_view, "visible_data_changed");
+	g_signal_emit_by_name (ea_cal_view, "children_changed", NULL);
+#ifdef ACC_DEBUG
+	printf ("AccDebug: cal view date changed\n");
+#endif
+
+	return FALSE;
+}
+
 static void
 ea_cal_view_dates_change_cb (GnomeCalendar *gcal, gpointer data)
 {
-	AtkObject *atk_obj;
+	g_idle_add (idle_dates_changed, data);
+}
 
-	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
-	g_return_if_fail (data);
-	g_return_if_fail (EA_IS_CAL_VIEW (data));
+/* atk action interface */
 
-	atk_obj = ATK_OBJECT(data);
-	if (atk_obj->name) {
-		g_free (atk_obj->name);
-		atk_obj->name = NULL;
-	}
-	g_object_notify (G_OBJECT (data), "accessible-name");
-	g_signal_emit_by_name (data, "visible_data_changed");
+#define CAL_VIEW_ACTION_NUM 5
+
+static const char * action_name [CAL_VIEW_ACTION_NUM] = {
+	"New Appointment",
+	"New Event",
+	"New Meeting",
+	"Go to Today",
+	"Go to Date"
+};
+
+static void
+atk_action_interface_init (AtkActionIface *iface)
+{
+	g_return_if_fail (iface != NULL);
+
+	iface->do_action = action_interface_do_action;
+	iface->get_n_actions = action_interface_get_n_actions;
+	iface->get_description = action_interface_get_description;
+	iface->get_keybinding = action_interface_get_keybinding;
+	iface->get_name = action_interface_action_get_name;
+}
+
+static gboolean
+action_interface_do_action (AtkAction *action, gint index)
+{
+	GtkWidget *widget;
+	gboolean return_value = TRUE;
+	time_t dtstart, dtend;
+	ECalView *cal_view;
+
+	widget = GTK_ACCESSIBLE (action)->widget;
+	if (widget == NULL)
+		/*
+		 * State is defunct
+		 */
+		return FALSE;
+
+	if (!GTK_WIDGET_IS_SENSITIVE (widget) || !GTK_WIDGET_VISIBLE (widget))
+		return FALSE;
+
+	cal_view = E_CAL_VIEW (widget);
+	 switch (index) {
+	 case 0:
+		 /* New Appointment */
+		 e_cal_view_new_appointment (cal_view);
+		 break;
+	 case 1:
+		 /* New Event */
+		 e_cal_view_get_selected_time_range (cal_view,
+						     &dtstart, &dtend);
+		 e_cal_view_new_appointment_for (cal_view,
+						 dtstart, dtend, TRUE, FALSE);
+		 break;
+	 case 2:
+		 /* New Meeting */
+		 e_cal_view_get_selected_time_range (cal_view,
+						     &dtstart, &dtend);
+		 e_cal_view_new_appointment_for (cal_view,
+						 dtstart, dtend, FALSE, TRUE);
+		 break;
+	 case 3:
+		 /* Go to today */
+		 break;
+		 calendar_goto_today (e_cal_view_get_calendar (cal_view));
+	 case 4:
+		 /* Go to date */
+		 goto_dialog (e_cal_view_get_calendar (cal_view));
+		 break;
+	 default:
+		 return_value = FALSE;
+		 break;
+	 }
+	 return return_value;
+}
+
+static gint
+action_interface_get_n_actions (AtkAction *action)
+{
+	return CAL_VIEW_ACTION_NUM;
+}
+
+static G_CONST_RETURN gchar*
+action_interface_get_description(AtkAction *action, gint index)
+{
+	return action_interface_action_get_name (action, index);
+}
+
+static G_CONST_RETURN gchar*
+action_interface_get_keybinding (AtkAction *action, gint index)
+{
+	GtkWidget *widget;
+	EaCalView *ea_cal_view;
+
+	widget = GTK_ACCESSIBLE (action)->widget;
+	if (widget == NULL)
+		/*
+		 * State is defunct
+		 */
+		return NULL;
+
+	if (!GTK_WIDGET_IS_SENSITIVE (widget) || !GTK_WIDGET_VISIBLE (widget))
+		return FALSE;
+
+	 ea_cal_view = EA_CAL_VIEW (action);
+
+	 switch (index) {
+	 case 0:
+		 /* New Appointment */
+		 return "<Alt>fna;<Control>n";
+		 break;
+	 case 1:
+		 /* New Event */
+		 return "<Alt>fnd;<Shift><Control>d";
+		 break;
+	 case 2:
+		 /* New Meeting */
+		 return "<Alt>fne;<Shift><Control>e";
+		 break;
+	 case 3:
+		 /* Go to today */
+		 return "<Alt>vt;<Alt><Control>t";
+		 break;
+	 case 4:
+		 /* Go to date */
+		 return "<Alt>vd;<Alt><Control>g";
+		 break;
+	 default:
+		 break;
+	 }
+	 return NULL;
+}
+
+static G_CONST_RETURN gchar*
+action_interface_action_get_name(AtkAction *action, gint i)
+{
+	if (i >= 0 && i < CAL_VIEW_ACTION_NUM)
+		return action_name [i];
+	return NULL;
 }

@@ -128,7 +128,7 @@ ea_gnome_calendar_new (GtkWidget *widget)
 	}
 
 #ifdef ACC_DEBUG
-	printf ("EvoAcc: ea-gnome-calendar created: %p\n", accessible);
+	printf ("EvoAcc: ea-gnome-calendar created: %p\n", (void *)accessible);
 #endif
 
 	return accessible;
@@ -225,7 +225,7 @@ ea_gcal_switch_view_cb (GtkNotebook *widget, GtkNotebookPage *page,
 
 #ifdef ACC_DEBUG
 	printf ("AccDebug: view switch to widget %p (index=%d) \n",
-		new_widget, index);
+		(void *)new_widget, index);
 #endif
 }
 

@@ -28,6 +28,7 @@
 #include "ea-cal-view-event.h"
 #include "ea-calendar-helpers.h"
 #include "calendar-commands.h"
+#include <gal/e-text/e-text.h>
 
 static void ea_week_view_class_init (EaWeekViewClass *klass);
 
@@ -36,6 +37,8 @@ static G_CONST_RETURN gchar* ea_week_view_get_description (AtkObject *accessible
 static gint         ea_week_view_get_n_children      (AtkObject *obj);
 static AtkObject*   ea_week_view_ref_child           (AtkObject *obj,
 						      gint i);
+
+static void get_visible_text_item_count (GnomeCanvasItem *item, gpointer data);
 
 static gpointer parent_class = NULL;
 
@@ -113,7 +116,7 @@ ea_week_view_new (GtkWidget *widget)
 	atk_object_initialize (accessible, widget);
 
 #ifdef ACC_DEBUG
-	printf ("EvoAcc: ea_week_view created %p\n", accessible);
+	printf ("EvoAcc: ea_week_view created %p\n", (void *)accessible);
 #endif
 
 	return accessible;
@@ -123,6 +126,11 @@ static G_CONST_RETURN gchar*
 ea_week_view_get_name (AtkObject *accessible)
 {
 	EWeekView *week_view;
+	GnomeCalendar *gcal;
+	const gchar *label_text;
+	GnomeCalendarViewType view_type;
+	gchar buffer[128] = "";
+	gint n_events;
 
 	g_return_val_if_fail (EA_IS_WEEK_VIEW (accessible), NULL);
 
@@ -130,27 +138,27 @@ ea_week_view_get_name (AtkObject *accessible)
 		return NULL;
 	week_view = E_WEEK_VIEW (GTK_ACCESSIBLE (accessible)->widget);
 
-	if (!accessible->name) {
-		GnomeCalendar *gcal;
-		const gchar *label_text;
-		GnomeCalendarViewType view_type;
+	gcal = e_cal_view_get_calendar (E_CAL_VIEW (week_view));
+	label_text = calendar_get_text_for_folder_bar_label (gcal);
 
-		gcal = e_cal_view_get_calendar (E_CAL_VIEW (week_view));
-		label_text = calendar_get_text_for_folder_bar_label (gcal);
-		view_type = gnome_calendar_get_view (gcal);
+	n_events = atk_object_get_n_accessible_children (accessible);
+	/* the child main item is always there */
+	--n_events;
+	if (n_events > 0)
+		g_snprintf (buffer, sizeof (buffer),
+			    ", %d events", n_events);
 
-		view_type = gnome_calendar_get_view (gcal);
+	view_type = gnome_calendar_get_view (gcal);
 
-		if (view_type == GNOME_CAL_MONTH_VIEW)
-			accessible->name = g_strconcat ("month view :",
-							label_text,
-							NULL);
+	if (view_type == GNOME_CAL_MONTH_VIEW)
+		accessible->name = g_strconcat ("month view :",
+						label_text, buffer,
+						NULL);
 
-
-		else
-			accessible->name = g_strconcat ("week view :",
-							label_text, NULL);
-	}
+	else
+		accessible->name = g_strconcat ("week view :",
+						label_text, buffer,
+						NULL);
 	return accessible->name;
 }
 
@@ -185,51 +193,102 @@ static gint
 ea_week_view_get_n_children (AtkObject *accessible)
 {
 	EWeekView *week_view;
+	GnomeCanvasGroup *canvas_group;
+	gint i, count = 0;
 
 	g_return_val_if_fail (EA_IS_WEEK_VIEW (accessible), -1);
 
 	if (!GTK_ACCESSIBLE (accessible)->widget)
 		return -1;
 	week_view = E_WEEK_VIEW (GTK_ACCESSIBLE (accessible)->widget);
+	canvas_group = GNOME_CANVAS_GROUP (GNOME_CANVAS (week_view->main_canvas)->root);
+	g_list_foreach (canvas_group->item_list, (GFunc)get_visible_text_item_count,
+			&count);
 
-	return week_view->events->len;
+	/* add the number of visible jump buttons */
+	for (i = 0; i < E_WEEK_VIEW_MAX_WEEKS * 7; i++) {
+		if (week_view->jump_buttons[i]->object.flags & GNOME_CANVAS_ITEM_VISIBLE)
+			++count;
+	}
+
+#ifdef ACC_DEBUG
+	printf("AccDebug: week view %p has %d children\n", (void *)week_view, count);
+#endif
+	return count;
 }
 
 static AtkObject *
 ea_week_view_ref_child (AtkObject *accessible, gint index)
 {
 	EWeekView *week_view;
-	gint child_num;
+	gint child_num, max_count;
 	AtkObject *atk_object = NULL;
-	EWeekViewEvent *event;
-	EWeekViewEventSpan *span;
+	gint event_index;
+	gint jump_button = -1;
 	gint span_num = 0;
+	gint count = 0;
 
 	g_return_val_if_fail (EA_IS_WEEK_VIEW (accessible), NULL);
 
 	child_num = atk_object_get_n_accessible_children (accessible);
-	if (child_num <= 0 || index < 0 || index >= child_num)
+ 	if (child_num <= 0 || index < 0 || index >= child_num)
 		return NULL;
 
 	if (!GTK_ACCESSIBLE (accessible)->widget)
 		return NULL;
 	week_view = E_WEEK_VIEW (GTK_ACCESSIBLE (accessible)->widget);
+	max_count = week_view->events->len;
 
-	event = &g_array_index (week_view->events,
-				EWeekViewEvent, index);
-	span = &g_array_index (week_view->spans, EWeekViewEventSpan,
-			       event->spans_index + span_num);
+	for (event_index = 0; event_index < max_count; ++event_index) {
+		EWeekViewEvent *event;
+		EWeekViewEventSpan *span;
+		gint current_day;
 
-	if (event) {
-		/* Not use atk_gobject_accessible_for_object here,
-		 * we need to do special thing here
-		 */
-		atk_object = ea_calendar_helpers_get_accessible_for (span->text_item);
-		g_object_ref (atk_object);
+		event = &g_array_index (week_view->events,
+					EWeekViewEvent, event_index);
+		span = &g_array_index (week_view->spans, EWeekViewEventSpan,
+				       event->spans_index + span_num);
+
+		if (!event || !span)
+			continue;
+
+		current_day = span->start_day;
+		if (span->text_item)
+			++count;
+		else if  (current_day != jump_button) {
+			/* we should go to the jump button */
+			jump_button = current_day;
+			++count;
+		}
+		else
+			continue;
+
+		if (count == (index + 1)) {
+			if (span->text_item) {
+				/* Not use atk_gobject_accessible_for_object for event
+				 * text_item we need to do special thing here
+				 */
+				atk_object = ea_calendar_helpers_get_accessible_for (span->text_item);
+			}
+			else {
+				atk_object = atk_gobject_accessible_for_object (G_OBJECT(week_view->jump_buttons[current_day == -1 ? 0 : current_day]));
+			}
+			g_object_ref (atk_object);
+			break;
+		}
 	}
+
 #ifdef ACC_DEBUG
 	printf ("EvoAcc: ea_week_view_ref_child [%d]=%p\n",
-		index, atk_object);
+		index, (void *)atk_object);
 #endif
 	return atk_object;
+}
+
+static void get_visible_text_item_count (GnomeCanvasItem *item, gpointer data)
+{
+	gint *count = (gint *)data;
+
+	if (item && E_IS_TEXT (item))
+		++(*count);
 }

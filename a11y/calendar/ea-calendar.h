@@ -32,6 +32,7 @@
 void gnome_calendar_a11y_init (void);
 void e_cal_view_a11y_init (void);
 void e_day_view_a11y_init (void);
+void e_day_view_main_item_a11y_init (void);
 void e_week_view_a11y_init (void);
 
 #endif /* _EA_CALENDAR_H__ */
