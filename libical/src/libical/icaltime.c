@@ -75,80 +75,76 @@ icaltime_from_timet(time_t tm, int is_date)
 
 /* Structure used by set_tz to hold an old value of TZ, and the new
    value, which is in memory we will have to free in unset_tz */
-struct set_tz_save {char* orig_tzid; char* new_env_str;};
+/* This will hold the last "TZ=XXX" string we used with putenv(). After we
+   call putenv() again to set a new TZ string, we can free the previous one.
+   As far as I know, no libc implementations actually free the memory used in
+   the environment variables (how could they know if it is a static string or
+   a malloc'ed string?), so we have to free it ourselves. */
+static char* saved_tz = NULL;
 
-/* Temporarily change the TZ environmental variable. */
-struct set_tz_save set_tz(const char* tzid)
+
+/* If you use set_tz(), you must call unset_tz() some time later to restore the
+   original TZ. Pass unset_tz() the string that set_tz() returns. */
+char* set_tz(const char* tzid)
 {
+    char *old_tz, *old_tz_copy = NULL, *new_tz;
 
-    char *orig_tzid = 0;
-    char *new_env_str;
-    struct set_tz_save savetz;
-    size_t tmp_sz; 
+    /* Get the old TZ setting and save a copy of it to return. */
+    old_tz = getenv("TZ");
+    if(old_tz){
+	old_tz_copy = (char*)malloc(strlen (old_tz) + 4);
 
-    savetz.orig_tzid = 0;
-    savetz.new_env_str = 0;
-
-    if(getenv("TZ") != 0){
-	orig_tzid = (char*)icalmemory_strdup(getenv("TZ"));
-
-	if(orig_tzid == 0){
-            icalerror_set_errno(ICAL_NEWFAILED_ERROR);
-	    return savetz;
+	if(old_tz_copy == 0){
+	    icalerror_set_errno(ICAL_NEWFAILED_ERROR);
+	    return 0;
 	}
+
+	strcpy (old_tz_copy, "TZ=");
+	strcpy (old_tz_copy + 3, old_tz);
     }
 
-    tmp_sz =strlen(tzid)+4; 
-    new_env_str = (char*)malloc(tmp_sz);
+    /* Create the new TZ string. */
+    new_tz = (char*)malloc(strlen (tzid) + 4);
 
-    if(new_env_str == 0){
-        icalerror_set_errno(ICAL_NEWFAILED_ERROR);
-	return savetz;
+    if(new_tz == 0){
+	icalerror_set_errno(ICAL_NEWFAILED_ERROR);
+	return 0;
     }
-    
-    /* Copy the TZid into a string with the form that putenv expects. */
-    strcpy(new_env_str,"TZ=");
-    strcpy(new_env_str+3,tzid);
 
-    putenv(new_env_str); 
+    strcpy (new_tz, "TZ=");
+    strcpy (new_tz + 3, tzid);
 
-    /* Old value of TZ and the string we will have to free later */
-    savetz.orig_tzid = orig_tzid;
-    savetz.new_env_str = new_env_str;
+    /* Add the new TZ to the environment. */
+    putenv(new_tz); 
 
-    return savetz;
+    /* Free any previous TZ environment string we have used. */
+    if (saved_tz)
+      free (saved_tz);
+
+    /* Save a pointer to the TZ string we just set, so we can free it later. */
+    saved_tz = new_tz;
+
+    return old_tz_copy; /* This will be zero if the TZ env var was not set */
 }
 
-void unset_tz(struct set_tz_save savetz)
+void unset_tz(char *tzstr)
 {
-    /* restore the original TZ environment */
+    /* restore the original environment */
 
-    char* orig_tzid = savetz.orig_tzid;
-
-    if(orig_tzid!=0){	
-	size_t tmp_sz =strlen(orig_tzid)+4; 
-	char* orig_env_str = (char*)malloc(tmp_sz);
-
-	if(orig_env_str == 0){
-            icalerror_set_errno(ICAL_NEWFAILED_ERROR);
-            return;
-	}
-	
-	strcpy(orig_env_str,"TZ=");
-	strcpy(orig_env_str+3,orig_tzid);
-
-	putenv(orig_env_str);
-
-	free(orig_tzid);
+    if(tzstr!=0){
+	putenv(tzstr);
     } else {
 	putenv("TZ"); /* Delete from environment */
     } 
 
-    if(savetz.new_env_str != 0){
-	free(savetz.new_env_str);
-    }
-}
+    /* Free any previous TZ environment string we have used. */
+    if (saved_tz)
+      free (saved_tz);
 
+    /* Save a pointer to the TZ string we just set, so we can free it later.
+       (This can possibly be NULL if there was no TZ to restore.) */
+    saved_tz = tzstr;
+}
 
 time_t icaltime_as_timet(struct icaltimetype tt)
 {
@@ -170,7 +166,7 @@ time_t icaltime_as_timet(struct icaltimetype tt)
     stm.tm_isdst = -1;
 
     if(tt.is_utc == 1 || tt.is_date == 1){
-        struct set_tz_save old_tz = set_tz("UTC");
+        char *old_tz = set_tz("UTC");
 	t = mktime(&stm);
 	unset_tz(old_tz);
     } else {
@@ -248,10 +244,11 @@ int icaltime_utc_offset(struct icaltimetype ictt, const char* tzid)
     time_t tt = icaltime_as_timet(ictt);
     time_t offset_tt;
     struct tm gtm;
-    struct set_tz_save old_tz; 
+
+    char *tz_str = 0;
 
     if(tzid != 0){
-	old_tz = set_tz(tzid);
+	tz_str = set_tz(tzid);
     }
 
     /* Mis-interpret a UTC broken out time as local time */
@@ -260,7 +257,7 @@ int icaltime_utc_offset(struct icaltimetype ictt, const char* tzid)
     offset_tt = mktime(&gtm);
     
     if(tzid != 0){
-	unset_tz(old_tz);
+	unset_tz(tz_str);
     }
 
     return tt-offset_tt;
@@ -471,7 +468,7 @@ struct icaltimetype icaltime_from_day_of_year(short doy,  short year)
 {
     struct tm stm; 
     time_t tt;
-    struct set_tz_save old_tz = set_tz("UTC");
+    char *old_tz = set_tz("UTC");
 
     /* Get the time of january 1 of this year*/
     memset(&stm,0,sizeof(struct tm)); 
@@ -564,4 +561,6 @@ struct icaltimetype  icaltime_add(struct icaltimetype t,
 struct icaldurationtype  icaltime_subtract(struct icaltimetype t1,
 					   struct icaltimetype t2)
 */
+
+
 

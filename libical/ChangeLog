@@ -1,3 +1,10 @@
+2001-05-10  JP Roseveaer  <jpr@ximian.com>
+
+	* src/libical/icaltime.c (set_tz, unset_tz): plug leak
+	(icaltime_as_timet): use altered functions
+	(icaltime_utc_offset): ditto
+	(icaltime_from_day_of_year): ditto
+
 2001-05-02  JP Rosevear  <jpr@ximian.com>
 
 	* src/libical/icalparser.c (icalparser_new): initialize
