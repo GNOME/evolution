@@ -31,12 +31,19 @@
 #include "e-shortcut-bar.h"
 
 #define NUM_SHORTCUT_TYPES 5
-gchar *shortcut_types[] = {
+gchar *shortcut_types[NUM_SHORTCUT_TYPES] = {
 	"folder:", "file:", "calendar:", "todo:", "contacts:"
 };
+gchar *icon_filenames[NUM_SHORTCUT_TYPES] = {
+	"gnome-balsa2.png", "gnome-folder.png", "gnome-calendar.png",
+	"gnome-cromagnon.png", "gnome-ccthemes.png"
+};
+GdkPixbuf *icon_pixbufs[NUM_SHORTCUT_TYPES];
 
 GtkWidget *main_label;
 
+static GdkPixbuf* icon_callback (EShortcutBar *shortcut_bar,
+				 gchar	      *url);
 static void on_main_label_size_allocate (GtkWidget *widget,
 					 GtkAllocation *allocation,
 					 gpointer data);
@@ -74,6 +81,8 @@ int
 main (int argc, char *argv[])
 {
 	GtkWidget *window, *hpaned, *shortcut_bar;
+	gchar *pathname;
+	gint i;
 
 	gnome_init ("test-shortcut-bar", "0.1", argc, argv);
 
@@ -94,6 +103,8 @@ main (int argc, char *argv[])
 	shortcut_bar = e_shortcut_bar_new ();
 	gtk_paned_pack1 (GTK_PANED (hpaned), shortcut_bar, FALSE, TRUE);
 	gtk_widget_show (shortcut_bar);
+	e_shortcut_bar_set_icon_callback (E_SHORTCUT_BAR (shortcut_bar),
+					  icon_callback);
 
 #if 0
 	gtk_container_set_border_width (GTK_CONTAINER (shortcut_bar), 4);
@@ -113,6 +124,15 @@ main (int argc, char *argv[])
 	gtk_widget_pop_visual ();
 	gtk_widget_pop_colormap ();
 
+	/* Load our default icons. */
+	for (i = 0; i < NUM_SHORTCUT_TYPES; i++) {
+		pathname = gnome_pixmap_file (icon_filenames[i]);
+		if (pathname)
+			icon_pixbufs[i] = gdk_pixbuf_new_from_file (pathname);
+		else
+			icon_pixbufs[i] = NULL;
+	}
+
 	add_test_groups (E_SHORTCUT_BAR (shortcut_bar));
 
 	gtk_signal_connect (GTK_OBJECT (shortcut_bar), "item_selected",
@@ -124,6 +144,22 @@ main (int argc, char *argv[])
 	return 0;
 }
 
+
+static GdkPixbuf*
+icon_callback (EShortcutBar *shortcut_bar,
+	       gchar	    *url)
+{
+	gint i;
+
+	for (i = 0; i < NUM_SHORTCUT_TYPES; i++) {
+		if (!strncmp (url, shortcut_types[i],
+			      strlen (shortcut_types[i]))) {
+			return icon_pixbufs[i];
+		}
+	}
+
+	return NULL;
+}
 
 static void
 on_main_label_size_allocate (GtkWidget *widget,

@@ -37,6 +37,12 @@ extern "C" {
  * window so users can easily access items such as folders and files.
  */
 
+typedef struct _EShortcutBar       EShortcutBar;
+typedef struct _EShortcutBarClass  EShortcutBarClass;
+
+
+typedef GdkPixbuf* (*EShortcutBarIconCallback)   (EShortcutBar *shortcut_bar,
+						  gchar	       *url);
 
 /* This contains information on one group. */
 typedef struct _EShortcutBarGroup   EShortcutBarGroup;
@@ -55,15 +61,16 @@ struct _EShortcutBarGroup
 #define E_IS_SHORTCUT_BAR(obj)       GTK_CHECK_TYPE (obj, e_shortcut_bar_get_type ())
 
 
-typedef struct _EShortcutBar       EShortcutBar;
-typedef struct _EShortcutBarClass  EShortcutBarClass;
-
 struct _EShortcutBar
 {
 	EGroupBar group_bar;
 
 	/* This is an array of EShortcutBarGroup elements. */
 	GArray *groups;
+
+	/* The callback which the application sets to return the icon to use
+	   for a given URL. */
+	EShortcutBarIconCallback icon_callback;
 
 	gchar *dragged_url;
 	gchar *dragged_name;
@@ -106,6 +113,12 @@ void	   e_shortcut_bar_start_editing_item	(EShortcutBar	 *shortcut_bar,
 void	   e_shortcut_bar_remove_item		(EShortcutBar	 *shortcut_bar,
 						 gint		  group_num,
 						 gint		  item_num);
+
+/* Sets the callback which is called to return the icon to use for a particular
+   URL. This callback must be set before any items are added. If the callback
+   returns NULL the default icon is used. */
+void	   e_shortcut_bar_set_icon_callback	(EShortcutBar	 *shortcut_bar,
+						 EShortcutBarIconCallback cb);
 
 #ifdef __cplusplus
 }

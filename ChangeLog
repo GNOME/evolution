@@ -1,3 +1,11 @@
+2000-03-31  Damon Chaplin  <damon@helixcode.com>
+
+	* widgets/shortcut-bar/e-shortcut-bar.[hc]: added support for a
+	callback function to set the icons.
+
+	* widgets/shortcut-bar/test-shortcut-bar.c: updated to use the
+	callback function.
+
 2000-03-31  Christopher James Lahey  <clahey@helixcode.com>
 
 	* addressbook/demo/demo.c, addressbook/demo/addressbook-widget.c:

@@ -44,24 +44,9 @@ static GtkTargetEntry target_table[] = {
 };
 static guint n_targets = sizeof(target_table) / sizeof(target_table[0]);
 
-typedef struct _EShortcutBarBuiltinType  EShortcutBarBuiltinType;
-struct _EShortcutBarBuiltinType {
-	gchar *name;
-	gchar *filename;
-	GdkPixbuf *image;
-};
-
-EShortcutBarBuiltinType e_shortcut_bar_builtin_types[] = {
-	{ "folder:",	"evolution/evolution-inbox.png",	NULL },
-	{ "calendar:",	"evolution/evolution-calendar.png",	NULL },
-	{ "todo:",	"evolution/evolution-tasks.png",	NULL },
-	{ "contacts:",	"evolution/evolution-contacts.png",	NULL }
-};
-static gint e_shortcut_bar_num_builtin_types = sizeof (e_shortcut_bar_builtin_types) / sizeof (EShortcutBarBuiltinType);
-
-gboolean e_shortcut_bar_default_type_image_loaded = FALSE;
-GdkPixbuf *e_shortcut_bar_default_type_image = NULL;
-gchar *e_shortcut_bar_default_type_filename = "gnome-balsa2.png";
+gboolean e_shortcut_bar_default_icon_loaded = FALSE;
+GdkPixbuf *e_shortcut_bar_default_icon = NULL;
+gchar *e_shortcut_bar_default_icon_filename = "gnome-folder.png";
 
 static void e_shortcut_bar_class_init (EShortcutBarClass *class);
 static void e_shortcut_bar_init (EShortcutBar *shortcut_bar);
@@ -517,32 +502,34 @@ e_shortcut_bar_stop_editing (GtkWidget *button,
 }
 
 
+/* Sets the callback which is called to return the icon to use for a particular
+   URL. */
+void
+e_shortcut_bar_set_icon_callback	(EShortcutBar	 *shortcut_bar,
+					 EShortcutBarIconCallback cb)
+{
+	shortcut_bar->icon_callback = cb;
+}
+
+
 static GdkPixbuf *
 e_shortcut_bar_get_image_from_url (EShortcutBar *shortcut_bar,
 				   gchar *item_url)
 {
-	gchar *method_terminator;
-	gint method_len, i;
+	GdkPixbuf *icon = NULL;
 
-	method_terminator = strchr (item_url, ':');
-	if (method_terminator) {
-		method_len = method_terminator - item_url + 1;
+	if (shortcut_bar->icon_callback)
+		icon = (*shortcut_bar->icon_callback) (shortcut_bar, item_url);
 
-		/* Check if it is a builtin type. */
-		for (i = 0; i < e_shortcut_bar_num_builtin_types; i++) {
-			if (!strncmp (item_url, e_shortcut_bar_builtin_types[i].name, method_len)) {
-				if (!e_shortcut_bar_builtin_types[i].image)
-					e_shortcut_bar_builtin_types[i].image = e_shortcut_bar_load_image (e_shortcut_bar_builtin_types[i].filename);
-				return e_shortcut_bar_builtin_types[i].image;
-			}
+	if (!icon) {
+		if (!e_shortcut_bar_default_icon_loaded) {
+			e_shortcut_bar_default_icon_loaded = TRUE;
+			e_shortcut_bar_default_icon = e_shortcut_bar_load_image (e_shortcut_bar_default_icon_filename);
 		}
+		icon = e_shortcut_bar_default_icon;
 	}
 
-	if (!e_shortcut_bar_default_type_image_loaded) {
-		e_shortcut_bar_default_type_image_loaded = TRUE;
-		e_shortcut_bar_default_type_image = e_shortcut_bar_load_image (e_shortcut_bar_default_type_filename);
-	}
-	return e_shortcut_bar_default_type_image;
+	return icon;
 }
 
 
