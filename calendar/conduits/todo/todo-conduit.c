@@ -14,8 +14,6 @@
 #include <pi-socket.h>
 #include <pi-file.h>
 #include <pi-dlp.h>
-#include <libgnorba/gnorba.h>
-#include <libgnorba/gnome-factory.h>
 #include <pi-version.h>
 #include <gpilotd/gnome-pilot-conduit.h>
 #include <gpilotd/gnome-pilot-conduit-standard-abs.h>
@@ -23,11 +21,12 @@
 #include <todo-conduit.h>
 #include <libical/src/libical/icaltypes.h>
 
+#include <liboaf/liboaf.h>
 #include <bonobo.h>
 
 GnomePilotConduit * conduit_get_gpilot_conduit (guint32);
 void conduit_destroy_gpilot_conduit (GnomePilotConduit*);
-void local_record_from_compobject (GCalLocalRecord *local, CalComponent *comp);
+void local_record_from_compobject (EToDoLocalRecord *local, CalComponent *comp);
 
 #define CONDUIT_VERSION "0.8.11"
 #ifdef G_LOG_DOMAIN
@@ -50,7 +49,7 @@ void local_record_from_compobject (GCalLocalRecord *local, CalComponent *comp);
 #define INFO(e...) g_log(G_LOG_DOMAIN,G_LOG_LEVEL_MESSAGE, e)
 
 /* debug spew DELETE ME */
-static char *print_local (GCalLocalRecord *local)
+static char *print_local (EToDoLocalRecord *local)
 {
 	static char buff[ 4096 ];
 
@@ -222,7 +221,7 @@ get_calendar_objects(GnomePilotConduitStandardAbs *conduit,
 
 
 static void 
-local_record_from_comp_uid (GCalLocalRecord *local,
+local_record_from_comp_uid (EToDoLocalRecord *local,
 			    char *uid,
 			    EToDoConduitContext *ctxt)
 {
@@ -257,10 +256,10 @@ static char *gnome_pilot_status_to_string (gint status)
 
 
 /*
- * converts a CalComponent object to a GCalLocalRecord
+ * converts a CalComponent object to a EToDoLocalRecord
  */
 void
-local_record_from_compobject(GCalLocalRecord *local,
+local_record_from_compobject(EToDoLocalRecord *local,
 			     CalComponent *comp) 
 {
 	unsigned long *pilot_id;
@@ -299,13 +298,13 @@ local_record_from_compobject(GCalLocalRecord *local,
  * Given a PilotRecord, find the matching record in
  * the calendar repository. If no match, return NULL
  */
-static GCalLocalRecord *
+static EToDoLocalRecord *
 find_record_in_repository(GnomePilotConduitStandardAbs *conduit,
 			  PilotRecord *remote,
 			  EToDoConduitContext *ctxt) 
 {
 	char *uid = NULL;
-	GCalLocalRecord *loc;
+	EToDoLocalRecord *loc;
 	CalClientGetStatus status;
 	CalComponent *obj;
   
@@ -323,7 +322,7 @@ find_record_in_repository(GnomePilotConduitStandardAbs *conduit,
 		status = cal_client_get_object (ctxt->client, uid, &obj);
 		if (status == CAL_CLIENT_GET_SUCCESS) {
 			LOG ("found %s\n", cal_component_get_as_string (obj));
-			loc = g_new0(GCalLocalRecord,1);
+			loc = g_new0(EToDoLocalRecord,1);
 			/* memory allocated in new_from_string is freed in free_match */
 			local_record_from_compobject (loc, obj);
 			return loc;
@@ -603,7 +602,7 @@ pre_sync (GnomePilotConduit *c,
 
 static gint
 match_record	(GnomePilotConduitStandardAbs *conduit,
-		 GCalLocalRecord **local,
+		 EToDoLocalRecord **local,
 		 PilotRecord *remote,
 		 EToDoConduitContext *ctxt)
 {
@@ -631,7 +630,7 @@ match_record	(GnomePilotConduitStandardAbs *conduit,
  */
 static gint
 free_match	(GnomePilotConduitStandardAbs *conduit,
-		 GCalLocalRecord **local,
+		 EToDoLocalRecord **local,
 		 EToDoConduitContext *ctxt)
 {
 	LOG ("free_match: %s\n", print_local (*local));
@@ -651,7 +650,7 @@ free_match	(GnomePilotConduitStandardAbs *conduit,
  */
 static gint
 archive_local (GnomePilotConduitStandardAbs *conduit,
-	       GCalLocalRecord *local,
+	       EToDoLocalRecord *local,
 	       EToDoConduitContext *ctxt)
 {
 	LOG ("archive_local: doing nothing with %s\n", print_local (local));
@@ -666,7 +665,7 @@ archive_local (GnomePilotConduitStandardAbs *conduit,
  */
 static gint
 archive_remote (GnomePilotConduitStandardAbs *conduit,
-		GCalLocalRecord *local,
+		EToDoLocalRecord *local,
 		PilotRecord *remote,
 		EToDoConduitContext *ctxt)
 {
@@ -698,7 +697,7 @@ store_remote (GnomePilotConduitStandardAbs *conduit,
 
 static gint
 clear_status_archive_local (GnomePilotConduitStandardAbs *conduit,
-			    GCalLocalRecord *local,
+			    EToDoLocalRecord *local,
 			    EToDoConduitContext *ctxt)
 {
 	LOG ("clear_status_archive_local: doing nothing\n");
@@ -710,7 +709,7 @@ clear_status_archive_local (GnomePilotConduitStandardAbs *conduit,
 
 static gint
 iterate (GnomePilotConduitStandardAbs *conduit,
-	 GCalLocalRecord **local,
+	 EToDoLocalRecord **local,
 	 EToDoConduitContext *ctxt)
 {
 	static GSList *events,*iterator;
@@ -726,7 +725,7 @@ iterate (GnomePilotConduitStandardAbs *conduit,
 		
 		if(events!=NULL) {
 			 /*  LOG ("iterating over %d records", g_slist_length (events)); */
-			*local = g_new0(GCalLocalRecord,1);
+			*local = g_new0(EToDoLocalRecord,1);
 
 			local_record_from_comp_uid(*local,(gchar*)events->data,ctxt);
 			iterator = events;
@@ -764,7 +763,7 @@ iterate (GnomePilotConduitStandardAbs *conduit,
 
 static gint
 iterate_specific (GnomePilotConduitStandardAbs *conduit,
-		  GCalLocalRecord **local,
+		  EToDoLocalRecord **local,
 		  gint flag,
 		  gint archived,
 		  EToDoConduitContext *ctxt)
@@ -822,7 +821,7 @@ purge (GnomePilotConduitStandardAbs *conduit,
 
 static gint
 set_status (GnomePilotConduitStandardAbs *conduit,
-	    GCalLocalRecord *local,
+	    EToDoLocalRecord *local,
 	    gint status,
 	    EToDoConduitContext *ctxt)
 {
@@ -861,7 +860,7 @@ set_status (GnomePilotConduitStandardAbs *conduit,
 
 static gint
 set_archived (GnomePilotConduitStandardAbs *conduit,
-	      GCalLocalRecord *local,
+	      EToDoLocalRecord *local,
 	      gint archived,
 	      EToDoConduitContext *ctxt)
 {
@@ -881,7 +880,7 @@ set_archived (GnomePilotConduitStandardAbs *conduit,
 
 static gint
 set_pilot_id (GnomePilotConduitStandardAbs *conduit,
-	      GCalLocalRecord *local,
+	      EToDoLocalRecord *local,
 	      guint32 ID,
 	      EToDoConduitContext *ctxt)
 {
@@ -910,7 +909,7 @@ set_pilot_id (GnomePilotConduitStandardAbs *conduit,
 
 static gint
 transmit (GnomePilotConduitStandardAbs *conduit,
-	  GCalLocalRecord *local,
+	  EToDoLocalRecord *local,
 	  PilotRecord **remote,
 	  EToDoConduitContext *ctxt)
 {
@@ -993,7 +992,7 @@ transmit (GnomePilotConduitStandardAbs *conduit,
 
 static gint
 free_transmit (GnomePilotConduitStandardAbs *conduit,
-	       GCalLocalRecord *local,
+	       EToDoLocalRecord *local,
 	       PilotRecord **remote,
 	       EToDoConduitContext *ctxt)
 {
@@ -1013,7 +1012,7 @@ free_transmit (GnomePilotConduitStandardAbs *conduit,
 
 static gint
 compare (GnomePilotConduitStandardAbs *conduit,
-	 GCalLocalRecord *local,
+	 EToDoLocalRecord *local,
 	 PilotRecord *remote,
 	 EToDoConduitContext *ctxt)
 {
@@ -1059,7 +1058,7 @@ compare (GnomePilotConduitStandardAbs *conduit,
 
 static gint
 compare_backup (GnomePilotConduitStandardAbs *conduit,
-		GCalLocalRecord *local,
+		EToDoLocalRecord *local,
 		PilotRecord *remote,
 		EToDoConduitContext *ctxt)
 {

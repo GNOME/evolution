@@ -11,21 +11,18 @@
 #include <gpilotd/gnome-pilot-conduit.h>
 #include <gpilotd/gnome-pilot-conduit-standard-abs.h>
 #include <cal-client/cal-client.h>
-#include <cal-util/timeutil.h>
 
-#include <liboaf/liboaf.h>
-#include <libgnorba/gnorba.h>
 
-/* This is the local record structure for the GnomeCal conduit. */
-typedef struct _GCalLocalRecord GCalLocalRecord;
-struct _GCalLocalRecord {
+/* This is the local record structure for the Evolution ToDo conduit. */
+typedef struct _EToDoLocalRecord EToDoLocalRecord;
+struct _EToDoLocalRecord {
 	/* The stuff from gnome-pilot-conduit-standard-abs.h
 	   Must be first in the structure, or instances of this
 	   structure cannot be used by gnome-pilot-conduit-standard-abs.
 	*/
 	LocalRecord local;
 
-	/* The corresponding Comp object, as found by GnomeCal. */
+	/* The corresponding Comp object */
 	CalComponent *comp;
 
         /* pilot-link todo structure, used for implementing Transmit. */

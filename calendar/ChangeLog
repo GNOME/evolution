@@ -1,5 +1,12 @@
 2000-09-11  JP Rosevear  <jpr@helixcode.com>
 
+	* conduits/todo/todo-conduit.c: Handle renaming, header cleanup
+
+	* conduits/todo/todo-conduit.h: Rename GCalLocalRecord to 
+	EToDoLocalRecord, header cleanup
+	
+2000-09-11  JP Rosevear  <jpr@helixcode.com>
+
 	* conduits/todo/todo-conduit.c (comp_from_remote_record): Use
 	description list instead of comment list for pilot todo note
 	(transmit): Check for null cal component properties, set priority
