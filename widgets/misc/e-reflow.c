@@ -772,7 +772,9 @@ e_reflow_dispose (GObject *object)
 	
 	g_free(reflow->empty_message);
 	reflow->empty_message = NULL;
-  
+
+	g_object_unref (reflow->sorter);
+
 	G_OBJECT_CLASS(parent_class)->dispose (object);
 }
 
