@@ -52,7 +52,7 @@
 </ETableSpecification>"
 
 #define STORE_ETABLE_SPEC "<ETableSpecification cursor-mode=\"line\"> \
-        <ETableColumn model_col=\"0\" _title=\"Store\" expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"cell_text\" compare=\"string\"/> \
+        <ETableColumn model_col=\"0\" _title=\"Store\" expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
 	<ETableState>                   			        \
 		<column source=\"0\"/>                                  \
 	        <grouping></grouping>                                   \
