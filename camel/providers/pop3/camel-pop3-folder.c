@@ -99,9 +99,16 @@ pop3_finalize (CamelObject *object)
 {
 	CamelPOP3Folder *pop3_folder = CAMEL_POP3_FOLDER (object);
 	CamelPOP3FolderInfo **fi = (CamelPOP3FolderInfo **)pop3_folder->uids->pdata;
+	CamelPOP3Store *pop3_store = (CamelPOP3Store *)((CamelFolder *)pop3_folder)->parent_store;
 	int i;
 
 	for (i=0;i<pop3_folder->uids->len;i++,fi++) {
+		if (fi[0]->cmd) {
+			while (camel_pop3_engine_iterate(pop3_store->engine, fi[0]->cmd) > 0)
+				;
+			camel_pop3_engine_command_free(pop3_store->engine, fi[0]->cmd);
+		}
+
 		g_free(fi[0]->uid);
 		g_free(fi[0]);
 	}
@@ -402,7 +409,7 @@ pop3_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 	CamelPOP3Command *pcr;
 	CamelPOP3FolderInfo *fi;
 	char buffer[1];
-	int ok, i;
+	int ok, i, last;
 	CamelStream *stream = NULL;
 
 	fi = uid_to_fi(pop3_folder, uid);
@@ -458,10 +465,13 @@ pop3_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 		fi->err = EIO;
 		pcr = camel_pop3_engine_command_new(pop3_store->engine, CAMEL_POP3_COMMAND_MULTI, cmd_tocache, fi, "RETR %u\r\n", fi->id);
 
-		/* Also initiate retrieval of all following messages, assume we'll be receiving them */
+		/* Also initiate retrieval of some of the following messages, assume we'll be receiving them */
 		if (pop3_store->cache != NULL) {
+			/* This should keep track of the last one retrieved, also how many are still
+			   oustanding incase of random access on large folders */
 			i = fi_to_index(pop3_folder, fi)+1;
-			for (;i<pop3_folder->uids->len;i++) {
+			last = MIN(i+10, pop3_folder->uids->len);
+			for (;i<last;i++) {
 				CamelPOP3FolderInfo *pfi = pop3_folder->uids->pdata[i];
 				
 				if (pfi->uid && pfi->cmd == NULL) {

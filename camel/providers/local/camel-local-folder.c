@@ -216,6 +216,9 @@ camel_local_folder_construct(CamelLocalFolder *lf, CamelStore *parent_store, con
 	   the old-format 'ibex' files that might be lying around */
 	unlink(lf->index_path);
 
+#if 1
+	forceindex = FALSE;
+#else
 	/* if we have no/invalid index file, force it */
 	forceindex = camel_text_index_check(lf->index_path) == -1;
 	if (flags & CAMEL_STORE_FOLDER_BODY_INDEX) {
@@ -236,7 +239,7 @@ camel_local_folder_construct(CamelLocalFolder *lf, CamelStore *parent_store, con
 			camel_text_index_remove(lf->index_path);
 		forceindex = FALSE;
 	}
-
+#endif
 	lf->flags = flags;
 
 	folder->summary = (CamelFolderSummary *)CLOCALF_CLASS(lf)->create_summary(lf->summary_path, lf->folder_path, lf->index);

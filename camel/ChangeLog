@@ -1,3 +1,36 @@
+2002-04-02  Not Zed  <NotZed@Ximian.com>
+
+	* providers/local/camel-local-folder.c
+	(camel_local_folder_construct): Temporarily disable indexing.
+
+2002-03-28  Not Zed  <NotZed@Ximian.com>
+
+	* camel-partition-table.c (camel_key_table_lookup): Change range
+	checking assert to a warning.
+
+	* providers/pop3/camel-pop3-folder.c (pop3_finalize): Make sure we
+	flush out all outstanding commands before finalising, stops being
+	finalised while outsanding requests are processed by the store
+	finalise.
+	(pop3_get_message): Instead of pre-fetching all messages, just
+	pre-fetch a maxiumum number at any one time, stops us running out
+	of cache fd's.
+	
+	* providers/nntp/camel-nntp-folder.c (nntp_folder_init/finalise):
+	Setup priv data + locks, & free.
+
+	* providers/imap/camel-imap-folder.c (imap_rescan): Batch all
+	message_chagned events into a single folder_changed event
+	(otherwise updates can be >>> expensive, like >5 hours for 80K
+	messages changing!).  Alternately it could use folder
+	freeze/unfreeze perhaps.
+
+2002-03-27  Not Zed  <NotZed@Ximian.com>
+
+	* providers/imap/camel-imap-store.c (imap_keepalive): Pass an
+	exception to called code so it behaves properly since it uses the
+	passed exception to check returns.
+
 2002-04-01  Dan Winship  <danw@ximian.com>
 
 	* providers/imap/Makefile.am (libcamelimap_la_LDFLAGS): Use

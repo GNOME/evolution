@@ -141,10 +141,18 @@ lookup word, if nameid is deleted, mark it in wordlist as unused and mark for wr
 
 /* ********************************************************************** */
 
+void
+camel_break_here(void)
+{
+}
+
 /* This simple hash seems to work quite well */
 static camel_hash_t hash_key(const char *key)
 {
 	camel_hash_t hash = 0xABADF00D;
+
+	if (strcmp(key, "4852") == 0)
+		camel_break_here();
 
 	while (*key) {
 		hash = hash * (*key) ^ (*key);
@@ -850,8 +858,15 @@ camel_key_table_lookup(CamelKeyTable *ki, camel_key_t keyid, char **keyp, unsign
 
 	kb = (CamelKeyBlock *)&bl->data;
 
-	g_assert(kb->used < 127);
+#if 1
+	g_assert(kb->used < 127); /* this should be more accurate */
 	g_assert(index < kb->used);
+#else
+	if (kb->used >=127 || index >= kb->used) {
+		g_warning("Block %x: Invalid index or content: index %d used %d\n", blockid, index, kb->used);
+		return 0;
+	}
+#endif
 
 	CAMEL_KEY_TABLE_LOCK(ki, lock);
 

@@ -179,6 +179,12 @@ filter(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out, s
 	  bytes for a multibyte sequence, if not, we're in trouble.
 	*/
 
+	/* This is to fix a bug in at least 1 version of glibc iconv: we get EINVAL and
+	   it reads past the input and returns a converted length of -1 ... so discard
+	   any overruns as failed */
+	if (((int)inlen) < 0)
+		inlen = 0;
+
 	if (inlen>0) {
 		camel_mime_filter_backup(mf, inbuf, inlen);
 	}

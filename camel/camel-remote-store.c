@@ -272,7 +272,7 @@ remote_connect (CamelService *service, CamelException *ex)
 	if (CRSC (store)->keepalive) {
 		CamelSession *session = camel_service_get_session (CAMEL_SERVICE (store));
 		
-		store->timeout_id = camel_session_register_timeout (session, 10 * 60 * 1000, 
+		store->timeout_id = camel_session_register_timeout (session, 30 * 1000 /* FIXME: 10 * 60 * 1000 */, 
 								    timeout_cb, 
 								    store);
 	}

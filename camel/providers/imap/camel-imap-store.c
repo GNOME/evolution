@@ -1845,22 +1845,27 @@ imap_keepalive (CamelRemoteStore *store)
 {
 	CamelImapStore *imap_store = CAMEL_IMAP_STORE (store);
 	CamelImapResponse *response;
-	
+	CamelException *ex;
+
 	/* FIXME: should this check to see if we are online? */
 	
 	/* Note: the idea here is to sync the flags of our currently
 	   selected folder if there have been changes... */
-	
+	ex = NULL;
+	/*ex = camel_exception_new();*/
 	if (imap_store->current_folder && folder_flags_have_changed (imap_store->current_folder)) {
-		camel_folder_sync (imap_store->current_folder, FALSE, NULL);
+		camel_folder_sync (imap_store->current_folder, FALSE, ex);
+		/*camel_exception_clear(ex);*/
 	}
 	
 	/* ...but we also want to NOOP so that we get an untagged response. */
 	
 	CAMEL_IMAP_STORE_LOCK (store, command_lock);
 	
-	response = camel_imap_command (imap_store, NULL, NULL, "NOOP");
+	response = camel_imap_command (imap_store, NULL, ex, "NOOP");
 	camel_imap_response_free (imap_store, response);
 	
 	CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
+
+	/*camel_exception_free(ex);*/
 }

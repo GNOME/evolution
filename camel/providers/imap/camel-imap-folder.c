@@ -451,7 +451,8 @@ imap_rescan (CamelFolder *folder, int exists, CamelException *ex)
 	CamelImapMessageInfo *iinfo;
 	GArray *removed;
 	gboolean ok;
-	
+	CamelFolderChangeInfo *changes = NULL;
+
 	CAMEL_IMAP_STORE_ASSERT_LOCKED (store, command_lock);
 	imap_folder->need_rescan = FALSE;
 	
@@ -541,14 +542,19 @@ imap_rescan (CamelFolder *folder, int exists, CamelException *ex)
 			
 			info->flags = (info->flags | server_set) & ~server_cleared;
 			iinfo->server_flags = new[i].flags;
-			
-			camel_object_trigger_event (CAMEL_OBJECT (folder),
-						    "message_changed",
-						    new[i].uid);
+
+			if (changes == NULL)
+				changes = camel_folder_change_info_new();
+			camel_folder_change_info_change_uid(changes, new[i].uid);
 		}
 		
 		camel_folder_summary_info_free (folder->summary, info);
 		g_free (new[i].uid);
+	}
+
+	if (changes) {
+		camel_object_trigger_event(CAMEL_OBJECT (folder), "folder_changed", changes);
+		camel_folder_change_info_free(changes);
 	}
 	
 	seq = i + 1;

@@ -259,13 +259,28 @@ nntp_folder_search_free(CamelFolder *folder, GPtrArray *result)
 static void           
 nntp_folder_init(CamelNNTPFolder *nntp_folder, CamelNNTPFolderClass *klass)
 {
+	struct _CamelNNTPFolderPrivate *p;
+
 	nntp_folder->changes = camel_folder_change_info_new();
+#ifdef ENABLE_THREADS
+	p = nntp_folder->priv = g_malloc0(sizeof(*nntp_folder->priv));
+	p->search_lock = g_mutex_new();
+	p->cache_lock = g_mutex_new();
+#endif
 }
 
 static void           
 nntp_folder_finalise (CamelNNTPFolder *nntp_folder)
 {
+	struct _CamelNNTPFolderPrivate *p;
+
 	g_free(nntp_folder->storage_path);
+#ifdef ENABLE_THREADS
+	p = nntp_folder->priv;
+	g_mutex_free(p->search_lock);
+	g_mutex_free(p->cache_lock);
+	g_free(p);
+#endif
 }
 
 static void
