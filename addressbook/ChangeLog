@@ -1,3 +1,9 @@
+2004-01-25  Chris Toshok  <toshok@ximian.com>
+
+	[ fixes bug #51171 ]
+	* gui/widgets/eab-gui-util.c (eab_send_contact_list): get this
+	working.
+
 2004-01-24  Rodney Dawes  <dobey@ximian.com>
 
 	* gui/component/select-names/e-select-names.c (e_select_names_init):

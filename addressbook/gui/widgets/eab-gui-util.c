@@ -559,7 +559,6 @@ eab_transfer_contacts (EBook *source, GList *contacts /* adopted */, gboolean de
 void
 eab_send_contact_list (GList *contacts, EABDisposition disposition)
 {
-#if notyet
 	GNOME_Evolution_Composer composer_server;
 	CORBA_Environment ev;
 
@@ -580,20 +579,23 @@ eab_send_contact_list (GList *contacts, EABDisposition disposition)
 		/* Figure out how many addresses of each kind we have. */
 		for (iter = contacts; iter != NULL; iter = g_list_next (iter)) {
 			EContact *contact = E_CONTACT (iter->data);
+			GList *emails = e_contact_get (contact, E_CONTACT_EMAIL);
 			if (e_contact_get (contact, E_CONTACT_IS_LIST)) {
-				gint len = card->email ? e_list_length (card->email) : 0;
-				if (e_card_evolution_list_show_addresses (card))
+				gint len = g_list_length (emails);
+				if (e_contact_get (contact, E_CONTACT_LIST_SHOW_ADDRESSES))
 					to_length += len;
 				else
 					bcc_length += len;
 			} else {
-				if (card->email != NULL)
+				if (emails != NULL)
 					++to_length;
 			}
+			g_list_foreach (emails, (GFunc)g_free, NULL);
+			g_list_free (emails);
 		}
 
 		/* Now I have to make a CORBA sequences that represents a recipient list with
-		   the right number of entries, for the cards. */
+		   the right number of entries, for the contacts. */
 		to_list = GNOME_Evolution_Composer_RecipientList__alloc ();
 		to_list->_maximum = to_length;
 		to_list->_length = to_length;
@@ -613,19 +615,20 @@ eab_send_contact_list (GList *contacts, EABDisposition disposition)
 
 		to_i = 0;
 		bcc_i = 0;
-		while (cards != NULL) {
-			ECard *card = cards->data;
-			EIterator *iterator;
+		while (contacts != NULL) {
+			EContact *contact = contacts->data;
 			gchar *name, *addr;
-			gboolean is_list, is_hidden, free_name_addr;
+			gboolean is_list, is_hidden;
 			GNOME_Evolution_Composer_Recipient *recipient;
+			GList *emails = e_contact_get (contact, E_CONTACT_EMAIL);
+			GList *iterator;
 
-			if (card->email != NULL) {
+			if (emails != NULL) {
 
-				is_list = e_card_evolution_list (card);
-				is_hidden = is_list && !e_card_evolution_list_show_addresses (card);
+				is_list = (gboolean)e_contact_get (contact, E_CONTACT_IS_LIST);
+				is_hidden = is_list && !e_contact_get (contact, E_CONTACT_LIST_SHOW_ADDRESSES);
 			
-				for (iterator = e_list_get_iterator (card->email); e_iterator_is_valid (iterator); e_iterator_next (iterator)) {
+				for (iterator = emails; iterator; iterator = iterator->next) {
 					
 					if (is_hidden) {
 						recipient = &(bcc_list->_buffer[bcc_i]);
@@ -635,46 +638,44 @@ eab_send_contact_list (GList *contacts, EABDisposition disposition)
 						++to_i;
 					}
 					
-					name = "";
-					addr = "";
-					free_name_addr = FALSE;
-					if (e_iterator_is_valid (iterator)) {
-						
+					name = NULL;
+					addr = NULL;
+					if (iterator && iterator->data) {
 						if (is_list) {
 							/* We need to decode the list entries, which are XMLified EABDestinations. */
-							EABDestination *dest = eab_destination_import (e_iterator_get (iterator));
+							EABDestination *dest = eab_destination_import ((char*)iterator->data);
 							if (dest != NULL) {
 								name = g_strdup (eab_destination_get_name (dest));
 								addr = g_strdup (eab_destination_get_email (dest));
-								free_name_addr = TRUE;
 								g_object_unref (dest);
 							}
 							
 						} else { /* is just a plain old card */
-							if (card->name)
-								name = e_card_name_to_string (card->name);
-							addr = g_strdup ((char *) e_iterator_get (iterator));
-							free_name_addr = TRUE;
+							EContactName *contact_name = e_contact_get (contact, E_CONTACT_NAME);
+							if (contact_name) {
+								name = e_contact_name_to_string (contact_name);
+								e_contact_name_free (contact_name);
+							}
+							addr = g_strdup ((char *) iterator->data);
 						}
 					}
 					
 					recipient->name    = CORBA_string_dup (name ? name : "");
 					recipient->address = CORBA_string_dup (addr ? addr : "");
 					
-					if (free_name_addr) {
-						g_free ((gchar *) name);
-						g_free ((gchar *) addr);
-					}
+					g_free ((gchar *) name);
+					g_free ((gchar *) addr);
 					
 					/* If this isn't a list, we quit after the first (i.e. the default) address. */
 					if (!is_list)
 						break;
 					
 				}
-				g_object_unref (iterator);
+				g_list_foreach (emails, (GFunc)g_free, NULL);
+				g_list_free (emails);
 			}
 
-			cards = g_list_next (cards);
+			contacts = g_list_next (contacts);
 		}
 
 		subject = CORBA_string_dup ("");
@@ -702,23 +703,19 @@ eab_send_contact_list (GList *contacts, EABDisposition disposition)
 		content_type = CORBA_string_dup ("text/x-vcard");
 		filename = CORBA_string_dup ("");
 
-		if (cards->next) {
+		if (contacts->next) {
 			description = CORBA_string_dup (_("Multiple VCards"));
 		} else {
-			char *file_as;
-
-			g_object_get(cards->data,
-				     "file_as", &file_as,
-				     NULL);
-
+			char *file_as = e_contact_get (E_CONTACT (contacts->data), E_CONTACT_FILE_AS);
 			tempstr = g_strdup_printf (_("VCard for %s"), file_as);
 			description = CORBA_string_dup (tempstr);
 			g_free (tempstr);
+			g_free (file_as);
 		}
 
 		show_inline = FALSE;
 
-		tempstr = eab_contact_list_to_string (cards);
+		tempstr = eab_contact_list_to_string (contacts);
 		attach_data = GNOME_Evolution_Composer_AttachmentData__alloc();
 		attach_data->_maximum = attach_data->_length = strlen (tempstr);
 		attach_data->_buffer = CORBA_sequence_CORBA_char_allocbuf (attach_data->_length);
@@ -750,36 +747,23 @@ eab_send_contact_list (GList *contacts, EABDisposition disposition)
 		bcc_list = GNOME_Evolution_Composer_RecipientList__alloc ();
 		bcc_list->_maximum = bcc_list->_length = 0;
 
-		if (!cards || cards->next) {
+		if (!contacts || contacts->next) {
 			subject = CORBA_string_dup ("Contact information");
 		} else {
-			ECard *card = cards->data;
+			EContact *contact = contacts->data;
 			const gchar *tempstr2;
 
-			tempstr2 = NULL;
-			g_object_get(card,
-				     "file_as", &tempstr2,
-				     NULL);
+			tempstr2 = e_contact_get_const (contact, E_CONTACT_FILE_AS);
 			if (!tempstr2 || !*tempstr2)
-				g_object_get(card,
-					     "full_name", &tempstr2,
-					     NULL);
+				tempstr2 = e_contact_get_const (contact, E_CONTACT_FULL_NAME);
 			if (!tempstr2 || !*tempstr2)
-				g_object_get(card,
-					     "org", &tempstr2,
-					     NULL);
-			if (!tempstr2 || !*tempstr2) {
-				EList *list;
-				EIterator *iterator;
-				g_object_get(card,
-					     "email", &list,
-					     NULL);
-				iterator = e_list_get_iterator (list);
-				if (e_iterator_is_valid (iterator)) {
-					tempstr2 = e_iterator_get (iterator);
-				}
-				g_object_unref (iterator);
-			}
+				tempstr2 = e_contact_get_const (contact, E_CONTACT_ORG);
+			if (!tempstr2 || !*tempstr2)
+				tempstr2 = e_contact_get_const (contact, E_CONTACT_EMAIL_1);
+			if (!tempstr2 || !*tempstr2)
+				tempstr2 = e_contact_get_const (contact, E_CONTACT_EMAIL_2);
+			if (!tempstr2 || !*tempstr2)
+				tempstr2 = e_contact_get_const (contact, E_CONTACT_EMAIL_3);
 
 			if (!tempstr2 || !*tempstr2)
 				tempstr = g_strdup_printf ("Contact information");
@@ -806,7 +790,6 @@ eab_send_contact_list (GList *contacts, EABDisposition disposition)
 	}
 
 	CORBA_exception_free (&ev);
-#endif
 }
 
 void
