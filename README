@@ -117,7 +117,8 @@ and -devel packages for each library.
    *** "--disable-more-warnings" when configure, or it may fail to
    *** build.
 
- - gnome-vfs - 0.4.2 or later
+ - gnome-vfs - 0.4.2 or later. (If you get this from GNOME CVS, use
+   the tag "gnome-vfs-1")
 
    *** If you are using gnome-vfs from CVS, you should use the flag
    *** "--disable-more-warnings" when configuring, or it may fail to
