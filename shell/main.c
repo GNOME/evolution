@@ -44,9 +44,6 @@
 #include "e-shell.h"
 
 
-#define STARTUP_URI "evolution:/local/Inbox"
-
-
 static EShell *shell = NULL;
 static char *evolution_directory = NULL;
 static gboolean no_splash = FALSE;
@@ -172,7 +169,7 @@ idle_cb (void *data)
 	}
 
 	if (! restored && uri_list == NULL) {
-		const char *uri = "evolution:/local/Inbox";
+		const char *uri = DEFAULT_URI;
 
 		GNOME_Evolution_Shell_handleURI (corba_shell, uri, &ev);
 		if (ev._major != CORBA_NO_EXCEPTION)

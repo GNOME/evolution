@@ -401,7 +401,7 @@ e_shell_command_delete_folder (EShell *shell,
 						   NULL);
 
 		/* Select another folder to prevent bad things from happening */
-		e_shell_view_display_uri (shell_view, "evolution:/local/Inbox");
+		e_shell_view_display_uri (shell_view, DEFAULT_URI);
 	}
 
 	g_free (path);

@@ -1,5 +1,23 @@
 2001-07-19  Jason Leach  <jleach@ximian.com>
 
+	* e-local-storage.h: Make the local storage name "Local Folders"
+	instead of "local", looks better with "My Evolution", "VFolders",
+	and "Other Contacts".
+
+	* e-shell-view.h: Put the #define DEFAULT_URI here instead of in
+	e-shell-view.c.
+
+	* main.c: Remove the duplicated #define STARTUP_URI, actually make
+	use of the nice defines.
+
+	* e-shell-folder-commands.c (e_shell_command_delete_folder): Use
+	the DEFAULT_URI here instead of a hard coded string.
+
+	* e-shortcuts.c (e_shortcuts_add_default_group): Fix the URI's
+	here to use "Local Folder".
+
+2001-07-19  Jason Leach  <jleach@ximian.com>
+
 	* e-shell-folder-title-bar.c (e_shell_folder_title_bar_construct):
 	Line up the padding for the folder title bar labels when you have
 	the folder bar enabled or disabled (previously when disabled it

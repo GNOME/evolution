@@ -981,10 +981,10 @@ e_shortcuts_add_default_group (EShortcuts *shortcuts)
 
 	e_shortcuts_add_group (shortcuts, -1, _("Shortcuts"));
 
-	e_shortcuts_add_shortcut (shortcuts, 0, -1, "evolution:/local/Inbox", _("Inbox"), "mail");
-	e_shortcuts_add_shortcut (shortcuts, 0, -1, "evolution:/local/Calendar", _("Calendar"), "calendar");
-	e_shortcuts_add_shortcut (shortcuts, 0, -1, "evolution:/local/Tasks", _("Tasks"), "tasks");
-	e_shortcuts_add_shortcut (shortcuts, 0, -1, "evolution:/local/Contacts", _("Contacts"), "contacts");
+	e_shortcuts_add_shortcut (shortcuts, 0, -1, "evolution:/Local Folders/Inbox", _("Inbox"), "mail");
+	e_shortcuts_add_shortcut (shortcuts, 0, -1, "evolution:/Local Folders/Calendar", _("Calendar"), "calendar");
+	e_shortcuts_add_shortcut (shortcuts, 0, -1, "evolution:/Local Folders/Tasks", _("Tasks"), "tasks");
+	e_shortcuts_add_shortcut (shortcuts, 0, -1, "evolution:/Local Folders/Contacts", _("Contacts"), "contacts");
 }
 
 void

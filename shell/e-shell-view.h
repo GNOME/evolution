@@ -46,6 +46,8 @@ typedef struct _EShellViewClass   EShellViewClass;
 
 #include "e-shell.h"
 
+#define DEFAULT_URI "evolution:/Local Folders/Inbox"
+
 enum _EShellViewSubwindowMode {
 	E_SHELL_VIEW_SUBWINDOW_HIDDEN,
 	E_SHELL_VIEW_SUBWINDOW_TRANSIENT,

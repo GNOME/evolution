@@ -144,8 +144,6 @@ static guint signals[LAST_SIGNAL] = { 0 };
 #define DEFAULT_WIDTH 705
 #define DEFAULT_HEIGHT 550
 
-#define DEFAULT_URI "evolution:/local/Inbox"
-
 #define SET_FOLDER_DELAY 250
 
 
