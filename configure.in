@@ -1388,7 +1388,6 @@ help/quickref/Makefile
 help/quickref/C/Makefile
 shell/Makefile
 shell/evolution-nognome
-shell/glade/Makefile
 shell/importer/Makefile
 ui/Makefile
 views/Makefile
