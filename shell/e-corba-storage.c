@@ -814,6 +814,7 @@ init (ECorbaStorage *corba_storage)
 
 	priv = g_new (ECorbaStoragePrivate, 1);
 	priv->storage_interface = CORBA_OBJECT_NIL;
+	priv->pending_opens = NULL;
 
 	corba_storage->priv = priv;
 }  
