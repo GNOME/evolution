@@ -1,3 +1,7 @@
+2001-10-30  Radek Doulik  <rodo@ximian.com>
+
+	* configure.in: require gtkhtml version 0.15.99.2
+
 2001-10-29  Damon Chaplin  <damon@ximian.com>
 
 	* configure.in (ALL_LINGUAS): added en_AU (copied en_GB).
