@@ -1,3 +1,12 @@
+2002-11-06  Chris Toshok  <toshok@ximian.com>
+
+	* e-config-listener.c (e_config_listener_set_boolean): init err to
+	NULL so if there isn't an error we aren't left with an unitialized
+	GError.  Fixes crash.
+	(e_config_listener_set_float): same.
+	(e_config_listener_set_long): same.
+	(e_config_listener_set_string): same.
+
 2002-11-05  Rodrigo Moya <rodrigo@ximian.com>
 
 	* e-component-listener.[ch]: ported to GObject.

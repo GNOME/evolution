@@ -456,7 +456,7 @@ void
 e_config_listener_set_boolean (EConfigListener *cl, const char *key, gboolean value)
 {
 	KeyData *kd;
-	GError *err;
+	GError *err = NULL;
 
 	g_return_if_fail (E_IS_CONFIG_LISTENER (cl));
 	g_return_if_fail (key != NULL);
@@ -481,7 +481,7 @@ void
 e_config_listener_set_float (EConfigListener *cl, const char *key, float value)
 {
 	KeyData *kd;
-	GError *err;
+	GError *err = NULL;
 
 	g_return_if_fail (E_IS_CONFIG_LISTENER (cl));
 	g_return_if_fail (key != NULL);
@@ -506,7 +506,7 @@ void
 e_config_listener_set_long (EConfigListener *cl, const char *key, long value)
 {
 	KeyData *kd;
-	GError *err;
+	GError *err = NULL;
 
 	g_return_if_fail (E_IS_CONFIG_LISTENER (cl));
 	g_return_if_fail (key != NULL);
@@ -532,7 +532,7 @@ e_config_listener_set_string (EConfigListener *cl, const char *key, const char *
 {
 	char *s1, *s2;
 	KeyData *kd;
-	GError *err;
+	GError *err = NULL;
 
 	g_return_if_fail (E_IS_CONFIG_LISTENER (cl));
 	g_return_if_fail (key != NULL);
