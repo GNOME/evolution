@@ -1130,6 +1130,8 @@ tree_drag_motion (ETree *tree,
 	storage_set_view = E_STORAGE_SET_VIEW (tree);
 	priv = storage_set_view->priv;
 
+	e_tree_drag_highlight (tree, row, -1);
+
 	g_print ("%s -- row %d x %d y %d\n", __FUNCTION__, row, x, y);
 	path = e_tree_node_at_row (E_TREE (storage_set_view), row);
 
@@ -1175,6 +1177,17 @@ tree_drag_motion (ETree *tree,
 	return TRUE;
 }
 
+static void
+tree_drag_leave (ETree *etree,
+		int row,
+		ETreePath path,
+		int col,
+		GdkDragContext *context,
+		unsigned int time)
+{
+	e_tree_drag_unhighlight (etree);
+}
+
 static gboolean
 tree_drag_drop (ETree *etree,
 		int row,
@@ -1185,6 +1198,7 @@ tree_drag_drop (ETree *etree,
 		int y,
 		unsigned int time)
 {
+	e_tree_drag_unhighlight (etree);
 	if (context->targets != NULL) {
 		gtk_drag_get_data (GTK_WIDGET (etree), context,
 				   GPOINTER_TO_INT (context->targets->data),
@@ -1703,6 +1717,7 @@ class_init (EStorageSetViewClass *klass)
 	etree_class->tree_drag_data_delete   = tree_drag_data_delete;
 	etree_class->tree_drag_motion        = tree_drag_motion;
 	etree_class->tree_drag_drop          = tree_drag_drop;
+	etree_class->tree_drag_leave         = tree_drag_leave;
 	etree_class->tree_drag_data_received = tree_drag_data_received;
 
 	signals[FOLDER_SELECTED]
