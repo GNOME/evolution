@@ -595,15 +595,20 @@ remove_cb (GtkWidget *widget, void *data)
 {
 	RightClickData *rcdata = (RightClickData *)data;
 
+	/* Build a list of selected rows */
 	e_table_selected_row_foreach (rcdata->table,
 				      etable_selection_foreach_cb,
 				      rcdata->child);
 
+	/* Now process the list we made, removing each selected row */
 	g_slist_foreach (selected_rows,
 			 (GFunc)selected_rows_foreach_cb,
 			 rcdata->child);
 
+	/* Free everything we've created */
 	g_free (rcdata);
+	g_slist_free (selected_rows);
+	selected_rows = NULL;
 }
 
 static void

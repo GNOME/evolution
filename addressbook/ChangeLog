@@ -1,3 +1,10 @@
+2001-07-11  Jason Leach  <jleach@ximian.com>
+
+	* gui/component/select-names/e-select-names.c (remove_cb): Added
+	some comments for clarity and fixed a pretty noticable bug with
+	how right click "Remove" was deleting more than it should with
+	consecutive runs.
+
 2001-07-10  Chris Toshok  <toshok@ximian.com>
 
 	* backend/pas/evolutionperson.schema: assign OID's to the schema
