@@ -492,7 +492,7 @@ impl_finalize (GObject *object)
 
 /* Evolution::Component CORBA methods */
 
-static void
+static CORBA_boolean
 impl_upgradeFromVersion (PortableServer_Servant servant,
 			 CORBA_short major,
 			 CORBA_short minor,
@@ -501,23 +501,27 @@ impl_upgradeFromVersion (PortableServer_Servant servant,
 {
 	TasksComponentPrivate *priv;
 	GSList *groups;
+	ESourceGroup *group;
+	ESource *source;
+	char *base_uri, *new_dir;
 	TasksComponent *component = TASKS_COMPONENT (bonobo_object_from_servant (servant));
 
 	priv = component->priv;
 
+	base_uri = g_build_filename (g_get_home_dir (),
+				     ".evolution/tasks/local/OnThisComputer/",
+				     NULL);
+
 	/* create default tasks folders if there are no groups */
 	groups = e_source_list_peek_groups (priv->source_list);
 	if (!groups) {
-		ESourceGroup *group;
-		ESource *source;
-		char *base_uri, *new_dir;
-
 		/* create the source group */
-		base_uri = g_build_filename (g_get_home_dir (),
-					     ".evolution/tasks/local/OnThisComputer/",
-					     NULL);
 		group = e_source_group_new (_("On This Computer"), base_uri);
 		e_source_list_add_group (priv->source_list, group, -1);
+	}
+
+	if (major == 1 && minor <= 4) {
+		group = e_source_list_peek_group_by_name (priv->source_list, _("On This Computer"));
 
 		/* migrate tasks from older setup */
 		if (!migrate_old_tasks (group)) {
@@ -530,9 +534,11 @@ impl_upgradeFromVersion (PortableServer_Servant servant,
 
 			g_free (new_dir);
 		}
-
-		g_free (base_uri);
 	}
+
+	g_free (base_uri);
+
+	return TRUE;
 }
 
 static void

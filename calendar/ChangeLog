@@ -1,3 +1,10 @@
+2004-01-09  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/calendar-component.c (impl_upgradeFromVersion): only migrate
+	old calendars if migrating from <= 1.4.x.
+
+	* gui/tasks-component.c (impl_upgradeFromVersion): ditto for tasks.
+
 2004-01-09  Andrew Wu <Yang.Wu@sun.com>
 
 	* gui/e-cal-view.c (e_calendar_view_class_init):
