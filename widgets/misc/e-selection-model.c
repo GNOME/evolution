@@ -398,14 +398,11 @@ e_selection_model_do_something (ESelectionModel *selection,
 			}
 			break;
 		}
-		if (e_selection_model_cursor_row(selection) != row ||
-		    e_selection_model_cursor_col(selection) != col) {
-			e_selection_model_change_cursor(selection, row, col);
-			gtk_signal_emit(GTK_OBJECT(selection),
-					e_selection_model_signals[CURSOR_CHANGED], row, col);
-			gtk_signal_emit(GTK_OBJECT(selection),
-					e_selection_model_signals[CURSOR_ACTIVATED], row, col);
-		}
+		e_selection_model_change_cursor(selection, row, col);
+		gtk_signal_emit(GTK_OBJECT(selection),
+				e_selection_model_signals[CURSOR_CHANGED], row, col);
+		gtk_signal_emit(GTK_OBJECT(selection),
+				e_selection_model_signals[CURSOR_ACTIVATED], row, col);
 	}
 }
 
