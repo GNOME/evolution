@@ -1,3 +1,9 @@
+2003-01-28  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-sasl-gssapi.c (gssapi_challenge): Pass in some default
+	flags to gss_init_sec_context() (these default flags are defined
+	as a MUST in rfc1964).
+
 2003-01-22  Hans Petter Jansson  <hpj@ximan.com>
 
 	* Makefile.am: $(libexec) -> $(libexecdir)

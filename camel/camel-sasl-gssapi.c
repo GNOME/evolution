@@ -225,7 +225,9 @@ gssapi_challenge (CamelSasl *sasl, GByteArray *token, CamelException *ex)
 		
 	challenge:
 		major = gss_init_sec_context (&minor, GSS_C_NO_CREDENTIAL, &priv->ctx, priv->target,
-					      GSS_C_OID_KRBV5_DES, 0, 0, GSS_C_NO_CHANNEL_BINDINGS,
+					      GSS_C_OID_KRBV5_DES, GSS_C_DELEG_FLAG | GSS_C_MUTAUAL_FLAG |
+					      GSS_C_REPLAY_FLAG | GSS_C_SEQUENCE_FLAG,
+					      0, GSS_C_NO_CHANNEL_BINDINGS,
 					      input_token, &mech, &outbuf, &flags, &time);
 		
 		switch (major) {
