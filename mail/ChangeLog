@@ -1,3 +1,8 @@
+2004-06-07  Jeffrey Stedfast  <fejj@novell.com>
+
+	* em-folder-tree-model.c (em_folder_tree_model_add_store): Set the
+	store's FULL_NAME to NULL here. Fixes the crash in bug #59713.
+
 2004-06-07  Dan Winship  <danw@novell.com>
 
 	* em-folder-view.c (emfv_popup_menu, emfv_message_pixmaps):

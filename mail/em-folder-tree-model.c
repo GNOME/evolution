@@ -748,7 +748,7 @@ em_folder_tree_model_add_store (EMFolderTreeModel *model, CamelStore *store, con
 	gtk_tree_store_set ((GtkTreeStore *) model, &iter,
 			    COL_STRING_DISPLAY_NAME, display_name,
 			    COL_POINTER_CAMEL_STORE, store,
-			    COL_STRING_FULL_NAME, "",
+			    COL_STRING_FULL_NAME, NULL,
 			    COL_BOOL_LOAD_SUBDIRS, TRUE,
 			    COL_BOOL_IS_STORE, TRUE,
 			    COL_STRING_URI, uri, -1);
