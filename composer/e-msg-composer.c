@@ -239,6 +239,24 @@ e_msg_composer_clear_inlined_table (EMsgComposer *composer)
 	g_hash_table_foreach_remove (composer->inline_images, clear_inline_images, NULL);
 }
 
+static guint
+set_focus_to_editor_idle (EMsgComposer *composer)
+{
+	CORBA_Environment ev;
+
+	CORBA_exception_init (&ev);
+	GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "grab-focus", &ev);
+	CORBA_exception_free (&ev);
+
+	return FALSE;
+}
+
+static inline void
+set_focus_to_editor (EMsgComposer *composer)
+{
+	gtk_idle_add (set_focus_to_editor_idle, composer);
+}
+
 static void
 add_inlined_image (gpointer key, gpointer value, gpointer data)
 {
@@ -2349,13 +2367,9 @@ e_msg_composer_construct (EMsgComposer *composer)
 	gtk_widget_show (composer->editor);
 	
 	e_msg_composer_show_attachments (composer, FALSE);
-	
-	/* Set focus on the `To:' field.
-	
-	   gtk_widget_grab_focus (e_msg_composer_hdrs_get_to_entry (E_MSG_COMPOSER_HDRS (composer->hdrs)));
-	   GTK_WIDGET_SET_FLAGS (composer->editor, GTK_CAN_FOCUS);
-	   gtk_window_set_focus (GTK_WINDOW (composer), composer->editor); */
-	gtk_widget_grab_focus (composer->editor);
+
+	prepare_engine (composer);
+	set_focus_to_editor (composer);
 }
 
 static EMsgComposer *
@@ -2371,7 +2385,6 @@ create_composer (void)
 		gtk_object_unref (GTK_OBJECT (new));
 		return NULL;
 	}
-	prepare_engine (new);
 	
 	return new;
 }
@@ -2412,7 +2425,7 @@ e_msg_composer_new_with_sig_file ()
 		e_msg_composer_set_send_html (new, mail_config_get_send_html ());
 		set_editor_text (new, "");
 	}
-	
+
 	return new;
 }
 
@@ -2621,7 +2634,7 @@ e_msg_composer_new_with_message (CamelMimeMessage *msg)
 	}
 	
 	e_msg_composer_set_headers (new, account_name, To, Cc, Bcc, subject);
-	
+
 	free_recipients (To);
 	free_recipients (Cc);
 	free_recipients (Bcc);
@@ -2695,7 +2708,7 @@ e_msg_composer_new_with_message (CamelMimeMessage *msg)
 			e_msg_composer_set_body_text (new, final_text);
 		}
 	}
-	
+
 	return new;
 }
 
@@ -2829,7 +2842,7 @@ e_msg_composer_new_from_url (const char *url)
 			}
 		}
 	}
-	
+
 	hdrs = E_MSG_COMPOSER_HDRS (composer->hdrs);
 	e_msg_composer_hdrs_set_to (hdrs, to);
 	free_recipients (to);

@@ -1,3 +1,12 @@
+2001-08-09  Radek Doulik  <rodo@ximian.com>
+
+	* e-msg-composer.c (set_focus_to_editor): new helper function,
+	just setup idle callback to grab focus
+	(set_focus_to_editor_idle): grab focus for editor, before we have
+	better solution, it run grab-focus command on editor control
+	(e_msg_composer_construct): call prepare_engine here, set focus to
+	editor
+
 2001-08-10  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (autosave_manager_query_load_orphans): Don't
