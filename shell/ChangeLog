@@ -1,5 +1,11 @@
 2003-03-06  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-importer.c (IN): Use G_GNUC_FUNCTION instead of
+	__FUNCTION__.
+	(OUT): Likewise.
+
+2003-03-06  Ettore Perazzoli  <ettore@ximian.com>
+
 	Patch from Not Zed <NotZed@Ximian.com>:
 
 	* main.c (show_development_warning): Separated the current stable

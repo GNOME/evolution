@@ -125,8 +125,8 @@ typedef struct _SelectedImporterData{
   #define IMPORTER_DEBUG
 */
 #ifdef IMPORTER_DEBUG
-#define IN g_print ("=====> %s (%d)\n", __FUNCTION__, __LINE__)
-#define OUT g_print ("<==== %s (%d)\n", __FUNCTION__, __LINE__)
+#define IN g_print ("=====> %s (%d)\n", G_GNUC_FUNCTION, __LINE__)
+#define OUT g_print ("<==== %s (%d)\n", G_GNUC_FUNCTION, __LINE__)
 #else
 #define IN
 #define OUT
