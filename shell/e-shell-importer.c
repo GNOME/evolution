@@ -1157,6 +1157,7 @@ e_shell_importer_start_import (EShellWindow *shell_window)
 
 	data->wizard = glade_xml_new (EVOLUTION_GLADEDIR "/import.glade", NULL, NULL);
 	data->dialog = glade_xml_get_widget (data->wizard, "importwizard");
+	gtk_window_set_default_size (GTK_WINDOW (data->dialog), 480, 320);
 	gtk_window_set_wmclass (GTK_WINDOW (data->dialog), "importdruid",
 				"Evolution:shell");
 	e_dialog_set_transient_for (GTK_WINDOW (data->dialog), GTK_WIDGET (shell_window));
