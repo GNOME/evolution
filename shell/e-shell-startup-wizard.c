@@ -758,6 +758,40 @@ startup_wizard_delete (GnomeDruid *druid,
 	return FALSE;
 }
 
+static gboolean
+key_press_event_callback (GtkWidget   *widget,
+			  GdkEventKey *keyev,
+			  SWData      *data)
+{
+	if (keyev->keyval == GDK_Escape) {
+		GtkWidget *confirm_dialog;
+		int returnvalue;
+		char *confirmations;
+
+		confirmations = _("If you quit the Evolution Setup Assistant now, all of the information that "
+				  "you have entered will be forgotten. You will need to run this assistant again "
+				  "before using Evolution.\n\nDo you want to quit using the Assistant now?");
+ 
+		confirm_dialog = gtk_message_dialog_new (data->dialog,
+							 GTK_DIALOG_MODAL,
+							 GTK_MESSAGE_WARNING,
+							 GTK_BUTTONS_NONE,
+							 confirmations);
+
+		gtk_dialog_add_button (confirm_dialog, _("Cancel"), GTK_RESPONSE_CANCEL);
+		gtk_dialog_add_button (confirm_dialog, _("Quit Assistant"), GTK_RESPONSE_OK);
+
+		returnvalue = gtk_dialog_run (GTK_DIALOG (confirm_dialog));
+		gtk_widget_destroy (confirm_dialog);
+ 
+		if (returnvalue == GTK_RESPONSE_OK) {
+			startup_wizard_cancel (data->druid, data);
+			return TRUE;
+		}
+	}
+	return FALSE;
+}
+
 gboolean
 e_shell_startup_wizard_create (void)
 {
@@ -797,6 +831,9 @@ e_shell_startup_wizard_create (void)
 
 	g_signal_connect (data->druid, "cancel",
 			  G_CALLBACK (startup_wizard_cancel), data);
+
+	g_signal_connect (data->dialog, "key_press_event",
+			  G_CALLBACK (key_press_event_callback), data);
 
 	data->start = glade_xml_get_widget (data->wizard, "start-page");
 	data->finish = glade_xml_get_widget (data->wizard, "done-page");

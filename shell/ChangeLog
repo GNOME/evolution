@@ -1,3 +1,9 @@
+2003-09-23  Charles Zhang  <charles.zhang@sun.com>
+
+	* e-shell-startup-wizard.c (e_shell_startup_wizard_create): connect
+	to "key_press_event" signal with key_press_event_callback.
+	(key_press_event): Handle `ESC` key press event. [#48145
+
 2003-09-12  Frederic Crozat  <fcrozat@mandrakesoft.com>
 
 	* e-config-upgrade.c: (utf8_reencode), (upgrade_xml_1_2_rec),
