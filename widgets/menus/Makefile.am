@@ -4,6 +4,7 @@ INCLUDES =					\
 	-I$(top_srcdir)				\
 	-I$(top_srcdir)/widgets/menus		\
 	$(EXTRA_GNOME_CFLAGS)			\
+	$(BONOBO_GNOME_CFLAGS)			\
 	-DG_LOG_DOMAIN=\"menus\"
 
 libmenus_la_SOURCES = 		\

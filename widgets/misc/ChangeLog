@@ -1,3 +1,8 @@
+2001-10-04  Rodrigo Moya <rodrigo@ximian.com>
+
+	* Makefile.am: added BONOBO_GNOME_CFLAGS to make it compile with
+	latest Bonobo
+
 2001-10-04  Christopher James Lahey  <clahey@ximian.com>
 
 	* e-cell-date-edit.c (e_cell_date_edit_get_popup_pos): Call
