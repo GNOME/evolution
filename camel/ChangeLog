@@ -1,3 +1,12 @@
+2004-03-17  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap/camel-imap-folder.c (imap_get_message): Checking
+	that mi->content->type != NULL is no longer good enough to tell if
+	a ContentInfo is complete (ie. contains the parsed BODY
+	response). We need to check that th ContentInfo has children if
+	the part is a multipart of message/rfc822 part. Apparently Zucchi
+	didn't test his camel-folder-summary changes using IMAP.
+
 2004-03-17  Radek Doulik  <rodo@ximian.com>
 
 	* camel-folder-summary.h: use 1<<30 for CAMEL_MESSAGE_JUNK_LEARN,

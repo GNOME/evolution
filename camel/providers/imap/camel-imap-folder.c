@@ -71,7 +71,7 @@
 #include "camel-file-utils.h"
 
 
-#define d(x)
+#define d(x) x
 
 /* set to -1 for infinite size */
 #define UID_SET_LIMIT  (4096)
@@ -1746,7 +1746,7 @@ get_content (CamelImapFolder *imap_folder, const char *uid,
 	
 	part_spec = content_info_get_part_spec (ci);
 
-	d(printf("get content '%s' '%s'\n", part_spec, camel_content_type_format(ci->type)));
+	d(printf("get content '%s' '%s' (frommsg = %d)\n", part_spec, camel_content_type_format(ci->type), frommsg));
 
 	/* There are three cases: multipart/signed, multipart, message/rfc822, and "other" */
 	if (camel_content_type_is (ci->type, "multipart", "signed")) {
@@ -1800,6 +1800,8 @@ get_content (CamelImapFolder *imap_folder, const char *uid,
 		if (speclen > 0)
 			child_spec[speclen++] = '.';
 		g_free (part_spec);
+		
+		fprintf (stderr, "here we are, trying to fetch a multipart/*: ci->childs = %p; ci->next = %p\n", ci->childs, ci->next);
 		
 		ci = ci->childs;
 		num = 1;
@@ -1933,6 +1935,21 @@ get_message_simple (CamelImapFolder *imap_folder, const char *uid,
 	return msg;
 }
 
+static gboolean
+content_info_incomplete (CamelMessageContentInfo *ci)
+{
+	if (!ci->type)
+		return TRUE;
+	
+	if (camel_content_type_is (ci->type, "multipart", "*") && !ci->childs)
+		return TRUE;
+	
+	if (camel_content_type_is (ci->type, "message", "rfc822") && !ci->childs)
+		return TRUE;
+	
+	return FALSE;
+}
+
 static CamelMimeMessage *
 imap_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 {
@@ -1967,7 +1984,7 @@ imap_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 	 * mi->content because camel_folder_summary_info_new always creates
 	 * an empty content struct.)
 	 */
-	if (!mi->content->type) {
+	if (content_info_incomplete (mi->content)) {
 		CamelImapResponse *response;
 		GData *fetch_data = NULL;
 		char *body, *found_uid;
@@ -2007,7 +2024,7 @@ imap_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 		
 		camel_imap_response_free (store, response);
 		
-		if (!mi->content->type) {
+		if (content_info_incomplete (mi->content)) {
 			/* FETCH returned OK, but we didn't parse a BODY
 			 * response. Courier will return invalid BODY
 			 * responses for invalidly MIMEd messages, so
