@@ -1,3 +1,8 @@
+2002-02-08  Damon Chaplin  <damon@ximian.com>
+
+	* e-summary-calendar.c (e_cal_comp_util_compare_event_timezones): 
+	updated to new version from calendar/gui/comp-util.c
+
 2002-02-04  Iain Holmes  <iain@ximian.com>
 
 	* Makefile.am: Add the e-summary-table.[ch] files.
