@@ -1,3 +1,14 @@
+2000-08-12  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/imap/camel-imap-store.c
+	(camel_imap_command_continuation): Now takes a char * parameter
+	rather than a stream
+	(camel_imap_command_continuation_with_stream): Same function as
+	above but takes a stream parameter instead
+
+	* providers/imap/camel-imap-folder.c (imap_append_message): Use
+	camel_imap_command_continuation_with_stream
+
 2000-08-12  Dan Winship  <danw@helixcode.com>
 
 	* providers/pop3/camel-pop3-store.c (pop3_try_authenticate): New

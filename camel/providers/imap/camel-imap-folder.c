@@ -601,8 +601,8 @@ imap_append_message (CamelFolder *folder, CamelMimeMessage *message, const Camel
 	g_free (folder_path);
 	
 	/* send the rest of our data - the mime message */
-	status = camel_imap_command_continuation (CAMEL_IMAP_STORE (folder->parent_store),
-						  &result, cmdid, memstream);
+	status = camel_imap_command_continuation_with_stream (CAMEL_IMAP_STORE (folder->parent_store),
+							      &result, cmdid, memstream);
 	
 	if (status != CAMEL_IMAP_OK) {
 		CamelService *service = CAMEL_SERVICE (folder->parent_store);
