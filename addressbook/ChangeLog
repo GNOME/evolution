@@ -1,3 +1,12 @@
+2003-04-09  Chris Toshok  <toshok@ximian.com>
+
+	[ fixes #40727 ]
+	* gui/component/select-names/e-select-names-completion.c
+	(e_select_names_completion_start_query): if the query text is
+	either shorter than the cached query_text or they don't match,
+	don't just set can_reuse_cached_cards to FALSE.  we also need to
+	invalidate the cache.
+
 2003-04-08  Ettore Perazzoli  <ettore@ximian.com>
 
 	* backend/ebook/e-destination.c (d): Remove all debugging

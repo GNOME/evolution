@@ -661,7 +661,6 @@ e_select_names_completion_clear_book_data (ESelectNamesCompletion *comp)
 		g_list_foreach (book_data->cached_cards, (GFunc)g_object_unref, NULL);
 		g_list_free (book_data->cached_cards);
 
-
 		g_free (book_data);
 	}
 	g_list_free (comp->priv->book_data);
@@ -945,12 +944,17 @@ e_select_names_completion_start_query (ESelectNamesCompletion *comp, const gchar
 						 book_data->cached_cards);
 				}
 
+				/* for lack of a better place, we invalidate the cache here if we
+				   notice that the text is different. */
+				if (book_data->cached_query_text
+				    && (strlen (book_data->cached_query_text) > strlen (query_text)
+					|| utf8_casefold_collate_len (book_data->cached_query_text, query_text,
+								      strlen (book_data->cached_query_text))))
+					book_data->cache_complete = FALSE;
+
 				can_reuse_cached_cards = (book_data->cached_query_text
 							  && book_data->cache_complete
-							  && book_data->cached_cards != NULL
-							  && (strlen (book_data->cached_query_text) <= strlen (query_text))
-							  && !utf8_casefold_collate_len (book_data->cached_query_text, query_text,
-											 strlen (book_data->cached_query_text)));
+							  && book_data->cached_cards != NULL);
 
 				if (can_reuse_cached_cards) {
 
