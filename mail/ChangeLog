@@ -1,5 +1,8 @@
 2004-04-12  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* em-folder-view.c (emfv_init): Need to set the session on the
+	preview object. Fixes bug #56862.
+
 	* em-folder-tree.c (em_folder_tree_set_selected): Scroll to the
 	auto-selected folder. Fixes bug #56707.
 

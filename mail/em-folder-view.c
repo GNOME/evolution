@@ -141,7 +141,8 @@ emfv_init(GObject *o)
 {
 	EMFolderView *emfv = (EMFolderView *)o;
 	struct _EMFolderViewPrivate *p;
-
+	extern CamelSession *session;
+	
 	gtk_box_set_homogeneous (GTK_BOX (emfv), FALSE);
 
 	p = emfv->priv = g_malloc0(sizeof(struct _EMFolderViewPrivate));
@@ -162,6 +163,7 @@ emfv_init(GObject *o)
 	g_signal_connect(emfv->list->tree, "key_press", G_CALLBACK(emfv_list_key_press), emfv);
 
 	emfv->preview = (EMFormatHTMLDisplay *)em_format_html_display_new();
+	em_format_set_session ((EMFormat *) emfv->preview, session);
 	g_signal_connect(emfv->preview, "link_clicked", G_CALLBACK(emfv_format_link_clicked), emfv);
 	g_signal_connect(emfv->preview, "popup_event", G_CALLBACK(emfv_format_popup_event), emfv);
 	g_signal_connect (emfv->preview, "on_url", G_CALLBACK (emfv_on_url_cb), emfv);
