@@ -96,7 +96,7 @@ imap_namespace_decode (const char **in, struct _namespace **namespace)
 	list = NULL;
 	tail = (struct _namespace *) &list;
 	
-	if (strncasecmp (inptr, "NIL", 3) != 0) {
+	if (g_ascii_strncasecmp (inptr, "NIL", 3) != 0) {
 		if (*inptr++ != '(')
 			goto exception;
 		
@@ -128,7 +128,7 @@ imap_namespace_decode (const char **in, struct _namespace **namespace)
 			/* get the namespace directory delimiter */
 			inptr = imap_next_word (inptr);
 			
-			if (!strncasecmp (inptr, "NIL", 3)) {
+			if (!g_ascii_strncasecmp (inptr, "NIL", 3)) {
 				inptr = imap_next_word (inptr);
 				node->delim = '\0';
 			} else if (*inptr++ == '"') {
@@ -243,7 +243,7 @@ imap_parse_namespace_response (const char *response)
 		return NULL;
 	
 	inptr = imap_next_word (response);
-	if (strncasecmp (inptr, "NAMESPACE", 9) != 0)
+	if (g_ascii_strncasecmp (inptr, "NAMESPACE", 9) != 0)
 		return NULL;
 	
 	inptr = imap_next_word (inptr);
@@ -309,7 +309,7 @@ imap_parse_list_response (CamelImapStore *store, const char *buf, int *flags, ch
 		return FALSE;
 	
 	word = imap_next_word (buf);
-	if (strncasecmp (word, "LIST", 4) && strncasecmp (word, "LSUB", 4))
+	if (g_ascii_strncasecmp (word, "LIST", 4) && g_ascii_strncasecmp (word, "LSUB", 4))
 		return FALSE;
 	
 	/* check if we are looking at an LSUB response */
@@ -328,17 +328,17 @@ imap_parse_list_response (CamelImapStore *store, const char *buf, int *flags, ch
 	while (*word != ')') {
 		len = strcspn (word, " )");
 		if (flags) {
-			if (!strncasecmp (word, "\\NoInferiors", len))
+			if (!g_ascii_strncasecmp (word, "\\NoInferiors", len))
 				*flags |= CAMEL_FOLDER_NOINFERIORS;
-			else if (!strncasecmp (word, "\\NoSelect", len))
+			else if (!g_ascii_strncasecmp (word, "\\NoSelect", len))
 				*flags |= CAMEL_FOLDER_NOSELECT;
-			else if (!strncasecmp (word, "\\Marked", len))
+			else if (!g_ascii_strncasecmp (word, "\\Marked", len))
 				*flags |= CAMEL_IMAP_FOLDER_MARKED;
-			else if (!strncasecmp (word, "\\Unmarked", len))
+			else if (!g_ascii_strncasecmp (word, "\\Unmarked", len))
 				*flags |= CAMEL_IMAP_FOLDER_UNMARKED;
-			else if (!strncasecmp (word, "\\HasChildren", len))
+			else if (!g_ascii_strncasecmp (word, "\\HasChildren", len))
 				*flags |= CAMEL_FOLDER_CHILDREN;
-			else if (!strncasecmp (word, "\\HasNoChildren", len))
+			else if (!g_ascii_strncasecmp (word, "\\HasNoChildren", len))
 				*flags |= CAMEL_FOLDER_NOCHILDREN;
 		}
 		
@@ -393,7 +393,7 @@ imap_parse_list_response (CamelImapStore *store, const char *buf, int *flags, ch
 		 * can ya do when ya got the ignorance of marketing breathing
 		 * down your neck?)
 		 */
-		if (is_lsub && flags && !strcasecmp (mailbox, "INBOX"))
+		if (is_lsub && flags && !g_ascii_strcasecmp (mailbox, "INBOX"))
 			*flags &= ~CAMEL_FOLDER_NOSELECT;
 		
 		*folder = mailbox;
@@ -460,7 +460,7 @@ imap_create_flag_list (guint32 flags)
 	char *flag_list;
 	
 	gstr = g_string_new ("(");
-	
+
 	if (flags & CAMEL_MESSAGE_ANSWERED)
 		g_string_append (gstr, "\\Answered ");
 	if (flags & CAMEL_MESSAGE_DELETED)
@@ -471,12 +471,12 @@ imap_create_flag_list (guint32 flags)
 		g_string_append (gstr, "\\Flagged ");
 	if (flags & CAMEL_MESSAGE_SEEN)
 		g_string_append (gstr, "\\Seen ");
-	
+
 	if (gstr->str[gstr->len - 1] == ' ')
 		gstr->str[gstr->len - 1] = ')';
 	else
 		g_string_append_c (gstr, ')');
-	
+
 	flag_list = gstr->str;
 	g_string_free (gstr, FALSE);
 	return flag_list;
@@ -496,18 +496,20 @@ imap_parse_flag_list (char **flag_list_p)
 	
 	while (*flag_list && *flag_list != ')') {
 		len = strcspn (flag_list, " )");
-		if (!strncasecmp (flag_list, "\\Answered", len))
+		if (!g_ascii_strncasecmp (flag_list, "\\Answered", len))
 			flags |= CAMEL_MESSAGE_ANSWERED;
-		else if (!strncasecmp (flag_list, "\\Deleted", len))
+		else if (!g_ascii_strncasecmp (flag_list, "\\Deleted", len))
 			flags |= CAMEL_MESSAGE_DELETED;
-		else if (!strncasecmp (flag_list, "\\Draft", len))
+		else if (!g_ascii_strncasecmp (flag_list, "\\Draft", len))
 			flags |= CAMEL_MESSAGE_DRAFT;
-		else if (!strncasecmp (flag_list, "\\Flagged", len))
+		else if (!g_ascii_strncasecmp (flag_list, "\\Flagged", len))
 			flags |= CAMEL_MESSAGE_FLAGGED;
-		else if (!strncasecmp (flag_list, "\\Seen", len))
+		else if (!g_ascii_strncasecmp (flag_list, "\\Seen", len))
 			flags |= CAMEL_MESSAGE_SEEN;
-		else if (!strncasecmp (flag_list, "\\Recent", len))
+		else if (!g_ascii_strncasecmp (flag_list, "\\Recent", len))
 			flags |= CAMEL_IMAP_MESSAGE_RECENT;
+		else if (!g_ascii_strncasecmp(flag_list, "\\*", len))
+			flags |= CAMEL_MESSAGE_USER;
 		
 		flag_list += len;
 		if (*flag_list == ' ')
@@ -648,7 +650,7 @@ imap_parse_string_generic (const char **str_p, size_t *len, int type)
 		out = g_strndup (str, *len);
 		*str_p = str + *len;
 		return out;
-	} else if (type == IMAP_NSTRING && !strncasecmp (str, "nil", 3)) {
+	} else if (type == IMAP_NSTRING && !g_ascii_strncasecmp (str, "nil", 3)) {
 		*str_p += 3;
 		*len = 0;
 		return NULL;
@@ -737,7 +739,7 @@ parse_params (const char **parms_p, CamelContentType *type)
 	char *name, *value;
 	size_t len;
 	
-	if (!strncasecmp (parms, "nil", 3)) {
+	if (!g_ascii_strncasecmp (parms, "nil", 3)) {
 		*parms_p += 3;
 		return 0;
 	}
@@ -807,7 +809,7 @@ imap_body_decode (const char **in, CamelMessageContentInfo *ci, CamelFolder *fol
 		if (*inptr++ != ' ')
 			return NULL;
 		
-		if (!strncasecmp (inptr, "nil", 3) != 0) {
+		if (g_ascii_strncasecmp (inptr, "nil", 3) != 0) {
 			subtype = imap_parse_string (&inptr, &len);
 		} else {
 			subtype = NULL;
@@ -826,7 +828,7 @@ imap_body_decode (const char **in, CamelMessageContentInfo *ci, CamelFolder *fol
 		ci->childs = children;
 	} else {
 		/* body_type_1part */
-		if (strncasecmp (inptr, "nil", 3) != 0) {
+		if (g_ascii_strncasecmp (inptr, "nil", 3) != 0) {
 			type = imap_parse_string (&inptr, &len);
 			if (inptr == NULL)
 				return NULL;
@@ -839,14 +841,14 @@ imap_body_decode (const char **in, CamelMessageContentInfo *ci, CamelFolder *fol
 			return NULL;
 		}
 		
-		if (strncasecmp (inptr, "nil", 3) != 0) {
+		if (g_ascii_strncasecmp (inptr, "nil", 3) != 0) {
 			subtype = imap_parse_string (&inptr, &len);
 			if (inptr == NULL) {
 				g_free (type);
 				return NULL;
 			}
 		} else {
-			if (!strcasecmp (type, "text"))
+			if (!g_ascii_strcasecmp (type, "text"))
 				subtype = g_strdup ("plain");
 			else
 				subtype = NULL;
@@ -870,7 +872,7 @@ imap_body_decode (const char **in, CamelMessageContentInfo *ci, CamelFolder *fol
 			goto exception;
 		
 		/* content-id */
-		if (strncasecmp (inptr, "nil", 3) != 0) {
+		if (g_ascii_strncasecmp (inptr, "nil", 3) != 0) {
 			id = imap_parse_string (&inptr, &len);
 			if (inptr == NULL)
 				goto exception;
@@ -881,7 +883,7 @@ imap_body_decode (const char **in, CamelMessageContentInfo *ci, CamelFolder *fol
 			goto exception;
 		
 		/* description */
-		if (strncasecmp (inptr, "nil", 3) != 0) {
+		if (g_ascii_strncasecmp (inptr, "nil", 3) != 0) {
 			description = imap_parse_string (&inptr, &len);
 			if (inptr == NULL)
 				goto exception;
@@ -892,7 +894,7 @@ imap_body_decode (const char **in, CamelMessageContentInfo *ci, CamelFolder *fol
 			goto exception;
 		
 		/* encoding */
-		if (strncasecmp (inptr, "nil", 3) != 0) {
+		if (g_ascii_strncasecmp (inptr, "nil", 3) != 0) {
 			encoding = imap_parse_string (&inptr, &len);
 			if (inptr == NULL)
 				goto exception;
