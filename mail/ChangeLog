@@ -1,3 +1,10 @@
+2003-08-13  Suresh Chandrasekharan <suresh.chandrasekharan@sun.com>
+	
+	* e-searching-tokenizer.c (searcher_next_token): Fix for 45818 ( i18n
+	mail messages search only produces '[?]'). Now multibyte character
+	selection works correctly. But due to associated gtkhtml bug, the find	
+	button functionallity for multibyte characters is broken.
+
 2003-08-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-tools.h: Removed unused function prototype.
