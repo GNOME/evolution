@@ -263,14 +263,17 @@ camel_mime_part_construct_content_from_parser (CamelMimePart *dw, CamelMimeParse
 		camel_mime_part_construct_from_parser ((CamelMimePart *)content, mp);
 		break;
 	case HSCAN_MULTIPART: {
+		struct _header_content_type *content_type;
 		CamelDataWrapper *bodypart;
 
 		/* FIXME: we should use a came-mime-mutlipart, not jsut a camel-multipart, but who cares */
 		d(printf("Creating multi-part\n"));
 		content = (CamelDataWrapper *)camel_multipart_new ();
+
+		content_type = camel_mime_parser_content_type (mp);
+		camel_multipart_set_boundary ((CamelMultipart *)content,
+					      header_content_type_param (content_type, "boundary"));
 		
-		/* FIXME: use the real boundary? */
-		camel_multipart_set_boundary ((CamelMultipart *)content, NULL);
 		while (camel_mime_parser_step (mp, &buf, &len) != HSCAN_MULTIPART_END) {
 			camel_mime_parser_unstep (mp);
 			bodypart = (CamelDataWrapper *)camel_mime_part_new ();
