@@ -70,35 +70,24 @@ static const int default_reminder_units_map[] = {
 
 static gboolean get_widgets (DialogData *data);
 
-static void widget_changed_callback (GtkWidget *, void *data);
-static void connect_changed (GtkWidget *widget, const char *signal_name, EvolutionConfigControl *config_control);
-static void setup_changes (DialogData *data, EvolutionConfigControl *config_control);
+static void setup_changes (DialogData *data);
 
 static void init_widgets (DialogData *data);
 static void show_config (DialogData *data);
-static void update_config (DialogData *dialog_data);
 
-static void config_control_apply_callback (EvolutionConfigControl *config_control, void *data);
-static void config_control_destroy_callback (GtkObject *object, void *data);
+static void config_control_destroy_callback (DialogData *dialog_data, GObject *deadbeef);
 
-static void cal_prefs_dialog_use_24_hour_toggled(GtkWidget *button, void *data);
-static void cal_prefs_dialog_end_of_day_changed (GtkWidget *button, void *data);
-static void cal_prefs_dialog_start_of_day_changed (GtkWidget *button, void *data);
-static void cal_prefs_dialog_hide_completed_tasks_toggled (GtkWidget *button, void *data);
-
-static void cal_prefs_dialog_url_add_clicked (GtkWidget *button, void *data);
-static void cal_prefs_dialog_url_edit_clicked (GtkWidget *button, void *data);
-static void cal_prefs_dialog_url_remove_clicked (GtkWidget *button, void *data);
-static void cal_prefs_dialog_url_enable_clicked (GtkWidget *button, void *data);
-static void cal_prefs_dialog_url_list_change (GtkTreeSelection *selection, 
-					      DialogData *dialog_data);
-static void cal_prefs_dialog_url_list_enable_toggled (GtkCellRendererToggle *renderer, const char *path_string, void *data);
+static void cal_prefs_dialog_url_add_clicked (GtkWidget *button, DialogData *dialog_data);
+static void cal_prefs_dialog_url_edit_clicked (GtkWidget *button, DialogData *dialog_data);
+static void cal_prefs_dialog_url_remove_clicked (GtkWidget *button, DialogData *dialog_data);
+static void cal_prefs_dialog_url_enable_clicked (GtkWidget *button, DialogData *dialog_data);
+static void cal_prefs_dialog_url_list_change (GtkTreeSelection *selection, DialogData *dialog_data);
+static void cal_prefs_dialog_url_list_enable_toggled (GtkCellRendererToggle *renderer, const char *path_string, DialogData *dialog_data);
 static void cal_prefs_dialog_url_list_double_click(GtkTreeView *treeview, 
 						   GtkTreePath *path, 
 						   GtkTreeViewColumn *column, 
 						   DialogData *dialog_data);
 static void show_fb_config (DialogData *dialog_data);
-static void update_fb_config (DialogData *dialog_data);
 
 GtkWidget *cal_prefs_dialog_create_time_edit (void);
 
@@ -139,93 +128,293 @@ cal_prefs_dialog_new (void)
 	gtk_container_remove (GTK_CONTAINER (dialog_data->page->parent), dialog_data->page);
 	config_control = evolution_config_control_new (dialog_data->page);
 	gtk_widget_unref (dialog_data->page);
-
-	g_signal_connect((config_control), "apply",
-			    G_CALLBACK (config_control_apply_callback), dialog_data);
-	g_signal_connect((config_control), "destroy",
-			    G_CALLBACK (config_control_destroy_callback), dialog_data);
-
-	setup_changes (dialog_data, config_control);
+	
+	g_object_weak_ref ((GObject *) config_control, (GWeakNotify) config_control_destroy_callback, dialog_data);
+	
+	setup_changes (dialog_data);
 
 	return config_control;
 }
 
-static void
-widget_changed_callback (GtkWidget *widget,
-			 void *data)
+/* Returns a pointer to a static string with an X color spec for the current
+ * value of a color picker.
+ */
+static const char *
+spec_from_picker (GtkWidget *picker)
 {
-	EvolutionConfigControl *config_control;
+	static char spec[8];
+	guint8 r, g, b;
 
-	config_control = EVOLUTION_CONFIG_CONTROL (data);
+	gnome_color_picker_get_i8 (GNOME_COLOR_PICKER (picker), &r, &g, &b, NULL);
+	g_snprintf (spec, sizeof (spec), "#%02x%02x%02x", r, g, b);
 
-	evolution_config_control_changed (config_control);
-}
-
-/* ^*&%!!#! GnomeColorPicker.  */
-static void
-color_set_callback (GnomeColorPicker *cp,
-		    guint r,
-		    guint g,
-		    guint b,
-		    guint a,
-		    void *data)
-{
-	EvolutionConfigControl *config_control;
-
-	config_control = EVOLUTION_CONFIG_CONTROL (data);
-
-	evolution_config_control_changed (config_control);
+	return spec;
 }
 
 static void
-connect_changed (GtkWidget *widget,
-		 const char *signal_name,
-		 EvolutionConfigControl *config_control)
+working_days_changed (GtkWidget *widget, DialogData *dialog_data)
 {
-	g_signal_connect((widget), signal_name,
-			    G_CALLBACK (widget_changed_callback), config_control);
+	CalWeekdays working_days = 0;
+	guint32 mask = 1;
+	int day;
+	
+	for (day = 0; day < 7; day++) {
+		if (e_dialog_toggle_get (dialog_data->working_days[day]))
+			working_days |= mask;
+		mask <<= 1;
+	}
+	
+	calendar_config_set_working_days (working_days);
 }
 
 static void
-setup_changes (DialogData *dialog_data,
-	       EvolutionConfigControl *config_control)
+timezone_changed (GtkWidget *widget, DialogData *dialog_data)
+{
+	icaltimezone *zone;
+	
+	zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (dialog_data->timezone));
+	calendar_config_set_timezone (icaltimezone_get_location (zone));
+}
+
+static void
+start_of_day_changed (GtkWidget *widget, DialogData *dialog_data)
+{
+	int start_hour, start_minute, end_hour, end_minute;
+	EDateEdit *start, *end;
+	
+	start = E_DATE_EDIT (dialog_data->start_of_day);
+	end = E_DATE_EDIT (dialog_data->end_of_day);
+	
+	e_date_edit_get_time_of_day (start, &start_hour, &start_minute);
+	e_date_edit_get_time_of_day (end, &end_hour, &end_minute);
+	
+	if ((start_hour > end_hour) || (start_hour == end_hour && start_minute > end_minute)) {
+		if (start_hour < 23)
+			e_date_edit_set_time_of_day (end, start_hour + 1, start_minute);
+		else
+			e_date_edit_set_time_of_day (end, 23, 59);
+		
+		return;
+	}
+	
+	calendar_config_set_day_start_hour (start_hour);
+	calendar_config_set_day_start_minute (start_minute);
+}
+
+static void
+end_of_day_changed (GtkWidget *widget, DialogData *dialog_data)
+{
+	int start_hour, start_minute, end_hour, end_minute;
+	EDateEdit *start, *end;
+	
+	start = E_DATE_EDIT (dialog_data->start_of_day);
+	end = E_DATE_EDIT (dialog_data->end_of_day);
+	
+	e_date_edit_get_time_of_day (start, &start_hour, &start_minute);
+	e_date_edit_get_time_of_day (end, &end_hour, &end_minute);
+	
+	if ((end_hour < start_hour) || (end_hour == start_hour && end_minute < start_minute)) {
+		if (end_hour < 1)
+			e_date_edit_set_time_of_day (start, 0, 0);
+		else
+			e_date_edit_set_time_of_day (start, end_hour - 1, end_minute);
+		
+		return;
+	}
+	
+	calendar_config_set_day_end_hour (end_hour);
+	calendar_config_set_day_end_minute (end_minute);
+}
+
+static void
+week_start_day_changed (GtkWidget *widget, DialogData *dialog_data)
+{
+	int week_start_day;
+	
+	week_start_day = e_dialog_option_menu_get (dialog_data->week_start_day, week_start_day_map);
+	calendar_config_set_week_start_day (week_start_day);
+}
+
+static void
+use_24_hour_toggled (GtkToggleButton *toggle, DialogData *dialog_data)
+{
+	gboolean use_24_hour;
+	
+	use_24_hour = gtk_toggle_button_get_active (toggle);
+	
+	e_date_edit_set_use_24_hour_format (E_DATE_EDIT (dialog_data->start_of_day), use_24_hour);
+	e_date_edit_set_use_24_hour_format (E_DATE_EDIT (dialog_data->end_of_day), use_24_hour);
+	
+	calendar_config_set_24_hour_format (use_24_hour);
+}
+
+static void
+time_divisions_changed (GtkWidget *widget, DialogData *dialog_data)
+{
+	int time_divisions;
+	
+	time_divisions = e_dialog_option_menu_get (dialog_data->time_divisions, time_division_map);
+	calendar_config_set_time_divisions (time_divisions);
+}
+
+static void
+show_end_times_toggled (GtkToggleButton *toggle, DialogData *dialog_data)
+{
+	calendar_config_set_show_event_end (gtk_toggle_button_get_active (toggle));
+}
+
+static void
+compress_weekend_toggled (GtkToggleButton *toggle, DialogData *dialog_data)
+{
+	calendar_config_set_compress_weekend (gtk_toggle_button_get_active (toggle));
+}
+
+static void
+dnav_show_week_no_toggled (GtkToggleButton *toggle, DialogData *dialog_data)
+{
+	calendar_config_set_dnav_show_week_no (gtk_toggle_button_get_active (toggle));
+}
+
+static void
+hide_completed_tasks_toggled (GtkToggleButton *toggle, DialogData *dialog_data)
+{
+	gboolean hide;
+	
+	hide = gtk_toggle_button_get_active (toggle);
+	
+	gtk_widget_set_sensitive (dialog_data->tasks_hide_completed_spinbutton, hide);
+	gtk_widget_set_sensitive (dialog_data->tasks_hide_completed_optionmenu, hide);
+	
+	calendar_config_set_hide_completed_tasks (hide);
+}
+
+static void
+hide_completed_tasks_changed (GtkWidget *widget, DialogData *dialog_data)
+{
+	calendar_config_set_hide_completed_tasks_value (e_dialog_spin_get_int (dialog_data->tasks_hide_completed_spinbutton));
+}
+
+static void
+hide_completed_tasks_units_changed (GtkWidget *widget, DialogData *dialog_data)
+{
+	calendar_config_set_hide_completed_tasks_units (
+		e_dialog_option_menu_get (dialog_data->tasks_hide_completed_optionmenu, hide_completed_units_map));
+}
+
+static void
+tasks_due_today_set_color (GnomeColorPicker *picker, guint r, guint g, guint b, guint a, DialogData *dialog_data)
+{
+	calendar_config_set_tasks_due_today_color (spec_from_picker (dialog_data->tasks_due_today_color));
+}
+
+static void
+tasks_overdue_set_color (GnomeColorPicker *picker, guint r, guint g, guint b, guint a, DialogData *dialog_data)
+{
+	calendar_config_set_tasks_overdue_color (spec_from_picker (dialog_data->tasks_overdue_color));
+}
+
+static void
+confirm_delete_toggled (GtkToggleButton *toggle, DialogData *dialog_data)
+{
+	calendar_config_set_confirm_delete (gtk_toggle_button_get_active (toggle));
+}
+
+static void
+default_reminder_toggled (GtkToggleButton *toggle, DialogData *dialog_data)
+{
+	calendar_config_set_use_default_reminder (gtk_toggle_button_get_active (toggle));
+}
+
+static void
+default_reminder_interval_changed (GtkWidget *widget, DialogData *dialog_data)
+{
+	calendar_config_set_default_reminder_interval (
+		e_dialog_spin_get_int (dialog_data->default_reminder_interval));
+}
+
+static void
+default_reminder_units_changed (GtkWidget *widget, DialogData *dialog_data)
+{
+	calendar_config_set_default_reminder_units (
+		e_dialog_option_menu_get (dialog_data->default_reminder_units, default_reminder_units_map));
+}
+
+static void
+url_list_changed (DialogData *dialog_data)
+{
+	GtkListStore *model = NULL;
+	GSList *url_list = NULL;
+	GtkTreeIter iter;
+	gboolean valid;
+	
+	url_list = NULL;
+	
+	model = (GtkListStore *) gtk_tree_view_get_model (dialog_data->url_list);
+	
+	valid = gtk_tree_model_get_iter_first ((GtkTreeModel *) model, &iter);
+	while (valid) {
+		EPublishUri *url;
+		char *xml;
+		
+		gtk_tree_model_get ((GtkTreeModel *) model, &iter, 
+				    URL_LIST_FREE_BUSY_URL_COLUMN, &url, 
+				    -1);
+		
+		if ((xml = e_pub_uri_to_xml (url)))
+			url_list = g_slist_append (url_list, xml);
+		
+		g_free (url);
+		
+		valid = gtk_tree_model_iter_next ((GtkTreeModel *) model, &iter);
+	}
+	
+	calendar_config_set_free_busy (url_list);
+	
+	g_slist_free (url_list);
+}
+
+static void
+setup_changes (DialogData *dialog_data)
 {
 	int i;
-
-	for (i = 0; i < 7; i ++)
-		connect_changed (dialog_data->working_days[i], "toggled", config_control);
-
-	connect_changed (dialog_data->timezone, "changed", config_control);
-
-	connect_changed (dialog_data->start_of_day, "changed", config_control);
-	connect_changed (dialog_data->end_of_day, "changed", config_control);
-
-	connect_changed (GTK_OPTION_MENU (dialog_data->week_start_day)->menu, "selection_done", config_control);
-
-	connect_changed (dialog_data->use_12_hour, "toggled", config_control);
-
-	connect_changed (GTK_OPTION_MENU (dialog_data->time_divisions)->menu, "selection_done", config_control);
-
-	connect_changed (dialog_data->show_end_times, "toggled", config_control);
-	connect_changed (dialog_data->compress_weekend, "toggled", config_control);
-	connect_changed (dialog_data->dnav_show_week_no, "toggled", config_control);
-
-	connect_changed (dialog_data->tasks_hide_completed_checkbutton, "toggled", config_control);
-	connect_changed (dialog_data->tasks_hide_completed_spinbutton, "changed", config_control);
-	connect_changed (GTK_OPTION_MENU (dialog_data->tasks_hide_completed_optionmenu)->menu, "selection_done", config_control);
-
-	connect_changed (dialog_data->confirm_delete, "toggled", config_control);
-	connect_changed (dialog_data->default_reminder, "toggled", config_control);
-	connect_changed (dialog_data->default_reminder_interval, "changed", config_control);
-	connect_changed (GTK_OPTION_MENU (dialog_data->default_reminder_units)->menu, "selection_done", config_control);
-
-	connect_changed ((GtkWidget *) gtk_tree_view_get_selection (dialog_data->url_list), "changed", config_control);
 	
-	/* These use GnomeColorPicker so we have to use a different signal.  */
-	g_signal_connect((dialog_data->tasks_due_today_color), "color_set",
-			    G_CALLBACK (color_set_callback), config_control);
-	g_signal_connect((dialog_data->tasks_overdue_color), "color_set",
-			    G_CALLBACK (color_set_callback), config_control);
+	for (i = 0; i < 7; i ++)
+		g_signal_connect (dialog_data->working_days[i], "toggled", G_CALLBACK (working_days_changed), dialog_data);
+	
+	g_signal_connect (dialog_data->timezone, "changed", G_CALLBACK (timezone_changed), dialog_data);
+	
+	g_signal_connect (dialog_data->start_of_day, "changed", G_CALLBACK (start_of_day_changed), dialog_data);
+	g_signal_connect (dialog_data->end_of_day, "changed", G_CALLBACK (end_of_day_changed), dialog_data);
+	
+	g_signal_connect (GTK_OPTION_MENU (dialog_data->week_start_day)->menu, "selection-done",
+			  G_CALLBACK (week_start_day_changed), dialog_data);
+	
+	g_signal_connect (dialog_data->use_24_hour, "toggled", G_CALLBACK (use_24_hour_toggled), dialog_data);
+	
+	g_signal_connect (GTK_OPTION_MENU (dialog_data->time_divisions)->menu, "selection-done",
+			  G_CALLBACK (time_divisions_changed), dialog_data);
+	
+	g_signal_connect (dialog_data->show_end_times, "toggled", G_CALLBACK (show_end_times_toggled), dialog_data);
+	g_signal_connect (dialog_data->compress_weekend, "toggled", G_CALLBACK (compress_weekend_toggled), dialog_data);
+	g_signal_connect (dialog_data->dnav_show_week_no, "toggled", G_CALLBACK (dnav_show_week_no_toggled), dialog_data);
+	
+	g_signal_connect (dialog_data->tasks_hide_completed_checkbutton, "toggled",
+			  G_CALLBACK (hide_completed_tasks_toggled), dialog_data);
+	g_signal_connect (dialog_data->tasks_hide_completed_spinbutton, "value-changed",
+			  G_CALLBACK (hide_completed_tasks_changed), dialog_data);
+	g_signal_connect (GTK_OPTION_MENU (dialog_data->tasks_hide_completed_optionmenu)->menu, "selection-done",
+			  G_CALLBACK (hide_completed_tasks_units_changed), dialog_data);
+	g_signal_connect (dialog_data->tasks_due_today_color, "color-set",
+			  G_CALLBACK (tasks_due_today_set_color), dialog_data);
+	g_signal_connect (dialog_data->tasks_overdue_color, "color-set",
+			  G_CALLBACK (tasks_overdue_set_color), dialog_data);
+	
+	g_signal_connect (dialog_data->confirm_delete, "toggled", G_CALLBACK (confirm_delete_toggled), dialog_data);
+	g_signal_connect (dialog_data->default_reminder, "toggled", G_CALLBACK (default_reminder_toggled), dialog_data);
+	g_signal_connect (dialog_data->default_reminder_interval, "changed",
+			  G_CALLBACK (default_reminder_interval_changed), dialog_data);
+	g_signal_connect (GTK_OPTION_MENU (dialog_data->default_reminder_units)->menu, "selection-done",
+			  G_CALLBACK (default_reminder_units_changed), dialog_data);
 }
 
 /* Gets the widgets from the XML file and returns if they are all available.
@@ -315,30 +504,12 @@ get_widgets (DialogData *data)
 
 
 static void
-config_control_destroy_callback (GtkObject *object,
-				 void *data)
+config_control_destroy_callback (DialogData *dialog_data, GObject *deadbeef)
 {
-	DialogData *dialog_data;
-
-	dialog_data = (DialogData *) data;
-
 	g_object_unref (dialog_data->xml);
 	
 	g_free (dialog_data);
 }
-
-
-static void
-config_control_apply_callback (EvolutionConfigControl *control,
-			       void *data)
-{
-	DialogData *dialog_data;
-
-	dialog_data = (DialogData *) data;
-
-	update_config (dialog_data);
-}
-
 
 /* Called by libglade to create our custom EDateEdit widgets. */
 GtkWidget *
@@ -367,40 +538,23 @@ init_widgets (DialogData *dialog_data)
 	dialog_data->url_editor = FALSE;
 	dialog_data->url_editor_dlg =NULL;
 	
-	g_signal_connect((dialog_data->use_24_hour), "toggled",
-			    G_CALLBACK (cal_prefs_dialog_use_24_hour_toggled),
-			    dialog_data);
-
-	g_signal_connect((dialog_data->start_of_day), "changed",
-			    G_CALLBACK (cal_prefs_dialog_start_of_day_changed),
-			    dialog_data);
-
-	g_signal_connect((dialog_data->end_of_day), "changed",
-			    G_CALLBACK (cal_prefs_dialog_end_of_day_changed),
-			    dialog_data);
-
-	g_signal_connect((dialog_data->tasks_hide_completed_checkbutton),
-			    "toggled",
-			    G_CALLBACK (cal_prefs_dialog_hide_completed_tasks_toggled),
-			    dialog_data);
-	
 	/* Free/Busy ... */
-	g_signal_connect ((dialog_data->url_add), "clicked",
-			    G_CALLBACK (cal_prefs_dialog_url_add_clicked),
-			    dialog_data);
-
-	g_signal_connect ((dialog_data->url_edit), "clicked",
-			    G_CALLBACK (cal_prefs_dialog_url_edit_clicked),
-			    dialog_data);
-
-	g_signal_connect ((dialog_data->url_remove), "clicked",
-			    G_CALLBACK (cal_prefs_dialog_url_remove_clicked),
-			    dialog_data);
-
-	g_signal_connect ((dialog_data->url_enable), "clicked",
-			    G_CALLBACK (cal_prefs_dialog_url_enable_clicked),
-			    dialog_data);
-
+	g_signal_connect (dialog_data->url_add, "clicked",
+			  G_CALLBACK (cal_prefs_dialog_url_add_clicked),
+			  dialog_data);
+	
+	g_signal_connect (dialog_data->url_edit, "clicked",
+			  G_CALLBACK (cal_prefs_dialog_url_edit_clicked),
+			  dialog_data);
+	
+	g_signal_connect (dialog_data->url_remove, "clicked",
+			  G_CALLBACK (cal_prefs_dialog_url_remove_clicked),
+			  dialog_data);
+	
+	g_signal_connect (dialog_data->url_enable, "clicked",
+			  G_CALLBACK (cal_prefs_dialog_url_enable_clicked),
+			  dialog_data);
+	
 	/* Free/Busy Listview */
 	renderer = gtk_cell_renderer_toggle_new();
 	g_object_set ((GObject *) renderer, "activatable", TRUE, NULL);
@@ -443,85 +597,6 @@ init_widgets (DialogData *dialog_data)
 			 dialog_data);
 }
 
-static void
-cal_prefs_dialog_use_24_hour_toggled (GtkWidget	*button,
-				      void *data)
-{
-	DialogData *dialog_data;
-	gboolean use_24_hour;
-
-	dialog_data = (DialogData *) data;
-
-	use_24_hour = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (dialog_data->use_24_hour));
-
-	e_date_edit_set_use_24_hour_format (E_DATE_EDIT (dialog_data->start_of_day), use_24_hour);
-	e_date_edit_set_use_24_hour_format (E_DATE_EDIT (dialog_data->end_of_day), use_24_hour);
-}
-
-static void
-cal_prefs_dialog_start_of_day_changed (GtkWidget *button, void *data)
-{
-	DialogData *dialog_data;
-	EDateEdit *start, *end;
-	int start_hour, start_minute, end_hour, end_minute;
-	
-	dialog_data = (DialogData *) data;
-
-	start = E_DATE_EDIT (dialog_data->start_of_day);
-	end = E_DATE_EDIT (dialog_data->end_of_day);
-	
-	e_date_edit_get_time_of_day (start, &start_hour, &start_minute);
-	e_date_edit_get_time_of_day (end, &end_hour, &end_minute);
-
-	if ((start_hour > end_hour) 
-	    || (start_hour == end_hour && start_minute > end_minute)) {
-
-		if (start_hour < 23)
-			e_date_edit_set_time_of_day (end, start_hour + 1, start_minute);
-		else
-			e_date_edit_set_time_of_day (end, 23, 59);
-	}
-}
-
-static void
-cal_prefs_dialog_end_of_day_changed (GtkWidget *button, void *data)
-{
-	DialogData *dialog_data;
-	EDateEdit *start, *end;
-	int start_hour, start_minute, end_hour, end_minute;
-	
-	dialog_data = (DialogData *) data;
-
-	start = E_DATE_EDIT (dialog_data->start_of_day);
-	end = E_DATE_EDIT (dialog_data->end_of_day);
-	
-	e_date_edit_get_time_of_day (start, &start_hour, &start_minute);
-	e_date_edit_get_time_of_day (end, &end_hour, &end_minute);
-
-	if ((end_hour < start_hour) 
-	    || (end_hour == start_hour && end_minute < start_minute)) {
-		if (end_hour < 1)
-			e_date_edit_set_time_of_day (start, 0, 0);
-		else
-			e_date_edit_set_time_of_day (start, end_hour - 1, end_minute);
-	}
-}
-
-static void
-cal_prefs_dialog_hide_completed_tasks_toggled	(GtkWidget *button,
-						 void *data)
-{
-	DialogData *dialog_data;
-	gboolean hide_completed_tasks;
-
-	dialog_data = (DialogData *) data;
-
-	hide_completed_tasks = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (dialog_data->tasks_hide_completed_checkbutton));
-
-	gtk_widget_set_sensitive (dialog_data->tasks_hide_completed_spinbutton, hide_completed_tasks);
-	gtk_widget_set_sensitive (dialog_data->tasks_hide_completed_optionmenu, hide_completed_tasks);
-}
-
 /* Sets the color in a color picker from an X color spec */
 static void
 set_color_picker (GtkWidget *picker, const char *spec)
@@ -539,9 +614,8 @@ set_color_picker (GtkWidget *picker, const char *spec)
 }
 
 static void
-cal_prefs_dialog_url_add_clicked  (GtkWidget *button, void *data)
+cal_prefs_dialog_url_add_clicked (GtkWidget *button, DialogData *dialog_data)
 {
-	DialogData *dialog_data = (DialogData *) data;
 	EPublishUri *url = NULL;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
@@ -553,10 +627,9 @@ cal_prefs_dialog_url_add_clicked  (GtkWidget *button, void *data)
 	url->location = "";
 	
 	if (!dialog_data->url_editor) {
-			
 		dialog_data->url_editor = url_editor_dialog_new (dialog_data, 
 								 url);
-	
+		
 		if (url->location != "") {
 			gtk_list_store_append(GTK_LIST_STORE (model), &iter);
 			gtk_list_store_set (GTK_LIST_STORE(model), &iter, 
@@ -566,7 +639,9 @@ cal_prefs_dialog_url_add_clicked  (GtkWidget *button, void *data)
 					   g_strdup (url->location),
 					   URL_LIST_FREE_BUSY_URL_COLUMN, url,
 					   -1);
-		
+			
+			url_list_changed (dialog_data);
+			
 			if (!GTK_WIDGET_SENSITIVE ((GtkWidget *) dialog_data->url_remove)) {
 				selection = gtk_tree_view_get_selection ((GtkTreeView *) dialog_data->url_list);
 				gtk_tree_model_get_iter_first ((GtkTreeModel *) model, &iter);
@@ -582,10 +657,8 @@ cal_prefs_dialog_url_add_clicked  (GtkWidget *button, void *data)
 }
 
 static void
-cal_prefs_dialog_url_edit_clicked  (GtkWidget *button, void *data)
+cal_prefs_dialog_url_edit_clicked (GtkWidget *button, DialogData *dialog_data)
 {
-	DialogData *dialog_data = (DialogData *) data;
-	
 	if (!dialog_data->url_editor) {
 		GtkTreeSelection *selection;
 		EPublishUri *url = NULL;
@@ -602,9 +675,8 @@ cal_prefs_dialog_url_edit_clicked  (GtkWidget *button, void *data)
 		}
 
 		if (url) {
-			
 			dialog_data->url_editor = url_editor_dialog_new (dialog_data, url);
-	
+			
 			gtk_list_store_set ((GtkListStore *) model, &iter, 
 					   URL_LIST_LOCATION_COLUMN, 
 					   g_strdup (url->location), 
@@ -612,7 +684,9 @@ cal_prefs_dialog_url_edit_clicked  (GtkWidget *button, void *data)
 					   url->enabled, 
 					   URL_LIST_FREE_BUSY_URL_COLUMN, url,
 					   -1);
-
+			
+			url_list_changed (dialog_data);
+			
 			if (!GTK_WIDGET_SENSITIVE ((GtkWidget *) dialog_data->url_remove)) {
 				selection = gtk_tree_view_get_selection ((GtkTreeView *) dialog_data->url_list);
 				gtk_tree_model_get_iter_first ((GtkTreeModel *) model, &iter);
@@ -628,9 +702,8 @@ cal_prefs_dialog_url_edit_clicked  (GtkWidget *button, void *data)
 }
 
 static void
-cal_prefs_dialog_url_remove_clicked  (GtkWidget *button, void *data)
+cal_prefs_dialog_url_remove_clicked (GtkWidget *button, DialogData *dialog_data)
 {
-	DialogData *dialog_data = (DialogData *) data;
 	EPublishUri *url = NULL;
 	GtkTreeSelection * selection;
 	GtkTreeModel *model;
@@ -684,13 +757,14 @@ cal_prefs_dialog_url_remove_clicked  (GtkWidget *button, void *data)
 			gtk_widget_set_sensitive (GTK_WIDGET (dialog_data->url_enable), FALSE);
 		}
 		g_free (url);
+		
+		url_list_changed (dialog_data);
 	}
 }
 
 static void
-cal_prefs_dialog_url_enable_clicked  (GtkWidget *button, void *data)
+cal_prefs_dialog_url_enable_clicked (GtkWidget *button, DialogData *dialog_data)
 {
-	DialogData *dialog_data = (DialogData *) data;
 	EPublishUri *url = NULL;
 	GtkTreeSelection * selection;
 	GtkTreeModel *model;
@@ -708,15 +782,16 @@ cal_prefs_dialog_url_enable_clicked  (GtkWidget *button, void *data)
 		
 		gtk_button_set_label ((GtkButton *) dialog_data->url_enable, 
 				      url->enabled ? _("Disable") : _("Enable"));
+		
+		url_list_changed (dialog_data);
 	}
 }
  
 static void
 cal_prefs_dialog_url_list_enable_toggled (GtkCellRendererToggle *renderer, 
-					   const char *path_string, 
-					   void *data)
+					  const char *path_string, 
+					  DialogData *dialog_data)
 {
-	DialogData *dialog_data = (DialogData *) data;
 	GtkTreeSelection * selection;
 	EPublishUri *url = NULL;
 	GtkTreeModel *model;
@@ -731,15 +806,17 @@ cal_prefs_dialog_url_list_enable_toggled (GtkCellRendererToggle *renderer,
 		gtk_tree_model_get (model, &iter, 
 				    URL_LIST_FREE_BUSY_URL_COLUMN, &url, 
 				    -1);
-
+		
 		url->enabled = !url->enabled;
 		gtk_list_store_set((GtkListStore *) model, &iter, 
 				   URL_LIST_ENABLED_COLUMN,
 				   url->enabled, -1);
-
+		
 		if (gtk_tree_selection_iter_is_selected (selection, &iter))
 			gtk_button_set_label ((GtkButton *) dialog_data->url_enable, 
 					      url->enabled ? _("Disable") : _("Enable"));
+		
+		url_list_changed (dialog_data);
 	}
 
 	gtk_tree_path_free (path);
@@ -942,137 +1019,4 @@ show_config (DialogData *dialog_data)
 	e_dialog_option_menu_set (dialog_data->default_reminder_units,
 				  calendar_config_get_default_reminder_units (),
 				  default_reminder_units_map);
-}
-
-/* Returns a pointer to a static string with an X color spec for the current
- * value of a color picker.
- */
-static const char *
-spec_from_picker (GtkWidget *picker)
-{
-	static char spec[8];
-	guint8 r, g, b;
-
-	gnome_color_picker_get_i8 (GNOME_COLOR_PICKER (picker), &r, &g, &b, NULL);
-	g_snprintf (spec, sizeof (spec), "#%02x%02x%02x", r, g, b);
-
-	return spec;
-}
-
-/* Updates the Free/Busy config values from the settings in the dialog*/
-static void
-update_fb_config (DialogData *dialog_data)
-{
-	GtkTreeIter iter;
-	GtkListStore *model = NULL;
-	gboolean valid;
-	GSList *url_list;
- 	
-	url_list = NULL;
-	
-	model = (GtkListStore *) gtk_tree_view_get_model (dialog_data->url_list);
-	
-	valid = gtk_tree_model_get_iter_first ((GtkTreeModel *) model, &iter);
-	while (valid) {
-		EPublishUri *url;
-		gchar *xml;
-		
-		gtk_tree_model_get ((GtkTreeModel *) model, &iter, 
-					URL_LIST_FREE_BUSY_URL_COLUMN, &url, 
-					-1);
-
-		xml = e_pub_uri_to_xml (url);
-		if (xml != NULL) {
-			url_list = g_slist_append(url_list, xml);
-		}
-		g_free (url);
-		
-		valid = gtk_tree_model_iter_next((GtkTreeModel *) model, &iter);
-	}
-	calendar_config_set_free_busy (url_list);
-
-	g_slist_free (url_list);
-}
-
-/* Updates the task list config values from the settings in the dialog */
-static void
-update_task_list_config (DialogData *dialog_data)
-{
-	calendar_config_set_tasks_due_today_color (spec_from_picker (dialog_data->tasks_due_today_color));
-	calendar_config_set_tasks_overdue_color (spec_from_picker (dialog_data->tasks_overdue_color));
-
-	calendar_config_set_hide_completed_tasks (e_dialog_toggle_get (dialog_data->tasks_hide_completed_checkbutton));
-	calendar_config_set_hide_completed_tasks_units (e_dialog_option_menu_get (dialog_data->tasks_hide_completed_optionmenu, hide_completed_units_map));
-	calendar_config_set_hide_completed_tasks_value (e_dialog_spin_get_int (dialog_data->tasks_hide_completed_spinbutton));
-}
-
-/* Updates the config values based on the settings in the dialog. */
-static void
-update_config (DialogData *dialog_data)
-{
-	CalWeekdays working_days;
-	gint mask, day, week_start_day, time_divisions, hour, minute;
-	icaltimezone *zone;
-
-	/* Timezone. */
-	zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (dialog_data->timezone));
-	calendar_config_set_timezone (icaltimezone_get_location (zone));
-
-	/* Working Days. */
-	working_days = 0;
-	mask = 1 << 0;
-	for (day = 0; day < 7; day++) {
-		if (e_dialog_toggle_get (dialog_data->working_days[day]))
-			working_days |= mask;
-		mask <<= 1;
-	}
-	calendar_config_set_working_days (working_days);
-
-	/* Week Start Day. */
-	week_start_day = e_dialog_option_menu_get (dialog_data->week_start_day, week_start_day_map);
-	calendar_config_set_week_start_day (week_start_day);
-
-	/* Start of Day. */
-	e_date_edit_get_time_of_day (E_DATE_EDIT (dialog_data->start_of_day), &hour, &minute);
-	calendar_config_set_day_start_hour (hour);
-	calendar_config_set_day_start_minute (minute);
-
-	/* End of Day. */
-	e_date_edit_get_time_of_day (E_DATE_EDIT (dialog_data->end_of_day), &hour, &minute);
-	calendar_config_set_day_end_hour (hour);
-	calendar_config_set_day_end_minute (minute);
-
-	/* 12/24 Hour Format. */
-	calendar_config_set_24_hour_format (e_dialog_toggle_get (dialog_data->use_24_hour));
-
-	/* Time Divisions. */
-	time_divisions = e_dialog_option_menu_get (dialog_data->time_divisions, time_division_map);
-	calendar_config_set_time_divisions (time_divisions);
-
-	/* Show Appointment End Times. */
-	calendar_config_set_show_event_end (e_dialog_toggle_get (dialog_data->show_end_times));
-
-	/* Compress Weekend. */
-	calendar_config_set_compress_weekend (e_dialog_toggle_get (dialog_data->compress_weekend));
-
-	/* Date Navigator - Show Week Numbers. */
-	calendar_config_set_dnav_show_week_no (e_dialog_toggle_get (dialog_data->dnav_show_week_no));
-
-	/* Task list */
-	update_task_list_config (dialog_data);
-	
-	/* Free/Busy */
-	update_fb_config (dialog_data);
-
-	/* Other page */
-
-	calendar_config_set_confirm_delete (e_dialog_toggle_get (dialog_data->confirm_delete));
-
-	calendar_config_set_use_default_reminder (e_dialog_toggle_get (dialog_data->default_reminder));
-
-	calendar_config_set_default_reminder_interval (
-		e_dialog_spin_get_int (dialog_data->default_reminder_interval));
-
-	calendar_config_set_default_reminder_units (
-		e_dialog_option_menu_get (dialog_data->default_reminder_units, default_reminder_units_map));
 }
