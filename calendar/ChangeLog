@@ -1,17 +1,44 @@
+2001-02-08  JP Rosevear  <jpr@ximian.com>
+
+	* gui/event-editor.c: Remove assorted menu/bonobo stuff
+
+	* gui/dialogs/task-editor.c: Remove assorted menu/bonobo stuff
+	(task_editor_construct): no longer suck out the glade contents
+	into a bonobo win, listen for apply and close signals
+	(tedit_apply_event_cb): listen for apply signal and save object
+	(tedit_close_event_cb): listen for close signal and prompt to save
+	if need be
+	(task_editor_focus): new function to bring the dialog to the front
+
+	* gui/dialogs/task-editor.h: new prototype
+
+	* gui/e-meeting-edit.c (schedule_button_clicked_cb): no need to
+	update widgets in the event editor since the event editor won't be
+	open
+	(e_meeting_editor_new): don't need the event editor reference any
+	more
+
+	* gui/e-meeting-edit.h: Change prototype
+
+	* gui/e-day-view.c (e_day_view_on_event_right_click): Make
+	schedule meeting a new contextual menu item
+	(e_day_view_on_schedule_meet): new routine to schedule a meeting
+	from the contextual menu
+
+	* gui/e-calendar-table.c (e_calendar_table_open_task): Call
+	task_editor_focus
+
+	* gui/event-editor-dialog.glade: Update to be a property box
+
+	* gui/dialogs/task-editor-dialog.glade: Update to be a property
+	box
+
 2001-02-07  Iain Holmes  <iain@ximian.com>
 
 	* gui/calendar-summary.c (create_summary_view): Add a setter to the
 	property bag.
 	(set_property): The setter.
 	(generate_html_summary): Sort the UIDs accodring to time.
-
-2001-02-06  JP Rosevear  <jpr@ximian.com>
-
-	* cal-util/cal-component.c (cal_component_set_categories): If the
-	categories string is empty, remove the property
-	(get_period_list): Fixes from clahey to handle the new rdate
-	format in libical
-	(set_period_list): ditto
 
 2001-02-06  JP Rosevear  <jpr@ximian.com>
 
@@ -31,6 +58,16 @@
 
 	* gui/dialogs/task-editor-dialog.glade: ditto
 
+2001-02-07  JP Rosevear  <jpr@ximian.com>
+
+	* gui/event-editor-dialog.glade: Fix spacing
+
+2001-02-06  JP Rosevear  <jpr@ximian.com>
+
+	* gui/event-editor-dialog.glade: Gui tweaks for bugs 1248 and 1246
+
+	* gui/dialogs/task-editor-dialog.glade: ditto
+
 2001-02-06  JP Rosevear  <jpr@ximian.com>
 
 	* gui/e-week-view.c (e_week_view_show_popup_menu): Make the menus more
@@ -39,6 +76,14 @@
 	* gui/e-day-view.c (e_day_view_on_event_right_click): ditto
 
 	* gui/e-calendar-table.c: ditto
+
+2001-02-06  JP Rosevear  <jpr@ximian.com>
+	
+	* cal-util/cal-component.c (cal_component_set_categories): If the
+	categories string is empty, remove the property
+	(get_period_list): Fixes from clahey to handle the new rdate
+	format in libical
+	(set_period_list): ditto
 
 2001-02-05  JP Rosevear  <jpr@ximian.com>
 

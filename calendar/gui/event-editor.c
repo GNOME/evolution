@@ -117,9 +117,6 @@ struct _EventEditorPrivate {
 	/* Glade XML data */
 	GladeXML *xml;
 
-	/* UI handler */
-	BonoboUIComponent *uic;
-
 	/* Client to use */
 	CalClient *client;
 
@@ -328,11 +325,6 @@ event_editor_destroy (GtkObject *object)
 
 	ee = EVENT_EDITOR (object);
 	priv = ee->priv;
-
-	if (priv->uic) {
-		bonobo_object_unref (BONOBO_OBJECT (priv->uic));
-		priv->uic = NULL;
-	}
 
 	free_exception_clist_data (GTK_CLIST (priv->recurrence_exception_list));
 
@@ -1010,7 +1002,8 @@ get_widgets (EventEditor *ee)
 
 #undef GW
 
-	return (priv->general_summary
+	return (priv->app
+		&& priv->general_summary
 		&& priv->start_time
 		&& priv->end_time
 		&& priv->all_day_event
@@ -2484,68 +2477,9 @@ close_dialog (EventEditor *ee)
 
 
 
+/* Callback used when the dialog box is "applied" */
 static void
-debug_xml_cb (BonoboUIComponent *uic, gpointer data, const char *path)
-{
-	EventEditor *ee = EVENT_EDITOR (data);
-	EventEditorPrivate *priv = ee->priv;
-
-	bonobo_window_dump (BONOBO_WINDOW (priv->app), "on demand");
-}
-
-/* File/Save callback */
-static void
-file_save_cb (BonoboUIComponent *uic, gpointer data, const char *path)
-{
-	EventEditor *ee;
-
-	ee = EVENT_EDITOR (data);
-	save_event_object (ee);
-}
-
-/* File/Save and Close callback */
-static void
-file_save_and_close_cb (BonoboUIComponent *uic, gpointer data, const char *path)
-{
-	EventEditor *ee;
-
-	ee = EVENT_EDITOR (data);
-	save_event_object (ee);
-	close_dialog (ee);
-}
-
-/* File/Delete callback */
-static void
-file_delete_cb (BonoboUIComponent *uic, gpointer data, const char *path)
-{
-	EventEditor *ee;
-	EventEditorPrivate *priv;
-
-	ee = EVENT_EDITOR (data);
-
-	g_return_if_fail (IS_EVENT_EDITOR (ee));
-
-	priv = ee->priv;
-
-	g_return_if_fail (priv->comp);
-
-	if (delete_component_dialog (priv->comp, priv->app)) {
-		const char *uid;
-
-		cal_component_get_uid (priv->comp, &uid);
-
-		/* We don't check the return value; FALSE can mean the object
-		 * was not in the server anyways.
-		 */
-		cal_client_remove_object (priv->client, uid);
-
-		close_dialog (ee);
-	}
-}
-
-/* File/Close callback */
-static void
-file_close_cb (BonoboUIComponent *uic, gpointer data, const char *path)
+ee_apply_event_cb (GtkWidget *widget, gint page_num, gpointer data)
 {
 	EventEditor *ee;
 
@@ -2553,51 +2487,31 @@ file_close_cb (BonoboUIComponent *uic, gpointer data, const char *path)
 
 	ee = EVENT_EDITOR (data);
 
-	if (prompt_to_save_changes (ee))
-		close_dialog (ee);
+	if (page_num != -1)
+		return;
+	
+	save_event_object (ee);
 }
-
-static void
-schedule_meeting_cb (BonoboUIComponent *uic, gpointer data, const char *path)
-{
-	EventEditor *ee;
-	EventEditorPrivate *priv;
-	EMeetingEditor *editor;
-
-	ee = EVENT_EDITOR (data);
-
-	g_return_if_fail (IS_EVENT_EDITOR (ee));
-
-	priv = (EventEditorPrivate *)ee->priv;
-
-	editor = e_meeting_editor_new (priv->comp, priv->client, ee);
-	e_meeting_edit (editor);
-	e_meeting_editor_free (editor);
-}
-
-
-/*
- * NB. there is an insane amount of replication here between
- * this and the task-editor.
- */
-static BonoboUIVerb verbs [] = {
-	BONOBO_UI_VERB ("FileSave", file_save_cb),
-	BONOBO_UI_VERB ("FileDelete", file_delete_cb),
-	BONOBO_UI_VERB ("FileClose", file_close_cb),
-	BONOBO_UI_VERB ("FileSaveAndClose", file_save_and_close_cb),
-
-	BONOBO_UI_VERB ("ActionScheduleMeeting", schedule_meeting_cb),
-
-	BONOBO_UI_VERB ("DebugDumpXml", debug_xml_cb),
-
-	BONOBO_UI_VERB_END
-};
-
-
 
 /* Callback used when the dialog box is destroyed */
 static gint
-app_delete_event_cb (GtkWidget *widget, GdkEvent *event, gpointer data)
+ee_close_event_cb (GtkWidget *widget, gpointer data)
+{
+	EventEditor *ee;
+
+	g_return_val_if_fail (IS_EVENT_EDITOR (data), TRUE);
+
+	ee = EVENT_EDITOR (data);
+
+	if (prompt_to_save_changes (ee))
+		close_dialog (ee);
+	
+	return TRUE;
+}
+
+/* Callback used when the dialog box is destroyed */
+static gint
+ee_delete_event_cb (GtkWidget *widget, GdkEvent *event, gpointer data)
 {
 	EventEditor *ee;
 
@@ -2625,7 +2539,6 @@ EventEditor *
 event_editor_construct (EventEditor *ee)
 {
 	EventEditorPrivate *priv;
-	GtkWidget *bonobo_win;
 
 	g_return_val_if_fail (ee != NULL, NULL);
 	g_return_val_if_fail (IS_EVENT_EDITOR (ee), NULL);
@@ -2647,58 +2560,16 @@ event_editor_construct (EventEditor *ee)
 
 	init_widgets (ee);
 
-	priv->uic = bonobo_ui_component_new ("event-editor-dialog");
-	if (!priv->uic) {
-		g_message ("task_editor_construct(): Could not create the UI component");
-		goto error;
-	}
-
-	/* Construct the app */
-	bonobo_win = bonobo_window_new ("event-editor-dialog", "Event Editor");
-
-	/* FIXME: The sucking bit */
-	{
-		GtkWidget *contents;
-
-		contents = gnome_dock_get_client_area (
-			GNOME_DOCK (GNOME_APP (priv->app)->dock));
-		if (!contents) {
-			g_message ("event_editor_construct(): Could not get contents");
-			goto error;
-		}
-		gtk_widget_ref (contents);
-		gtk_container_remove (GTK_CONTAINER (contents->parent), contents);
-		bonobo_window_set_contents (BONOBO_WINDOW (bonobo_win), contents);
-		gtk_widget_destroy (priv->app);
-		priv->app = bonobo_win;
-	}
-
-	{
-		BonoboUIContainer *container = bonobo_ui_container_new ();
-		bonobo_ui_container_set_win (container, BONOBO_WINDOW (priv->app));
-		bonobo_ui_component_set_container (
-			priv->uic, bonobo_object_corba_objref (BONOBO_OBJECT (container)));
-	}
-
-	bonobo_ui_component_add_verb_list_with_data (priv->uic, verbs, ee);
-
-	bonobo_ui_util_set_ui (priv->uic, EVOLUTION_DATADIR,
-			       "evolution-event-editor.xml",
-			       "evolution-event-editor");
-
 	/* Hook to destruction of the dialog */
-
+	gtk_signal_connect (GTK_OBJECT (priv->app), "apply",
+			    GTK_SIGNAL_FUNC (ee_apply_event_cb), ee); 
+	gtk_signal_connect (GTK_OBJECT (priv->app), "close",
+			    GTK_SIGNAL_FUNC (ee_close_event_cb), ee);
 	gtk_signal_connect (GTK_OBJECT (priv->app), "delete_event",
-			    GTK_SIGNAL_FUNC (app_delete_event_cb), ee);
-
+			    GTK_SIGNAL_FUNC (ee_delete_event_cb), ee);
 
 	/* Add focus to the summary entry */
-
 	gtk_widget_grab_focus (GTK_WIDGET (priv->general_summary));
-
-	/* Show the dialog */
-
-	gtk_widget_show (priv->app);
 
 	return ee;
 
@@ -3408,6 +3279,9 @@ event_editor_set_changed	(EventEditor	*ee,
 #endif
 
 	priv->changed = changed;
+
+	if (priv->app)
+		gnome_property_box_set_state (GNOME_PROPERTY_BOX (priv->app), changed);
 }
 
 

@@ -524,6 +524,8 @@ e_calendar_table_open_task (ECalendarTable *cal_table,
 
 	comp = calendar_model_get_component (cal_table->model, row);
 	task_editor_set_todo_object (tedit, comp);
+
+	task_editor_focus (tedit);
 }
 
 

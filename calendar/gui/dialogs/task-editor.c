@@ -49,9 +49,6 @@ typedef struct {
 	/* Glade XML data */
 	GladeXML *xml;
 
-	/* UI handler */
-	BonoboUIComponent *uic;
-
 	/* Client to use */
 	CalClient *client;
 
@@ -131,9 +128,9 @@ static const int classification_map[] = {
 
 static void task_editor_class_init (TaskEditorClass *class);
 static void task_editor_init (TaskEditor *tedit);
-static gint app_delete_event_cb (GtkWidget *widget,
-				 GdkEvent *event,
-				 gpointer data);
+static void tedit_apply_event_cb (GtkWidget *widget, gint page_num, gpointer data);
+static gint tedit_close_event_cb (GtkWidget *widget, gpointer data);
+static gint tedit_delete_event_cb (GtkWidget *widget, GdkEvent *event, gpointer data);
 static void close_dialog (TaskEditor *tedit);
 static gboolean get_widgets (TaskEditor *tedit);
 static void init_widgets (TaskEditor *tedit);
@@ -142,13 +139,6 @@ static char * make_title_from_comp (CalComponent *comp);
 static void set_title_from_comp (TaskEditor *tedit, CalComponent *comp);
 static void clear_widgets (TaskEditor *tedit);
 static void fill_widgets (TaskEditor *tedit);
-
-static void file_save_cb (BonoboUIComponent *uic, gpointer data, const char *path);
-static void file_save_and_close_cb (BonoboUIComponent *uic, gpointer data, const char *path);
-static void file_delete_cb (BonoboUIComponent *uic, gpointer data, const char *path);
-static void file_close_cb (BonoboUIComponent *uic, gpointer data, const char *path);
-
-static void debug_xml_cb (BonoboUIComponent *uic, gpointer data, const char *path);
 
 static void save_todo_object (TaskEditor *tedit);
 static void dialog_to_comp_object (TaskEditor *tedit);
@@ -225,18 +215,6 @@ task_editor_new (void)
 	return task_editor_construct (tedit);
 }
 
-static BonoboUIVerb verbs [] = {
-
-	BONOBO_UI_VERB ("FileSave", file_save_cb),
-	BONOBO_UI_VERB ("FileDelete", file_delete_cb),
-	BONOBO_UI_VERB ("FileClose", file_close_cb),
-	BONOBO_UI_VERB ("FileSaveAndClose", file_save_and_close_cb),
-
-	BONOBO_UI_VERB ("DebugDumpXml", debug_xml_cb),
-
-	BONOBO_UI_VERB_END
-};
-
 /**
  * task_editor_construct:
  * @tedit: A #TaskEditor.
@@ -251,7 +229,6 @@ TaskEditor *
 task_editor_construct (TaskEditor *tedit)
 {
 	TaskEditorPrivate *priv;
-	GtkWidget         *bonobo_win;
 
 	g_return_val_if_fail (tedit != NULL, NULL);
 	g_return_val_if_fail (IS_TASK_EDITOR (tedit), NULL);
@@ -273,53 +250,17 @@ task_editor_construct (TaskEditor *tedit)
 
 	init_widgets (tedit);
 
-	/* Construct the app */
-
-	priv->uic = bonobo_ui_component_new ("task-editor-dialog");
-	if (!priv->uic) {
-		g_message ("task_editor_construct(): Could not create the UI component");
-		goto error;
-	}
-
-	bonobo_win = bonobo_window_new ("event-editor-dialog", "Event Editor");
-
-	/* FIXME: The sucking bit */
-	{
-		GtkWidget *contents;
-
-		contents = gnome_dock_get_client_area (
-			GNOME_DOCK (GNOME_APP (priv->app)->dock));
-		if (!contents) {
-			g_message ("event_editor_construct(): Could not get contents");
-			goto error;
-		}
-		gtk_widget_ref (contents);
-		gtk_container_remove (GTK_CONTAINER (contents->parent), contents);
-		bonobo_window_set_contents (BONOBO_WINDOW (bonobo_win), contents);
-		gtk_widget_destroy (priv->app);
-		priv->app = GTK_WIDGET (bonobo_win);
-	}
-
-	{
-		BonoboUIContainer *container = bonobo_ui_container_new ();
-		bonobo_ui_container_set_win (container, BONOBO_WINDOW (priv->app));
-		bonobo_ui_component_set_container (
-			priv->uic, bonobo_object_corba_objref (BONOBO_OBJECT (container)));
-	}
-
-	bonobo_ui_component_add_verb_list_with_data (
-		priv->uic, verbs, tedit);
-
-	bonobo_ui_util_set_ui (priv->uic, EVOLUTION_DATADIR,
-			       "evolution-task-editor-dialog.xml",
-			       "evolution-task-editor");
-
 	/* Hook to destruction of the dialog */
+	gtk_signal_connect (GTK_OBJECT (priv->app), "apply",
+			    GTK_SIGNAL_FUNC (tedit_apply_event_cb), tedit); 
+	gtk_signal_connect (GTK_OBJECT (priv->app), "close",
+			    GTK_SIGNAL_FUNC (tedit_close_event_cb), tedit);
 	gtk_signal_connect (GTK_OBJECT (priv->app), "delete_event",
-			    GTK_SIGNAL_FUNC (app_delete_event_cb), tedit);
+			    GTK_SIGNAL_FUNC (tedit_delete_event_cb), tedit);
 
-	/* Show the dialog */
-	gtk_widget_show (priv->app);
+	/* Add focus to the summary entry */
+	gtk_widget_grab_focus (GTK_WIDGET (priv->summary));
+
 
 	return tedit;
 
@@ -342,10 +283,41 @@ task_editor_create_date_edit (void)
 	return dedit;
 }
 
+/* Callback used when the dialog box is destroyed */
+static void
+tedit_apply_event_cb (GtkWidget *widget, gint page_num, gpointer data)
+{
+	TaskEditor *tedit;
+
+	g_return_if_fail (IS_TASK_EDITOR (data));
+
+	tedit = TASK_EDITOR (data);
+
+	if (page_num != -1)
+		return;
+	
+	save_todo_object (tedit);
+}
 
 /* Callback used when the dialog box is destroyed */
 static gint
-app_delete_event_cb (GtkWidget *widget, GdkEvent *event, gpointer data)
+tedit_close_event_cb (GtkWidget *widget, gpointer data)
+{
+	TaskEditor *tedit;
+
+	g_return_val_if_fail (IS_TASK_EDITOR (data), TRUE);
+
+	tedit = TASK_EDITOR (data);
+
+	if (prompt_to_save_changes (tedit))
+		close_dialog (tedit);
+
+	return TRUE;
+}
+
+/* Callback used when the dialog box is destroyed */
+static gint
+tedit_delete_event_cb (GtkWidget *widget, GdkEvent *event, gpointer data)
 {
 	TaskEditor *tedit;
 
@@ -489,11 +461,6 @@ task_editor_destroy (GtkObject *object)
 
 	tedit = TASK_EDITOR (object);
 	priv = tedit->priv;
-
-	if (priv->uic) {
-		bonobo_object_unref (BONOBO_OBJECT (priv->uic));
-		priv->uic = NULL;
-	}
 
 	if (priv->app) {
 		gtk_widget_destroy (priv->app);
@@ -680,6 +647,18 @@ task_editor_set_todo_object	(TaskEditor	*tedit,
 	fill_widgets (tedit);
 }
 
+void
+task_editor_focus (TaskEditor *tedit)
+{
+	TaskEditorPrivate *priv;
+
+	g_return_if_fail (tedit != NULL);
+	g_return_if_fail (IS_TASK_EDITOR (tedit));
+
+	priv = tedit->priv;
+	gtk_widget_show_now (priv->app);
+	raise_and_focus (priv->app);
+}
 
 /* Creates an appropriate title for the task editor dialog */
 static char *
@@ -1019,80 +998,6 @@ dialog_to_comp_object (TaskEditor *tedit)
 	cal_component_commit_sequence (comp);
 }
 
-static void
-debug_xml_cb (BonoboUIComponent *uic, gpointer data, const char *path)
-{
-	TaskEditor *tedit = TASK_EDITOR (data);
-	TaskEditorPrivate *priv = tedit->priv;
-
-	bonobo_window_dump (BONOBO_WINDOW (priv->app), "on demand");
-}
-
-/* File/Save callback */
-static void
-file_save_cb (BonoboUIComponent *uic, gpointer data, const char *path)
-{
-	TaskEditor *tedit;
-
-	tedit = TASK_EDITOR (data);
-	save_todo_object (tedit);
-}
-
-/* File/Save and Close callback */
-static void
-file_save_and_close_cb (BonoboUIComponent *uic, gpointer data, const char *path)
-{
-	TaskEditor *tedit;
-
-	tedit = TASK_EDITOR (data);
-	save_todo_object (tedit);
-	close_dialog (tedit);
-}
-
-/* File/Delete callback */
-static void
-file_delete_cb (BonoboUIComponent *uic, gpointer data, const char *path)
-{
-	TaskEditor *tedit;
-	TaskEditorPrivate *priv;
-
-	tedit = TASK_EDITOR (data);
-
-	g_return_if_fail (IS_TASK_EDITOR (tedit));
-
-	priv = tedit->priv;
-
-	g_return_if_fail (priv->comp);
-
-	if (delete_component_dialog (priv->comp, priv->app)) {
-		const char *uid;
-
-		cal_component_get_uid (priv->comp, &uid);
-
-		/* We don't check the return value; FALSE can mean the object
-		 * was not in the server anyways.
-		 */
-		cal_client_remove_object (priv->client, uid);
-
-		close_dialog (tedit);
-	}
-}
-
-/* File/Close callback */
-static void
-file_close_cb (BonoboUIComponent *uic, gpointer data, const char *path)
-{
-	TaskEditor *tedit;
-
-	g_return_if_fail (IS_TASK_EDITOR (data));
-
-	tedit = TASK_EDITOR (data);
-
-	if (prompt_to_save_changes (tedit))
-		close_dialog (tedit);
-}
-
-
 static TaskEditorPriority
 priority_value_to_index (int priority_value)
 {
@@ -1279,6 +1184,9 @@ task_editor_set_changed		(TaskEditor	*tedit,
 #endif
 
 	priv->changed = changed;
+
+	if (priv->app)
+		gnome_property_box_set_state (GNOME_PROPERTY_BOX (priv->app), changed);
 }
 
 

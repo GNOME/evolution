@@ -42,6 +42,7 @@
 #include <gal/widgets/e-canvas.h>
 #include <gal/e-text/e-text.h>
 #include <gal/widgets/e-canvas-utils.h>
+#include "e-meeting-edit.h"
 
 /* Images */
 #include "bell.xpm"
@@ -324,6 +325,8 @@ static void e_day_view_on_delete_occurrence (GtkWidget *widget,
 					     gpointer data);
 static void e_day_view_on_delete_appointment (GtkWidget *widget,
 					      gpointer data);
+static void e_day_view_on_schedule_meet (GtkWidget *widget,
+					 gpointer data);
 static void e_day_view_on_unrecur_appointment (GtkWidget *widget,
 					       gpointer data);
 static EDayViewEvent* e_day_view_get_popup_menu_event (EDayView *day_view);
@@ -3008,6 +3011,10 @@ e_day_view_on_event_right_click (EDayView *day_view,
 	};
 
 	static struct menu_item child_items[] = {
+		{ N_("Schedule meeting"), (GtkSignalFunc) e_day_view_on_schedule_meet, NULL, TRUE },
+
+		{ NULL, NULL, NULL, TRUE},
+
 		{ N_("Edit this appointment..."), (GtkSignalFunc) e_day_view_on_edit_appointment, NULL, TRUE },
 		{ N_("Delete this appointment"), (GtkSignalFunc) e_day_view_on_delete_appointment, NULL, TRUE },
 
@@ -3018,6 +3025,7 @@ e_day_view_on_event_right_click (EDayView *day_view,
 
 	static struct menu_item recur_child_items[] = {
 		{ N_("Make this appointment movable"), (GtkSignalFunc) e_day_view_on_unrecur_appointment, NULL, TRUE },
+		{ N_("Schedule meeting"), (GtkSignalFunc) e_day_view_on_schedule_meet, NULL, TRUE },
 
 		{ NULL, NULL, NULL, TRUE},
 
@@ -3051,19 +3059,21 @@ e_day_view_on_event_right_click (EDayView *day_view,
 		not_being_edited = TRUE;
 
 		if (cal_component_has_recurrences (event->comp)) {
-			items = 7;
+			items = 8;
 			context_menu = &recur_child_items[0];
+			context_menu[0].sensitive = not_being_edited;
+			context_menu[1].sensitive = not_being_edited;
+			context_menu[3].sensitive = not_being_edited;
+			context_menu[4].sensitive = not_being_edited;
+			context_menu[5].sensitive = not_being_edited;
+			context_menu[7].sensitive = have_selection;
+		} else {
+			items = 6;
+			context_menu = &child_items[0];
 			context_menu[0].sensitive = not_being_edited;
 			context_menu[2].sensitive = not_being_edited;
 			context_menu[3].sensitive = not_being_edited;
-			context_menu[4].sensitive = not_being_edited;
-			context_menu[6].sensitive = have_selection;
-		} else {
-			items = 4;
-			context_menu = &child_items[0];
-			context_menu[0].sensitive = not_being_edited;
-			context_menu[1].sensitive = not_being_edited;
-			context_menu[3].sensitive = have_selection;
+			context_menu[5].sensitive = have_selection;
 		}
 	}
 
@@ -3182,6 +3192,25 @@ e_day_view_on_delete_appointment (GtkWidget *widget, gpointer data)
 	}
 }
 
+
+static void
+e_day_view_on_schedule_meet (GtkWidget *widget, gpointer data)
+{
+	EDayView *day_view;
+	EDayViewEvent *event;
+	EMeetingEditor *editor;
+	
+	day_view = E_DAY_VIEW (data);
+
+	event = e_day_view_get_popup_menu_event (day_view);
+	if (event == NULL)
+		return;
+
+	editor = e_meeting_editor_new (event->comp, day_view->client);
+
+	e_meeting_edit (editor);
+	e_meeting_editor_free (editor);
+}
 
 static void
 e_day_view_on_unrecur_appointment (GtkWidget *widget, gpointer data)
