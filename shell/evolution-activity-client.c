@@ -323,6 +323,7 @@ evolution_activity_client_construct (EvolutionActivityClient *activity_client,
 	GNOME_Evolution_Activity activity_interface;
 	CORBA_Environment ev;
 	CORBA_boolean suggest_display;
+	GNOME_Evolution_AnimatedIcon *corba_animated_icon;
 
 	g_return_val_if_fail (activity_client != NULL, FALSE);
 	g_return_val_if_fail (EVOLUTION_IS_ACTIVITY_CLIENT (activity_client), FALSE);
@@ -348,15 +349,20 @@ evolution_activity_client_construct (EvolutionActivityClient *activity_client,
 		return FALSE;
 	}
 
+	corba_animated_icon = create_corba_animated_icon_from_pixbuf_array (animated_icon);
+
 	GNOME_Evolution_Activity_operationStarted (activity_interface,
 						   component_id,
-						   create_corba_animated_icon_from_pixbuf_array (animated_icon),
+						   corba_animated_icon,
 						   information,
 						   cancellable,
 						   bonobo_object_corba_objref (BONOBO_OBJECT (priv->listener)),
 						   &priv->activity_id,
 						   &suggest_display,
 						   &ev);
+
+	CORBA_free (corba_animated_icon);
+
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		CORBA_exception_free (&ev);
 		return FALSE;
