@@ -1,7 +1,7 @@
 2001-10-29  Christopher James Lahey  <clahey@ximian.com>
 
 	* ename/e-name-western.c (e_name_western_fixup): Check for
-	compound first names here (X & Y).
+	compound first names here (X & Y).  Fixes Ximian bug #13859.
 
 2001-10-28  JP Rosevear  <jpr@ximian.com>
 
