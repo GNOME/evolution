@@ -776,8 +776,8 @@ local_folder_changed_proxy (CamelObject *folder, gpointer event_data, gpointer u
 	int unread;
 
 	unread = camel_folder_get_unread_message_count (CAMEL_FOLDER (folder));
-	mail_op_forward_event (local_folder_changed, folder,
-			       GINT_TO_POINTER (unread), user_data);
+	mail_proxy_event (local_folder_changed, folder,
+			  GINT_TO_POINTER (unread), user_data);
 }
 
 static char *
