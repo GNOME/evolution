@@ -142,9 +142,15 @@ e_destination_copy (EDestination *dest)
 gboolean
 e_destination_is_empty (EDestination *dest)
 {
+	struct _EDestinationPrivate *p;
 	g_return_val_if_fail (dest && E_IS_DESTINATION (dest), TRUE);
+	p = dest->priv;
 
-	return !(dest->priv->card || dest->priv->pending_card_id || (dest->priv->string && *dest->priv->string));
+	return !(p->card
+		 || p->pending_card_id
+		 || (p->string && *p->string)
+		 || (p->name && *p->name)
+		 || (p->string_email && *p->string_email));
 }
 
 static void
