@@ -26,6 +26,7 @@
 
 #include "widgets/misc/e-bonobo-widget.h"
 
+#include <glib.h>
 #include <gdk/gdkx.h>
 #include <gdk/gdkprivate.h>
 #include <gdk/gdk.h>
@@ -34,7 +35,6 @@
 #include <gtk/gtksignal.h>
 #include <gtk/gtkfilesel.h>
 
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
 #include <libgnomeui/gnome-dialog-util.h>
@@ -225,13 +225,13 @@ save_ok (GtkWidget *widget, gpointer data)
 {
 	GtkWidget *fs;
 	char **filename = data;
-	char *path;
+	const char *path;
 	int btn = GNOME_YES;
 
 	fs = gtk_widget_get_toplevel (widget);
 	path = gtk_file_selection_get_filename (GTK_FILE_SELECTION (fs));
 
-	if (g_file_test (path, G_FILE_TEST_ISFILE)) {
+	if (g_file_test (path, G_FILE_TEST_IS_REGULAR)) {
 		GtkWidget *dlg;
 
 		dlg = gnome_question_dialog_modal (_("A file by that name already exists.\n"

@@ -43,9 +43,11 @@ eutilinclude_HEADERS = 				\
 
 libeutil_la_SOURCES =				\
 	$(eutilinclude_HEADERS)			\
+	e-categories-config.c			\
 	e-component-listener.c			\
 	e-config-listener.c			\
 	e-corba-utils.c				\
+	e-dialog-utils.c			\
 	e-dialog-widgets.c			\
 	e-gtk-utils.c				\
 	e-gui-utils.c				\
@@ -84,7 +86,6 @@ MARSHAL_GENERATED = e-util-marshal.c e-util-marshal.h
 # FIXME TODO
 #	e-categories-config.c
 #	e-categories-master-list-wombat.[ch]
-#	e-dialog-utils.c
 #	e-passwords.c
 #	e-proxy.c
 #       bonobo-factory-util.[ch]

@@ -1,3 +1,14 @@
+2002-11-07  JP Rosevear  <jpr@ximian.com>
+
+	* e-categories-config.c (e_categories_config_get_icon_for): pass
+	extra pixbuf param
+
+	* e-categories-config.h: use G_*_DECLS
+
+	* e-dialog-utils.c (save_ok): update g_file_test params
+
+	* Makefile.am: Compile some additional files
+
 2002-11-06  Chris Toshok  <toshok@ximian.com>
 
 	* e-config-listener.c (e_config_listener_set_boolean): init err to

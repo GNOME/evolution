@@ -26,7 +26,9 @@ initialize_categories_config (void)
 {
 	g_return_if_fail (initialized == FALSE);
 
+#if 0
 	ecmlw = E_CATEGORIES_MASTER_LIST_WOMBAT (e_categories_master_list_wombat_new ());
+#endif
 	icons_table = g_hash_table_new (g_str_hash, g_str_equal);
 	/* FIXME: must free the two objects above when exiting */
 
@@ -103,7 +105,7 @@ e_categories_config_get_icon_for (const char *category, GdkPixmap **pixmap, GdkB
 	/* load the icon in our list */
 	pixbuf = g_hash_table_lookup (icons_table, icon_file);
 	if (!pixbuf) {
-		pixbuf = gdk_pixbuf_new_from_file (icon_file);
+		pixbuf = gdk_pixbuf_new_from_file (icon_file, NULL);
 		if (!pixbuf) {
 			*pixmap = NULL;
 			if (mask != NULL)

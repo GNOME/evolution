@@ -15,7 +15,7 @@
 #include <gdk/gdk.h>
 #include <gtk/gtkentry.h>
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 const char *e_categories_config_get_color_for (const char *category);
 void e_categories_config_set_color_for (const char *category, const char *color);
@@ -29,6 +29,6 @@ void e_categories_config_set_icon_for (const char *category,
 
 void e_categories_config_open_dialog_for_entry (GtkEntry *entry);
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif
