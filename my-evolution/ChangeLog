@@ -1,3 +1,8 @@
+2002-11-25  Ettore Perazzoli  <ettore@ximian.com>
+
+	* component-factory.c (component_destroy): Removed.
+	(create_component): Do not connect.
+
 2002-11-20  Ettore Perazzoli  <ettore@ximian.com>
 
 	* component-factory.c (owner_unset_cb): bonobo_main_quit() instead

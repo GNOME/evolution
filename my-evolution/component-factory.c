@@ -111,16 +111,6 @@ owner_unset_cb (EvolutionShellComponent *shell_component,
 	bonobo_main_quit ();
 }
 
-static void
-component_destroy (BonoboObject *factory,
-		   gpointer user_data)
-{
-	running_objects--;
-
-	if (running_objects > 0)
-		return;
-}
-
 static BonoboObject *
 create_component (void)
 {
@@ -141,7 +131,6 @@ create_component (void)
 							 NULL, NULL,
 							 NULL, NULL);
 
-	g_signal_connect (shell_component, "destroy", G_CALLBACK (component_destroy), NULL);
 	g_signal_connect (shell_component, "owner_set", G_CALLBACK (owner_set_cb), NULL);
 	g_signal_connect (shell_component, "owner_unset", G_CALLBACK (owner_unset_cb), NULL);
 
