@@ -780,6 +780,7 @@ draw_button (ETableHeaderItem *ethi, ETableCol *col,
 						    0, 0);
 	} else {
 		int str_width, ellipsis_width, text_len;
+		int font_height, y_xtra;
 
 		text_len = strlen (col->text);
 		ellipsis_width = gdk_text_width (ethi->font, "...", 3);
@@ -787,6 +788,10 @@ draw_button (ETableHeaderItem *ethi, ETableCol *col,
 		str_width = gdk_text_width (ethi->font, col->text, text_len);
 
 		if (str_width < clip.width) {
+			font_height = gdk_text_height (ethi->font, col->text,
+						       text_len);
+			y_xtra = (clip.height - font_height) / 2;
+		
 			/* Center the thing */
 			xtra = (clip.width - gdk_string_measure (ethi->font, col->text))/2;
 			
@@ -796,9 +801,8 @@ draw_button (ETableHeaderItem *ethi, ETableCol *col,
 			
 			xtra += HEADER_PADDING / 2;
 			
-			gdk_draw_text (
-				       drawable, ethi->font,
-				       ethi->gc, x + xtra, y + ethi->height - ethi->font->descent - HEADER_PADDING / 2,
+			gdk_draw_text (drawable, ethi->font,
+				       ethi->gc, clip.x + xtra, y + (ethi->height - y_xtra - HEADER_PADDING),
 				       col->text, text_len);
 		} else {
 			/* Need ellipsis */
@@ -819,14 +823,18 @@ draw_button (ETableHeaderItem *ethi, ETableCol *col,
 
 			xtra += HEADER_PADDING / 2;
 
+			font_height = gdk_text_height (ethi->font, col->text, 
+						       ellipsis_length);
+			y_xtra = (clip.height - font_height) / 2;
+
 			gdk_draw_text (drawable, ethi->font, ethi->gc,
-				       x + xtra, y + ethi->height - ethi->font->descent - HEADER_PADDING / 2,
+				       x + xtra, y + (ethi->height - y_xtra - HEADER_PADDING),
 				       col->text, ellipsis_length);
 			gdk_draw_string (drawable, ethi->font, ethi->gc,
 					 x + xtra + gdk_text_width (ethi->font,
 								    col->text,
 								    ellipsis_length),
-					 y + ethi->height - ethi->font->descent - HEADER_PADDING / 2,
+					 y + (ethi->height - y_xtra - HEADER_PADDING),
 					 "...");
 		}
 	}
@@ -1231,6 +1239,17 @@ ethi_popup_alignment(GtkWidget *widget, EthiHeaderInfo *info)
 static void
 ethi_popup_best_fit(GtkWidget *widget, EthiHeaderInfo *info)
 {
+	ETableHeaderItem *ethi = info->ethi;
+	int width;
+
+	gtk_signal_emit_by_name (GTK_OBJECT (ethi->eth),
+				 "request_width",
+				 info->col, &width);
+	/* Add 10 to stop it from "..."ing */
+	e_table_header_set_size (ethi->eth, info->col, width + 10);
+	
+	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM(ethi));
+
 }
 
 static void
@@ -1257,7 +1276,7 @@ static EPopupMenu ethi_context_menu [] = {
 	{ N_("Field Chooser"),             NULL, GTK_SIGNAL_FUNC(ethi_popup_field_chooser),   0},
 	{ "",                              NULL, GTK_SIGNAL_FUNC(NULL),                       1},
 	{ N_("Alignment"),                 NULL, GTK_SIGNAL_FUNC(ethi_popup_alignment),       1},
-	{ N_("Best Fit"),                  NULL, GTK_SIGNAL_FUNC(ethi_popup_best_fit),        1},
+	{ N_("Best Fit"),                  NULL, GTK_SIGNAL_FUNC(ethi_popup_best_fit),        2},
 	{ N_("Format Columns..."),         NULL, GTK_SIGNAL_FUNC(ethi_popup_format_columns),  1},
 	{ "",                              NULL, GTK_SIGNAL_FUNC(NULL),                       1},
 	{ N_("Customize Current View..."), NULL, GTK_SIGNAL_FUNC(ethi_popup_customize_view),  1},

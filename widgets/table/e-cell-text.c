@@ -1328,6 +1328,16 @@ tooltip_event (GtkWidget *window,
 			}
 		}
 
+		event->button.x = tooltip->cx;
+		event->button.y = tooltip->cy;
+		gtk_signal_emit_by_name (GTK_OBJECT (tooltip->eti), "event",
+					 event, &ret_val);
+		break;
+	case GDK_KEY_PRESS:
+		if (tooltip->window){
+			gtk_widget_destroy (tooltip->window);
+			tooltip->window = NULL;
+		}
 		gtk_signal_emit_by_name (GTK_OBJECT (tooltip->eti), "event",
 					 event, &ret_val);
 		break;

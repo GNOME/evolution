@@ -1427,6 +1427,9 @@ _do_tooltip (ETableItem *eti)
 	int x = 0, y = 0;
 	int i;
 
+	if (eti_editing (eti))
+		return FALSE;
+
 	ecell_view = eti->cell_views[eti->tooltip->col];
 
 	for (i = 0; i < eti->tooltip->col; i++)
@@ -1464,10 +1467,6 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		if (eti->tooltip->timer) {
 			gtk_timeout_remove (eti->tooltip->timer);
 			eti->tooltip->timer = 0;
-		}
-		if (eti->tooltip->window) {
-			gtk_widget_destroy (eti->tooltip->window);
-			eti->tooltip->window = NULL;
 		}
 		e_canvas_item_grab_focus(GNOME_CANVAS_ITEM(eti));
 
