@@ -1,3 +1,9 @@
+2001-07-27  Jason Leach  <jleach@ximian.com>
+
+	* evolution-addressbook.xml: Removed the unused "Settings"
+	submenu, because it creates an extra blank menu after the Help
+	submenu.  Bug #4275.
+
 2001-07-25  Damon Chaplin  <damon@ximian.com>
 
 	* evolution-calendar.xml: changed "Settings" to "Calendar Settings".

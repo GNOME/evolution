@@ -83,11 +83,6 @@
 
 		</submenu>
 
-		<submenu name="Settings">
-
-
-		</submenu>
-
 		<submenu name="Tools" _label="_Tools">
                         <placeholder name="Component">
 				<menuitem name="ToolSearch" verb=""
