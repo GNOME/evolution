@@ -38,6 +38,7 @@
 #include <gconf/gconf-client.h>
 
 #include <camel/camel-vee-folder.h>
+#include <camel/camel-store.h>
 #include <camel/camel-file-utils.h>
 #include <camel/camel-movemail.h>
 
@@ -52,7 +53,6 @@
 #include "mail-vfolder.h"
 #include "mail-tools.h"
 #include "mail-mt.h"
-#include "mail-folder-cache.h"
 #include "em-utils.h"
 
 /* **************************************** */
@@ -354,9 +354,6 @@ mail_tool_uri_to_folder (const char *uri, guint32 flags, CamelException *ex)
 			folder = camel_store_get_folder (store, name, flags, ex);
 		camel_object_unref (store);
 	}
-	
-	if (folder)
-		mail_note_folder (folder);
 	
 	camel_url_free (url);
 	g_free(curi);

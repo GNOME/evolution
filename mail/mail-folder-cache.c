@@ -529,6 +529,14 @@ store_folder_created(CamelObject *o, void *event_data, void *data)
 }
 
 static void
+store_folder_opened(CamelObject *o, void *event_data, void *data)
+{
+	CamelFolder *folder = event_data;
+
+	mail_note_folder(folder);
+}
+
+static void
 store_folder_unsubscribed(CamelObject *o, void *event_data, void *data)
 {
 	struct _store_info *si;
@@ -721,6 +729,7 @@ mail_note_store_remove(CamelStore *store)
 	if (si) {
 		g_hash_table_remove(stores, store);
 
+		camel_object_unhook_event(store, "folder_opened", store_folder_opened, NULL);
 		camel_object_unhook_event(store, "folder_created", store_folder_created, NULL);
 		camel_object_unhook_event(store, "folder_deleted", store_folder_deleted, NULL);
 		camel_object_unhook_event(store, "folder_renamed", store_folder_renamed, NULL);
@@ -897,6 +906,7 @@ mail_note_store(CamelStore *store, CamelOperation *op,
 		g_hash_table_insert(stores, store, si);
 		e_dlist_init(&si->folderinfo_updates);
 
+		camel_object_hook_event(store, "folder_opened", store_folder_opened, NULL);
 		camel_object_hook_event(store, "folder_created", store_folder_created, NULL);
 		camel_object_hook_event(store, "folder_deleted", store_folder_deleted, NULL);
 		camel_object_hook_event(store, "folder_renamed", store_folder_renamed, NULL);

@@ -744,7 +744,6 @@ static void context_rule_added(RuleContext *ctx, FilterRule *rule)
 		g_hash_table_insert(vfolder_hash, g_strdup(rule->name), folder);
 		UNLOCK();
 
-		mail_note_folder(folder);
 		rule_changed(rule, folder);
 	}
 }

@@ -59,7 +59,6 @@
 #include "filter/filter-filter.h"
 
 #include "mail-mt.h"
-#include "mail-folder-cache.h"
 
 #include "em-utils.h"
 

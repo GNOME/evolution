@@ -187,10 +187,12 @@ mc_add_local_store_done(CamelStore *store, CamelFolderInfo *info, void *data)
 	/*MailComponent *mc = data;*/
 	int i;
 
+#if 0
 	for (i=0;i<sizeof(mc_default_folders)/sizeof(mc_default_folders[0]);i++) {
 		if (mc_default_folders[i].folder)
 			mail_note_folder(mc_default_folders[i].folder);
 	}
+#endif
 }
 
 static void

@@ -1,3 +1,17 @@
+2004-05-22  Not Zed  <NotZed@Ximian.com>
+
+	** Another unread count bug, #58814.
+
+	* mail-vfolder.c (context_rule_added):
+	* mail-tools.c (mail_tool_uri_to_folder):
+	* mail-component.c (mc_add_local_store_done): don't call mail note
+	folder anymore, fix up headers.
+
+	* mail-folder-cache.c (store_folder_opened)
+	(mail_note_store_remove, mail_note_store): handle the new
+	store:folder_opened signal.  Don't need the mail_note_folder hack
+	anymore, mail_tool_uri_to_folder slowly does less.
+
 2004-05-21  Not Zed  <NotZed@Ximian.com>
 
 	* mail-mt.c (do_call): add marshaller for p_ppppp call.
