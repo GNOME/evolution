@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* ETable widget - utilities for drawing table header buttons
  *
  * Copyright (C) 2000 Ximian, Inc.
@@ -288,6 +289,7 @@ e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 	if (ecol->is_pixbuf) {
 		int pwidth, pheight;
 		int clip_width, clip_height;
+		int xpos;
 		GdkPixmap *pixmap;
 
 		g_assert (ecol->pixbuf != NULL);
@@ -298,15 +300,34 @@ e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 		clip_width = MIN (pwidth, inner_width);
 		clip_height = MIN (pheight, inner_height);
 
+		xpos = inner_x;
+
+		if (inner_width - pwidth > 11) {
+			int rbearing;
+			int width;
+			int ypos;
+
+			gdk_string_extents (font, ecol->text, NULL, &rbearing, &width, NULL, NULL);
+			if (rbearing < inner_width - (pwidth + 1)) {
+				xpos = inner_x + (inner_width - width - (pwidth + 1)) / 2;
+			}
+
+			ypos = inner_y + (inner_height - font->ascent - font->descent) / 2 + font->ascent;
+
+			e_table_draw_elided_string (drawable, font, gc,
+						    xpos + pwidth + 1, ypos,
+						    ecol->text, inner_width - (xpos - inner_x), FALSE);
+		}
+
 		pixmap = make_composite_pixmap (drawable, gc,
 						ecol->pixbuf, &style->bg[state],
 						clip_width, clip_height,
-						inner_x,
+						xpos,
 						inner_y + (inner_height - clip_height) / 2);
 		if (pixmap) {
 			gdk_draw_pixmap (drawable, gc, pixmap,
 					 0, 0,
-					 inner_x,
+					 xpos,
 					 inner_y + (inner_height - clip_height) / 2,
 					 clip_width, clip_height);
 			gdk_pixmap_unref (pixmap);
