@@ -11,7 +11,9 @@ noinst_PROGRAMS =	\
 	evolution-addressbook
 
 evolution_addressbook_SOURCES = 	\
-	demo.c
+	demo.c				\
+	e-test-model.c			\
+	e-test-model.h
 
 evolution_addressbook_LDADD =				\
 	$(EXTRA_GNOME_LIBS)			\

@@ -21,6 +21,8 @@
 
 #include "table-test.h"
 
+#include "e-test-model.h"
+
 #define COLS 4
 
 /* Here we define the initial layout of the table.  This is an xml
@@ -47,302 +49,128 @@ char *headers[COLS] = {
   "Phone"
 };
 
-typedef struct _address address;
-typedef enum _rows rows;
+typedef struct _View View;
 
-struct _address {
-	gchar *email;
-	gchar *full_name;
-	gchar *street;
-	gchar *phone;
-};
-
-enum _rows {
-	EMAIL,
-	FULL_NAME,
-	STREET,
-	PHONE,
-	LAST_COL
-};
-
-/* Virtual Column list:
-   0   Email
-   1   Full Name
-   2   Street
-   3   Phone
-*/
-
-
-
-static address **data;
-static int data_count;
-static ETableModel *e_table_model = NULL;
-static GtkWidget *e_table;
-static int window_count = 0;
-
-/*
- * ETableSimple callbacks
- * These are the callbacks that define the behavior of our custom model.
- */
-
-/* Since our model is a constant size, we can just return its size in
-   the column and row count fields. */
-
-/* This function returns the number of columns in our ETableModel. */
-static int
-my_col_count (ETableModel *etc, void *data)
-{
-	return COLS;
-}
-
-/* This function returns the number of rows in our ETableModel. */
-static int
-my_row_count (ETableModel *etc, void *data)
-{
-	return data_count;
-}
-
-/* This function returns the value at a particular point in our ETableModel. */
-static void *
-my_value_at (ETableModel *etc, int col, int row, void *unused)
-{
-	if ( col >= LAST_COL || row >= data_count )
-		return NULL;
-	switch (col) {
-	case EMAIL:
-		return data[row]->email;
-	case FULL_NAME:
-		return data[row]->full_name;
-	case STREET:
-		return data[row]->street;
-	case PHONE:
-		return data[row]->phone;
-	default:
-		return NULL;
-	}
-}
-
-/* This function sets the value at a particular point in our ETableModel. */
-static void
-my_set_value_at (ETableModel *etc, int col, int row, const void *val, void *unused)
-{
-	if ( col >= LAST_COL || row >= data_count )
-		return;
-	switch (col) {
-	case EMAIL:
-		g_free (data[row]->email);
-		data[row]->email = g_strdup (val);	
-		break;
-	case FULL_NAME:
-		g_free (data[row]->full_name);
-		data[row]->full_name = g_strdup (val);	
-		break;
-	case STREET:
-		g_free (data[row]->street);
-		data[row]->street = g_strdup (val);	
-		break;
-	case PHONE:
-		g_free (data[row]->phone);
-		data[row]->phone = g_strdup (val);	
-		break;
-	default:
-		return;
-	}
-}
-
-/* This function returns whether a particular cell is editable. */
-static gboolean
-my_is_cell_editable (ETableModel *etc, int col, int row, void *data)
-{
-	return TRUE;
-}
-
-/* This function duplicates the value passed to it. */
-static void *
-my_duplicate_value (ETableModel *etc, int col, const void *value, void *data)
-{
-	return g_strdup(value);
-}
-
-/* This function frees the value passed to it. */
-static void
-my_free_value (ETableModel *etc, int col, void *value, void *data)
-{
-	g_free(value);
-}
-
-/* This function is for when the model is unfrozen.  This can mostly
-   be ignored for simple models.  */
-static void
-my_thaw (ETableModel *etc, void *data)
-{
-}
-
-static int idle;
-
-static gboolean
-save(gpointer unused)
-{
-	int i;
-	xmlDoc *document = xmlNewDoc("1.0");
-	xmlNode *root;
-	root = xmlNewDocNode(document, NULL, "address-book", NULL);
-	xmlDocSetRootElement(document, root);
-	for ( i = 0; i < data_count; i++ ) {
-		xmlNode *xml_address = xmlNewChild(root, NULL, "address", NULL);
-		if ( data[i]->email && *data[i]->email )
-			xmlSetProp(xml_address, "email", data[i]->email);
-		if ( data[i]->email && *data[i]->street )
-			xmlSetProp(xml_address, "street", data[i]->street);
-		if ( data[i]->email && *data[i]->full_name )
-			xmlSetProp(xml_address, "full-name", data[i]->full_name);
-		if ( data[i]->email && *data[i]->phone )
-			xmlSetProp(xml_address, "phone", data[i]->phone);
-	}
-	xmlSaveFile ("addressbook.xml", document);
-	idle = 0;
-	/*	e_table_save_specification(E_TABLE(e_table), "spec"); */
-	return FALSE;
-}
-
-static void
-queue_save()
-{
-	if ( !idle )
-		idle = g_idle_add(save, NULL);
-}
-
-static void
-add_column (ETableModel *etc, address *newadd)
-{
-	data = g_realloc(data, (++data_count) * sizeof(address *));
-	data[data_count - 1] = newadd;
-	queue_save();
-	if ( etc )
-		e_table_model_changed(etc);
-}
-
-
-static void
-init_data()
-{
-	data = NULL;
-	data_count = 0;
-}
-
-static void
-create_model()
-{
-	xmlDoc *document;
-	xmlNode *xml_addressbook;
-	xmlNode *xml_address;
-
-	/* First we fill in the simple data. */
-	init_data();
-	if ( g_file_exists("addressbook.xml") ) {
-		document = xmlParseFile("addressbook.xml");
-		xml_addressbook = xmlDocGetRootElement(document);
-		for (xml_address = xml_addressbook->childs; xml_address; xml_address = xml_address->next) {
-			char *datum;
-			address *newadd;
-
-			newadd = g_new(address, 1);
-
-			datum = xmlGetProp(xml_address, "email");
-			if ( datum ) {
-				newadd->email = g_strdup(datum);
-				xmlFree(datum);
-			} else
-				newadd->email = g_strdup("");
-
-			datum = xmlGetProp(xml_address, "street");
-			if ( datum ) {
-				newadd->street = g_strdup(datum);
-				xmlFree(datum);
-			} else
-				newadd->street = g_strdup("");
-
-			datum = xmlGetProp(xml_address, "full-name");
-			if ( datum ) {
-				newadd->full_name = g_strdup(datum);
-				xmlFree(datum);
-			} else
-				newadd->full_name = g_strdup("");
-
-			datum = xmlGetProp(xml_address, "phone");
-			if ( datum ) {
-				newadd->phone = g_strdup(datum);
-				xmlFree(datum);
-			} else
-				newadd->phone = g_strdup("");
-			add_column (NULL, newadd);
-		}
-		xmlFreeDoc(document);
-	}
-	
-	
-	e_table_model = e_table_simple_new (
-					    my_col_count, my_row_count, my_value_at,
-					    my_set_value_at, my_is_cell_editable,
-					    my_duplicate_value, my_free_value, my_thaw, NULL);
-	
-	gtk_signal_connect(GTK_OBJECT(e_table_model), "model_changed",
-			   GTK_SIGNAL_FUNC(queue_save), NULL);
-	gtk_signal_connect(GTK_OBJECT(e_table_model), "model_row_changed",
-			   GTK_SIGNAL_FUNC(queue_save), NULL);
-	gtk_signal_connect(GTK_OBJECT(e_table_model), "model_cell_changed",
-			   GTK_SIGNAL_FUNC(queue_save), NULL);
-}
-
-static void
-add_address_cb(GtkWidget *button, gpointer data)
-{
-	address *newadd = g_new(address, 1);
-	newadd->email = g_strdup("");
-	newadd->phone = g_strdup("");
-	newadd->full_name = g_strdup("");
-	newadd->street = g_strdup("");
-	add_column (e_table_model, newadd);
-}
+typedef enum {
+	VIEW_TYPE_REFLOW,
+	VIEW_TYPE_TABLE
+} ViewType;
 
 typedef struct {
 	GtkAllocation last_alloc;
 	GnomeCanvasItem *reflow;
 	GtkWidget *canvas;
 	GnomeCanvasItem *rect;
-} reflow_demo;
+	int model_changed_id;
+} Reflow;
+
+struct _View {
+	ETestModel *model;
+	GtkWidget *window;
+	GtkWidget *frame;
+	GtkWidget *child;
+
+	ViewType type;
+
+	Reflow *reflow;
+};
+
+static int window_count = 0;
+static GHashTable *models = NULL;
+
+static void
+remove_model(ETableModel *model, gchar *filename)
+{
+	g_hash_table_remove(models, filename);
+	g_free(filename);
+}
+
+static ETestModel *
+get_model(char *filename)
+{
+	ETestModel *model;
+	if ( models == NULL ) {
+		models = g_hash_table_new(g_str_hash, g_str_equal);
+	}
+
+	model = g_hash_table_lookup(models, filename);
+	if ( model )
+		return model;
+
+	filename = g_strdup(filename);
+	
+	model = E_TEST_MODEL(e_test_model_new(filename));
+	g_hash_table_insert(models,
+			    filename, model);
+	gtk_signal_connect(GTK_OBJECT(model), "destroy",
+			   GTK_SIGNAL_FUNC(remove_model), filename);
+	return model;
+}
+
+static void
+add_address_cb(GtkWidget *button, gpointer data)
+{
+	View *view = (View *) data;
+	Address *newadd = g_new(Address, 1);
+	newadd->email = g_strdup("");
+	newadd->phone = g_strdup("");
+	newadd->full_name = g_strdup("");
+	newadd->street = g_strdup("");
+	e_test_model_add_column (view->model, newadd);
+}
 
 static void
 rebuild_reflow(ETableModel *model, gpointer data)
 {
 	int i;
-	reflow_demo *demo = (reflow_demo *)data;
-	gtk_object_destroy(GTK_OBJECT(demo->reflow));
-	demo->reflow = gnome_canvas_item_new( gnome_canvas_root( GNOME_CANVAS( demo->canvas ) ),
+	View *view = (View *) data;
+	Reflow *reflow = view->reflow;
+	if (!reflow)
+		return;
+	gtk_object_destroy(GTK_OBJECT(reflow->reflow));
+	reflow->reflow = gnome_canvas_item_new( gnome_canvas_root( GNOME_CANVAS( reflow->canvas ) ),
 					      e_reflow_get_type(),
 					      "x", (double) 0,
 					      "y", (double) 0,
-					      "height", (double) 100,
-					      "minimum_width", (double) 100,
+					      "height", (double) reflow->last_alloc.height,
+					      "minimum_width", (double) reflow->last_alloc.width,
 					      NULL );
 
-	for ( i = 0; i < data_count; i++ )
+	for ( i = 0; i < view->model->data_count; i++ )
 		{
 			GnomeCanvasItem *item;
-			item = gnome_canvas_item_new( GNOME_CANVAS_GROUP(demo->reflow),
+			item = gnome_canvas_item_new( GNOME_CANVAS_GROUP(reflow->reflow),
 						      e_minicard_get_type(),
-						      "model", e_table_model,
+						      "model", view->model,
 						      "row", i,
 						      NULL);
-			e_reflow_add_item(E_REFLOW(demo->reflow), item);
+			e_reflow_add_item(E_REFLOW(reflow->reflow), item);
 		}
-	e_canvas_item_request_reflow(demo->reflow);
+	e_canvas_item_request_reflow(reflow->reflow);
+}
+
+static void
+destroy_reflow(View *view)
+{
+	Reflow *reflow = view->reflow;
+	if ( !reflow )
+		return;
+
+	gtk_signal_disconnect(GTK_OBJECT(view->model),
+			      reflow->model_changed_id);
+	g_free(reflow);
+	gtk_object_unref(GTK_OBJECT(view->model));
+	view->reflow = NULL;
 }
 
 static void destroy_callback(GtkWidget *app, gpointer data)
 {
-	reflow_demo *demo = (reflow_demo *)data;
-	g_free(demo);
+	View *view = (View *)data;
+	if ( view->reflow ) {
+		destroy_reflow(view);
+	}
+	gtk_object_unref(GTK_OBJECT(view->model));
+	g_free(view);
 	window_count --;
 	if ( window_count <= 0 )
 		exit(0);
@@ -350,69 +178,64 @@ static void destroy_callback(GtkWidget *app, gpointer data)
 
 static void allocate_callback(GtkWidget *canvas, GtkAllocation *allocation, gpointer data)
 {
-  double width;
-  reflow_demo *demo = (reflow_demo *)data;
-  demo->last_alloc = *allocation;
-  gnome_canvas_item_set( demo->reflow,
-			 "height", (double) allocation->height,
-			 NULL );
-  gnome_canvas_item_set( demo->reflow,
-			 "minimum_width", (double) allocation->width,
-			 NULL );
-  gtk_object_get(GTK_OBJECT(demo->reflow),
-		 "width", &width,
-		 NULL);
-  width = MAX(width, allocation->width);
-  gnome_canvas_set_scroll_region(GNOME_CANVAS( demo->canvas ), 0, 0, width, allocation->height );
-  gnome_canvas_item_set( demo->rect,
-			 "x2", (double) width,
-			 "y2", (double) allocation->height,
-			 NULL );
+	double width;
+	View *view = (View *)data;
+	Reflow *reflow = view->reflow;
+	if ( !reflow )
+		return;
+	reflow->last_alloc = *allocation;
+	gnome_canvas_item_set( reflow->reflow,
+			       "height", (double) allocation->height,
+			       NULL );
+	gnome_canvas_item_set( reflow->reflow,
+			       "minimum_width", (double) allocation->width,
+			       NULL );
+	gtk_object_get(GTK_OBJECT(reflow->reflow),
+		       "width", &width,
+		       NULL);
+	width = MAX(width, allocation->width);
+	gnome_canvas_set_scroll_region(GNOME_CANVAS( reflow->canvas ), 0, 0, width, allocation->height );
+	gnome_canvas_item_set( reflow->rect,
+			       "x2", (double) width,
+			       "y2", (double) allocation->height,
+			       NULL );
 }
 
 static void resize(ECanvas *canvas, gpointer data)
 {
 	double width;
-	reflow_demo *demo = (reflow_demo *)data;
-  	gtk_object_get(GTK_OBJECT(demo->reflow),
+	View *view = (View *)data;
+	Reflow *reflow = view->reflow;
+	if ( !reflow )
+		return;
+  	gtk_object_get(GTK_OBJECT(reflow->reflow),
 		       "width", &width,
 		       NULL);
-	width = MAX(width, demo->last_alloc.width);
-	gnome_canvas_set_scroll_region(GNOME_CANVAS(demo->canvas), 0, 0, width, demo->last_alloc.height );
-	gnome_canvas_item_set( demo->rect,
+	width = MAX(width, reflow->last_alloc.width);
+	gnome_canvas_set_scroll_region(GNOME_CANVAS(reflow->canvas), 0, 0, width, reflow->last_alloc.height );
+	gnome_canvas_item_set( reflow->rect,
 			       "x2", (double) width,
-			       "y2", (double) demo->last_alloc.height,
+			       "y2", (double) reflow->last_alloc.height,
 			       NULL );	
 }
 
-static void
-create_reflow()
+static GtkWidget *
+create_reflow(View *view)
 {
-	GtkWidget *window, *frame;
-	GtkWidget *button;
-	GtkWidget *vbox;
 	GtkWidget *inner_vbox;
 	GtkWidget *scrollbar;
 	int i;
-	reflow_demo *demo = g_new(reflow_demo, 1);
+	Reflow *reflow = g_new(Reflow, 1);
+	view->reflow = reflow;
+
+	view->type = VIEW_TYPE_REFLOW;
 
 	/* Next we create our model.  This uses the functions we defined
 	   earlier. */
-	if ( e_table_model == NULL )
-		create_model();
 
-	/* Here we create a window for our new table.  This window
-	   will get shown and the person will be able to test their
-	   item. */
-	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-	/* This frame is simply to get a bevel around our table. */
-	frame = gtk_frame_new (NULL);
-	/* Here we create the table.  We give it the three pieces of
-	   the table we've created, the header, the model, and the
-	   initial layout.  It does the rest.  */
 	inner_vbox = gtk_vbox_new(FALSE, 0);
-	demo->canvas = e_canvas_new();
-	demo->rect = gnome_canvas_item_new( gnome_canvas_root( GNOME_CANVAS( demo->canvas ) ),
+	reflow->canvas = e_canvas_new();
+	reflow->rect = gnome_canvas_item_new( gnome_canvas_root( GNOME_CANVAS( reflow->canvas ) ),
 					    gnome_canvas_rect_get_type(),
 					    "x1", (double) 0,
 					    "y1", (double) 0,
@@ -420,90 +243,63 @@ create_reflow()
 					    "y2", (double) 100,
 					    "fill_color", "white",
 					    NULL );
-	demo->reflow = gnome_canvas_item_new( gnome_canvas_root( GNOME_CANVAS( demo->canvas ) ),
+	reflow->reflow = gnome_canvas_item_new( gnome_canvas_root( GNOME_CANVAS( reflow->canvas ) ),
 					      e_reflow_get_type(),
 					      "x", (double) 0,
 					      "y", (double) 0,
 					      "height", (double) 100,
 					      "minimum_width", (double) 100,
 					      NULL );
-	
-	gtk_signal_connect( GTK_OBJECT( demo->canvas ), "reflow",
+	/* Connect the signals */
+	gtk_signal_connect( GTK_OBJECT( reflow->canvas ), "reflow",
 			    GTK_SIGNAL_FUNC( resize ),
-			    ( gpointer ) demo);
+			    ( gpointer ) view);
 	
-	for ( i = 0; i < data_count; i++ )
+	for ( i = 0; i < view->model->data_count; i++ )
 		{
 			GnomeCanvasItem *item;
-			item = gnome_canvas_item_new( GNOME_CANVAS_GROUP(demo->reflow),
+			item = gnome_canvas_item_new( GNOME_CANVAS_GROUP(reflow->reflow),
 						      e_minicard_get_type(),
-						      "model", e_table_model,
+						      "model", view->model,
 						      "row", i,
 						      NULL);
-			e_reflow_add_item(E_REFLOW(demo->reflow), item);
+			e_reflow_add_item(E_REFLOW(reflow->reflow), item);
 		}
-	gnome_canvas_set_scroll_region ( GNOME_CANVAS( demo->canvas ),
+	gnome_canvas_set_scroll_region ( GNOME_CANVAS( reflow->canvas ),
 					 0, 0,
 					 100, 100 );
 
-	scrollbar = gtk_hscrollbar_new(gtk_layout_get_hadjustment(GTK_LAYOUT(demo->canvas)));
+	scrollbar = gtk_hscrollbar_new(gtk_layout_get_hadjustment(GTK_LAYOUT(reflow->canvas)));
 
-	/* Connect the signals */
-	gtk_signal_connect( GTK_OBJECT( window ), "destroy",
-			    GTK_SIGNAL_FUNC( destroy_callback ),
-			    ( gpointer ) demo );
-
-	gtk_signal_connect( GTK_OBJECT( demo->canvas ), "size_allocate",
+	gtk_signal_connect( GTK_OBJECT( reflow->canvas ), "size_allocate",
 			    GTK_SIGNAL_FUNC( allocate_callback ),
-			    ( gpointer ) demo );
+			    ( gpointer ) view );
 
-	gdk_window_set_back_pixmap( GTK_LAYOUT(demo->canvas)->bin_window, NULL, FALSE);
+	gdk_window_set_back_pixmap( GTK_LAYOUT(reflow->canvas)->bin_window, NULL, FALSE);
 	
-	vbox = gtk_vbox_new(FALSE, 0);
-	
-	button = gtk_button_new_with_label("Add address");
-	gtk_signal_connect(GTK_OBJECT(button), "clicked",
-			   GTK_SIGNAL_FUNC(add_address_cb), demo);
+	reflow->model_changed_id = gtk_signal_connect(GTK_OBJECT( view->model ), "model_changed",
+						      GTK_SIGNAL_FUNC(rebuild_reflow), view);
 
-	gtk_signal_connect(GTK_OBJECT( e_table_model), "model_changed",
-			   GTK_SIGNAL_FUNC(rebuild_reflow), demo);
+	gtk_object_ref(GTK_OBJECT(view->model));
 
 	/* Build the gtk widget hierarchy. */
-	gtk_box_pack_start(GTK_BOX(inner_vbox), demo->canvas, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(inner_vbox), reflow->canvas, TRUE, TRUE, 0);
 	gtk_box_pack_start(GTK_BOX(inner_vbox), scrollbar, FALSE, FALSE, 0);
-	gtk_container_add (GTK_CONTAINER (frame), inner_vbox);
-	gtk_box_pack_start (GTK_BOX (vbox), frame, TRUE, TRUE, 0);
-	gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, FALSE, 0);
-	gtk_container_add (GTK_CONTAINER (window), vbox);
 
-	/* Size the initial window. */
-	gtk_widget_set_usize (window, 200, 200);
-	/* Show it all. */
-	gtk_widget_show_all (window);
-	window_count ++;
-}
-
-static void e_table_destroy_callback(GtkWidget *app, gpointer data)
-{
-	window_count --;
-	if ( window_count <= 0 )
-		exit(0);
+	return inner_vbox;
 }
 
 /* We create a window containing our new table. */
-static void
-create_table()
+static GtkWidget *
+create_table(View *view)
 {
-	GtkWidget *window, *frame;
 	ECell *cell_left_just;
 	ETableHeader *e_table_header;
-	GtkWidget *button;
-	GtkWidget *vbox;
+	GtkWidget *e_table;
 	int i;
-	/* Next we create our model.  This uses the functions we defined
-	   earlier. */
-	if ( e_table_model == NULL )
-		create_model();
+
+	view->type = VIEW_TYPE_TABLE;
+
 	/*
 	  Next we create a header.  The ETableHeader is used in two
 	  different way.  The first is the full_header.  This is the
@@ -520,12 +316,12 @@ create_table()
 	   the same renderer over and over again.  If we had different
 	   types of columns, we could use a different renderer for
 	   each column. */
-	cell_left_just = e_cell_text_new (e_table_model, NULL, GTK_JUSTIFY_LEFT, TRUE);
+	cell_left_just = e_cell_text_new (E_TABLE_MODEL(view->model), NULL, GTK_JUSTIFY_LEFT, TRUE);
 		
 	/* Next we create a column object for each view column and add
 	   them to the header.  We don't create a column object for
 	   the importance column since it will not be shown. */
-	for (i = 0; i < COLS; i++){
+	for (i = 0; i < LAST_COL; i++){
 		/* Create the column. */
 		ETableCol *ecol = e_table_col_new (
 						   i, headers [i],
@@ -535,46 +331,112 @@ create_table()
 		e_table_header_add_column (e_table_header, ecol, i);
 	}
 
-	/* Here we create a window for our new table.  This window
-	   will get shown and the person will be able to test their
-	   item. */
-	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-	/* This frame is simply to get a bevel around our table. */
-	frame = gtk_frame_new (NULL);
 	/* Here we create the table.  We give it the three pieces of
 	   the table we've created, the header, the model, and the
 	   initial layout.  It does the rest.  */
-	e_table = e_table_new_from_spec_file (e_table_header, e_table_model, "spec");
+	e_table = e_table_new_from_spec_file (e_table_header, E_TABLE_MODEL(view->model), "spec");
 
+#if 0
 	gtk_signal_connect(GTK_OBJECT(E_TABLE(e_table)->sort_info), "sort_info_changed",
-			   GTK_SIGNAL_FUNC(queue_save), NULL);
+			   GTK_SIGNAL_FUNC(queue_header_save), e_table->sort_info);
 
 	gtk_signal_connect(GTK_OBJECT(E_TABLE(e_table)->header), "structure_change",
-			   GTK_SIGNAL_FUNC(queue_save), NULL);
+			   GTK_SIGNAL_FUNC(queue_header_save), e_table->sort_info);
 	gtk_signal_connect(GTK_OBJECT(E_TABLE(e_table)->header), "dimension_change",
-			   GTK_SIGNAL_FUNC(queue_save), NULL);
+			   GTK_SIGNAL_FUNC(queue_header_save), e_table->sort_info);
+#endif
 
-	gtk_signal_connect( GTK_OBJECT( window ), "destroy",
-			    GTK_SIGNAL_FUNC( e_table_destroy_callback ),
-			    NULL );
+	return e_table;
+}
+
+static void
+change_type(View *view, ViewType type)
+{
+	gtk_object_ref(GTK_OBJECT(view->model));
+	if (view->reflow)
+		destroy_reflow(view);
+	gtk_widget_destroy(view->child);
+	switch(type) {
+	case VIEW_TYPE_REFLOW:
+		view->child = create_reflow(view);
+		break;
+	case VIEW_TYPE_TABLE:
+		view->child = create_table(view);
+		break;
+	}
+	gtk_container_add(GTK_CONTAINER(view->frame), view->child);
+	gtk_widget_show_all(view->child);
+	gtk_object_unref(GTK_OBJECT(view->model));
+}
+
+static void
+change_callback(GtkWidget *button, View *view)
+{
+	if (view->type == VIEW_TYPE_REFLOW)
+		change_type(view, VIEW_TYPE_TABLE);
+	else
+		change_type(view, VIEW_TYPE_REFLOW);
+}
+
+static GtkWidget *
+create_window(char *filename, ViewType type)
+{
+	GtkWidget *button;
+	GtkWidget *change_button;
+	GtkWidget *vbox;
+	View *view = g_new(View, 1);
+
+	view->reflow = NULL;
+
+	view->model = get_model(filename);
+
+	/* Here we create a window for our new table.  This window
+	   will get shown and the person will be able to test their
+	   item. */
+	view->window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+
+	gtk_signal_connect( GTK_OBJECT( view->window ), "destroy",
+			    GTK_SIGNAL_FUNC( destroy_callback ),
+			    view );
+
+	/* This frame is simply to get a bevel around our table. */
+	view->frame = gtk_frame_new (NULL);
+
+	switch(type) {
+	case VIEW_TYPE_REFLOW:
+		view->child = create_reflow(view);
+		break;
+	case VIEW_TYPE_TABLE:
+		view->child = create_table(view);
+		break;
+	}
+
 
 	vbox = gtk_vbox_new(FALSE, 0);
 	
 	button = gtk_button_new_with_label("Add address");
 	gtk_signal_connect(GTK_OBJECT(button), "clicked",
-			   GTK_SIGNAL_FUNC(add_address_cb), NULL);
+			   GTK_SIGNAL_FUNC(add_address_cb), view);
+
+	change_button = gtk_button_new_with_label("Change View");
+	gtk_signal_connect(GTK_OBJECT(change_button), "clicked",
+			   GTK_SIGNAL_FUNC(change_callback), view);
 
 	/* Build the gtk widget hierarchy. */
-	gtk_container_add (GTK_CONTAINER (frame), e_table);
-	gtk_box_pack_start (GTK_BOX (vbox), frame, TRUE, TRUE, 0);
+
+	gtk_container_add (GTK_CONTAINER (view->frame), view->child);
+	gtk_box_pack_start (GTK_BOX (vbox), view->frame, TRUE, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, FALSE, 0);
-	gtk_container_add (GTK_CONTAINER (window), vbox);
+	gtk_box_pack_start (GTK_BOX (vbox), change_button, FALSE, FALSE, 0);
+	gtk_container_add (GTK_CONTAINER (view->window), vbox);
 
 	/* Size the initial window. */
-	gtk_widget_set_usize (window, 200, 200);
+	gtk_widget_set_usize (view->window, 200, 200);
 	/* Show it all. */
-	gtk_widget_show_all (window);
+	gtk_widget_show_all (view->window);
+	gtk_object_sink(GTK_OBJECT(view->model));
 	window_count ++;
+	return view->window;
 }
 
 /* This is the main function which just initializes gnome and call our create_table function */
@@ -588,21 +450,16 @@ main (int argc, char *argv [])
 	gtk_widget_push_visual (gdk_rgb_get_visual ());
 	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
 
-	create_table();
-	create_table();
-	create_table();
-	create_reflow();
-	create_reflow();
+	create_window("addressbook.xml", VIEW_TYPE_TABLE);
+	create_window("addressbook.xml", VIEW_TYPE_TABLE);
+	create_window("addressbook.xml", VIEW_TYPE_TABLE);
+	create_window("addressbook.xml", VIEW_TYPE_REFLOW);
+	create_window("addressbook.xml", VIEW_TYPE_REFLOW);
+	create_window("addressbook2.xml", VIEW_TYPE_TABLE);
+	create_window("addressbook2.xml", VIEW_TYPE_REFLOW);
 
 	gtk_main ();
 
 	e_cursors_shutdown ();
 	return 0;
 }
-
-
-
-
-
-
-

@@ -1,3 +1,18 @@
+2000-03-12  Christopher James Lahey  <clahey@helixcode.com>
+
+	* widgets/e-text/.cvsignore: Added e-text-test.
+
+	* addressbook/demo/e-test-model.c,
+	addressbook/demo/e-test-model.h: A model storing data in an array
+	of Address objects.
+
+	* addressbook/demo/demo.c: Changed to use
+	addressbook/demo/e-test-model.c and
+	addressbook/demo/e-test-model.h.
+
+	* addressbook/demo/Makefile.am: Added e-test-model.c and
+	e-test-model.h.
+
 2000-03-12  bertrand  <bertrand@helixcode.com>
 
 	* shell/evolution-service-repository.c: 
