@@ -1254,6 +1254,9 @@ cal_client_get_organizer_must_attend (CalClient *client)
 gboolean
 cal_client_get_static_capability (CalClient *client, const char *cap)
 {
+	g_return_val_if_fail (client != NULL, FALSE);
+	g_return_val_if_fail (IS_CAL_CLIENT (client), FALSE);
+
 	return check_capability (client, cap);
 }
 
