@@ -91,6 +91,8 @@ typedef struct {
 
 static GHashTable *elm_prefs = NULL;
 
+void mail_importer_module_init (void);
+
 static void import_next (ElmImporter *importer);
 
 static GtkWidget *
@@ -154,9 +156,7 @@ importer_cb (EvolutionImporterListener *listener,
 	     void *data)
 {
 	ElmImporter *importer = (ElmImporter *) data;
-	CORBA_Object objref;
-	CORBA_Environment ev;
-
+	
 	if (more_items) {
 		g_assert(importer->import_id == 0);
 		importer->progress_count++;
@@ -292,7 +292,7 @@ elm_can_import (EvolutionIntelligentImporter *ii,
 	char *elmdir, *maildir, *aliasfile;
 	char *elmrc;
 	gboolean exists, mailexists, aliasexists;
-	gboolean mail, alias;
+	gboolean mail;
 	struct stat st;
 	GConfClient *gconf = gconf_client_get_default();
 
@@ -446,7 +446,6 @@ static void
 elm_create_structure (EvolutionIntelligentImporter *ii,
 		      void *closure)
 {
-	CORBA_Environment ev;
 	ElmImporter *importer = closure;
 	char *maildir;
 
@@ -496,8 +495,6 @@ elm_create_structure (EvolutionIntelligentImporter *ii,
 static void
 elm_destroy_cb (ElmImporter *importer, GtkObject *object)
 {
-	CORBA_Environment ev;
-
 	elm_store_settings (importer);
 
 	if (importer->dialog)

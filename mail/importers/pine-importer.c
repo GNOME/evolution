@@ -101,6 +101,8 @@ typedef struct {
 	gboolean folder;
 } PineFolder;
 
+void mail_importer_module_init (void);
+
 static void import_next (PineImporter *importer);
 
 static GtkWidget *
@@ -137,41 +139,6 @@ pine_restore_settings (PineImporter *importer)
 
 	importer->do_mail = gconf_client_get_bool (gconf, "/apps/evolution/importer/pine/mail", NULL);
 	importer->do_address = gconf_client_get_bool (gconf, "/apps/evolution/importer/pine/address", NULL);
-}
-
-/* A very basic address spliter.
-   Returns the first email address
-   denoted by <address> */
-static char *
-parse_address (const char *address)
-{
-	char *addr_dup, *result, *start, *end;
-
-	if (address == NULL) {
-		return NULL;
-	}
-
-	addr_dup = g_strdup (address);
-	start = strchr (addr_dup, '<');
-	if (start == NULL) {
-		/* Whole line is an address */
-		return addr_dup;
-	}
-
-	start += 1;
-	end = strchr (start, '>');
-	if (end == NULL) {
-		result = g_strdup (start);
-		g_free (addr_dup);
-
-		return result;
-	}
-
-	*end = 0;
-	result = strdup (start);
-	g_free (addr_dup);
-
-	return result;
 }
 
 static void
@@ -325,9 +292,7 @@ importer_cb (EvolutionImporterListener *listener,
 	     void *data)
 {
 	PineImporter *importer = (PineImporter *) data;
-	CORBA_Object objref;
-	CORBA_Environment ev;
-
+	
 	if (result == EVOLUTION_IMPORTER_NOT_READY ||
 	    result == EVOLUTION_IMPORTER_BUSY) {
 		importer->more = more_items;
@@ -396,11 +361,9 @@ pine_can_import (EvolutionIntelligentImporter *ii,
 {
 	PineImporter *importer = closure;
 	char *maildir, *addrfile;
-	gboolean mail;
 	gboolean md_exists = FALSE, addr_exists = FALSE;
 	struct stat st;
-	GConfClient *gconf = gconf_client_get_default();
-
+	
 	maildir = g_build_filename(g_get_home_dir(), "mail", NULL);
 	md_exists = lstat(maildir, &st) == 0 && S_ISDIR(st.st_mode);
 	importer->do_mail = md_exists;
@@ -542,7 +505,6 @@ static void
 pine_create_structure (EvolutionIntelligentImporter *ii,
 		       void *closure)
 {
-	CORBA_Environment ev;
 	PineImporter *importer = closure;
 	char *maildir;
 	GConfClient *gconf = gconf_client_get_default ();
@@ -593,8 +555,6 @@ pine_create_structure (EvolutionIntelligentImporter *ii,
 static void
 pine_destroy_cb (PineImporter *importer, GtkObject *object)
 {
-	CORBA_Environment ev;
-
 	pine_store_settings (importer);
 
 	if (importer->dialog)

@@ -1,3 +1,16 @@
+2003-02-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* importers/netscape-importer.c: Removed unused variables.
+
+	* importers/pine-importer.c: Removed unused variables.
+	(parse_address): Removed - it's unused and we have CamelAddress
+	available to us anyway.
+
+	* importers/elm-importer.c: Removed unused variables.
+
+	* importers/evolution-mbox-importer.c (load_file_fn): Removed an
+	unused variable.
+
 2003-02-11  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-account-editor.c (construct): Use

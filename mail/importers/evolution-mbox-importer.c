@@ -331,7 +331,7 @@ load_file_fn (EvolutionImporter *eimporter,
 	if (folderpath == NULL || *folderpath == '\0') {
 		importer->folder = mail_tool_get_local_inbox (NULL);
 	} else {
-		char *parent, *tmp, *fullpath, *homedir;
+		char *parent, *fullpath, *homedir;
 		const char *name;
 		BonoboListener *listener;
 		CamelException *ex;

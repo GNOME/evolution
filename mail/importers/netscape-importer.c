@@ -197,10 +197,11 @@ typedef struct {
 
 
 /* Prototypes ------------------------------------------------------------- */
+void mail_importer_module_init (void);
+
 static void  netscape_filter_cleanup (NsFilter *nsf);
 static char *fix_netscape_folder_names (const char *original_name);
 static void  import_next (NsImporter *importer);
-
 
 
 /* Email filter stuff ----------------------------------------------------- */
@@ -1754,9 +1755,7 @@ importer_cb (EvolutionImporterListener *listener,
 	     void *data)
 {
 	NsImporter *importer = (NsImporter *) data;
-	CORBA_Object objref;
-	CORBA_Environment ev;
-
+	
 	if (result == EVOLUTION_IMPORTER_NOT_READY ||
 	    result == EVOLUTION_IMPORTER_BUSY) {
 		g_timeout_add (1000, importer_timeout_fn, data);
@@ -1978,7 +1977,6 @@ static void
 netscape_create_structure (EvolutionIntelligentImporter *ii,
 			   void *closure)
 {
-	CORBA_Environment ev;
 	NsImporter *importer = closure;
 	GConfClient *gconf = gconf_client_get_default();
 
@@ -2053,8 +2051,6 @@ netscape_create_structure (EvolutionIntelligentImporter *ii,
 static void
 netscape_destroy_cb (NsImporter *importer, GObject *object)
 {
-	CORBA_Environment ev;
-
 	netscape_store_settings (importer);
 
 	if (importer->importer != CORBA_OBJECT_NIL) {
