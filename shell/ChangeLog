@@ -1,3 +1,7 @@
+2003-09-30  Ismael Olea <ismael@olea.org>
+
+	* e-shell-about-box.c: fixed encoding for Spanish translators.
+
 2003-09-23  Charles Zhang  <charles.zhang@sun.com>
 
 	* e-shell-startup-wizard.c (e_shell_startup_wizard_create): connect
