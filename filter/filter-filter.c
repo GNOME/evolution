@@ -42,6 +42,7 @@
 static int validate(FilterRule *);
 static xmlNodePtr xml_encode (FilterRule *);
 static int xml_decode (FilterRule *, xmlNodePtr, struct _RuleContext *f);
+static void rule_copy (FilterRule *dest, FilterRule *src);
 /*static void build_code(FilterRule *, GString *out);*/
 static GtkWidget *get_widget (FilterRule *fr, struct _RuleContext *f);
 
@@ -100,6 +101,7 @@ filter_filter_class_init (FilterFilterClass *class)
 	filter_rule->xml_encode = xml_encode;
 	filter_rule->xml_decode = xml_decode;
 	/*filter_rule->build_code = build_code;*/
+	filter_rule->copy = rule_copy;
 	filter_rule->get_widget = get_widget;
 	
 	/* signals */
@@ -267,6 +269,33 @@ xml_decode (FilterRule *fr, xmlNodePtr node, struct _RuleContext *f)
 	}
 	
 	return 0;
+}
+
+static void
+rule_copy (FilterRule *dest, FilterRule *src)
+{
+	FilterFilter *fdest, *fsrc;
+	GList *node;
+	
+	fdest = (FilterFilter *) dest;
+	fsrc = (FilterFilter *) src;
+	
+	if (fdest->actions) {
+		g_list_foreach (fdest->actions, (GFunc) gtk_object_unref, NULL);
+		g_list_free (fdest->actions);
+		fdest->actions = NULL;
+	}
+	
+	node = fsrc->actions;
+	while (node) {
+		FilterPart *part = node->data;
+		
+		gtk_object_ref (GTK_OBJECT (part));
+		fdest->actions = g_list_append (fdest->actions, part);
+		node = node->next;
+	}
+	
+	((FilterRuleClass *)(parent_class))->copy (dest, src);
 }
 
 /*static void build_code(FilterRule *fr, GString *out)

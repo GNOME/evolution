@@ -65,6 +65,8 @@ struct _FilterRuleClass {
 	int (*xml_decode)(FilterRule *, xmlNodePtr, struct _RuleContext *);
 	
 	void (*build_code)(FilterRule *, GString *out);
+
+	void (*copy)(FilterRule *dest, FilterRule *src);
 	
 	GtkWidget *(*get_widget)(FilterRule *fr, struct _RuleContext *f);
 	
@@ -74,7 +76,7 @@ struct _FilterRuleClass {
 guint		filter_rule_get_type	(void);
 FilterRule	*filter_rule_new	(void);
 
-FilterRule 	*filter_rule_clone	(FilterRule *base, struct _RuleContext *f);
+FilterRule 	*filter_rule_clone	(FilterRule *base);
 
 /* methods */
 void		filter_rule_set_name	(FilterRule *fr, const char *name);
@@ -84,6 +86,8 @@ int		filter_rule_validate	(FilterRule *fr);
 
 xmlNodePtr	filter_rule_xml_encode	(FilterRule *fr);
 int		filter_rule_xml_decode	(FilterRule *fr, xmlNodePtr node, struct _RuleContext *f);
+
+void            filter_rule_copy        (FilterRule *dest, FilterRule *src);
 
 void		filter_rule_add_part	(FilterRule *fr, FilterPart *fp);
 void		filter_rule_remove_part	(FilterRule *fr, FilterPart *fp);

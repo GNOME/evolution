@@ -1,3 +1,21 @@
+2001-09-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* rule-editor.c (rule_edit): Clone the current rule before editing
+	it so that changes can be undone.
+	(edit_editor_clicked): If the user hit OK, replace the original
+	rule with the new one.
+
+	* vfolder-rule.c (vfolder_rule_finalise): Free the sources list.
+	(rule_copy): Implemented.
+
+	* filter-filter.c (rule_copy): Implemented.
+
+	* filter-rule.c (filter_rule_copy): New convenience function to
+	copy one rule "into" another.
+	(rule_copy): Default implementation.
+	(filter_rule_clone): Use filter_rule_copy() internally to get rid
+	of the nastiness/slowness of xml encoding and then decoding.
+
 2001-09-12    <NotZed@Ximian.com>
 
 	* vfoldertypes.xml: Remove the match-all from the not

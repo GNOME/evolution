@@ -42,6 +42,7 @@ static int validate(FilterRule *);
 static xmlNodePtr xml_encode (FilterRule *);
 static int xml_decode (FilterRule *, xmlNodePtr, RuleContext *);
 static void build_code (FilterRule *, GString * out);
+static void rule_copy  (FilterRule *dest, FilterRule *src);
 static GtkWidget *get_widget (FilterRule * fr, struct _RuleContext *f);
 
 static void filter_rule_class_init (FilterRuleClass * class);
@@ -98,6 +99,7 @@ filter_rule_class_init (FilterRuleClass * class)
 	class->xml_encode = xml_encode;
 	class->xml_decode = xml_decode;
 	class->build_code = build_code;
+	class->copy = rule_copy;
 	class->get_widget = get_widget;
 	
 	/* signals */
@@ -142,19 +144,14 @@ filter_rule_new ()
 }
 
 FilterRule *
-filter_rule_clone(FilterRule *base, RuleContext *f)
+filter_rule_clone (FilterRule *base)
 {
-	xmlNodePtr xml;
 	FilterRule *rule;
 	
 	g_assert (IS_FILTER_RULE (base));
-	g_assert (IS_RULE_CONTEXT (f));
 	
-	/* TODO: do this more directly/efficiently */
-	xml = filter_rule_xml_encode (base);
 	rule = gtk_type_new (GTK_OBJECT (base)->klass->type);
-	filter_rule_xml_decode (rule, xml, f);
-	xmlFreeNodeList (xml);
+	filter_rule_copy (rule, base);
 	
 	return rule;
 }
@@ -338,6 +335,44 @@ xml_decode (FilterRule *fr, xmlNodePtr node, RuleContext *f)
 	}
 	
 	return 0;
+}
+
+static void
+rule_copy (FilterRule *dest, FilterRule *src)
+{
+	GList *node;
+	
+	g_free (dest->name);
+	dest->name = g_strdup (src->name);
+	
+	g_free (dest->source);
+	dest->source = g_strdup (src->source);
+	
+	dest->grouping = src->grouping;
+	
+	if (dest->parts) {
+		g_list_foreach (dest->parts, (GFunc) gtk_object_unref, NULL);
+		g_list_free (dest->parts);
+		dest->parts = NULL;
+	}
+	
+	node = src->parts;
+	while (node) {
+		FilterPart *part = node->data;
+		
+		gtk_object_ref (GTK_OBJECT (part));
+		dest->parts = g_list_append (dest->parts, part);
+		node = node->next;
+	}
+}
+
+void
+filter_rule_copy (FilterRule *dest, FilterRule *src)
+{
+	g_assert (IS_FILTER_RULE (dest));
+	g_assert (IS_FILTER_RULE (src));
+	
+	((FilterRuleClass *) ((GtkObject *) dest)->klass)->copy (dest, src);
 }
 
 void

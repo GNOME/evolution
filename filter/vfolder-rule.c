@@ -42,6 +42,7 @@
 static gint validate(FilterRule *);
 static xmlNodePtr xml_encode(FilterRule *);
 static int xml_decode(FilterRule *, xmlNodePtr, struct _RuleContext *f);
+static void rule_copy (FilterRule *dest, FilterRule *src);
 /*static void build_code(FilterRule *, GString *out);*/
 static GtkWidget *get_widget(FilterRule *fr, struct _RuleContext *f);
 
@@ -95,6 +96,7 @@ vfolder_rule_class_init (VfolderRuleClass *class)
 	filter_rule->validate   = validate;
 	filter_rule->xml_encode = xml_encode;
 	filter_rule->xml_decode = xml_decode;
+	filter_rule->copy = rule_copy;
 	/*filter_rule->build_code = build_code;*/
 	filter_rule->get_widget = get_widget;
 }
@@ -109,7 +111,10 @@ static void
 vfolder_rule_finalise(GtkObject *obj)
 {
 	VfolderRule *o = (VfolderRule *)obj;
-	o = o;
+	
+	g_list_foreach (o->sources, (GFunc) g_free, NULL);
+	g_list_free (o->sources);
+	
         ((GtkObjectClass *)(parent_class))->finalize(obj);
 }
 
@@ -257,6 +262,33 @@ xml_decode (FilterRule *fr, xmlNodePtr node, struct _RuleContext *f)
 	}
 	return 0;
 }
+
+static void
+rule_copy (FilterRule *dest, FilterRule *src)
+{
+	VfolderRule *vdest, *vsrc;
+	GList *node;
+	
+	vdest = (VfolderRule *) dest;
+	vsrc = (VfolderRule *) src;
+	
+	if (vdest->sources) {
+		g_list_foreach (vdest->sources, (GFunc) g_free, NULL);
+		g_list_free (vdest->sources);
+		vdest->sources = NULL;
+	}
+	
+	node = vsrc->sources;
+	while (node) {
+		char *uri = node->data;
+		
+		vdest->sources = g_list_append (vdest->sources, g_strdup (uri));
+		node = node->next;
+	}
+	
+	((FilterRuleClass *)(parent_class))->copy (dest, src);
+}
+
 
 enum {
 	BUTTON_ADD,

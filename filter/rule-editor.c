@@ -271,6 +271,9 @@ edit_editor_clicked (GtkWidget *dialog, int button, RuleEditor *re)
 			string = e_utf8_to_gtk_string (GTK_WIDGET (item), re->current->name);
 			gtk_label_set_text (GTK_LABEL (GTK_BIN (item)->child), string);
 			g_free (string);
+			
+			/* replace the old rule with the new rule */
+			filter_rule_copy (re->current, re->edit);
 		}
 	case 1:
 	default:
@@ -292,10 +295,9 @@ rule_edit (GtkWidget *widget, RuleEditor *re)
 	if (re->current == NULL)
 		return;
 	
-	re->edit = re->current;
-	gtk_object_ref (GTK_OBJECT (re->edit));
+	re->edit = filter_rule_clone (re->current);
 	
-	rules = filter_rule_get_widget (re->current, re->context);
+	rules = filter_rule_get_widget (re->edit, re->context);
 	dialog = gnome_dialog_new (_("Edit Rule"),
 				   GNOME_STOCK_BUTTON_OK,
 				   GNOME_STOCK_BUTTON_CANCEL,
