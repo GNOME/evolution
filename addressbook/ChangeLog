@@ -1,3 +1,9 @@
+2004-06-18  Jeffrey Stedfast  <fejj@novell.com>
+
+	* conduit/address-conduit.c (ecard_from_remote_record): Always set
+	the File_As attribute in case the pilot attrib changed. Fixes bug
+	#59723.
+
 2004-06-18  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/select-names/e-select-names-model.c
