@@ -1,3 +1,7 @@
+2005-01-27  JP Rosevear  <jpr@novell.com>
+
+	* itip-formatter.c: add some debugging spew
+
 2005-01-27  Rodrigo Moya <rodrigo@novell.com>
 
 	* itip-formatter.c (update_attendee_status): deal with the itip

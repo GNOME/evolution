@@ -55,6 +55,8 @@
 #define CLASSID "itip://"
 #define GCONF_KEY_DELETE "/apps/evolution/itip/delete_processed"
 
+#define d(x) x
+
 void format_itip (EPlugin *ep, EMFormatHookTarget *target);
 GtkWidget *itip_formatter_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data);
 
@@ -277,7 +279,8 @@ cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 	
 	g_signal_handlers_disconnect_matched (ecal, G_SIGNAL_MATCH_FUNC, 0, 0, NULL, cal_opened_cb, NULL);
 
-	if (status != E_CALENDAR_STATUS_OK) {	
+	if (status == E_CALENDAR_STATUS_OK) {
+		d(printf ("Failed opening calendar '%s' during non-search opening\n", e_source_peek_name (source)));
 		itip_view_add_lower_info_item_printf (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_WARNING,
 						      "Failed to load the calendar '%s'", e_source_peek_name (source));
 
@@ -367,10 +370,11 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 	
 	g_signal_handlers_disconnect_matched (ecal, G_SIGNAL_MATCH_FUNC, 0, 0, NULL, find_cal_opened_cb, NULL);
 
-	if (status != E_CALENDAR_STATUS_OK) {
+	if (status == E_CALENDAR_STATUS_OK) {
 		/* FIXME Do we really want to warn here?  If we fail
 		 * to find the item, this won't be cleared but the
 		 * selector might be shown */
+		d(printf ("Failed opening calendar '%s' during search opening... ", e_source_peek_name (source)));
 		itip_view_add_lower_info_item_printf (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_WARNING,
 						     "Failed to load the calendar '%s'", e_source_peek_name (source));
 
@@ -422,6 +426,8 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 	e_cal_set_default_timezone (ecal, zone, NULL);
 
  cleanup:
+	d(printf ("Search count is now %d\n", fd->count));
+
 	if (fd->count == 0) {
 		itip_view_remove_lower_info_item (ITIP_VIEW (pitip->view), pitip->progress_info_id);
 		pitip->progress_info_id = 0;
@@ -540,6 +546,7 @@ find_server (FormatItipPObject *pitip, ECalComponent *comp)
 				g_free (end);
 			}
 			fd->count++;
+			d(printf ("Increasing search count to %d\n", fd->count));
 
 			ecal = start_calendar_server (pitip, source, pitip->type, find_cal_opened_cb, fd);
 		}		
