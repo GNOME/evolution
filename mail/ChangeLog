@@ -1,3 +1,9 @@
+2004-06-14  Not Zed  <NotZed@Ximian.com>
+
+	* em-composer-utils.c (get_reply_all): if we removed all of the
+	addresses because they were 'us', add the first to
+	address back.  otherwise reply-to-all behaves strange.
+
 2004-06-11  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-folder-tree.c (em_folder_tree_set_selected): Free any old
