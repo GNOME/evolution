@@ -28,6 +28,8 @@ extern "C" {
 
 typedef struct _CamelAddress CamelAddress;
 typedef struct _header_content_type CamelContentType;
+typedef struct _CamelDigestFolder CamelDigestFolder;
+typedef struct _CamelDigestStore CamelDigestStore;
 typedef struct _CamelDiscoDiary CamelDiscoDiary;
 typedef struct _CamelDiscoFolder CamelDiscoFolder;
 typedef struct _CamelDiscoStore CamelDiscoStore;

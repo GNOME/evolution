@@ -36,7 +36,6 @@ extern "C" {
 #define CAMEL_DIGEST_STORE_CLASS(klass) CAMEL_CHECK_CLASS_CAST (klass, camel_digest_store_get_type (), CamelDigestStoreClass)
 #define CAMEL_IS_DIGEST_STORE(obj)      CAMEL_CHECK_TYPE (obj, camel_digest_store_get_type ())
 
-typedef struct _CamelDigestStore      CamelDigestStore;
 typedef struct _CamelDigestStoreClass CamelDigestStoreClass;
 
 struct _CamelDigestStore {

@@ -32,7 +32,6 @@
 #define CAMEL_DIGEST_FOLDER_CLASS(klass) CAMEL_CHECK_CLASS_CAST (klass, camel_digest_folder_get_type (), CamelDigestFolderClass)
 #define CAMEL_IS_DIGEST_FOLDER(obj)      CAMEL_CHECK_TYPE (obj, camel_digest_folder_get_type ())
 
-typedef struct _CamelDigestFolder      CamelDigestFolder;
 typedef struct _CamelDigestFolderClass CamelDigestFolderClass;
 
 struct _CamelDigestFolder {
