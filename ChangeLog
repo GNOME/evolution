@@ -1,3 +1,7 @@
+2004-01-01  Roozbeh Pournader  <roozbeh@sharif.edu>
+
+	* configure.in: Added "fa" (Persian) to ALL_LINGUAS.
+
 2003-12-30 Nicel KM <mnicel@novell.com>
 
 	* configure.in: removed default_user directory references from AC_OUTPUT
