@@ -1,3 +1,9 @@
+2000-10-06  Chris Toshok  <toshok@helixcode.com>
+
+	* mail-ops.c (do_scan_subfolders): set the @subscribed_only
+	parameter to TRUE, since the subscribe UI is the only interface
+	that should show unsubscribed groups.
+
 2000-10-06  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* mail-ops.c (do_scan_subfolders): Add missing @subscribed_only
