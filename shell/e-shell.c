@@ -1122,9 +1122,6 @@ es_run_quit(EShell *shell)
 gboolean
 e_shell_quit(EShell *shell)
 {
-	if (shell->priv->preparing_to_quit)
-		return FALSE;
-
 	EShellPrivate *priv;
 	GSList *component_infos;
 	GSList *sp;
@@ -1133,6 +1130,9 @@ e_shell_quit(EShell *shell)
 	g_return_val_if_fail (E_IS_SHELL (shell), FALSE);
 
 	priv = shell->priv;
+
+	if (priv->preparing_to_quit)
+		return FALSE;
 
 	component_infos = e_component_registry_peek_list (priv->component_registry);
 	can_quit = TRUE;
