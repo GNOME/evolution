@@ -58,12 +58,12 @@ noinst_PROGRAMS =  	\
 	test2		\
 	test3		\
 	test7		\
+	test10		\
 	test11		\
 	test13		\
 	test-movemail	\
 	test-url	\
 	$(THREAD_RELATED_TESTS)
 
-#	test10		\
 #	test12		\
 #	test-formatter	

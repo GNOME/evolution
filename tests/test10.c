@@ -3,9 +3,6 @@
 
 #include "camel.h"
 #include "camel-mbox-folder.h"
-#include "camel-mbox-parser.h"
-#include "camel-mbox-utils.h"
-#include "camel-mbox-summary.h"
 #include "camel-exception.h"
 #include "md5-utils.h"
 #include <sys/types.h>
@@ -32,7 +29,7 @@ create_sample_mime_message ()
 	camel_medium_add_header (CAMEL_MEDIUM (message), "X-test1", "the value of a test");
 	camel_medium_add_header (CAMEL_MEDIUM (message), "X-test2", "the value of another test");
 
-	camel_mime_message_set_received_date (message, g_strdup ("Thu, 20 May 1999, 10:39:14 +0200"));
+	camel_mime_message_set_date (message, time(0), 200);
 	camel_mime_message_set_subject (message, g_strdup ("A test message"));
 	camel_mime_message_set_reply_to (message, g_strdup ("toto@toto.com"));
 	camel_mime_message_set_from (message, g_strdup ("Bertrand.Guiheneuf@aful.org"));
