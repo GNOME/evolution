@@ -1,7 +1,7 @@
 2000-10-10  Joe Shaw  <joe@helixcode.com>
 
 	* providers/imap/camel-imap-store.c 
-	(parse_list_response_as_folder_info): Check before deferencing the
+	(parse_list_response_as_folder_info): Check before dereferencing the
 	sep pointer.
 
 2000-10-10  Jacob "Ulysses" Berkman  <jacob@helixcode.com>
