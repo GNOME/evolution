@@ -32,7 +32,7 @@
 #include <bonobo/bonobo-exception.h>
 #include <libical/icalvcal.h>
 #include "e-pub-utils.h"
-#include "e-cal-view.h"
+#include "e-calendar-view.h"
 #include "calendar-config-keys.h"
 #include "calendar-config.h"
 #include "calendar-component.h"

@@ -1,3 +1,14 @@
+2004-03-15  JP Rosevear  <jpr@ximian.com>
+
+	* Rename e-cal-view to e-calendar-view and fix includes
+	
+	* gui/dialogs/comp-editor-page.c (comp_editor_page_fill_widgets):
+	pre-conditions should return FALS
+
+	* gui/e-cal-model.c (copy_ecdv): return the new struct
+
+	* gui/Makefile.am: build renamed files
+
 2004-03-15  JP Rosevear <jpr@ximian.com>
 
 	Fixes #52253
@@ -16,7 +27,7 @@
 	update_view_times handle it
 	(gnome_calendar_goto): ditto
 	(gnome_calendar_direction): ditto
-o	(gnome_calendar_set_selected_time_range): ditto
+	(gnome_calendar_set_selected_time_range): ditto
 	(gnome_calendar_dayjump): ditto
 	(update_view_times): set the time ranges on the models
 	(set_view): use the new preserve day setting

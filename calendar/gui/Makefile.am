@@ -119,8 +119,8 @@ libevolution_calendar_la_SOURCES =		\
 	e-cal-model-tasks.h			\
 	e-cal-model.c				\
 	e-cal-model.h				\
-	e-cal-view.c				\
-	e-cal-view.h				\
+	e-calendar-view.c			\
+	e-calendar-view.h			\
 	e-cal-list-view.c			\
 	e-cal-list-view.h			\
 	e-cal-list-view-config.c		\

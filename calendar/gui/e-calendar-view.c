@@ -39,7 +39,7 @@
 #include "calendar-config.h"
 #include "comp-util.h"
 #include "e-cal-model-calendar.h"
-#include "e-cal-view.h"
+#include "e-calendar-view.h"
 #include "e-comp-editor-registry.h"
 #include "itip-utils.h"
 #include "e-pub-utils.h"

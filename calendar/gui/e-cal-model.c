@@ -1736,6 +1736,8 @@ copy_ecdv (ECellDateEditValue *ecdv)
 	new_ecdv = g_new0 (ECellDateEditValue, 1);
 	new_ecdv->tt = ecdv->tt;
 	new_ecdv->zone = ecdv->zone;
+
+	return new_ecdv;
 }
 
 /**

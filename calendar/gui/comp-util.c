@@ -25,7 +25,6 @@
 
 #include <string.h>
 #include <time.h>
-#include "e-cal-view.h"
 #include "calendar-config.h"
 #include "comp-util.h"
 #include "dialogs/delete-comp.h"

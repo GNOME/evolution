@@ -28,7 +28,7 @@
 #include <libgnomecanvas/gnome-canvas.h>
 #include <gal/widgets/e-popup-menu.h>
 
-#include "e-cal-view.h"
+#include "e-calendar-view.h"
 #include "gnome-cal.h"
 
 #ifdef __cplusplus
