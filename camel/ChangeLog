@@ -1,3 +1,19 @@
+2000-10-31  Dan Winship  <danw@helixcode.com>
+
+	* camel-service.c (service_disconnect): Add a new argument, clean,
+	that says whether or not to try to disconnect cleanly.
+
+	* camel-remote-store.c (remote_send_string, remote_send_stream,
+	remote_recv_line): disconnect uncleanly on failure to prevent
+	infinite loops when providers would normally send commands from
+	disconnect(). Remove some unneeded CamelException goo.
+
+	* providers/smtp/camel-smtp-transport.c (smtp_disconnect): 
+	* providers/pop3/camel-pop3-store.c (pop3_disconnect): 
+	* providers/nntp/camel-nntp-store.c (nntp_store_disconnect):
+	* providers/imap/camel-imap-store.c (imap_disconnect): Don't send
+	QUIT/LOGOUT if !clean.
+
 2000-10-30  Dan Winship  <danw@helixcode.com>
 
 	* providers/imap/camel-imap-auth.c: New file with code for IMAP

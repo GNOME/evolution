@@ -59,7 +59,7 @@ extern gboolean camel_verbose_debug;
 static CamelStoreClass *store_class = NULL;
 
 static gboolean remote_connect         (CamelService *service, CamelException *ex);
-static gboolean remote_disconnect      (CamelService *service, CamelException *ex);
+static gboolean remote_disconnect      (CamelService *service, gboolean clean, CamelException *ex);
 static GList   *remote_query_auth_types_generic   (CamelService *service, CamelException *ex);
 static GList   *remote_query_auth_types_connected (CamelService *service, CamelException *ex);
 static void     remote_free_auth_types (CamelService *service, GList *authtypes);
@@ -246,15 +246,6 @@ remote_connect (CamelService *service, CamelException *ex)
 	/* Okay, good enough for us */
 	CAMEL_SERVICE (store)->connected = TRUE;
 	
-	if (camel_exception_is_set (ex)) {
-		CamelException dex;
-		
-		camel_exception_init (&dex);
-		camel_service_disconnect (CAMEL_SERVICE (store), &dex);
-		camel_exception_clear (&dex);
-		return FALSE;
-	}
-
 	/* Add a timeout so that we can hopefully prevent getting disconnected */
 	/* (Only if the implementation supports it) */
 	if (CRSC (store)->keepalive) {
@@ -269,7 +260,7 @@ remote_connect (CamelService *service, CamelException *ex)
 }
 
 static gboolean
-remote_disconnect (CamelService *service, CamelException *ex)
+remote_disconnect (CamelService *service, gboolean clean, CamelException *ex)
 {
 	CamelRemoteStore *store = CAMEL_REMOTE_STORE (service);
 	
@@ -279,7 +270,7 @@ remote_disconnect (CamelService *service, CamelException *ex)
 		store->timeout_id = 0;
 	}
 	
-	if (!CAMEL_SERVICE_CLASS (store_class)->disconnect (service, ex))
+	if (!CAMEL_SERVICE_CLASS (store_class)->disconnect (service, clean, ex))
 		return FALSE;
 	
 	if (store->istream) {
@@ -331,15 +322,11 @@ remote_send_string (CamelRemoteStore *store, CamelException *ex, char *fmt, va_l
 #endif
 	
 	if (camel_stream_printf (store->ostream, "%s", cmdbuf) == -1) {
-		CamelException dex;
-		
 		g_free (cmdbuf);
 		camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
 				     g_strerror (errno));
 		
-		camel_exception_init (&dex);
-		camel_service_disconnect (CAMEL_SERVICE (store), &dex);
-		camel_exception_clear (&dex);
+		camel_service_disconnect (CAMEL_SERVICE (store), FALSE, NULL);
 		return -1;
 	}
 	g_free (cmdbuf);
@@ -391,14 +378,10 @@ remote_send_stream (CamelRemoteStore *store, CamelStream *stream, CamelException
 	d(fprintf (stderr, "(sending stream)\n"));
 	
 	if (camel_stream_write_to_stream (stream, store->ostream) < 0) {
-		CamelException dex;
-		
 		camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
 				     g_strerror (errno));
 		
-		camel_exception_init (&dex);
-		camel_service_disconnect (CAMEL_SERVICE (store), &dex);
-		camel_exception_clear (&dex);
+		camel_service_disconnect (CAMEL_SERVICE (store), FALSE, NULL);
 		return -1;
 	}
 	
@@ -451,14 +434,10 @@ remote_recv_line (CamelRemoteStore *store, char **dest, CamelException *ex)
 	*dest = camel_stream_buffer_read_line (stream);
 	
 	if (!*dest) {
-		CamelException dex;
-		
 		camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
 				     g_strerror (errno));
 		
-		camel_exception_init (&dex);
-		camel_service_disconnect (CAMEL_SERVICE (store), &dex);
-		camel_exception_clear (&dex);
+		camel_service_disconnect (CAMEL_SERVICE (store), FALSE, NULL);
 		return -1;
 	}
 

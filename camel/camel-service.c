@@ -37,7 +37,8 @@ static CamelObjectClass *parent_class = NULL;
 #define CSERV_CLASS(so) CAMEL_SERVICE_CLASS (CAMEL_OBJECT_GET_CLASS(so))
 
 static gboolean service_connect(CamelService *service, CamelException *ex);
-static gboolean service_disconnect(CamelService *service, CamelException *ex);
+static gboolean service_disconnect(CamelService *service, gboolean clean,
+				   CamelException *ex);
 /*static gboolean is_connected (CamelService *service);*/
 static GList *  query_auth_types_func (CamelService *service, CamelException *ex);
 static void     free_auth_types (CamelService *service, GList *authtypes);
@@ -72,7 +73,7 @@ camel_service_finalize (CamelObject *object)
 
 		/*g_warning ("camel_service_finalize: finalizing while still connected!");*/
 		camel_exception_init (&ex);
-		CSERV_CLASS (camel_service)->disconnect (camel_service, &ex);
+		CSERV_CLASS (camel_service)->disconnect (camel_service, FALSE, &ex);
 		if (camel_exception_is_set (&ex)) {
 			g_warning ("camel_service_finalize: silent disconnect failure: %s",
 				   camel_exception_get_description(&ex));
@@ -240,7 +241,7 @@ camel_service_connect (CamelService *service, CamelException *ex)
 }
 
 static gboolean
-service_disconnect (CamelService *service, CamelException *ex)
+service_disconnect (CamelService *service, gboolean clean, CamelException *ex)
 {
 	/*service->connect_level--;*/
 
@@ -254,46 +255,26 @@ service_disconnect (CamelService *service, CamelException *ex)
 /**
  * camel_service_disconnect:
  * @service: CamelService object
+ * @clean: whether or not to try to disconnect cleanly.
  * @ex: a CamelException
  *
- * Disconnect from the service.
+ * Disconnect from the service. If @clean is %FALSE, it should not
+ * try to do any synchronizing or other cleanup of the connection.
  *
  * Return value: whether or not the disconnection succeeded without
  * errors. (Consult @ex if %FALSE.)
  **/
-
 gboolean
-camel_service_disconnect (CamelService *service, CamelException *ex)
+camel_service_disconnect (CamelService *service, gboolean clean,
+			  CamelException *ex)
 {
 	gboolean res;
 
 	g_return_val_if_fail (service->connected, FALSE);	
-	res = CSERV_CLASS (service)->disconnect (service, ex);
+	res = CSERV_CLASS (service)->disconnect (service, clean, ex);
 	service->connected = FALSE;
 	return res;
 }
-
-/**
- *static gboolean
- *is_connected (CamelService *service)
- *{
- *	return (service->connect_level > 0);
- *}
- **/
-
-/**
- * camel_service_is_connected:
- * @service: object to test
- *
- * Return value: whether or not the service is connected
- **/
-/**
- *gboolean
- *camel_service_is_connected (CamelService *service)
- *{
- *	return CSERV_CLASS (service)->is_connected (service);
- *}
- **/
 
 /**
  * camel_service_get_url:

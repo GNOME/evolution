@@ -61,7 +61,8 @@ typedef struct {
 
 	gboolean  (*connect)           (CamelService *service, 
 					CamelException *ex);
-	gboolean  (*disconnect)        (CamelService *service, 
+	gboolean  (*disconnect)        (CamelService *service,
+					gboolean clean,
 					CamelException *ex);
 
 	/*gboolean  (*is_connected)      (CamelService *service);*/
@@ -117,7 +118,8 @@ CamelService *      camel_service_new                (CamelType type,
 						      CamelException *ex);
 gboolean            camel_service_connect            (CamelService *service, 
 						      CamelException *ex);
-gboolean            camel_service_disconnect         (CamelService *service, 
+gboolean            camel_service_disconnect         (CamelService *service,
+						      gboolean clean,
 						      CamelException *ex);
 char *              camel_service_get_url            (CamelService *service);
 char *              camel_service_get_name           (CamelService *service,

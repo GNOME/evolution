@@ -55,7 +55,7 @@
 static CamelRemoteStoreClass *remote_store_class = NULL;
 
 static gboolean imap_connect (CamelService *service, CamelException *ex);
-static gboolean imap_disconnect (CamelService *service, CamelException *ex);
+static gboolean imap_disconnect (CamelService *service, gboolean clean, CamelException *ex);
 static GList *query_auth_types_generic (CamelService *service, CamelException *ex);
 static GList *query_auth_types_connected (CamelService *service, CamelException *ex);
 static CamelFolder *get_folder (CamelStore *store, const char *folder_name, guint32 flags, CamelException *ex);
@@ -303,13 +303,13 @@ imap_connect (CamelService *service, CamelException *ex)
 					      "authentication type %s",
 					      service->url->host,
 					      service->url->authmech);
-			camel_service_disconnect (service, NULL);
+			camel_service_disconnect (service, TRUE, NULL);
 			return FALSE;
 		}
 
 		authenticated = imap_try_kerberos_v4_auth (store, ex);
 		if (camel_exception_is_set (ex)) {
-			camel_service_disconnect (service, NULL);
+			camel_service_disconnect (service, TRUE, NULL);
 			return FALSE;
 		}
 	}
@@ -344,7 +344,7 @@ imap_connect (CamelService *service, CamelException *ex)
 			if (!service->url->passwd) {
 				camel_exception_set (ex, CAMEL_EXCEPTION_USER_CANCEL,
 						     "You didn\'t enter a password.");
-				camel_service_disconnect (service, NULL);
+				camel_service_disconnect (service, TRUE, NULL);
 				return FALSE;
 			}
 		}
@@ -422,12 +422,12 @@ imap_connect (CamelService *service, CamelException *ex)
 }
 
 static gboolean
-imap_disconnect (CamelService *service, CamelException *ex)
+imap_disconnect (CamelService *service, gboolean clean, CamelException *ex)
 {
 	CamelImapStore *store = CAMEL_IMAP_STORE (service);
 	CamelImapResponse *response;
 	
-	if (store->connected) {
+	if (store->connected && clean) {
 		/* send the logout command */
 		response = camel_imap_command (store, NULL, ex, "LOGOUT");
 		camel_imap_response_free (response);
@@ -435,7 +435,7 @@ imap_disconnect (CamelService *service, CamelException *ex)
 	
 	store->current_folder = NULL;
 	
-	return CAMEL_SERVICE_CLASS (remote_store_class)->disconnect (service, ex);
+	return CAMEL_SERVICE_CLASS (remote_store_class)->disconnect (service, clean, ex);
 }
 
 static gboolean

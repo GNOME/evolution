@@ -61,7 +61,7 @@ static gboolean _send_to (CamelTransport *transport, CamelMedium *message, GList
 
 /* support prototypes */
 static gboolean smtp_connect (CamelService *service, CamelException *ex);
-static gboolean smtp_disconnect (CamelService *service, CamelException *ex);
+static gboolean smtp_disconnect (CamelService *service, gboolean clean, CamelException *ex);
 static GList *esmtp_get_authtypes(gchar *buffer);
 static GList *query_auth_types_connected (CamelService *service, CamelException *ex);
 static GList *query_auth_types_generic (CamelService *service, CamelException *ex);
@@ -230,18 +230,20 @@ smtp_connect (CamelService *service, CamelException *ex)
 }
 
 static gboolean
-smtp_disconnect (CamelService *service, CamelException *ex)
+smtp_disconnect (CamelService *service, gboolean clean, CamelException *ex)
 {
 	CamelSmtpTransport *transport = CAMEL_SMTP_TRANSPORT (service);
 	
 	/*if (!service->connected)
 	 *	return TRUE;
 	 */
+
+	if (clean) {
+		/* send the QUIT command to the SMTP server */
+		smtp_quit (transport, ex);
+	}
 	
-	/* send the QUIT command to the SMTP server */
-	smtp_quit (transport, ex);
-	
-	if (!service_class->disconnect (service, ex))
+	if (!service_class->disconnect (service, clean, ex))
 		return FALSE;
 	
 	g_free (transport->esmtp_supported_authtypes);

@@ -69,7 +69,7 @@ static CamelRemoteStoreClass *parent_class = NULL;
 static void finalize (CamelObject *object);
 
 static gboolean pop3_connect (CamelService *service, CamelException *ex);
-static gboolean pop3_disconnect (CamelService *service, CamelException *ex);
+static gboolean pop3_disconnect (CamelService *service, gboolean clean, CamelException *ex);
 static GList *query_auth_types_connected (CamelService *service, CamelException *ex);
 static GList *query_auth_types_generic (CamelService *service, CamelException *ex);
 
@@ -308,7 +308,7 @@ query_auth_types_connected (CamelService *service, CamelException *ex)
 	/* should we check apop too? */
 	apop = store->apop_timestamp != NULL;
 	if (passwd)
-		camel_service_disconnect (service, ex);
+		camel_service_disconnect (service, TRUE, ex);
 	camel_exception_clear (ex);
 
 #ifdef HAVE_KRB4
@@ -321,7 +321,7 @@ query_auth_types_connected (CamelService *service, CamelException *ex)
 	/*return NULL;*/
 
 	if (kpop)
-		camel_service_disconnect (service, ex);
+		camel_service_disconnect (service, TRUE, ex);
 	camel_exception_clear (ex);
 #endif
 
@@ -526,13 +526,14 @@ pop3_connect (CamelService *service, CamelException *ex)
 }
 
 static gboolean
-pop3_disconnect (CamelService *service, CamelException *ex)
+pop3_disconnect (CamelService *service, gboolean clean, CamelException *ex)
 {
 	CamelPop3Store *store = CAMEL_POP3_STORE (service);
 
-	camel_pop3_command (store, NULL, ex, "QUIT");
+	if (clean)
+		camel_pop3_command (store, NULL, ex, "QUIT");
 
-	if (!CAMEL_SERVICE_CLASS (parent_class)->disconnect (service, ex))
+	if (!CAMEL_SERVICE_CLASS (parent_class)->disconnect (service, clean, ex))
 		return FALSE;
 
 	return TRUE;

@@ -263,16 +263,17 @@ nntp_store_connect (CamelService *service, CamelException *ex)
 }
 
 static gboolean
-nntp_store_disconnect (CamelService *service, CamelException *ex)
+nntp_store_disconnect (CamelService *service, gboolean clean, CamelException *ex)
 {
 	CamelNNTPStore *store = CAMEL_NNTP_STORE (service);
 
-	camel_nntp_command (store, ex, NULL, "QUIT");
+	if (clean)
+		camel_nntp_command (store, ex, NULL, "QUIT");
 
 	if (store->newsrc)
 		camel_nntp_newsrc_write (store->newsrc);
 
-	if (!service_class->disconnect (service, ex))
+	if (!service_class->disconnect (service, clean, ex))
 		return FALSE;
 
 	return TRUE;
