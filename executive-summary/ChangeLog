@@ -1,3 +1,14 @@
+2000-12-29  Iain Holmes  <iain@helixcode.com>
+
+	* test-service/rdf-summary.c (view_destroyed): Cancel all pending
+	async downloads.
+	(load_from_stream): Check if the XML was correctly loaded.
+	(read_callback):
+	(close_callback):
+	(open_callback): Add a cast to remove warnings
+	
+	* component/e-summary.c (listener_event): Check for the correct event names.
+
 2000-12-28  Iain Holmes  <iain@helixcode.com>
 
 	* test-service/rdf-summary.c (create_view): Aggregate a 

@@ -75,7 +75,8 @@ static char *descriptions[] = {
 
 typedef struct _PropertyDialog {
 	BonoboListener *listener;
-	Bonobo_Listener corba_listener;
+	int listener_id;
+
 	Bonobo_EventSource eventsource;
 	GtkWidget *dialog;
 } PropertyDialog;
@@ -84,8 +85,6 @@ typedef struct _PropertyDialog {
 #if HAVECACHE
 static ESummaryCache *image_cache = NULL;
 #endif
-
-#define USE_ASYNC
 
 gboolean e_summary_url_mail_compose (ESummary *esummary,
 				     const char *url);
@@ -99,8 +98,6 @@ struct _DownloadInfo {
 	gboolean error;
 };
 typedef struct _DownloadInfo DownloadInfo;
-
-#ifdef USE_ASYNC
 
 static void
 close_callback (GnomeVFSAsyncHandle *handle,
@@ -157,7 +154,6 @@ open_callback (GnomeVFSAsyncHandle *handle,
 	info->buffer = g_new (char, 4096);
 	gnome_vfs_async_read (handle, info->buffer, 4095, read_callback, info);
 }
-#endif
 
 void
 e_summary_url_request (GtkHTML *html,
@@ -165,14 +161,10 @@ e_summary_url_request (GtkHTML *html,
 		       GtkHTMLStream *stream)
 {
 	char *filename;
-#ifndef USE_ASYNC
-	GnomeVFSHandle *handle = NULL;
-	GnomeVFSResult result;
-#else
 	GnomeVFSAsyncHandle *handle;
 	DownloadInfo *info;
-#endif
 
+	g_print ("url: %s\n", url);
 	if (strncasecmp (url, "file:", 5) == 0) {
 		url += 5;
 		filename = e_pixmap_file (url);
@@ -187,42 +179,7 @@ e_summary_url_request (GtkHTML *html,
 	}
 
 	g_print ("Filename: %s\n", filename);
-#ifndef USE_ASYNC
-	result = gnome_vfs_open (&handle, filename, GNOME_VFS_OPEN_READ);
-	
-	if (result != GNOME_VFS_OK) {
-		g_warning ("%s: %s", filename, 
-			   gnome_vfs_result_to_string (result));
-		g_free (filename);
-		gtk_html_stream_close (stream, GTK_HTML_STREAM_ERROR);
-		return;
-	}
 
-	g_free (filename);
-	while (1) {
-		char buffer[4096];
-		GnomeVFSFileSize size;
-
-		/* Clear buffer */
-		memset (buffer, 0x00, 4096);
-
-		result = gnome_vfs_read (handle, buffer, 4096, &size);
-		if (result != GNOME_VFS_OK && result != GNOME_VFS_ERROR_EOF) {
-			g_warning ("Error reading data: %s", 
-				   gnome_vfs_result_to_string (result));
-			gnome_vfs_close (handle);
-			gtk_html_stream_close (stream, GTK_HTML_STREAM_ERROR);
-		}
-
-		if (size == 0)
-			break; /* EOF */
-
-		gtk_html_stream_write (stream, buffer, size);
-	}
-	
-	gtk_html_stream_close (stream, GTK_HTML_STREAM_OK);
-	gnome_vfs_close (handle);
-#else
 	info = g_new (DownloadInfo, 1);
 	info->stream = stream;
 	info->uri = filename;
@@ -230,8 +187,6 @@ e_summary_url_request (GtkHTML *html,
 
 	gnome_vfs_async_open (&handle, filename, GNOME_VFS_OPEN_READ,
 			      (GnomeVFSAsyncOpenCallback) open_callback, info);
-#endif
-			      
 }
 
 static char *
@@ -463,13 +418,12 @@ dialog_destroyed (GtkObject *object,
 
 	CORBA_exception_init (&ev);
 	Bonobo_EventSource_removeListener (dialog->eventsource,
-					   dialog->corba_listener, &ev);
+					   dialog->listener_id, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("Error: %s", CORBA_exception_id (&ev));
 	}
 
 	bonobo_object_unref (BONOBO_OBJECT (dialog->listener));
-	bonobo_object_release_unref (dialog->eventsource, &ev);
 	CORBA_exception_free (&ev);
 	g_free (dialog);
 }
@@ -484,6 +438,7 @@ e_summary_url_click (GtkWidget *widget,
 	int address;
 	ESummaryWindow *window;
 	Bonobo_Control control;
+	Bonobo_Listener corba_listener;
 	GtkWidget *prefsbox, *control_widget;
 	CORBA_Environment ev;
 	PropertyDialog *data;
@@ -533,11 +488,11 @@ e_summary_url_click (GtkWidget *widget,
 		data->dialog = prefsbox;
 
 		CORBA_exception_init (&ev);
-		data->eventsource = bonobo_object_dup_ref (window->event_source, &ev);
+		data->eventsource = window->event_source;
 		data->listener = bonobo_listener_new (property_event, data);
-		data->corba_listener = bonobo_object_corba_objref (BONOBO_OBJECT (data->listener));
-		Bonobo_EventSource_addListener (data->eventsource,
-						data->corba_listener, &ev);
+		corba_listener = bonobo_object_corba_objref (BONOBO_OBJECT (data->listener));
+		data->listener_id = Bonobo_EventSource_addListener (data->eventsource,
+								    corba_listener, &ev);
 
 		gtk_signal_connect (GTK_OBJECT (prefsbox), "apply",
 				    GTK_SIGNAL_FUNC (property_apply), 

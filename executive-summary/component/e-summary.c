@@ -572,44 +572,31 @@ e_summary_queue_rebuild (ESummary *esummary)
 }
 
 static void
-html_event (BonoboListener *listener,
-	    char *event_name,
-	    CORBA_any *any,
-	    CORBA_Environment *ev,
-	    gpointer user_data)
+listener_event (BonoboListener *listener,
+		char *event_name,
+		BonoboArg *event_data,
+		CORBA_Environment *ev,
+		gpointer user_data)
 {
 	ESummaryWindow *window = (ESummaryWindow *) user_data;
 
-	g_print ("Event: %s\n", event_name);
-	if (strcmp (event_name, EXECUTIVE_SUMMARY_HTML_VIEW_HTML_CHANGED) != 0) {
-		return;
-	}
-
-	e_summary_queue_rebuild (window->esummary);
-}
-		
-static void
-prop_changed_cb (BonoboListener *listener,
-		 char *name,
-		 BonoboArg *arg,
-		 CORBA_Environment *ev,
-		 ESummaryWindow *window)
-{
-	if (strcmp (name, "window_title") == 0) {
+	if (strcmp (event_name, "Bonobo/Property:change:window_title") == 0) {
 		if (window->title != NULL)
 			g_free (window->title);
-		window->title = g_strdup (BONOBO_ARG_GET_STRING (arg));
-		e_summary_queue_rebuild (window->esummary);
-		return;
-	}
 
-	if (strcmp (name, "window_icon") == 0) {
+		window->title = g_strdup (BONOBO_ARG_GET_STRING (event_data));
+		e_summary_queue_rebuild (window->esummary);
+	} else if (strcmp (event_name, "Bonobo/Property:change:window_icon") == 0) {
 		if (window->icon != NULL)
 			g_free (window->icon);
-		window->icon = g_strdup (BONOBO_ARG_GET_STRING (arg));
+
+		window->icon = g_strdup (BONOBO_ARG_GET_STRING (event_data));
 		e_summary_queue_rebuild (window->esummary);
-		return;
+	} else if (strcmp (event_name, EXECUTIVE_SUMMARY_HTML_VIEW_HTML_CHANGED) == 0) {
+		e_summary_queue_rebuild (window->esummary);
 	}
+
+	return;
 }
 		
 ESummaryWindow *
@@ -620,6 +607,7 @@ e_summary_add_service (ESummary *esummary,
 	ESummaryWindow *window;
 	ESummaryPrivate *priv;
 	Bonobo_Unknown unknown = CORBA_OBJECT_NIL;
+	Bonobo_Listener listener;
 	CORBA_Environment ev;
 
 	g_return_val_if_fail (esummary != NULL, NULL);
@@ -669,25 +657,11 @@ e_summary_add_service (ESummary *esummary,
 		return NULL;
 	}
 
-	if (window->html != CORBA_OBJECT_NIL) {
-		Bonobo_Listener listener;
-		CORBA_Environment ev2;
-
-		/* If HTML view, then set up the listeners. */
-		window->event_source = Bonobo_Unknown_queryInterface (window->html,
-								      "IDL:Bonobo/EventSource:1.0",
-								      &ev);
-		window->html_listener = bonobo_listener_new (html_event,
-							     window);
-		listener = bonobo_object_corba_objref (BONOBO_OBJECT (window->html_listener));
-		window->html_corba_listener = listener;
-
-		CORBA_exception_init (&ev2);
-		Bonobo_EventSource_addListener (window->event_source,
-						listener, &ev2);
-		/* Catch error? FIXME */
-		CORBA_exception_free (&ev2);
-	}
+	window->listener = bonobo_listener_new (NULL, NULL);
+	gtk_signal_connect (GTK_OBJECT (window->listener), "event_notify",
+			    GTK_SIGNAL_FUNC (listener_event), window);
+	listener = bonobo_object_corba_objref (BONOBO_OBJECT (window->listener));
+	window->listener_id = Bonobo_EventSource_addListener (window->event_source, listener, &ev);
 
 	unknown = Bonobo_Unknown_queryInterface (component,
 						 "IDL:Bonobo/PropertyBag:1.0",
@@ -712,20 +686,6 @@ e_summary_add_service (ESummary *esummary,
 	window->icon = g_strdup (bonobo_property_bag_client_get_value_string (
                                           window->propertybag,
 					  "window_icon", NULL));
-	/* Listen to changes */
-	if (window->propertycontrol != CORBA_OBJECT_NIL) {
-		Bonobo_Listener listener;
-		CORBA_Environment ev2;
-
-		window->listener = bonobo_listener_new (NULL, NULL);
-		listener = bonobo_object_corba_objref (BONOBO_OBJECT (window->html_listener));
-
-		Bonobo_EventSource_addListener (window->event_source,
-						listener, &ev);
-
-		gtk_signal_connect (GTK_OBJECT (window->listener), "event_notify",
-				    GTK_SIGNAL_FUNC (prop_changed_cb), window);
-	}
 
 	CORBA_exception_free (&ev);
 	priv->window_list = g_list_append (priv->window_list, window);
@@ -774,16 +734,12 @@ e_summary_window_free (ESummaryWindow *window)
 
 	if (window->event_source != CORBA_OBJECT_NIL) {
 		Bonobo_EventSource_removeListener (window->event_source,
-						   window->html_corba_listener,
+						   window->listener_id,
 						   &ev);
 		if (ev._major != CORBA_NO_EXCEPTION) {
 			g_warning ("CORBA ERROR: %s", CORBA_exception_id (&ev));
 		}
 		bonobo_object_release_unref (window->event_source, &ev);
-	}
-
-	if (window->html != CORBA_OBJECT_NIL) {
-		bonobo_object_release_unref (window->html, &ev);
 	}
 
 	if (window->propertybag != CORBA_OBJECT_NIL) {
@@ -802,8 +758,8 @@ e_summary_window_free (ESummaryWindow *window)
 		bonobo_object_unref (BONOBO_OBJECT (window->listener));
 	}
 
-	if (window->html_listener) {
-		bonobo_object_unref (BONOBO_OBJECT (window->html_listener));
+	if (window->html != CORBA_OBJECT_NIL) {
+		bonobo_object_release_unref (window->html, &ev);
 	}
 
 	bonobo_object_release_unref (window->component, &ev);

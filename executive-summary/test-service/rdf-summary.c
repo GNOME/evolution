@@ -54,6 +54,8 @@ struct _RdfSummary {
 
 	GString *str;
 	char *buffer;
+
+	GnomeVFSAsyncHandle *handle;
 };
 typedef struct _RdfSummary RdfSummary;
 
@@ -225,11 +227,10 @@ tree_walk (xmlNodePtr root,
 
 	g_string_append (html, "<br clear=all><FONT size=\"-1\" face=\"helvetica\"><P><UL>\n");
 
+	items = MIN (limit, items);
 	for (i = 0; i < items; i++) {
 		char *p = layer_find (item[i]->childs, "title", "No information");
 		
-		if(i == limit)
-			g_string_append (html, "--\n");
 		if (wipe_trackers) {
 			char *p = layer_find_url (item[i]->childs, "link", "");
 			char *x = strchr (p, '?');
@@ -277,6 +278,9 @@ view_destroyed (GtkObject *object,
 {
 	RdfSummary *summary = (RdfSummary *) data;
 
+	if (summary->handle)
+		gnome_vfs_async_cancel (summary->handle);
+
 	g_free (summary->title);
 	g_free (summary->icon);
 	g_free (summary);
@@ -317,6 +321,13 @@ load_from_stream (BonoboPersistStream *ps,
 
 	g_print ("Hydrating with %s\n", str);
 	doc = xmlParseDoc ((xmlChar *) str);
+	
+	if (doc == NULL) {
+		g_warning ("Bad data: %s!", str);
+		g_free (str);
+		return;
+	}
+
 	g_free (str);
 
 	root = doc->root;
@@ -418,6 +429,7 @@ close_callback (GnomeVFSAsyncHandle *handle,
 	if (summary == NULL)
 		return;
 
+	summary->handle = NULL;
 	g_free (summary->buffer);
 	xml = summary->str->str;
 	g_string_free (summary->str, FALSE);
@@ -475,16 +487,23 @@ read_callback (GnomeVFSAsyncHandle *handle,
 					summary->location);
 		executive_summary_html_view_set_html (EXECUTIVE_SUMMARY_HTML_VIEW (summary->view), emsg);
 		g_free (emsg);
-		gnome_vfs_async_close (handle, close_callback, NULL);
+		gnome_vfs_async_close (handle, 
+				       (GnomeVFSAsyncCloseCallback) close_callback,
+				       NULL);
+		g_print ("NULLING\n");
+		summary->handle = NULL;
 	}
 
 	if (bytes_read == 0) {
 		/* EOF */
-		gnome_vfs_async_close (handle, close_callback, summary);
+		gnome_vfs_async_close (handle, 
+				       (GnomeVFSAsyncCloseCallback) close_callback,
+				       summary);
 	} else {
 		*((char *) buffer + bytes_read) = 0;
 		g_string_append (summary->str, (const char *) buffer);
-		gnome_vfs_async_read (handle, buffer, 4095, read_callback,
+		gnome_vfs_async_read (handle, buffer, 4095, 
+				      (GnomeVFSAsyncReadCallback) read_callback,
 				      summary);
 	}
 }
@@ -513,24 +532,32 @@ open_callback (GnomeVFSAsyncHandle *handle,
 					summary->location);
 		executive_summary_html_view_set_html (EXECUTIVE_SUMMARY_HTML_VIEW (summary->view), emsg);
 		g_free (emsg);
+		summary->handle = NULL;
 		return;
 	}
 
 	summary->str = g_string_new ("");
 	summary->buffer = g_new (char, 4096);
 
-	gnome_vfs_async_read (handle, summary->buffer, 4095, read_callback, summary);
+	gnome_vfs_async_read (handle, summary->buffer, 4095, 
+			      (GnomeVFSAsyncReadCallback) read_callback, 
+			      summary);
 }
 
 static int
 download (RdfSummary *summary)
 {
 	GnomeVFSAsyncHandle *handle;
+	char *html = "<b>Loading RDF file. . .<br>Please wait</b>";
+	
+	executive_summary_html_view_set_html (EXECUTIVE_SUMMARY_HTML_VIEW (summary->view),
+					      html);
 
 	gnome_vfs_async_open (&handle, summary->location, GNOME_VFS_OPEN_READ,
 			      (GnomeVFSAsyncOpenCallback) open_callback, 
 			      summary);
 
+	summary->handle = handle;
 	return FALSE;
 }
 
@@ -570,6 +597,7 @@ set_prop (BonoboPropertyBag *bag,
 			g_free (summary->title);
 
 		summary->title = g_strdup (BONOBO_ARG_GET_STRING (arg));
+		g_print ("Notify listener!\n");
 		bonobo_property_bag_notify_listeners (bag, "window_title",
 						      arg, NULL);
 		break;
@@ -579,6 +607,7 @@ set_prop (BonoboPropertyBag *bag,
 			g_free (summary->icon);
 
 		summary->icon = g_strdup (BONOBO_ARG_GET_STRING (arg));
+		g_print ("Notify listener 2\n");
 		bonobo_property_bag_notify_listeners (bag, "window_icon",
 						      arg, NULL);
 		break;
@@ -678,7 +707,6 @@ create_view (ExecutiveSummaryComponentFactory *_factory,
 	BonoboPersistStream *stream;
 	BonoboPropertyBag *bag;
 	BonoboPropertyControl *property;
-	char *html = "<b>Loading RDF file. . .<br>Please wait</b>";
 	
 	summary = g_new (RdfSummary, 1);
 	summary->icon = g_strdup ("apple-green.png");
@@ -696,13 +724,11 @@ create_view (ExecutiveSummaryComponentFactory *_factory,
 	   BonoboPropertyControl as we can only have one Bonobo::EventSource
 	   interface aggregated */
 	event_source = bonobo_event_source_new ();
-
+	bonobo_object_ref (BONOBO_OBJECT (event_source));
 
 	/* Summary::HtmlView */
 	view = executive_summary_html_view_new_full (event_source);
 	summary->view = view;
-	executive_summary_html_view_set_html (EXECUTIVE_SUMMARY_HTML_VIEW (view),
-					      html);
 	bonobo_object_add_interface (component, view);
 
 	/* Bonobo::PropertyBag */
@@ -780,9 +806,6 @@ main (int argc,
 
 	factory_init ();
 	bonobo_main ();
-
-	if (factory != NULL)
-		bonobo_object_unref (BONOBO_OBJECT (factory));
 
 	return 0;
 }

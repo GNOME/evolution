@@ -101,6 +101,7 @@ executive_summary_html_view_destroy (GtkObject *object)
 	if (priv == NULL)
 		return;
 
+	bonobo_object_unref (BONOBO_OBJECT (priv->event_source));
 	g_free (priv->html);
 	g_free (priv);
 

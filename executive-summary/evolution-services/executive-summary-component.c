@@ -91,17 +91,6 @@ executive_summary_component_destroy (GtkObject *object)
 	if (priv == NULL)
 		return;
 	
-	CORBA_exception_init (&ev);
-
-#if 0	
-	if (priv->owner_client != NULL) {
-		bonobo_object_unref (BONOBO_OBJECT (priv->owner_client));
-		priv->owner_client = NULL;
-	}
-#endif
-
-	CORBA_exception_free (&ev);
-	
 	g_free (priv);
 	component->private = NULL;
 	
@@ -230,7 +219,6 @@ impl_GNOME_Evolution_Summary_ComponentFactory_createView (PortableServer_Servant
 	ExecutiveSummaryComponentFactory *factory;
 	ExecutiveSummaryComponentFactoryPrivate *priv;
 	GNOME_Evolution_Summary_Component component, component_dup;
-	CORBA_Environment ev2;
 
 	bonobo_object = bonobo_object_from_servant (servant);
 	factory = EXECUTIVE_SUMMARY_COMPONENT_FACTORY (bonobo_object);
@@ -240,9 +228,8 @@ impl_GNOME_Evolution_Summary_ComponentFactory_createView (PortableServer_Servant
 	g_return_val_if_fail (view != NULL, CORBA_OBJECT_NIL);
 
 	component = bonobo_object_corba_objref (BONOBO_OBJECT (view));
-	CORBA_exception_init (&ev2);
-	component_dup = CORBA_Object_duplicate (component, &ev2);
-	CORBA_exception_free (&ev2);
+
+	component_dup = CORBA_Object_duplicate (component, ev);
 
 	return component_dup;
 }
