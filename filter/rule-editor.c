@@ -301,7 +301,7 @@ rule_add (GtkWidget *widget, RuleEditor *re)
 				       GNOME_STOCK_BUTTON_CANCEL,
 				       NULL);
 	
-	gtk_window_set_default_size (GTK_WINDOW (re->dialog), 600, 400);
+	gtk_window_set_default_size (GTK_WINDOW (re->dialog), 650, 400);
 	gtk_window_set_policy (GTK_WINDOW (re->dialog), FALSE, TRUE, FALSE);
 	gtk_widget_set_parent_window (GTK_WIDGET (re->dialog), GTK_WIDGET (re)->window);
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (re->dialog)->vbox), rules, TRUE, TRUE, 0);
