@@ -85,7 +85,95 @@ start_addressbook_server (EMeetingListView *view)
 		return;
 	}
 }
+#if 0
+static void
+popup_delete_cb (GtkWidget *widget, gpointer data) 
+{
+	EMeetingListView *emlv = data;
+	EMeetingListViewPrivate *priv;	
+	EMeetingAttendee *ia;
+	int pos = 0;
+	
+	priv = emlv->priv;
+	
+	ia = e_meeting_store_find_attendee_at_row (priv->store, priv->row);
+ 
+	/* If the user deletes the attendee explicitly, assume they no
+	   longer want the organizer showing up */
+	if (ia == priv->ia) {
+		g_object_unref (priv->ia);
+		priv->ia = NULL;
+	}	
+		
+	/* If this was a delegatee, no longer delegate */
+	if (e_meeting_attendee_is_set_delfrom (ia)) {
+		EMeetingAttendee *ib;
+		
+		ib = e_meeting_store_find_attendee (priv->model, e_meeting_attendee_get_delfrom (ia), &pos);
+		if (ib != NULL) {
+			e_meeting_attendee_set_delto (ib, NULL);
+			e_meeting_attendee_set_edit_level (ib,  E_MEETING_ATTENDEE_EDIT_FULL);
+		}		
+	}
+	
+	/* Handle deleting all attendees in the delegation chain */	
+	while (ia != NULL) {
+		EMeetingAttendee *ib = NULL;
 
+		g_object_ref (ia);
+		g_ptr_array_add (priv->deleted_attendees, ia);
+		e_meeting_store_remove_attendee (priv->model, ia);
+
+		if (e_meeting_attendee_get_delto (ia) != NULL)
+			ib = e_meeting_store_find_attendee (priv->model, e_meeting_attendee_get_delto (ia), NULL);
+		ia = ib;
+	}
+}
+
+enum {
+	CAN_DELEGATE = 2,
+	CAN_DELETE = 4
+};
+
+static gboolean
+button_press_event (GtkWidget *widget, GdkEventButton *event, EMeetingListView *emlv)
+{
+	EMeetingListViewPrivate *priv;
+	GtkWidget *menu;
+	GtkTreePath *path;
+	ESource *source = NULL;
+	
+	/* only process right-clicks */
+	if (event->button != 3 || event->type != GDK_BUTTON_PRESS)
+		return FALSE;
+
+	priv = emlv->priv;
+
+	/* create the menu */
+	menu = gtk_menu_new ();
+
+	view_row = e_table_model_to_view_row (etable, row);
+	priv->row = e_meeting_model_etable_view_to_model_row (etable, priv->model, view_row);
+
+ 	ia = e_meeting_model_find_attendee_at_row (priv->model, priv->row);
+ 	if (e_meeting_attendee_get_edit_level (ia) != E_MEETING_ATTENDEE_EDIT_FULL)
+ 		disable_mask = CAN_DELETE;
+ 
+	/* FIXME: if you enable Delegate, then change index to '1'.
+	 * (This has now been enabled). */
+	/* context_menu[1].pixmap_widget = gnome_stock_new_with_icon (GNOME_STOCK_MENU_TRASH); */
+	context_menu[1].pixmap_widget =
+	  gtk_image_new_from_stock (GTK_STOCK_DELETE, GTK_ICON_SIZE_MENU);
+
+	menu = e_popup_menu_create (context_menu, disable_mask, hide_mask, data);
+	e_auto_kill_popup_menu_on_selection_done (menu);
+
+	/* popup the menu */
+	gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, event->button, event->time);
+
+	return TRUE;
+}
+#endif
 static void
 emlv_finalize (GObject *obj)
 {
@@ -129,9 +217,12 @@ emlv_init (EMeetingListView *view)
 	priv->corba_select_names = CORBA_OBJECT_NIL;
 	
 	start_addressbook_server (view);
+
+//	g_signal_connect (G_OBJECT (view), "button_press_event", G_CALLBACK (button_press_event), selector);
 }
 
 E_MAKE_TYPE (e_meeting_list_view, "EMeetingListView", EMeetingListView, emlv_class_init, emlv_init, GTK_TYPE_TREE_VIEW);
+
 static GList *
 get_type_strings ()
 {

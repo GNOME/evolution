@@ -1400,6 +1400,10 @@ remove_client (ECalModel *model, ECalModelClient *client_data)
 			e_table_model_row_deleted (E_TABLE_MODEL (model), i);
 		}
 	}
+
+	/* If this was the default client, unset it */
+	if (model->priv->default_client == client_data->client)
+		model->priv->default_client = NULL;
 	
 	/* free all remaining memory */
 	g_object_unref (client_data->client);

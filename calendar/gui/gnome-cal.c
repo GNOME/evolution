@@ -1732,7 +1732,8 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 
 	e_calendar_view_set_status_message (E_CALENDAR_VIEW (gnome_calendar_get_current_view_widget (gcal)), NULL);
 
-	if (status == E_CALENDAR_STATUS_OK) {
+	if (0) {
+//	if (status == E_CALENDAR_STATUS_OK) {
 		if (ecal == priv->task_pad_client) {
 			msg = g_strdup_printf (_("Loading tasks at %s"), e_cal_get_uri (ecal));
 			e_calendar_view_set_status_message (E_CALENDAR_VIEW (gnome_calendar_get_current_view_widget (gcal)), msg);
