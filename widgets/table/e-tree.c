@@ -679,8 +679,8 @@ et_canvas_realize (GtkWidget *canvas, ETree *e_tree)
 		NULL);
 }
 
-static void
-et_canvas_button_press (GtkWidget *canvas, GdkEvent *event, ETree *e_tree)
+static gint
+et_canvas_button_press (GtkWidget *canvas, GdkEventButton *event, ETree *e_tree)
 {
 	if (GTK_WIDGET_HAS_FOCUS(canvas)) {
 		GnomeCanvasItem *item = GNOME_CANVAS(canvas)->focused_item;
@@ -689,6 +689,8 @@ et_canvas_button_press (GtkWidget *canvas, GdkEvent *event, ETree *e_tree)
 			e_table_item_leave_edit(E_TABLE_ITEM(item));
 		}
 	}
+
+	return FALSE;
 }
 
 static void
