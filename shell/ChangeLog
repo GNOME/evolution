@@ -1,3 +1,8 @@
+2003-06-16  Frederic Crozat  <fcrozat@mandrakesoft.com>
+
+	* Makefile.am:
+	Add missing skel/stubs to BUILD_SOURCES (bug #44717).
+
 2003-06-05  Not Zed  <NotZed@Ximian.com>
 
 	** For #42691.

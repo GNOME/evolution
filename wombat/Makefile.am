@@ -90,6 +90,9 @@ EXTRA_DIST = $(server_DATA)				\
 	GNOME_Evolution_WombatLDAP.server.in.in		\
 	GNOME_Evolution_WombatNOLDAP.server.in.in
 
+BUILT_SOURCES = $(IDL_GENERATED)
+CLEANFILES = $(BUILT_SOURCES)
+
 if ENABLE_PURIFY
 PLINK = $(LIBTOOL) --mode=link $(PURIFY) $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
 
