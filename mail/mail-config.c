@@ -383,8 +383,7 @@ account_new_from_xml (char *in)
 			account->source->save_passwd = xml_get_bool (node, "save-passwd");
 			account->source->keep_on_server = xml_get_bool (node, "keep-on-server");
 			account->source->auto_check = xml_get_bool (node, "auto-check");
-			
-			/* FIXME: account->source->auto_check_time */
+			account->source->auto_check_time = xml_get_int (node, "auto-check-timeout");
 			
 			cur = node->children;
 			while (cur != NULL) {
@@ -493,10 +492,10 @@ account_to_xml (MailConfigAccount *account)
 	xmlSetProp (src, "save-passwd", account->source->save_passwd ? "true" : "false");
 	xmlSetProp (src, "keep-on-server", account->source->keep_on_server ? "true" : "false");
 	xmlSetProp (src, "auto-check", account->source->auto_check ? "true" : "false");
+	sprintf (buf, "%d", account->source->auto_check_time);
+	xmlSetProp (src, "auto-check-timeout", buf);
 	if (account->source->url)
 		xmlNewTextChild (src, NULL, "url", account->source->url);
-	
-	/* FIXME: save auto-check timeout value */
 	
 	xport = xmlNewChild (root, NULL, "transport", NULL);
 	xmlSetProp (xport, "save-passwd", account->transport->save_passwd ? "true" : "false");

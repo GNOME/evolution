@@ -1,3 +1,9 @@
+2003-01-13  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-config.c (account_to_xml): Save the auto-check timeout
+	value.
+	(account_new_from_xml): Load the auto-check-timeout value.
+
 2003-01-13  Dan Winship  <danw@ximian.com>
 
 	* folder-info.c: s/BonoboXObject/BonoboObject/
