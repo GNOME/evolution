@@ -1,3 +1,17 @@
+2001-07-18  Chris Toshok  <toshok@ximian.com>
+
+	[ patch contributed by Jos Dehaes <jos.dehaes@bigfoot.com> ]
+	
+	* gui/component/addressbook-storage.c (register_storage): new
+	function, register our evolution_storage.
+	(addressbook_storage_setup): remove storage registration from
+	here.
+	(load_source_data): register the storage here before we load
+	addressbook-sources.xml, and deregister it if there are no sources
+	listed.
+	(addressbook_storage_remove_source): unregister the storage if the
+	list of sources hits 0 length.
+
 2001-07-18  Dan Winship  <danw@ximian.com>
 
 	* backend/ebook/e-book.c (e_book_unload_uri): Flush the listener's

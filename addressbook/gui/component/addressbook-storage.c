@@ -74,19 +74,21 @@
 
 #define ADDRESSBOOK_SOURCES_XML "addressbook-sources.xml"
 
-static gboolean load_source_data (EvolutionStorage *storage, const char *file_path);
+static gboolean load_source_data (const char *file_path);
 static gboolean save_source_data (const char *file_path);
+static void register_storage(void);
+static void deregister_storage(void);
 
-GList *sources;
-EvolutionStorage *storage;
+static GList *sources;
+static EvolutionStorage *storage;
 static char *storage_path;
+static GNOME_Evolution_Shell corba_shell;
 
 void
 addressbook_storage_setup (EvolutionShellComponent *shell_component,
 			   const char *evolution_homedir)
 {
 	EvolutionShellClient *shell_client;
-	GNOME_Evolution_Shell corba_shell;
 
 	shell_client = evolution_shell_component_get_owner (shell_component);
 	if (shell_client == CORBA_OBJECT_NIL) {
@@ -96,20 +98,53 @@ addressbook_storage_setup (EvolutionShellComponent *shell_component,
 
 	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));
 
-	storage = evolution_storage_new (_("Other Contacts"), NULL, NULL);
-	if (evolution_storage_register_on_shell (storage, corba_shell) != EVOLUTION_STORAGE_OK) {
-		g_warning ("Cannot register storage");
-		return;
-	}
-
 	sources = NULL;
-
-	gtk_object_set_data (GTK_OBJECT (shell_component), "e-storage", storage);
 
 	if (storage_path)
 		g_free (storage_path);
 	storage_path = g_strdup_printf ("%s/" ADDRESSBOOK_SOURCES_XML, evolution_homedir);
-	load_source_data (storage, storage_path);
+	load_source_data (storage_path);
+}
+
+static void 
+register_storage() 
+{
+	EvolutionStorageResult result;
+
+	if (storage == NULL) {
+		storage = evolution_storage_new (_("Other Contacts"), NULL, NULL);
+		result = evolution_storage_register_on_shell (storage, corba_shell);
+		switch (result) {
+		case EVOLUTION_STORAGE_OK:
+			break;
+		case EVOLUTION_STORAGE_ERROR_GENERIC : 
+			g_warning("register_storage: generic error");
+			break;
+		case EVOLUTION_STORAGE_ERROR_CORBA : 
+			g_warning("register_storage: corba error");
+			break;
+		case EVOLUTION_STORAGE_ERROR_ALREADYREGISTERED :
+			g_warning("register_storage: already registered error");
+			break;
+		case EVOLUTION_STORAGE_ERROR_EXISTS :
+			g_warning("register_storage: already exists error");
+			break;
+		default:
+			g_warning("register_storage: other error");
+			break;
+		}
+	}
+}
+
+static void 
+deregister_storage() 
+{
+	if (evolution_storage_deregister_on_shell(storage, corba_shell) != 
+	    EVOLUTION_STORAGE_OK) {
+		g_warning("couldn't deregister storage");
+	}
+
+	storage = NULL;
 }
 
 static char *
@@ -207,12 +242,13 @@ addressbook_storage_init_source_uri (AddressbookSource *source)
 }
 
 static gboolean
-load_source_data (EvolutionStorage *storage,
-		  const char *file_path)
+load_source_data (const char *file_path)
 {
 	xmlDoc *doc;
 	xmlNode *root;
 	xmlNode *child;
+
+	register_storage();
 
  tryagain:
 	doc = xmlParseFile (file_path);
@@ -287,6 +323,10 @@ load_source_data (EvolutionStorage *storage,
 		sources = g_list_append (sources, source);
 
 		g_free (path);
+	}
+
+	if (g_list_length(sources) == 0) {
+		deregister_storage();
 	}
 
 	xmlFreeDoc (doc);
@@ -408,6 +448,7 @@ addressbook_storage_add_source (AddressbookSource *source)
 	sources = g_list_append (sources, source);
 
 	/* and then to the ui */
+	register_storage();
 	path = g_strdup_printf ("/%s", source->name);
 	evolution_storage_new_folder (storage, path, source->name, "contacts",
 				      source->uri, source->description, FALSE);
@@ -442,6 +483,10 @@ addressbook_storage_remove_source (const char *name)
 	/* and then from the ui */
 	path = g_strdup_printf ("/%s", name);
 	evolution_storage_removed_folder (storage, path);
+
+	if (g_list_length(sources) == 0) {
+		deregister_storage();
+	}
 
 	g_free (path);
 }
@@ -501,6 +546,7 @@ addressbook_storage_clear_sources ()
 {
 	g_list_foreach (sources, (GFunc)addressbook_source_foreach, NULL);
 	g_list_free (sources);
+	deregister_storage();
 	sources = NULL;
 }
 
