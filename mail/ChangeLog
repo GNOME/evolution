@@ -9,6 +9,11 @@
 	(ml_value_at): Use the MESSAGE_STATUS column for read/unread as
 	well as deleted.
 
+	* message-list.c: use the "new" tigert pixmaps rather than the
+	older ones. Includes a "replied to" icon (which is used now), but
+	no "deleted" icon (although we have the strikeout renderer for
+	that now).
+
 2000-05-30  Christopher James Lahey  <clahey@helixcode.com>
 
 	* message-list.c, message-list.h: Added bold for unread messages.

@@ -20,7 +20,11 @@
 #include "widgets/e-table/e-table-header-item.h"
 #include "widgets/e-table/e-table-item.h"
 
-#include "pixmaps.h"
+#include "art/mail-new.xpm"
+#include "art/mail-read.xpm"
+#include "art/mail-replied.xpm"
+#include "art/attachment.xpm"
+#include "art/empty.xpm"
 
 /*
  * Default sizes for the ETable display
@@ -96,7 +100,7 @@ mark_msg_seen (gpointer data)
 	CamelMimeMessage *msg = data;
 	guint32 flags;
 
-	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (msg));
+	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (msg), FALSE);
 
 	flags = camel_mime_message_get_flags (msg);
 	camel_mime_message_set_flags (msg, CAMEL_MESSAGE_SEEN,
@@ -208,7 +212,7 @@ ml_value_at (ETableModel *etm, int col, int row, void *data)
 		break;
 		
 	case COL_MESSAGE_STATUS:
-		if (msg_info->flags & CAMEL_MESSAGE_DELETED)
+		if (msg_info->flags & CAMEL_MESSAGE_ANSWERED)
 			retval = GINT_TO_POINTER (2);
 		else if (msg_info->flags & CAMEL_MESSAGE_SEEN)
 			retval = GINT_TO_POINTER (0);
@@ -403,15 +407,12 @@ static struct {
 	char **image_base;
 	GdkPixbuf  *pixbuf;
 } states_pixmaps [] = {
-	{ envelope_opened_xpm,   NULL },
-	{ envelope_closed_xpm,   NULL },
-	{ empty_xpm,             NULL },
-	{ attachment_xpm,        NULL },
-	{ attachment_header_xpm, NULL },
-	{ online_status_xpm,     NULL },
-	{ message_status_xpm,    NULL },
-	{ envelope_deleted_xpm,  NULL },
-	{ NULL,                  NULL },
+	{ mail_new_xpm,		NULL },
+	{ mail_read_xpm,	NULL },
+	{ mail_replied_xpm,	NULL },
+	{ empty_xpm,		NULL },
+	{ attachment_xpm,	NULL },
+	{ NULL,			NULL }
 };
 
 static void
@@ -434,6 +435,8 @@ message_list_init_images (void)
 static void
 message_list_init_renderers (MessageList *message_list)
 {
+	GdkPixbuf *images [3];
+
 	g_assert (message_list);
 	g_assert (message_list->table_model);
 
@@ -453,27 +456,19 @@ message_list_init_renderers (MessageList *message_list)
 	/*
 	 * Message status
 	 */
-	{
-		GdkPixbuf *images [3];
+	images [0] = states_pixmaps [0].pixbuf;
+	images [1] = states_pixmaps [1].pixbuf;
+	images [2] = states_pixmaps [2].pixbuf;
 
-		images [0] = states_pixmaps [0].pixbuf;
-		images [1] = states_pixmaps [1].pixbuf;
-		images [2] = states_pixmaps [7].pixbuf;
-		
-		message_list->render_message_status = e_cell_toggle_new (0, 3, images);
-	}
+	message_list->render_message_status = e_cell_toggle_new (0, 3, images);
 
 	/*
 	 * Attachment
 	 */
-	{
-		GdkPixbuf *images [2];
+	images [0] = states_pixmaps [3].pixbuf;
+	images [1] = states_pixmaps [4].pixbuf;
 
-		images [0] = states_pixmaps [2].pixbuf;
-		images [1] = states_pixmaps [3].pixbuf;
-		
-		message_list->render_attachment = e_cell_toggle_new (0, 2, images);
-	}
+	message_list->render_attachment = e_cell_toggle_new (0, 2, images);
 	
 	/*
 	 * FIXME: We need a real renderer here
