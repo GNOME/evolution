@@ -62,10 +62,10 @@ select_source_dialog (GtkWindow *parent, ECalSourceType obj_type)
 
 	/* create the dialog */
 	dialog = gtk_dialog_new ();
-	gtk_window_set_title (GTK_WINDOW (dialog), _("Select source"));
+	gtk_window_set_title (GTK_WINDOW (dialog), _("Select destination"));
 	gtk_window_set_transient_for (GTK_WINDOW (dialog),
 				      GTK_WINDOW (parent));
-	gtk_window_set_default_size (GTK_WINDOW (dialog), 276, 320);
+	gtk_window_set_default_size (GTK_WINDOW (dialog), 300, 520);
 
 	gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
 	gtk_widget_realize (dialog);
