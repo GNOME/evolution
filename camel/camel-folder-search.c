@@ -40,6 +40,7 @@ struct _CamelFolderSearchPrivate {
 static ESExpResult *search_header_contains(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *search);
 static ESExpResult *search_match_all(struct _ESExp *f, int argc, struct _ESExpTerm **argv, CamelFolderSearch *search);
 static ESExpResult *search_body_contains(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *search);
+static ESExpResult *search_user_flag(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *s);
 
 static ESExpResult *search_dummy(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *search);
 
@@ -89,6 +90,7 @@ camel_folder_search_class_init (CamelFolderSearchClass *klass)
 	klass->match_all = search_match_all;
 	klass->body_contains = search_body_contains;
 	klass->header_contains = search_header_contains;
+	klass->user_flag = search_user_flag;
 
 	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 }
@@ -133,6 +135,7 @@ struct {
 	{ "match-all", GTK_STRUCT_OFFSET(CamelFolderSearchClass, match_all), 3 },
 	{ "body-contains", GTK_STRUCT_OFFSET(CamelFolderSearchClass, body_contains), 1 },
 	{ "header-contains", GTK_STRUCT_OFFSET(CamelFolderSearchClass, header_contains), 1 },
+	{ "user-flag", GTK_STRUCT_OFFSET(CamelFolderSearchClass, user_flag), 1 },
 };
 
 void
@@ -459,6 +462,34 @@ search_body_contains(struct _ESExp *f, int argc, struct _ESExpResult **argv, Cam
 		} else {
 			r->value.ptrarray = g_ptr_array_new();
 		}
+	}
+
+	return r;
+}
+
+static ESExpResult *search_user_flag(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *search)
+{
+	ESExpResult *r;
+	int i;
+
+	r(printf("executing header-contains\n"));
+
+	/* are we inside a match-all? */
+	if (search->current) {
+		int truth = FALSE;
+		/* performs an OR of all words */
+		for (i=0;i<argc && !truth;i++) {
+			if (argv[i]->type == ESEXP_RES_STRING
+			    && camel_flag_get(&search->current->user_flags, argv[i]->value.string)) {
+				truth = TRUE;
+				break;
+			}
+		}
+		r = e_sexp_result_new(ESEXP_RES_BOOL);
+		r->value.bool = truth;
+	} else {
+		r = e_sexp_result_new(ESEXP_RES_ARRAY_PTR);
+		r->value.ptrarray = g_ptr_array_new();
 	}
 
 	return r;

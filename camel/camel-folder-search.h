@@ -68,6 +68,9 @@ struct _CamelFolderSearchClass {
 
 	/* (header-contains "headername" "string1" ...) List of matches, or true if in single-message mode */
 	ESExpResult * (*header_contains)(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *s);
+
+	/* (user-flag "flagname" "flagname" ...) If one of user-flag set */
+	ESExpResult * (*user_flag)(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *s);
 };
 
 guint		camel_folder_search_get_type	(void);

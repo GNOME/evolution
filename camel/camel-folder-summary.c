@@ -28,6 +28,8 @@
 
 #include "camel-folder-summary.h"
 
+#include <camel/camel-mime-message.h>
+
 #include <camel/camel-mime-filter.h>
 #include <camel/camel-mime-filter-index.h>
 #include <camel/camel-mime-filter-charset.h>
@@ -1008,7 +1010,6 @@ static int
 message_info_save(CamelFolderSummary *s, FILE *out, CamelMessageInfo *mi)
 {
 	guint32 count;
-	int i;
 	CamelFlag *flag;
 
 	io(printf("Saving message info\n"));
@@ -1029,6 +1030,7 @@ message_info_save(CamelFolderSummary *s, FILE *out, CamelMessageInfo *mi)
 		camel_folder_summary_encode_string(out, flag->name);
 		flag = flag->next;
 	}
+	return ferror(out);
 }
 
 static void

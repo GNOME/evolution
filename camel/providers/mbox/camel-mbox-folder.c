@@ -186,7 +186,8 @@ mbox_init (CamelFolder *folder, CamelStore *parent_store,
 		CAMEL_MESSAGE_DELETED |
 		CAMEL_MESSAGE_DRAFT |
 		CAMEL_MESSAGE_FLAGGED |
-		CAMEL_MESSAGE_SEEN;
+		CAMEL_MESSAGE_SEEN |
+		CAMEL_MESSAGE_USER;
 
  	mbox_folder->summary = NULL;
  	mbox_folder->search = NULL;
