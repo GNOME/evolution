@@ -40,6 +40,24 @@ AM_GNOME_GETTEXT
 
 GNOME_X_CHECKS
 
+dnl **************************************************
+dnl * ORBit support
+dnl **************************************************
+GNOMEGNORBA_LIBS="$GNOMEGNORBA_LIBS"
+AC_SUBST(GNOMEGNORBA_LIBS)
+
+
+dnl ******************************
+dnl Check for Bonobo
+dnl ******************************
+AM_PATH_BONOBO(0.1.0, [
+	AC_DEFINE(ENABLE_BONOBO)
+	have_bonobo=true
+],[
+	have_bonobo=false
+])
+AM_CONDITIONAL(BONOBO, $have_bonobo)
+
 
 AC_OUTPUT([
 Makefile

@@ -6,6 +6,7 @@
 #undef HAVE_LIBSM
 #undef PACKAGE
 #undef VERSION
+#undef HAVE_BONOBO
 
 /* Define this if you want to build against the development gtk */
 #undef HAVE_DEVGTK

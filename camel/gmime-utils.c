@@ -171,3 +171,60 @@ get_header_table_from_file (FILE *file)
 }
 		
 		
+GHashTable *
+get_header_table_from_stream (GnomeStream *stream)
+{
+	int next_char;
+
+	gboolean crlf = FALSE;
+	gboolean end_of_header_line = FALSE;
+	gboolean end_of_headers = FALSE;
+	gboolean end_of_file = FALSE;
+	GString *header_line=NULL;
+	GHashTable *header_table;
+
+	header_table = g_hash_table_new (g_string_hash, g_string_equal_for_hash);
+	//next_char = fgetc (file);
+	do {
+		header_line = g_string_new("");
+		end_of_header_line = FALSE;
+		crlf = FALSE;
+		
+		/* read a whole header line */
+		do {
+			switch (next_char) {
+			case EOF:
+				end_of_file=TRUE;
+				end_of_header_line = TRUE;
+				break;
+			case '\n': /* a blank line means end of headers */
+				if (crlf) {
+					end_of_headers=TRUE;
+					end_of_header_line = TRUE;
+				}
+				else crlf = TRUE;
+				break;
+			case ' ':
+			case 't':
+				if (crlf) crlf = FALSE;
+				
+			default:
+				if (!crlf) header_line = g_string_append_c (header_line, next_char);
+				else end_of_header_line = TRUE;
+			}
+			/* if we have read a whole header line, we have also read
+			   the first character of the next line to be sure the 
+			   crlf was not followed by a space or a tab char */
+			//if (!end_of_header_line) next_char = fgetc (file);
+
+		} while ( !end_of_header_line );
+		if ( strlen(header_line->str) ) 
+			_store_header_pair_from_gstring (header_table, header_line);
+		g_string_free (header_line, FALSE);
+
+	} while ( (!end_of_headers) && (!end_of_file) );
+
+	return header_table;
+}
+		
+		

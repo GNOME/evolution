@@ -1,6 +1,7 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 #include "camel-mime-message.h"
 #include "stdio.h"
+#include <bonobo/gnome-stream.h>
 
 void
 main (int argc, char**argv)
