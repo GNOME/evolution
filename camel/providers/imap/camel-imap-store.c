@@ -76,6 +76,7 @@ static gint compare_folder_name (gconstpointer a, gconstpointer b);
 static CamelFolder *get_folder_online (CamelStore *store, const char *folder_name, guint32 flags, CamelException *ex);
 static CamelFolder *get_folder_offline (CamelStore *store, const char *folder_name, guint32 flags, CamelException *ex);
 static CamelFolderInfo *create_folder (CamelStore *store, const char *parent_name, const char *folder_name, CamelException *ex);
+static void             delete_folder (CamelStore *store, const char *folder_name, CamelException *ex);
 static CamelFolderInfo *get_folder_info_online (CamelStore *store,
 						const char *top,
 						guint32 flags,
@@ -114,6 +115,7 @@ camel_imap_store_class_init (CamelImapStoreClass *camel_imap_store_class)
 	camel_store_class->hash_folder_name = hash_folder_name;
 	camel_store_class->compare_folder_name = compare_folder_name;
 	camel_store_class->create_folder = create_folder;
+	camel_store_class->delete_folder = delete_folder;
 	camel_store_class->free_folder_info = camel_store_free_folder_info_full;
 	camel_store_class->folder_subscribed = folder_subscribed;
 	camel_store_class->subscribe_folder = subscribe_folder;
@@ -826,6 +828,38 @@ no_such_folder (const char *name, CamelException *ex)
 	return NULL;
 }
 
+static int
+get_folder_status (CamelImapStore *imap_store, const char *folder_name, const char *type)
+{
+	CamelImapResponse *response;
+	char *status, *p;
+	int out;
+
+	/* FIXME: we assume the server is STATUS-capable */
+
+	response = camel_imap_command (imap_store, NULL, NULL,
+				       "STATUS %S (%s)",
+				       folder_name,
+				       type);
+
+	if (!response)
+		return -1;
+
+	status = camel_imap_response_extract (imap_store, response,
+					      "STATUS", NULL);
+	if (!status)
+		return -1;
+
+	p = strstrcase (status, type);
+	if (p)
+		out = strtoul (p + strlen (type), NULL, 10);
+	else
+		out = -1;
+
+	g_free (status);
+	return out;
+}
+
 static CamelFolder *
 get_folder_online (CamelStore *store, const char *folder_name,
 		   guint32 flags, CamelException *ex)
@@ -925,6 +959,32 @@ imap_concat (CamelImapStore *imap_store, const char *prefix, const char *suffix)
 		return g_strdup_printf ("%s%c%s", prefix, imap_store->dir_sep, suffix);
 }
 
+static void
+delete_folder (CamelStore *store, const char *folder_name, CamelException *ex)
+{
+	CamelImapStore *imap_store = CAMEL_IMAP_STORE (store);
+	CamelImapResponse *response;
+
+	if (!camel_disco_store_check_online (CAMEL_DISCO_STORE (store), ex))
+		return;
+
+	/* make sure this folder isn't currently SELECTed */
+
+	response = camel_imap_command (imap_store, NULL, ex, "SELECT INBOX");
+	if (response) {
+		camel_imap_response_free (imap_store, response);
+		imap_store->current_folder = NULL;
+	} else
+		return;
+
+	/* delete the old parent and recreate it */
+
+	response = camel_imap_command (imap_store, NULL, ex, "DELETE %S",
+				       folder_name);
+	if (response)
+		camel_imap_response_free (imap_store, response);
+}
+
 static CamelFolderInfo *
 create_folder (CamelStore *store, const char *parent_name,
 	       const char *folder_name, CamelException *ex)
@@ -932,14 +992,74 @@ create_folder (CamelStore *store, const char *parent_name,
 	CamelImapStore *imap_store = CAMEL_IMAP_STORE (store);
 	CamelImapResponse *response;
 	CamelFolderInfo *fi;
-	char *full_name;
+	char *full_name, *resp, *thisone;
+	gboolean need_convert;
+	int i, flags;
 
 	if (!camel_disco_store_check_online (CAMEL_DISCO_STORE (store), ex))
 		return NULL;
 	if (!parent_name)
 		parent_name = imap_store->namespace;
-	full_name = imap_concat (imap_store, parent_name, folder_name);
 
+	/* check if the parent allows inferiors */
+
+	need_convert = FALSE;
+	response = camel_imap_command (imap_store, NULL, ex, "LIST \"\" %S",
+				       parent_name);
+	if (!response) /* whoa, this is bad */
+		return NULL;
+
+	/* FIXME: does not handle unexpected circumstances very well */
+	for (i = 0; i < response->untagged->len; i++) {
+		resp = response->untagged->pdata[i];
+		
+		if (!imap_parse_list_response (resp, &flags, NULL, &thisone))
+			continue;
+		
+		if (strcmp (thisone, parent_name) == 0) {
+			if (flags & IMAP_LIST_FLAG_NOINFERIORS)
+				need_convert = TRUE;
+			break;
+		}
+	}
+	
+	camel_imap_response_free (imap_store, response);
+
+	/* if not, check if we can delete it and recreate it */
+	if (need_convert) {
+		gchar *name;
+		CamelException internal_ex;
+
+		if (get_folder_status (imap_store, parent_name, "MESSAGES")) {
+			camel_exception_set (ex, CAMEL_EXCEPTION_FOLDER_INVALID_STATE,
+					     _("The parent folder is not allowed to contain subfolders"));
+			return NULL;
+		}
+
+		/* delete the old parent and recreate it */
+		camel_exception_init (&internal_ex);
+		delete_folder (store, parent_name, &internal_ex);
+		if (camel_exception_is_set (&internal_ex)) {
+			camel_exception_xfer (ex, &internal_ex);
+			return;
+		}
+
+		/* add the dirsep to the end of parent_name */
+		name = g_strdup_printf ("%s%c", parent_name, imap_store->dir_sep);
+		response = camel_imap_command (imap_store, NULL, ex, "CREATE %S",
+					       name);
+		g_free (name);
+
+		if (!response)
+			return NULL;
+		else
+			camel_imap_response_free (imap_store, response);
+	}
+
+	
+	/* ok now we can create the folder */
+
+	full_name = imap_concat (imap_store, parent_name, folder_name);
 	response = camel_imap_command (imap_store, NULL, ex, "CREATE %S",
 				       full_name);
 	if (response) {
@@ -959,6 +1079,7 @@ parse_list_response_as_folder_info (CamelImapStore *imap_store,
 	CamelFolderInfo *fi;
 	int flags;
 	char sep, *dir, *name = NULL;
+	CamelURL *url;
 
 	if (!imap_parse_list_response (response, &flags, &sep, &dir))
 		return NULL;
@@ -977,15 +1098,16 @@ parse_list_response_as_folder_info (CamelImapStore *imap_store,
 		fi->name = g_strdup (name);
 	else
 		fi->name = g_strdup (dir);
-	if (!(flags & IMAP_LIST_FLAG_NOSELECT)) {
-		CamelURL *url;
-		
-		url = camel_url_new (imap_store->base_url, NULL);
-		g_free (url->path);
-		url->path = g_strdup_printf ("/%s", dir);
-		fi->url = camel_url_to_string (url, 0);
-		camel_url_free (url);
-	}
+
+	url = camel_url_new (imap_store->base_url, NULL);
+	g_free (url->path);
+	url->path = g_strdup_printf ("/%s", dir);
+	if (flags & IMAP_LIST_FLAG_NOSELECT)
+		camel_url_set_param (url, "noselect", "yes");
+	fi->url = camel_url_to_string (url, 0);
+	camel_url_free (url);
+
+
 	if (!(flags & IMAP_LIST_FLAG_UNMARKED))
 		fi->unread_message_count = -1;
 
@@ -1072,11 +1194,10 @@ get_folder_info_online (CamelStore *store, const char *top,
 			guint32 flags, CamelException *ex)
 {
 	CamelImapStore *imap_store = CAMEL_IMAP_STORE (store);
-	CamelImapResponse *response;
 	gboolean need_inbox = FALSE;
 	GPtrArray *folders;
 	const char *name;
-	char *pattern, *status, *p;
+	char *pattern;
 	CamelFolderInfo *fi, *tree;
 	int i;
 
@@ -1097,7 +1218,9 @@ get_folder_info_online (CamelStore *store, const char *top,
 		goto lose;
 	if (folders->len) {
 		fi = folders->pdata[0];
-		if (!fi->url) {
+		/* note that == is okay; see above */
+		if (strstr (fi->url, "noselect=yes") && 
+		    name == imap_store->namespace) {
 			camel_folder_info_free (fi);
 			g_ptr_array_remove_index (folders, 0);
 		}
@@ -1173,8 +1296,9 @@ get_folder_info_online (CamelStore *store, const char *top,
 		/* Don't check if it doesn't contain messages or if it
 		 * was \UnMarked.
 		 */
-		if (!fi->url || fi->unread_message_count != -1)
+		if (fi->unread_message_count != -1 || strstr (fi->url, "noselect=yes"))
 			continue;
+
 		/* Don't check if it's not INBOX and we're only
 		 * checking INBOX.
 		 */
@@ -1192,20 +1316,7 @@ get_folder_info_online (CamelStore *store, const char *top,
 			continue;
 		}
 
-		response = camel_imap_command (imap_store, NULL, NULL,
-					       "STATUS %S (UNSEEN)",
-					       fi->full_name);
-		if (!response)
-			continue;
-		status = camel_imap_response_extract (imap_store, response,
-						      "STATUS", NULL);
-		if (!status)
-			continue;
-
-		p = strstrcase (status, "UNSEEN");
-		if (p)
-			fi->unread_message_count = strtoul (p + 6, NULL, 10);
-		g_free (status);
+		fi->unread_message_count = get_folder_status (imap_store, fi->full_name, "UNSEEN");
 	}
 
 	g_ptr_array_free (folders, TRUE);

@@ -651,6 +651,9 @@ camel_folder_info_build (GPtrArray *folders, const char *namespace,
 			if (pfi) {
 				g_free (pname);
 			} else {
+				CamelURL *url;
+				char *sep;
+
 				pfi = g_new0 (CamelFolderInfo, 1);
 				pfi->full_name = pname;
 				if (short_names) {
@@ -661,6 +664,17 @@ camel_folder_info_build (GPtrArray *folders, const char *namespace,
 						pfi->name = g_strdup (pname);
 				} else
 					pfi->name = g_strdup (pname);
+
+				url = camel_url_new (fi->url, NULL);
+				sep = strrchr (url->path, separator);
+				if (sep)
+					*sep = '\0';
+				else
+					g_warning ("huh, no \"%c\" in \"%s\"?", separator, fi->url);
+				camel_url_set_param (url, "noselect", "yes");
+				pfi->url = camel_url_to_string (url, 0);
+				camel_url_free (url);
+
 				g_hash_table_insert (hash, pname, pfi);
 				g_ptr_array_add (folders, pfi);
 			}

@@ -1,3 +1,27 @@
+2001-07-19  Peter Williams  <peterw@ximian.com>
+
+	Policy change: NULL url's are no longer allowed in CamelFolderInfos. They used
+	to signify that the folder was, in IMAP jargon, NoSelect; now the same effect
+	is achieved by adding a "noselect=yes" parameter to the end of the URL. As far
+	as I know, IMAP is the only affected provider.
+	
+	* providers/imap/camel-imap-store.c (delete_folder): New function. Implement
+	folder deletion.
+	(camel_imap_store_class_init): Set the delete_folder class function here.
+	(get_folder_status): New function. Utility wrapper around the STATUS command.
+	(create_folder): If the parent folder is NoSelect but is empty, delete it
+	and recreate it as a a subfolder-containing folder. If it is NoSelect but
+	contains messages, set an exception.
+	(parse_list_response_as_folder_info): Always set the FolderInfo's URL, but
+	add a NoSelect parameter if it isn't selectable.
+	(get_folder_info_online): Change logic of removing the namespace to reflect
+	URL change. Same for logic of checking unread counts.
+	(get_folder_info_online): Use get_folder_status to simplify this.
+
+	* camel-store.c (camel_folder_info_build): When creating
+	dummy parents, copy the child's URL and set the NoSelect
+	parameter.
+
 2001-07-19  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-mime-part-utils.c

@@ -1,3 +1,21 @@
+2001-07-19  Peter Williams  <peterw@ximian.com>
+
+	Track the NoSelect changes in Camel.
+	
+	* mail-callbacks.c (create_folders): We don't need to check if
+	the URL is NULL or not anymore.
+
+	* component-factory.c (create_noselect_control): New
+	function. Create a dummy control for folders that can't contain
+	messages (ie \NoSelect)
+	(create_view): If the URI says the folder is noselect, make a
+	dummy control. FIXME: still should merge in the global UI
+	elements.
+	(xfer_folder): Don't allow the operation if the destination is
+	NoSelect.
+	(destination_folder_handle_motion): Ditto.
+	(destination_folder_handle_drop): Ditto.
+
 2001-07-19  Not Zed  <NotZed@Ximian.com>
 
 	* mail-local.c (reconfigure_folder_reconfigure): remvoed
