@@ -1,3 +1,8 @@
+2001-08-08  Peter Williams  <peterw@ximian.com>
+
+	* mail-ops.c (mail_update_subfolders): Change this gtk_object_ref
+	on the storage to a bonobo_object_ref.
+
 2001-08-07  Not Zed  <NotZed@Ximian.com>
 
 	* mail-config.c (mail_config_get_thread_list): Free the dbkey if

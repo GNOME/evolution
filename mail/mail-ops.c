@@ -440,7 +440,7 @@ mail_update_subfolders (CamelStore *store, EvolutionStorage *storage,
 	/* however, this isn't a big problem ... */
 	info = g_malloc0(sizeof(*info));
 	info->storage = storage;
-	gtk_object_ref((GtkObject *)storage);
+	bonobo_object_ref((BonoboObject *)storage);
 	info->done = done;
 	info->data = data;
 
