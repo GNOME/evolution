@@ -650,6 +650,7 @@ Sub
   <class>GnomeDialog</class>
   <name>addressbook_sources</name>
   <visible>False</visible>
+  <title>Addressbook Sources</title>
   <type>GTK_WINDOW_TOPLEVEL</type>
   <position>GTK_WIN_POS_NONE</position>
   <modal>False</modal>

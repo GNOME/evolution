@@ -1,5 +1,10 @@
 2001-08-15  Chris Toshok  <toshok@ximian.com>
 
+	* gui/component/addressbook-config.glade: set title of initial
+	dialog to Addressbook Sources (bug #6704).
+
+2001-08-15  Chris Toshok  <toshok@ximian.com>
+
 	* gui/component/addressbook-storage.c (create_ldap_folder): don't
 	let people add subdirs in the ldap server storage - everything is
 	toplevel there.
