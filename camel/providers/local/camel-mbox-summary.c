@@ -24,16 +24,16 @@
 #include <config.h>
 #endif
 
-#include "camel-mbox-summary.h"
-#include "camel/camel-mime-message.h"
-#include "camel/camel-operation.h"
-
 #include <sys/stat.h>
 #include <sys/uio.h>
 #include <unistd.h>
 #include <errno.h>
 #include <string.h>
 #include <stdlib.h>
+
+#include "camel-mbox-summary.h"
+#include "camel/camel-mime-message.h"
+#include "camel/camel-operation.h"
 
 #define io(x)
 #define d(x) /*(printf("%s(%d): ", __FILE__, __LINE__),(x))*/

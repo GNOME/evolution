@@ -20,11 +20,7 @@
  *  USA
  */
 
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
-
-#include <string.h>
 
 #include "camel-exception.h"
 #include "camel-vee-folder.h"
@@ -41,6 +37,8 @@
 #ifdef DOESTRV
 #include "e-util/e-memory.h"
 #endif
+
+#include <string.h>
 
 #define d(x)
 
@@ -411,6 +409,8 @@ vee_sync(CamelFolder *folder, gboolean expunge, CamelException *ex)
 	struct _CamelVeeFolderPrivate *p = _PRIVATE(vf);
 	GList *node;
 
+	printf("vee-sync\n");
+
 	CAMEL_VEE_FOLDER_LOCK(vf, subfolder_lock);
 
 	node = p->folders;
@@ -448,7 +448,7 @@ vee_get_message(CamelFolder *folder, const char *uid, CamelException *ex)
 		camel_folder_summary_info_free(folder->summary, (CamelMessageInfo *)mi);
 	} else {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_FOLDER_INVALID_UID,
-				     "No such message %s in %s", uid,
+				     _("No such message %s in %s"), uid,
 				     folder->name);
 	}
 

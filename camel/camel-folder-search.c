@@ -30,9 +30,10 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
-#include <glib.h>
 #include <sys/types.h>
 #include <regex.h>
+
+#include <glib.h>
 
 #include "camel-folder-search.h"
 #include "string-utils.h"

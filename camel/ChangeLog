@@ -1,3 +1,15 @@
+2001-04-04  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* camel-filter-driver.c: Added #include <config.h>. Marked
+	a bunch of strings for translation.
+	* camel-folder-search.c: Added #include <config.h>.
+	* camel-folder-summary.c: Same here.
+	* camel-movemail.c: Marked strings for translation.
+	* camel-provider.c: Same here.
+	* camel-search-private.c: #include <config.h>
+	* camel-vee-folder.c: Mark string for translation.
+	* providers/local/camel-mbox-summary.c: #include <config.h>
+	
 2001-04-03  Dan Winship  <danw@ximian.com>
 
 	* providers/imap/camel-imap-folder.c (imap_sync): If we don't
