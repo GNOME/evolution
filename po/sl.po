@@ -8465,7 +8465,7 @@ msgstr "Skrij _prebrana sporoèila"
 msgid ""
 "Hide deleted messages rather than displaying them with a line through them"
 msgstr ""
-"Raje skrij zbrisana sporoèila kot, da jih prika¾e¹ preèrtana
+"Raje skrij zbrisana sporoèila kot, da jih prika¾e¹ preèrtana"
 
 #: ui/evolution-mail.xml.h:46
 msgid "Load _Images"
