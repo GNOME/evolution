@@ -7,6 +7,9 @@
 	<cmd name="ToolsSettings"
 	 _tip="Change the settings for My Evolution"
 	 pixtype="pixbuf"/>
+
+	<cmd name="Reload" _label="Reload" _tip="Reload the view" 
+	 pixtype="stock" pixname="Refresh"/>
   </commands>
 
   <menu>
@@ -29,7 +32,9 @@
   <dockitem name="Toolbar">
 
     <toolitem name="PrintMyEvolution" verb="PrintMyEvolution"
-	_label="Print" pixtype="pixbuf"/ priority="1">
+	_label="Print" pixtype="pixbuf" priority="1"/>
 
+    <toolitem name="Reload" verb="Reload"
+	_label="Reload" priority="1"/>
   </dockitem>
 </Root>

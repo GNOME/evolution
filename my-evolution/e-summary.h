@@ -108,6 +108,8 @@ GtkType e_summary_get_type (void);
 GtkWidget *e_summary_new (const GNOME_Evolution_Shell shell);
 void e_summary_print (GtkWidget *widget,
 		      ESummary *summary);
+void e_summary_reload (GtkWidget *widget,
+		       ESummary *summary);
 void e_summary_draw (ESummary *summary);
 void e_summary_change_current_view (ESummary *summary,
 				    const char *uri);

@@ -26,6 +26,7 @@
 BonoboUIVerb verbs[] = {
 	BONOBO_UI_VERB ("PrintMyEvolution", e_summary_print),
 	BONOBO_UI_VERB ("ToolsSettings", e_summary_configure),
+	BONOBO_UI_VERB ("Reload", e_summary_reload),
 	BONOBO_UI_VERB_END
 };
 

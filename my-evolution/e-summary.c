@@ -645,6 +645,13 @@ e_summary_reconfigure (ESummary *summary)
 	}
 }
 
+void
+e_summary_reload (GtkWidget *widget,
+		  ESummary *summary)
+{
+	e_summary_reconfigure (summary);
+}
+
 int 
 e_summary_count_connections (ESummary *summary)
 {
