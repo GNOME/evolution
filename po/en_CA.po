@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-08-03 20:27-0400\n"
-"PO-Revision-Date: 2004-08-05 19:18-0700\n"
+"POT-Creation-Date: 2004-08-06 15:07-0400\n"
+"PO-Revision-Date: 2004-08-06 19:18-0700\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: Canadian English <adamw@FreeBSD.org>\n"
 "MIME-Version: 1.0\n"
@@ -809,7 +809,7 @@ msgid "Send HTML Mail?"
 msgstr "Send HTML Mail?"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:322
-#: addressbook/gui/widgets/eab-popup-control.c:982
+#: addressbook/gui/widgets/eab-popup-control.c:983
 msgid "Add to Contacts"
 msgstr "Add to Contacts"
 
@@ -2621,12 +2621,12 @@ msgid "Email"
 msgstr "Email"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:11
-#: addressbook/gui/widgets/eab-popup-control.c:441
+#: addressbook/gui/widgets/eab-popup-control.c:442
 msgid "Email 2"
 msgstr "Email 2"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:12
-#: addressbook/gui/widgets/eab-popup-control.c:451
+#: addressbook/gui/widgets/eab-popup-control.c:452
 msgid "Email 3"
 msgstr "Email 3"
 
@@ -3126,37 +3126,37 @@ msgstr "VCard for %s"
 #. * addresses (and *only* the e-mail addresses) associated with an existing
 #. * contact.
 #.
-#: addressbook/gui/widgets/eab-popup-control.c:198
+#: addressbook/gui/widgets/eab-popup-control.c:199
 msgid "(none)"
 msgstr "(none)"
 
-#: addressbook/gui/widgets/eab-popup-control.c:431
+#: addressbook/gui/widgets/eab-popup-control.c:432
 msgid "Primary Email"
 msgstr "Primary Email"
 
-#: addressbook/gui/widgets/eab-popup-control.c:567
+#: addressbook/gui/widgets/eab-popup-control.c:568
 msgid "Select an Action"
 msgstr "Select an Action"
 
-#: addressbook/gui/widgets/eab-popup-control.c:575
+#: addressbook/gui/widgets/eab-popup-control.c:576
 #, c-format
 msgid "Create a new contact \"%s\""
 msgstr "Create a new contact \"%s\""
 
-#: addressbook/gui/widgets/eab-popup-control.c:591
+#: addressbook/gui/widgets/eab-popup-control.c:592
 #, c-format
 msgid "Add address to existing contact \"%s\""
 msgstr "Add address to existing contact \"%s\""
 
-#: addressbook/gui/widgets/eab-popup-control.c:869
+#: addressbook/gui/widgets/eab-popup-control.c:870
 msgid "Querying Address Book..."
 msgstr "Querying Address Book..."
 
-#: addressbook/gui/widgets/eab-popup-control.c:952
+#: addressbook/gui/widgets/eab-popup-control.c:953
 msgid "Edit Contact Info"
 msgstr "Edit Contact Info"
 
-#: addressbook/gui/widgets/eab-popup-control.c:1007
+#: addressbook/gui/widgets/eab-popup-control.c:1008
 msgid "Merge E-Mail Address"
 msgstr "Merge E-Mail Address"
 
@@ -3518,13 +3518,13 @@ msgid ""
 "If you don't send a cancellation notice, the other participants may not know "
 "the meeting is canceled."
 msgstr ""
-"If you do not send a cancelation notice, the other participants may not "
-"know the meeting is canceled."
+"If you do not send a cancelation notice, the other participants may not know "
+"the meeting is canceled."
 
 #: calendar/calendar-errors.xml.h:5 calendar/calendar-errors.xml.h:15
-#: calendar/calendar-errors.xml.h:25 calendar/calendar-errors.xml.h:79
-#: calendar/calendar-errors.xml.h:85 calendar/calendar-errors.xml.h:91
-#: calendar/calendar-errors.xml.h:97
+#: calendar/calendar-errors.xml.h:25 calendar/calendar-errors.xml.h:85
+#: calendar/calendar-errors.xml.h:91 calendar/calendar-errors.xml.h:97
+#: calendar/calendar-errors.xml.h:103
 msgid "Don't Send"
 msgstr "Don't Send"
 
@@ -3551,8 +3551,8 @@ msgid ""
 "If you don't send a cancellation notice, the other participants may not know "
 "the task has been deleted."
 msgstr ""
-"If you do not send a cancelation notice, the other participants may not "
-"know the task has been deleted."
+"If you do not send a cancelation notice, the other participants may not know "
+"the task has been deleted."
 
 #. calendar:prompt-delete-task primary
 #: calendar/calendar-errors.xml.h:18 calendar/calendar-errors.xml.h:44
@@ -3578,8 +3578,8 @@ msgid ""
 "If you don't send a cancellation notice, the other participants may not know "
 "the journal has been deleted."
 msgstr ""
-"If you do not send a cancelation notice, the other participants may not "
-"know the journal has been deleted."
+"If you do not send a cancelation notice, the other participants may not know "
+"the journal has been deleted."
 
 #. calendar:prompt-delete-journal primary
 #: calendar/calendar-errors.xml.h:28 calendar/calendar-errors.xml.h:52
@@ -3690,31 +3690,46 @@ msgstr "Discard Changes"
 msgid "Save Changes"
 msgstr "Save Changes"
 
-#. calendar:prompt-meeting-invite primary
+#. calendar:prompt-save-task title
 #: calendar/calendar-errors.xml.h:76
+msgid "Save Task"
+msgstr "Save Task"
+
+#. calendar:prompt-save-task primary
+#: calendar/calendar-errors.xml.h:78
+msgid "Would you like to save your changes to this task?"
+msgstr "Would you like to save your changes to this task?"
+
+#. calendar:prompt-save-task secondary
+#: calendar/calendar-errors.xml.h:80
+msgid "You have made changes to this task, but not yet saved them."
+msgstr "You have made changes to this task, but not yet saved them."
+
+#. calendar:prompt-meeting-invite primary
+#: calendar/calendar-errors.xml.h:82
 msgid "Would you like to send meeting invitations to participants?"
 msgstr "Would you like to send meeting invitations to participants?"
 
 #. calendar:prompt-meeting-invite secondary
-#: calendar/calendar-errors.xml.h:78
+#: calendar/calendar-errors.xml.h:84
 msgid ""
 "Email invitations will be sent to all participants and allow them to RSVP."
 msgstr ""
 "Email invitations will be sent to all participants and allow them to RSVP."
 
-#: calendar/calendar-errors.xml.h:80 calendar/calendar-errors.xml.h:86
-#: calendar/calendar-errors.xml.h:92 calendar/calendar-errors.xml.h:98
+#: calendar/calendar-errors.xml.h:86 calendar/calendar-errors.xml.h:92
+#: calendar/calendar-errors.xml.h:98 calendar/calendar-errors.xml.h:104
 #: ui/evolution-message-composer.xml.h:24
 msgid "Send"
 msgstr "Send"
 
 #. calendar:prompt-send-updated-meeting-info primary
-#: calendar/calendar-errors.xml.h:82
+#: calendar/calendar-errors.xml.h:88
 msgid "Would you like to send updated meeting information to participants?"
 msgstr "Would you like to send updated meeting information to participants?"
 
 #. calendar:prompt-send-updated-meeting-info secondary
-#: calendar/calendar-errors.xml.h:84
+#: calendar/calendar-errors.xml.h:90
 msgid ""
 "Sending updated information allows other participants to keep their "
 "calendars up to date."
@@ -3723,12 +3738,12 @@ msgstr ""
 "calendars up to date."
 
 #. calendar:prompt-send-task primary
-#: calendar/calendar-errors.xml.h:88
+#: calendar/calendar-errors.xml.h:94
 msgid "Would you like to send this task to participants?"
 msgstr "Would you like to send this task to participants?"
 
 #. calendar:prompt-send-task secondary
-#: calendar/calendar-errors.xml.h:90
+#: calendar/calendar-errors.xml.h:96
 msgid ""
 "Email invitations will be sent to all participants and allow them to accept "
 "this task."
@@ -3737,12 +3752,12 @@ msgstr ""
 "this task."
 
 #. calendar:prompt-send-updated-task-info primary
-#: calendar/calendar-errors.xml.h:94
+#: calendar/calendar-errors.xml.h:100
 msgid "Would you like to send updated task information to participants?"
 msgstr "Would you like to send updated task information to participants?"
 
 #. calendar:prompt-send-updated-task-info secondary
-#: calendar/calendar-errors.xml.h:96
+#: calendar/calendar-errors.xml.h:102
 msgid ""
 "Sending updated information allows other participants to keep their task "
 "lists up to date."
@@ -3751,22 +3766,22 @@ msgstr ""
 "lists up to date."
 
 #. calendar:tasks-crashed primary
-#: calendar/calendar-errors.xml.h:100
+#: calendar/calendar-errors.xml.h:106
 msgid "The Evolution tasks have quit unexpectedly."
 msgstr "The Evolution tasks have quit unexpectedly."
 
 #. calendar:tasks-crashed secondary
-#: calendar/calendar-errors.xml.h:102
+#: calendar/calendar-errors.xml.h:108
 msgid "Your tasks will not be available until Evolution is restarted."
 msgstr "Your tasks will not be available until Evolution is restarted."
 
 #. calendar:calendar-crashed primary
-#: calendar/calendar-errors.xml.h:104
+#: calendar/calendar-errors.xml.h:110
 msgid "The Evolution calendar has quit unexpectedly."
 msgstr "The Evolution calendar has quit unexpectedly."
 
 #. calendar:calendar-crashed secondary
-#: calendar/calendar-errors.xml.h:106
+#: calendar/calendar-errors.xml.h:112
 msgid "Your calendars will not be available until Evolution is restarted."
 msgstr "Your calendars will not be available until Evolution is restarted."
 
@@ -3813,7 +3828,7 @@ msgid "Calendar and Tasks"
 msgstr "Calendar and Tasks"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:4
-#: calendar/gui/calendar-component.c:1072
+#: calendar/gui/calendar-component.c:1073
 msgid "Calendars"
 msgstr "Calendars"
 
@@ -3848,7 +3863,7 @@ msgstr "Evolution's Tasks component"
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:12
 #: calendar/gui/e-tasks.c:1198 calendar/gui/print.c:1819
 #: calendar/gui/tasks-component.c:419 calendar/gui/tasks-component.c:884
-#: calendar/gui/tasks-control.c:405 calendar/importers/icalendar-importer.c:83
+#: calendar/gui/tasks-control.c:408 calendar/importers/icalendar-importer.c:83
 #: calendar/importers/icalendar-importer.c:709
 msgid "Tasks"
 msgstr "Tasks"
@@ -3895,24 +3910,24 @@ msgstr "_Edit appointment"
 msgid "_Snooze"
 msgstr "_Snooze"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:881
+#: calendar/gui/alarm-notify/alarm-queue.c:882
 #: ui/evolution-message-composer.xml.h:10
 msgid "Open"
 msgstr "Open"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:883
+#: calendar/gui/alarm-notify/alarm-queue.c:884
 msgid "Dismiss"
 msgstr "Dismiss"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:885
+#: calendar/gui/alarm-notify/alarm-queue.c:886
 msgid "Dismiss All"
 msgstr "Dismiss All"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:949
+#: calendar/gui/alarm-notify/alarm-queue.c:951
 msgid "No description available."
 msgstr "No description available."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:969
+#: calendar/gui/alarm-notify/alarm-queue.c:971
 #, c-format
 msgid ""
 "Alarm on %s\n"
@@ -3925,12 +3940,12 @@ msgstr ""
 "Starting at %s\n"
 "Ending at %s"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1069
-#: calendar/gui/alarm-notify/alarm-queue.c:1093
+#: calendar/gui/alarm-notify/alarm-queue.c:1071
+#: calendar/gui/alarm-notify/alarm-queue.c:1095
 msgid "Warning"
 msgstr "Warning"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1073
+#: calendar/gui/alarm-notify/alarm-queue.c:1075
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -3942,7 +3957,7 @@ msgstr ""
 "configured to send an email.  Evolution will display\n"
 "a normal reminder dialog box instead."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1099
+#: calendar/gui/alarm-notify/alarm-queue.c:1101
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -3959,7 +3974,7 @@ msgstr ""
 "\n"
 "Are you sure you want to run this program?"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1113
+#: calendar/gui/alarm-notify/alarm-queue.c:1115
 msgid "Do not ask me about this program again."
 msgstr "Do not ask me about this program again."
 
@@ -4125,7 +4140,7 @@ msgstr "Unmatched"
 
 #: calendar/gui/calendar-commands.c:117 calendar/gui/calendar-component.c:564
 #: calendar/gui/dialogs/select-source-dialog.c:112
-#: calendar/gui/gnome-cal.c:1858
+#: calendar/gui/gnome-cal.c:1860
 #: camel/providers/groupwise/camel-gw-listener.c:331
 #: camel/providers/groupwise/camel-gw-listener.c:361
 msgid "Calendar"
@@ -4228,51 +4243,51 @@ msgstr "Unable to open the calendar '%s' for creating events and meetings"
 msgid "There is no calendar available for creating events and meetings"
 msgstr "There is no calendar available for creating events and meetings"
 
-#: calendar/gui/calendar-component.c:1238
+#: calendar/gui/calendar-component.c:1239
 msgid "New appointment"
 msgstr "New appointment"
 
-#: calendar/gui/calendar-component.c:1239
+#: calendar/gui/calendar-component.c:1240
 msgid "_Appointment"
 msgstr "_Appointment"
 
-#: calendar/gui/calendar-component.c:1240
+#: calendar/gui/calendar-component.c:1241
 msgid "Create a new appointment"
 msgstr "Create a new appointment"
 
-#: calendar/gui/calendar-component.c:1246
+#: calendar/gui/calendar-component.c:1247
 msgid "New meeting"
 msgstr "New meeting"
 
-#: calendar/gui/calendar-component.c:1247
+#: calendar/gui/calendar-component.c:1248
 msgid "M_eeting"
 msgstr "M_eeting"
 
-#: calendar/gui/calendar-component.c:1248
+#: calendar/gui/calendar-component.c:1249
 msgid "Create a new meeting request"
 msgstr "Create a new meeting request"
 
-#: calendar/gui/calendar-component.c:1254
+#: calendar/gui/calendar-component.c:1255
 msgid "New all day appointment"
 msgstr "New all day appointment"
 
-#: calendar/gui/calendar-component.c:1255
+#: calendar/gui/calendar-component.c:1256
 msgid "All Day A_ppointment"
 msgstr "All Day A_ppointment"
 
-#: calendar/gui/calendar-component.c:1256
+#: calendar/gui/calendar-component.c:1257
 msgid "Create a new all-day appointment"
 msgstr "Create a new all-day appointment"
 
-#: calendar/gui/calendar-component.c:1262
+#: calendar/gui/calendar-component.c:1263
 msgid "New calendar"
 msgstr "New calendar"
 
-#: calendar/gui/calendar-component.c:1263
+#: calendar/gui/calendar-component.c:1264
 msgid "Cale_ndar"
 msgstr "Cale_ndar"
 
-#: calendar/gui/calendar-component.c:1264
+#: calendar/gui/calendar-component.c:1265
 msgid "Create a new calendar"
 msgstr "Create a new calendar"
 
@@ -6256,8 +6271,7 @@ msgstr ""
 msgid ""
 "The task has been cancelled, however it could not be found in your task lists"
 msgstr ""
-"The task has been canceled. However, it could not be found in your task "
-"lists"
+"The task has been canceled. However, it could not be found in your task lists"
 
 #: calendar/gui/e-itip-control.c:1134 calendar/gui/itip-utils.c:442
 #: mail/mail-send-recv.c:410 mail/mail-send-recv.c:464
@@ -6675,7 +6689,7 @@ msgstr "Required people and _one resource"
 msgid "Enter the password for %s"
 msgstr "Enter the password for %s"
 
-#: calendar/gui/e-tasks.c:744 calendar/gui/gnome-cal.c:2255
+#: calendar/gui/e-tasks.c:744 calendar/gui/gnome-cal.c:2263
 #, c-format
 msgid ""
 "Error on %s:\n"
@@ -6709,22 +6723,22 @@ msgstr "Expunging"
 msgid "Updating query"
 msgstr "Updating query"
 
-#: calendar/gui/gnome-cal.c:2038
+#: calendar/gui/gnome-cal.c:2040
 #, c-format
 msgid "Loading appointments at %s"
 msgstr "Loading appointments at %s"
 
-#: calendar/gui/gnome-cal.c:2057
+#: calendar/gui/gnome-cal.c:2059
 #, c-format
 msgid "Loading tasks at %s"
 msgstr "Loading tasks at %s"
 
-#: calendar/gui/gnome-cal.c:2144
+#: calendar/gui/gnome-cal.c:2152
 #, c-format
 msgid "Opening %s"
 msgstr "Opening %s"
 
-#: calendar/gui/gnome-cal.c:3111
+#: calendar/gui/gnome-cal.c:3122
 msgid "Purging"
 msgstr "Purging"
 
@@ -7187,7 +7201,7 @@ msgstr "Task l_ist"
 msgid "Create a new task list"
 msgstr "Create a new task list"
 
-#: calendar/gui/tasks-control.c:367
+#: calendar/gui/tasks-control.c:370
 msgid ""
 "This operation will permanently erase all tasks marked as completed. If you "
 "continue, you will not be able to recover these tasks.\n"
@@ -7199,11 +7213,11 @@ msgstr ""
 "\n"
 "Really erase these tasks?"
 
-#: calendar/gui/tasks-control.c:370
+#: calendar/gui/tasks-control.c:373
 msgid "Do not ask me again."
 msgstr "Do not ask me again."
 
-#: calendar/gui/tasks-control.c:428
+#: calendar/gui/tasks-control.c:431
 msgid "Print Tasks"
 msgstr "Print Tasks"
 
@@ -13554,10 +13568,10 @@ msgstr "Unencrypted"
 #: mail/em-format-html-display.c:650
 msgid ""
 "This message is not encrypted.  Its content may be viewed in transit across "
-"The Internet."
+"the Internet."
 msgstr ""
 "This message is not encrypted.  Its content may be viewed in transit across "
-"The Internet."
+"the Internet."
 
 #: mail/em-format-html-display.c:651 mail/em-format-html.c:592
 msgid "Encrypted, weak"
