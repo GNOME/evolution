@@ -7,10 +7,12 @@
 
     <cmd name="MailCompose"
      _tip="Open a window for composing a mail message"
-     pixtype="pixbuf"/>
+     pixtype="pixbuf"
+     accel="*Control**Shift*m"/>
 
     <cmd name="MailPost"
-     _tip="Post a message to a Public folder"/>
+     _tip="Post a message to a Public folder"
+     accel="*Control**Alt*m"/>
 
     <cmd name="MailStop"
      _tip="Cancel the current mail operation"

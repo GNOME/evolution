@@ -1,3 +1,11 @@
+2005-01-24  Rodney Dawes  <dobey@novell.com>
+
+	* evolution-mail-global.xml: Add C-A-m as a keybinding for the
+	"Post New Message" menuitem
+	Add C-S-m to the "Compose New Message" menuitem as well
+
+	Fixes #68352
+
 2005-01-04  JP Rosevear  <jpr@novell.com>
 
 	* evolution.xml: add component button view items
