@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution CVS-20010612\n"
 "POT-Creation-Date: 2002-01-24 13:27-0500\n"
-"PO-Revision-Date: 2001-23-01 00:28+0900\n"
+"PO-Revision-Date: 2002-02-12 20:57+0900\n"
 "Last-Translator: Takuo KITAME <kitame@debian.org>\n"
 "Language-Team: Japanese <translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
@@ -4902,7 +4902,7 @@ msgstr ""
 #: widgets/misc/e-cell-date-edit.c:250 widgets/misc/e-dateedit.c:452
 #: widgets/misc/e-dateedit.c:1488 widgets/misc/e-dateedit.c:1603
 msgid "None"
-msgstr "ノート"
+msgstr "なし"
 
 #: calendar/gui/calendar-model.c:1713
 msgid "Recurring"
