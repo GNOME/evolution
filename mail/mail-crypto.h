@@ -25,7 +25,6 @@
 
 #include <camel/camel.h>
 #include <camel/camel-smime-context.h>
-#include <camel/camel-smime-utils.h>
 #include "mail-config.h"
 
 #ifdef __cplusplus
