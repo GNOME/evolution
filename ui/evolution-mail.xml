@@ -1,106 +1,201 @@
 <Root>
 
-  <commands>
+  <commands>   <!-- Alphabetical by name, yo -->
 
-    <cmd name="ViewThreaded"
-      _label="_Threaded" _tip="Threaded Message list" type="toggle" />
-
-    <cmd name="ViewSource"
-      _label="S_ource" _tip="View Raw Message Source" type="toggle" />
-
-    <cmd name="HideDeleted"
-      _label="Hide _Deleted Messages" _tip="Hide Deleted Messages" type="toggle" />
-
-    <cmd name="MailStop"
-      pixtype="stock" pixname="Stop"/>
-
-    <cmd name="MailCompose" pixtype="pixbuf" _label="Compose"/>
-
-    <cmd name="PrintMessage" _label="Print message..."
-     _tip="Print message to the printer"
-     pixtype="pixbuf" accel="*Control*P"/>
-
-    <cmd name="PrintPreviewMessage" _label="Print Preview of message..."
-    _tip="Previews the message to be printed" pixtype="pixbuf"/>
-
-    <cmd name="EditSelectAll" _label="Select All" accel="*Control*a"/>
-
-    <cmd name="EditInvertSelection" _label="Invert Selection"
+    <cmd name="EditInvertSelection"
+     _tip="Select all and only the messages that are not currently selected"
      accel="*Control*i"/>
 
-    <cmd name="MessageOpenNewWnd" _label="Open in New Window"
-     _tip="Open the current message in a new window" accel="*Control*o"/>
+    <cmd name="EditSelectAll"
+     _tip="Select all visible messages"
+     accel="*Control*a"/>
 
-    <cmd name="MessageEdit" _label="Edit Message"
-     _tip="Edit the current message" pixbuf="pixbuf" accel="*Control*e"/>
+    <cmd name="EditSelectThread"
+     _tip="Select all messages in the same thread as the selected message"
+     accel="*Control*h"/>
 
-    <cmd name="MessageSaveAs" _label="_Save Message As..."
-     _tip="Save the message into a new file"
-     pixtype="pixbuf" accel="*Control**Alt*s"/>
+    <cmd name="EmptyTrash"
+     _tip="Permanently remove all deleted messages from all folders"/>
 
-    <cmd name="MessagePrint" _label="Print Message"
-     _tip="Print the selected message" accel="*Control*p"/>
+    <cmd name="FolderConfig"
+     _tip="Change the properties of this folder"
+     pixtype="pixbuf"/>
 
-    <cmd name="MessageReplySender" _label="Reply to sender" pixtype="pixbuf"
-     accel="*Control*r" _tip="Send a reply to the person who sent you this mail"/>
-
-    <cmd name="MessageReplyAll" _label="Reply to all"
-     pixtype="pixbuf" accel="*Control**Shift*r"
-     _tip="Send a single mail in reply to all the selected mail"/>
-
-    <cmd name="MessageForward" _label="Forward"
-     pixtype="pixbuf" accel="*Control*f"
-     _tip="Forward the selected mail to someone"/>
-
-    <cmd name="MessageForwardAttached" _label="Forward attached"
-     pixtype="pixbuf" accel="*Control*j"
-     _tip="Forward the selected mail to someone as an attachment"/>
-
-    <cmd name="MessageForwardInline" _label="Forward inline"
-     _tip="Forward this message in-line with your mail, so you can edit it"
-     accel="*Control**Shift*j"/>
-
-    <cmd name="MessageForwardQuoted" _label="Forward quoted"
-     _tip="Forward this message quoted like a reply"/>
-
-    <cmd name="MessageMarkAsRead" _label="Mark As Read"
-     _tip="Mark the selected messages as having been read" accel="*Control*k"/>
-
-    <cmd name="MessageMarkAsUnRead" _label="Mark As U_nread"
-     _tip="Mark the selected messages as not having been read" accel="*Control**Shift*k"/>
-
-    <cmd name="MessageMove" _label="Move"
-     _tip="Move selected messages to another folder" pixtype="pixbuf" accel="*Control*m"/>
-
-    <cmd name="MessageCopy" _label="Copy"
-     pixtype="pixbuf" accel="*Control*c"
-     _tip="Copy selected messages to another folder"/>
-
-    <cmd name="MessageDelete" _label="Delete"
-     _tip="Delete the selected messages" accel="*Control*d"/>
-
-    <cmd name="MessageUndelete" _label="Undelete"
-     _tip="Un-delete the selected messages" accel="*Control*u"/>
-
-    <cmd name="MessageApplyFilters" _label="Apply Filters"
-     _tip="Apply any new filters to the mail in this box"
-     accel="*Control*y"/>
-
-    <cmd name="MailNext" _label="Next"
-     _tip="Go to the next message" accel="f"/>
-
-    <cmd name="MailPrevious" _label="Previous"
-     _tip="Go to the previous message" accel="b"/>
-
-    <cmd name="FolderExpunge" _label="Expunge"
-     _tip="Finaly remove all mails tagged for deletion"
+    <cmd name="FolderExpunge"
+     _tip="Permanently remove all deleted messages from this folder"
      accel="*Control*x"/>
 
-    <cmd name="FolderConfig" _label="Configure Folder..."
-     _tip="Change the properties of this folder" pixtype="pixbuf"/>
+    <cmd name="ForgetPasswords"
+     _tip="Forget remembered passwords so you will be prompted for them again"/>
 
-    <cmd name="MailGetSend" pixtype="pixbuf" _tip="Send queued mail
-    and retrieve new mail"/>
+    <cmd name="HideDeleted"
+     _tip="Hide deleted messages rather than displaying them with a line through them"
+     type="toggle" />
+
+    <cmd name="MailCompose"
+     _tip="Open a window for composing a mail message"
+     pixtype="pixbuf"/>
+
+    <cmd name="MailGetSend"
+     _tip="Send queued mail and retrieve new mail"
+     pixtype="pixbuf"/>
+
+    <cmd name="MailNext"
+     _tip="Display the next message"
+     accel="f"/>
+
+    <cmd name="MailPrevious"
+     _tip="Display the previous message"
+     accel="b"/>
+
+    <cmd name="MailStop"
+     _tip="Cancel the current mail operation"
+     pixtype="stock" pixname="Stop"/>
+
+    <cmd name="MessageApplyFilters"
+     _tip="Apply filter rules to the selected messages"
+     accel="*Control*y"/>
+
+    <cmd name="MessageCopy"
+     _tip="Copy selected messages to another folder"
+     accel="*Control*c"
+     pixtype="pixbuf" />
+
+    <cmd name="MessageDelete"
+     _tip="Mark the selected messages for deletion"
+     accel="*Control*d"/>
+
+    <cmd name="MessageForward"
+     _tip="Forward the selected message to someone"
+     accel="*Control*f"
+     pixtype="pixbuf" />
+
+    <cmd name="MessageForwardAttached"
+     _tip="Forward the selected message to someone as an attachment"
+     accel="*Control*j"/>
+
+    <cmd name="MessageForwardInline"
+     _tip="Forward the selected message in the body of a new message"
+     accel="*Control**Shift*j"/>
+
+    <cmd name="MessageForwardQuoted"
+     _tip="Forward the selected message quoted like a reply"/>
+
+    <cmd name="MessageMarkAllAsRead"
+     _tip="Mark all visible messages as read"/>
+
+    <cmd name="MessageMarkAsRead"
+     _tip="Mark the selected messages as having been read"
+     accel="*Control*k"/>
+
+    <cmd name="MessageMarkAsUnRead"
+     _tip="Mark the selected messages as not having been read"
+     accel="*Control**Shift*k"/>
+
+    <cmd name="MessageMove"
+     _tip="Move selected messages to another folder"
+     accel="*Control*m"
+     pixtype="pixbuf"/>
+
+    <cmd name="MessageOpen"
+     _tip="Open the selected message in a new window"
+     accel="*Control*o"/>
+
+    <cmd name="MessageReplyAll"
+     _tip="Compose a reply to all of the recipients of the selected message"
+     accel="*Control**Shift*r"
+     pixtype="pixbuf"/>
+
+    <cmd name="MessageReplySender"
+     _tip="Compose a reply to the sender of the selected message"
+     accel="*Control*r"
+     pixtype="pixbuf"/>
+
+    <cmd name="MessageResend"
+     _tip="Open the selected message in the composer to re-send it"/>
+
+    <cmd name="MessageSaveAs"
+     _tip="Save the message as a text file"
+     accel="*Control**Alt*s"
+     pixtype="stock" pixname="Save"/>
+
+    <cmd name="MessageSearch"
+     _tip="Search for text in the body of the displayed message"
+     accel="*Control*e"/>
+
+    <cmd name="MessageUndelete"
+     _tip="Un-delete the selected messages"
+     accel="*Control*u"/>
+
+    <cmd name="PrintMessage"
+     _tip="Print message to the printer"
+     accel="*Control*p"
+     pixtype="pixbuf"/>
+
+    <cmd name="PrintPreviewMessage"
+     _tip="Previews the message to be printed"
+     pixtype="pixbuf"/>
+
+    <cmd name="ToolsFilterMailingList"
+     _tip="Create a rule to filter messages to this mailing list"/>
+
+    <cmd name="ToolsFilterRecipient"
+     _tip="Create a rule to filter messages to these recipients"/>
+
+    <cmd name="ToolsFilters"
+     _tip="Create or edit rules for filtering new mail"/>
+
+    <cmd name="ToolsFilterSender"
+     _tip="Create a rule to filter messages from this sender"/>
+
+    <cmd name="ToolsFilterSubject"
+     _tip="Create a rule to filter messages with this subject"/>
+
+    <cmd name="ToolsSettings"
+     _tip="Create or edit mail accounts and other preferences"
+     pixtype="pixbuf"/>
+
+    <cmd name="ToolsSubscriptions"
+     _tip="Subscribe or unsubscribe to folders on remote servers"/>
+
+    <cmd name="ToolsVFolderMailingList"
+     _tip="Create a virtual folder for this mailing list"/>
+
+    <cmd name="ToolsVFolderRecipient"
+     _tip="Create a virtual folder for these recipients"/>
+
+    <cmd name="ToolsVFolders"
+     _tip="Create or edit virtual folder definitions"/>
+
+    <cmd name="ToolsVFolderSender"
+     _tip="Create a virtual folder for this sender"/>
+
+    <cmd name="ToolsVFolderSubject"
+     _tip="Create a virtual folder for this subject"/>
+
+    <cmd name="ViewFullHeaders"
+     _tip="Show all message headers in the displayed message"/>
+
+    <cmd name="ViewHideRead"
+     _tip="Temporarily hide all messages that have already been read"
+     pixtype="pixbuf"/>
+
+    <cmd name="ViewHideSelected"
+     _tip="Temporarily hide the selected messages"
+     pixtype="pixbuf"/>
+
+    <cmd name="ViewShowAll"
+     _tip="Show messages that have been temporarily hidden"
+     pixtype="pixbuf"/>
+
+    <cmd name="ViewSource"
+     _tip="View Raw Message Source"
+     type="toggle" />
+
+    <cmd name="ViewThreaded"
+     _tip="Threaded Message list"
+     accel="*Control*t"
+     type="toggle" />
 
   </commands>
 
@@ -111,290 +206,199 @@
   <menu>
 
     <submenu name="File">
+      <submenu name="New">
+        <placeholder name="NewFirstItem">
+          <menuitem name="MessageNew" verb="MailCompose"
+           accel="*Control*n" _label="_Mail Message"
+           pixtype="pixbuf"/>
 
-        <submenu name="New">
-    	    <placeholder name="NewFirstItem">
-    		 <menuitem name="MessageNew" verb="MailCompose"
-    		 accel="*Control*n" _label="_Mail Message"
-		 pixtype="pixbuf"/>
-    		 <separator/>
-    	    </placeholder>
-        </submenu>
-      
-        <placeholder name="FileOps">
-        
-        <menuitem name="MessageOpen" verb=""
-         _label="_Open Selected Items"
-         accel="*Control*o"/>
-        
-        <menuitem name="MessageResend" verb=""
-         _label="_Resend Messages"
-         accel=""/>
-        
-        <menuitem name="MessageSaveAs" verb=""
-         _label="_Save As..."
-	 pixtype="stock" pixname="Save"
-         accel="*Control**Alt*s"/>
+          <separator/>
         </placeholder>
+      </submenu>
 
-        <separator/>
-  
-	<submenu name="Folder" _label="_Folder">
-          <menuitem name="FolderConfig" verb=""
-          _label="_Properties..."
-	  pixtype="pixbuf"/>
-	</submenu>
-	
-	<placeholder name="Print">
+      <placeholder name="FileOps">
+        <menuitem name="MessageOpen" verb="" _label="_Open Message"/>
+        <menuitem name="MessageResend" verb="" _label="_Re-send Message"/>
+        <menuitem name="MessageSaveAs" verb="" _label="_Save As..."/>
+      </placeholder>
 
-    	    <menuitem name="Print Preview" verb="PrintPreviewMessage"
-    	    _label="Print Preview"
-    	    _tip="Previews the message to be printed"
-    	    pixtype="pixbuf"/>
-    
-    	    <menuitem name="Print" verb="PrintMessage"
-    	    _label="Print..."
-    	    _tip="Print message to the printer"
-    	    pixtype="pixbuf" accel="*Control*P"/>
-    
-	</placeholder>
+      <separator/>
 
+      <submenu name="Folder" _label="_Folder">
+        <menuitem name="FolderConfig" verb="" _label="_Properties..."/>
+      </submenu>
+
+      <placeholder name="Print">
+        <menuitem name="PrintPreviewMessage" verb="" _label="Print Preview..."/>
+        <menuitem name="PrintMessage" verb="" _label="Print Message..."/>
+      </placeholder>
     </submenu>
 
     <submenu name="Edit">
+      <menuitem name="EditSelectAll" verb="" _label="Select _All"/>
+      <menuitem name="EditSelectThread" verb="" _label="Select _Thread"/>
+      <menuitem name="EditInvertSelection" verb="" _label="_Invert Selection"/>
 
-        <menuitem name="EditSelectAll" verb=""
-        _label="Select _All" accel="*Control*a"/>
+      <separator/>
 
-	<menuitem name="EditSelectThread" verb=""
-	_label="Select _Thread" accel="*Control*h"/>
-	  
-        <menuitem name="EditInvertSelection" verb=""
-        _label="_Invert Selection" accel="*Control*i"/>
+      <menuitem name="MessageSearch" verb="" _label="S_earch Message"/>
 
-	<separator/>
-	    
-        <menuitem name="MessageDelete" verb=""
-        _label="_Delete"
-         accel="*Control*d"
-	 pixtype="pixbuf"/>
+      <separator/>
 
-        <menuitem name="MessageUndelete" verb=""
-        _label="_Undelete"
-         accel="*Control*u"
-	 pixtype="pixbuf"/>
+      <menuitem name="MessageDelete" verb="" _label="_Delete"/>
+      <menuitem name="MessageUndelete" verb="" _label="_Undelete"/>
 
-	<separator/>
-		  
-        <menuitem name="MessageMarkAsRead" verb=""
-        _label="Mar_k as Read"
-         accel="*Control*k"/>
+      <separator/>
 
-        <menuitem name="MessageMarkAsUnRead" verb=""
-        _label="Mark as U_nread"
-         accel="*Control**Shift*k"/>
-
-	<menuitem name="MessageMarkAllAsRead" verb=""
-	_label="Mark All as R_ead"/>
+      <menuitem name="MessageMarkAsRead" verb="" _label="Mar_k As Read"/>
+      <menuitem name="MessageMarkAsUnRead" verb="" _label="Mark As U_nread"/>
+      <menuitem name="MessageMarkAllAsRead" verb="" _label="Mark All as R_ead"/>
     </submenu>
 
     <submenu name="View">
+      <separator/>
 
-      	<separator/>
+      <menuitem name="ViewThreaded" verb="" _label="_Threaded"/>
+      <menuitem name="ViewFullHeaders" verb="" _label="Full _Headers"/>
+      <menuitem name="ViewSource" verb="" _label="Source"/>
+      <menuitem name="HideDeleted" verb="" _label="Hide _Deleted Messages"/>
 
-        <menuitem name="MessageSearch" verb=""
-	_label="S_earch Message" accel="*Control*e"/>
+      <separator/>
 
-      	<separator/>
-      
-      	<menuitem name="Threaded" verb="ViewThreaded" accel="*Control*t"/>
-      
-        <menuitem name="MessageDisplayFullHeaders"
-         _label="Full _Headers"
-	 _tip="Display all of the message headers"/>
-	<menuitem name="Source" verb="ViewSource" accel=""/>
-	<menuitem name="Deleted" verb="HideDeleted" accel=""/>
-      	<separator/>
-      
-      	<menuitem name="MessageHideClear" verb="" _label="Show _All" pixtype="pixbuf"/>
-      	<menuitem name="MessageHideSelected" verb=""
-	 _label="Hide S_elected Messages" pixtype="pixbuf"/>
-      	<menuitem name="MessageHideRead" verb=""
-	  _label="Hide _Read messages" pixtype="pixbuf"/>
+      <menuitem name="ViewShowAll" verb="" _label="Show _All"/>
+      <menuitem name="ViewHideSelected" verb="" _label="Hide S_elected Messages"/>
+      <menuitem name="ViewHideRead" verb="" _label="Hide _Read messages"/>
     </submenu>
 
     <submenu name="Actions">
-        <placeholder name="Component">
-      	    <menuitem name="SendReceive" verb="MailGetSend"
-      	     _label="_Send / Receive" pixtype="pixbuf"/>
-      	    
-      	    <separator/>
-      	    
-      	    <menuitem name="MessageReplySender" verb=""
-      	    _label="_Reply"
-      	    pixtype="pixbuf"
-      	    accel="*Control*r"/>
-      	    
-      	    <menuitem name="MessageReplyAll" verb=""
-      	    _label="Reply to _All"
-      	    pixtype="pixbuf"
-      	    accel="*Control**Shift*r"/>
+      <placeholder name="Component">
+        <menuitem name="MailGetSend" verb="" _label="_Send / Receive"/>
 
-      	    <menuitem name="MessageForward" verb=""
-      	    _label="_Forward"
-             pixtype="pixbuf"
-      	     accel="*Control*f"/>
-      	    
-      	    <submenu name="ForwardAs" _label="Forward As">
-      	  	  <menuitem verb="MessageForwardAttached"/>      	  
-                  <menuitem verb="MessageForwardInline"/>
-		  <menuitem verb="MessageForwardQuoted"/>
+        <separator/>
 
-		  <separator/>
+        <menuitem name="MessageReplySender" verb="" _label="_Reply to Sender"/>
+        <menuitem name="MessageReplyAll" verb="" _label="Reply to _All"/>
+        <menuitem name="MessageForward" verb="" _label="_Forward Message"/>
+        <submenu name="ForwardAs" _label="Forward As">
+          <menuitem verb="MessageForwardAttached" _label="Forward _Attached"/>
+          <menuitem verb="MessageForwardInline" _label="Forward _Inline"/>
+          <menuitem verb="MessageForwardQuoted" _label="Forward _Quoted"/>
 
-		  <menuitem name="Redirect" verb=""
-      	  	  _label="Redirect (FIXME: implement me)"/>
-      	    </submenu>
-      	    
-            <separator/>
-      	    
-     	    <menuitem name="MessageMove" verb=""
-      	    _label="_Move to Folder..."
-      	    pixtype="pixbuf"
-      	    accel="*Control*m"/>
-      	  
-      	    <menuitem name="MessageCopy" verb=""
-      	    _label="_Copy to Folder..."
-             pixtype="pixbuf"
-      	     accel="*Control*c"/>
-      	  
-      	    <separator/>
-      	  		
-      	    <menuitem name="MessageApplyFilters" verb=""
-      	    _label="_Apply Filters"
-      	     accel="*Control*y"/>
-      	  
-      	    <menuitem name="SetForgetPwd" verb="" _label="Forget _Passwords"/>
-      	  
-      	    <menuitem name="FolderExpunge" verb="" _label="_Expunge"
-      	    accel="*Control*x"/>
+          <separator/>
 
-            <menuitem name="EmptyTrash" verb="" _label="Empty _Trash"
-      	    accel=""/>
-      	</placeholder>
+          <menuitem name="Redirect" verb=""
+	   _label="Redirect (FIXME: implement me)"/>
+        </submenu>
+
+        <separator/>
+
+        <menuitem name="MessageMove" verb="" _label="_Move to Folder"/>
+        <menuitem name="MessageCopy" verb="" _label="_Copy to Folder"/>
+
+        <separator/>
+
+        <menuitem name="MessageApplyFilters" verb="" _label="_Apply Filters"/>
+        <menuitem name="ForgetPasswords" verb="" _label="Forget _Passwords"/>
+        <menuitem name="FolderExpunge" verb="" _label="_Expunge"/>
+
+        <menuitem name="EmptyTrash" verb="" _label="Empty _Trash"/>
+      </placeholder>
     </submenu>
-    
-    <submenu name="Tools" _label="_Tools">
-        <placeholder name="Component">
 
-	  <menuitem name="SetMailConfig" verb=""
-	      _label="_Mail Settings..." pixtype="pixbuf"/>
+    <submenu name="Tools">
+      <placeholder name="Component">
 
-	  <separator/>
-	  <menuitem name="MailFilters" verb="SetMailFilter" _label="_Filters..."/>
+        <menuitem name="ToolsSettings" verb="" _label="_Mail Settings..."/>
 
-          <submenu name="MessageCreateRuleFromMessage" _label="_Create Filter From Message">
-  	    <menuitem name="MessageFilterSubject" verb=""
-  	    _label="Filter on _Subject"/>
-    
-  	    <menuitem name="MessageFilterSender" verb=""
-  	    _label="Filter on Se_nder"/>
-    
-  	    <menuitem name="MessageFilterRecipient" verb=""
-  	    _label="Filter on _Recipients"/>
+        <separator/>
 
-            <menuitem name="MessageFilterMailingList" verb=""
-  	    _label="Filter on Mailing _List"/>
-          </submenu>
-	  
-	  <separator/>
+        <menuitem name="ToolsFilters" verb="" _label="_Filters..."/>
 
-	  <menuitem name="VFolderEdit" verb="SetVFolder"
-	    _label="Virtual Folder _Editor..."/>
+        <submenu name="ToolsFilterFromMessage" _label="_Create Filter From Message">
+          <menuitem name="ToolsFilterSubject" verb="" _label="Filter on _Subject"/>
+          <menuitem name="ToolsFilterSender" verb="" _label="Filter on Se_nder"/>
+          <menuitem name="ToolsFilterRecipient" verb="" _label="Filter on _Recipients"/>
+          <menuitem name="ToolsFilterMailingList" verb="" _label="Filter on Mailing _List"/>
+        </submenu>
 
-          <submenu name="MessageCreateRuleFromMessage"
-	    _label="Create _Virtual Folder From Message">
+        <separator/>
 
-  	    <menuitem name="MessageVFolderSubject" verb=""
-  	    _label="VFolder on _Subject"
-  	     />
-    
-  	    <menuitem name="MessageVFolderSender" verb=""
-  	    _label="VFolder on Se_nder"
-  	     />
-    
-  	    <menuitem name="MessageVFolderRecipient" verb=""
-  	    _label="VFolder on _Recipients"/>
+        <menuitem name="ToolsVFolders" verb="" _label="Virtual Folder _Editor..."/>
 
-            <menuitem name="MessageVFolderMailingList" verb=""
-  	    _label="VFolder on Mailing _List"/>
-          </submenu>
+        <submenu name="ToolsVFolderFromMessage" _label="Create _Virtual Folder From Message">
+          <menuitem name="ToolsVFolderSubject" verb="" _label="VFolder on _Subject..."/>
+          <menuitem name="ToolsVFolderSender" verb="" _label="VFolder on Se_nder..."/>
+          <menuitem name="ToolsVFolderRecipient" verb="" _label="VFolder on _Recipients..."/>
+          <menuitem name="ToolsVFolderMailingList" verb="" _label="VFolder on Mailing _List..."/>
+        </submenu>
 
-	  <separator/>
+        <separator/>
 
-	  <menuitem name="SetSubscribe" verb="" _label="Manage _Subscriptions..."/>
+        <menuitem name="ToolsSubscriptions" verb="" _label="Manage _Subscriptions..."/>
 
-	  <separator/>
-	    
-        </placeholder>
-      </submenu>
+        <separator/>
+
+      </placeholder>
+    </submenu>
   </menu>
 
   <dockitem name="Toolbar">
 
-    <toolitem name="MailGet" verb="MailGetSend"
-    _label="Send / Receive" priority="1" _tip="Send queued mail and retrieve new mail"
-    pixtype="pixbuf"/>
+    <toolitem name="MailGetSend" verb=""
+     _label="Send / Receive" priority="1"
+     pixtype="pixbuf"/>
 
-    <toolitem name="MailCompose" verb="MailCompose"
-    _label="Compose" priority="1" _tip="Compose a new message"
-    pixtype="pixbuf"/>
-
-    <separator/>
-
-    <toolitem name="Reply" verb="MessageReplySender"
-    _label="Reply" priority="1" _tip="Reply to the sender of this message"
-    pixtype="pixbuf"/>
-
-    <toolitem name="ReplyAll" verb="MessageReplyAll"
-    _label="Reply to All" priority="1" _tip="Reply to all recipients of this message"
-    pixtype="pixbuf"/>
-
-    <toolitem name="Forward" verb="MessageForward"
-    _label="Forward" priority="1" _tip="Forward this message"
-    pixtype="pixbuf"/>
+    <toolitem name="MailCompose" verb=""
+     _label="Compose" priority="1"
+     pixtype="pixbuf"/>
 
     <separator/>
 
-    <toolitem name="Move" verb="MessageMove"
-    _label="Move" _tip="Move message to a new folder"
-    pixtype="pixbuf"/>
+    <toolitem name="MessageReplySender" verb=""
+     _label="Reply" priority="1"
+     pixtype="pixbuf"/>
 
-    <toolitem name="Copy" verb="MessageCopy"
-    _label="Copy" _tip="Copy message to a new folder"
-    pixtype="pixbuf"/>
+    <toolitem name="MessageReplyAll" verb=""
+     _label="Reply to All" priority="1"
+     pixtype="pixbuf"/>
 
-    <separator/>
-
-    <toolitem name="Print" verb="MessagePrint"
-    _label="Print" _tip="Print the selected message"
-    pixtype="stock" pixname="Print"/>
-
-    <toolitem name="Delete" verb="MessageDelete"
-    _label="Delete" _tip="Delete this message"
-    pixtype="stock" pixname="Trash"/>
-
-    <toolitem name="Stop" verb="MailStop" _label="Stop"/>
+    <toolitem name="MessageForward" verb=""
+     _label="Forward" priority="1"
+     pixtype="pixbuf"/>
 
     <separator/>
 
-    <toolitem name="Previous" verb="MailPrevious"
-    _label="Previous" _tip="Go to the previous message"
-    pixtype="stock" pixname="Back"/>
+    <toolitem name="MessageMove" verb=""
+     _label="Move"
+     pixtype="pixbuf"/>
 
-    <toolitem name="Next" verb="MailNext"
-    _label="Next" _tip="Go to the next message"
-    pixtype="stock" pixname="Forward"/>
+    <toolitem name="MessageCopy" verb=""
+     _label="Copy"
+     pixtype="pixbuf"/>
+
+    <separator/>
+
+    <toolitem name="PrintMessage" verb=""
+     _label="Print"
+     pixtype="stock" pixname="Print"/>
+
+    <toolitem name="MessageDelete" verb=""
+     _label="Delete"
+     pixtype="stock" pixname="Trash"/>
+
+    <toolitem name="MailStop" verb=""
+     _label="Cancel"/>
+
+    <separator/>
+
+    <toolitem name="MailPrevious" verb=""
+     _label="Previous"
+     pixtype="stock" pixname="Back"/>
+
+    <toolitem name="MailNext" verb=""
+     _label="Next"
+     pixtype="stock" pixname="Forward"/>
 
   </dockitem>
+
 </Root>
