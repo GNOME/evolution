@@ -3,6 +3,11 @@ Evolution 1.5.94, xxxx-xx-xx
 
 Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
 
+ * Addressbook
+
+   #61833 - Blank names in name selector (Hans Petter)
+   #62715 - Free-form addresses not loading in contact editor (Hans Petter)
+
  * Calendar
 
    #62869 - Crash: attempt to access GW tasks from evolution (Siva)
@@ -21,6 +26,11 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
    #62963 - C99-isms in smime/gui/cert-trust-dialog.c  (Michael)
 
 Other bugs
+
+  * Addressbook
+
+    - Confirmation dialog was showing up on contact-editor close,
+      even if there were no changes (Hans Petter)
 
   * Calendar
 
