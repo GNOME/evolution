@@ -1,3 +1,8 @@
+2003-09-25  Rodney Dawes  <dobey@ximian.com>
+
+	* mail-send-recv.c: Make the dialog more HIG-compliant by fixing
+	widget alignment/spacing issues, and removing separators
+
 2003-09-24  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-preferences.c (mail_preferences_construct): Same as below.
