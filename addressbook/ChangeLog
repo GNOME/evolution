@@ -1,3 +1,9 @@
+2001-01-17  Federico Mena Quintero  <federico@ximian.com>
+
+	* backend/pas/pas-book-factory.c (pas_book_factory_activate): Made
+	it return a gboolean; it was completely ignoring the return value
+	from register_factory().
+
 2001-01-17  Larry Ewing  <lewing@helixcode.com>
 
 	* backend/ebook/.cvsignore: add evolution-gnomecard-importer.

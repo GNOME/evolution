@@ -447,13 +447,13 @@ register_factory (CORBA_Object obj)
 /**
  * pas_book_factory_activate:
  */
-void
+gboolean
 pas_book_factory_activate (PASBookFactory *factory)
 {
-	g_return_if_fail (factory != NULL);
-	g_return_if_fail (PAS_IS_BOOK_FACTORY (factory));
+	g_return_val_if_fail (factory != NULL, FALSE);
+	g_return_val_if_fail (PAS_IS_BOOK_FACTORY (factory), FALSE);
 
-	register_factory (bonobo_object_corba_objref (BONOBO_OBJECT (factory)));
+	return register_factory (bonobo_object_corba_objref (BONOBO_OBJECT (factory)));
 }
 
 static void
