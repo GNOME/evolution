@@ -266,6 +266,10 @@ addressbook/Makefile
 addressbook/contact-editor/Makefile
 addressbook/demo/Makefile
 addressbook/printing/Makefile
+addressbook/backend/Makefile
+addressbook/backend/idl/Makefile
+addressbook/backend/pas/Makefile
+addressbook/backend/ebook/Makefile
 shell/Makefile
 mail/Makefile
 data/Makefile

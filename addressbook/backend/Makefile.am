@@ -1,1 +1,1 @@
-SUBDIRS = libversit idl ebook pas
+SUBDIRS = idl ebook pas

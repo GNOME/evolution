@@ -61,7 +61,7 @@ test_client_LDADD =					\
 	$(INTLLIBS)					\
 	-lbonobo					\
 	$(ebook_libs)					\
-	../libversit/libversit.la
+	$(top_builddir)/libversit/libversit.la
 
 test_card_SOURCES =					\
 	test-card.c
@@ -73,7 +73,7 @@ test_card_LDADD =					\
 	$(INTLLIBS)					\
 	-lbonobo					\
 	$(ebook_libs)					\
-	../libversit/libversit.la
+	$(top_builddir)/libversit/libversit.la
 
 BUILT_SOURCES = $(CORBA_SOURCE)
 CLEANFILES   += $(BUILT_SOURCES)

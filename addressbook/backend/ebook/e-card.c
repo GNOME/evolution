@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * Authors: 
  *   Arturo Espinosa (arturo@nuclecu.unam.mx)
@@ -11,17 +12,73 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <glib.h>
+#include <gtk/gtk.h>
 
-#include "../libversit/vcc.h"
-#include <e-card-pairs.h>
+#include "libversit/vcc.h"
 #include <e-card.h>
+#include <e-card-pairs.h>
 
 #define is_a_prop_of(obj,prop) isAPropertyOf (obj,prop)
 #define str_val(obj) the_str = (vObjectValueType (obj))? fakeCString (vObjectUStringZValue (obj)) : calloc (1, 1)
 #define has(obj,prop) (vo = isAPropertyOf (obj, prop))
 
-static VObject *card_convert_to_vobject (Card *crd);
+#if 0
+static VObject *card_convert_to_vobject (ECard *crd);
+#endif
+
+/**
+ * e_card_get_type:
+ * @void: 
+ * 
+ * Registers the &ECard class if necessary, and returns the type ID
+ * associated to it.
+ * 
+ * Return value: The type ID of the &ECard class.
+ **/
+GtkType
+e_card_get_type (void)
+{
+	static GtkType card_type = 0;
+
+	if (!card_type) {
+		GtkTypeInfo card_info = {
+			"ECard",
+			sizeof (ECard),
+			sizeof (ECardClass),
+			NULL,
+			NULL,
+#if 0
+			(GtkClassInitFunc) e_card_class_init,
+			(GtkObjectInitFunc) e_card_init,
+#endif
+			NULL, /* reserved_1 */
+			NULL, /* reserved_2 */
+			(GtkClassInitFunc) NULL
+		};
+
+		card_type = gtk_type_unique (gtk_object_get_type (), &card_info);
+	}
+
+	return card_type;
+}
+
+ECard         *e_card_new (char *vcard)
+{
+	return E_CARD(gtk_type_new(e_card_get_type()));
+}
+
+char          *e_card_get_id (ECard *card)
+{
+	return NULL;
+}
+
+char          *e_card_get_vcard (ECard *card)
+{
+	return NULL;
+}
+
+
+#if 0
 
 /*
  * ECard lifecycle management and vCard loading/saving.
@@ -198,7 +255,7 @@ e_card_prop_str_empty (void)
 }
 
 /* Intended to check asserts. */
-extern int card_check_prop (CardProperty prop)
+extern int card_check_prop (ECardProperty prop)
 {
 	if (((prop.used == FALSE) || (prop.used == TRUE)) &&
 	    ((prop.type >= PROP_NONE) && (prop.type <= PROP_LAST)) &&
@@ -1854,3 +1911,4 @@ card_save (Card *crd, FILE *fp)
 	writeVObject (fp, object);
 	cleanVObject (object);
 }
+#endif

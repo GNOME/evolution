@@ -9,7 +9,7 @@
  */
 
 #include <gtk/gtksignal.h>
- #include <e-book-listener.h>
+#include <e-book-listener.h>
 
 static EBookStatus e_book_listener_convert_status (Evolution_BookListener_CallStatus status);
 

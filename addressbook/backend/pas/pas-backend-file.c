@@ -122,7 +122,7 @@ pas_backend_file_load_uri (PASBackend             *backend,
 	PASBackendFile *bf = PAS_BACKEND_FILE (backend);
 	char           *filename;
 
-	g_assert (PAS_BACKEND_FILE (backend)->priv->loaded == FALSE);
+	g_assert (bf->priv->loaded == FALSE);
 
 	filename = pas_backend_file_extract_path_from_uri (uri);
 }
@@ -210,8 +210,6 @@ pas_backend_file_new (void)
 static void
 pas_backend_file_destroy (GtkObject *object)
 {
-	PASBackendFile *backend = PAS_BACKEND_FILE (object);
-
 	GTK_OBJECT_CLASS (pas_backend_file_parent_class)->destroy (object);	
 }
 

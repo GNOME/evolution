@@ -9,7 +9,7 @@
 
 #ifndef __E_CARD_TYPES_H__
 #define __E_CARD_TYPES_H__
-
+#if 0
 typedef enum
 {
 	PROP_NONE = 0, /* Must always be the first, with value = 0. */
@@ -72,6 +72,12 @@ typedef enum
 	VAL_LAST = 4
 } ECardValueType;
 
+typedef enum {
+	PHOTO_GIF,  PHOTO_CGM,   PHOTO_WMF,  PHOTO_BMP, PHOTO_MET, PHOTO_PMB, 
+	PHOTO_DIB,  PHOTO_PICT,  PHOTO_TIFF, PHOTO_PS,  PHOTO_PDF, PHOTO_JPEG,
+	PHOTO_MPEG, PHOTO_MPEG2, PHOTO_AVI,  PHOTO_QTIME
+} ECardPhotoType;
+
 typedef struct {
 	gboolean           used;
 	ECardPropertyType  type;
@@ -116,7 +122,7 @@ typedef struct {
 typedef struct {
 	CardProperty prop;
 	
-	enum ECardPhotoType type;
+	ECardPhotoType type;
 	guint size;
 	char *data;
 
@@ -165,12 +171,6 @@ typedef struct {
 	float lat;
 } ECardGeoPos;
 
-
-typedef enum {
-	PHOTO_GIF,  PHOTO_CGM,   PHOTO_WMF,  PHOTO_BMP, PHOTO_MET, PHOTO_PMB, 
-	PHOTO_DIB,  PHOTO_PICT,  PHOTO_TIFF, PHOTO_PS,  PHOTO_PDF, PHOTO_JPEG,
-	PHOTO_MPEG, PHOTO_MPEG2, PHOTO_AVI,  PHOTO_QTIME
-} ECardPhotoType;
 
 /* DELIVERY ADDRESSING PROPERTIES */
 
@@ -231,7 +231,7 @@ typedef struct {
 
 
 typedef struct {
-	enum SoundType  type;
+	ECardSoundType  type;
 	unsigned int    size;
 	char           *data;
 } ECardSound;
@@ -239,8 +239,9 @@ typedef struct {
 typedef struct {
 	CardProperty  prop;
 	
-	enum KeyType  type;
+	ECardKeyType  type;
 	char         *data;
 } ECardKey;
 
+#endif /* 0 */
 #endif /* __E_CARD_TYPES_H__ */

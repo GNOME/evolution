@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* GnomeCard - a graphical contact manager.
  *
  * pairs.h: This file is part of GnomeCard.
@@ -22,13 +23,15 @@
 #ifndef __E_CARD_PAIRS_H__
 #define __E_CARD_PAIRS_H__
 
-#include "../libversit/vcc.h"
+#include "libversit/vcc.h"
 #include <e-card.h>
+
+#if 0
 
 struct pair
 {
 	char *str;
-	enum PropertyType id;
+	ECardPropertyType i ;
 };
 
 struct pair prop_lookup[] = {
@@ -108,7 +111,7 @@ struct pair phone_pairs[] = {
 		{ VCISDNProp, PHONE_ISDN },
 		{ VCVideoProp, PHONE_VIDEO },
 		{ NULL, 0 } };
-
+#if 0
 struct pair email_pairs[] = {
 		{ VCAOLProp, EMAIL_AOL },
 		{ VCAppleLinkProp, EMAIL_APPLE_LINK },
@@ -123,7 +126,7 @@ struct pair email_pairs[] = {
 		{ VCTLXProp, EMAIL_TLX },
 		{ VCX400Prop, EMAIL_X400 },
 		{ NULL, 0 } };
-
+#endif
 struct pair sound_pairs[] = {
 		{ VCAIFFProp, SOUND_AIFF },
 		{ VCPCMProp, SOUND_PCM },
@@ -136,4 +139,5 @@ struct pair key_pairs[] = {
 		{ NULL, 0 } };
 	  
 
+#endif
 #endif /* ! __E_CARD_PAIRS_H__ */

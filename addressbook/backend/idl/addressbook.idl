@@ -6,7 +6,7 @@
  * Copyright 2000, Helix Code, Inc.
  */
 
-#include <bonobo-unknown.idl>
+#include <Bonobo.idl>
 
 module Evolution {
 

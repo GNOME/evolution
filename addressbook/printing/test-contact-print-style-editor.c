@@ -36,6 +36,7 @@ static void destroy_callback(GtkWidget *app, gpointer data)
 		exit(0);
 }
 
+#if 0
 static void about_callback( GtkWidget *widget, gpointer data )
 {
   
@@ -53,6 +54,7 @@ static void about_callback( GtkWidget *widget, gpointer data )
 		      NULL);
   gtk_widget_show (about);                                            
 }
+#endif
 
 int main( int argc, char *argv[] )
 {

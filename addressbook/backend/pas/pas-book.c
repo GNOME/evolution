@@ -455,7 +455,6 @@ pas_book_new (PASBackend             *backend,
 	      PASBookGetVCardFn       get_vcard)
 {
 	PASBook *book;
-	PASBook *retval;
 
 	g_return_val_if_fail (listener  != CORBA_OBJECT_NIL, NULL);
 	g_return_val_if_fail (get_vcard != NULL,             NULL);

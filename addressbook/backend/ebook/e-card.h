@@ -1,5 +1,7 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * Authors:
+ *   Chris Lahey <clahey@helixcode.com>
  *   Arturo Espinosa
  *   Nat Friedman (nat@helixcode.com)
  *
@@ -11,14 +13,22 @@
 #define __E_CARD_H__
 
 #include <time.h>
-#include <glib.h>
+#include <gtk/gtk.h>
 #include <stdio.h>
 #include <e-card-types.h>
 
+#define E_TYPE_CARD            (e_card_get_type ())
+#define E_CARD(obj)            (GTK_CHECK_CAST ((obj), E_TYPE_CARD, ECard))
+#define E_CARD_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), E_TYPE_CARD, ECardClass))
+#define E_IS_CARD(obj)         (GTK_CHECK_TYPE ((obj), E_TYPE_CARD))
+#define E_IS_CARD_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), E_TYPE_CARD))
+
 typedef struct _ECard ECard;
+typedef struct _ECardClass ECardClass;
 
 struct _ECard {
-
+	GtkObject object;
+#if 0
 	char            *fname;         /* The full name.                   */
 	ECardName       *name;          /* The structured name.             */
 
@@ -59,21 +69,36 @@ struct _ECard {
 	ECardRev        *rev;	        /* The time this card was last
 					   modified.                        */
 
-	CardList        xtension;
+	ECardList        xtension;
+#endif
 };
 
-Card         *card_new (void);
-void          card_free (Card *crd);
-void          card_prop_free (CardProperty prop);
-CardProperty  card_prop_empty (void);
-int           card_check_prop (CardProperty prop);
-GList        *card_load (GList *crdlist, char *fname);
-void          card_save (Card *crd, FILE *fp);
-char         *card_to_vobj_string (Card *card);
-char         *card_to_string (Card *card);
+struct _ECardClass {
+	GtkObjectClass parent_class;
+};
 
-char *card_bday_str (CardBDay bday);
-char *card_timezn_str (CardTimeZone timezn);
-char *card_geopos_str (CardGeoPos geopos);
+
+ECard         *e_card_new (char *vcard);
+char          *e_card_get_id (ECard *card);
+char          *e_card_get_vcard (ECard *card);
+
+/* Standard Gtk function */
+GtkType        e_card_get_type (void);
+
+
+#if 0
+void          e_card_free (ECard *crd);
+void          e_card_prop_free (CardProperty prop);
+CardProperty  e_card_prop_empty (void);
+int           e_card_check_prop (CardProperty prop);
+GList        *e_card_load (GList *crdlist, char *fname);
+void          e_card_save (ECard *crd, FILE *fp);
+char         *e_card_to_vobj_string (ECard *card);
+char         *e_card_to_string (ECard *card);
+
+char *e_card_bday_str (ECardDate bday);
+char *e_card_timezn_str (ECardTimeZone timezn);
+char *e_card_geopos_str (ECardGeoPos geopos);
+#endif
 
 #endif /* ! __E_CARD_H__ */

@@ -6,6 +6,7 @@
  */
 #include <config.h>
 #include <bonobo.h>
+#include <libgnorba/gnorba.h>
 
 #include <pas-book-factory.h>
 #include <pas-backend-file.h>

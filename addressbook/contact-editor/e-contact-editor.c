@@ -372,8 +372,10 @@ _dialog_clicked(GtkWidget *dialog, gint button, EContactEditor *editor)
 {
 	GtkWidget *label = gtk_object_get_data(GTK_OBJECT(dialog),
 					       "e_contact_editor_label");
+#if 0
 	GtkWidget *entry = gtk_object_get_data(GTK_OBJECT(dialog),
 					       "e_contact_editor_entry");
+#endif
 	GtkWidget *dialog_entry = gtk_object_get_data(GTK_OBJECT(dialog),
 						      "e_contact_editor_dialog_entry");
 	GList **list = gtk_object_get_data(GTK_OBJECT(dialog),

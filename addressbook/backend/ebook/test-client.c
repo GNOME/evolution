@@ -1,5 +1,7 @@
 #include <config.h>
 #include <bonobo.h>
+#include <gnome.h>
+#include <libgnorba/gnorba.h>
 
 #include <e-book.h>
 

@@ -263,6 +263,7 @@ e_contact_text_height(GnomePrintContext *pc, GnomeFont *font, double width, gcha
 		line_count * .2 * font->size;
 }
 
+#if 0
 static void
 e_contact_output_and_advance(EContactPrintContext *ctxt, GnomeFont *font, double x, double width, gchar *text)
 {
@@ -271,6 +272,7 @@ e_contact_output_and_advance(EContactPrintContext *ctxt, GnomeFont *font, double
 	ctxt->y -= e_contact_text_height(ctxt->pc, font, width, text);
 	ctxt->y -= .1 * font->size;
 }
+#endif
 
 static void
 e_contact_rectangle(GnomePrintContext *pc, 
@@ -671,6 +673,8 @@ e_contact_do_print (void *book, EContactPrintContext *ctxt, GList *shown_fields)
 		break;
 	case E_CONTACT_PRINT_TYPE_PHONE_LIST:
 		e_contact_do_print_phone_list( book, ctxt, shown_fields );
+		break;
+	default:
 		break;
 	}
 }

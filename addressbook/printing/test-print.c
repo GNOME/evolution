@@ -35,6 +35,7 @@ static gint test_close(GnomeDialog *dialog, gpointer data)
 	return 1;
 }
 
+#if 0
 static void about_callback( GtkWidget *widget, gpointer data )
 {
   
@@ -52,6 +53,7 @@ static void about_callback( GtkWidget *widget, gpointer data )
 		      NULL);
   gtk_widget_show (about);                                            
 }
+#endif
 
 int main( int argc, char *argv[] )
 {
@@ -71,7 +73,7 @@ int main( int argc, char *argv[] )
 
   print = e_contact_print_dialog_new(NULL, shown_fields);
   gtk_widget_show_all(print);
-  gtk_signal_connect(GTK_OBJECT(print), "close", test_close, NULL);
+  gtk_signal_connect(GTK_OBJECT(print), "close", GTK_SIGNAL_FUNC(test_close), NULL);
 
   gtk_main(); 
 

@@ -1,3 +1,41 @@
+2000-03-22  Christopher James Lahey  <clahey@helixcode.com>
+
+	* addressbook/Makefile.am, configure.in: Added the
+	addressbook/backend directory.
+
+	* addressbook/backend/Makefile.am: Removed the libversit directory
+	as it's now included in the base evolution directory.
+
+	* addressbook/backend/ebook/e-card-pairs.h,
+	addressbook/backend/ebook/Makefile.am: Changed the place where
+	libversit is looked for.
+
+	* addressbook/backend/ebook/e-book-listener.c: Fixed some
+	indentation.
+
+	* addressbook/backend/ebook/e-card-pairs.h,
+	addressbook/backend/ebook/e-card-types.h: Commented out some code
+	to get this to compile.
+
+	* addressbook/backend/ebook/e-card.c,
+	addressbook/backend/ebook/e-card.h: Turned this into a GTK+
+	object.
+
+	* addressbook/backend/pas/pas.c,
+	addressbook/backend/ebook/test-client.c: Include gnome.h and
+	gnorba.h.
+
+	* addressbook/backend/idl/addressbook.idl: Include Bonobo.idl
+	instead of bonobo-unknown.idl.
+
+	* addressbook/backend/pas/pas-backend-file.c,
+	addressbook/backend/pas/pas-book.c,
+	addressbook/contact-editor/test-editor.c,
+	addressbook/contact-editor/e-contact-editor.c,
+	addressbook/printing/e-contact-print.c,
+	addressbook/printing/test-contact-print-style-editor.c,
+	addressbook/printing/test-print.c: Killed some warnings.
+
 2000-03-22  Matt Loper  <matt@helixcode.com>
 
 	* shell/main.c (evolution_boot): gtk_signal_connect'ed "destroy"
