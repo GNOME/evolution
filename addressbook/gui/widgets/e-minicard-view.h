@@ -22,7 +22,9 @@
 #define __E_MINICARD_VIEW_H__
 
 #include "e-minicard.h"
-#include <gal/widgets/e-reflow-sorted.h>
+#include "e-minicard-view-model.h"
+
+#include <gal/widgets/e-reflow.h>
 #include <gal/widgets/e-selection-model-simple.h>
 #include "addressbook/backend/ebook/e-book.h"
 
@@ -62,31 +64,25 @@ typedef struct _EMinicardViewClass  EMinicardViewClass;
 
 struct _EMinicardView
 {
-	EReflowSorted parent;
+	EReflow parent;
+
+	EMinicardViewModel *model;
 	
 	/* item specific fields */
-	EBook *book;
-	char *query;
-	guint editable : 1;
-	EBookView *book_view;
 
 	ESelectionModelSimple *selection;
 
 	EMinicard *drag_card;
 
-	int get_view_idle;
-
 	int canvas_destroy_id;
 	int canvas_drag_data_get_id;
 
-	int create_card_id, remove_card_id, modify_card_id, status_message_id;
-
-	guint first_get_view : 1;
+	int status_message_id;
 };
 
 struct _EMinicardViewClass
 {
-	EReflowSortedClass parent_class;
+	EReflowClass parent_class;
 
 	/*
 	 * Signals

@@ -27,6 +27,8 @@ libeminicard_a_SOURCES =			\
 	e-minicard-label.h			\
 	e-minicard-view-widget.c		\
 	e-minicard-view-widget.h		\
+	e-minicard-view-model.c			\
+	e-minicard-view-model.h			\
 	e-minicard-view.c			\
 	e-minicard-view.h			\
 	e-minicard-widget.c			\
@@ -41,8 +43,8 @@ libeminicard_a_SOURCES =			\
 noinst_PROGRAMS =				\
 	minicard-widget-test			\
 	minicard-label-test			\
-	minicard-test				\
-	reflow-test
+	minicard-test
+#	reflow-test
 #	minicard-view-test
 
 minicard_label_test_SOURCES = 	\
@@ -71,22 +73,22 @@ minicard_test_LDADD =							\
 	$(BONOBO_GNOME_LIBS)						\
 	$(GNOME_PRINT_LIBS)
 
-reflow_test_SOURCES = 	\
-	test-reflow.c
-
-reflow_test_LDADD =							\
-	libeminicard.a							\
-	$(top_builddir)/addressbook/backend/ebook/libebook.la		\
-	$(top_builddir)/e-util/libeutil.la				\
-	$(top_builddir)/libversit/libversit.la				\
-	$(top_builddir)/e-util/ename/libename.la			\
-	$(top_builddir)/addressbook/contact-editor/libecontacteditor.a	\
-	$(top_builddir)/addressbook/printing/libecontactprint.a		\
-	$(top_builddir)/widgets/misc/libemiscwidgets.a 			\
-	$(top_builddir)/e-util/libeutil.la				\
-	$(EXTRA_GNOME_LIBS)						\
-	$(BONOBO_GNOME_LIBS)						\
-	$(GNOME_PRINT_LIBS)
+#reflow_test_SOURCES = 	\
+#	 test-reflow.c
+#
+#reflow_test_LDADD =							\
+#	 libeminicard.a							\
+#	 $(top_builddir)/addressbook/backend/ebook/libebook.la		\
+#	 $(top_builddir)/e-util/libeutil.la				\
+#	 $(top_builddir)/libversit/libversit.la				\
+#	 $(top_builddir)/e-util/ename/libename.la			\
+#	 $(top_builddir)/addressbook/contact-editor/libecontacteditor.a	\
+#	 $(top_builddir)/addressbook/printing/libecontactprint.a		\
+#	 $(top_builddir)/widgets/misc/libemiscwidgets.a 			\
+#	 $(top_builddir)/e-util/libeutil.la				\
+#	 $(EXTRA_GNOME_LIBS)						\
+#	 $(BONOBO_GNOME_LIBS)						\
+#	 $(GNOME_PRINT_LIBS)
 
 #minicard_view_test_SOURCES = 	\
 #	test-minicard-view.c

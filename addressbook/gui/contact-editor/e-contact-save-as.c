@@ -29,17 +29,17 @@
 
 typedef struct {
 	GtkFileSelection *filesel;
-	ECard *card;
+	char *vcard;
 } SaveAsInfo;
 
 static void
 save_it(GtkWidget *widget, SaveAsInfo *info)
 {
-	char *vcard = e_card_get_vcard(info->card);
-	const char *filename = gtk_file_selection_get_filename(info->filesel);
-	e_write_file(filename, vcard, O_WRONLY | O_CREAT | O_EXCL | O_TRUNC);
-	g_free(vcard);
-	gtk_object_unref(GTK_OBJECT(info->card));
+	const char *filename = gtk_file_selection_get_filename (info->filesel);
+
+	e_write_file (filename, info->vcard, O_WRONLY | O_CREAT | O_EXCL | O_TRUNC);
+
+	g_free (info->vcard);
 	gtk_widget_destroy(GTK_WIDGET(info->filesel));
 	g_free(info);
 }
@@ -47,16 +47,16 @@ save_it(GtkWidget *widget, SaveAsInfo *info)
 static void
 close_it(GtkWidget *widget, SaveAsInfo *info)
 {
-	gtk_object_unref(GTK_OBJECT(info->card));
-	gtk_widget_destroy(GTK_WIDGET(info->filesel));
-	g_free(info);
+	g_free (info->vcard);
+	gtk_widget_destroy (GTK_WIDGET (info->filesel));
+	g_free (info);
 }
 
 static void
 delete_it(GtkWidget *widget, SaveAsInfo *info)
 {
-	gtk_object_unref(GTK_OBJECT(info->card));
-	g_free(info);
+	g_free (info->vcard);
+	g_free (info);
 }
 
 void
@@ -68,7 +68,27 @@ e_contact_save_as(char *title, ECard *card)
 	filesel = GTK_FILE_SELECTION(gtk_file_selection_new(title));
 
 	info->filesel = filesel;
-	info->card = e_card_duplicate(card);
+	info->vcard = e_card_get_vcard(card);
+	
+	gtk_signal_connect(GTK_OBJECT(filesel->ok_button), "clicked",
+			   save_it, info);
+	gtk_signal_connect(GTK_OBJECT(filesel->cancel_button), "clicked",
+			   close_it, info);
+	gtk_signal_connect(GTK_OBJECT(filesel), "delete_event",
+			   delete_it, info);
+	gtk_widget_show(GTK_WIDGET(filesel));
+}
+
+void
+e_contact_list_save_as(char *title, GList *list)
+{
+	GtkFileSelection *filesel;
+	SaveAsInfo *info = g_new(SaveAsInfo, 1);
+	
+	filesel = GTK_FILE_SELECTION(gtk_file_selection_new(title));
+
+	info->filesel = filesel;
+	info->vcard = e_card_list_get_vcard (list);
 	
 	gtk_signal_connect(GTK_OBJECT(filesel->ok_button), "clicked",
 			   save_it, info);

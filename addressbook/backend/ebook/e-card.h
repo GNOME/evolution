@@ -110,7 +110,9 @@ ECard                *e_card_new                          (char                 
 char                 *e_card_get_id                       (ECard                      *card);
 void                  e_card_set_id                       (ECard                      *card,
 							   const char                 *character);
+
 char                 *e_card_get_vcard                    (ECard                      *card);
+char                 *e_card_list_get_vcard               (GList                      *list);
 ECard                *e_card_duplicate                    (ECard                      *card);
 
 /* ECardPhone manipulation */
@@ -152,6 +154,7 @@ gboolean              e_card_email_match_string           (const ECard          
 
 /* Specialized functionality */
 GList                *e_card_load_cards_from_file         (const char                 *filename);
+void                  e_card_free_empty_lists             (ECard                      *card);
 
 enum _ECardDisposition {
 	E_CARD_DISPOSITION_AS_ATTACHMENT,
@@ -159,6 +162,8 @@ enum _ECardDisposition {
 };
 typedef enum _ECardDisposition ECardDisposition;
 void                  e_card_send                         (ECard                      *card,
+							   ECardDisposition            disposition);
+void                  e_card_list_send                    (GList                      *cards,
 							   ECardDisposition            disposition);
 
 /* Standard Gtk function */

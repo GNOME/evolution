@@ -32,6 +32,8 @@ extern "C" {
 
 void
 e_contact_save_as(gchar *title, ECard *card);
+void
+e_contact_list_save_as(gchar *title, GList *list);
 
 #ifdef __cplusplus
 }

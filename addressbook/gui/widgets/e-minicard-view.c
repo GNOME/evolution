@@ -22,33 +22,28 @@
 
 #include <config.h>
 
+#include "e-minicard-view.h"
+
+#include "e-contact-editor.h"
+
 #include <gtk/gtkselection.h>
 #include <gtk/gtkdnd.h>
 #include <gal/widgets/e-canvas.h>
 #include <gal/widgets/e-unicode.h>
 #include <libgnome/gnome-i18n.h>
 
-#include "e-minicard-view.h"
-#include "e-minicard.h"
-#include "e-contact-editor.h"
-
-static void e_minicard_view_init		(EMinicardView		 *reflow);
-static void e_minicard_view_class_init	(EMinicardViewClass	 *klass);
-static void e_minicard_view_set_arg (GtkObject *o, GtkArg *arg, guint arg_id);
-static void e_minicard_view_get_arg (GtkObject *object, GtkArg *arg, guint arg_id);
-static void e_minicard_view_destroy (GtkObject *object);
-static gboolean e_minicard_view_event (GnomeCanvasItem *item, GdkEvent *event);
+#if 0
 static void canvas_destroy (GtkObject *object, EMinicardView *view);
-static void disconnect_signals (EMinicardView *view);
-static void e_minicard_view_update_selection (EMinicardView *view);
 static void e_minicard_view_drag_data_get(GtkWidget *widget,
 					  GdkDragContext *context,
 					  GtkSelectionData *selection_data,
 					  guint info,
 					  guint time,
 					  EMinicardView *view);
+#endif
 
-static EReflowSortedClass *parent_class = NULL;
+static EReflowClass *parent_class = NULL;
+#define PARENT_TYPE (E_REFLOW_TYPE)
 
 /* The arguments we take */
 enum {
@@ -63,6 +58,7 @@ enum {
 	LAST_SIGNAL
 };
 
+#if 0
 enum DndTargetType {
 	DND_TARGET_TYPE_VCARD,
 };
@@ -71,110 +67,11 @@ static GtkTargetEntry drag_types[] = {
 	{ VCARD_TYPE, 0, DND_TARGET_TYPE_VCARD }
 };
 static gint num_drag_types = sizeof(drag_types) / sizeof(drag_types[0]);
+#endif
 
 static guint e_minicard_view_signals [LAST_SIGNAL] = {0, };
 
-GtkType
-e_minicard_view_get_type (void)
-{
-  static GtkType reflow_type = 0;
-
-  if (!reflow_type)
-    {
-      static const GtkTypeInfo reflow_info =
-      {
-        "EMinicardView",
-        sizeof (EMinicardView),
-        sizeof (EMinicardViewClass),
-        (GtkClassInitFunc) e_minicard_view_class_init,
-        (GtkObjectInitFunc) e_minicard_view_init,
-        /* reserved_1 */ NULL,
-        /* reserved_2 */ NULL,
-        (GtkClassInitFunc) NULL,
-      };
-
-      reflow_type = gtk_type_unique (e_reflow_sorted_get_type (), &reflow_info);
-    }
-
-  return reflow_type;
-}
-
-static void
-e_minicard_view_class_init (EMinicardViewClass *klass)
-{
-	GtkObjectClass *object_class;
-	GnomeCanvasItemClass *item_class;
-	
-	object_class = (GtkObjectClass*) klass;
-	item_class = (GnomeCanvasItemClass *) klass;
-	
-	parent_class = gtk_type_class (e_reflow_sorted_get_type ());
-	
-	gtk_object_add_arg_type ("EMinicardView::book", GTK_TYPE_OBJECT, 
-				 GTK_ARG_READWRITE, ARG_BOOK);
-	gtk_object_add_arg_type ("EMinicardView::query", GTK_TYPE_STRING,
-				 GTK_ARG_READWRITE, ARG_QUERY);
-	gtk_object_add_arg_type ("EMinicardView::editable", GTK_TYPE_BOOL,
-				 GTK_ARG_READWRITE, ARG_EDITABLE);
-
-	e_minicard_view_signals [STATUS_MESSAGE] =
-		gtk_signal_new ("status_message",
-				GTK_RUN_LAST,
-				object_class->type,
-				GTK_SIGNAL_OFFSET (EMinicardViewClass, status_message),
-				gtk_marshal_NONE__POINTER,
-				GTK_TYPE_NONE, 1, GTK_TYPE_POINTER);
-
-	gtk_object_class_add_signals (object_class, e_minicard_view_signals, LAST_SIGNAL);
-	
-	object_class->set_arg   = e_minicard_view_set_arg;
-	object_class->get_arg   = e_minicard_view_get_arg;
-	object_class->destroy   = e_minicard_view_destroy;
-
-	item_class->event       = e_minicard_view_event;
-	
-	/* GnomeCanvasItem method overrides */
-}
-
-static void
-selection_changed (ESelectionModel *selection, EMinicardView *view)
-{
-	e_minicard_view_update_selection (view);
-}
-
-static void
-e_minicard_view_init (EMinicardView *view)
-{
-	char *empty_message;
-	view->book = NULL;
-	view->query = g_strdup("(contains \"x-evolution-any-field\" \"\")");
-	view->editable = FALSE;
-	view->book_view = NULL;
-	view->get_view_idle = 0;
-	view->create_card_id = 0;
-	view->remove_card_id = 0;
-	view->modify_card_id = 0;
-	view->status_message_id = 0;
-	view->canvas_destroy_id = 0;
-	view->first_get_view = TRUE;
-
-	view->selection = e_selection_model_simple_new();
-
-	gtk_signal_connect(GTK_OBJECT(view->selection), "selection_changed",
-			   GTK_SIGNAL_FUNC(selection_changed), view);
-
-	empty_message = e_utf8_from_locale_string(_("\n\nThere are no items to show in this view\n\n"
-						    "Double-click here to create a new Contact."));
-	gtk_object_set (GTK_OBJECT(view),
-			"empty_message",
-			empty_message,
-			NULL);
-	g_free (empty_message);
-
-	E_REFLOW_SORTED(view)->compare_func = (GCompareFunc) e_minicard_compare;
-	E_REFLOW_SORTED(view)->string_func  = (EReflowStringFunc) e_minicard_get_card_id;
-}
-
+#if 0
 static void
 e_minicard_view_drag_data_get(GtkWidget *widget,
 			      GdkDragContext *context,
@@ -221,70 +118,9 @@ e_minicard_view_drag_begin (EMinicard *card, GdkEvent *event, EMinicardView *vie
 
 	return TRUE;
 }
+#endif
 
-static gint
-card_selected (EMinicard *card, GdkEvent *event, EMinicardView *view)
-{
-	int i = 0;
-	GList *item;
-	for (item = E_REFLOW(view)->items; item->data != card; item = item->next, i++)
-		/* Empty for loop */;
-	switch(event->type) {
-	case GDK_BUTTON_PRESS:
-		e_selection_model_do_something(E_SELECTION_MODEL(view->selection), i, 0, event->button.state);
-		return TRUE;
-		break;
-	default:
-		e_selection_model_do_something(E_SELECTION_MODEL(view->selection), i, 0, 0);
-		return FALSE;
-		break;
-	}
-}
-
-static void
-create_card(EBookView *book_view, const GList *cards, EMinicardView *view)
-{
-	for (; cards; cards = g_list_next(cards)) {
-		int position;
-		GnomeCanvasItem *item = gnome_canvas_item_new(GNOME_CANVAS_GROUP(view),
-							      e_minicard_get_type(),
-							      "card", cards->data,
-							      "editable", view->editable,
-							      NULL);
-		gtk_signal_connect(GTK_OBJECT(item), "selected",
-				   GTK_SIGNAL_FUNC(card_selected), view);
-
-		gtk_signal_connect(GTK_OBJECT(item), "drag_begin",
-				   GTK_SIGNAL_FUNC(e_minicard_view_drag_begin), view);
-
-		e_reflow_add_item(E_REFLOW(view), item, &position);
-
-		e_selection_model_simple_insert_rows(view->selection, position, 1);
-	}
-}
-
-static void
-modify_card(EBookView *book_view, const GList *cards, EMinicardView *view)
-{
-	for (; cards; cards = g_list_next(cards)) {
-		ECard *card = cards->data;
-		gchar *id = e_card_get_id(card);
-		GnomeCanvasItem *item = e_reflow_sorted_get_item(E_REFLOW_SORTED(view), id, NULL);
-		if (item && !GTK_OBJECT_DESTROYED(item)) {
-			int old_pos;
-			int new_pos;
-
-			gnome_canvas_item_set(item,
-					      "card", card,
-					      NULL);
-
-			e_reflow_sorted_reorder_item(E_REFLOW_SORTED(view), id, &old_pos, &new_pos);
-
-			e_selection_model_simple_move_row(view->selection, old_pos, new_pos);
-		}
-	}
-}
-
+#if 0
 static void
 status_message (EBookView *book_view,
 		char* status,
@@ -294,173 +130,7 @@ status_message (EBookView *book_view,
 			 e_minicard_view_signals [STATUS_MESSAGE],
 			 status);
 }
-
-static void
-remove_card(EBookView *book_view, const char *id, EMinicardView *view)
-{
-	int position;
-	e_reflow_sorted_remove_item(E_REFLOW_SORTED(view), id, &position);
-	e_selection_model_simple_delete_rows(view->selection, position, 1);
-}
-
-static void
-book_view_loaded (EBook *book, EBookStatus status, EBookView *book_view, gpointer closure)
-{
-	EMinicardView *view = closure;
-	disconnect_signals(view);
-	if (view->book_view)
-		gtk_object_unref(GTK_OBJECT(view->book_view));
-
-	if (!view->canvas_destroy_id)
-		view->canvas_destroy_id = 
-			gtk_signal_connect(GTK_OBJECT(GNOME_CANVAS_ITEM(view)->canvas),
-					   "destroy", GTK_SIGNAL_FUNC(canvas_destroy),
-					   view);
-
-	if (!view->canvas_drag_data_get_id)
-		view->canvas_drag_data_get_id =
-			gtk_signal_connect (GTK_OBJECT (GNOME_CANVAS_ITEM (view)->canvas),
-					    "drag_data_get",
-					    GTK_SIGNAL_FUNC (e_minicard_view_drag_data_get),
-					    view);
-
-	view->book_view = book_view;
-	if (view->book_view)
-		gtk_object_ref(GTK_OBJECT(view->book_view));
-	
-
-	view->create_card_id =
-		gtk_signal_connect(GTK_OBJECT(view->book_view),
-				   "card_added",
-				   GTK_SIGNAL_FUNC(create_card),
-				   view);
-	view->remove_card_id =
-		gtk_signal_connect(GTK_OBJECT(view->book_view),
-				   "card_removed",
-				   GTK_SIGNAL_FUNC(remove_card),
-				   view);
-	view->modify_card_id =
-		gtk_signal_connect(GTK_OBJECT(view->book_view),
-				   "card_changed",
-				   GTK_SIGNAL_FUNC(modify_card),
-				   view);
-	view->status_message_id =
-		gtk_signal_connect(GTK_OBJECT(view->book_view),
-				   "status_message",
-				   GTK_SIGNAL_FUNC(status_message),
-				   view);
-
-	g_list_foreach(E_REFLOW(view)->items, (GFunc) gtk_object_unref, NULL);
-	g_list_foreach(E_REFLOW(view)->items, (GFunc) gtk_object_destroy, NULL);
-	g_list_free(E_REFLOW(view)->items);
-	E_REFLOW(view)->items = NULL;
-	e_canvas_item_request_reflow(GNOME_CANVAS_ITEM(view));
-}
-
-static gboolean
-get_view(EMinicardView *view)
-{
-	if (view->book && view->query) {
-		if (view->first_get_view) {
-			char *capabilities;
-			capabilities = e_book_get_static_capabilities(view->book);
-			if (strstr(capabilities, "local")) {
-				e_book_get_book_view(view->book, view->query, book_view_loaded, view);
-			}
-			view->first_get_view = FALSE;
-		}
-		else
-			e_book_get_book_view(view->book, view->query, book_view_loaded, view);
-	}
-
-	view->get_view_idle = 0;
-	return FALSE;
-}
-
-static void
-e_minicard_view_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
-{
-	GnomeCanvasItem *item;
-	EMinicardView *view;
-
-	item = GNOME_CANVAS_ITEM (o);
-	view = E_MINICARD_VIEW (o);
-	
-	switch (arg_id){
-	case ARG_BOOK:
-		if (view->book)
-			gtk_object_unref(GTK_OBJECT(view->book));
-		if (GTK_VALUE_OBJECT (*arg)) {
-			view->book = E_BOOK(GTK_VALUE_OBJECT (*arg));
-			gtk_object_ref(GTK_OBJECT(view->book));
-			if (view->get_view_idle == 0)
-				view->get_view_idle = g_idle_add((GSourceFunc)get_view, view);
-		}
-		else
-			view->book = NULL;
-		break;
-	case ARG_QUERY:
-		g_free(view->query);
-		view->query = g_strdup(GTK_VALUE_STRING (*arg));
-		if (view->get_view_idle == 0)
-			view->get_view_idle = g_idle_add((GSourceFunc)get_view, view);
-		break;
-	case ARG_EDITABLE: {
-		GList *l;
-		view->editable = GTK_VALUE_BOOL (*arg);
-		/* bit of a hack */
-		for (l = E_REFLOW (view)->items; l; l = g_list_next(l)) {
-			gtk_object_set (GTK_OBJECT (l->data),
-					"editable", view->editable,
-					NULL);
-		}
-		break;
-	}
-	}
-}
-
-static void
-e_minicard_view_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
-{
-	EMinicardView *e_minicard_view;
-
-	e_minicard_view = E_MINICARD_VIEW (object);
-
-	switch (arg_id) {
-	case ARG_BOOK:
-		GTK_VALUE_OBJECT (*arg) = GTK_OBJECT(e_minicard_view->book);
-		break;
-	case ARG_QUERY:
-		GTK_VALUE_STRING (*arg) = g_strdup(e_minicard_view->query);
-		break;
-	case ARG_EDITABLE:
-		GTK_VALUE_BOOL (*arg) = e_minicard_view->editable;
-		break;
-	default:
-		arg->type = GTK_TYPE_INVALID;
-		break;
-	}
-}
-
-static void
-e_minicard_view_destroy (GtkObject *object)
-{
-	EMinicardView *view = E_MINICARD_VIEW(object);
-
-	if (view->get_view_idle)
-		g_source_remove(view->get_view_idle);
-	if (view->canvas_destroy_id)
-		gtk_signal_disconnect(GTK_OBJECT (GNOME_CANVAS_ITEM(view)->canvas),
-				      view->canvas_destroy_id);
-	disconnect_signals(view);
-	g_free(view->query);
-	if (view->book)
-		gtk_object_unref(GTK_OBJECT(view->book));
-	if (view->book_view)
-		gtk_object_unref(GTK_OBJECT(view->book_view));
-  
-	GTK_OBJECT_CLASS(parent_class)->destroy (object);
-}
+#endif
 
 static void
 card_added_cb (EBook* book, EBookStatus status, const char *id,
@@ -507,10 +177,15 @@ supported_fields_cb (EBook *book, EBookStatus status, EList *fields, EMinicardVi
 {
 	ECard *card;
 	EContactEditor *ce;
+	gboolean editable;
 
 	card = e_card_new("");
 
-	ce = e_contact_editor_new (card, TRUE, fields, !view->editable);
+	gtk_object_get (GTK_OBJECT (view->model),
+			"editable", &editable,
+			NULL);
+
+	ce = e_contact_editor_new (card, TRUE, fields, !editable);
 
 	gtk_signal_connect (GTK_OBJECT (ce), "add_card",
 			    GTK_SIGNAL_FUNC (add_card_cb), book);
@@ -520,6 +195,75 @@ supported_fields_cb (EBook *book, EBookStatus status, EList *fields, EMinicardVi
 			    GTK_SIGNAL_FUNC (editor_closed_cb), NULL);
 
 	gtk_object_sink(GTK_OBJECT(card));
+}
+
+static void
+e_minicard_view_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
+{
+	GnomeCanvasItem *item;
+	EMinicardView *view;
+
+	item = GNOME_CANVAS_ITEM (o);
+	view = E_MINICARD_VIEW (o);
+	
+	switch (arg_id){
+	case ARG_BOOK:
+		gtk_object_set (GTK_OBJECT (view->model),
+					    "book", GTK_VALUE_OBJECT (*arg),
+					    NULL);
+		break;
+	case ARG_QUERY:
+		gtk_object_set (GTK_OBJECT (view->model),
+					    "query", GTK_VALUE_STRING (*arg),
+					    NULL);
+		break;
+	case ARG_EDITABLE:
+		gtk_object_set (GTK_OBJECT (view->model),
+					    "editable", GTK_VALUE_BOOL (*arg),
+					    NULL);
+		break;
+	}
+}
+
+static void
+e_minicard_view_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
+{
+	EMinicardView *view;
+
+	view = E_MINICARD_VIEW (object);
+
+	switch (arg_id) {
+	case ARG_BOOK:
+		gtk_object_get (GTK_OBJECT (view->model),
+					    "book", &GTK_VALUE_OBJECT (*arg),
+					    NULL);
+		break;
+		break;
+	case ARG_QUERY:
+		gtk_object_get (GTK_OBJECT (view->model),
+					    "query", &GTK_VALUE_STRING (*arg),
+					    NULL);
+		break;
+	case ARG_EDITABLE:
+		gtk_object_get (GTK_OBJECT (view->model),
+					    "editable", &GTK_VALUE_BOOL (*arg),
+					    NULL);
+		break;
+	default:
+		arg->type = GTK_TYPE_INVALID;
+		break;
+	}
+}
+
+static void
+e_minicard_view_destroy (GtkObject *object)
+{
+	EMinicardView *view = E_MINICARD_VIEW(object);
+
+	
+	gtk_object_unref (GTK_OBJECT (view->model));
+
+	GTK_OBJECT_CLASS(parent_class)->destroy (object);
 }
 
 static gboolean
@@ -553,32 +297,65 @@ e_minicard_view_event (GnomeCanvasItem *item, GdkEvent *event)
 	}
 }
 
+static gint
+e_minicard_view_selection_event (EReflow *reflow, GnomeCanvasItem *item, GdkEvent *event)
+{
+	EMinicardView *view;
+	int return_val = FALSE;
+
+	view = E_MINICARD_VIEW (reflow);
+	if (parent_class->selection_event) {
+		return_val = parent_class->selection_event (reflow, item, event);
+	}
+
+	switch (event->type) {
+	case GDK_BUTTON_PRESS:
+		if (event->button.button == 3) {
+			return_val = e_minicard_view_model_right_click (view->model, event, reflow->selection);
+		}
+		break;
+	default:
+		break;
+	}
+	return return_val;
+}
+
 static void
 disconnect_signals(EMinicardView *view)
 {
-	if (view->book_view && view->create_card_id)
-		gtk_signal_disconnect(GTK_OBJECT (view->book_view),
-				      view->create_card_id);
-	if (view->book_view && view->remove_card_id)
-		gtk_signal_disconnect(GTK_OBJECT (view->book_view),
-				      view->remove_card_id);
-	if (view->book_view && view->modify_card_id)
-		gtk_signal_disconnect(GTK_OBJECT (view->book_view),
-				      view->modify_card_id);
-	if (view->book_view && view->status_message_id)
-		gtk_signal_disconnect(GTK_OBJECT (view->book_view),
+	if (view->model && view->status_message_id)
+		gtk_signal_disconnect(GTK_OBJECT (view->model),
 				      view->status_message_id);
 
-	view->create_card_id = 0;
-	view->remove_card_id = 0;
-	view->modify_card_id = 0;
 	view->status_message_id = 0;
 }
 
+#if 0
 static void
 canvas_destroy(GtkObject *object, EMinicardView *view)
 {
 	disconnect_signals(view);
+}
+#endif
+
+typedef struct {
+	EMinicardView *view;
+	EBookCallback cb;
+	gpointer closure;
+} ViewCbClosure;
+
+static void
+do_remove (int i, gpointer user_data)
+{
+	ECard *card;
+	ViewCbClosure *viewcbclosure = user_data;
+	EMinicardView *view = viewcbclosure->view;
+	EBookCallback cb = viewcbclosure->cb;
+	gpointer closure = viewcbclosure->closure;
+	gtk_object_get(GTK_OBJECT(view->model->data[i]),
+		       "card", &card,
+		       NULL);
+	e_book_remove_card(view->model->book, card, cb, closure);
 }
 
 void
@@ -586,27 +363,17 @@ e_minicard_view_remove_selection(EMinicardView *view,
 				 EBookCallback  cb,
 				 gpointer       closure)
 {
-	if (view->book) {
-		EReflow *reflow = E_REFLOW(view);
-		GList *list;
-		for (list = reflow->items; list; list = g_list_next(list)) {
-			GnomeCanvasItem *item = list->data;
-			gboolean has_focus;
-			gtk_object_get(GTK_OBJECT(item),
-				       "has_focus", &has_focus,
-				       NULL);
-			if (has_focus) {
-				ECard *card;
-				gtk_object_get(GTK_OBJECT(item),
-					       "card", &card,
-					       NULL);
-				e_book_remove_card(view->book, card, cb, closure);
-				return;
-			}
-		}
-	}
+	ViewCbClosure viewcbclosure;
+	viewcbclosure.view = view;
+	viewcbclosure.cb = cb;
+	viewcbclosure.closure = closure;
+
+	e_selection_model_foreach (E_REFLOW (view)->selection,
+				   do_remove,
+				   &viewcbclosure);
 }
 
+#if 0
 static int
 compare_to_letter(EMinicard *card, char *letter)
 {
@@ -629,35 +396,104 @@ compare_to_letter(EMinicard *card, char *letter)
 		return 0;
 	}
 }
+#endif
+
+
 
 void
 e_minicard_view_jump_to_letter   (EMinicardView *view,
 					     char           letter)
 {
+#if 0
 	e_reflow_sorted_jump(E_REFLOW_SORTED(view),
 			     (GCompareFunc) compare_to_letter,
 			     &letter);
+#endif
 }
 
 void
 e_minicard_view_stop             (EMinicardView *view)
 {
+	e_minicard_view_model_stop (view->model);
 	disconnect_signals(view);
-	if (view->book_view)
-		gtk_object_unref(GTK_OBJECT(view->book_view));
-	view->book_view = NULL;
+}
+
+
+static void
+e_minicard_view_class_init (EMinicardViewClass *klass)
+{
+	GtkObjectClass *object_class;
+	GnomeCanvasItemClass *item_class;
+	EReflowClass *reflow_class;
+	
+	object_class = (GtkObjectClass*) klass;
+	item_class = (GnomeCanvasItemClass *) klass;
+	reflow_class = (EReflowClass *) klass;
+	
+	parent_class = gtk_type_class (PARENT_TYPE);
+	
+	gtk_object_add_arg_type ("EMinicardView::book", GTK_TYPE_OBJECT, 
+				 GTK_ARG_READWRITE, ARG_BOOK);
+	gtk_object_add_arg_type ("EMinicardView::query", GTK_TYPE_STRING,
+				 GTK_ARG_READWRITE, ARG_QUERY);
+	gtk_object_add_arg_type ("EMinicardView::editable", GTK_TYPE_BOOL,
+				 GTK_ARG_READWRITE, ARG_EDITABLE);
+
+	e_minicard_view_signals [STATUS_MESSAGE] =
+		gtk_signal_new ("status_message",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (EMinicardViewClass, status_message),
+				gtk_marshal_NONE__POINTER,
+				GTK_TYPE_NONE, 1, GTK_TYPE_POINTER);
+
+	gtk_object_class_add_signals (object_class, e_minicard_view_signals, LAST_SIGNAL);
+	
+	object_class->set_arg         = e_minicard_view_set_arg;
+	object_class->get_arg         = e_minicard_view_get_arg;
+	object_class->destroy         = e_minicard_view_destroy;
+
+	item_class->event             = e_minicard_view_event;
+
+	reflow_class->selection_event = e_minicard_view_selection_event;
+	/* GnomeCanvasItem method overrides */
 }
 
 static void
-e_minicard_view_update_selection (EMinicardView *view)
+e_minicard_view_init (EMinicardView *view)
 {
-	int i;
-	GList *item;
+	char *empty_message;
 
-	for (i = 0, item = E_REFLOW(view)->items; item; item = item->next, i++) {
-		if (E_IS_MINICARD(item->data))
-			gtk_object_set(GTK_OBJECT(item->data),
-				       "selected", e_selection_model_is_row_selected(E_SELECTION_MODEL(view->selection), i),
-				       NULL);
+	view->model = E_MINICARD_VIEW_MODEL(e_minicard_view_model_new());
+
+	empty_message = e_utf8_from_locale_string(_("\n\nThere are no items to show in this view\n\n"
+						    "Double-click here to create a new Contact."));
+	gtk_object_set (GTK_OBJECT(view),
+			"empty_message", empty_message,
+			"model", view->model,
+			NULL);
+	g_free (empty_message);
+}
+
+GtkType
+e_minicard_view_get_type (void)
+{
+	static GtkType reflow_type = 0;
+
+	if (!reflow_type) {
+		static const GtkTypeInfo reflow_info = {
+			"EMinicardView",
+			sizeof (EMinicardView),
+			sizeof (EMinicardViewClass),
+			(GtkClassInitFunc) e_minicard_view_class_init,
+			(GtkObjectInitFunc) e_minicard_view_init,
+				/* reserved_1 */ NULL,
+				/* reserved_2 */ NULL,
+			(GtkClassInitFunc) NULL,
+		};
+
+		reflow_type = gtk_type_unique (PARENT_TYPE, &reflow_info);
 	}
+
+	return reflow_type;
 }

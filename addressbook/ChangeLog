@@ -1,3 +1,57 @@
+2001-05-08  Christopher James Lahey  <clahey@ximian.com>
+
+	* backend/ebook/Makefile.am (libebookinclude_HEADERS): Removed
+	e-card-pairs.h since we're not using it.
+
+	* backend/ebook/e-book-view.c (e_book_view_check_listener_queue):
+	Added break; to default: case here.
+
+	* backend/ebook/e-card-simple.c, backend/ebook/e-card-simple.h:
+	Added changed variable so as to avoid sync_card when possible.
+	(e_card_simple_destroy): Free all the data here properly.
+	(e_card_simple_get_arg): Slight simplification here.
+	(fill_in_info, e_card_simple_arbitrary_foreach,
+	e_card_simple_get_arbitrary): Call e_card_free_empty_lists here to
+	save a bit of memory.
+
+	* backend/ebook/e-card.c, backend/ebook/e-card.h: Fixed up
+	includes a bit.
+	(e_card_list_get_vcard, e_card_list_send): Added these functions
+	for acting on a group of cards.
+	(parse_org): Cleaned up this function a bit.
+	(e_card_free_empty_lists): Added this function to delete
+	unnecessary ELists and save a bit of memory.
+	(e_v_object_get_child_value): Made this return NULL if not found
+	instead of g_strdup("").
+
+	* contact-editor/e-contact-save-as.c,
+	contact-editor/e-contact-save-as.h (e_contact_list_save_as): Added
+	this function to save multiple contacts.
+
+	* gui/widgets/Makefile.am: Commented out reflow test.
+	(libeminicard_a_SOURCES): Added e-minicard-view-model.c and
+	e-minicard-view-model.h.
+
+	* gui/widgets/e-minicard-view-model.c,
+	gui/widgets/e-minicard-view-model.h: Model for use in
+	EMinicardView.
+
+	* gui/widgets/e-minicard-view.c, gui/widgets/e-minicard-view.h:
+	Reworked this to use the new EReflow stuff.
+
+	* gui/widgets/e-minicard.c (e_minicard_event): Doesn't handle
+	right click menus now.  Emits a signal on the parent canvas item
+	instead.
+
+	* printing/e-contact-print-envelope.c,
+	printing/e-contact-print-envelope.h
+	(e_contact_print_envelope_list_dialog_new): Added this function to
+	print multiple envelopes (only prints first for now.)
+
+	* printing/e-contact-print.c, printing/e-contact-print.h
+	(e_contact_print_card_list_dialog_new): Added this function to
+	print multiple cards.  Only prints the first for now.
+
 2001-05-07  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/addressbook-component.c (remove_folder): flesh out

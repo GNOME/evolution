@@ -27,5 +27,6 @@
 #include "e-contact-print-types.h"
 
 GtkWidget *e_contact_print_envelope_dialog_new(ECard *card);
+GtkWidget *e_contact_print_envelope_list_dialog_new(GList *list);
 
 #endif /* E_CONTACT_PRINT_ENVELOPE_H */

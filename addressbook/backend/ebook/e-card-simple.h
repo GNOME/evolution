@@ -138,6 +138,8 @@ struct _ECardSimple {
 	char *email[E_CARD_SIMPLE_EMAIL_ID_LAST];
 	ECardAddrLabel *address[E_CARD_SIMPLE_ADDRESS_ID_LAST];
 	ECardDeliveryAddress *delivery[E_CARD_SIMPLE_ADDRESS_ID_LAST];
+
+	gboolean changed;
 };
 
 struct _ECardSimpleClass {

@@ -9,6 +9,11 @@
  */
 
 #include <config.h>
+
+#include "e-card.h"
+
+#include <gal/util/e-i18n.h>
+
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -21,9 +26,6 @@
 #include <libversit/vcc.h>
 #include "e-util/ename/e-name-western.h"
 #include "e-util/ename/e-address-western.h"
-
-#include "e-card.h"
-#include "e-card-pairs.h"
 
 #define is_a_prop_of(obj,prop) (isAPropertyOf ((obj),(prop)))
 #define str_val(obj) (the_str = (vObjectValueType (obj))? fakeCString (vObjectUStringZValue (obj)) : calloc (1, 1))
@@ -242,17 +244,10 @@ e_card_set_id (ECard *card, const char *id)
 	card->id = g_strdup(id);
 }
 
-/**
- * e_card_get_vcard:
- * @card: an #ECard
- *
- * Returns: a string in vCard format, which is wrapped by the @card.
- */
-char
-*e_card_get_vcard (ECard *card)
+static VObject *
+e_card_get_vobject (ECard *card)
 {
-	VObject *vobj; /*, *vprop; */
-	char *temp, *ret_val;
+	VObject *vobj;
 	
 	vobj = newVObject (VCCardProp);
 
@@ -538,10 +533,55 @@ char
 		add_CardProperty (vprop, &crd->key.prop);
 	}
 #endif
+	return vobj;
+}
+
+/**
+ * e_card_get_vcard:
+ * @card: an #ECard
+ *
+ * Returns: a string in vCard format, which is wrapped by the @card.
+ */
+char *
+e_card_get_vcard (ECard *card)
+{
+	VObject *vobj;
+	char *temp, *ret_val;
+
+	vobj = e_card_get_vobject (card);
 	temp = writeMemVObject(NULL, NULL, vobj);
 	ret_val = g_strdup(temp);
 	free(temp);
 	cleanVObject(vobj);
+	return ret_val;
+}
+
+/**
+ * e_card_list_get_vcard:
+ * @list: a list of #ECards
+ *
+ * Returns: a string in vCard format.
+ */
+char *
+e_card_list_get_vcard (GList *list)
+{
+	VObject *vobj;
+
+	char *temp, *ret_val;
+
+	vobj = NULL;
+
+	for (; list; list = list->next) {
+		VObject *tempvobj;
+		ECard *card = list->data;
+
+		tempvobj = e_card_get_vobject (card);
+		addList (&vobj, tempvobj);
+	}
+	temp = writeMemVObjects(NULL, NULL, vobj);
+	ret_val = g_strdup(temp);
+	free(temp);
+	cleanVObjects(vobj);
 	return ret_val;
 }
 
@@ -671,17 +711,12 @@ parse_org(ECard *card, VObject *vobj)
 	char *temp;
 	
 	temp = e_v_object_get_child_value(vobj, VCOrgNameProp);
-	if (temp) {
-		if (card->org)
-			g_free(card->org);
-		card->org = temp;
-	}
+	g_free(card->org);
+	card->org = temp;
+
 	temp = e_v_object_get_child_value(vobj, VCOrgUnitProp);
-	if (temp) {
-		if (card->org_unit)
-			g_free(card->org_unit);
-		card->org_unit = temp;
-	}
+	g_free(card->org_unit);
+	card->org_unit = temp;
 }
 
 static void
@@ -1734,15 +1769,15 @@ e_card_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	case ARG_ADDRESS:
 		if (!card->address)
 			card->address = e_list_new((EListCopyFunc) e_card_delivery_address_copy, 
-							(EListFreeFunc) e_card_delivery_address_free,
-							NULL);
+						   (EListFreeFunc) e_card_delivery_address_free,
+						   NULL);
 		GTK_VALUE_OBJECT(*arg) = GTK_OBJECT(card->address);
 		break;
 	case ARG_ADDRESS_LABEL:
 		if (!card->address_label)
 			card->address_label = e_list_new((EListCopyFunc) e_card_address_label_copy, 
-							      (EListFreeFunc) e_card_address_label_free,
-							      NULL);
+							 (EListFreeFunc) e_card_address_label_free,
+							 NULL);
 		GTK_VALUE_OBJECT(*arg) = GTK_OBJECT(card->address_label);
 		break;
 	case ARG_PHONE:
@@ -1767,8 +1802,8 @@ e_card_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 			EIterator *iterator;
 			if (!card->categories)
 				card->categories = e_list_new((EListCopyFunc) g_strdup, 
-								   (EListFreeFunc) g_free,
-								   NULL);
+							      (EListFreeFunc) g_free,
+							      NULL);
 			length = e_list_length(card->categories);
 			strs = g_new(char *, length + 1);
 			for (iterator = e_list_get_iterator(card->categories), i = 0; e_iterator_is_valid(iterator); e_iterator_next(iterator), i++) {
@@ -1782,8 +1817,8 @@ e_card_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	case ARG_CATEGORY_LIST:
 		if (!card->categories)
 			card->categories = e_list_new((EListCopyFunc) g_strdup, 
-							   (EListFreeFunc) g_free,
-							   NULL);
+						      (EListFreeFunc) g_free,
+						      NULL);
 		GTK_VALUE_OBJECT(*arg) = GTK_OBJECT(card->categories);
 		break;
 	case ARG_BIRTH_DATE:
@@ -1840,8 +1875,8 @@ e_card_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	case ARG_ARBITRARY:
 		if (!card->arbitrary)
 			card->arbitrary = e_list_new((EListCopyFunc) e_card_arbitrary_copy,
-							  (EListFreeFunc) e_card_arbitrary_free,
-							  NULL);
+						     (EListFreeFunc) e_card_arbitrary_free,
+						     NULL);
 
 		GTK_VALUE_OBJECT(*arg) = GTK_OBJECT(card->arbitrary);
 		break;
@@ -1958,6 +1993,40 @@ e_card_load_cards_from_file(const char *filename)
 	}
 	list = g_list_reverse(list);
 	return list;
+}
+
+void
+e_card_free_empty_lists (ECard *card)
+{
+	if (card->address && e_list_length (card->address) == 0) {
+		gtk_object_unref (GTK_OBJECT (card->address));
+		card->address = NULL;
+	}
+
+	if (card->address_label && e_list_length (card->address_label) == 0) {
+		gtk_object_unref (GTK_OBJECT (card->address_label));
+		card->address_label = NULL;
+	}
+
+	if (card->phone && e_list_length (card->phone) == 0) {
+		gtk_object_unref (GTK_OBJECT (card->phone));
+		card->phone = NULL;
+	}
+
+	if (card->email && e_list_length (card->email) == 0) {
+		gtk_object_unref (GTK_OBJECT (card->email));
+		card->email = NULL;
+	}
+
+	if (card->categories && e_list_length (card->categories) == 0) {
+		gtk_object_unref (GTK_OBJECT (card->categories));
+		card->categories = NULL;
+	}
+
+	if (card->arbitrary && e_list_length (card->arbitrary) == 0) {
+		gtk_object_unref (GTK_OBJECT (card->arbitrary));
+		card->arbitrary = NULL;
+	}
 }
 
 static void
@@ -3426,9 +3495,7 @@ e_v_object_get_child_value(VObject *vobj, char *name)
 			return ret_val;
 		}
 	}
-	ret_val = g_new(char, 1);
-	*ret_val = 0;
-	return ret_val;
+	return NULL;
 }
 
 static ECardPhoneFlags
@@ -3552,11 +3619,14 @@ set_address_flags (VObject *vobj, ECardAddressFlags flags)
 #define COMPOSER_OAFID "OAFIID:GNOME_Evolution_Mail_Composer"
 
 void
-e_card_send (ECard *card, ECardDisposition disposition)
+e_card_list_send (GList *cards, ECardDisposition disposition)
 {
 	BonoboObjectClient *bonobo_server;
 	GNOME_Evolution_Composer composer_server;
 	CORBA_Environment ev;
+
+	if (cards == NULL)
+		return;
 	
 	/* First, I obtain an object reference that represents the Composer. */
 	bonobo_server = bonobo_object_activate (COMPOSER_OAFID, 0);
@@ -3570,33 +3640,42 @@ e_card_send (ECard *card, ECardDisposition disposition)
 	if (disposition == E_CARD_DISPOSITION_AS_TO) {
 		GNOME_Evolution_Composer_RecipientList *to_list, *cc_list, *bcc_list;
 		CORBA_char *subject;
-		char *name;
-		EList *email;
-		EIterator *iterator;
-		GNOME_Evolution_Composer_Recipient *recipient;
+		int length;
+		int i;
+
+		length = g_list_length (cards);
+
 		/* Now I have to make a CORBA sequence that represents a recipient list with
 		   one item, for the card. */
 		to_list = GNOME_Evolution_Composer_RecipientList__alloc ();
-		to_list->_maximum = 1;
-		to_list->_length = 1; 
-		to_list->_buffer = CORBA_sequence_GNOME_Evolution_Composer_Recipient_allocbuf (1);
+		to_list->_maximum = length;
+		to_list->_length = length;
+		to_list->_buffer = CORBA_sequence_GNOME_Evolution_Composer_Recipient_allocbuf (length);
 
-		gtk_object_get(GTK_OBJECT(card),
-			       "full_name", &name,
-			       "email", &email,
-			       NULL);
+		for (i = 0;
+		     cards;
+		     i++, cards = cards->next) {
+			ECard *card = cards->data;
+			EIterator *iterator;
+			char *file_as;
+			EList *email;
+			GNOME_Evolution_Composer_Recipient *recipient;
 
-		recipient = &(to_list->_buffer[0]);
+			recipient = &(to_list->_buffer[i]);
+			gtk_object_get (GTK_OBJECT (card),
+				       "file_as", &file_as,
+				       "email", &email,
+				       NULL);
 
-		iterator = e_list_get_iterator(email);
-		if (e_iterator_is_valid(iterator)) {
-			recipient->address = CORBA_string_dup(e_iterator_get(iterator));
-		} else {
-			recipient->address = CORBA_string_dup("");
+			iterator = e_list_get_iterator (email);
+			if (e_iterator_is_valid (iterator)) {
+				recipient->address = CORBA_string_dup (e_iterator_get (iterator));
+			} else {  
+				recipient->address = CORBA_string_dup("");
+			}
+			gtk_object_unref (GTK_OBJECT (iterator));
+			recipient->name = CORBA_string_dup (file_as);
 		}
-		gtk_object_unref(GTK_OBJECT(iterator));
-		
-		recipient->name = CORBA_string_dup(name);
 
 		cc_list = GNOME_Evolution_Composer_RecipientList__alloc ();
 		cc_list->_maximum = cc_list->_length = 0;
@@ -3604,16 +3683,13 @@ e_card_send (ECard *card, ECardDisposition disposition)
 		bcc_list->_maximum = bcc_list->_length = 0;
 
 		subject = CORBA_string_dup ("");
-	
+
 		GNOME_Evolution_Composer_setHeaders (composer_server, to_list, cc_list, bcc_list, subject, &ev);
 		if (ev._major != CORBA_NO_EXCEPTION) {
 			g_printerr ("gui/e-meeting-edit.c: I couldn't set the composer headers via CORBA! Aagh.\n");
 			CORBA_exception_free (&ev);
 			return;
 		}
-
-		if (CORBA_sequence_get_release (to_list) != FALSE)
-			CORBA_free (to_list->_buffer);
 
 		CORBA_free (to_list);
 		CORBA_free (cc_list);
@@ -3625,24 +3701,29 @@ e_card_send (ECard *card, ECardDisposition disposition)
 		CORBA_char *content_type, *filename, *description, *attach_data;
 		CORBA_boolean show_inline;
 		char *tempstr;
-		char *name;
-
-		gtk_object_get(GTK_OBJECT(card),
-			       "full_name", &name,
-			       NULL);
 
 		content_type = CORBA_string_dup ("text/x-vcard");
 		filename = CORBA_string_dup ("");
 
-		tempstr = g_strdup_printf ("VCard for %s", name);
-		description = CORBA_string_dup (tempstr);
-		g_free (tempstr);
+		if (cards->next) {
+			description = CORBA_string_dup (_("Multiple VCards"));
+		} else {
+			char *file_as;
+
+			gtk_object_get(GTK_OBJECT(cards->data),
+				       "file_as", &file_as,
+				       NULL);
+
+			tempstr = g_strdup_printf (_("VCard for %s"), file_as);
+			description = CORBA_string_dup (tempstr);
+			g_free (tempstr);
+		}
 
 		show_inline = FALSE;
 
-		tempstr = e_card_get_vcard(card);
+		tempstr = e_card_list_get_vcard (cards);
 		attach_data = CORBA_string_dup (tempstr);
-		g_free(tempstr);
+		g_free (tempstr);
 
 		GNOME_Evolution_Composer_attachData (composer_server, 
 						     content_type, filename, description,
@@ -3670,4 +3751,13 @@ e_card_send (ECard *card, ECardDisposition disposition)
 	}
 
 	CORBA_exception_free (&ev);
+}
+
+void
+e_card_send (ECard *card, ECardDisposition disposition)
+{
+	GList *list;
+	list = g_list_prepend (NULL, card);
+	e_card_list_send (list, disposition);
+	g_list_free (list);
 }

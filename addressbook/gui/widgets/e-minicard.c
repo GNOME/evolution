@@ -31,15 +31,11 @@
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-canvas-utils.h>
 #include <gal/widgets/e-canvas.h>
-#include <gal/widgets/e-popup-menu.h>
 #include "addressbook/backend/ebook/e-book.h"
-#include "addressbook/printing/e-contact-print.h"
-#include "addressbook/printing/e-contact-print-envelope.h"
 #include "e-minicard.h"
 #include "e-minicard-label.h"
 #include "e-minicard-view.h"
 #include "e-contact-editor.h"
-#include "e-contact-save-as.h"
 
 static void e_minicard_init		(EMinicard		 *card);
 static void e_minicard_class_init	(EMinicardClass	 *klass);
@@ -442,113 +438,6 @@ card_changed_cb (EBook* book, EBookStatus status, gpointer user_data)
 	g_print ("%s: %s(): a card was changed with status %d\n", __FILE__, __FUNCTION__, status);
 }
 
-typedef struct {
-	EMinicard *minicard;
-	GnomeCanvasItem *parent;
-	GtkWidget *canvas;
-} MinicardAndParent;
-
-static void
-e_minicard_and_parent_free (MinicardAndParent *mnp)
-{
-	gtk_object_unref(GTK_OBJECT(mnp->minicard));
-	gtk_object_unref(GTK_OBJECT(mnp->parent));
-	gtk_object_unref(GTK_OBJECT(mnp->canvas));
-	g_free(mnp);
-}
-
-static void
-save_as (GtkWidget *widget, MinicardAndParent *mnp)
-{
-	EMinicard *minicard = mnp->minicard;
-	if (!GTK_OBJECT_DESTROYED(minicard)) {
-		e_card_simple_sync_card(minicard->simple);
-		e_contact_save_as(_("Save as VCard"), minicard->card);
-	}
-	e_minicard_and_parent_free (mnp);
-}
-
-static void
-send_as (GtkWidget *widget, MinicardAndParent *mnp)
-{
-	EMinicard *minicard = mnp->minicard;
-	if (!GTK_OBJECT_DESTROYED(minicard)) {
-		e_card_simple_sync_card(minicard->simple);
-		e_card_send(minicard->card, E_CARD_DISPOSITION_AS_ATTACHMENT);
-	}
-	e_minicard_and_parent_free (mnp);
-}
-
-static void
-send_to (GtkWidget *widget, MinicardAndParent *mnp)
-{
-	EMinicard *minicard = mnp->minicard;
-	if (!GTK_OBJECT_DESTROYED(minicard)) {
-		e_card_simple_sync_card(minicard->simple);
-		e_card_send(minicard->card, E_CARD_DISPOSITION_AS_TO);
-	}
-	e_minicard_and_parent_free (mnp);
-}
-
-static void
-delete (GtkWidget *widget, MinicardAndParent *mnp)
-{
-	EMinicard *minicard = mnp->minicard;
-
-	if (!GTK_OBJECT_DESTROYED(minicard)) {
-		EBook *book;
-		ECard *card = minicard->card;
-		ECardSimple *simple = minicard->simple;
-
-		gtk_object_get(GTK_OBJECT(mnp->parent),
-			       "book", &book,
-			       NULL);
-
-		gtk_object_ref(GTK_OBJECT(card));
-		gtk_object_ref(GTK_OBJECT(simple));
-	
-		if (e_contact_editor_confirm_delete(GTK_WINDOW(gtk_widget_get_toplevel(mnp->canvas)))) {
-			e_card_simple_sync_card(simple);
-		
-		
-			/* Add the card in the contact editor to our ebook */
-			e_book_remove_card (book,
-					    card,
-					    card_changed_cb,
-					    NULL);
-		}
-
-		gtk_object_unref(GTK_OBJECT(card));
-		gtk_object_unref(GTK_OBJECT(simple));
-	}
-
-	e_minicard_and_parent_free (mnp);
-}
-
-static void
-print (GtkWidget *widget, MinicardAndParent *mnp)
-{
-	EMinicard *minicard = mnp->minicard;
-
-	if (!GTK_OBJECT_DESTROYED(minicard)) {
-		e_card_simple_sync_card(minicard->simple);
-		gtk_widget_show(e_contact_print_card_dialog_new(minicard->card));
-	}
-	e_minicard_and_parent_free (mnp);
-}
-
-static void
-print_envelope (GtkWidget *widget, MinicardAndParent *mnp)
-{
-	EMinicard *minicard = mnp->minicard;
-
-	if (!GTK_OBJECT_DESTROYED(minicard)) {
-		e_card_simple_sync_card(minicard->simple);
-		gtk_widget_show(e_contact_print_envelope_dialog_new(minicard->card));
-	}
-	e_minicard_and_parent_free (mnp);
-}
-
 /* Callback for the add_card signal from the contact editor */
 static void
 add_card_cb (EContactEditor *ce, ECard *card, gpointer data)
@@ -664,21 +553,7 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 			e_minicard->drag_button_down = TRUE;
 			return ret_val;
 		} else if (event->button.button == 3) {
-			MinicardAndParent *mnp = g_new(MinicardAndParent, 1);
-			EPopupMenu menu[] = { {N_("Save as VCard"), NULL, GTK_SIGNAL_FUNC(save_as), NULL, 0}, 
-					      {N_("Send contact to other"), NULL, GTK_SIGNAL_FUNC(send_as), NULL, 0}, 
-					      {N_("Send message to contact"), NULL, GTK_SIGNAL_FUNC(send_to), NULL, 0},
-					      {N_("Print"), NULL, GTK_SIGNAL_FUNC(print), NULL, 0},
-					      {N_("Print Envelope"), NULL, GTK_SIGNAL_FUNC(print_envelope), NULL, 0},
-					      {N_("Delete"), NULL, GTK_SIGNAL_FUNC(delete), NULL, 1},
-					      {NULL, NULL, NULL, 0}};
-			mnp->minicard = e_minicard;
-			mnp->parent = item->parent;
-			mnp->canvas = GTK_WIDGET(item->canvas);
-			gtk_object_ref(GTK_OBJECT(mnp->minicard));
-			gtk_object_ref(GTK_OBJECT(mnp->parent));
-			gtk_object_ref(GTK_OBJECT(mnp->canvas));
-			e_popup_menu_run (menu, event, 0, E_IS_MINICARD_VIEW(mnp->parent) ? 0 : 1, mnp);
+			return e_minicard_selected(e_minicard, event);
 		}
 		break;
 	case GDK_BUTTON_RELEASE:
@@ -877,7 +752,7 @@ remodel( EMinicard *e_minicard )
 					       NULL );
 			g_free(file_as);
 		}
-		
+
 		list = e_minicard->fields;
 		e_minicard->fields = NULL;
 
@@ -889,7 +764,7 @@ remodel( EMinicard *e_minicard )
 			if (minicard_field && minicard_field->field == field) {
 				GList *this_list = list;
 				char *string;
-				
+
 				string = e_card_simple_get(e_minicard->simple, field);
 				if (string && *string) {
 					e_minicard->fields = g_list_append(e_minicard->fields, minicard_field);
@@ -917,7 +792,7 @@ remodel( EMinicard *e_minicard )
 				g_free(string);
 			}
 		}
-		
+
 		g_list_foreach(list, (GFunc) e_minicard_field_destroy, NULL);
 		g_list_free(list);
 	}
@@ -1017,9 +892,19 @@ int
 e_minicard_selected (EMinicard *minicard, GdkEvent *event)
 {
 	gint ret_val = 0;
-	gtk_signal_emit(GTK_OBJECT(minicard),
-			e_minicard_signals[SELECTED],
-			event, &ret_val);
+	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (minicard);
+	if (item->parent) {
+		guint signal_id = gtk_signal_lookup ("selection_event", GTK_OBJECT_TYPE (item->parent));
+		/* We should probably check the signature here, but I
+		 * don't think it's worth the time required to code
+		 * it.
+		 */
+		if (signal_id != 0) {
+			gtk_signal_emit(GTK_OBJECT(item->parent),
+					signal_id,
+					item, event, &ret_val);
+		}
+	}
 	return ret_val;
 }
 

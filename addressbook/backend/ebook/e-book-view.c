@@ -119,6 +119,7 @@ e_book_view_check_listener_queue (EBookViewListener *listener, EBookView *book_v
 	default:
 		g_error ("EBookView: Unknown operation %d in listener queue!\n",
 			 resp->op);
+		break;
 	}
 
 	g_free (resp);

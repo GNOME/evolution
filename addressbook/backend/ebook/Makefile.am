@@ -59,7 +59,6 @@ libebookinclude_HEADERS =				\
 	e-book.h					\
 	e-book-util.h					\
 	e-card-cursor.h					\
-	e-card-pairs.h					\
 	e-card-simple.h					\
 	e-card-types.h					\
 	e-card.h					\

@@ -326,11 +326,13 @@ e_card_simple_destroy (GtkObject *object)
 	simple->temp_fields = NULL;
 
 	for(i = 0; i < E_CARD_SIMPLE_PHONE_ID_LAST; i++)
-		g_free(simple->phone[i]);
+		e_card_phone_free (simple->phone[i]);
 	for(i = 0; i < E_CARD_SIMPLE_EMAIL_ID_LAST; i++)
 		g_free(simple->email[i]);
 	for(i = 0; i < E_CARD_SIMPLE_ADDRESS_ID_LAST; i++)
-		g_free(simple->address[i]);
+		e_card_address_label_free(simple->address[i]);
+	for(i = 0; i < E_CARD_SIMPLE_ADDRESS_ID_LAST; i++)
+		e_card_delivery_address_free(simple->delivery[i]);
 }
 
 
@@ -373,10 +375,7 @@ e_card_simple_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	switch (arg_id) {
 	case ARG_CARD:
 		e_card_simple_sync_card(simple);
-		if (simple->card)
-			GTK_VALUE_OBJECT (*arg) = GTK_OBJECT(simple->card);
-		else
-			GTK_VALUE_OBJECT (*arg) = NULL;
+		GTK_VALUE_OBJECT (*arg) = (GtkObject *) simple->card;
 		break;
 	default:
 		arg->type = GTK_TYPE_INVALID;
@@ -400,6 +399,8 @@ e_card_simple_init (ECardSimple *simple)
 	for(i = 0; i < E_CARD_SIMPLE_ADDRESS_ID_LAST; i++)
 		simple->address[i] = NULL;
 	simple->temp_fields = NULL;
+
+	simple->changed = TRUE;
 }
 
 static void
@@ -484,6 +485,7 @@ fill_in_info(ECardSimple *simple)
 			}
 		}
 		gtk_object_unref(GTK_OBJECT(iterator));
+		e_card_free_empty_lists (card);
 	}
 }
 
@@ -491,7 +493,7 @@ void
 e_card_simple_sync_card(ECardSimple *simple)
 {
 	ECard *card = simple->card;
-	if (card) {
+	if (card && simple->changed) {
 		EList *address_list;
 		EList *phone_list;
 		EList *email_list;
@@ -632,7 +634,10 @@ e_card_simple_sync_card(ECardSimple *simple)
 			}
 		}
 		fill_in_info(simple);
+		e_card_free_empty_lists (card);
 	}
+
+	simple->changed = FALSE;
 }
 
 const ECardPhone     *e_card_simple_get_phone   (ECardSimple          *simple,
@@ -666,6 +671,7 @@ void            e_card_simple_set_phone   (ECardSimple          *simple,
 	if (simple->phone[id])
 		e_card_phone_free(simple->phone[id]);
 	simple->phone[id] = e_card_phone_copy(phone);
+	simple->changed = TRUE;
 }
 
 void            e_card_simple_set_email   (ECardSimple          *simple,
@@ -675,6 +681,7 @@ void            e_card_simple_set_email   (ECardSimple          *simple,
 	if (simple->email[id])
 		g_free(simple->email[id]);
 	simple->email[id] = g_strdup(email);
+	simple->changed = TRUE;
 }
 
 void            e_card_simple_set_address (ECardSimple          *simple,
@@ -687,6 +694,7 @@ void            e_card_simple_set_address (ECardSimple          *simple,
 	if (simple->delivery[id])
 		e_card_delivery_address_free(simple->delivery[id]);
 	simple->delivery[id] = e_card_delivery_address_from_label(simple->address[id]);
+	simple->changed = TRUE;
 }
 
 void            e_card_simple_set_delivery_address (ECardSimple          *simple,
@@ -696,6 +704,7 @@ void            e_card_simple_set_delivery_address (ECardSimple          *simple
 	if (simple->delivery[id])
 		e_card_delivery_address_free(simple->delivery[id]);
 	simple->delivery[id] = e_card_delivery_address_copy(delivery);
+	simple->changed = TRUE;
 }
 
 const char *e_card_simple_get_const    (ECardSimple          *simple,
@@ -904,6 +913,7 @@ void            e_card_simple_set            (ECardSimple          *simple,
 	ECardAddrLabel *address;
 	ECardPhone *phone;
 	int style;
+	simple->changed = TRUE;
 	switch (field) {
 	case E_CARD_SIMPLE_FIELD_FULL_NAME:
 	case E_CARD_SIMPLE_FIELD_ORG:
@@ -1005,6 +1015,7 @@ void                  e_card_simple_arbitrary_foreach (ECardSimple              
 			if (callback)
 				(*callback) (arbitrary, closure);
 		}
+		e_card_free_empty_lists (simple->card);
 	}
 }
 
@@ -1022,6 +1033,7 @@ const ECardArbitrary *e_card_simple_get_arbitrary     (ECardSimple          *sim
 			if (!strcasecmp(arbitrary->key, key))
 				return arbitrary;
 		}
+		e_card_free_empty_lists (simple->card);
 	}
 	return NULL;
 }
@@ -1033,9 +1045,11 @@ void                  e_card_simple_set_arbitrary     (ECardSimple          *sim
 						       const char           *value)
 {
 	if (simple->card) {
-	ECardArbitrary *new_arb;
+		ECardArbitrary *new_arb;
 		EList *list;
 		EIterator *iterator;
+
+		simple->changed = TRUE;
 		gtk_object_get(GTK_OBJECT(simple->card),
 			       "arbitrary", &list,
 			       NULL);

@@ -1117,3 +1117,25 @@ e_contact_print_card_dialog_new(ECard *card)
 			   "close", GTK_SIGNAL_FUNC(e_contact_print_close), NULL);
 	return dialog;
 }
+
+/* FIXME: Print all the contacts selected. */
+GtkWidget *
+e_contact_print_card_list_dialog_new(GList *list)
+{
+	GtkWidget *dialog;
+	ECard *card;
+
+	if (list == NULL)
+		return NULL;
+	
+	dialog = gnome_print_dialog_new("Print card", GNOME_PRINT_DIALOG_COPIES);
+
+	card = e_card_duplicate(list->data);
+	gtk_object_set_data(GTK_OBJECT(dialog), "card", card);
+	gtk_object_set_data(GTK_OBJECT(dialog), "uses_book", (void *) 0);
+	gtk_signal_connect(GTK_OBJECT(dialog),
+			   "clicked", GTK_SIGNAL_FUNC(e_contact_print_button), NULL);
+	gtk_signal_connect(GTK_OBJECT(dialog),
+			   "close", GTK_SIGNAL_FUNC(e_contact_print_close), NULL);
+	return dialog;
+}
