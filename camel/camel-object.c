@@ -882,10 +882,6 @@ camel_object_trigger_event (CamelObject * obj, const char * name, void *event_da
 	g_return_if_fail (CAMEL_IS_OBJECT (obj));
 	g_return_if_fail (name);
 
-	/* no hooks, dont bother going anywhere */
-	if (obj->hooks == NULL)
-		return;
-
 	/* get event name static pointer/prep func */
 	if (obj->classfuncs->event_to_preplist == NULL
 	    || !g_hash_table_lookup_extended(obj->classfuncs->event_to_preplist, name,
@@ -895,12 +891,19 @@ camel_object_trigger_event (CamelObject * obj, const char * name, void *event_da
 		return;
 	}
 
+	/* try prep function, if false, then quit */
+	if (prep != NULL_PREP_VALUE && !prep(obj, event_data))
+		return;
+
+	/* also, no hooks, dont bother going further */
+	if (obj->hooks == NULL)
+		return;
+
 	/* lock the object for hook emission */
 	camel_object_ref(obj);
 	hooks = camel_object_get_hooks(obj);
 
-	if ((prep == NULL_PREP_VALUE || prep(obj, event_data))
-	    && hooks->list) {
+	if (hooks->list) {
 		/* first, copy the items in the list, and say we're in an event */
 		hooks->depth++;
 		pair = hooks->list;

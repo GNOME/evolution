@@ -1,5 +1,13 @@
 2001-10-03    <NotZed@Ximian.com>
 
+	* providers/imap/camel-imap-folder.c (camel_imap_folder_changed):
+	Remove now unused 'recents' array/freeing func.
+
+	* camel-object.c (camel_object_trigger_event): Oops, always run
+	the prep function, even if we have no hooks listening.  Causes
+	incoming imap recents to get ignored bythe camel-folder filter
+	inbox code.
+
 	* providers/local/camel-local-folder.c (local_sync): Dont
 	explicitly save metadata, its saved in summary_sync.
 

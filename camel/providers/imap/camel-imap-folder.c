@@ -1804,7 +1804,6 @@ camel_imap_folder_changed (CamelFolder *folder, int exists,
 	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
 	CamelFolderChangeInfo *changes;
 	CamelMessageInfo *info;
-	GPtrArray *recents = NULL;
 	int len;
 	
 	CAMEL_IMAP_STORE_ASSERT_LOCKED (folder->parent_store, command_lock);
@@ -1839,10 +1838,6 @@ camel_imap_folder_changed (CamelFolder *folder, int exists,
 		camel_object_trigger_event (CAMEL_OBJECT (folder), "folder_changed", changes);
 	
 	camel_folder_change_info_free (changes);
-	
-	if (recents)
-		g_ptr_array_free (recents, TRUE);
-	
 	camel_folder_summary_save (folder->summary);
 }
 
