@@ -28,7 +28,7 @@
 #include <string.h>
 #include "camel-stream-filter.h"
 
-#define d(x) x
+#define d(x) 
 
 /* use my malloc debugger? */
 /*extern void g_check(void *mp);*/
