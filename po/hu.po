@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution VERSION\n"
-"POT-Creation-Date: 2001-06-06 12:34+0200\n"
-"PO-Revision-Date: 2001-06-06 14:36+02:00\n"
+"Project-Id-Version: evolution 0.10.99\n"
+"POT-Creation-Date: 2001-06-08 09:12+0200\n"
+"PO-Revision-Date: 2001-06-08 12:05+02:00\n"
 "Last-Translator: András Tímár <timar@gnome.hu>\n"
 "Language-Team: Hungarian <hu@gnome.hu>\n"
 "MIME-Version: 1.0\n"
@@ -1012,31 +1012,27 @@ msgstr "Evolúció címjegyzék minikártya-nézõke"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:6
 msgid "Evolution component for handling contacts."
-msgstr ""
+msgstr "Evolóció komponens a névjegyek kezeléséhez."
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:7
-#, fuzzy
 msgid "Factory for the Addressbook Minicard control"
-msgstr "Az Evolúció naptár csatorna beállító eszköze.\n"
+msgstr "Factory a címjegyzék minikártya kontrolljához"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:8
 msgid "Factory for the Addressbook's address displayer"
-msgstr ""
+msgstr "Factory a címjegyzék címmegjelenítõjéhez"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:9
-#, fuzzy
 msgid "Factory for the Addressbook's address popup"
-msgstr "Az Evolúció naptár csatorna beállító eszköze.\n"
+msgstr ""
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:10
-#, fuzzy
 msgid "Factory for the Evolution addressbook component."
-msgstr "Az Evolúció naptár csatorna beállító eszköze.\n"
+msgstr "Factory az Evolúció címjegyzék komponenséhez."
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:11
-#, fuzzy
 msgid "Factory for the sample Addressbook control"
-msgstr "Címjegyzékben való kereséshez kattints ide"
+msgstr "Factory a minta címjegyzék kontrollhoz"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:161
 #: composer/e-msg-composer-attachment-bar.c:473 filter/filter-filter.c:401
@@ -1054,13 +1050,12 @@ msgid "Send HTML Mail?"
 msgstr "HTML levél küldése?"
 
 #: addressbook/gui/component/select-names/GNOME_Evolution_Addressbook_SelectNames.oaf.in.h:1
-#, fuzzy
 msgid "Evolution's addressbook name selection interface."
-msgstr "Evolúció címlista csatorna"
+msgstr "Evolúció címjegyzék névkiválasztó felülete."
 
 #: addressbook/gui/component/select-names/GNOME_Evolution_Addressbook_SelectNames.oaf.in.h:2
 msgid "Factory for the Addressbook's name selection interface"
-msgstr ""
+msgstr "Factory a címjegyzék névkiválasztó felületéhez"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:1
 msgid "Find..."
@@ -1615,26 +1610,22 @@ msgstr "Riasztó szolgáltatás"
 
 #: calendar/gui/alarm-notify/GNOME_Evolution_Calendar_AlarmNotify.oaf.in.h:2
 msgid "Factory for the alarm notification service"
-msgstr ""
+msgstr "Factory a riasztó szolgáltatáshoz"
 
 #: calendar/gui/alarm-notify/notify-main.c:56
 #, c-format
 msgid ""
 "It is %s.  The Unix time is %ld right now.  We just thought you may like to "
 "know."
-msgstr ""
+msgstr "%s van. A Unix idõ pillanatnyilag %ld. Gondoltuk, jó ha tudod."
 
 #: calendar/gui/alarm-notify/notify-main.c:93 calendar/gui/main.c:52
 msgid "Could not initialize GNOME"
 msgstr "Nem sikerült a GNOME inicializálása"
 
 #: calendar/gui/alarm-notify/notify-main.c:108
-#, fuzzy
 msgid "Could not create the alarm notify service factory"
-msgstr ""
-"Nem tudom létrehozni a könyvtárat\n"
-"%s\n"
-"Hiba: %s"
+msgstr "Nem sikerült létrehozni az riasztó szolgáltatás factoryját"
 
 #: calendar/gui/calendar-commands.c:266
 msgid "File not found"
@@ -1776,8 +1767,8 @@ msgstr ""
 #. An empty string is the same as 'None'.
 #: calendar/gui/calendar-model.c:896 calendar/gui/calendar-model.c:1120
 #: calendar/gui/calendar-model.c:1174 calendar/gui/e-calendar-table.c:322
-#: calendar/gui/e-calendar-table.c:397 mail/mail-account-gui.c:994
-#: mail/mail-accounts.c:121 mail/mail-accounts.c:165
+#: calendar/gui/e-calendar-table.c:397 mail/mail-account-gui.c:997
+#: mail/mail-accounts.c:123 mail/mail-accounts.c:174
 #: mail/mail-config.glade.h:52 shell/e-shell-view.c:1372
 #: widgets/misc/e-cell-date-edit.c:237 widgets/misc/e-dateedit.c:432
 #: widgets/misc/e-dateedit.c:1341 widgets/misc/e-dateedit.c:1456
@@ -2892,6 +2883,8 @@ msgid ""
 "Schedule\n"
 "Time"
 msgstr ""
+"Idõ\n"
+"ütemezése"
 
 #: calendar/gui/e-meeting-dialog.glade.h:23 filter/libfilter-i18n.h:49
 msgid "Status"
@@ -2959,7 +2952,7 @@ msgstr "'%s' megnyitásához szükséges eljárás nem támogatott"
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:1
 msgid "A sample Bonobo control which displays an calendar."
-msgstr ""
+msgstr "Egy minta Bonono kontroll, amely naptárat jelenít meg."
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:2
 msgid "Evolution calendar executive summary component."
@@ -2974,24 +2967,20 @@ msgid "Evolution component for handling the calendar."
 msgstr "Evolúció összetevõ a naptárkezeléshez."
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:5
-#, fuzzy
 msgid "Factory for the Calendar Summary component."
-msgstr "Az Evolúció naptár csatorna beállító eszköze.\n"
+msgstr "Factory a naptár összefoglaló komponenséhez."
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:6
-#, fuzzy
 msgid "Factory for the Evolution calendar component."
-msgstr "Az Evolúció naptár csatorna beállító eszköze.\n"
+msgstr "Factory az Evolúció naptár komponenséhez."
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:7
-#, fuzzy
 msgid "Factory for the calendar iTip view control"
-msgstr "Az Evolúció naptár csatorna beállító eszköze.\n"
+msgstr "Factory a naptár iTip nézõ kontrolljához."
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:8
-#, fuzzy
 msgid "Factory for the sample Calendar control"
-msgstr "Az Evolúció naptár csatorna beállító eszköze.\n"
+msgstr "Factory a mintanaptár kontrollhoz."
 
 #: calendar/gui/goto-dialog.glade.h:1
 msgid "April"
@@ -3418,47 +3407,47 @@ msgstr "Nem sikerült feldolgozni a spool mappát"
 msgid "Getting message %d (%d%%)"
 msgstr "%d. levél letöltése (%d%%)"
 
-#: camel/camel-filter-driver.c:670 camel/camel-filter-driver.c:679
-#, fuzzy, c-format
+#: camel/camel-filter-driver.c:670 camel/camel-filter-driver.c:680
+#, c-format
 msgid "Failed message %d"
-msgstr "Levéltörzs"
+msgstr "%d. levél rossz"
 
 #: camel/camel-filter-driver.c:671
 msgid "Cannot open message"
 msgstr "Nem lehet megnyitni a levelet"
 
-#: camel/camel-filter-driver.c:690 camel/camel-filter-driver.c:788
+#: camel/camel-filter-driver.c:691 camel/camel-filter-driver.c:801
 msgid "Syncing folder"
 msgstr "Mappa szinkronizálása"
 
-#: camel/camel-filter-driver.c:694 camel/camel-filter-driver.c:793
+#: camel/camel-filter-driver.c:695 camel/camel-filter-driver.c:806
 msgid "Complete"
 msgstr "Kész"
 
-#: camel/camel-filter-driver.c:748
+#: camel/camel-filter-driver.c:761
 #, c-format
 msgid "Getting message %d of %d"
 msgstr "Levelek letöltése: %d/%d"
 
-#: camel/camel-filter-driver.c:753 camel/camel-filter-driver.c:771
+#: camel/camel-filter-driver.c:766 camel/camel-filter-driver.c:784
 #, c-format
 msgid "Failed at message %d of %d"
 msgstr "Hiba a %d / %d üzenetnél"
 
-#: camel/camel-filter-driver.c:866
+#: camel/camel-filter-driver.c:883
 #, c-format
 msgid "Error parsing filter: %s: %s"
 msgstr "Hiba a szûrõ feldolgozása közben: %s: %s"
 
-#: camel/camel-filter-driver.c:871
+#: camel/camel-filter-driver.c:888
 #, c-format
 msgid "Error executing filter: %s: %s"
 msgstr "Hiba a szûrõ végrehajtása közben: %s: %s"
 
 #: camel/camel-filter-search.c:439 camel/camel-filter-search.c:445
-#, fuzzy, c-format
+#, c-format
 msgid "Error executing filter search: %s: %s"
-msgstr "Fájl mentési hiba: %s"
+msgstr "Hiba a szûrt keresés végrehajtása közben: %s: %s"
 
 #: camel/camel-folder-search.c:328
 #, c-format
@@ -3470,7 +3459,7 @@ msgstr ""
 "%s"
 
 #: camel/camel-folder-search.c:338
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Error executing search expression: %s:\n"
 "%s"
@@ -3480,16 +3469,16 @@ msgstr ""
 
 #: camel/camel-folder-search.c:485 camel/camel-folder-search.c:513
 msgid "(match-all) requires a single bool result"
-msgstr ""
+msgstr "a (match-all) egy darab logikai eredményt vár"
 
 #: camel/camel-folder-search.c:559
 #, c-format
 msgid "Performing query on unknown header: %s"
-msgstr ""
+msgstr "Lekérdezés futtatása ismeretlen fejlécen: %s"
 
 #: camel/camel-folder-search.c:670 camel/camel-folder-search.c:714
 msgid "Invalid type in body-contains, expecting string"
-msgstr ""
+msgstr "Érvénytelen típus a body-contains kifejezésben, a várt karakterlánc"
 
 #. well, this is really only a programatic error
 #: camel/camel-lock.c:92 camel/camel-lock.c:111 camel/camel-movemail.c:138
@@ -3501,37 +3490,37 @@ msgstr "Nem sikerült zárolófájlt létrehozni %s számára: %s"
 #: camel/camel-lock.c:151 camel/camel-movemail.c:219
 #, c-format
 msgid "Timed out trying to get lock file on %s. Try again later."
-msgstr ""
+msgstr "Idõtúllépés %s fájl zárolási kísérlete közben. Próbáld késõbb."
 
 #: camel/camel-lock.c:201
 #, c-format
 msgid "Failed to get lock using fcntl(2): %s"
-msgstr ""
+msgstr "Sikertelen zárolás az fcntl(2) használatával: %s"
 
 #: camel/camel-lock.c:255
 #, c-format
 msgid "Failed to get lock using flock(2): %s"
-msgstr ""
+msgstr "Sikertelen zárolás az flock(2) használatával: %s"
 
 #: camel/camel-movemail.c:101
 #, c-format
 msgid "Could not check mail file %s: %s"
-msgstr ""
+msgstr "Nem sikerült ellenõrizni ezt a levélfájlt: %s: %s"
 
 #: camel/camel-movemail.c:148
 #, c-format
 msgid "Could not open mail file %s: %s"
-msgstr ""
+msgstr "Nem sikerült megnyitni ezt a levélfájlt: %s: %s"
 
 #: camel/camel-movemail.c:158
 #, c-format
 msgid "Could not open temporary mail file %s: %s"
-msgstr ""
+msgstr "Nem sikerült megnyitni ezt az ideiglenes levélfájlt: %s: %s"
 
 #: camel/camel-movemail.c:199
 #, c-format
 msgid "Could not test lock file for %s: %s"
-msgstr ""
+msgstr "Nem sikerült tesztelni %s zárolófájlját: %s"
 
 #: camel/camel-movemail.c:245
 #, c-format
@@ -3546,7 +3535,7 @@ msgstr "Hiba az ideiglenes levélfájl írása közben: %s"
 #: camel/camel-movemail.c:274
 #, c-format
 msgid "Failed to store mail in temp file %s: %s"
-msgstr ""
+msgstr "Nem sikerült a levelet ebben az ideiglenes fájlban tárolni: %s: %s"
 
 #: camel/camel-movemail.c:306
 #, c-format
@@ -3834,7 +3823,7 @@ msgstr "Virtuális mappa email szolgáltató"
 
 #: camel/camel-session.c:70
 msgid "For reading mail as a query of another set of folders"
-msgstr ""
+msgstr "A leveleket más mappákon futtatott lekérdezés eredményétõl függõen csoportosíthatod."
 
 #: camel/camel-session.c:295 camel/camel-session.c:364
 #, c-format
@@ -3998,19 +3987,19 @@ msgstr "Nem sikerült betölteni %s összefoglalóját"
 
 #: camel/providers/imap/camel-imap-folder.c:267
 msgid "Folder was destroyed and recreated on server."
-msgstr ""
+msgstr "A mappa megsemmisült és újra létre lett hozva a kiszolgálón"
 
-#: camel/providers/imap/camel-imap-folder.c:414
+#: camel/providers/imap/camel-imap-folder.c:415
 msgid "Scanning IMAP folder"
 msgstr "IMAP mappa pásztázása"
 
-#: camel/providers/imap/camel-imap-folder.c:1433
-#: camel/providers/imap/camel-imap-folder.c:1669
+#: camel/providers/imap/camel-imap-folder.c:1437
+#: camel/providers/imap/camel-imap-folder.c:1673
 msgid "This message is not currently available"
 msgstr "Ez a levél jelenleg nem elérhetõ"
 
-#: camel/providers/imap/camel-imap-folder.c:1461
-#: camel/providers/imap/camel-imap-folder.c:1702
+#: camel/providers/imap/camel-imap-folder.c:1465
+#: camel/providers/imap/camel-imap-folder.c:1706
 msgid "Could not find message body in FETCH response."
 msgstr ""
 
@@ -4129,7 +4118,7 @@ msgstr "%s tárológyökér nem közönséges könyvtár"
 #: camel/providers/local/camel-local-store.c:158
 #, c-format
 msgid "Cannot get folder: %s: %s"
-msgstr ""
+msgstr "Nem sikerült betölteni a mappát: %s: %s"
 
 #: camel/providers/local/camel-local-store.c:173
 msgid "Local stores do not have an inbox"
@@ -4157,7 +4146,7 @@ msgstr "Nem sikerült '%s' mappaindexfájlt törölni: %s"
 
 #: camel/providers/local/camel-local-summary.c:404
 msgid "Unable to add message to summary: unknown reason"
-msgstr ""
+msgstr "Nem sikerült hozzáadni a levelet az összefoglalóhoz: ismeretlen ok"
 
 #: camel/providers/local/camel-maildir-folder.c:176
 #, c-format
@@ -4271,7 +4260,7 @@ msgstr "A mappa javíthatatlanul rossznak néz ki."
 
 #: camel/providers/local/camel-mbox-folder.c:384
 msgid "Message construction failed: Corrupt mailbox?"
-msgstr ""
+msgstr "Levélírás sikertelen: rossz postafiók?"
 
 #: camel/providers/local/camel-mbox-store.c:94
 #, c-format
@@ -4686,9 +4675,8 @@ msgid "Help message"
 msgstr "Levél _nyomtatása"
 
 #: camel/providers/smtp/camel-smtp-transport.c:180
-#, fuzzy
 msgid "Service ready"
-msgstr "Rejtés"
+msgstr "Szolgáltatás rendelkezésre áll"
 
 #: camel/providers/smtp/camel-smtp-transport.c:182
 msgid "Service closing transmission channel"
@@ -4740,7 +4728,7 @@ msgstr ""
 
 #: camel/providers/smtp/camel-smtp-transport.c:206
 msgid "Transaction failed"
-msgstr ""
+msgstr "Sikertelen tranzakció"
 
 #: camel/providers/smtp/camel-smtp-transport.c:210
 msgid "A password transition is needed"
@@ -4748,11 +4736,11 @@ msgstr "Jelszóátvitel szükséges"
 
 #: camel/providers/smtp/camel-smtp-transport.c:212
 msgid "Authentication mechanism is too weak"
-msgstr ""
+msgstr "A hitelesítési mechanizmus túl gyenge"
 
 #: camel/providers/smtp/camel-smtp-transport.c:214
 msgid "Encryption required for requested authentication mechanism"
-msgstr ""
+msgstr "A kért hitelesítési mechanizmushoz titkosítás szükséges"
 
 #: camel/providers/smtp/camel-smtp-transport.c:216
 msgid "Temporary authentication failure"
@@ -4768,9 +4756,9 @@ msgid "Welcome response error: %s: possibly non-fatal"
 msgstr "Üdvüzlõ válasz hiba: %s: talán nem végzetes"
 
 #: camel/providers/smtp/camel-smtp-transport.c:356
-#, fuzzy, c-format
+#, c-format
 msgid "SMTP server %s does not support requested authentication type %s"
-msgstr "Authentikáció:"
+msgstr "%s SMTP kiszolgáló nem támogatja a kért %s hitelesítési típust"
 
 #: camel/providers/smtp/camel-smtp-transport.c:395
 #, c-format
@@ -4822,7 +4810,7 @@ msgstr "HELO válasz hiba: %s: nem végzetes"
 
 #: camel/providers/smtp/camel-smtp-transport.c:728
 msgid "Error creating SASL authentication object."
-msgstr ""
+msgstr "Hiba a SASL hitelesítési objektum létrehozásakor."
 
 #: camel/providers/smtp/camel-smtp-transport.c:743
 #: camel/providers/smtp/camel-smtp-transport.c:755
@@ -4836,53 +4824,53 @@ msgstr "AUTH kérés sikertelen."
 
 #: camel/providers/smtp/camel-smtp-transport.c:809
 msgid "Bad authentication response from server.\n"
-msgstr ""
+msgstr "Rossz hitelesítési válasz a kiszolgálótól.\n"
 
 #: camel/providers/smtp/camel-smtp-transport.c:835
 #, c-format
 msgid "MAIL FROM request timed out: %s: mail not sent"
-msgstr ""
+msgstr "Idõtúllépés a MAIL FROM kérésnél: %s: a levél nem ment el"
 
 #: camel/providers/smtp/camel-smtp-transport.c:854
 #, c-format
 msgid "MAIL FROM response error: %s: mail not sent"
-msgstr ""
+msgstr "Hibás MAIL FROM válasz: %s: a levél nem ment el"
 
 #: camel/providers/smtp/camel-smtp-transport.c:879
 #, c-format
 msgid "RCPT TO request timed out: %s: mail not sent"
-msgstr ""
+msgstr "Idõtúllépés az RCPT TO kérésnél: %s: a levél nem ment el"
 
 #: camel/providers/smtp/camel-smtp-transport.c:898
 #, c-format
 msgid "RCPT TO response error: %s: mail not sent"
-msgstr "Hibás RCPT TO válasz: %s: a levél nem lett elküldve"
+msgstr "Hibás RCPT TO válasz: %s: a levél nem ment el"
 
 #: camel/providers/smtp/camel-smtp-transport.c:929
 #, c-format
 msgid "DATA request timed out: %s: mail not sent"
-msgstr ""
+msgstr "Idõtúllépés a DATA kérésnél: %s: a levél nem ment el"
 
 #: camel/providers/smtp/camel-smtp-transport.c:948
 #, c-format
 msgid "DATA response error: %s: mail not sent"
-msgstr ""
+msgstr "Hibás DATA válasz: %s: a levél nem ment el"
 
 #: camel/providers/smtp/camel-smtp-transport.c:963
 #: camel/providers/smtp/camel-smtp-transport.c:981
 #, c-format
 msgid "DATA send timed out: message termination: %s: mail not sent"
-msgstr ""
+msgstr "Idõtúllépés a DATA küldésénél: a levél véget ért: %s: a levél nem ment el"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1000
 #, c-format
 msgid "DATA response error: message termination: %s: mail not sent"
-msgstr ""
+msgstr "Hibás DATA válasz: a levél véget ért: %s: a levél nem ment el"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1024
 #, c-format
 msgid "RSET request timed out: %s"
-msgstr ""
+msgstr "Idõtúllépés az RSET kérésnél: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1043
 #, c-format
@@ -4892,12 +4880,12 @@ msgstr "Hibás RSET válasz: %s"
 #: camel/providers/smtp/camel-smtp-transport.c:1066
 #, c-format
 msgid "QUIT request timed out: %s: non-fatal"
-msgstr ""
+msgstr "Idõtúllépés a QUIT kérésnél: %s: nem végzetes"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1085
 #, c-format
 msgid "QUIT response error: %s: non-fatal"
-msgstr ""
+msgstr "Hibás QUIT válasz: %s: nem végzetes"
 
 #: composer/e-msg-composer-attachment-bar.c:97
 msgid "1 byte"
@@ -5113,6 +5101,8 @@ msgid ""
 "Could not create composer window, because you have not yet\n"
 "configured any identities in the mail component."
 msgstr ""
+"Nem sikerült létrehozni a szerkesztõablakot, mert még nem\n"
+"állítottál be egy azonosítót sem a levelezõkomponensben."
 
 #: composer/evolution-composer.c:370
 msgid "Cannot initialize Evolution's composer."
@@ -5301,9 +5291,8 @@ msgid "Configure %s"
 msgstr "%s beállítása"
 
 #: executive-summary/component/e-summary-url.c:554
-#, fuzzy
 msgid "page"
-msgstr "Lap"
+msgstr "lap"
 
 #: executive-summary/component/executive-summary-config.glade.h:1
 msgid "Appearance"
@@ -5319,6 +5308,9 @@ msgid ""
 "If there was a warning message about the RootPOA, it probably means\n"
 "you compiled Bonobo against GOAD instead of OAF."
 msgstr ""
+"A Vezetõi összefoglaló komponens nem tudta inicializálni a Bonobót.\n"
+"Ha voltak RootPOA-val kapcsolatos figyelmeztetõ üzenetek, akkor\n"
+"valószínûleg a GOAD-dal fordítottad a Bonobót és nem az OAF-fal."
 
 #: executive-summary/GNOME_Evolution_Summary.oaf.in.h:1
 msgid "Evolution component for the executive summary."
@@ -5438,12 +5430,17 @@ msgid ""
 "whatever the time is when the filter is run\n"
 "or vfolder is opened."
 msgstr ""
+"A levél dátuma azzal a dátummal lesz összehasonlítva,\n"
+"amely a szûrõ futtatásakor vagy a vmappa megnyitásakor\n"
+"lesz érvényben."
 
 #: filter/filter-datespec.c:299
 msgid ""
 "The message's date will be compared against\n"
 "the time that you specify here."
 msgstr ""
+"A levél dátuma az itt megadott dátummal\n"
+"lesz összehasonlítva."
 
 #: filter/filter-datespec.c:339
 msgid ""
@@ -5451,6 +5448,9 @@ msgid ""
 "a time relative to when the filter is run;\n"
 "\"a week ago\", for example."
 msgstr ""
+"A levél dátuma a szûrõ futtatásának dátumához\n"
+"viszonyított dátumhoz lesz hasonlítva.\n"
+"Például: \"egy hete\"."
 
 #. keep in sync with FilterDatespec_type!
 #: filter/filter-datespec.c:374
@@ -5463,12 +5463,12 @@ msgstr "megadott idõ"
 
 #: filter/filter-datespec.c:375
 msgid "a time relative to the current time"
-msgstr ""
+msgstr "az idõ mostantól számítva"
 
 #. The label
 #: filter/filter-datespec.c:433
 msgid "Compare against"
-msgstr ""
+msgstr "Összehasonlítás"
 
 #: filter/filter-datespec.c:550 filter/filter-datespec.c:710
 msgid "now"
@@ -5500,7 +5500,7 @@ msgstr ""
 "Lépj vissza, és adj meg egy érvényes mappanevet, ahová a leveleket kéred."
 
 #: filter/filter-folder.c:225 filter/vfolder-rule.c:285
-#: mail/mail-account-gui.c:684
+#: mail/mail-account-gui.c:687
 msgid "Select Folder"
 msgstr "Válassz mappát"
 
@@ -5813,6 +5813,7 @@ msgstr "Pontszámszabályok"
 #: importers/elm-importer.c:512 importers/evolution-gnomecard-importer.c:238
 #: importers/netscape-importer.c:780 importers/pine-importer.c:646
 #: shell/e-shell-importer.c:652 shell/importer/import.glade.h:4
+#: shell/importer/intelligent.c:190
 msgid "Import"
 msgstr "Importálás"
 
@@ -5827,6 +5828,7 @@ msgstr "Elm álnevek"
 
 #: importers/elm-importer.c:528 importers/evolution-gnomecard-importer.c:250
 #: importers/netscape-importer.c:807 importers/pine-importer.c:668
+#: shell/importer/intelligent.c:195
 msgid "Don't ask me again"
 msgstr "Ne kérdezze meg többet."
 
@@ -6049,9 +6051,8 @@ msgid "Factory for the Evolution mail component."
 msgstr "Factory az Evolúció levelezõkomponens számára."
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:8
-#, fuzzy
 msgid "Factory for the Mail Summary component."
-msgstr "Az Evolúció naptár csatorna beállító eszköze.\n"
+msgstr "Factory a levelezõ összefoglaló komponenséhez."
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:9
 msgid "Mail configuration interface"
@@ -6113,28 +6114,28 @@ msgstr "Nem adtad meg az összes szükséges információt."
 msgid "Evolution Account Editor"
 msgstr "Evolúció Postafiók-szerkesztõ"
 
-#: mail/mail-accounts.c:122 mail/mail-accounts.c:166
+#: mail/mail-accounts.c:124 mail/mail-accounts.c:175
 msgid " (default)"
 msgstr " (alapértelmezett)"
 
-#: mail/mail-accounts.c:198
+#: mail/mail-accounts.c:207
 msgid "Disable"
 msgstr "Tiltás"
 
-#: mail/mail-accounts.c:200 mail/mail-config.glade.h:35
+#: mail/mail-accounts.c:209 mail/mail-config.glade.h:35
 msgid "Enable"
 msgstr "Engedélyezés"
 
-#: mail/mail-accounts.c:281 mail/mail-accounts.c:285
+#: mail/mail-accounts.c:297 mail/mail-accounts.c:301
 msgid "Are you sure you want to delete this account?"
 msgstr "Tényleg törölni akarod ezt a postafiókot?"
 
-#: mail/mail-accounts.c:419 mail/mail-accounts.c:423
+#: mail/mail-accounts.c:435 mail/mail-accounts.c:439
 msgid "Are you sure you want to delete this news account?"
 msgstr "Tényleg törölni akarod ezt a news-hozzáférést?"
 
 #. give our dialog an OK button and title
-#: mail/mail-accounts.c:581
+#: mail/mail-accounts.c:597
 msgid "Evolution Account Manager"
 msgstr "Evolúció Postafiók-kezelõ"
 
@@ -6377,11 +6378,11 @@ msgstr "Postafiókok"
 
 #: mail/mail-config.glade.h:8
 msgid "Always encrypt to myself when sending encrypted mail"
-msgstr ""
+msgstr "Mindig titkosít nekem is, ha titkosított levelet küldök"
 
 #: mail/mail-config.glade.h:9
 msgid "Always encrypt to myself when sending encrypyed mail"
-msgstr ""
+msgstr "Mindig titkosít nekem is, ha tikosított levelet küldök"
 
 #: mail/mail-config.glade.h:10
 msgid "Always load images off the net"
@@ -6432,13 +6433,12 @@ msgid "Default \"Forward\" style is: "
 msgstr "A \"Továbbítás\" alapértelmezett stílusa: "
 
 #: mail/mail-config.glade.h:26
-#, fuzzy
 msgid "Default character set: "
-msgstr "A \"Továbbítás\" alapértelmezett stílusa: "
+msgstr "Alapértelmezett karakterkészlet: "
 
 #: mail/mail-config.glade.h:28
 msgid "Digital IDs..."
-msgstr ""
+msgstr "Digitális azonosítók..."
 
 #: mail/mail-config.glade.h:30
 msgid "Done"
@@ -6462,7 +6462,7 @@ msgstr "Teljes név:"
 
 #: mail/mail-config.glade.h:37
 msgid "Get Digital ID..."
-msgstr ""
+msgstr "Digitális azonosító szerzése..."
 
 #: mail/mail-config.glade.h:38
 msgid "Highlight citations with"
@@ -6522,7 +6522,7 @@ msgstr "Szervezet:"
 
 #: mail/mail-config.glade.h:56
 msgid "PGP Key ID:"
-msgstr ""
+msgstr "PGP kulcs azonosítója:"
 
 #: mail/mail-config.glade.h:57
 msgid "PGP binary path:"
@@ -6650,7 +6650,7 @@ msgstr "S_zerkesztés"
 
 #: mail/mail-config.glade.h:98
 msgid "placeholder"
-msgstr ""
+msgstr "helykitöltõ"
 
 #: mail/mail-crypto.c:59
 #, fuzzy
@@ -6886,6 +6886,8 @@ msgid ""
 "Error while '%s':\n"
 "%s"
 msgstr ""
+"Hiba `%s' közben:\n"
+"%s"
 
 #: mail/mail-mt.c:193
 #, c-format
@@ -6898,7 +6900,7 @@ msgstr ""
 
 #: mail/mail-mt.c:516 mail/mail-mt.c:545 mail/mail-mt.c:880
 msgid "Working"
-msgstr ""
+msgstr "Várj"
 
 #: mail/mail-mt.c:862
 msgid "Evolution progress"
@@ -7385,12 +7387,12 @@ msgstr ""
 "Kérlek töröld a fájlt, hogy az Evolúció\n"
 "települni tudjon."
 
-#: shell/e-shell.c:390
+#: shell/e-shell.c:391
 #, c-format
 msgid "Cannot set up local storage -- %s"
 msgstr "Nem sikerült beállítani a helyi tárterületet -- %s"
 
-#: shell/e-shell.c:1269
+#: shell/e-shell.c:1261
 #, c-format
 msgid ""
 "Ooops!  The view for `%s' have died unexpectedly.  :-(\n"
@@ -7402,7 +7404,7 @@ msgstr ""
 #: shell/e-shell-folder-commands.c:239
 #, c-format
 msgid "Specify a folder to copy folder \"%s\" into:"
-msgstr ""
+msgstr "Add meg a mappát, amelybe \"%s\" mappát másolod:"
 
 #: shell/e-shell-folder-commands.c:244
 msgid "Copy folder"
@@ -7411,7 +7413,7 @@ msgstr "Mappa másolása"
 #: shell/e-shell-folder-commands.c:281
 #, c-format
 msgid "Specify a folder to move folder \"%s\" into:"
-msgstr ""
+msgstr "Add meg a mappát, amelybe \"%s\" mappát mozgatod:"
 
 #: shell/e-shell-folder-commands.c:286
 msgid "Move folder"
@@ -7549,7 +7551,7 @@ msgstr "Válassz mappát"
 
 #: shell/e-shell-importer.c:601
 msgid "Select a destination folder for importing this data"
-msgstr ""
+msgstr "Válaszd ki az importálálandó adatok célkönyvtárát"
 
 #: shell/e-shell-offline-handler.c:554
 msgid "Closing connections..."
@@ -7571,15 +7573,15 @@ msgstr "%s - Evolúció %s [%s]"
 
 #: shell/e-shell-view.c:1417
 msgid "Evolution is currently online.  Click on this button to work offline."
-msgstr ""
+msgstr "Az Evolúció a hálózatban van. Kattints erre a gombra a kapcsolat nélküli munkához."
 
 #: shell/e-shell-view.c:1424
 msgid "Evolution is in the process of going offline."
-msgstr ""
+msgstr "Az Evolúció felkészül a kapcsolat nélküli munkára."
 
 #: shell/e-shell-view.c:1430
 msgid "Evolution is currently offline.  Click on this button to work online."
-msgstr ""
+msgstr "Az Evolúció kapcsolat nélküli módban van. Kattints erre a gombra a hálózatra csatlakozáshoz."
 
 #: shell/e-shell-view-menu.c:179
 msgid "Bug buddy was not found in your $PATH."
@@ -7609,7 +7611,7 @@ msgstr "Ugrás mappába..."
 
 #: shell/e-shell-view-menu.c:466
 msgid "Select the folder that you want to open"
-msgstr ""
+msgstr "Válaszd ki a megnyitandó mappát"
 
 #: shell/e-shell-view-menu.c:653
 msgid "Work online"
@@ -7778,9 +7780,13 @@ msgstr ""
 "Ez a varázsló végigvezet a külsõ fájlok Evolúcióba \n"
 "importálásának folyamatán."
 
-#: shell/importer/intelligent.c:186
+#: shell/importer/intelligent.c:187
 msgid "Importers"
 msgstr "Importálók"
+
+#: shell/importer/intelligent.c:193
+msgid "Don't import"
+msgstr "Ne importálja"
 
 #: shell/main.c:82
 #, no-c-format
