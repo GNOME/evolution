@@ -342,36 +342,36 @@ static gboolean
 smtp_connect (CamelService *service, CamelException *ex)
 {
 	CamelSmtpTransport *transport = CAMEL_SMTP_TRANSPORT (service);
-
+	
 	/* We (probably) need to check popb4smtp before we connect ... */
-	if (strcmp(service->url->authmech, "POPB4SMTP") == 0) {
+	if (service->url->authmech && !strcmp (service->url->authmech, "POPB4SMTP")) {
 		int truth;
 		GByteArray *chal;
 		CamelSasl *sasl;
-
-		sasl = camel_sasl_new("smtp", "POPB4SMTP", service);
-		chal = camel_sasl_challenge(sasl, NULL, ex);
-		truth = camel_sasl_authenticated(sasl);
+		
+		sasl = camel_sasl_new ("smtp", "POPB4SMTP", service);
+		chal = camel_sasl_challenge (sasl, NULL, ex);
+		truth = camel_sasl_authenticated (sasl);
 		if (chal)
-			g_byte_array_free(chal, TRUE);
-		camel_object_unref((CamelObject *)sasl);
-
+			g_byte_array_free (chal, TRUE);
+		camel_object_unref (CAMEL_OBJECT (sasl));
+		
 		if (!truth)
 			return FALSE;
-
-		return connect_to_server(service, ex);
+		
+		return connect_to_server (service, ex);
 	}
-
+	
 	if (!connect_to_server (service, ex))
 		return FALSE;
-
+	
 	/* check to see if AUTH is required, if so...then AUTH ourselves */
 	if (service->url->authmech) {
 		CamelSession *session = camel_service_get_session (service);
 		CamelServiceAuthType *authtype;
 		gboolean authenticated = FALSE;
 		char *errbuf = NULL;
-
+		
 		if (!transport->is_esmtp || !g_hash_table_lookup (transport->authtypes, service->url->authmech)) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
 					      _("SMTP server %s does not support requested "
