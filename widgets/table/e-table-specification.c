@@ -21,12 +21,18 @@
  * 02111-1307, USA.
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
 
 #include "e-table-specification.h"
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
+#include <errno.h>
+
 #include <gtk/gtksignal.h>
 #include <gnome-xml/parser.h>
 #include <gnome-xml/xmlmemory.h>
@@ -272,21 +278,44 @@ e_table_specification_load_from_node (ETableSpecification *specification,
  *
  * This routine stores the @specification into @filename.  
  *
- * Returns: the number of bytes written or -1 on error.
+ * Returns: 0 on success or -1 on error.
  */
 int
 e_table_specification_save_to_file (ETableSpecification *specification,
 				    const char          *filename)
 {
+	char *tmp, *slash;
 	xmlDoc *doc;
-
+	int ret;
+	
 	g_return_val_if_fail (specification != NULL, -1);
 	g_return_val_if_fail (filename != NULL, -1);
 	g_return_val_if_fail (E_IS_TABLE_SPECIFICATION (specification), -1);
 	
-	doc = xmlNewDoc ("1.0");
+	if ((doc = xmlNewDoc ("1.0")) == NULL) {
+		errno = ENOMEM;
+		return -1;
+	}
+	
 	xmlDocSetRootElement (doc, e_table_specification_save_to_node (specification, doc));
-	return xmlSaveFile (filename, doc);
+	
+	tmp = alloca (strlen (filename) + 5);
+	slash = strrchr (filename, '/');
+	if (slash)
+		sprintf (tmp, "%.*s.#%s", slash - filename + 1, filename, slash + 1);
+	else
+		sprintf (tmp, ".#%s", filename);
+	
+	ret = e_xml_save_file (tmp, doc);
+	if (ret != -1)
+		ret = rename (tmp, filename);
+	
+	if (ret == -1)
+		unlink (tmp);
+	
+	xmlFreeDoc (doc);
+	
+	return ret;
 }
 
 /**

@@ -22,11 +22,16 @@
  * 02111-1307, USA.
  */
 
+
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
+
+#include <stdio.h>
 #include <stdlib.h>
-#include <stdio.h>
 #include <string.h>
-#include <stdio.h>
+#include <unistd.h>
+
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtksignal.h>
 #include <libgnomeui/gnome-canvas.h>
@@ -1785,15 +1790,30 @@ e_table_set_specification (ETable *e_table, const char *spec)
 }
 
 void
-e_table_save_specification (ETable *e_table, gchar *filename)
+e_table_save_specification (ETable *e_table, const char *filename)
 {
 	xmlDoc *doc = et_build_tree (e_table);
-
+	char *tmp, *slash;
+	int ret;
+	
 	g_return_if_fail(e_table != NULL);
 	g_return_if_fail(E_IS_TABLE(e_table));
 	g_return_if_fail(filename != NULL);
-
-	xmlSaveFile (filename, doc);
+	
+	tmp = alloca (strlen (filename) + 5);
+	slash = strrchr (filename, '/');
+	if (slash)
+		sprintf (tmp, "%.*s.#%s", slash - filename + 1, filename, slash + 1);
+	else
+		sprintf (tmp, ".#%s", filename);
+	
+	ret = e_xml_save_file (tmp, doc);
+	if (ret != -1)
+		ret = rename (tmp, filename);
+	
+	if (ret == -1)
+		unlink (tmp);
+	
 	xmlFreeDoc (doc);
 }
 

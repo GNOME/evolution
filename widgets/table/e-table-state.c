@@ -21,9 +21,17 @@
  * 02111-1307, USA.
  */
 
+
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
+
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
+#include <errno.h>
+
 #include <gtk/gtksignal.h>
 #include <gtk/gtkobject.h>
 #include <gnome-xml/parser.h>
@@ -179,11 +187,30 @@ void
 e_table_state_save_to_file      (ETableState *state,
 				 const char          *filename)
 {
+	char *tmp, *slash;
 	xmlDoc *doc;
-	doc = xmlNewDoc("1.0");
-	xmlDocSetRootElement(doc, e_table_state_save_to_node(state, NULL));
-	xmlSaveFile(filename, doc);
-	xmlFreeDoc(doc);
+	int ret;
+	
+	if ((doc = xmlNewDoc ("1.0")) == NULL)
+		return;
+	
+	xmlDocSetRootElement (doc, e_table_state_save_to_node (state, NULL));
+	
+	tmp = alloca (strlen (filename) + 5);
+	slash = strrchr (filename, '/');
+	if (slash)
+		sprintf (tmp, "%.*s.#%s", slash - filename + 1, filename, slash + 1);
+	else
+		sprintf (tmp, ".#%s", filename);
+	
+	ret = e_xml_save_file (tmp, doc);
+	if (ret != -1)
+		ret = rename (tmp, filename);
+	
+	if (ret == -1)
+		unlink (tmp);
+	
+	xmlFreeDoc (doc);
 }
 
 char *

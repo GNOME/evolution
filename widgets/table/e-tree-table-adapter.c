@@ -22,9 +22,17 @@
  * 02111-1307, USA.
  */
 
+
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
+
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
+#include <errno.h>
+
 #include <gtk/gtksignal.h>
 #include <gnome-xml/tree.h>
 #include <gnome-xml/parser.h>
@@ -931,11 +939,13 @@ save_expanded_state_func (gpointer keyp, gpointer value, gpointer data)
 void
 e_tree_table_adapter_save_expanded_state (ETreeTableAdapter *etta, const char *filename)
 {
-	xmlDoc *doc;
-	xmlNode *root;
 	ETreeTableAdapterPriv *priv;
+	char *tmp, *slash;
 	TreeAndRoot tar;
-
+	xmlDocPtr doc;
+	xmlNode *root;
+	int ret;
+	
 	g_return_if_fail(etta != NULL);
 
 	priv = etta->priv; 
@@ -951,13 +961,25 @@ e_tree_table_adapter_save_expanded_state (ETreeTableAdapter *etta, const char *f
 
 	tar.root = root;
 	tar.tree = etta->priv->source;
-
+	
 	g_hash_table_foreach (priv->attributes,
 			      save_expanded_state_func,
 			      &tar);
-
-	xmlSaveFile (filename, doc);
-
+	
+	tmp = alloca (strlen (filename) + 5);
+	slash = strrchr (filename, '/');
+	if (slash)
+		sprintf (tmp, "%.*s.#%s", slash - filename + 1, filename, slash + 1);
+	else
+		sprintf (tmp, ".#%s", filename);
+	
+	ret = e_xml_save_file (tmp, doc);
+	if (ret != -1)
+		ret = rename (tmp, filename);
+	
+	if (ret == -1)
+		unlink (tmp);
+	
 	xmlFreeDoc (doc);
 }
 
