@@ -81,6 +81,10 @@ struct _EDateEditPrivate {
 	gboolean show_time;
 	gboolean use_24_hour_format;
 
+	/* This is TRUE if we want to make the time field insensitive rather
+	   than hide it when set_show_time() is called. */
+	gboolean make_time_insensitive;
+
 	/* This is the range of hours we show in the time popup. */
 	gint lower_hour;
 	gint upper_hour;
@@ -270,6 +274,8 @@ e_date_edit_init		(EDateEdit	*dedit)
 	priv->show_time = TRUE;
 	priv->use_24_hour_format = TRUE;
 
+	priv->make_time_insensitive = FALSE;
+
 	priv->lower_hour = 0;
 	priv->upper_hour = 24;
 
@@ -367,10 +373,14 @@ create_children			(EDateEdit	*dedit)
 				  (GtkSignalFunc) on_date_edit_time_selected,
 				  dedit);
 
-	if (priv->show_time)
+	if (priv->show_time || priv->make_time_insensitive)
 		gtk_widget_show (priv->time_combo);
 
-	if (priv->show_date && priv->show_time)
+	if (!priv->show_time && priv->make_time_insensitive)
+		gtk_widget_set_sensitive (priv->time_combo, FALSE);
+
+	if (priv->show_date
+	    && (priv->show_time || priv->make_time_insensitive))
 		gtk_widget_show (priv->space);
 
 	priv->cal_popup = gtk_window_new (GTK_WINDOW_POPUP);
@@ -756,7 +766,7 @@ e_date_edit_get_show_date		(EDateEdit	*dedit)
 /**
  * e_date_edit_set_show_date:
  * @dedit: an #EDateEdit widget.
- * @show_time: TRUE if the date field should be shown.
+ * @show_date: TRUE if the date field should be shown.
  *
  * Description: Specifies whether the date field should be shown. The date
  * field would be hidden if only a time needed to be entered.
@@ -786,7 +796,8 @@ e_date_edit_set_show_date		(EDateEdit	*dedit,
 
 	e_date_edit_update_time_combo_state (dedit);
 
-	if (priv->show_date && priv->show_time)
+	if (priv->show_date
+	    && (priv->show_time || priv->make_time_insensitive))
 		gtk_widget_show (priv->space);
 	else
 		gtk_widget_hide (priv->space);
@@ -832,17 +843,57 @@ e_date_edit_set_show_time		(EDateEdit	*dedit,
 
 	priv->show_time = show_time;
 
-	if (show_time) {
-		gtk_widget_show (priv->time_combo);
-	} else {
-		gtk_widget_hide (priv->time_combo);
-		gtk_widget_hide (priv->now_button);
-	}
+	e_date_edit_update_time_combo_state (dedit);
+}
 
-	if (priv->show_date && priv->show_time)
-		gtk_widget_show (priv->space);
-	else
-		gtk_widget_hide (priv->space);
+
+/**
+ * e_date_edit_get_make_time_insensitive:
+ * @dedit: an #EDateEdit widget
+ * @Returns: Whether the time field is be made insensitive instead of hiding
+ * it.
+ *
+ * Description: Returns TRUE if the time field is made insensitive instead of
+ * hiding it.
+ */
+gboolean
+e_date_edit_get_make_time_insensitive	(EDateEdit	*dedit)
+{
+	g_return_val_if_fail (E_IS_DATE_EDIT (dedit), TRUE);
+
+	return dedit->priv->make_time_insensitive;
+}
+
+
+/**
+ * e_date_edit_set_make_time_insensitive:
+ * @dedit: an #EDateEdit widget
+ * @make_insensitive: TRUE if the time field should be made insensitive instead
+ * of hiding it.
+ *
+ * Description: Specifies whether the time field should be made insensitive
+ * rather than hiding it. Note that this doesn't make it insensitive - you
+ * need to call e_date_edit_set_show_time() with FALSE as show_time to do that.
+ *
+ * This is useful if you want to disable the time field, but don't want it to
+ * disappear as that may affect the layout of the widgets.
+ */
+void
+e_date_edit_set_make_time_insensitive	(EDateEdit	*dedit,
+					 gboolean	 make_insensitive)
+{
+	EDateEditPrivate *priv;
+
+	g_return_if_fail (E_IS_DATE_EDIT (dedit));
+
+	priv = dedit->priv;
+
+	if (priv->make_time_insensitive == make_insensitive)
+		return;
+
+	priv->make_time_insensitive = make_insensitive;
+
+	e_date_edit_update_time_combo_state (dedit);
 }
 
 
@@ -1525,20 +1576,54 @@ static void
 e_date_edit_update_time_combo_state	(EDateEdit	*dedit)
 {
 	EDateEditPrivate *priv;
+	gboolean show = TRUE, show_now_button = TRUE;
+	gboolean clear_entry = FALSE, sensitive = TRUE;
 	gchar *text;
 
 	priv = dedit->priv;
 
 	/* If the date entry is currently shown, and it is set to None,
-	   clear the time entry and disable the time combo, else enable it. */
+	   clear the time entry and disable the time combo. */
 	if (priv->show_date && priv->date_set_to_none) {
+		clear_entry = TRUE;
+		sensitive = FALSE;
+	}
+
+	if (!priv->show_time) {
+		if (priv->make_time_insensitive) {
+			clear_entry = TRUE;
+			sensitive = FALSE;
+		} else {
+			show = FALSE;
+		}
+
+		show_now_button = FALSE;
+	}
+
+	if (clear_entry) {
+		/* Only clear it if it isn't empty already. */
 		text = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (priv->time_combo)->entry));
 		if (text[0])
 			gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (priv->time_combo)->entry), "");
-		gtk_widget_set_sensitive (priv->time_combo, FALSE);
-	} else {
-		gtk_widget_set_sensitive (priv->time_combo, TRUE);
 	}
+
+	gtk_widget_set_sensitive (priv->time_combo, sensitive);
+
+	if (show)
+		gtk_widget_show (priv->time_combo);
+	else
+		gtk_widget_hide (priv->time_combo);
+
+	if (show_now_button)
+		gtk_widget_show (priv->now_button);
+	else
+		gtk_widget_hide (priv->now_button);
+
+	if (priv->show_date
+	    && (priv->show_time || priv->make_time_insensitive))
+		gtk_widget_show (priv->space);
+	else
+		gtk_widget_hide (priv->space);
 }
 
 

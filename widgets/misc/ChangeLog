@@ -1,3 +1,9 @@
+2001-08-16  Damon Chaplin  <damon@ximian.com>
+
+	* e-dateedit.c: added e_date_edit_get/set_make_time_insensitive()
+	which makes the time field insensitive rather than hiding it.
+	I'm not sure we're going to actually use this now, though.
+
 2001-08-16  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-search-bar.c (activate_by_subitems): Set the horizontal usize
