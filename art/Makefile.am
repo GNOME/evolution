@@ -53,6 +53,7 @@ images_DATA = \
 	mail-new.xpm			\
 	mail-read.xpm			\
 	priority-high.xpm		\
+	flag-for-followup-16.png	\
 	all_contacts.xpm		\
 	find_contact.xpm		\
 	find_message.xpm		\
@@ -181,6 +182,7 @@ gladedir = $(datadir)/evolution/glade
 glade_DATA = 					\
 	evolution.png				\
 	import.png				\
+	flag-for-followup-48.png		\
 	mail-config-druid-account-name.png	\
 	mail-config-druid-identity.png		\
 	mail-config-druid.png			\
@@ -212,6 +214,7 @@ EXTRA_DIST = \
 	mail-new.xpm			\
 	mail-read.xpm			\
 	mail-replied.xpm		\
+	flag-for-followup.xpm		\
 	mark.xpm			\
 	meeting.xpm			\
 	priority-high.xpm		\

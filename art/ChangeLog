@@ -1,3 +1,11 @@
+2002-02-13  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* flag-for-followup.xpm:
+	* flag-for-followup-16.png:
+	* flag-for-followup-48.png: New icons.
+
+	* Makefile.am: Added the new icons...
+
 2002-02-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* Makefile.am: Install mail-new.xpm, mail-read.xpm and
