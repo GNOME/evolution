@@ -395,7 +395,6 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *ite
 	
 	g_hash_table_insert (model->uri_hash, g_strdup (fi->url), uri_row);
 	g_hash_table_insert (si->path_hash, g_strdup (fi->path), path_row);
-	printf ("added '%s' to path_hash\n", fi->path);
 	
 	unread = fi->unread_message_count == -1 ? 0 : fi->unread_message_count;
 	
@@ -929,10 +928,8 @@ em_folder_tree_model_set_unread_count (EMFolderTreeModel *model, CamelStore *sto
 	if (!(si = g_hash_table_lookup (model->store_hash, store)))
 		return;
 	
-	if (!(row = g_hash_table_lookup (si->path_hash, path))) {
-		printf ("can't set unread count for '%s' - path unknown.\n", path);
+	if (!(row = g_hash_table_lookup (si->path_hash, path)))
 		return;
-	}
 	
 	tree_path = gtk_tree_row_reference_get_path (row);
 	if (!gtk_tree_model_get_iter ((GtkTreeModel *) model, &iter, tree_path)) {
