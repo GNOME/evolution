@@ -1,5 +1,8 @@
 2001-08-09  Rodrigo Moya <rodrigo@ximian.com>
 
+	* e-categories-config.c (e_categories_config_get_icon_for): return
+	when there's no icon associated with the category
+
 	* e-categories-config.c: reworked to use the ECategoriesMasterListWombat
 	class. Also, load correctly images (fixes #6794)
 

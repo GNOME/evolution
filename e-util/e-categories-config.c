@@ -96,6 +96,7 @@ e_categories_config_get_icon_for (const char *category, GdkPixmap **pixmap, GdkB
 		*pixmap = NULL;
 		if (mask != NULL)
 			*mask = NULL;
+		return;
 	}
 
 	/* load the icon in our list */
