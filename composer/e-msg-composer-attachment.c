@@ -177,11 +177,11 @@ e_msg_composer_attachment_new (const gchar *file_name)
 	g_return_val_if_fail (file_name != NULL, NULL);
 	
 	if (stat (file_name, &statbuf) < 0)
-		return;
+		return NULL;
 	
 	/* return if it's not a regular file */
 	if (!S_ISREG (statbuf.st_dev))
-		return;
+		return NULL;
 	
 	stream = camel_stream_fs_new_with_name (file_name, O_RDONLY, 0);
 	if (!stream)
