@@ -1,7 +1,7 @@
 # process this file with automake to create Makefile.in
 
 INCLUDES = -I$(top_srcdir)/intl -I$(top_srcdir) -I$(top_srcdir)/camel \
-	-I$(includedir) -I$(top_srcdir)/camel/providers/MH \
+	-I$(includedir) -I$(top_srcdir)/camel/providers/pop3 \
 	-I$(top_srcdir)/camel/providers/mbox
 LDADD = \
 	$(top_builddir)/camel/libcamel.la 	\
@@ -31,6 +31,13 @@ test9_LDADD = \
 	$(GNOME_LIBDIR) 			\
 	$(GNOMEUI_LIBS) $(INTLLIBS) $(EXTRA_GNOME_LIBS)
 
+test_movemail_LDADD = \
+	$(top_builddir)/e-util/libeutil.la	\
+	$(top_builddir)/camel/libcamel.la 	\
+	$(top_builddir)/libibex/libibex.la 	\
+	$(GNOME_LIBDIR) 			\
+	$(GNOMEUI_LIBS) $(INTLLIBS) $(EXTRA_GNOME_LIBS)
+
 if ENABLE_THREADS
 THREAD_RELATED_TESTS=test8
 else
@@ -47,4 +54,5 @@ noinst_PROGRAMS =  	\
 	test10		\
 	test11		\
 	test-formatter	\
+	test-movemail	\
 	$(THREAD_RELATED_TESTS)
