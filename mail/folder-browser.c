@@ -384,12 +384,12 @@ message_list_drag_data_get (ETree *tree, int row, ETreePath path, int col,
 	{
 		GByteArray *array;
 		
-		/* format: "uri uid1\0uid2\0uid3\0...\0uidn" */
+		/* format: "uri\0uid1\0uid2\0uid3\0...\0uidn" */
 		
 		/* write the uri portion */
 		array = g_byte_array_new ();
 		g_byte_array_append (array, fb->uri, strlen (fb->uri));
-		g_byte_array_append (array, " ", 1);
+		g_byte_array_append (array, "", 1);
 		
 		/* write the uids */
 		for (i = 0; i < uids->len; i++) {
@@ -449,43 +449,6 @@ message_rfc822_dnd (CamelFolder *dest, CamelStream *stream, CamelException *ex)
 	}
 	
 	camel_object_unref (CAMEL_OBJECT (mp));
-}
-
-static CamelFolder *
-x_evolution_message_parse (char *in, unsigned int inlen, GPtrArray **uids)
-{
-	/* format: "uri uid1\0uid2\0uid3\0...\0uidn" */
-	char *inptr, *inend, *uri;
-	CamelFolder *folder;
-	
-	if (in == NULL)
-		return NULL;
-	
-	inend = in + inlen;
-	
-	inptr = strchr (in, ' ');
-	uri = g_strndup (in, inptr - in);
-	
-	folder = mail_tool_uri_to_folder (uri, 0, NULL);
-	g_free (uri);
-	
-	if (!folder)
-		return NULL;
-	
-	/* split the uids */
-	inptr++;
-	*uids = g_ptr_array_new ();
-	while (inptr < inend) {
-		char *start = inptr;
-		
-		while (inptr < inend && *inptr)
-			inptr++;
-		
-		g_ptr_array_add (*uids, g_strndup (start, inptr - start));
-		inptr++;
-	}
-	
-	return folder;
 }
 
 static void
@@ -554,7 +517,7 @@ message_list_drag_data_received (ETree *tree, int row, ETreePath path, int col,
 		camel_object_unref (CAMEL_OBJECT (stream));
 		break;
 	case DND_TARGET_TYPE_X_EVOLUTION_MESSAGE:
-		folder = x_evolution_message_parse (selection_data->data, selection_data->length, &uids);
+		folder = mail_tools_x_evolution_message_parse (selection_data->data, selection_data->length, &uids);
 		if (folder == NULL)
 			goto fail;
 		
@@ -601,7 +564,7 @@ selection_get (GtkWidget *widget, GtkSelectionData *selection_data,
 		bytes = fb->clipboard_selection;
 		
 		/* Note: source should == fb->folder, but we might as well use `source' instead of fb->folder */
-		source = x_evolution_message_parse (bytes->data, bytes->len, &uids);
+		source = mail_tools_x_evolution_message_parse (bytes->data, bytes->len, &uids);
 		if (source == NULL)
 			return;
 		
@@ -666,7 +629,7 @@ selection_received (GtkWidget *widget, GtkSelectionData *selection_data,
 	if (selection_data == NULL || selection_data->length == -1)
 		return;
 	
-	source = x_evolution_message_parse (selection_data->data, selection_data->length, &uids);
+	source = mail_tools_x_evolution_message_parse (selection_data->data, selection_data->length, &uids);
 	if (source == NULL)
 		return;
 	

@@ -81,4 +81,6 @@ gchar *mail_tool_quote_message (CamelMimeMessage *message, const char *fmt, ...)
 
 gchar *mail_tool_forward_message (CamelMimeMessage *message, gboolean quoted);
 
+CamelFolder *mail_tools_x_evolution_message_parse (char *in, unsigned int inlen, GPtrArray **uids);
+
 #endif

@@ -1,3 +1,19 @@
+2001-11-08  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-tools.c (mail_tools_x_evolution_message_parse): Was
+	x_evolution_message_parse from folder-browser.c. A space char is
+	no longer used to separate the folder URI and the first uid,
+	instead this is now done with a nul-char so update to parse the
+	newer/better format.
+
+	* component-factory.c (destination_folder_handle_drop): Update to
+	parse the new/better format.
+
+	* folder-browser.c (x_evolution_message_parse): Moved to
+	mail-tools.c
+	(message_list_drag_data_get): Instead of placing a space char
+	after the folder URI, instead use a nul-char.
+
 2001-11-06  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-accounts.c (pgp_path_changed): Call

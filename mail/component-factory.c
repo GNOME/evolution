@@ -623,34 +623,12 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *des
 		camel_object_unref (CAMEL_OBJECT (folder));
 		break;
 	case ACCEPTED_DND_TYPE_X_EVOLUTION_MESSAGE:
-		/* format: "uri uid1\0uid2\0uid3\0...\0uidn" */
+		folder = mail_tools_x_evolution_message_parse (data->bytes._buffer,
+							       data->bytes._length,
+							       &uids);
 		
-		in = data->bytes._buffer;
-		inend = in + data->bytes._length;
-		
-		inptr = strchr (in, ' ');
-		url = g_strndup (in, inptr - in);
-		
-		folder = mail_tool_uri_to_folder (url, 0, &ex);
-		g_free (url);
-		
-		if (!folder) {
-			camel_exception_clear (&ex);
+		if (!folder)
 			return FALSE;
-		}
-		
-		/* split the uids */
-		inptr++;
-		uids = g_ptr_array_new ();
-		while (inptr < inend) {
-			char *start = inptr;
-			
-			while (inptr < inend && *inptr)
-				inptr++;
-			
-			g_ptr_array_add (uids, g_strndup (start, inptr - start));
-			inptr++;
-		}
 		
 		mail_transfer_messages (folder, uids,
 					action == GNOME_Evolution_ShellComponentDnd_ACTION_MOVE,
