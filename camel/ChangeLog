@@ -1,3 +1,31 @@
+2001-01-16  Not Zed  <NotZed@Ximian.com>
+
+	* camel-folder-summary.c (camel_folder_summary_decode_string):
+	Chganged len back to be unsigned.  And do a simple range check on
+	the string value to try and detect corrupted summary files.
+
+	* providers/imap/camel-imap-command.c (imap_read_untagged): Handle
+	cancelled stream reads with an appropriate exception.
+
+	* providers/imap/camel-imap-private.h: Fix the include-once
+	macro.  Doh, confliced with camel-private.h.
+
+	* providers/imap/camel-imap-store.c (imap_store_refresh_folders):
+	A copy of camel_remote_store_refresh_folders.  We avoid locking
+	each folder when we call it though.  This should be removed when i
+	can work out how to remove the folder lock from this function
+	easily.
+
+	* camel-stream-fs.c (stream_write): Fix n' argument of select.
+	(stream_read): Likewise.
+
+	* camel-remote-store.c (socket_connect): Bump the connect timeout
+	upto 4 minutes.
+	(socket_connect): Oops, fix the 'n' argument of select.
+
+	* camel-session.c (camel_cancel_cancel): If we are given no
+	cancellation node, then do it for all active ones.
+
 2001-01-15  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-stream-fs.c (stream_close): If the close() is successful,

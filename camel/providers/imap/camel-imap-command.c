@@ -30,6 +30,7 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include <string.h>
+#include <errno.h>
 
 #include "camel-imap-command.h"
 #include "camel-imap-utils.h"
@@ -283,6 +284,14 @@ imap_read_untagged (CamelImapStore *store, char *line, CamelException *ex)
 		str->str[0] = '\n';
 		nread = camel_stream_read (CAMEL_REMOTE_STORE (store)->istream,
 					   str->str + 1, length);
+		if (nread == -1) {
+			if (errno == EINTR)
+				camel_exception_set(ex, CAMEL_EXCEPTION_USER_CANCEL, _("Operation cancelled"));
+			else
+				camel_exception_set(ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE, strerror(errno));
+			camel_service_disconnect (CAMEL_SERVICE (store), FALSE, NULL);
+			goto lose;
+		}
 		if (nread < length) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
 					      _("Server response ended too soon."));

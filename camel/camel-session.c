@@ -501,9 +501,9 @@ struct _CamelCancel {
 
 #ifdef ENABLE_THREADS
 #define CAMEL_CANCEL_LOCK(cc) pthread_mutex_lock(&cc->lock)
-#define CAMEL_CANCEL_UNLOCK(cc) pthread_mutex_lock(&cc->lock)
+#define CAMEL_CANCEL_UNLOCK(cc) pthread_mutex_unlock(&cc->lock)
 #define CAMEL_ACTIVE_LOCK() pthread_mutex_lock(&cancel_active_lock)
-#define CAMEL_ACTIVE_UNLOCK() pthread_mutex_lock(&cancel_active_lock)
+#define CAMEL_ACTIVE_UNLOCK() pthread_mutex_unlock(&cancel_active_lock)
 static pthread_mutex_t cancel_active_lock = PTHREAD_MUTEX_INITIALIZER;
 #else
 #define CAMEL_CANCEL_LOCK(cc)
@@ -597,12 +597,27 @@ void camel_cancel_unblock(CamelCancel *cc)
 	CAMEL_CANCEL_UNLOCK(cc);
 }
 
+static void
+cancel_thread(void *key, CamelCancel *cc, void *data)
+{
+	if (cc)
+		camel_cancel_cancel(cc);
+}
+
 /* cancels an operation */
 void camel_cancel_cancel(CamelCancel *cc)
 {
 	CamelCancelMsg *msg;
 
-	if ((cc->flags & CAMEL_CANCEL_CANCELLED) == 0) {
+	if (cc == NULL) {
+		if (cancel_active) {
+			CAMEL_ACTIVE_LOCK();
+			g_hash_table_foreach(cancel_active, (GHRFunc)cancel_thread, NULL);
+			CAMEL_ACTIVE_UNLOCK();
+		}
+	} else if ((cc->flags & CAMEL_CANCEL_CANCELLED) == 0) {
+		printf("cancelling thread %d\n", cc->id);
+
 		CAMEL_CANCEL_LOCK(cc);
 		msg = g_malloc0(sizeof(*msg));
 		e_msgport_put(cc->cancel_port, (EMsg *)msg);
@@ -630,9 +645,12 @@ void camel_cancel_register(CamelCancel *cc)
 
 	cc->id = id;
 	g_hash_table_insert(cancel_active, (void *)id, cc);
-	camel_cancel_ref(cc);
+
+	printf("registering thread %d for cancellation\n", id);
 
 	CAMEL_ACTIVE_UNLOCK();
+
+	camel_cancel_ref(cc);
 }
 
 /* remove a thread from being able to be cancelled */
@@ -644,7 +662,7 @@ void camel_cancel_unregister(CamelCancel *cc)
 		cancel_active = g_hash_table_new(NULL, NULL);
 
 	if (cc == NULL) {
-		cc = g_hash_table_lookup(cancel_active, (void *)cc->id);
+		cc = g_hash_table_lookup(cancel_active, (void *)pthread_self());
 		if (cc == NULL) {
 			g_warning("Trying to unregister a thread that was never registered for cancellation");
 		}
@@ -656,6 +674,9 @@ void camel_cancel_unregister(CamelCancel *cc)
 	CAMEL_ACTIVE_UNLOCK();
 
 	if (cc)
+		printf("unregistering thread %d for cancellation\n", cc->id);
+
+	if (cc)
 		camel_cancel_unref(cc);
 }
 
@@ -663,6 +684,8 @@ void camel_cancel_unregister(CamelCancel *cc)
 gboolean camel_cancel_check(CamelCancel *cc)
 {
 	CamelCancelMsg *msg;
+
+	printf("checking for cancel in thread %d\n", pthread_self());
 
 	if (cc == NULL) {
 		if (cancel_active) {
@@ -674,14 +697,19 @@ gboolean camel_cancel_check(CamelCancel *cc)
 			return FALSE;
 	}
 
-	if (cc->blocked > 0)
+	if (cc->blocked > 0) {
+		printf("ahah!  cancellation is blocked\n");
 		return FALSE;
+	}
 
-	if (cc->flags & CAMEL_CANCEL_CANCELLED)
+	if (cc->flags & CAMEL_CANCEL_CANCELLED) {
+		printf("previously cancelled\n");
 		return TRUE;
+	}
 
 	msg = (CamelCancelMsg *)e_msgport_get(cc->cancel_port);
 	if (msg) {
+		printf("Got cancellation message\n");
 		CAMEL_CANCEL_LOCK(cc);
 		cc->flags |= CAMEL_CANCEL_CANCELLED;
 		CAMEL_CANCEL_UNLOCK(cc);

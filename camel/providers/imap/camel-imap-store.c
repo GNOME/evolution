@@ -48,6 +48,7 @@
 #include "string-utils.h"
 
 #include "camel-imap-private.h"
+#include "camel-private.h"
 
 #define d(x) x
 
@@ -283,6 +284,31 @@ query_auth_types (CamelService *service, CamelException *ex)
 	return g_list_prepend (types, &password_authtype);
 }
 
+/* call refresh folder directly, bypassing the folder lock */
+static void
+refresh_folder_info (gpointer key, gpointer value, gpointer data)
+{
+	CamelFolder *folder = CAMEL_FOLDER (value);
+
+	CAMEL_FOLDER_CLASS (CAMEL_OBJECT_GET_CLASS(folder))->refresh_info(folder, data);
+}
+
+/* This is a little 'hack' to avoid the deadlock conditions that would otherwise
+   ensue when calling camel_folder_refresh_info from inside a lock */
+/* NB: on second thougts this is probably not entirely safe, but it'll do for now */
+/* the alternative is to:
+   make the camel folder->lock recursive (which should probably be done)
+   or remove it from camel_folder_refresh_info, and use another locking mechanism */
+static void
+imap_store_refresh_folders (CamelRemoteStore *store, CamelException *ex)
+{
+	CAMEL_STORE_LOCK(store, cache_lock);
+
+	g_hash_table_foreach (CAMEL_STORE (store)->folders, refresh_folder_info, ex);
+
+	CAMEL_STORE_UNLOCK(store, cache_lock);
+}	
+
 static gboolean
 imap_connect (CamelService *service, CamelException *ex)
 {
@@ -476,7 +502,7 @@ imap_connect (CamelService *service, CamelException *ex)
 			return FALSE;
 	}
 
-	camel_remote_store_refresh_folders (CAMEL_REMOTE_STORE (store), ex);
+	imap_store_refresh_folders (CAMEL_REMOTE_STORE (store), ex);
 
 	return !camel_exception_is_set (ex);
 }

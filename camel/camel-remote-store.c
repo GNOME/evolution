@@ -241,6 +241,7 @@ static int socket_connect(struct hostent *h, int port)
 	} else {
 		fd_set rdset, wrset;
 		long flags;
+		int fdmax;
 
 		fcntl(fd, F_GETFL, &flags);
 		fcntl(fd, F_SETFL, flags | O_NONBLOCK);
@@ -258,9 +259,10 @@ static int socket_connect(struct hostent *h, int port)
 		FD_ZERO(&wrset);
 		FD_SET(fd, &wrset);
 		FD_SET(cancel_fd, &rdset);
+		fdmax = MAX(fd, cancel_fd)+1;
 		tv.tv_usec = 0;
-		tv.tv_sec = 30;
-		if (select((fd+cancel_fd)/2+1, &rdset, &wrset, 0, &tv) == 0) {
+		tv.tv_sec = 60*4;
+		if (select(fdmax, &rdset, &wrset, 0, &tv) == 0) {
 			close(fd);
 			errno = ETIMEDOUT;
 			return -1;

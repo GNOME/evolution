@@ -1375,7 +1375,7 @@ camel_folder_summary_encode_string(FILE *out, const char *str)
 int
 camel_folder_summary_decode_string(FILE *in, char **str)
 {
-	gint32 len;
+	guint32 len;
 	register char *ret;
 
 	io(printf("Decode string ...\n", str));
@@ -1386,7 +1386,7 @@ camel_folder_summary_decode_string(FILE *in, char **str)
 	}
 
 	len--;
-	if (len < 0) {
+	if (len > 65536) {
 		*str = NULL;
 		io(printf("String = '%s'\n", *str));
 		return -1;

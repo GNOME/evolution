@@ -21,8 +21,8 @@
  * USA
  */
 
-#ifndef CAMEL_PRIVATE_H
-#define CAMEL_PRIVATE_H 1
+#ifndef CAMEL_IMAP_PRIVATE_H
+#define CAMEL_IMAP_PRIVATE_H 1
 
 #ifdef __cplusplus
 extern "C" {
@@ -70,5 +70,5 @@ struct _CamelImapFolderPrivate {
 }
 #endif /* __cplusplus */
 
-#endif /* CAMEL_H */
+#endif /* CAMEL_IMAP_PRIVATE_H */
 
