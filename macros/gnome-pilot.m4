@@ -28,9 +28,9 @@ AC_DEFUN([PILOT_LINK_HOOK],[
 	    PISOCK_LIBS="-L$withval/lib -lpisock"
 	    AC_MSG_CHECKING("for existance of $withval/lib/libpisock.so")
 	    if test -r $withval/lib/libpisock.so; then
-		AC_MSG_RESULT("yes")
+		AC_MSG_RESULT(yes)
 	    else
-		AC_MSG_ERROR("Unable to find libpisock. Try ftp://ryeham.ee.ryerson.ca/pub/PalmOS/.")
+		AC_MSG_ERROR([Unable to find libpisock. Try  http://www.pilot-link.org.])
 	    fi
 	fi
 	])
@@ -47,14 +47,14 @@ AC_DEFUN([PILOT_LINK_HOOK],[
 							      incdir="$prefix/include"
 							      PISOCK_LIBS="-L$prefix/lib -lpisock"
                                                            fi							  ],
-	    AC_MSG_ERROR("Unable to find pi-version.h")) 
+	    AC_MSG_ERROR([Unable to find pi-version.h])) 
 	    ])
 	    ])
 	fi
 		
 	if test "x$PISOCK_LIBS" = "x"; then
 		AC_CHECK_LIB(pisock, pi_accept, [ PISOCK_LIBS=-lpisock ], 
-			[ AC_MSG_ERROR("Unable to find libpisock. Try ftp://ryeham.ee.ryerson.ca/pub/PalmOS/.") ])
+			[ AC_MSG_ERROR([Unable to find libpisock. Try http://www.pilot-link.org.]) ])
 	fi
 	
 	AC_ARG_ENABLE(pilotlinktest,
@@ -75,7 +75,7 @@ AC_DEFUN([PILOT_LINK_HOOK],[
 	PILOT_LINK_VERSION="$pi_version.$pi_major.$pi_minor$pi_patch"
 
 	if test x$testplversion = xyes; then
-		AC_MSG_CHECKING(for pilot-link version >= $1)
+		AC_MSG_CHECKING([for pilot-link version >= $1])
 		pl_ve=`echo $1|sed 's/\([[0-9]]*\).\([[0-9]]*\).\([[0-9]]*\)/\1/'`
 		pl_ma=`echo $1|sed 's/\([[0-9]]*\).\([[0-9]]*\).\([[0-9]]*\)/\2/'`
 		pl_mi=`echo $1|sed 's/\([[0-9]]*\).\([[0-9]]*\).\([[0-9]]*\)/\3/'`
@@ -99,9 +99,9 @@ AC_DEFUN([PILOT_LINK_HOOK],[
 				return 1;
 			}
 			],
-			[AC_MSG_RESULT(yes (found $PILOT_LINK_VERSION))],
-			[AC_MSG_ERROR("pilot-link >= $1 required")],
-			[AC_MSG_WARN("No action taken for crosscompile")]
+			[AC_MSG_RESULT([yes (found $PILOT_LINK_VERSION)])],
+			[AC_MSG_ERROR([pilot-link >= $1 required])],
+			[AC_MSG_WARN([No action taken for crosscompile])]
 		)
 		CFLAGS="$CFLAGS_save"
 	fi
