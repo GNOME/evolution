@@ -897,6 +897,129 @@ cal_backend_internal_get_timezone (CalBackend *backend, const char *tzid)
 }
 
 /**
+ * cal_backend_notify_object_created:
+ * @backend: A calendar backend.
+ * @calobj: iCalendar representation of new object
+ *
+ * Notifies each of the backend's listeners about a new object.
+ *
+ * cal_notify_object_created() calls this for you. You only need to
+ * call cal_backend_notify_object_created() yourself to report objects
+ * created by non-PCS clients.
+ **/
+void
+cal_backend_notify_object_created (CalBackend *backend, const char *calobj)
+{
+	EList *queries;
+	EIterator *iter;
+	Query *query;
+
+	queries = cal_backend_get_queries (backend);
+	iter = e_list_get_iterator (queries);
+
+	while (e_iterator_is_valid (iter)) {
+		query = QUERY (e_iterator_get (iter));
+
+		bonobo_object_ref (query);
+		if (query_object_matches (query, calobj))		
+			query_notify_objects_added_1 (query, calobj);
+		bonobo_object_unref (query);
+
+		e_iterator_next (iter);
+	}
+	g_object_unref (iter);
+	g_object_unref (queries);
+}
+
+/**
+ * cal_backend_notify_object_modified:
+ * @backend: A calendar backend.
+ * @old_object: iCalendar representation of the original form of the object
+ * @object: iCalendar representation of the new form of the object
+ *
+ * Notifies each of the backend's listeners about a modified object.
+ *
+ * cal_notify_object_modified() calls this for you. You only need to
+ * call cal_backend_notify_object_modified() yourself to report objects
+ * modified by non-PCS clients.
+ **/
+void
+cal_backend_notify_object_modified (CalBackend *backend, 
+				    const char *old_object, const char *object)
+{
+	EList *queries;
+	EIterator *iter;
+	Query *query;
+	gboolean old_match, new_match;
+
+	queries = cal_backend_get_queries (backend);
+	iter = e_list_get_iterator (queries);
+
+	while (e_iterator_is_valid (iter)) {
+		query = QUERY (e_iterator_get (iter));
+		
+		bonobo_object_ref (query);
+
+		old_match = query_object_matches (query, old_object);
+		new_match = query_object_matches (query, object);
+		if (old_match && new_match)
+			query_notify_objects_modified_1 (query, object);
+		else if (new_match)
+			query_notify_objects_added_1 (query, object);
+		else /* if (old_match) */ {
+			icalcomponent *comp;
+
+			comp = icalcomponent_new_from_string ((char *)old_object);
+			query_notify_objects_removed_1 (query, icalcomponent_get_uid (comp));
+			icalcomponent_free (comp);
+		}
+
+		bonobo_object_unref (query);
+
+		e_iterator_next (iter);
+	}
+	g_object_unref (iter);
+	g_object_unref (queries);
+}
+
+/**
+ * cal_backend_notify_object_removed:
+ * @backend: A calendar backend.
+ * @uid: the UID of the removed object
+ * @old_object: iCalendar representation of the removed object
+ *
+ * Notifies each of the backend's listeners about a removed object.
+ *
+ * cal_notify_object_removed() calls this for you. You only need to
+ * call cal_backend_notify_object_removed() yourself to report objects
+ * removed by non-PCS clients.
+ **/
+void
+cal_backend_notify_object_removed (CalBackend *backend, const char *uid,
+				   const char *old_object)
+{
+	EList *queries;
+	EIterator *iter;
+	Query *query;
+
+	queries = cal_backend_get_queries (backend);
+	iter = e_list_get_iterator (queries);
+
+	while (e_iterator_is_valid (iter)) {
+		query = QUERY (e_iterator_get (iter));
+
+		bonobo_object_ref (query);
+		if (query_object_matches (query, old_object))
+			query_notify_objects_removed_1 (query, uid);
+		bonobo_object_unref (query);
+
+		e_iterator_next (iter);
+	}
+	g_object_unref (iter);
+	g_object_unref (queries);
+}
+
+/**
  * cal_backend_notify_mode:
  * @backend: A calendar backend.
  * @status: Status of the mode set

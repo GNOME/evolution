@@ -1,3 +1,28 @@
+2003-10-27  Dan Winship  <danw@ximian.com>
+
+	* pcs/cal-backend.c (cal_backend_notify_object_created,
+	cal_backend_notify_object_modified,
+	cal_backend_notify_object_removed): New; tell each query about a
+	created/modified/removed object.
+
+	* pcs/cal.c (cal_notify_object_created): Use
+	cal_backend_notify_object_created.
+	(cal_notify_object_modified, cal_notify_object_removed): Likewise
+	for modified/removed
+	(cal_notify_objects_received): we need both the before and after
+	forms for the modified objects so they can be resolved as
+	adds/modifies/removes per-query. But the caller can just call the
+	cal_backend_* routines for each object anyway, so just remove the
+	created/modified/removed lists.
+
+	* pcs/cal-backend-sync.c (cal_backend_sync_receive_objects):
+	Remove created/modified/removed list arguments.
+	(_cal_backend_receive_objects): Likewise.
+
+	* pcs/cal-backend-file.c (cal_backend_file_receive_objects):
+	Remove created/modified/removed list arguments. Replace the one
+	use of *removed with a call to cal_backend_notify_object_removed.
+
 2003-10-27  JP Rosevear <jpr@ximian.com>
 
 	* gui/gnome-cal.c (setup_widgets): store config objects as well

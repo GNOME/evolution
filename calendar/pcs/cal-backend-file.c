@@ -1579,8 +1579,7 @@ check_tzids (icalparameter *param, void *data)
 
 /* Update_objects handler for the file backend. */
 static CalBackendSyncStatus
-cal_backend_file_receive_objects (CalBackendSync *backend, Cal *cal, const char *calobj,
-				  GList **created, GList **modified, GList **removed)
+cal_backend_file_receive_objects (CalBackendSync *backend, Cal *cal, const char *calobj)
 {
 	CalBackendFile *cbfile;
 	CalBackendFilePrivate *priv;
@@ -1612,8 +1611,6 @@ cal_backend_file_receive_objects (CalBackendSync *backend, Cal *cal, const char 
 	}
 
 	method = icalcomponent_get_method (toplevel_comp);
-
-	*created = *modified = *removed = NULL;
 
 	/* Build a list of timezones so we can make sure all the objects have valid info */
 	tzdata.zones = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
@@ -1689,8 +1686,10 @@ cal_backend_file_receive_objects (CalBackendSync *backend, Cal *cal, const char 
 			break;
 		case ICAL_METHOD_CANCEL:
 			/* FIXME Do we need to remove the subcomp so it isn't merged? */
-			if (cancel_received_object (cbfile, subcomp))
-				*removed = g_list_prepend (*removed, g_strdup (icalcomponent_get_uid (subcomp)));
+			if (cancel_received_object (cbfile, subcomp)) {
+				const char *calobj = icalcomponent_as_ical_string (subcomp);
+				cal_backend_notify_object_removed (CAL_BACKEND (backend), icalcomponent_get_uid (subcomp), calobj);
+			}
 			break;
 		default:
 			status = GNOME_Evolution_Calendar_UnsupportedMethod;

@@ -81,8 +81,7 @@ void cal_notify_object_removed (Cal *cal, GNOME_Evolution_Calendar_CallStatus st
 				const char *uid, const char *object);
 void cal_notify_alarm_discarded (Cal *cal, GNOME_Evolution_Calendar_CallStatus status);
 
-void cal_notify_objects_received (Cal *cal, GNOME_Evolution_Calendar_CallStatus status, 
-				  GList *created, GList *modified, GList *removed);
+void cal_notify_objects_received (Cal *cal, GNOME_Evolution_Calendar_CallStatus status);
 void cal_notify_objects_sent (Cal *cal, GNOME_Evolution_Calendar_CallStatus status);
 
 void cal_notify_default_object (Cal *cal, GNOME_Evolution_Calendar_CallStatus status, char *object);

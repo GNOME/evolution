@@ -48,7 +48,7 @@ struct _CalBackendSyncClass {
 
 	CalBackendSyncStatus (*discard_alarm_sync)  (CalBackendSync *backend, Cal *cal, const char *uid, const char *auid);
 
-	CalBackendSyncStatus (*receive_objects_sync)  (CalBackendSync *backend, Cal *cal, const char *calobj, GList **created, GList **modified, GList **removed);
+	CalBackendSyncStatus (*receive_objects_sync)  (CalBackendSync *backend, Cal *cal, const char *calobj);
 	CalBackendSyncStatus (*send_objects_sync)  (CalBackendSync *backend, Cal *cal, const char *calobj);
 
 	CalBackendSyncStatus (*get_default_object_sync)  (CalBackendSync *backend, Cal *cal, char **object);
@@ -112,10 +112,7 @@ CalBackendSyncStatus cal_backend_sync_discard_alarm (CalBackendSync *backend, Ca
 
 CalBackendSyncStatus cal_backend_sync_receive_objects         (CalBackendSync  *backend,
 							       Cal             *cal,
-							       const char      *calobj,
-							       GList          **created,
-							       GList          **modified,
-							       GList          **removed);
+							       const char      *calobj);
 CalBackendSyncStatus cal_backend_sync_send_objects            (CalBackendSync  *backend,
 							       Cal             *cal,
 							       const char      *calobj);
