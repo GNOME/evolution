@@ -102,19 +102,25 @@ component_editor_factory_init (void)
 /* Does a simple activation and unreffing of the alarm notification service so
  * that the daemon will be launched if it is not running yet.
  */
-static void
-launch_alarm_daemon (void)
+static gboolean
+launch_alarm_daemon_cb (gpointer data)
 {
 	CORBA_Environment ev;
 	GNOME_Evolution_Calendar_AlarmNotify an;
+	guint *idle_id = (guint *) data;
 
+	/* remove the idle function */
+	g_source_remove (*idle_id);
+	g_free (idle_id);
+
+	/* activate the alarm daemon */
 	CORBA_exception_init (&ev);
 	an = oaf_activate_from_id ("OAFIID:GNOME_Evolution_Calendar_AlarmNotify", 0, NULL, &ev);
 
 	if (BONOBO_EX (&ev)) {
-		g_message ("add_alarms(): Could not activate the alarm notification service");
+		g_message ("launch_alarm_daemon_cb(): Could not activate the alarm notification service");
 		CORBA_exception_free (&ev);
-		return;
+		return FALSE;
 	}
 	CORBA_exception_free (&ev);
 
@@ -126,6 +132,17 @@ launch_alarm_daemon (void)
 		g_message ("add_alarms(): Could not unref the alarm notification service");
 
 	CORBA_exception_free (&ev);
+
+	return FALSE;
+}
+
+static void
+launch_alarm_daemon (void)
+{
+	guint *idle_id;
+
+	idle_id = g_new0 (guint, 1);
+	*idle_id = g_idle_add ((GSourceFunc) launch_alarm_daemon_cb, idle_id);
 }
 
 int
