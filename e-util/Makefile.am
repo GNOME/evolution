@@ -20,8 +20,6 @@ libeutil_la_SOURCES =			\
 	e-gui-utils.h			\
 	e-html-utils.c			\
 	e-html-utils.h			\
-	e-paned.c			\
-	e-paned.h			\
 	e-popup-menu.c			\
 	e-popup-menu.h			\
 	e-setup.c			\

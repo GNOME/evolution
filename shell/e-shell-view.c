@@ -42,6 +42,8 @@
 #include "e-shell-view.h"
 #include "e-shell-view-menu.h"
 
+#include <widgets/e-paned/e-paned.h>
+
 
 #define PARENT_TYPE gnome_app_get_type () /* Losing GnomeApp does not define GNOME_TYPE_APP.  */
 static GnomeAppClass *parent_class = NULL;
@@ -255,15 +257,15 @@ setup_widgets (EShellView *shell_view)
 
 	/* Put things into a paned and the paned into the GnomeApp.  */
 
-	priv->hpaned2 = gtk_hpaned_new ();
-	gtk_paned_add1 (GTK_PANED (priv->hpaned2), priv->storage_set_view_box);
-	gtk_paned_add2 (GTK_PANED (priv->hpaned2), priv->notebook);
-	gtk_paned_set_position (GTK_PANED (priv->hpaned2), DEFAULT_SHORTCUT_BAR_WIDTH);
+	priv->hpaned2 = e_hpaned_new ();
+	e_paned_add1 (E_PANED (priv->hpaned2), priv->storage_set_view_box);
+	e_paned_add2 (E_PANED (priv->hpaned2), priv->notebook);
+	e_paned_set_position (E_PANED (priv->hpaned2), DEFAULT_SHORTCUT_BAR_WIDTH);
 
-	priv->hpaned1 = gtk_hpaned_new ();
-	gtk_paned_add1 (GTK_PANED (priv->hpaned1), priv->shortcut_bar_box);
-	gtk_paned_add2 (GTK_PANED (priv->hpaned1), priv->hpaned2);
-	gtk_paned_set_position (GTK_PANED (priv->hpaned1), DEFAULT_SHORTCUT_BAR_WIDTH);
+	priv->hpaned1 = e_hpaned_new ();
+	e_paned_add1 (E_PANED (priv->hpaned1), priv->shortcut_bar_box);
+	e_paned_add2 (E_PANED (priv->hpaned1), priv->hpaned2);
+	e_paned_set_position (E_PANED (priv->hpaned1), DEFAULT_SHORTCUT_BAR_WIDTH);
 
 	gtk_container_set_border_width (GTK_CONTAINER (priv->hpaned1), 0);
 	gtk_container_set_border_width (GTK_CONTAINER (priv->hpaned2), 0);
@@ -762,14 +764,14 @@ e_shell_view_show_shortcuts (EShellView *shell_view,
 	if (show) {
 		if (! GTK_WIDGET_VISIBLE (priv->shortcut_bar_box)) {
 			gtk_widget_show (priv->shortcut_bar_box);
-			gtk_paned_set_position (GTK_PANED (priv->hpaned1), priv->hpaned1_position);
+			e_paned_set_position (E_PANED (priv->hpaned1), priv->hpaned1_position);
 		}
 	} else {
 		if (GTK_WIDGET_VISIBLE (priv->shortcut_bar_box)) {
 			gtk_widget_hide (priv->shortcut_bar_box);
 			/* FIXME this is a private field!  */
-			priv->hpaned1_position = GTK_PANED (priv->hpaned1)->child1_size;
-			gtk_paned_set_position (GTK_PANED (priv->hpaned1), 0);
+			priv->hpaned1_position = E_PANED (priv->hpaned1)->child1_size;
+			e_paned_set_position (E_PANED (priv->hpaned1), 0);
 		}
 	}
 }
@@ -788,14 +790,14 @@ e_shell_view_show_folders (EShellView *shell_view,
 	if (show) {
 		if (! GTK_WIDGET_VISIBLE (priv->storage_set_view_box)) {
 			gtk_widget_show (priv->storage_set_view_box);
-			gtk_paned_set_position (GTK_PANED (priv->hpaned2), priv->hpaned2_position);
+			e_paned_set_position (E_PANED (priv->hpaned2), priv->hpaned2_position);
 		}
 	} else {
 		if (GTK_WIDGET_VISIBLE (priv->storage_set_view_box)) {
 			gtk_widget_hide (priv->storage_set_view_box);
 			/* FIXME this is a private field!  */
-			priv->hpaned2_position = GTK_PANED (priv->hpaned2)->child1_size;
-			gtk_paned_set_position (GTK_PANED (priv->hpaned2), 0);
+			priv->hpaned2_position = E_PANED (priv->hpaned2)->child1_size;
+			e_paned_set_position (E_PANED (priv->hpaned2), 0);
 		}
 	}
 }

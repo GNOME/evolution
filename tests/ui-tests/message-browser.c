@@ -36,6 +36,8 @@
 #include <libgnorba/gnorba.h>
 #include <bonobo/bonobo-stream-memory.h>
 
+#include <widgets/e-paned/e-hpaned.h>
+
 static void
 print_usage_and_quit()
 {
@@ -791,15 +793,15 @@ main (int argc, char *argv[])
 		}
 	}
 
-        hpane = gtk_hpaned_new();
+        hpane = e_hpaned_new();
 
 	/* add the tree control view of the message*/
 	tree_ctrl_window = get_message_tree_ctrl (message);
-        gtk_paned_add1 (GTK_PANED (hpane), tree_ctrl_window);	
+        e_paned_add1 (E_PANED (hpane), tree_ctrl_window);	
 
 	/* add the HTML view of the message */
 	html_window = get_gtk_html_window (message);
-        gtk_paned_add2 (GTK_PANED (hpane), html_window);		
+        e_paned_add2 (E_PANED (hpane), html_window);		
 	
 	/* rock n roll */
 	gnome_app_set_contents (GNOME_APP (app),

@@ -12,12 +12,12 @@
 #include <sys/wait.h>
 #include <fcntl.h>
 #include <gtk/gtkframe.h>
-#include <gtk/gtkhpaned.h>
+#include <widgets/e-paned/e-hpaned.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkmain.h>
 #include <gtk/gtknotebook.h>
 #include <gtk/gtkscrolledwindow.h>
-#include <gtk/gtkvpaned.h>
+#include <widgets/e-paned/e-vpaned.h>
 #include <libgnomeui/gnome-messagebox.h>
 #include <cal-util/timeutil.h>
 #include "dialogs/alarm-notify-dialog.h"
@@ -159,7 +159,7 @@ setup_widgets (GnomeCalendar *gcal)
 	/* The First Page of the Main Notebook, containing a HPaned with the
 	   Sub-Notebook on the left and the GtkCalendar and ToDo list on the
 	   right. */
-	gcal->hpane = gtk_hpaned_new ();
+	gcal->hpane = e_hpaned_new ();
 	gtk_widget_show (gcal->hpane);
 	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->main_notebook),
 				  gcal->hpane, gtk_label_new (""));
@@ -170,19 +170,19 @@ setup_widgets (GnomeCalendar *gcal)
 				      FALSE);
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (gcal->sub_notebook), FALSE);
 	gtk_widget_show (gcal->sub_notebook);
-	gtk_paned_pack1 (GTK_PANED (gcal->hpane), gcal->sub_notebook,
+	e_paned_pack1 (E_PANED (gcal->hpane), gcal->sub_notebook,
 			 TRUE, TRUE);
 
 	/* The VPaned widget, to contain the GtkCalendar & ToDo list. */
-	vpane = gtk_vpaned_new ();
+	vpane = e_vpaned_new ();
 	gtk_widget_show (vpane);
-	gtk_paned_pack2 (GTK_PANED (gcal->hpane), vpane, FALSE, TRUE);
+	e_paned_pack2 (E_PANED (gcal->hpane), vpane, FALSE, TRUE);
 
 	/* The GtkCalendar. */
 	w = gtk_calendar_new ();
 	gcal->gtk_calendar = GTK_CALENDAR (w);
 	gtk_widget_show (w);
-	gtk_paned_pack1 (GTK_PANED (vpane), w, FALSE, TRUE);
+	e_paned_pack1 (E_PANED (vpane), w, FALSE, TRUE);
 	gcal->day_selected_id = gtk_signal_connect (GTK_OBJECT (gcal->gtk_calendar),
 						    "day_selected",
 						    (GtkSignalFunc) gnome_calendar_on_day_selected,
@@ -193,7 +193,7 @@ setup_widgets (GnomeCalendar *gcal)
 
 	/* The ToDo list. */
 	gcal->todo = gncal_todo_new (gcal);
-	gtk_paned_pack2 (GTK_PANED (vpane), gcal->todo, TRUE, TRUE);
+	e_paned_pack2 (E_PANED (vpane), gcal->todo, TRUE, TRUE);
 	gtk_widget_show (gcal->todo);
 
 

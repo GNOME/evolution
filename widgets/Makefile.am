@@ -1,5 +1,6 @@
 
 SUBDIRS =			\
+	e-paned			\
 	e-text			\
 	e-table			\
 	meeting-time-sel	\

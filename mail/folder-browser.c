@@ -13,6 +13,7 @@
 #include "folder-browser.h"
 #include "mail.h"
 #include "message-list.h"
+#include <widgets/e-paned/e-vpaned.h>
 
 
 #define PARENT_TYPE (gtk_table_get_type ())
@@ -315,7 +316,7 @@ folder_browser_gui_init (FolderBrowser *fb)
 	/*
 	 * The panned container
 	 */
-	fb->vpaned = gtk_vpaned_new ();
+	fb->vpaned = e_vpaned_new ();
 	gtk_widget_show (fb->vpaned);
 
 	gtk_table_attach (
@@ -346,11 +347,11 @@ folder_browser_gui_init (FolderBrowser *fb)
 		0, 0);
 
 	fb->message_list_w = message_list_get_widget (fb->message_list);
-	gtk_paned_add1 (GTK_PANED (fb->vpaned), fb->message_list_w);
+	e_paned_add1 (E_PANED (fb->vpaned), fb->message_list_w);
 	gtk_widget_show (fb->message_list_w);
 
-	gtk_paned_add2 (GTK_PANED (fb->vpaned), GTK_WIDGET (fb->mail_display));
-	gtk_paned_set_position (GTK_PANED (fb->vpaned), 200);
+	e_paned_add2 (E_PANED (fb->vpaned), GTK_WIDGET (fb->mail_display));
+	e_paned_set_position (E_PANED (fb->vpaned), 200);
 
 	gtk_widget_show (GTK_WIDGET (fb->mail_display));
 	gtk_widget_show (GTK_WIDGET (fb));

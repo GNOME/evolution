@@ -1,0 +1,8 @@
+.deps
+.libs
+.pure
+Makefile
+Makefile.in
+*.lo
+*.la
+libepaned.a

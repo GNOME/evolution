@@ -25,6 +25,7 @@ test_shortcut_bar_SOURCES = 	\
 
 test_shortcut_bar_LDADD = 		\
 	./libshortcut-bar.a		\
+	$(top_builddir)/widgets/e-paned/libepaned.a		\
 	../e-text/libetext.a		\
 	../misc/libemiscwidgets.a	\
 	../../e-util/libeutil.la	\

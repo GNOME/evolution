@@ -435,6 +435,7 @@ camel/providers/smtp/Makefile
 camel/providers/vee/Makefile
 composer/Makefile
 widgets/Makefile
+widgets/e-paned/Makefile
 widgets/e-table/Makefile
 widgets/e-text/Makefile
 widgets/meeting-time-sel/Makefile

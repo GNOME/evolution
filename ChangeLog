@@ -1,3 +1,19 @@
+2000-05-24  Christopher James Lahey  <clahey@helixcode.com>
+
+	* configure.in: Added widgets/e-paned/Makefile.
+
+	* tests/ui-tests/message-browser.c: Switched from GtkPaned to
+	EPaned.
+
+	* widgets/Makefile.am: Added e-paned directory.
+
+	* widgets/e-paned/, widgets/e-paned/.cvsignore,
+	widgets/e-paned/Makefile.am, widgets/e-paned/e-hpaned.c,
+	widgets/e-paned/e-hpaned.h, widgets/e-paned/e-paned.c,
+	widgets/e-paned/e-paned.h, widgets/e-paned/e-vpaned.c,
+	widgets/e-paned/e-vpaned.h: New widget based completely on
+	GtkPaned from 1.4.  This will be more advanced soon.
+
 2000-05-22  Jeff Stedfast  <fejj@helixcode.com>
 
 	* configure.in: Readded camel/providers/smtp 

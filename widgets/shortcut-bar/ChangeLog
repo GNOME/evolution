@@ -1,3 +1,9 @@
+2000-05-24  Christopher James Lahey  <clahey@helixcode.com>
+
+	* Makefile.am: Added libepaned.a.
+
+	* test-shortcut-bar.c: Switched from GtkPaned to EPaned.
+
 2000-05-18  Damon Chaplin  <damon@helixcode.com>
 
 	* e-shortcut-bar.[hc]: new signals "added_item", "removed_item",

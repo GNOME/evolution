@@ -30,6 +30,8 @@
 
 #include "e-shortcut-bar.h"
 
+#include <widgets/e-paned/e-hpaned.h>
+
 #define NUM_SHORTCUT_TYPES 5
 gchar *shortcut_types[NUM_SHORTCUT_TYPES] = {
 	"folder:", "file:", "calendar:", "todo:", "contacts:"
@@ -114,12 +116,12 @@ main (int argc, char *argv[])
 	gtk_signal_connect (GTK_OBJECT (window), "delete-event",
 			    GTK_SIGNAL_FUNC (quit), NULL);
 
-	hpaned = gtk_hpaned_new ();
+	hpaned = e_hpaned_new ();
 	gnome_app_set_contents (GNOME_APP (window), hpaned);
 	gtk_widget_show (hpaned);
 
 	shortcut_bar = e_shortcut_bar_new ();
-	gtk_paned_pack1 (GTK_PANED (hpaned), shortcut_bar, FALSE, TRUE);
+	e_paned_pack1 (E_PANED (hpaned), shortcut_bar, FALSE, TRUE);
 	gtk_widget_show (shortcut_bar);
 	e_shortcut_bar_set_icon_callback (E_SHORTCUT_BAR (shortcut_bar),
 					  icon_callback,
@@ -138,11 +140,11 @@ main (int argc, char *argv[])
 	gtk_container_set_border_width (GTK_CONTAINER (shortcut_bar), 4);
 #endif
 
-	gtk_paned_set_position (GTK_PANED (hpaned), 100);
-	/*gtk_paned_set_gutter_size (GTK_PANED (hpaned), 12);*/
+	e_paned_set_position (E_PANED (hpaned), 100);
+	/*e_paned_set_gutter_size (E_PANED (hpaned), 12);*/
 
 	vbox = gtk_vbox_new (FALSE, 0);
-	gtk_paned_pack2 (GTK_PANED (hpaned), vbox, TRUE, TRUE);
+	e_paned_pack2 (E_PANED (hpaned), vbox, TRUE, TRUE);
 	gtk_widget_show (vbox);
 
 
