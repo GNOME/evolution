@@ -1,3 +1,8 @@
+2001-09-06  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/pop3/camel-pop3-folder.c (pop3_get_message_stream):
+	Set an exception on POP3_FAIL as well.
+
 2001-09-06  Dan Winship  <danw@ximian.com>
 
 	* providers/pop3/camel-pop3-provider.c: #ifdef out the "delete

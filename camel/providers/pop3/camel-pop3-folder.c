@@ -40,6 +40,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <errno.h>
+
 #define CF_CLASS(o) (CAMEL_FOLDER_CLASS (CAMEL_OBJECT_GET_CLASS(o)))
 static CamelFolderClass *parent_class;
 
@@ -331,11 +333,11 @@ pop3_get_message_stream (CamelFolder *folder, int id, gboolean headers_only, Cam
 				     &result, ex, headers_only ? "TOP %d 0" : "RETR %d", id);
 	switch (status) {
 	case CAMEL_POP3_ERR:
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-				      _("Could not fetch message: %s"), result);
-		g_free (result);
-		/* fall through */
 	case CAMEL_POP3_FAIL:
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+				      _("Could not fetch message: %s"), result ? result :
+				      errno ? g_strerror (errno) : _("Unknown error"));
+		g_free (result);
 		camel_operation_end (NULL);
 		return NULL;
 	}
