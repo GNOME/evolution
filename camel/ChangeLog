@@ -1,3 +1,20 @@
+2004-02-25  Not Zed  <NotZed@Ximian.com>
+
+	* providers/imap/camel-imap-summary.h (CAMEL_IMAP_MESSAGE_RECENT):
+	moved the RECNET flag into the folder area (bit 17-30).
+
+2004-02-24  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #53876.
+
+	* providers/imap/camel-imap-command.c (camel_imap_command): ref
+	the folder before unreffing store->current_folder, incase they're
+	the same.  Do a select anyway.
+
+	* providers/imap/camel-imap-folder.c (imap_refresh_info): keep the
+	connect_lock for longer, imap_rescan for one assumes its locked.
+	Fixes a race selecting the folder for refresh.
+
 2004-02-24  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-stream-process.c: #include <signal.h>, we don't need limits.h

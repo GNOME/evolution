@@ -99,14 +99,11 @@ camel_imap_command (CamelImapStore *store, CamelFolder *folder,
 		cmd = imap_command_strdup_vprintf (store, fmt, ap);
 		va_end (ap);
 	} else {
-		if (store->current_folder) {
-			camel_object_unref (CAMEL_OBJECT (store->current_folder));
-			store->current_folder = NULL;
-		}
+		camel_object_ref(folder);
+		if (store->current_folder)
+			camel_object_unref(store->current_folder);
 		store->current_folder = folder;
-		camel_object_ref (CAMEL_OBJECT (folder));
-		cmd = imap_command_strdup_printf (store, "SELECT %F",
-						  folder->full_name);
+		cmd = imap_command_strdup_printf (store, "SELECT %F", folder->full_name);
 	}
 	
 	if (!imap_command_start (store, folder, cmd, ex)) {

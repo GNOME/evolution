@@ -503,23 +503,18 @@ imap_refresh_info (CamelFolder *folder, CamelException *ex)
 	CAMEL_SERVICE_LOCK (imap_store, connect_lock);
 	if (imap_store->current_folder != folder
 	    || strcasecmp(folder->full_name, "INBOX") == 0) {
-		CAMEL_SERVICE_UNLOCK (imap_store, connect_lock);
 		response = camel_imap_command (imap_store, folder, ex, NULL);
 		if (response) {
 			camel_imap_folder_selected (folder, response, ex);
 			camel_imap_response_free (imap_store, response);
 		}
-		return;
-	}
-	CAMEL_SERVICE_UNLOCK (imap_store, connect_lock);
-	
-	/* Otherwise, if we need a rescan, do it, and if not, just do
-	 * a NOOP to give the server a chance to tell us about new
-	 * messages.
-	 */
-	if (imap_folder->need_rescan)
+	} else if (imap_folder->need_rescan) {
+		/* Otherwise, if we need a rescan, do it, and if not, just do
+		 * a NOOP to give the server a chance to tell us about new
+		 * messages.
+		 */
 		imap_rescan (folder, camel_folder_summary_count (folder->summary), ex);
-	else {
+	} else {
 #if 0
 		/* on some servers need to CHECKpoint INBOX to recieve new messages?? */
 		/* rfc2060 suggests this, but havent seen a server that requires it */
@@ -531,6 +526,8 @@ imap_refresh_info (CamelFolder *folder, CamelException *ex)
 		response = camel_imap_command (imap_store, folder, ex, "NOOP");
 		camel_imap_response_free (imap_store, response);
 	}
+
+	CAMEL_SERVICE_UNLOCK (imap_store, connect_lock);
 }
 
 /* Called with the store's connect_lock locked */
