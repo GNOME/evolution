@@ -18,6 +18,12 @@ Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
     #30993 -- Meeting request for recurring meeting should describe
               the recurrence.
 
+  * Mailer
+    #33933 -- Sorting by subject does not result in expected order  (Jeff)
+    #33309 -- Errror while 'Scanning folders in "IMAP server
+              exchange.xxx.xxx"' (Michael)
+    #34975 -- Unable to view Inbox on SunOne IMAP server  (Jeff)
+
 
 Other fixes:
 
@@ -28,6 +34,11 @@ Other fixes:
     - Fixed a possible (and very probable) crash involving the
       minicard view. (Toshok)
     - Fixed a crash in the file backend (Toshok)
+
+  * Mailer
+
+    - Fixed SSL streams to have cancellable reads and writes.
+    - Auto-subscribe the user to his/her IMAP INBOX
 
 Evolution 1.2.0, 2002-11-06
 ---------------------------
