@@ -1,3 +1,7 @@
+2000-05-30  Christopher James Lahey  <clahey@helixcode.com>
+
+	* message-list.c, message-list.h: Added bold for unread messages.
+
 2000-05-30  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail.h: Added a prototype for providers_config()

@@ -233,6 +233,10 @@ ml_value_at (ETableModel *etm, int col, int row, void *data)
 		retval = GINT_TO_POINTER(!!(msg_info->flags & CAMEL_MESSAGE_DELETED));
 		break;
 
+	case COL_UNREAD:
+		retval = GINT_TO_POINTER(!(msg_info->flags & CAMEL_MESSAGE_SEEN));
+		break;
+
 	default:
 		g_assert_not_reached ();
 	}
@@ -271,6 +275,7 @@ ml_duplicate_value (ETableModel *etm, int col, const void *value, void *data)
 	case COL_PRIORITY:
 	case COL_ATTACHMENT:
 	case COL_DELETED:
+	case COL_UNREAD:
 		return (void *) value;
 
 	case COL_FROM:
@@ -295,6 +300,7 @@ ml_free_value (ETableModel *etm, int col, void *value, void *data)
 	case COL_PRIORITY:
 	case COL_ATTACHMENT:
 	case COL_DELETED:
+	case COL_UNREAD:
 		break;
 
 	case COL_FROM:
@@ -319,6 +325,7 @@ ml_initialize_value (ETableModel *etm, int col, void *data)
 	case COL_PRIORITY:
 	case COL_ATTACHMENT:
 	case COL_DELETED:
+	case COL_UNREAD:
 		return NULL;
 
 	case COL_FROM:
@@ -344,6 +351,7 @@ ml_value_is_empty (ETableModel *etm, int col, const void *value, void *data)
 	case COL_PRIORITY:
 	case COL_ATTACHMENT:
 	case COL_DELETED:
+	case COL_UNREAD:
 		return value == NULL;
 
 	case COL_FROM:
@@ -409,6 +417,9 @@ message_list_init_renderers (MessageList *message_list)
 
 	gtk_object_set(GTK_OBJECT(message_list->render_text),
 		       "strikeout_column", COL_DELETED,
+		       NULL);
+	gtk_object_set(GTK_OBJECT(message_list->render_text),
+		       "bold_column", COL_UNREAD,
 		       NULL);
 
 	message_list->render_online_status = e_cell_checkbox_new ();
@@ -535,11 +546,9 @@ message_list_init_header (MessageList *message_list)
 	 * of this.
 	 */
 	for (i = 0; i < COL_LAST; i++) {
-		if (i != COL_DELETED) {
-			gtk_object_ref (GTK_OBJECT (message_list->table_cols [i]));
-			e_table_header_add_column (message_list->header_model,
-						   message_list->table_cols [i], i);
-		}
+		gtk_object_ref (GTK_OBJECT (message_list->table_cols [i]));
+		e_table_header_add_column (message_list->header_model,
+					   message_list->table_cols [i], i);
 	}
 }
 

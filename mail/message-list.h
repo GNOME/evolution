@@ -34,9 +34,12 @@ enum {
 	COL_RECEIVE,
 	COL_TO,
 	COL_SIZE,
-	COL_DELETED,
 
-	COL_LAST
+	COL_LAST,
+
+	/* Invisible columns */
+	COL_DELETED,
+	COL_UNREAD,
 };
 
 struct _MessageList {
