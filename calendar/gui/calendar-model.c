@@ -35,7 +35,10 @@
 
 #include <math.h>
 #include <ctype.h>
-#include <gnome.h>
+#include <glib.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
+#include <libgnomeui/gnome-messagebox.h>
 #include <cal-util/timeutil.h>
 #include "calendar-model.h"
 #include "calendar-commands.h"

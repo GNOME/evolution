@@ -29,8 +29,9 @@
  */
 
 #include <config.h>
-#include <gnome.h>
 #include <glade/glade.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-unicode.h>
 #include <gal/widgets/e-categories.h>
@@ -1288,7 +1289,6 @@ static gboolean
 prompt_to_save_changes		(TaskEditor	*tedit)
 {
 	TaskEditorPrivate *priv;
-	GtkWidget *dialog;
 
 	priv = tedit->priv;
 

@@ -8,8 +8,8 @@
  *          Miguel de Icaza <miguel@ximian.com>
  */
 
-#include <libgnome/libgnome.h>
 #include <string.h>
+#include <glib.h>
 #include "timeutil.h"
 
 

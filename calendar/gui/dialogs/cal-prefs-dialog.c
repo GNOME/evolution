@@ -29,7 +29,6 @@
  */
 
 #include <config.h>
-#include <gnome.h>
 #include <glade/glade.h>
 #include <gal/util/e-util.h>
 #include <e-util/e-dialog-widgets.h>

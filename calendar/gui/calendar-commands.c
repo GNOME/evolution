@@ -32,7 +32,10 @@
 #include <string.h>
 #include <ctype.h>
 #include <errno.h>
-#include <gnome.h>
+#include <glib.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
+#include <libgnomeui/gnome-messagebox.h>
 #include <libgnorba/gnorba.h>
 #include <bonobo.h>
 #include <cal-util/timeutil.h>

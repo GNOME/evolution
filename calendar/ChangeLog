@@ -1,3 +1,13 @@
+2001-01-25  Federico Mena Quintero  <federico@ximian.com>
+
+	* cal-util/timeutil.c: <gnome.h> trimming to reduce compilation time.
+	* gui/dialogs/task-editor.c: Ditto.
+	* gui/dialogs/cal-prefs-dialog.c: Ditto.
+	* gui/dialogs/save-comp.c: Ditto.
+	* gui/dialogs/delete-comp.c: Ditto.
+	* gui/calendar-commands.c: Ditto.
+	* gui/calendar-model.c: Ditto.
+
 2001-01-26  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/e-itip-control.c (itip_control_destroy_cb): Don't attempt to
