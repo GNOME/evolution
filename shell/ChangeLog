@@ -1,3 +1,8 @@
+2001-05-08  Dan Winship  <danw@ximian.com>
+
+	* glade/e-active-connection-dialog.glade: Rename "port" to "type"
+	here too.
+
 2001-05-08  Iain Holmes  <iain@ximian.com>
 
 	* importer/evolution-importer-client.c (evolution_importer_client_load_file):
