@@ -1,5 +1,10 @@
 2003-10-22  Ettore Perazzoli  <ettore@ximian.com>
 
+	* gui/component/GNOME_Evolution_Addressbook.server.in.in: Add an
+	"evolution:button_sort_order" property.
+
+2003-10-22  Ettore Perazzoli  <ettore@ximian.com>
+
 	* gui/component/addressbook-component.c (impl_createControls):
 	Make the the scrolled window have an "in" shadow.
 	* gui/component/addressbook-config.c

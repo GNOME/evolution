@@ -58,6 +58,7 @@
 	               _value="Evolution Addressbook component"/>
 
         <oaf_attribute name="evolution:button_label" type="string" _value="Contacts"/>
+        <oaf_attribute name="evolution:button_sort_order" type="string" value="-9"/>
 
 </oaf_server>
 
