@@ -1,3 +1,13 @@
+2001-07-08  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* POTFILES.in: Added:
+	addressbook/gui/contact-list-editor/contact-list-editor.glade
+	addressbook/gui/contact-list-editor/e-contact-list-editor.c
+	calendar/gui/dialogs/alarm-options.c
+	calendar/gui/dialogs/alarm-options.glade
+	calendar/gui/dialogs/e-timezone-dialog.glade
+	mail/mail-folder-cache.c
+
 2001-07-07  Christian Rose  <menthos@menthos.com>
 
 	* sv.po: Updated Swedish translation.

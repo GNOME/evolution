@@ -13,6 +13,7 @@ addressbook/gui/contact-editor/e-contact-editor-confirm-delete.glade
 addressbook/gui/contact-editor/e-contact-quick-add.c
 addressbook/gui/contact-editor/fulladdr.glade
 addressbook/gui/contact-editor/fullname.glade
+addressbook/gui/contact-list-editor/contact-list-editor.glade
 addressbook/gui/component/addressbook.c
 addressbook/gui/component/addressbook-config.c
 addressbook/gui/component/addressbook-config.glade
@@ -24,6 +25,7 @@ addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in
 addressbook/gui/component/select-names/e-select-names-popup.c
 addressbook/gui/component/select-names/GNOME_Evolution_Addressbook_SelectNames.oaf.in
 addressbook/gui/component/select-names/select-names.glade
+addressbook/gui/contact-list-editor/e-contact-list-editor.c
 addressbook/gui/merging/e-card-duplicate-detected.glade
 addressbook/gui/merging/e-card-merging-book-commit-duplicate-detected.glade
 addressbook/gui/search/e-addressbook-search-dialog.c
@@ -46,10 +48,13 @@ calendar/gui/alarm-notify/notify-main.c
 calendar/gui/calendar-commands.c
 calendar/gui/calendar-model.c
 calendar/gui/control-factory.c
+calendar/gui/dialogs/alarm-options.c
+calendar/gui/dialogs/alarm-options.glade
 calendar/gui/dialogs/alarm-page.c
 calendar/gui/dialogs/alarm-page.glade
 calendar/gui/dialogs/cal-prefs-dialog.glade
 calendar/gui/dialogs/delete-comp.c
+calendar/gui/dialogs/e-timezone-dialog.glade
 calendar/gui/dialogs/event-editor.c
 calendar/gui/dialogs/event-page.glade
 calendar/gui/dialogs/recurrence-page.glade
@@ -186,6 +191,7 @@ mail/mail-config-druid.c
 mail/mail-config.glade
 mail/mail-crypto.c
 mail/mail-display.c
+mail/mail-folder-cache.c
 mail/mail-format.c
 mail/mail-local.c
 mail/mail-mt.c
