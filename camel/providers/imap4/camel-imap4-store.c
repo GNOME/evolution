@@ -693,7 +693,7 @@ imap4_get_folder (CamelStore *store, const char *folder_name, guint32 flags, Cam
 	
 	/* make sure the folder exists - try LISTing it? */
 	utf7_name = imap4_folder_utf7_name (store, folder_name, '\0');
-	ic = camel_imap4_engine_queue (engine, NULL, "LIST "" %S\r\n", utf7_name);
+	ic = camel_imap4_engine_queue (engine, NULL, "LIST \"\" %S\r\n", utf7_name);
 	camel_imap4_command_register_untagged (ic, "LIST", camel_imap4_untagged_list);
 	ic->user_data = array = g_ptr_array_new ();
 	g_free (utf7_name);
@@ -1001,9 +1001,13 @@ imap4_get_folder_info (CamelStore *store, const char *top, guint32 flags, CamelE
 	char *pattern;
 	int id, i;
 	
+	CAMEL_SERVICE_LOCK (store, connect_lock);
+	
 	if (engine == NULL) {
 		if (!camel_service_connect ((CamelService *) store, ex))
 			return NULL;
+		
+		engine = ((CamelIMAP4Store *) store)->engine;
 	}
 	
 	if (flags & CAMEL_STORE_FOLDER_INFO_SUBSCRIBED)
@@ -1014,10 +1018,8 @@ imap4_get_folder_info (CamelStore *store, const char *top, guint32 flags, CamelE
 	if (top == NULL)
 		top = "";
 	
-	CAMEL_SERVICE_LOCK (store, connect_lock);
-	
 	pattern = imap4_folder_utf7_name (store, top, (flags & CAMEL_STORE_FOLDER_INFO_RECURSIVE) ? '*' : '%');
-	ic = camel_imap4_engine_queue (engine, NULL, "%s "" %S\r\n", cmd, pattern);
+	ic = camel_imap4_engine_queue (engine, NULL, "%s \"\" %S\r\n", cmd, pattern);
 	camel_imap4_command_register_untagged (ic, cmd, camel_imap4_untagged_list);
 	ic->user_data = array = g_ptr_array_new ();
 	

@@ -1,5 +1,18 @@
 2004-06-04  Jeffrey Stedfast  <fejj@novell.com>
 
+	* providers/imap4/camel-imap4-folder.c (camel_imap4_folder_new):
+	Initialise the folder->summary and force an update of the message
+	info cache by selecting the folder and flushing the updates to the
+	imap4 summary object.
+
+	* providers/imap4/camel-imap4-store.c (imap4_get_folder_info):
+	Lock the connect_lock before we check if the engine is NULL and
+	after we connect (assuming we need to), initialise the engine
+	pointer again.
+	(imap4_get_folder_info): Doh. Need to escape the "'s in the LIST
+	command string.
+	(imap4_get_folder): Same.
+
 	* camel-stream-buffer.c (stream_flush): Fixed to work
 	properly. After we've flushed the buffer, we want to set sbf->ptr
 	to sbf->buf, we don't want to do sbf->ptr += written, that'll just

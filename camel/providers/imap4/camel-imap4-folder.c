@@ -172,6 +172,7 @@ camel_imap4_folder_new (CamelStore *store, const char *full_name, CamelException
 {
 	CamelIMAP4Folder *imap_folder;
 	char *utf7_name, *name, *p;
+	CamelFolder *folder;
 	char sep;
 	
 	if (!(p = strrchr (full_name, '/')))
@@ -197,11 +198,23 @@ camel_imap4_folder_new (CamelStore *store, const char *full_name, CamelException
 	
 	utf7_name = camel_utf8_utf7 (utf7_name);
 	
-	imap_folder = (CamelIMAP4Folder *) camel_object_new (CAMEL_TYPE_IMAP4_FOLDER);
-	camel_folder_construct ((CamelFolder *) imap_folder, store, full_name, name);
+	folder = (CamelFolder *) imap_folder = (CamelIMAP4Folder *) camel_object_new (CAMEL_TYPE_IMAP4_FOLDER);
+	camel_folder_construct (folder, store, full_name, name);
 	imap_folder->utf7_name = utf7_name;
 	
-	return (CamelFolder *) imap_folder;
+	folder->summary = camel_imap4_summary_new (folder);
+	
+	if (camel_imap4_engine_select_folder (((CamelIMAP4Store *) store)->engine, folder, ex) == -1) {
+		camel_object_unref (folder);
+		folder = NULL;
+	}
+	
+	if (camel_imap4_summary_flush_updates (folder->summary, ex) == -1) {
+		camel_object_unref (folder);
+		folder = NULL;
+	}
+	
+	return folder;
 }
 
 
