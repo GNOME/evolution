@@ -1,3 +1,11 @@
+2002-11-12  Frederic Crozat  <fcrozat@mandrakesoft.com>
+
+	reviewed by: Ettore
+
+	* C/evolution-C.omf:
+	* no/evolution-no.omf:
+	fixe compliance with OMF V1.0 DTD (needed for scrollkeeper >= 0.3)
+
 2002-10-22  Aaron Weber  <aaron@ximian.com>
 
 	* C/usage-mail.sgml: Edit-->Undelete, not Actions-->Undelete
