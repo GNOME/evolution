@@ -276,7 +276,7 @@ connect_to_server (CamelService *service, int try_starttls, CamelException *ex)
 				      service->url->host, port,
 				      g_strerror (errno));
 		
-		camel_object_unref (CAMEL_OBJECT (tcp_stream));
+		camel_object_unref (tcp_stream);
 		
 		return FALSE;
 	}
@@ -312,7 +312,7 @@ connect_to_server (CamelService *service, int try_starttls, CamelException *ex)
 			if (!transport->connected)
 				return FALSE;
 			
-			/* Okay, apprently this server doesn't support ESMTP */
+			/* Okay, apparently this server doesn't support ESMTP */
 			camel_exception_clear (ex);
 			transport->flags &= ~CAMEL_SMTP_TRANSPORT_IS_ESMTP;
 			if (!smtp_helo (transport, ex) && !transport->connected)
@@ -392,9 +392,9 @@ connect_to_server (CamelService *service, int try_starttls, CamelException *ex)
 	
  exception_cleanup:
 	
-	camel_object_unref (CAMEL_OBJECT (transport->istream));
+	camel_object_unref (transport->istream);
 	transport->istream = NULL;
-	camel_object_unref (CAMEL_OBJECT (transport->ostream));
+	camel_object_unref (transport->ostream);
 	transport->ostream = NULL;
 	
 	transport->connected = FALSE;
@@ -451,7 +451,7 @@ smtp_connect (CamelService *service, CamelException *ex)
 		truth = camel_sasl_authenticated (sasl);
 		if (chal)
 			g_byte_array_free (chal, TRUE);
-		camel_object_unref (CAMEL_OBJECT (sasl));
+		camel_object_unref (sasl);
 		
 		if (!truth)
 			return FALSE;
@@ -579,12 +579,12 @@ smtp_disconnect (CamelService *service, gboolean clean, CamelException *ex)
 	}
 	
 	if (transport->istream) {
-		camel_object_unref (CAMEL_OBJECT (transport->istream));
+		camel_object_unref (transport->istream);
 		transport->istream = NULL;
 	}
 	
 	if (transport->ostream) {
-		camel_object_unref (CAMEL_OBJECT (transport->ostream));
+		camel_object_unref (transport->ostream);
 		transport->ostream = NULL;
 	}
 	
@@ -859,6 +859,7 @@ smtp_helo (CamelSmtpTransport *transport, CamelException *ex)
 {
 	/* say hello to the server */
 	char *name = NULL, *cmdbuf = NULL, *respbuf = NULL;
+	gboolean tried_numeric_host = FALSE;
 	struct hostent *host;
 	CamelException err;
 	const char *token;
@@ -1103,7 +1104,7 @@ smtp_auth (CamelSmtpTransport *transport, const char *mech, CamelException *ex)
 		goto lose;
 	}
 	
-	camel_object_unref (CAMEL_OBJECT (sasl));
+	camel_object_unref (sasl);
 	camel_operation_end (NULL);
 	
 	return TRUE;
@@ -1121,7 +1122,7 @@ smtp_auth (CamelSmtpTransport *transport, const char *mech, CamelException *ex)
 				     _("Bad authentication response from server.\n"));
 	}
 	
-	camel_object_unref (CAMEL_OBJECT (sasl));
+	camel_object_unref (sasl);
 	camel_operation_end (NULL);
 	
 	return FALSE;
@@ -1280,7 +1281,7 @@ smtp_data (CamelSmtpTransport *transport, CamelMimeMessage *message, CamelExcept
 	crlffilter = camel_mime_filter_crlf_new (CAMEL_MIME_FILTER_CRLF_ENCODE, CAMEL_MIME_FILTER_CRLF_MODE_CRLF_DOTS);
 	filtered_stream = camel_stream_filter_new_with_stream (transport->ostream);
 	camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (crlffilter));
-	camel_object_unref (CAMEL_OBJECT (crlffilter));
+	camel_object_unref (crlffilter);
 	
 	/* unlink the bcc headers */
 	savedbcc = NULL;
@@ -1313,7 +1314,7 @@ smtp_data (CamelSmtpTransport *transport, CamelMimeMessage *message, CamelExcept
 					"%s: mail not sent"),
 				      g_strerror (errno));
 		
-		camel_object_unref (CAMEL_OBJECT (filtered_stream));
+		camel_object_unref (filtered_stream);
 		
 		camel_object_unref (transport->istream);
 		transport->istream = NULL;
@@ -1324,7 +1325,7 @@ smtp_data (CamelSmtpTransport *transport, CamelMimeMessage *message, CamelExcept
 	}
 	
 	camel_stream_flush (CAMEL_STREAM (filtered_stream));
-	camel_object_unref (CAMEL_OBJECT (filtered_stream));
+	camel_object_unref (filtered_stream);
 	
 	/* terminate the message body */
 	
