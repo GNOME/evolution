@@ -25,6 +25,7 @@
 #include <gtk/gtksignal.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkcheckbutton.h>
+#include <gtk/gtkmessagedialog.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
 #include <libgnomeui/gnome-dialog.h>
@@ -445,12 +446,6 @@ tasks_control_complete_cmd		(BonoboUIComponent	*uic,
 	e_tasks_complete_selected (tasks);
 }
 
-static void
-parent_destroyed (GnomeDialog *dialog, GObject *deadbeef)
-{
-	gnome_dialog_close (GNOME_DIALOG (dialog));
-}
-
 static gboolean
 confirm_expunge (ETasks *tasks)
 {
@@ -459,36 +454,26 @@ confirm_expunge (ETasks *tasks)
 	
 	if (!calendar_config_get_confirm_expunge ())
 		return TRUE;
-	
-	dialog = gnome_dialog_new (_("Warning"),
-				   GNOME_STOCK_BUTTON_YES,
-				   GNOME_STOCK_BUTTON_NO,
-				   NULL);
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (tasks));
-	gnome_dialog_set_parent (GNOME_DIALOG (dialog), GTK_WINDOW (parent));
-	g_object_weak_ref ((GObject *) parent, (GWeakNotify) parent_destroyed, dialog);
-	
-	label = gtk_label_new (_("This operation will permanently erase all tasks marked as completed. If you continue, you will not be able to recover these tasks.\n\nReally erase these tasks?"));
-	
-	gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
-	gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
-	gtk_widget_show (label);
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), label, TRUE, TRUE, 6);
-	
+	dialog = gtk_message_dialog_new (
+		parent,
+		GTK_DIALOG_DESTROY_WITH_PARENT,
+		GTK_MESSAGE_WARNING,
+		GTK_BUTTONS_YES_NO,
+		_("This operation will permanently erase all tasks marked as completed. If you continue, you will not be able to recover these tasks.\n\nReally erase these tasks?"));
+	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_NO);
+
 	checkbox = gtk_check_button_new_with_label (_("Do not ask me again."));
 	gtk_widget_show (checkbox);
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), checkbox, TRUE, TRUE, 6);
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), checkbox, TRUE, TRUE, 6);
 	
-	button = gnome_dialog_run (GNOME_DIALOG (dialog));	
-	if (button == 0 && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbox)))
+	button = gtk_dialog_run (GTK_DIALOG (dialog));	
+	if (button == GTK_RESPONSE_YES && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbox)))
 		calendar_config_set_confirm_expunge (FALSE);
-	gnome_dialog_close (GNOME_DIALOG (dialog));
+	gtk_widget_destroy (dialog);
 	
-	if (button == 0)
-		return TRUE;
-	else
-		return FALSE;
+	return button == GTK_RESPONSE_YES ? TRUE : FALSE;
 }
 
 static void

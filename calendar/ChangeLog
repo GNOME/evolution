@@ -1,3 +1,10 @@
+2003-05-28  Rodrigo Moya <rodrigo@ximian.com>
+
+	Fixes #43455
+
+	* gui/tasks-control.c (confirm_expunge): converted to a GtkMessageDialog
+	and removed object weak's ref code, not needed anymore.
+	
 2003-05-20  JP Rosevear  <jpr@ximian.com>
  
  	Fixes #43308
