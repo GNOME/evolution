@@ -33,7 +33,6 @@ handle_tree_item (CamelDataWrapper* object, GtkWidget* tree_ctrl)
 	
 	tree_item = gtk_tree_item_new_with_label (label);
 	gtk_tree_append (GTK_TREE (tree_ctrl), tree_item);
-	printf ("Appending %s\n", label);
 
 	if (CAMEL_IS_MULTIPART (object))
 	{
@@ -59,6 +58,8 @@ handle_tree_item (CamelDataWrapper* object, GtkWidget* tree_ctrl)
 					  GTK_WIDGET (subtree));
 		}	
 	}
+
+	gtk_widget_show(tree_item);
 }
 
 
