@@ -10,7 +10,20 @@
 #define closer "]"
 #define VersionMajor 2
 
-GList *eventlist;
+GSList *eventlist;
+
+void print_glist(gpointer data, gpointer user_data)
+{
+	struct event *myevent = (struct event*)data;
+
+	if (data == NULL)
+		return;
+	printf ("===============================================\nNew event\n");
+	printf ("Start: %s %02d:%02d  End: %s %02d:%02d\n", myevent->start.date, myevent->start.time / 60, myevent->start.time % 60, myevent->end.date, myevent->end.time / 60, myevent->end.time % 60);
+	printf ("Contents: %s\n", myevent->description);
+	printf ("Repeat = %d (%d)", (int)(myevent->repeat), myevent->repeatcount);
+}
+
 
 int skip_chars(FILE *fp, char *terminator)
 {
@@ -55,11 +68,14 @@ int get_until(FILE *fp, char terminator, char *buf)
 	int c;
 
 	while( (c = fgetc(fp)) != EOF) {
-		if (c == terminator)
+		if (c == terminator) {
+		        *buf = '\0';
 			return TRUE;
+	        }
 		*buf = (char)c;
 		buf++;
 	}
+	*buf = '\0';
 	return FALSE;
 }
 
@@ -84,6 +100,7 @@ int get_number(FILE *fp, int *x)
 	return FALSE;
 }	
 
+/* Get string until EOF or closer_char */
 int get_string(FILE *fp, char *string)
 {
 	int c;
@@ -98,6 +115,33 @@ int get_string(FILE *fp, char *string)
 		}
 		string[cnt++] = (char)c;
 	}	
+	return FALSE;
+}
+
+int get_dates(FILE *fp, char *keyword, struct event *ptr)
+{
+	char *c;
+	int x;
+
+	if (strncmp("Single", keyword, 6) == 0) {
+		ptr->repeat = Single;
+		/* It's a single date */
+		if (! skip_whitespace(fp) || !get_until(fp, ' ', ptr->start.date))
+			return FALSE;
+		if (! skip_chars(fp, "End"))
+			return FALSE;
+		return TRUE;
+	} else if (strncmp("Days", keyword, 4) == 0) {
+		ptr->repeat = Days;
+		if (! skip_whitespace(fp) || !get_until(fp, ' ', ptr->start.date))
+			return FALSE;
+		if (! skip_whitespace(fp) || !get_number(fp, &(ptr->repeatcount)))
+			return FALSE;
+		if (! skip_chars(fp, "End"))
+			return FALSE;
+		return TRUE;
+	}
+
 	return FALSE;
 }
 
@@ -119,20 +163,18 @@ int getid(FILE *fp, char *string)
 	return FALSE;
 }
 
-int parse_appointment(FILE *fp, char keyword[])
+int parse_appointment(FILE *fp, struct event *ptr, char keyword[])
 {
 	char buf[50];
 	int x,y,c;
-	struct event *ptr;
 
-	ptr = (struct event*)alloc(sizeof(struct event));
 	if (strcmp(keyword, "Start") == 0) {
 		if ( ! skip_whitespace(fp) || ! get_number(fp, &x) ) {
 			g_error("Unable to get start time");
 			return FALSE;
 		}
 		g_print ("Appointment start = %02d:%02d\n", x/60, x % 60);
-		sprintf(ptr->start.time, "%d", x);
+		ptr->start.time = x;
 		return TRUE;
 	}
 
@@ -142,7 +184,7 @@ int parse_appointment(FILE *fp, char keyword[])
 			return FALSE;
 		}
 		g_print ("Appointment length = %d\n", x);
-		sprintf(ptr->end.time, "%d", x);
+		ptr->end.time = ptr->start.time + x;
 		return TRUE;
 	}
 
@@ -168,7 +210,7 @@ int parse_appointment(FILE *fp, char keyword[])
 	return FALSE;
 }
 			
-int parse_item(FILE *fp, char keyword[]) 
+int parse_item(FILE *fp, struct event *ptr, char keyword[]) 
 {
 	char buf[50];
 	int x, y, c;
@@ -206,6 +248,7 @@ int parse_item(FILE *fp, char keyword[])
 			return FALSE;
 		}
 		g_print("Contents = %s\n", buf);
+		strcpy(ptr->description,buf);
 		return TRUE;
 	}
 
@@ -229,12 +272,11 @@ int parse_item(FILE *fp, char keyword[])
 	}
 	
 	if (strcmp(keyword, "Dates") == 0) {
-		if (! get_string(fp, buf)) {
+		if ( ! getid(fp, buf)) {
 			g_error("Cannot get date");
 			return FALSE;
 		}
-		g_print("Date = %s\n", buf);
-		return TRUE;
+		return get_dates(fp, buf,ptr);
 	}
 
 	if (strcmp(keyword, "Deleted") == 0) {
@@ -288,7 +330,7 @@ void parse_ical_file(char const *file)
 	char c;
 	int item_type;
 	int incomplete_item;
-
+	struct event *myevent;
 
 	if ( (fp = fopen(file, "r")) == NULL) {
 		g_error("couldn't open file");
@@ -350,6 +392,7 @@ void parse_ical_file(char const *file)
 			g_print("New ??? (%s)\n", keyword);
 
 		incomplete_item = TRUE;
+		myevent = g_malloc0(sizeof(struct event));
 		while(incomplete_item) {
 			if (! skip_whitespace(fp) || ! peek_char(fp, &c)) {
 				g_warning("Incomplete item\n");
@@ -360,6 +403,7 @@ void parse_ical_file(char const *file)
 				(void)fgetc(fp);
 				g_print("done!\n");
 				incomplete_item = FALSE;
+				g_slist_append(eventlist, myevent);
 				break;
 			}
 		
@@ -369,7 +413,7 @@ void parse_ical_file(char const *file)
 				fclose(fp);
 				return;
 			}
-			if ( ! parse_item(fp, keyword) && ! parse_appointment(fp, keyword) ) {
+			if ( ! parse_item(fp, myevent, keyword) && ! parse_appointment(fp, myevent, keyword) ) {
 				g_warning("Unable to parse line\n");
 				fclose(fp);
 				return;
@@ -389,8 +433,9 @@ void parse_ical_file(char const *file)
 int main(int argc, char *argv[])
 {
 
-	eventlist = g_list_alloc();
+	eventlist = g_slist_alloc();
 	parse_ical_file("/home/csmall/.calendar");
+	g_slist_foreach(eventlist, print_glist, NULL);
 	return 0;
 }
 
