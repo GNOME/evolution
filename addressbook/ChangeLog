@@ -1,3 +1,12 @@
+2000-06-11  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* contact-editor/Makefile.am (contact_editor_test_LDADD): Link
+	with libemiscwidgets.a.
+	* gui/component/Makefile.am (evolution_addressbook_LDADD): Likewise.
+	* gui/minicard/Makefile.am (minicard_test_LDADD): Likewise.
+	(reflow_test_LDADD): Likewise.
+	(minicard_view_test_LDADD): Likewise.
+
 2000-06-10  Christopher James Lahey  <clahey@helixcode.com>
 
 	* gui/component/e-cardlist-model.c: Renamed a bunch of functions
