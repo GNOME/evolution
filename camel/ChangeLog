@@ -1,3 +1,24 @@
+2001-09-25    <NotZed@Ximian.com>
+
+	* camel-operation.c (camel_operation_unref): Fix for !threads
+	enabled not ccompiling.
+	(camel_operation_ref): Assert refcount > 0.
+	(struct _CamelOperation): Removed the lock.  On further
+	investigation, I dont think this will always work, the
+	registration operations assume that a lookup in the
+	operation_active table will return a ref, that will remain valid
+	until we ref it, which needn't be the case.  So now i'm using a
+	single global lock, since we'd need to do that for unref anyway,
+	and every operation is fast & memory-bound.  Changed all the code
+	to handle this.
+	(camel_operation_progress_count): Since the code is identical,
+	just call progress() for now.
+	(camel_operation_register): No longer refcount, use unref to
+	check/clear the active table.
+	(camel_operation_unregister): Same here.
+	(camel_operation_unref): Check if operation is in active table, if
+	so, warn, remove.
+
 2001-09-25  Dan Winship  <danw@ximian.com>
 
 	* camel-tcp-stream-openssl.c (my_SSL_read, my_SSL_write): call

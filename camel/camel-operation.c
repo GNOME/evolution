@@ -42,7 +42,6 @@ struct _CamelOperation {
 #ifdef ENABLE_THREADS
 	EMsgPort *cancel_port;
 	int cancel_fd;
-	pthread_mutex_t lock;
 #endif
 };
 
@@ -50,14 +49,10 @@ struct _CamelOperation {
 #define CAMEL_OPERATION_TRANSIENT (1<<1)
 
 #ifdef ENABLE_THREADS
-#define CAMEL_OPERATION_LOCK(cc) pthread_mutex_lock(&cc->lock)
-#define CAMEL_OPERATION_UNLOCK(cc) pthread_mutex_unlock(&cc->lock)
 #define CAMEL_ACTIVE_LOCK() pthread_mutex_lock(&operation_active_lock)
 #define CAMEL_ACTIVE_UNLOCK() pthread_mutex_unlock(&operation_active_lock)
 static pthread_mutex_t operation_active_lock = PTHREAD_MUTEX_INITIALIZER;
 #else
-#define CAMEL_OPERATION_LOCK(cc)
-#define CAMEL_OPERATION_UNLOCK(cc)
 #define CAMEL_ACTIVE_LOCK()
 #define CAMEL_ACTIVE_UNLOCK()
 #endif
@@ -98,8 +93,23 @@ CamelOperation *camel_operation_new(CamelOperationStatusFunc status, void *statu
 	cc->id = ~0;
 	cc->cancel_port = e_msgport_new();
 	cc->cancel_fd = e_msgport_fd(cc->cancel_port);
-	pthread_mutex_init(&cc->lock, NULL);
 #endif
+
+	return cc;
+}
+
+/* return the registered operation, or NULL if none registered */
+/* need to unref when done with it */
+CamelOperation *camel_operation_registered(void)
+{
+	CamelOperation *cc = NULL;
+
+	CAMEL_ACTIVE_LOCK();
+	if (operation_active != NULL)
+		cc = g_hash_table_lookup(operation_active, (void *)pthread_self());
+	g_assert(cc->refcount > 0);
+	cc->refcount++;
+	CAMEL_ACTIVE_UNLOCK();
 
 	return cc;
 }
@@ -141,9 +151,11 @@ void camel_operation_reset(CamelOperation *cc)
  **/
 void camel_operation_ref(CamelOperation *cc)
 {
-	CAMEL_OPERATION_LOCK(cc);
+	g_assert(cc->refcount > 0);
+
+	CAMEL_ACTIVE_LOCK();
 	cc->refcount++;
-	CAMEL_OPERATION_UNLOCK(cc);
+	CAMEL_ACTIVE_UNLOCK();
 }
 
 /**
@@ -155,15 +167,25 @@ void camel_operation_ref(CamelOperation *cc)
 void camel_operation_unref(CamelOperation *cc)
 {
 	GSList *n;
-#ifdef ENABLE_THREADS
-	CamelOperationMsg *msg;
 
+	g_assert(cc->refcount > 0);
+
+	CAMEL_ACTIVE_LOCK();
 	if (cc->refcount == 1) {
+#ifdef ENABLE_THREADS
+		CamelOperationMsg *msg;
+
 		while ((msg = (CamelOperationMsg *)e_msgport_get(cc->cancel_port)))
 			g_free(msg);
 
 		e_msgport_destroy(cc->cancel_port);
 #endif
+
+		if (cc->id != (~0)) {
+			g_warning("Unreffing operation status which was still registered: %p\n", cc);
+			g_hash_table_remove(operation_active, (void *)cc->id);
+		}
+
 		n = cc->status_stack;
 		while (n) {
 			g_warning("Camel operation status stack non empty: %s", (char *)n->data);
@@ -174,10 +196,9 @@ void camel_operation_unref(CamelOperation *cc)
 
 		g_free(cc);
 	} else {
-		CAMEL_OPERATION_LOCK(cc);
 		cc->refcount--;
-		CAMEL_OPERATION_UNLOCK(cc);
 	}
+	CAMEL_ACTIVE_UNLOCK();
 }
 
 /**
@@ -195,13 +216,10 @@ void camel_operation_cancel_block(CamelOperation *cc)
 
 	if (cc == NULL)
 		cc = g_hash_table_lookup(operation_active, (void *)pthread_self());
-	CAMEL_ACTIVE_UNLOCK();
 
-	if (cc) {
-		CAMEL_OPERATION_LOCK(cc);
+	if (cc)
 		cc->blocked++;
-		CAMEL_OPERATION_UNLOCK(cc);
-	}
+	CAMEL_ACTIVE_UNLOCK();
 }
 
 /**
@@ -220,20 +238,24 @@ void camel_operation_cancel_unblock(CamelOperation *cc)
 
 	if (cc == NULL)
 		cc = g_hash_table_lookup(operation_active, (void *)pthread_self());
-	CAMEL_ACTIVE_UNLOCK();
 
-	if (cc) {
-		CAMEL_OPERATION_LOCK(cc);
+	if (cc)
 		cc->blocked--;
-		CAMEL_OPERATION_UNLOCK(cc);
-	}
+	CAMEL_ACTIVE_UNLOCK();
 }
 
 static void
 cancel_thread(void *key, CamelOperation *cc, void *data)
 {
-	if (cc)
-		camel_operation_cancel(cc);
+	CamelOperationMsg *msg;
+
+	if (cc) {
+		d(printf("cancelling thread %d\n", cc->id));
+
+		msg = g_malloc0(sizeof(*msg));
+		e_msgport_put(cc->cancel_port, (EMsg *)msg);
+		cc->flags |= CAMEL_OPERATION_CANCELLED;
+	}
 }
 
 /**
@@ -246,22 +268,22 @@ cancel_thread(void *key, CamelOperation *cc, void *data)
 void camel_operation_cancel(CamelOperation *cc)
 {
 	CamelOperationMsg *msg;
+	
+	CAMEL_ACTIVE_LOCK();
 
 	if (cc == NULL) {
 		if (operation_active) {
-			CAMEL_ACTIVE_LOCK();
 			g_hash_table_foreach(operation_active, (GHFunc)cancel_thread, NULL);
-			CAMEL_ACTIVE_UNLOCK();
 		}
 	} else if ((cc->flags & CAMEL_OPERATION_CANCELLED) == 0) {
 		d(printf("cancelling thread %d\n", cc->id));
 
-		CAMEL_OPERATION_LOCK(cc);
 		msg = g_malloc0(sizeof(*msg));
 		e_msgport_put(cc->cancel_port, (EMsg *)msg);
 		cc->flags |= CAMEL_OPERATION_CANCELLED;
-		CAMEL_OPERATION_UNLOCK(cc);
 	}
+
+	CAMEL_ACTIVE_UNLOCK();
 }
 
 /**
@@ -301,8 +323,6 @@ void camel_operation_register(CamelOperation *cc)
 	d(printf("registering thread %ld for cancellation\n", id));
 
 	CAMEL_ACTIVE_UNLOCK();
-
-	camel_operation_ref(cc);
 }
 
 /**
@@ -338,9 +358,6 @@ void camel_operation_unregister(CamelOperation *cc)
 	CAMEL_ACTIVE_UNLOCK();
 
 	d({if (cc) printf("unregistering thread %d for cancellation\n", cc->id);});
-
-	if (cc)
-		camel_operation_unref(cc);
 }
 
 /**
@@ -355,38 +372,32 @@ void camel_operation_unregister(CamelOperation *cc)
 gboolean camel_operation_cancel_check(CamelOperation *cc)
 {
 	CamelOperationMsg *msg;
+	int cancelled;
 
 	d(printf("checking for cancel in thread %d\n", pthread_self()));
 
-	if (cc == NULL) {
-		if (operation_active) {
-			CAMEL_ACTIVE_LOCK();
-			cc = g_hash_table_lookup(operation_active, (void *)pthread_self());
-			CAMEL_ACTIVE_UNLOCK();
-		}
-		if (cc == NULL)
-			return FALSE;
-	}
+	CAMEL_ACTIVE_LOCK();
 
-	if (cc->blocked > 0) {
+	if (cc == NULL && operation_active)
+		cc = g_hash_table_lookup(operation_active, (void *)pthread_self());
+
+	if (cc == NULL || cc->blocked > 0) {
 		d(printf("ahah!  cancellation is blocked\n"));
-		return FALSE;
-	}
-
-	if (cc->flags & CAMEL_OPERATION_CANCELLED) {
+		cancelled = FALSE;
+	} else if (cc->flags & CAMEL_OPERATION_CANCELLED) {
 		d(printf("previously cancelled\n"));
-		return TRUE;
-	}
-
-	msg = (CamelOperationMsg *)e_msgport_get(cc->cancel_port);
-	if (msg) {
+		cancelled = TRUE;
+	} else if ((msg = (CamelOperationMsg *)e_msgport_get(cc->cancel_port))) {
 		d(printf("Got cancellation message\n"));
-		CAMEL_OPERATION_LOCK(cc);
+		g_free(msg);
 		cc->flags |= CAMEL_OPERATION_CANCELLED;
-		CAMEL_OPERATION_UNLOCK(cc);
-		return TRUE;
-	}
-	return FALSE;
+		cancelled = TRUE;
+	} else
+		cancelled = FALSE;
+
+	CAMEL_ACTIVE_UNLOCK();
+
+	return cancelled;
 }
 
 /**
@@ -401,15 +412,15 @@ gboolean camel_operation_cancel_check(CamelOperation *cc)
  **/
 int camel_operation_cancel_fd(CamelOperation *cc)
 {
-	if (cc == NULL) {
-		if (operation_active) {
-			CAMEL_ACTIVE_LOCK();
-			cc = g_hash_table_lookup(operation_active, (void *)pthread_self());
-			CAMEL_ACTIVE_UNLOCK();
-		}
-		if (cc == NULL)
-			return -1;
+	if (cc == NULL && operation_active) {
+		CAMEL_ACTIVE_LOCK();
+		cc = g_hash_table_lookup(operation_active, (void *)pthread_self());
+		CAMEL_ACTIVE_UNLOCK();
 	}
+
+	if (cc == NULL)
+		return -1;
+
 	if (cc->blocked)
 		return -1;
 
@@ -434,27 +445,30 @@ void camel_operation_start(CamelOperation *cc, char *what, ...)
 	if (operation_active == NULL)
 		return;
 
-	if (cc == NULL) {
-		CAMEL_ACTIVE_LOCK();
-		cc = g_hash_table_lookup(operation_active, (void *)pthread_self());
-		CAMEL_ACTIVE_UNLOCK();
-		if (cc == NULL)
-			return;
-	}
+	CAMEL_ACTIVE_LOCK();
 
-	if (cc->status == NULL)
+	if (cc == NULL)
+		cc = g_hash_table_lookup(operation_active, (void *)pthread_self());
+
+	if (cc == NULL || cc->status == NULL) {
+		CAMEL_ACTIVE_UNLOCK();
 		return;
+	}
 
 	va_start(ap, what);
 	msg = g_strdup_vprintf(what, ap);
 	va_end(ap);
-	cc->status(cc, msg, CAMEL_OPERATION_START, cc->status_data);
 	cc->status_update = 0;
 	s = g_malloc0(sizeof(*s));
 	s->msg = msg;
 	s->flags = 0;
 	cc->lastreport = s;
 	cc->status_stack = g_slist_prepend(cc->status_stack, s);
+
+	CAMEL_ACTIVE_UNLOCK();
+
+	cc->status(cc, msg, CAMEL_OPERATION_START, cc->status_data);
+
 	d(printf("start '%s'\n", msg, pc));
 }
 
@@ -477,22 +491,19 @@ void camel_operation_start_transient(CamelOperation *cc, char *what, ...)
 	if (operation_active == NULL)
 		return;
 
-	if (cc == NULL) {
-		CAMEL_ACTIVE_LOCK();
-		cc = g_hash_table_lookup(operation_active, (void *)pthread_self());
-		CAMEL_ACTIVE_UNLOCK();
-		if (cc == NULL)
-			return;
-	}
+	CAMEL_ACTIVE_LOCK();
 
-	if (cc->status == NULL)
+	if (cc == NULL)
+		cc = g_hash_table_lookup(operation_active, (void *)pthread_self());
+
+	if (cc == NULL || cc->status == NULL) {
+		CAMEL_ACTIVE_UNLOCK();
 		return;
+	}
 
 	va_start(ap, what);
 	msg = g_strdup_vprintf(what, ap);
 	va_end(ap);
-	/* we dont report it yet */
-	/*cc->status(cc, msg, CAMEL_OPERATION_START, cc->status_data);*/
 	cc->status_update = 0;
 	s = g_malloc0(sizeof(*s));
 	s->msg = msg;
@@ -500,6 +511,11 @@ void camel_operation_start_transient(CamelOperation *cc, char *what, ...)
 	s->stamp = stamp();
 	cc->status_stack = g_slist_prepend(cc->status_stack, s);
 	d(printf("start '%s'\n", msg, pc));
+
+	CAMEL_ACTIVE_UNLOCK();
+
+	/* we dont report it yet */
+	/*cc->status(cc, msg, CAMEL_OPERATION_START, cc->status_data);*/
 }
 
 static unsigned int stamp(void)
@@ -527,86 +543,46 @@ void camel_operation_progress(CamelOperation *cc, int pc)
 {
 	unsigned int now;
 	struct _status_stack *s;
+	char *msg = NULL;
 
 	if (operation_active == NULL)
 		return;
 
-	if (cc == NULL) {
-		CAMEL_ACTIVE_LOCK();
+	CAMEL_ACTIVE_LOCK();
+
+	if (cc == NULL)
 		cc = g_hash_table_lookup(operation_active, (void *)pthread_self());
+
+	if (cc == NULL || cc->status == NULL || cc->status_stack == NULL) {
 		CAMEL_ACTIVE_UNLOCK();
-		if (cc == NULL)
-			return;
+		return;
 	}
-
-	if (cc->status == NULL)
-		return;
-
-	if (cc->status_stack == NULL)
-		return;
 
 	s = cc->status_stack->data;
 	s->pc = pc;
 
 	now = stamp();
-	if (cc->status_update != now) {
-		if (s->flags & CAMEL_OPERATION_TRANSIENT) {
-			if (s->stamp/16 < now/16) {
-				s->stamp = now;
-				cc->status(cc, s->msg, pc, cc->status_data);
-				cc->status_update = now;
-				cc->lastreport = s;
-			}
-		} else {
-			cc->status(cc, s->msg, pc, cc->status_data);
-			d(printf("progress '%s' %d %%\n", s->msg, pc));
-			s->stamp = cc->status_update = now;
-			cc->lastreport = s;
-		}
+	if (cc->status_update != now
+	    && s->flags & CAMEL_OPERATION_TRANSIENT
+	    && s->stamp/16 > now/16)
+		cc = NULL;
+	else {
+		s->stamp = cc->status_update = now;
+		cc->lastreport = s;
+		msg = g_strdup(s->msg);
+	}
+
+	CAMEL_ACTIVE_UNLOCK();
+
+	if (cc) {
+		cc->status(cc, msg, pc, cc->status_data);
+		g_free(msg);
 	}
 }
 
 void camel_operation_progress_count(CamelOperation *cc, int sofar)
 {
-	unsigned int now;
-	struct _status_stack *s;
-
-	if (operation_active == NULL)
-		return;
-
-	if (cc == NULL) {
-		CAMEL_ACTIVE_LOCK();
-		cc = g_hash_table_lookup(operation_active, (void *)pthread_self());
-		CAMEL_ACTIVE_UNLOCK();
-		if (cc == NULL)
-			return;
-	}
-
-	if (cc->status == NULL)
-		return;
-
-	if (cc->status_stack == NULL)
-		return;
-
-	/* FIXME: generate some meaningful pc value */
-	s = cc->status_stack->data;
-	s->pc = sofar;
-	now = stamp();
-	if (cc->status_update != now) {
-		if (s->flags & CAMEL_OPERATION_TRANSIENT) {
-			if (s->stamp/16 < now/16) {
-				s->stamp = now;
-				cc->status(cc, s->msg, sofar, cc->status_data);
-				cc->status_update = now;
-				cc->lastreport = s;
-			}
-		} else {
-			cc->status(cc, s->msg, sofar, cc->status_data);
-			d(printf("progress '%s' %d done\n", msg, sofar));
-			s->stamp = cc->status_update = now;
-			cc->lastreport = s;
-		}
-	}
+	camel_operation_progress(cc, sofar);
 }
 
 /**
@@ -622,23 +598,21 @@ void camel_operation_end(CamelOperation *cc)
 {
 	struct _status_stack *s, *p;
 	unsigned int now;
+	char *msg = NULL;
+	int pc = 0;
 
 	if (operation_active == NULL)
 		return;
 
-	if (cc == NULL) {
-		CAMEL_ACTIVE_LOCK();
+	CAMEL_ACTIVE_LOCK();
+
+	if (cc == NULL)
 		cc = g_hash_table_lookup(operation_active, (void *)pthread_self());
+
+	if (cc == NULL || cc->status == NULL || cc->status_stack == NULL) {
 		CAMEL_ACTIVE_UNLOCK();
-		if (cc == NULL)
-			return;
+		return;
 	}
-
-	if (cc->status == NULL)
-		return;
-
-	if (cc->status_stack == NULL)
-		return;
 
 	/* so what we do here is this.  If the operation that just
 	 * ended was transient, see if we have any other transient
@@ -653,23 +627,33 @@ void camel_operation_end(CamelOperation *cc)
 				p = l->data;
 				if (p->flags & CAMEL_OPERATION_TRANSIENT) {
 					if (p->stamp/16 < now/16) {
-						cc->status(cc, p->msg, p->pc, cc->status_data);
+						msg = g_strdup(p->msg);
+						pc = p->pc;
 						cc->lastreport = p;
 						break;
 					}
 				} else {
-					cc->status(cc, p->msg, p->pc, cc->status_data);
+					msg = g_strdup(p->msg);
+					pc = p->pc;
 					cc->lastreport = p;
 					break;
 				}
 				l = l->next;
 			}
 		}
+		g_free(s->msg);
 	} else {
-		cc->status(cc, s->msg, CAMEL_OPERATION_END, cc->status_data);
+		msg = s->msg;
+		pc = CAMEL_OPERATION_END;
 		cc->lastreport = s;
 	}
-	g_free(s->msg);
 	g_free(s);
 	cc->status_stack = g_slist_remove_link(cc->status_stack, cc->status_stack);
+
+	CAMEL_ACTIVE_UNLOCK();
+
+	if (msg) {
+		cc->status(cc, msg, pc, cc->status_data);
+		g_free(msg);
+	}
 }

@@ -53,6 +53,8 @@ void camel_operation_cancel_block(CamelOperation *cc);
 void camel_operation_cancel_unblock(CamelOperation *cc);
 int camel_operation_cancel_check(CamelOperation *cc);
 int camel_operation_cancel_fd(CamelOperation *cc);
+/* return the registered operation for this thread, if there is one */
+CamelOperation *camel_operation_registered(void);
 
 void camel_operation_start(CamelOperation *cc, char *what, ...);
 void camel_operation_start_transient(CamelOperation *cc, char *what, ...);
