@@ -1,3 +1,8 @@
+2002-08-01  Ettore Perazzoli  <ettore@ximian.com>
+
+	* component-factory.c (create_component): Use
+	"post-message-16.png" as the icon for the "New Message Post" item.
+
 2002-08-01  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-account-gui.c (mail_account_gui_save): If we are editing an
