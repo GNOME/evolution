@@ -1,3 +1,10 @@
+2005-01-28  Sivaiah Nallagatla <snallagatla@novell.com>
+
+	* gui/widgets/eab-vcard-control.c (pstream_load) :
+	Changed a string to make it complete and clear
+	for transaltion 
+	Fixes #61067 
+
 2005-01-26  Sivaiah Nallagatla <snallagatla@novell.com>
                                                                                                                              
         * gui/component/addressbook.c (addressbook_authenticate) :

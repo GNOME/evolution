@@ -136,8 +136,8 @@ pstream_load (BonoboPersistStream *ps, const Bonobo_Stream stream,
 	if (list && list->next) {
 		char *message;
 		int length = g_list_length (list) - 1;
-		message = g_strdup_printf (ngettext("and one other contact.", 
-						    "and %d other contacts.", length), 
+		message = g_strdup_printf (ngettext("There is one other contact.", 
+						    "There are %d other contacts.", length), 
 					   length);
 		gtk_label_set_text (GTK_LABEL (vcard_control->label), message);
 		g_free (message);
