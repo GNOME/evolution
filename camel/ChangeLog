@@ -1,3 +1,9 @@
+2001-06-20  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-mime-utils.c (header_raw_check_mailing_list): If the first
+	char of the mailing-list name is '<', chop it off to make Ettore
+	happy. Fixes bug #2153.
+
 2001-06-19  Not Zed  <NotZed@Ximian.com>
 
 	* camel-lock-helper.c (unlock_id): Fixed a bug when not running

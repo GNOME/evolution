@@ -3421,13 +3421,20 @@ header_raw_check_mailing_list(struct _header_raw **list)
 			
 			continue;
 		}
-
-		v = header_raw_find(list, mail_list_magic[i].name, NULL);
-		if (v != NULL && regexec(&pattern, v, 2, match, 0) == 0 && match[1].rm_so != -1) {
-			regfree(&pattern);
-			return g_strndup(v+match[1].rm_so, match[1].rm_eo-match[1].rm_so);
+		
+		v = header_raw_find (list, mail_list_magic[i].name, NULL);
+		if (v != NULL && regexec (&pattern, v, 2, match, 0) == 0 && match[1].rm_so != -1) {
+			const char *mlist, *mlend;
+			
+			regfree (&pattern);
+			mlist = v + match[1].rm_so;
+			mlend = v + match[1].rm_eo;
+			if (*mlist == '<')
+				mlist++;
+			
+			return g_strndup (mlist, mlend - mlist);
 		}
-		regfree(&pattern);
+		regfree (&pattern);
 	}
 
 	return NULL;
