@@ -317,7 +317,7 @@ static char * countries [] = {
 	N_("Rwanda"),
 	N_("Saint Kitts And Nevis"),
 	N_("Saint Lucia"),
-	N_("Saint Vincent And The Grena-dines"),
+	N_("Saint Vincent And The Grenadines"),
 	N_("Samoa"),
 	N_("San Marino"),
 	N_("Sao Tome And Principe"),
