@@ -1,5 +1,9 @@
 2003-03-06  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-url-entry.c (destroy): Removed unused variable.
+
+2003-03-06  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-dropdown-button.c (menu_deactivate_cb): Removed debugging
 	spew.
 

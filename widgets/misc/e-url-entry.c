@@ -119,7 +119,6 @@ static void
 destroy (GtkObject *obj)
 {
 	EUrlEntry *url_entry;
-	EUrlEntryPrivate *priv;
 	
 	url_entry = E_URL_ENTRY (obj);
 	if (url_entry->priv) {
