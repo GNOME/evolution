@@ -149,6 +149,7 @@ real_add_address_cb (int model_row,
 	e_select_names_model_insert (child->source,
 				     e_select_names_model_count (child->source),
 				     dest);
+	e_select_names_model_clean (child->source);
 
 	gtk_object_unref(GTK_OBJECT(card));
 }

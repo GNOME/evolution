@@ -433,9 +433,40 @@ e_select_names_model_delete (ESelectNamesModel *model, gint index)
 }
 
 void
+e_select_names_model_clean (ESelectNamesModel *model)
+{
+	GList *iter, *next;
+	gboolean changed = FALSE;
+
+	g_return_if_fail (model != NULL && E_IS_SELECT_NAMES_MODEL (model));
+
+	iter = model->priv->data;
+
+	while (iter) {
+		EDestination *dest;
+
+		next = g_list_next (iter);
+		dest = iter->data ? E_DESTINATION (iter->data) : NULL;
+
+		if (dest == NULL || e_destination_is_empty (dest)) {
+			if (dest)
+				gtk_object_unref (GTK_OBJECT (dest));
+			model->priv->data = g_list_remove_link (model->priv->data, iter);
+			g_list_free_1 (iter);
+			changed = TRUE;
+		}
+		
+		iter = next;
+	}
+
+	if (changed)
+		e_select_names_model_changed (model);
+}
+
+void
 e_select_names_model_delete_all (ESelectNamesModel *model)
 {
-	g_return_if_fail (model != NULL);
+	g_return_if_fail (model != NULL && E_IS_SELECT_NAMES_MODEL (model));
 
 	g_list_foreach (model->priv->data, (GFunc) gtk_object_unref, NULL);
 	g_list_free (model->priv->data);

@@ -1,3 +1,16 @@
+2001-03-31  Jon Trowbridge  <trow@ximian.com>
+
+	* gui/component/select-names/e-select-names.c
+	(real_add_address_cb): Call e_select_names_model_clean after
+	adding address.  This should deal with the bug reports related
+	to stray commas.
+
+	* gui/component/select-names/e-select-names-model.c
+	(e_select_names_model_clean): Added.  Remove all empty destinations.
+
+	* backend/ebook/e-destination.c (e_destination_is_empty): Added.  Check
+	if an EDestination is in essentially a null state.
+
 2001-03-30  Christopher James Lahey  <clahey@ximian.com>
 
 	* backend/pas/pas-backend-file.c (pas_backend_file_add_client):

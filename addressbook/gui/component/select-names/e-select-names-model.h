@@ -59,6 +59,8 @@ void          e_select_names_model_replace    (ESelectNamesModel *model, gint in
 void          e_select_names_model_delete     (ESelectNamesModel *model, gint index);
 void          e_select_names_model_delete_all (ESelectNamesModel *model);
 
+void          e_select_names_model_clean      (ESelectNamesModel *model);
+
 void          e_select_names_model_name_pos (ESelectNamesModel *model, gint index, gint *pos, gint *length);
 void          e_select_names_model_text_pos (ESelectNamesModel *model, gint pos, gint *index, gint *start_pos, gint *length);
 

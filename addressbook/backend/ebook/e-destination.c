@@ -126,6 +126,14 @@ e_destination_copy (EDestination *dest)
 	return new_dest;
 }
 
+gboolean
+e_destination_is_empty (EDestination *dest)
+{
+	g_return_val_if_fail (dest && E_IS_DESTINATION (dest), TRUE);
+
+	return !(dest->priv->card || (dest->priv->string && *dest->priv->string));
+}
+
 static void
 e_destination_clear_card (EDestination *dest)
 {

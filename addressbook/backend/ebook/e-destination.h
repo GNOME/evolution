@@ -57,6 +57,8 @@ GtkType e_destination_get_type (void);
 EDestination *e_destination_new (void);
 EDestination *e_destination_copy (EDestination *);
 
+gboolean e_destination_is_empty (EDestination *);
+
 void e_destination_set_card   (EDestination *, ECard *card, gint email_num);
 void e_destination_set_string (EDestination *, const gchar *string);
 
