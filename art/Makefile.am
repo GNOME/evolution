@@ -28,7 +28,8 @@ images_DATA = \
 	import.xpm			\
 	inbox-16.png			\
 	inbox-full-16.png		\
-   meeting-request.png \
+	alarm.png			\
+	meeting-request.png		\
 	move_message.xpm		\
 	offline.png			\
 	online.png			\
@@ -36,9 +37,9 @@ images_DATA = \
 	outbox-16.png 			\
 	outbox-full-16.png 		\
 	pattern.png			\
-   pgp-signature-bad.png \
-   pgp-signature-nokey.png \
-   pgp-signature-ok.png \
+	pgp-signature-bad.png		\
+	pgp-signature-nokey.png		\
+	pgp-signature-ok.png		\
 	print.xpm			\
 	print-preview.xpm		\
 	rdf.png				\

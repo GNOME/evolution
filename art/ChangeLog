@@ -1,3 +1,8 @@
+2001-10-18  Larry Ewing  <lewing@ximian.com>
+
+	* Makefile.am (images_DATA): add alarm.png for the new alarm
+	notification code.
+
 2001-10-04  Chris Toshok  <toshok@ximian.com>
 
 	* Makefile.am (images_DATA): change ldap-16.png to ldap-mini.png,
