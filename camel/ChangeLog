@@ -1,3 +1,10 @@
+2003-08-01  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* tests/smime/pgp-mime.c: Same.
+
+	* tests/smime/pgp.c: Updated to build and to import some custom
+	gpg keys for use with testing.
+
 2003-07-30  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-mime-message.c (write_to_stream): Also updated.

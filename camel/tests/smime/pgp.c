@@ -1,4 +1,29 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/*
+ *  Authors: Jeffrey Stedfast <fejj@ximian.com>
+ *
+ *  Copyright 2003 Ximian, Inc. (www.ximian.com)
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
+ *
+ */
+
+
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -27,8 +52,9 @@ typedef struct _CamelPgpSessionClass {
 
 
 static char *get_password (CamelSession *session, const char *prompt,
-			   gboolean secret, CamelService *service,
-			   const char *item, CamelException *ex);
+			   gboolean reprompt, gboolean secret,
+			   CamelService *service, const char *item,
+			   CamelException *ex);
 
 static void
 init (CamelPgpSession *session)
@@ -67,10 +93,10 @@ camel_pgp_session_get_type (void)
 }
 
 static char *
-get_password (CamelSession *session, const char *prompt, gboolean secret,
+get_password (CamelSession *session, const char *prompt, gboolean reprompt, gboolean secret,
 	      CamelService *service, const char *item, CamelException *ex)
 {
-	return g_strdup ("PGP/MIME is rfc2015, now go and read it.");
+	return g_strdup ("no.secret");
 }
 
 static CamelSession *
@@ -99,14 +125,21 @@ int main (int argc, char **argv)
 	
 	camel_test_init (argc, argv);
 	
-	ex = camel_exception_new ();
-	
 	/* clear out any camel-test data */
-	system("/bin/rm -rf /tmp/camel-test");
+	system ("/bin/rm -rf /tmp/camel-test");
+	system ("/bin/mkdir /tmp/camel-test");
+	setenv ("GNUPGHOME", "/tmp/camel-test/.gnupg", 1);
+	
+	/* import the gpg keys */
+	system ("gpg > /dev/null 2>&1"); /* creates gpg directory and stuff */
+	system ("gpg --import ../data/camel-test.gpg.pub > /dev/null 2>&1");
+	system ("gpg --import ../data/camel-test.gpg.sec > /dev/null 2>&1");
 	
 	session = camel_pgp_session_new ("/tmp/camel-test");
 	
-	ctx = camel_gpg_context_new (session, "/usr/bin/gpg");
+	ex = camel_exception_new ();
+	
+	ctx = camel_gpg_context_new (session);
 	camel_gpg_context_set_always_trust (CAMEL_GPG_CONTEXT (ctx), TRUE);
 	
 	camel_test_start ("Test of PGP functions");
@@ -118,7 +151,7 @@ int main (int argc, char **argv)
 	stream2 = camel_stream_mem_new ();
 	
 	camel_test_push ("PGP signing");
-	camel_cipher_sign (ctx, "pgp-mime@xtorshun.org", CAMEL_CIPHER_HASH_SHA1,
+	camel_cipher_sign (ctx, "no.user@no.domain", CAMEL_CIPHER_HASH_SHA1,
 			   stream1, stream2, ex);
 	check_msg (!camel_exception_is_set (ex), "%s", camel_exception_get_description (ex));
 	camel_test_pull ();
@@ -148,8 +181,8 @@ int main (int argc, char **argv)
 	
 	camel_test_push ("PGP encrypt");
 	recipients = g_ptr_array_new ();
-	g_ptr_array_add (recipients, "pgp-mime@xtorshun.org");
-	camel_cipher_encrypt (ctx, FALSE, "pgp-mime@xtorshun.org", recipients,
+	g_ptr_array_add (recipients, "no.user@no.domain");
+	camel_cipher_encrypt (ctx, FALSE, "no.user@no.domain", recipients,
 			      stream1, stream2, ex);
 	check_msg (!camel_exception_is_set (ex), "%s", camel_exception_get_description (ex));
 	g_ptr_array_free (recipients, TRUE);
