@@ -462,7 +462,6 @@ e_summary_init (ESummary *summary)
 	bonobo_object_release_unref (db, NULL);
 	CORBA_exception_free (&ev);
 
-	alarm_init ();
 	t = time (NULL);
 	if (summary->tz == NULL) {
 		day_end = time_day_end (t);

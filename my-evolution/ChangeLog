@@ -1,3 +1,8 @@
+2001-09-17  Federico Mena Quintero  <federico@ximian.com>
+
+	* e-summary.c (e_summary_init): There is no need to initialize the
+	alarm system now.
+
 2001-09-14  Iain Holmes  <iain@ximian.com>
 
 	* e-summary-calendar.c (uids_to_array): Create ESummaryCalEvents and 
