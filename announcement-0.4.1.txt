@@ -13,14 +13,13 @@ Evolution is the GNOME mailer, calendar, and addressbook application.
         ftp://ftp.gnome.org/pub/GNOME/unstable/sources/evolution
 
         Evolution also requires the latest versions of GtkHTML
-	(0.6.1), Bonobo (0.18), OAF (0.5.1), GNOME VFS (0.3.1), GConf
-	(0.8), libunicode (0.4), GNOME Print (0.20) and ORBit (0.5.3).
+	(0.6.1), Bonobo (0.18), OAF (0.5.1), GNOME VFS (0.3),
+	libunicode (0.4), GNOME Print (0.20) and ORBit (0.5.3).
 
         ftp://ftp.gnome.org/pub/GNOME/unstable/sources/gtkhtml
         ftp://ftp.gnome.org/pub/GNOME/unstable/sources/bonobo
         ftp://ftp.gnome.org/pub/GNOME/unstable/sources/oaf
         ftp://ftp.gnome.org/pub/GNOME/unstable/sources/gnome-vfs
-        ftp://ftp.gnome.org/pub/GNOME/unstable/sources/GConf
         ftp://ftp.gnome.org/pub/GNOME/unstable/sources/libunicode
         ftp://ftp.gnome.org/pub/GNOME/stable/sources/gnome-print
         ftp://ftp.gnome.org/pub/GNOME/stable/sources/ORBit
