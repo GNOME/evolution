@@ -205,23 +205,20 @@ static gboolean
 source_group_can_add (ESourceGroup *source_group)
 {
 	gboolean can_add;
-	EUri     *uri;
-
+	
 	if (!source_group)
 		return FALSE;
-
+	
 	can_add = !e_source_group_get_readonly (source_group);
-
+	
 	if (can_add) {
-		uri = e_uri_new (e_source_group_peek_base_uri (source_group));
+		char *uri = e_source_group_peek_base_uri (source_group);
 		
-		if (uri && uri->protocol && uri->protocol [0] && strcmp (uri->protocol, "groupwise")) 
+		if (g_str_has_prefix (uri, "groupwise://") || g_str_has_prefix (uri, "exchange://"))
 			can_add = FALSE;
-
-		if (uri)
-			e_uri_free (uri);
+		
 	}
-
+	
 	return can_add;	
 }
 
@@ -241,7 +238,7 @@ source_group_menu_add_groups (GtkMenuShell *menu_shell, ESourceList *source_list
 
 		menu_item = gtk_menu_item_new_with_label (e_source_group_peek_name (group));
 		gtk_widget_show (menu_item);
-		if (source_group_can_add (group))
+		if (!source_group_can_add (group))
 			gtk_widget_set_sensitive(menu_item, FALSE);
 		else if (i == -1)
 			index = i;
@@ -325,21 +322,6 @@ source_dialog_destroy (SourceDialog *source_dialog)
 		g_object_unref (source_dialog->source);
 
 	g_free (source_dialog);
-}
-
-static gboolean
-general_page_verify (SourceDialog *source_dialog)
-{
-	const gchar *name;
-
-	if (!source_dialog->source_group && !source_dialog->source)
-		return FALSE;
-
-	name = gtk_entry_get_text (GTK_ENTRY (source_dialog->name_entry));
-	if (!name || !name [0])
-		return FALSE;
-
-	return TRUE;
 }
 
 static gboolean
@@ -596,26 +578,6 @@ dialog_to_source (SourceDialog *source_dialog)
 				    colorpicker_get_color (GNOME_COLOR_PICKER (source_dialog->source_color)));
 }
 
-static gboolean
-source_dialog_is_valid (SourceDialog *source_dialog)
-{
-	if (!general_page_verify (source_dialog))
-		return FALSE;
-
-	if (((source_dialog->source && source_is_remote (source_dialog->source)) ||
-	     (source_dialog->source_group && source_group_is_remote (source_dialog->source_group))) &&
-	    !remote_page_verify (source_dialog))
-		return FALSE;
-
-	return TRUE;
-}
-
-static void
-editor_set_buttons_sensitive (SourceDialog *source_dialog, gboolean sensitive)
-{
-	gtk_widget_set_sensitive (glade_xml_get_widget (source_dialog->gui_xml, "ok-button"), sensitive);
-}
-
 static void
 source_group_changed_sensitive (SourceDialog *source_dialog)
 {
@@ -656,86 +618,6 @@ new_calendar_add (SourceDialog *source_dialog)
 	gtk_widget_destroy (source_dialog->window);
 }
 
-gboolean
-calendar_setup_new_calendar (GtkWindow *parent)
-{
-	SourceDialog *source_dialog = g_new0 (SourceDialog, 1);
-	int index;
-	GList *icon_list;
-
-	source_dialog->gui_xml = glade_xml_new (EVOLUTION_GLADEDIR "/" GLADE_FILE_NAME, "add-calendar-window", NULL);
-	if (!source_dialog->gui_xml) {
-		g_warning (G_STRLOC ": Cannot load Glade file.");
-		g_free (source_dialog);
-		return FALSE;
-	}
-
-	source_dialog->window = glade_xml_get_widget (source_dialog->gui_xml, "add-calendar-window");
-	g_signal_connect (source_dialog->window, "key-press-event", G_CALLBACK (key_press_event), NULL);
-
-	source_dialog->name_entry = glade_xml_get_widget (source_dialog->gui_xml, "name-entry");
-	g_signal_connect_swapped (source_dialog->name_entry, "changed",
-				  G_CALLBACK (general_entry_modified), source_dialog);      
-	source_dialog->source_list = e_source_list_new_for_gconf_default ("/apps/evolution/calendar/sources");
-
-	source_dialog->group_optionmenu =
-		glade_xml_get_widget (source_dialog->gui_xml, "group-optionmenu");
-	if (!GTK_IS_MENU (gtk_option_menu_get_menu (GTK_OPTION_MENU (source_dialog->group_optionmenu)))) {
-		GtkWidget *menu = gtk_menu_new ();
-		gtk_option_menu_set_menu (GTK_OPTION_MENU (source_dialog->group_optionmenu), menu);
-		gtk_widget_show (menu);
-	}
-
-	/* NOTE: This assumes that we have sources. If they don't exist, they're set up
-	 * on startup of the calendar component. */
-	index = source_group_menu_add_groups (GTK_MENU_SHELL (gtk_option_menu_get_menu (
-		GTK_OPTION_MENU (source_dialog->group_optionmenu))), source_dialog->source_list);
-	gtk_option_menu_set_history (GTK_OPTION_MENU (source_dialog->group_optionmenu), index);
-	if (e_source_list_peek_groups (source_dialog->source_list))
-		source_dialog->source_group = e_source_list_peek_groups (source_dialog->source_list)->data;
-	g_signal_connect_swapped (source_dialog->group_optionmenu, "changed",
-				  G_CALLBACK (source_group_changed_sensitive), source_dialog);
-	source_dialog->uri_entry = glade_xml_get_widget (source_dialog->gui_xml, "uri-entry");
-	source_dialog->uri_label = glade_xml_get_widget (source_dialog->gui_xml, "uri-label");
-	source_dialog->uri_hbox = glade_xml_get_widget (source_dialog->gui_xml, "uri-hbox");
-
-	g_signal_connect_swapped (source_dialog->uri_entry, "changed",
-				  G_CALLBACK (general_entry_modified), source_dialog);
-
-	source_dialog->refresh_spin = glade_xml_get_widget (source_dialog->gui_xml, "refresh-spin");
-	source_dialog->refresh_optionmenu = glade_xml_get_widget (source_dialog->gui_xml, "refresh-optionmenu");
-	source_dialog->refresh_label = glade_xml_get_widget (source_dialog->gui_xml, "refresh-label");
-	source_dialog->refresh_hbox = glade_xml_get_widget (source_dialog->gui_xml, "refresh-hbox");
-
-	g_signal_connect_swapped (glade_xml_get_widget (source_dialog->gui_xml, "cancel-button"), "clicked",
-				  G_CALLBACK (new_calendar_cancel), source_dialog);
-
-	source_dialog->add_button = glade_xml_get_widget (source_dialog->gui_xml, "add-button");
-	gtk_widget_set_sensitive (source_dialog->add_button, FALSE);
-	g_signal_connect_swapped (source_dialog->add_button, "clicked",
-				  G_CALLBACK (new_calendar_add), source_dialog);
-
-	source_dialog->source_color = glade_xml_get_widget (source_dialog->gui_xml, "source-color");
-
-	g_object_weak_ref (G_OBJECT (source_dialog->window),
-			   (GWeakNotify) source_dialog_destroy, source_dialog);
-	
-	source_to_dialog (source_dialog);
-	
-	gtk_window_set_type_hint (GTK_WINDOW (source_dialog->window), GDK_WINDOW_TYPE_HINT_DIALOG);
-	gtk_window_set_modal (GTK_WINDOW (source_dialog->window), TRUE);
-	
-	icon_list = e_icon_factory_get_icon_list ("stock_calendar");
-	if (icon_list) {
-		gtk_window_set_icon_list (GTK_WINDOW (source_dialog->window), icon_list);
-		g_list_foreach (icon_list, (GFunc) g_object_unref, NULL);
-		g_list_free (icon_list);
-	}
-
-	gtk_widget_show_all (source_dialog->window);
-	return TRUE;
-}
-
 static void
 edit_calendar_finish (SourceDialog *source_dialog)
 {
@@ -758,8 +640,10 @@ calendar_setup_edit_calendar (GtkWindow *parent, ESource *source)
 	}
 
 	source_dialog->window = glade_xml_get_widget (source_dialog->gui_xml, "add-calendar-window");
-	source_dialog->source = source;
-	g_object_ref (source);
+	if (source) {
+		source_dialog->source = source;
+		g_object_ref (source);
+	}
 
 	g_signal_connect (source_dialog->window, "key-press-event", G_CALLBACK (key_press_event), NULL);
 
@@ -856,84 +740,9 @@ new_task_list_add (SourceDialog *source_dialog)
 }
 
 gboolean
-calendar_setup_new_task_list (GtkWindow *parent)
+calendar_setup_new_calendar (GtkWindow *parent)
 {
-	SourceDialog *source_dialog = g_new0 (SourceDialog, 1);
-	int index;
-	GList *icon_list;
-
-	source_dialog->gui_xml = glade_xml_new (EVOLUTION_GLADEDIR "/" GLADE_FILE_NAME, "add-task-list-window", NULL);
-	if (!source_dialog->gui_xml) {
-		g_warning (G_STRLOC ": Cannot load Glade file.");
-		g_free (source_dialog);
-		return FALSE;
-	}
-
-	source_dialog->window = glade_xml_get_widget (source_dialog->gui_xml, "add-task-list-window");
-	g_signal_connect (source_dialog->window, "key-press-event", G_CALLBACK (key_press_event), NULL);
-
-	source_dialog->name_entry = glade_xml_get_widget (source_dialog->gui_xml, "name-entry");
-	g_signal_connect_swapped (source_dialog->name_entry, "changed",
-				  G_CALLBACK (general_entry_modified), source_dialog);      
-	source_dialog->source_list = e_source_list_new_for_gconf_default ("/apps/evolution/tasks/sources");
-
-	source_dialog->group_optionmenu =
-		glade_xml_get_widget (source_dialog->gui_xml, "group-optionmenu");
-	if (!GTK_IS_MENU (gtk_option_menu_get_menu (GTK_OPTION_MENU (source_dialog->group_optionmenu)))) {
-		GtkWidget *menu = gtk_menu_new ();
-		gtk_option_menu_set_menu (GTK_OPTION_MENU (source_dialog->group_optionmenu), menu);
-		gtk_widget_show (menu);
-	}
-
-	/* NOTE: This assumes that we have sources. If they don't exist, they're set up
-	 * on startup of the calendar component. */
-	index = source_group_menu_add_groups (GTK_MENU_SHELL (gtk_option_menu_get_menu (
-		GTK_OPTION_MENU (source_dialog->group_optionmenu))), source_dialog->source_list);
-	gtk_option_menu_set_history (GTK_OPTION_MENU (source_dialog->group_optionmenu), index);
-	if (e_source_list_peek_groups (source_dialog->source_list))
-		source_dialog->source_group = e_source_list_peek_groups (source_dialog->source_list)->data;
-	g_signal_connect_swapped (source_dialog->group_optionmenu, "changed",
-				  G_CALLBACK (source_group_changed_sensitive), source_dialog);
-
-	source_dialog->uri_entry = glade_xml_get_widget (source_dialog->gui_xml, "uri-entry");
-	source_dialog->uri_label = glade_xml_get_widget (source_dialog->gui_xml, "uri-label");
-	source_dialog->uri_hbox = glade_xml_get_widget (source_dialog->gui_xml, "uri-hbox");
-
-	g_signal_connect_swapped (source_dialog->uri_entry, "changed",
-				  G_CALLBACK (general_entry_modified), source_dialog);
-
-	source_dialog->refresh_spin = glade_xml_get_widget (source_dialog->gui_xml, "refresh-spin");
-	source_dialog->refresh_optionmenu = glade_xml_get_widget (source_dialog->gui_xml, "refresh-optionmenu");
-	source_dialog->refresh_label = glade_xml_get_widget (source_dialog->gui_xml, "refresh-label");
-	source_dialog->refresh_hbox = glade_xml_get_widget (source_dialog->gui_xml, "refresh-hbox");
-
-	g_signal_connect_swapped (glade_xml_get_widget (source_dialog->gui_xml, "cancel-button"), "clicked",
-				  G_CALLBACK (new_task_list_cancel), source_dialog);
-
-	source_dialog->add_button = glade_xml_get_widget (source_dialog->gui_xml, "add-button");
-	gtk_widget_set_sensitive (source_dialog->add_button, FALSE);
-
-	g_signal_connect_swapped (source_dialog->add_button, "clicked",
-				  G_CALLBACK (new_task_list_add), source_dialog);
-	g_object_weak_ref (G_OBJECT (source_dialog->window),
-			   (GWeakNotify) source_dialog_destroy, source_dialog);
-	
-	source_dialog->source_color = glade_xml_get_widget (source_dialog->gui_xml, "source-color");
-
-	source_to_dialog (source_dialog);
-
-	gtk_window_set_type_hint (GTK_WINDOW (source_dialog->window), GDK_WINDOW_TYPE_HINT_DIALOG);
-	gtk_window_set_modal (GTK_WINDOW (source_dialog->window), TRUE);
-	
-	icon_list = e_icon_factory_get_icon_list ("stock_task");
-	if (icon_list) {
-		gtk_window_set_icon_list (GTK_WINDOW (source_dialog->window), icon_list);
-		g_list_foreach (icon_list, (GFunc) g_object_unref, NULL);
-		g_list_free (icon_list);
-	}
-
-	gtk_widget_show_all (source_dialog->window);
-	return TRUE;
+	return calendar_setup_edit_calendar (parent, NULL);
 }
 
 static void
@@ -958,8 +767,10 @@ calendar_setup_edit_task_list (GtkWindow *parent, ESource *source)
 	}
 
 	source_dialog->window = glade_xml_get_widget (source_dialog->gui_xml, "add-task-list-window");
-	source_dialog->source = source;
-	g_object_ref (source);
+	if (source) {
+		source_dialog->source = source;
+		g_object_ref (source);
+	}
 
 	g_signal_connect (source_dialog->window, "key-press-event", G_CALLBACK (key_press_event), NULL);
 
@@ -1036,3 +847,10 @@ calendar_setup_edit_task_list (GtkWindow *parent, ESource *source)
 	gtk_widget_show_all (source_dialog->window);
 	return TRUE;
 }
+
+gboolean
+calendar_setup_new_task_list (GtkWindow *parent)
+{
+	return calendar_setup_edit_task_list (parent, NULL);
+}
+
