@@ -552,7 +552,6 @@ AC_SUBST(EVOLUTION_DIR)
 
 AC_OUTPUT([
 Makefile
-evolution.spec
 macros/Makefile
 intl/Makefile
 po/Makefile.in

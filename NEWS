@@ -8,6 +8,8 @@ General:
 
   - Fixed some build problems. (Chris)
 
+  - We no longer ship an out-of-date Red Hat-only RPM spec file.
+
 Shell:
 
   - The shell now installs the `Sent' folder at startup if it doesn't
