@@ -1,3 +1,7 @@
+2001-05-14  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* evolution-message-composer.xml: Remove Help->About.
+
 2001-05-14  Dan Winship  <danw@ximian.com>
 
 	* evolution-mail.xml: Redo forwarding stuff so there's "Forward",

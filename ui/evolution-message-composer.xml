@@ -144,8 +144,6 @@
 	
 			<placeholder name="BuiltMenuItems"/>
 
-		        <menuitem name="HelpAbout" verb="" _label="_About..."/>
-
 		</submenu>
 
 		<submenu name="Debug" _label="_Debug" hidden="1">
