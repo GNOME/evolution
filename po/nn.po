@@ -8913,15 +8913,6 @@ msgstr "Kunne ikkje initiere Bonobo"
 #~ msgid "Disabled"
 #~ msgstr "Deaktivert"
 
-#~ msgid "Synchronize"
-#~ msgstr "Synkronisér"
-
-#~ msgid "Copy From Pilot"
-#~ msgstr "Kopiér fra pilot"
-
-#~ msgid "Copy To Pilot"
-#~ msgstr "Kopiér til pilot"
-
 #~ msgid "Merge From Pilot"
 #~ msgstr "Flett fra pilot"
 
