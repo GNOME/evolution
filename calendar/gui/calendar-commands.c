@@ -544,7 +544,7 @@ calendar_control_sensitize_calendar_commands (BonoboControl *control, GnomeCalen
 	}
 
 	bonobo_ui_component_set_prop (uic, "/commands/EventOpen", "sensitive",
-				      n_selected == 0 || read_only ? "0" : "1",
+				      n_selected != 1 ? "0" : "1",
 				      NULL);
 	bonobo_ui_component_set_prop (uic, "/commands/Cut", "sensitive",
 				      n_selected == 0 || read_only ? "0" : "1",

@@ -48,6 +48,13 @@ typedef enum {
 	E_CALENDAR_VIEW_POS_BOTTOM_EDGE
 } ECalendarViewPosition;
 
+typedef enum {
+	E_CAL_VIEW_MOVE_UP,
+	E_CAL_VIEW_MOVE_DOWN,
+	E_CAL_VIEW_MOVE_LEFT,
+	E_CAL_VIEW_MOVE_RIGHT
+} ECalViewMoveDirection;
+
 #define E_CALENDAR_VIEW_EVENT_FIELDS \
         GnomeCanvasItem *canvas_item; \
         ECalModelComponent *comp_data; \

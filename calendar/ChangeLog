@@ -1,3 +1,11 @@
+2004-01-06  Kidd Wang  <kidd.wang@sun.com>
+
+	* gui/e-calendar-table.[ch] (e_calendar_table_open_selected):
+	open a dialog for the selected task.
+	* gui/e-tasks.[ch] (e_tasks_open_task): ditto.
+	* gui/tasks-control.c (tasks_control_sensitize_commands),
+	(tasks_control_open_task_cmd): add a menu item for "Open Task".
+
 2004-01-05  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/gnome-cal.c (open_ecal): new function to open ECal's, get any

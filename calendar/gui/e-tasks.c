@@ -804,6 +804,15 @@ backend_error_cb (ECal *client, const char *message, gpointer data)
 }
 
 void
+e_tasks_open_task			(ETasks		*tasks)
+{
+	ECalendarTable *cal_table;
+                                                                                
+	cal_table = e_tasks_get_calendar_table (tasks);
+	e_calendar_table_open_selected (cal_table);
+}
+
+void
 e_tasks_new_task			(ETasks		*tasks)
 {
 	ETasksPrivate *priv;

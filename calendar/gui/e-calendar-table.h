@@ -76,6 +76,7 @@ ECalModel *e_calendar_table_get_model (ECalendarTable *cal_table);
 
 ETable    *e_calendar_table_get_table (ECalendarTable *cal_table);
 
+void       e_calendar_table_open_selected (ECalendarTable *cal_table);
 void       e_calendar_table_complete_selected (ECalendarTable *cal_table);
 void       e_calendar_table_delete_selected (ECalendarTable *cal_table);
 

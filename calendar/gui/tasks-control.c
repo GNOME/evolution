@@ -71,6 +71,9 @@ static void tasks_control_set_property		(BonoboPropertyBag	*bag,
 static void tasks_control_activate_cb		(BonoboControl		*control,
 						 gboolean		 activate,
 						 gpointer		 user_data);
+static void tasks_control_open_task_cmd		(BonoboUIComponent	*uic,
+						 gpointer		 data,
+						 const char		*path);
 static void tasks_control_new_task_cmd		(BonoboUIComponent	*uic,
 						 gpointer		 data,
 						 const char		*path);
@@ -246,6 +249,9 @@ tasks_control_sensitize_commands (BonoboControl *control, ETasks *tasks, int n_s
 	model = e_calendar_table_get_model (e_tasks_get_calendar_table (tasks));
 	e_cal_is_read_only (e_cal_model_get_default_client (model), &read_only, NULL);
 
+	bonobo_ui_component_set_prop (uic, "/commands/TasksOpenTask", "sensitive",
+				      n_selected != 1 ? "0" : "1",
+				      NULL);
 	bonobo_ui_component_set_prop (uic, "/commands/TasksCut", "sensitive",
 				      n_selected == 0 || read_only ? "0" : "1",
 				      NULL);
@@ -278,6 +284,7 @@ selection_changed_cb (ETasks *tasks, int n_selected, gpointer data)
 }
 
 static BonoboUIVerb verbs [] = {
+	BONOBO_UI_VERB ("TasksOpenTask", tasks_control_open_task_cmd),
 	BONOBO_UI_VERB ("TasksNewTask", tasks_control_new_task_cmd),
 	BONOBO_UI_VERB ("TasksCut", tasks_control_cut_cmd),
 	BONOBO_UI_VERB ("TasksCopy", tasks_control_copy_cmd),
@@ -359,6 +366,15 @@ tasks_control_deactivate (BonoboControl *control, ETasks *tasks)
  	bonobo_ui_component_unset_container (uic, NULL);
 }
 
+static void tasks_control_open_task_cmd		(BonoboUIComponent	*uic,
+						 gpointer		 data,
+						 const char		*path)
+{
+	ETasks *tasks;
+
+	tasks = E_TASKS (data);
+	e_tasks_open_task (tasks);
+}
 
 static void
 tasks_control_new_task_cmd		(BonoboUIComponent	*uic,

@@ -69,6 +69,7 @@ gboolean e_tasks_remove_todo_uri (ETasks *tasks, const char *str_uri);
 gboolean e_tasks_set_default_uri (ETasks *tasks, const char *str_uri);
 ECal *e_tasks_get_default_client    (ETasks *tasks);
 
+void       e_tasks_open_task         (ETasks		*tasks);
 void       e_tasks_new_task          (ETasks            *tasks);
 void       e_tasks_complete_selected (ETasks            *tasks);
 void       e_tasks_delete_selected   (ETasks            *tasks);

@@ -589,6 +589,16 @@ e_calendar_table_get_table (ECalendarTable *cal_table)
 	return e_table_scrolled_get_table (E_TABLE_SCROLLED (cal_table->etable));
 }
 
+void
+e_calendar_table_open_selected (ECalendarTable *cal_table)
+{
+	ECalModelComponent *comp_data;
+
+	comp_data = get_selected_comp (cal_table);
+	if (comp_data != NULL)
+		open_task (cal_table, comp_data, FALSE);
+}
+
 /**
  * e_calendar_table_complete_selected:
  * @cal_table: A calendar table
