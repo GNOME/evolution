@@ -48,6 +48,88 @@ typedef struct {
 	icaltimezone *zone;
 } ESummaryCalEvent;
 
+/* Returns TRUE if the TZIDs are equivalent, i.e. both NULL or the same. */
+static gboolean
+cal_component_compare_tzid (const char *tzid1, const char *tzid2)
+{
+        gboolean retval = TRUE;
+
+        if (tzid1) {
+                if (!tzid2 || strcmp (tzid1, tzid2))
+                        retval = FALSE;
+        } else {
+                if (tzid2)
+                        retval = FALSE;
+        }
+
+        return retval;
+}
+
+gboolean
+e_cal_comp_util_compare_event_timezones (CalComponent *comp,
+					 CalClient *client,
+					 icaltimezone *zone)
+{
+        CalClientGetStatus status;
+        CalComponentDateTime start_datetime, end_datetime;
+        const char *tzid;
+        gboolean retval = FALSE;
+        icaltimezone *start_zone, *end_zone;
+        int offset1, offset2;
+
+        tzid = icaltimezone_get_tzid (zone);
+
+        cal_component_get_dtstart (comp, &start_datetime);
+        cal_component_get_dtend (comp, &end_datetime);
+
+        /* FIXME: DURATION may be used instead. */
+        if (cal_component_compare_tzid (tzid, start_datetime.tzid)
+            && cal_component_compare_tzid (tzid, end_datetime.tzid)) {
+                /* If both TZIDs are the same as the given zone's TZID, then
+                   we know the timezones are the same so we return TRUE. */
+                retval = TRUE;
+        } else {
+                /* If the TZIDs differ, we have to compare the UTC offsets
+                   of the start and end times, using their own timezones and
+                   the given timezone. */
+                status = cal_client_get_timezone (client,
+                                                  start_datetime.tzid,
+                                                  &start_zone);
+                if (status != CAL_CLIENT_GET_SUCCESS)
+                        goto out;
+
+                offset1 = icaltimezone_get_utc_offset (start_zone,
+                                                       start_datetime.value,
+                                                       NULL);
+                offset2 = icaltimezone_get_utc_offset (zone,
+                                                       start_datetime.value,
+                                                       NULL);
+                if (offset1 == offset2) {
+                        status = cal_client_get_timezone (client,
+                                                          end_datetime.tzid,
+                                                          &end_zone);
+                        if (status != CAL_CLIENT_GET_SUCCESS)
+                                goto out;
+
+                        offset1 = icaltimezone_get_utc_offset (end_zone,
+                                                               end_datetime.value,
+                                                               NULL);
+                        offset2 = icaltimezone_get_utc_offset (zone,
+                                                               end_datetime.value,
+                                                               NULL);
+                        if (offset1 == offset2)
+                                retval = TRUE;
+                }
+        }
+
+ out:
+
+        cal_component_free_datetime (&start_datetime);
+        cal_component_free_datetime (&end_datetime);
+
+        return retval;
+}
+
 static int
 e_summary_calendar_event_sort_func (const void *e1,
 				    const void *e2)
@@ -206,10 +288,20 @@ generate_html (gpointer data)
 				strftime (start_str, 19, _("%l:%M %d %B"), start_tm);
 			}
 
+			if (cal_component_has_alarms (event->comp)) {
+				img = "es-appointments.png";
+			} else if (e_cal_comp_util_compare_event_timezones (event->comp,
+									    calendar->client,
+									    summary->tz) == FALSE) {
+				img = "timezone-16.xpm";
+			} else {
+				img = "new_appointment.xpm";
+			}
+
 			tmp = g_strdup_printf ("<img align=\"middle\" src=\"%s\" "
 					       "alt=\"\" width=\"16\" height=\"16\">  &#160; "
 					       "<font size=\"-1\"><a href=\"calendar:/%s\">%s, %s</a></font><br>", 
-					       cal_component_has_alarms (event->comp) ? "es-appointments.png" : "new_appointment.xpm",
+					       img,
 					       event->uid, start_str, text.value);
 			g_free (start_str);
 			

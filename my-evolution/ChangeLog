@@ -1,3 +1,8 @@
+2001-09-21  Iain Holmes  <iain@ximian.com>
+
+	* e-summary-calendar.c (generate_html): If the appointment is in a
+	different timezone set a timezone icon.
+
 2001-09-20  Iain Holmes  <iain@ximian.com>
 
 	* e-summary-preferences: Add Red Carpet RDF
