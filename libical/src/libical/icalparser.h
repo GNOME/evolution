@@ -74,7 +74,7 @@ icalcomponent* icalparser_parse(icalparser *parser,
 void icalparser_set_gen_data(icalparser* parser, void* data);
 
 
-icalcomponent* icalparser_parse_string(char* str);
+icalcomponent* icalparser_parse_string(const char* str);
 
 
 /***********************************************************************

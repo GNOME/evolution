@@ -33,6 +33,9 @@
 #include "icalmemory.h"
 #include "icalenums.h"
 #include "icaltime.h"
+#include "icalduration.h"
+#include "icalperiod.h"
+#include "icalparser.h"
 
 #include <stdlib.h>  /* for malloc */
 #include <stdarg.h> /* for va_list, etc */
@@ -135,17 +138,7 @@ icalcomponent_vanew (icalcomponent_kind kind, ...)
 
 icalcomponent* icalcomponent_new_from_string(char* str)
 {
-    icalcomponent_kind kind;
-
-    icalerror_check_arg_rz( (str!=0), "str");
-
-    kind = icalenum_string_to_component_kind(str);
-
-    if (kind == ICAL_NO_COMPONENT){
-	return 0;
-    }
-    
-    return icalcomponent_new(kind);
+    return icalparser_parse_string(str);
 }
 
 icalcomponent* icalcomponent_new_clone(icalcomponent* component)
@@ -156,7 +149,7 @@ icalcomponent* icalcomponent_new_clone(icalcomponent* component)
     icalcomponent *c;
     pvl_elem itr;
 
-    icalerror_check_arg_rv( (component!=0), "component");
+    icalerror_check_arg_rz( (component!=0), "component");
 
     new = icalcomponent_new_impl(old->kind);
 
@@ -996,6 +989,78 @@ void icalcomponent_set_parent(icalcomponent* component, icalcomponent* parent)
 
 icalcompiter icalcompiter_null = {ICAL_NO_COMPONENT,0};
 
+
+struct icalcomponent_kind_map {
+	icalcomponent_kind kind;
+	char name[20];
+};
+
+  
+
+static struct icalcomponent_kind_map component_map[] = 
+{
+    { ICAL_VEVENT_COMPONENT, "VEVENT" },
+    { ICAL_VTODO_COMPONENT, "VTODO" },
+    { ICAL_VJOURNAL_COMPONENT, "VJOURNAL" },
+    { ICAL_VCALENDAR_COMPONENT, "VCALENDAR" },
+    { ICAL_VFREEBUSY_COMPONENT, "VFREEBUSY" },
+    { ICAL_VTIMEZONE_COMPONENT, "VTIMEZONE" },
+    { ICAL_VALARM_COMPONENT, "VALARM" },
+    { ICAL_XSTANDARD_COMPONENT, "STANDARD" }, /*These are part of RFC2445 */
+    { ICAL_XDAYLIGHT_COMPONENT, "DAYLIGHT" }, /*but are not really components*/
+    { ICAL_X_COMPONENT, "X" },
+    { ICAL_VSCHEDULE_COMPONENT, "SCHEDULE" },
+
+    /* CAP components */
+    { ICAL_VQUERY_COMPONENT, "VQUERY" },  
+    { ICAL_VCAR_COMPONENT, "VCAR" },  
+    { ICAL_VCOMMAND_COMPONENT, "VCOMMAND" },  
+
+    /* libical private components */
+    { ICAL_XLICINVALID_COMPONENT, "X-LIC-UNKNOWN" },  
+    { ICAL_XLICMIMEPART_COMPONENT, "X-LIC-MIME-PART" },  
+    { ICAL_ANY_COMPONENT, "ANY" },  
+    { ICAL_XROOT_COMPONENT, "XROOT" },  
+
+    /* End of list */
+    { ICAL_NO_COMPONENT, "" },
+};
+
+
+
+const char* icalcomponent_kind_to_string(icalcomponent_kind kind)
+{
+    int i;
+
+    for (i=0; component_map[i].kind != ICAL_NO_COMPONENT; i++) {
+	if (component_map[i].kind == kind) {
+	    return component_map[i].name;
+	}
+    }
+
+    return 0;
+
+}
+
+icalcomponent_kind icalcomponent_string_to_kind(const char* string)
+{
+    int i;
+
+    if (string ==0 ) { 
+	return ICAL_NO_COMPONENT;
+    }
+
+    for (i=0; component_map[i].kind  != ICAL_NO_COMPONENT; i++) {
+	if (strcmp(component_map[i].name, string) == 0) {
+	    return component_map[i].kind;
+	}
+    }
+
+    return ICAL_NO_COMPONENT;
+}
+
+
+
 icalcompiter 
 icalcomponent_begin_component(icalcomponent* component,icalcomponent_kind kind)
 {
@@ -1374,9 +1439,6 @@ const char* icalcomponent_get_summary(icalcomponent* comp)
 void icalcomponent_set_comment(icalcomponent* comp, const char* v);
 const char* icalcomponent_get_comment(icalcomponent* comp);
 
-void icalcomponent_set_organizer(icalcomponent* comp, const char* v);
-const char* icalcomponent_get_organizer(icalcomponent* comp);
-
 void icalcomponent_set_uid(icalcomponent* comp, const char* v);
 const char* icalcomponent_get_uid(icalcomponent* comp);
 
@@ -1402,6 +1464,10 @@ icalcomponent* icalcomponent_new_vtodo()
 icalcomponent* icalcomponent_new_vjournal()
 {
     return icalcomponent_new(ICAL_VJOURNAL_COMPONENT);
+}
+icalcomponent* icalcomponent_new_valarm()
+{
+    return icalcomponent_new(ICAL_VALARM_COMPONENT);
 }
 icalcomponent* icalcomponent_new_vfreebusy()
 {

@@ -7,11 +7,10 @@ LEX_OUTPUT_ROOT = lex.ss
 all: icalss.h
 
 INCLUDES =			\
-	-I$(top_builddir)	\
 	-I$(top_srcdir)/src	\
 	-I$(top_builddir)/src	\
 	-I$(top_srcdir)/src/libical	\
-	-I$(srcdir)/libical
+	-I$(top_builddir)/src/libical
 
 libicalss_la_LDFLAGS = -version-info 0:0:0
 
@@ -25,11 +24,14 @@ libicalss_la_SOURCES =		\
 	icalfilesetimpl.h	\
 	icalset.c		\
 	icalsslexer.l		\
-	icalssutil.c		\
 	icalssyacc.h		\
 	icalssyacc.y		\
 	icalspanlist.c		\
 	icalmessage.c		\
+	icalcstpclient.c        \
+	icalcstpclient.h        \
+	icalcstpserver.c        \
+	icalcstpserver.h 	\
 	icalcstp.c
 
 libicalssincludedir = $(includedir)
@@ -40,11 +42,13 @@ COMBINEDHEADERS = \
         icalfileset.h \
         icaldirset.h \
         icalcalendar.h  \
-        icalssutil.h \
         icalclassify.h \
 	icalspanlist.h	\
 	icalmessage.h \
-	icalcstp.h
+	icalcstp.h \
+	icalcstpclient.h \
+	icalcstpserver.h
+
 
 icalss.h: $(COMBINEDHEADERS)
 	cat $(COMBINEDHEADERS) | egrep -v "#include.*\"ical" \

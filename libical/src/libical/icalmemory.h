@@ -5,7 +5,6 @@
 
 
  $Id$
-
  $Locker$
 
  This program is free software; you can redistribute it and/or modify
@@ -71,7 +70,8 @@ void icalmemory_append_string(char** buf, char** pos, size_t* buf_size,
 void icalmemory_append_char(char** buf, char** pos, size_t* buf_size, 
 			      char ch);
 
-/* A wrapper around strdup */
+/* A wrapper around strdup. Partly to trap calls to strdup, partly
+   because in -ansi, gcc on Red Hat claims that strudup is undeclared */
 char* icalmemory_strdup(const char *s);
 
 #endif /* !ICALMEMORY_H */

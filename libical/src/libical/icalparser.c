@@ -43,6 +43,7 @@
 #include "icalmemory.h"
 #include "icalerror.h"
 #include "icalvalue.h"
+#include "icalderivedparameter.h"
 #include "icalparameter.h"
 #include "icalproperty.h"
 #include "icalcomponent.h"
@@ -66,17 +67,19 @@ char* icalparser_get_param_name(char* line, char **end);
 
 struct icalparser_impl 
 {
-	int buffer_full;
-	size_t tmp_buf_size; 
-	char temp[TMP_BUF_SIZE];
-	icalcomponent *root_component;
-	int version; 
-	int level;
-	int lineno;
-	icalparser_state state;
-	pvl_list components;
-
-	void *line_gen_data;
+    int buffer_full; /* flag indicates that temp is smaller that 
+                        data being read into it*/
+    int continuation_line; /* last line read was a continuation line */
+    size_t tmp_buf_size; 
+    char temp[TMP_BUF_SIZE];
+    icalcomponent *root_component;
+    int version; 
+    int level;
+    int lineno;
+    icalparser_state state;
+    pvl_list components;
+    
+    void *line_gen_data;
     
 };
 
@@ -410,9 +413,20 @@ char* icalparser_get_line(icalparser *parser,
     line_p = line = icalmemory_new_buffer(buf_size);
     line[0] = '\0';
    
+    /* Read lines by calling line_gen_func and putting the data into
+       impl->temp. If the line is a continuation line ( begins with a
+       space after a newline ) then append the data onto line and read
+       again. Otherwise, exit the loop. */
+
     while(1) {
 
-	/* The buffer is not clear, so transfer the data in it to the
+        /* The first part of the loop deals with the temp buffer,
+           which was read on he last pass through the loop. The
+           routine is split like this because it has to read lone line
+           ahead to determine if a line is a continuation line. */
+
+
+	/* The tmp buffer is not clear, so transfer the data in it to the
 	   output. This may be left over from a previous call */
 	if (impl->temp[0] != '\0' ) {
 
@@ -420,19 +434,37 @@ char* icalparser_get_line(icalparser *parser,
                mark the buffer as full. The means we will do another
                read later, because the line is not finished */
 	    if (impl->temp[impl->tmp_buf_size-1] == 0 &&
-		impl->temp[impl->tmp_buf_size-2] != '\n'){
+		impl->temp[impl->tmp_buf_size-2] != '\n'&& 
+                impl->temp[impl->tmp_buf_size-2] != 0 ){
 		impl->buffer_full = 1;
 	    } else {
 		impl->buffer_full = 0;
 	    }
 
 	    /* Copy the temp to the output and clear the temp buffer. */
-	    icalmemory_append_string(&line,&line_p,&buf_size,impl->temp);     
-	    impl->temp[0] = '\0' ;
+            if(impl->continuation_line==1){
+                /* back up the pointer to erase the continuation characters */
+                impl->continuation_line = 0;
+                line_p--;
+                
+                if ( *(line_p-1) == '\r'){
+                    line_p--;
+                }
+                
+                /* copy one space up to eliminate the leading space*/
+                icalmemory_append_string(&line,&line_p,&buf_size,
+                                         impl->temp+1);
+
+            } else {
+                icalmemory_append_string(&line,&line_p,&buf_size,impl->temp);
+            }
+
+            impl->temp[0] = '\0' ;
 	}
 	
 	impl->temp[impl->tmp_buf_size-1] = 1; /* Mark end of buffer */
 
+        /****** Here is where the routine gets string data ******************/
 	if ((*line_gen_func)(impl->temp,impl->tmp_buf_size,impl->line_gen_data)
 	    ==0){/* Get more data */
 
@@ -459,17 +491,7 @@ char* icalparser_get_line(icalparser *parser,
 
 	if  ( line_p > line+1 && *(line_p-1) == '\n' && impl->temp[0] == ' ') {
 
-	    /* back up the pointer to erase the continuation characters */
-	    line_p--;
-
-	    if ( *(line_p-1) == '\r'){
-		line_p--;
-	    }
-
-	    /* shift the temp buffer down to eliminate the leading space*/
-	    memmove(&(impl->temp[0]),&(impl->temp[1]),impl->tmp_buf_size);
-
-	    impl->temp[impl->tmp_buf_size-1] = impl->temp[impl->tmp_buf_size-2];
+            impl->continuation_line = 1;
 
 	} else if ( impl->buffer_full == 1 ) {
 	    
@@ -507,7 +529,7 @@ void insert_error(icalcomponent* comp, char* text,
     if (text == 0){
 	snprintf(temp,1024,"%s:",message);
     } else {
-	snprintf(temp,1024,"%s: \'%s\'",message,text);
+	snprintf(temp,1024,"%s: %s",message,text);
     }	
     
     icalcomponent_add_property
@@ -516,6 +538,20 @@ void insert_error(icalcomponent* comp, char* text,
 	     temp,
 	     icalparameter_new_xlicerrortype(type),
 	     0));   
+}
+
+int line_is_blank(char* line){
+    int i=0;
+
+    for(i=0; *(line+i)!=0; i++){
+	char c = *(line+i);
+
+	if(c != ' ' && c != '\n' && c != '\t'){
+	    return 0;
+	}
+    }
+    
+    return 1;
 }
 
 icalcomponent* icalparser_parse(icalparser *parser,
@@ -527,11 +563,14 @@ icalcomponent* icalparser_parse(icalparser *parser,
     icalcomponent *c=0; 
     icalcomponent *root=0;
     struct icalparser_impl *impl = (struct icalparser_impl*)parser;
+    icalerrorstate es = icalerror_get_error_state(ICAL_MALFORMEDDATA_ERROR);
 
     icalerror_check_arg_rz((parser !=0),"parser");
 
+    icalerror_set_error_state(ICAL_MALFORMEDDATA_ERROR,ICAL_ERROR_NONFATAL);
+
     do{
-	line = icalparser_get_line(parser, line_gen_func);
+	    line = icalparser_get_line(parser, line_gen_func);
 
 	if ((c = icalparser_add_line(parser,line)) != 0){
 
@@ -570,9 +609,12 @@ icalcomponent* icalparser_parse(icalparser *parser,
 	}
     } while ( line != 0);
 
+    icalerror_set_error_state(ICAL_MALFORMEDDATA_ERROR,es);
+
     return root;
 
 }
+
 
 icalcomponent* icalparser_add_line(icalparser* parser,
                                        char* line)
@@ -582,6 +624,7 @@ icalcomponent* icalparser_add_line(icalparser* parser,
     char *end;
     int vcount = 0;
     icalproperty *prop;
+    icalproperty_kind prop_kind;
     icalvalue *value;
     icalvalue_kind value_kind = ICAL_NO_VALUE;
 
@@ -593,6 +636,10 @@ icalcomponent* icalparser_add_line(icalparser* parser,
     if (line == 0)
     {
 	impl->state = ICALPARSER_ERROR;
+	return 0;
+    }
+
+    if(line_is_blank(line) == 1){
 	return 0;
     }
 
@@ -626,11 +673,21 @@ icalcomponent* icalparser_add_line(icalparser* parser,
 
     if(strcmp(str,"BEGIN") == 0){
 	icalcomponent *c;
+        icalcomponent_kind comp_kind;
 
 	impl->level++;
 	str = icalparser_get_next_value(end,&end, value_kind);
 	    
-	c  = icalcomponent_new_from_string(str);
+
+        comp_kind = icalenum_string_to_component_kind(str);
+
+        if (comp_kind == ICAL_NO_COMPONENT){
+	    c = icalcomponent_new(ICAL_XLICINVALID_COMPONENT);
+	    insert_error(c,str,"Parse error in component name",
+			 ICAL_XLICERRORTYPE_COMPONENTPARSEERROR);
+        }
+
+	c  =  icalcomponent_new(comp_kind);
 
 	if (c == 0){
 	    c = icalcomponent_new(ICAL_XLICINVALID_COMPONENT);
@@ -696,23 +753,29 @@ icalcomponent* icalparser_add_line(icalparser* parser,
 
     /**********************************************************************
      * Handle property names
-     **********************************************************************/								       
+     **********************************************************************/
+								       
     /* At this point, the property name really is a property name,
        (Not a component name) so make a new property and add it to
        the component */
 
-    prop = icalproperty_new_from_string(str);
+    
+    prop_kind = icalproperty_string_to_kind(str);
+
+    prop = icalproperty_new(prop_kind);
 
     if (prop != 0){
 	icalcomponent *tail = pvl_data(pvl_tail(impl->components));
+
+        if(prop_kind==ICAL_X_PROPERTY){
+            icalproperty_set_x_name(prop,str);
+        }
 
 	icalcomponent_add_property(tail, prop);
 
 	/* Set the value kind for the default for this type of
 	   property. This may be re-set by a VALUE parameter */
-	value_kind = 
-	    icalenum_property_kind_to_value_kind(
-		icalproperty_isa(prop));
+	value_kind = icalproperty_kind_to_value_kind(icalproperty_isa(prop));
 
     } else {
 	icalcomponent* tail = pvl_data(pvl_tail(impl->components));
@@ -755,13 +818,13 @@ icalcomponent* icalparser_add_line(icalparser* parser,
 
 	    if (name == 0){
 		/* 'tail' defined above */
-		insert_error(tail, str, "Can't parse parameter name",
+		insert_error(tail, str, "Cant parse parameter name",
 			     ICAL_XLICERRORTYPE_PARAMETERNAMEPARSEERROR);
 		tail = 0;
 		break;
 	    }
 
-	    kind = icalenum_string_to_parameter_kind(name);
+	    kind = icalparameter_string_to_kind(name);
 
 	    if(kind == ICAL_X_PARAMETER){
 		param = icalparameter_new(ICAL_X_PARAMETER);
@@ -773,11 +836,11 @@ icalcomponent* icalparser_add_line(icalparser* parser,
 
 
 	    } else if (kind != ICAL_NO_PARAMETER){
-		param = icalparameter_new_from_string(kind,pvalue);
+		param = icalparameter_new_from_value_string(kind,pvalue);
 	    } else {
 		/* Error. Failed to parse the parameter*/
 		/* 'tail' defined above */
-		insert_error(tail, str, "Can't parse parameter name",
+		insert_error(tail, str, "Cant parse parameter name",
 			     ICAL_XLICERRORTYPE_PARAMETERNAMEPARSEERROR);
 		tail = 0;
 		impl->state = ICALPARSER_ERROR;
@@ -786,7 +849,7 @@ icalcomponent* icalparser_add_line(icalparser* parser,
 
 	    if (param == 0){
 		/* 'tail' defined above */
-		insert_error(tail,str,"Can't parse parameter value",
+		insert_error(tail,str,"Cant parse parameter value",
 			     ICAL_XLICERRORTYPE_PARAMETERVALUEPARSEERROR);
 		    
 		tail = 0;
@@ -798,7 +861,9 @@ icalcomponent* icalparser_add_line(icalparser* parser,
 	    if (icalparameter_isa(param)==ICAL_VALUE_PARAMETER){
 
 		value_kind = (icalvalue_kind)
-		    icalparameter_get_value(param);
+                    icalparameter_value_to_value_kind(
+                                icalparameter_get_value(param)
+                                );
 
 		if (value_kind == ICAL_NO_VALUE){
 
@@ -813,7 +878,7 @@ icalcomponent* icalparser_add_line(icalparser* parser,
 		    icalparameter_free(param);
 			
 		    value_kind = 
-			icalenum_property_kind_to_value_kind(
+			icalproperty_kind_to_value_kind(
 			    icalproperty_isa(prop));
 			
 		    icalparameter_free(param);
@@ -868,9 +933,9 @@ icalcomponent* icalparser_add_line(icalparser* parser,
 		icalproperty_kind prop_kind = icalproperty_isa(prop);
 		icalcomponent* tail = pvl_data(pvl_tail(impl->components));
 
-		sprintf(temp,"Can't parse as %s value in %s property. Removing entire property",
-			icalenum_value_kind_to_string(value_kind),
-			icalenum_property_kind_to_string(prop_kind));
+		sprintf(temp,"Cant parse as %s value in %s property. Removing entire property",
+			icalvalue_kind_to_string(value_kind),
+			icalproperty_kind_to_string(prop_kind));
 
 		insert_error(tail, str, temp,
 			     ICAL_XLICERRORTYPE_VALUEPARSEERROR);
@@ -897,7 +962,7 @@ icalcomponent* icalparser_add_line(icalparser* parser,
 		icalcomponent *tail = pvl_data(pvl_tail(impl->components));
 		
 		sprintf(temp,"No value for %s property. Removing entire property",
-			icalenum_property_kind_to_string(prop_kind));
+			icalproperty_kind_to_string(prop_kind));
 
 		insert_error(tail, str, temp,
 			     ICAL_XLICERRORTYPE_VALUEPARSEERROR);
@@ -975,8 +1040,8 @@ icalcomponent* icalparser_clean(icalparser* parser)
 }
 
 struct slg_data {
-	char* pos;
-	char* str;
+	const char* pos;
+	const char* str;
 };
 
 char* string_line_generator(char *out, size_t buf_size, void *d)
@@ -1017,18 +1082,26 @@ char* string_line_generator(char *out, size_t buf_size, void *d)
     return out;    
 }
 
-icalcomponent* icalparser_parse_string(char* str)
+icalcomponent* icalparser_parse_string(const char* str)
 {
     icalcomponent *c;
     struct slg_data d;
     icalparser *p;
+
+    icalerrorstate es = icalerror_get_error_state(ICAL_PARSE_ERROR);
 
     d.pos = 0;
     d.str = str;
 
     p = icalparser_new();
     icalparser_set_gen_data(p,&d);
+
+    icalerror_set_error_state(ICAL_PARSE_ERROR,ICAL_ERROR_NONFATAL);
+
     c = icalparser_parse(p,string_line_generator);
+
+    icalerror_set_error_state(ICAL_PARSE_ERROR,es);
+
     icalparser_free(p);
 
     return c;

@@ -41,6 +41,14 @@
 #include <sys/time.h> /* for select */
 
 
+/* For GNU libc, strcmp appears to be a macro, so using strcmp in
+ assert results in incomprehansible assertion messages. This
+ eliminates the problem */
+
+int regrstrcmp(const char* a, const char* b){
+    return strcmp(a,b);
+}
+
 /* This example creates and minipulates the ical object that appears
  * in rfc 2445, page 137 */
 
@@ -253,7 +261,7 @@ icalcomponent* create_new_component()
 
     icalproperty_add_parameter(
 	property,
-	icalparameter_new_rsvp(1)
+	icalparameter_new_rsvp(ICAL_RSVP_TRUE)
 	);
 
     icalproperty_add_parameter(
@@ -380,7 +388,7 @@ icalcomponent* create_new_component_with_va_args()
 		icalproperty_vanew_attendee(
 		    "employee-A@host.com",
 		    icalparameter_new_role(ICAL_ROLE_REQPARTICIPANT),
-		    icalparameter_new_rsvp(1),
+		    icalparameter_new_rsvp(ICAL_RSVP_TRUE),
 		    icalparameter_new_cutype(ICAL_CUTYPE_GROUP),
 		    0
 		    ),
@@ -440,7 +448,7 @@ char** get_required_attendees(icalproperty* event)
 
 	if ( icalparameter_get_role(parameter) == ICAL_ROLE_REQPARTICIPANT) 
 	{
-	    attendees[c++] = strdup(icalproperty_get_attendee(p));
+	    attendees[c++] = icalmemory_strdup(icalproperty_get_attendee(p));
 
             if (c >= max) {
                 max *= 2; 
@@ -542,6 +550,35 @@ void test_values()
 
     if (v!=0) icalvalue_free(v);
 
+    assert(ICAL_BOOLEAN_VALUE == 
+           icalparameter_value_to_value_kind(ICAL_VALUE_BOOLEAN));
+    assert(ICAL_UTCOFFSET_VALUE == 
+           icalparameter_value_to_value_kind(ICAL_VALUE_UTCOFFSET));
+    assert(ICAL_RECUR_VALUE == 
+           icalparameter_value_to_value_kind(ICAL_VALUE_RECUR));
+    assert(ICAL_CALADDRESS_VALUE == 
+           icalparameter_value_to_value_kind(ICAL_VALUE_CALADDRESS));
+    assert(ICAL_PERIOD_VALUE == 
+           icalparameter_value_to_value_kind(ICAL_VALUE_PERIOD));
+    assert(ICAL_BINARY_VALUE == 
+           icalparameter_value_to_value_kind(ICAL_VALUE_BINARY));
+    assert(ICAL_TEXT_VALUE == 
+           icalparameter_value_to_value_kind(ICAL_VALUE_TEXT));
+    assert(ICAL_DURATION_VALUE == 
+           icalparameter_value_to_value_kind(ICAL_VALUE_DURATION));
+    assert(ICAL_INTEGER_VALUE == icalparameter_value_to_value_kind(ICAL_VALUE_INTEGER));
+    assert(ICAL_TIME_VALUE == 
+           icalparameter_value_to_value_kind(ICAL_VALUE_TIME));
+    assert(ICAL_URI_VALUE == 
+           icalparameter_value_to_value_kind(ICAL_VALUE_URI));
+    assert(ICAL_FLOAT_VALUE == 
+           icalparameter_value_to_value_kind(ICAL_VALUE_FLOAT));
+    assert(ICAL_X_VALUE == 
+           icalparameter_value_to_value_kind(ICAL_VALUE_X));
+    assert(ICAL_DATETIME_VALUE == 
+           icalparameter_value_to_value_kind(ICAL_VALUE_DATETIME));
+    assert(ICAL_DATE_VALUE == 
+           icalparameter_value_to_value_kind(ICAL_VALUE_DATE));
 
     /*    v = icalvalue_new_caladdress(0);
 
@@ -604,14 +641,48 @@ void test_properties()
 void test_parameters()
 {
     icalparameter *p;
+    int i;
+    int enums[] = {ICAL_CUTYPE_INDIVIDUAL,ICAL_CUTYPE_RESOURCE,ICAL_FBTYPE_BUSY,ICAL_PARTSTAT_NEEDSACTION,ICAL_ROLE_NONPARTICIPANT,ICAL_XLICCOMPARETYPE_LESSEQUAL,ICAL_XLICERRORTYPE_MIMEPARSEERROR,-1};
 
-    p = icalparameter_new_cn("A Common Name");
+    char* str1 = "A Common Name";
+
+    p = icalparameter_new_cn(str1);
 
     printf("Common Name: %s\n",icalparameter_get_cn(p));
 
+    assert(regrstrcmp(str1,icalparameter_get_cn(p)) == 0);
+
     printf("As String: %s\n",icalparameter_as_ical_string(p));
 
+    assert(regrstrcmp(icalparameter_as_ical_string(p),"CN=A Common Name")==0);
+
     icalparameter_free(p);
+
+
+    p = icalparameter_new_from_string("PARTSTAT=ACCEPTED");
+    assert(icalparameter_isa(p) == ICAL_PARTSTAT_PARAMETER);
+    assert(icalparameter_get_partstat(p) == ICAL_PARTSTAT_ACCEPTED);
+
+    p = icalparameter_new_from_string("ROLE=CHAIR");
+    assert(icalparameter_isa(p) == ICAL_ROLE_PARAMETER);
+    assert(icalparameter_get_partstat(p) == ICAL_ROLE_CHAIR);
+
+    p = icalparameter_new_from_string("PARTSTAT=X-FOO");
+    assert(icalparameter_isa(p) == ICAL_PARTSTAT_PARAMETER);
+    assert(icalparameter_get_partstat(p) == ICAL_PARTSTAT_X);
+
+    p = icalparameter_new_from_string("X-PARAM=X-FOO");
+    assert(icalparameter_isa(p) == ICAL_X_PARAMETER);
+
+
+    for (i=0;enums[i] != -1; i++){
+    
+        printf("%s\n",icalparameter_enum_to_string(enums[i]));
+        assert(icalparameter_string_to_enum(
+            icalparameter_enum_to_string(enums[i]))==enums[i]);
+    }
+
+
 }
 
 
@@ -1038,7 +1109,7 @@ void test_restriction()
 		icalproperty_vanew_attendee(
 		    "employee-A@host.com",
 		    icalparameter_new_role(ICAL_ROLE_REQPARTICIPANT),
-		    icalparameter_new_rsvp(1),
+		    icalparameter_new_rsvp(ICAL_RSVP_TRUE),
 		    icalparameter_new_cutype(ICAL_CUTYPE_GROUP),
 		    0
 		    ),
@@ -1047,7 +1118,7 @@ void test_restriction()
 		icalproperty_new_class("PUBLIC"),
 		icalproperty_new_created(atime),
 		icalproperty_new_summary("XYZ Project Review"),
-/*		icalproperty_vanew_dtstart(
+                /*		icalproperty_new_dtstart(
 		    atime,
 		    icalparameter_new_tzid("US-Eastern"),
 		    0
@@ -1170,6 +1241,23 @@ void test_recur()
 /*    test_increment();*/
 
 }
+
+void test_expand_recurrence(){
+
+    time_t arr[10];
+    time_t now = 931057385;
+    int i;
+    icalrecur_expand_recurrence( "FREQ=MONTHLY;BYDAY=MO,WE", now,
+                                 5, arr );
+
+    printf("Start %s",ctime(&now) );
+    for (i=0; i<5; i++)
+        {
+            printf("i=%d  %s\n", i, ctime(&arr[i]) );
+        }
+            
+}
+
 
 
 enum byrule {
@@ -1336,12 +1424,28 @@ void test_period()
 {
 
     struct icalperiodtype p;
+    icalvalue *v;
 
     p = icalperiodtype_from_string("19971015T050000Z/PT8H30M");
     printf("%s\n",icalperiodtype_as_ical_string(p));
+    assert(strcmp(icalperiodtype_as_ical_string(p),
+                  "19971015T050000Z/PT8H30M") == 0);
 
     p = icalperiodtype_from_string("19971015T050000Z/19971015T060000Z");
     printf("%s\n",icalperiodtype_as_ical_string(p));
+    assert(strcmp(icalperiodtype_as_ical_string(p),
+                  "19971015T050000Z/19971015T060000Z") == 0);
+
+    p = icalperiodtype_from_string("19970101T120000/PT3H");
+    printf("%s\n",icalperiodtype_as_ical_string(p));
+    assert(strcmp(icalperiodtype_as_ical_string(p),
+                  "19970101T120000/PT3H") == 0);
+
+    v = icalvalue_new_from_string(ICAL_PERIOD_VALUE,"19970101T120000/PT3H");
+    printf("%s\n",icalvalue_as_ical_string(v));
+    assert(strcmp(icalvalue_as_ical_string(v),
+                  "19970101T120000/PT3H") == 0);
+
 
 }
 
@@ -1473,10 +1577,10 @@ void do_test_time(char* zone)
     printf("Orig (ical) : %s\n", ictt_as_string(ictt));
     icttnorm = ictt;
     icttnorm.second -= 60 * 60 * 24 * 5;
-    icttnorm = icaltime_normalize(ictt);
+    icttnorm = icaltime_normalize(icttnorm);
     printf("-5d in sec  : %s\n", ictt_as_string(icttnorm));
     icttnorm.day += 60;
-    icttnorm = icaltime_normalize(ictt);
+    icttnorm = icaltime_normalize(icttnorm);
     printf("+60 d       : %s\n", ictt_as_string(icttnorm));
 
 
@@ -1754,7 +1858,7 @@ char* test_set_tz(const char* tzid)
 
    /* Put the new time zone into the environment */
     if(getenv("TZ") != 0){
-	tzstr = (char*)strdup(getenv("TZ"));
+	tzstr = (char*)icalmemory_strdup(getenv("TZ"));
 
 	if(tzstr == 0){
 	    icalerror_set_errno(ICAL_NEWFAILED_ERROR);
@@ -2301,6 +2405,10 @@ void test_recur_parser()
 
 }
 
+char* ical_strstr(const char *haystack, const char *needle){
+    return strstr(haystack,needle);
+}
+
 void test_doy()
 {
     struct icaltimetype tt1, tt2;
@@ -2310,17 +2418,22 @@ void test_doy()
     doy = icaltime_day_of_year(tt1);
     tt2 = icaltime_from_day_of_year(doy,1995);
     printf("%d %s %s\n",doy, icaltime_as_ctime(tt1),icaltime_as_ctime(tt2));
+    assert(tt2.day == 1 && tt2.month == 3);
+    assert(doy == 60);
 
     tt1 = icaltime_from_string("19960301");
     doy = icaltime_day_of_year(tt1);
     tt2 = icaltime_from_day_of_year(doy,1996);
     printf("%d %s %s\n",doy, icaltime_as_ctime(tt1),icaltime_as_ctime(tt2));
+    assert(tt2.day == 1 && tt2.month == 3);
+    assert(doy == 61);
 
     tt1 = icaltime_from_string("19970301");
     doy = icaltime_day_of_year(tt1);
     tt2 = icaltime_from_day_of_year(doy,1997);
     printf("%d %s %s\n",doy, icaltime_as_ctime(tt1),icaltime_as_ctime(tt2));
-
+    assert(tt2.day == 1 && tt2.month == 3);
+    assert(doy == 60);
 
 }
 
@@ -2832,17 +2945,54 @@ void test_file_locks()
     assert(sec == final);
 }
 
-/* For GNU libc, strcmp appears to be a macro, so using strcmp in assert results in incomprehansible assertion messages. This eliminates the problem */
+void test_action()
+{
+    icalcomponent *c;
+    icalproperty *p;
+    
+    static const char test_icalcomp_str[] =
+"BEGIN:VEVENT\n"
+"ACTION:EMAIL\n"
+"ACTION:PROCEDURE\n"
+"ACTION:AUDIO\n"
+"ACTION:FUBAR\n"
+"END:VEVENT\r\n";
 
-int ttstrcmp(const char* a, const char* b){
-    return strcmp(a,b);
+     
+    c = icalparser_parse_string ((char *) test_icalcomp_str);
+    if (!c) {
+	fprintf (stderr, "main(): could not parse the component\n");
+	exit (EXIT_FAILURE);
+    }
+    
+    printf("%s\n\n",icalcomponent_as_ical_string(c));
+
+    p = icalcomponent_get_first_property(c,ICAL_ACTION_PROPERTY);
+
+    assert(icalproperty_get_action(p) == ICAL_ACTION_EMAIL);
+
+    p = icalcomponent_get_next_property(c,ICAL_ACTION_PROPERTY);
+
+    assert(icalproperty_get_action(p) == ICAL_ACTION_PROCEDURE);
+
+    p = icalcomponent_get_next_property(c,ICAL_ACTION_PROPERTY);
+
+    assert(icalproperty_get_action(p) == ICAL_ACTION_AUDIO);
+
+    p = icalcomponent_get_next_property(c,ICAL_ACTION_PROPERTY);
+
+    assert(icalproperty_get_action(p) == ICAL_ACTION_X);
+    assert(regrstrcmp(icalvalue_get_x(icalproperty_get_value(p)), "FUBAR")==0);
+
+
 }
+
+        
 
 void test_trigger()
 {
 
     struct icaltriggertype tr;
-    struct icaldatetimeperiodtype dtp;
     icalcomponent *c;
     icalproperty *p;
     char* str;
@@ -2883,7 +3033,7 @@ void test_trigger()
     str = icalproperty_as_ical_string(p);
 
     printf("%s\n",str);
-    assert(ttstrcmp("TRIGGER\n ;VALUE=DATE-TIME\n :19970101T120000\n",str) == 0);
+    assert(regrstrcmp("TRIGGER\n ;VALUE=DATE-TIME\n :19970101T120000\n",str) == 0);
     icalproperty_free(p);
 
     /* TRIGGER, as a DURATION */
@@ -2893,7 +3043,7 @@ void test_trigger()
     str = icalproperty_as_ical_string(p);
     
     printf("%s\n",str);
-    assert(ttstrcmp("TRIGGER\n :P3DT3H50M45S\n",str) == 0);
+    assert(regrstrcmp("TRIGGER\n ;VALUE=DURATION\n :P3DT3H50M45S\n",str) == 0);
     icalproperty_free(p);
 
     /* TRIGGER, as a DATETIME, VALUE=DATETIME*/
@@ -2904,7 +3054,7 @@ void test_trigger()
     str = icalproperty_as_ical_string(p);
 
     printf("%s\n",str);
-    assert(ttstrcmp("TRIGGER\n ;VALUE=DATE-TIME\n :19970101T120000\n",str) == 0);
+    assert(regrstrcmp("TRIGGER\n ;VALUE=DATE-TIME\n :19970101T120000\n",str) == 0);
     icalproperty_free(p);
 
     /*TRIGGER, as a DURATION, VALUE=DATETIME */
@@ -2916,7 +3066,7 @@ void test_trigger()
     str = icalproperty_as_ical_string(p);
     
     printf("%s\n",str);
-    assert(ttstrcmp("TRIGGER\n ;VALUE=DURATION\n :P3DT3H50M45S\n",str) == 0);
+    assert(regrstrcmp("TRIGGER\n ;VALUE=DURATION\n :P3DT3H50M45S\n",str) == 0);
     icalproperty_free(p);
 
     /* TRIGGER, as a DATETIME, VALUE=DURATION*/
@@ -2927,7 +3077,7 @@ void test_trigger()
     str = icalproperty_as_ical_string(p);
 
     printf("%s\n",str);
-    assert(ttstrcmp("TRIGGER\n ;VALUE=DATE-TIME\n :19970101T120000\n",str) == 0);
+    assert(regrstrcmp("TRIGGER\n ;VALUE=DATE-TIME\n :19970101T120000\n",str) == 0);
     icalproperty_free(p);
 
     /*TRIGGER, as a DURATION, VALUE=DURATION */
@@ -2939,7 +3089,7 @@ void test_trigger()
     str = icalproperty_as_ical_string(p);
     
     printf("%s\n",str);
-    assert(ttstrcmp("TRIGGER\n ;VALUE=DURATION\n :P3DT3H50M45S\n",str) == 0);
+    assert(regrstrcmp("TRIGGER\n ;VALUE=DURATION\n :P3DT3H50M45S\n",str) == 0);
     icalproperty_free(p);
 
 
@@ -2951,7 +3101,7 @@ void test_trigger()
     str = icalproperty_as_ical_string(p);
 
     printf("%s\n",str);
-    assert(ttstrcmp("TRIGGER\n ;VALUE=DATE-TIME\n :19970101T120000\n",str) == 0);
+    assert(regrstrcmp("TRIGGER\n ;VALUE=DATE-TIME\n :19970101T120000\n",str) == 0);
     icalproperty_free(p);
 
     /*TRIGGER, as a DURATION, VALUE=BINARY   */
@@ -2963,7 +3113,7 @@ void test_trigger()
     str = icalproperty_as_ical_string(p);
     
     printf("%s\n",str);
-    assert(ttstrcmp("TRIGGER\n ;VALUE=DURATION\n :P3DT3H50M45S\n",str) == 0);
+    assert(regrstrcmp("TRIGGER\n ;VALUE=DURATION\n :P3DT3H50M45S\n",str) == 0);
     icalproperty_free(p);
 
 
@@ -2976,7 +3126,6 @@ void test_rdate()
     struct icaldatetimeperiodtype dtp;
     icalproperty *p;
     char* str;
-    struct icaltimetype time = icaltime_from_string("19970101T120000");
     struct icalperiodtype period;
 
     period.start = icaltime_from_string("19970101T120000");
@@ -2989,7 +3138,7 @@ void test_rdate()
     p = icalproperty_new_rdate(dtp);
     str = icalproperty_as_ical_string(p);
     printf("%s\n",str);
-    assert(ttstrcmp("RDATE\n :19970101T120000\n",str) == 0);
+    assert(regrstrcmp("RDATE\n ;VALUE=DATE-TIME\n :19970101T120000\n",str) == 0);
     icalproperty_free(p); 
 
 
@@ -3000,7 +3149,7 @@ void test_rdate()
 
     str = icalproperty_as_ical_string(p);
     printf("%s\n",str);
-    assert(ttstrcmp("RDATE\n ;VALUE=PERIOD\n :19970101T120000/PT3H10M15S\n",str) == 0);
+    assert(regrstrcmp("RDATE\n ;VALUE=PERIOD\n :19970101T120000/PT3H10M15S\n",str) == 0);
     icalproperty_free(p); 
 
     /* RDATE, as DATE-TIME, VALUE=DATE-TIME */
@@ -3010,7 +3159,7 @@ void test_rdate()
     icalproperty_add_parameter(p,icalparameter_new_value(ICAL_VALUE_DATETIME));
     str = icalproperty_as_ical_string(p);
     printf("%s\n",str);
-    assert(ttstrcmp("RDATE\n ;VALUE=DATE-TIME\n :19970101T120000\n",str) == 0);
+    assert(regrstrcmp("RDATE\n ;VALUE=DATE-TIME\n :19970101T120000\n",str) == 0);
     icalproperty_free(p); 
 
 
@@ -3021,7 +3170,7 @@ void test_rdate()
     icalproperty_add_parameter(p,icalparameter_new_value(ICAL_VALUE_DATETIME));
     str = icalproperty_as_ical_string(p);
     printf("%s\n",str);
-    assert(ttstrcmp("RDATE\n ;VALUE=PERIOD\n :19970101T120000/PT3H10M15S\n",str) == 0);
+    assert(regrstrcmp("RDATE\n ;VALUE=PERIOD\n :19970101T120000/PT3H10M15S\n",str) == 0);
     icalproperty_free(p); 
 
 
@@ -3032,7 +3181,7 @@ void test_rdate()
     icalproperty_add_parameter(p,icalparameter_new_value(ICAL_VALUE_PERIOD));
     str = icalproperty_as_ical_string(p);
     printf("%s\n",str);
-    assert(ttstrcmp("RDATE\n ;VALUE=DATE-TIME\n :19970101T120000\n",str) == 0);
+    assert(regrstrcmp("RDATE\n ;VALUE=DATE-TIME\n :19970101T120000\n",str) == 0);
     icalproperty_free(p); 
 
 
@@ -3043,7 +3192,7 @@ void test_rdate()
     icalproperty_add_parameter(p,icalparameter_new_value(ICAL_VALUE_PERIOD));
     str = icalproperty_as_ical_string(p);
     printf("%s\n",str);
-    assert(ttstrcmp("RDATE\n ;VALUE=PERIOD\n :19970101T120000/PT3H10M15S\n",str) == 0);
+    assert(regrstrcmp("RDATE\n ;VALUE=PERIOD\n :19970101T120000/PT3H10M15S\n",str) == 0);
     icalproperty_free(p); 
 
 
@@ -3054,7 +3203,7 @@ void test_rdate()
     icalproperty_add_parameter(p,icalparameter_new_value(ICAL_VALUE_BINARY));
     str = icalproperty_as_ical_string(p);
     printf("%s\n",str);
-    assert(ttstrcmp("RDATE\n ;VALUE=DATE-TIME\n :19970101T120000\n",str) == 0);
+    assert(regrstrcmp("RDATE\n ;VALUE=DATE-TIME\n :19970101T120000\n",str) == 0);
     icalproperty_free(p); 
 
 
@@ -3065,28 +3214,149 @@ void test_rdate()
     icalproperty_add_parameter(p,icalparameter_new_value(ICAL_VALUE_BINARY));
     str = icalproperty_as_ical_string(p);
     printf("%s\n",str);
-    assert(ttstrcmp("RDATE\n ;VALUE=PERIOD\n :19970101T120000/PT3H10M15S\n",str) == 0);
+    assert(regrstrcmp("RDATE\n ;VALUE=PERIOD\n :19970101T120000/PT3H10M15S\n",str) == 0);
     icalproperty_free(p); 
 
 
 }
 
 
+void test_langbind()
+{
+    icalcomponent *c, *inner; 
+    icalproperty *p;
+
+    static const char test_str[] =
+"BEGIN:VEVENT\n"
+"ATTENDEE;RSVP=TRUE;ROLE=REQ-PARTICIPANT;CUTYPE=GROUP:MAILTO:employee-A@host.com\n"
+"COMMENT: Comment that \n spans a line\n"
+"DTSTART:19970101T120000\n"
+"DTSTART:19970101T120000Z\n"
+"DTSTART:19970101\n"
+"DURATION:P3DT4H25M\n"
+"FREEBUSY:19970101T120000/19970101T120000\n"
+"FREEBUSY:19970101T120000/P3DT4H25M\n"
+"END:VEVENT\n";
+  
+
+    printf("%s\n",test_str);
+
+    c = icalparser_parse_string(test_str);
+    inner = icalcomponent_get_inner(c);
+
+
+    for(
+	p = icallangbind_get_first_property(inner,"ANY");
+	p != 0;
+	p = icallangbind_get_next_property(inner,"ANY")
+	) { 
+
+	printf("%s\n",icallangbind_property_eval_string(p,":"));
+    }
+
+
+
+    p = icalcomponent_get_first_property(inner,ICAL_ATTENDEE_PROPERTY);
+
+    icalproperty_set_parameter_from_string(p,"CUTYPE","INDIVIDUAL");
+
+    printf("%s\n",icalproperty_as_ical_string(p));
+        
+
+    icalproperty_set_value_from_string(p,"mary@foo.org","TEXT");
+
+    printf("%s\n",icalproperty_as_ical_string(p));
+
+}
+
+void test_property_parse()
+{
+    icalproperty *p;
+
+    p= icalproperty_new_from_string(
+                         "ATTENDEE;RSVP=TRUE;ROLE=REQ-PARTICIPANT;CUTYPE=GROUP:MAILTO:employee-A@host.com");
+
+    assert (p !=  0);
+    printf("%s\n",icalproperty_as_ical_string(p));
+
+
+    p= icalproperty_new_from_string("DTSTART:19970101T120000Z\n");
+
+    assert (p !=  0);
+    printf("%s\n",icalproperty_as_ical_string(p));
+
+}
+
+
+void test_value_parameter() 
+{
+
+    icalcomponent *c;
+    icalproperty *p;
+    icalparameter *param;
+    
+    static const char test_icalcomp_str[] =
+"BEGIN:VEVENT\n"
+"DTSTART;VALUE=DATE-TIME:19971123T123000\n"
+"DTSTART;VALUE=DATE:19971123\n"
+"DTSTART;VALUE=FOO:19971123T123000\n"
+"END:VEVENT\n";
+     
+    c = icalparser_parse_string ((char *) test_icalcomp_str);
+    if (!c) {
+	fprintf (stderr, "main(): could not parse the component\n");
+	exit (EXIT_FAILURE);
+    }
+
+    printf("%s",icalcomponent_as_ical_string(c));
+
+    p = icalcomponent_get_first_property(c,ICAL_DTSTART_PROPERTY);
+    param = icalproperty_get_first_parameter(p,ICAL_VALUE_PARAMETER);
+    assert(icalparameter_get_value(param) == ICAL_VALUE_DATETIME);
+
+    p = icalcomponent_get_next_property(c,ICAL_DTSTART_PROPERTY);
+    param = icalproperty_get_first_parameter(p,ICAL_VALUE_PARAMETER);
+    assert(icalparameter_get_value(param) == ICAL_VALUE_DATE);
+
+}
+
+
+void test_x_property() 
+{
+    icalproperty *p;
+    
+    p= icalproperty_new_from_string(
+       "X-LIC-PROPERTY: This is a note");
+
+    printf("%s\n",icalproperty_as_ical_string(p));
+
+    assert(icalproperty_isa(p) == ICAL_X_PROPERTY);
+    assert(regrstrcmp(icalproperty_get_x_name(p),"X-LIC-PROPERTY")==0);
+    assert(regrstrcmp(icalproperty_get_x(p)," This is a note")==0);
+
+}
+
 int main(int argc, char *argv[])
 {
     int c;
     extern char *optarg;
-    extern int optind, optopt;
+    extern int optopt;
     int errflg=0;
     char* program_name = strrchr(argv[0],'/');
-    int ttime=0, trecur=0,tspan=0, tmisc=0, tgauge = 0, tfile = 0;
+    int ttime=0, trecur=0,tspan=0, tmisc=0, tgauge = 0, tfile = 0,
+        tbasic = 0;
 
     if(argc==1) {
-	ttime = trecur = tspan = tmisc = tgauge = tfile = 1;
+	ttime = trecur = tspan = tmisc = tgauge = tfile = tbasic = 1;
     }
 
-    while ((c = getopt(argc, argv, "t:s:r:m:g:f:")) != -1) {
+    while ((c = getopt(argc, argv, "t:s:r:m:g:f:b:")) != -1) {
 	switch (c) {
+
+	    case 'b': {
+		tbasic = atoi(optarg);
+		break;
+	    }
 
 	    case 't': {
 		ttime = atoi(optarg);
@@ -3146,7 +3416,7 @@ int main(int argc, char *argv[])
 	printf("\n------------Test time----------------\n");
 	test_time();
     }
-	    
+ 
     if(ttime==1 || ttime==4){
 	printf("\n------------Test day of year---------\n");
 	test_doy();
@@ -3178,6 +3448,13 @@ int main(int argc, char *argv[])
 	printf("\n------------Test parameter bug---------\n");
 	test_recur_parameter_bug();
     }
+
+    if(trecur==1 || trecur==5){
+	printf("\n------------Test Array Expansion---------\n");
+	test_expand_recurrence();
+    }
+
+    
 
 
     if(tspan==1 || tspan==2){
@@ -3239,6 +3516,55 @@ int main(int argc, char *argv[])
 	test_rdate();
     }
 
+    if(tmisc == 1 || tmisc  == 6){
+
+	printf("\n------------Test language binding---------------\n");
+	test_langbind();
+    }
+
+
+    if(tmisc == 1 || tmisc  == 7){
+
+	printf("\n------------Test property parser---------------\n");
+	test_property_parse();
+    }
+
+    if(tmisc == 1 || tmisc  == 8){
+	printf("\n------------Test Action ------------------\n");
+	test_action();
+    }
+
+    if(tmisc == 1 || tmisc  == 9){
+	printf("\n------------Test Value Parameter ------------------\n");
+	test_value_parameter();
+    }
+
+    if(tmisc == 1 || tmisc  == 10){
+	printf("\n------------Test X property ------------------\n");
+	test_x_property();
+    }
+
+
+    if(tbasic == 1 || tbasic  == 2){
+	printf("\n------------Test Values---------------\n");
+	test_values();
+    }
+    
+    if(tbasic == 1 || tbasic  == 3){
+	printf("\n------------Test Parameters-----------\n");
+	test_parameters();
+    }
+
+    if(tbasic == 1 || tbasic  == 4){
+	printf("\n------------Test Properties-----------\n");
+	test_properties();
+    }
+
+    if(tbasic == 1 || tbasic  == 5){
+	printf("\n------------Test Components ----------\n");
+	test_components();
+    }	
+
     if(tmisc == 1){
 
 	printf("\n------------Test Convenience ------------\n");
@@ -3261,18 +3587,6 @@ int main(int argc, char *argv[])
 	
 	printf("\n------------Test Compare---------------\n");
 	test_compare();
-	
-	printf("\n------------Test Values---------------\n");
-	test_values();
-	
-	printf("\n------------Test Parameters-----------\n");
-	test_parameters();
-
-	printf("\n------------Test Properties-----------\n");
-	test_properties();
-	
-	printf("\n------------Test Components ----------\n");
-	test_components();
 	
 	printf("\n------------Create Components --------\n");
 	create_new_component();

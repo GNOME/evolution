@@ -27,6 +27,7 @@
 #include "icalproperty.h"
 #include "icalvalue.h"
 #include "icalenums.h" /* defines icalcomponent_kind */
+#include "icalattendee.h"
 #include "pvl.h"
 
 typedef void icalcomponent;
@@ -75,11 +76,6 @@ icalproperty* icalcomponent_get_first_property(icalcomponent* component,
 icalproperty* icalcomponent_get_next_property(icalcomponent* component,
 					      icalproperty_kind kind);
 
-/* Return a null-terminated array of icalproperties*/
-
-icalproperty** icalcomponent_get_properties(icalcomponent* component,
-					      icalproperty_kind kind);
-
 
 /* 
  * Working with components
@@ -104,16 +100,8 @@ int icalcomponent_count_components(icalcomponent* component,
 /* Iteration Routines. There are two forms of iterators, internal and
 external. The internal ones came first, and are almost completely
 sufficient, but they fail badly when you want to construct a loop that
-removes components from the container.
+removes components from the container.*/
 
-The internal iterators are deprecated. */
-
-/* Using external iterators */
-icalcompiter icalcomponent_begin_component(icalcomponent* component,
-					   icalcomponent_kind kind);
-
-icalcompiter icalcomponent_end_component(icalcomponent* component,
-					 icalcomponent_kind kind);
 
 /* Iterate through components */
 icalcomponent* icalcomponent_get_current_component (icalcomponent* component);
@@ -122,6 +110,15 @@ icalcomponent* icalcomponent_get_first_component(icalcomponent* component,
 					      icalcomponent_kind kind);
 icalcomponent* icalcomponent_get_next_component(icalcomponent* component,
 					      icalcomponent_kind kind);
+
+/* Using external iterators */
+icalcompiter icalcomponent_begin_component(icalcomponent* component,
+					   icalcomponent_kind kind);
+icalcompiter icalcomponent_end_component(icalcomponent* component,
+					 icalcomponent_kind kind);
+icalcomponent* icalcompiter_next(icalcompiter* i);
+icalcomponent* icalcompiter_prior(icalcompiter* i);
+icalcomponent* icalcompiter_deref(icalcompiter* i);
 
 
 
@@ -136,14 +133,17 @@ void icalcomponent_strip_errors(icalcomponent* component);
 /* Convert some X-LIC-ERROR properties into RETURN-STATUS properties*/
 void icalcomponent_convert_errors(icalcomponent* component);
 
-/* Internal operations. You don't see these... */
+/* Internal operations. They are private, and you should not be using them. */
 icalcomponent* icalcomponent_get_parent(icalcomponent* component);
 void icalcomponent_set_parent(icalcomponent* component, 
 			      icalcomponent* parent);
-/* External component iterator */
-icalcomponent* icalcompiter_next(icalcompiter* i);
-icalcomponent* icalcompiter_prior(icalcompiter* i);
-icalcomponent* icalcompiter_deref(icalcompiter* i);
+
+/* Kind conversion routiens */
+
+icalcomponent_kind icalcomponent_string_to_kind(const char* string);
+
+const char* icalcomponent_kind_to_string(icalcomponent_kind kind);
+
 
 /************* Derived class methods.  ****************************
 
@@ -194,9 +194,6 @@ const char* icalcomponent_get_summary(icalcomponent* comp);
 void icalcomponent_set_comment(icalcomponent* comp, const char* v);
 const char* icalcomponent_get_comment(icalcomponent* comp);
 
-void icalcomponent_set_organizer(icalcomponent* comp, const char* v);
-const char* icalcomponent_get_organizer(icalcomponent* comp);
-
 void icalcomponent_set_uid(icalcomponent* comp, const char* v);
 const char* icalcomponent_get_uid(icalcomponent* comp);
 
@@ -204,12 +201,32 @@ void icalcomponent_set_recurrenceid(icalcomponent* comp,
 				    struct icaltimetype v);
 struct icaltimetype icalcomponent_get_recurrenceid(icalcomponent* comp);
 
+
+void icalcomponent_set_organizer(icalcomponent* comp, 
+				 struct icalorganizertype org);
+                                 struct icalorganizertype icalcomponent_get_organizer(icalcomponent* comp);
+
+
+void icalcomponent_add_attendee(icalcomponent *comp,
+				struct icalattendeetype attendee);
+
+int icalcomponent_remove_attendee(icalcomponent *comp, char* cuid);
+
+/* Get the Nth attendee. Out of range indices return an attendee
+   with cuid == 0 */
+struct icalattendeetype icalcomponent_get_attendee(icalcomponent *comp,
+  int index);
+
+
+
+
 /*************** Type Specific routines ***************/
 
 icalcomponent* icalcomponent_new_vcalendar();
 icalcomponent* icalcomponent_new_vevent();
 icalcomponent* icalcomponent_new_vtodo();
 icalcomponent* icalcomponent_new_vjournal();
+icalcomponent* icalcomponent_new_valarm();
 icalcomponent* icalcomponent_new_vfreebusy();
 icalcomponent* icalcomponent_new_vtimezone();
 icalcomponent* icalcomponent_new_xstandard();

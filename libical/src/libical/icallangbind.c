@@ -18,13 +18,15 @@
 
   ======================================================================*/
 
-#include "ical.h"
+#include "icalcomponent.h"
+#include "icalproperty.h"
+#include "icalerror.h"
+#include "icalmemory.h"
 #include <malloc.h>
-
-
+#include <string.h>
 
 int* icallangbind_new_array(int size){
-    int* p = malloc(size*sizeof(int));
+    int* p = (int*)malloc(size*sizeof(int));
     return p; /* Caller handles failures */
 }
 
@@ -36,136 +38,235 @@ int icallangbind_access_array(int* array, int index) {
     return array[index];
 }                    
 
-/* Return the nth occurrence of 'prop' in c */
-icalproperty* icallangbind_get_property(icalcomponent *c, int n, const char* prop)
+
+
+/* LIke icalcomponent_get_first_component, buut takes a string for the
+   kind and can iterate over X properties as if each X name was a
+   seperate kind */
+icalproperty* icallangbind_get_first_property(icalcomponent *c,
+                                              const char* prop)
 {
-    int count; 
-    icalproperty_kind kind;
+    icalproperty_kind kind = icalproperty_string_to_kind(prop);
     icalproperty *p;
-    icalcomponent * comps[3];
-    int compno = 0;
-    int propno = 0;
-
-    if(c == 0 || prop == 0 || n < 0){
-	return 0;
-    }
-
-    kind = icalenum_string_to_property_kind(prop);
 
     if (kind == ICAL_NO_PROPERTY){
 	return 0;
     }
 
-    comps[0] = c;
-    comps[1] = icalcomponent_get_first_real_component(c);
-    comps[2] = 0;
+    if(kind == ICAL_X_PROPERTY){
+        for(p = icalcomponent_get_first_property(c,kind);
+            p !=0;
+            p = icalcomponent_get_next_property(c,kind)){
+            
+            if(strcmp(icalproperty_get_x_name(p),prop) == 0){
+                return p;
+            }                
+        }
+    } else {
+        p=icalcomponent_get_first_property(c,kind);
+
+        return p;
+    }
+	
+    return 0;
+
+}
+
+icalproperty* icallangbind_get_next_property(icalcomponent *c,
+                                              const char* prop)
+{
+    icalproperty_kind kind = icalenum_string_to_property_kind(prop);
+    icalproperty *p;
+
+    if (kind == ICAL_NO_PROPERTY){
+	return 0;
+    }
 
     if(kind == ICAL_X_PROPERTY){
-
-	for(compno ==0; comps[compno]!=0 ; compno++){
-
-	    for(p = icalcomponent_get_first_property(comps[compno],kind);
-		p !=0;
-		p = icalcomponent_get_next_property(comps[compno],kind)
-		){
-
-		if(strcmp(icalproperty_get_x_name(p),prop) == 0){
-
-		    if(propno == n ){
-			return p;
-		    }
-		    
-		    propno++;
-		}		
-	    }
-	}
-
+        for(p = icalcomponent_get_next_property(c,kind);
+            p !=0;
+            p = icalcomponent_get_next_property(c,kind)){
+            
+            if(strcmp(icalproperty_get_x_name(p),prop) == 0){
+                return p;
+            }                
+        }
     } else {
-	for(compno ==0; comps[compno]!=0 ; compno++){
+        p=icalcomponent_get_next_property(c,kind);
 
-	    for(propno=0,
-		    p = icalcomponent_get_first_property(comps[compno],kind);
-		propno != n && p !=0;
-		propno++,
-		    p = icalcomponent_get_next_property(comps[compno],kind)
-		)
-	    {
-	    }
-
-	    if(p != 0){
-		return p;
-	    }
-
-	}
+        return p;
     }
 	
     return 0;
 
 }
 
-const char* icallangbind_get_property_val(icalproperty* p)
+
+icalcomponent* icallangbind_get_first_component(icalcomponent *c,
+                                              const char* comp)
 {
-    icalvalue *v;
-    if (p == 0){
+    icalcomponent_kind kind = icalenum_string_to_component_kind(comp);
+
+    if (kind == ICAL_NO_COMPONENT){
 	return 0;
     }
-
-    v = icalproperty_get_value(p);
-
-    if(v == 0){
-	return v;
-    }
-
-    return icalvalue_as_ical_string(v);
-    
+    return icalcomponent_get_first_component(c,kind);
 }
 
-const char* icallangbind_get_parameter(icalproperty *p, const char* parameter)
+icalcomponent* icallangbind_get_next_component(icalcomponent *c,
+                                              const char* comp)
 {
-    icalparameter_kind kind;
+    icalcomponent_kind kind = icalenum_string_to_component_kind(comp);
+
+    if (kind == ICAL_NO_COMPONENT){
+	return 0;
+    }
+    return icalcomponent_get_next_component(c,kind);
+}
+
+
+#define APPENDS(x) icalmemory_append_string(&buf, &buf_ptr, &buf_size, x);
+
+#define APPENDC(x) icalmemory_append_char(&buf, &buf_ptr, &buf_size, x);
+
+const char* icallangbind_property_eval_string(icalproperty* prop, char* sep)
+{
+    char tmp[25];
+    size_t buf_size = 1024;
+    char* buf = icalmemory_new_buffer(buf_size);
+    char* buf_ptr = buf;
     icalparameter *param;
-
-    if(p == 0 || parameter == 0){
-	return 0;
-    }
     
-    kind = icalenum_string_to_parameter_kind(parameter);
+    icalvalue* value;
 
-    if(kind == ICAL_NO_PARAMETER){
+    if( prop == 0){
 	return 0;
     }
 
-    if(kind == ICAL_X_PARAMETER){
-	for(param = icalproperty_get_first_parameter(p,ICAL_X_PARAMETER);
-	    param != 0;
-	    param = icalproperty_get_next_parameter(p,ICAL_X_PARAMETER)){
+    APPENDS("{ ");
 
-	    if(strcmp(icalparameter_get_xname(param),parameter) ==0){
-		return icalparameter_as_ical_string(param);
-	    }
-	}
+    value = icalproperty_get_value(prop);
 
-    } else {
+    APPENDS(" 'name' ");
+    APPENDS(sep);
+    APPENDC('\'');
+    APPENDS(icalenum_property_kind_to_string(icalproperty_isa(prop)));
+    APPENDC('\'');
 
-	param = icalproperty_get_first_parameter(p,kind);
-	
-	if (param !=0){
-	    return icalparameter_as_ical_string(param);
-	}
-	
+    if(value){
+        APPENDS(", 'value_type' ");
+        APPENDS(sep);
+        APPENDC('\'');
+        APPENDS(icalenum_value_kind_to_string(icalvalue_isa(value)));
+        APPENDC('\'');
     }
 
-    return 0;
+    APPENDS(", 'pid' ");
+    APPENDS(sep);
+    APPENDC('\'');
+    snprintf(tmp,25,"%p",prop);
+    APPENDS(tmp);
+    APPENDC('\'');
+
+
+    if(value){
+        switch (icalvalue_isa(value)){
+	
+        case ICAL_ATTACH_VALUE:
+        case ICAL_BINARY_VALUE: 
+        case ICAL_NO_VALUE: {
+            icalerror_set_errno(ICAL_INTERNAL_ERROR);
+            break;
+        }
+
+        default: 
+        {
+            const char* str = icalvalue_as_ical_string(value);
+            char* copy = (char*) malloc(strlen(str)+1);
+            
+            const char *i;
+            char *j;
+
+            if(copy ==0){
+                icalerror_set_errno(ICAL_NEWFAILED_ERROR);
+                break; 
+            }
+            /* Remove any newlines */
+                
+            for(j=copy, i = str; *i != 0; j++,i++){
+                if(*i=='\n'){
+                    i++;
+                }   
+                *j = *i;
+            }
+                
+            *j = 0;
+                
+            APPENDS(", 'value'");
+            APPENDS(sep);
+            APPENDC('\'');
+            APPENDS(copy);
+            APPENDC('\'');
+            
+            free(copy);
+            break;
+
+        }
+        }
+    }
+
+    /* Add Parameters */
+
+    for(param = icalproperty_get_first_parameter(prop,ICAL_ANY_PARAMETER);
+        param != 0;
+        param = icalproperty_get_next_parameter(prop,ICAL_ANY_PARAMETER)){
+        
+        const char* str = icalparameter_as_ical_string(param);
+        char *copy = icalmemory_tmp_copy(str);
+        char *v;
+
+        if(copy == 0){
+            icalerror_set_errno(ICAL_NEWFAILED_ERROR);
+            continue;
+        }
+
+        v = strchr(copy,'=');
+
+
+        if(v == 0){
+            continue;
+        }
+
+        *v = 0;
+
+        v++;
+
+        APPENDS(", ");
+        APPENDC('\'');
+        APPENDS(copy);
+        APPENDC('\'');
+        APPENDS(sep);
+        APPENDC('\'');
+        APPENDS(v);        
+        APPENDC('\'');
+        
+    }
+
+
+    APPENDC('}');
+
+    icalmemory_add_tmp_buffer(buf);
+    return buf;
+
 }
 
-icalcomponent* icallangbind_get_component(icalcomponent *c, const char* comp)
+#include "fcntl.h"
+int icallangbind_string_to_open_flag(const char* str)
 {
-    if(c == 0 || comp == 0){
-	return 0;
-    }
-
-
+    if (strcmp(str,"r") == 0) {return O_RDONLY;}
+    else if (strcmp(str,"r+") == 0) {return O_RDWR;}
+    else if (strcmp(str,"w") == 0) {return O_WRONLY;}
+    else if (strcmp(str,"a") == 0) {return O_WRONLY|O_APPEND;}
+    else return -1;
 }
-
-
 
