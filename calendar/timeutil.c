@@ -147,6 +147,7 @@ time_add_month (time_t time, int months)
 	 */
 
 	tm->tm_mon += months;
+	tm->tm_isdst = -1;
 	if ((new_time = mktime (tm)) == -1){
 		g_warning ("mktime could not handling adding a month with\n");
 		print_time_t (time);
@@ -232,6 +233,7 @@ time_year_begin (time_t t)
 	tm.tm_sec  = 0;
 	tm.tm_mon  = 0;
 	tm.tm_mday = 1;
+	tm.tm_isdst = -1;
 
 	return mktime (&tm);
 }
@@ -248,6 +250,7 @@ time_year_end (time_t t)
 	tm.tm_mon  = 0;
 	tm.tm_mday = 1;
 	tm.tm_year++;
+	tm.tm_isdst = -1;
 
 	return mktime (&tm);
 }
@@ -262,6 +265,7 @@ time_month_begin (time_t t)
 	tm.tm_min  = 0;
 	tm.tm_sec  = 0;
 	tm.tm_mday = 1;
+	tm.tm_isdst = -1;
 
 	return mktime (&tm);
 }
@@ -277,6 +281,7 @@ time_month_end (time_t t)
 	tm.tm_sec  = 0;
 	tm.tm_mday = 1;
 	tm.tm_mon++;
+	tm.tm_isdst = -1;
 
 	return mktime (&tm);
 }

@@ -1,3 +1,13 @@
+1999-06-07  Mike McEwan  <mike@lotusland.demon.co.uk>
+
+        * timeutil.c (time_add_month): Tell ktime' that we don't know
+        about daylight saving time so that it does *not* make adjustments
+        when we traverse a DST boundary.
+        (time_year_begin): ditto.
+        (time_year_end): ditto.
+        (time_month_begin): ditto.
+        (time_month_end): ditto.
+
 1999-06-16  Anders Carlsson  <anders.carlsson@tordata.se>
 
 	* main.c (new_calendar): Realize the toplevel widget when
