@@ -1,5 +1,10 @@
 2001-06-28  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell.c (e_shell_create_view): Renamed from
+	`e_shell_new_view'.
+
+2001-06-28  Ettore Perazzoli  <ettore@ximian.com>
+
 	* main.c (idle_cb): Re-implemented to get a GSList of URIs and
 	open them on a running shell [if any] or on a newly created shell.
 	If no args are provided [i.e. the list is NULL], it either

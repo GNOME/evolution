@@ -220,7 +220,7 @@ impl_Shell_createNewView (PortableServer_Servant servant,
 		return CORBA_OBJECT_NIL;
 	}
 
-	shell_view = e_shell_new_view (shell, uri);
+	shell_view = e_shell_create_view (shell, uri);
 	if (shell_view == NULL) {
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
 				     ex_GNOME_Evolution_Shell_NotFound, NULL);
@@ -876,7 +876,7 @@ e_shell_new (const char *local_directory,
 
 
 /**
- * e_shell_new_view:
+ * e_shell_create_view:
  * @shell: The shell for which to create a new view.
  * @uri: URI for the new view.
  * 
@@ -885,8 +885,8 @@ e_shell_new (const char *local_directory,
  * Return value: The new view.
  **/
 EShellView *
-e_shell_new_view (EShell *shell,
-		  const char *uri)
+e_shell_create_view (EShell *shell,
+		     const char *uri)
 {
 	EShellView *view;
 	EShellPrivate *priv;
@@ -1185,8 +1185,8 @@ e_shell_restore_from_settings (EShell *shell)
 		EShellView *view;
 
 		/* FIXME: restore the URI here.  There should be an
-                   e_shell_new_view_from_configuration() thingie.  */
-		view = e_shell_new_view (shell, NULL);
+                   e_shell_create_view_from_configuration() thingie.  */
+		view = e_shell_create_view (shell, NULL);
 
 		if (! e_shell_view_load_settings (view, i))
 			retval = FALSE;

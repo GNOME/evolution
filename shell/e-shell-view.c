@@ -1199,7 +1199,7 @@ e_shell_view_construct (EShellView *shell_view,
    unless you know what you are doing; this is just the standard GTK+
    constructor thing and it won't allow the shell to do the required
    bookkeeping for the created views.  Instead, the right way to create a new
-   view is calling `e_shell_new_view()'.  */
+   view is calling `e_shell_create_view()'.  */
 EShellView *
 e_shell_view_new (EShell *shell)
 {

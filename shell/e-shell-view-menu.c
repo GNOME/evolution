@@ -346,7 +346,7 @@ command_open_folder_in_new_window (BonoboUIComponent *uih,
 	shell = e_shell_view_get_shell (shell_view);
 	current_uri = e_shell_view_get_current_uri (shell_view);
 
-	e_shell_new_view (shell, current_uri);
+	e_shell_create_view (shell, current_uri);
 }
 
 

@@ -86,8 +86,8 @@ gboolean  e_shell_construct  (EShell     *shell,
 EShell   *e_shell_new        (const char *local_directory,
 			      gboolean    show_splash);
 
-EShellView *e_shell_new_view  (EShell     *shell,
-			       const char *uri);
+EShellView *e_shell_create_view  (EShell     *shell,
+				  const char *uri);
 
 const char          *e_shell_get_local_directory       (EShell          *shell);
 EShortcuts          *e_shell_get_shortcuts             (EShell          *shell);
