@@ -372,7 +372,7 @@
       </para>
     </sect2>
 
-    <sect2 id="recieving-rsvp-response">
+    <sect2 id="receiving-rsvp-response">
       <title>Getting Responses to Meeting Requests</title>
       <para>
 	Once you get a reply to your meeting invitation, you'll need
@@ -440,13 +440,14 @@
     </sect2>
  ########## END UNIMPLEMENTED FEATURESET ############ -->
     <sect2 id="usage-calendar-freebusy">
-      <title>The Free/Busy View</title>
+      <title>Scheduling Meetings and The Free/Busy View</title>
       <para>
-	<application>Evolution</application> has a Free/Busy window so
-	that you can view people's schedules together to help you
-	schedule appointments. Read <xref linkend="full-advantage"> to
-	learn about how to use this feature with the Ximian Connector
-	for Microsoft Exchange.
+        In addition to the standard meeting scheduling tools, you can
+	 use the Free/Busy view to check whether people are available
+	 in advance. At this time, the Free/Busy feature only works
+	 with Microsoft Exchange servers. However, you can still use
+	 iCal event invitations to coordinate schedules with other
+	 people no matter what server you're using.
       </para>
       <para>
 	To access the free/busy view:
@@ -548,8 +549,15 @@
           automatically; others will receive email notification of any
           change in plans.
         </para>
+
+        <para>
+         Read <xref linkend="full-advantage"> to learn about how to
+	 use this feature with the Ximian Connector for Microsoft
+	 Exchange.
+       </para>
       </sect3>
     </sect2>
+
   </sect1>
 
   <sect1 id="usage-calendar-todo">

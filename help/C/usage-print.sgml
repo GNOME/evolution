@@ -8,11 +8,11 @@
   </para>
   <para>
     Whether you're printing a message, a calendar page, or a selection
-    of address cards, you can choose to print directly to a printer, or
-    save the print output to a <glossterm linkend="postscript">postscript</glossterm> file.  You can also use the
-    preview feature to see how your printed output will look.
+    of address cards, you can choose to print directly to a printer,
+    or save the print output to a <glossterm
+    linkend="postscript">postscript</glossterm> file.  You can also
+    use the preview feature to see how your printed output will look.
   </para>
-  
   
   <sect1 id="printpreview">
     <title>Print Preview</title>

@@ -12,6 +12,7 @@
   <sect1 id="importing-mail-and-settings">
     <title>Importing Your Old Email and Settings</title>
     <para>
+
       <application>Evolution</application> allows you to import your old
       email and data so that you don't need to worry about losing your
       old information.
@@ -136,8 +137,8 @@
           </listitem>
           <listitem>
             <para>
-              The left-most column shows the application which your
-              information will be imported from.  Select
+              The left-most column shows the application from which
+              your information will be imported from.  Then, select
               checkboxes on each component to import different
               properties of each application.
             </para>
@@ -154,16 +155,20 @@
           </listitem>
         </orderedlist>
       </para>
-
       <para>
 	<note>
 	  <title>Microsoft Outlook and Outlook Express Users</title>
 	  <para>
 	    Microsoft Outlook, and versions of Outlook Express after
-	    version 4, use proprietary formats that <application>Ximian
-	     Evolution</application> cannot read or import.  For contacts,
-	    you may have to email them to yourself and import them.
-	    For email, there is a more simple workaround:
+	    version 4, use proprietary formats that
+	    <application>Ximian Evolution</application> cannot read or
+	    import.  For contacts, you may wish to consider using
+	    OutPort, a third-party conversion tool.  Ximian does not
+	    support OutPort but you can find more information about it
+	    at <ulink
+	    url="http://www.cyberus.ca/~phoenix/outport/">the Outport
+	    homepage.</ulink> For email, there is a more simple
+	    workaround:
 	    <orderedlist numeration="arabic">
 	      
 	      <listitem>
@@ -202,7 +207,6 @@
 	    the messages in your Trash folders.
 	  </para>
 	</note>     
-	
       </para>
       
     </sect2>
@@ -521,16 +525,16 @@
 		    looking for messages less than two days old.
 		  </para></listitem>
 		
-		<listitem><para>
-		    Date Recieved - This works the same way as the <guilabel>Date Sent</guilabel> 
-		    option, except that it compares the time you got the message 
-		    with the dates you specify.
-		  </para></listitem>
+		<listitem><para> Date Received - This works the same
+		    way as the <guilabel>Date Sent</guilabel> option,
+		    except that it compares the time you got the
+		    message with the dates you specify.
+		    </para></listitem>
 		
 		<listitem><para>
 		    Score - Emails have a standard priority range from -3 (least
 		    important) to 3 (most important). You can have filters set the
-		    priority of messages you recieve, and then have other filters 
+		    priority of messages you receive, and then have other filters 
 		    applied only to those messages which have a certain priority.
 		  </para></listitem>
 		
@@ -981,7 +985,7 @@
 		  </para></listitem>
 		
 		<listitem><para>
-		    Date Recieved - This works the same way as the <guilabel>Date Sent</guilabel> 
+		    Date Received - This works the same way as the <guilabel>Date Sent</guilabel> 
 		    option, except that it compares the time you got the message 
 		    with the dates you specify.
 		  </para></listitem>
@@ -989,7 +993,7 @@
 		<listitem><para>
 		    Score - Emails have a standard priority range from -3 (least
 		    important) to 3 (most important). You can have vFolders set the
-		    priority of messages you recieve, and then have other
+		    priority of messages you receive, and then have other
 		    vFolders 
 		    applied only to those messages which have a certain priority.
 		  </para></listitem>

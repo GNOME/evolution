@@ -52,7 +52,7 @@
       makes displays faster and more efficient, so searches are faster
       and memory usage is lower.  People who get lots of mail will
       appreciate advanced features like <link
-      linkend="usage-mail-organize-vFolders"> Virtual Folders</link>,
+      linkend="usage-mail-organize-vFolders"><trademark>VFolders</trademark></link>,
       which let you save searches as though they were ordinary mail
       folders.
     </para>
@@ -131,10 +131,10 @@
     </sect2>
 
     <sect2 id="second-step">
-      <title>Recieving Email</title>
+      <title>Receiving Email</title>
       <para>
-	The <guilabel>Recieving Email</guilabel> step lets you configure
-	receving email people have sent you.
+	The <guilabel>Receiving Email</guilabel> lets you determine
+	which you will get your email.
 	<itemizedlist>
 	  <listitem>
 	    <para>
@@ -151,7 +151,6 @@
 		    permanent storage.
 		  </para>
 		</listitem>
-
 		<listitem>
 		  <para>
 		    Microsoft Exchange: Available only if you have
@@ -162,6 +161,7 @@
 		    server. 
 		  </para>
 		</listitem>
+
 
 		<listitem>
 		  <para>
@@ -174,9 +174,8 @@
 		  <para>
 		    Standard Unix mbox spools: If you want to read and
 		    store mail in the mail spool on your local system,
-		    choose this option. You'll need
-		    to provide the path to the mail spool you want to
-		    use.
+		    choose this option. You'll need to provide the
+		    path to the mail spool you want to use.
 		  </para>
 		</listitem>
 
@@ -320,9 +319,9 @@
 	  </listitem>
 
 	  <listitem>
-	    <para>Create a Global Address List folder: If you would
-	    like to have a seperate folder for the Active Directory's
-	    Global Address List, leave this box checked. </para>
+	    <para>Create a Global Address List folder: If you want to
+	    use your organization's Active Directory or Global Address
+	    List, leave this box checked. </para>
 	  </listitem>
 
 	  <listitem>
@@ -382,14 +381,13 @@
 	    server: If you'd like your filters to work on this account
 	    as well as on locally downloaded mail, check this box.</para>
 	  </listitem>
-
-
 	</itemizedlist>
      </para>
-	  </listitem>
-	</varlistentry>
-      </variablelist>
+    </listitem>
+  </varlistentry>
+ </variablelist>
 
+         <note id="imap-namespace">
          <note id="imap-namespace">
             <title>What's an IMAP Namespace?</title>
                 <para>
@@ -431,9 +429,9 @@
 		  <para>
 		    Microsoft Exchange: Sends mail through a Microsoft
 		    Exchange server using the Microsoft Exchange 2000
-		    protocol. Available only if you have purchased the
-		    Ximian Connector for Microsoft Exchange from
-		    <ulink
+		    protocol. Available only if you have are using the
+		    Ximian Connector for Microsoft Exchange. You must
+		    have a valid license key purchased from <ulink
 		    url="http://store.ximian.com">store.ximian.com</ulink>.
 		  </para>
 		</listitem>
@@ -444,7 +442,7 @@
 		    from your system. Sendmail is more flexible, but
 		    is not as easy to configure, so you should only
 		    select this option if you know how to set up a
-		    sendmail service.
+		    Sendmail service.
 		  </para>
 		</listitem>
 	      </itemizedlist>
@@ -466,11 +464,12 @@
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Authentication Type: Chances are you are using
+	      Authentication Type: Unless you've been told otherwise,
+	      your best bet is to leave this set at
 	      <guilabel>Password</guilabel>.  If you're not sure, ask
 	      your system administrator or ISP, or have
-	      <application>Ximian Evolution</application> check for you by
-	      clicking <guibutton>Check for supported
+	      <application>Ximian Evolution</application> check for
+	      you by clicking <guibutton>Check for supported
 	      types</guibutton>.
 	    </para>
 	  </listitem>
@@ -573,7 +572,8 @@ the workaround described in the note below.
 	<para>
 	  Use the <application>Ximian Evolution</application> import
           tool to import the files.  There's more information about
-          why this works, and how, at the Ximian support website.
+          why this works, and how, at the Ximian <ulink
+          url="http://support.ximian.com">support website.</ulink>
       </para>
         </listitem>
      </orderedlist>
@@ -619,11 +619,11 @@ the workaround described in the note below.
     <sect2 id="mutt">
       <title>Importing Mail from mutt</title>
       <para>
-	<application>mutt</application> is a full-featured mail client
-	which is shipped with most Linux and Unix distributions.
+	<application>mutt</application> is a text-based mail client
+	which is shipped with many Linux and Unix distributions.
 	<application>mutt</application> uses the standard mbox,
-	maildir, and MH file formats, which makes importing your mail into
-	<application>Evolution</application> easy.  By default,
+	maildir, and MH file formats, which makes importing your mail
+	into <application>Evolution</application> easy.  By default,
 	<application>mutt</application> uses the mbox file format.
 	<orderedlist numeration="arabic">
 	  <listitem>
@@ -678,9 +678,9 @@ the workaround described in the note below.
     <sect2 id="kmail">
       <title>Importing Mail from KMail</title>
       <para>
-	KMail is a full-featured mail client which is shipped with the
-	KDE desktop environment.  KMail uses the standard mbox file
-	format, which means that importing your mail into
+	KMail is the mail client which is shipped with the KDE desktop
+	environment.  KMail uses the standard mbox file format, which
+	means that importing your mail into
 	<application>Evolution</application> is easy.
 	<orderedlist numeration="arabic">
 	  <listitem>
@@ -1251,7 +1251,7 @@ Shows your pending tasks
 	  <listitem>
 	    <para>
               It can send and receive mail in HTML or as plain text,
-              and makes it easy to send and recieve multiple file
+              and makes it easy to send and receive multiple file
               attachments.
            </para>
 	  </listitem>
@@ -1453,7 +1453,7 @@ Shows your pending tasks
         your cards in alphabetical order, in a <glossterm
         linkend="minicard">minicard</glossterm> view.  You can select
         other views from the <guimenu>View</guimenu> menu, and adjust
-        the width of the columns by clicking and dragging the grey
+        the width of the columns by clicking and dragging the gray
         column dividers.
       </para>
       <para>

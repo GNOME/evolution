@@ -1,10 +1,24 @@
+2002-03-27  Aaron Weber  <aaron@ximian.com>
+
+	* C/topic.dat: add from branch.
+	* C/figures/*: merge from branch
+	* C/usage-calendar.sgml: merge from branch
+	* C/usage-mail.sgml: merge from branch
+	* C/usage-mail-org.sgml: merge from branch
+	* C/Makefile.am: changes from other branch
+	* C/usage-print.sgml: merge from branch
+	* C/usage-exchange.sgml: merge from branch
+	* C/usage-mail.sgml: merge from evolution-1-0-branch branch.
+
 2002-03-25  Kevin Breit  <mrproper@ximian.com>
 
-	* C/usage-mail.sgml: Added mention that 2048 maybe recommended by some people.  Fixed a typo.
+	* C/usage-mail.sgml: Added mention that 2048 maybe recommended by
+	some people.  Fixed a typo.
 
 2002-03-23  Kevin Breit  <mrproper@ximian.com>
 
-	* C/usage-print.sgml: I fixed a typo which caused the documentation to not build.
+	* C/usage-print.sgml: I fixed a typo which caused the
+	documentation to not build.
 
 2002-03-14  Kevin Breit  <mrproper@ximian.com>
 
@@ -16,15 +30,18 @@
 
 	* C/apx-gloss.sgml: Added Postscript as a glossary definition.
 
-	* C/usage-print.sgml: Changed the introduction of this.  Do users really care about gnome-print?
-	Linked the Postscript line to the glossary.
+	* C/usage-print.sgml: Changed the introduction of this.  Do users
+	really care about gnome-print?  Linked the Postscript line to the
+	glossary.
 
 	* C/usage-mail.sgml: Pulled warning about the HTML mail stuff.
 
 2002-03-12  Kevin Breit  <mrproper@ximian.com>
 
-	* C/usage-mail.sgml: Replaced "png" with "PNG".  This shouldn't break the SGML build and it's a slow start to the XML porting process.
-	Included information about how to create an HTML signature.
+	* C/usage-mail.sgml: Replaced "png" with "PNG".  This shouldn't
+	break the SGML build and it's a slow start to the XML porting
+	process.  Included information about how to create an HTML
+	signature.
 
 2002-03-11  Kevin Breit  <mrproper@ximian.com>
 
@@ -41,8 +58,9 @@
 	C/figures/schedule.png,exchange-identity.png exchange-receive.png,
 	exchange-receive-options.png
 
-	* C/usage-exchange.sgml: expanded note about active directory server.
-	added screenshot for Free/Busy feature. Doubled the size of the config instructions.
+	* C/usage-exchange.sgml: expanded note about active directory
+	server.  added screenshot for Free/Busy feature. Doubled the size
+	of the config instructions.
 
 	* C/figures/schedule.png: New file, screenshot for free/busy feature.
 
