@@ -2684,18 +2684,17 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		case GDK_ISO_Enter:
 		case GDK_3270_Enter:
 			if (eti_editing (eti)){
-				e_table_item_leave_edit_(eti);
-#if 0
 				ecell_view = eti->cell_views [eti->editing_col];
 				return_val = eti_e_cell_event (eti, ecell_view, e, e->key.time,
-							       view_to_model_col(eti, eti->editing_col),
-							       eti->editing_col, eti->editing_row, E_CELL_EDITING | E_CELL_CURSOR);
-#endif
+							       view_to_model_col (eti, eti->editing_col),
+							       eti->editing_col, eti->editing_row, E_CELL_EDITING | E_CELL_CURSOR | E_CELL_PREEDIT);
+				if (!return_val)
+					break;
 			}
 			g_signal_emit (eti, eti_signals [KEY_PRESS], 0,
-				       model_to_view_row(eti, cursor_row), cursor_col, e, &return_val);
+				       model_to_view_row (eti, cursor_row), cursor_col, e, &return_val);
 			if (!return_val)
-				return_val = e_selection_model_key_press(E_SELECTION_MODEL (eti->selection), (GdkEventKey *) e);
+				return_val = e_selection_model_key_press (E_SELECTION_MODEL (eti->selection), (GdkEventKey *) e);
 			break;
 			
 		default:

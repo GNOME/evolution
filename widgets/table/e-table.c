@@ -1099,14 +1099,20 @@ static gint
 table_canvas_focus_event_cb (GtkWidget *widget, GdkEventFocus *event, gpointer data)
 {
 	GnomeCanvas *canvas;
+	ECanvas *ecanvas;
 	ETable *etable;
 
 	gtk_widget_queue_draw (widget);
-
-	if (!event->in)
-		return TRUE;
-
 	canvas = GNOME_CANVAS (widget);
+	ecanvas = E_CANVAS (widget);
+
+	if (!event->in) {
+		gtk_im_context_focus_out(ecanvas->im_context);
+		return TRUE;
+	} else {
+		gtk_im_context_focus_in(ecanvas->im_context);
+	}
+
 	etable = E_TABLE (data);
 
 	if (!canvas->focused_item && etable->group)

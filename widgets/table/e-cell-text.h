@@ -36,7 +36,7 @@
 
 #ifndef _E_CELL_TEXT_H_
 #define _E_CELL_TEXT_H_
-
+#include <gtk/gtkmenu.h>
 #include <libgnomecanvas/gnome-canvas.h>
 #include <gal/e-table/e-cell.h>
 
