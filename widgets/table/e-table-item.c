@@ -1954,6 +1954,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 
 		switch (e->key.keyval){
 		case GDK_Left:
+		case GDK_KP_Left:
 			if (eti_editing (eti)) {
 				handled = FALSE;
 				break;
@@ -1964,8 +1965,9 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			if ((!return_val) && eti->cursor_mode != E_CURSOR_LINE && cursor_col != view_to_model_col(eti, 0))
 				eti_cursor_move_left (eti);
 			break;
-			
+
 		case GDK_Right:
+		case GDK_KP_Right:
 			if (eti_editing (eti)) {
 				handled = FALSE;
 				break;
@@ -1978,7 +1980,9 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			break;
 			
 		case GDK_Up:
+		case GDK_KP_Up:
 		case GDK_Down:
+		case GDK_KP_Down:
 			return_val = e_selection_model_key_press(E_SELECTION_MODEL (eti->selection), (GdkEventKey *) e);
 			break;
 		case GDK_Home:
