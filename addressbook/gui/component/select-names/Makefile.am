@@ -20,7 +20,7 @@ $(IDL_GENERATED): $(idl_DATA)
 serversdir = $(libdir)/bonobo/servers
 
 server_in_files = GNOME_Evolution_Addressbook_SelectNames.server.in
-servers_DATA = $(server_in_files:.oaf.in=.oaf)
+servers_DATA = $(server_in_files:.server.in=.server)
 
 @INTLTOOL_SERVER_RULE@
 

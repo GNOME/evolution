@@ -1,3 +1,8 @@
+2002-11-17  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component/select-names/Makefile.am (servers_DATA): oops,
+	missed some "oaf"'s.
+
 2002-11-16  Chris Toshok  <toshok@ximian.com>
 
 	* gui/contact-editor/e-contact-editor.c
