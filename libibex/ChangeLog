@@ -1,3 +1,8 @@
+2001-10-30    <NotZed@Ximian.com>
+
+	* ibex_block.c (ibex_reset): If we can't open blocks, dont try to
+	deref it.
+
 2001-10-29    <NotZed@Ximian.com>
 
 	* ibex_block.c (ibex_move): Always rename file even if mv failed.

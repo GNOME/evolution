@@ -450,9 +450,10 @@ ibex_reset(ibex *ib)
 	ib->blocks = ibex_block_cache_open(ib->name, ib->flags, ib->mode);
 	if (ib->blocks == 0) {
 		g_warning("ibex_reset create: Error occured?: %s\n", strerror(errno));
+	} else {
+		/* FIXME: the blockcache or the wordindex needs to manage the other one */
+		ib->words = ib->blocks->words;
 	}
-	/* FIXME: the blockcache or the wordindex needs to manage the other one */
-	ib->words = ib->blocks->words;
 }
 
 /**
@@ -494,7 +495,7 @@ int ibex_close (ibex *ib)
 /* rename/move the ibex file */
 int ibex_move(ibex *ib, const char *newname)
 {
-	int ret = 0, error;
+	int ret = 0, error = 0;
 
 	IBEX_LOCK(ib);
 
@@ -502,6 +503,7 @@ int ibex_move(ibex *ib, const char *newname)
 		close_backend(ib);
 
 	if (rename(ib->name, newname) == -1) {
+		g_warning("could not rename ibex file '%s' to '%s': '%s'", ib->name, newname, strerror(errno));
 		ret = -1;
 		error = errno;
 	}
