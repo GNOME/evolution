@@ -1,3 +1,9 @@
+2000-12-25  Miguel de Icaza  <miguel@helixcode.com>
+
+	* gui/e-day-view.c (e_day_view_init): Set draw background to FALSE.
+	(e_day_view_reshape_long_event): ditto.
+	(e_day_view_reshape_day_event): ditto.
+
 2000-12-22  JP Rosevear  <jpr@helixcode.com>
 
 	* gui/dialogs/delete-comp.c (delete_component_dialog): Clean up 

@@ -624,6 +624,7 @@ e_day_view_init (EDayView *day_view)
 				       "clip", TRUE,
 				       "max_lines", 1,
 				       "editable", TRUE,
+				       "draw_background", FALSE,
 				       NULL);
 	gnome_canvas_item_hide (day_view->drag_long_event_item);
 
@@ -731,6 +732,7 @@ e_day_view_init (EDayView *day_view)
 				       "line_wrap", TRUE,
 				       "clip", TRUE,
 				       "editable", TRUE,
+				       "draw_background", FALSE,
 				       NULL);
 	gnome_canvas_item_hide (day_view->drag_item);
 
@@ -4191,6 +4193,7 @@ e_day_view_reshape_long_event (EDayView *day_view,
 					       "max_lines", 1,
 					       "editable", TRUE,
 					       "use_ellipsis", TRUE,
+					       "draw_background", FALSE,
 					       NULL);
 		gtk_signal_connect (GTK_OBJECT (event->canvas_item), "event",
 				    GTK_SIGNAL_FUNC (e_day_view_on_text_item_event),
@@ -4548,6 +4551,7 @@ e_day_view_reshape_day_event (EDayView *day_view,
 						       "editable", TRUE,
 						       "clip", TRUE,
 						       "use_ellipsis", TRUE,
+						       "draw_background", FALSE,
 						       NULL);
 			gtk_signal_connect (GTK_OBJECT (event->canvas_item),
 					    "event",
