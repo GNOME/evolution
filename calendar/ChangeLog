@@ -1,3 +1,32 @@
+2001-10-18  JP Rosevear  <jpr@ximian.com>
+
+	* gui/e-meeting-time-sel.c
+	(e_meeting_time_selector_on_invite_others_button_clicked): call
+	the invite others dialog in the model
+
+	* gui/e-meeting-attendee.c (e_meeting_attendee_get_atype): pick
+	attendee type based on role and cutype
+
+	* gui/e-meeting-attendee.h: remove proto
+
+	* gui/Makefile.am: compile select names idl
+
+	* gui/e-meeting-model.h: new proto
+
+	* gui/dialogs/meeting-page.c: remove invite others dialogs bits
+	from here
+
+	* gui/e-meeting-model.c (e_meeting_model_invite_others_dialog):
+	and put them here
+	
+	* gui/dialogs/Makefile.am: compile corba bits in parent dir
+
+	* gui/dialogs/comp-editor-util.h: reflect above in includes
+
+	* gui/dialogs/e-delegate-dialog.c: ditto
+
+	* gui/dialogs/schedule-page.c: ditto and clean includes
+	
 2001-10-18  Larry Ewing  <lewing@ximian.com>
 
 	* gui/alarm-notify/alarm-notify-dialog.c: add html widget

@@ -27,10 +27,6 @@
 #endif
 
 #include <glib.h>
-#include <liboaf/liboaf.h>
-#include <bonobo/bonobo-control.h>
-#include <bonobo/bonobo-widget.h>
-#include <bonobo/bonobo-exception.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtkvbox.h>
@@ -49,8 +45,6 @@
 #include <gal/widgets/e-gui-utils.h>
 #include <widgets/misc/e-dateedit.h>
 #include <e-util/e-dialog-widgets.h>
-#include <e-destination.h>
-#include "Evolution-Addressbook-SelectNames.h"
 #include "../e-meeting-time-sel.h"
 #include "../itip-utils.h"
 #include "comp-editor-util.h"

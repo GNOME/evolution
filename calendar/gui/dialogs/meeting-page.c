@@ -27,10 +27,6 @@
 #endif
 
 #include <glib.h>
-#include <liboaf/liboaf.h>
-#include <bonobo/bonobo-control.h>
-#include <bonobo/bonobo-widget.h>
-#include <bonobo/bonobo-exception.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtkvbox.h>
@@ -48,8 +44,6 @@
 #include <gal/widgets/e-gui-utils.h>
 #include <widgets/misc/e-dateedit.h>
 #include <e-util/e-dialog-widgets.h>
-#include <e-destination.h>
-#include "Evolution-Addressbook-SelectNames.h"
 #include "../component-factory.h"
 #include "../e-meeting-attendee.h"
 #include "../e-meeting-model.h"
@@ -59,7 +53,6 @@
 #include "meeting-page.h"
 
 
-#define SELECT_NAMES_OAFID "OAFIID:GNOME_Evolution_Addressbook_SelectNames"
 
 enum columns {
 	MEETING_ATTENDEE_COL,
@@ -113,9 +106,6 @@ struct _MeetingPagePrivate {
 	gboolean other;
 	gboolean existing;
         gboolean updating;
-	
-	/* For handling the invite button */
-        GNOME_Evolution_Addressbook_SelectNames corba_select_names;
 };
 
 
@@ -512,132 +502,6 @@ get_widgets (MeetingPage *mpage)
 		&& priv->existing_organizer_btn);
 }
 
-static void
-invite_entry_changed (BonoboListener    *listener,
-		      char              *event_name,
-		      CORBA_any         *arg,
-		      CORBA_Environment *ev,
-		      gpointer           data)
-{
-	MeetingPage *mpage = data;
-	MeetingPagePrivate *priv;
-	Bonobo_Control corba_control;
-	GtkWidget *control_widget;
-	EDestination **destv;
-	char *string = NULL, *section;
-	int i;
-	
-	priv = mpage->priv;
-
-	section = BONOBO_ARG_GET_STRING (arg);
-	
-	g_message ("event: \"%s\", section \"%s\"", event_name, section);
-
-	corba_control = GNOME_Evolution_Addressbook_SelectNames_getEntryBySection (priv->corba_select_names, section, ev);
-	control_widget = bonobo_widget_new_control_from_objref (corba_control, CORBA_OBJECT_NIL);
-
-	bonobo_widget_get_property (BONOBO_WIDGET (control_widget), "destinations", &string, NULL);
-	destv = e_destination_importv (string);
-	if (destv == NULL)
-		return;
-	
-	for (i = 0; destv[i] != NULL; i++) {
-		EMeetingAttendee *ia;
-		const char *name, *address;
-		
-		name = e_destination_get_name (destv[i]);		
-		address = e_destination_get_email (destv[i]);
-		
-		if (e_meeting_model_find_attendee (priv->model, address, NULL) == NULL) {
-			ia = e_meeting_model_add_attendee_with_defaults (priv->model);
-
-			e_meeting_attendee_set_address (ia, g_strdup_printf ("MAILTO:%s", address));
-			if (!strcmp (section, _("Chair Persons")))
-				e_meeting_attendee_set_role (ia, ICAL_ROLE_CHAIR);
-			else if (!strcmp (section, _("Required Participants")))
-				e_meeting_attendee_set_role (ia, ICAL_ROLE_REQPARTICIPANT);
-			else if (!strcmp (section, _("Optional Participants")))
-				e_meeting_attendee_set_role (ia, ICAL_ROLE_OPTPARTICIPANT);
-			else if (!strcmp (section, _("Non-Participants")))
-				e_meeting_attendee_set_role (ia, ICAL_ROLE_NONPARTICIPANT);
-			e_meeting_attendee_set_cn (ia, g_strdup (name));
-		}
-	}
-	e_destination_freev (destv);
-}
-
-static void
-add_section (GNOME_Evolution_Addressbook_SelectNames corba_select_names, const char *name, int limit)
-{
-	CORBA_Environment ev;
-
-	CORBA_exception_init (&ev);
-
-	if (limit != 0)
-		GNOME_Evolution_Addressbook_SelectNames_addSectionWithLimit (corba_select_names,
-									     name, name, limit, &ev);
-	else
-		GNOME_Evolution_Addressbook_SelectNames_addSection (corba_select_names,
-								    name, name, &ev);
-
-	CORBA_exception_free (&ev);
-}
-
-static gboolean
-get_select_name_dialog (MeetingPage *mpage) 
-{
-	MeetingPagePrivate *priv;
-	const char *sections[] = {_("Chair Persons"), _("Required Participants"), _("Optional Participants"), _("Non-Participants")};
-	CORBA_Environment ev;
-	
-	priv = mpage->priv;
-
-	if (priv->corba_select_names != CORBA_OBJECT_NIL) {
-		Bonobo_Control corba_control;
-		GtkWidget *control_widget;
-		int i;
-		
-		CORBA_exception_init (&ev);
-		for (i = 0; i < 4; i++) {			
-			corba_control = GNOME_Evolution_Addressbook_SelectNames_getEntryBySection (priv->corba_select_names, sections[i], &ev);
-			if (BONOBO_EX (&ev)) {
-				CORBA_exception_free (&ev);
-				return FALSE;				
-			}
-			
-			control_widget = bonobo_widget_new_control_from_objref (corba_control, CORBA_OBJECT_NIL);
-			
-			bonobo_widget_set_property (BONOBO_WIDGET (control_widget), "text", "", NULL);		
-		}
-		CORBA_exception_free (&ev);
-
-		return TRUE;
-	}
-	
-	CORBA_exception_init (&ev);
-
-	priv->corba_select_names = oaf_activate_from_id (SELECT_NAMES_OAFID, 0, NULL, &ev);
-
-	add_section (priv->corba_select_names, sections[0], 0);
-	add_section (priv->corba_select_names, sections[1], 0);
-	add_section (priv->corba_select_names, sections[2], 0);
-	add_section (priv->corba_select_names, sections[3], 0);
-
-	bonobo_event_source_client_add_listener (priv->corba_select_names,
-						 invite_entry_changed,
-						 "GNOME/Evolution:changed:model",
-						 NULL, mpage);
-	
-	if (BONOBO_EX (&ev)) {
-		CORBA_exception_free (&ev);
-		return FALSE;
-	}
-
-	CORBA_exception_free (&ev);
-
-	return TRUE;
-}
-
 /* This is called when any field is changed; it notifies upstream. */
 static void
 field_changed_cb (GtkWidget *widget, gpointer data)
@@ -697,20 +561,11 @@ invite_cb (GtkWidget *widget, gpointer data)
 {
 	MeetingPage *mpage;
 	MeetingPagePrivate *priv;
-	CORBA_Environment ev;
 	
 	mpage = MEETING_PAGE (data);
 	priv = mpage->priv;
-	
-	if (!get_select_name_dialog (mpage))
-		return;
-	
-	CORBA_exception_init (&ev);
 
-	GNOME_Evolution_Addressbook_SelectNames_activateDialog (
-		priv->corba_select_names, _("Required Participants"), &ev);
-
-	CORBA_exception_free (&ev);
+	e_meeting_model_invite_others_dialog (priv->model);
 }
 
 /* Hooks the widget signals */

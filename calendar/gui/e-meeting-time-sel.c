@@ -1267,8 +1267,7 @@ static void
 e_meeting_time_selector_on_invite_others_button_clicked (GtkWidget *button,
 							 EMeetingTimeSelector *mts)
 {
-
-
+	e_meeting_model_invite_others_dialog (mts->model);
 }
 
 

@@ -119,7 +119,6 @@ void e_meeting_attendee_set_language (EMeetingAttendee *ia, gchar *language);
 gboolean e_meeting_attendee_is_set_language (EMeetingAttendee *ia);
 
 EMeetingAttendeeType e_meeting_attendee_get_atype (EMeetingAttendee *ia);
-void e_meeting_attendee_set_atype (EMeetingAttendee *ia, EMeetingAttendeeType type);
 
 gboolean e_meeting_attendee_get_has_calendar_info (EMeetingAttendee *ia);
 void e_meeting_attendee_set_has_calendar_info (EMeetingAttendee *ia, gboolean has_calendar_info);

@@ -82,7 +82,10 @@ gint e_meeting_model_count_attendees (EMeetingModel *im);
 const GPtrArray *e_meeting_model_get_attendees (EMeetingModel *im);
 void e_meeting_model_refresh_busy_periods (EMeetingModel *im, EMeetingModelRefreshCallback call_back, gpointer data);
 
+/* Helpful functions */
 ETableScrolled    *e_meeting_model_etable_from_model (EMeetingModel *im, const gchar *spec_file, const gchar *state_file);
+
+void e_meeting_model_invite_others_dialog (EMeetingModel *im);
 
 #ifdef __cplusplus
 }
