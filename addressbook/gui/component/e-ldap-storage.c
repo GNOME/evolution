@@ -187,7 +187,8 @@ load_ldap_data (EvolutionStorage *storage,
 
 		path = g_strdup_printf ("/%s", server->name);
 		evolution_storage_new_folder (storage, path, server->name,
-					      "contacts", server->uri, server->description);
+					      "contacts", server->uri,
+					      server->description, FALSE);
 
 		g_hash_table_insert (servers, server->name, server);
 
@@ -278,7 +279,8 @@ e_ldap_storage_add_server (ELDAPServer *server)
 
 	/* and then to the ui */
 	path = g_strdup_printf ("/%s", server->name);
-	evolution_storage_new_folder (storage, path, server->name, "contacts", server->uri, server->description);
+	evolution_storage_new_folder (storage, path, server->name, "contacts",
+				      server->uri, server->description, FALSE);
 
 	g_free (path);
 

@@ -1,3 +1,9 @@
+2000-11-01  Dan Winship  <danw@helixcode.com>
+
+	* gui/component/e-ldap-storage.c (load_ldap_data): 
+	(e_ldap_storage_add_server): Add "highlighted" flag to
+	evolution_storage_new_folder
+
 2000-10-31  JP Rosevear  <jpr@helixcode.com>
 
 	* conduit/address-conduit.c (cursor_cb): Let the warning make sense
