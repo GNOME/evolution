@@ -1307,11 +1307,11 @@ link_copy_location (GtkWidget *w, MailDisplay *mail_display)
 #define TERMINATOR { NULL, NULL, (NULL), NULL,  0 }
 
 static EPopupMenu link_menu [] = {
-	{ N_("Open link in browser"), NULL,
+	{ N_("Open Link in Browser"), NULL,
 	  GTK_SIGNAL_FUNC (link_open_in_browser),  NULL,  0 },
 	{ N_("Save as (FIXME)"), NULL,
 	  GTK_SIGNAL_FUNC (link_save_as), NULL,  0 },
-	{ N_("Copy location"), NULL,
+	{ N_("Copy Link Location"), NULL,
 	  GTK_SIGNAL_FUNC (link_copy_location), NULL,  0 },
 	
 	TERMINATOR

@@ -1,5 +1,11 @@
 2001-06-28  Ettore Perazzoli  <ettore@ximian.com>
 
+	* mail-display.c: Fix case of labels in the `link_menu' so that it
+	is consistent with that of the other menus in Evolution
+	[i.e. "Copy Link Location" instead of "Copy Location" etc.].
+
+2001-06-28  Ettore Perazzoli  <ettore@ximian.com>
+
 	* mail-display.c (invisible_selection_get_callback): New, signal
 	handler for "selection_get" on the GtkInvisible widget we use for
 	selections.
