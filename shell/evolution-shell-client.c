@@ -584,9 +584,9 @@ evolution_shell_client_get_pixbuf_for_type (EvolutionShellClient *shell_client,
 
 		g_hash_table_insert (shell_client->priv->icons,
 				     hash_name, pixbuf);
-	}
+	} else
+		g_free (hash_name);
 
-	g_free (hash_name);
 	gdk_pixbuf_ref (pixbuf);
 	return pixbuf;
 }

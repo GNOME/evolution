@@ -1,5 +1,10 @@
 2002-04-04  Dan Winship  <danw@ximian.com>
 
+	* evolution-shell-client.c
+	(evolution_shell_client_get_pixbuf_for_type): Fix a memory mixup.
+
+2002-04-04  Dan Winship  <danw@ximian.com>
+
 	* evolution-folder-selector-button.c: New widget for a button that
 	displays a folder selection in a standard form, and when clicked
 	lets the user select a new folder.
