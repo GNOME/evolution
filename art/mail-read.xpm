@@ -52,7 +52,6 @@ static char * mail_read_xpm[] = {
 "j	c #DAD7D1",
 "k	c #E0DCD5",
 "l	c #222221",
-"                ",
 "     .....      ",
 "    .+++++.     ",
 "   .++++++@.    ",
@@ -66,5 +65,6 @@ static char * mail_read_xpm[] = {
 " .>0{}abcd~8e.  ",
 " .fghhhi++jkl.  ",
 "  ...........   ",
+"                ",
 "                ",
 "                "};
