@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-08-13 14:55-0400\n"
-"PO-Revision-Date: 2004-08-09 23:19+0200\n"
+"PO-Revision-Date: 2004-08-15 10:41+0200\n"
 "Last-Translator: Francisco Javier F. Serrador <serrador@cvs.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -4812,9 +4812,8 @@ msgid "_Add Calendar"
 msgstr "_Añadir calendario"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:7
-#, fuzzy
 msgid "_Add Task List"
-msgstr "Añadir lista de tareas"
+msgstr "_Añadir lista de tareas"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:9
 msgid "_Refresh:"
@@ -10207,7 +10206,6 @@ msgid "Automatically synchronize remote mail locally"
 msgstr "Sincronizar automáticamente el correo remoto localmente"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:69
-#, fuzzy
 msgid "Address Book and Calendar"
 msgstr "Libreta de direcciones y calendario"
 
@@ -10220,9 +10218,8 @@ msgid "Post Office Agent SOAP Port:"
 msgstr "Puerto del agente de la oficina de correos SOAP:"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:78
-#, fuzzy
 msgid "Use Secure Connection (SSL)"
-msgstr "U_sar conexión segura (SSL):"
+msgstr "Usar conexión segura (SSL)"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:92
 msgid "Novell GroupWise"
@@ -12439,9 +12436,8 @@ msgid "Evolution"
 msgstr "Evolution"
 
 #: data/evolution.desktop.in.in.h:2
-#, fuzzy
 msgid "The Evolution Groupware Suite"
-msgstr "The Ximian Evolution Groupware Suite"
+msgstr "La suite de trabajo en grupo Evolution"
 
 #: data/evolution.keys.in.in.h:1
 msgid "address card"
@@ -17272,13 +17268,12 @@ msgstr ""
 "puede eliminar manualmente el contenido de «evolution» a su conveniencia.\n"
 
 #: shell/shell-errors.xml.h:25
-#, fuzzy
 msgid "_Remind Me Later"
-msgstr "Recordatorio"
+msgstr "_Recordarmelo más tarde"
 
 #: shell/shell-errors.xml.h:26
 msgid "_Keep Data"
-msgstr ""
+msgstr "_Conservar los datos"
 
 #. shell:upgrade-remove-1-4-confirm title
 #. shell:upgrade-remove-1-4-confirm primary
