@@ -1,5 +1,8 @@
 #!/usr/bin/perl
 
+# set to 1 if you want some extra spew
+$debug=0;
+
 # Interfaces of CORBA servers that need to die.
 @idls = ("IDL:GNOME/Evolution/ShellComponent:1.0",
 	 "IDL:GNOME/Evolution/CalFactory:1.0",
@@ -38,9 +41,17 @@ sub kill_exe {
 	printf ("killing $exe_name\n");
 
 	$redirect = "2> /dev/null";
+
+	print "$killcmd -9 $exe_name\n" if ($debug);
 	`$killcmd -9 $exe_name $redirect`;
+
+	print "$killcmd -9 $lt_name\n" if ($debug);
 	`$killcmd -9 $lt_name $redirect`;
+
+	print "$killcmd -9 $sub_exe_name\n" if ($debug);
 	`$killcmd -9 $sub_exe_name $redirect`;
+
+	print "$killcmd -9 $sub_lt_name\n" if ($debug);
 	`$killcmd -9 $sub_lt_name $redirect`;
 }
 

@@ -1,5 +1,10 @@
 2001-10-23  Chris Toshok  <toshok@ximian.com>
 
+	* tools/killev: and add a way to get some more spew about the
+	commands we're executing.
+
+2001-10-23  Chris Toshok  <toshok@ximian.com>
+
 	* tools/killev: use eq instead of ==.
 
 2001-10-23  Christopher James Lahey  <clahey@ximian.com>
