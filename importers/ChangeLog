@@ -1,3 +1,10 @@
+2001-06-18  Dan Winship  <danw@ximian.com>
+
+	* Makefile.am (evolution_netscape_importer_LDADD): 
+	(evolution_elm_importer_LDADD): 
+	(evolution_pine_importer_LDADD): 
+	(evolution_gnomecard_importer_LDADD): Remove DB3_LDADD
+
 2001-06-14  Damon Chaplin  <damon@ximian.com>
 
 	* .cvsignore: added evolution-gnomecard-importer.
