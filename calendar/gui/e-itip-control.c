@@ -123,16 +123,6 @@ itip_control_destroy_cb (GtkObject *object,
 	g_free (priv);
 }
 	
-static void
-itip_control_size_request_cb (GtkWidget *widget, GtkRequisition *requisition)
-{
-
-	/* gtk_widget_set (GTK_WIDGET (widget), "width", DEFAULT_WIDTH, NULL); */
-	/* gtk_widget_set (GTK_WIDGET (widget), "height", DEFAULT_HEIGHT, NULL); */
-	requisition->width = DEFAULT_WIDTH;
-	requisition->height = DEFAULT_HEIGHT;
-}
-
 
 static void
 cal_loaded_cb (GtkObject *object, CalClientGetStatus status, gpointer data)
@@ -1010,8 +1000,6 @@ e_itip_control_factory (BonoboGenericFactory *Factory, void *closure)
 
 	gtk_signal_connect (GTK_OBJECT (priv->main_frame), "destroy",
 			    GTK_SIGNAL_FUNC (itip_control_destroy_cb), priv);
-	gtk_signal_connect (GTK_OBJECT (priv->main_frame), "size_request",
-			    GTK_SIGNAL_FUNC (itip_control_size_request_cb), priv);
 
 	gtk_widget_show (priv->main_frame);
 

@@ -1,3 +1,11 @@
+2000-11-21   Jesse Pavel   <jpavel@helixcode.com>
+
+	* gui/e-itip-control.c: fixed the stupid Bonobo widget size
+	allocation bug that had been vexing me.
+
+	* gui/e-itip-control.glade: I removed some hacks that were
+	necessary for said size bug.
+
 2000-11-16   Jesse Pavel   <jpavel@helixcode.com>
 
 	* gui/e-itip-control.c, gui/e-meeting-edit.c: added cancellation
