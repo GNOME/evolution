@@ -144,7 +144,7 @@ static void md4sum                (const unsigned char *in,
 				   unsigned char        digest[16]);
 
 /* DES */
-typedef unsigned long DES_KS[16][2]; /* Single-key DES key schedule */
+typedef guint32 DES_KS[16][2]; /* Single-key DES key schedule */
 
 static void deskey                (DES_KS, unsigned char *, int);
 
@@ -379,7 +379,7 @@ md4sum (const unsigned char *in, int nbytes, unsigned char digest[16])
 
 
 /* Public domain DES implementation from Phil Karn */
-static unsigned long Spbox[8][64] = {
+static guint32 Spbox[8][64] = {
 	{ 0x01010400, 0x00000000, 0x00010000, 0x01010404,
 	  0x01010004, 0x00010404, 0x00000004, 0x00010000,
 	  0x00000400, 0x01010400, 0x01010404, 0x00000400,
@@ -526,20 +526,20 @@ static unsigned long Spbox[8][64] = {
 /* Encrypt or decrypt a block of data in ECB mode */
 static void
 des(ks,block)
-unsigned long ks[16][2];	/* Key schedule */
+guint32 ks[16][2];	/* Key schedule */
 unsigned char block[8];		/* Data block */
 {
-	unsigned long left,right,work;
+	guint32 left,right,work;
 	
 	/* Read input block and place in left/right in big-endian order */
-	left = ((unsigned long)block[0] << 24)
-	 | ((unsigned long)block[1] << 16)
-	 | ((unsigned long)block[2] << 8)
-	 | (unsigned long)block[3];
-	right = ((unsigned long)block[4] << 24)
-	 | ((unsigned long)block[5] << 16)
-	 | ((unsigned long)block[6] << 8)
-	 | (unsigned long)block[7];
+	left = ((guint32)block[0] << 24)
+	 | ((guint32)block[1] << 16)
+	 | ((guint32)block[2] << 8)
+	 | (guint32)block[3];
+	right = ((guint32)block[4] << 24)
+	 | ((guint32)block[5] << 16)
+	 | ((guint32)block[6] << 8)
+	 | (guint32)block[7];
 
 	/* Hoey's clever initial permutation algorithm, from Outerbridge
 	 * (see Schneier p 478)	
@@ -694,13 +694,13 @@ int decrypt;			/* 0 = encrypt, 1 = decrypt */
 			}
 		}
 		/* Now convert to packed odd/even interleaved form */
-		k[i][0] = ((long)ks[0] << 24)
-		 | ((long)ks[2] << 16)
-		 | ((long)ks[4] << 8)
-		 | ((long)ks[6]);
-		k[i][1] = ((long)ks[1] << 24)
-		 | ((long)ks[3] << 16)
-		 | ((long)ks[5] << 8)
-		 | ((long)ks[7]);
+		k[i][0] = ((guint32)ks[0] << 24)
+		 | ((guint32)ks[2] << 16)
+		 | ((guint32)ks[4] << 8)
+		 | ((guint32)ks[6]);
+		k[i][1] = ((guint32)ks[1] << 24)
+		 | ((guint32)ks[3] << 16)
+		 | ((guint32)ks[5] << 8)
+		 | ((guint32)ks[7]);
 	}
 }

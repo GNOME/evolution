@@ -106,6 +106,7 @@ enum _camel_mime_parser_state camel_mime_parser_step (CamelMimeParser *parser, c
 void camel_mime_parser_unstep (CamelMimeParser *parser);
 void camel_mime_parser_drop_step (CamelMimeParser *parser);
 enum _camel_mime_parser_state camel_mime_parser_state (CamelMimeParser *parser);
+void camel_mime_parser_push_state(CamelMimeParser *mp, enum _camel_mime_parser_state newstate, const char *boundary);
 
 /* read through the parser */
 int camel_mime_parser_read (CamelMimeParser *parser, const char **databuffer, int len);
@@ -138,6 +139,7 @@ off_t camel_mime_parser_seek (CamelMimeParser *parser, off_t offset, int whence)
 
 off_t camel_mime_parser_tell_start_headers (CamelMimeParser *parser);
 off_t camel_mime_parser_tell_start_from (CamelMimeParser *parser);
+off_t camel_mime_parser_tell_start_boundary(CamelMimeParser *parser);
 
 #ifdef __cplusplus
 }

@@ -19,7 +19,7 @@ static char *convert(const char *in, const char *from, const char *to)
 	iconv_t ic = iconv_open(to, from);
 	char *out, *outp;
 	const char *inp;
-	int inlen, outlen;
+	size_t inlen, outlen;
 
 	if (ic == (iconv_t)-1)
 		return g_strdup(in);

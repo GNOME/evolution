@@ -140,10 +140,7 @@ int main(int argc, char **argv)
 	check(strcmp(camel_multipart_get_boundary(mp2), "_=,.XYZ_Kangaroo_Meat_is_!_ABADF00D") == 0);
 	check(mp2->preface == NULL || strlen(mp2->preface) == 0);
 
-	/* FIXME */
-	camel_test_nonfatal("postface may gain a single \\n?");
 	check_msg(mp2->postface == NULL || strlen(mp2->postface) == 0, "postface: '%s'", mp2->postface);
-	camel_test_fatal();
 
 	test_message_compare_content(camel_medium_get_content_object(CAMEL_MEDIUM(camel_multipart_get_part(mp2, 0))),
 				     "content part 1", strlen("content part 1"));
@@ -175,8 +172,8 @@ int main(int argc, char **argv)
 	check(camel_multipart_get_number(mp2) == 3);
 
 	check(strcmp(camel_multipart_get_boundary(mp2), "_=,.XYZ_Kangaroo_Meat_is_!_ABADF00D") == 0);
-	check(strcmp(mp2->preface, "pre-text\nLines.") == 0);
-	check(strcmp(mp2->postface, "post-text, no lines.\nOne line.\n") == 0);
+	check(mp2->preface && strcmp(mp2->preface, "pre-text\nLines.") == 0);
+	check(mp2->postface && strcmp(mp2->postface, "post-text, no lines.\nOne line.\n") == 0);
 	test_message_compare_content(camel_medium_get_content_object(CAMEL_MEDIUM(camel_multipart_get_part(mp2, 0))),
 					   "content part 1", strlen("content part 1"));
 	test_message_compare_content(camel_medium_get_content_object(CAMEL_MEDIUM(camel_multipart_get_part(mp2, 1))),

@@ -1,3 +1,56 @@
+2005-01-17  Not Zed  <NotZed@Ximian.com>
+
+	* camel-multipart-signed.c (skip_content): in the message state
+	skip a state, otherwise we go nowhere but down an overflowed stack drain.
+
+2005-01-13  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #69024.
+
+	* providers/nntp/camel-nntp-store.c
+	(nntp_store_get_subscribed_folder_info): emit a folder_changed
+	event if refreshing it added any changes.
+
+2005-01-12  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #47824.
+
+	* camel-multipart-signed.c (parse_content): re-implemented to use
+	camel-mime-parser.  For the annoying pathalogical case of re-used
+	multipart boundary markers.
+
+	* camel-mime-parser.c (folder_scan_step): modified the multipart
+	state so that we don't try to match the same boundary again if
+	we've already seen an end boundary for this part.  This is for the
+	annoying case of a multipart inside a multipart which shares an
+	identical boundary marker (groupwise!).
+	(camel_mime_parser_tell_start_boundary): new function to indicate
+	the offset of the start of the last boundary.
+
+	* tests/lib/folders.c (test_folder_message_ops): fix test case for
+	deleting message - marks message read too.
+	(test_folder_counts): fix typo.
+
+	* tests/message/test3.c (main): remove the nonfatal fixme & put
+	extra null check for pre/postface text checks.
+
+	* tests/message/test2.c (convert): use size_t for iconv length
+	types.
+
+2005-01-08  Not Zed  <NotZed@Ximian.com>
+
+	* camel-sasl-ntlm.c: convert all the unsigned long/long stuff to
+	guint32 since it seems to need 32 bit integers.
+
+	* camel-url.c (camel_url_new_with_base): cast length to int.
+
+	* providers/imap/camel-imap-command.c
+	(imap_command_strdup_vprintf): cast strlen to int.
+
+	* camel-mime-utils.c (append_quoted_pair, header_decode_text): use
+	gssize for length to match dumb g-api.
+
+
 2005-01-20  Not Zed  <NotZed@Ximian.com>
 
 	* camel-lock-helper.c (main): since malloc(MAXINT+1) returns a

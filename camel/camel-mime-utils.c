@@ -1118,8 +1118,8 @@ append_8bit (GString *out, const char *inbuf, size_t inlen, const char *charset)
 	
 }
 
-static void
-append_quoted_pair (GString *str, const char *in, int inlen)
+static GString *
+append_quoted_pair (GString *str, const char *in, gssize inlen)
 {
 	register const char *inptr = in;
 	const char *inend = in + inlen;
@@ -1132,6 +1132,8 @@ append_quoted_pair (GString *str, const char *in, int inlen)
 		else
 			g_string_append_c (str, c);
 	}
+
+	return str;
 }
 
 /* decodes a simple text, rfc822 + rfc2047 */
@@ -1140,7 +1142,7 @@ header_decode_text (const char *in, size_t inlen, int ctext, const char *default
 {
 	GString *out;
 	const char *inptr, *inend, *start, *chunk, *locale_charset;
-	void (* append) (GString *, const char *, int);
+	GString *(* append) (GString *, const char *, gssize);
 	char *dword = NULL;
 	guint32 mask;
 	

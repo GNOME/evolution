@@ -46,6 +46,8 @@
 #include "camel-stream.h"
 #include "camel-seekable-stream.h"
 
+#include "e-util/e-memory.h"
+
 #define r(x) 
 #define h(x) 
 #define c(x) 
@@ -56,8 +58,6 @@
 /*#define PURIFY*/
 
 #define MEMPOOL
-
-#define STRUCT_ALIGN 4
 
 #ifdef PURIFY
 int inend_id = -1,
@@ -70,115 +70,6 @@ int inend_id = -1,
 /* a little hacky, but i couldn't be bothered renaming everything */
 #define _header_scan_state _CamelMimeParserPrivate
 #define _PRIVATE(o) (((CamelMimeParser *)(o))->priv)
-
-#ifdef MEMPOOL
-typedef struct _MemPoolNode {
-	struct _MemPoolNode *next;
-
-	int free;
-	char data[1];
-} MemPoolNode;
-
-typedef struct _MemPoolThresholdNode {
-	struct _MemPoolThresholdNode *next;
-	char data[1];
-} MemPoolThresholdNode;
-
-typedef struct _MemPool {
-	int blocksize;
-	int threshold;
-	struct _MemPoolNode *blocks;
-	struct _MemPoolThresholdNode *threshold_blocks;
-} MemPool;
-
-MemPool *mempool_new(int blocksize, int threshold);
-void *mempool_alloc(MemPool *pool, int size);
-void mempool_flush(MemPool *pool, int freeall);
-void mempool_free(MemPool *pool);
-
-MemPool *mempool_new(int blocksize, int threshold)
-{
-	MemPool *pool;
-
-	pool = g_malloc(sizeof(*pool));
-	if (threshold >= blocksize)
-		threshold = blocksize * 2 / 3;
-	pool->blocksize = blocksize;
-	pool->threshold = threshold;
-	pool->blocks = NULL;
-	pool->threshold_blocks = NULL;
-	return pool;
-}
-
-void *mempool_alloc(MemPool *pool, int size)
-{
-	size = (size + STRUCT_ALIGN) & (~(STRUCT_ALIGN-1));
-	if (size>=pool->threshold) {
-		MemPoolThresholdNode *n;
-
-		n = g_malloc(sizeof(*n) - sizeof(char) + size);
-		n->next = pool->threshold_blocks;
-		pool->threshold_blocks = n;
-		return &n->data[0];
-	} else {
-		MemPoolNode *n;
-
-		n = pool->blocks;
-		while (n) {
-			if (n->free >= size) {
-				n->free -= size;
-				return &n->data[n->free];
-			}
-			n = n->next;
-		}
-
-		n = g_malloc(sizeof(*n) - sizeof(char) + pool->blocksize);
-		n->next = pool->blocks;
-		pool->blocks = n;
-		n->free = pool->blocksize - size;
-		return &n->data[n->free];
-	}
-}
-
-void mempool_flush(MemPool *pool, int freeall)
-{
-	MemPoolThresholdNode *tn, *tw;
-	MemPoolNode *pw, *pn;
-
-	tw = pool->threshold_blocks;
-	while (tw) {
-		tn = tw->next;
-		g_free(tw);
-		tw = tn;
-	}
-	pool->threshold_blocks = NULL;
-
-	if (freeall) {
-		pw = pool->blocks;
-		while (pw) {
-			pn = pw->next;
-			g_free(pw);
-			pw = pn;
-		}
-		pool->blocks = NULL;
-	} else {
-		pw = pool->blocks;
-		while (pw) {
-			pw->free = pool->blocksize;
-			pw = pw->next;
-		}
-	}
-}
-
-void mempool_free(MemPool *pool)
-{
-	if (pool) {
-		mempool_flush(pool, 1);
-		g_free(pool);
-	}
-}
-
-#endif
 
 struct _header_scan_state {
 
@@ -213,6 +104,7 @@ struct _header_scan_state {
 	unsigned int eof:1;		/* reached eof? */
 
 	off_t start_of_from;	/* where from started */
+	off_t start_of_boundary; /* where the last boundary started */
 	off_t start_of_headers;	/* where headers started from the last scan */
 
 	off_t header_start;	/* start of last header, or -1 */
@@ -232,7 +124,7 @@ struct _header_scan_stack {
 	enum _camel_mime_parser_state savestate; /* state at invocation of this part */
 
 #ifdef MEMPOOL
-	MemPool *pool;		/* memory pool to keep track of headers/etc at this level */
+	EMemPool *pool;		/* memory pool to keep track of headers/etc at this level */
 #endif
 	struct _camel_header_raw *headers;	/* headers for this part */
 
@@ -269,6 +161,8 @@ static int folder_scan_skip_line(struct _header_scan_state *s, GByteArray *save)
 static off_t folder_seek(struct _header_scan_state *s, off_t offset, int whence);
 static off_t folder_tell(struct _header_scan_state *s);
 static int folder_read(struct _header_scan_state *s);
+static void folder_push_part(struct _header_scan_state *s, struct _header_scan_stack *h);
+
 #ifdef MEMPOOL
 static void header_append_mempool(struct _header_scan_state *s, struct _header_scan_stack *h, char *header, int offset);
 #endif
@@ -856,6 +750,24 @@ camel_mime_parser_tell_start_from (CamelMimeParser *parser)
 }
 
 /**
+ * camel_mime_parser_tell_start_boundary:
+ * @parser: MIME parser object
+ * 
+ * When parsing a multipart, this returns the start of the last
+ * boundary.
+ * 
+ * Return value: The start of the boundary, or -1 if there
+ * was no boundary encountered yet.
+ **/
+off_t
+camel_mime_parser_tell_start_boundary(CamelMimeParser *parser)
+{
+	struct _header_scan_state *s = _PRIVATE (parser);
+
+	return s->start_of_boundary;
+}
+
+/**
  * camel_mime_parser_seek:
  * @parser: MIME parser object
  * @offset: Number of bytes to offset the seek by.
@@ -894,6 +806,30 @@ camel_mime_parser_state (CamelMimeParser *parser)
 	struct _header_scan_state *s = _PRIVATE (parser);
 	
 	return s->state;
+}
+
+/**
+ * camel_mime_parser_push_state:
+ * @mp: MIME parser object
+ * @newstate: New state
+ * @boundary: Boundary marker for state.
+ * 
+ * Pre-load a new parser state.  Used to post-parse multipart content
+ * without headers.
+ **/
+void
+camel_mime_parser_push_state(CamelMimeParser *mp, enum _camel_mime_parser_state newstate, const char *boundary)
+{
+	struct _header_scan_stack *h;
+	struct _header_scan_state *s = _PRIVATE(mp);
+
+	h = g_malloc0(sizeof(*h));
+	h->boundarylen = strlen(boundary)+2;
+	h->boundarylenfinal = h->boundarylen+2;
+	h->boundary = g_malloc(h->boundarylen+3);
+	sprintf(h->boundary, "--%s--", boundary);
+	folder_push_part(s, h);
+	s->state = newstate;
 }
 
 /**
@@ -1067,7 +1003,7 @@ folder_pull_part(struct _header_scan_state *s)
 		s->parts = h->parent;
 		g_free(h->boundary);
 #ifdef MEMPOOL
-		mempool_free(h->pool);
+		e_mempool_destroy(h->pool);
 #else
 		camel_header_raw_clear(&h->headers);
 #endif
@@ -1175,18 +1111,18 @@ header_append_mempool(struct _header_scan_state *s, struct _header_scan_stack *h
 	content = strchr(header, ':');
 	if (content) {
 		register int len;
-		n = mempool_alloc(h->pool, sizeof(*n));
+		n = e_mempool_alloc(h->pool, sizeof(*n));
 		n->next = NULL;
 		
 		len = content-header;
-		n->name = mempool_alloc(h->pool, len+1);
+		n->name = e_mempool_alloc(h->pool, len+1);
 		memcpy(n->name, header, len);
 		n->name[len] = 0;
 		
 		content++;
 		
 		len = s->outptr - content;
-		n->value = mempool_alloc(h->pool, len+1);
+		n->value = e_mempool_alloc(h->pool, len+1);
 		memcpy(n->value, content, len);
 		n->value[len] = 0;
 		
@@ -1246,7 +1182,7 @@ folder_scan_header(struct _header_scan_state *s, int *lastone)
 
 	h = g_malloc0(sizeof(*h));
 #ifdef MEMPOOL
-	h->pool = mempool_new(8192, 4096);
+	h->pool = e_mempool_new(8192, 4096, E_MEMPOOL_ALIGN_STRUCT);
 #endif
 
 	if (s->parts)
@@ -1518,6 +1454,7 @@ folder_scan_init(void)
 
 	s->start_of_from = -1;
 	s->start_of_headers = -1;
+	s->start_of_boundary = -1;
 
 	s->midline = FALSE;
 	s->scan_from = FALSE;
@@ -1589,8 +1526,7 @@ folder_scan_step(struct _header_scan_state *s, char **databuffer, size_t *datale
 	struct _header_scan_stack *h, *hb;
 	const char *content;
 	const char *bound;
-	int type;
-	int state;
+	int type, state, seenlast;
 	CamelContentType *ct = NULL;
 	struct _header_scan_filter *f;
 	size_t presize;
@@ -1760,6 +1696,14 @@ tail_recurse:
 		
 	case CAMEL_MIME_PARSER_STATE_MULTIPART:
 		h = s->parts;
+		/* This mess looks for the next boundary on this
+		level.  Once it finds the last one, it keeps going,
+		looking for post-multipart content ('postface').
+		Because messages might have duplicate boundaries for
+		different parts, it makes sure it stops if its already
+		found an end boundary for this part.  It handles
+		truncated and missing boundaries appropriately too. */
+		seenlast = FALSE;
 		do {
 			do {
 				hb = folder_scan_content(s, &state, databuffer, datalength);
@@ -1780,15 +1724,17 @@ tail_recurse:
 				}
 			} while (hb==h && *datalength>0);
 			h->prestage++;
-			if (*datalength==0 && hb==h) {
-				d(printf("got boundary: %s\n", hb->boundary));
+			if (*datalength==0 && hb==h && !seenlast) {
+				d(printf("got boundary: %s last=%d\n", hb->boundary, state));
+				s->start_of_boundary = folder_tell(s);
 				folder_scan_skip_line(s, NULL);
 				if (!state) {
 					s->state = CAMEL_MIME_PARSER_STATE_FROM;
 					folder_scan_step(s, databuffer, datalength);
 					s->parts->savestate = CAMEL_MIME_PARSER_STATE_MULTIPART; /* set return state for the new head part */
 					return;
-				}
+				} else
+					seenlast = TRUE;
 			} else {
 				break;
 			}

@@ -12,13 +12,19 @@ test_folder_counts(CamelFolder *folder, int total, int unread)
 {
 	GPtrArray *s;
 	int i, myunread;
+	guint32 gottotal, gotunread;
 	CamelMessageInfo *info;
 
 	push("test folder counts %d total %d unread", total, unread);
 
 	/* first, use the standard functions */
 	check(camel_folder_get_message_count(folder) == total);
-	check(camel_folder_get_unread_message_count(folder) == total);
+	check(camel_folder_get_unread_message_count(folder) == unread);
+
+	/* accessors */
+	camel_object_get(folder, NULL, CAMEL_FOLDER_TOTAL, &gottotal, CAMEL_FOLDER_UNREAD, &gotunread, 0);
+	check(gottotal == total);
+	check(gotunread == unread);
 
 	/* next, use the summary */
 	s = camel_folder_get_summary(folder);
@@ -469,7 +475,8 @@ test_folder_message_ops(CamelSession *session, const char *name, int local, cons
 
 		push("deleting first message & expunging");
 		camel_folder_delete_message(folder, uids->pdata[0]);
-		test_folder_counts(folder, 10, 10);
+		/* deleting marks message read implictly */
+		test_folder_counts(folder, 10, 9);
 		camel_folder_expunge(folder, ex);
 		check_msg(!camel_exception_is_set(ex), "%s", camel_exception_get_description(ex));
 		test_folder_not_message(folder, uids->pdata[0]);
@@ -498,7 +505,7 @@ test_folder_message_ops(CamelSession *session, const char *name, int local, cons
 		push("deleting last message & expunging");
 		camel_folder_delete_message(folder, uids->pdata[8]);
 		/* sync? */
-		test_folder_counts(folder, 9, 9);
+		test_folder_counts(folder, 9, 8);
 		camel_folder_expunge(folder, ex);
 		check_msg(!camel_exception_is_set(ex), "%s", camel_exception_get_description(ex));
 		test_folder_not_message(folder, uids->pdata[8]);
@@ -529,7 +536,7 @@ test_folder_message_ops(CamelSession *session, const char *name, int local, cons
 			camel_folder_delete_message(folder, uids->pdata[j]);
 		}
 		/* sync? */
-		test_folder_counts(folder, 8, 8);
+		test_folder_counts(folder, 8, 0);
 		camel_folder_expunge(folder, ex);
 		check_msg(!camel_exception_is_set(ex), "%s", camel_exception_get_description(ex));
 		for (j=0;j<8;j++) {

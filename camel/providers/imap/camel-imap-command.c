@@ -807,7 +807,7 @@ imap_command_strdup_vprintf (CamelImapStore *store, const char *fmt,
 				outptr += sprintf (outptr, "%s", string);
 			} else {
 				if (store->capabilities & IMAP_CAPABILITY_LITERALPLUS) {
-					outptr += sprintf (outptr, "{%d+}\r\n%s", strlen (string), string);
+					outptr += sprintf (outptr, "{%d+}\r\n%s", (int)strlen(string), string);
 				} else {
 					char *quoted = imap_quote_string (string);
 					
