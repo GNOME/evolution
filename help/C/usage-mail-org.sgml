@@ -894,11 +894,9 @@
     <note id="unmatched-vfolder">
       <title>The "Unmatched" vFolder</title>
       <para>
-	Obviously, not all messages will fit into all your Virtual
-	Folders.  That's why <application>Ximian
-	Evolution</application> includes an Unmatched vFolder.  The
-	Unmatched vFolder displays messages that are not matched by
-	other rules.
+	 The Unmatched vFolder is the mirror of all your other
+         vFolders: it displays whatever messages are not matched by
+         other vFolders.
       </para>
       <para>
         If you use remote email storage like IMAP or Microsoft

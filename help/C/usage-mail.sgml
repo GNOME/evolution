@@ -564,19 +564,6 @@
            To learn more about how you can specify message queue and
            filter behavior, see <xref linkend="config-prefs-mail">.
         </para>
-	  <note>
-            <title>Working Offline</title>
-            <para>
-	      Select
-	      <menuchoice><guimenu>File</guimenu><guimenuitem>Work
-	      Offline</guimenuitem></menuchoice> to have
-	      <application>Ximian Evolution</application> disconnect
-	      from the Internet while you work. When you want to
-	      reconnect, choose
-	      <menuchoice><guimenu>File</guimenu><guimenuitem>Work
-	      Online</guimenuitem></menuchoice>.  Alternativly, you can click the connection button at the bottom left side of the window.
-            </para>
-         </note>
 
       <para>
 	You can also choose to save messages as drafts or as text
@@ -609,6 +596,52 @@
       </para>
     </sect2>
 
+  <sect2 id="usage-mail-getnsend-offline">
+            <title>Working Offline</title>
+            <para>
+              Offline mode is a tool designed for use with a dialup
+              connection or for laptop users who do not have a network
+              connection at all times. It allows you to cache messages
+              for reference while you are not connected to the
+              network, and to compose messages and leave them in your
+              Outbox to be sent the next time you connect to the network.
+             </para>
+            <para>
+	      Select
+	      <menuchoice><guimenu>File</guimenu><guimenuitem>Work
+	      Offline</guimenuitem></menuchoice> to have
+	      <application>Ximian Evolution</application> disconnect
+	      from the Internet while you work. When you want to
+	      reconnect, choose
+	      <menuchoice><guimenu>File</guimenu><guimenuitem>Work
+	      Online</guimenuitem></menuchoice>.  Alternativly, you
+	      can click the connection button at the bottom left side
+	      of the window.
+            </para>
+            <para>
+               If you use POP mail, all your messages will be
+               available to you, because they are stored locally. If
+               you use IMAP or Exchange mail, messages are stored
+               remotely, so availability is a little different.
+            </para>
+            <para>
+               Messages that you have read are cached and stored
+               locally; all read messages will be available to you
+               even if you are offline. Unread messages will be
+               downloaded and saved for offline use if they are in a
+               folder that you have marked as an Offline Folder. To
+               mark a folder for offline use, select
+               <menuchoice><guimenu>Settings</guimenu>
+               <guimenuitem>Preferences</guimenuitem></menuchoice> and
+               then click the <guilabel>Folders</guilabel> icon. In
+               the <guilabel>Offline Folders</guilabel> tab, click the
+               check-box next to the folders that you would like to
+               use while you are offline. Then, when you select
+               <guimenuitem>Go Offline</guimenuitem>, Evolution will
+               fetch their contents and store them for later
+               reference.
+          </para>
+       </sect2>
     <sect2 id="usage-mail-getnsend-send-compose">
       <title>More About Mail Composition</title>
       <para>
@@ -949,7 +982,7 @@
 	  <para>
             To send all your mail as HTML by default, set your mail
             format preferences in the mail configuration dialog.  See
-            <xref linkend="config-prefs-mail-other"> for more
+            <xref linkend="config-prefs-mail-composer"> for more
             information.
       </para>
       <para>
