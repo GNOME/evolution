@@ -1,3 +1,8 @@
+2003-12-23  JP Rosevear <jpr@ximian.com>
+
+	* vfolder-rule.c (source_add): call peek instead of get as the
+	function was renamed
+
 2003-12-06  JP Rosevear <jpr@ximian.com>
 
 	* */Makefile.am: Remove hard coded disable deprecated flags
