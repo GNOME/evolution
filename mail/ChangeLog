@@ -1,3 +1,8 @@
+2000-05-26  Dan Winship  <danw@helixcode.com>
+
+	* mail-format.c (handle_via_bonobo): Update for PersistStream
+	changes
+
 2000-05-25  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* main.c (main): Initialize the component factory.

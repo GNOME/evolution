@@ -1002,17 +1002,18 @@ handle_via_bonobo (CamelMimePart *part, CamelMimeMessage *root, GtkBox *box)
 		camel_medium_get_content_object (CAMEL_MEDIUM (part)));
 	mimetype = g_strdup_printf ("%s/%s", type->type, type->subtype);
 	goad_id = gnome_mime_get_value (mimetype, "bonobo-goad-id");
-	g_free (mimetype);
 
 	if (!goad_id)
 		goad_id = gnome_mime_get_value (type->type, "bonobo-goad-id");
 	if (!goad_id) {
+		g_free (mimetype);
 		handle_undisplayable (part, root, box);
 		return;
 	}
 
 	embedded = bonobo_widget_new_subdoc (goad_id, NULL);
 	if (!embedded) {
+		g_free (mimetype);
 		handle_undisplayable (part, root, box);
 		return;
 	}
@@ -1021,6 +1022,7 @@ handle_via_bonobo (CamelMimePart *part, CamelMimeMessage *root, GtkBox *box)
 	persist = (Bonobo_PersistStream) bonobo_object_client_query_interface (
 		server, "IDL:Bonobo/PersistStream:1.0", NULL);
 	if (persist == CORBA_OBJECT_NIL) {
+		g_free (mimetype);
 		bonobo_object_unref (BONOBO_OBJECT (embedded));
 		handle_undisplayable (part, root, box);
 		return;
@@ -1040,7 +1042,8 @@ handle_via_bonobo (CamelMimePart *part, CamelMimeMessage *root, GtkBox *box)
 	Bonobo_PersistStream_load (persist,
 				   bonobo_object_corba_objref (
 					   BONOBO_OBJECT (bstream)),
-				   &ev);
+				   mimetype, &ev);
+	g_free (mimetype);
 	bonobo_object_unref (BONOBO_OBJECT (bstream));
 	Bonobo_Unknown_unref (persist, &ev);
 	CORBA_Object_release (persist, &ev);
