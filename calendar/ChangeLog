@@ -1,3 +1,11 @@
+2000-12-12  JP Rosevear  <jpr@helixcode.com>
+
+	* gui/dialogs/task-editor.c (task_editor_set_todo_object): Use
+	set_title_from_comp
+	(save_todo_object): ditto
+	(set_title_from_comp): Make sure the title is encoded properly (as in
+	event-editor)
+
 2000-12-12  Federico Mena Quintero  <federico@helixcode.com>
 
 	* cal-util/cal-component.c (get_text_list): Constify for new

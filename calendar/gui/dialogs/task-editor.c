@@ -31,6 +31,7 @@
 #include <gnome.h>
 #include <glade/glade.h>
 #include <gal/util/e-util.h>
+#include <gal/widgets/e-unicode.h>
 #include <e-util/e-dialog-widgets.h>
 #include <widgets/misc/e-dateedit.h>
 #include <cal-util/timeutil.h>
@@ -132,6 +133,7 @@ static gboolean get_widgets (TaskEditor *tedit);
 static void init_widgets (TaskEditor *tedit);
 static void task_editor_destroy (GtkObject *object);
 static char * make_title_from_comp (CalComponent *comp);
+static void set_title_from_comp (TaskEditor *tedit, CalComponent *comp);
 static void clear_widgets (TaskEditor *tedit);
 static void fill_widgets (TaskEditor *tedit);
 
@@ -648,7 +650,6 @@ task_editor_set_todo_object	(TaskEditor	*tedit,
 				 CalComponent	*comp)
 {
 	TaskEditorPrivate *priv;
-	char *title;
 
 	g_return_if_fail (tedit != NULL);
 	g_return_if_fail (IS_TASK_EDITOR (tedit));
@@ -663,10 +664,7 @@ task_editor_set_todo_object	(TaskEditor	*tedit,
 	if (comp)
 		priv->comp = cal_component_clone (comp);
 
-	title = make_title_from_comp (priv->comp);
-	gtk_window_set_title (GTK_WINDOW (priv->app), title);
-	g_free (title);
-
+	set_title_from_comp (tedit, priv->comp);
 	fill_widgets (tedit);
 }
 
@@ -706,6 +704,27 @@ make_title_from_comp (CalComponent *comp)
 	}
 }
 
+/* Sets the event editor's window title from a calendar component */
+static void
+set_title_from_comp (TaskEditor *tedit, CalComponent *comp)
+{
+	TaskEditorPrivate *priv;
+	char *title, *tmp;
+
+	priv = tedit->priv;
+
+	title = make_title_from_comp (comp);
+	tmp = e_utf8_to_gtk_string (priv->app, title);
+	g_free (title);
+
+	if (tmp) {
+		gtk_window_set_title (GTK_WINDOW (priv->app), tmp);
+		g_free (tmp);
+	} else {
+		g_message ("set_title_from_comp(): Could not convert the title from UTF8");
+		gtk_window_set_title (GTK_WINDOW (priv->app), "");
+	}
+}
 
 /* Fills the widgets with default values */
 static void
@@ -842,7 +861,6 @@ static void
 save_todo_object (TaskEditor *tedit)
 {
 	TaskEditorPrivate *priv;
-	char *title;
 
 	priv = tedit->priv;
 
@@ -852,10 +870,7 @@ save_todo_object (TaskEditor *tedit)
 		return;
 
 	dialog_to_comp_object (tedit);
-
-	title = make_title_from_comp (priv->comp);
-	gtk_window_set_title (GTK_WINDOW (priv->app), title);
-	g_free (title);
+	set_title_from_comp (tedit, priv->comp);
 
 	if (!cal_client_update_object (priv->client, priv->comp))
 		g_message ("save_todo_object(): Could not update the object!");
