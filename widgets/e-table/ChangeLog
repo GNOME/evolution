@@ -1,5 +1,10 @@
 2000-03-04  Christopher James Lahey  <clahey@helixcode.com>
 
+	* e-table.c: Added saving of frozen_columns count.  Added a
+	vertical scrollbar to ETable.
+
+2000-03-04  Christopher James Lahey  <clahey@helixcode.com>
+
 	* e-table.c: Push the proper visual and colormap for ETable to work.
 
 2000-03-04  Christopher James Lahey  <clahey@helixcode.com>

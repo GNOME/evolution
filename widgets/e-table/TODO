@@ -27,7 +27,7 @@ mouse grabbing for scrolling
 
 * Add an ETable::get_specification method to get the current layout information.
 
- 	* Add frozen_columns output.
++ 	* Add frozen_columns output.
 	* Add input and output of column widths and minimum column widths.
 
 * Add GUI sort

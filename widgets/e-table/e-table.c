@@ -674,10 +674,12 @@ et_real_construct (ETable *e_table, ETableHeader *full_header, ETableModel *etm,
 	xmlNode *xmlRoot;
 	xmlNode *xmlColumns;
 	xmlNode *xmlGrouping;
+	
+	GtkWidget *vscrollbar;
 
 	GTK_TABLE (e_table)->homogeneous = FALSE;
 
-	gtk_table_resize (GTK_TABLE (e_table), 1, 2);
+	gtk_table_resize (GTK_TABLE (e_table), 2, 2);
 
 	e_table->full_header = full_header;
 	gtk_object_ref (GTK_OBJECT (full_header));
@@ -698,6 +700,12 @@ et_real_construct (ETable *e_table, ETableHeader *full_header, ETableModel *etm,
 	e_table_setup_header (e_table);
 	e_table_setup_table (e_table, full_header, e_table->header, etm, xmlGrouping);
 	e_table_fill_table (e_table, etm);
+
+	vscrollbar = gtk_vscrollbar_new(gtk_layout_get_vadjustment(GTK_LAYOUT(e_table->table_canvas)));
+	gtk_widget_show (vscrollbar);
+	gtk_table_attach (
+		GTK_TABLE (e_table), vscrollbar,
+		1, 2, 1, 2, 0, GTK_FILL | GTK_EXPAND, 0, 0);
 
 	gtk_widget_pop_colormap ();
 	gtk_widget_pop_visual ();
@@ -765,6 +773,8 @@ et_build_column_spec(ETable *e_table)
 		xmlNewChild(columns_shown, NULL, "column", text);
 		g_free(text);
 	}
+	if ( e_table->header->frozen_count != 0 )
+		e_xml_set_integer_prop_by_name(columns_shown, "frozen_columns", e_table->header->frozen_count);
 	return columns_shown;
 }
 
