@@ -1,3 +1,14 @@
+2004-10-26  Li Yuan  <li.yuan@sun.com>
+
+	* calendar/ea-day-view.c: (ea_day_view_get_name):
+	* calendar/ea-gnome-calendar.c:
+	(ea_gnome_calendar_get_label_description),
+	(ea_gcal_dates_change_cb):
+	* calendar/ea-gnome-calendar.h:
+	* calendar/ea-week-view.c: (ea_week_view_get_name):
+	for calendar_get_text_for_folder_bar_label has been removed form
+	calendar-commands.c, we implement it ourself.
+
 2004-09-23  Li Yuan  <li.yuan@sun.com>
 
 	* calendar/ea-cal-view-event.c: (ea_cal_view_event_get_type),

@@ -27,6 +27,7 @@
 #include "ea-cal-view.h"
 #include "ea-cal-view-event.h"
 #include "ea-calendar-helpers.h"
+#include "ea-gnome-calendar.h"
 #include "calendar-commands.h"
 #include <gal/e-text/e-text.h>
 #include <libgnome/gnome-i18n.h>
@@ -138,12 +139,12 @@ ea_week_view_get_name (AtkObject *accessible)
 	week_view = E_WEEK_VIEW (GTK_ACCESSIBLE (accessible)->widget);
 
 	gcal = e_calendar_view_get_calendar (E_CALENDAR_VIEW (week_view));
-	label_text = calendar_get_text_for_folder_bar_label (gcal);
+	label_text = ea_gnome_calendar_get_label_description (gcal);
 
 	n_events = atk_object_get_n_accessible_children (accessible);
 	/* the child main item is always there */
 	--n_events;
-	if (n_events = 1)
+	if (n_events == 1)
 		g_snprintf (buffer, sizeof (buffer),
 			    _(", %d event"), n_events);
         if (n_events > 1)

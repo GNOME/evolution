@@ -57,6 +57,8 @@ struct _EaGnomeCalendarClass
 
 AtkObject*     ea_gnome_calendar_new         (GtkWidget       *widget);
 
+const gchar *	ea_gnome_calendar_get_label_description (GnomeCalendar *gcal);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

@@ -25,7 +25,9 @@
 
 #include "ea-gnome-calendar.h"
 #include "calendar-commands.h"
+#include <string.h>
 #include <gtk/gtknotebook.h>
+#include <libecal/e-cal-time-util.h>
 #include <libgnome/gnome-i18n.h>
 
 static void ea_gnome_calendar_class_init (EaGnomeCalendarClass *klass);
@@ -135,6 +137,108 @@ ea_gnome_calendar_new (GtkWidget *widget)
 	return accessible;
 }
 
+const gchar *
+ea_gnome_calendar_get_label_description (GnomeCalendar *gcal)
+{
+	icaltimezone *zone;
+	struct icaltimetype start_tt, end_tt;
+	time_t start_time, end_time;
+	struct tm start_tm, end_tm;
+	static char buffer[512];
+	char end_buffer[256];
+	GnomeCalendarViewType view;
+
+	gnome_calendar_get_visible_time_range (gcal, &start_time, &end_time);
+	zone = gnome_calendar_get_timezone (gcal);
+
+	start_tt = icaltime_from_timet_with_zone (start_time, FALSE, zone);
+	start_tm.tm_year = start_tt.year - 1900;
+	start_tm.tm_mon = start_tt.month - 1;
+	start_tm.tm_mday = start_tt.day;
+	start_tm.tm_hour = start_tt.hour;
+	start_tm.tm_min = start_tt.minute;
+	start_tm.tm_sec = start_tt.second;
+	start_tm.tm_isdst = -1;
+	start_tm.tm_wday = time_day_of_week (start_tt.day, start_tt.month - 1,
+					     start_tt.year);
+
+	/* Take one off end_time so we don't get an extra day. */
+	end_tt = icaltime_from_timet_with_zone (end_time - 1, FALSE, zone);
+	end_tm.tm_year = end_tt.year - 1900;
+	end_tm.tm_mon = end_tt.month - 1;
+	end_tm.tm_mday = end_tt.day;
+	end_tm.tm_hour = end_tt.hour;
+	end_tm.tm_min = end_tt.minute;
+	end_tm.tm_sec = end_tt.second;
+	end_tm.tm_isdst = -1;
+	end_tm.tm_wday = time_day_of_week (end_tt.day, end_tt.month - 1,
+					   end_tt.year);
+
+	view = gnome_calendar_get_view (gcal);
+
+	switch (view) {
+	case GNOME_CAL_DAY_VIEW:
+	case GNOME_CAL_WORK_WEEK_VIEW:
+	case GNOME_CAL_WEEK_VIEW:
+		if (start_tm.tm_year == end_tm.tm_year
+		    && start_tm.tm_mon == end_tm.tm_mon
+		    && start_tm.tm_mday == end_tm.tm_mday) {
+			e_utf8_strftime (buffer, sizeof (buffer),
+					_("%A %d %b %Y"), &start_tm);
+		} else if (start_tm.tm_year == end_tm.tm_year) {
+			e_utf8_strftime (buffer, sizeof (buffer),
+					_("%a %d %b"), &start_tm);
+			e_utf8_strftime (end_buffer, sizeof (end_buffer),
+					_("%a %d %b %Y"), &end_tm);
+			strcat (buffer, " - ");
+			strcat (buffer, end_buffer);
+		} else {
+			e_utf8_strftime (buffer, sizeof (buffer),
+					_("%a %d %b %Y"), &start_tm);
+			e_utf8_strftime (end_buffer, sizeof (end_buffer),
+					_("%a %d %b %Y"), &end_tm);
+			strcat (buffer, " - ");
+			strcat (buffer, end_buffer);
+		}
+		break;
+	case GNOME_CAL_MONTH_VIEW:
+	case GNOME_CAL_LIST_VIEW:
+		if (start_tm.tm_year == end_tm.tm_year) {
+			if (start_tm.tm_mon == end_tm.tm_mon) {
+				if (start_tm.tm_mday == end_tm.tm_mday) {
+					buffer [0] = '\0';
+				} else {
+					e_utf8_strftime (buffer, sizeof (buffer),
+							"%d", &start_tm);
+					strcat (buffer, " - ");
+				}
+				e_utf8_strftime (end_buffer, sizeof (end_buffer),
+						_("%d %b %Y"), &end_tm);
+				strcat (buffer, end_buffer);
+			} else {
+				e_utf8_strftime (buffer, sizeof (buffer),
+						_("%d %b"), &start_tm);
+				e_utf8_strftime (end_buffer, sizeof (end_buffer),
+						_("%d %b %Y"), &end_tm);
+				strcat (buffer, " - ");
+				strcat (buffer, end_buffer);
+			}
+		} else {
+			e_utf8_strftime (buffer, sizeof (buffer),
+					_("%d %b %Y"), &start_tm);
+			e_utf8_strftime (end_buffer, sizeof (end_buffer),
+					_("%d %b %Y"), &end_tm);
+			strcat (buffer, " - ");
+			strcat (buffer, end_buffer);
+		}
+		break;
+	default:
+		g_assert_not_reached ();
+		return NULL;
+	}
+	return buffer;
+}
+
 static G_CONST_RETURN gchar*
 ea_gnome_calendar_get_name (AtkObject *accessible)
 {
@@ -239,7 +343,7 @@ ea_gcal_dates_change_cb (GnomeCalendar *gcal, gpointer data)
 	g_return_if_fail (data);
 	g_return_if_fail (EA_IS_GNOME_CALENDAR (data));
 
-	new_name = calendar_get_text_for_folder_bar_label (gcal);
+	new_name = ea_gnome_calendar_get_label_description (gcal);
 	atk_object_set_name (ATK_OBJECT(data), new_name);
 	g_signal_emit_by_name (data, "visible_data_changed");
 
