@@ -1080,7 +1080,7 @@ AC_SUBST(LIBFILTER_LIBS)
 
 dnl --- evolution (shell) flags
 
-EVO_SET_COMPILE_FLAGS(SHELL, bonobo_conf bonobox_print gal gdk_pixbuf gnomecanvaspixbuf gnomeui libglade oaf vfs)
+EVO_SET_COMPILE_FLAGS(SHELL, bonobo_conf bonobox_print gal gdk_pixbuf gnomecanvaspixbuf gnomeui libglade oaf vfs, ${GTKHTML_CFLAGS}, ${GTKHTML_LIBS})
 AC_SUBST(SHELL_CFLAGS)
 AC_SUBST(SHELL_LIBS)
 
