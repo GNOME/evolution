@@ -20,42 +20,42 @@
         illustrated in <xref linkend="config-prefs-mail-fig">.  Mail
         preferences are separated into several categories:
         <variablelist>
-<varlistentry>
-  <term><guilabel>Accounts</guilabel></term>
-  <listitem>
-    <para>
-      This allows you to create and alter one or more identities for your
-      email.
-    </para>
-  </listitem>
-</varlistentry>
-<varlistentry>
-  <term><guilabel>Display</guilabel></term>
-    <listitem>
-      <para>
-       Allows you to edit how email is handled and displayed.
-      </para>
-    </listitem>
-</varlistentry>
-<varlistentry>
-  <term><guilabel>Composer</guilabel></term>
-  <listitem>
-    <para>
-      Customizes the composer window's behavior.
-    </para>
-  </listitem>
-</varlistentry>
-<varlistentry>
-  <term><guilabel>Other</guilabel></term>
-  <listitem>
-    <para>
-      Configures miscellanious aspects of <application>Evolution</application>
-      such as character sets.
-    </para>
-  </listitem>
-</varlistentry>
-      </variablelist>
-
+	  <varlistentry>
+	    <term><guilabel>Accounts</guilabel></term>
+	    <listitem>
+	      <para>
+		This allows you to create and alter one or more identities for your
+		email.
+	      </para>
+	    </listitem>
+	  </varlistentry>
+	  <varlistentry>
+	    <term><guilabel>Display</guilabel></term>
+	    <listitem>
+	      <para>
+		Allows you to edit how email is handled and displayed.
+	      </para>
+	    </listitem>
+	  </varlistentry>
+	  <varlistentry>
+	    <term><guilabel>Composer</guilabel></term>
+	    <listitem>
+	      <para>
+		Customizes the composer window's behavior.
+	      </para>
+	    </listitem>
+	  </varlistentry>
+	  <varlistentry>
+	    <term><guilabel>Other</guilabel></term>
+	    <listitem>
+	      <para>
+		Configures miscellanious aspects of <application>Evolution</application>
+		such as character sets.
+	      </para>
+	    </listitem>
+	  </varlistentry>
+	</variablelist>
+	
     </para>
 
       <!-- ==============Figure===================== -->
@@ -178,7 +178,7 @@
 	      <listitem>
 		<para>
                   Enter the user name for the account you have on the
-                  server-- this should the part of your email address
+                  server - this should the part of your email address
                   before the @.  If you use
                   <systemitem><filename>mbox</filename></systemitem>
                   or <systemitem><filename>mh</filename></systemitem>
@@ -281,20 +281,20 @@
           <variablelist>
 
              <varlistentry>
-                <term> 
-                   <guilabel>Send messages in HTML format</guilabel>
-                </term>
-                <listitem><para>
-                    If you check this box, you will send
-                    messages as HTML by default.  If you leave it unchecked, your
-                    messages will be sent without HTML formatting unless you select 
-                    <menuchoice> <guimenu>Format</guimenu> <guimenuitem>HTML</guimenuitem>
-                    </menuchoice> in the message composer.
-                    See <xref linkend="usage-mail-getnsend-send-html">
-                    for more information about HTML mail.
-                </para></listitem>
-              </varlistentry>
-             <varlistentry>
+	    <term> 
+	      <guilabel>Send messages in HTML format</guilabel>
+	    </term>
+	    <listitem><para>
+		If you check this box, you will send
+		messages as HTML by default.  If you leave it unchecked, your
+		messages will be sent without HTML formatting unless you select 
+		<menuchoice> <guimenu>Format</guimenu> <guimenuitem>HTML</guimenuitem>
+		</menuchoice> in the message composer.
+		See <xref linkend="usage-mail-getnsend-send-html">
+		  for more information about HTML mail.
+	      </para></listitem>
+	  </varlistentry>
+	  <varlistentry>
                 <term> 
                    <guilabel>Mark Messages as Seen After</guilabel>
                 </term>
