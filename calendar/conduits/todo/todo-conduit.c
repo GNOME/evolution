@@ -364,9 +364,9 @@ local_record_from_comp (EToDoLocalRecord *local, CalComponent *comp, EToDoCondui
 	GSList *d_list = NULL;
 	CalComponentText *description;
 	CalComponentDateTime due;
-	time_t due_time;
 	CalComponentClassification classif;
-
+	icaltimezone *default_tz = get_default_timezone ();
+	
 	LOG ("local_record_from_comp\n");
 
 	g_return_if_fail (local != NULL);
@@ -417,9 +417,10 @@ local_record_from_comp (EToDoLocalRecord *local, CalComponent *comp, EToDoCondui
 
 	cal_component_get_due (comp, &due);	
 	if (due.value) {
-		due_time = icaltime_as_timet_with_zone (*due.value, get_timezone (ctxt->client, due.tzid));
-		
-		local->todo->due = *localtime (&due_time);
+		icaltimezone_convert_time (due.value,
+					   get_timezone (ctxt->client, due.tzid),
+					   default_tz);
+		local->todo->due = icaltimetype_to_tm (due.value);
 		local->todo->indefinite = 0;
 	} else {
 		local->todo->indefinite = 1;
@@ -493,10 +494,10 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 {
 	CalComponent *comp;
 	struct ToDo todo;
-	struct icaltimetype now = icaltime_from_timet_with_zone (time (NULL), FALSE, timezone);
 	CalComponentText summary = {NULL, NULL};
 	CalComponentDateTime dt = {NULL, icaltimezone_get_tzid (timezone)};
-	struct icaltimetype due;
+	struct icaltimetype due, now;
+	icaltimezone *utc_zone;
 	int priority;
 	char *txt;
 	
@@ -504,6 +505,10 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 
 	memset (&todo, 0, sizeof (struct ToDo));
 	unpack_ToDo (&todo, remote->record, remote->length);
+
+	utc_zone = icaltimezone_get_utc_timezone ();
+	now = icaltime_from_timet_with_zone (time (NULL), FALSE, 
+					     utc_zone);
 
 	if (in_comp == NULL) {
 		comp = cal_component_new ();
@@ -537,12 +542,13 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 
 	if (todo.complete) {
 		int percent = 100;
+
 		cal_component_set_completed (comp, &now);
 		cal_component_set_percent (comp, &percent);
 	}
 
 	if (!is_empty_time (todo.due)) {
-		due = icaltime_from_timet_with_zone (mktime (&todo.due), FALSE, timezone);
+		due = tm_to_icaltimetype (&todo.due, FALSE);
 		dt.value = &due;
 		cal_component_set_due (comp, &dt);
 	}

@@ -520,3 +520,47 @@ time_from_isodate (const char *str)
 	return icaltime_as_timet_with_zone (tt, utc_zone);
 }
 
+struct tm
+icaltimetype_to_tm (struct icaltimetype *itt)
+{
+	struct tm tm;
+	
+	memset (&tm, 0, sizeof (struct tm));
+
+	if (!itt->is_date) {
+		tm.tm_sec = itt->second;
+		tm.tm_min = itt->minute;
+		tm.tm_hour = itt->hour;
+	}
+	
+	tm.tm_mday = itt->day;
+	tm.tm_mon = itt->month - 1;
+	tm.tm_year = itt->year - 1900;
+	tm.tm_isdst = -1;
+	
+	return tm;
+}
+
+struct icaltimetype
+tm_to_icaltimetype (struct tm *tm, gboolean is_date)
+{
+	struct icaltimetype itt;
+
+	memset (&itt, 0, sizeof (struct icaltimetype));
+
+	if (!is_date) {
+		itt.second = tm->tm_sec;
+		itt.minute = tm->tm_min;
+		itt.hour = tm->tm_hour;
+	}
+
+	itt.day = tm->tm_mday;
+	itt.month = tm->tm_mon + 1;
+	itt.year = tm->tm_year+ 1900;
+    
+	itt.is_utc = 0;
+	itt.is_date = is_date; 
+	
+	return itt;
+}
+

@@ -507,9 +507,9 @@ local_record_from_comp (ECalLocalRecord *local, CalComponent *comp, ECalConduitC
 	CalComponentText summary;
 	GSList *d_list = NULL, *edl = NULL, *l;
 	CalComponentText *description;
-	CalComponentDateTime dt_start, dt_end, dt;
+	CalComponentDateTime dt_start, dt_end;
 	CalComponentClassification classif;
-	time_t dt_time;
+	icaltimezone *default_tz = get_default_timezone ();
 	int i;
 	
 	g_return_if_fail (local != NULL);
@@ -561,18 +561,20 @@ local_record_from_comp (ECalLocalRecord *local, CalComponent *comp, ECalConduitC
 	cal_component_get_dtstart (comp, &dt_start);
 	cal_component_get_dtend (comp, &dt_end);
 	if (dt_start.value) {
-		dt_time = icaltime_as_timet_with_zone (*dt_start.value, 
-						       get_timezone (ctxt->client, dt_start.tzid));
-		local->appt->begin = *localtime (&dt_time);
+		icaltimezone_convert_time (dt_start.value, 
+					   get_timezone (ctxt->client, dt_start.tzid),
+					   default_tz);
+		local->appt->begin = icaltimetype_to_tm (dt_start.value);
 	}
 	
 	if (dt_start.value && dt_end.value) {
 		if (is_all_day (ctxt->client, &dt_start, &dt_end)) {
 			local->appt->event = 1;
 		} else {
-			dt_time = icaltime_as_timet_with_zone (*dt_end.value, 
-							       get_timezone (ctxt->client, dt_end.tzid));
-			local->appt->end = *localtime (&dt_time);
+			icaltimezone_convert_time (dt_end.value, 
+						   get_timezone (ctxt->client, dt_end.tzid),
+						   default_tz);
+			local->appt->end = icaltimetype_to_tm (dt_end.value);
 			local->appt->event = 0;
 		}
 	} else {
@@ -647,8 +649,10 @@ local_record_from_comp (ECalLocalRecord *local, CalComponent *comp, ECalConduitC
 			local->appt->repeatForever = 1;
 		} else {
 			local->appt->repeatForever = 0;
-			dt_time = icaltime_as_timet_with_zone (recur->until, get_timezone (ctxt->client, dt.tzid));
-			local->appt->repeatEnd = *localtime (&dt_time);
+			icaltimezone_convert_time (&recur->until, 
+						   icaltimezone_get_utc_timezone (),
+						   default_tz);
+			local->appt->repeatEnd = icaltimetype_to_tm (&recur->until);
 		}
 		
 		cal_component_free_recur_list (list);
@@ -661,14 +665,10 @@ local_record_from_comp (ECalLocalRecord *local, CalComponent *comp, ECalConduitC
 	for (l = edl, i = 0; l != NULL; l = l->next, i++) {
 		CalComponentDateTime *dt = l->data;
 
-		if (dt->value->is_date) {
-			local->appt->exception[i].tm_mday = dt->value->day;
-			local->appt->exception[i].tm_mon = dt->value->month - 1;
-			local->appt->exception[i].tm_year = dt->value->year - 1900;
-		} else {
-			dt_time = icaltime_as_timet_with_zone (*dt->value, get_timezone (ctxt->client, dt->tzid));
-			local->appt->exception[i] = *localtime (&dt_time);
-		}		
+		icaltimezone_convert_time (dt->value, 
+					   icaltimezone_get_utc_timezone (),
+					   default_tz);
+		*local->appt->exception = icaltimetype_to_tm (dt->value);
 	}
 	cal_component_free_exdate_list (edl);
 	
@@ -758,20 +758,18 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 	} 
 
 	if (!is_empty_time (appt.begin)) {
-		it = icaltime_from_timet_with_zone (mktime (&appt.begin), FALSE, timezone);
+		it = tm_to_icaltimetype (&appt.begin, FALSE);
 		dt.value = &it;
 		cal_component_set_dtstart (comp, &dt);
 	}
 
 	if (appt.event) {
-		time_t t = mktime (&appt.begin);
-		
-		t = time_day_end_with_zone (t, timezone);
-		it = icaltime_from_timet_with_zone (t, FALSE, timezone);
+		it = tm_to_icaltimetype (&appt.begin, FALSE);
+		icaltime_adjust (&it, 1, 0, 0, 0);
 		dt.value = &it;
 		cal_component_set_dtend (comp, &dt);
 	} else if (!is_empty_time (appt.end)) {
-		it = icaltime_from_timet_with_zone (mktime (&appt.end), FALSE, timezone);
+		it = tm_to_icaltimetype (&appt.end, FALSE);
 		dt.value = &it;
 		cal_component_set_dtend (comp, &dt);
 	}
@@ -833,8 +831,7 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 		recur.week_start = get_ical_day (appt.repeatWeekstart);
 
 		if (!appt.repeatForever) {
-			time_t t = mktime (&appt.repeatEnd);
-			recur.until = icaltime_from_timet_with_zone (t, FALSE, timezone);
+			recur.until = tm_to_icaltimetype (&appt.repeatEnd, TRUE);
 		}
 
 		list = g_slist_append (list, &recur);
@@ -853,16 +850,9 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 		dt->tzid = NULL;		
 		
 		ex = appt.exception[i];
-		*dt->value = icaltime_from_timet_with_zone (mktime (&ex), TRUE, timezone);
+		*dt->value = tm_to_icaltimetype (&ex, TRUE);
 		
 		edl = g_slist_prepend (edl, dt);
-		
-		INFO ("%d %d %d %d %d %d %d %d %d",
-		      ex.tm_sec, ex.tm_min,
-		      ex.tm_hour, ex.tm_mday,
-		      ex.tm_mon, ex.tm_year,
-		      ex.tm_wday, ex.tm_yday,
-		      ex.tm_isdst);		
 	}
 	cal_component_set_exdate_list (comp, edl);
 	cal_component_free_exdate_list (edl);

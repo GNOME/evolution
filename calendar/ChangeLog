@@ -1,3 +1,17 @@
+2001-10-23  JP Rosevear  <jpr@ximian.com>
+
+	* cal-util/timeutil.c (icaltimetype_to_tm): convert an
+	icaltimetype to a tm
+	(tm_to_icaltimetype): vice versa
+
+	* cal-util/timeutil.h: new protos
+
+	* conduits/calendar/calendar-conduit.c: replace all mktime and
+	localtime calls (except for debugging calls)
+
+	* conduits/todo/todo-conduit.c: ditto
+	(comp_from_remote_record): make sure the completed time is in UTC
+	
 2001-10-23  Rodrigo Moya <rodrigo@ximian.com>
 
 	* cal-client/cal-query.c (cal_query_construct) set priv->corba_query

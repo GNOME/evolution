@@ -109,4 +109,11 @@ time_t	time_day_end_with_zone (time_t time, icaltimezone *zone);
 
 void time_to_gdate_with_zone (GDate *date, time_t time, icaltimezone *zone);
 
+/**************************************************************************
+ * struct tm manipulation 
+ **************************************************************************/
+
+struct tm icaltimetype_to_tm (struct icaltimetype *itt);
+struct icaltimetype tm_to_icaltimetype (struct tm *tm, gboolean is_date);
+
 #endif
