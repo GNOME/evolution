@@ -249,8 +249,13 @@ pixbuf_for_mime_type (const char *mime_type)
 		}
 	}
 	
-	if (!filename)
-		filename = gnome_pixmap_file ("gnome-unknown.png");
+	if (filename && (pixbuf = gdk_pixbuf_new_from_file (filename, NULL))) {
+		g_free (filename);
+		return pixbuf;
+	}
+	
+	g_free (filename);
+	filename = gnome_program_locate_file (NULL, GNOME_FILE_DOMAIN_PIXMAP, "gnome-unknown.png", TRUE, NULL);
 	
 	pixbuf = gdk_pixbuf_new_from_file (filename, NULL);
 	g_free (filename);

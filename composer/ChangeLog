@@ -1,3 +1,11 @@
+2003-04-25  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer-attachment-bar.c (pixbuf_for_mime_type): If we
+	fail to load the icon that gnome_vfs_get_icon() gave us, the
+	default back to gnome-unknown.png. This is the only POSSIBLE way
+	for Anna to be getting a NULL pixbuf if she has gnome-unknown.png
+	that I can see. Should fix bug #41513.
+
 2003-04-23  Not Zed  <NotZed@Ximian.com>
 
 	* e-msg-composer.c (map_default_cb): removed debug printfs.
