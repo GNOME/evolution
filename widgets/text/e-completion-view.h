@@ -70,6 +70,8 @@ struct _ECompletionView {
 
 	gboolean editable;
 	gint selection;
+       
+	gint border_width;
 };
 
 struct _ECompletionViewClass {

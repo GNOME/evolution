@@ -67,6 +67,131 @@ e_completion_view_local_key_press_handler (GtkWidget *w, GdkEventKey *ev)
 	return e_completion_view_key_press_handler (w, ev, w);
 }
 
+static void
+e_completion_view_paint (GtkWidget *widget, GdkRectangle *area)
+{
+	gint i;
+
+	g_return_if_fail (widget != NULL);
+	g_return_if_fail (E_IS_COMPLETION_VIEW (widget));
+	g_return_if_fail (area != NULL);
+
+	if (!GTK_WIDGET_DRAWABLE (widget))
+		return;
+
+	for (i = 0; i < E_COMPLETION_VIEW (widget)->border_width; ++i) {
+
+		gdk_draw_rectangle (widget->window,
+				    widget->style->black_gc,
+				    FALSE, i, i, 
+				    widget->allocation.width-1-i,
+				    widget->allocation.height-1-i);
+
+	}
+	
+}
+
+static void
+e_completion_view_draw (GtkWidget *widget, GdkRectangle *area)
+{
+	GtkBin *bin;
+	GdkRectangle child_area;
+
+	g_return_if_fail (widget != NULL);
+	g_return_if_fail (E_IS_COMPLETION_VIEW (widget));
+	g_return_if_fail (area != NULL);
+
+	if (GTK_WIDGET_DRAWABLE (widget)) {
+		bin = GTK_BIN (widget);
+
+		e_completion_view_paint (widget, area);
+
+		if (bin->child && gtk_widget_intersect (bin->child, area, &child_area))
+			gtk_widget_draw (bin->child, &child_area);
+	}
+}
+
+static gint
+e_completion_view_expose_event (GtkWidget *widget, GdkEventExpose *event)			  
+{
+	GtkBin *bin;
+	GdkEventExpose child_event;
+
+	g_return_val_if_fail (widget != NULL, FALSE);
+	g_return_val_if_fail (E_IS_COMPLETION_VIEW (widget), FALSE);
+	g_return_val_if_fail (event != NULL, FALSE);
+
+	if (GTK_WIDGET_DRAWABLE (widget)) {
+		bin = GTK_BIN (widget);
+
+		e_completion_view_paint (widget, &event->area);
+
+		child_event = *event;
+		if (bin->child &&
+		    GTK_WIDGET_NO_WINDOW (bin->child) &&
+		    gtk_widget_intersect (bin->child, &event->area, &child_event.area))
+			gtk_widget_event (bin->child, (GdkEvent*) &child_event);
+	}
+
+	return FALSE;
+}
+
+static void
+e_completion_view_size_request (GtkWidget *widget, GtkRequisition *requisition)
+{
+	GtkBin *bin;
+
+	g_return_if_fail (widget != NULL);
+	g_return_if_fail (E_IS_COMPLETION_VIEW (widget));
+	g_return_if_fail (requisition != NULL);
+
+	bin = GTK_BIN (widget);
+	
+	requisition->width  = 2 * E_COMPLETION_VIEW (widget)->border_width;
+	requisition->height = 2 * E_COMPLETION_VIEW (widget)->border_width;
+
+	if (bin->child && GTK_WIDGET_VISIBLE (bin->child)) {
+		GtkRequisition child_requisition;
+		
+		gtk_widget_size_request (bin->child, &child_requisition);
+		
+		requisition->width += child_requisition.width;
+		requisition->height += child_requisition.height;
+	}
+}
+
+static void
+e_completion_view_size_allocate (GtkWidget *widget, GtkAllocation *allocation)				 
+{
+	GtkBin *bin;
+	GtkAllocation child_allocation;
+
+	g_return_if_fail (widget != NULL);
+	g_return_if_fail (E_IS_COMPLETION_VIEW (widget));
+	g_return_if_fail (allocation != NULL);
+
+	bin = GTK_BIN (widget);
+	widget->allocation = *allocation;
+
+	child_allocation.x = E_COMPLETION_VIEW (widget)->border_width;
+	child_allocation.width = MAX(0, (gint)allocation->width - child_allocation.x * 2);
+
+	child_allocation.y = E_COMPLETION_VIEW (widget)->border_width;
+	child_allocation.height = MAX (0, (gint)allocation->height - child_allocation.y * 2);
+
+	if (GTK_WIDGET_REALIZED (widget)) {
+		gdk_window_move_resize (widget->window,
+					allocation->x,
+					allocation->y,
+					allocation->width,
+					allocation->height);
+	}
+	
+	if (bin->child) {
+		gtk_widget_size_allocate (bin->child, &child_allocation);
+	}
+}
+
 GtkType
 e_completion_view_get_type (void)
 {
@@ -152,11 +277,16 @@ e_completion_view_class_init (ECompletionViewClass *klass)
 	object_class->destroy = e_completion_view_destroy;
 
 	widget_class->key_press_event = e_completion_view_local_key_press_handler;
+	widget_class->draw = e_completion_view_draw;
+	widget_class->expose_event = e_completion_view_expose_event;
+	widget_class->size_request = e_completion_view_size_request;
+	widget_class->size_allocate = e_completion_view_size_allocate;
 }
 
 static void
 e_completion_view_init (ECompletionView *completion)
 {
+	completion->border_width = 2;
 }
 
 static void
@@ -558,14 +688,20 @@ e_completion_view_construct (ECompletionView *cv, ECompletion *completion)
 
 	cv->table = e_table_scrolled_new (cv->model, NULL, simple_spec, NULL);
 
+	e_scroll_frame_set_shadow_type (E_SCROLL_FRAME (cv->table), GTK_SHADOW_NONE);
+	e_scroll_frame_set_scrollbar_spacing (E_SCROLL_FRAME (cv->table), 0);
 	e_scroll_frame_set_policy (E_SCROLL_FRAME (cv->table), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
 
+#if 0
 	frame = gtk_frame_new (NULL);
 
 	gtk_container_add (GTK_CONTAINER (cv), frame);
 	gtk_container_add (GTK_CONTAINER (frame), cv->table);
 	gtk_widget_show_all (frame);
-
+#else
+	gtk_container_add (GTK_CONTAINER (cv), cv->table);
+	gtk_widget_show_all (cv->table);
+#endif
 	gtk_signal_connect (GTK_OBJECT (e_completion_view_table (cv)),
 			    "click",
 			    GTK_SIGNAL_FUNC (table_click_cb),
@@ -677,7 +813,7 @@ e_completion_view_set_width (ECompletionView *cv, gint width)
 	lines = MIN (lines, drop_room);
 
 	/* We reduce the total height by a bit; in practice, this seems to work out well. */
-	gtk_widget_set_usize (w, width, (gint) floor (line_height * lines * 0.97));
+	gtk_widget_set_usize (w, width, (gint) floor (line_height * (0.5 + (float)lines) * 0.97));
 }
 
 void

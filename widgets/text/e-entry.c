@@ -49,6 +49,8 @@
 #include "e-text.h"
 #include "e-entry.h"
 
+#define MOVE_RIGHT_AND_UP 0
+
 #define EVIL_POINTER_WARPING_HACK
 
 #ifdef EVIL_POINTER_WARPING_HACK
@@ -150,7 +152,7 @@ canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc,
 			"clip_height", (double) (alloc->height),
 			NULL);
 
-	if (entry->priv->draw_borders) {
+	if (!entry->priv->draw_borders) {
 		xthick = 0;
 		ythick = 0;
 	} else {
@@ -472,13 +474,17 @@ e_entry_show_popup (EEntry *entry, gboolean visible)
 		x = xo + dim->x;
 		y = yo + dim->height + dim->y;
 
+#if MOVE_RIGHT_AND_UP
 		/* Put our popup slightly to the right and up, to try to give a visual cue that this popup
 		 is tied to this entry.  Otherwise one-row popups can sort of "blend" with an entry
 		 directly below. */
 		fudge = MAX (dim->height/10, 3); /* just in case we are using a really big font, etc. */
 		x += 2*fudge;
 		y -= fudge;
-
+#else
+		fudge = 1;
+		y -= fudge;
+#endif
 		gtk_widget_set_uposition (pop, x, y);
 		e_completion_view_set_width (E_COMPLETION_VIEW (entry->priv->completion_view), dim->width);
 
