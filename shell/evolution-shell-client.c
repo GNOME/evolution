@@ -471,5 +471,26 @@ evolution_shell_client_get_local_storage (EvolutionShellClient *shell_client)
 	return corba_local_storage;
 }
 
+void
+evolution_shell_client_set_line_status (EvolutionShellClient *shell_client,
+					gboolean              line_status)
+{
+	GNOME_Evolution_Shell corba_shell;
+	CORBA_Environment ev;
+
+	g_return_val_if_fail (shell_client != NULL, CORBA_OBJECT_NIL);
+	g_return_val_if_fail (EVOLUTION_IS_SHELL_CLIENT (shell_client), CORBA_OBJECT_NIL);
+
+	CORBA_exception_init (&ev);
+
+	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));
+	if (corba_shell == CORBA_OBJECT_NIL)
+		return;
+
+	GNOME_Evolution_Shell_setLineStatus (corba_shell, line_status, &ev);
+
+	CORBA_exception_free (&ev);
+}
+
 
 E_MAKE_TYPE (evolution_shell_client, "EvolutionShellClient", EvolutionShellClient, class_init, init, PARENT_TYPE)

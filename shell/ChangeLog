@@ -1,3 +1,16 @@
+2001-08-15  Jason Leach  <jleach@ximian.com>
+
+	* Evolution-Shell.idl: Add a new IDL function,
+	Evolution::Shell::setLineStatus (in boolean).  Bug #3030.
+
+	* e-shell.c (impl_Shell_setLineStatus): Implementation of the
+	above.
+
+	* evolution-shell-client.c
+	(evolution_shell_client_set_line_status): A wrapper function for
+	the above, this is what a component can call to set the shell
+	on/offline.
+
 2001-08-14  Dan Winship  <danw@ximian.com>
 
 	* evolution-storage.c (evolution_storage_new_folder): Use the

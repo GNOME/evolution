@@ -412,6 +412,23 @@ impl_Shell_createStorageSetView (PortableServer_Servant servant,
 	return bonobo_object_corba_objref (BONOBO_OBJECT (control));
 }
 
+static void
+impl_Shell_setLineStatus (PortableServer_Servant servant,
+			  CORBA_boolean online,
+			  CORBA_Environment *ev)
+{
+	BonoboObject *bonobo_object;
+	EShell *shell;
+
+	bonobo_object = bonobo_object_from_servant (servant);
+	shell = E_SHELL (bonobo_object);
+
+	if (online)
+		e_shell_go_online (shell, NULL);
+	else
+		e_shell_go_offline (shell, NULL);
+}
+
 
 /* Set up the ::Activity interface.  */
 
@@ -793,6 +810,7 @@ class_init (EShellClass *klass)
 	epv->selectUserFolder     = impl_Shell_selectUserFolder;
 	epv->getLocalStorage      = impl_Shell_getLocalStorage;
 	epv->createStorageSetView = impl_Shell_createStorageSetView;
+	epv->setLineStatus        = impl_Shell_setLineStatus;
 }
 
 static void

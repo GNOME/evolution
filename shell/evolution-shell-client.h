@@ -67,10 +67,13 @@ void                    evolution_shell_client_user_select_folder  (EvolutionShe
 								    char                 **uri_return,
 								    char                 **physical_uri_return);
 
-GNOME_Evolution_Activity   evolution_shell_client_get_activity_interface   (EvolutionShellClient *shell_client);
-GNOME_Evolution_Shortcuts  evolution_shell_client_get_shortcuts_interface  (EvolutionShellClient *shell_client);
+GNOME_Evolution_Activity  evolution_shell_client_get_activity_interface  (EvolutionShellClient *shell_client);
+GNOME_Evolution_Shortcuts evolution_shell_client_get_shortcuts_interface (EvolutionShellClient *shell_client);
 
-GNOME_Evolution_Storage  evolution_shell_client_get_local_storage      (EvolutionShellClient  *shell_client);
+GNOME_Evolution_Storage  evolution_shell_client_get_local_storage        (EvolutionShellClient *shell_client);
+
+void                     evolution_shell_client_set_line_status          (EvolutionShellClient *shell_client,
+									  gboolean              online);
 
 #ifdef __cplusplus
 }
