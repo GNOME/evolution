@@ -1,3 +1,16 @@
+2000-12-12  Dan Winship  <danw@helixcode.com>
+
+	* configure.in: Add a check for "extern int timezone;" vs struct
+	tm tm_gmtoff, stolen from Evolution's configure.in.
+
+	* src/libical/icaltime.c (icaltime_utc_offset,
+	icaltime_local_utc_offset): Use HAVE_TIMEZONE, add tm_gmtoff
+	support.
+
+	* src/libical/icallexer.l: Remove ical_yy_scan_buffer, ..._string,
+	and ..._bytes prototypes, since it compiles fine without them on
+	Linux, and bombs out due to prototype mismatch on my NetBSD box.
+
 2000-12-11  Federico Mena Quintero  <federico@helixcode.com>
 
 	* Makefile.am:

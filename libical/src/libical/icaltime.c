@@ -284,7 +284,9 @@ struct icaltimetype icaltime_as_zone(struct icaltimetype tt,const char* tzid)
    indicating the date for which you want the offset */
 time_t icaltime_utc_offset(struct icaltimetype tt, const char* tzid)
 {
+#ifdef HAVE_TIMEZONE
     extern long int timezone;
+#endif
     time_t now;
     struct tm *stm;
 
@@ -315,7 +317,11 @@ time_t icaltime_utc_offset(struct icaltimetype tt, const char* tzid)
 	putenv("TZ"); /* Delete from environment */
     }
  
+#ifdef HAVE_TIMEZONE
     return timezone;
+#else
+    return -stm->tm_gmtoff;
+#endif
 }
 
 time_t icaltime_local_utc_offset()
@@ -325,8 +331,11 @@ time_t icaltime_local_utc_offset()
 
     stm = localtime(&now); /* This sets 'timezone'*/
 
+#ifdef HAVE_TIMEZONE
     return timezone;
-
+#else
+    return -stm->tm_gmtoff;
+#endif
 }
 
 
