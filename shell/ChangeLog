@@ -1,5 +1,12 @@
 2004-04-14  JP Rosevear <jpr@ximian.com>
 
+	* e-shell-importer.c (get_iid_for_filetype): differentiate between
+	user cancellation and no importer
+	(next_file_page): don't throw up a dialog if the user cancelled
+	the selection process
+
+2004-04-14  JP Rosevear <jpr@ximian.com>
+
 	* e-shell-importer.c (start_import): don't unref the dialog,
 	destroy it properly
 

@@ -370,13 +370,12 @@ choose_importer_from_list (GList *importer_list)
 	return g_strdup (iid);
 }
 
-static char *
-get_iid_for_filetype (const char *filename)
+static gboolean
+get_iid_for_filetype (const char *filename, char **ret_iid)
 {
 	Bonobo_ServerInfoList *info_list;
 	CORBA_Environment ev;
 	GList *can_handle = NULL;
-	char *ret_iid;
 	int i, len = 0;
 
 	CORBA_exception_init (&ev);
@@ -420,22 +419,24 @@ get_iid_for_filetype (const char *filename)
 		
 		iid = can_handle->data;
 
-		ret_iid = g_strdup (iid->iid);
+		*ret_iid = g_strdup (iid->iid);
 		
 		free_iid_list (can_handle);
 		g_list_free (can_handle);
 		
-		return ret_iid;
+		return TRUE;
 	} else if (len > 1) {
 		/* Display all the IIDs */
-		ret_iid = choose_importer_from_list (can_handle);
+		*ret_iid = choose_importer_from_list (can_handle);
 		
 		free_iid_list (can_handle);
 		g_list_free (can_handle);
 
-		return ret_iid;
+		return *ret_iid ? TRUE : FALSE;
 	} else {
-		return NULL;
+		*ret_iid = NULL;
+		
+		return TRUE;
 	}
 }
 
@@ -482,7 +483,7 @@ start_import (gpointer parent, const char *filename, EvolutionImporterClient *cl
 		
 		g_object_unref (icd->client);
 		if (icd->dialog)
-			gtk_widget_destroy (icd->dialog);
+			gtk_widget_destroy (GTK_WIDGET (icd->dialog));
 		g_free (icd);
 		return;
 	}
@@ -1029,7 +1030,11 @@ next_file_page (GnomeDruidPage *page,
 
 	/* Work out the component to use */
 	if (data->choosen_iid == NULL || strcmp (data->choosen_iid, "Automatic") == 0) {
-		real_iid = get_iid_for_filetype (data->filename);
+		if (!get_iid_for_filetype (data->filename, &real_iid)) {
+			gnome_druid_set_page (druid, GNOME_DRUID_PAGE (data->filedialog));
+
+			return TRUE;			
+		}	
 	} else {
 		real_iid = g_strdup (data->choosen_iid);
 	}
