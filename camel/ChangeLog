@@ -1,3 +1,8 @@
+2000-07-27  Peter Williams  <peterw@helixcode.com>
+
+	* providers/*/Makefile.am: Don't specify SUBDIRS =
+	[nothing]. Messes up distcheck.
+	
 2000-07-26  Peter Williams  <peterw@helixcode.com>
 	
 	* camel-mime-parser.c (folder_scan_init): Initialize

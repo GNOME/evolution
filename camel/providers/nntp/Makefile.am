@@ -1,7 +1,5 @@
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS = 
-
 libcamelnntpincludedir = $(includedir)/camel
 
 providerdir = $(pkglibdir)/camel-providers/$(VERSION)

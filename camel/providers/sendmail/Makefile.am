@@ -1,7 +1,5 @@
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS = 
-
 libcamelsendmailincludedir = $(includedir)/camel
 
 
