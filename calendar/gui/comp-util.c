@@ -114,6 +114,22 @@ cal_comp_util_compare_event_timezones (CalComponent *comp,
 		goto out;
 	}
 
+	/* If the event uses UTC for DTSTART & DTEND, return TRUE. Outlook
+	   will send single events as UTC, so we don't want to mark all of
+	   these. */
+	if (start_datetime.value->is_utc && end_datetime.value->is_utc) {
+		retval = TRUE;
+		goto out;
+	}
+
+	/* If the event uses floating time for DTSTART & DTEND, return TRUE.
+	   Imported vCalendar files will use floating times, so we don't want
+	   to mark all of these. */
+	if (!start_datetime.tzid && !end_datetime.tzid) {
+		retval = TRUE;
+		goto out;
+	}
+
 	/* FIXME: DURATION may be used instead. */
 	if (cal_component_compare_tzid (tzid, start_datetime.tzid)
 	    && cal_component_compare_tzid (tzid, end_datetime.tzid)) {

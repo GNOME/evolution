@@ -24,10 +24,14 @@
 #include <config.h>
 #endif
 #include <bonobo/bonobo-generic-factory.h>
+#include <bonobo/bonobo-context.h>
+#include <bonobo/bonobo-main.h>
 #include "evolution-calendar-importer.h"
 
 #define IMPORTER_FACTORY_ID   "OAFIID:GNOME_Evolution_Calendar_ImporterFactory"
 #define ICALENDAR_IMPORTER_ID "OAFIID:GNOME_Evolution_Calendar_iCalendar_Importer"
+#define VCALENDAR_IMPORTER_ID "OAFIID:GNOME_Evolution_Calendar_vCalendar_Importer"
+#define GNOME_CALENDAR_IMPORTER_ID "OAFIID:GNOME_Evolution_Gnome_Calendar_Intelligent_Importer"
 
 static BonoboObject *
 importer_factory_fn (BonoboGenericFactory *factory, const char *id, void *closure)
@@ -38,6 +42,10 @@ importer_factory_fn (BonoboGenericFactory *factory, const char *id, void *closur
 
 	if (!strcmp (id, ICALENDAR_IMPORTER_ID))
 		object = ical_importer_new ();
+	else if (!strcmp (id, VCALENDAR_IMPORTER_ID))
+		object = vcal_importer_new ();
+	else if (!strcmp (id, GNOME_CALENDAR_IMPORTER_ID))
+		object = gnome_calendar_importer_new ();
 	else
 		g_warning ("Component not supporte by this factory");
 

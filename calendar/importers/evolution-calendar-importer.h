@@ -28,6 +28,9 @@
 BEGIN_GNOME_DECLS
 
 BonoboObject *ical_importer_new (void);
+BonoboObject *vcal_importer_new (void);
+
+BonoboObject *gnome_calendar_importer_new (void);
 
 END_GNOME_DECLS
 

@@ -1,3 +1,30 @@
+2002-02-08  Damon Chaplin  <damon@ximian.com>
+
+	* importers/icalendar-importer.c: added vCalendar importer and
+	intelligent GnomeCalendar importer code here, as it shares a lot of
+	code with the iCalendar importer.
+
+	NOTE: check_folder_type() needs to be finished at some point.
+	It needs a new shell Corba call so it can decide whether to import
+	events or tasks into the folder. Currently it just imports both.
+
+	* importers/main.c (importer_factory_fn): create vCalendar importer
+	or GnomeCalendar importer if required.
+
+	* importers/evolution-calendar-importer.h: added declarations for
+	creating a vCalendar importer and intelligent Gnome Calendar importer.
+
+	* importers/Makefile.am: added -DEVOLUTION_SOUNDDIR so the importer
+	knows what filename to use for audio alarms in vCalendar files.
+	Added libicalvcal-evolution to LDADD.
+
+	* importers/GNOME_Evolution_Calendar_Importer.oaf.in: added vCalendar
+	importer and intelligent Gnome Calendar importer.
+
+	* gui/comp-util.c (cal_comp_util_compare_event_timezones): return TRUE
+	if the event uses UTC. We don't want to flag all events from Outlook,
+	which use UTC.
+
 2002-02-08  JP Rosevear  <jpr@ximian.com>
 
 	* gui/dialogs/task-details-page.glade: change custom widget
