@@ -1,3 +1,7 @@
+2001-05-24  Radek Doulik  <rodo@ximian.com>
+
+	* evolution-message-composer.xml: added delete all to edit menu
+
 2001-05-22  Chris Toshok  <toshok@ximian.com>
 
 	* evolution-addressbook.xml: make the name of menuitem/toolitem's
