@@ -5,12 +5,17 @@ Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
 
   * Summary
 
-    #18025 -- Executive-summary crash upon switching to offline mode
+    #18025 -- Executive-summary crash upon switching to offline mode.
               (Ettore)
 
   * Calendar
 
-    #19054 -- Minimum number of alarm repetitions should be 1 (Federico)
+    #19054 -- Minimum number of alarm repetitions should be 1. (Federico)
+
+  * Shell
+
+    #20311 -- Make new windows opened through the right-click menu not
+              show the shortcut bar and the folder bar by default.  (Ettore)
 
 
 Evolution 1.0.2, 01-24-2002
