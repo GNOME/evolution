@@ -1,3 +1,8 @@
+2003-12-17  Rodney Dawes  <dobey@ximian.com>
+
+	* gui/component/autocompletion-config.c:
+	(autocompletion_config_control_new): Embed Tree in GtkScrolledWindow
+
 2003-12-16  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/contact-editor/e-contact-editor.c (contact_added_cb): Update

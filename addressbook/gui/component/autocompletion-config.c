@@ -34,6 +34,7 @@
 #include "e-source-selector.h"
 #include <libedataserver/e-source-list.h>
 #include <libgnome/gnome-i18n.h>
+#include <gtk/gtkscrolledwindow.h>
 #include <gtk/gtkwidget.h>
 #include <gtk/gtksignal.h>
 
@@ -118,6 +119,7 @@ autocompletion_config_control_new (void)
 {
 	AutocompletionConfig *ac;
 	CORBA_Environment ev;
+	GtkWidget *scrolledwin;
 
 	ac = g_new0 (AutocompletionConfig, 1);
 
@@ -128,13 +130,22 @@ autocompletion_config_control_new (void)
 	   update it in the control?  what about our local changes? */
 	/*	g_signal_connect (ac->source_list, "changed", G_CALLBACK (source_list_changed), ac); */
 
+	scrolledwin = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwin),
+					GTK_POLICY_AUTOMATIC,
+					GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolledwin),
+					     GTK_SHADOW_IN);
+
 	ac->control_widget = e_source_selector_new (ac->source_list);
+	gtk_container_add (GTK_CONTAINER (scrolledwin), ac->control_widget);
 
 	initialize_selection (ac);
 
 	gtk_widget_show (ac->control_widget);
+	gtk_widget_show (scrolledwin);
 
-	ac->config_control = evolution_config_control_new (ac->control_widget);
+	ac->config_control = evolution_config_control_new (scrolledwin);
 
 	g_signal_connect (ac->control_widget, "selection_changed",
 			  G_CALLBACK (source_selection_changed), ac);
