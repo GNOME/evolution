@@ -169,6 +169,17 @@ set_current_selection(ETable *table, int row, ESelectNames *names)
 }
 
 static void
+e_select_names_clicked(ESelectNames *dialog, gint button, ESelectNames *data)
+{
+	switch(button) {
+	case 0:
+		break;
+	case 1:
+		break;
+	}
+}
+
+static void
 e_select_names_init (ESelectNames *e_select_names)
 {
 	GladeXML *gui;
@@ -193,6 +204,9 @@ e_select_names_init (ESelectNames *e_select_names)
 				    GNOME_STOCK_BUTTON_OK,
 				    GNOME_STOCK_BUTTON_CANCEL,
 				    NULL);
+
+	gtk_signal_connect(GTK_OBJECT(e_select_names), "clicked",
+			   GTK_SIGNAL_FUNC(e_select_names_clicked), e_select_names);
 
 	e_select_names->table = E_TABLE(glade_xml_get_widget(gui, "table-source"));
 	e_select_names->model = gtk_object_get_data(GTK_OBJECT(e_select_names->table), "model");
@@ -292,6 +306,17 @@ button_clicked(GtkWidget *button, ESelectNamesChild *child)
 	}
 }
 
+static void
+remove_address(ETable *table, int row, ESelectNamesChild *child)
+{
+	EIterator *iterator = e_list_get_iterator(e_select_names_model_get_data(child->source));
+	e_iterator_reset(iterator);
+	for (; row > 0; row--) {
+		e_iterator_next(iterator);
+	}
+	e_select_names_model_remove_item(child->source, iterator);
+}
+
 void
 e_select_names_add_section(ESelectNames *e_select_names, char *name, char *id, ESelectNamesModel *source)
 {
@@ -340,6 +365,9 @@ e_select_names_add_section(ESelectNames *e_select_names, char *name, char *id, E
 							    g_str_compare, TRUE), 0);
 	etable = e_table_new (header, model, SPEC2);
 	
+	gtk_signal_connect(GTK_OBJECT(etable), "double_click",
+			   GTK_SIGNAL_FUNC(remove_address), child);
+
 	gtk_object_set(GTK_OBJECT(etable),
 		       "cursor_mode", E_TABLE_CURSOR_LINE,
 		       NULL);

@@ -260,6 +260,8 @@ e_select_names_model_insert            (ESelectNamesModel *model,
 		iterator = e_list_get_iterator(model->data);
 
 		index = 0;
+	} else {
+		gtk_object_ref(GTK_OBJECT(iterator));
 	}
 	if (strings[0]) {
 		ESelectNamesModelData *node = (void *) e_iterator_get(iterator);
@@ -288,6 +290,7 @@ e_select_names_model_insert            (ESelectNamesModel *model,
 		g_free(node);
 	}
 	e_select_names_model_changed(model);
+	gtk_object_unref(GTK_OBJECT(iterator));
 }
 
 void
@@ -347,6 +350,16 @@ e_select_names_model_replace           (ESelectNamesModel *model,
 					int length,
 					char *data)
 {
+	if (iterator == NULL) {
+		ESelectNamesModelData new = {E_SELECT_NAMES_MODEL_DATA_TYPE_STRING_ADDRESS, NULL, ""};
+
+		e_list_append(model->data, &new);
+		iterator = e_list_get_iterator(model->data);
+
+		index = 0;
+	} else {
+		gtk_object_ref(GTK_OBJECT(iterator));
+	}
 	while (length > 0 && e_iterator_is_valid(iterator)) {
 		ESelectNamesModelData *node = (void *) e_iterator_get(iterator);
 		int this_length = strlen(node->string);
@@ -377,10 +390,14 @@ e_select_names_model_replace           (ESelectNamesModel *model,
 	if (!e_iterator_is_valid(iterator)) {
 		ESelectNamesModelData *node;
 		e_iterator_last(iterator);
-		node = (void *) e_iterator_get(iterator);
-		index = strlen(node->string);
+		if (e_iterator_is_valid(iterator)) {
+			node = (void *) e_iterator_get(iterator);
+			index = strlen(node->string);
+		} else
+			index = 0;
 	}
 	e_select_names_model_insert (model, iterator, index, data);
+	gtk_object_unref(GTK_OBJECT(iterator));
 }
 
 

@@ -195,6 +195,7 @@ e_select_names_table_model_value_at (ETableModel *etc, int col, int row)
 {
 	ESelectNamesTableModel *e_select_names_table_model = E_SELECT_NAMES_TABLE_MODEL(etc);
 	if (e_select_names_table_model->data == NULL) {
+		fill_in_info(e_select_names_table_model);
 	}
 	switch (col) {
 	case 0:

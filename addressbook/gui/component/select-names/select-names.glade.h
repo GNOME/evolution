@@ -6,5 +6,5 @@
 
 gchar *s = N_("Select Names");
 gchar *s = N_("Find...");
-gchar *s = N_("T_ype name or select from List:");
+gchar *s = N_("Select name from List:");
 gchar *s = N_("Message Recipients");

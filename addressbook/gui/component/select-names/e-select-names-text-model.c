@@ -123,6 +123,10 @@ e_select_names_text_model_set_text    	(ETextModel *model, gchar *text)
 {
 	ESelectNamesModel *source = E_SELECT_NAMES_TEXT_MODEL(model)->source;
 	EIterator *iterator = e_list_get_iterator(e_select_names_model_get_data(source));
+	int length = 0;
+	if (model->text) {
+		length = strlen(model->text);
+	}
 	
 	e_iterator_reset(iterator);
 	if (!e_iterator_is_valid(iterator)) {
@@ -132,7 +136,7 @@ e_select_names_text_model_set_text    	(ETextModel *model, gchar *text)
 	e_select_names_model_replace(source,
 				     iterator,
 				     0,
-				     strlen(model->text),
+				     length,
 				     text);
 	if (iterator)
 		gtk_object_unref(GTK_OBJECT(iterator));
@@ -230,7 +234,8 @@ e_select_names_text_model_model_changed (ESelectNamesModel     *source,
 		length ++;
 		length_count++;
 	}
-	length --;
+	if (length > 0)
+		length --;
 
 	g_free(model->lengths);
 	model->lengths = g_new(int, length_count + 1);
@@ -249,8 +254,10 @@ e_select_names_text_model_model_changed (ESelectNamesModel     *source,
 		*(stringp++) = ',';
 		*(lengthsp++) = this_length;
 	}
-	stringp --;
-	*stringp = 0;
+	if (stringp != string) {
+		stringp --;
+		*stringp = 0;
+	}
 	*lengthsp = -1;
 	g_free(E_TEXT_MODEL(model)->text);
 	E_TEXT_MODEL(model)->text = string;

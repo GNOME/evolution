@@ -1,3 +1,25 @@
+2000-07-08  Christopher James Lahey  <clahey@helixcode.com>
+
+	* gui/component/addressbook-factory.c: Include
+	e-select-names-factory.h.
+
+	* gui/component/select-names/e-select-names-model.c: Handle a NULL
+	iterator properly in the replace function.
+
+	* gui/component/select-names/e-select-names-table-model.c: Fill in
+	info properly in the value_at function.
+
+	* gui/component/select-names/e-select-names-text-model.c: Don't
+	strlen a NULL text object.
+
+	* gui/component/select-names/e-select-names.c: Close if the person
+	hits ok or cancel (doesn't yet actually undo changes if Cancel is
+	hit.)  Handle removing addresses when they're double clicked on.
+
+	* gui/component/select-names/select-names.glade,
+	gui/component/select-names/select-names.glade.h: Hid some unused
+	fields and changed the text at the top of the dialog.
+
 2000-07-08  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* gui/component/select-names/.cvsignore: Ignore dynamically 

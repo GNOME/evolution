@@ -16,6 +16,7 @@
 
 #include "addressbook.h"
 #include "addressbook-component.h"
+#include "select-names/e-select-names-factory.h"
 
 #ifdef USING_OAF
 
