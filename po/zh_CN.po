@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-02-02 12:37+0800\n"
-"PO-Revision-Date: 2005-01-29 17:12+0800\n"
+"POT-Creation-Date: 2005-02-02 17:53+0800\n"
+"PO-Revision-Date: 2005-02-02 17:57+0800\n"
 "Last-Translator: Funda Wang <fundawang@linux.net.cn>\n"
 "Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
 "MIME-Version: 1.0\n"
@@ -80,26 +80,24 @@ msgstr "转到日期"
 
 #: a11y/calendar/ea-cal-view-event.c:235
 msgid "It has alarms."
-msgstr ""
+msgstr "有提醒。"
 
 #: a11y/calendar/ea-cal-view-event.c:238
-#, fuzzy
 msgid "It has recurrences."
-msgstr "再现"
+msgstr "有再现。"
 
 #: a11y/calendar/ea-cal-view-event.c:241
 msgid "It is a meeting."
-msgstr ""
+msgstr "有会议。"
 
 #: a11y/calendar/ea-cal-view-event.c:247
-#, fuzzy, c-format
+#, c-format
 msgid "Calendar Event: Summary is %s."
-msgstr "会议概览为"
+msgstr "日历事件：概览为 %s。"
 
 #: a11y/calendar/ea-cal-view-event.c:249
-#, fuzzy
 msgid "Calendar Event: It has no summary."
-msgstr "日历事件"
+msgstr "日历事件：无概览。"
 
 #: a11y/calendar/ea-cal-view-event.c:268
 msgid "calendar view event"
@@ -110,24 +108,24 @@ msgid "Grab Focus"
 msgstr "获得焦点"
 
 #: a11y/calendar/ea-day-view.c:146 a11y/calendar/ea-week-view.c:148
-#, fuzzy, c-format
+#, c-format
 msgid "It has %d event."
 msgid_plural "It has %d events."
-msgstr[0] "，%d 个事件"
+msgstr[0] "有 %d 个事件。"
 
 #: a11y/calendar/ea-day-view.c:148 a11y/calendar/ea-week-view.c:150
 msgid "It has no events."
-msgstr ""
+msgstr "无事件。"
 
 #: a11y/calendar/ea-day-view.c:152
-#, fuzzy, c-format
+#, c-format
 msgid "Work Week View: %s. %s"
-msgstr "周工作视图"
+msgstr "周工作视图：%s。%s"
 
 #: a11y/calendar/ea-day-view.c:155
-#, fuzzy, c-format
+#, c-format
 msgid "Day View: %s. %s"
-msgstr "日视图"
+msgstr "日视图：%s。%s"
 
 #: a11y/calendar/ea-day-view.c:186
 msgid "calendar view for a work week"
@@ -204,14 +202,14 @@ msgid "Click here, you can find more events."
 msgstr "单击此处可查找更多事件。"
 
 #: a11y/calendar/ea-week-view.c:155
-#, fuzzy, c-format
+#, c-format
 msgid "Month View: %s. %s"
-msgstr "月视图"
+msgstr "月视图：%s。%s"
 
 #: a11y/calendar/ea-week-view.c:159
-#, fuzzy, c-format
+#, c-format
 msgid "Week View: %s. %s"
-msgstr "周视图"
+msgstr "周视图：%s。%s"
 
 #: a11y/calendar/ea-week-view.c:190
 msgid "calendar view for a month"
@@ -222,14 +220,13 @@ msgid "calendar view for one or more weeks"
 msgstr "一周或多周的日历视图"
 
 #: a11y/widgets/ea-calendar-item.c:290 a11y/widgets/ea-calendar-item.c:296
-#, fuzzy
 msgid "%d %B %Y"
 msgstr "%Y年%-m月%-d日"
 
 #: a11y/widgets/ea-calendar-item.c:298
-#, fuzzy, c-format
+#, c-format
 msgid "Calendar: from %s to %s"
-msgstr "日历 (从 "
+msgstr "日历：从 %s 到 %s"
 
 #: a11y/widgets/ea-calendar-item.c:333
 msgid "evolution calendar item"
@@ -5402,7 +5399,7 @@ msgstr "开始时间(_S)："
 #: mail/em-account-prefs.c:421 mail/em-folder-view.c:998
 #: plugins/calendar-weather/calendar-weather.c:371
 #: plugins/calendar-weather/calendar-weather.c:425
-#: plugins/itip-formatter/itip-formatter.c:1373
+#: plugins/itip-formatter/itip-formatter.c:1376
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:190
 #: widgets/misc/e-cell-date-edit.c:248 widgets/misc/e-dateedit.c:458
 #: widgets/misc/e-dateedit.c:1497 widgets/misc/e-dateedit.c:1651
@@ -5569,7 +5566,7 @@ msgstr "所有各次"
 
 #: calendar/gui/dialogs/recurrence-page.c:493
 msgid "This appointment contains recurrences that Evolution cannot edit."
-msgstr "此约会含有 Evolution 无法编辑的循环。"
+msgstr "此约会含有 Evolution 无法编辑的再现。"
 
 #: calendar/gui/dialogs/recurrence-page.c:812
 msgid "Recurrence date is invalid"
@@ -6206,7 +6203,7 @@ msgstr "开始日期"
 #: calendar/gui/e-meeting-list-view.c:153 calendar/gui/e-meeting-store.c:124
 #: calendar/gui/e-meeting-store.c:159 calendar/gui/e-meeting-store.c:224
 #: mail/em-utils.c:1157 plugins/itip-formatter/itip-formatter.c:251
-#: plugins/itip-formatter/itip-formatter.c:1395
+#: plugins/itip-formatter/itip-formatter.c:1398
 #: plugins/plugin-manager/plugin-manager.c:72 shell/e-component-registry.c:201
 #: shell/e-component-registry.c:205 widgets/misc/e-charset-picker.c:62
 msgid "Unknown"
@@ -6413,19 +6410,19 @@ msgstr "<br> 请查看下列信息，并从下面的菜单中选择一个动作�
 
 #: calendar/gui/e-itip-control.c:1137 calendar/gui/e-meeting-list-view.c:175
 #: calendar/gui/e-meeting-store.c:188 calendar/gui/e-meeting-store.c:211
-#: calendar/gui/itip-utils.c:422 plugins/itip-formatter/itip-formatter.c:1386
+#: calendar/gui/itip-utils.c:422 plugins/itip-formatter/itip-formatter.c:1389
 msgid "Accepted"
 msgstr "接受"
 
 #: calendar/gui/e-itip-control.c:1141 calendar/gui/itip-utils.c:425
-#: plugins/itip-formatter/itip-formatter.c:1389
+#: plugins/itip-formatter/itip-formatter.c:1392
 msgid "Tentatively Accepted"
 msgstr "暂时接受"
 
 #: calendar/gui/e-itip-control.c:1145 calendar/gui/e-meeting-list-view.c:176
 #: calendar/gui/e-meeting-store.c:190 calendar/gui/e-meeting-store.c:213
 #: calendar/gui/itip-utils.c:428 calendar/gui/itip-utils.c:454
-#: plugins/itip-formatter/itip-formatter.c:1392
+#: plugins/itip-formatter/itip-formatter.c:1395
 msgid "Declined"
 msgstr "拒绝"
 
@@ -10223,9 +10220,8 @@ msgid "<b>Then</b>"
 msgstr "<b>则</b>"
 
 #: mail/em-folder-browser.c:133
-#, fuzzy
 msgid "Create _vFolder From Search..."
-msgstr "根据搜索创建虚拟文件夹(_V)..."
+msgstr "从头创建虚拟文件夹(_V)..."
 
 #. TODO: can this be done in a loop?
 #: mail/em-folder-properties.c:143
@@ -10502,22 +10498,18 @@ msgid "Crea_te Rule From Message"
 msgstr "根据信件创建规则(_T)"
 
 #: mail/em-folder-view.c:1010
-#, fuzzy
 msgid "vFolder on _Subject"
 msgstr "基于主题的虚拟文件夹(_S)"
 
 #: mail/em-folder-view.c:1011
-#, fuzzy
 msgid "vFolder on Se_nder"
 msgstr "基于发件人的虚拟文件夹(_N)"
 
 #: mail/em-folder-view.c:1012
-#, fuzzy
 msgid "vFolder on _Recipients"
 msgstr "基于收件人的虚拟文件夹(_R)"
 
 #: mail/em-folder-view.c:1013
-#, fuzzy
 msgid "vFolder on Mailing _List"
 msgstr "基于邮件列表的虚拟文件夹(_L)"
 
@@ -10967,12 +10959,10 @@ msgid "Messages from %s"
 msgstr "来自 %s 的信件"
 
 #: mail/em-vfolder-editor.c:104
-#, fuzzy
 msgid "v_Folders"
-msgstr "虚拟文件夹"
+msgstr "虚拟文件夹(_F)"
 
 #: mail/em-vfolder-rule.c:574
-#, fuzzy
 msgid "vFolder source"
 msgstr "虚拟文件夹来源"
 
@@ -11835,7 +11825,7 @@ msgstr "<span weight=\"bold\">显示的邮件头(_H)</span>"
 msgid "<span weight=\"bold\">Filter Options</span>"
 msgstr "<span weight=\"bold\">过滤器选项</span>"
 
-#: mail/mail-config.glade.h:18 plugins/itip-formatter/itip-formatter.c:1664
+#: mail/mail-config.glade.h:18 plugins/itip-formatter/itip-formatter.c:1667
 msgid "<span weight=\"bold\">General</span>"
 msgstr "<span weight=\"bold\">常规</span>"
 
@@ -12926,7 +12916,6 @@ msgstr "无法编辑虚拟文件夹“{0}”，原因是该文件夹不存在。
 
 #. mail:vfolder-notexist secondary
 #: mail/mail-errors.xml.h:193
-#, fuzzy
 msgid ""
 "This folder may have been added implicitly, go to the vFolder editor to add "
 "it explicitly, if required."
@@ -13341,7 +13330,7 @@ msgid "Invalid folder: `%s'"
 msgstr "无效的文件夹：“%s”"
 
 #: mail/mail-vfolder.c:90
-#, fuzzy, c-format
+#, c-format
 msgid "Setting up vFolder: %s"
 msgstr "设置虚拟文件夹：%s"
 
@@ -13356,12 +13345,10 @@ msgid "Updating vFolders for '%s'"
 msgstr "更新“%s”的虚拟文件夹"
 
 #: mail/mail-vfolder.c:1008
-#, fuzzy
 msgid "Edit vFolder"
 msgstr "编辑虚拟文件夹"
 
 #: mail/mail-vfolder.c:1092
-#, fuzzy
 msgid "New vFolder"
 msgstr "新建虚拟文件夹"
 
@@ -13781,22 +13768,22 @@ msgid ""
 "imported"
 msgstr "要处理这些全部项目，应该保存文件并导入日历"
 
-#: plugins/itip-formatter/itip-formatter.c:1655
+#: plugins/itip-formatter/itip-formatter.c:1658
 msgid "Meetings and Tasks"
 msgstr "会议和任务"
 
 #. Delete message after acting
 #. FIXME Need a schema for this
-#: plugins/itip-formatter/itip-formatter.c:1678
+#: plugins/itip-formatter/itip-formatter.c:1681
 msgid "_Delete message after acting"
 msgstr "操作后删除消息(_D)"
 
-#: plugins/itip-formatter/itip-formatter.c:1688
+#: plugins/itip-formatter/itip-formatter.c:1691
 msgid "<span weight=\"bold\">Conflict Search</span>"
 msgstr "<span weight=\"bold\">冲突搜索</span>"
 
 #. Source selector
-#: plugins/itip-formatter/itip-formatter.c:1701
+#: plugins/itip-formatter/itip-formatter.c:1704
 msgid "Select the calendars to search for meeting conflicts"
 msgstr "选择要搜索冲突会议的日历"
 
@@ -15908,7 +15895,6 @@ msgid "Create or edit rules for filtering new mail"
 msgstr "创建或编辑过滤新邮件的规则"
 
 #: ui/evolution-mail-global.xml.h:5
-#, fuzzy
 msgid "Create or edit vFolder definitions"
 msgstr "创建或编辑虚拟文件夹定义"
 
@@ -15949,7 +15935,6 @@ msgid "_Filters..."
 msgstr "过滤器(_F)..."
 
 #: ui/evolution-mail-global.xml.h:18
-#, fuzzy
 msgid "vFolder _Editor..."
 msgstr "虚拟文件夹编辑器(_E)..."
 
@@ -16114,9 +16099,8 @@ msgid "Copy selected messages to another folder"
 msgstr "把选中的信件复制到其它文件夹"
 
 #: ui/evolution-mail-message.xml.h:12
-#, fuzzy
 msgid "Create _vFolder From Message"
-msgstr "根据信件创建过滤器(_C)"
+msgstr "根据信件创建过滤器(_V)"
 
 #: ui/evolution-mail-message.xml.h:13
 msgid "Create a rule to filter messages from this sender"
@@ -16135,22 +16119,18 @@ msgid "Create a rule to filter messages with this subject"
 msgstr "根据此主题创建信件过滤规则"
 
 #: ui/evolution-mail-message.xml.h:17
-#, fuzzy
 msgid "Create a vFolder for these recipients"
 msgstr "为这些收件人创建虚拟文件夹"
 
 #: ui/evolution-mail-message.xml.h:18
-#, fuzzy
 msgid "Create a vFolder for this mailing list"
 msgstr "为该邮件列表创建虚拟文件夹"
 
 #: ui/evolution-mail-message.xml.h:19
-#, fuzzy
 msgid "Create a vFolder for this sender"
 msgstr "为该发件人创建虚拟文件夹"
 
 #: ui/evolution-mail-message.xml.h:20
-#, fuzzy
 msgid "Create a vFolder for this subject"
 msgstr "为该主题创建虚拟文件夹"
 
@@ -16467,22 +16447,18 @@ msgid "_Undelete"
 msgstr "取消删除(_U)"
 
 #: ui/evolution-mail-message.xml.h:127
-#, fuzzy
 msgid "vFolder on Mailing _List..."
 msgstr "基于邮件列表的虚拟文件夹(_L)..."
 
 #: ui/evolution-mail-message.xml.h:128
-#, fuzzy
 msgid "vFolder on Se_nder..."
 msgstr "基于发件人的虚拟文件夹(_N)..."
 
 #: ui/evolution-mail-message.xml.h:129
-#, fuzzy
 msgid "vFolder on _Recipients..."
 msgstr "基于收件人的虚拟文件夹(_R)..."
 
 #: ui/evolution-mail-message.xml.h:130
-#, fuzzy
 msgid "vFolder on _Subject..."
 msgstr "基于主题的虚拟文件夹(_S)..."
 
@@ -17505,41 +17481,3 @@ msgstr "%s (...)"
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% 完成)"
 
-#~ msgid "alarm "
-#~ msgstr "提醒"
-
-#~ msgid "time-zone "
-#~ msgstr "时区"
-
-#~ msgid "meeting "
-#~ msgstr "会议"
-
-#~ msgid "empty"
-#~ msgstr "空"
-
-#~ msgid ", %d events"
-#~ msgstr "，%d 个事件"
-
-#~ msgid "work week view:"
-#~ msgstr "周工作视图："
-
-#~ msgid "day view:"
-#~ msgstr "日视图："
-
-#~ msgid "month view:"
-#~ msgstr "月视图："
-
-#~ msgid "week view:"
-#~ msgstr "周视图："
-
-#~ msgid ")"
-#~ msgstr ")"
-
-#~ msgid "VFolders"
-#~ msgstr "虚拟文件夹"
-
-#~ msgid "Virtual _Folders"
-#~ msgstr "虚拟文件夹(_F)"
-
-#~ msgid "Create _Virtual Folder From Message"
-#~ msgstr "根据信件创建虚拟文件夹(_V)"
