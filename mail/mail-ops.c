@@ -63,11 +63,12 @@ describe_fetch_mail (gpointer in_data, gboolean gerund)
 	CamelStore *source;
 	char *name;
 
-	source = camel_session_get_store (session, input->source_url, NULL);
-	if (source) {
-		name = camel_service_get_name (CAMEL_SERVICE (source), FALSE);
-		camel_object_unref (CAMEL_OBJECT (source));
-	} else
+	/*source = camel_session_get_store (session, input->source_url, NULL);
+	 *if (source) {
+	 *	name = camel_service_get_name (CAMEL_SERVICE (source), FALSE);
+	 *	camel_object_unref (CAMEL_OBJECT (source));
+	 *} else
+	 */
 		name = input->source_url;
 
 	if (gerund)
