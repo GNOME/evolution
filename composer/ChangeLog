@@ -1,3 +1,13 @@
+2002-01-10  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (get_file_content): Rewrote to use CamelStreams
+	and also convert the file contents to UTF-8 (assums the file
+	charset is the same charset that the composer is set to).
+	(menu_file_insert_file_cb): Pass the composer into
+	get_file_content().
+	(e_msg_composer_get_sig_file_content): Pass NULL as the composer
+	argument.
+
 2002-01-09  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (class_init): Fixed the setup of the

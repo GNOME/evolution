@@ -668,114 +668,58 @@ build_message (EMsgComposer *composer)
 	return NULL;
 }
 
-static char *
-read_file_content (int fd)
-{
-	GByteArray *contents;
-	char *body, buf[4096];
-	struct timeval tv;
-	fd_set rdset;
-	int retval;
-	ssize_t n;
-	
-	g_return_val_if_fail (fd > 0, NULL);
-	
-	contents = g_byte_array_new ();
-	
-	FD_ZERO (&rdset);
-	FD_SET (fd, &rdset);
-	
-	tv.tv_sec = 0;
-	tv.tv_usec = 10;
-	
-	retval = select (fd + 1, &rdset, NULL, NULL, &tv);
-	if (retval) {
-		n = 1;
-		while (n > 0 || errno == EINTR) {
-			n = read (fd, buf, sizeof (buf));
-			if (n > 0)
-				g_byte_array_append (contents, buf, n);
-		}
-	}
-	
-	g_byte_array_append (contents, "", 1);
-	
-	body = (contents->len == 1) ? NULL : (char *) contents->data;
-	g_byte_array_free (contents, body == NULL);
-	
-	return body;
-}
 
 static char *
-executed_file_output (const char *file_name)
+get_file_content (EMsgComposer *composer, const char *file_name, gboolean want_html, guint flags)
 {
-	GByteArray *contents;
-	FILE *in;
-	char buf[4096];
-	int n;
-	char *body;
-	
-	g_return_val_if_fail (file_name && *file_name, NULL);
-	
-	in = popen (file_name, "r");
-	if (in == NULL)
-		return NULL;
-	
-	contents = g_byte_array_new ();
-	while ((n = fread (buf, 1, 4096, in)) > 0) {
-		g_byte_array_append (contents, buf, n);
-	}
-	g_byte_array_append (contents, "\0", 1);
-	
-	body = (n < 0) ? NULL : (char *) contents->data;
-	g_byte_array_free (contents, (n < 0));
-	
-	pclose (in);
-	
-	return body;
-}
-
-static char *
-get_file_content (const char *file_name, gboolean convert, guint flags)
-{
-	char *raw, *html, *msg = NULL;
-	struct stat statbuf;
+	CamelStreamFilter *filtered_stream;
+	CamelStreamMem *memstream;
+	CamelMimeFilter *html, *charenc;
+	CamelStream *stream;
+	GByteArray *buffer;
+	const char *charset;
+	char *content;
 	int fd;
 	
-	if (stat (file_name, &statbuf) == -1)
-		return g_strdup ("");
-	
-	if ((statbuf.st_mode & S_IXUSR)
-	    && getenv ("EVOLUTION_PLEASE_EXECUTE_MY_SIGNATURE_FILE")) {
+	fd = open (file_name, O_RDONLY | O_CREAT, 0644);
+	if (fd == -1) {
+		char *msg;
 		
-		raw = executed_file_output (file_name);
-		if (raw == NULL) {
-			msg = g_strdup_printf (_("Error while executing file %s:\n"
-						 "%s"), file_name, g_strerror (errno));
-		}
-		
-	} else {		
-		fd = open (file_name, O_RDONLY | O_CREAT, 0775);
-		raw = read_file_content (fd);
-		if (raw == NULL) {
-			msg = g_strdup_printf (_("Error while reading file %s:\n"
-						 "%s"), file_name, g_strerror (errno));
-		}
-		close (fd);
-	}
-	
-	if (msg != NULL) {
+		msg = g_strdup_printf (_("Error while reading file %s:\n%s"),
+				       file_name, g_strerror (errno));
 		gnome_error_dialog (msg);
 		g_free (msg);
 		return g_strdup ("");
 	}
 	
-	html = convert ? e_text_to_html (raw, flags) : raw;
+	stream = camel_stream_fs_new_with_fd (fd);
+	filtered_stream = camel_stream_filter_new_with_stream (stream);
+	camel_object_unref (CAMEL_OBJECT (stream));
 	
-	if (convert)
-		g_free (raw);
+	charset = composer ? composer->charset : mail_config_get_default_charset ();
+	charenc = (CamelMimeFilter *) camel_mime_filter_charset_new_convert (composer->charset, "utf-8");
+	camel_stream_filter_add (filtered_stream, charenc);
+	camel_object_unref (CAMEL_OBJECT (charenc));
 	
-	return html;
+	if (want_html) {
+		html = camel_mime_filter_tohtml_new (flags, 0);
+		camel_stream_filter_add (filtered_stream, html);
+		camel_object_unref (CAMEL_OBJECT (html));
+	}
+	
+	memstream = (CamelStreamMem *) camel_stream_mem_new ();
+	buffer = g_byte_array_new ();
+	camel_stream_mem_set_byte_array (memstream, buffer);
+	
+	camel_stream_write_to_stream (CAMEL_STREAM (filtered_stream), CAMEL_STREAM (memstream));
+	camel_object_unref (CAMEL_OBJECT (filtered_stream));
+	camel_object_unref (CAMEL_OBJECT (memstream));
+	
+	g_byte_array_append (buffer, "", 1);
+	content = buffer->data;
+	g_byte_array_free (buffer, FALSE);
+	
+	return content;
 }
 
 char *
@@ -785,7 +729,7 @@ e_msg_composer_get_sig_file_content (const char *sigfile, gboolean in_html)
 		return NULL;
 	}
 	
-	return get_file_content (sigfile, !in_html, 0);
+	return get_file_content (NULL, sigfile, !in_html, 0);
 }
 
 static void
@@ -837,7 +781,7 @@ static gchar *
 get_signature_html (EMsgComposer *composer)
 {
 	gboolean format_html = FALSE;
-	gchar *text, *html = NULL, *sig_file = NULL;
+	char *text, *html = NULL, *sig_file = NULL;
 	
 	if (E_MSG_COMPOSER_HDRS (composer->hdrs)->account->id) {
 		MailConfigIdentity *id;
@@ -1517,7 +1461,7 @@ menu_file_insert_file_cb (BonoboUIComponent *uic,
 	if (file_name == NULL)
 		return;
 	
-	html = get_file_content (file_name, TRUE, E_TEXT_TO_HTML_PRE);
+	html = get_file_content (composer, file_name, TRUE, E_TEXT_TO_HTML_PRE);
 	if (html == NULL)
 		return;
 	
