@@ -1,3 +1,9 @@
+2000-11-02  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/imap/camel-imap-store.c (get_folder_info): Quote
+	foldernames when sending to the IMAP server because the folder
+	name might contain spaces.
+
 2000-11-02  Not Zed  <NotZed@HelixCode.com>
 
 	* Merged in camel-incremental-branch.

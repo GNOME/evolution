@@ -701,7 +701,7 @@ get_folder_info (CamelStore *store, const char *top, gboolean fast,
 
 			response = camel_imap_command (
 				imap_store, NULL, NULL,
-				"STATUS %s (MESSAGES UNSEEN)",
+				"STATUS \"%s\" (MESSAGES UNSEEN)",
 				fi->full_name);
 			if (!response)
 				continue;
