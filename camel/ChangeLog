@@ -1,5 +1,12 @@
 2000-11-24  Not Zed  <NotZed@HelixCode.com>
 
+	* tests/README: Added at least some explanation of all this stuff.
+
+	* tests/lib/camel-test.h (check_msg): Added a non-gcc version of
+	the fail command, we dont get the expression that failed, but no
+	matter.  Should be (more) portable now.
+	(check, check_msg): Put the file/lineno in the default message.
+
 	* Makefile.am (SUBDIRS): Add tests.
 
 	* camel-mime-filter-basic.c (filter): Well, I'll add the extra

@@ -18,7 +18,7 @@ int camel_test_verbose;
 
 static void die(int sig)
 {
-	static indie = 0;
+	static int indie = 0;
 	struct _stack *node;
 
 	if (!indie) {
@@ -118,17 +118,23 @@ void camel_test_pull(void)
 
 void camel_test_fail(const char *why, ...)
 {
-	struct _stack *node;
 	va_list ap;
-	char *text;
 
 	va_start(ap, why);
-	text = g_strdup_vprintf(why, ap);
+	camel_test_failv(why, ap);
 	va_end(ap);
+}
+
+void camel_test_failv(const char *why, va_list ap)
+{
+	struct _stack *node;
+	char *text;
+
+	text = g_strdup_vprintf(why, ap);
 
 	if ((nonfatal == NULL && camel_test_verbose > 0)
 	    || (nonfatal && camel_test_verbose > 1)) {
-		printf("Failed: %s\n", text);
+		printf("Failed.\n%s\n", text);
 	}
 
 	g_free(text);
@@ -174,8 +180,7 @@ void camel_test_nonfatal(const char *why, ...)
 	nonfatal = node;
 }
 
-/* dont ask me why but the compiler just can't seem to find the prototypes for this */
-void camel_test_fatal()
+void camel_test_fatal(void)
 {
 	struct _stack *node;
 
@@ -209,7 +214,6 @@ void camel_test_end(void)
 int string_equal(const char *a, const char *b)
 {
 	const char *ap, *bp;
-	int cmp;
 
 	ap = a;
 	bp = b;
