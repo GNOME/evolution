@@ -1,3 +1,10 @@
+2003-08-11  Ettore Perazzoli  <ettore@ximian.com>
+
+	Patch from Lorenzo Gil Sanchez <lgs@sicem.biz>
+
+	* Locations: Added Bermuda to the list of countries under the
+	'Central and South America' region.  [#21879]
+	
 2003-07-23  Dan Winship  <danw@ximian.com>
 
 	* e-summary-factory.c (e_summary_factory_new_control): Fix a

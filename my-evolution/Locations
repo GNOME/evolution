@@ -2723,6 +2723,10 @@ loc1=Nassau MYNN ------ ---
 name=Belize
 loc0=Belize MZBZ ------ ---
 
+[M__BM]
+name=Bermuda
+loc0=Bermuda TXKF ------ ---
+
 [M__KY]
 name=Cayman Islands
 loc0=Grand\\ Cayman MWCR ------ ---
