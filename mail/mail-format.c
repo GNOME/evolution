@@ -2269,9 +2269,12 @@ mail_get_message_body (CamelDataWrapper *data, gboolean want_plain, gboolean cit
 	if (header_content_type_is (mime_type, "text", "*") ||
 	    header_content_type_is (mime_type, "message", "*")) {
 		bytes = mail_format_get_data_wrapper_text (data, NULL);
-		g_byte_array_append (bytes, "", 1);
-		text = bytes->data;
-		g_byte_array_free (bytes, FALSE);
+		
+		if (bytes) {
+			g_byte_array_append (bytes, "", 1);
+			text = bytes->data;
+			g_byte_array_free (bytes, FALSE);
+		}
 		
 		if (text && !header_content_type_is (mime_type, "text", "html")) {
 			char *html;
