@@ -33,6 +33,8 @@
 	* mail-format.c (mail_format_mime_message): We can't output
 	"<html>" and "</html>" here because it gets called recursively to
 	display message/rfc822 subparts.
+	(mail_format_raw_message): Add padding to match the formatted
+	display.
 
 	* mail-display.c (mail_display_redisplay): Move rodo's html header
 	changes from mail_format_mime_message to here.
