@@ -1,8 +1,0 @@
-2004-11-03  Not Zed  <NotZed@Ximian.com>
-
-	* Makefile.am: extra_dist the .eplug.in file.
-
-2004-10-20  Not Zed  <NotZed@Ximian.com>
-
-	* implemented a plugin manager plugin.
-
