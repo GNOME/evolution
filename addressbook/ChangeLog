@@ -1,5 +1,13 @@
 2002-05-24  Chris Toshok  <toshok@ximian.com>
 
+	[ part of #25047 ]
+	* gui/component/addressbook-config.c: remove the autocompletion
+	config control from here, as it lives in the shell now.
+
+	* gui/component/GNOME_Evolution_Addressbook.oaf.in: same.
+
+2002-05-24  Chris Toshok  <toshok@ximian.com>
+
 	[ #24189 ]
 	* gui/component/select-names/e-select-names-manager.c
 	(focus_out_cb): ifdef out the body of this because it only works
