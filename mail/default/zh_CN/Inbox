@@ -9,14 +9,14 @@ Received: from smtp.ximian.com (smtp.ximian.com [141.154.95.10]) by
 Received: (qmail 5610 invoked from network); 25 Sep 2001 11:45:02 -0000
 Received: from smtp.ximian.com (HELO localhost) (141.154.95.10) by
 	pop.ximian.com with SMTP; 25 Sep 2001 11:45:02 -0000
-From: "The Evolution Team" <evolution@ximian.com>
-To: Evolution Users <evolution@ximian.com>
+From: =?UTF-8?B?IkV2b2x1dGlvbiDlm6LpmJ8i?= <evolution@ximian.com>
+To: Evolution =?UTF-8?B?55So5oi3?= <evolution@ximian.com>
 Content-Type: multipart/related; type="multipart/alternative"; boundary="=-t4dRE6cqcdSBHOrMdTQ1"
 X-Mailer: Evolution/1.1.99 (Preview Release)
 Date: 25 June 2002 14:45:00 +0300
 Message-Id: <1001418302.27070.20.camel@spectrolite>
 Mime-Version: 1.0
-Subject: Welcome to Evolution!
+Subject: =?UTF-8?B?5qyi6L+O5L2/55So?= Evolution!
 Sender: evolution@ximian.com
 Errors-To: evolution@ximian.com
 X-Mailman-Version: 1.1
@@ -30,47 +30,45 @@ Content-Type: multipart/alternative; boundary="=-2gZ1roA/HoYrlRDVGyiM"
 
 
 --=-2gZ1roA/HoYrlRDVGyiM
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
 
-The Evolution Team is proud to welcome you to Evolution, a complete system
-for managing your communications and personal information.
+请允许 Evolution 团队向您荣誉介绍 Evolution，它是可管理您通讯和个人信息的一
+整套系统。
 
 
-Getting Started
+开始使用
 
-	On the left of the Evolution window is the side bar, with
-	shortcuts to all your mail folders.  Below that, you'll find
-	buttons for your calendars, contacts, tasks, mail.
+	Evolution 窗口左侧是侧边栏，其中包含了您全部的邮件文件夹。您可在侧边
+	栏下方找到日历、联系人、任务和邮件的相应按钮。
 
-	For a complete guide to Evolution, select "Table of
-	Contents" from the "Help" menu, or press the F1 key. 
+	要获得 Evolution 的完整指南，请从“帮助”菜单中选择“目录”，或者按
+	F1 键。
 
-New Features
+新特性
 
-	Evolution 2.0 adds new support for connecting to Novell
-	GroupWise servers (6.5.3 or newer) and support for Exchange
-	2000/2003.  Other new features in Evolution 2.0 include junk mail
-	filtering, S/MIME security, improved offline IMAP, NNTP (news)
-	support, web calendar display, overlayed calendars and new developer
-	APIs for accessing contact, calendar and task data.
+	Evolution 2.0 支持连接到 Novell GroupWise 服务器(6.5.3 或更新版本)，
+	还可支持 Exchange 2000/2003。Evolution 2.0 的其它新特性包括垃圾邮件
+	过滤、S/MIME 安全、改进的脱机 IMAP、NNTP(新闻)支持、Web 日历显示，层
+	叠的日历，以及为访问联系人、日历和任务数据所提供的全新开发接口。
 
-Bug Reporting
+错误报告
 
-	Bugs should be reported to http://bugzilla.ximian.com
+	错误应该报告至 http://bugzilla.ximian.com
 
-More Information
+更多信息
 
-	You can subscribe to the Evolution users mailing list at
-	http://lists.ximian.com/mailman/listinfo/evolution.
+	您可以订阅下面的 Evolution 用户邮件列表(英语)
+	http://lists.ximian.com/mailman/listinfo/evolution 。
 
-	Information on the Evolution project is available at
-	http://www.gnome.org/projects/evolution.
+	关于 Evolution 项目的信息可在这里找到
+	http://www.gnome.org/projects/evolution 。
 
 
-Yours Sincerely,
-The Evolution Team
+    此致
+敬礼
+Evolution 团队
 evolution@ximian.com
 
 
@@ -108,7 +106,7 @@ Content-Type: text/html; charset=utf-8
 <TD>
 </TD>
 <TD>
-<FONT COLOR="#f8fcf8"><FONT SIZE="4"><B>The Evolution Team</FONT></B></FONT SIZE="4"><FONT COLOR="#f8fcf8"><FONT SIZE="4"> is proud to welcome you to </FONT></FONT SIZE="4"><FONT COLOR="#f8fcf8"><FONT SIZE="4"><B>Evolution</FONT></B></FONT SIZE="4"><FONT COLOR="#f8fcf8"><FONT SIZE="4">, a complete system for managing your communications and personal information.</FONT></FONT SIZE="4"></TD>
+<FONT COLOR="#f8fcf8" SIZE="4"><B>请允许 Evolution 团队</B></FONT><FONT COLOR="#f8fcf8" SIZE="4">向您荣誉介绍 </FONT><FONT COLOR="#f8fcf8" SIZE="4"><B>Evolution</B></FONT><FONT COLOR="#f8fcf8" SIZE="4">，它是可管理您通讯和个人信息的一整套系统。</FONT></TD>
 <TD>
 </TD>
 <TD>
@@ -135,46 +133,25 @@ Content-Type: text/html; charset=utf-8
 </TD>
 </TR>
 </TABLE>
-<h2>Getting Started</h2>
+<h2>开始使用</h2>
 
-<blockquote>
-	On the left of the Evolution window is the side bar, with
-	shortcuts to all your mail folders.  Below that, you'll find
-	buttons for your calendars, contacts, tasks, mail.
-<br><br>
-    For a complete guide to using Evolution, select <b>Table of
-    Contents</b> in the <b>Help</b> menu, or press the <b>F1</b> key.
+<blockquote>Evolution 窗口左侧是侧边栏，其中包含了您全部的邮件文件夹。您可在侧边栏下方找到日历、联系人、任务和邮件的相应按钮。<br><br>要获得 Evolution 的完整指南，请从<b>帮助</b>菜单中选择<b>目录</b>，或者按 <b>F1</b> 键。</blockquote>
 
+<h2>新特性</h2>
+<blockquote>Evolution 2.0 支持连接到 Novell GroupWise 服务器(6.5.3 或更新版本)，还可支持 Exchange 2000/2003。Evolution 2.0 的其它新特性包括垃圾邮件过滤、S/MIME 安全、改进的脱机 IMAP、NNTP(新闻)支持、Web 日历显示，层叠的日历，以及为访问联系人、日历和任务数据所提供的全新开发接口。</blockquote>
+
+<h2>错误报告</h2>
+<blockquote>错误应该报告至 <a href="http://bugzilla.ximian.com">http://bugzilla.ximian.com</a>
 </blockquote>
 
-<h2>New Features</h2>
-<blockquote>
-	Evolution 2.0 adds new support for connecting to Novell
-	GroupWise servers (6.5.3 or newer) and support for Exchange
-	2000/2003.  Other new features in Evolution 2.0 include junk mail
-	filtering, S/MIME security, improved offline IMAP, NNTP (news)
-	support, web calendar display, overlayed calendars and new developer
-	APIs for accessing contact, calendar and task data.
-</blockquote>
+<h2>更多信息</h2>
 
-<h2>Bug Reporting</h2>
-<blockquote>
-	Bugs should be reported to <a href="http://bugzilla.ximian.com">http://bugzilla.ximian.com</a>
-</blockquote> 
-
-<h2>More Information</h2>
-
-<blockquote>
-	You can subscribe to the Evolution users mailing list at
-	<a href="http://lists.ximian.com/mailman/listinfo/evolution">http://lists.ximian.com/mailman/listinfo/evolution</a>.
-
-	Information on the Evolution project is available at
-	<a href="http://www.gnome.org/projects/evolution">http://www.gnome.org/projects/evolution</a>.
- </blockquote>
+<blockquote>您可以订阅下面的 Evolution 用户邮件列表(英语) <a href="http://lists.ximian.com/mailman/listinfo/evolution">http://lists.ximian.com/mailman/listinfo/evolution</a>。关于 Evolution 项目的信息可在 <a href="http://www.gnome.org/projects/evolution">http://www.gnome.org/projects/evolution</a> 找到。</blockquote>
 
 
-Yours Sincerely,<br>
-The Evolution Team<br>
+　　此致<br/>
+敬礼<br>
+Evolution 团队<br>
 <a href="mailto:evolution@ximian.com">evolution@ximian.com</a>
 
 </BODY>
