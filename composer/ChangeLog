@@ -1,3 +1,10 @@
+2003-05-15  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer-attachment.c (e_msg_composer_attachment_edit):
+	Don't connect to the focus-out-event in order to update the
+	mime-type. Simply don't update the mime-type ever. Fixes bug
+	#42798.
+
 2003-04-28  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (autosave_manager_query_load_orphans): Change
