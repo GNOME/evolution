@@ -281,7 +281,7 @@ connect_to_server (CamelService *service, int try_starttls, CamelException *ex)
 	ret = camel_tcp_stream_connect (CAMEL_TCP_STREAM (tcp_stream), h, port);
 	camel_free_host (h);
 	if (ret == -1) {
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+		camel_exception_setv (ex, errno == EINTR ? CAMEL_EXCEPTION_USER_CANCEL : CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
 				      _("Could not connect to %s (port %d): %s"),
 				      service->url->host, port,
 				      g_strerror (errno));
@@ -354,8 +354,8 @@ connect_to_server (CamelService *service, int try_starttls, CamelException *ex)
  starttls:
 	d(fprintf (stderr, "sending : STARTTLS\r\n"));
 	if (camel_stream_write (tcp_stream, "STARTTLS\r\n", 10) == -1) {
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      _("STARTTLS request timed out: %s"),
+		camel_exception_setv (ex, errno == EINTR ? CAMEL_EXCEPTION_USER_CANCEL : CAMEL_EXCEPTION_SYSTEM,
+				      _("STARTTLS command failed: %s"),
 				      g_strerror (errno));
 		goto exception_cleanup;
 	}
@@ -683,8 +683,7 @@ smtp_send_to (CamelTransport *transport, CamelMimeMessage *message,
 	
 	if (!camel_internet_address_get (CAMEL_INTERNET_ADDRESS (from), 0, NULL, &addr)) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      _("Cannot send message: "
-					"sender address not valid."));
+				      _("Cannot send message: sender address not valid."));
 		return FALSE;
 	}
 	
@@ -818,8 +817,8 @@ smtp_set_exception (CamelSmtpTransport *transport, const char *respbuf, const ch
 	if (!respbuf || !(transport->flags & CAMEL_SMTP_TRANSPORT_ENHANCEDSTATUSCODES)) {
 	fake_status_code:
 		error = respbuf ? atoi (respbuf) : 0;
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM, "%s: %s", message,
-				      smtp_error_string (error));
+		camel_exception_setv (ex, error == 0 && errno == EINTR ? CAMEL_EXCEPTION_USER_CANCEL : CAMEL_EXCEPTION_SYSTEM,
+				      "%s: %s", message, smtp_error_string (error));
 	} else {
 		string = g_string_new ("");
 		do {
@@ -930,9 +929,8 @@ smtp_helo (CamelSmtpTransport *transport, CamelException *ex)
 	d(fprintf (stderr, "sending : %s", cmdbuf));
 	if (camel_stream_write (transport->ostream, cmdbuf, strlen (cmdbuf)) == -1) {
 		g_free (cmdbuf);
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      _("HELO request timed out: %s"),
-				      g_strerror (errno));
+		camel_exception_setv (ex, errno == EINTR ? CAMEL_EXCEPTION_USER_CANCEL : CAMEL_EXCEPTION_SYSTEM,
+				      _("HELO command failed: %s"), g_strerror (errno));
 		camel_operation_end (NULL);
 		
 		transport->connected = FALSE;
@@ -1041,9 +1039,8 @@ smtp_auth (CamelSmtpTransport *transport, const char *mech, CamelException *ex)
 	d(fprintf (stderr, "sending : %s", cmdbuf));
 	if (camel_stream_write (transport->ostream, cmdbuf, strlen (cmdbuf)) == -1) {
 		g_free (cmdbuf);
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      _("AUTH request timed out: %s"),
-				      g_strerror (errno));
+		camel_exception_setv (ex, errno == EINTR ? CAMEL_EXCEPTION_USER_CANCEL : CAMEL_EXCEPTION_SYSTEM,
+				      _("AUTH command failed: %s"), g_strerror (errno));
 		goto lose;
 	}
 	g_free (cmdbuf);
@@ -1053,17 +1050,15 @@ smtp_auth (CamelSmtpTransport *transport, const char *mech, CamelException *ex)
 	
 	while (!camel_sasl_authenticated (sasl)) {
 		if (!respbuf) {
-			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-					      _("AUTH request timed out: %s"),
-					      g_strerror (errno));
+			camel_exception_setv (ex, errno == EINTR ? CAMEL_EXCEPTION_USER_CANCEL : CAMEL_EXCEPTION_SYSTEM,
+					      _("AUTH command failed: %s"), g_strerror (errno));
 			goto lose;
 		}
 		
 		/* the server challenge/response should follow a 334 code */
-		if (strncmp (respbuf, "334", 3)) {
+		if (strncmp (respbuf, "334", 3) != 0) {
+			smtp_set_exception (transport, respbuf, _("AUTH command failed"), ex);
 			g_free (respbuf);
-			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-					      _("AUTH request failed."));
 			goto lose;
 		}
 		
@@ -1148,8 +1143,8 @@ smtp_mail (CamelSmtpTransport *transport, const char *sender, gboolean has_8bit_
 	
 	if (camel_stream_write (transport->ostream, cmdbuf, strlen (cmdbuf)) == -1) {
 		g_free (cmdbuf);
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      _("MAIL FROM request timed out: %s: mail not sent"),
+		camel_exception_setv (ex, errno == EINTR ? CAMEL_EXCEPTION_USER_CANCEL : CAMEL_EXCEPTION_SYSTEM,
+				      _("MAIL FROM command failed: %s: mail not sent"),
 				      g_strerror (errno));
 		
 		camel_object_unref (transport->istream);
@@ -1192,8 +1187,8 @@ smtp_rcpt (CamelSmtpTransport *transport, const char *recipient, CamelException 
 	
 	if (camel_stream_write (transport->ostream, cmdbuf, strlen (cmdbuf)) == -1) {
 		g_free (cmdbuf);
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      _("RCPT TO request timed out: %s: mail not sent"),
+		camel_exception_setv (ex, errno == EINTR ? CAMEL_EXCEPTION_USER_CANCEL : CAMEL_EXCEPTION_SYSTEM,
+				      _("RCPT TO command failed: %s: mail not sent"),
 				      g_strerror (errno));
 		
 		camel_object_unref (transport->istream);
@@ -1253,8 +1248,8 @@ smtp_data (CamelSmtpTransport *transport, CamelMimeMessage *message, CamelExcept
 	
 	if (camel_stream_write (transport->ostream, cmdbuf, strlen (cmdbuf)) == -1) {
 		g_free (cmdbuf);
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      _("DATA request timed out: %s: mail not sent"),
+		camel_exception_setv (ex, errno == EINTR ? CAMEL_EXCEPTION_USER_CANCEL : CAMEL_EXCEPTION_SYSTEM,
+				      _("DATA command failed: %s: mail not sent"),
 				      g_strerror (errno));
 		
 		camel_object_unref (transport->istream);
@@ -1314,9 +1309,8 @@ smtp_data (CamelSmtpTransport *transport, CamelMimeMessage *message, CamelExcept
 	header->next = savedbcc;
 	
 	if (ret == -1) {
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      _("DATA send timed out: message termination: "
-					"%s: mail not sent"),
+		camel_exception_setv (ex, errno == EINTR ? CAMEL_EXCEPTION_USER_CANCEL : CAMEL_EXCEPTION_SYSTEM,
+				      _("DATA command failed: %s: mail not sent"),
 				      g_strerror (errno));
 		
 		camel_object_unref (filtered_stream);
@@ -1337,9 +1331,8 @@ smtp_data (CamelSmtpTransport *transport, CamelMimeMessage *message, CamelExcept
 	d(fprintf (stderr, "sending : \\r\\n.\\r\\n\n"));
 	
 	if (camel_stream_write (transport->ostream, "\r\n.\r\n", 5) == -1) {
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      _("DATA send timed out: message termination: "
-					"%s: mail not sent"),
+		camel_exception_setv (ex, errno == EINTR ? CAMEL_EXCEPTION_USER_CANCEL : CAMEL_EXCEPTION_SYSTEM,
+				      _("DATA command failed: %s: mail not sent"),
 				      g_strerror (errno));
 		
 		camel_object_unref (transport->istream);
@@ -1380,9 +1373,8 @@ smtp_rset (CamelSmtpTransport *transport, CamelException *ex)
 	
 	if (camel_stream_write (transport->ostream, cmdbuf, strlen (cmdbuf)) == -1) {
 		g_free (cmdbuf);
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      _("RSET request timed out: %s"),
-				      g_strerror (errno));
+		camel_exception_setv (ex, errno == EINTR ? CAMEL_EXCEPTION_USER_CANCEL : CAMEL_EXCEPTION_SYSTEM,
+				      _("RSET command failed: %s"), g_strerror (errno));
 		
 		camel_object_unref (transport->istream);
 		transport->istream = NULL;
@@ -1423,9 +1415,8 @@ smtp_quit (CamelSmtpTransport *transport, CamelException *ex)
 	
 	if (camel_stream_write (transport->ostream, cmdbuf, strlen (cmdbuf)) == -1) {
 		g_free (cmdbuf);
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      _("QUIT request timed out: %s"),
-				      g_strerror (errno));
+		camel_exception_setv (ex, errno == EINTR ? CAMEL_EXCEPTION_USER_CANCEL : CAMEL_EXCEPTION_SYSTEM,
+				      _("QUIT command failed: %s"), g_strerror (errno));
 		
 		camel_object_unref (transport->istream);
 		transport->istream = NULL;

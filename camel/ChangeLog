@@ -1,3 +1,19 @@
+2004-03-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/smtp/camel-smtp-transport.c (connect_to_server): If
+	errno is EINTR, set USER_CANCEL instead of SERVICE_UNAVAILABLE or
+	whatever.
+	(smtp_helo): Same.
+	(smtp_auth): Same.
+	(smtp_mail): Same.
+	(smtp_rcpt): Same.
+	(smtp_data): Same.
+	(smtp_rset): Same.
+	(smtp_quit): Same.
+	(smtp_set_exception): Here too.
+	(smtp_auth): If the AUTH response code is not 334, then use
+	smtp_set_exception() to get the most accurate error report we can.
+
 2004-03-11  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-object.c (cobject_state_read): Sanity check that count is
