@@ -1,5 +1,7 @@
 2000-03-29  Matt Loper  <matt@helixcode.com>
 
+	* Makefile.am: add calendar compilation back in.
+
 	* addressbook/backend/pas/pas-book-factory.c
 	(PAS_BOOK_FACTORY_GOAD_ID): changed to
 	"evolution:addressbook-server".

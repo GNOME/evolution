@@ -25,11 +25,9 @@ SUBDIRS =			\
 	libical			\
 	libversit		\
 	addressbook		\
+	calendar		\
 	wombat			\
 	po
-
-# Add this when the calendar builds. 
-#	calendar
 
 dist-hook:
 	for subdir in intl ; do \

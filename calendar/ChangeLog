@@ -1,3 +1,7 @@
+2000-03-29  Matt Loper  <matt@helixcode.com>
+
+	* Makefile.am: remove the gui directory, which doesn't compile.
+
 2000-03-28  Matt Loper  <matt@helixcode.com>
 
 	* pcs/Makefile.am: create a libpcs.la library, for use in the
