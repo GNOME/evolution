@@ -30,7 +30,10 @@
 #include <gtk/gtksignal.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
+#include <libgnome/gnome-i18n.h>
+
 #include <gal/util/e-util.h>
+#include <gal/widgets/e-popup-menu.h>
 
 
 #define PARENT_TYPE bonobo_x_object_get_type ()
@@ -134,7 +137,46 @@ lookup_activity (GList *list,
 }
 
 
-/* ETaskWidget callbacks.  */
+/* ETaskWidget actions.  */
+
+static void
+task_widget_cancel_callback (GtkWidget *widget,
+			     void *data)
+{
+	ActivityInfo *activity_info;
+	CORBA_Environment ev;
+	CORBA_any *null_value;
+
+	CORBA_exception_init (&ev);
+
+	activity_info = (ActivityInfo *) data;
+
+	null_value = CORBA_any__alloc ();
+	null_value->_type = TC_null;
+
+	Bonobo_Listener_event (activity_info->event_listener, "Cancelled", null_value, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION)
+		g_warning ("EActivityHandler: Cannot report `Cancelled' event -- %s",
+			   ev._repo_id);
+
+	CORBA_free (null_value);
+
+	CORBA_exception_free (&ev);
+}
+
+static void
+show_cancellation_popup (ActivityInfo *activity_info,
+			 GtkWidget *task_widget,
+			 GdkEventButton *button_event)
+{
+	GtkMenu *popup;
+	EPopupMenu items[] = {
+		{ N_("Cancel"), NULL, task_widget_cancel_callback, NULL, 0 },
+		{ NULL }
+	};
+
+	popup = e_popup_menu_create (items, 0, 0, activity_info);
+}
 
 static int
 task_widget_button_press_event_callback (GtkWidget *widget,
@@ -146,6 +188,18 @@ task_widget_button_press_event_callback (GtkWidget *widget,
 	CORBA_any *null_value;
 
 	activity_info = (ActivityInfo *) data;
+
+	if (button_event->button == 2) {
+		if (! activity_info->cancellable) {
+			return FALSE;
+		} else {
+			show_cancellation_popup (activity_info, widget, button_event);
+			return TRUE;
+		}
+	}
+
+	if (button_event->button != 1)
+		return FALSE;
 
 	CORBA_exception_init (&ev);
 

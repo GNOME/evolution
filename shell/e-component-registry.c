@@ -142,6 +142,7 @@ register_component (EComponentRegistry *component_registry,
 	GNOME_Evolution_ShellComponent component_corba_interface;
 	GNOME_Evolution_Shell shell_corba_interface;
 	GNOME_Evolution_FolderTypeList *supported_types;
+	GNOME_Evolution_URISchemaList *supported_schemas;
 	Component *component;
 	EvolutionShellComponentClient *client;
 	CORBA_Environment ev;
@@ -166,6 +167,8 @@ register_component (EComponentRegistry *component_registry,
 	component_corba_interface = bonobo_object_corba_objref (BONOBO_OBJECT (client));
 	shell_corba_interface = bonobo_object_corba_objref (BONOBO_OBJECT (priv->shell));
 
+	/* Register the supported folder types.  */
+
 	supported_types = GNOME_Evolution_ShellComponent__get_supported_types (component_corba_interface, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION || supported_types->_length == 0) {
 		bonobo_object_unref (BONOBO_OBJECT (client));
@@ -178,7 +181,7 @@ register_component (EComponentRegistry *component_registry,
 	component = component_new (id, client);
 	g_hash_table_insert (priv->component_id_to_component, component->id, component);
 	bonobo_object_unref (BONOBO_OBJECT (client));
-	
+
 	for (i = 0; i < supported_types->_length; i++) {
 		const GNOME_Evolution_FolderType *type;
 
@@ -200,6 +203,27 @@ register_component (EComponentRegistry *component_registry,
 	}
 
 	CORBA_free (supported_types);
+
+	/* Register the supported external URI schemas.  */
+
+	supported_schemas = GNOME_Evolution_ShellComponent__get_external_uri_schemas (component_corba_interface, &ev);
+	if (ev._major == CORBA_NO_EXCEPTION) {
+		EUriSchemaRegistry *uri_schema_registry;
+
+		uri_schema_registry = e_shell_get_uri_schema_registry (priv->shell); 
+
+		for (i = 0; i < supported_schemas->_length; i++) {
+			const CORBA_char *schema;
+
+			schema = supported_schemas->_buffer[i];
+			if (! e_uri_schema_registry_set_handler_for_schema (uri_schema_registry, schema, component->client))
+				g_warning ("Cannot register schema `%s' for component %s", schema, component->id);
+			else
+				g_print ("Registered handler for schema `%s' -- %s\n", schema, component->id);
+		}
+
+		CORBA_free (supported_schemas);
+	}
 
 	return TRUE;
 }

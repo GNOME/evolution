@@ -40,6 +40,7 @@ typedef struct _EShellClass   EShellClass;
 
 #include "e-shortcuts.h"
 #include "e-shell-view.h"
+#include "e-uri-schema-registry.h"
 #include "e-local-storage.h"
 
 
@@ -93,6 +94,7 @@ EShortcuts          *e_shell_get_shortcuts             (EShell          *shell);
 EStorageSet         *e_shell_get_storage_set           (EShell          *shell);
 ELocalStorage       *e_shell_get_local_storage         (EShell          *shell);
 EFolderTypeRegistry *e_shell_get_folder_type_registry  (EShell          *shell);
+EUriSchemaRegistry  *e_shell_get_uri_schema_registry   (EShell          *shell);
 
 gboolean             e_shell_save_settings             (EShell          *shell);
 gboolean             e_shell_restore_from_settings     (EShell          *shell);

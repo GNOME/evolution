@@ -149,6 +149,8 @@ evolution_SOURCES =				\
 	e-task-bar.h				\
 	e-task-widget.c				\
 	e-task-widget.h				\
+	e-uri-schema-registry.c			\
+	e-uri-schema-registry.h			\
 	evolution-storage-set-view.c		\
 	evolution-storage-set-view.h		\
 	evolution-storage-set-view-factory.c	\

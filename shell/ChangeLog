@@ -1,5 +1,29 @@
 2001-06-27  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-component-registry.c (register_component): Get the supported
+	schemas and register them into the schema registry.
+
+	* e-shell.c: New member `uri_schema_registry' in `EShellPrivate'.
+	(e_shell_construct): Init.
+	(destroy): Unref.
+	(impl_Shell_createNewView): Raise exception `UnsupportedSchema' if
+	it's not an `evolution:' URI.  Raise exception `NotFound' if
+	`e_shell_new_view()' returns NULL.
+	(impl_Shell_handleURI): New, implementation for the `::handleURI'
+	method.
+	(e_shell_get_uri_schema_registry): New.
+
+	* Evolution-Shell.idl: New exceptions `UnsupportedSchema' and
+	`InvalidURI'.
+	(createNewView): Make this able to raise `NotFound',
+	`UnsupportedSchema' and `InvalidURI'.
+	(handleURI): New method.
+
+	* e-uri-schema-registry.h: New.
+	* e-uri-schema-registry.c: New.
+
+2001-06-27  Ettore Perazzoli  <ettore@ximian.com>
+
 	* evolution-shell-component-client.c: Remove redundant declaration
 	for `free_ShellComponentListener_servant()'.
 

@@ -18,7 +18,11 @@ module Evolution {
 
 	interface Shell : Bonobo::Unknown {
 		exception NotFound {};
+		exception UnsupportedSchema {};
+		exception InvalidURI {};
 		exception Busy {};
+
+		typedef sequence<string> FolderTypeNameList;
 
 		/**
 		 * getComponentByType:
@@ -32,15 +36,26 @@ module Evolution {
 		ShellComponent getComponentByType (in string type)
 			raises (NotFound);
 
-		typedef sequence<string> FolderTypeNameList;
-
 		/**
 		 * createNewView:
 		 * @uri: URI for the view to open
 		 *
 		 * Return value: the new view.
 		 */
-		ShellView createNewView (in string uri);
+		ShellView createNewView (in string uri)
+			raises (NotFound, UnsupportedSchema, InvalidURI);
+
+		/**
+		 * handleURI:
+		 * @uri: URI to handle
+		 *
+		 * This handles the specified URI.  It is different from
+		 * `::createNewView' as it doesn't necessarily imply creating a
+		 * new ShellView.  (For example, a `mailto:' URI will invoke
+		 * the message composer.)
+		 */
+		void handleURI (in string uri)
+			raises (NotFound, UnsupportedSchema, InvalidURI);
 
 		/**
 		 * selectUserFolder:

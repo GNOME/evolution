@@ -50,6 +50,7 @@
 #include "e-shortcuts.h"
 #include "e-storage-set.h"
 #include "e-splash.h"
+#include "e-uri-schema-registry.h"
 
 #include "evolution-storage-set-view-factory.h"
 
@@ -74,6 +75,7 @@ struct _EShellPrivate {
 
 	EShortcuts *shortcuts;
 	EFolderTypeRegistry *folder_type_registry;
+	EUriSchemaRegistry *uri_schema_registry;
 
 	EComponentRegistry *component_registry;
 
@@ -211,11 +213,54 @@ impl_Shell_createNewView (PortableServer_Servant servant,
 	bonobo_object = bonobo_object_from_servant (servant);
 	shell = E_SHELL (bonobo_object);
 
+	if (strncmp (uri, E_SHELL_URI_PREFIX, E_SHELL_URI_PREFIX_LEN) != 0) {
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+				     ex_GNOME_Evolution_Shell_UnsupportedSchema,
+				     NULL);
+		return CORBA_OBJECT_NIL;
+	}
+
 	shell_view = e_shell_new_view (shell, uri);
+	if (shell_view == NULL) {
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+				     ex_GNOME_Evolution_Shell_NotFound, NULL);
+		return CORBA_OBJECT_NIL;
+	}
+
 	shell_view_interface = e_shell_view_get_corba_interface (shell_view);
 
 	Bonobo_Unknown_ref (shell_view_interface, ev);
 	return CORBA_Object_duplicate ((CORBA_Object) shell_view_interface, ev);
+}
+
+static void
+impl_Shell_handleURI (PortableServer_Servant servant,
+		      const CORBA_char *uri,
+		      CORBA_Environment *ev)
+{
+	EShell *shell;
+	EShellPrivate *priv;
+	const char *colon_p;
+	const char *schema;
+
+	shell = E_SHELL (bonobo_object_from_servant (servant));
+	priv = shell->priv;
+
+	if (strncmp (uri, E_SHELL_URI_PREFIX, E_SHELL_URI_PREFIX_LEN) == 0) {
+		GNOME_Evolution_Shell_createNewView (servant, uri, ev);
+		return;
+	}
+
+	/* Extract the schema.  */
+
+	colon_p = strchr (uri, ':');
+	if (colon_p == NULL || colon_p == uri) {
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+				     ex_GNOME_Evolution_Shell_InvalidURI, NULL);
+		return;
+	}
+
+	schema = g_strndup (uri, colon_p - uri);
 }
 
 static void
@@ -578,6 +623,9 @@ destroy (GtkObject *object)
 	if (priv->folder_type_registry != NULL)
 		gtk_object_unref (GTK_OBJECT (priv->folder_type_registry));
 
+	if (priv->uri_schema_registry != NULL)
+		gtk_object_unref (GTK_OBJECT (priv->uri_schema_registry));
+
 	if (priv->component_registry != NULL)
 		gtk_object_unref (GTK_OBJECT (priv->component_registry));
 
@@ -728,6 +776,7 @@ e_shell_construct (EShell *shell,
 	priv->iid                  = g_strdup (iid);
 	priv->local_directory      = g_strdup (local_directory);
 	priv->folder_type_registry = e_folder_type_registry_new ();
+	priv->uri_schema_registry  = e_uri_schema_registry_new ();
 	priv->storage_set          = e_storage_set_new (priv->folder_type_registry);
 
 	/* CORBA storages must be set up before the components, because otherwise components
@@ -916,6 +965,23 @@ e_shell_get_folder_type_registry (EShell *shell)
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
 	return shell->priv->folder_type_registry;
+}
+
+/**
+ * e_shell_get_uri_schema_registry:
+ * @shell: An EShell object.
+ * 
+ * Get the schema registry associated to @shell.
+ * 
+ * Return value: A pointer to the EUriSchemaRegistry associated to @shell.
+ **/
+EUriSchemaRegistry  *
+e_shell_get_uri_schema_registry (EShell *shell)
+{
+	g_return_val_if_fail (shell != NULL, NULL);
+	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
+
+	return shell->priv->uri_schema_registry;
 }
 
 /**
