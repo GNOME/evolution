@@ -1372,8 +1372,8 @@ gnome_calendar_init (GnomeCalendar *gcal)
 	setup_config (gcal);
 	setup_widgets (gcal);
 
-	priv->calendar_menu = e_cal_menu_new("com.novell.evolution.calendar.view");
-	priv->taskpad_menu = e_cal_menu_new("com.novell.evolution.calendar.taskpad");
+	priv->calendar_menu = e_cal_menu_new("org.gnome.evolution.calendar.view");
+	priv->taskpad_menu = e_cal_menu_new("org.gnome.evolution.calendar.taskpad");
 
 	priv->dn_queries = NULL;	
 	priv->sexp = g_strdup ("#t"); /* Match all */

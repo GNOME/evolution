@@ -878,7 +878,7 @@ tray_icon_clicked_cb (GtkWidget *widget, GdkEventButton *event, gpointer user_da
 			EPopup *ep;
 			int i;
 
-			ep = e_popup_new("com.novell.evolution.alarmNotify.popup");
+			ep = e_popup_new("org.gnome.evolution.alarmNotify.popup");
 			for (i=0;i<sizeof(tray_items)/sizeof(tray_items[0]);i++)
 				menus = g_slist_prepend(menus, &tray_items[i]);
 			e_popup_add_items(ep, menus, tray_popup_free, tray_data);

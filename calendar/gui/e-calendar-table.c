@@ -1188,7 +1188,7 @@ e_calendar_table_show_popup_menu (ETable *table,
 	if (!selection)
 		return TRUE;
 
-	ep = e_cal_popup_new("com.novell.evolution.tasks.table.popup");
+	ep = e_cal_popup_new("org.gnome.evolution.tasks.table.popup");
 
 	events = g_ptr_array_new();
 	for (l=selection;l;l=g_slist_next(l))

@@ -1,3 +1,10 @@
+2004-10-19  JP Rosevear  <jpr@novell.com>
+
+	* gui/calendar-component.c, gui/e-cal-menu.c, gui/e-cal-popup.c,
+	gui/e-calendar-table.c, gui/e-calendar-view.c, gui/gnome-cal.c,
+	gui/tasks-component.c, gui/alarm-notify/alarm-queue.c,
+	gui/dialogs/meeting-page.c: convert to org.gnome hook names
+
 2004-10-19  Harish Krishnaswamy  <kharish@novell.com>
 
 	* gui/comp-editor-factory.c: (edit_existing):

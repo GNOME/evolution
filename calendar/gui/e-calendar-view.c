@@ -1419,7 +1419,7 @@ e_calendar_view_create_popup_menu (ECalendarView *cal_view)
 	 * menu was created rather than everyone having to call us.
 	 * We could also have a different menu id for each view */
 
-	ep = e_cal_popup_new("com.novell.evolution.calendar.view.popup");
+	ep = e_cal_popup_new("org.gnome.evolution.calendar.view.popup");
 
 	model = e_calendar_view_get_model(cal_view);
 	events = g_ptr_array_new();

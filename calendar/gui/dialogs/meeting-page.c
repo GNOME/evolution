@@ -822,7 +822,7 @@ button_press_event (GtkWidget *widget, GdkEventButton *event, MeetingPage *mpage
  	if (e_meeting_attendee_get_edit_level (ia) != E_MEETING_ATTENDEE_EDIT_FULL)
  		disable_mask = CAN_DELETE;
 
-	ep = e_cal_popup_new("com.novell.evolution.calendar.meeting.popup");
+	ep = e_cal_popup_new("org.gnome.evolution.calendar.meeting.popup");
 	for (i=0;i<sizeof(context_menu_items)/sizeof(context_menu_items[0]);i++)
 		menus = g_slist_prepend(menus, &context_menu_items[i]);
 

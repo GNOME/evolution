@@ -400,7 +400,7 @@ popup_event_cb(ESourceSelector *selector, ESource *insource, GdkEventButton *eve
 	int i;
 	GtkMenu *menu;
 
-	ep = e_cal_popup_new("com.novell.evolution.calendar.source.popup");
+	ep = e_cal_popup_new("org.gnome.evolution.calendar.source.popup");
 	t = e_cal_popup_target_new_source(ep, selector);
 	t->target.widget = (GtkWidget *)component_view->calendar;
 
