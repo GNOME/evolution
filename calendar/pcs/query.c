@@ -1584,7 +1584,7 @@ backend_opened_cb (CalBackend *backend, CalBackendOpenStatus status, gpointer da
 
 /* Callback used when the backend for a cached query is destroyed */
 static void
-backend_destroyed_cb (GObject *object, gpointer data)
+backend_destroyed_cb (gpointer data, GObject *where_backend_was)
 {
 	Query *query;
 
@@ -1723,8 +1723,8 @@ query_new (CalBackend *backend,
 	}
 
 	/* add the new query to our cache */
-	g_signal_connect (G_OBJECT (query->priv->backend), "destroy",
-			  G_CALLBACK (backend_destroyed_cb), query);
+	g_object_weak_ref (G_OBJECT (query->priv->backend),
+			   backend_destroyed_cb, query);
 
 	bonobo_object_ref (BONOBO_OBJECT (query));
 	cached_queries = g_list_append (cached_queries, query);

@@ -1,3 +1,24 @@
+2003-01-09  Dan Winship  <danw@ximian.com>
+
+	* gui/dialogs/recurrence-page.c (make_recur_month_num_submenu,
+	make_recur_month_num_menu, month_num_menu_selection_done_cb): Use
+	the new cal_recur_nth[] array. The way this was done before didn't
+	localize properly.
+
+	* cal-util/cal-recur.c (cal_recur_nth): array of localized month
+	day names ("1st" - "31st")
+
+	* cal-util/cal-component.c (cal_component_set_recurid): Allow
+	recur_id to be NULL to clear the recurrence id. (Based on a story
+	by JP on evolution-1-2-recurid-branch)
+
+	* gui/print.c: Remove unused gnome-print-copies.h #include
+
+	* pcs/query.c (query_new): Use g_object_weak_ref rather than
+	connecting to "destroy" (which doesn't actually exist on a
+	CalBackend)
+	(backend_destroyed_cb): Update prototype.
+
 2003-01-08  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/alarm-notify/Makefile.am: Icons are now in

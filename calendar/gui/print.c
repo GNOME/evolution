@@ -38,7 +38,6 @@
 #include <libgnomeprint/gnome-print-master.h>
 #include <libgnomeprintui/gnome-print-master-preview.h>
 #include <libgnomeprintui/gnome-print-paper-selector.h>
-#include <libgnomeprintui/gnome-print-copies.h>
 #include <libgnomeprintui/gnome-print-preview.h>
 #include <libgnomeprintui/gnome-printer-dialog.h>
 #include <e-util/e-dialog-widgets.h>
