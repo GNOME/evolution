@@ -1,3 +1,9 @@
+2003-03-27  Not Zed  <NotZed@Ximian.com>
+
+	* camel-object.c (camel_object_bag_list): Ignore whether or not
+	the bag is currently reserved.  We'll miss the new potential
+	object, but only 1.  Should address #40103.
+
 2003-03-25  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-service.c (camel_gethostbyaddr): Don't use setv when we

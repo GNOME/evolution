@@ -1253,32 +1253,17 @@ save_bag(char *key, CamelObject *o, GPtrArray *list)
 	g_ptr_array_add(list, o);
 }
 
-/* get a list of all objects in the bag, ref'd */
+/* get a list of all objects in the bag, ref'd
+   ignores any reserved keys */
 GPtrArray *camel_object_bag_list(CamelObjectBag *bag)
 {
 	GPtrArray *list;
-#ifdef ENABLE_THREADS
-	pthread_t id;
-#endif
 
 	list = g_ptr_array_new();
-
-#ifdef ENABLE_THREADS
-	/* make sure we own the bag */
-	id = pthread_self();
-	if (bag->owner != id)
-		sem_wait(&bag->reserve_sem);
-#endif
 
 	E_LOCK(type_lock);
 	g_hash_table_foreach(bag->object_table, (GHFunc)save_bag, list);
 	E_UNLOCK(type_lock);
-
-#ifdef ENABLE_THREADS
-	/* ... and now we no longer need it */
-	if (bag->owner != id)
-		sem_post(&bag->reserve_sem);
-#endif
 
 	return list;
 }
