@@ -239,7 +239,7 @@ EList                    *e_select_names_manager_get_cards                 (ESel
 	for (e_iterator_reset(iterator); e_iterator_is_valid(iterator); e_iterator_next(iterator)) {
 		const ESelectNamesManagerSection *section = e_iterator_get(iterator);
 		if (!strcmp(section->id, id)) {
-			
+			return e_select_names_model_get_cards(section->model);
 		}
 	}
 	return NULL;

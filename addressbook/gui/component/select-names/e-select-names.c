@@ -49,6 +49,7 @@ enum {
 typedef struct {
 	char         *title;
 	ETableModel  *model;
+	ESelectNamesModel *source;
 	ESelectNames *names;
 } ESelectNamesChild;
 
@@ -198,6 +199,7 @@ static void e_select_names_child_free(char *key, ESelectNamesChild *child, ESele
 {
 	g_free(child->title);
 	gtk_object_unref(GTK_OBJECT(child->model));
+	gtk_object_unref(GTK_OBJECT(child->source));
 	g_free(key);
 }
 
@@ -251,8 +253,34 @@ button_clicked(GtkWidget *button, ESelectNamesChild *child)
 	int row = names->currently_selected;
 	if (row != -1) {
 		ECard *card = e_addressbook_model_get_card(E_ADDRESSBOOK_MODEL(names->model), row);
-		e_cardlist_model_add(E_CARDLIST_MODEL(child->model), &card, 1);
+		ESelectNamesModelData new = {E_SELECT_NAMES_MODEL_DATA_TYPE_CARD,
+					     card,
+					     NULL};
+		char *name, *email;
+		ECardSimple *simple = e_card_simple_new(card);
+		EIterator *iterator;
+
+		name = e_card_simple_get(simple, E_CARD_SIMPLE_FIELD_FULL_NAME);
+		email = e_card_simple_get(simple, E_CARD_SIMPLE_FIELD_EMAIL);
+		if (name && *name && email && *email) {
+			new.string = g_strdup_printf("%s <%s>", name, email);
+		} else if (email && *email) {
+			new.string = g_strdup_printf("%s", email);
+		} else if (name && *name) {
+			new.string = g_strdup_printf("%s <>", name);
+		} else {
+			new.string = g_strdup("");
+		}
+
+		iterator = e_list_get_iterator(e_select_names_model_get_data(child->source));
+		e_iterator_last(iterator);
+		e_select_names_model_add_item(child->source, iterator, &new);
+
+		gtk_object_unref(GTK_OBJECT(simple));
 		gtk_object_unref(GTK_OBJECT(card));
+		g_free(email);
+		g_free(name);
+		g_free(new.string);
 	}
 }
 
@@ -305,7 +333,9 @@ e_select_names_add_section(ESelectNames *e_select_names, char *name, char *id, E
 	etable = e_table_new (header, model, SPEC2);
 
 	child->model = model;
+	child->source = source;
 	gtk_object_ref(GTK_OBJECT(child->model));
+	gtk_object_ref(GTK_OBJECT(child->source));
 	
 	gtk_widget_show(etable);
 	

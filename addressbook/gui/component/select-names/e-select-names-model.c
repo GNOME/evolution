@@ -14,6 +14,7 @@
 
 #include "e-select-names-model.h"
 #include "e-util/e-util.h"
+#include "addressbook/backend/ebook/e-card-simple.h"
 
 enum {
 	E_SELECT_NAMES_MODEL_CHANGED,
@@ -189,10 +190,47 @@ e_select_names_model_init (ESelectNamesModel *model)
 	model->data = e_list_new(data_copy, data_free, model);
 }
 
+static void *
+copy_func(const void *data, void *user_data)
+{
+	GtkObject *object = (void *) data;
+	if (object)
+		gtk_object_ref(object);
+	return object;
+}
+
+static void
+free_func(void *data, void *user_data)
+{
+	GtkObject *object = data;
+	if (object)
+		gtk_object_unref(object);
+}
+
 /* Of type ECard */
 EList                    *e_select_names_model_get_cards                 (ESelectNamesModel *model)
 {
-	return NULL;
+	EList *list = e_list_new(copy_func, free_func, NULL);
+	EIterator *iterator = e_list_get_iterator(model->data);
+	EIterator *new_iterator = e_list_get_iterator(list);
+
+	for (e_iterator_reset(iterator); e_iterator_is_valid(iterator); e_iterator_next(iterator)) {
+		ESelectNamesModelData *node = (void *) e_iterator_get(iterator);
+		ECard *card;
+		ECardSimple *simple;
+		if (node->card) {
+			card = node->card;
+			gtk_object_ref(GTK_OBJECT(card));
+		} else {
+			card = e_card_new("");
+		}
+		simple = e_card_simple_new(card);
+		e_card_simple_set_arbitrary(simple, "text_version", "string", node->string);
+		e_iterator_insert(new_iterator, card, FALSE);
+		gtk_object_unref(GTK_OBJECT(card));
+		gtk_object_unref(GTK_OBJECT(simple));
+	}
+	return list;
 }
 
 EList                    *e_select_names_model_get_data                 (ESelectNamesModel *model)
@@ -351,12 +389,16 @@ e_select_names_model_add_item          (ESelectNamesModel *model,
 					EIterator *iterator, /* NULL for at the beginning. */
 					ESelectNamesModelData *data)
 {
+	e_iterator_insert(iterator, data, FALSE);
+	e_select_names_model_changed(model);
 }
 
 void
 e_select_names_model_remove_item       (ESelectNamesModel *model,
 					EIterator *iterator)
 {
+	e_iterator_delete(iterator);
+	e_select_names_model_changed(model);
 }
 
 
