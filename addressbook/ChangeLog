@@ -1,5 +1,10 @@
 2003-10-29  Chris Toshok  <toshok@ximian.com>
 
+	* gui/component/GNOME_Evolution_Addressbook.server.in.in: add the
+	S/MIME config control here.
+
+2003-10-29  Chris Toshok  <toshok@ximian.com>
+
 	* backend/ebook/e-book-listener.c (e_book_listener_new): change
 	the poa hint to PER_REQUEST.  fixes a couple of deadlocks.
 

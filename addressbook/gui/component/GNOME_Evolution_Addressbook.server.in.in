@@ -119,4 +119,28 @@
 
 </oaf_server>
 
+<oaf_server iid="OAFIID:GNOME_Evolution_SMime_CertificateManager_ConfigControl"
+            type="factory"
+            location="OAFIID:GNOME_Evolution_Addressbook_Factory_2">
+                                                                                          
+        <oaf_attribute name="repo_ids" type="stringv">
+                <item value="IDL:GNOME/Evolution/ConfigControl:1.0"/>
+        </oaf_attribute>
+                                                                                          
+        <oaf_attribute name="evolution:config_item:title" type="string"
+                       _value="Certificates"/>
+                                                                                          
+        <oaf_attribute name="evolution:config_item:description" type="string"
+                       _value="Manager your S/Mime certificates here"/>
+                                                                                          
+        <oaf_attribute name="evolution:config_item:icon_name" type="string"
+                       value="pgp-signature-ok.png"/>
+                                                                                          
+        <oaf_attribute name="evolution:config_item:priority" type="string" value="-6"/>
+                                                                                          
+        <oaf_attribute name="name" type="string"
+                       _value="Evolution S/Mime Certificate Management Control"/>
+                                                                                          
+</oaf_server>
+
 </oaf_info>
