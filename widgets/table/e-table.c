@@ -96,7 +96,8 @@ enum {
 	ARG_LENGTH_THRESHOLD,
 	ARG_MODEL,
 	ARG_UNIFORM_ROW_HEIGHT,
-	ARG_ALWAYS_SEARCH
+	ARG_ALWAYS_SEARCH,
+	ARG_USE_CLICK_TO_ADD
 };
 
 enum {
@@ -1991,6 +1992,9 @@ et_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	case ARG_ALWAYS_SEARCH:
 		GTK_VALUE_BOOL (*arg) = etable->always_search;
 		break;
+	case ARG_USE_CLICK_TO_ADD:
+		GTK_VALUE_BOOL (*arg) = etable->use_click_to_add;
+		break;
 	default:
 		break;
 	}
@@ -2029,6 +2033,36 @@ et_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 
 		etable->always_search = GTK_VALUE_BOOL (*arg);
 		clear_current_search_col (etable);
+		break;
+	case ARG_USE_CLICK_TO_ADD:
+		if (etable->use_click_to_add == GTK_VALUE_BOOL (*arg))
+			return;
+
+		etable->use_click_to_add = GTK_VALUE_BOOL (*arg);
+		clear_current_search_col (etable);
+
+		if (etable->use_click_to_add) {
+			etable->click_to_add = gnome_canvas_item_new
+				(GNOME_CANVAS_GROUP(etable->canvas_vbox),
+				 e_table_click_to_add_get_type (),
+				 "header", etable->header,
+				 "model", etable->model,
+				 "message", etable->click_to_add_message,
+				 NULL);
+
+			if (etable->use_click_to_add_end)
+				e_canvas_vbox_add_item (E_CANVAS_VBOX(etable->canvas_vbox),
+							etable->click_to_add);
+			else
+				e_canvas_vbox_add_item_start (E_CANVAS_VBOX(etable->canvas_vbox),
+							      etable->click_to_add);
+
+			gtk_signal_connect (GTK_OBJECT (etable->click_to_add), "cursor_change",
+					    GTK_SIGNAL_FUNC(click_to_add_cursor_change), etable);
+		} else {
+			gtk_object_destroy (GTK_OBJECT (etable->click_to_add));
+			etable->click_to_add = NULL;
+		}
 		break;
 	}
 }
@@ -3170,6 +3204,8 @@ e_table_class_init (ETableClass *class)
 				 GTK_ARG_READWRITE, ARG_UNIFORM_ROW_HEIGHT);
 	gtk_object_add_arg_type ("ETable::always_search", GTK_TYPE_BOOL,
 				 GTK_ARG_READWRITE, ARG_ALWAYS_SEARCH);
+	gtk_object_add_arg_type ("ETable::use_click_to_add", GTK_TYPE_BOOL,
+				 GTK_ARG_READWRITE, ARG_USE_CLICK_TO_ADD);
 	gtk_object_add_arg_type ("ETable::model", E_TABLE_MODEL_TYPE,
 				 GTK_ARG_READABLE, ARG_MODEL);
 }
