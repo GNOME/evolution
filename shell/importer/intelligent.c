@@ -219,6 +219,7 @@ create_gui (GList *importers)
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW(sw), 
 					GTK_POLICY_AUTOMATIC, 
 					GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw), GTK_SHADOW_IN);
 	gtk_widget_set_size_request (sw, 300, 150);
 	gtk_container_add (GTK_CONTAINER (sw), clist);
 	gtk_box_pack_start (GTK_BOX (hbox), sw, TRUE, TRUE, 0);

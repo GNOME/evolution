@@ -272,7 +272,7 @@ static void
 setup_widgets (EShellWindow *window)
 {
 	EShellWindowPrivate *priv = window->priv;
-	GList *language_list;
+	GSList *language_list;
 	Bonobo_ServerInfoList *info_list;
 	CORBA_Environment ev;
 	GtkWidget *paned;
@@ -289,10 +289,12 @@ setup_widgets (EShellWindow *window)
 
 	priv->sidebar_notebook = gtk_notebook_new ();
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (priv->sidebar_notebook), FALSE);
+	gtk_notebook_set_show_border (GTK_NOTEBOOK (priv->sidebar_notebook), FALSE);
 	e_sidebar_set_selection_widget (E_SIDEBAR (priv->sidebar), priv->sidebar_notebook);
 
 	priv->view_notebook = gtk_notebook_new ();
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (priv->view_notebook), FALSE);
+	gtk_notebook_set_show_border (GTK_NOTEBOOK (priv->view_notebook), FALSE);
 	gtk_paned_pack2 (GTK_PANED (paned), priv->view_notebook, TRUE, TRUE);
 
 	gtk_paned_set_position (GTK_PANED (paned), 200);
