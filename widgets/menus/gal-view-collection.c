@@ -47,6 +47,8 @@ gal_view_collection_display_view (GalViewCollection *collection,
 {
 	g_return_if_fail (collection != NULL);
 	g_return_if_fail (GAL_IS_VIEW_COLLECTION (collection));
+	g_return_if_fail (view != NULL);
+	g_return_if_fail (GAL_IS_VIEW (view));
 
 	gtk_signal_emit (GTK_OBJECT (collection),
 			 gal_view_collection_signals [DISPLAY_VIEW],
@@ -193,6 +195,11 @@ gal_view_collection_set_storage_directories  (GalViewCollection *collection,
 					      const char        *system_dir,
 					      const char        *local_dir)
 {
+	g_return_if_fail (collection != NULL);
+	g_return_if_fail (GAL_IS_VIEW_COLLECTION (collection));
+	g_return_if_fail (system_dir != NULL);
+	g_return_if_fail (local_dir != NULL);
+
 	g_free(collection->system_dir);
 	g_free(collection->local_dir);
 
@@ -203,7 +210,9 @@ gal_view_collection_set_storage_directories  (GalViewCollection *collection,
 /**
  * gal_view_collection_add_factory
  * @collection: The view collection to add a factory to
- * @factory: The factory to add
+ * @factory: The factory to add.  The @collection will add a reference
+ * to the factory object, so you should unref it after calling this
+ * function if you no longer need it.
  *
  * Adds the given factory to this collection.  This list is used both
  * when loading views from their xml description as well as when the
@@ -213,8 +222,13 @@ void
 gal_view_collection_add_factory              (GalViewCollection *collection,
 					      GalViewFactory    *factory)
 {
-	gtk_object_ref(GTK_OBJECT(factory));
-	collection->factory_list = g_list_prepend(collection->factory_list, factory);
+	g_return_if_fail (collection != NULL);
+	g_return_if_fail (GAL_IS_VIEW_COLLECTION (collection));
+	g_return_if_fail (factory != NULL);
+	g_return_if_fail (GAL_IS_VIEW_FACTORY (factory));
+
+	gtk_object_ref (GTK_OBJECT (factory));
+	collection->factory_list = g_list_prepend (collection->factory_list, factory);
 }
 
 static void
@@ -341,6 +355,11 @@ load_single_dir (GalViewCollection *collection,
 void
 gal_view_collection_load              (GalViewCollection *collection)
 {
+	g_return_if_fail (collection != NULL);
+	g_return_if_fail (GAL_IS_VIEW_COLLECTION (collection));
+	g_return_if_fail (collection->local_dir != NULL);
+	g_return_if_fail (collection->system_dir != NULL);
+
 	load_single_dir(collection, collection->local_dir, TRUE);
 	load_single_dir(collection, collection->system_dir, FALSE);
 }
@@ -360,6 +379,10 @@ gal_view_collection_save              (GalViewCollection *collection)
 	xmlDoc *doc;
 	xmlNode *root;
 	char *filename;
+
+	g_return_if_fail (collection != NULL);
+	g_return_if_fail (GAL_IS_VIEW_COLLECTION (collection));
+	g_return_if_fail (collection->local_dir != NULL);
 
 	e_create_directory(collection->local_dir);
 
@@ -413,6 +436,9 @@ gal_view_collection_save              (GalViewCollection *collection)
 gint
 gal_view_collection_get_count (GalViewCollection *collection)
 {
+	g_return_val_if_fail (collection != NULL, -1);
+	g_return_val_if_fail (GAL_IS_VIEW_COLLECTION (collection), -1);
+
 	return collection->view_count;
 }
 
@@ -427,8 +453,10 @@ GalView *
 gal_view_collection_get_view (GalViewCollection *collection,
 			      int n)
 {
-	g_return_val_if_fail(n < collection->view_count, NULL);
-	g_return_val_if_fail(n >= 0, NULL);
+	g_return_val_if_fail (collection != NULL, NULL);
+	g_return_val_if_fail (GAL_IS_VIEW_COLLECTION (collection), NULL);
+	g_return_val_if_fail (n < collection->view_count, NULL);
+	g_return_val_if_fail (n >= 0, NULL);
 
 	return collection->view_data[n]->view;
 }
@@ -444,6 +472,8 @@ GalViewCollectionItem *
 gal_view_collection_get_view_item (GalViewCollection *collection,
 				   int n)
 {
+	g_return_val_if_fail (collection != NULL, NULL);
+	g_return_val_if_fail (GAL_IS_VIEW_COLLECTION (collection), NULL);
 	g_return_val_if_fail(n < collection->view_count, NULL);
 	g_return_val_if_fail(n >= 0, NULL);
 
@@ -507,6 +537,12 @@ gal_view_collection_append                   (GalViewCollection *collection,
 					      GalView           *view)
 {
 	GalViewCollectionItem *item;
+
+	g_return_if_fail (collection != NULL);
+	g_return_if_fail (GAL_IS_VIEW_COLLECTION (collection));
+	g_return_if_fail (view != NULL);
+	g_return_if_fail (GAL_IS_VIEW (view));
+
 	item = g_new(GalViewCollectionItem, 1);
 	item->ever_changed = TRUE;
 	item->changed = TRUE;
@@ -533,7 +569,13 @@ void
 gal_view_collection_delete_view              (GalViewCollection *collection,
 					      int                i)
 {
-	GalViewCollectionItem *item = collection->view_data[i];
+	GalViewCollectionItem *item;
+
+	g_return_if_fail (collection != NULL);
+	g_return_if_fail (GAL_IS_VIEW_COLLECTION (collection));
+	g_return_if_fail (i >= 0 && i < collection->view_count);
+
+	item = collection->view_data[i];
 	memmove(collection->view_data + i, collection->view_data + i + 1, (collection->view_count - i - 1) * sizeof(GalViewCollectionItem *));
 	if (item->built_in) {
 		g_free(item->filename);
@@ -554,7 +596,13 @@ gal_view_collection_copy_view                (GalViewCollection *collection,
 					      int                i)
 {
 	GalViewCollectionItem *item;
-	GalView *view = collection->view_data[i]->view;
+	GalView *view;
+
+	g_return_if_fail (collection != NULL);
+	g_return_if_fail (GAL_IS_VIEW_COLLECTION (collection));
+	g_return_if_fail (i >= 0 && i < collection->view_count);
+
+	view = collection->view_data[i]->view;
 
 	item = g_new(GalViewCollectionItem, 1);
 	item->ever_changed = TRUE;
