@@ -615,16 +615,13 @@ local_record_from_ecard (EAddrLocalRecord *local, ECard *ecard, EAddrConduitCont
 			local->local.category = cat;
 			memset (&addr, 0, sizeof (struct Address));
 			unpack_Address (&addr, record, 0xffff);
-			if (addr.entry[entryPhone1])
-				local->addr->entry[entryPhone1] = strdup (addr.entry[entryPhone1]);
-			if (addr.entry[entryPhone2])
-				local->addr->entry[entryPhone2] = strdup (addr.entry[entryPhone2]);
-			if (addr.entry[entryPhone3])
-				local->addr->entry[entryPhone3] = strdup (addr.entry[entryPhone3]);
-			if (addr.entry[entryPhone4])
-				local->addr->entry[entryPhone4] = strdup (addr.entry[entryPhone4]);
-			if (addr.entry[entryPhone5])
-				local->addr->entry[entryPhone5] = strdup (addr.entry[entryPhone5]);
+			for (i = 0; i < 5; i++) {
+				if (addr.entry[entryPhone1 + i])
+					local->addr->entry[entryPhone1 + i] = 
+						strdup (addr.entry[entryPhone1 + i]);
+				local->addr->phoneLabel[i] = addr.phoneLabel[i];
+			}
+			local->addr->showPhone = addr.showPhone;
 			free_Address (&addr);
 		}
 	}
@@ -653,14 +650,13 @@ local_record_from_ecard (EAddrLocalRecord *local, ECard *ecard, EAddrConduitCont
 	syncable = TRUE;
 	for (i = entryPhone1; i <= entryPhone5; i++) {
 		char *phonelabel = ctxt->ai.phoneLabels[local->addr->phoneLabel[i - entryPhone1]];
-		const char *phone_str = NULL;
+		const char *phone_str = local->addr->entry[i];
 		
 		if (!strcmp (phonelabel, "E-mail")) {
 			if (is_next_done (next_mail)) {
 				syncable = FALSE;
 				break;
 			}
-			phone_str = e_card_simple_get_const (simple, next_home);
 			if (phone_str && *phone_str)
 				next_mail = get_next_mail (&next_mail);
 		} else if (!strcmp (phonelabel, "Home")) {
@@ -668,7 +664,6 @@ local_record_from_ecard (EAddrLocalRecord *local, ECard *ecard, EAddrConduitCont
 				syncable = FALSE;
 				break;
 			}
-			phone_str = e_card_simple_get_const (simple, next_home);
 			if (phone_str && *phone_str)
 				next_home = get_next_home (&next_home);
 		} else if (!strcmp (phonelabel, "Work")) {
@@ -676,7 +671,6 @@ local_record_from_ecard (EAddrLocalRecord *local, ECard *ecard, EAddrConduitCont
 				syncable = FALSE;
 				break;
 			}
-			phone_str = e_card_simple_get_const (simple, next_work);
 			if (phone_str && *phone_str)
 				next_work = get_next_work (&next_work);
 		} else if (!strcmp (phonelabel, "Fax")) {
@@ -684,7 +678,6 @@ local_record_from_ecard (EAddrLocalRecord *local, ECard *ecard, EAddrConduitCont
 				syncable = FALSE;
 				break;
 			}
-			phone_str = e_card_simple_get_const (simple, next_fax);
 			if (phone_str && *phone_str)
 				next_fax = get_next_fax (&next_fax);
 		} else if (!strcmp (phonelabel, "Other")) {
@@ -692,7 +685,6 @@ local_record_from_ecard (EAddrLocalRecord *local, ECard *ecard, EAddrConduitCont
 				syncable = FALSE;
 				break;
 			}
-			phone_str = e_card_simple_get_const (simple, next_other);
 			if (phone_str && *phone_str)
 				next_other = get_next_other (&next_other);
 		} else if (!strcmp (phonelabel, "Main")) {
@@ -700,7 +692,6 @@ local_record_from_ecard (EAddrLocalRecord *local, ECard *ecard, EAddrConduitCont
 				syncable = FALSE;
 				break;
 			}
-			phone_str = e_card_simple_get_const (simple, next_main);
 			if (phone_str && *phone_str)
 				next_main = get_next_main (&next_main);
 		} else if (!strcmp (phonelabel, "Pager")) {
@@ -708,7 +699,6 @@ local_record_from_ecard (EAddrLocalRecord *local, ECard *ecard, EAddrConduitCont
 				syncable = FALSE;
 				break;
 			}
-			phone_str = e_card_simple_get_const (simple, next_pager);
 			if (phone_str && *phone_str)
 				next_pager = get_next_pager (&next_pager);
 		} else if (!strcmp (phonelabel, "Mobile")) {
@@ -716,7 +706,6 @@ local_record_from_ecard (EAddrLocalRecord *local, ECard *ecard, EAddrConduitCont
 				syncable = FALSE;
 				break;
 			}
-			phone_str = e_card_simple_get_const (simple, next_mobile);
 			if (phone_str && *phone_str)
 				next_mobile = get_next_mobile (&next_mobile);
 		}		
@@ -740,6 +729,7 @@ local_record_from_ecard (EAddrLocalRecord *local, ECard *ecard, EAddrConduitCont
 		}
 		for ( ; phone <= entryPhone5; phone++)
 			      local->addr->phoneLabel[phone - entryPhone1] = phone - entryPhone1;
+		local->addr->showPhone = 0;
 	} else {
 		INFO ("Not Syncable");
 		get_next_init (&next_mail, &next_home, &next_work, &next_fax,
@@ -777,7 +767,7 @@ local_record_from_ecard (EAddrLocalRecord *local, ECard *ecard, EAddrConduitCont
 			}
 			
 			if (phone_str && *phone_str) {
-				clear_entry_text (*local->addr, phone);
+				clear_entry_text (*local->addr, i);
 				local->addr->entry[i] = e_pilot_utf8_to_pchar (phone_str);
 			}
 		}

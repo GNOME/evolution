@@ -1,5 +1,11 @@
 2001-10-27  JP Rosevear  <jpr@ximian.com>
 
+	* conduit/address-conduit.c (local_record_from_ecard): copy phone
+	labels and show phone as well, clear correct entry text and
+	correctly detect unsyncable cases
+
+2001-10-27  JP Rosevear  <jpr@ximian.com>
+
 	* conduit/address-conduit.c (local_record_from_ecard): touch the
 	record on lookup
 	(check_for_slow_setting): write touched only if we are doing a
