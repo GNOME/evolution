@@ -1,3 +1,9 @@
+2004-08-25  Not Zed  <NotZed@Ximian.com>
+
+	* mail-component.c (store_info_new): only open the trash or junk
+	if they're vfolders here.  Some stores that implement their own
+	trash folders are unacceptably slow to open otherwise.
+
 2004-08-25  Frederic Crozat  <fcrozat@mandrakesoft.com>
 
 	* importers/evolution-mbox-importer.c: (load_file_fn):

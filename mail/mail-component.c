@@ -149,8 +149,12 @@ store_info_new(CamelStore *store, const char *name)
 		si->name = g_strdup(name);
 	si->store = store;
 	camel_object_ref(store);
-	si->vtrash = camel_store_get_trash(store, NULL);
-	si->vjunk = camel_store_get_junk(store, NULL);
+	/* If these are vfolders then they need to be opened now,
+	 * otherwise they wont keep track of all folders */
+	if ((store->flags & CAMEL_STORE_VTRASH) != 0)
+		si->vtrash = camel_store_get_trash(store, NULL);
+	if ((store->flags & CAMEL_STORE_VJUNK) != 0)
+		si->vjunk = camel_store_get_junk(store, NULL);
 
 	return si;
 }
