@@ -1,3 +1,10 @@
+2001-03-09  JP Rosevear  <jpr@ximian.com>
+
+	* conduits/todo/Makefile.am: PISOCK_INCLUDEDIR has become
+	PISOCK_CFLAGS in gnome-pilot.m4 and remove capplet foo
+
+	* conduits/calendar/Makefile.am: ditto
+
 2001-03-08  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/component-factory.c (factory_fn): Specify a NULL
