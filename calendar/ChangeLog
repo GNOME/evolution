@@ -1,3 +1,7 @@
+1999-02-15  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* goto.c (goto_dialog): Indentation fixes.
+
 1999-02-15  Tomas Ogren  <stric@ing.umu.se>
 
 	* goto.c: Made a private copy of what localtime() returns, to be able

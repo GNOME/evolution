@@ -259,7 +259,7 @@ goto_dialog (GnomeCalendar *gcal)
 	gnome_calendar = gcal;
 	current_index = -1;
 
-	memcpy(&tm, localtime (&gnome_calendar->current_display), sizeof(tm));
+	tm = *localtime (&gnome_calendar->current_display);
 
 	goto_win = gnome_dialog_new (_("Go to date"),
 				     GNOME_STOCK_BUTTON_CANCEL,
