@@ -426,8 +426,9 @@ e_tasks_new_task			(ETasks		*tasks)
 	cal_component_set_new_vtype (comp, CAL_COMPONENT_TODO);
 
 	task_editor_set_todo_object (tedit, comp);
-
 	gtk_object_unref (GTK_OBJECT (comp));
+
+	task_editor_focus (tedit);
 }
 
 
