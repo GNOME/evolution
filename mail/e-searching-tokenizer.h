@@ -70,5 +70,7 @@ void e_searching_tokenizer_set_secondary_case_sensitivity (ESearchingTokenizer *
 
 int e_searching_tokenizer_match_count          (ESearchingTokenizer *);
 
+void e_searching_tokenizer_reset (ESearchingTokenizer *);
+
 
 #endif /* __E_SEARCHING_TOKENIZER_H__ */

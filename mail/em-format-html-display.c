@@ -457,6 +457,7 @@ efhd_search_response(GtkWidget *w, int button, EMFormatHTMLDisplay *efhd)
 		g_free(p->search_text);
 		p->search_text = NULL;
 		gtk_widget_destroy((GtkWidget *)p->search_dialog);
+		e_searching_tokenizer_reset (efhd->search_tok);
 		p->search_dialog = NULL;
 	}
 }
@@ -516,7 +517,6 @@ em_format_html_display_search(EMFormatHTMLDisplay *efhd)
 	g_signal_connect(p->search_entry, "activate", G_CALLBACK(efhd_search_entry_activate), efhd);
 	g_signal_connect(p->search_case_check, "toggled", G_CALLBACK(efhd_search_case_toggled), efhd);
 	g_signal_connect(p->search_dialog, "response", G_CALLBACK(efhd_search_response), efhd);
-	e_dialog_set_transient_for((GtkWindow *)p->search_dialog, (GtkWidget *)efhd);
 	gtk_widget_show((GtkWidget *)p->search_dialog);
 }
 

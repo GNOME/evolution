@@ -1392,7 +1392,7 @@ efh_format_address (GString *out, struct _camel_header_address *a)
 		case CAMEL_HEADER_ADDRESS_NAME:
 			if (name && *name) {
 				char *real, *mailaddr;
-
+				
 				g_string_append_printf (out, "%s &lt;", name);
 				/* rfc2368 for mailto syntax and url encoding extras */
 				real = camel_header_encode_phrase(a->name);

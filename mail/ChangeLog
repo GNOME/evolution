@@ -1,3 +1,16 @@
+2004-03-05  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-format-html-display.c (em_format_html_display_search): Don't
+	set our parent window as the efhd, ehfd isn't even a widget.
+
+	Fixes bug #54030
+
+	* em-format-html-display.c (efhd_search_response): Reset the
+	searching tokeniser on Cancel.
+
+	* e-searching-tokenizer.c (e_searching_tokenizer_reset): New
+	function to reset a search tokeniser.
+
 2004-03-05  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #55096.
