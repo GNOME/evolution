@@ -84,11 +84,24 @@ struct _EStorageClass {
 	EFolder    * (* get_folder)    	      (EStorage *storage, const char *path);
 	const char * (* get_name)      	      (EStorage *storage);
 
-	void         (* async_create_folder)  (EStorage *storage, const char *path,
-					       const char *type, const char *description,
-					       EStorageResultCallback callback, void *data);
-	void         (* async_remove_folder)  (EStorage *storage, const char *path,
-					       EStorageResultCallback callback, void *data);
+	void         (* async_create_folder)  (EStorage *storage,
+					       const char *path,
+					       const char *type,
+					       const char *description,
+					       EStorageResultCallback callback,
+					       void *data);
+
+	void         (* async_remove_folder)  (EStorage *storage,
+					       const char *path,
+					       EStorageResultCallback callback,
+					       void *data);
+
+	void         (* async_xfer_folder)    (EStorage *storage,
+					       const char *source_path,
+					       const char *destination_path,
+					       const gboolean remove_source,
+					       EStorageResultCallback callback,
+					       void *data);
 };
 
 
@@ -113,18 +126,24 @@ const char *e_storage_get_toplevel_node_type  (EStorage *storage);
 
 /* Folder operations.  */
 
-void        e_storage_async_create_folder  (EStorage               *storage,
-					    const char             *path,
-					    const char             *type,
-					    const char             *description,
-					    EStorageResultCallback  callback,
-					    void                   *data);
-void        e_storage_async_remove_folder  (EStorage               *storage,
-					    const char             *path,
-					    EStorageResultCallback  callback,
-					    void                   *data);
+void  e_storage_async_create_folder  (EStorage               *storage,
+				      const char             *path,
+				      const char             *type,
+				      const char             *description,
+				      EStorageResultCallback  callback,
+				      void                   *data);
+void  e_storage_async_remove_folder  (EStorage               *storage,
+				      const char             *path,
+				      EStorageResultCallback  callback,
+				      void                   *data);
+void  e_storage_async_xfer_folder    (EStorage               *storage,
+				      const char             *source_path,
+				      const char             *destination_path,
+				      const gboolean          remove_source,
+				      EStorageResultCallback  callback,
+				      void                   *data);
 
-const char *e_storage_result_to_string     (EStorageResult          result);
+const char *e_storage_result_to_string  (EStorageResult result);
 
 /* Utility functions.  */
 

@@ -323,6 +323,17 @@ impl_Storage_async_remove_folder (PortableServer_Servant servant,
 }
 
 static void
+impl_Storage_async_xfer_folder (PortableServer_Servant servant,
+				const CORBA_char *source_path,
+				const CORBA_char *destination_path,
+				const CORBA_boolean remove_source,
+				const Bonobo_Listener listener,
+				CORBA_Environment *ev)
+{
+	g_print ("FIXME: impl_Storage_async_xfer_folder -- implement me!\n");
+}
+
+static void
 impl_Storage_add_listener (PortableServer_Servant servant,
 			   const GNOME_Evolution_StorageListener listener,
 			   CORBA_Environment *ev)
@@ -510,6 +521,7 @@ evolution_storage_get_epv (void)
 	epv->_get_name         = impl_Storage__get_name;
 	epv->asyncCreateFolder = impl_Storage_async_create_folder;
 	epv->asyncRemoveFolder = impl_Storage_async_remove_folder;
+	epv->asyncXferFolder   = impl_Storage_async_xfer_folder;
 	epv->addListener       = impl_Storage_add_listener;
 	epv->removeListener    = impl_Storage_remove_listener;
 

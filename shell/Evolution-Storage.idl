@@ -57,6 +57,11 @@ module Evolution {
 					in string physical_uri,
 					in Bonobo::Listener listener);
 
+		void asyncXferFolder (in string source_path,
+				      in string destination_path,
+				      in boolean remove_source,
+				      in Bonobo::Listener listener);
+
 		void addListener       (in StorageListener listener)
 			raises (AlreadyListening);
 

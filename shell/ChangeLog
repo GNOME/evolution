@@ -1,5 +1,21 @@
 2001-03-22  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-storage.c (e_storage_async_xfer_folder): New.
+	(impl_async_xfer_folder): New, default implementation for the
+	`async_xfer_folder' method.
+	(class_init): Install it.
+
+	* e-storage.h: New virtual method `async_xfer_folder'.
+
+	* evolution-storage.c (impl_Storage_async_xfer_folder): New.  Just
+	a stub for now.
+	(evolution_storage_get_epv): Install it as the implementation for
+	the `asyncXferFolder' method.
+
+	* Evolution-Storage.idl: New method `asyncXferFolder'.
+
+2001-03-22  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-storage-set-view.c: Removed `source_drag_types',
 	`num_source_drag_types', `destination_drag_types',
 	`num_destination_drag_types', `target_list'.

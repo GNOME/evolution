@@ -198,6 +198,17 @@ impl_async_remove_folder (EStorage *storage,
 	(* callback) (storage, E_STORAGE_NOTIMPLEMENTED, data);
 }
 
+static void
+impl_async_xfer_folder (EStorage *storage,
+			const char *source_path,
+			const char *destination_path,
+			gboolean remove_source,
+			EStorageResultCallback callback,
+			void *data)
+{
+	(* callback) (storage, E_STORAGE_NOTIMPLEMENTED, data);
+}
+
 
 /* Initialization.  */
 
@@ -216,6 +227,7 @@ class_init (EStorageClass *class)
 	class->get_name            = impl_get_name;
 	class->async_create_folder = impl_async_create_folder;
 	class->async_remove_folder = impl_async_remove_folder;
+	class->async_xfer_folder   = impl_async_xfer_folder;
 
 	signals[NEW_FOLDER] =
 		gtk_signal_new ("new_folder",
@@ -418,6 +430,24 @@ e_storage_async_remove_folder (EStorage *storage,
 	g_return_if_fail (callback != NULL);
 
 	(* ES_CLASS (storage)->async_remove_folder) (storage, path, callback, data);
+}
+
+void
+e_storage_async_xfer_folder (EStorage *storage,
+			     const char *source_path,
+			     const char *destination_path,
+			     const gboolean remove_source,
+			     EStorageResultCallback callback,
+			     void *data)
+{
+	g_return_if_fail (storage != NULL);
+	g_return_if_fail (E_IS_STORAGE (storage));
+	g_return_if_fail (source_path != NULL);
+	g_return_if_fail (g_path_is_absolute (source_path));
+	g_return_if_fail (destination_path != NULL);
+	g_return_if_fail (g_path_is_absolute (destination_path));
+
+	(* ES_CLASS (storage)->async_xfer_folder) (storage, source_path, destination_path, remove_source, callback, data);
 }
 
 
