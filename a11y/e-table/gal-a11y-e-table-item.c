@@ -961,9 +961,16 @@ static void
 eti_a11y_cursor_changed_cb (ESelectionModel *selection,
 			    int row, int col,  GalA11yETableItem *a11y)
 {
+	AtkObject * cell;
 	g_return_if_fail (GAL_A11Y_IS_E_TABLE_ITEM (a11y));
 
 	g_signal_emit_by_name (a11y, "selection_changed");
+
+        cell = atk_table_ref_at (ATK_TABLE (a11y), row, col);
+        if (ATK_IS_OBJECT (cell))
+                g_signal_emit_by_name  (a11y,
+                                        "active-descendant-changed",
+                                        cell);
 }
 
 /* atk selection */

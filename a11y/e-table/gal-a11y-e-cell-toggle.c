@@ -3,7 +3,24 @@
 #include <gal/e-table/e-cell-toggle.h>
 #include <gal/e-table/e-table-model.h>
 
+#define PARENT_TYPE  (gal_a11y_e_cell_get_type ())
+static GObjectClass *parent_class;
+
 static void gal_a11y_e_cell_toggle_class_init (GalA11yECellToggleClass *klass);
+
+static void
+gal_a11y_e_cell_toggle_dispose (GObject *object)
+{
+	GalA11yECellToggle *a11y = GAL_A11Y_E_CELL_TOGGLE (object);
+
+	ETableModel *e_table_model = GAL_A11Y_E_CELL (a11y)->cell_view->e_table_model;
+
+	if (e_table_model)
+		g_signal_handler_disconnect (e_table_model, a11y->model_id);
+
+	if (parent_class->dispose)
+		parent_class->dispose (object);
+}
 
 GType
 gal_a11y_e_cell_toggle_get_type (void)
@@ -39,6 +56,10 @@ gal_a11y_e_cell_toggle_get_type (void)
 static void 
 gal_a11y_e_cell_toggle_class_init (GalA11yECellToggleClass *klass)
 {
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+
+	object_class->dispose      = gal_a11y_e_cell_toggle_dispose;
+	parent_class               = g_type_class_ref (PARENT_TYPE);
 }
 
 static void
@@ -55,8 +76,10 @@ toggle_cell_action (GalA11yECell *cell)
 
 	e_table_item_get_cell_geometry (cell->item, &row, &col,
 					&x, &y, &width, &height);
-	event.x = x ;
-	event.y = y ;
+
+	event.x = x + width / 2 + (int)(GNOME_CANVAS_ITEM (cell->item)->x1);
+	event.y = y + height / 2 + (int)(GNOME_CANVAS_ITEM (cell->item)->y1);
+
 	event.type = GDK_BUTTON_PRESS;
 	event.window = GTK_LAYOUT(GNOME_CANVAS_ITEM(cell->item)->canvas)->bin_window;
         event.button = 1;
@@ -66,6 +89,27 @@ toggle_cell_action (GalA11yECell *cell)
 
 	g_signal_emit_by_name (cell->item, "event", &event, &finished);
 }
+
+static void
+model_change_cb (ETableModel *etm,
+		 gint row,
+		 gint col,
+		 GalA11yECell *cell)
+{
+	gint value;
+
+	if (col == cell->model_col && row == cell->row) {
+
+	        value = GPOINTER_TO_INT (
+			e_table_model_value_at (cell->cell_view->e_table_model,
+						cell->model_col, cell->row));
+		if (value)
+			gal_a11y_e_cell_add_state (cell, ATK_STATE_CHECKED, TRUE);
+		else
+			gal_a11y_e_cell_remove_state (cell, ATK_STATE_CHECKED, TRUE);
+	}
+}
+
 
 AtkObject* 
 gal_a11y_e_cell_toggle_new (ETableItem *item,
@@ -78,6 +122,7 @@ gal_a11y_e_cell_toggle_new (ETableItem *item,
 	AtkObject *a11y;
 	GalA11yECell *cell;
 	GalA11yECellToggle *toggle_cell;
+	gint value;
 
 	a11y = ATK_OBJECT(g_object_new (GAL_A11Y_TYPE_E_CELL_TOGGLE, NULL));
 
@@ -100,6 +145,19 @@ gal_a11y_e_cell_toggle_new (ETableItem *item,
 				    "toggle the cell", /* action description */
 				    NULL,              /* action keybinding */
 				    toggle_cell_action);
+
+	toggle_cell->model_id = g_signal_connect (cell_view->e_table_model,
+						  "model_cell_changed",
+						  (GCallback) model_change_cb,
+						  a11y);
+
+	value = GPOINTER_TO_INT (
+			e_table_model_value_at (cell->cell_view->e_table_model,
+                                                cell->model_col, cell->row));
+	if (value)
+		gal_a11y_e_cell_add_state (cell, ATK_STATE_CHECKED, FALSE);
+	else
+		gal_a11y_e_cell_remove_state (cell, ATK_STATE_CHECKED, FALSE);
 
 	return a11y;
 }

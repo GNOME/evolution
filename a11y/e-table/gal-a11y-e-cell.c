@@ -131,8 +131,8 @@ eti_grab_focus (AtkComponent *component)
 	e_table = gtk_widget_get_parent (GNOME_CANVAS_ITEM (a11y->item)->canvas);
 	view_row = e_table_view_to_model_row (E_TABLE (e_table), a11y->row);
 
-	e_selection_model_clear (a11y->item->selection);
 	e_selection_model_select_single_row (a11y->item->selection, view_row);
+	e_selection_model_change_cursor (a11y->item->selection, view_row, a11y->view_col);
 
 	gtk_widget_grab_focus (e_table);
 	toplevel = gtk_widget_get_toplevel (e_table);

@@ -13,6 +13,7 @@
 #include <atk/atkobject.h>
 #include <atk/atktext.h>
 #include <atk/atkeditabletext.h>
+#include <atk/atkaction.h>
 
 #define CS_CLASS(a11y) (G_TYPE_INSTANCE_GET_CLASS ((a11y), C_TYPE_STREAM, GalA11yECellTextClass))
 static AtkObjectClass *parent_class;
@@ -23,6 +24,14 @@ static AtkObjectClass *parent_class;
 #define e_cell_text_set_selection(a,b,c,d,e) FALSE
 
 /* Static functions */
+static G_CONST_RETURN gchar*
+ect_get_name (AtkObject * a11y)
+{
+	GalA11yECell *gaec = GAL_A11Y_E_CELL (a11y);
+	ECellText *ect = E_CELL_TEXT (gaec->cell_view->ecell);
+	return e_cell_text_get_text (ect, gaec->item->table_model, gaec->model_col, gaec->row);
+}
+
 static gchar *
 ect_get_text (AtkText *text,
 	      gint start_offset,
@@ -372,6 +381,13 @@ ect_paste_text (AtkEditableText *text,
 
 
 static void
+ect_do_action_edit (AtkAction *action)
+{
+	GalA11yECell *a11y = GAL_A11Y_E_CELL (action);
+	e_table_item_enter_edit (a11y->item, a11y->view_col, a11y->row);
+}
+
+static void
 ect_atk_text_iface_init (AtkTextIface *iface)
 {
 	iface->get_text                = ect_get_text;
@@ -408,12 +424,19 @@ ect_atk_editable_text_iface_init (AtkEditableTextIface *iface)
 static void
 ect_class_init (GalA11yECellTextClass *klass)
 {
-	parent_class                          = g_type_class_ref (PARENT_TYPE);
+	AtkObjectClass *a11y      = ATK_OBJECT_CLASS (klass);
+	parent_class              = g_type_class_ref (PARENT_TYPE);
+	a11y->get_name            = ect_get_name;
 }
 
 static void
 ect_init (GalA11yECellText *a11y)
 {
+	gal_a11y_e_cell_add_action (a11y,
+				    "edit",
+				    "begin editing this cell",
+				    NULL,
+				    (ACTION_FUNC)ect_do_action_edit);
 }
 
 /**
@@ -459,6 +482,7 @@ gal_a11y_e_cell_text_get_type (void)
 		type = g_type_register_static (PARENT_TYPE, "GalA11yECellText", &info, 0);
 		g_type_add_interface_static (type, ATK_TYPE_TEXT, &atk_text_info);
 		g_type_add_interface_static (type, ATK_TYPE_EDITABLE_TEXT, &atk_editable_text_info);
+		gal_a11y_e_cell_type_add_action_interface (type);
 	}
 
 	return type;

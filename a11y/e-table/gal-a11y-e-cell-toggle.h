@@ -22,7 +22,7 @@ typedef struct _GalA11yECellToggleClass             GalA11yECellToggleClass;
 struct _GalA11yECellToggle
 {
   GalA11yECell parent;
-  gboolean cell_value;
+  gint         model_id;
 };
 
 GType gal_a11y_e_cell_toggle_get_type (void);
