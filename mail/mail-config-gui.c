@@ -1313,7 +1313,7 @@ source_dialog (MailConfigService *source, GtkWidget *parent)
 
 	gtk_window_set_modal (GTK_WINDOW (sdialog->dialog), TRUE);
 	gtk_window_set_policy (GTK_WINDOW (sdialog->dialog), 
-			       FALSE, FALSE, FALSE);
+			       FALSE, TRUE, FALSE);
 	gtk_window_set_default_size (GTK_WINDOW (sdialog->dialog), 380, 450);
 	gnome_dialog_set_parent (GNOME_DIALOG (sdialog->dialog),
 				 GTK_WINDOW (parent));
@@ -1412,7 +1412,7 @@ news_dialog (MailConfigService *source, GtkWidget *parent)
 
 	gtk_window_set_modal (GTK_WINDOW (ndialog->dialog), TRUE);
 	gtk_window_set_policy (GTK_WINDOW (ndialog->dialog), 
-			       TRUE, TRUE, FALSE);
+			       FALSE, TRUE, FALSE);
 	gtk_window_set_default_size (GTK_WINDOW (ndialog->dialog), 380, 450);
 	gnome_dialog_set_parent (GNOME_DIALOG (ndialog->dialog),
 				 GTK_WINDOW (parent));
@@ -1878,9 +1878,9 @@ news_edit_clicked (GtkWidget *widget, MailDialog *dialog)
 		return;
 
 	news = gtk_clist_get_row_data (GTK_CLIST (dialog->clistNews),
-				       dialog->srow);
+				       dialog->nrow);
 	
-	news2 = source_dialog (news, dialog->dialog);
+	news2 = news_dialog (news, dialog->dialog);
 	if (news2) {
 		GtkCList *clist = GTK_CLIST (dialog->clistNews);
 		
