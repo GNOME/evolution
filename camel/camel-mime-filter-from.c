@@ -107,14 +107,14 @@ filter(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out, s
 			if (left > 0) {
 				midline = TRUE;
 				if (left < 5) {
-					if (inptr[0] == 'F' || inptr[0] == 'f') {
+					if (inptr[0] == 'F') {
 						camel_mime_filter_backup(mf, inptr, left);
 						midline = FALSE;
 						inend = inptr;
 						break;
 					}
 				} else {
-					if (!g_strncasecmp(inptr, "From ", 5)) {
+					if (!strncmp(inptr, "From ", 5)) {
 						fromcount++;
 						/* yes, we do alloc them on the stack ... at most we're going to get
 						   len / 7 of them anyway */

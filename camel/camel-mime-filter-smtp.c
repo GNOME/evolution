@@ -64,7 +64,7 @@ camel_mime_filter_smtp_get_type (void)
 	return type;
 }
 
-typedef enum { FROM_NODE, DOT_NODE } node_t;
+typedef enum { EOLN_NODE, FROM_NODE, DOT_NODE } node_t;
 
 struct smtpnode {
 	struct smtpnode *next;
@@ -85,12 +85,14 @@ static void
 filter(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out, size_t *outlen, size_t *outprespace)
 {
 	CamelMimeFilterSmtp *f = (CamelMimeFilterSmtp *)mf;
-	register char *inptr, *inend;
-	int left;
-	int midline = f->midline;
-	int fromcount = 0;
+	register gchar *inptr, *inend;
+	gint left;
+	gint midline = f->midline;
+	gint fromcount = 0;
+	gint dotcount = 0;
+	gint linecount = 0;
 	struct smtpnode *head = NULL, *tail = (struct smtpnode *)&head, *node;
-	char *outptr;
+	gchar *outptr;
 
 	inptr = in;
 	inend = inptr + len;
@@ -106,6 +108,14 @@ filter(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out, s
 				;
 
 		if (c == '\n' || !midline) {
+			linecount++;
+			node = alloca(sizeof(*node));
+			node->type = EOLN_NODE;
+			node->pointer = inptr - 1;
+			node->next = NULL;
+			tail->next = node;
+			tail = node;
+
 			left = inend - inptr;
 			if (left > 0) {
 				midline = TRUE;
@@ -130,8 +140,8 @@ filter(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out, s
 						tail = node;
 						inptr += 5;
 					} else {
-						if (!strncmp(inptr, ".\n", 2) || !strncmp(inptr, ".\r\n", 3)) {
-							fromcount++;
+						if (!strncmp(inptr, ".\n", 2)) {
+							dotcount++;
 							node = alloca(sizeof(*node));
 							node->type = DOT_NODE;
 							node->pointer = inptr;
@@ -154,18 +164,24 @@ filter(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out, s
 
 	f->midline = midline;
 
-	if (fromcount > 0) {
-		camel_mime_filter_set_size(mf, len + fromcount, FALSE);
+	if (fromcount > 0 || dotcount > 0 || linecount > 0) {
+		camel_mime_filter_set_size(mf, len + fromcount + dotcount + linecount, FALSE);
 		node = head;
 		inptr = in;
 		outptr = mf->outbuf;
 		while (node) {
 			memcpy(outptr, inptr, node->pointer - inptr);
 			outptr += node->pointer - inptr;
-			if (node->type == FROM_NODE)
-				*outptr++ = '>';
-			else
-				*outptr++ = '.';
+			if (node->type == EOLN_NODE) {
+				*outptr++ = '\r';
+				*outptr++ = '\n';
+			} else {
+				if (node->type == FROM_NODE) {
+					*outptr++ = '>';
+				} else {
+					*outptr++ = '.'
+				}
+			}
 			inptr = node->pointer;
 			node = node->next;
 		}
@@ -241,7 +257,6 @@ int main(int argc, char **argv)
 	int len, prespace;
 
 	gtk_init(&argc, &argv);
-
 
 	f = camel_mime_filter_smtp_new();
 

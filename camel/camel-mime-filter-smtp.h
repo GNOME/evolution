@@ -44,7 +44,7 @@ struct _CamelMimeFilterSmtpClass {
 	CamelMimeFilterClass parent_class;
 };
 
-guint		camel_mime_filter_smtp_get_type (void);
-CamelMimeFilterFrom      *camel_mime_filter_smtp_new (void);
+guint camel_mime_filter_smtp_get_type (void);
+CamelMimeFilterSmtp *camel_mime_filter_smtp_new (void);
 
 #endif /* ! _CAMEL_MIME_FILTER_SMTP_H */
