@@ -1,3 +1,10 @@
+2002-03-11  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component/select-names/e-select-names.c (update_query):
+	change contains x-evolution-any-field to beginswith on email,
+	full_name, and nickname.  faster, and more applicable to this
+	dialog.
+
 2002-03-09  Chris Toshok  <toshok@ximian.com>
 
 	* gui/widgets/e-addressbook-view.c (jump_to_letter): since I've
