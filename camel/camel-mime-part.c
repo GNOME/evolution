@@ -27,6 +27,7 @@
 #include "camel-mime-part.h"
 #include <stdio.h>
 #include "gmime-content-field.h"
+#include "gstring-util.h"
 
 
 
@@ -94,8 +95,14 @@ camel_mime_part_class_init (CamelMimePartClass *camel_mime_part_class)
 	camel_data_wrapper_class->write_to_file = _write_to_file;
 }
 
+static void
+camel_mime_part_init (gpointer   object,  gpointer   klass)
+{
+	CamelMimePart *camel_mime_part = CAMEL_MIME_PART (object);
 
+	camel_mime_part->headers =  g_hash_table_new(g_string_hash, g_string_equal_for_hash);
 
+}
 
 
 
@@ -112,7 +119,7 @@ camel_mime_part_get_type (void)
 			sizeof (CamelMimePart),
 			sizeof (CamelMimePartClass),
 			(GtkClassInitFunc) camel_mime_part_class_init,
-			(GtkObjectInitFunc) NULL,
+			(GtkObjectInitFunc) camel_mime_part_init,
 				/* reserved_1 */ NULL,
 				/* reserved_2 */ NULL,
 			(GtkClassInitFunc) NULL,

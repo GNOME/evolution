@@ -25,6 +25,7 @@
 #include "camel-mime-message.h"
 #include <stdio.h>
 #include "gmime-content-field.h"
+#include "gstring-util.h"
 
 
 
@@ -79,6 +80,16 @@ camel_mime_message_class_init (CamelMimeMessageClass *camel_mime_message_class)
 
 
 
+static void
+camel_mime_message_init (gpointer   object,  gpointer   klass)
+{
+	CamelMimeMessage *camel_mime_message = CAMEL_MIME_MESSAGE (object);
+
+	camel_mime_message->recipients =  g_hash_table_new(g_string_hash, g_string_equal_for_hash);
+
+}
+
+
 
 
 
@@ -94,7 +105,7 @@ camel_mime_message_get_type (void)
 			sizeof (CamelMimeMessage),
 			sizeof (CamelMimeMessageClass),
 			(GtkClassInitFunc) camel_mime_message_class_init,
-			(GtkObjectInitFunc) NULL,
+			(GtkObjectInitFunc) camel_mime_message_init,
 				/* reserved_1 */ NULL,
 				/* reserved_2 */ NULL,
 			(GtkClassInitFunc) NULL,
@@ -257,3 +268,80 @@ get_from (CamelMimeMessage *mime_message)
 	 return CMM_CLASS (mime_message)->get_from (mime_message);
 }
 
+
+
+
+
+
+static void
+_add_recipient (CamelMimeMessage *mime_message, GString *recipient_type, GString *recipient) 
+{
+	GList *recipients_list;
+	GList *existent_list;
+
+	/* see if there is already a list for this recipient type */
+	existent_list = (GList *)g_hash_table_lookup (mime_message->recipients, recipient_type);
+
+	/* if the recipient is already in this list, do nothing */
+	if ( existent_list && g_list_find_custom (existent_list, (gpointer)recipient, g_string_equal_for_hash) )
+		return;
+
+	/* append the new recipient to the recipient list
+	   if the existent_list is NULL, then a new GList is
+	   automagically created */	
+	recipients_list = g_list_append (existent_list, (gpointer)recipient);
+
+	if (!existent_list) /* if there was no recipient of this type create the section */
+		g_hash_table_insert (mime_message->recipients, recipient_type, recipients_list);
+}
+
+
+/**
+ * _remove_recipient: remove a recipient from the list of recipients
+ * @mime_message: the message
+ * @recipient_type: recipient type from which the recipient should be removed
+ * @recipient: recipient to remove
+ * 
+ * Be careful, recipient and recipient_type are not freed. 
+ * calling programns must free them themselves. They can free
+ * them just after remove_recipient returns.
+ **/
+static void
+_remove_recipient (CamelMimeMessage *mime_message, GString *recipient_type, GString *recipient) 
+{
+	GList *recipients_list;
+	GList *new_recipients_list;
+	GList *old_element;
+	GString *old_recipient_type;
+	
+	/* if the recipient type section does not exist, do nothing */
+	if (! g_hash_table_lookup_extended (mime_message->recipients, 
+					    recipient_type, 
+					    (gpointer)&(old_recipient_type),
+					    (gpointer)&(recipients_list)) 
+	    ) return;
+	
+	/* look for the recipient to remoce */
+	old_element = g_list_find_custom (recipients_list, recipient, g_string_equal_for_hash);
+	if (old_element) {
+		/* if recipient exists, remove it */
+		new_recipients_list =  g_list_remove_link (recipients_list, old_element);
+
+		/* if glist head has changed, fix up hash table */
+		if (new_recipients_list != recipients_list)
+			g_hash_table_insert (mime_message->recipients, old_recipient_type, new_recipients_list);
+
+		g_string_free( (GString *)(old_element->data), TRUE);
+		g_list_free_1(old_element);
+	}
+}
+
+
+
+
+
+static GList *
+_get_recipients (CamelMimeMessage *mime_message, GString *recipient_type)
+{
+	return (GList *)g_hash_table_lookup (mime_message->recipients, recipient_type);
+}

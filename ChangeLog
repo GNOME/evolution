@@ -1,4 +1,15 @@
 1999-05-13  bertrand  <Bertrand.Guiheneuf@inria.fr>
+        
+	* camel/camel-mime-message.c (camel_mime_message_init): 
+	create recipients hash table
+	(_remove_recipient): 
+	(_add_recipient):
+	(_get_recipients):  new funcs.
+	Internal Recipients data structure is
+	a bit complicated though.
+
+	* camel/camel-mime-part.c (camel_mime_part_init): 
+	create headers hash table
 
 	* camel/camel-mime-message.h: 
 	a bunch of get/set header field
