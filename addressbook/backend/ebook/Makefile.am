@@ -31,6 +31,7 @@ INCLUDES =						\
 	-I$(top_builddir)/addressbook/backend		\
 	-I$(top_builddir)/addressbook/ename		\
 	-I$(top_builddir)/shell/importer		\
+	-I$(top_srcdir)/shell/importer			\
         $(BONOBO_GNOME_CFLAGS)				\
 	$(EXTRA_GNOME_CFLAGS)
 
@@ -142,3 +143,5 @@ CLEANFILES   += $(BUILT_SOURCES)
 
 oafdir = $(datadir)/oaf
 oaf_DATA = GNOME_Evolution_Addressbook_GnomeCard_Importer.oafinfo
+
+EXTRA_DIST = $(oaf_DATA)
