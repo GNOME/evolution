@@ -1,3 +1,50 @@
+2001-03-08  Jon Trowbridge  <trow@ximian.com>
+
+	* gui/component/select-names/e-select-names-popup.c
+	(quick_add_cb): Switched to use e_contact_quick_add_free_form.
+	Removed debugging code, hopefully without introducing any bugs
+	in the process.
+
+	* gui/component/select-names/e-select-names-text-model.c
+	(e_select_names_text_model_insert_length): Fix bug with commas
+	inside of name/address combos.  As long as the comma is inside of
+	quotes, it will be treated as part of the name rather than as a
+	break between addresses.
+
+	* gui/component/select-names/e-select-names-completion.c
+	(match_nickname): Use e_card_name_to_string for nickname match
+	strings.
+	(match_email): Use e_card_name_to_string for email match strings.
+	(e_select_names_completion_begin): Strip quotes out of query text,
+	so we don't produce malformed sexps.
+	Added William Blake quote easter egg.
+
+	* contact-editor/e-contact-quick-add.c: Further attempts to fix...
+	mostly unsuccessful.
+	(e_contact_quick_add_free_form): Added.  Takes a single string
+	and tries to parse out (using some simple, loose rules) the
+	name and e-mail -- then calls e_contact_quick_add.  An attempt to 
+	get the computer to automatically Do The Right Thing.
+
+	* backend/ebook/e-book.c: Fixed some broken indentation.  Yes, I'm
+	anal.
+
+	* gui/component/GNOME_Evolution_Addressbook.oafinfo: Added oaf_server
+	info for EAddressWidget.
+
+	* gui/component/GNOME_Evolution_Addressbook.oaf.in: Added oaf_server
+	info for EAddressWidget.
+
+	* gui/component/addressbook-factory.c (main): Add call to
+	e_address_widget_factory_init.
+
+	* gui/component/e-address-widget.h: 
+	* gui/component/e-address-widget.c: Added.  A little widget (and a
+	Bonobo control, BTW) for displaying addresses, with a left-click
+	menu.  Used to display addresses in the mail viewer (as embedded
+	GtkHTML objects, replacing the text previously used).  Still quite
+	incomplete.
+
 2001-03-08  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/component/addressbook-component.c (factory_fn): Specify a

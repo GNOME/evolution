@@ -18,6 +18,7 @@
 
 #include "addressbook.h"
 #include "addressbook-component.h"
+#include "e-address-widget.h"
 #include "addressbook/gui/widgets/e-minicard-control.h"
 #include "select-names/e-select-names-factory.h"
 
@@ -62,6 +63,8 @@ main (int argc, char **argv)
 	e_select_names_factory_init ();
 	
 	e_minicard_control_factory_init ();
+
+	e_address_widget_factory_init ();
 
 	e_cursors_init();
 

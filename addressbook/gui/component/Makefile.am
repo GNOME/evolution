@@ -36,7 +36,9 @@ evolution_addressbook_SOURCES = 	\
 	addressbook.c			\
 	addressbook.h			\
 	e-cardlist-model.c		\
-	e-cardlist-model.h
+	e-cardlist-model.h		\
+	e-address-widget.h		\
+	e-address-widget.c
 
 evolution_addressbook_LDADD =						\
 	select-names/libeselectnames.la					\

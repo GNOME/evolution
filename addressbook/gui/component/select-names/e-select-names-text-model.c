@@ -125,7 +125,7 @@ dump_model (ESelectNamesTextModel *text_model)
 
 	if (out == NULL)
 		return;
-
+	
 	fprintf (out, "\n*** Model State: count=%d\n", e_select_names_model_count (model));
 
 	for (i=0; i<e_select_names_model_count (model); ++i)
@@ -297,6 +297,7 @@ e_select_names_text_model_insert_length (ETextModel *model, gint pos, const gcha
 
 	for (i = 0; i < length && text[i]; ++i) {
 		gint index, start_pos, text_len;
+		gboolean inside_quote = FALSE;
 
 		if (out) 
 			fprintf (out, "processing [%c]\n", text[i]);
@@ -306,8 +307,26 @@ e_select_names_text_model_insert_length (ETextModel *model, gint pos, const gcha
 		if (out) 
 			fprintf (out, "index=%d start_pos=%d text_len=%d\n", index, start_pos, text_len);
 
+		if (text[i] == ',' && index >= 0) { /* Is this a quoted or an unquoted comma we are dealing with? */
+			const EDestination *dest = e_select_names_model_get_destination (source, index);
+			if (dest) {
+				const gchar *str = e_destination_get_string (dest);
+				gint j;
+				if (out)
+					fprintf (out, "str=%s pos=%d\n", str, pos);
+				for (j=0; j<pos-start_pos && str[j]; ++j)
+					if (str[j] == '"') {
+						inside_quote = !inside_quote;
+						if (out)
+							fprintf (out, "flip to %d at %d\n", start_pos+j, inside_quote);
+					}
+			}
+			if (out)
+				fprintf (out, inside_quote ? "inside quote\n" : "not inside quote\n");
+		}
 
-		if (text[i] == ',') {
+
+		if (text[i] == ',' && !inside_quote) {
 
 			/* This is the case of hitting , first thing in an empty entry */
 			if (index == -1) {

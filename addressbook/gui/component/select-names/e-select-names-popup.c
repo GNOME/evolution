@@ -31,8 +31,6 @@
 #include <addressbook/contact-editor/e-contact-quick-add.h>
 #include "e-select-names-popup.h"
 
-static FILE *out = NULL;
-
 typedef struct _PopupInfo PopupInfo;
 struct _PopupInfo {
 	ESelectNamesModel *model;
@@ -64,9 +62,6 @@ popup_info_free (PopupInfo *info)
 {
 	if (info) {
 		
-		if (out)
-			fprintf (out, "popup_info_free\n");
-	
 		if (info->model)
 			gtk_object_unref (GTK_OBJECT (info->model));
 
@@ -103,8 +98,6 @@ change_email_num_cb (GtkWidget *w, gpointer user_data)
 		return;
 
 	n = GPOINTER_TO_INT (gtk_object_get_data (GTK_OBJECT (w), "number"));
-	if (out)
-		fprintf (out, "replacing %d\n", n);
 
 	if (n != e_destination_get_email_num (info->dest)) {
 		dest = e_destination_new ();
@@ -156,9 +149,6 @@ popup_menu_card (PopupInfo *info)
 	GtkWidget *pop;
 	EIterator *iterator;
 	gchar *name_str;
-
-	if (out)
-		fprintf (out, "popup_menu_card\n");
 
 	/*
 	 * Build up our GnomeUIInfo array.
@@ -236,9 +226,6 @@ popup_menu_card (PopupInfo *info)
 		}
 	}
 
-	if (out)
-		fprintf (out, "leaving popup_menu_card\n");
-
 	return pop;
 }
 
@@ -246,8 +233,7 @@ static void
 quick_add_cb (GtkWidget *w, gpointer user_data)
 {
 	PopupInfo *info = (PopupInfo *) user_data;
-	e_contact_quick_add (NULL, e_destination_get_string (info->dest),
-			     NULL, NULL);
+	e_contact_quick_add_free_form (e_destination_get_string (info->dest), NULL, NULL);
 }
 
 static GtkWidget *
@@ -301,15 +287,6 @@ e_select_names_popup (ESelectNamesModel *model, GdkEventButton *ev, gint pos)
 	g_return_if_fail (ev);
 	g_return_if_fail (0 <= pos);
 
-	if (out == NULL) {
-		out = fopen ("/tmp/evo-debug-select-names-popup", "w");
-		if (out)
-			setvbuf (out, NULL, _IONBF, 0);
-	}
-	
-	if (out)
-		fprintf (out, "\n\ne_select_names_popup\n");
-	
 	e_select_names_model_text_pos (model, pos, &index, NULL, NULL);
 	if (index < 0 || index >= e_select_names_model_count (model))
 		return;
@@ -328,9 +305,6 @@ e_select_names_popup (ESelectNamesModel *model, GdkEventButton *ev, gint pos)
 				    GTK_SIGNAL_FUNC (popup_info_cleanup),
 				    info);
 
-		if (out)
-			fprintf (out, "doing popup\n");
-
 		gnome_popup_menu_do_popup (popup, NULL, NULL, ev, info);
 
 	} else {
@@ -338,8 +312,4 @@ e_select_names_popup (ESelectNamesModel *model, GdkEventButton *ev, gint pos)
 		popup_info_free (info);
 
 	}
-
-	if (out)
-		fprintf (out, "leaving e_select_names_popup\n\n");
-			
 }

@@ -575,9 +575,42 @@ enum {
 };
 
 static void
+write_field_row_begin (const char *description, gint flags, GtkHTML *html, GtkHTMLStream *stream)
+{
+	char *encoded_desc;
+	int bold = (flags & WRITE_BOLD) == WRITE_BOLD;
+
+	encoded_desc = e_utf8_from_gtk_string (GTK_WIDGET (html), description);
+
+	mail_html_write (html, stream, "<tr><%s align=right> %s </%s>",
+			 bold ? "th" : "td", encoded_desc, bold ? "th" : "td");
+
+	g_free (encoded_desc);
+}
+
+static void
+write_subject (const char *subject, int flags, GtkHTML *html, GtkHTMLStream *stream)
+{
+	char *encoded_subj;
+
+	if (subject)
+		encoded_subj = e_text_to_html (subject, E_TEXT_TO_HTML_CONVERT_NL | E_TEXT_TO_HTML_CONVERT_URLS);
+	else
+		encoded_subj = "";
+
+	write_field_row_begin (_("Subject:"), flags, html, stream);
+
+	mail_html_write (html, stream, "<td> %s </td> </tr>", encoded_subj);
+
+	if (subject)
+		g_free (encoded_subj);
+}
+
+#ifdef USE_OBSOLETE_UNUSED_STUFF_AND_GET_COMPILER_WARNINGS
+static void
 write_field_to_stream(const char *description, const char *value, int flags, GtkHTML *html, GtkHTMLStream *stream)
 {
-	char *encoded_desc, *encoded_value;
+	char *encoded_desc, *encoded_value, *embedded_object;
 	int bold = (flags&WRITE_BOLD) == WRITE_BOLD;
 
 	/* The description comes from gettext... */
@@ -590,26 +623,45 @@ write_field_to_stream(const char *description, const char *value, int flags, Gtk
 
 	mail_html_write(html, stream,
 			"<tr valign=top><%s align=right>%s</%s>"
-			"<td>%s</td></tr>", bold ? "th" : "td",
+			"<td> %s </td></tr>", bold ? "th" : "td",
 			encoded_desc, bold ? "th" : "td", encoded_value);
 	g_free (encoded_desc);
+	g_free (embedded_object);
 	if (value)
 		g_free(encoded_value);
 }
+#endif
 
 static void
-write_address(MailDisplay *md, const CamelInternetAddress *addr, const char *name, int flags)
+write_address(MailDisplay *md, const CamelInternetAddress *addr, const char *field_name, int flags)
 {
-	char *string;
+	const char *name, *email;
+	gint i;
 
-	if (addr == NULL)
+	if (addr == NULL || !camel_internet_address_get (addr, 0, NULL, NULL))
 		return;
 
-	string = camel_address_format((CamelAddress *)addr);
-	if (string && string[0]) {
-		write_field_to_stream(name, string, flags, md->html, md->stream);
+	write_field_row_begin (field_name, flags, md->html, md->stream);
+
+	i = 0;
+	while (camel_internet_address_get (addr, i, &name, &email)) {
+		
+		if ((name && *name) || (email && *email)) {
+			
+			mail_html_write (md->html, md->stream, i ? ", " : "<td>");
+
+			mail_html_write (md->html, md->stream, "<object classid=\"address\">");
+			if (name && *name)
+				mail_html_write (md->html, md->stream, "<param name=\"name\" value=\"%s\"/>", name);
+			if (email && *email)
+				mail_html_write (md->html, md->stream, "<param name=\"email\" value=\"%s\"/>", email);
+			mail_html_write (md->html, md->stream, "</object>");
+		}
+		
+		++i;
 	}
-	g_free(string);
+
+	mail_html_write (md->html, md->stream, "</td></tr>"); /* Finish up the table row */
 }
 
 
@@ -632,9 +684,7 @@ write_headers (CamelMimeMessage *message, MailDisplay *md)
 	write_address(md, camel_mime_message_get_recipients(message, CAMEL_RECIPIENT_TYPE_CC),
 		      _("Cc:"), WRITE_BOLD);
 
-	write_field_to_stream (_("Subject:"),
-			       camel_mime_message_get_subject (message),
-			       TRUE, md->html, md->stream);
+	write_subject (camel_mime_message_get_subject (message), WRITE_BOLD, md->html, md->stream);
 	
 	mail_html_write (md->html, md->stream,
 			 "</table></td></tr></table></td></tr></table></font>");

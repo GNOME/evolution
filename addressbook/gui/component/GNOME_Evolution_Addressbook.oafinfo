@@ -89,4 +89,31 @@
 		       value="evolution-contacts.png"/>
 </oaf_server>
 
+<oaf_server iid="OAFIID:GNOME_Evolution_Addressbook_AddressWidgetFactory"
+	    type="exe"
+	    location="evolution-addressbook">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/ObjectFactory:1.0"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="description" type="string"
+		       value="Factory for the Addressbook's address displayer"/>
+
+</oaf_server>
+
+<oaf_server iid="OAFIID:GNOME_Evolution_Addressbook_AddressWidget"
+	    type="factory"
+	    location="OAFIID:GNOME_Evolution_Addressbook_AddressWidgetFactory">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:BonoboControl/address-widget:1.0"/>
+		<item value="IDL:GNOME/Control:1.0"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="description" type="string"
+		       value="A Bonobo control for displaying an address."/>
+
+</oaf_server>
+
 </oaf_info>

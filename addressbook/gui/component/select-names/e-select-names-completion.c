@@ -97,11 +97,14 @@ match_nickname (ESelectNamesCompletion *comp, EDestination *dest, double *score)
 
 	if (card->nickname
 	    && !g_strncasecmp (comp->priv->query_text, card->nickname, len)) {
+		gchar *name = e_card_name_to_string (card->name);
+		gchar *str;
 		
 		*score = len * 10; /* nickname gives 10 points per matching character */
 		
-		return g_strdup_printf ("(%s) %s %s", card->nickname, card->name->given, card->name->family);
-		
+		str = g_strdup_printf ("(%s) %s", card->nickname, name);
+		g_free (name);
+		return str;
 	}
 
 	return NULL;
@@ -125,8 +128,12 @@ match_email (ESelectNamesCompletion *comp, EDestination *dest, double *score)
 	const gchar *email = e_destination_get_email (dest);
 	
 	if (email && !g_strncasecmp (comp->priv->query_text, email, len)) {
+		gchar *name, *str;
 		*score = len * 2; /* 2 points for each matching character */
-		return g_strdup_printf ("<%s> %s %s", email, card->name->given, card->name->family);
+		name = e_card_name_to_string (card->name);
+		str = g_strdup_printf ("<%s> %s", email, name);
+		g_free (name);
+		return str;
 	}
 
 	return NULL;
@@ -693,7 +700,9 @@ struct _SearchOverride {
 	const gchar *text[4];
 };
 static SearchOverride override[] = { 
-	{ "easter egg", { "This is the sample", "Easter Egg text for", "Evolution.", NULL } },
+	{ "why?", { "\"I must create a system, or be enslaved by another man's.\"",
+		    "            -- Wiliam Blake, \"Jerusalem\"",
+		    NULL } },
 	{ NULL, { NULL } } };
 
 static gboolean
@@ -711,6 +720,7 @@ e_select_names_completion_begin (ECompletion *comp, const gchar *text, gint pos,
 	ESelectNamesCompletion *selcomp = E_SELECT_NAMES_COMPLETION (comp);
 	const gchar *str;
 	gint index, j;
+	gchar *s, *t;
 
 	g_return_if_fail (comp != NULL);
 	g_return_if_fail (E_IS_SELECT_NAMES_COMPLETION (comp));
@@ -751,6 +761,18 @@ e_select_names_completion_begin (ECompletion *comp, const gchar *text, gint pos,
 	
 	g_free (selcomp->priv->pending_query_text);
 	selcomp->priv->pending_query_text = g_strdup (str);
+	
+	/* Strip problematic characters out of query text. */
+	s = t = selcomp->priv->pending_query_text;
+	while (*s) {
+		if (*s != ',' && *s != '"') {
+			if (s != t)
+				*t = *s;
+			++t;
+		}
+		++s;
+	}
+	*t = '\0';
 
 	e_select_names_completion_do_query (selcomp);
 }

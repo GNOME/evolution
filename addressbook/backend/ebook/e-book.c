@@ -1008,10 +1008,11 @@ e_book_check_connection (EBook *book)
 	return TRUE;
 }
 
-gboolean e_book_get_cursor       (EBook               *book,
-				  gchar               *query,
-				  EBookCursorCallback  cb,
-				  gpointer             closure)
+gboolean
+e_book_get_cursor       (EBook               *book,
+			 gchar               *query,
+			 EBookCursorCallback  cb,
+			 gpointer             closure)
 {
 	CORBA_Environment ev;
   
@@ -1041,10 +1042,11 @@ gboolean e_book_get_cursor       (EBook               *book,
 	return TRUE;
 }
 
-gboolean e_book_get_book_view       (EBook                 *book,
-				     gchar                 *query,
-				     EBookBookViewCallback  cb,
-				     gpointer               closure)
+gboolean
+e_book_get_book_view       (EBook                 *book,
+			    gchar                 *query,
+			    EBookBookViewCallback  cb,
+			    gpointer               closure)
 {
 	CORBA_Environment ev;
 	EBookViewListener *listener;
@@ -1077,10 +1079,11 @@ gboolean e_book_get_book_view       (EBook                 *book,
 	return TRUE;
 }
 
-gboolean e_book_get_changes         (EBook                 *book,
-				     gchar                 *changeid,
-				     EBookBookViewCallback  cb,
-				     gpointer               closure)
+gboolean
+e_book_get_changes         (EBook                 *book,
+			    gchar                 *changeid,
+			    EBookBookViewCallback  cb,
+			    gpointer               closure)
 {
 	CORBA_Environment ev;
 	EBookViewListener *listener;

@@ -1,3 +1,20 @@
+2001-03-08  Jon Trowbridge  <trow@ximian.com>
+
+	* mail-format.c (write_field_row_begin): Added.  Table row HTML
+	broken out into its own function.
+	(write_subject): Added.  Emits the proper HTML for the subject
+	line.
+	(write_field_to_stream): #ifdef-ed out of existence.
+	(write_address): Take a CamelInternetAddress and spit out an
+	<object> tag with the appropriate <param>s.
+
+	* mail-display.c (on_object_requested): Check for an "address"
+	object.  If found, call...
+	(handle_embedded_address_object): ...this function, which creates
+	an AddressWidget bonobo control and passes in the necessary info.
+	I never really realized just quite how much GtkHTML kicks ass
+	until I figured out how to make this work.
+
 2001-03-08  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-vtrash.[c,h]: Removed from cvs

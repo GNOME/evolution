@@ -26,78 +26,77 @@
  */
 
 #include <config.h>
+#include <ctype.h>
 #include <gnome.h>
 #include <addressbook/backend/ebook/e-book.h>
 #include <addressbook/backend/ebook/e-card.h>
 #include "e-contact-editor.h"
 #include "e-contact-quick-add.h"
 
-static FILE *out = NULL;
-
 static void
 e_card_quick_set_name (ECard *card, const gchar *str)
 {
+	ECardSimple *simple;
+
 	g_return_if_fail (card && E_IS_CARD (card));
 
 	if (str == NULL)
 		return;
 
-	if (out)
-		fprintf (out, "quick-set name to \"%s\"\n", str);
-
-	if (card->name)
-		e_card_name_free (card->name);
-	card->name = e_card_name_from_string (str);
+	simple = e_card_simple_new (card);
+	e_card_simple_set (simple, E_CARD_SIMPLE_FIELD_FULL_NAME, str);
+	e_card_simple_sync_card (simple);
+	gtk_object_unref (GTK_OBJECT (simple));
 }
 
 static void
 e_card_quick_set_email (ECard *card, const gchar *str)
 {
+	ECardSimple *simple;
+
 	g_return_if_fail (card && E_IS_CARD (card));
 
 	if (str == NULL)
 		return;
 
-	if (out)
-		fprintf (out, "quick-set email to \"%s\"\n", str);
-
-	if (card->email == NULL) {
-		card->email = e_list_new ((EListCopyFunc) g_strdup,
-					  (EListFreeFunc) g_free,
-					  NULL);
-		e_list_append (card->email, str);
-	} else {
-		EIterator *iter = e_list_get_iterator (card->email);
-		e_iterator_reset (iter);
-		if (e_iterator_is_valid (iter)) {
-			e_iterator_set (iter, str);
-		}
-	}
+	simple = e_card_simple_new (card);
+	e_card_simple_set (simple, E_CARD_SIMPLE_FIELD_EMAIL, str);
+	e_card_simple_sync_card (simple);
+	gtk_object_unref (GTK_OBJECT (simple));
 }
 
 
 static void
 book_ready_cb (EBook *book, EBookStatus status, gpointer user_data)
 {
-	if (status == E_BOOK_STATUS_SUCCESS)
-		e_book_add_card (book, E_CARD (user_data), NULL, NULL);
-	gtk_object_unref (GTK_OBJECT (book));
+	ECard *card = E_CARD (user_data);
+
+	EContactQuickAddCallback cb = gtk_object_get_data (GTK_OBJECT (card), "e-contact-quick-add-cb");
+	gpointer cb_user_data = gtk_object_get_data (GTK_OBJECT (card), "e-contact-quick-add-user-data");
+
+	if (status == E_BOOK_STATUS_SUCCESS) {
+		e_book_add_card (book, card, NULL, NULL);
+		if (cb)
+			cb (card, cb_user_data);
+	} else {
+		/* Something went wrong... */
+		if (cb)
+			cb (NULL, cb_user_data);
+
+		gtk_object_unref (GTK_OBJECT (book));
+	}
 }
 
 static void
 add_card (ECard *card)
 {
 	EBook *book = e_book_new ();
-	gchar *filename, *uri;
-
-	filename = gnome_util_prepend_user_home ("evolution/local/Contacts/addressbook.db");
-	uri = g_strdup_printf ("file://%s", filename);
-
-	e_book_load_uri (book, uri, book_ready_cb, card);
-	
-	g_free (filename);
-	g_free (uri);
+	e_book_load_local_address_book (book, book_ready_cb, card);
 }
+
+/*
+ * Raise a contact editor with all fields editable, and hook up all signals accordingly.
+ */
 
 static void
 add_card_cb (EContactEditor *ce, ECard *card, gpointer user_data)
@@ -108,9 +107,52 @@ add_card_cb (EContactEditor *ce, ECard *card, gpointer user_data)
 static void
 editor_closed_cb (GtkWidget *w, gpointer user_data)
 {
+	/* w is the contact editor, user_data is an ECard. */
 	if (user_data)
 		gtk_object_unref (user_data);
 	gtk_object_unref (GTK_OBJECT (w));
+}
+
+static void
+ce_book_found_fields (EBook *book, EBookStatus status, EList *fields, gpointer user_data)
+{
+	ECard *card = E_CARD (user_data);
+	EContactEditor *contact_editor;
+
+	if (status != E_BOOK_STATUS_SUCCESS) {
+		g_warning ("Couldn't find supported fields for local address book.");
+		return;
+	}
+
+	contact_editor = e_contact_editor_new (card, TRUE, fields);
+
+	gtk_signal_connect (GTK_OBJECT (contact_editor),
+			    "add_card",
+			    GTK_SIGNAL_FUNC (add_card_cb),
+			    NULL);
+	gtk_signal_connect (GTK_OBJECT (contact_editor),
+			    "editor_closed",
+			    GTK_SIGNAL_FUNC (editor_closed_cb),
+			    user_data);
+
+	e_contact_editor_raise (contact_editor);
+}
+
+static void
+ce_book_ready (EBook *book, EBookStatus status, gpointer user_data)
+{
+	if (status != E_BOOK_STATUS_SUCCESS) {
+		g_warning ("Couldn't open local address book.");
+		return;
+	}
+
+	e_book_get_supported_fields (book, ce_book_found_fields, user_data);
+}
+
+static void
+edit_card (ECard *card)
+{
+	e_book_load_local_address_book (e_book_new (), ce_book_ready, card);
 }
 
 static void
@@ -149,19 +191,7 @@ clicked_cb (GtkWidget *w, gint button, gpointer user_data)
 	} else if (button == 1) {
 		
 		/* EDIT FULL */
-		EContactEditor *contact_editor;
-		contact_editor = e_contact_editor_new (card, TRUE, NULL);
-
-		gtk_signal_connect (GTK_OBJECT (contact_editor),
-				    "add_card",
-				    GTK_SIGNAL_FUNC (add_card_cb),
-				    NULL);
-		gtk_signal_connect (GTK_OBJECT (contact_editor),
-				    "editor_closed",
-				    GTK_SIGNAL_FUNC (editor_closed_cb),
-				    user_data);
-
-		e_contact_editor_raise (contact_editor);
+		edit_card (card);
 
 	} else {
 		/* CANCEL */
@@ -249,16 +279,6 @@ e_contact_quick_add (const gchar *name, const gchar *email,
 	ECard *new_card;
 	GtkWidget *dialog;
 
-	if (out == NULL) {
-		out = fopen ("/tmp/barnass", "w");
-		if (out)
-			setvbuf (out, NULL, _IONBF, 0);
-	}
-
-	if (out)
-		fprintf (out, "\n name: %s\nemail: %s\n", name, email);
-		
-
 	/* We need to have *something* to work with. */
 	if (name == NULL && email == NULL) {
 		if (cb)
@@ -279,4 +299,86 @@ e_contact_quick_add (const gchar *name, const gchar *email,
 	dialog = build_quick_add_dialog (new_card, cb, user_data);
 	
 	gtk_widget_show_all (dialog);
+}
+
+void
+e_contact_quick_add_free_form (const gchar *text, EContactQuickAddCallback cb, gpointer user_data)
+{
+	gchar *name=NULL, *email=NULL;
+	const gchar *last_at, *s;
+	gboolean in_quote;
+
+	if (text == NULL) {
+		e_contact_quick_add (NULL, NULL, cb, user_data);
+		return;
+	}
+
+	/* Look for things that look like e-mail addresses embedded in text */
+	in_quote = FALSE;
+	last_at = NULL;
+	for (s = text; *s; ++s) {
+		if (*s == '@' && !in_quote)
+			last_at = s;
+		else if (*s == '"')
+			in_quote = !in_quote;
+	}
+
+	
+	if (last_at == NULL) {
+		/* No at sign, so we treat it all as the name */
+		name = g_strdup (text);
+	} else {
+		gboolean bad_char = FALSE;
+		
+		/* walk backwards to whitespace or a < or a quote... */
+		while (last_at >= text && !bad_char
+		       && !(isspace ((gint) *last_at) || *last_at == '<' || *last_at == '"')) {
+			/* Check for some stuff that can't appear in a legal e-mail address. */
+			if (*last_at == '['
+			    || *last_at == ']'
+			    || *last_at == '('
+			    || *last_at == ')')
+				bad_char = TRUE;
+			--last_at;
+		}
+		if (last_at < text)
+			last_at = text;
+
+		/* ...and then split the text there */
+		if (!bad_char) {
+			if (text < last_at)
+				name = g_strndup (text, last_at-text);
+			email = g_strdup (last_at);
+		}
+	}
+
+	/* If all else has failed, make it the name. */
+	if (name == NULL && email == NULL) 
+		name = g_strdup (text);
+		
+
+	/* Clean up name */
+	if (name && *name)
+		g_strstrip (name);
+
+	/* Clean up email, remove bracketing <>s */
+	if (email && *email) {
+		gboolean changed = FALSE;
+		g_strstrip (email);
+		if (*email == '<') {
+			*email = ' ';
+			changed = TRUE;
+		}
+		if (email[strlen (email)-1] == '>') {
+			email[strlen (email)-1] = ' ';
+			changed = TRUE;
+		}
+		if (changed)
+			g_strstrip (email);
+	}
+	
+
+	e_contact_quick_add (name, email, cb, user_data);
+	g_free (name);
+	g_free (email);
 }

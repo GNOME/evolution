@@ -603,6 +603,33 @@ get_embedded_for_component (const char *iid, MailDisplay *md)
 	return embedded;
 }
 
+static void
+handle_embedded_address_object (GtkHTMLEmbedded *eb)
+{
+	const gchar *name, *email;
+	GtkWidget *w;
+
+	w = bonobo_widget_new_control ("OAFIID:GNOME_Evolution_Addressbook_AddressWidget",
+				       CORBA_OBJECT_NIL);
+
+	name  = gtk_html_embedded_get_parameter (eb, "name");
+	email = gtk_html_embedded_get_parameter (eb, "email");
+
+	bonobo_widget_set_property (BONOBO_WIDGET (w),
+				    "name", name,
+				    "email", email,
+				    /* Hackish: this is the bg color defined for the HTML table
+				       in mail-format.c.  If you change it there, you'd better
+				       change it here as well. */
+				    "background_rgb", 0xeeeeee,
+				    NULL);
+
+	gtk_widget_show (w);
+	gtk_container_add (GTK_CONTAINER (eb), w);
+
+	gtk_html_embedded_set_descent (eb, 0);
+}
+
 static gboolean
 on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 {
@@ -621,6 +648,12 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 	char *cid;
 
 	cid = eb->classid;
+
+	if (!strcmp (cid, "address")) {
+		handle_embedded_address_object (eb);
+		return TRUE;
+	}
+
 	if (!strncmp (cid, "popup:", 6))
 		cid += 6;
 	if (strncmp (cid, "cid:", 4) != 0)
