@@ -36,6 +36,7 @@ libebook_la_SOURCES =					\
 	e-card-iterator.c				\
 	e-card-list-iterator.c				\
 	e-card-list.c					\
+	e-card-simple.c					\
 	e-card.c
 
 libebookincludedir = $(includedir)/evolution/ebook
@@ -49,6 +50,7 @@ libebookinclude_HEADERS =				\
 	e-card-iterator.h				\
 	e-card-list-iterator.h				\
 	e-card-list.h					\
+	e-card-simple.h					\
 	e-card.h
 
 test_client_SOURCES =					\

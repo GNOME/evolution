@@ -24,6 +24,7 @@
 #include <gnome.h>
 #include <glade/glade.h>
 #include <ebook/e-card.h>
+#include <ebook/e-card-simple.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -38,49 +39,6 @@ extern "C" {
  * --------------------------------------------------------------------------------
  * card         ECard *         RW              The card currently being edited
  */
-
-typedef enum _EContactEditorPhoneId EContactEditorPhoneId;
-typedef enum _EContactEditorEmailId EContactEditorEmailId;
-typedef enum _EContactEditorAddressId EContactEditorAddressId;
-
-enum _EContactEditorPhoneId {
-	E_CONTACT_EDITOR_PHONE_ID_ASSISTANT,
-	E_CONTACT_EDITOR_PHONE_ID_BUSINESS,
-	E_CONTACT_EDITOR_PHONE_ID_BUSINESS_2,
-	E_CONTACT_EDITOR_PHONE_ID_BUSINESS_FAX,
-	E_CONTACT_EDITOR_PHONE_ID_CALLBACK,
-	E_CONTACT_EDITOR_PHONE_ID_CAR,
-	E_CONTACT_EDITOR_PHONE_ID_COMPANY,
-	E_CONTACT_EDITOR_PHONE_ID_HOME,
-	E_CONTACT_EDITOR_PHONE_ID_HOME_2,
-	E_CONTACT_EDITOR_PHONE_ID_HOME_FAX,
-	E_CONTACT_EDITOR_PHONE_ID_ISDN,
-	E_CONTACT_EDITOR_PHONE_ID_MOBILE,
-	E_CONTACT_EDITOR_PHONE_ID_OTHER,
-	E_CONTACT_EDITOR_PHONE_ID_OTHER_FAX,
-	E_CONTACT_EDITOR_PHONE_ID_PAGER,
-	E_CONTACT_EDITOR_PHONE_ID_PRIMARY,
-	E_CONTACT_EDITOR_PHONE_ID_RADIO,
-	E_CONTACT_EDITOR_PHONE_ID_TELEX,
-	E_CONTACT_EDITOR_PHONE_ID_TTYTTD,
-	E_CONTACT_EDITOR_PHONE_ID_LAST
-};
-
-/* We need HOME and WORK email addresses here. */
-enum _EContactEditorEmailId {
-	E_CONTACT_EDITOR_EMAIL_ID_EMAIL,
-	E_CONTACT_EDITOR_EMAIL_ID_EMAIL_2,
-	E_CONTACT_EDITOR_EMAIL_ID_EMAIL_3,
-	E_CONTACT_EDITOR_EMAIL_ID_LAST
-};
-
-/* Should this include (BILLING/SHIPPING)? */
-enum _EContactEditorAddressId {
-	E_CONTACT_EDITOR_ADDRESS_ID_BUSINESS,
-	E_CONTACT_EDITOR_ADDRESS_ID_HOME,
-	E_CONTACT_EDITOR_ADDRESS_ID_OTHER,
-	E_CONTACT_EDITOR_ADDRESS_ID_LAST
-};
 
 #define E_CONTACT_EDITOR_TYPE			(e_contact_editor_get_type ())
 #define E_CONTACT_EDITOR(obj)			(GTK_CHECK_CAST ((obj), E_CONTACT_EDITOR_TYPE, EContactEditor))
@@ -98,6 +56,7 @@ struct _EContactEditor
 	
 	/* item specific fields */
 	ECard *card;
+	ECardSimple *simple;
 	
 	GladeXML *gui;
 	GnomeUIInfo *email_info;
@@ -110,16 +69,12 @@ struct _EContactEditor
 	GList *phone_list;
 	GList *address_list;
 
-	ECardPhone *phone[E_CONTACT_EDITOR_PHONE_ID_LAST];
-	char *email[E_CONTACT_EDITOR_EMAIL_ID_LAST];
-	ECardAddrLabel *address[E_CONTACT_EDITOR_ADDRESS_ID_LAST];
-	
 	ECardName *name;
 	char *company;
 
-	EContactEditorEmailId email_choice;
-	EContactEditorPhoneId phone_choice[4];
-	EContactEditorAddressId address_choice;
+	ECardSimpleEmailId email_choice;
+	ECardSimplePhoneId phone_choice[4];
+	ECardSimpleAddressId address_choice;
 };
 
 struct _EContactEditorClass

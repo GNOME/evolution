@@ -1,3 +1,15 @@
+2000-05-05  Christopher James Lahey  <clahey@helixcode.com>
+
+	* backend/ebook/Makefile.am: Added e-card-simple.c and
+	e-card-simple.h.
+
+	* backend/ebook/e-card-simple.c, backend/ebook/e-card-simple.h:
+	New card wrapper class to simplify things.
+
+	* contact-editor/e-contact-editor.c,
+	contact-editor/e-contact-editor.h: Changed e-contact-editor to use
+	ECardSimple a bit.
+
 2000-05-03  Chris Toshok  <toshok@helixcode.com>
 
 	* gui/component/addressbook.c (control_deactivate): #ifdef
