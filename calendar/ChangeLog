@@ -1,3 +1,11 @@
+2005-02-04  Rodrigo Moya <rodrigo@novell.com>
+
+	Fixes #71265
+
+	* gui/e-week-view.c (e_week_view_remove_event_cb):
+	* gui/e-day-view.c (e_day_view_remove_event_cb): if we remove the
+	event we were editing, update internal pointers.
+
 2005-02-04  Vivek Jain <jvivek@novell.com>
 	
 	* calendar-errors.xml.h

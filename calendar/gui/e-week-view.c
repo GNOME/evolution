@@ -1913,6 +1913,9 @@ e_week_view_remove_event_cb (EWeekView *week_view,
 	if (week_view->editing_event_num == event_num)
 		week_view->editing_event_num = -1;
 
+	if (week_view->popup_event_num == event_num)
+		week_view->popup_event_num = -1;
+
 	/* We leave the span elements in the array, but set the canvas item
 	   pointers to NULL. */
 	for (span_num = 0; span_num < event->num_spans; span_num++) {

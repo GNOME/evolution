@@ -1722,9 +1722,15 @@ e_day_view_remove_event_cb (EDayView *day_view,
 
 	/* If we were editing this event, set editing_event_day to -1 so
 	   on_editing_stopped doesn't try to update the event. */
-	if (day_view->editing_event_day == day
-	    && day_view->editing_event_num == event_num)
+	if (day_view->editing_event_num == event_num && day_view->editing_event_day == day) {
+		day_view->editing_event_num = -1;
 		day_view->editing_event_day = -1;
+	}
+
+	if (day_view->popup_event_num == event_num && day_view->popup_event_day == day) {
+		day_view->popup_event_num = -1;
+		day_view->popup_event_day = -1;
+	}
 
 	if (event->canvas_item)
 		gtk_object_destroy (GTK_OBJECT (event->canvas_item));
