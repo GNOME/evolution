@@ -1,3 +1,7 @@
+2001-05-23  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* tools/killev: s/evolution-vcard-import/evolution-vcard-importer
+	
 2001-05-22  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* configure.in: Create MAILER_CFLAGS and MAILER_LIBS so that we
