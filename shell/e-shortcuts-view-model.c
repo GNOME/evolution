@@ -208,6 +208,38 @@ shortcuts_remove_shortcut_cb (EShortcuts *shortcuts,
 	e_shortcut_model_remove_item (E_SHORTCUT_MODEL (shortcuts_view_model), group_num, item_num);
 }
 
+static void
+shortcuts_update_shortcut_cb (EShortcuts *shortcuts,
+			      int group_num,
+			      int item_num,
+			      void *data)
+{
+	EShortcutsViewModel *shortcuts_view_model;
+	EShortcutsViewModelPrivate *priv;
+	EStorageSet *storage_set;
+	EFolder *folder;
+	const char *uri;
+	const char *storage_set_path;
+	const char *folder_name;
+
+	shortcuts_view_model = E_SHORTCUTS_VIEW_MODEL (data);
+	priv = shortcuts_view_model->priv;
+
+	uri = e_shortcuts_get_uri (priv->shortcuts, group_num, item_num);
+	g_assert (uri != NULL);
+
+	storage_set_path = get_storage_set_path_from_uri (uri);
+	if (storage_set_path == NULL)
+		return;
+
+	storage_set = e_shortcuts_get_storage_set (priv->shortcuts);
+	folder = e_storage_set_get_folder (storage_set, storage_set_path);
+	folder_name = e_folder_get_name (folder);
+
+	e_shortcut_model_update_item (E_SHORTCUT_MODEL (shortcuts_view_model),
+				      group_num, item_num, uri, folder_name);
+}
+
 
 /* GtkObject methods.  */
 
@@ -276,6 +308,9 @@ e_shortcuts_view_model_construct (EShortcutsViewModel *model,
 					GTK_OBJECT (model));
 	gtk_signal_connect_while_alive (GTK_OBJECT (priv->shortcuts),
 					"remove_shortcut", GTK_SIGNAL_FUNC (shortcuts_remove_shortcut_cb), model,
+					GTK_OBJECT (model));
+	gtk_signal_connect_while_alive (GTK_OBJECT (priv->shortcuts),
+					"update_shortcut", GTK_SIGNAL_FUNC (shortcuts_update_shortcut_cb), model,
 					GTK_OBJECT (model));
 }
 

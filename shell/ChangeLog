@@ -1,3 +1,19 @@
+2001-06-04  Jason Leach  <jleach@ximian.com>
+
+	(Fixing bug #1299: Shell saves shortcuts when display name
+	 changes)
+	
+	* e-shortcuts.c (class_init): New signal: "update_shortcut".
+
+	* e-shortcuts-view-model.c (e_shortcuts_view_model_construct):
+	Connect thew new signal here.
+
+	* e-shortcuts-view-model.c (shortcuts_update_shortcut_cb): New
+	function, uses the new e_shortcut_model_update_item().
+
+	* e-shell-view.c (corba_interface_set_folder_bar_label): Fix a
+	warning here.
+
 2001-06-03  Ettore Perazzoli  <ettore@ximian.com>
 
 	* Makefile.am (evolution_LDADD): Move `$(DB3_LDADD)' before

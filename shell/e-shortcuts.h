@@ -60,6 +60,7 @@ struct _EShortcutsClass {
 	void  (* remove_group)     (EShortcuts *shortcuts, int group_num);
 	void  (* new_shortcut)     (EShortcuts *shortcuts, int group_num, int item_num);
 	void  (* remove_shortcut)  (EShortcuts *shortcuts, int group_num, int item_num);
+	void  (* update_shortcut)  (EShortcuts *shortcuts, int group_num, int item_num);
 };
 
 

@@ -1083,8 +1083,8 @@ corba_interface_change_current_view_cb (EvolutionShellView *shell_view,
 
 static void
 corba_interface_set_title (EvolutionShellView *shell_view,
-				const char *title,
-				void *data)
+			   const char *title,
+			   void *data)
 {
 	EShellView *view;
 
@@ -1096,9 +1096,9 @@ corba_interface_set_title (EvolutionShellView *shell_view,
 }
 
 static void
-corba_interface_set_folder_bar_label (EvolutionShellView *shell_view,
-				 const char *text,
-				 void *data)
+corba_interface_set_folder_bar_label (EvolutionShellView *evolution_shell_view,
+				      const char *text,
+				      void *data)
 {
 	EShellView *shell_view;
 	EShellViewPrivate *priv;
@@ -1110,7 +1110,7 @@ corba_interface_set_folder_bar_label (EvolutionShellView *shell_view,
 	priv = shell_view->priv;
 
 	e_shell_folder_title_bar_set_folder_bar_label (E_SHELL_FOLDER_TITLE_BAR (priv->view_title_bar),
-						  text);
+						       text);
 }
 
 static void

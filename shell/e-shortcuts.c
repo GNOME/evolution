@@ -112,6 +112,7 @@ enum {
 	REMOVE_GROUP,
 	NEW_SHORTCUT,
 	REMOVE_SHORTCUT,
+	UPDATE_SHORTCUT,
 	LAST_SIGNAL
 };
 
@@ -435,6 +436,16 @@ class_init (EShortcutsClass *klass)
 				  GTK_TYPE_INT,
 				  GTK_TYPE_INT);
 
+	signals[UPDATE_SHORTCUT]
+		= gtk_signal_new ("update_shortcut",
+				  GTK_RUN_FIRST,
+				  object_class->type,
+				  GTK_SIGNAL_OFFSET (EShortcutsClass, update_shortcut),
+				  gtk_marshal_NONE__INT_INT,
+				  GTK_TYPE_NONE, 2,
+				  GTK_TYPE_INT,
+				  GTK_TYPE_INT);
+
 	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 }
 
@@ -741,13 +752,8 @@ e_shortcuts_update_shortcut (EShortcuts *shortcuts,
 {
 	g_return_if_fail (shortcuts != NULL);
 	g_return_if_fail (E_IS_SHORTCUTS (shortcuts));
-		
-	/* FIXME: need support in e-shortcut-bar widget (and also
-           e-icon-bar) to be able to "update" a shortcut without doing
-           this lame remove then add */
 
-	e_shortcuts_remove_shortcut (shortcuts, group_num, num);
-	e_shortcuts_add_shortcut (shortcuts, group_num, num, uri);
+	gtk_signal_emit (GTK_OBJECT (shortcuts), signals[UPDATE_SHORTCUT], group_num, num);
 }
 
 
