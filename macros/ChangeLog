@@ -1,4 +1,9 @@
 2000-01-26  Dave Camp  <campd@oit.edu>
+	
+	* gnome-bonobo-check.m4 Include <bonobo.h> rather than 
+	<bonobo/gnome-object.h>
+
+2000-01-26  Dave Camp  <campd@oit.edu>
 
 	* gnome-bonobo-check.m4: Check for bonobo_object_get_type() rather 
 	than gnome_object_get_type().

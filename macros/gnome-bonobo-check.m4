@@ -64,7 +64,7 @@ dnl
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <bonobo/gnome-object.h>
+#include <bonobo.h>
 
 static char*
 my_strdup (char *str)
