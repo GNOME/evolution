@@ -21,6 +21,7 @@ CLEANFILES = $(IDL_GENERATED)
 
 IDLS = \
 	Evolution.idl			\
+	Evolution-Session.idl		\
 	Evolution-Shell.idl		\
 	Evolution-ShellComponent.idl	\
 	Evolution-Storage.idl
@@ -37,6 +38,12 @@ $(IDL_GENERATED): $(IDLS)
 	$(ORBIT_IDL) -I$(datadir)/idl -I`$(GNOME_CONFIG) --datadir`/idl	\
 		-I$(srcdir) $(srcdir)/Evolution.idl
 
+# bonobo-idl stuff.
+# (Automatically generated GTK+ object wrappers for CORBA interface implementations).
+
+evolution-session.c: evolution-session.bcd
+	bonobo-idl evolution-session.bcd
+
 # Shell library
 
 noinst_LIBRARIES =	\
@@ -44,10 +51,14 @@ noinst_LIBRARIES =	\
 
 libeshell_a_SOURCES = 				\
 	$(IDL_GENERATED)			\
+	evolution-session.c			\
+	evolution-session.h			\
 	evolution-shell-client.c		\
 	evolution-shell-client.h		\
 	evolution-shell-component.c		\
 	evolution-shell-component.h		\
+	evolution-shell-component-client.c	\
+	evolution-shell-component-client.h	\
 	evolution-storage.c			\
 	evolution-storage.h
 
@@ -97,10 +108,6 @@ evolution_SOURCES =				\
 	e-storage-set.h				\
 	e-storage.c				\
 	e-storage.h				\
-	evolution-shell-client.c		\
-	evolution-shell-client.h		\
-	evolution-shell-component-client.c	\
-	evolution-shell-component-client.h	\
 	main.c
 
 evolution_LDADD =						\

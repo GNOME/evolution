@@ -59,13 +59,18 @@ struct _EComponentRegistryClass {
 };
 
 
-GtkType             e_component_registry_get_type   (void);
-void                e_component_registry_construct  (EComponentRegistry *component_registry,
-						     EShell             *shell);
-EComponentRegistry *e_component_registry_new        (EShell             *shell);
+GtkType                        e_component_registry_get_type             (void);
+void                           e_component_registry_construct            (EComponentRegistry *component_registry,
+									  EShell             *shell);
+EComponentRegistry            *e_component_registry_new                  (EShell             *shell);
 
-gboolean  e_component_registry_register_component  (EComponentRegistry *component_registry,
-						    const char         *id);
+gboolean                       e_component_registry_register_component   (EComponentRegistry *component_registry,
+									  const char         *id);
+
+GList                         *e_component_registry_get_id_list          (EComponentRegistry *component_registry);
+
+EvolutionShellComponentClient *e_component_registry_get_component_by_id  (EComponentRegistry *component_registry,
+									  const char         *id);
 
 #ifdef __cplusplus
 }

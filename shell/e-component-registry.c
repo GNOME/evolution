@@ -297,5 +297,76 @@ e_component_registry_register_component (EComponentRegistry *component_registry,
 }
 
 
+static void
+compose_id_list_foreach (void *key,
+			 void *value,
+			 void *data)
+{
+	GList **listp;
+	const char *id;
+
+	listp = (GList **) data;
+	id = (const char *) key;
+
+	*listp = g_list_prepend (*listp, g_strdup (id));
+}
+
+/**
+ * e_component_registry_get_id_list:
+ * @component_registry: 
+ * 
+ * Get the list of components registered.
+ * 
+ * Return value: A GList of strings containining the IDs for all the registered
+ * components.  The list must be freed by the caller when not used anymore.
+ **/
+GList *
+e_component_registry_get_id_list (EComponentRegistry *component_registry)
+{
+	EComponentRegistryPrivate *priv;
+	GList *list;
+
+	g_return_val_if_fail (component_registry != NULL, NULL);
+	g_return_val_if_fail (E_IS_COMPONENT_REGISTRY (component_registry), NULL);
+
+	priv = component_registry->priv;
+	list = NULL;
+
+	g_hash_table_foreach (priv->component_id_to_component, compose_id_list_foreach, &list);
+
+	return list;
+}
+
+/**
+ * e_component_registry_get_component_by_id:
+ * @component_registry: 
+ * @id: The component's OAF ID
+ * 
+ * Get the registered component client for the specified ID.  If that component
+ * is not registered, return NULL.
+ * 
+ * Return value: A pointer to the ShellComponentClient for that component.
+ **/
+EvolutionShellComponentClient *
+e_component_registry_get_component_by_id  (EComponentRegistry *component_registry,
+					   const char *id)
+{
+	EComponentRegistryPrivate *priv;
+	const Component *component;
+
+	g_return_val_if_fail (component_registry != NULL, NULL);
+	g_return_val_if_fail (E_IS_COMPONENT_REGISTRY (component_registry), NULL);
+	g_return_val_if_fail (id != NULL, NULL);
+
+	priv = component_registry->priv;
+
+	component = g_hash_table_lookup (priv->component_id_to_component, id);
+	if (component == NULL)
+		return NULL;
+
+	return component->client;
+}
+
+
 E_MAKE_TYPE (e_component_registry, "EComponentRegistry", EComponentRegistry,
 	     class_init, init, PARENT_TYPE)

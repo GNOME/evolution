@@ -1,5 +1,32 @@
 2000-07-20  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* e-shell.c (save_settings_for_views): New.  Code moved out of
+	`e_shell_save_settings'.
+	(e_shell_save_settings): Use it.
+	(save_settings_for_component): New.
+	(save_settings_for_components): New.
+	(e_shell_save_settings): Use it, so that we make all the
+	components save settings too.
+
+	* e-component-registry.c
+	(e_component_registry_get_id_list): New.
+	(e_component_registry_get_component_by_id): New.
+
+	* Makefile.am (libeshell_a_SOURCES): Add
+	`evolution-shell-component-client' and `evolution-session'.
+
+	* evolution-session.c: New.
+	* evolution-session.h: New.
+
+	* Makefile.am (evolution_SOURCES): Removed files that were already
+	in `libeshell.a'.
+
+	* Evolution.idl: #include <Evolution-Session.idl>.
+
+	* Evolution-Session.idl: New.
+
+2000-07-20  Ettore Perazzoli  <ettore@helixcode.com>
+
 	* main.c (no_views_left_cb): Call `e_shell_quit()' on the shell
 	before getting out of the GTK+ main loop.
 	(view_delete_event_cb): Removed.
