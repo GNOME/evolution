@@ -1,3 +1,8 @@
+2000-09-18  Dan Winship  <danw@helixcode.com>
+
+	* main.c (main): Call gnome_vfs_init() since the composer now does
+	file operations (to get the MIME type of attachments).
+
 2000-09-18  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* message-list.c: Removed COL_ONLINE_STATUS because we don't want

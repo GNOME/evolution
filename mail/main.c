@@ -16,6 +16,7 @@
 #include <bonobo/bonobo-object-directory.h>
 #include <glade/glade.h>
 #include <liboaf/liboaf.h>
+#include <libgnomevfs/gnome-vfs.h>
 
 #ifdef GTKHTML_HAVE_GCONF
 #include <gconf/gconf.h>
@@ -57,6 +58,8 @@ main (int argc, char *argv [])
 #endif
 
 	glade_gnome_init ();
+
+	gnome_vfs_init ();
 
 	e_unicode_init ();
 
