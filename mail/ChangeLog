@@ -29,6 +29,11 @@
 	* mail-format.c (format_mime_part): 
 	* mail-account-gui.c (setup_service): Fix warnings.
 
+	* mail-mlist-magic.c: Remove this... it's not used any more.
+
+	* folder-browser.c: 
+	* message-browser.c: Remove references to mail-mlist-magic.h
+
 2001-05-14  Jon Trowbridge  <trow@ximian.com>
 
 	* folder-browser.c (folder_browser_config_search): Use secondary

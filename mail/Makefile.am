@@ -74,8 +74,6 @@ evolution_mail_SOURCES =		\
 	mail-importer.h			\
 	mail-local.c			\
 	mail-local.h			\
-	mail-mlist-magic.c		\
-	mail-mlist-magic.h		\
 	mail-mt.c			\
 	mail-mt.h			\
 	mail-offline-handler.c		\

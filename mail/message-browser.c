@@ -35,7 +35,6 @@
 #include "mail-ops.h"
 #include "mail-vfolder.h"
 #include "mail-autofilter.h"
-#include "mail-mlist-magic.h"
 #include "mail-mt.h"
 
 #include "mail-local.h"
