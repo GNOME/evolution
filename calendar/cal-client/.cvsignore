@@ -1,0 +1,15 @@
+Makefile.in
+.deps
+.libs
+Makefile
+evolution-calendar-stubs.c
+evolution-calendar-skels.c
+evolution-calendar-common.c
+evolution-calendar.h
+evolution-calendar-common.lo
+evolution-calendar-skels.lo
+evolution-calendar-stubs.lo
+cal-client.lo
+cal-listener.lo
+libcal-client.la
+client-test

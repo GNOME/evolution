@@ -1,0 +1,7 @@
+.libs
+Makefile.in
+Makefile
+.deps
+cal-util.lo
+libcalutil.la
+timeutil.lo
