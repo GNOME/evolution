@@ -8,6 +8,7 @@
 	deprecated and only used in one place.
 	(e_file_dialog_save): Make this use GtkMessageDialog instead of
 	GnomeDialog
+	(e_dialog_set_transient_for_xid): #ifdef out gtk 2.2 api usage
 
 2003-03-25  Not Zed  <NotZed@Ximian.com>
 

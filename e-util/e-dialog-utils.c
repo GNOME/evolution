@@ -196,7 +196,9 @@ void
 e_dialog_set_transient_for_xid (GtkWindow *dialog,
 				GdkNativeWindow xid)
 {
+#ifdef GDK_MULTIHEAD_SAFE
 	GdkDisplay *display;
+#endif
 	GdkWindow *parent;
 
 	g_return_if_fail (GTK_IS_WINDOW (dialog));
@@ -208,12 +210,17 @@ e_dialog_set_transient_for_xid (GtkWindow *dialog,
 		return;
 	}
 
+#ifdef GDK_MULTIHEAD_SAFE
 	display = gdk_drawable_get_display (GDK_DRAWABLE (GTK_WIDGET (dialog)->window));
 	parent = gdk_window_lookup_for_display (display, xid);
-	if (!parent) {
+	if (!parent)
 		parent = gdk_window_foreign_new_for_display (display, xid);
-		g_return_if_fail (parent != NULL);
-	}
+#else
+	parent = gdk_window_lookup (xid);
+	if (!parent)
+		parent = gdk_window_foreign_new (xid);
+#endif
+	g_return_if_fail (parent != NULL);
 
 	gdk_window_set_transient_for (GTK_WIDGET (dialog)->window, parent);
 }
