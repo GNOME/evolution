@@ -105,12 +105,10 @@ CamelOperation *camel_operation_registered(void)
 	CamelOperation *cc = NULL;
 
 	CAMEL_ACTIVE_LOCK();
-	if (operation_active != NULL) {
-		cc = g_hash_table_lookup(operation_active, (void *)pthread_self());
-		if (cc) {
-			g_assert(cc->refcount > 0);
-			cc->refcount++;
-		}
+	if (operation_active != NULL
+	    && (cc = g_hash_table_lookup(operation_active, (void *)pthread_self()))) {
+		g_assert(cc->refcount > 0);
+		cc->refcount++;
 	}
 	CAMEL_ACTIVE_UNLOCK();
 
