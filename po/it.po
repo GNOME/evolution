@@ -5,13 +5,13 @@
 # Marco Ciampa <ciampix@libero.it>, 2003
 # Alessio Dessi <alessio.dessi@libero.it>, 2003
 # Monica Badia <Monica.Badia@Sun.COM>, 2003
-# This document is under revision (completed at 25% now)
+# This document is under revision (completed at 50% now)
 # Will be finished to the 5th of august.
 msgid ""
 msgstr ""
 "Project-Id-Version: it\n"
 "POT-Creation-Date: 2003-06-25 13:24-0400\n"
-"PO-Revision-Date: 2003-08-01 10:46+0200\n"
+"PO-Revision-Date: 2003-08-04 09:44+0200\n"
 "Last-Translator: Marco Ciampa <ciampix@libero.it>\n"
 "Language-Team:  <tp@lists.linux.it>,<it@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -5460,12 +5460,12 @@ msgstr "Ogni %d settimane"
 
 #: calendar/gui/e-itip-control.c:731
 msgid "Every week on "
-msgstr "Ogni settimana il"
+msgstr "Ogni settimana il "
 
 #: calendar/gui/e-itip-control.c:733
 #, c-format
 msgid "Every %d weeks on "
-msgstr "Ogni %d settimane il"
+msgstr "Ogni %d settimane il "
 
 #: calendar/gui/e-itip-control.c:741
 msgid " and "
@@ -5825,9 +5825,7 @@ msgstr "Impossibile trovare l'oggetto\n"
 
 #: calendar/gui/e-itip-control.c:1918
 msgid "You do not have the right permissions to update the calendar\n"
-msgstr ""
-"Non si possiede i diritti di scrittura necessari per aggiornare il "
-"calendario\n"
+msgstr "Non si possiedono i diritti di scrittura necessari per aggiornare il calendario\n"
 
 #: calendar/gui/e-itip-control.c:1921
 msgid "Update complete\n"
@@ -6094,7 +6092,7 @@ msgstr "Il metodo richiesto per caricare `%s' non è supportato"
 #: calendar/gui/e-tasks.c:418 calendar/gui/gnome-cal.c:1509
 #, c-format
 msgid "You don't have permission to open the folder in `%s'"
-msgstr "Non si possiede i permessi necessari per aprire la cartella in `%s'"
+msgstr "Non si possiedono i permessi necessari per aprire la cartella in `%s'"
 
 #: calendar/gui/e-tasks.c:486 calendar/gui/gnome-cal.c:1728
 #, c-format
@@ -8580,9 +8578,7 @@ msgstr "DIGEST-MD5"
 msgid ""
 "This option will connect to the server using a secure DIGEST-MD5 password, "
 "if the server supports it."
-msgstr ""
-"Questa opzione si connette al serverusando una password sicura DIGEST-MD5, "
-"se il server lo supporta."
+msgstr "Questa opzione si connette al server usando una password sicura DIGEST-MD5, se il server la supporta."
 
 #: camel/camel-sasl-digest-md5.c:813
 msgid "Server challenge too long (>2048 octets)\n"
@@ -8802,7 +8798,7 @@ msgstr "Ricerca dell'host non riuscita: %s: host non trovato"
 #: camel/camel-service.c:821
 #, c-format
 msgid "Host lookup failed: %s: unknown reason"
-msgstr "Ricerca dell'host fallita: %s: motivo sconosciuto"
+msgstr "Ricerca dell'host non riuscita: %s: motivo sconosciuto"
 
 #: camel/camel-service.c:880
 msgid "Resolving address"
@@ -8810,7 +8806,7 @@ msgstr "Risoluzione indirizzo"
 
 #: camel/camel-service.c:949
 msgid "Host lookup failed: host not found"
-msgstr "Ricerca dell'host fallita: host non trovato"
+msgstr "Ricerca dell'host non riuscita: host non trovato"
 
 #: camel/camel-service.c:952
 msgid "Host lookup failed: unknown reason"
@@ -8877,42 +8873,39 @@ msgstr "Verifica certificati non riuscita."
 
 #: camel/camel-store.c:215
 msgid "Cannot get folder: Invalid operation on this store"
-msgstr ""
-"Impossibile ottenere la cartella: Operazione non supportata in questo store"
+msgstr "Impossibile ottenere la cartella: operazione non supportata in questo archivio"
 
 #: camel/camel-store.c:269
 msgid "Cannot create folder: Invalid operation on this store"
-msgstr ""
-"Impossibile creare una cartella: Operazione non supportata in questo store"
+msgstr "Impossibile creare una cartella: operazione non supportata in questo archivio"
 
 #: camel/camel-tcp-stream-openssl.c:571
 msgid "Unable to get issuer's certificate"
-msgstr "Impossibile ottenere il certificato dall'emittente"
+msgstr "Impossibile ricevere il certificato dall'emittente"
 
 #: camel/camel-tcp-stream-openssl.c:573
 msgid "Unable to get Certificate Revocation List"
-msgstr "Impossibile ottenere l'elenco revoche dei certificati"
+msgstr "Impossibile ricevere l'elenco revoche dei certificati"
 
 #: camel/camel-tcp-stream-openssl.c:575
 msgid "Unable to decrypt certificate signature"
-msgstr "Impossibile decrittografare la firma del certificato"
+msgstr "Impossibile decifrare la firma del certificato"
 
 #: camel/camel-tcp-stream-openssl.c:577
 msgid "Unable to decrypt Certificate Revocation List signature"
-msgstr ""
-"Impossibile decrttigrafare la firma dell'elenco revoche dei certificati"
+msgstr "Impossibile decifrare la firma dell'elenco revoche dei certificati"
 
 #: camel/camel-tcp-stream-openssl.c:579
 msgid "Unable to decode issuer's public key"
-msgstr "Impossibile decodificare la chiave pubblica dell'emittente"
+msgstr "Impossibile decifrare la chiave pubblica dell'emittente"
 
 #: camel/camel-tcp-stream-openssl.c:581
 msgid "Certificate signature failure"
-msgstr "Fallita la firma del certificato"
+msgstr "Firma del certificato non riuscita"
 
 #: camel/camel-tcp-stream-openssl.c:583
 msgid "Certificate Revocation List signature failure"
-msgstr "Fallita la firma dell'elenco revoche dei certificati"
+msgstr "Firma dell'elenco revoche dei certificati non riuscita"
 
 #: camel/camel-tcp-stream-openssl.c:585
 msgid "Certificate not yet valid"
@@ -8948,7 +8941,7 @@ msgstr "Certificato autofirmato in catena"
 
 #: camel/camel-tcp-stream-openssl.c:604
 msgid "Unable to get issuer's certificate locally"
-msgstr "Impossibile ottenere localmente il certificato dell'emittente"
+msgstr "Impossibile ricevere localmente il certificato dell'emittente"
 
 #: camel/camel-tcp-stream-openssl.c:606
 msgid "Unable to verify leaf signature"
@@ -8960,7 +8953,7 @@ msgstr "Certificato in catena troppo lungo"
 
 #: camel/camel-tcp-stream-openssl.c:610
 msgid "Certificate Revoked"
-msgstr "Certificato Revocato"
+msgstr "Certificato revocato"
 
 #: camel/camel-tcp-stream-openssl.c:612
 msgid "Invalid Certificate Authority (CA)"
@@ -9090,7 +9083,7 @@ msgid ""
 "Certificate revocation list expired: %s\n"
 "Issuer: %s"
 msgstr ""
-"l'elenco revoche dei certificati è scaduto: %s\n"
+"L'elenco revoche dei certificati è scaduto: %s\n"
 "Emittente: %s"
 
 #: camel/camel-url.c:290 mail/mail-tools.c:143
@@ -9344,7 +9337,7 @@ msgstr "Estensione SSL/TLS non supportata"
 #: camel/providers/imap/camel-imap-store.c:681
 #: camel/providers/pop3/camel-pop3-store.c:261
 msgid "SSL negotiations failed"
-msgstr "Negoziazione SSL fallita"
+msgstr "Negoziazione SSL non riuscita"
 
 #: camel/providers/imap/camel-imap-store.c:1075
 #, c-format
@@ -9478,7 +9471,7 @@ msgstr ""
 #: camel/providers/local/camel-spool-store.c:116
 #, c-format
 msgid "Store root %s is not an absolute path"
-msgstr "La radice %s non è un percorso assoluto"
+msgstr "La radice di archiviazione %s non è un percorso assoluto"
 
 #: camel/providers/local/camel-local-store.c:146
 #, c-format
@@ -9638,7 +9631,7 @@ msgstr "Aggiunta di un messaggio annullata"
 #: camel/providers/local/camel-mbox-folder.c:281
 #, c-format
 msgid "Cannot append message to mbox file: %s: %s"
-msgstr "Inpossibile accodare il messaggio al file mbox: %s: %s"
+msgstr "Impossibile accodare il messaggio al file mbox: %s: %s"
 
 #: camel/providers/local/camel-mbox-folder.c:369
 #: camel/providers/local/camel-mbox-folder.c:400
@@ -9657,7 +9650,7 @@ msgstr "La cartella appare irrimediabilmente corrotta."
 
 #: camel/providers/local/camel-mbox-folder.c:409
 msgid "Message construction failed: Corrupt mailbox?"
-msgstr "Fallita la costruziono del messaggio: mailbox corrotta?"
+msgstr "Costruziono del messaggio non riuscita: casella di posta corrotta?"
 
 #: camel/providers/local/camel-mbox-store.c:94
 #, c-format
@@ -9767,12 +9760,12 @@ msgstr "Impossibile memorizzare la cartella: %s"
 #: camel/providers/local/camel-mbox-summary.c:932
 #, c-format
 msgid "Error writing to temp mailbox: %s"
-msgstr "Errore di scrittura nella mbox temporanea: %s"
+msgstr "Errore di scrittura nella casella di posta temporanea: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:923
 #, c-format
 msgid "Writing to tmp mailbox failed: %s: %s"
-msgstr "Scrittura fallita su casella di posta temporanea %s: %s"
+msgstr "Scrittura su casella di posta temporanea %s non riuscita: %s"
 
 #: camel/providers/local/camel-mh-folder.c:175
 msgid "MH append message cancelled"
@@ -9902,7 +9895,7 @@ msgstr "Impossibile ricevere il gruppo: %s"
 #: camel/providers/nntp/camel-nntp-summary.c:344
 #, c-format
 msgid "NNTP Command failed: %s"
-msgstr "Comando NNTP fallito: %s"
+msgstr "Comando NNTP non riuscito: %s"
 
 #: camel/providers/nntp/camel-nntp-summary.c:404
 #: camel/providers/nntp/camel-nntp-summary.c:505
@@ -9938,7 +9931,7 @@ msgstr "Utente cancellato"
 #: camel/providers/pop3/camel-pop3-folder.c:265
 #, c-format
 msgid "Cannot get POP summary: %s"
-msgstr "Impossibile avere il sommario POP: %s"
+msgstr "Impossibile ricevere il sommario POP: %s"
 
 #: camel/providers/pop3/camel-pop3-folder.c:308
 msgid "Expunging deleted messages"
@@ -10041,7 +10034,7 @@ msgstr ""
 #: camel/providers/pop3/camel-pop3-store.c:415
 #, c-format
 msgid "SASL `%s' Login failed for POP server %s: %s"
-msgstr "Registrazione `%s' SASL fallita per il server POP %s: %s"
+msgstr "Registrazione `%s' SASL non riuscita per il server POP %s: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:427
 #, c-format
@@ -10056,7 +10049,7 @@ msgstr "Impossibile autenticarsi al server POP %s: %s"
 #: camel/providers/pop3/camel-pop3-store.c:468
 #, c-format
 msgid "%sPlease enter the POP password for %s@%s"
-msgstr "%sPrego inserire la password del POP per %s@%s "
+msgstr "%sInserire la password del POP per %s@%s "
 
 #: camel/providers/pop3/camel-pop3-store.c:523
 #: camel/providers/pop3/camel-pop3-store.c:530
@@ -10088,7 +10081,7 @@ msgstr ""
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:113
 msgid "Could not parse recipient list"
-msgstr "Impossibile smostare la lista dei destinatari"
+msgstr "Impossibile spostare la l'elenco dei destinatari"
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:144
 #, c-format
@@ -10218,7 +10211,7 @@ msgstr "Inizio dell'input della posta, terminare con <CRLF>.<CRLF>"
 
 #: camel/providers/smtp/camel-smtp-transport.c:213
 msgid "Transaction failed"
-msgstr "Transazione fallita"
+msgstr "Transazione non riuscita"
 
 #: camel/providers/smtp/camel-smtp-transport.c:217
 msgid "A password transition is needed"
@@ -10345,7 +10338,7 @@ msgstr "Richiesta AUTH non riuscita"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1120
 msgid "Bad authentication response from server.\n"
-msgstr "Cattiva risposta di autenticazione dal server.\n"
+msgstr "Risposta di autenticazione dal server errata.\n"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1145
 #, c-format
@@ -10430,15 +10423,15 @@ msgstr "allegato"
 
 #: composer/e-msg-composer-attachment-bar.c:508
 msgid "Remove selected items from the attachment list"
-msgstr "Rimuovere gli oggetti selezionati dalla lista degli allegati"
+msgstr "Rimuovi gli oggetti selezionati dall'elenco degli allegati"
 
 #: composer/e-msg-composer-attachment-bar.c:538
 msgid "Add attachment..."
-msgstr "Aggiungere allegato..."
+msgstr "Aggiungi allegato..."
 
 #: composer/e-msg-composer-attachment-bar.c:539
 msgid "Attach a file to the message"
-msgstr "Allegare un file al messaggio"
+msgstr "Allega un file al messaggio"
 
 #: composer/e-msg-composer-attachment.c:168
 #: composer/e-msg-composer-attachment.c:184
@@ -10466,15 +10459,15 @@ msgstr "Tipo MIME:"
 #: composer/e-msg-composer-attachment.glade.h:6
 #: composer/e-msg-composer-select-file.c:66
 msgid "Suggest automatic display of attachment"
-msgstr "Consiglio visualizzazione automatica degli allegati"
+msgstr "È preferibile la visualizzazione automatica degli allegati"
 
 #: composer/e-msg-composer-hdrs.c:290
 msgid "Hey you, dunce. You need an account to send mail doncha know."
-msgstr "Hey tu, hai bisogno di un account per spedire un messaggio qualsiasi!"
+msgstr "È necessario un account per spedire un messaggio qualsiasi!"
 
 #: composer/e-msg-composer-hdrs.c:483
 msgid "Click here for the address book"
-msgstr "Cliccare qui per la rubrica"
+msgstr "Fare clic qui per la rubrica"
 
 #.
 #. * Reply-To:
@@ -10515,8 +10508,7 @@ msgstr "Cc:"
 
 #: composer/e-msg-composer-hdrs.c:540
 msgid "Enter the addresses that will receive a carbon copy of the message"
-msgstr ""
-"Inserire gli indirizzi che riceveranno una copia conforme del messaggio"
+msgstr "Indicare gli indirizzi che riceveranno una copia conforme del messaggio"
 
 #: composer/e-msg-composer-hdrs.c:543
 msgid "Bcc:"
@@ -10526,9 +10518,7 @@ msgstr "Bcc:"
 msgid ""
 "Enter the addresses that will receive a carbon copy of the message without "
 "appearing in the recipient list of the message."
-msgstr ""
-"Inserire gli indirizzi che riceveranno una copia conforme del messaggio "
-"senza apparire nell'elenco dei destinatari del messaggio."
+msgstr "Indicare gli indirizzi che riceveranno una copia conforme del messaggio senza apparire nell'elenco dei destinatari del messaggio."
 
 #.
 #. * Post-To
@@ -10636,11 +10626,11 @@ msgid ""
 msgstr ""
 "Il messaggio \"%s\" non è stato inviato.\n"
 "\n"
-"Vuoi salvare le modifiche?"
+"Salvare le modifiche?"
 
 #: composer/e-msg-composer.c:1561
 msgid "Warning: Modified Message"
-msgstr "Attenzione: Messaggio Modificato"
+msgstr "Attenzione: messaggio modificato"
 
 #: composer/e-msg-composer.c:1593
 msgid "Open file"
@@ -10675,8 +10665,8 @@ msgid ""
 "of gtkhtml and libgtkhtml installed.\n"
 msgstr ""
 "Impossibile creare la finestra di composizione:\n"
-"Impossibile attivare un componente editor HTML.\n"
-"Prego assicurarsi di aver installato la versione corretta\n"
+"impossibile attivare un componente editor HTML.\n"
+"Assicurarsi di aver installato la versione corretta\n"
 "di gtkhtml e libgtkhtml.\n"
 
 #: composer/e-msg-composer.c:3029
@@ -10685,7 +10675,7 @@ msgid ""
 "Unable to activate HTML editor component."
 msgstr ""
 "Impossibile creare la finestra di composizione:\n"
-"Il componente HTML non è disponibile."
+"il componente HTML non è disponibile."
 
 #: composer/e-msg-composer.c:4045
 msgid ""
@@ -10757,9 +10747,9 @@ msgid ""
 "\n"
 "Would you like to change your status to \"In the Office\"? "
 msgstr ""
-"<b>Attualmente il tuo stato è \"Fuori ufficio\". </b>\n"
+"<b>Attualmente lo stato è \"Fuori ufficio\". </b>\n"
 "\n"
-"Vuoi cambiare il tuo stato in \"In ufficio\"? "
+"Vuoi cambiare lo stato in \"In ufficio\"? "
 
 #: designs/OOA/ooa.glade.h:4
 msgid "<b>Out of Office Message:</b>"
@@ -10775,9 +10765,8 @@ msgid ""
 "who sends\n"
 "mail to you while you are out of the office.</small>"
 msgstr ""
-"<small>Il messaggio specificato sotto sarà automaticamente spedito a ogni "
-"persona che ti spedirà\n"
-"posta mentre sei fuori dall'ufficio.</small>"
+"<small>Il messaggio specificato sarà automaticamente spedito ad ogni mittente che spedirà\n"
+"posta mentre si è fuori dall'ufficio.</small>"
 
 #: designs/OOA/ooa.glade.h:8
 msgid "I am currently in the office"
@@ -10805,11 +10794,11 @@ msgstr "      "
 
 #: designs/read_receipts/read.glade.h:2
 msgid "<b>Receiving Email</b>"
-msgstr "<b>Ricezione email</b>"
+msgstr "<b>Ricezione Email</b>"
 
 #: designs/read_receipts/read.glade.h:3
 msgid "<b>Sending Email:</b>"
-msgstr "<b>Invio email</b>"
+msgstr "<b>Invio Email</b>"
 
 #: designs/read_receipts/read.glade.h:4
 msgid ""
@@ -10818,14 +10807,12 @@ msgid ""
 "sent is read, and to specify what Evolution should do when someone requests "
 "a receipt from you.</small>"
 msgstr ""
-"<small>Questa pagina Vi permette di scegliere se si vuole essere notificati "
-"attraverso una ricevuta di lettura quando un messaggio che avete spedito\n"
-"viene letto e per specificare cosa Evolution dovrà fare quando qualcuno Vi "
-"richiede una ricevuta.</small>"
+"<small>Questa pagina permette di scegliere se si vuole ricevere una notifica attraverso una ricevuta di lettura quando un messaggio spedito\n"
+"viene letto. Si può inoltre specificare cosa dovrà fare Evolution quando qualcuno richiede una ricevuta.</small>"
 
 #: designs/read_receipts/read.glade.h:6
 msgid "Always send back a read reciept"
-msgstr "Spedire sempre una ricevuta di lettura"
+msgstr "Spedisci sempre una ricevuta di lettura"
 
 #: designs/read_receipts/read.glade.h:7
 msgid "Ask me if I want to send back a read receipt"
@@ -10841,22 +10828,17 @@ msgstr "Ricevute di lettura"
 
 #: designs/read_receipts/read.glade.h:10
 msgid "Request a read receipt for all messages I send"
-msgstr ""
-"Richiedere una ricevuta di lettura per tutti i messaggi che si spediscono"
+msgstr "Richiedi una ricevuta di lettura per tutti i messaggi che si spediscono"
 
 #: designs/read_receipts/read.glade.h:11
 msgid "Unless the message is sent to a mailing list, and not to me personally"
-msgstr ""
-"A meno che il messaggio non sia spedito ad una mailing list e non a me "
-"personalmente"
+msgstr "A meno che il messaggio non sia spedito ad una mailing list e non personalmente"
 
 #: designs/read_receipts/read.glade.h:12
 msgid ""
 "When you receive an email with a read receipt request, what should Evolution "
 "do?"
-msgstr ""
-"Quando ricevi una email con una ricevuta di lettura, cosa dovrebbe fare "
-"Evolution?"
+msgstr "Quando ricevi una Email con una ricevuta di lettura, cosa dovrebbe fare Evolution?"
 
 #: e-util/e-dialog-utils.c:247
 msgid ""
@@ -11037,11 +11019,11 @@ msgstr "%d anni fa"
 
 #: filter/filter-datespec.c:176
 msgid "You must choose a date."
-msgstr "E' necessario indicare una data."
+msgstr "È necessario indicare una data."
 
 #: filter/filter-datespec.c:275
 msgid "<click here to select a date>"
-msgstr "<clicca qui per selezionare una data>"
+msgstr "<fare clic qui per selezionare una data>"
 
 #: filter/filter-datespec.c:278 filter/filter-datespec.c:289
 msgid "now"
@@ -11058,11 +11040,11 @@ msgstr "Scegliere un tempo da confrontare"
 
 #: filter/filter-editor.c:114 filter/filter.glade.h:4
 msgid "Filter Rules"
-msgstr "Regole dei Filtri"
+msgstr "Regole dei filtri"
 
 #: filter/filter-file.c:166
 msgid "You must specify a file name."
-msgstr "E' necessario indicare un nome file."
+msgstr "È necessario indicare un nome file."
 
 #: filter/filter-file.c:184
 #, c-format
@@ -11080,12 +11062,12 @@ msgstr "Di"
 
 #: filter/filter-folder.c:155
 msgid "You must specify a folder."
-msgstr "E' necessario indicare una cartella."
+msgstr "È necessario indicare una cartella."
 
 #: filter/filter-folder.c:243 filter/vfolder-rule.c:438
 #: mail/mail-account-gui.c:1510 mail/mail-account-gui.c:1524
 msgid "Select Folder"
-msgstr "Scegli Cartella"
+msgstr "Scegli cartella"
 
 #: filter/filter-input.c:191
 #, c-format
@@ -11135,7 +11117,7 @@ msgstr "È necessario assegnare un nome a questo filtro."
 
 #: filter/filter-rule.c:751
 msgid "Rule name: "
-msgstr "Nome della Regola:"
+msgstr "Nome della regola:"
 
 #: filter/filter-rule.c:755
 msgid "Untitled"
@@ -11171,7 +11153,7 @@ msgstr "Confronta con"
 
 #: filter/filter.glade.h:2
 msgid "Edit Filters"
-msgstr "Modifica Filtri"
+msgstr "Modifica filtri"
 
 #: filter/filter.glade.h:3
 msgid "Edit VFolders"
@@ -11211,7 +11193,7 @@ msgstr ""
 
 #: filter/filter.glade.h:13 filter/vfolder-editor.c:114
 msgid "Virtual Folders"
-msgstr "Cartelle Virtuali"
+msgstr "Cartelle virtuali"
 
 #: filter/filter.glade.h:15
 msgid "a time relative to the current time"
@@ -11243,7 +11225,7 @@ msgstr "la data specificata"
 
 #: filter/filter.glade.h:25
 msgid "vFolder Sources"
-msgstr "Sorgenti delle Cartelle Virtuali"
+msgstr "Sorgenti delle cartelle virtuali"
 
 #: filter/filter.glade.h:26
 msgid "weeks"
@@ -11272,7 +11254,7 @@ msgstr "Imposta un punteggio"
 
 #: filter/libfilter-i18n.h:3
 msgid "Assign Color"
-msgstr "Assegna Colore"
+msgstr "Assegna colore"
 
 #: filter/libfilter-i18n.h:4
 msgid "Assign Score"
@@ -11292,11 +11274,11 @@ msgstr "contiene"
 
 #: filter/libfilter-i18n.h:8
 msgid "Copy to Folder"
-msgstr "Copia nella Cartella"
+msgstr "Copia nella cartella"
 
 #: filter/libfilter-i18n.h:9
 msgid "Date received"
-msgstr "Data di Ricezione"
+msgstr "Data di ricezione"
 
 #: filter/libfilter-i18n.h:10
 msgid "Date sent"
@@ -11332,7 +11314,7 @@ msgstr "non comincia per"
 
 #: filter/libfilter-i18n.h:19
 msgid "Do Not Exist"
-msgstr "Non Esiste"
+msgstr "Non esiste"
 
 #: filter/libfilter-i18n.h:20
 msgid "Draft"
@@ -11416,7 +11398,7 @@ msgstr "Manda messaggio in pipe ad un comando della shell"
 
 #: filter/libfilter-i18n.h:41
 msgid "Play Sound"
-msgstr "Emette un suono"
+msgstr "Emetti un suono"
 
 #: filter/libfilter-i18n.h:42 mail/message-tag-followup.c:68
 msgid "Read"
@@ -11428,7 +11410,7 @@ msgstr "Destinatari"
 
 #: filter/libfilter-i18n.h:44
 msgid "Regex Match"
-msgstr "Corrispindenza con l'espressione regolare"
+msgstr "Corrispondenza con l'espressione regolare"
 
 #: filter/libfilter-i18n.h:45
 msgid "Replied to"
@@ -11457,7 +11439,7 @@ msgstr "Mittente"
 
 #: filter/libfilter-i18n.h:51
 msgid "Set Status"
-msgstr "Imposta _Stato"
+msgstr "Imposta _stato"
 
 #: filter/libfilter-i18n.h:52
 msgid "Shell Command"
@@ -11469,11 +11451,11 @@ msgstr "Dimensione (kB)"
 
 #: filter/libfilter-i18n.h:54
 msgid "sounds like"
-msgstr "Assomiglia a"
+msgstr "assomiglia a"
 
 #: filter/libfilter-i18n.h:55
 msgid "Source Account"
-msgstr "Account Sorgente"
+msgstr "Account sorgente"
 
 #: filter/libfilter-i18n.h:56
 msgid "Specific header"
@@ -11494,7 +11476,7 @@ msgstr "Oggetto"
 
 #: filter/libfilter-i18n.h:61
 msgid "Unset Status"
-msgstr "Deimposta Stato"
+msgstr "Deimposta stato"
 
 #: filter/rule-context.c:664 filter/rule-editor.c:241 filter/rule-editor.c:326
 #: mail/mail-vfolder.c:917
@@ -11508,11 +11490,11 @@ msgstr "Regole"
 
 #: filter/rule-editor.c:291
 msgid "Add Rule"
-msgstr "Aggiungi Regola"
+msgstr "Aggiungi regola"
 
 #: filter/rule-editor.c:373
 msgid "Edit Rule"
-msgstr "Modifica Regola"
+msgstr "Modifica regola"
 
 #: filter/rule-editor.c:691
 msgid "Rule name"
@@ -11524,7 +11506,7 @@ msgstr "Regole di punteggio"
 
 #: filter/vfolder-rule.c:209
 msgid "You must name this vfolder."
-msgstr "È necessario assegnare un nome a questa vfolder."
+msgstr "È necessario assegnare un nome a questa cartella virtuale."
 
 #: filter/vfolder-rule.c:223
 msgid "You need to to specify at least one folder as a source."
@@ -11542,13 +11524,13 @@ msgstr "Evolution sta importando posta da Elm"
 #: importers/pine-importer.c:101 mail/importers/elm-importer.c:106
 #: mail/importers/netscape-importer.c:1238 mail/importers/pine-importer.c:115
 msgid "Importing..."
-msgstr "Importazione in Corso..."
+msgstr "Importazione in corso..."
 
 #: importers/elm-importer.c:98 importers/netscape-importer.c:1230
 #: importers/pine-importer.c:103 mail/importers/elm-importer.c:108
 #: mail/importers/netscape-importer.c:1240 mail/importers/pine-importer.c:117
 msgid "Please wait"
-msgstr "Attendere prego"
+msgstr "Attendere"
 
 #: importers/elm-importer.c:169 importers/netscape-importer.c:1808
 #: importers/pine-importer.c:365 mail/importers/elm-importer.c:157
@@ -11611,17 +11593,18 @@ msgid ""
 "of priorities. Check the imported filters to make sure\n"
 "everything still works as intended."
 msgstr ""
-"Alcuni dei Vostri filtri di posta di Netscape sono basati sulla\n"
-"priorità dei messaggi email, cosa non utilizzata da Evolution.\n"
+"Alcuni dei filtri di posta di Netscape sono basati sulla\n"
+"priorità dei messaggi Email, cosa non utilizzata da Evolution.\n"
 "Diversamente, Evolution gestisce dei punteggi che variano da\n"
-"-3 a 3 che possono essere assegnati i messaggi email e\n"
-"filtrati di conseguenza.\n"
+"-3 a 3 che possono essere assegnati i messaggi Email e filtrati \n"
+"di conseguenza.\n"
 "\n"
 "Come accorgimento è stato aggiunto un insieme di filtri chiamati\n"
-"\"Filtri di Priorità\" che convertono le priorità dei messaggi email\n"
+"\"Filtri di priorità\" che convertono le priorità dei messaggi Email\n"
 "di Netscape nei punteggi di Evolution ed i filtri coinvolti usano i\n"
-"punteggi invece delle priorità. Controllate i filtri di importazione\n"
-"in modo da essere sicuri che il tutto funzioni come ci si aspetta."
+"punteggi invece delle priorità.\n"
+"Controllare i filtri di importazione in modo che funzionino come \n"
+"previsto."
 
 #: importers/netscape-importer.c:677 mail/importers/netscape-importer.c:687
 msgid ""
@@ -11630,7 +11613,7 @@ msgid ""
 "feature, which is not supported in Evolution.\n"
 "These filters will be dropped."
 msgstr ""
-"Alcuni dei Vostri filtri di posta di Netscape usano la caratteristica\n"
+"Alcuni dei filtri di posta di Netscape usano la caratteristica\n"
 " \"Ignora il Thread\" o \"Controlla il Thread\", non supportata da\n"
 "Evolution. Questi filtri saranno tralasciati."
 
@@ -11642,7 +11625,7 @@ msgid ""
 "were modified to test whether that string is or is not\n"
 "contained in the message body."
 msgstr ""
-"Alcuni dei Vostri filtri di email di Netscape controllano il\n"
+"Alcuni dei filtri di Email di Netscape controllano il\n"
 "corpo dei messaggi per le (dis)uguaglianze ad una data stringa,\n"
 "cosa non supportata in Evolution. Questi filtri sono stati\n"
 "modificati per controllare se una stringa è o non è contenuta\n"
@@ -11711,9 +11694,7 @@ msgstr "Preferenze di composizione"
 #: mail/GNOME_Evolution_Mail.server.in.in.h:2
 msgid ""
 "Configure mail preferences, including security and message display, here"
-msgstr ""
-"Configura qui le tue preferenze della posta, incluse sicurezza e aspetto "
-"visualizzazione"
+msgstr "Configura qui le preferenze della posta, incluse sicurezza e aspetto visualizzazione"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:3
 msgid "Configure spell-checking, signatures, and the message composer here"
@@ -11723,7 +11704,7 @@ msgstr ""
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:4
 msgid "Configure your email accounts here"
-msgstr "Configura qui i tuoi account di posta elettronica"
+msgstr "Configura qui gli account di posta elettronica"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:5
 msgid "Evolution Mail"
@@ -11815,11 +11796,11 @@ msgstr "Hai dei messaggi da spedire; vuoi davvero uscire?"
 
 #: mail/component-factory.c:1063
 msgid "New Mail Message"
-msgstr "Nuovo Messaggio di Posta"
+msgstr "Nuovo messaggio di posta"
 
 #: mail/component-factory.c:1063
 msgid "_Mail Message"
-msgstr "Invia _Messaggio"
+msgstr "Invia _messaggio"
 
 #: mail/component-factory.c:1064
 msgid "Compose a new mail message"
@@ -11921,15 +11902,15 @@ msgstr "Cartella virtuale sulla mailing _list"
 
 #: mail/folder-browser.c:1743
 msgid "Filter on Sub_ject"
-msgstr "Filtro sull'_Oggetto"
+msgstr "Filtro sull'_oggetto"
 
 #: mail/folder-browser.c:1744
 msgid "Filter on Sen_der"
-msgstr "Filtro sul _Mittente"
+msgstr "Filtro sul _mittente"
 
 #: mail/folder-browser.c:1745
 msgid "Filter on Re_cipients"
-msgstr "Filtro sui _Destinatari"
+msgstr "Filtro sui _destinatari"
 
 #: mail/folder-browser.c:1746 mail/folder-browser.c:2070
 msgid "Filter on _Mailing List"
@@ -11937,7 +11918,7 @@ msgstr "Filtro sulla _mailing list"
 
 #: mail/folder-browser.c:1764
 msgid "_Edit as New Message..."
-msgstr "_Modifica come Nuovo Messaggio..."
+msgstr "_Modifica come nuovo messaggio..."
 
 #: mail/folder-browser.c:1766
 msgid "_Print"
@@ -11945,15 +11926,15 @@ msgstr "S_tampa"
 
 #: mail/folder-browser.c:1770 ui/evolution-mail-message.xml.h:110
 msgid "_Reply to Sender"
-msgstr "_Rispondi al Mittente"
+msgstr "_Rispondi al mittente"
 
 #: mail/folder-browser.c:1771 ui/evolution-mail-message.xml.h:75
 msgid "Reply to _List"
-msgstr "Rispondi alla _Lista"
+msgstr "Rispondi alla _lista"
 
 #: mail/folder-browser.c:1772 ui/evolution-mail-message.xml.h:74
 msgid "Reply to _All"
-msgstr "Rispondi a _Tutti"
+msgstr "Rispondi a _tutti"
 
 #: mail/folder-browser.c:1773
 msgid "_Forward"
@@ -11974,7 +11955,7 @@ msgstr "Flag annullata"
 #. separator here?
 #: mail/folder-browser.c:1783 ui/evolution-mail-message.xml.h:43
 msgid "Mar_k as Read"
-msgstr "Segna come _Letto"
+msgstr "Segna come _letto"
 
 #: mail/folder-browser.c:1784
 msgid "Mark as _Unread"
@@ -11982,7 +11963,7 @@ msgstr "Segna come non letto"
 
 #: mail/folder-browser.c:1785
 msgid "Mark as _Important"
-msgstr "Segna come _Importante"
+msgstr "Segna come _importante"
 
 #: mail/folder-browser.c:1786
 msgid "_Mark as Unimportant"
@@ -11998,7 +11979,7 @@ msgstr "Sposta nella cartella..."
 
 #: mail/folder-browser.c:1796 ui/evolution-addressbook.xml.h:31
 msgid "_Copy to Folder..."
-msgstr "_Copia nella Cartella..."
+msgstr "_Copia nella cartella..."
 
 #: mail/folder-browser.c:1804
 msgid "Add Sender to Address_book"
@@ -12032,7 +12013,7 @@ msgstr "Predefinito"
 
 #: mail/folder-info.c:70
 msgid "Getting Folder Information"
-msgstr "Ricerca Informazioni Cartella"
+msgstr "Ricerca informazioni cartella"
 
 #: mail/importers/GNOME_Evolution_Mail_Elm_Intelligent_Importer.server.in.in.h:1
 msgid "Evolution Elm importer"
@@ -12103,7 +12084,7 @@ msgstr "Non sono state fornite tutte le informazioni richieste."
 #. give our dialog an OK button and title
 #: mail/mail-account-editor.c:146
 msgid "Evolution Account Editor"
-msgstr "Editor degli Account di Evolution"
+msgstr "Editor degli account di Evolution"
 
 #: mail/mail-account-gui.c:752 mail/mail-config.glade.h:149
 msgid "_Host:"
@@ -12123,7 +12104,7 @@ msgstr "Non è possibile creare due account con lo stesso nome."
 
 #: mail/mail-accounts.c:231
 msgid "Are you sure you want to delete this account?"
-msgstr "Sicuro di voler cancellare questo account?"
+msgstr "Cancellare questo account?"
 
 #: mail/mail-accounts.c:239
 msgid "Don't delete"
