@@ -213,7 +213,8 @@ service_setv (CamelObject *object, CamelException *ex, CamelArgV *args)
 		camel_argv_ignore (args, i);
 	}
 	
-	if (reconnect) {
+	/* FIXME: what if we are in the process of connecting? */
+	if (reconnect && service->status == CAMEL_SERVICE_CONNECTED) {
 		/* reconnect the service using the new URL */
 		if (camel_service_disconnect (service, TRUE, ex))
 			camel_service_connect (service, ex);

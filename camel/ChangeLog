@@ -1,5 +1,9 @@
 2002-05-15  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-service.c (service_setv): Only reconnect if we are already
+	connected, if we are in a disconnected state then no need to
+	reconnect.
+
 	* providers/imap/camel-imap-folder.c (get_content): If the
 	part_spec is an empty string for a leaft part, use "1" since we
 	don't actually want to get the raw message headers too.
