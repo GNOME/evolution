@@ -1,3 +1,20 @@
+2000-05-16  NotZed  <NotZed@HelixCode.com>
+
+	* providers/mbox/camel-mbox-folder.c (mbox_delete_message_by_uid):
+	Implement.
+
+2000-05-12  NotZed  <NotZed@HelixCode.com>
+
+	* camel-movemail.c (camel_movemail): Open the destination with
+	O_APPEND, so we dont blow away a partially transferred mbox.
+	(camel_movemail): Loop if we get errno=INTR, and not fail.
+
+2000-05-11  NotZed  <NotZed@HelixCode.com>
+
+	* providers/mbox/camel-mbox-summary.c (summary_rebuild): Update
+	the summarised file size, if everything went ok.
+	(camel_mbox_summary_expunge): Clear header flags after updating.
+
 2000-05-16  Chris Toshok  <toshok@helixcode.com>
 
 	* providers/nntp/camel-nntp-folder.c:

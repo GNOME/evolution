@@ -299,6 +299,7 @@ summary_rebuild(CamelMboxSummary *mbs, off_t offset)
 		} else {
 			gtk_object_unref((GtkObject *)mp);
 			/* end of file - no content? */
+			printf("We radn out of file?\n");
 			return 0;
 		}
 	}
@@ -308,6 +309,7 @@ summary_rebuild(CamelMboxSummary *mbs, off_t offset)
 
 		info = camel_folder_summary_add_from_parser((CamelFolderSummary *)mbs, mp);
 		if (info == NULL) {
+			printf("Could not build info from file?\n");
 			ok = -1;
 			break;
 		}
@@ -315,6 +317,10 @@ summary_rebuild(CamelMboxSummary *mbs, off_t offset)
 		g_assert(camel_mime_parser_step(mp, NULL, NULL) == HSCAN_FROM_END);
 	}
 
+	/* update the file size in the summary */
+	if (ok != -1)
+		mbs->folder_size = camel_mime_parser_seek(mp, 0, SEEK_CUR);
+	printf("updating folder size = %d\n", mbs->folder_size);
 	gtk_object_unref((GtkObject *)mp);
 
 	return ok;
@@ -631,7 +637,7 @@ camel_mbox_summary_expunge(CamelMboxSummary *mbs)
 				}
 				xevok = TRUE;
 			}
-			xevnew = header_evolution_encode(strtoul(info->info.uid, NULL, 10), info->info.flags);
+			xevnew = header_evolution_encode(strtoul(info->info.uid, NULL, 10), info->info.flags & 0xffff);
 			if (quick) {
 				if (!xevok) {
 					g_error("The summary told me I had an X-Evolution header, but i dont!");
@@ -664,6 +670,7 @@ camel_mbox_summary_expunge(CamelMboxSummary *mbs)
 				info->frompos = frompos;
 				offset = bodypos - info->info.content->bodypos;
 			}
+			info->info.flags &= 0xffff;
 			g_free(xevnew); xevnew = NULL;
 			camel_mime_parser_drop_step(mp);
 			camel_mime_parser_drop_step(mp);
@@ -703,7 +710,7 @@ camel_mbox_summary_expunge(CamelMboxSummary *mbs)
 		if (stat(mbs->folder_path, &st) == -1)
 			goto error;
 
-		s->flags |= CAMEL_SUMMARY_DIRTY;
+		camel_folder_summary_touch(s);
 		s->time = st.st_mtime;
 		mbs->folder_size = st.st_size;
 		camel_folder_summary_save(s);

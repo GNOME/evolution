@@ -79,6 +79,8 @@ static void _copy_message_to (CamelFolder *folder, CamelMimeMessage *message, Ca
 static const gchar *_get_message_uid (CamelFolder *folder, CamelMimeMessage *message, CamelException *ex);
 #endif
 
+static void mbox_delete_message_by_uid(CamelFolder *folder, const gchar *uid, CamelException *ex);
+
 GPtrArray *summary_get_message_info (CamelFolder *folder, int first, int count);
 static const CamelMessageInfo *mbox_summary_get_by_uid(CamelFolder *f, const char *uid);
 
@@ -110,11 +112,9 @@ camel_mbox_folder_class_init (CamelMboxFolderClass *camel_mbox_folder_class)
 	camel_folder_class->append_message = mbox_append_message;
 	camel_folder_class->get_uid_list = mbox_get_uid_list;
 	camel_folder_class->expunge = mbox_expunge;
-#if 0
-	camel_folder_class->copy_message_to = _copy_message_to;
-	camel_folder_class->get_message_uid = _get_message_uid;
-#endif
+
 	camel_folder_class->get_message_by_uid = mbox_get_message_by_uid;
+	camel_folder_class->delete_message_by_uid = mbox_delete_message_by_uid;
 
 	camel_folder_class->search_by_expression = mbox_search_by_expression;
 
@@ -822,6 +822,19 @@ mbox_get_message_by_number (CamelFolder *folder, gint number, CamelException *ex
 	}
 
 	return mbox_get_message_by_uid (folder, info->info.uid, ex);
+}
+
+static void
+mbox_delete_message_by_uid(CamelFolder *folder, const gchar *uid, CamelException *ex)
+{
+	CamelMessageInfo *info;
+	CamelMboxFolder *mf = (CamelMboxFolder *)folder;
+
+	info = camel_folder_summary_uid((CamelFolderSummary *)mf->summary, uid);
+	if (info) {
+		info->flags |=  CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_FOLDER_FLAGGED;
+		camel_folder_summary_touch((CamelFolderSummary *)mf->summary);
+	}
 }
 
 /* track flag changes in the summary */

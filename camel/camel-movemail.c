@@ -26,15 +26,27 @@
 #include <config.h>
 
 #include <sys/stat.h>
+#include <sys/uio.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
 #include <unistd.h>
+#include <string.h>
 
 #include "camel-movemail.h"
 #include "camel-exception.h"
+
+#include "camel-mime-parser.h"
+#include "camel-mime-filter.h"
+#include "camel-mime-filter-from.h"
+
+#define d(x)
+
+/* these could probably be exposed as a utility? (but only mbox needs it) */
+static int camel_movemail_copy_filter(int fromfd, int tofd, off_t start, size_t bytes, CamelMimeFilter *filter);
+static int camel_movemail_copy(int fromfd, int tofd, off_t start, size_t bytes);
 
 /**
  * camel_movemail: Copy an mbox file from a shared spool directory to a
@@ -91,7 +103,7 @@ camel_movemail (const char *source, const char *dest, CamelException *ex)
 		return -1;
 	}
 
-	dfd = open (dest, O_WRONLY | O_CREAT, S_IRUSR | S_IWUSR);
+	dfd = open (dest, O_WRONLY | O_CREAT | O_APPEND, S_IRUSR | S_IWUSR);
 	if (dfd == -1) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      "Could not open temporary mail "
@@ -199,6 +211,8 @@ camel_movemail (const char *source, const char *dest, CamelException *ex)
 		if (nread == 0)
 			break;
 		else if (nread == -1) {
+			if (errno == EINTR)
+				continue;
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 					      "Error reading mail file: %s",
 					      g_strerror (errno));
@@ -209,6 +223,8 @@ camel_movemail (const char *source, const char *dest, CamelException *ex)
 		while (nread) {
 			nwrote = write (dfd, buf + written, nread);
 			if (nwrote == -1) {
+				if (errno == EINTR)
+					continue; /* continues inner loop */
 				camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 						      "Error writing "
 						      "mail temp file: %s",
@@ -250,3 +266,235 @@ camel_movemail (const char *source, const char *dest, CamelException *ex)
 
 	return error ? -1 : 1;
 }
+
+static int
+camel_movemail_copy(int fromfd, int tofd, off_t start, size_t bytes)
+{
+        char buffer[4096];
+        int written = 0;
+
+	d(printf("writing %d bytes ... ", bytes));
+
+	if (lseek(fromfd, start, SEEK_SET) != start)
+		return -1;
+
+        while (bytes>0) {
+                int toread, towrite;
+
+                toread = bytes;
+                if (bytes>4096)
+                        toread = 4096;
+                else
+                        toread = bytes;
+		do {
+			towrite = read(fromfd, buffer, toread);
+		} while (towrite == -1 && errno == EINTR);
+
+		if (towrite == -1)
+			return -1;
+
+                /* check for 'end of file' */
+                if (towrite == 0) {
+			d(printf("end of file?\n"));
+                        break;
+		}
+
+		do {
+			toread = write(tofd, buffer, towrite);
+		} while (toread == -1 && errno == EINTR);
+
+		if (toread == -1)
+			return -1;
+
+                written += toread;
+                bytes -= toread;
+        }
+
+        d(printf("written %d bytes\n", written));
+
+        return written;
+}
+
+#define PRE_SIZE (32)
+
+static int
+camel_movemail_copy_filter(int fromfd, int tofd, off_t start, size_t bytes, CamelMimeFilter *filter)
+{
+        char buffer[4096+PRE_SIZE];
+        int written = 0;
+	char *filterbuffer;
+	int filterlen, filterpre;
+
+	d(printf("writing %d bytes ... ", bytes));
+
+	camel_mime_filter_reset(filter);
+
+	if (lseek(fromfd, start, SEEK_SET) != start)
+		return -1;
+
+        while (bytes>0) {
+                int toread, towrite;
+
+                toread = bytes;
+                if (bytes>4096)
+                        toread = 4096;
+                else
+                        toread = bytes;
+		do {
+			towrite = read(fromfd, buffer+PRE_SIZE, toread);
+		} while (towrite == -1 && errno == EINTR);
+
+		if (towrite == -1)
+			return -1;
+
+                /* check for 'end of file' */
+                if (towrite == 0) {
+			d(printf("end of file?\n"));
+			camel_mime_filter_complete(filter, buffer+PRE_SIZE, towrite, PRE_SIZE,
+						   &filterbuffer, &filterlen, &filterpre);
+			towrite = filterlen;
+			if (towrite == 0)
+				break;
+		} else {
+			camel_mime_filter_filter(filter, buffer+PRE_SIZE, towrite, PRE_SIZE,
+						 &filterbuffer, &filterlen, &filterpre);
+			towrite = filterlen;
+		}
+
+		do {
+			toread = write(tofd, filterbuffer, towrite);
+		} while (toread == -1 && errno == EINTR);
+
+		if (toread == -1)
+			return -1;
+
+                written += toread;
+                bytes -= toread;
+        }
+
+        d(printf("written %d bytes\n", written));
+
+        return written;
+}
+
+/* write the headers back out again, but not he Content-Length header, because we dont
+   want	to maintain it! */
+static int
+solaris_header_write(int fd, struct _header_raw *header)
+{
+        struct iovec iv[4];
+        int outlen = 0, len;
+
+        iv[1].iov_base = ":";
+        iv[1].iov_len = 1;
+        iv[3].iov_base = "\n";
+        iv[3].iov_len = 1;
+
+        while (header) {
+		if (strcasecmp(header->name, "Content-Length")) {
+			iv[0].iov_base = header->name;
+			iv[0].iov_len = strlen(header->name);
+			iv[2].iov_base = header->value;
+			iv[2].iov_len = strlen(header->value);
+		
+			do {
+				len = writev(fd, iv, 4);
+			} while (len == -1 && errno == EINTR);
+			
+			if (len == -1)
+				return -1;
+			outlen += len;
+		}
+                header = header->next;
+        }
+
+	do {
+		len = write(fd, "\n", 1);
+	} while (len == -1 && errno == EINTR);
+
+	if (len == -1)
+		return -1;
+
+	outlen += 1;
+
+	d(printf("Wrote %d bytes of headers\n", outlen));
+
+        return outlen;
+}
+
+/* Well, since Solaris is a tad broken wrt its 'mbox' folder format,
+   we must convert it to a real mbox format.  Thankfully this is
+   mostly pretty easy */
+static int
+camel_movemail_solaris (int sfd, int dfd, CamelException *ex)
+{
+	CamelMimeParser *mp;
+	char *buffer;
+	int len;
+	CamelMimeFilterFrom *ffrom;
+	int ret = 1;
+
+	mp = camel_mime_parser_new();
+	camel_mime_parser_scan_from(mp, TRUE);
+	camel_mime_parser_init_with_fd(mp, sfd);
+
+	ffrom = camel_mime_filter_from_new();
+
+	while (camel_mime_parser_step(mp, &buffer, &len) == HSCAN_FROM) {
+		if (camel_mime_parser_step(mp, &buffer, &len) != HSCAN_FROM_END) {
+			const char *cl;
+			int length;
+			int start, body;
+			off_t newpos;
+
+			ret = 0;
+
+			start = camel_mime_parser_tell_start_from(mp);
+			body = camel_mime_parser_tell(mp);
+
+			/* write out headers, but NOT content-length header */
+			solaris_header_write(dfd, camel_mime_parser_headers_raw(mp));
+
+			cl = camel_mime_parser_header(mp, "content-length", NULL);
+			if (cl == NULL) {
+				g_warning("Required Content-Length header is missing from solaris mail box @ %d", (int)camel_mime_parser_tell(mp));
+				camel_mime_parser_drop_step(mp);
+				camel_mime_parser_drop_step(mp);
+				camel_mime_parser_step(mp, &buffer, &len);
+				camel_mime_parser_unstep(mp);
+				length = camel_mime_parser_tell_start_from(mp) - body;
+				newpos = -1;
+			} else {
+				length = atoi(cl);
+				camel_mime_parser_drop_step(mp);
+				camel_mime_parser_drop_step(mp);
+				newpos = length+body;
+			}
+			/* copy body->length converting From lines */
+			if (camel_movemail_copy_filter(sfd, dfd, body, length, (CamelMimeFilter *)ffrom) == -1)
+				goto fail;
+			if (newpos != -1)
+				camel_mime_parser_seek(mp, newpos, SEEK_SET);
+		} else {
+			g_error("Inalid parser state: %d", camel_mime_parser_state(mp));
+		}
+	}
+
+	gtk_object_unref((GtkObject *)mp);
+	gtk_object_unref((GtkObject *)ffrom);
+
+	return ret;
+
+fail:
+	camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+			      "Error copying "
+			      "mail temp file: %s",
+			      g_strerror (errno));
+
+
+	gtk_object_unref((GtkObject *)mp);
+	gtk_object_unref((GtkObject *)ffrom);
+
+	return -1;
+}
+
