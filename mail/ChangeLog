@@ -1,3 +1,10 @@
+2000-07-25  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* mail-config.c (create_service_page): Call
+	`gtk_option_menu_set_menu()' as the last thing, as `GtkOptionMenu'
+	is fscking broken.  Also, `gtk_widget_show()' the individual menu
+	items.
+
 2000-07-24  Dan Winship  <danw@helixcode.com>
 
 	* message-list.c (mark_msg_seen, ml_tree_set_value_at,

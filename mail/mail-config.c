@@ -908,7 +908,6 @@ create_service_page (GtkWidget *vbox, const char *label_text, GList *services,
 	gtk_object_set_data (GTK_OBJECT (vbox), "stype_optionmenu", stype_optionmenu);
 	gtk_box_pack_start (GTK_BOX (hbox), stype_optionmenu, TRUE, TRUE, 0);
 	stype_menu = gtk_menu_new ();
-	gtk_option_menu_set_menu (GTK_OPTION_MENU (stype_optionmenu), stype_menu);
 
 	stype_html = html_new (TRUE);
 	gtk_object_set_data (GTK_OBJECT (vbox), "html", stype_html);
@@ -942,10 +941,15 @@ create_service_page (GtkWidget *vbox, const char *label_text, GList *services,
 				     GUINT_TO_POINTER (page));
 		gtk_object_set_data (GTK_OBJECT (menuitem), "description",
 				     st->provider->description);
+
+		gtk_widget_show (menuitem);
 	}
 
 	stype_menuitem_activate (GTK_OBJECT (first_menuitem), GTK_OBJECT (vbox));
 	gtk_option_menu_set_history (GTK_OPTION_MENU (stype_optionmenu), 0);
+
+	gtk_widget_show (stype_menu);
+	gtk_option_menu_set_menu (GTK_OPTION_MENU (stype_optionmenu), stype_menu);
 
 	gtk_widget_show_all (vbox);
 }
