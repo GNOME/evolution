@@ -1,3 +1,7 @@
+2001-08-14  Federico Mena Quintero  <federico@ximian.com>
+
+	* evolution-calendar.xml: Add Tigert's new icons for Prev and Next.
+
 2001-08-14  Christopher James Lahey  <clahey@ximian.com>
 
 	* evolution-addressbook.xml: Rearranged this Edit menu to fit the

@@ -9,9 +9,9 @@
     <cmd name="CalendarPrintPreview" _tip="Previews the calendar to be printed" pixtype="pixbuf"/>
     <cmd name="CalendarSettings" _tip="Configure the calendar's settings"/>
 
-    <cmd name="CalendarPrev" _tip="Go back" pixtype="stock" pixname="Back"/>
+    <cmd name="CalendarPrev" _tip="Go back" pixtype="pixbuf"/>
     <cmd name="CalendarToday" _tip="Go to today" pixtype="stock" pixname="Home"/>
-    <cmd name="CalendarNext" _tip="Go forward" pixtype="stock" pixname="Forward"/>
+    <cmd name="CalendarNext" _tip="Go forward" pixtype="pixbuf"/>
     <cmd name="CalendarGoto" _tip="Go to a specific date" pixtype="stock" pixname="Jump To"/>
 
     <cmd name="ShowDayView" _tip="Show one day" pixtype="pixbuf"/>
@@ -97,9 +97,9 @@
 
     <separator/>
 
-    <toolitem name="Prev" verb="CalendarPrev"/>
+    <toolitem name="Prev" verb="CalendarPrev" pixtype="pixbuf"/>
     <toolitem name="Today" verb="CalendarToday"/>
-    <toolitem name="Next" verb="CalendarNext"/>
+    <toolitem name="Next" verb="CalendarNext" pixtype="pixbuf"/>
 
     <separator/>
 
