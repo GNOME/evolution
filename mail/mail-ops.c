@@ -448,58 +448,54 @@ mail_send_message(CamelFolder *queue, const char *uid, const char *destination, 
 	EAccount *account = NULL;
 	const CamelInternetAddress *iaddr;
 	CamelAddress *from, *recipients;
-	CamelMessageInfo *info;
+	CamelMessageInfo *info = NULL;
 	CamelTransport *xport = NULL;
 	char *transport_url = NULL;
 	char *sent_folder_uri = NULL;
-	const char *resent_from;
+	const char *resent_from, *tmp;
 	CamelFolder *folder = NULL;
 	GString *err = NULL;
-	XEvolution *xev;
+	struct _camel_header_raw *xev, *header;
 	CamelMimeMessage *message;
 	int i;
 
 	message = camel_folder_get_message(queue, uid, ex);
 	if (!message)
 		return;
-	
+
 	camel_medium_set_header (CAMEL_MEDIUM (message), "X-Mailer", "Evolution " VERSION SUB_VERSION " " VERSION_COMMENT);
-	
+
+	err = g_string_new("");
 	xev = mail_tool_remove_xevolution_headers (message);
-	
-	if (xev->account) {
+
+	tmp = camel_header_raw_find(&xev, "X-Evolution-Account", NULL);
+	if (tmp) {
 		char *name;
 		
-		name = g_strstrip (g_strdup (xev->account));
-		account = mail_config_get_account_by_name (name);
-		g_free (name);
-		
-		if (account) {
+		name = g_strstrip(g_strdup(tmp));
+		if ((account = mail_config_get_account_by_uid(name))
+		    /* 'old' x-evolution-account stored the name, how silly */
+		    || (account = mail_config_get_account_by_name(name))) {
 			if (account->transport && account->transport->url)
 				transport_url = g_strdup (account->transport->url);
 			
 			sent_folder_uri = g_strdup (account->sent_folder_uri);
 		}
+		g_free(name);
 	}
 	
 	if (!account) {
 		/* default back to these headers */
-		if (xev->transport)
-			transport_url = g_strstrip (g_strdup (xev->transport));
+		tmp = camel_header_raw_find(&xev, "X-Evolution-Transport", NULL);
+		if (tmp)
+			transport_url = g_strstrip(g_strdup(tmp));
 		
-		if (xev->fcc)
-			sent_folder_uri = g_strstrip (g_strdup (xev->fcc));
+		tmp = camel_header_raw_find(&xev, "X-Evolution-Fcc", NULL);
+		if (tmp)
+			sent_folder_uri = g_strstrip(g_strdup(tmp));
 	}
-	
-	xport = camel_session_get_transport (session, transport_url ? transport_url : destination, ex);
-	g_free (transport_url);
-	if (!xport) {
-		mail_tool_restore_xevolution_headers (message, xev);
-		mail_tool_destroy_xevolution (xev);
-		g_free (sent_folder_uri);
-		return;
-	}
-	
+
+	/* Check for email sending */
 	from = (CamelAddress *) camel_internet_address_new ();
 	resent_from = camel_medium_get_header (CAMEL_MEDIUM (message), "Resent-From");
 	if (resent_from) {
@@ -517,24 +513,42 @@ mail_send_message(CamelFolder *queue, const char *uid, const char *destination, 
 		iaddr = camel_mime_message_get_recipients (message, type);
 		camel_address_cat (recipients, CAMEL_ADDRESS (iaddr));
 	}
-	
-	camel_transport_send_to (xport, message, from, recipients, ex);
-	camel_object_unref (recipients);
-	camel_object_unref (from);
-	
-	mail_tool_restore_xevolution_headers (message, xev);
-	mail_tool_destroy_xevolution (xev);
-	
-	camel_object_unref (xport);
-	if (camel_exception_is_set (ex)) {
-		g_free (sent_folder_uri);
-		return;
+
+	if (camel_address_length(recipients) > 0) {
+		xport = camel_session_get_transport (session, transport_url ? transport_url : destination, ex);
+		if (camel_exception_is_set(ex))
+			goto exit;
+
+		camel_transport_send_to(xport, message, from, recipients, ex);
+		if (camel_exception_is_set(ex))
+			goto exit;
 	}
-	
-	/* post-process */
-	err = g_string_new("");
+
+	/* Now check for posting, failures are ignored */
 	info = camel_message_info_new(NULL);
 	camel_message_info_set_flags(info, CAMEL_MESSAGE_SEEN, ~0);
+	camel_mime_message_set_date(message, CAMEL_MESSAGE_DATE_CURRENT, 0);
+
+	for (header = xev;header;header=header->next) {
+		char *uri;
+
+		if (strcmp(header->name, "X-Evolution-PostTo") != 0)
+			continue;
+
+		/* TODO: don't lose errors */
+
+		uri = g_strstrip(g_strdup(header->value));
+		folder = mail_tool_uri_to_folder(uri, 0, NULL);
+		if (folder) {
+			camel_folder_append_message(folder, message, info, NULL, NULL);
+			camel_object_unref(folder);
+			folder = NULL;
+		}
+		g_free(uri);
+	}
+
+	/* post process */
+	mail_tool_restore_xevolution_headers (message, xev);
 	
 	if (sent_folder_uri) {
 		folder = mail_tool_uri_to_folder (sent_folder_uri, 0, ex);
@@ -544,7 +558,6 @@ mail_send_message(CamelFolder *queue, const char *uid, const char *destination, 
 						sent_folder_uri, camel_exception_get_description (ex));
 			camel_exception_clear (ex);
 		}
-		g_free (sent_folder_uri);
 	}
 	
 	if (!folder) {
@@ -612,12 +625,24 @@ mail_send_message(CamelFolder *queue, const char *uid, const char *destination, 
 		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, err->str);
 	}
 		
- exit:	
-	g_string_free (err, TRUE);
-	camel_folder_sync (folder, FALSE, NULL);
-	camel_message_info_free (info);
-	camel_object_unref (folder);
+exit:
+	if (folder) {
+		camel_folder_sync(folder, FALSE, NULL);
+		camel_object_unref(folder);
+	}
+	if (info)
+		camel_message_info_free(info);
+	camel_object_unref(recipients);
+	camel_object_unref(from);
+	if (xport)
+		camel_object_unref(xport);
+	g_free(sent_folder_uri);
+	g_free(transport_url);
+	camel_header_raw_clear(&xev);
+	g_string_free(err, TRUE);
 	camel_object_unref(message);
+
+	return;
 }
 
 /* ** SEND MAIL QUEUE ***************************************************** */

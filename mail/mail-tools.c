@@ -206,62 +206,26 @@ mail_tool_generate_forward_subject (CamelMimeMessage *msg)
 	return fwd_subj;
 }
 
-XEvolution *
+struct _camel_header_raw *
 mail_tool_remove_xevolution_headers (CamelMimeMessage *message)
 {
-	XEvolution *xev;
-	
-	xev = g_new (XEvolution, 1);
-	xev->flags = g_strdup (camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution"));
-	xev->source = g_strdup (camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Source"));
-	xev->transport = g_strdup (camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Transport"));
-	xev->account = g_strdup (camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Account"));
-	xev->fcc = g_strdup (camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Fcc"));
-	xev->format = g_strdup (camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Format"));
-	xev->postto = g_strdup (camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-PostTo"));
-	
-	/* rip off the X-Evolution* headers */
-	camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution");
-	camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution-Source");
-	camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution-Transport");
-	camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution-Account");
-	camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution-Fcc");
-	camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution-Format");
-	camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution-PostTo");
-	
-	return xev;
+	struct _camel_header_raw *scan, *list = NULL;
+
+	for (scan = ((CamelMimePart *)message)->headers;scan;scan=scan->next)
+		if (!strncmp(scan->name, "X-Evolution", 11))
+			camel_header_raw_append(&list, scan->name, scan->value, scan->offset);
+
+	for (scan=list;scan;scan=scan->next)
+		camel_medium_remove_header((CamelMedium *)message, scan->name);
+
+	return list;
 }
 
 void
-mail_tool_restore_xevolution_headers (CamelMimeMessage *message, XEvolution *xev)
+mail_tool_restore_xevolution_headers (CamelMimeMessage *message, struct _camel_header_raw *xev)
 {
-	if (xev->flags)
-		camel_medium_set_header (CAMEL_MEDIUM (message), "X-Evolution", xev->flags);
-	if (xev->source)
-		camel_medium_set_header (CAMEL_MEDIUM (message), "X-Evolution-Source", xev->source);
-	if (xev->transport)
-		camel_medium_set_header (CAMEL_MEDIUM (message), "X-Evolution-Transport", xev->transport);
-	if (xev->account)
-		camel_medium_set_header (CAMEL_MEDIUM (message), "X-Evolution-Account", xev->account);
-	if (xev->fcc)
-		camel_medium_set_header (CAMEL_MEDIUM (message), "X-Evolution-Fcc", xev->fcc);
-	if (xev->format)
-		camel_medium_set_header (CAMEL_MEDIUM (message), "X-Evolution-Format", xev->format);
-	if (xev->postto)
-		camel_medium_set_header (CAMEL_MEDIUM (message), "X-Evolution-PostTo", xev->postto);
-}
-
-void
-mail_tool_destroy_xevolution (XEvolution *xev)
-{
-	g_free (xev->flags);
-	g_free (xev->source);
-	g_free (xev->transport);
-	g_free (xev->account);
-	g_free (xev->format);
-	g_free (xev->fcc);
-	g_free (xev->postto);
-	g_free (xev);
+	for (;xev;xev=xev->next)
+		camel_medium_add_header((CamelMedium *)message, xev->name, xev->value);
 }
 
 CamelMimePart *
@@ -269,7 +233,7 @@ mail_tool_make_message_attachment (CamelMimeMessage *message)
 {
 	CamelMimePart *part;
 	const char *subject;
-	XEvolution *xev;
+	struct _camel_header_raw *xev;
 	char *desc;
 	
 	subject = camel_mime_message_get_subject (message);
@@ -280,11 +244,10 @@ mail_tool_make_message_attachment (CamelMimeMessage *message)
 	
 	/* rip off the X-Evolution headers */
 	xev = mail_tool_remove_xevolution_headers (message);
-	mail_tool_destroy_xevolution (xev);
+	camel_header_raw_clear(&xev);
 	
 	/* remove Bcc headers */
-	while (camel_medium_get_header (CAMEL_MEDIUM (message), "Bcc"))
-		camel_medium_remove_header (CAMEL_MEDIUM (message), "Bcc");
+	camel_medium_remove_header (CAMEL_MEDIUM (message), "Bcc");
 	
 	part = camel_mime_part_new ();
 	camel_mime_part_set_disposition (part, "inline");

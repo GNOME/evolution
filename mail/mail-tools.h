@@ -29,16 +29,7 @@ struct _CamelFolder;
 struct _CamelException;
 struct _CamelMimeMessage;
 struct _CamelMimePart;
-
-typedef struct _xevolution {
-	char *flags;
-	char *source;
-	char *transport;
-	char *account;
-	char *fcc;
-	char *format;
-	char *postto;
-} XEvolution;
+struct _camel_header_raw;
 
 /* Get the "inbox" for a url (uses global session) */
 struct _CamelFolder *mail_tool_get_inbox (const char *url, struct _CamelException *ex);
@@ -50,9 +41,8 @@ struct _CamelFolder *mail_tool_get_trash (const char *url, int connect, struct _
  * and returns the path to the new movemail folder that was created. which shoudl be freed later */
 char *mail_tool_do_movemail (const char *source_url, struct _CamelException *ex);
 
-XEvolution *mail_tool_remove_xevolution_headers (struct _CamelMimeMessage *message);
-void mail_tool_restore_xevolution_headers (struct _CamelMimeMessage *message, XEvolution *xev);
-void mail_tool_destroy_xevolution (XEvolution *xev);
+struct _camel_header_raw *mail_tool_remove_xevolution_headers (struct _CamelMimeMessage *message);
+void mail_tool_restore_xevolution_headers (struct _CamelMimeMessage *message, struct _camel_header_raw *);
 
 /* Generates the subject for a message forwarding @msg */
 gchar *mail_tool_generate_forward_subject (struct _CamelMimeMessage *msg);
