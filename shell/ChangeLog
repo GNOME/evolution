@@ -1,5 +1,11 @@
 2003-01-27  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-about-box.c (timeout_callback): Pass a the context's
+	language to pango_context_get_metrics() instead of NULL, so the
+	heights are computed correctly.
+
+2003-01-27  Ettore Perazzoli  <ettore@ximian.com>
+
 	* evolution-shell-component.c (owner_ping_callback): #if 0'ed out
 	for now, since it seems to cause trouble for local components.
 	(setup_owner_pinging): Likewise.
