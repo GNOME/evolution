@@ -117,6 +117,7 @@ images_DATA = \
 	pgp-signature-nokey.png 	\
 	pgp-signature-ok.png 		\
 	post-message-16.png		\
+	post-reply-24.png		\
 	print-preview.xpm		\
 	print.xpm			\
 	priority-high.xpm		\
