@@ -5,6 +5,8 @@
 	us-ascii.  We just have to encode high chars into utf-8.
 	(header_decode_text): Call append_latin1 for appending unencoded
 	text segments.
+	(append_latin1): Do an additional mask for account for c's
+	undefined behaviour for sign extension whilst shifting right.
 
 2000-08-30  Jeffrey Stedfast  <fejj@helixcode.com>
 

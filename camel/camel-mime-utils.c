@@ -927,7 +927,7 @@ append_latin1(GString *out, const char *in, int len)
 		c = (unsigned int)*in++;
 		len--;
 		if (c & 0x80) {
-			out = g_string_append_c(out, 0xc0 | (c>>6));		/* 110000xx */
+			out = g_string_append_c(out, 0xc0 | ((c>>6) & 0x3));		/* 110000xx */
 			out = g_string_append_c(out, 0x80 | (c&0x3f)); 	/* 10xxxxxx */
 		} else {
 			out = g_string_append_c(out, c);
