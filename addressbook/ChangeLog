@@ -1,4 +1,9 @@
 2001-03-01  Jon Trowbridge  <trow@ximian.com>
+	
+	* gui/component/select-names/e-select-names-completion.c: I am an
+	idiot.
+
+2001-03-01  Jon Trowbridge  <trow@ximian.com>
 
 	* gui/component/select-names/e-select-names-table-model.c
 	(fill_in_info): Change for new EDestination/ESelectNamesModel API.

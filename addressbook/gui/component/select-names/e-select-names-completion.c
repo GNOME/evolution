@@ -622,10 +622,12 @@ e_select_names_completion_seq_complete_cb (EBookView *book_view, gpointer user_d
 	g_free (comp->priv->query_text);
 	comp->priv->query_text = NULL;
 
-	fprintf (out, "ending search ");
-	if (!e_completion_searching (E_COMPLETION (comp)))
+	if (out)
+		fprintf (out, "ending search ");
+	if (out && !e_completion_searching (E_COMPLETION (comp)))
 		fprintf (out, "while not searching!");
-	fprintf (out, "\n");
+	if (out)
+		fprintf (out, "\n");
 	e_completion_end_search (E_COMPLETION (comp)); /* That's all folks! */
 
 	/* Need to launch a new completion if another one is pending. */
@@ -671,7 +673,8 @@ e_select_names_completion_do_query (ESelectNamesCompletion *comp)
 
 	comp->priv->cancelled = FALSE;
 
-	fprintf (out, "\n\n**** starting query: \"%s\"\n", comp->priv->query_text);
+	if (out)
+		fprintf (out, "\n\n**** starting query: \"%s\"\n", comp->priv->query_text);
 
 	if (! e_book_get_book_view (comp->priv->book, sexp, e_select_names_completion_got_book_view_cb, comp)) {
 		g_warning ( "exception getting book view");
@@ -709,17 +712,21 @@ e_select_names_completion_begin (ECompletion *comp, const gchar *text, gint pos,
 	g_return_if_fail (comp != NULL);
 	g_return_if_fail (E_IS_SELECT_NAMES_COMPLETION (comp));
 	g_return_if_fail (text != NULL);
-
-	fprintf (out, "\n\n**** requesting completion\n");
-	fprintf (out, "text=\"%s\" pos=%d limit=%d\n", text, pos, limit);
+	
+	if (out) {
+		fprintf (out, "\n\n**** requesting completion\n");
+		fprintf (out, "text=\"%s\" pos=%d limit=%d\n", text, pos, limit);
+	}
 
 	e_select_names_model_text_pos (selcomp->priv->model, pos, &index, NULL, NULL);
 	str = index >= 0 ? e_select_names_model_get_string (selcomp->priv->model, index) : NULL;
 
-	fprintf (out, "index=%d str=\"%s\"\n", index, str);
+	if (out)
+		fprintf (out, "index=%d str=\"%s\"\n", index, str);
 
 	if (str == NULL || *str == '\0') {
-		fprintf (out, "aborting empty query\n");
+		if (out)
+			fprintf (out, "aborting empty query\n");
 		e_completion_end_search (comp);
 		return;
 	}
@@ -731,7 +738,8 @@ e_select_names_completion_begin (ECompletion *comp, const gchar *text, gint pos,
 			for (k=0; override[j].text[k]; ++k)
 				e_completion_found_match (comp, override[j].text[k]);
 			
-			fprintf (out, "aborting on override \"%s\"\n", override[j].trigger);
+			if (out)
+				fprintf (out, "aborting on override \"%s\"\n", override[j].trigger);
 			e_completion_end_search (comp);
 			return;
 		}
@@ -750,7 +758,8 @@ e_select_names_completion_end (ECompletion *comp)
 	g_return_if_fail (comp != NULL);
 	g_return_if_fail (E_IS_COMPLETION (comp));
 
-	fprintf (out, "completion ended\n");
+	if (out)
+		fprintf (out, "completion ended\n");
 }
 
 static void
@@ -761,7 +770,8 @@ e_select_names_completion_cancel (ECompletion *comp)
 
 	E_SELECT_NAMES_COMPLETION (comp)->priv->cancelled = TRUE;
 	
-	fprintf (out, "completion cancelled\n");
+	if (out)
+		fprintf (out, "completion cancelled\n");
 }
 
 static void
