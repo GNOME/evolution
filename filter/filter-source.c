@@ -65,6 +65,7 @@ static void filter_source_class_init (FilterSourceClass *);
 static void filter_source_init (FilterSource *);
 static void filter_source_finalize (GtkObject *);
 
+static int source_eq(FilterElement *fe, FilterElement *cm);
 static void xml_create(FilterElement *fe, xmlNodePtr node);
 static xmlNodePtr xml_encode(FilterElement *fe);
 static int xml_decode(FilterElement *fe, xmlNodePtr node);
@@ -112,6 +113,7 @@ filter_source_class_init (FilterSourceClass *class)
 	object_class->finalize = filter_source_finalize;
 
 	/* override methods */
+	filter_element->eq = source_eq;
 	filter_element->xml_create = xml_create;
 	filter_element->xml_encode = xml_encode;
 	filter_element->xml_decode = xml_decode;
@@ -162,6 +164,16 @@ filter_source_new (void)
 {
 	FilterSource *s = (FilterSource *) gtk_type_new (filter_source_get_type ());
 	return s;
+}
+
+static int
+source_eq(FilterElement *fe, FilterElement *cm)
+{
+	FilterSource *fs = (FilterSource *)fe, *cs = (FilterSource *)cm;
+
+	return ((FilterElementClass *)parent_class)->eq(fe, cm)
+		&& ((fs->priv->current_url && cs->priv->current_url && strcmp(fs->priv->current_url, cs->priv->current_url) == 0)
+		    || (fs->priv->current_url == NULL && cs->priv->current_url == NULL));
 }
 
 static void

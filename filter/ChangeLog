@@ -1,3 +1,28 @@
+2002-07-10  Not Zed  <NotZed@Ximian.com>
+
+	** fixes for #10781
+	
+	* filter-int.c (xml_encode): 
+	(xml_decode): Handle encoding/decoding with a type name, in a
+	manner compatible with the score/label elemtns.
+	(filter_int_new_type): New constructor to create a generic 'int'
+	type.
+
+	* filter-score.c: Removed.  Now relies on using a filter-int with
+	appropriate settings.
+
+	* filter-label.[ch]: Now inherits from filter-int.
+
+	* rule-context.c (rule_context_revert): New method to revert a
+	filter context back to a user-file's definition.
+	(revert): implementation.
+
+	* filter-rule.h: Added new virtual method _eq and wrapper, and
+	fixed all subclasses to implement it.
+
+	* filter-element.h: Added new virtual method _eq and wrapper.
+	Fixed all subclasses to implement it.
+
 2002-07-08  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* filtertypes.xml: Make the sound type for (play-sound ) a "file"

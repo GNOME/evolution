@@ -48,8 +48,6 @@ libfilter_la_SOURCES =				\
 	filter-part.h				\
 	filter-rule.c				\
 	filter-rule.h				\
-	filter-score.c				\
-	filter-score.h				\
 	filter-source.h				\
 	filter-source.c				\
 	rule-context.c				\

@@ -30,6 +30,7 @@
 
 #define d(x)
 
+static int colour_eq(FilterElement *fe, FilterElement *cm);
 static void xml_create(FilterElement *fe, xmlNodePtr node);
 static xmlNodePtr xml_encode(FilterElement *fe);
 static int xml_decode(FilterElement *fe, xmlNodePtr node);
@@ -88,6 +89,7 @@ filter_colour_class_init (FilterColourClass *class)
 	object_class->finalize = filter_colour_finalise;
 
 	/* override methods */
+	filter_element->eq = colour_eq;
 	filter_element->xml_create = xml_create;
 	filter_element->xml_encode = xml_encode;
 	filter_element->xml_decode = xml_decode;
@@ -128,6 +130,18 @@ filter_colour_new(void)
 {
 	FilterColour *o = (FilterColour *)gtk_type_new(filter_colour_get_type ());
 	return o;
+}
+
+static int
+colour_eq(FilterElement *fe, FilterElement *cm)
+{
+	FilterColour *fc = (FilterColour *)fe, *cc = (FilterColour *)cm;
+
+        return ((FilterElementClass *)(parent_class))->eq(fe, cm)
+		&& fc->r == cc->r
+		&& fc->g == cc->g
+		&& fc->b == cc->b
+		&& fc->a == cc->a;
 }
 
 static void xml_create(FilterElement *fe, xmlNodePtr node)

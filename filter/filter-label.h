@@ -29,7 +29,7 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus */
 
-#include "filter-element.h"
+#include "filter-int.h"
 
 #define FILTER_LABEL(obj)         GTK_CHECK_CAST (obj, filter_label_get_type (), FilterLabel)
 #define FILTER_LABEL_CLASS(klass) GTK_CHECK_CLASS_CAST (klass, filter_label_get_type (), FilterLabelClass)
@@ -39,13 +39,11 @@ typedef struct _FilterLabel FilterLabel;
 typedef struct _FilterLabelClass FilterLabelClass;
 
 struct _FilterLabel {
-	FilterElement parent;
-	
-	int label;
+	FilterInt parent;
 };
 
 struct _FilterLabelClass {
-	FilterElementClass parent_class;
+	FilterIntClass parent_class;
 	
 	/* virtual methods */
 	
@@ -55,8 +53,6 @@ struct _FilterLabelClass {
 GtkType filter_label_get_type (void);
 
 FilterLabel *filter_label_new (void);
-
-void filter_label_set_label (FilterLabel *filter, int label);
 
 #ifdef __cplusplus
 }

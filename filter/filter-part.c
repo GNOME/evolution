@@ -153,10 +153,37 @@ filter_part_validate (FilterPart *fp)
 }
 
 int
+filter_part_eq(FilterPart *fp, FilterPart *fc)
+{
+	int truth;
+	GList *al, *bl;
+
+	truth = ((fp->name && fc->name && strcmp(fp->name, fc->name) == 0)
+		 || (fp->name == NULL && fc->name == NULL))
+		&& ((fp->title && fc->title && strcmp(fp->title, fc->title) == 0)
+		    || (fp->title == NULL && fc->title == NULL))
+		&& ((fp->code && fc->code && strcmp(fp->code, fc->code) == 0)
+		    || (fp->code == NULL && fc->code == NULL));
+
+	al = fp->elements;
+	bl = fc->elements;
+	while (truth && al && bl) {
+		FilterElement *a = al->data, *b = bl->data;
+
+		truth = filter_element_eq(a, b);
+
+		al = al->next;
+		bl = bl->next;
+	}
+
+	return truth && al == NULL && bl == NULL;
+}
+
+int
 filter_part_xml_create (FilterPart *ff, xmlNodePtr node)
 {
 	xmlNodePtr n;
-	char *type, *str, *decstr;
+	char *type, *str;
 	FilterElement *el;
 	
 	str = xmlGetProp(node, "name");

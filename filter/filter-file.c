@@ -44,6 +44,7 @@
 #define d(x) 
 
 static gboolean validate (FilterElement *fe);
+static int file_eq(FilterElement *fe, FilterElement *cm);
 static void xml_create(FilterElement *fe, xmlNodePtr node);
 static xmlNodePtr xml_encode(FilterElement *fe);
 static int xml_decode(FilterElement *fe, xmlNodePtr node);
@@ -102,6 +103,7 @@ filter_file_class_init (FilterFileClass *klass)
 	
 	/* override methods */
 	filter_element->validate = validate;
+	filter_element->eq = file_eq;
 	filter_element->xml_create = xml_create;
 	filter_element->xml_encode = xml_encode;
 	filter_element->xml_decode = xml_decode;
@@ -195,6 +197,18 @@ validate (FilterElement *fe)
 	}
 	
 	return TRUE;
+}
+
+static int
+file_eq(FilterElement *fe, FilterElement *cm)
+{
+	FilterFile *ff = (FilterFile *)fe, *cf = (FilterFile *)cm;
+
+        return ((FilterElementClass *)(parent_class))->eq(fe, cm)
+		&& ((ff->path && cf->path && strcmp(ff->path, cf->path) == 0)
+		    || (ff->path == NULL && cf->path == NULL))
+		&& ((ff->type && cf->type && strcmp(ff->type, cf->type) == 0)
+		    || (ff->type == NULL && cf->type == NULL));
 }
 
 static void

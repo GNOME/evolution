@@ -46,6 +46,7 @@
 #define d(x)
 
 static gboolean validate (FilterElement *fe);
+static int date_eq(FilterElement *fe, FilterElement *cm);
 static void xml_create (FilterElement *fe, xmlNodePtr node);
 static xmlNodePtr xml_encode (FilterElement *fe);
 static int xml_decode (FilterElement *fe, xmlNodePtr node);
@@ -138,6 +139,7 @@ filter_datespec_class_init (FilterDatespecClass *class)
 	
 	/* override methods */
 	filter_element->validate = validate;
+	filter_element->eq = date_eq;
 	filter_element->xml_create = xml_create;
 	filter_element->xml_encode = xml_encode;
 	filter_element->xml_decode = xml_decode;
@@ -199,6 +201,16 @@ validate (FilterElement *fe)
 	}
 	
 	return valid;
+}
+
+static int
+date_eq(FilterElement *fe, FilterElement *cm)
+{
+	FilterDatespec *fd = (FilterDatespec *)fe, *cd = (FilterDatespec *)cm;
+
+        return ((FilterElementClass *)(parent_class))->eq(fe, cm)
+		&& (fd->type == cd->type)
+		&& (fd->value == cd->value);
 }
 
 static void

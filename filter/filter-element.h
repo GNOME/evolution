@@ -48,7 +48,8 @@ struct _FilterElementClass {
 
 	/* virtual methods */
 	gboolean (*validate)(FilterElement *fe);
-	
+	int (*eq)(FilterElement *fe, FilterElement *cm);
+
 	void (*xml_create)(FilterElement *, xmlNodePtr);
 	xmlNodePtr (*xml_encode)(FilterElement *);
 	int (*xml_decode)(FilterElement *, xmlNodePtr);
@@ -71,6 +72,7 @@ void            filter_element_set_data (FilterElement *fe, gpointer data);
 
 /* methods */
 gboolean        filter_element_validate         (FilterElement *fe);
+int		filter_element_eq		(FilterElement *fe, FilterElement *cm);
 
 void		filter_element_xml_create	(FilterElement *fe, xmlNodePtr node);
 

@@ -39,6 +39,7 @@
 #define d(x) x
 
 static gint validate(FilterRule *);
+static int vfolder_eq(FilterRule *fr, FilterRule *cm);
 static xmlNodePtr xml_encode(FilterRule *);
 static int xml_decode(FilterRule *, xmlNodePtr, struct _RuleContext *f);
 static void rule_copy (FilterRule *dest, FilterRule *src);
@@ -93,6 +94,7 @@ vfolder_rule_class_init (VfolderRuleClass *class)
 
 	/* override methods */
 	filter_rule->validate   = validate;
+	filter_rule->eq = vfolder_eq;
 	filter_rule->xml_encode = xml_encode;
 	filter_rule->xml_decode = xml_decode;
 	filter_rule->copy = rule_copy;
@@ -220,6 +222,29 @@ validate (FilterRule *fr)
 		return FILTER_RULE_CLASS (parent_class)->validate (fr);
 	
 	return 1;
+}
+
+static int
+list_eq(GList *al, GList *bl)
+{
+	int truth = TRUE;
+
+	while (truth && al && bl) {
+		char *a = al->data, *b = bl->data;
+
+		truth = strcmp(a, b) == 0;
+		al = al->next;
+		bl = bl->next;
+	}
+
+	return truth && al == NULL && bl == NULL;
+}
+
+static int
+vfolder_eq(FilterRule *fr, FilterRule *cm)
+{
+        return ((FilterRuleClass *)(parent_class))->eq(fr, cm)
+		&& list_eq(((VfolderRule *)fr)->sources, ((VfolderRule *)cm)->sources);
 }
 
 static xmlNodePtr

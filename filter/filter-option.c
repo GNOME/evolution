@@ -34,6 +34,7 @@
 
 #define d(x)
 
+static int option_eq(FilterElement *fe, FilterElement *cm);
 static void xml_create(FilterElement *fe, xmlNodePtr node);
 static xmlNodePtr xml_encode(FilterElement *fe);
 static int xml_decode(FilterElement *fe, xmlNodePtr node);
@@ -93,6 +94,7 @@ filter_option_class_init (FilterOptionClass *class)
 	object_class->finalize = filter_option_finalise;
 	
 	/* override methods */
+	filter_element->eq = option_eq;
 	filter_element->xml_create = xml_create;
 	filter_element->xml_encode = xml_encode;
 	filter_element->xml_decode = xml_decode;
@@ -169,6 +171,16 @@ filter_option_set_current (FilterOption *option, const char *name)
 	g_assert(IS_FILTER_OPTION(option));
 	
 	option->current = find_option (option, name);
+}
+
+static int
+option_eq(FilterElement *fe, FilterElement *cm)
+{
+	FilterOption *fo = (FilterOption *)fe, *co = (FilterOption *)cm;
+
+	return ((FilterElementClass *)(parent_class))->eq(fe, cm)
+		&& ((fo->current && co->current && strcmp(fo->current->value, co->current->value) == 0)
+		    || (fo->current == NULL && co->current == NULL));
 }
 
 static void

@@ -50,11 +50,7 @@
 
 static gboolean validate (FilterElement *fe);
 static void xml_create (FilterElement *fe, xmlNodePtr node);
-static xmlNodePtr xml_encode (FilterElement *fe);
-static int xml_decode (FilterElement *fe, xmlNodePtr node);
 static GtkWidget *get_widget (FilterElement *fe);
-static void build_code (FilterElement *fe, GString *out, struct _FilterPart *ff);
-static void format_sexp (FilterElement *fe, GString *out);
 
 static void filter_label_class_init (FilterLabelClass *klass);
 static void filter_label_init (FilterLabel *label);
@@ -86,7 +82,7 @@ filter_label_get_type (void)
 			(GtkArgGetFunc) NULL
 		};
 		
-		type = gtk_type_unique (filter_element_get_type (), &type_info);
+		type = gtk_type_unique (filter_int_get_type (), &type_info);
 	}
 	
 	return type;
@@ -98,18 +94,14 @@ filter_label_class_init (FilterLabelClass *klass)
 	GtkObjectClass *object_class = (GtkObjectClass *) klass;
 	FilterElementClass *filter_element = (FilterElementClass *) klass;
 	
-	parent_class = gtk_type_class (filter_element_get_type ());
+	parent_class = gtk_type_class (filter_int_get_type ());
 	
 	object_class->finalize = filter_label_finalise;
 	
 	/* override methods */
 	filter_element->validate = validate;
 	filter_element->xml_create = xml_create;
-	filter_element->xml_encode = xml_encode;
-	filter_element->xml_decode = xml_decode;
 	filter_element->get_widget = get_widget;
-	filter_element->build_code = build_code;
-	filter_element->format_sexp = format_sexp;
 	
 	/* signals */
 	
@@ -141,20 +133,13 @@ filter_label_new (void)
 	return (FilterLabel *) gtk_type_new (filter_label_get_type ());
 }
 
-
-void
-filter_label_set_label (FilterLabel *filter, int label)
-{
-	filter->label = label;
-}
-
 static gboolean
 validate (FilterElement *fe)
 {
-	FilterLabel *label = (FilterLabel *) fe;
+	FilterInt *label = (FilterInt *)fe;
 	GtkWidget *dialog;
 	
-	if (label->label < 0 || label->label > 4) {
+	if (label->val < 0 || label->val > 4) {
 		dialog = gnome_ok_dialog (_("You must specify a label name"));
 		
 		gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
@@ -172,65 +157,18 @@ xml_create (FilterElement *fe, xmlNodePtr node)
 	
 }
 
-static xmlNodePtr
-xml_encode (FilterElement *fe)
-{
-	FilterLabel *label = (FilterLabel *) fe;
-	xmlNodePtr value;
-	char *encstr;
-	
-	d(printf ("Encoding label as xml\n"));
-	
-	encstr = g_strdup_printf ("%d", label->label);
-	
-	value = xmlNewNode (NULL, "value");
-	xmlSetProp (value, "name", fe->name);
-	xmlSetProp (value, "type", "label");
-	xmlSetProp (value, "label", encstr);
-	g_free (encstr);
-	
-	return value;
-}
-
-static int
-xml_decode (FilterElement *fe, xmlNodePtr node)
-{
-	FilterLabel *label = (FilterLabel *) fe;
-	char *name, *str, *type;
-	
-	type = xmlGetProp (node, "type");
-	if (strcmp (type, "label") != 0) {
-		xmlFree (type);
-		return -1;
-	}
-	
-	xmlFree (type);
-	
-	d(printf("Decoding label from xml %p\n", fe));
-	
-	name = xmlGetProp (node, "name");
-	xmlFree (fe->name);
-	fe->name = name;
-	
-	str = xmlGetProp (node, "label");
-	label->label = atoi (str);
-	xmlFree (str);
-	
-	return 0;
-}
-
 static void
 label_selected (GtkWidget *item, gpointer user_data)
 {
-	FilterLabel *label = user_data;
+	FilterInt *label = user_data;
 	
-	label->label = GPOINTER_TO_INT (gtk_object_get_data (GTK_OBJECT (item), "label"));
+	label->val = GPOINTER_TO_INT (gtk_object_get_data (GTK_OBJECT (item), "label"));
 }
 
 static GtkWidget *
 get_widget (FilterElement *fe)
 {
-	FilterLabel *label = (FilterLabel *) fe;
+	FilterInt *label = (FilterInt *) fe;
 	GtkWidget *omenu, *menu, *item;
 	Bonobo_ConfigDatabase db;
 	CORBA_Environment ev;
@@ -282,24 +220,7 @@ get_widget (FilterElement *fe)
 	g_free (path);
 	
 	gtk_option_menu_set_menu (GTK_OPTION_MENU (omenu), menu);
-	gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), label->label);
+	gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), label->val);
 	
 	return omenu;
-}
-
-static void
-build_code (FilterElement *fe, GString *out, struct _FilterPart *ff)
-{
-	return;
-}
-
-static void
-format_sexp (FilterElement *fe, GString *out)
-{
-	FilterLabel *label = (FilterLabel *) fe;
-	char *str;
-	
-	str = g_strdup_printf ("%d", label->label);
-	g_string_append (out, str);
-	g_free (str);
 }

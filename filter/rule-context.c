@@ -38,6 +38,7 @@
 
 static int load(RuleContext * f, const char *system, const char *user);
 static int save(RuleContext * f, const char *user);
+static int revert(RuleContext *f, const char *user);
 static GList *rename_uri(RuleContext *f, const char *olduri, const char *newuri, GCompareFunc cmp);
 static GList *delete_uri(RuleContext *f, const char *uri, GCompareFunc cmp);
 
@@ -97,6 +98,7 @@ rule_context_class_init (RuleContextClass * class)
 	/* override methods */
 	class->load = load;
 	class->save = save;
+	class->revert = revert;
 	class->rename_uri = rename_uri;
 	class->delete_uri = delete_uri;
 
@@ -416,6 +418,148 @@ save (RuleContext *f, const char *user)
 	}
 	xmlFreeDoc (doc);
 	return ret;
+}
+
+/**
+ * rule_context_revert:
+ * @f: 
+ * @user: 
+ *
+ * Reverts a rule context from a user description file.  Assumes the
+ * system description file is unchanged from when it was loaded.
+ * 
+ * Return value: 
+ **/
+int
+rule_context_revert(RuleContext *f, const char *user)
+{
+	g_assert(f);
+
+	d(printf("rule_context: restoring %s %s\n", user));
+
+	return ((RuleContextClass *) ((GtkObject *) f)->klass)->revert(f, user);
+}
+
+struct _revert_data {
+	GHashTable *rules;
+	int rank;
+};
+
+static void
+revert_rule_remove(void *key, FilterRule *frule, RuleContext *f)
+{
+	rule_context_remove_rule(f, frule);
+	gtk_object_unref((GtkObject *)frule);
+}
+
+static void
+revert_source_remove(void *key, struct _revert_data *rest_data, RuleContext *f)
+{
+	g_hash_table_foreach(rest_data->rules, (GHFunc)revert_rule_remove, f);
+	g_hash_table_destroy(rest_data->rules);
+	g_free(rest_data);
+}
+
+static guint source_hashf(const char *a)
+{
+	if (a)
+		return g_str_hash(a);
+	return 0;
+}
+
+static int source_eqf(const char *a, const char *b)
+{
+	return (a && b && strcmp(a, b) == 0)
+		|| (a == NULL && b == NULL);
+}
+
+static int
+revert(RuleContext *f, const char *user)
+{
+	xmlNodePtr set, rule;
+	/*struct _part_set_map *part_map;*/
+	struct _rule_set_map *rule_map;
+	struct _revert_data *rest_data;
+	GHashTable *source_hash;
+	xmlDocPtr userdoc;
+	FilterRule *frule;
+
+	rule_context_set_error (f, NULL);
+	
+	d(printf("restoring rules %s %s\n", user));
+
+	userdoc = xmlParseFile (user);
+	if (userdoc == NULL)
+		/* clear out anythign we have? */
+		return 0;
+
+	source_hash = g_hash_table_new((GHashFunc)source_hashf, (GCompareFunc)source_eqf);
+
+	/* setup stuff we have now */
+	/* Note that we assume there is only 1 set of rules in a given rule context,
+	   although other parts of the code dont assume this */
+	frule = NULL;
+	while ((frule = rule_context_next_rule(f, frule, NULL))) {
+		rest_data = g_hash_table_lookup(source_hash, frule->source);
+		if (rest_data == NULL) {
+			rest_data = g_malloc0(sizeof(*rest_data));
+			rest_data->rules = g_hash_table_new(g_str_hash, g_str_equal);
+			g_hash_table_insert(source_hash, frule->source, rest_data);
+		}
+		g_hash_table_insert(rest_data->rules, frule->name, frule);
+	}
+
+	/* make what we have, match what we load */
+	set = userdoc->root->childs;
+	while (set) {
+		d(printf("set name = %s\n", set->name));
+		rule_map = g_hash_table_lookup (f->rule_set_map, set->name);
+		if (rule_map) {
+			d(printf("loading rules ...\n"));
+			rule = set->childs;
+			while (rule) {
+				d(printf("checking node: %s\n", rule->name));
+				if (!strcmp (rule->name, "rule")) {
+					FilterRule *part = FILTER_RULE(gtk_type_new (rule_map->type));
+					
+					if (filter_rule_xml_decode (part, rule, f) == 0) {
+						/* use the revert data to keep track of the right rank of this rule part */
+						rest_data = g_hash_table_lookup(source_hash, part->source);
+						if (rest_data == NULL) {
+							rest_data = g_malloc0(sizeof(*rest_data));
+							rest_data->rules = g_hash_table_new(g_str_hash, g_str_equal);
+							g_hash_table_insert(source_hash, part->source, rest_data);
+						}
+						frule = g_hash_table_lookup(rest_data->rules, part->name);
+						if (frule) {
+							if (f->priv->frozen == 0 && !filter_rule_eq(frule, part))
+								filter_rule_copy(frule, part);
+							gtk_object_unref (GTK_OBJECT (part));
+							rule_context_rank_rule(f, frule, rest_data->rank);
+							g_hash_table_remove(rest_data->rules, frule->name);
+						} else {
+							rule_context_add_rule(f, part);
+							rule_context_rank_rule(f, part, rest_data->rank);
+						}
+						rest_data->rank++;
+					} else {
+						gtk_object_unref (GTK_OBJECT (part));
+						g_warning ("Cannot load filter part");
+					}
+				}
+				rule = rule->next;
+			}
+		}
+		set = set->next;
+	}
+
+	xmlFreeDoc(userdoc);
+
+	/* remove any we still have that weren't in the file */
+	g_hash_table_foreach(source_hash, (GHFunc)revert_source_remove, f);
+	g_hash_table_destroy(source_hash);
+
+	return 0;
 }
 
 FilterPart *

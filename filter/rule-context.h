@@ -60,6 +60,7 @@ struct _RuleContextClass {
 	/* virtual methods */
 	int (*load)(RuleContext *f, const char *system, const char *user);
 	int (*save)(RuleContext *f, const char *user);
+	int (*revert)(RuleContext *f, const char *user);
 
 	GList *(*delete_uri)(RuleContext *f, const char *uri, GCompareFunc cmp);
 	GList *(*rename_uri)(RuleContext *f, const char *olduri, const char *newuri, GCompareFunc cmp);
@@ -95,6 +96,7 @@ RuleContext	*rule_context_new	(void);
 /* methods */
 int		rule_context_load(RuleContext *f, const char *system, const char *user);
 int		rule_context_save(RuleContext *f, const char *user);
+int		rule_context_revert(RuleContext *f, const char *user);
 
 void		rule_context_add_part(RuleContext *f, FilterPart *new);
 FilterPart 	*rule_context_find_part(RuleContext *f, const char *name);

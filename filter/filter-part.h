@@ -54,6 +54,7 @@ FilterPart	*filter_part_new	(void);
 
 /* methods */
 gboolean        filter_part_validate    (FilterPart *fp);
+int		filter_part_eq		(FilterPart *fp, FilterPart *fc);
 
 int		filter_part_xml_create	(FilterPart *ff, xmlNodePtr node);
 

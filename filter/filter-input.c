@@ -40,6 +40,7 @@
 #define d(x) 
 
 static gboolean validate (FilterElement *fe);
+static int input_eq(FilterElement *fe, FilterElement *cm);
 static void xml_create(FilterElement *fe, xmlNodePtr node);
 static xmlNodePtr xml_encode(FilterElement *fe);
 static int xml_decode(FilterElement *fe, xmlNodePtr node);
@@ -99,6 +100,7 @@ filter_input_class_init (FilterInputClass *class)
 
 	/* override methods */
 	filter_element->validate = validate;
+	filter_element->eq = input_eq;
 	filter_element->xml_create = xml_create;
 	filter_element->xml_encode = xml_encode;
 	filter_element->xml_decode = xml_decode;
@@ -211,6 +213,30 @@ validate (FilterElement *fe)
 	}
 	
 	return valid;
+}
+
+static int
+list_eq(GList *al, GList *bl)
+{
+	int truth = TRUE;
+
+	while (truth && al && bl) {
+		truth = strcmp((char *)al->data, (char *)bl->data) == 0;
+		al = al->next;
+		bl = bl->next;
+	}
+
+	return truth && al == NULL && bl == NULL;
+}
+
+static int
+input_eq(FilterElement *fe, FilterElement *cm)
+{
+	FilterInput *fi = (FilterInput *)fe, *ci = (FilterInput *)cm;
+
+	return ((FilterElementClass *)(parent_class))->eq(fe, cm)
+		&& strcmp(fi->type, ci->type) == 0
+		&& list_eq(fi->values, ci->values);
 }
 
 static void

@@ -41,6 +41,7 @@
 
 
 static gboolean validate (FilterElement *fe);
+static int element_eq(FilterElement *fe, FilterElement *cm);
 static void xml_create(FilterElement *fe, xmlNodePtr node);
 static FilterElement *clone(FilterElement *fe);
 
@@ -94,6 +95,7 @@ filter_element_class_init (FilterElementClass *class)
 
 	/* override methods */
 	class->validate = validate;
+	class->eq = element_eq;
 	class->xml_create = xml_create;
 	class->clone = clone;
 
@@ -136,6 +138,13 @@ gboolean
 filter_element_validate (FilterElement *fe)
 {
 	return ((FilterElementClass *)((GtkObject *)fe)->klass)->validate (fe);
+}
+
+int
+filter_element_eq(FilterElement *fe, FilterElement *cm)
+{
+	return ((GtkObject *)fe)->klass == ((GtkObject *)cm)->klass
+		&& ((FilterElementClass *)((GtkObject *)fe)->klass)->eq(fe, cm);
 }
 
 /**
@@ -268,7 +277,7 @@ filter_element_new_type_name (const char *type)
 	} else if (!strcmp (type, "datespec")) {
 		return (FilterElement *)filter_datespec_new ();
 	} else if (!strcmp (type, "score")) {
-		return (FilterElement *)filter_score_new ();
+		return (FilterElement *)filter_int_new_type("score", -3, 3);
 	} else if (!strcmp (type, "integer")) {
 		return (FilterElement *)filter_int_new ();
 	} else if (!strcmp (type, "regex")) {
@@ -298,6 +307,13 @@ static gboolean
 validate (FilterElement *fe)
 {
 	return TRUE;
+}
+
+static int
+element_eq(FilterElement *fe, FilterElement *cm)
+{
+	return ((fe->name && cm->name && strcmp(fe->name, cm->name) == 0)
+		|| (fe->name == NULL && cm->name == NULL));
 }
 
 static void
