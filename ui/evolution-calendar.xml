@@ -40,13 +40,6 @@
 			verb="CalendarPreferences" _descr="Alter preferences"/>
 
 		</submenu>
-
-		<submenu name="Help" _label="_Help">
-
-			<menuitem name="Calendar" _label="About Calendar"
-			_descr="All about the calendar" verb="AboutCalendar"/>
-
-		</submenu>
 	</menu>
 
 	<dockitem name="Toolbar" relief="none">

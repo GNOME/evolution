@@ -1,3 +1,9 @@
+2000-09-21  Federico Mena Quintero  <federico@helixcode.com>
+
+	* gui/calendar-commands.c (verbs): Removed the "about calendar"
+	command, since we don't want to have both "About Evolution" and
+	"About Calendar".
+
 2000-09-21  Michael Meeks  <michael@helixcode.com>
 
 	* gui/calendar-commands.c (calendar_control_activate): _UIHandler

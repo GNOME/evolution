@@ -1,5 +1,7 @@
 2000-09-21  Federico Mena Quintero  <federico@helixcode.com>
 
+	* ui/evolution-calendar.xml: Removed the AboutCalendar stuff.
+
 	* ui/evolution.xml: Fix mis-spelling of "calendar".
 
 2000-09-21  Michael Meeks  <michael@helixcode.com>

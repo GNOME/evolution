@@ -160,28 +160,6 @@ init_default_alarms (void)
 }
 #endif
 
-static void
-about_calendar_cmd (BonoboUIHandler *uih, void *user_data, const char *path)
-{
-        GtkWidget *about;
-        const gchar *authors[] = {
-		"Miguel de Icaza (miguel@kernel.org)",
-		"Federico Mena (federico@gimp.org)",
-		"Arturo Espinosa (arturo@nuclecu.unam.mx)",
-		"Russell Steinthal (rms39@columbia.edu)",
-		NULL
-	};
-
-        about = gnome_about_new (_("Gnome Calendar"), VERSION,
-				 "(C) 1998 the Free Software Foundation",
-				 authors,
-				 _("The GNOME personal calendar and schedule manager."),
-				 NULL);
-	gtk_window_set_modal (GTK_WINDOW (about), TRUE);
-	gnome_dialog_set_close (GNOME_DIALOG (about), TRUE);
-        gtk_widget_show (about);
-}
-
 /* Callback for the new appointment command */
 static void
 new_appointment_cb (BonoboUIHandler *uih, void *user_data, const char *path)
@@ -511,7 +489,6 @@ BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB ("CalendarPrint", file_print_cb),
 	BONOBO_UI_VERB ("EditNewAppointment", new_appointment_cb),
 	BONOBO_UI_VERB ("CalendarPreferences", properties_cmd),
-	BONOBO_UI_VERB ("AboutCalendar", about_calendar_cmd),
 
 	BONOBO_UI_VERB ("CalendarPrev", previous_clicked),
 	BONOBO_UI_VERB ("CalendarToday", today_clicked),
