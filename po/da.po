@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution beta\n"
 "POT-Creation-Date: 2000-05-07 17:22+0200\n"
-"PO-Revision-Date: 2000-05-13 20:38+0200\n"
+"PO-Revision-Date: 2000-05-15 14:38+0200\n"
 "Last-Translator: Keld Simonsen <keld@dkuug.dk>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
 "MIME-Version: 1.0\n"
@@ -24,123 +24,133 @@ msgid "Contact Editor"
 msgstr "Kontakt redaktør"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:8
-msgid "Business Fax"
-msgstr "Firma fax"
+msgid "_Full Name..."
+msgstr "_Fulde navn"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:9
-msgid "Home"
-msgstr "Hjem"
-
-#: addressbook/contact-editor/e-contact-editor-strings.h:10
-#: addressbook/contact-editor/e-contact-editor-strings.h:20
-msgid "Business"
-msgstr "Firma"
-
-#: addressbook/contact-editor/e-contact-editor-strings.h:11
-msgid "Mobile"
-msgstr "Mobil"
-
-#: addressbook/contact-editor/e-contact-editor-strings.h:12
-msgid "Primary Email"
-msgstr "Primær epost"
-
-#: addressbook/contact-editor/e-contact-editor-strings.h:13
-msgid "\tFull Name..."
-msgstr "\tFulde navn"
-
-#: addressbook/contact-editor/e-contact-editor-strings.h:14
-msgid "Job Title:"
-msgstr "Job titel"
-
-#: addressbook/contact-editor/e-contact-editor-strings.h:15
 msgid "Company:"
 msgstr "Firma:"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:16
+#: addressbook/contact-editor/e-contact-editor-strings.h:10
 msgid "File As:"
 msgstr "Opbevar som:"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:17
+#: addressbook/contact-editor/e-contact-editor-strings.h:11
 msgid "Web page address:"
 msgstr "Web-side adresse:"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:18
-msgid "This is the mailing address"
-msgstr "Dette er postadressen"
+#: addressbook/contact-editor/e-contact-editor-strings.h:12
+msgid "Wants _HTML mail"
+msgstr "Ønsker _HTML post"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:19
-msgid "Wants HTML mail"
-msgstr "Ønsker HTML post"
-
-#: addressbook/contact-editor/e-contact-editor-strings.h:21
-#: addressbook/contact-editor/e-contact-editor-strings.h:28
+#: addressbook/contact-editor/e-contact-editor-strings.h:13
 msgid "Address:"
 msgstr "Adresse:"
 
+#: addressbook/contact-editor/e-contact-editor-strings.h:14
+msgid "_Business"
+msgstr "_Arbejde"
+
+#: addressbook/contact-editor/e-contact-editor-strings.h:15
+msgid "_Home"
+msgstr "_Hjem"
+
+#: addressbook/contact-editor/e-contact-editor-strings.h:16
+msgid "Business _Fax"
+msgstr "Firma _fax"
+
+#: addressbook/contact-editor/e-contact-editor-strings.h:17
+msgid "_Mobile"
+msgstr "_Mobil"
+
+#: addressbook/contact-editor/e-contact-editor-strings.h:18
+msgid "Primary Email"
+msgstr "Primær epost"
+
+#: addressbook/contact-editor/e-contact-editor-strings.h:19
+msgid "Business"
+msgstr "Firma"
+
+#: addressbook/contact-editor/e-contact-editor-strings.h:20
+msgid "This is the _mailing address"
+msgstr "Dette er _postadressen"
+
+#: addressbook/contact-editor/e-contact-editor-strings.h:21
+msgid "_Contacts..."
+msgstr "_Kontakter..."
+
 #: addressbook/contact-editor/e-contact-editor-strings.h:22
+msgid "Ca_tegories..."
+msgstr "Ka_tegorier..."
+
+#: addressbook/contact-editor/e-contact-editor-strings.h:23
+msgid "Job Title"
+msgstr "Job titel"
+
+#: addressbook/contact-editor/e-contact-editor-strings.h:24
 msgid "General"
 msgstr "generel"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:23
+#: addressbook/contact-editor/e-contact-editor-strings.h:25
 msgid "Department:"
 msgstr "Afdeling:"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:24
+#: addressbook/contact-editor/e-contact-editor-strings.h:26
 msgid "Office:"
 msgstr "Kontor:"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:25
+#: addressbook/contact-editor/e-contact-editor-strings.h:27
 msgid "Profession:"
 msgstr "Beskæftigelse:"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:26
+#: addressbook/contact-editor/e-contact-editor-strings.h:28
 msgid "Nickname:"
 msgstr "Kaldenavn:"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:27
-msgid "Spouse's name:"
-msgstr "Ægtefælles navn:"
-
 #: addressbook/contact-editor/e-contact-editor-strings.h:29
+msgid "Spouse:"
+msgstr "Ægtefælle:"
+
+#: addressbook/contact-editor/e-contact-editor-strings.h:30
 msgid "Birthday:"
 msgstr "Fødselsdag:"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:30
+#: addressbook/contact-editor/e-contact-editor-strings.h:31
 msgid "Assistant's name:"
 msgstr "Sekretærs navn:"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:31
-msgid "Manager's name:"
+#: addressbook/contact-editor/e-contact-editor-strings.h:32
+msgid "Manager's Name:"
 msgstr "Chefs navn:"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:32
+#: addressbook/contact-editor/e-contact-editor-strings.h:33
 msgid "Anniversary:"
 msgstr "Bryllupsdag:"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:33
-msgid "Internet Free-Busy"
-msgstr "Internet fri/optaget"
-
 #: addressbook/contact-editor/e-contact-editor-strings.h:34
+msgid "Notes:"
+msgstr "Notat:"
+
+#: addressbook/contact-editor/e-contact-editor-strings.h:35
 msgid "Details"
 msgstr "Detaljer"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:35
-#: addressbook/contact-editor/e-contact-editor-strings.h:40
+#: addressbook/contact-editor/e-contact-editor-strings.h:36
+#: addressbook/contact-editor/e-contact-editor-strings.h:41
 msgid "Add"
 msgstr "Tilføj"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:36
+#: addressbook/contact-editor/e-contact-editor-strings.h:37
 #: mail/folder-browser-factory.c:153
 msgid "Delete"
 msgstr "Slet"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:37
+#: addressbook/contact-editor/e-contact-editor-strings.h:38
 msgid "Phone Types"
 msgstr "Telefon-typer"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:38
 #: addressbook/contact-editor/e-contact-editor-strings.h:39
+#: addressbook/contact-editor/e-contact-editor-strings.h:40
 msgid "New phone type"
 msgstr "Ny telefontype"
 
@@ -788,31 +798,31 @@ msgstr "Om en forkig-besked skal vises"
 msgid "Mail Component: I could not initialize Bonobo"
 msgstr "Postdelen: kunne ikke initialisere Bonobo"
 
-#: mail/message-list.c:421
+#: mail/message-list.c:420
 msgid "Priority"
 msgstr "Prioritet"
 
-#: mail/message-list.c:435
+#: mail/message-list.c:434
 msgid "From"
 msgstr "Fra"
 
-#: mail/message-list.c:442
+#: mail/message-list.c:441
 msgid "Subject"
 msgstr "Emne"
 
-#: mail/message-list.c:449
+#: mail/message-list.c:448
 msgid "Sent"
 msgstr "Sendt"
 
-#: mail/message-list.c:456
+#: mail/message-list.c:455
 msgid "Receive"
 msgstr "Modtag"
 
-#: mail/message-list.c:463
+#: mail/message-list.c:462
 msgid "To"
 msgstr "Til"
 
-#: mail/message-list.c:470
+#: mail/message-list.c:469
 msgid "Size"
 msgstr "Størrelse"
 
@@ -947,7 +957,7 @@ msgstr "_Værktøj"
 msgid "_Actions"
 msgstr "H_andlinger"
 
-#: shell/e-shell.c:82
+#: shell/e-shell.c:81
 #, c-format
 msgid "Cannot set up local storage -- %s"
 msgstr "Kan ikke opsætte lokal lagring -- %s"
@@ -1013,3 +1023,6 @@ msgstr "Tilføj >>"
 #: widgets/e-table/e-table-group.glade.h:13
 msgid "<< Remove"
 msgstr "<< Fjern"
+
+#~ msgid "Internet Free-Busy"
+#~ msgstr "Internet fri/optaget"
