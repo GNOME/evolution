@@ -419,9 +419,9 @@ camel_store_rename_folder (CamelStore *store, const char *old_name, const char *
 			folder = folders->pdata[i];
 
 			new = g_strdup_printf("%s%s", new_name, folder->full_name+strlen(old_name));
-			camel_object_bag_remove(store->folders, folder);
-			camel_object_bag_add(store->folders, new, folder);
+			camel_object_bag_rekey(store->folders, folder, new);
 			camel_folder_rename(folder, new);
+			g_free(new);
 
 			CAMEL_FOLDER_UNLOCK(folder, lock);
 			camel_object_unref(folder);

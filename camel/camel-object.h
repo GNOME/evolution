@@ -257,6 +257,7 @@ void *camel_object_bag_get(CamelObjectBag *bag, const void *key);
 void *camel_object_bag_reserve(CamelObjectBag *bag, const void *key);
 void camel_object_bag_add(CamelObjectBag *bag, const void *key, void *o);
 void camel_object_bag_abort(CamelObjectBag *bag, const void *key);
+void camel_object_bag_rekey(CamelObjectBag *bag, void *o, const void *newkey);
 GPtrArray *camel_object_bag_list(CamelObjectBag *bag);
 void camel_object_bag_remove(CamelObjectBag *bag, void *o);
 void camel_object_bag_destroy(CamelObjectBag *bag);

@@ -1,3 +1,12 @@
+2004-01-27  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #53373.
+
+	* camel-store.c (camel_store_rename_folder): use object_bag_rekey
+	to rename the object.  object_bag use was broken.
+
+	* camel-object.c (camel_object_bag_rekey): new api to atomically re-key 
+
 2004-01-23  Radek Doulik  <rodo@ximian.com>
 
 	* camel-folder.c (folder_changed): use check_junk_for_imap flag

@@ -212,7 +212,7 @@ camel_type_init(void)
 
 /* Should this return the object to the caller? */
 static void
-cobject_init (CamelObject *o, CamelObjectClass *klass)
+cobject_init(CamelObject *o, CamelObjectClass *klass)
 {
 	o->klass = klass;
 	o->magic = CAMEL_OBJECT_MAGIC;
@@ -608,7 +608,7 @@ cobject_class_finalise(CamelObjectClass * klass)
 }
 
 CamelType
-camel_object_get_type (void)
+camel_object_get_type(void)
 {
 	if (camel_object_type == CAMEL_INVALID_TYPE) {
 		camel_type_init();
@@ -633,13 +633,13 @@ camel_type_class_init(CamelObjectClass *klass, CamelObjectClass *type)
 }
 
 CamelType
-camel_type_register (CamelType parent, const char * name,
-		     /*unsigned int ver, unsigned int rev,*/
-		     size_t object_size, size_t klass_size,
-		     CamelObjectClassInitFunc class_init,
-		     CamelObjectClassFinalizeFunc class_finalise,
-		     CamelObjectInitFunc object_init,
-		     CamelObjectFinalizeFunc object_finalise)
+camel_type_register(CamelType parent, const char * name,
+		    /*unsigned int ver, unsigned int rev,*/
+		    size_t object_size, size_t klass_size,
+		    CamelObjectClassInitFunc class_init,
+		    CamelObjectClassFinalizeFunc class_finalise,
+		    CamelObjectInitFunc object_init,
+		    CamelObjectFinalizeFunc object_finalise)
 {
 	CamelObjectClass *klass;
 	/*int offset;
@@ -841,7 +841,7 @@ camel_object_unref(void *vo)
 }
 
 const char *
-camel_type_to_name (CamelType type)
+camel_type_to_name(CamelType type)
 {
 	if (type == NULL)
 		return "(NULL class)";
@@ -910,7 +910,7 @@ check_magic(void *o, CamelType ctype, int isob)
 }
 
 gboolean
-camel_object_is (CamelObject *o, CamelType ctype)
+camel_object_is(CamelObject *o, CamelType ctype)
 {
 	CamelObjectClass *k;
 
@@ -927,7 +927,7 @@ camel_object_is (CamelObject *o, CamelType ctype)
 }
 
 gboolean
-camel_object_class_is (CamelObjectClass *k, CamelType ctype)
+camel_object_class_is(CamelObjectClass *k, CamelType ctype)
 {
 	g_return_val_if_fail(check_magic(k, ctype, FALSE), FALSE);
 
@@ -1005,7 +1005,7 @@ camel_object_class_add_event(CamelObjectClass *klass, const char *name, CamelObj
 
 /* free hook data */
 static void
-camel_object_free_hooks (CamelObject *o)
+camel_object_free_hooks(CamelObject *o)
 {
 	CamelHookPair *pair, *next;
 
@@ -1033,7 +1033,7 @@ camel_object_free_hooks (CamelObject *o)
 
 /* return (allocate if required) the object's hook list, locking at the same time */
 static CamelHookList *
-camel_object_get_hooks (CamelObject *o)
+camel_object_get_hooks(CamelObject *o)
 {
 	static pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
 	CamelHookList *hooks;
@@ -1632,7 +1632,7 @@ camel_object_class_dump_tree(CamelType root)
  * Return value: 
  **/
 CamelObjectBag *
-camel_object_bag_new (GHashFunc hash, GEqualFunc equal, CamelCopyFunc keycopy, GFreeFunc keyfree)
+camel_object_bag_new(GHashFunc hash, GEqualFunc equal, CamelCopyFunc keycopy, GFreeFunc keyfree)
 {
 	CamelObjectBag *bag;
 
@@ -1654,7 +1654,7 @@ save_object(void *key, CamelObject *o, GPtrArray *objects)
 }
 
 void
-camel_object_bag_destroy (CamelObjectBag *bag)
+camel_object_bag_destroy(CamelObjectBag *bag)
 {
 	GPtrArray *objects = g_ptr_array_new();
 	int i;
@@ -1712,7 +1712,7 @@ co_bag_unreserve(CamelObjectBag *bag, const void *key)
  * previously been reserved using camel_object_bag_reserve().
  **/
 void
-camel_object_bag_add (CamelObjectBag *bag, const void *key, void *vo)
+camel_object_bag_add(CamelObjectBag *bag, const void *key, void *vo)
 {
 	CamelObject *o = vo;
 	CamelHookList *hooks;
@@ -1764,7 +1764,7 @@ camel_object_bag_add (CamelObjectBag *bag, const void *key, void *vo)
  * the ref to.
  **/
 void *
-camel_object_bag_get (CamelObjectBag *bag, const void *key)
+camel_object_bag_get(CamelObjectBag *bag, const void *key)
 {
 	CamelObject *o;
 
@@ -1827,7 +1827,7 @@ camel_object_bag_get (CamelObjectBag *bag, const void *key)
  * Return value: 
  **/
 void *
-camel_object_bag_reserve (CamelObjectBag *bag, const void *key)
+camel_object_bag_reserve(CamelObjectBag *bag, const void *key)
 {
 	CamelObject *o;
 
@@ -1888,11 +1888,33 @@ camel_object_bag_reserve (CamelObjectBag *bag, const void *key)
  * Abort a key reservation.
  **/
 void
-camel_object_bag_abort (CamelObjectBag *bag, const void *key)
+camel_object_bag_abort(CamelObjectBag *bag, const void *key)
 {
 	E_LOCK(type_lock);
 
 	co_bag_unreserve(bag, key);
+
+	E_UNLOCK(type_lock);
+}
+
+
+void
+camel_object_bag_rekey(CamelObjectBag *bag, void *o, const void *newkey)
+{
+	void *oldkey;
+
+	E_LOCK(type_lock);
+
+	if (g_hash_table_lookup_extended(bag->key_table, o, NULL, &oldkey)) {
+		g_hash_table_remove(bag->object_table, oldkey);
+		g_hash_table_remove(bag->key_table, o);
+		bag->free_key(oldkey);
+		oldkey = bag->copy_key(newkey);
+		g_hash_table_insert(bag->object_table, oldkey, o);
+		g_hash_table_insert(bag->key_table, o, oldkey);
+	} else {
+		abort();
+	}
 
 	E_UNLOCK(type_lock);
 }
@@ -1908,7 +1930,7 @@ save_bag(void *key, CamelObject *o, GPtrArray *list)
 /* get a list of all objects in the bag, ref'd
    ignores any reserved keys */
 GPtrArray *
-camel_object_bag_list (CamelObjectBag *bag)
+camel_object_bag_list(CamelObjectBag *bag)
 {
 	GPtrArray *list;
 
@@ -1923,7 +1945,7 @@ camel_object_bag_list (CamelObjectBag *bag)
 
 /* if bag is NULL, remove all bags from object */
 static void
-camel_object_bag_remove_unlocked (CamelObjectBag *inbag, CamelObject *o, CamelHookList *hooks)
+camel_object_bag_remove_unlocked(CamelObjectBag *inbag, CamelObject *o, CamelHookList *hooks)
 {
 	CamelHookPair *pair, *parent;
 	void *oldkey;
@@ -1953,7 +1975,7 @@ camel_object_bag_remove_unlocked (CamelObjectBag *inbag, CamelObject *o, CamelHo
 }
 
 void
-camel_object_bag_remove (CamelObjectBag *inbag, void *vo)
+camel_object_bag_remove(CamelObjectBag *inbag, void *vo)
 {
 	CamelObject *o = vo;
 	CamelHookList *hooks;
