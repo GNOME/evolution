@@ -1,5 +1,20 @@
 2002-11-07  Chris Toshok  <toshok@ximian.com>
 
+	* gui/component/Makefile.am (evolution_addressbook_LDADD): add
+	lots of libs back in since they're building now.
+
+	* gui/component/addressbook-config.c: more porting work.
+
+	* gui/component/addressbook.c: more porting work.
+
+	* gui/component/e-address-popup.[ch]: more porting work.
+	
+	* gui/component/e-address-widget.[ch]: more porting work.
+	
+	* gui/component/e-cardlist-model.[ch]: more porting work.
+	
+2002-11-07  Chris Toshok  <toshok@ximian.com>
+
 	* gui/component/select-names/e-select-names-bonobo.[ch]: more
 	porting work.
 

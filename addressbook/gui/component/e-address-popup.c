@@ -36,7 +36,6 @@
 #include <bonobo/bonobo-property-bag.h>
 #include <bonobo/bonobo-generic-factory.h>
 #include <gal/widgets/e-popup-menu.h>
-#include <gal/widgets/e-unicode.h>
 #include <addressbook/backend/ebook/e-book.h>
 #include <addressbook/backend/ebook/e-book-util.h>
 #include <addressbook/gui/contact-editor/e-contact-editor.h>
@@ -665,18 +664,18 @@ card_picker_init (MiniWizard *wiz, const GList *cards, const gchar *new_name, co
 
 static GtkObjectClass *parent_class;
 
-static void e_address_popup_destroy (GtkObject *);
+static void e_address_popup_dispose (GObject *);
 static void e_address_popup_query   (EAddressPopup *);
 
 
 static void
 e_address_popup_class_init (EAddressPopupClass *klass)
 {
-	GtkObjectClass *object_class = (GtkObjectClass *) klass;
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
-	parent_class = GTK_OBJECT_CLASS (gtk_type_class (gtk_event_box_get_type ()));
+	parent_class = g_type_class_peek_parent (klass);
 
-	object_class->destroy = e_address_popup_destroy;
+	object_class->dispose = e_address_popup_dispose;
 }
 
 static void
@@ -716,33 +715,35 @@ e_address_popup_cleanup (EAddressPopup *pop)
 }
 
 static void
-e_address_popup_destroy (GtkObject *obj)
+e_address_popup_dispose (GObject *obj)
 {
 	EAddressPopup *pop = E_ADDRESS_POPUP (obj);
 
 	e_address_popup_cleanup (pop);
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		GTK_OBJECT_CLASS (parent_class)->destroy (obj);
+	if (G_OBJECT_CLASS (parent_class)->dispose)
+		G_OBJECT_CLASS (parent_class)->dispose (obj);
 }
 
-GtkType
+GType
 e_address_popup_get_type (void)
 {
-	static GtkType pop_type = 0;
+	static GType pop_type = 0;
 
 	if (!pop_type) {
-		GtkTypeInfo pop_info = {
-			"EAddressPopup",
-			sizeof (EAddressPopup),
+		static const GTypeInfo pop_info =  {
 			sizeof (EAddressPopupClass),
-			(GtkClassInitFunc) e_address_popup_class_init,
-			(GtkObjectInitFunc) e_address_popup_init,
-			NULL, NULL,
-			(GtkClassInitFunc) NULL
+			NULL,           /* base_init */
+			NULL,           /* base_finalize */
+			(GClassInitFunc) e_address_popup_class_init,
+			NULL,           /* class_finalize */
+			NULL,           /* class_data */
+			sizeof (EAddressPopup),
+			0,             /* n_preallocs */
+			(GInstanceInitFunc) e_address_popup_init,
 		};
 
-		pop_type = gtk_type_unique (gtk_event_box_get_type (), &pop_info);
+		pop_type = g_type_register_static (gtk_event_box_get_type (), "EAddressPopup", &pop_info, 0);
 	}
 
 	return pop_type;
@@ -906,7 +907,7 @@ e_address_popup_construct (EAddressPopup *pop)
 GtkWidget *
 e_address_popup_new (void)
 {
-	EAddressPopup *pop = gtk_type_new (E_ADDRESS_POPUP_TYPE);
+	EAddressPopup *pop = g_object_new (E_TYPE_ADDRESS_POPUP, NULL);
 	e_address_popup_construct (pop);
 	return GTK_WIDGET (pop);
 }
@@ -969,10 +970,10 @@ e_address_popup_cardify (EAddressPopup *pop, ECard *card)
 
 	b = gtk_button_new_with_label (_("Edit Contact Info"));
 	gtk_box_pack_start (GTK_BOX (pop->main_vbox), b, TRUE, TRUE, 0);
-	gtk_signal_connect_object (GTK_OBJECT (b),
-				   "clicked",
-				   GTK_SIGNAL_FUNC (edit_contact_info_cb),
-				   GTK_OBJECT (pop));
+	g_signal_connect (b,
+			  "clicked",
+			  G_CALLBACK (edit_contact_info_cb),
+			  pop);
 	gtk_widget_show (b);
 }
 
@@ -999,10 +1000,10 @@ e_address_popup_no_matches (EAddressPopup *pop)
 
 	b = gtk_button_new_with_label (_("Add to Contacts"));
 	gtk_box_pack_start (GTK_BOX (pop->main_vbox), b, TRUE, TRUE, 0);
-	gtk_signal_connect_object (GTK_OBJECT (b),
-				   "clicked",
-				   GTK_SIGNAL_FUNC (add_contacts_cb),
-				   GTK_OBJECT (pop));
+	g_signal_connect (b,
+			  "clicked",
+			  G_CALLBACK (add_contacts_cb),
+			  pop);
 	gtk_widget_show (b);
 }
 

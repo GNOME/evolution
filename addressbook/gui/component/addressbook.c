@@ -14,10 +14,12 @@
 #include <glib.h>
 #include <gtk/gtkframe.h>
 #include <gtk/gtkvbox.h>
+#include <gtk/gtkwidget.h>
+#include <gtk/gtkmessagedialog.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-app.h>
+#include <libgnomeui/gnome-href.h>
 #include <libgnomeui/gnome-uidefs.h>
-#include <libgnomeui/gnome-dialog.h>
 #include <bonobo/bonobo-generic-factory.h>
 #include <bonobo/bonobo-ui-util.h>
 #include <bonobo/bonobo-exception.h>
@@ -476,18 +478,15 @@ book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 			     NULL);
 	}
 	else {
-		GtkWidget *warning_dialog, *label;
+		char *label_string;
+		GtkWidget *warning_dialog;
+		GtkWidget *href = NULL;
 		AddressbookSource *source = NULL;
 
-        	warning_dialog = gnome_dialog_new (
-        		_("Unable to open addressbook"),
-			GNOME_STOCK_BUTTON_CLOSE,
-        		NULL);
-
 		if (!strncmp (view->uri, "file:", 5)) {
-			label = gtk_label_new (
-					       _("We were unable to open this addressbook.  Please check that the\n"
-						 "path exists and that you have permission to access it."));
+			label_string = 
+				_("We were unable to open this addressbook.  Please check that the\n"
+				  "path exists and that you have permission to access it.");
 		}
 		else {
 			source = addressbook_storage_get_source_by_uri (view->uri);
@@ -495,48 +494,49 @@ book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 			if (source) {
 				/* special case for ldap: contact folders so we can tell the user about openldap */
 #if HAVE_LDAP
-				label = gtk_label_new (
-						       _("We were unable to open this addressbook.  This either\n"
-							 "means you have entered an incorrect URI, or the LDAP server\n"
-							 "is unreachable."));
+				label_string = 
+					_("We were unable to open this addressbook.  This either\n"
+					  "means you have entered an incorrect URI, or the LDAP server\n"
+					  "is unreachable.");
 #else
-				label = gtk_label_new (
-						       _("This version of Evolution does not have LDAP support\n"
-							 "compiled in to it.  If you want to use LDAP in Evolution\n"
-							 "you must compile the program from the CVS sources after\n"
-							 "retrieving OpenLDAP from the link below.\n"));
+				label_string =
+					_("This version of Evolution does not have LDAP support\n"
+					  "compiled in to it.  If you want to use LDAP in Evolution\n"
+					  "you must compile the program from the CVS sources after\n"
+					  "retrieving OpenLDAP from the link below.\n");
+				href = gnome_href_new ("http://www.openldap.org/", "OpenLDAP at http://www.openldap.org/");
 #endif
 			}
 			else {
 				/* other network folders */
-				label = gtk_label_new (
-						       _("We were unable to open this addressbook.  This either\n"
-							 "means you have entered an incorrect URI, or the server\n"
-							 "is unreachable."));
+				label_string =
+					_("We were unable to open this addressbook.  This either\n"
+					  "means you have entered an incorrect URI, or the server\n"
+					  "is unreachable.");
 			}
 		}
 
-		gtk_misc_set_alignment(GTK_MISC(label),
-				       0, .5);
-		gtk_label_set_justify(GTK_LABEL(label),
-				      GTK_JUSTIFY_LEFT);
 
-		gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (warning_dialog)->vbox), 
-				    label, TRUE, TRUE, 0);
-		gtk_widget_show (label);
+        	warning_dialog = gtk_message_dialog_new (
+			 NULL /* XXX */,
+			 0,
+			 GTK_MESSAGE_WARNING,
+			 GTK_BUTTONS_CLOSE, 
+			 label_string,
+			 NULL);
 
-#ifndef HAVE_LDAP
-		if (source) {
-			GtkWidget *href;
-			href = gnome_href_new ("http://www.openldap.org/", "OpenLDAP at http://www.openldap.org/");
-			gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (warning_dialog)->vbox), 
+		g_signal_connect_swapped (warning_dialog, 
+					  "response", 
+					  G_CALLBACK (gtk_widget_destroy),
+					  warning_dialog);
+
+		gtk_window_set_title (GTK_WINDOW (warning_dialog), _("Unable to open addressbook"));
+
+		if (href)
+			gtk_box_pack_start (GTK_BOX (GTK_DIALOG (warning_dialog)->vbox), 
 					    href, FALSE, FALSE, 0);
-			gtk_widget_show (href);
-		}
-#endif
-		gnome_dialog_run (GNOME_DIALOG (warning_dialog));
-		
-		gtk_object_destroy (GTK_OBJECT (warning_dialog));
+
+		gtk_widget_show_all (warning_dialog);
 	}
 }
 

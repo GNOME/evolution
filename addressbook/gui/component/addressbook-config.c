@@ -18,7 +18,6 @@
 #include <gtk/gtkentry.h>
 #include <gtk/gtkmessagedialog.h>
 #include <libgnome/gnome-i18n.h>
-#include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-druid.h>
 #include <libgnomeui/gnome-druid-page.h>
 
@@ -92,12 +91,12 @@ add_focus_handler (GtkWidget *widget, GtkWidget *notebook, int page_num)
 	focus_closure->notebook = notebook;
 	focus_closure->page_num = page_num;
 
-	gtk_signal_connect_full (GTK_OBJECT (widget),
-				 "focus_in_event" /* XXX */,
-				 (GtkSignalFunc) focus_help, NULL,
-				 focus_closure,
-				 (GtkDestroyNotify) g_free,
-				 FALSE, FALSE);
+	g_signal_connect_data (G_OBJECT (widget),
+			       "focus_in_event" /* XXX */,
+			       G_CALLBACK (focus_help),
+			       focus_closure,
+			       (GClosureNotify) g_free,
+			       (GConnectFlags)0);
 }
 
 typedef struct _AddressbookDialog AddressbookDialog;
@@ -356,7 +355,7 @@ addressbook_source_dialog_destroy (GtkWidget *widget, AddressbookSourceDialog *d
 #undef IF_UNREF
 #endif
 
-	gtk_object_destroy (GTK_OBJECT (dialog->gui));
+	gtk_widget_destroy (GTK_WIDGET (dialog->gui));
 
 	g_free (dialog);
 }
@@ -689,8 +688,8 @@ do_ldap_root_dse_query (GtkWidget *dialog, ETableModel *model, AddressbookSource
 static void
 search_base_selection_model_changed (ESelectionModel *selection_model, GtkWidget *dialog)
 {
-	gnome_dialog_set_sensitive (GNOME_DIALOG (dialog),
-				    0 /* OK */, e_selection_model_selected_count (selection_model) == 1);
+	gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog),
+					   GTK_RESPONSE_OK, e_selection_model_selected_count (selection_model) == 1);
 }
 
 static void
@@ -716,11 +715,11 @@ query_for_supported_bases (GtkWidget *button, AddressbookSourceDialog *sdialog)
 	search_base_selection_model_changed (selection_model, dialog);
 
 	if (do_ldap_root_dse_query (dialog, model, source, &values)) {
-		gnome_dialog_close_hides (GNOME_DIALOG(dialog), TRUE);
+		id = gtk_dialog_run (GTK_DIALOG (dialog));
 
-		id = gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+		gtk_widget_hide (dialog);
 
-		if (id == 0) {
+		if (id == GTK_RESPONSE_OK) {
 			int i;
 			/* OK was clicked */
 
@@ -1725,13 +1724,13 @@ addressbook_config_create_new_source (const char *new_source, GtkWidget *parent)
 
 	gtk_entry_set_text (GTK_ENTRY (dialog->name), new_source);
 
-	gnome_dialog_close_hides (GNOME_DIALOG(dialog->dialog), TRUE);
+	dialog->id = gtk_dialog_run (GTK_DIALOG (dialog->dialog));
 
-	dialog->id = gnome_dialog_run_and_close (GNOME_DIALOG (dialog->dialog));
-	
+	gtk_widget_hide (dialog->dialog);
+
 	g_object_unref (dialog->gui);
 
-	if (dialog->id == 0) {
+	if (dialog->id == GTK_RESPONSE_OK) {
 		/* Ok was clicked */
 		addressbook_storage_add_source (addressbook_source_copy(dialog->source));
 		addressbook_storage_write_sources();
