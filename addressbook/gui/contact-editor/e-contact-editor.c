@@ -660,8 +660,18 @@ set_entry_changed_signals(EContactEditor *editor)
 				 G_CALLBACK (address_text_changed), editor);
 	}
 
-	set_entry_changed_signal_field(editor, "entry-fullname");
-	set_entry_changed_signal_field(editor, "entry-company");
+	widget = glade_xml_get_widget(editor->gui, "entry-fullname");
+	if (widget && GTK_IS_ENTRY(widget)) {
+		g_signal_connect (widget, "changed",
+				  G_CALLBACK (name_entry_changed), editor);
+	}
+
+	widget = glade_xml_get_widget(editor->gui, "entry-company");
+	if (widget && GTK_IS_ENTRY(widget)) {
+		g_signal_connect (widget, "changed",
+				  G_CALLBACK (company_entry_changed), editor);
+	}
+
 	set_entry_changed_signal_field(editor, "entry-web");
 	set_entry_changed_signal_field(editor, "entry-categories");
 	set_entry_changed_signal_field(editor, "entry-jobtitle");
