@@ -313,6 +313,17 @@ e_cert_get_raw_der (ECert *cert, char **data, guint32 *len)
 }
 
 const char*
+e_cert_get_window_title  (ECert *cert)
+{
+	if (cert->priv->cert->nickname)
+		return cert->priv->cert->nickname;
+	else if (cert->priv->cn)
+		return cert->priv->cn;
+	else
+		return cert->priv->cert->subjectName;
+}
+
+const char*
 e_cert_get_nickname (ECert *cert)
 {
 	return cert->priv->cert->nickname;
@@ -1128,12 +1139,7 @@ create_asn1_struct (ECert *cert)
 
 	cert->priv->asn1 = e_asn1_object_new ();
 
-	if (cert->priv->cert->nickname)
-		e_asn1_object_set_display_name (cert->priv->asn1, cert->priv->cert->nickname);
-	else if (cert->priv->cn)
-		e_asn1_object_set_display_name (cert->priv->asn1, cert->priv->cn);
-	else
-		e_asn1_object_set_display_name (cert->priv->asn1, cert->priv->cert->subjectName);
+	e_asn1_object_set_display_name (cert->priv->asn1, e_cert_get_window_title (cert));
 
 	/* This sequence will be contain the tbsCertificate, signatureAlgorithm,
 	   and signatureValue. */

@@ -1,5 +1,14 @@
 2003-12-04  Chris Toshok  <toshok@ximian.com>
 
+	* gui/certificate-viewer.c (certificate_viewer_show): set the
+	window title based on e_cert_get_window_title.
+
+	* lib/e-cert.c (e_cert_get_window_title): new function, for use
+	with the certificate viewer.
+	(create_asn1_struct): call e_cert_get_window_title.
+
+2003-12-04  Chris Toshok  <toshok@ximian.com>
+
 	* lib/e-cert.h: add prototype for e_cert_get_asn1_struct.
 	
 	* lib/e-cert.c (e_cert_dispose): unref the asn1 object.

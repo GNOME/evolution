@@ -271,11 +271,19 @@ GtkWidget*
 certificate_viewer_show (ECert *cert)
 {
 	CertificateViewerData *cvm_data;
+	char *title;
 
 	cvm_data = g_new0 (CertificateViewerData, 1);
 	cvm_data->gui = glade_xml_new (EVOLUTION_GLADEDIR "/" GLADE_FILE_NAME, NULL, NULL);
 
 	cvm_data->dialog = glade_xml_get_widget (cvm_data->gui, "certificate-viewer-dialog");
+
+	title = g_strdup_printf (_("Certificate Viewer: %s"), e_cert_get_window_title (cert));
+
+	gtk_window_set_title (GTK_WINDOW (cvm_data->dialog),
+			      title);
+	
+	g_free (title);
 
 	fill_in_general (cvm_data, cert);
 	fill_in_details (cvm_data, cert);
