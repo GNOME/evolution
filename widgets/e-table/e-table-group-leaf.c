@@ -36,23 +36,31 @@ static void etgl_get_arg (GtkObject *object, GtkArg *arg, guint arg_id);
 static void
 etgl_destroy (GtkObject *object)
 {
-	GTK_OBJECT_CLASS (etgl_parent_class)->destroy (object);
+	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF(object);
+	gtk_object_unref(GTK_OBJECT(etgl->subset));
+	gtk_object_destroy(GTK_OBJECT(etgl->item));
+	if ( GTK_OBJECT_CLASS (etgl_parent_class)->destroy )
+		GTK_OBJECT_CLASS (etgl_parent_class)->destroy (object);
 }
 
 static void
 e_table_group_leaf_construct (GnomeCanvasGroup *parent, ETableGroupLeaf *etgl,
 			      ETableHeader *full_header,
 			      ETableHeader     *header,
-			      ETableModel *model)
+			      ETableModel *model,
+			      int          col,
+			      int          ascending)
 {
+	etgl->subset = E_TABLE_SUBSET_VARIABLE(e_table_sorted_variable_new(model, col, ascending, e_table_header_get_column(full_header, col)->compare));
 	e_table_group_construct (parent, E_TABLE_GROUP (etgl), full_header, header, model);
-	etgl->subset = E_TABLE_SUBSET_VARIABLE(e_table_subset_variable_new(model));
 }
 
 ETableGroup *
 e_table_group_leaf_new       (GnomeCanvasGroup *parent, ETableHeader *full_header,
 			      ETableHeader     *header,
-			      ETableModel *model)
+			      ETableModel *model,
+			      int          col,
+			      int          ascending)
 {
 	ETableGroupLeaf *etgl;
 
@@ -61,7 +69,7 @@ e_table_group_leaf_new       (GnomeCanvasGroup *parent, ETableHeader *full_heade
 	etgl = gtk_type_new (e_table_group_leaf_get_type ());
 
 	e_table_group_leaf_construct (parent, etgl, full_header,
-				      header, model);
+				      header, model, col, ascending);
 	return E_TABLE_GROUP (etgl);
 }
 

@@ -307,6 +307,10 @@ static void
 eti_table_model_changed (ETableModel *table_model, ETableItem *eti)
 {
 	eti->rows = e_table_model_row_count (eti->table_model);
+	
+	if (eti->focused_row > eti->rows - 1) {
+		eti->focused_row = eti->rows - 1;
+	}
 
 	if (eti->cell_views)
 		eti_compute_height (eti);

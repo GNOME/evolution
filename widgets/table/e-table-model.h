@@ -27,6 +27,10 @@ typedef struct {
 	void       *(*value_at)         (ETableModel *etm, int col, int row);
 	void        (*set_value_at)     (ETableModel *etm, int col, int row, const void *value);
 	gboolean    (*is_cell_editable) (ETableModel *etm, int col, int row);
+
+	void       *(*duplicate_value)   (ETableModel *etm, int col, const void *value);
+	void        (*free_value)        (ETableModel *etm, int col, void *value);
+	
 	void        (*thaw)             (ETableModel *etm);
 	/*
 	 * Signals
@@ -48,8 +52,11 @@ int         e_table_model_column_count     (ETableModel *e_table_model);
 const char *e_table_model_column_name      (ETableModel *e_table_model, int col);
 int         e_table_model_row_count        (ETableModel *e_table_model);
 void       *e_table_model_value_at         (ETableModel *e_table_model, int col, int row);
-void        e_table_model_set_value_at     (ETableModel *e_table_model, int col, int row, const void *data);
+void        e_table_model_set_value_at     (ETableModel *e_table_model, int col, int row, const void *value);
 gboolean    e_table_model_is_cell_editable (ETableModel *e_table_model, int col, int row);
+
+void       *e_table_model_duplicate_value  (ETableModel *e_table_model, int col, const void *value);
+void        e_table_model_free_value       (ETableModel *e_table_model, int col, void *value);
 
 void        e_table_model_freeze           (ETableModel *e_table_model);
 void        e_table_model_thaw             (ETableModel *e_table_model);

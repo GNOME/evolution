@@ -9,6 +9,8 @@ typedef	int         (*ETableSimpleRowCountFn)       (ETableModel *etm, void *dat
 typedef	void       *(*ETableSimpleValueAtFn)        (ETableModel *etm, int col, int row, void *data);
 typedef	void        (*ETableSimpleSetValueAtFn)     (ETableModel *etm, int col, int row, const void *val, void *data);
 typedef	gboolean    (*ETableSimpleIsCellEditableFn) (ETableModel *etm, int col, int row, void *data);
+typedef	void       *(*ETableSimpleDuplicateValueFn) (ETableModel *etm, int col, const void *val, void *data);
+typedef	void        (*ETableSimpleFreeValueFn)      (ETableModel *etm, int col, void *val, void *data);
 typedef void        (*ETableSimpleThawFn)           (ETableModel *etm, void *data);
 
 typedef struct {
@@ -19,6 +21,8 @@ typedef struct {
 	ETableSimpleValueAtFn        value_at;
 	ETableSimpleSetValueAtFn     set_value_at;
 	ETableSimpleIsCellEditableFn is_cell_editable;
+	ETableSimpleDuplicateValueFn duplicate_value;
+	ETableSimpleFreeValueFn      free_value;
 	ETableSimpleThawFn           thaw;
 	void *data;
 } ETableSimple;
@@ -34,6 +38,8 @@ ETableModel *e_table_simple_new (ETableSimpleColumnCountFn col_count,
 				 ETableSimpleValueAtFn value_at,
 				 ETableSimpleSetValueAtFn set_value_at,
 				 ETableSimpleIsCellEditableFn is_cell_editable,
+				 ETableSimpleDuplicateValueFn duplicate_value,
+				 ETableSimpleFreeValueFn free_value,
 				 ETableSimpleThawFn thaw,
 				 void *data);
 

@@ -34,6 +34,8 @@
 
 static GtkObjectClass *e_table_parent_class;
 
+static void e_table_fill_table (ETable *e_table, ETableModel *model);
+
 static void
 et_destroy (GtkObject *object)
 {
@@ -42,6 +44,20 @@ et_destroy (GtkObject *object)
 	gtk_object_unref (GTK_OBJECT (et->model));
 	gtk_object_unref (GTK_OBJECT (et->full_header));
 	gtk_object_unref (GTK_OBJECT (et->header));
+	gtk_widget_destroy (GTK_WIDGET (et->header_canvas));
+	gtk_widget_destroy (GTK_WIDGET (et->table_canvas));
+
+	gtk_signal_disconnect (GTK_OBJECT (et->model),
+			       et->table_model_change_id);
+	gtk_signal_disconnect (GTK_OBJECT (et->model),
+			       et->table_row_change_id);
+	gtk_signal_disconnect (GTK_OBJECT (et->model),
+			       et->table_cell_change_id);
+
+	if (et->rebuild_idle_id) {
+		g_source_remove(et->rebuild_idle_id);
+		et->rebuild_idle_id = 0;
+	}
 
 	(*e_table_parent_class->destroy)(object);
 }
@@ -54,6 +70,11 @@ e_table_init (GtkObject *object)
 	e_table->draw_grid = 1;
 	e_table->draw_focus = 1;
 	e_table->spreadsheet = 1;
+	
+	e_table->need_rebuild = 0;
+	e_table->need_row_changes = 0;
+	e_table->row_changes_list = NULL;
+	e_table->rebuild_idle_id = 0;
 }
 
 static ETableHeader *
@@ -528,6 +549,72 @@ table_canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc, ETable *e_t
 }
 
 static void
+change_row (gpointer key, gpointer value, gpointer data)
+{
+	ETable *et = E_TABLE(data);
+	gint row = GPOINTER_TO_INT(key);
+	if ( e_table_group_remove(et->group, row) ) {
+		e_table_group_add(et->group, row);
+	}
+}
+
+static gboolean
+changed_idle (gpointer data)
+{
+	ETable *et = E_TABLE(data);
+	if ( et->need_rebuild ) {
+		gtk_object_destroy( GTK_OBJECT(et->group ) );
+		et->group = e_table_group_new(GNOME_CANVAS_GROUP(et->table_canvas->root),
+					      et->full_header,
+					      et->header,
+					      et->model,
+					      e_xml_get_child_by_name(xmlDocGetRootElement(et->specification), "grouping")->childs);
+		e_table_fill_table(et, et->model);
+	} else if (et->need_row_changes) {
+		g_hash_table_foreach(et->row_changes_list, change_row, et);
+	}	
+	et->need_rebuild = 0;
+	et->need_row_changes = 0;
+	if (et->row_changes_list)
+		g_hash_table_destroy(et->row_changes_list);
+	et->row_changes_list = NULL;
+	et->rebuild_idle_id = 0;
+	return FALSE;
+}
+
+static void
+et_table_model_changed (ETableModel *model, ETable *et)
+{
+	et->need_rebuild = TRUE;
+	if ( !et->rebuild_idle_id ) {
+		et->rebuild_idle_id = g_idle_add(changed_idle, et);
+	}
+}
+
+static void
+et_table_row_changed (ETableModel *table_model, int row, ETable *et)
+{
+	if ( !et->need_rebuild ) {
+		if (!et->need_row_changes) {
+			et->need_row_changes = 1;
+			et->row_changes_list = g_hash_table_new (g_direct_hash, g_direct_equal);
+		}
+		if (!g_hash_table_lookup(et->row_changes_list, GINT_TO_POINTER(row))) {
+			g_hash_table_insert(et->row_changes_list, GINT_TO_POINTER(row), GINT_TO_POINTER(row + 1));
+		}
+	}
+	if ( !et->rebuild_idle_id ) {
+		et->rebuild_idle_id = g_idle_add(changed_idle, et);
+	}
+}
+
+static void
+et_table_cell_changed (ETableModel *table_model, int view_col, int row, ETable *et)
+{
+	et_table_row_changed(table_model, row, et);
+}
+
+static void
 e_table_setup_table (ETable *e_table, ETableHeader *full_header, ETableHeader *header, ETableModel *model, xmlNode *xml_grouping)
 {
 	e_table->table_canvas = GNOME_CANVAS(gnome_canvas_new ());
@@ -546,6 +633,17 @@ e_table_setup_table (ETable *e_table, ETableHeader *full_header, ETableHeader *h
 					   model,
 					   xml_grouping->childs);
 	
+	e_table->table_model_change_id = gtk_signal_connect (
+		GTK_OBJECT (model), "model_changed",
+		GTK_SIGNAL_FUNC (et_table_model_changed), e_table);
+
+	e_table->table_row_change_id = gtk_signal_connect (
+		GTK_OBJECT (model), "model_row_changed",
+		GTK_SIGNAL_FUNC (et_table_row_changed), e_table);
+
+	e_table->table_cell_change_id = gtk_signal_connect (
+		GTK_OBJECT (model), "model_cell_changed",
+		GTK_SIGNAL_FUNC (et_table_cell_changed), e_table);
 }
 
 static void

@@ -10,6 +10,7 @@
 #include <gnome.h>
 #include "e-util/e-canvas-utils.h"
 #include "e-util/e-cursors.h"
+#include "e-util/e-util.h"
 #include "e-table-simple.h"
 #include "e-table-header.h"
 #include "e-table-header-item.h"
@@ -79,6 +80,24 @@ is_cell_editable (ETableModel *etc, int col, int row, void *data)
 	return TRUE;
 }
 
+static void *
+duplicate_value (ETableModel *etc, int col, const void *value, void *data)
+{
+  if (col == 0){
+    return (void *)value;
+  } else {
+    return g_strdup(value);
+  }
+}
+
+static void
+free_value (ETableModel *etc, int col, void *value, void *data)
+{
+  if (col != 0){
+    g_free(value);
+  }
+}
+
 static void
 set_canvas_size (GnomeCanvas *canvas, GtkAllocation *alloc)
 {
@@ -106,7 +125,9 @@ multi_cols_test (void)
 	
 	e_table_model = e_table_simple_new (
 		col_count, row_count, value_at,
-		set_value_at, is_cell_editable, thaw, NULL);
+		set_value_at, is_cell_editable,
+		duplicate_value, free_value,
+		thaw, NULL);
 
 	/*
 	 * Header
@@ -131,10 +152,10 @@ multi_cols_test (void)
 		g_free (images);
 	} 
 					       
-	col_1 = e_table_col_new (1, "Item Name", 180, 20, cell_left_just, g_str_equal, TRUE);
+	col_1 = e_table_col_new (1, "Item Name", 180, 20, cell_left_just, g_str_compare, TRUE);
 	e_table_header_add_column (e_table_header, col_1, 0);
 
-	col_0 = e_table_col_new (0, "A", 48, 48, cell_image_toggle, g_int_equal, TRUE);
+	col_0 = e_table_col_new (0, "A", 48, 48, cell_image_toggle, g_int_compare, TRUE);
 	e_table_header_add_column (e_table_header, col_0, 1);
 
 	/*

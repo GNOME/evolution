@@ -19,6 +19,11 @@ typedef struct {
 
 typedef struct {
 	ETableSubsetClass parent_class;
+	
+	void     (*add)    (ETableSubsetVariable *ets,
+			    gint                  row);
+	gboolean (*remove) (ETableSubsetVariable *ets,
+			    gint                  row);
 } ETableSubsetVariableClass;
 
 GtkType      e_table_subset_variable_get_type  (void);

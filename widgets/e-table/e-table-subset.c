@@ -25,6 +25,17 @@ etss_destroy (GtkObject *object)
 	if (etss->source)
 		gtk_object_unref (GTK_OBJECT (etss->source));
 
+	gtk_signal_disconnect (GTK_OBJECT (etss->source),
+			       etss->table_model_changed_id);
+	gtk_signal_disconnect (GTK_OBJECT (etss->source),
+			       etss->table_model_row_changed_id);
+	gtk_signal_disconnect (GTK_OBJECT (etss->source),
+			       etss->table_model_cell_changed_id);
+
+	etss->table_model_changed_id = 0;
+	etss->table_model_row_changed_id = 0;
+	etss->table_model_cell_changed_id = 0;
+
 	if (etss->map_table)
 		free (etss->map_table);
 
@@ -71,6 +82,22 @@ etss_is_cell_editable (ETableModel *etm, int col, int row)
 	return e_table_model_is_cell_editable (etss->source, col, etss->map_table [row]);
 }
 
+static void *
+etss_duplicate_value (ETableModel *etm, int col, const void *value)
+{
+	ETableSubset *etss = (ETableSubset *)etm;
+
+	return e_table_model_duplicate_value (etss->source, col, value);
+}
+
+static void
+etss_free_value (ETableModel *etm, int col, void *value)
+{
+	ETableSubset *etss = (ETableSubset *)etm;
+
+	e_table_model_free_value (etss->source, col, value);
+}
+
 static void
 etss_thaw (ETableModel *etm)
 {
@@ -91,6 +118,8 @@ etss_class_init (GtkObjectClass *klass)
 	table_class->value_at         = etss_value_at;
 	table_class->set_value_at     = etss_set_value_at;
 	table_class->is_cell_editable = etss_is_cell_editable;
+	table_class->duplicate_value  = etss_duplicate_value;
+	table_class->free_value       = etss_free_value;
 	table_class->thaw             = etss_thaw;
 }
 
@@ -155,12 +184,12 @@ e_table_subset_construct (ETableSubset *etss, ETableModel *source, int nvals)
 	for (i = 0; i < nvals; i++)
 		etss->map_table [i] = i;
 
-	gtk_signal_connect (GTK_OBJECT (source), "model_changed",
-			    GTK_SIGNAL_FUNC (etss_proxy_model_changed), etss);
-	gtk_signal_connect (GTK_OBJECT (source), "model_row_changed",
-			    GTK_SIGNAL_FUNC (etss_proxy_model_row_changed), etss);
-	gtk_signal_connect (GTK_OBJECT (source), "model_cell_changed",
-			    GTK_SIGNAL_FUNC (etss_proxy_model_cell_changed), etss);
+	etss->table_model_changed_id = gtk_signal_connect (GTK_OBJECT (source), "model_changed",
+						     GTK_SIGNAL_FUNC (etss_proxy_model_changed), etss);
+	etss->table_model_row_changed_id = gtk_signal_connect (GTK_OBJECT (source), "model_row_changed",
+							 GTK_SIGNAL_FUNC (etss_proxy_model_row_changed), etss);
+	etss->table_model_cell_changed_id = gtk_signal_connect (GTK_OBJECT (source), "model_cell_changed",
+							  GTK_SIGNAL_FUNC (etss_proxy_model_cell_changed), etss);
 	
 	return E_TABLE_MODEL (etss);
 }

@@ -55,6 +55,22 @@ simple_is_cell_editable (ETableModel *etm, int col, int row)
 	return simple->is_cell_editable (etm, col, row, simple->data);
 }
 
+static void *
+simple_duplicate_value (ETableModel *etm, int col, const void *value)
+{
+	ETableSimple *simple = (ETableSimple *)etm;
+
+	return simple->duplicate_value (etm, col, value, simple->data);
+}
+
+static void
+simple_free_value (ETableModel *etm, int col, void *value)
+{
+	ETableSimple *simple = (ETableSimple *)etm;
+
+	simple->free_value (etm, col, value, simple->data);
+}
+
 static void
 simple_thaw (ETableModel *etm)
 {
@@ -73,6 +89,8 @@ e_table_simple_class_init (GtkObjectClass *object_class)
 	model_class->value_at = simple_value_at;
 	model_class->set_value_at = simple_set_value_at;
 	model_class->is_cell_editable = simple_is_cell_editable;
+	model_class->duplicate_value = simple_duplicate_value;
+	model_class->free_value = simple_free_value;
 	model_class->thaw = simple_thaw;
 }
 
@@ -105,6 +123,8 @@ e_table_simple_new (ETableSimpleColumnCountFn col_count,
 		    ETableSimpleValueAtFn value_at,
 		    ETableSimpleSetValueAtFn set_value_at,
 		    ETableSimpleIsCellEditableFn is_cell_editable,
+		    ETableSimpleDuplicateValueFn duplicate_value,
+		    ETableSimpleFreeValueFn free_value,
 		    ETableSimpleThawFn thaw,
 		    void *data)
 {
@@ -118,6 +138,8 @@ e_table_simple_new (ETableSimpleColumnCountFn col_count,
 	et->set_value_at = set_value_at;
 	et->is_cell_editable = is_cell_editable;
 	et->thaw = thaw;
+	et->duplicate_value = duplicate_value;
+	et->free_value = free_value;
 	et->data = data;
 	
 	return (ETableModel *) et;

@@ -60,14 +60,41 @@ typedef struct {
 } ETableGroupContainerChildNode;
 
 static void
+e_table_group_container_child_node_free(ETableGroupContainer *etgc, ETableGroupContainerChildNode *child_node)
+{
+	ETableGroup *etg = E_TABLE_GROUP(etgc);
+	ETableGroup *child = child_node->child;
+	gtk_object_destroy(GTK_OBJECT(child));
+	e_table_model_free_value(etg->model, etgc->ecol->col_idx, child_node->key);
+	gtk_object_destroy(GTK_OBJECT(child_node->text));
+	gtk_object_destroy(GTK_OBJECT(child_node->rect));
+}
+
+static void
+e_table_group_container_list_free(ETableGroupContainer *etgc)
+{
+	ETableGroupContainerChildNode *child_node;
+	GList *list;
+	for ( list = etgc->children; list; list = g_list_next(list) ) {
+		child_node = (ETableGroupContainerChildNode *) list->data;
+		e_table_group_container_child_node_free(etgc, child_node);
+	}
+	g_list_free(etgc->children);
+}
+
+static void
 etgc_destroy (GtkObject *object)
 {
 	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER (object);
 
 	gdk_font_unref(etgc->font);
+	gtk_object_unref(GTK_OBJECT(etgc->ecol));
+	gtk_object_destroy(GTK_OBJECT(etgc->rect));
+	e_table_group_container_list_free(etgc);
 
 	GTK_OBJECT_CLASS (etgc_parent_class)->destroy (object);
 }
+
 #if 0
 void
 e_table_group_add (ETableGroup *etg, GnomeCanvasItem *item)
@@ -168,11 +195,13 @@ void
 e_table_group_container_construct (GnomeCanvasGroup *parent, ETableGroupContainer *etgc,
 				   ETableHeader *full_header,
 				   ETableHeader     *header,
-				   ETableModel *model, ETableCol *ecol, xmlNode *child_rules)
+				   ETableModel *model, ETableCol *ecol, int ascending, xmlNode *child_rules)
 {
 	e_table_group_construct (parent, E_TABLE_GROUP (etgc), full_header, header, model);
 	etgc->ecol = ecol;
+	gtk_object_ref(GTK_OBJECT(etgc->ecol));
 	etgc->child_rules = child_rules;
+	etgc->ascending = ascending;
 	
 	etgc->font = gdk_font_load ("lucidasans-10");
 #if 0
@@ -217,7 +246,7 @@ e_table_group_container_construct (GnomeCanvasGroup *parent, ETableGroupContaine
 ETableGroup *
 e_table_group_container_new       (GnomeCanvasGroup *parent, ETableHeader *full_header,
 				   ETableHeader     *header,
-				   ETableModel *model, ETableCol *ecol, xmlNode *child_rules)
+				   ETableModel *model, ETableCol *ecol, int ascending, xmlNode *child_rules)
 {
 	ETableGroupContainer *etgc;
 
@@ -227,7 +256,7 @@ e_table_group_container_new       (GnomeCanvasGroup *parent, ETableHeader *full_
 	etgc = gtk_type_new (e_table_group_container_get_type ());
 
 	e_table_group_container_construct (parent, etgc, full_header, header,
-					   model, ecol, child_rules);
+					   model, ecol, ascending, child_rules);
 	return E_TABLE_GROUP (etgc);
 }
 
@@ -498,15 +527,21 @@ static void etgc_add (ETableGroup *etg, gint row)
 	GList *list = etgc->children;
 	ETableGroup *child;
 	ETableGroupContainerChildNode *child_node;
-	for ( ; list; list = g_list_next(list) ) {
+	int i = 0;
+	for ( ; list; list = g_list_next(list), i++ ) {
+		int comp_val;
 		child_node = (ETableGroupContainerChildNode *)(list->data);
-		if ( (*comp)(child_node->key, val) ) {
+		comp_val = (*comp)(child_node->key, val);
+		if ( comp_val == 0 ) {
 			child = child_node->child;
 			child_node->count ++;
 			e_table_group_add(child, row);
 			compute_text(etgc, child_node);
 			return;
 		}
+		if ( (comp_val > 0 && etgc->ascending) ||
+		     (comp_val < 0 && (!etgc->ascending)) )
+			break;
 	}
 	child_node = g_new(ETableGroupContainerChildNode, 1);
 	child_node->rect = gnome_canvas_item_new(GNOME_CANVAS_GROUP(etgc),
@@ -524,13 +559,17 @@ static void etgc_add (ETableGroup *etg, gint row)
 						 NULL);
 	child = e_table_group_new(GNOME_CANVAS_GROUP(etgc), etg->full_header, etg->header, etg->model, etgc->child_rules);
 	child_node->child = child;
-	child_node->key = val;
+	child_node->key = e_table_model_duplicate_value(etg->model, etgc->ecol->col_idx, val);
 
 	gtk_signal_connect(GTK_OBJECT(child), "resize",
 			   etgc_child_resize, etgc);
 	child_node->count = 1;
 	e_table_group_add(child, row);
-	etgc->children = g_list_append(etgc->children, child_node);
+	if ( list ) {
+		etgc->children = g_list_insert(etgc->children, child_node, i);
+	}
+	else
+		etgc->children = g_list_append(etgc->children, child_node);
 	compute_text(etgc, child_node);
 	etgc_queue_reposition(E_TABLE_GROUP_CONTAINER(etg));
 }
@@ -545,8 +584,7 @@ static gboolean etgc_remove (ETableGroup *etg, gint row)
 		if ( e_table_group_remove(child, row) ) {
 			child_node->count --;
 			if ( child_node->count == 0 ) {
-				gtk_object_unref(GTK_OBJECT(child_node->text));
-				gtk_object_unref(GTK_OBJECT(child));
+				e_table_group_container_child_node_free(etgc, child_node);
 				etgc->children = g_list_remove(etgc->children, child_node);
 				g_free(child_node);
 			} else {

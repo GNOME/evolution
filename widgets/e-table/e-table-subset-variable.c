@@ -14,16 +14,58 @@
 #include "e-util/e-util.h"
 #include "e-table-subset-variable.h"
 
+#define ETSSV_CLASS(e) ((ETableSubsetVariableClass *)((GtkObject *)e)->klass)
+
 #define PARENT_TYPE E_TABLE_SUBSET_TYPE
 
 #define INCREMENT_AMOUNT 10
 
-static ETableModelClass *etssv_parent_class;
+static ETableSubsetClass *etssv_parent_class;
 
 static void
-etssv_class_init (GtkObjectClass *klass)
+etssv_add       (ETableSubsetVariable *etssv,
+		 gint                  row)
 {
+	ETableModel *etm = E_TABLE_MODEL(etssv);
+	ETableSubset *etss = E_TABLE_SUBSET(etssv);
+	
+	if ( etss->n_map + 1 > etssv->n_vals_allocated ) {
+		etss->map_table = g_realloc(etss->map_table, (etssv->n_vals_allocated + INCREMENT_AMOUNT) * sizeof(int));
+		etssv->n_vals_allocated += INCREMENT_AMOUNT;
+	}
+	etss->map_table[etss->n_map++] = row;
+	if ( !etm->frozen )
+		e_table_model_changed(etm);
+}
+
+static gboolean
+etssv_remove    (ETableSubsetVariable *etssv,
+		 gint                  row)
+{
+	ETableModel *etm = E_TABLE_MODEL(etssv);
+	ETableSubset *etss = E_TABLE_SUBSET(etssv);
+	int i;
+	
+	for ( i = 0; i < etss->n_map; i++ ) {
+		if (etss->map_table[i] == row) {
+			memmove(etss->map_table + i, etss->map_table + i + 1, (etss->n_map - i - 1) * sizeof(int));
+			etss->n_map --;
+			if ( !etm->frozen )
+				e_table_model_changed(etm);
+			return TRUE;
+		}
+	}
+	return FALSE;
+}
+
+static void
+etssv_class_init (GtkObjectClass *object_class)
+{
+	ETableSubsetVariableClass *klass = E_TABLE_SUBSET_VARIABLE_CLASS(object_class);
 	etssv_parent_class = gtk_type_class (PARENT_TYPE);
+
+	klass->add = etssv_add;
+	klass->remove = etssv_remove;
 }
 
 E_MAKE_TYPE(e_table_subset_variable, "ETableSubsetVariable", ETableSubsetVariable, etssv_class_init, NULL, PARENT_TYPE);
@@ -56,34 +98,24 @@ void
 e_table_subset_variable_add       (ETableSubsetVariable *etssv,
 				   gint                  row)
 {
-	ETableModel *etm = E_TABLE_MODEL(etssv);
-	ETableSubset *etss = E_TABLE_SUBSET(etssv);
-	
-	if ( etss->n_map + 1 > etssv->n_vals_allocated )
-		etss->map_table = g_realloc(etss->map_table, (etssv->n_vals_allocated + INCREMENT_AMOUNT) * sizeof(int));
-	etss->map_table[etss->n_map++] = row;
-	if ( !etm->frozen )
-		e_table_model_changed(etm);
+	g_return_if_fail (etssv != NULL);
+	g_return_if_fail (E_IS_TABLE_SUBSET_VARIABLE(etssv));
+
+	if (ETSSV_CLASS(etssv)->add)
+		ETSSV_CLASS (etssv)->add (etssv, row);
 }
 
 gboolean
 e_table_subset_variable_remove    (ETableSubsetVariable *etssv,
 				   gint                  row)
 {
-	ETableModel *etm = E_TABLE_MODEL(etssv);
-	ETableSubset *etss = E_TABLE_SUBSET(etssv);
-	int i;
-	
-	for ( i = 0; i < etss->n_map; i++ ) {
-		if (etss->map_table[i] == row) {
-			memmove(etss->map_table + i, etss->map_table + i + 1, (etss->n_map - i - 1) * sizeof(int));
-			etss->n_map --;
-			if ( !etm->frozen )
-				e_table_model_changed(etm);
-			return TRUE;
-		}
-	}
-	return FALSE;
+	g_return_val_if_fail (etssv != NULL, FALSE);
+	g_return_val_if_fail (E_IS_TABLE_SUBSET_VARIABLE(etssv), FALSE);
+
+	if (ETSSV_CLASS(etssv)->remove)
+		return ETSSV_CLASS (etssv)->remove (etssv, row);
+	else
+		return FALSE;
 }
 
 void

@@ -26,6 +26,10 @@ typedef struct {
 
 	ETableGroup  *group;
 
+	int table_model_change_id;
+	int table_row_change_id;
+	int table_cell_change_id;
+
 	GnomeCanvas *header_canvas, *table_canvas;
 
 	GnomeCanvasItem *header_item, *root;
@@ -35,6 +39,12 @@ typedef struct {
 	guint draw_grid:1;
 	guint draw_focus:1;
 	guint spreadsheet:1;
+	
+	guint need_rebuild:1;
+	guint need_row_changes:1;
+	
+	GHashTable *row_changes_list;
+	gint rebuild_idle_id;
 } ETable;
 
 typedef struct {

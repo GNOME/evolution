@@ -13,6 +13,9 @@
 
 #define ETM_CLASS(e) ((ETableModelClass *)((GtkObject *)e)->klass)
 
+#define PARENT_TYPE gtk_object_get_type();
+					  
+
 static GtkObjectClass *e_table_model_parent_class;
 
 enum {
@@ -80,6 +83,28 @@ e_table_model_is_cell_editable (ETableModel *e_table_model, int col, int row)
 	return ETM_CLASS (e_table_model)->is_cell_editable (e_table_model, col, row);
 }
 
+void *
+e_table_model_duplicate_value (ETableModel *e_table_model, int col, const void *value)
+{
+	g_return_val_if_fail (e_table_model != NULL, NULL);
+	g_return_val_if_fail (E_IS_TABLE_MODEL (e_table_model), NULL);
+
+	if (ETM_CLASS (e_table_model)->duplicate_value)
+		return ETM_CLASS (e_table_model)->duplicate_value (e_table_model, col, value);
+	else
+		return NULL;
+}
+
+void
+e_table_model_free_value (ETableModel *e_table_model, int col, void *value)
+{
+	g_return_if_fail (e_table_model != NULL);
+	g_return_if_fail (E_IS_TABLE_MODEL (e_table_model));
+
+	if (ETM_CLASS (e_table_model)->free_value)
+		ETM_CLASS (e_table_model)->free_value (e_table_model, col, value);
+}
+
 static void
 e_table_model_destroy (GtkObject *object)
 {
@@ -121,27 +146,30 @@ e_table_model_class_init (GtkObjectClass *object_class)
 	gtk_object_class_add_signals (object_class, e_table_model_signals, LAST_SIGNAL);
 }
 
-GtkType
+
+guint
 e_table_model_get_type (void)
 {
-	static GtkType type = 0;
+  static guint type = 0;
 
-	if (!type){
-		GtkTypeInfo info = {
-			"ETableModel",
-			sizeof (ETableModel),
-			sizeof (ETableModelClass),
-			(GtkClassInitFunc) e_table_model_class_init,
-			(GtkObjectInitFunc) NULL,
-			NULL, /* reserved 1 */
-			NULL, /* reserved 2 */
-			(GtkClassInitFunc) NULL
-		};
+  if (!type)
+    {
+      GtkTypeInfo info =
+      {
+	"ETableModle",
+	sizeof (ETableModel),
+	sizeof (ETableModelClass),
+	(GtkClassInitFunc) e_table_model_class_init,
+	NULL,
+	/* reserved_1 */ NULL,
+        /* reserved_2 */ NULL,
+        (GtkClassInitFunc) NULL,
+      };
 
-		type = gtk_type_unique (gtk_object_get_type (), &info);
-	}
+      type = gtk_type_unique (gtk_object_get_type(), &info);
+    }
 
-	return type;
+  return type;
 }
 
 void

@@ -20,6 +20,7 @@ typedef struct {
 	 * The ETableCol used to group this set
 	 */
 	ETableCol    *ecol;
+	gint          ascending;
 
 	/*
 	 * List of ETableGroups we stack
@@ -55,11 +56,11 @@ typedef struct {
 } ETableGroupContainerClass;
 
 ETableGroup *e_table_group_container_new       (GnomeCanvasGroup *parent, ETableHeader *full_header, ETableHeader     *header,
-						ETableModel *model, ETableCol *ecol, xmlNode *child_rules);
+						ETableModel *model, ETableCol *ecol, int ascending, xmlNode *child_rules);
 void         e_table_group_container_construct (GnomeCanvasGroup *parent, ETableGroupContainer *etgc,
 						ETableHeader *full_header,
 						ETableHeader     *header,
-						ETableModel *model, ETableCol *ecol, xmlNode *child_rules);
+						ETableModel *model, ETableCol *ecol, int ascending, xmlNode *child_rules);
 
 GtkType      e_table_group_container_get_type  (void);
 

@@ -13,7 +13,7 @@
 
 #define PARENT_TYPE E_TABLE_SUBSET_TYPE
 
-static ETableModelClass *ets_parent_class;
+static ETableSubsetClass *ets_parent_class;
 
 static void
 ets_class_init (GtkObjectClass *klass)

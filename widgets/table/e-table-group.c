@@ -17,6 +17,7 @@
 #include <libgnomeui/gnome-canvas-rect-ellipse.h>
 #include <gnome-xml/parser.h>
 #include "e-util/e-util.h"
+#include "e-util/e-xml-utils.h"
 
 #define TITLE_HEIGHT         16
 #define GROUP_INDENT         10
@@ -45,7 +46,7 @@ enum {
 static void etg_set_arg (GtkObject *object, GtkArg *arg, guint arg_id);
 static void etg_get_arg (GtkObject *object, GtkArg *arg, guint arg_id);
 static gboolean etg_get_focus (ETableGroup      *etg);
-
+static void etg_destroy (GtkObject *object);
 #if 0
 GnomeCanvasItem *
 e_table_group_new (GnomeCanvasGroup *parent, ETableCol *ecol, 
@@ -64,6 +65,17 @@ e_table_group_new (GnomeCanvasGroup *parent, ETableCol *ecol,
 }
 #endif
 
+static void
+etg_destroy (GtkObject *object)
+{
+	ETableGroup *etg = E_TABLE_GROUP(object);
+	gtk_object_unref(GTK_OBJECT(etg->header));
+	gtk_object_unref(GTK_OBJECT(etg->full_header));
+	gtk_object_unref(GTK_OBJECT(etg->model));
+	if ( GTK_OBJECT_CLASS (etg_parent_class)->destroy )
+		GTK_OBJECT_CLASS (etg_parent_class)->destroy (object);
+}
+
 ETableGroup *
 e_table_group_new (GnomeCanvasGroup *parent,
 		   ETableHeader     *full_header,
@@ -71,17 +83,22 @@ e_table_group_new (GnomeCanvasGroup *parent,
 		   ETableModel      *model,
 		   xmlNode          *rules)
 {
+	int column;
+	int ascending;
+
 	g_return_val_if_fail (model != NULL, NULL);
-	
+
+	column = e_xml_get_integer_prop_by_name(rules, "column");
+	ascending = e_xml_get_integer_prop_by_name(rules, "ascending");
+
 	if(rules && !xmlStrcmp(rules->name, "group")) {
-		gint col_idx = atoi(xmlGetProp(rules, "column"));
 		ETableCol *col;
-		if ( col_idx > e_table_header_count(full_header) )
-			return e_table_group_leaf_new(parent, full_header, header, model);
-		col = e_table_header_get_columns(full_header)[col_idx];
-		return e_table_group_container_new(parent, full_header, header, model, col, rules->childs);
+		if ( column > e_table_header_count(full_header) )
+			return e_table_group_leaf_new(parent, full_header, header, model, column, ascending);
+		col = e_table_header_get_columns(full_header)[column];
+		return e_table_group_container_new(parent, full_header, header, model, col, ascending, rules->childs);
 	} else {
-		return e_table_group_leaf_new(parent, full_header, header, model);
+		return e_table_group_leaf_new(parent, full_header, header, model, column, ascending);
 	}
 	return NULL;
 }
@@ -93,10 +110,13 @@ e_table_group_construct (GnomeCanvasGroup *parent,
 			 ETableHeader     *header,
 			 ETableModel      *model)
 {
-	gnome_canvas_item_constructv (GNOME_CANVAS_ITEM (etg), parent, 0, NULL);
 	etg->full_header = full_header;
+	gtk_object_ref(GTK_OBJECT(etg->full_header));
 	etg->header = header;
+	gtk_object_ref(GTK_OBJECT(etg->header));
 	etg->model = model;
+	gtk_object_ref(GTK_OBJECT(etg->model));
+	gnome_canvas_item_constructv (GNOME_CANVAS_ITEM (etg), parent, 0, NULL);
 }
 
 void
@@ -311,6 +331,7 @@ etg_class_init (GtkObjectClass *object_class)
 	
 	object_class->set_arg = etg_set_arg;
 	object_class->get_arg = etg_get_arg;
+	object_class->destroy = etg_destroy;
 
 	item_class->event = etg_event;
 

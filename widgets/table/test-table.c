@@ -176,6 +176,18 @@ is_cell_editable (ETableModel *etc, int col, int row, void *data)
 	return TRUE;
 }
 
+static void *
+duplicate_value (ETableModel *etc, int col, const void *value, void *data)
+{
+	return g_strdup(value);
+}
+
+static void
+free_value (ETableModel *etc, int col, void *value, void *data)
+{
+	g_free(value);
+}
+
 static void
 thaw (ETableModel *etc, void *data)
 {
@@ -205,7 +217,8 @@ table_browser_test (void)
 	 */
 	e_table_model = e_table_simple_new (
 		col_count, row_count, value_at,
-		set_value_at, is_cell_editable, thaw, NULL);
+		set_value_at, is_cell_editable,
+		duplicate_value, free_value, thaw, NULL);
 
 	/*
 	 * Header
@@ -217,7 +230,7 @@ table_browser_test (void)
 		ETableCol *ecol = e_table_col_new (
 			i, column_labels [i],
 			80, 20, cell_left_just,
-			g_str_equal, TRUE);
+			g_str_compare, TRUE);
 
 		e_table_header_add_column (e_table_header, ecol, i);
 	}
@@ -263,7 +276,6 @@ static void
 do_e_table_demo (const char *spec)
 {
 	GtkWidget *e_table, *window, *frame;
-	ETableModel *e_table_model;
 	ECell *cell_left_just;
 	ETableHeader *full_header;
 	int i;
@@ -271,9 +283,14 @@ do_e_table_demo (const char *spec)
 	/*
 	 * Data model
 	 */
-	e_table_model = e_table_simple_new (
-		col_count, row_count, value_at,
-		set_value_at, is_cell_editable, thaw, NULL);
+	static ETableModel *e_table_model = NULL;
+
+	if ( e_table_model == NULL )
+		e_table_model = 
+			e_table_simple_new (col_count, row_count, value_at,
+					    set_value_at, is_cell_editable,
+					    duplicate_value, free_value, 
+					    thaw, NULL);
 
 	full_header = e_table_header_new ();
 	cell_left_just = e_cell_text_new (e_table_model, NULL, GTK_JUSTIFY_LEFT, TRUE);
@@ -282,7 +299,7 @@ do_e_table_demo (const char *spec)
 		ETableCol *ecol = e_table_col_new (
 			i, column_labels [i],
 			80, 20, cell_left_just,
-			g_str_equal, TRUE);
+			g_str_compare, TRUE);
 
 		e_table_header_add_column (full_header, ecol, i);
 	}
@@ -306,9 +323,9 @@ e_table_test (void)
 	load_data ();
 
 	if (1){/*getenv ("DO")){*/
-	  do_e_table_demo ("<ETableSpecification> <columns-shown> <column> 0 </column> <column> 1 </column> <column> 2 </column> <column> 3 </column> <column> 4 </column> </columns-shown> <grouping> <leaf/> </grouping> </ETableSpecification>");
-	  do_e_table_demo ("<ETableSpecification> <columns-shown> <column> 0 </column> <column> 0 </column> <column> 0 </column> <column> 0 </column> <column> 0 </column> <column> 1 </column> <column> 2 </column> <column> 3 </column> <column> 4 </column> </columns-shown> <grouping> <group column=\"3\"> <group column=\"4\"> <leaf/> </group> </group> </grouping> </ETableSpecification>");
+	  do_e_table_demo ("<ETableSpecification> <columns-shown> <column> 0 </column> <column> 1 </column> <column> 2 </column> <column> 3 </column> <column> 4 </column> </columns-shown> <grouping> <leaf column=\"3\" ascending=\"1\"/> </grouping> </ETableSpecification>");
+	  do_e_table_demo ("<ETableSpecification> <columns-shown> <column> 0 </column> <column> 0 </column> <column> 1 </column> <column> 2 </column> <column> 3 </column> <column> 4 </column> </columns-shown> <grouping> <group column=\"3\" ascending=\"1\"> <group column=\"4\" ascending=\"0\"> <leaf column=\"2\" ascending=\"1\"/> </group> </group> </grouping> </ETableSpecification>");
 	}
-	  do_e_table_demo ("<ETableSpecification> <columns-shown> <column> 0 </column> <column> 1 </column> <column> 2 </column> <column> 3 </column> <column> 4 </column> </columns-shown> <grouping> <group column=\"4\"> <leaf/> </group> </grouping> </ETableSpecification>");
-	  do_e_table_demo ("<ETableSpecification> <columns-shown> <column> 0 </column> <column> 1 </column> <column> 2 </column> <column> 3 </column> <column> 4 </column> </columns-shown> <grouping> <group column=\"3\"> <leaf/> </group> </grouping> </ETableSpecification>");
+	  do_e_table_demo ("<ETableSpecification> <columns-shown> <column> 0 </column> <column> 1 </column> <column> 2 </column> <column> 3 </column> <column> 4 </column> </columns-shown> <grouping> <group column=\"4\" ascending=\"1\"> <leaf column=\"2\" ascending=\"1\"/> </group> </grouping> </ETableSpecification>");
+	  do_e_table_demo ("<ETableSpecification> <columns-shown> <column> 0 </column> <column> 1 </column> <column> 2 </column> <column> 3 </column> <column> 4 </column> </columns-shown> <grouping> <group column=\"3\" ascending=\"1\"> <leaf column=\"2\" ascending=\"1\"/> </group> </grouping> </ETableSpecification>");
 }

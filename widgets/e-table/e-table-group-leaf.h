@@ -4,7 +4,7 @@
 
 #include <libgnomeui/gnome-canvas.h>
 #include "e-table-group.h"
-#include "e-table-subset-variable.h"
+#include "e-table-sorted-variable.h"
 #include "e-table-item.h"
 
 #define E_TABLE_GROUP_LEAF_TYPE        (e_table_group_leaf_get_type ())
@@ -33,7 +33,9 @@ typedef struct {
 ETableGroup *e_table_group_leaf_new       (GnomeCanvasGroup *parent,
 					   ETableHeader *full_header,
 					   ETableHeader     *header,
-					   ETableModel *model);
+					   ETableModel *model,
+					   int          col,
+					   int          ascending);
 GtkType          e_table_group_leaf_get_type  (void);
 
 #endif /* _E_TABLE_GROUP_LEAF_H_ */

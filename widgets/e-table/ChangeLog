@@ -1,5 +1,57 @@
 2000-02-24  Christopher James Lahey  <clahey@helixcode.com>
 
+	* test-table.c: Added duplicate_value and add_value.  Use the new
+	compare functions.  Made it so we only create one model to better
+	test model view stuff.  Changed the test to not have as many
+	extra, useless, columns.
+
+	* test-cols.c, test-check.c: Added duplicate_value and add_value.  Use the new
+	compare functions.
+
+	* e-table.c, e-table.h: Use all the new features of e-table-groups
+	(sorting and grouping).  Handle on the fly reorganization of
+	groups in an idle loop.  Compare functions now are to return -1 if
+	the first item is greater, 0 if they are equal, or 1 if the second
+	item is greater.
+
+	* e-table-subset.c, e-table-subset.h: Made e-table-subset
+	disconnect properly from its signals when it dies.
+
+	* e-table-subset-variable.c, e-table-subset-variable.h:
+	Virtualized the add and remove commands so that
+	e_table_sorted_variable could override the add command to do sorting.
+
+	* e-table-sorted.c: Fixed this to inherit properly from
+	ETableSubset.
+
+	* e-table-simple.h, e-table-simple.c: Added handling of
+	duplicate_value and free_value;
+
+	* e-table-model.c, e-table-model.h: Added duplicate_value and
+	free_value for memory allocation of table elements outside the
+	table.
+
+	* e-table-item.c: Fixed a crashing bug.
+
+	* e-table-group.c: Added sorting.  Fixed destruction to delete the
+	right things.
+
+	* e-table-group-leaf.c, e-table-group-leaf.h: Pass column and sort
+	order information into the e_table_sorted_variable.  Properly
+	destroy things when deleted.
+
+	* e-table-group-container.c, e-table-group-container.h: Properly
+	handle the list of subgroups.  Handle proper sorting and grouping
+	of subgroups.
+
+	* e-table-sorted-variable.c, e-table-sorted-variable.h: Files to
+	do a sorted model that stays sorted as you add and remove rows.
+
+	* Makefile.am: Added e-table-sorted-variable.c and
+	e-table-sorted-variable.h.
+
+2000-02-24  Christopher James Lahey  <clahey@helixcode.com>
+
 	* e-table-item.c: Made keyboard focus navigation work across
 	groups.
 
