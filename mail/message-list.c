@@ -1265,3 +1265,49 @@ void mail_do_regenerate_messagelist (MessageList *list, const gchar *search)
 
 	mail_operation_queue (&op_regenerate_messagelist, input, TRUE);
 }
+
+static void
+go_to_message (MessageList *message_list,
+	       int model_row)
+{
+	ETableScrolled *table_scrolled;
+	const CamelMessageInfo *info;
+	int view_row;
+
+	table_scrolled = E_TABLE_SCROLLED (message_list->etable);
+
+	view_row = e_table_model_to_view_row (table_scrolled->table, model_row);
+	info     = get_message_info (message_list, model_row);
+
+	if (info != NULL) {
+		e_table_scrolled_set_cursor_row (table_scrolled, view_row);
+		mail_do_display_message (message_list, info->uid, mark_msg_seen);
+	}
+}
+
+void
+message_list_home (MessageList *message_list)
+{
+	g_return_if_fail (message_list != NULL);
+
+	go_to_message (message_list, 0);
+}
+
+void
+message_list_end (MessageList *message_list)
+{
+	ETableScrolled *table_scrolled;
+	ETable *table;
+	int num_rows;
+
+	g_return_if_fail (message_list != NULL);
+
+	table_scrolled = E_TABLE_SCROLLED (message_list->etable);
+	table = table_scrolled->table;
+
+	num_rows = e_table_model_row_count (table->model);
+	if (num_rows == 0)
+		return;
+
+	go_to_message (message_list, num_rows - 1);
+}

@@ -49,13 +49,8 @@ folder_browser_destroy (GtkObject *object)
 {
 	FolderBrowser *folder_browser = FOLDER_BROWSER (object);
 
-	if (folder_browser->shell) {
-		CORBA_Environment ev;
-
-		CORBA_exception_init (&ev);
-		Bonobo_Unknown_unref (folder_browser->shell, &ev);
-		CORBA_exception_free (&ev);
-	}
+	if (folder_browser->shell)
+		CORBA_free (folder_browser->shell);
 	
 	if (folder_browser->uri)
 		g_free (folder_browser->uri);
@@ -308,7 +303,10 @@ etable_key (ETable *table, int row, int col, GdkEvent *ev, FolderBrowser *fb)
 	if ((ev->key.state & !(GDK_SHIFT_MASK | GDK_LOCK_MASK)) != 0)
 		return FALSE;
 
-	if (ev->key.keyval == GDK_space || ev->key.keyval == GDK_BackSpace) {
+	switch (ev->key.keyval) {
+	case GDK_space:
+	case GDK_BackSpace:
+	{
 		GtkAdjustment *vadj;
 		gfloat page_size;
 
@@ -329,20 +327,42 @@ etable_key (ETable *table, int row, int col, GdkEvent *ev, FolderBrowser *fb)
 
 		gtk_adjustment_value_changed (vadj);
 		return TRUE;
-	} else if (ev->key.keyval == GDK_Delete ||
-		   ev->key.keyval == GDK_KP_Delete) {
+	}
+
+	case GDK_Delete:
+	case GDK_KP_Delete:
 		delete_msg (NULL, fb);
 		message_list_select (fb->message_list, row,
 				     MESSAGE_LIST_SELECT_NEXT,
 				     0, CAMEL_MESSAGE_DELETED);
 		return TRUE;
-	} else if (ev->key.keyval == 'n' || ev->key.keyval == 'N' ||
-		   ev->key.keyval == 'p' || ev->key.keyval == 'P') {
+
+	case GDK_Home:
+	case GDK_KP_Home:
+		message_list_home (fb->message_list);
+		return TRUE;
+
+	case GDK_End:
+	case GDK_KP_End:
+		message_list_end (fb->message_list);
+		return TRUE;
+
+	case 'n':
+	case 'N':
 		message_list_select (fb->message_list, row,
-				     tolower (ev->key.keyval) == 'p' ?
-				     MESSAGE_LIST_SELECT_PREVIOUS :
 				     MESSAGE_LIST_SELECT_NEXT,
 				     0, CAMEL_MESSAGE_SEEN);
+		return TRUE;
+
+	case 'p':
+	case 'P':
+		message_list_select (fb->message_list, row,
+				     MESSAGE_LIST_SELECT_PREVIOUS,
+				     0, CAMEL_MESSAGE_SEEN);
+		return TRUE;
+
+	default:
+		return FALSE;
 	}
 
 	return FALSE;
@@ -441,20 +461,11 @@ folder_browser_new (Evolution_Shell shell)
 {
 	static int serial;
 	FolderBrowser *folder_browser = gtk_type_new (folder_browser_get_type ());
-	CORBA_Environment ev;
 
 	my_folder_browser_init (GTK_OBJECT (folder_browser));
 	folder_browser->uri = NULL;
 	folder_browser->serial = serial++;
 	folder_browser->shell = shell;
-
-#ifndef NO_WARNINGS
-#warning "is this a circular reference???"
-#endif
-
-	CORBA_exception_init (&ev);
-	Bonobo_Unknown_ref (shell, &ev);
-	CORBA_exception_free (&ev);
 
 	return GTK_WIDGET (folder_browser);
 }

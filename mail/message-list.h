@@ -110,6 +110,9 @@ void           message_list_select     (MessageList *message_list,
 					MessageListSelectDirection direction,
 					guint32 flags, guint32 mask);
 
+void           message_list_home       (MessageList *message_list);
+void           message_list_end        (MessageList *message_list);
+
 extern gboolean threaded_view;
 void           message_list_toggle_threads (BonoboUIHandler *uih,
 					    void *user_data,

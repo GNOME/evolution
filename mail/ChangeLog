@@ -1,3 +1,19 @@
+2000-09-02  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* folder-browser.c (etable_key): Make the `Home' key to move to
+	the beginning of the list and `End' to the end of it, using
+	`message_list_home()' and `message_list_end()'.
+
+	* message-list.c (message_list_home): New.
+	(message_list_end): New.
+
+	* folder-browser.c (folder_browser_new): Don't ref the shell here.
+	(folder_browser_destroy): Don't unref the shell.  Instead,
+	`CORBA_free()' the object reference.
+
+	* folder-browser-factory.c (control_activate): Bind "Open in New
+	Window" to `Ctrl-O'.
+
 2000-09-02  Lauris Kaplinski  <lauris@helixcode.com>
 
 	* mail-config-gui.c: Use e_utf8 wrappers
