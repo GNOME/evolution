@@ -64,8 +64,6 @@ struct _MailComponentClass {
 
 GType  mail_component_get_type  (void);
 
-struct _BonoboControl *mail_control_new(void);
-
 MailComponent *mail_component_peek  (void);
 
 /* NOTE: Using NULL as the component implies using the default component */
