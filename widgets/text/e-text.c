@@ -2693,7 +2693,7 @@ popup_targets_received (GtkClipboard     *clipboard,
       } else {
 	      gtk_menu_popup (GTK_MENU (popup_menu), NULL, NULL,
 			      NULL, NULL,
-			      button->button, GDK_CURRENT_TIME);
+			      button->button, button->time);
       }
 
       g_object_unref (text);
