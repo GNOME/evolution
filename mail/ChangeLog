@@ -1,5 +1,8 @@
 2002-04-26  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* Makefile.am: Don't link with libibex anymore, it's been
+	deprecated.
+
 	* mail-callbacks.c (next_unread_msg): Do away with the
 	goto-next-folder stuff, it's very annoying.
 
