@@ -281,6 +281,30 @@ item_key_press (ETableItem *item, int row, int col, GdkEvent *event, ETableClick
 }
 
 static void
+set_initial_selection (ETableClickToAdd *etcta)
+{
+	int best_model_col = 0;
+	int best_priority;
+	int i;
+	int count;
+
+	count = e_table_header_count (etcta->eth);
+	if (count == 0)
+		return;
+	best_priority = e_table_header_get_column (etcta->eth, 0)->priority;
+	best_model_col = e_table_header_get_column (etcta->eth, 0)->col_idx;
+	for (i = 1; i < count; i++) {
+		int priority = e_table_header_get_column (etcta->eth, i)->priority;
+		if (priority > best_priority) {
+			best_priority = priority;
+			best_model_col = e_table_header_get_column (etcta->eth, i)->col_idx;
+		}
+				
+	}
+	e_selection_model_do_something (E_SELECTION_MODEL(etcta->selection), 0, best_model_col, 0);
+}
+
+static void
 finish_editing (ETableClickToAdd *etcta)
 {
 	if (etcta->row) {
@@ -311,7 +335,7 @@ finish_editing (ETableClickToAdd *etcta)
 		gtk_signal_connect(GTK_OBJECT(etcta->row), "key_press",
 				   GTK_SIGNAL_FUNC(item_key_press), etcta);
 
-		e_table_item_set_cursor(E_TABLE_ITEM(etcta->row), 0, 0);
+		set_initial_selection (etcta);
 	}
 }
 
@@ -322,7 +346,6 @@ static int
 etcta_event (GnomeCanvasItem *item, GdkEvent *e)
 {
 	ETableClickToAdd *etcta = E_TABLE_CLICK_TO_ADD (item);
-	int ret_val = TRUE;
 	
 	switch (e->type){
 	case GDK_BUTTON_PRESS:
@@ -357,11 +380,9 @@ etcta_event (GnomeCanvasItem *item, GdkEvent *e)
 			gtk_signal_connect(GTK_OBJECT(etcta->row), "key_press",
 					   GTK_SIGNAL_FUNC(item_key_press), etcta);
 
-			gnome_canvas_item_i2w (item, &e->button.x, &e->button.y);
-			gnome_canvas_item_w2i (etcta->row, &e->button.x, &e->button.y);
-			gtk_signal_emit_by_name(GTK_OBJECT(etcta->row), "event", e, &ret_val);
-			gnome_canvas_item_i2w (etcta->row, &e->button.x, &e->button.y);
-			gnome_canvas_item_w2i (item, &e->button.x, &e->button.y);
+			e_canvas_item_grab_focus (GNOME_CANVAS_ITEM(etcta->row), TRUE);
+
+			set_initial_selection (etcta);
 		}
 		break;
 

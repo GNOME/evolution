@@ -39,6 +39,7 @@ typedef struct {
 	unsigned int sortable:1;
 	unsigned int groupable:1;
 	int          col_idx;
+	int          priority;
 
 	GtkJustification justification;
 
@@ -53,12 +54,12 @@ GtkType        e_table_col_get_type        (void);
 ETableCol     *e_table_col_new             (int col_idx, const char *text,
 					    double expansion, int min_width,
 					    ECell *ecell, GCompareFunc compare,
-					    gboolean resizable);
+					    gboolean resizable, int priority);
 ETableCol     *e_table_col_new_with_pixbuf (int col_idx, const char *text, 
 					    GdkPixbuf *pixbuf,
 					    double expansion, int min_width,
 					    ECell *ecell, GCompareFunc compare,
-					    gboolean resizable);
+					    gboolean resizable, int priority);
 void           e_table_col_destroy         (ETableCol *etc);
 
 

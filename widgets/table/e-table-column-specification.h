@@ -29,6 +29,7 @@ typedef struct {
 
 	char *cell;
 	char *compare;
+	int priority;
 } ETableColumnSpecification;
 
 typedef struct {
