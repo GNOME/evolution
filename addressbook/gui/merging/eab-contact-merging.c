@@ -15,6 +15,8 @@
 #include "eab-contact-compare.h"
 #include <glade/glade.h>
 #include <gtk/gtksignal.h>
+#include <gtk/gtkdialog.h>
+#include <gtk/gtkcontainer.h>
 #include "addressbook/gui/widgets/eab-contact-display.h"
 
 typedef enum {
@@ -174,6 +176,10 @@ match_query_callback (EContact *contact, EContact *match, EABContactMatchType ty
 					    contact, EAB_CONTACT_DISPLAY_RENDER_COMPACT);
 
 		widget = glade_xml_get_widget (ui, "dialog-duplicate-contact");
+
+		gtk_widget_ensure_style (widget);
+		gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (widget)->vbox), 0);
+		gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (widget)->action_area), 12);
 
 		g_signal_connect (widget, "response",
 				  G_CALLBACK (response), lookup);

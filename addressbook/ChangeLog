@@ -1,3 +1,12 @@
+2005-01-21  Rodney Dawes  <dobey@novell.com>
+
+	* gui/merging/eab-contact-duplicate-detected.glade:
+	Fix some spacing and remove the separator for HIG compliance
+	* gui/merging/eab-contact-merging.c (match_query_callback): 
+	Set proper border widths on some dialog containers for the HIG
+
+	Fixes #41228
+
 2005-01-21  JP Rosevear  <jpr@novell.com>
 
 	Fixes #46404	
