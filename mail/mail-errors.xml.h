@@ -110,13 +110,13 @@ char *s = N_("File exists but is not a regular file.");
 char *s = N_("Cannot delete folder \"{0}\".");
 /* mail:no-delete-folder secondary */
 char *s = N_("Because \"{1}\".");
-/* mail:no-delete-spethal-folder primary */
+/* mail:no-delete-special-folder primary */
 char *s = N_("Cannot delete system folder \"{0}\".");
-/* mail:no-delete-spethal-folder secondary */
+/* mail:no-delete-special-folder secondary */
 char *s = N_("System folders are required for Ximian Evolution to function correctly and cannot be renamed, moved, or deleted.");
-/* mail:no-rename-spethal-folder primary */
+/* mail:no-rename-special-folder primary */
 char *s = N_("Cannot rename or move system folder \"{0}\".");
-/* mail:no-rename-spethal-folder secondary */
+/* mail:no-rename-special-folder secondary */
 char *s = N_("System folders are required for Ximian Evolution to function correctly and cannot be renamed, moved, or deleted.");
 /* mail:ask-delete-folder title */
 char *s = N_("Delete \"{0}\"?");

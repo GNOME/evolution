@@ -2522,36 +2522,26 @@ emft_selection_get_selected (GtkTreeSelection *selection, GtkTreeModel **model, 
 }
 
 static void
-emft_popup_delete_response (GtkWidget *dialog, guint response, EMFolderTree *emft)
+emft_popup_delete_response (GtkWidget *dialog, int response, EMFolderTree *emft)
 {
-	struct _EMFolderTreePrivate *priv = emft->priv;
-	GtkTreeSelection *selection;
-	GtkTreeModel *model;
 	CamelStore *store;
 	CamelException ex;
-	GtkTreeIter iter;
 	char *full_name;
 	
-	gtk_widget_destroy (dialog);
-	if (response != GTK_RESPONSE_OK)
-		return;
+	full_name = g_object_get_data ((GObject *) dialog, "full_name");
+	store = g_object_get_data ((GObject *) dialog, "store");
 	
-	selection = gtk_tree_view_get_selection (priv->treeview);
-	if (!emft_selection_get_selected (selection, &model, &iter))
-		return;
-	
-	gtk_tree_model_get (model, &iter, COL_STRING_FULL_NAME, &full_name,
-			    COL_POINTER_CAMEL_STORE, &store, -1);
-	
-	camel_exception_init (&ex);
-	emft_popup_delete_folders (store, full_name, &ex);
-	if (camel_exception_is_set (&ex)) {
-		e_error_run((GtkWindow *)gtk_widget_get_toplevel((GtkWidget *)emft),
-			    "mail:no-delete-folder", full_name, ex.desc, NULL);
-		camel_exception_clear (&ex);
+	if (response == GTK_RESPONSE_OK) {
+		camel_exception_init (&ex);
+		emft_popup_delete_folders (store, full_name, &ex);
+		if (camel_exception_is_set (&ex)) {
+			e_error_run((GtkWindow *)gtk_widget_get_toplevel((GtkWidget *)emft),
+				    "mail:no-delete-folder", full_name, ex.desc, NULL);
+			camel_exception_clear (&ex);
+		}
 	}
 	
-	g_free (full_name);
+	gtk_widget_destroy (dialog);
 }
 
 static void
@@ -2575,15 +2565,18 @@ emft_popup_delete_folder (GtkWidget *item, EMFolderTree *emft)
 	local = mail_component_peek_local_store (NULL);
 	
 	if (store == local && is_special_local_folder (full_name)) {
-		e_error_run(NULL, "mail:no-delete-spethal-folder", full_name, NULL);
+		e_error_run(NULL, "mail:no-delete-special-folder", full_name, NULL);
 		return;
 	}
-
+	
+	camel_object_ref (store);
+	
 	dialog = e_error_new((GtkWindow *)gtk_widget_get_toplevel((GtkWidget *)emft),
 			     "mail:ask-delete-folder", full_name, NULL);
+	g_object_set_data_full ((GObject *) dialog, "full_name", full_name, g_free);
+	g_object_set_data_full ((GObject *) dialog, "store", store, camel_object_unref);
 	g_signal_connect (dialog, "response", G_CALLBACK (emft_popup_delete_response), emft);
 	gtk_widget_show (dialog);
-	g_free (full_name);
 }
 
 static void
@@ -2613,7 +2606,7 @@ emft_popup_rename_folder (GtkWidget *item, EMFolderTree *emft)
 	/* don't allow user to rename one of the special local folders */
 	if (store == local && is_special_local_folder (full_name)) {
 		e_error_run((GtkWindow *)gtk_widget_get_toplevel((GtkWidget *)emft),
-			    "mail:no-rename-spethal-folder", full_name, NULL);
+			    "mail:no-rename-special-folder", full_name, NULL);
 		g_free (full_name);
 		g_free (name);
 		g_free (uri);

@@ -164,12 +164,12 @@ The message is stored in the Outbox folder.  Check the message for errors and re
   <secondary>Because &quot;{1}&quot;.</secondary>
  </error>
 
- <error id="no-delete-spethal-folder" type="error">
+ <error id="no-delete-special-folder" type="error">
   <primary>Cannot delete system folder &quot;{0}&quot;.</primary>
   <secondary>System folders are required for Ximian Evolution to function correctly and cannot be renamed, moved, or deleted.</secondary>
  </error>
 
- <error id="no-rename-spethal-folder" type="error">
+ <error id="no-rename-special-folder" type="error">
   <primary>Cannot rename or move system folder &quot;{0}&quot;.</primary>
   <secondary>System folders are required for Ximian Evolution to function correctly and cannot be renamed, moved, or deleted.</secondary>
  </error>
