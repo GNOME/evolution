@@ -1,3 +1,9 @@
+2002-04-19  Anna Marie Dirks  <anna@ximian.com>
+
+	* gui/dialogs/cal-prefs-dialog.glade: Collapsed notebook into two pages
+	and added accelerators for everything, as part of my config dialog
+	polishing project
+
 2002-04-18  JP Rosevear  <jpr@ximian.com>
 
 	* gui/dialogs/recurrence-page.c (simple_recur_to_comp): properly
