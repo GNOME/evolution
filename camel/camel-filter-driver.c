@@ -204,8 +204,10 @@ camel_filter_driver_finalise (CamelObject *obj)
 
 	e_sexp_unref(p->eval);
 	
-	if (p->defaultfolder)
+	if (p->defaultfolder) {
+		camel_folder_thaw (p->defaultfolder);
 		camel_object_unref (CAMEL_OBJECT (p->defaultfolder));
+	}
 
 	while ((node = (struct _filter_rule *)e_dlist_remhead(&p->rules))) {
 		g_free(node->match);
@@ -264,13 +266,17 @@ camel_filter_driver_set_default_folder (CamelFilterDriver *d, CamelFolder *def)
 {
 	struct _CamelFilterDriverPrivate *p = _PRIVATE (d);
 	
-	if (p->defaultfolder)
+	if (p->defaultfolder) {
+		camel_folder_thaw (p->defaultfolder);
 		camel_object_unref (CAMEL_OBJECT (p->defaultfolder));
+	}
 	
 	p->defaultfolder = def;
 	
-	if (p->defaultfolder)
+	if (p->defaultfolder) {
+		camel_folder_freeze (p->defaultfolder);
 		camel_object_ref (CAMEL_OBJECT (p->defaultfolder));
+	}
 }
 
 void
