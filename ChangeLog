@@ -1,5 +1,21 @@
 2002-07-22  Dan Winship  <danw@ximian.com>
 
+	* acinclude.m4: Move EVO_CHECK_LIB into here, and also create
+	EVO_PURIFY_SUPPORT, EVO_TIMEZONE_CHECK, and EVO_LDAP_CHECK from
+	stuff in configure.in. (This stuff is also used by Connector.)
+
+	* configure.in: Remove the stuff that was moved to acinclude.m4.
+
+	* evolution_addressbookConf.sh.in: Remove db3 and ldap references
+	since pas-backend-file and pas-backend-ldap are no longer in
+	libpas, and those flags weren't doing anything useful here before
+	anyway. (Our attempts to force static linking to those libraries
+	end up getting mangled when passed through gnome-config.)
+
+	* evolution_calendarConf.sh.in: Likewise, remove db3 references.
+
+2002-07-22  Dan Winship  <danw@ximian.com>
+
 	* configure.in: Check if we're trying to build with the old
 	libversit module borrowed from gnome-pim instead of our own new
 	one, and refuse to build if so.
@@ -26,11 +42,11 @@
 	
 2002-07-10  Peter Williams  <peterw@ximian.com>
 
-	* configure.in (privlibdir): Define a versioned library directory that we can
-	use for things that are ABI-sensitive: camel providers, importers... Define
-	camel_providerder in terms of this, resulting in a new location for the
-	providers. Camel will have to be rebuilt for it to get the new
-	-D flag.
+	* configure.in (privlibdir): Define a versioned library directory
+	that we can use for things that are ABI-sensitive: camel
+	providers, importers... Define camel_providerder in terms of this,
+	resulting in a new location for the providers. Camel will have to
+	be rebuilt for it to get the new -D flag.
 
 2002-07-12  Peter Williams  <peterw@ximian.com>
 
