@@ -47,6 +47,7 @@
 #include <e-destination.h>
 #include "e-msg-composer-hdrs.h"
 #include "mail/mail-config.h"
+#include "addressbook/backend/ebook/e-book-util.h"
 
 
 #define SELECT_NAMES_OAFID "OAFIID:GNOME_Evolution_Addressbook_SelectNames"
@@ -638,10 +639,13 @@ set_recipients (CamelMimeMessage *msg, GtkWidget *entry_widget, const gchar *typ
 	
 	bonobo_widget_get_property (BONOBO_WIDGET (entry_widget), "text", &string, NULL);
 	destv = e_destination_importv (string);
+
+	g_message ("importv: [%s]", string);
 	
 	if (destv) {
 
 		dest_str = e_destination_get_address_textv (destv);
+		g_message ("destination is: %s", dest_str);
 
 		if (dest_str) {
 			addr = camel_internet_address_new ();
@@ -657,8 +661,10 @@ set_recipients (CamelMimeMessage *msg, GtkWidget *entry_widget, const gchar *typ
 			g_free (dest_str);
 		}
 
-		for (i=0; destv[i]; ++i)
+		for (i=0; destv[i]; ++i) {
+			e_destination_touch (destv[i]);
 			gtk_object_unref (GTK_OBJECT (destv[i]));
+		}
 		g_free (destv);
 	}
 
