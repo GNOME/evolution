@@ -194,6 +194,11 @@ folder_browser_destroy (GtkObject *object)
 		g_object_unref (folder_browser->view_menus);
 		folder_browser->view_menus = NULL;
 	}
+
+	if (folder_browser->paned_size_notify_id != 0) {
+		gconf_client_notify_remove(gconf_client_get_default (), folder_browser->paned_size_notify_id);
+		folder_browser->paned_size_notify_id = 0;
+	}
 	
 	/* wait for all outstanding async events against us */
 	mail_async_event_destroy (folder_browser->async_event);
@@ -2402,8 +2407,8 @@ folder_browser_gui_init (FolderBrowser *fb)
 	gconf_client_add_dir (gconf, "/apps/evolution/mail/display/paned_size",
 			      GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
 	
-	gconf_client_notify_add (gconf, "/apps/evolution/mail/display/paned_size",
-				 paned_size_changed, fb, NULL, NULL);
+	fb->paned_size_notify_id = gconf_client_notify_add (gconf, "/apps/evolution/mail/display/paned_size",
+							    paned_size_changed, fb, NULL, NULL);
 	
 	paned_size = gconf_client_get_int (gconf, "/apps/evolution/mail/display/paned_size", NULL);
 	

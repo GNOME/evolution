@@ -1,3 +1,9 @@
+2003-01-10  Not Zed  <NotZed@Ximian.com>
+
+	* folder-browser.c (folder_browser_gui_init): Save the paned_size
+	notify handle.
+	(folder_browser_destroy): Remove gconf notify handler.
+
 2003-01-09  Chris Toshok  <toshok@ximian.com>
 
 	* mail-config-druid.c (wizard_finish_cb): enable the account
