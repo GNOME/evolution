@@ -350,7 +350,7 @@ alarm_to_malarm_widgets (Dialog *dialog, CalComponentAlarm *alarm)
 				    "destinations", e_destination_exportv (destv), NULL);
 
 	for (i = 0; i < len; i++)
-		gtk_object_unref (GTK_OBJECT (destv[i]));
+		g_object_unref (GTK_OBJECT (destv[i]));
 	g_free (destv);
 
 	cal_component_free_attendee_list (attendee_list);

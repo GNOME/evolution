@@ -1498,7 +1498,7 @@ show_current (EItipControl *itip)
 
 	priv = itip->priv;
 
-	gtk_object_ref (GTK_OBJECT (itip));
+	g_object_ref (itip);
 	
 	if (priv->comp)
 		g_object_unref (priv->comp);
@@ -1540,7 +1540,7 @@ show_current (EItipControl *itip)
 		write_error_html (itip, _("The message does not appear to be properly formed"));
 		g_object_unref (priv->comp);
 		priv->comp = NULL;
-		gtk_object_unref (GTK_OBJECT (itip));
+		g_object_unref (itip);
 		return;
 	};
 
@@ -1605,7 +1605,7 @@ show_current (EItipControl *itip)
 
 	find_my_address (itip, priv->ical_comp);
 
-	gtk_object_unref (GTK_OBJECT (itip));
+	g_object_unref (itip);
 }
 
 void

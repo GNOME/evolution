@@ -106,7 +106,7 @@ set_data_idle_cb (gpointer data)
 	idle_data *id = data;
 	
 	e_itip_control_set_data (id->itip, id->text);
-	gtk_object_unref (GTK_OBJECT (id->itip));
+	g_object_unref (id->itip);
 	g_free (id->text);
 	g_free (id);
 	
@@ -133,7 +133,7 @@ pstream_load (BonoboPersistStream *ps, const Bonobo_Stream stream,
 		g_free (id);
 		return;
 	}
-	gtk_object_ref (GTK_OBJECT (itip));
+	g_object_ref (itip);
 	id->itip = itip;
 	
 	g_idle_add (set_data_idle_cb, id);
