@@ -421,6 +421,7 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	const char *categories;
 	ESource *source;
 	GSList *l;
+	gboolean validated = TRUE;
 	
 	g_return_val_if_fail (page->client != NULL, FALSE);
 
@@ -452,18 +453,15 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	/* Start and end times */
 
 	e_cal_component_get_dtstart (comp, &start_date);
-	if (!start_date.value) {
-		comp_editor_page_display_validation_error (page, _("Event with no start time"), priv->start_time);
-		return FALSE;
-	}
-
 	e_cal_component_get_dtend (comp, &end_date);
-	if (!end_date.value) {
-		comp_editor_page_display_validation_error (page, _("Event with no end time"), priv->end_time);
-		return FALSE;
-	}
-
-	update_time (epage, &start_date, &end_date);
+	if (!start_date.value) {
+		comp_editor_page_display_validation_error (page, _("Event with no start date"), priv->start_time);
+		validated = FALSE;
+	} else if (!end_date.value) {
+		comp_editor_page_display_validation_error (page, _("Event with no end date"), priv->end_time);
+		validated = FALSE;
+	} else
+		update_time (epage, &start_date, &end_date);
 	
 	e_cal_component_free_datetime (&start_date);
 	e_cal_component_free_datetime (&end_date);
@@ -530,7 +528,7 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 
 	priv->updating = FALSE;
 
-	return TRUE;
+	return validated;
 }
 
 /* fill_component handler for the event page */

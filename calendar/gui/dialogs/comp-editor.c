@@ -722,11 +722,7 @@ comp_editor_append_page (CompEditor *editor,
 		ECalComponent *comp;
 
 		comp = comp_editor_get_current_comp (editor);
-		if (!comp_editor_page_fill_widgets (page, comp)) {
-			/* dont add the pagge if there is an error */
-			g_object_unref (comp);
-			return;
-		}
+		comp_editor_page_fill_widgets (page, comp);
 		g_object_unref (comp);
 	}
 
