@@ -1,5 +1,20 @@
 2002-06-19  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/imap/camel-imap-folder.c (imap_refresh_info): Make
+	sure we hold the command_lock before accessing current_folder.
+	(imap_append_online): Same.
+	(imap_transfer_online): Same.
+
+	* providers/imap/camel-imap-store.c (delete_folder): We need to
+	hold the command_lock before we can set the current_folder to
+	NULL.
+	(rename_folder): Same.
+	(get_folder_info_online): We need to make sure we hold the
+	command_lock in order to use current_folder.
+	(everywhere): Same.
+
+2002-06-19  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* providers/smtp/camel-smtp-transport.c (smtp_connect): Don't
 	bother trying to authenticate (and thus don't throw up an error
 	dialog) unless the server is an ESMTP server and supports

@@ -1409,10 +1409,14 @@ delete_folder (CamelStore *store, const char *folder_name, CamelException *ex)
 	if (response) {
 		camel_imap_response_free_without_processing (imap_store, response);
 		
+		CAMEL_IMAP_STORE_LOCK (imap_store, command_lock);
+		
 		if (imap_store->current_folder)
 			camel_object_unref (CAMEL_OBJECT (imap_store->current_folder));
 		/* no need to actually create a CamelFolder for INBOX */
 		imap_store->current_folder = NULL;
+		
+		CAMEL_IMAP_STORE_UNLOCK (imap_store, command_lock);
 	} else
 		return;
 	
@@ -1544,10 +1548,14 @@ rename_folder (CamelStore *store, const char *old_name, const char *new_name, Ca
 	if (response) {
 		camel_imap_response_free_without_processing (imap_store, response);
 		
+		CAMEL_IMAP_STORE_LOCK (imap_store, command_lock);
+		
 		if (imap_store->current_folder)
 			camel_object_unref (CAMEL_OBJECT (imap_store->current_folder));
 		/* no need to actually create a CamelFolder for INBOX */
 		imap_store->current_folder = NULL;
+		
+		CAMEL_IMAP_STORE_UNLOCK (imap_store, command_lock);
 	} else
 		return;
 	
@@ -1993,6 +2001,7 @@ get_folder_info_online (CamelStore *store, const char *top,
 			continue;
 		}
 		
+		CAMEL_IMAP_STORE_LOCK (imap_store, command_lock);
 		/* For the current folder, poke it to check for new
 		 * messages and then report that number, rather than
 		 * doing a STATUS command.
@@ -2003,6 +2012,8 @@ get_folder_info_online (CamelStore *store, const char *top,
 			fi->unread_message_count = camel_folder_get_unread_message_count (imap_store->current_folder);
 		} else
 			fi->unread_message_count = get_folder_status (imap_store, fi->full_name, "UNSEEN");
+		
+		CAMEL_IMAP_STORE_UNLOCK (imap_store, command_lock);
 	}
 	
 	g_ptr_array_free (folders, TRUE);

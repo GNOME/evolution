@@ -471,12 +471,15 @@ imap_refresh_info (CamelFolder *folder, CamelException *ex)
 	/* If the folder isn't selected, select it (which will force
 	 * a rescan if one is needed.
 	 */
+	CAMEL_IMAP_STORE_LOCK (imap_store, command_lock);
 	if (imap_store->current_folder != folder) {
+		CAMEL_IMAP_STORE_UNLOCK (imap_store, command_lock);
 		response = camel_imap_command (imap_store, folder, ex, NULL);
 		camel_imap_response_free (imap_store, response);
 		return;
 	}
-
+	CAMEL_IMAP_STORE_UNLOCK (imap_store, command_lock);
+	
 	/* Otherwise, if we need a rescan, do it, and if not, just do
 	 * a NOOP to give the server a chance to tell us about new
 	 * messages.
@@ -1156,9 +1159,11 @@ imap_append_online (CamelFolder *folder, CamelMimeMessage *message,
 	camel_imap_response_free (store, response);
 	
 	/* Make sure a "folder_changed" is emitted. */
+	CAMEL_IMAP_STORE_LOCK (store, command_lock);
 	if (store->current_folder != folder ||
 	    camel_folder_summary_count (folder->summary) == count)
 		imap_refresh_info (folder, ex);
+	CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
 }
 
 static void
@@ -1360,10 +1365,12 @@ imap_transfer_online (CamelFolder *source, GPtrArray *uids,
 		return;
 
 	/* Make the destination notice its new messages */
+	CAMEL_IMAP_STORE_LOCK (store, command_lock);
 	if (store->current_folder != dest ||
 	    camel_folder_summary_count (dest->summary) == count)
 		camel_folder_refresh_info (dest, ex);
-
+	CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
+	
 	if (delete_originals) {
 		for (i = 0; i < uids->len; i++)
 			camel_folder_delete_message (source, uids->pdata[i]);
