@@ -97,8 +97,8 @@ e_bit_array_delete_real(EBitArray *eba, int row, gboolean move_selection_mode)
 		if ((eba->bit_count & 0x1f) == 0) {
 			eba->data = g_renew(guint32, eba->data, eba->bit_count >> 5);
 		}
-		if (move_selection_mode && selected) {
-			e_bit_array_select_single_row (eba, row > 0 ? row - 1 : 0);
+		if (move_selection_mode && selected && eba->bit_count > 0) {
+			e_bit_array_select_single_row (eba, row == eba->bit_count ? row - 1 : row);
 		}
 	}
 }
