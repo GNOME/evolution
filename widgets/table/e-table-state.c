@@ -55,6 +55,11 @@ etst_destroy (GtkObject *object)
 		etst->expansions = NULL;
 	}
 	
+	if (etst->sort_info) {
+		gtk_object_unref (GTK_OBJECT (etst->sort_info));
+		etst->sort_info = NULL;
+	}
+	
 	GTK_OBJECT_CLASS (etst_parent_class)->destroy (object);
 }
 
