@@ -2248,52 +2248,52 @@ msgstr "%0"
 #: calendar/gui/e-calendar-table.c:374
 #, c-format
 msgid "10%"
-msgstr "%10"
+msgstr "%%10"
 
 #: calendar/gui/e-calendar-table.c:375
 #, c-format
 msgid "20%"
-msgstr "%20"
+msgstr "%%20"
 
 #: calendar/gui/e-calendar-table.c:376
 #, c-format
 msgid "30%"
-msgstr "%30"
+msgstr "%%30"
 
 #: calendar/gui/e-calendar-table.c:377
 #, c-format
 msgid "40%"
-msgstr "%40"
+msgstr "%%40"
 
 #: calendar/gui/e-calendar-table.c:378
 #, c-format
 msgid "50%"
-msgstr "%50"
+msgstr "%%50"
 
 #: calendar/gui/e-calendar-table.c:379
 #, c-format
 msgid "60%"
-msgstr "%60"
+msgstr "%%60"
 
 #: calendar/gui/e-calendar-table.c:380
 #, c-format
 msgid "70%"
-msgstr "%70"
+msgstr "%%70"
 
 #: calendar/gui/e-calendar-table.c:381
 #, c-format
 msgid "80%"
-msgstr "%80"
+msgstr "%%80"
 
 #: calendar/gui/e-calendar-table.c:382
 #, c-format
 msgid "90%"
-msgstr "%90"
+msgstr "%%90"
 
 #: calendar/gui/e-calendar-table.c:383
 #, c-format
 msgid "100%"
-msgstr "%100"
+msgstr "%%100"
 
 #: calendar/gui/e-calendar-table.c:550
 msgid "Mark Complete"
