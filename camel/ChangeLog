@@ -1,3 +1,9 @@
+2003-04-08  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/pop3/camel-pop3-store.c (pop3_try_authenticate): If
+	store->engine->line is NULL, use _("Unknown error") as the error
+	string instead.
+
 2003-04-08  Not Zed  <NotZed@Ximian.com>
 
 	* camel-folder-summary.c (camel_folder_summary_load): use
