@@ -1,3 +1,8 @@
+2003-08-26  JP Rosevear  <jpr@ximian.com>
+ 
+ 	* conduit/address-conduit.c (ecard_from_remote_record): duplicate
+ 	the extra address lines
+	
 2003-08-20  Gilbert Fang  <gilbert.fang@sun.com>
 
         * gui/widgets/e-addressbook-util.c
