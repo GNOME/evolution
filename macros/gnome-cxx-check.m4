@@ -1,15 +1,10 @@
-AC_DEFUN([GNOME_CHECK_CXX],
+dnl GNOME_CHECK_CXX(not_found_string)
+AC_DEFUN(GNOME_CHECK_CXX,
 [
-	AC_CHECK_PROG(cxx_found, c++, yes, no)
-	AC_CHECK_PROG(cxx_found, g++, yes, no)
-	AC_CHECK_PROG(cxx_found, CC, yes, no)
-	AC_CHECK_PROG(cxx_found, cxx, yes, no)
-	AC_CHECK_PROG(cxx_found, cc++, yes, no)
-
-	if test "x$cxx_found" = "xyes"; then
-		AC_PROG_CXX
-	else
-		AC_MSG_WARN(No C++ compiler - gnometris will not be built!)
-	fi
-	AM_CONDITIONAL(CXX_PRESENT, test "x$cxx_found" = xyes)
+  # see if a C++ compiler exists and works
+  AC_REQUIRE([AC_PROG_CXX])dnl
+  if test "x$ac_cv_prog_cxx_works" = xno; then
+    AC_MSG_WARN(ifelse([$1], , "No C++ compiler", [$1]))
+  fi
+  AM_CONDITIONAL(CXX_PRESENT, test "x$ac_cv_prog_cxx_works" != xno)
 ])
