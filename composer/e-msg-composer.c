@@ -2041,7 +2041,7 @@ setup_ui (EMsgComposer *composer)
 	
 	container = bonobo_ui_container_new ();
 	bonobo_ui_container_set_win (container, BONOBO_WINDOW (composer));
-	
+
 	composer->uic = bonobo_ui_component_new_default ();
 	bonobo_ui_component_set_container (composer->uic, bonobo_object_corba_objref (BONOBO_OBJECT (container)));
 	
@@ -3232,17 +3232,19 @@ handle_multipart_alternative (EMsgComposer *composer, CamelMultipart *multipart,
 		content = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
 		
 		if (CAMEL_IS_MULTIPART (content)) {
-			multipart = CAMEL_MULTIPART (content);
+			CamelMultipart *child_mp;
+
+			child_mp = CAMEL_MULTIPART (content);
 			
 			if (CAMEL_IS_MULTIPART_SIGNED (content)) {
 				/* handle the signed content and configure the composer to sign outgoing messages */
-				handle_multipart_signed (composer, multipart, depth + 1);
+				handle_multipart_signed (composer, child_mp, depth + 1);
 			} else if (CAMEL_IS_MULTIPART_ENCRYPTED (content)) {
 				/* decrypt the encrypted content and configure the composer to encrypt outgoing messages */
-				handle_multipart_encrypted (composer, multipart, depth + 1);
+				handle_multipart_encrypted (composer, child_mp, depth + 1);
 			} else {
 				/* depth doesn't matter so long as we don't pass 0 */
-				handle_multipart (composer, multipart, depth + 1);
+				handle_multipart (composer, child_mp, depth + 1);
 			}
 		} else if (header_content_type_is (content_type, "text", "html")) {
 			/* text/html is preferable, so once we find it we're done... */
@@ -3281,25 +3283,27 @@ handle_multipart (EMsgComposer *composer, CamelMultipart *multipart, int depth)
 		CamelContentType *content_type;
 		CamelDataWrapper *content;
 		CamelMimePart *mime_part;
-		
+
 		mime_part = camel_multipart_get_part (multipart, i);
 		content_type = camel_mime_part_get_content_type (mime_part);
 		content = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
 		
 		if (CAMEL_IS_MULTIPART (content)) {
-			multipart = CAMEL_MULTIPART (content);
+			CamelMultipart *child_mp;
+
+			child_mp = CAMEL_MULTIPART (content);
 			
 			if (CAMEL_IS_MULTIPART_SIGNED (content)) {
 				/* handle the signed content and configure the composer to sign outgoing messages */
-				handle_multipart_signed (composer, multipart, depth + 1);
+				handle_multipart_signed (composer, child_mp, depth + 1);
 			} else if (CAMEL_IS_MULTIPART_ENCRYPTED (content)) {
 				/* decrypt the encrypted content and configure the composer to encrypt outgoing messages */
-				handle_multipart_encrypted (composer, multipart, depth + 1);
+				handle_multipart_encrypted (composer, child_mp, depth + 1);
 			} else if (header_content_type_is (content_type, "multipart", "alternative")) {
-				handle_multipart_alternative (composer, multipart, depth + 1);
+				handle_multipart_alternative (composer, child_mp, depth + 1);
 			} else {
 				/* depth doesn't matter so long as we don't pass 0 */
-				handle_multipart (composer, multipart, depth + 1);
+				handle_multipart (composer, child_mp, depth + 1);
 			}
 		} else if (depth == 0 && i == 0) {
 			/* Since the first part is not multipart/alternative, then this must be the body */
