@@ -352,6 +352,27 @@ db_dump185 ~/evolution/local/Contacts/addressbook.db.backup | db_load ~/evolutio
 
       <!-- -->
       <sect2>
+    	<title>
+	    Evolution reported an error when trying to retrieve from my
+	    local spool in <tt>/var/spool/mail/username</tt>.  Why?
+    	</title>
+
+        <para>
+	  Evolution doesn't have an external helper for moving mail,
+	  so <tt>/var/spool/mail/</tt> must be writable by you.  Try this:
+	</para>
+
+        <programlisting>
+chmod 1777 /var/spool/mail
+	</programlisting>
+
+        <para>
+	  Yes, we know this is a problem.  It will be fixed eventually.
+	</para>
+      </sect2>
+
+	<!-- -->
+      <sect2>
 	<title>
 	  Evolution crashes reporting that it couldn't allocate N
 	  billion bytes; how do I fix this?
