@@ -116,12 +116,13 @@ impl_Evolution_Summary_update_html_component (PortableServer_Servant servant,
 	BonoboObject *bonobo_object;
 	ExecutiveSummary *summary;
 	ExecutiveSummaryPrivate *priv;
+	struct _queuedata *qd;
 
 	bonobo_object = bonobo_object_from_servant (servant);
 	summary = EXECUTIVE_SUMMARY (bonobo_object);
 	priv = summary->private;
 
-	(* priv->update) (summary, component, html, priv->closure);
+	(*priv->update) (summary, component, html, priv->closure);
 }
 
 /* GtkObject methods */

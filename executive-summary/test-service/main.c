@@ -8,35 +8,40 @@
 #include <liboaf/liboaf.h>
 
 static int running_views = 0;
-ExecutiveSummaryComponent *component;
 
 #define TEST_SERVICE_ID "OAFIID:evolution-summary-component-factory:test-service:0ea887d5-622b-4b8c-b525-18aa1cbe18a6"
 
 static BonoboGenericFactory *factory = NULL;
 
-void
-clicked_cb (GtkWidget *widget,
-	    gpointer data) 
+int
+clicked_cb (ExecutiveSummaryComponent *component) 
 {
+  static int i = 1;
+  char *html;
+
+#if 0
   executive_summary_component_set_title (component, "Iain's title");
   executive_summary_component_flash (component);
+#endif
+
+  html = g_strdup_printf ("Since you started this service<br><center>%d</center><br>seconds have passed.", i);
+  executive_summary_component_update (component, html);
+  i++;
+
+  g_free (html);
+  return TRUE;
 }
 
 void
 view_destroyed (GtkWidget *widget,
 		gpointer data)
 {
-  running_views--;
-
   g_print ("Destroying view: %d\n", running_views);
 
-  if (running_views <= 0) {
-    g_print ("No views left, quitting\n");
-    gtk_main_quit ();
-  }
+  gtk_main_quit ();
 }
 
-static BonoboObject *
+static BonoboObject*
 create_view (ExecutiveSummaryComponent *component,
 	     char **title,
 	     void *closure)
@@ -65,8 +70,9 @@ create_html (ExecutiveSummaryComponent *component,
 	     char **title,
 	     void *closure)
 {
-  *title = g_strdup ("This is the test service");
-  return g_strdup ("<b>This is<p>An <i>HTML</i></b><br><h1>Component!!!</h1>");
+  *title = g_strdup ("The Magic Counter");
+  gtk_timeout_add (1000, clicked_cb, component);
+  return g_strdup ("Since you started this service<br><center>0</center><br>seconds have passed.");
 }
 
 static void
@@ -87,12 +93,14 @@ static BonoboObject *
 factory_fn (BonoboGenericFactory *_factory,
 	    void *closure)
 {
+  ExecutiveSummaryComponent *component;
+
   running_views++;
   component = executive_summary_component_new (create_view,
 					       create_html,
 					       configure,
 					       NULL);
-  gtk_signal_connect (GTK_OBJECT (component), "destroy",
+  gtk_signal_connect (GTK_OBJECT (component), "object_gone",
 		      GTK_SIGNAL_FUNC (view_destroyed), NULL);
   return BONOBO_OBJECT (component);
 }

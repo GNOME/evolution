@@ -1,3 +1,19 @@
+2000-10-06  Iain Holmes  <iain@helixcode.com>
+
+	* component/e-summary.c (request_cb): Use gnome-vfs to retrieve
+	the requested files. Allows services to specify remote urls.
+	(load_default, e_summary_display_window, e_summary_rebuild_page): 
+	Change the html to match TigerT's lovely design.
+	(e_summary_add_html_service, e_summary_add_html_service): Add
+	the client argument so we can destroy it when we've quit.
+	(e_summary_window_update): Only do an update if there isn't one
+	pending.
+
+	* component/e-summary-factory.c (embed_service): upd.
+
+	* test-service/main.c: Made the test service be really silly and count
+	the number of seconds since it was started.
+
 2000-10-06  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* component/Makefile.am (INCLUDES): Fix builddir != srcdir.

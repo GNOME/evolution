@@ -151,7 +151,6 @@ executive_summary_client_update (ExecutiveSummaryClient *client,
 
 	Evolution_Summary_update_html_component (summary, corba_object, 
 						 html, &ev);
-
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("Error updating the component");
 	}
