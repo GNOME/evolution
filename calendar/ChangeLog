@@ -1,3 +1,15 @@
+2001-09-12  JP Rosevear  <jpr@ximian.com>
+
+	* gui/calendar-commands.c (publish_freebusy_cmd): send 6 weeks of
+	free busy info starting with the UTC start of day
+
+	* gui/itip-utils.c (get_label): create a text representation of
+	the given icaltime
+	(itip_send_comp): if the summary is empty, set the subject based
+	on the type of component, put the right extension on free/busy
+	components and base descriptions on type of component, include
+	start/end for free/busy info
+	
 2001-09-11  Federico Mena Quintero  <federico@ximian.com>
 
 	* gui/alarm-notify/alarm-queue.c (display_notification): Added an

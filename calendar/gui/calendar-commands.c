@@ -334,10 +334,14 @@ publish_freebusy_cmd (BonoboUIComponent *uic, gpointer data, const gchar *path)
 	CalClient *client;
 	CalClientGetStatus status;
 	CalComponent *comp;
-	time_t start, end;
-	
+	icaltimezone *utc;
+	time_t start = time (NULL), end;
+
 	gcal = GNOME_CALENDAR (data);
-	gnome_calendar_get_current_time_range (gcal, &start, &end);
+
+	utc = icaltimezone_get_utc_timezone ();
+	start = time_day_begin_with_zone (start, utc);
+	end = time_add_week_with_zone (start, 6, utc);
 
 	client = gnome_calendar_get_cal_client (gcal);
 	status = cal_client_get_free_busy (client, start, end, &comp);

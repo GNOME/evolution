@@ -39,7 +39,10 @@
 #include <e-util/e-unicode-i18n.h>
 #include <ical.h>
 #include <Evolution-Composer.h>
-#include "cal-util/cal-util.h"
+#include <e-util/e-time-utils.h>
+#include <cal-util/timeutil.h>
+#include <cal-util/cal-util.h>
+#include "calendar-config.h"
 #include "itip-utils.h"
 
 #define GNOME_EVOLUTION_COMPOSER_OAFIID "OAFIID:GNOME_Evolution_Mail_Composer"
@@ -168,6 +171,30 @@ itip_strip_mailto (const gchar *address)
 	return address;
 }
 
+static char *
+get_label (struct icaltimetype *tt)
+{
+	char buffer[1000];
+	struct tm tmp_tm = { 0 };
+	
+	tmp_tm.tm_year = tt->year - 1900;
+	tmp_tm.tm_mon = tt->month - 1;
+	tmp_tm.tm_mday = tt->day;
+	tmp_tm.tm_hour = tt->hour;
+	tmp_tm.tm_min = tt->minute;
+	tmp_tm.tm_sec = tt->second;
+	tmp_tm.tm_isdst = -1;
+
+	tmp_tm.tm_wday = time_day_of_week (tt->day, tt->month - 1, tt->year);
+
+	e_time_format_date_and_time (&tmp_tm,
+				     calendar_config_get_24_hour_format (), 
+				     FALSE, FALSE,
+				     buffer, 1000);
+	
+	return g_strdup (buffer);
+}
+
 static void
 foreach_tzid_callback (icalparameter *param, gpointer data)
 {
@@ -204,23 +231,27 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *comp)
 	GNOME_Evolution_Composer_RecipientList *to_list, *cc_list, *bcc_list;
 	GNOME_Evolution_Composer_Recipient *recipient;
 	CORBA_char *subject;
-	gint cntr;
-	gint len;
+	gint cntr, len;
+	CalComponentVType type;	
 	CalComponentText caltext;
 	CalComponentOrganizer organizer;
 	CORBA_char *content_type, *filename, *description;
 	GNOME_Evolution_Composer_AttachmentData *attach_data;
 	CORBA_boolean show_inline;
-	CORBA_char tempstr[200];
+	char tempstr[200];
 	
 	CORBA_exception_init (&ev);
 
-	/* First, I obtain an object reference that represents the Composer. */
+	/* Obtain an object reference for the Composer. */
 	bonobo_server = bonobo_object_activate (GNOME_EVOLUTION_COMPOSER_OAFIID, 0);
 	g_return_if_fail (bonobo_server != NULL);
 
 	composer_server = BONOBO_OBJREF (bonobo_server);
 
+	/* Type for later use */
+	type = cal_component_get_vtype (comp);
+
+	/* Create list of recipients */
 	switch (method) {
 	case CAL_COMPONENT_METHOD_REQUEST:
 	case CAL_COMPONENT_METHOD_CANCEL:
@@ -281,12 +312,30 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *comp)
 	bcc_list = GNOME_Evolution_Composer_RecipientList__alloc ();
 	bcc_list->_maximum = bcc_list->_length = 0;
 	
+	/* Subject information */
 	cal_component_get_summary (comp, &caltext);
-	if (caltext.value != NULL)
+	if (caltext.value != NULL) {		
 		subject = CORBA_string_dup (caltext.value);
-	else
-		subject = CORBA_string_dup ("");
-
+	} else {
+		switch (type) {
+		case CAL_COMPONENT_EVENT:
+			subject = CORBA_string_dup ("Event information");
+			break;
+		case CAL_COMPONENT_TODO:
+			subject = CORBA_string_dup ("Task information");
+			break;
+		case CAL_COMPONENT_JOURNAL:
+			subject = CORBA_string_dup ("Journal information");
+			break;
+		case CAL_COMPONENT_FREEBUSY:
+			subject = CORBA_string_dup ("Free/Busy information");
+			break;
+		default:
+			subject = CORBA_string_dup ("Calendar information");
+		}		
+	}
+	
+	/* Set recipients, subject */
 	GNOME_Evolution_Composer_setHeaders (composer_server, to_list, cc_list, bcc_list, subject, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("Unable to set composer headers while sending iTip message");
@@ -294,15 +343,51 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *comp)
 		return;
 	}
 
+	/* Content type, suggested file name, description */
 	sprintf (tempstr, "text/calendar;METHOD=%s", itip_methods[method]);
 	content_type = CORBA_string_dup (tempstr);
-	filename = CORBA_string_dup ("calendar.ics");
-	sprintf (tempstr, U_("Calendar attachment"));
-	description = CORBA_string_dup (tempstr);
+	if (type == CAL_COMPONENT_FREEBUSY)
+		filename = CORBA_string_dup ("freebusy.ifb");
+	else
+		filename = CORBA_string_dup ("calendar.ics");
+	switch (type) {
+	case CAL_COMPONENT_EVENT:
+		description = CORBA_string_dup ("Event information");
+		break;
+	case CAL_COMPONENT_TODO:
+		description = CORBA_string_dup ("Task information");
+		break;
+	case CAL_COMPONENT_JOURNAL:
+		description = CORBA_string_dup ("Journal information");
+		break;
+	case CAL_COMPONENT_FREEBUSY:
+	{
+		CalComponentDateTime dt;
+		char *start = NULL, *end = NULL;
+		
+		cal_component_get_dtstart (comp, &dt);
+		if (dt.value) {
+			start = get_label (dt.value);
+			cal_component_get_dtend (comp, &dt);
+			if (dt.value)
+				end = get_label (dt.value);
+		}
+		if (start != NULL && end != NULL) {
+			snprintf (tempstr, 200, "Free/Busy information (%s to %s)", start, end);
+			description = CORBA_string_dup (tempstr);
+			g_free (start);
+			g_free (end);
+		} else {
+			description = CORBA_string_dup ("Free/Busy information");
+		}
+	}
+		break;
+	default:
+		description = CORBA_string_dup ("iCalendar information");
+	}	
 	show_inline = FALSE;
 
-	/* Need to create an encapsulating iCalendar component, and
-	   stuff our component into it. */
+	/* Create a top level component, and add our component */
 	{
 		icalcomponent *icomp, *clone;
 		icalproperty *prop;
@@ -353,8 +438,6 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *comp)
 	}
 	
 	CORBA_exception_free (&ev);
-
-	/* Let's free shit up. */
 
 	/* Beware--depending on whether CORBA_free is recursive, which I
 	   think is is, we might have memory leaks, in which case the code
