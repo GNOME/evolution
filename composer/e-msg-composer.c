@@ -1126,9 +1126,6 @@ set_editor_text(EMsgComposer *composer, const char *text, int set_signature, int
 	BonoboWidget *editor;
 	CORBA_Environment ev;
 	Bonobo_Unknown object;
-	char *sig, *mem = NULL;
-	const char *content;
-	size_t len;
 
 	g_return_if_fail (composer->persist_stream_interface != CORBA_OBJECT_NIL);
 	
@@ -1138,25 +1135,7 @@ set_editor_text(EMsgComposer *composer, const char *text, int set_signature, int
 	
 	CORBA_exception_init (&ev);
 
-	/* This copying bullshit is because the bonobo stream interface is just painful */
-	len = strlen(text);
-	if (set_signature && (sig = get_signature_html (composer))) {
-		char *p;
-		
-		len += strlen (sig);
-		content = mem = g_malloc (len + (pad_signature ? 4 : 0) + 1);
-		p = g_stpcpy (mem, text);
-		if (pad_signature)
-			p = g_stpcpy (p, "<br>");
-		strcpy (p, sig);
-		g_free (sig);
-	} else {
-		content = text;
-	}
-
-	stream = bonobo_stream_mem_create(content, len, TRUE, FALSE);
-	g_free(mem);
-
+	stream = bonobo_stream_mem_create (text, strlen (text), TRUE, FALSE);
 	object = bonobo_object_corba_objref (BONOBO_OBJECT (stream));
 	Bonobo_PersistStream_load (persist, (Bonobo_Stream) object, "text/html", &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
@@ -1169,6 +1148,9 @@ set_editor_text(EMsgComposer *composer, const char *text, int set_signature, int
 	CORBA_exception_free (&ev);
 	
 	bonobo_object_unref (BONOBO_OBJECT (stream));
+
+	if (set_signature)
+		e_msg_composer_show_sig_file (composer);
 }
 
 /* Commands.  */

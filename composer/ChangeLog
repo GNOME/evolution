@@ -1,3 +1,11 @@
+2004-07-22  Radek Doulik  <rodo@ximian.com>
+
+	* e-msg-composer.c (set_editor_text): removed body content +
+	signature html concatenating and call e_msg_composer_show_sig_file
+	instead
+
+	Fixes #59490
+
 2004-07-20  Not Zed  <NotZed@Ximian.com>
 
 	* e-msg-composer-attachment.c: include config.h.  See #61395.
