@@ -1,3 +1,8 @@
+2005-01-30  Harish Krishnaswamy <kharish@novell.com>
+
+	* configure.in : Correct the typo in plugins_base made in
+	the commit below - let the HEAD to get built again.
+	
 2005-01-29  Sivaiah Nallagatla <snallagatla@novell.com>
 
 	* configure.in : add addressbook-groupwise plguin to the 
