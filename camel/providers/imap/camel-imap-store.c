@@ -146,6 +146,7 @@ static CamelServiceAuthType password_authtype = {
 	TRUE
 };
 
+#if 0
 static gboolean
 try_connect (CamelService *service, CamelException *ex)
 {
@@ -174,19 +175,20 @@ try_connect (CamelService *service, CamelException *ex)
 	close (fd);
 	return TRUE;
 }
+#endif
 
 static GList *
 query_auth_types (CamelService *service, CamelException *ex)
 {
 	GList *ret = NULL;
 	gboolean passwd = TRUE;
-	
+#if 0	
 	if (service->url) {
 		passwd = try_connect (service, ex);
 		if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE)
 			return NULL;
 	}
-	
+#endif	
 	if (passwd)
 		ret = g_list_append (ret, &password_authtype);
 	

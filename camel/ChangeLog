@@ -1,3 +1,8 @@
+2000-08-12  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/imap/camel-imap-store.c (query_auth_types): No longer
+	calls try_connect() to get authtypes
+
 2000-08-11  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/imap/camel-imap-store.c
