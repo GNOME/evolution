@@ -738,7 +738,7 @@ msgstr "Tovarna za vzorčno kontrolo adresarja"
 #: calendar/gui/dialogs/comp-editor-util.c:310
 #: calendar/gui/dialogs/comp-editor-util.c:366 shell/e-shortcuts.c:1061
 msgid "Contacts"
-msgstr "Stik"
+msgstr "Stiki"
 
 #: addressbook/gui/component/addressbook-component.c:71
 msgid "Folder containing contact information"
