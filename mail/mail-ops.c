@@ -1339,10 +1339,9 @@ get_store_get (struct _mail_msg *mm)
 	
 	/*camel_session_get_store connects us, which we don't want to do on startup. */
 
-	m->store = camel_session_get_service (session, m->uri,
-					      CAMEL_PROVIDER_STORE,
-					      &mm->ex);
-
+	m->store = (CamelStore *) camel_session_get_service (session, m->uri,
+							     CAMEL_PROVIDER_STORE,
+							     &mm->ex);
 }
 
 static void
