@@ -68,7 +68,6 @@ extern "C" {
 #include <camel/camel-transport.h>
 #include <camel/camel-url.h>
 #include <camel/gmime-content-field.h>
-#include <camel/gmime-utils.h>
 #include <camel/gstring-util.h>
 #include <camel/hash-table-utils.h>
 #include <camel/md5-utils.h>

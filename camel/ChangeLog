@@ -1,3 +1,19 @@
+2000-05-02  NotZed  <NotZed@HelixCode.com>
+
+	* camel.h: REmove gmime-utils.h from here.
+
+	* providers/mbox/camel-mbox-search.[ch]: Removed.  Functionally
+	redundant.
+
+	* providers/mbox/camel-mbox-folder.c (mbox_search_by_expression):
+	Use the new CamelFolderSearch class to do the actual searching,
+	just setup the search here.
+
+	* camel-folder-search.[ch]: A helper class that providers may
+	subclass to provide their own search functionality, or they can
+	simply use as is, it supports body searches if an ibex is
+	supplied, and header searches if a summary is supplied.
+
 2000-05-02  Matt Loper  <matt@helixcode.com>
 
 	* Makefile.am: set G_LOG_DOMAIN.
@@ -14,7 +30,7 @@
 	* providers/mbox/camel-mbox-search.c
 	(camel_mbox_folder_search_by_expression): Dont store/remove
 	current search from the search list.
-
+	
 	* providers/mbox/camel-mbox-folder.h: Removed searches list,
 	searches are all sync now.
 

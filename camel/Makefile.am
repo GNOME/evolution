@@ -36,6 +36,7 @@ libcamel_la_SOURCES = 				\
 	camel-data-wrapper.c			\
 	camel-exception.c			\
 	camel-folder.c				\
+	camel-folder-search.c			\
 	camel-medium.c				\
 	camel-marshal-utils.c			\
 	camel-mime-message.c			\
@@ -78,6 +79,7 @@ libcamelinclude_HEADERS =			\
 	camel-data-wrapper.h			\
 	camel-exception.h			\
 	camel-folder.h				\
+	camel-folder-search.h			\
 	camel-marshal-utils.h			\
 	camel-medium.h				\
 	camel-mime-message.h			\

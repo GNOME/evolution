@@ -34,8 +34,9 @@ extern "C" {
 #endif /* __cplusplus }*/
 
 #include <gtk/gtk.h>
-#include "camel-folder.h"
-#include "libibex/ibex.h"
+#include <camel/camel-folder.h>
+#include <camel/camel-folder-search.h>
+#include <libibex/ibex.h>
 #include "camel-mbox-summary.h"
 
 /*  #include "camel-store.h" */
@@ -53,9 +54,9 @@ typedef struct {
 	gchar *folder_dir_path;    /* contains the subfolders */
 	gchar *index_file_path;	   /* index of body contents */
 
-	ibex *index;		/* index for this folder */
-
+	ibex *index;		   /* index for this folder */
 	CamelMboxSummary *summary;
+	CamelFolderSearch *search; /* used to run searches, we just use the real thing (tm) */
 } CamelMboxFolder;
 
 

@@ -40,7 +40,6 @@
 #include "string-utils.h"
 #include "camel-stream-fs.h"
 #include "camel-mbox-summary.h"
-#include "camel-mbox-search.h"
 #include "camel-data-wrapper.h"
 #include "camel-mime-message.h"
 
@@ -82,6 +81,8 @@ static const gchar *_get_message_uid (CamelFolder *folder, CamelMimeMessage *mes
 GPtrArray *summary_get_message_info (CamelFolder *folder, int first, int count);
 static const CamelMessageInfo *mbox_summary_get_by_uid(CamelFolder *f, const char *uid);
 
+static GList *mbox_search_by_expression(CamelFolder *folder, const char *expression, CamelException *ex);
+
 static void mbox_finalize (GtkObject *object);
 
 static void
@@ -114,7 +115,7 @@ camel_mbox_folder_class_init (CamelMboxFolderClass *camel_mbox_folder_class)
 #endif
 	camel_folder_class->get_message_by_uid = mbox_get_message_by_uid;
 
-	camel_folder_class->search_by_expression = camel_mbox_folder_search_by_expression;
+	camel_folder_class->search_by_expression = mbox_search_by_expression;
 
 	camel_folder_class->get_message_info = summary_get_message_info;
 	camel_folder_class->summary_get_by_uid = mbox_summary_get_by_uid;
@@ -187,6 +188,7 @@ mbox_init (CamelFolder *folder, CamelStore *parent_store,
 		CAMEL_MESSAGE_SEEN;
 
  	mbox_folder->summary = NULL;
+ 	mbox_folder->search = NULL;
 
 	/* now set the name info */
 	g_free (mbox_folder->folder_file_path);
@@ -247,6 +249,9 @@ mbox_close (CamelFolder *folder, gboolean expunge, CamelException *ex)
 	camel_mbox_summary_save (mbox_folder->summary);
 	camel_mbox_summary_unref (mbox_folder->summary);
 	mbox_folder->summary = NULL;
+	if (mbox_folder->search)
+		gtk_object_unref((GtkObject *)mbox_folder->search);
+	mbox_folder->search = NULL;
 }
 
 
@@ -945,3 +950,19 @@ mbox_summary_get_by_uid(CamelFolder *f, const char *uid)
 	return (CamelMessageInfo *)camel_mbox_summary_uid(mbox_folder->summary, uid);
 }
 
+static GList *
+mbox_search_by_expression(CamelFolder *folder, const char *expression, CamelException *ex)
+{
+	CamelMboxFolder *mbox_folder = (CamelMboxFolder *)folder;
+
+	if (mbox_folder->search == NULL) {
+		mbox_folder->search = camel_folder_search_new();
+	}
+
+	camel_folder_search_set_folder(mbox_folder->search, folder);
+	if (mbox_folder->summary)
+		camel_folder_search_set_summary(mbox_folder->search, mbox_folder->summary->messages);
+	camel_folder_search_set_body_index(mbox_folder->search, mbox_folder->index);
+
+	return camel_folder_search_execute_expression(mbox_folder->search, expression, ex);
+}
