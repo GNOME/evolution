@@ -546,6 +546,15 @@ task_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 		e_cal_component_set_dtstart (comp, NULL);
 	}
 
+	if (start_date_set && due_date_set) {
+		int i = 0;
+		i = icaltime_compare (start_tt, due_tt);
+		if (i == 1) {
+			comp_editor_page_display_validation_error (page, _("Due date is wrong"), priv->due_date);
+			return FALSE;
+		}
+	}
+	
 	/* Classification. */
 	e_cal_component_set_classification (comp, classification_get (priv->classification));
 
