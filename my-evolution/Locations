@@ -1648,7 +1648,7 @@ loc57=Zacatecas MMZC ------ ---
 
 [EU]
 name=Europe
-states=AB OS BE BA BG CZ HR CY DK EE FI FR MK DE GI GR HU IE IS IT LV LT LU MT MD NL NO PL PT RO RU SK SI SP SE CH TR UA UK YU
+states=AB OS BE BA BG CZ HR CY DK EE FI FR MK DE GI GR HU IE IS IT LV LU MT MD NL NO PL PT RO RU SK SI SP SE CH TR UA UK YU
 
 [EU_AB]
 name=Albania
@@ -1733,7 +1733,7 @@ loc19=Alborg EKYT ------ ---
 
 [EU_EE]
 name=Estonia
-loc0=Talinn EETN ------ ---
+loc0=Tallinn EETN ------ ---
 
 [EU_GI]
 name=Gibraltar
@@ -1744,10 +1744,6 @@ name=Iceland
 loc0=Egilsstadir BIEG ------ ---
 loc1=Keflavik BIKF ------ ---
 loc2=Reykjavik BIRK ------ ---
-
-[EU_LV]
-name=Latvia
-loc0=Riga EVRA ------ ---
 
 [EU_LT]
 name=Lithuania

@@ -1,5 +1,12 @@
 2002-06-26  Iain <iain@ximian.com>
 
+	* Locations: Fix a typo and remove Latvia, cos I couldn't find the
+	correct code for it.
+
+	* Locations.h: Regenerated.
+
+2002-06-26  Iain <iain@ximian.com>
+
 	* e-summary-weather.c (e_summary_weather_fill_etable): Count the
 	states from 0 up.
 
