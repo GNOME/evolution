@@ -64,7 +64,7 @@ typedef struct {
 /* public methods */
 CamelFolder *camel_imap_folder_new (CamelStore *parent, const char *folder_name);
 
-void camel_imap_folder_changed (CamelFolder *folder, gint recent, GPtrArray *expunged,
+void camel_imap_folder_changed (CamelFolder *folder, gint recent, GArray *expunged,
 				CamelException *ex);
 
 /* Standard Camel function */

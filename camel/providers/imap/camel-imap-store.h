@@ -84,7 +84,10 @@ gint camel_imap_command (CamelImapStore *store, CamelFolder *folder,
 			 CamelException *ex, char *fmt, ...);
 
 gint camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder,
-				  char **ret, CamelException *ex, char *fmt, ...);
+				  GPtrArray **ret, CamelException *ex, char *fmt, ...);
+void camel_imap_response_free (GPtrArray *response);
+char *camel_imap_response_extract (GPtrArray *response, const char *type,
+				   CamelException *ex);
 
 gint camel_imap_fetch_command (CamelImapStore *store, CamelFolder *folder,
 			       char **ret, CamelException *ex, char *fmt, ...);

@@ -93,7 +93,6 @@ static const CamelMessageInfo *imap_get_message_info (CamelFolder *folder, const
 static GPtrArray *imap_search_by_expression (CamelFolder *folder, const char *expression, CamelException *ex);
 
 /* flag methods */
-/*static guint32  imap_get_permanent_flags   (CamelFolder *folder, CamelException *ex);*/
 static guint32  imap_get_message_flags     (CamelFolder *folder, const char *uid);
 static void     imap_set_message_flags     (CamelFolder *folder, const char *uid, guint32 flags, guint32 set);
 static gboolean imap_get_message_user_flag (CamelFolder *folder, const char *uid, const char *name);
@@ -306,6 +305,7 @@ imap_get_message_count_internal (CamelFolder *folder, CamelException *ex)
 {
 	CamelImapStore *store = CAMEL_IMAP_STORE (folder->parent_store);
 	gchar *result, *msg_count, *folder_path;
+	GPtrArray *response;
 	gint status, count = 0;
 	
 	g_return_val_if_fail (folder->can_hold_messages, 0);
@@ -313,10 +313,10 @@ imap_get_message_count_internal (CamelFolder *folder, CamelException *ex)
 	folder_path = camel_imap_store_folder_path (store, folder->full_name);
 	
 	if (store->has_status_capability)
-		status = camel_imap_command_extended (store, folder, &result, ex,
+		status = camel_imap_command_extended (store, folder, &response, ex,
 						      "STATUS \"%s\" (MESSAGES)", folder_path);
 	else
-		status = camel_imap_command_extended (store, folder, &result, ex,
+		status = camel_imap_command_extended (store, folder, &response, ex,
 						      "EXAMINE \"%s\"", folder_path);
 	
 	g_free (folder_path);
@@ -325,17 +325,22 @@ imap_get_message_count_internal (CamelFolder *folder, CamelException *ex)
 		return 0;
 	
 	/* parse out the message count */
-	if (result && *result == '*') {
-		if (store->has_status_capability) {
-			/* should come in the form: "* STATUS <folder> (MESSAGES <count>)" */
+	if (store->has_status_capability) {
+		/* should come in the form: "* STATUS <folder> (MESSAGES <count>)" */
+		result = camel_imap_response_extract (response, "STATUS", NULL);
+		if (result) {
 			if ((msg_count = strstr (result, "MESSAGES")) != NULL) {
 				msg_count = imap_next_word (msg_count);
 			
 				/* we should now be pointing to the message count */
 				count = atoi (msg_count);
 			}
-		} else {
-			/* should come in the form: "* <count> EXISTS" */
+			g_free (result);
+		}
+	} else {
+		/* should come in the form: "* <count> EXISTS" */
+		result = camel_imap_response_extract (response, "EXISTS", NULL);
+		if (result) {
 			if ((msg_count = strstr (result, "EXISTS")) != NULL) {
 				for ( ; msg_count > result && *msg_count != '*'; msg_count--);
 				
@@ -344,9 +349,9 @@ imap_get_message_count_internal (CamelFolder *folder, CamelException *ex)
 				/* we should now be pointing to the message count */
 				count = atoi (msg_count);
 			}
+			g_free (result);
 		}
 	}
-	g_free (result);
 	
 	return count;
 }
@@ -501,16 +506,16 @@ imap_get_subfolder_info_internal (CamelFolder *folder, CamelException *ex)
 {
 	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
 	CamelImapStore *store = CAMEL_IMAP_STORE (folder->parent_store);
-	GPtrArray *listing;
+	GPtrArray *response, *listing;
 	gboolean found_inbox = FALSE;
-	gint status;
-	gchar *result, *namespace;
+	gint status, i;
+	gchar *namespace;
 	CamelFolderInfo *fi;
 	
 	g_return_val_if_fail (folder != NULL, g_ptr_array_new ());
 	
 	namespace = camel_imap_store_folder_path (store, folder->full_name);
-	status = camel_imap_command_extended (store, NULL, &result, ex,
+	status = camel_imap_command_extended (store, NULL, &response, ex,
 					      "LIST \"\" \"%s%s*\"", namespace,
 					      *namespace ? store->dir_sep : "");
 	
@@ -523,31 +528,20 @@ imap_get_subfolder_info_internal (CamelFolder *folder, CamelException *ex)
 	
 	/* parse out the subfolders */
 	listing = g_ptr_array_new ();
-	if (result) {
-		char *ptr = result;
-		
-		while (ptr && *ptr == '*') {
-			gchar *flags, *sep, *dir, *buf, *end;
-			
-			for (end = ptr; *end && *end != '\n'; end++);
-			buf = g_strndup (ptr, (gint)(end - ptr));
-			ptr = end;
-			
-			if (!imap_parse_list_response (buf, namespace, &flags, &sep, &dir)) {
-				g_free (buf);
+	if (response) {
+		for (i = 0; i < response->len; i++) {
+			gchar *resp, *flags, *sep, *dir;
+
+			resp = response->pdata[i];
+			if (!imap_parse_list_response (resp, namespace, &flags, &sep, &dir)) {
 				g_free (flags);
 				g_free (sep);
 				g_free (dir);
-				
-				if (*ptr == '\n')
-					ptr++;
-				
 				continue;
 			}
-			
-			g_free (buf);
+
 			g_free (flags);
-			
+
 			if (*dir) {
 				d(fprintf (stderr, "adding folder: %s\n", dir));
 				fi = g_new0 (CamelFolderInfo, 1);
@@ -563,12 +557,10 @@ imap_get_subfolder_info_internal (CamelFolder *folder, CamelException *ex)
 					found_inbox = TRUE;
 				g_ptr_array_add (listing, fi);
 			}
-			
+
 			g_free (sep);
-			
-			if (*ptr == '\n')
-				ptr++;
 		}
+		camel_imap_response_free (response);
 	}
 	
 	if (!*folder->name && !found_inbox) {
@@ -580,7 +572,6 @@ imap_get_subfolder_info_internal (CamelFolder *folder, CamelException *ex)
 		g_ptr_array_add (listing, fi);
 	}
 	
-	g_free (result);
 	g_free (namespace);
 	
 	imap_folder->lsub = listing;
@@ -821,13 +812,12 @@ imap_get_summary_internal (CamelFolder *folder, CamelException *ex)
 	
 	summary_specifier = imap_protocol_get_summary_specifier (store);
 	
-	/* We use camel_imap_command_extended here because it's safe */
 	if (num == 1) {
-		status = camel_imap_command_extended (store, folder, &result, ex,
-						      "FETCH 1 (%s)", summary_specifier);
+		status = camel_imap_fetch_command (store, folder, &result, ex,
+						   "FETCH 1 (%s)", summary_specifier);
 	} else {
-		status = camel_imap_command_extended (store, folder, &result, ex,
-						      "FETCH 1:%d (%s)", num, summary_specifier);
+		status = camel_imap_fetch_command (store, folder, &result, ex,
+						   "FETCH 1:%d (%s)", num, summary_specifier);
 	}
 	g_free (summary_specifier);
 	
@@ -986,9 +976,8 @@ imap_get_message_info_internal (CamelFolder *folder, guint id, CamelException *e
 	/* we don't have a cached copy, so fetch it */
 	summary_specifier = imap_protocol_get_summary_specifier (store);
 	
-	/* again, we use camel_imap_command_extended here because it's safe to do so */
-	status = camel_imap_command_extended (store, folder, &result, ex,
-					      "FETCH %d (%s)", id, summary_specifier);
+	status = camel_imap_fetch_command (store, folder, &result, ex,
+					   "FETCH %d (%s)", id, summary_specifier);
 	
 	g_free (summary_specifier);
 	
@@ -1093,7 +1082,7 @@ imap_get_message_info (CamelFolder *folder, const char *uid)
 static GPtrArray *
 imap_search_by_expression (CamelFolder *folder, const char *expression, CamelException *ex)
 {
-	GPtrArray *uids = NULL;
+	GPtrArray *response, *uids = NULL;
 	char *result, *sexp, *p;
 	int status;
 	
@@ -1109,12 +1098,14 @@ imap_search_by_expression (CamelFolder *folder, const char *expression, CamelExc
 	}
 	
 	status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), folder,
-					      &result, ex, "UID SEARCH %s", sexp);
+					      &response, NULL, "UID SEARCH %s", sexp);
+	g_free (sexp);
 	
-	if (status != CAMEL_IMAP_OK) {
-		g_free (sexp);
+	if (status != CAMEL_IMAP_OK)
 		return uids;
-	}
+	result = camel_imap_response_extract (response, "SEARCH", NULL);
+	if (!result)
+		return uids;
 	
 	if ((p = strstr (result, "* SEARCH"))) {
 		char *word;
@@ -1136,7 +1127,6 @@ imap_search_by_expression (CamelFolder *folder, const char *expression, CamelExc
 	}
 	
 	g_free (result);
-	g_free (sexp);
 	
 	return uids;
 }
@@ -1178,7 +1168,7 @@ imap_set_message_user_flag (CamelFolder *folder, const char *uid, const char *na
 }
 
 void
-camel_imap_folder_changed (CamelFolder *folder, gint recent, GPtrArray *expunged, CamelException *ex)
+camel_imap_folder_changed (CamelFolder *folder, gint recent, GArray *expunged, CamelException *ex)
 {
 	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
 	
@@ -1186,7 +1176,7 @@ camel_imap_folder_changed (CamelFolder *folder, gint recent, GPtrArray *expunged
 		gint i, id;
 		
 		for (i = 0; i < expunged->len; i++) {
-			id = atoi (expunged->pdata[i]);
+			id = g_array_index (expunged, int, i);
 			d(fprintf (stderr, "Expunging message %d from the summary (i = %d)\n", id + i, i));
 			
 			if (id <= imap_folder->summary->len) {

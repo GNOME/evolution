@@ -180,7 +180,8 @@ imap_connect (CamelService *service, CamelException *ex)
 {
 	CamelImapStore *store = CAMEL_IMAP_STORE (service);
 	CamelSession *session = camel_service_get_session (CAMEL_SERVICE (store));
-	gchar *buf, *result, *errbuf = NULL;
+	gchar *result, *buf, *errbuf = NULL;
+	GPtrArray *response;
 	gboolean authenticated = FALSE;
 	gint status;
 	
@@ -244,12 +245,14 @@ imap_connect (CamelService *service, CamelException *ex)
 	}
 	
 	/* Now lets find out the IMAP capabilities */
-	status = camel_imap_command_extended (store, NULL, &result, ex, "CAPABILITY");
-	
-	if (status != CAMEL_IMAP_OK) {
-		/* Non-fatal error... (ex is set) */
-	}
-	
+	status = camel_imap_command_extended (store, NULL, &response, ex, "CAPABILITY");
+	if (status != CAMEL_IMAP_OK)
+		return FALSE;
+
+	result = camel_imap_response_extract (response, "CAPABILITY", ex);
+	if (!result)
+		return FALSE;
+
 	/* parse for capabilities here. */
 	if (e_strstrcase (result, "IMAP4REV1"))
 		store->server_level = IMAP_LEVEL_IMAP4REV1;
@@ -257,20 +260,22 @@ imap_connect (CamelService *service, CamelException *ex)
 		store->server_level = IMAP_LEVEL_IMAP4;
 	else
 		store->server_level = IMAP_LEVEL_UNKNOWN;
-	
-	if ((store->server_level >= IMAP_LEVEL_IMAP4REV1) || (e_strstrcase (result, "STATUS")))
+
+	if ((store->server_level >= IMAP_LEVEL_IMAP4REV1) ||
+	    (e_strstrcase (result, "STATUS")))
 		store->has_status_capability = TRUE;
 	else
 		store->has_status_capability = FALSE;
-	
 	g_free (result);
-	
+
 	/* We now need to find out which directory separator this daemon uses */
-	status = camel_imap_command_extended (store, NULL, &result, ex, "LIST \"\" \"\"");
-	
-	if (status != CAMEL_IMAP_OK) {
-		/* Again, this is non-fatal */
-	} else {
+	status = camel_imap_command_extended (store, NULL, &response, ex, "LIST \"\" \"\"");
+	if (status != CAMEL_IMAP_OK)
+		return FALSE;
+	result = camel_imap_response_extract (response, "LIST", ex);
+	if (!result)
+		return FALSE;
+	else {
 		char *flags, *sep, *folder;
 		
 		if (imap_parse_list_response (result, "", &flags, &sep, &folder)) {
@@ -283,9 +288,8 @@ imap_connect (CamelService *service, CamelException *ex)
 		g_free (flags);
 		g_free (sep);
 		g_free (folder);
+		g_free (result);
 	}
-	
-	g_free (result);
 
 	camel_remote_store_refresh_folders (CAMEL_REMOTE_STORE (store), ex);
 
@@ -330,8 +334,8 @@ camel_imap_store_folder_path (CamelImapStore *store, const char *name)
 static gboolean
 imap_folder_exists (CamelImapStore *store, const char *folder_path, gboolean *selectable, CamelException *ex)
 {
-	gchar *result;
-	char *flags, *sep, *dirname;
+	GPtrArray *response;
+	char *result, *flags, *sep, *dirname;
 	gint status;
 	
 	if (!g_strcasecmp (folder_path, "INBOX")) {
@@ -345,12 +349,13 @@ imap_folder_exists (CamelImapStore *store, const char *folder_path, gboolean *se
 		*selectable = FALSE;
 	
 	status = camel_imap_command_extended (CAMEL_IMAP_STORE (store), NULL,
-					      &result, ex, "LIST \"\" \"%s\"", folder_path);
-	if (status != CAMEL_IMAP_OK) {
-		g_free (result);
+					      &response, ex, "LIST \"\" \"%s\"", folder_path);
+	if (status != CAMEL_IMAP_OK)
 		return FALSE;
-	}
-	
+	result = camel_imap_response_extract (response, "LIST", ex);
+	if (!result)
+		return FALSE;
+
 	if (imap_parse_list_response (result, "", &flags, &sep, &dirname)) {
 		if (selectable)
 			*selectable = !e_strstrcase (flags, "NoSelect");
@@ -358,9 +363,11 @@ imap_folder_exists (CamelImapStore *store, const char *folder_path, gboolean *se
 		g_free (flags);
 		g_free (sep);
 		g_free (dirname);
+		g_free (result);
 		
 		return TRUE;
 	}
+	g_free (result);
 	
 	g_free (flags);
 	g_free (sep);
@@ -630,12 +637,12 @@ camel_imap_command (CamelImapStore *store, CamelFolder *folder, CamelException *
  **/
 
 gint
-camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **ret, CamelException *ex, char *fmt, ...)
+camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, GPtrArray **ret, CamelException *ex, char *fmt, ...)
 {
 	gint status = CAMEL_IMAP_OK;
-	GPtrArray *data, *expunged;
+	GPtrArray *data;
+	GArray *expunged;
 	gchar *respbuf, *cmdid;
-	guint32 len = 0;
 	gint recent = 0;
 	va_list ap;
 	gint i;
@@ -653,26 +660,23 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
 	}
 	va_end (ap);
 	
-	data = g_ptr_array_new ();
-	expunged = g_ptr_array_new ();
+	expunged = g_array_new (FALSE, FALSE, sizeof (int));
+	if (ret)
+		data = g_ptr_array_new ();
 	
 	/* read multi-line response */
 	while (1) {
 		if (camel_remote_store_recv_line (CAMEL_REMOTE_STORE (store), &respbuf, ex) < 0) {
 			/* cleanup */
-			for (i = 0; i < data->len; i++)
-				g_free (data->pdata[i]);
-			g_ptr_array_free (data, TRUE);
-			
-			for (i = 0; i < expunged->len; i++)
-				g_free (expunged->pdata[i]);
-			g_ptr_array_free (expunged, TRUE);
+			if (ret) {
+				for (i = 0; i < data->len; i++)
+					g_free (data->pdata[i]);
+				g_ptr_array_free (data, TRUE);
+			}
+			g_array_free (expunged, TRUE);
 			
 			return CAMEL_IMAP_FAIL;
 		}
-		
-		g_ptr_array_add (data, respbuf);
-		len += strlen (respbuf) + 1;
 		
 		/* IMAPs multi-line response ends with the cmdid string at the beginning of the line */
 		if (!strncmp (respbuf, cmdid, strlen (cmdid))) {
@@ -690,6 +694,8 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
 				rcnt = imap_next_word (respbuf);
 				if (*rcnt >= '0' && *rcnt <= '9' && !strncmp ("RECENT", imap_next_word (rcnt), 6))
 					recent = atoi (rcnt);
+				g_free (respbuf);
+				continue;
 			} else if (strstr (respbuf, "EXPUNGE")) {
 				char *id_str;
 				int id;
@@ -699,33 +705,22 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
 				id_str = imap_next_word (respbuf);
 				if (*id_str >= '0' && *id_str <= '9' && !strncmp ("EXPUNGE", imap_next_word (id_str), 7)) {
 					id = atoi (id_str);
-					g_ptr_array_add (expunged, g_strdup_printf ("%d", id));
+					g_array_append_val (expunged, id);
 				}
+				g_free (respbuf);
+				continue;
 			}
 		}
+		if (ret)
+			g_ptr_array_add (data, respbuf);
+		else
+			g_free (respbuf);
 	}
 	
-	if (status == CAMEL_IMAP_OK && ret) {
-		gchar *p;
-		
-		/* populate the return buffer with the server response */
-		*ret = g_new (char, len + 1);
-		p = *ret;
-		
-		for (i = 0; i < data->len; i++) {
-			char *datap;
-			
-			datap = (char *) data->pdata[i];
-			if (*datap == '.')
-				datap++;
-			len = strlen (datap);
-			memcpy (p, datap, len);
-			p += len;
-			*p++ = '\n';
-		}
-		
-		*p = '\0';
-	} else if (status != CAMEL_IMAP_OK) {
+	if (status == CAMEL_IMAP_OK) {
+		if (ret)
+			*ret = data;
+	} else {
 		/* command failed */
 		if (respbuf) {
 			char *word;
@@ -741,10 +736,16 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
 					      "IMAP command failed: Unknown");
 		}
 		
-		if (ret)
-			*ret = NULL;
+		if (ret) {
+			for (i = 0; i < data->len; i++)
+				g_free (data->pdata[i]);
+			g_ptr_array_free (data, TRUE);
+		}
 	}
 	
+	if (respbuf)
+		g_free (respbuf);
+
 	/* Update the summary */
 	if (folder && (recent > 0 || expunged->len > 0)) {
 		CamelException dex;
@@ -753,17 +754,79 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
 		camel_imap_folder_changed (folder, recent, expunged, &dex);
 		camel_exception_clear (&dex);
 	}
-	
-	for (i = 0; i < data->len; i++)
-		g_free (data->pdata[i]);
-	g_ptr_array_free (data, TRUE);
-	
-	for (i = 0; i < expunged->len; i++)
-		g_free (expunged->pdata[i]);
-	g_ptr_array_free (expunged, TRUE);
+	g_array_free (expunged, TRUE);
 	
 	return status;
 }
+
+/**
+ * camel_imap_response_free:
+ * @response: the result data returned from camel_imap_command_extended
+ *
+ * Frees the data.
+ **/
+void
+camel_imap_response_free (GPtrArray *response)
+{
+	int i;
+
+	for (i = 0; i < response->len; i++)
+		g_free (response->pdata[i]);
+	g_ptr_array_free (response, TRUE);
+}
+
+/**
+ * camel_imap_response_extract:
+ * @response: the result data returned from camel_imap_command_extended
+ * @type: the response type to extract
+ * @ex: a CamelException
+ *
+ * This checks that @response contains a single untagged response of
+ * type @type and returns just that response data. If @response
+ * doesn't contain the right information, the function will set @ex and
+ * return %NULL. Either way, @response will be freed.
+ *
+ * Return value: the desired response string, which the caller must free.
+ **/
+char *
+camel_imap_response_extract (GPtrArray *response, const char *type,
+			     CamelException *ex)
+{
+	int len = strlen (type), i;
+	char *resp;
+
+	for (i = 0; i < response->len; i++) {
+		resp = response->pdata[i];
+		if (strncmp (resp, "* ", 2) != 0) {
+			g_free (resp);
+			continue;
+		}
+
+		/* Skip inititial sequence number, if present */
+		strtoul (resp + 2, &resp, 10);
+		if (*resp == ' ')
+			resp++;
+
+		if (!g_strncasecmp (resp, type, len))
+			break;
+
+		g_free (resp);
+	}
+
+	if (i < response->len) {
+		resp = response->pdata[i];
+		for (i++; i < response->len; i++)
+			g_free (response->pdata[i]);
+	} else {
+		resp = NULL;
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+				      "IMAP server response did not contain "
+				      "%s information", type);
+	}
+
+	g_ptr_array_free (response, TRUE);
+	return resp;
+}	
 
 /**
  * camel_imap_fetch_command: Send a FETCH request to an IMAP server and get
@@ -800,7 +863,8 @@ camel_imap_fetch_command (CamelImapStore *store, CamelFolder *folder, char **ret
 	 * determine whether we are actually reading server responses.
 	 */
 	gint status = CAMEL_IMAP_OK;
-	GPtrArray *data, *expunged;
+	GPtrArray *data;
+	GArray *expunged;
 	gboolean is_notification;
 	gchar *respbuf, *cmdid;
 	guint32 len = 0;
@@ -862,7 +926,7 @@ camel_imap_fetch_command (CamelImapStore *store, CamelFolder *folder, char **ret
 		return CAMEL_IMAP_FAIL;
 	}
 	
-	expunged = g_ptr_array_new ();
+	expunged = g_array_new (FALSE, FALSE, sizeof (int));
 	
 	/* read multi-line response */
 	while (1) {
@@ -871,10 +935,7 @@ camel_imap_fetch_command (CamelImapStore *store, CamelFolder *folder, char **ret
 			for (i = 0; i < data->len; i++)
 				g_free (data->pdata[i]);
 			g_ptr_array_free (data, TRUE);
-			
-			for (i = 0; i < expunged->len; i++)
-				g_free (expunged->pdata[i]);
-			g_ptr_array_free (expunged, TRUE);
+			g_array_free (expunged, TRUE);
 			
 			return CAMEL_IMAP_FAIL;
 		}
@@ -897,10 +958,8 @@ camel_imap_fetch_command (CamelImapStore *store, CamelFolder *folder, char **ret
 			
 			recent = 0;
 			
-			for (i = 0; i < expunged->len; i++) {
-				g_free (expunged->pdata[i]);
-				g_ptr_array_remove_index (expunged, i);
-			}
+			for (i = 0; i < expunged->len; i++)
+				g_array_remove_index (expunged, i);
 		}
 		
 		/* Check for a RECENT in the untagged response */
@@ -922,7 +981,7 @@ camel_imap_fetch_command (CamelImapStore *store, CamelFolder *folder, char **ret
 				id_str = imap_next_word (respbuf);
 				if (*id_str >= '0' && *id_str <= '9' && !strncmp ("EXPUNGE", imap_next_word (id_str), 7)) {
 					id = atoi (id_str);
-					g_ptr_array_add (expunged, g_strdup_printf ("%d", id));
+					g_array_append_val (expunged, id);
 				}
 			}
 		}
@@ -986,10 +1045,7 @@ camel_imap_fetch_command (CamelImapStore *store, CamelFolder *folder, char **ret
 	for (i = 0; i < data->len; i++)
 		g_free (data->pdata[i]);
 	g_ptr_array_free (data, TRUE);
-	
-	for (i = 0; i < expunged->len; i++)
-		g_free (expunged->pdata[i]);
-	g_ptr_array_free (expunged, TRUE);
+	g_array_free (expunged, TRUE);
 	
 	return status;
 }

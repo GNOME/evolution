@@ -1,3 +1,26 @@
+2000-09-27  Dan Winship  <danw@helixcode.com>
+
+	* providers/imap/camel-imap-store.c (camel_imap_command_extended):
+	Return untagged data in a GPtrArray rather than a string, since it
+	saves processing time and is much easier to deal with for several
+	commands. Update for camel_imap_folder_changed change.
+	(camel_imap_fetch_command): Update for camel_imap_folder_changed
+	change.
+	(imap_connect, imap_folder_exists): Update for
+	camel_imap_command_extended change.
+
+	* providers/imap/camel-imap-folder.c
+	(imap_get_message_count_internal,
+	imap_get_subfolder_info_internal, imap_search_by_expression):
+	Update for camel_imap_command_extended change.
+
+	(imap_get_summary_internal, imap_get_message_info_internal): Use
+	camel_imap_fetch_command here now to get around the
+	camel_imap_command_extended change.
+
+	(camel_imap_folder_changed): turn expunged into a GArray of ints
+	rather than a GPtrArray of strings representing ints.
+
 2000-09-26  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/imap/camel-imap-folder.c
