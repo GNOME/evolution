@@ -284,8 +284,18 @@ popup_menu_card (PopupInfo *info)
 			gchar *label = (gchar *)e_iterator_get (iterator);
 			
 			if (label && *label) {
+				/* Magically convert embedded XML into an address. */
+				if (!strncmp (label, "<?xml", 4)) {
+					EDestination *dest = e_destination_import (label);
+					radioinfo[j].label = g_strdup (e_destination_get_address (dest));
+					gtk_object_unref (GTK_OBJECT (dest));
+					
+				}
+				else {
+					radioinfo[j].label = g_strdup (label);
+				}
+
 				radioinfo[j].type = GNOME_APP_UI_ITEM;
-				radioinfo[j].label = label;
 				radioinfo[j].moreinfo = change_email_num_cb;
 				++j;
 			}
@@ -334,6 +344,7 @@ popup_menu_card (PopupInfo *info)
 		gint j;
 		for (j=0; radioinfo[j].type != GNOME_APP_UI_ENDOFINFO; ++j) {
 			gtk_object_set_data (GTK_OBJECT (radioinfo[j].widget), "number", GINT_TO_POINTER (j));
+			g_free (radioinfo[j].label);
 			if (j == n) 
 				gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (radioinfo[n].widget), TRUE);
 		}
