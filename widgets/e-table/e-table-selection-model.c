@@ -65,7 +65,7 @@ model_row_inserted(ETableModel *etm, int row, ETableSelectionModel *etsm)
 		}
 
 		/* The box is the word that our row is in. */
-		box = row >> 5;
+		box = BOX(row);
 		/* Shift all words to the right of our box right one bit. */
 		for (i = etsm->row_count >> 5; i > box; i--) {
 			etsm->selection[i] = (etsm->selection[i] >> 1) | (etsm->selection[i - 1] << 31);
