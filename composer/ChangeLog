@@ -1,3 +1,9 @@
+2000-10-13  Larry Ewing  <lewing@helixcode.com>
+
+	* e-msg-composer.c (build_message): stop using format_text,
+	gtkhtml handles this now.
+	(format_text): function removed.
+
 2000-10-10  Iain Holmes  <iain@helixcode.com>
 
 	* e-icon-list.c: Allow NULL pixbufs, and load the "broken" image

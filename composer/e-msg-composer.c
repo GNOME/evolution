@@ -111,76 +111,6 @@ get_text (Bonobo_PersistStream persist, char *format)
 
 #define LINE_LEN 72
 
-/* This might be a temporary function... the GtkHTML export interfaces are
- * not yet complete, so some or all of this may move into GtkHTML.
- */
-static char *
-format_text (char *text)
-{
-	GString *out;
-	char *s, *space, *outstr;
-	int len, tabbing, i;
-	gboolean linestart = TRUE, cited = FALSE;
-
-	tabbing = 0;		/* Shut down compiler.  */
-	len = strlen (text);
-	out = g_string_sized_new (len + len / LINE_LEN);
-
-	s = text;
-	while (*s) {
-		if (linestart) {
-			tabbing = 0;
-			while (*s == '\t') {
-				s++;
-				tabbing++;
-			}
-			cited = (tabbing == 0 && *s == '>');
-		}
-
-		len = strcspn (s, "\n");
-		if (!cited && len > LINE_LEN - tabbing * 8) {
-			/* If we can break anywhere between s and
-			 * s + LINE_LEN, do that. We can break between
-			 * space and anything but &nbsp;
-			 */
-			space = s + LINE_LEN - tabbing * 8;
-			while (space > s && (*space != ' '
-					     || (*(space + 1) == '\240')
-					     || (*(space - 1) == '\240')))
-				space--;
-
-			if (space != s)
-				len = space - s;
-		}
-
-		/* Do initial tabs */
-		for (i = 0; i < tabbing; i++)
-			g_string_append_c (out, '\t');
-
-		/* Copy the line... */
-		while (len--) {
-			g_string_append_c (out, *s == '\240' ? ' ' : *s);
-			s++;
-		}
-
-		/* Eat whitespace... */
-		while (*s == ' ' || *s == '\240')
-			s++;
-		if (*s == '\n') {
-			s++;
-			linestart = TRUE;
-		} else
-			linestart = FALSE;
-
-		/* And end the line. */
-		g_string_append_c (out, '\n');
-	}
-
-	outstr = out->str;
-	g_string_free (out, FALSE);
-	return outstr;
-}
-
 typedef enum {
 	MSG_FORMAT_PLAIN,
 	MSG_FORMAT_ALTERNATIVE,
@@ -230,7 +160,7 @@ build_message (EMsgComposer *composer)
 	CamelMimePart *part;
 	gchar *from = NULL;
 	gboolean e8bit;
-	char *html = NULL, *plain = NULL, *fmt = NULL;
+	char *html = NULL, *plain = NULL;
 	int i;
 	
 	if (composer->persist_stream_interface == CORBA_OBJECT_NIL)
@@ -271,16 +201,14 @@ build_message (EMsgComposer *composer)
 	if (plain == NULL)
 		return NULL;
 
-	fmt = format_text (plain);
-	e8bit = is_8bit (fmt);
-	g_free (plain);
+	e8bit = is_8bit (plain);
 	
 	if (type != MSG_FORMAT_PLAIN) {
 		html = get_text (composer->persist_stream_interface, "text/html");
 		
 		/* the component has probably died */ 
 		if (html == NULL) {
-			g_free (fmt);
+			g_free (plain);
 			return NULL;
 		}
 	}
@@ -292,11 +220,11 @@ build_message (EMsgComposer *composer)
 		camel_multipart_set_boundary (body, NULL);
 		
 		part = camel_mime_part_new ();
-		camel_mime_part_set_content (part, fmt, strlen (fmt), "text/plain");
+		camel_mime_part_set_content (part, plain, strlen (plain), "text/plain");
 		if (e8bit)
-			camel_mime_part_set_encoding (part, best_encoding (fmt));
+			camel_mime_part_set_encoding (part, best_encoding (plain));
 		
-		g_free (fmt);
+		g_free (plain);
 		camel_multipart_add_part (body, part);
 		camel_object_unref (CAMEL_OBJECT (part));
 		
@@ -321,10 +249,10 @@ build_message (EMsgComposer *composer)
 			camel_object_unref (CAMEL_OBJECT (body));
 			break;
 		case MSG_FORMAT_PLAIN:
-			camel_mime_part_set_content (part, fmt, strlen (fmt), "text/plain");
+			camel_mime_part_set_content (part, plain, strlen (plain), "text/plain");
 			if (e8bit)
-				camel_mime_part_set_encoding (part, best_encoding (fmt));
-			g_free (fmt);
+				camel_mime_part_set_encoding (part, best_encoding (plain));
+			g_free (plain);
 			break;
 		}
 		camel_multipart_add_part (multipart, part);
@@ -341,10 +269,10 @@ build_message (EMsgComposer *composer)
 			camel_object_unref (CAMEL_OBJECT (body));
 			break;
 		case MSG_FORMAT_PLAIN:
-			camel_mime_part_set_content (CAMEL_MIME_PART (new), fmt, strlen (fmt), "text/plain");
+			camel_mime_part_set_content (CAMEL_MIME_PART (new), plain, strlen (plain), "text/plain");
 			if (e8bit)
-				camel_mime_part_set_encoding (CAMEL_MIME_PART (new), best_encoding (fmt));
-			g_free (fmt);
+				camel_mime_part_set_encoding (CAMEL_MIME_PART (new), best_encoding (plain));
+			g_free (plain);
 			break;
 		}
 	}
