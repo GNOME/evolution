@@ -53,7 +53,12 @@ static void
 esnr_editing_done (GtkCellEditable *editable, ESelectNamesRenderer *cell)
 {
 	gchar *new_address, *new_name;
+	BonoboControlFrame *cf;
 
+	/* We don't need to listen for the de-activation any more */
+	cf = bonobo_widget_get_control_frame (BONOBO_WIDGET (editable));
+	g_signal_handlers_disconnect_matched (G_OBJECT (cf), G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, cell);
+	
 	new_address = e_select_names_editable_get_address (E_SELECT_NAMES_EDITABLE (editable));
 	new_name = e_select_names_editable_get_name (E_SELECT_NAMES_EDITABLE (editable));
                                                              

@@ -1,5 +1,10 @@
 2004-01-06  JP Rosevear <jpr@ximian.com>
 
+	* gui/e-select-names-renderer.c (esnr_editing_done): disconnect
+	the activated signal
+
+2004-01-06  JP Rosevear <jpr@ximian.com>
+
 	* gui/dialogs/comp-editor.c (comp_editor_finalize): we don't put
 	any signal handlers on the client or source client now, but we do
 	on the view
