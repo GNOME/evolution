@@ -184,7 +184,7 @@ composer_send_cb (EMsgComposer *composer, gpointer data)
 		ciaddr = camel_internet_address_new ();
 		camel_internet_address_add (ciaddr, id->name, id->address);
 		from = camel_address_encode (CAMEL_ADDRESS (ciaddr));
-		camel_object_unref (ciaddr);
+		camel_object_unref (CAMEL_OBJECT (ciaddr));
 	}
 
 	/* Get the message */

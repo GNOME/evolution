@@ -123,6 +123,12 @@ mail_tool_get_local_inbox_url (void)
 	return g_strdup_printf ("mbox://%s/local/Inbox", evolution_dir);
 }
 
+gchar *
+mail_tool_get_local_movemail_path (void)
+{
+	return g_strdup_printf ("%s/local/Inbox/movemail", evolution_dir);
+}
+
 CamelFolder *
 mail_tool_get_local_inbox (CamelException *ex)
 {
@@ -158,7 +164,7 @@ mail_tool_do_movemail (const gchar *source_url, CamelException *ex)
 	/* Set up our destination. */
 
 	dest_url = mail_tool_get_local_inbox_url();
-	dest_path = g_strdup_printf ("%s/local/Inbox/movemail", evolution_dir);
+	dest_path = mail_tool_get_local_movemail_path();
 
 	/* Create a new movemail mailbox file of 0 size */
 
@@ -461,6 +467,7 @@ static CamelFolder *get_folder_func (FilterDriver *d, const char *uri, void *dat
 
 void
 mail_tool_filter_contents_into (CamelFolder *source, CamelFolder *dest, 
+				gboolean delete_source,
 				gpointer hook_func, gpointer hook_data,
 				CamelException *ex)
 {
@@ -483,6 +490,27 @@ mail_tool_filter_contents_into (CamelFolder *source, CamelFolder *dest,
 					 hook_func, hook_data);
 
         filter_driver_run (filter, source, dest, TRUE, hook_func, hook_data);
+
+	camel_folder_sync (CAMEL_FOLDER (source), TRUE, ex);
+	camel_folder_sync (CAMEL_FOLDER (dest), TRUE, ex);
+
+	if (delete_source) {
+		gchar *path = mail_tool_get_local_movemail_path();
+		struct stat sb;
+		
+		if (stat (path, &sb) < 0) {
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+					      "Couldn't stat movemail folder %s",
+					      path);
+			g_free (path);
+			return;
+		}
+
+		if (sb.st_size == 0)
+			unlink (path);
+
+		g_free (path);
+	}
 }
 
 CamelFolder *

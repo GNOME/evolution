@@ -36,16 +36,16 @@ CamelFolder *
 mail_tool_get_folder_from_urlname (const gchar *url, const gchar *name, CamelException *ex);
 
 /* Get the url for the local inbox */
-gchar *
-mail_tool_get_local_inbox_url (void);
+gchar *mail_tool_get_local_inbox_url (void);
+
+/* Get the filename for our movemail folder */
+gchar *mail_tool_get_local_movemail_path (void);
 
 /* Get the CamelFolder for the local inbox */
-CamelFolder *
-mail_tool_get_local_inbox (CamelException *ex);
+CamelFolder *mail_tool_get_local_inbox (CamelException *ex);
 
 /* Get the "inbox" for a url (uses global session) */
-CamelFolder *
-mail_tool_get_inbox (const gchar *url, CamelException *ex);
+CamelFolder *mail_tool_get_inbox (const gchar *url, CamelException *ex);
 
 /* Does a camel_movemail into the local movemail folder
  * and returns the movemail folder that was created. */
@@ -81,6 +81,7 @@ mail_tool_fetch_mail_into_searchable (const char *source_url, gboolean keep_on_s
 /* Filter source into dest using the default filters. */
 void
 mail_tool_filter_contents_into (CamelFolder *source, CamelFolder *dest, 
+				gboolean delete_source,
 				gpointer hook_func, gpointer hook_data,
 				CamelException *ex);
 

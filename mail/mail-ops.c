@@ -117,6 +117,7 @@ do_fetch_mail (gpointer in_data, gpointer op_data, CamelException * ex)
 	}
 
 	mail_tool_filter_contents_into (search_folder, input->destination,
+					TRUE,
 					input->hook_func, input->hook_data,
 					ex);
 	camel_object_unref (CAMEL_OBJECT (search_folder));

@@ -1,3 +1,9 @@
+2000-08-10  Peter Williams  <peterw@helixcode.com>
+
+	* mail-tools.c (mail_tool_filter_contents_into): Delete the source
+	folder if told to and if it's empty
+	(mail_tool_get_local_movemail_path): New function.
+
 2000-08-10  Dan Winship  <danw@helixcode.com>
 
 	* mail-callbacks.c (reply_to_all): Fix a bug in the async changes.

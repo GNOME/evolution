@@ -604,6 +604,7 @@ do_filter_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 	close_folders (d);
 	g_hash_table_destroy (p->folders);
 	mail_tool_camel_lock_up ();
+	camel_folder_sync (p->source, TRUE, ex);
 	camel_folder_thaw (inbox);
 	mail_tool_camel_lock_down ();
 }
