@@ -2407,6 +2407,7 @@ e_day_view_on_new_appointment (GtkWidget *widget, gpointer data)
 	day_view = E_DAY_VIEW (data);
 
 	comp = cal_component_new ();
+	cal_component_set_new_vtype (comp, CAL_COMPONENT_EVENT);
 	e_day_view_get_selected_time_range (day_view, &dtstart, &dtend);
 	
 	date.value = g_new (struct icaltimetype, 1);

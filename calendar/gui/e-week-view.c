@@ -2626,6 +2626,7 @@ e_week_view_key_press (GtkWidget *widget, GdkEventKey *event)
 
 	/* Add a new event covering the selected range. */
 	comp = cal_component_new ();
+	cal_component_set_new_vtype (comp, CAL_COMPONENT_EVENT);
 	dtstart = week_view->day_starts[week_view->selection_start_day];
 	dtend = week_view->day_starts[week_view->selection_end_day + 1];
 	
@@ -2742,7 +2743,8 @@ e_week_view_on_new_appointment (GtkWidget *widget, gpointer data)
 	week_view = E_WEEK_VIEW (data);
 
 	comp = cal_component_new ();
-	
+	cal_component_set_new_vtype (comp, CAL_COMPONENT_EVENT);
+
 	date.value = g_new0 (struct icaltimetype, 1);
 
 	*date.value = 
