@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2000-10-08 14:49+0200\n"
-"PO-Revision-Date: 2000-10-08 14:56+0200\n"
+"POT-Creation-Date: 2000-10-10 11:38+0200\n"
+"PO-Revision-Date: 2000-10-10 11:40+0200\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -21,8 +21,8 @@ msgstr ""
 #: addressbook/backend/ebook/test-client.c:29
 #: addressbook/conduit/address-conduit.c:1215
 #: addressbook/gui/component/addressbook-factory.c:38
-#: calendar/conduits/calendar/calendar-conduit.c:1673
-#: calendar/conduits/todo/todo-conduit.c:1173 calendar/gui/main.c:55
+#: calendar/conduits/calendar/calendar-conduit.c:1066
+#: calendar/conduits/todo/todo-conduit.c:1078 calendar/gui/main.c:55
 msgid "Could not initialize Bonobo"
 msgstr "Kunde inte initiera Bonobo"
 
@@ -31,43 +31,43 @@ msgstr "Kunde inte initiera Bonobo"
 #. Custom type implies Disabled state.
 #.
 #: addressbook/conduit/address-conduit-control-applet.c:54
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:55
+#: calendar/conduits/calendar/calendar-conduit-control-applet.c:70
 #: calendar/conduits/todo/todo-conduit-control-applet.c:70
 msgid "Disabled"
 msgstr "Avstängd"
 
 #: addressbook/conduit/address-conduit-control-applet.c:55
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:56
+#: calendar/conduits/calendar/calendar-conduit-control-applet.c:71
 #: calendar/conduits/todo/todo-conduit-control-applet.c:71
 msgid "Synchronize"
 msgstr "Synkronisera"
 
 #: addressbook/conduit/address-conduit-control-applet.c:56
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:57
+#: calendar/conduits/calendar/calendar-conduit-control-applet.c:72
 #: calendar/conduits/todo/todo-conduit-control-applet.c:72
 msgid "Copy From Pilot"
 msgstr "Kopiera från Pilot"
 
 #: addressbook/conduit/address-conduit-control-applet.c:57
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:58
+#: calendar/conduits/calendar/calendar-conduit-control-applet.c:73
 #: calendar/conduits/todo/todo-conduit-control-applet.c:73
 msgid "Copy To Pilot"
 msgstr "Kopiera till Pilot"
 
 #: addressbook/conduit/address-conduit-control-applet.c:58
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:59
+#: calendar/conduits/calendar/calendar-conduit-control-applet.c:74
 #: calendar/conduits/todo/todo-conduit-control-applet.c:74
 msgid "Merge From Pilot"
 msgstr "Slå samman från Pilot"
 
 #: addressbook/conduit/address-conduit-control-applet.c:59
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:60
+#: calendar/conduits/calendar/calendar-conduit-control-applet.c:75
 #: calendar/conduits/todo/todo-conduit-control-applet.c:75
 msgid "Merge To Pilot"
 msgstr "Slå samman till Pilot"
 
 #: addressbook/conduit/address-conduit-control-applet.c:143
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:144
+#: calendar/conduits/calendar/calendar-conduit-control-applet.c:116
 #: calendar/conduits/todo/todo-conduit-control-applet.c:116
 msgid "Eskil Heyn Olsen <deity@eskil.dk>"
 msgstr "Eskil Heyn Olsen <deity@eskil.dk>"
@@ -77,7 +77,6 @@ msgid "Gpilotd address conduit"
 msgstr "Gpilotd-adresskanal"
 
 #: addressbook/conduit/address-conduit-control-applet.c:146
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:147
 msgid "(C) 1998 the Free Software Foundation"
 msgstr "© 1998 Free Software Foundation"
 
@@ -86,27 +85,27 @@ msgid "Configuration utility for the address conduit.\n"
 msgstr "Konfigurationsverktyg för adresskanal.\n"
 
 #: addressbook/conduit/address-conduit-control-applet.c:149
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:150
+#: calendar/conduits/calendar/calendar-conduit-control-applet.c:124
 #: calendar/conduits/todo/todo-conduit-control-applet.c:124
 msgid "gnome-unknown.xpm"
 msgstr "gnome-unknown.xpm"
 
 #: addressbook/conduit/address-conduit-control-applet.c:190
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:191
+#: calendar/conduits/calendar/calendar-conduit-control-applet.c:155
 #: calendar/conduits/todo/todo-conduit-control-applet.c:155
 msgid "Synchronize Action"
 msgstr "Synkroniseringsåtgärd"
 
 #: addressbook/conduit/address-conduit-control-applet.c:261
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:262
+#: calendar/conduits/calendar/calendar-conduit-control-applet.c:214
 #: calendar/conduits/todo/todo-conduit-control-applet.c:214
 msgid "Conduit state"
 msgstr "Kanaltillstånd"
 
 #: addressbook/conduit/address-conduit-control-applet.c:315
 #: addressbook/conduit/address-conduit-control-applet.c:328
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:316
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:329
+#: calendar/conduits/calendar/calendar-conduit-control-applet.c:266
+#: calendar/conduits/calendar/calendar-conduit-control-applet.c:279
 #: calendar/conduits/todo/todo-conduit-control-applet.c:266
 #: calendar/conduits/todo/todo-conduit-control-applet.c:279
 msgid ""
@@ -117,13 +116,13 @@ msgstr ""
 "välj \"Pilot-länkningsegenskaper\" först."
 
 #: addressbook/conduit/address-conduit-control-applet.c:334
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:335
+#: calendar/conduits/calendar/calendar-conduit-control-applet.c:285
 #: calendar/conduits/todo/todo-conduit-control-applet.c:285
 msgid "Not connected to the gnome-pilot daemon"
 msgstr "Inte ansluten till gnome-pilot-demonen"
 
 #: addressbook/conduit/address-conduit-control-applet.c:339
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:340
+#: calendar/conduits/calendar/calendar-conduit-control-applet.c:290
 #: calendar/conduits/todo/todo-conduit-control-applet.c:290
 msgid ""
 "An error occured when trying to fetch\n"
@@ -767,9 +766,8 @@ msgstr ""
 "\n"
 "Dubbelklicka här för att skapa en ny kontakt."
 
-#. gtk_signal_connect(fb->search_entry, "changed", search_activate, fb);
 #: addressbook/gui/search/e-addressbook-search-dialog.c:151
-#: mail/folder-browser.c:405
+#: mail/folder-browser.c:490
 msgid "Search"
 msgstr "Sök"
 
@@ -963,60 +961,59 @@ msgstr "fm"
 msgid "pm"
 msgstr "em"
 
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:146
-msgid "Gpilotd calendar conduit"
-msgstr "Gpilotd kalenderkanal"
-
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:149
-msgid "Configuration utility for the calendar conduit.\n"
-msgstr "Konfigurationsverktyg för kalenderkanalen.\n"
-
-#: calendar/conduits/calendar/calendar-conduit.c:398
-#: calendar/conduits/calendar/calendar-conduit.c:1111
-#: calendar/conduits/todo/todo-conduit.c:554
-msgid "Error while communicating with calendar server"
-msgstr "Fel vid kommunikation med kalenderserver"
-
-#: calendar/conduits/calendar/calendar-conduit.c:778
-#: calendar/conduits/calendar/calendar-conduit.c:780
-msgid "Could not start gnomecal server"
-msgstr "Kunde inte starta gnomecal-server"
-
-#: calendar/conduits/calendar/calendar-conduit.c:808
-#: calendar/conduits/calendar/calendar-conduit.c:811
-msgid "Could not read pilot's DateBook application block"
-msgstr "Kunde inte läsa pilotens DateBook-programblock"
-
+#: calendar/conduits/calendar/calendar-conduit-control-applet.c:114
 #: calendar/conduits/todo/todo-conduit-control-applet.c:114
 msgid "JP Rosevear <jpr@helixcode.com>"
 msgstr "JP Rosevear <jpr@helixcode.com>"
 
+#: calendar/conduits/calendar/calendar-conduit-control-applet.c:115
 #: calendar/conduits/todo/todo-conduit-control-applet.c:115
 msgid "Original Author:"
 msgstr "Originalförfattare:"
+
+#: calendar/conduits/calendar/calendar-conduit-control-applet.c:120
+msgid "Evolution Calendar Conduit"
+msgstr "Evolution kalenderkanal"
+
+#: calendar/conduits/calendar/calendar-conduit-control-applet.c:121
+#: calendar/conduits/todo/todo-conduit-control-applet.c:121
+msgid "(C) 1998-2000 the Free Software Foundation and Helix Code"
+msgstr "© 1998-2000 Free Software Foundation och Helix Code"
+
+#: calendar/conduits/calendar/calendar-conduit-control-applet.c:123
+msgid "Configuration utility for the evolution calendar conduit.\n"
+msgstr "Konfigurationsverktyg för evolutions kalenderkanal.\n"
+
+#: calendar/conduits/calendar/calendar-conduit.c:554
+#: calendar/conduits/todo/todo-conduit.c:566
+msgid "Error while communicating with calendar server"
+msgstr "Fel vid kommunikation med kalenderserver"
+
+#: calendar/conduits/calendar/calendar-conduit.c:652
+#: calendar/conduits/todo/todo-conduit.c:664
+msgid "Could not start wombat server"
+msgstr "Kunde inte starta wombat-server"
+
+#: calendar/conduits/calendar/calendar-conduit.c:653
+#: calendar/conduits/todo/todo-conduit.c:665
+msgid "Could not start wombat"
+msgstr "Kunde inte starta wombat"
+
+#: calendar/conduits/calendar/calendar-conduit.c:715
+#: calendar/conduits/calendar/calendar-conduit.c:718
+msgid "Could not read pilot's Calendar application block"
+msgstr "Kunde inte läsa pilotens kalenderprogramblock"
 
 #: calendar/conduits/todo/todo-conduit-control-applet.c:120
 msgid "Evolution ToDo Conduit"
 msgstr "Evolution att-göra-kanal"
 
-#: calendar/conduits/todo/todo-conduit-control-applet.c:121
-msgid "(C) 1998-2000 the Free Software Foundation and Helix Code"
-msgstr "© 1998-2000 Free Software Foundation och Helix Code"
-
 #: calendar/conduits/todo/todo-conduit-control-applet.c:123
 msgid "Configuration utility for the evolution todo conduit.\n"
 msgstr "Konfigurationsverktyg för evolutions att-göra-kanal.\n"
 
-#: calendar/conduits/todo/todo-conduit.c:599
-msgid "Could not start wombat server"
-msgstr "Kunde inte starta wombat-server"
-
-#: calendar/conduits/todo/todo-conduit.c:600
-msgid "Could not start wombat"
-msgstr "Kunde inte starta wombat"
-
-#: calendar/conduits/todo/todo-conduit.c:658
-#: calendar/conduits/todo/todo-conduit.c:661
+#: calendar/conduits/todo/todo-conduit.c:727
+#: calendar/conduits/todo/todo-conduit.c:730
 msgid "Could not read pilot's ToDo application block"
 msgstr "Kunde inte läsa pilotens att-göra-programblock"
 
@@ -3281,12 +3278,17 @@ msgstr "Kan inte initiera Evolutions e-postkomponent."
 msgid "Cannot initialize Evolution's mail summary component."
 msgstr "Kan inte initiera Evolutions komponent för e-postsammanfattning."
 
-#: mail/folder-browser-factory.c:55
+#: mail/folder-browser-factory.c:53
 #, c-format
 msgid "Run filter \"%s\""
 msgstr "Kör filtret \"%s\""
 
-#: mail/folder-browser.c:408
+#. gtk_signal_connect(fb->search_entry, "changed", search_activate, fb);
+#: mail/folder-browser.c:488
+msgid "Full Search"
+msgstr "Fullständig sökning"
+
+#: mail/folder-browser.c:493
 msgid "Save"
 msgstr "Spara"
 
@@ -3370,7 +3372,7 @@ msgstr ""
 "Fel vid läsning av filterinformation:\n"
 "%s"
 
-#: mail/mail-callbacks.c:754 mail/message-list.c:1562
+#: mail/mail-callbacks.c:754 mail/message-list.c:1615
 msgid "Print Message"
 msgstr "Skriv ut meddelande"
 
@@ -4010,7 +4012,7 @@ msgstr ""
 "Kan inte öppna platsen \"%s\":\n"
 "%s"
 
-#: mail/mail-vfolder.c:302
+#: mail/mail-vfolder.c:291
 msgid "New VFolder"
 msgstr "Ny virtuell mapp"
 
@@ -4024,7 +4026,7 @@ msgstr "Svara"
 msgid "Reply to the sender of this message"
 msgstr "Svara till avsändaren av det här meddelandet"
 
-#: mail/mail-view.c:154 mail/message-list.c:1565
+#: mail/mail-view.c:154 mail/message-list.c:1618
 msgid "Reply to All"
 msgstr "Svara till alla"
 
@@ -4052,87 +4054,87 @@ msgstr "Skriv ut det markerade meddelandet"
 msgid "Delete this message"
 msgstr "Ta bort detta meddelande"
 
-#: mail/message-list.c:889
+#: mail/message-list.c:890
 msgid "From"
 msgstr "Från"
 
-#: mail/message-list.c:896
+#: mail/message-list.c:897
 msgid "Subject"
 msgstr "Ämne"
 
-#: mail/message-list.c:903
+#: mail/message-list.c:904
 msgid "Date"
 msgstr "Datum"
 
-#: mail/message-list.c:910
+#: mail/message-list.c:911
 msgid "Received"
 msgstr "Mottogs"
 
-#: mail/message-list.c:917
+#: mail/message-list.c:918
 msgid "To"
 msgstr "Till"
 
-#: mail/message-list.c:924
+#: mail/message-list.c:925
 msgid "Size"
 msgstr "Storlek"
 
-#: mail/message-list.c:1560
+#: mail/message-list.c:1613
 msgid "Open in New Window"
 msgstr "Öppna i nytt fönster"
 
-#: mail/message-list.c:1561
+#: mail/message-list.c:1614
 msgid "Edit Message"
 msgstr "Redigera meddelande"
 
-#: mail/message-list.c:1564
+#: mail/message-list.c:1617
 msgid "Reply to Sender"
 msgstr "Svara till avsändaren"
 
-#: mail/message-list.c:1566
+#: mail/message-list.c:1619
 msgid "Forward Message"
 msgstr "Vidarebfordra meddelande"
 
-#: mail/message-list.c:1568
+#: mail/message-list.c:1621
 msgid "Delete Message"
 msgstr "Ta bort meddelande"
 
-#: mail/message-list.c:1569
+#: mail/message-list.c:1622
 msgid "Move Message"
 msgstr "Flytta meddelande"
 
-#: mail/message-list.c:1570
+#: mail/message-list.c:1623
 msgid "Copy Message"
 msgstr "Kopiera meddelande"
 
-#: mail/message-list.c:1572
+#: mail/message-list.c:1625
 msgid "VFolder on Subject"
 msgstr "Virtuell mapp på ämnesrad"
 
-#: mail/message-list.c:1573
+#: mail/message-list.c:1626
 msgid "VFolder on Sender"
 msgstr "Virtuell mapp på avsändare"
 
-#: mail/message-list.c:1574
+#: mail/message-list.c:1627
 msgid "VFolder on Recipients"
 msgstr "Virtuell mapp på mottagare"
 
-#: mail/message-list.c:1576
+#: mail/message-list.c:1629
 msgid "Filter on Subject"
 msgstr "Filtrera på ämnesrad"
 
-#: mail/message-list.c:1577
+#: mail/message-list.c:1630
 msgid "Filter on Sender"
 msgstr "Filtrera på avsändare"
 
-#: mail/message-list.c:1578
+#: mail/message-list.c:1631
 msgid "Filter on Recipients"
 msgstr "Filtrera på mottagare"
 
-#: mail/message-list.c:1579 mail/message-list.c:1602
+#: mail/message-list.c:1632 mail/message-list.c:1655
 msgid "Filter on Mailing List"
 msgstr "Filtrera på sändlista"
 
-#: mail/message-list.c:1604
+#: mail/message-list.c:1657
 #, c-format
 msgid "Filter on Mailing List (%s)"
 msgstr "Filtrera på sändlista (%s)"
@@ -4255,7 +4257,7 @@ msgstr ""
 "för e-post, kalender- och kontakthantering\n"
 "inom GNOME-skrivbordsmiljön."
 
-#: shell/e-shell-view-menu.c:325
+#: shell/e-shell-view-menu.c:331
 msgid "Go to folder..."
 msgstr "Gå till mapp..."
 
@@ -4589,6 +4591,18 @@ msgstr "%I:%M %p"
 #, c-format
 msgid "Group %i"
 msgstr "Grupp %i"
+
+#~ msgid "Gpilotd calendar conduit"
+#~ msgstr "Gpilotd kalenderkanal"
+
+#~ msgid "Configuration utility for the calendar conduit.\n"
+#~ msgstr "Konfigurationsverktyg för kalenderkanalen.\n"
+
+#~ msgid "Could not start gnomecal server"
+#~ msgstr "Kunde inte starta gnomecal-server"
+
+#~ msgid "Could not read pilot's DateBook application block"
+#~ msgstr "Kunde inte läsa pilotens DateBook-programblock"
 
 #~ msgid "TODO Items"
 #~ msgstr "ATT-GÖRA-objekt"
