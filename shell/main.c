@@ -241,7 +241,7 @@ main (int argc, char **argv)
 	/* Make ElectricFence work.  */
 	free (malloc (10));
 
-	gnome_init_with_popt_table ("Evolution", VERSION, argc, argv, options, 0, &popt_context);
+	gnome_init_with_popt_table ("Evolution", VERSION " [" SUB_VERSION "]", argc, argv, options, 0, &popt_context);
 
 	if (evolution_debug_log) {
 		int fd;

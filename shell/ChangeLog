@@ -1,3 +1,8 @@
+2001-09-12  Ettore Perazzoli  <ettore@ximian.com>
+
+	* main.c (main): Add SUB_VERSION to the version string passed to
+	`gnome_init_with_popt_table()'.
+
 2001-09-12  Chris Toshok  <toshok@ximian.com>
 
 	* e-shell-importer.c (start_import): only allow importing to
