@@ -147,16 +147,19 @@ AC_CHECK_HEADERS(db1/db.h)
 dnl **************************************************
 dnl * ldap related stuff.
 dnl **************************************************
-AC_CHECK_LIB(lber, ber_get_tag, LDAP_LIBS="-llber")
-if test x$ac_cv_lib_lber_ber_get_tag = xyes; then
-AC_CHECK_LIB(ldap, ldap_open, LDAP_LIBS="-lldap $LDAP_LIBS", ,-llber)
+AC_ARG_ENABLE(ldap, 
+[  --enable-ldap=[no/yes]      Enable LDAP support in evolution],,enable_ldap=no)
+if test x$enable_ldap = xyes; then
+  AC_CHECK_LIB(lber, ber_get_tag, LDAP_LIBS="-llber")
+  if test x$ac_cv_lib_lber_ber_get_tag = xyes; then
+    AC_CHECK_LIB(ldap, ldap_open, LDAP_LIBS="-lldap $LDAP_LIBS", ,-llber)
+  fi
 fi
 if test x$ac_cv_lib_ldap_ldap_open = xyes; then
 	AC_DEFINE(HAVE_LDAP)
 	AC_SUBST(LDAP_LIBS)
 	msg_ldap=Yes
 else
-	AC_MSG_WARN(no ldap support present)
 	msg_ldap=No
 fi
 AM_CONDITIONAL(ENABLE_LDAP, test x$ac_cv_lib_ldap_ldap_open = xyes)
