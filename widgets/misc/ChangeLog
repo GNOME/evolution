@@ -1,5 +1,15 @@
 2002-11-14  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-clipped-label.c (e_clipped_label_finalize): New.
+	(e_clipped_label_destroy): Removed.
+
+	* e-title-bar.c (destroy): Removed.
+	(impl_finalize): New.
+	(class_init): Install GObject::finalize handler instead of
+	GtkObject::destroy handler.
+
+2002-11-14  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-filter-bar.c: Changed to use g_object_*() and g_signal_*()
 	functions instead of gtk_object_*() and gtk_signal_*().
 	(destroy): Removed.

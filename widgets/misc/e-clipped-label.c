@@ -52,7 +52,7 @@ static void e_clipped_label_size_allocate (GtkWidget *widget,
 static gint e_clipped_label_expose (GtkWidget      *widget,
 				    GdkEventExpose *event);
 static void e_clipped_label_recalc_chars_displayed (EClippedLabel *label);
-static void e_clipped_label_destroy                (GtkObject *object);
+static void e_clipped_label_finalize               (GObject *object);
 
 
 static GtkMiscClass *parent_class;
@@ -94,10 +94,10 @@ e_clipped_label_get_type (void)
 static void
 e_clipped_label_class_init (EClippedLabelClass *class)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
-	object_class = (GtkObjectClass *) class;
+	object_class = (GObjectClass *) class;
 	widget_class = (GtkWidgetClass *) class;
 
 	/* Method override */
@@ -105,7 +105,7 @@ e_clipped_label_class_init (EClippedLabelClass *class)
  	widget_class->size_allocate	= e_clipped_label_size_allocate;
 	widget_class->expose_event	= e_clipped_label_expose;
 
-	object_class->destroy           = e_clipped_label_destroy;
+	object_class->finalize          = e_clipped_label_finalize;
 
 	e_clipped_label_ellipsis = _("...");
 }
@@ -256,7 +256,7 @@ e_clipped_label_expose (GtkWidget      *widget,
 
 
 static void
-e_clipped_label_destroy (GtkObject *object)
+e_clipped_label_finalize (GObject *object)
 {
 	EClippedLabel *label;
 
@@ -267,8 +267,7 @@ e_clipped_label_destroy (GtkObject *object)
 	g_free (label->label);
 	g_free (label->label_wc);
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 
