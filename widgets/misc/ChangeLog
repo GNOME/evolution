@@ -1,5 +1,14 @@
 2004-01-20  JP Rosevear <jpr@ximian.com>
 
+	* e-source-selector.c (rebuild_model): set a primary selection if
+	there is one before the rebuild
+	(e_source_selector_set_primary_selection): block the signals when
+	clearing the tree selection to make the op atomic; emit the
+	selection_changed signal if a hidden selection is not currently
+	selectecd
+
+2004-01-20  JP Rosevear <jpr@ximian.com>
+
 	* e-source-selector.c (find_source_iter): provide parent iter
 	in/out arg
 	(test_collapse_row_callback): use priv shortcut

@@ -226,11 +226,13 @@ rebuild_model (ESourceSelector *selector)
 	GtkTreeStore *tree_store;
 	GtkTreeIter iter;
 	GSList *groups, *p;
-
+	gboolean set_primary;
+	
 	tree_store = selector->priv->tree_store;
 
 	rebuild_data = create_rebuild_data (selector);
-
+	set_primary = e_source_selector_peek_primary_selection (selector) != NULL;
+	
 	/* Remove any delete sources or groups */
 	gtk_tree_model_foreach (GTK_TREE_MODEL (tree_store), rebuild_existing_cb, rebuild_data);
 	for (p = rebuild_data->deleted_uids; p; p = p->next) {
@@ -292,7 +294,7 @@ rebuild_model (ESourceSelector *selector)
 	if (rebuild_data->selection_changed)
 		g_signal_emit (selector, signals[SELECTION_CHANGED], 0);
 
-	if (!e_source_selector_peek_primary_selection (selector))
+	if (set_primary && !e_source_selector_peek_primary_selection (selector))
 		e_source_selector_set_primary_selection	(selector, e_source_list_peek_source_any (selector->priv->list));
 	
 	free_rebuild_data (rebuild_data);
@@ -1001,14 +1003,18 @@ e_source_selector_set_primary_selection (ESourceSelector *selector, ESource *sou
 	if (find_source_iter (selector, source, &parent_iter, &source_iter)) {
 		GtkTreeSelection *selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (selector));
 		GtkTreePath *path;
-
+		
+		/* We block the signal because this all needs to be atomic */
+		g_signal_handlers_block_matched (selection, G_SIGNAL_MATCH_FUNC, 0, 0, NULL, selection_changed_callback, NULL);
 		gtk_tree_selection_unselect_all (selection);
+		g_signal_handlers_unblock_matched (selection, G_SIGNAL_MATCH_FUNC, 0, 0, NULL, selection_changed_callback, NULL);
+
 		clear_saved_primary_selection (selector);
 		
 		path = gtk_tree_model_get_path (GTK_TREE_MODEL (priv->tree_store), &parent_iter);
 		
 		if (gtk_tree_view_row_expanded (GTK_TREE_VIEW (selector), path)) {
-			gtk_tree_selection_select_iter (selection, &source_iter);			
+			gtk_tree_selection_select_iter (selection, &source_iter);
 		} else {
 			GtkTreePath *child_path;
 			
@@ -1016,7 +1022,13 @@ e_source_selector_set_primary_selection (ESourceSelector *selector, ESource *sou
 			priv->saved_primary_selection = gtk_tree_row_reference_new (GTK_TREE_MODEL (priv->tree_store), child_path);
 			gtk_tree_path_free (child_path);
 
-			/* We emit this by hand because we aren't changing the tree selection */
+			/* We do this by hand because we aren't changing the tree selection */
+			if (!source_is_selected (selector, source)) {
+				select_source (selector, source);
+				gtk_tree_model_row_changed (GTK_TREE_MODEL (priv->tree_store), path, &source_iter);
+				g_signal_emit (selector, signals[SELECTION_CHANGED], 0);
+			}
+			
 			g_signal_emit (selector, signals[PRIMARY_SELECTION_CHANGED], 0);
 		}
 		
