@@ -50,6 +50,7 @@ struct _CalFactory {
 struct _CalFactoryClass {
 	BonoboObjectClass parent_class;
 
+	/* Notification signals */
 	void (* last_calendar_gone) (CalFactory *factory);
 };
 
@@ -62,6 +63,8 @@ CalFactory *cal_factory_new (void);
 
 void cal_factory_load (CalFactory *factory, const char *uri, Evolution_Calendar_Listener listener);
 void cal_factory_create (CalFactory *factory, const char *uri, Evolution_Calendar_Listener listener);
+
+int cal_factory_get_n_backends (CalFactory *factory);
 
 POA_Evolution_Calendar_CalFactory__epv *cal_factory_get_epv (void);
 

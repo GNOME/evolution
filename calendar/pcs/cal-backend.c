@@ -61,11 +61,19 @@ typedef struct {
 
 
 
+/* Signal IDs */
+enum {
+	LAST_CLIENT_GONE,
+	LAST_SIGNAL
+};
+
 static void cal_backend_class_init (CalBackendClass *class);
 static void cal_backend_init (CalBackend *backend);
 static void cal_backend_destroy (GtkObject *object);
 
 static GtkObjectClass *parent_class;
+
+static guint cal_backend_signals[LAST_SIGNAL];
 
 
 
@@ -112,6 +120,16 @@ cal_backend_class_init (CalBackendClass *class)
 
 	parent_class = gtk_type_class (GTK_TYPE_OBJECT);
 
+	cal_backend_signals[LAST_CLIENT_GONE] =
+		gtk_signal_new ("last_client_gone",
+				GTK_RUN_FIRST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (CalBackendClass, last_client_gone),
+				gtk_marshal_NONE__NONE,
+				GTK_TYPE_NONE, 0);
+
+	gtk_object_class_add_signals (object_class, cal_backend_signals, LAST_SIGNAL);
+
 	object_class->destroy = cal_backend_destroy;
 }
 
@@ -128,7 +146,8 @@ cal_backend_init (CalBackend *backend)
 	priv->format = CAL_VCAL;
 }
 
-static void save_to_vcal (CalBackend *backend, char *fname)
+static void
+save_to_vcal (CalBackend *backend, char *fname)
 {
 	FILE *fp;
 	CalBackendPrivate *priv = backend->priv;
@@ -173,7 +192,6 @@ static void save_to_vcal (CalBackend *backend, char *fname)
 	}
 	cleanStrTbl ();
 }
-
 
 /* Saves a calendar */
 static void
@@ -547,12 +565,11 @@ cal_destroy_cb (GtkObject *object, gpointer data)
 	priv->clients = g_list_remove_link (priv->clients, l);
 	g_list_free_1 (l);
 
-	/* When all clients go away, the backend can go away, too.  Commit
-         * suicide here.
+	/* When all clients go away, notify the parent factory about it so that
+	 * it may decide whether to kill the backend or not.
 	 */
-
 	if (!priv->clients)
-		gtk_object_unref (GTK_OBJECT (backend));
+		gtk_signal_emit (GTK_OBJECT (backend), cal_backend_signals[LAST_CLIENT_GONE]);
 }
 
 /**

@@ -55,6 +55,9 @@ struct _CalBackend {
 
 struct _CalBackendClass {
 	GtkObjectClass parent_class;
+
+	/* Notification signals */
+	void (* last_client_gone) (CalBackend *backend);
 };
 
 typedef enum {

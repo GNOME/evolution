@@ -265,9 +265,9 @@ lookup_backend (CalFactory *factory, GnomeVFSURI *uri)
 	return backend;
 }
 
-/* Callback used when a backend is destroyed */
+/* Callback used when a backend loses its last connected client */
 static void
-backend_destroy_cb (GtkObject *object, gpointer data)
+backend_last_client_gone_cb (GtkObject *object, gpointer data)
 {
 	CalFactory *factory;
 	CalFactoryPrivate *priv;
@@ -294,6 +294,8 @@ backend_destroy_cb (GtkObject *object, gpointer data)
 	g_hash_table_remove (priv->backends, orig_uri);
 	gnome_vfs_uri_unref (orig_uri);
 
+	gtk_object_unref (GTK_OBJECT (backend));
+
 	/* Notify upstream if there are no more backends */
 
 	if (g_hash_table_size (priv->backends) == 0)
@@ -311,8 +313,8 @@ add_backend (CalFactory *factory, GnomeVFSURI *uri, CalBackend *backend)
 	gnome_vfs_uri_ref (uri);
 	g_hash_table_insert (priv->backends, uri, backend);
 
-	gtk_signal_connect (GTK_OBJECT (backend), "destroy",
-			    GTK_SIGNAL_FUNC (backend_destroy_cb),
+	gtk_signal_connect (GTK_OBJECT (backend), "last_client_gone",
+			    GTK_SIGNAL_FUNC (backend_last_client_gone_cb),
 			    factory);
 }
 
@@ -692,8 +694,38 @@ cal_factory_load (CalFactory *factory, const char *uri, Evolution_Calendar_Liste
 	queue_load_create_job (factory, uri, listener, load_fn);
 }
 
+/**
+ * cal_factory_create:
+ * @factory: A calendar factory.
+ * @uri: URI of calendar to create.
+ * @listener: Listener for notification of the create result.
+ * 
+ * Initiates a create request in a calendar factory.  A calendar will be created
+ * asynchronously and the result code will be reported to the specified
+ * listener.
+ **/
 void
 cal_factory_create (CalFactory *factory, const char *uri, Evolution_Calendar_Listener listener)
 {
 	queue_load_create_job (factory, uri, listener, create_fn);
+}
+
+/**
+ * cal_factory_get_n_backends:
+ * @factory: A calendar factory.
+ * 
+ * Queries the number of running calendar backends in a calendar factory.
+ * 
+ * Return value: Number of running backends.
+ **/
+int
+cal_factory_get_n_backends (CalFactory *factory)
+{
+	CalFactoryPrivate *priv;
+
+	g_return_val_if_fail (factory != NULL, -1);
+	g_return_val_if_fail (IS_CAL_FACTORY (factory), -1);
+
+	priv = factory->priv;
+	return g_hash_table_size (priv->backends);
 }

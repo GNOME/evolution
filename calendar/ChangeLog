@@ -1,3 +1,20 @@
+2000-04-25  Federico Mena Quintero  <federico@helixcode.com>
+
+	* pcs/cal-factory.c (backend_last_client_gone_cb): Renamed from
+	backend_destroy_cb.  Now we use it for the "last_client_gone"
+	signal from the backend.  Also, unref the backend to destroy it.
+	(add_backend): Connect to the "last_client_gone" signal of the
+	backend.
+	(cal_factory_get_n_backends): New function to query the number of
+	running backends.
+
+	* pcs/cal-backend.c (cal_backend_class_init): Register the new
+	"last_client_gone" signal.  It is emitted when the last Cal client
+	goes away.  It is used to notify the factory when a backend may be
+	safely destroyed.
+	(cal_destroy_cb): Emit the "last_client_gone" signal when the last
+	client disconnects from the backend.
+
 2000-04-25  Seth Alves  <alves@hungry.com>
 
 	* gui/e-day-view.c (e_day_view_find_event_from_ico): compare
