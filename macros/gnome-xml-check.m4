@@ -1,26 +1,24 @@
 dnl
+dnl GNOME_XML_HOOK (script-if-xml-found, failflag)
+dnl
+dnl If failflag is "failure", script aborts due to lack of XML
+dnl 
 dnl Check for availability of the libxml library
 dnl the XML parser uses libz if available too
 dnl
 
 AC_DEFUN([GNOME_XML_HOOK],[
-	dnl Checks for zlib library.
-	Z_LIBS=
-	AC_CHECK_LIB(z, inflate,
-	  AC_CHECK_HEADER(zlib.h, Z_LIBS="-lz"))
-
-	AC_REQUIRE([GNOME_INIT_HOOK])
-	GNOME_XML_LIB=""
-	AC_CHECK_LIB(xml, xmlNewDoc, GNOME_XML_LIB="-lxml",
-	             GNOME_XML_LIB="itwwci", -L$gnome_prefix $Z_LIBS)
-	AC_SUBST(GNOME_XML_LIB)
-	AC_PROVIDE([GNOME_XML_HOOK])
-
-	if test "$GNOME_XML_LIB" = "itwwci"; then
+	AC_PATH_PROG(GNOME_CONFIG,gnome-config,no)
+	if test "$GNOME_CONFIG" = no; then
 		if test x$2 = xfailure; then
-			AC_MSG_ERROR(Could not find xml)
+			AC_MSG_ERROR(Could not find gnome-config)
 		fi
 	fi
+	AC_CHECK_LIB(xml, xmlNewDoc, [$1], [
+		if text x$2 = failure; then 
+			AC_MSG_ERROR(Could not link sample xml program)
+		fi
+	], gnome-config --libs xml)
 ])
 
 AC_DEFUN([GNOME_XML_CHECK], [
