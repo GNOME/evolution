@@ -173,17 +173,25 @@ evolution_LDADD =							\
 
 # Test component
 
-# evolution_test_component_SOURCES =	\
-# 	evolution-test-component.c
+if ENABLE_TEST_COMPONENT
+component_LTLIBRARIES = libevolution-test.la
+endif
 
-# evolution_test_component_LDADD = 	\
-# 	libeshell.la			\
-# 	$(SHELL_LIBS)
+libevolution_test_la_SOURCES =		\
+	evolution-test-component.c	\
+	evolution-test-component.h
 
-# install-test-component: evolution-test-component
-# 	$(LIBTOOL) --mode=install $(INSTALL_PROGRAM) evolution-test-component $(DESTDIR)$(bindir)/evolution-test-component
-# 	$(mkinstalldirs) $(DESTDIR)$(serverdir)
-# 	$(INSTALL_DATA) $(srcdir)/GNOME_Evolution_TestComponent.server $(DESTDIR)$(serverdir)/GNOME_Evolution_TestComponent.server
+libevolution_test_la_LIBADD = 		\
+	libeshell.la			\
+	$(SHELL_LIBS)
+
+libevolution_test_la_LDFLAGS = -avoid-version -module
+
+if ENABLE_TEST_COMPONENT
+testserver_in_files = GNOME_Evolution_Test.server.in.in
+testserver_DATA = $(testserver_in_files:.server.in.in=_$(BASE_VERSION).server)
+testserverdir = $(serverdir)
+endif
 
 # Misc stuff
 
@@ -245,11 +253,11 @@ MARSHAL_GENERATED = e-shell-marshal.c e-shell-marshal.h
 EXTRA_DIST = 					\
 	$(IDLS)					\
 	$(server_in_files)			\
+	GNOME_Evolution_Test.server.in.in	\
 	$(etspec_DATA)				\
 	$(schema_DATA)				\
 	$(icons)				\
 	ChangeLog.pre-1-4			\
-	GNOME_Evolution_TestComponent.server	\
 	e-shell-marshal.list			\
 	evolution-nognome.in
 
@@ -267,7 +275,7 @@ evolution.pure: evolution
 
 endif
 
-BUILT_SOURCES = $(IDL_GENERATED) $(SELECT_NAMES_IDL_GENERATED) $(MARSHAL_GENERATED) $(server_DATA) $(DATASERVER_IDL_GENERATED)
+BUILT_SOURCES = $(IDL_GENERATED) $(SELECT_NAMES_IDL_GENERATED) $(MARSHAL_GENERATED) $(server_DATA) $(testserver_DATA) $(DATASERVER_IDL_GENERATED)
 CLEANFILES = $(BUILT_SOURCES)
 
 dist-hook:

@@ -1,3 +1,13 @@
+2004-01-11  JP Rosevear <jpr@ximian.com>
+
+	* GNOME_Evolution_Test.server.in.in: proper server file for test
+	components
+
+	* Makefile.am: allow the test component to be built and installed
+
+	* evolution-test-component.[hc]: new test component to match
+	current api
+
 2004-01-08  JP Rosevear <jpr@ximian.com>
 
 	* e-shell.c (e_shell_attempt_upgrade): make sure we actually
