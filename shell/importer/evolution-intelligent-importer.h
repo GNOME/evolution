@@ -33,10 +33,10 @@ extern "C" {
 #endif /* __cplusplus */
 
 #define EVOLUTION_TYPE_INTELLIGENT_IMPORTER            (evolution_intelligent_importer_get_type ())
-#define EVOLUTION_INTELLIGENT_IMPORTER(obj)            (GTK_CHECK_CAST ((obj), EVOLUTION_TYPE_INTELLIGENT_IMPORTER, EvolutionIntelligentImporter))
-#define EVOLUTION_INTELLIGENT_IMPORTER_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), EVOLUTION_TYPE_INTELLIGENT_IMPORTER, EvolutionIntelligentImporterClass))
-#define EVOLUTION_IS_INTELLIGENT_IMPORTER(obj)         (GTK_CHECK_TYPE ((obj), EVOLUTION_TYPE_INTELLIGENT_IMPORTER))
-#define EVOLUTION_IS_INTELLIGENT_IMPORTER_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((obj), EVOLUTION_TYPE_INTELLIGENT_IMPORTER))
+#define EVOLUTION_INTELLIGENT_IMPORTER(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), EVOLUTION_TYPE_INTELLIGENT_IMPORTER, EvolutionIntelligentImporter))
+#define EVOLUTION_INTELLIGENT_IMPORTER_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), EVOLUTION_TYPE_INTELLIGENT_IMPORTER, EvolutionIntelligentImporterClass))
+#define EVOLUTION_IS_INTELLIGENT_IMPORTER(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), EVOLUTION_TYPE_INTELLIGENT_IMPORTER))
+#define EVOLUTION_IS_INTELLIGENT_IMPORTER_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((obj), EVOLUTION_TYPE_INTELLIGENT_IMPORTER))
 
 typedef struct _EvolutionIntelligentImporter EvolutionIntelligentImporter;
 typedef struct _EvolutionIntelligentImporterPrivate EvolutionIntelligentImporterPrivate;
@@ -59,7 +59,7 @@ struct _EvolutionIntelligentImporterClass {
   POA_GNOME_Evolution_IntelligentImporter__epv epv;
 };
 
-GtkType evolution_intelligent_importer_get_type (void);
+GType evolution_intelligent_importer_get_type (void);
 
 EvolutionIntelligentImporter *evolution_intelligent_importer_new (EvolutionIntelligentImporterCanImportFn can_import_fn,
 								  EvolutionIntelligentImporterImportDataFn import_data_fn,

@@ -1,6 +1,4 @@
-SUBDIRS = glade
-
-# FIXME importer
+SUBDIRS = glade importer
 
 INCLUDES =							\
 	-I$(top_srcdir)/widgets					\
@@ -177,6 +175,8 @@ evolution_SOURCES =				\
 	e-shell-folder-selection-dialog.h	\
 	e-shell-folder-title-bar.c		\
 	e-shell-folder-title-bar.h		\
+	e-shell-importer.c			\
+	e-shell-importer.h			\
 	e-shell-offline-handler.c		\
 	e-shell-offline-handler.h		\
 	e-shell-offline-sync.c			\
@@ -225,14 +225,12 @@ evolution_SOURCES =				\
 
 evolution_LDADD =							\
 	libeshell.la							\
+	importer/libevolution-importer.la				\
 	$(top_builddir)/widgets/e-timezone-dialog/libetimezonedialog.a	\
 	$(top_builddir)/widgets/misc/libemiscwidgets.a			\
 	$(top_builddir)/e-util/libeutil.la				\
 	$(top_builddir)/libical/src/libical/libical-evolution.la	\
 	$(SHELL_LIBS)
-
-# FIXME
-# importer/libevolution-importer.la				\
 
 # Test component
 
@@ -323,7 +321,3 @@ if HAVE_DTAPPINTEGRATE
 bin_SCRIPTS = evolution-nognome
 
 endif
-
-# FIXME TODO:
-#	e-shell-importer.c
-#	e-shell-importer.h

@@ -118,9 +118,9 @@ impl_GNOME_Evolution_ImporterListener_notifyResult (PortableServer_Servant serva
 }	
 
 
-/* GtkObject methods */
+/* GObject methods */
 static void
-destroy (GtkObject *object)
+finalise (GObject *object)
 {
 	EvolutionImporterListener *listener;
 	EvolutionImporterListenerPrivate *priv;
@@ -134,7 +134,7 @@ destroy (GtkObject *object)
 	g_free (priv);
 	listener->priv = NULL;
 
-	GTK_OBJECT_CLASS (parent_class)->destroy (object);
+	G_OBJECT_CLASS (parent_class)->finalize(object);
 }
 
 #if 0
@@ -163,13 +163,13 @@ corba_class_init (void)
 static void
 evolution_importer_listener_class_init (EvolutionImporterListenerClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 	POA_GNOME_Evolution_ImporterListener__epv *epv = &klass->epv;
 	
-	object_class = GTK_OBJECT_CLASS (klass);
-	object_class->destroy = destroy;
+	object_class = G_OBJECT_CLASS (klass);
+	object_class->finalize = finalise;
 
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_ref(PARENT_TYPE);
 	epv->notifyResult = impl_GNOME_Evolution_ImporterListener_notifyResult;
 }
 
@@ -213,7 +213,7 @@ evolution_importer_listener_new (EvolutionImporterListenerCallback callback,
 {
 	EvolutionImporterListener *listener;
 
-	listener = gtk_type_new (evolution_importer_listener_get_type ());
+	listener = g_object_new (evolution_importer_listener_get_type (), NULL);
 
 	evolution_importer_listener_construct (listener, callback, closure);
 	return listener;

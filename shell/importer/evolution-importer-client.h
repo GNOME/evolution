@@ -24,7 +24,6 @@
 #define EVOLUTION_IMPORTER_CLIENT_H
 
 #include <glib.h>
-#include <bonobo/bonobo-object-client.h>
 #include <importer/evolution-importer.h>
 #include <importer/evolution-importer-listener.h>
 
@@ -34,26 +33,26 @@ extern "C" {
 #endif
 
 #define EVOLUTION_TYPE_IMPORTER_CLIENT (evolution_importer_client_get_type ())
-#define EVOLUTION_IMPORTER_CLIENT(obj) (GTK_CHECK_CAST ((obj), EVOLUTION_TYPE_IMPORTER_CLIENT, EvolutionImporterClient))
-#define EVOLUTION_IMPORTER_CLIENT_CLASS(klass) (GTK_CHECK_CLASS_CAST ((klass), EVOLUTION_TYPE_IMPORTER_CLIENT, EvolutionImporterClientClass))
-#define EVOLUTION_IS_IMPORTER_CLIENT(obj) (GTK_CHECK_TYPE ((obj), EVOLUTION_TYPE_IMPORTER_CLIENT))
-#define EVOLUTION_IS_IMPORTER_CLIENT_CLASS(klass) (GTK_CHECK_TYPE ((klass), EVOLUTION_TYPE_IMPORTER_CLIENT))
+#define EVOLUTION_IMPORTER_CLIENT(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), EVOLUTION_TYPE_IMPORTER_CLIENT, EvolutionImporterClient))
+#define EVOLUTION_IMPORTER_CLIENT_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), EVOLUTION_TYPE_IMPORTER_CLIENT, EvolutionImporterClientClass))
+#define EVOLUTION_IS_IMPORTER_CLIENT(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), EVOLUTION_TYPE_IMPORTER_CLIENT))
+#define EVOLUTION_IS_IMPORTER_CLIENT_CLASS(klass) (G_TYPE_CHECK_INSTANCE_TYPE ((klass), EVOLUTION_TYPE_IMPORTER_CLIENT))
 
 
 typedef struct _EvolutionImporterClient EvolutionImporterClient;
 typedef struct _EvolutionImporterClientClass EvolutionImporterClientClass;
 
 struct _EvolutionImporterClient {
-	GtkObject parent_type;
+	GObject parent_type;
 
 	GNOME_Evolution_Importer objref;
 };
 
 struct _EvolutionImporterClientClass {
-  GtkObjectClass parent_class;
+	GObjectClass parent_class;
 };
 
-GtkType evolution_importer_client_get_type (void);
+GType evolution_importer_client_get_type (void);
 
 EvolutionImporterClient *evolution_importer_client_new (const CORBA_Object objref);
 EvolutionImporterClient *evolution_importer_client_new_from_id (const char *id);

@@ -105,7 +105,7 @@ impl_GNOME_Evolution_IntelligentImporter_importData (PortableServer_Servant serv
 
 
 static void
-destroy (GtkObject *object)
+finalise (GObject *object)
 {
 	EvolutionIntelligentImporter *ii;
 	
@@ -118,19 +118,19 @@ destroy (GtkObject *object)
 	g_free (ii->priv);
 	ii->priv = NULL;
 
-	GTK_OBJECT_CLASS (parent_class)->destroy (object);
+	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
 static void
 evolution_intelligent_importer_class_init (EvolutionIntelligentImporterClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 	POA_GNOME_Evolution_IntelligentImporter__epv *epv = &klass->epv;
 
-	object_class = GTK_OBJECT_CLASS (klass);
-	object_class->destroy = destroy;
+	object_class = G_OBJECT_CLASS (klass);
+	object_class->finalize = finalise;
 	
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_ref(PARENT_TYPE);
 	epv->_get_importername = impl_GNOME_Evolution_IntelligentImporter__get_importername;
 	epv->_get_message = impl_GNOME_Evolution_IntelligentImporter__get_message;
 	epv->canImport = impl_GNOME_Evolution_IntelligentImporter_canImport;
@@ -184,7 +184,7 @@ evolution_intelligent_importer_new (EvolutionIntelligentImporterCanImportFn can_
 {
 	EvolutionIntelligentImporter *ii;
 
-	ii = gtk_type_new (evolution_intelligent_importer_get_type ());
+	ii = g_object_new (evolution_intelligent_importer_get_type (), NULL);
 	evolution_intelligent_importer_construct (ii, can_import_fn,
 						  import_data_fn, importername,
 						  message, closure);

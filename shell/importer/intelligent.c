@@ -32,6 +32,7 @@
 #include <gtk/gtkdrawingarea.h>
 #include <gtk/gtkbox.h>
 #include <gtk/gtkhbox.h>
+#include <gtk/gtkvbox.h>
 #include <gtk/gtkcheckbutton.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkmain.h>
@@ -43,15 +44,12 @@
 #include <gtk/gtkclist.h>
 #include <gtk/gtknotebook.h>
 #include <gtk/gtkscrolledwindow.h>
+#include <gtk/gtkdialog.h>
+#include <gtk/gtkstock.h>
 
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-config.h>
+/*#include <libgnome/gnome-util.h>*/
 #include <libgnome/gnome-i18n.h>
-#include <libgnome/gnome-util.h>
-#include <libgnomeui/gnome-dialog.h>
-#include <libgnomeui/gnome-stock.h>
-
-#include <liboaf/liboaf.h>
 
 #include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-widget.h>
@@ -138,17 +136,17 @@ start_importers (GList *selected)
 static GList *
 get_intelligent_importers (void)
 {
-	OAF_ServerInfoList *info_list;
+	Bonobo_ServerInfoList *info_list;
 	GList *iids_ret = NULL;
 	CORBA_Environment ev;
 	int i;
 
 	CORBA_exception_init (&ev);
-	info_list = oaf_query ("repo_ids.has ('IDL:GNOME/Evolution/IntelligentImporter:1.0')", NULL, &ev);
+	info_list = bonobo_activation_query ("repo_ids.has ('IDL:GNOME/Evolution/IntelligentImporter:1.0')", NULL, &ev);
 	CORBA_exception_free (&ev);
 
 	for (i = 0; i < info_list->_length; i++) {
-		const OAF_ServerInfo *info;
+		const Bonobo_ServerInfo *info;
 		
 		info = info_list->_buffer + i;
 		iids_ret = g_list_prepend (iids_ret, g_strdup (info->iid));
@@ -187,18 +185,19 @@ create_gui (GList *importers)
 	int running = 0;
 
 	d = g_new (IntelligentImporterDialog, 1);
-	d->dialog = dialog = gnome_dialog_new (_("Importers"), 
-					       NULL);
-	gnome_dialog_append_button_with_pixmap (GNOME_DIALOG (dialog), 
-						_("Import"), 
-						GNOME_STOCK_PIXMAP_CONVERT);
-	gnome_dialog_append_button_with_pixmap (GNOME_DIALOG (dialog), 
-						_("Don't import"),
-						GNOME_STOCK_BUTTON_NO);
-	gnome_dialog_append_button_with_pixmap (GNOME_DIALOG (dialog), _("Don't ask me again"),
-						GNOME_STOCK_BUTTON_CANCEL);
-	
-	gnome_dialog_close_hides (GNOME_DIALOG (dialog), TRUE);
+	d->dialog = dialog = gtk_dialog_new();
+	gtk_window_set_title((GtkWindow *)dialog, _("Importers"));
+	dummy = gtk_button_new_from_stock(GTK_STOCK_CONVERT);
+	gtk_button_set_label((GtkButton *)dummy, _("Import"));
+	gtk_dialog_add_action_widget((GtkDialog *)dialog, dummy, GTK_RESPONSE_ACCEPT);
+
+	dummy = gtk_button_new_from_stock(GTK_STOCK_NO);
+	gtk_button_set_label((GtkButton *)dummy, _("Don't import"));
+	gtk_dialog_add_action_widget((GtkDialog *)dialog, dummy, GTK_RESPONSE_REJECT);
+
+	dummy = gtk_button_new_from_stock(GTK_STOCK_CANCEL);
+	gtk_button_set_label((GtkButton *)dummy, _("Don't ask me again"));
+	gtk_dialog_add_action_widget((GtkDialog *)dialog, dummy, GTK_RESPONSE_CANCEL);
 	d->importers = NULL;
 	d->current = NULL;
 
@@ -207,20 +206,20 @@ create_gui (GList *importers)
 	
 	label = gtk_label_new (_("Evolution can import data from the following files:"));
 	gtk_misc_set_alignment(GTK_MISC(label), 0, .5);
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), label,
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), label,
 			    TRUE, TRUE, 0);
 
 	hbox = gtk_hbox_new (FALSE, 2);
 	gtk_container_set_border_width (GTK_CONTAINER (hbox), 2);
 
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), hbox,
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), hbox,
 			    TRUE, TRUE, 0);
 
 	sw = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW(sw), 
 					GTK_POLICY_AUTOMATIC, 
 					GTK_POLICY_AUTOMATIC);
-	gtk_widget_set_usize (sw, 300, 150);
+	gtk_widget_set_size_request (sw, 300, 150);
 	gtk_container_add (GTK_CONTAINER (sw), clist);
 	gtk_box_pack_start (GTK_BOX (hbox), sw, TRUE, TRUE, 0);
 	
@@ -239,7 +238,7 @@ create_gui (GList *importers)
 		char *text[1], *prefix;
 
 		/* Check if we want to show this one again */
-		prefix = g_strdup_printf ("=%s/evolution/config/Shell=/intelligent-importers/", gnome_util_user_home ());
+		prefix = g_strdup_printf ("=%s/evolution/config/Shell=/intelligent-importers/", g_get_home_dir ());
 		gnome_config_push_prefix (prefix);
 		g_free (prefix);
 		
@@ -253,7 +252,7 @@ create_gui (GList *importers)
 		data->iid = g_strdup (l->data);
 
 		CORBA_exception_init (&ev);
-		data->object = oaf_activate_from_id ((char *) data->iid, 0, 
+		data->object = bonobo_activation_activate_from_id ((char *) data->iid, 0, 
 						     NULL, &ev);
 		if (ev._major != CORBA_NO_EXCEPTION) {
 			g_warning ("Could not start %s: %s", data->iid,
@@ -361,12 +360,12 @@ create_gui (GList *importers)
 	/* Set the start to the blank page */
 	gtk_notebook_set_page (GTK_NOTEBOOK (d->placeholder), running);
 
-	gtk_signal_connect (GTK_OBJECT (clist), "select-row", 
-			    GTK_SIGNAL_FUNC (select_row_cb), d);
-	gtk_signal_connect (GTK_OBJECT (clist), "unselect-row",
-			    GTK_SIGNAL_FUNC (unselect_row_cb), d);
+	g_signal_connect((clist), "select-row", 
+			    G_CALLBACK (select_row_cb), d);
+	g_signal_connect((clist), "unselect-row",
+			    G_CALLBACK (unselect_row_cb), d);
 
-	gtk_widget_show_all (GNOME_DIALOG (dialog)->vbox);
+	gtk_widget_show_all (GTK_DIALOG (dialog)->vbox);
 	return d;
 }
 
@@ -377,8 +376,9 @@ intelligent_importer_init (void)
 	IntelligentImporterDialog *d;
 	char *prefix;
 	gboolean dontaskagain;
+	int resp;
 
-	prefix = g_strdup_printf ("=%s/evolution/config/Shell=/intelligent-importers/", gnome_util_user_home ());
+	prefix = g_strdup_printf ("=%s/evolution/config/Shell=/intelligent-importers/", g_get_home_dir());
 	gnome_config_push_prefix (prefix);
 	g_free (prefix);
 	
@@ -399,8 +399,10 @@ intelligent_importer_init (void)
 		return; /* No runnable intelligent importers. */
 	}
 
-	switch (gnome_dialog_run_and_close (GNOME_DIALOG (d->dialog))) {
-	case 0: /* Okay button */
+	resp = gtk_dialog_run((GtkDialog *)d->dialog);
+	gtk_widget_destroy(d->dialog);
+	switch (resp) {
+	case GTK_RESPONSE_ACCEPT:
 		/* Make a list of the importers */
 
 		/* FIXME: Sort this list and don't do it a slow way */
@@ -458,13 +460,8 @@ intelligent_importer_init (void)
 
 		break;
 		
-	case 1: /* No button */
-		free_importer_dialog (d);
-		break;
-
-	case 2: /* Dont ask again */
-		prefix = g_strdup_printf ("=%s/evolution/config/Shell=/intelligent-importers/", 
-					  gnome_util_user_home ());
+	case GTK_RESPONSE_CANCEL: /* Dont ask again */
+		prefix = g_strdup_printf ("=%s/evolution/config/Shell=/intelligent-importers/", g_get_home_dir());
 		gnome_config_push_prefix (prefix);
 		g_free (prefix);
 		
@@ -478,6 +475,7 @@ intelligent_importer_init (void)
 		break;
 
 	default:
+	case GTK_RESPONSE_REJECT: /* No button */
 		free_importer_dialog (d);
 		break;
 	}

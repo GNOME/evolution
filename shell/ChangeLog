@@ -1,3 +1,64 @@
+2002-11-18  Not Zed  <NotZed@Ximian.com>
+
+	* importer/importer.c (dialog_response_cb): from clicked_cb.
+	(start_import): gtkdialogise.
+
+	* e-shell-importer.c: removed redundant header.
+	(create_html): Removed utf8 from locale stuff.
+	(get_name_from_component_info): oaf->bonobo activation.
+	(get_iid_for_filetype): "
+	(create_plugin_menu): Likewise, and change oafiid to bonoboiid
+	(get_intelligent_importers): "
+	(prepare_intelligent_page): "
+	(show_import_wizard): add null domain to glade_xml_new.
+	(choose_importer_from_list): gtkdialogise.
+	(dialog_response_cb): changed from dialog_clicked_cb.
+	(start_import): gtkdialogise.
+	(show_error): use gtk message box.
+	(error_response_cb): callback to close error box.
+	(show_import_wizard): gnome_druid_page_start/finish ->
+	gnome_druid_page_edge.
+	(prepare_file_page):
+	(filename_changed): set HELP button insensitive.
+	(create_plugin_menu): casts for warnings and fix a typo,
+	set_data->set_data_full.
+	(import_druid_finish): folder_selection_dialog api change(?),
+	allow create.
+	(dialog_weak_notify): renamed from close_dialog().
+	(show_import_wizard): remove gnome_dialog_close_hides -> its a
+	gtkwindow anyway(!).
+
+	* Makefile.am (evolution_LDADD): Added back importer.
+	(evolution_SOURCES): Added back importer.
+
+	* importer/intelligent.c (get_intelligent_importers):
+	bonobo-activationised.
+	(create_gui): gtkdialogise.
+	(intelligent_importer_init): gtkdialogise.
+	(create_gui): remove gnome_util_user_home().
+	(intelligent_importer_init): "
+
+	* importer/evolution-importer.c (finalise): from destroy.
+	(evolution_importer_new): type_new->object_new.
+
+	* importer/evolution-importer-listener.c (finalise): from destroy.
+	(evolution_importer_listener_new): type_new->object_new.
+
+	* importer/evolution-importer-client.c (destroy): removed, as it
+	wasn't used anyway.
+	(evolution_importer_client_new): g_object_new.
+	(finalise): added, tho doesn't do anythign yet, should it unref
+	the client->objref?  This whole class doesn't seem much use.
+
+	* importer/evolution-importer-client.h: removed
+	bonobo-object-client, change to g_object.
+
+	* importer/*.[ch]: ran fix script over everything.
+	
+	* importer/evolution-intelligent-importer.c: gobjectise.
+	(finalise): renamed from destroy.
+	(evolution_intelligent_importer_new): gtk_type_new -> g_object_new
+
 2002-11-18  Chris Toshok  <toshok@ximian.com>
 
 	* importer/import.glade: run libglade-convert.

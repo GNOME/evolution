@@ -32,29 +32,29 @@
 #include <bonobo/bonobo-main.h>
 #include <gal/util/e-util.h>
 
-#include <liboaf/liboaf.h>
-
 #include "GNOME_Evolution_Importer.h"
 
-#define PARENT_TYPE gtk_object_get_type ()
-static GtkObjectClass *parent_class = NULL;
+#define PARENT_TYPE G_TYPE_OBJECT
+static GObjectClass *parent_class = NULL;
 
 
 static void
-destroy (GtkObject *object)
+finalise (GObject *object)
 {
-	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	/* FIXME: should this unref the client->objref?? */
+
+	parent_class->finalize(object);
 }
 
 static void
 class_init (EvolutionImporterClientClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 
-	object_class = GTK_OBJECT_CLASS (klass);
-	parent_class = gtk_type_class (PARENT_TYPE);
+	object_class = G_OBJECT_CLASS (klass);
+	parent_class = g_type_class_ref(PARENT_TYPE);
 
-	object_class->destroy = destroy;
+	object_class->finalize = finalise;
 }
 
 static void
@@ -77,7 +77,7 @@ evolution_importer_client_new (const CORBA_Object objref)
 
 	g_return_val_if_fail (objref != CORBA_OBJECT_NIL, NULL);
 
-	client = gtk_type_new (evolution_importer_client_get_type ());
+	client = g_object_new (evolution_importer_client_get_type (), NULL);
 	client->objref = objref;
 
 	return client;
@@ -100,7 +100,7 @@ evolution_importer_client_new_from_id (const char *id)
 	g_return_val_if_fail (id != NULL, NULL);
 
 	CORBA_exception_init (&ev);
-	objref = oaf_activate_from_id ((char *) id, 0, NULL, &ev);
+	objref = bonobo_activation_activate_from_id ((char *) id, 0, NULL, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		CORBA_exception_free (&ev);
 		g_warning ("Could not start %s.", id);

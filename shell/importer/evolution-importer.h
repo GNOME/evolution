@@ -33,10 +33,10 @@ extern "C" {
 #endif /* cplusplus */
 
 #define EVOLUTION_TYPE_IMPORTER            (evolution_importer_get_type ())
-#define EVOLUTION_IMPORTER(obj)            (GTK_CHECK_CAST ((obj), EVOLUTION_TYPE_IMPORTER, EvolutionImporter))
-#define EVOLUTION_IMPORTER_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), EVOLUTION_TYPE_IMPORTER, EvolutionImporterClass))
-#define EVOLUTION_IS_IMPORTER(obj)         (GTK_CHECK_TYPE ((obj), EVOLUTION_TYPE_IMPORTER))
-#define EVOLUTION_IS_IMPORTER_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((obj), EVOLUTION_TYPE_IMPORTER))
+#define EVOLUTION_IMPORTER(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), EVOLUTION_TYPE_IMPORTER, EvolutionImporter))
+#define EVOLUTION_IMPORTER_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), EVOLUTION_TYPE_IMPORTER, EvolutionImporterClass))
+#define EVOLUTION_IS_IMPORTER(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), EVOLUTION_TYPE_IMPORTER))
+#define EVOLUTION_IS_IMPORTER_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((obj), EVOLUTION_TYPE_IMPORTER))
 
 typedef struct _EvolutionImporter        EvolutionImporter;
 typedef struct _EvolutionImporterPrivate EvolutionImporterPrivate;
@@ -80,7 +80,7 @@ struct _EvolutionImporterClass {
 	POA_GNOME_Evolution_Importer__epv epv;
 };
 
-GtkType evolution_importer_get_type (void);
+GType evolution_importer_get_type (void);
 
 EvolutionImporter *evolution_importer_new (EvolutionImporterSupportFormatFn support_format_fn,
 					   EvolutionImporterLoadFileFn load_file_fn,

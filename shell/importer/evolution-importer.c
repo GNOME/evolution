@@ -125,7 +125,7 @@ impl_GNOME_Evolution_Importer_getError (PortableServer_Servant servant,
 
 
 static void
-destroy (GtkObject *object)
+finalise (GObject *object)
 {
 	EvolutionImporter *importer;
 	EvolutionImporterPrivate *priv;
@@ -139,19 +139,19 @@ destroy (GtkObject *object)
 	g_free (priv);
 	importer->priv = NULL;
 
-	GTK_OBJECT_CLASS (parent_class)->destroy (object);
+	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
 static void
 evolution_importer_class_init (EvolutionImporterClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 	POA_GNOME_Evolution_Importer__epv *epv = &klass->epv;
 
-	object_class = GTK_OBJECT_CLASS (klass);
-	object_class->destroy = destroy;
+	object_class = G_OBJECT_CLASS (klass);
+	object_class->finalize = finalise;
 
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_ref(PARENT_TYPE);
 	epv->supportFormat = impl_GNOME_Evolution_Importer_supportFormat;
 	epv->loadFile = impl_GNOME_Evolution_Importer_loadFile;
 	epv->processItem = impl_GNOME_Evolution_Importer_processItem;
@@ -217,7 +217,7 @@ evolution_importer_new (EvolutionImporterSupportFormatFn support_format_fn,
 {
 	EvolutionImporter *importer;
 
-	importer = gtk_type_new (evolution_importer_get_type ());
+	importer = g_object_new(evolution_importer_get_type (), NULL);
 	evolution_importer_construct (importer, support_format_fn, load_file_fn,
 				      process_item_fn, get_error_fn, closure);
 	return importer;
