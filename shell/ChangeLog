@@ -1,3 +1,8 @@
+2000-05-09  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-shell.c (setup_storages): Woops.  Don't free the path before
+	the warning message, as we need to print it.
+
 2000-05-08  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* main.c (destroy_cb): New function.

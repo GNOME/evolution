@@ -77,12 +77,14 @@ setup_storages (EShell *shell)
 	local_storage_path = g_concat_dir_and_file (priv->local_directory,
 						    LOCAL_STORAGE_DIRECTORY);
 	local_storage = e_local_storage_open (local_storage_path);
-	g_free (local_storage_path);
 
 	if (local_storage == NULL) {
 		g_warning (_("Cannot set up local storage -- %s"), local_storage_path);
+		g_free (local_storage_path);
 		return FALSE;
 	}
+
+	g_free (local_storage_path);
 
 	priv->storage_set = e_storage_set_new ();
 	e_storage_set_add_storage (priv->storage_set, local_storage);
