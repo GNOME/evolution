@@ -1,3 +1,10 @@
+2001-05-31  Federico Mena Quintero  <federico@ximian.com>
+
+	* menus/gal-view-menus.c (gal_view_menus_construct): Store the
+	connection ID of the "changed" signal in the collection.
+	(gal_view_menus_new): Added preconditions.
+	(gal_view_menus_construct): Added preconditions.
+
 2001-05-21  Chris Toshok  <toshok@ximian.com>
 
 	* menus/gal-view-menus.c (build_menus): make the view menuitems

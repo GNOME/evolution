@@ -90,10 +90,12 @@ gvm_destroy (GtkObject *object)
 
 	if (gvm->priv->collection && gvm->priv->collection_changed_id != 0) {
 		gtk_signal_disconnect(GTK_OBJECT(gvm->priv->collection), gvm->priv->collection_changed_id);
+		gvm->priv->collection_changed_id = 0;
 	}
 
 	if (gvm->priv->collection)
 		gtk_object_unref(GTK_OBJECT(gvm->priv->collection));
+
 	free_verbs(gvm);
 	remove_xml(gvm);
 	remove_listeners(gvm);
@@ -127,8 +129,12 @@ E_MAKE_TYPE(gal_view_menus, "GalViewMenus", GalViewMenus, gvm_class_init, gvm_in
 GalViewMenus *
 gal_view_menus_new (GalViewCollection *collection)
 {
-	GalViewMenus *gvm = gtk_type_new (GAL_VIEW_MENUS_TYPE);
+	GalViewMenus *gvm;
 
+	g_return_val_if_fail (collection != NULL, NULL);
+	g_return_val_if_fail (GAL_IS_VIEW_COLLECTION (collection), NULL);
+
+	gvm = gtk_type_new (GAL_VIEW_MENUS_TYPE);
 	gal_view_menus_construct(gvm, collection);
 
 	return gvm;
@@ -138,12 +144,17 @@ GalViewMenus *
 gal_view_menus_construct (GalViewMenus      *gvm,
 			  GalViewCollection *collection)
 {
-	if (collection)
-		gtk_object_ref(GTK_OBJECT(collection));
-	gvm->priv->collection = collection;
+	g_return_val_if_fail (gvm != NULL, NULL);
+	g_return_val_if_fail (GAL_IS_VIEW_MENUS (gvm), NULL);
+	g_return_val_if_fail (collection != NULL, NULL);
+	g_return_val_if_fail (GAL_IS_VIEW_COLLECTION (collection), NULL);
 
-	gtk_signal_connect(GTK_OBJECT(collection), "changed",
-			   GTK_SIGNAL_FUNC(collection_changed), gvm);
+	gtk_object_ref(GTK_OBJECT(collection));
+	gvm->priv->collection = collection;
+	gvm->priv->collection_changed_id = gtk_signal_connect (
+		GTK_OBJECT(collection), "changed",
+		GTK_SIGNAL_FUNC(collection_changed), gvm);
+
 	return gvm;
 }
 
@@ -298,9 +309,10 @@ build_stuff (GalViewMenus      *gvm,
 	bonobo_ui_component_add_verb_list(gvm->priv->component, gvm->priv->verbs);
 }
 
-void          gal_view_menus_apply     (GalViewMenus      *gvm,
-					BonoboUIComponent *component,
-					CORBA_Environment *ev)
+void
+gal_view_menus_apply     (GalViewMenus      *gvm,
+			  BonoboUIComponent *component,
+			  CORBA_Environment *ev)
 {
 	gvm->priv->component = component;
 

@@ -31,6 +31,6 @@ GalViewMenus *gal_view_menus_construct  (GalViewMenus      *menus,
 
 void          gal_view_menus_apply      (GalViewMenus      *menus,
 					 BonoboUIComponent *component,
-					 CORBA_Environment *ev);					      
+					 CORBA_Environment *ev);
 
 #endif /* _GAL_VIEW_MENUS_H_ */
