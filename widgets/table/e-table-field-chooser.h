@@ -1,7 +1,7 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* e-contact-editor-fullname.h
  * Copyright (C) 2000  Ximian, Inc.
- * Author: Chris Lahey <clahey@helixcode.com>
+ * Author: Chris Lahey <clahey@ximian.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as

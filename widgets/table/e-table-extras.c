@@ -3,7 +3,7 @@
  * E-table-extras.c: Pair of hash table sort of thingies.
  *
  * Author:
- *   Chris Lahey <clahey@helixcode.com>
+ *   Chris Lahey <clahey@ximian.com>
  *
  * (C) 2000 Ximian, Inc.
  */

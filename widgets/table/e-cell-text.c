@@ -2,8 +2,8 @@
 /* e-cell-text.c - Text cell renderer
  * Copyright (C) 2000 Ximian, Inc.
  *
- * Authors: Miguel de Icaza <miguel@helixcode.com>
- *          Chris Lahey <clahey@helixcode.com>
+ * Authors: Miguel de Icaza <miguel@ximian.com>
+ *          Chris Lahey <clahey@ximian.com>
  *
  * (C) 1999, 2000 Ximian, Inc.
  *

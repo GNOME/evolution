@@ -1,7 +1,7 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* ECellTree - Tree item for e-table.
  * Copyright (C) 2000 Ximian, Inc.
- * Author: Chris Toshok <toshok@helixcode.com>
+ * Author: Chris Toshok <toshok@ximian.com>
  *
  */
 #ifndef _E_CELL_TREE_H_

@@ -3,7 +3,7 @@
  * e-tree-model.c: a Tree Model
  *
  * Author:
- *   Chris Toshok (toshok@helixcode.com)
+ *   Chris Toshok (toshok@ximian.com)
  *
  * Adapted from the gtree code and ETableModel.
  *

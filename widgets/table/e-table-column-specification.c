@@ -3,7 +3,7 @@
  * E-table-column-specification.c: Savable specification of a column.
  *
  * Author:
- *   Chris Lahey <clahey@helixcode.com>
+ *   Chris Lahey <clahey@ximian.com>
  *
  * (C) 2000 Ximian, Inc.
  */

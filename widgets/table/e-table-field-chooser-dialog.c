@@ -2,7 +2,7 @@
 /* 
  * e-table-field-chooser-dialog.c
  * Copyright (C) 2000  Ximian, Inc.
- * Author: Chris Lahey <clahey@helixcode.com>
+ * Author: Chris Lahey <clahey@ximian.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as

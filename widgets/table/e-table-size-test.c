@@ -125,7 +125,7 @@ my_value_at (ETableModel *etc, int col, int row, void *data)
 	static guchar t[] = {'A', 0xc3, 0x84, 0xc3, 0x95, 0xc3, 0x94, 0xc3, 0xb5, 0x00};
 
 #if 0
-	if (col == 1) return "toshok@helixcode.com";
+	if (col == 1) return "toshok@ximian.com";
 #else
 	if (col == 1) return t;
 #endif

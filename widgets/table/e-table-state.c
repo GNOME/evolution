@@ -3,7 +3,7 @@
  * E-table-state.c: Savable state of a table.
  *
  * Author:
- *   Chris Lahey <clahey@helixcode.com>
+ *   Chris Lahey <clahey@ximian.com>
  *
  * (C) 2000 Ximian, Inc.
  */

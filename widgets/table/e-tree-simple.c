@@ -4,7 +4,7 @@
  * interface to using ETreeModel, similar to ETableSimple.
  *
  * Author:
- *   Chris Toshok (toshok@helixcode.com)
+ *   Chris Toshok (toshok@ximian.com)
  *
  * (C) 2000 Ximian, Inc.  */
 

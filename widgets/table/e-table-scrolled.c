@@ -3,8 +3,8 @@
  * E-table-scrolled.c: A graphical view of a Table.
  *
  * Author:
- *   Chris Lahey <clahey@helixcode.com>
- *   Miguel de Icaza (miguel@helixcode.com)
+ *   Chris Lahey <clahey@ximian.com>
+ *   Miguel de Icaza (miguel@ximian.com)
  *
  * Copyright 2000, 1999, Ximian, Inc
  */

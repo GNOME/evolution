@@ -3,7 +3,7 @@
  * E-table-config-field.c: One field of either the sort or group dialog.
  *
  * Author:
- *   Chris Lahey <clahey@helixcode.com>
+ *   Chris Lahey <clahey@ximian.com>
  *
  * (C) 2000 Ximian, Inc.
  */

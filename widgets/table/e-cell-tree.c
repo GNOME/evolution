@@ -2,7 +2,7 @@
 /* e-cell-tree.c - Tree cell renderer
  * Copyright (C) 2000 Ximian, Inc.
  *
- * Author: Chris Toshok <toshok@helixcode.com>
+ * Author: Chris Toshok <toshok@ximian.com>
  *
  * A majority of code taken from:
  *

@@ -3,8 +3,8 @@
  * E-Table-Group.c: Implements the grouping objects for elements on a table
  *
  * Author:
- *   Miguel de Icaza (miguel@helixcode.com)
- *   Chris Lahey (clahey@helixcode.com)
+ *   Miguel de Icaza (miguel@ximian.com)
+ *   Chris Lahey (clahey@ximian.com)
  *
  * Copyright 1999, 2000 Ximian, Inc.
  */
