@@ -1,4 +1,4 @@
-<!DOCTYPE Chapter PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN">
+
 
 <chapter id="usage-calendar">
   <title>The Evolution Calendar: Time-Tamer Extraordinaire</title>
@@ -35,6 +35,9 @@
        here.
     </para>
 
+<!-- ############### FIXME FIXME FIXME ############
+Feature not yet implemented, and may not be implemented due to
+lack of time, resources, and interest.
     <para>
        In addition, <application>Evolution</application> supports
        Hebrew, Muslim, and other calendar formats.  To switch to a
@@ -42,6 +45,7 @@
        <guimenuitem>GUIMENUITEM</guimenuitem> from the
        <guimenu>GUIMENU</guimenu>.
     </para>
+-->
     <para>
        Describe the ways that different calendars can work here, and
        how the different calendars work together.

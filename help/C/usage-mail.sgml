@@ -1,15 +1,14 @@
-
+<!-- uncomment the declaration during validation and debugging
+<!DOCTYPE Chapter PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN">
+-->
 
 <chapter id="usage-mail"> 
   <title>Evolution Mail</title>
   <abstract>
     <title> An Overview of the Evolution Mailer</title>
     <para>
-      Email is an integral part of life these days, and
-      <application>Evolution</application> mail is here to help
-      you keep track of it.  <application>Evolution</application>
-      email is like other email programs in all the ways you would
-      hope:
+       <application>Evolution</application> email is like other email
+       programs in all the ways you would hope:
      <itemizedlist>
        <listitem>
 	 <para>
@@ -25,26 +24,25 @@
        </listitem>
        <listitem>
 	 <para>
-	   It lets you use a wide variety of mail sources, including
-	   IMAP, POP3, and local files.
+	   It supports multiple mail sources, including IMAP, POP3,
+	   and local mbox files.
 	 </para>
        </listitem>
      </itemizedlist>
     </para>
     <para>
-      However, <application>Evolution</application> has some
-      important differences.  First, it's built to handle very
-      large amounts of mail without slowing down or crashing.  We
-      had high mail volumes in mind when we designed our <link
-      linkend="usage-mail-organize-filters">filtering</link> and
-      <link linkend="usage-mail-organize-search">searching</link>
-      functions.  There's also the
-      <application>Evolution</application> <link
-      linkend="usage-mail-organize-vFolders">vFolder</link>, an
-      advanced organizational feature not found in other mail
-      clients.  If you get a lot of mail, or if you keep every
-      message you get in case you need to refer to it later,
-      you'll find that feature especially useful.
+      However, <application>Evolution</application> has some important
+      differences.  First, it's built to handle very large amounts of
+      mail without slowing down or crashing.  Both the <link
+      linkend="usage-mail-organize-filters">filtering</link> and <link
+      linkend="usage-mail-organize-search">searching</link> functions
+      were built for speed and efficiency on gargantuan mail
+      volumes. There's also the <application>Evolution</application>
+      <link linkend="usage-mail-organize-vFolders">vFolder</link>, an
+      advanced organizational feature not found in other mail clients.
+      If you get a lot of mail, or if you keep every message you get
+      in case you need to refer to it later, you'll find that feature
+      especially useful.
     </para>
 
     <para>
@@ -89,17 +87,16 @@
 	will change to something a little less counter-intuitive.
       </para>
  <!-- ==============Figure=================================== -->
- <!-- MAKE SURE THIS SCREENSHOT HAS THE WELCOME MESSAGE! -->
+ 
       <figure id="usage-mail-intro-fig">
 	  <title>Evolution Mail</title>
 	  <screenshot>
-	    <screeninfo>Evolution Mail</screeninfo>
-	    <graphic fileref="fig/mainwindow-pic" format="png" srccredit="Aaron Weber">
+	    <screeninfo>Inbox</screeninfo>
+	    <graphic fileref="fig/mail-pic" format="png" srccredit="Aaron Weber">
 	</graphic>
 	</screenshot>
       </figure>
-<!-- ==============End of Figure===================================
--->
+<!-- ==============End of Figure============================== -->
 
     </sect2>
 
@@ -112,10 +109,9 @@
 	assistant</interface> will ask you for the information it
 	needs to check your mail (see <xref
 	linkend="config-setupassist"> for more information).  Then,
-	<application>Evolution</application> will download your mail
-	for you and send any mail you've marked ready to send. New
-	mail will appear in your <interface>Inbox</interface> and also
-	in the <interface>Today View</interface>.
+	<application>Evolution</application> will download your mail.
+	New mail will appear in your <interface>Inbox</interface>.
+        <!-- FIXME: add mention of Today if Today feature appears -->
       </para>
 
       <para>
@@ -131,13 +127,15 @@
 	<para>
 	  If you receive a file attached to an email,
 	  <application>Evolution</application> will display it at the
-	  bottom of the message to which it's attached.  Click on the
-	  attachment icon or text, and
-	  <application>Evolution</application> will ask you where you
-	  want to put the file.  Once you've done that, you can
-	  open, move, copy, or execute it just like any other, using
-	  <application>Nautilus</application> or your favorite shell
-	  or file manager.
+	  bottom of the message to which it's attached.  Text, HTML,
+	  and most images will be displayed in the message itself.
+	  For other files, <application>Evolution</application> will
+	  provide a link and icon at the end of the message.  Click on
+	  that, and <application>Evolution</application> will ask you
+	  where you want to put the file.  Once you've chosen one and
+	  saved the file, you can open, move, copy, or execute it just
+	  like any other, using <application>Nautilus</application> or
+	  your favorite shell or file manager.
 	</para>
 
 	<para>
@@ -147,66 +145,66 @@
 	   turn it off if you prefer.
 	</para>
 
+<!--  ######## Feature will probably not be implemented ******
 	<para>
 	   It can also display <glossterm>live
 	   documents</glossterm>, which have scripted or
 	   executable contents&mdash; for example, a working
 	   spreadsheet page or a chess game.  
-	</para>
-	<tip id="badidea-attachment">
-	  <title>Bad Idea</title>
-	  <para>
-	    Don't worry about security. When someone you don't know
-	    sends you a program by email, assume it's a really cool
-	    game.  Mark it executable and run it, no matter what.
-	  </para>
-	</tip>
+	</para> 
+
+-->
+
       </sect3>
     </sect2>
 
     <sect2 id="usage-mail-getnsend-send">
       <title>Writing and Sending Mail</title>
       <para>
-	 You can start writing a new
-	 email message by selecting <guimenuitem>New
-	 Mail</guimenuitem> from the <guimenu>File Menu</guimenu>,
-	 or by pressing <guibutton>Ctrl-N</guibutton>.  When you do so,
-	 the <interface>New Message</interface> window will open,
-	 as shown in <xref linkend="usage-mail-newmsg-fig">.
+	 You can start writing a new email message by selecting
+	 <guimenuitem>New Mail</guimenuitem> from the <guimenu>File
+	 Menu</guimenu>, or by pressing the
+	 <guibutton>Send</guibutton> in the Inbox toolbar.  <!-- THIS
+	 IS A BAD BUTTON NAME AND MUST BE FIXED --> When you do so,
+	 the <interface>New Message</interface> window will open, as
+	 shown in <xref linkend="usage-mail-newmsg-fig">.
+      </para>
+
 
 
 <!--   ==============Figure=================================== -->
-       <figure id="usage-mail-newmsg-fig">
-	 <title>New Message Window</title>
-	 <screenshot>
+      <figure id="usage-mail-newmsg-fig">
+	<title>New Message Window</title>
+	<screenshot>
 	  <screeninfo>Evolution Main Window</screeninfo>
-	  <graphic fileref="newmsg-pic" format="png" srccredit="Aaron Weber">
+	  <graphic fileref="fig/newmsg-pic" format="png" srccredit="Aaron Weber">
 	</graphic>
 	</screenshot>
       </figure>
 <!-- ==============End of Figure=================================== -->
- <!-- Check the alignment of the following paragraph in the PS and HTMl output, 
-as putting the fig inside the paragraph may or may not have fixed an error -->
-      </para>
-      <para>	  
+
+ <!-- Check the alignment of the following paragraph in the PS and
+ HTML output: it's indented for no good reason -->
+      <para>
 	 Enter an address in the <guilabel>To:</guilabel> field, a
-	 message in the <guilabel>Message:</guilabel> field, and
-	 press <guibutton>Send</guibutton>.  That's
-	 easy.  It may even be too easy, which is why I like to
-	 queue my messages up to be sent a few minutes later.
+	 subject in the <guilabel>Subject:</guilabel> and a message in
+	 the big empty box at the bottom of the window, and press
+	 <guibutton>Send</guibutton>.  That's easy.  It may even be
+	 too easy, which is why I like to queue my messages up to be
+	 sent a few minutes later.
 
 	 <tip id="usage-mail-getnsend-send-attach-tip">
 	  <title>Send Now, Send Later</title>
 	  <para>
-	    Evolution will send mail immediately unless you tell
-	    it to do otherwise by selecting <guimenuitem>Send
-	    Later</guimenuitem> from the <guimenu>MENU</guimenu>.
-	    Then, when you press <guibutton>Send &
-	    Receive</guibutton>, all your unsent messages will go
-	    out at once.  I like to use "Send Later" because it
-	    gives me a chance to change my mind about a message
-	    before it goes out.  That way, I don't send anything I'll
-	    regret the next day.
+	    Evolution will send mail immediately unless you tell it to
+	    do otherwise by selecting <guimenuitem>Send
+	    Later</guimenuitem> from the <guimenu>MENU</guimenu> in
+	    the message composition window.  Then, when you press
+	    <guibutton>Send</guibutton>, all your unsent messages will
+	    go out at once.  I like to use "Send Later" because it
+	    gives me a chance to change my mind about a message before
+	    it goes out.  That way, I don't send anything I'll regret
+	    the next day.
 	  </para>
 	  <para>
 	    To learn more about how you can specify message queue
@@ -216,85 +214,89 @@ as putting the fig inside the paragraph may or may not have fixed an error -->
        </para>
 
       <para>
-	There is quite a bit more to sending mail, though.  In the
-	next few sections, you'll see how
-	<application>Evolution</application> handles additional features,
-	including mailing lists, attachments, and forwarding.
+	You can probably guess the purpose of the buttons labelled
+	<guilabel>Cut</guilabel>, <guilabel>Copy</guilabel>,
+	<guilabel>Paste</guilabel> and <guilabel>Undo</guilabel>, but
+	there's a bit more to sending mail that's less obvious.  In
+	the next few sections, you'll see how
+	<application>Evolution</application> handles additional
+	features, including mailing lists, attachments, and
+	forwarding.
       </para>
 
 
       <sect3 id="usage-mail-getnsend-send-to">
 	<title>Choosing Recipients</title>
 	<para>
-	  If you have created address cards in the contact
-	  manager, you can also enter nicknames or other portions
-	  of address data, and
-	  <application>Evolution</application> will complete the
-	  address for you. (INSERT description of UI for this
-	  feature, once it is decided upon). If you enter a name
-	  or nickname that can go with more than one card,
-	  Evolution will open a dialog box to ask you which person
-	  you meant.  (QUESTION: will users be able to drag & drop
-	  address cards to send email?).  For more information
-	  about using email together with the contact manager and
-	  the calendar, see <xref
-	  linkend="usage-contact-automate"> and <xref
+	  If you have created address cards in the contact manager,
+	  you can also enter nicknames or other portions of address
+	  data, and <application>Evolution</application> will complete
+	  the address for you. <!-- (INSERT description of UI for this
+	  feature, once it is decided upon). -->  If you enter a name or
+	  nickname that can go with more than one card, Evolution will
+	  open a dialog box to ask you which person you meant.
+	  <!-- (QUESTION: will users be able to drag & drop address cards
+	  to send email?). -->  For more information about using email
+	  together with the contact manager and the calendar, see
+	  <xref linkend="usage-contact-automate"> and <xref
 	  linkend="usage-calendar-apts-group">.
 	</para>
-	<para>
-	  In addition, you can mark recipients in three different
-	  ways.  The <guilabel>To:</guilabel> field is for the
-	  primary recipients of the message you are going to send.
-	  However, it is considered bad form to have more than a
-	  few email addresses in this section.
-	</para>
-	<para>
-	  If you're writing to one person, but want to keep a
-	  third party up to date, you can use
-	  <guilabel>Cc:</guilabel>.  Hearkening back to the dark
-	  ages when people used typewriters and there were no copy
-	  machines, "Cc" stands for "Carbon Copy."  Use it
-	  whenever you want to share a message you've written to
-	  someone else.
-	  <example>
-	    <title>Using the Cc: field</title>
-	    <para>
-	       Say, for example, Susan sends an email to a client.
-	       She puts her co-worker, Tim, in the in the
-	       <guilabel>Cc:</guilabel> field, so that he know
-	       what's going on.  The client can see that Tim also
-	       recieved the message, and know that they can talk
-	       to Tim about the message as well.
-	    </para>
-	  </example>
-	</para>
-	<para>
-	  If you have a large number of recipients, or if you want
-	  to send mail to several people without sharing the
-	  recipient list, you should use
-	  <guilabel>BCc:</guilabel>. "BCc" stands for "Blind
-	  Carbon Copy", and means that people listed in the
-	  <guilabel>BCc:</guilabel> are excluded from the
-	  recipient list, although they will receive the message
-	  and the list of addresses from the
-	  <guilabel>To:</guilabel> and <guilabel>Cc:</guilabel>
-	  fields.  
 
-	  <example id="ex-mail-bcc">
-	     <title>Using the BCc: field</title>
-	     <para>
-	       Let's say Tim sends an email to a client, and wants
-	       his supervisor to know what he wrote.  He doesn't,
-	       however, want the client to start writing his
-	       supervisor about the project&mdash; it's Tim's job
-	       to deal with the client.  So Tim puts his
-	       supervisor's email address in the
-	       <guilabel>BCc:</guilabel> field.  That way, the
-	       client has one contact, and the boss stays in the
-	       loop.
-	   </para>
-	 </example>
-	</para>
+	<sect4 id="usage-mail-getnsend-send-to-mult">
+	  <title>Multiple Recipients</title>
+	  <para>
+	    In addition, you can mark recipients in three different
+	    ways.  The <guilabel>To:</guilabel> field is for the
+	    primary recipients of the message you are going to send.
+	    However, it is considered bad form to have more than a few
+	    email addresses in this section.
+	  </para>
+	  <para>
+	    If you're writing to one person, but want to keep a third
+	    party up to date, you can use <guilabel>Cc:</guilabel>.
+	    Hearkening back to the dark ages when people used
+	    typewriters and there were no copy machines, "Cc" stands
+	    for "Carbon Copy."  Use it whenever you want to share a
+	    message you've written to someone else.
+	    <example>
+	      <title>Using the Cc: field</title>
+	      <para>
+	         Say, for example, Susan sends an email to a client.
+	         She puts her co-worker, Tim, in the in the
+	         <guilabel>Cc:</guilabel> field, so that he know
+	         what's going on.  The client can see that Tim also
+	         recieved the message, and know that they can talk to
+	         Tim about the message as well.
+	      </para>
+	    </example>
+	  </para>
+	  <para>
+	    If you have a large number of recipients, or if you want
+	    to send mail to several people without sharing the
+	    recipient list, you should use
+	    <guilabel>Bcc:</guilabel>. "Bcc" stands for "Blind Carbon
+	    Copy", and means that people you put in the
+	    <guilabel>Bcc:</guilabel> field get the message, but
+	    nobody else sees their email address.  They will still see
+	    the list of addresses from the <guilabel>To:</guilabel>
+	    and <guilabel>Cc:</guilabel> fields.
+
+	    <example id="ex-mail-bcc">
+	      <title>Using the Bcc: field</title>
+	      <para>
+	         Tim is sending out a message to all of his company's
+	         clients, some of whom are in competition with each
+	         other, and all of whom value their privacy.  If he
+	         puts every address from his address book's "Clients"
+	         category into the <guilabel>To:</guilabel> or
+	         <guilabel>Cc:</guilabel> fields, he'll have made the
+	         <emphasis>entire</emphasis> client list public.
+	         Don't assume it won't happen to you; I got careless
+	         one day and did it myself.
+	     </para>
+	    </example>
+	  </para>
+	</sect4>
       </sect3>
 
    <sect3 id="usage-mail-getnsend-send-reply">
@@ -321,7 +323,7 @@ with quoted materials and the relevant replies interspersed-->
 	 <title>Reply Message Window</title>
 	 <screenshot>
 	  <screeninfo>Evolution Main Window</screeninfo>
-	  <graphic fileref="replymsg-pic" format="png" srccredit="Aaron Weber">
+	  <graphic fileref="fig/replymsg" format="png" srccredit="Aaron Weber">
 	</graphic>
 	</screenshot>
       </figure>
@@ -330,131 +332,198 @@ with quoted materials and the relevant replies interspersed-->
 
 	<para>
 	  If a message has several recipients, as in the case of
-	  mailing lists or messages that have been carbon copied,
-	  you may wish to select one of the items under the
-	  <guimenuitem>Reply-To</guimenuitem> submenu on the
-	  <guimenu>MENU</guimenu> menu.  This will allow you to
-	  choose one or several of the other message recipients in
-	  addition to the person who originally sent you the
-	  message. If there are large numbers of people in the
-	  <guilabel>Cc:</guilabel> or <guilabel>To:</guilabel>
-	  fields, this can save substantial amounts of time.  In
-	  addition, Reply-To makes it very easy to keep off-topic
-	  conversation away from mailing lists and newsgroups.
+	  mailing lists or messages that have been carbon copied, you
+	  may wish to click <guibutton>Reply to All</guibutton>
+	  instead of <guibutton>Reply</guibutton>.  If there are large
+	  numbers of people in the <guilabel>Cc:</guilabel> or
+	  <guilabel>To:</guilabel> fields, this can save substantial
+	  amounts of time.  But be careful, and always make sure you
+	  know who is getting a message: it could be a mailing list
+	  with thousands of subscribers.
 	  <example>
 	    <title>Using the Reply-To feature</title>
 	    <para>
-	      Returning again to the email Susan sent to Tim and
-	      their client, you'll note that the Reply-To feature
-	      allows the client to decide whether to reply just to
-	      Susan, or to both Tim and Susan by selecting
-	      a menu item, rather than by cutting and pasting the
-	      email addresses. 
+	      Susan sends an email to a client, and sends copies to
+	      Tim and to an internal company mailing list of
+	      co-workers.  If Tim wants to make a comment to all of
+	      them, he uses <guibutton>Reply to All</guibutton>, but
+	      if he just wants to tell Susan that he agrees with her,
+              he uses <guibutton>Reply</guibutton>.
 	    </para>
 	  </example>
 	</para>
       </sect3>
 
-      <sect3 id="usage-mail-getnsend-send-fancy">
-	<title>Embellishing that email</title>
+      <sect3 id="usage-mail-getnsend-send-html">
+	<title>Embellish your email with HTML</title>
 	<para>
-	   <application>Evolution</application> allows you to 
-	    make your email more attractive in a number of ways. You
-	    can send messages formatted with HTML, attach any sort
-	    of file to them, and even include live documents, like
-	    spreadhseets or chess games.  This section will tell
-	    you how.
-	</para>
-
-	<sect4 id="usage-mail-getnsend-send-html">
-	  <title>Colors, pictures, and fonts with HTML Mail</title> 
-	  <para>
-	    Most email messages are sent as plain text, but they
-	    can also be sent as HTML, which means they can include
-	    color, text style, and other formatting information.
-	    Evolution will read and display HTML properly without
-	    trouble, and also allows you to send outgoing
-	    email messages as HTML.  To send an HTML message, just
-	    use the composition toolbar to add formatting;
-	    your message text will appear formatted in the composer
-	    window, and the message will be sent as HTML.
-	  </para>
-	  <note>
-	    <title>A Technical note on HTML Tags</title>
-	    <para>
-	      You can't use the composer window to create web pages,
-	      at least not if you plan to hand-code them with HTML.
-	      If you enter HTML directly into the composer&mdash; say,
-	      <markup role="html">&lt;B&gt;Bold
-	      Text&lt;/B&gt</markup>, the the composer will assume you
-	      meant exactly that, and not "make this text bold," as a
-	      HTML composition tool would.  For the very technically
-	      inclined, that means that when the text <markup
-	      role="html">&lt;B&gt</markup> is sent as HTML, it will
-	      be converted to the string
-	      <literal>&amp;lt;B&amp;gt;</literal>.  Real gearheads
-	      should wonder how I got all that stuff straight, given
-	      that I'm writing this in SGML.
-	    </para>
-	  </note>
+            You can't normally use text treatments or pictures in
+            emails, which is why you've probably seen people use
+            asterisks for emphasis or use
+            <glossterm>emoticons</glossterm> to convey their
+            feelings.  However, most of the newer email programs can
+            include and display images and text treatments as well as
+            basic alignment and paragraph formatting.
+        </para>
+	<note>
+	  <title>HTML Mail is not a Default Setting</title>
 	  <para>
 	    Some people do not have HTML-capable mail clients, or
 	    prefer not to receive HTML-enhanced mail because it is
-	    slower to download and display.
-	    <emphasis>Some</emphasis> people refer to HTML mail as
-	    "the root of all evil" and get very angry if you send
-	    them HTML mail, which is why the default in
-	    <application>Evolution</application> is plain text.
-	    If you choose to send HTML mail, but have an address
-	    book entry for someone who does not wish to receive
-	    HTML-enhanced mail, you can note that preference in
-	    their address card.  The mailer will automatically
-	    strip the HTML tags from any messages you send to that
-	    address.
+	    slower to download and display.  <emphasis>Some</emphasis>
+	    people refer to HTML mail as "the root of all evil" and
+	    get very angry if you send them HTML mail, which is why
+	    <application>Evolution</application> sends plain text
+	    unless you explicitly ask for HTML.  To send HTML mail,
+	    you will need to select <guilabel>Send Messages as
+	    HTML</guilabel> in the mail settings dialog box.  See
+	    <xref linkend="config-mail"> for more information.
+          </para>
+	  <para>
+            If you format a message with HTML, but do not have
+	    <guilabel>Send Messages as HTML</guilabel> enabled in your
+	    mail settings, the composer will remove your text styles.
+	    It will, however, preserve indentation and lists.  It will
+	    do the same thing for any individuals in your address book
+	    whom you have marked as preferring not to receive HTML.
+           </para>
+	</note>
+	<para>
+           HTML formatting tools are located just above the
+	   composition frame, and in the <guimenu>Insert</guimenu> and
+	   <guimenu>Format</guimenu> menus.  Your message text will
+	   appear formatted in the composer window, and the message
+	   will be sent as HTML.
 	  </para>
-	</sect4>
+	  <para>
+            The icons in the toolbar are explained in tool-tips, which
+            appear when you hold your mouse over the buttons.  The
+            buttons fall into four categories:
+            <itemizedlist>
+	      <listitem>
+		<para>
+                  Headers and lists: Choose
+                  <guilabel>Normal</guilabel> for your default text
+                  style, or <guilabel>Header 1</guilabel> through
+                  <guilabel>Header 6</guilabel> for varying sizes of
+                  header.  You can also select
+                  <guilabel>pre</guilabel> for preformatted text
+                  blocks, and three types of <guilabel>List
+                  Item</guilabel>.
+                </para>
+	      </listitem>
 
-	<sect4 id="usage-mail-getnsend-send-attach">
+	      <listitem>
+		<para>
+                  Text style: <guilabel>B</guilabel> is for bold text,
+                  <guilabel>I</guilabel> for italics,
+                  <guilabel>U</guilabel> for an underline, and
+                  <guilabel>S</guilabel> for a strikethrough.
+                </para>
+	      </listitem>    
+
+	      <listitem>
+		<para>
+                   Alignment: Located next to the text style buttons,
+                   these three paragraph icons should be familiar to
+                   users of most word processing software.  The
+                   leftmost button will make your text left-justified,
+                   the center button, centered, and the right hand
+                   button, right-justified.
+                </para>
+	      </listitem>
+
+	      <listitem>
+		<para>
+                  Indentation rules: The button with the arrow
+                  pointing left will reduce a paragraph's indentation,
+                  and the right arrow will increase its indentation.
+               </para>
+	    </listitem>
+	  </itemizedlist>
+        </para>
+	<para>
+           There are two tools that you can find only in the
+           <guimenu>Insert</guimenu> menu.
+           <itemizedlist>
+	    <listitem>
+	      <para>
+                 <guilabel>Insert Link</guilabel>: Use this tool to
+                 put hyperlinks in your HTML messages.  When you
+                 select it, <application>Evolution</application> will
+                 prompt you for the <guilabel>Text</guilabel> that
+                 will appear, and the <guilabel>Link</guilabel>, where
+                 you should enter the actual web address (URL).
+              </para>
+	    </listitem>
+	    <listitem>
+	      <para>
+               <guilabel>Insert Image</guilabel>: Select this item to
+               embed image into your email, as was done in the welcome
+               message.  Images will appear at the location of the
+               cursor.
+              </para>
+	    </listitem>
+	  </itemizedlist>
+          </para>
+	  <note>
+	    <title>A Technical note on HTML Tags</title>
+	    <para>
+	      The composer is a WYSIWYG (What You See Is What You Get)
+	      editor for HTML. That means that if you enter HTML
+	      directly into the composer&mdash; say, <markup
+	      role="html">&lt;B&gt;Bold Text&lt;/B&gt</markup>, the
+	      the composer will assume you meant exactly that string
+	      of characters, and not "make this text bold," as an HTML
+	      composition tool or text editor would.
+	    </para>
+	  </note>
+	</sect3>
+	<sect3 id="usage-mail-getnsend-send-attach">
 	  <title>Attachments</title>
 	  <para>
-	    If you want to attach a file to your email message,
-	    you can do so by <!--describe process here-->.  If
-	    your recipients can read HTML mail, you can put an
-	    image inside the mail by dragging the file into the
-	    composer window, or by selecting <guimenuitem>Menu
-	    Item</guimenuitem> from the <guimenu>Menu</guimenu>
-	    menu.  Still, unless you know what email client the
-	    recipient is using, it's best to send a message or
-	    attachment in the simplest manner possible.
-	  </para>
-	</sect4>
-	<sect4 id="usage-mail-getnsend-send-live">
+	    If you want to attach a file to your email message, just
+	    click the button with a paper clip on it, labelled
+	    <guibutton>Attach</guibutton>.
+	    <application>Evolution</application> will then ask you to
+	    select the file.  Do so, and then send the message.  Be
+	    aware that big attachments can take a long time to
+	    download.  
+          </para>
+	</sect3>
+
+<!-- Function not implemented, 
+possibly never will be due to security evil. -->
+<!--
+	<sect3 id="usage-mail-getnsend-send-live">
 	  <title>Live Documents</title>
 	  <para>
 	    Later versions of <application>Evolution</application>
 	    will allow you to enliven your email with almost any
 	    sort of document, and even with entire
 	    applications. At this point, however, this feature has not 
-	    yet been implimented.
+	    yet been implemented.
 	  </para>
-	</sect4>
-      </sect3>
+	</sect3>
+-->
 
       <sect3 id="usage-getnsend-fwd">
 	<title>Forwarding Mail</title>      
 	<para>
-	  <guilabel>Forward</guilabel> is useful if you have
-	  received a message and you think someone else would like
-	  to see it, or if you get a message intended for someone
-	  else.  You can forward a message as an attachment to a
-	  new message (the default way of forwarding) or you can send it
-	  <glossterm>inline</glossterm> as a quoted portion of the
-	  message you are sending.  Attachment forwarding is best
-	  if you want to send the entire message you received,
-	  unaltered.  Inline forwarding is best if you want to
-	  send portions of a message, or if you have a large
-	  number of comments on different sections of the message
-	  you are forwarding.  Remember to note from whom the
+	  The post office forwards your mail for you when you change
+	  addresses, and you can forward mail when you get a letter by
+	  mistake.  The email <guilabel>Forward</guilabel> command
+	  works in much the same way.  It's particularly useful if you
+	  have received a message and you think someone else would
+	  like to see it.  You can forward a message as an attachment
+	  to a new message (this is the default way of forwarding) or
+	  you can send it <glossterm>inline</glossterm> as a quoted
+	  portion of the message you are sending.  Attachment
+	  forwarding is best if you want to send the full, unaltered
+	  message on to someone else.  Inline forwarding is best if
+	  you want to send portions of a message, or if you have a
+	  large number of comments on different sections of the
+	  message you are forwarding.  Remember to note from whom the
 	  message came, and where, if at all, you have removed or
 	  altered content.
 	</para>
@@ -478,6 +547,17 @@ with quoted materials and the relevant replies interspersed-->
 	  I started with ten, but four were "Don't send
 	  <glossterm>spam</glossterm>."
 	  <itemizedlist>
+
+	    <listitem>
+	      <para>
+		 Don't send spam or forward chain mail.  If you must,
+		 watch out for hoaxes and urban legends, and make sure
+		 the message doesn't have multiple layers of email
+		 quotation symbols (&gt;) indicating multiple layers
+		 of careless inline forwarding.
+	      </para>
+	    </listitem>
+
 	    <listitem>
 	      <para>
 		Always begin and close with a salutation. Say
@@ -515,16 +595,6 @@ with quoted materials and the relevant replies interspersed-->
 
 	    <listitem>
 	      <para>
-		 Don't send spam or forward chain mail.  If you
-		 must, verify any rumors, and make sure the
-		 message doesn't have multiple layers of email
-		 quotation symbols (&gt;) indicating multiple
-		 layers of careless inline forwarding.
-	      </para>
-	    </listitem>
-
-	    <listitem>
-	      <para>
 		 When you reply or forward, include just enough of
 		 the previous message to provide context. Not too
 		 much, not too little.
@@ -540,53 +610,59 @@ with quoted materials and the relevant replies interspersed-->
   <sect1 id="usage-mail-organize">
     <title>Organizing Your Mail</title>
     <para>
-      Even if you only get a few email messages a day, you
-      probably want to sort and organize them.  When you get a
-      hundred a day and you want to refer to a message you
-      received six weeks ago, you need to sort and organize them,
-      and <application>Evolution</application> has the tools to
-      help you do it.  
+      Even if you only get a few email messages a day, you probably
+      want to sort and organize them.  When you get a hundred a day
+      and you want to refer to a message you received six weeks ago,
+      you <emphasis>need</emphasis> to sort and organize them.
+      Fortunately, <application>Evolution</application> has the tools
+      to help you do it.
     </para>
 
     <sect2 id="usage-mail-organize-folders">
       <title>Getting Organized with Folders</title>
       <para>
 	<application>Evolution</application> keeps mail, as well as
-	address cards and calendars, in folders.  Some, like
-	<guilabel>Inbox</guilabel>, <guilabel>Outbox</guilabel>, and
-	<guilabel>Drafts</guilabel> have already been created for
-	you. If you like, you can create new folders by selecting
-	<guisubmenu>New</guisubmenu> and then
+	address cards and calendars, in folders.  You start out with a
+	few, like <guilabel>Inbox</guilabel>,
+	<guilabel>Outbox</guilabel>, and <guilabel>Drafts</guilabel>,
+	but you can create as many as you like.  Create new folders by
+	selecting <guisubmenu>New</guisubmenu> and then
 	<guimenuitem>Folder</guimenuitem> from the
-	<guimenu>File</guimenu> menu.  You must specify both the name
-	and the type of the folder; a folder can hold mail, calendars,
-	or address cards, but you can't mix them up.  Some people
-	don't like that. Too bad.
+	<guimenu>File</guimenu> menu.
+	<application>Evolution</application> will as you for the name
+	and the type of the folder, and will provide you with a folder
+	tree so you can pick where it goes.
+        <note>
+	  <title>Folders have Limits</title>
+	  <para>
+            A folder can hold mail, calendars, or address cards, but
+	    you can't mix them up.  Also, an email message can be in
+	    only one folder at a time, just like real mail in real
+	    folders.  If you need more flexibility, try vFolders.
+          </para>
+	</note>
       </para>
       <para>
-        The new folders will appear in the <interface>folder
-	view</interface>, and you can drag them wherever you want to
-	relocate them.  You can drag messages around too.  If you
-	create filters with the <interface>filter
-	assistant</interface>, you can have mail moved to a folder
-	automatically.  An email message can be in only one folder at
-	a time, just like real mail in real folders.
+        When you click <guibutton>OK</guibutton>, your new folder will
+	appear in the <interface>folder view</interface>.  You can
+	then put messages in it by dragging and dropping them.  If you
+	create a filter with the <interface>filter
+	assistant</interface>, you can have mail moved to your folder
+	automatically.
       </para>
     </sect2>    
 
     <sect2 id="usage-mail-organize-search">
       <title>Searching for Messages</title>
       <para>
-	Because <application>Evolution</application> automatically
-	creates an index of every email you send or receive, it can
-	search through your old messages and present you with results
-	very quickly.  You can search through just the message
-	subjects, just the message body, or both body and subjet.
+	Most mail clients can search through your messages for you,
+	but <application>Evolution</application> does it faster.  You
+	can search through just the message subjects, just the message
+	body, or both body and subject.
       </para>
       <para>
-	To create a search, enter the word or phrase you're
-	looking for in the form field below the toolbar, and
-	choose a search type:
+	To start searching, enter a word or phrase in the text area
+	right below the toolbar, and choose a search type:
 	<itemizedlist>
 	  <listitem>
 	    <para>
@@ -633,7 +709,7 @@ with quoted materials and the relevant replies interspersed-->
 
         Then, press <keycap>Enter</keycap>.
         <application>Evolution</application> will show your search
-        results in 
+        results in the message list.
 
       </para>
     </sect2>
@@ -689,14 +765,16 @@ with quoted materials and the relevant replies interspersed-->
 	  </listitem>
 	</itemizedlist>
       </para>
-
+      
       <para>
-       Then, the filter assistant will ask you which emails it should act
-       upon.  You can set criteria to include words or phrases in the
-       subject, To:, Cc: or body of the message. (FIXME: WHAT ELSE?)
-       Once you've decided which messages to filter, the assistant will
-       ask you the sort of action you wish to take.  More details and
-       screenshots should follow here.
+       Then, the filter assistant will ask you which emails it should
+       act upon.  You can set criteria based on message size, the
+       sender, primary addressee or cc: list, or words in the subject
+       or body of the message.  Once you've decided which messages to
+       filter, the assistant will ask you the sort of action you wish
+       to take.  You can file, delete, or forward the message, and you
+       can also have it be exempted from other filters which would
+       otherwise have acted upon it.  
       </para>
 
 
@@ -721,9 +799,9 @@ with quoted materials and the relevant replies interspersed-->
       <title>Getting Really Organized with Virtual Folders</title>
       <para>
 	If you find that filters aren't flexible enough for you, or
-	end up performing the same search again and again, you should
-	consider a virtual folder. Virtual folders, or vFolders, are
-	an advanced way of viewing your email messages within
+	end up performing the same search again and again, consider a
+	virtual folder. Virtual folders, or vFolders, are an advanced
+	way of viewing your email messages within
 	<application>Evolution</application>.  If you get a lot of
 	mail or often forget where you put messages, vFolders can help
 	you stay on top of things.

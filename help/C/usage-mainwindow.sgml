@@ -1,4 +1,4 @@
-
+<!DOCTYPE Chapter PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN">
 <chapter id="usage-mainwindow">
 
   <title>The Main Window: Evolution Basics</title>
@@ -59,30 +59,29 @@ Can these things be labelled with little arrows & stuff?
   <sect1 id="usage-mainwindow-shortcutbar">
     <title>The Shortcut Bar</title>
     <para>
-        One of <application>Evolution</application>'s most important
-        job is to give you access to your information, and help you
-        use it quickly.  One way it does that is through the
-        <interface>shortcut bar</interface>, that column of buttons on
-        the left hand side of the main window.  There are actually two
-        kinds of buttons in the shortcut bar: familiar looking icons,
-        and the thin rectangles at the top and bottom of the column
-        which separate your shortcuts by category.
+        <application>Evolution</application>'s most important job is
+        to give you access to your information, and help you use it
+        quickly.  One way it does that is through the
+        <interface>shortcut bar</interface>, the column on the left
+        hand side of the main window.  The shortcut bar has two types
+        of buttons: big ones with names like
+        <guilabel>Inbox</guilabel> and <guilabel>Calendar</guilabel>,
+        and small rectangular ones at the top and bottom, which are
+        called category buttons.
     </para>
     <para>
-       The category buttons, labelled <guilabel>Evolution
-       Shortcuts</guilabel> and <guilabel>Internet
-       Directories</guilabel>, slide up and down when you click on
-       them.  When you first start
-       <application>Evolution</application>, you are lookig at the
-       <guilabel>Evolution Shortcuts</guilabel>.  If you click
+       The category buttons are labelled <guilabel>Evolution
+       Shortcuts</guilabel> <guilabel>Internet Directories</guilabel>.
+       When you click on them, they'll slide up and down to give you
+       access to different sorts of shortcuts.  When you first start
+       <application>Evolution</application>, you are looking at the
+       <guilabel>Evolution Shortcuts</guilabel> category.  If you click
        <guilabel>Internet Directories</guilabel>, it will slide up and
        you'll see buttons for the <guilabel>Bigfoot</guilabel> and
        <guilabel>Netcenter</guilabel> directories, as well as any
        others you or your system administrator might have added.
        Click on <guibutton>Evolution Shortcuts</guibutton> to look at
-       the shortcuts again.  Those buttons give you fast access to the
-       major fucntions that <application>Evolution</application>
-       provides for you.
+       the shortcuts again.
     </para>
     <para>
      They are:
@@ -156,36 +155,32 @@ Can these things be labelled with little arrows & stuff?
       covered in <xref linkend="config">.  If you're using the
       keyboard shortcuts you may also want to hide the
       <interface>shortcut bar</interface> by selecting
-      <guimenuitem>Hide/Show Shortcut Bar</guimenuitem> from the
-      <guimenu>MENU</guimenu> menu.
+      the <guimenuitem>Show Shortcut Bar</guimenuitem> toggle in the
+      <guimenu>View</guimenu> menu.
     </para>
  </sect1>
 
   <sect1 id="usage-mainwindow-folderview">
     <title>The Folder View</title>
     <para>
-      The <interface>folder view</interface> is the most comprehensive way to
-      get to your information. It can show you everything you've
-      stored with <application>Evolution</application>&mdash;
-      appointments, address cards, emails, and so forth.
-
-      The <interface>folder view</interface> display presents your
-      data like a <glossterm>file tree</glossterm>&mdash; it
-      starts small at the top, and branches downwards. There are a
-      few folders you will always see, because they're at the top.
-      On my computer, I have only one: <guilabel>Local</guilabel>.
-      When I click on the plus sign next to the label, I see the
-      contents:
+      The <interface>folder view</interface> is a more comprehensive
+      way to view the information you've stored with
+      <application>Evolution</application>. It displays all your
+      appointments, address cards, and email in a tree that's a lot
+      like a <glossterm>file tree</glossterm>&mdash; it starts small
+      at the top, and branches downwards. On my computer, I have only
+      one: <guilabel>Local</guilabel>.  When I click on the plus sign
+      next to the label, I see the contents:
       <itemizedlist>
 	 <listitem>
 	    <para>
-	      <guilabel>Calendar</guilabel>, where you'll find your
+	      <guilabel>Calendar</guilabel>, where I keep
 	      appointments and event listings.
 	   </para>
 	 </listitem> 
 	 <listitem>
 	    <para>
-	    <guilabel>Contacts</guilabel>, where your address
+	    <guilabel>Contacts</guilabel>, where address
 	    cards are stored.
 	   </para>
 	 </listitem>
@@ -197,19 +192,19 @@ Can these things be labelled with little arrows & stuff?
 	 </listitem>
 	 <listitem>
 	    <para>
-	     <guilabel>Inbox</guilabel>, for your incoming mail.
-	     This is where you will make the most subfolders.
+	     <guilabel>Inbox</guilabel>, for incoming mail, and all
+	     the rest of my mail folders.
 	   </para>
 	 </listitem>
 	<listitem>
 	    <para>
-	    <guilabel>Outbox</guilabel>, where you can store
-	    copies of mail you have sent, or unsent drafts.
+	    <guilabel>Outbox</guilabel>, which is for 
+	    drafts of messages and mail that's already been sent.
 	   </para>
 	 </listitem>
 	 <listitem>
 	    <para>
-	    <guilabel>Trash</guilabel>, where you can throw things away.
+	    <guilabel>Trash</guilabel>, which is for trash.
 	   </para>
 	 </listitem>
       </itemizedlist>
@@ -231,16 +226,16 @@ Can these things be labelled with little arrows & stuff?
     <tip>
      <title>Context-Sensitive Help</title>
       <para>
-	You can almost always get help on an item by
-	right-clicking it.  If you're not sure what something is,
-	or don't know what you can do with it, right-clicking and
-	choosing <guimenuitem>Help</guimenuitem> is a good way to
-	find out.
+	GNOME 2.0 supports context-sensitive help, which means you can
+	almost always get help on an item by right-clicking it.  If
+	you're not sure what something is, or don't know what you can
+	do with it, choosing <guimenuitem>Help</guimenuitem> from the
+	right-click menu is a good way to find out.
       </para>
     </tip>
 
     <para>
-      If a folder has other folders in it, there will be a plus
+      If a folder has other folders inside it, there will be a plus
       sign next to it. Click on the plus sign, and the folder will
       open to let you see the other folders inside.  This may
       change in the future to something more attractive, like
@@ -271,12 +266,6 @@ Can these things be labelled with little arrows & stuff?
       they will go there.  <!-- ****This paragraph could use some
       work**** -->
     </para>
-    <para>
-      You can also use the <guimenu>right-click menu</guimenu> to
-      move, rename, and delete folders.
-      <guimenuitem>Delete</guimenuitem> function from the
-      <guimenu>right-click menu</guimenu>.
-    </para>
   </sect1>
   <sect1 id="usage-mainwindow-menubar">
     <title>The Menu Bar</title>
@@ -296,14 +285,15 @@ Can these things be labelled with little arrows & stuff?
       cover them later on as we discuss the things you can do with
       <application>Evolution</application>.
     </para>
-  </sect1>
+
+
     <para>
       Once you've familiarized yourself with the <interface>main
       window</interface> you can start doing things with it.
       We'll start with your email inbox: you've got a letter
       waiting for you already.
     </para>
-
+  </sect1>
 </chapter>
 
 

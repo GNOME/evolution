@@ -47,6 +47,7 @@
   </glossdef>
  </glossentry>
 
+<!--  Removed pending decision on names
  <glossentry id="druid">
   <glossterm>Druid</glossterm>
   <glossdef>
@@ -55,6 +56,17 @@
     larger program.  The <application>mail setup druid</application>
     helps you ready your email system for use.  Druids are the Linux
     equivalent of "Assistants" and "Wizards." 
+   </para>
+  </glossdef>
+ </glossentry>
+-->
+<glossentry id="emoticon">
+  <glossterm>Emoticon</glossterm>
+  <glossdef>
+   <para>
+     Also called smileys, emoticons are the little sideways faces made
+     of colons and parentheses which people use to convey emotion in email.
+     Examples: :-) or ;(  .
    </para>
   </glossdef>
  </glossentry>

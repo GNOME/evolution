@@ -1,5 +1,4 @@
 <!DOCTYPE Book PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN"[
-
 <!ENTITY PREFACE SYSTEM "preface.sgml">
 <!ENTITY USAGE-MAINWINDOW SYSTEM "usage-mainwindow.sgml">
 <!ENTITY USAGE-MAIL SYSTEM "usage-mail.sgml">
@@ -108,8 +107,9 @@ standardize on second person, not 1st pers. plural.
         There are three levels of developing for
         <application>Evolution</application>.  You can write actions.
         You can write scripts.  And you can write full-fledged
-        Evolution components.  This paragraph will eventually
-        desfcribe what that means.
+        Evolution components.  This paragraph will eventually describe
+        what that means, if the entire part is not phased out of this
+        manual.
       </para>
     </partintro>
     
