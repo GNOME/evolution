@@ -626,9 +626,7 @@ activate_factories_for_uri (EBook *book, const char *uri)
 
 	protocol = g_strndup (uri, colon-uri);
 	query = g_strdup_printf ("repo_ids.has ('IDL:GNOME/Evolution/BookFactory:1.0')"
-#if 0
 				 " AND addressbook:supported_protocols.has ('%s')", protocol
-#endif
 				 );
 
 	CORBA_exception_init (&ev);

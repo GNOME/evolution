@@ -1,3 +1,9 @@
+2002-05-03  Chris Toshok  <toshok@ximian.com>
+
+	* backend/ebook/e-book.c (activate_factories_for_uri): finally
+	remove the #if 0's and use the oaf query stuff to get backends
+	that handle specific protocols.
+
 2002-05-03  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/component/addressbook-config.c
@@ -55,6 +61,7 @@
 	menu item if there are no email addresses in the listed contacts.
 	Fixes bug #1298.
 
+>>>>>>> 1.1041
 2002-04-30  Christopher James Lahey  <clahey@ximian.com>
 
 	* backend/ebook/e-card.c (e_card_list_send): Changed this to set a
