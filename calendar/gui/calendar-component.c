@@ -53,6 +53,7 @@
 #include "widgets/misc/e-info-label.h"
 #include "widgets/misc/e-error.h"
 #include "e-util/e-icon-factory.h"
+#include "e-cal-menu.h"
 #include "e-cal-popup.h"
 
 /* IDs for user creatable items */
@@ -382,7 +383,7 @@ static EPopupItem ecc_source_popups[] = {
 	{ E_POPUP_ITEM, "10.new", N_("New Calendar"), new_calendar_cb, NULL, "stock_calendar", 0, 0 },
 	{ E_POPUP_ITEM, "15.copy", N_("Copy"), copy_calendar_cb, NULL, "stock_folder-copy", 0, E_CAL_POPUP_SOURCE_PRIMARY },
 	{ E_POPUP_ITEM, "20.delete", N_("Delete"), delete_calendar_cb, NULL, "stock_delete", 0, E_CAL_POPUP_SOURCE_USER|E_CAL_POPUP_SOURCE_PRIMARY },
-	{ E_POPUP_ITEM, "30.properties", N_("Properties..."), edit_calendar_cb, NULL, NULL, 0, E_CAL_POPUP_SOURCE_PRIMARY },
+	{ E_POPUP_ITEM, "30.properties", N_("Properties..."), edit_calendar_cb, NULL, "stock_folder-properties", 0, E_CAL_POPUP_SOURCE_PRIMARY },
 };
 
 static void

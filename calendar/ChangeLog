@@ -1,5 +1,14 @@
 2004-10-20  JP Rosevear  <jpr@novell.com>
 
+	* gui/calendar-component.c: put an icon on the properties menu item
+
+	* gui/tasks-component.c: ditto
+	
+	* gui/main.c (initialize): register plugin hooks for tasks and
+	calendar
+
+2004-10-20  JP Rosevear  <jpr@novell.com>
+	
 	* gui/e-cal-popup.c (ecalph_class_init): correct classid
 
 2004-10-19  JP Rosevear  <jpr@novell.com>

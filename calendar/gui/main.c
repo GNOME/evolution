@@ -139,6 +139,10 @@ initialize (void)
 	
 	/* Initialize Calendar Publishing */
 	calendar_component_init_publishing ();
+
+	/* Initialize plugin system */
+	e_plugin_hook_register_type (e_cal_popup_hook_get_type());
+	e_plugin_hook_register_type (e_cal_menu_hook_get_type());
 }
 
 
