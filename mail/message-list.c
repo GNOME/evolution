@@ -40,6 +40,7 @@
 #include <gtk/gtkmain.h>
 #include <gtk/gtkinvisible.h>
 #include <libgnome/gnome-i18n.h>
+#include <atk/atkutil.h>
 
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-gui-utils.h>
@@ -1529,11 +1530,11 @@ ml_selection_get(GtkWidget *widget, GtkSelectionData *data, guint info, guint ti
 
 	if (info & 2) {
 		/* text/plain */
-		printf("setting text/plain selection for uids\n");
+		d(printf("setting text/plain selection for uids\n"));
 		em_utils_selection_set_mailbox(data, selection->folder, selection->uids);
 	} else {
 		/* x-uid-list */
-		printf("setting x-uid-list selection for uids\n");
+		d(printf("setting x-uid-list selection for uids\n"));
 		em_utils_selection_set_uidlist(data, selection->folder_uri, selection->uids);
 	}
 }
@@ -1552,8 +1553,7 @@ static void
 ml_selection_received(GtkWidget *widget, GtkSelectionData *data, guint time, MessageList *ml)
 {
 	if (data->target != gdk_atom_intern ("x-uid-list", FALSE)) {
-		printf("Unknown selection received by message-list\n");
-
+		d(printf("Unknown selection received by message-list\n"));
 		return;
 	}
 
@@ -1771,12 +1771,12 @@ ml_tree_drag_motion(ETree *tree, GdkDragContext *context, gint x, gint y, guint 
 	for (targets = context->targets; targets; targets = targets->next) {
 		int i;
 
-		printf("atom drop '%s'\n", gdk_atom_name(targets->data));
+		d(printf("atom drop '%s'\n", gdk_atom_name(targets->data)));
 		for (i=0;i<sizeof(ml_drag_info)/sizeof(ml_drag_info[0]);i++)
 			if (targets->data == (void *)ml_drag_info[i].atom)
 				actions |= ml_drag_info[i].actions;
 	}
-	printf("\n");
+	d(printf("\n"));
 
 	actions &= context->actions;
 	action = context->suggested_action;
@@ -2036,9 +2036,9 @@ message_list_construct (MessageList *message_list)
 	if (!construct_failed)
 		e_tree_root_node_set_visible (message_list->tree, FALSE);
 
-	if (atk_get_root () != NULL) {
-		a11y = gtk_widget_get_accessible (message_list->tree);
-		atk_object_set_name (a11y, _("Message List"));
+	if (atk_get_root() != NULL) {
+		a11y = gtk_widget_get_accessible((GtkWidget *)message_list->tree);
+		atk_object_set_name(a11y, _("Message List"));
 	}
 
 	g_signal_connect((message_list->tree), "cursor_activated",

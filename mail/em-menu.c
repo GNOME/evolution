@@ -100,8 +100,6 @@ emp_target_free(EMenu *ep, EMenuTarget *t)
 static void
 emp_class_init(GObjectClass *klass)
 {
-	printf("em menu class init\n");
-
 	klass->finalize = emp_finalise;
 	((EMenuClass *)klass)->target_free = emp_target_free;
 

@@ -571,7 +571,7 @@ output_match(struct _searcher *s, unsigned int start, unsigned int end)
 	endtoken = find_token(s, end);
 
 	if (starttoken == NULL || endtoken == NULL) {
-		printf("Cannot find match history for match %d-%d\n", start, end);
+		d(printf("Cannot find match history for match %d-%d\n", start, end));
 		return;
 	}
 
@@ -669,7 +669,7 @@ push_subpending(struct _searcher *s, int offstart, int offend)
 {
 	/* This is really an assertion, we just ignore the last pending match instead of crashing though */
 	if (s->submatchp >= s->words) {
-		printf("ERROR: submatch pending stack overflow\n");
+		d(printf("ERROR: submatch pending stack overflow\n"));
 		s->submatchp = s->words-1;
 	}
 

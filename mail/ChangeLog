@@ -1,3 +1,30 @@
+2005-03-01  Not Zed  <NotZed@Ximian.com>
+
+	* message-list.c: include atkutil.h
+	(message_list_construct): cast warning.
+
+	* mail-session.c (mail_session_set_interactive): remove unused
+	variable since we can no longer terminate password requests.
+
+	* mail-autofilter.c (em_vfolder_rule_from_address): properly
+	define in header.
+
+	* em-utils.c (emu_get_save_filesel): only define filename in the
+	!gtkfilechooser case.
+
+	* em-mailer-prefs.c (restore_labels_clicked): cast for warning.
+	(em_mailer_prefs_construct): same.
+
+	* em-format-html.c (efh_format_header): remove unused variable.
+
+	* em-account-editor.c (emae_widget_druid_glade): remove unused
+	variable.
+
+	* importers/mail-importer.h: forward-delcare struct
+	_MailComponent.
+
+	* *c: remove/disable various debug.
+
 2005-03-02  Harry Lu <harry.lu@sun.com>
 
 	Fix for 71733.

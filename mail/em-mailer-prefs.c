@@ -248,7 +248,7 @@ restore_labels_clicked (GtkWidget *widget, gpointer user_data)
 	for (i = 0; i < 5; i++) {
 		gtk_entry_set_text (prefs->labels[i].name, _(label_defaults[i].name));
 		colorpicker_set_color (prefs->labels[i].color, label_defaults[i].colour);
-		atk_object_set_name (gtk_widget_get_accessible (prefs->labels[i].color), _(label_defaults[i].name));
+		atk_object_set_name(gtk_widget_get_accessible((GtkWidget *)prefs->labels[i].color), _(label_defaults[i].name));
 	}
 }
 
@@ -884,7 +884,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs)
 		colorpicker_set_color (prefs->labels[i].color, label->colour);
 		g_signal_connect (prefs->labels[i].color, "color-set", G_CALLBACK (label_color_set), prefs);
 		
-		atk_object_set_name (gtk_widget_get_accessible (prefs->labels[i].color), label->name);
+		atk_object_set_name(gtk_widget_get_accessible((GtkWidget *)prefs->labels[i].color), label->name);
 
 		i++;
 		list = list->next;

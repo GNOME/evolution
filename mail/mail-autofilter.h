@@ -39,9 +39,10 @@ enum {
 
 FilterRule *em_vfolder_rule_from_message(EMVFolderContext *context, CamelMimeMessage *msg, int flags, const char *source);
 FilterRule *filter_rule_from_message(EMFilterContext *context, CamelMimeMessage *msg, int flags);
+FilterRule *em_vfolder_rule_from_address(EMVFolderContext *context, CamelInternetAddress *addr, int flags, const char *source);
 
 /* easiest place to put this */
-void  filter_gui_add_from_message (CamelMimeMessage *msg, const char *source, int flags);
+void  filter_gui_add_from_message(CamelMimeMessage *msg, const char *source, int flags);
 
 /* Also easiest place for these, we should really share a global rule context for this stuff ... */
 void mail_filter_rename_uri(CamelStore *store, const char *olduri, const char *newuri);

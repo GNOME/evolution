@@ -1434,8 +1434,8 @@ efhd_bonobo_object(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *
 	wrapper = camel_medium_get_content_object((CamelMedium *)pobject->part);
 	if (FALSE && !g_ascii_strncasecmp (eb->type, "text/", 5)) {
 		/* do charset conversion, etc */
-		printf ("performing charset conversion for %s component\n", eb->type);
-		em_format_format_text ((EMFormat *) efh, (CamelStream *) cstream, wrapper);
+		d(printf("performing charset conversion for %s component\n", eb->type));
+		em_format_format_text((EMFormat *)efh, (CamelStream *)cstream, wrapper);
 	} else {
 		camel_data_wrapper_decode_to_stream (wrapper, (CamelStream *) cstream);
 	}

@@ -667,7 +667,6 @@ mail_session_set_interactive (gboolean interactive)
 	MAIL_SESSION (session)->interactive = interactive;
 	
 	if (!interactive) {
-		struct _pass_msg *pm;
 		struct _user_message_msg *um;
 		
 		d(printf ("Gone non-interactive, checking for outstanding interactive tasks\n"));
