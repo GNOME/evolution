@@ -69,17 +69,6 @@
   </glossdef>
  </glossentry>
 
-<glossentry id="emoticon">
-  <glossterm>Emoticon</glossterm>
-  <glossdef>
-   <para>
-     Also called "smileys," emoticons are the little sideways faces made
-     of colons and parentheses which people use to convey emotion in email.
-     Examples: :-) or ;(  .
-   </para>
-  </glossdef>
- </glossentry>
-
  <glossentry id="evolution">
   <glossterm>Evolution</glossterm>
   <glossdef>
@@ -162,17 +151,6 @@
     of people work together.  Typically, a groupware application will
     have several productivity features built into one program,
     including email, calendar, and addressbook tools.
-   </para>
-  </glossdef>
- </glossentry>
-
- <glossentry id="haiku">
-  <glossterm>Haiku</glossterm>
-  <glossdef>
-   <para>
-     A traditional Japanese form of poetry.  The poems are three lines
-     long, with first and last lines having five syllables, and the
-     second line seven syllables.
    </para>
   </glossdef>
  </glossentry>
@@ -277,15 +255,6 @@
    <para>
     <application>Nautilus</application> is the next generation file
     manager for <acronym>GNOME</acronym> being written by Eazel.
-   </para>
-  </glossdef>
- </glossentry>
-
- <glossentry id="nickname">
-  <glossterm>Nickname</glossterm>
-  <glossdef>
-   <para>
-    An alias for an e-mail address.
    </para>
   </glossdef>
  </glossentry>
@@ -404,19 +373,6 @@
    </glossdef>
   </glossentry> 
 
- <glossentry id="spam">
-  <glossterm>Spam</glossterm>
-  <glossdef>
-   <para>
-    Useless, unsolicited e-mail.  Spam normally comes in forms of
-    chain letters and advertisements for unscrupulous or clueless
-    companies.  Messages that are merely useless are called "opt-in
-    newsletters."
-   </para>
-  </glossdef>
- </glossentry>
-
-
  <glossentry id="tooltip">
   <glossterm>Tool-Tip</glossterm>
   <glossdef>
@@ -428,17 +384,15 @@
   </glossdef>
  </glossentry>
 
-
-
-
  <glossentry id="virus">
   <glossterm>Virus</glossterm>
   <glossdef>
    <para>
-    A malicious program which inserts itself into others so that it will be 
-    executed, allowing it to spread to still more programs and other computers.
-    A virus can cause substantial damage by clogging networks or disk drives, 
-    deleting files, or opening security holes.
+    A program which inserts itself into other files or programs and
+    which, when executed, spreads to more programs and other
+    computers.  A virus can cause substantial damage by clogging
+    networks or disk drives, deleting files, or opening security
+    holes.
    </para>
   </glossdef>
  </glossentry>
