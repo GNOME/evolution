@@ -2286,8 +2286,8 @@ print_comp_item (GnomePrintContext *pc, ECalComponent *comp, ECal *client,
 	ECalComponentVType vtype;
 	ECalComponentText text;
 	GSList *desc, *l;
-	const char *title, *categories;
-	char *categories_string;
+	const char *title, *categories, *location;
+	char *categories_string, *location_string, *summary_string;
 	GSList *contact_list, *elem;
 	gint header_size;
 
@@ -2317,8 +2317,20 @@ print_comp_item (GnomePrintContext *pc, ECalComponent *comp, ECal *client,
 	/* Summary */
 	font = get_font_for_size (18, GNOME_FONT_BOLD, FALSE);
 	e_cal_component_get_summary (comp, &text);
-	top = bound_text (pc, font, text.value, left, right,
+	summary_string = g_strdup_printf (_("Summary: %s"), text.value);
+	top = bound_text (pc, font, summary_string, left, right,
 			  top - 3, bottom, 0);
+	g_free (summary_string);
+
+	/* Location */
+	e_cal_component_get_location (comp, &location);
+	if (location && location[0]) {
+		location_string = g_strdup_printf (_("Location: %s"),
+						   location);
+		top = bound_text (pc, font, location_string, left, right,
+				  top - 3, bottom, 0);
+		g_free (location_string);
+	}
 	g_object_unref (font);
 
 	/* Date information */
