@@ -1393,10 +1393,15 @@ mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
 	subject = (char *)camel_mime_message_get_subject (message);
 	if (!subject)
 		subject = g_strdup ("");
-	else if (!strncasecmp (subject, "Re: ", 4))
-		subject = g_strdup (subject);
-	else
-		subject = g_strdup_printf ("Re: %s", subject);
+	else {
+		while (*subject == ' ')
+			subject++;
+
+		if (!strncasecmp (subject, "Re: ", 4))
+			subject = g_strdup (subject);
+		else
+			subject = g_strdup_printf ("Re: %s", subject);
+	}
 
 	e_msg_composer_set_headers (composer, to, cc, NULL, subject);
 	g_list_free (to);

@@ -1,3 +1,9 @@
+2000-06-12  Dan Winship  <danw@helixcode.com>
+
+	* mail-format.c (mail_generate_reply): Fix the subject generation
+	so we don't get "Re:  Re:". This is working around something that
+	may later be declared a misfeature in Camel.
+
 2000-06-10  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* component-factory.c (create_folder): New stub implementation for
