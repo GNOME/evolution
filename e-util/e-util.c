@@ -173,7 +173,7 @@ e_marshal_INT__INT_INT_POINTER (GtkObject * object,
 {
 	GtkSignal_NONE__INT_INT_POINTER rfunc;
 	gint *return_val;
-	return_val = GTK_RETLOC_INT (args[1]);
+	return_val = GTK_RETLOC_INT (args[3]);
 	rfunc = (GtkSignal_NONE__INT_INT_POINTER) func;
 	*return_val = (*rfunc) (object,
 				GTK_VALUE_INT (args[0]),
