@@ -452,7 +452,7 @@ e_shortcut_bar_add_group	(EShortcutBar	*shortcut_bar,
 			   GDK_ACTION_COPY | GDK_ACTION_MOVE);
 
 	e_group_bar_add_group (E_GROUP_BAR (shortcut_bar),
-			       group->vscrolled_bar, button, -1);
+			       group->vscrolled_bar, button, group_num);
 
 	gtk_widget_pop_visual ();
 	gtk_widget_pop_colormap ();

@@ -1,3 +1,17 @@
+2000-09-30  Damon Chaplin  <damon@helixcode.com>
+
+	* test-shortcut-bar.c: updated to use new EShortcutBar signals for DnD.
+
+	* e-group-bar.c (e_group_bar_add_group): show the new windows if the
+	EGroupBar is realized, handle the position argument properly, and
+	fixed the window z-order code.
+
+	* e-shortcut-bar.c (e_shortcut_bar_add_group): pass group_num to the
+	e_group_bar_add_group() function.
+
+	* e-icon-bar-bg-item.c (e_icon_bar_bg_item_draw): fixed SEGV when
+	trying to drag into a group with no items.
+
 2000-09-28  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-shortcut-bar.c (e_shortcut_bar_destroy): Disconnect the model
