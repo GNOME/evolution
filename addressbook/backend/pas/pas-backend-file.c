@@ -510,7 +510,7 @@ pas_backend_file_search (PASBackendFile  	      *bf,
 
 			/* check if the vcard matches the search sexp */
 			if (vcard_matches_search (view, vcard_string)) {
-				cards = g_list_append (cards, strdup(vcard_string));
+				cards = g_list_append (cards, g_strdup (vcard_string));
 			}
 		}
 		
