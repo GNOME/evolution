@@ -105,6 +105,8 @@ evolution_calendar_SOURCES =			\
 	e-week-view-titles-item.h		\
 	e-week-view.c				\
 	e-week-view.h				\
+	e-tasks.c				\
+	e-tasks.h				\
 	event-editor.c				\
 	event-editor.h				\
 	gnome-cal.c				\
@@ -122,6 +124,10 @@ evolution_calendar_SOURCES =			\
 	print.h					\
 	tag-calendar.c				\
 	tag-calendar.h				\
+	tasks-control-factory.c			\
+	tasks-control-factory.h			\
+	tasks-control.c				\
+	tasks-control.h				\
 	weekday-picker.c			\
 	weekday-picker.h			\
 	widget-util.c				\

@@ -957,7 +957,6 @@ gnome_calendar_update_config_settings (GnomeCalendar *gcal,
 	gint week_start_day, time_divisions;
 	gint start_hour, start_minute, end_hour, end_minute;
 	gboolean use_24_hour, show_event_end, compress_weekend;
-	gboolean dnav_show_week_no;
 
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
 
@@ -985,9 +984,6 @@ gnome_calendar_update_config_settings (GnomeCalendar *gcal,
 					week_start_day);
 	e_week_view_set_week_start_day (E_WEEK_VIEW (priv->month_view),
 					week_start_day);
-	gnome_canvas_item_set (GNOME_CANVAS_ITEM (E_CALENDAR (priv->date_navigator)->calitem),
-			       "week_start_day", week_start_day,
-			       NULL);
 
 	start_hour = calendar_config_get_day_start_hour ();
 	start_minute = calendar_config_get_day_start_minute ();
@@ -1030,10 +1026,7 @@ gnome_calendar_update_config_settings (GnomeCalendar *gcal,
 	e_week_view_set_compress_weekend (E_WEEK_VIEW (priv->month_view),
 					  compress_weekend);
 
-	dnav_show_week_no = calendar_config_get_dnav_show_week_no ();
-	gnome_canvas_item_set (GNOME_CANVAS_ITEM (E_CALENDAR (priv->date_navigator)->calitem),
-			       "show_week_numbers", dnav_show_week_no,
-			       NULL);
+	calendar_config_configure_e_calendar (E_CALENDAR (priv->date_navigator));
 
 	if (initializing) {
 		priv->hpane_pos = calendar_config_get_hpane_pos ();

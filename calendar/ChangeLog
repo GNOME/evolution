@@ -1,3 +1,35 @@
+2001-01-08  Damon Chaplin  <damon@helixcode.com>
+
+	* gui/Makefile.am: added new source files for the Tasks folders.
+
+	* gui/e-tasks.[hc]: new widget to encapsulate the Tasks view.
+
+	* gui/tasks-control.[hc]: new files to implement the Tasks control.
+	
+	* gui/tasks-control-factory.[hc]: new files to implement the factory
+	for the Tasks controls. (I think the way I've split the code up is a
+	lot cleaner than the GnomeCal implementation - the factory file just
+	contains the factory functions and the control file contains all the
+	control functions. Maybe we should make GnomeCal like this.)
+
+	* gui/main.c: initialize the Tasks control factory.
+
+	* gui/component-factory.c: added support for the Tasks control.
+	Also added a "create_folder" function so we can now create new Tasks
+	and Calendar folders within Evolution.
+	I'm not a Bonobo expert so someone might want to check these over.
+
+	* gui/calendar-config.[hc]: added convenience functions to configure
+	the common settings of ECalendar and EDateEdit widgets.
+
+	* gui/dialogs/task-editor.c (task_editor_create_date_edit): 
+	* gui/gnome-cal.c (gnome_calendar_update_config_settings): 
+	* gui/event-editor.c: used function to configure the ECalendars
+	and EDateEdits.
+
+	* gui/e-day-view-top-item.c (e_day_view_top_item_draw_long_event): 
+	fixed minor bug in format strings.
+
 2001-01-06  Iain Holmes  <iain@helixcode.com>
 
 	* gui/calendar-summary.c (generate_html_summary): Neaten the HTML,

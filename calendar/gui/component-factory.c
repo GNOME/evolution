@@ -26,6 +26,7 @@
 #include "evolution-shell-component.h"
 #include <executive-summary/evolution-services/executive-summary-component.h>
 #include "component-factory.h"
+#include "tasks-control-factory.h"
 #include "control-factory.h"
 #include "calendar-config.h"
 #include "calendar-summary.h"
@@ -39,6 +40,7 @@ char *evolution_dir;
 
 static const EvolutionShellComponentFolderType folder_types[] = {
 	{ "calendar", "evolution-calendar.png" },
+	{ "tasks", "evolution-tasks.png" },
 	{ NULL, NULL }
 };
 
@@ -54,18 +56,44 @@ create_view (EvolutionShellComponent *shell_component,
 {
 	BonoboControl *control;
 
-	if (g_strcasecmp (type, "calendar") != 0)
+	if (!g_strcasecmp (type, "calendar")) {
+		control = control_factory_new_control ();
+		if (!control)
+			return EVOLUTION_SHELL_COMPONENT_CORBAERROR;
+	} else if (!g_strcasecmp (type, "tasks")) {
+		control = tasks_control_new ();
+		if (!control)
+			return EVOLUTION_SHELL_COMPONENT_CORBAERROR;
+	} else {
 		return EVOLUTION_SHELL_COMPONENT_UNSUPPORTEDTYPE;
-
-	control = control_factory_new_control ();
-	if (!control)
-		return EVOLUTION_SHELL_COMPONENT_CORBAERROR;
+	}
 
 	bonobo_control_set_property (control, "folder_uri", physical_uri, NULL);
 
 	*control_return = control;
 
 	return EVOLUTION_SHELL_COMPONENT_OK;
+}
+
+static void
+create_folder (EvolutionShellComponent *shell_component,
+	       const char *physical_uri,
+	       const char *type,
+	       const GNOME_Evolution_ShellComponentListener listener,
+	       void *closure)
+{
+	CORBA_Environment ev;
+
+	CORBA_exception_init(&ev);
+	/* FIXME: I don't think we have to do anything to create a calendar
+	   or tasks folder - the '.ics' files are created automatically when
+	   needed. But I'm not sure - Damon. */
+	if (!strcmp(type, "calendar") || !strcmp(type, "tasks")) {
+		GNOME_Evolution_ShellComponentListener_notifyResult(listener, GNOME_Evolution_ShellComponentListener_OK, &ev);
+	} else {
+		GNOME_Evolution_ShellComponentListener_notifyResult(listener, GNOME_Evolution_ShellComponentListener_UNSUPPORTED_TYPE, &ev);
+	}
+	CORBA_exception_free(&ev);
 }
 
 static gint owner_count = 0;
@@ -77,7 +105,6 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	      gpointer user_data)
 {
 	evolution_dir = g_strdup (evolution_homedir);
-	g_print ("evolution_dir: %s\n", evolution_dir);
 	calendar_config_init ();
 	owner_count ++;
 }
@@ -101,7 +128,7 @@ factory_fn (BonoboGenericFactory *factory,
 	EvolutionShellComponent *shell_component;
 
 	shell_component = evolution_shell_component_new (folder_types,
-							 create_view, NULL, NULL, NULL, NULL);
+							 create_view, create_folder, NULL, NULL, NULL);
 
 	gtk_signal_connect (GTK_OBJECT (shell_component), "owner_set",
 			    GTK_SIGNAL_FUNC (owner_set_cb), NULL);

@@ -421,3 +421,58 @@ calendar_config_set_working_days	(CalWeekdays  days)
 	config->working_days = days;
 }
 
+
+/* This sets all the common config settings for an ECalendar widget.
+   These are the week start day, and whether we show week numbers. */
+void
+calendar_config_configure_e_calendar	(ECalendar	*cal)
+{
+	gboolean dnav_show_week_no;
+	gint week_start_day;
+
+	dnav_show_week_no = calendar_config_get_dnav_show_week_no ();
+
+	/* Note that this is 0 (Sun) to 6 (Sat). */
+	week_start_day = calendar_config_get_week_start_day ();
+
+	/* Convert it to 0 (Mon) to 6 (Sun), which is what we use. */
+	week_start_day = (week_start_day + 6) % 7;
+
+	gnome_canvas_item_set (GNOME_CANVAS_ITEM (cal->calitem),
+			       "show_week_numbers", dnav_show_week_no,
+			       "week_start_day", week_start_day,
+			       NULL);
+}
+
+
+/* This sets all the common config settings for an EDateEdit widget.
+   These are the week start day, whether we show week numbers, whether we
+   use 24 hour format, and the hours of the working day to use in the time
+   popup. */
+void
+calendar_config_configure_e_date_edit	(EDateEdit	*dedit)
+{
+	gboolean dnav_show_week_no, use_24_hour;
+	gint week_start_day, start_hour, end_hour;
+
+	dnav_show_week_no = calendar_config_get_dnav_show_week_no ();
+
+	/* Note that this is 0 (Sun) to 6 (Sat). */
+	week_start_day = calendar_config_get_week_start_day ();
+
+	/* Convert it to 0 (Mon) to 6 (Sun), which is what we use. */
+	week_start_day = (week_start_day + 6) % 7;
+
+	use_24_hour = calendar_config_get_24_hour_format ();
+
+	start_hour = calendar_config_get_day_start_hour ();
+	end_hour = calendar_config_get_day_end_hour ();
+	/* Round up the end hour. */
+	if (calendar_config_get_day_end_minute () != 0)
+		end_hour = end_hour + 1 % 24;
+
+	e_date_edit_set_week_start_day (dedit, week_start_day);
+	e_date_edit_set_show_week_numbers (dedit, dnav_show_week_no);
+	e_date_edit_set_use_24_hour_format (dedit, use_24_hour);
+	e_date_edit_set_time_popup_range (dedit, start_hour, end_hour);
+}

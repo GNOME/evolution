@@ -453,10 +453,10 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 						    &display_hour,
 						    &suffix, &suffix_width);
 		if (day_view->use_24_hour_format) {
-			g_snprintf (buffer, sizeof (buffer), "%2i:%02i",
+			g_snprintf (buffer, sizeof (buffer), "%i:%02i",
 				    display_hour, minute);
 		} else {
-			g_snprintf (buffer, sizeof (buffer), "%2i:%02i%s",
+			g_snprintf (buffer, sizeof (buffer), "%i:%02i%s",
 				    display_hour, minute, suffix);
 		}
 
@@ -467,7 +467,7 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 		gdk_gc_set_clip_rectangle (fg_gc, &clip_rect);
 
 		time_x = item_x + E_DAY_VIEW_LONG_EVENT_X_PAD - x;
-		if (hour < 10)
+		if (display_hour < 10)
 			time_x += day_view->digit_width;
 
 		gdk_draw_string (drawable, font, fg_gc,
@@ -502,14 +502,14 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 							    &suffix_width);
 			if (day_view->use_24_hour_format) {
 				g_snprintf (buffer, sizeof (buffer),
-					    "%2i:%02i", display_hour, minute);
+					    "%i:%02i", display_hour, minute);
 			} else {
 				g_snprintf (buffer, sizeof (buffer),
-					    "%2i:%02i%s", display_hour, minute,
+					    "%i:%02i%s", display_hour, minute,
 					    suffix);
 			}
 
-			if (hour < 10)
+			if (display_hour < 10)
 				time_x += day_view->digit_width;
 
 			gdk_draw_string (drawable, font, fg_gc,

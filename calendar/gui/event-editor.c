@@ -1088,7 +1088,6 @@ init_widgets (EventEditor *ee)
 	GtkWidget *menu;
 	GtkAdjustment *adj;
 	ECalendar *ecal;
-	int week_start_day;
 
 	priv = ee->priv;
 
@@ -1133,16 +1132,13 @@ init_widgets (EventEditor *ee)
 
 	/* Recurrence preview */
 
-	week_start_day = calendar_config_get_week_start_day ();
-
 	priv->recurrence_preview_calendar = e_calendar_new ();
 	ecal = E_CALENDAR (priv->recurrence_preview_calendar);
 	gtk_signal_connect (GTK_OBJECT (ecal->calitem), "date_range_changed",
 			    GTK_SIGNAL_FUNC (recur_preview_date_range_changed_cb), ee);
+	calendar_config_configure_e_calendar (ecal);
 	gnome_canvas_item_set (GNOME_CANVAS_ITEM (ecal->calitem),
 			       "maximum_days_selected", 0,
-			       "week_start_day", (week_start_day + 6) % 7,
-			       "show_week_numbers", calendar_config_get_dnav_show_week_no (),
 			       NULL);
 	gtk_container_add (GTK_CONTAINER (priv->recurrence_preview_bin),
 			   priv->recurrence_preview_calendar);
