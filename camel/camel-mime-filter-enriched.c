@@ -212,14 +212,16 @@ enriched_to_html (CamelMimeFilter *filter, char *in, size_t inlen, size_t prespa
 		case '<':
 			if (!(enriched->flags & IS_RICHTEXT)) {
 				/* text/enriched */
-				if ((outptr + 4) < outend && *inptr == '<') {
-					memcpy (outptr, "&lt;", 4);
-					outptr += 4;
-					inptr++;
-					break;
-				} else {
-					inptr--;
-					goto backup;
+				if (*inptr == '<') {
+					if ((outptr + 4) < outend) {
+						memcpy (outptr, "&lt;", 4);
+						outptr += 4;
+						inptr++;
+						break;
+					} else {
+						inptr--;
+						goto backup;
+					}
 				}
 			} else {
 				/* text/richtext */
@@ -240,7 +242,7 @@ enriched_to_html (CamelMimeFilter *filter, char *in, size_t inlen, size_t prespa
 					goto backup;
 				}
 			}
-			
+
 			tag = inptr;
 			while (inptr < inend && *inptr != '>')
 				inptr++;
