@@ -32,6 +32,13 @@
 
 typedef struct EAccountListPrivate EAccountListPrivate;
 
+/* search options for the find command */
+typedef enum _e_account_find_t {
+	E_ACCOUNT_FIND_NAME,
+	E_ACCOUNT_FIND_ID_NAME,
+	E_ACCOUNT_FIND_ID_ADDRESS,
+} e_account_find_t;
+
 typedef struct {
 	EList parent_object;
 
@@ -48,12 +55,20 @@ typedef struct {
 } EAccountListClass;
 
 
-GType     e_account_list_get_type (void);
+GType           e_account_list_get_type (void);
 
-EAccountList *e_account_list_new       (GConfClient  *gconf);
-void          e_account_list_construct (EAccountList *account_list,
-					GConfClient  *gconf);
+EAccountList   *e_account_list_new       (GConfClient  *gconf);
+void            e_account_list_construct (EAccountList *account_list,
+					  GConfClient  *gconf);
 
-void          e_account_list_save      (EAccountList *account_list);
+void            e_account_list_save      (EAccountList *account_list);
+
+void            e_account_list_add       (EAccountList *, EAccount *);
+void            e_account_list_change    (EAccountList *, EAccount *);
+void            e_account_list_remove    (EAccountList *, EAccount *);
+
+const EAccount *e_account_list_get_default(EAccountList *);
+void            e_account_list_set_default(EAccountList *, EAccount *);
+const EAccount *e_account_list_find       (EAccountList *, e_account_find_t type, const char *key);
 
 #endif /* __E_ACCOUNT_LIST__ */

@@ -1,3 +1,14 @@
+2003-02-20  Not Zed  <NotZed@Ximian.com>
+
+	* e-account-list.c (e_account_list_get_default): helper to get the
+	dfault account.
+	(e_account_list_set_default): helper to set the default account.
+	(e_account_list_find): Helper to find accounts based on differnet
+	key types.
+	(e_account_list_add): helper to add account + emit added event.
+	(e_account_list_change): helper to emit changed event.
+	(e_account_list_remove): herlper to remove account + emit changed event.
+
 2003-02-22  Hans Petter Jansson  <hpj@ximian.com>
 
 	* e-categories-config.c (e_categories_config_open_dialog_for_entry):
