@@ -2553,7 +2553,7 @@ pas_backend_ldap_book_destroy_cb (PASBook *book, gpointer data)
 	pas_backend_remove_client (PAS_BACKEND (backend), book);
 }
 
-static gboolean
+static GNOME_Evolution_Addressbook_BookListener_CallStatus
 pas_backend_ldap_load_uri (PASBackend             *backend,
 			   const char             *uri)
 {
@@ -2609,11 +2609,11 @@ pas_backend_ldap_load_uri (PASBackend             *backend,
 
 		pas_backend_ldap_connect (bl);
 		if (bl->priv->ldap == NULL)
-			return FALSE;
+			return GNOME_Evolution_Addressbook_BookListener_RepositoryOffline;
 		else
-			return TRUE;
+			return GNOME_Evolution_Addressbook_BookListener_Success;
 	} else
-		return FALSE;
+		return GNOME_Evolution_Addressbook_BookListener_OtherError;
 }
 
 /* Get_uri handler for the addressbook LDAP backend */

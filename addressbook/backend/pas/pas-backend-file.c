@@ -58,6 +58,7 @@ struct _PASBackendFilePrivate {
 	DB       *file_db;
 	EList    *book_views;
 	gboolean  writable;
+	GHashTable *address_lists;
 };
 
 struct _PASBackendFileCursorPrivate {
@@ -702,10 +703,12 @@ pas_backend_file_process_modify_card (PASBackend *backend,
 				pas_book_view_notify_add_1 (view->book_view, req->vcard);
 			else /* if (old_match) */
 				pas_book_view_notify_remove (view->book_view, id);
+
 			pas_book_view_notify_complete (view->book_view);
 
 			bonobo_object_release_unref(bonobo_object_corba_objref(BONOBO_OBJECT(view->book_view)), &ev);
 		}
+
 		gtk_object_unref(GTK_OBJECT(iterator));
 
 		pas_book_respond_modify (
@@ -1236,7 +1239,7 @@ ORG:Ximian, Inc.;\n\
 NOTE:Welcome to the Ximian Addressbook.\n\
 END:VCARD"
 
-static gboolean
+static GNOME_Evolution_Addressbook_BookListener_CallStatus
 pas_backend_file_load_uri (PASBackend             *backend,
 			   const char             *uri)
 {
@@ -1255,18 +1258,18 @@ pas_backend_file_load_uri (PASBackend             *backend,
 	    minor != 1 ||
 	    patch != 17) {
 		g_warning ("Wrong version of libdb.");
-		return FALSE;
+		return GNOME_Evolution_Addressbook_BookListener_OtherError;
 	}
 
 	filename = pas_backend_file_extract_path_from_uri (uri);
 
 	db_error = e_db3_utils_maybe_recover (filename);
 	if (db_error != 0)
-		return FALSE;
+		return GNOME_Evolution_Addressbook_BookListener_OtherError;
 
 	db_error = db_create (&db, NULL, 0);
 	if (db_error != 0)
-		return FALSE;
+		return GNOME_Evolution_Addressbook_BookListener_OtherError;
 
 	db_error = db->open (db, filename, NULL, DB_HASH, 0, 0666);
 
@@ -1274,7 +1277,7 @@ pas_backend_file_load_uri (PASBackend             *backend,
 		db_error = e_db3_utils_upgrade_format (filename);
 
 		if (db_error != 0)
-			return FALSE;
+			return GNOME_Evolution_Addressbook_BookListener_OtherError;
 
 		db_error = db->open (db, filename, NULL, DB_HASH, 0, 0666);
 	}
@@ -1312,7 +1315,7 @@ pas_backend_file_load_uri (PASBackend             *backend,
 
 	if (db_error != 0) {
 		bf->priv->file_db = NULL;
-		return FALSE;
+		return GNOME_Evolution_Addressbook_BookListener_OtherError;
 	}
 
 	bf->priv->writable = writable;
@@ -1323,7 +1326,7 @@ pas_backend_file_load_uri (PASBackend             *backend,
 		db->close (db, 0);
 		bf->priv->file_db = NULL;
 		bf->priv->writable = FALSE;
-		return FALSE;
+		return GNOME_Evolution_Addressbook_BookListener_OtherError;
 	}
 
 	g_free(bf->priv->uri);
@@ -1332,7 +1335,7 @@ pas_backend_file_load_uri (PASBackend             *backend,
 	g_free (bf->priv->filename);
 	bf->priv->filename = filename;
 
-	return TRUE;
+	return GNOME_Evolution_Addressbook_BookListener_Success;
 }
 
 /* Get_uri handler for the addressbook file backend */
