@@ -37,50 +37,36 @@ to make it any easier until then.
 General Principles
 ------------------
 
-There are two things you have to decide earlier on: whether or not to
-install Evolution in the same prefix as the rest of your GNOME
-install, and whether to use GOAD or OAF.
+First you have to decide whether you want to install Evolution (and
+its dependencies) into the same prefix as the rest of your GNOME
+install, or into a new prefix. Installing everything into the same
+prefix as the rest of your GNOME install will make it much easier to
+build and run programs, but may make it harder to uninstall later.
 
- - Installing everything into the same prefix as the rest of your
-   GNOME install will it much easier to run programs, but may make it
-   harder to uninstall later.
-
-   If you want to install into the same prefix as the rest of GNOME,
-   type:
+If you want to install into the same prefix as the rest of GNOME,
+type:
 
 	gnome-config --prefix
 	gnome-config --sysconfdir
 
-   and remember the answers, and pass them to "configure" and
-   "autogen" when building the other packages you need. Eg:
+and remember the answers, and pass them to "configure" and "autogen"
+when building the other packages you need. Eg:
 
 	./configure --prefix=/usr --sysconfdir=/etc
 
 
-   If you do not do this, you will need to set GNOME_PATH to include
-   the prefix you install into. Eg:
+If you do not do this, you will need to set the GNOME_PATH environment
+variable (and ACLOCAL_FLAGS as well if building from CVS) to include
+the prefix you install into. Eg:
 
         export GNOME_PATH=/usr/local
+	export ACLOCAL_FLAGS="-I /usr/local/share/aclocal"
 
-   (You need to do this both during compiling AND when you run
-   evolution.)
-
-   Remember if you're installing into an odd prefix such as /evolution
-   that you also need to make sure to put ${prefix}/bin in your PATH.
-
-
- - GOAD is the "old" (GNOME 1.x series) object activation system. OAF
-   is the new (unreleased, GNOME 2.x series) system.
-
-   As of bonobo 0.14, OAF is the default activation system for Bonobo.
-   If you want to use OAF, you will need to install the oaf package
-   before building Bonobo. If you want to save a little time and stick
-   with GOAD, you should pass the flag "--enable-oaf=no" to bonobo's
-   configure script.
-
-   Note that Nautilus requires OAF, so if you have built or are
-   planning to build Nautilus as well, you should use OAF.
-
+(Assuming your shell is bash, and you installed into /usr/local.) You
+need to set GNOME_PATH both during compiling AND when you run
+evolution. Remember also that if you're installing into an odd prefix
+such as /evolution, that you also need to make sure to put
+${prefix}/bin in your PATH.
 
 
 Dependencies
@@ -103,10 +89,9 @@ ftp.gnome.org. The (*)ed packages are available in Helix GNOME.
  - ORBit - 0.5.1 (*) or later from the orbit-stable-0-5 branch in CVS.
    (i.e. do 'cvs co -r orbit-stable-0-5 ORBit')
 
- - oaf - 0.3, assuming that you're building with OAF rather than GOAD
-   (see above). Note that if you build the current CVS version of OAF
-   rather than the 0.3 release, you will need a newer version of ORBit
-   than 0.5.1.
+ - oaf - 0.3 or later. Note that if you build the current CVS version
+   of OAF rather than the 0.3 release, you will need a newer version
+   of ORBit than 0.5.1 (see above).
 
  - bonobo - Evolution always tracks the latest CVS versions of bonobo.
    Released versions will virtually always be too old (although as of
@@ -117,10 +102,12 @@ ftp.gnome.org. The (*)ed packages are available in Helix GNOME.
    *** properly.
 
  - gnome-vfs (released versions are OK currently, but CVS versions are
-   better. Note that gnome-vfs from CVS requires OAF.)
+   better.)
 
  - libunicode - 0.4 or later, available from
    http://www.pango.org/download.shtml
+
+ - gconf - from CVS (there are currently no released versions)
 
  - gtkhtml - 0.4 or later
 
