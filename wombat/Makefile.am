@@ -19,6 +19,7 @@ bin_PROGRAMS =	\
 
 wombat_SOURCES = 		\
 	wombat-moniker.c	\
+	wombat-moniker.h	\
 	wombat.c
 
 wombat_LDADD =							\

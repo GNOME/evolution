@@ -1,3 +1,7 @@
+2001-03-21  JP Rosevear  <jpr@ximian.com>
+
+	* Makefile.am: add wombat-moniker.h as a source so it gets disted
+
 2001-03-21  Dietmar Maurer  <dietmar@ximian.com>
 
 	* wombat.c (setup_config): initialise the moniker factory
