@@ -1,3 +1,10 @@
+2001-07-10  Jason Leach  <jleach@ximian.com>
+
+	* e-setup.c (copy_default_stuff): Add a temporary block of code to
+	not use the $GNOME/share/evolution/default_user/shortcuts.xml for
+	users who might be upgrading, so they'll get the shell-generated
+	default set of shortcuts.  See notes on #4394.
+
 2001-07-09  Larry Ewing  <lewing@ximian.com>
 
 	* e-shell-folder-commands.c (delete_dialog): convert the folder

@@ -191,6 +191,7 @@ copy_default_stuff (const char *evolution_directory)
 	gboolean retval;
 	char *command;
 	int result;
+	char *old_default_shortcuts_file;
 
 	dialog = gnome_dialog_new (_("Evolution installation"),
 				   GNOME_STOCK_BUTTON_OK, GNOME_STOCK_BUTTON_CANCEL,
@@ -237,6 +238,14 @@ copy_default_stuff (const char *evolution_directory)
 		retval = TRUE;
 	}
 
+	/* Temporary block of code to keep it from using the older
+           shortcuts.xml that exists for current users in
+           $GNOME/share/evolution/default_user.  Remove this by 1.0 */
+	old_default_shortcuts_file = g_concat_dir_and_file (evolution_directory,
+							    "shortcuts.xml");
+	unlink (old_default_shortcuts_file);
+	g_free (old_default_shortcuts_file);
+	
 	g_free (command);
 
 	return retval;
