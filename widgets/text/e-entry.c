@@ -294,6 +294,7 @@ e_entry_init (GtkObject *object)
 		"draw_background", TRUE,
 		"max_lines", 1,
 		"editable", TRUE,
+		"allow_newlines", FALSE,
 		NULL));
 
 	gtk_signal_connect (GTK_OBJECT (entry->item),
