@@ -35,6 +35,7 @@
 #include "widgets/misc/e-clipped-label.h"
 #include "e-util/e-util.h"
 #include "e-util/e-gui-utils.h"
+#include "e-util/e-unicode.h"
 
 #include "evolution-shell-view.h"
 
@@ -919,7 +920,7 @@ update_for_current_uri (EShellView *shell_view)
 {
 	EShellViewPrivate *priv;
 	EFolder *folder;
-	const char *folder_name;
+	char *folder_name;
 	const char *path;
 	char *window_title;
 
