@@ -2412,6 +2412,14 @@ e_calendar_item_mark_days	(ECalendarItem	*calitem,
 		if (month_offset == end_month_offset && day > end_day)
 			break;
 
+		if (month_offset < -1 || month_offset > calitem->rows * calitem->cols)
+			g_warning ("Bad month offset: %i\n", month_offset);
+		if (day < 1 || day > 31)
+			g_warning ("Bad day: %i\n", day);
+
+#if 0
+		g_print ("Marking Month:%i Day:%i\n", month_offset, day);
+#endif
 		calitem->styles[(month_offset + 1) * 32 + day] = day_style;
 
 		day++;

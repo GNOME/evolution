@@ -26,7 +26,6 @@
 #include <gtk/gtkentry.h>
 #include <gtk/gtklabel.h>
 #include <gnome.h>
-#include <ical.h>
 #include <glade/glade.h>
 #include <widgets/misc/e-map.h>
 #include "e-timezone-dialog.h"
@@ -205,8 +204,7 @@ e_timezone_dialog_add_timezones (ETimezoneDialog *etd)
 	gtk_widget_show (listitem);
 	gtk_container_add (GTK_CONTAINER (combo->list), listitem);
 
-	/* Note: We don't translate timezone names at the moment. */
-	listitem = gtk_list_item_new_with_label ("UTC");
+	listitem = gtk_list_item_new_with_label (_("UTC"));
 	gtk_widget_show (listitem);
 	gtk_container_add (GTK_CONTAINER (combo->list), listitem);
 
@@ -219,7 +217,7 @@ e_timezone_dialog_add_timezones (ETimezoneDialog *etd)
 
 		zone = icalarray_element_at (zones, i);
 
-		location = icaltimezone_get_location (zone);
+		location = _(icaltimezone_get_location (zone));
 
 		e_map_add_point (priv->map, location,
 				 icaltimezone_get_longitude (zone),
@@ -246,7 +244,6 @@ e_timezone_dialog_construct (ETimezoneDialog *etd)
 
 	/* Load the content widgets */
 
-	g_print ("Loading: %s\n", EVOLUTION_GLADEDIR "/e-timezone-dialog.glade");
 	priv->xml = glade_xml_new (EVOLUTION_GLADEDIR "/e-timezone-dialog.glade",
 				   NULL);
 	if (!priv->xml) {
@@ -495,6 +492,8 @@ on_map_button_pressed (GtkWidget *w, GdkEventButton *event, gpointer data)
 }
 
 
+/* Returns the translated timezone location of the fiven EMapPoint,
+   e.g. "Europe/London", in the current locale's encoding (not UTF-8). */
 static char*
 get_zone_from_point (ETimezoneDialog *etd,
 		     EMapPoint *point)
@@ -527,7 +526,7 @@ get_zone_from_point (ETimezoneDialog *etd,
 		    zone_latitude - 0.005 <= latitude &&
 		    zone_latitude + 0.005 >= latitude)
 		{
-			return icaltimezone_get_location (zone);
+			return _(icaltimezone_get_location (zone));
 		}
 	}
 
@@ -540,7 +539,9 @@ get_zone_from_point (ETimezoneDialog *etd,
 /* Returns the TZID of the timezone set, and optionally its displayed name.
    The TZID may be NULL, in which case the builtin timezone with the city name
    of display_name should be used. If display_name is also NULL or "", then it
-   is assumed to be a 'local time'. */
+   is assumed to be a 'local time'. Note that display_name may be translated,
+   so you need to convert it back to English before trying to load it. 
+   It will be in the GTK+ encoding, i.e. not UTF-8. */
 char*
 e_timezone_dialog_get_timezone		(ETimezoneDialog  *etd,
 					 char		 **display_name)
@@ -562,7 +563,8 @@ e_timezone_dialog_get_timezone		(ETimezoneDialog  *etd,
 /* Sets the TZID and displayed name of the timezone. The TZID may be NULL for
    a 'local time' (i.e. display_name is NULL or "") or if it is a builtin
    timezone which hasn't been loaded yet. (This is done so we don't load
-   timezones until we really need them.) */
+   timezones until we really need them.) The display_name should be the
+   translated name in the GTK+ - it will be displayed exactly as it is. */
 void
 e_timezone_dialog_set_timezone		(ETimezoneDialog  *etd,
 					 char		  *tzid,
@@ -625,7 +627,7 @@ find_selected_point (ETimezoneDialog *etd)
 
 		zone = icalarray_element_at (zones, i);
 
-		location = icaltimezone_get_location (zone);
+		location = _(icaltimezone_get_location (zone));
 
 		if (!strcmp (current_zone, location)) {
 			double zone_longitude, zone_latitude;
@@ -678,4 +680,38 @@ e_timezone_dialog_reparent (ETimezoneDialog *etd,
 	priv = etd->priv;
 
 	gtk_widget_reparent (priv->table, new_parent);
+}
+
+
+/* Returns the builtin timezone corresponding to display_name, which is
+   the translated location, e.g. 'Europe/London', in the locale's encoding.
+   If display_name is NULL or "" it returns NULL. */
+icaltimezone*
+e_timezone_dialog_get_builtin_timezone	(char		  *display_name)
+{
+	icalarray *zones;
+	int i;
+
+	/* If the field is empty, return NULL (i.e. a floating time). */
+	if (!display_name || !display_name[0])
+		return NULL;
+
+	/* Check for UTC. */
+	if (!strcmp (display_name, _("UTC")))
+		return icaltimezone_get_utc_timezone ();
+
+	/* Get the array of builtin timezones. */
+	zones = icaltimezone_get_builtin_timezones ();
+
+	for (i = 0; i < zones->num_elements; i++) {
+		icaltimezone *zone;
+		char *location;
+
+		zone = icalarray_element_at (zones, i);
+		location = icaltimezone_get_location (zone);
+		if (!strcmp (display_name, _(location)))
+			return zone;
+	}
+
+	return NULL;
 }

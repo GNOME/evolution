@@ -1,3 +1,8 @@
+2002-01-11  Damon Chaplin  <damon@ximian.com>
+
+	* e-timezone-dialog/e-timezone-dialog.[hc]: translate timezone names,
+	and provide a function to get back to the English version.
+
 2001-10-24  Jon Trowbridge  <trow@ximian.com>
 
 	* menus/gal-view-menus.c (gal_view_menus_apply): Ref the

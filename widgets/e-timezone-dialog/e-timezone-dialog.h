@@ -24,6 +24,7 @@
 
 #include <libgnome/gnome-defs.h>
 #include <gtk/gtkwidget.h>
+#include <ical.h>
 
 
 
@@ -59,14 +60,17 @@ ETimezoneDialog* e_timezone_dialog_new			(void);
 /* Returns the TZID of the timezone set, and optionally its displayed name.
    The TZID may be NULL, in which case the builtin timezone with the city name
    of display_name should be used. If display_name is also NULL or "", then it
-   is assumed to be a 'local time'. */
+   is assumed to be a 'local time'. Note that display_name may be translated,
+   so you need to convert it back to English before trying to load it. 
+   It will be in the GTK+ encoding, i.e. not UTF-8. */
 char*		 e_timezone_dialog_get_timezone		(ETimezoneDialog  *etd,
 							 char		 **display_name);
 
 /* Sets the TZID and displayed name of the timezone. The TZID may be NULL for
    a 'local time' (i.e. display_name is NULL or "") or if it is a builtin
    timezone which hasn't been loaded yet. (This is done so we don't load
-   timezones until we really need them.) */
+   timezones until we really need them.) The display_name should be the
+   translated name in the GTK+ - it will be displayed exactly as it is. */
 void		 e_timezone_dialog_set_timezone		(ETimezoneDialog  *etd,
 							 char		  *tzid,
 							 char		  *display_name);
@@ -75,6 +79,11 @@ GtkWidget*	 e_timezone_dialog_get_toplevel		(ETimezoneDialog  *etd);
 
 void             e_timezone_dialog_reparent             (ETimezoneDialog *etd,
 							 GtkWidget *new_parent);
+
+/* Returns the builtin timezone corresponding to display_name, which is
+   the translated location, e.g. 'Europe/London', in the GTK+ encoding.
+   If display_name is NULL or "" it returns NULL. */
+icaltimezone*	 e_timezone_dialog_get_builtin_timezone	(char		  *display_name);
 
 
 
