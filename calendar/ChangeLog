@@ -1,3 +1,8 @@
+2000-12-08  Federico Mena Quintero  <federico@helixcode.com>
+
+	* gui/event-editor.c (fill_widgets): Free the dates we get from
+	the component.
+
 2000-12-08  JP Rosevear  <jpr@helixcode.com>
 
 	* gui/e-calendar-table.c (e_calendar_table_init): Attach signal 

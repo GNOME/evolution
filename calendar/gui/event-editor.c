@@ -1807,8 +1807,11 @@ fill_widgets (EventEditor *ee)
 	   so we have to subtract a day so we only show the 2nd. */
 	cal_component_get_dtstart (priv->comp, &d);
 	dtstart = icaltime_as_timet (*d.value);
+	cal_component_free_datetime (&d);
+
 	cal_component_get_dtend (priv->comp, &d);
 	dtend = icaltime_as_timet (*d.value);
+	cal_component_free_datetime (&d);
 
 	if (time_day_begin (dtstart) == dtstart
 	    && time_day_begin (dtend) == dtend) {
