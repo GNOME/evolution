@@ -99,7 +99,6 @@ libcamelinclude_HEADERS =			\
 	camel-mime-filter-charset.h		\
 	camel-mime-filter-index.h		\
 	camel-mime-filter-from.h		\
-	camel-mime-filter-smtp.h		\
 	camel-mime-filter-crlf.h		\
 	camel-stream-filter.h			\
 	camel-address.h				\
