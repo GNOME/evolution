@@ -48,6 +48,9 @@ static CalFactory *cal_factory;
 
 static PASBookFactory *pas_book_factory;
 
+/* The extra interfaces we implement */
+static WombatInterfaceCheck *interface_check_iface;
+
 /* Timeout interval in milliseconds for termination */
 #define EXIT_TIMEOUT 5000
 
@@ -166,9 +169,9 @@ setup_pcs (void)
 static gboolean
 setup_interface_check (void)
 {
-	WombatInterfaceCheck *interface_check_iface = wombat_interface_check_new ();
 	int result;
 
+	interface_check_iface = wombat_interface_check_new ();
 	result = bonobo_activation_active_server_register ("OAFIID:GNOME_Evolution_Wombat_InterfaceCheck",
 							   BONOBO_OBJREF (interface_check_iface));
 
@@ -236,6 +239,7 @@ main (int argc, char **argv)
 	}
 
 	if (! setup_interface_check ()) {
+		bonobo_object_unref (interface_check_iface);
 		g_message ("Cannot register Wombat::InterfaceCheck object");
 		exit (EXIT_FAILURE);
 	}
@@ -249,6 +253,9 @@ main (int argc, char **argv)
 
 	bonobo_object_unref (BONOBO_OBJECT (pas_book_factory));
 	pas_book_factory = NULL;
+
+	bonobo_object_unref (BONOBO_OBJECT (interface_check_iface));
+	interface_check_iface = NULL;
 
 	gnome_vfs_shutdown ();
 
