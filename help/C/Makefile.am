@@ -1,4 +1,3 @@
-EXTRA_DIST = sgmldocs.make
 figs = \
 	figures/calendar.png			\
 	figures/config-cal.png			\

@@ -1,3 +1,8 @@
+2002-04-04  Ettore Perazzoli  <ettore@ximian.com>
+
+	* C/Makefile.am: Remove bogus EXTRA_DIST with sgmldocs.make.
+	Problem pointed out by Richard Boulton <richard@tartarus.org>.
+
 2002-03-27  JP Rosevear  <jpr@ximian.com>
 
 	* C/Makefile.am: end the line properly
