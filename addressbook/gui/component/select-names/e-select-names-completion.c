@@ -995,7 +995,7 @@ e_select_names_completion_start_query (ESelectNamesCompletion *comp, const gchar
 			   solely on our cached cards, signal
 			   that the search is over. */
 			if (!comp->priv->pending_completion_seq)
-				e_select_names_completion_done (E_COMPLETION (comp));
+				e_select_names_completion_done (E_SELECT_NAMES_COMPLETION (comp));
 		} else {
 			g_free (comp->priv->query_text);
 			comp->priv->query_text = NULL;

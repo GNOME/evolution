@@ -28,6 +28,7 @@
 #include <libgnomeprintui/gnome-print-dialog.h>
 #include <libgnomeprint/gnome-print.h>
 #include <libgnomeprint/gnome-print-job.h>
+#include <libgnomeprintui/gnome-print-job-preview.h>
 #include "addressbook/backend/ebook/e-card.h"
 #include "addressbook/backend/ebook/e-card-simple.h"
 

@@ -1,3 +1,14 @@
+2003-05-09  Jeremy Katz  <katzj@redhat.com>
+
+	* printing/e-contact-print.c (e_contact_print_response): Use glib
+	macro to case from pointer to int.
+
+	* printing/e-contact-print-envelope.c: Add missing #include.
+
+	* gui/component/select-names/e-select-names-completion.c 
+	(e_select_names_completion_start_query): Use
+	E_SELECT_NAMES_COMPLETION to avoid warning
+
 2003-05-06  Chris Toshok  <toshok@ximian.com>
 
 	[ really commit this, fixes bug #41910 ] 

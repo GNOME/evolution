@@ -1014,7 +1014,7 @@ e_contact_print_response(GtkWidget *dialog, gint response_id, gpointer data)
 	GnomePrintJob *master;
 	GnomePrintConfig *config;
 	GnomePrintContext *pc;
-	gboolean uses_book = (gint) g_object_get_data(G_OBJECT(dialog), "uses_book");
+	gboolean uses_book = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(dialog), "uses_book"));
 	EBook *book = NULL;
 	char *query = NULL;
 	ECard *card = NULL;
