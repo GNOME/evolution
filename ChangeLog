@@ -1,3 +1,9 @@
+2004-08-30  JP Rosevear  <jpr@novell.com>
+
+	* configure.in: hard code BASE_VERSION to 2.0; reset
+	UPGRADE_VERSION to 0 because BASE_VERSION changed; base
+	GETTEXT_PACKAGE on BASE_VERSION
+
 2004-08-27  JP Rosevear  <jpr@novell.com>
 
 	* configure.in: bump version, requirements
