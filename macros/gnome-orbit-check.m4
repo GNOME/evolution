@@ -12,9 +12,9 @@ AC_DEFUN([GNOME_ORBIT_HOOK],[
 	    	fi
 	else
 		$1
-		ORBIT_INCLUDES=`orbit-config --cflags client server`
+		ORBIT_CFLAGS=`orbit-config --cflags client server`
 		ORBIT_LIBS=`orbit-config --libs client server`
-		AC_SUBST(ORBIT_INCLUDES)
+		AC_SUBST(ORBIT_CFLAGS)
 		AC_SUBST(ORBIT_LIBS)
 		AC_DEFINE(HAVE_ORBIT)
 	fi
