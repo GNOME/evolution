@@ -1,3 +1,8 @@
+2001-07-05  Iain Holmes  <iain@ximian.com>
+
+	* e-shortcuts-view.c (icon_callback): Special case the evolution:/My
+	Evolution uri.
+
 2001-07-05  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-view-menu.c: Removed handler for verb
