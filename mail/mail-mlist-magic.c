@@ -21,31 +21,6 @@
  * Author: Ettore Perazzoli
  */
 
-/* Procmail-style magic mail rules for mailing lists: (from Joakim's own
-   `.procmailrc'.)
-
-   :0: 
-   * ^Sender: owner-\/[^@]+
-   lists/$MATCH
-   
-   :0:
-   * ^X-BeenThere: \/[^@]+
-   lists/$MATCH
-   
-   :0:
-   * ^Delivered-To: mailing list \/[^@]+
-   lists/$MATCH
-   
-   :0:
-   * X-Mailing-List: <\/[^@]+
-   lists/$MATCH
-   
-   :0:
-   * X-Loop: \/[^@]+
-   lists/$MATCH
-
-*/
-
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -56,6 +31,8 @@
 #include "camel.h"
 
 #include "mail-mlist-magic.h"
+
+/* FIXME: This really should just use regexps... */
 
 
 /* Utility functions.  */
@@ -95,32 +72,38 @@ get_header (CamelMimeMessage *message,
 
 /* The checks.  */
 
-/* ^Sender: owner-\/[^@]+ */
+/* Sender: (owner-([^@]+)|([^@+]-owner)@ */
 static char *
 check_sender (CamelMimeMessage *message,
 	      const char **header_name_return,
 	      char **header_value_return)
 {
 	const char *value;
+	char *owner, *list_name;
 
 	value = get_header (message, "Sender");
 	if (value == NULL)
 		return NULL;
 
-	if (strncmp (value, "owner-", 6) != 0)
+	owner = strstr (value, "owner");
+	if (!owner)
 		return NULL;
 
-	if (value[6] == '\0' || value[6] == '@')
+	if (owner == value && value[5] == '-' && value[6] && value[6] != '@')
+		list_name = extract_until_at_sign (value + 6);
+	else if (owner > value + 1 && *(owner - 1) == '-' && owner[5] == '@')
+		list_name = g_strndup (value, owner - 1 - value);
+	else
 		return NULL;
 
 	if (header_name_return != NULL)
 		*header_name_return = "Sender";
 	if (header_value_return != NULL)
 		*header_value_return = g_strdup (value);
-	return extract_until_at_sign (value + 6);
+	return list_name;
 }
    
-/* ^X-BeenThere: \/[^@]+ */
+/* X-BeenThere: ([^@]+) */
 static char *
 check_x_been_there (CamelMimeMessage *message,
 		    const char **header_name_return,
@@ -140,7 +123,7 @@ check_x_been_there (CamelMimeMessage *message,
 	return extract_until_at_sign (value);
 }
    
-/* ^Delivered-To: mailing list \/[^@]+ */
+/* Delivered-To: mailing list ([^@]+) */
 static char *
 check_delivered_to (CamelMimeMessage *message,
 		    const char **header_name_return,
@@ -166,7 +149,7 @@ check_delivered_to (CamelMimeMessage *message,
 	return extract_until_at_sign (value + 13);
 }
    
-/* X-Mailing-List: <\/[^@]+ */
+/* X-Mailing-List: <([^@]+) */
 static char *
 check_x_mailing_list (CamelMimeMessage *message,
 		      const char **header_name_return,
@@ -193,7 +176,7 @@ check_x_mailing_list (CamelMimeMessage *message,
 	return extract_until_at_sign (value + 1);
 }
    
-/* X-Loop: \/[^@]+ */
+/* X-Loop: ([^@]+) */
 static char *
 check_x_loop (CamelMimeMessage *message,
 	      const char **header_name_return,
@@ -216,6 +199,45 @@ check_x_loop (CamelMimeMessage *message,
 	return extract_until_at_sign (value);
 }
 
+/* List-Post: <mailto:([^@]+) */
+static char *
+check_list_post (CamelMimeMessage *message,
+		 const char **header_name_return,
+		 char **header_value_return)
+{
+	const char *value;
+	int value_length;
+
+	value = get_header (message, "List-Post");
+	if (value == NULL)
+		return NULL;
+
+	if (strncmp (value, "<mailto:", 8) != 0 || value[8] == '@')
+		return NULL;
+
+	value_length = strlen (value);
+	if (value[value_length - 1] != '>')
+		return NULL;
+
+	if (header_name_return != NULL)
+		*header_name_return = "List-Post";
+	if (header_value_return != NULL)
+		*header_value_return = g_strdup (value);
+	return extract_until_at_sign (value + 8);
+}
+
+typedef char *(*MagicDetectorFunc) (CamelMimeMessage *, const char **, char **);
+
+MagicDetectorFunc magic_detector[] = {
+	check_sender,
+	check_x_been_there,
+	check_delivered_to,
+	check_x_mailing_list,
+	check_x_loop,
+	check_list_post
+};
+static const int num_detectors = sizeof (magic_detector) / sizeof (magic_detector[0]);
+
 
 /**
  * mail_mlist_magic_detect_list:
@@ -234,29 +256,16 @@ mail_mlist_magic_detect_list (CamelMimeMessage *message,
 			      char **header_value_return)
 {
 	char *list_name;
+	int i;
 
 	g_return_val_if_fail (message != NULL, NULL);
 	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), NULL);
 
-	list_name = check_sender (message, header_name_return, header_value_return);
-	if (list_name != NULL)
-		return list_name;
-
-	list_name = check_x_been_there (message, header_name_return, header_value_return);
-	if (list_name != NULL)
-		return list_name;
-
-	list_name = check_delivered_to (message, header_name_return, header_value_return);
-	if (list_name != NULL)
-		return list_name;
-
-	list_name = check_x_mailing_list (message, header_name_return, header_value_return);
-	if (list_name != NULL)
-		return list_name;
-
-	list_name = check_x_loop (message, header_name_return, header_value_return);
-	if (list_name != NULL)
-		return list_name;
+	for (i = 0; i < num_detectors; i++) {
+		list_name = magic_detector[i] (message, header_name_return, header_value_return);
+		if (list_name != NULL)
+			return list_name;
+	}
 
 	return NULL;
 }

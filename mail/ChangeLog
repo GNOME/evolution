@@ -1,5 +1,12 @@
 2001-02-14  Dan Winship  <danw@ximian.com>
 
+	* mail-mlist-magic.c: Rewrite explanatory comments to use normal
+	regexps rather than procmail weirdness. 
+	(check_sender): match "foo-owner" as well as "owner-foo".
+	(check_list_post): (New) Check for "List-Post: <mailto:..."
+	(mail_mlist_magic_detect_list): Iterate through an array of
+	function pointers rather than calling each checker explicitly.
+
 	* component-factory.c (add_storage): Connect to the
 	"create_folder" signal on the storage.
 	(storage_create_folder): Do folder creation.
