@@ -1,5 +1,15 @@
 2003-03-12  Jeffrey Stedfast  <fejj@ximian.com>
 
+	Security vulnerability fixes.
+
+	* mail-format.c (handle_text_html, attachment_header)
+	(handle_image, handle_via_bonobo): Encode the result from
+	get_cid() so that malicious Content-Id strings cannot bypass the
+	user's preference to not load http images, force a bonobo control
+	to load passing it arbitrary data, etc.
+
+2003-03-12  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* mail-signature-editor.c (menu_file_save_cb): Rewritten to do the
 	same as the composer's build_message() code.
 

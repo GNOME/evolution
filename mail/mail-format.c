@@ -613,7 +613,7 @@ static void
 attachment_header (CamelMimePart *part, const char *mime_type, MailDisplay *md,
 		   MailDisplayStream *stream)
 {
-	char *htmlinfo;
+	char *htmlinfo, *cid_html;
 	const char *info;
 	
 	/* Start the table, create the pop-up object. */
@@ -622,8 +622,10 @@ attachment_header (CamelMimePart *part, const char *mime_type, MailDisplay *md,
 				   "<tr><td></td></tr></table></td>");
 	
 	if (!md->printing) {
+		cid_html = camel_text_to_html (get_cid (part, md), 0, 0);
 		camel_stream_printf ((CamelStream *) stream, "<td><object classid=\"popup:%s\""
-				     "type=\"%s\"></object></td>", get_cid (part, md), mime_type);
+				     "type=\"%s\"></object></td>", cid_html, mime_type);
+		g_free (cid_html);
 	}
 	
 	camel_stream_write_string ((CamelStream *) stream, "<td><table width=3 cellspacing=0 cellpadding=0>"
@@ -1279,6 +1281,7 @@ handle_text_html (CamelMimePart *part, const char *mime_type,
 		  MailDisplay *md, MailDisplayStream *stream)
 {
 	const char *location, *base;
+	char *buf;
 	
 	camel_stream_write_string ((CamelStream *) stream, "\n<!-- text/html -->\n");
 	
@@ -1303,8 +1306,10 @@ handle_text_html (CamelMimePart *part, const char *mime_type,
 	if (!location)
 		location = get_cid (part, md);
 	
+	buf = camel_text_to_html (location, 0, 0);
 	camel_stream_printf ((CamelStream *) stream, "<iframe src=\"%s\" frameborder=0 "
-			     "scrolling=no>could not get %s</iframe>", location, location);
+			     "scrolling=no>could not get %s</iframe>", buf, buf);
+	g_free (buf);
 	
 	return TRUE;
 }
@@ -1312,8 +1317,12 @@ handle_text_html (CamelMimePart *part, const char *mime_type,
 static gboolean
 handle_image (CamelMimePart *part, const char *mime_type, MailDisplay *md, MailDisplayStream *stream)
 {
-	camel_stream_printf ((CamelStream *) stream, "<img hspace=10 vspace=10 src=\"%s\">",
-			     get_cid (part, md));
+	char *buf;
+	
+	buf = camel_text_to_html (get_cid (part, md), 0, 0);
+	camel_stream_printf ((CamelStream *) stream, "<img hspace=10 vspace=10 src=\"%s\">", buf);
+	g_free (buf);
+	
 	return TRUE;
 }
 
@@ -1814,11 +1823,15 @@ static gboolean
 handle_via_bonobo (CamelMimePart *part, const char *mime_type,
 		   MailDisplay *md, MailDisplayStream *stream)
 {
-	if (!md->printing) {
-		camel_stream_printf ((CamelStream *) stream,
-				     "<object classid=\"%s\" type=\"%s\"></object>",
-				     get_cid (part, md), mime_type);
-	}
+	char *buf;
+	
+	if (md->printing)
+		return TRUE;
+	
+	buf = camel_text_to_html (get_cid (part, md), 0, 0);
+	camel_stream_printf ((CamelStream *) stream, "<object classid=\"%s\" type=\"%s\"></object>",
+			     buf, mime_type);
+	g_free (buf);
 	
 	return TRUE;
 }
