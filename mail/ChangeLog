@@ -1,5 +1,13 @@
 2005-02-21  Not Zed  <NotZed@Ximian.com>
 
+	** See bug #64987
+
+	* message-list.c (message_list_select_thread): select the paths
+	with one call.
+	(on_selection_changed_cmd): get the cursor_uid from the cursor.
+
+2005-02-21  Not Zed  <NotZed@Ximian.com>
+
 	** See bug #72337
 
 	* mail-component.c (store_info_new, store_info_unref): refcount

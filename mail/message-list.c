@@ -740,7 +740,6 @@ message_list_select_thread (MessageList *message_list)
 {
 	ETreeSelectionModel *etsm;
 	thread_select_info_t tsi;
-	int i;
 	
 	tsi.ml = message_list;
 	tsi.paths = g_ptr_array_new ();
@@ -748,13 +747,9 @@ message_list_select_thread (MessageList *message_list)
 	etsm = (ETreeSelectionModel *) e_tree_get_selection_model (message_list->tree);
 	
 	e_tree_selected_path_foreach (message_list->tree, thread_select_foreach, &tsi);
-	
-	for (i = 0; i < tsi.paths->len; i++)
-		e_tree_selection_model_add_to_selection (etsm, tsi.paths->pdata[i]);
-	
+	e_tree_selection_model_select_paths(etsm, tsi.paths);
 	g_ptr_array_free (tsi.paths, TRUE);
 }
-
 
 /**
  * message_list_invert_selection:
@@ -2927,12 +2922,15 @@ on_selection_changed_cmd(ETree *tree, MessageList *ml)
 {
 	GPtrArray *uids;
 	char *newuid;
+	ETreePath cursor;
 
 	/* not sure if we could just ignore this for the cursor, i think sometimes you
 	   only get a selection changed when you should also get a cursor activated? */
 	uids = message_list_get_selected(ml);
 	if (uids->len == 1)
 		newuid = uids->pdata[0];
+	else if ((cursor = e_tree_get_cursor(tree)))
+		newuid = (char *)camel_message_info_uid(e_tree_memory_node_get_data((ETreeMemory *)tree, cursor));
 	else
 		newuid = NULL;
 
