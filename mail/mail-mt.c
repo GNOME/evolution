@@ -20,6 +20,7 @@
 #include <libgnomeui/gnome-dialog.h>
 #include <gtk/gtkprogress.h>
 
+/*#define MALLOC_CHECK*/
 #define d(x) 
 
 static void set_view_data(const char *current_message, int busy);
@@ -69,6 +70,8 @@ void *mail_msg_new(mail_msg_op_t *ops, EMsgPort *reply_port, size_t size)
 
 	g_hash_table_insert(mail_msg_active, (void *)msg->seq, msg);
 
+	d(printf("New message %p\n", msg));
+
 	MAIL_MT_UNLOCK(mail_msg_lock);
 
 	return msg;
@@ -83,9 +86,40 @@ static void destroy_widgets(CamelObject *o, void *event_data, void *data)
 		gtk_widget_destroy((GtkWidget *)event_data);
 }
 
+#ifdef MALLOC_CHECK
+#include <mcheck.h>
+
+static void
+checkmem(void *p)
+{
+	if (p) {
+		int status = mprobe(p);
+
+		switch (status) {
+		case MCHECK_HEAD:
+			printf("Memory underrun at %p\n", p);
+			abort();
+		case MCHECK_TAIL:
+			printf("Memory overrun at %p\n", p);
+			abort();
+		case MCHECK_FREE:
+			printf("Double free %p\n", p);
+			abort();
+		}
+	}
+}
+#endif
+
 void mail_msg_free(void *msg)
 {
 	struct _mail_msg *m = msg;
+
+#ifdef MALLOC_CHECK
+	checkmem(m);
+	checkmem(m->cancel);
+	checkmem(m->priv);
+#endif
+	d(printf("Free message %p\n", msg));
 
 	if (m->ops->destroy_msg)
 		m->ops->destroy_msg(m);
@@ -125,6 +159,12 @@ void mail_msg_check_error(void *msg)
 	char *what = NULL;
 	char *text;
 	GnomeDialog *gd;
+
+#ifdef MALLOC_CHECK
+	checkmem(m);
+	checkmem(m->cancel);
+	checkmem(m->priv);
+#endif
 
 	if (!camel_exception_is_set(&m->ex)
 	    || m->ex.id == CAMEL_EXCEPTION_USER_CANCEL)
@@ -201,6 +241,13 @@ mail_msgport_replied(GIOChannel *source, GIOCondition cond, void *d)
 	mail_msg_t *m;
 
 	while (( m = (mail_msg_t *)e_msgport_get(port))) {
+
+#ifdef MALLOC_CHECK
+		checkmem(m);
+		checkmem(m->cancel);
+		checkmem(m->priv);
+#endif
+
 		if (m->ops->reply_msg)
 			m->ops->reply_msg(m);
 		mail_msg_check_error(m);
@@ -219,6 +266,11 @@ mail_msgport_received(GIOChannel *source, GIOCondition cond, void *d)
 	mail_msg_t *m;
 
 	while (( m = (mail_msg_t *)e_msgport_get(port))) {
+#ifdef MALLOC_CHECK
+		checkmem(m);
+		checkmem(m->cancel);
+		checkmem(m->priv);
+#endif
 		if (m->ops->describe_msg) {
 			char *text = m->ops->describe_msg(m, FALSE);
 			mail_status_start(text);
@@ -245,6 +297,12 @@ mail_msg_destroy(EThread *e, EMsg *msg, void *data)
 {
 	mail_msg_t *m = (mail_msg_t *)msg;
 
+#ifdef MALLOC_CHECK
+	checkmem(m);
+	checkmem(m->cancel);
+	checkmem(m->priv);
+#endif	
+
 	if (m->ops->describe_msg)
 		mail_status_end();
 	mail_msg_free(m);
@@ -254,6 +312,12 @@ static void
 mail_msg_received(EThread *e, EMsg *msg, void *data)
 {
 	mail_msg_t *m = (mail_msg_t *)msg;
+
+#ifdef MALLOC_CHECK
+	checkmem(m);
+	checkmem(m->cancel);
+	checkmem(m->priv);
+#endif
 
 	if (m->ops->describe_msg) {
 		char *text = m->ops->describe_msg(m, FALSE);
@@ -809,7 +873,7 @@ mail_operation_status(struct _CamelOperation *op, const char *what, int pc, void
 {
 	struct _op_status_msg *m;
 
-	printf("got operation statys: %s %d%%\n", what, pc);
+	d(printf("got operation statys: %s %d%%\n", what, pc));
 
 	m = mail_msg_new(&op_status_op, NULL, sizeof(*m));
 	m->op = op;
@@ -882,10 +946,10 @@ set_view_data(const char *current_message, int busy)
 
 		if (shell_view_interface != CORBA_OBJECT_NIL) {
 			if ((current_message == NULL || current_message[0] == 0) && ! busy) {
-				printf("clearing msg\n");
+				d(printf("clearing msg\n"));
 				GNOME_Evolution_ShellView_unsetMessage (shell_view_interface, &ev);
 			} else {
-				printf("setting msg %s\n", current_message ? current_message : "(null)");
+				d(printf("setting msg %s\n", current_message ? current_message : "(null)"));
 				GNOME_Evolution_ShellView_setMessage (shell_view_interface,
 								      current_message?current_message:"",
 								      busy,

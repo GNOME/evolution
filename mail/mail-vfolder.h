@@ -18,6 +18,7 @@ void vfolder_create_storage(EvolutionShellComponent *shell_component);
 CamelFolder *vfolder_uri_to_folder(const char *uri, CamelException *ex);
 void vfolder_edit(void);
 FilterPart *vfolder_create_part(const char *name);
+FilterRule *vfolder_clone_rule(FilterRule *in);
 void vfolder_gui_add_rule(VfolderRule *rule);
 void vfolder_gui_add_from_message(CamelMimeMessage *msg, int flags, const char *source);
 void vfolder_gui_add_from_mlist(CamelMimeMessage *msg, const char *mlist, const char *source);

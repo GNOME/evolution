@@ -173,10 +173,7 @@ got_folder(char *uri, CamelFolder *folder, void *data)
 					 update_unread_count, fb);
 	}
 
-	gtk_widget_set_sensitive (GTK_WIDGET (fb->search->entry),
-				  camel_folder_has_search_capability (folder));
-	gtk_widget_set_sensitive (GTK_WIDGET (fb->search->option),
-				  camel_folder_has_search_capability (folder));
+	gtk_widget_set_sensitive(GTK_WIDGET(fb->search), camel_folder_has_search_capability(folder));
 	message_list_set_threaded(fb->message_list, mail_config_get_thread_list());
 	message_list_set_folder(fb->message_list, folder);
 done:
@@ -212,237 +209,81 @@ folder_browser_set_message_preview (FolderBrowser *folder_browser, gboolean show
 }
 
 enum {
-	ESB_SHOW_ALL,
-	ESB_ADVANCED,
 	ESB_SAVE,
 };
 
 static ESearchBarItem folder_browser_search_menu_items[] = {
-	{ N_("Show All"),         	  ESB_SHOW_ALL },
-	{ NULL,                   	  0            },
-	{ N_("Advanced..."),      	  ESB_ADVANCED },
-	{ NULL,                   	  0            },
+	E_FILTERBAR_RESET,
+	E_FILTERBAR_SAVE,
 	{ N_("Store search as vFolder"),  ESB_SAVE     },
 	{ NULL,                           -1           }
 };
 
-enum {
-	ESB_BODY_SUBJECT_CONTAINS,
-	ESB_BODY_CONTAINS,
-	ESB_SUBJECT_CONTAINS,
-	ESB_BODY_DOES_NOT_CONTAIN,
-	ESB_SUBJECT_DOES_NOT_CONTAIN,
-	ESB_SENDER_CONTAINS,
-};
-
-static ESearchBarItem folder_browser_search_option_items[] = {
-	{ N_("Body or subject contains"), ESB_BODY_SUBJECT_CONTAINS    },
-	{ N_("Body contains"),            ESB_BODY_CONTAINS            },
-        { N_("Subject contains"),         ESB_SUBJECT_CONTAINS         },
-	{ N_("Body does not contain"),    ESB_BODY_DOES_NOT_CONTAIN    },
-	{ N_("Subject does not contain"), ESB_SUBJECT_DOES_NOT_CONTAIN },
-	{ N_("Sender contains"),          ESB_SENDER_CONTAINS          },
-	{ NULL,                           -1                           }
-};
-
-/* NOTE: If this is changed, then change the search_save() function to match! */
-/* %s is replaced by the whole search string in quotes ...
-   possibly could split the search string into words as well ? */
-static char *search_string[] = {
-	"(or (body-contains %s) (match-all (header-contains \"Subject\" %s)))",
-	"(body-contains %s)",
-	"(match-all (header-contains \"Subject\" %s))",
-	"(match-all (not (body-contains %s)))",
-	"(match-all (not (header-contains \"Subject\" %s)))",
-	"(match-all (header-contains \"from\" %s))",
-};
-
-static void
-search_full_clicked (MailSearchDialogue *msd, guint button, FolderBrowser *fb)
-{
-	char *query;
-	
-	switch (button) {
-	case 0:			/* 'ok' */
-	case 1:			/* 'search' */
-		query = mail_search_dialogue_get_query (msd);
-		message_list_set_search (fb->message_list, query);
-		g_free (query);
-		
-		/* save the search as well */
-		if (fb->search_full)
-			gtk_object_unref (GTK_OBJECT (fb->search_full));
-		
-		fb->search_full = msd->rule;
-		
-		gtk_object_ref (GTK_OBJECT (fb->search_full));
-		if (button == 0)
-			gnome_dialog_close (GNOME_DIALOG (msd));
-		break;
-	case 2:			/* 'cancel' */
-		gnome_dialog_close (GNOME_DIALOG (msd));
-	case -1:		/* dialogue closed */
-		message_list_set_search (fb->message_list, 0);
-		/* reset the search buttons state */
-		gtk_menu_set_active (GTK_MENU (GTK_OPTION_MENU (fb->search->option)->menu), 0);
-		gtk_widget_set_sensitive (fb->search->entry, TRUE);
-		break;
-	}
-}
-
-/* bring up the 'full search' dialogue and let the user use that to search with */
-static void
-search_full (GtkWidget *w, FolderBrowser *fb)
-{
-	MailSearchDialogue *msd;
-	
-	gtk_widget_set_sensitive (fb->search->entry, FALSE);
-	
-	msd = mail_search_dialogue_new_with_rule (fb->search_full);
-	gtk_signal_connect (GTK_OBJECT (msd), "clicked", search_full_clicked, fb);
-	gtk_widget_show (GTK_WIDGET (msd));
-}
-
-static void
-search_save (GtkWidget *w, FolderBrowser *fb)
-{
-	char *text;
-	FilterElement *element;
-	VfolderRule *rule;
-	FilterPart *part;
-	int index;
-	
-	text = e_utf8_gtk_entry_get_text (GTK_ENTRY (fb->search->entry));
-	
-	index = fb->search->option_choice;
-	
-	if (text == NULL || text[0] == 0) {
-		g_free (text);
-		return;
-	}
-	
-	rule = vfolder_rule_new ();
-	((FilterRule *)rule)->grouping = FILTER_GROUP_ANY;
-	vfolder_rule_add_source (rule, fb->uri);
-	filter_rule_set_name ((FilterRule *)rule, text);
-	
-	switch (index) {
-	default:
-		/* header or body contains */
-		index = ESB_BODY_SUBJECT_CONTAINS;
-	case ESB_BODY_CONTAINS:
-	case ESB_SUBJECT_CONTAINS:
-		if (index == ESB_BODY_SUBJECT_CONTAINS || index == ESB_BODY_CONTAINS) {
-			part = vfolder_create_part ("body");
-			filter_rule_add_part ((FilterRule *)rule, part);
-			element = filter_part_find_element (part, "body-type");
-			filter_option_set_current ((FilterOption *)element, "contains");
-			element = filter_part_find_element (part, "word");
-			filter_input_set_value ((FilterInput *)element, text);
-		}
-		
-		if (index == ESB_BODY_SUBJECT_CONTAINS || index == ESB_SUBJECT_CONTAINS) {
-			part = vfolder_create_part ("subject");
-			filter_rule_add_part ((FilterRule *)rule, part);
-			element = filter_part_find_element (part, "subject-type");
-			filter_option_set_current ((FilterOption *)element, "contains");
-			element = filter_part_find_element (part, "subject");
-			filter_input_set_value ((FilterInput *)element, text);
-		}
-		break;
-	case ESB_BODY_DOES_NOT_CONTAIN:
-		part = vfolder_create_part ("body");
-		filter_rule_add_part ((FilterRule *)rule, part);
-		element = filter_part_find_element (part, "body-type");
-		filter_option_set_current ((FilterOption *)element, "not contains");
-		element = filter_part_find_element (part, "word");
-		filter_input_set_value ((FilterInput *)element, text);
-		break;
-	case ESB_SUBJECT_DOES_NOT_CONTAIN:
-		part = vfolder_create_part ("subject");
-		filter_rule_add_part ((FilterRule *)rule, part);
-		element = filter_part_find_element (part, "subject-type");
-		filter_option_set_current ((FilterOption *)element, "not contains");
-		element = filter_part_find_element (part, "subject");
-		filter_input_set_value ((FilterInput *)element, text);
-		break;
-	case ESB_SENDER_CONTAINS:
-		part = vfolder_create_part ("from");
-		filter_rule_add_part ((FilterRule *)rule, part);
-		element = filter_part_find_element (part, "from-type");
-		filter_option_set_current ((FilterOption *)element, "contains");
-		element = filter_part_find_element (part, "from");
-		filter_input_set_value ((FilterInput *)element, text);
-		break;
-	}
-	
-	vfolder_gui_add_rule (rule);
-	
-	g_free (text);
-}
-
 static void
 folder_browser_search_menu_activated (ESearchBar *esb, int id, FolderBrowser *fb)
 {
+	EFilterBar *efb = (EFilterBar *)esb;
+
+	printf("menyu activated\n");
+
 	switch (id) {
-	case ESB_SHOW_ALL:
-		gtk_entry_set_text (GTK_ENTRY (esb->entry), "");
-		gtk_widget_set_sensitive (esb->entry, TRUE);
-		message_list_set_search (fb->message_list, NULL);
-		break;
-	case ESB_ADVANCED:
-		search_full (NULL, fb);
-		break;
 	case ESB_SAVE:
-		search_save (NULL, fb);
+		printf("Save vfolder\n");
+		if (efb->current_query) {
+			FilterRule *rule = vfolder_clone_rule(efb->current_query);			
+
+			filter_rule_set_source(rule, FILTER_SOURCE_INCOMING);
+			vfolder_rule_add_source((VfolderRule *)rule, fb->uri);
+			vfolder_gui_add_rule((VfolderRule *)rule);
+		}
 		break;
 	}
+}
+
+static void folder_browser_config_search(EFilterBar *efb, FilterRule *rule, int id, const char *query, void *data)
+{
+	GList *partl;
+
+	/* we scan the parts of a rule, and set all the types we know about to the query string */
+	partl = rule->parts;
+	while (partl) {
+		FilterPart *part = partl->data;
+
+		if (!strcmp(part->name, "subject")) {
+			FilterInput *input = (FilterInput *)filter_part_find_element(part, "subject");
+			if (input)
+				filter_input_set_value(input, query);
+		} else if (!strcmp(part->name, "body")) {
+			FilterInput *input = (FilterInput *)filter_part_find_element(part, "word");
+			if (input)
+				filter_input_set_value(input, query);
+		} else if(!strcmp(part->name, "sender")) {
+			FilterInput *input = (FilterInput *)filter_part_find_element(part, "sender");
+			if (input)
+				filter_input_set_value(input, query);
+		}
+		
+		partl = partl->next;
+	}
+	printf("configuring search for search string '%s', rule is '%s'\n", query, rule->name);
 }
 
 static void
 folder_browser_search_query_changed (ESearchBar *esb, FolderBrowser *fb)
 {
-	GString *search_query;
-	char *search_word, *str;
-	int search_type;
-	
-	gtk_widget_set_sensitive (esb->entry, TRUE);
-	
-	gtk_object_get (GTK_OBJECT (esb),
-			"text", &search_word,
-			"option_choice", &search_type,
-			NULL);
-	
-	if (search_word && strlen (search_word)) {
-		str = search_string[search_type];
-		
-		search_query = g_string_new ("");
-		while (*str) {
-			if (str[0] == '%' && str[1]=='s') {
-				str += 2;
-				e_sexp_encode_string (search_query, search_word);
-			} else {
-				g_string_append_c (search_query, *str);
-				str++;
-			}
-		}
-		
-		message_list_set_search (fb->message_list, search_query->str);
-		g_string_free (search_query, TRUE);
-	} else {
-		message_list_set_search (fb->message_list, NULL);
-	}
-	
-	g_free (search_word);
-}
+	char *search_word;
 
-void
-folder_browser_clear_search (FolderBrowser *fb)
-{
-	gtk_entry_set_text (GTK_ENTRY (fb->search->entry), "");
-	gtk_option_menu_set_history (GTK_OPTION_MENU (fb->search->option), 0);
-	
-	message_list_set_search (fb->message_list, NULL);
+	printf("query changed\n");
+
+	gtk_object_get (GTK_OBJECT (esb),
+			"query", &search_word,
+			NULL);
+
+	message_list_set_search (fb->message_list, search_word);
+
+	printf("query is %s\n", search_word);
+	g_free(search_word);
+	return;
 }
 
 void
@@ -888,9 +729,27 @@ folder_browser_gui_init (FolderBrowser *fb)
 			  GTK_FILL | GTK_EXPAND,
 			  0, 0);
 	
-	/* quick-search entry */
-	fb->search = E_SEARCH_BAR (e_search_bar_new (folder_browser_search_menu_items,
-						     folder_browser_search_option_items));
+	/* quick-search bar */
+	{
+		RuleContext *rc = (RuleContext *)rule_context_new ();
+		char *userrules = g_strdup_printf("%s/searches.xml", evolution_dir);
+		/* we reuse the vfolder types here, they should match */
+		char *systemrules = g_strdup_printf("%s/evolution/vfoldertypes.xml", EVOLUTION_DATADIR);
+
+		rule_context_add_part_set((RuleContext *)rc, "partset", filter_part_get_type(),
+					  rule_context_add_part, rule_context_next_part);
+		
+		rule_context_add_rule_set((RuleContext *)rc, "ruleset", filter_rule_get_type(),
+					  rule_context_add_rule, rule_context_next_rule);
+	
+		fb->search = e_filter_bar_new(rc, systemrules, userrules, folder_browser_config_search, fb);
+		e_search_bar_set_menu((ESearchBar *)fb->search, folder_browser_search_menu_items);
+		/*e_search_bar_set_option((ESearchBar *)fb->search, folder_browser_search_option_items);*/
+		g_free(userrules);
+		g_free(systemrules);
+		gtk_object_unref((GtkObject *)rc);
+	}
+
 	gtk_widget_show (GTK_WIDGET (fb->search));
 	
 	gtk_signal_connect (GTK_OBJECT (fb->search), "query_changed",

@@ -9,7 +9,7 @@
 #include "camel/camel-stream.h"
 #include <bonobo/bonobo-property-bag.h>
 #include <bonobo/bonobo-ui-component.h>
-#include <widgets/misc/e-search-bar.h>
+#include <widgets/misc/e-filter-bar.h>
 #include "filter/filter-rule.h"
 #include "filter/filter-context.h" /*eek*/
 #include "message-list.h"
@@ -54,7 +54,7 @@ struct  _FolderBrowser {
 	MailDisplay *mail_display;
 	GtkWidget   *vpaned;
 	
-	ESearchBar  *search;
+	EFilterBar  *search;
 	FilterRule  *search_full; /* if we have a full search active */
 
 	gboolean     preview_shown;

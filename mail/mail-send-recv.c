@@ -48,6 +48,10 @@
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-window-icon.h>
 
+#define d(x)
+
+/* ms between status updates to the gui */
+#define STATUS_TIMEOUT (250)
 
 /* send/receive email */
 
@@ -98,7 +102,12 @@ struct _send_info {
 	send_state_t state;
 	GtkProgressBar *bar;
 	GtkButton *stop;
-	time_t update;
+
+	int timeout_id;
+	char *what;
+	int pc;
+
+	/*time_t update;*/
 	struct _send_data *data;
 };
 
@@ -141,8 +150,11 @@ free_folder_info(void *key, struct _folder_info *info, void *data)
 
 static void free_send_info(void *key, struct _send_info *info, void *data)
 {
+	d(printf("Freeing send info %p\n", info));
 	g_free(info->uri);
 	camel_operation_unref(info->cancel);
+	if (info->timeout_id != 0)
+		gtk_timeout_remove(info->timeout_id);
 	g_free(info);
 }
 
@@ -184,7 +196,7 @@ dialogue_clicked(GnomeDialog *gd, int button, struct _send_data *data)
 {
 	switch(button) {
 	case 0:
-		printf("cancelled whole thing\n");
+		d(printf("cancelled whole thing\n"));
 		if (!data->cancelled) {
 			data->cancelled = TRUE;
 			g_hash_table_foreach(data->active, (GHFunc)cancel_send_info, NULL);
@@ -192,13 +204,14 @@ dialogue_clicked(GnomeDialog *gd, int button, struct _send_data *data)
 		gnome_dialog_set_sensitive(gd, 0, FALSE);
 		break;
 	case -1:		/* dialogue vanished, so make out its just hidden */
-		printf("hiding dialogue\n");
+		d(printf("hiding dialogue\n"));
 		g_hash_table_foreach(data->active, (GHFunc)hide_send_info, NULL);
 		break;
 	}
 }
 
 static void operation_status(CamelOperation *op, const char *what, int pc, void *data);
+static int operation_status_timeout(void *data);
 
 static struct _send_data *build_dialogue(GSList *sources, CamelFolder *outbox, const char *destination)
 {
@@ -243,12 +256,13 @@ static struct _send_data *build_dialogue(GSList *sources, CamelFolder *outbox, c
 				info->type = SEND_UPDATE;
 			else
 				info->type = SEND_RECEIVE;
-			printf("adding source %s\n", source->url);
+			d(printf("adding source %s\n", source->url));
 
 			info->uri = g_strdup(source->url);
 			info->keep = source->keep_on_server;
 			info->cancel = camel_operation_new(operation_status, info);
 			info->state = SEND_ACTIVE;
+			info->timeout_id = gtk_timeout_add(STATUS_TIMEOUT, operation_status_timeout, info);
 
 			g_hash_table_insert(data->active, info->uri, info);
 			list = g_list_prepend(list, info);
@@ -256,7 +270,8 @@ static struct _send_data *build_dialogue(GSList *sources, CamelFolder *outbox, c
 			/* incase we get the same source pop up again */
 			sources = sources->next;
 			continue;
-		}
+		} else if (info->timeout_id == 0)
+			info->timeout_id = gtk_timeout_add(STATUS_TIMEOUT, operation_status_timeout, info);
 
 		label = (GtkLabel *)gtk_label_new(source->url);
 		bar = (GtkProgressBar *)gtk_progress_bar_new();
@@ -296,16 +311,18 @@ static struct _send_data *build_dialogue(GSList *sources, CamelFolder *outbox, c
 		if (info == NULL) {
 			info = g_malloc0(sizeof(*info));
 			info->type = SEND_SEND;
-			printf("adding dest %s\n", destination);
+			d(printf("adding dest %s\n", destination));
 
 			info->uri = g_strdup(destination);
 			info->keep = FALSE;
 			info->cancel = camel_operation_new(operation_status, info);
 			info->state = SEND_ACTIVE;
+			info->timeout_id = gtk_timeout_add(STATUS_TIMEOUT, operation_status_timeout, info);
 
 			g_hash_table_insert(data->active, info->uri, info);
 			list = g_list_prepend(list, info);
-		}
+		} else if (info->timeout_id == 0)
+			info->timeout_id = gtk_timeout_add(STATUS_TIMEOUT, operation_status_timeout, info);
 
 		label = (GtkLabel *)gtk_label_new(destination);
 		bar = (GtkProgressBar *)gtk_progress_bar_new();
@@ -341,12 +358,12 @@ update_folders(char *uri, struct _folder_info *info, void *data)
 {
 	time_t now = *((time_t *)data);
 
-	printf("checking update for folder: %s\n", info->uri);
+	d(printf("checking update for folder: %s\n", info->uri));
 
 	/* let it flow through to the folders every 10 seconds */
 	/* we back off slowly as we progress */
 	if (now > info->update+10+info->count*5) {
-		printf("upating a folder: %s\n", info->uri);
+		d(printf("upating a folder: %s\n", info->uri));
 		/*camel_folder_thaw(info->folder);
 		  camel_folder_freeze(info->folder);*/
 		info->update = now;
@@ -354,69 +371,38 @@ update_folders(char *uri, struct _folder_info *info, void *data)
 	}
 }
 
-/* for forwarding stuff to the gui thread */
-struct _status_msg {
-	struct _mail_msg msg;
-	char *desc;
-	int pc;
-	struct _send_info *info;
-};
-
-static void
-do_show_status(struct _mail_msg *mm)
+static void set_send_status(struct _send_info *info, const char *desc, int pc)
 {
-	struct _status_msg *m = (struct _status_msg *)mm;
-	char *out, *p, *o, c;
+	const char *p;
+	char *out, *o, c;
 
-	out = alloca(strlen(m->desc)*2+1);
+	out = alloca(strlen(desc)*2+1);
 	o = out;
-	p = m->desc;
+	p = desc;
 	while ((c = *p++)) {
 		if (c=='%')
 			*o++ = '%';
 		*o++ = c;
 	}
 	*o = 0;
-	if (m->info->bar) {
-		gtk_progress_set_percentage((GtkProgress *)m->info->bar, (gfloat)(m->pc/100.0));
-		gtk_progress_set_format_string((GtkProgress *)m->info->bar, out);
-	}
+	
+	/* FIXME: LOCK */
+	g_free(info->what);
+	info->what = g_strdup(out);
+	info->pc = pc;
 }
-
-static void
-do_free_status(struct _mail_msg *mm)
-{
-	struct _status_msg *m = (struct _status_msg *)mm;
-
-	g_free(m->desc);
-}
-
-struct _mail_msg_op status_op = {
-	NULL,
-	do_show_status,
-	NULL,
-	do_free_status,
-};
 
 static void
 receive_status (CamelFilterDriver *driver, enum camel_filter_status_t status, int pc, const char *desc, void *data)
 {
 	struct _send_info *info = data;
 	time_t now;
-	struct _status_msg *m;
-
-	/* only update every second */
-	now = time(0);
-	if (now <= info->update)
-		return;
-
-	info->update = now;
 
 	/* let it flow through to the folder, every now and then too? */
 	g_hash_table_foreach(info->data->folders, (GHFunc)update_folders, &now);
 
 	if (info->data->inbox && now > info->data->inbox_update+20) {
-		printf("updating inbox too\n");
+		d(printf("updating inbox too\n"));
 		/* this doesn't seem to work right :( */
 		/*camel_folder_thaw(info->data->inbox);
 		  camel_folder_freeze(info->data->inbox);*/
@@ -430,23 +416,31 @@ receive_status (CamelFilterDriver *driver, enum camel_filter_status_t status, in
 	switch (status) {
 	case CAMEL_FILTER_STATUS_START:
 	case CAMEL_FILTER_STATUS_END:
-		m = mail_msg_new(&status_op, NULL, sizeof(*m));
-		m->desc = g_strdup(desc);
-		m->pc = pc;
-		m->info = info;
-		e_msgport_put(mail_gui_port, (EMsg *)m);
+		set_send_status(info, desc, pc);
 		break;
 	default:
 		break;
 	}
 }
 
+static int operation_status_timeout(void *data)
+{
+	struct _send_info *info = data;
+
+	if (info->bar) {
+		gtk_progress_set_percentage((GtkProgress *)info->bar, (gfloat)(info->pc/100.0));
+		gtk_progress_set_format_string((GtkProgress *)info->bar, info->what);
+
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
 /* for camel operation status */
 static void operation_status(CamelOperation *op, const char *what, int pc, void *data)
 {
-	struct _status_msg *m;
 	struct _send_info *info = data;
-	time_t now;
 
 	/*printf("Operation '%s', percent %d\n");*/
 	switch (pc) {
@@ -458,16 +452,7 @@ static void operation_status(CamelOperation *op, const char *what, int pc, void 
 		break;
 	}
 
-	now = time(0);
-	if (now <= info->update)
-		return;
-	info->update = now;
-
-	m = mail_msg_new(&status_op, NULL, sizeof(*m));
-	m->desc = g_strdup(what);
-	m->pc = pc;
-	m->info = info;
-	e_msgport_put(mail_gui_port, (EMsg *)m);
+	set_send_status(info, what, pc);
 }
 
 /* when receive/send is complete */
@@ -493,10 +478,13 @@ receive_done (char *uri, void *data)
 		gtk_widget_set_sensitive((GtkWidget *)info->stop, FALSE);
 
 	/* remove/free this active download */
+	d(printf("%s: freeing info %p\n", __FUNCTION__, info));
 	g_hash_table_remove(info->data->active, info->uri);
 	info->data->infos = g_list_remove(info->data->infos, info);
 	g_free(info->uri);
 	camel_operation_unref(info->cancel);
+	if (info->timeout_id)
+		gtk_timeout_remove(info->timeout_id);
 
 	if (g_hash_table_size(info->data->active) == 0) {
 		if (info->data->gd)
@@ -669,7 +657,7 @@ static void auto_setup_set(void *key, struct _auto_data *info, GHashTable *set)
 
 static void auto_clean_set(void *key, struct _auto_data *info, GHashTable *set)
 {
-	printf("removing auto-check for %s\n", info->uri);
+	d(printf("removing auto-check for %s %p\n", info->uri, info));
 	g_hash_table_remove(set, info->uri);
 	gtk_timeout_remove(info->timeout_id);
 	g_free(info->uri);
@@ -699,7 +687,7 @@ mail_autoreceive_setup(void)
 		if (source->url && source->auto_check && source->enabled) {
 			struct _auto_data *info;
 
-			printf("setting up auto-receive mail for : %s\n", source->url);
+			d(printf("setting up auto-receive mail for : %s\n", source->url));
 
 			g_hash_table_remove(set_hash, source->url);
 			info = g_hash_table_lookup(auto_active, source->url);
@@ -742,11 +730,11 @@ void mail_receive_uri(const char *uri, int keep)
 	data = setup_send_data();
 	info = g_hash_table_lookup(data->active, uri);
 	if (info != NULL) {
-		printf("download of %s still in progress\n", uri);
+		d(printf("download of %s still in progress\n", uri));
 		return;
 	}
 
-	printf("starting non-interactive download of '%s'\n", uri);
+	d(printf("starting non-interactive download of '%s'\n", uri));
 
 	info = g_malloc0(sizeof(*info));
 	/* imap is handled differently */
@@ -762,6 +750,9 @@ void mail_receive_uri(const char *uri, int keep)
 	info->stop = NULL;
 	info->data = data;
 	info->state = SEND_ACTIVE;
+	info->timeout_id = 0;
+
+	d(printf("Adding new info %p\n", info));
 
 	g_hash_table_insert(data->active, info->uri, info);
 

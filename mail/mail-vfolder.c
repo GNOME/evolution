@@ -309,6 +309,20 @@ vfolder_create_part(const char *name)
 	return rule_context_create_part((RuleContext *)context, name);
 }
 
+/* clones a filter/search rule into a matching vfolder rule (assuming the same system definitions) */
+FilterRule *
+vfolder_clone_rule(FilterRule *in)
+{
+	FilterRule *rule = vfolder_rule_new();
+	xmlNodePtr xml;
+
+	xml = filter_rule_xml_encode(in);
+	filter_rule_xml_decode(rule, xml, (RuleContext *)context);
+	xmlFreeNodeList(xml);
+
+	return rule;
+}
+
 /* adds a rule with a gui */
 void
 vfolder_gui_add_rule(VfolderRule *rule)

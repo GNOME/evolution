@@ -1,3 +1,44 @@
+2001-03-01  Not Zed  <NotZed@Ximian.com>
+
+	* folder-browser.c (folder_browser_search_menu_activated): Fixes
+	for changes to search bar.
+	(search_save): Removed.
+	(search_full): Removed.
+	(search_full_clicked): Removed.
+	(folder_browser_search_option_items[]): Removed.
+	(folder_browser_search_query_changed): Changed for search bar
+	changes.
+	(folder_browser_clear_search): Removed.
+
+	* mail-vfolder.c (vfolder_clone_rule): New function to clone a
+	filter/search rule into a matching vfolder rule.
+
+	* mail-send-recv.c (mail_receive_uri): Setup a timeout for status
+	updates.
+	(build_dialogue): Setup timeout id for status updates.
+	(operation_status_timeout): New function to set the status via a
+	timeout.
+	(receive_done): Remove the timeout handler if we need to.
+	(operation_status): 
+	(receive_status): Just update the info, and let the timeout
+	handler update the gui.
+	(do_free_status): 
+	(do_show_status): Removed gui thread status message processing.
+
+2001-02-28  Not Zed  <NotZed@Ximian.com>
+
+	* folder-browser.c (folder_browser_config_search): New function to
+	configure the FilterRule for the search mechanism.
+
+2001-02-27  Not Zed  <NotZed@Ximian.com>
+
+	* folder-browser.c (folder_browser_gui_init): Setup the search bar
+	as a filterbar.
+	(got_folder): Set the whole search bar sensitive or not based on
+	the search capability of the folder.
+
+	* folder-browser.h: Changed to use efilterbar instead of esearchbar.
+
 2001-02-27  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c (configure_mail): Return TRUE if the user

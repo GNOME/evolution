@@ -32,10 +32,22 @@
 #include "mail-mt.h"
 #include "mail-vtrash.h"
 
-#if 0
+/*#define DO_MCHECK*/
+
+#ifdef DO_MCHECK
 static int blowup(int status)
 {
-	printf("memory blew up, status %d\n", status);
+	switch(status) {
+	case 1:
+		printf("Double free failure\n");
+		break;
+	case 2:
+		printf("Memory clobbered before block\n");
+		break;
+	case 3:
+		printf("Memory clobbered after block\n");
+		break;
+	}
 	abort();
 	return status;
 }
@@ -63,7 +75,7 @@ main (int argc, char *argv [])
 	CORBA_ORB orb;
 	struct sigaction sa, osa;
 
-#if 0
+#ifdef DO_MCHECK
 	/* used to make elfence work */
 #if 0
 	free (malloc (10));
