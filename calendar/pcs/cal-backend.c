@@ -385,3 +385,30 @@ cal_backend_load (CalBackend *backend, GnomeVFSURI *uri)
 	priv->loaded = TRUE;
 	return CAL_BACKEND_LOAD_SUCCESS;
 }
+
+/**
+ * cal_backend_get_object:
+ * @backend: A calendar backend.
+ * @uid: Unique identifier for a calendar object.
+ * 
+ * Queries a calendar backend for a calendar object based on its unique
+ * identifier.
+ * 
+ * Return value: The string representation of the sought object, or NULL if no
+ * object had the specified UID.
+ **/
+char *
+cal_backend_get_object (CalBackend *backend, const char *uid)
+{
+	CalBackendPrivate *priv;
+
+	g_return_val_if_fail (backend != NULL, NULL);
+	g_return_val_if_fail (IS_CAL_BACKEND (backend), NULL);
+
+	priv = backend->priv;
+	g_return_val_if_fail (priv->loaded, NULL);
+
+	g_return_val_if_fail (uid != NULL, NULL);
+
+	/* FIXME */
+}

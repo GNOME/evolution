@@ -167,6 +167,35 @@ Cal_get_uri (PortableServer_Servant servant,
 
 }
 
+/* Cal::get_object method */
+static Evolution_Calendar_CalObj
+Cal_get_object (PortableServer_Servant servant,
+		const Evolution_Calendar_CalObjUID uid,
+		CORBA_Environment *ev)
+{
+	Cal *cal;
+	CalPrivate *priv;
+	char *calobj;
+
+	cal = CAL (bonobo_object_from_servant (servant));
+	priv = cal->priv;
+
+	calobj = cal_backend_get_object (priv->backend, uid);
+
+	if (uid) {
+		CORBA_char *calobj_copy;
+
+		calobj_copy = CORBA_string_dup (calobj);
+		g_free (calobj);
+		return calobj_copy;
+	} else {
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+				     ex_Evolution_Calendar_Cal_NotFound,
+				     NULL);
+		return NULL;
+	}
+}
+
 /**
  * cal_get_epv:
  * @void:
@@ -182,6 +211,7 @@ cal_get_epv (void)
 
 	epv = g_new0 (POA_Evolution_Calendar_Cal__epv, 1);
 	epv->_get_uri = Cal_get_uri;
+	epv->get_object = Cal_get_object;
 
 	return epv;
 }

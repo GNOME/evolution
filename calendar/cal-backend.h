@@ -66,6 +66,8 @@ void cal_backend_remove_cal (CalBackend *backend, Cal *cal);
 
 CalBackendLoadStatus cal_backend_load (CalBackend *backend, GnomeVFSURI *uri);
 
+char *cal_backend_get_object (CalBackend *backend, const char *uid);
+
 
 
 END_GNOME_DECLS

@@ -203,7 +203,7 @@ cal_loaded_cb (CalListener *listener,
 	client = CAL_CLIENT (data);
 	priv = client->priv;
 
-	g_assert (priv->state == LOAD_STATE_LOADING);
+	g_assert (priv->load_state == LOAD_STATE_LOADING);
 
 	switch (status) {
 	case CAL_LISTENER_LOAD_SUCCESS:
@@ -217,9 +217,10 @@ cal_loaded_cb (CalListener *listener,
 		CORBA_exception_free (&ev);
 
 		priv->cal = cal_copy;
-		priv->load_status = LOAD_STATE_LOADED;
+		priv->load_state = LOAD_STATE_LOADED;
 
-		gtk_signal_emit (client, cal_client_signals[CAL_LOADED], CAL_CLIENT_LOAD_SUCCESS);
+		gtk_signal_emit (GTK_OBJECT (client), cal_client_signals[CAL_LOADED],
+				 CAL_CLIENT_LOAD_SUCCESS);
 		goto out;
 
 	case CAL_LISTENER_LOAD_ERROR:
@@ -231,14 +232,15 @@ cal_loaded_cb (CalListener *listener,
 
  error:
 
-	gtk_object_unref (priv->listener);
+	gtk_object_unref (GTK_OBJECT (priv->listener));
 	priv->listener = NULL;
 	priv->load_state = LOAD_STATE_NOT_LOADED;
 
-	gtk_signal_emit (client, cal_client_signals[CAL_LOADED], CAL_CLIENT_LOAD_ERROR);
+	gtk_signal_emit (GTK_OBJECT (client), cal_client_signals[CAL_LOADED],
+			 CAL_CLIENT_LOAD_ERROR);
 
  out:
-	g_assert (priv->load_state != CAL_STATE_LOADING);
+	g_assert (priv->load_state != LOAD_STATE_LOADING);
 }
 
 /* Handle the obj_added signal from the listener */
@@ -421,4 +423,50 @@ cal_client_load_calendar (CalClient *client, const char *str_uri)
 	CORBA_exception_free (&ev);
 
 	return TRUE;
+}
+
+/**
+ * cal_client_get_object:
+ * @client: A calendar client.
+ * @uid: Unique identifier for a calendar object.
+ * 
+ * Queries a calendar for a calendar object based on its unique identifier.
+ * 
+ * Return value: The string representation of the calendar object corresponding
+ * to the specified @uid, or NULL if no such object was found.
+ **/
+char *
+cal_client_get_object (CalClient *client, const char *uid)
+{
+	CalClientPrivate *priv;
+	CORBA_Environment ev;
+	Evolution_Calendar_CalObj calobj;
+	char *retval;
+
+	g_return_val_if_fail (client != NULL, NULL);
+	g_return_val_if_fail (IS_CAL_CLIENT (client), NULL);
+
+	priv = client->priv;
+	g_return_val_if_fail (priv->load_state == LOAD_STATE_LOADED, NULL);
+
+	g_return_val_if_fail (uid != NULL, NULL);
+
+	retval = NULL;
+
+	CORBA_exception_init (&ev);
+	calobj = Evolution_Calendar_Cal_get_object (priv->cal, uid, &ev);
+
+	if (ev._major == CORBA_USER_EXCEPTION
+	    && strcmp (CORBA_exception_id (&ev), ex_Evolution_Calendar_Cal_NotFound) == 0)
+		goto out;
+	else if (ev._major != CORBA_NO_EXCEPTION) {
+		g_message ("cal_client_get_object(): could not get the object");
+		goto out;
+	}
+
+	retval = g_strdup (calobj);
+
+ out:
+	CORBA_exception_free (&ev);
+	return retval;
 }

@@ -1,3 +1,21 @@
+2000-02-03  Federico Mena Quintero  <federico@helixcode.com>
+
+	* evolution-calendar.idl (Cal): Added the get_object() method.
+
+	* cal-client.c (cal_client_get_object): New function to get a
+	calendar object by its UID.
+
+	* cal.c (Cal_get_object): Implemented.
+
+	* cal-backend.c (cal_backend_get_object): New unfinished backend
+	function.  We need some reorganizing of how the calendar objects
+	are stored.
+
+2000-02-02  Federico Mena Quintero  <federico@helixcode.com>
+
+	* Makefile.am (gnomecal_SOURCES): Added the CORBA generated
+	sources.
+
 2000-02-01  Federico Mena Quintero  <federico@helixcode.com>
 
 	* cal-client.c (cal_loaded): Handle the cal_loaded signal from the

@@ -71,6 +71,8 @@ CalClient *cal_client_new (void);
 
 gboolean cal_client_load_calendar (CalClient *client, const char *str_uri);
 
+char *cal_client_get_object (CalClient *client, const char *uid);
+
 
 
 END_GNOME_DECLS

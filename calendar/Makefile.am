@@ -42,63 +42,73 @@ corba-cal.h		\
 corba-cal-factory.c	\
 corba-cal-factory.h: GnomeCal.h
 
-gnomecal_SOURCES = \
-	GnomeCal-common.c	\
-	GnomeCal-skels.c	\
-	GnomeCal.h		\
-	alarm.c			\
-	alarm.h			\
-	cal-client.c		\
-	cal-client.h		\
-	cal-listener.c		\
-	cal-listener.h		\
-	calendar.c		\
-	calendar.h		\
-	calendar-conduit.h	\
-	calobj.c		\
-	calobj.h		\
-	eventedit.c		\
-	eventedit.h		\
-	corba-cal.c		\
-	corba-cal.h		\
-	corba-cal-factory.c	\
-	corba-cal-factory.h	\
-	getdate.y		\
-	gncal-day-panel.c	\
-	gncal-day-panel.h	\
-	gncal-day-view.c	\
-	gncal-day-view.h	\
-	gncal-full-day.c	\
-	gncal-full-day.h	\
-	gncal-week-view.c	\
-	gncal-week-view.h	\
-	gncal-todo.c		\
-	gncal-todo.h		\
-	gnome-month-item.c	\
-	gnome-month-item.h	\
-	gnome-cal.c		\
-	gnome-cal.h		\
-	html-month.c		\
-	goto.c			\
-	layout.c		\
-	layout.h		\
-	main.c			\
-	main.h			\
-	mark.c			\
-	mark.h			\
-	month-view.c		\
-	month-view.h		\
-	popup-menu.c		\
-	popup-menu.h		\
-	prop.c			\
-	quick-view.c		\
-	quick-view.h		\
-	timeutil.c		\
-	timeutil.h		\
-	todo-conduit.h		\
-	view-utils.h		\
-	view-utils.c		\
-	year-view.c		\
+GNOME_CALENDAR_CORBA_GENERATED =		\
+	evolution-calendar.h			\
+	evolution-calendar-common.c		\
+	evolution-calendar-skels.c		\
+	evolution-calendar-stubs.c
+
+$(GNOME_CALENDAR_CORBA_GENERATED): evolution-calendar.idl
+	orbit-idl -I`$(GNOME_CONFIG) --datadir`/idl $(srcdir)/evolution-calendar.idl
+
+gnomecal_SOURCES =				\
+	$(GNOME_CALENDAR_CORBA_GENERATED)	\
+	GnomeCal-common.c			\
+	GnomeCal-skels.c			\
+	GnomeCal.h				\
+	alarm.c					\
+	alarm.h					\
+	cal-client.c				\
+	cal-client.h				\
+	cal-listener.c				\
+	cal-listener.h				\
+	calendar.c				\
+	calendar.h				\
+	calendar-conduit.h			\
+	calobj.c				\
+	calobj.h				\
+	eventedit.c				\
+	eventedit.h				\
+	corba-cal.c				\
+	corba-cal.h				\
+	corba-cal-factory.c			\
+	corba-cal-factory.h			\
+	getdate.y				\
+	gncal-day-panel.c			\
+	gncal-day-panel.h			\
+	gncal-day-view.c			\
+	gncal-day-view.h			\
+	gncal-full-day.c			\
+	gncal-full-day.h			\
+	gncal-week-view.c			\
+	gncal-week-view.h			\
+	gncal-todo.c				\
+	gncal-todo.h				\
+	gnome-month-item.c			\
+	gnome-month-item.h			\
+	gnome-cal.c				\
+	gnome-cal.h				\
+	html-month.c				\
+	goto.c					\
+	layout.c				\
+	layout.h				\
+	main.c					\
+	main.h					\
+	mark.c					\
+	mark.h					\
+	month-view.c				\
+	month-view.h				\
+	popup-menu.c				\
+	popup-menu.h				\
+	prop.c					\
+	quick-view.c				\
+	quick-view.h				\
+	timeutil.c				\
+	timeutil.h				\
+	todo-conduit.h				\
+	view-utils.h				\
+	view-utils.c				\
+	year-view.c				\
 	year-view.h
 
 calendar_pilot_sync_SOURCES =	\
@@ -113,19 +123,10 @@ calendar_pilot_sync_SOURCES =	\
 	timeutil.c		\
 	timeutil.h
 
-GNOME_CALENDAR_CORBA_GENERATED =		\
-	evolution-calendar.h			\
-	evolution-calendar-common.c		\
-	evolution-calendar-skels.c		\
-	evolution-calendar-stubs.c
-
-$(GNOME_CALENDAR_CORBA_GENERATED): evolution-calendar.idl
-	orbit-idl -I`$(GNOME_CONFIG) --datadir`/idl $(srcdir)/evolution-calendar.idl
-
 tlacuache_SOURCES =				\
 	$(GNOME_CALENDAR_CORBA_GENERATED)	\
-	alarm.c	\
-	alarm.h	\
+	alarm.c					\
+	alarm.h					\
 	cal.c					\
 	cal.h					\
 	cal-backend.c				\

@@ -27,8 +27,14 @@ module Calendar {
 
 	/* Calendar client interface */
 	interface Cal : Bonobo::Unknown {
+		exception NotFound {};
+
 		/* A calendar is identified by its URI */
 		readonly attribute string uri;
+
+		/* Gets an object based on its URI */
+		CalObj get_object (in CalObjUID uid)
+			raises (NotFound);
 	};
 
 	/* Listener for changes in a calendar */

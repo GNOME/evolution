@@ -20,6 +20,7 @@
  */
 
 #include <config.h>
+#include <gtk/gtksignal.h>
 #include "cal-listener.h"
 
 
@@ -248,11 +249,11 @@ Listener_cal_loaded (PortableServer_Servant servant,
 	priv->cal = cal_copy;
 
 	switch (status) {
-	Evolution_Calendar_Listener_SUCESSS:
+	case Evolution_Calendar_Listener_SUCCESS:
 		load_status = CAL_LISTENER_LOAD_SUCCESS;
 		break;
 
-	Evolution_Calendar_Listener_ERROR:
+	case Evolution_Calendar_Listener_ERROR:
 		load_status = CAL_LISTENER_LOAD_ERROR;
 		break;
 
@@ -408,7 +409,7 @@ cal_listener_new (void)
 	
 	if (ev._major != CORBA_NO_EXCEPTION || result) {
 		g_message ("cal_listener_new(): could not create the CORBA listener");
-		gtk_object_destroy (listener);
+		gtk_object_unref (GTK_OBJECT (listener));
 		CORBA_exception_free (&ev);
 		return NULL;
 	}

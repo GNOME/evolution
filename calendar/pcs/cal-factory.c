@@ -156,7 +156,7 @@ cal_factory_destroy (GtkObject *object)
 /* CalFactory::load method */
 static void
 CalFactory_load (PortableServer_Servant servant,
-		 CORBA_char *uri,
+		 const CORBA_char *uri,
 		 Evolution_Calendar_Listener listener,
 		 CORBA_Environment *ev)
 {
@@ -187,7 +187,7 @@ CalFactory_load (PortableServer_Servant servant,
 /* CalFactory::create method */
 static void
 CalFactory_create (PortableServer_Servant servant,
-		   CORBA_char *uri,
+		   const CORBA_char *uri,
 		   Evolution_Calendar_Listener listener,
 		   CORBA_Environment *ev)
 {
