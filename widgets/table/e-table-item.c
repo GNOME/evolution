@@ -2233,6 +2233,9 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 	gboolean leave = FALSE;
 #endif
 
+	if (!eti->header)
+		return FALSE;
+
 	switch (e->type){
 	case GDK_BUTTON_PRESS: {
 		double x1, y1;
