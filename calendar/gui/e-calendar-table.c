@@ -466,7 +466,7 @@ e_calendar_table_load_state	(ECalendarTable *cal_table,
 
 	if (stat (filename, &st) == 0 && st.st_size > 0
 	    && S_ISREG (st.st_mode)) {
-		e_table_scrolled_load_state (E_TABLE_SCROLLED (cal_table->etable), filename);
+		e_table_load_state (e_table_scrolled_get_table(E_TABLE_SCROLLED (cal_table->etable)), filename);
 	}
 }
 
@@ -479,6 +479,6 @@ e_calendar_table_save_state (ECalendarTable	*cal_table,
 
 	g_return_if_fail (E_IS_CALENDAR_TABLE (cal_table));
 
-	e_table_scrolled_save_state (E_TABLE_SCROLLED (cal_table->etable),
-				     filename);
+	e_table_save_state (e_table_scrolled_get_table(E_TABLE_SCROLLED (cal_table->etable)),
+			    filename);
 }
