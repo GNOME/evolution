@@ -646,7 +646,17 @@ imap_connect_online (CamelService *service, CamelException *ex)
 		if (!store->dir_sep)
 			store->dir_sep = '/';	/* Guess */
 	}
-	
+
+	/* canonicalize the namespace to end with dir_sep */
+	len = strlen (store->namespace);
+	if (store->namespace[len] != store->dir_sep) {
+		gchar *tmp;
+		
+		tmp = g_strdup_printf ("%s%c", store->namespace, store->dir_sep);
+		g_free (store->namespace);
+		store->namespace = tmp;
+	}
+
 	/* Write namespace/separator out */
 	camel_file_util_encode_string (storeinfo, store->namespace);
 	camel_file_util_encode_uint32 (storeinfo, store->dir_sep);
