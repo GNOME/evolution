@@ -7387,7 +7387,7 @@ msgstr "Asia/Macao"
 
 #: calendar/zones.h:230
 msgid "Asia/Macau"
-msgstr "Asia/Macao"
+msgstr "Asia/Macau"
 
 #: calendar/zones.h:231
 msgid "Asia/Magadan"
@@ -8204,7 +8204,7 @@ msgstr "Trasferimento dei messaggi in corso"
 
 #: camel/camel-folder.c:1319
 msgid "Copying messages"
-msgstr "Copia messaggi"
+msgstr "Copia messaggi in corso"
 
 #: camel/camel-gpg-context.c:697
 #, c-format
@@ -8213,7 +8213,7 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
-"Incontrato messaggio di stato GnuPG inaspettato:\n"
+"E' stato riscontrato un messaggio di stato GnuPG inaspettato:\n"
 "\n"
 "%s"
 
