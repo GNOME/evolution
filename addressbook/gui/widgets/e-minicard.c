@@ -511,24 +511,27 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 		}
 		break;
 	case GDK_BUTTON_PRESS: {
-		int ret_val = e_minicard_selected(e_minicard, event);
-		GdkEventMask mask = ((1 << (4 + event->button.button)) |
-				     GDK_POINTER_MOTION_MASK |
-				     GDK_BUTTON_PRESS_MASK |
-				     GDK_BUTTON_RELEASE_MASK);
+		if (1 <= event->button.button && event->button.button <= 3) {
+			int ret_val = e_minicard_selected(e_minicard, event);
+			GdkEventMask mask = ((1 << (4 + event->button.button)) |
+					     GDK_POINTER_MOTION_MASK |
+					     GDK_BUTTON_PRESS_MASK |
+					     GDK_BUTTON_RELEASE_MASK);
+			
+			e_canvas_item_grab_focus(item, TRUE);
 
-		e_canvas_item_grab_focus(item, TRUE);
-
-		if (gnome_canvas_item_grab (GNOME_CANVAS_ITEM (e_minicard),
-					    mask, NULL, event->button.time)) {
-			return FALSE;
+			if (gnome_canvas_item_grab (GNOME_CANVAS_ITEM (e_minicard),
+						    mask, NULL, event->button.time)) {
+				return FALSE;
+			}
+			gtk_grab_add (GTK_WIDGET (GNOME_CANVAS_ITEM (e_minicard)->canvas));
+			e_minicard->button_x = event->button.x;
+			e_minicard->button_y = event->button.y;
+			e_minicard->drag_button = event->button.button;
+			e_minicard->drag_button_down = TRUE;
+			return ret_val;
 		}
-		gtk_grab_add (GTK_WIDGET (GNOME_CANVAS_ITEM (e_minicard)->canvas));
-		e_minicard->button_x = event->button.x;
-		e_minicard->button_y = event->button.y;
-		e_minicard->drag_button = event->button.button;
-		e_minicard->drag_button_down = TRUE;
-		return ret_val;
+		break;
 	}
 	case GDK_BUTTON_RELEASE:
 		if (e_minicard->drag_button == event->button.button) {
