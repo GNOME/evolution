@@ -130,6 +130,13 @@ gdvm_value_to_string (ETableModel *etc, int col, const void *value)
 	return g_strdup(value);
 }
 
+/**
+ * gal_define_views_model_append
+ * @model: The model to add to.
+ * @view: The view to add.
+ *
+ * Adds the given view to the gal define views model.
+ */
 void
 gal_define_views_model_append (GalDefineViewsModel *model,
 			       GalView             *view)
@@ -157,7 +164,7 @@ gal_define_views_model_class_init (GtkObjectClass *object_class)
 
 	gtk_object_add_arg_type ("GalDefineViewsModel::editable", GTK_TYPE_BOOL,
 				 GTK_ARG_READWRITE, ARG_EDITABLE);
-	
+
 	model_class->column_count     = gdvm_col_count;
 	model_class->row_count        = gdvm_row_count;
 	model_class->value_at         = gdvm_value_at;
@@ -187,7 +194,7 @@ gal_define_views_model_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	GalDefineViewsModel *model;
 
 	model = GAL_DEFINE_VIEWS_MODEL (o);
-	
+
 	switch (arg_id){
 	case ARG_EDITABLE:
 		model->editable = GTK_VALUE_BOOL (*arg);
@@ -235,12 +242,78 @@ gal_define_views_model_get_type (void)
 	return type;
 }
 
+/**
+ * gal_define_views_model_new
+ *
+ * Returns a new define views model.  This is a list of views as an
+ * ETable for use in the GalDefineViewsDialog.
+ *
+ * Returns: The new GalDefineViewsModel.
+ */
 ETableModel *
 gal_define_views_model_new (void)
 {
 	GalDefineViewsModel *et;
 
 	et = gtk_type_new (gal_define_views_model_get_type ());
-	
+
 	return E_TABLE_MODEL(et);
+}
+
+/**
+ * gal_define_views_model_get_view:
+ * @model: The GalDefineViewsModel.
+ * @n: Which view to get.
+ *
+ * Gets the nth view.
+ *
+ * Returns: The view.
+ */
+GalView *
+gal_define_views_model_get_view (GalDefineViewsModel *model,
+				 int n)
+{
+	return model->data[n];
+}
+
+/**
+ * gal_define_views_model_delete_view:
+ * @model: The GalDefineViewsModel.
+ * @n: Which view to delete.
+ *
+ * Deletes the nth view.
+ */
+void
+gal_define_views_model_delete_view (GalDefineViewsModel *model,
+				    int n)
+{
+	e_table_model_pre_change(E_TABLE_MODEL(model));
+	gtk_object_unref(GTK_OBJECT(model->data[n]));
+	model->data_count --;
+	memmove(model->data + n, model->data + n + 1, (model->data_count - n) * sizeof(*model->data));
+	model->data = g_renew(GalView *, model->data, model->data_count);
+	e_table_model_row_deleted(E_TABLE_MODEL(model), n);
+}
+
+/**
+ * gal_define_views_model_copy_view:
+ * @model: The GalDefineViewsModel.
+ * @n: Which view to copy.
+ *
+ * Copys the nth view.
+ */
+void
+gal_define_views_model_copy_view (GalDefineViewsModel *model,
+				  int n)
+{
+	ETableModel *etm = E_TABLE_MODEL(model);
+	GalView *view;
+
+	view = gal_view_clone (model->data[n]);
+
+	e_table_model_pre_change(etm);
+	model->data = g_renew(GalView *, model->data, model->data_count + 1);
+	model->data[model->data_count] = view;
+	model->data_count++;
+	e_table_model_row_inserted(etm, model->data_count - 1);
 }

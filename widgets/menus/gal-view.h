@@ -27,6 +27,7 @@ typedef struct {
 	void        (*save_to_node)   (GalView *view,
 				       xmlNode *parent);
 	const char *(*get_title)      (GalView *view);
+	GalView    *(*clone)          (GalView *view);
 } GalViewClass;
 
 /* Standard functions */
@@ -43,6 +44,9 @@ void        gal_view_save_to_node    (GalView *view,
 
 /* Query functions */
 const char *gal_view_get_title       (GalView *view);
+
+/* Cloning the view */
+GalView    *gal_view_clone           (GalView *view);
 
 
 #endif /* _GAL_VIEW_H_ */

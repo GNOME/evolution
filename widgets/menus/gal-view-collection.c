@@ -83,6 +83,10 @@ gal_view_collection_init (GalViewCollection *collection)
 	collection->factory_list = NULL;
 }
 
+/**
+ * gal_view_collection_get_type:
+ *
+ */
 guint
 gal_view_collection_get_type (void)
 {
@@ -108,20 +112,44 @@ gal_view_collection_get_type (void)
   return type;
 }
 
-GalViewCollection *gal_view_collection_new                      (void)
+/**
+ * gal_view_collection_new:
+ *
+ * A collection of views and view factories.
+ */
+GalViewCollection *
+gal_view_collection_new                      (void)
 {
 	return gtk_type_new(gal_view_collection_get_type());
 }
 
-/* Set up the view collection */
-void               gal_view_collection_set_storage_directories  (GalViewCollection *collection,
-								 char              *system_dir,
-								 char              *local_dir)
+/**
+ * gal_view_collection_set_storage_directories
+ * @collection: The view collection to initialize
+ * @system_dir: The location of the system built in views
+ * @local_dir: The location to store the users set up views
+ *
+ * Sets up the GalViewCollection.
+ */
+void
+gal_view_collection_set_storage_directories  (GalViewCollection *collection,
+					      char              *system_dir,
+					      char              *local_dir)
 {
 }
 
-void               gal_view_collection_add_factory              (GalViewCollection *collection,
-								 GalViewFactory    *factory)
+/**
+ * gal_view_collection_add_factory
+ * @collection: The view collection to add a factory to
+ * @factory: The factory to add
+ *
+ * Adds the given factory to this collection.  This list is used both
+ * when loading views from their xml description as well as when the
+ * user tries to create a new view.
+ */
+void
+gal_view_collection_add_factory              (GalViewCollection *collection,
+					      GalViewFactory    *factory)
 {
 	gtk_object_ref(GTK_OBJECT(factory));
 	collection->factory_list = g_list_prepend(collection->factory_list, factory);

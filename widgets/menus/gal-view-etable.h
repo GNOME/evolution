@@ -27,8 +27,10 @@ typedef struct {
 
 /* Standard functions */
 GtkType  gal_view_etable_get_type   (void);
-GalView *gal_view_etable_new        (ETableSpecification *spec);
+GalView *gal_view_etable_new        (ETableSpecification *spec,
+				     const gchar         *title);
 GalView *gal_view_etable_construct  (GalViewEtable       *view,
-				     ETableSpecification *spec);
+				     ETableSpecification *spec,
+				     const gchar         *title);
 
 #endif /* _GAL_VIEW_ETABLE_H_ */

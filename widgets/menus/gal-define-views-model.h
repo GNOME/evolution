@@ -34,10 +34,16 @@ typedef struct {
 } GalDefineViewsModelClass;
 
 
-GtkType      gal_define_views_model_get_type  (void);
-ETableModel *gal_define_views_model_new       (void);
+GtkType      gal_define_views_model_get_type     (void);
+ETableModel *gal_define_views_model_new          (void);
 
-void         gal_define_views_model_append    (GalDefineViewsModel *model,
-					       GalView             *view);
+void         gal_define_views_model_append       (GalDefineViewsModel *model,
+						  GalView             *view);
+GalView     *gal_define_views_model_get_view     (GalDefineViewsModel *model,
+						  int                  i);
+void         gal_define_views_model_delete_view  (GalDefineViewsModel *model,
+						  int                  i);
+void         gal_define_views_model_copy_view    (GalDefineViewsModel *model,
+						  int                  i);
 
 #endif /* _GAL_DEFINE_VIEWS_MODEL_H_ */

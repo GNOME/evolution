@@ -38,6 +38,7 @@ static GnomeDialogClass *parent_class = NULL;
 /* The arguments we take */
 enum {
 	ARG_0,
+	ARG_COLLECTION,
 };
 
 typedef struct {
@@ -82,10 +83,13 @@ gal_define_views_dialog_class_init (GalDefineViewsDialogClass *klass)
 	object_class->set_arg = gal_define_views_dialog_set_arg;
 	object_class->get_arg = gal_define_views_dialog_get_arg;
 	object_class->destroy = gal_define_views_dialog_destroy;
+
+	gtk_object_add_arg_type("GalDefineViewsDialog::collection", GTK_TYPE_OBJECT,
+				GTK_ARG_READWRITE, ARG_COLLECTION);
 }
 
 /* ETable creation */
-#define SPEC "<ETableSpecification cursor-mode=\"line\" draw-grid=\"true\">" \
+#define SPEC "<ETableSpecification cursor-mode=\"line\" draw-grid=\"true\" selection-mode=\"single\">" \
 	     "<ETableColumn model_col= \"0\" _title=\"Name\" expansion=\"1.0\" minimum_width=\"18\" resizable=\"true\" cell=\"string\" compare=\"string\"/>" \
              "<ETableState> <column source=\"0\"/> <grouping> </grouping> </ETableState>" \
 	     "</ETableSpecification>"
@@ -139,6 +143,62 @@ gdvd_button_new_callback(GtkWidget *widget, GalDefineViewsDialog *dialog)
 }
 
 static void
+gdvd_button_modify_callback(GtkWidget *widget, GalDefineViewsDialog *dialog)
+{
+	int row;
+	GtkWidget *scrolled;
+	ETable *etable;
+
+	scrolled = glade_xml_get_widget(dialog->gui, "custom-table");
+	etable = e_table_scrolled_get_table(E_TABLE_SCROLLED(scrolled));
+	row = e_table_get_cursor_row (E_TABLE(etable));
+
+	if (row != -1) {
+		GalView *view;
+		view = gal_define_views_model_get_view(GAL_DEFINE_VIEWS_MODEL(dialog->model),
+						       row);
+		gal_view_edit(view);
+	}
+
+}
+
+static void
+gdvd_button_delete_callback(GtkWidget *widget, GalDefineViewsDialog *dialog)
+{
+	int row;
+	GtkWidget *scrolled;
+	ETable *etable;
+
+	scrolled = glade_xml_get_widget(dialog->gui, "custom-table");
+	etable = e_table_scrolled_get_table(E_TABLE_SCROLLED(scrolled));
+	row = e_table_get_cursor_row (E_TABLE(etable));
+
+	if (row != -1) {
+		gal_define_views_model_delete_view(GAL_DEFINE_VIEWS_MODEL(dialog->model),
+						   row);
+	}
+
+}
+
+static void
+gdvd_button_copy_callback(GtkWidget *widget, GalDefineViewsDialog *dialog)
+{
+	int row;
+	GtkWidget *scrolled;
+	ETable *etable;
+
+	scrolled = glade_xml_get_widget(dialog->gui, "custom-table");
+	etable = e_table_scrolled_get_table(E_TABLE_SCROLLED(scrolled));
+	row = e_table_get_cursor_row (E_TABLE(etable));
+
+	if (row != -1) {
+		gal_define_views_model_copy_view(GAL_DEFINE_VIEWS_MODEL(dialog->model),
+						 row);
+	}
+
+}
+
+static void
 gdvd_connect_signal(GalDefineViewsDialog *dialog, char *widget_name, char *signal, GtkSignalFunc handler)
 {
 	GtkWidget *widget;
@@ -173,7 +233,10 @@ gal_define_views_dialog_init (GalDefineViewsDialog *dialog)
 				    GNOME_STOCK_BUTTON_CANCEL,
 				    NULL);
 
-	gdvd_connect_signal(dialog, "button-new", "clicked", GTK_SIGNAL_FUNC(gdvd_button_new_callback));
+	gdvd_connect_signal(dialog, "button-new",    "clicked", GTK_SIGNAL_FUNC(gdvd_button_new_callback));
+	gdvd_connect_signal(dialog, "button-modify", "clicked", GTK_SIGNAL_FUNC(gdvd_button_modify_callback));
+	gdvd_connect_signal(dialog, "button-delete", "clicked", GTK_SIGNAL_FUNC(gdvd_button_delete_callback));
+	gdvd_connect_signal(dialog, "button-copy",   "clicked", GTK_SIGNAL_FUNC(gdvd_button_copy_callback));
 
 	dialog->model = NULL;
 	etable = glade_xml_get_widget(dialog->gui, "custom-table");
@@ -187,10 +250,17 @@ gal_define_views_dialog_init (GalDefineViewsDialog *dialog)
 static void
 gal_define_views_dialog_destroy (GtkObject *object) {
 	GalDefineViewsDialog *gal_define_views_dialog = GAL_DEFINE_VIEWS_DIALOG(object);
-	
+
 	gtk_object_unref(GTK_OBJECT(gal_define_views_dialog->gui));
 }
 
+/**
+ * gal_define_views_dialog_new
+ *
+ * Returns a new dialog for defining views.
+ *
+ * Returns: The GalDefineViewsDialog.
+ */
 GtkWidget*
 gal_define_views_dialog_new (void)
 {
@@ -201,11 +271,18 @@ gal_define_views_dialog_new (void)
 static void
 gal_define_views_dialog_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 {
-	GalDefineViewsDialog *editor;
+	GalDefineViewsDialog *dialog;
 
-	editor = GAL_DEFINE_VIEWS_DIALOG (o);
+	dialog = GAL_DEFINE_VIEWS_DIALOG (o);
 	
 	switch (arg_id){
+	case ARG_COLLECTION:
+		if (GTK_VALUE_OBJECT(*arg))
+			dialog->collection = GAL_VIEW_COLLECTION(GTK_VALUE_OBJECT(*arg));
+		else
+			dialog->collection = NULL;
+		break;
+
 	default:
 		return;
 	}
@@ -214,11 +291,18 @@ gal_define_views_dialog_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 static void
 gal_define_views_dialog_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 {
-	GalDefineViewsDialog *gal_define_views_dialog;
+	GalDefineViewsDialog *dialog;
 
-	gal_define_views_dialog = GAL_DEFINE_VIEWS_DIALOG (object);
+	dialog = GAL_DEFINE_VIEWS_DIALOG (object);
 
 	switch (arg_id) {
+	case ARG_COLLECTION:
+		if (dialog->collection)
+			GTK_VALUE_OBJECT(*arg) = GTK_OBJECT(dialog->collection);
+		else
+			GTK_VALUE_OBJECT(*arg) = NULL;
+		break;
+
 	default:
 		arg->type = GTK_TYPE_INVALID;
 		break;

@@ -29,7 +29,7 @@ static GalView *
 gal_view_factory_etable_new_view        (GalViewFactory *factory,
 					 const char     *name)
 {
-	return gal_view_etable_new(GAL_VIEW_FACTORY_ETABLE(factory)->spec);
+	return gal_view_etable_new(GAL_VIEW_FACTORY_ETABLE(factory)->spec, name);
 }
 
 static void
@@ -59,12 +59,31 @@ gal_view_factory_etable_init            (GalViewFactoryEtable *factory)
 	factory->spec = NULL;
 }
 
+/**
+ * gal_view_etable_new
+ * @spec: The spec to create GalViewEtables based upon.
+ *
+ * A new GalViewFactory for creating ETable views.  Create one of
+ * these and pass it to GalViewCollection for use.
+ *
+ * Returns: The new GalViewFactoryEtable.
+ */
 GalViewFactory *
 gal_view_factory_etable_new        (ETableSpecification  *spec)
 {
 	return gal_view_factory_etable_construct (gtk_type_new (gal_view_factory_etable_get_type ()), spec);
 }
 
+/**
+ * gal_view_etable_construct
+ * @factory: The factory to construct
+ * @spec: The spec to create GalViewEtables based upon.
+ *
+ * constructs the GalViewFactoryEtable.  To be used by subclasses and
+ * language bindings.
+ *
+ * Returns: The GalViewFactoryEtable.
+ */
 GalViewFactory *
 gal_view_factory_etable_construct  (GalViewFactoryEtable *factory,
 				    ETableSpecification  *spec)

@@ -30,7 +30,7 @@ const char *
 gal_view_factory_get_title       (GalViewFactory *factory)
 {
 	g_return_val_if_fail (factory != NULL, 0);
-	g_return_val_if_fail (GAL_IS_VIEW (factory), 0);
+	g_return_val_if_fail (GAL_IS_VIEW_FACTORY (factory), 0);
 
 	if (GVF_CLASS (factory)->get_title)
 		return GVF_CLASS (factory)->get_title (factory);
@@ -50,7 +50,7 @@ gal_view_factory_new_view        (GalViewFactory *factory,
 				  const char     *name)
 {
 	g_return_val_if_fail (factory != NULL, 0);
-	g_return_val_if_fail (GAL_IS_VIEW (factory), 0);
+	g_return_val_if_fail (GAL_IS_VIEW_FACTORY (factory), 0);
 
 	if (GVF_CLASS (factory)->new_view)
 		return GVF_CLASS (factory)->new_view (factory, name);

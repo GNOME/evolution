@@ -85,16 +85,35 @@ gal_view_get_title       (GalView *view)
 		return NULL;
 }
 
+/**
+ * gal_view_clone
+ * @view: The view to clone.
+ *
+ * Returns: The clone.
+ */
+GalView *
+gal_view_clone       (GalView *view)
+{
+	g_return_val_if_fail (view != NULL, NULL);
+	g_return_val_if_fail (GAL_IS_VIEW (view), NULL);
+
+	if (GV_CLASS (view)->clone)
+		return GV_CLASS (view)->clone (view);
+	else
+		return NULL;
+}
+
 static void
 gal_view_class_init      (GtkObjectClass *object_class)
 {
-	GalViewClass *klass = GAL_VIEW_CLASS(object_class);
+	GalViewClass *klass   = GAL_VIEW_CLASS(object_class);
 	gal_view_parent_class = gtk_type_class (PARENT_TYPE);
 	
 	klass->edit           = NULL;     
 	klass->load_from_node = NULL;     
 	klass->save_to_node   = NULL;     
 	klass->get_title      = NULL;     
+	klass->clone          = NULL;
 }
 
 GtkType

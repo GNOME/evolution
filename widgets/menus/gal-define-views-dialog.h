@@ -51,7 +51,7 @@ typedef struct _GalDefineViewsDialogClass  GalDefineViewsDialogClass;
 struct _GalDefineViewsDialog
 {
 	GnomeDialog parent;
-	
+
 	/* item specific fields */
 	GladeXML *gui;
 	ETableModel *model;
@@ -66,8 +66,6 @@ struct _GalDefineViewsDialogClass
 
 GtkWidget               *gal_define_views_dialog_new          (void);
 GtkType                  gal_define_views_dialog_get_type     (void);
-
-void                     gal_define_views_dialog_add_section  (GalDefineViewsDialog      *gal_define_views_dialog);
 
 #ifdef __cplusplus
 }
