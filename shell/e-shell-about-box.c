@@ -44,6 +44,8 @@ static const char *text[] = {
 	N_("Brought to you by"),
 	"",
 	"Seth Alves",
+	"Jacob Berkman",
+	"Kevin Breit",
 	"Anders Carlsson",
 	"Damon Chaplin",
 	"Clifford R. Conover",
@@ -71,6 +73,8 @@ static const char *text[] = {
 	"Peter Teichman",
 	"Chris Toshok",
 	"Jon Trowbridge",
+	"Luis Villa",
+	"Aaron Weber",
 	"Peter Williams",
 	"Dan Winship",
 	"Michael Zucchi"

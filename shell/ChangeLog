@@ -1,3 +1,7 @@
+2001-10-24  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-about-box.c: Add a few names to the box.
+
 2001-10-24  Dan Winship  <danw@ximian.com>
 
 	* evolution-storage.c (evolution_storage_new_folder):
