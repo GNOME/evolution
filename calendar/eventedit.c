@@ -580,7 +580,7 @@ ee_store_recur_rule_to_ical (EventEditor *ee)
 
 			ical->recur->u.month_pos =
 				option_menu_active_number (ee->recur_rr_month_day);
-			ical->recur->u.month_day =
+			ical->recur->weekday =
 				option_menu_active_number (ee->recur_rr_month_weekday);
 			ical->recur->interval =
 				gtk_spin_button_get_value_as_int (
@@ -1014,7 +1014,7 @@ ee_rp_init_rule (EventEditor *ee)
 			page = 3;
 			month_period = interval;
 			def_pos = ee->ical->recur->u.month_pos;
-			default_day = ee->ical->recur->u.month_day;
+			default_day = ee->ical->recur->weekday; /* you can't use u.month_pos and u.month_day-- it's a union... */
 			break;
 
 		case RECUR_MONTHLY_BY_DAY:

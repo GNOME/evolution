@@ -442,7 +442,8 @@ gnome_calendar_tag_calendar (GnomeCalendar *cal, GtkCalendar *gtk_cal)
 	tm.tm_hour = 0;
 	tm.tm_min  = 0;
 	tm.tm_sec  = 0;
-	tm.tm_mday = 0;
+	tm.tm_mday = 1; /* setting this to zero is a no-no; it will set mktime back to the end of the
+					   previous month, which may be 28,29,30; this may chop some days from the calendar */
 	tm.tm_mon  = gtk_cal->month;
 	tm.tm_year = gtk_cal->year - 1900;
 	tm.tm_isdst= -1;

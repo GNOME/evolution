@@ -206,6 +206,36 @@ weekdaylist (iCalObject *o, char **str)
 }
 
 static void
+weekdaynum (iCalObject *o, char **str)
+{
+	int i;
+	struct {
+		char first_letter, second_letter;
+		int  index;
+	} days [] = {
+		{ 'S', 'U', 0 },
+		{ 'M', 'O', 1 },
+		{ 'T', 'U', 2 },
+		{ 'W', 'E', 3 },
+		{ 'T', 'H', 4 },
+		{ 'F', 'R', 5 },
+		{ 'S', 'A', 6 }
+	};
+
+	ignore_space (str);
+	do {
+		for (i = 0; i < 7; i++){
+			if (**str == days [i].first_letter && *(*str+1) == days [i].second_letter){
+				o->recur->weekday = i;
+				*str += 2;
+				if (**str == ' ')
+					(*str)++;
+			}
+		}
+	} while (isalpha (**str));
+}
+
+static void
 ocurrencelist (iCalObject *o, char **str)
 {
 	char *p;
@@ -287,7 +317,7 @@ static void
 load_recur_monthly_pos (iCalObject *o, char **str)
 {
 	ocurrencelist (o, str);
-	weekdaylist (o, str);
+	weekdaynum (o, str);
 }
 
 static void
@@ -947,12 +977,9 @@ ical_object_to_vobject (iCalObject *ical)
 			sprintf (buffer, "%d%s ", nega ? -ical->recur->u.month_pos : ical->recur->u.month_pos,
 				 nega ? "-" : "+");
 			strcat (result, buffer);
-			for (i = 0; i < 7; i++){
-				if (ical->recur->weekday & (1 << i)){
-					sprintf (buffer, "%s ", recur_day_list [i]);
-					strcat (result, buffer);
-				}
-			}
+			/* the gui is set up for a single day, not a set here in this case */
+			sprintf (buffer, "%s ", recur_day_list [ical->recur->weekday]); 
+			strcat (result, buffer);
 		}
 		break;
 			
@@ -1173,7 +1200,8 @@ ical_object_generate_events (iCalObject *ico, time_t start, time_t end, calendar
 		if (ico->recur->u.month_pos == 0)
 			return;
 
-		first_week_day = ical_object_get_first_weekday (ico->recur->weekday);
+		first_week_day = /* ical_object_get_first_weekday (ico->recur->weekday);  */
+			ico->recur->weekday; /* the i/f only lets you choose a single day of the week! */
 
 		/* This should not happen, but take it into account */
 		if (first_week_day == -1) {
@@ -1194,7 +1222,56 @@ ical_object_generate_events (iCalObject *ico, time_t start, time_t end, calendar
 
 			tm.tm_mday = (7 * (ico->recur->u.month_pos - ((week_day_start <= first_week_day ) ? 1 : 0))
 				      - (week_day_start - first_week_day) + 1);
-
+			if( tm.tm_mday > 31 )
+			{
+				tm.tm_mday = 1;
+				tm.tm_mon += ico->recur->interval;
+				current = mktime (&tm);
+				continue;
+			}
+			
+			switch( tm.tm_mon )
+			{
+			case 3:
+			case 5:
+			case 8:
+			case 10:
+				if( tm.tm_mday > 30 )
+				{
+					tm.tm_mday = 1;
+					tm.tm_mon += ico->recur->interval;
+					current = mktime (&tm);
+					continue;
+				}
+				break;
+			case 1:
+				if( ((tm.tm_year+1900)%4) == 0
+					&& ((tm.tm_year+1900)%400) != 100 
+					&& ((tm.tm_year+1900)%400) != 200 
+					&& ((tm.tm_year+1900)%400) != 300 )
+				{
+					
+					if( tm.tm_mday > 29 )
+					{
+						tm.tm_mday = 1;
+						tm.tm_mon += ico->recur->interval;
+						current = mktime (&tm);
+						continue;
+					}
+				}
+				else
+				{
+					if( tm.tm_mday > 28 )
+					{
+						tm.tm_mday = 1;
+						tm.tm_mon += ico->recur->interval;
+						current = mktime (&tm);
+						continue;
+					}
+				}
+				break;
+			}
+			
 			t = mktime (&tm);
 
 			if (time_in_range (t, start, end) && recur_in_range (current, ico->recur))

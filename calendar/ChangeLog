@@ -1,3 +1,45 @@
+1999-04-01 Steve Murphy <murf@e-tools.com>
+
+	* calobj.c (weekdaynum): Added this routine so Monthly recurrences
+	use the weekday field as a simple integer for a single weekday.
+
+	* calobj.c (load_recur_monthly_pos): Call weekdaynum instead of
+	weekdaylist. The interface only lets the user input a single value
+	anyway.
+
+	* calobj.c (ical_object_to_vobject): instead of code to output day
+	names from a bit array, use instead the value as an int and output
+	a single dayname.
+
+	* calobj.c (ical_object_generate_events): first_week_day gets the
+	day int instead of the first entry in the bit field. I inserted a
+	fair chunk of code to avoid calling generate if the day is out of
+	range for a month. It may be unneccessary, because mktime will
+	turn the extra days into a valid date the next month. But not all
+	mktimes are equal, I fear.
+
+	* eventedit.c (ee_store_recur_rule_to_ical): For case 3,
+	(Monthly), I added code to set the interval slot of the recur
+	struct; without this value, selecting a monthly recursing, by
+	date, would lead to an infinite loop broken only by a failure to
+	alloc more memory. Also, in the "by position" case, both
+	u.month_pos and u.month_day were being assigned values. This is a
+	mistake, as they are both part of an union, and the same
+	thing. The weekday field should get the recur_rr_month_weekday
+	value.
+
+	* eventedit.c (ee_rp_init_rule): set default day from the weekday
+	field instead of the u.month_day field, which is really the
+	month_pos value.
+
+	* gnome-cal.c (gnome_calendar_tag_calendar): Month days start with
+	1, not 0; thus, setting tm.tm_mday = 0, and then calling mktime
+	will generate a time corresponding to the end of the previous
+	month, which may have a mday anywhere from 28 to 31. The end time
+	just adds 1 to the month, so your end time may not cover the last
+	few days of this month, depending on what the biggest mday of last
+	month was. I changed it so tm_mday is set to 1 instead.
+
 1999-03-30  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
 	* gncal-todo.c (convert_time_t_to_char): Made static.  Make it use
