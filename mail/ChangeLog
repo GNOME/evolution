@@ -1,3 +1,16 @@
+2003-02-06  Dan Winship  <danw@ximian.com>
+
+	* Makefile.am: Remove *dir defs that are in configure.in now
+	(INCLUDES): clean up using new *dir variables
+	(libevolution_mail_la_LDFLAGS): remove -export-dynamic, add
+	-module
+
+	* importers/Makefile.am (INCLUDES): change EVOLUTION_DATADIR to
+	EVOLUTION_PRIVDATADIR
+
+	* importers/netscape-importer.c (netscape_import_filters): use
+	EVOLUTION_PRIVDATADIR
+
 2003-02-06  Larry Ewing  <lewing@ximian.com>
 
 	* mail-session.c (pass_activate): add an activate handler to the

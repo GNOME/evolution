@@ -10,11 +10,10 @@ INCLUDES = -I.. 					\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/shell				\
 	-I$(top_builddir)/shell				\
-	-I$(includedir)					\
 	-DG_LOG_DOMAIN=\"evolution-mail-importer\"	\
 	-I$(top_srcdir)/addressbook/backend             \
 	-I$(top_builddir)/addressbook/backend           \
-	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
+	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"	\
 	$(IMPORTERS_CFLAGS)
 
 liboutlook_la_SOURCES =				\
@@ -82,7 +81,6 @@ libevolution_pine_importer_la_LIBADD =				\
 # 	$(IMPORTERS_LIBS)
 
 
-serverdir = $(libdir)/bonobo/servers
 server_in_files = GNOME_Evolution_Mail_Mbox_Importer.server.in.in	\
 	GNOME_Evolution_Mail_Outlook_Importer.server.in.in		\
 	GNOME_Evolution_Mail_Netscape_Intelligent_Importer.server.in.in	\

@@ -1192,7 +1192,7 @@ netscape_import_filters (NsImporter *importer)
 	fc = filter_context_new ();
 	user = g_concat_dir_and_file (g_get_home_dir (),
 				      "evolution/filters.xml");
-	system = EVOLUTION_DATADIR "/evolution-" BASE_VERSION "/filtertypes.xml";
+	system = EVOLUTION_PRIVDATADIR "/filtertypes.xml";
 
 	if (rule_context_load ((RuleContext *)fc, system, user) < 0) {
 		g_warning ("Could not load rule context.");
