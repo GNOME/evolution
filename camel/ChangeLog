@@ -1,5 +1,8 @@
 2000-07-06  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* providers/smtp/camel-smtp-transport.c (smtp_connect): Oops. Don't
+	pass port # as a string in the error code (if it fails to connect).
+
 	* providers/imap/camel-imap-folder.c (imap_append_message): Changed
 	over to camel_imap_command_extended as that was the source of the
 	problems - apparently appending replies with more than just 1 line.
