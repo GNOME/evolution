@@ -347,7 +347,7 @@ finish_func (GnomeDruidPage *page,
 
 	e_timezone_dialog_get_timezone (E_TIMEZONE_DIALOG (data->timezone_page->etd), &displayname);
 	if (displayname == NULL)
-		tz = g_strdup ("");
+		tz = g_strdup ("UTC");
 	else
 		tz = g_strdup (displayname);
 	
