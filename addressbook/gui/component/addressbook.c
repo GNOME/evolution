@@ -29,6 +29,10 @@
 #include "e-contact-editor.h"
 #include "e-contact-save-as.h"
 #include "e-ldap-server-dialog.h"
+#include <libgnomeprint/gnome-print.h>
+#include <libgnomeprint/gnome-print-dialog.h>
+#include <libgnomeprint/gnome-print-master.h>
+#include <libgnomeprint/gnome-print-master-preview.h>
 
 #include <addressbook/printing/e-contact-print.h>
 
@@ -85,7 +89,7 @@ control_deactivate (BonoboControl *control, BonoboUIHandler *uih)
 static void
 do_nothing_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 {
-	printf ("Yow! I am called back!\n");
+	g_print ("Yow! I am called back!\n");
 }
 
 static void
@@ -301,13 +305,106 @@ delete_contact_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 }
 
 static void
+e_contact_print_destroy(GnomeDialog *dialog, gpointer data)
+{
+	ETable *table = gtk_object_get_data(GTK_OBJECT(dialog), "table");
+	EPrintable *printable = gtk_object_get_data(GTK_OBJECT(dialog), "printable");
+	gtk_object_unref(GTK_OBJECT(printable));
+	gtk_object_unref(GTK_OBJECT(table));
+}
+
+static void
+e_contact_print_button(GnomeDialog *dialog, gint button, gpointer data)
+{
+	GnomePrintMaster *master;
+	GnomePrintContext *pc;
+	EPrintable *printable = gtk_object_get_data(GTK_OBJECT(dialog), "printable");
+	GtkWidget *preview;
+	switch( button ) {
+	case GNOME_PRINT_PRINT:
+		master = gnome_print_master_new_from_dialog( GNOME_PRINT_DIALOG(dialog) );
+		pc = gnome_print_master_get_context( master );
+		e_printable_reset(printable);
+		while (e_printable_data_left(printable)) {
+			if (gnome_print_gsave(pc) == -1)
+				/* FIXME */;
+			if (gnome_print_translate(pc, .5 * 72, .5 * 72) == -1)
+				/* FIXME */;
+			e_printable_print_page(printable,
+					       pc,
+					       7.5 * 72,
+					       10.5 * 72,
+					       TRUE);
+			if (gnome_print_grestore(pc) == -1)
+				/* FIXME */;
+			if (gnome_print_showpage(pc) == -1)
+				/* FIXME */;
+		}
+		gnome_print_master_close(master);
+		gnome_print_master_print(master);
+		gtk_object_unref(GTK_OBJECT(master));
+		gnome_dialog_close(dialog);
+		break;
+	case GNOME_PRINT_PREVIEW:
+		master = gnome_print_master_new_from_dialog( GNOME_PRINT_DIALOG(dialog) );
+		pc = gnome_print_master_get_context( master );
+		e_printable_reset(printable);
+		while (e_printable_data_left(printable)) {
+			if (gnome_print_gsave(pc) == -1)
+				/* FIXME */;
+			if (gnome_print_translate(pc, .5 * 72, .5 * 72) == -1)
+				/* FIXME */;
+			e_printable_print_page(printable,
+					       pc,
+					       7.5 * 72,
+					       10.5 * 72,
+					       TRUE);
+			if (gnome_print_grestore(pc) == -1)
+				/* FIXME */;
+			if (gnome_print_showpage(pc) == -1)
+				/* FIXME */;
+		}
+		gnome_print_master_close(master);
+		preview = GTK_WIDGET(gnome_print_master_preview_new(master, "Print Preview"));
+		gtk_widget_show_all(preview);
+		gtk_object_unref(GTK_OBJECT(master));
+		break;
+	case GNOME_PRINT_CANCEL:
+		gnome_dialog_close(dialog);
+		break;
+	}
+}
+
+static void
 print_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
-	char *query = get_query(view);
-	GtkWidget *print = e_contact_print_dialog_new(view->book, query);
-	g_free(query);
-	gtk_widget_show_all(print);
+	if (view->view) {
+		char *query = get_query(view);
+		GtkWidget *print = e_contact_print_dialog_new(view->book, query);
+		g_free(query);
+		gtk_widget_show_all(print);
+	} else {
+		GtkWidget *dialog;
+		EPrintable *printable;
+
+		dialog = gnome_print_dialog_new("Print cards", GNOME_PRINT_DIALOG_RANGE | GNOME_PRINT_DIALOG_COPIES);
+		gnome_print_dialog_construct_range_any(GNOME_PRINT_DIALOG(dialog), GNOME_PRINT_RANGE_ALL | GNOME_PRINT_RANGE_SELECTION,
+						       NULL, NULL, NULL);
+		
+		printable = e_table_get_printable(E_TABLE(view->table));
+
+		gtk_object_ref(GTK_OBJECT(view->table));
+
+		gtk_object_set_data(GTK_OBJECT(dialog), "table", view->table);
+		gtk_object_set_data(GTK_OBJECT(dialog), "printable", printable);
+		
+		gtk_signal_connect(GTK_OBJECT(dialog),
+				   "clicked", GTK_SIGNAL_FUNC(e_contact_print_button), NULL);
+		gtk_signal_connect(GTK_OBJECT(dialog),
+				   "destroy", GTK_SIGNAL_FUNC(e_contact_print_destroy), NULL);
+		gtk_widget_show(dialog);
+	}
 }
 
 static GnomeUIInfo gnome_toolbar [] = {

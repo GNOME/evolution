@@ -506,8 +506,8 @@ categories_clicked(GtkWidget *button, EContactEditor *editor)
 static void
 save_card (EContactEditor *ce)
 {
-	e_card_simple_sync_card (ce->simple);
 	extract_info (ce);
+	e_card_simple_sync_card (ce->simple);
 
 	if (ce->is_new_card)
 		gtk_signal_emit (GTK_OBJECT (ce), contact_editor_signals[ADD_CARD],
@@ -564,6 +564,10 @@ file_save_as_cb (GtkWidget *widget, gpointer data)
 	ECard *card;
 
 	ce = E_CONTACT_EDITOR (data);
+
+	extract_info (ce);
+	e_card_simple_sync_card (ce->simple);
+
 	card = ce->card;
 	e_contact_save_as("Save as VCard", card);
 }
