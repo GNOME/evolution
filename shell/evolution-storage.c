@@ -319,6 +319,7 @@ impl_Storage__get_folderList (PortableServer_Servant servant,
 
 	e_folder_tree_foreach (priv->folder_tree, get_folder_list_foreach, folder_list);
 
+	CORBA_sequence_set_release (folder_list, TRUE);
 	return folder_list;
 }
 

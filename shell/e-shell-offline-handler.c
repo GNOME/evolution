@@ -171,6 +171,8 @@ duplicate_connection_list (const GNOME_Evolution_ConnectionList *source)
 		copy->_buffer[i].type     = CORBA_string_dup (source->_buffer[i].type);
 	}
 
+	CORBA_sequence_set_release (copy, TRUE);
+
 	return copy;
 }
 

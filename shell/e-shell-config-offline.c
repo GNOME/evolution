@@ -80,6 +80,8 @@ config_control_apply_callback (EvolutionConfigControl *config_control,
 	paths->_maximum = paths->_length = g_list_length (checked_paths);
 	paths->_buffer = CORBA_sequence_CORBA_string_allocbuf (paths->_maximum);
 
+	CORBA_sequence_set_release (paths, TRUE);
+
 	for (p = checked_paths, i = 0; p != NULL; p = p->next, i ++)
 		paths->_buffer[i] = CORBA_string_dup ((const char *) p->data);
 

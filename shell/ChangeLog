@@ -1,3 +1,28 @@
+2002-05-31  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution-storage-set-view.c
+	(impl_StorageSetView__get_checkedFolders): Set release for the
+	CORBA path sequence to TRUE.
+
+	* evolution-shell-component.c
+	(fill_corba_sequence_from_null_terminated_string_array): Set
+	release for the CORBA sequence to TRUE so it gets freed properly.
+	(impl__get_externalUriSchemas): Likewise for the returned
+	uri_chema_list.
+
+	* e-shell-offline-handler.c (duplicate_connection_list): Set
+	release for the connection sequence to TRUE.
+
+	* e-shell-config-offline.c (config_control_apply_callback): Set
+	release for the path sequence to TRUE.
+
+	* e-corba-storage-registry.c
+	(impl_StorageRegistry_getStorageList): Set release for the storage
+	sequence to TRUE.
+
+	* evolution-storage.c (impl_Storage__get_folderList): Set release
+	for the folder sequence to TRUE.
+
 2002-05-30  Ettore Perazzoli  <ettore@ximian.com>
 
 	[This fixes #25361.]

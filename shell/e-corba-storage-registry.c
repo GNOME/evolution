@@ -185,7 +185,9 @@ impl_StorageRegistry_getStorageList (PortableServer_Servant servant,
 		storage_list->_buffer[storage_list->_length] = corba_storage;
 		storage_list->_length++;		
 	}
-	
+
+	CORBA_sequence_set_release (storage_list, TRUE);
+
 	return storage_list;	
 }
 

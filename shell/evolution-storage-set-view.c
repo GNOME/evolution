@@ -319,6 +319,7 @@ impl_StorageSetView__get_checkedFolders (PortableServer_Servant servant,
 
 	e_free_string_list (path_list);
 
+	CORBA_sequence_set_release (return_list, TRUE);
 	return return_list;
 }
 

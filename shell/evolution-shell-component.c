@@ -181,6 +181,8 @@ fill_corba_sequence_from_null_terminated_string_array (CORBA_sequence_CORBA_stri
 
 	for (i = 0; i < count; i++)
 		corba_sequence->_buffer[i] = CORBA_string_dup (array[i]);
+
+	CORBA_sequence_set_release (corba_sequence, TRUE);
 }
 
 
@@ -329,6 +331,8 @@ impl__get_externalUriSchemas (PortableServer_Servant servant,
 		schema = (const char *) p->data;
 		uri_schema_list->_buffer[i] = CORBA_string_dup (schema);
 	}
+
+	CORBA_sequence_set_release (uri_schema_list, TRUE);
 
 	return uri_schema_list;
 }
