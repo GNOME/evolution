@@ -1,10 +1,18 @@
+2001-08-10  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-search-bar.c (impl_destroy): Don't forget to unref stuff here
+	too.
+
+	* e-filter-bar.c (destroy): Free all the goodies that we allocate
+	at construct time and unref the rule context.
+	(class_init): Override the destroy method.
+
 2001-08-09  Anna Marie Dirks <anna@ximian.com>
 
 	Fixes bug #6918
 	
 	* e-filter-bar.h: Changed the "Save As.." menu item to 
 	"Add to Saved Searches".
-
 
 2001-08-09  Anna Marie Dirks <anna@ximian.com> 
 	* e-filter-bar.h : changed the E_FILTERBAR_RESET label from

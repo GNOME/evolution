@@ -65,16 +65,16 @@ enum {
 static void
 emit_query_changed (ESearchBar *esb)
 {
-	gtk_signal_emit(GTK_OBJECT (esb),
-			esb_signals [QUERY_CHANGED]);
+	gtk_signal_emit (GTK_OBJECT (esb),
+			 esb_signals [QUERY_CHANGED]);
 }
 
 static void
 emit_menu_activated (ESearchBar *esb, int item)
 {
-	gtk_signal_emit(GTK_OBJECT (esb),
-			esb_signals [MENU_ACTIVATED],
-			item);
+	gtk_signal_emit (GTK_OBJECT (esb),
+			 esb_signals [MENU_ACTIVATED],
+			 item);
 }
 
 
@@ -85,14 +85,13 @@ menubar_activated_cb (GtkWidget *widget, ESearchBar *esb)
 {
 	int id;
 
-	id = GPOINTER_TO_INT(gtk_object_get_data (GTK_OBJECT (widget), "EsbMenuId"));
+	id = GPOINTER_TO_INT (gtk_object_get_data (GTK_OBJECT (widget), "EsbMenuId"));
 
-	emit_menu_activated(esb, id);
+	emit_menu_activated (esb, id);
 }
 
 static void
-option_activated_cb (GtkWidget *widget,
-		     ESearchBar *esb)
+option_activated_cb (GtkWidget *widget, ESearchBar *esb)
 {
 	int id;
 
@@ -103,15 +102,13 @@ option_activated_cb (GtkWidget *widget,
 }
 
 static void
-entry_activated_cb (GtkWidget *widget,
-		     ESearchBar *esb)
+entry_activated_cb (GtkWidget *widget, ESearchBar *esb)
 {
 	emit_query_changed (esb);
 }
 
 static void
-activate_button_clicked_cb (GtkWidget *widget,
-			  ESearchBar *esb)
+activate_button_clicked_cb (GtkWidget *widget, ESearchBar *esb)
 {
 	emit_query_changed (esb);
 }
@@ -137,12 +134,11 @@ put_in_spacer_widget (GtkWidget *widget)
 }
 
 static void
-add_dropdown (ESearchBar *esb,
-	      ESearchBarItem *items)
+add_dropdown (ESearchBar *esb, ESearchBarItem *items)
 {
 	GtkWidget *menu = esb->dropdown_menu;
 	GtkWidget *item;
-
+	
 	if (items->text) {
 		char *str;
 		str = _(items->text);
@@ -154,10 +150,10 @@ add_dropdown (ESearchBar *esb,
 	}
 	else
 		item = gtk_menu_item_new();
-
-	gtk_widget_show(item);
+	
+	gtk_widget_show (item);
 	gtk_menu_append (GTK_MENU (menu), item);
-	gtk_object_set_data (GTK_OBJECT (item), "EsbMenuId", GINT_TO_POINTER(items->id));
+	gtk_object_set_data (GTK_OBJECT (item), "EsbMenuId", GINT_TO_POINTER (items->id));
 	gtk_signal_connect (GTK_OBJECT (item), "activate",
 			    GTK_SIGNAL_FUNC (menubar_activated_cb),
 			    esb);
@@ -170,34 +166,34 @@ set_dropdown (ESearchBar *esb,
 	GtkWidget *menu;
 	GtkWidget *dropdown;
 	int i;
-
+	
 	menu = esb->dropdown_menu = gtk_menu_new ();
 	for (i = 0; items[i].id != -1; i++)
-		add_dropdown(esb, items+i);
-
+		add_dropdown (esb, items + i);
+	
 	gtk_widget_show_all (menu);
-
+	
 	dropdown = e_dropdown_button_new (_("Sear_ch"), GTK_MENU (menu));
 	gtk_widget_show (dropdown);
-
+	
 	if (esb->dropdown_holder == NULL) {
 		/* See the comment in `put_in_spacer_widget()' to understand
 		   why we have to do this.  */
-
+		
 		esb->dropdown_holder = put_in_spacer_widget (dropdown);
 		esb->dropdown = dropdown;
 		gtk_widget_show (esb->dropdown_holder);
 
-		gtk_box_pack_start(GTK_BOX(esb), esb->dropdown_holder, FALSE, FALSE, 0);
+		gtk_box_pack_start (GTK_BOX (esb), esb->dropdown_holder, FALSE, FALSE, 0);
 	} else {
-		gtk_widget_destroy(esb->dropdown);
+		gtk_widget_destroy (esb->dropdown);
 		esb->dropdown = dropdown;
 		gtk_container_add (GTK_CONTAINER (esb->dropdown_holder), esb->dropdown);
 	}
 }
 
 static void
-set_option(ESearchBar *esb, ESearchBarItem *items)
+set_option (ESearchBar *esb, ESearchBarItem *items)
 {
 	GtkWidget *menu;
 	GtkRequisition dropdown_requisition;
@@ -205,11 +201,11 @@ set_option(ESearchBar *esb, ESearchBarItem *items)
 	int i;
 
 	if (esb->option) {
-		gtk_widget_destroy(esb->option_menu);
+		gtk_widget_destroy (esb->option_menu);
 	} else {
-		esb->option = gtk_option_menu_new();
-		gtk_widget_show(esb->option);
-		gtk_box_pack_start(GTK_BOX(esb), esb->option, FALSE, FALSE, 0);
+		esb->option = gtk_option_menu_new ();
+		gtk_widget_show (esb->option);
+		gtk_box_pack_start (GTK_BOX (esb), esb->option, FALSE, FALSE, 0);
 	}
 
 	esb->option_menu = menu = gtk_menu_new ();
@@ -226,7 +222,7 @@ set_option(ESearchBar *esb, ESearchBarItem *items)
 				item = gtk_menu_item_new_with_label (str);
 		}
 		else
-			item = gtk_menu_item_new();
+			item = gtk_menu_item_new ();
 
 		gtk_menu_append (GTK_MENU (menu), item);
 
@@ -256,11 +252,11 @@ set_option(ESearchBar *esb, ESearchBarItem *items)
 static void
 add_entry (ESearchBar *esb)
 {
-	esb->entry = gtk_entry_new();
+	esb->entry = gtk_entry_new ();
 	gtk_signal_connect (GTK_OBJECT (esb->entry), "activate",
 			    GTK_SIGNAL_FUNC (entry_activated_cb), esb);
-	gtk_widget_show(esb->entry);
-	gtk_box_pack_start(GTK_BOX(esb), esb->entry, TRUE, TRUE, 0);
+	gtk_widget_show (esb->entry);
+	gtk_box_pack_start (GTK_BOX (esb), esb->entry, TRUE, TRUE, 0);
 }
 
 static void
@@ -271,33 +267,33 @@ add_activate_button (ESearchBar *esb)
 
 	label = gtk_label_new (_("Find Now"));
 	gtk_widget_show (label);
-
+	
 	/* See the comment in `put_in_spacer_widget()' to understand
 	   why we have to do this.  */
-
+	
 	esb->activate_button = gtk_button_new ();
 	gtk_widget_show (esb->activate_button);
 	gtk_container_add (GTK_CONTAINER (esb->activate_button), label);
-
+	
 	holder = put_in_spacer_widget (esb->activate_button);
 	gtk_widget_show (holder);
-
+	
 	gtk_signal_connect (GTK_OBJECT (esb->activate_button), "clicked",
 			    GTK_SIGNAL_FUNC (activate_button_clicked_cb), esb);
-
+	
 	gtk_box_pack_start (GTK_BOX (esb), holder, FALSE, FALSE, 0);
 }
 
 static int
-find_id(GtkWidget *menu, int idin, const char *type, GtkWidget **widget)
+find_id (GtkWidget *menu, int idin, const char *type, GtkWidget **widget)
 {
-	GList *l = GTK_MENU_SHELL(menu)->children;
+	GList *l = GTK_MENU_SHELL (menu)->children;
 	int row = -1, i = 0, id;
 
 	if (widget)
 		*widget = NULL;
 	while (l) {
-		id = GPOINTER_TO_INT(gtk_object_get_data(l->data, type));
+		id = GPOINTER_TO_INT (gtk_object_get_data (l->data, type));
 		if (id == idin) {
 			row = i;
 			if (widget)
@@ -316,7 +312,7 @@ find_id(GtkWidget *menu, int idin, const char *type, GtkWidget **widget)
 static void
 impl_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 {
-	ESearchBar *esb = E_SEARCH_BAR(object);
+	ESearchBar *esb = E_SEARCH_BAR (object);
 
 	switch (arg_id) {
 	case ARG_OPTION_CHOICE:
@@ -338,22 +334,22 @@ impl_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 {
 	ESearchBar *esb = E_SEARCH_BAR(object);
 	int row;
-
+	
 	switch (arg_id) {
 	case ARG_OPTION_CHOICE:
 		esb->option_choice = GTK_VALUE_ENUM(*arg);
-		row = find_id(esb->option_menu, esb->option_choice, "EsbChoiceId", NULL);
+		row = find_id (esb->option_menu, esb->option_choice, "EsbChoiceId", NULL);
 		if (row == -1)
 			row = 0;
 		gtk_option_menu_set_history (GTK_OPTION_MENU (esb->option), row);
 		emit_query_changed (esb);
 		break;
-
+		
 	case ARG_TEXT:
-		e_utf8_gtk_editable_set_text(GTK_EDITABLE(esb->entry), GTK_VALUE_STRING (*arg));
+		e_utf8_gtk_editable_set_text (GTK_EDITABLE (esb->entry), GTK_VALUE_STRING (*arg));
 		emit_query_changed (esb);
 		break;
-
+		
 	default:
 		break;
 	}
@@ -362,8 +358,21 @@ impl_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 static void
 impl_destroy (GtkObject *object)
 {
-	if (GTK_OBJECT_CLASS(parent_class)->destroy)
-		GTK_OBJECT_CLASS(parent_class)->destroy (object);
+	ESearchBar *esb = E_SEARCH_BAR (object);
+	
+	g_return_if_fail (object != NULL);
+	g_return_if_fail (E_IS_SEARCH_BAR (object));
+	
+	gtk_object_unref (GTK_OBJECT (esb->dropdown));
+	gtk_object_unref (GTK_OBJECT (esb->option));
+	gtk_object_unref (GTK_OBJECT (esb->entry));
+	
+	gtk_object_unref (GTK_OBJECT (esb->dropdown_holder));
+	gtk_object_unref (GTK_OBJECT (esb->option_menu));
+	gtk_object_unref (GTK_OBJECT (esb->dropdown_menu));
+	
+	if (GTK_OBJECT_CLASS (parent_class)->destroy)
+		GTK_OBJECT_CLASS (parent_class)->destroy (object);
 }
 
 
@@ -371,23 +380,23 @@ static void
 class_init (ESearchBarClass *klass)
 {
 	GtkObjectClass *object_class;
-
-	object_class = GTK_OBJECT_CLASS(klass);
-
+	
+	object_class = GTK_OBJECT_CLASS (klass);
+	
 	parent_class = gtk_type_class (gtk_hbox_get_type ());
-
+	
 	object_class->set_arg = impl_set_arg;
 	object_class->get_arg = impl_get_arg;
 	object_class->destroy = impl_destroy;
-
+	
 	klass->set_menu = set_dropdown;
 	klass->set_option = set_option;
-
+	
 	gtk_object_add_arg_type ("ESearchBar::option_choice", GTK_TYPE_ENUM,
 				 GTK_ARG_READWRITE, ARG_OPTION_CHOICE);
 	gtk_object_add_arg_type ("ESearchBar::text", GTK_TYPE_STRING,
 				 GTK_ARG_READWRITE, ARG_TEXT);
-
+	
 	esb_signals [QUERY_CHANGED] =
 		gtk_signal_new ("query_changed",
 				GTK_RUN_LAST,
@@ -395,7 +404,7 @@ class_init (ESearchBarClass *klass)
 				GTK_SIGNAL_OFFSET (ESearchBarClass, query_changed),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
-
+	
 	esb_signals [MENU_ACTIVATED] =
 		gtk_signal_new ("menu_activated",
 				GTK_RUN_LAST,
@@ -403,7 +412,7 @@ class_init (ESearchBarClass *klass)
 				GTK_SIGNAL_OFFSET (ESearchBarClass, menu_activated),
 				gtk_marshal_NONE__INT,
 				GTK_TYPE_NONE, 1, GTK_TYPE_INT);
-
+	
 	gtk_object_class_add_signals (object_class, esb_signals, LAST_SIGNAL);
 }
 
@@ -413,7 +422,7 @@ init (ESearchBar *esb)
 	esb->dropdown      = NULL;
 	esb->option        = NULL;
 	esb->entry         = NULL;
-
+	
 	esb->option_choice = 0;
 }
 
@@ -431,44 +440,44 @@ e_search_bar_construct (ESearchBar *search_bar,
 	g_return_if_fail (option_items != NULL);
 	
 	gtk_box_set_spacing (GTK_BOX (search_bar), 1);
-
-	e_search_bar_set_menu(search_bar, menu_items);
-
-	e_search_bar_set_option(search_bar, option_items);
-
+	
+	e_search_bar_set_menu (search_bar, menu_items);
+	
+	e_search_bar_set_option (search_bar, option_items);
+	
 	add_entry (search_bar);
-
+	
 	add_activate_button (search_bar);
 }
 
 void
-e_search_bar_set_menu(ESearchBar *search_bar, ESearchBarItem *menu_items)
+e_search_bar_set_menu (ESearchBar *search_bar, ESearchBarItem *menu_items)
 {
 	g_return_if_fail (search_bar != NULL);
 	g_return_if_fail (E_IS_SEARCH_BAR (search_bar));
 	g_return_if_fail (menu_items != NULL);
-
-	((ESearchBarClass *)((GtkObject *)search_bar)->klass)->set_menu(search_bar, menu_items);
+	
+	((ESearchBarClass *)((GtkObject *)search_bar)->klass)->set_menu (search_bar, menu_items);
 }
 
 void
-e_search_bar_add_menu(ESearchBar *search_bar, ESearchBarItem *menu_item)
+e_search_bar_add_menu (ESearchBar *search_bar, ESearchBarItem *menu_item)
 {
 	g_return_if_fail (search_bar != NULL);
 	g_return_if_fail (E_IS_SEARCH_BAR (search_bar));
 	g_return_if_fail (menu_item != NULL);
-
-	add_dropdown(search_bar, menu_item);
+	
+	add_dropdown (search_bar, menu_item);
 }
 
 void
-e_search_bar_set_option(ESearchBar *search_bar, ESearchBarItem *option_items)
+e_search_bar_set_option (ESearchBar *search_bar, ESearchBarItem *option_items)
 {
 	g_return_if_fail (search_bar != NULL);
 	g_return_if_fail (E_IS_SEARCH_BAR (search_bar));
 	g_return_if_fail (option_items != NULL);
-
-	((ESearchBarClass *)((GtkObject *)search_bar)->klass)->set_option(search_bar, option_items);
+	
+	((ESearchBarClass *)((GtkObject *)search_bar)->klass)->set_option (search_bar, option_items);
 }
 
 GtkWidget *
@@ -476,33 +485,33 @@ e_search_bar_new (ESearchBarItem *menu_items,
 		  ESearchBarItem *option_items)
 {
 	GtkWidget *widget;
-
+	
 	g_return_val_if_fail (menu_items != NULL, NULL);
 	g_return_val_if_fail (option_items != NULL, NULL);
 	
 	widget = GTK_WIDGET (gtk_type_new (e_search_bar_get_type ()));
-
+	
 	e_search_bar_construct (E_SEARCH_BAR (widget), menu_items, option_items);
-
+	
 	return widget;
 }
 
 void
-e_search_bar_set_menu_sensitive(ESearchBar *esb, int id, gboolean state)
+e_search_bar_set_menu_sensitive (ESearchBar *esb, int id, gboolean state)
 {
 	int row;
 	GtkWidget *widget;
-
-	row = find_id(esb->dropdown_menu, id, "EsbMenuId", &widget);
+	
+	row = find_id (esb->dropdown_menu, id, "EsbMenuId", &widget);
 	if (row != -1)
-		gtk_widget_set_sensitive(widget, state);
+		gtk_widget_set_sensitive (widget, state);
 }
 
 GtkType
 e_search_bar_get_type (void)
 {
 	static GtkType type = 0;
-
+	
 	if (!type) {
 		static const GtkTypeInfo info = {
 			"ESearchBar",
@@ -517,7 +526,7 @@ e_search_bar_get_type (void)
 		
 		type = gtk_type_unique (gtk_hbox_get_type (), &info);
 	}
-
+	
 	return type;
 }
 
@@ -534,7 +543,7 @@ e_search_bar_get_option_choice (ESearchBar *search_bar)
 {
 	g_return_val_if_fail (search_bar != NULL, -1);
 	g_return_val_if_fail (E_IS_SEARCH_BAR (search_bar), -1);
-
+	
 	return search_bar->option_choice;
 }
 
@@ -552,6 +561,6 @@ e_search_bar_get_text (ESearchBar *search_bar)
 {
 	g_return_val_if_fail (search_bar != NULL, NULL);
 	g_return_val_if_fail (E_IS_SEARCH_BAR (search_bar), NULL);
-
+	
 	return e_utf8_gtk_editable_get_text (GTK_EDITABLE (search_bar->entry));
 }

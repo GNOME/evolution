@@ -189,7 +189,7 @@ menubar_activated (ESearchBar *esb, int id, void *data)
 			
 			gtk_widget_show (gd);
 		}
-
+		
 		d(printf("Save menu\n"));
 		break;
 	default:
@@ -210,7 +210,7 @@ menubar_activated (ESearchBar *esb, int id, void *data)
 			return;
 		}
 	}
-
+	
 	gtk_signal_emit_stop_by_name (GTK_OBJECT (esb), "menu_activated");
 }
 
@@ -343,7 +343,7 @@ set_menu (ESearchBar *esb, ESearchBarItem *items)
 }
 
 static void
-set_option(ESearchBar *esb, ESearchBarItem *items)
+set_option (ESearchBar *esb, ESearchBarItem *items)
 {
 	GArray *menu;
 	EFilterBar *efb = (EFilterBar *)esb;
@@ -377,6 +377,25 @@ impl_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	}
 }
 
+static void
+destroy (GtkObject *object)
+{
+	EFilterBar *bar;
+	
+	g_return_if_fail (object != NULL);
+	g_return_if_fail (E_IS_FILTER_BAR (object));
+	
+	bar = E_FILTER_BAR (object);
+	gtk_object_unref (GTK_OBJECT (bar->context));
+	g_free (bar->userrules);
+	g_free (bar->systemrules);
+	g_ptr_array_free (bar->menu_rules, TRUE);
+	g_ptr_array_free (bar->option_rules, TRUE);
+	
+	if (GTK_OBJECT_CLASS (parent_class)->destroy)
+		(*GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+}
+
 
 static void
 class_init (EFilterBarClass *klass)
@@ -384,9 +403,11 @@ class_init (EFilterBarClass *klass)
 	GtkObjectClass *object_class;
 	ESearchBarClass *esb_class = (ESearchBarClass *)klass;
 	
-	object_class = GTK_OBJECT_CLASS(klass);
+	object_class = GTK_OBJECT_CLASS (klass);
 	
-	parent_class = gtk_type_class(e_search_bar_get_type());
+	parent_class = gtk_type_class (e_search_bar_get_type ());
+	
+	object_class->destroy = destroy;
 	
 	object_class->get_arg = impl_get_arg;
 	
