@@ -1,3 +1,8 @@
+2005-02-02  Li Yuan  <li.yuan@sun.com>
+
+	* e-url-entry.c: (init):
+	add a11y name to url link button.
+
 2005-01-26  Rodney Dawes  <dobey@novell.com>
 
 	* e-error.c (e_error_newv): Fix up spacing to be HIG compliant for
