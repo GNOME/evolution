@@ -35,6 +35,7 @@
 #include <errno.h>
 #include <string.h>
 #include <stdlib.h>
+#include <ctype.h>
 
 #include "camel-mbox-summary.h"
 #include "camel/camel-file-utils.h"
@@ -54,6 +55,8 @@ static CamelMessageInfo * message_info_new_from_parser (CamelFolderSummary *, Ca
 static CamelMessageInfo * message_info_load (CamelFolderSummary *, FILE *);
 static int		  message_info_save (CamelFolderSummary *, FILE *, CamelMessageInfo *);
 /*static void		  message_info_free (CamelFolderSummary *, CamelMessageInfo *);*/
+
+static char *mbox_summary_encode_x_evolution (CamelLocalSummary *cls, const CamelMessageInfo *mi);
 
 static int mbox_summary_check(CamelLocalSummary *cls, CamelFolderChangeInfo *changeinfo, CamelException *ex);
 static int mbox_summary_sync(CamelLocalSummary *cls, gboolean expunge, CamelFolderChangeInfo *changeinfo, CamelException *ex);
@@ -113,7 +116,8 @@ camel_mbox_summary_class_init(CamelMboxSummaryClass *klass)
 	sklass->message_info_load = message_info_load;
 	sklass->message_info_save = message_info_save;
 	/*sklass->message_info_free = message_info_free;*/
-
+	
+	lklass->encode_x_evolution = mbox_summary_encode_x_evolution;
 	lklass->check = mbox_summary_check;
 	lklass->sync = mbox_summary_sync;
 #ifdef STATUS_PINE
@@ -162,6 +166,23 @@ camel_mbox_summary_new(const char *filename, const char *mbox_name, CamelIndex *
 void camel_mbox_summary_xstatus(CamelMboxSummary *mbs, int state)
 {
 	mbs->xstatus = state;
+}
+
+static char *
+mbox_summary_encode_x_evolution (CamelLocalSummary *cls, const CamelMessageInfo *mi)
+{
+	const char *p, *uidstr;
+	guint32 uid;
+	
+	p = uidstr = camel_message_info_uid (mi);
+	while (*p && isdigit (*p))
+		p++;
+	
+	if (*p == 0 && sscanf (uidstr, "%u", &uid) == 1) {
+		return g_strdup_printf ("%08x-%04x", uid, mi->flags & 0xffff);
+	} else {
+		return g_strdup_printf ("%s-%04x", uidstr, mi->flags & 0xffff);
+	}
 }
 
 static int

@@ -1,3 +1,10 @@
+2004-03-02  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/local/camel-mbox-summary.c
+	(mbox_summary_encode_x_evolution): Overrides the parent method. We
+	don't want to encode user flags/tags or the size of the header
+	will change and force a complete rewrite of the mbox file.
+
 2004-02-25  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-filter-driver.c (camel_filter_driver_filter_folder): Free
@@ -9,7 +16,7 @@
 	corruption if using Heimdal's implementation of Kerberos5. Yay
 	Heimdal.
 
-2004-02-25    <rodo@ximian.com>
+2004-02-25  Radek Doulik  <rodo@ximian.com>
 
 	* camel-folder.c (get_unread_message_count): do not avoid junk
 	mails in unread count
