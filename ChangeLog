@@ -1,3 +1,9 @@
+2004-09-13  Not Zed  <NotZed@Ximian.com>
+
+	* configure.in: change the way ipv6 stuff is done.  separate ipv6
+	setting from getaddrinfo call check, and default to on if the
+	interfaces are available.
+
 2004-09-17  William Jon McCann  <mccann@jhu.edu>
 
 	* configure.in: Fix typos in gal dependency.

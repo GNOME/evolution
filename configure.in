@@ -316,11 +316,9 @@ AC_SUBST(A11Y_CFLAGS)
 AC_SUBST(A11Y_LIBS)
 
 dnl **************************************************
-dnl * IPv6 support
+dnl * IPv6 support and getaddrinfo calls
 dnl **************************************************
-AC_ARG_ENABLE(ipv6, [  --enable-ipv6=[no/yes]      Enable support for resolving IPv6 addresses.],,enable_ipv6=no)
-if test "x$enable_ipv6" = "xyes"; then
-AC_CACHE_CHECK([if system has necessary structs and functions for IPv6 support], msg_ipv6,
+AC_CACHE_CHECK([if system supports getaddrinfo and getnameinfo], have_addrinfo,
 [
 	AC_TRY_COMPILE([
 		#include "confdefs.h"
@@ -333,21 +331,29 @@ AC_CACHE_CHECK([if system has necessary structs and functions for IPv6 support],
 		struct addrinfo hints, *res;
 		struct sockaddr_in6 sin6;
 		int af = AF_INET6;
-		
+		char host[NI_MAXHOST];
+		char serv[NI_MAXSERV];
+
 		getaddrinfo ("www.ximian.com", NULL, &hints, &res);
 		freeaddrinfo (res);
+		getnameinfo((struct sockaddr *)&sin6, sizeof(sin6), host, sizeof(host), serv, sizeof(serv), 0);
 	],[
-		msg_ipv6=yes
+		have_addrinfo=yes
 	],[
-		enable_ipv6=no
-		msg_ipv6=no
+		have_addrinfo=no
 	])
 ])
-else
-	msg_ipv6=no
-fi
 
-if test "x$enable_ipv6" = "xyes"; then
+if test x"$have_addrinfo" = "xno" ; then
+   AC_DEFINE(NEED_ADDRINFO,1,[Enable getaddrinfo emulation])
+   if test x"$enable_ipv6" = "xyes" ; then
+      AC_ERROR(system doesn't support necessary interfaces for ipv6 support)
+   fi
+   msg_ipv6=no
+else
+   AC_ARG_ENABLE(ipv6, [  --enable-ipv6=[no/yes]      Enable support for resolving IPv6 addresses.],,enable_ipv6=yes)
+   if test x"$enable_ipv6" = "xyes"; then
+        msg_ipv6=yes
 	AC_DEFINE(ENABLE_IPv6,1,[Enable IPv6 support])
 	AC_TRY_COMPILE([
 		#include "confdefs.h"
@@ -363,9 +369,12 @@ if test "x$enable_ipv6" = "xyes"; then
 	],[
 		AC_DEFINE(HAVE_AI_ADDRCONFIG,1,[Define if the system defines the AI_ADDRCONFIG flag for getaddrinfo])
 	])
+   else
+	msg_ipv6=no
+   fi
 fi
-AM_CONDITIONAL(ENABLE_IPv6, test "x$enable_ipv6" = "xyes")
 
+AM_CONDITIONAL(ENABLE_IPv6, test "x$enable_ipv6" = "xyes")
 
 dnl **************************************************
 dnl LDAP support.
