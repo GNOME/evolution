@@ -1,5 +1,13 @@
 2001-10-22  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-format.c (format_mime_part): Don't wrap error text with
+	<blockquote>, this is done inside mail_error_write.
+	(handle_multipart_encrypted): If we get an exception trying to
+	decrypt the mime part, display an error rather than trying to
+	treat it as multipart/mixed.
+
+	* mail-callbacks.c (empty_trash): Confirm expunge.
+
 	* folder-browser.c (folder_browser_destroy): Move the folder sync
 	code along with a few other things from folder_browser_finalise()
 	into here instead.

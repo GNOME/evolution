@@ -674,8 +674,7 @@ format_mime_part (CamelMimePart *part, MailDisplay *md)
 		char *mesg;
 		
 		mesg = e_utf8_from_locale_string (_("Could not parse MIME message. Displaying as source."));
-		mail_error_write (md->html, md->stream,
-				  "<blockquote>%s</blockquote>", mesg);
+		mail_error_write (md->html, md->stream, "\n%s\n", mesg);
 		g_free (mesg);
 		if (mail_content_loaded (wrapper, md, TRUE, NULL, NULL))
 			handle_text_plain (part, "text/plain", md);
@@ -1365,7 +1364,7 @@ try_inline_pgp_sig (char *start, CamelMimePart *mime_part,
 	char *msg_start, *msg_end, *sig_start, *sig_end;
 	CamelContentType *type;
 	char *type_str;
-
+	
 	/* We know start points to "-----BEGIN PGP SIGNED MESSAGE-----" */
 	msg_start = start + sizeof ("-----BEGIN PGP SIGNED MESSAGE-----") - 1;
 	if (*msg_start++ != '\n')
@@ -1381,18 +1380,18 @@ try_inline_pgp_sig (char *start, CamelMimePart *mime_part,
 	if (!msg_end)
 		return start;
 	msg_end--;
-
+	
 	sig_start = msg_end;
 	sig_end = strstr (sig_start, "-----END PGP SIGNATURE-----");
 	if (!sig_end)
 		return start;
 	sig_end += sizeof ("-----END PGP SIGNATURE-----") - 1;
-
+	
 	multipart = camel_multipart_new ();
 	camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (multipart),
-					  "multipart/signed; micalg=pgp-md5"
-					  "; x-inline-pgp-hack=true");
-
+					  "multipart/signed; micalg=pgp-sha1;"
+					  "x-inline-pgp-hack=true");
+	
 	type = camel_mime_part_get_content_type (mime_part);
 	type_str = header_content_type_format (type);
 	part = fake_mime_part_from_data (msg_start, msg_end - msg_start,
@@ -1400,23 +1399,23 @@ try_inline_pgp_sig (char *start, CamelMimePart *mime_part,
 	g_free (type_str);
 	camel_multipart_add_part (multipart, part);
 	camel_object_unref (CAMEL_OBJECT (part));
-
+	
 	part = fake_mime_part_from_data (sig_start, sig_end - sig_start,
 					 "application/pgp-signature",
 					 offset + 1, md);
 	camel_multipart_add_part (multipart, part);
 	camel_object_unref (CAMEL_OBJECT (part));
-
+	
 	part = camel_mime_part_new ();
 	camel_medium_set_content_object (CAMEL_MEDIUM (part),
 					 CAMEL_DATA_WRAPPER (multipart));
-
+	
 	camel_object_hook_event (CAMEL_OBJECT (md->current_message),
 				 "finalize", destroy_part, part);
-
+	
 	write_hr (md);
 	format_mime_part (part, md);
-
+	
 	return sig_end;
 }
 
@@ -1428,7 +1427,7 @@ try_uudecoding (char *start, CamelMimePart *mime_part,
 	char *filename, *estart, *p, *out, uulen = 0;
 	guint32 save = 0;
 	CamelMimePart *part;
-
+	
 	/* Make sure it's a real uudecode begin line:
 	 * begin [0-7]+ .*
 	 */
@@ -1728,12 +1727,17 @@ handle_multipart_encrypted (CamelMimePart *part, const char *mime_type,
 	mime_part = mail_crypto_pgp_mime_part_decrypt (part, &ex);
 	
 	if (camel_exception_is_set (&ex)) {
-		/* I guess we just treat this as a multipart/mixed */
+		char *error;
+		
+		error = e_utf8_from_locale_string (camel_exception_get_description (&ex));
+		
+		mail_error_write (md->html, md->stream, "\n%s\n", error);
+		g_free (error);
+		
 		camel_exception_clear (&ex);
-		return handle_multipart_mixed (part, mime_type, md);
+		return TRUE;
 	} else {
 		/* replace the encrypted part with the decrypted part */
-		/* FIXME: will this cause problems anywhere? -- seems to work okay so far */
 		camel_medium_set_content_object (CAMEL_MEDIUM (part),
 						 camel_medium_get_content_object (CAMEL_MEDIUM (mime_part)));
 		camel_object_unref (CAMEL_OBJECT (mime_part));
@@ -1752,7 +1756,7 @@ handle_multipart_signed (CamelMimePart *part, const char *mime_type,
 	CamelMultipart *mp;
 	gboolean output = FALSE;
 	int nparts, i;
-
+	
 	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));
 	
 	g_return_val_if_fail (CAMEL_IS_MULTIPART (wrapper), FALSE);
@@ -1771,13 +1775,13 @@ handle_multipart_signed (CamelMimePart *part, const char *mime_type,
 		
 		output = format_mime_part (subpart, md);
 	}
-
+	
 	subpart = camel_multipart_get_part (mp, i);
 	mail_part_set_default_displayed_inline (subpart, md, FALSE);
-
+	
 	if (!mail_part_is_displayed_inline (subpart, md)) {
 		char *url;
-
+		
 		/* Write out the click-for-info object */
 		url = g_strdup_printf ("signature:%p/%lu", subpart,
 				       (unsigned long)time (NULL));
@@ -1788,7 +1792,7 @@ handle_multipart_signed (CamelMimePart *part, const char *mime_type,
 				 "<td><object classid=\"%s\"></object></td>"
 				 "<td><table width=3 cellspacing=0 cellpadding=0><tr><td></td></tr></table></td>"
 				 "<td><font size=-1>", url);
-
+		
 		mail_html_write (md->html, md->stream, "%s",
 				 U_("This message is digitally signed. "
 				    "Click the lock icon for more information."));
@@ -1801,9 +1805,8 @@ handle_multipart_signed (CamelMimePart *part, const char *mime_type,
 		CamelException ex;
 		const char *message = NULL;
 		gboolean good = FALSE;
-
+		
 		/* Write out the verification results */
-
 		camel_exception_init (&ex);
 		if (camel_pgp_mime_is_rfc2015_signed (part)) {
 			valid = mail_crypto_pgp_mime_part_verify (part, &ex);
@@ -1815,7 +1818,7 @@ handle_multipart_signed (CamelMimePart *part, const char *mime_type,
 			}
 		} else
 			message = U_("Evolution does not recognize this type of signed message.");
-
+		
 		if (good) {
 			mail_html_write (md->html, md->stream,
 					 "<table><tr valign=top>"
@@ -1833,7 +1836,7 @@ handle_multipart_signed (CamelMimePart *part, const char *mime_type,
 					 U_("This message is digitally signed but can "
 					    "not be proven to be authentic."));
 		}
-
+		
 		if (message) {
 			mail_html_write (md->html, md->stream,
 					 "<font size=-1 %s>",
@@ -1841,7 +1844,7 @@ handle_multipart_signed (CamelMimePart *part, const char *mime_type,
 			mail_text_write (md->html, md->stream, "%s", message);
 			mail_html_write (md->html, md->stream, "</font>");
 		}
-
+		
 		mail_html_write (md->html, md->stream, "</td></tr></table>");
 		camel_exception_clear (&ex);
 		camel_cipher_validity_free (valid);

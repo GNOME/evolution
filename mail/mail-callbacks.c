@@ -2387,13 +2387,19 @@ empty_trash (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	MailConfigAccount *account;
 	CamelProvider *provider;
-	CamelFolder *vtrash;
 	const GSList *accounts;
+	CamelFolder *vtrash;
+	FolderBrowser *fb;
 	CamelException ex;
 	gboolean async;
 	
+	fb = user_data ? FOLDER_BROWSER (user_data) : NULL;
+	
 	/* the only time all three args are NULL is for empty-on-exit */
-	async = !(uih == NULL && user_data == NULL && path == NULL);
+	async = !(uih == NULL && fb == NULL && path == NULL);
+	
+	if (fb && !confirm_expunge (fb))
+		return;
 	
 	camel_exception_init (&ex);
 	
@@ -2404,7 +2410,7 @@ empty_trash (BonoboUIComponent *uih, void *user_data, const char *path)
 		
 		/* make sure this is a valid source */
 		if (account->source && account->source->enabled && account->source->url) {
-			provider = camel_session_get_provider (session, account->source->url, &ex);			
+			provider = camel_session_get_provider (session, account->source->url, &ex);
 			if (provider) {
 				/* make sure this store is a remote store */
 				if (provider->flags & CAMEL_PROVIDER_IS_STORAGE &&
