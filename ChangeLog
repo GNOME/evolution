@@ -1,3 +1,16 @@
+2000-06-12  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* widgets/Makefile.am (SUBDIRS): build `misc' before everything
+	else.
+
+	* Makefile.am: Install `evolution.png' and `evolution.desktop'
+	where appropriate.
+
+	* evolution.png: New.  For now, it's just a copy of
+	`art/evolution-inbox.png'.
+
+	* evolution.desktop: New.
+
 2000-06-10  Zbigniew Chyla  <chyla@buy.pl>
 
 	* configure.in: Added pl (Polish) to ALL_LINGUAS

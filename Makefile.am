@@ -33,5 +33,11 @@ SUBDIRS =			\
 	po			\
 	doc
 
+appicondir = $(datadir)/pixmaps
+appicon_DATA = evolution.png
+
+applicationdir = $(datadir)/gnome/apps/Applications
+application_DATA = evolution.desktop
+
 dist-hook: evolution.spec
 	cp evolution.spec $(distdir)
