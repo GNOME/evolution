@@ -444,11 +444,37 @@ insert_node(ETreeTableAdapter *etta, ETreePath parent, ETreePath path)
 	e_table_model_rows_inserted(E_TABLE_MODEL(etta), get_row(etta, path), size);
 }
 
+typedef struct {
+	GSList *paths;
+	gboolean expanded;
+} check_expanded_closure;
+
+static gboolean
+check_expanded(GNode *gnode, gpointer data)
+{
+	check_expanded_closure *closure = (check_expanded_closure *) data;
+	node_t *node = (node_t *) gnode->data;
+
+	if (node->expanded != closure->expanded)
+		closure->paths = g_slist_prepend(closure->paths, node->path);
+
+	return FALSE;
+}
+
 static void
 update_node(ETreeTableAdapter *etta, ETreePath path)
 {
+	check_expanded_closure closure;
 	ETreePath parent = e_tree_model_node_get_parent(etta->priv->source, path);
-	gboolean expanded = e_tree_table_adapter_node_is_expanded (etta, path);
+	GNode *gnode = lookup_gnode(etta, path);
+	GSList *l;
+
+	closure.expanded = e_tree_model_get_expanded_default (etta->priv->source);
+	closure.paths = NULL;
+
+	if (gnode)
+		g_node_traverse(gnode, G_IN_ORDER, G_TRAVERSE_ALL, -1, check_expanded, &closure);
+
 	if (e_tree_model_node_is_root(etta->priv->source, path))
 		generate_tree(etta, path);
 	else {
@@ -456,8 +482,10 @@ update_node(ETreeTableAdapter *etta, ETreePath path)
 		insert_node(etta, parent, path);
 	}
 
-	if (expanded != e_tree_model_get_expanded_default (etta->priv->source))
-		e_tree_table_adapter_node_set_expanded (etta, path, expanded);
+	for (l = closure.paths; l; l = l->next)
+		e_tree_table_adapter_node_set_expanded (etta, l->data, !closure.expanded);
+
+	g_slist_free(closure.paths);
 }
 
 static void
