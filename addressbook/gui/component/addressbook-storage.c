@@ -151,7 +151,7 @@ create_ldap_folder (EvolutionStorage *storage, const Bonobo_Listener listener,
 		notify_listener (listener, GNOME_Evolution_Storage_INVALID_URI);
 		return;
 	}
-	ldap_config_create_new_source (path + 1, NULL);
+	addressbook_config_create_new_source (path + 1, NULL);
 
 	notify_listener (listener, GNOME_Evolution_Storage_OK);
 }
