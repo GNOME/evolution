@@ -56,14 +56,6 @@ static void camel_maildir_store_class_init(CamelObjectClass * camel_maildir_stor
 	camel_store_class->delete_folder = delete_folder;
 }
 
-static void camel_maildir_store_init(CamelObject * object)
-{
-	CamelStore *store = CAMEL_STORE(object);
-
-	/* maildir names are filenames, so they are case-sensitive. */
-	store->folders = g_hash_table_new(g_str_hash, g_str_equal);
-}
-
 CamelType camel_maildir_store_get_type(void)
 {
 	static CamelType camel_maildir_store_type = CAMEL_INVALID_TYPE;
@@ -74,7 +66,7 @@ CamelType camel_maildir_store_get_type(void)
 							  sizeof(CamelMaildirStoreClass),
 							  (CamelObjectClassInitFunc) camel_maildir_store_class_init,
 							  NULL,
-							  (CamelObjectInitFunc) camel_maildir_store_init,
+							  NULL,
 							  NULL);
 	}
 

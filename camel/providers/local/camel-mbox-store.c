@@ -54,15 +54,6 @@ camel_mbox_store_class_init (CamelMboxStoreClass *camel_mbox_store_class)
 	camel_store_class->delete_folder = delete_folder;
 }
 
-static void
-camel_mbox_store_init (gpointer object, gpointer klass)
-{
-	CamelStore *store = CAMEL_STORE (object);
-
-	/* mbox names are filenames, so they are case-sensitive. */
-	store->folders = g_hash_table_new (g_str_hash, g_str_equal);
-}
-
 CamelType
 camel_mbox_store_get_type (void)
 {
@@ -74,7 +65,7 @@ camel_mbox_store_get_type (void)
 							     sizeof (CamelMboxStoreClass),
 							     (CamelObjectClassInitFunc) camel_mbox_store_class_init,
 							     NULL,
-							     (CamelObjectInitFunc) camel_mbox_store_init,
+							     NULL,
 							     NULL);
 	}
 	

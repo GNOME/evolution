@@ -39,12 +39,11 @@
 #define CLOCALS_CLASS(so) CAMEL_LOCAL_STORE_CLASS (CAMEL_OBJECT_GET_CLASS(so))
 #define CF_CLASS(so) CAMEL_FOLDER_CLASS (CAMEL_OBJECT_GET_CLASS(so))
 
+static void construct (CamelService *service, CamelSession *session, CamelProvider *provider, CamelURL *url, CamelException *ex);
 static CamelFolder *get_folder(CamelStore * store, const char *folder_name, guint32 flags, CamelException * ex);
 static char *get_name(CamelService *service, gboolean brief);
-static char *get_root_folder_name (CamelStore *store, CamelException *ex);
-static char *get_default_folder_name (CamelStore *store, CamelException *ex);
+static CamelFolder *get_inbox (CamelStore *store, CamelException *ex);
 static void rename_folder(CamelStore *store, const char *old_name, const char *new_name, CamelException *ex);
-static char *get_folder_name(CamelStore *store, const char *folder_name, CamelException *ex);
 static CamelFolderInfo *get_folder_info (CamelStore *store, const char *top,
 					 gboolean fast, gboolean recursive,
 					 gboolean subscribed_only,
@@ -52,35 +51,26 @@ static CamelFolderInfo *get_folder_info (CamelStore *store, const char *top,
 static void delete_folder(CamelStore *store, const char *folder_name, CamelException *ex);
 static void rename_folder(CamelStore *store, const char *old, const char *new, CamelException *ex);
 
+static CamelStoreClass *parent_class = NULL;
+
 static void
 camel_local_store_class_init (CamelLocalStoreClass *camel_local_store_class)
 {
 	CamelStoreClass *camel_store_class = CAMEL_STORE_CLASS (camel_local_store_class);
 	CamelServiceClass *camel_service_class = CAMEL_SERVICE_CLASS (camel_local_store_class);
 	
+	parent_class = CAMEL_STORE_CLASS (camel_type_get_global_classfuncs (camel_store_get_type ()));
+
 	/* virtual method overload */
+	camel_service_class->construct = construct;
 	camel_service_class->get_name = get_name;
 	camel_store_class->get_folder = get_folder;
-	camel_store_class->get_root_folder_name = get_root_folder_name;
-	camel_store_class->get_default_folder_name = get_default_folder_name;
-	camel_store_class->get_folder_name = get_folder_name;
+	camel_store_class->get_inbox = get_inbox;
 	camel_store_class->get_folder_info = get_folder_info;
 	camel_store_class->free_folder_info = camel_store_free_folder_info_full;
 
 	camel_store_class->delete_folder = delete_folder;
 	camel_store_class->rename_folder = rename_folder;
-}
-
-static void
-camel_local_store_init (gpointer object, gpointer klass)
-{
-	CamelStore *store = CAMEL_STORE (object);
-
-	/* local names are filenames, so they are case-sensitive. */
-	if (store->folders)
-		g_hash_table_destroy(store->folders);
-
-	store->folders = g_hash_table_new (g_str_hash, g_str_equal);
 }
 
 CamelType
@@ -94,11 +84,27 @@ camel_local_store_get_type (void)
 							     sizeof (CamelLocalStoreClass),
 							     (CamelObjectClassInitFunc) camel_local_store_class_init,
 							     NULL,
-							     (CamelObjectInitFunc) camel_local_store_init,
+							     NULL,
 							     NULL);
 	}
 	
 	return camel_local_store_type;
+}
+
+static void
+construct (CamelService *service, CamelSession *session, CamelProvider *provider, CamelURL *url, CamelException *ex)
+{
+	int len;
+
+	CAMEL_SERVICE_CLASS (parent_class)->construct (service, session, provider, url, ex);
+	if (camel_exception_is_set (ex))
+		return;
+
+	len = strlen (service->url->path);
+	if (service->url->path[len - 1] != '/') {
+		service->url->path = g_realloc (service->url->path, len + 2);
+		strcpy (service->url->path + len, "/");
+	}
 }
 
 const char *
@@ -161,34 +167,12 @@ get_folder(CamelStore * store, const char *folder_name, guint32 flags, CamelExce
 	return NULL;
 }
 
-static char *
-get_root_folder_name(CamelStore *store, CamelException *ex)
+static CamelFolder *
+get_inbox(CamelStore *store, CamelException *ex)
 {
 	camel_exception_set(ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
-			    _("Local stores do not have a root folder"));
+			    _("Local stores do not have an inbox"));
 	return NULL;
-}
-
-static char *
-get_default_folder_name(CamelStore *store, CamelException *ex)
-{
-	camel_exception_set(ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
-			    _("Local stores do not have a default folder"));
-	return NULL;
-}
-
-static char *
-get_folder_name (CamelStore *store, const char *folder_name, CamelException *ex)
-{
-	/* For now, we don't allow hieararchy. FIXME. */
-	if (strchr (folder_name + 1, '/')) {
-		camel_exception_set (ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
-				     _("Local folders may not be nested."));
-		return NULL;
-	}
-
-	return *folder_name == '/' ? g_strdup (folder_name) :
-		g_strdup_printf ("/%s", folder_name);
 }
 
 static char *

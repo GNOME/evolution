@@ -60,10 +60,9 @@ static CamelRemoteStoreClass *remote_store_class = NULL;
 static gboolean imap_connect (CamelService *service, CamelException *ex);
 static gboolean imap_disconnect (CamelService *service, gboolean clean, CamelException *ex);
 static GList *query_auth_types (CamelService *service, gboolean connect, CamelException *ex);
+static guint hash_folder_name (gconstpointer key);
+static gint compare_folder_name (gconstpointer a, gconstpointer b);
 static CamelFolder *get_folder (CamelStore *store, const char *folder_name, guint32 flags, CamelException *ex);
-static char *get_folder_name (CamelStore *store, const char *folder_name,
-			      CamelException *ex);
-static char *get_root_folder_name (CamelStore *store, CamelException *ex);
 static CamelFolderInfo *get_folder_info (CamelStore *store, const char *top,
 					 gboolean fast, gboolean recursive,
 					 gboolean subscribed_only,
@@ -94,9 +93,9 @@ camel_imap_store_class_init (CamelImapStoreClass *camel_imap_store_class)
 	camel_service_class->connect = imap_connect;
 	camel_service_class->disconnect = imap_disconnect;
 	
+	camel_store_class->hash_folder_name = hash_folder_name;
+	camel_store_class->compare_folder_name = compare_folder_name;
 	camel_store_class->get_folder = get_folder;
-	camel_store_class->get_folder_name = get_folder_name;
-	camel_store_class->get_root_folder_name = get_root_folder_name;
 	camel_store_class->get_folder_info = get_folder_info;
 	camel_store_class->free_folder_info = camel_store_free_folder_info_full;
 
@@ -603,6 +602,27 @@ imap_create (CamelImapStore *store, const char *folder_name,
 	return !camel_exception_is_set (ex);
 }
 
+static guint
+hash_folder_name (gconstpointer key)
+{
+	if (g_strcasecmp (key, "INBOX") == 0)
+		return g_str_hash ("INBOX");
+	else
+		return g_str_hash (key);
+}
+
+static gint
+compare_folder_name (gconstpointer a, gconstpointer b)
+{
+	gconstpointer aname = a, bname = b;
+
+	if (g_strcasecmp (a, "INBOX") == 0)
+		aname = "INBOX";
+	if (g_strcasecmp (b, "INBOX") == 0)
+		bname = "INBOX";
+	return g_str_equal (aname, bname);
+}
+
 static CamelFolder *
 get_folder (CamelStore *store, const char *folder_name, guint32 flags,
 	    CamelException *ex)
@@ -659,23 +679,6 @@ get_folder (CamelStore *store, const char *folder_name, guint32 flags,
 		return NULL;
 
 	return new_folder;
-}
-
-static char *
-get_folder_name (CamelStore *store, const char *folder_name,
-		 CamelException *ex)
-{
-	/* INBOX is case-insensitive */
-	if (g_strcasecmp (folder_name, "INBOX") == 0)
-		return g_strdup ("INBOX");
-	else
-		return g_strdup (folder_name);
-}
-
-static char *
-get_root_folder_name (CamelStore *store, CamelException *ex)
-{
-	return g_strdup ("");
 }
 
 static CamelFolderInfo *

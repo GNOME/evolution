@@ -73,9 +73,14 @@ struct _CamelStore
 typedef struct {
 	CamelServiceClass parent_class;
 
+	GHashFunc       hash_folder_name;
+	GCompareFunc    compare_folder_name;
+
 	CamelFolder *   (*get_folder)               (CamelStore *store,
 						     const char *folder_name,
 						     guint32 flags,
+						     CamelException *ex);
+	CamelFolder *   (*get_inbox)                (CamelStore *store,
 						     CamelException *ex);
 
 	void            (*delete_folder)            (CamelStore *store,
@@ -88,22 +93,6 @@ typedef struct {
 
 	void            (*sync)                     (CamelStore *store,
 						     CamelException *ex);
-
-	char *          (*get_folder_name)          (CamelStore *store,
-						     const char *folder_name,
-						     CamelException *ex);
-	char *          (*get_root_folder_name)     (CamelStore *store,
-						     CamelException *ex);
-	char *          (*get_default_folder_name)  (CamelStore *store,
-						     CamelException *ex);
-
-        CamelFolder *   (*lookup_folder)            (CamelStore *store,
-						     const char *folder_name);
-	void            (*cache_folder)             (CamelStore *store,
-						     const char *folder_name,
-						     CamelFolder *folder);
-        void            (*uncache_folder)           (CamelStore *store,
-						     CamelFolder *folder);
 
 	/* this should take flags instead, so its more futureproof */
 	CamelFolderInfo *(*get_folder_info)         (CamelStore *store,
@@ -134,9 +123,7 @@ CamelFolder *    camel_store_get_folder         (CamelStore *store,
 					         const char *folder_name,
 						 guint32 flags,
 					         CamelException *ex);
-CamelFolder *    camel_store_get_root_folder    (CamelStore *store,
-					         CamelException *ex);
-CamelFolder *    camel_store_get_default_folder (CamelStore *store,
+CamelFolder *    camel_store_get_inbox          (CamelStore *store,
 						 CamelException *ex);
 
 void             camel_store_delete_folder      (CamelStore *store,

@@ -76,9 +76,6 @@ static GList *query_auth_types (CamelService *service, gboolean connect, CamelEx
 
 static CamelFolder *get_folder (CamelStore *store, const char *folder_name, 
 				guint32 flags, CamelException *ex);
-static char *get_folder_name (CamelStore *store, const char *folder_name, 
-			      CamelException *ex);
-static char *get_root_folder_name (CamelStore *store, CamelException *ex);
 
 static int pop3_get_response (CamelPop3Store *store, char **ret, CamelException *ex);
 
@@ -90,9 +87,6 @@ camel_pop3_store_class_init (CamelPop3StoreClass *camel_pop3_store_class)
 		CAMEL_SERVICE_CLASS (camel_pop3_store_class);
 	CamelStoreClass *camel_store_class =
 		CAMEL_STORE_CLASS (camel_pop3_store_class);
-	/*CamelRemoteStoreClass *camel_remote_store_class =
-	 *	CAMEL_STORE_CLASS (camel_pop3_store_class);
-	 */
 
 	parent_class = CAMEL_REMOTE_STORE_CLASS(camel_type_get_global_classfuncs 
 						(camel_remote_store_get_type ()));
@@ -103,8 +97,6 @@ camel_pop3_store_class_init (CamelPop3StoreClass *camel_pop3_store_class)
 	camel_service_class->disconnect = pop3_disconnect;
 
 	camel_store_class->get_folder = get_folder;
-	camel_store_class->get_folder_name = get_folder_name;
-	camel_store_class->get_root_folder_name = get_root_folder_name;
 }
 
 
@@ -533,26 +525,12 @@ static CamelFolder *
 get_folder (CamelStore *store, const char *folder_name,
 	    guint32 flags, CamelException *ex)
 {
-	return camel_pop3_folder_new (store, ex);
-}
-
-static char *
-get_folder_name (CamelStore *store, const char *folder_name,
-		 CamelException *ex)
-{
-	if (!g_strcasecmp (folder_name, "inbox"))
-		return g_strdup ("inbox");
-	else {
+	if (g_strcasecmp (folder_name, "inbox") != 0) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_FOLDER_INVALID,
 				      _("No such folder `%s'."), folder_name);
 		return NULL;
 	}
-}
-
-static char *
-get_root_folder_name (CamelStore *store, CamelException *ex)
-{
-	return g_strdup ("inbox");
+	return camel_pop3_folder_new (store, ex);
 }
 
 

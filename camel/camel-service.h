@@ -59,13 +59,17 @@ struct _CamelService {
 typedef struct {
 	CamelObjectClass parent_class;
 
+	void      (*construct)         (CamelService *service,
+					CamelSession *session,
+					CamelProvider *provider,
+					CamelURL *url,
+					CamelException *ex);
+
 	gboolean  (*connect)           (CamelService *service, 
 					CamelException *ex);
 	gboolean  (*disconnect)        (CamelService *service,
 					gboolean clean,
 					CamelException *ex);
-
-	/*gboolean  (*is_connected)      (CamelService *service);*/
 
 	GList *   (*query_auth_types)  (CamelService *service,
 					gboolean connect,
@@ -88,7 +92,7 @@ typedef struct {
 
 
 /* public methods */
-CamelService *      camel_service_new                (CamelType type, 
+void                camel_service_construct          (CamelService *service,
 						      CamelSession *session,
 						      CamelProvider *provider,
 						      CamelURL *url, 

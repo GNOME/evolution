@@ -65,9 +65,6 @@ static gboolean remote_disconnect      (CamelService *service, gboolean clean, C
 static GList   *remote_query_auth_types(CamelService *service, gboolean connect, CamelException *ex);
 static void     remote_free_auth_types (CamelService *service, GList *authtypes);
 static char    *remote_get_name        (CamelService *service, gboolean brief);
-static char    *remote_get_folder_name (CamelStore *store, 
-					const char *folder_name, 
-					CamelException *ex);
 static gint     remote_send_string     (CamelRemoteStore *store, CamelException *ex, 
 					char *fmt, va_list ap);
 static gint     remote_send_stream     (CamelRemoteStore *store, CamelStream *stream,
@@ -81,8 +78,6 @@ camel_remote_store_class_init (CamelRemoteStoreClass *camel_remote_store_class)
 	/* virtual method overload */
 	CamelServiceClass *camel_service_class =
 		CAMEL_SERVICE_CLASS (camel_remote_store_class);
-	CamelStoreClass *camel_store_class =
-		CAMEL_STORE_CLASS (camel_remote_store_class);
 	
 	store_class = CAMEL_STORE_CLASS (camel_type_get_global_classfuncs (camel_store_get_type ()));
 	
@@ -92,8 +87,6 @@ camel_remote_store_class_init (CamelRemoteStoreClass *camel_remote_store_class)
 	camel_service_class->query_auth_types = remote_query_auth_types;
 	camel_service_class->free_auth_types = remote_free_auth_types;
 	camel_service_class->get_name = remote_get_name;
-	
-	camel_store_class->get_folder_name = remote_get_folder_name;
 	
 	camel_remote_store_class->send_string = remote_send_string;
 	camel_remote_store_class->send_stream = remote_send_stream;
@@ -384,12 +377,6 @@ remote_disconnect (CamelService *service, gboolean clean, CamelException *ex)
 	}
 	
 	return TRUE;
-}
-
-static gchar *
-remote_get_folder_name (CamelStore *store, const char *folder_name, CamelException *ex)
-{
-	return g_strdup (folder_name);
 }
 
 static gint

@@ -39,6 +39,7 @@
 #include "string-utils.h"
 #include "camel-url.h"
 #include "hash-table-utils.h"
+#include <gal/util/e-util.h>
 
 #include "camel-private.h"
 
@@ -311,8 +312,12 @@ camel_session_get_service (CamelSession *session, const char *url_string,
 		return service;
 	}
 
-	service = camel_service_new (provider->object_types[type], session, provider, url, ex);
-	if (service) {
+	service = (CamelService *)camel_object_new (provider->object_types[type]);
+	camel_service_construct (service, session, provider, url, ex);
+	if (camel_exception_is_set (ex)) {
+		camel_object_unref (CAMEL_OBJECT (service));
+		service = NULL;
+	} else {
 		g_hash_table_insert (provider->service_cache, url, service);
 		camel_object_hook_event (CAMEL_OBJECT (service), "finalize", (CamelObjectEventHookFunc) service_cache_remove, session);
 	}

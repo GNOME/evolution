@@ -38,6 +38,9 @@ static CamelObjectClass *parent_class = NULL;
 /* Returns the class for a CamelService */
 #define CSERV_CLASS(so) CAMEL_SERVICE_CLASS (CAMEL_OBJECT_GET_CLASS(so))
 
+static void construct (CamelService *service, CamelSession *session,
+		       CamelProvider *provider, CamelURL *url,
+		       CamelException *ex);
 static gboolean service_connect(CamelService *service, CamelException *ex);
 static gboolean service_disconnect(CamelService *service, gboolean clean,
 				   CamelException *ex);
@@ -46,7 +49,6 @@ static GList *  query_auth_types (CamelService *service, gboolean connect, Camel
 static void     free_auth_types (CamelService *service, GList *authtypes);
 static char *   get_name (CamelService *service, gboolean brief);
 static char *   get_path (CamelService *service);
-static gboolean check_url (CamelService *service, CamelException *ex);
 
 
 static void
@@ -55,9 +57,9 @@ camel_service_class_init (CamelServiceClass *camel_service_class)
 	parent_class = camel_type_get_global_classfuncs (CAMEL_OBJECT_TYPE);
 
 	/* virtual method definition */
+	camel_service_class->construct = construct;
 	camel_service_class->connect = service_connect;
 	camel_service_class->disconnect = service_disconnect;
-	/*camel_service_class->is_connected = is_connected;*/
 	camel_service_class->query_auth_types = query_auth_types;
 	camel_service_class->free_auth_types = free_auth_types;
 	camel_service_class->get_name = get_name;
@@ -125,82 +127,69 @@ camel_service_get_type (void)
 	return camel_service_type;
 }
 
-static gboolean
-check_url (CamelService *service, CamelException *ex)
+
+static void
+construct (CamelService *service, CamelSession *session,
+	   CamelProvider *provider, CamelURL *url, CamelException *ex)
 {
 	char *url_string;
 
-	if (((service->provider->url_flags & CAMEL_URL_NEED_USER)
+	if (((provider->url_flags & CAMEL_URL_NEED_USER)
 	     == CAMEL_URL_NEED_USER) &&
-	    (service->url->user == NULL || service->url->user[0] == '\0')) {
-		url_string = camel_url_to_string (service->url, FALSE);
+	    (url->user == NULL || url->user[0] == '\0')) {
+		url_string = camel_url_to_string (url, FALSE);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_URL_INVALID,
 				      _("URL '%s' needs a username component"),
 				      url_string);
 		g_free (url_string);
-		return FALSE;
-	} else if (((service->provider->url_flags & CAMEL_URL_NEED_HOST)
+		return;
+	} else if (((provider->url_flags & CAMEL_URL_NEED_HOST)
 		    == CAMEL_URL_NEED_HOST) &&
-		   (service->url->host == NULL || service->url->host[0] == '\0')) {
-		url_string = camel_url_to_string (service->url, FALSE);
+		   (url->host == NULL || url->host[0] == '\0')) {
+		url_string = camel_url_to_string (url, FALSE);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_URL_INVALID,
 				      _("URL '%s' needs a host component"),
 				      url_string);
 		g_free (url_string);
-		return FALSE;
-	} else if (((service->provider->url_flags & CAMEL_URL_NEED_PATH)
+		return;
+	} else if (((provider->url_flags & CAMEL_URL_NEED_PATH)
 		    == CAMEL_URL_NEED_PATH) &&
-		   (service->url->path == NULL || service->url->path[0] == '\0')) {
-		url_string = camel_url_to_string (service->url, FALSE);
+		   (url->path == NULL || url->path[0] == '\0')) {
+		url_string = camel_url_to_string (url, FALSE);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_URL_INVALID,
 				      _("URL '%s' needs a path component"),
 				      url_string);
 		g_free (url_string);
-		return FALSE;
+		return;
 	}
 
-	return TRUE;
+	service->provider = provider;
+	service->url = url;
+	service->session = session;
+	camel_object_ref (CAMEL_OBJECT (session));
+
+	service->connected = FALSE;
 }
 
 /**
- * camel_service_new: create a new CamelService or subtype
- * @type: the CamelType of the class to create
+ * camel_service_construct:
+ * @service: the CamelService
  * @session: the session for the service
  * @provider: the service's provider
  * @url: the default URL for the service (may be NULL)
  * @ex: a CamelException
  *
- * Creates a new CamelService (or one of its subtypes), initialized
- * with the given parameters.
- *
- * Return value: the CamelService, or NULL.
+ * Constructs a CamelService initialized with the given parameters.
  **/
-CamelService *
-camel_service_new (CamelType type, CamelSession *session,
-		   CamelProvider *provider, CamelURL *url,
-		   CamelException *ex)
+void
+camel_service_construct (CamelService *service, CamelSession *session,
+			 CamelProvider *provider, CamelURL *url,
+			 CamelException *ex)
 {
-	CamelService *service;
+	g_return_if_fail (CAMEL_IS_SERVICE (service));
+	g_return_if_fail (CAMEL_IS_SESSION (session));
 
-	g_return_val_if_fail (CAMEL_IS_SESSION (session), NULL);
-
-	service = CAMEL_SERVICE (camel_object_new (type));
-
-	/*service->connect_level = 0;*/
-
-	service->provider = provider;
-	service->url = url;
-	if (!check_url (service, ex)) {
-		camel_object_unref (CAMEL_OBJECT (service));
-		return NULL;
-	}
-
-	service->session = session;
-	camel_object_ref (CAMEL_OBJECT (session));
-
-	service->connected = FALSE;
-
-	return service;
+	CSERV_CLASS (service)->construct (service, session, provider, url, ex);
 }
 
 
