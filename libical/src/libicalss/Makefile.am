@@ -15,24 +15,32 @@ INCLUDES =			\
 libicalss_la_LDFLAGS = -version-info 0:0:0
 
 libicalss_la_SOURCES =		\
+	icalcalendar.h		\
 	icalclassify.c		\
+	icalclassify.h		\
 	icalgauge.c		\
+	icalgauge.h		\
 	icalgaugeimpl.h		\
-	icaldirset.c		\
+	icaldirset.h		\
 	icaldirsetimpl.h	\
 	icalfileset.c		\
+	icalfileset.h		\
 	icalfilesetimpl.h	\
 	icalset.c		\
+	icalset.h		\
 	icalsslexer.l		\
 	icalssyacc.h		\
 	icalssyacc.y		\
 	icalspanlist.c		\
+	icalspanlist.h		\
 	icalmessage.c		\
+	icalmessage.h		\
 	icalcstpclient.c        \
 	icalcstpclient.h        \
 	icalcstpserver.c        \
 	icalcstpserver.h 	\
-	icalcstp.c
+	icalcstp.c		\
+	icalcstp.h
 
 libicalssincludedir = $(includedir)
 
@@ -59,5 +67,3 @@ libicalssinclude_HEADERS = icalss.h
 
 CONFIG_CLEAN_FILES = y.output
 
-EXTRA_DIST =			\
-	$(COMBINEDHEADERS)	\

@@ -1,3 +1,10 @@
+2001-07-10  Peter Williams  <peterw@ximian.com>
+
+	* src/libicalss/Makefile.am (libicalss_la_SOURCES): Add the
+	COMBINEDHEADERS here and remove the EXTRA_DIST. This fixes distcheck.
+	We can't just put CONBINEDHEADERS at the bottom of _SOURCES because
+	of the $(srcdir).
+
 2001-07-11  Damon Chaplin  <damon@ximian.com>
 
 	* src/libical/icaltimezone.c: only create the timezones array when we
