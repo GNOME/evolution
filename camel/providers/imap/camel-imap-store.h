@@ -83,6 +83,8 @@ typedef struct {
 /* Standard Camel function */
 CamelType camel_imap_store_get_type (void);
 
+gboolean camel_imap_store_check_online (CamelImapStore *store, CamelException *ex);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

@@ -275,3 +275,16 @@ camel_imap_message_cache_remove (CamelImapMessageCache *cache, const char *uid)
 	g_ptr_array_free (subparts, TRUE);
 }
 
+static gboolean
+clear_part (gpointer key, gpointer value, gpointer data)
+{
+	if (!strchr (key, '.'))
+		camel_imap_message_cache_remove (data, key);
+	return TRUE;
+}
+
+void
+camel_imap_message_cache_clear (CamelImapMessageCache *cache)
+{
+	g_hash_table_foreach_remove (cache->parts, clear_part, cache);
+}

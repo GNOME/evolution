@@ -1,3 +1,52 @@
+2001-03-20  Dan Winship  <danw@ximian.com>
+
+	* providers/imap/camel-imap-store.c
+	(camel_imap_store_check_online): Function to check if the store is
+	online and set an exception if not. Currently controlled by an
+	environment variable, but eventually there will be both a global
+	(session-level) setting and a per-store setting.
+	(construct): Set up storage_path and base_url here rather than at
+	connect-time.
+	(imap_auth_loop): Split out from imap_connect.
+	(imap_setup_online): Split out from imap_connect. Do the
+	post-authentication connection setup, and cache the results to
+	disk.
+	(imap_setup_offline): Set up a CamelImapStore with information
+	saved from a previous imap_setup_online.
+	(imap_connect): If online, do connect_to_server(),
+	imap_auth_loop(), and imap_setup_online(). Otherwise, do
+	imap_setup_offline().
+	(get_folder, get_folder_info): Add offline support.
+	(create_folder, subscribe_folder, unsubscribe_folder): Disable
+	these when offline (for now).
+
+	* providers/imap/camel-imap-folder.c (camel_imap_folder_new):
+	Remove the sync'ing-with-server stuff... it's done by
+	camel_imap_folder_selected now, which only gets called if the
+	store is online.
+	(camel_imap_folder_selected): add the code removed from
+	camel_imap_folder_new. Besides simplifying the folder_new and
+	summary_new code, this also means now that we'll DTRT if a
+	folder's UIDVALIDITY changes while we're connected. Also, when
+	that happens, clear the message cache explicitly.
+	(imap_refresh_info, imap_sync): These are no-ops when offline.
+	(imap_expunge, imap_append_message, imap_copy_message_to,
+	imap_search_by_expression): These don't yet work offline.
+	(imap_get_message, camel_imap_folder_fetch_data): Return an error
+	when trying to fetch a non-cached body part when we're offline.
+
+	* providers/imap/camel-imap-summary.c (camel_imap_summary_new):
+	Rewrite to not check the validity here. (We'll do it from
+	camel_imap_folder_selected instead.)
+
+	* providers/imap/camel-imap-command.c (camel_imap_command): Call
+	camel_imap_folder_selected even when the selection is all we're
+	doing, to match the changes in camel-imap-folder.c.
+
+	* providers/imap/camel-imap-message-cache.c
+	(camel_imap_message_cache_clear): New function to clear out a
+	message cache.
+
 2001-03-19  Christopher James Lahey  <clahey@ximian.com>
 
 	* Makefile.am (INCLUDES): Added $(EXTRA_GNOME_CFLAGS)

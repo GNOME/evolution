@@ -99,16 +99,14 @@ camel_imap_summary_init (CamelImapSummary *obj)
 /**
  * camel_imap_summary_new:
  * @filename: the file to store the summary in.
- * @validity: the current UIDVALIDITY value of the folder
  *
  * This will create a new CamelImapSummary object and read in the
- * summary data from disk, if it exists and has the right UIDVALIDITY
- * value.
+ * summary data from disk, if it exists.
  *
  * Return value: A new CamelImapSummary object.
  **/
 CamelFolderSummary *
-camel_imap_summary_new (const char *filename, guint32 validity)
+camel_imap_summary_new (const char *filename)
 {
 	CamelFolderSummary *summary = CAMEL_FOLDER_SUMMARY (
 		camel_object_new (camel_imap_summary_get_type ()));
@@ -118,21 +116,8 @@ camel_imap_summary_new (const char *filename, guint32 validity)
 	camel_folder_summary_set_filename (summary, filename);
 
 	if (camel_folder_summary_load (summary) == -1) {
-		if (errno == ENOENT) {
-			imap_summary->validity = validity;
-			return summary;
-		} else {
-			/* FIXME: are there error conditions where this won't work? */
-			camel_folder_summary_clear (summary);
-			camel_folder_summary_touch (summary);
-			
-			return summary;
-		}
-	}
-	
-	if (imap_summary->validity != validity) {
 		camel_folder_summary_clear (summary);
-		imap_summary->validity = validity;
+		camel_folder_summary_touch (summary);
 	}
 
 	return summary;

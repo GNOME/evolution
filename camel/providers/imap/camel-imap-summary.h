@@ -63,8 +63,7 @@ struct _CamelImapSummaryClass {
 };
 
 guint               camel_imap_summary_get_type     (void);
-CamelFolderSummary *camel_imap_summary_new          (const char *filename,
-						     guint32 validity);
+CamelFolderSummary *camel_imap_summary_new          (const char *filename);
 
 #endif /* ! _CAMEL_IMAP_SUMMARY_H */
 

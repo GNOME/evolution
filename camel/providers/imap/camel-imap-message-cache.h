@@ -74,6 +74,7 @@ CamelStream *camel_imap_message_cache_get    (CamelImapMessageCache *cache,
 void         camel_imap_message_cache_remove (CamelImapMessageCache *cache,
 					      const char *uid);
 
+void         camel_imap_message_cache_clear  (CamelImapMessageCache *cache);
 
 /* Standard Camel function */
 CamelType camel_imap_message_cache_get_type (void);
