@@ -1,3 +1,8 @@
+2003-04-30  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-request.c (e_request_string): Handle GTK_RESPONSE_NONE.
+	[#42038]
+
 2003-04-24  Chris Toshok  <toshok@ximian.com>
 
 	[ for bug #41211 ]

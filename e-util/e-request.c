@@ -92,6 +92,7 @@ e_request_string (GtkWindow *parent,
 		text = g_strdup (gtk_entry_get_text (GTK_ENTRY (entry)));
 		break;
 	case GTK_RESPONSE_CANCEL:
+	case GTK_RESPONSE_NONE:
 		text = NULL;
 		break;
 	default:
