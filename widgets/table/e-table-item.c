@@ -3,9 +3,10 @@
  * E-table-item.c: A GnomeCanvasItem that is a view of an ETableModel.
  *
  * Author:
+ *   Christopher James Lahey <clahey@ximian.com>
  *   Miguel de Icaza (miguel@gnu.org)
  *
- * Copyright 1999, Ximian, Inc.
+ * Copyright 1999, 2000, 2001, Ximian, Inc.
  *
  * TODO:
  *   Add a border to the thing, so that focusing works properly.
@@ -1614,15 +1615,18 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			gtk_timeout_remove (eti->tooltip->timer);
 			eti->tooltip->timer = 0;
 		}
-		e_canvas_item_grab_focus(GNOME_CANVAS_ITEM(eti));
 
 		switch (e->button.button) {
 		case 1: /* Fall through. */
 		case 2:
+			e_canvas_item_grab_focus(GNOME_CANVAS_ITEM(eti));
 			gnome_canvas_item_w2i (item, &e->button.x, &e->button.y);
 
-			if (!find_cell (eti, e->button.x, e->button.y, &col, &row, &x1, &y1))
+			if (!find_cell (eti, e->button.x, e->button.y, &col, &row, &x1, &y1)) {
+				if (eti_editing (eti))
+					e_table_item_leave_edit (eti);
 				return TRUE;
+			}
 
 			ecell_view = eti->cell_views [col];
 			button = *(GdkEventButton *)e;
@@ -1662,6 +1666,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 
 			break;
 		case 3:
+			e_canvas_item_grab_focus(GNOME_CANVAS_ITEM(eti));
 			gnome_canvas_item_w2i (item, &e->button.x, &e->button.y);
 			if (!find_cell (eti, e->button.x, e->button.y, &col, &row, &x1, &y1))
 				return TRUE;
@@ -1964,6 +1969,12 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			gtk_timeout_remove (eti->tooltip->timer);
 		eti->tooltip->timer = 0;
 		break;
+
+	case GDK_FOCUS_CHANGE:
+		if (! e->focus_change.in) {
+			if (eti_editing (eti))
+				e_table_item_leave_edit (eti);
+		}
 
 	default:
 		return_val = FALSE;

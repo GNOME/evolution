@@ -4,17 +4,14 @@
  *
  * Author:
  *   Miguel de Icaza (miguel@ximian.com)
- *   Chris Lahey (clahey@ximian.com)
+ *   Chris Lahey <clahey@ximian.com>
  *
- * Copyright 1999, Ximian, Inc
+ * Copyright 1999, 2000, 2001, Ximian, Inc
  */
 #include <config.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#ifdef HAVE_ALLOCA_H
-#include <alloca.h>
-#endif
 #include <stdio.h>
 #include "gal/util/e-i18n.h"
 #include <libgnomeui/gnome-canvas.h>
@@ -567,6 +564,18 @@ et_canvas_realize (GtkWidget *canvas, ETable *e_table)
 }
 
 static void
+et_canvas_button_press (GtkWidget *canvas, GdkEvent *event, ETable *e_table)
+{
+	if (GTK_WIDGET_HAS_FOCUS(canvas)) {
+		GnomeCanvasItem *item = GNOME_CANVAS(canvas)->focused_item;
+
+		if (E_IS_TABLE_ITEM(item)) {
+			e_table_item_leave_edit(E_TABLE_ITEM(item));
+		}
+	}
+}
+
+static void
 e_table_setup_table (ETable *e_table, ETableHeader *full_header, ETableHeader *header,
 		     ETableModel *model)
 {
@@ -621,9 +630,13 @@ e_table_setup_table (ETable *e_table, ETableHeader *full_header, ETableHeader *h
 		"y2", (double) 100,
 		"fill_color_gdk", &GTK_WIDGET(e_table->table_canvas)->style->base[GTK_STATE_NORMAL],
 		NULL);
+
 	gtk_signal_connect (
 		GTK_OBJECT(e_table->table_canvas), "realize",
 		GTK_SIGNAL_FUNC(et_canvas_realize), e_table);
+	gtk_signal_connect (
+		GTK_OBJECT(e_table->table_canvas), "button_press_event",
+		GTK_SIGNAL_FUNC(et_canvas_button_press), e_table);
 	e_table->canvas_vbox = gnome_canvas_item_new(
 		gnome_canvas_root(e_table->table_canvas),
 		e_canvas_vbox_get_type(),
