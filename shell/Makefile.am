@@ -105,6 +105,8 @@ eshellinclude_HEADERS = 			\
 	e-icon-factory.h			\
 	e-shell-corba-icon-utils.h		\
 	e-shell-utils.h				\
+	e-task-bar.h				\
+	e-task-widget.h				\
 	evolution-config-control.h		\
 	evolution-shell-component-utils.h	\
 	evolution-wizard.h
@@ -119,6 +121,8 @@ libeshell_la_SOURCES = 				\
 	evolution-config-control.c		\
 	evolution-shell-component-utils.c	\
 	evolution-wizard.c			\
+	e-task-bar.c				\
+	e-task-widget.c				\
 	$(eshellinclude_HEADERS)
 
 libeshell_la_LIBADD =				\
@@ -160,10 +164,6 @@ evolution_SOURCES =				\
 	e-sidebar.h				\
 	e-user-creatable-items-handler.c	\
 	e-user-creatable-items-handler.h	\
-	e-task-bar.c				\
-	e-task-bar.h				\
-	e-task-widget.c				\
-	e-task-widget.h				\
 	main.c
 
 evolution_LDADD =							\

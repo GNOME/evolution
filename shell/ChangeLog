@@ -1,5 +1,10 @@
 2003-12-03  Ettore Perazzoli  <ettore@ximian.com>
 
+	* Makefile.am: move e-task-bar and e-task-widget into libeshell.
+	[Fix pointed out by Bernard Leach <leachbj@bouncycastle.org>.]
+
+2003-12-03  Ettore Perazzoli  <ettore@ximian.com>
+
 	* Evolution-Session.idl: Remove.
 	* Evolution-Activity.idl: Remove.
 	* Evolution-ShellComponent.idl: Remove.
