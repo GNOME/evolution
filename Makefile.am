@@ -28,6 +28,7 @@ SUBDIRS =			\
 	calendar		\
 	wombat			\
 	art			\
+	default_user		\
 	po
 
 dist-hook:

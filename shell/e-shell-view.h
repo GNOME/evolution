@@ -4,6 +4,7 @@
 #include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-ui-handler.h>
 #include "e-shell.h"
+#include "e-util/e-paned.h"
 
 #define E_SHELL_VIEW_TYPE        (e_shell_view_get_type ())
 #define E_SHELL_VIEW(o)          (GTK_CHECK_CAST ((o), E_SHELL_VIEW_TYPE, EShellView))
@@ -26,8 +27,9 @@ struct _EShellView {
 	EFolder   *efolder;
 
 	gboolean  shortcut_displayed;
-	GtkWidget *shortcut_hpaned;
+	GtkWidget *hpaned;
 	GtkWidget *shortcut_bar;
+	GtkWidget *treeview;	
 	GtkWidget *contents;
 
 	EShellViewPrivate *priv;
@@ -46,6 +48,9 @@ void       e_shell_view_new_shortcut (EShellView *esv);
 
 void       e_shell_view_set_view     (EShellView *eshell_view,
 				      EFolder *efolder);
+
+void e_shell_view_toggle_shortcut_bar (EShellView *eshell_view);
+void e_shell_view_toggle_treeview (EShellView *eshell_view);
 
 void e_shell_view_display_shortcut_bar (EShellView *eshell_view, gboolean display);
 

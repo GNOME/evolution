@@ -1,0 +1,8 @@
+<?xml version="1.0">
+<shortcutpane>
+  <shortcut><uri name="file:///../folders/Today/"/></shortcut>
+  <shortcut><uri name="file:///../folders/Inbox/"/></shortcut>
+  <shortcut><uri name="file:///../folders/Calendar/"/></shortcut>
+  <shortcut><uri name="file:///../folders/Contacts/"/></shortcut>
+  <shortcut><uri name="file:///../folders/Tasks/"/></shortcut>
+</shortcutpane>

@@ -92,6 +92,19 @@ esv_cmd_close_open_items (GtkWidget *widget, EShellView *esv)
 	printf ("Unimplemented function");
 }
 
+static void
+esv_cmd_toggle_shortcut_bar (GtkWidget *widget, EShellView *esv)
+{
+	e_shell_view_toggle_shortcut_bar (esv);
+}
+
+static void
+esv_cmd_toggle_treeview (GtkWidget *widget, EShellView *esv)
+{
+	e_shell_view_toggle_treeview (esv);
+}
+
+
 /*
  * Fixme
  *
@@ -182,6 +195,12 @@ static GnomeUIInfo esv_menu_edit [] = {
 };
 
 static GnomeUIInfo esv_menu_view [] = {
+	{ GNOME_APP_UI_ITEM, N_("_Toggle Shortcut Bar"),
+	  N_("Toggles the shortcut bar"), esv_cmd_toggle_shortcut_bar, NULL,
+	  NULL, 0, 0, 'n', GDK_CONTROL_MASK | GDK_SHIFT_MASK },
+	{ GNOME_APP_UI_ITEM, N_("_Toggle Treeview"),
+	  N_("Toggles the tree view"), esv_cmd_toggle_treeview, NULL,
+	  NULL, 0, 0, 'n', GDK_CONTROL_MASK | GDK_SHIFT_MASK },		
 	GNOMEUIINFO_END
 };
 

@@ -1,3 +1,21 @@
+2000-04-24  Matt Loper  <matt@helixcode.com>
+
+	* widgets/Makefile.am: Added e-paned directory.
+
+	* default_user/Makefile.am: new file.
+
+	* default_user/Main_Shortcuts.xml: New file; is used to fill the
+	shortcut bar's "main shortcuts" pane.
+
+	* default_user/Other_Shortcuts.xml: New file, used to fill the
+	shortcut bar's "other shortcuts" pane.
+
+	* default_user/Inbox.mbox: New file. This is the first message a
+	new user will see when they fire up Evolution. Needs work.
+
+	* Makefile.am: added default_user directory.
+	* configure.in: same.
+
 2000-04-23  NotZed  <NotZed@HelixCode.com>
 
 	* tests/test10.c: Removed some unecessary includes.  From

@@ -1,3 +1,11 @@
+2000-04-24  Matt Loper  <matt@helixcode.com>
+
+	* e-paned.c: New file. Makes a GtkPaned with more than two
+	children.
+	* e-paned.h: same.
+
+	* Makefile.am: added e-paned.[ch].
+
 2000-04-19  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-xml-utils.c, e-xml-utils.h: Added

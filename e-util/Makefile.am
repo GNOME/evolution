@@ -19,4 +19,6 @@ libeutil_la_SOURCES = \
 	e-xml-utils.c	\
 	e-xml-utils.h	\
 	e-sexp.c	\
-	e-sexp.h
+	e-sexp.h	\
+	e-paned.c	\
+	e-paned.h

@@ -1,3 +1,21 @@
+2000-04-24  Matt Loper  <matt@helixcode.com>
+
+	* e-shell-view.h: Added hpaned and treeview widgets to
+	EShellView. Added e_shell_view_toggle_shortcut_bar() and
+	e_shell_view_toggle_treeview().
+
+	* e-shell-view.c (e_shell_view_setup_shortcut_display): Use EPaned
+	widget to house our shortcut bar.
+	(e_shell_view_toggle_shortcut_bar): New function; toggles whether
+	the shortcut bar is showing.
+	(e_shell_view_toggle_treeview): Same, for the treeview (NYI).
+	(e_shell_view_new): Put the notebook view in our EPaned widget.
+
+	* e-shell-view-menu.c (esv_cmd_toggle_shortcut_bar): New function;
+	toggles whether the shortcut bar is viewed.
+	(esv_cmd_toggle_treeview): Same, but with the treeview.  Added
+	menuitems in the "view" menu to allow access to the above.
+
 2000-04-19  Seth Alves  <alves@hungry.com>
 
 	* e-shell-view.c (get_view): set calendar's uri with a property bag

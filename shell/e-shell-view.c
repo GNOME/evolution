@@ -96,20 +96,25 @@ e_shell_view_setup (EShellView *eshell_view)
 	gtk_window_set_default_size (GTK_WINDOW (eshell_view), 600, 600);
 }
 
+
+
+
 static void
 e_shell_view_setup_shortcut_display (EShellView *eshell_view)
 {
-	eshell_view->shortcut_bar = e_shortcut_bar_view_new (eshell_view->eshell->shortcut_bar);
+	eshell_view->shortcut_bar =
+		e_shortcut_bar_view_new (eshell_view->eshell->shortcut_bar);
 	
-	eshell_view->shortcut_hpaned = gtk_hpaned_new ();
-	gtk_widget_show (eshell_view->shortcut_hpaned);
-	gtk_paned_set_position (GTK_PANED (eshell_view->shortcut_hpaned), 100);
+	eshell_view->hpaned = e_paned_new (TRUE);
 
-	gtk_paned_pack1 (GTK_PANED (eshell_view->shortcut_hpaned),
-			 eshell_view->shortcut_bar, FALSE, FALSE);
-	gtk_widget_show (eshell_view->shortcut_bar);
+	e_paned_insert (eshell_view->hpaned, 0,
+			eshell_view->shortcut_bar,
+			100);
 
-	gnome_app_set_contents (GNOME_APP (eshell_view), eshell_view->shortcut_hpaned);
+	gtk_widget_show_all (eshell_view->hpaned);
+	
+	gnome_app_set_contents (GNOME_APP (eshell_view),
+				eshell_view->hpaned);
 
 	gtk_signal_connect (
 		GTK_OBJECT (eshell_view->shortcut_bar), "item_selected",
@@ -221,6 +226,25 @@ get_view (EShellView *eshell_view, EFolder *efolder, Bonobo_UIHandler uih)
 	return w;
 }
 
+void e_shell_view_toggle_shortcut_bar (EShellView *eshell_view)
+{
+	GtkWidget *shortcut_bar = eshell_view->shortcut_bar;
+	GtkWidget *hpaned = eshell_view->hpaned;
+	
+	if (shortcut_bar->parent) {
+		gtk_widget_ref (shortcut_bar);				
+		e_paned_remove (hpaned, shortcut_bar);
+	}
+	else
+		e_paned_insert (hpaned, 0, shortcut_bar, 
+				100);
+	gtk_widget_show_all (GTK_WIDGET (hpaned));
+}
+
+void e_shell_view_toggle_treeview (EShellView *eshell_view)
+{
+	
+}
 
 
 void
@@ -322,15 +346,13 @@ e_shell_view_new (EShell *eshell, EFolder *efolder, gboolean show_shortcut_bar)
 
 		gtk_widget_show (eshell_view->priv->notebook);
 		
-		if (eshell_view->shortcut_displayed){
-			gtk_paned_pack2 (
-				GTK_PANED (eshell_view->shortcut_hpaned),
-				eshell_view->priv->notebook, TRUE, TRUE);
-		}
-		else {
-			gnome_app_set_contents (GNOME_APP (eshell_view),
-						eshell_view->priv->notebook);
-		}
+		e_paned_insert (E_PANED (eshell_view->hpaned),
+				1,
+				eshell_view->priv->notebook,
+//				gtk_button_new_with_label ("foobar"),
+				500);
+		
+		gtk_widget_show_all (GTK_WIDGET (eshell_view->hpaned));
 	}
 
 	e_shell_view_set_view (eshell_view, efolder);
