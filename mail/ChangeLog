@@ -1,3 +1,8 @@
+2004-03-23  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-folder-tree-model.c (em_folder_tree_model_set_expanded):
+	Fixed some logic bugs.
+
 2004-03-23  Radek Doulik  <rodo@ximian.com>
 
 	* em-format-html-display.c (efhd_format_attachment): use

@@ -998,20 +998,17 @@ em_folder_tree_model_set_expanded (EMFolderTreeModel *model, const char *key, gb
 			*p = '\0';
 		
 		if (!(node = find_xml_node (node, name))) {
-			if (expanded) {
-				/* node (or parent node) doesn't exist, need to add it */
-				node = xmlNewChild (parent, NULL, "node", NULL);
-				xmlSetProp (node, "name", name);
-				xmlSetProp (node, "expand", "true");
-			} else {
+			if (!expanded) {
 				/* node doesn't exist, so we don't need to set expanded to FALSE */
 				return;
 			}
-		} else if (p == NULL && !expanded) {
-			/* found the node we were looking for */
-			xmlSetProp (node, "expand", "false");
-			return;
+			
+			/* node (or parent node) doesn't exist, need to add it */
+			node = xmlNewChild (parent, NULL, "node", NULL);
+			xmlSetProp (node, "name", name);
 		}
+		
+		xmlSetProp (node, "expand", expanded || p ? "true" : "false");
 		
 		name = p ? p + 1 : NULL;
 	} while (name);
