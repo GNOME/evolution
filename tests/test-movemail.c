@@ -1,8 +1,7 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
 #include <camel.h>
-#include "camel-pop3-store.h"
-#include "camel-pop3-folder.h"
+#include <e-util/e-setup.h>
 
 static char *
 auth_callback (char *prompt, gboolean secret, CamelService *service,
@@ -21,6 +20,8 @@ auth_callback (char *prompt, gboolean secret, CamelService *service,
 	return g_strdup (buf);
 }
 
+extern char *evolution_folders_dir;
+
 int main (int argc, char **argv)
 {
 	CamelSession *session;
@@ -29,14 +30,25 @@ int main (int argc, char **argv)
 	CamelFolder *folder, *outfolder;
 	int nmsgs, i;
 	CamelMimeMessage *msg;
+	char *url;
+	gboolean delete = FALSE;
 
 	gtk_init (&argc, &argv);
 	camel_init ();
 
+	if (argc == 3) {
+		if (!strcmp (argv[1], "--delete") ||
+		    !strcmp (argv[1], "-d")) {
+			delete = TRUE;
+			argc--;
+			argv++;
+		}
+	}
 	if (argc != 2) {
-		fprintf (stderr, "Usage: test-movemail url\n");
+		fprintf (stderr, "Usage: test-movemail [--delete] url\n");
 		exit (1);
 	}
+	e_setup_base_dir ();
 	camel_provider_scan ();
 	session = camel_session_new (auth_callback);
 
@@ -78,7 +90,9 @@ int main (int argc, char **argv)
 #ifdef DISPLAY_ONLY
 	stdout_stream = camel_stream_fs_new_with_fd (1);
 #else
-	outstore = camel_session_get_store (session, "mbox:///home/danw/evolution/folders", ex);
+	url = g_strdup_printf ("mbox://%s", evolution_folders_dir);
+	outstore = camel_session_get_store (session, url, ex);
+	g_free (url);
 	if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
 		printf ("Couldn't open output store: %s\n",
 			camel_exception_get_description (ex));
@@ -116,14 +130,16 @@ int main (int argc, char **argv)
 				camel_exception_get_description (ex));
 			exit (1);
 		}
-#if 0
-		camel_folder_delete_message_by_number (folder, i, ex);
-		if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
-			printf ("Couldn't delete message: %s\n",
-				camel_exception_get_description (ex));
-			exit (1);
+
+		if (delete) {
+			camel_folder_delete_message_by_number (folder, i, ex);
+			if (camel_exception_get_id (ex) !=
+			    CAMEL_EXCEPTION_NONE) {
+				printf ("Couldn't delete message: %s\n",
+					camel_exception_get_description (ex));
+				exit (1);
+			}
 		}
-#endif
 #endif
 	}
 
@@ -146,5 +162,4 @@ void
 gratuitous_dependency_generator()
 {
 	xmlSetProp();
-	e_sexp_add_function();
 }
