@@ -1,5 +1,12 @@
 2003-03-26  Chris Toshok  <toshok@ximian.com>
 
+	[ fixes bug #34651 ]
+	* gui/component/select-names/e-select-names.c
+	(select_entry_changed): strcmp -> g_utf8_collate.
+	(update_query): encode the string we pass for the query.
+
+2003-03-26  Chris Toshok  <toshok@ximian.com>
+
 	[ fixes bug #34085 ]
 	* gui/contact-list-editor/e-contact-list-editor.c
 	(table_drag_data_received_cb): only successfully complete the drag

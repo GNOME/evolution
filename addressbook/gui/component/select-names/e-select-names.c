@@ -46,6 +46,7 @@
 #include <gal/widgets/e-categories-master-list-option-menu.h>
 #include <gal/e-text/e-entry.h>
 #include <e-util/e-categories-master-list-wombat.h>
+#include "e-util/e-sexp.h"
 
 static void e_select_names_init		(ESelectNames		 *card);
 static void e_select_names_class_init	(ESelectNamesClass	 *klass);
@@ -354,22 +355,27 @@ update_query (GtkWidget *widget, ESelectNames *e_select_names)
 	char *query;
 	char *q_array[4];
 	int i;
+	GString *s = g_string_new ("");
+
 	if (e_select_names->categories) {
 		category = e_categories_master_list_option_menu_get_category (E_CATEGORIES_MASTER_LIST_OPTION_MENU (e_select_names->categories));
 	}
 	if (e_select_names->select_entry) {
 		search = gtk_entry_get_text (GTK_ENTRY (e_select_names->select_entry));
 	}
+
+	e_sexp_encode_string (s, search);
+
 	i = 0;
 	q_array[i++] = "(contains \"email\" \"\")";
 	if (category && *category)
 		q_array[i++] = g_strdup_printf ("(is \"category\" \"%s\")", category);
 	if (search && *search)
-		q_array[i++] = g_strdup_printf ("(or (beginswith \"email\" \"%s\") "
-						"    (beginswith \"full_name\" \"%s\") "
-						"    (beginswith \"nickname\" \"%s\")"
-						"    (beginswith \"file_as\" \"%s\"))",
-						search, search, search, search);
+		q_array[i++] = g_strdup_printf ("(or (beginswith \"email\" %s) "
+						"    (beginswith \"full_name\" %s) "
+						"    (beginswith \"nickname\" %s)"
+						"    (beginswith \"file_as\" %s))",
+						s->str, s->str, s->str, s->str);
 	q_array[i++] = NULL;
 	if (i > 2) {
 		char *temp = g_strjoinv (" ", q_array);
@@ -385,6 +391,7 @@ update_query (GtkWidget *widget, ESelectNames *e_select_names)
 		g_free (q_array[i]);
 	}
 	g_free (query);
+	g_string_free (s, TRUE);
 }
 
 static void
@@ -423,7 +430,7 @@ select_entry_changed (GtkWidget *widget, ESelectNames *e_select_names)
 									    E_CARD_SIMPLE_FIELD_NAME_OR_ORG,
 									    model_row),
 						    -1);
-			if (strcmp (select_strcoll_string, row_strcoll_string) <= 0) {
+			if (g_utf8_collate (select_strcoll_string, row_strcoll_string) <= 0) {
 				g_free (row_strcoll_string);
 				break;
 			}
