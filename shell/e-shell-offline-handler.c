@@ -134,6 +134,19 @@ progress_listener_servant_new (EShellOfflineHandler *offline_handler,
 static void
 progress_listener_servant_free (OfflineProgressListenerServant *servant)
 {
+	CORBA_Environment ev;
+	PortableServer_ObjectId *oid;
+
+	CORBA_exception_init (&ev);
+
+	oid = PortableServer_POA_servant_to_id (bonobo_poa (), servant, &ev);
+	PortableServer_POA_deactivate_object (bonobo_poa (), oid, &ev);
+	CORBA_free (oid);
+
+	POA_GNOME_Evolution_OfflineProgressListener__fini ((POA_GNOME_Evolution_OfflineProgressListener *) servant, &ev);
+
+	CORBA_exception_free (&ev);
+
 	g_free (servant->component_id);
 	g_free (servant);
 }
@@ -278,20 +291,12 @@ static void
 component_info_free (ComponentInfo *component_info)
 {
 	CORBA_Environment ev;
-	PortableServer_ObjectId *oid;
 
 	CORBA_exception_init (&ev);
 
 	g_free (component_info->id);
 
-	oid = PortableServer_POA_servant_to_id (bonobo_poa (), component_info->progress_listener_servant, &ev);
-	PortableServer_POA_deactivate_object (bonobo_poa (), oid, &ev);
-	CORBA_free (oid);
-
-	POA_GNOME_Evolution_OfflineProgressListener__fini
-		((POA_GNOME_Evolution_OfflineProgressListener *) component_info->progress_listener_servant, &ev);
 	progress_listener_servant_free (component_info->progress_listener_servant);
-
 	CORBA_Object_release (component_info->progress_listener_interface, &ev);
 
 	CORBA_Object_release (component_info->offline_interface, &ev);

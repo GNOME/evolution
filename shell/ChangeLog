@@ -1,5 +1,12 @@
 2001-08-03  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-offline-handler.c (progress_listener_servant_free):
+	Actually __fini the servant and deactivate the object too.
+	(component_info_free): Updated accordingly [i.e. don't do the
+	deactivation stuff here].
+
+2001-08-03  Ettore Perazzoli  <ettore@ximian.com>
+
 	[Fixes #4663, startup crash.]
 
 	* e-shell.c (e_shell_construct): Make sure the pointer to the db
