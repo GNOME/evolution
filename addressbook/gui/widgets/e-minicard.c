@@ -809,6 +809,8 @@ static void
 remodel( EMinicard *e_minicard )
 {
 	int count = 0;
+	if ( !(GTK_OBJECT_FLAGS( e_minicard ) & GNOME_CANVAS_ITEM_REALIZED) )
+		return;
 	if (e_minicard->simple) {
 		ECardSimpleField field;
 		GList *list;

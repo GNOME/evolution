@@ -691,7 +691,7 @@ e_select_names_text_model_activate_obj (ETextModel *model, gint n)
 	card = e_select_names_model_get_card (source, i);
 	g_return_if_fail (card);
 	
-	contact_editor = e_contact_editor_new ((ECard *) card, FALSE, TRUE);
+	contact_editor = e_contact_editor_new ((ECard *) card, FALSE, NULL);
 	e_contact_editor_raise (contact_editor);
 }
 

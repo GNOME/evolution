@@ -609,37 +609,45 @@ static char *list [] = {
 
 #define SPEC "<?xml version=\"1.0\"?>      \
 <ETableSpecification click-to-add=\"true\" draw-grid=\"true\" _click-to-add-message=\"* Click here to add a contact *\">   \
-  <ETableColumn model_col= \"0\" _title=\"Name\"          expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
-  <ETableColumn model_col= \"2\" _title=\"Email\"         expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
-  <ETableColumn model_col= \"3\" _title=\"Primary\"       expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
-  <ETableColumn model_col= \"4\" _title=\"Business\"      expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
-  <ETableColumn model_col= \"5\" _title=\"Home\"          expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
-  <ETableColumn model_col= \"6\" _title=\"Organization\"  expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
-  <ETableColumn model_col= \"7\" _title=\"Business\"      expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
-  <ETableColumn model_col= \"8\" _title=\"Home\"          expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
-  <ETableColumn model_col= \"9\" _title=\"Mobile\"        expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
-  <ETableColumn model_col=\"10\" _title=\"Car\"           expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
-  <ETableColumn model_col=\"11\" _title=\"Business Fax\"  expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
-  <ETableColumn model_col=\"12\" _title=\"Home Fax\"      expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
-  <ETableColumn model_col=\"13\" _title=\"Business 2\"    expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
-  <ETableColumn model_col=\"14\" _title=\"Home 2\"        expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
-  <ETableColumn model_col=\"15\" _title=\"ISDN\"          expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
-  <ETableColumn model_col=\"16\" _title=\"Other\"         expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
-  <ETableColumn model_col=\"17\" _title=\"Pager\"         expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
-  <ETableColumn model_col=\"18\" _title=\"Other\"         expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
-  <ETableColumn model_col=\"19\" _title=\"Email 2\"       expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
-  <ETableColumn model_col=\"20\" _title=\"Email 3\"       expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
-  <ETableColumn model_col=\"21\" _title=\"Web Site\"      expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
-  <ETableColumn model_col=\"22\" _title=\"Department\"    expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
-  <ETableColumn model_col=\"23\" _title=\"Office\"        expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
-  <ETableColumn model_col=\"24\" _title=\"Title\"         expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
-  <ETableColumn model_col=\"25\" _title=\"Profession\"    expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
-  <ETableColumn model_col=\"26\" _title=\"Manager\"       expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
-  <ETableColumn model_col=\"27\" _title=\"Assistant\"     expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
-  <ETableColumn model_col=\"28\" _title=\"Nickname\"      expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
-  <ETableColumn model_col=\"29\" _title=\"Spouse\"        expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
-  <ETableColumn model_col=\"30\" _title=\"Note\"          expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
-  <ETableColumn model_col=\"31\" _title=\"Free-busy URL\" expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
+  <ETableColumn model_col= \"0\" _title=\"File As\"          expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col= \"1\" _title=\"Full Name\"        expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col= \"3\" _title=\"Email\"            expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col= \"4\" _title=\"Primary Phone\"    expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col= \"5\" _title=\"Assistant Phone\"  expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col= \"6\" _title=\"Business Phone\"   expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col= \"7\" _title=\"Callback Phone\"   expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col= \"8\" _title=\"Company Phone\"    expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col= \"9\" _title=\"Home Phone\"       expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"10\" _title=\"Organization\"     expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"11\" _title=\"Business Address\" expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"12\" _title=\"Home Address\"     expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"13\" _title=\"Mobile Phone\"     expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"14\" _title=\"Car Phone\"        expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"15\" _title=\"Business Fax\"     expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"16\" _title=\"Home Fax\"         expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"17\" _title=\"Business Phone 2\" expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"18\" _title=\"Home Phone 2\"     expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"19\" _title=\"ISDN\"             expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"20\" _title=\"Other Phone\"      expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"21\" _title=\"Other Fax\"        expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"22\" _title=\"Pager\"            expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"23\" _title=\"Radio\"            expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"24\" _title=\"Telex\"            expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"25\" _title=\"TTY\"              expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"26\" _title=\"Other Address\"    expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"27\" _title=\"Email 2\"          expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"28\" _title=\"Email 3\"          expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"29\" _title=\"Web Site\"         expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"30\" _title=\"Department\"       expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"31\" _title=\"Office\"           expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"32\" _title=\"Title\"            expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"33\" _title=\"Profession\"       expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"34\" _title=\"Manager\"          expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"35\" _title=\"Assistant\"        expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"36\" _title=\"Nickname\"         expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"37\" _title=\"Spouse\"           expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"38\" _title=\"Note\"             expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"39\" _title=\"Free-busy URL\"    expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
   <ETableState>                            \
     <column source=\"0\"/>                 \
     <column source=\"1\"/>                 \

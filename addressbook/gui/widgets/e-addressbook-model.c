@@ -90,7 +90,7 @@ addressbook_destroy(GtkObject *object)
 static int
 addressbook_col_count (ETableModel *etc)
 {
-	return E_CARD_SIMPLE_FIELD_LAST;
+	return E_CARD_SIMPLE_FIELD_LAST - 4;
 }
 
 /* This function returns the number of rows in our ETableModel. */
@@ -107,11 +107,11 @@ addressbook_value_at (ETableModel *etc, int col, int row)
 {
 	EAddressbookModel *addressbook = E_ADDRESSBOOK_MODEL(etc);
 	const char *value;
-	if ( col >= E_CARD_SIMPLE_FIELD_LAST - 1 || row >= addressbook->data_count )
+	if ( col >= E_CARD_SIMPLE_FIELD_LAST || row >= addressbook->data_count )
 		return NULL;
 
 	value = e_card_simple_get_const(addressbook->data[row], 
-					col + 1);
+					col);
 	return (void *)(value ? value : "");
 }
 
@@ -122,10 +122,10 @@ addressbook_set_value_at (ETableModel *etc, int col, int row, const void *val)
 	EAddressbookModel *addressbook = E_ADDRESSBOOK_MODEL(etc);
 	ECard *card;
 	if (addressbook->editable) {
-		if ( col >= E_CARD_SIMPLE_FIELD_LAST - 1|| row >= addressbook->data_count )
+		if ( col >= E_CARD_SIMPLE_FIELD_LAST|| row >= addressbook->data_count )
 			return;
 		e_card_simple_set(addressbook->data[row],
-				  col + 1,
+				  col,
 				  val);
 		gtk_object_get(GTK_OBJECT(addressbook->data[row]),
 			       "card", &card,

@@ -1,3 +1,26 @@
+2001-03-04  Christopher James Lahey  <clahey@ximian.com>
+
+	* backend/ebook/e-card-simple.c: Cleaned up the formatting in this
+	file a bit.
+
+	* contact-editor/e-contact-editor.c (e_contact_editor_set_arg):
+	Made it so that passing in NULL to the writable_fields arg sets
+	the set of writable fields to the empty set.
+
+	* gui/component/select-names/e-select-names-text-model.c
+	(e_select_names_text_model_activate_obj): Pass NULL as the
+	writable_fields argument here.
+
+	* gui/widgets/e-addressbook-model.c: Don't offset by one here.
+	This way we will get the file_as field as one of our
+	ETableColumns.
+
+	* gui/widgets/e-addressbook-view.c (SPEC): Updated this for the
+	changes in ECardSimple.
+
+	* gui/widgets/e-minicard.c (remodel): Don't remodel if the item
+	isn't realized.
+
 2001-03-02  Chris Toshok  <toshok@ximian.com>
 
 	* backend/pas/pas-backend-ldap.c: doh, track renaming of

@@ -1064,8 +1064,13 @@ e_contact_editor_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		break;
 
 	case ARG_WRITABLE_FIELDS:
+		if (editor->writable_fields)
+			gtk_object_unref(GTK_OBJECT(editor->writable_fields));
 		editor->writable_fields = GTK_VALUE_POINTER (*arg);
-		gtk_object_ref (GTK_OBJECT (editor->writable_fields));
+		if (editor->writable_fields)
+			gtk_object_ref (GTK_OBJECT (editor->writable_fields));
+		else
+			editor->writable_fields = e_list_new(NULL, NULL, NULL);
 		enable_writable_fields (editor);
 		break;
 	}
