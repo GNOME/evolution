@@ -1,3 +1,9 @@
+2002-03-13  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* folder-browser-window.c (folder_browser_window_new): Set a
+	default size of the window, so we don't get this itty-bitty window
+	the size of a quarter on the screen when it first gets shown.
+
 2002-03-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-display.c (on_link_clicked): Handle digest: urls.

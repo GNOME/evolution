@@ -36,9 +36,15 @@
 
 #include "folder-browser-ui.h"
 
+
+#define MINIMUM_WIDTH  600
+#define MINIMUM_HEIGHT 400
+
 #define PARENT_TYPE (bonobo_window_get_type ())
 
 static BonoboWindowClass *folder_browser_window_parent_class = NULL;
+
+static GtkAllocation last_allocation = { 0, 0 };
 
 static void
 folder_browser_window_destroy (GtkObject *object)
@@ -71,6 +77,23 @@ folder_browser_window_init (GtkObject *object)
 }
 
 
+static void
+folder_browser_window_size_allocate_cb (GtkWidget *widget, GtkAllocation *allocation)
+{
+	last_allocation = *allocation;
+}
+
+static void
+set_default_size (GtkWidget *widget)
+{
+	int width, height;
+	
+	width  = MAX (MINIMUM_WIDTH, last_allocation.width);
+	height = MAX (MINIMUM_HEIGHT, last_allocation.height);
+	
+	gtk_window_set_default_size (GTK_WINDOW (widget), width, height);
+}
+
 GtkWidget *
 folder_browser_window_new (FolderBrowser *fb)
 {
@@ -86,6 +109,8 @@ folder_browser_window_new (FolderBrowser *fb)
 	if (!new)
 		return NULL;
 	
+	set_default_size (GTK_WIDGET (new));
+	
 	new->folder_browser = fb;
 	bonobo_window_set_contents (BONOBO_WINDOW (new), GTK_WIDGET (fb));
 	
@@ -100,6 +125,9 @@ folder_browser_window_new (FolderBrowser *fb)
 	folder_browser_ui_add_list (fb);
 	folder_browser_ui_add_message (fb);
 	/*folder_browser_set_shell_view (fb, fb_get_svi (control));*/
+	
+	gtk_signal_connect (GTK_OBJECT (new), "size_allocate", 
+			    GTK_SIGNAL_FUNC (folder_browser_window_size_allocate_cb), NULL);
 	
 	return GTK_WIDGET (new);
 }
