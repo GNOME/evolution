@@ -34,6 +34,7 @@
 #include <gal/util/e-util.h>
 
 #include <bonobo/bonobo-widget.h>
+#include <bonobo/bonobo-exception.h>
 #include <liboaf/liboaf.h>
 
 #include <string.h>
@@ -91,10 +92,13 @@ load_pages (EShellSettingsDialog *dialog)
 		}
 
 		corba_object = oaf_activate_from_id ((char *) info->iid, 0, NULL, &ev);
-		if (ev._major == CORBA_NO_EXCEPTION)
+		if (! BONOBO_EX (&ev)) {
 			e_multi_config_dialog_add_page (E_MULTI_CONFIG_DIALOG (dialog),
 							title, description, icon,
 							E_CONFIG_PAGE (e_corba_config_page_new_from_objref (corba_object)));
+		} else {
+			g_warning ("Cannot activate %s -- %s", info->iid, BONOBO_EX_ID (&ev));
+		}
 
 		if (icon != NULL)
 			gdk_pixbuf_unref (icon);

@@ -100,6 +100,8 @@ bin_PROGRAMS = evolution
 evolution_SOURCES =				\
 	e-activity-handler.c			\
 	e-activity-handler.h			\
+	e-component-info.c			\
+	e-component-info.h			\
 	e-component-registry.c			\
 	e-component-registry.h			\
 	e-corba-config-page.c			\
