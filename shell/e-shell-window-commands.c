@@ -32,6 +32,7 @@
 
 #include "evolution-shell-component-utils.h"
 
+#include "e-util/e-icon-factory.h"
 #include "e-util/e-dialog-utils.h"
 #include "e-util/e-passwords.h"
 
@@ -344,22 +345,22 @@ static BonoboUIVerb help_verbs [] = {
 };
 
 static EPixmap pixmaps [] = {
-	E_PIXMAP ("/commands/SendReceive", "stock_mail-send-receive", 16),
-	E_PIXMAP ("/Toolbar/SendReceive", "stock_mail-send-receive", 24),
-	E_PIXMAP ("/menu/File/FileImporter", "stock_mail-import", 16),
-	E_PIXMAP ("/menu/File/ToggleOffline", "stock_disconnect", 16),
-	E_PIXMAP ("/menu/Tools/Settings", "gnome-settings", 16),
-
+	E_PIXMAP ("/commands/SendReceive", "stock_mail-send-receive", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/Toolbar/SendReceive", "stock_mail-send-receive", E_ICON_SIZE_LARGE_TOOLBAR),
+	E_PIXMAP ("/menu/File/FileImporter", "stock_mail-import", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/menu/File/ToggleOffline", "stock_disconnect", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/menu/Tools/Settings", "gnome-settings", E_ICON_SIZE_MENU),
+	
 	E_PIXMAP_END
 };
 
 static EPixmap offline_pixmaps [] = {
-	E_PIXMAP ("/menu/File/ToggleOffline", "stock_disconnect", 16),
+	E_PIXMAP ("/menu/File/ToggleOffline", "stock_disconnect", E_ICON_SIZE_MENU),
 	E_PIXMAP_END
 };
 
 static EPixmap online_pixmaps [] = {
-	E_PIXMAP ("/menu/File/ToggleOffline", "stock_connect", 16),
+	E_PIXMAP ("/menu/File/ToggleOffline", "stock_connect", E_ICON_SIZE_MENU),
 	E_PIXMAP_END
 };
 
