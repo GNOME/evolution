@@ -1,3 +1,7 @@
+2004-02-12  Rodney Dawes  <dobey@ximian.com>
+
+	* POTFILES.in: Remove dead files and add new ones
+
 2004-02-11  Takeshi AIHANA <aihana@gnome.gr.jp>
 
 	* ja.po: Updated Japanese translation.
