@@ -337,7 +337,7 @@ msgstr "URI dei contatti che il controllo visualizzerà"
 
 #: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:1
 msgid "EFolderList xml for the list of completion uris"
-msgstr ""
+msgstr "EFolderList xml per l'elenco del completamento delle uri"
 
 #: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:2
 msgid ""
@@ -347,7 +347,7 @@ msgstr ""
 
 #: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:3
 msgid "URI for the folder last used in the select names dialog"
-msgstr ""
+msgstr "URI per la cartella usata più recentemente nella finestra di selezione nomi"
 
 #: addressbook/gui/component/ldap-config.glade.h:1
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:1
@@ -576,7 +576,7 @@ msgstr ""
 
 #: addressbook/gui/component/ldap-config.glade.h:48
 msgid "Step 1: Folder Characteristics"
-msgstr ""
+msgstr "Passo 1: caratteristiche della cartella"
 
 #: addressbook/gui/component/ldap-config.glade.h:49
 #, fuzzy
@@ -3404,7 +3404,7 @@ msgstr "ora non valida"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:1
 msgid "Allocate less space to weekend appointments"
-msgstr ""
+msgstr "Assegna meno spazio agli appuntamenti del finesettimana"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:2
 #, fuzzy
@@ -3423,19 +3423,19 @@ msgstr "Colore attività di oggi"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:5
 msgid "Days that are work days"
-msgstr ""
+msgstr "Giorni lavorativi"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:6
 msgid "Default timezone for meetings"
-msgstr ""
+msgstr "Fuso orario per le riunioni"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:7
 msgid "Hour the workday ends on"
-msgstr ""
+msgstr "Ora di fine giornata lavorativa"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:8
 msgid "Hour the workday starts on"
-msgstr ""
+msgstr "Ora di inizio giornata lavorativa"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:9
 msgid "Intervals shown in Day and Work Week views"
@@ -3443,11 +3443,11 @@ msgstr ""
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:10
 msgid "Minute the workday ends on"
-msgstr ""
+msgstr "Minuti di fine giornata lavorativa"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:11
 msgid "Minute the workday starts on"
-msgstr ""
+msgstr "Minuti di inizio giornata lavorativa"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:12
 msgid "Number of units for default reminder"
@@ -3459,23 +3459,23 @@ msgstr ""
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:14
 msgid "Position of the horizontal pane"
-msgstr ""
+msgstr "Posizione del pannello orizzontale"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:15
 msgid "Position of the horizontal pane in the month view"
-msgstr ""
+msgstr "Posizione del pannello orizzontale nella vista mensile"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:16
 msgid "Position of the vertical pane"
-msgstr ""
+msgstr "Posizione del pannello verticale"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:17
 msgid "Position of the vertical pane in the month view"
-msgstr ""
+msgstr "Posizione del pannello verticale nella vista mensile"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:18
 msgid "Position of the vertical pane in the task view"
-msgstr ""
+msgstr "Posizione del pannello verticale nella vista attività"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:19
 msgid "Programs that can run as part of alarms"
@@ -3506,22 +3506,19 @@ msgstr ""
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:25
 msgid "Weekday the week starts on"
-msgstr ""
+msgstr "Giorno di inizio della settimana"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:26
-#, fuzzy
 msgid "Whether to ask for confirmation on appointment deletion"
-msgstr "Chiedi conferm_a prima di cancellare"
+msgstr "Chiedi conferma prima di cancellare un appuntamento"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:27
-#, fuzzy
 msgid "Whether to ask for confirmation when folder is expunged"
-msgstr "Chiedi conferm_a prima di cancellare"
+msgstr "Chiedi conferma prima di eliminare una cartella"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:28
-#, fuzzy
 msgid "Whether to hide completed tasks"
-msgstr "Elimina attività completate"
+msgstr "Nascondi attività completate"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:29
 msgid "Whether to set a default reminder for events"
@@ -17705,116 +17702,3 @@ msgstr "Testo"
 #: widgets/misc/e-search-bar.c:930
 msgid "Find _Now"
 msgstr "_Trova ora"
-
-#~ msgid "Configure access to LDAP directory servers here"
-#~ msgstr "Configura qui l'accesso ai server di directory LDAP"
-
-#~ msgid "Directory Servers"
-#~ msgstr "Server di directory"
-
-#~ msgid "Evolution Addressbook LDAP Configuration Control"
-#~ msgstr "Controllo di configurazione per la rubrica LDAP di Evolution."
-
-#~ msgid "Account Name"
-#~ msgstr "Nome account"
-
-#~ msgid "Server Name"
-#~ msgstr "Nome del server"
-
-#~ msgid "LDAP was not enabled in this build of Evolution"
-#~ msgstr "LDAP non è stato abilitato in questa compilazione di Evolution"
-
-#~ msgid "Other Contacts"
-#~ msgstr "Altri contatti"
-
-#~ msgid "Step 4: Display Name"
-#~ msgstr "Passo 4: mostra il nome"
-
-#~ msgid "Find contact in"
-#~ msgstr "Trova contatto in"
-
-#~ msgid "* Click here to add a contact *"
-#~ msgstr "* Fare clic qui per aggiungere un contatto *"
-
-#~ msgid "Business Address"
-#~ msgstr "Indirizzo ufficio"
-
-#~ msgid "Department"
-#~ msgstr "Dipartimento"
-
-#~ msgid "Free-busy URL"
-#~ msgstr "URL libero-occupato"
-
-#~ msgid "ISDN"
-#~ msgstr "ISDN"
-
-#~ msgid "Profession"
-#~ msgstr "Professione"
-
-#~ msgid "Send anyway?"
-#~ msgstr "Inviare comunque?"
-
-#~ msgid "Folder _name"
-#~ msgstr "_Nome cartella"
-
-#~ msgid ""
-#~ "This message is digitally signed. Click the lock icon for more "
-#~ "information."
-#~ msgstr ""
-#~ "Questo messaggio ha una firma digitale.  Fare click sull'icona per avere "
-#~ "ulteriori informazioni."
-
-#~ msgid "Add a Folder"
-#~ msgstr "Aggiungi una cartella"
-
-#~ msgid ""
-#~ "Error synchronizing \"%s\":\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Errore durante la sincronizzazione \"%s\":\n"
-#~ "%s"
-
-#~ msgid "Syncing Folder"
-#~ msgstr "Sincronizzazione cartella"
-
-#~ msgid "Synchronizing \"%s\" (%d of %d) ..."
-#~ msgstr "Sincronizzazione \"%s\" (%d di %d) ..."
-
-#~ msgid "CORBA error"
-#~ msgstr "Errore CORBA"
-
-#~ msgid "Invalid argument"
-#~ msgstr "Argomento non valido"
-
-#~ msgid "Already has an owner"
-#~ msgstr "Ha già un proprietario"
-
-#~ msgid "No owner"
-#~ msgstr "Nessun proprietario"
-
-#~ msgid "Unsupported type"
-#~ msgstr "Tipo non supportato"
-
-#~ msgid "Unsupported schema"
-#~ msgstr "Schema non supportato"
-
-#~ msgid "Unsupported operation"
-#~ msgstr "Operazione non supportata"
-
-#~ msgid "Internal error"
-#~ msgstr "Errore interno"
-
-#~ msgid "Exists"
-#~ msgstr "Esiste"
-
-#~ msgid "Invalid URI"
-#~ msgstr "URI non valida"
-
-#~ msgid "Has subfolders"
-#~ msgstr "Ha delle sottocartelle"
-
-#~ msgid "No space left"
-#~ msgstr "Spazio esaurito"
-
-#~ msgid "Old owner has died"
-#~ msgstr "Il proprietario precedente è scomparso"
