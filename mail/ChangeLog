@@ -1,3 +1,9 @@
+2003-05-19  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-account-gui.c (mail_account_gui_save): Only re-add the
+	store to the folder-tree if the account is enabled. Oops. Fixes
+	bug #43214.
+
 2003-05-20  Larry Ewing  <lewing@ximian.com>
 
 	* mail-config-factory.c: remove references to font prefs.
