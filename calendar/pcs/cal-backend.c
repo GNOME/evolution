@@ -646,9 +646,19 @@ icalendar_parse_file (char* fname)
 static void
 icalendar_calendar_load (CalBackend * cal, char* fname)
 {
+	CalBackendPrivate *priv;
 	icalcomponent *comp;
 	icalcomponent *subcomp;
 	iCalObject    *ical;
+
+	g_assert (cal);
+
+	priv = cal->priv;
+
+	g_assert (!priv->loaded);
+	g_assert (priv->object_hash == NULL);
+
+	priv->object_hash = g_hash_table_new (g_str_hash, g_str_equal);
 
 	comp = icalendar_parse_file (fname);
 	subcomp = icalcomponent_get_first_component (comp,
@@ -682,28 +692,32 @@ cal_get_type_from_filename (char *str_uri)
 {
 	int len;
 
-	if (str_uri == NULL){
+	if (str_uri == NULL)
 		return CAL_VCAL;
-	}
 
 	len = strlen (str_uri);
-	if (len < 5){
+	if (len < 4)
 		return CAL_VCAL;
-	}
 
-	if (str_uri[ len-4 ] == '.' &&
-	    str_uri[ len-3 ] == 'i' &&
-	    str_uri[ len-2 ] == 'c' &&
-	    str_uri[ len-1 ] == 's'){
+	if (str_uri[ len-4 ] == '.' && str_uri[ len-3 ] == 'i' &&
+	    str_uri[ len-2 ] == 'c' && str_uri[ len-1 ] == 's')
 		return CAL_ICAL;
-	}
 
-	if (str_uri[ len-4 ] == '.' &&
-	    str_uri[ len-3 ] == 'i' &&
-	    str_uri[ len-2 ] == 'f' &&
-	    str_uri[ len-1 ] == 'b'){
+	if (str_uri[ len-4 ] == '.' && str_uri[ len-3 ] == 'i' &&
+	    str_uri[ len-2 ] == 'f' && str_uri[ len-1 ] == 'b')
 		return CAL_ICAL;
-	}
+
+	if (str_uri[ len-4 ] == '.' && str_uri[ len-3 ] == 'i' &&
+	    str_uri[ len-2 ] == 'c' && str_uri[ len-1 ] == 's')
+		return CAL_ICAL;
+
+	if (len < 5)
+		return CAL_VCAL;
+
+	if (str_uri[ len-5 ] == '.' && str_uri[ len-4 ] == 'i' &&
+	    str_uri[ len-3 ] == 'c' && str_uri[ len-2 ] == 'a' &&
+	    str_uri[ len-1 ] == 'l')
+		return CAL_ICAL;
 
 	return CAL_VCAL;
 }

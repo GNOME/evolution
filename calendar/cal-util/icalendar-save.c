@@ -184,7 +184,7 @@ icalcomponent_create_from_ical_object (iCalObject *ical)
 		GList *cur;
 		for (cur = ical->attendee; cur; cur = cur->next) {
 			iCalPerson *person = (iCalPerson *) cur->data;
-			prop = icalproperty_new_attendee ("FIX ME");
+			prop = icalproperty_new_attendee (person->addr);
 			unparse_person (person, prop);
 			icalcomponent_add_property (comp, prop);
 		}
@@ -196,7 +196,7 @@ icalcomponent_create_from_ical_object (iCalObject *ical)
 		GList *cur;
 		for (cur = ical->contact; cur; cur = cur->next) {
 			iCalPerson *person = (iCalPerson *) cur->data;
-			prop = icalproperty_new_contact ("FIX ME");
+			prop = icalproperty_new_contact (person->addr);
 			unparse_person (person, prop);
 			icalcomponent_add_property (comp, prop);
 		}
@@ -204,7 +204,7 @@ icalcomponent_create_from_ical_object (iCalObject *ical)
 
 	/*** organizer ***/
 	if (ical->organizer) {
-		prop = icalproperty_new_organizer ("FIX ME");
+		prop = icalproperty_new_organizer (ical->organizer->addr);
 		unparse_person (ical->organizer, prop);
 		icalcomponent_add_property (comp, prop);
 	}
