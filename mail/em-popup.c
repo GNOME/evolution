@@ -40,6 +40,7 @@
 
 #include <libgnome/gnome-url.h>
 #include <libgnomevfs/gnome-vfs-mime.h>
+#include <libgnomevfs/gnome-vfs-utils.h>
 #include <libgnome/gnome-i18n.h>
 
 #include "em-popup.h"
@@ -567,32 +568,16 @@ emp_apps_open_in(EPopup *ep, EPopupItem *item, void *data)
 	path = em_utils_temp_save_part(target->target.widget, target->part);
 	if (path) {
 		GnomeVFSMimeApplication *app = item->user_data;
-		int douri = (app->expects_uris == GNOME_VFS_MIME_APPLICATION_ARGUMENT_TYPE_URIS);
-		char *command;
+		char *uri;
+		GList *uris = NULL;
 		
-		if (app->requires_terminal) {
-			char *term, *args = NULL;
-			GConfClient *gconf;
-			
-			gconf = gconf_client_get_default ();
-			if ((term = gconf_client_get_string (gconf, "/desktop/gnome/applications/terminal/exec", NULL)))
-				args = gconf_client_get_string (gconf, "/desktop/gnome/applications/terminal/exec_arg", NULL);
-			g_object_unref (gconf);
-			
-			if (term == NULL)
-				return;
-			
-			command = g_strdup_printf ("%s%s%s %s %s%s &", term, args ? " " : "", args ? args : "",
-						   app->command, douri ? "file://" : "", path);
-			g_free (term);
-			g_free (args);
-		} else {
-			command = g_strdup_printf ("%s %s%s &", app->command, douri ? "file://" : "", path);
-		}
-		
-		/* FIXME: Do not use system here */
-		system(command);
-		g_free(command);
+		uri = gnome_vfs_get_uri_from_local_path(path);
+		uris = g_list_append(uris, uri);
+
+		gnome_vfs_mime_application_launch(app, uris);
+
+		g_free(uri);
+		g_list_free(uris);
 		g_free(path);
 	}
 }
@@ -642,7 +627,7 @@ emp_standard_menu_factory(EPopup *emp, void *data)
 		break; }
 	case EM_POPUP_TARGET_PART: {
 		EMPopupTargetPart *t = (EMPopupTargetPart *)emp->target;
-		GList *apps = gnome_vfs_mime_get_short_list_applications(t->mime_type);
+		GList *apps = gnome_vfs_mime_get_all_applications(t->mime_type);
 
 		/* FIXME: use the snoop_part stuff from em-format.c */
 		if (apps == NULL && strcmp(t->mime_type, "application/octet-stream") == 0) {
@@ -657,7 +642,7 @@ emp_standard_menu_factory(EPopup *emp, void *data)
 				else
 					name_type = gnome_vfs_mime_type_from_name(filename);
 				if (name_type)
-					apps = gnome_vfs_mime_get_short_list_applications(name_type);
+					apps = gnome_vfs_mime_get_all_applications(name_type);
 			}
 		}
 
