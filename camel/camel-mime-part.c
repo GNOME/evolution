@@ -701,6 +701,7 @@ my_write_content_to_stream (CamelMimePart *mime_part, CamelStream *stream)
 		gtk_object_unref (GTK_OBJECT (stream_b64));
 		break;
 	default:
+		camel_data_wrapper_write_to_stream (content, stream);
 		g_warning ("Encoding type `%s' not supported.",
 			   camel_mime_part_encoding_to_string
 			   (mime_part->encoding));

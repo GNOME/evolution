@@ -1,5 +1,12 @@
 2000-03-04  bertrand  <bertrand@helixcode.com>
 
+	* camel-mime-part.c (my_write_content_to_stream): 
+	stream the raw content instead of nothing if the encoding
+	is not supported.
+
+	* camel-stream-fs.c (_seek): handle eos more
+	properly.
+
 	* camel-formatter.c (get_bonobo_tag_for_object): 
 	bonobo-goad-id is the good key to look for. 
 	(get_bonobo_tag_for_object): close the <object> tag.

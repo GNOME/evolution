@@ -272,6 +272,8 @@ my_write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 			nb_written += camel_stream_write (stream, tmp_buf + nb_written, nb_read - nb_written);
 	}
 
+	CAMEL_LOG_FULL_DEBUG ("CamelDataWrapper::write_to_stream, nmumber of bytes written : %d\n", nb_written);
+
 }
 
 
