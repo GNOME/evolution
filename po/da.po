@@ -30,7 +30,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-03-14 11:21+0100\n"
-"PO-Revision-Date: 2005-03-14 11:21+0100\n"
+"PO-Revision-Date: 2005-03-24 13:11+0100\n"
 "Last-Translator: Martin Willemoes Hansen <mwh@sysrq.dk>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
 "MIME-Version: 1.0\n"
@@ -9591,15 +9591,15 @@ msgstr ""
 #.
 #: ../composer/e-msg-composer-hdrs.c:624
 msgid "_Post To:"
-msgstr "_Send til:"
+msgstr "_Post-til:"
 
 #: ../composer/e-msg-composer-hdrs.c:629
 msgid "Click here to select folders to post to"
-msgstr "Klik her for at vælge mapper at sende til"
+msgstr "Klik her for at vælge mapper at poste til"
 
 #: ../composer/e-msg-composer-hdrs.c:635
 msgid "Post To:"
-msgstr "Send til:"
+msgstr "Post-til:"
 
 #: ../composer/e-msg-composer.c:730
 msgid ""
@@ -12204,7 +12204,7 @@ msgstr "Pine"
 #: ../mail/mail-autofilter.c:74
 #, c-format
 msgid "Mail to %s"
-msgstr "E-post til %s"
+msgstr "Send e-post til %s"
 
 #: ../mail/mail-autofilter.c:238 ../mail/mail-autofilter.c:277
 #, c-format
@@ -17326,11 +17326,11 @@ msgstr "_Åbn..."
 
 #: ../ui/evolution-message-composer.xml.h:48
 msgid "_Post-To Field"
-msgstr "_Svar-til-felt"
+msgstr "_Post-til-felt"
 
 #: ../ui/evolution-message-composer.xml.h:49
 msgid "_Reply-To Field"
-msgstr "Svar-til felt"
+msgstr "Svar-til-felt"
 
 #: ../ui/evolution-message-composer.xml.h:50
 #: ../ui/evolution-signature-editor.xml.h:15
