@@ -1,3 +1,21 @@
+2001-07-02  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (transfer_msg): Updated for the
+	mail_transfer_messages API.
+
+	* folder-browser.c (message_list_drag_data_recieved): Update for
+	the mail_transfer_messages API.
+	(selection_received): Same.
+
+	* mail-ops.c (mail_transfer_messages): Renamed from
+	mail_do_transfer_messages and also added a callback/data arguments
+	since we need it component_factory::xfer_folder.
+
+	* component-factory.c (xfer_folder): Use mail_transfer_messages
+	instead.
+	(destination_folder_handle_drop): Update to pass in a NULL
+	callback arg and a NULL data argument to mail_transfer_messages.
+
 2001-07-02  Larry Ewing  <lewing@ximian.com>
 
 	* mail-display.c (save_part): move the saving logic out of save_cb

@@ -2640,6 +2640,20 @@ Quoted
 	  </child>
 	</widget>
       </widget>
+
+      <widget>
+	<class>GtkCheckButton</class>
+	<name>chkEmptyTrashOnExit</name>
+	<can_focus>True</can_focus>
+	<label>Empty trash folders on exit</label>
+	<active>False</active>
+	<draw_indicator>True</draw_indicator>
+	<child>
+	  <padding>0</padding>
+	  <expand>False</expand>
+	  <fill>False</fill>
+	</child>
+      </widget>
     </widget>
 
     <widget>

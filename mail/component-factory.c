@@ -232,13 +232,13 @@ remove_folder (EvolutionShellComponent *shell_component,
 }
 
 static void
-do_xfer_folder (char *src_uri, char *dest_uri, gboolean remove_source, CamelFolder *dest_folder, void *data)
+do_xfer_folder (gboolean ok, void *data)
 {
 	GNOME_Evolution_ShellComponentListener listener = data;
 	GNOME_Evolution_ShellComponentListener_Result result;
 	CORBA_Environment ev;
 	
-	if (dest_folder)
+	if (ok)
 		result = GNOME_Evolution_ShellComponentListener_OK;
 	else
 		result = GNOME_Evolution_ShellComponentListener_INVALID_URI;
@@ -258,12 +258,24 @@ xfer_folder (EvolutionShellComponent *shell_component,
 	     void *closure)
 {
 	CORBA_Environment ev;
+	CamelFolder *source;
+	CamelException ex;
+	GPtrArray *uids;
+	
+	camel_exception_init (&ex);
+	source = mail_tool_uri_to_folder (source_physical_uri, &ex);
+	camel_exception_clear (&ex);
 	
 	CORBA_exception_init (&ev);
-	mail_xfer_folder (source_physical_uri, destination_physical_uri, remove_source, do_xfer_folder,
-			  CORBA_Object_duplicate (listener, &ev));
-	GNOME_Evolution_ShellComponentListener_notifyResult (listener,
-							     GNOME_Evolution_ShellComponentListener_OK, &ev);
+	if (source) {
+		uids = camel_folder_get_uids (source);
+		mail_transfer_messages (source, uids, remove_source, destination_physical_uri,
+					do_xfer_folder,
+					CORBA_Object_duplicate (listener, &ev));
+		
+		GNOME_Evolution_ShellComponentListener_notifyResult (listener, GNOME_Evolution_ShellComponentListener_OK, &ev);
+	} else
+		GNOME_Evolution_ShellComponentListener_notifyResult (listener, GNOME_Evolution_ShellComponentListener_INVALID_URI, &ev);
 	CORBA_exception_free (&ev);
 }
 
@@ -446,9 +458,9 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *fol
 			inptr++;
 		}
 		
-		mail_do_transfer_messages (source, uids,
-					   action == GNOME_Evolution_ShellComponentDnd_ACTION_MOVE,
-					   physical_uri);
+		mail_transfer_messages (source, uids,
+					action == GNOME_Evolution_ShellComponentDnd_ACTION_MOVE,
+					physical_uri, NULL, NULL);
 		
 		camel_object_unref (CAMEL_OBJECT (source));
 		break;

@@ -833,6 +833,9 @@ struct _transfer_msg {
 	GPtrArray *uids;
 	gboolean delete;
 	char *dest_uri;
+	
+	void (*done)(gboolean ok, void *data);
+	void *data;
 };
 
 static char *
@@ -879,30 +882,41 @@ transfer_messages_transfer (struct _mail_msg *mm)
 }
 
 static void
+transfer_messages_transferred (struct _mail_msg *mm)
+{
+	struct _transfer_msg *m = (struct _transfer_msg *)mm;
+	
+	if (m->done)
+		m->done (!camel_exception_is_set (&mm->ex), m->data);
+}
+
+static void
 transfer_messages_free (struct _mail_msg *mm)
 {
 	struct _transfer_msg *m = (struct _transfer_msg *)mm;
 	int i;
 
-	camel_object_unref((CamelObject *)m->source);
-	g_free(m->dest_uri);
-	for (i=0;i<m->uids->len;i++)
-		g_free(m->uids->pdata[i]);
-	g_ptr_array_free(m->uids, TRUE);
+	camel_object_unref (CAMEL_OBJECT (m->source));
+	g_free (m->dest_uri);
+	for (i = 0; i < m->uids->len; i++)
+		g_free (m->uids->pdata[i]);
+	g_ptr_array_free (m->uids, TRUE);
 
 }
 
 static struct _mail_msg_op transfer_messages_op = {
 	transfer_messages_desc,
 	transfer_messages_transfer,
-	NULL,
+	transfer_messages_transferred,
 	transfer_messages_free,
 };
 
 void
-mail_do_transfer_messages (CamelFolder *source, GPtrArray *uids,
-			   gboolean delete_from_source,
-			   const char *dest_uri)
+mail_transfer_messages (CamelFolder *source, GPtrArray *uids,
+			gboolean delete_from_source,
+			const char *dest_uri,
+			void (*done) (gboolean ok, void *data),
+			void *data)
 {
 	struct _transfer_msg *m;
 	
@@ -912,11 +926,13 @@ mail_do_transfer_messages (CamelFolder *source, GPtrArray *uids,
 	
 	m = mail_msg_new(&transfer_messages_op, NULL, sizeof(*m));
 	m->source = source;
-	camel_object_ref((CamelObject *)source);
+	camel_object_ref (CAMEL_OBJECT (source));
 	m->uids = uids;
 	m->delete = delete_from_source;
 	m->dest_uri = g_strdup (dest_uri);
-
+	m->done = done;
+	m->data = data;
+	
 	e_thread_put(mail_thread_queued, (EMsg *)m);
 }
 
@@ -1408,116 +1424,6 @@ mail_remove_folder (const char *uri, void (*done) (char *uri, gboolean removed, 
 	
 	m = mail_msg_new (&remove_folder_op, NULL, sizeof (*m));
 	m->uri = g_strdup (uri);
-	m->data = data;
-	m->done = done;
-	
-	e_thread_put (mail_thread_new, (EMsg *)m);
-}
-
-/* ** XFER FOLDER ******************************************************* */
-
-struct _xfer_folder_msg {
-	struct _mail_msg msg;
-	
-	char *src_uri;
-	char *dest_uri;
-	gboolean remove;
-	CamelFolder *folder;
-	void (*done) (char *src_uri, char *dest_uri, gboolean remove, CamelFolder *folder, void *data);
-	void *data;
-};
-
-static char *
-xfer_folder_desc (struct _mail_msg *mm, int done)
-{
-	struct _xfer_folder_msg *m = (struct _xfer_folder_msg *)mm;
-	
-	if (m->remove)
-		return g_strdup_printf (_("Moving folder %s to %s"), m->src_uri, m->dest_uri);
-	else
-		return g_strdup_printf (_("Copying folder %s to %s"), m->src_uri, m->dest_uri);
-}
-
-static void
-xfer_folder_get (struct _mail_msg *mm)
-{
-	struct _xfer_folder_msg *m = (struct _xfer_folder_msg *)mm;
-	CamelFolder *src, *dest = NULL;
-	GPtrArray *uids;
-	
-	camel_operation_register (mm->cancel);
-	
-	src = mail_tool_uri_to_folder (m->src_uri, &mm->ex);
-	if (camel_exception_is_set (&mm->ex))
-		goto done;
-	
-	dest = mail_tool_get_folder_from_urlname (m->dest_uri, "mbox",
-						  CAMEL_STORE_FOLDER_CREATE | CAMEL_STORE_FOLDER_BODY_INDEX,
-						  &mm->ex);
-	if (camel_exception_is_set (&mm->ex))
-		goto done;
-	
-	uids = camel_folder_get_uids (src);
-	if (m->remove)
-		camel_folder_move_messages_to (src, uids, dest, &mm->ex);
-	else
-		camel_folder_copy_messages_to (src, uids, dest, &mm->ex);
-	
-	camel_folder_free_uids (src, uids);
-	
-	if (camel_exception_is_set (&mm->ex))
-		goto done;
-	
-	if (m->remove)
-		camel_store_delete_folder (src->parent_store, src->full_name, &mm->ex);
-	
- done:
-	if (src)
-		camel_object_unref (CAMEL_OBJECT (src));
-	
-	m->folder = dest;
-	
-	camel_operation_unregister (mm->cancel);
-}
-
-static void
-xfer_folder_got (struct _mail_msg *mm)
-{
-	struct _xfer_folder_msg *m = (struct _xfer_folder_msg *)mm;
-	
-	if (m->done)
-		m->done (m->src_uri, m->dest_uri, m->remove, m->folder, m->data);
-}
-
-static void
-xfer_folder_free (struct _mail_msg *mm)
-{
-	struct _xfer_folder_msg *m = (struct _xfer_folder_msg *)mm;
-	
-	g_free (m->src_uri);
-	g_free (m->dest_uri);
-	if (m->folder)
-		camel_object_unref (CAMEL_OBJECT (m->folder));
-}
-
-static struct _mail_msg_op xfer_folder_op = {
-	xfer_folder_desc,
-	xfer_folder_get,
-	xfer_folder_got,
-	xfer_folder_free,
-};
-
-void
-mail_xfer_folder (const char *src_uri, const char *dest_uri, gboolean remove_source,
-		  void (*done) (char *src_uri, char *dest_uri, gboolean remove, CamelFolder *folder, void *data),
-		  void *data)
-{
-	struct _xfer_folder_msg *m;
-	
-	m = mail_msg_new (&xfer_folder_op, NULL, sizeof(*m));
-	m->src_uri = g_strdup (src_uri);
-	m->dest_uri = g_strdup (dest_uri);
-	m->remove = remove_source;
 	m->data = data;
 	m->done = done;
 	

@@ -43,9 +43,11 @@ void mail_append_mail (CamelFolder *folder, CamelMimeMessage *message, CamelMess
 		       void (*done)(CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *info, int ok, void *data),
 		       void *data);
 
-void mail_do_transfer_messages (CamelFolder *source, GPtrArray *uids,
-				gboolean delete_from_source,
-				const char *dest_uri);
+void mail_transfer_messages (CamelFolder *source, GPtrArray *uids,
+			     gboolean delete_from_source,
+			     const char *dest_uri,
+			     void (*done) (gboolean ok, void *data),
+			     void *data);
 
 /* get a single message, asynchronously */
 void mail_get_message (CamelFolder *folder, const char *uid,
