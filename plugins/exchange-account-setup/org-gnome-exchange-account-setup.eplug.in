@@ -36,6 +36,13 @@
 			path="10.receive/30.config/00.owa"
 			factory="org_gnome_exchange_read_url"/>
         </group>
+        <group
+		target="account"
+		id="org.gnome.evolution.mail.config.accountDruid"
+		check="org_gnome_exchange_check_options">
+		<item
+			path="20.receive_options"/>
+	</group>
     </hook>
 
   </e-plugin>
