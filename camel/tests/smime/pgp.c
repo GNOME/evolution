@@ -7,23 +7,23 @@
 #include <camel/camel-stream-mem.h>
 
 #include "camel-test.h"
+#include "session.h"
+
+#define CAMEL_PGP_SESSION_TYPE     (camel_pgp_session_get_type ())
+#define CAMEL_PGP_SESSION(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_PGP_SESSION_TYPE, CamelPgpSession))
+#define CAMEL_PGP_SESSION_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), CAMEL_PGP_SESSION_TYPE, CamelPgpSessionClass))
+#define CAMEL_PGP_IS_SESSION(o)    (CAMEL_CHECK_TYPE((o), CAMEL_PGP_SESSION_TYPE))
 
 
-#define CAMEL_TEST_SESSION_TYPE     (camel_test_session_get_type ())
-#define CAMEL_TEST_SESSION(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_TEST_SESSION_TYPE, CamelTestSession))
-#define CAMEL_TEST_SESSION_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), CAMEL_TEST_SESSION_TYPE, CamelTestSessionClass))
-#define CAMEL_TEST_IS_SESSION(o)    (CAMEL_CHECK_TYPE((o), CAMEL_TEST_SESSION_TYPE))
-
-
-typedef struct _CamelTestSession {
+typedef struct _CamelPgpSession {
 	CamelSession parent_object;
 	
-} CamelTestSession;
+} CamelPgpSession;
 
-typedef struct _CamelTestSessionClass {
+typedef struct _CamelPgpSessionClass {
 	CamelSessionClass parent_class;
 	
-} CamelTestSessionClass;
+} CamelPgpSessionClass;
 
 
 static char *get_password (CamelSession *session, const char *prompt,
@@ -31,32 +31,32 @@ static char *get_password (CamelSession *session, const char *prompt,
 			   const char *item, CamelException *ex);
 
 static void
-init (CamelTestSession *session)
+init (CamelPgpSession *session)
 {
 	;
 }
 
 static void
-class_init (CamelTestSessionClass *camel_test_session_class)
+class_init (CamelPgpSessionClass *camel_pgp_session_class)
 {
 	CamelSessionClass *camel_session_class =
-		CAMEL_SESSION_CLASS (camel_test_session_class);
+		CAMEL_SESSION_CLASS (camel_pgp_session_class);
 	
 	/* virtual method override */
 	camel_session_class->get_password = get_password;
 }
 
 static CamelType
-camel_test_session_get_type (void)
+camel_pgp_session_get_type (void)
 {
 	static CamelType type = CAMEL_INVALID_TYPE;
 	
 	if (type == CAMEL_INVALID_TYPE) {
 		type = camel_type_register (
 			camel_test_session_get_type (),
-			"CamelTestSession",
-			sizeof (CamelTestSession),
-			sizeof (CamelTestSessionClass),
+			"CamelPgpSession",
+			sizeof (CamelPgpSession),
+			sizeof (CamelPgpSessionClass),
 			(CamelObjectClassInitFunc) class_init,
 			NULL,
 			(CamelObjectInitFunc) init,
@@ -74,11 +74,11 @@ get_password (CamelSession *session, const char *prompt, gboolean secret,
 }
 
 static CamelSession *
-camel_test_session_new (const char *path)
+camel_pgp_session_new (const char *path)
 {
 	CamelSession *session;
 	
-	session = CAMEL_SESSION (camel_object_new (CAMEL_TEST_SESSION_TYPE));
+	session = CAMEL_SESSION (camel_object_new (CAMEL_PGP_SESSION_TYPE));
 	
 	camel_session_construct (session, path);
 	
@@ -104,14 +104,14 @@ int main (int argc, char **argv)
 	/* clear out any camel-test data */
 	system("/bin/rm -rf /tmp/camel-test");
 	
-	session = camel_test_session_new ("/tmp/camel-test");
+	session = camel_pgp_session_new ("/tmp/camel-test");
 	
 	ctx = camel_pgp_context_new (session, CAMEL_PGP_TYPE_GPG, "/usr/bin/gpg");
 	
 	camel_test_start ("Test of PGP functions");
 	
 	stream1 = camel_stream_mem_new ();
-	camel_stream_write (stream1, "Hello, I am a test stream.", 25);
+	camel_stream_write (stream1, "Hello, I am a test stream.\n", 27);
 	camel_stream_reset (stream1);
 	
 	stream2 = camel_stream_mem_new ();

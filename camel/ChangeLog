@@ -1,3 +1,10 @@
+2001-06-01  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* tests/smime/pgp.c: Fix to not get into a recursive loop in
+	get_type().
+
+	* tests/smime/pgp-mime.c: Same.
+
 2001-05-31  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-smime-context.c: Numerous fixes to get it to compile.
