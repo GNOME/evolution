@@ -22,7 +22,7 @@
 #include "component-factory.h"
 #include <gal/widgets/e-gui-utils.h>
 
-#define COMPONENT_FACTORY_IID "OAFIID:GNOME_Evolution_Summary_ShellComponentFactory"
+#define COMPONENT_ID "OAFIID:GNOME_Evolution_Summary_ShellComponent"
 
 static gint running_objects = 0;
 
@@ -99,8 +99,7 @@ component_destroy (BonoboObject *factory,
 }
 
 static BonoboObject *
-factory_fn (BonoboGenericFactory *factory,
-	    void *closure)
+create_component (void)
 {
 	EvolutionShellComponent *shell_component;
 	ESummaryOfflineHandler *offline_handler;
@@ -131,16 +130,15 @@ factory_fn (BonoboGenericFactory *factory,
 void
 component_factory_init (void)
 {
-	BonoboGenericFactory *object;
+	BonoboObject *object;
+	int result;
 
-	object = bonobo_generic_factory_new (COMPONENT_FACTORY_IID,
-					     factory_fn, NULL);
+	object = create_component ();
 
-	if (object == NULL) {
+	result = oaf_active_server_register (COMPONENT_ID, bonobo_object_corba_objref (object));
+	if (result == OAF_REG_ERROR) {
 		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
 			  _("Cannot initialize Evolution's Executive Summary component."));
 		exit (1);
 	}
-
-	bonobo_running_context_auto_exit_unref (BONOBO_OBJECT (object));
 }

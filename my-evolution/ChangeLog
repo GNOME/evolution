@@ -1,3 +1,17 @@
+2001-09-05  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Fix #958, ShellComponents should not be created by factories, for
+	the Summary.]
+
+	* component-factory.c (COMPONENT_FACTORY_IID): Removed.
+	(COMPONENT_ID): New.
+	(create_component): Renamed from `factory_fn'.  No args.
+	(component_factory_init): Create the BonoboObject with
+	`create_component' and register it on OAF.
+
+	* GNOME_Evolution_Summary.oaf.in: Remove the
+	ShellComponentFactory.
+
 2001-09-05  Iain Holmes  <iain@ximian.com>
 
 	* Locations: Added some Caracas fixes from Mayly Sanchez.
