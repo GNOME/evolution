@@ -1,3 +1,8 @@
+2000-11-03  Federico Mena Quintero  <federico@helixcode.com>
+
+	* evolution-services/Makefile.am: Clean the idl-generated files
+	properly.
+
 2000-11-01  Iain Holmes  <iain@helixcode.com>
 
 	* component/e-summary.c:

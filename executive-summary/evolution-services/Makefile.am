@@ -54,3 +54,5 @@ libevolution_services_la_LIBADD = 					\
 	$(GTKHTML_LIBS)					\
 	$(UNICODE_LIBS)
 
+BUILT_SOURCES = $(IDL_GENERATED)
+CLEANFILES   += $(BUILT_SOURCES)
