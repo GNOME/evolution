@@ -1,3 +1,12 @@
+2000-10-30  Dan Winship  <danw@helixcode.com>
+
+	* mail-config-gui.c (config_do_query_authtypes): Redo this so that
+	it works for all pages, not just the first page. (Now that this is
+	finally working again, I expect Anna to finish her redesign in the
+	next 15 minutes.)
+	(service_page_item_new): Fix up the sizing of the Auth line to
+	look more like everything else.
+
 2000-10-29  Dan Winship  <danw@helixcode.com>
 
 	* mail-tools.c (mail_tool_uri_to_folder): Simplify this a lot by

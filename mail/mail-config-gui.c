@@ -176,7 +176,7 @@ typedef struct
 
 /* private prototypes - these are ugly, rename some of them? */
 static void config_do_test_service (const char *url, CamelProviderType type);
-static void config_do_query_authtypes (MailDialogServicePage *page, const char *url, CamelProviderType type);
+static void config_do_query_authtypes (MailDialogServicePage *page, const char *url, MailDialogServicePageItem *item);
 
 static void html_size_req (GtkWidget *widget, GtkRequisition *requisition);
 static GtkWidget *html_new (gboolean white);
@@ -842,7 +842,7 @@ service_page_detect (GtkWidget *button, MailDialogServicePage *page)
 	spitem = page->spitem;
 	url = service_page_get_url (page);
 
-	config_do_query_authtypes (page, url, spitem->type);
+	config_do_query_authtypes (page, url, spitem);
 }
 
 static void
@@ -930,18 +930,17 @@ service_page_item_new (MailDialogServicePage *page, MailService *mcs)
 		gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
 
 		item->auth_optionmenu = gtk_option_menu_new ();
-		gtk_widget_set_sensitive (item->auth_optionmenu, FALSE);
 
 		gtk_table_attach (GTK_TABLE (table), 
 				  item->auth_optionmenu, 
 				  1, 2, row, row + 1, 
-				  GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND,
+				  GTK_EXPAND | GTK_FILL, 0,
 				  0, 0);
 
 		item->auth_detect = gtk_button_new_with_label (_("Detect supported types..."));
 		gtk_table_attach (GTK_TABLE (table), item->auth_detect, 
 				  2, 3, row, row + 1,
-				  GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND,
+				  GTK_FILL | GTK_EXPAND, 0,
 				  0, 0);
 		gtk_widget_set_sensitive (item->auth_detect, FALSE);
 		gtk_signal_connect (GTK_OBJECT (item->auth_detect), 
@@ -957,7 +956,7 @@ service_page_item_new (MailDialogServicePage *page, MailService *mcs)
 
 		/* this is done async */
 		url = camel_url_to_string (mcs->service->url, FALSE);
-		config_do_query_authtypes (page, url, mcs->type);
+		config_do_query_authtypes (page, url, item);
 		g_free (url);
 		row += 2;
 	}
@@ -2238,7 +2237,6 @@ static gchar *describe_test_service (gpointer in_data, gboolean gerund)
 
 static void setup_test_service (gpointer in_data, gpointer op_data, CamelException *ex)
 {
-        test_service_input_t *input = (test_service_input_t *) in_data;
         test_service_data_t *data = (test_service_data_t *) op_data;
 
 	data->success = FALSE;
@@ -2306,7 +2304,7 @@ config_do_test_service (const char *url, CamelProviderType type)
 typedef struct query_authtypes_input_s {
 	MailDialogServicePage *page;
 	gchar *url;
-	CamelProviderType type;
+	MailDialogServicePageItem *item;
 } query_authtypes_input_t;
 
 typedef struct query_authtypes_data_s {
@@ -2332,7 +2330,6 @@ static gchar *describe_query_authtypes (gpointer in_data, gboolean gerund)
 
 static void setup_query_authtypes (gpointer in_data, gpointer op_data, CamelException *ex)
 {
-        query_authtypes_input_t *input = (query_authtypes_input_t *) in_data;
         query_authtypes_data_t *data = (query_authtypes_data_t *) op_data;
 
 	data->items = NULL;
@@ -2344,7 +2341,7 @@ static void do_query_authtypes (gpointer in_data, gpointer op_data, CamelExcepti
         query_authtypes_input_t *input = (query_authtypes_input_t *) in_data;
         query_authtypes_data_t *data = (query_authtypes_data_t *) op_data;
 	
-	data->service = camel_session_get_service (session, input->url, input->type, ex);
+	data->service = camel_session_get_service (session, input->url, input->item->type, ex);
 	if (!data->service)
 		return;
 
@@ -2356,9 +2353,8 @@ static void cleanup_query_authtypes (gpointer in_data, gpointer op_data, CamelEx
         query_authtypes_input_t *input = (query_authtypes_input_t *) in_data;
         query_authtypes_data_t *data = (query_authtypes_data_t *) op_data;
 
-	if (data->items && input->page->spitem->auth_optionmenu &&
-	    GTK_WIDGET_VISIBLE (input->page->spitem->auth_optionmenu))
-		service_page_item_auth_fill (input->page, input->page->spitem, data->items);
+	if (data->items && input->item->auth_optionmenu)
+		service_page_item_auth_fill (input->page, input->item, data->items);
 
 	if (data->service) {
 		mail_tool_camel_lock_up();
@@ -2379,14 +2375,14 @@ static const mail_operation_spec op_query_authtypes = {
 };
 
 static void
-config_do_query_authtypes (MailDialogServicePage *page, const char *url, CamelProviderType type)
+config_do_query_authtypes (MailDialogServicePage *page, const char *url, MailDialogServicePageItem *item)
 {
         query_authtypes_input_t *input;
 
         input = g_new (query_authtypes_input_t, 1);
 	input->page = page;
 	input->url = g_strdup (url);
-	input->type = type;
+	input->item = item;
 
         mail_operation_queue (&op_query_authtypes, input, TRUE);
 }
