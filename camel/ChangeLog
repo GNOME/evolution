@@ -1,5 +1,9 @@
 2001-03-04  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-internet-address.c
+	(camel_internet_address_encode_address): Make sure there is a
+	space between the name and the address tokens.
+
 	* camel-mime-utils.c (rfc2047_decode_word): encoded string
 	segments need to be at least 8 chars (7 doesn't leave room for an
 	ecoding value. To be more realistic, even 8 chars isn't enough as

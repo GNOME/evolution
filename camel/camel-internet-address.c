@@ -434,7 +434,7 @@ camel_internet_address_encode_address(int *inlen, const char *real, const char *
 			g_string_append(out, name);
 			len += strlen(name);
 		}
-		addr = addra = g_strdup_printf("<%s>", addr);
+		addr = addra = g_strdup_printf(" <%s>", addr);
 	}
 
 	/* NOTE: Strictly speaking, we could and should split the
