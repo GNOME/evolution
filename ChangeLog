@@ -1,5 +1,8 @@
 1999-12-18  bertrand  <Bertrand.Guiheneuf@aful.org>
 
+	* camel/camel-folder.c (camel_folder_get_summary): 
+	documented.
+
 	* camel/camel-folder-pt-proxy.c (_append_message): 
 	updated to take the change on append into account.
 

@@ -1534,6 +1534,17 @@ camel_folder_has_summary_capability (CamelFolder *folder,
 }
 
 
+/**
+ * camel_folder_get_summary: return the summary of a folder
+ * @folder: folder object
+ * @ex: exception object
+ * 
+ * Return a CamelFolderSummary object from 
+ * which the main informations about a folder
+ * can be retrieved.
+ * 
+ * Return value: the folder summary object.
+ **/
 CamelFolderSummary *
 camel_folder_get_summary (CamelFolder *folder, 
 			  CamelException *ex)
