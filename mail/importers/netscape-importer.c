@@ -1545,7 +1545,7 @@ netscape_import_accounts (NsImporter *importer)
 
 			servers = g_strsplit (imap, ",", 0);
 			for (i = 0; servers[i] != NULL; i++) {
-				char *serverstr, *name, *url;
+				char *serverstr, *name;
 				const char *username;
 				EAccount *imap;
 
@@ -1580,7 +1580,6 @@ netscape_import_accounts (NsImporter *importer)
 				imap->enabled = TRUE;
 
 				mail_config_add_account(imap);
-				g_free (url);
 				g_free (serverstr);
 			}
 

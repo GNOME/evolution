@@ -1,3 +1,8 @@
+2004-04-16  David Malcolm  <dmalcolm@redhat.com>
+
+	* importers/netscape-importer.c (netscape_import_accounts):
+	Removed unused and uninitialised "url" local that gets g_free-ed
+
 2004-04-15  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-config.c (config_write_style): Change the message display
