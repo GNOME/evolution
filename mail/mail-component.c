@@ -106,6 +106,7 @@ struct _MailComponentPrivate {
 	/* states/data used during shutdown */
 	enum { MC_QUIT_START, MC_QUIT_SYNC } quit_state;
 	int quit_count;
+	int quit_expunge;	/* expunge on quit this time around? */
 
 	char *base_directory;
 	
@@ -603,19 +604,8 @@ mc_quit_sync_done(CamelStore *store, void *data)
 static void
 mc_quit_sync(CamelStore *store, struct _store_info *si, MailComponent *mc)
 {
-	GConfClient *gconf = mail_config_get_gconf_client();
-	gboolean expunge;
-	int now = time(NULL)/60/60/24, days;
-
-	expunge = gconf_client_get_bool(gconf, "/apps/evolution/mail/trash/empty_on_exit", NULL)
-		&& ((days = gconf_client_get_int(gconf, "/apps/evolution/mail/trash/empty_on_exit_days", NULL)) == 0
-		     || (days + gconf_client_get_int(gconf, "/apps/evolution/mail/trash/empty_date", NULL)) <= now);
-
 	mc->priv->quit_count++;
-	mail_sync_store(store, expunge, mc_quit_sync_done, mc);
-
-	if (expunge)
-		gconf_client_set_int(gconf, "/apps/evolution/mail/trash/empty_date", now, NULL);
+	mail_sync_store(store, mc->priv->quit_expunge, mc_quit_sync_done, mc);
 }
 
 static CORBA_boolean
@@ -624,9 +614,21 @@ impl_quit(PortableServer_Servant servant, CORBA_Environment *ev)
 	MailComponent *mc = MAIL_COMPONENT(bonobo_object_from_servant(servant));
 
 	switch (mc->priv->quit_state) {
-	case MC_QUIT_START:
+	case MC_QUIT_START: {
+		int now = time(NULL)/60/60/24, days;
+		GConfClient *gconf = mail_config_get_gconf_client();
+
+		mc->priv->quit_expunge = gconf_client_get_bool(gconf, "/apps/evolution/mail/trash/empty_on_exit", NULL)
+			&& ((days = gconf_client_get_int(gconf, "/apps/evolution/mail/trash/empty_on_exit_days", NULL)) == 0
+			    || (days + gconf_client_get_int(gconf, "/apps/evolution/mail/trash/empty_date", NULL)) <= now);
+
 		g_hash_table_foreach(mc->priv->store_hash, (GHFunc)mc_quit_sync, mc);
+
+		if (mc->priv->quit_expunge)
+			gconf_client_set_int(gconf, "/apps/evolution/mail/trash/empty_date", now, NULL);
+
 		mc->priv->quit_state = MC_QUIT_SYNC;
+	}
 		/* Falls through */
 	case MC_QUIT_SYNC:
 		return mc->priv->quit_count == 0;
