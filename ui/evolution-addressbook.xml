@@ -1,5 +1,23 @@
 <Root>
 
+	<commands>
+		<cmd name="ContactDelete"
+		 _tip="Delete a contact"
+		 pixtype="stock" pixname="Trash"/>
+
+		<cmd name="ContactNew"
+		 _tip="Create new contact" 
+		 accel="*Control*n"/>
+
+		<cmd name="ContactsPrint"
+		 _tip="Print contacts"
+		 pixtype="stock" pixname="Print"/>
+
+		<cmd name="ContactStop"
+		 _tip="Stop Loading"
+		 pixtype="stock" pixname="Stop"/>
+	</commands>
+
 	<menu>
 		<submenu name="File">
 
@@ -56,7 +74,7 @@
 
 	<dockitem name="Toolbar">
 		<toolitem name="New" _label="New contact"
-		_tip="Create new contact" verb="ContactNew"
+		verb="ContactNew"
 		pixtype="pixbuf" priority="1"/>
 
 		<separator/>
@@ -66,12 +84,10 @@
 		pixtype="pixbuf"/>
 
 		<toolitem name="Print" _label="Print"
-		_tip="Print contacts" verb="ContactsPrint"
-		pixtype="stock" pixname="Print"/>
+		verb="ContactsPrint"/>
 
 		<toolitem name="Delete" _label="Delete"
-		_tip="Delete a contact" verb="ContactDelete"
-		pixtype="stock" pixname="Trash"/>
+		verb="ContactDelete"/>
 
 		<separator/>
 
@@ -80,8 +96,7 @@
 		pixtype="pixbuf"/>
 
 		<toolitem name="Stop" _label="Stop"
-		_tip="Stop Loading" verb="ContactStop"
-		pixtype="stock" pixname="Stop"/>
+		verb="ContactStop"/>
 
 	</dockitem>
 
