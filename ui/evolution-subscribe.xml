@@ -34,5 +34,11 @@
     _label="Unsubscribe" _descr="Remove folder from your list of subscribed folders"
     pixtype="pixbuf"/>
 
+    <toolitem type="separator"/>
+
+    <toolitem name="Refresh" verb=""
+    _label="Refresh List" _descr="Refresh List of Folders"
+    pixtype="pixbuf"/>
+
   </dockitem>
 </Root>
