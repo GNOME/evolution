@@ -292,9 +292,9 @@ connect_to_server (CamelService *service, gboolean real, CamelException *ex)
 			if (!strncmp (p, "IMPLEMENTATION ", 15)) {
 				store->implementation =
 					g_strndup (p + 15, len - 15);
-			} else if (!strncmp (p, "TOP", len))
+			} else if (len == 3 && !strncmp (p, "TOP", 3))
 				store->supports_top = TRUE;
-			else if (!strncmp (p, "UIDL", len))
+			else if (len == 4 && !strncmp (p, "UIDL", 4))
 				store->supports_uidl = TRUE;
 			else if (!strncmp (p, "LOGIN-DELAY ", 12))
 				store->login_delay = atoi (p + 12);
@@ -304,6 +304,8 @@ connect_to_server (CamelService *service, gboolean real, CamelException *ex)
 				store->expires = TRUE;
 
 			p += len;
+			if (*p)
+				p++;
 		}
 
 		g_free (buf);
