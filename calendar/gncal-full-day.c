@@ -31,6 +31,7 @@ typedef struct {
 	int         y;
 	int         width;
 	int         height;
+	time_t      start, end;
 } Child;
 
 struct layout_row {
@@ -302,7 +303,7 @@ child_range_changed (GncalFullDay *fullday, Child *child)
 
 	/* Calc display range for event */
 
-	get_tm_range (fullday, child->ico->dtstart, child->ico->dtend, &start, &end, &lower_row, &rows_used);
+	get_tm_range (fullday, child->start, child->end, &start, &end, &lower_row, &rows_used);
 	get_tm_range (fullday, fullday->lower, fullday->upper, NULL, NULL, &f_lower_row, NULL);
 
 	child->lower_row = lower_row - f_lower_row;
@@ -536,7 +537,7 @@ child_button_press (GtkWidget *widget, GdkEventButton *event, gpointer data)
 }
 
 static Child *
-child_new (GncalFullDay *fullday, iCalObject *ico)
+child_new (GncalFullDay *fullday, time_t start, time_t end, iCalObject *ico)
 {
 	Child *child;
 
@@ -549,7 +550,9 @@ child_new (GncalFullDay *fullday, iCalObject *ico)
 	child->y = 0;
 	child->width = 0;
 	child->height = 0;
-
+	child->start  = start;
+	child->end    = end;
+	
 	child_range_changed (fullday, child);
 
 	/* We set the i-beam cursor and the initial summary text upon realization */
@@ -956,7 +959,7 @@ gncal_full_day_realize (GtkWidget *widget)
 	gdk_window_set_background (widget->window, &widget->style->bg[GTK_STATE_PRELIGHT]);
 
 	fullday->up_down_cursor = gdk_cursor_new (GDK_DOUBLE_ARROW);
-	fullday->beam_cursor = gdk_cursor_new (GDK_XTERM);
+	fullday->beam_cursor    = gdk_cursor_new (GDK_XTERM);
 
 	for (children = fullday->children; children; children = children->next)
 		child_realize (fullday, children->data);
@@ -1644,8 +1647,8 @@ update_from_drag_info (GncalFullDay *fullday)
 	widget = GTK_WIDGET (fullday);
 
 	get_time_from_rows (fullday, di->child_start_row, di->child_rows_used,
-			    &di->child->ico->dtstart,
-			    &di->child->ico->dtend);
+			    &di->child->start,
+			    &di->child->end);
 
 	child_range_changed (fullday, di->child);
 
@@ -1864,13 +1867,34 @@ gncal_full_day_foreach (GtkContainer *container, GtkCallback callback, gpointer 
 	}
 }
 
+static gint
+child_compare_by_start (gpointer a, gpointer b)
+{
+	Child *ca = a;
+	Child *cb = b;
+	time_t diff;
+	
+	diff = ca->start - cb->start;
+	return (diff < 0) ? -1 : (diff > 0) ? 1 : 0;
+}
+
+static void
+fullday_add_children (iCalObject *obj, time_t start, time_t end, void *c)
+{
+	GncalFullDay *fullday = c;
+	Child *child;
+	
+	child = child_new (fullday, start, end, obj);
+	fullday->children = g_list_insert_sorted (fullday->children, child, child_compare_by_start);
+}
+
 void
 gncal_full_day_update (GncalFullDay *fullday, iCalObject *ico, int flags)
 {
 	GList *children;
 	GList *l_events, *events;
 	Child *child;
-
+	
 	g_return_if_fail (fullday != NULL);
 	g_return_if_fail (GNCAL_IS_FULL_DAY (fullday));
 
@@ -1900,22 +1924,14 @@ gncal_full_day_update (GncalFullDay *fullday, iCalObject *ico, int flags)
 
 	g_list_free (fullday->children);
 
-	children = NULL;
-
-	l_events = calendar_get_events_in_range (fullday->calendar->cal,
-						 fullday->lower,
-						 fullday->upper,
-						 calendar_compare_by_dtstart);
-
-	for (events = l_events; events; events = events->next) {
-		child = child_new (fullday, events->data);
-		children = g_list_append (children, child);
-	}
-
-	g_list_free (l_events);
-
-	fullday->children = g_list_first (children);
-
+	fullday->children = NULL;
+	
+	calendar_iterate (fullday->calendar->cal,
+			  fullday->lower,
+			  fullday->upper,
+			  fullday_add_children,
+			  fullday);
+	
 	layout_children (fullday);
 
 	/* Realize and map children */

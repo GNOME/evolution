@@ -32,6 +32,9 @@ int day_begin, day_end;
 /* Number of calendars active */
 int active_calendars = 0;
 
+/* A list of all of the calendars started */
+GList *all_calendars = NULL;
+
 void
 init_username (void)
 {
@@ -87,21 +90,6 @@ init_calendar (void)
 		day_end   = 17;
 	}
 	gnome_config_pop_prefix ();
-}
-
-void
-new_calendar_cmd (GtkWidget *widget, void *data)
-{
-}
-
-void
-open_calendar_cmd (GtkWidget *widget, void *data)
-{
-}
-
-void
-save_calendar_cmd (GtkWidget *widget, void *data)
-{
 }
 
 void
@@ -168,6 +156,26 @@ void
 today_clicked (GtkWidget *widget, GnomeCalendar *gcal)
 {
 	gnome_calendar_goto (gcal, time (NULL));
+}
+
+void
+new_calendar_cmd (GtkWidget *widget, void *data)
+{
+}
+
+void
+open_calendar_cmd (GtkWidget *widget, void *data)
+{
+	GtkWidget *filesel;
+
+	filesel = gtk_file_selection_new (_("Open Calendar"));
+	gtk_widget_show (filesel);
+	
+}
+
+void
+save_calendar_cmd (GtkWidget *widget, void *data)
+{
 }
 
 GnomeUIInfo gnome_cal_file_menu [] = {
@@ -238,6 +246,7 @@ new_calendar (char *full_name, char *calendar_file)
 	title = g_copy_strings (full_name, "'s calendar", NULL);
 	
 	toplevel = gnome_calendar_new (title);
+	g_free (title);
 	setup_menu (toplevel);
 
 	if (g_file_exists (calendar_file)){
@@ -248,7 +257,7 @@ new_calendar (char *full_name, char *calendar_file)
 		gnome_calendar_load (GNOME_CALENDAR (toplevel), "./test.vcf");
 	}
 	active_calendars++;
-
+	all_calendars = g_list_prepend (all_calendars, toplevel);
 	gtk_widget_show (toplevel);
 }
 	

@@ -408,8 +408,10 @@ ical_object_create_from_vobject (VObject *o, const char *object_name)
 		ical->type = ICAL_EVENT;
 	else if (strcmp (object_name, VCTodoProp) == 0)
 		ical->type = ICAL_TODO;
-	else
+	else {
+		g_free (ical);
 		return 0;
+	}
 
 	/* uid */
 	if (has (o, VCUniqueStringProp)){

@@ -8,50 +8,6 @@
 #include <string.h>
 #include "view-utils.h"
 
-
-/* FIXME: remove this function later */
-
-#if 0
-static GList *
-calendar_get_events_in_range (Calendar *cal, time_t start, time_t end, GCompareFunc sort_func)
-{
-	static iCalObject objs[24];
-	static int ready = 0;
-	int i;
-	GList *list;
-
-	if (!ready) {
-		struct tm tm;
-		time_t tim;
-
-		ready = 1;
-
-		for (i = 0; i < 24; i++) {
-			tim = time (NULL);
-			tm = *localtime (&tim);
-
-			tm.tm_hour = i;
-			tm.tm_min = 0;
-			tm.tm_sec = 0;
-			objs[i].dtstart = mktime (&tm);
-
-			tm.tm_hour = i;
-			tm.tm_min = 30;
-			tm.tm_sec = 0;
-			objs[i].dtend = mktime (&tm);
-
-			objs[i].summary = "Ir a chingar a tu madre";
-		}
-	}
-
-	list = NULL;
-
-	for (i = 0; i < 8; i++)
-		list = g_list_append (list, &objs[i]);
-
-	return list;
-}
-#endif
 void
 view_utils_draw_events (GtkWidget *widget, GdkWindow *window, GdkGC *gc, GdkRectangle *area,
 			int flags, GList *events, time_t start, time_t end)
@@ -72,10 +28,11 @@ view_utils_draw_events (GtkWidget *widget, GdkWindow *window, GdkGC *gc, GdkRect
 	max_y = area->y + area->height - font_height * ((flags & VIEW_UTILS_DRAW_SPLIT) ? 2 : 1);
 
 	for (y = area->y, list = events; (y < max_y) && list; y += font_height, list = list->next) {
-		ico = list->data;
+		CalendarObject *co = list->data;
+		ico = co->ico;
 
-		tm_start = *localtime (&ico->dtstart);
-		tm_end = *localtime (&ico->dtend);
+		tm_start = *localtime (&co->ev_start);
+		tm_end = *localtime   (&co->ev_end);
 		str = ico->summary;
 
 		if (flags & VIEW_UTILS_DRAW_END) {

@@ -111,6 +111,23 @@ ice (time_t t)
 	return buffer;
 }
 
+void
+calendar_iterate_on_objects (GList *objects, time_t start, time_t end, calendarfn cb, void *closure)
+{
+	for (; objects; objects = objects->next){
+		iCalObject *object = objects->data;
+
+		if ((start <= object->dtstart) && (object->dtend <= end))
+			(*cb)(object, object->dtstart, object->dtend, closure);
+	}
+}
+
+void
+calendar_iterate (Calendar *cal, time_t start, time_t end, calendarfn cb, void *closure)
+{
+	calendar_iterate_on_objects (cal->events, start, end, cb, closure);
+}
+
 GList *
 calendar_get_objects_in_range (GList *objects, time_t start, time_t end, GCompareFunc sort_func)
 {
@@ -128,12 +145,6 @@ calendar_get_objects_in_range (GList *objects, time_t start, time_t end, GCompar
 	}
 
 	return new_events;
-}
-
-GList *
-calendar_get_events_in_range (Calendar *cal, time_t start, time_t end, GCompareFunc sort_func)
-{
-	return calendar_get_objects_in_range (cal->events, start, end, sort_func);
 }
 
 GList *
@@ -241,3 +252,45 @@ calendar_save (Calendar *cal, char *fname)
 	cleanStrTbl ();
 }
 
+static void
+calendar_object_compare_by_start (gpointer a, gpointer b)
+{
+	CalendarObject *ca = a;
+	CalendarObject *cb = b;
+	time_t diff;
+	
+	diff = ca->ev_start - cb->ev_start;
+	return (diff < 0) ? -1 : (diff > 0) ? 1 : 0;
+}
+
+static void
+assemble_event_list (iCalObject *obj, time_t start, time_t end, void *c)
+{
+	CalendarObject *co;
+	GList **l = c;
+	
+	co = g_new (CalendarObject, 1);
+	co->ev_start = start;
+	co->ev_end   = end;
+	co->ico      = obj;
+	*l = g_list_insert_sorted (*l, co, calendar_object_compare_by_start);
+}
+
+void
+calendar_destroy_event_list (GList *l)
+{
+	GList *p;
+
+	for (p = l; p; p = p->next)
+		g_free (l->data);
+	g_list_free (l);
+}
+
+GList *
+calendar_get_events_in_range (Calendar *cal, time_t start, time_t end)
+{
+	GList *l = 0;
+	
+	calendar_iterate (cal, start, end, assemble_event_list, &l);
+	return l;
+}

@@ -94,7 +94,7 @@ gncal_day_view_destroy (GtkObject *object)
 	if (dview->day_str)
 		g_free (dview->day_str);
 	if (dview->events)
-		g_list_free (dview->events);
+		calendar_destroy_event_list (dview->events);
 	
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
@@ -303,12 +303,11 @@ gncal_day_view_update (GncalDayView *dview, iCalObject *ico, int flags)
 	dview->day_str = g_strdup (buf);
 
 	if (dview->events)
-		g_list_free (dview->events);
+		calendar_destroy_event_list (dview->events);
 
 	dview->events = calendar_get_events_in_range (dview->calendar->cal,
 						      dview->lower,
-						      dview->upper,
-						      calendar_compare_by_dtstart);
+						      dview->upper);
 
 	gtk_widget_draw (GTK_WIDGET (dview), NULL);
 }
