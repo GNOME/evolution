@@ -1,3 +1,9 @@
+2004-04-02  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-folder.c (camel_folder_get_deleted_message_count): New
+	function to get the deleted message count (used for Outbox count
+	which is total minus deleted).
+
 2004-04-02  Not Zed  <NotZed@Ximian.com>
 
 	* camel-exception.c (w): turn this on, this should always be on,
