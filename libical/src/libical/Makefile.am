@@ -4,6 +4,8 @@
 #noinst_LTLIBRARIES = libical.la
 lib_LTLIBRARIES = libical.la
 
+INCLUDES = -I.
+
 YFLAGS =-d -v -t
 
 libical_la_SOURCES = \
