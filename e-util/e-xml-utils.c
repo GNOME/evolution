@@ -26,8 +26,13 @@
 #include <config.h>
 #endif
 
+#ifdef HAVE_ALLOCA_H
+#include <alloca.h>
+#endif
+
 #include "e-xml-utils.h"
 
+#include <stdio.h>
 #include <string.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -690,19 +695,27 @@ xmlDocContentDump (xmlBufferPtr buf, xmlDocPtr cur)
 int
 e_xml_save_file (const char *filename, xmlDocPtr doc)
 {
+	char *filesave, *slash;
 	size_t n, written = 0;
 	xmlBufferPtr buf;
 	int errnosave;
 	ssize_t w;
 	int fd;
 	
-	fd = open (filename, O_WRONLY | O_CREAT | O_EXCL, 0600);
+	filesave = alloca (strlen (filename) + 5);
+	slash = strrchr (filename, '/');
+	if (slash)
+		sprintf (filesave, "%.*s.#%s", slash - filename + 1, filename, slash + 1);
+	else
+		sprintf (filesave, ".#%s", filename);
+	
+	fd = open (filesave, O_WRONLY | O_CREAT | O_TRUNC, 0600);
 	if (fd == -1)
 		return -1;
 	
 	if (!(buf = xmlBufferCreate ())) {
 		close (fd);
-		unlink (filename);
+		unlink (filesave);
 		errno = ENOMEM;
 		return -1;
 	}
@@ -724,12 +737,22 @@ e_xml_save_file (const char *filename, xmlDocPtr doc)
 	if (written < n || fsync (fd) == -1) {
 		errnosave = errno;
 		close (fd);
-		unlink (filename);
+		unlink (filesave);
 		errno = errnosave;
 		return -1;
 	}
 	
 	close (fd);
+	
+	if (errno != 0)
+		return -1;
+	
+	if (rename (filesave, filename) == -1) {
+		errnosave = errno;
+		unlink (filesave);
+		errno = errnosave;
+		return -1;
+	}
 	
 	return 0;
 }
