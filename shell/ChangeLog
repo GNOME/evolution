@@ -13,6 +13,7 @@
 
 	* e-shell-view-menu.c (command_goto_folder): Fix prototype
 	(command_new_view): ditto.
+	(command_new_mail_message): Implement command_new_mail_message.
 
 	verbs: Use BONOBO_UI_VERB instead of BONOBO_UI_UNSAFE_VERB
 

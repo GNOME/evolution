@@ -386,8 +386,24 @@ func (BonoboUIComponent *uic, void *data, const char *path)		\
 	g_warning ("EShellView: %s: not implemented.", __FUNCTION__);	\
 }									\
 
+static void
+command_new_mail_message (BonoboUIComponent *uih,
+			  gpointer          data,
+			  const char *path)
+{
+	CORBA_Environment ev;
+	Bonobo_Unknown object;
+	
+	CORBA_exception_init (&ev);
+	object = bonobo_get_object (
+		"OAFIID:GNOME_Evolution_Mail_Composer!window!visible=1",
+		"Bonobo/Unknown", &ev);
+
+	CORBA_exception_free (&ev);
+}
+	
 DEFINE_UNIMPLEMENTED (command_new_shortcut)
-DEFINE_UNIMPLEMENTED (command_new_mail_message)
+
 DEFINE_UNIMPLEMENTED (command_new_contact)
 DEFINE_UNIMPLEMENTED (command_new_task_request)
 
