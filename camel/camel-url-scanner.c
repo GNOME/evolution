@@ -330,8 +330,6 @@ camel_url_web_end (const char *in, const char *pos, const char *inend, urlmatch_
 	const char *save;
 	char close_brace;
 	
-	fprintf (stderr, "camel_url_web_end(%s): %.*s\n", match->pattern, inend - pos, pos);
-	
 	inptr += strlen (match->pattern);
 	
 	close_brace = url_stop_at_brace (in, match->um_so);
@@ -357,7 +355,6 @@ camel_url_web_end (const char *in, const char *pos, const char *inend, urlmatch_
 		} while (parts < 4);
 	} else if (is_atom (*inptr)) {
 		/* might be a domain or user@domain */
-		fprintf (stderr, "found atom (user@domain?)...\n");
 		save = inptr;
 		while (inptr < inend) {
 			if (!is_atom (*inptr))
