@@ -25,19 +25,15 @@
 #include "addressbook/gui/widgets/e-addressbook-view.h"
 #include "filter/rule-context.h"
 #include "filter/filter-rule.h"
+#include <gtk/gtkdialog.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
-#include <libgnomeui/gnome-dialog.h>
-
-#define E_ADDRESSBOOK_SEARCH_DIALOG_TYPE			(e_addressbook_search_dialog_get_type ())
-#define E_ADDRESSBOOK_SEARCH_DIALOG(obj)			(GTK_CHECK_CAST ((obj), E_ADDRESSBOOK_SEARCH_DIALOG_TYPE, EAddressbookSearchDialog))
-#define E_ADDRESSBOOK_SEARCH_DIALOG_CLASS(klass)		(GTK_CHECK_CLASS_CAST ((klass), E_ADDRESSBOOK_SEARCH_DIALOG_TYPE, EAddressbookSearchDialogClass))
-#define E_IS_ADDRESSBOOK_SEARCH_DIALOG(obj) 		(GTK_CHECK_TYPE ((obj), E_ADDRESSBOOK_SEARCH_DIALOG_TYPE))
-#define E_IS_ADDRESSBOOK_SEARCH_DIALOG_CLASS(klass) 	(GTK_CHECK_CLASS_TYPE ((obj), E_ADDRESSBOOK_SEARCH_DIALOG_TYPE))
+#define E_ADDRESSBOOK_SEARCH_DIALOG_TYPE		(e_addressbook_search_dialog_get_type ())
+#define E_ADDRESSBOOK_SEARCH_DIALOG(obj)		(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_ADDRESSBOOK_SEARCH_DIALOG_TYPE, EAddressbookSearchDialog))
+#define E_ADDRESSBOOK_SEARCH_DIALOG_CLASS(klass)	(G_TYPE_CHECK_CLASS_CAST ((klass), E_ADDRESSBOOK_SEARCH_DIALOG_TYPE, EAddressbookSearchDialogClass))
+#define E_IS_ADDRESSBOOK_SEARCH_DIALOG(obj) 		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_ADDRESSBOOK_SEARCH_DIALOG_TYPE))
+#define E_IS_ADDRESSBOOK_SEARCH_DIALOG_CLASS(klass) 	(G_TYPE_CHECK_CLASS_TYPE ((obj), E_ADDRESSBOOK_SEARCH_DIALOG_TYPE))
 
 
 typedef struct _EAddressbookSearchDialog       EAddressbookSearchDialog;
@@ -45,7 +41,7 @@ typedef struct _EAddressbookSearchDialogClass  EAddressbookSearchDialogClass;
 
 struct _EAddressbookSearchDialog
 {
-	GnomeDialog parent;
+	GtkDialog parent;
 
 	GtkWidget *search;
 
@@ -57,15 +53,13 @@ struct _EAddressbookSearchDialog
 
 struct _EAddressbookSearchDialogClass
 {
-	GnomeDialogClass parent_class;
+	GtkDialogClass parent_class;
 };
 
-GtkType    e_addressbook_search_dialog_get_type (void);
+GType      e_addressbook_search_dialog_get_type (void);
 
 GtkWidget *e_addressbook_search_dialog_new (EAddressbookView *view);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* __E_ADDRESSBOOK_SEARCH_DIALOG_H__ */

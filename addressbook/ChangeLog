@@ -1,5 +1,9 @@
 2002-12-09  Chris Toshok  <toshok@ximian.com>
 
+	* gui/search/e-addressbook-search-dialog.[ch]: GObject-ize this.
+
+2002-12-09  Chris Toshok  <toshok@ximian.com>
+
 	* gui/component/addressbook.c (load_uri_auth_cb): pass
 	"Addressbook" to e_passwords*.
 	(addressbook_authenticate): same.
