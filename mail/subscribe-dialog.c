@@ -2,6 +2,7 @@
 /* subscribe-dialog.c: Subscribe dialog */
 /*
  *  Authors: Chris Toshok <toshok@ximian.com>
+ *           Peter Williams <peterw@ximian.com>
  *
  *  Copyright 2000 Ximian, Inc. (www.ximian.com)
  *
@@ -25,15 +26,6 @@
 #include <config.h>
 #endif
 
-#include <bonobo/bonobo-main.h>
-#include <bonobo/bonobo-object.h>
-#include <bonobo/bonobo-generic-factory.h>
-#include <bonobo/bonobo-control.h> 
-#include <bonobo/bonobo-ui-component.h>
-#include <bonobo/bonobo-ui-util.h>
-#include <bonobo/bonobo-widget.h>
-
-#include <gtkhtml/gtkhtml.h>
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-unicode.h>
 
@@ -41,21 +33,16 @@
 #include <gal/e-table/e-cell-text.h>
 #include <gal/e-table/e-cell-tree.h>
 
-#include <gal/e-table/e-table-scrolled.h>
-#include <gal/e-table/e-table-simple.h>
-#include <gal/e-table/e-table.h>
-
 #include <gal/e-table/e-tree-scrolled.h>
 #include <gal/e-table/e-tree-memory-callbacks.h>
 #include <gal/e-table/e-tree.h>
 
-#include <gal/e-paned/e-hpaned.h>
-
-#include "e-util/e-html-utils.h"
 #include "evolution-shell-component-utils.h"
 #include "mail.h"
 #include "mail-tools.h"
+#include "mail-ops.h"
 #include "mail-mt.h"
+#include "mail-folder-cache.h"
 #include "camel/camel-exception.h"
 #include "camel/camel-store.h"
 #include "camel/camel-session.h"
@@ -64,163 +51,90 @@
 #include "art/empty.xpm"
 #include "art/mark.xpm"
 
+/* Things to test.
+ * - Feature
+ *   + How to check that it works.
+ *
+ * - Proper stores displayed
+ *   + Skip stores that don't support subscriptions
+ *   + Skip disabled stores
+ * - Changing subscription status
+ *   + Select single folder, double-click row -> toggled
+ *   + Select multiple folders, press subscribe -> all selected folders end up subscribed
+ * - (un)Subscribing from/to already (un)subscribed folder
+ *   + Check that no IMAP command is sent
+ * - Switching views between stores
+ *   + Proper tree shown
+ * - No crashes when buttons are pressed with "No store" screen
+ *   + obvious
+ * - Restoring filter settings when view switched
+ *   + Enter search, change view, change back -> filter checked and search entry set
+ *   + Clear search, change view, change back -> "all" checked
+ * - Cancelling in middle of get_store 
+ *   + Enter invalid hostname, open dialog, click Close
+ * - Cancelling in middle if listing 
+ *   + Open large directory, click Close
+ * - Cancelling in middle of subscription op
+ *   + How to test?
+ * - Test with both IMAP and NNTP
+ *   + obvious
+ * - Verify that refresh view works
+ *   + obvious
+ * - No unnecessary tree rebuilds
+ *   + Show All folders, change filter with empty search -> no tree rebuild
+ *   + Converse
+ * - No out of date tree
+ *   + Show All Folders, change to filter with a search -> tree rebuild
+ * - Tree construction logic (mostly IMAP-specific terminology)
+ *   + Tree is created progressively
+ *   + No wasted LIST responses
+ *   + No extraneous LIST commands
+ *   + Specifying "folder names begin with" works
+ *   + Always show folders below IMAP namespace (no escaping the namespace)
+ *   + Don't allow subscription to NoSelect folders
+ *   + IMAP accounts always show INBOX
+ * - Shell interactions
+ *   + Folders are properly created / delete from folder tree when subscribed / unsubscribed
+ *   + Mail Folder Cache doesn't complain
+ * - No ETable wackiness
+ *   + Verify columns cannot be DnD'd
+ *   + No sorting, eg (?)
+ * - UI cleanliness
+ *   + Keybindings work
+ *   + Some widget has focus by default
+ *   + Escape / enter work
+ *   + Close button works
+ */
 
-#define DEFAULT_STORE_TABLE_WIDTH         200
-#define DEFAULT_WIDTH                     500
-#define DEFAULT_HEIGHT                    300
+/*#define NEED_TOGGLE_SELECTION*/
 
-#define PARENT_TYPE (gtk_object_get_type ())
-
-#ifdef JUST_FOR_TRANSLATORS
-static char *list [] = {
-	N_("Folder"),
-	N_("Store"),
-};
-#endif
-
-#define FOLDER_ETREE_SPEC "<ETableSpecification cursor-mode=\"line\"> \
-        <ETableColumn model_col=\"0\" pixbuf=\"subscribed-image\" expansion=\"0.0\" minimum_width=\"16\" resizable=\"false\" cell=\"cell_toggle\" compare=\"integer\"/> \
-        <ETableColumn model_col=\"1\" _title=\"Folder\" expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"cell_tree\" compare=\"string\"/> \
-	<ETableState>                   			        \
-		<column source=\"0\"/>                                  \
-		<column source=\"1\"/>                                  \
-	        <grouping></grouping>                                   \
-	</ETableState>                  			        \
-</ETableSpecification>"
-
-#define STORE_ETABLE_SPEC "<ETableSpecification cursor-mode=\"line\"> \
-        <ETableColumn model_col=\"0\" _title=\"Store\" expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-	<ETableState>                   			        \
-		<column source=\"0\"/>                                  \
-	        <grouping></grouping>                                   \
-	</ETableState>                  			        \
-</ETableSpecification>"
-
-enum {
-	FOLDER_COL_SUBSCRIBED,
-	FOLDER_COL_NAME,
-	FOLDER_COL_LAST
-};
-
-enum {
-	STORE_COL_NAME,
-	STORE_COL_LAST
-};
-
-static GtkObjectClass *subscribe_dialog_parent_class;
-
-static void build_tree (SubscribeDialog *sc, CamelStore *store);
-
-static EPixmap pixmaps [] = {
-	E_PIXMAP ("/Toolbar/SubscribeFolder",	"buttons/fetch-mail.png"),	/* XXX */
-	E_PIXMAP ("/Toolbar/UnsubscribeFolder",	"buttons/compose-message.png"),	/* XXX */
-	E_PIXMAP ("/Toolbar/RefreshList",	"buttons/forward.png"),	/* XXX */
-	E_PIXMAP_END
-};
-
-static GtkWidget*
-make_folder_search_widget (GtkSignalFunc start_search_func,
-			   gpointer user_data_for_search)
-{
-	SubscribeDialog *sc = SUBSCRIBE_DIALOG (user_data_for_search);
-	GtkWidget *search_hbox = gtk_hbox_new (FALSE, 0);
-
-	sc->search_entry = gtk_entry_new ();
-
-	if (start_search_func) {
-		gtk_signal_connect (GTK_OBJECT (sc->search_entry), "activate",
-				    start_search_func,
-				    user_data_for_search);
-	}
-	
-	/* add the search entry to the our search_vbox */
-	gtk_box_pack_start (GTK_BOX (search_hbox),
-			    gtk_label_new(_("Display folders starting with:")),
-			    FALSE, TRUE, 0);
-	gtk_box_pack_start (GTK_BOX (search_hbox), sc->search_entry,
-			    FALSE, TRUE, 3);
-
-	return search_hbox;
-}
-
-
-/* Our async operations */
-
-typedef void (*SubscribeGetStoreCallback)(SubscribeDialog *sc, CamelStore *store, gpointer cb_data);
-typedef void (*SubscribeFolderCallback)(SubscribeDialog *sc, gboolean success, gpointer cb_data);
-
-/* ** GET STORE ******************************************************* */
-
-struct _get_store_msg {
-	struct _mail_msg msg;
-
-	SubscribeDialog *sc;
-	char *url;
-	SubscribeGetStoreCallback cb;
-	gpointer cb_data;
-	CamelStore *store;
-};
-
-static char *get_store_desc(struct _mail_msg *mm, int done)
-{
-	struct _get_store_msg *m = (struct _get_store_msg *)mm;
-
-	return g_strdup_printf(_("Getting store for \"%s\""), m->url);
-}
-
-static void get_store_get(struct _mail_msg *mm)
-{
-	struct _get_store_msg *m = (struct _get_store_msg *)mm;
-
-	m->store = camel_session_get_store (session, m->url, &mm->ex);
-}
-
-static void get_store_got(struct _mail_msg *mm)
-{
-	struct _get_store_msg *m = (struct _get_store_msg *)mm;
-
-	m->cb(m->sc, m->store, m->cb_data);
-}
-
-static void get_store_free(struct _mail_msg *mm)
-{
-	struct _get_store_msg *m = (struct _get_store_msg *)mm;
-
-	if (m->store)
-		camel_object_unref((CamelObject *)m->store);
-	g_free(m->url);
-}
-
-static struct _mail_msg_op get_store_op = {
-	get_store_desc,
-	get_store_get,
-	get_store_got,
-	get_store_free,
-};
+/* util */
 
 static void
-subscribe_do_get_store (SubscribeDialog *sc, const char *url, SubscribeGetStoreCallback cb, gpointer cb_data)
+recursive_add_folder (EvolutionStorage *storage, const char *path, const char *name, const char *url)
 {
-	struct _get_store_msg *m;
-	int id;
+	char *parent, *pname, *p;
 
-	g_return_if_fail (url != NULL);
+	p = strrchr (path, '/');
+	if (p && p != path) {
+		parent = g_strndup (path, p - path);
+		if (!evolution_storage_folder_exists (storage, parent)) {
+			p = strrchr (parent, '/');
+			if (p)
+				pname = g_strdup (p + 1);
+			else
+				pname = g_strdup ("");
+			recursive_add_folder (storage, parent, pname, "");
+			g_free (pname);
+		}
+		g_free (parent);
+	}
 
-	m = mail_msg_new(&get_store_op, NULL, sizeof(*m));
-	m->sc = sc;
-	m->url = g_strdup(url);
-	m->cb = cb;
-	m->cb_data = cb_data;
-
-	id = m->msg.seq;
-	e_thread_put(mail_thread_queued, (EMsg *)m);
-	mail_msg_wait(id);
+	evolution_storage_new_folder (storage, path, name, "mail", url, name, FALSE);
+	mail_folder_cache_set_update_estorage (url, storage);
+	mail_folder_cache_note_name (url, name);
 }
 
-/* ** SUBSCRIBE FOLDER ******************************************************* */
-/* Given a CamelFolderInfo, construct the corresponding
- * EvolutionStorage path to it.
- */
 static char *
 storage_tree_path (CamelFolderInfo *info)
 {
@@ -245,94 +159,170 @@ storage_tree_path (CamelFolderInfo *info)
 	return path;
 }
 
-/* ********************************************************************** */
-/* Subscribe folder */
+/* ** Get one level of folderinfo ****************************************** */
 
-struct _subscribe_msg {
-	struct _mail_msg msg;
+typedef void (*SubscribeShortFolderinfoFunc) (CamelStore *store, gchar *prefix, CamelFolderInfo *info, gpointer data);
 
-	SubscribeDialog *sc;
-	CamelStore *store;
-	gboolean subscribe;
-	SubscribeFolderCallback cb;
-	gpointer cb_data;
+int subscribe_get_short_folderinfo (CamelStore *store, gchar *prefix, SubscribeShortFolderinfoFunc func, gpointer user_data);
 
-	char *path;
-	char *name;
-	char *full_name;
-	char *url;
+struct _get_short_folderinfo_msg {
+	struct _mail_msg              msg;
+
+	gchar                        *prefix;
+
+	CamelStore                   *store;
+	CamelFolderInfo              *info;
+
+	SubscribeShortFolderinfoFunc  func;
+	gpointer                      user_data;
 };
 
-static char *subscribe_folder_desc(struct _mail_msg *mm, int done)
+static char *
+get_short_folderinfo_desc (struct _mail_msg *mm, int done)
 {
-	struct _subscribe_msg *m = (struct _subscribe_msg *)mm;
+	struct _get_short_folderinfo_msg *m = (struct _get_short_folderinfo_msg *) mm;
+	char *ret, *name;
 
-	if (m->subscribe)
-		return g_strdup_printf(_("Subscribing to folder \"%s\""), m->name);
-	else
-		return g_strdup_printf(_("Unsubscribing to folder \"%s\""), m->name);
-}
+	name = camel_service_get_name (CAMEL_SERVICE (m->store), TRUE);
 
-static void subscribe_folder_subscribe(struct _mail_msg *mm)
-{
-	struct _subscribe_msg *m = (struct _subscribe_msg *)mm;
-	
-	if (m->subscribe)
-		camel_store_subscribe_folder(m->store, m->full_name, &mm->ex);
+	if (m->prefix)
+		ret = g_strdup_printf (_("Scanning folders under %s on \"%s\""), m->prefix, name);
 	else
-		camel_store_unsubscribe_folder(m->store, m->full_name, &mm->ex);
+		ret = g_strdup_printf (_("Scanning root-level folders on \"%s\""), name);
+
+	g_free (name);
+	return ret;
 }
 
 static void
-recursive_add_folder (EvolutionStorage *storage, const char *path, const char *name, const char *url)
+get_short_folderinfo_get (struct _mail_msg *mm)
 {
-	char *parent, *pname, *p;
+	struct _get_short_folderinfo_msg *m = (struct _get_short_folderinfo_msg *) mm;
 
-	p = strrchr (path, '/');
-	if (p && p != path) {
-		parent = g_strndup (path, p - path);
-		if (!evolution_storage_folder_exists (storage, parent)) {
-			p = strrchr (parent, '/');
-			if (p)
-				pname = g_strdup (p + 1);
-			else
-				pname = g_strdup ("");
-			recursive_add_folder (storage, parent, pname, "");
-			g_free (pname);
-		}
-		g_free (parent);
-	}
-
-	evolution_storage_new_folder (storage, path, name, "mail", url, name, FALSE);
+	camel_operation_register (mm->cancel);
+	m->info = camel_store_get_folder_info (m->store, m->prefix, CAMEL_STORE_FOLDER_INFO_FAST, &mm->ex);
+	camel_operation_unregister (mm->cancel);
 }
 
-static void subscribe_folder_subscribed(struct _mail_msg *mm)
+static void
+get_short_folderinfo_got (struct _mail_msg *mm)
 {
-	struct _subscribe_msg *m = (struct _subscribe_msg *)mm;
+	struct _get_short_folderinfo_msg *m = (struct _get_short_folderinfo_msg *) mm;
+
+	if (camel_exception_is_set (&(mm->ex)))
+		g_warning ("Error getting folder info from store at %s: %s",
+			   camel_service_get_url (CAMEL_SERVICE (m->store)),
+			   camel_exception_get_description (&(mm->ex)));
+
+	/* 'done' is probably guaranteed to fail, but... */
+
+	if (m->func)
+		m->func (m->store, m->prefix, m->info, m->user_data);
+}
+
+static void
+get_short_folderinfo_free (struct _mail_msg *mm)
+{
+	struct _get_short_folderinfo_msg *m = (struct _get_short_folderinfo_msg *) mm;
+
+	camel_store_free_folder_info (m->store, m->info);
+	camel_object_unref (CAMEL_OBJECT (m->store));
+
+	g_free (m->prefix); /* may be NULL but that's ok */
+}
+
+static struct _mail_msg_op get_short_folderinfo_op = {
+	get_short_folderinfo_desc,
+	get_short_folderinfo_get,
+	get_short_folderinfo_got,
+	get_short_folderinfo_free,
+};
+
+int
+subscribe_get_short_folderinfo (CamelStore *store, 
+				gchar *prefix,
+				SubscribeShortFolderinfoFunc func, 
+				gpointer user_data)
+{
+	struct _get_short_folderinfo_msg *m;
+	int id;
+
+	m = mail_msg_new (&get_short_folderinfo_op, NULL, sizeof(*m));
+
+	m->store = store;
+	camel_object_ref (CAMEL_OBJECT (store));
+
+	if (prefix)
+		m->prefix = g_strdup (prefix);
+	else
+		m->prefix = NULL;
+
+	m->func      = func;
+	m->user_data = user_data;
+
+	id = m->msg.seq;
+	e_thread_put (mail_thread_new, (EMsg *)m);
+	return id;
+}
+
+/* ** Subscribe folder operation **************************************** */
+
+typedef void (*SubscribeFolderCallback) (const char *, const char *, gboolean, gboolean, gpointer);
+
+struct _subscribe_msg {
+	struct _mail_msg         msg;
+
+	CamelStore              *store;
+	gboolean                 subscribe;
+	gchar                   *full_name;
+	gchar                   *name;
+
+	SubscribeFolderCallback  cb;
+	gpointer                 cb_data;
+};
+
+static char *
+subscribe_folder_desc (struct _mail_msg *mm, int done)
+{
+	struct _subscribe_msg *m = (struct _subscribe_msg *) mm;
+
+	if (m->subscribe)
+		return g_strdup_printf (_("Subscribing to folder \"%s\""), m->name);
+	else
+		return g_strdup_printf (_("Unsubscribing to folder \"%s\""), m->name);
+}
+
+static void 
+subscribe_folder_subscribe (struct _mail_msg *mm)
+{
+	struct _subscribe_msg *m = (struct _subscribe_msg *) mm;
 	
-	if (!camel_exception_is_set (&mm->ex)) {
-		if (m->subscribe)
-			recursive_add_folder(m->sc->storage, m->path, m->name, m->url);
-		else
-			evolution_storage_removed_folder(m->sc->storage, m->path);
-	}
+	if (m->subscribe)
+		camel_store_subscribe_folder (m->store, m->full_name, &mm->ex);
+	else
+		camel_store_unsubscribe_folder (m->store, m->full_name, &mm->ex);
+}
+
+static void 
+subscribe_folder_subscribed (struct _mail_msg *mm)
+{
+	struct _subscribe_msg *m = (struct _subscribe_msg *) mm;
 	
 	if (m->cb)
-		m->cb(m->sc, !camel_exception_is_set(&mm->ex), m->cb_data);
+		(m->cb) (m->full_name, m->name,
+			 m->subscribe, 
+			 !camel_exception_is_set(&mm->ex), m->cb_data);
 }
 
-static void subscribe_folder_free(struct _mail_msg *mm)
+static void 
+subscribe_folder_free (struct _mail_msg *mm)
 {
-	struct _subscribe_msg *m = (struct _subscribe_msg *)mm;
+	struct _subscribe_msg *m = (struct _subscribe_msg *) mm;
 
-	g_free(m->path);
-	g_free(m->name);
-	g_free(m->full_name);
-	g_free(m->url);
+	g_free (m->name);
+	g_free (m->full_name);
 	
-	camel_object_unref((CamelObject *)m->store);
-	/* in wrong thread to do this?
-	   gtk_object_unref (GTK_OBJECT (input->sc));*/
+	camel_object_unref (CAMEL_OBJECT (m->store));
 }
 
 static struct _mail_msg_op subscribe_folder_op = {
@@ -342,721 +332,1132 @@ static struct _mail_msg_op subscribe_folder_op = {
 	subscribe_folder_free,
 };
 
-static void
-subscribe_do_subscribe_folder (SubscribeDialog *sc, CamelStore *store, CamelFolderInfo *info,
+static int
+subscribe_do_subscribe_folder (CamelStore *store, const char *full_name, const char *name,
 			       gboolean subscribe, SubscribeFolderCallback cb, gpointer cb_data)
 {
 	struct _subscribe_msg *m;
-	
-	g_return_if_fail (CAMEL_IS_STORE (store));
-	g_return_if_fail (info);
+	int id;
 
-	m = mail_msg_new(&subscribe_folder_op, NULL, sizeof(*m));
-	m->sc = sc;
-	m->store = store;
-	camel_object_ref((CamelObject *)store);
+	g_return_val_if_fail (CAMEL_IS_STORE (store), 0);
+	g_return_val_if_fail (full_name, 0);
+
+	m            = mail_msg_new (&subscribe_folder_op, NULL, sizeof(*m));
+	m->store     = store;
 	m->subscribe = subscribe;
-	m->cb = cb;
-	m->cb_data = cb_data;
+	m->name      = g_strdup (name);
+	m->full_name = g_strdup (full_name);
+	m->cb        = cb;
+	m->cb_data   = cb_data;
 
-	m->path = storage_tree_path (info);
-	m->name = g_strdup (info->name);
-	m->full_name = g_strdup (info->full_name);
-	m->url = g_strdup (info->url);
+	camel_object_ref (CAMEL_OBJECT (store));
 
-	/*
-	  gtk_object_ref (GTK_OBJECT (sc));*/
-
-	e_thread_put(mail_thread_new, (EMsg *)m);
+	id = m->msg.seq;
+	e_thread_put (mail_thread_new, (EMsg *)m);
+	return id;
 }
 
-
+/* ** FolderETree Extras *************************************************** */
 
-static gboolean
-folder_info_subscribed (SubscribeDialog *sc, CamelFolderInfo *info)
+typedef struct _FolderETreeExtras      FolderETreeExtras;
+typedef struct _FolderETreeExtrasClass FolderETreeExtrasClass;
+
+enum {
+	FOLDER_COL_SUBSCRIBED,
+	FOLDER_COL_NAME,
+	FOLDER_COL_LAST
+};
+
+struct _FolderETreeExtras {
+	ETableExtras  parent;
+	GdkPixbuf    *toggles[2];
+};
+
+struct _FolderETreeExtrasClass {
+	ETableExtrasClass parent;
+};
+
+static GtkObjectClass    *ftree_extras_parent_class = NULL;
+
+static void
+fete_destroy (GtkObject *object)
 {
-	return camel_store_folder_subscribed (sc->store, info->full_name);
+	FolderETreeExtras *extras = (FolderETreeExtras *) object;
+
+	gdk_pixbuf_unref (extras->toggles[0]);
+	gdk_pixbuf_unref (extras->toggles[1]);
+
+	ftree_extras_parent_class->destroy (object);
 }
 
 static void
-node_changed_cb (SubscribeDialog *sc, gboolean changed, gpointer data)
+fete_class_init (GtkObjectClass *object_class)
 {
-	ETreePath node = data;
+	object_class->destroy = fete_destroy;
 
-	if (changed)
-		e_tree_model_node_data_changed (sc->folder_model, node);
+	ftree_extras_parent_class = gtk_type_class (E_TABLE_EXTRAS_TYPE);
 }
 
 static void
-subscribe_folder_info (SubscribeDialog *sc, CamelFolderInfo *info, ETreePath node)
+fete_init (GtkObject *object)
 {
-	/* folders without urls cannot be subscribed to */
-	if (info->url == NULL)
-		return;
-	
-	subscribe_do_subscribe_folder (sc, sc->store, info, TRUE, node_changed_cb, node);
+	FolderETreeExtras *extras = (FolderETreeExtras *) object;
+	ECell             *cell;
+	ECell             *text_cell;
+
+	/* text column */
+
+	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
+	text_cell = cell;
+	gtk_object_set (GTK_OBJECT (cell),
+			"bold_column", FOLDER_COL_SUBSCRIBED,
+			NULL);
+	e_table_extras_add_cell (E_TABLE_EXTRAS (extras), "cell_text", cell);
+
+	/* toggle column */
+
+	extras->toggles[0] = gdk_pixbuf_new_from_xpm_data ((const char **)empty_xpm);
+	extras->toggles[1] = gdk_pixbuf_new_from_xpm_data ((const char **)mark_xpm);
+	cell = e_cell_toggle_new (0, 2, extras->toggles);
+	e_table_extras_add_cell (E_TABLE_EXTRAS (extras), "cell_toggle", cell);
+
+	/* tree cell */
+
+	cell = e_cell_tree_new (NULL, NULL, TRUE, text_cell);
+	e_table_extras_add_cell (E_TABLE_EXTRAS (extras), "cell_tree", cell);
+
+	/* misc */
+
+	e_table_extras_add_pixbuf (E_TABLE_EXTRAS (extras), "subscribed-image", extras->toggles[1]);
 }
 
+/* naughty! */
+static
+E_MAKE_TYPE (fete, "FolderETreeExtras", FolderETreeExtras, fete_class_init, fete_init, E_TABLE_EXTRAS_TYPE);
+
+/* ** Global Extras ******************************************************** */
+
+static FolderETreeExtras *global_extras = NULL;
+
 static void
-unsubscribe_folder_info (SubscribeDialog *sc, CamelFolderInfo *info, ETreePath node)
+global_extras_destroyed (GtkObject *obj, gpointer user_data)
 {
-	/* folders without urls cannot be subscribed to */
-	if (info->url == NULL)
-		return;
-	
-	subscribe_do_subscribe_folder (sc, sc->store, info, FALSE, node_changed_cb, node);
+	global_extras = NULL;
 }
 
-static void
-subscribe_close (BonoboUIComponent *uic,
-		 void *user_data, const char *path)
+static ETableExtras *
+subscribe_get_global_extras (void)
 {
-	SubscribeDialog *sc = (SubscribeDialog*)user_data;
-
-	gtk_widget_destroy (sc->app);
-}
-
-static void
-subscribe_select_all (BonoboUIComponent *uic,
-		      void *user_data, const char *path)
-{
-	SubscribeDialog *sc = (SubscribeDialog*)user_data;
-	ETreeScrolled *scrolled = E_TREE_SCROLLED (sc->folder_etree);
-	ETree *tree = e_tree_scrolled_get_tree (scrolled);
-	ESelectionModel *esm = e_tree_get_selection_model (E_TREE (tree));
-
-	e_selection_model_select_all (E_SELECTION_MODEL (esm));
-}
-
-static void
-subscribe_invert_selection (BonoboUIComponent *uic,
-			    void *user_data, const char *path)
-{
-	SubscribeDialog *sc = (SubscribeDialog*)user_data;
-	ETreeScrolled *scrolled = E_TREE_SCROLLED (sc->folder_etree);
-	ETree *tree = e_tree_scrolled_get_tree (scrolled);
-	ESelectionModel *esm = e_tree_get_selection_model (E_TREE (tree));
-	
-	e_selection_model_invert_selection (E_SELECTION_MODEL (esm));
-}
-
-static void
-subscribe_folder_foreach (int model_row, gpointer closure)
-{
-	SubscribeDialog *sc = SUBSCRIBE_DIALOG (closure);
-	ETreePath node = e_tree_node_at_row (e_tree_scrolled_get_tree(E_TREE_SCROLLED(sc->folder_etree)), model_row);
-	CamelFolderInfo *info = e_tree_memory_node_get_data (E_TREE_MEMORY(sc->folder_model), node);
-
-	if (!folder_info_subscribed (sc, info))
-		subscribe_folder_info (sc, info, node);
-}
-
-static void
-subscribe_folders (BonoboUIComponent *componet, gpointer user_data, const char *cname)
-{
-	SubscribeDialog *sc = SUBSCRIBE_DIALOG (user_data);
-
-	e_tree_selected_row_foreach (e_tree_scrolled_get_tree(E_TREE_SCROLLED(sc->folder_etree)),
-				      subscribe_folder_foreach, sc);
-}
-
-static void
-unsubscribe_folder_foreach (int model_row, gpointer closure)
-{
-	SubscribeDialog *sc = SUBSCRIBE_DIALOG (closure);
-	ETreePath node = e_tree_node_at_row (e_tree_scrolled_get_tree(E_TREE_SCROLLED(sc->folder_etree)), model_row);
-	CamelFolderInfo *info = e_tree_memory_node_get_data (E_TREE_MEMORY(sc->folder_model), node);
-
-	if (folder_info_subscribed(sc, info))
-		unsubscribe_folder_info (sc, info, node);
-}
-
-
-static void
-unsubscribe_folders (BonoboUIComponent *component, gpointer user_data, const char *cname)
-{
-	SubscribeDialog *sc = SUBSCRIBE_DIALOG (user_data);
-
-	e_tree_selected_row_foreach (e_tree_scrolled_get_tree(E_TREE_SCROLLED(sc->folder_etree)),
-				     unsubscribe_folder_foreach, sc);
-}
-
-static void
-subscribe_refresh_list (BonoboUIComponent *component, gpointer user_data, const char *cname)
-{
-	SubscribeDialog *sc = SUBSCRIBE_DIALOG (user_data);
-
-	e_utf8_gtk_entry_set_text (GTK_ENTRY (sc->search_entry), "");
-	if (sc->search_top) {
-		g_free (sc->search_top);
-		sc->search_top = NULL;
-	}
-	if (sc->store)
-		build_tree (sc, sc->store);
-}
-
-static void
-subscribe_search (GtkWidget *widget, gpointer user_data)
-{
-	SubscribeDialog *sc = SUBSCRIBE_DIALOG (user_data);
-	char* search_pattern = e_utf8_gtk_entry_get_text(GTK_ENTRY(widget));
-
-	if (sc->search_top) {
-		g_free (sc->search_top);
-		sc->search_top = NULL;
+	if (global_extras == NULL) {
+		global_extras = gtk_type_new (fete_get_type());
+		gtk_object_ref (GTK_OBJECT (global_extras));
+		gtk_object_sink (GTK_OBJECT (global_extras));
+		gtk_signal_connect (GTK_OBJECT (global_extras), "destroy", 
+				    global_extras_destroyed, NULL);
 	}
 
-	if (search_pattern && *search_pattern)
-		sc->search_top = search_pattern;
-
-	if (sc->store)
-		build_tree (sc, sc->store);
+	gtk_object_ref (GTK_OBJECT (global_extras));
+	return E_TABLE_EXTRAS (global_extras);
 }
 
-
-#if 0
-/* HTML Helpers */
-static void
-html_size_req (GtkWidget *widget, GtkRequisition *requisition)
+/* ** Folder Tree Node ***************************************************** */
+
+typedef struct _ftree_node ftree_node;
+
+struct _ftree_node {
+	guint8    flags;
+	int       path_offset;
+	int       uri_offset;
+	int       full_name_offset;
+
+	/* format: {name}{\0}{path}{\0}{uri}{\0}{full_name}{\0}
+	 * (No braces). */
+	char   data[1];
+};
+
+#define FTREE_NODE_GOT_CHILDREN (1 << 0)
+#define FTREE_NODE_SUBSCRIBABLE (1 << 1)
+#define FTREE_NODE_SUBSCRIBED   (1 << 2)
+#define FTREE_NODE_ROOT         (1 << 3)
+
+static ftree_node *
+ftree_node_new_root (const char *prefix)
 {
-	if (GTK_LAYOUT (widget)->height > 90)
-		requisition->height = 90;
+	ftree_node *node;
+	size_t      size;
+
+	if (prefix == NULL)
+		prefix = "";
+
+	size = sizeof (ftree_node) + strlen (prefix) + 1;
+
+	node                   = g_malloc (size);
+	node->flags            = FTREE_NODE_ROOT;
+	node->path_offset      = 0;
+	node->uri_offset       = 0;
+	node->full_name_offset = 1;
+	node->data[0]          = '\0';
+	strcpy (node->data + 1, prefix);
+
+	return node;
+}
+
+static ftree_node *
+ftree_node_new (CamelStore *store, CamelFolderInfo *fi)
+{
+	ftree_node *node;
+	int         path_offset, uri_offset, full_name_offset;
+	size_t      size;
+	char       *path;
+	CamelURL   *url;
+
+	path = storage_tree_path (fi);
+
+	path_offset      = strlen (fi->name) + 1;
+	uri_offset       = path_offset + strlen (path) + 1;
+	full_name_offset = uri_offset + strlen (fi->url) + 1;
+	size             = full_name_offset + strlen (fi->full_name);
+  
+	/* - 1 for sizeof(node.data) but +1 for terminating \0 */
+	node = g_malloc (sizeof (*node) + size);
+
+	/* Noselect? */
+
+	url = camel_url_new (fi->url, NULL);
+	if (camel_url_get_param (url, "noselect"))
+		node->flags = 0;
 	else
-		requisition->height = GTK_LAYOUT (widget)->height;
+		node->flags = FTREE_NODE_SUBSCRIBABLE;
+	camel_url_free (url);
+
+	/* subscribed? */
+
+	if (camel_store_folder_subscribed (store, fi->full_name))
+		node->flags |= FTREE_NODE_SUBSCRIBED;
+
+	/* Copy strings */
+
+	node->path_offset      = path_offset;
+	node->uri_offset       = uri_offset;
+	node->full_name_offset = full_name_offset;
+
+	strcpy (node->data,                    fi->name);
+	strcpy (node->data + path_offset,      path);
+	strcpy (node->data + uri_offset,       fi->url);
+	strcpy (node->data + full_name_offset, fi->full_name);
+
+	/* Done */
+
+	g_free (path);
+	return node;
 }
 
-/* Returns a GtkHTML which is already inside a GtkScrolledWindow. If
- * @white is TRUE, the GtkScrolledWindow will be inside a GtkFrame.
- */
-static GtkWidget *
-html_new (gboolean white)
-{
-	GtkWidget *html, *scrolled, *frame;
-	GtkStyle *style;
-	
-	html = gtk_html_new ();
-	GTK_LAYOUT (html)->height = 0;
-	gtk_signal_connect (GTK_OBJECT (html), "size_request",
-			    GTK_SIGNAL_FUNC (html_size_req), NULL);
-	gtk_html_set_editable (GTK_HTML (html), FALSE);
-	style = gtk_rc_get_style (html);
-	if (style) {
-		gtk_html_set_default_background_color (GTK_HTML (html),
-						       white ? &style->white :
-						       &style->bg[0]);
-	}
-	gtk_widget_set_sensitive (html, FALSE);
-	scrolled = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled),
-					GTK_POLICY_NEVER,
-					GTK_POLICY_NEVER);
-	gtk_container_add (GTK_CONTAINER (scrolled), html);
-	
-	if (white) {
-		frame = gtk_frame_new (NULL);
-		gtk_frame_set_shadow_type (GTK_FRAME (frame),
-					   GTK_SHADOW_ETCHED_IN);
-		gtk_container_add (GTK_CONTAINER (frame), scrolled);
-		gtk_widget_show_all (frame);
-	} else
-		gtk_widget_show_all (scrolled);
-	
-	return html;
-}
+#define ftree_node_subscribable(node)  ( ((ftree_node *) (node))->flags & FTREE_NODE_SUBSCRIBABLE )
+#define ftree_node_subscribed(node)    ( ((ftree_node *) (node))->flags & FTREE_NODE_SUBSCRIBED )
+#define ftree_node_get_name(node)      ( ((ftree_node *) (node))->data )
+#define ftree_node_get_full_name(node) ( ((ftree_node *) (node))->data + ((ftree_node *) (node))->full_name_offset )
+#define ftree_node_get_path(node)      ( ((ftree_node *) (node))->data + ((ftree_node *) (node))->path_offset )
+#define ftree_node_get_uri(node)       ( ((ftree_node *) (node))->data + ((ftree_node *) (node))->uri_offset )
 
-static void
-put_html (GtkHTML *html, char *text)
-{
-	GtkHTMLStream *handle;
-	
-	text = e_text_to_html (text, (E_TEXT_TO_HTML_CONVERT_NL |
-				      E_TEXT_TO_HTML_CONVERT_SPACES |
-				      E_TEXT_TO_HTML_CONVERT_URLS));
-	handle = gtk_html_begin (html);
-	gtk_html_write (html, handle, "<HTML><BODY>", 12);
-	gtk_html_write (html, handle, text, strlen (text));
-	gtk_html_write (html, handle, "</BODY></HTML>", 14);
-	g_free (text);
-	gtk_html_end (html, handle, GTK_HTML_STREAM_OK);
-}
-#endif
+/* ** Folder Tree Model **************************************************** */
 
-
-/* etree stuff for the subscribe ui */
+typedef struct _FolderETree              FolderETree;
+typedef struct _FolderETreeClass         FolderETreeClass;
+
+struct _FolderETree {
+	ETreeMemory       parent;
+	ETreePath         root;
+
+	GHashTable       *scan_ops;
+	GHashTable       *subscribe_ops;
+
+	CamelStore       *store;
+	EvolutionStorage *e_storage;
+	gchar            *search;
+};
+
+struct _FolderETreeClass {
+	ETreeMemoryClass parent;
+};
+
+static GtkObjectClass *folder_etree_parent_class = NULL;
+
+/* A subscribe or scan operation */
+
+typedef struct _ftree_op_data ftree_op_data;
+
+struct _ftree_op_data {
+	FolderETree *ftree;
+	ETreePath    path;
+	ftree_node  *data;
+	int          handle;
+};
+
+
+/* ETreeModel functions */
 
 static int
-folder_etree_column_count (ETreeModel *etm, void *data)
+fe_column_count (ETreeModel *etm)
 {
 	return FOLDER_COL_LAST;
 }
 
-static void*
-folder_etree_duplicate_value (ETreeModel *etm, int col, const void *val, void *data)
+static void *
+fe_duplicate_value (ETreeModel *etm, int col, const void *val)
 {
 	return g_strdup (val);
 }
 
 static void
-folder_etree_free_value (ETreeModel *etm, int col, void *val, void *data)
+fe_free_value (ETreeModel *etm, int col, void *val)
 {
 	g_free (val);
 }
 
 static void*
-folder_etree_init_value (ETreeModel *etm, int col, void *data)
+fe_init_value (ETreeModel *etm, int col)
 {
 	return g_strdup ("");
 }
 
 static gboolean
-folder_etree_value_is_empty (ETreeModel *etm, int col, const void *val, void *data)
+fe_value_is_empty (ETreeModel *etm, int col, const void *val)
 {
 	return !(val && *(char *)val);
 }
 
-static char*
-folder_etree_value_to_string (ETreeModel *etm, int col, const void *val, void *data)
+static char *
+fe_value_to_string (ETreeModel *etm, int col, const void *val)
 {
-	return g_strdup(val);
+	return g_strdup (val);
 }
 
-static GdkPixbuf*
-folder_etree_icon_at (ETreeModel *etree, ETreePath path, void *model_data)
+static GdkPixbuf *
+fe_icon_at (ETreeModel *etree, ETreePath path)
 {
 	return NULL; /* XXX no icons for now */
 }
 
-static void*
-folder_etree_value_at (ETreeModel *etree, ETreePath path, int col, void *model_data)
+static gpointer
+fe_root_value_at (FolderETree *ftree, int col)
 {
-	SubscribeDialog *dialog = SUBSCRIBE_DIALOG (model_data);
-	CamelFolderInfo *info = e_tree_memory_node_get_data (E_TREE_MEMORY(etree), path);
+	switch (col) {
+	case FOLDER_COL_NAME:
+		return camel_service_get_name (CAMEL_SERVICE (ftree->store), TRUE);
+	case FOLDER_COL_SUBSCRIBED:
+		return GINT_TO_POINTER (0);
+	default:
+		printf ("Oh no, unimplemented column %d in subscribe dialog\n", col);
+	}
 
-	if (col == FOLDER_COL_NAME) {
-		return info->name;
+	return NULL;
+}
+
+static gpointer
+fe_real_value_at (FolderETree *ftree, int col, gpointer data)
+{
+	switch (col) {
+	case FOLDER_COL_NAME:
+		return g_strdup (ftree_node_get_name (data));
+	case FOLDER_COL_SUBSCRIBED:
+		if (ftree_node_subscribed (data))
+			return GINT_TO_POINTER (1);
+		return GINT_TO_POINTER (0);
+	default:
+		printf ("Oh no, unimplemented column %d in subscribe dialog\n", col);
 	}
-	else /* FOLDER_COL_SUBSCRIBED */ {
-		/* folders without urls cannot be subscribed to */
-		if (info->url == NULL)
-			return GINT_TO_POINTER(0); /* empty */
-		else if (!folder_info_subscribed(dialog, info))
-			return GINT_TO_POINTER(0); /* XXX unchecked */
-		else
-			return GUINT_TO_POINTER (1); /* checked */
-	}
+	
+	return NULL;
+}
+
+static void *
+fe_value_at (ETreeModel *etree, ETreePath path, int col)
+{
+	FolderETree *ftree = (FolderETree *) etree;
+	gpointer node_data;
+	
+	if (path == ftree->root)
+		return fe_root_value_at (ftree, col);
+
+	node_data = e_tree_memory_node_get_data (E_TREE_MEMORY (etree), path);
+	return fe_real_value_at (ftree, col, node_data);
 }
 
 static void
-folder_etree_set_value_at (ETreeModel *etree, ETreePath path, int col, const void *val, void *model_data)
+fe_set_value_at (ETreeModel *etree, ETreePath path, int col, const void *val)
 {
 	/* nothing */
 }
 
 static gboolean
-folder_etree_is_editable (ETreeModel *etree, ETreePath path, int col, void *model_data)
+fe_return_false (void)
 {
 	return FALSE;
 }
 
-
-
-static int
-store_etable_col_count (ETableModel *etm, void *data)
-{
-	return STORE_COL_LAST;
-}
-
-static int
-store_etable_row_count (ETableModel *etm, void *data)
-{
-	SubscribeDialog *sc = SUBSCRIBE_DIALOG (data);
-
-	return g_list_length (sc->store_list);
-}
-
-static void*
-store_etable_value_at (ETableModel *etm, int col, int row, void *data)
-{
-	SubscribeDialog *sc = SUBSCRIBE_DIALOG (data);
-	CamelStore *store = (CamelStore*)g_list_nth_data (sc->store_list, row);
-
-	return camel_service_get_name (CAMEL_SERVICE (store), TRUE);
-}
+/* scanning */
 
 static void
-store_etable_set_value_at (ETableModel *etm, int col, int row, const void *val, void *data)
+fe_got_children (CamelStore *store, gchar *prefix, CamelFolderInfo *info, gpointer data)
 {
-	/* nada */
-}
+	ftree_op_data *closure = (ftree_op_data *) data;
 
-static gboolean
-store_etable_is_editable (ETableModel *etm, int col, int row, void *data)
-{
-	return FALSE;
-}
-
-static void*
-store_etable_duplicate_value (ETableModel *etm, int col, const void *val, void *data)
-{
-	return g_strdup (val);
-}
-
-static void
-store_etable_free_value (ETableModel *etm, int col, void *val, void *data)
-{
-	g_free (val);
-}
-
-static void*
-store_etable_initialize_value (ETableModel *etm, int col, void *data)
-{
-	return g_strdup ("");
-}
-
-static gboolean
-store_etable_value_is_empty (ETableModel *etm, int col, const void *val, void *data)
-{
-	return !(val && *(char *)val);
-}
-
-static char*
-store_etable_value_to_string (ETableModel *etm, int col, const void *val, void *data)
-{
-	return g_strdup(val);
-}
-
-
-
-static void
-build_etree_from_folder_info (SubscribeDialog *sc, ETreePath parent, CamelFolderInfo *info)
-{
-	CamelFolderInfo *i;
-
-	if (info == NULL)
+	if (!info) /* cancelled */
 		return;
 
-	for (i = info; i; i = i->sibling) {
-		ETreePath node = e_tree_memory_node_insert (E_TREE_MEMORY(sc->folder_model), parent, -1, i);
-		build_etree_from_folder_info (sc, node, i->child);
+	if (!prefix)
+		prefix = "";
+	printf ("CHILDREN OF \"%s\":\n", prefix);
+
+	for (; info; info = info->sibling) {
+		ETreePath   child_path;
+		ftree_node *node;
+
+		if (strcmp (info->full_name, prefix) == 0)
+			continue;
+
+		node = ftree_node_new (store, info);
+		child_path = e_tree_memory_node_insert (E_TREE_MEMORY (closure->ftree),
+							closure->path,
+							0,
+							node);
+
+		printf ("   \"%s\"\n", info->full_name);
 	}
+
+	if (closure->data)
+		closure->data->flags |= FTREE_NODE_GOT_CHILDREN;
+
+	g_hash_table_remove (closure->ftree->scan_ops, closure->path);
+	g_free (closure);
 }
 
 static void
-build_tree (SubscribeDialog *sc, CamelStore *store)
+fe_check_for_children (FolderETree *ftree, ETreePath path)
 {
-	CamelException *ex = camel_exception_new();
+	ftree_op_data *closure;
+	ftree_node    *node;
+	gchar         *prefix;
 
-	/* free up the existing CamelFolderInfo* if there is any */
-	if (sc->folder_info)
-		camel_store_free_folder_info (sc->store, sc->folder_info);
-	if (sc->storage)
-		gtk_object_unref (GTK_OBJECT (sc->storage));
+	node = e_tree_memory_node_get_data (E_TREE_MEMORY (ftree), path);
 
-	sc->store = store;
-	sc->storage = mail_lookup_storage (sc->store);
-	sc->folder_info = camel_store_get_folder_info (sc->store, sc->search_top, CAMEL_STORE_FOLDER_INFO_RECURSIVE | CAMEL_STORE_FOLDER_INFO_FAST, ex);
-
-	if (camel_exception_is_set (ex)) {
-		printf ("camel_store_get_folder_info failed\n");
-		camel_exception_free (ex);
+	/* have we already gotten these children? */
+	if (node->flags & FTREE_NODE_GOT_CHILDREN) {
+		printf ("CHECK FOR CHILDREN: cancel: below %s, (got children)\n", ftree_node_get_full_name (node));
+		fflush (stdout);
 		return;
 	}
 
-	e_tree_memory_freeze(E_TREE_MEMORY(sc->folder_model));
-	e_tree_memory_node_remove (E_TREE_MEMORY(sc->folder_model), sc->folder_root);
-	sc->folder_root = e_tree_memory_node_insert (E_TREE_MEMORY(sc->folder_model), NULL,
-						    0, NULL);
+	/* or we're loading them right now? */
+	if (g_hash_table_lookup (ftree->scan_ops, path)) {
+		printf ("CHECK FOR CHILDREN: cancel: below %s, in progress\n", ftree_node_get_full_name (node));
+		fflush (stdout);
+		return;
+	}
 
-	build_etree_from_folder_info (sc, sc->folder_root, sc->folder_info);
-	e_tree_memory_thaw(E_TREE_MEMORY(sc->folder_model));
+	printf ("CHECK FOR CHILDREN: keepon: below %s\n", ftree_node_get_full_name (node));
+	fflush (stdout);
 
-	camel_exception_free (ex);
-}
-
-static void
-storage_selected_cb (ETree *table, int row, gpointer data)
-{
-	SubscribeDialog *sc = SUBSCRIBE_DIALOG (data);
-	CamelStore *store = (CamelStore*)g_list_nth_data (sc->store_list, row);
-
-	build_tree (sc, store);
-}
-
-
-
-static void
-folder_toggle_cb (ETree *tree, int row, ETreePath path, int col, GdkEvent *event, gpointer data)
-{
-	SubscribeDialog *sc = SUBSCRIBE_DIALOG (data);
-	CamelFolderInfo *info = e_tree_memory_node_get_data (E_TREE_MEMORY(sc->folder_model), path);
-
-	if (folder_info_subscribed(sc, info))
-		unsubscribe_folder_info (sc, info, path);
+	/* figure out our search prefix */
+	if (path == ftree->root)
+		prefix = ftree->search;
 	else
-		subscribe_folder_info (sc, info, path);
+		prefix = ftree_node_get_full_name (node);
 
-	e_tree_model_node_data_changed (sc->folder_model, path);
+	closure         = g_new (ftree_op_data, 1);
+	closure->ftree  = ftree;
+	closure->path   = path;
+	closure->data   = node;
+	closure->handle = -1;
+
+	g_hash_table_insert (ftree->scan_ops, path, closure);
+
+	/* FIXME. Tiny race possiblity I guess. */
+
+	closure->handle = subscribe_get_short_folderinfo (ftree->store, prefix, fe_got_children, closure);
 }
 
-
+static void
+fe_create_root_node (FolderETree *ftree)
+{
+	ftree_node *node;
 
-#define EXAMPLE_DESCR "And the beast shall come forth surrounded by a roiling cloud of vengeance.\n" \
-"  The house of the unbelievers shall be razed and they shall be scorched to the\n" \
-"          earth. Their tags shall blink until the end of days. \n" \
-"                 from The Book of Mozilla, 12:10"
+	node = ftree_node_new_root (ftree->search);
+	ftree->root = e_tree_memory_node_insert (E_TREE_MEMORY(ftree), NULL, 0, node);
+}
 
-static BonoboUIVerb verbs [] = {
-	/* File Menu */
-	BONOBO_UI_VERB ("FileCloseWin", subscribe_close),
+static ETreePath
+fe_get_first_child (ETreeModel *model, ETreePath path)
+{
+	ETreePath child_path;
 
-	/* Edit Menu */
-	BONOBO_UI_VERB ("EditSelectAll", subscribe_select_all),
-	BONOBO_UI_VERB ("EditInvertSelection", subscribe_invert_selection),
+	child_path = E_TREE_MODEL_CLASS (folder_etree_parent_class)->get_first_child (model, path);
+	if (child_path)
+		fe_check_for_children ((FolderETree *) model, child_path);
+	else
+		fe_check_for_children ((FolderETree *) model, path);
+	return child_path;
+}
+
+/* subscribing */
+
+static void
+fe_done_subscribing (const char *full_name, const char *name, gboolean subscribe, gboolean success, gpointer user_data)
+{
+	ftree_op_data *closure = (ftree_op_data *) user_data;
+
+	if (success) {
+		if (subscribe) {
+			closure->data->flags |= FTREE_NODE_SUBSCRIBED;
+			recursive_add_folder (closure->ftree->e_storage,
+					      ftree_node_get_path (closure->data),
+					      name,
+					      ftree_node_get_uri (closure->data));
+		} else {
+			closure->data->flags &= ~FTREE_NODE_SUBSCRIBED;
+			evolution_storage_removed_folder (closure->ftree->e_storage, ftree_node_get_path (closure->data));
+		}
+
+		e_tree_model_node_data_changed (E_TREE_MODEL (closure->ftree), closure->path);
+	}
+
+	g_hash_table_remove (closure->ftree->subscribe_ops, closure->path);
+	g_free (closure);
+}
+
+/* cleanup */
+
+static gboolean
+fe_cancel_op_foreach (gpointer key, gpointer value, gpointer user_data)
+{
+	/*FolderETree   *ftree = (FolderETree *) user_data;*/
+	ftree_op_data *closure = (ftree_op_data *) value;
+
+	if (closure->handle != -1)
+		mail_msg_cancel (closure->handle);
+	else
+		printf ("aaagh, annoying race condition in fe_cancel_op_foreach.\n");
+
+	g_free (value);
+	return TRUE;
+}
+
+static void
+fe_kill_current_tree (FolderETree *ftree)
+{
+	g_hash_table_foreach_remove (ftree->scan_ops, fe_cancel_op_foreach, ftree);
+	g_assert (g_hash_table_size (ftree->scan_ops) == 0);
+}
+
+static void
+fe_destroy (GtkObject *obj)
+{
+	FolderETree *ftree = (FolderETree *) (obj);
+
+	fe_kill_current_tree (ftree);
+
+	g_hash_table_foreach_remove (ftree->subscribe_ops, fe_cancel_op_foreach, ftree);
 	
-	/* Folder Menu / Toolbar */
-	BONOBO_UI_VERB ("SubscribeFolder", subscribe_folders),
-	BONOBO_UI_VERB ("UnsubscribeFolder", unsubscribe_folders),
+	g_hash_table_destroy (ftree->scan_ops);
+	g_hash_table_destroy (ftree->subscribe_ops);
 
-	/* Toolbar Specific */
-	BONOBO_UI_VERB ("RefreshList", subscribe_refresh_list),
+	camel_object_unref (CAMEL_OBJECT (ftree->store));
 
-	BONOBO_UI_VERB_END
+	g_free (ftree->search);
+}
+
+typedef gboolean (*bool_func_1) (ETreeModel *, ETreePath, int);
+typedef gboolean (*bool_func_2) (ETreeModel *);
+
+static void
+folder_etree_class_init (GtkObjectClass *klass)
+{
+	ETreeModelClass  *etree_model_class = E_TREE_MODEL_CLASS (klass);
+
+	folder_etree_parent_class = gtk_type_class (E_TREE_MEMORY_TYPE);
+
+	klass->destroy                          = fe_destroy;
+
+	etree_model_class->value_at             = fe_value_at;
+	etree_model_class->set_value_at         = fe_set_value_at;
+	etree_model_class->column_count         = fe_column_count;
+	etree_model_class->duplicate_value      = fe_duplicate_value;
+	etree_model_class->free_value           = fe_free_value;
+	etree_model_class->initialize_value     = fe_init_value;
+	etree_model_class->value_is_empty       = fe_value_is_empty;
+	etree_model_class->value_to_string      = fe_value_to_string;
+	etree_model_class->icon_at              = fe_icon_at;
+	etree_model_class->is_editable          = (bool_func_1) fe_return_false;
+	etree_model_class->has_save_id          = (bool_func_2) fe_return_false;
+	etree_model_class->has_get_node_by_id   = (bool_func_2) fe_return_false;
+	etree_model_class->get_first_child      = fe_get_first_child;
+}
+
+static void
+folder_etree_init (GtkObject *object)
+{
+	FolderETree *ftree = (FolderETree *) object;
+
+	e_tree_memory_set_node_destroy_func (E_TREE_MEMORY (ftree), (GFunc) g_free, ftree);
+
+	ftree->scan_ops      = g_hash_table_new (g_direct_hash, g_direct_equal);
+	ftree->subscribe_ops = g_hash_table_new (g_direct_hash, g_direct_equal);
+
+	ftree->search        = g_strdup ("");
+}
+
+static FolderETree *
+folder_etree_construct (FolderETree *ftree,
+			CamelStore  *store)
+{
+	e_tree_memory_construct (E_TREE_MEMORY (ftree));
+
+	fe_create_root_node (ftree);
+
+	ftree->store     = store;
+	camel_object_ref (CAMEL_OBJECT (store));
+	ftree->e_storage = mail_lookup_storage (store);
+
+	return ftree;
+}
+
+static
+E_MAKE_TYPE (folder_etree, "FolderETree", FolderETree, folder_etree_class_init, folder_etree_init, E_TREE_MEMORY_TYPE);
+
+/* public */
+
+static FolderETree *
+folder_etree_new (CamelStore *store)
+{
+	FolderETree *ftree;
+
+	ftree = gtk_type_new (folder_etree_get_type());
+	ftree = folder_etree_construct (ftree, store);
+	return ftree;
+}
+
+static void
+folder_etree_clear_tree (FolderETree *ftree)
+{
+	e_tree_memory_freeze (E_TREE_MEMORY (ftree));
+	e_tree_memory_node_remove (E_TREE_MEMORY (ftree), ftree->root);
+	fe_create_root_node (ftree);
+	e_tree_memory_thaw (E_TREE_MEMORY (ftree));
+}
+
+static void
+folder_etree_set_search (FolderETree *ftree, const char *search)
+{
+	if (!strcmp (search, ftree->search))
+		return;
+
+	g_free (ftree->search);
+	ftree->search = g_strdup (search);
+	
+	folder_etree_clear_tree (ftree);
+}
+
+
+static int
+folder_etree_path_set_subscription (FolderETree *ftree, ETreePath path, gboolean subscribe)
+{
+	ftree_op_data *closure;
+	ftree_node    *node;
+
+	/* already in progress? */
+
+	if (g_hash_table_lookup (ftree->subscribe_ops, path))
+		return 0;
+
+	/* noselect? */
+
+	node = e_tree_memory_node_get_data (E_TREE_MEMORY (ftree), path);
+
+	if (!ftree_node_subscribable (node))
+		return -1;
+
+	/* noop? */
+
+	/* uh, this should be a not XOR or something */
+	if ((ftree_node_subscribed (node) && subscribe) ||
+	    (!ftree_node_subscribed (node) && !subscribe))
+		return 0;
+
+	closure         = g_new (ftree_op_data, 1);
+	closure->ftree  = ftree;
+	closure->path   = path;
+	closure->data   = node;
+	closure->handle = -1;
+
+	g_hash_table_insert (ftree->subscribe_ops, path, closure);
+
+	closure->handle = subscribe_do_subscribe_folder (ftree->store,
+							 ftree_node_get_full_name (node),
+							 ftree_node_get_name (node),
+							 subscribe,
+							 fe_done_subscribing,
+							 closure);
+	return 0;
+}
+
+static int
+folder_etree_path_toggle_subscription (FolderETree *ftree, ETreePath path)
+{
+	ftree_node *node = e_tree_memory_node_get_data (E_TREE_MEMORY (ftree), path);
+
+	if (ftree_node_subscribed (node))
+		return folder_etree_path_set_subscription (ftree, path, FALSE);
+	else
+		return folder_etree_path_set_subscription (ftree, path, TRUE);
+}
+
+/* ** StoreData ************************************************************ */
+
+typedef struct _StoreData StoreData;
+
+typedef void (*StoreDataStoreFunc) (StoreData *, CamelStore *, gpointer);
+
+struct _StoreData {
+	gchar               *uri;
+
+	FolderETree         *ftree;
+	CamelStore          *store;
+
+	int                  request_id;
+
+	GtkWidget           *widget;
+	StoreDataStoreFunc   store_func;
+	gpointer             store_data;
 };
 
-static void
-store_cb (SubscribeDialog *sc, CamelStore *store, gpointer data)
+static StoreData *
+store_data_new (const gchar *uri)
 {
+	StoreData *sd;
+
+	sd                   = g_new0 (StoreData, 1);
+	sd->uri              = g_strdup (uri);
+	return sd;
+}
+
+static void
+sd_got_store (char *uri, CamelStore *store, gpointer user_data)
+{
+	StoreData *sd = (StoreData *) user_data;
+
+	sd->store = store;
+
+	if (store) /* we can have exceptions getting the store... server is down, eg */
+		camel_object_ref (CAMEL_OBJECT (sd->store));
+
+	/* uh, so we might have a problem if this operation is cancelled. Unsure. */
+	sd->request_id = 0;
+
+	if (sd->store_func)
+		(sd->store_func) (sd, sd->store, sd->store_data);
+}
+
+static void
+store_data_async_get_store (StoreData *sd, StoreDataStoreFunc func, gpointer user_data)
+{
+	if (sd->request_id) {
+		printf ("Already loading store, nooping\n");
+		return;
+	}
+
+	if (sd->store) {
+		func (sd, sd->store, user_data);
+		return;
+	}
+
+	sd->store_func = func;
+	sd->store_data = user_data;
+	sd->request_id = mail_get_store (sd->uri, sd_got_store, sd);
+}
+
+static void
+store_data_cancel_get_store (StoreData *sd)
+{
+	g_return_if_fail (sd->request_id);
+
+	mail_msg_cancel (sd->request_id);
+	sd->request_id = 0;
+}
+
+static void
+sd_toggle_cb (ETree *tree, int row, ETreePath path, int col, GdkEvent *event, gpointer user_data)
+{
+	StoreData *sd = (StoreData *) user_data;
+
+	folder_etree_path_toggle_subscription (sd->ftree, path);
+}
+
+static GtkWidget *
+store_data_get_widget (StoreData *sd)
+{
+	GtkWidget *tree;
+
+	if (!sd->store) {
+		printf ("store data can't get widget before getting store.\n");
+		return NULL;
+	}
+
+	if (sd->widget)
+		return sd->widget;
+
+	sd->ftree = folder_etree_new (sd->store);
+
+	/* You annoy me, etree! */
+	tree = gtk_widget_new (E_TREE_SCROLLED_TYPE,
+			       "hadjustment", NULL,
+			       "vadjustment", NULL,
+			       NULL);
+
+	tree = (GtkWidget *) e_tree_scrolled_construct_from_spec_file (E_TREE_SCROLLED (tree),
+								       E_TREE_MODEL (sd->ftree),
+								       subscribe_get_global_extras (),
+								       EVOLUTION_ETSPECDIR "/subscribe-dialog.etspec",
+								       NULL);
+	e_tree_root_node_set_visible (e_tree_scrolled_get_tree(E_TREE_SCROLLED(tree)), TRUE);
+	gtk_signal_connect (GTK_OBJECT (e_tree_scrolled_get_tree(E_TREE_SCROLLED (tree))),
+			    "double_click", GTK_SIGNAL_FUNC (sd_toggle_cb), sd);
+
+	gtk_object_unref (GTK_OBJECT (global_extras));
+
+	sd->widget = tree;
+	gtk_object_ref (GTK_OBJECT (sd->widget));
+
+	return sd->widget;
+}
+
+typedef struct _selection_closure {
+	StoreData *sd;
+	enum { SET, CLEAR, TOGGLE } mode;
+} selection_closure;
+
+static void
+sd_subscribe_folder_foreach (int model_row, gpointer closure)
+{
+	selection_closure *sc   = (selection_closure *) closure;
+	StoreData         *sd   = sc->sd;
+	ETree             *tree = e_tree_scrolled_get_tree(E_TREE_SCROLLED(sd->widget));
+	ETreePath          path = e_tree_node_at_row (tree, model_row);
+
+	/* ignore results */
+	switch (sc->mode) {
+	case SET:
+		folder_etree_path_set_subscription (sd->ftree, path, TRUE);
+		break;
+	case CLEAR:
+		folder_etree_path_set_subscription (sd->ftree, path, FALSE);
+		break;
+	case TOGGLE:
+		folder_etree_path_toggle_subscription (sd->ftree, path);
+		break;
+	}
+}
+
+static void
+store_data_selection_set_subscription (StoreData *sd, gboolean subscribe)
+{
+	selection_closure  sc;
+	ETree             *tree;
+	
+	sc.sd = sd;
+	if (subscribe)
+		sc.mode = SET;
+	else
+		sc.mode = CLEAR;
+
+	tree = e_tree_scrolled_get_tree (E_TREE_SCROLLED (sd->widget));
+	e_tree_selected_row_foreach (tree, sd_subscribe_folder_foreach, &sc);
+}
+
+#ifdef NEED_TOGGLE_SELECTION
+static void
+store_data_selection_toggle_subscription (StoreData *sd)
+{
+	selection_closure  sc;
+	ETree             *tree;
+	
+	sc.sd   = sd;
+	sc.mode = TOGGLE;
+
+	tree = e_tree_scrolled_get_tree (E_TREE_SCROLLED (sd->widget));
+	e_tree_selected_row_foreach (tree, sd_subscribe_folder_foreach, &sc);
+}
+#endif
+
+static gboolean
+store_data_mid_request (StoreData *sd)
+{
+	return (gboolean) sd->request_id;
+}
+
+static void
+store_data_free (StoreData *sd)
+{
+	if (sd->request_id)
+		mail_msg_cancel (sd->request_id);
+
+	if (sd->widget)
+		gtk_object_unref (GTK_OBJECT (sd->widget));
+
+	if (sd->ftree)
+		gtk_object_unref (GTK_OBJECT (sd->ftree));
+
+	if (sd->store)
+		camel_object_unref ((CamelObject *) sd->store);
+
+	g_free (sd->uri);
+	g_free (sd);
+}
+
+/* ** yaay, SubscribeDialog ******************************************************* */
+
+#define PARENT_TYPE (gtk_object_get_type ())
+
+#ifdef JUST_FOR_TRANSLATORS
+static char *str = N_("Folder");
+#endif
+
+#define STORE_DATA_KEY   "store-data"
+
+struct _SubscribeDialogPrivate {
+	GladeXML  *xml;
+	GList     *store_list;
+
+	StoreData *current_store;
+	GtkWidget *current_widget;
+
+	GtkWidget *default_widget;
+	GtkWidget *none_item;
+	GtkWidget *search_entry;
+	GtkWidget *hbox;
+};
+
+static GtkObjectClass *subscribe_dialog_parent_class;
+
+static void
+sc_refresh_pressed (GtkWidget *widget, gpointer user_data)
+{
+	SubscribeDialog *sc = SUBSCRIBE_DIALOG (user_data);
+
+	e_utf8_gtk_entry_set_text (GTK_ENTRY (sc->priv->search_entry), "");
+
+	if (sc->priv->current_store)
+		folder_etree_clear_tree (sc->priv->current_store->ftree);
+}
+
+static void
+sc_search_activated (GtkWidget *widget, gpointer user_data)
+{
+	SubscribeDialog *sc = SUBSCRIBE_DIALOG (user_data);
+	StoreData       *store = sc->priv->current_store;
+	char            *search;
+	GtkWidget       *filter_radio;
+
+	filter_radio = glade_xml_get_widget (sc->priv->xml, "filter_radio");
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (filter_radio), TRUE);
+
 	if (!store)
 		return;
 
-	if (camel_store_supports_subscriptions (store)) {
-		camel_object_ref((CamelObject *)store);
-		sc->store_list = g_list_prepend (sc->store_list, store);
-		e_table_model_row_inserted (sc->store_model, 0);
-	}
+	search = e_utf8_gtk_entry_get_text (GTK_ENTRY (widget));
+	folder_etree_set_search (store->ftree, search);
+}
+
+static void
+sc_subscribe_pressed (GtkWidget *widget, gpointer user_data)
+{
+	SubscribeDialog *sc = SUBSCRIBE_DIALOG (user_data);
+	StoreData       *store = sc->priv->current_store;
+
+	if (!store)
+		return;
+
+	store_data_selection_set_subscription (store, TRUE);
+}
+
+static void
+sc_unsubscribe_pressed (GtkWidget *widget, gpointer user_data)
+{
+	SubscribeDialog *sc = SUBSCRIBE_DIALOG (user_data);
+	StoreData       *store = sc->priv->current_store;
+
+	if (!store)
+		return;
+
+	store_data_selection_set_subscription (store, FALSE);
+}
+
+static void
+sc_all_toggled (GtkWidget *widget, gpointer user_data)
+{
+	SubscribeDialog *sc = SUBSCRIBE_DIALOG (user_data);
+	StoreData       *store = sc->priv->current_store;
+
+	if (!store)
+		return;
+
+	if (GTK_TOGGLE_BUTTON (widget)->active)
+		folder_etree_set_search (store->ftree, "");
+}
+
+static void
+sc_filter_toggled (GtkWidget *widget, gpointer user_data)
+{
+	SubscribeDialog *sc = SUBSCRIBE_DIALOG (user_data);
+	StoreData       *store = sc->priv->current_store;
+
+	if (!store)
+		return;
+
+	if (GTK_TOGGLE_BUTTON (widget)->active)
+		sc_search_activated (sc->priv->search_entry, sc);
 }
 
 static void
 populate_store_foreach (MailConfigService *service, SubscribeDialog *sc)
 {
-	g_return_if_fail (service->url != NULL);
-	
-	subscribe_do_get_store (sc, service->url, store_cb, NULL);
+	StoreData            *sd;
+
+	if (service->url == NULL || service->enabled == FALSE)
+		return;
+
+	sd = store_data_new (service->url);
+	sc->priv->store_list = g_list_prepend (sc->priv->store_list, sd);
 }
+
+static void
+menu_item_selected (GtkMenuItem *item, gpointer user_data)
+{
+	SubscribeDialog *sc = SUBSCRIBE_DIALOG (user_data);
+	StoreData       *sd = gtk_object_get_data (GTK_OBJECT (item), STORE_DATA_KEY);
+	GtkWidget       *toggle;
+
+	g_return_if_fail (sd);
+
+	if (sd->widget == NULL) {
+		GtkWidget *widget;
+
+		widget = store_data_get_widget (sd);
+		gtk_box_pack_start (GTK_BOX (sc->priv->hbox), widget, TRUE, TRUE, 0);
+	}
+
+	gtk_widget_hide (sc->priv->current_widget);
+	gtk_widget_hide (sc->priv->none_item); /* will happen redundantly... so what? */
+	gtk_widget_show (sd->widget);
+	sc->priv->current_widget = sd->widget;
+	sc->priv->current_store  = sd;
+
+	if (sd->ftree->search) {
+		e_utf8_gtk_entry_set_text (GTK_ENTRY (sc->priv->search_entry), sd->ftree->search);
+		toggle = glade_xml_get_widget (sc->priv->xml, "filter_radio");
+	} else {
+		e_utf8_gtk_entry_set_text (GTK_ENTRY (sc->priv->search_entry), "");
+		toggle = glade_xml_get_widget (sc->priv->xml, "all_radio");
+	}
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (toggle), TRUE);
+}
+
+static void
+dummy_item_selected (GtkMenuItem *item, gpointer user_data)
+{
+	SubscribeDialog *sc = SUBSCRIBE_DIALOG (user_data);
+	GtkWidget       *all_toggle;
+
+	gtk_widget_hide (sc->priv->current_widget);
+	gtk_widget_show (sc->priv->default_widget);
+	sc->priv->current_widget = sc->priv->default_widget;
+	sc->priv->current_store  = NULL;
+
+	e_utf8_gtk_entry_set_text (GTK_ENTRY (sc->priv->search_entry), "");
+
+	all_toggle = glade_xml_get_widget (sc->priv->xml, "all_radio");
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (all_toggle), TRUE);
+}
+
+/* wonderful */
+
+static void
+got_sd_store (StoreData *sd, CamelStore *store, gpointer data)
+{
+	if (store && camel_store_supports_subscriptions (store))
+		gtk_widget_show (GTK_WIDGET (data));
+}
+
+/* FIXME: if there aren't any stores that are subscribable, the option
+ * menu will only have the "No server selected" item and the user will
+ * be confused. */
 
 static void
 populate_store_list (SubscribeDialog *sc)
 {
 	const GSList *news;
-	GSList *sources;
-	
+	GSList       *sources;
+	GList        *iter;
+	GtkWidget    *menu;
+	GtkWidget    *omenu;
+
 	sources = mail_config_get_sources ();
-	g_slist_foreach (sources, (GFunc)populate_store_foreach, sc);
+	g_slist_foreach (sources, (GFunc) populate_store_foreach, sc);
 	g_slist_free (sources);
 	
 	news = mail_config_get_news ();
-	g_slist_foreach ((GSList *)news, (GFunc)populate_store_foreach, sc);
-	
-	e_table_model_changed (sc->store_model);
-}
+	g_slist_foreach ((GSList *) news, (GFunc) populate_store_foreach, sc);
 
-static void
-subscribe_dialog_gui_init (SubscribeDialog *sc)
-{
-	ETableExtras *extras;
-	ECell *cell;
-	GdkPixbuf *toggles[2];
-	BonoboUIComponent *component;
-	BonoboUIContainer *container;
-	GtkWidget         *folder_search_widget;
-	BonoboControl     *search_control;
-	CORBA_Environment ev;
+	menu = gtk_menu_new ();
 
-	CORBA_exception_init (&ev);
+	for (iter = sc->priv->store_list; iter; iter = iter->next) {
+		GtkWidget *item;
+		CamelURL  *url;
+		gchar     *string;
 
-	/* Construct the app */
-	sc->app = bonobo_window_new ("subscribe-dialog", _("Manage Subscriptions"));
+		url = camel_url_new (((StoreData *) iter->data)->uri, NULL);
+		string = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
+		camel_url_free (url);
+		item = gtk_menu_item_new_with_label (string);
+		store_data_async_get_store (iter->data, got_sd_store, item);
+		gtk_object_set_data (GTK_OBJECT (item), STORE_DATA_KEY, iter->data);
+		gtk_signal_connect (GTK_OBJECT (item), "activate", menu_item_selected, sc);
+		g_free (string);
 
-	/* Build the menu and toolbar */
-	container = bonobo_ui_container_new ();
-	bonobo_ui_container_set_win (container, BONOBO_WINDOW (sc->app));
+		gtk_menu_prepend (GTK_MENU (menu), item);
+		/*gtk_object_unref (GTK_OBJECT (item));*/
+	}
 
-	/* set up the bonobo stuff */
-	component = bonobo_ui_component_new_default ();
-	bonobo_ui_component_set_container (
-		component, bonobo_object_corba_objref (BONOBO_OBJECT (container)));
-	
-	bonobo_ui_component_add_verb_list_with_data (
-		component, verbs, sc);
+	sc->priv->none_item = gtk_menu_item_new_with_label (_("No server has been selected"));
+	gtk_signal_connect (GTK_OBJECT (sc->priv->none_item), "activate", dummy_item_selected, sc);
+	gtk_widget_show (sc->priv->none_item);
+	gtk_menu_prepend (GTK_MENU (menu), sc->priv->none_item);
 
-	bonobo_ui_component_freeze (component, NULL);
+	gtk_widget_show (menu);
 
-	bonobo_ui_util_set_ui (component, EVOLUTION_DATADIR,
-			       "evolution-subscribe.xml",
-			       "evolution-subscribe");
-
-	e_pixmaps_update (component, pixmaps);
-
-	bonobo_ui_component_thaw (component, NULL);
-
-	sc->table = gtk_table_new (1, 2, FALSE);
-
-	sc->hpaned = e_hpaned_new ();
-
-	folder_search_widget = make_folder_search_widget (subscribe_search, sc);
-	gtk_widget_show_all (folder_search_widget);
-	search_control = bonobo_control_new (folder_search_widget);
-
-	bonobo_ui_component_object_set (component, "/Searchbar/FolderSearch",
-					bonobo_object_corba_objref (BONOBO_OBJECT (search_control)),
-					NULL);
-					
-	/* set our our contents */
-#if 0
-	sc->description = html_new (TRUE);
-	put_html (GTK_HTML (sc->description), EXAMPLE_DESCR);
-
-	gtk_table_attach (GTK_TABLE (sc->table), sc->description->parent->parent,
-			  0, 1, 0, 1,
-			  GTK_FILL | GTK_EXPAND,
-			  0,
-			  0, 0);
-#endif
-
-	/* set up the store etable */
-	sc->store_model = e_table_simple_new (store_etable_col_count,
-					      store_etable_row_count,
-					      store_etable_value_at,
-					      store_etable_set_value_at,
-					      store_etable_is_editable,
-					      store_etable_duplicate_value,
-					      store_etable_free_value,
-					      store_etable_initialize_value,
-					      store_etable_value_is_empty,
-					      store_etable_value_to_string,
-					      sc);
-
-	extras = e_table_extras_new ();
-
-	sc->store_etable = e_table_scrolled_new (E_TABLE_MODEL(sc->store_model),
-						 extras, STORE_ETABLE_SPEC, NULL);
-
-	gtk_object_sink (GTK_OBJECT (extras));
-
-	gtk_signal_connect (GTK_OBJECT (e_table_scrolled_get_table(E_TABLE_SCROLLED (sc->store_etable))),
-			    "cursor_change", GTK_SIGNAL_FUNC (storage_selected_cb),
-			    sc);
-
-	/* set up the folder etable */
-	sc->folder_model = e_tree_memory_callbacks_new (folder_etree_icon_at,
-
-							folder_etree_column_count,
-
-							NULL,
-							NULL,
-
-							NULL,
-							NULL,
-
-							folder_etree_value_at,
-							folder_etree_set_value_at,
-							folder_etree_is_editable,
-
-							folder_etree_duplicate_value,
-							folder_etree_free_value,
-							folder_etree_init_value,
-							folder_etree_value_is_empty,
-							folder_etree_value_to_string,
-
-							sc);
-
-	e_tree_memory_set_expanded_default (E_TREE_MEMORY(sc->folder_model), TRUE);
-
-	sc->folder_root = e_tree_memory_node_insert (E_TREE_MEMORY(sc->folder_model), NULL,
-						     0, NULL);
-
-	toggles[0] = gdk_pixbuf_new_from_xpm_data ((const char **)empty_xpm);
-	toggles[1] = gdk_pixbuf_new_from_xpm_data ((const char **)mark_xpm);
-
-	extras = e_table_extras_new ();
-
-	cell = e_cell_text_new(NULL, GTK_JUSTIFY_LEFT);
-
-	e_table_extras_add_cell (extras, "cell_text", cell);
-	e_table_extras_add_cell (extras, "cell_toggle", e_cell_toggle_new (0, 2, toggles));
-	e_table_extras_add_cell (extras, "cell_tree", e_cell_tree_new(NULL, NULL, TRUE, cell));
-
-	gtk_object_set (GTK_OBJECT (cell),
-			"bold_column", FOLDER_COL_SUBSCRIBED,
-			NULL);
-
-	e_table_extras_add_pixbuf (extras, "subscribed-image", toggles[1]);
-
-	sc->folder_etree = e_tree_scrolled_new (E_TREE_MODEL(sc->folder_model),
-						 extras, FOLDER_ETREE_SPEC, NULL);
-
-	e_tree_root_node_set_visible (e_tree_scrolled_get_tree(E_TREE_SCROLLED(sc->folder_etree)), FALSE);
-
-	gtk_object_sink (GTK_OBJECT (extras));
-	gdk_pixbuf_unref(toggles[0]);
-	gdk_pixbuf_unref(toggles[1]);
-
-	gtk_signal_connect (GTK_OBJECT (e_tree_scrolled_get_tree(E_TREE_SCROLLED (sc->folder_etree))),
-			    "double_click", GTK_SIGNAL_FUNC (folder_toggle_cb),
-			    sc);
-	gtk_table_attach (
-		GTK_TABLE (sc->table), sc->folder_etree,
-		0, 1, 1, 3,
-		GTK_FILL | GTK_EXPAND,
-		GTK_FILL | GTK_EXPAND,
-		0, 0);
-
-	e_paned_add1 (E_PANED (sc->hpaned), sc->store_etable);
-	e_paned_add2 (E_PANED (sc->hpaned), sc->table);
-	e_paned_set_position (E_PANED (sc->hpaned), DEFAULT_STORE_TABLE_WIDTH);
-
-	bonobo_window_set_contents (BONOBO_WINDOW (sc->app), sc->hpaned);
-
-#if 0
-	gtk_widget_show (sc->description);
-#endif
-
-	gtk_widget_show (sc->folder_etree);
-	gtk_widget_show (sc->table);
-	gtk_widget_show (sc->store_etable);
-	gtk_widget_show (sc->hpaned);
-
-	/* FIXME: Session management and stuff?  */
-	gtk_window_set_default_size (GTK_WINDOW (sc->app),
-				     DEFAULT_WIDTH, DEFAULT_HEIGHT);
-
-	populate_store_list (sc);
+	omenu = glade_xml_get_widget (sc->priv->xml, "store_menu");
+	gtk_option_menu_set_menu (GTK_OPTION_MENU (omenu), menu);
+	/*gtk_object_unref (GTK_OBJECT (menu));*/
 }
 
 static void
 subscribe_dialog_destroy (GtkObject *object)
 {
 	SubscribeDialog *sc;
+	GList           *iter;
 
 	sc = SUBSCRIBE_DIALOG (object);
 
-	/* free our folder information */
-	e_tree_memory_node_remove (E_TREE_MEMORY(sc->folder_model), sc->folder_root);
-	gtk_object_unref (GTK_OBJECT (sc->folder_model));
-	if (sc->folder_info)
-		camel_store_free_folder_info (sc->store, sc->folder_info);
+	for (iter = sc->priv->store_list; iter; iter = iter->next) {
+		if (store_data_mid_request (iter->data))
+			store_data_cancel_get_store (iter->data);
+		store_data_free (iter->data);
+	}
 
-	/* free our store information */
-	gtk_object_unref (GTK_OBJECT (sc->store_model));
-	g_list_foreach (sc->store_list, (GFunc)gtk_object_unref, NULL);
+	g_list_free (sc->priv->store_list);
 
-	/* free our storage */
-	if (sc->storage)
-		gtk_object_unref (GTK_OBJECT (sc->storage));
+	gtk_object_unref (GTK_OBJECT (sc->priv->xml));
 
-	/* free our search */
-	if (sc->search_top)
-		g_free (sc->search_top);
+	g_free (sc->priv);
 
 	subscribe_dialog_parent_class->destroy (object);
 }
@@ -1072,37 +1473,86 @@ subscribe_dialog_class_init (GtkObjectClass *object_class)
 static void
 subscribe_dialog_init (GtkObject *object)
 {
+	SubscribeDialog *sc = SUBSCRIBE_DIALOG (object);
+
+	sc->priv = g_new0 (SubscribeDialogPrivate, 1);
+}
+
+static GtkWidget *
+sc_create_default_widget (void)
+{
+	GtkWidget  *label;
+	GtkWidget  *viewport;
+
+	label = gtk_label_new (_("Please select a server."));
+	gtk_widget_show (label);
+
+	viewport = gtk_viewport_new (NULL, NULL);
+	gtk_viewport_set_shadow_type (GTK_VIEWPORT (viewport), GTK_SHADOW_IN);
+	gtk_container_add (GTK_CONTAINER (viewport), label);
+
+	return viewport;
 }
 
 static void
-subscribe_dialog_construct (GtkObject *object, GNOME_Evolution_Shell shell)
+subscribe_dialog_construct (GtkObject *object)
 {
 	SubscribeDialog *sc = SUBSCRIBE_DIALOG (object);
+	GtkWidget       *widget;
 
-	/*
-	 * Our instance data
-	 */
-	sc->shell = shell;
-	sc->store = NULL;
-	sc->storage = NULL;
-	sc->folder_info = NULL;
-	sc->store_list = NULL;
-	sc->search_top = NULL;
+	/* Load the XML */
 
-	subscribe_dialog_gui_init (sc);
+	sc->priv->xml          = glade_xml_new (EVOLUTION_GLADEDIR "/subscribe-dialog.glade", NULL);
+	sc->app                = glade_xml_get_widget (sc->priv->xml, "Manage Subscriptions");
+	sc->priv->hbox         = glade_xml_get_widget (sc->priv->xml, "tree_box");
+	sc->priv->search_entry = glade_xml_get_widget (sc->priv->xml, "search_entry");
+       
+	/* create default view */
+
+	sc->priv->default_widget = sc_create_default_widget();
+	sc->priv->current_widget = sc->priv->default_widget;
+	gtk_box_pack_start (GTK_BOX (sc->priv->hbox), sc->priv->default_widget, TRUE, TRUE, 0);
+	gtk_widget_show (sc->priv->default_widget);
+
+	/* hook up some signals */
+
+	gtk_signal_connect (GTK_OBJECT (sc->priv->search_entry), "activate", sc_search_activated, sc);
+
+	widget = glade_xml_get_widget (sc->priv->xml, "subscribe_button");
+	gtk_signal_connect (GTK_OBJECT (widget), "clicked", sc_subscribe_pressed, sc);
+
+	widget = glade_xml_get_widget (sc->priv->xml, "unsubscribe_button");
+	gtk_signal_connect (GTK_OBJECT (widget), "clicked", sc_unsubscribe_pressed, sc);
+
+	widget = glade_xml_get_widget (sc->priv->xml, "refresh_button");
+	gtk_signal_connect (GTK_OBJECT (widget), "clicked", sc_refresh_pressed, sc);
+
+	widget = glade_xml_get_widget (sc->priv->xml, "all_radio");
+	gtk_signal_connect (GTK_OBJECT (widget), "toggled", sc_all_toggled, sc);
+
+	widget = glade_xml_get_widget (sc->priv->xml, "filter_radio");
+	gtk_signal_connect (GTK_OBJECT (widget), "toggled", sc_filter_toggled, sc);
+
+	/* Get the list of stores */
+
+	populate_store_list (sc);
 }
 
-GtkWidget *
-subscribe_dialog_new (GNOME_Evolution_Shell shell)
+GtkObject *
+subscribe_dialog_new (void)
 {
 	SubscribeDialog *subscribe_dialog;
 
-	subscribe_dialog = gtk_type_new (subscribe_dialog_get_type ());
+	subscribe_dialog = gtk_type_new (SUBSCRIBE_DIALOG_TYPE);
+	subscribe_dialog_construct (GTK_OBJECT (subscribe_dialog));
 
-	subscribe_dialog_construct (GTK_OBJECT (subscribe_dialog), shell);
-
-	return GTK_WIDGET (subscribe_dialog->app);
+	return GTK_OBJECT (subscribe_dialog);
 }
 
 E_MAKE_TYPE (subscribe_dialog, "SubscribeDialog", SubscribeDialog, subscribe_dialog_class_init, subscribe_dialog_init, PARENT_TYPE);
 
+void
+subscribe_dialog_run_and_close (SubscribeDialog *dialog)
+{
+	gnome_dialog_run_and_close (GNOME_DIALOG (dialog->app));
+}

@@ -134,10 +134,10 @@ oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)
 @XML_I18N_MERGE_OAF_RULE@
 
 gladedir   = $(datadir)/evolution/glade
-glade_DATA = mail-config.glade local-config.glade
+glade_DATA = mail-config.glade local-config.glade subscribe-dialog.glade
 
 etspecdir = $(datadir)/evolution/etspec/
-etspec_DATA = message-list.etspec
+etspec_DATA = message-list.etspec subscribe-dialog.etspec
 
 iconsdir = $(datadir)/images/evolution
 buttonsdir = $(datadir)/images/evolution/buttons

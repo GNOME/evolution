@@ -1,3 +1,23 @@
+2001-08-06  Peter Williams  <peterw@ximian.com>
+
+	* subscribe-dialog.[ch]: Reimplement to be asynchronous and pretty,
+	with progressive folder loading and all sorts of wonderful
+	improvements.
+	
+	* mail-callbacks.c (manage_subscriptions): Change to reflect API
+	update.
+
+	* component-factory.c (mail_load_storages): Don't add the storage
+	if it has been disabled.
+
+	* Makefile.am (etspec_DATA): Add subscribe-dialog.etspec.
+	(glade_DATA): And the glade file.
+
+	* subscribe-dialog.etspec: New file, break out the specification
+	from inside the subscribe-dialog.c
+
+	* subscribe-dialog.glade: Update this, actually use it now.
+	
 2001-08-06  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c (empty_trash): Yuck. Special case whether or

@@ -1908,7 +1908,7 @@ print_preview_msg (GtkWidget *button, gpointer user_data)
 
 /******************** Begin Subscription Dialog ***************************/
 
-static GtkWidget *subscribe_dialog = NULL;
+static GtkObject *subscribe_dialog = NULL;
 
 static void
 subscribe_dialog_destroy (GtkWidget *widget, gpointer user_data)
@@ -1920,11 +1920,12 @@ void
 manage_subscriptions (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	if (!subscribe_dialog) {
-		subscribe_dialog = subscribe_dialog_new ((FOLDER_BROWSER (user_data))->shell);
+		subscribe_dialog = subscribe_dialog_new ();
 		gtk_signal_connect (GTK_OBJECT (subscribe_dialog), "destroy",
 				    subscribe_dialog_destroy, NULL);
 		
-		gtk_widget_show (subscribe_dialog);
+		subscribe_dialog_run_and_close (SUBSCRIBE_DIALOG (subscribe_dialog));
+		gtk_object_unref (subscribe_dialog);
 	} else {
 		/* FIXME: raise the subscription dialog window... */
 	}

@@ -1,6 +1,7 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  *  Authors: Chris Toshok <toshok@ximian.com>
+ *           Peter Williams <peterw@ximian.com>
  *
  *  Copyright 2000 Ximian, Inc. (www.ximian.com)
  *
@@ -39,32 +40,12 @@
 #define IS_SUBSCRIBE_DIALOG(o)       (GTK_CHECK_TYPE ((o), SUBSCRIBE_DIALOG_TYPE))
 #define IS_SUBSCRIBE_DIALOG_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), SUBSCRIBE_DIALOG_TYPE))
 
+typedef struct _SubscribeDialogPrivate SubscribeDialogPrivate;
 struct  _SubscribeDialog {
-	GtkObject                 parent;
+	GtkObject               parent;
 
-	GNOME_Evolution_Shell     shell;
-
-	GtkWidget                *app;
-
-	GtkWidget         	 *hpaned;
-	GtkWidget         	 *table;
-	GtkWidget         	 *description;
-
-	GtkWidget                *store_etable;
-	ETableModel              *store_model;
-
-	GtkWidget         	 *folder_etree;
-	ETreeModel        	 *folder_model;
-	ETreePath         	  folder_root;
-
-	CamelStore               *store;
-	EvolutionStorage         *storage;
-	CamelFolderInfo          *folder_info;
-
-	GList                    *store_list;
-
-	GtkWidget                *search_entry;
-	char                     *search_top;
+	GtkWidget              *app;
+	SubscribeDialogPrivate *priv;
 };
 
 
@@ -72,7 +53,8 @@ typedef struct {
 	GtkObjectClass parent_class;
 } SubscribeDialogClass;
 
-GtkType    subscribe_dialog_get_type             (void);
-GtkWidget *subscribe_dialog_new                  (GNOME_Evolution_Shell shell);
+GtkType    subscribe_dialog_get_type         (void);
+GtkObject *subscribe_dialog_new              (void);
+void       subscribe_dialog_run_and_close    (SubscribeDialog *dialog);
 
 #endif /* _SUBSCRIBE_DIALOG_H_ */
