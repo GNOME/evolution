@@ -1,3 +1,8 @@
+2004-05-17  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-mailer-prefs.c: #include <gtk/gtkliststore.h>. Fixes bug
+	#58407.
+
 2004-05-17  Not Zed  <NotZed@Ximian.com>
 
 	* mail-account-gui.c (mail_account_gui_setup): put the None item
