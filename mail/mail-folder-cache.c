@@ -274,7 +274,7 @@ unset_folder_info(struct _folder_info *mfi, int delete, int unsub)
 		camel_object_unhook_event(folder, "finalize", folder_finalised, mfi);
 	}
 
-	if (mfi->flags & CAMEL_FOLDER_NOSELECT) {
+	if ((mfi->flags & CAMEL_FOLDER_NOSELECT) == 0) {
 		up = g_malloc0(sizeof(*up));
 
 		up->remove = TRUE;
@@ -392,7 +392,7 @@ setup_folder(CamelFolderInfo *fi, struct _store_info *si)
 		up->store = si->store;
 		camel_object_ref(up->store);
 		
-		if (fi->flags & CAMEL_FOLDER_NOSELECT)
+		if ((fi->flags & CAMEL_FOLDER_NOSELECT) == 0)
 			up->add = TRUE;
 
 		e_dlist_addtail(&updates, (EDListNode *)up);
@@ -627,7 +627,7 @@ rename_folders(struct _store_info *si, const char *oldbase, const char *newbase,
 	up->store = si->store;
 	camel_object_ref(up->store);
 	
-	if (fi->flags & CAMEL_FOLDER_NOSELECT)
+	if ((fi->flags & CAMEL_FOLDER_NOSELECT) == 0)
 		up->add = TRUE;
 
 	e_dlist_addtail(&updates, (EDListNode *)up);

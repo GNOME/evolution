@@ -1,3 +1,8 @@
+2004-02-20  Not Zed  <NotZed@Ximian.com>
+
+	* mail-folder-cache.c (unset_folder_info, setup_folder)
+	(rename_folders): switch the sense of the no select checks.  TEST!
+
 2004-02-19  Chris Toshok  <toshok@ximian.com>
 
 	* em-format.c (emf_application_xpkcs7mime): wrap code with
