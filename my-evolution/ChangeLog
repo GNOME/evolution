@@ -1,5 +1,10 @@
 2001-07-05  Iain Holmes  <iain@ximian.com>
 
+	* my-evolution.glade: Replace a table with a vbox so that the text
+	of the radio buttons can be clicked. Change RDF to News Feed
+
+2001-07-05  Iain Holmes  <iain@ximian.com>
+
 	* e-summary-preferences.c (add_dialog_clicked_cb): Fix warning
 	(fill_rdf_shown_clist): Fix warning.
 	(calendar_one_toggled_cb): Set preferences to the right toggle button.

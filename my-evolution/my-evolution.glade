@@ -350,7 +350,7 @@
 	<widget>
 	  <class>GtkLabel</class>
 	  <name>label19</name>
-	  <label>All RDFs:</label>
+	  <label>All news feeds:</label>
 	  <justify>GTK_JUSTIFY_CENTER</justify>
 	  <wrap>False</wrap>
 	  <xalign>0.5</xalign>
@@ -376,7 +376,7 @@
 	<widget>
 	  <class>GtkLabel</class>
 	  <name>label20</name>
-	  <label>Display RDFs:</label>
+	  <label>Displayed feeds:</label>
 	  <justify>GTK_JUSTIFY_CENTER</justify>
 	  <wrap>False</wrap>
 	  <xalign>0.5</xalign>
@@ -587,7 +587,7 @@
 	<class>GtkFrame</class>
 	<name>frame2</name>
 	<border_width>3</border_width>
-	<label>RDF settings</label>
+	<label>News Feed Settings</label>
 	<label_xalign>0</label_xalign>
 	<shadow_type>GTK_SHADOW_ETCHED_IN</shadow_type>
 	<child>
@@ -749,7 +749,7 @@
 	    <class>GtkButton</class>
 	    <name>button11</name>
 	    <can_focus>True</can_focus>
-	    <label>Add new RDF</label>
+	    <label>Add new feed</label>
 	    <relief>GTK_RELIEF_NORMAL</relief>
 	    <child>
 	      <left_attach>3</left_attach>
@@ -774,7 +774,7 @@
       <class>GtkLabel</class>
       <child_name>Notebook:tab</child_name>
       <name>label6</name>
-      <label>RDF Summaries</label>
+      <label>New Feeds</label>
       <justify>GTK_JUSTIFY_CENTER</justify>
       <wrap>False</wrap>
       <xalign>0.5</xalign>
@@ -1209,7 +1209,6 @@
 	<widget>
 	  <class>GtkVBox</class>
 	  <name>vbox10</name>
-	  <border_width>3</border_width>
 	  <homogeneous>False</homogeneous>
 	  <spacing>3</spacing>
 
@@ -1231,299 +1230,63 @@
 	  </widget>
 
 	  <widget>
-	    <class>GtkTable</class>
-	    <name>table5</name>
-	    <border_width>3</border_width>
-	    <rows>4</rows>
-	    <columns>3</columns>
-	    <homogeneous>False</homogeneous>
-	    <row_spacing>3</row_spacing>
-	    <column_spacing>3</column_spacing>
+	    <class>GtkRadioButton</class>
+	    <name>radiobutton3</name>
+	    <can_focus>True</can_focus>
+	    <label>One day</label>
+	    <active>False</active>
+	    <draw_indicator>True</draw_indicator>
+	    <group>days_group</group>
 	    <child>
 	      <padding>0</padding>
-	      <expand>True</expand>
-	      <fill>True</fill>
+	      <expand>False</expand>
+	      <fill>False</fill>
 	    </child>
+	  </widget>
 
-	    <widget>
-	      <class>GtkRadioButton</class>
-	      <name>radiobutton3</name>
-	      <can_focus>True</can_focus>
-	      <label></label>
-	      <active>False</active>
-	      <draw_indicator>True</draw_indicator>
-	      <group>day_group</group>
-	      <child>
-		<left_attach>0</left_attach>
-		<right_attach>1</right_attach>
-		<top_attach>0</top_attach>
-		<bottom_attach>1</bottom_attach>
-		<xpad>0</xpad>
-		<ypad>0</ypad>
-		<xexpand>False</xexpand>
-		<yexpand>False</yexpand>
-		<xshrink>False</xshrink>
-		<yshrink>False</yshrink>
-		<xfill>False</xfill>
-		<yfill>False</yfill>
-	      </child>
-	    </widget>
+	  <widget>
+	    <class>GtkRadioButton</class>
+	    <name>radiobutton4</name>
+	    <can_focus>True</can_focus>
+	    <label>Five days</label>
+	    <active>False</active>
+	    <draw_indicator>True</draw_indicator>
+	    <group>days_group</group>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	  </widget>
 
-	    <widget>
-	      <class>GtkRadioButton</class>
-	      <name>radiobutton5</name>
-	      <can_focus>True</can_focus>
-	      <label></label>
-	      <active>False</active>
-	      <draw_indicator>True</draw_indicator>
-	      <group>day_group</group>
-	      <child>
-		<left_attach>0</left_attach>
-		<right_attach>1</right_attach>
-		<top_attach>2</top_attach>
-		<bottom_attach>3</bottom_attach>
-		<xpad>0</xpad>
-		<ypad>0</ypad>
-		<xexpand>False</xexpand>
-		<yexpand>False</yexpand>
-		<xshrink>False</xshrink>
-		<yshrink>False</yshrink>
-		<xfill>True</xfill>
-		<yfill>False</yfill>
-	      </child>
-	    </widget>
+	  <widget>
+	    <class>GtkRadioButton</class>
+	    <name>radiobutton5</name>
+	    <can_focus>True</can_focus>
+	    <label>One week</label>
+	    <active>False</active>
+	    <draw_indicator>True</draw_indicator>
+	    <group>days_group</group>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	  </widget>
 
-	    <widget>
-	      <class>GtkRadioButton</class>
-	      <name>radiobutton6</name>
-	      <can_focus>True</can_focus>
-	      <label></label>
-	      <active>False</active>
-	      <draw_indicator>True</draw_indicator>
-	      <group>day_group</group>
-	      <child>
-		<left_attach>0</left_attach>
-		<right_attach>1</right_attach>
-		<top_attach>3</top_attach>
-		<bottom_attach>4</bottom_attach>
-		<xpad>0</xpad>
-		<ypad>0</ypad>
-		<xexpand>False</xexpand>
-		<yexpand>False</yexpand>
-		<xshrink>False</xshrink>
-		<yshrink>False</yshrink>
-		<xfill>True</xfill>
-		<yfill>False</yfill>
-	      </child>
-	    </widget>
-
-	    <widget>
-	      <class>GtkRadioButton</class>
-	      <name>radiobutton4</name>
-	      <can_focus>True</can_focus>
-	      <label></label>
-	      <active>False</active>
-	      <draw_indicator>True</draw_indicator>
-	      <group>day_group</group>
-	      <child>
-		<left_attach>0</left_attach>
-		<right_attach>1</right_attach>
-		<top_attach>1</top_attach>
-		<bottom_attach>2</bottom_attach>
-		<xpad>0</xpad>
-		<ypad>0</ypad>
-		<xexpand>False</xexpand>
-		<yexpand>False</yexpand>
-		<xshrink>False</xshrink>
-		<yshrink>False</yshrink>
-		<xfill>False</xfill>
-		<yfill>False</yfill>
-	      </child>
-	    </widget>
-
-	    <widget>
-	      <class>GnomePixmap</class>
-	      <name>pixmap2</name>
-	      <filename>workweekview.xpm</filename>
-	      <child>
-		<left_attach>1</left_attach>
-		<right_attach>2</right_attach>
-		<top_attach>1</top_attach>
-		<bottom_attach>2</bottom_attach>
-		<xpad>0</xpad>
-		<ypad>0</ypad>
-		<xexpand>False</xexpand>
-		<yexpand>False</yexpand>
-		<xshrink>False</xshrink>
-		<yshrink>False</yshrink>
-		<xfill>True</xfill>
-		<yfill>True</yfill>
-	      </child>
-	    </widget>
-
-	    <widget>
-	      <class>GnomePixmap</class>
-	      <name>pixmap3</name>
-	      <filename>weekview.xpm</filename>
-	      <child>
-		<left_attach>1</left_attach>
-		<right_attach>2</right_attach>
-		<top_attach>2</top_attach>
-		<bottom_attach>3</bottom_attach>
-		<xpad>0</xpad>
-		<ypad>0</ypad>
-		<xexpand>False</xexpand>
-		<yexpand>False</yexpand>
-		<xshrink>False</xshrink>
-		<yshrink>False</yshrink>
-		<xfill>True</xfill>
-		<yfill>True</yfill>
-	      </child>
-	    </widget>
-
-	    <widget>
-	      <class>GnomePixmap</class>
-	      <name>pixmap4</name>
-	      <filename>monthview.xpm</filename>
-	      <child>
-		<left_attach>1</left_attach>
-		<right_attach>2</right_attach>
-		<top_attach>3</top_attach>
-		<bottom_attach>4</bottom_attach>
-		<xpad>0</xpad>
-		<ypad>0</ypad>
-		<xexpand>False</xexpand>
-		<yexpand>False</yexpand>
-		<xshrink>False</xshrink>
-		<yshrink>False</yshrink>
-		<xfill>True</xfill>
-		<yfill>True</yfill>
-	      </child>
-	    </widget>
-
-	    <widget>
-	      <class>GnomePixmap</class>
-	      <name>pixmap1</name>
-	      <filename>dayview.xpm</filename>
-	      <child>
-		<left_attach>1</left_attach>
-		<right_attach>2</right_attach>
-		<top_attach>0</top_attach>
-		<bottom_attach>1</bottom_attach>
-		<xpad>0</xpad>
-		<ypad>0</ypad>
-		<xexpand>False</xexpand>
-		<yexpand>False</yexpand>
-		<xshrink>False</xshrink>
-		<yshrink>False</yshrink>
-		<xfill>False</xfill>
-		<yfill>True</yfill>
-	      </child>
-	    </widget>
-
-	    <widget>
-	      <class>GtkLabel</class>
-	      <name>label33</name>
-	      <label>1 day</label>
-	      <justify>GTK_JUSTIFY_CENTER</justify>
-	      <wrap>False</wrap>
-	      <xalign>0</xalign>
-	      <yalign>0.5</yalign>
-	      <xpad>0</xpad>
-	      <ypad>0</ypad>
-	      <child>
-		<left_attach>2</left_attach>
-		<right_attach>3</right_attach>
-		<top_attach>0</top_attach>
-		<bottom_attach>1</bottom_attach>
-		<xpad>0</xpad>
-		<ypad>0</ypad>
-		<xexpand>True</xexpand>
-		<yexpand>False</yexpand>
-		<xshrink>False</xshrink>
-		<yshrink>False</yshrink>
-		<xfill>True</xfill>
-		<yfill>False</yfill>
-	      </child>
-	    </widget>
-
-	    <widget>
-	      <class>GtkLabel</class>
-	      <name>label34</name>
-	      <label>5 days</label>
-	      <justify>GTK_JUSTIFY_CENTER</justify>
-	      <wrap>False</wrap>
-	      <xalign>0</xalign>
-	      <yalign>0.5</yalign>
-	      <xpad>0</xpad>
-	      <ypad>0</ypad>
-	      <child>
-		<left_attach>2</left_attach>
-		<right_attach>3</right_attach>
-		<top_attach>1</top_attach>
-		<bottom_attach>2</bottom_attach>
-		<xpad>0</xpad>
-		<ypad>0</ypad>
-		<xexpand>True</xexpand>
-		<yexpand>False</yexpand>
-		<xshrink>False</xshrink>
-		<yshrink>False</yshrink>
-		<xfill>True</xfill>
-		<yfill>False</yfill>
-	      </child>
-	    </widget>
-
-	    <widget>
-	      <class>GtkLabel</class>
-	      <name>label35</name>
-	      <label>1 week</label>
-	      <justify>GTK_JUSTIFY_CENTER</justify>
-	      <wrap>False</wrap>
-	      <xalign>0</xalign>
-	      <yalign>0.5</yalign>
-	      <xpad>0</xpad>
-	      <ypad>0</ypad>
-	      <child>
-		<left_attach>2</left_attach>
-		<right_attach>3</right_attach>
-		<top_attach>2</top_attach>
-		<bottom_attach>3</bottom_attach>
-		<xpad>0</xpad>
-		<ypad>0</ypad>
-		<xexpand>True</xexpand>
-		<yexpand>False</yexpand>
-		<xshrink>False</xshrink>
-		<yshrink>False</yshrink>
-		<xfill>True</xfill>
-		<yfill>False</yfill>
-	      </child>
-	    </widget>
-
-	    <widget>
-	      <class>GtkLabel</class>
-	      <name>label36</name>
-	      <label>1 month</label>
-	      <justify>GTK_JUSTIFY_CENTER</justify>
-	      <wrap>False</wrap>
-	      <xalign>0</xalign>
-	      <yalign>0.5</yalign>
-	      <xpad>0</xpad>
-	      <ypad>0</ypad>
-	      <child>
-		<left_attach>2</left_attach>
-		<right_attach>3</right_attach>
-		<top_attach>3</top_attach>
-		<bottom_attach>4</bottom_attach>
-		<xpad>0</xpad>
-		<ypad>0</ypad>
-		<xexpand>True</xexpand>
-		<yexpand>False</yexpand>
-		<xshrink>False</xshrink>
-		<yshrink>False</yshrink>
-		<xfill>True</xfill>
-		<yfill>False</yfill>
-	      </child>
-	    </widget>
+	  <widget>
+	    <class>GtkRadioButton</class>
+	    <name>radiobutton6</name>
+	    <can_focus>True</can_focus>
+	    <label>One month</label>
+	    <active>False</active>
+	    <draw_indicator>True</draw_indicator>
+	    <group>days_group</group>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
 	  </widget>
 	</widget>
       </widget>
