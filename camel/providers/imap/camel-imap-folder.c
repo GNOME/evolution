@@ -2076,6 +2076,7 @@ decode_internaldate (const unsigned char *in)
 	
 	tm.tm_year = n - 1900;
 	
+	inptr = buf + 1;
 	if (!decode_time (&inptr, &hour, &min, &sec))
 		return (time_t) -1;
 	
@@ -2083,7 +2084,7 @@ decode_internaldate (const unsigned char *in)
 	tm.tm_min = min;
 	tm.tm_sec = sec;
 	
-	n = strtoul (inptr, NULL, 10);
+	n = strtol (inptr, NULL, 10);
 	
 	date = e_mktime_utc (&tm);
 	

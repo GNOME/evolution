@@ -1,3 +1,11 @@
+2002-10-01  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap/camel-imap-folder.c (decode_internaldate): Use
+	strtol when decoding the timezone (since it can be negative) and
+	don't forget to increment inptr to the start of the time (ie,
+	don't leave inptr pointing to the year when decoding the
+	hour:min:sec).
+
 2002-09-30  Jeffrey Stedfast  <fejj@ximian.com>
 
 	Fixes bug #31456.
