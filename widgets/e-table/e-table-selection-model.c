@@ -42,8 +42,8 @@ model_row_inserted(ETableModel *etm, int row, ETableSelectionModel *etsm)
 	int i;
 	int offset;
 	if(etsm->row_count >= 0) {
-		if ((etsm->row_count & 0x1f /*%32*/) == 0) {
-			etsm->selection = e_realloc(etsm->selection, (etsm->row_count >> 5/* /32 */) + 1);
+		if ((etsm->row_count & 0x1f) == 0) {
+			etsm->selection = e_realloc(etsm->selection, (etsm->row_count >> 5) + 1);
 			etsm->selection[etsm->row_count >> 5] = 0;
 		}
 		box = row >> 5;
@@ -51,7 +51,38 @@ model_row_inserted(ETableModel *etm, int row, ETableSelectionModel *etsm)
 			etsm->selection[i] = (etsm->selection[i] >> 1) & (etsm->selection[i - 1] << 31)
 		}
 		offset = row & 0x1f;
-		etsm->selection[i] = ((etsm->selection[i] >> (32 - offset)) << (31 - offset)) & ((etsm->selection[i] << offset) >> offset);
+		etsm->selection[i] = ((etsm->selection[i] >> (32 - offset)) << (32 - offset)) & ((etsm->selection[i] << offset) >> (offset + 1));
+		etsm->row_count ++;
+	}
+}
+
+static void
+model_row_deleted(ETableModel *etm, int row, ETableSelectionModel *etsm)
+{
+	int box;
+	int i;
+	int offset;
+	if(etsm->row_count >= 0) {
+		box = row >> 5;
+		last = etsm->row_count >> 5
+
+		offset = row & 0x1f;
+		if (offset)
+			etsm->selection[box] = ((etsm->selection[box] >> (32 - offset)) << (32 - offset)) & ((etsm->selection[box] << offset) >> (offset - 1));
+		else
+			etsm->selection[box] = etsm->selection[box] << 1;
+		if (box < last) {
+			etsm->selection[box] &= etsm->selection[box + 1] >> 31;
+
+			for (i = box + 1; i < last; i++) {
+				etsm->selection[i] = (etsm->selection[i] << 1) & (etsm->selection[i + 1] >> 31);
+			}
+			etsm->selection[i] = etsm->selection[i] << 1;
+		}
+		etsm->row_count --;
+		if ((etsm->row_count & 0x1f) == 0) {
+			etsm->selection = e_realloc(etsm->selection, etsm->row_count >> 5);
+		}
 	}
 }
 
