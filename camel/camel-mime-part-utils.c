@@ -41,61 +41,84 @@
 #include "camel-mime-filter-basic.h"
 #include "camel-mime-filter-charset.h"
 #include "camel-mime-filter-crlf.h"
+#include "camel-html-parser.h"
 
 #define d(x) /*(printf("%s(%d): ", __FILE__, __LINE__),(x))*/
 
+/* example: <META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"> */
+
 static char *
-extract_metatag_charset (GByteArray *buffer)
+check_html_charset(CamelMimeParser *mp, CamelMimeFilterBasicType enctype)
 {
-	/* example: <META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"> */
-	const char *slashhead, *data;
+	const char *buf;
+	off_t offset;
+	int length;
+	CamelHTMLParser *hp;
 	char *charset = NULL;
-	
-	data = buffer->data;
-	
-	slashhead = strstrcase (data, "</head");
-	if (!slashhead)
-		slashhead = data + buffer->len;
-	
-	/* Yea, this is ugly */
-	while (data < slashhead) {
-		struct _header_param *params;
-		const char *meta, *metaend;
-		const char *val;
-		
-		meta = strstrcase (data, "<meta");
-		if (!meta)
-			break;
-		
-		metaend = strchr (meta, '>');
-		if (!metaend)
-			metaend = slashhead;
-		else
-			metaend++;
-		
-		params = html_meta_param_list_decode (meta, metaend - meta);
-		if (params) {
-			val = header_param (params, "http-equiv");
-			if (val && !g_strcasecmp (val, "Content-Type")) {
-				struct _header_content_type *content_type;
-				
-				val = header_param (params, "content");
-				content_type = header_content_type_decode (val);
-				charset = g_strdup (header_content_type_param (content_type, "charset"));
-				
-				header_content_type_unref (content_type);
-			}
-			
-			header_param_list_free (params);
-			
-			/* break as soon as we find a charset */
-			if (charset)
-				break;
-		}
-		
-		data = metaend;
+	camel_html_parser_t state;
+	struct _header_content_type *ct;
+	CamelMimeFilterBasic *fdec = NULL;
+
+	/* if we can't find the charset within the first 2k, we ain't gonna find it */
+	offset = camel_mime_parser_tell(mp);
+	length = camel_mime_parser_read(mp, &buf, 2048);
+
+	d(printf("Checking html for meta content-type: '%.*s'", len, buf));
+
+	if (length == 0) {
+		camel_mime_parser_seek(mp, offset, SEEK_SET);
+		return NULL;
 	}
-	
+
+	/* if we need to first base64/qp decode, do this here, sigh */
+	hp = camel_html_parser_new();
+	if (enctype != 0) {
+		int dummy, len;
+		char *buffer;
+
+		fdec = camel_mime_filter_basic_new_type(enctype);
+		camel_mime_filter_filter((CamelMimeFilter *)fdec, (char *)buf, length, 0, &buffer, &len, &dummy);
+		camel_html_parser_set_data(hp, buffer, len, TRUE);
+	} else {
+		camel_html_parser_set_data(hp, buf, length, TRUE);
+	}
+
+	do {
+		const char *data;
+		int len;
+		const char *val;
+
+		state = camel_html_parser_step(hp, &data, &len);
+
+		/* example: <META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"> */
+		
+		switch(state) {
+		case CAMEL_HTML_PARSER_ELEMENT:
+			val = camel_html_parser_tag(hp);
+			d(printf("Got tag: %s\n", tag));
+			if (strcasecmp(val, "meta") == 0
+			    && (val = camel_html_parser_attr(hp, "http-equiv"))
+			    && strcasecmp(val, "content-type") == 0
+			    && (val = camel_html_parser_attr(hp, "content"))
+			    && (ct = header_content_type_decode(val))) {
+				charset = (char *)header_content_type_param(ct, "charset");
+				if (charset)
+					charset = g_strdup(charset);
+				header_content_type_unref(ct);
+			}
+			break;
+		default:
+			/* ignore everything else */
+			break;
+		}
+	} while (charset == NULL && state != CAMEL_HTML_PARSER_EOF);
+
+	camel_object_unref((CamelObject *)hp);
+	if (fdec)
+		camel_object_unref((CamelObject *)fdec);
+
+	camel_mime_parser_seek(mp, offset, SEEK_SET);
+
 	return charset;
 }
 
@@ -111,6 +134,7 @@ simple_data_wrapper_construct_from_parser (CamelDataWrapper *dw, CamelMimeParser
 	GByteArray *buffer;
 	off_t start = 0, end;
 	char *encoding, *buf;
+	CamelMimeFilterBasicType enctype = 0;
 	
 	d(printf("constructing data-wrapper\n"));
 	
@@ -130,16 +154,19 @@ simple_data_wrapper_construct_from_parser (CamelDataWrapper *dw, CamelMimeParser
 	/* first, work out conversion, if any, required, we dont care about what we dont know about */
 	encoding = header_content_encoding_decode (camel_mime_parser_header (mp, "content-transfer-encoding", NULL));
 	if (encoding) {
-		if (!g_strcasecmp (encoding, "base64")) {
+		if (!strcasecmp (encoding, "base64")) {
 			d(printf("Adding base64 decoder ...\n"));
-			fdec = (CamelMimeFilter *)camel_mime_filter_basic_new_type (CAMEL_MIME_FILTER_BASIC_BASE64_DEC);
-			decid = camel_mime_parser_filter_add (mp, fdec);
+			enctype = CAMEL_MIME_FILTER_BASIC_BASE64_DEC;
 		} else if (!strcasecmp(encoding, "quoted-printable")) {
 			d(printf("Adding quoted-printable decoder ...\n"));
-			fdec = (CamelMimeFilter *)camel_mime_filter_basic_new_type (CAMEL_MIME_FILTER_BASIC_QP_DEC);
-			decid = camel_mime_parser_filter_add (mp, fdec);
+			enctype = CAMEL_MIME_FILTER_BASIC_QP_DEC;
 		}
 		g_free (encoding);
+
+		if (enctype != 0) {
+			fdec = (CamelMimeFilter *)camel_mime_filter_basic_new_type(enctype);
+			decid = camel_mime_parser_filter_add (mp, fdec);
+		}
 	}
 	
 	/* If we're doing text, we also need to do CRLF->LF and may have to convert it to UTF8 as well. */
@@ -156,29 +183,11 @@ simple_data_wrapper_construct_from_parser (CamelDataWrapper *dw, CamelMimeParser
 		}
 		
 		/* Possible Lame Mailer Alert... check the META tags for a charset */
-		if (!charset && header_content_type_is (ct, "text", "html")) {
-			GByteArray *bytes;
-			const char *buf;
-			off_t offset;
-			int len;
-			
-			offset = camel_mime_parser_tell (mp);
-			/* if we can't find the charset within the first 2k, we ain't gonna find it */
-			len = camel_mime_parser_read (mp, &buf, 2048);
-			camel_mime_parser_seek (mp, offset, SEEK_SET);
-			
-			/* we only do this because we need it to be null terminated */
-			bytes = g_byte_array_new ();
-			g_byte_array_append (bytes, buf, len);
-			g_byte_array_append (bytes, "", 1);
-			
-			acharset = extract_metatag_charset (bytes);
-			charset = acharset;
-			g_byte_array_free (bytes, TRUE);
-		}
+		if (!charset && header_content_type_is (ct, "text", "html"))
+			charset = acharset = check_html_charset(mp, enctype);
 		
 		/* if the charset is not us-ascii or utf-8, then we need to convert to utf-8 */
-		if (charset && !(g_strcasecmp (charset, "us-ascii") == 0 || g_strcasecmp (charset, "utf-8") == 0)) {
+		if (charset && !(strcasecmp(charset, "us-ascii") == 0 || strcasecmp(charset, "utf-8") == 0)) {
 			d(printf("Adding conversion filter from %s to UTF-8\n", charset));
 			fch = (CamelMimeFilter *)camel_mime_filter_charset_new_convert (charset, "UTF-8");
 			if (fch) {

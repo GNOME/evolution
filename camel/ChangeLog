@@ -1,5 +1,27 @@
 2001-07-12  Not Zed  <NotZed@Ximian.com>
 
+	* camel-mime-part-utils.c (extract_metatag_charset): Removed.
+	(check_html_charset): Replaced with this.
+	(simple_data_wrapper_construct_from_parser): Call
+	check_html_charset if we dont have a charset on the content-type,
+	and we have text/html data.
+	(check_html_charset): We also need to do qp/base64 decoding
+	ourselves, sigh.
+
+	* camel-mime-utils.c (html_meta_param_list_decode): Removed.  This
+	was very wrong, the rules for mail headers vastly different from
+	rules for decoding html elements.
+	(rfc2184_decode): Move the malloc inside the iconv_open worked,
+	otherwise we have a memleak.
+
+	* camel-mime-filter-html.c (camel_mime_filter_html_finalize, init,
+	run, reset): Changed to use camelhtmlparser, and fixed a tiny
+	memleak.
+
+	* camel-html-parser.c: Made the html indexer tokeniser re-usable.
+	ONLY TO BE USED INTERNAL TO CAMEL HOWEVER.
+	(tokenise_step): Slight fix to non-quoted values.
+
 	* camel-folder-summary.c
 	(camel_folder_summary_info_new_from_message): Removed some code i
 	wasn't supposed to commit.

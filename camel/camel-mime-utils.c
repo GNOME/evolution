@@ -903,7 +903,7 @@ rfc2047_decode_word(const char *in, int len)
 {
 	const char *inptr = in+2;
 	const char *inend = in+len-2;
-	char *inbuf;
+	const char *inbuf;
 	char *encname;
 	int tmplen;
 	int ret;
@@ -1150,7 +1150,7 @@ rfc2047_encode_word(GString *outstring, const char *in, int len, const char *typ
 	iconv_t ic = (iconv_t *)-1;
 	char *buffer, *out, *ascii;
 	size_t inlen, outlen, enclen, bufflen;
-	char *inptr, *p;
+	const char *inptr, *p;
 	int first = 1;
 
 	d(printf("Converting [%d] '%.*s' to %s\n", len, len, in, type));
@@ -1159,7 +1159,7 @@ rfc2047_encode_word(GString *outstring, const char *in, int len, const char *typ
 	bufflen = len*6+16;
 	buffer = alloca(bufflen);
 	inlen = len;
-	inptr = (char *) in;
+	inptr = in;
 
 	ascii = alloca(bufflen);
 
@@ -1808,20 +1808,21 @@ rfc2184_decode (const char *in, int len)
 	
 	inptr++;
 	if (inptr < inend) {
-		char *decword, *inbuf, *outbase, *outbuf;
+		char *decword, *outbase, *outbuf;
+		const char *inbuf;
 		int inlen, outlen;
 		iconv_t ic;
 		
 		inbuf = decword = hex_decode (inptr, inend - inptr);
 		inlen = strlen (inbuf);
-		
-		outlen = inlen * 6 + 16;
-		outbuf = outbase = g_malloc (outlen);
-		
+				
 		ic = iconv_open ("UTF-8", encoding);
 		if (ic != (iconv_t) -1) {
 			int ret;
-			
+		
+			outlen = inlen * 6 + 16;
+			outbuf = outbase = g_malloc (outlen);
+	
 			ret = iconv (ic, &inbuf, &inlen, &outbuf, &outlen);
 			if (ret >= 0) {
 				iconv (ic, NULL, 0, &outbuf, &outlen);
@@ -2718,60 +2719,6 @@ header_param_list_decode(const char *in)
 		return NULL;
 
 	return header_decode_param_list(&in);
-}
-
-struct _header_param *
-html_meta_param_list_decode (const char *in, int inlen)
-{
-	/* example: <META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"> */
-	struct _header_param *params = NULL, *last = NULL;
-	const char *inptr, *inend;
-	
-	if (in == NULL)
-		return NULL;
-	
-	inptr = in;
-	inend = inptr + inlen;
-	
-	if (*inptr != '<')
-		return NULL;
-	
-	if (!g_strncasecmp (inptr, "<meta", 5))
-		inptr += 5;
-	else
-		return NULL;
-	
-	header_decode_lwsp (&inptr);
-	
-	while (inptr < inend && *inptr != '>') {
-		char *name = NULL, *value = NULL;
-		struct _header_param *param;
-		
-		name = decode_token (&inptr);
-		header_decode_lwsp (&inptr);
-		if (*inptr != '=') {
-			g_free (name);
-			break;
-		}
-		
-		inptr++;
-		value = header_decode_value (&inptr);
-		header_decode_lwsp (&inptr);
-		
-		param = g_malloc (sizeof (struct _header_param));
-		param->next = NULL;
-		param->name = name;
-		param->value = value;
-		
-		if (last) {
-			last->next = param;
-			last = param;
-		} else {
-			last = params = param;
-		}
-	}
-	
-	return params;
 }
 
 /* FIXME: I wrote this in a quick & dirty fasion - it may not be 100% correct */

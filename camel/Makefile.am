@@ -39,6 +39,7 @@ libcamel_la_SOURCES = 				\
 	camel-folder-summary.c			\
 	camel-folder-thread.c			\
 	camel-folder.c				\
+	camel-html-parser.c			\
 	camel-internet-address.c		\
 	camel-lock.c				\
 	camel-lock-client.c			\
@@ -217,7 +218,8 @@ noinst_HEADERS =				\
 	camel-charset-map-private.h		\
 	camel-private.h				\
 	camel-search-private.h			\
-	camel-lock-helper.h
+	camel-lock-helper.h			\
+	camel-html-parser.h
 
 # manually include camel-lock-helper.c since we build it manually
 EXTRA_DIST =					\
