@@ -22,6 +22,7 @@
 #include "e-table-header.h"
 #include "e-table-col-dnd.h"
 #include "e-table-defines.h"
+#include "e-table-header-utils.h"
 
 #include "e-table-field-chooser-item.h"
 
@@ -62,39 +63,22 @@ etfci_destroy (GtkObject *object){
 		(*GTK_OBJECT_CLASS (etfci_parent_class)->destroy) (object);
 }
 
-static double
-etfci_button_height (ETableFieldChooserItem *etfci, gint col)
-{
-	ETableCol *ecol = e_table_header_get_column (etfci->full_header, col);
-	double height;
-
-	if (etfci->font) {
-		height = etfci->font->ascent + etfci->font->descent + HEADER_PADDING + 1;
-	} else {
-		/* FIXME: Default??? */
-		height = 16;
-	}
-		
-	if (ecol->is_pixbuf) {
-		height = MAX (height, gdk_pixbuf_get_height (ecol->pixbuf) + HEADER_PADDING + 1);
-	}
-
-	if (height < MIN_ARROW_SIZE + 1 + HEADER_PADDING)
-		height = MIN_ARROW_SIZE + 1 + HEADER_PADDING;
-
-	return height;
-}
-
 static gint
 etfci_find_button (ETableFieldChooserItem *etfci, double loc)
 {
 	int i;
 	int count;
 	double height = 0;
-	
+	GtkStyle *style;
+
+	style = GTK_WIDGET (GNOME_CANVAS_ITEM (etfci)->canvas)->style;
+
 	count = e_table_header_count(etfci->full_header);
 	for (i = 0; i < count; i++) {
-		height += etfci_button_height(etfci, i);
+		ETableCol *ecol;
+
+		ecol = e_table_header_get_column (etfci->full_header, i);
+		height += e_table_header_compute_height (ecol, style, etfci->font);
 		if (height > loc)
 			return i;
 	}
@@ -109,12 +93,18 @@ etfci_reflow (GnomeCanvasItem *item, gint flags)
 	int i;
 	int count;
 	double height = 0;
+	GtkStyle *style;
+
+	style = GTK_WIDGET (GNOME_CANVAS_ITEM (etfci)->canvas)->style;
 
 	old_height = etfci->height;
 
 	count = e_table_header_count(etfci->full_header);
 	for (i = 0; i < count; i++) {
-		height += etfci_button_height(etfci, i);
+		ETableCol *ecol;
+
+		ecol = e_table_header_get_column (etfci->full_header, i);
+		height += e_table_header_compute_height (ecol, style, etfci->font);
 	}
 
 	etfci->height = height;
@@ -348,77 +338,6 @@ etfci_unrealize (GnomeCanvasItem *item)
 }
 
 static void
-draw_button (ETableFieldChooserItem *etfci, int col,
-	     GdkDrawable *drawable, GtkStyle *style,
-	     int x, int y, int width, int height)
-{
-	int xtra;
-	GdkRectangle area;
-	ETableCol *ecol = e_table_header_get_column(etfci->full_header, col);
-	double button_height = etfci_button_height(etfci, col);
-	GdkRectangle clip;
-
-	GtkWidget *widget = GTK_WIDGET(GNOME_CANVAS_ITEM(etfci)->canvas);
-
-	gdk_window_clear_area (drawable, x, y, width, height);
-
-	area.x = x;
-	area.y = y;
-	area.width = width;
-	area.height = height;
-
-	gtk_paint_box (style, drawable,
-		       GTK_STATE_NORMAL, GTK_SHADOW_OUT,
-		       &area, widget, "button",
-		       x, y, width, height);
-
-	clip.x = x + HEADER_PADDING / 2;
-	clip.y = y + HEADER_PADDING / 2;
-	clip.width = width - HEADER_PADDING;
-	clip.height = button_height - HEADER_PADDING;
-
-	if (ecol->is_pixbuf){
-		xtra = (clip.width - gdk_pixbuf_get_width (ecol->pixbuf))/2;
-		if (xtra < 0) 
-			xtra = 0;
-		
-		xtra += HEADER_PADDING / 2;
-
-		gdk_pixbuf_render_to_drawable_alpha (ecol->pixbuf, 
-						     drawable,
-						     0, 0, 
-						     x + xtra, y + (clip.height - gdk_pixbuf_get_height (ecol->pixbuf)) / 2,
-						     gdk_pixbuf_get_width (ecol->pixbuf),
-						     gdk_pixbuf_get_height(ecol->pixbuf),
-						     GDK_PIXBUF_ALPHA_FULL, 128,
-						     GDK_RGB_DITHER_NORMAL,
-						     0, 0);
-	} else {
-		int y_xtra;
-		GdkGC *gc = style->text_gc[GTK_STATE_NORMAL];
-
-		gdk_gc_set_clip_rectangle (gc, &clip);
-
-		/* Center the thing */
-		xtra = (clip.width - gdk_string_measure (etfci->font, ecol->text))/2;
-
-		/* Skip over border */
-		if (xtra < 0)
-			xtra = 0;
-
-		xtra += HEADER_PADDING / 2;
-
-		y_xtra = (button_height + etfci->font->ascent - etfci->font->descent) / 2;
-
-		gdk_draw_text (
-			       drawable, etfci->font,
-			       gc, x + xtra, y + y_xtra,
-			       ecol->text, strlen (ecol->text));
-		gdk_gc_set_clip_rectangle (gc, NULL);
-	}
-}
-
-static void
 etfci_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width, int height)
 {
 	ETableFieldChooserItem *etfci = E_TABLE_FIELD_CHOOSER_ITEM (item);
@@ -426,20 +345,33 @@ etfci_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int widt
 	const int rows = e_table_header_count (etfci->full_header);
 	int y1, y2;
 	int row;
+	GtkStyle *style;
+	GtkStateType state;
+
+	style = GTK_WIDGET (canvas)->style;
+	state = GTK_WIDGET_STATE (canvas);
 
 	y1 = y2 = 0;
 	for (row = 0; row < rows; row++, y1 = y2){
-		y2 += etfci_button_height(etfci, row);
+		ETableCol *ecol;
+
+		ecol = e_table_header_get_column (etfci->full_header, row);
+
+		y2 += e_table_header_compute_height (ecol, style, etfci->font);
 		
 		if (y1 > (y + height))
 			break;
 
 		if (y2 < y)
 			continue;
-		
-		draw_button (etfci, row, drawable,
-			     GTK_WIDGET (canvas)->style,
-			     - x, y1 - y, etfci->width, y2 - y1);
+
+		e_table_header_draw_button (drawable, ecol,
+					    style, etfci->font, state,
+					    GTK_WIDGET (canvas), style->fg_gc[GTK_STATE_NORMAL],
+					    -x, y1 - y,
+					    width, height,
+					    etfci->width, y2 - y1,
+					    E_TABLE_COL_ARROW_NONE);
 	}
 }
 
@@ -473,7 +405,7 @@ etfci_start_drag (ETableFieldChooserItem *etfci, GdkEvent *event, double x, doub
 	ETableCol *ecol;
 	GdkPixmap *pixmap;
 	int drag_col;
-	double button_height;
+	int button_height;
 
 	GtkTargetEntry  etfci_drag_types [] = {
 		{ TARGET_ETABLE_COL_TYPE, 0, TARGET_ETABLE_COL_HEADER },
@@ -493,12 +425,17 @@ etfci_start_drag (ETableFieldChooserItem *etfci, GdkEvent *event, double x, doub
 	context = gtk_drag_begin (widget, list, GDK_ACTION_MOVE, 1, event);
 	g_free(etfci_drag_types[0].target);
 
-
-	button_height = etfci_button_height(etfci, drag_col);
+	button_height = e_table_header_compute_height (ecol, widget->style, etfci->font);
 	pixmap = gdk_pixmap_new (widget->window, etfci->width, button_height, -1);
-	draw_button (etfci, drag_col, pixmap,
-		     widget->style,
-		     0, 0, etfci->width, button_height);
+
+	e_table_header_draw_button (pixmap, e_table_header_get_column (etfci->full_header, drag_col),
+				    widget->style, etfci->font, GTK_WIDGET_STATE (widget),
+				    widget, widget->style->fg_gc[GTK_STATE_NORMAL],
+				    0, 0,
+				    etfci->width, button_height,
+				    etfci->width, button_height,
+				    E_TABLE_COL_ARROW_NONE);
+
 	gtk_drag_set_icon_pixmap        (context,
 					 gdk_window_get_colormap (widget->window),
 					 pixmap,

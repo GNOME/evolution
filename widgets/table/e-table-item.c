@@ -1338,8 +1338,9 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 	 * Draw focus
 	 */
 	if (f_found && eti->draw_focus){
+		gdk_gc_set_ts_origin (eti->focus_gc, f_x1, f_y1);
 		gdk_draw_rectangle (drawable, eti->focus_gc, FALSE,
-				    f_x1 + 1, f_y1, f_x2 - f_x1 - 2, f_y2 - f_y1 - 1);
+				    f_x1, f_y1, f_x2 - f_x1 - 1, f_y2 - f_y1 - 1);
 	}
 }
 

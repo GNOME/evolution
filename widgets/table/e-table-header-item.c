@@ -21,6 +21,7 @@
 #include "gal/widgets/e-popup-menu.h"
 #include "e-table-header.h"
 #include "e-table-header-item.h"
+#include "e-table-header-utils.h"
 #include "e-table-col-dnd.h"
 #include "e-table-defines.h"
 #include "e-table-field-chooser-dialog.h"
@@ -102,6 +103,7 @@ e_table_header_item_get_height (ETableHeaderItem *ethi)
 	ETableHeader *eth;
 	int numcols, col;
 	int maxheight;
+	GtkStyle *style;
 
 	g_return_val_if_fail (ethi != NULL, 0);
 	g_return_val_if_fail (E_IS_TABLE_HEADER_ITEM (ethi), 0);
@@ -109,22 +111,19 @@ e_table_header_item_get_height (ETableHeaderItem *ethi)
 	eth = ethi->eth;
 	numcols = e_table_header_count (eth);
 
-	if (ethi->font) {
-		maxheight = ethi->font->ascent + ethi->font->descent + HEADER_PADDING + 1;
-	} else {
-		/* FIXME: Default??? */
-		maxheight = 16;
-	}
+	maxheight = 0;
+
+	style = GTK_WIDGET (GNOME_CANVAS_ITEM (ethi)->canvas)->style;
+
 	for (col = 0; col < numcols; col++) {
 		ETableCol *ecol = e_table_header_get_column (eth, col);
-		
-		if (ecol->is_pixbuf) {
-			maxheight = MAX (maxheight, gdk_pixbuf_get_height (ecol->pixbuf) + HEADER_PADDING + 1);
-		}
-	}
+		int height;
 
-	if (maxheight < MIN_ARROW_SIZE + 1 + HEADER_PADDING)
-		maxheight = MIN_ARROW_SIZE + 1 + HEADER_PADDING;
+		height = e_table_header_compute_height (ecol, style, ethi->font);
+
+		if (height > maxheight)
+			maxheight = height;
+	}
 
 	return maxheight;
 }
@@ -396,7 +395,7 @@ ethi_remove_drop_marker (ETableHeaderItem *ethi)
 }
 
 static GtkWidget *
-make_shapped_window_from_xpm (const char **xpm)
+make_shaped_window_from_xpm (const char **xpm)
 {
 	GdkPixbuf *pixbuf;
 	GdkPixmap *pixmap;
@@ -439,8 +438,8 @@ ethi_add_drop_marker (ETableHeaderItem *ethi, int col)
 		x += ethi->group_indent_width;
 	
 	if (!arrow_up){
-		arrow_up   = make_shapped_window_from_xpm (arrow_up_xpm);
-		arrow_down = make_shapped_window_from_xpm (arrow_down_xpm);
+		arrow_up   = make_shaped_window_from_xpm (arrow_up_xpm);
+		arrow_down = make_shaped_window_from_xpm (arrow_down_xpm);
 	}
 
 	gdk_window_get_origin (
@@ -758,144 +757,10 @@ ethi_unrealize (GnomeCanvasItem *item)
 }
 
 static void
-draw_button (ETableHeaderItem *ethi, ETableCol *col,
-	     GdkDrawable *drawable, GdkGC *gc, GtkStyle *style,
-	     int x, int y, int width, int height, ETableColArrow arrow)
-{
-	GdkRectangle clip;
-	int xtra;
-
-	clip.x = x;
-	clip.y = y;
-	clip.width = width;
-	clip.height = height;
-
-	gdk_window_set_back_pixmap (GTK_WIDGET (GNOME_CANVAS_ITEM (ethi)->canvas)->window, NULL, FALSE);
-	
-	gtk_paint_box (style, drawable,
-		       GTK_STATE_NORMAL, GTK_SHADOW_OUT,
-		       &clip, GTK_WIDGET (GNOME_CANVAS_ITEM (ethi)->canvas), 
-		       "button", x, y, width, height);
-
-	clip.x = x + HEADER_PADDING / 2;
-	clip.y = y + HEADER_PADDING / 2;
-	clip.width = width - HEADER_PADDING;
-	clip.height = ethi->height - HEADER_PADDING;
-	
-	gdk_gc_set_clip_rectangle (ethi->gc, &clip);
-
-	switch (arrow){
-	case E_TABLE_COL_ARROW_NONE:
-		break;
-		
-	case E_TABLE_COL_ARROW_UP:
-	case E_TABLE_COL_ARROW_DOWN:
-		if (!col->is_pixbuf ||
-		    (clip.width > (gdk_pixbuf_get_width (col->pixbuf) + MIN_ARROW_SIZE))) {
-			gtk_paint_arrow (gtk_widget_get_style (GTK_WIDGET(GNOME_CANVAS_ITEM(ethi)->canvas)),
-					 drawable,
-					 GTK_STATE_NORMAL,
-					 GTK_SHADOW_IN,
-					 &clip,
-					 GTK_WIDGET(GNOME_CANVAS_ITEM(ethi)->canvas),
-					 "header",
-					 (arrow == E_TABLE_COL_ARROW_UP) ? GTK_ARROW_UP : GTK_ARROW_DOWN,
-					 TRUE,
-					 x + HEADER_PADDING / 2 + clip.width - MIN_ARROW_SIZE - 2,
-					 y + (ethi->height - MIN_ARROW_SIZE) / 2,
-					 MIN_ARROW_SIZE,
-					 MIN_ARROW_SIZE);
-			
-			clip.width -= (MIN_ARROW_SIZE + 2 + HEADER_PADDING);
-			break;
-		}
-	}
-
-	if (col->is_pixbuf){
-		xtra = (clip.width - gdk_pixbuf_get_width (col->pixbuf))/2;
-		if (xtra < 0) 
-			xtra = 0;
-		
-		xtra += HEADER_PADDING / 2;
-
-		gdk_pixbuf_render_to_drawable_alpha (col->pixbuf, 
-						     drawable,
-						     0, 0, 
-						     x + xtra, y + (clip.height - gdk_pixbuf_get_height (col->pixbuf)) / 2,
-						     gdk_pixbuf_get_width (col->pixbuf),
-						     gdk_pixbuf_get_height (col->pixbuf),
-						     GDK_PIXBUF_ALPHA_FULL, 128,
-						     GDK_RGB_DITHER_NORMAL,
-						     0, 0);
-	} else {
-		int str_width, ellipsis_width, text_len;
-		int y_xtra;
-
-		text_len = strlen (col->text);
-		ellipsis_width = gdk_text_width (ethi->font, "...", 3);
-
-		str_width = gdk_text_width (ethi->font, col->text, text_len);
-		/* y_xtra = ethi->height / 2 + (ethi->font->ascent + ethi->font->descent) / 2 - ethi->font->descent; */
-		y_xtra = (ethi->height + ethi->font->ascent - ethi->font->descent) / 2;
-
-		if (str_width < clip.width) {
-		
-			/* Center the thing */
-			xtra = (clip.width - gdk_string_measure (ethi->font, col->text))/2;
-			
-			/* Skip over border */
-			if (xtra < 0)
-				xtra = 0;
-			
-			xtra += HEADER_PADDING / 2;
-			
-			gdk_draw_text (drawable, ethi->font,
-				       ethi->gc, clip.x + xtra, y + y_xtra,
-				       col->text, text_len);
-		} else {
-			/* Need ellipsis */
-			gchar *p;
-			int ellipsis_length = 0;
-			
-			for (p = col->text; p && *p && (p - col->text) < text_len; p++) {
-				if (gdk_text_width (ethi->font, col->text, p - col->text) + ellipsis_width <= clip.width)
-					ellipsis_length = p - col->text;
-				else
-					break;
-			}
-
-			xtra = (clip.width - gdk_text_measure (ethi->font, col->text, ellipsis_length) - gdk_string_measure (ethi->font, "..."))/2;
-
-			if (xtra < 0)
-				xtra = 0;
-
-			xtra += HEADER_PADDING / 2;
-
-
-			gdk_draw_text (drawable, ethi->font, ethi->gc,
-				       x + xtra, y + y_xtra,
-				       col->text, ellipsis_length);
-			gdk_draw_string (drawable, ethi->font, ethi->gc,
-					 x + xtra + gdk_text_width (ethi->font,
-								    col->text,
-								    ellipsis_length),
-					 y + y_xtra,
-					 "...");
-		}
-	}
-	
-	if (col->pixbuf){
-		if ((gdk_pixbuf_get_width (col->pixbuf) + MIN_ARROW_SIZE + 4) > width)
-			return;
-	}
-}
-
-static void
 ethi_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width, int height)
 {
 	ETableHeaderItem *ethi = E_TABLE_HEADER_ITEM (item);
 	GnomeCanvas *canvas = item->canvas;
-	GdkGC *gc;
 	const int cols = e_table_header_count (ethi->eth);
 	int x1, x2;
 	int col;
@@ -940,14 +805,18 @@ ethi_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width
 
 		if (x2 < x)
 			continue;
-		
-		gc = GTK_WIDGET (canvas)->style->bg_gc [GTK_STATE_NORMAL];
 
-		draw_button (ethi, ecol, drawable, gc,
-			     GTK_WIDGET (canvas)->style,
-			     x1 - x, - y, x2 - x1, ethi->height, 
-			     (ETableColArrow) g_hash_table_lookup (arrows, (gpointer) ecol->col_idx));
+		e_table_header_draw_button (drawable, ecol,
+					    GTK_WIDGET (canvas)->style, ethi->font,
+					    GTK_WIDGET_STATE (canvas),
+					    GTK_WIDGET (canvas), ethi->gc,
+					    x1 - x, -y,
+					    width, height,
+					    x2 - x1, ethi->height,
+					    (ETableColArrow) g_hash_table_lookup (
+						    arrows, (gpointer) ecol->col_idx));
 	}
+
 	g_hash_table_destroy (arrows);
 }
 
@@ -1074,7 +943,6 @@ ethi_start_drag (ETableHeaderItem *ethi, GdkEvent *event)
 	ETableCol *ecol;
 	int col_width;
 	GdkPixmap *pixmap;
-	GdkGC *gc;
 	int group_indent = 0;
 	GHashTable *arrows = g_hash_table_new (NULL, NULL);
 
@@ -1118,11 +986,16 @@ ethi_start_drag (ETableHeaderItem *ethi, GdkEvent *event)
 	ecol = e_table_header_get_column (ethi->eth, ethi->drag_col);
 	col_width = ecol->width;
 	pixmap = gdk_pixmap_new (widget->window, col_width, ethi->height, -1);
-	gc = widget->style->bg_gc [GTK_STATE_ACTIVE];
-	draw_button (ethi, ecol, pixmap, gc,
-		     widget->style,
-		     0, 0, col_width, ethi->height, 
-		     (ETableColArrow) g_hash_table_lookup (arrows, (gpointer) ecol->col_idx));
+
+	e_table_header_draw_button (pixmap, ecol,
+				    widget->style, ethi->font,
+				    GTK_WIDGET_STATE (widget),
+				    widget, ethi->gc,
+				    0, 0,
+				    col_width, ethi->height,
+				    col_width, ethi->height,
+				    (ETableColArrow) g_hash_table_lookup (
+					    arrows, (gpointer) ecol->col_idx));
 	gtk_drag_set_icon_pixmap        (context,
 					 gdk_window_get_colormap (widget->window),
 					 pixmap,

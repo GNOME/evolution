@@ -5,8 +5,8 @@
 #define BUTTON_PADDING       2
 #define GROUP_INDENT         (BUTTON_HEIGHT + (BUTTON_PADDING * 2))
 
-/* Padding above and below of the string in the header display */
-#define HEADER_PADDING 2
+/* Padding around the contents of a header button */
+#define HEADER_PADDING 1
 
 #define MIN_ARROW_SIZE 10
 
