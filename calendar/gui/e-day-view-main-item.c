@@ -187,7 +187,6 @@ e_day_view_main_item_draw (GnomeCanvasItem *canvas_item, GdkDrawable *drawable,
 	GdkFont *font;
 	gint row, row_y, grid_x1, grid_x2;
 	gint day, grid_y1, grid_y2;
-	gint work_day_start_row, work_day_end_row;
 	gint work_day_start_y, work_day_end_y;
 	gint day_x, day_w, work_day;
 	gint start_row, end_row, rect_x, rect_y, rect_width, rect_height;
@@ -207,10 +206,8 @@ e_day_view_main_item_draw (GnomeCanvasItem *canvas_item, GdkDrawable *drawable,
 
 	/* Paint the background colors. */
 	gc = day_view->main_gc;
-	work_day_start_row = e_day_view_convert_time_to_row (day_view, day_view->work_day_start_hour, day_view->work_day_start_minute);
-	work_day_start_y = work_day_start_row * day_view->row_height - y;
-	work_day_end_row = e_day_view_convert_time_to_row (day_view, day_view->work_day_end_hour, day_view->work_day_end_minute);
-	work_day_end_y = work_day_end_row * day_view->row_height - y;
+	work_day_start_y = e_day_view_convert_time_to_position (day_view, day_view->work_day_start_hour, day_view->work_day_start_minute) - y;
+	work_day_end_y = e_day_view_convert_time_to_position (day_view, day_view->work_day_end_hour, day_view->work_day_end_minute) - y;
 
 	for (day = 0; day < day_view->days_shown; day++) {
 		day_start_tt = icaltime_from_timet_with_zone (day_view->day_starts[day], FALSE, day_view->zone);

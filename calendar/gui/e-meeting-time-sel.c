@@ -1202,9 +1202,16 @@ e_meeting_time_selector_set_working_hours (EMeetingTimeSelector *mts,
 
 	mts->day_start_hour = day_start_hour;
 	mts->day_start_minute = day_start_minute;
-	mts->day_end_hour = day_end_hour;
-	mts->day_end_minute = day_end_minute;
 
+	/* Make sure we always show atleast an hour */
+	if (day_start_hour * 60 + day_start_minute + 60 < day_end_hour * 60 + day_end_minute) {
+		mts->day_end_hour = day_end_hour;
+		mts->day_end_minute = day_end_minute;
+	} else {
+		mts->day_end_hour = day_start_hour + 1;
+		mts->day_end_minute = day_start_minute;
+	}
+	
 	e_meeting_time_selector_save_position (mts, &saved_time);
 	e_meeting_time_selector_recalc_grid (mts);
 	e_meeting_time_selector_restore_position (mts, &saved_time);

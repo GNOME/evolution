@@ -1,3 +1,22 @@
+2002-08-14  JP Rosevear  <jpr@ximian.com>
+
+	* gui/dialogs/cal-prefs-dialog.c (init_widgets): listen for the
+	time editors to change
+	(cal_prefs_dialog_start_of_day_changed): make sure the start is
+	never after the end
+	(cal_prefs_dialog_end_of_day_changed): make sure the end is never
+	after the start
+
+	* gui/e-meeting-time-sel.c
+	(e_meeting_time_selector_set_working_hours): make sure to show a
+	minimum of 1 hour for work day
+
+	* gui/e-day-view-main-item.c (e_day_view_main_item_draw):
+	calculate the work/not working color boxes to the nearest pixel,
+	rather the the nearest time division
+
+	Fixes #10286, #26285
+	
 2002-08-13  Dan Winship  <danw@ximian.com>
 
 	* gui/e-itip-control.c: Remove a bunch of old #if 0 code.

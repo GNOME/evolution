@@ -110,6 +110,8 @@ static void config_control_apply_callback (EvolutionConfigControl *config_contro
 static void config_control_destroy_callback (GtkObject *object, void *data);
 
 static void cal_prefs_dialog_use_24_hour_toggled(GtkWidget *button, void *data);
+static void cal_prefs_dialog_end_of_day_changed (GtkWidget *button, void *data);
+static void cal_prefs_dialog_start_of_day_changed (GtkWidget *button, void *data);
 static void cal_prefs_dialog_hide_completed_tasks_toggled (GtkWidget *button, void *data);
 
 GtkWidget *cal_prefs_dialog_create_time_edit (void);
@@ -359,6 +361,14 @@ init_widgets (DialogData *dialog_data)
 			    GTK_SIGNAL_FUNC (cal_prefs_dialog_use_24_hour_toggled),
 			    dialog_data);
 
+	gtk_signal_connect (GTK_OBJECT (dialog_data->start_of_day), "changed",
+			    GTK_SIGNAL_FUNC (cal_prefs_dialog_start_of_day_changed),
+			    dialog_data);
+
+	gtk_signal_connect (GTK_OBJECT (dialog_data->end_of_day), "changed",
+			    GTK_SIGNAL_FUNC (cal_prefs_dialog_end_of_day_changed),
+			    dialog_data);
+
 	gtk_signal_connect (GTK_OBJECT (dialog_data->tasks_hide_completed_checkbutton),
 			    "toggled",
 			    GTK_SIGNAL_FUNC (cal_prefs_dialog_hide_completed_tasks_toggled),
@@ -379,6 +389,55 @@ cal_prefs_dialog_use_24_hour_toggled (GtkWidget	*button,
 
 	e_date_edit_set_use_24_hour_format (E_DATE_EDIT (dialog_data->start_of_day), use_24_hour);
 	e_date_edit_set_use_24_hour_format (E_DATE_EDIT (dialog_data->end_of_day), use_24_hour);
+}
+
+static void
+cal_prefs_dialog_start_of_day_changed (GtkWidget *button, void *data)
+{
+	DialogData *dialog_data;
+	EDateEdit *start, *end;
+	int start_hour, start_minute, end_hour, end_minute;
+	
+	dialog_data = (DialogData *) data;
+
+	start = E_DATE_EDIT (dialog_data->start_of_day);
+	end = E_DATE_EDIT (dialog_data->end_of_day);
+	
+	e_date_edit_get_time_of_day (start, &start_hour, &start_minute);
+	e_date_edit_get_time_of_day (end, &end_hour, &end_minute);
+
+	if ((start_hour > end_hour) 
+	    || (start_hour == end_hour && start_minute > end_minute)) {
+
+		if (start_hour < 23)
+			e_date_edit_set_time_of_day (end, start_hour + 1, start_minute);
+		else
+			e_date_edit_set_time_of_day (end, 23, 59);
+	}
+}
+
+static void
+cal_prefs_dialog_end_of_day_changed (GtkWidget *button, void *data)
+{
+	DialogData *dialog_data;
+	EDateEdit *start, *end;
+	int start_hour, start_minute, end_hour, end_minute;
+	
+	dialog_data = (DialogData *) data;
+
+	start = E_DATE_EDIT (dialog_data->start_of_day);
+	end = E_DATE_EDIT (dialog_data->end_of_day);
+	
+	e_date_edit_get_time_of_day (start, &start_hour, &start_minute);
+	e_date_edit_get_time_of_day (end, &end_hour, &end_minute);
+
+	if ((end_hour < start_hour) 
+	    || (end_hour == start_hour && end_minute < start_minute)) {
+		if (end_hour < 1)
+			e_date_edit_set_time_of_day (start, 0, 0);
+		else
+			e_date_edit_set_time_of_day (start, end_hour - 1, end_minute);
+	}
 }
 
 static void
