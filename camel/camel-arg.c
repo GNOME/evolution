@@ -24,6 +24,7 @@
 #include <config.h>
 #endif
 
+#include <stdio.h>
 #include "camel-arg.h"
 
 int camel_argv_build(CamelArgV *tv)

@@ -105,5 +105,9 @@ int camel_text_index_check(const char *path);
 int camel_text_index_rename(const char *old, const char *new);
 int camel_text_index_remove(const char *old);
 
+void camel_text_index_dump(CamelTextIndex *idx);
+void camel_text_index_info(CamelTextIndex *idx);
+void camel_text_index_validate(CamelTextIndex *idx);
+
 #endif /* ! _CAMEL_TEXT_INDEX_H */
 

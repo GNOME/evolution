@@ -57,6 +57,10 @@
 #include "camel-session.h"
 
 
+/* from md5-utils.h */
+void md5_get_digest (const char *buffer, int buffer_size, unsigned char digest[16]);
+
+
 static CamelTcpStreamClass *parent_class = NULL;
 
 /* Returns the class for a CamelTcpStreamSSL */

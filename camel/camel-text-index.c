@@ -65,10 +65,6 @@
 
 static int text_index_compress_nosync(CamelIndex *idx);
 
-void camel_text_index_dump(CamelTextIndex *idx);
-void camel_text_index_info(CamelTextIndex *idx);
-void camel_text_index_validate(CamelTextIndex *idx);
-
 /* ********************************************************************** */
 
 /* "private" data, shared between index/cursor/name classes */

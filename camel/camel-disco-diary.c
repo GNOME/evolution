@@ -25,6 +25,10 @@
 #include <config.h>
 #endif
 
+#define __USE_LARGEFILE 1
+#include <stdio.h>
+#include <errno.h>
+
 #include "camel-disco-diary.h"
 #include "camel-disco-folder.h"
 #include "camel-disco-store.h"
@@ -34,8 +38,6 @@
 #include "camel-operation.h"
 #include "camel-session.h"
 #include "camel-store.h"
-
-#include <errno.h>
 
 
 static void

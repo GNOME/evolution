@@ -299,8 +299,8 @@ camel_pgp_mime_part_sign (CamelPgpContext *context, CamelMimePart **mime_part, c
 	/* reset the stream */
 	camel_stream_reset (stream);
 	
-	printf ("attempting to sign data:\n----- BEGIN SIGNED PART -----\n%.*s----- END SIGNED PART -----\n",
-		CAMEL_STREAM_MEM (stream)->buffer->len, CAMEL_STREAM_MEM (stream)->buffer->data);
+	d(printf ("attempting to sign data:\n----- BEGIN SIGNED PART -----\n%.*s----- END SIGNED PART -----\n",
+		  CAMEL_STREAM_MEM (stream)->buffer->len, CAMEL_STREAM_MEM (stream)->buffer->data));
 	
 	/* construct the signature stream */
 	sigstream = camel_stream_mem_new ();
@@ -439,8 +439,8 @@ camel_pgp_mime_part_verify (CamelPgpContext *context, CamelMimePart *mime_part, 
 	/* verify */
 	valid = camel_pgp_verify (context, stream, sigstream, ex);
 	
-	printf ("attempted to verify data:\n----- BEGIN SIGNED PART -----\n%.*s----- END SIGNED PART -----\n",
-		CAMEL_STREAM_MEM (stream)->buffer->len, CAMEL_STREAM_MEM (stream)->buffer->data);
+	d(printf ("attempted to verify data:\n----- BEGIN SIGNED PART -----\n%.*s----- END SIGNED PART -----\n",
+		  CAMEL_STREAM_MEM (stream)->buffer->len, CAMEL_STREAM_MEM (stream)->buffer->data));
 	
 	camel_object_unref (CAMEL_OBJECT (sigstream));
 	camel_object_unref (CAMEL_OBJECT (stream));

@@ -94,7 +94,7 @@ static void set_disposition (CamelMimePart *mime_part, const gchar *disposition)
 
 /* format output of headers */
 static int write_references(CamelStream *stream, struct _header_raw *h);
-static int write_fold(CamelStream *stream, struct _header_raw *h);
+/*static int write_fold(CamelStream *stream, struct _header_raw *h);*/
 static int write_raw(CamelStream *stream, struct _header_raw *h);
 
 

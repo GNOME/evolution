@@ -1,5 +1,14 @@
 2002-06-14  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-arg.c:
+	* camel-disco-diary.c:
+	* camel-index-control.c:
+	* camel-mime-part.c:
+	* camel-pgp-mime.c:
+	* camel-store.c:
+	* camel-tcp-stream-ssl.c:
+	* camel-text-index.c: Fixed compiler warnings.
+
 	* camel-multipart-signed.c: Updated to use ctx->sign_protocol
 	rather than ctx->protocol.
 

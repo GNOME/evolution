@@ -71,7 +71,7 @@ do_dump(int argc, char **argv)
 		idx = (CamelIndex *)camel_text_index_new(argv[i], O_RDONLY);
 		if (idx) {
 			printf(" Dumping ...\n");
-			camel_text_index_dump(idx);
+			camel_text_index_dump((CamelTextIndex *)idx);
 			camel_object_unref((CamelObject *)idx);
 		} else {
 			printf(" Failed: %s\n", strerror(errno));
@@ -91,7 +91,7 @@ do_info(int argc, char **argv)
 		printf("Opening index file: %s\n", argv[i]);
 		idx = (CamelIndex *)camel_text_index_new(argv[i], O_RDONLY);
 		if (idx) {
-			camel_text_index_info(idx);
+			camel_text_index_info((CamelTextIndex *)idx);
 			camel_object_unref((CamelObject *)idx);
 		} else {
 			printf(" Failed: %s\n", strerror(errno));
@@ -111,7 +111,7 @@ do_check(int argc, char **argv)
 		printf("Opening index file: %s\n", argv[i]);
 		idx = (CamelIndex *)camel_text_index_new(argv[i], O_RDONLY);
 		if (idx) {
-			camel_text_index_validate(idx);
+			camel_text_index_validate((CamelTextIndex *)idx);
 			camel_object_unref((CamelObject *)idx);
 		} else {
 			printf(" Failed: %s\n", strerror(errno));
