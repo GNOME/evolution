@@ -1496,6 +1496,8 @@ start_cached_query_cb (gpointer data)
 		int len;
 		GList *uid_list = NULL, *l;
 
+		CORBA_exception_init (&ev);
+
 		/* if the query is done, then we just notify the listener of all the
 		 * UIDS we've got so far, all at once */
 		g_hash_table_foreach (priv->uids, (GHFunc) add_uid_cb, &uid_list);
@@ -1506,9 +1508,10 @@ start_cached_query_cb (gpointer data)
 			GNOME_Evolution_Calendar_CalObjUIDSeq *corba_uids;
 
 			corba_uids = GNOME_Evolution_Calendar_CalObjUIDSeq__alloc ();
-			CORBA_sequence_set_release (corba_uids, TRUE);
-			corba_uids->_buffer = CORBA_sequence_GNOME_Evolution_Calendar_CalObjUID_allocbuf (len);
 			corba_uids->_length = len;
+			corba_uids->_maximum = len;
+			corba_uids->_buffer = CORBA_sequence_GNOME_Evolution_Calendar_CalObjUID_allocbuf (len);
+			CORBA_sequence_set_release (corba_uids, TRUE);
 
 			for (l = uid_list, n = 0; l != NULL; l = l->next, n++)
 				corba_uids->_buffer[n] = CORBA_string_dup ((CORBA_char *) l->data);
@@ -1536,7 +1539,6 @@ start_cached_query_cb (gpointer data)
 		gtk_signal_connect (GTK_OBJECT (cl), "component_died",
 				    GTK_SIGNAL_FUNC (listener_died_cb), info->query);
 
-		CORBA_exception_init (&ev);
 		GNOME_Evolution_Calendar_QueryListener_notifyQueryDone (
 			info->ql,
 			GNOME_Evolution_Calendar_QueryListener_SUCCESS,

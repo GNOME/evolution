@@ -1,5 +1,12 @@
 2002-10-22  Rodrigo Moya <rodrigo@ximian.com>
 
+	Fixes #32371
+
+	* pcs/query.c (start_cached_query_cb): CORBA_exception_init the
+	CORBA_Environment before using it.
+	
+2002-10-22  Rodrigo Moya <rodrigo@ximian.com>
+
 	* pcs/cal-factory.c (lookup_backend): use NULL for pointer instead of
 	FALSE.
 
