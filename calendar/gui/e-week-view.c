@@ -43,6 +43,7 @@
 #include <gal/widgets/e-canvas.h>
 #include <gal/e-text/e-text.h>
 #include <gal/widgets/e-canvas-utils.h>
+#include "e-meeting-edit.h"
 
 /* Images */
 #include "bell.xpm"
@@ -165,6 +166,8 @@ static void e_week_view_on_delete_occurrence (GtkWidget *widget,
 					      gpointer data);
 static void e_week_view_on_delete_appointment (GtkWidget *widget,
 					       gpointer data);
+static void e_week_view_on_schedule_meet (GtkWidget *widget, 
+					  gpointer data);
 static void e_week_view_on_unrecur_appointment (GtkWidget *widget,
 						gpointer data);
 
@@ -3211,6 +3214,10 @@ e_week_view_show_popup_menu (EWeekView	     *week_view,
 	};
 
 	static struct menu_item child_items[] = {
+		{ N_("Schedule meeting"), (GtkSignalFunc) e_week_view_on_schedule_meet, NULL, TRUE },
+
+		{ NULL, NULL, NULL, TRUE},
+
 		{ N_("Edit this appointment..."), (GtkSignalFunc) e_week_view_on_edit_appointment, NULL, TRUE },
 		{ N_("Delete this appointment"), (GtkSignalFunc) e_week_view_on_delete_appointment, NULL, TRUE },
 
@@ -3221,6 +3228,7 @@ e_week_view_show_popup_menu (EWeekView	     *week_view,
 
 	static struct menu_item recur_child_items[] = {
 		{ N_("Make this appointment movable"), (GtkSignalFunc) e_week_view_on_unrecur_appointment, NULL, TRUE },
+		{ N_("Schedule meeting"), (GtkSignalFunc) e_week_view_on_schedule_meet, NULL, TRUE },
 
 		{ NULL, NULL, NULL, TRUE },
 
@@ -3385,6 +3393,26 @@ e_week_view_on_delete_appointment (GtkWidget *widget, gpointer data)
 	}
 }
 
+static void
+e_week_view_on_schedule_meet (GtkWidget *widget, gpointer data)
+{
+	EWeekView *week_view;
+	EWeekViewEvent *event;
+	EMeetingEditor *editor;
+	
+	week_view = E_WEEK_VIEW (data);
+
+	if (week_view->popup_event_num == -1)
+		return;
+
+	event = &g_array_index (week_view->events, EWeekViewEvent,
+				week_view->popup_event_num);
+
+	editor = e_meeting_editor_new (event->comp, week_view->client);
+
+	e_meeting_edit (editor);
+	e_meeting_editor_free (editor);
+}
 
 static void
 e_week_view_on_unrecur_appointment (GtkWidget *widget, gpointer data)

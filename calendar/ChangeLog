@@ -1,6 +1,18 @@
 2001-02-08  JP Rosevear  <jpr@ximian.com>
 
+	* gui/e-week-view.c (e_week_view_on_schedule_meet): new routine to
+	throw up the meeting schedule dialog
+	(e_week_view_show_popup_menu): add schedule meeting to the
+	contextual menu where appropriate
+
+2001-02-08  JP Rosevear  <jpr@ximian.com>
+
 	* gui/event-editor.c: Remove assorted menu/bonobo stuff
+	(ee_apply_event_cb): listen for apply signal and save object
+	(ee_close_event_cb): listen for close signal and prompt to save if
+	need be
+	(event_editor_construct): no longer suck out the glade contents
+	into a bonobo win, listen for apply and close signals
 
 	* gui/dialogs/task-editor.c: Remove assorted menu/bonobo stuff
 	(task_editor_construct): no longer suck out the glade contents
