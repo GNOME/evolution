@@ -1,3 +1,9 @@
+2000-06-30  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* camel-mime-utils.c (header_decode_date): Wrote some code to try
+	and un-mangle broken date formats and then parse that new string 
+	instead.
+
 2000-06-30  Dan Winship  <danw@helixcode.com>
 
 	* camel-folder.c (camel_folder_move_message_to): New function, to
