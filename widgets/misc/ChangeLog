@@ -1,3 +1,8 @@
+2002-04-22  Christopher James Lahey  <clahey@ximian.com>
+
+	* e-multi-config-dialog.c (e_multi_config_dialog_add_page):
+	Updated this to match the changed function name in gal.
+
 2002-04-09  Dan Winship  <danw@ximian.com>
 
 	* e-search-bar.c (e_search_bar_construct, add_button): Oops. The

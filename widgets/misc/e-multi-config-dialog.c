@@ -313,7 +313,7 @@ canvas_realize (GtkWidget *widget, EMultiConfigDialog *dialog)
 }
 
 
-ETableMemoryStoreColumnInfo columns[] = {
+static ETableMemoryStoreColumnInfo columns[] = {
 	E_TABLE_MEMORY_STORE_STRING,
 	E_TABLE_MEMORY_STORE_PIXBUF,
 	E_TABLE_MEMORY_STORE_PIXBUF,
@@ -435,7 +435,7 @@ e_multi_config_dialog_add_page (EMultiConfigDialog *dialog,
 
 	priv->pages = g_slist_append (priv->pages, page_widget);
 
-	e_table_memory_store_insert_list (E_TABLE_MEMORY_STORE (priv->list_e_table_model), -1, NULL, title, icon, NULL, NULL, NULL);
+	e_table_memory_store_insert (E_TABLE_MEMORY_STORE (priv->list_e_table_model), -1, NULL, title, icon, NULL, NULL, NULL);
 
 	if (GTK_WIDGET_REALIZED (e_table_scrolled_get_table (E_TABLE_SCROLLED (dialog->priv->list_e_table))->table_canvas)) {
 		fill_in_pixbufs (dialog, e_table_model_row_count (priv->list_e_table_model) - 1);
