@@ -1,5 +1,12 @@
 2003-01-26  Chris Toshok  <toshok@ximian.com>
 
+	* conduits/todo/todo-conduit.c: CalClient and CalComponent are
+	GObjects.
+
+	* conduits/calendar/calendar-conduit.c: same.
+
+2003-01-26  Chris Toshok  <toshok@ximian.com>
+
 	* conduits/calendar/calendar-conduit.c (start_calendar_server):
 	fix warning.
 	(get_default_timezone): BonoboConfigDatabase -> e_config_listener.

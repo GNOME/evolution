@@ -85,7 +85,7 @@ struct _ECalLocalRecord {
 static void
 calconduit_destroy_record (ECalLocalRecord *local)
 {
-	gtk_object_unref (GTK_OBJECT (local->comp));
+	g_object_unref (local->comp);
 	free_Appointment (local->appt);
 	g_free (local->appt);	
 	g_free (local);
@@ -304,7 +304,7 @@ e_calendar_context_destroy (ECalConduitContext *ctxt)
 		e_cal_gui_destroy (ctxt->gui);
 
 	if (ctxt->client != NULL)
-		gtk_object_unref (GTK_OBJECT (ctxt->client));
+		g_object_unref (ctxt->client);
 	
 	if (ctxt->uids != NULL)
 		cal_obj_uid_list_free (ctxt->uids);
@@ -405,8 +405,8 @@ start_calendar_server (ECalConduitContext *ctxt)
 
 	ctxt->client = cal_client_new ();
 
-	gtk_signal_connect (GTK_OBJECT (ctxt->client), "cal_opened",
-			    (GtkSignalFunc)start_calendar_server_cb, &success);
+	g_signal_connect (ctxt->client, "cal_opened",
+			  G_CALLBACK (start_calendar_server_cb), &success);
 
 	if (!cal_client_open_default_calendar (ctxt->client, FALSE))
 		return -1;
@@ -736,7 +736,7 @@ local_record_from_comp (ECalLocalRecord *local, CalComponent *comp, ECalConduitC
 	g_return_if_fail (comp != NULL);
 
 	local->comp = comp;
-	gtk_object_ref (GTK_OBJECT (comp));
+	g_object_ref (comp);
 	
 	cal_component_get_uid (local->comp, &uid);
 	local->local.ID = e_pilot_map_lookup_pid (ctxt->map, uid, TRUE);
@@ -970,13 +970,13 @@ local_record_from_uid (ECalLocalRecord *local,
 
 	if (status == CAL_CLIENT_GET_SUCCESS) {
 		local_record_from_comp (local, comp, ctxt);
-		gtk_object_unref (GTK_OBJECT (comp));
+		g_object_unref (comp);
 	} else if (status == CAL_CLIENT_GET_NOT_FOUND) {
 		comp = cal_component_new ();
 		cal_component_set_new_vtype (comp, CAL_COMPONENT_EVENT);
 		cal_component_set_uid (comp, uid);
 		local_record_from_comp (local, comp, ctxt);
-		gtk_object_unref (GTK_OBJECT (comp));
+		g_object_unref (comp);
 	} else {
 		INFO ("Object did not exist");
 	}	
@@ -1315,7 +1315,7 @@ pre_sync (GnomePilotConduit *conduit,
 		cal_component_get_uid (ccc->comp, &uid);
 		if (e_pilot_map_lookup_pid (ctxt->map, uid, FALSE) == 0) {
 			ctxt->changed = g_list_remove (ctxt->changed, ccc);
-			gtk_object_unref (GTK_OBJECT (ccc->comp));
+			g_object_unref (ccc->comp);
 			g_free (ccc);
 		}
 	}
@@ -1587,7 +1587,7 @@ add_record (GnomePilotConduitSyncAbs *conduit,
 	cal_component_get_uid (comp, &uid);
 	e_pilot_map_insert (ctxt->map, remote->ID, uid, FALSE);
 
-	gtk_object_unref (GTK_OBJECT (comp));
+	g_object_unref (comp);
 	
 	return retval;
 }
@@ -1607,7 +1607,7 @@ replace_record (GnomePilotConduitSyncAbs *conduit,
 	     print_local (local), print_remote (remote));
 
 	new_comp = comp_from_remote_record (conduit, remote, local->comp, ctxt->timezone);
-	gtk_object_unref (GTK_OBJECT (local->comp));
+	g_object_unref (local->comp);
 	local->comp = new_comp;
 	update_comp (conduit, local->comp, ctxt);
 
