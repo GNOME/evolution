@@ -1,5 +1,7 @@
 2001-01-17  Larry Ewing  <lewing@helixcode.com>
 
+	* backend/ebook/.cvsignore: add evolution-gnomecard-importer.
+
 	* backend/ebook/Makefile.am (oaf_DATA): don't require the pine
 	oainfo file until it is actually added to the repository.  We need
 	to keep the build working for nightlies to work.
