@@ -28,6 +28,7 @@
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
 
+#include <gtk/gtkdialog.h>
 #include <gtk/gtkoptionmenu.h>
 #include <gtk/gtkmenuitem.h>
 
@@ -92,8 +93,8 @@ async_create_cb (EStorageSet *storage_set,
 
 	dialog_data->creation_in_progress = FALSE;
 
-	gnome_dialog_set_sensitive (GNOME_DIALOG (dialog_data->dialog), 0, TRUE);
-	gnome_dialog_set_sensitive (GNOME_DIALOG (dialog_data->dialog), 1, TRUE);
+	gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog_data->dialog), GTK_RESPONSE_OK, TRUE);
+	gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog_data->dialog), GTK_RESPONSE_CANCEL, TRUE);
 
 	if (result == E_STORAGE_OK) {
 		/* Success! Tell the callback of this, then return */
@@ -136,9 +137,9 @@ async_create_cb (EStorageSet *storage_set,
 /* Dialog signal callbacks.  */
 
 static void
-dialog_clicked_cb (GnomeDialog *dialog,
-		   int button_number,
-		   void *data)
+dialog_response_cb (GnomeDialog *dialog,
+		    int response_id,
+		    void *data)
 {
 	DialogData *dialog_data;
 	EStorageSet *storage_set;
@@ -151,7 +152,7 @@ dialog_clicked_cb (GnomeDialog *dialog,
 
 	dialog_data = (DialogData *) data;
 
-	if (button_number != 0) {
+	if (response_id != GTK_RESPONSE_OK) {
 		if (dialog_data->result_callback != NULL)
 			(* dialog_data->result_callback) (dialog_data->shell,
 							  E_SHELL_FOLDER_CREATION_DIALOG_RESULT_CANCEL,
@@ -197,8 +198,8 @@ dialog_clicked_cb (GnomeDialog *dialog,
 	g_free (dialog_data->folder_path);
 	dialog_data->folder_path = path;
 
-	gnome_dialog_set_sensitive (dialog, 0, FALSE);
-	gnome_dialog_set_sensitive (dialog, 1, FALSE);
+	gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog), GTK_RESPONSE_OK, FALSE);
+	gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog), GTK_RESPONSE_CANCEL, FALSE);
 
 	dialog_data->creation_in_progress = TRUE;
 
@@ -244,9 +245,9 @@ folder_name_entry_changed_cb (GtkEditable *editable,
 
 	if (parent_path != NULL
 	    && GTK_ENTRY (dialog_data->folder_name_entry)->text_length > 0)
-		gnome_dialog_set_sensitive (GNOME_DIALOG (dialog_data->dialog), 0, TRUE);
+		gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog_data->dialog), GTK_RESPONSE_OK, TRUE);
 	else
-		gnome_dialog_set_sensitive (GNOME_DIALOG (dialog_data->dialog), 0, FALSE);
+		gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog_data->dialog), GTK_RESPONSE_OK, FALSE);
 }
 
 static void
@@ -259,7 +260,7 @@ storage_set_view_folder_selected_cb (EStorageSetView *storage_set_view,
 	dialog_data = (DialogData *) data;
 
 	if (GTK_ENTRY (dialog_data->folder_name_entry)->text_length > 0)
-		gnome_dialog_set_sensitive (GNOME_DIALOG (dialog_data->dialog), 0, TRUE);
+		gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog_data->dialog), GTK_RESPONSE_OK, TRUE);
 }
 
 
@@ -292,8 +293,7 @@ setup_dialog (GtkWidget *dialog,
 	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
 	gtk_window_set_title (GTK_WINDOW (dialog), _("Create New Folder"));
 
-	gnome_dialog_set_default   (GNOME_DIALOG (dialog), 0);
-	gnome_dialog_set_sensitive (GNOME_DIALOG (dialog), 0, FALSE);
+	gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog), GTK_RESPONSE_OK, FALSE);
 
 	gtk_widget_show (dialog);
 }
@@ -306,8 +306,6 @@ setup_folder_name_entry (GtkWidget *dialog,
 	GtkWidget *folder_name_entry;
 
 	folder_name_entry = glade_xml_get_widget (gui, "folder_name_entry");
-
-	gnome_dialog_editable_enters (GNOME_DIALOG (dialog), GTK_EDITABLE (folder_name_entry));
 }
 
 static GtkWidget *
@@ -528,8 +526,8 @@ e_shell_show_folder_creation_dialog (EShell *shell,
 	dialog_data->result_callback_data    = result_callback_data;
 	dialog_data->creation_in_progress    = FALSE;
 
-	g_signal_connect (dialog, "clicked",
-			  G_CALLBACK (dialog_clicked_cb), dialog_data);
+	g_signal_connect (dialog, "response",
+			  G_CALLBACK (dialog_response_cb), dialog_data);
 	g_signal_connect (dialog, "destroy",
 			  G_CALLBACK (dialog_destroy_cb), dialog_data);
 

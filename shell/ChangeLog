@@ -1,5 +1,14 @@
 2002-11-05  Ettore Perazzoli  <ettore@ximian.com>
 
+	* glade/e-shell-folder-creation-dialog.glade (ok_button): Set
+	response_id to GTK_RESPONSE_OK.
+	(cancel_button): Likewise, with GTK_RESPONSE_CANCEL.
+
+	* e-shell-folder-creation-dialog.h,
+	e-shell-folder-creation-dialog.c: Ported to GtkDialog.
+
+2002-11-05  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-folder-list.c: Use g_object_get_data() instead of
 	gtk_object_get_data().
 	* e-shell-config-default-folders.c: Likewise.
