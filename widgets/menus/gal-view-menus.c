@@ -17,6 +17,10 @@
 #include "gal-view-menus.h"
 #include <gal/menus/gal-define-views-dialog.h>
 
+struct _GalViewMenusPrivate {
+	GalViewCollection *collection;
+};
+
 #define PARENT_TYPE (gtk_object_get_type())
 
 static GtkObjectClass *gvm_parent_class;
@@ -24,9 +28,12 @@ static GtkObjectClass *gvm_parent_class;
 static void
 gvm_destroy (GtkObject *object)
 {
-#if 0
 	GalViewMenus *gvm = GAL_VIEW_MENUS (object);
-#endif
+
+	if (gvm->priv->collection)
+		gtk_object_unref(GTK_OBJECT(gvm->priv->collection));
+	g_free(gvm->priv);
+	gvm->priv = NULL;
 
 	GTK_OBJECT_CLASS (gvm_parent_class)->destroy (object);
 }
@@ -39,14 +46,33 @@ gvm_class_init (GtkObjectClass *klass)
 	klass->destroy = gvm_destroy;
 }
 
-E_MAKE_TYPE(gal_view_menus, "GalViewMenus", GalViewMenus, gvm_class_init, NULL, PARENT_TYPE);
+static void
+gvm_init (GalViewMenus *gvm)
+{
+	gvm->priv = g_new(GalViewMenusPrivate, 1);
+	gvm->priv->collection = NULL;
+}
+
+E_MAKE_TYPE(gal_view_menus, "GalViewMenus", GalViewMenus, gvm_class_init, gvm_init, PARENT_TYPE);
 
 GalViewMenus *
-gal_view_menus_new (void)
+gal_view_menus_new (GalViewCollection *collection)
 {
 	GalViewMenus *gvm = gtk_type_new (GAL_VIEW_MENUS_TYPE);
 
-	return (GalViewMenus *) gvm;
+	gal_view_menus_construct(gvm, collection);
+
+	return gvm;
+}
+
+GalViewMenus *
+gal_view_menus_construct (GalViewMenus      *gvm,
+			  GalViewCollection *collection)
+{
+	if (collection)
+		gtk_object_ref(GTK_OBJECT(gvm));
+	gvm->priv->collection = collection;
+	return gvm;
 }
 
 static void

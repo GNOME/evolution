@@ -2421,7 +2421,7 @@ e_meeting_time_selector_recalc_date_format (EMeetingTimeSelector *mts)
 				      23, 20, 17, 22, 19, 24 };
 	GDate date;
 	gint max_date_width, longest_weekday_width, longest_month_width, width;
-	gint day, weekday, longest_weekday, month, longest_month;
+	gint day, longest_weekday, month, longest_month;
 	gchar buffer[128];
 	GdkFont *font;
 
@@ -2432,9 +2432,10 @@ e_meeting_time_selector_recalc_date_format (EMeetingTimeSelector *mts)
 
 	/* Find the biggest full weekday name. We start on a particular
 	   Monday and go through seven days. */
-	longest_weekday_width = 0;
 	g_date_clear (&date, 1);
 	g_date_set_dmy (&date, 3, 1, 2000);	/* Monday 3rd Jan 2000. */
+	longest_weekday_width = 0;
+	longest_weekday = G_DATE_MONDAY;
 	for (day = G_DATE_MONDAY; day <= G_DATE_SUNDAY; day++) {
 		g_date_strftime (buffer, sizeof (buffer), "%A", &date);
 		width = gdk_string_width (font, buffer);
@@ -2447,6 +2448,7 @@ e_meeting_time_selector_recalc_date_format (EMeetingTimeSelector *mts)
 
 	/* Now find the biggest month name. */
 	longest_month_width = 0;
+	longest_month = G_DATE_JANUARY;
 	for (month = G_DATE_JANUARY; month <= G_DATE_DECEMBER; month++) {
 		g_date_set_month (&date, month);
 		g_date_strftime (buffer, sizeof (buffer), "%B", &date);
@@ -2477,12 +2479,13 @@ e_meeting_time_selector_recalc_date_format (EMeetingTimeSelector *mts)
 
 	/* Now try it with abbreviated weekday names. */
 	longest_weekday_width = 0;
+	longest_weekday = G_DATE_MONDAY;
 	g_date_set_dmy (&date, 3, 1, 2000);	/* Monday 3rd Jan 2000. */
 	for (day = G_DATE_MONDAY; day <= G_DATE_SUNDAY; day++) {
 		g_date_strftime (buffer, sizeof (buffer), "%a", &date);
 		width = gdk_string_width (font, buffer);
 		if (width > longest_weekday_width) {
-			longest_weekday = weekday;
+			longest_weekday = day;
 			longest_weekday_width = width;
 		}
 		g_date_add_days (&date, 1);
