@@ -1,3 +1,11 @@
+2002-06-10  Christopher James Lahey  <clahey@ximian.com>
+
+	* gui/contact-editor/e-contact-editor.c (enable_writable_fields):
+	Enable switching viewed phone numbers, email and postal addresses,
+	even if editing is disabled for this contact editor.  Don't enable
+	fields if the editor isn't editable and the widget_field_mappings
+	lists this field as being desensitize for read only.
+
 2002-06-14  Chris Toshok  <toshok@ximian.com>
 
 	[ fixes bug #26130 ]

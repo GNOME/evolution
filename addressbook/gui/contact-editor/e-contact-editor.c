@@ -2241,9 +2241,8 @@ enable_writable_fields(EContactEditor *editor)
 		GtkWidget *widget = g_hash_table_lookup (dropdown_hash, field);
 
 		if (widget) {
-			enable_widget (widget, editor->editable);
-		}
-		else {
+			enable_widget (widget, TRUE);
+		} else {
 			/* if it's not a field that's handled by the
                            dropdown items, add it to the has to be
                            used in the second step */
@@ -2292,6 +2291,10 @@ enable_writable_fields(EContactEditor *editor)
 						       widget_field_mappings[i].field_id);
 
 		enabled = (g_hash_table_lookup (supported_hash, field) != NULL);
+
+		if (widget_field_mappings[i].desensitize_for_read_only && !editor->editable) {
+			enabled = FALSE;
+		}
 
 		enable_widget (w, enabled);
 	}
