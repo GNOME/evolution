@@ -1,3 +1,10 @@
+2004-02-13  Sarfraaz Ahmed <asarfraaz@novell.com>
+        
+	* em-folder-view.c (emfv_popup_delete): added the code to get
+        the previous mail in a list, if get_next_mail fails. This is a
+        fix for #54195
+        (emfv_list_key_press): Same as above
+
 2004-02-13  Not Zed  <NotZed@Ximian.com>
 
 	* importers/netscape-importer.c: use mail-importer to import the
