@@ -50,6 +50,7 @@ typedef struct {
 
 	GSList *comment_list;
 
+	icalproperty *completed;
 	icalproperty *created;
 
 	GSList *description_list;
@@ -73,6 +74,9 @@ typedef struct {
 		icalproperty *prop;
 		icalparameter *altrep_param;
 	} summary;
+
+	icalproperty *transparency;
+	icalproperty *url;
 
 	/* Whether we should increment the sequence number when piping the
 	 * object over the wire.
@@ -188,6 +192,7 @@ free_icalcomponent (CalComponent *comp)
 
 	priv->classification = NULL;
 	priv->comment_list = NULL;
+	priv->completed = NULL;
 	priv->created = NULL;
 
 	priv->description_list = free_slist (priv->description_list);
@@ -208,6 +213,9 @@ free_icalcomponent (CalComponent *comp)
 
 	priv->summary.prop = NULL;
 	priv->summary.altrep_param = NULL;
+
+	priv->transparency = NULL;
+	priv->url = NULL;
 
 	/* Clean up */
 
@@ -420,6 +428,10 @@ scan_property (CalComponent *comp, icalproperty *prop)
 		scan_text (comp, &priv->comment_list, prop);
 		break;
 
+	case ICAL_COMPLETED_PROPERTY:
+		priv->completed = prop;
+		break;
+
 	case ICAL_CREATED_PROPERTY:
 		priv->created = prop;
 		break;
@@ -456,8 +468,16 @@ scan_property (CalComponent *comp, icalproperty *prop)
 		scan_summary (comp, prop);
 		break;
 
+	case ICAL_TRANSP_PROPERTY:
+		priv->transparency = prop;
+		break;
+
 	case ICAL_UID_PROPERTY:
 		priv->uid = prop;
+		break;
+
+	case ICAL_URL_PROPERTY:
+		priv->url = prop;
 		break;
 
 	default:
@@ -1174,30 +1194,6 @@ get_icaltimetype (icalproperty *prop,
 	**t = (* get_prop_func) (prop);
 }
 
-/**
- * cal_component_get_created:
- * @comp: A calendar component object.
- * @t: Return value for the creation date.  This should be freed using the
- * cal_component_free_icaltimetype() function.
- *
- * Queries the date in which a calendar component object was created in the
- * calendar store.
- **/
-void
-cal_component_get_created (CalComponent *comp, struct icaltimetype **t)
-{
-	CalComponentPrivate *priv;
-
-	g_return_if_fail (comp != NULL);
-	g_return_if_fail (IS_CAL_COMPONENT (comp));
-	g_return_if_fail (t != NULL);
-
-	priv = comp->priv;
-	g_return_if_fail (priv->icalcomp != NULL);
-
-	get_icaltimetype (priv->created, icalproperty_get_created, t);
-}
-
 /* Sets a struct icaltimetype value */
 static void
 set_icaltimetype (CalComponent *comp, icalproperty **prop,
@@ -1225,6 +1221,78 @@ set_icaltimetype (CalComponent *comp, icalproperty **prop,
 		*prop = (* prop_new_func) (*t);
 		icalcomponent_add_property (priv->icalcomp, *prop);
 	}
+}
+
+/**
+ * cal_component_get_completed:
+ * @comp: A calendar component object.
+ * @t: Return value for the completion date.  This should be freed using the
+ * cal_component_free_icaltimetype() function.
+ * 
+ * Queries the date at which a calendar compoment object was completed.
+ **/
+void
+cal_component_get_completed (CalComponent *comp, struct icaltimetype **t)
+{
+	CalComponentPrivate *priv;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+	g_return_if_fail (t != NULL);
+
+	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
+
+	get_icaltimetype (priv->completed, icalproperty_get_completed, t);
+}
+
+/**
+ * cal_component_set_completed:
+ * @comp: A calendar component object.
+ * @t: Value for the completion date.
+ * 
+ * Sets the date at which a calendar component object was completed.
+ **/
+void
+cal_component_set_completed (CalComponent *comp, struct icaltimetype *t)
+{
+	CalComponentPrivate *priv;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+
+	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
+
+	set_icaltimetype (comp, &priv->completed,
+			  icalproperty_new_completed,
+			  icalproperty_set_completed,
+			  t);
+}
+
+
+/**
+ * cal_component_get_created:
+ * @comp: A calendar component object.
+ * @t: Return value for the creation date.  This should be freed using the
+ * cal_component_free_icaltimetype() function.
+ *
+ * Queries the date in which a calendar component object was created in the
+ * calendar store.
+ **/
+void
+cal_component_get_created (CalComponent *comp, struct icaltimetype **t)
+{
+	CalComponentPrivate *priv;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+	g_return_if_fail (t != NULL);
+
+	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
+
+	get_icaltimetype (priv->created, icalproperty_get_created, t);
 }
 
 /**
@@ -1807,5 +1875,154 @@ cal_component_set_summary (CalComponent *comp, CalComponentText *summary)
 		icalparameter_free (priv->summary.altrep_param);
 #endif
 		priv->summary.altrep_param = NULL;
+	}
+}
+
+/**
+ * cal_component_get_transparency:
+ * @comp: A calendar component object.
+ * @transp: Return value for the time transparency.
+ * 
+ * Queries the time transparency of a calendar component object.
+ **/
+void
+cal_component_get_transparency (CalComponent *comp, CalComponentTransparency *transp)
+{
+	CalComponentPrivate *priv;
+	const char *val;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+	g_return_if_fail (transp != NULL);
+
+	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
+
+	if (!priv->transparency) {
+		*transp = CAL_COMPONENT_TRANSP_NONE;
+		return;
+	}
+
+	val = icalproperty_get_transp (priv->transparency);
+
+	if (strcasecmp (val, "TRANSPARENT"))
+		*transp = CAL_COMPONENT_TRANSP_TRANSPARENT;
+	else if (strcasecmp (val, "OPAQUE"))
+		*transp = CAL_COMPONENT_TRANSP_OPAQUE;
+	else
+		*transp = CAL_COMPONENT_TRANSP_UNKNOWN;
+}
+
+/**
+ * cal_component_set_transparency:
+ * @comp: A calendar component object.
+ * @transp: Time transparency value.
+ * 
+ * Sets the time transparency of a calendar component object.
+ **/
+void
+cal_component_set_transparency (CalComponent *comp, CalComponentTransparency transp)
+{
+	CalComponentPrivate *priv;
+	char *str;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+	g_return_if_fail (transp != CAL_COMPONENT_TRANSP_UNKNOWN);
+
+	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
+	
+
+	if (transp == CAL_COMPONENT_TRANSP_NONE) {
+		if (priv->transparency) {
+			icalcomponent_remove_property (priv->icalcomp, priv->transparency);
+			icalproperty_free (priv->transparency);
+			priv->transparency = NULL;
+		}
+
+		return;
+	}
+
+	switch (transp) {
+	case CAL_COMPONENT_TRANSP_TRANSPARENT:
+		str = "TRANSPARENT";
+		break;
+
+	case CAL_COMPONENT_TRANSP_OPAQUE:
+		str = "OPAQUE";
+		break;
+
+	default:
+		g_assert_not_reached ();
+		str = NULL;
+	}
+
+	if (priv->transparency)
+		icalproperty_set_transp (priv->transparency, str);
+	else {
+		priv->transparency = icalproperty_new_transp (str);
+		icalcomponent_add_property (priv->icalcomp, priv->transparency);
+	}
+}
+
+/**
+ * cal_component_get_url:
+ * @comp: A calendar component object.
+ * @url: Return value for the URL.
+ * 
+ * Queries the uniform resource locator property of a calendar component object.
+ **/
+void
+cal_component_get_url (CalComponent *comp, const char **url)
+{
+	CalComponentPrivate *priv;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+	g_return_if_fail (url != NULL);
+
+	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
+
+	if (priv->url)
+		*url = icalproperty_get_url (priv->url);
+	else
+		*url = NULL;
+}
+
+/**
+ * cal_component_set_url:
+ * @comp: A calendar component object.
+ * @url: URL value.
+ * 
+ * Sets the uniform resource locator property of a calendar component object.
+ **/
+void
+cal_component_set_url (CalComponent *comp, const char *url)
+{
+	CalComponentPrivate *priv;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+
+	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
+
+	if (!url) {
+		if (priv->url) {
+			icalcomponent_remove_property (priv->icalcomp, priv->url);
+			icalproperty_free (priv->url);
+			priv->url = NULL;
+		}
+
+		return;
+	}
+
+	if (priv->url)
+		icalproperty_set_url (priv->url, (char *) url);
+	else {
+		priv->url = icalproperty_new_url ((char *) url);
+		icalcomponent_add_property (priv->icalcomp, priv->url);
 	}
 }

@@ -1,5 +1,19 @@
 2000-07-11  Federico Mena Quintero  <federico@helixcode.com>
 
+	* cal-util/cal-component.c (scan_property): Handle the COMPLETED
+	property.
+	(free_icalcomponent): Ditto.
+	(cal_component_get_completed): Ditto.
+	(cal_component_set_completed): Ditto.
+	(scan_property): Handle the TRANSPARENCY property.
+	(free_icalcomponent): Ditto.
+	(cal_component_get_transparency): Ditto.
+	(cal_component_set_transparency): Ditto.
+	(scan_property): Handle the URL property.
+	(free_icalcomponent): Ditto.
+	(cal_component_get_url): Ditto.
+	(cal_component_set_url): Ditto.
+
 	* pcs/cal-factory.c (queue_load_create_job): Removed unneeded
 	check for the URI.
 	(load_fn): Be more paranoid about the URI and notify the listener

@@ -62,6 +62,14 @@ typedef enum {
 } CalComponentClassification;
 
 typedef struct {
+	/* Actual date/time value */
+	struct icaltimetype *value;
+
+	/* Timezone ID */
+	const char *tzid;
+} CalComponentDateTime;
+
+typedef struct {
 	/* Description string */
 	const char *value;
 
@@ -69,13 +77,13 @@ typedef struct {
 	const char *altrep;
 } CalComponentText;
 
-typedef struct {
-	/* Actual date/time value */
-	struct icaltimetype *value;
+typedef enum {
+	CAL_COMPONENT_TRANSP_NONE,
+	CAL_COMPONENT_TRANSP_TRANSPARENT,
+	CAL_COMPONENT_TRANSP_OPAQUE,
+	CAL_COMPONENT_TRANSP_UNKNOWN
+} CalComponentTransparency;
 
-	/* Timezone ID */
-	const char *tzid;
-} CalComponentDateTime;
 
 typedef struct _CalComponent CalComponent;
 typedef struct _CalComponentClass CalComponentClass;
@@ -121,6 +129,9 @@ void cal_component_set_comment_list (CalComponent *comp, GSList *text_list);
 
 void cal_component_free_icaltimetype (struct icaltimetype *t);
 
+void cal_component_get_completed (CalComponent *comp, struct icaltimetype **t);
+void cal_component_set_completed (CalComponent *comp, struct icaltimetype *t);
+
 void cal_component_get_created (CalComponent *comp, struct icaltimetype **t);
 void cal_component_set_created (CalComponent *comp, struct icaltimetype *t);
 
@@ -150,6 +161,12 @@ void cal_component_free_sequence (int *sequence);
 
 void cal_component_get_summary (CalComponent *comp, CalComponentText *summary);
 void cal_component_set_summary (CalComponent *comp, CalComponentText *summary);
+
+void cal_component_get_transparency (CalComponent *comp, CalComponentTransparency *transp);
+void cal_component_set_transparency (CalComponent *comp, CalComponentTransparency transp);
+
+void cal_component_get_url (CalComponent *comp, const char **url);
+void cal_component_set_url (CalComponent *comp, const char *url);
 
 
 
