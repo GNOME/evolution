@@ -1275,8 +1275,16 @@ tree_drag_data_received (ETree *etree,
 				corba_data.target = selection_data->target;
 
 				corba_data.bytes._release = FALSE;
-				corba_data.bytes._length = selection_data->length;
-				corba_data.bytes._buffer = selection_data->data;
+
+				if (selection_data->data == NULL) {
+					/* If data is NULL the length is -1 and this would mess things
+					   up so we handle it separately.  */
+					corba_data.bytes._length = 0;
+					corba_data.bytes._buffer = NULL;
+				} else {
+					corba_data.bytes._length = selection_data->length;
+					corba_data.bytes._buffer = selection_data->data;
+				}
 
 				/* pass off the data to the component's DestinationFolderInterface */
 				handled = GNOME_Evolution_ShellComponentDnd_DestinationFolder_handleDrop (destination_folder_interface,
