@@ -1,3 +1,9 @@
+2000-12-15  Federico Mena Quintero  <federico@helixcode.com>
+
+	* POTFILES.in: Removed getdate.y.
+
+	* POTFILES.ignore: Ditto.
+
 2000-12-15  Christian Rose  <menthos@menthos.com>
 
 	* sv.po: Updated Swedish translation.

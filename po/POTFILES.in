@@ -46,7 +46,6 @@ calendar/gui/e-week-view-main-item.c
 calendar/gui/e-week-view.c
 calendar/gui/event-editor-dialog.glade
 calendar/gui/event-editor.c
-calendar/gui/getdate.y
 calendar/gui/gnome-cal.c
 calendar/gui/gnome-month-item.c
 calendar/gui/goto.c
