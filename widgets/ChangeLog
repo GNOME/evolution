@@ -1,8 +1,12 @@
+2003-04-23  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* menus/gal-view-menus.c (build_menus): Don't convert the label
+	charset from UTF-8 into the locale charset.
+
 2003-04-22  Anna Dirks  <anna@ximian.com> 
 
-	*misc/e-multi-config-dialog.c : add appropriate padding
-	and spacing to the settings dialog. Fixes #41392.
-
+	* misc/e-multi-config-dialog.c : add appropriate padding and
+	spacing to the settings dialog. Fixes #41392.
 
 2003-04-10  Mike Kestner  <mkestner@ximian.com>
 

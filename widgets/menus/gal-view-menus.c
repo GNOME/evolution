@@ -22,7 +22,6 @@
 #include <gal/util/e-util.h>
 #include <gal/util/e-xml-utils.h>
 #include <gal/menus/gal-define-views-dialog.h>
-#include <gal/widgets/e-unicode.h>
 #include <bonobo/bonobo-ui-util.h>
 #include <e-util/e-list.h>
 
@@ -295,10 +294,10 @@ build_menus(GalViewMenus *menus)
         menus->priv->listenerClosures = e_list_new (closure_copy, closure_free, menus);
 
 	for (i = 0; i < length; i++) {
-		char *label, *encoded_label;
 		GalViewCollectionItem *item = gal_view_collection_get_view_item(collection, i);
 		ListenerClosure *closure;
-
+		char *label;
+		
 		menuitem = bonobo_ui_node_new_child(submenu, "menuitem");
 		bonobo_ui_node_set_attr(menuitem, "name", item->id);
 		bonobo_ui_node_set_attr(menuitem, "id", item->id);
@@ -309,11 +308,8 @@ build_menus(GalViewMenus *menus)
 		bonobo_ui_node_set_attr(command, "name", item->id);
                 bonobo_ui_node_set_attr(command, "group", "GalViewMenus");
 
-		/* bonobo displays this string so it must be in locale */
-		label = e_utf8_to_locale_string(item->title);
-		encoded_label = bonobo_ui_util_encode_str (label);
-		bonobo_ui_node_set_attr(menuitem, "label", encoded_label);
-		g_free (encoded_label);
+		label = bonobo_ui_util_encode_str (item->title);
+		bonobo_ui_node_set_attr(menuitem, "label", label);
 		g_free (label);
 
 		closure            = g_new (ListenerClosure, 1);
