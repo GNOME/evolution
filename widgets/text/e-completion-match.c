@@ -69,12 +69,13 @@ e_completion_match_ref (ECompletionMatch *match)
 void
 e_completion_match_unref (ECompletionMatch *match)
 {
-	g_return_if_fail (match != NULL);
-	g_return_if_fail (match->ref > 0);
+	if (match) {
+		g_return_if_fail (match->ref > 0);
 
-	--match->ref;
-	if (match->ref == 0) {
-		e_completion_match_destroy (match);
+		--match->ref;
+		if (match->ref == 0) {
+			e_completion_match_destroy (match);
+		}
 	}
 }
 
@@ -128,11 +129,11 @@ e_completion_match_compare (const ECompletionMatch *a, const ECompletionMatch *b
 		return a ? -1 : 1;
 	}
 
-	/* Sort the scores high->low. */
-	if ( (rv = (b->score > a->score) - (a->score > b->score)) )
+	if ( (rv = (b->sort_major < a->sort_major) - (a->sort_major < b->sort_major)) )
 		return rv;
 
-	if ( (rv = (b->sort_major < a->sort_major) - (a->sort_major < b->sort_major)) )
+	/* Sort the scores high->low. */
+	if ( (rv = (b->score > a->score) - (a->score > b->score)) )
 		return rv;
 
 	if ( (rv = (b->sort_minor < a->sort_minor) - (a->sort_minor < b->sort_minor)) )
@@ -153,19 +154,18 @@ e_completion_match_compare_alpha (const ECompletionMatch *a, const ECompletionMa
 		return a ? -1 : 1;
 	}
 
+	/* The sort_major trumps everything. */
+	if ( (rv = (b->sort_major < a->sort_major) - (a->sort_major < b->sort_major)) )
+		return rv;
+
 	/* Sort the scores high->low. */
 	if ( (rv = (b->score > a->score) - (a->score > b->score)) )
 		return rv;
 
-	/* When the match text is the same, we use the major and minor fields */
+	/* When the match text is the same, we use the minor fields */
 	rv2 = strcmp (a->match_text, b->match_text);
-	if (!rv2) {
-		if ( (rv = (b->sort_major < a->sort_major) - (a->sort_major < b->sort_major)) )
-			return rv;
-
-		if ( (rv = (b->sort_minor < a->sort_minor) - (a->sort_minor < b->sort_minor)) )
-			return rv;
-	}
+	if ( !rv2 && (rv = (b->sort_minor < a->sort_minor) - (a->sort_minor < b->sort_minor)) )
+		return rv;
 
 	return strcmp (a->menu_text, b->menu_text);
 }
