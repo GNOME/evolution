@@ -1,3 +1,7 @@
+2004-04-27  Larry Ewing  <lewing@ximian.com>
+
+	* gui/component/addressbook-config.c: remove debug spew.
+
 2004-04-27  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* gui/component/addressbook-migrate.c (addressbook_migrate):

@@ -642,10 +642,9 @@ general_tab_check (AddressbookSourceDialog *dialog)
 		return TRUE;
 
 	string = gtk_entry_get_text (GTK_ENTRY (dialog->host));
-	if (!string || !string[0]) {
+	if (!string || !string[0])
 		valid = FALSE;
-		g_warning ("no host");
-	}
+
 	if (valid) {
 		if (dialog->auth != ADDRESSBOOK_LDAP_AUTH_NONE) {
 			if (dialog->auth == ADDRESSBOOK_LDAP_AUTH_SIMPLE_BINDDN)
@@ -653,10 +652,8 @@ general_tab_check (AddressbookSourceDialog *dialog)
 			else
 				string = gtk_entry_get_text (GTK_ENTRY (dialog->email));
 
-			if (!string || !string[0]) {
-				g_warning ("no string");
+			if (!string || !string[0])
 				valid = FALSE;
-			}
 		}
 	}
 
@@ -1008,8 +1005,6 @@ add_folder_modify (GtkWidget *widget, AddressbookSourceDialog *sdialog)
 {
 	gboolean valid = TRUE;
 	gboolean remote = FALSE;
-
-	g_warning ("Modify callback");
 
 	valid = display_name_check (sdialog);
 	remote = source_group_is_remote (sdialog->source_group);
