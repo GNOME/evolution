@@ -23,10 +23,12 @@
  */
 
 #include "camel-folder-summary.h"
+#include "camel-nntp-resp-codes.h"
 #include "camel-nntp-folder.h"
 #include "camel-nntp-store.h"
 #include "camel-nntp-utils.h"
 #include "camel-stream-mem.h"
+#include "camel-exception.h"
 
 #include <stdlib.h>
 #include <string.h>
@@ -38,12 +40,12 @@ get_OVER_headers(CamelNNTPStore *nntp_store, CamelFolder *folder,
 	int status;
 	CamelNNTPFolder *nntp_folder = CAMEL_NNTP_FOLDER (folder);
 
-	status = camel_nntp_command (nntp_store, NULL,
+	status = camel_nntp_command (nntp_store, ex, NULL,
 				     "XOVER %d-%d",
 				     first_message,
 				     last_message);
 
-	if (status == CAMEL_NNTP_OK) {
+	if (status == NNTP_DATA_FOLLOWS) {
 		gboolean done = FALSE;
 
 		while (!done) {
@@ -106,6 +108,10 @@ get_OVER_headers(CamelNNTPStore *nntp_store, CamelFolder *folder,
 			g_free (line);
 		}
 	}
+	else {
+		/* XXX */
+		g_warning ("weird nntp response for XOVER: %d\n", status);
+	}
 }
 
 #if 0
@@ -117,10 +123,10 @@ get_HEAD_headers(CamelNNTPStore *nntp_store, CamelFolder *folder,
 	int status;
 
 	for (i = first_message; i < last_message; i ++) {
-		status = camel_nntp_command (nntp_store, NULL,
+		status = camel_nntp_command (nntp_store, ex, NULL,
 					     "HEAD %d", i);
 
-		if (status == CAMEL_NNTP_OK) {
+		if (status == NNTP_HEAD_FOLLOWS) {
 			gboolean done = FALSE;
 			char *buf;
 			int buf_len;
@@ -215,15 +221,18 @@ camel_nntp_get_headers (CamelStore *store,
 	int first_message, nb_message, last_message;
 	int status;
 
-	status = camel_nntp_command (nntp_store, &ret,
+	status = camel_nntp_command (nntp_store, ex, &ret,
 				     "GROUP %s", CAMEL_NNTP_FOLDER (folder)->group_name);
 
 	sscanf (ret, "%d %d %d", &nb_message, &first_message, &last_message);
 	g_free (ret);
 
-	if (status != CAMEL_NNTP_OK) {
+	if (status == NNTP_NO_SUCH_GROUP) {
 		/* XXX throw invalid group exception */
-		printf ("invalid group\n");
+		camel_exception_setv (ex, 
+				      CAMEL_EXCEPTION_FOLDER_INVALID,
+				      "group %s not found on server",
+				      CAMEL_NNTP_FOLDER (folder)->group_name);
 		return;
 	}
 

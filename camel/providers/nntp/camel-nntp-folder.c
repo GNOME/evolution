@@ -35,6 +35,7 @@
 #include <fcntl.h>
 
 #include "camel-folder-summary.h"
+#include "camel-nntp-resp-codes.h"
 #include "camel-nntp-store.h"
 #include "camel-nntp-folder.h"
 #include "camel-nntp-store.h"
@@ -85,12 +86,6 @@ nntp_folder_init (CamelFolder *folder, CamelStore *parent_store,
 
 	/* XX */
 	nntp_folder->group_name = g_strdup (strrchr (name, '/') + 1);
-
-#if 0
-	/* get (or create) uid list */
-	if (!(nntp_load_uid_list (nntp_folder) > 0))
-		nntp_generate_uid_list (nntp_folder);
-#endif
 }
 
 static void
@@ -209,14 +204,19 @@ nntp_folder_get_message (CamelFolder *folder, const gchar *uid, CamelException *
 	parent_store = camel_folder_get_parent_store (folder);
 
 	message_id = strchr (uid, ',') + 1;
-	status = camel_nntp_command (CAMEL_NNTP_STORE( parent_store ), NULL, "ARTICLE %s", message_id);
+	status = camel_nntp_command (CAMEL_NNTP_STORE( parent_store ), ex, NULL, "ARTICLE %s", message_id);
 
 	/* if the message_id was not found, raise an exception and return */
-	if (status != CAMEL_NNTP_OK) {
+	if (status == NNTP_NO_SUCH_ARTICLE) {
 		camel_exception_setv (ex, 
 				     CAMEL_EXCEPTION_FOLDER_INVALID_UID,
 				     "message %s not found.",
 				      message_id);
+		return NULL;
+	}
+	else if (status != NNTP_ARTICLE_FOLLOWS) {
+		/* XXX */
+		g_warning ("weird nntp error %d\n", status);
 		return NULL;
 	}
 
@@ -394,4 +394,17 @@ camel_nntp_folder_get_type (void)
 	}
 	
 	return camel_nntp_folder_type;
+}
+
+CamelFolder *
+camel_nntp_folder_new (CamelStore *parent, const char *folder_name, CamelException *ex)
+{
+	CamelFolder *new_folder = CAMEL_FOLDER (camel_object_new (CAMEL_NNTP_FOLDER_TYPE));
+
+	CF_CLASS (new_folder)->init (new_folder, parent, NULL,
+				     folder_name, ".", FALSE, ex);
+
+	CF_CLASS (new_folder)->refresh_info (new_folder, ex);
+
+	return new_folder;
 }

@@ -1,3 +1,44 @@
+2000-09-05  Chris Toshok  <toshok@helixcode.com>
+
+	* providers/nntp/camel-nntp-utils.c (get_OVER_headers): care about
+	response code.
+	(get_HEAD_headers): same.
+	(camel_nntp_get_headers): same.
+
+	* providers/nntp/camel-nntp-store.h: get rid of
+	CAMEL_NNTP_OK/ERR/FAIL.
+
+	* providers/nntp/camel-nntp-store.c
+	(camel_nntp_store_get_extensions): take CamelException arg and
+	pass along to camel_nntp_command.
+	(camel_nntp_store_get_overview_fmt): same.
+	(nntp_store_connect): convert to using constants in
+	camel-nntp-resp-codes.h
+	(nntp_store_get_folder): make use of camel_nntp_folder_new.
+	(camel_nntp_command_send_recv): new function to deal with auth
+	challenge.
+	(camel_nntp_command): split out most of this function into
+	camel_nntp_command_send_recv.  also, return the actual response
+	code instead of CAMEL_NNTP_OK/ERR/FAIL.
+
+	* providers/nntp/camel-nntp-resp-codes.h: new file.
+
+	* providers/nntp/camel-nntp-folder.h: prototype for
+	camel_nntp_folder_new.
+
+	* providers/nntp/camel-nntp-folder.c (camel_nntp_folder_new): new
+	convenience function.
+	(nntp_folder_get_message): care more about the actual response
+	code.
+
+	* providers/nntp/Makefile.am (libcamelnntp_la_SOURCES): add
+	camel-nntp-auth.c.
+	(libcamelnntpinclude_HEADERS): add camel-nntp-auth.h.
+
+	* providers/nntp/camel-nntp-auth.h: new file.
+
+	* providers/nntp/camel-nntp-auth.c: new file.
+
 2000-09-05  Peter Williams  <peterw@helixcode.com>
 
 	* providers/imap/camel-imap-store.c (imap_folder_exists): Don't free the

@@ -18,6 +18,7 @@ INCLUDES = -I../..				\
 	-DG_LOG_DOMAIN=\"camel-nntp-provider\"
 
 libcamelnntp_la_SOURCES = 			\
+	camel-nntp-auth.c			\
 	camel-nntp-folder.c			\
 	camel-nntp-newsrc.c			\
 	camel-nntp-provider.c			\
@@ -25,6 +26,7 @@ libcamelnntp_la_SOURCES = 			\
 	camel-nntp-utils.c
 
 libcamelnntpinclude_HEADERS =			\
+	camel-nntp-resp-codes.h			\
 	camel-nntp-folder.h			\
 	camel-nntp-newsrc.h			\
 	camel-nntp-store.h			\

@@ -35,16 +35,16 @@
 
 #include "libgnome/libgnome.h"
 
+#include "camel-nntp-resp-codes.h"
 #include "camel-folder-summary.h"
 #include "camel-nntp-store.h"
 #include "camel-nntp-folder.h"
+#include "camel-nntp-auth.h"
 #include "camel-exception.h"
 #include "camel-url.h"
 #include "string-utils.h"
 
 #define NNTP_PORT 119
-
-#define DUMP_EXTENSIONS
 
 static CamelRemoteStoreClass *remote_store_class = NULL;
 
@@ -58,11 +58,11 @@ static CamelServiceClass *service_class = NULL;
 static gboolean ensure_news_dir_exists (CamelNNTPStore *store);
 
 static void
-camel_nntp_store_get_extensions (CamelNNTPStore *store)
+camel_nntp_store_get_extensions (CamelNNTPStore *store, CamelException *ex)
 {
 	store->extensions = 0;
 
-	if (CAMEL_NNTP_OK == camel_nntp_command (store, NULL, "LIST EXTENSIONS")) {
+	if (camel_nntp_command (store, ex, NULL, "LIST EXTENSIONS") == NNTP_LIST_FOLLOWS) {
 		gboolean done = FALSE;
 		CamelException ex;
 
@@ -113,19 +113,16 @@ camel_nntp_store_get_extensions (CamelNNTPStore *store)
 }
 
 static void
-camel_nntp_store_get_overview_fmt (CamelNNTPStore *store)
+camel_nntp_store_get_overview_fmt (CamelNNTPStore *store, CamelException *ex)
 {
 	int status;
 	int i;
 	gboolean done = FALSE;
-	CamelException ex;
 
-	camel_exception_init (&ex);
-
-	status = camel_nntp_command (store, NULL,
+	status = camel_nntp_command (store, ex, NULL,
 				     "LIST OVERVIEW.FMT");
 
-	if (status != CAMEL_NNTP_OK) {
+	if (status != NNTP_LIST_FOLLOWS) {
 		/* if we can't get the overview format, we should
                    disable OVER support */
 		g_warning ("server reported support of OVER but LIST OVERVIEW.FMT failed."
@@ -144,7 +141,7 @@ camel_nntp_store_get_overview_fmt (CamelNNTPStore *store)
 	while (!done) {
 		char *line;
 
-		if (camel_remote_store_recv_line (CAMEL_REMOTE_STORE (store), &line, &ex) < 0)
+		if (camel_remote_store_recv_line (CAMEL_REMOTE_STORE (store), &line, ex) < 0)
 			break; /* XXX */
 
 		if (*line == '.') {
@@ -227,11 +224,11 @@ nntp_store_connect (CamelService *service, CamelException *ex)
 
 	/* check if posting is allowed. */
 	resp_code = atoi (buf);
-	if (resp_code == 200) {
+	if (resp_code == NNTP_GREETING_POSTING_OK) {
 		g_print ("posting allowed\n");
 		store->posting_allowed = TRUE;
 	}
-	else if (resp_code == 201) {
+	else if (resp_code == NNTP_GREETING_NO_POSTING) {
 		g_print ("no posting allowed\n");
 		store->posting_allowed = FALSE;
 	}
@@ -243,11 +240,11 @@ nntp_store_connect (CamelService *service, CamelException *ex)
 	g_free (buf);
 
 	/* get a list of extensions that the server supports */
-	camel_nntp_store_get_extensions (store);
+	camel_nntp_store_get_extensions (store, ex);
 
 	/* if the server supports the OVER extension, get the overview.fmt */
 	if (store->extensions & CAMEL_NNTP_EXT_OVER)
-		camel_nntp_store_get_overview_fmt (store);
+		camel_nntp_store_get_overview_fmt (store, ex);
 
 	return TRUE;
 }
@@ -257,11 +254,7 @@ nntp_store_disconnect (CamelService *service, CamelException *ex)
 {
 	CamelNNTPStore *store = CAMEL_NNTP_STORE (service);
 
-	/*if (!service->connected)
-	 *	return TRUE;
-	 */
-
-	camel_nntp_command (store, NULL, "QUIT");
+	camel_nntp_command (store, ex, NULL, "QUIT");
 
 	if (store->newsrc)
 		camel_nntp_newsrc_write (store->newsrc);
@@ -283,8 +276,6 @@ static CamelFolder *
 nntp_store_get_folder (CamelStore *store, const gchar *folder_name,
 		       gboolean get_folder, CamelException *ex)
 {
-	CamelNNTPFolder *new_nntp_folder;
-	CamelFolder *new_folder;
 	CamelNNTPStore *nntp_store = CAMEL_NNTP_STORE (store);
 
 	printf ("get_folder called on folder_name=%s\n", folder_name);
@@ -302,23 +293,7 @@ nntp_store_get_folder (CamelStore *store, const gchar *folder_name,
 		return NULL;
 	}
 
-	/* check if folder has already been created */
-	/* call the standard routine for that when  */
-	/* it is done ... */
-
-	new_nntp_folder =  CAMEL_NNTP_FOLDER (camel_object_new (CAMEL_NNTP_FOLDER_TYPE));
-	new_folder = CAMEL_FOLDER (new_nntp_folder);
-	
-	/* XXX We shouldn't be passing NULL here, but it's equivalent to
-	 * what was there before, and there's no
-	 * CamelNNTPFolder::get_subfolder yet anyway...
-	 */
-	CF_CLASS (new_folder)->init (new_folder, store, NULL,
-				     folder_name, ".", FALSE, ex);
-
-	CF_CLASS (new_folder)->refresh_info (new_folder, ex);
-
-	return new_folder;
+	return camel_nntp_folder_new (store, folder_name, ex);
 }
 
 static void
@@ -396,22 +371,63 @@ camel_nntp_store_get_type (void)
  * no extended response, @ret will be set to NULL.) The caller must
  * free this buffer when it is done with it.
  *
- * Return value: one of CAMEL_NNTP_OK (command executed successfully),
- * CAMEL_NNTP_ERR (command encounted an error), or CAMEL_NNTP_FAIL
- * (a protocol-level error occurred, and Camel is uncertain of the
- * result of the command.)
+ * Return value: the response code of the nntp command.
  **/
-int
-camel_nntp_command (CamelNNTPStore *store, char **ret, char *fmt, ...)
+static int
+camel_nntp_command_send_recv (CamelNNTPStore *store, CamelException *ex, char **ret, char *cmd)
 {
-	char *cmdbuf, *respbuf;
+	char *respbuf;
+	int resp_code;
+	gboolean again;
+
+	do {
+		again = FALSE;
+
+		/* Send the command */
+		if (camel_remote_store_send_string (CAMEL_REMOTE_STORE (store), ex, cmd) < 0) {
+			return NNTP_PROTOCOL_ERROR;
+		}
+
+		/* Read the response */
+		if (camel_remote_store_recv_line (CAMEL_REMOTE_STORE (store), &respbuf, ex) < 0) {
+			if (ret)
+				*ret = g_strdup (g_strerror (errno));
+			return NNTP_PROTOCOL_ERROR;
+		}
+
+		resp_code = atoi (respbuf);
+
+		/* this is kind of a gross hack, but since an auth challenge
+		   can pop up at any time, and we want to shield this from our
+		   callers, we handle authentication here. */
+		if (resp_code == NNTP_AUTH_REQUIRED) {
+			resp_code = camel_nntp_auth_authenticate (store, ex);
+			if (resp_code != NNTP_AUTH_ACCEPTED) {
+				return resp_code;
+			}
+
+			/* need to resend our command here */
+			again = TRUE;
+		}
+	} while (again);
+
+	if (ret) {
+		*ret = strchr (respbuf, ' ');
+		if (*ret)
+			*ret = g_strdup (*ret + 1);
+	}
+	g_free (respbuf);
+
+	return resp_code;
+}
+
+int
+camel_nntp_command (CamelNNTPStore *store, CamelException *ex, char **ret, char *fmt, ...)
+{
+	char *cmdbuf;
 	va_list ap;
-	int status;
 	int resp_code;
 	char *real_fmt;
-	CamelException ex;
-
-	camel_exception_init (&ex);
 
 	real_fmt = g_strdup_printf ("%s\r\n", fmt);
 
@@ -421,38 +437,11 @@ camel_nntp_command (CamelNNTPStore *store, char **ret, char *fmt, ...)
 
 	g_free (real_fmt);
 
-	/* Send the command */
-	if (camel_remote_store_send_string (CAMEL_REMOTE_STORE (store), &ex, cmdbuf) < 0) {
-		g_free (cmdbuf);
-		return CAMEL_NNTP_FAIL;
-	}
+	resp_code = camel_nntp_command_send_recv (store, ex, ret, cmdbuf);
 
 	g_free (cmdbuf);
 
-	/* Read the response */
-	if (camel_remote_store_recv_line (CAMEL_REMOTE_STORE (store), &respbuf, &ex) < 0) {
-		if (ret)
-			*ret = g_strdup (g_strerror (errno));
-		return CAMEL_NNTP_FAIL;
-	}
-
-	resp_code = atoi (respbuf);
-		
-	if (resp_code < 400)
-		status = CAMEL_NNTP_OK;
-	else if (resp_code < 500)
-		status = CAMEL_NNTP_ERR;
-	else
-		status = CAMEL_NNTP_FAIL;
-	
-	if (ret) {
-		*ret = strchr (respbuf, ' ');
-		if (*ret)
-			*ret = g_strdup (*ret + 1);
-	}
-	g_free (respbuf);
-	
-	return status;
+	return resp_code;
 }
 
 void
@@ -469,8 +458,8 @@ camel_nntp_store_subscribe_group (CamelStore *store,
 		return;
 	}
 
-	if (CAMEL_NNTP_OK  == camel_nntp_command ( CAMEL_NNTP_STORE (store),
-						   &ret, "GROUP %s", group_name)) {
+	if (camel_nntp_command ( CAMEL_NNTP_STORE (store),
+				 ex, &ret, "GROUP %s", group_name) == NNTP_GROUP_SELECTED) {
 		/* we create an empty summary file here, so that when
                    the group is opened we'll know we need to build it. */
 		gchar *summary_file;

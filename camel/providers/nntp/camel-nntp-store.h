@@ -99,8 +99,7 @@ GList *camel_nntp_store_list_subscribed_groups(CamelStore *store);
 gchar *camel_nntp_store_get_toplevel_dir (CamelNNTPStore *store);
 
 /* support functions */
-enum { CAMEL_NNTP_OK, CAMEL_NNTP_ERR, CAMEL_NNTP_FAIL };
-int camel_nntp_command (CamelNNTPStore *store, char **ret, char *fmt, ...);
+int camel_nntp_command (CamelNNTPStore *store, CamelException *ex, char **ret, char *fmt, ...);
 
 /* Standard Camel function */
 CamelType camel_nntp_store_get_type (void);
