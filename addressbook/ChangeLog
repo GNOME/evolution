@@ -3,7 +3,8 @@
 	* backend/ebook/e-card.c (e_card_name_match_string): Changed the
 	criteria of whether the first part of each iteration matched or
 	the second one did.  Before it got it wrong sometimes and caused
-	the pointer to jump off the end of the array.
+	the pointer to jump off the end of the array.  Fixes Ximian bug
+	#4674.
 
 2001-08-03  Jason Leach  <jleach@ximian.com>
 
