@@ -1,5 +1,10 @@
 2001-10-26  Ettore Perazzoli  <ettore@ximian.com>
 
+	* main.c (quit_box_new): Use gtk_widget_show_now() so the stupid
+	dialog hopefully displays all the time.
+
+2001-10-26  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-view.c (set_current_notebook_page): Clear the folder bar
 	label to be empty.  [#12553]
 

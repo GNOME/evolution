@@ -92,9 +92,9 @@ quit_box_new (void)
 
 	gtk_container_add (GTK_CONTAINER (frame), label);
 
-	gtk_widget_show (frame);
-	gtk_widget_show (label);
-	gtk_widget_show (window);
+	gtk_widget_show_now (frame);
+	gtk_widget_show_now (label);
+	gtk_widget_show_now (window);
 
 	/* For some reason, the window fails to update without this
 	   sometimes.  */
