@@ -12,11 +12,16 @@
 #include <string.h>
 #include <gtk/gtk.h>
 #include <gnome.h>
+#include <config.h>
 
 #include "gncal.h"
-#include "menus.h"
 #include "calcs.h"
 
+static GtkMenuEntry menu_items[] =
+{
+        {"File/Exit", "<control>Q", menu_file_quit, NULL},
+        {"Help/About", NULL, menu_help_about, NULL},
+};
 
 #define DAY_ARRAY_MAX 35
 /* The naughty global variables */
@@ -28,8 +33,21 @@ GtkWidget *year_label;
 GtkWidget *dailylist;
 GtkWidget *calendar_days[DAY_ARRAY_MAX];
 GtkWidget *calendar_buttons[DAY_ARRAY_MAX];
+GtkWidget *app;
 
+#define ELEMENTS(x) (sizeof (x) / sizeof (x [0]))
 
+GtkMenuFactory *
+create_menu () 
+{
+  GtkMenuFactory *subfactory;
+  int i;
+
+  subfactory = gtk_menu_factory_new  (GTK_MENU_FACTORY_MENU_BAR);
+  gtk_menu_factory_add_entries (subfactory, menu_items, ELEMENTS(menu_items));
+
+  return subfactory;
+}
 
 /* place marker until i get get something better */
 void print_error(char *text)
@@ -56,9 +74,20 @@ void menu_file_quit(GtkWidget *widget, gpointer data)
 
 void menu_help_about(GtkWidget *widget, gpointer data)
 {
-	GtkWidget *msgbox;
-	msgbox = gnome_messagebox_new("gncal v0.01 by Craig Small <csmall@small.dropbear.id.au>", "info", "OK", NULL, NULL);
-	gtk_widget_show(msgbox);
+	GtkWidget *about;
+	gchar *authors[] = {
+		"Craig Small <csmall@small.dropbear.id.au>",
+		NULL };
+	about = gnome_about_new("Gnome Calendar", VERSION,
+				"(C) 1998",
+				authors,
+				/* Comments */
+				"This program shows a nice pretty "
+				"calendar and will do scheduling "
+				"real soon now!",
+				NULL);
+				
+	gtk_widget_show(about);
 }
 
 void dailylist_item_select(GtkWidget *widget, gpointer data)
@@ -251,10 +280,10 @@ void test_foreach(GtkWidget *widget, gpointer data)
 
 void show_main_window()
 {
-        GtkWidget *window;
 	GtkWidget *main_vbox;
-	GtkWidget *menubar;
-	GtkAcceleratorTable *accel;
+	/*GtkWidget *menubar;
+	GtkAcceleratorTable *accel;*/
+	GtkMenuFactory *menuf;
 	GtkWidget *main_hbox;
 	GtkWidget *left_vbox;
 	GtkWidget *right_vbox;
@@ -281,20 +310,21 @@ void show_main_window()
 	char buf[50];
 
 	bzero((char*)&tm, sizeof(struct tm));
-	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	gtk_signal_connect(GTK_OBJECT(window), "destroy",
-		GTK_SIGNAL_FUNC(menu_file_quit), NULL);
-	gtk_window_set_title(GTK_WINDOW(window), "Gnome Calendar");
-	gtk_widget_set_usize(GTK_WIDGET(window), 600, 400);
+	app = gnome_app_new("gncal", "Gnome Calendar");
+	gtk_widget_realize(app);
+	gtk_signal_connect(GTK_OBJECT(app), "delete_event",
+			   GTK_SIGNAL_FUNC(menu_file_quit), NULL);
 
 	main_vbox = gtk_vbox_new(FALSE, 1);
-	gtk_container_add(GTK_CONTAINER(window), main_vbox);
+	gnome_app_set_contents(GNOME_APP(app), main_vbox);
 	gtk_widget_show(main_vbox);
 
-	get_main_menu(&menubar, &accel);
+	menuf = create_menu();
+	gnome_app_set_menus(GNOME_APP(app), GTK_MENU_BAR(menuf->widget));
+	/*get_main_menu(&menubar, &accel);
 	gtk_window_add_accelerator_table(GTK_WINDOW(window), accel);
 	gtk_box_pack_start(GTK_BOX(main_vbox), menubar, FALSE, FALSE, 0);
-	gtk_widget_show(menubar);
+	gtk_widget_show(menubar);*/
 
 	main_hbox = gtk_hbox_new(FALSE,1);
 	gtk_box_pack_start(GTK_BOX(main_vbox), main_hbox, TRUE, TRUE, 0);
@@ -424,7 +454,7 @@ void show_main_window()
 		gtk_container_add(GTK_CONTAINER(dailylist_item), event_label);
 		gtk_widget_show(event_label);
 	}
-	gtk_widget_show(window);
+	gtk_widget_show(app);
 
 }
 
@@ -433,7 +463,6 @@ int main(int argc, char *argv[])
 {
 
 	gnome_init(&argc, &argv);
-
 
 	show_main_window();
 
