@@ -332,6 +332,7 @@ init (EItipControl *itip)
 	priv->html = gtk_html_new ();
 	gtk_html_set_default_content_type (GTK_HTML (priv->html), 
 					   "text/html; charset=utf-8");
+	gtk_html_load_from_string (GTK_HTML (priv->html), " ", 1);
 	gtk_widget_show (priv->html);
 
 	scrolled_window = gtk_scrolled_window_new (NULL, NULL);
@@ -1595,10 +1596,11 @@ e_itip_control_set_data (EItipControl *itip, const gchar *text)
 
 	clean_up (itip);
 
-	priv->comp = NULL;
-	priv->total = 0;
-	priv->current = 0;
-
+	if (text == NULL || *text == '\0') {
+		gtk_html_load_from_string (GTK_HTML (priv->html), " ", 1);
+		return;
+	}
+	
 	priv->vcalendar = g_strdup (text);
 	priv->top_level = cal_util_new_top_level ();
 
