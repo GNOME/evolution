@@ -1,3 +1,10 @@
+2005-02-04  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #65329
+
+	* em-folder-properties.c (emfp_dialog_got_folder): translate
+	local-store special folders.
+
 2005-02-01  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #71312.

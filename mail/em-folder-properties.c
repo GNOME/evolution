@@ -43,6 +43,7 @@
 
 #include "em-folder-properties.h"
 
+#include "mail-component.h"
 #include "mail-ops.h"
 #include "mail-mt.h"
 #include "mail-vfolder.h"
@@ -135,7 +136,15 @@ emfp_dialog_got_folder (char *uri, CamelFolder *folder, void *data)
 	gtk_box_pack_start ((GtkBox *) ((GtkDialog *) dialog)->vbox, vbox, TRUE, TRUE, 0);
 	gtk_widget_show (vbox);
 
-	title = g_strdup_printf ("<b>%s</b>", name);
+	if (folder->parent_store == mail_component_peek_local_store(NULL)
+	    && (!strcmp(name, "Drafts")
+		|| !strcmp(name, "Inbox")
+		|| !strcmp(name, "Outbox")
+		|| !strcmp(name, "Sent")))
+		title = g_strdup_printf("<b>%s</b>", _(name));
+	else
+		title = g_strdup_printf ("<b>%s</b>", name);
+
 	label = gtk_label_new (title);
 	gtk_label_set_use_markup ((GtkLabel *) label, TRUE);
 	gtk_misc_set_alignment ((GtkMisc *) label, 0.0, 0.5);
