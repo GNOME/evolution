@@ -1197,4 +1197,4 @@ evolution_shell_component_result_to_string (EvolutionShellComponentResult result
 E_MAKE_X_TYPE (evolution_shell_component, "EvolutionShellComponent", EvolutionShellComponent,
 	       class_init, init, PARENT_TYPE,
 	       POA_GNOME_Evolution_ShellComponent__init,
-	       GTK_STRUCT_OFFSET (EvolutionShellComponentClass, epv))
+	       G_STRUCT_OFFSET (EvolutionShellComponentClass, epv))

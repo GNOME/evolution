@@ -706,102 +706,111 @@ class_init (EvolutionStorageClass *klass)
 
 	parent_class = g_type_class_ref(PARENT_TYPE);
 
-	signals[CREATE_FOLDER] = gtk_signal_new ("create_folder",
-						 GTK_RUN_LAST,
-						 GTK_CLASS_TYPE (object_class),
-						 G_STRUCT_OFFSET (EvolutionStorageClass,
-								    create_folder),
-						 e_shell_marshal_NONE__POINTER_STRING_STRING_STRING_STRING,
-						 GTK_TYPE_NONE, 5,
-						 GTK_TYPE_POINTER,
-						 GTK_TYPE_STRING,
-						 GTK_TYPE_STRING,
-						 GTK_TYPE_STRING,
-						 GTK_TYPE_STRING);
+	signals[CREATE_FOLDER] 
+		= g_signal_new ("create_folder",
+				G_OBJECT_CLASS_TYPE (object_class),
+				G_SIGNAL_RUN_LAST,
+				G_STRUCT_OFFSET (EvolutionStorageClass, create_folder),
+				NULL, NULL,
+				e_shell_marshal_NONE__POINTER_STRING_STRING_STRING_STRING,
+				G_TYPE_NONE, 5,
+				G_TYPE_POINTER,
+				G_TYPE_STRING,
+				G_TYPE_STRING,
+				G_TYPE_STRING,
+				G_TYPE_STRING);
 
-	signals[REMOVE_FOLDER] = gtk_signal_new ("remove_folder",
-						 GTK_RUN_LAST,
-						 GTK_CLASS_TYPE (object_class),
-						 G_STRUCT_OFFSET (EvolutionStorageClass,
-								    remove_folder),
-						 e_shell_marshal_NONE__POINTER_STRING_STRING,
-						 GTK_TYPE_NONE, 3,
-						 GTK_TYPE_POINTER,
-						 GTK_TYPE_STRING,
-						 GTK_TYPE_STRING);
+	signals[REMOVE_FOLDER] 
+		= g_signal_new ("remove_folder",
+				G_OBJECT_CLASS_TYPE (object_class),
+				G_SIGNAL_RUN_LAST,
+				G_STRUCT_OFFSET (EvolutionStorageClass, remove_folder),
+				NULL, NULL,
+				e_shell_marshal_NONE__POINTER_STRING_STRING,
+				G_TYPE_NONE, 3,
+				G_TYPE_POINTER,
+				G_TYPE_STRING,
+				G_TYPE_STRING);
 
-	signals[XFER_FOLDER] = gtk_signal_new ("xfer_folder",
-					       GTK_RUN_LAST,
-					       GTK_CLASS_TYPE (object_class),
-					       G_STRUCT_OFFSET (EvolutionStorageClass,
-								  xfer_folder),
-					       e_shell_marshal_NONE__POINTER_STRING_STRING_BOOL,
-					       GTK_TYPE_NONE, 4,
-					       GTK_TYPE_POINTER,
-					       GTK_TYPE_STRING,
-					       GTK_TYPE_STRING,
-					       GTK_TYPE_BOOL);
+	signals[XFER_FOLDER] 
+		= g_signal_new ("xfer_folder",
+				G_OBJECT_CLASS_TYPE (object_class),
+				G_SIGNAL_RUN_LAST,
+				G_STRUCT_OFFSET (EvolutionStorageClass, xfer_folder),
+				NULL, NULL,
+				e_shell_marshal_NONE__POINTER_STRING_STRING_BOOL,
+				G_TYPE_NONE, 4,
+				G_TYPE_POINTER,
+				G_TYPE_STRING,
+				G_TYPE_STRING,
+				G_TYPE_BOOLEAN);
 	
-	signals[UPDATE_FOLDER] = gtk_signal_new ("update_folder",
-						 GTK_RUN_FIRST,
-						 GTK_CLASS_TYPE (object_class),
-						 G_STRUCT_OFFSET (EvolutionStorageClass,
-								    update_folder),
-						 e_shell_marshal_NONE__STRING_INT,
-						 GTK_TYPE_NONE, 2,
-						 GTK_TYPE_STRING,
-						 GTK_TYPE_INT);
+	signals[UPDATE_FOLDER] 
+		= g_signal_new ("update_folder",
+				G_OBJECT_CLASS_TYPE (object_class),
+				G_SIGNAL_RUN_FIRST,
+				G_STRUCT_OFFSET (EvolutionStorageClass, update_folder),
+				NULL, NULL,
+				e_shell_marshal_NONE__STRING_INT,
+				G_TYPE_NONE, 2,
+				G_TYPE_STRING,
+				G_TYPE_INT);
 
-	signals[OPEN_FOLDER] = gtk_signal_new ("open_folder",
-					       GTK_RUN_LAST,
-					       GTK_CLASS_TYPE (object_class),
-					       G_STRUCT_OFFSET (EvolutionStorageClass,
-								  open_folder),
-					       e_shell_marshal_NONE__STRING,
-					       GTK_TYPE_NONE, 1,
-					       GTK_TYPE_STRING);
+	signals[OPEN_FOLDER] 
+		= g_signal_new ("open_folder",
+				G_OBJECT_CLASS_TYPE (object_class),
+				G_SIGNAL_RUN_LAST,
+				G_STRUCT_OFFSET (EvolutionStorageClass, open_folder),
+				NULL, NULL,
+				e_shell_marshal_NONE__STRING,
+				G_TYPE_NONE, 1,
+				G_TYPE_STRING);
 
-	signals[DISCOVER_SHARED_FOLDER] = gtk_signal_new ("discover_shared_folder",
-							  GTK_RUN_LAST,
-							  GTK_CLASS_TYPE (object_class),
-							  G_STRUCT_OFFSET (EvolutionStorageClass,
-									     discover_shared_folder),
-							  e_shell_marshal_NONE__POINTER_STRING_STRING,
-							  GTK_TYPE_NONE, 3,
-							  GTK_TYPE_POINTER,
-							  GTK_TYPE_STRING,
-							  GTK_TYPE_STRING);
+	signals[DISCOVER_SHARED_FOLDER] 
+		= g_signal_new ("discover_shared_folder",
+				G_OBJECT_CLASS_TYPE (object_class),
+				G_SIGNAL_RUN_LAST,
+				G_STRUCT_OFFSET (EvolutionStorageClass, discover_shared_folder),
+				NULL, NULL,
+				e_shell_marshal_NONE__POINTER_STRING_STRING,
+				G_TYPE_NONE, 3,
+				G_TYPE_POINTER,
+				G_TYPE_STRING,
+				G_TYPE_STRING);
 
-	signals[CANCEL_DISCOVER_SHARED_FOLDER] = gtk_signal_new ("cancel_discover_shared_folder",
-								 GTK_RUN_LAST,
-								 GTK_CLASS_TYPE (object_class),
-								 G_STRUCT_OFFSET (EvolutionStorageClass,
-										    cancel_discover_shared_folder),
-								 e_shell_marshal_NONE__STRING_STRING,
-								 GTK_TYPE_NONE, 2,
-								 GTK_TYPE_STRING,
-								 GTK_TYPE_STRING);
+	signals[CANCEL_DISCOVER_SHARED_FOLDER] 
+		= g_signal_new ("cancel_discover_shared_folder",
+				G_OBJECT_CLASS_TYPE (object_class),
+				G_SIGNAL_RUN_LAST,
+				G_STRUCT_OFFSET (EvolutionStorageClass, cancel_discover_shared_folder),
+				NULL, NULL,
+				e_shell_marshal_NONE__STRING_STRING,
+				G_TYPE_NONE, 2,
+				G_TYPE_STRING,
+				G_TYPE_STRING);
 
-	signals[REMOVE_SHARED_FOLDER] = gtk_signal_new ("remove_shared_folder",
-							GTK_RUN_LAST,
-							GTK_CLASS_TYPE (object_class),
-							G_STRUCT_OFFSET (EvolutionStorageClass,
-									   remove_shared_folder),
-							e_shell_marshal_NONE__STRING_POINTER,
-							GTK_TYPE_NONE, 2,
-							GTK_TYPE_STRING,
-							GTK_TYPE_POINTER);
+	signals[REMOVE_SHARED_FOLDER] 
+		= g_signal_new ("remove_shared_folder",
+				G_OBJECT_CLASS_TYPE (object_class),
+				G_SIGNAL_RUN_LAST,
+				G_STRUCT_OFFSET (EvolutionStorageClass, remove_shared_folder),
+				NULL, NULL,
+				e_shell_marshal_NONE__STRING_POINTER,
+				G_TYPE_NONE, 2,
+				G_TYPE_STRING,
+				G_TYPE_POINTER);
 
-	signals[SHOW_FOLDER_PROPERTIES] = gtk_signal_new ("show_folder_properties",
-							  GTK_RUN_LAST,
-							  GTK_CLASS_TYPE (object_class),
-							  G_STRUCT_OFFSET (EvolutionStorageClass,
-									     show_folder_properties),
-							  e_shell_marshal_NONE__STRING_INT_INT,
-							  GTK_TYPE_NONE, 3,
-							  GTK_TYPE_STRING,
-							  GTK_TYPE_INT,
-							  GTK_TYPE_INT);
+	signals[SHOW_FOLDER_PROPERTIES] 
+		= g_signal_new ("show_folder_properties",
+				G_OBJECT_CLASS_TYPE (object_class),
+				G_SIGNAL_RUN_LAST,
+				G_STRUCT_OFFSET (EvolutionStorageClass, show_folder_properties),
+				NULL, NULL,
+				e_shell_marshal_NONE__STRING_INT_INT,
+				G_TYPE_NONE, 3,
+				G_TYPE_STRING,
+				G_TYPE_INT,
+				G_TYPE_INT);
 }
 
 static void

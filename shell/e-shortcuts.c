@@ -57,9 +57,8 @@
 
 #include <libgnome/gnome-i18n.h>
 
-#include <gal/util/e-util.h>
 #include <gal/util/e-xml-utils.h>
-#include <gal/widgets/e-unicode.h>
+#include <gal/util/e-util.h>
 #include <gal/shortcut-bar/e-shortcut-bar.h>
 
 #include "e-shortcuts-view.h"
@@ -134,12 +133,14 @@ shortcut_item_new (const char *uri,
 {
 	EShortcutItem *new;
 
-	if (name == NULL)
-		name = g_basename (uri);
-
 	new = g_new (EShortcutItem, 1);
+
+	if (name == NULL)
+		new->name = g_path_get_basename (uri);
+	else
+		new->name = g_strdup (type);
+
 	new->uri              = g_strdup (uri);
-	new->name             = g_strdup (name);
 	new->type             = g_strdup (type);
 	new->custom_icon_name = g_strdup (custom_icon_name);
 	new->unread_count     = unread_count;
@@ -155,10 +156,11 @@ shortcut_item_update (EShortcutItem *shortcut_item,
 		      const char *type,
 		      const char *custom_icon_name)
 {
+	char *base_name = g_path_get_basename (uri);
 	gboolean changed = FALSE;
 
 	if (name == NULL)
-		name = g_basename (uri);
+		name = base_name;
 
 	if (shortcut_item->unread_count != unread_count) {
 		shortcut_item->unread_count = unread_count;
@@ -179,6 +181,8 @@ shortcut_item_update (EShortcutItem *shortcut_item,
 	UPDATE_STRING (custom_icon_name);
 
 #undef UPDATE_STRING
+
+	g_free (base_name);
 
 	return changed;
 }
@@ -680,72 +684,79 @@ class_init (EShortcutsClass *klass)
 	parent_class = g_type_class_ref(gtk_object_get_type ());
 
 	signals[NEW_GROUP]
-		= gtk_signal_new ("new_group",
-				  GTK_RUN_FIRST,
-				  GTK_CLASS_TYPE (object_class),
-				  G_STRUCT_OFFSET (EShortcutsClass, new_group),
-				  e_shell_marshal_NONE__INT,
-				  GTK_TYPE_NONE, 1,
-				  GTK_TYPE_INT);
+		= g_signal_new ("new_group",
+				G_OBJECT_CLASS_TYPE (object_class),
+				G_SIGNAL_RUN_FIRST,
+				G_STRUCT_OFFSET (EShortcutsClass, new_group),
+				NULL, NULL,
+				e_shell_marshal_NONE__INT,
+				G_TYPE_NONE, 1,
+				G_TYPE_INT);
 
 	signals[REMOVE_GROUP]
-		= gtk_signal_new ("remove_group",
-				  GTK_RUN_FIRST,
-				  GTK_CLASS_TYPE (object_class),
-				  G_STRUCT_OFFSET (EShortcutsClass, remove_group),
-				  e_shell_marshal_NONE__INT,
-				  GTK_TYPE_NONE, 1,
-				  GTK_TYPE_INT);
+		= g_signal_new ("remove_group",
+				G_OBJECT_CLASS_TYPE (object_class),
+				G_SIGNAL_RUN_FIRST,
+				G_STRUCT_OFFSET (EShortcutsClass, remove_group),
+				NULL, NULL,
+				e_shell_marshal_NONE__INT,
+				G_TYPE_NONE, 1,
+				G_TYPE_INT);
 
 	signals[RENAME_GROUP]
-		= gtk_signal_new ("rename_group",
-				  GTK_RUN_FIRST,
-				  GTK_CLASS_TYPE (object_class),
-				  G_STRUCT_OFFSET (EShortcutsClass, rename_group),
-				  e_shell_marshal_NONE__INT_STRING,
-				  GTK_TYPE_NONE, 2,
-				  GTK_TYPE_INT,
-				  GTK_TYPE_STRING);
+		= g_signal_new ("rename_group",
+				G_OBJECT_CLASS_TYPE (object_class),
+				G_SIGNAL_RUN_FIRST,
+				G_STRUCT_OFFSET (EShortcutsClass, rename_group),
+				NULL, NULL,
+				e_shell_marshal_NONE__INT_STRING,
+				G_TYPE_NONE, 2,
+				G_TYPE_INT,
+				G_TYPE_STRING);
 
 	signals[GROUP_CHANGE_ICON_SIZE]
-		= gtk_signal_new ("group_change_icon_size",
-				  GTK_RUN_FIRST,
-				  GTK_CLASS_TYPE (object_class),
-				  G_STRUCT_OFFSET (EShortcutsClass, group_change_icon_size),
-				  e_shell_marshal_NONE__INT_INT,
-				  GTK_TYPE_NONE, 2,
-				  GTK_TYPE_INT,
-				  GTK_TYPE_INT);
+		= g_signal_new ("group_change_icon_size",
+				G_OBJECT_CLASS_TYPE (object_class),
+				G_SIGNAL_RUN_FIRST,
+				G_STRUCT_OFFSET (EShortcutsClass, group_change_icon_size),
+				NULL, NULL,
+				e_shell_marshal_NONE__INT_INT,
+				G_TYPE_NONE, 2,
+				G_TYPE_INT,
+				G_TYPE_INT);
 
 	signals[NEW_SHORTCUT]
-		= gtk_signal_new ("new_shortcut",
-				  GTK_RUN_FIRST,
-				  GTK_CLASS_TYPE (object_class),
-				  G_STRUCT_OFFSET (EShortcutsClass, new_shortcut),
-				  e_shell_marshal_NONE__INT_INT,
-				  GTK_TYPE_NONE, 2,
-				  GTK_TYPE_INT,
-				  GTK_TYPE_INT);
+		= g_signal_new ("new_shortcut",
+				G_OBJECT_CLASS_TYPE (object_class),
+				G_SIGNAL_RUN_FIRST,
+				G_STRUCT_OFFSET (EShortcutsClass, new_shortcut),
+				NULL, NULL,
+				e_shell_marshal_NONE__INT_INT,
+				G_TYPE_NONE, 2,
+				G_TYPE_INT,
+				G_TYPE_INT);
 
 	signals[REMOVE_SHORTCUT]
-		= gtk_signal_new ("remove_shortcut",
-				  GTK_RUN_FIRST,
-				  GTK_CLASS_TYPE (object_class),
-				  G_STRUCT_OFFSET (EShortcutsClass, remove_shortcut),
-				  e_shell_marshal_NONE__INT_INT,
-				  GTK_TYPE_NONE, 2,
-				  GTK_TYPE_INT,
-				  GTK_TYPE_INT);
+		= g_signal_new ("remove_shortcut",
+				G_OBJECT_CLASS_TYPE (object_class),
+				G_SIGNAL_RUN_FIRST,
+				G_STRUCT_OFFSET (EShortcutsClass, remove_shortcut),
+				NULL, NULL,
+				e_shell_marshal_NONE__INT_INT,
+				G_TYPE_NONE, 2,
+				G_TYPE_INT,
+				G_TYPE_INT);
 
 	signals[UPDATE_SHORTCUT]
-		= gtk_signal_new ("update_shortcut",
-				  GTK_RUN_FIRST,
-				  GTK_CLASS_TYPE (object_class),
-				  G_STRUCT_OFFSET (EShortcutsClass, update_shortcut),
-				  e_shell_marshal_NONE__INT_INT,
-				  GTK_TYPE_NONE, 2,
-				  GTK_TYPE_INT,
-				  GTK_TYPE_INT);
+		= g_signal_new ("update_shortcut",
+				G_OBJECT_CLASS_TYPE (object_class),
+				G_SIGNAL_RUN_FIRST,
+				G_STRUCT_OFFSET (EShortcutsClass, update_shortcut),
+				NULL, NULL,
+				e_shell_marshal_NONE__INT_INT,
+				G_TYPE_NONE, 2,
+				G_TYPE_INT,
+				G_TYPE_INT);
 }
 
 
@@ -1066,40 +1077,21 @@ void
 e_shortcuts_add_default_shortcuts (EShortcuts *shortcuts,
 				   int group_num)
 {
-	char *utf;
+	e_shortcuts_add_shortcut (shortcuts, 0, -1, E_SUMMARY_URI, _("Summary"), 0, "summary", NULL);
 
-	utf = e_utf8_from_locale_string (_("Summary"));
-	e_shortcuts_add_shortcut (shortcuts, 0, -1, E_SUMMARY_URI, utf, 0, "summary", NULL);
-	g_free (utf);
-
-	utf = e_utf8_from_locale_string (_("Inbox"));
-	e_shortcuts_add_shortcut (shortcuts, 0, -1, "default:mail", utf, 0, "mail", "inbox");
-	g_free (utf);
-
-	utf = e_utf8_from_locale_string (_("Calendar"));
-	e_shortcuts_add_shortcut (shortcuts, 0, -1, "default:calendar", utf, 0, "calendar", NULL);
-	g_free (utf);
-
-	utf = e_utf8_from_locale_string (_("Tasks"));
-	e_shortcuts_add_shortcut (shortcuts, 0, -1, "default:tasks", utf, 0, "tasks", NULL);
-	g_free (utf);
-
-	utf = e_utf8_from_locale_string (_("Contacts"));
-	e_shortcuts_add_shortcut (shortcuts, 0, -1, "default:contacts", utf, 0, "contacts", NULL);
-	g_free (utf);
+	e_shortcuts_add_shortcut (shortcuts, 0, -1, "default:mail", _("Inbox"), 0, "mail", "inbox");
+	e_shortcuts_add_shortcut (shortcuts, 0, -1, "default:calendar", _("Calendar"), 0, "calendar", NULL);
+	e_shortcuts_add_shortcut (shortcuts, 0, -1, "default:tasks", _("Tasks"), 0, "tasks", NULL);
+	e_shortcuts_add_shortcut (shortcuts, 0, -1, "default:contacts", _("Contacts"), 0, "contacts", NULL);
 }
 
 void
 e_shortcuts_add_default_group (EShortcuts *shortcuts)
 {
-	char *utf;
-
 	g_return_if_fail (shortcuts != NULL);
 	g_return_if_fail (E_IS_SHORTCUTS (shortcuts));
 
-	utf = e_utf8_from_locale_string (_("Shortcuts"));
-	e_shortcuts_add_group (shortcuts, -1, utf);
-	g_free (utf);
+	e_shortcuts_add_group (shortcuts, -1, _("Shortcuts"));
 
 	e_shortcuts_add_default_shortcuts (shortcuts, -1);
 }

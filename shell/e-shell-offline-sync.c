@@ -128,7 +128,7 @@ impl_SyncFolderProgressListener_updateProgress (PortableServer_Servant servant,
 	SyncData *sync_data;
 
 	sync_data = ((SyncFolderProgressListenerServant *) servant)->sync_data;
-	gtk_progress_set_percentage (GTK_PROGRESS (sync_data->progress_bar), percent);
+	gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (sync_data->progress_bar), percent);
 }
 
 static void
@@ -237,7 +237,7 @@ setup_dialog (SyncData *sync_data)
 {
 	sync_data->dialog = gnome_dialog_new (_("Syncing Folder"), GNOME_STOCK_BUTTON_CANCEL, NULL);
 	gtk_widget_set_size_request (sync_data->dialog, 300, -1);
-	gtk_window_set_policy (GTK_WINDOW (sync_data->dialog), FALSE, FALSE, FALSE);
+	gtk_window_set_resizable (GTK_WINDOW (sync_data->dialog), FALSE);
 
 	g_signal_connect (sync_data->dialog, "close",
 			  G_CALLBACK (progress_dialog_close_callback), sync_data);
@@ -249,7 +249,6 @@ setup_dialog (SyncData *sync_data)
 			    sync_data->label, FALSE, TRUE, 0);
 
 	sync_data->progress_bar = gtk_progress_bar_new ();
-	gtk_progress_set_activity_mode (GTK_PROGRESS (sync_data->progress_bar), FALSE);
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (sync_data->dialog)->vbox),
 			    sync_data->progress_bar, FALSE, TRUE, 0);
 
@@ -315,10 +314,10 @@ sync_folder (SyncData *sync_data,
 
 	msg = g_strdup_printf (_("Synchronizing \"%s\" (%d of %d) ..."),
 			       e_folder_get_name (folder), num, total);
-	gtk_label_set (GTK_LABEL (sync_data->label), msg);
+	gtk_label_set_text (GTK_LABEL (sync_data->label), msg);
 	g_free (msg);
 
-	gtk_progress_set_value (GTK_PROGRESS (sync_data->progress_bar), 0.0);
+	gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (sync_data->progress_bar), 0.0);
 
 	/* Get the data ready.  */
 

@@ -256,47 +256,57 @@ class_init (EvolutionStorageListenerClass *klass)
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->finalize = impl_finalize;
 
-	signals[DESTROYED]      = gtk_signal_new ("destroyed",
-						  GTK_RUN_FIRST,
-						  GTK_CLASS_TYPE (object_class),
-						  G_STRUCT_OFFSET (EvolutionStorageListenerClass, destroyed),
-						  e_shell_marshal_NONE__NONE,
-						  GTK_TYPE_NONE, 0);
+	signals[DESTROYED]
+		= g_signal_new ("destroyed",
+				G_OBJECT_CLASS_TYPE (object_class),
+				G_SIGNAL_RUN_FIRST,
+				G_STRUCT_OFFSET (EvolutionStorageListenerClass, destroyed),
+				NULL, NULL,
+				e_shell_marshal_NONE__NONE,
+				G_TYPE_NONE, 0);
 
-	signals[NEW_FOLDER]     = gtk_signal_new ("new_folder",
-						  GTK_RUN_FIRST,
-						  GTK_CLASS_TYPE (object_class),
-						  G_STRUCT_OFFSET (EvolutionStorageListenerClass, new_folder),
-						  e_shell_marshal_NONE__STRING_POINTER,
-						  GTK_TYPE_NONE, 2,
-						  GTK_TYPE_STRING,
-						  GTK_TYPE_POINTER);
+	signals[NEW_FOLDER]  
+		= g_signal_new ("new_folder",
+				G_OBJECT_CLASS_TYPE (object_class),
+				G_SIGNAL_RUN_FIRST,
+				G_STRUCT_OFFSET (EvolutionStorageListenerClass, new_folder),
+				NULL, NULL,
+				e_shell_marshal_NONE__STRING_POINTER,
+				G_TYPE_NONE, 2,
+				G_TYPE_STRING,
+				G_TYPE_POINTER);
 
-	signals[UPDATE_FOLDER]  = gtk_signal_new ("update_folder",
-						  GTK_RUN_FIRST,
-						  GTK_CLASS_TYPE (object_class),
-						  G_STRUCT_OFFSET (EvolutionStorageListenerClass, update_folder),
-						  e_shell_marshal_NONE__STRING_INT,
-						  GTK_TYPE_NONE, 2,
-						  GTK_TYPE_STRING,
-						  GTK_TYPE_INT);
+	signals[UPDATE_FOLDER]  
+		= g_signal_new ("update_folder",
+				G_OBJECT_CLASS_TYPE (object_class),
+				G_SIGNAL_RUN_FIRST,
+				G_STRUCT_OFFSET (EvolutionStorageListenerClass, update_folder),
+				NULL, NULL,
+				e_shell_marshal_NONE__STRING_INT,
+				G_TYPE_NONE, 2,
+				G_TYPE_STRING,
+				G_TYPE_INT);
 
-	signals[REMOVED_FOLDER] = gtk_signal_new ("removed_folder",
-						  GTK_RUN_FIRST,
-						  GTK_CLASS_TYPE (object_class),
-						  G_STRUCT_OFFSET (EvolutionStorageListenerClass, removed_folder),
-						  e_shell_marshal_NONE__STRING,
-						  GTK_TYPE_NONE, 1,
-						  GTK_TYPE_STRING);
+	signals[REMOVED_FOLDER] 
+		= g_signal_new ("removed_folder",
+				G_OBJECT_CLASS_TYPE (object_class),
+				G_SIGNAL_RUN_FIRST,
+				G_STRUCT_OFFSET (EvolutionStorageListenerClass, removed_folder),
+				NULL, NULL,
+				e_shell_marshal_NONE__STRING,
+				G_TYPE_NONE, 1,
+				G_TYPE_STRING);
 
-	signals[HAS_SUBFOLDERS] = gtk_signal_new ("has_subfolders",
-						  GTK_RUN_FIRST,
-						  GTK_CLASS_TYPE (object_class),
-						  G_STRUCT_OFFSET (EvolutionStorageListenerClass, has_subfolders),
-						  e_shell_marshal_NONE__STRING_STRING,
-						  GTK_TYPE_NONE, 2,
-						  GTK_TYPE_STRING,
-						  GTK_TYPE_STRING);
+	signals[HAS_SUBFOLDERS] 
+		= g_signal_new ("has_subfolders",
+				G_OBJECT_CLASS_TYPE (object_class),
+				G_SIGNAL_RUN_FIRST,
+				G_STRUCT_OFFSET (EvolutionStorageListenerClass, has_subfolders),
+				NULL, NULL,
+				e_shell_marshal_NONE__STRING_STRING,
+				G_TYPE_NONE, 2,
+				G_TYPE_STRING,
+				G_TYPE_STRING);
 
 	corba_class_init ();
 }

@@ -671,16 +671,16 @@ setup_folder_properties_items_if_corba_storage_clicked (EStorageSetView *storage
 		item = (const ECorbaStoragePropertyItem *) p->data;
 		num_property_items ++;
 
-		g_string_sprintfa (xml, "<menuitem name=\"EStorageSetView:FolderPropertyItem:%d\"",
-				   num_property_items);
-		g_string_sprintfa (xml, " verb=\"EStorageSetView:FolderPropertyItem:%d\"",
-				   num_property_items);
+		g_string_append_printf (xml, "<menuitem name=\"EStorageSetView:FolderPropertyItem:%d\"",
+					num_property_items);
+		g_string_append_printf (xml, " verb=\"EStorageSetView:FolderPropertyItem:%d\"",
+					num_property_items);
 
 		encoded_tooltip = bonobo_ui_util_encode_str (item->tooltip);
-		g_string_sprintfa (xml, " tip=\"%s\"", encoded_tooltip);
+		g_string_append_printf (xml, " tip=\"%s\"", encoded_tooltip);
 
 		encoded_label = bonobo_ui_util_encode_str (item->label);
-		g_string_sprintfa (xml, " label=\"%s\"/>", encoded_label);
+		g_string_append_printf (xml, " label=\"%s\"/>", encoded_label);
 
 		g_free (encoded_tooltip);
 		g_free (encoded_label);
@@ -1808,59 +1808,65 @@ class_init (EStorageSetViewClass *klass)
 	etree_class->tree_drag_data_received = impl_tree_drag_data_received;
 
 	signals[FOLDER_SELECTED]
-		= gtk_signal_new ("folder_selected",
-				  GTK_RUN_FIRST,
-				  GTK_CLASS_TYPE (object_class),
-				  G_STRUCT_OFFSET (EStorageSetViewClass, folder_selected),
-				  e_shell_marshal_NONE__STRING,
-				  GTK_TYPE_NONE, 1,
-				  GTK_TYPE_STRING);
+		= g_signal_new ("folder_selected",
+				G_OBJECT_CLASS_TYPE (object_class),
+				G_SIGNAL_RUN_FIRST,
+				G_STRUCT_OFFSET (EStorageSetViewClass, folder_selected),
+				NULL, NULL,
+				e_shell_marshal_NONE__STRING,
+				G_TYPE_NONE, 1,
+				G_TYPE_STRING);
 
 	signals[FOLDER_OPENED]
-		= gtk_signal_new ("folder_opened",
-				  GTK_RUN_FIRST,
-				  GTK_CLASS_TYPE (object_class),
-				  G_STRUCT_OFFSET (EStorageSetViewClass, folder_opened),
-				  e_shell_marshal_NONE__STRING,
-				  GTK_TYPE_NONE, 1,
-				  GTK_TYPE_STRING);
+		= g_signal_new ("folder_opened",
+				G_OBJECT_CLASS_TYPE (object_class),
+				G_SIGNAL_RUN_FIRST,
+				G_STRUCT_OFFSET (EStorageSetViewClass, folder_opened),
+				NULL, NULL,
+				e_shell_marshal_NONE__STRING,
+				G_TYPE_NONE, 1,
+				G_TYPE_STRING);
 
 	signals[DND_ACTION]
-		= gtk_signal_new ("dnd_action",
-				  GTK_RUN_FIRST,
-				  GTK_CLASS_TYPE (object_class),
-				  G_STRUCT_OFFSET (EStorageSetViewClass, dnd_action),
-				  e_shell_marshal_NONE__POINTER_POINTER_POINTER_POINTER,
-				  GTK_TYPE_NONE, 4,
-				  GTK_TYPE_POINTER,
-				  GTK_TYPE_POINTER,
-				  GTK_TYPE_POINTER,
-				  GTK_TYPE_POINTER);
+		= g_signal_new ("dnd_action",
+				G_OBJECT_CLASS_TYPE (object_class),
+				G_SIGNAL_RUN_FIRST,
+				G_STRUCT_OFFSET (EStorageSetViewClass, dnd_action),
+				NULL, NULL,
+				e_shell_marshal_NONE__POINTER_POINTER_POINTER_POINTER,
+				G_TYPE_NONE, 4,
+				G_TYPE_POINTER,
+				G_TYPE_POINTER,
+				G_TYPE_POINTER,
+				G_TYPE_POINTER);
 
 	signals[FOLDER_CONTEXT_MENU_POPPING_UP]
-		= gtk_signal_new ("folder_context_menu_popping_up",
-				  GTK_RUN_FIRST,
-				  GTK_CLASS_TYPE (object_class),
-				  G_STRUCT_OFFSET (EStorageSetViewClass, folder_context_menu_popping_up),
-				  e_shell_marshal_NONE__STRING,
-				  GTK_TYPE_NONE, 1,
-				  GTK_TYPE_STRING);
+		= g_signal_new ("folder_context_menu_popping_up",
+				G_OBJECT_CLASS_TYPE (object_class),
+				G_SIGNAL_RUN_FIRST,
+				G_STRUCT_OFFSET (EStorageSetViewClass, folder_context_menu_popping_up),
+				NULL, NULL,
+				e_shell_marshal_NONE__STRING,
+				G_TYPE_NONE, 1,
+				G_TYPE_STRING);
 
 	signals[FOLDER_CONTEXT_MENU_POPPED_DOWN]
-		= gtk_signal_new ("folder_context_menu_popped_down",
-				  GTK_RUN_FIRST,
-				  GTK_CLASS_TYPE (object_class),
-				  G_STRUCT_OFFSET (EStorageSetViewClass, folder_context_menu_popped_down),
-				  e_shell_marshal_NONE__NONE,
-				  GTK_TYPE_NONE, 0);
+		= g_signal_new ("folder_context_menu_popped_down",
+				G_OBJECT_CLASS_TYPE (object_class),
+				G_SIGNAL_RUN_FIRST,
+				G_STRUCT_OFFSET (EStorageSetViewClass, folder_context_menu_popped_down),
+				NULL, NULL,
+				e_shell_marshal_NONE__NONE,
+				G_TYPE_NONE, 0);
 
 	signals[CHECKBOXES_CHANGED]
-		= gtk_signal_new ("checkboxes_changed",
-				  GTK_RUN_FIRST,
-				  GTK_CLASS_TYPE (object_class),
-				  G_STRUCT_OFFSET (EStorageSetViewClass, checkboxes_changed),
-				  e_shell_marshal_NONE__NONE,
-				  GTK_TYPE_NONE, 0);
+		= g_signal_new ("checkboxes_changed",
+				G_OBJECT_CLASS_TYPE (object_class),
+				G_SIGNAL_RUN_FIRST,
+				G_STRUCT_OFFSET (EStorageSetViewClass, checkboxes_changed),
+				NULL, NULL,
+				e_shell_marshal_NONE__NONE,
+				G_TYPE_NONE, 0);
 
 	checks [0] = gdk_pixbuf_new_from_xpm_data (check_empty_xpm);
 	checks [1] = gdk_pixbuf_new_from_xpm_data (check_filled_xpm);
@@ -1988,18 +1994,18 @@ setup_folder_changed_callbacks (EStorageSetView *storage_set_view,
 	folder_changed_callback_data->storage_set_view = storage_set_view;
 	folder_changed_callback_data->path = g_strdup (path);
 
-	gtk_signal_connect_while_alive (GTK_OBJECT (folder), "name_changed",
-					G_CALLBACK (folder_name_changed_cb),
-					folder_changed_callback_data,
-					GTK_OBJECT (storage_set_view));
+	e_signal_connect_while_alive (folder, "name_changed",
+				      G_CALLBACK (folder_name_changed_cb),
+				      folder_changed_callback_data,
+				      storage_set_view);
 
-	e_gtk_signal_connect_full_while_alive (GTK_OBJECT (folder), "changed",
-					       G_CALLBACK (folder_changed_cb),
-					       NULL,
-					       folder_changed_callback_data,
-					       folder_changed_callback_data_destroy_notify,
-					       FALSE, FALSE,
-					       GTK_OBJECT (storage_set_view));
+	e_signal_connect_full_while_alive (folder, "changed",
+					   G_CALLBACK (folder_changed_cb),
+					   NULL,
+					   folder_changed_callback_data,
+					   folder_changed_callback_data_destroy_notify,
+					   FALSE, FALSE,
+					   storage_set_view);
 }
 
 

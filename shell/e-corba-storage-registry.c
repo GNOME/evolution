@@ -491,4 +491,4 @@ e_corba_storage_registry_new (EStorageSet *storage_set)
 E_MAKE_X_TYPE (e_corba_storage_registry, "ECorbaStorageRegistry", ECorbaStorageRegistry,
 	       class_init, init, PARENT_TYPE,
 	       POA_GNOME_Evolution_StorageRegistry__init,
-	       GTK_STRUCT_OFFSET (ECorbaStorageRegistryClass, epv))
+	       G_STRUCT_OFFSET (ECorbaStorageRegistryClass, epv))

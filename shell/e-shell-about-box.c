@@ -145,7 +145,9 @@ timeout_callback (void *data)
 	EShellAboutBoxPrivate *priv;
 	GdkRectangle redraw_rect;
 	GtkWidget *widget;
-	GdkFont *font;
+	PangoContext *context;
+	PangoFontMetrics *metrics;
+	PangoLayout *layout;
 	int line_height;
 	int first_line;
 	int y;
@@ -156,8 +158,12 @@ timeout_callback (void *data)
 
 	widget = GTK_WIDGET (about_box);
 
-	font = gtk_style_get_font (widget->style);
-	line_height = font->ascent + font->descent;
+	context = gtk_widget_get_pango_context (widget);
+	metrics = pango_context_get_metrics (context, gtk_widget_get_style (GTK_WIDGET (about_box))->font_desc,
+					     NULL);
+	line_height = PANGO_PIXELS (pango_font_metrics_get_ascent (metrics)
+				    + pango_font_metrics_get_descent (metrics));
+	pango_font_metrics_unref (metrics);
 
 	if (priv->text_y_offset < TEXT_HEIGHT) {
 		y = TEXT_Y_OFFSET + (TEXT_HEIGHT - priv->text_y_offset);
@@ -171,8 +177,11 @@ timeout_callback (void *data)
 			 0, 0,
 			 TEXT_X_OFFSET, TEXT_Y_OFFSET, TEXT_WIDTH, TEXT_HEIGHT);
 
+	layout = pango_layout_new (context);
+
 	for (i = 0; i < TEXT_HEIGHT / line_height + 3; i ++) {
 		const char *line;
+		int width;
 		int x;
 
 		if (first_line + i >= NUM_TEXT_LINES)
@@ -183,9 +192,10 @@ timeout_callback (void *data)
 		else
 			line = _(priv->permuted_text[first_line + i]);
 
-		x = TEXT_X_OFFSET + (TEXT_WIDTH - gdk_string_width (font, line)) / 2;
-
-		gdk_draw_string (priv->pixmap, font, priv->clipped_gc, x, y, line);
+		pango_layout_set_text (layout, line, -1);
+		pango_layout_get_pixel_size (layout, &width, NULL);
+		x = TEXT_X_OFFSET + (TEXT_WIDTH - width) / 2;
+		gdk_draw_layout (priv->pixmap, priv->clipped_gc, x, y, layout);
 
 		y += line_height;
 	}
@@ -194,13 +204,16 @@ timeout_callback (void *data)
 	redraw_rect.y      = TEXT_Y_OFFSET;
 	redraw_rect.width  = TEXT_WIDTH;
 	redraw_rect.height = TEXT_HEIGHT;
-	gtk_widget_draw (widget, &redraw_rect);
+	gdk_window_invalidate_rect (widget->window, &redraw_rect, FALSE);
+	gdk_window_process_updates (widget->window, FALSE);
 
 	priv->text_y_offset ++;
 	if (priv->text_y_offset > line_height * NUM_TEXT_LINES + TEXT_HEIGHT) {
 		priv->text_y_offset = 0;
 		permute_names (about_box);
 	}
+
+	g_object_unref (layout);
 
 	return TRUE;
 }

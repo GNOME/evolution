@@ -299,20 +299,20 @@ append_xml_for_menu_item (GString *xml,
 	char *encoded_tooltip;
 
 	encoded_label = bonobo_ui_util_encode_str (item->label);
-	g_string_sprintfa (xml, "<menuitem name=\"New:%s\" verb=\"%s\" label=\"%s\"",
-			   item->verb, item->verb, encoded_label);
+	g_string_append_printf (xml, "<menuitem name=\"New:%s\" verb=\"%s\" label=\"%s\"",
+				item->verb, item->verb, encoded_label);
 
 	if (first)
-		g_string_sprintfa (xml, " accel=\"*Control*N\"");
+		g_string_append_printf (xml, " accel=\"*Control*N\"");
 	else if (item->shortcut != '\0')
-		g_string_sprintfa (xml, " accel=\"*Control**Shift*%c\"", item->shortcut);
+		g_string_append_printf (xml, " accel=\"*Control**Shift*%c\"", item->shortcut);
 
 	if (item->icon != NULL)
-		g_string_sprintfa (xml, " pixtype=\"pixbuf\" pixname=\"%s\"",
+		g_string_append_printf (xml, " pixtype=\"pixbuf\" pixname=\"%s\"",
 				   bonobo_ui_util_pixbuf_to_xml (item->icon));
 
 	encoded_tooltip = bonobo_ui_util_encode_str (item->tooltip);
-	g_string_sprintfa (xml, " tip=\"%s\"", encoded_tooltip);
+	g_string_append_printf (xml, " tip=\"%s\"", encoded_tooltip);
 
 	g_string_append (xml, "/> ");
 
@@ -404,7 +404,8 @@ create_menu_xml (EShellUserCreatableItemsHandler *handler,
 	/* 2. Add a separator. */
 
 	if (component_id != NULL)
-		g_string_sprintfa (xml, "<separator f=\"\" name=\"EShellUserCreatableItemsHandlerSeparator\"/>");
+		g_string_append_printf (xml,
+					"<separator f=\"\" name=\"EShellUserCreatableItemsHandlerSeparator\"/>");
 
 	/* 3. Add the elements that are not default for this component.  */
 

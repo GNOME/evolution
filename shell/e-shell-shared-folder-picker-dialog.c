@@ -34,7 +34,6 @@
 #include "Evolution-Addressbook-SelectNames.h"
 
 #include <gal/widgets/e-gui-utils.h>
-#include <gal/widgets/e-unicode.h>
 
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnome/gnome-i18n.h>
@@ -190,7 +189,7 @@ setup_server_option_menu (EShell *shell,
 
 		storage_name = e_storage_get_name (E_STORAGE (p->data));
 
-		menu_item = e_utf8_gtk_menu_item_new_with_label (GTK_MENU (menu), storage_name);
+		menu_item = gtk_menu_item_new_with_label (storage_name);
 		g_signal_connect (menu_item, "activate",
 				  G_CALLBACK (server_option_menu_item_activate_callback),
 				  storage_name_return);
@@ -287,15 +286,7 @@ cleanup_discovery (DiscoveryData *discovery_data)
 static int
 progress_bar_timeout_callback (void *data)
 {
-	GtkAdjustment *adjustment;
-	float value;
-
-	adjustment = GTK_PROGRESS (data)->adjustment;
-	value = adjustment->value + 1;
-	if (value > adjustment->upper)
-		value = adjustment->lower;
-
-	gtk_progress_set_value (GTK_PROGRESS (data), value);
+	gtk_progress_bar_pulse (GTK_PROGRESS_BAR (data));
 
 	return TRUE;
 }
@@ -360,7 +351,7 @@ create_progress_dialog (EShell *shell,
 
 	dialog = gnome_dialog_new (_("Opening Folder"), GNOME_STOCK_BUTTON_CANCEL, NULL);
 	gtk_widget_set_size_request (dialog, 300, -1);
-	gtk_window_set_policy (GTK_WINDOW (dialog), FALSE, FALSE, FALSE);
+	gtk_window_set_resizable (GTK_WINDOW (dialog), FALSE);
 
 	g_signal_connect (dialog, "close",
 			  G_CALLBACK (progress_dialog_close_callback), NULL);
@@ -376,7 +367,6 @@ create_progress_dialog (EShell *shell,
 	g_free (text);
 
 	progress_bar = gtk_progress_bar_new ();
-	gtk_progress_set_activity_mode (GTK_PROGRESS (progress_bar), TRUE);
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), progress_bar, FALSE, TRUE, 0);
 
 	timeout_id = g_timeout_add (50, progress_bar_timeout_callback, progress_bar);

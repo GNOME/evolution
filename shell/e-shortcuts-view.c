@@ -48,7 +48,6 @@
 #include <libgnomeui/gnome-uidefs.h>
 
 #include <gal/util/e-util.h>
-#include <gal/widgets/e-unicode.h>
 
 #include <string.h>
 
@@ -165,18 +164,16 @@ destroy_group_cb (GtkWidget *widget,
 	EShortcutsView *shortcuts_view;
 	EShortcutsViewPrivate *priv;
 	GtkWidget *message_box;
-	char *question, *title;
+	char *question;
 
 	menu_data = (RightClickMenuData *) data;
 	shortcuts_view = menu_data->shortcuts_view;
 	priv = shortcuts_view->priv;
 	shortcuts = priv->shortcuts;
 
-	title = e_utf8_to_locale_string (e_shortcuts_get_group_title (
-						 shortcuts, menu_data->group_num));
 	question = g_strdup_printf (_("Do you really want to remove group\n"
-	                              "`%s' from the shortcut bar?"), title);
-	g_free (title);
+	                              "`%s' from the shortcut bar?"),
+				    e_shortcuts_get_group_title (shortcuts, menu_data->group_num));
 
 	message_box = gnome_message_box_new (question, GNOME_MESSAGE_BOX_QUESTION,
 					     _("Remove"), _("Don't remove"), NULL);
@@ -708,24 +705,26 @@ class_init (EShortcutsViewClass *klass)
 	parent_class = g_type_class_ref(e_shortcut_bar_get_type ());
 
 	signals[ACTIVATE_SHORTCUT] =
-		gtk_signal_new ("activate_shortcut",
-				GTK_RUN_LAST | GTK_RUN_ACTION,
-				GTK_CLASS_TYPE (object_class),
-				G_STRUCT_OFFSET (EShortcutsViewClass, activate_shortcut),
-				e_shell_marshal_NONE__POINTER_STRING_INT,
-				GTK_TYPE_NONE, 3,
-				GTK_TYPE_POINTER,
-				GTK_TYPE_STRING,
-				GTK_TYPE_BOOL);
+		g_signal_new ("activate_shortcut",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+			      G_STRUCT_OFFSET (EShortcutsViewClass, activate_shortcut),
+			      NULL, NULL,
+			      e_shell_marshal_NONE__POINTER_STRING_INT,
+			      G_TYPE_NONE, 3,
+			      G_TYPE_POINTER,
+			      G_TYPE_STRING,
+			      G_TYPE_BOOLEAN);
 
 	signals[HIDE_REQUESTED] =
-		gtk_signal_new ("hide_requested",
-				GTK_RUN_LAST,
-				GTK_CLASS_TYPE (object_class),
-				G_STRUCT_OFFSET (EShortcutsViewClass,
-						   hide_requested),
-				e_shell_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
+		g_signal_new ("hide_requested",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (EShortcutsViewClass,
+					       hide_requested),
+			      NULL, NULL,
+			      e_shell_marshal_NONE__NONE,
+			      G_TYPE_NONE, 0);
 }
 
 static void

@@ -227,20 +227,22 @@ class_init (EvolutionActivityClientClass *klass)
 	object_class->finalize = impl_finalize;
 
 	signals[SHOW_DETAILS] 
-		= gtk_signal_new ("show_details",
-				  GTK_RUN_FIRST,
-				  GTK_CLASS_TYPE (object_class),
-				  G_STRUCT_OFFSET (EvolutionActivityClientClass, show_details),
-				  e_shell_marshal_NONE__NONE,
-				  GTK_TYPE_NONE, 0);
+		= g_signal_new ("show_details",
+				G_OBJECT_CLASS_TYPE (object_class),
+				G_SIGNAL_RUN_FIRST,
+				G_STRUCT_OFFSET (EvolutionActivityClientClass, show_details),
+				NULL, NULL,
+				e_shell_marshal_NONE__NONE,
+				G_TYPE_NONE, 0);
 
 	signals[CANCEL] 
-		= gtk_signal_new ("cancel",
-				  GTK_RUN_FIRST,
-				  GTK_CLASS_TYPE (object_class),
-				  G_STRUCT_OFFSET (EvolutionActivityClientClass, cancel),
-				  e_shell_marshal_NONE__NONE,
-				  GTK_TYPE_NONE, 0);
+		= g_signal_new ("cancel",
+				G_OBJECT_CLASS_TYPE (object_class),
+				G_SIGNAL_RUN_FIRST,
+				G_STRUCT_OFFSET (EvolutionActivityClientClass, cancel),
+				NULL, NULL,
+				e_shell_marshal_NONE__NONE,
+				G_TYPE_NONE, 0);
 }
 
 

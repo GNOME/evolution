@@ -156,7 +156,7 @@ E_MAKE_X_TYPE (evolution_shell_component_dnd_source_folder,
 	       evolution_shell_component_dnd_source_folder_init,
 	       PARENT_TYPE,
 	       POA_GNOME_Evolution_ShellComponentDnd_SourceFolder__init,
-	       GTK_STRUCT_OFFSET (EvolutionShellComponentDndSourceFolderClass, epv))
+	       G_STRUCT_OFFSET (EvolutionShellComponentDndSourceFolderClass, epv))
 
 EvolutionShellComponentDndSourceFolder*
 evolution_shell_component_dnd_source_folder_new (DndSourceFolderBeginDragFn begin_drag,
@@ -280,7 +280,7 @@ E_MAKE_X_TYPE (evolution_shell_component_dnd_destination_folder,
 	       evolution_shell_component_dnd_destination_folder_init,
 	       PARENT_TYPE,
 	       POA_GNOME_Evolution_ShellComponentDnd_DestinationFolder__init,
-	       GTK_STRUCT_OFFSET (EvolutionShellComponentDndDestinationFolderClass, epv))
+	       G_STRUCT_OFFSET (EvolutionShellComponentDndDestinationFolderClass, epv))
 
 EvolutionShellComponentDndDestinationFolder *
 evolution_shell_component_dnd_destination_folder_new (DndDestinationFolderHandleMotionFn handle_motion,

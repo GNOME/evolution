@@ -348,7 +348,7 @@ e_splash_construct (ESplash *splash,
 	
 	g_object_set((splash), "type", GTK_WINDOW_TOPLEVEL, NULL);
 	gtk_window_set_position (GTK_WINDOW (splash), GTK_WIN_POS_CENTER);
-	gtk_window_set_policy (GTK_WINDOW (splash), FALSE, FALSE, FALSE);
+	gtk_window_set_resizable (GTK_WINDOW (splash), FALSE);
 	gtk_window_set_default_size (GTK_WINDOW (splash), image_width, image_height);
 	gtk_window_set_wmclass (GTK_WINDOW (splash), "evolution-splash", "Evolution");
 	gnome_window_icon_set_from_file (GTK_WINDOW (splash), EVOLUTION_DATADIR "/pixmaps/evolution.png");

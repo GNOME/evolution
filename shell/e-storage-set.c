@@ -387,62 +387,69 @@ class_init (EStorageSetClass *klass)
 	object_class->finalize = impl_finalize;
 
 	signals[NEW_STORAGE] = 
-		gtk_signal_new ("new_storage",
-				GTK_RUN_FIRST,
-				GTK_CLASS_TYPE (object_class),
-				G_STRUCT_OFFSET (EStorageSetClass, new_storage),
-				e_shell_marshal_NONE__POINTER,
-				GTK_TYPE_NONE, 1,
-				GTK_TYPE_POINTER);
+		g_signal_new ("new_storage",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_FIRST,
+			      G_STRUCT_OFFSET (EStorageSetClass, new_storage),
+			      NULL, NULL,
+			      e_shell_marshal_NONE__POINTER,
+			      G_TYPE_NONE, 1,
+			      G_TYPE_POINTER);
 	signals[REMOVED_STORAGE] = 
-		gtk_signal_new ("removed_storage",
-				GTK_RUN_FIRST,
-				GTK_CLASS_TYPE (object_class),
-				G_STRUCT_OFFSET (EStorageSetClass, removed_storage),
-				e_shell_marshal_NONE__POINTER,
-				GTK_TYPE_NONE, 1,
-				GTK_TYPE_POINTER);
+		g_signal_new ("removed_storage",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_FIRST,
+			      G_STRUCT_OFFSET (EStorageSetClass, removed_storage),
+			      NULL, NULL,
+			      e_shell_marshal_NONE__POINTER,
+			      G_TYPE_NONE, 1,
+			      G_TYPE_POINTER);
 	signals[NEW_FOLDER] = 
-		gtk_signal_new ("new_folder",
-				GTK_RUN_FIRST,
-				GTK_CLASS_TYPE (object_class),
-				G_STRUCT_OFFSET (EStorageSetClass, new_folder),
-				e_shell_marshal_NONE__STRING,
-				GTK_TYPE_NONE, 1,
-				GTK_TYPE_STRING);
+		g_signal_new ("new_folder",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_FIRST,
+			      G_STRUCT_OFFSET (EStorageSetClass, new_folder),
+			      NULL, NULL,
+			      e_shell_marshal_NONE__STRING,
+			      G_TYPE_NONE, 1,
+			      G_TYPE_STRING);
 	signals[UPDATED_FOLDER] = 
-		gtk_signal_new ("updated_folder",
-				GTK_RUN_FIRST,
-				GTK_CLASS_TYPE (object_class),
-				G_STRUCT_OFFSET (EStorageSetClass, updated_folder),
-				e_shell_marshal_NONE__STRING,
-				GTK_TYPE_NONE, 1,
-				GTK_TYPE_STRING);
+		g_signal_new ("updated_folder",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_FIRST,
+			      G_STRUCT_OFFSET (EStorageSetClass, updated_folder),
+			      NULL, NULL,
+			      e_shell_marshal_NONE__STRING,
+			      G_TYPE_NONE, 1,
+			      G_TYPE_STRING);
 	signals[REMOVED_FOLDER] = 
-		gtk_signal_new ("removed_folder",
-				GTK_RUN_FIRST,
-				GTK_CLASS_TYPE (object_class),
-				G_STRUCT_OFFSET (EStorageSetClass, removed_folder),
-				e_shell_marshal_NONE__STRING,
-				GTK_TYPE_NONE, 1,
-				GTK_TYPE_STRING);
+		g_signal_new ("removed_folder",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_FIRST,
+			      G_STRUCT_OFFSET (EStorageSetClass, removed_folder),
+			      NULL, NULL,
+			      e_shell_marshal_NONE__STRING,
+			      G_TYPE_NONE, 1,
+			      G_TYPE_STRING);
 	signals[MOVED_FOLDER] = 
-		gtk_signal_new ("moved_folder",
-				GTK_RUN_FIRST,
-				GTK_CLASS_TYPE (object_class),
-				G_STRUCT_OFFSET (EStorageSetClass, moved_folder),
-				e_shell_marshal_NONE__STRING_STRING,
-				GTK_TYPE_NONE, 2,
-				GTK_TYPE_STRING,
-				GTK_TYPE_STRING);
+		g_signal_new ("moved_folder",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_FIRST,
+			      G_STRUCT_OFFSET (EStorageSetClass, moved_folder),
+			      NULL, NULL,
+			      e_shell_marshal_NONE__STRING_STRING,
+			      G_TYPE_NONE, 2,
+			      G_TYPE_STRING,
+			      G_TYPE_STRING);
 	signals[CLOSE_FOLDER] = 
-		gtk_signal_new ("close_folder",
-				GTK_RUN_FIRST,
-				GTK_CLASS_TYPE (object_class),
-				G_STRUCT_OFFSET (EStorageSetClass, close_folder),
-				e_shell_marshal_NONE__STRING,
-				GTK_TYPE_NONE, 1,
-				GTK_TYPE_STRING);
+		g_signal_new ("close_folder",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_FIRST,
+			      G_STRUCT_OFFSET (EStorageSetClass, close_folder),
+			      NULL, NULL,
+			      e_shell_marshal_NONE__STRING,
+			      G_TYPE_NONE, 1,
+			      G_TYPE_STRING);
 }
 
 static void

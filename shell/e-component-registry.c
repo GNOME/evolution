@@ -68,7 +68,7 @@ sleep_with_g_main_loop_timeout_callback (void *data)
 	GMainLoop *loop;
 
 	loop = (GMainLoop *) data;
-	g_main_quit (loop);
+	g_main_loop_quit (loop);
 
 	return FALSE;
 }
@@ -80,10 +80,10 @@ sleep_with_g_main_loop (int num_seconds)
 {
 	GMainLoop *loop;
 
-	loop = g_main_new (TRUE);
+	loop = g_main_loop_new (NULL, TRUE);
 	g_timeout_add (1000 * num_seconds, sleep_with_g_main_loop_timeout_callback, loop);
-	g_main_run (loop);
-	g_main_destroy (loop);
+	g_main_loop_run (loop);
+	g_main_loop_unref (loop);
 }
 
 static void

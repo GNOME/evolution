@@ -235,7 +235,7 @@ command_about_box (BonoboUIComponent *uih,
 	about_box_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_type_hint (GTK_WINDOW (about_box_window), GDK_WINDOW_TYPE_HINT_DIALOG);
 	
-	gtk_window_set_policy (GTK_WINDOW (about_box_window), FALSE, FALSE, FALSE);
+	gtk_window_set_resizable (GTK_WINDOW (about_box_window), FALSE);
 	g_signal_connect (about_box_window, "key_press_event",
 			  G_CALLBACK (about_box_event_callback), &about_box_window);
 	g_signal_connect (about_box_window, "button_press_event",

@@ -1107,9 +1107,7 @@ impl_dispose (GObject *object)
 
 		view = E_SHELL_VIEW (p->data);
 
-		gtk_signal_disconnect_by_func (GTK_OBJECT (view),
-					       G_CALLBACK (view_delete_event_cb),
-					       shell);
+		g_signal_handlers_disconnect_by_func (view, G_CALLBACK (view_delete_event_cb), shell);
 
 		g_object_weak_unref (G_OBJECT (view), view_weak_notify, shell);
 
@@ -1175,30 +1173,33 @@ class_init (EShellClass *klass)
 	object_class->finalize = impl_finalize;
 
 	signals[NO_VIEWS_LEFT] =
-		gtk_signal_new ("no_views_left",
-				GTK_RUN_LAST,
-				GTK_CLASS_TYPE (object_class),
-				G_STRUCT_OFFSET (EShellClass, no_views_left),
-				e_shell_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
+		g_signal_new ("no_views_left",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (EShellClass, no_views_left),
+			      NULL, NULL,
+			      e_shell_marshal_NONE__NONE,
+			      G_TYPE_NONE, 0);
 
 	signals[LINE_STATUS_CHANGED] =
-		gtk_signal_new ("line_status_changed",
-				GTK_RUN_LAST,
-				GTK_CLASS_TYPE (object_class),
-				G_STRUCT_OFFSET (EShellClass, line_status_changed),
-				e_shell_marshal_NONE__INT,
-				GTK_TYPE_NONE, 1,
-				GTK_TYPE_INT);
+		g_signal_new ("line_status_changed",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (EShellClass, line_status_changed),
+			      NULL, NULL,
+			      e_shell_marshal_NONE__INT,
+			      G_TYPE_NONE, 1,
+			      G_TYPE_INT);
 
 	signals[NEW_VIEW_CREATED] =
-		gtk_signal_new ("new_view_created",
-				GTK_RUN_LAST,
-				GTK_CLASS_TYPE (object_class),
-				G_STRUCT_OFFSET (EShellClass, new_view_created),
-				e_shell_marshal_NONE__POINTER,
-				GTK_TYPE_NONE, 1,
-				GTK_TYPE_POINTER);
+		g_signal_new ("new_view_created",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (EShellClass, new_view_created),
+			      NULL, NULL,
+			      e_shell_marshal_NONE__POINTER,
+			      G_TYPE_NONE, 1,
+			      G_TYPE_POINTER);
 
 	epv = & klass->epv;
 	epv->_get_displayName     = impl_Shell__get_displayName;
@@ -2265,4 +2266,4 @@ e_shell_parse_uri (EShell *shell,
 E_MAKE_X_TYPE (e_shell, "EShell", EShell,
 	       class_init, init, PARENT_TYPE,
 	       POA_GNOME_Evolution_Shell__init,
-	       GTK_STRUCT_OFFSET (EShellClass, epv));
+	       G_STRUCT_OFFSET (EShellClass, epv));

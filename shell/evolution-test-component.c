@@ -253,7 +253,6 @@ create_new_folder_selector (EvolutionShellComponent *shell_component)
 					      GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
 					      NULL);
 	gtk_window_set_default_size (GTK_WINDOW (dialog), 200, 400);
-	gtk_window_set_policy (GTK_WINDOW (dialog), FALSE, TRUE, FALSE);
 
 	gtk_container_add (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), control_widget);
 

@@ -27,7 +27,6 @@
 #include "e-shell-marshal.h"
 
 #include <gal/util/e-util.h>
-#include <gal/widgets/e-unicode.h>
 
 #include <gtk/gtkhbox.h>
 #include <gtk/gtkimage.h>
@@ -83,10 +82,10 @@ static void
 set_folder (EvolutionFolderSelectorButton *folder_selector_button,
 	    GNOME_Evolution_Folder *folder)
 {
-	GtkWidget *w = GTK_WIDGET (folder_selector_button);
 	EvolutionFolderSelectorButtonPrivate *priv;
 	GdkPixbuf *pixbuf;
-	char *folder_lname, *storage_lname, *label_text;
+	char *storage_lname;
+	char *label_text;
 	const char *p;
 
 	priv = folder_selector_button->priv;
@@ -107,7 +106,6 @@ set_folder (EvolutionFolderSelectorButton *folder_selector_button,
 	gtk_image_set_from_pixbuf (GTK_IMAGE (priv->icon), pixbuf);
 	g_object_unref (pixbuf);
 
-	folder_lname = e_utf8_to_gtk_string (w, folder->displayName);
 	storage_lname = NULL;
 	p = strchr (folder->evolutionUri, '/');
 	if (p) {
@@ -119,22 +117,22 @@ set_folder (EvolutionFolderSelectorButton *folder_selector_button,
 			storage_uri = g_strndup (folder->evolutionUri,
 						 p - folder->evolutionUri);
 			storage_folder = get_folder_for_uri (folder_selector_button, storage_uri);
-			storage_lname = e_utf8_to_gtk_string (w, storage_folder->displayName);
+			storage_lname = g_strdup (storage_folder->displayName);
 			CORBA_free (storage_folder);
 			g_free (storage_uri);
 		}
 	}
 
 	if (storage_lname) {
-		label_text = g_strdup_printf (_("\"%s\" in \"%s\""), folder_lname,
+		label_text = g_strdup_printf (_("\"%s\" in \"%s\""), folder->displayName,
 					      storage_lname);
 		g_free (storage_lname);
 	} else
-		label_text = g_strdup_printf ("\"%s\"", folder_lname);
+		label_text = g_strdup_printf ("\"%s\"", folder->displayName);
 
 	gtk_label_set_text (GTK_LABEL (priv->label), label_text);
 	g_free (label_text);
-	g_free (folder_lname);
+	g_free (storage_lname);
 }
 
 static void
@@ -255,25 +253,28 @@ class_init (EvolutionFolderSelectorButtonClass *klass)
 	object_class->dispose  = impl_dispose;
 	object_class->finalize = impl_finalize;
 
-	signals[POPPED_UP] = gtk_signal_new ("popped_up",
-					    GTK_RUN_FIRST,
-					    GTK_CLASS_TYPE (object_class),
-					    G_STRUCT_OFFSET (EvolutionFolderSelectorButtonClass, popped_up),
-					    e_shell_marshal_NONE__NONE,
-					    GTK_TYPE_NONE, 0);
-	signals[SELECTED] = gtk_signal_new ("selected",
-					    GTK_RUN_FIRST,
-					    GTK_CLASS_TYPE (object_class),
-					    G_STRUCT_OFFSET (EvolutionFolderSelectorButtonClass, selected),
-					    e_shell_marshal_NONE__POINTER,
-					    GTK_TYPE_NONE, 1,
-					    GTK_TYPE_POINTER);
-	signals[CANCELED] = gtk_signal_new ("canceled",
-					    GTK_RUN_FIRST,
-					    GTK_CLASS_TYPE (object_class),
-					    G_STRUCT_OFFSET (EvolutionFolderSelectorButtonClass, canceled),
-					    e_shell_marshal_NONE__NONE,
-					    GTK_TYPE_NONE, 0);
+	signals[POPPED_UP] = g_signal_new ("popped_up",
+					   G_OBJECT_CLASS_TYPE (object_class),
+					   G_SIGNAL_RUN_FIRST,
+					   G_STRUCT_OFFSET (EvolutionFolderSelectorButtonClass, popped_up),
+					   NULL, NULL,
+					   e_shell_marshal_NONE__NONE,
+					   G_TYPE_NONE, 0);
+	signals[SELECTED] = g_signal_new ("selected",
+					  G_OBJECT_CLASS_TYPE (object_class),
+					  G_SIGNAL_RUN_FIRST,
+					  G_STRUCT_OFFSET (EvolutionFolderSelectorButtonClass, selected),
+					  NULL, NULL,
+					  e_shell_marshal_NONE__POINTER,
+					  G_TYPE_NONE, 1,
+					  G_TYPE_POINTER);
+	signals[CANCELED] = g_signal_new ("canceled",
+					  G_OBJECT_CLASS_TYPE (object_class),
+					  G_SIGNAL_RUN_FIRST,
+					  G_STRUCT_OFFSET (EvolutionFolderSelectorButtonClass, canceled),
+					  NULL, NULL,
+					  e_shell_marshal_NONE__NONE,
+					  G_TYPE_NONE, 0);
 }
 
 static void

@@ -124,21 +124,23 @@ class_init (EvolutionSessionClass *klass)
 	object_class->finalize = impl_finalize;
 
 	signals[LOAD_CONFIGURATION]
-		= gtk_signal_new ("load_configuration",
-				  GTK_RUN_FIRST,
-				  GTK_CLASS_TYPE (object_class),
-				  G_STRUCT_OFFSET (EvolutionSessionClass, load_configuration),
-				  e_shell_marshal_NONE__STRING,
-				  GTK_TYPE_NONE, 1,
-				  GTK_TYPE_STRING);
+		= g_signal_new ("load_configuration",
+				G_OBJECT_CLASS_TYPE (object_class),
+				G_SIGNAL_RUN_FIRST,
+				G_STRUCT_OFFSET (EvolutionSessionClass, load_configuration),
+				NULL, NULL,
+				e_shell_marshal_NONE__STRING,
+				G_TYPE_NONE, 1,
+				G_TYPE_STRING);
 	signals[SAVE_CONFIGURATION]
-		= gtk_signal_new ("save_configuration",
-				  GTK_RUN_FIRST,
-				  GTK_CLASS_TYPE (object_class),
-				  G_STRUCT_OFFSET (EvolutionSessionClass, save_configuration),
-				  e_shell_marshal_NONE__STRING,
-				  GTK_TYPE_NONE, 1,
-				  GTK_TYPE_STRING);
+		= g_signal_new ("save_configuration",
+				G_OBJECT_CLASS_TYPE (object_class),
+				G_SIGNAL_RUN_FIRST,
+				G_STRUCT_OFFSET (EvolutionSessionClass, save_configuration),
+				NULL, NULL,
+				e_shell_marshal_NONE__STRING,
+				G_TYPE_NONE, 1,
+				G_TYPE_STRING);
 
 	corba_class_init (klass);
 }
@@ -164,4 +166,4 @@ evolution_session_new (void)
 E_MAKE_X_TYPE (evolution_session, "EvolutionSession", EvolutionSession,
 	       class_init, init, PARENT_TYPE,
 	       POA_GNOME_Evolution_Session__init,
-	       GTK_STRUCT_OFFSET (EvolutionSessionClass, epv))
+	       G_STRUCT_OFFSET (EvolutionSessionClass, epv))

@@ -82,7 +82,7 @@ static gboolean
 impl_save_info (EFolder *folder)
 {
 	g_warning ("`%s' does not implement `EFolder::save_info()'",
-		   gtk_type_name (GTK_OBJECT_TYPE (folder)));
+		   G_OBJECT_TYPE_NAME (folder));
 	return FALSE;
 }
 
@@ -90,7 +90,7 @@ static gboolean
 impl_load_info (EFolder *folder)
 {
 	g_warning ("`%s' does not implement `EFolder::load_info()'",
-		   gtk_type_name (GTK_OBJECT_TYPE (folder)));
+		   G_OBJECT_TYPE_NAME (folder));
 	return FALSE;
 }
 
@@ -98,7 +98,7 @@ static gboolean
 impl_remove (EFolder *folder)
 {
 	g_warning ("`%s' does not implement `EFolder::remove()'",
-		   gtk_type_name (GTK_OBJECT_TYPE (folder)));
+		   G_OBJECT_TYPE_NAME (folder));
 	return FALSE;
 }
 
@@ -143,19 +143,21 @@ class_init (EFolderClass *klass)
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->finalize = impl_finalize;
 
-	signals[CHANGED] = gtk_signal_new ("changed",
-					   GTK_RUN_FIRST,
-					   GTK_CLASS_TYPE (object_class),
-					   G_STRUCT_OFFSET (EFolderClass, changed),
-					   e_shell_marshal_NONE__NONE,
-					   GTK_TYPE_NONE, 0);
+	signals[CHANGED] = g_signal_new ("changed",
+					 G_OBJECT_CLASS_TYPE (object_class),
+					 G_SIGNAL_RUN_FIRST,
+					 G_STRUCT_OFFSET (EFolderClass, changed),
+					 NULL, NULL,
+					 e_shell_marshal_NONE__NONE,
+					 G_TYPE_NONE, 0);
 
-	signals[NAME_CHANGED] = gtk_signal_new ("name_changed",
-						GTK_RUN_FIRST,
-						GTK_CLASS_TYPE (object_class),
-						G_STRUCT_OFFSET (EFolderClass, name_changed),
-						e_shell_marshal_NONE__NONE,
-						GTK_TYPE_NONE, 0);
+	signals[NAME_CHANGED] = g_signal_new ("name_changed",
+					      G_OBJECT_CLASS_TYPE (object_class),
+					      G_SIGNAL_RUN_FIRST,
+					      G_STRUCT_OFFSET (EFolderClass, name_changed),
+					      NULL, NULL,
+					      e_shell_marshal_NONE__NONE,
+					      G_TYPE_NONE, 0);
 
 	klass->save_info 	= impl_save_info;
 	klass->load_info 	= impl_load_info;

@@ -285,37 +285,41 @@ class_init (EStorageClass *class)
 	class->async_remove_shared_folder    = impl_async_remove_shared_folder;
 
 	signals[NEW_FOLDER] =
-		gtk_signal_new ("new_folder",
-				GTK_RUN_FIRST,
-				GTK_CLASS_TYPE (object_class),
-				G_STRUCT_OFFSET (EStorageClass, new_folder),
-				e_shell_marshal_NONE__STRING,
-				GTK_TYPE_NONE, 1,
-				GTK_TYPE_STRING);
+		g_signal_new ("new_folder",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_FIRST,
+			      G_STRUCT_OFFSET (EStorageClass, new_folder),
+			      NULL, NULL,
+			      e_shell_marshal_NONE__STRING,
+			      G_TYPE_NONE, 1,
+			      G_TYPE_STRING);
 	signals[UPDATED_FOLDER] =
-		gtk_signal_new ("updated_folder",
-				GTK_RUN_FIRST,
-				GTK_CLASS_TYPE (object_class),
-				G_STRUCT_OFFSET (EStorageClass, updated_folder),
-				e_shell_marshal_NONE__STRING,
-				GTK_TYPE_NONE, 1,
-				GTK_TYPE_STRING);
+		g_signal_new ("updated_folder",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_FIRST,
+			      G_STRUCT_OFFSET (EStorageClass, updated_folder),
+			      NULL, NULL,
+			      e_shell_marshal_NONE__STRING,
+			      G_TYPE_NONE, 1,
+			      G_TYPE_STRING);
 	signals[REMOVED_FOLDER] =
-		gtk_signal_new ("removed_folder",
-				GTK_RUN_FIRST,
-				GTK_CLASS_TYPE (object_class),
-				G_STRUCT_OFFSET (EStorageClass, removed_folder),
-				e_shell_marshal_NONE__STRING,
-				GTK_TYPE_NONE, 1,
-				GTK_TYPE_STRING);
+		g_signal_new ("removed_folder",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_FIRST,
+			      G_STRUCT_OFFSET (EStorageClass, removed_folder),
+			      NULL, NULL,
+			      e_shell_marshal_NONE__STRING,
+			      G_TYPE_NONE, 1,
+			      G_TYPE_STRING);
 	signals[CLOSE_FOLDER] =
-		gtk_signal_new ("close_folder",
-				GTK_RUN_FIRST,
-				GTK_CLASS_TYPE (object_class),
-				G_STRUCT_OFFSET (EStorageClass, close_folder),
-				e_shell_marshal_NONE__STRING,
-				GTK_TYPE_NONE, 1,
-				GTK_TYPE_STRING);
+		g_signal_new ("close_folder",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_FIRST,
+			      G_STRUCT_OFFSET (EStorageClass, close_folder),
+			      NULL, NULL,
+			      e_shell_marshal_NONE__STRING,
+			      G_TYPE_NONE, 1,
+			      G_TYPE_STRING);
 }
 
 static void

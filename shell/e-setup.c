@@ -139,7 +139,7 @@ check_evolution_directory (const char *evolution_directory)
 	gtk_widget_show (label1);
 	gtk_widget_show (label2);
 
-	gtk_window_set_policy (GTK_WINDOW (dialog), FALSE, TRUE, FALSE);
+	gtk_window_set_resizable (GTK_WINDOW (dialog), FALSE);
 
 	result = gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
 

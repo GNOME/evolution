@@ -268,6 +268,7 @@ construct_loading_metadata (ELocalFolder *local_folder,
 	EFolder *folder;
 	xmlDoc *doc;
 	xmlNode *root;
+	char *base_name;
 	char *type;
 	char *metadata_path;
 	char *physical_uri;
@@ -296,7 +297,9 @@ construct_loading_metadata (ELocalFolder *local_folder,
 		return FALSE;
 	}
 
-	e_local_folder_construct (local_folder, g_basename (path), type, NULL);
+	base_name = g_path_get_basename (path);
+	e_local_folder_construct (local_folder, base_name, type, NULL);
+	g_free (base_name);
 	g_free (type);
 
 	retrieve_info (local_folder, root);

@@ -25,7 +25,7 @@
 #endif
 
 #include <gtk/gtklabel.h>
-#include <gtk/gtkpixmap.h>
+#include <gtk/gtkimage.h>
 #include <gtk/gtkrc.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtktogglebutton.h>
@@ -124,7 +124,7 @@ static const char *right_arrow_xpm[] = {
 /* Utility functions for managing icons and icon widgets.  */
 
 static GtkWidget *
-create_pixmap_widget_from_xpm (const char **xpm) 
+create_image_widget_from_xpm (const char **xpm) 
 {
 	GdkPixbuf *pixbuf;
 	GdkPixmap *pixmap;
@@ -135,7 +135,7 @@ create_pixmap_widget_from_xpm (const char **xpm)
 
 	gdk_pixbuf_render_pixmap_and_mask (pixbuf, &pixmap, &mask, 127);
 
-	widget = gtk_pixmap_new (pixmap, mask);
+	widget = gtk_image_new_from_pixmap (pixmap, mask);
 	gtk_widget_show (widget);
 
 	return widget;
@@ -156,9 +156,9 @@ new_empty_pixbuf (void)
 }
 
 static GtkWidget *
-new_empty_pixmap_widget (void)
+new_empty_image_widget (void)
 {
-	GtkWidget *pixmap_widget;
+	GtkWidget *image_widget;
 	GdkPixmap *pixmap;
 	GdkBitmap *mask;
 	GdkPixbuf *empty_pixbuf;
@@ -166,11 +166,11 @@ new_empty_pixmap_widget (void)
 	empty_pixbuf = new_empty_pixbuf ();
 
 	gdk_pixbuf_render_pixmap_and_mask (empty_pixbuf, &pixmap, &mask, 127);
-	pixmap_widget = gtk_pixmap_new (pixmap, mask);
+	image_widget = gtk_image_new_from_pixmap (pixmap, mask);
 
 	g_object_unref (empty_pixbuf);
 
-	return pixmap_widget;
+	return image_widget;
 }
 
 
@@ -196,13 +196,16 @@ set_title_bar_label_style (GtkWidget *widget)
 static int
 get_max_clipped_label_width (EClippedLabel *clipped_label)
 {
-	GdkFont *font;
+	PangoLayout *layout;
 	int width;
 
-	font = gtk_style_get_font (GTK_WIDGET (clipped_label)->style);
+	layout = gtk_widget_create_pango_layout (GTK_WIDGET (clipped_label),
+						 clipped_label->label);
 
-	width = gdk_string_width (font, clipped_label->label);
+	pango_layout_get_pixel_size (layout, &width, NULL);
 	width += 2 * GTK_MISC (clipped_label)->xpad;
+
+	g_object_unref (layout);
 
 	return width;
 }
@@ -334,8 +337,8 @@ static void
 add_navigation_buttons (EShellFolderTitleBar *folder_title_bar)
 {
 	EShellFolderTitleBarPrivate *priv;
-	GtkWidget *back_pixmap;
-	GtkWidget *forward_pixmap;
+	GtkWidget *back_image;
+	GtkWidget *forward_image;
 
 	priv = folder_title_bar->priv;
 
@@ -343,8 +346,8 @@ add_navigation_buttons (EShellFolderTitleBar *folder_title_bar)
 	gtk_button_set_relief (GTK_BUTTON (priv->back_button), GTK_RELIEF_NONE);
 	GTK_WIDGET_UNSET_FLAGS (priv->back_button, GTK_CAN_FOCUS);
 
-	back_pixmap = create_pixmap_widget_from_xpm (left_arrow_xpm);
-	gtk_container_add (GTK_CONTAINER (priv->back_button), back_pixmap);
+	back_image = create_image_widget_from_xpm (left_arrow_xpm);
+	gtk_container_add (GTK_CONTAINER (priv->back_button), back_image);
 
 	g_signal_connect (priv->back_button, "clicked",
 			  G_CALLBACK (back_button_clicked_callback), folder_title_bar);
@@ -353,8 +356,8 @@ add_navigation_buttons (EShellFolderTitleBar *folder_title_bar)
 	gtk_button_set_relief (GTK_BUTTON (priv->forward_button), GTK_RELIEF_NONE);
 	GTK_WIDGET_UNSET_FLAGS (priv->forward_button, GTK_CAN_FOCUS);
 
-	forward_pixmap = create_pixmap_widget_from_xpm (right_arrow_xpm);
-	gtk_container_add (GTK_CONTAINER (priv->forward_button), forward_pixmap);
+	forward_image = create_image_widget_from_xpm (right_arrow_xpm);
+	gtk_container_add (GTK_CONTAINER (priv->forward_button), forward_image);
 
 	g_signal_connect (priv->forward_button, "clicked",
 			  G_CALLBACK (forward_button_clicked_callback), folder_title_bar);
@@ -471,27 +474,33 @@ class_init (EShellFolderTitleBarClass *klass)
 
 	parent_class = g_type_class_ref(PARENT_TYPE);
 
-	signals[TITLE_TOGGLED] = gtk_signal_new ("title_toggled",
-						 GTK_RUN_FIRST,
-						 GTK_CLASS_TYPE (object_class),
-						 G_STRUCT_OFFSET (EShellFolderTitleBarClass, title_toggled),
-						 e_shell_marshal_NONE__BOOL,
-						 GTK_TYPE_NONE, 1,
-						 GTK_TYPE_BOOL);
+	signals[TITLE_TOGGLED]
+		= g_signal_new ("title_toggled",
+				G_OBJECT_CLASS_TYPE (object_class),
+				G_SIGNAL_RUN_FIRST,
+				G_STRUCT_OFFSET (EShellFolderTitleBarClass, title_toggled),
+				NULL, NULL,
+				e_shell_marshal_NONE__BOOL,
+				G_TYPE_NONE, 1,
+				G_TYPE_BOOLEAN);
 
-	signals[BACK_CLICKED] = gtk_signal_new ("back_clicked",
-						GTK_RUN_FIRST,
-						GTK_CLASS_TYPE (object_class),
-						G_STRUCT_OFFSET (EShellFolderTitleBarClass, back_clicked),
-						e_shell_marshal_NONE__NONE,
-						GTK_TYPE_NONE, 0);
+	signals[BACK_CLICKED]
+		= g_signal_new ("back_clicked",
+				G_OBJECT_CLASS_TYPE (object_class),
+				G_SIGNAL_RUN_FIRST,
+				G_STRUCT_OFFSET (EShellFolderTitleBarClass, back_clicked),
+				NULL, NULL,
+				e_shell_marshal_NONE__NONE,
+				G_TYPE_NONE, 0);
 
-	signals[FORWARD_CLICKED] = gtk_signal_new ("forward_clicked",
-						   GTK_RUN_FIRST,
-						   GTK_CLASS_TYPE (object_class),
-						   G_STRUCT_OFFSET (EShellFolderTitleBarClass, forward_clicked),
-						   e_shell_marshal_NONE__NONE,
-						   GTK_TYPE_NONE, 0);
+	signals[FORWARD_CLICKED]
+		= g_signal_new ("forward_clicked",
+				G_OBJECT_CLASS_TYPE (object_class),
+				G_SIGNAL_RUN_FIRST,
+				G_STRUCT_OFFSET (EShellFolderTitleBarClass, forward_clicked),
+				NULL, NULL,
+				e_shell_marshal_NONE__NONE,
+				G_TYPE_NONE, 0);
 }
 
 static void
@@ -541,7 +550,7 @@ e_shell_folder_title_bar_construct (EShellFolderTitleBar *folder_title_bar)
 	priv = folder_title_bar->priv;
 	widget = GTK_WIDGET (folder_title_bar);
 
-	priv->title_icon = new_empty_pixmap_widget ();
+	priv->title_icon = new_empty_image_widget ();
 	gtk_misc_set_alignment (GTK_MISC (priv->title_icon), 1.0, .5);
 	gtk_misc_set_padding (GTK_MISC (priv->title_icon), 2, 0);
 	gtk_widget_show (priv->title_icon);
@@ -562,7 +571,7 @@ e_shell_folder_title_bar_construct (EShellFolderTitleBar *folder_title_bar)
 	gtk_widget_show (priv->folder_bar_label);
 	set_title_bar_label_style (priv->folder_bar_label);
 
-	priv->title_button_icon = new_empty_pixmap_widget ();
+	priv->title_button_icon = new_empty_image_widget ();
 	gtk_widget_show (priv->title_button_icon);
 
 	title_button_hbox = gtk_hbox_new (FALSE, 0);
@@ -570,7 +579,7 @@ e_shell_folder_title_bar_construct (EShellFolderTitleBar *folder_title_bar)
 			    FALSE, TRUE, 2);
 	gtk_box_pack_start (GTK_BOX (title_button_hbox), priv->title_button_label,
 			    TRUE, TRUE, 0);
-	gtk_box_pack_start (GTK_BOX (title_button_hbox), create_pixmap_widget_from_xpm (down_arrow_xpm),
+	gtk_box_pack_start (GTK_BOX (title_button_hbox), create_image_widget_from_xpm (down_arrow_xpm),
 			    FALSE, TRUE, 2);
 	gtk_widget_show (title_button_hbox);
 
@@ -615,13 +624,9 @@ e_shell_folder_title_bar_new (void)
 {
 	EShellFolderTitleBar *new;
 
-	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
-	gtk_widget_push_visual (gdk_rgb_get_visual ());
 	new = g_object_new (e_shell_folder_title_bar_get_type (), NULL);
 
 	e_shell_folder_title_bar_construct (new);
-	gtk_widget_pop_visual ();
-	gtk_widget_pop_colormap ();
 
 	return GTK_WIDGET (new);
 }
@@ -718,10 +723,10 @@ e_shell_folder_title_bar_set_icon (EShellFolderTitleBar *folder_title_bar,
 	}
 
 	gdk_pixbuf_render_pixmap_and_mask (priv->icon, &pixmap, &mask, 127);
-	gtk_pixmap_set (GTK_PIXMAP (priv->title_button_icon), pixmap, mask);
+	gtk_image_set_from_pixmap (GTK_IMAGE (priv->title_button_icon), pixmap, mask);
 
 	gdk_pixbuf_render_pixmap_and_mask (priv->icon, &pixmap, &mask, 127);
-	gtk_pixmap_set (GTK_PIXMAP (priv->title_icon), pixmap, mask);
+	gtk_image_set_from_pixmap (GTK_IMAGE (priv->title_icon), pixmap, mask);
 }
 
 

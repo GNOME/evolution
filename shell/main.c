@@ -92,7 +92,7 @@ quit_box_new (void)
 	GtkWidget *frame;
 
 	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-	gtk_window_set_policy (GTK_WINDOW (window), FALSE, FALSE, FALSE);
+	gtk_window_set_resizable (GTK_WINDOW (window), FALSE);
 	gtk_window_set_position (GTK_WINDOW (window), GTK_WIN_POS_CENTER);
 
 	/* (Just to prevent smart-ass window managers like Sawfish from setting
@@ -258,9 +258,7 @@ static void
 view_map_callback (GtkWidget *widget,
 		   void *data)
 {
-	gtk_signal_disconnect_by_func (GTK_OBJECT (widget),
-				       G_CALLBACK (view_map_callback),
-				       data);
+	g_signal_handlers_disconnect_by_func (widget, G_CALLBACK (view_map_callback), data);
 
 	show_development_warning (GTK_WINDOW (widget));
 }
@@ -270,9 +268,7 @@ new_view_created_callback (EShell *shell,
 			   EShellView *view,
 			   void *data)
 {
-	gtk_signal_disconnect_by_func (GTK_OBJECT (shell),
-				       G_CALLBACK (new_view_created_callback),
-				       data);
+	g_signal_handlers_disconnect_by_func (shell, G_CALLBACK (new_view_created_callback), data);
 
 	g_signal_connect (view, "map", G_CALLBACK (view_map_callback), NULL);
 }
@@ -513,9 +509,6 @@ main (int argc, char **argv)
 #endif
 
 	gtk_idle_add (idle_cb, uri_list);
-
-	gtk_widget_push_visual (gdk_rgb_get_visual ());
-	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
 
 	bonobo_main ();
 

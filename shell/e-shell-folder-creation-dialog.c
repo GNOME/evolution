@@ -29,6 +29,7 @@
 #include <libgnome/gnome-util.h>
 #include <libgnomeui/gnome-dialog.h>
 
+#include <gtk/gtkentry.h>
 #include <gtk/gtkdialog.h>
 #include <gtk/gtkoptionmenu.h>
 #include <gtk/gtkmenuitem.h>
@@ -36,7 +37,6 @@
 #include <glade/glade-xml.h>
 
 #include <gal/util/e-util.h>
-#include <gal/widgets/e-unicode.h>
 #include <gal/widgets/e-gui-utils.h>
 
 #include <gal/widgets/e-scroll-frame.h>
@@ -353,11 +353,22 @@ static int
 type_with_display_name_compare_func (const void *a, const void *b)
 {
 	const TypeWithDisplayName *val_a, *val_b;
+	char *a_display_name_casefolded;
+	char *b_display_name_casefolded;
+	int retval;
 
 	val_a = (const TypeWithDisplayName *) a;
 	val_b = (const TypeWithDisplayName *) b;
 
-	return g_strcasecmp (val_a->display_name, val_b->display_name);
+	a_display_name_casefolded = g_utf8_casefold (val_a->display_name, -1);
+	b_display_name_casefolded = g_utf8_casefold (val_b->display_name, -1);
+
+	retval = g_utf8_collate (a_display_name_casefolded, b_display_name_casefolded);
+
+	g_free (a_display_name_casefolded);
+	g_free (b_display_name_casefolded);
+
+	return retval;
 }
 
 static GList *

@@ -346,4 +346,4 @@ e_corba_shortcuts_new (EShortcuts *shortcuts)
 E_MAKE_X_TYPE (e_corba_shortcuts, "ECorbaShortcuts", ECorbaShortcuts,
 	       class_init, init, PARENT_TYPE,
 	       POA_GNOME_Evolution_Shortcuts__init,
-	       GTK_STRUCT_OFFSET (ECorbaShortcutsClass, epv))
+	       G_STRUCT_OFFSET (ECorbaShortcutsClass, epv))

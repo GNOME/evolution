@@ -154,13 +154,15 @@ class_init (EvolutionConfigControlClass *class)
 	epv->_get_control     = impl__get_control;
 	epv->_get_eventSource = impl__get_eventSource;
 
-	signals[APPLY] = gtk_signal_new ("apply", GTK_RUN_FIRST,
-					 GTK_CLASS_TYPE (object_class),
-					 G_STRUCT_OFFSET (EvolutionConfigControlClass, apply),
-					 e_shell_marshal_NONE__NONE,
-					 GTK_TYPE_NONE, 0);
+	signals[APPLY] = g_signal_new ("apply",
+				       G_OBJECT_CLASS_TYPE (object_class),
+				       G_SIGNAL_RUN_FIRST,
+				       G_STRUCT_OFFSET (EvolutionConfigControlClass, apply),
+				       NULL, NULL,
+				       e_shell_marshal_NONE__NONE,
+				       G_TYPE_NONE, 0);
 
-	parent_class = g_type_class_ref(PARENT_TYPE);
+	parent_class = g_type_class_ref (PARENT_TYPE);
 }
 
 static void
@@ -236,4 +238,4 @@ evolution_config_control_changed (EvolutionConfigControl *config_control)
 E_MAKE_X_TYPE (evolution_config_control, "EvolutionConfigControl", EvolutionConfigControl,
 	       class_init, init, PARENT_TYPE,
 	       POA_GNOME_Evolution_ConfigControl__init,
-	       GTK_STRUCT_OFFSET (EvolutionConfigControlClass, epv))
+	       G_STRUCT_OFFSET (EvolutionConfigControlClass, epv))

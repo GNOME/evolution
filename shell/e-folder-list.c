@@ -36,7 +36,6 @@
 
 #include <gal/e-table/e-table-memory-store.h>
 #include <gal/util/e-xml-utils.h>
-#include <gal/widgets/e-unicode.h>
 #include <gal/widgets/e-gui-utils.h>
 #include <gal/widgets/e-option-menu.h>
 
@@ -58,9 +57,9 @@ static guint signals [LAST_SIGNAL] = { 0, };
 
 /* The arguments we take */
 enum {
-	ARG_0,
-	ARG_TITLE,
-	ARG_POSSIBLE_TYPES,
+	PROP_0,
+	PROP_TITLE,
+	PROP_POSSIBLE_TYPES,
 };
 
 struct _EFolderListPrivate {
@@ -138,21 +137,19 @@ e_folder_list_changed (EFolderList *efl)
 }
 
 static void
-e_folder_list_destroy (GtkObject *object)
+e_folder_list_dispose (GObject *object)
 {
 	EFolderList *efl = E_FOLDER_LIST (object);
 
-	if (efl->priv->gui)
+	if (efl->priv != NULL) {
 		g_object_unref (efl->priv->gui);
-
-	if (efl->priv->client)
 		g_object_unref (efl->priv->client);
+		g_free (efl->priv);
+		efl->priv = NULL;
+	}
 
-	g_free (efl->priv);
-	efl->priv = NULL;
-
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	if (G_OBJECT_CLASS (parent_class)->dispose)
+		(* G_OBJECT_CLASS (parent_class)->dispose) (object);
 }
 
 static void
@@ -172,39 +169,46 @@ set_frame_label (EFolderList *efl)
 }
 
 static void
-e_folder_list_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
+e_folder_list_set_property (GObject *object,
+			    guint property_id,
+			    const GValue *value,
+			    GParamSpec *pspec)
 {
 	EFolderList *efl = E_FOLDER_LIST(object);
 
-	switch (arg_id) {
-	case ARG_TITLE:
+	switch (property_id) {
+	case PROP_TITLE:
 		g_free (efl->priv->title);
-		efl->priv->title = g_strdup (GTK_VALUE_STRING (*arg));
+		efl->priv->title = g_strdup (g_value_get_string (value));
 		set_frame_label (efl);
 		break;
-	case ARG_POSSIBLE_TYPES:
+	case PROP_POSSIBLE_TYPES:
 		g_strfreev (efl->priv->possible_types);
-		efl->priv->possible_types = e_strdupv (GTK_VALUE_POINTER (*arg));
+		efl->priv->possible_types = e_strdupv (g_value_get_pointer (value));
 		break;
 	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
 	}
 }
 
 static void
-e_folder_list_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
+e_folder_list_get_property (GObject *object,
+			    guint property_id,
+			    GValue *value,
+			    GParamSpec *pspec)
 {
 	EFolderList *efl = E_FOLDER_LIST(object);
 
-	switch (arg_id) {
-	case ARG_TITLE:
-		GTK_VALUE_STRING (*arg) = g_strdup (efl->priv->title);
+	switch (property_id) {
+	case PROP_TITLE:
+		g_value_set_string (value, efl->priv->title);
 		break;
-	case ARG_POSSIBLE_TYPES:
-		GTK_VALUE_POINTER (*arg) = e_strdupv ((const gchar **) efl->priv->possible_types);
+	case PROP_POSSIBLE_TYPES:
+		g_value_set_pointer (value, e_strdupv ((const gchar **) efl->priv->possible_types));
 		break;
 	default:
-		arg->type = GTK_TYPE_INVALID;
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
 	}
 }
@@ -212,45 +216,54 @@ e_folder_list_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 static void
 e_folder_list_class_init (EFolderListClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 	GtkVBoxClass *vbox_class;
 
-	object_class               = (GtkObjectClass*) klass;
-	vbox_class                 = (GtkVBoxClass *) klass;
+	object_class = (GObjectClass*) klass;
+	vbox_class = (GtkVBoxClass *) klass;
+	parent_class = g_type_class_ref (PARENT_TYPE);
 
 	glade_gnome_init();
 
-	parent_class               = g_type_class_ref(PARENT_TYPE);
-
-	object_class->set_arg      = e_folder_list_set_arg;
-	object_class->get_arg      = e_folder_list_get_arg;
-	object_class->destroy      = e_folder_list_destroy;
+	object_class->set_property = e_folder_list_set_property;
+	object_class->get_property = e_folder_list_get_property;
+	object_class->dispose      = e_folder_list_dispose;
 
 	klass->changed             = NULL;
 	klass->option_menu_changed = NULL;
 
 	signals [OPTION_MENU_CHANGED] =
-		gtk_signal_new ("option_menu_changed",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				G_STRUCT_OFFSET (EFolderListClass, option_menu_changed),
-				e_shell_marshal_NONE__INT,
-				GTK_TYPE_NONE, 1, GTK_TYPE_INT);
+		g_signal_new ("option_menu_changed",
+			      E_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (EFolderListClass, option_menu_changed),
+			      NULL, NULL,
+			      e_shell_marshal_NONE__INT,
+			      G_TYPE_NONE, 1,
+			      G_TYPE_INT);
 
 	signals [CHANGED] =
-		gtk_signal_new ("changed",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				G_STRUCT_OFFSET (EFolderListClass, changed),
-				e_shell_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
+		g_signal_new ("changed",
+			      E_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (EFolderListClass, changed),
+			      NULL, NULL,
+			      e_shell_marshal_NONE__NONE,
+			      G_TYPE_NONE, 0);
 
 	E_OBJECT_CLASS_ADD_SIGNALS (object_class, signals, LAST_SIGNAL);
 
-	gtk_object_add_arg_type ("EFolderList::title", GTK_TYPE_STRING,
-				 GTK_ARG_READWRITE, ARG_TITLE);
-	gtk_object_add_arg_type ("EFolderList::possible_types", GTK_TYPE_POINTER,
-				 GTK_ARG_READWRITE, ARG_POSSIBLE_TYPES);
+	g_object_class_install_property (object_class, PROP_TITLE,
+					 g_param_spec_string ("EFolderList::title",
+							      NULL,
+							      NULL,
+							      NULL,
+							      G_PARAM_READWRITE));
+	g_object_class_install_property (object_class, PROP_POSSIBLE_TYPES,
+					 g_param_spec_pointer ("EFolderList::possible_types",
+							       NULL,
+							       NULL,
+							       G_PARAM_READWRITE));
 }
 
 #define SPEC 	"<ETableSpecification cursor-mode=\"line\"" \
@@ -536,31 +549,6 @@ e_folder_list_free_items (EFolderListItem *items)
 	g_free (items);
 }
 
-GtkType
-e_folder_list_get_type (void)
-{
-	static GtkType folder_list_type = 0;
-
-	if (!folder_list_type)
-		{
-			static const GtkTypeInfo folder_list_info =
-			{
-				"EFolderList",
-				sizeof (EFolderList),
-				sizeof (EFolderListClass),
-				(GtkClassInitFunc) e_folder_list_class_init,
-				(GtkObjectInitFunc) e_folder_list_init,
-				/* reserved_1 */ NULL,
-				/* reserved_2 */ NULL,
-				(GtkClassInitFunc) NULL,
-			};
-
-			folder_list_type = gtk_type_unique (PARENT_TYPE, &folder_list_info);
-		}
-
-	return folder_list_type;
-}
-
 GtkWidget*
 e_folder_list_new (EvolutionShellClient *client, char *xml)
 {
@@ -685,3 +673,6 @@ e_folder_list_set_option_menu_value (EFolderList *efl, int value)
 {
 	gtk_option_menu_set_history (GTK_OPTION_MENU (efl->priv->option_menu), value);
 }
+
+
+E_MAKE_TYPE (e_folder_list, "EFolderList", EFolderList, e_folder_list_class_init, e_folder_list_init, PARENT_TYPE)

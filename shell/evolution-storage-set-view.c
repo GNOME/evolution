@@ -478,4 +478,4 @@ evolution_storage_set_view_new (EStorageSetView *storage_set_view_widget)
 E_MAKE_X_TYPE (evolution_storage_set_view, "EvolutionStorageSetView", EvolutionStorageSetView,
 	       class_init, init, PARENT_TYPE,
 	       POA_GNOME_Evolution_StorageSetView__init,
-	       GTK_STRUCT_OFFSET (EvolutionStorageSetViewClass, epv))
+	       G_STRUCT_OFFSET (EvolutionStorageSetViewClass, epv))

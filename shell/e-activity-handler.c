@@ -584,4 +584,4 @@ e_activity_handler_attach_task_bar (EActivityHandler *activity_handler,
 
 E_MAKE_X_TYPE (e_activity_handler, "EActivityHandler", EActivityHandler, class_init, init, PARENT_TYPE,
 	       POA_GNOME_Evolution_Activity__init,
-	       GTK_STRUCT_OFFSET (EActivityHandlerClass, epv))
+	       G_STRUCT_OFFSET (EActivityHandlerClass, epv))

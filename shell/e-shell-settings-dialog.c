@@ -57,14 +57,26 @@ struct _EShellSettingsDialogPrivate {
 static void
 set_dialog_size (EShellSettingsDialog *dialog)
 {
-	GdkFont *font;
+	PangoLayout *layout;
+	PangoContext *context;
+	PangoFontMetrics *metrics;
 	int width, height;
 
-	font = gtk_style_get_font (GTK_WIDGET (dialog)->style);
-	width = gdk_string_width (font, "M") * 72;
-	height = (font->ascent + font->descent) * 35;
+	layout = gtk_widget_create_pango_layout (GTK_WIDGET (dialog), "M");
+	context = pango_layout_get_context (layout);
+	metrics = pango_context_get_metrics (context,
+					     gtk_widget_get_style (GTK_WIDGET (dialog))->font_desc,
+					     NULL);
+
+	width = pango_layout_get_width (layout) * 72;
+	height = PANGO_PIXELS (pango_font_metrics_get_ascent (metrics)
+			       + pango_font_metrics_get_descent (metrics)) * 35;
 
 	gtk_widget_set_size_request (GTK_WIDGET (dialog), width, height);
+
+	g_object_unref (context);
+	g_object_unref (layout);
+	pango_font_metrics_unref (metrics);
 }
 
 

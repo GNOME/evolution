@@ -24,16 +24,20 @@
 #include <config.h>
 #endif
 
+#undef G_DISABLE_DEPRECATED	/* FIXME */
+#undef GTK_DISABLE_DEPRECATED	/* FIXME */
+
 #include "e-shell-offline-handler.h"
 
 #include "e-shell-offline-sync.h"
 
 #include "e-shell-marshal.h"
 
-#include <gtk/gtktypeutils.h>
-#include <gtk/gtksignal.h>
-#include <gtk/gtkwidget.h>
 #include <gtk/gtkclist.h>
+#include <gtk/gtklabel.h>
+#include <gtk/gtksignal.h>
+#include <gtk/gtktypeutils.h>
+#include <gtk/gtkwidget.h>
 
 #include <gal/util/e-util.h>
 
@@ -721,21 +725,23 @@ class_init (EShellOfflineHandlerClass *klass)
 	parent_class = g_type_class_ref(gtk_object_get_type ());
 
 	signals[OFFLINE_PROCEDURE_STARTED]
-		= gtk_signal_new ("offline_procedure_started",
-				  GTK_RUN_LAST,
-				  GTK_CLASS_TYPE (object_class),
-				  G_STRUCT_OFFSET (EShellOfflineHandlerClass, offline_procedure_started),
-				  e_shell_marshal_NONE__NONE,
-				  GTK_TYPE_NONE, 0);
+		= g_signal_new ("offline_procedure_started",
+				G_OBJECT_CLASS_TYPE (object_class),
+				G_SIGNAL_RUN_LAST,
+				G_STRUCT_OFFSET (EShellOfflineHandlerClass, offline_procedure_started),
+				NULL, NULL,
+				e_shell_marshal_NONE__NONE,
+				G_TYPE_NONE, 0);
 
 	signals[OFFLINE_PROCEDURE_FINISHED]
-		= gtk_signal_new ("offline_procedure_finished",
-				  GTK_RUN_LAST,
-				  GTK_CLASS_TYPE (object_class),
-				  G_STRUCT_OFFSET (EShellOfflineHandlerClass, offline_procedure_finished),
-				  e_shell_marshal_NONE__BOOL,
-				  GTK_TYPE_NONE, 1,
-				  GTK_TYPE_BOOL);
+		= g_signal_new ("offline_procedure_finished",
+				G_OBJECT_CLASS_TYPE (object_class),
+				G_SIGNAL_RUN_LAST,
+				G_STRUCT_OFFSET (EShellOfflineHandlerClass, offline_procedure_finished),
+				NULL, NULL,
+				e_shell_marshal_NONE__BOOL,
+				G_TYPE_NONE, 1,
+				G_TYPE_BOOLEAN);
 }
 
 

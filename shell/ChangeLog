@@ -1,3 +1,236 @@
+2002-12-19  Ettore Perazzoli  <ettore@ximian.com>
+
+	[With this commit, the shell compiles without deprecated GLib/GTK+
+	functions, except for a couple of places were we use GtkCList.]
+
+	* Makefile.am (INCLUDES): Add `-DG_DISABLE_DEPRECATED
+	-DGTK_DISABLE_DEPRECATED'.
+
+	* evolution-test-component.c (create_new_folder_selector): No
+	gtk_window_set_policy().
+
+	* main.c (quit_box_new): gtk_window_set_resizable() instead of
+	gtk_window_set_policy().
+	(view_map_callback): g_signal_handlers_disconnect_by_func()
+	instead of gtk_signal_disconnect_by_func().
+	(main): No need to push the GdkRGB visual/cmap anymore.
+	(new_view_created_callback): Likewise.
+
+	* e-task-widget.c: Renamed member pixmap of ETaskWidgetPrivate to
+	`image'.
+	(init): Updated accordingly.
+	(e_task_widget_construct): Use GtkImage, not GtkPixmap.
+
+	* e-storage.c (class_init): Converted from gtk_signal_new() to
+	g_signal_new().
+
+	* e-storage-set.c (class_init): Converted from gtk_signal_new() to
+	g_signal_new().
+
+	* e-storage-set-view.c
+	(setup_folder_properties_items_if_corba_storage_clicked):
+	g_string_append_printf() instead of g_string_sprintfa().
+	(class_init): Converted from gtk_signal_new() to g_signal_new().
+	(setup_folder_changed_callbacks): Use
+	e_signal_connect_while_alive() and
+	e_signal_connect_full_while_alive().
+
+	* e-splash.c (e_splash_construct): gtk_window_set_resizable()
+	instead of gtk_window_set_policy().
+
+	* e-shortcuts.c: Do not #include e-unicode.h.
+	(shortcut_item_update): Use g_path_get_basename() instead of
+	g_basename().
+	(e_shortcuts_add_default_shortcuts): No need to de-utfize strings.
+	(e_shortcuts_add_default_group): Same here.
+
+	* e-shortcuts-view.c: Do not #include <e-unicode.h>.
+	(class_init): Converted from gtk_signal_new() to g_signal_new().
+	(destroy_group_cb): No need to convert the text from UTF8.
+
+	* e-shell.c (impl_dispose): g_signal_handlers_disconnect_by_func()
+	instead of gtk_signal_disconnect_by_func().
+	(class_init): Use g_signal_new() instead of gtk_signal_new().
+
+	* e-shell-view.c: Do not #include e-unicode.h.  Renamed member
+	offline_toggle_pixmap to offline_toggle_image in
+	EShellViewPrivate.
+	(update_folder_title_bar): No need to de-UTF8-ize the title.
+	(cleanup_delayed_selection):
+	g_signal_handlers_disconnect_by_func() instead of
+	gtk_signal_disconnect_by_func().
+	(ui_engine_add_hint_callback): gtk_label_set_text(), not
+	gtk_label_set().
+	(class_init): Use g_signal_new() instead of gtk_signal_new().
+	(update_for_current_uri): No need to convert the title from UTF8.
+	(setup_offline_toggle): Changed to set up a GtkImage, not a
+	GtkPixmap.
+	(update_offline_toggle_status): Accordingly (gtk_image* instead of
+	gtk_pixmap*).
+	(set_current_notebook_page): gtk_notebook_set_current_page(), not
+	gtk_notebook_set_page().
+	(get_storage_set_path_from_uri): g_ascii_strncasecmp() instead of
+	g_strncasecmp().
+	(folder_bar_popup_map_callback): Use
+	e_signal_connect_while_alive() instead of
+	gtk_signal_connect_while_alive().
+	(e_shell_view_construct): Likewise.
+	(display_uri): g_signal_connect_after() instead of
+	gtk_signal_connect_full().
+	(update_for_current_uri):
+	g_signal_handlers_{block,unblock}_by_func() instead of
+	gtk_signal_handler_{block,unblock}_by_func().
+
+	* e-shell-view-menu.c (command_about_box):
+	gtk_window_set_resizable() instead of gtk_window_set_policy().
+
+	* e-shell-utils.c (get_mini_name): g_path_get_basename() instead
+	of g_basename().
+
+	* e-shell-user-creatable-items-handler.c
+	(append_xml_for_menu_item): g_string_append_printf() instead of
+	g_string_sprintfa().
+	(create_menu_xml): Likewise.
+
+	* e-shell-shared-folder-picker-dialog.c: Do not #include
+	e-unicode.h.
+	(progress_bar_timeout_callback): Expect a GtkProgressBar data and
+	just use gtk_progress_bar_pulse().
+	(create_progress_dialog): gtk_window_set_resizable() instead of
+	gtk_window_set_policy().  No gtk_progress_set_activity_mode().
+	(setup_server_option_menu): Just use
+	gtk_menu_item_new_with_label() instead of
+	e_utf8_gtk_menu_item_new_with_label().
+
+	* e-shell-settings-dialog.c (set_dialog_size): Ported to Pango.
+
+	* e-shell-offline-sync.c
+	(impl_SyncFolderProgressListener_updateProgress):
+	gtk_progress_set_fraction() instead of
+	gtk_progress_bar_set_percentage().
+	(sync_folder): Likewise.
+	(setup_dialog): gtk_window_set_resizable() instead of
+	gtk_window_set_policy().
+	(sync_folder): No gtk_progress_set_activity_mode().
+
+	* e-shell-offline-handler.c: #undef {G,GTK}_DISABLE_DEPRECATED
+	here for now (need to port from GtkCList).
+	(class_init): Use g_signal_new()
+
+	* e-shell-importer.c: #undef {G,GTK}_DISABLE_DEPRECATED here for
+	now (need to port from GtkCList).
+
+	* e-shell-folder-title-bar.c (create_image_widget_from_xpm):
+	Renamed from create_pixmap_widget_from_xpm(); handle GtkImage
+	instead of GtkPixmap.
+	(new_empty_image_widget): Renamed from new_empty_pixmap_widget();
+	return a GtkImage instead of a GtkPixmap.
+	(add_navigation_buttons): Updated accordingly; so use GtkImages
+	instead of GtkPixmaps.
+	(e_shell_folder_title_bar_construct): Likewise.
+	(e_shell_folder_title_bar_set_icon): Use gtk_image_* instead of
+	gtk_pixmap_* on the image widgets.
+	(class_init): Converted to use g_signal_new() instead of
+	gtk_signal_new().
+	(e_shell_folder_title_bar_new): No need for pushing the GdkRGB
+	visual/cmap anymore.
+
+	* e-shell-folder-selection-dialog.c (check_folder_type_valid):
+	Just use strcmp instead of strcasecmp().
+	(class_init): g_signal_new() instead of gtk_signal_new().
+	(e_shell_folder_selection_dialog_construct): Removed call to
+	gtk_window_set_policy().
+
+	* e-shell-folder-creation-dialog.c
+	(type_with_display_name_compare_func): Changed to use
+	g_utf8_casefold().
+
+	* e-shell-folder-commands.c: Do not #include e-unicode.h.
+	(e_shell_command_rename_folder): g_path_get_dirname() instead of
+	g_dirname().
+	(folder_selection_dialog_folder_selected_callback):
+	g_path_get_basename() instead of g_basename().
+	(rename_cb): Likewise.
+	(delete_dialog): Do not convert from UTF8 for display purposes.
+	(e_shell_command_rename_folder): Likewise.
+
+	* e-shell-about-box.c (timeout_callback): Ported to Pango and use
+	gdk_window_invalidate_rect() instead of gtk_widget_draw().
+
+	* e-setup.c (check_evolution_directory): Use
+	gtk_window_set_resizable() instead of gtk_window_set_policy().
+
+	* e-local-storage.c: Do not include e-unicode.h.
+	(create_folder): Use g_path_get_basename() instead of
+	g_basename().
+	(create_folder_directory): Likewise.
+	(remove_folder_directory): Likewise.
+	(append_xfer_item_list): Likewise.
+
+	* e-local-folder.c (construct_loading_metadata): Use
+	g_path_get_basename() instead of g_basename().
+
+	* e-folder-dnd-bridge.c (handle_evolution_path_drag_motion): Use
+	g_path_get_basename() instead of g_basename().
+
+	* e-corba-storage-registry.c: G_STRUCT_OFFSET instead of
+	GTK_STRUCT_OFFSET.
+
+	* e-corba-shortcuts.c: G_STRUCT_OFFSET instead of
+	GTK_STRUCT_OFFSET.
+
+	* e-component-registry.c
+	(sleep_with_g_main_loop_timeout_callback): g_main_loop_* instead
+	of g_main_*.
+	(sleep_with_g_main_loop): Likewise.
+
+	* e-activity-handler.c: G_STRUCT_OFFSET instead of
+	GTK_STRUCT_OFFSET.
+
+	* evolution-wizard.c (evolution_wizard_class_init): g_signal_new()
+	instead of gtk_signal_new().
+
+	* evolution-storage-listener.c (class_init): g_signal_new()
+	instead of gtk_signal_new().
+
+	* evolution-shell-view.c (class_init): g_signal_new() instead of
+	gtk_signal_new().
+
+	* evolution-shell-component-dnd.c: G_STRUCT_OFFSET instead of
+	GTK_STRUCT_OFFSET.
+
+	* evolution-shell-component.c: G_STRUCT_OFFSET instead of
+	GTK_STRUCT_OFFSET.
+
+	* evolution-session.c: G_STRUCT_OFFSET instead of
+	GTK_STRUCT_OFFSET.
+
+	* evolution-folder-selector-button.c: Do not include e-unicode.h.
+	(set_folder): No need to convert from UTF8 to locale encoding
+	anymore.  Removed unused variable.
+
+	* evolution-config-control.c (class_init): Use g_signal_new()
+	instead of gtk_signal_new().
+
+	* evolution-activity-client.c (class_init): Use g_signal_new()
+	instead of gtk_signal_new().
+
+	* e-folder-list.c: Do not include e-unicode.h.  Use E_MAKE_TYPE().
+	(e_folder_list_get_type): Removed explicit implementation of this.
+	(e_folder_list_set_arg): Removed.
+	(e_folder_list_get_arg): Removed.
+	(e_folder_list_set_property): New.
+	(e_folder_list_get_property): New.
+	(e_folder_list_destroy): Removed.
+	(e_folder_list_dispose): New.
+	(e_folder_list_class_init): Updated accordingly.
+
+	* e-folder.c (impl_save_info): Use G_OBJECT_TYPE_NAME() instead of
+	gtk_type_name().
+	(impl_load_info): Likewise.
+	(impl_remove): Likewise.
+	(class_init): Use g_signal_new() instead of gtk_signal_new().
+
 2002-12-16  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-shell-importer.c: Don't #include "e-util/e-html-utils.h" as

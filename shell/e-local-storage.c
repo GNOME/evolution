@@ -47,7 +47,6 @@
 #include <libgnome/gnome-util.h>
 
 #include <gal/util/e-util.h>
-#include <gal/widgets/e-unicode.h>
 
 #include "e-util/e-path.h"
 #include "e-local-folder.h"
@@ -343,7 +342,7 @@ create_folder_directory (ELocalStorage *local_storage,
 {
 	EStorage *storage;
 	ELocalStoragePrivate *priv;
-	const char *folder_name;
+	char *folder_name;
 	char *physical_path;
 	
 	storage = E_STORAGE (local_storage);
@@ -352,7 +351,7 @@ create_folder_directory (ELocalStorage *local_storage,
 	*physical_path_return = NULL;
 	g_assert (g_path_is_absolute (path));
 	
-	folder_name = g_basename (path);
+	folder_name = g_path_get_basename (path);
 
 	if (folder_name != path + 1) {
 		char *subfolders_directory_physical_path;
@@ -372,6 +371,8 @@ create_folder_directory (ELocalStorage *local_storage,
 		}
 		g_free (subfolders_directory_physical_path);
 	}
+
+	g_free (folder_name);
 
 	physical_path = e_path_to_physical (priv->base_path, path);
 
@@ -399,7 +400,7 @@ create_folder (ELocalStorage *local_storage,
 	EvolutionShellComponentClient *component_client;
 	AsyncCreateFolderCallbackData *callback_data;
 	EStorageResult result;
-	const char *folder_name;
+	char *folder_name;
 	char *physical_path;
 	char *physical_uri;
 	
@@ -428,7 +429,7 @@ create_folder (ELocalStorage *local_storage,
 		return;
 	}
 	
-	folder_name = g_basename (path);
+	folder_name = g_path_get_basename (path);
 
 	/* Finally tell the component to do the job of creating the physical files in it.  */
 
@@ -456,6 +457,8 @@ create_folder (ELocalStorage *local_storage,
 							      type,
 							      component_async_create_folder_callback,
 							      callback_data);
+
+	g_free (folder_name);
 }
 
 struct _AsyncRemoveFolderCallbackData {
@@ -470,14 +473,14 @@ remove_folder_directory (ELocalStorage *local_storage,
 {
 	EStorage *storage;
 	ELocalStoragePrivate *priv;
-	const char *folder_name;
+	char *folder_name;
 	char *file_name;
 	char *physical_path;
 
 	priv = local_storage->priv;
 
 	storage = E_STORAGE (local_storage);
-	folder_name = g_basename (path);
+	folder_name = g_path_get_basename (path);
 
 	/* Delete the metadata file associated with this folder.  */
 	physical_path = e_path_to_physical (priv->base_path, path);
@@ -488,6 +491,7 @@ remove_folder_directory (ELocalStorage *local_storage,
 	/* Delete the physical directory.  */
 	if (rmdir (physical_path) == -1) {
 		g_free (physical_path);
+		g_free (folder_name);
 		return E_STORAGE_GENERICERROR;
 	}
 
@@ -506,6 +510,7 @@ remove_folder_directory (ELocalStorage *local_storage,
 		g_free (subfolders_directory_physical_path);
 	}
 
+	g_free (folder_name);
 	return E_STORAGE_OK;
 }
 
@@ -793,14 +798,15 @@ append_xfer_item_list (EStorage *storage,
 
 	subfolders = e_storage_get_subfolder_paths (storage, source_path);
 	for (p = subfolders; p != NULL; p = p->next) {
+		char *base_name;
 		char *source_subpath;
 		char *destination_subpath;
 
 		source_subpath = g_strdup ((const char *) p->data);
-		destination_subpath = g_concat_dir_and_file (destination_path,
-							     g_basename (source_subpath));
-
+		base_name = g_path_get_basename (source_subpath);
+		destination_subpath = g_concat_dir_and_file (destination_path, base_name);
 		append_xfer_item_list (storage, source_subpath, destination_subpath, list);
+		g_free (base_name);
 	}
 
 	e_free_string_list (subfolders);

@@ -34,7 +34,6 @@
 #include "e-shell-utils.h"
 
 #include <gal/widgets/e-gui-utils.h>
-#include <gal/widgets/e-unicode.h>
 
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
@@ -161,12 +160,14 @@ folder_selection_dialog_folder_selected_callback (EShellFolderSelectionDialog *f
 {
 	FolderCommandData *folder_command_data;
 	EStorageSet *storage_set;
+	char *base_name;
 	gboolean remove_source;
 
 	folder_command_data = (FolderCommandData *) data;
 
-	folder_command_data->destination_path = g_concat_dir_and_file (path,
-								       g_basename (folder_command_data->source_path));
+	base_name = g_path_get_basename (folder_command_data->source_path);
+	folder_command_data->destination_path = g_concat_dir_and_file (path, base_name);
+	g_free (base_name);
 
 	switch (folder_command_data->command) {
 	case FOLDER_COMMAND_COPY:
@@ -392,14 +393,11 @@ delete_cb (EStorageSet *storage_set,
 }
 
 static int
-delete_dialog (EShellView *shell_view, const char *utf8_folder)
+delete_dialog (EShellView *shell_view, const char *folder_name)
 {
 	GtkWidget *dialog;
 	char *title;
 	char *question;
-	char *folder_name;
-
-	folder_name = e_utf8_to_gtk_string (GTK_WIDGET (shell_view), (char *) utf8_folder);
 
 	title = g_strdup_printf (_("Delete \"%s\""), folder_name);
 	question = g_strdup_printf (_("Really delete folder \"%s\"?"), folder_name);
@@ -414,7 +412,6 @@ delete_dialog (EShellView *shell_view, const char *utf8_folder)
 	gnome_dialog_set_default (GNOME_DIALOG (dialog), 0);
 
 	g_free (title);
-	g_free (folder_name);
 	g_free (question);
 
 	return gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
@@ -493,8 +490,12 @@ rename_cb (EStorageSet *storage_set, EStorageResult result, void *data)
 		storage_set = e_shell_get_storage_set (shell);
 		folder = e_storage_set_get_folder (storage_set, callback_data->new_path);
 
-		if (folder != NULL)
-			e_folder_set_name (folder, g_basename (callback_data->new_path));
+		if (folder != NULL) {
+			char *base_name = g_path_get_basename (callback_data->new_path);
+
+			e_folder_set_name (folder, base_name);
+			g_free (base_name);
+		}
 	}
 
 	rename_callback_data_free (callback_data);
@@ -509,7 +510,6 @@ e_shell_command_rename_folder (EShell *shell,
 	EFolder *folder;
 	RenameCallbackData *callback_data;
 	const char *old_name;
-	char *old_name_locale;
 	char *prompt;
 	char *new_name;
 	char *old_base_path;
@@ -529,9 +529,7 @@ e_shell_command_rename_folder (EShell *shell,
 	g_return_if_fail (folder != NULL);
 
 	old_name = e_folder_get_name (folder);
-	old_name_locale = e_utf8_to_locale_string (old_name);
-	prompt = g_strdup_printf (_("Rename the \"%s\" folder to:"), old_name_locale);
-	g_free (old_name_locale);
+	prompt = g_strdup_printf (_("Rename the \"%s\" folder to:"), old_name);
 
 	while (1) {
 		const char *reason;
@@ -556,7 +554,7 @@ e_shell_command_rename_folder (EShell *shell,
 		return;
 	}
 
-	old_base_path = g_dirname (folder_path);
+	old_base_path = g_path_get_dirname (folder_path);
 	new_path = g_concat_dir_and_file (old_base_path, new_name);
 
 	callback_data = rename_callback_data_new (shell_view, new_path);

@@ -164,57 +164,63 @@ class_init (EvolutionShellViewClass *klass)
 	epv->showSettings      = impl_ShellView_show_settings;
 
 	signals[SET_MESSAGE]
-		= gtk_signal_new ("set_message",
-				  GTK_RUN_FIRST,
-				  GTK_CLASS_TYPE (object_class),
-				  G_STRUCT_OFFSET (EvolutionShellViewClass, set_message),
-				  e_shell_marshal_NONE__STRING_INT,
-				  GTK_TYPE_NONE, 2,
-				  GTK_TYPE_STRING,
-				  GTK_TYPE_BOOL);
+		= g_signal_new ("set_message",
+				G_OBJECT_CLASS_TYPE (object_class),
+				G_SIGNAL_RUN_FIRST,
+				G_STRUCT_OFFSET (EvolutionShellViewClass, set_message),
+				NULL, NULL,
+				e_shell_marshal_NONE__STRING_INT,
+				G_TYPE_NONE, 2,
+				G_TYPE_STRING,
+				G_TYPE_BOOLEAN);
 
 	signals[UNSET_MESSAGE]
-		= gtk_signal_new ("unset_message",
-				  GTK_RUN_FIRST,
-				  GTK_CLASS_TYPE (object_class),
+		= g_signal_new ("unset_message",
+				  G_OBJECT_CLASS_TYPE (object_class),
+				  G_SIGNAL_RUN_FIRST,
 				  G_STRUCT_OFFSET (EvolutionShellViewClass, unset_message),
+				  NULL, NULL,
 				  e_shell_marshal_NONE__NONE,
-				  GTK_TYPE_NONE, 0);
+				  G_TYPE_NONE, 0);
 
 	signals[CHANGE_VIEW]
-		= gtk_signal_new ("change_current_view",
-				  GTK_RUN_FIRST,
-				  GTK_CLASS_TYPE (object_class),
+		= g_signal_new ("change_current_view",
+				  G_OBJECT_CLASS_TYPE (object_class),
+				  G_SIGNAL_RUN_FIRST,
 				  G_STRUCT_OFFSET (EvolutionShellViewClass, change_current_view),
+				  NULL, NULL,
 				  e_shell_marshal_NONE__STRING,
-				  GTK_TYPE_NONE, 1,
-				  GTK_TYPE_STRING);
+				  G_TYPE_NONE, 1,
+				  G_TYPE_STRING);
 
 	signals[SET_TITLE]
-		= gtk_signal_new ("set_title",
-				  GTK_RUN_FIRST,
-				  GTK_CLASS_TYPE (object_class),
+		= g_signal_new ("set_title",
+				  G_OBJECT_CLASS_TYPE (object_class),
+				  G_SIGNAL_RUN_FIRST,
 				  G_STRUCT_OFFSET (EvolutionShellViewClass, set_title),
+				  NULL, NULL,
 				  e_shell_marshal_NONE__STRING,
-				  GTK_TYPE_NONE, 1,
-				  GTK_TYPE_STRING);
+				  G_TYPE_NONE, 1,
+				  G_TYPE_STRING);
 
 	signals[SET_FOLDER_BAR_LABEL]
-		= gtk_signal_new ("set_folder_bar_label",
-				  GTK_RUN_FIRST,
-				  GTK_CLASS_TYPE (object_class),
+		= g_signal_new ("set_folder_bar_label",
+				  G_OBJECT_CLASS_TYPE (object_class),
+				  G_SIGNAL_RUN_FIRST,
 				  G_STRUCT_OFFSET (EvolutionShellViewClass, set_folder_bar_label),
+				  NULL, NULL,
 				  e_shell_marshal_NONE__STRING,
-				  GTK_TYPE_NONE, 1,
-				  GTK_TYPE_STRING);
+				  G_TYPE_NONE, 1,
+				  G_TYPE_STRING);
 
 	signals[SHOW_SETTINGS]
-		= gtk_signal_new ("show_settings",
-				  GTK_RUN_FIRST,
-				  GTK_CLASS_TYPE (object_class),
+		= g_signal_new ("show_settings",
+				  G_OBJECT_CLASS_TYPE (object_class),
+				  G_SIGNAL_RUN_FIRST,
 				  G_STRUCT_OFFSET (EvolutionShellViewClass, show_settings),
+				  NULL, NULL,
 				  e_shell_marshal_NONE__NONE,
-				  GTK_TYPE_NONE, 0);
+				  G_TYPE_NONE, 0);
 
 	parent_class = g_type_class_ref(bonobo_x_object_get_type ());
 }
@@ -249,4 +255,4 @@ evolution_shell_view_new (void)
 E_MAKE_X_TYPE (evolution_shell_view, "EvolutionShellView", EvolutionShellView,
 	       class_init, init, PARENT_TYPE,
 	       POA_GNOME_Evolution_ShellView__init,
-	       GTK_STRUCT_OFFSET (EvolutionShellViewClass, epv))
+	       G_STRUCT_OFFSET (EvolutionShellViewClass, epv))

@@ -220,6 +220,7 @@ handle_evolution_path_drag_motion (EStorageSet *storage_set,
 				EFolder *folder;
 				int source_path_len;
 				char *destination_path;
+				char *base_name;
 
 				folder = e_storage_set_get_folder (storage_set, source_path);
 				if (folder != NULL && e_folder_get_is_stock (folder))
@@ -229,7 +230,10 @@ handle_evolution_path_drag_motion (EStorageSet *storage_set,
 				if (strcmp (path, source_path) == 0)
 					return FALSE;
 
-				destination_path = g_strconcat (path, "/", g_basename (source_path), NULL);
+				base_name = g_path_get_basename (source_path);
+				destination_path = g_strconcat (path, "/", base_name, NULL);
+				g_free (base_name);
+
 				if (strncmp (destination_path, source_path, source_path_len) == 0) {
 					g_free (destination_path);
 					return FALSE;
@@ -348,6 +352,7 @@ handle_data_received_path (GdkDragContext *context,
 {
 	const char *source_path;
 	char *destination_path;
+	char *base_name;
 	gboolean handled;
 
 	source_path = (const char *) selection_data->data;
@@ -356,7 +361,9 @@ handle_data_received_path (GdkDragContext *context,
 	if (source_path == NULL || source_path[0] != E_PATH_SEPARATOR || source_path[1] == '\0')
 		return FALSE;
 
-	destination_path = g_concat_dir_and_file (path, g_basename (source_path));
+	base_name = g_path_get_basename (source_path);
+	destination_path = g_concat_dir_and_file (path, base_name);
+	g_free (base_name);
 
 	switch (context->action) {
 	case GDK_ACTION_MOVE:

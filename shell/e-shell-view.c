@@ -76,7 +76,6 @@
 #include <gal/e-paned/e-hpaned.h>
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-gui-utils.h>
-#include <gal/widgets/e-unicode.h>
 #include <gal/widgets/e-scroll-frame.h>
 
 
@@ -135,7 +134,7 @@ struct _EShellViewPrivate {
 	/* The status bar widgetry.  */
 	GtkWidget *status_bar;
 	GtkWidget *offline_toggle;
-	GtkWidget *offline_toggle_pixmap;
+	GtkWidget *offline_toggle_image;
 	GtkWidget *menu_hint_label;
 	GtkWidget *task_bar;
 
@@ -272,9 +271,8 @@ cleanup_delayed_selection (EShellView *shell_view)
 	if (priv->delayed_selection != NULL) {
 		g_free (priv->delayed_selection);
 		priv->delayed_selection = NULL;
-		gtk_signal_disconnect_by_func (GTK_OBJECT (e_shell_get_storage_set (priv->shell)),
-					       G_CALLBACK (new_folder_cb),
-					       shell_view);
+		g_signal_handlers_disconnect_by_func (e_shell_get_storage_set (priv->shell),
+						      G_CALLBACK (new_folder_cb), shell_view);
 	}
 }
 
@@ -783,18 +781,18 @@ folder_bar_popup_map_callback (GtkWidget *widget,
 
 	gtk_grab_add (widget);
 
-	gtk_signal_connect_while_alive (GTK_OBJECT (widget), "button_release_event",
-					G_CALLBACK (storage_set_view_box_button_release_event_cb), shell_view,
-					GTK_OBJECT (priv->folder_bar_popup));
-	gtk_signal_connect_while_alive (GTK_OBJECT (priv->storage_set_view), "folder_opened",
-					G_CALLBACK (storage_set_view_folder_opened_cb), shell_view,
-					GTK_OBJECT (priv->folder_bar_popup));
-	gtk_signal_connect_while_alive (GTK_OBJECT (priv->storage_set_view), "button_release_event",
-					G_CALLBACK (storage_set_view_box_button_release_event_cb), shell_view,
-					GTK_OBJECT (priv->folder_bar_popup));
-	gtk_signal_connect_while_alive (GTK_OBJECT (priv->storage_set_title_bar), "button_clicked",
-					G_CALLBACK (popup_storage_set_view_button_clicked), shell_view,
-					GTK_OBJECT (priv->folder_bar_popup));
+	e_signal_connect_while_alive (widget, "button_release_event",
+				      G_CALLBACK (storage_set_view_box_button_release_event_cb),
+				      shell_view, priv->folder_bar_popup);
+	e_signal_connect_while_alive (priv->storage_set_view, "folder_opened",
+				      G_CALLBACK (storage_set_view_folder_opened_cb),
+				      shell_view, priv->folder_bar_popup);
+	e_signal_connect_while_alive (priv->storage_set_view, "button_release_event",
+				      G_CALLBACK (storage_set_view_box_button_release_event_cb),
+				      shell_view, priv->folder_bar_popup);
+	e_signal_connect_while_alive (priv->storage_set_title_bar, "button_clicked",
+				      G_CALLBACK (popup_storage_set_view_button_clicked),
+				      shell_view, priv->folder_bar_popup);
 }
 
 static void
@@ -1176,7 +1174,7 @@ setup_offline_toggle (EShellView *shell_view)
 {
 	EShellViewPrivate *priv;
 	GtkWidget *toggle;
-	GtkWidget *pixmap;
+	GtkWidget *image;
 
 	priv = shell_view->priv;
 
@@ -1187,15 +1185,15 @@ setup_offline_toggle (EShellView *shell_view)
 	g_signal_connect (toggle, "clicked",
 			  G_CALLBACK (offline_toggle_clicked_cb), shell_view);
 
-	pixmap = gtk_pixmap_new (offline_pixmap, offline_mask);
+	image = gtk_image_new_from_pixmap (offline_pixmap, offline_mask);
 
-	gtk_container_add (GTK_CONTAINER (toggle), pixmap);
+	gtk_container_add (GTK_CONTAINER (toggle), image);
 
 	gtk_widget_show (toggle);
-	gtk_widget_show (pixmap);
+	gtk_widget_show (image);
 
-	priv->offline_toggle        = toggle;
-	priv->offline_toggle_pixmap = pixmap;
+	priv->offline_toggle       = toggle;
+	priv->offline_toggle_image = image;
 
 	update_offline_toggle_status (shell_view);
 
@@ -1261,7 +1259,7 @@ ui_engine_add_hint_callback (BonoboUIEngine *engine,
 	shell_view = E_SHELL_VIEW (data);
 	priv = shell_view->priv;
 
-	gtk_label_set (GTK_LABEL (priv->menu_hint_label), hint);
+	gtk_label_set_text (GTK_LABEL (priv->menu_hint_label), hint);
 	gtk_widget_show (priv->menu_hint_label);
 	gtk_widget_hide (priv->task_bar);
 }
@@ -1518,34 +1516,37 @@ class_init (EShellViewClass *klass)
 	parent_class = g_type_class_ref(BONOBO_TYPE_WINDOW);
 
 	signals[SHORTCUT_BAR_VISIBILITY_CHANGED]
-		= gtk_signal_new ("shortcut_bar_visibility_changed",
-				  GTK_RUN_FIRST,
-				  GTK_CLASS_TYPE (object_class),
-				  G_STRUCT_OFFSET (EShellViewClass, shortcut_bar_visibility_changed),
-				  e_shell_marshal_NONE__INT,
-				  GTK_TYPE_NONE, 1,
-				  GTK_TYPE_INT);
+		= g_signal_new ("shortcut_bar_visibility_changed",
+				G_OBJECT_CLASS_TYPE (object_class),
+				G_SIGNAL_RUN_FIRST,
+				G_STRUCT_OFFSET (EShellViewClass, shortcut_bar_visibility_changed),
+				NULL, NULL,
+				e_shell_marshal_NONE__INT,
+				G_TYPE_NONE, 1,
+				G_TYPE_INT);
 
 	signals[FOLDER_BAR_VISIBILITY_CHANGED]
-		= gtk_signal_new ("folder_bar_visibility_changed",
-				  GTK_RUN_FIRST,
-				  GTK_CLASS_TYPE (object_class),
-				  G_STRUCT_OFFSET (EShellViewClass, folder_bar_visibility_changed),
-				  e_shell_marshal_NONE__INT,
-				  GTK_TYPE_NONE, 1,
-				  GTK_TYPE_INT);
+		= g_signal_new ("folder_bar_visibility_changed",
+				G_OBJECT_CLASS_TYPE (object_class),
+				G_SIGNAL_RUN_FIRST,
+				G_STRUCT_OFFSET (EShellViewClass, folder_bar_visibility_changed),
+				NULL, NULL,
+				e_shell_marshal_NONE__INT,
+				G_TYPE_NONE, 1,
+				G_TYPE_INT);
 
 	signals[VIEW_CHANGED]
-		= gtk_signal_new ("view_changed",
-				  GTK_RUN_FIRST,
-				  GTK_CLASS_TYPE (object_class),
-				  G_STRUCT_OFFSET (EShellViewClass, view_changed),
-				  e_shell_marshal_NONE__STRING_STRING_STRING_STRING,
-				  GTK_TYPE_NONE, 4,
-				  GTK_TYPE_STRING,
-				  GTK_TYPE_STRING,
-				  GTK_TYPE_STRING,
-				  GTK_TYPE_STRING);
+		= g_signal_new ("view_changed",
+				G_OBJECT_CLASS_TYPE (object_class),
+				G_SIGNAL_RUN_FIRST,
+				G_STRUCT_OFFSET (EShellViewClass, view_changed),
+				NULL, NULL,
+				e_shell_marshal_NONE__STRING_STRING_STRING_STRING,
+				G_TYPE_NONE, 4,
+				G_TYPE_STRING,
+				G_TYPE_STRING,
+				G_TYPE_STRING,
+				G_TYPE_STRING);
 
 	load_images ();
 }
@@ -1581,7 +1582,7 @@ init (EShellView *shell_view)
 
 	priv->status_bar              = NULL;
 	priv->offline_toggle          = NULL;
-	priv->offline_toggle_pixmap   = NULL;
+	priv->offline_toggle_image    = NULL;
 	priv->menu_hint_label         = NULL;
 	priv->task_bar                = NULL;
 
@@ -1787,9 +1788,9 @@ e_shell_view_construct (EShellView *shell_view,
 	g_signal_connect (view, "delete_event",
 			  G_CALLBACK (delete_event_cb), NULL);
 
-	gtk_signal_connect_while_alive (GTK_OBJECT (e_shell_get_storage_set (priv->shell)),
-					"updated_folder", G_CALLBACK (updated_folder_cb),
-					shell_view, GTK_OBJECT (shell_view));
+	e_signal_connect_while_alive (e_shell_get_storage_set (priv->shell),
+				      "updated_folder", G_CALLBACK (updated_folder_cb),
+				      shell_view, shell_view);
 
 	priv->ui_container = bonobo_window_get_ui_container (BONOBO_WINDOW (view));
 	g_signal_connect (priv->ui_container, "system_exception",
@@ -1879,7 +1880,7 @@ get_storage_set_path_from_uri (const char *uri)
 	if (! g_path_is_absolute (colon + 1))
 		return NULL;
 
-	if (g_strncasecmp (uri, E_SHELL_URI_PREFIX, colon - uri) != 0)
+	if (g_ascii_strncasecmp (uri, E_SHELL_URI_PREFIX, colon - uri) != 0)
 		return NULL;
 
 	return colon + 1;
@@ -1951,13 +1952,8 @@ update_folder_title_bar (EShellView *shell_view,
 	if (folder_icon != NULL)
 		g_object_unref (folder_icon);
 
-	if (title != NULL) {
-		char *s;
-
-		s = e_utf8_to_gtk_string (GTK_WIDGET (priv->folder_title_bar), title);
-		e_shell_folder_title_bar_set_title (E_SHELL_FOLDER_TITLE_BAR (priv->folder_title_bar), s);
-		g_free (s);
-	}
+	if (title != NULL)
+		e_shell_folder_title_bar_set_title (E_SHELL_FOLDER_TITLE_BAR (priv->folder_title_bar), title);
 }
 
 static void
@@ -1969,8 +1965,7 @@ update_for_current_uri (EShellView *shell_view)
 	const char *type;
 	const char *folder_name;
 	char *title;
-	char *utf8_window_title;
-	char *gtk_window_title;
+	char *window_title;
 	int unread_count;
 
 	priv = shell_view->priv;
@@ -2005,30 +2000,26 @@ update_for_current_uri (EShellView *shell_view)
 		title = g_strdup (folder_name);
 
 	if (SUB_VERSION[0] == '\0')
-		utf8_window_title = g_strdup_printf ("%s - Ximian Evolution %s", title, VERSION);
+		window_title = g_strdup_printf ("%s - Ximian Evolution %s", title, VERSION);
 	else
-		utf8_window_title = g_strdup_printf ("%s - Ximian Evolution %s [%s]", title, VERSION, SUB_VERSION);
+		window_title = g_strdup_printf ("%s - Ximian Evolution %s [%s]", title, VERSION, SUB_VERSION);
 
-	gtk_window_title = e_utf8_to_gtk_string (GTK_WIDGET (shell_view), utf8_window_title);
-	gtk_window_set_title (GTK_WINDOW (shell_view), gtk_window_title);
+	gtk_window_set_title (GTK_WINDOW (shell_view), window_title);
 
 	update_folder_title_bar (shell_view, title, folder);
 	update_window_icon (shell_view, type);
 
-	g_free (gtk_window_title);
-	g_free (utf8_window_title);
+	g_free (window_title);
 	g_free (title);
 
-	gtk_signal_handler_block_by_func (GTK_OBJECT (priv->storage_set_view),
-					  G_CALLBACK (folder_selected_cb),
-					  shell_view);
+	g_signal_handlers_block_by_func (priv->storage_set_view,
+					 G_CALLBACK (folder_selected_cb), shell_view);
 
 	if (path != NULL)
 		e_storage_set_view_set_current_folder (E_STORAGE_SET_VIEW (priv->storage_set_view), path);
 
-	gtk_signal_handler_unblock_by_func (GTK_OBJECT (priv->storage_set_view),
-					    G_CALLBACK (folder_selected_cb),
-					    shell_view);
+	g_signal_handlers_unblock_by_func (priv->storage_set_view,
+					   G_CALLBACK (folder_selected_cb), shell_view);
 }
 
 static void
@@ -2068,7 +2059,7 @@ update_offline_toggle_status (EShellView *shell_view)
 		return;
 	}
 
-	gtk_pixmap_set (GTK_PIXMAP (priv->offline_toggle_pixmap), icon_pixmap, icon_mask);
+	gtk_image_set_from_pixmap (GTK_IMAGE (priv->offline_toggle_image), icon_pixmap, icon_mask);
 	gtk_widget_set_sensitive (priv->offline_toggle, sensitive);
 	gtk_tooltips_set_tip (priv->tooltips, priv->offline_toggle, tooltip, NULL);
 }
@@ -2100,7 +2091,7 @@ set_current_notebook_page (EShellView *shell_view,
 	}
 
 	e_shell_folder_title_bar_set_folder_bar_label  (E_SHELL_FOLDER_TITLE_BAR (priv->folder_title_bar), "");
-	gtk_notebook_set_page (notebook, page_num);
+	gtk_notebook_set_current_page (notebook, page_num);
 
 	if (page_num == -1 || page_num == 0)
 		return;
@@ -2445,9 +2436,8 @@ display_uri (EShellView *shell_view,
 
 		cleanup_delayed_selection (shell_view);
 		priv->delayed_selection = g_strdup (real_uri);
-		gtk_signal_connect_full (GTK_OBJECT (e_shell_get_storage_set (priv->shell)),
-					 "new_folder", G_CALLBACK (new_folder_cb), NULL,
-					 shell_view, NULL, FALSE, TRUE);
+		g_signal_connect_after (e_shell_get_storage_set (priv->shell),
+					"new_folder", G_CALLBACK (new_folder_cb), shell_view);
 		retval = TRUE;
 		goto end;
 	}

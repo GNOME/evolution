@@ -96,11 +96,10 @@ check_folder_type_valid (EShellFolderSelectionDialog *folder_selection_dialog)
 		const char *type, *slash;
 
 		type = (const char *) p->data;
-		if (strcasecmp (folder_type, type) == 0)
+		if (strcmp (folder_type, type) == 0)
 			return TRUE;
 		slash = strchr (type, '/');
-		if (slash && slash[1] == '*' &&
-		    g_strncasecmp (folder_type, type, slash - type) == 0)
+		if (slash && slash[1] == '*' && strncmp (folder_type, type, slash - type) == 0)
 			return TRUE;
 	}
 
@@ -284,21 +283,23 @@ class_init (EShellFolderSelectionDialogClass *klass)
 	dialog_class->response = impl_response;
 
 	signals[FOLDER_SELECTED]
-		= gtk_signal_new ("folder_selected",
-				  GTK_RUN_LAST,
-				  GTK_CLASS_TYPE (object_class),
-				  G_STRUCT_OFFSET (EShellFolderSelectionDialogClass, folder_selected),
-				  e_shell_marshal_NONE__STRING,
-				  GTK_TYPE_NONE, 1,
-				  GTK_TYPE_STRING);
+		= g_signal_new ("folder_selected",
+				G_OBJECT_CLASS_TYPE (object_class),
+				G_SIGNAL_RUN_LAST,
+				G_STRUCT_OFFSET (EShellFolderSelectionDialogClass, folder_selected),
+				NULL, NULL,
+				e_shell_marshal_NONE__STRING,
+				G_TYPE_NONE, 1,
+				G_TYPE_STRING);
 
 	signals[CANCELLED]
-		= gtk_signal_new ("cancelled",
-				  GTK_RUN_LAST,
-				  GTK_CLASS_TYPE (object_class),
-				  G_STRUCT_OFFSET (EShellFolderSelectionDialogClass, cancelled),
-				  e_shell_marshal_NONE__NONE,
-				  GTK_TYPE_NONE, 0);
+		= g_signal_new ("cancelled",
+				G_OBJECT_CLASS_TYPE (object_class),
+				G_SIGNAL_RUN_LAST,
+				G_STRUCT_OFFSET (EShellFolderSelectionDialogClass, cancelled),
+				NULL, NULL,
+				e_shell_marshal_NONE__NONE,
+				G_TYPE_NONE, 0);
 }
 
 static void
@@ -397,7 +398,6 @@ e_shell_folder_selection_dialog_construct (EShellFolderSelectionDialog *folder_s
 
 	/* Basic dialog setup.  */
 
-	gtk_window_set_policy (GTK_WINDOW (folder_selection_dialog), FALSE, TRUE, FALSE);
 	gtk_window_set_default_size (GTK_WINDOW (folder_selection_dialog), 350, 300);
 	gtk_window_set_modal (GTK_WINDOW (folder_selection_dialog), TRUE);
 	gtk_window_set_title (GTK_WINDOW (folder_selection_dialog), title);

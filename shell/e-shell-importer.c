@@ -24,6 +24,9 @@
 #include <config.h>
 #endif
 
+#undef GTK_DISABLE_DEPRECATED
+#undef G_DISABLE_DEPRECATED
+
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>

@@ -57,11 +57,11 @@ static char *
 get_mini_name (const char *icon_name)
 {
 	const char *dot_ptr;
-	const char *basename;
+	char *basename;
 	char *name_without_extension;
 	char *mini_name;
 
-	basename = g_basename (icon_name);
+	basename = g_path_get_basename (icon_name);
 	if (basename == NULL)
 		return NULL;
 
@@ -69,14 +69,16 @@ get_mini_name (const char *icon_name)
 
 	if (dot_ptr == NULL) {
 		/* No extension.  */
+		g_free (basename);
 		return g_strconcat (icon_name, E_SHELL_MINI_ICON_SUFFIX, NULL);
 	}
 
-	name_without_extension = g_strndup (icon_name, dot_ptr - icon_name);
+	name_without_extension = g_strndup (icon_name, dot_ptr - basename);
 	mini_name = g_strconcat (name_without_extension, E_SHELL_MINI_ICON_SUFFIX,
 				 dot_ptr, NULL);
 	g_free (name_without_extension);
 
+	g_free (basename);
 	return mini_name;
 }
 

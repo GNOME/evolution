@@ -29,7 +29,7 @@
 #include <gtk/gtkframe.h>
 #include <gtk/gtkhbox.h>
 #include <gtk/gtklabel.h>
-#include <gtk/gtkpixmap.h>
+#include <gtk/gtkimage.h>
 #include <gtk/gtktooltips.h>
 
 #include <libgnome/gnome-i18n.h>
@@ -49,7 +49,7 @@ struct _ETaskWidgetPrivate {
 
 	GdkPixbuf *icon_pixbuf;
 	GtkWidget *label;
-	GtkWidget *pixmap;
+	GtkWidget *image;
 };
 
 
@@ -114,7 +114,7 @@ init (ETaskWidget *task_widget)
 	priv->tooltips     = NULL;
 	priv->icon_pixbuf  = NULL;
 	priv->label        = NULL;
-	priv->pixmap       = NULL;
+	priv->image        = NULL;
 
 	task_widget->priv = priv;
 }
@@ -157,9 +157,9 @@ e_task_widget_construct (ETaskWidget *task_widget,
 
 	gdk_pixbuf_render_pixmap_and_mask (icon_pixbuf, &pixmap, &mask, 128);
 
-	priv->pixmap = gtk_pixmap_new (pixmap, mask);
-	gtk_widget_show (priv->pixmap);
-	gtk_box_pack_start (GTK_BOX (box), priv->pixmap, FALSE, TRUE, 0);
+	priv->image = gtk_image_new_from_pixmap (pixmap, mask);
+	gtk_widget_show (priv->image);
+	gtk_box_pack_start (GTK_BOX (box), priv->image, FALSE, TRUE, 0);
 
 	priv->label = gtk_label_new ("");
 	gtk_misc_set_alignment (GTK_MISC (priv->label), 0.0, 0.5);

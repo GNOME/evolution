@@ -190,42 +190,60 @@ evolution_wizard_class_init (EvolutionWizardClass *klass)
 	object_class->dispose  = impl_dispose;
 	object_class->finalize = impl_finalize;
 
-	signals[NEXT] = gtk_signal_new ("next", GTK_RUN_FIRST,
-					GTK_CLASS_TYPE (object_class),
-					G_STRUCT_OFFSET (EvolutionWizardClass, next),
-					e_shell_marshal_NONE__INT,
-					GTK_TYPE_NONE, 1,
-					GTK_TYPE_INT);
-	signals[PREPARE] = gtk_signal_new ("prepare", GTK_RUN_FIRST,
-					   GTK_CLASS_TYPE (object_class),
-					   G_STRUCT_OFFSET (EvolutionWizardClass, prepare),
-					   e_shell_marshal_NONE__INT,
-					   GTK_TYPE_NONE, 1,
-					   GTK_TYPE_INT);
-	signals[BACK] = gtk_signal_new ("back", GTK_RUN_FIRST,
-					GTK_CLASS_TYPE (object_class),
-					G_STRUCT_OFFSET (EvolutionWizardClass, back),
-					e_shell_marshal_NONE__INT,
-					GTK_TYPE_NONE, 1,
-					GTK_TYPE_INT);
-	signals[FINISH] = gtk_signal_new ("finish", GTK_RUN_FIRST,
-					  GTK_CLASS_TYPE (object_class),
-					  G_STRUCT_OFFSET (EvolutionWizardClass, finish),
-					  e_shell_marshal_NONE__INT,
-					  GTK_TYPE_NONE, 1,
-					  GTK_TYPE_INT);
-	signals[CANCEL] = gtk_signal_new ("cancel", GTK_RUN_FIRST,
-					  GTK_CLASS_TYPE (object_class),
-					  G_STRUCT_OFFSET (EvolutionWizardClass, cancel),
-					  e_shell_marshal_NONE__INT,
-					  GTK_TYPE_NONE, 1,
-					  GTK_TYPE_INT);
-	signals[HELP] = gtk_signal_new ("help", GTK_RUN_FIRST,
-					GTK_CLASS_TYPE (object_class),
-					G_STRUCT_OFFSET (EvolutionWizardClass, help),
-					e_shell_marshal_NONE__INT,
-					GTK_TYPE_NONE, 1,
-					GTK_TYPE_INT);
+	signals[NEXT] 
+		= g_signal_new ("next",
+				G_OBJECT_CLASS_TYPE (object_class),
+				G_SIGNAL_RUN_FIRST,
+				G_STRUCT_OFFSET (EvolutionWizardClass, next),
+				NULL, NULL,
+				e_shell_marshal_NONE__INT,
+				G_TYPE_NONE, 1,
+				G_TYPE_INT);
+	signals[PREPARE] 
+		= g_signal_new ("prepare",
+				G_OBJECT_CLASS_TYPE (object_class),
+				G_SIGNAL_RUN_FIRST,
+				G_STRUCT_OFFSET (EvolutionWizardClass, prepare),
+				NULL, NULL,
+				e_shell_marshal_NONE__INT,
+				G_TYPE_NONE, 1,
+				G_TYPE_INT);
+	signals[BACK] 
+		= g_signal_new ("back", 
+				G_OBJECT_CLASS_TYPE (object_class),
+				G_SIGNAL_RUN_FIRST,
+				G_STRUCT_OFFSET (EvolutionWizardClass, back),
+				NULL, NULL,
+				e_shell_marshal_NONE__INT,
+				G_TYPE_NONE, 1,
+				G_TYPE_INT);
+	signals[FINISH] 
+		= g_signal_new ("finish", 
+				G_OBJECT_CLASS_TYPE (object_class),
+				G_SIGNAL_RUN_FIRST,
+				G_STRUCT_OFFSET (EvolutionWizardClass, finish),
+				NULL, NULL,
+				e_shell_marshal_NONE__INT,
+				G_TYPE_NONE, 1,
+				G_TYPE_INT);
+	signals[CANCEL] 
+		= g_signal_new ("cancel", 
+				G_OBJECT_CLASS_TYPE (object_class),
+				G_SIGNAL_RUN_FIRST,
+				G_STRUCT_OFFSET (EvolutionWizardClass, cancel),
+				NULL, NULL,
+				e_shell_marshal_NONE__INT,
+				G_TYPE_NONE, 1,
+				G_TYPE_INT);
+	signals[HELP] 
+		= g_signal_new ("help", 
+				G_OBJECT_CLASS_TYPE (object_class),
+				G_SIGNAL_RUN_FIRST,
+				G_STRUCT_OFFSET (EvolutionWizardClass, help),
+				NULL, NULL,
+				e_shell_marshal_NONE__INT,
+				G_TYPE_NONE, 1,
+				G_TYPE_INT);
 
 	parent_class = g_type_class_ref(PARENT_TYPE);
 
