@@ -756,10 +756,12 @@ e_shortcuts_construct (EShortcuts  *shortcuts,
 	gtk_object_ref (GTK_OBJECT (storage_set));
 	priv->storage_set = storage_set;
 
-	gtk_signal_connect (GTK_OBJECT (storage_set), "new_folder",
-			    GTK_SIGNAL_FUNC (storage_set_new_folder_callback), shortcuts);
-	gtk_signal_connect (GTK_OBJECT (storage_set), "updated_folder",
-			    GTK_SIGNAL_FUNC (storage_set_updated_folder_callback), shortcuts);
+	gtk_signal_connect_while_alive (GTK_OBJECT (storage_set), "new_folder",
+					GTK_SIGNAL_FUNC (storage_set_new_folder_callback),
+					shortcuts, GTK_OBJECT (shortcuts));
+	gtk_signal_connect_while_alive (GTK_OBJECT (storage_set), "updated_folder",
+					GTK_SIGNAL_FUNC (storage_set_updated_folder_callback),
+					shortcuts, GTK_OBJECT (shortcuts));
 
 	gtk_object_ref (GTK_OBJECT (folder_type_registry));
 	priv->folder_type_registry = folder_type_registry;

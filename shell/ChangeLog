@@ -1,6 +1,14 @@
+2001-09-04  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Fix ^#7675, Crashes trying to empty trash folder.]
+
+	* e-shortcuts.c (e_shortcuts_construct): Use
+	`gtk_signal_connect_while_alive()' so we don't invoke the
+	callbacks on dead EShortcuts objects.
+
 2001-09-04  Iain Holmes  <iain@ximian.com>
 
-	* e-shell-importer.c (start_importer): Report errors in a dialog
+	* e-shell-importer.c (start_importer): Report errors in a dialog.
 
 2001-09-04  Ettore Perazzoli  <ettore@ximian.com>
 
