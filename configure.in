@@ -600,7 +600,7 @@ dnl = Camel (SSL) and Evolution (S/MIME).
 dnl =
 dnl = The Evolution security extensions are only built if these libraries are found
 dnl ====================================
-with_nspr_includes=/usr/include
+with_nspr_includes=/usr/include/mozilla
 AC_ARG_WITH(nspr-includes, [  --with-nspr-includes=PREFIX     Location of Mozilla nspr4 libs.])
 have_nspr_includes="no"
 if test "x${with_nspr_includes}" != "xno"; then
@@ -609,7 +609,7 @@ if test "x${with_nspr_includes}" != "xno"; then
 	AC_MSG_CHECKING(for Mozilla nspr4 includes in $with_nspr_includes/mozilla)
 	AC_MSG_RESULT("")
 	CFLAGS="$CFLAGS -I$with_nspr_includes"
-	AC_CHECK_HEADERS(mozilla/prinit.h mozilla/prio.h, [ moz_nspr_includes="yes" ])
+	AC_CHECK_HEADERS(prinit.h prio.h, [ moz_nspr_includes="yes" ])
 	CFLAGS="$CFLAGS_save"
 	
 	if test "x{$moz_nspr_includes}" != "xno"; then
@@ -640,6 +640,8 @@ if test "x${with_nspr_libs}" != "xno" -a "x${have_nspr_includes}" != "xno"; then
 	if test "x$moz_nspr_libs" != "xno"; then
 		have_nspr_libs="yes"
 		NSPR_LDFLAGS="-L$with_nspr_libs $nsprlibs"
+	else
+		NSPR_CLFAGS=""
 	fi
 else
 	AC_MSG_CHECKING(for Mozilla nspr4 libraries)
@@ -664,11 +666,19 @@ if test "x${with_nss}" != "xno" -a "x${have_nspr_libs}" != "xno"; then
 		msg_nss="yes"
 		NSS_CFLAGS="-I$with_nss/include"
 		NSS_LDFLAGS="-L$with_nss/lib $nsslibs"
+	else
+		NSPR_CFLAGS=""
+		NSPR_LDFLAGS=""
 	fi
 else
 	AC_MSG_CHECKING(for Mozilla nss libraries)
 	AC_MSG_RESULT(no)
 fi
+
+AC_SUBST(NSPR_CFLAGS)
+AC_SUBST(NSPR_LDFLAGS)
+AC_SUBST(NSS_CFLAGS)
+AC_SUBST(NSS_LDFLAGS)
 
 dnl ====================================
 dnl = End mozilla hacks

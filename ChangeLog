@@ -1,3 +1,7 @@
+2001-03-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* configure.in: Updated to AC_SUBST the NSPR/NSS flags.
+
 2001-03-14  Dan Winship  <danw@ximian.com>
 
 	* README: Pull up some of the clarifications from the 0.9 branch
