@@ -1,3 +1,8 @@
+2003-02-25  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-format.c: Reverted back to using e-iconv instead of
+	camel-iconv.
+
 2003-02-25  Dan Winship  <danw@ximian.com>
 
 	* mail-config-druid.c: Update for new EvolutionWizard interfaces.
