@@ -308,6 +308,7 @@ e_minicard_label_construct (GnomeCanvasItem *item)
 				 "fill_color", "black",
 				 "editable", e_minicard_label->editable,
 				 "draw_background", FALSE,
+				 "im_context", E_CANVAS (item->canvas)->im_context,
 				 NULL );
 	e_canvas_item_move_absolute(e_minicard_label->field, ( e_minicard_label->width / 2 + 2), 1);
 
@@ -376,52 +377,6 @@ e_minicard_label_event (GnomeCanvasItem *item, GdkEvent *event)
     case GDK_ENTER_NOTIFY:
     case GDK_LEAVE_NOTIFY: {
 	    gboolean return_val;
-#if 0
-	    GnomeCanvasItem *field;
-	    ArtPoint p;
-	    double inv[6], affine[6];
-	    
-	    field = e_minicard_label->field;
-	    art_affine_identity (affine);
-	    
-	    if (field->xform != NULL) {
-		    if (field->object.flags & GNOME_CANVAS_ITEM_AFFINE_FULL) {
-			    art_affine_multiply (affine, affine, field->xform);
-		    } else {
-			    affine[4] += field->xform[0];
-			    affine[5] += field->xform[1];
-		    }
-	    }
-	    
-	    art_affine_invert (inv, affine);
-	    switch(event->type) {
-	    case GDK_MOTION_NOTIFY:
-		    p.x = event->motion.x;
-		    p.y = event->motion.y;
-		    art_affine_point (&p, &p, inv);
-		    event->motion.x = p.x;
-		    event->motion.y = p.y;
-		    break;
-	    case GDK_BUTTON_PRESS:
-	    case GDK_BUTTON_RELEASE:
-		    p.x = event->button.x;
-		    p.y = event->button.y;
-		    art_affine_point (&p, &p, inv);
-		    event->button.x = p.x;
-		    event->button.y = p.y;
-		    break;
-	    case GDK_ENTER_NOTIFY:
-	    case GDK_LEAVE_NOTIFY:
-		    p.x = event->crossing.x;
-		    p.y = event->crossing.y;
-		    art_affine_point (&p, &p, inv);
-		    event->crossing.x = p.x;
-		    event->crossing.y = p.y;
-		    break;
-	    default:
-		    break;
-	    }
-#endif	    
 	    g_signal_emit_by_name(e_minicard_label->field, "event", event, &return_val);
 	    return return_val;
 	    break;

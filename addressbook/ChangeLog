@@ -1,5 +1,11 @@
 2003-04-03  Chris Toshok  <toshok@ximian.com>
 
+	* gui/widgets/e-minicard-label.c (e_minicard_label_construct): set
+	the im_context on the field's EText.
+	(e_minicard_label_event): remove a huge swath of #if 0'd code.
+
+2003-04-03  Chris Toshok  <toshok@ximian.com>
+
 	[ fixes bug #40715 ]
 	* gui/merging/e-card-merging.c (final_id_cb): add this callback,
 	to unref the book/free the closure after calling the user's
