@@ -1,3 +1,8 @@
+2000-02-20  Matt Loper  <matt@helixcode.com>
+
+	* .cvsignore: added ABOUT-NLS.  
+	* ABOUT-NLS: removed.
+	
 2000-02-19  Matt Loper  <matt@helixcode.com>
 
 	* tests/ui-tests/message-browser.c (on_link_clicked): When a link
