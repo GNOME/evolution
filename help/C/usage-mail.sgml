@@ -1602,7 +1602,9 @@
       <sect3 id="color-suggestions">
       <title>Coloring Your Text</title>
       <para>
-      Colors can help bring words or sentences out for emphasis.  You should choose your colors carefully though, as the wrong color can be distracting.  Some good colors to use would be:
+      Colors can help bring words or sentences out for emphasis.  You
+      should choose your colors carefully though, as the wrong color
+      can be distracting.  Some good colors to use would be:
       <itemizedlist>
       <listitem>
       <para>
@@ -1623,11 +1625,11 @@
       <!-- Include a screenshot -->
       Notice how these colors are similar saturation <!-- Confirm I am using the right word -->
       </para>
-      </sect3>
-    </sect2>
     <para>
     Happy mailing!
     </para>
+      </sect3>
+    </sect2>
   </sect1>
   <sect1 id="rsvp-stuff">
     <title>RSVPs in Mail</title>
