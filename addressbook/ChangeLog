@@ -1,3 +1,45 @@
+2002-02-22  Chris Toshok  <toshok@ximian.com>
+
+	[ Fixes bugs 20740, 16680, and god knows what else :) ]
+	* gui/widgets/e-addressbook-model.c (create_card): double the
+	allocated size every time we need more space instead of using a
+	fixed size increment.  this helps huge queries.  Also, remove the
+	gtk_object_get of "file_as", as it was dead code.
+	(book_view_loaded): handle errors here (by popping up a dialog).
+
+	* backend/pas/pas-backend-ldap.c (view_destroy): search_idle ->
+	search_timeout.
+	(build_card_from_entry): comment out some spew, and unref ecard
+	when we're done to plug a memory leak.
+	(send_pending_adds): send along to the client all the cards we've
+	been saving up.
+	(poll_ldap): use a timeout for ldap_result to keep the backend
+	from blocking (and it turns out keep the frontend from hanging
+	waiting on a ref to complete) on large db's with few matches.
+
+	Also, add some fairly smart, self-tuning aggregating of cards.
+	Keep track of the number of cards we've sent the last time through
+	as well as this time, and estimate the number we want to aggregate
+	the next time based on them (we average them at the moment),
+	subject to maximum/minimum number of cards.  also, we have a
+	maximum aggregation time, after which we force a flush if there
+	are pending cards and recalculate our target pending number.
+	there's a minimum wait time to possibly keep outselves from
+	spamming the ui, although it's 0 at the moment.
+
+	Lastly, make sure to only notify the GUI of status messages when
+	we need to.  this results in a *huge* savings.
+	(ldap_search_handler): initialize all the pending card stuff, and
+	use a timeout instead of an idle function for poll_ldap.
+
+	* backend/ebook/e-book-view-listener.c
+	(e_book_view_listener_queue_response): performance optimization
+	for large adds.  If we're a CardAddedEvent and there's an existing
+	CardAddedEvent at the end of the queue, just concat the lists of
+	cards together.  This is to keep the gui from falling further and
+	further behind the ldap backend, which is merrily spewing updates
+	at the gui.
+
 2002-02-21  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/component/Makefile.am: Define $(iconsdir).

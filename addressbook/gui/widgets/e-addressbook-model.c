@@ -13,6 +13,7 @@
 #include <gnome-xml/parser.h>
 #include <gnome-xml/xmlmemory.h>
 #include <gnome.h>
+#include <gal/widgets/e-gui-utils.h>
 
 #define PARENT_TYPE gtk_object_get_type()
 GtkObjectClass *parent_class;
@@ -159,18 +160,13 @@ create_card(EBookView *book_view,
 
 	if (model->data_count + length > model->allocated_count) {
 		while (model->data_count + length > model->allocated_count)
-			model->allocated_count += 256;
+			model->allocated_count = model->allocated_count * 2 + 1;
 		model->data = g_renew(ECard *, model->data, model->allocated_count);
 	}
 
 	for ( ; cards; cards = cards->next) {
-		char *file_as;
-
 		model->data[model->data_count++] = cards->data;
 		gtk_object_ref (cards->data);
-		gtk_object_get (GTK_OBJECT (cards->data),
-				"file_as", &file_as,
-				NULL);
 	}
 
 	gtk_signal_emit (GTK_OBJECT (model),
@@ -366,7 +362,14 @@ static void
 book_view_loaded (EBook *book, EBookStatus status, EBookView *book_view, gpointer closure)
 {
 	EAddressbookModel *model = closure;
+
 	remove_book_view(model);
+
+	if (status != E_BOOK_STATUS_SUCCESS) {
+		e_addressbook_error_dialog (_("Error getting book view"), status);
+		return;
+	}
+
 	model->book_view = book_view;
 	if (model->book_view)
 		gtk_object_ref(GTK_OBJECT(model->book_view));

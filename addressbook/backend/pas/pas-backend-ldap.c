@@ -36,6 +36,8 @@
 #include "ldap_schema.h"
 #endif
 
+#include <sys/time.h>
+
 #include <e-util/e-sexp.h>
 #include <ebook/e-card-simple.h>
 
@@ -48,6 +50,22 @@
 
 
 #define LDAP_MAX_SEARCH_RESPONSES 100
+
+/* interval for our poll_ldap timeout */
+#define LDAP_POLL_INTERVAL 20
+
+/* timeout for ldap_result */
+#define LDAP_RESULT_TIMEOUT_MILLIS 10
+
+/* smart grouping stuff */
+#define GROUPING_INITIAL_SIZE 1
+#define GROUPING_MAXIMUM_SIZE 200
+
+/* the next two are in milliseconds */
+#define GROUPING_MINIMUM_WAIT 0  /* we never send updates faster than this, to avoid totally spamming the UI */
+#define GROUPING_MAXIMUM_WAIT 250 /* we always send updates (if there are pending cards) when we hit this */
+
+#define TV_TO_MILLIS(timeval) ((timeval).tv_sec * 1000 + (timeval).tv_usec / 1000)
 
 /* the objectClasses we need */
 #define TOP                  "top"
@@ -104,9 +122,21 @@ struct _PASBackendLDAPBookView {
 	PASBackendLDAPPrivate *blpriv;
 	gchar                 *search;
 	PASBackendCardSExp    *card_sexp;
-	int                   search_idle;
+	int                   search_timeout;
 	int                   search_msgid;
 	LDAPOp                *search_op;
+
+	/* grouping stuff */
+
+	GList    *pending_adds;        /* the cards we're sending */
+	int       num_pending_adds;    /* the number waiting to be sent */
+	int       target_pending_adds; /* the cutoff that forces a flush to the client, if it happens before the timeout */
+	int       num_sent_this_time;  /* the number of cards we sent to the client before the most recent timeout */
+	int       num_sent_last_time;  /* the number of cards we sent to the client before the previous timeout */
+	glong     grouping_time_start;
+	
+	/* used by poll_ldap to only send the status messages once */
+	gboolean notified_receiving_results;
 };
 
 typedef gboolean (*LDAPOpHandler)(PASBackend *backend, LDAPOp *op);
@@ -256,11 +286,11 @@ view_destroy(GtkObject *object, gpointer data)
 	for (list = bl->priv->book_views; list; list = g_list_next(list)) {
 		PASBackendLDAPBookView *view = list->data;
 		if (view->book_view == PAS_BOOK_VIEW(object)) {
-			if (view->search_idle != 0) {
+			if (view->search_timeout != 0) {
 				/* we have a search running on the
-				   ldap connection.  remove the idle
+				   ldap connection.  remove the timeout
 				   handler and anbandon the msg id */
-				g_source_remove(view->search_idle);
+				g_source_remove(view->search_timeout);
 				if (view->search_msgid != -1)
 					ldap_abandon (bl->priv->ldap, view->search_msgid);
 
@@ -2162,7 +2192,7 @@ build_card_from_entry (LDAP *ldap, LDAPMessage *e, GList **existing_objectclasse
 	char *attr;
 	BerElement *ber = NULL;
 
-	g_print ("build_card_from_entry, dn = %s\n", dn);
+	//	g_print ("build_card_from_entry, dn = %s\n", dn);
 	e_card_simple_set_id (card, dn);
 
 	for (attr = ldap_first_attribute (ldap, e, &ber); attr;
@@ -2215,7 +2245,19 @@ build_card_from_entry (LDAP *ldap, LDAPMessage *e, GList **existing_objectclasse
 
 	e_card_simple_sync_card (card);
 
+	gtk_object_unref (GTK_OBJECT (ecard));
+
 	return card;
+}
+
+static void
+send_pending_adds (PASBackendLDAPBookView *view)
+{
+	view->num_sent_this_time += view->num_pending_adds;
+	pas_book_view_notify_add (view->book_view, view->pending_adds);
+	g_list_foreach (view->pending_adds, (GFunc)g_free, NULL);
+	view->pending_adds = NULL;
+	view->num_pending_adds = 0;
 }
 
 static gboolean
@@ -2226,54 +2268,89 @@ poll_ldap (LDAPSearchOp *op)
 	LDAP           *ldap = bl->priv->ldap;
 	int            rc;
 	LDAPMessage    *res, *e;
-	GList   *cards = NULL;
 	static int received = 0;
+	GTimeVal cur_time;
+	glong cur_millis;
+	struct timeval timeout;
 
-	pas_book_view_notify_status_message (view->book_view, _("Receiving LDAP search results..."));
+	timeout.tv_sec = 0;
+	timeout.tv_usec = LDAP_RESULT_TIMEOUT_MILLIS * 1000;
 
-	rc = ldap_result (ldap, view->search_msgid, 0, NULL, &res);
-	
-	if (rc == -1 && received == 0) {
-		pas_book_view_notify_status_message (view->book_view, _("Restarting search."));
-		/* connection went down and we never got any. */
-		bl->priv->connected = FALSE;
-
-		/* this will reopen the connection */
-		ldap_op_restart ((LDAPOp*)op);
-		return FALSE;
+	if (!view->notified_receiving_results) {
+		view->notified_receiving_results = TRUE;
+		pas_book_view_notify_status_message (view->book_view, _("Receiving LDAP search results..."));
 	}
 
-	if (rc != LDAP_RES_SEARCH_ENTRY) {
-		view->search_idle = 0;
-		pas_book_view_notify_complete (view->book_view);
-		ldap_op_finished ((LDAPOp*)op);
-		received = 0;
-		return FALSE;
+	rc = ldap_result (ldap, view->search_msgid, 0, &timeout, &res);
+	if (rc != 0) {/* rc == 0 means timeout exceeded */
+		if (rc == -1 && received == 0) {
+			pas_book_view_notify_status_message (view->book_view, _("Restarting search."));
+			/* connection went down and we never got any. */
+			bl->priv->connected = FALSE;
+
+			/* this will reopen the connection */
+			ldap_op_restart ((LDAPOp*)op);
+			return FALSE;
+		}
+
+		if (rc != LDAP_RES_SEARCH_ENTRY) {
+			view->search_timeout = 0;
+			if (view->num_pending_adds)
+				send_pending_adds (view);
+			pas_book_view_notify_complete (view->book_view);
+			ldap_op_finished ((LDAPOp*)op);
+			received = 0;
+			return FALSE;
+		}
+
+		received = 1;
+
+		e = ldap_first_entry(ldap, res);
+
+		while (NULL != e) {
+			ECardSimple *card = build_card_from_entry (ldap, e, NULL);
+
+			view->pending_adds = g_list_append (view->pending_adds,
+							    e_card_simple_get_vcard_assume_utf8 (card));
+			view->num_pending_adds ++;
+
+			gtk_object_unref (GTK_OBJECT(card));
+
+			e = ldap_next_entry(ldap, e);
+		}
+
+		ldap_msgfree(res);
 	}
 
-	received = 1;
-		
-	e = ldap_first_entry(ldap, res);
+	g_get_current_time (&cur_time);
+	cur_millis = TV_TO_MILLIS (cur_time);
 
-	while (NULL != e) {
-		ECardSimple *card = build_card_from_entry (ldap, e, NULL);
+	if (cur_millis - view->grouping_time_start > GROUPING_MINIMUM_WAIT) {
 
-		cards = g_list_append (cards, e_card_simple_get_vcard_assume_utf8 (card));
+		if (view->num_pending_adds >= view->target_pending_adds)
+			send_pending_adds (view);
 
-		gtk_object_unref (GTK_OBJECT(card));
+		if (cur_millis - view->grouping_time_start > GROUPING_MAXIMUM_WAIT) {
+			GTimeVal new_start;
 
-		e = ldap_next_entry(ldap, e);
+			if (view->num_pending_adds)
+				send_pending_adds (view);
+			view->target_pending_adds = MIN (GROUPING_MAXIMUM_SIZE,
+							 (view->num_sent_this_time + view->num_sent_last_time) / 2);
+			view->target_pending_adds = MAX (view->target_pending_adds, 1);
+
+#ifdef PERFORMANCE_SPEW
+			printf ("num sent this time %d, last time %d, target pending adds set to %d\n",
+				view->num_sent_this_time,
+				view->num_sent_last_time,
+				view->target_pending_adds);
+#endif
+			g_get_current_time (&new_start);
+			view->grouping_time_start = TV_TO_MILLIS (new_start); 
+			view->num_sent_last_time = view->num_sent_this_time;
+			view->num_sent_this_time = 0;
+		}
 	}
-
-	if (cards) {
-		pas_book_view_notify_add (view->book_view, cards);
-			
-		g_list_foreach (cards, (GFunc)g_free, NULL);
-		g_list_free (cards);
-		cards = NULL;
-	}
-
-	ldap_msgfree(res);
 
 	return TRUE;
 }
@@ -2295,6 +2372,17 @@ ldap_search_handler (PASBackend *backend, LDAPOp *op)
 		PASBackendLDAPBookView *view = search_op->view;
 		LDAP *ldap = bl->priv->ldap;
 		int ldap_err;
+		GTimeVal search_start;
+
+		view->pending_adds = NULL;
+		view->num_pending_adds = 0;
+		view->target_pending_adds = GROUPING_INITIAL_SIZE;
+
+		g_get_current_time (&search_start);
+		view->grouping_time_start = TV_TO_MILLIS (search_start);
+		view->num_sent_last_time = 0;
+		view->num_sent_this_time = 0;
+		view->notified_receiving_results = FALSE;
 
 		ldap_err = ldap_search_ext (ldap, bl->priv->ldap_rootdn,
 					    bl->priv->ldap_scope,
@@ -2315,7 +2403,9 @@ ldap_search_handler (PASBackend *backend, LDAPOp *op)
 			return TRUE; /* act synchronous in this case */
 		}
 		else {
-			view->search_idle = g_idle_add((GSourceFunc)poll_ldap, search_op);
+			view->search_timeout = g_timeout_add (LDAP_POLL_INTERVAL,
+							      (GSourceFunc) poll_ldap,
+							      search_op);
 		}
 
 		/* we're async */
