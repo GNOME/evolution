@@ -1,3 +1,10 @@
+Evolution 1.0.6, 00-00-0000
+
+  * Mailer
+
+    #25456 -- Crash when deleting an account that has not been added
+              to the Evolution storage yet.
+
 Evolution 1.0.5, 05-06-2002
 ---------------------------
 
