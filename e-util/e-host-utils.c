@@ -43,6 +43,8 @@ G_LOCK_DEFINE_STATIC (gethost_mutex);
 #endif
 
 
+#define ALIGN(x) (((x) + (sizeof (char *) - 1)) & ~(sizeof (char *) - 1))
+
 #define GETHOST_PROCESS(h, host, buf, buflen, herr) G_STMT_START {     \
 	int num_aliases = 0, num_addrs = 0;                            \
 	int req_length;                                                \
@@ -153,6 +155,7 @@ ai_to_herr (int error)
 		break;
 	}
 }
+
 #endif /* ENABLE_IPv6 */
 
 /**
@@ -189,8 +192,8 @@ e_gethostbyname_r (const char *name, struct hostent *host,
 		return -1;
 	}
 	
-	len = strlen (res->ai_canonname);
-	if (buflen < IPv6_BUFLEN_MIN + len + 1 + res->ai_addrlen)
+	len = ALIGN (strlen (res->ai_canonname) + 1);
+	if (buflen < IPv6_BUFLEN_MIN + len + res->ai_addrlen + sizeof (char *))
 		return ERANGE;
 	
 	/* h_name */
@@ -217,7 +220,7 @@ e_gethostbyname_r (const char *name, struct hostent *host,
 	
 	memcpy (buf, addr, host->h_length);
 	addr = buf;
-	buf += host->h_length;
+	buf += ALIGN (host->h_length);
 	
 	/* h_addr_list */
 	((char **) buf)[0] = addr;
@@ -309,8 +312,8 @@ e_gethostbyaddr_r (const char *addr, int addrlen, int type, struct hostent *host
 		return -1;
 	}
 	
-	len = strlen (res->ai_canonname);
-	if (buflen < IPv6_BUFLEN_MIN + len + 1 + res->ai_addrlen)
+	len = ALIGN (strlen (res->ai_canonname) + 1);
+	if (buflen < IPv6_BUFLEN_MIN + len + res->ai_addrlen + sizeof (char *))
 		return ERANGE;
 	
 	/* h_name */
@@ -337,7 +340,7 @@ e_gethostbyaddr_r (const char *addr, int addrlen, int type, struct hostent *host
 	
 	memcpy (buf, addr, host->h_length);
 	addr = buf;
-	buf += host->h_length;
+	buf += ALIGN (host->h_length);
 	
 	/* h_addr_list */
 	((char **) buf)[0] = addr;

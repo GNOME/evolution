@@ -1,3 +1,9 @@
+2003-04-17  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-host-utils.c (e_gethostbyname_r): Keep our buf ptr aligned to
+	sizeof (char *). Should fix bug #41362.
+	(e_gethostbyaddr_r): Same.
+
 2003-04-18  Anna Marie Dirks  <anna@ximian.com>
 
 	* e-request.c (e_request_string): Added appropriate spacing/padding 
