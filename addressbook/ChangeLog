@@ -1,5 +1,10 @@
 2001-10-26  JP Rosevear  <jpr@ximian.com>
 
+	* conduit/address-conduit.c (check_for_slow_setting): make debug
+	info more accurate
+	
+2001-10-26  JP Rosevear  <jpr@ximian.com>
+
 	* conduit/address-conduit.c (e_addr_context_destroy): prevent
 	double unref
 	(cursor_cb): correct typo

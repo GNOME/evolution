@@ -937,19 +937,17 @@ ecard_from_remote_record(EAddrConduitContext *ctxt,
 static void
 check_for_slow_setting (GnomePilotConduit *c, EAddrConduitContext *ctxt)
 {
-	int count, map_count;
+	GnomePilotConduitStandard *conduit = GNOME_PILOT_CONDUIT_STANDARD (c);
+	int map_count;
 
-  	count = g_list_length (ctxt->cards);
-	map_count = g_hash_table_size (ctxt->map->pid_map);
-	
-	if (map_count == 0) {
-		GnomePilotConduitStandard *conduit;
-		LOG ("    doing slow sync\n");
-		conduit = GNOME_PILOT_CONDUIT_STANDARD (c);
+	map_count = g_hash_table_size (ctxt->map->pid_map);	
+	if (map_count == 0)
 		gnome_pilot_conduit_standard_set_slow (conduit, TRUE);
-	} else {
+
+	if (gnome_pilot_conduit_standard_get_slow (conduit))
+		LOG ("    doing slow sync\n");
+	else
 		LOG ("    doing fast sync\n");
-	}
 }
 
 static void
