@@ -2056,18 +2056,45 @@ pas_backend_ldap_process_authenticate_user (PASBackend *backend,
 					    PASRequest *req)
 {
 	PASBackendLDAP *bl = PAS_BACKEND_LDAP (backend);
-	int ldap_error = ldap_simple_bind_s(bl->priv->ldap,
-					    req->user,
-					    req->passwd);
+	int ldap_error;
+	char *query;
+	LDAPMessage    *res, *e;
 
-	pas_book_respond_authenticate_user (book,
-				    ldap_error_to_response (ldap_error));
+	query = g_strdup_printf ("(mail=%s)", req->user);
 
-	bl->priv->writable = (ldap_error == LDAP_SUCCESS);
+	if (ldap_search_s (bl->priv->ldap,
+			   bl->priv->ldap_rootdn,
+			   bl->priv->ldap_scope,
+			   query,
+			   NULL, 0, &res) != -1) {
+		char *dn;
+
+		e = ldap_first_entry (bl->priv->ldap, res);
+		dn = ldap_get_dn (bl->priv->ldap, e);
+
+		printf ("authenticating as %s\n", dn);
+
+		ldap_error = ldap_simple_bind_s(bl->priv->ldap,
+						dn,
+						req->passwd);
+
+		pas_book_respond_authenticate_user (book,
+						    ldap_error_to_response (ldap_error));
+
+		bl->priv->writable = (ldap_error == LDAP_SUCCESS);
+
+		if (!bl->priv->evolutionPersonChecked)
+			check_schema_support (bl);
+
+		ldap_msgfree (res);
+	}
+	else {
+		pas_book_respond_authenticate_user (book, GNOME_Evolution_Addressbook_BookListener_PermissionDenied);
+	}
+
 	pas_book_report_writable (book, bl->priv->writable);
 
-	if (!bl->priv->evolutionPersonChecked)
-		check_schema_support (bl);
+	g_free (query);
 }
 
 static void

@@ -1,3 +1,39 @@
+2001-08-09  Chris Toshok  <toshok@ximian.com>
+
+	[ Fixes ximian bugs #5080, #6021, #6704, #6705 ] 
+	
+	* gui/component/addressbook.c (book_open_cb): create our own
+	dialog that prompts for both the email address and the password.
+	the email address is stored in the source and filled in for the
+	user after the first time they enter one and press OK.
+
+	* gui/component/addressbook-storage.c (create_ldap_folder): has a
+	return value, not a int* parameter.
+	(create_ldap_folder): new function, we can create ldap servers
+	from the File->New->Folder menu item now.
+	(register_storage): hook up the "create_folder" signal.
+	(addressbook_storage_init_source_uri): remove the file case, we
+	only build ldap uris here.
+	(load_source_data): remove the file source stuff, and handle
+	"emailaddr".
+	(save_source_data): call ldap_source_foreach directly.
+	(addressbook_source_free): remove file source stuff.
+	(addressbook_source_copy): same.
+
+	* gui/component/addressbook-storage.h: get rid of all the file
+	source stuff from AddressbookSource, since this is only being used
+	for ldap servers.
+
+	* backend/pas/pas-backend-ldap.c
+	(pas_backend_ldap_process_authenticate_user): look up the ldap
+	entry based on the provided email address and use the resulting
+	DN/passwd to authenticate.
+
+	* gui/component/addressbook-config.c: pretty much gutted to make
+	it work with the new UI.
+
+	* gui/component/addressbook-config.glade: new version from anna.
+	
 2001-08-09  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/widgets/e-addressbook-view.c (SPEC): Upped the minimum width

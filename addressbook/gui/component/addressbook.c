@@ -374,22 +374,89 @@ book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 
 		if (source &&
 		    source->type == ADDRESSBOOK_SOURCE_LDAP &&
-		    source->ldap.auth == ADDRESSBOOK_LDAP_AUTH_SIMPLE) {
+		    source->auth == ADDRESSBOOK_LDAP_AUTH_SIMPLE) {
 			int button;
-			char *msg = g_strdup_printf (_("Enter password for %s"), source->ldap.binddn);
-			/* give a password prompt for the binddn */
-			GtkWidget *dialog = gnome_request_dialog (TRUE, msg, NULL,
-								  0, passwd_cb, view, NULL); 
-			
+			char *msg = g_strdup_printf (_("Please enter your email address and password for access to %s"), source->name);
+			GtkWidget *dialog;
+			GtkWidget *hbox;
+			GtkWidget *table;
+			GtkWidget *label;
+			GtkWidget *email_entry;
+			GtkWidget *password_entry;
+
+			dialog = gnome_dialog_new (_("LDAP Authentication"),
+						   GNOME_STOCK_BUTTON_OK,
+						   GNOME_STOCK_BUTTON_CANCEL,
+						   NULL);
+
+			label = gtk_label_new (msg);
+			gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
+			gtk_box_pack_start (GTK_BOX (GNOME_DIALOG(dialog)->vbox), label, FALSE, FALSE, 0);
+			g_free (msg);
+
+			table = gtk_table_new (2, 2, FALSE);
+			label = gtk_label_new (_("Email Address:"));
+			gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_RIGHT);
+			gtk_table_attach (GTK_TABLE (table), label,
+					  0, 1,
+					  0, 1,
+					  0, 0, 0, 3);
+			email_entry = gtk_entry_new ();
+			gtk_table_attach (GTK_TABLE (table), email_entry,
+					  1, 2,
+					  0, 1,
+					  GTK_EXPAND | GTK_FILL, 0, 0, 3);
+
+			hbox = gtk_hbox_new (FALSE, 2);
+			label = gtk_label_new (_("Password:"));
+			gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_RIGHT);
+			gtk_table_attach (GTK_TABLE (table), label,
+					  0, 1, 
+					  1, 2,
+					  GTK_FILL, 0, 0, 3);
+			password_entry = gtk_entry_new ();
+			gtk_entry_set_visibility (GTK_ENTRY(password_entry), FALSE);
+			gtk_table_attach (GTK_TABLE (table), password_entry,
+					  1, 2,
+					  1, 2,
+					  GTK_EXPAND | GTK_FILL, 0, 0, 3);
+
+			gtk_box_pack_start (GTK_BOX (GNOME_DIALOG(dialog)->vbox), table, TRUE, TRUE, 0);
+
+			gtk_widget_show_all (GNOME_DIALOG(dialog)->vbox);
+
+			/* fill in the saved email address for this source if there is one */
+			if (source->email_addr && *source->email_addr) {
+				e_utf8_gtk_entry_set_text (GTK_ENTRY(email_entry), 
+							   source->email_addr);
+				gtk_window_set_focus (GTK_WINDOW (dialog),
+						      password_entry);
+			}
+			else {
+				gtk_window_set_focus (GTK_WINDOW (dialog),
+						      email_entry);
+			}
+
+			/* run the dialog */
+			gnome_dialog_close_hides (GNOME_DIALOG(dialog), TRUE);
 			button = gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
 
-			if (button == 0 && *(view->passwd)) {
-				e_book_authenticate_user (book, source->ldap.binddn, view->passwd,
+			/* and get out the information if the user clicks ok */
+			if (button == 0) {
+				g_free (source->email_addr);
+				source->email_addr = e_utf8_gtk_entry_get_text (GTK_ENTRY(email_entry));
+				addressbook_storage_write_sources();
+				view->passwd = e_utf8_gtk_entry_get_text (GTK_ENTRY(password_entry));
+				e_book_authenticate_user (book, source->email_addr, view->passwd,
 							  book_auth_cb, closure);
 				memset (view->passwd, 0, strlen (view->passwd)); /* clear out the passwd */
 				g_free (view->passwd);
 				view->passwd = NULL;
+				gtk_widget_destroy (dialog);
 				return;
+			}
+			else {
+				gtk_widget_destroy (dialog);
 			}
 		}
 
@@ -783,3 +850,4 @@ addressbook_factory_init (void)
 		g_error ("I could not register a Addressbook factory.");
 	}
 }
+

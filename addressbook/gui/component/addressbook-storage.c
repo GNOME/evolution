@@ -21,29 +21,20 @@
  * Author: Chris Toshok
  */
 
-/* The ldap server file goes like this:
+/* The addressbook-sources.xml file goes like this:
 
    <?xml version="1.0"?>
    <addressbooks>
      <contactserver>
            <name>LDAP Server</name>
-	   <description>This is my company address book.</description>
 	   <host>ldap.server.com</host>
 	   <port>389</port>
 	   <rootdn></rootdn>
 	   <authmethod>simple</authmethod>
-	   <binddn>cn=Chris Toshok,dc=helixcode,dc=com</binddn>
+	   <emailaddr>toshok@blubag.com</emailaddr>
 	   <rememberpass/>
      </contactserver>
-     <contactfile>
-           <name>On Disk Contacts</name>
-	   <description>This is one of my private contact dbs.</description>
-           <path>/home/toshok/contacts/work-contacts.db</path>
-     </contactfile>
    </addressbooks>
-
-   FIXME: Do we want to use a namespace for this?
-   FIXME: Do we want to have an internationalized description?
  */
 
 #ifdef HAVE_CONFIG_H
@@ -110,14 +101,27 @@ addressbook_storage_setup (EvolutionShellComponent *shell_component,
 }
 
 #ifdef HAVE_LDAP
-static void
+static int
 remove_ldap_folder (EvolutionStorage *storage,
 		    const CORBA_char *path, const CORBA_char *physical_uri,
-		    int *result, gpointer data)
+		    gpointer data)
 {
 	addressbook_storage_remove_source (path + 1);
 	addressbook_storage_write_sources();
-	*result = GNOME_Evolution_Storage_OK;
+	return GNOME_Evolution_Storage_OK;
+}
+static int
+create_ldap_folder (EvolutionStorage *storage,
+		    const CORBA_char *path, const CORBA_char *type,
+		    const CORBA_char *description, const CORBA_char *parent_physical_uri,
+		    int *result, gpointer data)
+{
+	if (strcmp (type, "contacts"))
+		return GNOME_Evolution_Storage_UNSUPPORTED_TYPE;
+
+	addressbook_create_new_source (path + 1, NULL);
+
+	return GNOME_Evolution_Storage_OK;
 }
 #endif
 
@@ -132,6 +136,9 @@ register_storage (void)
 		gtk_signal_connect (GTK_OBJECT (storage),
 				    "remove_folder",
 				    GTK_SIGNAL_FUNC(remove_ldap_folder), NULL);
+		gtk_signal_connect (GTK_OBJECT (storage),
+				    "create_folder",
+				    GTK_SIGNAL_FUNC(create_ldap_folder), NULL);
 		result = evolution_storage_register_on_shell (storage, corba_shell);
 		switch (result) {
 		case EVOLUTION_STORAGE_OK:
@@ -252,13 +259,9 @@ addressbook_storage_init_source_uri (AddressbookSource *source)
 	if (source->uri)
 		g_free (source->uri);
 
-	if (source->type == ADDRESSBOOK_SOURCE_LDAP)
-		source->uri = g_strdup_printf  ("ldap://%s:%s/%s??%s",
-						source->ldap.host, source->ldap.port,
-						source->ldap.rootdn, ldap_unparse_scope(source->ldap.scope));
-	else
-		source->uri = g_strdup_printf ("file://%s",
-					       source->file.path);
+	source->uri = g_strdup_printf  ("ldap://%s:%s/%s??%s",
+					source->host, source->port,
+					source->rootdn, ldap_unparse_scope(source->scope));
 }
 
 static gboolean
@@ -311,16 +314,12 @@ load_source_data (const char *file_path)
 
 		if (!strcmp (child->name, "contactserver")) {
 			source->type        = ADDRESSBOOK_SOURCE_LDAP;
-			source->ldap.port   = get_string_value (child, "port");
-			source->ldap.host   = get_string_value (child, "host");
-			source->ldap.rootdn = get_string_value (child, "rootdn");
-			source->ldap.scope  = ldap_parse_scope (get_string_value (child, "scope"));
-			source->ldap.auth   = ldap_parse_auth (get_string_value (child, "authmethod"));
-			source->ldap.binddn = get_string_value (child, "binddn");
-		}
-		else if (!strcmp (child->name, "contactfile")) {
-			source->type        = ADDRESSBOOK_SOURCE_FILE;
-			source->file.path = get_string_value (child, "path");
+			source->port   = get_string_value (child, "port");
+			source->host   = get_string_value (child, "host");
+			source->rootdn = get_string_value (child, "rootdn");
+			source->scope  = ldap_parse_scope (get_string_value (child, "scope"));
+			source->auth   = ldap_parse_auth (get_string_value (child, "authmethod"));
+			source->email_addr = get_string_value (child, "emailaddr");
 		}
 		else {
 			g_warning ("unknown node '%s' in %s", child->name, file_path);
@@ -364,51 +363,22 @@ ldap_source_foreach(AddressbookSource *source, xmlNode *root)
 		     (xmlChar *) source->description);
 
 	xmlNewChild (source_root, NULL, (xmlChar *) "port",
-		     (xmlChar *) source->ldap.port);
+		     (xmlChar *) source->port);
 	xmlNewChild (source_root, NULL, (xmlChar *) "host",
-		     (xmlChar *) source->ldap.host);
+		     (xmlChar *) source->host);
 	xmlNewChild (source_root, NULL, (xmlChar *) "rootdn",
-		     (xmlChar *) source->ldap.rootdn);
+		     (xmlChar *) source->rootdn);
 	xmlNewChild (source_root, NULL, (xmlChar *) "scope",
-		     (xmlChar *) ldap_unparse_scope(source->ldap.scope));
+		     (xmlChar *) ldap_unparse_scope(source->scope));
 	xmlNewChild (source_root, NULL, (xmlChar *) "authmethod",
-		     (xmlChar *) ldap_unparse_auth(source->ldap.auth));
-	if (source->ldap.auth == ADDRESSBOOK_LDAP_AUTH_SIMPLE) {
-		xmlNewChild (source_root, NULL, (xmlChar *) "binddn",
-			     (xmlChar *) source->ldap.binddn);
-		if (source->ldap.remember_passwd)
+		     (xmlChar *) ldap_unparse_auth(source->auth));
+	if (source->auth == ADDRESSBOOK_LDAP_AUTH_SIMPLE) {
+		xmlNewChild (source_root, NULL, (xmlChar *) "emailaddr",
+			     (xmlChar *) source->email_addr);
+		if (source->remember_passwd)
 			xmlNewChild (source_root, NULL, (xmlChar *) "rememberpass",
 				     NULL);
 	}
-}
-
-static void
-file_source_foreach (AddressbookSource *source, xmlNode *root)
-{
-	xmlNode *source_root = xmlNewNode (NULL,
-					   (xmlChar *) "contactfile");
-
-	xmlAddChild (root, source_root);
-
-	xmlNewChild (source_root, NULL, (xmlChar *) "name",
-		     (xmlChar *) source->name);
-	xmlNewChild (source_root, NULL, (xmlChar *) "description",
-		     (xmlChar *) source->description);
-
-	xmlNewChild (source_root, NULL, (xmlChar *) "path",
-		     (xmlChar *) source->file.path);
-}
-
-static void
-source_foreach(gpointer value, gpointer user_data)
-{
-	AddressbookSource *source = value;
-	xmlNode *root = user_data;
-
-	if (source->type == ADDRESSBOOK_SOURCE_LDAP)
-		ldap_source_foreach(source, root);
-	else
-		file_source_foreach(source, root);
 }
 
 static gboolean
@@ -425,7 +395,7 @@ save_source_data (const char *file_path)
 	root = xmlNewDocNode (doc, NULL, (xmlChar *) "addressbooks", NULL);
 	xmlDocSetRootElement (doc, root);
 
-	g_list_foreach (sources, source_foreach, root);
+	g_list_foreach (sources, (GFunc)ldap_source_foreach, root);
 
 	fd = open (new_path, O_CREAT | O_TRUNC | O_WRONLY, 0600);
 	fchmod (fd, 0600);
@@ -532,14 +502,10 @@ addressbook_source_free (AddressbookSource *source)
 	g_free (source->name);
 	g_free (source->description);
 	g_free (source->uri);
-	if (source->type == ADDRESSBOOK_SOURCE_LDAP) {
-		g_free (source->ldap.host);
-		g_free (source->ldap.port);
-		g_free (source->ldap.rootdn);
-		g_free (source->ldap.binddn);
-	} else {
-		g_free (source->file.path);
-	}
+	g_free (source->host);
+	g_free (source->port);
+	g_free (source->rootdn);
+	g_free (source->email_addr);
 
 	g_free (source);
 }
@@ -582,17 +548,13 @@ addressbook_source_copy (const AddressbookSource *source)
 	copy->type = source->type;
 	copy->uri = g_strdup (source->uri);
 
-	if (copy->type == ADDRESSBOOK_SOURCE_LDAP) {
-		copy->ldap.host = g_strdup (source->ldap.host);
-		copy->ldap.port = g_strdup (source->ldap.port);
-		copy->ldap.rootdn = g_strdup (source->ldap.rootdn);
-		copy->ldap.scope = source->ldap.scope;
-		copy->ldap.auth = source->ldap.auth;
-		copy->ldap.binddn = g_strdup (source->ldap.binddn);
-		copy->ldap.remember_passwd = source->ldap.remember_passwd;
-	}
-	else {
-		copy->file.path = g_strdup (source->file.path);
-	}
+	copy->host = g_strdup (source->host);
+	copy->port = g_strdup (source->port);
+	copy->rootdn = g_strdup (source->rootdn);
+	copy->scope = source->scope;
+	copy->auth = source->auth;
+	copy->email_addr = g_strdup (source->email_addr);
+	copy->remember_passwd = source->remember_passwd;
+
 	return copy;
 }

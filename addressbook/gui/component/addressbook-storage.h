@@ -49,18 +49,13 @@ typedef struct {
 	AddressbookSourceType type;
 	char *name;
 	char *description;
-	struct {
-		char *path;
-	} file;
-	struct {
-		char *host;
-		char *port;
-		char *rootdn;
-		AddressbookLDAPScopeType scope;
-		AddressbookLDAPAuthType auth;
-		char *binddn;                   /* used in AUTH_SIMPLE */
-		gboolean remember_passwd;
-	} ldap;
+	char *host;
+	char *port;
+	char *rootdn;
+	AddressbookLDAPScopeType scope;
+	AddressbookLDAPAuthType auth;
+	char *email_addr;                   /* used in AUTH_SIMPLE */
+	gboolean remember_passwd;
 	char *uri; /* filled in from the above */
 } AddressbookSource;
 
