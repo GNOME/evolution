@@ -46,11 +46,11 @@ typedef struct {
 	GdkGC           *focus_gc;
 	GdkBitmap       *stipple;
 
-	unsigned int     draw_grid:1;
-	unsigned int     draw_focus:1;
-	unsigned int     renderers_can_change_size:1;
-	unsigned int     cell_views_realized:1;
-	
+	guint     draw_grid:1;
+	guint     draw_focus:1;
+	guint     renderers_can_change_size:1;
+	guint     cell_views_realized:1;
+
 	guint needs_redraw : 1;
 	guint needs_compute_height : 1;
 	guint needs_compute_width : 1;
