@@ -29,6 +29,9 @@
 #include <gal/e-table/e-table-sort-info.h>
 #include <gal/e-table/e-table-specification.h>
 #include <gal/widgets/gtk-combo-text.h>
+#include <gal/e-table/e-table-without.h>
+#include <gal/e-table/e-table-subset-variable.h>
+#include <gal/e-table/e-table.h>
 
 BEGIN_GNOME_DECLS
 
@@ -74,6 +77,11 @@ typedef struct {
 
 	ETableConfigSortWidgets sort [4];
 	ETableConfigSortWidgets group [4];
+
+	ETable               *available;
+	ETableWithout        *available_model;
+	ETable               *shown;
+	ETableSubsetVariable *shown_model;
 
 	/*
 	 * List of valid column names

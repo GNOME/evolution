@@ -45,6 +45,8 @@ static ESorterClass *parent_class;
 static void    	ets_model_changed      (ETableModel *etm, ETableSorter *ets);
 static void    	ets_model_row_changed  (ETableModel *etm, int row, ETableSorter *ets);
 static void    	ets_model_cell_changed (ETableModel *etm, int col, int row, ETableSorter *ets);
+static void    	ets_model_rows_inserted (ETableModel *etm, int row, int count, ETableSorter *ets);
+static void    	ets_model_rows_deleted (ETableModel *etm, int row, int count, ETableSorter *ets);
 static void    	ets_sort_info_changed  (ETableSortInfo *info, ETableSorter *ets);
 static void    	ets_clean              (ETableSorter *ets);
 static void    	ets_sort               (ETableSorter *ets);
@@ -67,13 +69,22 @@ ets_destroy (GtkObject *object)
 			       ets->table_model_row_changed_id);
 	gtk_signal_disconnect (GTK_OBJECT (ets->source),
 			       ets->table_model_cell_changed_id);
+	gtk_signal_disconnect (GTK_OBJECT (ets->source),
+			       ets->table_model_rows_inserted_id);
+	gtk_signal_disconnect (GTK_OBJECT (ets->source),
+			       ets->table_model_rows_deleted_id);
 	gtk_signal_disconnect (GTK_OBJECT (ets->sort_info),
 			       ets->sort_info_changed_id);
+	gtk_signal_disconnect (GTK_OBJECT (ets->sort_info),
+			       ets->group_info_changed_id);
 
 	ets->table_model_changed_id = 0;
 	ets->table_model_row_changed_id = 0;
 	ets->table_model_cell_changed_id = 0;
+	ets->table_model_rows_inserted_id = 0;
+	ets->table_model_rows_deleted_id = 0;
 	ets->sort_info_changed_id = 0;
+	ets->group_info_changed_id = 0;
 	
 	if (ets->sort_info)
 		gtk_object_unref(GTK_OBJECT(ets->sort_info));
@@ -95,12 +106,16 @@ ets_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		if (ets->sort_info) {
 			if (ets->sort_info_changed_id)
 				gtk_signal_disconnect(GTK_OBJECT(ets->sort_info), ets->sort_info_changed_id);
+			if (ets->group_info_changed_id)
+				gtk_signal_disconnect(GTK_OBJECT(ets->sort_info), ets->group_info_changed_id);
 			gtk_object_unref(GTK_OBJECT(ets->sort_info));
 		}
 
 		ets->sort_info = E_TABLE_SORT_INFO(GTK_VALUE_OBJECT (*arg));
 		gtk_object_ref(GTK_OBJECT(ets->sort_info));
 		ets->sort_info_changed_id = gtk_signal_connect (GTK_OBJECT (ets->sort_info), "sort_info_changed",
+								GTK_SIGNAL_FUNC (ets_sort_info_changed), ets);
+		ets->group_info_changed_id = gtk_signal_connect (GTK_OBJECT (ets->sort_info), "group_info_changed",
 								GTK_SIGNAL_FUNC (ets_sort_info_changed), ets);
 
 		ets_clean (ets);
@@ -155,7 +170,10 @@ ets_init (ETableSorter *ets)
 	ets->table_model_changed_id = 0;
 	ets->table_model_row_changed_id = 0;
 	ets->table_model_cell_changed_id = 0;
+	ets->table_model_rows_inserted_id = 0;
+	ets->table_model_rows_deleted_id = 0;
 	ets->sort_info_changed_id = 0;
+	ets->group_info_changed_id = 0;
 }
 
 E_MAKE_TYPE(e_table_sorter, "ETableSorter", ETableSorter, ets_class_init, ets_init, PARENT_TYPE);
@@ -178,7 +196,13 @@ e_table_sorter_new (ETableModel *source, ETableHeader *full_header, ETableSortIn
 							       GTK_SIGNAL_FUNC (ets_model_row_changed), ets);
 	ets->table_model_cell_changed_id = gtk_signal_connect (GTK_OBJECT (source), "model_cell_changed",
 								GTK_SIGNAL_FUNC (ets_model_cell_changed), ets);
+	ets->table_model_rows_inserted_id = gtk_signal_connect (GTK_OBJECT (source), "model_rows_inserted",
+								GTK_SIGNAL_FUNC (ets_model_rows_inserted), ets);
+	ets->table_model_rows_deleted_id = gtk_signal_connect (GTK_OBJECT (source), "model_rows_deleted",
+							       GTK_SIGNAL_FUNC (ets_model_rows_deleted), ets);
 	ets->sort_info_changed_id = gtk_signal_connect (GTK_OBJECT (sort_info), "sort_info_changed",
+							 GTK_SIGNAL_FUNC (ets_sort_info_changed), ets);
+	ets->group_info_changed_id = gtk_signal_connect (GTK_OBJECT (sort_info), "group_info_changed",
 							 GTK_SIGNAL_FUNC (ets_sort_info_changed), ets);
 	
 	return ets;
@@ -198,6 +222,18 @@ ets_model_row_changed (ETableModel *etm, int row, ETableSorter *ets)
 
 static void
 ets_model_cell_changed (ETableModel *etm, int col, int row, ETableSorter *ets)
+{
+	ets_clean(ets);
+}
+
+static void
+ets_model_rows_inserted (ETableModel *etm, int row, int count, ETableSorter *ets)
+{
+	ets_clean(ets);
+}
+
+static void
+ets_model_rows_deleted (ETableModel *etm, int row, int count, ETableSorter *ets)
 {
 	ets_clean(ets);
 }

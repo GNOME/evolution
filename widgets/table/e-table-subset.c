@@ -163,9 +163,7 @@ etss_is_cell_editable (ETableModel *etm, int col, int row)
 static gboolean
 etss_has_save_id (ETableModel *etm)
 {
-	ETableSubset *etss = (ETableSubset *)etm;
-
-	return e_table_model_has_save_id (etss->source);
+	return TRUE;
 }
 
 static char *
@@ -173,7 +171,10 @@ etss_get_save_id (ETableModel *etm, int row)
 {
 	ETableSubset *etss = (ETableSubset *)etm;
 
-	return e_table_model_get_save_id (etss->source, etss->map_table [row]);
+	if (e_table_model_has_save_id (etss->source))
+		return e_table_model_get_save_id (etss->source, etss->map_table [row]);
+	else
+		return g_strdup_printf ("%d", etss->map_table[row]);
 }
 
 static void
