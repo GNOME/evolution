@@ -21,7 +21,8 @@
 #include <e-card.h>
 
 #define LDAP_MAX_SEARCH_RESPONSES 500
-#define CARDS_PER_VIEW_NOTIFICATION 10
+
+static gchar *map_e_card_prop_to_ldap(gchar *e_card_prop);
 
 static PASBackendClass *pas_backend_ldap_parent_class;
 typedef struct _PASBackendLDAPCursorPrivate PASBackendLDAPCursorPrivate;
@@ -281,21 +282,6 @@ pas_backend_ldap_process_get_cursor (PASBackend *backend,
 		 ? Evolution_BookListener_Success 
 		 : Evolution_BookListener_CardNotFound),
 		cursor);
-}
-
-static gchar *
-map_e_card_prop_to_ldap(gchar *e_card_prop)
-{
-	if (!strcmp(e_card_prop, "full_name")) return "cn";
-	else if (!strcmp(e_card_prop, "email")) return "mail";
-	else return NULL;
-}
-
-static gchar *
-map_ldap_to_e_card_prop(gchar *ldap_attr)
-{
-	if (!strcmp(ldap_attr, "cn")) return "full_name";
-	else return NULL;
 }
 
 static ESExpResult *
@@ -563,6 +549,67 @@ pas_backend_ldap_build_query (gchar *query)
 }
 
 static void
+construct_email_list(ECard *card, const char *prop, char **values)
+{
+	ECardList *list;
+	int i;
+
+	gtk_object_get(GTK_OBJECT(card),
+		       "email", &list,
+		       NULL);
+
+	for (i = 0; values[i]; i ++) {
+		e_card_list_append(list, values[i]);
+	}
+}
+
+static void
+construct_phone_list(ECard *card, const char *prop, char **values)
+{
+	ECardList *list;
+	int i;
+
+	gtk_object_get(GTK_OBJECT(card),
+		       "phone", &list,
+		       NULL);
+
+	for (i = 0; values[i]; i ++) {
+		ECardPhone *phone_entry = g_new0(ECardPhone, 1);
+		phone_entry->number = g_strdup (values[i]);
+		e_card_list_append(list, phone_entry);
+	}
+}
+
+struct prop_info {
+	const char *query_prop;
+	const char *ldap_attr;
+#define PROP_TYPE_NORMAL   0x01
+#define PROP_TYPE_LIST     0x02
+#define PROP_TYPE_LISTITEM 0x03
+	int prop_type;
+	void (*construct_list_func)(ECard *card, const char *prop, char **values);
+} prop_info_table[] = {
+	/* query prop,  ldap attr,          type,              list construct function */
+	{ "full_name",  "cn",               PROP_TYPE_NORMAL,  NULL },
+	{ "email",      "mail",             PROP_TYPE_LIST,    construct_email_list },
+	{ "phone",      "telephoneNumber",  PROP_TYPE_LIST,    construct_phone_list }
+};
+
+static int num_prop_infos = sizeof(prop_info_table) / sizeof(prop_info_table[0]);
+
+static gchar *
+map_e_card_prop_to_ldap(gchar *e_card_prop)
+{
+	int i;
+
+	for (i = 0; i < num_prop_infos; i ++)
+		if (!strcmp (e_card_prop, prop_info_table[i].query_prop))
+			return prop_info_table[i].ldap_attr;
+
+	return NULL;
+}
+
+static void
 pas_backend_ldap_search (PASBackendLDAP  	*bl,
 			 PASBook         	*book,
 			 PASBackendLDAPBookView *view)
@@ -594,47 +641,55 @@ pas_backend_ldap_search (PASBackendLDAP  	*bl,
 		while (NULL != e) {
 			ECard *card = E_CARD(gtk_type_new(e_card_get_type()));
 			char *dn = ldap_get_dn(ldap, e);
-			char *attr, *prop;
+			char *attr;
 			BerElement *ber = NULL;
-			int card_count = 0;
 
 			e_card_set_id (card, dn);
 			
-			/* XXX needs a bit of work here */
 			for (attr = ldap_first_attribute (ldap, e, &ber); attr;
 			     attr = ldap_next_attribute (ldap, e, ber)) {
-				prop = map_ldap_to_e_card_prop (attr);
-				
-				if (prop) {
+				int i;
+				struct prop_info *info = NULL;
+
+				for (i = 0; i < num_prop_infos; i ++)
+					if (!strcmp (attr, prop_info_table[i].ldap_attr))
+						info = &prop_info_table[i];
+
+				if (info) {
 					char **values;
 					values = ldap_get_values (ldap, e, attr);
 
-					gtk_object_set(GTK_OBJECT(card), prop, values[0], NULL);
+					if (info->prop_type == PROP_TYPE_NORMAL) {
+						/* if it's a normal property just set the string */
+						gtk_object_set(GTK_OBJECT(card),
+							       info->query_prop, values[0], NULL);
+
+					}
+					else if (info->prop_type == PROP_TYPE_LIST) {
+						/* if it's a list call the construction function,
+						   which calls gtk_object_set to set the property */
+						info->construct_list_func(card,
+									  info->query_prop,
+									  values);
+					}
 
 					ldap_value_free (values);
 				}
 			}
 
+			/* if ldap->ld_errno == LDAP_DECODING_ERROR there was an
+			   error decoding an attribute, and we shouldn't free ber,
+			   since the ldap library already did it. */
 			if (ldap->ld_errno != LDAP_DECODING_ERROR && ber)
 				ber_free (ber, 0);
 
 			cards = g_list_append(cards, e_card_get_vcard(card));
 
-			card_count ++;
-			if (card_count == CARDS_PER_VIEW_NOTIFICATION) {
-				card_count = 0;
-				pas_book_view_notify_add (view->book_view, cards);
-
-				g_list_foreach (cards, (GFunc)g_free, NULL);
-				g_list_free (cards);
-				cards = NULL;
-			}
 			gtk_object_unref (GTK_OBJECT(card));
 
 			e = ldap_next_entry(ldap, e);
 		}
 
-		/* send any straglers */
 		if (cards) {
 			pas_book_view_notify_add (view->book_view, cards);
 			

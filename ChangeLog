@@ -1,3 +1,21 @@
+2000-04-12  Chris Toshok  <toshok@helixcode.com>
+
+	* addressbook/backend/pas/pas-backend-file.c (entry_compare):
+	rework this function to use a table mapping search field names to
+	vcard properties and extra information (such as whether or not the
+	property is a list.)
+	
+	* addressbook/backend/pas/pas-backend-ldap.c
+	(construct_email_list): new function, to build the ECardList for
+	email addresses.
+	(construct_phone_list): new function, to build the ECardList for
+	phone numbers.
+	(pas_backend_ldap_search): use a table mapping ldap attributes to
+	ecard properties, and use the special list construction functions
+	if the property calls for it.  general cleanup.  added a comment
+	about not calling ber_free if there was a decoding error.
+
+
 2000-04-12  Matt Loper  <matt@helixcode.com>
 
 	* art/Makefile.am: Add tigert's contact-dlg-related images.

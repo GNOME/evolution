@@ -153,24 +153,6 @@ pas_backend_file_create_unique_id (char *vcard)
 	return g_strdup_printf ("pas-id-%08lX%08X", time(NULL), c++);
 }
 
-static char *
-get_e_card_string_prop (ECard *ecard, const char *propname)
-{
-	char *prop = NULL;
-
-	if (!strcasecmp(propname, "full_name"))
-		gtk_object_get(GTK_OBJECT(ecard),
-			       "full_name", &prop, NULL);
-	else if (!strcasecmp(propname, "url"))
-		gtk_object_get(GTK_OBJECT(ecard),
-			       "url", &prop, NULL);
-	else if (!strcasecmp(propname, "mailer"))
-		gtk_object_get(GTK_OBJECT(ecard),
-			       "mailer", &prop, NULL);
-	
-	return prop;
-}
-
 static gboolean
 compare_email (ECard *ecard, const char *str,
 	       char *(*compare)(const char*, const char*))
@@ -237,6 +219,27 @@ compare_address (ECard *ecard, const char *str,
 	return FALSE;
 }
 
+static struct prop_info {
+	const char *query_prop;
+	const char *ecard_prop;
+#define PROP_TYPE_NORMAL   0x01
+#define PROP_TYPE_LIST     0x02
+#define PROP_TYPE_LISTITEM 0x03
+	int prop_type;
+	gboolean (*list_compare)(ECard *ecard, const char *str,
+				 char *(*compare)(const char*, const char*));
+
+} prop_info_table[] = {
+	/* query prop,  ecard prop,   type,              list compare function */
+	{ "full_name",  "full_name",  PROP_TYPE_NORMAL,  NULL },
+	{ "url",        "url",        PROP_TYPE_NORMAL,  NULL },
+	{ "mailer",     "mailer",     PROP_TYPE_NORMAL,  NULL },
+	{ "email",      "email",      PROP_TYPE_LIST,    compare_email },
+	{ "phone",      "phone",      PROP_TYPE_LIST,    compare_phone },
+	{ "address",    "address",    PROP_TYPE_LIST,    compare_address },
+};
+static int num_prop_infos = sizeof(prop_info_table) / sizeof(prop_info_table[0]);
+
 static ESExpResult *
 entry_compare(PASBackendFileSearchContext *ctx, struct _ESExp *f,
 	      int argc, struct _ESExpResult **argv,
@@ -248,26 +251,35 @@ entry_compare(PASBackendFileSearchContext *ctx, struct _ESExp *f,
 	if (argc == 2
 	    && argv[0]->type == ESEXP_RES_STRING
 	    && argv[1]->type == ESEXP_RES_STRING) {
-		char *propname, *prop = NULL;
+		char *propname;
+		struct prop_info *info = NULL;
+		int i;
 
 		propname = argv[0]->value.string;
 
-		prop = get_e_card_string_prop (ctx->ecard, propname);
-
-		if (prop) {
-			if (compare(prop, argv[1]->value.string)) {
-				truth = TRUE;
+		for (i = 0; i < num_prop_infos; i ++) {
+			if (!strcmp (prop_info_table[i].query_prop, propname)) {
+				info = &prop_info_table[i];
+				break;
 			}
 		}
-		else{
-			if (!strcmp(propname, "email")) {
-				truth = compare_email (ctx->ecard, argv[1]->value.string, compare);
+
+		if (info) {
+			if (info->prop_type == PROP_TYPE_NORMAL) {
+				char *prop = NULL;
+				/* searches where the query's property
+                                   maps directly to an ecard property */
+
+				gtk_object_get(GTK_OBJECT(ctx->ecard),
+					       info->ecard_prop, &prop, NULL);
+
+				if (prop && compare(prop, argv[1]->value.string)) {
+					truth = TRUE;
+				}
 			}
-			else if (!strcasecmp(propname, "phone")) {
-				truth = compare_phone (ctx->ecard, argv[1]->value.string, compare);
-			}
-			else if (!strcasecmp(propname, "address")) {
-				truth = compare_address (ctx->ecard, argv[1]->value.string, compare);
+			else if (info->prop_type == PROP_TYPE_LIST) {
+				/* the special searches that match any of the list elements */
+				truth = info->list_compare (ctx->ecard, argv[1]->value.string, compare);
 			}
 		}
 		
