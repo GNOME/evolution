@@ -1,3 +1,14 @@
+2000-02-07  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-table-item.c (eti_event): Fixed some motion event
+	bugs. (incorrect x and y.)
+
+	* Makefile.am: Added includes for dependencies in
+	evolution/widgets/libevolutionwidgets.a
+
+	* e-cell-text.h, e-cell-text.c: Completely revamped using code
+	from e-text.c and e-text.h.
+
 2000-02-07  Miguel de Icaza  <miguel@gnu.org>
 
 	* e-table.c (e_table_setup_table): Setup the scroll region of the

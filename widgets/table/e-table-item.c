@@ -946,9 +946,9 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		int col, row;
 		double x1, y1;
 
-		gnome_canvas_item_w2i (item, &e->button.x, &e->button.y);
+		gnome_canvas_item_w2i (item, &e->motion.x, &e->motion.y);
 
-		if (!find_cell (eti, e->button.x, e->button.y, &col, &row, &x1, &y1))
+		if (!find_cell (eti, e->motion.x, e->motion.y, &col, &row, &x1, &y1))
 			return TRUE;
 
 		if (eti->focused_row == row && eti->focused_col == col){
@@ -958,8 +958,8 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			/*
 			 * Adjust the event positions
 			 */
-			e->button.x -= (x1 + eti->x1);
-			e->button.y -= (y1 + eti->y1);
+			e->motion.x = x1;
+			e->motion.y = y1;
 			
 			e_cell_event (ecell_view, e, ecol->col_idx, col, row);
 		}

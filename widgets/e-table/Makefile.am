@@ -1,5 +1,6 @@
 INCLUDES =					\
 	$(GNOME_INCLUDEDIR)			\
+	-I$(top_srcdir)/widgets			\
 	-I$(top_srcdir)/e-util			\
 	-I$(top_srcdir)
 
@@ -48,7 +49,8 @@ table_test_SOURCES = 	\
 table_test_LDADD =				\
 	$(EXTRA_GNOME_LIBS)			\
 	libetable.a				\
-	$(top_builddir)/e-util/libeutil.a
+	$(top_builddir)/e-util/libeutil.a	\
+	$(top_builddir)/widgets/libevolutionwidgets.a
 
 table_test_LDFLAGS = `gnome-config --libs gdk_pixbuf`
 
