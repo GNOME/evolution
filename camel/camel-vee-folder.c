@@ -160,16 +160,17 @@ camel_vee_folder_finalise (CamelObject *obj)
 	node = p->folders;
 	while (node) {
 		CamelFolder *f = node->data;
-		node = g_list_next(node);
 
 		if (vf != folder_unmatched) {
 			camel_object_unhook_event((CamelObject *)f, "folder_changed", (CamelObjectEventHookFunc) folder_changed, vf);
 			camel_object_unhook_event((CamelObject *)f, "message_changed", (CamelObjectEventHookFunc) message_changed, vf);
 			/* this updates the vfolder */
 			if ((vf->flags & CAMEL_STORE_FOLDER_PRIVATE) == 0)
-				camel_vee_folder_remove_folder(vf, f);
+				vee_folder_remove_folder(vf, f);
 		}
 		camel_object_unref((CamelObject *)f);
+
+		node = g_list_next(node);
 	}
 
 	g_free(vf->expression);

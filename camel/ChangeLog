@@ -1,3 +1,11 @@
+2001-07-06  Not Zed  <NotZed@Ximian.com>
+
+	* camel-vee-folder.c (camel_vee_folder_finalise): Changed so we
+	dont have the list changing under us, just going to the next node
+	before we call a function that might change the list is
+	potentially dangerous (slight mod of peters fix).  Hmm, i think it
+	would've double-unref'd it too(?)
+
 2001-07-08  Chris Toshok  <toshok@ximian.com>
 
 	* camel-tcp-stream-openssl.c (camel_tcp_stream_openssl_finalize):
