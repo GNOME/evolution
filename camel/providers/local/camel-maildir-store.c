@@ -54,6 +54,9 @@ static void maildir_rename_folder(CamelStore *store, const char *old, const char
 
 static CamelFolderInfo * get_folder_info (CamelStore *store, const char *top, guint32 flags, CamelException *ex);
 
+static gboolean maildir_compare_folder_name(const void *a, const void *b);
+static guint maildir_hash_folder_name(const void *a);
+
 static void camel_maildir_store_class_init(CamelObjectClass * camel_maildir_store_class)
 {
 	CamelStoreClass *camel_store_class = CAMEL_STORE_CLASS(camel_maildir_store_class);
@@ -62,6 +65,8 @@ static void camel_maildir_store_class_init(CamelObjectClass * camel_maildir_stor
 	parent_class = (CamelLocalStoreClass *)camel_type_get_global_classfuncs(camel_local_store_get_type());
 
 	/* virtual method overload, use defaults for most */
+	camel_store_class->hash_folder_name = maildir_hash_folder_name;
+	camel_store_class->compare_folder_name = maildir_compare_folder_name;
 	camel_store_class->get_folder = get_folder;
 	camel_store_class->get_inbox = get_inbox;
 	camel_store_class->delete_folder = delete_folder;
@@ -88,12 +93,37 @@ CamelType camel_maildir_store_get_type(void)
 	return camel_maildir_store_type;
 }
 
+/* This fixes up some historical cruft of names starting with "./" */
+static const char *
+md_canon_name(const char *a)
+{
+	if (a != NULL) {
+		if (a[0] == '/')
+			a++;
+		if (a[0] == '.' && a[1] == '/')
+			a+=2;
+	}
+	return a;
+}
+
+static guint maildir_hash_folder_name(const void *a)
+{
+	return g_str_hash(md_canon_name(a));
+}
+
+static gboolean maildir_compare_folder_name(const void *a, const void *b)
+{
+	return g_str_equal(md_canon_name(a), md_canon_name(b));
+}
+
 static CamelFolder *
 get_folder(CamelStore * store, const char *folder_name, guint32 flags, CamelException * ex)
 {
 	char *name, *tmp, *cur, *new;
 	struct stat st;
 	CamelFolder *folder = NULL;
+
+	folder_name = md_canon_name(folder_name);
 
 	if (!((CamelStoreClass *)parent_class)->get_folder(store, folder_name, flags, ex))
 		return NULL;
@@ -103,7 +133,26 @@ get_folder(CamelStore * store, const char *folder_name, guint32 flags, CamelExce
 	cur = g_strdup_printf("%s/cur", name);
 	new = g_strdup_printf("%s/new", name);
 
-	if (stat(name, &st) == -1) {
+	if (!strcmp(folder_name, ".")) {
+		/* special case "." (aka inbox), may need to be created */
+		if (stat(tmp, &st) != 0 || !S_ISDIR(st.st_mode)
+		    || stat(cur, &st) != 0 || !S_ISDIR(st.st_mode)
+		    || stat(new, &st) != 0 || !S_ISDIR(st.st_mode)) {
+			if (mkdir(tmp, 0700) != 0
+			    || mkdir(cur, 0700) != 0
+			    || mkdir(new, 0700) != 0) {
+				camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
+						     _("Cannot create folder `%s': %s"),
+						     folder_name, g_strerror(errno));
+				rmdir(tmp);
+				rmdir(cur);
+				rmdir(new);
+				goto fail;
+			}
+		}
+		folder = camel_maildir_folder_new(store, folder_name, flags, ex);
+	} else if (stat(name, &st) == -1) {
+		/* folder doesn't exist, see if we should create it */
 		if (errno != ENOENT) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 					      _("Cannot get folder `%s': %s"),
@@ -132,6 +181,7 @@ get_folder(CamelStore * store, const char *folder_name, guint32 flags, CamelExce
 		   || stat(tmp, &st) != 0 || !S_ISDIR(st.st_mode)
 		   || stat(cur, &st) != 0 || !S_ISDIR(st.st_mode)
 		   || stat(new, &st) != 0 || !S_ISDIR(st.st_mode)) {
+		/* folder exists, but not maildir */
 		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
 				     _("Cannot get folder `%s': not a maildir directory."), name);
 	} else if (flags & CAMEL_STORE_FOLDER_EXCL) {
@@ -141,7 +191,7 @@ get_folder(CamelStore * store, const char *folder_name, guint32 flags, CamelExce
 	} else {
 		folder = camel_maildir_folder_new(store, folder_name, flags, ex);
 	}
-
+fail:
 	g_free(name);
 	g_free(tmp);
 	g_free(cur);
@@ -153,13 +203,19 @@ get_folder(CamelStore * store, const char *folder_name, guint32 flags, CamelExce
 static CamelFolder *
 get_inbox (CamelStore *store, CamelException *ex)
 {
-	return get_folder (store, ".", 0, ex);
+	return camel_store_get_folder(store, ".", CAMEL_STORE_FOLDER_CREATE, ex);
 }
 
 static void delete_folder(CamelStore * store, const char *folder_name, CamelException * ex)
 {
 	char *name, *tmp, *cur, *new;
 	struct stat st;
+
+	if (strcmp(folder_name, ".") == 0) {
+		camel_exception_setv(ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
+				     _("Cannot delete folder: %s: Invalid operation"), _("Inbox"));
+		return;
+	}
 
 	name = g_strdup_printf("%s%s", CAMEL_LOCAL_STORE(store)->toplevel_dir, folder_name);
 
@@ -236,26 +292,6 @@ maildir_rename_folder(CamelStore *store, const char *old, const char *new, Camel
 	((CamelStoreClass *)parent_class)->rename_folder(store, old, new, ex);
 }
 
-static CamelFolderInfo *camel_folder_info_new(CamelURL *url, const char *full, const char *name)
-{
-	CamelFolderInfo *fi;
-
-	fi = g_malloc0(sizeof(*fi));
-	fi->uri = camel_url_to_string(url, 0);
-	fi->full_name = g_strdup(full);
-	if (!strcmp(full, ".")) {
-		fi->flags |= CAMEL_FOLDER_SYSTEM;
-		fi->name = g_strdup(_("Inbox"));
-	} else
-		fi->name = g_strdup(name);
-	fi->unread = -1;
-	fi->total = -1;
-
-	d(printf("Adding maildir info: '%s' '%s' '%s' '%s'\n", fi->path, fi->name, fi->full_name, fi->url));
-
-	return fi;
-}
-
 static void
 fill_fi(CamelStore *store, CamelFolderInfo *fi, guint32 flags)
 {
@@ -293,69 +329,112 @@ fill_fi(CamelStore *store, CamelFolderInfo *fi, guint32 flags)
 	}
 }
 
-/* used to find out where we've visited already */
-struct _inode {
+struct _scan_node {
+	struct _scan_node *next;
+	struct _scan_node *prev;
+
+	CamelFolderInfo *fi;
+
 	dev_t dnode;
 	ino_t inode;
 };
 
-/* returns number of records found at or below this level */
-static int scan_dir(CamelStore *store, GHashTable *visited, CamelURL *url, const char *path, guint32 flags, CamelFolderInfo *parent, CamelFolderInfo **fip, CamelException *ex)
+static guint scan_hash(const void *d)
 {
-	DIR *dir;
-	struct dirent *d;
-	char *name, *tmp, *cur, *new;
-	const char *base, *root = ((CamelService *)store)->url->path;
-	CamelFolderInfo *fi = NULL;
+	const struct _scan_node *v = d;
+
+	return v->inode ^ v->dnode;
+}
+
+static gboolean scan_equal(const void *a, const void *b)
+{
+	const struct _scan_node *v1 = a, *v2 = b;
+	
+	return v1->inode == v2->inode && v1->dnode == v2->dnode;
+}
+
+static void scan_free(void *k, void *v, void *d)
+{
+	g_free(k);
+}
+
+static CamelFolderInfo *scan_fi(CamelStore *store, guint32 flags, CamelURL *url, const char *full, const char *name)
+{
+	CamelFolderInfo *fi;
+	char *tmp, *cur, *new;
 	struct stat st;
 
-	/* look for folders matching the right structure, recursively */
-	name = g_strdup_printf("%s/%s", root, path);
+	fi = g_malloc0(sizeof(*fi));
+	fi->full_name = g_strdup(full);
+	fi->name = g_strdup(name);
+	camel_url_set_fragment(url, fi->full_name);
+	fi->uri = camel_url_to_string(url, 0);
+	fi->unread = -1;
+	fi->total = -1;
+	/* we only calculate nochildren properly if we're recursive */
+	if (((flags & CAMEL_STORE_FOLDER_INFO_RECURSIVE) != 0))
+		fi->flags = CAMEL_FOLDER_NOCHILDREN;
 
-	d(printf("checking dir '%s' part '%s' for maildir content\n", root, path));
+	d(printf("Adding maildir info: '%s' '%s' '%s'\n", fi->name, fi->full_name, fi->uri));
 
-	tmp = g_strdup_printf("%s/tmp", name);
-	cur = g_strdup_printf("%s/cur", name);
-	new = g_strdup_printf("%s/new", name);
-
-	base = strrchr(path, '/');
-	if (base)
-		base++;
-	else
-		base = path;
-
-	camel_url_set_fragment(url, path);
-
-	fi = camel_folder_info_new(url, path, base);
-	fill_fi(store, fi, flags);
+	tmp = g_build_filename(url->path, fi->full_name, "tmp", NULL);
+	cur = g_build_filename(url->path, fi->full_name, "cur", NULL);
+	new = g_build_filename(url->path, fi->full_name, "new", NULL);
 
 	if (!(stat(tmp, &st) == 0 && S_ISDIR(st.st_mode)
 	      && stat(cur, &st) == 0 && S_ISDIR(st.st_mode)
 	      && stat(new, &st) == 0 && S_ISDIR(st.st_mode)))
 		fi->flags |= CAMEL_FOLDER_NOSELECT;
 
-	d(printf("found! uri = %s\n", fi->uri));
-	d(printf("  full_name = %s\n  name = '%s'\n", fi->full_name, fi->name));
-	
-	fi->parent = parent;
-	fi->next = *fip;
-	*fip = fi;
-
-	g_free(tmp);
-	g_free(cur);
 	g_free(new);
+	g_free(cur);
+	g_free(tmp);
 
-	/* always look further if asked */
-	if (((flags & CAMEL_STORE_FOLDER_INFO_RECURSIVE) || parent == NULL)) {
-		int children = 0;
+	fill_fi(store, fi, flags);
+
+	return fi;
+}
+
+static int
+scan_dirs(CamelStore *store, guint32 flags, CamelFolderInfo *topfi, CamelURL *url, CamelException *ex)
+{
+	EDList queue = E_DLIST_INITIALISER(queue);
+	struct _scan_node *sn;
+	const char *root = ((CamelService *)store)->url->path;
+	char *tmp;
+	GHashTable *visited;
+	struct stat st;
+	int res = -1;
+
+	visited = g_hash_table_new(scan_hash, scan_equal);
+
+	sn = g_malloc0(sizeof(*sn));
+	sn->fi = topfi;
+	e_dlist_addtail(&queue, (EDListNode *)sn);
+	g_hash_table_insert(visited, sn, sn);
+
+	while (!e_dlist_empty(&queue)) {
+		char *name;
+		DIR *dir;
+		struct dirent *d;
+		CamelFolderInfo *last;
+
+		sn = (struct _scan_node *)e_dlist_remhead(&queue);
+
+		last = (CamelFolderInfo *)&sn->fi->child;
+
+		if (!strcmp(sn->fi->full_name, "."))
+			name = g_strdup(root);
+		else
+			name = g_build_filename(root, sn->fi->full_name, NULL);
 
 		dir = opendir(name);
 		if (dir == NULL) {
-			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-					      _("Could not scan folder `%s': %s"),
-					      root, g_strerror (errno));
 			g_free(name);
-			return -1;
+			camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
+					     _("Could not scan folder `%s': %s"),
+					     root, g_strerror(errno));
+			goto fail;
 		}
 
 		while ( (d = readdir(dir)) ) {
@@ -366,60 +445,52 @@ static int scan_dir(CamelStore *store, GHashTable *visited, CamelURL *url, const
 			    || strcmp(d->d_name, "..") == 0)
 				continue;
 
-			tmp = g_strdup_printf("%s/%s", name, d->d_name);
+			tmp = g_build_filename(name, d->d_name, NULL);
 			if (stat(tmp, &st) == 0 && S_ISDIR(st.st_mode)) {
-				struct _inode in = { st.st_dev, st.st_ino };
+				struct _scan_node in;
+
+				in.dnode = st.st_dev;
+				in.inode = st.st_ino;
 
 				/* see if we've visited already */
 				if (g_hash_table_lookup(visited, &in) == NULL) {
-					struct _inode *inew = g_malloc(sizeof(*inew));
+					struct _scan_node *snew = g_malloc(sizeof(*snew));
+					char *full;
 
-					children++;
+					snew->dnode = in.dnode;
+					snew->inode = in.inode;
 
-					*inew = in;
-					g_hash_table_insert(visited, inew, inew);
-					new = g_strdup_printf("%s/%s", path, d->d_name);
-					if (scan_dir(store, visited, url, new, flags, fi, &fi->child, ex) == -1) {
-						g_free(tmp);
-						g_free(new);
-						closedir(dir);
-						return -1;
-					}
-					g_free(new);
+					if (!strcmp(sn->fi->full_name, "."))
+						full = g_strdup(d->d_name);
+					else
+						full = g_strdup_printf("%s/%s", sn->fi->full_name, d->d_name);
+					snew->fi = scan_fi(store, flags, url, full, d->d_name);
+					g_free(full);
+
+					last->next =  snew->fi;
+					last = snew->fi;
+					snew->fi->parent = sn->fi;
+
+					sn->fi->flags &= ~CAMEL_FOLDER_NOCHILDREN;
+					sn->fi->flags |= CAMEL_FOLDER_CHILDREN;
+
+					g_hash_table_insert(visited, snew, snew);
+
+					if (((flags & CAMEL_STORE_FOLDER_INFO_RECURSIVE) != 0))
+						e_dlist_addtail(&queue, (EDListNode *)snew);
 				}
 			}
 			g_free(tmp);
 		}
 		closedir(dir);
-
-		if (children)
-			fi->flags |= CAMEL_FOLDER_CHILDREN;
-		else
-			fi->flags |= CAMEL_FOLDER_NOCHILDREN;
 	}
 
-	g_free(name);
+	res = 0;
+fail:
+	g_hash_table_foreach(visited, scan_free, NULL);
+	g_hash_table_destroy(visited);
 
-	return 0;
-}
-
-static guint inode_hash(const void *d)
-{
-	const struct _inode *v = d;
-
-	return v->inode ^ v->dnode;
-}
-
-static gboolean inode_equal(const void *a, const void *b)
-{
-	const struct _inode *v1 = a, *v2 = b;
-	
-	return v1->inode == v2->inode && v1->dnode == v2->dnode;
-}
-
-static void inode_free(void *k, void *v, void *d)
-{
-	g_free(k);
+	return res;
 }
 
 static CamelFolderInfo *
@@ -427,22 +498,47 @@ get_folder_info (CamelStore *store, const char *top, guint32 flags, CamelExcepti
 {
 	CamelFolderInfo *fi = NULL;
 	CamelLocalStore *local_store = (CamelLocalStore *)store;
-	GHashTable *visited;
 	CamelURL *url;
-
-	visited = g_hash_table_new(inode_hash, inode_equal);
 
 	url = camel_url_new("maildir:", NULL);
 	camel_url_set_path(url, ((CamelService *)local_store)->url->path);
 
-	if (scan_dir(store, visited, url, top == NULL || top[0] == 0?".":top, flags, NULL, &fi, ex) == -1 && fi != NULL) {
-		camel_store_free_folder_info_full(store, fi);
-		fi = NULL;
+	if (top == NULL || top[0] == 0) {
+		CamelFolderInfo *scan;
+
+		/* create a dummy "." parent inbox, use to scan, then put back at the top level */
+		fi = scan_fi(store, flags, url, ".", _("Inbox"));
+		if (scan_dirs(store, flags, fi, url, ex) == -1)
+			goto fail;
+		fi->next = fi->child;
+		scan = fi->child;
+		fi->child = NULL;
+		while (scan) {
+			scan->parent = NULL;
+			scan = scan->next;
+		}
+		fi->flags &= ~CAMEL_FOLDER_CHILDREN;
+		fi->flags |= CAMEL_FOLDER_SYSTEM|CAMEL_FOLDER_NOCHILDREN|CAMEL_FOLDER_NOINFERIORS;
+	} else if (!strcmp(top, ".")) {
+		fi = scan_fi(store, flags, url, ".", _("Inbox"));
+		fi->flags |= CAMEL_FOLDER_SYSTEM|CAMEL_FOLDER_NOCHILDREN|CAMEL_FOLDER_NOINFERIORS;
+	} else {
+		const char *name = strrchr(top, '/');
+
+		fi = scan_fi(store, flags, url, top, name?name+1:top);
+		if (scan_dirs(store, flags, fi, url, ex) == -1)
+			goto fail;
 	}
 
 	camel_url_free(url);
-	g_hash_table_foreach(visited, inode_free, NULL);
-	g_hash_table_destroy(visited);
 
 	return fi;
+
+fail:
+	if (fi)
+		camel_store_free_folder_info_full(store, fi);
+
+	camel_url_free(url);
+
+	return NULL;
 }

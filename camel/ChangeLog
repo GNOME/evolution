@@ -1,3 +1,33 @@
+2005-01-17  Not Zed  <NotZed@Ximian.com>
+
+	* tests/lib/folders.c (test_folder_basic): dont enforce local
+	store == no inbox; maildir implements one now.
+
+2005-01-14  Not Zed  <NotZed@Ximian.com>
+
+	** Better fix for #65178.
+	
+	* tests/folder/test11.c: new maildir test.
+
+	* camel-store.c (camel_store_folder_uri_equal): dont pass NULL
+	values to compare_folder_name.
+
+	* providers/local/camel-maildir-store.c (get_folder_info):
+	reimplemented, now everything isn't a subfolder of INBOX ('.')
+	anymore.
+	(get_inbox): call main entry point so we don't create multiple
+	inboxes each call.
+	(scan_dirs): re-implemented using non-recursive implementation.
+	(scan_fi, scan_free, scan_equal, scan_hash): helpers for above.
+	(md_canon_name): helper to canonicalise old-format names to new
+	ones.
+	(maildir_hash_folder_name, maildir_compare_folder_name): implement
+	custom folder hash functions so canonicalisation works.
+	(get_folder): canoncalise name before using it.  special case '.'
+	aka 'inbox', so that it is implicitly created if accessed.
+	(delete_folder): don't let the caller delete ".".
+	(camel_folder_info_new): removed.
+
 2005-01-24  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #71427.

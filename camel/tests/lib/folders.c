@@ -223,9 +223,14 @@ test_folder_basic(CamelSession *session, const char *storename, int local, int s
 	push("getting inbox folder");
 	folder = camel_store_get_inbox(store, ex);
 	if (local) {
-		check(camel_exception_is_set(ex));
-		check(folder == NULL);
-		camel_exception_clear(ex);
+		/* Well, maildir can have an inbox */
+		if (folder) {
+			check(!camel_exception_is_set(ex));
+			check_unref(folder, 1);
+		} else {
+			check(camel_exception_is_set(ex));
+			camel_exception_clear(ex);
+		}
 	} else {
 		check_msg(!camel_exception_is_set(ex), "%s", camel_exception_get_description(ex));
 		check(folder != NULL);

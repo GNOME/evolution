@@ -1195,7 +1195,7 @@ camel_store_folder_uri_equal (CamelStore *store, const char *uri0, const char *u
 			name1 = url1->path[0] == '/' ? url1->path + 1 : url1->path;
 		}
 		
-		equal = CS_CLASS (store)->compare_folder_name (name0, name1);
+		equal = name0 && name1 && CS_CLASS (store)->compare_folder_name (name0, name1);
 	}
 	
 	camel_url_free (url0);
