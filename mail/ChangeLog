@@ -1,5 +1,10 @@
 2001-07-25  Peter Williams  <peterw@ximian.com>
 
+	* folder-browser.c (etree_key): Make it so Enter always opens the message
+	in another window.
+
+2001-07-25  Peter Williams  <peterw@ximian.com>
+
 	* mail-mt.c (mail_get_password): Now take a CamelService parameter
 	(as passed by Camel). Allows us to have a "remember password"
 	checkbox that is set correctly and whose settings can be

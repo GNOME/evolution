@@ -1584,12 +1584,7 @@ etree_key (ETree *tree, int row, ETreePath path, int col, GdkEvent *ev, FolderBr
 	case GDK_Return:
 	case GDK_KP_Enter:
 	case GDK_ISO_Enter:
-		if (fb->preview_shown)
-			open_msg (NULL, fb);
-		else if (fb->uicomp)
-			bonobo_ui_component_set_prop (fb->uicomp, 
-						      "/commands/ViewPreview",
-						      "state", "1", NULL);
+       		open_msg (NULL, fb);
 		break;
 	default:
 		return on_key_press ((GtkWidget *)tree, (GdkEventKey *)ev, fb);
