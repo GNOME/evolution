@@ -1,3 +1,12 @@
+2001-10-21  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* folder-browser.c: Call the new move/copy_msg_cb's
+
+	* mail-callbacks.c (move_msg_cb): Renamed from move_msg.
+	(copy_msg_cb): Renamed from copy_msg.
+	(move_msg): The bonobo-ui-component callback.
+	(copy_msg): Same.
+
 2001-10-21    <NotZed@Ximian.com>
 
 	* mail-vfolder.c (mail_vfolder_shutdown): Clear variables once

@@ -60,8 +60,8 @@ void reply_to_all          (GtkWidget *widget, gpointer user_data);
 
 void delete_msg            (GtkWidget *widget, gpointer user_data);
 void undelete_msg          (GtkWidget *widget, gpointer user_data);
-void move_msg              (GtkWidget *widget, gpointer user_data);
-void copy_msg              (GtkWidget *widget, gpointer user_data);
+void move_msg_cb           (GtkWidget *widget, gpointer user_data);
+void copy_msg_cb           (GtkWidget *widget, gpointer user_data);
 void addrbook_sender       (GtkWidget *widget, gpointer user_data);
 void apply_filters         (GtkWidget *widget, gpointer user_data);
 void print_msg             (GtkWidget *widget, gpointer user_data);
@@ -81,6 +81,8 @@ void resend_msg            (GtkWidget *widget, gpointer user_data);
 void search_msg            (GtkWidget *widget, gpointer user_data);
 void load_images           (GtkWidget *widget, gpointer user_data);
 
+void move_msg              (BonoboUIComponent *uih, void *user_data, const char *path);
+void copy_msg              (BonoboUIComponent *uih, void *user_data, const char *path);
 void select_all            (BonoboUIComponent *uih, void *user_data, const char *path);
 void select_thread         (BonoboUIComponent *uih, void *user_data, const char *path);
 void invert_selection      (BonoboUIComponent *uih, void *user_data, const char *path);

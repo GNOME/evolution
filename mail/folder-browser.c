@@ -1444,8 +1444,8 @@ static EPopupMenu context_menu[] = {
 	
 	E_POPUP_SEPARATOR,
 	
-	{ N_("_Move to Folder..."),         NULL, GTK_SIGNAL_FUNC (move_msg),         NULL,  0 },
-	{ N_("_Copy to Folder..."),         NULL, GTK_SIGNAL_FUNC (copy_msg),         NULL,  0 },
+	{ N_("_Move to Folder..."),         NULL, GTK_SIGNAL_FUNC (move_msg_cb),      NULL,  0 },
+	{ N_("_Copy to Folder..."),         NULL, GTK_SIGNAL_FUNC (copy_msg_cb),      NULL,  0 },
 	{ N_("_Delete"),                    NULL, GTK_SIGNAL_FUNC (delete_msg),       NULL, CAN_DELETE },
 	{ N_("_Undelete"),                  NULL, GTK_SIGNAL_FUNC (undelete_msg),     NULL, CAN_UNDELETE },
 	

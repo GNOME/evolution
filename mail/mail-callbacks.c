@@ -1262,15 +1262,27 @@ transfer_msg (GtkWidget *widget, gpointer user_data, gboolean delete_from_source
 }
 
 void
-move_msg (GtkWidget *widget, gpointer user_data)
+move_msg_cb (GtkWidget *widget, gpointer user_data)
 {
 	transfer_msg (widget, user_data, TRUE);
 }
 
 void
-copy_msg (GtkWidget *widget, gpointer user_data)
+move_msg (BonoboUIComponent *uih, void *user_data, const char *path)
+{
+	transfer_msg (GTK_WIDGET (user_data), NULL, TRUE);
+}
+
+void
+copy_msg_cb (GtkWidget *widget, gpointer user_data)
 {
 	transfer_msg (widget, user_data, FALSE);
+}
+
+void
+copy_msg (BonoboUIComponent *uih, void *user_data, const char *path)
+{
+	transfer_msg (GTK_WIDGET (user_data), NULL, FALSE);
 }
 
 /* Copied from e-shell-view.c */
