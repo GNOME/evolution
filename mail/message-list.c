@@ -2016,23 +2016,23 @@ on_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event, Mess
 		flag = CAMEL_MESSAGE_FLAGGED;
 	else
 		return FALSE;
-
-	info = get_message_info(list, path);
+	
+	info = get_message_info (list, path);
 	if (info == NULL) {
 		return FALSE;
 	}
-
+	
 	/* If a message was marked as deleted and the user flags it as important, undelete it */
 	if (col == COL_FLAGGED && (info->flags & CAMEL_MESSAGE_DELETED))
 		flag |= CAMEL_MESSAGE_DELETED;
-
-	camel_folder_set_message_flags(list->folder, camel_message_info_uid(info), flag, ~info->flags);
-
+	
+	camel_folder_set_message_flags (list->folder, camel_message_info_uid (info), flag, ~info->flags);
+	
 	if (flag == CAMEL_MESSAGE_SEEN && list->seen_id) {
 		gtk_timeout_remove (list->seen_id);
 		list->seen_id = 0;
 	}
-
+	
 	return TRUE;
 }
 
@@ -2047,12 +2047,16 @@ mlfe_callback (int row, gpointer user_data)
 {
 	struct message_list_foreach_data *mlfe_data = user_data;
 	const char *uid;
-
-	uid = get_message_uid (mlfe_data->message_list, e_tree_node_at_row(mlfe_data->message_list->tree, row));
+	
+	uid = get_message_uid (mlfe_data->message_list,
+			       e_tree_node_at_row (mlfe_data->message_list->tree, row));
 	if (uid) {
-		mlfe_data->callback (mlfe_data->message_list,
-				     uid,
+		mlfe_data->callback (mlfe_data->message_list, uid,
 				     mlfe_data->user_data);
+	} else {
+		/* FIXME: could this the cause of bug #6637 and friends? */
+		g_warning ("I wonder if this could be the cause of bug #6637 and friends?");
+		g_assert_not_reached ();
 	}
 }
 
@@ -2062,7 +2066,7 @@ message_list_foreach (MessageList *message_list,
 		      gpointer user_data)
 {
 	struct message_list_foreach_data mlfe_data;
-
+	
 	mlfe_data.message_list = message_list;
 	mlfe_data.callback = callback;
 	mlfe_data.user_data = user_data;

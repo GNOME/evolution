@@ -1,3 +1,11 @@
+2001-08-09  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* message-list.c (mlfe_callback): Added a g_assert_not_reached() -
+	I'm hoping this will help us track down the "can't delete message
+	sometimes" (ie bug #6637 and friends) bugs that users have been
+	reporting. If herein lies the problem, then we can expect some
+	crashes and some good backtraces, hopefully.
+
 2001-08-09  Peter Williams  <peterw@ximian.com>
 
 	* folder-browser.c (on_key_press): The bonobo menu items now
@@ -9,8 +17,8 @@
 
 	Fixes bug #6918
 	
-	* folder-browser.c: Changed the "Store search as vFolder"
-	menu item to "Create vFolder from Search".
+	* folder-browser.c: Changed the "Store search as vFolder" menu
+	item to "Create vFolder from Search".
 
 2001-08-09  Jeffrey Stedfast  <fejj@ximian.com>
 

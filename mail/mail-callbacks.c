@@ -1199,7 +1199,7 @@ invert_selection (BonoboUIComponent *uih, void *user_data, const char *path)
 
 /* flag all selected messages. Return number flagged */
 static int
-flag_messages(FolderBrowser *fb, guint32 mask, guint32 set)
+flag_messages (FolderBrowser *fb, guint32 mask, guint32 set)
 {
         MessageList *ml = fb->message_list;
 	GPtrArray *uids;
@@ -1219,7 +1219,7 @@ flag_messages(FolderBrowser *fb, guint32 mask, guint32 set)
 	camel_folder_thaw (ml->folder);
 	
 	g_ptr_array_free (uids, TRUE);
-
+	
 	return i;
 }
 
@@ -1547,15 +1547,15 @@ delete_msg (GtkWidget *button, gpointer user_data)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
 	int deleted, row;
-
+	
 	deleted = flag_messages (fb, CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_SEEN,
 				 CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_SEEN);
-
+	
 	/* Select the next message if we are only deleting one message */
-	if (deleted == 1) {
+	if (deleted) {
 		row = e_tree_row_of_node (fb->message_list->tree,
 					  e_tree_get_cursor (fb->message_list->tree));
-
+		
 		/* If this is the last message and deleted messages
                    are hidden, select the previous */
 		if ((row+1 == e_tree_row_count (fb->message_list->tree))
