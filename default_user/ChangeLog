@@ -1,3 +1,11 @@
+2001-01-25  Christopher James Lahey  <clahey@helixcode.com>
+
+	* local/Contacts/Makefile.am (defaultcalendar_DATA): Added
+	create-initial.
+
+	* local/Contacts/create-initial: New empty file to trigger the
+	contact manager to add the initial Hello contact.
+
 2001-01-08  Damon Chaplin  <damon@helixcode.com>
 
 	* local/Makefile.am (SUBDIRS): added Tasks subdir.
