@@ -2,11 +2,8 @@
 
 libcamelsendmailincludedir = $(includedir)/camel
 
-
-providerdir = $(pkglibdir)/camel-providers/$(VERSION)
-
-provider_LTLIBRARIES = libcamelsendmail.la
-provider_DATA = libcamelsendmail.urls
+camel_provider_LTLIBRARIES = libcamelsendmail.la
+camel_provider_DATA = libcamelsendmail.urls
 
 INCLUDES =					\
 	-I..					\
