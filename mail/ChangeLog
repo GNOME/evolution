@@ -1,3 +1,28 @@
+2002-04-03  Dan Winship  <danw@ximian.com>
+
+	* mail-account-gui.c: Changes to allow combined store/transport
+	providers (like exchange and nntp). You can only select the
+	transport if the account is also using that provider for the
+	source.
+	(source_type_changed): If changing away from a combined
+	store/transport type, disable that provider on the transport page.
+	If change to a combined store/transport type, enable and select
+	that provider on the transport page.
+	(mail_account_gui_setup): Do some additional bookkeeping here to
+	make the above stuff work.
+	(transport_type_changed): If the provider is a combined
+	store/transport type, pretend it doesn't need any additional URL
+	configuration.
+	(mail_account_gui_transport_complete): if the transport provider
+	is also a store provider, then as long as it matches the source
+	for the account, it's considered complete.
+	(mail_account_gui_save): If the selected transport is a combined
+	store/transport provider, use the source page's information to
+	fill in the transport url.
+
+	* mail-local.c (mail_local_provider_init): Don't set up
+	service_cache.
+
 2002-04-02  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c (do_edit_messages): Pass the UID of the message

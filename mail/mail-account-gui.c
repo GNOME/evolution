@@ -190,6 +190,17 @@ mail_account_gui_source_complete (MailAccountGui *gui, GtkWidget **incomplete)
 gboolean
 mail_account_gui_transport_complete (MailAccountGui *gui, GtkWidget **incomplete)
 {
+	/* If it's both source and transport, there's nothing extra to
+	 * configure on the transport page.
+	 */
+	if (CAMEL_PROVIDER_IS_STORE_AND_TRANSPORT (gui->transport.provider)) {
+		if (gui->transport.provider == gui->source.provider)
+			return TRUE;
+		if (incomplete)
+			*incomplete = GTK_WIDGET (gui->transport.type);
+		return FALSE;
+	}
+
 	if (!service_complete (&gui->transport, incomplete))
 		return FALSE;
 	
@@ -290,7 +301,27 @@ build_auth_menu (MailAccountGuiService *service, GList *all_authtypes,
 	
 	if (first) {
 		gtk_option_menu_set_history (service->authtype, history);
-		gtk_signal_emit_by_name (GTK_OBJECT (first), "activate", service);
+		gtk_signal_emit_by_name (GTK_OBJECT (first), "activate");
+	}
+}
+
+static void
+transport_provider_set_available (MailAccountGui *gui, CamelProvider *provider,
+				  gboolean available)
+{
+	GtkWidget *menuitem;
+
+	menuitem = gtk_object_get_data (GTK_OBJECT (gui->transport.type),
+					provider->protocol);
+	g_return_if_fail (menuitem != NULL);
+	gtk_widget_set_sensitive (menuitem, available);
+
+	if (available) {
+		gpointer number = gtk_object_get_data (GTK_OBJECT (menuitem), "number");
+
+		gtk_signal_emit_by_name (GTK_OBJECT (menuitem), "activate");
+		gtk_option_menu_set_history (gui->transport.type,
+					     GPOINTER_TO_UINT (number));
 	}
 }
 
@@ -302,6 +333,13 @@ source_type_changed (GtkWidget *widget, gpointer user_data)
 	CamelProvider *provider;
 	
 	provider = gtk_object_get_data (GTK_OBJECT (widget), "provider");
+
+	/* If the previously-selected provider has a linked transport,
+	 * disable it.
+	 */
+	if (gui->source.provider &&
+	    CAMEL_PROVIDER_IS_STORE_AND_TRANSPORT (gui->source.provider))
+		transport_provider_set_available (gui, gui->source.provider, FALSE);
 	
 	gui->source.provider = provider;
 	
@@ -403,6 +441,10 @@ source_type_changed (GtkWidget *widget, gpointer user_data)
 		gtk_widget_grab_focus (dwidget);
 	
 	mail_account_gui_build_extra_conf (gui, gui && gui->account && gui->account->source ? gui->account->source->url : NULL);
+
+	if (provider &&
+	    CAMEL_PROVIDER_IS_STORE_AND_TRANSPORT (provider))
+		transport_provider_set_available (gui, provider, TRUE);
 }
 
 
@@ -428,17 +470,15 @@ transport_type_changed (GtkWidget *widget, gpointer user_data)
 	
 	provider = gtk_object_get_data (GTK_OBJECT (widget), "provider");
 	gui->transport.provider = provider;
-	
+
 	/* description */
-	if (provider)
-		gtk_label_set_text (gui->transport.description, provider->description);
-	else
-		gtk_label_set_text (gui->transport.description, "");
+	gtk_label_set_text (gui->transport.description, provider->description);
 	
 	frame = glade_xml_get_widget (gui->xml, "transport_frame");
-	if (CAMEL_PROVIDER_ALLOWS (provider, CAMEL_URL_PART_HOST) ||
-	    (CAMEL_PROVIDER_ALLOWS (provider, CAMEL_URL_PART_AUTH) &&
-	     !CAMEL_PROVIDER_NEEDS (provider, CAMEL_URL_PART_AUTH))) {
+	if (!CAMEL_PROVIDER_IS_STORE_AND_TRANSPORT (provider) &&
+	    (CAMEL_PROVIDER_ALLOWS (provider, CAMEL_URL_PART_HOST) ||
+	     (CAMEL_PROVIDER_ALLOWS (provider, CAMEL_URL_PART_AUTH) &&
+	      !CAMEL_PROVIDER_NEEDS (provider, CAMEL_URL_PART_AUTH)))) {
 		gtk_widget_show (frame);
 		
 		label = glade_xml_get_widget (gui->xml, "transport_host_label");
@@ -473,7 +513,8 @@ transport_type_changed (GtkWidget *widget, gpointer user_data)
 		gtk_widget_hide (frame);
 	
 	frame = glade_xml_get_widget (gui->xml, "transport_auth_frame");
-	if (CAMEL_PROVIDER_ALLOWS (provider, CAMEL_URL_PART_AUTH)) {
+	if (!CAMEL_PROVIDER_IS_STORE_AND_TRANSPORT (provider) &&
+	    CAMEL_PROVIDER_ALLOWS (provider, CAMEL_URL_PART_AUTH)) {
 		gtk_widget_show (frame);
 		
 		label = glade_xml_get_widget (gui->xml, "transport_user_label");
@@ -988,7 +1029,7 @@ construct_ssl_menu (MailAccountGuiService *service)
 	gtk_option_menu_set_menu (service->use_ssl, menu);
 	
 	gtk_option_menu_set_history (service->use_ssl, i - 1);
-	gtk_signal_emit_by_name (GTK_OBJECT (item), "activate", service);
+	gtk_signal_emit_by_name (GTK_OBJECT (item), "activate");
 }
 
   static void
@@ -1552,7 +1593,11 @@ mail_account_gui_setup (MailAccountGui *gui, GtkWidget *top)
 		item = NULL;
 		if (provider->object_types[CAMEL_PROVIDER_STORE] && provider->flags & CAMEL_PROVIDER_IS_SOURCE) {
 			item = gtk_menu_item_new_with_label (provider->name);
+			gtk_object_set_data (GTK_OBJECT (gui->source.type),
+					     provider->protocol, item);
 			gtk_object_set_data (GTK_OBJECT (item), "provider", provider);
+			gtk_object_set_data (GTK_OBJECT (item), "number",
+					     GUINT_TO_POINTER (si));
 			gtk_signal_connect (GTK_OBJECT (item), "activate",
 					    GTK_SIGNAL_FUNC (source_type_changed),
 					    gui);
@@ -1576,7 +1621,11 @@ mail_account_gui_setup (MailAccountGui *gui, GtkWidget *top)
 		
 		if (provider->object_types[CAMEL_PROVIDER_TRANSPORT]) {
 			item = gtk_menu_item_new_with_label (provider->name);
+			gtk_object_set_data (GTK_OBJECT (gui->transport.type),
+					     provider->protocol, item);
 			gtk_object_set_data (GTK_OBJECT (item), "provider", provider);
+			gtk_object_set_data (GTK_OBJECT (item), "number",
+					     GUINT_TO_POINTER (ti));
 			gtk_signal_connect (GTK_OBJECT (item), "activate",
 					    GTK_SIGNAL_FUNC (transport_type_changed),
 					    gui);
@@ -1584,6 +1633,9 @@ mail_account_gui_setup (MailAccountGui *gui, GtkWidget *top)
 			gtk_menu_append (GTK_MENU (transports), item);
 			
 			gtk_widget_show (item);
+
+			if (CAMEL_PROVIDER_IS_STORE_AND_TRANSPORT (provider))
+				gtk_widget_set_sensitive (item, FALSE);
 			
 			if (!ftransport) {
 				ftransport = item;
@@ -1667,10 +1719,10 @@ mail_account_gui_setup (MailAccountGui *gui, GtkWidget *top)
 	}
 	
 	if (fstore)
-		gtk_signal_emit_by_name (GTK_OBJECT (fstore), "activate", gui);
+		gtk_signal_emit_by_name (GTK_OBJECT (fstore), "activate");
 	
 	if (ftransport)
-		gtk_signal_emit_by_name (GTK_OBJECT (ftransport), "activate", gui);
+		gtk_signal_emit_by_name (GTK_OBJECT (ftransport), "activate");
 	
 	if (source_proto) {
 		setup_service (&gui->source, gui->account->source);
@@ -1824,7 +1876,10 @@ mail_account_gui_save (MailAccountGui *gui)
 	
 	service_destroy (account->transport);
 	account->transport = g_new0 (MailConfigService, 1);
-	save_service (&gui->transport, NULL, account->transport);
+	if (CAMEL_PROVIDER_IS_STORE_AND_TRANSPORT (gui->transport.provider))
+		save_service (&gui->source, gui->extra_config, account->transport);
+	else
+		save_service (&gui->transport, NULL, account->transport);
 	
 	/* Check to make sure that the Drafts folder uri is "valid" before assigning it */
 	url = source_url && gui->drafts_folder.uri ? camel_url_new (gui->drafts_folder.uri, NULL) : NULL;

@@ -1091,7 +1091,6 @@ mail_local_provider_init (void)
 	/* Register with Camel to handle file: URLs */
 	local_provider.object_types[CAMEL_PROVIDER_STORE] = MAIL_LOCAL_STORE_TYPE;
 
-	local_provider.service_cache = g_hash_table_new (non_hash, non_equal);
 	local_provider.url_hash = non_hash;
 	local_provider.url_equal = non_equal;
 	camel_session_register_provider (session, &local_provider);
