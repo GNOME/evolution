@@ -1,11 +1,15 @@
+2001-06-11  JP Rosevear  <jpr@ximian.com>
+
+	* configure.in: One slight db3 check correction
+
 2001-06-11  Chris Toshok  <toshok@ximian.com>
 
 	* configure.in: fix typo in -ldb3 check.
 
 2001-06-11  JP Rosevear  <jpr@ximian.com>
 
-	* configure.in: Update configure checks for RedHat. /me beats a
-	sleep cat to death
+	* configure.in: Update db3 configure checks for RedHat. /me beats
+	a sleeping cat to death
 
 2001-06-09  Christopher James Lahey  <clahey@ximian.com>
 
