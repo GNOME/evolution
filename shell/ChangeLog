@@ -1,3 +1,9 @@
+2001-08-01  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-shell-view-menu.c (command_new_folder): Do a NULL-check on
+	current_uri - socket is being closed? (as per the comments for the
+	NULL-check in e-shell-view.c:socket_destroy_cb).
+
 2001-07-31  Ettore Perazzoli  <ettore@ximian.com>
 
 	* evolution-activity-client.c: Removed debugging messages.

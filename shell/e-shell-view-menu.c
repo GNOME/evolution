@@ -301,16 +301,16 @@ command_new_folder (BonoboUIComponent *uih,
 	EShell *shell;
 	const char *current_uri;
 	const char *default_parent_folder;
-
+	
 	shell_view = E_SHELL_VIEW (data);
 	shell = e_shell_view_get_shell (shell_view);
 	current_uri = e_shell_view_get_current_uri (shell_view);
-
-	if (strncmp (current_uri, E_SHELL_URI_PREFIX, E_SHELL_URI_PREFIX_LEN) == 0)
+	
+	if (current_uri && strncmp (current_uri, E_SHELL_URI_PREFIX, E_SHELL_URI_PREFIX_LEN) == 0)
 		default_parent_folder = current_uri + E_SHELL_URI_PREFIX_LEN;
 	else
 		default_parent_folder = NULL;
-
+	
 	e_shell_show_folder_creation_dialog (shell, GTK_WINDOW (shell_view),
 					     default_parent_folder,
 					     NULL /* result_callback */,
