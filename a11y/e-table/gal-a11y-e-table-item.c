@@ -138,7 +138,7 @@ eti_get_n_children (AtkObject *accessible)
 }
 
 static AtkObject*
-eti_ref_child (AtkObject *accessible, gint i)
+eti_ref_child (AtkObject *accessible, gint index)
 {
 	AtkGObjectAccessible *atk_gobj;
 	ETableItem *item;
@@ -149,8 +149,19 @@ eti_ref_child (AtkObject *accessible, gint i)
 	if (!item)
 		return NULL;
 
-	col = i % item->cols;
-	row = i / item->cols;
+	if (index < item->cols) {
+		AtkObject *child;
+
+		/* A column header is required */
+		child = atk_table_get_column_header (ATK_TABLE (accessible), index);
+		if (child)
+			g_object_ref (child);
+		return child;
+	}
+
+	index -= item->cols;
+	col = index % item->cols;
+	row = index / item->cols;
 
 	return atk_table_ref_at (ATK_TABLE (accessible), row, col);
 }
@@ -447,11 +458,22 @@ eti_get_column_description (AtkTable *table,
 }
 
 static AtkObject *
-eti_get_column_header (AtkTable *table,
-		       gint column)
+eti_get_column_header (AtkTable *table, gint column)
 {
-	/* Unimplemented */
-	return NULL;
+	ETableItem *item;
+	ETableCol *ecol;
+	AtkObject *atk_obj = NULL;
+	ECell *ecell;
+
+	item = E_TABLE_ITEM (eti_a11y_get_gobject (ATK_OBJECT (table)));
+	if (!item)
+		return NULL;
+
+	ecol = e_table_header_get_column (item->header, column);
+	ecell = ecol->ecell;
+	if (ecell)
+		atk_obj = atk_gobject_accessible_for_object (G_OBJECT (ecell));
+	return atk_obj;
 }
 
 static G_CONST_RETURN gchar *
@@ -939,9 +961,11 @@ static void eti_a11y_selection_model_removed_cb (ETableItem *eti,
 static void eti_a11y_selection_model_added_cb (ETableItem *eti,
 					       ESelectionModel *selection,
 					       gpointer data);
-static void eti_a11y_selection_changed_cb (ESelectionModel *selection, GalA11yETableItem *a11y);
+static void eti_a11y_selection_changed_cb (ESelectionModel *selection,
+					   GalA11yETableItem *a11y);
 static void eti_a11y_cursor_changed_cb (ESelectionModel *selection,
-					int row, int col,  GalA11yETableItem *a11y);
+					int row, int col,
+					GalA11yETableItem *a11y);
 
 /**
  * gal_a11y_e_table_item_get_type:
