@@ -30,6 +30,7 @@
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-i18n.h>
 #include <bonobo/bonobo-exception.h>
+#include <libical/icalvcal.h>
 #include "e-pub-utils.h"
 #include "e-cal-view.h"
 #include "calendar-config-keys.h"
@@ -54,6 +55,17 @@
 #define CREATE_MEETING_ID      "meeting"
 #define CREATE_ALLDAY_EVENT_ID "allday-event"
 #define CREATE_CALENDAR_ID      "calendar"
+
+enum DndTargetType {
+	DND_TARGET_TYPE_CALENDAR_LIST,
+};
+#define CALENDAR_TYPE "text/calendar"
+#define XCALENDAR_TYPE "text/x-calendar"
+static GtkTargetEntry drag_types[] = {
+	{ CALENDAR_TYPE, 0, DND_TARGET_TYPE_CALENDAR_LIST },
+	{ XCALENDAR_TYPE, 0, DND_TARGET_TYPE_CALENDAR_LIST }
+};
+static gint num_drag_types = sizeof(drag_types) / sizeof(drag_types[0]);
 
 #define PARENT_TYPE bonobo_object_get_type ()
 static BonoboObjectClass *parent_class = NULL;
@@ -504,6 +516,221 @@ init_calendar_publishing (CalendarComponent *calendar_component)
 	idle_id = g_idle_add ((GSourceFunc) init_calendar_publishing_cb, GINT_TO_POINTER (idle_id));
 }
 
+static gboolean
+selector_tree_drag_drop (GtkWidget *widget, 
+			 GdkDragContext *context, 
+			 int x, 
+			 int y, 
+			 guint time, 
+			 CalendarComponent *component)
+{
+	GtkTreeViewColumn *column;
+	int cell_x;
+	int cell_y;
+	GtkTreePath *path;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	gpointer data;
+	
+	if (!gtk_tree_view_get_path_at_pos  (GTK_TREE_VIEW (widget), x, y, &path, 
+					     &column, &cell_x, &cell_y))
+		return FALSE;
+	
+	
+	model = gtk_tree_view_get_model (GTK_TREE_VIEW (widget));
+
+	if (!gtk_tree_model_get_iter (model, &iter, path)) {
+		gtk_tree_path_free (path);
+		return FALSE;
+	}
+
+	gtk_tree_model_get (model, &iter, 0, &data, -1);
+	
+	if (E_IS_SOURCE_GROUP (data)) {
+		g_object_unref (data);
+		gtk_tree_path_free (path);
+		return FALSE;
+	}
+	
+	gtk_drag_get_data (widget, context, gdk_atom_intern (CALENDAR_TYPE, FALSE), time);
+	gtk_tree_path_free (path);
+	return TRUE;
+}
+	
+static gboolean
+selector_tree_drag_motion (GtkWidget *widget,
+			   GdkDragContext *context,
+			   int x,
+			   int y)
+{
+	GtkTreePath *path;
+	GtkTreeViewDropPosition pos;
+	gpointer data;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	
+	if (!gtk_tree_view_get_dest_row_at_pos (GTK_TREE_VIEW (widget),
+						x, y, &path, &pos))
+		return FALSE;
+	
+	model = gtk_tree_view_get_model (GTK_TREE_VIEW (widget));
+	
+	if (!gtk_tree_model_get_iter (model, &iter, path)) {
+		gtk_tree_path_free (path);
+		return FALSE;
+	}
+	
+	gtk_tree_model_get (model, &iter, 0, &data, -1);
+
+	if (E_IS_SOURCE_GROUP (data) || e_source_get_readonly (data)) {
+		g_object_unref (data);
+		gtk_tree_path_free (path);
+		return FALSE;
+	}	
+	
+	gtk_tree_view_set_drag_dest_row(GTK_TREE_VIEW (widget), path, GTK_TREE_VIEW_DROP_INTO_OR_BEFORE);
+	
+	gtk_tree_path_free (path);
+	return TRUE;
+}
+
+static gboolean
+update_single_object (ECal *client, icalcomponent *icalcomp)
+{
+	char *uid;
+	icalcomponent *tmp_icalcomp;
+
+	uid = (char *) icalcomponent_get_uid (icalcomp);
+	
+	if (e_cal_get_object (client, uid, NULL, &tmp_icalcomp, NULL))
+		return e_cal_modify_object (client, icalcomp, CALOBJ_MOD_ALL, NULL);
+
+	return e_cal_create_object (client, icalcomp, &uid, NULL);	
+}
+
+static gboolean
+update_objects (ECal *client, icalcomponent *icalcomp)
+{
+	icalcomponent *subcomp;
+	icalcomponent_kind kind;
+
+	kind = icalcomponent_isa (icalcomp);
+	if (kind == ICAL_VTODO_COMPONENT || kind == ICAL_VEVENT_COMPONENT)
+		return update_single_object (client, icalcomp);
+	else if (kind != ICAL_VCALENDAR_COMPONENT)
+		return FALSE;
+
+	subcomp = icalcomponent_get_first_component (icalcomp, ICAL_ANY_COMPONENT);
+	while (subcomp) {
+		gboolean success;
+		
+		kind = icalcomponent_isa (subcomp);
+		if (kind == ICAL_VTIMEZONE_COMPONENT) {
+			icaltimezone *zone;
+
+			zone = icaltimezone_new ();
+			icaltimezone_set_component (zone, subcomp);
+
+			success = e_cal_add_timezone (client, zone, NULL);
+			icaltimezone_free (zone, 1);
+			if (!success)
+				return success;
+		} else if (kind == ICAL_VTODO_COMPONENT ||
+			   kind == ICAL_VEVENT_COMPONENT) {
+			success = update_single_object (client, subcomp);
+			if (!success)
+				return success;
+		}
+
+		subcomp = icalcomponent_get_next_component (icalcomp, ICAL_ANY_COMPONENT);
+	}
+
+	return TRUE;
+}
+
+static gboolean 
+selector_tree_drag_data_received (GtkWidget *widget, 
+				  GdkDragContext *context, 
+				  gint x, 
+				  gint y, 
+				  GtkSelectionData *data,
+				  guint info,
+				  guint time,
+				  gpointer user_data)
+{
+	GtkTreePath *path;
+	GtkTreeViewDropPosition pos;
+	gpointer source;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	gboolean ret = FALSE;
+
+	if (!gtk_tree_view_get_dest_row_at_pos (GTK_TREE_VIEW (widget),
+						x, y, &path, &pos))
+		return FALSE;
+	
+	model = gtk_tree_view_get_model (GTK_TREE_VIEW (widget));
+	
+	if (!gtk_tree_model_get_iter (model, &iter, path)) {
+		gtk_tree_path_free (path);
+		return FALSE;
+	}
+	
+	gtk_tree_model_get (model, &iter, 0, &source, -1);
+
+	if (E_IS_SOURCE_GROUP (source) || e_source_get_readonly (source)) {
+		g_object_unref (source);
+		gtk_tree_path_free (path);
+		return FALSE;
+	}	
+	
+	
+	if ((data->length >= 0) && (data->format == 8)) {
+		gtk_drag_finish (context, FALSE, TRUE, time);
+	} else {
+		gtk_drag_finish (context, FALSE, FALSE, time);
+	}
+	gtk_tree_path_free (path);
+
+	
+	//e_source_selector_set_primary_selection (E_SOURCE_SELECTOR (widget), source);
+	{
+		icalcomponent *ical_comp = NULL;
+		icalvcal_defaults defaults = { 0 };
+		VObject *vcal;
+		ECal *client = NULL;
+			
+			
+		vcal = Parse_MIME (data->data, data->length);
+		if (vcal) {
+			ical_comp = icalvcal_convert_with_defaults (vcal, &defaults);
+			cleanVObject (vcal);
+			
+			if (ical_comp)
+				client = auth_new_cal_from_source (source, 
+								   E_CAL_SOURCE_TYPE_EVENT);
+			
+			if (client) {
+				if (e_cal_open (client, TRUE, NULL)) {
+					/* FIXME should the drag status be set here? */
+					update_objects (client, ical_comp);
+				}
+
+				g_object_unref (client);
+			}
+		}
+	}
+
+	return ret;
+}	
+
+static void
+selector_tree_drag_leave (GtkWidget *widget, GdkDragContext *context, guint time, gpointer data)
+{
+	gtk_tree_view_set_drag_dest_row(GTK_TREE_VIEW (widget), 
+					NULL, GTK_TREE_VIEW_DROP_BEFORE);
+}
+
 static void
 impl_createControls (PortableServer_Servant servant,
 		     Bonobo_Control *corba_sidebar_control,
@@ -523,6 +750,19 @@ impl_createControls (PortableServer_Servant servant,
 	
 	/* Create sidebar selector */
 	priv->source_selector = e_source_selector_new (calendar_component->priv->source_list);
+
+	g_signal_connect (priv->source_selector, "drag-motion", G_CALLBACK (selector_tree_drag_motion), 
+			  calendar_component);
+	g_signal_connect (priv->source_selector, "drag-leave", G_CALLBACK (selector_tree_drag_leave), 
+			  calendar_component);
+	g_signal_connect (priv->source_selector, "drag-drop", G_CALLBACK (selector_tree_drag_drop), 
+			  calendar_component);
+	g_signal_connect (priv->source_selector, "drag-data-received", 
+			  G_CALLBACK (selector_tree_drag_data_received), calendar_component);
+
+	gtk_drag_dest_set(priv->source_selector, GTK_DEST_DEFAULT_ALL, drag_types,
+			  num_drag_types, GDK_ACTION_COPY | GDK_ACTION_MOVE);
+
 	gtk_widget_show (priv->source_selector);
 
 	selector_scrolled_window = gtk_scrolled_window_new (NULL, NULL);
