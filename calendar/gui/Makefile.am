@@ -97,6 +97,8 @@ evolution_calendar_SOURCES =			\
 	e-calendar-table.c			\
 	e-cell-date-edit-text.h			\
 	e-cell-date-edit-text.c			\
+	e-comp-editor-registry.c		\
+	e-comp-editor-registry.h		\
 	e-day-view-layout.c			\
 	e-day-view-layout.h			\
 	e-day-view-main-item.c			\

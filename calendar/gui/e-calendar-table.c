@@ -42,6 +42,7 @@
 #include <e-util/e-dialog-utils.h>
 #include <widgets/misc/e-cell-date-edit.h>
 #include <widgets/misc/e-cell-percent.h>
+#include "e-comp-editor-registry.h"
 #include "e-calendar-table.h"
 #include "e-cell-date-edit-text.h"
 #include "calendar-config.h"
@@ -58,6 +59,7 @@
 
 #include "art/check-filled.xpm"
 
+extern ECompEditorRegistry *comp_editor_registry;
 
 static void e_calendar_table_class_init		(ECalendarTableClass *class);
 static void e_calendar_table_init		(ECalendarTable	*cal_table);
@@ -898,14 +900,24 @@ e_calendar_table_paste_clipboard (ECalendarTable *cal_table)
 static void
 open_task (ECalendarTable *cal_table, CalComponent *comp, gboolean assign)
 {
-	TaskEditor *tedit;
+	CompEditor *tedit;
+	const char *uid;
+	
+	cal_component_get_uid (comp, &uid);
 
-	tedit = task_editor_new ();
-	comp_editor_set_cal_client (COMP_EDITOR (tedit), calendar_model_get_cal_client (cal_table->model));
-	comp_editor_edit_comp (COMP_EDITOR (tedit), comp);
-	if (assign)
-		task_editor_show_assignment (TASK_EDITOR (tedit));
-	comp_editor_focus (COMP_EDITOR (tedit));
+	tedit = e_comp_editor_registry_find (comp_editor_registry, uid);
+	if (tedit == NULL) {
+		tedit = COMP_EDITOR (task_editor_new ());
+
+		comp_editor_set_cal_client (tedit, calendar_model_get_cal_client (cal_table->model));
+		comp_editor_edit_comp (tedit, comp);
+		if (assign)
+			task_editor_show_assignment (TASK_EDITOR (tedit));
+		
+		e_comp_editor_registry_add (comp_editor_registry, tedit, FALSE);
+	}
+	
+	comp_editor_focus (tedit);
 }
 
 /* Opens the task in the specified row */

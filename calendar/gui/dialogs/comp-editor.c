@@ -411,6 +411,19 @@ prompt_to_save_changes (CompEditor *editor, gboolean send)
 	}
 }
 
+/* This sets the focus to the toplevel, so any field being edited is committed.
+   FIXME: In future we may also want to check some of the fields are valid,
+   e.g. the EDateEdit fields. */
+static void
+commit_all_fields (CompEditor *editor)
+{
+	CompEditorPrivate *priv;
+
+	priv = editor->priv;
+
+	gtk_window_set_focus (GTK_WINDOW (editor), NULL);
+}
+
 /* Closes the dialog box and emits the appropriate signals */
 static void
 close_dialog (CompEditor *editor)
@@ -965,6 +978,18 @@ comp_editor_send_comp (CompEditor *editor, CalComponentItipMethod method)
 		klass->send_comp (editor, method);
 }
 
+void
+comp_editor_close (CompEditor *editor)
+{
+	g_return_if_fail (editor != NULL);
+	g_return_if_fail (IS_COMP_EDITOR (editor));
+
+	commit_all_fields (editor);
+	
+	if (prompt_to_save_changes (editor, TRUE))
+		close_dialog (editor);
+}
+
 /**
  * comp_editor_merge_ui:
  * @editor:
@@ -1046,19 +1071,6 @@ comp_editor_focus (CompEditor *editor)
 
 	gtk_widget_show (GTK_WIDGET (editor));
 	raise_and_focus (GTK_WIDGET (editor));
-}
-
-/* This sets the focus to the toplevel, so any field being edited is committed.
-   FIXME: In future we may also want to check some of the fields are valid,
-   e.g. the EDateEdit fields. */
-static void
-commit_all_fields (CompEditor *editor)
-{
-	CompEditorPrivate *priv;
-
-	priv = editor->priv;
-
-	gtk_window_set_focus (GTK_WINDOW (editor), NULL);
 }
 
 /* Menu Commands */

@@ -42,7 +42,8 @@
 #include "calendar-config.h"
 #include "tasks-control.h"
 #include "tasks-migrate.h"
-
+#include "e-comp-editor-registry.h"
+#include "dialogs/comp-editor.h"
 
 
 /* OAFIID for the component.  */
@@ -60,6 +61,7 @@
 
 char *evolution_dir;
 EvolutionShellClient *global_shell_client = NULL;
+extern ECompEditorRegistry *comp_editor_registry;
 
 static const EvolutionShellComponentFolderType folder_types[] = {
 	{ FOLDER_CALENDAR,
@@ -467,6 +469,14 @@ xfer_folder (EvolutionShellComponent *shell_component,
         CORBA_exception_free (&ev);	
 }
 
+static gboolean
+request_quit (EvolutionShellComponent *shell_component, void *closure)
+{
+	e_comp_editor_registry_close_all (comp_editor_registry);
+	
+	return TRUE;
+}
+
 static GList *shells = NULL;
 
 static void
@@ -677,7 +687,7 @@ create_object (void)
 							 xfer_folder,
 							 NULL, /* populate_folder_context_menu_fn */
 							 NULL, /* get_dnd_selection_fn */
-							 NULL, /* request_quit */
+							 request_quit,
 							 NULL  /* closure */);
 
 	/* Offline handler */

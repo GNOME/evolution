@@ -41,6 +41,7 @@
 #include "e-util/e-url.h"
 #include <cal-util/timeutil.h>
 #include "widgets/menus/gal-view-menus.h"
+#include "e-comp-editor-registry.h"
 #include "dialogs/event-editor.h"
 #include "dialogs/task-editor.h"
 #include "comp-util.h"
@@ -55,6 +56,8 @@
 #include "calendar-view.h"
 #include "calendar-view-factory.h"
 #include "tag-calendar.h"
+
+extern ECompEditorRegistry *comp_editor_registry;
 
 
 
@@ -83,9 +86,6 @@ struct _GnomeCalendarPrivate {
 	/*
 	 * Fields for the calendar view
 	 */
-
-	/* Mapping of component UIDs to event editors */
-	GHashTable  *object_editor_hash;
 
 	/* This is the last selection explicitly selected by the user. We try
 	   to keep it the same when we switch views, but we may have to alter
@@ -133,11 +133,6 @@ struct _GnomeCalendarPrivate {
 	/* View instance and menus for the control */
 	GalViewInstance *view_instance;
 	GalViewMenus *view_menus;
-
-	/* Whether we are being destroyed and should not mess with the object
-	 * editor hash table.
-	 */
-	guint in_destroy : 1;
 
 	/* Our current timezone. */
 	icaltimezone *zone;
@@ -905,8 +900,6 @@ gnome_calendar_init (GnomeCalendar *gcal)
 	priv->cal_categories = NULL;
 	priv->tasks_categories = NULL;
 
-	priv->object_editor_hash = g_hash_table_new (g_str_hash, g_str_equal);
-
 	priv->current_view_type = GNOME_CAL_DAY_VIEW;
 	priv->range_selected = FALSE;
 
@@ -938,16 +931,6 @@ free_categories (GPtrArray *categories)
 		g_free (categories->pdata[i]);
 
 	g_ptr_array_free (categories, TRUE);
-}
-
-/* Used from g_hash_table_foreach(); frees an UID string */
-static void
-destroy_editor_cb (gpointer key, gpointer value, gpointer data)
-{
-	EventEditor *ee;
-
-	ee = EVENT_EDITOR (value);
-	gtk_object_unref (GTK_OBJECT (ee));
 }
 
 static void
@@ -994,11 +977,6 @@ gnome_calendar_destroy (GtkObject *object)
 		gtk_object_unref (GTK_OBJECT (priv->task_pad_client));
 		priv->task_pad_client = NULL;
 	}
-
-	priv->in_destroy = TRUE;
-	g_hash_table_foreach (priv->object_editor_hash, destroy_editor_cb, NULL);
-	g_hash_table_destroy (priv->object_editor_hash);
-	priv->object_editor_hash = NULL;
 
 	if (priv->view_instance) {
 		gtk_object_unref (GTK_OBJECT (priv->view_instance));
@@ -2139,48 +2117,12 @@ gnome_calendar_get_selected_time_range (GnomeCalendar *gcal,
 		*end_time = priv->selection_end_time;
 }
 
-
-/* Callback used when an event editor dialog is closed */
-struct editor_closure
-{
-	GnomeCalendar *gcal;
-	char *uid;
-};
-
-static void
-editor_closed_cb (GtkWidget *widget, gpointer data)
-{
-	GnomeCalendar *gcal;
-	GnomeCalendarPrivate *priv;
-	struct editor_closure *ec;
-	gboolean result;
-	gpointer orig_key;
-	char *orig_uid;
-
-	ec = (struct editor_closure *) data;
-	gcal = ec->gcal;
-	priv = gcal->priv;
-
-	result = g_hash_table_lookup_extended (priv->object_editor_hash, ec->uid, &orig_key, NULL);
-	g_assert (result != FALSE);
-
-	orig_uid = orig_key;
-
-	if (!priv->in_destroy)
-		g_hash_table_remove (priv->object_editor_hash, orig_uid);
-
-	g_free (orig_uid);
-
-	g_free (ec);
-}
-
 void
 gnome_calendar_edit_object (GnomeCalendar *gcal, CalComponent *comp, 
 			    gboolean meeting)
 {
 	GnomeCalendarPrivate *priv;
 	EventEditor *ee;
-	struct editor_closure *ec;
 	const char *uid;
 
 	g_return_if_fail (gcal != NULL);
@@ -2191,28 +2133,20 @@ gnome_calendar_edit_object (GnomeCalendar *gcal, CalComponent *comp,
 
 	cal_component_get_uid (comp, &uid);
 
-	ee = g_hash_table_lookup (priv->object_editor_hash, uid);
+	ee = EVENT_EDITOR (e_comp_editor_registry_find (comp_editor_registry, uid));
 	if (!ee) {
-		ec = g_new0 (struct editor_closure, 1);
-
 		ee = event_editor_new ();
 		if (!ee) {
 			g_message ("gnome_calendar_edit_object(): Could not create the event editor");
 			return;
 		}
-		ec->gcal = gcal;
-		ec->uid = g_strdup (uid);
-
-		g_hash_table_insert (priv->object_editor_hash, ec->uid, ee);
-
-		gtk_signal_connect (GTK_OBJECT (ee), "destroy",
-				    GTK_SIGNAL_FUNC (editor_closed_cb),
-				    ec);
 
 		comp_editor_set_cal_client (COMP_EDITOR (ee), priv->client);
 		comp_editor_edit_comp (COMP_EDITOR (ee), comp);
 		if (meeting)
 			event_editor_show_meeting (ee);
+
+		e_comp_editor_registry_add (comp_editor_registry, COMP_EDITOR (ee), FALSE);
 	}
 
 	comp_editor_focus (COMP_EDITOR (ee));

@@ -1,3 +1,43 @@
+2002-05-26  JP Rosevear  <jpr@ximian.com>
+
+	* gui/e-comp-editor-registry.[hc]: a registry of comp editors so
+	we can close them all centrally
+
+	* gui/gnome-cal.c (gnome_calendar_init): there is no editor hash
+	now
+	(gnome_calendar_destroy): ditto
+	(gnome_calendar_edit_object): look for the event editor in the
+	registry, if it isn't there, create it and add it to the registry
+
+	* gui/e-calendar-table.c (open_task): look for the task editor in
+	the registry, if it isn't there, create it and add it to the
+	registry
+
+	* gui/component-factory.c (request_quit): close all open editors
+	(create_object): add a request_quit function to the shell
+	component
+
+	* gui/comp-editor-factory.c (free_client): there is no
+	uid_comp_hash to free any more
+	(editor_destroy_cb): we get an OpenClient as callback data now,
+	reduce the editor count and destroy it if it is 0
+	(edit_existing): don't create the Component, add the new editor to
+	the registry, increase the editor count
+	(edit_new): ditto
+	(open_client): set the editor count to 0
+	(impl_editExisting): look in the registry for the editor
+
+	* gui/Makefile.am: Build new sources
+
+	* gui/main.c (main): create the registry
+
+	* gui/dialogs/comp-editor.c (comp_editor_close): prompt to save
+	and then close dialog
+
+	* gui/dialogs/comp-editor.h: new proto
+
+	* gui/GNOME_Evolution_Calendar.oaf.in: remove dead summary stuff
+
 2002-05-24  Rodrigo Moya <rodrigo@ximian.com>
 
 	* pcs/cal-backend-file.c (save): check the value returned by

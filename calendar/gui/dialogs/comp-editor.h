@@ -83,6 +83,7 @@ gboolean      comp_editor_save_comp        (CompEditor             *editor,
 void          comp_editor_delete_comp      (CompEditor             *editor);
 void          comp_editor_send_comp        (CompEditor             *editor,
 					    CalComponentItipMethod  method);
+void          comp_editor_close            (CompEditor             *editor);
 void          comp_editor_merge_ui         (CompEditor             *editor,
 					    const char             *filename,
 					    BonoboUIVerb           *verbs,

@@ -42,13 +42,17 @@
 #include "calendar-commands.h"
 #include "calendar-config.h"
 #include "component-factory.h"
+#include "e-comp-editor-registry.h"
 #include "comp-editor-factory.h"
 #include "control-factory.h"
 #include "itip-control-factory.h"
 #include "tasks-control-factory.h"
 
+ECompEditorRegistry *comp_editor_registry = NULL;
+
 /* The component editor factory */
 static CompEditorFactory *comp_editor_factory = NULL;
+
 
 static void
 init_bonobo (int argc, char **argv)
@@ -144,6 +148,8 @@ main (int argc, char **argv)
 				G_LOG_LEVEL_WARNING);
 #endif
 
+	comp_editor_registry = E_COMP_EDITOR_REGISTRY (e_comp_editor_registry_new ());
+	
 	calendar_config_init ();
 
 	control_factory_init ();

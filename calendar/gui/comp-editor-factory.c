@@ -27,10 +27,13 @@
 #include <e-util/e-url.h>
 #include <cal-client/cal-client.h>
 #include "calendar-config.h"
+#include "e-comp-editor-registry.h"
 #include "comp-editor-factory.h"
 #include "comp-util.h"
 #include "dialogs/event-editor.h"
 #include "dialogs/task-editor.h"
+
+extern ECompEditorRegistry *comp_editor_registry;
 
 
 
@@ -65,9 +68,9 @@ typedef struct {
 
 	/* Client of the calendar */
 	CalClient *client;
-
-	/* Hash table of Component structures that belong to this client */
-	GHashTable *uid_comp_hash;
+ 
+	/* Count editors using this client */
+	int editor_count;
 
 	/* Pending requests; they are pending if the client is still being opened */
 	GSList *pending;
@@ -75,21 +78,6 @@ typedef struct {
 	/* Whether this is open or still waiting */
 	guint open : 1;
 } OpenClient;
-
-/* A component that is being edited */
-typedef struct {
-	/* Our parent client */
-	OpenClient *parent;
-
-	/* UID of the component we are editing, used as the key in the hash table */
-	const char *uid;
-
-	/* Component we are editing */
-	CalComponent *comp;
-
-	/* Component editor that is open */
-	CompEditor *editor;
-} Component;
 
 /* Private part of the CompEditorFactory structure */
 struct CompEditorFactoryPrivate {
@@ -149,23 +137,6 @@ comp_editor_factory_init (CompEditorFactory *factory)
 	priv->uri_client_hash = g_hash_table_new (g_str_hash, g_str_equal);
 }
 
-/* Used from g_hash_table_foreach(); frees a component structure */
-static void
-free_component_cb (gpointer key, gpointer value, gpointer data)
-{
-	Component *c;
-
-	c = value;
-
-	c->parent = NULL;
-	c->uid = NULL;
-
-	gtk_object_unref (GTK_OBJECT (c->comp));
-	c->comp = NULL;
-
-	g_free (c);
-}
-
 /* Frees a Request structure */
 static void
 free_request (Request *r)
@@ -189,10 +160,6 @@ free_client (OpenClient *oc)
 
 	gtk_object_unref (GTK_OBJECT (oc->client));
 	oc->client = NULL;
-
-	g_hash_table_foreach (oc->uid_comp_hash, free_component_cb, NULL);
-	g_hash_table_destroy (oc->uid_comp_hash);
-	oc->uid_comp_hash = NULL;
 
 	for (l = oc->pending; l; l = l->next) {
 		Request *r;
@@ -246,27 +213,20 @@ comp_editor_factory_destroy (GtkObject *object)
 static void
 editor_destroy_cb (GtkObject *object, gpointer data)
 {
-	Component *c;
 	OpenClient *oc;
 	CompEditorFactory *factory;
 	CompEditorFactoryPrivate *priv;
 
-	c = data;
-	oc = c->parent;
+	oc = data;
 	factory = oc->factory;
 	priv = factory->priv;
 
-	/* Free the Component */
-
-	g_hash_table_remove (oc->uid_comp_hash, c->uid);
-	gtk_object_unref (GTK_OBJECT (c->comp));
-	g_free (c);
+	oc->editor_count--;
 
 	/* See if we need to free the client */
-
 	g_assert (oc->pending == NULL);
 
-	if (g_hash_table_size (oc->uid_comp_hash) != 0)
+	if (oc->editor_count != 0)
 		return;
 
 	g_hash_table_remove (priv->uri_client_hash, oc->uri);
@@ -280,7 +240,6 @@ edit_existing (OpenClient *oc, const char *uid)
 	CalComponent *comp;
 	CalClientGetStatus status;
 	CompEditor *editor;
-	Component *c;
 	CalComponentVType vtype;
 
 	g_assert (oc->open);
@@ -308,7 +267,7 @@ edit_existing (OpenClient *oc, const char *uid)
 	}
 
 	/* Create the appropriate type of editor */
-
+	
 	vtype = cal_component_get_vtype (comp);
 
 	switch (vtype) {
@@ -327,21 +286,15 @@ edit_existing (OpenClient *oc, const char *uid)
 	}
 
 	/* Set the client/object on the editor */
-
-	c = g_new (Component, 1);
-	c->parent = oc;
-	cal_component_get_uid (comp, &c->uid);
-	c->comp = comp;
-	c->editor = editor;
-
-	g_hash_table_insert (oc->uid_comp_hash, (char *) c->uid, c);
-
-	gtk_signal_connect (GTK_OBJECT (editor), "destroy",
-			    GTK_SIGNAL_FUNC (editor_destroy_cb), c);
-
 	comp_editor_set_cal_client (editor, oc->client);
 	comp_editor_edit_comp (editor, comp);
 	comp_editor_focus (editor);
+
+	oc->editor_count++;
+	gtk_signal_connect (GTK_OBJECT (editor), "destroy",
+			    GTK_SIGNAL_FUNC (editor_destroy_cb), oc);
+
+	e_comp_editor_registry_add (comp_editor_registry, editor, TRUE);
 }
 
 /* Creates a component with the appropriate defaults for the specified component
@@ -404,7 +357,6 @@ static void
 edit_new (OpenClient *oc, const GNOME_Evolution_Calendar_CompEditorFactory_CompEditorMode type)
 {
 	CalComponent *comp;
-	Component *c;
 	CompEditor *editor;
 	
 	switch (type) {
@@ -426,23 +378,17 @@ edit_new (OpenClient *oc, const GNOME_Evolution_Calendar_CompEditorFactory_CompE
 		return;
 	}
 
-	c = g_new (Component, 1);
-	c->parent = oc;
-	cal_component_get_uid (comp, &c->uid);
-	c->comp = comp;
-
-	c->editor = editor;
-
-	g_hash_table_insert (oc->uid_comp_hash, (char *) c->uid, c);
-
-	gtk_signal_connect (GTK_OBJECT (editor), "destroy",
-			    GTK_SIGNAL_FUNC (editor_destroy_cb), c);
-
 	comp_editor_set_cal_client (editor, oc->client);
 	comp_editor_edit_comp (editor, comp);
 	if (type == GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_MEETING)
 		event_editor_show_meeting (EVENT_EDITOR (editor));
 	comp_editor_focus (editor);
+
+	oc->editor_count++;
+	gtk_signal_connect (GTK_OBJECT (editor), "destroy",
+			    GTK_SIGNAL_FUNC (editor_destroy_cb), oc);
+
+	e_comp_editor_registry_add (comp_editor_registry, editor, TRUE);
 }
 
 /* Resolves all the pending requests for a client */
@@ -553,7 +499,7 @@ open_client (CompEditorFactory *factory, const char *uristr)
 	oc->uri = g_strdup (uristr);
 
 	oc->client = client;
-	oc->uid_comp_hash = g_hash_table_new (g_str_hash, g_str_equal);
+	oc->editor_count = 0;
 	oc->pending = NULL;
 	oc->open = FALSE;
 
@@ -563,7 +509,6 @@ open_client (CompEditorFactory *factory, const char *uristr)
 	if (!cal_client_open_calendar (oc->client, uristr, FALSE)) {
 		g_free (oc->uri);
 		gtk_object_unref (GTK_OBJECT (oc->client));
-		g_hash_table_destroy (oc->uid_comp_hash);
 		g_free (oc);
 
 		return NULL;
@@ -632,7 +577,7 @@ impl_editExisting (PortableServer_Servant servant,
 	CompEditorFactory *factory;
 	CompEditorFactoryPrivate *priv;
 	OpenClient *oc;
-	Component *c;
+	CompEditor *editor;
 
 	factory = COMP_EDITOR_FACTORY (bonobo_object_from_servant (servant));
 	priv = factory->priv;
@@ -648,12 +593,11 @@ impl_editExisting (PortableServer_Servant servant,
 
 	/* Look up the component */
 
-	c = g_hash_table_lookup (oc->uid_comp_hash, uid);
-	if (!c)
+	editor = e_comp_editor_registry_find (comp_editor_registry, uid);	
+	if (editor != NULL) {
 		edit_existing (oc, uid);
-	else {
-		g_assert (c->editor != NULL);
-		comp_editor_focus (c->editor);
+	} else {
+		comp_editor_focus (editor);
 	}
 }
 
