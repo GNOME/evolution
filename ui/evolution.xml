@@ -136,10 +136,12 @@
       <placeholder name="ViewAfterControl"/>
     </submenu>
 
-    <placeholder name="Component"/>
-
     <placeholder name="ComponentActionsPlaceholder"/>
-    <placeholder name="ComponentToolsPlaceholder"/>
+
+    <submenu name="Tools" _label="_Tools">
+      <placeholder name="ComponentPlaceholder"/>
+      <menuitem name="PilotSettings" verb="" _label="_Pilot Settings..."/>
+    </submenu>
 
     <submenu name="Help" _label="_Help">
 

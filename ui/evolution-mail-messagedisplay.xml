@@ -34,14 +34,12 @@
       </submenu>
     </placeholder>
 
-    <placeholder name="ComponentToolsPlaceholder">
-      <submenu name="Tools" _label="_Tools">
-	<placeholder name="Component">
-	  <placeholder name="MailFilterTools"/>
-	  <placeholder name="MailVFolderTools"/>
-	</placeholder>
-      </submenu>
-    </placeholder>
+    <submenu name="Tools">
+      <placeholder name="ComponentPlaceholder">
+	<placeholder name="MailFilterTools"/>
+	<placeholder name="MailVFolderTools"/>
+      </placeholder>
+    </submenu>
 
   </menu>
 

@@ -257,9 +257,8 @@
       </submenu>
     </placeholder>
 
-    <placeholder name="ComponentToolsPlaceholder">
-      <submenu name="Tools" _label="_Tools">
-
+    <submenu name="Tools" _label="_Tools">
+      <placeholder name="ComponentPlaceholder">
         <placeholder name="MailFilterTools">
           <submenu name="ToolsFilterFromMessage" _label="_Create Filter From Message">
             <menuitem name="ToolsFilterSubject" verb="" _label="Filter on _Subject..."/>
@@ -268,7 +267,6 @@
             <menuitem name="ToolsFilterMailingList" verb="" _label="Filter on Mailing _List..."/>
           </submenu>
         </placeholder>
-
         <placeholder name="MailVFolderTools">
           <submenu name="ToolsVFolderFromMessage" _label="Create _Virtual Folder From Message">
             <menuitem name="ToolsVFolderSubject" verb="" _label="VFolder on _Subject..."/>
@@ -277,8 +275,8 @@
             <menuitem name="ToolsVFolderMailingList" verb="" _label="VFolder on Mailing _List..."/>
           </submenu>
         </placeholder>
-      </submenu>
-    </placeholder>
+      </placeholder>
+    </submenu>
   </menu>
 
   <dockitem name="Toolbar">

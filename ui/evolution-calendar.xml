@@ -71,11 +71,12 @@
 
      </submenu>
 
-    <placeholder name="ComponentToolsPlaceholder">
-      <submenu name="Tools" _label="_Tools">
+    <submenu name="Tools">
+      <placeholder name="ComponentPlaceholder">
 	<menuitem name="CalendarSettings" verb="" _label="_Calendar Settings..." pixtype="pixbuf"/>
-      </submenu>
-    </placeholder>
+	<separator/>
+      </placeholder>
+    </submenu>
 
     <placeholder name="ComponentActionsPlaceholder">
       <submenu name="Actions" _label="_Actions">

@@ -1,3 +1,15 @@
+2001-09-27  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution.xml: Move the Tools menu outside the
+	ComponentToolsPlaceholder.
+	* evolution-addressbook.xml: Likewise.
+	* evolution-calendar.xml: Likewise.
+	* evolution-mail-global.xml: Likewise.
+	* evolution-mail-message.xml: Likewise.
+	* evolution-mail-messagedisplay.xml: Likewise.
+	* evolution-tasks.xml: Likewise.
+	* my-evolution.xml: Likewise.
+
 2001-09-06  Ettore Perazzoli  <ettore@ximian.com>
 
 	* evolution.xml: Don't allow the default toolbar to be

@@ -108,18 +108,6 @@
 		<submenu name="View">
 		</submenu>
 
-                <placeholder name="ComponentToolsPlaceholder">
-			<submenu name="Tools" _label="_Tools">
-				<menuitem name="ToolSearch" verb=""
-				 _label="_Search for Contacts"
-				 pixtype="pixbuf"/>
-
-	        	        <menuitem name="AddressbookConfig" verb=""
-	        	         _label="_Addressbook Sources..."
-	        	         pixtype ="pixbuf"/>
-			</submenu>
-                </placeholder>
-
 		<placeholder name="ComponentActionsPlaceholder">
                         <submenu name="Actions" _label="_Actions">
 
@@ -130,6 +118,21 @@
 			     _label="Send _Message to Contact..." verb=""/>
 	                </submenu>
 		</placeholder>
+
+                <submenu name="Tools">
+      			<placeholder name="ComponentPlaceholder">
+				<menuitem name="ToolSearch"
+					  verb=""
+					  _label="_Search for Contacts"
+					  pixtype="pixbuf"/>
+
+	        		<menuitem name="AddressbookConfig" verb=""
+					  _label="_Addressbook Sources..."
+					  pixtype ="pixbuf"/>
+				<separator/>
+			</placeholder>
+		</submenu>
+
 	</menu>
 
 	<dockitem name="Toolbar">

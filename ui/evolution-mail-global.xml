@@ -89,8 +89,9 @@
       </submenu>
     </placeholder>
 
-    <placeholder name="ComponentToolsPlaceholder">
-      <submenu name="Tools" _label="_Tools">
+    <submenu name="Tools">
+
+      <placeholder name="ComponentPlaceholder">
 
         <menuitem name="ToolsSettings" verb="" _label="_Mail Settings..."/>
 
@@ -110,8 +111,11 @@
 
         <menuitem name="ToolsSubscriptions" verb="" _label="_Subscribe to Folders..."/>
 
-      </submenu>
-    </placeholder>
+	<separator/>
+
+      </placeholder>
+
+    </submenu>
   </menu>
 
   <dockitem name="Toolbar">
