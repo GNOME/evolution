@@ -1,3 +1,8 @@
+2004-04-01  Eric Zhao  <eric.zhao@sun.com>
+
+	* mail-account-gui.c: (transport_type_changed): Commented grabbing
+	focus on hostname edit, fix the focus issue of Account Assistant.
+
 2004-03-31  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-format-html.c (efh_text_plain): Only do citation colouring if

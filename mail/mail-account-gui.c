@@ -653,7 +653,6 @@ transport_type_changed (GtkWidget *widget, gpointer user_data)
 		
 		label = glade_xml_get_widget (gui->xml, "transport_host_label");
 		if (CAMEL_PROVIDER_ALLOWS (provider, CAMEL_URL_PART_HOST)) {
-			gtk_widget_grab_focus (GTK_WIDGET (gui->transport.hostname));
 			gtk_widget_show (GTK_WIDGET (gui->transport.hostname));
 			gtk_widget_show (label);
 		} else {
