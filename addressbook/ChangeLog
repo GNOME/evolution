@@ -1,3 +1,8 @@
+2004-01-24  JP Rosevear <jpr@ximian.com>
+
+	* gui/widgets/e-addressbook-view.c (init_collection): use
+	.evolution to store view info
+
 2004-01-23  Chris Toshok  <toshok@ximian.com>
 
 	[ fixes bug #52571 ]
