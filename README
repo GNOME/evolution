@@ -101,6 +101,7 @@ ftp.gnome.org. The (*)ed packages are available in Helix GNOME.
  - gdk-pixbuf - 0.7.0 or later (*)
 
  - ORBit - 0.5.1 (*) or later from the orbit-stable-0-5 branch in CVS.
+   (i.e. do 'cvs co -r orbit-stable-0-5 ORBit')
 
  - oaf - 0.3, assuming that you're building with OAF rather than GOAD
    (see above). Note that if you build the current CVS version of OAF
