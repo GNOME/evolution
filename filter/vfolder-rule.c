@@ -1,3 +1,5 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+
 /*
  *  Copyright (C) 2000 Ximian Inc.
  *
@@ -26,6 +28,8 @@
 #include <gtk/gtkoptionmenu.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
+#include <libgnomeui/gnome-dialog.h>
+#include <libgnomeui/gnome-dialog-util.h>
 #include <glade/glade.h>
 #include <gal/widgets/e-unicode.h>
 
@@ -35,6 +39,7 @@
 
 #define d(x) x
 
+static gint validate(FilterRule *);
 static xmlNodePtr xml_encode(FilterRule *);
 static int xml_decode(FilterRule *, xmlNodePtr, struct _RuleContext *f);
 /*static void build_code(FilterRule *, GString *out);*/
@@ -87,6 +92,7 @@ vfolder_rule_class_init (VfolderRuleClass *class)
 	object_class->finalize = vfolder_rule_finalise;
 
 	/* override methods */
+	filter_rule->validate   = validate;
 	filter_rule->xml_encode = xml_encode;
 	filter_rule->xml_decode = xml_decode;
 	/*filter_rule->build_code = build_code;*/
@@ -178,6 +184,27 @@ vfolder_rule_next_source (VfolderRule *vr, const char *last)
 	if (node)
 		return (const char *)node->data;
 	return NULL;
+}
+
+static gint
+validate (FilterRule *fr)
+{
+	/* We have to have at least one source set in the "specific" case.
+	   Do not translate this string! */
+	if (fr && fr->source && !strcmp (fr->source, "specific") && VFOLDER_RULE (fr)->sources == NULL) {
+
+		GtkWidget *gd;
+
+		gd = gnome_ok_dialog (_("Oops.  You need to to specify at least one folder as a source."));
+		gnome_dialog_run_and_close (GNOME_DIALOG (gd));
+
+		return 0;
+	}
+
+	if (FILTER_RULE_CLASS (parent_class)->validate)
+		return FILTER_RULE_CLASS (parent_class)->validate (fr);
+
+	return 1;
 }
 
 static xmlNodePtr
@@ -409,6 +436,8 @@ get_widget(FilterRule *fr, struct _RuleContext *f)
 	}
 
 	gtk_option_menu_set_history(GTK_OPTION_MENU(w), row);
+	if (fr->source == NULL)
+		filter_rule_set_source (fr, (char *)source_names[row]);
 
 	set_sensitive(data);
 

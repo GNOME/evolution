@@ -1,3 +1,12 @@
+2001-07-23  Jon Trowbridge  <trow@ximian.com>
+
+	* vfolder-rule.c (validate): Added a validate function
+	that checks to make sure that vfolders that have "specific
+	folders" as their source actually have a non-empty list of
+	source folders selected.  (Bug #4937)
+	(get_widget): If fr->source is NULL for some reason, bring
+	it into sync with the default in the option menu.
+
 2001-07-23  Peter Williams  <peterw@ximian.com>
 
 	* filter-datespec.c (make_span_editor): Change the butt-ugly
