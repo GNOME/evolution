@@ -79,7 +79,7 @@ static char *recipient_names[] = {
 	"To", "Cc", "Bcc", "Resent-To", "Resent-Cc", "Resent-Bcc", NULL
 };
 
-static int write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
+static ssize_t write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
 static void add_header (CamelMedium *medium, const char *header_name, const void *header_value);
 static void set_header (CamelMedium *medium, const char *header_name, const void *header_value);
 static void remove_header (CamelMedium *medium, const char *header_name);
@@ -487,7 +487,7 @@ construct_from_parser (CamelMimePart *dw, CamelMimeParser *mp)
 	return ret;
 }
 
-static int
+static ssize_t
 write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 {
 	CamelMimeMessage *mm = CAMEL_MIME_MESSAGE (data_wrapper);

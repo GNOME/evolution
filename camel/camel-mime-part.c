@@ -72,7 +72,7 @@ static CamelMediumClass *parent_class=NULL;
 #define CMD_CLASS(so) CAMEL_MEDIUM_CLASS (CAMEL_OBJECT_GET_CLASS(so))
 
 /* from CamelDataWrapper */
-static int             write_to_stream                 (CamelDataWrapper *data_wrapper, CamelStream *stream);
+static ssize_t         write_to_stream                 (CamelDataWrapper *data_wrapper, CamelStream *stream);
 static int	       construct_from_stream	       (CamelDataWrapper *dw, CamelStream *s);
 
 /* from CamelMedia */ 
@@ -621,15 +621,15 @@ write_raw(CamelStream *stream, struct _header_raw *h)
 	return camel_stream_printf(stream, "%s%s%s\n", h->name, isspace(val[0]) ? ":" : ": ", val);
 }
 
-static int
+static ssize_t
 write_to_stream(CamelDataWrapper *data_wrapper, CamelStream *stream)
 {
 	CamelMimePart *mp = CAMEL_MIME_PART(data_wrapper);
 	CamelMedium *medium = CAMEL_MEDIUM(data_wrapper);
 	CamelStream *ostream = stream;
 	CamelDataWrapper *content;
-	int total = 0;
-	int count;
+	ssize_t total = 0;
+	ssize_t count;
 
 	d(printf("mime_part::write_to_stream\n"));
 

@@ -57,7 +57,7 @@ static guint                 get_number        (CamelMultipart *multipart);
 static void                  set_boundary      (CamelMultipart *multipart,
 						const char *boundary);
 static const gchar *         get_boundary      (CamelMultipart *multipart);
-static int                   write_to_stream   (CamelDataWrapper *data_wrapper,
+static ssize_t               write_to_stream   (CamelDataWrapper *data_wrapper,
 						CamelStream *stream);
 static void                  unref_part        (gpointer data, gpointer user_data);
 
@@ -435,13 +435,13 @@ is_offline (CamelDataWrapper *data_wrapper)
 }
 
 /* this is MIME specific, doesn't belong here really */
-static int
+static ssize_t
 write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 {
 	CamelMultipart *multipart = CAMEL_MULTIPART (data_wrapper);
 	const gchar *boundary;
-	int total = 0;
-	int count;
+	ssize_t total = 0;
+	ssize_t count;
 	GList *node;
 
 	/* get the bundary text */

@@ -41,7 +41,7 @@ static CamelObjectClass *parent_class = NULL;
 #define CDW_CLASS(so) CAMEL_DATA_WRAPPER_CLASS (CAMEL_OBJECT_GET_CLASS(so))
 
 static int construct_from_stream (CamelDataWrapper *, CamelStream *);
-static int write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
+static ssize_t write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
 static void set_mime_type (CamelDataWrapper *data_wrapper, const char *mime_type);
 static gchar *get_mime_type (CamelDataWrapper *data_wrapper);
 static CamelContentType *get_mime_type_field (CamelDataWrapper *data_wrapper);
@@ -111,10 +111,10 @@ camel_data_wrapper_get_type (void)
 	return type;
 }
 
-static int
+static ssize_t
 write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 {
-	int ret;
+	ssize_t ret;
 	
 	if (data_wrapper->stream == NULL) {
 		return -1;

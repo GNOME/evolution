@@ -53,17 +53,17 @@
 #define d(x) /*(printf("%s(%d): ", __FILE__, __LINE__),(x))
 	       #include <stdio.h>;*/
 
-static void signed_add_part(CamelMultipart *multipart, CamelMimePart *part);
-static void signed_add_part_at(CamelMultipart *multipart, CamelMimePart *part, guint index);
-static void signed_remove_part(CamelMultipart *multipart, CamelMimePart *part);
+static void signed_add_part (CamelMultipart *multipart, CamelMimePart *part);
+static void signed_add_part_at (CamelMultipart *multipart, CamelMimePart *part, guint index);
+static void signed_remove_part (CamelMultipart *multipart, CamelMimePart *part);
 static CamelMimePart *signed_remove_part_at (CamelMultipart *multipart, guint index);
-static CamelMimePart *signed_get_part(CamelMultipart *multipart, guint index);
-static guint signed_get_number(CamelMultipart *multipart);
+static CamelMimePart *signed_get_part (CamelMultipart *multipart, guint index);
+static guint signed_get_number (CamelMultipart *multipart);
 
-static int write_to_stream(CamelDataWrapper *data_wrapper, CamelStream *stream);
-static void set_mime_type_field(CamelDataWrapper *data_wrapper, CamelContentType *mime_type);
-static int construct_from_stream(CamelDataWrapper *data_wrapper, CamelStream *stream);
-static int signed_construct_from_parser(CamelMultipart *multipart, struct _CamelMimeParser *mp);
+static ssize_t write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
+static void set_mime_type_field (CamelDataWrapper *data_wrapper, CamelContentType *mime_type);
+static int construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
+static int signed_construct_from_parser (CamelMultipart *multipart, struct _CamelMimeParser *mp);
 
 static CamelMultipartClass *parent_class = NULL;
 
@@ -459,13 +459,14 @@ signed_construct_from_parser(CamelMultipart *multipart, struct _CamelMimeParser 
 		return 0;
 }
 
-static int
+static ssize_t
 write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 {
 	CamelMultipartSigned *mps = (CamelMultipartSigned *)data_wrapper;
 	CamelMultipart *mp = (CamelMultipart *)mps;
 	const char *boundary;
-	int count, total=0;
+	ssize_t total = 0;
+	ssize_t count;
 
 	/* we have 3 basic cases:
 	   1. constructed, we write out the data wrapper stream we got

@@ -1,3 +1,15 @@
+2003-07-30  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-mime-message.c (write_to_stream): Also updated.
+
+	* camel-data-wrapper.c (write_to_stream): This should return ssize_t
+
+	* camel-multipart-signed.c (write_to_stream): Updated.
+
+	* camel-multipart.c (write_to_stream): Same.
+
+	* camel-mime-part.c (write_to_stream): Here too.
+
 2003-07-11  Suresh Chandrasekharan <suresh.chandrasekharan@sun.com>
 
 	* camel-iconv.c: Fix for #46168 'some additional locale aliases
