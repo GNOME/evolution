@@ -102,21 +102,21 @@
     </para>
   </sect1>
   <sect1 id="usage-contact-cards">
-    <title>Create, Change, and Delete Cards</title>
+    <title>Destroy, Create, or Change Cards</title>
 
     <para>
-       The easiest thing you can do with a card is delete it.  To
-       delete a card, click on it once to select it, then press the
-       <guibutton>Delete Card</guibutton> button.
+       To delete a card, click on it once to select it, then press the
+       <guibutton>Delete Card</guibutton> button.  If you have
+       multiple cards selected, you'll delete mutliple cards.
     </para>
-
     <para>
-       Any time you add new information to a card, whether it's an old
-       card you're editing or a new card you're just adding to your
-       address book, you'll use the contact editor.  To change a card
-       that already exists, just double click it to open the contact
-       editor window with all the current information already filled
-       in.  If you want to create a new one, clicking the
+       Adding or changing cards is slightly more complicated.  Any
+       time you add information to the contact manager, whether it's
+       an old card you're editing or a new card you're just adding to
+       your address book, you'll use the contact editor.  To change a
+       card that already exists, just double click it to open the
+       contact editor window with all the current information already
+       filled in.  If you want to create a new one, clicking the
        <guibutton>New Card</guibutton> button will open up that same
        window, but with empty fields instead of full ones.  Either
        way, it's the same tool for quite similar tasks, and you'll
@@ -124,9 +124,7 @@
        than you'd think would fit onto a file card.
     </para>
 
-    <sect2 id="usage-contact-editor">
-      <title>The Contact Editor</title>
-      <para>
+         <para>
 	  The contact editor window has two tabs,
     	  <guilabel>General</guilabel>, for basic contact information,
     	  and <guilabel>Details</guilabel>, for a more specific
@@ -256,7 +254,7 @@
 	    </para>
 
     -->
-    </sect2>
+   
 
 <!--- ############# This section isn't implemented yet either:
     <sect2>

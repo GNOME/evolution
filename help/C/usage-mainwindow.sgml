@@ -63,19 +63,19 @@
     <title>The Shortcut Bar</title>
     <para>
         <application>Evolution</application>'s most important job is
-        to give you access to your information, and help you use it
+        to give you access to your information and help you use it
         quickly.  One way it does that is through the
         <interface>shortcut bar</interface>, the column on the left
-        hand side of the main window.  The shortcut bar has two types
-        of buttons: big ones with names like
-        <guilabel>Inbox</guilabel> and <guilabel>Calendar</guilabel>,
-        and small rectangular ones at the top and bottom, which are
-        called category buttons.
+        hand side of the main window.  The large buttons with names
+        like <guilabel>Inbox</guilabel> and
+        <guilabel>Contacts</guilabel> are the shortcuts, and you can
+        select different groups of shortcuts by clicking the
+        rectangular category buttons.
     </para>
     <para>
-       The category buttons are labelled <guilabel>Evolution
-       Shortcuts</guilabel> and <guilabel>Internet
-       Directories</guilabel>.  When you click on them, they'll slide
+       The category buttons are <guibutton>Evolution
+       Shortcuts</guibutton> and <guibutton>Internet
+       Directories</guibutton>.  When you click on them, they'll slide
        up and down to give you access to different sorts of shortcuts.
        When you first start <application>Evolution</application>, you
        are looking at the <guilabel>Evolution Shortcuts</guilabel>
@@ -86,7 +86,7 @@
        others you or your system administrator might have added.
        Internet directories behave a lot like the local contact
        manager, which is covered in <xref linkend="usage-contact">.
-    </para>     
+       </para>
     <para>
        Take a look at the <guilabel>Evolution Shortcuts</guilabel>
        again.  They are:
@@ -183,9 +183,9 @@
          To remove a shortcut from the shortcut bar, right-click on it
          and select <guimenuitem>Remove</guimenuitem>.  </para>
        <para>
-         To change the way the shortcut bar looks, right-click in the
-         shortcut bar but not on a button.  From the menu that
-         appears, you can select icon sizes.
+         To change the way the shortcut bar looks, right-click in an
+         empoy space on the shortcut bar.  From the menu that appears,
+         you can select icon sizes.
        </para>
     </tip>
   </sect1>
@@ -205,9 +205,9 @@
       <guilabel>External Directories</guilabel>, for contact
       directories stored on a network.  The most important one is
       probably <guilabel>Local</guilabel>, which you can use to access
-      all the data that's actually stored on your computer.  If you
-      click on the plus sign plus sign next to the
-      <guilabel>Local</guilabel> folder, you'll see the contents:
+      all the data that's stored on your computer.  If you click on
+      the plus sign plus sign next to the <guilabel>Local</guilabel>
+      folder, you'll see the contents:
       <itemizedlist>
 	 <listitem>
 	    <para>
@@ -249,6 +249,17 @@
        <guilabel>Calendar</guilabel> for storing calendars, and
        <guilabel>Contacts</guilabel> for storing contacts.
     </para>
+
+    <note>
+	  <title>Folders have Limits</title>
+	  <para>
+	      You can always place a folder inside other folders,
+	      regardless of folder type.  However, calendars,
+	      contacts, and mail can't go into the same
+	      folder. Calendars have to go in calendar folders, mail
+	      in mail folders, and contacts in contact folders.
+           </para>
+	</note>
 
 <!-- UNIMPLEMENTED 
     <para>

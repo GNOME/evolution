@@ -4,10 +4,10 @@
     <abstract>
     <para>
      This appendix describes known bugs and limitations of
-    <application>Evolution</application>.  Please contact the
-    Evolution team (<email>bugs@helixcode.com</email>) or use
-    <application>bug-buddy</application> if you find one we have not
-    listed, or if you have a patch to fix one.
+    <application>Evolution</application>.  Please use the GNOME
+    <application>Bug Report Tool</application> (known as
+    <command>bug-buddy</command> at the command line) if you find one
+    we have not listed.
     </para>
     </abstract>
 

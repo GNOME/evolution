@@ -179,8 +179,9 @@
       <title>Writing and Sending Mail</title>
       <para>
 	 You can start writing a new email message by selecting
-	 <guimenuitem>New Mail</guimenuitem> from the <guimenu>File
-	 Menu</guimenu>, or by pressing the
+	 <menuchoice> <guimenu>File</guimenu>
+	 <guisubmenu>New</guisubmenu> <guimenuitem>
+	 Mail</guimenuitem></menuchoice>, or by pressing the
 	 <guibutton>Compose</guibutton> button in the Inbox toolbar.
 	 When you do so, the <interface>New Message</interface> window
 	 will open, as shown in <xref
@@ -192,7 +193,7 @@
 	<title>New Message Window</title>
 	<screenshot>
 	  <screeninfo>Evolution Main Window</screeninfo>
-	  <graphic fileref="fig/newmsg-pic" format="png" srccredit="Aaron Weber">
+	  <graphic fileref="fig/newmsg-pic" format="png" srccredit="Kevin Breit">
 	</graphic>
 	</screenshot>
       </figure>
@@ -456,7 +457,7 @@ with quoted materials and the relevant replies interspersed-->
 	      <term>Alignment</term>
 	      <listitem>
 		<para>
-                  Located next to the text style buttons,
+                   Located next to the text style buttons,
                    these three paragraph icons should be familiar to
                    users of most word processing software.  The
                    leftmost button will make your text left-justified,
@@ -479,12 +480,14 @@ with quoted materials and the relevant replies interspersed-->
 	  </variablelist>
         </para>
 	<para>
-           There are two tools that you can find only in the
+           There are three tools that you can find only in the
            <guimenu>Insert</guimenu> menu.
-           <itemizedlist>
-	    <listitem>
-	      <para>
-                 <guimenuitem>Insert Link</guimenuitem>: Use this tool to
+           <variablelist>
+             <varlistentry>
+               <term><guimenuitem>Insert Link</guimenuitem>:</term>
+	       <listitem>
+	        <para>
+                 Use this tool to
                  put hyperlinks in your HTML messages.  When you
                  select it, <application>Evolution</application> will
                  prompt you for the <guilabel>Text</guilabel> that
@@ -492,6 +495,9 @@ with quoted materials and the relevant replies interspersed-->
                  you should enter the actual web address (URL).
               </para>
 	    </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term> <guimenuitem>Insert Image</guimenuitem>:</term>
 	    <listitem>
 	      <para>
                <guimenuitem>Insert Image</guimenuitem>: Select this item to
@@ -500,7 +506,19 @@ with quoted materials and the relevant replies interspersed-->
                cursor.
               </para>
 	    </listitem>
-	  </itemizedlist>
+           </varlistentry>
+          <varlistentry>
+             <term><guimenuitem>Insert Rule</guimenuitem>:</term>
+             <listitem><para>
+               This will insert a horizontal line, or rule, into your document.
+               You'll be presented with a dialog box which gives you
+               the choice of size, percentage of screen, shading, and
+               alignment; if you leave everything at the default
+               values you'll get a thin black rule all the way across
+               the screen.</para></listitem>
+	</varlistentry>
+
+	  </variablelist>
           </para>
 	  <note>
 	    <title>A Technical note on HTML Tags</title>
@@ -676,16 +694,7 @@ possibly never will be due to security evil. -->
 	<application>Evolution</application> will as you for the name
 	and the type of the folder, and will provide you with a folder
 	tree so you can pick where it goes.
-        <note>
-	  <title>Folders have Limits</title>
-	  <para>
-	      You can always place a folder inside other folders,
-	      regardless of folder type.  However, calendars,
-	      contacts, and mail can't go into the same
-	      folder. Calendars have to go in calendar folders, mail
-	      in mail folders, and contacts in contact folders.
-           </para>
-	</note>
+       
       </para>
       <para>
         When you click <guibutton>OK</guibutton>, your new folder will
@@ -770,16 +779,20 @@ possibly never will be due to security evil. -->
     <sect2 id="usage-mail-organize-filters">
       <title>Staying organized: Mail Filters in Evolution</title>
       <para>
-	Filters sort your email for you.  People who subscribe to
-	multiple mailing lists, or who often need to refer to messages
-	they have sent, find filters especially helpful to separate
-	personal from list-related mail, but they're good for anybody
-	who gets more than a few messages a day.  To create a filter,
-	select <guimenuitem>Filter Assistant</guimenuitem> from the
-	<guimenu>Tools</guimenu> menu. This will bring up a window
-	which will guide you through filter creation.  The
-	<interface>filter assistant</interface> is shown in <xref
-	linkend="usage-mail-filters-fig-new">
+	Filters sort your email for you as it arrives.  Most often,
+	you'll want to have <application>Evolution</application> put
+	mail into different folders, but you can have it do anything
+	you like.  People who subscribe to multiple mailing lists, or
+	who often need to refer to messages they have sent, find
+	filters especially helpful to separate personal from
+	list-related mail, but they're good for anybody who gets more
+	than a few messages a day.  To create a filter, select
+	<menuchoice>
+	<guimenu>Tools</guimenu> <guimenuitem>Filter
+         Assistant</guimenuitem> </menuchoice>. This will bring up a
+         window which will guide you through filter creation.  The
+         <interface>filter assistant</interface> is shown in <xref
+         linkend="usage-mail-filters-fig-new">
 
        <figure id="usage-mail-filters-fig-new">
 	 <title>Creating a new Filter</title>
@@ -914,23 +927,21 @@ possibly never will be due to security evil. -->
       <example id="usage-mail-organize-vFolders-ex">
 	<title>Using Folders, Searches, and vFolders</title>
 	<para>
-	   To organize my mail box, I can set up a vFolder
-	   for emails from my friend Vince, by doing (INSERT
-	   PROCESS HERE).  Then, whenever I want to see the
-	   messages Vince has sent me, I open the vFolder, and
-	   every message he's sent me shows up, no matter where
-	   I've actually filed it.  If I want, I can also create a
-	   vFolder containing any message from my list of
-	   co-workers which also has the name of the project in
-	   it.  That way, when Vince sends me mail about the
-	   project, I can see that message both in the "Vince"
-	   vFolder and in the "Project" vFolder.  That's because
-	   when I open up the "Vince" folder, I'm really
-	   performing a search for all the mail from Vince, and
-	   when I open the "Project" folder I'm really performing
+	   To organize my mail box, I can set up a vFolder for emails
+	   from my friend Vince.  Then, whenever I want to see the
+	   messages Vince has sent me, I open the vFolder, and every
+	   message he's sent me shows up, no matter where I've
+	   actually filed it.  If I want, I can also create a vFolder
+	   containing any message from my list of co-workers which
+	   also has the name of the project in it.  That way, when
+	   Vince sends me mail about the project, I can see that
+	   message both in the "Vince" vFolder and in the "Project"
+	   vFolder.  That's because when I open up the "Vince" folder,
+	   I'm really performing a search for all the mail from Vince,
+	   and when I open the "Project" folder I'm really performing
 	   a search for all the mail about the project.
 
-	  (INSERT SCREENSHOT HERE)
+	<!--  (INSERT SCREENSHOT HERE) -->
 
 	</para>
       </example>
@@ -949,9 +960,9 @@ possibly never will be due to security evil. -->
 	 click <guibutton>Add</guibutton> to add a new vFolder.
       </para>
       <para>
-	 You'll be prompted to create a filtering rule. To do so,
-	 select one of the base rules, and click
-	 <guibutton>Next</guibutton> to customize it.  Your options are:
+	 You'll be prompted to create a filtering rule.  You can build
+	 your own from the ground up, or select one of several base
+	 rules to customize.  Your options are:
     <variablelist>
 	 <varlistentry>
 	    <term><guilabel>For matching messages:</guilabel></term>
@@ -967,8 +978,8 @@ possibly never will be due to security evil. -->
 	    <term><guilabel>Messages from a certain person:</guilabel></term>
 	    <listitem>
 	      <para>
-		 Enter an email address, and the vFolder will contain
-		 any messages from that address.
+		 The vFolder will contain messages from an address
+		 you enter.
 	     </para>
 	   </listitem>
 	  </varlistentry>
@@ -992,7 +1003,7 @@ possibly never will be due to security evil. -->
 	  </varlistentry>
 	</variablelist>
 
-	as is shown in <xref
+        The selection window is shown in <xref
 	linkend="usage-mail-vfolder-fig-createrule">
 
        <figure id="usage-mail-vfolder-fig-createrule">

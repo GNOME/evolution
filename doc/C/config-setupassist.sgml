@@ -4,7 +4,7 @@
         The setup assistant can gather most of the information
         necessary for <application>Evolution</application>'s daily
         operation. If you prefer more detailed or advanced
-        configuration, see <xref linkend="config-prefs">
+        configuration, see <xref linkend="config-prefs">.
       </para>
 
    <sect1 id="config-setupassist-mail">
@@ -96,7 +96,7 @@
 	  <listitem>
 	    <para>
               This should be the name of your mail server: it should
-              look something like: 
+              look something like:
               <userinput>mailserver.organization.org</userinput>.
             </para>
 	  </listitem>

@@ -14,15 +14,28 @@
       </para>
       <para>
         As part of the GNOME project,
-        <application>Evolution</application> is free software, and is
-        released under the terms of the GNU Public License (GPL).  As
-        stated previously, the documentation falls under the Free
-        Documentation License (FDL), which is included with this
-        document in <xref linkend="fdl">.  For more information about
-        the GPL and the FDL, visit the Free Software Foundation's
-        website at <ulink
+        <application>Evolution</application> is free software.  The
+        program and its source code are released under the terms of
+        the GNU Public License (GPL), and the documentation falls
+        under the Free Documentation License (FDL), which is included
+        with this document (<xref linkend="fdl">).  For more
+        information about the GPL and the FDL, visit the Free Software
+        Foundation's website at <ulink
         url="http://www.fsf.org">http://www.fsf.org</ulink>.
       </para>
+      <para>
+        <note>
+           <title>This is a preview release</title>
+           <para>
+             Please help develop <application>Evolution</application>
+             by submitting bug reports when you find bugs.  You can do
+             so by using the <application>Bug Report
+             Tool</application> (known as <command>bug-buddy</command>
+             at the command line).
+          </para>
+        </note>
+      </para>
+
       <para>
         <application>Evolution</application> is a suite of tools to
         help you work in a group.  You can use it to send, receive,
@@ -125,8 +138,7 @@
       <formalpara>
         <title>Typographical conventions</title>
 	<para>
-          Some kinds of words are marked off with special typography.
-          It's listed below:
+          Some kinds of words are marked off with special typography:
           <simplelist>
 	    <member><application>Applications</application></member>
 	    <member><command>Commands</command> typed at the command line</member>

@@ -142,8 +142,9 @@ lack of time, resources, and interest.
          network. <guilabel>Public</guilabel> is the default category,
          and a public event can be viewed by anyone on the calendar
          sharing network.  <guilabel>Private</guilabel> denotes one
-         level of security, and <guilabel>Confidential</guilabel>
-         means that .
+         level of security, and <guilabel>Confidential</guilabel> a
+         higer level.  <!-- FIXME --> Exact determinations and implementations of
+         this feature have yet to be determined. <!-- FIXME -->
       </para>
       <para>
         The <guilabel>Recurrence</guilabel> tab lets you describe
@@ -307,9 +308,8 @@ lack of time, resources, and interest.
         she maintains one for the conference room, so people know when
         they can schedule meetings.  On the local network, she
         maintains a calendar that reflects when consultants are going
-        to be on site, and another that keeps track of the various
-        company managers, so that people know where to find each
-        other.
+        to be on site, and another that keeps track of when the Red
+        Sox are playing.
       </para>
     </example>
     <para>
@@ -319,7 +319,6 @@ lack of time, resources, and interest.
 	<guisubmenu>New</guisubmenu>
 	<guimenuitem>Calendar</guimenuitem>
       </menuchoice>.
-
        You can place the calendar in any calendar folder and access it
        from the folder view.
     </para>
