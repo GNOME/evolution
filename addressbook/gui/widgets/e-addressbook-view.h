@@ -22,6 +22,7 @@
 #define __E_ADDRESSBOOK_VIEW_H__
 
 #include <gnome.h>
+#include <bonobo.h>
 #include "addressbook/backend/ebook/e-book.h"
 
 #ifdef __cplusplus
@@ -77,10 +78,13 @@ struct _EAddressbookViewClass
 GtkWidget *e_addressbook_view_new               (void);
 GtkType    e_addressbook_view_get_type          (void);
 
-void       e_addressbook_view_print             (EAddressbookView *view);
-void       e_addressbook_view_delete_selection  (EAddressbookView *view);
-void       e_addressbook_view_show_all          (EAddressbookView *view);
-void       e_addressbook_view_stop              (EAddressbookView *view);
+void       e_addressbook_view_setup_menus       (EAddressbookView  *view,
+						 BonoboUIComponent *uic);
+
+void       e_addressbook_view_print             (EAddressbookView  *view);
+void       e_addressbook_view_delete_selection  (EAddressbookView  *view);
+void       e_addressbook_view_show_all          (EAddressbookView  *view);
+void       e_addressbook_view_stop              (EAddressbookView  *view);
 
 #ifdef __cplusplus
 }

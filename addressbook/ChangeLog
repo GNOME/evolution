@@ -1,3 +1,12 @@
+2000-12-06  Christopher James Lahey  <clahey@helixcode.com>
+
+	* gui/component/addressbook.c: Moved the gal view menu stuff from
+	here to EAddressbookView.
+
+	* gui/widgets/e-addressbook-view.c,
+	gui/widgets/e-addressbook-view.h: New function to set up the menus
+	for the EAddressbookView.
+
 2000-12-06  JP Rosevear  <jpr@helixcode.com>
 
 	* conduit/Makefile.am: Another conduit build fix

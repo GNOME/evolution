@@ -19,7 +19,6 @@
 #include <ebook/e-book.h>
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-unicode.h>
-#include "widgets/menus/gal-view-menus.h"
 #include "addressbook/gui/search/e-addressbook-search-dialog.h"
 
 #include "addressbook/gui/widgets/e-addressbook-view.h"
@@ -321,7 +320,6 @@ control_activate (BonoboControl     *control,
 		  AddressbookView   *view)
 {
 	Bonobo_UIContainer remote_ui_container;
-	GalViewMenus *views;
 
 	remote_ui_container = bonobo_control_get_remote_ui_container (control);
 	bonobo_ui_component_set_container (uic, remote_ui_container);
@@ -341,9 +339,7 @@ control_activate (BonoboControl     *control,
 			       "evolution-addressbook");
 #endif
 
-	views = gal_view_menus_new();
-	gal_view_menus_apply(views, uic, NULL);
-	gtk_object_unref(GTK_OBJECT(views));
+	e_addressbook_view_setup_menus (view->view, uic);
 
 	update_view_type (view);
 

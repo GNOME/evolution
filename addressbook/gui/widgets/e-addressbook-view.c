@@ -29,6 +29,8 @@
 #include <gal/e-table/e-table-model.h>
 #include <gal/widgets/e-scroll-frame.h>
 #include <gal/widgets/e-popup-menu.h>
+#include "widgets/menus/gal-view-menus.h"
+#include <gal/menus/gal-view-factory-etable.h>
 
 #include "e-addressbook-model.h"
 
@@ -670,6 +672,37 @@ e_contact_print_button(GnomeDialog *dialog, gint button, gpointer data)
 		gnome_dialog_close(dialog);
 		break;
 	}
+}
+
+void
+e_addressbook_view_setup_menus (EAddressbookView *view,
+				BonoboUIComponent *uic)
+{
+	GalViewCollection *collection;
+	GalViewMenus *views;
+	GalViewFactory *factory;
+	ETableSpecification *spec;
+
+	collection = gal_view_collection_new();
+
+	spec = e_table_specification_new();
+	e_table_specification_load_from_string(spec, SPEC);
+
+	factory = gal_view_factory_etable_new(spec);
+	gal_view_collection_add_factory(collection, factory);
+	gtk_object_sink(GTK_OBJECT(factory));
+
+#if 0
+	factory = e_minicard_view_factory_new();
+	gal_view_collection_add_factory(collection, factory);
+	gtk_object_sink(GTK_OBJECT(factory));
+#endif
+
+	views = gal_view_menus_new(collection);
+	gal_view_menus_apply(views, uic, NULL);
+	gtk_object_sink(GTK_OBJECT(views));
+
+	gtk_object_sink(GTK_OBJECT(collection));
 }
 
 void
