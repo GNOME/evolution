@@ -94,8 +94,6 @@ struct _EItipControlPrivate {
 	gchar *delegator_name;
 	gchar *my_address;
 	gint   view_only;
-
-	gboolean destroyed;
 };
 
 #define ACTION_DATA "EItipControl:Action"
@@ -109,7 +107,6 @@ struct _EItipControlPrivate {
 static void class_init	(EItipControlClass	 *klass);
 static void init	(EItipControl		 *itip);
 static void destroy	(GtkObject               *obj);
-static void finalize	(GObject               *obj);
 
 static void find_my_address (EItipControl *itip, icalcomponent *ical_comp, icalparameter_partstat *status);
 static void url_requested_cb (GtkHTML *html, const gchar *url, GtkHTMLStream *handle, gpointer data);
@@ -133,8 +130,6 @@ class_init (EItipControlClass *klass)
 	parent_class = g_type_class_peek_parent (klass);
 
 	gtkobject_class->destroy = destroy;
-
-	object_class->finalize = finalize;
 }
 
 static void
@@ -176,8 +171,6 @@ cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 		return;
 	}
 
-	g_message ("Opened single calendar");
-	
 	zone = calendar_config_get_icaltimezone ();
 	e_cal_set_default_timezone (ecal, zone, NULL);
 
@@ -277,8 +270,6 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 		goto cleanup;
 	}
 
-	g_message ("Opened find calendar");
-	
 	if (e_cal_get_object (ecal, fd->uid, NULL, &icalcomp, NULL)) {
 		icalcomponent_free (icalcomp);
 		
@@ -377,6 +368,16 @@ find_server (EItipControl *itip, ECalComponent *comp, gboolean show_selector)
 }
 
 static void
+cleanup_ecal (ECal *ecal) 
+{
+	/* Clean up any signals */
+	g_signal_handlers_disconnect_matched (ecal, G_SIGNAL_MATCH_FUNC, 0, 0, NULL, cal_opened_cb, NULL);
+	g_signal_handlers_disconnect_matched (ecal, G_SIGNAL_MATCH_FUNC, 0, 0, NULL, find_cal_opened_cb, NULL);
+	
+	g_object_unref (ecal);
+}
+
+static void
 html_destroyed (gpointer data)
 {
 	EItipControl *itip = data;
@@ -409,7 +410,7 @@ init (EItipControl *itip)
 	
 	/* Initialize the ecal hashes */
 	for (i = 0; i < E_CAL_SOURCE_TYPE_LAST; i++)
-		priv->ecals[i] = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);;
+		priv->ecals[i] = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, cleanup_ecal);
 	priv->current_ecal = NULL;
 
 	/* Other fields to init */
@@ -441,8 +442,6 @@ init (EItipControl *itip)
 	g_signal_connect (priv->html, "url_requested", G_CALLBACK (url_requested_cb), itip);
 	g_signal_connect (priv->html, "object_requested", G_CALLBACK (object_requested_cb), itip);
 	g_signal_connect (priv->html, "submit", G_CALLBACK (ok_clicked_cb), itip);
-
-	priv->destroyed = FALSE;
 }
 
 static void
@@ -497,41 +496,30 @@ destroy (GtkObject *obj)
 	
 	priv = itip->priv;
 
- 	if (priv->html) {
-		g_signal_handlers_disconnect_matched (priv->html, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, itip);
- 		g_object_weak_unref (G_OBJECT (priv->html), (GWeakNotify)html_destroyed, itip);
-	}
-	
-	priv->destroyed = TRUE;
+	if (priv) {
+		int i;
 
-	(* GTK_OBJECT_CLASS (parent_class)->destroy) (obj);
-}
-
-static void
-finalize (GObject *obj)
-{
-	EItipControl *itip = E_ITIP_CONTROL (obj);
-	EItipControlPrivate *priv;
-	int i;
-	
-	priv = itip->priv;
-
-	clean_up (itip);
-
-	priv->accounts = NULL;
-
-	for (i = 0; i < E_CAL_SOURCE_TYPE_LAST; i++) {
-		if (priv->ecals[i]) {
-			g_hash_table_destroy (priv->ecals[i]);
-			priv->ecals[i] = NULL;
+		clean_up (itip);
+		
+		priv->accounts = NULL;
+		
+		for (i = 0; i < E_CAL_SOURCE_TYPE_LAST; i++) {
+			if (priv->ecals[i]) {
+				g_hash_table_destroy (priv->ecals[i]);
+				priv->ecals[i] = NULL;
+			}
 		}
+		
+		if (priv->html) {
+			g_signal_handlers_disconnect_matched (priv->html, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, itip);
+			g_object_weak_unref (G_OBJECT (priv->html), (GWeakNotify)html_destroyed, itip);
+		}
+		
+		g_free (priv);
+		itip->priv = NULL;
 	}
-
-	g_free (priv);
-	itip->priv = NULL;
-
-	if (G_OBJECT_CLASS (parent_class)->finalize)
-		(* G_OBJECT_CLASS (parent_class)->finalize) (obj);
+	
+	(* GTK_OBJECT_CLASS (parent_class)->destroy) (obj);
 }
 
 GtkWidget *
