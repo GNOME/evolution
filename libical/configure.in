@@ -3,6 +3,10 @@ AC_INIT(src)
 AM_INIT_AUTOMAKE(libical-evolution,0.23a) 
 AM_CONFIG_HEADER(config.h)
 
+dnl Set the aux dir to .. (the toplevel evolution directory) so ylwrap
+dnl is found in the correct directory for automake >= 1.5
+AC_CONFIG_AUX_DIR(..)
+
 dnl  Initialize maintainer mode
 AM_MAINTAINER_MODE
 
