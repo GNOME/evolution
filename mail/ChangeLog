@@ -25,6 +25,7 @@
 	(cleanup_register_folder): Properly free the local_folder if the
 	op failed.
 	(free_local_folder): Unhook events also.
+	(d): Oops, left debug turned on.
 
 2000-12-09  Christopher James Lahey  <clahey@helixcode.com>
 

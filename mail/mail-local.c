@@ -52,7 +52,7 @@
 #include "mail-threads.h"
 #include "folder-browser.h"
 
-#define d(x) x
+#define d(x)
 
 
 /* Local folder metainfo */
