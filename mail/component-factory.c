@@ -470,7 +470,7 @@ destination_folder_handle_motion (EvolutionShellComponentDndDestinationFolder *f
 	CamelURL *url;
 	
 	url = camel_url_new (physical_uri, NULL);
-	noselect = camel_url_get_param (url, "noselect");
+	noselect = url ? camel_url_get_param (url, "noselect") : NULL;
 	
 	if (noselect && !g_strcasecmp (noselect, "yes"))
 		/* uh, no way to say "illegal" */
@@ -478,7 +478,8 @@ destination_folder_handle_motion (EvolutionShellComponentDndDestinationFolder *f
 	else
 		*suggested_action_return = GNOME_Evolution_ShellComponentDnd_ACTION_MOVE;
 	
-	camel_url_free (url);
+	if (url)
+		camel_url_free (url);
 	
 	return TRUE;
 }
@@ -549,7 +550,9 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *des
 		camel_url_free (uri);
 		return FALSE;
 	}
-	camel_url_free (uri);
+	
+	if (uri)
+		camel_url_free (uri);
 	
 	g_print ("in destination_folder_handle_drop (%s)\n", physical_uri);
 	
