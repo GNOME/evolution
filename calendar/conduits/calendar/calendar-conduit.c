@@ -40,6 +40,20 @@ struct _ConduitData {
 	struct AppointmentAppInfo ai;
 };
 
+#define CONDUIT_VERSION "0.8.0"
+#define DEBUG_CALCONDUIT
+
+#ifdef DEBUG_CALCONDUIT
+#define show_exception(e) g_warning ("Exception: %s\n", CORBA_exception_id (e))
+#define LOG(e...) g_log(G_LOG_DOMAIN,G_LOG_LEVEL_MESSAGE, "calconduit: "##e)
+#else
+#define show_exception(e)
+#define LOG(e...)
+#endif 
+
+#define WARN(e...) g_log(G_LOG_DOMAIN,G_LOG_LEVEL_WARNING, e)
+#define INFO(e...) g_log(G_LOG_DOMAIN,G_LOG_LEVEL_MESSAGE, "calconduit: "##e)
+
 #define GET_DATA(c) ((ConduitData*)gtk_object_get_data(GTK_OBJECT(c),"conduit_data"))
 
 GNOME_Calendar_Repository calendar;
@@ -58,7 +72,8 @@ start_calendar_server (GnomePilotConduitStandardAbs *conduit)
 		g_error ("Can not communicate with GnomeCalendar server");
   
 	if (ev._major != CORBA_NO_EXCEPTION){
-		g_warning ("Exception: %s\n", CORBA_exception_id (&ev));
+		show_exception(&ev);
+		CORBA_exception_free(&ev);
 		return CORBA_OBJECT_NIL;
 	}
   
@@ -84,13 +99,13 @@ get_calendar_objects(GnomePilotConduitStandardAbs *conduit)
 	uids = GNOME_Calendar_Repository_get_object_id_list (calendar, &ev);
 
   	if (ev._major == CORBA_USER_EXCEPTION){
-		g_message ("calconduit: \tObject did not exist\n");
-		g_warning("\texception id = %s\n",CORBA_exception_id(&ev));
+		INFO ("Object did not exist");
+		show_exception(&ev);
 		CORBA_exception_free(&ev); 
 		return NULL;
 	} else if(ev._major != CORBA_NO_EXCEPTION) {
-		g_warning(_("\tError while communicating with calendar server\n"));
-		g_warning("\texception id = %s\n",CORBA_exception_id(&ev));
+		WARN (_("Error while communicating with calendar server"));
+		show_exception(&ev);
 		CORBA_exception_free(&ev); 
 		return NULL;
 	} 
@@ -101,7 +116,7 @@ get_calendar_objects(GnomePilotConduitStandardAbs *conduit)
 			result = g_list_prepend(result,g_strdup(uids->_buffer[i]));
 		}
 	} else
-		g_message("No entries found");
+		INFO ("No entries found");
 	
 	CORBA_free(uids);
 
@@ -127,25 +142,25 @@ get_calendar_objects(GnomePilotConduitStandardAbs *conduit)
 	error = calendar_load_from_memory(cal,vcalendar_string);
 
   	if (ev._major == CORBA_USER_EXCEPTION){
-		g_message ("calconduit: \tObject did not exist\n");
-		g_warning("\texception id = %s\n",CORBA_exception_id(&ev));
+		INFO ("Object did not exist");
+		show_exception(&ev);
 		CORBA_exception_free(&ev); 
 		return;
 	} else if(ev._major != CORBA_NO_EXCEPTION) {
-		g_warning(_("\tError while communicating with calendar server\n"));
-		g_warning("\texception id = %s\n",CORBA_exception_id(&ev));
+		WARN (_("Error while communicating with calendar server"));
+		show_exception(&ev);
 		CORBA_exception_free(&ev); 
 		return;
 	} 
 
 	if(error != NULL) {
-		g_warning("Error while converting records");
-		g_warning("Error : %s",error);
+		WARN ("Error while converting records");
+		WARN ("Error : %s",error);
 		return NULL;
 	}
 	retval = NULL;
 	for(l=cal->events ; l ; l=l->next) {
-		g_print("calconduit: duping %d [%s]\n",
+		LOG ("duping %d [%s]",
 			((iCalObject*)l->data)->pilot_id,
 			((iCalObject*)l->data)->summary);
 		retval = g_list_prepend(retval,ical_object_duplicate(l->data));
@@ -170,13 +185,13 @@ local_record_from_ical_uid(CalLocalRecord *local,
 	vcalendar_string = GNOME_Calendar_Repository_get_object(calendar, uid, &ev);
 
   	if (ev._major == CORBA_USER_EXCEPTION){
-		g_message ("calconduit: \tObject did not exist\n");
-		g_warning("\texception id = %s\n",CORBA_exception_id(&ev));
+		INFO ("Object did not exist");
+		show_exception(&ev);
 		CORBA_exception_free(&ev); 
 		return;
 	} else if(ev._major != CORBA_NO_EXCEPTION) {
-		g_warning(_("\tError while communicating with calendar server\n"));
-		g_warning("\texception id = %s\n",CORBA_exception_id(&ev));
+		WARN (_("Error while communicating with calendar server"));
+		show_exception(&ev);
 		CORBA_exception_free(&ev); 
 		return;
 	} 
@@ -204,7 +219,7 @@ local_record_from_icalobject(CalLocalRecord *local,
 	local->ical = obj;
 	local->local.ID = local->ical->pilot_id;
   
-	g_print("calconduit: local->Id = %ld [%s], status = %d\n",
+	LOG ("local->Id = %ld [%s], status = %d",
 		  local->local.ID,obj->summary,local->ical->pilot_status);
 
 	switch(local->ical->pilot_status) {
@@ -250,15 +265,17 @@ find_record_in_repository(GnomePilotConduitStandardAbs *conduit,
 		GNOME_Calendar_Repository_get_object_by_pilot_id (calendar, remote->ID, &ev);
   
 	if (ev._major == CORBA_USER_EXCEPTION){
-		g_message ("calconduit: \tObject did not exist\n");
+		INFO ("Object did not exist");
+		show_exception(&ev);
 		CORBA_exception_free(&ev); 
 		return NULL;
 	} else if(ev._major != CORBA_NO_EXCEPTION) {
-		g_warning(_("\tError while communicating with calendar server\n"));
+		WARN (_("Error while communicating with calendar server"));
+		show_exception(&ev);
 		CORBA_exception_free(&ev); 
 		return NULL;
 	} else {
-		g_message ("calconduit: \tFound\n");
+		LOG ("Found");
 		loc = g_new0(CalLocalRecord,1);
 		/* memory allocated in new_from_string is freed in free_match */
 		local_record_from_icalobject(loc,
@@ -287,13 +304,13 @@ update_calendar_entry_in_repository(GnomePilotConduitStandardAbs *conduit,
 	GNOME_Calendar_Repository_update_object (calendar, obj->uid, str, &ev);
 
   	if (ev._major == CORBA_USER_EXCEPTION){
-		g_message ("calconduit: \tObject did not exist\n");
-		g_warning("\texception id = %s\n",CORBA_exception_id(&ev));
+		INFO ("Object did not exist");
+		show_exception(&ev);
 		CORBA_exception_free(&ev); 
 		return;
 	} else if(ev._major != CORBA_NO_EXCEPTION) {
-		g_warning(_("\tError while communicating with calendar server\n"));
-		g_warning("\texception id = %s\n",CORBA_exception_id(&ev));
+		WARN (_("Error while communicating with calendar server"));
+		show_exception(&ev);
 		CORBA_exception_free(&ev); 
 		return;
 	} 
@@ -314,7 +331,7 @@ ical_from_remote_record(GnomePilotConduitStandardAbs *conduit,
 	now = time (NULL);
 
 	g_return_val_if_fail(remote!=NULL,NULL);
-
+	memset(&a,0,sizeof(struct Appointment));
 	unpack_Appointment(&a,remote->record,remote->length);
 	
 	if (in_obj == NULL)
@@ -443,7 +460,7 @@ ical_from_remote_record(GnomePilotConduitStandardAbs *conduit,
 			break;
 
 		default:
-			g_warning ("Unhandled repeat case");
+			g_assert_not_reached();
 		}
 
 		if (a.repeatForever)
@@ -495,34 +512,36 @@ update_record (GnomePilotConduitStandardAbs *conduit,
 	iCalObject *obj;
 	struct Appointment a;
 
-	g_return_if_fail(remote!=NULL);
+	g_return_val_if_fail(remote!=NULL,-1);
 
+	memset(&a,0,sizeof(struct Appointment));
 	unpack_Appointment(&a,remote->record,remote->length);
 	
 	obj = ical_new (a.note ? a.note : "",
 			g_get_user_name (),
 			a.description ? a.description : "");
 
-	g_message ("calconduit: requesting %ld [%s]\n", remote->ID, a.description);
+	LOG ("requesting %ld [%s]", remote->ID, a.description);
 	vcal_string = GNOME_Calendar_Repository_get_object_by_pilot_id (calendar, remote->ID, &ev);
 
 	if (ev._major == CORBA_USER_EXCEPTION){
-
-		g_warning (_("\tObject did not exist, creating a new one\n"));
+		WARN (_("Object did not exist, creating a new one"));
+		show_exception(&ev);
 		CORBA_exception_free(&ev); 
 		ical_from_remote_record(conduit,remote,obj);
 	} else if(ev._major != CORBA_NO_EXCEPTION) {
-	        g_warning(_("\tError while communicating with calendar server\n"));
-		g_warning("\texception id = %s\n",CORBA_exception_id(&ev));
+	        WARN (_("Error while communicating with calendar server"));
+		show_exception(&ev);
 		CORBA_exception_free(&ev); 
 		ical_object_destroy (obj); 
 		free_Appointment(&a);
 		return -1;
 	} else {
-	        g_message ("calconduit: \tFound\n");
+	        LOG ("Found");
 		ical_object_destroy (obj);
 		obj = ical_object_new_from_string (vcal_string);
 		ical_from_remote_record(conduit,remote,obj);
+		CORBA_free(vcal_string);
 	}
 
 	/* update record on server */
@@ -534,7 +553,6 @@ update_record (GnomePilotConduitStandardAbs *conduit,
 	 */
 	ical_object_destroy (obj);
 	free_Appointment(&a);
-	g_free(vcal_string);
 
 	return 0;
 }
@@ -546,6 +564,8 @@ pre_sync(GnomePilotConduit *c, GnomePilotDBInfo *dbi)
 	int l;
 	unsigned char *buf;
   
+	INFO (CONDUIT_VERSION);
+
 	calendar = CORBA_OBJECT_NIL;
 	calendar = start_calendar_server(GNOME_PILOT_CONDUIT_STANDARD_ABS(c));
 	if(calendar == CORBA_OBJECT_NIL) {
@@ -580,7 +600,7 @@ match_record	(GnomePilotConduitStandardAbs *conduit,
 		 PilotRecord *remote,
 		 gpointer data)
 {
-	g_print ("in match_record\n");
+	LOG ("in match_record");
 
 	g_return_val_if_fail(local!=NULL,-1);
 	g_return_val_if_fail(remote!=NULL,-1);
@@ -601,7 +621,7 @@ free_match	(GnomePilotConduitStandardAbs *conduit,
 		 CalLocalRecord **local,
 		 gpointer data)
 {
-	g_print ("entering free_match\n");
+	LOG ("entering free_match");
 
 	g_return_val_if_fail(local!=NULL,-1);
 	g_return_val_if_fail(*local!=NULL,-1);
@@ -621,7 +641,7 @@ archive_local (GnomePilotConduitStandardAbs *conduit,
 	       CalLocalRecord *local,
 	       gpointer data)
 {
-	g_print ("entering archive_local\n");
+	LOG ("entering archive_local");
 
 	g_return_val_if_fail(local!=NULL,-1);
 
@@ -637,7 +657,7 @@ archive_remote (GnomePilotConduitStandardAbs *conduit,
 		PilotRecord *remote,
 		gpointer data)
 {
-	g_print("entering archive_remote\n");
+	LOG ("entering archive_remote");
 
         g_return_val_if_fail(remote!=NULL,-1);
 	g_return_val_if_fail(local!=NULL,-1);
@@ -653,7 +673,7 @@ store_remote (GnomePilotConduitStandardAbs *conduit,
 	      PilotRecord *remote,
 	      gpointer data)
 {
-	g_print ("entering store_remote\n");
+	LOG ("entering store_remote");
 
 	g_return_val_if_fail(remote!=NULL,-1);
 
@@ -665,7 +685,7 @@ clear_status_archive_local (GnomePilotConduitStandardAbs *conduit,
 			    CalLocalRecord *local,
 			    gpointer data)
 {
-	g_print ("entering clear_status_archive_local\n");
+	LOG ("entering clear_status_archive_local");
 
 	g_return_val_if_fail(local!=NULL,-1);
 
@@ -683,32 +703,32 @@ iterate (GnomePilotConduitStandardAbs *conduit,
 	g_return_val_if_fail(local!=NULL,-1);
 
 	if(*local==NULL) {
-		g_print("calconduit: beginning iteration\n");
+		LOG ("beginning iteration");
 
 		events = get_calendar_objects(conduit);
 		hest = 0;
 		
 		if(events!=NULL) {
-			g_print("calconduit: iterating over %d records\n",g_list_length(events));
+			LOG ("iterating over %d records",g_list_length(events));
 			*local = g_new0(CalLocalRecord,1);
 
 			local_record_from_ical_uid(*local,(gchar*)events->data);
 			iterator = events;
 		} else {
-			g_print("calconduit: no events\n");
+			LOG ("no events");
 			(*local) = NULL;
 		}
 	} else {
-		g_print("calconduit: continuing iteration\n");
+		LOG ("continuing iteration");
 		hest++;
 		if(g_list_next(iterator)==NULL) {
 			GList *l;
 
-			g_print("calconduit: ending\n");
+			LOG ("ending");
 			/** free stuff allocated for iteration */
 			g_free((*local));
 
-			g_print("calconduit: iterated over %d records\n",hest);
+			LOG ("iterated over %d records",hest);
 			for(l=events;l;l=l->next)
 				g_free(l->data);
 
@@ -732,11 +752,21 @@ iterate_specific (GnomePilotConduitStandardAbs *conduit,
 		  gint archived,
 		  gpointer data)
 {
-	g_print ("entering iterate_specific\n");
-
+#ifdef DEBUG_CALCONDUIT
+	{
+		gchar *tmp;
+		switch (flag) {
+		case GnomePilotRecordNothing: tmp = g_strdup("RecordNothing"); break;
+		case GnomePilotRecordModified: tmp = g_strdup("RecordModified"); break;
+		case GnomePilotRecordNew: tmp = g_strdup("RecordNew"); break;
+		}
+		LOG ("entering iterate_specific(flag = %s)",tmp);
+		g_free(tmp);
+	}
+#endif
 	g_return_val_if_fail(local!=NULL,-1);
 
-	/** iterate until a record meets the criteria */
+	/* iterate until a record meets the criteria */
 	while(gnome_pilot_conduit_standard_abs_iterate(conduit,(LocalRecord**)local)) {
 		if((*local)==NULL) break;
 		/* g_print("calconduit: local->attr = %d, flag = %d, & %d\n",(*local)->local.attr,flag,((*local)->local.attr &  flag)); */
@@ -751,7 +781,7 @@ static gint
 purge (GnomePilotConduitStandardAbs *conduit,
        gpointer data)
 {
-	g_print ("entering purge\n");
+	LOG ("entering purge");
 
 
 	/* HEST, gem posterne her */
@@ -765,7 +795,7 @@ set_status (GnomePilotConduitStandardAbs *conduit,
 	    gint status,
 	    gpointer data)
 {
-	g_print ("entering set_status\n");
+	LOG ("entering set_status");
 
 	g_return_val_if_fail(local!=NULL,-1);
 
@@ -795,13 +825,13 @@ set_status (GnomePilotConduitStandardAbs *conduit,
 		GNOME_Calendar_Repository_delete_object(calendar,local->ical->uid,&ev);
 	
 	if (ev._major == CORBA_USER_EXCEPTION){
-		g_message ("calconduit: \tObject did not exist\n");
-		g_warning("\texception id = %s\n",CORBA_exception_id(&ev));
+		LOG ("Object did not exist");
+		show_exception(&ev);
 		CORBA_exception_free(&ev); 
 		return -1;
 	} else if(ev._major != CORBA_NO_EXCEPTION) {
-		g_warning(_("\tError while communicating with calendar server\n"));
-		g_warning("\texception id = %s\n",CORBA_exception_id(&ev));
+		WARN (_("Error while communicating with calendar server"));
+		show_exception(&ev);
 		CORBA_exception_free(&ev); 
 		return -1;
 	} 
@@ -814,7 +844,7 @@ set_archived (GnomePilotConduitStandardAbs *conduit,
 	      gint archived,
 	      gpointer data)
 {
-	g_print ("entering set_archived\n");
+	LOG ("entering set_archived");
 
 	g_return_val_if_fail(local!=NULL,-1);
 	g_assert(local->ical!=NULL);
@@ -833,7 +863,7 @@ set_pilot_id (GnomePilotConduitStandardAbs *conduit,
 	      guint32 ID,
 	      gpointer data)
 {
-	g_print ("entering set_pilot_id\n");
+	LOG ("entering set_pilot_id");
 
 	g_return_val_if_fail(local!=NULL,-1);
 	g_assert(local->ical!=NULL);
@@ -847,13 +877,13 @@ set_pilot_id (GnomePilotConduitStandardAbs *conduit,
 						  &ev);
 
 	if (ev._major == CORBA_USER_EXCEPTION){
-		g_message ("calconduit: \tObject did not exist\n");
-		g_warning("\texception id = %s\n",CORBA_exception_id(&ev));
+		LOG ("Object did not exist");
+		show_exception(&ev);
 		CORBA_exception_free(&ev); 
 		return -1;
 	} else if(ev._major != CORBA_NO_EXCEPTION) {
-		g_warning(_("\tError while communicating with calendar server\n"));
-		g_warning("\texception id = %s\n",CORBA_exception_id(&ev));
+		WARN (_("Error while communicating with calendar server"));
+		show_exception(&ev);
 		CORBA_exception_free(&ev); 
 		return -1;
 	} 
@@ -866,7 +896,7 @@ compare (GnomePilotConduitStandardAbs *conduit,
 	 PilotRecord *remote,
 	 gpointer data)
 {
-	g_print ("entering compare\n");
+	LOG ("entering compare");
 
 	g_return_val_if_fail(local!=NULL,-1);
 	g_return_val_if_fail(remote!=NULL,-1);
@@ -880,7 +910,7 @@ compare_backup (GnomePilotConduitStandardAbs *conduit,
 		PilotRecord *remote,
 		gpointer data)
 {
-	g_print ("entering compare_backup\n");
+	LOG ("entering compare_backup");
 
 	g_return_val_if_fail(local!=NULL,-1);
 	g_return_val_if_fail(remote!=NULL,-1);
@@ -894,7 +924,7 @@ free_transmit (GnomePilotConduitStandardAbs *conduit,
 	       PilotRecord **remote,
 	       gpointer data)
 {
-	g_print ("entering free_transmit\n");
+	LOG ("entering free_transmit");
 
 	g_return_val_if_fail(local!=NULL,-1);
 	g_return_val_if_fail(remote!=NULL,-1);
@@ -909,7 +939,7 @@ static gint
 delete_all (GnomePilotConduitStandardAbs *conduit,
 	    gpointer data)
 {
-	g_print ("entering delete_all\n");
+	LOG ("entering delete_all");
 
         return -1;
 }
@@ -924,15 +954,12 @@ transmit (GnomePilotConduitStandardAbs *conduit,
 	int daycount;
 	int x,y;
 	
-	g_print("entering transmit\n");
+	LOG ("entering transmit");
 
 	g_return_val_if_fail(local!=NULL,-1);
 	g_return_val_if_fail(remote!=NULL,-1);
 	g_assert(local->ical!=NULL);
 
-	*remote = NULL;
-
-	g_print ("entering transmit\n");
 	p = g_new0(PilotRecord,1);
 
 	p->ID = local->local.ID;

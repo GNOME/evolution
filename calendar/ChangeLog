@@ -1,3 +1,18 @@
+1999-10-07  Eskil Olsen   <deity@eskil.dk>
+
+	* calendar.c (calendar_object_changed): moved the pilot_status =
+	MOD up, so even a CHANGE_SUMMARY will set the modified flag.
+
+	* calendar-conduit.c: more _free calls, vamped the noise on output.
+
+1999-10-06  Eskil Olsen   <deity@eskil.dk>
+	
+	* *conduit*[ch]: checks return values from gpilotd_init/connect.
+	
+	* calender.c (vcalendar_create_from_calendar): removed a set
+ 	of cleanVObject cleanStrTbl, since the freed memory that the
+	function returned.
+
 1999-09-27  Timur Bakeyev  <mc@bat.ru>
 
 	* timeutil.c (time_from_isodate): Use tm.gmtoff or timezone to get

@@ -505,16 +505,16 @@ void
 calendar_object_changed (Calendar *cal, iCalObject *obj, int flags)
 {
 	obj->last_mod = time (NULL);
-	
+	obj->pilot_status = ICAL_PILOT_SYNC_MOD;
+
 	if (!(flags & CHANGE_DATES))
 		return;
 	
 	/* Remove any alarms on the alarm list for this object */
 	while (alarm_kill (obj))
 		;
-	ical_object_try_alarms (obj);
 
-	obj->pilot_status = ICAL_PILOT_SYNC_MOD;
+	ical_object_try_alarms (obj);
 }
 
 static void
