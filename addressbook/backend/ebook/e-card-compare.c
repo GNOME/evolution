@@ -424,7 +424,7 @@ compare_email_addresses (const gchar *addr1, const gchar *addr2)
 		return E_CARD_MATCH_NOT_APPLICABLE;
 
 	if (match_email_username (addr1, addr2)) 
-		return match_email_hostname (addr1, addr2) ? E_CARD_MATCH_EXACT : E_CARD_MATCH_PARTIAL;
+		return match_email_hostname (addr1, addr2) ? E_CARD_MATCH_EXACT : E_CARD_MATCH_VAGUE;
 
 	return E_CARD_MATCH_NONE;
 }

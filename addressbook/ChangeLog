@@ -1,5 +1,11 @@
 2002-01-18  Christopher James Lahey  <clahey@ximian.com>
 
+	* backend/ebook/e-card-compare.c: Made username match with no
+	domain match be vague instead of partial.  Fixes Ximian bug
+	#13612.
+
+2002-01-18  Christopher James Lahey  <clahey@ximian.com>
+
 	* gui/component/addressbook.c (view_contact_cb): New verb to open
 	a bunch of cards.
 
