@@ -132,7 +132,7 @@ vtrash_move_messages_to (CamelFolder *source, GPtrArray *uids, CamelFolder *dest
 		
 		if (dest == mi->folder) {
 			/* Just undelete the original message */
-			CF_CLASS (dest)->set_message_flags (dest, uids->pdata[i], CAMEL_MESSAGE_DELETED, 0);
+			camel_folder_set_message_flags (source, uids->pdata[i], CAMEL_MESSAGE_DELETED, 0);
 		} else {
 			/* This means that the user is trying to move the message
 			   from the vTrash to a folder other than the original. */
