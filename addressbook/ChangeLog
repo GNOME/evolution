@@ -1,3 +1,8 @@
+2003-04-29  Gilbert Fang  <gilbert.fang@sun.com>
+
+	* tools/evolution-addressbook-export-list-cards.c
+	(set_pre_defined_field): remove duplicate HOME_COUNTRY field add.
+
 2003-04-28  Chris Toshok  <toshok@ximian.com>
 
 	[ fixes bug #41910 ] 

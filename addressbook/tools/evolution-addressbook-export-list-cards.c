@@ -764,8 +764,6 @@ set_pre_defined_field (GSList ** pre_defined_fields)
 	*pre_defined_fields = g_slist_append (*pre_defined_fields, GINT_TO_POINTER (E_CARD_SIMPLE_FIELD_CSV_ORG));
 	*pre_defined_fields = g_slist_append (*pre_defined_fields, GINT_TO_POINTER (E_CARD_SIMPLE_FIELD_CSV_URL));
 	*pre_defined_fields = g_slist_append (*pre_defined_fields, GINT_TO_POINTER (E_CARD_SIMPLE_FIELD_CSV_CALURI));
-	*pre_defined_fields =
-		g_slist_append (*pre_defined_fields, GINT_TO_POINTER (E_CARD_SIMPLE_FIELD_CSV_ADDRESS_HOME_COUNTRY));
 	*pre_defined_fields = g_slist_append (*pre_defined_fields, GINT_TO_POINTER (E_CARD_SIMPLE_FIELD_CSV_BIRTH_DATE_YEAR));
 	*pre_defined_fields = g_slist_append (*pre_defined_fields, GINT_TO_POINTER (E_CARD_SIMPLE_FIELD_CSV_BIRTH_DATE_MONTH));
 	*pre_defined_fields = g_slist_append (*pre_defined_fields, GINT_TO_POINTER (E_CARD_SIMPLE_FIELD_CSV_BIRTH_DATE_DAY));
