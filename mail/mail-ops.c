@@ -31,6 +31,7 @@
 #include "e-util/e-setup.h"
 #include "filter/filter-editor.h"
 #include "filter/filter-driver.h"
+#include "widgets/e-table/e-table.h"
 
 /* FIXME: is there another way to do this? */
 #include "Evolution.h"
@@ -444,7 +445,8 @@ void
 delete_msg (GtkWidget *button, gpointer user_data)
 {
 	FolderBrowser *fb = user_data;
-	
+	int row;
+
 	if (fb->mail_display->current_message) {
 		guint32 flags;
 		
@@ -454,6 +456,13 @@ delete_msg (GtkWidget *button, gpointer user_data)
 		camel_mime_message_set_flags(fb->mail_display->current_message, CAMEL_MESSAGE_DELETED, ~flags);
 		printf("Message %s set to %s\n", fb->mail_display->current_message->message_uid,
 		       flags&CAMEL_MESSAGE_DELETED ? "UNDELETED" : "DELETED");
+
+
+		/* Move the cursor down a row... FIXME: should skip other
+		 * deleted messages.
+		 */
+		row = e_table_get_selected_view_row (E_TABLE (fb->message_list->etable));
+		e_table_select_row (E_TABLE (fb->message_list->etable), row + 1);
 	}
 }
 

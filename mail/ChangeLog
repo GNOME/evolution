@@ -1,5 +1,8 @@
 2000-06-01  Dan Winship  <danw@helixcode.com>
 
+	* mail-ops.c (delete_msg): Add a quick hack to move the selection
+	down a row when you delete a message.
+
 	* mail-format.c (handle_message_rfc822): use <blockquote> rather
 	than <center><table border=1 width=95%> to frame the embedded
 	message. If <pre> text in the subtable won't fit in the 95% width,
