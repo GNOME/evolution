@@ -93,6 +93,9 @@ static void unsubscribe_folder (CamelStore *store, const char *folder_name,
 static void imap_keepalive (CamelRemoteStore *store);
 
 
+static void get_folders_online (CamelImapStore *imap_store, const char *pattern,
+				GPtrArray *folders, gboolean lsub, CamelException *ex);
+
 static void
 camel_imap_store_class_init (CamelImapStoreClass *camel_imap_store_class)
 {
@@ -1112,6 +1115,7 @@ create_folder (CamelStore *store, const char *parent_name,
 	
 	if (response) {
 		CamelFolderInfo *parent;
+		GPtrArray *folders;
 		
 		camel_imap_response_free (imap_store, response);
 		
@@ -1120,22 +1124,31 @@ create_folder (CamelStore *store, const char *parent_name,
 		pathnames = imap_parse_folder_name (imap_store, folder_name);
 		full_name = imap_concat (imap_store, parent_name, pathnames[0]);
 		g_free (pathnames[0]);
-		parent = root = get_folder_info_online (store, full_name, 0, ex);
+		
+		folders = g_ptr_array_new ();
+		get_folders_online (imap_store, full_name, folders, FALSE, ex);
+		parent = root = folders->pdata[0];
 		g_free (full_name);
+		
 		for (i = 1; parent && pathnames[i]; i++) {
 			full_name = imap_concat (imap_store, parent_name, pathnames[i]);
 			g_free (pathnames[i]);
-			fi = get_folder_info_online (store, full_name, 0, ex);
+			
+			get_folders_online (imap_store, full_name, folders, FALSE, ex);
 			g_free (full_name);
 			
-			if (!fi)
+			if (folders->len != i + 1)
 				break;
+			
+			fi = folders->pdata[i];
 			
 			fi->parent = parent;
 			parent->child = fi;
 			parent = fi;
 		}
+		
 		g_free (pathnames);
+		g_ptr_array_free (folders, TRUE);
 	} else
 		root = NULL;
 	
@@ -1285,11 +1298,13 @@ get_folder_info_online (CamelStore *store, const char *top,
 	get_folders_online (imap_store, name, folders, FALSE, ex);
 	if (camel_exception_is_set (ex))
 		goto lose;
+	
 	if (folders->len) {
 		const char *noselect;
 		CamelURL *url;
 		
 		fi = folders->pdata[0];
+		
 		url = camel_url_new (fi->url, NULL);
 		noselect = url ? camel_url_get_param (url, "noselect") : NULL;
 		if (noselect && !g_strcasecmp (noselect, "yes") && name[0] == '\0') {

@@ -3,6 +3,8 @@
 	* providers/imap/camel-imap-store.c (delete_folder): Don't process
 	the ImapResponse data, we don't want to block forever on data we
 	don't care about...
+	(create_folder): Use get_folders_online() instead of
+	get_folder_info_online().
 
 	* camel-folder.c: Reverted previous changes.
 
