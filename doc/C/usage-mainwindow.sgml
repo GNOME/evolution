@@ -222,6 +222,7 @@
 	    <para>
 	     <guilabel>My Evolution</guilabel>, a quick summary to help you do
 	     your tasks.
+           </para>
 	 </listitem>
 	 <listitem>
 	    <para>
@@ -309,7 +310,8 @@
 	you want to try to separate your home folders from your work
 	folders. 
       </para>
-    </sect2>
+
+    
 
        <note>
 	  <title>Folders Have Limits</title>
@@ -342,6 +344,9 @@
       You can also rearrange folders and messages with by dragging and
       dropping them.
     </para>
+
+    
+
 <!--
     <tip>
      <title>Context-Sensitive Help</title>
@@ -360,6 +365,7 @@
       is displayed in bold text, along with the amount of new messages in
       that folder inside of paranthesis.
     </para>
+</sect2>
   </sect1>
   <sect1 id="usage-mainwindow-menubar">
     <title>The Menu Bar</title>
