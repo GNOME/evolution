@@ -47,6 +47,7 @@ static void rename_folder(CamelStore *store, const char *old_name, const char *n
 static char *get_folder_name(CamelStore * store, const char *folder_name, CamelException * ex);
 static CamelFolderInfo *get_folder_info (CamelStore *store, const char *top,
 					 gboolean fast, gboolean recursive,
+					 gboolean subscribed_only,
 					 CamelException *ex);
 
 static void camel_mh_store_class_init(CamelObjectClass * camel_mh_store_class)
@@ -217,6 +218,7 @@ static char *get_name(CamelService * service, gboolean brief)
 static CamelFolderInfo *
 get_folder_info (CamelStore *store, const char *top,
 		 gboolean fast, gboolean recursive,
+		 gboolean subscribed_only,
 		 CamelException *ex)
 {
 	/* FIXME: This is broken, but it corresponds to what was
