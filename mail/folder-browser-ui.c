@@ -170,7 +170,6 @@ static EPixmap global_pixcache [] = {
 	E_PIXMAP ("/commands/ToolsSettings", "configure_16_mail.xpm"),
 	
 	E_PIXMAP ("/Toolbar/MailGetSend", "buttons/send-24-receive.png"),
-	E_PIXMAP ("/Toolbar/MailCompose", "buttons/compose-message.png"),
 
 	E_PIXMAP_END
 };

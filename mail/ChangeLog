@@ -1,3 +1,8 @@
+2002-03-05  Dan Winship  <danw@ximian.com>
+
+	* folder-browser-ui.c: Don't try to set pixmap for
+	/Toolbar/MailCompose, since it doesn't exist any more.
+
 2002-03-05  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-account-gui.c (save_service): "use_ssl" can now be 3
