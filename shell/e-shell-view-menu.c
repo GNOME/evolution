@@ -69,6 +69,58 @@ command_run_bugbuddy (GtkWidget *menuitem, gpointer data)
         }
 }
 
+static void
+zero_pointer(GtkObject *object, void **pointer)
+{
+	*pointer = NULL;
+}
+
+static void
+command_about_box (GtkWidget *menuitem, gpointer data)
+{
+	static GtkWidget *about_box = NULL;
+
+	if (about_box)
+		gdk_window_raise(GTK_WIDGET(about_box)->window);
+	else {
+		const gchar *authors[] = {
+			"Seth Alves",
+			"Anders Carlsson",
+			"Damon Chaplin",
+			"Clifford R. Conover",
+			"Miguel de Icaza",
+			"Arturo Espinoza",
+			"Larry Ewing",
+			"Bertrand Guiheneuf",
+			"Tuomas Kuosmanen",
+			"Christopher J. Lahey",
+			"Matthew Loper",
+			"Federico Mena",
+			"Eskil Heyn Olsen",
+			"Nat Friedman",
+			"Ettore Perazzoli",
+			"Russell Steinthal",
+			"Peter Teichman",
+			"Chris Toshok",
+			"Radek Doulik",
+			"Dan Winship",
+			"Michael Zucchi",
+			NULL};
+
+		about_box = gnome_about_new(_("Evolution"),
+					    VERSION,
+					    _("Copyright 1999, 2000 Helix Code, Inc."),
+					    authors,
+					    _("Evolution is a suite of groupware applications\n"
+					      "for mail, calendaring, and contact management\n"
+					      "within the GNOME desktop environment."),
+					    NULL);
+		gtk_signal_connect(GTK_OBJECT(about_box), "destroy",
+				   GTK_SIGNAL_FUNC(zero_pointer), &about_box);
+		gtk_widget_show(about_box);
+	}
+}
+
 
 
 /* Unimplemented commands.  */
@@ -206,6 +258,7 @@ static GnomeUIInfo menu_actions [] = {
 };
 
 static GnomeUIInfo menu_help [] = {
+	GNOMEUIINFO_MENU_ABOUT_ITEM(command_about_box, NULL),
 	{ GNOME_APP_UI_ITEM, N_("_Submit bug"),
 	  N_("Submit bug-report via bug-buddy"), command_run_bugbuddy, NULL,
 	  NULL, 0, 0, 'n', GDK_CONTROL_MASK | GDK_SHIFT_MASK },
