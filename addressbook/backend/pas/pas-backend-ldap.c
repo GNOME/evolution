@@ -2058,7 +2058,13 @@ func_beginswith(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *da
 		   the right thing if the server supports them or not,
 		   and for entries that have no fileAs attribute. */
 		if (ldap_attr) {
-			if (!strcmp (ldap_attr, "fileAs")) {
+			if (!strcmp (propname, "full_name")) {
+				ldap_data->list = g_list_prepend(ldap_data->list,
+							       g_strdup_printf(
+								       "(|(cn=%s*)(sn=%s*))",
+								       str, str));
+			}
+			else if (!strcmp (ldap_attr, "fileAs")) {
 				ldap_data->list = g_list_prepend(ldap_data->list,
 								 g_strdup_printf(
 								 "(|(fileAs=%s*)(&(!(fileAs=*))(sn=%s*)))",

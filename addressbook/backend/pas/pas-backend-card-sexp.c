@@ -53,6 +53,23 @@ compare_phone (ECardSimple *card, const char *str,
 }
 
 static gboolean
+compare_name (ECardSimple *card, const char *str,
+	      char *(*compare)(const char*, const char*))
+{
+	const char *name;
+
+	name = e_card_simple_get_const (card, E_CARD_SIMPLE_FIELD_FULL_NAME);
+	if (name && compare (name, str))
+		return TRUE;
+
+	name = e_card_simple_get_const (card, E_CARD_SIMPLE_FIELD_FAMILY_NAME);
+	if (name && compare (name, str))
+		return TRUE;
+
+	return FALSE;
+}
+
+static gboolean
 compare_address (ECardSimple *card, const char *str,
 		 char *(*compare)(const char*, const char*))
 {
@@ -109,7 +126,7 @@ static struct prop_info {
 
 	/* query prop,  ecard prop,   type,              list compare function */
 	NORMAL_PROP ( E_CARD_SIMPLE_FIELD_FILE_AS, "file_as", "file_as" ),
-	NORMAL_PROP ( E_CARD_SIMPLE_FIELD_FULL_NAME, "full_name",  "full_name" ),
+	LIST_PROP ( "full_name", "full_name", compare_name), /* not really a list, but we need to compare both full and surname */
 	NORMAL_PROP ( E_CARD_SIMPLE_FIELD_URL, "url", "url" ),
 	NORMAL_PROP ( E_CARD_SIMPLE_FIELD_MAILER, "mailer", "mailer"),
 	NORMAL_PROP ( E_CARD_SIMPLE_FIELD_ORG, "org", "org"),
@@ -231,7 +248,7 @@ static char *
 endswith_helper (const char *s1, const char *s2)
 {
 	char *p;
-	if ((p = strstr(s1, s2))
+	if ((p = (char*)e_utf8_strstrcase(s1, s2))
 	    && (strlen(p) == strlen(s2)))
 		return p;
 	else
@@ -250,7 +267,7 @@ static char *
 beginswith_helper (const char *s1, const char *s2)
 {
 	char *p;
-	if ((p = strstr(s1, s2))
+	if ((p = (char*)e_utf8_strstrcase(s1, s2))
 	    && (p == s1))
 		return p;
 	else

@@ -811,18 +811,18 @@ static ESearchBarItem addressbook_search_menu_items[] = {
 };
 
 enum {
-	ESB_ANY,
 	ESB_FULL_NAME,
 	ESB_EMAIL,
 	ESB_CATEGORY,
+	ESB_ANY,
 	ESB_ADVANCED
 };
 
 static ESearchBarItem addressbook_search_option_items[] = {
-	{ N_("Any field contains"), ESB_ANY, NULL },
-	{ N_("Name contains"), ESB_FULL_NAME, NULL },
-	{ N_("Email contains"), ESB_EMAIL, NULL },
+	{ N_("Name begins with"), ESB_FULL_NAME, NULL },
+	{ N_("Email is"), ESB_EMAIL, NULL },
 	{ N_("Category is"), ESB_CATEGORY, NULL }, /* We attach subitems below */
+	{ N_("Any field contains"), ESB_ANY, NULL },
 	{ N_("Advanced..."), ESB_ADVANCED, NULL },
 	{ NULL, -1, NULL }
 };
@@ -875,11 +875,11 @@ addressbook_search_activated (ESearchBar *esb, AddressbookView *view)
 								s->str);
 				break;
 			case ESB_FULL_NAME:
-				search_query = g_strdup_printf ("(contains \"full_name\" %s)",
+				search_query = g_strdup_printf ("(beginswith \"full_name\" %s)",
 								s->str);
 				break;
 			case ESB_EMAIL:
-				search_query = g_strdup_printf ("(contains \"email\" %s)",
+				search_query = g_strdup_printf ("(is \"email\" %s)",
 								s->str);
 				break;
 			case ESB_CATEGORY:
