@@ -1,3 +1,15 @@
+2002-01-09  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (class_init): Fixed the setup of the
+	"save-draft" signal so that it would actually work.
+
+2002-01-08  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (is_special_header): Greatly simplified. No
+	need to have a list of headers to not accept - we can just refuse
+	all headers that are not X-* headers (other than X-Evolution
+	headers).
+
 2002-01-07  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (e_msg_composer_get_message_draft): Set the

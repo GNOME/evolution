@@ -2181,7 +2181,7 @@ class_init (EMsgComposerClass *klass)
 				object_class->type,
 				GTK_SIGNAL_OFFSET (EMsgComposerClass, save_draft),
 				marshal_NONE__NONE_INT,
-				GTK_TYPE_NONE, 1);
+				GTK_TYPE_NONE, 1, GTK_TYPE_INT);
 	
 	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 }
@@ -2509,47 +2509,20 @@ e_msg_composer_new (void)
 	return new;
 }
 
-
-/* FIXME: are there any other headers?? */
-/* This is a list of headers that we DO NOT want to append to the
- * extra_hdr_* arrays.
- *
- * Note: a '*' char can be used for a simple wilcard match.
- * is_special_header() will use g_strNcasecmp() with the first '*'
- * char being the end of the match string. If no '*' is present, then
- * it will be assumed that the header must be an exact match.
- */
-static char *special_headers[] = {
-	"Subject",
-	"Date",
-	"From",
-	"To",
-	"Cc",
-	"Bcc",
-	"Received",
-	"Message-Id",
-	"X-Evolution*",
-	"Content-*",
-	"MIME-Version",
-	NULL
-};
-
 static gboolean
 is_special_header (const char *hdr_name)
 {
-	int i;
+	/* Note: a header is a "special header" if it has any meaning:
+	   1. it's not a X-* header or
+	   2. it's an X-Evolution* header
+	*/
+	if (g_strncasecmp (hdr_name, "X-", 2))
+		return TRUE;
 	
-	for (i = 0; special_headers[i]; i++) {
-		char *p;
-		
-		if ((p = strchr (special_headers[i], '*'))) {
-			if (!g_strncasecmp (special_headers[i], hdr_name, p - special_headers[i]))
-				return TRUE;
-		} else {
-			if (!g_strcasecmp (special_headers[i], hdr_name))
-				return TRUE;
-		}
-	}
+	if (!g_strncasecmp (hdr_name, "X-Evolution", 11))
+		return TRUE;
+	
+	/* we can keep all other X-* headers */
 	
 	return FALSE;
 }
