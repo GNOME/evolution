@@ -1,3 +1,10 @@
+2001-10-12    <NotZed@Ximian.com>
+
+	* ibex_block.c (ibex_use): Added environmental variable
+	IBEX_OPEN_THRESHOLD which limits the maximum number of open ibex's
+	that can be active at any time.  The smallest this can be set to
+	is the default of 5.
+
 2001-09-20    <NotZed@Ximian.com>
 
 	* ibex_block.c: Turn off the o(x) debug set, & include alloca.h &

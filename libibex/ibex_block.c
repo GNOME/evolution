@@ -10,6 +10,7 @@
 #include <ctype.h>
 #include <string.h>
 #include <errno.h>
+#include <stdlib.h>
 
 #ifdef HAVE_ALLOCA_H
 #include <alloca.h>
@@ -24,6 +25,8 @@ static void ibex_reset(ibex *ib);
 static int close_backend(ibex *ib);
 
 static struct _list ibex_list = { (struct _listnode *)&ibex_list.tail, 0, (struct _listnode *)&ibex_list.head };
+static int ibex_open_init = 0;
+static int ibex_open_threshold = IBEX_OPEN_THRESHOLD;
 
 #ifdef ENABLE_THREADS
 #include <pthread.h>
@@ -70,9 +73,22 @@ static void ibex_use(ibex *ib)
 
 	IBEX_UNLOCK(ib);
 
+	/* check env variable override for open threshold */
+	if (!ibex_open_init) {
+		char *limit;
+
+		ibex_open_init = TRUE;
+		limit = getenv("IBEX_OPEN_THRESHOLD");
+		if (limit) {
+			ibex_open_threshold = atoi(limit);
+			if (ibex_open_threshold < IBEX_OPEN_THRESHOLD)
+				ibex_open_threshold = IBEX_OPEN_THRESHOLD;
+		}
+	}
+
 	/* check for other ibex's we can close now to not over-use fd's.
 	   we can't do this first for locking issues */
-	if (ibex_opened > IBEX_OPEN_THRESHOLD) {
+	if (ibex_opened > ibex_open_threshold) {
 		wb = (ibex *)ibex_list.head;
 		wn = wb->next;
 		while (wn) {
