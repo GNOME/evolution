@@ -42,6 +42,8 @@
 
 #define PARANOID(x) x
 
+/* Implements rfc2831 */
+
 CamelServiceAuthType camel_sasl_digest_md5_authtype = {
 	N_("DIGEST-MD5"),
 
@@ -743,18 +745,17 @@ digest_response (struct _DigestResponse *resp)
 	g_byte_array_append (buffer, "\",nc=", 5);
 	g_byte_array_append (buffer, resp->nc, 8);
 	
-	g_byte_array_append (buffer, ",qop=\"", 6);
+	g_byte_array_append (buffer, ",qop=", 5);
 	str = qop_to_string (resp->qop);
 	g_byte_array_append (buffer, str, strlen (str));
 	
-	g_byte_array_append (buffer, "\",digest-uri=\"", 14);
+	g_byte_array_append (buffer, ",digest-uri=\"", 13);
 	buf = digest_uri_to_string (resp->uri);
 	g_byte_array_append (buffer, buf, strlen (buf));
 	g_free (buf);
 	
-	g_byte_array_append (buffer, "\",response=\"", 12);
+	g_byte_array_append (buffer, "\",response=", 11);
 	g_byte_array_append (buffer, resp->resp, 32);
-	g_byte_array_append (buffer, "\"", 1);
 	
 	if (resp->maxbuf > 0) {
 		g_byte_array_append (buffer, ",maxbuf=", 8);
@@ -764,9 +765,8 @@ digest_response (struct _DigestResponse *resp)
 	}
 	
 	if (resp->charset) {
-		g_byte_array_append (buffer, ",charset=\"", 10);
+		g_byte_array_append (buffer, ",charset=", 9);
 		g_byte_array_append (buffer, resp->charset, strlen (resp->charset));
-		g_byte_array_append (buffer, "\"", 1);
 	}
 	
 	if (resp->cipher != CIPHER_INVALID) {
