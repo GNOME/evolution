@@ -3082,8 +3082,11 @@ set_editor_signature (EMsgComposer *composer)
 {
 	EAccountIdentity *id;
 	GSList *signatures;
+
+	g_return_if_fail(E_MSG_COMPOSER_HDRS (composer->hdrs)->account != NULL);
 	
 	/* printf ("set_editor_signature\n"); */
+
 	id = E_MSG_COMPOSER_HDRS (composer->hdrs)->account->id;
 	
 	signatures = mail_config_get_signature_list ();

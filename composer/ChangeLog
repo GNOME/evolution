@@ -1,3 +1,8 @@
+2004-01-08  Not Zed  <NotZed@Ximian.com>
+
+	* e-msg-composer.c (set_editor_signature): add an assertion for no
+	account set.  Discovered from bug #50786.
+
 2004-01-07  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (create_composer): Remove the 6-pixel border
