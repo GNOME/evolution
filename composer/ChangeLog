@@ -1,3 +1,18 @@
+2001-10-29  Larry Ewing  <lewing@ximian.com>
+
+	* e-msg-composer.h: add GList to hold the current images.
+
+	* listener.c (resolve_image_url): keep track of the images that
+	the editor is currently uses in current_images as well as storing
+	the images in the hash.
+
+	* e-msg-composer.c (clear_current_images): clear the list of
+	images actually in the message.
+	(add_inlined_images): use the current image list rather than the
+	hash tables.
+	(build_message): clear the current image list when appropriate.
+	(init): initialize current_images.
+	
 2001-10-24  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (add_attachments_from_multipart): New function

@@ -71,6 +71,7 @@ struct _EMsgComposer {
 	GNOME_GtkHTML_Editor_Engine  editor_engine;
 	BonoboObject            *editor_listener;
 	GHashTable              *inline_images, *inline_images_by_url;
+	GList                   *current_images;
 
 	Bonobo_ConfigDatabase    config_db;
 	

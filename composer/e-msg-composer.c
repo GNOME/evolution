@@ -245,6 +245,13 @@ clear_inline_images (gpointer key, gpointer value, gpointer user_data)
 	return TRUE;
 }
 
+static void
+clear_current_images (EMsgComposer *composer)
+{
+	g_list_free (composer->current_images);
+	composer->current_images = NULL;
+}
+
 static gboolean
 clear_url (gpointer key, gpointer value, gpointer user_data)
 {
@@ -261,15 +268,16 @@ e_msg_composer_clear_inlined_table (EMsgComposer *composer)
 }
 
 static void
-add_inlined_image (gpointer key, gpointer part, gpointer multipart)
-{
-	camel_multipart_add_part (multipart, part);
-}
-
-static void
 add_inlined_images (EMsgComposer *composer, CamelMultipart *multipart)
 {
-	g_hash_table_foreach (composer->inline_images, add_inlined_image, multipart);
+	GList *d = composer->current_images;
+
+	while (d) {
+		CamelMimePart *part = d->data;
+
+		camel_multipart_add_part (multipart, part);		
+		d = d->next;
+	}
 }
 
 /* This functions builds a CamelMimeMessage for the message that the user has
@@ -325,7 +333,9 @@ build_message (EMsgComposer *composer)
 	header_content_type_unref (type);
 	
 	if (composer->send_html) {
-		data = get_text (composer->persist_stream_interface, "text/html");
+		clear_current_images (composer);
+
+		data = get_text (composer->persist_stream_interface, "text/html");		
 		if (!data) {
 			/* The component has probably died */
 			camel_object_unref (CAMEL_OBJECT (new));
@@ -361,7 +371,7 @@ build_message (EMsgComposer *composer)
 		 * multipart/related containing the
 		 * multipart/alternative and the images.
 		 */
-		if (g_hash_table_size (composer->inline_images)) {
+		if (composer->current_images) {
 			CamelMultipart *html_with_images;
 			
 			html_with_images = camel_multipart_new ();
@@ -377,6 +387,8 @@ build_message (EMsgComposer *composer)
 			camel_object_unref (CAMEL_OBJECT (part));
 			
 			add_inlined_images (composer, html_with_images);
+			clear_current_images (composer);
+
 			current = CAMEL_DATA_WRAPPER (html_with_images);
 		} else
 			current = CAMEL_DATA_WRAPPER (body);
@@ -2136,7 +2148,8 @@ init (EMsgComposer *composer)
 	composer->editor_engine            = CORBA_OBJECT_NIL;
 	composer->inline_images            = g_hash_table_new (g_str_hash, g_str_equal);
 	composer->inline_images_by_url     = g_hash_table_new (g_str_hash, g_str_equal);
-	
+	composer->current_images           = NULL;
+
 	composer->attachment_bar_visible   = FALSE;
 	composer->send_html                = FALSE;
 	composer->pgp_sign                 = FALSE;

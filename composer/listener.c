@@ -60,8 +60,13 @@ resolve_image_url (EditorListener *l, gchar *url)
 		part = e_msg_composer_add_inline_image_from_file (l->composer,
 								  url + 5);
 	}
+	if (!part && !strncmp (url, "cid:", 4)) {
+		part = g_hash_table_lookup (l->composer->inline_images, url);
+	}
 	if (!part)
 		return NULL;
+
+	l->composer->current_images  = g_list_prepend (l->composer->current_images, part);
 
 	cid = camel_mime_part_get_content_id (part);
 	if (!cid)
