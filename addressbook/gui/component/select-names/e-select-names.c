@@ -408,20 +408,6 @@ new_folder      (EvolutionStorageListener *storage_listener,
 }
 
 static void
-update_folder   (EvolutionStorageListener *storage_listener,
-		 const char *path,
-		 const char *display_name,
-		 ESelectNames *e_select_names)
-{
-	ESelectNamesFolder *e_folder = g_hash_table_lookup(e_select_names->folders, path);
-	if (e_folder) {
-		g_free(e_folder->display_name);
-		e_folder->display_name = g_strdup(e_folder->display_name);
-		update_option_menu(e_select_names);
-	}
-}
-
-static void
 removed_folder  (EvolutionStorageListener *storage_listener,
 		 const char *path,
 		 ESelectNames *e_select_names)
@@ -488,8 +474,6 @@ hookup_listener (ESelectNames *e_select_names,
 
 	gtk_signal_connect(GTK_OBJECT(listener), "new_folder",
 			   GTK_SIGNAL_FUNC(new_folder), e_select_names);
-	gtk_signal_connect(GTK_OBJECT(listener), "update_folder",
-			   GTK_SIGNAL_FUNC(update_folder), e_select_names);
 	gtk_signal_connect(GTK_OBJECT(listener), "removed_folder",
 			   GTK_SIGNAL_FUNC(removed_folder), e_select_names);
 
