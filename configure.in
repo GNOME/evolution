@@ -632,7 +632,7 @@ dnl If the user specifies --with-foo or --enable-nss=static, then we have to do 
 		check_manually="no"
 	fi
 	
-	if test "x${check_manually}" = "xno"; then
+	if test "x${check_manually}" = "xno" && `$PKG_CONFIG --exists mozilla`; then
 		PKG_CHECK_MODULES(NSS, mozilla-nss, have_nss="yes")
 		if test "x${have_nss}" = "xyes"; then
 			msg_ssl="yes (Mozilla NSS)"
