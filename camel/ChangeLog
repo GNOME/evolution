@@ -1,3 +1,10 @@
+2001-08-07  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-filter-search.c (address_matches_exactly): New function to
+	do danw's address "is" comparison (as specified in bug #5886.
+	(check_header): Special-case address-type headers when we are
+	doing an exact match to use the address_matches_exactly function.
+
 2001-08-06  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/pop3/camel-pop3-folder.c (pop3_get_message_stream):

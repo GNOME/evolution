@@ -104,8 +104,44 @@ static struct {
 	{ "get-size",           (ESExpFunc *) get_size,           0 },
 };
 
+static gboolean
+address_matches_exactly (const char *header, const char *string)
+{
+	CamelInternetAddress *cia;
+	GCompareFunc compare;
+	const char *p;
+	
+	for (p = string; *p; p++)
+		if (isupper ((unsigned) *p))
+			break;
+	
+	if (*p)
+		compare = (GCompareFunc) strcmp;
+	else
+		compare = (GCompareFunc) g_strcasecmp;
+	
+	/* the simple case? */
+	if (!compare (header, string))
+		return TRUE;
+	
+	cia = camel_internet_address_new ();
+	if (camel_address_decode (CAMEL_ADDRESS (cia), header) == 1) {
+		const char *name, *addr;
+		
+		camel_internet_address_get (cia, 0, &name, &addr);
+		if (!compare (name, string))
+			return TRUE;
+		
+		if (!compare (addr, string))
+			return TRUE;
+	}
+	camel_object_unref (CAMEL_OBJECT (cia));
+	
+	return FALSE;
+}
+
 static ESExpResult *
-check_header(struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms, camel_search_match_t how)
+check_header (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms, camel_search_match_t how)
 {
 	gboolean matched = FALSE;
 	ESExpResult *r;
@@ -114,24 +150,29 @@ check_header(struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessa
 	if (argc > 1 && argv[0]->type == ESEXP_RES_STRING) {
 		char *name = argv[0]->value.string;
 		const char *header;
-
-		if (strcasecmp(name, "x-camel-mlist") == 0)
-			header = camel_message_info_mlist(fms->info);
+		
+		if (g_strcasecmp (name, "x-camel-mlist") == 0)
+			header = camel_message_info_mlist (fms->info);
 		else
 			header = camel_medium_get_header (CAMEL_MEDIUM (fms->message), argv[0]->value.string);
-
+		
 		if (header) {
-			for (i=1;i<argc && !matched;i++) {
-				if (argv[i]->type == ESEXP_RES_STRING
-				    && camel_search_header_match(header, argv[i]->value.string, how)) {
-					matched = TRUE;
+			for (i = 1; i < argc && !matched; i++) {
+				if (argv[i]->type == ESEXP_RES_STRING) {
+					if (how == CAMEL_SEARCH_MATCH_EXACT
+					    && (!g_strcasecmp (name, "To")
+						|| !g_strcasecmp (name, "Cc")
+						|| !g_strcasecmp (name, "From")))
+						matched = address_matches_exactly (header, argv[i]->value.string);
+					else
+						matched = camel_search_header_match (header, argv[i]->value.string, how);
 					break;
 				}
 			}
 		}
 	}
 	
-	r = e_sexp_result_new(f, ESEXP_RES_BOOL);
+	r = e_sexp_result_new (f, ESEXP_RES_BOOL);
 	r->value.bool = matched;
 	
 	return r;
@@ -140,32 +181,32 @@ check_header(struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessa
 static ESExpResult *
 header_contains (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms)
 {
-	return check_header(f, argc, argv, fms, CAMEL_SEARCH_MATCH_CONTAINS);
+	return check_header (f, argc, argv, fms, CAMEL_SEARCH_MATCH_CONTAINS);
 }
 
 
 static ESExpResult *
 header_matches (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms)
 {
-	return check_header(f, argc, argv, fms, CAMEL_SEARCH_MATCH_EXACT);
+	return check_header (f, argc, argv, fms, CAMEL_SEARCH_MATCH_EXACT);
 }
 
 static ESExpResult *
 header_starts_with (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms)
 {
-	return check_header(f, argc, argv, fms, CAMEL_SEARCH_MATCH_STARTS);
+	return check_header (f, argc, argv, fms, CAMEL_SEARCH_MATCH_STARTS);
 }
 
 static ESExpResult *
 header_ends_with (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms)
 {
-	return check_header(f, argc, argv, fms, CAMEL_SEARCH_MATCH_ENDS);
+	return check_header (f, argc, argv, fms, CAMEL_SEARCH_MATCH_ENDS);
 }
 
 static ESExpResult *
 header_soundex (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms)
 {
-	return check_header(f, argc, argv, fms, CAMEL_SEARCH_MATCH_SOUNDEX);
+	return check_header (f, argc, argv, fms, CAMEL_SEARCH_MATCH_SOUNDEX);
 }
 
 static ESExpResult *
@@ -174,13 +215,13 @@ header_exists (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMes
 	gboolean matched = FALSE;
 	ESExpResult *r;
 	int i;
-
-	for (i=0;i<argc && !matched;i++) {
+	
+	for (i = 0; i < argc && !matched; i++) {
 		if (argv[i]->type == ESEXP_RES_STRING)
 			matched = camel_medium_get_header (CAMEL_MEDIUM (fms->message), argv[i]->value.string) != NULL;
 	}
 	
-	r = e_sexp_result_new(f, ESEXP_RES_BOOL);
+	r = e_sexp_result_new (f, ESEXP_RES_BOOL);
 	r->value.bool = matched;
 	
 	return r;
@@ -189,16 +230,17 @@ header_exists (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMes
 static ESExpResult *
 header_regex (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms)
 {
-	ESExpResult *r = e_sexp_result_new(f, ESEXP_RES_BOOL);
+	ESExpResult *r = e_sexp_result_new (f, ESEXP_RES_BOOL);
 	regex_t pattern;
 	const char *contents;
-
-	if (argc>1
-	    && argv[0]->type == ESEXP_RES_STRING
+	
+	if (argc > 1 && argv[0]->type == ESEXP_RES_STRING
 	    && (contents = camel_medium_get_header (CAMEL_MEDIUM (fms->message), argv[0]->value.string))
-	    && camel_search_build_match_regex(&pattern, CAMEL_SEARCH_MATCH_REGEX|CAMEL_SEARCH_MATCH_ICASE, argc-1, argv+1, fms->ex) == 0) {
-		r->value.bool = regexec(&pattern, contents, 0, NULL, 0) == 0;
-		regfree(&pattern);
+	    && camel_search_build_match_regex (&pattern, CAMEL_SEARCH_MATCH_REGEX |
+					       CAMEL_SEARCH_MATCH_ICASE, argc-1, argv+1,
+					       fms->ex) == 0) {
+		r->value.bool = regexec (&pattern, contents, 0, NULL, 0) == 0;
+		regfree (&pattern);
 	} else
 		r->value.bool = FALSE;
 	
@@ -215,12 +257,12 @@ get_full_header (CamelMimeMessage *message)
 	
 	for (h = mp->headers; h; h = h->next) {
 		if (h->value != NULL) {
-			g_string_append(str, h->name);
-			if (isspace(h->value[0]))
-				g_string_append(str, ":");
+			g_string_append (str, h->name);
+			if (isspace (h->value[0]))
+				g_string_append (str, ":");
 			else
-				g_string_append(str, ": ");
-			g_string_append(str, h->value);
+				g_string_append (str, ": ");
+			g_string_append (str, h->value);
 		}
 	}
 	
@@ -233,15 +275,16 @@ get_full_header (CamelMimeMessage *message)
 static ESExpResult *
 header_full_regex (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms)
 {
-	ESExpResult *r = e_sexp_result_new(f, ESEXP_RES_BOOL);
+	ESExpResult *r = e_sexp_result_new (f, ESEXP_RES_BOOL);
 	regex_t pattern;
 	char *contents;
 	
-	if (camel_search_build_match_regex(&pattern, CAMEL_SEARCH_MATCH_REGEX|CAMEL_SEARCH_MATCH_ICASE, argc-1, argv+1, fms->ex) == 0) {
+	if (camel_search_build_match_regex (&pattern, CAMEL_SEARCH_MATCH_REGEX |
+					    CAMEL_SEARCH_MATCH_ICASE, argc-1, argv+1, fms->ex) == 0) {
 		contents = get_full_header (fms->message);
-		r->value.bool = regexec(&pattern, contents, 0, NULL, 0) == 0;
-		g_free(contents);
-		regfree(&pattern);
+		r->value.bool = regexec (&pattern, contents, 0, NULL, 0) == 0;
+		g_free (contents);
+		regfree (&pattern);
 	} else
 		r->value.bool = FALSE;
 	
@@ -266,12 +309,12 @@ match_all (struct _ESExp *f, int argc, struct _ESExpTerm **argv, FilterMessageSe
 static ESExpResult *
 body_contains (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms)
 {
-	ESExpResult *r = e_sexp_result_new(f, ESEXP_RES_BOOL);
+	ESExpResult *r = e_sexp_result_new (f, ESEXP_RES_BOOL);
 	regex_t pattern;
-
-	if (camel_search_build_match_regex(&pattern, CAMEL_SEARCH_MATCH_ICASE, argc, argv, fms->ex) == 0) {
-		r->value.bool = camel_search_message_body_contains((CamelDataWrapper *)fms->message, &pattern);
-		regfree(&pattern);
+	
+	if (camel_search_build_match_regex (&pattern, CAMEL_SEARCH_MATCH_ICASE, argc, argv, fms->ex) == 0) {
+		r->value.bool = camel_search_message_body_contains ((CamelDataWrapper *)fms->message, &pattern);
+		regfree (&pattern);
 	} else
 		r->value.bool = FALSE;
 	
@@ -283,10 +326,11 @@ body_regex (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessag
 {
 	ESExpResult *r = e_sexp_result_new(f, ESEXP_RES_BOOL);
 	regex_t pattern;
-
-	if (camel_search_build_match_regex(&pattern, CAMEL_SEARCH_MATCH_ICASE|CAMEL_SEARCH_MATCH_REGEX, argc, argv, fms->ex) == 0) {
-		r->value.bool = camel_search_message_body_contains((CamelDataWrapper *)fms->message, &pattern);
-		regfree(&pattern);
+	
+	if (camel_search_build_match_regex (&pattern, CAMEL_SEARCH_MATCH_ICASE |
+					    CAMEL_SEARCH_MATCH_REGEX, argc, argv, fms->ex) == 0) {
+		r->value.bool = camel_search_message_body_contains ((CamelDataWrapper *)fms->message, &pattern);
+		regfree (&pattern);
 	} else
 		r->value.bool = FALSE;
 	

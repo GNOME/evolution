@@ -63,58 +63,59 @@ camel_search_build_match_regex (regex_t *pattern, camel_search_flags_t type, int
 	int c, i, count=0, err;
 	char *word;
 	int flags;
-
+	
 	/* build a regex pattern we can use to match the words, we OR them together */
 	if (argc>1)
-		g_string_append_c(match, '(');
-	for (i=0;i<argc;i++) {
+		g_string_append_c (match, '(');
+	for (i = 0; i < argc; i++) {
 		if (argv[i]->type == ESEXP_RES_STRING) {
 			if (count > 0)
-				g_string_append_c(match, '|');
-
+				g_string_append_c (match, '|');
+			
 			word = argv[i]->value.string;
 			if (type & CAMEL_SEARCH_MATCH_REGEX) {
 				/* no need to escape because this should already be a valid regex */
-				g_string_append(match, word);
+				g_string_append (match, word);
 			} else {
 				/* escape any special chars (not sure if this list is complete) */
 				if (type & CAMEL_SEARCH_MATCH_START)
-					g_string_append_c(match, '^');
+					g_string_append_c (match, '^');
 				while ((c = *word++)) {
-					if (strchr("*\\.()[]^$+", c) != NULL) {
-						g_string_append_c(match, '\\');
+					if (strchr ("*\\.()[]^$+", c) != NULL) {
+						g_string_append_c (match, '\\');
 					}
-					g_string_append_c(match, c);
+					g_string_append_c (match, c);
 				}
 				if (type & CAMEL_SEARCH_MATCH_END)
-					g_string_append_c(match, '^');
+					g_string_append_c (match, '^');
 			}
 			count++;
 		} else {
 			g_warning("Invalid type passed to body-contains match function");
 		}
 	}
-	if (argc>1)
-		g_string_append_c(match, ')');
+	if (argc > 1)
+		g_string_append_c (match, ')');
 	flags = REG_EXTENDED|REG_NOSUB;
 	if (type & CAMEL_SEARCH_MATCH_ICASE)
 		flags |= REG_ICASE;
-	err = regcomp(pattern, match->str, flags);
+	err = regcomp (pattern, match->str, flags);
 	if (err != 0) {
 		/* regerror gets called twice to get the full error string 
 		   length to do proper posix error reporting */
-		int len = regerror(err, pattern, 0, 0);
-		char *buffer = g_malloc0(len + 1);
-
-		regerror(err, pattern, buffer, len);
-		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-				     _("Regular expression compilation failed: %s: %s"),
-				     match->str, buffer);
-
-		regfree(pattern);
+		int len = regerror (err, pattern, 0, 0);
+		char *buffer = g_malloc0 (len + 1);
+		
+		regerror (err, pattern, buffer, len);
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Regular expression compilation failed: %s: %s"),
+				      match->str, buffer);
+		
+		regfree (pattern);
 	}
 	d(printf("Built regex: '%s'\n", match->str));
-	g_string_free(match, TRUE);
+	g_string_free (match, TRUE);
+	
 	return err;
 }
 
@@ -158,36 +159,36 @@ soundexify (const gchar *sound, gchar code[5])
 }
 
 static gboolean
-header_soundex(const char *header, const char *match)
+header_soundex (const char *header, const char *match)
 {
 	char mcode[5], hcode[5];
 	const char *p;
 	char c;
 	GString *word;
 	int truth = FALSE;
-
-	soundexify(match, mcode);
-
+	
+	soundexify (match, mcode);
+	
 	/* split the header into words, and soundexify and compare each one */
 	/* FIXME: Should this convert to utf8, and split based on that, and what not?
 	   soundex only makes sense for us-ascii though ... */
-
+	
 	word = g_string_new("");
 	p = header;
 	do {
 		c = *p++;
-		if (c == 0 || isspace(c)) {
+		if (c == 0 || isspace (c)) {
 			if (word->len > 0) {
-				soundexify(word->str, hcode);
-				if (strcmp(hcode, mcode) == 0)
+				soundexify (word->str, hcode);
+				if (strcmp (hcode, mcode) == 0)
 					truth = TRUE;
 			}
-			g_string_truncate(word, 0);
-		} else if (isalpha(c))
-			g_string_append_c(word, c);
+			g_string_truncate (word, 0);
+		} else if (isalpha (c))
+			g_string_append_c (word, c);
 	} while (c && !truth);
-	g_string_free(word, TRUE);
-
+	g_string_free (word, TRUE);
+	
 	return truth;
 }
 
@@ -214,10 +215,10 @@ camel_ustrstrcase (const char *haystack, const char *needle)
 	
 	g_return_val_if_fail (haystack != NULL, NULL);
 	g_return_val_if_fail (needle != NULL, NULL);
-
-	if (strlen(needle) == 0)
+	
+	if (strlen (needle) == 0)
 		return haystack;
-	if (strlen(haystack) == 0)
+	if (strlen (haystack) == 0)
 		return NULL;
 	
 	puni = nuni = alloca (sizeof (gunichar) * strlen (needle));
@@ -342,7 +343,7 @@ camel_search_header_match (const char *value, const char *match, camel_search_ma
 {
 	const char *p;
 	int vlen, mlen;
-
+	
 	while (*value && isspace (*value))
 		value++;
 	
@@ -358,12 +359,12 @@ camel_search_header_match (const char *value, const char *match, camel_search_ma
 	   otherwise not */
 	p = match;
 	while (*p) {
-		if (isupper(*p)) {
-			switch(how) {
+		if (isupper (*p)) {
+			switch (how) {
 			case CAMEL_SEARCH_MATCH_EXACT:
-				return strcmp(value, match) == 0;
+				return strcmp (value, match) == 0;
 			case CAMEL_SEARCH_MATCH_CONTAINS:
-				return strstr(value, match) != NULL;
+				return strstr (value, match) != NULL;
 			case CAMEL_SEARCH_MATCH_STARTS:
 				return strncmp (value, match, mlen) == 0;
 			case CAMEL_SEARCH_MATCH_ENDS:
@@ -375,11 +376,12 @@ camel_search_header_match (const char *value, const char *match, camel_search_ma
 		}
 		p++;
 	}
-	switch(how) {
+	
+	switch (how) {
 	case CAMEL_SEARCH_MATCH_EXACT:
-		return camel_ustrcasecmp(value, match) == 0;
+		return camel_ustrcasecmp (value, match) == 0;
 	case CAMEL_SEARCH_MATCH_CONTAINS:
-		return camel_ustrstrcase(value, match) != NULL;
+		return camel_ustrstrcase (value, match) != NULL;
 	case CAMEL_SEARCH_MATCH_STARTS:
 		return camel_ustrncasecmp (value, match, mlen) == 0;
 	case CAMEL_SEARCH_MATCH_ENDS:
@@ -387,47 +389,48 @@ camel_search_header_match (const char *value, const char *match, camel_search_ma
 	default:
 		break;
 	}
-
+	
 	return FALSE;
 }
 
 /* performs a 'slow' content-based match */
 /* there is also an identical copy of this in camel-filter-search.c */
 gboolean
-camel_search_message_body_contains(CamelDataWrapper *object, regex_t *pattern)
+camel_search_message_body_contains (CamelDataWrapper *object, regex_t *pattern)
 {
 	CamelDataWrapper *containee;
 	int truth = FALSE;
 	int parts, i;
-
-	containee = camel_medium_get_content_object(CAMEL_MEDIUM(object));
-
+	
+	containee = camel_medium_get_content_object (CAMEL_MEDIUM (object));
+	
 	if (containee == NULL)
 		return FALSE;
-
+	
 	/* TODO: I find it odd that get_part and get_content_object do not
 	   add a reference, probably need fixing for multithreading */
-
+	
 	/* using the object types is more accurate than using the mime/types */
-	if (CAMEL_IS_MULTIPART(containee)) {
-		parts = camel_multipart_get_number(CAMEL_MULTIPART(containee));
-		for (i=0;i<parts && truth==FALSE;i++) {
-			CamelDataWrapper *part = (CamelDataWrapper *)camel_multipart_get_part(CAMEL_MULTIPART(containee), i);
+	if (CAMEL_IS_MULTIPART (containee)) {
+		parts = camel_multipart_get_number (CAMEL_MULTIPART (containee));
+		for (i = 0; i < parts && truth == FALSE; i++) {
+			CamelDataWrapper *part = (CamelDataWrapper *)camel_multipart_get_part (CAMEL_MULTIPART (containee), i);
 			if (part)
-				truth = camel_search_message_body_contains(part, pattern);
+				truth = camel_search_message_body_contains (part, pattern);
 		}
-	} else if (CAMEL_IS_MIME_MESSAGE(containee)) {
+	} else if (CAMEL_IS_MIME_MESSAGE (containee)) {
 		/* for messages we only look at its contents */
-		truth = camel_search_message_body_contains((CamelDataWrapper *)containee, pattern);
-	} else if (header_content_type_is(CAMEL_DATA_WRAPPER(containee)->mime_type, "text", "*")) {
+		truth = camel_search_message_body_contains ((CamelDataWrapper *)containee, pattern);
+	} else if (header_content_type_is(CAMEL_DATA_WRAPPER (containee)->mime_type, "text", "*")) {
 		/* for all other text parts, we look inside, otherwise we dont care */
-		CamelStreamMem *mem = (CamelStreamMem *)camel_stream_mem_new();
-
-		camel_data_wrapper_write_to_stream(containee, (CamelStream *)mem);
-		camel_stream_write((CamelStream *)mem, "", 1);
-		truth = regexec(pattern, mem->buffer->data, 0, NULL, 0) == 0;
-		camel_object_unref((CamelObject *)mem);
+		CamelStreamMem *mem = (CamelStreamMem *)camel_stream_mem_new ();
+		
+		camel_data_wrapper_write_to_stream (containee, CAMEL_STREAM (mem));
+		camel_stream_write (CAMEL_STREAM (mem), "", 1);
+		truth = regexec (pattern, mem->buffer->data, 0, NULL, 0) == 0;
+		camel_object_unref (CAMEL_OBJECT (mem));
 	}
+	
 	return truth;
 }
 
