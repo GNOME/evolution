@@ -201,9 +201,9 @@ dnl	AC_DEFINE(HAS_CURSES)
 dnl	has_curses=true
 dnl	AC_DEFINE(USE_BSD_CURSES)
 dnl	AC_MSG_RESULT(Please note that some screen refreshs may fail)
-dnl	AC_WARN(Use of the bsdcurses extension has some)
-dnl	AC_WARN(display/input problems.)
-dnl	AC_WARN(Reconsider using xcurses)
+dnl	AC_MSG_WARN(Use of the bsdcurses extension has some)
+dnl	AC_MSG_WARN(display/input problems.)
+dnl	AC_MSG_WARN(Reconsider using xcurses)
 dnl)
 
 	

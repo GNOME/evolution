@@ -1,3 +1,7 @@
+2000-08-01  Pavel Roskin  <proski@gnu.org>
+
+	* curses.m4: AC_WARN replaced with AC_MSG_WARN in comments
+
 2000-06-23  Stanislav Brabec  <utx@penguin.cz>
 
 	* gnome-pilot.m4: Use 'PISOCK_INCLUDEDIR' in pisock version check.
