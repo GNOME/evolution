@@ -1,5 +1,10 @@
 2004-03-15  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-folder.c (folder_rename): Always use '/' to derive the
+	basename of the folder. folder->full_name is always the UNIX-path
+	evrsion of the folder name, no matter what the actual path
+	delimeter is on the underlying store.
+
 	* providers/imap/camel-imap-store.c (get_folder_online): If the
 	initial SELECT fails and CREATE is specified, clear the exception
 	before attempting to CREATE, this way we don't have an exception
