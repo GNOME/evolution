@@ -1,3 +1,13 @@
+2005-01-17 Sivaiah Nallagatla <snallagatla@novell.com>
+
+	* gui/contact-editor/e-contact-editor.c 
+	(fill_in_email_record) : show "other" when email 
+	does not carry "TYPE"
+	(fill_in_email) : pass deafult email 
+	types instead of -1 when clearing fields 
+	
+	Fixes #70922 
+	
 2005-01-17 Hao Sheng  <hao.sheng@sun.com>
 
 	* gui/contact-editor/contact-editor.glade:
