@@ -5,7 +5,7 @@
             location="evolution-addressbook">
 
 	<oaf_attribute name="repo_ids" type="stringv">
-		<item value="IDL:GNOME/GenericFactory:1.0"/>
+		<item value="IDL:GNOME/ObjectFactory:1.0"/>
 	</oaf_attribute>
 
 	<oaf_attribute name="description" type="string"
