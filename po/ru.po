@@ -4,13 +4,232 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: E-volution\n"
-"POT-Creation-Date: 2000-10-31 08:37+0300\n"
-"PO-Revision-Date: 2000-10-31 08:40+03:00\n"
+"POT-Creation-Date: 2000-10-31 22:07+0300\n"
+"PO-Revision-Date: 2000-10-31 23:01+03:00\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=koi8-r\n"
 "Content-Transfer-Encoding: 8-bit\n"
+
+#: addressbook/backend/ebook/e-card.c:3044
+msgid "Card: "
+msgstr "Карточка: "
+
+#: addressbook/backend/ebook/e-card.c:3046
+msgid ""
+"\n"
+"Name: "
+msgstr "\nИмя: "
+
+#: addressbook/backend/ebook/e-card.c:3047
+msgid ""
+"\n"
+"  Prefix:     "
+msgstr "\n  Префикс:    "
+
+#: addressbook/backend/ebook/e-card.c:3048
+msgid ""
+"\n"
+"  Given:      "
+msgstr ""
+
+#: addressbook/backend/ebook/e-card.c:3049
+msgid ""
+"\n"
+"  Additional: "
+msgstr "\n  Добавочный: "
+
+#: addressbook/backend/ebook/e-card.c:3050
+msgid ""
+"\n"
+"  Family:     "
+msgstr ""
+
+#: addressbook/backend/ebook/e-card.c:3051
+msgid ""
+"\n"
+"  Suffix:     "
+msgstr "\n  Суффикс:     "
+
+#: addressbook/backend/ebook/e-card.c:3065
+msgid ""
+"\n"
+"Birth Date: "
+msgstr "\nДата рождения: "
+
+#: addressbook/backend/ebook/e-card.c:3076
+msgid ""
+"\n"
+"Address:"
+msgstr "\nАдрес:"
+
+#: addressbook/backend/ebook/e-card.c:3078
+msgid ""
+"\n"
+"  Postal Box:  "
+msgstr "\nПочтовый ящик:  "
+
+#: addressbook/backend/ebook/e-card.c:3079
+msgid ""
+"\n"
+"  Ext:         "
+msgstr "\n  Расш.:        "
+
+#: addressbook/backend/ebook/e-card.c:3080
+msgid ""
+"\n"
+"  Street:      "
+msgstr "\n  Улица:     "
+
+#: addressbook/backend/ebook/e-card.c:3081
+msgid ""
+"\n"
+"  City:        "
+msgstr "\n  Город:      "
+
+#: addressbook/backend/ebook/e-card.c:3082
+msgid ""
+"\n"
+"  Region:      "
+msgstr "\n  Область:      "
+
+#: addressbook/backend/ebook/e-card.c:3083
+msgid ""
+"\n"
+"  Postal Code: "
+msgstr "\n  Почтовый код: "
+
+#: addressbook/backend/ebook/e-card.c:3084
+msgid ""
+"\n"
+"  Country:     "
+msgstr "\n  Страна:     "
+
+#: addressbook/backend/ebook/e-card.c:3097
+msgid ""
+"\n"
+"Delivery Label: "
+msgstr ""
+
+#: addressbook/backend/ebook/e-card.c:3109
+msgid ""
+"\n"
+"Telephones:\n"
+msgstr "\nТелефоны:\n"
+
+#: addressbook/backend/ebook/e-card.c:3112
+msgid ""
+"\n"
+"Telephone:"
+msgstr "\nТелефон:"
+
+#: addressbook/backend/ebook/e-card.c:3136
+msgid ""
+"\n"
+"E-mail:\n"
+msgstr "\nЭл.адрес:\n"
+
+#: addressbook/backend/ebook/e-card.c:3139
+msgid ""
+"\n"
+"E-mail:"
+msgstr "\nЭл.адрес:"
+
+#: addressbook/backend/ebook/e-card.c:3158
+msgid ""
+"\n"
+"Mailer: "
+msgstr ""
+
+#: addressbook/backend/ebook/e-card.c:3164
+msgid ""
+"\n"
+"Time Zone: "
+msgstr "\nЧасовой пояс: "
+
+#: addressbook/backend/ebook/e-card.c:3172
+msgid ""
+"\n"
+"Geo Location: "
+msgstr "\nГеогр.положение: "
+
+#: addressbook/backend/ebook/e-card.c:3176
+#, fuzzy
+msgid ""
+"\n"
+"Business Role: "
+msgstr "Рабочий 2"
+
+#: addressbook/backend/ebook/e-card.c:3188
+msgid ""
+"\n"
+"Org: "
+msgstr ""
+
+#: addressbook/backend/ebook/e-card.c:3189
+msgid ""
+"\n"
+"  Name:  "
+msgstr "\n  Имя:  "
+
+#: addressbook/backend/ebook/e-card.c:3190
+msgid ""
+"\n"
+"  Unit:  "
+msgstr ""
+
+#: addressbook/backend/ebook/e-card.c:3191
+msgid ""
+"\n"
+"  Unit2: "
+msgstr ""
+
+#: addressbook/backend/ebook/e-card.c:3192
+msgid ""
+"\n"
+"  Unit3: "
+msgstr ""
+
+#: addressbook/backend/ebook/e-card.c:3193
+msgid ""
+"\n"
+"  Unit4: "
+msgstr ""
+
+#: addressbook/backend/ebook/e-card.c:3197
+msgid ""
+"\n"
+"Categories: "
+msgstr "\nкатегории: "
+
+#: addressbook/backend/ebook/e-card.c:3198
+msgid ""
+"\n"
+"Comment: "
+msgstr "\nКомментарии: "
+
+#. if (crd->sound.prop.used) {
+#. if (crd->sound.type != SOUND_PHONETIC)
+#. addPropSizedValue (string, _ ("\nPronunciation: "),
+#. crd->sound.data, crd->sound.size);
+#. else
+#. add_strProp_to_string (string, _ ("\nPronunciation: "),
+#. crd->sound.data);
+#.
+#. add_SoundType (string, crd->sound.type);
+#. }
+#: addressbook/backend/ebook/e-card.c:3211
+msgid ""
+"\n"
+"Unique String: "
+msgstr "\nУникальная строка: "
+
+#: addressbook/backend/ebook/e-card.c:3214
+msgid ""
+"\n"
+"Public Key: "
+msgstr "\nПубличный ключ: "
 
 #: addressbook/backend/ebook/load-gnomecard-addressbook.c:16
 #: addressbook/backend/ebook/load-pine-addressbook.c:17
@@ -301,7 +520,7 @@ msgid "_Add"
 msgstr "Добавить"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:8
-#: ui/evolution-mail.h:48
+#: ui/evolution-event-editor.h:72 ui/evolution-mail.h:48
 msgid "_Delete"
 msgstr "Удалить"
 
@@ -785,7 +1004,7 @@ msgstr ""
 "Дважды щелкните здесь для создания нового контакта."
 
 #: addressbook/gui/search/e-addressbook-search-dialog.c:151
-#: mail/folder-browser.c:494
+#: mail/folder-browser.c:494 mail/mail-search-dialogue.c:101
 msgid "Search"
 msgstr "Поиск"
 
@@ -1204,7 +1423,8 @@ msgstr "Итог не доступен."
 #. * DO NOT compile it as part of your application.
 #.
 #: calendar/gui/dialogs/alarm-notify.glade.h:7
-#: ui/evolution-contact-editor.h:14 ui/evolution-subscribe.h:10
+#: ui/evolution-contact-editor.h:14 ui/evolution-event-editor.h:19
+#: ui/evolution-subscribe.h:10
 msgid "Close"
 msgstr "Закрыть"
 
@@ -1609,7 +1829,8 @@ msgstr "Пометить задание как выполненное"
 #: mail/mail-config.glade.h:13 mail/mail-config.glade.h:18
 #: mail/mail-config.glade.h:24 mail/mail-view.c:163
 #: ui/evolution-addressbook.h:11 ui/evolution-contact-editor.h:12
-#: ui/evolution-contact-editor.h:19 ui/evolution-mail.h:13
+#: ui/evolution-contact-editor.h:19 ui/evolution-event-editor.h:13
+#: ui/evolution-mail.h:13
 msgid "Delete"
 msgstr "Удалить"
 
@@ -1655,6 +1876,7 @@ msgid "Edit this appointment..."
 msgstr "Правка этой встречи..."
 
 #: calendar/gui/e-day-view.c:2639 calendar/gui/e-week-view.c:2937
+#: ui/evolution-event-editor.h:14
 msgid "Delete this appointment"
 msgstr "Удалить эту встречу"
 
@@ -1689,7 +1911,7 @@ msgstr "в"
 msgid "ocurrences"
 msgstr "случаи"
 
-#: calendar/gui/event-editor.c:2382 calendar/gui/print.c:1085
+#: calendar/gui/event-editor.c:2395 calendar/gui/print.c:1085
 #: calendar/gui/print.c:1087 calendar/gui/print.c:1088
 msgid "%a %b %d %Y"
 msgstr "%a %b %d %Y"
@@ -1913,9 +2135,11 @@ msgid ""
 "However, the appointment will recur at the appropriate time and will be "
 "displayed properly in the calendar views."
 msgstr ""
-"Это встреча с пользовательскими правилами повторения, которые не могут быть исправлены в Evolution.\n"
+"Это встреча с пользовательскими правилами повторения, которые не могут быть "
+"исправлены в Evolution.\n"
 "\n"
-"Однако, встреча будет повторятся в подходящее время и будет правильно отображаться в окнах календаря."
+"Однако, встреча будет повторятся в подходящее время и будет правильно "
+"отображаться в окнах календаря."
 
 #: calendar/gui/getdate.y:391
 msgid "january"
@@ -2177,6 +2401,7 @@ msgstr "Метод необходимый для загрузки \"%s\" не поддерживается"
 
 #. Idea: we need Snooze option :-)
 #: calendar/gui/gnome-cal.c:1471 calendar/gui/gnome-cal.c:1526
+#: mail/mail-search-dialogue.c:101
 msgid "Ok"
 msgstr "Ок"
 
@@ -2482,6 +2707,17 @@ msgstr " секунд"
 #: calendar/gui/prop.c:826
 msgid "Enable snoozing for "
 msgstr "Разрешить краткий сон для "
+
+#. Translators: These are the first characters of each day of the
+#. week, 'M' for 'Monday', 'T' for Tuesday etc.
+#: calendar/gui/weekday-picker.c:326 widgets/misc/e-calendar-item.c:416
+msgid "MTWTFSS"
+msgstr "ПВСЧПСВ"
+
+#: calendar/gui/weekday-picker.c:328 calendar/gui/weekday-picker.c:418
+#, fuzzy
+msgid "SMTWTFS"
+msgstr "ПВСЧПСВ"
 
 #: camel/camel-movemail.c:96
 #, c-format
@@ -3167,6 +3403,7 @@ msgid "File name:"
 msgstr "Имя файла:"
 
 #: composer/e-msg-composer-hdrs.c:137 composer/e-msg-composer-hdrs.c:295
+#: mail/mail-format.c:588
 msgid "From:"
 msgstr "От:"
 
@@ -3178,7 +3415,7 @@ msgstr "Щелкните здесь для адресной книги"
 msgid "Enter the identity you wish to send this message from"
 msgstr "Введите именование, от которого вы хотите отправить это сообщение"
 
-#: composer/e-msg-composer-hdrs.c:300
+#: composer/e-msg-composer-hdrs.c:300 mail/mail-format.c:601
 msgid "To:"
 msgstr "Кому:"
 
@@ -3186,7 +3423,7 @@ msgstr "Кому:"
 msgid "Enter the recipients of the message"
 msgstr "Введите получателей сообщения"
 
-#: composer/e-msg-composer-hdrs.c:305
+#: composer/e-msg-composer-hdrs.c:305 mail/mail-format.c:608
 msgid "Cc:"
 msgstr "Копия:"
 
@@ -3206,7 +3443,7 @@ msgstr ""
 "Введите адресатов, которые получат копию сообщения не попав в список "
 "получателей."
 
-#: composer/e-msg-composer-hdrs.c:318
+#: composer/e-msg-composer-hdrs.c:318 mail/mail-format.c:613
 msgid "Subject:"
 msgstr "Тема:"
 
@@ -3214,7 +3451,7 @@ msgstr "Тема:"
 msgid "Enter the subject of the mail"
 msgstr "Введите тему письма"
 
-#: composer/e-msg-composer.c:299
+#: composer/e-msg-composer.c:302
 #, c-format
 msgid ""
 "Could not open signature file %s:\n"
@@ -3223,38 +3460,38 @@ msgstr ""
 "Невозможно открыть файл подписи %s:\n"
 "%s"
 
-#: composer/e-msg-composer.c:406
+#: composer/e-msg-composer.c:458
 msgid "Save as..."
 msgstr "Сохранить как..."
 
-#: composer/e-msg-composer.c:417
+#: composer/e-msg-composer.c:469
 #, c-format
 msgid "Error saving file: %s"
 msgstr "Ошибка сохранения файла: %s"
 
-#: composer/e-msg-composer.c:437
+#: composer/e-msg-composer.c:489
 #, c-format
 msgid "Error loading file: %s"
 msgstr "Ошибка при загрузке файла: %s"
 
-#: composer/e-msg-composer.c:459
+#: composer/e-msg-composer.c:511
 msgid "Saving changes to message..."
 msgstr "Сохранить изменения в сообщении..."
 
-#: composer/e-msg-composer.c:461
+#: composer/e-msg-composer.c:513
 msgid "Save changes to message..."
 msgstr "Сохранить изменения в сообщении..."
 
-#: composer/e-msg-composer.c:502
+#: composer/e-msg-composer.c:554
 #, c-format
 msgid "Error saving composition to 'Drafts': %s"
 msgstr "Ошибка сохранения сочинения в \"Черновиках\": %s"
 
-#: composer/e-msg-composer.c:546 shell/e-shell-view-menu.c:167
+#: composer/e-msg-composer.c:598 shell/e-shell-view-menu.c:167
 msgid "Evolution"
 msgstr "Эволюция"
 
-#: composer/e-msg-composer.c:552
+#: composer/e-msg-composer.c:604
 msgid ""
 "This message has not been sent.\n"
 "\n"
@@ -3264,27 +3501,27 @@ msgstr ""
 "\n"
 "Вы хотите сохранить изменения?"
 
-#: composer/e-msg-composer.c:574
+#: composer/e-msg-composer.c:626
 msgid "Open file"
 msgstr "Открыть файл"
 
-#: composer/e-msg-composer.c:700
+#: composer/e-msg-composer.c:752
 msgid "That file does not exist."
 msgstr "Этот файл не существует."
 
-#: composer/e-msg-composer.c:710
+#: composer/e-msg-composer.c:762
 msgid "That is not a regular file."
 msgstr "Это не обычный файл."
 
-#: composer/e-msg-composer.c:720
+#: composer/e-msg-composer.c:772
 msgid "That file exists but is not readable."
 msgstr "Этот файл существует, но не читается."
 
-#: composer/e-msg-composer.c:730
+#: composer/e-msg-composer.c:782
 msgid "That file appeared accesible but open(2) failed."
 msgstr "Файл выглядит доступным, но произошел сбой open(2)."
 
-#: composer/e-msg-composer.c:752
+#: composer/e-msg-composer.c:804
 msgid ""
 "The file is very large (more than 100K).\n"
 "Are you sure you wish to insert it?"
@@ -3292,17 +3529,22 @@ msgstr ""
 "Файл очень большой (больше 100К).\n"
 "Вы уверены, что хотите вставить его?"
 
-#: composer/e-msg-composer.c:773
+#: composer/e-msg-composer.c:825
 msgid "An error occurred while reading the file."
 msgstr "При чтении файла возникла ошибка."
 
-#: composer/e-msg-composer.c:1136
+#: composer/e-msg-composer.c:1197
 msgid "Compose a message"
 msgstr "Создать сообщение"
 
-#: composer/e-msg-composer.c:1210
+#: composer/e-msg-composer.c:1271
 msgid "Could not create composer window."
 msgstr "Невозможно создать окно редактора."
+
+#: composer/evolution-composer.c:307
+#, fuzzy
+msgid "Cannot initialize Evolution's composer."
+msgstr "Невозможно инициализировать почтовый компонент \"Эволюции\"."
 
 #: filter/filter-datespec.c:61
 msgid "years"
@@ -3424,6 +3666,15 @@ msgstr "Ввести URI папки"
 #: filter/filter-folder.c:254
 msgid "<click here to select a folder>"
 msgstr "<щелкните здесь для выбора папки>"
+
+#: filter/filter-input.c:188
+#, fuzzy, c-format
+msgid ""
+"Error in regular expression '%s':\n"
+"%s"
+msgstr ""
+"Ошибка при подготовке к %s:\n"
+"%s"
 
 #: filter/filter-part.c:458
 msgid "Test"
@@ -3713,7 +3964,14 @@ msgstr "Другое"
 msgid "Full Search"
 msgstr "Полный поиск"
 
-#: mail/folder-browser.c:497
+#.
+#. *  This file is autogenerated from evolution-event-editor.xml, do not edit
+#. *
+#. *  This file contains translatable strings generated by
+#. * bonobo-ui-extract. Add this file to your project's
+#. * POTFILES.in. DO NOT compile it as part of your application.
+#.
+#: mail/folder-browser.c:497 ui/evolution-event-editor.h:9
 msgid "Save"
 msgstr "Сохранить"
 
@@ -4139,6 +4397,55 @@ msgstr "Встроенный просмотр (через %s)"
 msgid "Hide"
 msgstr "Скрыть"
 
+#: mail/mail-format.c:477
+#, c-format
+msgid "%s attachment"
+msgstr "%s вложение"
+
+#: mail/mail-format.c:594
+msgid "Reply-To:"
+msgstr "Ответить:"
+
+#: mail/mail-format.c:834
+msgid "No GPG/PGP support available in this copy of Evolution."
+msgstr "Поддержка GPG/PGP недоступна в этой копии Evolution."
+
+#: mail/mail-format.c:846
+msgid "Encrypted message not displayed"
+msgstr "Зашифрованное сообщение не отображается"
+
+#: mail/mail-format.c:852
+msgid "Encrypted message"
+msgstr "Зашифрованное сообщение"
+
+#: mail/mail-format.c:853
+msgid "Click icon to decrypt."
+msgstr "Щелкните на пиктограмме для дешифрации."
+
+#: mail/mail-format.c:1455
+#, c-format
+msgid "Pointer to FTP site (%s)"
+msgstr "Указатель на FTP сайт (%s)"
+
+#: mail/mail-format.c:1467
+#, c-format
+msgid "Pointer to local file (%s) valid at site \"%s\""
+msgstr ""
+
+#: mail/mail-format.c:1471
+#, c-format
+msgid "Pointer to local file (%s)"
+msgstr "Указатель на локальный файл (%s)"
+
+#: mail/mail-format.c:1505
+#, c-format
+msgid "Pointer to unknown external data (\"%s\" type)"
+msgstr "Указатель на неизвестные внешние данные (типа \"%s\")"
+
+#: mail/mail-format.c:1510
+msgid "Malformed external-body part."
+msgstr ""
+
 #: mail/mail-local.c:279
 #, c-format
 msgid "Changing folder \"%s\" to \"%s\" format"
@@ -4446,6 +4753,20 @@ msgstr "Просмотреть сообщения из  \"%s\""
 msgid "Retrieving message %d of %d (uid \"%s\")"
 msgstr "Перемещение сообщения %d из %d (uid  \"%s\")"
 
+#: mail/mail-search-dialogue.c:101
+#, fuzzy
+msgid "Cancel"
+msgstr "Отменено"
+
+#: mail/mail-summary.c:96 mail/mail-threads.c:701
+msgid "Incomplete message written on pipe!"
+msgstr "Неполное сообщение записано в канал!"
+
+#: mail/mail-summary.c:365
+#, fuzzy
+msgid "Mailbox summary"
+msgstr "Нет итога"
+
 #: mail/mail-threads.c:299
 #, c-format
 msgid ""
@@ -4463,10 +4784,6 @@ msgid ""
 msgstr ""
 "Ошибка при \"%s\":\n"
 "%s"
-
-#: mail/mail-threads.c:701
-msgid "Incomplete message written on pipe!"
-msgstr "Неполное сообщение записано в канал!"
 
 #: mail/mail-threads.c:705
 msgid "Error reading commands from dispatching thread."
@@ -4679,6 +4996,16 @@ msgstr "Перестроение окна сообщения"
 #: mail/message-list.c:1736
 msgid "Rebuild message view"
 msgstr "Перестроить окно сообщения"
+
+#: mail/message-thread.c:525
+#, fuzzy
+msgid "Threading message list"
+msgstr "Список подшитых сообщений"
+
+#: mail/message-thread.c:527
+#, fuzzy
+msgid "Thread message list"
+msgstr "Список подшитых сообщений"
 
 #: mail/subscribe-dialog.c:132
 msgid "Display folders containing:"
@@ -4968,7 +5295,8 @@ msgstr "Операция не поддерживается"
 msgid "The specified type is not supported in this storage"
 msgstr "Указанный тип не поддерживается для этого носителя"
 
-#: shell/e-storage-set-view.c:223 ui/evolution.h:39
+#: shell/e-storage-set-view.c:223 ui/evolution-event-editor.h:91
+#: ui/evolution.h:39
 msgid "_View"
 msgstr "Просмотр"
 
@@ -5057,7 +5385,7 @@ msgstr "Создать новый контакт"
 msgid "Delete a contact"
 msgstr "Удалить контакт"
 
-#: ui/evolution-addressbook.h:13
+#: ui/evolution-addressbook.h:13 ui/evolution-event-editor.h:33
 msgid "Find"
 msgstr "Поиск"
 
@@ -5101,7 +5429,7 @@ msgstr "Напечатать контакты..."
 msgid "_Search for contacts"
 msgstr "Поиск контактов"
 
-#: ui/evolution-addressbook.h:25
+#: ui/evolution-addressbook.h:25 ui/evolution-event-editor.h:113
 msgid "_Tools"
 msgstr "Инструменты"
 
@@ -5164,7 +5492,7 @@ msgstr "Месяц"
 msgid "New Ca_lendar"
 msgstr "Новый календарь"
 
-#: ui/evolution-calendar.h:23
+#: ui/evolution-calendar.h:23 ui/evolution-event-editor.h:45
 msgid "Next"
 msgstr "След."
 
@@ -5239,12 +5567,12 @@ msgstr "Сохранить календарь как"
 #. * bonobo-ui-extract. Add this file to your project's
 #. * POTFILES.in. DO NOT compile it as part of your application.
 #.
-#: ui/evolution-contact-editor.h:9 ui/evolution-subscribe.h:19
-#: ui/evolution.h:29
+#: ui/evolution-contact-editor.h:9 ui/evolution-event-editor.h:55
+#: ui/evolution-subscribe.h:19 ui/evolution.h:29
 msgid "_File"
 msgstr "Файл"
 
-#: ui/evolution-contact-editor.h:10
+#: ui/evolution-contact-editor.h:10 ui/evolution-event-editor.h:69
 msgid "_Save"
 msgstr "Сохранить"
 
@@ -5252,11 +5580,11 @@ msgstr "Сохранить"
 msgid "Save _As"
 msgstr "Сохранить как"
 
-#: ui/evolution-contact-editor.h:13
+#: ui/evolution-contact-editor.h:13 ui/evolution-event-editor.h:66
 msgid "_Print"
 msgstr "Печать"
 
-#: ui/evolution-contact-editor.h:15
+#: ui/evolution-contact-editor.h:15 ui/evolution-event-editor.h:11
 msgid "Save and Close"
 msgstr "Сохранить и закрыть"
 
@@ -5264,17 +5592,438 @@ msgstr "Сохранить и закрыть"
 msgid "Save the contact and close the dialog box"
 msgstr "Сохранить задание и закрыть окно диалога"
 
-#: ui/evolution-contact-editor.h:17
+#: ui/evolution-contact-editor.h:17 ui/evolution-event-editor.h:15
 msgid "Print..."
 msgstr "Печать..."
 
-#: ui/evolution-contact-editor.h:18
+#: ui/evolution-contact-editor.h:18 ui/evolution-event-editor.h:16
 msgid "Print this item"
 msgstr "Печать этого элемента"
 
 #: ui/evolution-contact-editor.h:20
 msgid "Delete this item"
 msgstr "Удалить этот элемент"
+
+#: ui/evolution-event-editor.h:10
+msgid "Save the current file"
+msgstr "Сохранить текущий файл"
+
+#: ui/evolution-event-editor.h:12
+msgid "Save the appointment and close the dialog box"
+msgstr "Сохранить встречу и закрыть окно диалога"
+
+#: ui/evolution-event-editor.h:17
+msgid "Print Setup"
+msgstr "Настройка страницы"
+
+#: ui/evolution-event-editor.h:18
+msgid "Setup the page settings for your current printer"
+msgstr "Настройки страницы для вашего текущего принтера"
+
+#: ui/evolution-event-editor.h:20
+msgid "Close this appointment"
+msgstr "Закрыть эту встречу"
+
+#: ui/evolution-event-editor.h:21
+msgid "Cut"
+msgstr "Вырезать"
+
+#: ui/evolution-event-editor.h:22
+msgid "Cut the selection"
+msgstr "Вырезать выделение"
+
+#: ui/evolution-event-editor.h:23 ui/evolution-mail.h:11
+msgid "Copy"
+msgstr "Скопировать"
+
+#: ui/evolution-event-editor.h:24
+msgid "Copy the selection"
+msgstr "Скопировать выделение"
+
+#: ui/evolution-event-editor.h:25
+msgid "Paste"
+msgstr "Вставить"
+
+#: ui/evolution-event-editor.h:26
+msgid "Paste the clipboard"
+msgstr "Вставить выделение"
+
+#: ui/evolution-event-editor.h:27
+msgid "Clear"
+msgstr "Очистить"
+
+#: ui/evolution-event-editor.h:28
+msgid "Clear the selection"
+msgstr "Очистить выделение"
+
+#: ui/evolution-event-editor.h:29
+msgid "Undo"
+msgstr "Откат"
+
+#: ui/evolution-event-editor.h:30
+msgid "Undo the last action"
+msgstr "Отменить последнее действие"
+
+#: ui/evolution-event-editor.h:31
+msgid "Redo"
+msgstr "Возврат"
+
+#: ui/evolution-event-editor.h:32
+msgid "Redo the undone action"
+msgstr "Повторить отмененное действие"
+
+#: ui/evolution-event-editor.h:34
+msgid "Search for a string"
+msgstr "Поиск строки"
+
+#: ui/evolution-event-editor.h:35
+msgid "Find Again"
+msgstr "Повторный поиск"
+
+#: ui/evolution-event-editor.h:36
+msgid "Search again for the same string"
+msgstr "Искать ту же строку еще раз"
+
+#: ui/evolution-event-editor.h:37
+msgid "Replace"
+msgstr "Заменить"
+
+#: ui/evolution-event-editor.h:38
+msgid "Replace a string"
+msgstr "Заменить строку"
+
+#: ui/evolution-event-editor.h:39
+msgid "Select All"
+msgstr "Выбрать все"
+
+#: ui/evolution-event-editor.h:40
+msgid "Select everything"
+msgstr "Выбрать все"
+
+#: ui/evolution-event-editor.h:41
+msgid "Properties"
+msgstr "Свойства"
+
+#: ui/evolution-event-editor.h:42
+msgid "Modify the file's properties"
+msgstr "Изменить свойства файла"
+
+#: ui/evolution-event-editor.h:43
+msgid "Previous"
+msgstr "Пред."
+
+#: ui/evolution-event-editor.h:44
+msgid "Go to the previous item"
+msgstr "Перейти к предыдущему элементу"
+
+#: ui/evolution-event-editor.h:46
+msgid "Go to the next item"
+msgstr "Перейти к следующему элементу"
+
+#: ui/evolution-event-editor.h:47
+msgid "FIXME: Schedule Meeting"
+msgstr "FIXME: Вставить встречу в расписание"
+
+#: ui/evolution-event-editor.h:48
+msgid "Schedule some sort of a meeting"
+msgstr "Вставить в расписание встречу некоторого типа"
+
+#: ui/evolution-event-editor.h:49
+msgid "About..."
+msgstr "О программе..."
+
+#: ui/evolution-event-editor.h:50
+msgid "About this application"
+msgstr "Об этой программе"
+
+#: ui/evolution-event-editor.h:51
+msgid "FIXME: Help"
+msgstr "FIXME: Справка"
+
+#: ui/evolution-event-editor.h:52
+msgid "See online help"
+msgstr "Просмотр онлайновой справки"
+
+#: ui/evolution-event-editor.h:53
+msgid "Dump XML"
+msgstr "Дамп XML"
+
+#: ui/evolution-event-editor.h:54
+msgid "Dump the UI Xml description"
+msgstr "Дамп XML описания интерфейса"
+
+#: ui/evolution-event-editor.h:56
+msgid "FIXME: _Mail Message"
+msgstr "FIXME: Правка сообщения"
+
+#: ui/evolution-event-editor.h:57
+msgid "FIXME: _Contact"
+msgstr "FIXME: Контакт"
+
+#: ui/evolution-event-editor.h:58
+msgid "FIXME: _Task"
+msgstr "FIXME: Задача"
+
+#: ui/evolution-event-editor.h:59
+msgid "FIXME: Task _Request"
+msgstr "FIXME: Запрос задачи"
+
+#: ui/evolution-event-editor.h:60
+msgid "FIXME: _Journal Entry"
+msgstr "FIXME: Журнальная запись"
+
+#: ui/evolution-event-editor.h:61
+msgid "FIXME: _Note"
+msgstr "FIXME: Запись"
+
+#: ui/evolution-event-editor.h:62 ui/evolution-event-editor.h:118
+msgid "FIXME: Ch_oose Form..."
+msgstr "FIXME: Выбрать форму..."
+
+#: ui/evolution-event-editor.h:63
+msgid "FIXME: _Memo Style"
+msgstr "FIXME: Стиль памятки"
+
+#: ui/evolution-event-editor.h:64
+msgid "FIXME: Define Print _Styles"
+msgstr "FIXME: Определить стиль печати"
+
+#: ui/evolution-event-editor.h:65
+msgid "FIXME: Print Pre_view"
+msgstr "FIXME: Просмотр печати"
+
+#: ui/evolution-event-editor.h:67
+msgid "Print S_etup..."
+msgstr "Настройка печати..."
+
+#: ui/evolution-event-editor.h:68
+msgid "FIXME: S_end"
+msgstr "FIXME: Послать"
+
+#: ui/evolution-event-editor.h:70
+msgid "Save _As..."
+msgstr "Сохранить как..."
+
+#: ui/evolution-event-editor.h:71
+msgid "FIXME: Save Attac_hments..."
+msgstr "FIXME: Сохранить вложение..."
+
+#: ui/evolution-event-editor.h:73
+msgid "FIXME: _Move to Folder..."
+msgstr "FIXME: Переместить в папку..."
+
+#: ui/evolution-event-editor.h:74
+msgid "FIXME: Cop_y to Folder..."
+msgstr "FIXME: Скопировать в папку..."
+
+#: ui/evolution-event-editor.h:75
+msgid "_Properties..."
+msgstr "Свойства..."
+
+#: ui/evolution-event-editor.h:76
+msgid "_Close"
+msgstr "Закрыть"
+
+#: ui/evolution-event-editor.h:77 ui/evolution-subscribe.h:18
+#: ui/evolution.h:28
+msgid "_Edit"
+msgstr "Правка"
+
+#: ui/evolution-event-editor.h:78
+msgid "_Undo"
+msgstr "Откат"
+
+#: ui/evolution-event-editor.h:79
+msgid "_Redo"
+msgstr "Возврат"
+
+#: ui/evolution-event-editor.h:80
+msgid "C_ut"
+msgstr "Вырезать"
+
+#: ui/evolution-event-editor.h:81
+msgid "_Copy"
+msgstr "Скопировать"
+
+#: ui/evolution-event-editor.h:82
+msgid "_Paste"
+msgstr "Вставить"
+
+#: ui/evolution-event-editor.h:83
+msgid "FIXME: Paste _Special... "
+msgstr "FIXME: Специальная вставка..."
+
+#: ui/evolution-event-editor.h:84 ui/evolution-event-editor.h:85
+msgid "C_lear"
+msgstr "Очистить"
+
+#: ui/evolution-event-editor.h:86
+msgid "_Find..."
+msgstr "Найти..."
+
+#: ui/evolution-event-editor.h:87
+msgid "Find _Again"
+msgstr "Повторный поиск"
+
+#: ui/evolution-event-editor.h:88
+msgid "_Replace..."
+msgstr "Заменить..."
+
+#: ui/evolution-event-editor.h:89
+msgid "_Object"
+msgstr "Объект"
+
+#: ui/evolution-event-editor.h:90
+msgid "FIXME: what goes here?"
+msgstr ""
+
+#: ui/evolution-event-editor.h:92
+msgid "Pre_vious"
+msgstr "Пред."
+
+#: ui/evolution-event-editor.h:93 ui/evolution-event-editor.h:98
+msgid "FIXME: _Item"
+msgstr "FIXME: Элемент"
+
+#: ui/evolution-event-editor.h:94 ui/evolution-event-editor.h:99
+msgid "FIXME: _Unread Item"
+msgstr "FIXME: Непрочитанный элемент"
+
+#: ui/evolution-event-editor.h:95 ui/evolution-event-editor.h:100
+msgid "FIXME: In_complete Task"
+msgstr "FIXME: Невыполненное задание"
+
+#: ui/evolution-event-editor.h:96
+msgid "FIXME: Fi_rst Item in Folder"
+msgstr "FIXME: Первый элемент в папке"
+
+#: ui/evolution-event-editor.h:97
+msgid "N_ext"
+msgstr "След."
+
+#: ui/evolution-event-editor.h:101
+msgid "FIXME: _Last Item in Folder"
+msgstr "FIXME: Последний элемент в папке"
+
+#: ui/evolution-event-editor.h:102
+msgid "_Toolbars"
+msgstr "Панель инструментов"
+
+#: ui/evolution-event-editor.h:103
+msgid "FIXME: _Standard"
+msgstr "FIXME: Стандартная"
+
+#: ui/evolution-event-editor.h:104
+msgid "FIXME: _Formatting"
+msgstr "FIXME: Форматирование"
+
+#: ui/evolution-event-editor.h:105
+msgid "FIXME: _Customize..."
+msgstr "FIXME: Настройка..."
+
+#: ui/evolution-event-editor.h:106
+msgid "_Insert"
+msgstr "Вставить"
+
+#: ui/evolution-event-editor.h:107
+msgid "FIXME: _File..."
+msgstr "FIXME: файл..."
+
+#: ui/evolution-event-editor.h:108
+msgid "FIXME: It_em..."
+msgstr "FIXME: Элемент..."
+
+#: ui/evolution-event-editor.h:109
+msgid "FIXME: _Object..."
+msgstr "FIXME: Объект..."
+
+#: ui/evolution-event-editor.h:110
+msgid "F_ormat"
+msgstr "Формат"
+
+#: ui/evolution-event-editor.h:111
+msgid "FIXME: _Font..."
+msgstr "FIXME: Шрифт..."
+
+#: ui/evolution-event-editor.h:112
+msgid "FIXME: _Paragraph..."
+msgstr "FIXME: Абзац..."
+
+#: ui/evolution-event-editor.h:114
+msgid "FIXME: _Spelling..."
+msgstr "FIXME: Правописание..."
+
+#: ui/evolution-event-editor.h:115
+msgid "FIXME: Chec_k Names"
+msgstr "FIXME: Проверка имен"
+
+#: ui/evolution-event-editor.h:116
+msgid "FIXME: Address _Book..."
+msgstr "FIXME: Адресная книга..."
+
+#: ui/evolution-event-editor.h:117
+msgid "_Forms"
+msgstr "Формы"
+
+#: ui/evolution-event-editor.h:119
+msgid "FIXME: Desi_gn This Form"
+msgstr "FIXME: Конструкция этой формы"
+
+#: ui/evolution-event-editor.h:120
+msgid "FIXME: D_esign a Form..."
+msgstr ""
+
+#: ui/evolution-event-editor.h:121
+msgid "FIXME: Publish _Form..."
+msgstr ""
+
+#: ui/evolution-event-editor.h:122
+msgid "FIXME: Pu_blish Form As..."
+msgstr ""
+
+#: ui/evolution-event-editor.h:123
+msgid "FIXME: Script _Debugger"
+msgstr ""
+
+#: ui/evolution-event-editor.h:124
+msgid "Actio_ns"
+msgstr "Действия"
+
+#: ui/evolution-event-editor.h:125
+msgid "FIXME: _New Appointment"
+msgstr "FIXME: Новая встреча"
+
+#: ui/evolution-event-editor.h:126
+msgid "FIXME: Rec_urrence..."
+msgstr "FIXME: Повторение..."
+
+#: ui/evolution-event-editor.h:127
+msgid "FIXME: Schedule _Meeting"
+msgstr ""
+
+#: ui/evolution-event-editor.h:128
+msgid "FIXME: Forward as v_Calendar"
+msgstr ""
+
+#: ui/evolution-event-editor.h:129
+msgid "FIXME: For_ward"
+msgstr "FIXME: Переслать"
+
+#: ui/evolution-event-editor.h:130 ui/evolution.h:32
+msgid "_Help"
+msgstr "Справка"
+
+#: ui/evolution-event-editor.h:131
+msgid "_About..."
+msgstr "О программе..."
+
+#: ui/evolution-event-editor.h:132
+msgid "_Debug"
+msgstr "Отладка"
+
+#: ui/evolution-event-editor.h:133
+msgid "FIXME: Insert File"
+msgstr ""
 
 #.
 #. *  This file is autogenerated from evolution-mail.xml, do not edit
@@ -5290,10 +6039,6 @@ msgstr "Создать"
 #: ui/evolution-mail.h:10
 msgid "Compose a new message"
 msgstr "Создать новое сообщение"
-
-#: ui/evolution-mail.h:11
-msgid "Copy"
-msgstr "Скопировать"
 
 #: ui/evolution-mail.h:12
 msgid "Copy message to a new folder"
@@ -5482,10 +6227,6 @@ msgstr "Подписаться"
 msgid "Unsubscribe"
 msgstr "Отказаться"
 
-#: ui/evolution-subscribe.h:18 ui/evolution.h:28
-msgid "_Edit"
-msgstr "Правка"
-
 #.
 #. *  This file is autogenerated from evolution.xml, do not edit
 #. *
@@ -5576,10 +6317,6 @@ msgstr "Папка"
 #: ui/evolution.h:31
 msgid "_Go to Folder..."
 msgstr "Перейти к папке..."
-
-#: ui/evolution.h:32
-msgid "_Help"
-msgstr "Справка"
 
 #: ui/evolution.h:33
 msgid "_Index"
@@ -5684,18 +6421,12 @@ msgstr "Все сопровождение"
 msgid "%A, %B %d, %Y"
 msgstr "%A, %B %d, %Y"
 
-#. Translators: These are the first characters of each day of the
-#. week, 'M' for 'Monday', 'T' for Tuesday etc.
-#: widgets/misc/e-calendar-item.c:415
-msgid "MTWTFSS"
-msgstr "ПВСЧПСВ"
-
 #. This is a strftime() format. %B = Month name, %Y = Year.
-#: widgets/misc/e-calendar-item.c:1039 widgets/misc/e-calendar-item.c:2670
+#: widgets/misc/e-calendar-item.c:1040 widgets/misc/e-calendar-item.c:2671
 msgid "%B %Y"
 msgstr "%B %Y"
 
-#: widgets/misc/e-clipped-label.c:106
+#: widgets/misc/e-clipped-label.c:107
 msgid "..."
 msgstr "..."
 
