@@ -1344,6 +1344,9 @@ mail_remove_storage (CamelStore *store)
 	 */
 	
 	storage = g_hash_table_lookup (storages_hash, store);
+	if (!storage)
+		return;
+	
 	g_hash_table_remove (storages_hash, store);
 
 	/* so i guess potentially we could have a race, add a store while one

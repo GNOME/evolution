@@ -1,3 +1,9 @@
+2002-05-30  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* component-factory.c (mail_remove_storage): If the store is not
+	in the storage hash, then it must not have ever been added. Fixes
+	bug #25456.
+
 2002-04-18  Radek Doulik  <rodo@ximian.com>
 
 	* mail-callbacks.c (do_mail_print): use default paper name in case
