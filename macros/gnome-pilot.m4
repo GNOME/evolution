@@ -97,23 +97,29 @@ AC_DEFUN([PILOT_LINK_CHECK],[
 ])
 
 AC_DEFUN([GNOME_PILOT_HOOK],[
-	AC_PATH_PROG(GNOME_PILOT_CONFIG,gnome-pilot-config,no)
+	AC_PATH_PROG(GNOME_CONFIG,gnome-config,no)
 	AC_CACHE_CHECK([for gnome-pilot environment],gnome_cv_pilot_found,[
-		if test x$GNOME_PILOT_CONFIG = xno; then
+		if test "x$GNOME_CONFIG" = "xno"; then
 			gnome_cv_pilot_found=no
 		else
-			gnome_cv_pilot_found=yes
+			# gnome-config doesn't return a useful error status,
+			# so we check if it outputs anything to stderr
+			if test "x`$GNOME_CONFIG gpilot 2>&1 > /dev/null`" = "x"; then
+				gnome_cv_pilot_found=yes
+			else
+				gnome_cv_pilot_found=no
+			fi
 		fi
 	])
 	AM_CONDITIONAL(HAVE_GNOME_PILOT,test x$gnome_cv_pilot_found = xyes)
 	if test x$gnome_cv_pilot_found = xyes; then
 		PILOT_LINK_CHECK($1)
-		GNOME_PILOT_CFLAGS=`gnome-pilot-config --cflags client conduitmgmt`
-		GNOME_PILOT_LIBS=`gnome-pilot-config --libs client conduitmgmt`
+		GNOME_PILOT_CFLAGS=`gnome-config --cflags gpilot`
+		GNOME_PILOT_LIBS=`gnome-config --libs gpilot`
 		$2
 	else
 		if test x$3 = xfailure; then
-			AC_MSG_ERROR(Gnome-pilot not installed or installation problem)
+			AC_MSG_ERROR(gnome-pilot development package not installed or installation problem)
 		fi
 	fi
 ])

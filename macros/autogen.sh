@@ -105,7 +105,7 @@ do
       aclocalinclude="$ACLOCAL_FLAGS"
       for k in $aclocalinclude; do
   	if test -d $k; then
-	  if [ -f $k/gnome.m4 -a "$GNOME_INTERFACE_VERSION" = "1.0" ]; then
+	  if [ -f $k/gnome.m4 -a "$GNOME_INTERFACE_VERSION" = "1" ]; then
 	    rm -f $DELETEFILES
 	  fi
         fi
@@ -113,7 +113,7 @@ do
       for k in $macrodirs; do
   	if test -d $k; then
           aclocalinclude="$aclocalinclude -I $k"
-	  if [ -f $k/gnome.m4 -a "$GNOME_INTERFACE_VERSION" = "1.0" ]; then
+	  if [ -f $k/gnome.m4 -a "$GNOME_INTERFACE_VERSION" = "1" ]; then
 	    rm -f $DELETEFILES
 	  fi
         fi
@@ -139,8 +139,10 @@ do
 	test -r $dr/aclocal.m4 && chmod u+w $dr/aclocal.m4
       fi
       if grep "^AM_PROG_LIBTOOL" configure.in >/dev/null; then
-	echo "Running libtoolize..."
-	libtoolize --force --copy
+	if test -z "$NO_LIBTOOLIZE" ; then 
+	  echo "Running libtoolize..."
+	  libtoolize --force --copy
+	fi
       fi
       echo "Running aclocal $aclocalinclude ..."
       aclocal $aclocalinclude
