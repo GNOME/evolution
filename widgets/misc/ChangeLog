@@ -1,3 +1,9 @@
+2002-04-08  Dan Winship  <danw@ximian.com>
+
+	* e-search-bar.c (e_search_bar_construct): Construct the buttons
+	earlier so that the option-menu-setup code that tries to adjust
+	the button sensitivity won't fail and g_warn.
+
 2002-04-06  JP Rosevear  <jpr@ximian.com>
 
 	* e-multi-config-dialog.c (e_multi_config_dialog_show_page): show
