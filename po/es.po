@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.13\n"
 "POT-Creation-Date: 2001-09-26 21:10+0200\n"
-"PO-Revision-Date: 2001-09-04 17:50+0200\n"
+"PO-Revision-Date: 2001-09-28 17:50+0200\n"
 "Last-Translator: Héctor García Álvarez <hector@scouts-es.org>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2330,7 +2330,7 @@ msgstr "_Apellido:"
 
 #: addressbook/gui/contact-editor/fullname.glade.h:15
 msgid "_Middle:"
-msgstr "M"
+msgstr "_2º Nombre:"
 
 #: addressbook/gui/contact-editor/fullname.glade.h:16
 msgid "_Suffix:"
