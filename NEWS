@@ -1,3 +1,12 @@
+Evolution x.x.x, xxxx-xx-xx
+---------------------------
+
+Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
+
+  * Calendar
+
+    #45274 - Tab through events in week view (Bolian Yin)
+
 Evolution 1.4.2, 2003-06-30
 ---------------------------
 
@@ -9,7 +18,6 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
     #44723 - Alarm Notify - Displays _originally entered_ summary (Rodrigo)
     #45276 - Use the key "Esc" to escape editing current event and give focus
              to day/week view (Bolian Yin)
-    #45274 - Tab through events in week view (Bolian Yin)
 
 Other bugs
 
