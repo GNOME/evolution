@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution pre-2.0\n"
 "POT-Creation-Date: 2004-02-27 03:15+0100\n"
-"PO-Revision-Date: 2004-05-02 19:51+0300\n"
+"PO-Revision-Date: 2004-05-03 22:03+0300\n"
 "Last-Translator: Priit Laes <amd@tt.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -7085,6 +7085,8 @@ msgid ""
 "\n"
 "Really erase these tasks?"
 msgstr ""
+"See operatsioon kustutab jäädavalt kõik ülesanded, mis on märgitud kui lõpetatud. Kui sa jätkad, siis neid ülesandeid ei ole võimalik taastada.\n"
+"Kas tõesti kustutada need ülesanded? "
 
 #: calendar/gui/tasks-control.c:481
 msgid "Do not ask me again."
@@ -8909,6 +8911,9 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
+"Ootamatu GnuPG olekusõnum:\n"
+"\n"
+"%s"
 
 #: camel/camel-gpg-context.c:726
 msgid "Failed to parse gpg userid hint."
@@ -9638,7 +9643,7 @@ msgstr "Sertifikaadi leidmine \"%s\" jaoks nurjus."
 msgid "Can't find common bulk encryption algorithm"
 msgstr ""
 
-#. PORT_GetError(); ??
+#  PORT_GetError(); ??
 #: camel/camel-smime-context.c:816
 msgid "Can't allocate slot for encryption bulk key"
 msgstr ""
@@ -9871,6 +9876,10 @@ msgid ""
 "Fingerprint:       %s\n"
 "Signature:         %s"
 msgstr ""
+"Väljastaja:            %s\n"
+"Teema:           %s\n"
+"Sõrmejälg:       %s\n"
+"Allkiri:         %s"
 
 #: camel/camel-tcp-stream-openssl.c:702
 #: camel/camel-tcp-stream-ssl.c:837
@@ -9893,9 +9902,16 @@ msgid ""
 "\n"
 "Do you wish to accept anyway?"
 msgstr ""
+"Halb sertifikaat %s isikult:\n"
+"\n"
+"%s\n"
+"\n"
+"%s\n"
+"\n"
+"Kas soovid seda siiski vastu võtta?"
 
 #  construct our user prompt
-#. construct our user prompt
+#  construct our user prompt
 #: camel/camel-tcp-stream-ssl.c:841
 #, c-format
 msgid ""
@@ -9905,6 +9921,11 @@ msgid ""
 "\n"
 "Do you wish to accept?"
 msgstr ""
+"SSL sertifikaadi kontrollimine %s:\n"
+"\n"
+"%s\n"
+"\n"
+"Kas soovida vastu võtta?"
 
 #: camel/camel-tcp-stream-ssl.c:885
 #, c-format
@@ -10363,6 +10384,10 @@ msgid ""
 "\n"
 " !!! DO NOT USE THIS FOR PRODUCTION EMAIL  !!!\n"
 msgstr ""
+"Eksperimentaalne IMAP 4(.1) klient\n"
+"See on testimata ja mittetoetatud kood, parem kasuta selle asemel tavalist imap'i.\n"
+"\n"
+" !!! ÄRA KASUTA SEDA OMA TAVAKIRJADE PUHUL !!!\n"
 
 #: camel/providers/imapp/camel-imapp-store.c:328
 #, fuzzy, c-format
@@ -10401,7 +10426,7 @@ msgstr "%s (%s)"
 
 #: camel/providers/local/camel-local-provider.c:43
 msgid "Use the `.folders' folder summary file (exmh)"
-msgstr ""
+msgstr "Kasuta `.folders' kaustakokkuvõttefaili (exmh)"
 
 #: camel/providers/local/camel-local-provider.c:49
 msgid "MH-format mail directories"
@@ -10436,7 +10461,7 @@ msgstr "Kohalikku posti hoitakse maildir vorminguga kataloogides."
 
 #: camel/providers/local/camel-local-provider.c:95
 msgid "Store status headers in Elm/Pine/Mutt format"
-msgstr ""
+msgstr "Salvesta olekupäised Elm/Pine/Mutt vormingus"
 
 #: camel/providers/local/camel-local-provider.c:101
 #, fuzzy
@@ -10456,7 +10481,7 @@ msgstr "Kohalikku e-posti loetakse ja hoitakse standardsetes \"mbox\" vorminguga
 #: camel/providers/local/camel-spool-store.c:116
 #, c-format
 msgid "Store root %s is not an absolute path"
-msgstr ""
+msgstr "Hoidla juurikas %s ei ole absoluutne tee"
 
 #: camel/providers/local/camel-local-store.c:145
 #, fuzzy, c-format
@@ -10515,7 +10540,7 @@ msgstr "Ei saa salvestada kokkuvõtet: %s: %s"
 
 #: camel/providers/local/camel-local-summary.c:464
 msgid "Unable to add message to summary: unknown reason"
-msgstr ""
+msgstr "Sõnumite ei saa lisada kokkuvõttesse: tundmatu põhjus"
 
 #: camel/providers/local/camel-maildir-folder.c:183
 #, fuzzy
@@ -10638,7 +10663,7 @@ msgstr "Sõnum ei tundu olevalt õigesti vormistatud"
 
 #: camel/providers/local/camel-mbox-folder.c:475
 msgid "Message construction failed: Corrupt mailbox?"
-msgstr ""
+msgstr "Sõnumi kokkupanek ebaõnnestus: Rikutud kirjakast?"
 
 #: camel/providers/local/camel-mbox-store.c:176
 #: camel/providers/local/camel-mbox-store.c:362
@@ -10747,7 +10772,7 @@ msgstr "Kataloogi ei saa ümber nimetada : %s"
 #: camel/providers/local/camel-mbox-summary.c:877
 #: camel/providers/local/camel-mbox-summary.c:885
 msgid "Summary and folder mismatch, even after a sync"
-msgstr ""
+msgstr "Kokkuvõtte ja kausta ebavõrdlus, isegi peale sünkroniseerimist"
 
 #: camel/providers/local/camel-mbox-summary.c:811
 #: camel/providers/local/camel-spool-summary.c:334
@@ -10930,7 +10955,7 @@ msgstr ""
 #: camel/providers/nntp/camel-nntp-folder.c:223
 #, c-format
 msgid "Internal error: uid in invalid format: %s"
-msgstr ""
+msgstr "Sisemine viga: uid on vigases vormingus: %s"
 
 #: camel/providers/nntp/camel-nntp-folder.c:198
 #, fuzzy, c-format
@@ -10939,29 +10964,27 @@ msgstr "Gruppide nimekirja serverist ei saadud."
 
 #: camel/providers/nntp/camel-nntp-folder.c:381
 msgid "Posting not allowed by news server"
-msgstr ""
+msgstr "Uudisteserver ei luba postitusi"
 
 #: camel/providers/nntp/camel-nntp-folder.c:392
 #, c-format
 msgid "Failed to send newsgroups header: %s: message not posted"
-msgstr ""
+msgstr "Uudistegruppide päise saatmine ebaõnnestus: %s: sõnimit ei postitatud"
 
 #: camel/providers/nntp/camel-nntp-folder.c:432
 #: camel/providers/nntp/camel-nntp-folder.c:445
 #, c-format
 msgid "Error posting to newsgroup: %s: message not posted"
-msgstr ""
+msgstr "Viga uudistegruppi postitamisel: %s: sõnumit ei postitatud"
 
 #: camel/providers/nntp/camel-nntp-folder.c:457
 msgid "Error reading response to posted message: message not posted"
-msgstr ""
+msgstr "Viga postitatud sõnumi vastuse lugemisel: sõnumit ei postitatud"
 
 #: camel/providers/nntp/camel-nntp-folder.c:460
 #, fuzzy, c-format
 msgid "Error posting message: %s: message not posted"
-msgstr ""
-"Ei saa muuta võtme väärtust. Viga:\n"
-"%s"
+msgstr "Viga uudistegruppi postitamisel: %s: sõnumit ei postitatud"
 
 #: camel/providers/nntp/camel-nntp-folder.c:476
 msgid "You cannot post NNTP messages while working offline!"
@@ -10988,7 +11011,7 @@ msgstr "Faili %1 avamine %2 järjehoidjate jaoks ei õnnestunud."
 
 #: camel/providers/nntp/camel-nntp-provider.c:43
 msgid "Show folders in short notation (e.g. c.o.linux rather than comp.os.linux)"
-msgstr ""
+msgstr "Näita kaustasid lühendatult (comp.os.linux asemel c.o.linux)"
 
 #: camel/providers/nntp/camel-nntp-provider.c:45
 msgid "In the subscription dialog, show relative folder names"
@@ -11014,7 +11037,7 @@ msgstr "Standardsisendist (stdin) andmete lugemine ebaõnnestus."
 #: camel/providers/nntp/camel-nntp-store.c:170
 #, c-format
 msgid "NNTP server %s returned error code %d: %s"
-msgstr ""
+msgstr "NNTP server %s tagastas veakoodi %d: %s"
 
 #: camel/providers/nntp/camel-nntp-store.c:326
 #, c-format
@@ -11165,7 +11188,7 @@ msgstr "E-posti laetakse alla POP serverist"
 
 #: camel/providers/pop3/camel-pop3-provider.c:73
 msgid "This option will connect to the POP server using a plaintext password. This is the only option supported by many POP servers."
-msgstr ""
+msgstr "See valik ühendub POP serverisse kasutades lihttekstiparooli. See on ainus valik, mida toetavad paljud POP serverid."
 
 #: camel/providers/pop3/camel-pop3-provider.c:83
 msgid "This option will connect to the POP server using an encrypted password via the APOP protocol. This may not work for all users even on servers that claim to support it."
@@ -11930,6 +11953,8 @@ msgid ""
 "<small>The message specified below will be automatically sent to each person who sends\n"
 "mail to you while you are out of the office.</small>"
 msgstr ""
+"<small>See allpool näidatud sõnum saadetakse automaatselt igale isikule,\n"
+"kes saadab sulle kirja ajal kui sa puhkusel oled.</small>"
 
 #: designs/OOA/ooa.glade.h:8
 msgid "I am currently in the office"
@@ -12552,7 +12577,7 @@ msgstr "Avaldis"
 #: filter/libfilter-i18n.h:25
 #, fuzzy
 msgid "Follow Up"
-msgstr "Liiguta üles"
+msgstr "_Vastukaja..."
 
 #: filter/libfilter-i18n.h:27
 msgid "is"
@@ -12871,7 +12896,6 @@ msgid "Language(s)"
 msgstr "Keel(ed)"
 
 #: mail/em-composer-prefs.c:941
-#, fuzzy
 msgid "Add signature script"
 msgstr "Lisa allkirjaskript"
 
@@ -13037,12 +13061,11 @@ msgstr "_Omadused..."
 
 #  { EM_POPUP_ITEM, "00.select.00", N_("_Open"), G_CALLBACK(emp_popup_open), NULL, NULL, 0 },
 #  { EM_POPUP_ITEM, "00.select.00", N_("_Open"), G_CALLBACK(emp_popup_open), NULL, NULL, 0 },
-#. { EM_POPUP_ITEM, "00.select.00", N_("_Open"), G_CALLBACK(emp_popup_open), NULL, NULL, 0 },
+#  { EM_POPUP_ITEM, "00.select.00", N_("_Open"), G_CALLBACK(emp_popup_open), NULL, NULL, 0 },
 #: mail/em-folder-view.c:771
 #: mail/em-popup.c:689
-#, fuzzy
 msgid "_Edit as New Message..."
-msgstr "Märgi kiri &uueks"
+msgstr "_Redigeeri kui uut kirja..."
 
 #: mail/em-folder-view.c:773
 msgid "_Print"
@@ -13062,9 +13085,8 @@ msgstr "Vasta postiloendisse"
 #: mail/em-folder-view.c:778
 #: mail/em-popup.c:810
 #: ui/evolution-mail-message.xml.h:87
-#, fuzzy
 msgid "Reply to _All"
-msgstr "Vasta kõigile"
+msgstr "Vasta _kõigile"
 
 #: mail/em-folder-view.c:779
 #: mail/em-popup.c:812
@@ -13073,19 +13095,16 @@ msgid "_Forward"
 msgstr "_Edasta"
 
 #: mail/em-folder-view.c:782
-#, fuzzy
 msgid "Follo_w Up..."
-msgstr "Liiguta üles"
+msgstr "Vastu_kaja..."
 
 #: mail/em-folder-view.c:783
-#, fuzzy
 msgid "Fla_g Completed"
-msgstr "%s kirjutamine valmis"
+msgstr "Märgista kui lõpetatud"
 
 #: mail/em-folder-view.c:784
-#, fuzzy
 msgid "Cl_ear Flag"
-msgstr "Puhastatakse \"&hiljutiste\" dokumentide nimekiri"
+msgstr "_Eemalda silt"
 
 #: mail/em-folder-view.c:787
 #: ui/evolution-mail-message.xml.h:50
@@ -13111,9 +13130,8 @@ msgstr "Märgi _rämpsuks"
 
 #: mail/em-folder-view.c:792
 #: ui/evolution-mail-message.xml.h:55
-#, fuzzy
 msgid "Mark as _Not Junk"
-msgstr "Valitud sõnumi(te) märkimine rämpsuks"
+msgstr "Märgista kui _mitte rämps"
 
 #: mail/em-folder-view.c:796
 msgid "U_ndelete"
@@ -13141,9 +13159,8 @@ msgid "F_ilter Junk"
 msgstr "_Rämpsu filtreerimine"
 
 #: mail/em-folder-view.c:815
-#, fuzzy
 msgid "Crea_te Rule From Message"
-msgstr "Kalendri sõnum"
+msgstr "_Loo sõnumi baasil reegel"
 
 #: mail/em-folder-view.c:816
 msgid "VFolder on _Subject"
@@ -13416,7 +13433,7 @@ msgstr "Postiprogramm:"
 #  translators: strftime format for local time equivalent in Date header display, with day
 #: mail/em-format-html.c:1573
 msgid "<I> (%a, %R %Z)</I>"
-msgstr ""
+msgstr "<I> (%a, %R %Z)</I>"
 
 #  translators: strftime format for local time equivalent in Date header display, without day
 #  translators: strftime format for local time equivalent in Date header display, without day
@@ -13424,7 +13441,7 @@ msgstr ""
 #  translators: strftime format for local time equivalent in Date header display, without day
 #: mail/em-format-html.c:1576
 msgid "<I> (%R %Z)</I>"
-msgstr ""
+msgstr "<I> (%R %Z)</I>"
 
 #: mail/em-format-html.c:1586
 #: mail/em-format-quote.c:315
@@ -13447,9 +13464,8 @@ msgstr "\"%s\" tüüpi manus"
 
 #: mail/em-format.c:1065
 #: mail/em-format.c:1184
-#, fuzzy
 msgid "Could not parse S/MIME message: Unknown error"
-msgstr "S/MIME sõnumi u"
+msgstr "S/MIME sõnumit ei saa analüüsida: Tundmatu viga"
 
 #: mail/em-format.c:1174
 msgid "Unsupported encryption type for multipart/encrypted"
@@ -13621,35 +13637,31 @@ msgid "Add address"
 msgstr "Aadressi lisamine"
 
 #  Drop filename for messages from a mailbox
-#. Drop filename for messages from a mailbox
+#  Drop filename for messages from a mailbox
 #: mail/em-utils.c:2063
 #, fuzzy, c-format
 msgid "Messages from %s"
 msgstr "Andmed (%s -st)"
 
 #: mail/evolution-mail.schemas.in.in.h:1
-#, fuzzy
 msgid "Automatic link recognition"
-msgstr "Optiline märgituvastus"
+msgstr "Automaatne viidatuvastus"
 
 #: mail/evolution-mail.schemas.in.in.h:2
-#, fuzzy
 msgid "Automatic smiley recognition"
-msgstr "Optiline märgituvastus"
+msgstr "Automaatne emotikonituvastus"
 
 #: mail/evolution-mail.schemas.in.in.h:3
 msgid "Check incoming mail being junk"
 msgstr "Otsi sissetuleva posti seest rämpsu"
 
 #: mail/evolution-mail.schemas.in.in.h:4
-#, fuzzy
 msgid "Citation highlight color"
-msgstr "Vali kohandatud värv"
+msgstr "Tsiteeringu esiletoomise värv"
 
 #: mail/evolution-mail.schemas.in.in.h:5
-#, fuzzy
 msgid "Citation highlight color."
-msgstr "Vali kohandatud värv"
+msgstr "Tsiteeringu esiletoomise värv."
 
 #: mail/evolution-mail.schemas.in.in.h:6
 msgid "Composer Window default height"
@@ -14033,43 +14045,52 @@ msgstr "Muutuva laiusega kirjatüüp"
 
 #: mail/evolution-mail.schemas.in.in.h:96
 msgid "View/Bcc menu item is checked"
-msgstr ""
+msgstr "Vaade/Bcc menüüelement on valitud"
 
 #: mail/evolution-mail.schemas.in.in.h:97
+#, fuzzy
 msgid "View/Bcc menu item is checked."
-msgstr ""
+msgstr "Vaade/Bcc menüüelement on valitud"
 
 #: mail/evolution-mail.schemas.in.in.h:98
+#, fuzzy
 msgid "View/Cc menu item is checked"
-msgstr ""
+msgstr "Vaade/Bcc menüüelement on valitud"
 
 #: mail/evolution-mail.schemas.in.in.h:99
+#, fuzzy
 msgid "View/Cc menu item is checked."
-msgstr ""
+msgstr "Vaade/Bcc menüüelement on valitud"
 
 #: mail/evolution-mail.schemas.in.in.h:100
+#, fuzzy
 msgid "View/From menu item is checked"
-msgstr ""
+msgstr "Vaade/Bcc menüüelement on valitud"
 
 #: mail/evolution-mail.schemas.in.in.h:101
+#, fuzzy
 msgid "View/From menu item is checked."
-msgstr ""
+msgstr "Vaade/Bcc menüüelement on valitud"
 
 #: mail/evolution-mail.schemas.in.in.h:102
+#, fuzzy
 msgid "View/PostTo menu item is checked"
-msgstr ""
+msgstr "Vaade/Bcc menüüelement on valitud"
 
 #: mail/evolution-mail.schemas.in.in.h:103
+#, fuzzy
 msgid "View/PostTo menu item is checked."
-msgstr ""
+msgstr "Vaade/Bcc menüüelement on valitud"
 
 #: mail/evolution-mail.schemas.in.in.h:104
+#, fuzzy
 msgid "View/ReplyTo menu item is checked"
-msgstr ""
+msgstr "Vaade/Bcc menüüelement on valitud"
 
 #: mail/evolution-mail.schemas.in.in.h:105
+#, fuzzy
 msgid "View/ReplyTo menu item is checked."
-msgstr ""
+msgstr "Vaade/Bcc menüüelement on valitud"
 
 #: mail/evolution-mail.schemas.in.in.h:106
 msgid "Whether or not to fall back on threading by subjects when the messages do not contain In-Reply-To or References headers."
@@ -14803,8 +14824,9 @@ msgid "PGP/GPG _Key ID:"
 msgstr "PGP/GPG _võtme ID:"
 
 #: mail/mail-config.glade.h:108
+#, fuzzy
 msgid "Play sound file when new mail arri_ves"
-msgstr ""
+msgstr "Helifail, mida mängitakse uute kirjade saabumisel."
 
 #: mail/mail-config.glade.h:109
 #, fuzzy
@@ -14854,20 +14876,24 @@ msgid "Security"
 msgstr "Turvalisus"
 
 #: mail/mail-config.glade.h:122
+#, fuzzy
 msgid "Select HTML fixed width font"
-msgstr ""
+msgstr "Vali HTML fikseeritud laiusega kirjatüüp"
 
 #: mail/mail-config.glade.h:123
+#, fuzzy
 msgid "Select HTML fixed width font for printing"
-msgstr ""
+msgstr "Vali printimise jaoks HTML fikseeritud laiusega kirjatüüp"
 
 #: mail/mail-config.glade.h:124
+#, fuzzy
 msgid "Select HTML variable width font"
-msgstr ""
+msgstr "Vali HTML muutuva laiusega kirjatüüp"
 
 #: mail/mail-config.glade.h:125
+#, fuzzy
 msgid "Select HTML variable width font for printing"
-msgstr ""
+msgstr "Vali printimise jaoks HTML muutuva laiusega kirjatüüp"
 
 #: mail/mail-config.glade.h:126
 msgid "Select..."
@@ -15817,7 +15843,7 @@ msgstr "Eelvaade"
 #: mail/message-tags.glade.h:3
 #, fuzzy
 msgid "Flag to Follow Up"
-msgstr "ümardatud üles %u bitini\n"
+msgstr "_Vastukaja sildi järgi"
 
 #: mail/message-tags.glade.h:2
 msgid "C_ompleted"
@@ -16541,7 +16567,7 @@ msgstr "Sertifikaat"
 #: smime/gui/smime-ui.glade.h:15
 #, fuzzy
 msgid "Certificate Authority Trust"
-msgstr "Isiklik sertifitseerimiskeskus"
+msgstr "SSL sertifikaadi atesteerimisorgan"
 
 #: smime/gui/smime-ui.glade.h:16
 #, fuzzy
@@ -16574,12 +16600,12 @@ msgstr "Redigeermine"
 #: smime/gui/smime-ui.glade.h:24
 #, fuzzy
 msgid "Email Recipient Certificate"
-msgstr "&Vali sertifikaat saaja %1 jaoks:"
+msgstr "E-posti sertifikaadi atesteerimisorgan"
 
 #: smime/gui/smime-ui.glade.h:25
 #, fuzzy
 msgid "Email Signer Certificate"
-msgstr "See ei ole signeerija sertifikaat"
+msgstr "E-posti sertifikaadi atesteerimisorgan"
 
 #: smime/gui/smime-ui.glade.h:26
 msgid "Expires On"
@@ -16767,7 +16793,7 @@ msgstr "Teema avaliku võtme info"
 #: smime/lib/e-cert.c:721
 #, fuzzy
 msgid "Subject Public Key Algorithm"
-msgstr "ei oska käsitleda avaliku võtme algoritmi %d\n"
+msgstr "Teema avaliku võtme info"
 
 #: smime/lib/e-cert.c:736
 msgid "Subject's Public Key"
@@ -16802,7 +16828,7 @@ msgstr "Ebausaldusväärne"
 #: smime/lib/e-cert.c:822
 #, fuzzy
 msgid "Key Encipherment"
-msgstr "/Muuda võtit"
+msgstr "Andmete "
 
 #: smime/lib/e-cert.c:826
 msgid "Data Encipherment"
@@ -17342,7 +17368,7 @@ msgstr "Edastab elemendi e-posti kaudu"
 #: ui/evolution-event-editor.xml.h:7
 #, fuzzy
 msgid "Obtain the latest meeting information"
-msgstr "<b>%s</b> soovib saada värskeimat infot koosoleku kohta."
+msgstr "Hangi värskeim ülesannete informatsioon"
 
 #: ui/evolution-event-editor.xml.h:8
 msgid "Re_fresh Meeting"
