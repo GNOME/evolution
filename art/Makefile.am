@@ -171,7 +171,8 @@ images_DATA = \
 	work_offline.xpm		\
 	work_online-16.png		\
 	working-16.png			\
-	world_map-960.png
+	world_map-960.png		\
+	videoconf.png
 
 buttons_DATA = 				\
 	arrow-right-24.png		\

@@ -1,3 +1,15 @@
+2004-01-08  Ross Burton  <ross@burtonini.com>
+
+	* Makefile.am:
+	* videoconf.png:
+	Add a video conferencing icon.
+
+	* globe.png:
+	Replace with the 24x24 version.
+
+	Both of these are for the redesigned Collaboration tab in the
+	contact editor.
+
 2003-12-04  Radek Doulik  <rodo@ximian.com>
 
 	* Makefile.am (buttons_DATA): added stock junk button and notjunk
