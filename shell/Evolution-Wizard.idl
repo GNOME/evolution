@@ -15,7 +15,15 @@ module Evolution {
 
 	interface Wizard : Bonobo::Unknown {
 		
-		readonly attribute long pageCount;
+		struct Page {
+			string          title;
+			Icon            icon;
+			Bonobo::Control control;
+		};
+		typedef sequence<Page> PageList;
+
+		readonly attribute PageList pages;
+
 		enum Action {
 			NEXT,
 			PREPARE,
@@ -26,9 +34,6 @@ module Evolution {
 		};
 
 		exception NoPage {};
-
-		Bonobo::Control getControl (in long pagenumber)
-			raises (NoPage);
 
 		void notifyAction (in long pagenumber, in Action action)
 			raises (NoPage);

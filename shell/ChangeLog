@@ -1,5 +1,28 @@
 2003-02-25  Dan Winship  <danw@ximian.com>
 
+	* Evolution-Wizard.idl: Change this to let the Wizard provide an
+	array of title/icon/control triplets, instead of just controls, so
+	the shell doesn't need to know the name of each page a priori.
+
+	* glade/evolution-startup-wizard.glade: Remove the mailer-specific
+	pages, which are now inserted at run time based on info from the
+	mailer.
+
+	* evolution-wizard.c: Update for new idl.
+	(evolution_wizard_new): Now takes no arguments.
+	(evolution_wizard_add_page): New function to add page info to the
+	wizard.
+
+	* e-shell-startup-wizard.c: Various renamings to make this
+	slightly less mailer-centric, though it still explicitly launches
+	the mailer startup wizard.
+	(make_corba_page): Replaces make_identity_page, make_receive_page,
+	etc. Uses the new Wizard idl to generically create a page and
+	insert it into the druid.
+	(e_shell_startup_wizard_create): Update
+
+2003-02-25  Dan Winship  <danw@ximian.com>
+
 	* e-shell-startup-wizard.c (connect_page, make_importer_page): Use
 	g_signal_connect_after to connect to the "prepare" signal to work
 	around a GnomeDruidPageStandard bug (b.g.o 81869)

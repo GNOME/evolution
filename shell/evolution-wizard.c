@@ -2,7 +2,7 @@
 /*
  * evolution-wizard.c
  *
- * Copyright (C) 2000, 2001, 2002 Ximian, Inc.
+ * Copyright (C) 2000-2003 Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -17,8 +17,6 @@
  * License along with this program; if not, write to the
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
  * Boston, MA 02111-1307, USA.
- *
- * Authors: Iain Holmes  <iain@ximian.com>
  */
 
 #ifdef HAVE_CONFIG_H
@@ -37,14 +35,19 @@
 #include "Evolution.h"
 
 #include "e-shell-marshal.h"
+#include "e-shell-corba-icon-utils.h"
 
 struct _EvolutionWizardPrivate {
-	EvolutionWizardGetControlFn get_fn;
 	BonoboEventSource *event_source;
 
-	void *closure;
-	int page_count;
+	GPtrArray *pages;
 };
+
+typedef struct {
+	char          *title;
+	GdkPixbuf     *icon;
+	BonoboControl *control;
+} EvolutionWizardPage;
 
 enum {
 	NEXT,
@@ -61,46 +64,31 @@ enum {
 static GtkObjectClass *parent_class;
 static guint32 signals[LAST_SIGNAL] = { 0 };
 
-static CORBA_long
-impl_GNOME_Evolution_Wizard__get_pageCount (PortableServer_Servant servant,
-					    CORBA_Environment *ev)
-{
-	BonoboObject *bonobo_object;
-	EvolutionWizard *wizard;
-	EvolutionWizardPrivate *priv;
-
-	bonobo_object = bonobo_object_from_servant (servant);
-	wizard = EVOLUTION_WIZARD (bonobo_object);
-	priv = wizard->priv;
-
-	return priv->page_count;
-}
-
-static Bonobo_Control
-impl_GNOME_Evolution_Wizard_getControl (PortableServer_Servant servant,
-					CORBA_long pagenumber,
+static GNOME_Evolution_Wizard_PageList *
+impl_GNOME_Evolution_Wizard__get_pages (PortableServer_Servant servant,
 					CORBA_Environment *ev)
 {
 	BonoboObject *bonobo_object;
 	EvolutionWizard *wizard;
-	EvolutionWizardPrivate *priv;
-	BonoboControl *control;
+	EvolutionWizardPage *page;
+	GNOME_Evolution_Wizard_PageList *pages;
+	int i;
 
 	bonobo_object = bonobo_object_from_servant (servant);
 	wizard = EVOLUTION_WIZARD (bonobo_object);
-	priv = wizard->priv;
 
-	if (pagenumber < 0 || pagenumber >= priv->page_count) {
-		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-				     ex_GNOME_Evolution_Wizard_NoPage, NULL);
-		return CORBA_OBJECT_NIL;
+	pages = GNOME_Evolution_Wizard_PageList__alloc ();
+	pages->_maximum = pages->_length = wizard->priv->pages->len;
+	pages->_buffer = GNOME_Evolution_Wizard_PageList_allocbuf (pages->_maximum);
+	for (i = 0; i < wizard->priv->pages->len; i++) {
+		page = wizard->priv->pages->pdata[i];
+
+		pages->_buffer[i].title = CORBA_string_dup (page->title);
+		e_store_corba_icon_from_pixbuf (page->icon, &pages->_buffer[i].icon);
+		pages->_buffer[i].control = BONOBO_OBJREF (page->control);
 	}
 
-	control = priv->get_fn (wizard, pagenumber, priv->closure);
-	if (control == NULL)
-		return CORBA_OBJECT_NIL;
-
-	return (Bonobo_Control) CORBA_Object_duplicate (BONOBO_OBJREF (control), ev);
+	return pages;
 }
 
 static void
@@ -118,8 +106,8 @@ impl_GNOME_Evolution_Wizard_notifyAction (PortableServer_Servant servant,
 	priv = wizard->priv;
 
 	if (pagenumber < 0
-	    || pagenumber > priv->page_count
-	    || (action != GNOME_Evolution_Wizard_BACK && pagenumber == priv->page_count)) {
+	    || pagenumber > priv->pages->len
+	    || (action != GNOME_Evolution_Wizard_BACK && pagenumber == priv->pages->len)) {
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
 				     ex_GNOME_Evolution_Wizard_NoPage, NULL);
 		return;
@@ -139,11 +127,11 @@ impl_GNOME_Evolution_Wizard_notifyAction (PortableServer_Servant servant,
 		break;
 
 	case GNOME_Evolution_Wizard_FINISH:
-		g_signal_emit (bonobo_object, signals[FINISH], 0, pagenumber);
+		g_signal_emit (bonobo_object, signals[FINISH], 0);
 		break;
 
 	case GNOME_Evolution_Wizard_CANCEL:
-		g_signal_emit (bonobo_object, signals[CANCEL], 0, pagenumber);
+		g_signal_emit (bonobo_object, signals[CANCEL], 0);
 		break;
 
 	case GNOME_Evolution_Wizard_HELP:
@@ -156,25 +144,44 @@ impl_GNOME_Evolution_Wizard_notifyAction (PortableServer_Servant servant,
 }
 
 
+
 static void
-impl_dispose (GObject *object)
+free_page (EvolutionWizardPage *page)
 {
-	/* (Nothing to do here.)  */
+	g_free (page->title);
+	g_object_unref (page->icon);
+	bonobo_object_unref (page->control);
+
+	g_free (page);
+}
+
+static void
+dispose (GObject *object)
+{
+	EvolutionWizard *wizard = EVOLUTION_WIZARD (object);
+	int i;
+
+	if (wizard->priv->event_source) {
+		bonobo_object_unref (wizard->priv->event_source);
+		wizard->priv->event_source = NULL;
+	}
+
+	if (wizard->priv->pages) {
+		for (i = 0; i < wizard->priv->pages->len; i++)
+			free_page (wizard->priv->pages->pdata[i]);
+		g_ptr_array_free (wizard->priv->pages, TRUE);
+		wizard->priv->pages = NULL;
+	}
 
 	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
 }
 
 static void
-impl_finalize (GObject *object)
+finalize (GObject *object)
 {
-	EvolutionWizard *wizard;
-
-	wizard = EVOLUTION_WIZARD (object);
-	if (wizard->priv == NULL)
-		return;
+	EvolutionWizard *wizard = EVOLUTION_WIZARD (object);
 
 	g_free (wizard->priv);
-	wizard->priv = NULL;
 
 	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
@@ -187,8 +194,8 @@ evolution_wizard_class_init (EvolutionWizardClass *klass)
 	POA_GNOME_Evolution_Wizard__epv *epv = &klass->epv;
 
 	object_class = G_OBJECT_CLASS (klass);
-	object_class->dispose  = impl_dispose;
-	object_class->finalize = impl_finalize;
+	object_class->dispose  = dispose;
+	object_class->finalize = finalize;
 
 	signals[NEXT] 
 		= g_signal_new ("next",
@@ -223,18 +230,16 @@ evolution_wizard_class_init (EvolutionWizardClass *klass)
 				G_SIGNAL_RUN_FIRST,
 				G_STRUCT_OFFSET (EvolutionWizardClass, finish),
 				NULL, NULL,
-				e_shell_marshal_NONE__INT,
-				G_TYPE_NONE, 1,
-				G_TYPE_INT);
+				e_shell_marshal_NONE__NONE,
+				G_TYPE_NONE, 0);
 	signals[CANCEL] 
 		= g_signal_new ("cancel", 
 				G_OBJECT_CLASS_TYPE (object_class),
 				G_SIGNAL_RUN_FIRST,
 				G_STRUCT_OFFSET (EvolutionWizardClass, cancel),
 				NULL, NULL,
-				e_shell_marshal_NONE__INT,
-				G_TYPE_NONE, 1,
-				G_TYPE_INT);
+				e_shell_marshal_NONE__NONE,
+				G_TYPE_NONE, 0);
 	signals[HELP] 
 		= g_signal_new ("help", 
 				G_OBJECT_CLASS_TYPE (object_class),
@@ -247,8 +252,7 @@ evolution_wizard_class_init (EvolutionWizardClass *klass)
 
 	parent_class = g_type_class_ref(PARENT_TYPE);
 
-	epv->_get_pageCount = impl_GNOME_Evolution_Wizard__get_pageCount;
-	epv->getControl = impl_GNOME_Evolution_Wizard_getControl;
+	epv->_get_pages   = impl_GNOME_Evolution_Wizard__get_pages;
 	epv->notifyAction = impl_GNOME_Evolution_Wizard_notifyAction;
 }
 
@@ -256,64 +260,40 @@ static void
 evolution_wizard_init (EvolutionWizard *wizard)
 {
 	wizard->priv = g_new0 (EvolutionWizardPrivate, 1);
+
+	wizard->priv->event_source = bonobo_event_source_new ();
+	bonobo_object_add_interface (BONOBO_OBJECT (wizard),
+				     BONOBO_OBJECT (wizard->priv->event_source));
+
+	wizard->priv->pages = g_ptr_array_new ();
 }
 
 BONOBO_TYPE_FUNC_FULL (EvolutionWizard, GNOME_Evolution_Wizard, 
 		       PARENT_TYPE, evolution_wizard);
 
 EvolutionWizard *
-evolution_wizard_construct (EvolutionWizard *wizard,
-			    BonoboEventSource *event_source,
-			    EvolutionWizardGetControlFn get_fn,
-			    int num_pages,
-			    void *closure)
+evolution_wizard_new (void)
 {
-	EvolutionWizardPrivate *priv;
-
-	g_return_val_if_fail (BONOBO_IS_EVENT_SOURCE (event_source), NULL);
-	g_return_val_if_fail (IS_EVOLUTION_WIZARD (wizard), NULL);
-
-	priv = wizard->priv;
-	priv->get_fn = get_fn;
-	priv->page_count = num_pages;
-	priv->closure = closure;
-
-	priv->event_source = event_source;
-	bonobo_object_add_interface (BONOBO_OBJECT (wizard),
-				     BONOBO_OBJECT (event_source));
-
-	return wizard;
+	return g_object_new (EVOLUTION_TYPE_WIZARD, NULL);
 }
 
-EvolutionWizard *
-evolution_wizard_new_full (EvolutionWizardGetControlFn get_fn,
-			   int num_pages,
-			   BonoboEventSource *event_source,
-			   void *closure)
+void
+evolution_wizard_add_page (EvolutionWizard *wizard,
+			   const char      *title,
+			   GdkPixbuf       *icon,
+			   GtkWidget       *page)
 {
-	EvolutionWizard *wizard;
+	EvolutionWizardPage *new;
 
-	g_return_val_if_fail (num_pages > 0, NULL);
-	g_return_val_if_fail (BONOBO_IS_EVENT_SOURCE (event_source), NULL);
+	new = g_new (EvolutionWizardPage, 1);
+	new->title = g_strdup (title);
+	new->icon = icon;
+	g_object_ref (icon);
+	new->control = bonobo_control_new (page);
 
-	wizard = g_object_new (evolution_wizard_get_type (), NULL);
-
-	return evolution_wizard_construct (wizard, event_source, get_fn, num_pages, closure);
+	g_ptr_array_add (wizard->priv->pages, new);
 }
 
-EvolutionWizard *
-evolution_wizard_new (EvolutionWizardGetControlFn get_fn,
-		      int num_pages,
-		      void *closure)
-{
-	BonoboEventSource *event_source;
-
-	g_return_val_if_fail (num_pages > 0, NULL);
-
-	event_source = bonobo_event_source_new ();
-
-	return evolution_wizard_new_full (get_fn, num_pages, event_source, closure);
-}
 
 void
 evolution_wizard_set_buttons_sensitive (EvolutionWizard *wizard,
@@ -327,7 +307,7 @@ evolution_wizard_set_buttons_sensitive (EvolutionWizard *wizard,
 	CORBA_any any;
 	CORBA_short s;
 
-	g_return_if_fail (IS_EVOLUTION_WIZARD (wizard));
+	g_return_if_fail (EVOLUTION_IS_WIZARD (wizard));
 
 	priv = wizard->priv;
 
@@ -363,7 +343,7 @@ evolution_wizard_set_show_finish (EvolutionWizard *wizard,
 	CORBA_any any;
 	CORBA_boolean b;
 
-	g_return_if_fail (IS_EVOLUTION_WIZARD (wizard));
+	g_return_if_fail (EVOLUTION_IS_WIZARD (wizard));
 
 	priv = wizard->priv;
 	if (opt_ev == NULL) {
@@ -398,11 +378,11 @@ evolution_wizard_set_page (EvolutionWizard *wizard,
 	CORBA_any any;
 	CORBA_short s;
 
-	g_return_if_fail (IS_EVOLUTION_WIZARD (wizard));
+	g_return_if_fail (EVOLUTION_IS_WIZARD (wizard));
 
 	priv = wizard->priv;
 
-	g_return_if_fail (page_number >= 0 && page_number < priv->page_count);
+	g_return_if_fail (page_number >= 0 && page_number < priv->pages->len);
 
 	if (opt_ev == NULL) {
 		CORBA_exception_init (&ev);
@@ -427,10 +407,3 @@ evolution_wizard_set_page (EvolutionWizard *wizard,
 	}
 }
 
-BonoboEventSource *
-evolution_wizard_get_event_source (EvolutionWizard *wizard)
-{
-	g_return_val_if_fail (IS_EVOLUTION_WIZARD (wizard), NULL);
-
-	return wizard->priv->event_source;
-}

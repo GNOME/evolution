@@ -20,11 +20,14 @@
  * Authors: Iain Holmes <iain@ximian.com>
  */
 
+/* WARNING: I LEAK. */
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
 
 #include "e-shell-startup-wizard.h"
+#include "e-shell-corba-icon-utils.h"
 
 #include "e-timezone-dialog/e-timezone-dialog.h"
 #include "e-util/e-gtk-utils.h"
@@ -68,34 +71,20 @@ typedef struct _ImportDialogPage {
 	gboolean prepared;
 } ImportDialogPage;
 
-typedef struct _MailDialogPage {
-	GtkWidget *page;
-	GtkWidget *vbox;
-	GtkWidget *widget;
-	
-	Bonobo_Control control;
-} MailDialogPage;
-
 typedef struct _SWData {
 	GladeXML *wizard;
 	GtkWidget *dialog;
 	GtkWidget *druid;
 
 	GtkWidget *start, *finish;
-
-	MailDialogPage *id_page;
-	MailDialogPage *source_page;
-	MailDialogPage *extra_page;
-	MailDialogPage *transport_page;
-	MailDialogPage *management_page;
-
+	GPtrArray *corba_pages;
 	TimezoneDialogPage *timezone_page;
 	ImportDialogPage *import_page;
 	
 	gboolean cancel;
-	CORBA_Object mailer;
-	Bonobo_EventSource event_source;
+	GNOME_Evolution_Wizard corba_wizard;
 	BonoboListener *listener;
+	GNOME_Evolution_Wizard_PageList *pagelist;
 } SWData;
 
 typedef struct _IntelligentImporterData {
@@ -145,33 +134,32 @@ druid_event_notify_cb (BonoboListener *listener,
 }
 
 static void
-make_mail_dialog_pages (SWData *data)
+make_corba_dialog_pages (SWData *data)
 {
 	CORBA_Environment ev;
 	CORBA_Object object;
+	Bonobo_EventSource event_source;
 
 	CORBA_exception_init (&ev);
-	data->mailer = bonobo_activation_activate_from_id ("OAFIID:GNOME_Evolution_Mail_Wizard", 0, NULL, &ev);
+	data->corba_wizard = bonobo_activation_activate_from_id ("OAFIID:GNOME_Evolution_Mail_Wizard", 0, NULL, &ev);
 	if (BONOBO_EX (&ev)) {
-#if 0
-		e_notice (NULL, GTK_MESSAGE_ERROR,
-			  _("Could not start the Evolution Mailer Assistant interface\n(%s)"), CORBA_exception_id (&ev));
-#endif
-		g_warning ("Could not start mailer (%s)", CORBA_exception_id (&ev));
+		g_warning ("Could not start CORBA wizard (%s)", CORBA_exception_id (&ev));
 		CORBA_exception_free (&ev);
-		data->mailer = CORBA_OBJECT_NIL;
-		return;
-	}
-
-	CORBA_exception_free (&ev);
-	if (data->mailer == CORBA_OBJECT_NIL) {
-		e_notice (NULL, GTK_MESSAGE_ERROR,
-			  _("Could not start the Evolution Mailer Assistant interface\n"));
+		data->corba_wizard = CORBA_OBJECT_NIL;
 		return;
 	}
 
 	CORBA_exception_init (&ev);
-	data->event_source = Bonobo_Unknown_queryInterface (data->mailer, "IDL:Bonobo/EventSource:1.0", &ev);
+	data->pagelist = GNOME_Evolution_Wizard__get_pages (data->corba_wizard, &ev);
+	if (BONOBO_EX (&ev)) {
+		g_warning ("Could not get CORBA wizard pages (%s)", CORBA_exception_id (&ev));
+		CORBA_exception_free (&ev);
+		data->pagelist = CORBA_OBJECT_NIL;
+		return;
+	}
+
+	CORBA_exception_init (&ev);
+	event_source = Bonobo_Unknown_queryInterface (data->corba_wizard, "IDL:Bonobo/EventSource:1.0", &ev);
 	CORBA_exception_free (&ev);
 	data->listener = bonobo_listener_new (NULL, NULL);
 	g_signal_connect (data->listener, "event-notify",
@@ -179,7 +167,9 @@ make_mail_dialog_pages (SWData *data)
 	object = bonobo_object_corba_objref (BONOBO_OBJECT (data->listener));
 
 	CORBA_exception_init (&ev);
-	Bonobo_EventSource_addListener (data->event_source, object, &ev);
+	Bonobo_EventSource_addListener (event_source, object, &ev);
+	CORBA_exception_free (&ev);
+	bonobo_object_release_unref (event_source, &ev);
 	CORBA_exception_free (&ev);
 }
 
@@ -199,7 +189,7 @@ next_func (GnomeDruidPage *page,
 
 	CORBA_exception_init (&ev);
 	pagenum = page_to_num (page);
-	GNOME_Evolution_Wizard_notifyAction (data->mailer, pagenum, GNOME_Evolution_Wizard_NEXT, &ev);
+	GNOME_Evolution_Wizard_notifyAction (data->corba_wizard, pagenum, GNOME_Evolution_Wizard_NEXT, &ev);
 	CORBA_exception_free (&ev);
 
 	/* If on last page we own, let druid goto next page */
@@ -219,7 +209,7 @@ prepare_func (GnomeDruidPage *page,
 
 	CORBA_exception_init (&ev);
 	pagenum = page_to_num (page);
-	GNOME_Evolution_Wizard_notifyAction (data->mailer, pagenum, GNOME_Evolution_Wizard_PREPARE, &ev);
+	GNOME_Evolution_Wizard_notifyAction (data->corba_wizard, pagenum, GNOME_Evolution_Wizard_PREPARE, &ev);
 	CORBA_exception_free (&ev);
 	return FALSE;
 }
@@ -234,7 +224,7 @@ back_func (GnomeDruidPage *page,
 
 	CORBA_exception_init (&ev);
 	pagenum = page_to_num (page);
-	GNOME_Evolution_Wizard_notifyAction (data->mailer, pagenum, GNOME_Evolution_Wizard_BACK, &ev);
+	GNOME_Evolution_Wizard_notifyAction (data->corba_wizard, pagenum, GNOME_Evolution_Wizard_BACK, &ev);
 	CORBA_exception_free (&ev);
 
 	/* if we're on page 0, let the druid go back to the start page, if we have one */
@@ -343,7 +333,7 @@ finish_func (GnomeDruidPage *page,
 
 	/* Notify mailer */
 	CORBA_exception_init (&ev);
-	GNOME_Evolution_Wizard_notifyAction (data->mailer, 0, GNOME_Evolution_Wizard_FINISH, &ev);
+	GNOME_Evolution_Wizard_notifyAction (data->corba_wizard, 0, GNOME_Evolution_Wizard_FINISH, &ev);
 	CORBA_exception_free (&ev);
 
 	/* Set Timezone */
@@ -400,187 +390,31 @@ connect_page (GtkWidget *page,
 				G_CALLBACK (prepare_func), data);
 }
 
-static MailDialogPage *
-make_identity_page (SWData *data)
+static GtkWidget *
+make_corba_page (SWData *data, int n, GtkWidget *prev)
 {
-	MailDialogPage *page;
-	CORBA_Environment ev;
+	GNOME_Evolution_Wizard_Page *corba_page;
+	GdkPixbuf *icon;
+	GtkWidget *page, *body;
 
-	g_return_val_if_fail (data != NULL, NULL);
-	g_return_val_if_fail (data->mailer != CORBA_OBJECT_NIL, NULL);
-	
-	page = g_new0 (MailDialogPage, 1);
-	page->page = glade_xml_get_widget (data->wizard, "identity-page");
-	g_return_val_if_fail (page->page != NULL, NULL);
+	corba_page = &data->pagelist->_buffer[n];
+	icon = e_new_gdk_pixbuf_from_corba_icon (&corba_page->icon, -1, -1);
+	page = gnome_druid_page_standard_new_with_vals (corba_page->title,
+							icon, NULL);
+	g_object_unref (icon);
 
-	connect_page (page->page, data);
-	g_hash_table_insert (page_hash, page->page, GINT_TO_POINTER (0));
-	page_list = g_list_append (page_list, page->page);
-	page->vbox = GNOME_DRUID_PAGE_STANDARD (page->page)->vbox;
+	body = bonobo_widget_new_control_from_objref (corba_page->control,
+						      CORBA_OBJECT_NIL);
+	gtk_box_pack_start (GTK_BOX (GNOME_DRUID_PAGE_STANDARD (page)->vbox),
+			    body, TRUE, TRUE, 0);
+	gtk_widget_show_all (page);
 
-	CORBA_exception_init (&ev);
-	page->control = GNOME_Evolution_Wizard_getControl (data->mailer, 0, &ev);
-	if (BONOBO_EX (&ev) || page->control == CORBA_OBJECT_NIL) {
-		g_warning ("Error creating page: %s", CORBA_exception_id (&ev));
-		g_free (page);
-		CORBA_exception_free (&ev);
-
-		return NULL;
-	}
-
-	CORBA_exception_free (&ev);
-
-	page->widget = bonobo_widget_new_control_from_objref (page->control, CORBA_OBJECT_NIL);
-	gtk_box_pack_start (GTK_BOX (page->vbox), page->widget, TRUE, TRUE, 0);
-	gtk_widget_show_all (page->widget);
-
-	return page;
-}
-
-static MailDialogPage *
-make_receive_page (SWData *data)
-{
-	MailDialogPage *page;
-	CORBA_Environment ev;
-
-	g_return_val_if_fail (data != NULL, NULL);
-	g_return_val_if_fail (data->mailer != CORBA_OBJECT_NIL, NULL);
-
-	page = g_new0 (MailDialogPage, 1);
-	page->page = glade_xml_get_widget (data->wizard, "receive-page");
-	g_return_val_if_fail (page->page != NULL, NULL);
-
-	connect_page (page->page, data);
-	g_hash_table_insert (page_hash, page->page, GINT_TO_POINTER (1));
-	page_list = g_list_append (page_list, page->page);
-	page->vbox = GNOME_DRUID_PAGE_STANDARD (page->page)->vbox;
-
-	CORBA_exception_init (&ev);
-	page->control = GNOME_Evolution_Wizard_getControl (data->mailer, 1, &ev);
-	if (BONOBO_EX (&ev) || page->control == CORBA_OBJECT_NIL) {
-		g_warning ("Error creating page: %s", CORBA_exception_id (&ev));
-		g_free (page);
-		CORBA_exception_free (&ev);
-
-		return NULL;
-	}
-
-	CORBA_exception_free (&ev);
-
-	page->widget = bonobo_widget_new_control_from_objref (page->control, CORBA_OBJECT_NIL);
-	gtk_box_pack_start (GTK_BOX (page->vbox), page->widget, TRUE, TRUE, 0);
-	gtk_widget_show_all (page->widget);
-
-	return page;
-}
-
-static MailDialogPage *
-make_extra_page (SWData *data)
-{
-	MailDialogPage *page;
-	CORBA_Environment ev;
-
-	g_return_val_if_fail (data != NULL, NULL);
-	g_return_val_if_fail (data->mailer != CORBA_OBJECT_NIL, NULL);
-
-	page = g_new0 (MailDialogPage, 1);
-	page->page = glade_xml_get_widget (data->wizard, "extra-page");
-	page_list = g_list_append (page_list, page->page);
-	g_return_val_if_fail (page->page != NULL, NULL);
-
-	connect_page (page->page, data);
-	g_hash_table_insert (page_hash, page->page, GINT_TO_POINTER (2));
-	page->vbox = GNOME_DRUID_PAGE_STANDARD (page->page)->vbox;
-
-	CORBA_exception_init (&ev);
-	page->control = GNOME_Evolution_Wizard_getControl (data->mailer, 2, &ev);
-	if (BONOBO_EX (&ev) || page->control == CORBA_OBJECT_NIL) {
-		g_warning ("Error creating page: %s", CORBA_exception_id (&ev));
-		g_free (page);
-		CORBA_exception_free (&ev);
-
-		return NULL;
-	}
-
-	CORBA_exception_free (&ev);
-
-	page->widget = bonobo_widget_new_control_from_objref (page->control, CORBA_OBJECT_NIL);
-	gtk_box_pack_start (GTK_BOX (page->vbox), page->widget, TRUE, TRUE, 0);
-	gtk_widget_show_all (page->widget);
-
-	return page;
-}
-
-static MailDialogPage *
-make_transport_page (SWData *data)
-{
-	MailDialogPage *page;
-	CORBA_Environment ev;
-
-	g_return_val_if_fail (data != NULL, NULL);
-	g_return_val_if_fail (data->mailer != CORBA_OBJECT_NIL, NULL);
-
-	page = g_new0 (MailDialogPage, 1);
-	page->page = glade_xml_get_widget (data->wizard, "send-page");
-	g_return_val_if_fail (page->page != NULL, NULL);
-
-	connect_page (page->page, data);
-	g_hash_table_insert (page_hash, page->page, GINT_TO_POINTER (3));
-	page_list = g_list_append (page_list, page->page);
-	page->vbox = GNOME_DRUID_PAGE_STANDARD (page->page)->vbox;
-
-	CORBA_exception_init (&ev);
-	page->control = GNOME_Evolution_Wizard_getControl (data->mailer, 3, &ev);
-	if (BONOBO_EX (&ev) || page->control == CORBA_OBJECT_NIL) {
-		g_warning ("Error creating page: %s", CORBA_exception_id (&ev));
-		g_free (page);
-		CORBA_exception_free (&ev);
-
-		return NULL;
-	}
-
-	CORBA_exception_free (&ev);
-
-	page->widget = bonobo_widget_new_control_from_objref (page->control, CORBA_OBJECT_NIL);
-	gtk_box_pack_start (GTK_BOX (page->vbox), page->widget, TRUE, TRUE, 0);
-	gtk_widget_show_all (page->widget);
-
-	return page;
-}
-
-static MailDialogPage *
-make_management_page (SWData *data)
-{
-	MailDialogPage *page;
-	CORBA_Environment ev;
-
-	g_return_val_if_fail (data != NULL, NULL);
-	g_return_val_if_fail (data->mailer != CORBA_OBJECT_NIL, NULL);
-
-	page = g_new0 (MailDialogPage, 1);
-	page->page = glade_xml_get_widget (data->wizard, "management-page");
-	g_return_val_if_fail (page->page != NULL, NULL);
-
-	connect_page (page->page, data);
-	g_hash_table_insert (page_hash, page->page, GINT_TO_POINTER (4));
-	page_list = g_list_append (page_list, page->page);
-	page->vbox = GNOME_DRUID_PAGE_STANDARD (page->page)->vbox;
-
-	CORBA_exception_init (&ev);
-	page->control = GNOME_Evolution_Wizard_getControl (data->mailer, 4, &ev);
-	if (BONOBO_EX (&ev) || page->control == CORBA_OBJECT_NIL) {
-		g_warning ("Error creating page: %s", CORBA_exception_id (&ev));
-		g_free (page);
-		CORBA_exception_free (&ev);
-
-		return NULL;
-	}
-
-	CORBA_exception_free (&ev);
-
-	page->widget = bonobo_widget_new_control_from_objref (page->control, CORBA_OBJECT_NIL);
-	gtk_box_pack_start (GTK_BOX (page->vbox), page->widget, TRUE, TRUE, 0);
-	gtk_widget_show_all (page->widget);
+	gnome_druid_insert_page (GNOME_DRUID (data->druid),
+				 GNOME_DRUID_PAGE (prev),
+				 GNOME_DRUID_PAGE (page));
+	connect_page (page, data);
+	g_hash_table_insert (page_hash, page, GINT_TO_POINTER (n));
+	page_list = g_list_append (page_list, page);
 
 	return page;
 }
@@ -853,6 +687,8 @@ e_shell_startup_wizard_create (void)
 	GConfClient *client;
 	SWData *data;
 	GSList *accounts;
+	GtkWidget *page;
+	int i;
 
 	client = gconf_client_get_default ();
 	accounts = gconf_client_get_list (client, "/apps/evolution/mail/accounts", GCONF_VALUE_STRING, NULL);
@@ -888,23 +724,17 @@ e_shell_startup_wizard_create (void)
 	g_return_val_if_fail (data->finish != NULL, FALSE);
 	g_signal_connect (data->finish, "finish", G_CALLBACK (finish_func), data);
 
-	make_mail_dialog_pages (data);
-	g_return_val_if_fail (data->mailer != CORBA_OBJECT_NIL, TRUE);
+	make_corba_dialog_pages (data);
+	g_return_val_if_fail (data->corba_wizard != CORBA_OBJECT_NIL, TRUE);
+	g_return_val_if_fail (data->pagelist != CORBA_OBJECT_NIL, TRUE);
 
-	data->id_page = make_identity_page (data);
-	data->source_page = make_receive_page (data);
-	data->extra_page = make_extra_page (data);
-	data->transport_page = make_transport_page (data);
-	data->management_page = make_management_page (data);
+	page = data->start;
+	for (i = 0; i < data->pagelist->_length; i++)
+		page = make_corba_page (data, i, page);
 
 	data->timezone_page = make_timezone_page (data);
 	data->import_page = make_importer_page (data);
 
-	g_return_val_if_fail (data->id_page != NULL, TRUE);
-	g_return_val_if_fail (data->source_page != NULL, TRUE);
-	g_return_val_if_fail (data->extra_page != NULL, TRUE);
-	g_return_val_if_fail (data->transport_page != NULL, TRUE);
-	g_return_val_if_fail (data->management_page != NULL, TRUE);
 	g_return_val_if_fail (data->timezone_page != NULL, TRUE);
 	g_return_val_if_fail (data->import_page != NULL, TRUE);
 
