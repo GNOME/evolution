@@ -1,3 +1,9 @@
+2004-10-18  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #67864.
+
+	* evolution.xml: change the shortcut for toolbar to b.
+
 2004-06-22  V Ravi Kumar Raju <vravikr@yahoo.co.uk>
 
 	* evolution-addressbook.xml: Remove the Menu Seperator in View
