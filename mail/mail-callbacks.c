@@ -1702,7 +1702,7 @@ expunge_folder (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
 	
-	if (fb->folder && (fb->expunging == NULL || fb->folder != fb->expunging) && confirm_expunge ()) {
+	if (fb->folder && (fb->expunging == NULL || fb->folder != fb->expunging)) {
 		struct _expunged_folder_data *data;
 		CamelMessageInfo *info;
 		

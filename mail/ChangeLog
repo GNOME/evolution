@@ -1,3 +1,7 @@
+2001-08-16  Not Zed  <NotZed@Ximian.com>
+
+	* mail-callbacks.c (expunge_folder): Don't confirm expunge.
+
 2001-08-15  Not Zed  <NotZed@Ximian.com>
 
 	* mail-local.c (register_folder_register): Remove operation
