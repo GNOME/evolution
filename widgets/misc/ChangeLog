@@ -1,5 +1,9 @@
 2002-02-08  JP Rosevear  <jpr@ximian.com>
 
+	* e-url-button.[hc]: remove briefly used files
+
+2002-02-08  JP Rosevear  <jpr@ximian.com>
+	
 	* e-url-entry.[hc]: button/entry combo that launchs the gnome url
 	handler on the entry text when the button is clicked
 
