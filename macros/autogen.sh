@@ -37,8 +37,11 @@ fi
   }
 }
 
+# Set this variable is libttoolize is called something else (like glibtoolize
+# on some MacOS X systems). Leave it unset otherwise.
+: ${LIBTOOLIZE=libtoolize}
 (grep "^AM_PROG_LIBTOOL" $srcdir/configure.in >/dev/null) && {
-  (libtool --version) < /dev/null > /dev/null 2>&1 || {
+  ($LIBTOOLIZE --version) < /dev/null > /dev/null 2>&1 || {
     echo
     echo "**Error**: You must have \`libtool' installed to compile $PKG_NAME."
     echo "Get ftp://ftp.gnu.org/pub/gnu/libtool-1.2d.tar.gz"
@@ -169,7 +172,7 @@ do
       if grep "^AM_PROG_LIBTOOL" configure.in >/dev/null; then
 	if test -z "$NO_LIBTOOLIZE" ; then 
 	  echo "Running libtoolize..."
-	  libtoolize --force --copy
+	  $LIBTOOLIZE --force --copy
 	fi
       fi
       echo "Running aclocal-1.4 $aclocalinclude ..."

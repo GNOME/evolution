@@ -1,3 +1,9 @@
+2003-05-03  Malcolm Tredinnick <malcolm@commsecure.com.au>
+	
+	* autogen.sh: Allow users to specify the binary to run instead of
+	libtoolize by checking the value of $LIBTOOLIZE. This is apparently an
+	issue sometimes on MacOS X and fixes bug #111917.
+
 2003-03-20  Frederic Crozat  <fcrozat@mandrakesoft.com>
 
 	* autogen.sh: use GNOME2_DIR, not GNOME2_PATH which can be
