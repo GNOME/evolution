@@ -248,6 +248,8 @@ struct _EThread {
 	void *lost_data;
 };
 
+#define E_THREAD_NONE ((pthread_t)~0)
+
 static void thread_destroy_msg(EThread *e, EMsg *m);
 
 EThread *e_thread_new(e_thread_t type)
@@ -258,7 +260,7 @@ EThread *e_thread_new(e_thread_t type)
 	pthread_mutex_init(&e->mutex, 0);
 	e->type = type;
 	e->server_port = e_msgport_new();
-	e->id = ~0;
+	e->id = E_THREAD_NONE;
 	e->queue_limit = INT_MAX;
 
 	return e;
@@ -282,10 +284,10 @@ void e_thread_destroy(EThread *e)
 	case E_THREAD_QUEUE:
 	case E_THREAD_DROP:
 		/* if we have a thread, 'kill' it */
-		while (e->id != ~0 && tries < 5) {
+		while (e->id != E_THREAD_NONE && tries < 5) {
 			if (e->waiting == 1) {
 				pthread_t id = e->id;
-				e->id = ~0;
+				e->id = E_THREAD_NONE;
 				pthread_mutex_unlock(&e->mutex);
 				if (pthread_cancel(id) == 0)
 					pthread_join(id, 0);
@@ -298,7 +300,7 @@ void e_thread_destroy(EThread *e)
 			}
 			tries++;
 		}
-		busy = e->id != ~0;
+		busy = e->id != E_THREAD_NONE;
 		break;
 	case E_THREAD_NEW:
 		while (g_list_length(e->id_list) && tries < 5) {
@@ -469,7 +471,7 @@ thread_dispatch(void *din)
 	switch (e->type) {
 	case E_THREAD_QUEUE:
 	case E_THREAD_DROP:
-		e->id = ~0;
+		e->id = E_THREAD_NONE;
 		break;
 	case E_THREAD_NEW:
 		e->id_list = g_list_remove(e->id_list, (void *)pthread_self());
@@ -532,10 +534,10 @@ void e_thread_put(EThread *e, EMsg *msg)
 	}
 
 	/* create the thread, if there is none to receive it yet */
-	if (e->id == ~0) {
+	if (e->id == E_THREAD_NONE) {
 		if (pthread_create(&e->id, NULL, thread_dispatch, e) == -1) {
 			g_warning("Could not create dispatcher thread, message queued?: %s", strerror(errno));
-			e->id = ~0;
+			e->id = E_THREAD_NONE;
 		}
 	}
 
@@ -569,7 +571,7 @@ EMutex *e_mutex_new(e_mutex_t type)
 	m->type = type;
 	m->waiters = 0;
 	m->depth = 0;
-	m->owner = ~0;
+	m->owner = E_THREAD_NONE;
 
 	switch (type) {
 	case E_MUTEX_SIMPLE:
@@ -621,7 +623,7 @@ int e_mutex_lock(EMutex *m)
 		if (pthread_mutex_lock(&m->mutex) == -1)
 			return -1;
 		while (1) {
-			if (m->owner == ~0) {
+			if (m->owner == E_THREAD_NONE) {
 				m->owner = id;
 				m->depth = 1;
 				break;
@@ -654,7 +656,7 @@ int e_mutex_unlock(EMutex *m)
 
 		m->depth--;
 		if (m->depth == 0) {
-			m->owner = ~0;
+			m->owner = E_THREAD_NONE;
 			if (m->waiters > 0)
 				pthread_cond_signal(&m->cond);
 		}

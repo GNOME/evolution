@@ -1,3 +1,9 @@
+2001-01-04  Dan Winship  <danw@helixcode.com>
+
+	* e-msgport.c: #define E_THREAD_NONE as ((pthread_t)~0) and use
+	that instead of ~0 throughout. (pthread_t is a pointer type on my
+	system, so there are lots of warnings without the cast.)
+
 2000-12-24  Not Zed  <NotZed@HelixCode.com>
 
 	* Merge from camel-mt-branch.
