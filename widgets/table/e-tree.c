@@ -747,6 +747,9 @@ tree_canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc,
 	gdouble width;
 	gdouble height;
 	gdouble item_height;
+	GtkAdjustment *adj = GTK_LAYOUT(e_tree->priv->table_canvas)->vadjustment;
+	ETreePath path = e_tree_get_cursor (e_tree);
+	gint x, y, w, h;
 	GValue *val = g_new0 (GValue, 1);
 	g_value_init (val, G_TYPE_DOUBLE);
 
@@ -763,6 +766,15 @@ tree_canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc,
 		      NULL);
 	g_object_set_property (G_OBJECT (e_tree->priv->header), "width", val);
 	g_free (val);
+
+	if (path)
+		e_tree_get_cell_geometry (e_tree, e_tree_row_of_node(e_tree, path), 0, &x, &y, &w, &h);
+	else
+		y = h = 0;
+
+	if (y < adj->value || y + h > adj->value + adj->page_size)
+		gtk_adjustment_set_value(adj, CLAMP(y - adj->page_size / 2, adj->lower, adj->upper - adj->page_size));
+
 	if (e_tree->priv->reflow_idle_id)
 		g_source_remove(e_tree->priv->reflow_idle_id);
 	tree_canvas_reflow_idle(e_tree);
@@ -2716,7 +2728,6 @@ static gboolean
 hover_timeout (gpointer data)
 {
 	ETree *et = data;
-	GtkWidget *widget = data;
 	int x = et->priv->hover_x;
 	int y = et->priv->hover_y;
 	int row, col;

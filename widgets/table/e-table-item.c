@@ -3121,7 +3121,7 @@ eti_cursor_change (ESelectionModel *selection, int row, int col, ETableItem *eti
 	if (eti->old_cursor_row != -1 && view_row != eti->old_cursor_row)
 		e_table_item_redraw_row (eti, eti->old_cursor_row);
 
-	if (view_row == -1 || view_col == -1) {
+	if (view_row == -1) {
 		e_table_item_leave_edit_(eti);
 		eti->old_cursor_row = -1;
 		return;
