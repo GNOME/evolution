@@ -10,7 +10,7 @@ AC_DEFUN([GNOME_CHECK_GUILE],
 	saved_cppflags="$CPPFLAGS"
 	LDFLAGS="$LDFLAGS $GNOME_LIBDIR"
 
-	AC_CHECK_LIB(qthreads,main,[
+	AC_CHECK_LIB(qthreads,qt_null,[
 		QTTHREADS_LIB="-lqthreads"
 	],[
 		AC_CHECK_LIB(qt, qt_null, QTTHREADS_LIB="-lqt")
@@ -71,7 +71,7 @@ AC_DEFUN([GNOME_CHECK_GUILE],
 		GUILE_LIBS="$GNOME_LIBDIR"
 		GUILE_INCS="$GNOME_INCLUDEDIR"
 		AC_CHECK_LIB(rx, main, GUILE_LIBS="-lrx $GUILE_LIBS")
-		AC_CHECK_LIB(qt, main, GUILE_LIBS="-lqt $GUILE_LIBS")
+		AC_CHECK_LIB(qt, qt_null, GUILE_LIBS="-lqt $GUILE_LIBS")
 		AC_CHECK_LIB(dl, dlopen, GUILE_LIBS="-ldl $GUILE_LIBS")
 		AC_CHECK_LIB(nsl, t_accept, GUILE_LIBS="$GUILE_LIBS -lnsl")
 		AC_CHECK_LIB(socket, socket, GUILE_LIBS="$GUILE_LIBS -lsocket")
