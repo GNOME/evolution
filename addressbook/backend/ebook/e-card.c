@@ -1653,6 +1653,24 @@ e_card_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		if ( card->name )
 			e_card_name_free(card->name);
 		card->name = e_card_name_copy(GTK_VALUE_POINTER(*arg));
+		if (card->name == NULL)
+			card->name = e_card_name_new();
+		if (card->fname == NULL) {
+			card->fname = e_card_name_to_string(card->name);
+		}
+		if (card->file_as == NULL) {
+			ECardName *name = card->name;
+			char *strings[3], **stringptr;
+			char *string;
+			stringptr = strings;
+			if (name->family && *name->family)
+				*(stringptr++) = name->family;
+			if (name->given && *name->given)
+				*(stringptr++) = name->given;
+			*stringptr = NULL;
+			string = g_strjoinv(", ", strings);
+			card->file_as = string;
+		}
 		break;
 	case ARG_CATEGORIES:
 		if (card->categories)

@@ -1,5 +1,10 @@
 2001-05-11  Christopher James Lahey  <clahey@ximian.com>
 
+	* backend/ebook/e-card.c (e_card_set_arg): If the name is set and
+	the full_name or file_as haven't been yet, set them.
+
+2001-05-11  Christopher James Lahey  <clahey@ximian.com>
+
 	* backend/pas/pas-backend-file.c: Reordered the includes here.
 	(string_to_dbt): The sleepycat libdb documentation suggests
 	memseting the DBT to 0 so we do that here.
