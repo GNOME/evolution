@@ -909,7 +909,12 @@ e_tree_model_node_insert (ETreeModel *tree_model,
 			if (position == -1)
 				position = e_tree_model_node_num_visible_descendents (tree_model, parent_path) - 1;
 
-			parent_row = e_tree_model_row_of_node (tree_model, parent_path);
+			/* if the parent is the root, no need to search for its position since it aint there */
+			if (parent_path->parent == NULL) {
+				parent_row = -1;
+			} else {
+				parent_row = e_tree_model_row_of_node (tree_model, parent_path);
+			}
 
 			priv->row_array = g_array_insert_val (priv->row_array,
 							      parent_row + position + 1, new_path);
