@@ -28,6 +28,7 @@
 #include <config.h>
 #include <gnome.h>
 #include <ctype.h>
+#include <errno.h>
 #include <camel/camel-mime-filter-from.h>
 #include "mail.h"
 #include "mail-threads.h"
