@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-12-24 17:45+0800\n"
+"POT-Creation-Date: 2005-01-02 02:07+0800\n"
 "PO-Revision-Date: 2004-12-24 17:54+0800\n"
 "Last-Translator: Funda Wang <fundawang@linux.net.cn>\n"
 "Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
@@ -2328,7 +2328,7 @@ msgid "Service"
 msgstr "服务"
 
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:127
-#: calendar/gui/dialogs/cal-prefs-dialog.c:589
+#: calendar/gui/dialogs/cal-prefs-dialog.c:587
 #: calendar/gui/e-cal-list-view.etspec.h:3
 msgid "Location"
 msgstr "位置"
@@ -4008,13 +4008,15 @@ msgstr "约会"
 msgid "Appointment Title"
 msgstr "约会标题"
 
+#. End time
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:3
+#: plugins/itip-formatter/itip-view.c:647
 msgid "End time:"
 msgstr "结束时间："
 
 #. Location
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:4
-#: calendar/gui/e-itip-control.c:1118 plugins/itip-formatter/itip-view.c:435
+#: calendar/gui/e-itip-control.c:1118 plugins/itip-formatter/itip-view.c:630
 msgid "Location:"
 msgstr "位置："
 
@@ -4022,7 +4024,9 @@ msgstr "位置："
 msgid "Snooze _time:"
 msgstr "午睡时间(_T)："
 
+#. Start time
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:6
+#: plugins/itip-formatter/itip-view.c:638
 msgid "Start time:"
 msgstr "开始时间："
 
@@ -4627,36 +4631,36 @@ msgstr "周"
 #. FIXME: This routine should just be a "toggled" event handler on the checkbox cell renderer which
 #. has "activatable" set.
 #. g_object_set((GObject *)renderer, "activatable", TRUE, NULL);
-#: calendar/gui/dialogs/cal-prefs-dialog.c:578 mail/em-account-prefs.c:480
+#: calendar/gui/dialogs/cal-prefs-dialog.c:576 mail/em-account-prefs.c:480
 #: mail/em-composer-prefs.c:678 mail/em-composer-prefs.c:945
 #: plugins/plugin-manager/plugin-manager.c:213
 msgid "Enabled"
 msgstr "已启用"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.c:732
+#: calendar/gui/dialogs/cal-prefs-dialog.c:730
 msgid "Are you sure you want to remove this URL?"
 msgstr "您确定您想要删除此 URL 吗？"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.c:735
+#: calendar/gui/dialogs/cal-prefs-dialog.c:733
 msgid "Remove"
 msgstr "删除"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.c:740
+#: calendar/gui/dialogs/cal-prefs-dialog.c:738
 msgid "Don't Remove"
 msgstr "不删除"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.c:789
-#: calendar/gui/dialogs/cal-prefs-dialog.c:822
-#: calendar/gui/dialogs/cal-prefs-dialog.c:855 mail/em-account-prefs.c:327
+#: calendar/gui/dialogs/cal-prefs-dialog.c:787
+#: calendar/gui/dialogs/cal-prefs-dialog.c:820
+#: calendar/gui/dialogs/cal-prefs-dialog.c:853 mail/em-account-prefs.c:327
 #: mail/em-account-prefs.c:355 mail/em-account-prefs.c:386
 #: mail/em-composer-prefs.c:597 mail/em-composer-prefs.c:655
 #: mail/em-composer-prefs.c:685
 msgid "Disable"
 msgstr "禁用"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.c:789
-#: calendar/gui/dialogs/cal-prefs-dialog.c:822
-#: calendar/gui/dialogs/cal-prefs-dialog.c:857 mail/em-account-prefs.c:327
+#: calendar/gui/dialogs/cal-prefs-dialog.c:787
+#: calendar/gui/dialogs/cal-prefs-dialog.c:820
+#: calendar/gui/dialogs/cal-prefs-dialog.c:855 mail/em-account-prefs.c:327
 #: mail/em-account-prefs.c:355 mail/em-account-prefs.c:388
 #: mail/em-composer-prefs.c:597 mail/em-composer-prefs.c:655
 #: mail/em-composer-prefs.c:685
@@ -4715,8 +4719,7 @@ msgstr "<b>工作周</b>"
 #, no-c-format
 msgid ""
 "<i>%u and %d will be replaced by user and domain from the email address.</i>"
-msgstr ""
-"<i>%u 和 %d 将被替换为电子邮件地址中的用户和域名。</i>"
+msgstr "<i>%u 和 %d 将被替换为电子邮件地址中的用户和域名。</i>"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:15
 msgid "Calendar and Tasks Settings"
@@ -5280,7 +5283,7 @@ msgstr "开始时间(_S)："
 #: composer/e-msg-composer.c:2115 filter/filter-rule.c:878
 #: mail/em-account-editor.c:675 mail/em-account-editor.c:1267
 #: mail/em-account-prefs.c:441 mail/em-folder-view.c:961
-#: plugins/itip-formatter/itip-formatter.c:218
+#: plugins/itip-formatter/itip-formatter.c:646
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:190
 #: widgets/misc/e-cell-date-edit.c:248 widgets/misc/e-dateedit.c:458
 #: widgets/misc/e-dateedit.c:1497 widgets/misc/e-dateedit.c:1651
@@ -6293,8 +6296,8 @@ msgstr "iCalendar 错误"
 
 #: calendar/gui/e-itip-control.c:1038 calendar/gui/e-itip-control.c:1054
 #: calendar/gui/e-itip-control.c:1065 calendar/gui/e-itip-control.c:1082
-#: plugins/itip-formatter/itip-view.c:228
-#: plugins/itip-formatter/itip-view.c:229
+#: plugins/itip-formatter/itip-view.c:259
+#: plugins/itip-formatter/itip-view.c:260
 msgid "An unknown person"
 msgstr "未知的人"
 
@@ -6332,7 +6335,7 @@ msgid ""
 "The task has been cancelled, however it could not be found in your task lists"
 msgstr "任务已经被取消，但无法在您的任务列表中找到该任务"
 
-#: calendar/gui/e-itip-control.c:1310 plugins/itip-formatter/itip-view.c:236
+#: calendar/gui/e-itip-control.c:1310
 #, c-format
 msgid "<b>%s</b> has published meeting information."
 msgstr "<b>%s</b> 发布了会议信息。"
@@ -6341,12 +6344,12 @@ msgstr "<b>%s</b> 发布了会议信息。"
 msgid "Meeting Information"
 msgstr "会议信息"
 
-#: calendar/gui/e-itip-control.c:1317 plugins/itip-formatter/itip-view.c:241
+#: calendar/gui/e-itip-control.c:1317
 #, c-format
 msgid "<b>%s</b> requests the presence of %s at a meeting."
 msgstr "<b>%s</b> 请求 %s 参加一个会议。"
 
-#: calendar/gui/e-itip-control.c:1319 plugins/itip-formatter/itip-view.c:246
+#: calendar/gui/e-itip-control.c:1319
 #, c-format
 msgid "<b>%s</b> requests your presence at a meeting."
 msgstr "<b>%s</b> 请求您参加一个会议。"
@@ -6356,7 +6359,7 @@ msgid "Meeting Proposal"
 msgstr "会议建议"
 
 #. FIXME Whats going on here?
-#: calendar/gui/e-itip-control.c:1326 plugins/itip-formatter/itip-view.c:253
+#: calendar/gui/e-itip-control.c:1326
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing meeting."
 msgstr "<b>%s</b> 希望加入到已有的会议。"
@@ -6365,7 +6368,7 @@ msgstr "<b>%s</b> 希望加入到已有的会议。"
 msgid "Meeting Update"
 msgstr "会议更新"
 
-#: calendar/gui/e-itip-control.c:1331 plugins/itip-formatter/itip-view.c:256
+#: calendar/gui/e-itip-control.c:1331
 #, c-format
 msgid "<b>%s</b> wishes to receive the latest meeting information."
 msgstr "<b>%s</b> 想收到最新的会议信息。"
@@ -6383,7 +6386,7 @@ msgstr "<b>%s</b> 已回复一个会议请求。"
 msgid "Meeting Reply"
 msgstr "会议答复"
 
-#: calendar/gui/e-itip-control.c:1347 plugins/itip-formatter/itip-view.c:265
+#: calendar/gui/e-itip-control.c:1347
 #, c-format
 msgid "<b>%s</b> has cancelled a meeting."
 msgstr "<b>%s</b> 取消了一个会议。"
@@ -12228,12 +12231,12 @@ msgstr[0] "附加了 <b>%d</b> 个文件"
 msgid "Hide _Attachment Bar (drop attachments here)"
 msgstr "隐藏附件栏(将附件拖至此处)(_A)"
 
-#: composer/e-msg-composer.c:2333 composer/e-msg-composer.c:3440
+#: composer/e-msg-composer.c:2333 composer/e-msg-composer.c:3433
 msgid "Show _Attachment Bar (drop attachments here)"
 msgstr "显示附件栏(将附件拖至此处)(_A)"
 
-#: composer/e-msg-composer.c:2350 composer/e-msg-composer.c:3329
-#: composer/e-msg-composer.c:3330
+#: composer/e-msg-composer.c:2350 composer/e-msg-composer.c:3322
+#: composer/e-msg-composer.c:3323
 msgid "Compose a message"
 msgstr "撰写新件"
 
@@ -12260,7 +12263,7 @@ msgstr "移动(_M)"
 msgid "Cancel _Drag"
 msgstr "取消拖曳(_D)"
 
-#: composer/e-msg-composer.c:4510
+#: composer/e-msg-composer.c:4503
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
@@ -14914,7 +14917,7 @@ msgstr "<span weight=\"bold\">显示的邮件头(_H)</span>"
 msgid "<span weight=\"bold\">Filter Options</span>"
 msgstr "<span weight=\"bold\">过滤器选项</span>"
 
-#: mail/mail-config.glade.h:19
+#: mail/mail-config.glade.h:19 plugins/itip-formatter/itip-formatter.c:762
 msgid "<span weight=\"bold\">General</span>"
 msgstr "<span weight=\"bold\">常规</span>"
 
@@ -15914,7 +15917,9 @@ msgstr "最高"
 msgid "?"
 msgstr "?"
 
-#: mail/message-list.c:1348
+#. strftime format of a weekday, a date and a
+#. time, in 12-hour format, without seconds.
+#: mail/message-list.c:1348 plugins/itip-formatter/itip-view.c:134
 msgid "Today %l:%M %p"
 msgstr "今天 %H:%M"
 
@@ -16117,161 +16122,207 @@ msgstr "立即同步好友列表(_B)"
 msgid "Unsubscribing from folder \"%s\""
 msgstr "无法退订文件夹“%s”"
 
+#: plugins/itip-formatter/itip-formatter.c:753
+#, fuzzy
+msgid "Meetings"
+msgstr "会议"
+
+#. Enable BBDB checkbox
+#: plugins/itip-formatter/itip-formatter.c:775
+msgid "_Delete message after acting"
+msgstr ""
+
+#: plugins/itip-formatter/itip-formatter.c:786
+#, fuzzy
+msgid "<span weight=\"bold\">Conflict Search</span>"
+msgstr "<span weight=\"bold\">配置</span>"
+
+#. Enable Gaim Checkbox
+#: plugins/itip-formatter/itip-formatter.c:799
+msgid "Select the calendars to search for meeting conflicts"
+msgstr ""
+
 #. strftime format of a weekday and a date.
-#: plugins/itip-formatter/itip-view.c:89 ui/evolution-calendar.xml.h:34
+#: plugins/itip-formatter/itip-view.c:120 ui/evolution-calendar.xml.h:34
 #: widgets/misc/e-cell-date-edit.c:240 widgets/misc/e-dateedit.c:450
 msgid "Today"
 msgstr "今天"
 
 #. strftime format of a weekday, a date and a
 #. time, in 24-hour format, without seconds.
-#: plugins/itip-formatter/itip-view.c:94
+#: plugins/itip-formatter/itip-view.c:125
 msgid "Today %H:%M"
 msgstr "今天 %H:%M"
 
 #. strftime format of a weekday, a date and a
 #. time, in 24-hour format.
-#: plugins/itip-formatter/itip-view.c:98
+#: plugins/itip-formatter/itip-view.c:129
 msgid "Today %H:%M:%S"
 msgstr "今天 %H:%M:%S"
 
 #. strftime format of a weekday, a date and a
-#. time, in 12-hour format, without seconds.
-#: plugins/itip-formatter/itip-view.c:103
-msgid "Today %I:%M %p"
-msgstr "今天 %H:%M"
-
-#. strftime format of a weekday, a date and a
 #. time, in 12-hour format.
-#: plugins/itip-formatter/itip-view.c:107
-msgid "Today %I:%M:%S %p"
+#: plugins/itip-formatter/itip-view.c:138
+#, fuzzy
+msgid "Today %l:%M:%S %p"
 msgstr "今天 %H:%M:%S"
 
 #. strftime format of a weekday and a date.
-#: plugins/itip-formatter/itip-view.c:115
-#: plugins/itip-formatter/itip-view.c:167
+#: plugins/itip-formatter/itip-view.c:146
+#: plugins/itip-formatter/itip-view.c:198
 msgid "%A, %B %e"
 msgstr "%-m月%-d日%A"
 
 #. strftime format of a weekday, a date and a
 #. time, in 24-hour format, without seconds.
-#: plugins/itip-formatter/itip-view.c:120
-#: plugins/itip-formatter/itip-view.c:172
+#: plugins/itip-formatter/itip-view.c:151
+#: plugins/itip-formatter/itip-view.c:203
 msgid "%A, %B %e %H:%M"
 msgstr "%-m月%-d日%A %H:%M"
 
 #. strftime format of a weekday, a date and a
 #. time, in 24-hour format.
-#: plugins/itip-formatter/itip-view.c:124
-#: plugins/itip-formatter/itip-view.c:176
+#: plugins/itip-formatter/itip-view.c:155
+#: plugins/itip-formatter/itip-view.c:207
 msgid "%A, %B %e %H:%M:%S"
 msgstr "%-m月%-d日%A %H:%M:%S"
 
 #. strftime format of a weekday, a date and a
 #. time, in 12-hour format, without seconds.
-#: plugins/itip-formatter/itip-view.c:129
-#: plugins/itip-formatter/itip-view.c:181
-msgid "%A, %B %e %I:%M %p"
+#: plugins/itip-formatter/itip-view.c:160
+#: plugins/itip-formatter/itip-view.c:212
+#, fuzzy
+msgid "%A, %B %e %l:%M %p"
 msgstr "%-m月%-d日%A %H:%M"
 
 #. strftime format of a weekday, a date and a
 #. time, in 12-hour format.
-#: plugins/itip-formatter/itip-view.c:133
-#: plugins/itip-formatter/itip-view.c:185
-msgid "%A, %B %e %I:%M:%S %p"
+#: plugins/itip-formatter/itip-view.c:164
+#: plugins/itip-formatter/itip-view.c:216
+#, fuzzy
+msgid "%A, %B %e %l:%M:%S %p"
 msgstr "%-m月%-d日%A %H:%M:%S"
 
 #. strftime format of a weekday and a date.
-#: plugins/itip-formatter/itip-view.c:141
+#: plugins/itip-formatter/itip-view.c:172
 #, c-format
 msgid "%A"
 msgstr "%A"
 
 #. strftime format of a weekday, a date and a
 #. time, in 24-hour format, without seconds.
-#: plugins/itip-formatter/itip-view.c:146
+#: plugins/itip-formatter/itip-view.c:177
 msgid "%A %H:%M"
 msgstr "%A %H:%M"
 
 #. strftime format of a weekday, a date and a
 #. time, in 24-hour format.
-#: plugins/itip-formatter/itip-view.c:150
+#: plugins/itip-formatter/itip-view.c:181
 msgid "%A %H:%M:%S"
 msgstr "%A %H:%M:%S"
 
 #. strftime format of a weekday, a date and a
 #. time, in 12-hour format, without seconds.
-#: plugins/itip-formatter/itip-view.c:155
-msgid "%A %I:%M %p"
+#: plugins/itip-formatter/itip-view.c:186
+#, fuzzy
+msgid "%A %l:%M %p"
 msgstr "%A %H:%M"
 
 #. strftime format of a weekday, a date and a
 #. time, in 12-hour format.
-#: plugins/itip-formatter/itip-view.c:159
-msgid "%A %I:%M:%S %p"
+#: plugins/itip-formatter/itip-view.c:190
+#, fuzzy
+msgid "%A %l:%M:%S %p"
 msgstr "%A %H:%M:%S"
 
 #. strftime format of a weekday and a date.
-#: plugins/itip-formatter/itip-view.c:191
+#: plugins/itip-formatter/itip-view.c:222
 msgid "%A, %B %e, %Y"
 msgstr "%Y年%-m月%-d日%A"
 
 #. strftime format of a weekday, a date and a
 #. time, in 24-hour format, without seconds.
-#: plugins/itip-formatter/itip-view.c:196
+#: plugins/itip-formatter/itip-view.c:227
 msgid "%A, %B %e, %Y %H:%M"
 msgstr "%Y年%-m月%-d日%A %H:%M"
 
 #. strftime format of a weekday, a date and a
 #. time, in 24-hour format.
-#: plugins/itip-formatter/itip-view.c:200
+#: plugins/itip-formatter/itip-view.c:231
 msgid "%A, %B %e, %Y %H:%M:%S"
 msgstr "%Y年%-m月%-d日%A %H:%M:%S"
 
 #. strftime format of a weekday, a date and a
 #. time, in 12-hour format, without seconds.
-#: plugins/itip-formatter/itip-view.c:205
-msgid "%A, %B %e, %Y %I:%M %p"
+#: plugins/itip-formatter/itip-view.c:236
+#, fuzzy
+msgid "%A, %B %e, %Y %l:%M %p"
 msgstr "%Y年%-m月%-d日%A %H:%M"
 
 #. strftime format of a weekday, a date and a
 #. time, in 12-hour format.
-#: plugins/itip-formatter/itip-view.c:209
-msgid "%A, %B %e, %Y %I:%M:%S %p"
+#: plugins/itip-formatter/itip-view.c:240
+#, fuzzy
+msgid "%A, %B %e, %Y %l:%M:%S %p"
 msgstr "%Y年%-m月%-d日%A %H:%M:%S"
 
-#: plugins/itip-formatter/itip-view.c:234
-#, c-format
-msgid "<b>%s</b> through %s has published meeting information."
+#: plugins/itip-formatter/itip-view.c:265
+#, fuzzy, c-format
+msgid "<b>%s</b> through %s has published the following meeting information:"
 msgstr "<b>%s</b> 通过 %s 发布了会议信息。"
 
-#: plugins/itip-formatter/itip-view.c:244
-#, c-format
-msgid "<b>%s</b> through %s requests your presence at a meeting."
+#: plugins/itip-formatter/itip-view.c:267
+#, fuzzy, c-format
+msgid "<b>%s</b> has published the following meeting information:"
+msgstr "<b>%s</b> 发布了会议信息。"
+
+#: plugins/itip-formatter/itip-view.c:272
+#, fuzzy, c-format
+msgid "<b>%s</b> requests the presence of %s at the following meeting:"
+msgstr "<b>%s</b> 请求 %s 参加一个会议。"
+
+#: plugins/itip-formatter/itip-view.c:275
+#, fuzzy, c-format
+msgid "<b>%s</b> through %s requests your presence at the following meeting:"
 msgstr "<b>%s</b> 通过 %s 请求您参加一个会议。"
 
-#: plugins/itip-formatter/itip-view.c:251
-#, c-format
-msgid "<b>%s</b> through %s wishes to add to an existing meeting."
+#: plugins/itip-formatter/itip-view.c:277
+#, fuzzy, c-format
+msgid "<b>%s</b> requests your presence at the following meeting:"
+msgstr "<b>%s</b> 请求您参加一个会议。"
+
+#: plugins/itip-formatter/itip-view.c:283
+#, fuzzy, c-format
+msgid "<b>%s</b> through %s wishes to add to an existing meeting:"
 msgstr "<b>%s</b> 通过 %s 希望加入到已有的会议。"
 
-#: plugins/itip-formatter/itip-view.c:259
-#, c-format
-msgid "<b>%s</b> has replied to a meeting invitation."
-msgstr "<b>%s</b> 已回复一个会议请求。"
+#: plugins/itip-formatter/itip-view.c:285
+#, fuzzy, c-format
+msgid "<b>%s</b> wishes to add to an existing meeting:"
+msgstr "<b>%s</b> 希望加入到已有的会议。"
 
-#: plugins/itip-formatter/itip-view.c:263
-#, c-format
-msgid "<b>%s</b> through %s has cancelled a meeting."
+#: plugins/itip-formatter/itip-view.c:288
+#, fuzzy, c-format
+msgid ""
+"<b>%s</b> wishes to receive the latest information for the following meeting:"
+msgstr "<b>%s</b> 希望获取最新的任务信息。"
+
+#: plugins/itip-formatter/itip-view.c:291
+#, fuzzy, c-format
+msgid "<b>%s</b> has accepted the following meeting:"
+msgstr "<b>%s</b> 取消了一个会议。"
+
+#: plugins/itip-formatter/itip-view.c:295
+#: plugins/itip-formatter/itip-view.c:301
+#, fuzzy, c-format
+msgid "<b>%s</b> through %s has cancelled the follow meeting:"
 msgstr "<b>%s</b> 通过 %s 取消了一个会议。"
 
-#: plugins/itip-formatter/itip-view.c:441
-msgid "Starts:"
-msgstr "开始："
-
-#: plugins/itip-formatter/itip-view.c:449
-msgid "Ends:"
-msgstr "结束："
+#: plugins/itip-formatter/itip-view.c:297
+#: plugins/itip-formatter/itip-view.c:303
+#, fuzzy, c-format
+msgid "<b>%s</b> has cancelled the following meeting."
+msgstr "<b>%s</b> 取消了一个会议。"
 
 #. org.gnome.mailing-list-actions:no-header primary
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:2
@@ -19611,6 +19662,18 @@ msgstr "%s (...)"
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% 完成)"
+
+#~ msgid "Today %I:%M %p"
+#~ msgstr "今天 %H:%M"
+
+#~ msgid "<b>%s</b> has replied to a meeting invitation."
+#~ msgstr "<b>%s</b> 已回复一个会议请求。"
+
+#~ msgid "Starts:"
+#~ msgstr "开始："
+
+#~ msgid "Ends:"
+#~ msgstr "结束："
 
 #~ msgid "Select Contacts from Address Book"
 #~ msgstr "从地址簿中选择联系人"
