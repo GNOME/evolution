@@ -233,7 +233,7 @@ get_servers (EItipControl *itip, EvolutionShellClient *shell_client, const char 
 	
 	servers = g_ptr_array_new ();
 	
-	bonobo_object_ref (BONOBO_OBJECT (shell_client));
+	g_object_ref (shell_client);
 	registry = evolution_shell_client_get_storage_registry_interface (shell_client);
 	
 	CORBA_exception_init (&ev);

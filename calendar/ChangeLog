@@ -1,3 +1,8 @@
+2003-03-28  JP Rosevear  <jpr@ximian.com>
+
+	* gui/e-itip-control.c (get_servers): the shell client is a
+	g_object now, ref appropriately
+
 2003-03-28  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/e-day-view.c (comp_destroy_cb)
@@ -20,7 +25,7 @@
 	Destroy would-be children of the container before the container.
 
 2003-03-28  JP Rosevear  <jpr@ximian.com>
-
+	
 	* gui/dialogs/meeting-page.c (meeting_page_init): init new members
 	(get_current_account): get a matching account for the currently
 	selected user in the combo
