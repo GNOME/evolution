@@ -150,7 +150,10 @@ e_table_gui_config (ETable *etable)
 	GladeXML *gui;
 	GnomeDialog *dialog;
 	ConfigData *config_data;
-	
+
+	g_return_val_if_fail(etable != NULL, NULL);
+	g_return_val_if_fail(E_IS_TABLE(etable), NULL);
+
 	glade_gnome_init ();
 	gui = glade_xml_new (ETABLE_GLADEDIR "/e-table-config.glade", NULL);
 	if (!gui)
@@ -193,16 +196,26 @@ e_table_gui_destroy_config_data (GtkWidget *widget)
 	gtk_object_destroy (GTK_OBJECT (cd->gui));
 	g_free (cd);
 }
-	
+
 void
 e_table_gui_config_accept (GtkWidget *widget, ETable *etable)
 {
+	g_return_if_fail(etable != NULL);
+	g_return_if_fail(E_IS_TABLE(etable));
+	g_return_if_fail(widget != NULL);
+	g_return_if_fail(GTK_IS_WIDGET(widget));
+
 	e_table_gui_destroy_config_data (widget);
 }
 
 void
 e_table_gui_config_cancel (GtkWidget *widget, ETable *etable)
 {
+	g_return_if_fail(etable != NULL);
+	g_return_if_fail(E_IS_TABLE(etable));
+	g_return_if_fail(widget != NULL);
+	g_return_if_fail(GTK_IS_WIDGET(widget));
+
 	e_table_gui_destroy_config_data (widget);
 }
 
@@ -212,6 +225,10 @@ e_table_do_gui_config (GtkWidget *parent, ETable *etable)
 	GnomeDialog *dialog;
 	int r;
 	
+	g_return_if_fail(etable != NULL);
+	g_return_if_fail(E_IS_TABLE(etable));
+	g_return_if_fail(parent == NULL || GTK_IS_WINDOW(parent));
+
 	dialog = GNOME_DIALOG (e_table_gui_config (etable));
 	if (!dialog)
 		return;

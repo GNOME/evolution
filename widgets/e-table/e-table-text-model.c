@@ -198,7 +198,12 @@ row_changed (ETableModel *table_model, int row, ETableTextModel *model)
 ETableTextModel *
 e_table_text_model_new (ETableModel *table_model, int row, int model_col)
 {
-	ETableTextModel *model = gtk_type_new (e_table_text_model_get_type ());
+	ETableTextModel *model;
+
+	g_return_val_if_fail(table_model != NULL, NULL);
+	g_return_val_if_fail(E_IS_TABLE_MODEL(table_model), NULL);
+
+	model = gtk_type_new (e_table_text_model_get_type ());
 	model->model = table_model;
 	if (model->model){
 		gtk_object_ref (GTK_OBJECT(model->model));

@@ -97,7 +97,9 @@ e_table_col_new (int col_idx, const char *text, double expansion, int min_width,
 	
 	g_return_val_if_fail (expansion >= 0, NULL);
 	g_return_val_if_fail (min_width >= 0, NULL);
+	g_return_val_if_fail (ecell != NULL, NULL);
 	g_return_val_if_fail (compare != NULL, NULL);
+	g_return_val_if_fail (text != NULL, NULL);
 
 	etc = gtk_type_new (E_TABLE_COL_TYPE);
        
@@ -129,7 +131,9 @@ e_table_col_new_with_pixbuf (int col_idx, GdkPixbuf *pixbuf, double expansion, i
 	
 	g_return_val_if_fail (expansion >= 0, NULL);
 	g_return_val_if_fail (min_width >= 0, NULL);
+	g_return_val_if_fail (ecell != NULL, NULL);
 	g_return_val_if_fail (compare != NULL, NULL);
+	g_return_val_if_fail (pixbuf != NULL, NULL);
 
 	etc = gtk_type_new (E_TABLE_COL_TYPE);
 
@@ -157,12 +161,18 @@ e_table_col_new_with_pixbuf (int col_idx, GdkPixbuf *pixbuf, double expansion, i
 void
 e_table_col_set_arrow (ETableCol *col, ETableColArrow arrow)
 {
+	g_return_if_fail (col != NULL);
+	g_return_if_fail (E_IS_TABLE_COL(col));
+
 	col->arrow = arrow;
 }
 
 ETableColArrow
 e_table_col_get_arrow (ETableCol *col)
 {
+	g_return_val_if_fail (col != NULL, E_TABLE_COL_ARROW_NONE);
+	g_return_val_if_fail (E_IS_TABLE_COL(col), E_TABLE_COL_ARROW_NONE);
+
 	return col->arrow;
 }
 

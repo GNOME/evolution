@@ -348,7 +348,7 @@ e_table_header_index (ETableHeader *eth, int col)
 {
 	g_return_val_if_fail (eth != NULL, -1);
 	g_return_val_if_fail (E_IS_TABLE_HEADER (eth), -1);
-	g_return_val_if_fail (col < eth->col_count, -1);
+	g_return_val_if_fail (col >= 0 && col < eth->col_count, -1);
 
 	return eth->columns [col]->col_idx;
 }
@@ -376,6 +376,7 @@ ETableCol **
 e_table_header_get_columns (ETableHeader *eth)
 {
 	ETableCol **ret;
+	int i;
 	
 	g_return_val_if_fail (eth != NULL, 0);
 	g_return_val_if_fail (E_IS_TABLE_HEADER (eth), 0);
@@ -383,6 +384,10 @@ e_table_header_get_columns (ETableHeader *eth)
 	ret = g_new (ETableCol *, eth->col_count + 1);
 	memcpy (ret, eth->columns, sizeof (ETableCol *) * eth->col_count);
 	ret [eth->col_count] = NULL;
+
+	for (i = 0; i < eth->col_count; i++) {
+		gtk_object_ref(GTK_OBJECT(ret[i]));
+	}
 
 	return ret;
 }
@@ -479,11 +484,16 @@ e_table_header_remove (ETableHeader *eth, int idx)
 void
 e_table_header_set_selection (ETableHeader *eth, gboolean allow_selection)
 {
+	g_return_if_fail (eth != NULL);
+	g_return_if_fail (E_IS_TABLE_HEADER (eth));
 }
 
 void
 e_table_header_set_size(ETableHeader *eth, int idx, int size)
 {
+	g_return_if_fail (eth != NULL);
+	g_return_if_fail (E_IS_TABLE_HEADER (eth));
+
 	enqueue(eth, idx, size);
 }
 
@@ -610,21 +620,19 @@ int
 e_table_header_col_diff (ETableHeader *eth, int start_col, int end_col)
 {
 	int total, col;
-	
+
 	g_return_val_if_fail (eth != NULL, 0);
 	g_return_val_if_fail (E_IS_TABLE_HEADER (eth), 0);
 
-	{
-		if (start_col < 0)
-			start_col = 0;
-		if (end_col > eth->col_count)
-			end_col = eth->col_count;
+	if (start_col < 0)
+		start_col = 0;
+	if (end_col > eth->col_count)
+		end_col = eth->col_count;
+
+	total = 0;
+	for (col = start_col; col < end_col; col++){
 		
-		total = 0;
-		for (col = start_col; col < end_col; col++){
-			
-			total += eth->columns [col]->width;
-		}
+		total += eth->columns [col]->width;
 	}
 
 	return total;
