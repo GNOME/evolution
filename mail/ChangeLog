@@ -1,3 +1,8 @@
+2001-01-23  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-account-editor.c (apply_changes): Save the source and
+	transport changes whether the user can connect to the host or not.
+
 2001-01-23  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Applied patch from Tuomas Kuosmanen <tigert@ximian.com>]

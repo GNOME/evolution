@@ -178,6 +178,10 @@ apply_changes (MailAccountEditor *editor)
 		
 		if (editor->source_ssl)
 			account->source->use_ssl = GTK_TOGGLE_BUTTON (editor->source_ssl)->active;
+		
+		/* set the new source url */
+		g_free (account->source->url);
+		account->source->url = camel_url_to_string (source_url, FALSE);
 	}
 	
 	/* transport */
@@ -197,7 +201,7 @@ apply_changes (MailAccountEditor *editor)
 	str = gtk_object_get_data (GTK_OBJECT (editor), "transport_authmech");
 	transport_url->authmech = str && *str ? g_strdup (str) : NULL;
 	
-        host = g_strdup (gtk_entry_get_text (editor->transport_host));
+	host = g_strdup (gtk_entry_get_text (editor->transport_host));
 	if (host && (pport = strchr (host, ':'))) {
 		*pport = '\0';
 		port = atoi (pport + 1);
@@ -210,22 +214,13 @@ apply_changes (MailAccountEditor *editor)
 	if (editor->transport_ssl)
 		account->transport->use_ssl = GTK_TOGGLE_BUTTON (editor->transport_ssl)->active;
 	
-	/*
-	 * The logic behind the following code: Now that we have our
-	 * source and transport urls, lets check to see if they are
-	 * valid. If they *are* valid, then we set them otherwise we
-	 * don't. After we check both servers, save any changes we may
-	 * have. In essence, only servers that pass the check get saved.
-	 * If either of the tests fail, we return FALSE.
-	 */
+	/* set the new transport url */
+	g_free (account->transport->url);
+	account->transport->url = camel_url_to_string (transport_url, FALSE);
 	
 	/* check to make sure the source works */
 	if (source_url) {
 		if (mail_config_check_service (source_url, CAMEL_PROVIDER_STORE, NULL)) {
-			/* set the new source url */
-			g_free (account->source->url);
-			account->source->url = camel_url_to_string (source_url, FALSE);
-			
 			/* save the password if we were requested to do so */
 			if (account->source->save_passwd && source_url->passwd) {
 				mail_session_set_password (account->source->url, source_url->passwd);
@@ -238,13 +233,9 @@ apply_changes (MailAccountEditor *editor)
 	}
 	
 	/* check to make sure the transport works */
-	if (mail_config_check_service (transport_url, CAMEL_PROVIDER_TRANSPORT, NULL)) {	
-		/* set the new transport url */
-		g_free (account->transport->url);
-		account->transport->url = camel_url_to_string (transport_url, FALSE);
-	} else {
+	if (!mail_config_check_service (transport_url, CAMEL_PROVIDER_TRANSPORT, NULL))	
 		retval = FALSE;
-	}
+	
 	camel_url_free (transport_url);
 	
 	/* save any changes we may have */
