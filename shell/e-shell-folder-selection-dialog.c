@@ -66,6 +66,10 @@ enum {
 
 static guint signals[LAST_SIGNAL] = { 0 };
 
+enum {
+	RESPONSE_NEW
+};
+
 
 /* Utility functions.  */
 
@@ -234,11 +238,13 @@ impl_response (GtkDialog *dialog,
 			gtk_widget_destroy (GTK_WIDGET (dialog));
 		}
 		break;
+
 	case GTK_RESPONSE_CANCEL:
 		g_signal_emit (folder_selection_dialog, signals[CANCELLED], 0);
 		gtk_widget_destroy (GTK_WIDGET (dialog));
 		break;
-	default:			/* New... */
+
+	case RESPONSE_NEW:
 		storage_set_view = E_STORAGE_SET_VIEW (priv->storage_set_view);
 		default_parent_folder = e_storage_set_view_get_current_folder (storage_set_view);
 
@@ -261,6 +267,9 @@ impl_response (GtkDialog *dialog,
 		g_free (default_type);
 
 		break;
+
+	default:		/* WM close button */
+		gtk_widget_destroy (GTK_WIDGET (dialog));
 	}
 }
 
@@ -407,7 +416,7 @@ e_shell_folder_selection_dialog_construct (EShellFolderSelectionDialog *folder_s
 
 	if (allow_creation)
 		gtk_dialog_add_buttons (GTK_DIALOG (folder_selection_dialog),
-					GTK_STOCK_NEW, 1,
+					GTK_STOCK_NEW, RESPONSE_NEW,
 					NULL);
 
 	gtk_dialog_add_buttons (GTK_DIALOG (folder_selection_dialog),

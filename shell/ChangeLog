@@ -1,5 +1,15 @@
 2003-04-04  Ettore Perazzoli  <ettore@ximian.com>
 
+	[#40413]
+
+	* e-shell-folder-selection-dialog.c: Define RESPONSE_NEW for the
+	"New" button in the dialog.
+	(impl_response): Handle RESPONSE_NEW.
+	(e_shell_folder_selection_dialog_construct): Add the "new" button
+	with RESPONSE_NEW response_id.
+
+2003-04-04  Ettore Perazzoli  <ettore@ximian.com>
+
 	[#40748]
 
 	* apps_evolution_shell.schemas: Remove the icon_modes schema.
