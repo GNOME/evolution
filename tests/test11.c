@@ -38,7 +38,7 @@ main (int argc, char**argv)
 	CamelException *ex;
 	CamelStore *store;
 	gchar *store_url = "mbox:///tmp/evmail";
-	CamelFolder *folder;
+	CamelFolder *folder, *outbox;
 	CamelMimeMessage *message;
 	GList *uid_list;
 	int camel_debug_level = 10;
@@ -65,7 +65,7 @@ main (int argc, char**argv)
 			"Full description : %s\n", camel_exception_get_description (ex));
 		return -1;
 	}
-
+	
 	printf("open folder\n");
 
 	camel_folder_open (folder, FOLDER_OPEN_READ, ex);
@@ -75,17 +75,40 @@ main (int argc, char**argv)
 		return -1;
 	}
 
+	printf("create output folder ...\n");
+	outbox = camel_store_get_folder (store, "Gnome", ex);
+	if (!camel_folder_exists(outbox, ex)) {
+		camel_folder_create(outbox, ex);
+	}
 	
+	camel_folder_open (outbox, FOLDER_OPEN_WRITE, ex);
+
 	printf("Search for messages\n");
 
-	matches = camel_folder_search_by_expression  (folder, "(or (match-all (header-contains \"subject\" \"term\")) (match-all (header-contains \"subject\" \"gnome\")))", ex);
+	matches = camel_folder_search_by_expression  (folder, "(match-all (header-contains \"subject\" \"gnome\"))", ex);
 
 	if (matches) {
 		GList *n;
 		printf("search found matches:\n");
 		n = matches;
 		while (n) {
+			CamelMimeMessage *m;
+
 			printf("uid: %s\n", n->data);
+			m = camel_folder_get_message_by_uid(folder, n->data, ex);
+
+			if (camel_exception_get_id (ex)) {
+				printf ("Cannot get message\n"
+					"Full description : %s\n", camel_exception_get_description (ex));
+			}
+
+			camel_folder_append_message(outbox, m, ex);
+
+			if (camel_exception_get_id (ex)) {
+				printf ("Cannot save message\n"
+					"Full description : %s\n", camel_exception_get_description (ex));
+			}
+
 			n = g_list_next(n);
 		}
 		
