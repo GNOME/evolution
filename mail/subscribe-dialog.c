@@ -581,9 +581,17 @@ subscribe_dialog_gui_init (SubscribeDialog *sc)
 static void
 subscribe_dialog_destroy (GtkObject *object)
 {
-	SubscribeDialog *subscribe_dialog;
+	SubscribeDialog *sc;
 
-	subscribe_dialog = SUBSCRIBE_DIALOG (object);
+	sc = SUBSCRIBE_DIALOG (object);
+
+	gtk_object_unref (GTK_OBJECT (sc->listener));
+
+	bonobo_object_release_unref (sc->storage_set_control, NULL);
+	bonobo_object_release_unref (sc->storage_set_view, NULL);
+
+	e_tree_model_node_remove (sc->model, sc->root);
+	gtk_object_unref (GTK_OBJECT (sc->model));
 
 	subscribe_dialog_parent_class->destroy (object);
 }

@@ -1,5 +1,14 @@
 2000-10-02  Chris Toshok  <toshok@helixcode.com>
 
+	* subscribe-dialog.c (subscribe_dialog_destroy): destroy our
+	tree_model and remove the root node.  also, release_unref our
+	control and view, and unref the listener.
+
+	* mail-tools.c (mail_tool_uri_to_folder): news url's contain host
+	names too, now.
+
+2000-10-02  Chris Toshok  <toshok@helixcode.com>
+
 	* subscribe-dialog.c, subscribe-dialog.h: add a
 	storage-set-view-listener, and add a little printf saying what
 	storage was selected.

@@ -459,9 +459,16 @@ mail_tool_get_root_of_store (const char *source_uri, CamelException *ex)
 	CamelStore *store;
 	CamelFolder *folder;
 
+	mail_tool_camel_lock_up();
+
+	if (!strncmp (source_uri, "news://", 7))
+		store = (CamelStore*)camel_session_get_service (session, source_uri,
+								CAMEL_PROVIDER_STORE, ex);
+	else
+		store = camel_session_get_store (session, source_uri, ex);
+
 	mail_tool_camel_lock_up ();
 
-	store = camel_session_get_store (session, source_uri, ex);
 	if (!store) {
 		mail_tool_camel_lock_down ();
 		return NULL;
@@ -530,10 +537,14 @@ mail_tool_uri_to_folder (const char *uri, CamelException *ex)
 		mail_tool_camel_lock_up();
 		store = camel_session_get_store (session, uri, ex);
 		if (store) {
-			const char *folder_path;
+			const char *folder_path, *ptr;
 
-			folder_path = uri + 5;
-			folder = camel_store_get_folder (store, folder_path, FALSE, ex);
+			for (ptr = (char *)(uri + 7); *ptr && *ptr != '/'; ptr++);
+			if (*ptr == '/') {
+				ptr++;
+				folder_path = ptr;
+				folder = camel_store_get_folder (store, folder_path, FALSE, ex);
+			}
 		}
 
 		mail_tool_camel_lock_down();
