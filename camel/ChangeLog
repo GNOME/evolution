@@ -1,3 +1,9 @@
+2000-10-27  Dan Winship  <danw@helixcode.com>
+
+	* camel-mime-utils.c (header_param_list_format_append): Work
+	around Outlook brokenness in iMIP parsing by only quoting
+	Content-type parameters when the quoting is mandatory.
+
 2000-10-27    <jpr@helixcode.com>
 
 	* providers/pop3/Makefile.am: Tidy up build

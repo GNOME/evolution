@@ -2202,14 +2202,30 @@ static void
 header_param_list_format_append(GString *out, struct _header_param *p)
 {
 	int len = out->len;
+	char *ch;
+
 	while (p) {
 		int here = out->len;
 		if (len+strlen(p->name)+strlen(p->value)>60) {
 			out = g_string_append(out, "\n\t");
 			len = 0;
 		}
-		/* FIXME: format the value properly */
-		g_string_sprintfa(out, " ; %s=\"%s\"", p->name, p->value);
+
+		g_string_sprintfa(out, " ; %s=", p->name);
+
+		/* Outlook will not recognize an iTIP attachment with
+		 * eg 'method="request"'. It must be 'method=request'.
+		 * So only quote if we need to. (Sigh)
+		 */
+		for (ch = p->value; *ch; ch++) {
+			if (is_tspecial(*ch))
+				break;
+		}
+		if (!*ch)
+			g_string_append(out, p->value);
+		else
+			quote_word(out, TRUE, p->value, strlen(p->value));
+
 		len += (out->len - here);
 		p = p->next;
 	}
