@@ -1,6 +1,18 @@
 2002-08-01  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/select-names/e-select-names.h (struct
+	_ESelectNames): no more search_entry.
+
+	* gui/component/select-names/e-select-names.c (update_query): no
+	more search_entry, search_entry => select_entry, and add file_as
+	to the query since some entries don't have names (like the Ximian,
+	Inc. default card.)
+	(e_select_names_init): no more search_entry, and add an "activate"
+	handler on select_entry that updates the query.
+
+2002-08-01  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component/select-names/e-select-names.h (struct
 	_ESelectNames): remove folders and folders_by_uri, and the 2
 	listeners.
 

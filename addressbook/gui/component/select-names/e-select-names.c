@@ -384,8 +384,8 @@ update_query (GtkWidget *widget, ESelectNames *e_select_names)
 	if (e_select_names->categories) {
 		category = e_categories_master_list_option_menu_get_category (E_CATEGORIES_MASTER_LIST_OPTION_MENU (e_select_names->categories));
 	}
-	if (e_select_names->search_entry) {
-		search = gtk_entry_get_text (GTK_ENTRY (e_select_names->search_entry));
+	if (e_select_names->select_entry) {
+		search = gtk_entry_get_text (GTK_ENTRY (e_select_names->select_entry));
 	}
 	i = 0;
 	q_array[i++] = "(contains \"email\" \"\")";
@@ -394,8 +394,9 @@ update_query (GtkWidget *widget, ESelectNames *e_select_names)
 	if (search && *search)
 		q_array[i++] = g_strdup_printf ("(or (beginswith \"email\" \"%s\") "
 						"    (beginswith \"full_name\" \"%s\") "
-						"    (beginswith \"nickname\" \"%s\"))",
-						search, search, search);
+						"    (beginswith \"nickname\" \"%s\")"
+						"    (beginswith \"file_as\" \"%s\"))",
+						search, search, search, search);
 	q_array[i++] = NULL;
 	if (i > 2) {
 		char *temp = g_strjoinv (" ", q_array);
@@ -522,19 +523,15 @@ e_select_names_init (ESelectNames *e_select_names)
 		gtk_signal_connect(GTK_OBJECT(e_select_names->categories), "changed",
 				   GTK_SIGNAL_FUNC(categories_changed), e_select_names);
 
-	e_select_names->search_entry = glade_xml_get_widget (gui, "entry-find");
-	if (e_select_names->search_entry && !GTK_IS_ENTRY (e_select_names->search_entry))
-		e_select_names->search_entry = NULL;
-	if (e_select_names->search_entry)
-		gtk_signal_connect(GTK_OBJECT(e_select_names->search_entry), "activate",
-				   GTK_SIGNAL_FUNC(update_query), e_select_names);
-
 	e_select_names->select_entry = glade_xml_get_widget (gui, "entry-select");
 	if (e_select_names->select_entry && !GTK_IS_ENTRY (e_select_names->select_entry))
 		e_select_names->select_entry = NULL;
-	if (e_select_names->select_entry)
+	if (e_select_names->select_entry) {
 		gtk_signal_connect(GTK_OBJECT(e_select_names->select_entry), "changed",
 				   GTK_SIGNAL_FUNC(select_entry_changed), e_select_names);
+		gtk_signal_connect(GTK_OBJECT(e_select_names->select_entry), "activate",
+				   GTK_SIGNAL_FUNC(update_query), e_select_names);
+	}
 
 	button  = glade_xml_get_widget (gui, "button-find");
 	if (button && GTK_IS_BUTTON (button))
