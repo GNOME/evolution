@@ -1,3 +1,21 @@
+Evolution 2.2.1.1, 2005-03-17
+-----------------------------
+
+Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
+
+ * Calendar
+   #72983 - 'List' view has one entry for recurring appointment (Rodrigo)
+
+ * Mail
+   #73559 - Evolution filter crash when using Source Account criteria (Michael)
+   #71003 - threads still running at exit redux (Michael)
+   #73550 - HTML mails don't show if "prefer plain-text" plugin not active (Michael)
+
+Other bugs
+
+ * Plugins
+   - Set auth mechanism for transport and source when configuring exchange (Sushma)
+
 Evolution 2.2.1, 2005-03-15
 ---------------------------
 

@@ -1,3 +1,10 @@
+2005-03-16  Rodrigo Moya <rodrigo@novell.com>
+
+	Fixes #72983
+
+	* gui/e-cal-list-view.c (e_cal_list_view_new): set EXPAND_RECURRENCES
+	flag on the model.
+
 2005-03-15  JP Rosevear  <jpr@novell.com> 
  
  	* gui/gnome-cal.c (default_client_cal_opened_cb): if its busy, try
