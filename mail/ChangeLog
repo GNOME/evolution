@@ -1,3 +1,8 @@
+2002-11-15  Harry Lu  <harry.lu@sun.com>
+
+	* mail-display.c (write_data_to_file): Show file name when prompt
+	to user for overwrite.
+
 2002-11-21  Harry Lu  <harry.lu@sun.com>
 
 	* mail-display.c (do_attachment_header): Enable dragging of all

@@ -173,8 +173,7 @@ write_data_written(CamelMimePart *part, char *name, int done, void *data)
 static gboolean
 write_data_to_file (CamelMimePart *part, const char *name, gboolean unique)
 {
-	int fd;
-	int ret = FALSE;
+	int fd, ret = FALSE;
 	
 	g_return_val_if_fail (CAMEL_IS_MIME_PART (part), FALSE);
 	
@@ -182,13 +181,15 @@ write_data_to_file (CamelMimePart *part, const char *name, gboolean unique)
 	if (fd == -1 && errno == EEXIST && !unique) {
 		GtkWidget *dlg;
 		int button;
-
-		dlg = gtk_message_dialog_new(NULL, 0, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
-					     _("A file by that name already exists.\nOverwrite it?"));
-		g_object_set(dlg, "title", _("Overwrite file?"), "allow_grow", TRUE, NULL);
-		button = gtk_dialog_run((GtkDialog *)dlg);
-		gtk_widget_destroy(dlg);
-		g_object_unref(dlg);
+		
+		dlg = gtk_message_dialog_new (NULL, 0, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
+					      _("File `%s' already exists.\nOverwrite it?"),
+					      name);
+		
+		g_object_set (dlg, "title", _("Overwrite file?"), "allow_grow", TRUE, NULL);
+		button = gtk_dialog_run ((GtkDialog *) dlg);
+		gtk_widget_destroy (dlg);
+		g_object_unref (dlg);
 		
 		if (button != GTK_RESPONSE_YES)
 			return FALSE;
