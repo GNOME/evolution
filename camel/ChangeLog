@@ -1,5 +1,11 @@
 2000-08-31  Not Zed  <NotZed@HelixCode.com>
 
+	* camel-mime-part.c (write_to_stream): Use the proper type
+	checking function to check for text types.
+	(write_to_stream): If we have a charset on a text type that
+	isn't us-ascii or utf-8, then we need to reencode it, so add a
+	filter to do that too.
+
 	* camel-mime-utils.c (append_latin1): New function - even though
 	its broken, we'll assume mailers send latin1 headers instead of
 	us-ascii.  We just have to encode high chars into utf-8.

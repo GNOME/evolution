@@ -517,11 +517,23 @@ write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 		}
 		if (filter) {
 			filter_stream = camel_stream_filter_new_with_stream(stream);
-			if (!strcasecmp(mp->content_type->type, "text")) {
+			if (gmime_content_field_is_type(mp->content_type, "text", "*")) {
 				CamelMimeFilter *crlf = camel_mime_filter_crlf_new(CAMEL_MIME_FILTER_CRLF_ENCODE,
 										   CAMEL_MIME_FILTER_CRLF_MODE_CRLF_ONLY);
+				char *charset;
+
 				camel_stream_filter_add(filter_stream, crlf);
 				camel_object_unref((CamelObject *)crlf);
+
+				charset = gmime_content_field_get_parameter(mp->content_type, "charset");
+				if (!(charset == NULL || !strcasecmp(charset, "us-ascii") || !strcasecmp(charset, "utf-8"))) {
+					CamelMimeFilter *charenc;
+					charenc = camel_mime_filter_charset_new("utf-8", charset);
+					camel_stream_filter_add(filter_stream, charenc);
+					/* well some idiot changed the _add function to do its own ref'ing for
+					   no decent purpose whatsoever ... */
+					camel_object_unref((CamelObject *)charenc);
+				} 
 			}
 			camel_stream_filter_add(filter_stream, filter);
 			camel_object_unref((CamelObject *)filter);
