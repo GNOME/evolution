@@ -63,21 +63,15 @@ evolution_addressbook_LDADD =						\
 
 evolution_addressbook_LDFLAGS = `gnome-config --libs gdk_pixbuf` -export-dynamic
 
-if USING_OAF
 oafdir = $(datadir)/oaf
 oaf_DATA = addressbook.oafinfo
-else
-gnorbadir = $(sysconfdir)/CORBA/servers
-gnorba_DATA = addressbook.gnorba
-endif
 
 gladedir   = $(datadir)/evolution/glade
 glade_DATA = ldap-server-dialog.glade ldap-server-dialog.glade.h alphabet.glade
 
 EXTRA_DIST = 			\
 	$(glade_DATA)		\
-	addressbook.gnorba	\
-	addressbook.oafinfo	\
+	$(oaf_DATA)		\
 	alphabet.glade.h
 
 if ENABLE_PURIFY

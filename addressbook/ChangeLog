@@ -1,3 +1,9 @@
+2000-08-26  JP Rosevear  <jpr@helixcode.com>
+
+	* gui/component/addressbook.gnorba: Kill
+
+	* gui/component/Makefile.am:  Remove gnorba stuff
+
 2000-08-25  Dan Winship  <danw@helixcode.com>
 
 	* gui/component/Makefile.am (evolution_addressbook_LDFLAGS): Add
