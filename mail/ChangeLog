@@ -1,3 +1,14 @@
+2000-10-04  Miguel de Icaza  <miguel@helixcode.com>
+
+	* mail-callbacks.c (delete_msg): Added a comment to a piece of
+	code that I was trying to "fix" just to find that the strange
+	behaviour here that was about to be fixed, was actually a fix to
+	the problem I was trying to fix.
+
+	So put the original comments from Dan, and will hope that someone
+	with more knowledge about this can figure why the delete key wont
+	delete messages and select the next unread message.
+
 2000-10-02  Chris Toshok  <toshok@helixcode.com>
 
 	* subscribe-dialog.c (subscribe_dialog_destroy): destroy our

@@ -629,6 +629,14 @@ delete_msg (GtkWidget *button, gpointer user_data)
 	
 	uids = g_ptr_array_new ();
 	message_list_foreach (ml, enumerate_msg, uids);
+
+	/*
+	 * Toggling a flag is an "instantaneous" operation, so if
+	 * we're only doing one, just do it and return, rather than
+	 * queueing it for the other thread. This makes the "Delete"
+	 * key work correctly (move to the next message) again.
+	 * - Dan
+	 */
 	if (uids->len == 1) {
 		guint32 flags;
 		char *uid = uids->pdata[0];
