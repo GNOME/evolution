@@ -10,6 +10,8 @@
 	(emhs_sync_write): use gtk_html_begin_full with new flags field
 	(em_html_stream_new): zero flags field
 
+	Fixes #51654
+
 2004-04-23  Sarfraaz Ahmed <asarfraaz@novell.com>
 
 	* mail/mail-license.glade: Glade file for displaying the license.
