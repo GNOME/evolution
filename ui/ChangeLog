@@ -1,3 +1,7 @@
+2001-01-18  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* evolution-mail.xml: Added Next/Previous toolbar buttons.
+
 2001-01-15  Michael Meeks  <michael@helixcode.com>
 
 	* evolution.xml: progressive cmd/widgetization and

@@ -245,6 +245,14 @@
     _label="Stop"
     pixtype="stock" pixname="Stop"/>
 
+    <toolitem name="Previous" verb="MailPrevious"
+    _label="Previous"
+    pixtype="stock" pixname="Back"/>
+
+    <toolitem name="Next" verb="MailNext"
+    _label="Next"
+    pixtype="stock" pixname="Forward"/>
+
   </dockitem>
 </Root>
 
