@@ -1,3 +1,12 @@
+2000-09-01  Chris Toshok  <toshok@helixcode.com>
+
+	* e-storage-set-view.c (removed_folder_cb): free node_data.
+	(removed_storage_cb): same.
+	(new_storage_cb): don't free the path we put in the node's
+	node_data.
+	(e_storage_set_view_set_current_folder): remove calls to
+	set_cursor_row (-1), and clean up a little bit.
+
 2000-09-01  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-local-storage.c: Strdup path when setting the callback data.
