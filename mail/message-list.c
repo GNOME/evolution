@@ -690,7 +690,12 @@ message_list_set_search (MessageList *message_list, const char *search)
 		g_list_free(message_list->matches);
 		message_list->matches = NULL;
 	}
-	g_free(message_list->search);
+
+	if (message_list->search) {
+		g_free(message_list->search);
+		message_list->search = NULL;
+	}
+
 	if (search) {
 		CamelException ex;
 

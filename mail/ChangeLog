@@ -1,3 +1,8 @@
+2000-05-02  Larry Ewing  <lewing@helixcode.com>
+
+	* message-list.c (message_list_set_search): only free search if it
+	is not NULL.
+
 2000-05-02  NotZed  <NotZed@HelixCode.com>
 
 	* folder-browser.c (folder_browser_gui_init): Connect the changed
