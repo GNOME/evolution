@@ -1392,7 +1392,7 @@ pre_sync (GnomePilotConduit *conduit,
 
 	/* Find the added, modified and deleted items */
 	change_id = g_strdup_printf ("pilot-sync-evolution-calendar-%d", ctxt->cfg->pilot_id);
-	if (!cal_client_get_changes (ctxt->client, CALOBJ_TYPE_EVENT, change_id, &ctxt->changed, NULL))
+	if (!cal_client_get_changes (ctxt->client, change_id, &ctxt->changed, NULL))
 		return -1;
 	ctxt->changed_hash = g_hash_table_new (g_str_hash, g_str_equal);
 	g_free (change_id);
@@ -1501,7 +1501,7 @@ post_sync (GnomePilotConduit *conduit,
 	 * a race condition if anyone changes a record elsewhere during sycnc
          */
 	change_id = g_strdup_printf ("pilot-sync-evolution-calendar-%d", ctxt->cfg->pilot_id);
-	if (cal_client_get_changes (ctxt->client, CALOBJ_TYPE_EVENT, change_id, &changed, NULL))
+	if (cal_client_get_changes (ctxt->client, change_id, &changed, NULL))
 		cal_client_change_list_free (changed);
 	g_free (change_id);
 	

@@ -709,7 +709,6 @@ cal_backend_get_free_busy (CalBackend *backend, Cal *cal, GList *users, time_t s
 /**
  * cal_backend_get_changes:
  * @backend: A calendar backend
- * @type: Bitmask with types of objects to return.
  * @change_id: A unique uid for the callers change list
  * 
  * Builds a sequence of objects and the type of change that occurred on them since
@@ -718,14 +717,14 @@ cal_backend_get_free_busy (CalBackend *backend, Cal *cal, GList *users, time_t s
  * Return value: A list of the objects that changed and the type of change
  **/
 void
-cal_backend_get_changes (CalBackend *backend, Cal *cal, CalObjType type, const char *change_id) 
+cal_backend_get_changes (CalBackend *backend, Cal *cal, const char *change_id) 
 {
 	g_return_if_fail (backend != NULL);
 	g_return_if_fail (IS_CAL_BACKEND (backend));
 	g_return_if_fail (change_id != NULL);
 
 	g_assert (CLASS (backend)->get_changes != NULL);
-	(* CLASS (backend)->get_changes) (backend, cal, type, change_id);
+	(* CLASS (backend)->get_changes) (backend, cal, change_id);
 }
 
 /**

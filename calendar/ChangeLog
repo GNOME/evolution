@@ -1,3 +1,23 @@
+2003-10-24  Dan Winship  <danw@ximian.com>
+
+	* cal-client/cal-client.c (cal_client_get_changes): Remove type arg
+
+	* conduits/calendar/calendar-conduit.c (pre_sync, post_sync):
+	Update for that
+
+	* conduits/todo/todo-conduit.c (pre_sync, post_sync): Likewise
+
+	* idl/evolution-calendar.idl (getChanges): Remove type arg.
+
+	* pcs/cal.c (impl_Cal_getChanges): Likewise
+
+	* pcs/cal-backend.c (cal_backend_get_changes): Likewise
+
+	* pcs/cal-backend-sync.c (cal_backend_sync_get_changes): Likewise
+
+	* pcs/cal-backend-file.c (cal_backend_file_get_changes): Update
+	for that
+
 2003-10-24  Rodrigo Moya <rodrigo@ximian.com>
 
 	* cal-util/cal-util.[ch] (cal_util_construct_instance,

@@ -155,7 +155,7 @@ gboolean cal_client_get_object (CalClient *client,
 				icalcomponent **icalcomp,
 				GError **error);
 
-gboolean cal_client_get_changes (CalClient *client, CalObjType type, const char *change_id, GList **changes, GError **error);
+gboolean cal_client_get_changes (CalClient *client, const char *change_id, GList **changes, GError **error);
 
 gboolean cal_client_get_object_list (CalClient *client, const char *query, GList **objects, GError **error);
 gboolean cal_client_get_object_list_as_comp (CalClient *client, const char *query, GList **objects, GError **error);

@@ -235,14 +235,14 @@ cal_backend_sync_set_default_timezone (CalBackendSync *backend, Cal *cal, const 
 
 
 CalBackendSyncStatus
-cal_backend_sync_get_changes (CalBackendSync *backend, Cal *cal, CalObjType type, const char *change_id,
+cal_backend_sync_get_changes (CalBackendSync *backend, Cal *cal, const char *change_id,
 			      GList **adds, GList **modifies, GList **deletes)
 {
 	g_return_val_if_fail (CAL_IS_BACKEND_SYNC (backend), GNOME_Evolution_Calendar_OtherError);
 
 	g_assert (CAL_BACKEND_SYNC_GET_CLASS (backend)->get_changes_sync != NULL);
 
-	return (* CAL_BACKEND_SYNC_GET_CLASS (backend)->get_changes_sync) (backend, cal, type, change_id, 
+	return (* CAL_BACKEND_SYNC_GET_CLASS (backend)->get_changes_sync) (backend, cal, change_id, 
 									   adds, modifies, deletes);
 }
 
@@ -484,12 +484,12 @@ _cal_backend_set_default_timezone (CalBackend *backend, Cal *cal, const char *tz
 }
 
 static void
-_cal_backend_get_changes (CalBackend *backend, Cal *cal, CalObjType type, const char *change_id)
+_cal_backend_get_changes (CalBackend *backend, Cal *cal, const char *change_id)
 {
 	CalBackendSyncStatus status;
 	GList *adds = NULL, *modifies = NULL, *deletes = NULL, *l;
 	
-	status = cal_backend_sync_get_changes (CAL_BACKEND_SYNC (backend), cal, type, change_id, 
+	status = cal_backend_sync_get_changes (CAL_BACKEND_SYNC (backend), cal, change_id, 
 					       &adds, &modifies, &deletes);
 
 	cal_notify_changes (cal, status, adds, modifies, deletes);

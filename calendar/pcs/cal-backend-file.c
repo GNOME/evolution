@@ -1236,7 +1236,7 @@ cal_backend_file_get_free_busy (CalBackendSync *backend, Cal *cal, GList *users,
 typedef struct 
 {
 	CalBackendFile *backend;
-	CalObjType type;	
+	icalcomponent_kind kind;
 	GList *deletes;
 	EXmlHash *ehash;
 } CalBackendFileComputeChangesData;
@@ -1250,7 +1250,7 @@ cal_backend_file_compute_changes_foreach_key (const char *key, gpointer data)
 		CalComponent *comp;
 
 		comp = cal_component_new ();
-		if (be_data->type == GNOME_Evolution_Calendar_TYPE_TODO)
+		if (be_data->kind == ICAL_VTODO_COMPONENT)
 			cal_component_set_new_vtype (comp, CAL_COMPONENT_TODO);
 		else
 			cal_component_set_new_vtype (comp, CAL_COMPONENT_EVENT);
@@ -1263,7 +1263,7 @@ cal_backend_file_compute_changes_foreach_key (const char *key, gpointer data)
 }
 
 static CalBackendSyncStatus
-cal_backend_file_compute_changes (CalBackendFile *cbfile, CalObjType type, const char *change_id,
+cal_backend_file_compute_changes (CalBackendFile *cbfile, const char *change_id,
 				  GList **adds, GList **modifies, GList **deletes)
 {
 	CalBackendFilePrivate *priv;
@@ -1308,7 +1308,7 @@ cal_backend_file_compute_changes (CalBackendFile *cbfile, CalObjType type, const
 
 	/* Calculate deletions */
 	be_data.backend = cbfile;
-	be_data.type = type;	
+	be_data.kind = cal_backend_get_kind (CAL_BACKEND (cbfile));
 	be_data.deletes = NULL;
 	be_data.ehash = ehash;
    	e_xmlhash_foreach_key (ehash, (EXmlHashFunc)cal_backend_file_compute_changes_foreach_key, &be_data);
@@ -1323,7 +1323,7 @@ cal_backend_file_compute_changes (CalBackendFile *cbfile, CalObjType type, const
 
 /* Get_changes handler for the file backend */
 static CalBackendSyncStatus
-cal_backend_file_get_changes (CalBackendSync *backend, Cal *cal, CalObjType type, const char *change_id,
+cal_backend_file_get_changes (CalBackendSync *backend, Cal *cal, const char *change_id,
 			      GList **adds, GList **modifies, GList **deletes)
 {
 	CalBackendFile *cbfile;
@@ -1335,7 +1335,7 @@ cal_backend_file_get_changes (CalBackendSync *backend, Cal *cal, CalObjType type
 	g_return_val_if_fail (priv->icalcomp != NULL, GNOME_Evolution_Calendar_NoSuchCal);
 	g_return_val_if_fail (change_id != NULL, GNOME_Evolution_Calendar_ObjectNotFound);
 
-	return cal_backend_file_compute_changes (cbfile, type, change_id, adds, modifies, deletes);
+	return cal_backend_file_compute_changes (cbfile, change_id, adds, modifies, deletes);
 }
 
 /* Discard_alarm handler for the file backend */

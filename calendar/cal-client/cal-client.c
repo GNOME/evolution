@@ -2240,7 +2240,7 @@ cal_client_resolve_tzid_cb (const char *tzid, gpointer data)
 }
 
 gboolean
-cal_client_get_changes (CalClient *client, CalObjType type, const char *change_id, GList **changes, GError **error)
+cal_client_get_changes (CalClient *client, const char *change_id, GList **changes, GError **error)
 {
 	CORBA_Environment ev;
 	ECalendarOp *our_op;
@@ -2270,7 +2270,7 @@ cal_client_get_changes (CalClient *client, CalObjType type, const char *change_i
 
 	CORBA_exception_init (&ev);
 
-	GNOME_Evolution_Calendar_Cal_getChanges (client->priv->cal, type, change_id, &ev);
+	GNOME_Evolution_Calendar_Cal_getChanges (client->priv->cal, change_id, &ev);
 
 	if (BONOBO_EX (&ev)) {
 		e_calendar_remove_op (client, our_op);

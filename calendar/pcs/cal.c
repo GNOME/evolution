@@ -221,7 +221,6 @@ impl_Cal_getObjectList (PortableServer_Servant servant,
 /* Cal::getChanges method */
 static void
 impl_Cal_getChanges (PortableServer_Servant servant,
-		     GNOME_Evolution_Calendar_CalObjType type,
 		     const CORBA_char *change_id,
 		     CORBA_Environment *ev)
 {
@@ -231,7 +230,7 @@ impl_Cal_getChanges (PortableServer_Servant servant,
        cal = CAL (bonobo_object_from_servant (servant));
        priv = cal->priv;
 
-       cal_backend_get_changes (priv->backend, cal, type, change_id);
+       cal_backend_get_changes (priv->backend, cal, change_id);
 }
 
 /* Cal::getFreeBusy method */

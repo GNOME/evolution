@@ -180,8 +180,8 @@ module Calendar {
 		/* The timezone used to resolve DATE and floating DATE-TIME values. */
 		oneway void setDefaultTimezone (in CalTimezoneObjUID tzid);
 
-		/* Gets a list of components that changed based on object type */
-		oneway void getChanges (in CalObjType type, in string change_id);
+		/* Gets a list of components that changed */
+		oneway void getChanges (in string change_id);
 
 		/* Returns free/busy objects for the given interval */
 		oneway void getFreeBusy (in UserList users, in Time_t start, in Time_t end);

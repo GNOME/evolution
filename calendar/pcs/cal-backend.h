@@ -101,7 +101,7 @@ struct _CalBackendClass {
 	void    (* set_mode) (CalBackend *backend, CalMode mode);
 
 	void (* get_free_busy) (CalBackend *backend, Cal *cal, GList *users, time_t start, time_t end);
-	void (* get_changes) (CalBackend *backend, Cal *cal, CalObjType type, const char *change_id);
+	void (* get_changes) (CalBackend *backend, Cal *cal, const char *change_id);
 
 	/* Internal methods for use only in the pcs */
 	icaltimezone *(* internal_get_default_timezone) (CalBackend *backend);
@@ -152,7 +152,7 @@ void cal_backend_get_timezone (CalBackend *backend, Cal *cal, const char *tzid);
 void cal_backend_add_timezone (CalBackend *backend, Cal *cal, const char *object);
 void cal_backend_set_default_timezone (CalBackend *backend, Cal *cal, const char *tzid);
 
-void cal_backend_get_changes (CalBackend *backend, Cal *cal, CalObjType type, const char *change_id);
+void cal_backend_get_changes (CalBackend *backend, Cal *cal, const char *change_id);
 void cal_backend_get_free_busy (CalBackend *backend, Cal *cal, GList *users, time_t start, time_t end);
 
 icaltimezone* cal_backend_internal_get_default_timezone (CalBackend *backend);
