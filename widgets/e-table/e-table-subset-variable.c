@@ -28,14 +28,19 @@ etssv_add       (ETableSubsetVariable *etssv,
 {
 	ETableModel *etm = E_TABLE_MODEL(etssv);
 	ETableSubset *etss = E_TABLE_SUBSET(etssv);
+	int i;
 	
 	if (etss->n_map + 1 > etssv->n_vals_allocated){
 		etss->map_table = g_realloc (etss->map_table, (etssv->n_vals_allocated + INCREMENT_AMOUNT) * sizeof(int));
 		etssv->n_vals_allocated += INCREMENT_AMOUNT;
 	}
+	if (row < e_table_model_row_count(etss->source) - 1)
+		for ( i = 0; i < etss->n_map; i++ )
+			if (etss->map_table[i] >= row)
+				etss->map_table[i] ++;
 	etss->map_table[etss->n_map++] = row;
 	if (!etm->frozen)
-		e_table_model_changed (etm);
+		e_table_model_row_inserted (etm, etss->n_map - 1);
 }
 
 static void

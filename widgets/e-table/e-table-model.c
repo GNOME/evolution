@@ -22,6 +22,8 @@ enum {
 	MODEL_CHANGED,
 	MODEL_ROW_CHANGED,
 	MODEL_CELL_CHANGED,
+	MODEL_ROW_INSERTED,
+	MODEL_ROW_DELETED,
 	ROW_SELECTION,
 	LAST_SIGNAL
 };
@@ -143,6 +145,22 @@ e_table_model_class_init (GtkObjectClass *object_class)
 				gtk_marshal_NONE__INT_INT,
 				GTK_TYPE_NONE, 2, GTK_TYPE_INT, GTK_TYPE_INT);
 
+	e_table_model_signals [MODEL_ROW_INSERTED] =
+		gtk_signal_new ("model_row_inserted",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (ETableModelClass, model_row_inserted),
+				gtk_marshal_NONE__INT,
+				GTK_TYPE_NONE, 1, GTK_TYPE_INT);
+
+	e_table_model_signals [MODEL_ROW_DELETED] =
+		gtk_signal_new ("model_row_deleted",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (ETableModelClass, model_row_deleted),
+				gtk_marshal_NONE__INT,
+				GTK_TYPE_NONE, 1, GTK_TYPE_INT);
+
 	gtk_object_class_add_signals (object_class, e_table_model_signals, LAST_SIGNAL);
 }
 
@@ -200,6 +218,26 @@ e_table_model_cell_changed (ETableModel *e_table_model, int col, int row)
 
 	gtk_signal_emit (GTK_OBJECT (e_table_model),
 			 e_table_model_signals [MODEL_CELL_CHANGED], col, row);
+}
+
+void
+e_table_model_row_inserted (ETableModel *e_table_model, int row)
+{
+	g_return_if_fail (e_table_model != NULL);
+	g_return_if_fail (E_IS_TABLE_MODEL (e_table_model));
+
+	gtk_signal_emit (GTK_OBJECT (e_table_model),
+			 e_table_model_signals [MODEL_ROW_INSERTED], row);
+}
+
+void
+e_table_model_row_deleted (ETableModel *e_table_model, int row)
+{
+	g_return_if_fail (e_table_model != NULL);
+	g_return_if_fail (E_IS_TABLE_MODEL (e_table_model));
+
+	gtk_signal_emit (GTK_OBJECT (e_table_model),
+			 e_table_model_signals [MODEL_ROW_DELETED], row);
 }
 
 void

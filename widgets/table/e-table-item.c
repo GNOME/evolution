@@ -49,6 +49,7 @@ enum {
 
 static int eti_get_height (ETableItem *eti);
 static int eti_row_height (ETableItem *eti, int row);
+#define ETI_ROW_HEIGHT(eti,row) ((eti)->height_cache && (eti)->height_cache[(row)] != -1 ? (eti)->height_cache[(row)] : eti_row_height((eti),(row)))
 
 static gboolean
 eti_editing (ETableItem *eti)
@@ -235,11 +236,17 @@ eti_remove_table_model (ETableItem *eti)
 			       eti->table_model_row_change_id);
 	gtk_signal_disconnect (GTK_OBJECT (eti->table_model),
 			       eti->table_model_cell_change_id);
+	gtk_signal_disconnect (GTK_OBJECT (eti->table_model),
+			       eti->table_model_row_inserted_id);
+	gtk_signal_disconnect (GTK_OBJECT (eti->table_model),
+			       eti->table_model_row_deleted_id);
 	gtk_object_unref (GTK_OBJECT (eti->table_model));
 
 	eti->table_model_change_id = 0;
 	eti->table_model_row_change_id = 0;
 	eti->table_model_cell_change_id = 0;
+	eti->table_model_row_inserted_id = 0;
+	eti->table_model_row_deleted_id = 0;
 	eti->table_model = NULL;
 }
 
@@ -545,6 +552,18 @@ eti_table_model_cell_changed (ETableModel *table_model, int col, int row, ETable
 	eti_request_region_redraw (eti, 0, row, eti->cols, row, 0);
 }
 
+static void
+eti_table_model_row_inserted (ETableModel *table_model, int row, ETableItem *eti)
+{
+	eti_table_model_changed (table_model, eti);
+}
+
+static void
+eti_table_model_row_deleted (ETableModel *table_model, int row, ETableItem *eti)
+{
+	eti_table_model_changed (table_model, eti);
+}
+
 void
 e_table_item_redraw_range (ETableItem *eti,
 			   int start_col, int start_row,
@@ -585,6 +604,14 @@ eti_add_table_model (ETableItem *eti, ETableModel *table_model)
 	eti->table_model_cell_change_id = gtk_signal_connect (
 		GTK_OBJECT (table_model), "model_cell_changed",
 		GTK_SIGNAL_FUNC (eti_table_model_cell_changed), eti);
+
+	eti->table_model_row_inserted_id = gtk_signal_connect (
+		GTK_OBJECT (table_model), "model_row_inserted",
+		GTK_SIGNAL_FUNC (eti_table_model_row_inserted), eti);
+
+	eti->table_model_row_deleted_id = gtk_signal_connect (
+		GTK_OBJECT (table_model), "model_row_deleted",
+		GTK_SIGNAL_FUNC (eti_table_model_row_deleted), eti);
 
 	if (eti->header) {
 		eti_detach_cell_views (eti);
@@ -893,7 +920,7 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 	y1 = y2 = floor (eti_base.y) + 1;
 	for (row = 0; row < rows; row++, y1 = y2){
 
-		y2 += eti_row_height (eti, row) + 1;
+		y2 += ETI_ROW_HEIGHT (eti, row) + 1;
 
 		if (y1 > y + height)
 			break;
@@ -929,7 +956,7 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 		int xd, height;
 		gboolean selected;
 		
-		height = eti_row_height (eti, row);
+		height = ETI_ROW_HEIGHT (eti, row);
 
 		xd = x_offset;
 /*		printf ("paint: %d %d\n", yd, yd + height); */
@@ -1037,7 +1064,7 @@ find_cell (ETableItem *eti, double x, double y, int *col_res, int *row_res, doub
 		if (y < y1)
 			return FALSE;
 		
-		y2 += eti_row_height (eti, row) + 1;
+		y2 += ETI_ROW_HEIGHT (eti, row) + 1;
 
 		if (y > y2)
 			continue;

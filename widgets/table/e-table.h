@@ -32,6 +32,8 @@ typedef struct {
 	int table_model_change_id;
 	int table_row_change_id;
 	int table_cell_change_id;
+	int table_row_inserted_id;
+	int table_row_deleted_id;
 
 	int group_info_change_id;
 
@@ -40,9 +42,6 @@ typedef struct {
 	GnomeCanvasItem *header_item, *root;
 
 	guint need_rebuild:1;
-	guint need_row_changes:1;
-	
-	GHashTable *row_changes_list;
 	gint rebuild_idle_id;
 
 	/*

@@ -91,8 +91,10 @@ E_MAKE_TYPE(e_table_sorted_variable, "ETableSortedVariable", ETableSortedVariabl
 static gboolean
 etsv_sort_idle(ETableSortedVariable *etsv)
 {
+	gtk_object_ref(GTK_OBJECT(etsv));
 	etsv_sort(etsv);
 	etsv->sort_idle_id = 0;
+	gtk_object_unref(GTK_OBJECT(etsv));
 	return FALSE;
 }
 
@@ -103,18 +105,23 @@ etsv_add       (ETableSubsetVariable *etssv,
 	ETableModel *etm = E_TABLE_MODEL(etssv);
 	ETableSubset *etss = E_TABLE_SUBSET(etssv);
 	ETableSortedVariable *etsv = E_TABLE_SORTED_VARIABLE (etssv);
+	int i;
 	
 	if (etss->n_map + 1 > etssv->n_vals_allocated){
 		etssv->n_vals_allocated += INCREMENT_AMOUNT;
 		etss->map_table = g_realloc (etss->map_table, (etssv->n_vals_allocated) * sizeof(int));
 	}
+	if (row < e_table_model_row_count(etss->source) - 1)
+		for ( i = 0; i < etss->n_map; i++ )
+			if (etss->map_table[i] >= row)
+				etss->map_table[i] ++;
 	etss->map_table[etss->n_map] = row;
 	etss->n_map++;
 	if (etsv->sort_idle_id == 0) {
 		etsv->sort_idle_id = g_idle_add_full(50, (GSourceFunc) etsv_sort_idle, etsv, NULL);
 	}
 	if (!etm->frozen)
-		e_table_model_changed (etm);
+		e_table_model_row_inserted (etm, etss->n_map - 1);
 }
 
 static void
@@ -264,10 +271,12 @@ etsv_sort(ETableSortedVariable *etsv)
 		else
 			col = e_table_header_get_column (etsv->full_header, column.column);
 		for (i = 0; i < rows; i++) {
+#if 0
 			if( !(i & 0xff) ) {
 				while(gtk_events_pending())
 					gtk_main_iteration();
 			}
+#endif
 			vals_closure[i * cols + j] = e_table_model_value_at (etss->source, col->col_idx, i);
 		}
 		compare_closure[j] = col->compare;

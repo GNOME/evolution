@@ -30,6 +30,8 @@ typedef struct {
 	int              table_model_change_id;
 	int              table_model_row_change_id;
 	int              table_model_cell_change_id;
+	int              table_model_row_inserted_id;
+	int              table_model_row_deleted_id;
 	
 	GdkGC           *fill_gc;
 	GdkGC           *grid_gc;

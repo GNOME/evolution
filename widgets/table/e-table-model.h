@@ -37,13 +37,18 @@ typedef struct {
 	 */
 
 	/*
+	 * These all come after the change has been made.
 	 * Major structural changes: model_changed
 	 * Changes only in a row: row_changed
 	 * Only changes in a cell: cell_changed
+	 * A row inserted: row_inserted
+	 * A row deleted: row_deleted
 	 */
 	void        (*model_changed)      (ETableModel *etm);
 	void        (*model_row_changed)  (ETableModel *etm, int row);
 	void        (*model_cell_changed) (ETableModel *etm, int col, int row);
+	void        (*model_row_inserted) (ETableModel *etm, int row);
+	void        (*model_row_deleted)  (ETableModel *etm, int row);
 } ETableModelClass;
 
 GtkType     e_table_model_get_type (void);
@@ -67,5 +72,7 @@ void        e_table_model_thaw             (ETableModel *e_table_model);
 void        e_table_model_changed          (ETableModel *e_table_model);
 void        e_table_model_row_changed      (ETableModel *e_table_model, int row);
 void        e_table_model_cell_changed     (ETableModel *e_table_model, int col, int row);
+void        e_table_model_row_inserted     (ETableModel *e_table_model, int row);
+void        e_table_model_row_deleted      (ETableModel *e_table_model, int row);
 
 #endif /* _E_TABLE_MODEL_H_ */

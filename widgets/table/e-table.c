@@ -65,6 +65,10 @@ et_destroy (GtkObject *object)
 			       et->table_row_change_id);
 	gtk_signal_disconnect (GTK_OBJECT (et->model),
 			       et->table_cell_change_id);
+	gtk_signal_disconnect (GTK_OBJECT (et->model),
+			       et->table_row_inserted_id);
+	gtk_signal_disconnect (GTK_OBJECT (et->model),
+			       et->table_row_deleted_id);
 	if (et->group_info_change_id)
 		gtk_signal_disconnect (GTK_OBJECT (et->sort_info),
 				       et->group_info_change_id);
@@ -100,8 +104,6 @@ e_table_init (GtkObject *object)
 	e_table->spreadsheet = 1;
 	
 	e_table->need_rebuild = 0;
-	e_table->need_row_changes = 0;
-	e_table->row_changes_list = NULL;
 	e_table->rebuild_idle_id = 0;
 }
 
@@ -172,16 +174,6 @@ table_canvas_reflow (GnomeCanvas *canvas, ETable *e_table)
 }
 
 static void
-change_row (gpointer key, gpointer value, gpointer data)
-{
-	ETable *et = E_TABLE (data);
-	gint row = GPOINTER_TO_INT (key);
-
-	if (e_table_group_remove (et->group, row))
-		e_table_group_add (et->group, row);
-}
-
-static void
 group_row_selection (ETableGroup *etg, int row, gboolean selected, ETable *et)
 {
 	gtk_signal_emit (GTK_OBJECT (et),
@@ -209,14 +201,9 @@ changed_idle (gpointer data)
 		gtk_object_set (GTK_OBJECT (et->group),
 				"width", (double) GTK_WIDGET (et->table_canvas)->allocation.width,
 				NULL);
-	} else if (et->need_row_changes)
-		g_hash_table_foreach (et->row_changes_list, change_row, et);
+	}
 
 	et->need_rebuild = 0;
-	et->need_row_changes = 0;
-	if (et->row_changes_list)
-		g_hash_table_destroy (et->row_changes_list);
-	et->row_changes_list = NULL;
 	et->rebuild_idle_id = 0;
 
 	return FALSE;
@@ -234,24 +221,31 @@ static void
 et_table_row_changed (ETableModel *table_model, int row, ETable *et)
 {
 	if (!et->need_rebuild) {
-		if (!et->need_row_changes) {
-			et->need_row_changes = 1;
-			et->row_changes_list = g_hash_table_new (g_direct_hash, g_direct_equal);
-		}
-		if (!g_hash_table_lookup (et->row_changes_list, GINT_TO_POINTER (row))) {
-			g_hash_table_insert (et->row_changes_list, GINT_TO_POINTER (row),
-					     GINT_TO_POINTER (row + 1));
-		}
+		if (e_table_group_remove (et->group, row))
+			e_table_group_add (et->group, row);
 	}
-
-	if (!et->rebuild_idle_id)
-		et->rebuild_idle_id = g_idle_add (changed_idle, et);
 }
 
 static void
 et_table_cell_changed (ETableModel *table_model, int view_col, int row, ETable *et)
 {
 	et_table_row_changed (table_model, row, et);
+}
+
+static void
+et_table_row_inserted (ETableModel *table_model, int row, ETable *et)
+{
+	if (!et->need_rebuild) {
+		e_table_group_add (et->group, row);
+	}
+}
+
+static void
+et_table_row_deleted (ETableModel *table_model, int row, ETable *et)
+{
+	if (!et->need_rebuild) {
+		e_table_group_remove (et->group, row);
+	}
 }
 
 static void
@@ -287,6 +281,14 @@ e_table_setup_table (ETable *e_table, ETableHeader *full_header, ETableHeader *h
 	e_table->table_cell_change_id = gtk_signal_connect (
 		GTK_OBJECT (model), "model_cell_changed",
 		GTK_SIGNAL_FUNC (et_table_cell_changed), e_table);
+	
+	e_table->table_row_inserted_id = gtk_signal_connect (
+		GTK_OBJECT (model), "model_row_inserted",
+		GTK_SIGNAL_FUNC (et_table_row_inserted), e_table);
+	
+	e_table->table_row_deleted_id = gtk_signal_connect (
+		GTK_OBJECT (model), "model_row_deleted",
+		GTK_SIGNAL_FUNC (et_table_row_deleted), e_table);
 }
 
 static void
