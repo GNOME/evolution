@@ -1,3 +1,48 @@
+2001-06-27  Chris Toshok  <toshok@ximian.com>
+
+	* gui/contact-list-editor/e-contact-list-model.c
+	(contact_list_row_count): track storage change - we're only using
+	1 array now.
+	(contact_list_value_at): same.
+	(contact_list_model_destroy): same.
+	(e_contact_list_model_init): same.
+	(e_contact_list_model_add_email): same.
+	(e_contact_list_model_add_card): same.
+	(e_contact_list_model_remove_row): same.
+	(e_contact_list_model_remove_all): new function - just free/unref
+	all existing rows.
+	(e_contact_list_model_get_email): new function, returns the
+	alloc'ed string containing either an email address or an encoded
+	ECardId.
+
+	* gui/contact-list-editor/e-contact-list-model.h: remove the 2
+	separate arrays for email and cards, and store them in the same
+	array.
+
+	* gui/contact-list-editor/e-contact-list-editor.h (struct
+	_EContactListEditor): add the visible_addr_checkbutton widget.
+
+	* gui/contact-list-editor/e-contact-list-editor.c
+	(visible_addrs_toggled_cb): new function.
+	(e_contact_list_editor_init): connect to "toggled" on
+	visible_addrs_checkbutton.
+	(file_save_cb): new function.
+	(tb_save_and_close_cb): new function.
+	(verbs): add Save and Save & Close.
+	(list_added_cb): new function.
+	(list_modified_cb): new function.
+	(save_card): new function - we do *not* use e_card_merging_* calls
+	here.
+	(e_contact_list_editor_get_arg): un-#if 0 code in the "card"
+	getter.
+	(e_contact_list_editor_set_arg): same for the "card" setter.
+	(extract_info): new function.
+	(fill_in_info): new function.
+
+	* gui/contact-list-editor/contact-list-editor.glade: add a
+	checkbutton at the bottom to determine whether to visibly include
+	mail addresses in mail sent to this list.
+
 2001-06-26  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/component/select-names/e-select-names.c

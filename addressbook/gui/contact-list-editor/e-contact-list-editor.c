@@ -19,13 +19,14 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include "e-contact-list-editor.h"
-#include "e-contact-list-model.h"
-
+#include <config.h>
 #include <bonobo/bonobo-ui-container.h>
 #include <bonobo/bonobo-ui-util.h>
 #include <gal/e-table/e-table-scrolled.h>
-#include "widgets/misc/e-dateedit.h"
+#include <gal/widgets/e-unicode.h>
+
+#include "e-contact-list-editor.h"
+#include "e-contact-list-model.h"
 
 /* Signal IDs */
 enum {
@@ -46,10 +47,14 @@ static void create_ui (EContactListEditor *ce);
 static void set_editable (EContactListEditor *editor);
 static void command_state_changed (EContactListEditor *editor);
 static void close_dialog (EContactListEditor *cle);
+static void extract_info(EContactListEditor *editor);
+static void fill_in_info(EContactListEditor *editor);
 
 static void add_email_cb (GtkWidget *w, EContactListEditor *editor);
 static void remove_entry_cb (GtkWidget *w, EContactListEditor *editor);
 static void list_name_changed_cb (GtkWidget *w, EContactListEditor *editor);
+static void visible_addrs_toggled_cb (GtkWidget *w, EContactListEditor *editor);
+
 static gint app_delete_event_cb (GtkWidget *widget, GdkEvent *event, gpointer data);
 static gboolean table_drag_drop_cb (ETable *table, int row, int col, GdkDragContext *context,
 				    gint x, gint y, guint time, EContactListEditor *editor);
@@ -203,12 +208,17 @@ e_contact_list_editor_init (EContactListEditor *editor)
 	editor->gui = gui;
 
 	editor->app = glade_xml_get_widget (gui, "contact list editor");
+
 	editor->table = glade_xml_get_widget (gui, "contact-list-table");
+	editor->model = gtk_object_get_data (GTK_OBJECT(editor->table), "model");
+
 	editor->add_button = glade_xml_get_widget (editor->gui, "add-email-button");
 	editor->remove_button = glade_xml_get_widget (editor->gui, "remove-button");
-	editor->email_entry =glade_xml_get_widget (gui, "email-entry");
-	editor->list_name_entry =glade_xml_get_widget (gui, "list-name-entry");
-	editor->model = gtk_object_get_data (GTK_OBJECT(editor->table), "model");
+
+	editor->email_entry = glade_xml_get_widget (gui, "email-entry");
+	editor->list_name_entry = glade_xml_get_widget (gui, "list-name-entry");
+
+	editor->visible_addrs_checkbutton = glade_xml_get_widget (gui, "visible-addrs-checkbutton");
 
 	/* Construct the app */
 	bonobo_win = bonobo_window_new ("contact-list-editor", "Contact List Editor");
@@ -255,6 +265,8 @@ e_contact_list_editor_init (EContactListEditor *editor)
 			    "clicked", GTK_SIGNAL_FUNC(remove_entry_cb), editor);
 	gtk_signal_connect (GTK_OBJECT(editor->list_name_entry),
 			    "changed", GTK_SIGNAL_FUNC(list_name_changed_cb), editor);
+	gtk_signal_connect (GTK_OBJECT(editor->visible_addrs_checkbutton),
+			    "toggled", GTK_SIGNAL_FUNC(visible_addrs_toggled_cb), editor);
 
 	e_table_drag_dest_set (e_table_scrolled_get_table (E_TABLE_SCROLLED (editor->table)),
 			       0, drag_types, num_drag_types, GDK_ACTION_LINK);
@@ -279,22 +291,95 @@ e_contact_list_editor_destroy (GtkObject *object)
 {
 }
 
+typedef struct {
+	EContactListEditor *cle;
+	gboolean should_close;
+} EditorCloseStruct;
+
+static void
+list_added_cb (EBook *book, EBookStatus status, const char *id, EditorCloseStruct *ecs)
+{
+	EContactListEditor *cle = ecs->cle;
+	gboolean should_close = ecs->should_close;
+
+	g_free (ecs);
+
+	gtk_signal_emit (GTK_OBJECT (cle), contact_list_editor_signals[LIST_ADDED],
+			 status, cle->card);
+
+	if (status == E_BOOK_STATUS_SUCCESS) {
+		cle->is_new_list = FALSE;
+
+		if (should_close)
+			close_dialog (cle);
+	}
+}
+
+static void
+list_modified_cb (EBook *book, EBookStatus status, EditorCloseStruct *ecs)
+{
+	EContactListEditor *cle = ecs->cle;
+	gboolean should_close = ecs->should_close;
+
+	g_free (ecs);
+
+	gtk_signal_emit (GTK_OBJECT (cle), contact_list_editor_signals[LIST_MODIFIED],
+			 status, cle->card);
+
+	if (status == E_BOOK_STATUS_SUCCESS) {
+		if (should_close)
+			close_dialog (cle);
+	}
+}
+
+static void
+save_card (EContactListEditor *cle, gboolean should_close)
+{
+	extract_info (cle);
+
+	if (cle->book) {
+		EditorCloseStruct *ecs = g_new(EditorCloseStruct, 1);
+		
+		ecs->cle = cle;
+		ecs->should_close = should_close;
+
+		if (cle->is_new_list)
+			e_book_add_card (cle->book, cle->card, GTK_SIGNAL_FUNC(list_added_cb), ecs);
+		else
+			e_book_commit_card (cle->book, cle->card, GTK_SIGNAL_FUNC(list_modified_cb), ecs);
+	}
+}
+
 /* File/Close callback */
 static void
 file_close_cb (GtkWidget *widget, gpointer data)
 {
-	EContactListEditor *cle;
+	EContactListEditor *cle = E_CONTACT_LIST_EDITOR (data);
 
-	cle = E_CONTACT_LIST_EDITOR (data);
 	close_dialog (cle);
+}
+
+static void
+file_save_cb (GtkWidget *widget, gpointer data)
+{
+	EContactListEditor *cle = E_CONTACT_LIST_EDITOR (data);
+
+	save_card (cle, FALSE);
+}
+
+static void
+tb_save_and_close_cb (GtkWidget *widget, gpointer data)
+{
+	EContactListEditor *cle = E_CONTACT_LIST_EDITOR (data);
+	save_card (cle, TRUE);
 }
 
 static
 BonoboUIVerb verbs [] = {
+	BONOBO_UI_UNSAFE_VERB ("ContactListEditorSave", file_save_cb),
+	BONOBO_UI_UNSAFE_VERB ("ContactListEditorSaveClose", tb_save_and_close_cb),
 #if 0
-	BONOBO_UI_UNSAFE_VERB ("ContactEditorSave", file_save_cb),
 	BONOBO_UI_UNSAFE_VERB ("ContactEditorSaveAs", file_save_as_cb),
-	BONOBO_UI_UNSAFE_VERB ("ContactEditorSaveClose", tb_save_and_close_cb),
 	BONOBO_UI_UNSAFE_VERB ("ContactEditorSendAs", file_send_as_cb),
 	BONOBO_UI_UNSAFE_VERB ("ContactEditorSendTo", file_send_to_cb),
 	BONOBO_UI_UNSAFE_VERB ("ContactEditorDelete", delete_cb),
@@ -353,9 +438,7 @@ e_contact_list_editor_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		if (editor->card)
 			gtk_object_unref(GTK_OBJECT(editor->card));
 		editor->card = e_card_duplicate(E_CARD(GTK_VALUE_OBJECT (*arg)));
-#if 0
 		fill_in_info(editor);
-#endif
 		editor->changed = FALSE;
 		break;
 
@@ -399,10 +482,7 @@ e_contact_list_editor_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		break;
 
 	case ARG_CARD:
-#if 0
-		e_card_simple_sync_card(editor->simple);
 		extract_info(editor);
-#endif
 		GTK_VALUE_OBJECT (*arg) = GTK_OBJECT(editor->card);
 		break;
 
@@ -436,10 +516,10 @@ e_contact_list_editor_raise (EContactListEditor *editor)
 }
 
 #define SPEC "<ETableSpecification no-headers=\"true\" cursor-mode=\"line\" selection-mode=\"single\"> \
- <ETableColumn model_col= \"0\" _title=\"Contact\"          expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
+ <ETableColumn model_col= \"0\" _title=\"Contact\" expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\" compare=\"string\" /> \
 	<ETableState>                   			       \
 		<column source=\"0\"/>     			       \
-	        <grouping> <leaf column=\"0\" ascending=\"true\"/> </grouping> \
+	        <grouping> </grouping>				       \
 	</ETableState>                  			       \
 </ETableSpecification>"
 
@@ -497,6 +577,15 @@ remove_entry_cb (GtkWidget *w, EContactListEditor *editor)
 
 static void
 list_name_changed_cb (GtkWidget *w, EContactListEditor *editor)
+{
+	if (!editor->changed) {
+		editor->changed = TRUE;
+		command_state_changed (editor);
+	}
+}
+
+static void
+visible_addrs_toggled_cb (GtkWidget *w, EContactListEditor *editor)
 {
 	if (!editor->changed) {
 		editor->changed = TRUE;
@@ -622,4 +711,100 @@ command_state_changed (EContactListEditor *editor)
 				      "/commands/ContactListEditorDelete",
 				      "sensitive",
 				      editor->editable && !editor->is_new_list ? "1" : "0", NULL);
+}
+
+static void
+extract_info(EContactListEditor *editor)
+{
+	ECard *card = editor->card;
+	if (card) {
+		int i;
+		EList *email_list;
+		char *string = e_utf8_gtk_editable_get_chars(GTK_EDITABLE (editor->list_name_entry), 0, -1);
+
+		if (string && *string)
+			gtk_object_set(GTK_OBJECT(card),
+				       "file_as", string,
+				       "full_name", string,
+				       NULL);
+
+		g_free (string);
+
+		
+		gtk_object_set (GTK_OBJECT(card),
+				"evolution_list", GINT_TO_POINTER (TRUE),
+				"evolution_list_show_addresses",
+				GINT_TO_POINTER (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(editor->visible_addrs_checkbutton))),
+				NULL);
+
+		gtk_object_get (GTK_OBJECT(card),
+				"email", &email_list,
+				NULL);
+
+		for (i = 0; i < e_table_model_row_count (editor->model); i ++) {
+			char *email = e_contact_list_model_get_email (E_CONTACT_LIST_MODEL(editor->model), i);
+			e_list_append (email_list, email);
+			g_free (email);
+		}
+	}
+}
+
+static void
+fill_in_info(EContactListEditor *editor)
+{
+	if (editor->card) {
+		char *file_as;
+		gboolean show_addresses = FALSE;
+		gboolean is_evolution_list = FALSE;
+		EList *email_list;
+		EIterator *email_iter;
+
+		gtk_object_get (GTK_OBJECT (editor->card),
+				"file_as", &file_as,
+				"email", &email_list,
+				"evolution_list", &is_evolution_list,
+				"evolution_list_show_addresses", &show_addresses,
+				NULL);
+
+		if (!editor->is_new_list && !is_evolution_list) {
+			g_warning ("Attempting to edit non-list card in the list editor.\n");
+			return;
+		}
+
+		gtk_editable_delete_text (GTK_EDITABLE (editor->list_name_entry), 0, -1);
+		if (file_as) {
+			int position = 0;
+			gchar *u = e_utf8_to_gtk_string (editor->list_name_entry, file_as);
+			gtk_editable_insert_text (GTK_EDITABLE (editor->list_name_entry), u, strlen (u), &position);
+			g_free (u);
+		}
+
+		e_contact_list_model_remove_all (E_CONTACT_LIST_MODEL (editor->model));
+
+		email_iter = e_list_get_iterator (email_list);
+		
+		while (e_iterator_is_valid (email_iter)) {
+			const char *email = e_iterator_get (email_iter);
+
+			if (!strncmp (email, "X-EVOLUTION-UID=", strlen ("X-EVOLUTION-UID"))) {
+				ECard *card;
+				const char *uid;
+				/* it's a serialized uid */
+				uid = email + strlen ("X-EVOLUTION-UID=");
+				card = e_book_get_card (editor->book, uid);
+				if (card) {
+					ECardSimple *simple = e_card_simple_new (card);
+					gtk_object_unref (GTK_OBJECT (card));
+					e_contact_list_model_add_card (E_CONTACT_LIST_MODEL (editor->model),
+								       simple);
+				}
+			}
+			else {
+				e_contact_list_model_add_email (E_CONTACT_LIST_MODEL (editor->model),
+								email);
+			}
+
+			e_iterator_next (email_iter);
+		}
+	}
 }

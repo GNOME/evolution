@@ -40,7 +40,7 @@
       <child_name>GnomeDock:contents</child_name>
       <name>table1</name>
       <border_width>13</border_width>
-      <rows>6</rows>
+      <rows>7</rows>
       <columns>3</columns>
       <homogeneous>False</homogeneous>
       <row_spacing>5</row_spacing>
@@ -273,6 +273,29 @@
 	    <fill>True</fill>
 	  </child>
 	</widget>
+      </widget>
+
+      <widget>
+	<class>GtkCheckButton</class>
+	<name>visible-addrs-checkbutton</name>
+	<can_focus>True</can_focus>
+	<label>Hide addresses when sending mail to this list</label>
+	<active>False</active>
+	<draw_indicator>True</draw_indicator>
+	<child>
+	  <left_attach>0</left_attach>
+	  <right_attach>3</right_attach>
+	  <top_attach>6</top_attach>
+	  <bottom_attach>7</bottom_attach>
+	  <xpad>0</xpad>
+	  <ypad>0</ypad>
+	  <xexpand>False</xexpand>
+	  <yexpand>False</yexpand>
+	  <xshrink>False</xshrink>
+	  <yshrink>False</yshrink>
+	  <xfill>True</xfill>
+	  <yfill>False</yfill>
+	</child>
       </widget>
     </widget>
   </widget>

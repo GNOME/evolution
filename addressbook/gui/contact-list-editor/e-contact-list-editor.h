@@ -66,6 +66,7 @@ struct _EContactListEditor
 	GtkWidget *list_name_entry;
 	GtkWidget *add_button;
 	GtkWidget *remove_button;
+	GtkWidget *visible_addrs_checkbutton;
 
 	/* Whether we are editing a new card or an existing one */
 	guint is_new_list : 1;
