@@ -1735,8 +1735,11 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			return_val = FALSE;
 			gtk_signal_emit (GTK_OBJECT (eti), eti_signals [CLICK],
 					 row, view_to_model_col(eti, col), &button, &return_val);
-			if (return_val)
+
+			if (return_val) {
+				eti->click_count = 0;
 				return TRUE;
+			}
 
 			gtk_object_get(GTK_OBJECT(eti->selection),
 				       "cursor_row", &cursor_row,
