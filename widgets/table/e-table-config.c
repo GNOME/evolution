@@ -3,7 +3,7 @@
  * E-table-config.c: The ETable config dialog.
  *
  * Authors:
- *   Chris Lahey (clahey@ximian.com)
+ *   Chris Lahey <clahey@ximian.com>
  *   Miguel de Icaza (miguel@ximian.com)
  *
  * FIXME:
@@ -40,6 +40,11 @@ enum {
 	LAST_SIGNAL
 };
 
+enum {
+	ARG_0,
+	ARG_STATE,
+};
+
 static guint e_table_config_signals [LAST_SIGNAL] = { 0, };
 
 static void
@@ -55,6 +60,21 @@ config_destroy (GtkObject *object)
 	config->column_names = NULL;
 	
 	GTK_OBJECT_CLASS (config_parent_class)->destroy (object);
+}
+
+static void
+config_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
+{
+	ETableConfig *config = E_TABLE_CONFIG (o);
+
+	switch (arg_id){
+	case ARG_STATE:
+		GTK_VALUE_OBJECT (*arg) = (GtkObject *) config->state;
+		break;
+
+	default:
+		break;
+	}
 }
 
 static void
@@ -78,6 +98,7 @@ config_class_init (GtkObjectClass *object_class)
 	
 	klass->changed        = NULL;
 
+	object_class->get_arg = config_get_arg;
 	object_class->destroy = config_destroy;
 
 	e_table_config_signals [CHANGED] =
@@ -89,6 +110,9 @@ config_class_init (GtkObjectClass *object_class)
 				GTK_TYPE_NONE, 0);
 
 	gtk_object_class_add_signals (object_class, e_table_config_signals, LAST_SIGNAL);
+
+	gtk_object_add_arg_type ("ETableConfig::state", E_TABLE_STATE_TYPE,
+				 GTK_ARG_READABLE, ARG_STATE);
 }
 
 static ETableColumnSpecification *
