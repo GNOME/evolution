@@ -1,5 +1,10 @@
 2000-07-07  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* evolution-shell-client.c (user_select_folder): Fix small warning
+	by adding proper cast when filling in the CORBA sequence struct.
+
+2000-07-07  Ettore Perazzoli  <ettore@helixcode.com>
+
 	* e-shell.c (setup_corba_storages): Ref the CORBA storage
 	registry.
 

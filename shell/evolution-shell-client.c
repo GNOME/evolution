@@ -196,7 +196,7 @@ user_select_folder (EvolutionShellClient *shell_client,
 
 	corba_type_list._length  = num_possible_types;
 	corba_type_list._maximum = num_possible_types;
-	corba_type_list._buffer  = possible_types;
+	corba_type_list._buffer  = (CORBA_char **) possible_types;
 
 	Evolution_Shell_user_select_folder (corba_shell, listener_interface,
 					    title, default_folder, &corba_type_list,
