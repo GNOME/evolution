@@ -1,3 +1,7 @@
+2001-03-20  JP Rosevear  <jpr@ximian.com>
+
+	* importer/Makefile.am: make sure intelligent.h gets disted
+
 2001-03-19  Christopher James Lahey  <clahey@ximian.com>
 
 	* Merged e-tree-rework-branch:
