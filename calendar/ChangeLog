@@ -1,3 +1,43 @@
+2000-12-13  Federico Mena Quintero  <federico@helixcode.com>
+
+	* cal-util/cal-component.c (ensure_mandatory_properties): Even
+	though icaltime_from_timet() now properly ignores the is_utc
+	argument since time_t values *are* in UTC by definition, we were
+	passing FALSE for that argument's value in a bunch of places.  So
+	although it is ignored, changed them to TRUE for consistency.
+	Hopefully newer versions of libical will remove that argument
+	entirely since it does not make sense to speak of non-absolute
+	time_t values.
+
+	* cal-util/cal-recur.c (cal_recur_set_rule_end_date): Likewise.
+
+	* conduits/calendar/calendar-conduit.c (comp_from_remote_record): Likewise.
+
+	* conduits/todo/todo-conduit.c (comp_from_remote_record): Likewise.
+
+	* gui/dialogs/task-editor.c (dialog_to_comp_object): Likewise.
+
+	* gui/e-day-view.c (e_day_view_on_new_appointment): Likewise.
+	(e_day_view_on_delete_occurrence): Likewise.
+	(e_day_view_on_unrecur_appointment): Likewise.
+	(e_day_view_on_unrecur_appointment): Likewise.
+	(e_day_view_finish_long_event_resize): Likewise.
+	(e_day_view_finish_resize): Likewise.
+	(e_day_view_key_press): Likewise.
+	(e_day_view_on_top_canvas_drag_data_received): Likewise.
+	(e_day_view_on_main_canvas_drag_data_received): Likewise.
+
+	* gui/e-week-view.c (e_week_view_key_press): Likewise.
+	(e_week_view_on_new_appointment): Likewise.
+	(e_week_view_on_delete_occurrence): Likewise.
+	(e_week_view_on_unrecur_appointment): Likewise.
+
+	* gui/event-editor.c (simple_recur_to_comp_object): Likewise.
+	(recur_to_comp_object): Likewise.
+	(dialog_to_comp_object): Likewise.
+
+	* gui/gnome-cal.c (gnome_calendar_new_appointment): Likewise.
+
 2000-12-13  Christopher James Lahey  <clahey@helixcode.com>
 
 	* cal-util/cal-recur.c: #if 0ed cal_obj_date_only_compare_func.

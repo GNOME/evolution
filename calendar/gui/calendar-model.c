@@ -1932,8 +1932,7 @@ ensure_task_complete (CalComponent *comp,
 	}
 
 	if (set_completed) {
-		new_completed = icaltime_from_timet (completed_date, FALSE,
-						     TRUE);
+		new_completed = icaltime_from_timet (completed_date, FALSE, TRUE);
 		cal_component_set_completed (comp, &new_completed);
 	}
 

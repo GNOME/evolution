@@ -395,7 +395,7 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 {
 	CalComponent *comp;
 	struct ToDo todo;
-	struct icaltimetype now = icaltime_from_timet (time (NULL), FALSE, FALSE);
+	struct icaltimetype now = icaltime_from_timet (time (NULL), FALSE, TRUE);
 	CalComponentText summary = {NULL, NULL};
 	CalComponentDateTime dt = {NULL, NULL};
 	struct icaltimetype due;
@@ -444,7 +444,7 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 	 */
 	if (todo.due.tm_sec || todo.due.tm_min || todo.due.tm_hour 
 	    || todo.due.tm_mday || todo.due.tm_mon || todo.due.tm_year) {
-		due = icaltime_from_timet (mktime (&todo.due), FALSE, FALSE);
+		due = icaltime_from_timet (mktime (&todo.due), FALSE, TRUE);
 		dt.value = &due;
 		cal_component_set_due (comp, &dt);
 	}

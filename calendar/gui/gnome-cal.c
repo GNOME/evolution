@@ -1804,10 +1804,10 @@ gnome_calendar_new_appointment (GnomeCalendar *gcal)
 	comp = cal_component_new ();
 	cal_component_set_new_vtype (comp, CAL_COMPONENT_EVENT);
 
-	itt = icaltime_from_timet (dtstart, FALSE, FALSE);
+	itt = icaltime_from_timet (dtstart, FALSE, TRUE);
 	cal_component_set_dtstart (comp, &dt);
 
-	itt = icaltime_from_timet (dtend, FALSE, FALSE);
+	itt = icaltime_from_timet (dtend, FALSE, TRUE);
 	cal_component_set_dtend (comp, &dt);
 
 	cal_component_commit_sequence (comp);

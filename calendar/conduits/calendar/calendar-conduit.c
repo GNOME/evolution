@@ -519,7 +519,7 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 {
 	CalComponent *comp;
 	struct Appointment appt;
-	struct icaltimetype now = icaltime_from_timet (time (NULL), FALSE, FALSE), it;
+	struct icaltimetype now = icaltime_from_timet (time (NULL), FALSE, TRUE), it;
 	struct icalrecurrencetype recur;
 	int pos, i;
 	CalComponentText summary = {NULL, NULL};
@@ -559,7 +559,7 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 	} 
 
 	if (!is_empty_time (appt.begin)) {
-		it = icaltime_from_timet (mktime (&appt.begin), FALSE, FALSE);
+		it = icaltime_from_timet (mktime (&appt.begin), FALSE, TRUE);
 		dt.value = &it;
 		cal_component_set_dtstart (comp, &dt);
 	}
@@ -568,11 +568,11 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 		time_t t = mktime (&appt.begin);
 		
 		t = time_day_end (t);
-		it = icaltime_from_timet (t, FALSE, FALSE);
+		it = icaltime_from_timet (t, FALSE, TRUE);
 		dt.value = &it;
 		cal_component_set_dtend (comp, &dt);
 	} else if (!is_empty_time (appt.end)) {
-		it = icaltime_from_timet (mktime (&appt.end), FALSE, FALSE);
+		it = icaltime_from_timet (mktime (&appt.end), FALSE, TRUE);
 		dt.value = &it;
 		cal_component_set_dtend (comp, &dt);
 	}
@@ -632,7 +632,7 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 		if (!appt.repeatForever) {
 			time_t t = mktime (&appt.repeatEnd);
 			t = time_add_day (t, 1);
-			recur.until = icaltime_from_timet (t, FALSE, FALSE);
+			recur.until = icaltime_from_timet (t, FALSE, TRUE);
 		}
 
 		list = g_slist_append (list, &recur);
