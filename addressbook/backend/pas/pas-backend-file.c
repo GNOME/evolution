@@ -395,8 +395,7 @@ pas_backend_file_search_timeout (gpointer data)
 	while (db_error == 0) {
 
 		/* don't include the version in the list of cards */
-		if (id_dbt.size != file_version_name_len+1
-		    || strcmp (id_dbt.data, PAS_BACKEND_FILE_VERSION_NAME)) {
+		if (strcmp (id_dbt.data, PAS_BACKEND_FILE_VERSION_NAME)) {
 			char *vcard_string = vcard_dbt.data;
 
 			/* check if the vcard matches the search sexp */
@@ -1378,6 +1377,9 @@ pas_backend_file_load_uri (PASBackend             *backend,
 	struct stat sb;
 	char *summary_filename;
 
+	g_free(bf->priv->uri);
+	bf->priv->uri = g_strdup (uri);
+
 	db_version (&major, &minor, &patch);
 
 	if (major != 3 ||
@@ -1449,9 +1451,6 @@ pas_backend_file_load_uri (PASBackend             *backend,
 		bf->priv->file_db = NULL;
 		return GNOME_Evolution_Addressbook_BookListener_OtherError;
 	}
-
-	g_free(bf->priv->uri);
-	bf->priv->uri = g_strdup (uri);
 
 	g_free (bf->priv->filename);
 	bf->priv->filename = filename;
@@ -1536,7 +1535,8 @@ pas_backend_file_dispose (GObject *object)
 
 	if (bf->priv) {
 		g_object_unref(bf->priv->book_views);
-		g_object_unref(bf->priv->summary);
+		if (bf->priv->summary)
+			g_object_unref(bf->priv->summary);
 		g_free (bf->priv->uri);
 		g_free (bf->priv->filename);
 

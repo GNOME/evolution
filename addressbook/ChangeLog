@@ -1,4 +1,15 @@
-2003-04-16  Chris Toshok  <toshok@ximian.com>
+2003-04-19  Chris Toshok  <toshok@ximian.com>
+
+	[ fixes bug #40954 ]
+	* backend/pas/pas-backend-file.c (pas_backend_file_dispose): guard
+	against NULL bf->priv->summary (happens if the initial load_uri
+	failed).
+	(pas_backend_file_load_uri): always set bf->priv->uri, since it's
+	used in _get_uri, which is called when the backend goes away.
+	This only happened before if you tried to load a folder that
+	didn't exist.
+
+2003-04-19  Chris Toshok  <toshok@ximian.com>
 
 	[ fixes #40694 ]
 	* gui/component/select-names/e-select-names-bonobo.c
