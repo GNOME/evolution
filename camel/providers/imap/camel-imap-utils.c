@@ -97,7 +97,7 @@ imap_parse_list_response (const char *buf, const char *namespace, char **flags, 
 	/* chop out the folder prefix */
 	if (*namespace && !strncmp (*folder, namespace, strlen (namespace))) {
 		f = *folder + strlen (namespace);
-		if (!strncmp (f, *sep, strlen (*sep)))
+		if (*sep && !strncmp (f, *sep, strlen (*sep)))
 			f += strlen (*sep);
 		memmove (*folder, f, strlen (f) + 1);
 	}
