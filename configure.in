@@ -1272,6 +1272,7 @@ addressbook/util/Makefile
 art/Makefile
 camel/Makefile
 camel/providers/Makefile
+camel/providers/groupwise/Makefile
 camel/providers/imap/Makefile
 camel/providers/imapp/Makefile
 camel/providers/local/Makefile
@@ -1329,6 +1330,7 @@ widgets/menus/Makefile
 widgets/misc/Makefile
 calendar/Makefile
 calendar/importers/Makefile
+calendar/common/Makefile
 calendar/idl/Makefile
 calendar/conduits/Makefile
 calendar/conduits/todo/Makefile

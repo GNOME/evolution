@@ -1,3 +1,7 @@
+2003-12-22  Rodrigo Moya <rodrigo@ximian.com>
+
+	* configure.in: added camel/providers/groupwise to the build.
+
 2003-12-15  Chris Toshok  <toshok@ximian.com>
 
 	* Makefile.am (ACLOCAL_AMFLAGS): remove.
