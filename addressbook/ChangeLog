@@ -1,5 +1,10 @@
 2001-08-01  Christopher James Lahey  <clahey@ximian.com>
 
+	* contact-editor/.cvsignore: Removed this file from this unused
+	directory.
+
+2001-08-01  Christopher James Lahey  <clahey@ximian.com>
+
 	* gui/contact-editor/Makefile.am: Added file-exists.glade.
 
 	* gui/contact-editor/e-contact-save-as.c (file_exists),
