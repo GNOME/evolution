@@ -1,3 +1,7 @@
+2000-10-23  Christopher James Lahey  <clahey@helixcode.com>
+
+	* configure.in: Updated the gal check to check for gal 0.2.1.
+
 2000-10-22  Robert Brady  <rwb197@zepler.org>
 
 	* configure.in: Added "en_GB" to ALL_LINGUAS.
