@@ -384,7 +384,7 @@ do_update_subfolders (CamelStore *store, CamelFolderInfo *info, void *data)
 {
 	struct _update_info *uinfo = data;
 	
-	if (uinfo) {
+	if (uinfo && info) {
 		do_update_subfolders_rec(store, info, uinfo->storage, "");
 	}
 
@@ -1034,6 +1034,13 @@ static void get_folderinfo_get(struct _mail_msg *mm)
 static void get_folderinfo_got(struct _mail_msg *mm)
 {
 	struct _get_folderinfo_msg *m = (struct _get_folderinfo_msg *)mm;
+
+	if (camel_exception_is_set (&(mm->ex)))
+		g_warning ("Error getting folder info from store at %s: %s",
+			   camel_service_get_url (CAMEL_SERVICE (m->store)),
+			   camel_exception_get_description (&(mm->ex)));
+
+	/* 'done' is probably guaranteed to fail, but... */
 
 	if (m->done)
 		m->done(m->store, m->info, m->data);

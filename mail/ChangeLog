@@ -1,5 +1,11 @@
 2001-07-09  Peter Williams  <peterw@ximian.com>
 
+	* mail-ops.c (get_folderinfo_got): Check for an exception and print it.
+	Call done anyway.
+	(do_update_subfolders): Check for NULL info.
+
+2001-07-09  Peter Williams  <peterw@ximian.com>
+
 	* mail-config.c (mail_config_write): Some NULL protection for our strings:
 	pgp_key, html_signature, smime_key. Probably we should do this for all
 	strings. Either that or change Bonobo Config.
