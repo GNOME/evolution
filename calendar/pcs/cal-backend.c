@@ -466,14 +466,14 @@ cal_backend_set_node_timet (xmlNodePtr node, const char *name, time_t t)
 }
 
 static void
-cal_backend_log_entry (CalBackend *backend, const char *uid, 
+cal_backend_log_entry (CalBackend *backend, 
+		       const char *uid,
+		       CalObjType cot,
 		       CalBackendLogEntryType type)
 {
 	CalBackendLogEntry *entry = g_new0 (CalBackendLogEntry, 1);
-	CalObjType cot;
 	
 	g_assert (CLASS (backend)->get_type_by_uid != NULL);
-	cot = (* CLASS (backend)->get_type_by_uid) (backend, uid);	
 
 	/* Only log todos and events */
 	if (cot != CALOBJ_TYPE_EVENT && cot != CALOBJ_TYPE_TODO)
@@ -691,6 +691,7 @@ cal_backend_get_log_entries (CalBackend *backend, CalObjType type, time_t since)
 gboolean
 cal_backend_update_object (CalBackend *backend, const char *uid, const char *calobj)
 {
+	CalObjType cot;
 	gboolean result;
 	
 	g_return_val_if_fail (backend != NULL, FALSE);
@@ -699,10 +700,11 @@ cal_backend_update_object (CalBackend *backend, const char *uid, const char *cal
 	g_return_val_if_fail (calobj != NULL, FALSE);
 
 	g_assert (CLASS (backend)->update_object != NULL);
+	cot = (* CLASS (backend)->get_type_by_uid) (backend, uid);
 	result =  (* CLASS (backend)->update_object) (backend, uid, calobj);
 
 	if (result)
-		cal_backend_log_entry (backend, uid, CAL_BACKEND_UPDATED);
+		cal_backend_log_entry (backend, uid, cot, CAL_BACKEND_UPDATED);
 
 	return result;
 }
@@ -721,6 +723,7 @@ cal_backend_update_object (CalBackend *backend, const char *uid, const char *cal
 gboolean
 cal_backend_remove_object (CalBackend *backend, const char *uid)
 {
+	CalObjType cot;
 	gboolean result;
 
 	g_return_val_if_fail (backend != NULL, FALSE);
@@ -728,10 +731,11 @@ cal_backend_remove_object (CalBackend *backend, const char *uid)
 	g_return_val_if_fail (uid != NULL, FALSE);
 
 	g_assert (CLASS (backend)->remove_object != NULL);
+	cot = (* CLASS (backend)->get_type_by_uid) (backend, uid);
 	result = (* CLASS (backend)->remove_object) (backend, uid);
 
 	if (result)
-		cal_backend_log_entry (backend, uid, CAL_BACKEND_REMOVED);
+		cal_backend_log_entry (backend, uid, cot, CAL_BACKEND_REMOVED);
 
 	return result;
 }

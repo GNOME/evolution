@@ -1,3 +1,7 @@
+2000-10-11  JP Rosevear  <jpr@helixcode.com>
+
+	* configure.in: Fix bonobo error message
+
 2000-10-11  Jesse Pavel		<jpavel@helixcode.com>
 
 	* data/evolution.keys: Added support for the text/calendar and

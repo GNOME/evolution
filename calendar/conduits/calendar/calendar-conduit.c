@@ -465,11 +465,15 @@ local_record_from_uid (ECalLocalRecord *local,
 
 	if (status == CAL_CLIENT_GET_SUCCESS) {
 		local_record_from_comp (local, comp, ctxt);
+	} else if (status == CAL_CLIENT_GET_NOT_FOUND) {
+		comp = cal_component_new ();
+		cal_component_set_new_vtype (comp, CAL_COMPONENT_EVENT);
+		cal_component_set_uid (comp, uid);
+		local_record_from_comp (local, comp, ctxt);
 	} else {
 		INFO ("Object did not exist");
 	}	
 }
-
 
 static CalComponent *
 comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
@@ -498,7 +502,7 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 	}
 
  	LOG ("        comp_from_remote_record: "
- 	     "merging remote %s into local %s\n", 
+ 	     "creating from remote %s and comp %s\n", 
   	     print_remote (remote), cal_component_get_as_string (comp));
 
 	cal_component_set_last_modified (comp, &now);
@@ -578,62 +582,6 @@ check_for_slow_setting (GnomePilotConduit *c, ECalConduitContext *ctxt)
 	} else {
 		LOG ("    doing fast sync\n");
 	}
-}
-
-static gint
-update_record (GnomePilotConduitSyncAbs *conduit,
-	       GnomePilotRecord *remote,
-	       ECalConduitContext *ctxt)
-{
-	CalComponent *comp;
-	CalClientGetStatus status;
-	struct Appointment appt;
-	const char *uid;
-
-	LOG ("update_record\n");
-
-	g_return_val_if_fail (remote != NULL, -1);
-
-	memset (&appt, 0, sizeof (struct Appointment));
-	unpack_Appointment (&appt, remote->record, remote->length);
-
-	uid = g_hash_table_lookup (ctxt->pid_map, &remote->ID);
-	
-	if (uid)
-		status = cal_client_get_object (ctxt->client, uid, &comp);
-	else
-		status = CAL_CLIENT_LOAD_ERROR;
-	
-	if (status != CAL_CLIENT_GET_SUCCESS) {
-		LOG ("  new record being created\n");
-		comp = comp_from_remote_record (conduit, remote, NULL);
-	} else {
-		CalComponent *new_comp;
-
-		LOG ("  record found\n");
-
-		new_comp = comp_from_remote_record (conduit, remote, comp);
-		gtk_object_unref (GTK_OBJECT (comp));
-		comp = new_comp;
-	}
-
-	update_comp (conduit, comp, ctxt);
-
-	if (!uid) {
-		guint32 *pid = g_new (guint32, 1);
-		char *new_uid;
-		
-		*pid = remote->ID;
-		cal_component_get_uid (comp, &uid);
-		new_uid = g_strdup (uid);
-		g_hash_table_insert (ctxt->pid_map, pid, new_uid);
-		g_hash_table_insert (ctxt->pid_map, new_uid, pid);
-	}
-	
-	gtk_object_unref (GTK_OBJECT (comp));
-	free_Appointment (&appt);
-
-	return 0;
 }
 
 /* Pilot syncing callbacks */
@@ -761,11 +709,16 @@ set_pilot_id (GnomePilotConduitSyncAbs *conduit,
 	      ECalConduitContext *ctxt)
 {
 	const char *uid;
+	char *new_uid;
 	guint32 *pid = g_new (guint32, 1);
+
+	LOG ("set_pilot_id: setting to %d\n", ID);
 	
 	cal_component_get_uid (local->comp, &uid);
 	*pid = ID;
-	g_hash_table_insert (ctxt->pid_map, pid, g_strdup (uid));
+	new_uid = g_strdup (uid);
+	g_hash_table_insert (ctxt->pid_map, pid, new_uid);
+	g_hash_table_insert (ctxt->uid_map, new_uid, pid);
 
         return 0;
 }
@@ -897,9 +850,9 @@ compare (GnomePilotConduitSyncAbs *conduit,
 		retval = 1;
 
 	if (retval == 0)
-		LOG ("    match.\n");
+		LOG ("    equal");
 	else
-		LOG ("    did not match");
+		LOG ("    not equal");
 	
 	g_free (local_pilot);
 	
@@ -911,15 +864,26 @@ add_record (GnomePilotConduitSyncAbs *conduit,
 	    GnomePilotRecord *remote,
 	    ECalConduitContext *ctxt)
 {
-	int ret;
-
+	CalComponent *comp;
+	const char *uid;
+	char *new_uid;
+	guint32 *pid = g_new (guint32, 1);
+	int retval = 0;
+	
 	g_return_val_if_fail (remote != NULL, -1);
 
 	LOG ("add_record: adding %s to desktop\n", print_remote (remote));
 
-	ret = update_record (conduit, remote, ctxt);
+	comp = comp_from_remote_record (conduit, remote, NULL);
+	update_comp (conduit, comp, ctxt);
 
-	return ret;
+	*pid = remote->ID;
+	cal_component_get_uid (comp, &uid);
+	new_uid = g_strdup (uid);
+	g_hash_table_insert (ctxt->pid_map, pid, new_uid);
+	g_hash_table_insert (ctxt->uid_map, new_uid, pid);
+
+	return retval;
 }
 
 static gint
@@ -928,13 +892,39 @@ add_archive_record (GnomePilotConduitSyncAbs *conduit,
 		    GnomePilotRecord *remote,
 		    ECalConduitContext *ctxt)
 {
+	int retval = 0;
+	
 	g_return_val_if_fail (remote != NULL, -1); 
 	g_return_val_if_fail (local != NULL, -1);
 
 	LOG ("add_archive_record: doing nothing with %s\n",
 	     print_local (local));
 
-	return -1;
+	return retval;
+}
+
+static gint
+replace_record (GnomePilotConduitSyncAbs *conduit,
+		ECalLocalRecord *local,
+		GnomePilotRecord *remote,
+		ECalConduitContext *ctxt)
+{
+	CalComponent *new_comp;
+	int retval = 0;
+	
+	g_return_val_if_fail (remote != NULL, -1);
+
+	LOG ("replace_record: replace %s with %s\n",
+	     print_local (local), print_remote (remote));
+
+	new_comp = comp_from_remote_record (conduit, remote, local->comp);
+	gtk_object_unref (GTK_OBJECT (local->comp));
+	local->comp = new_comp;
+	update_comp (conduit, local->comp, ctxt);
+
+	gtk_object_unref (GTK_OBJECT (new_comp));
+
+	return retval;
 }
 
 static gint
@@ -1097,6 +1087,8 @@ conduit_get_gpilot_conduit (guint32 pilot_id)
 
   	gtk_signal_connect (retval, "add_record", (GtkSignalFunc) add_record, ctxt);
 /*  	gtk_signal_connect (retval, "add_archive_record", (GtkSignalFunc) add_archive_record, ctxt); */
+
+  	gtk_signal_connect (retval, "replace_record", (GtkSignalFunc) replace_record, ctxt);
 
   	gtk_signal_connect (retval, "delete_record", (GtkSignalFunc) delete_record, ctxt);
 /*  	gtk_signal_connect (retval, "delete_archive_record", (GtkSignalFunc) delete_archive_record, ctxt); */

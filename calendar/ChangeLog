@@ -1,3 +1,22 @@
+2000-10-11  JP Rosevear  <jpr@helixcode.com>
+
+	* pcs/cal-backend.c (cal_backend_log_entry): Take CalObjType
+	as a param because its impossible to determine after a delete.
+	(cal_backend_remove_object): Calculate CalObjType and pass
+	it to cal_backend_log_entry
+	(cal_backend_update_object): ditto
+
+	* conduits/todo/todo-conduit.c (local_record_from_comp): Kill
+	unused variables.
+	(add_archive_record): Don't kill the sync if this happens
+	(update_record): Kill old function
+	(replace_record): New function to handle replace_record signal
+	(conduit_get_gpilot_conduit): Listen for replace record signal
+	(add_record): Always add a new record, never replace
+	(replace_record): Always replace an existing record
+
+	* conduits/calendar/calendar-conduit.c: Same as above
+
 2000-10-10  Jesse Pavel  <jpavel@helixcode.com>
 
 	* gui/e-itip-control.c: set a default size for the control.
@@ -91,7 +110,6 @@
 
 	* conduits/todo/calendar-conduit.h: same as above
 
->>>>>>> 1.609
 2000-10-09  JP Rosevear  <jpr@helixcode.com>
 
 	* conduits/*: Adjust to using gnome-pilot-sync-abs conduit which

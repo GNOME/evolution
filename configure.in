@@ -226,7 +226,7 @@ fi
 if $bonobo_ok; then
 	AC_MSG_RESULT($vers found)
 else
-	AC_MSG_ERROR(Bonobo newer than 0.18 is required to compile Evolution)
+	AC_MSG_ERROR(Bonobo 0.20 or newer is required to compile Evolution)
 fi
 
 dnl ******************************
