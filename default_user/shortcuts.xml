@@ -7,6 +7,7 @@
 		<item>evolution:/local/Trash</item>
 		<item>evolution:/local/Drafts</item> -->
 		<item>evolution:/local/Calendar</item>
+		<item>evolution:/local/Tasks</item>
 		<item>evolution:/local/Contacts</item>
 	</group>
 

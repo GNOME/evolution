@@ -1,3 +1,13 @@
+2001-01-08  Damon Chaplin  <damon@helixcode.com>
+
+	* local/Makefile.am (SUBDIRS): added Tasks subdir.
+
+	* local/Tasks/Makefile.am: 
+	* local/Tasks/folder-metadata.xml: new files for the default Tasks
+	folder.
+
+	* shortcuts.xml: added Tasks folder shortcut.
+
 2000-12-29  Chris Toshok  <toshok@helixcode.com>
 
 	* ldap-servers.xml, addressbook-sources.xml: down with

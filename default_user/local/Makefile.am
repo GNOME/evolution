@@ -6,4 +6,5 @@ SUBDIRS =					\
 	Inbox					\
 	Outbox					\
 	Sent					\
+	Tasks					\
 	Trash
