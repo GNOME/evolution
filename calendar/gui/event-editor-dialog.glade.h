@@ -6,7 +6,6 @@
 
 gchar *s = N_("event-editor-dialog");
 gchar *s = N_("_Summary:");
-gchar *s = N_("_Owner:");
 gchar *s = N_("Time");
 gchar *s = N_("Start time:");
 gchar *s = N_("End time:");

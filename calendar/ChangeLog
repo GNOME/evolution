@@ -1,5 +1,13 @@
 2000-08-24  JP Rosevear  <jpr@helixcode.com>
 
+	* gui/event-editor-dialog.glade: Remove owner field
+
+	* gui/event-editor.c (clear_widgets): Forget about owner field
+	(get_widgets): ditto
+	(fill_widgets): ditto
+
+2000-08-24  JP Rosevear  <jpr@helixcode.com>
+
 	* gui/calendar-model.c (calendar_model_initialize_value): Handle
 	summary field
 	(calendar_model_value_is_empty): ditto

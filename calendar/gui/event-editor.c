@@ -47,7 +47,6 @@ typedef struct {
 
 	GtkWidget *app;
 
-	GtkWidget *general_owner;
 	GtkWidget *general_summary;
 
 	GtkWidget *start_time;
@@ -332,7 +331,6 @@ get_widgets (EventEditor *ee)
 
 	priv->app = GW ("event-editor-dialog");
 
-	priv->general_owner = GW ("general-owner");
 	priv->general_summary = GW ("general-summary");
 
 	priv->start_time = GW ("start-time");
@@ -402,8 +400,7 @@ get_widgets (EventEditor *ee)
 
 #undef GW
 
-	return (priv->general_owner
-		&& priv->general_summary
+	return (priv->general_summary
 		&& priv->start_time
 		&& priv->end_time
 		&& priv->all_day_event
@@ -608,9 +605,7 @@ clear_widgets (EventEditor *ee)
 
 	now = time (NULL);
 
-	/* Owner, summary */
-
-	e_dialog_editable_set (priv->general_owner, _("?"));
+	/* Summary, description */
 	e_dialog_editable_set (priv->general_summary, NULL);
 	e_dialog_editable_set (priv->description, NULL);
 
@@ -707,14 +702,6 @@ fill_widgets (EventEditor *ee)
 
 	if (!priv->comp)
 		return;
-
-	/* Owner, summary */
-#warning "FIX ME"
-	/* kludge until I figure out where to get the organizer */
-/*  	e_dialog_editable_set (priv->general_owner, */
-/*  			       priv->ico->organizer->addr ? */
-/*  			       priv->ico->organizer->addr : _("?")); */
-	e_dialog_editable_set (priv->general_owner, _("?"));
 
 	cal_component_get_summary (priv->comp, &text);
 	e_dialog_editable_set (priv->general_summary, text.value);
