@@ -1,3 +1,10 @@
+2004-01-09  JP Rosevear <jpr@ximian.com>
+
+	* gui/tasks-component.c (impl_upgradeFromVersion): return the
+	corba values
+
+	* gui/calendar-component.c (impl_upgradeFromVersion): ditto
+	
 2004-01-09  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/calendar-component.c (impl_upgradeFromVersion): only migrate

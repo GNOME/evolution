@@ -538,7 +538,7 @@ impl_upgradeFromVersion (PortableServer_Servant servant,
 
 	g_free (base_uri);
 
-	return TRUE;
+	return CORBA_TRUE;
 }
 
 static void
