@@ -84,6 +84,7 @@ free_value (ETableMemoryStore *etms, int col, void *value)
 	}
 }
 
+
 static int
 etms_column_count (ETableModel *etm)
 {
@@ -225,6 +226,8 @@ etms_finalize (GObject *obj)
 	ETableMemoryStore *etms = (ETableMemoryStore *) obj;
 
 	if (etms->priv) {
+		e_table_memory_store_clear (etms);
+
 		g_free (etms->priv->columns);
 		g_free (etms->priv->store);
 		g_free (etms->priv);
@@ -537,7 +540,15 @@ e_table_memory_store_change_adopt (ETableMemoryStore *etms, int row, gpointer da
 void
 e_table_memory_store_remove (ETableMemoryStore *etms, int row)
 {
-	int row_count;
+	ETableModel *model;
+	int column_count, row_count;
+	int i;
+
+	model = E_TABLE_MODEL (etms);
+	column_count = e_table_model_column_count (model);
+
+	for (i = 0; i < column_count; i ++)
+		e_table_model_free_value (model, i, e_table_model_value_at (model, i, row));
 
 	row_count = e_table_model_row_count (E_TABLE_MODEL (etms)) - 1;
 	memmove (etms->priv->store + etms->priv->col_count * row,
@@ -551,6 +562,20 @@ e_table_memory_store_remove (ETableMemoryStore *etms, int row)
 void
 e_table_memory_store_clear (ETableMemoryStore *etms)
 {
+	ETableModel *model;
+	int row_count, column_count;
+	int i, j;
+
+	model = E_TABLE_MODEL (etms);
+	row_count = e_table_model_row_count (model);
+	column_count = e_table_model_column_count (model);
+
+	for (i = 0; i < row_count; i ++) {
+		for (j = 0; j < column_count; j ++) {
+			e_table_model_free_value (model, j, e_table_model_value_at (model, j, i));
+		}
+	}
+
 	e_table_memory_clear (E_TABLE_MEMORY (etms));
 
 	g_free (etms->priv->store);
