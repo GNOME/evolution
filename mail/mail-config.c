@@ -849,7 +849,6 @@ config_read (void)
 	config->thread_list = bonobo_config_get_boolean_with_default (
                 config->db, "/Mail/Display/thread_list", FALSE, NULL);
 	
-	p = getenv ("USER");
 	config->thread_subject = bonobo_config_get_boolean_with_default (
                 config->db, "/Mail/Display/thread_subject", FALSE, NULL);
 	
