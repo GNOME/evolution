@@ -1,3 +1,9 @@
+2001-01-27  JP Rosevear  <jpr@ximian.com>
+
+	* evolution-event-editor.xml: Menu cleanups
+
+	* evolution-task-editor-dialog.xml: ditto
+
 2001-01-25  Ettore Perazzoli  <ettore@ximian.com>
 
 	* evolution-addressbook.xml, evolution-calendar.xml,

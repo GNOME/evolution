@@ -39,21 +39,6 @@
         <cmd name="EditClear" _label="Clear"
 	_tip="Clear the selection"/>
 	
-        <cmd name="EditUndo" _label="Undo" _tip="Undo the last action"
-          pixtype="stock" pixname="Undo" accel="*Control*z"/>
-	
-        <cmd name="EditRedo" _label="Redo" _tip="Redo the undone action"
-          pixtype="stock" pixname="Redo" accel="*Control*r"/>
-	
-        <cmd name="EditFind" _label="Find" _tip="Search for a string"
-          pixtype="stock" pixname="Search" accel="F6"/>
-	
-        <cmd name="EditFindAgain" _label="Find Again" _tip="Search again for the same string"
-          pixtype="stock" pixname="Search" accel="*Shift*F6"/>
-	
-        <cmd name="EditReplace" _label="Replace" _tip="Replace a string"
-          pixtype="stock" pixname="Search/Replace" accel="F7"/>
-
 	<cmd name="EditSelectAll" _label="Select All" _tip="Select everything"/>
 
         <cmd name="EditProperties" _label="Properties" _tip="Modify the file's properties"
@@ -71,9 +56,6 @@
         <cmd name="HelpAbout" _label="About..." _tip="About this application"
 	 pixtype="stock" pixname="About"/>
 
-	<cmd name="HelpOnline" _label="FIXME: Help" _tip="See online help"
-	pixtype="stock" pixname="Help"/>
-
 	<cmd name="DebugDumpXml" _label="Dump XML" _tip="Dump the UI Xml description" hidden="1"/>
 
 </commands>
@@ -82,43 +64,21 @@
 
 <submenu name="File" _label="_File">
         
-	<submenu name="New">
+	<submenu name="New" _label="_New">
 
-		<menuitem name="c" _label="FIXME: _Mail Message"/>
+		<menuitem name="c" _label="_Mail Message (FIXME)"/>
 
-		<menuitem name="g" _label="FIXME: _Contact"/>
+		<menuitem name="g" _label="_Contact (FIXME)"/>
 
-		<menuitem name="a" _label="FIXME: _Task"/>
+		<menuitem name="a" _label="_Task (FIXME)"/>
 
-		<menuitem name="b" _label="FIXME: Task _Request"/>
+		<menuitem name="b" _label="Task _Request (FIXME)"/>
 
-		<menuitem name="h" _label="FIXME: _Journal Entry"/>
+		<menuitem name="h" _label="_Journal Entry (FIXME)"/>
 
-		<menuitem name="i" _label="FIXME: _Note"/>
-
-		<separator/>
-
-		<menuitem name="j" _label="FIXME: Ch_oose Form..."/>
+		<menuitem name="i" _label="_Note (FIXME)"/>
 
 	</submenu>
-
-	<placeholder name="Print">
-
-		<menuitem name="k" _label="FIXME: _Memo Style"/>
-
-		<menuitem name="l" _label="FIXME: Define Print _Styles"/>
-
-		<menuitem name="" _label="FIXME: Print Pre_view"/>
-
-	        <menuitem name="FilePrint" verb="" _label="_Print"/>
-	
-	        <menuitem name="FilePrintSetup" verb="" _label="Print S_etup..."/>
-
-	</placeholder>
-
-	<separator/>
-
-	<menuitem name="m" _label="FIXME: S_end"/>
 
 	<separator/>
 
@@ -126,17 +86,27 @@
 
         <menuitem name="FileSaveAs" _label="Save _As..."/>
 
-	<menuitem name="n" _label="FIXME: Save Attac_hments..."/>
-
 	<separator/>
 
         <menuitem name="FileDelete" verb="" _label="_Delete"/>
 
-	<menuitem name="o" _label="FIXME: _Move to Folder..."/>
+	<separator/>
 
-	<menuitem name="p" _label="FIXME: Cop_y to Folder..."/>
+	<menuitem name="o" _label="_Move to Folder... (FIXME)"/>
+
+	<menuitem name="p" _label="Cop_y to Folder... (FIXME)"/>
 
 	<separator/>
+
+	<placeholder name="Print">
+
+		<menuitem name="FilePrintPrevie" _label="Print Pre_view"/>
+
+	        <menuitem name="FilePrint" verb="" _label="_Print"/>
+	
+	        <menuitem name="FilePrintSetup" verb="" _label="Print S_etup..."/>
+
+	</placeholder>
 
 	<separator/>
 
@@ -150,39 +120,17 @@
 
 <submenu name="Edit" _label="_Edit">
 
-        <menuitem name="EditUndo" verb="" _label="_Undo"/>
-	
-        <menuitem name="EditRedo" verb="" _label="_Redo"/>
-	
-	<separator/>
-
         <menuitem name="EditCut" verb="" _label="C_ut"/>
 	
         <menuitem name="EditCopy" verb="" _label="_Copy"/>
 	
         <menuitem name="EditPaste" verb="" _label="_Paste"/>
 
-        <menuitem name="EditPasteSpecial" verb="" _label="FIXME: Paste _Special... "/>
-	
         <menuitem name="EditClear" verb="" _label="C_lear"/>
 
-        <menuitem name="EditSelectAll" verb="" _label="C_lear"/>
+        <menuitem name="EditSelectAll" verb="" _label="_Select All"/>
 
-	<separator/>
-	
-        <menuitem name="EditFind" verb="" _label="_Find..."/>
-	
-        <menuitem name="EditFindAgain" verb="" _label="Find _Again"/>
-	
-        <menuitem name="EditReplace" verb="" _label="_Replace..."/>
-	
 	<placeholder name="EditOps"/>
-
-	<submenu name="object" _label="_Object">
-
-		<menuitem name="What" _label="FIXME: what goes here?"/>
-
-	</submenu>
 
 </submenu>
 
@@ -190,114 +138,47 @@
 
 	<submenu _label="Pre_vious">
 
-		<menuitem name="" _label="FIXME: _Item"/>
+		<menuitem name="" _label="_Item (FIXME)"/>
 
-		<menuitem name="" _label="FIXME: _Unread Item"/>
+		<menuitem name="" _label="_Unread Item (FIXME)"/>
 
-		<menuitem name="" _label="FIXME: In_complete Task"/>
+		<menuitem name="" _label="In_complete Task (FIXME)"/>
 
-		<menuitem name="" _label="FIXME: Fi_rst Item in Folder"/>
+		<menuitem name="" _label="Fi_rst Item in Folder (FIXME)"/>
 
 	</submenu>
 
 	<submenu _label="N_ext">
 
-		<menuitem name="" _label="FIXME: _Item"/>
+		<menuitem name="" _label="_Item (FIXME)"/>
 
-		<menuitem name="" _label="FIXME: _Unread Item"/>
+		<menuitem name="" _label="_Unread Item (FIXME)"/>
 
-		<menuitem name="" _label="FIXME: In_complete Task"/>
+		<menuitem name="" _label="In_complete Task (FIXME)"/>
 
-		<menuitem name="" _label="FIXME: _Last Item in Folder"/>
-
-	</submenu>
-
-	<separator/>
-
-	<submenu _label="_Toolbars">
-
-		<menuitem type="toggle" _label="FIXME: _Standard"/>
-
-		<menuitem type="toggle" _label="FIXME: _Formatting"/>
-
-		<separator/>
-
-		<menuitem _label="FIXME: _Customize..."/>
+		<menuitem name="" _label="_Last Item in Folder (FIXME)"/>
 
 	</submenu>
-
-</submenu>
-
-<submenu _label="_Insert">
-
-	<menuitem name="" _label="FIXME: _File..."/>
-
-	<menuitem name="" _label="FIXME: It_em..."/>
-
-	<menuitem name="" _label="FIXME: _Object..."/>
-
-</submenu>
-
-<submenu _label="F_ormat">
-	<menuitem name="" _label="FIXME: _Font..."/>
-
-	<menuitem name="" _label="FIXME: _Paragraph..."/>
 
 </submenu>
 
 <submenu _label="_Tools">
 
-	<menuitem name="" _label="FIXME: _Spelling..."/>
+	<menuitem name="" _label="Chec_k Names (FIXME)"/>
 
-	<separator/>
-
-	<menuitem name="" _label="FIXME: Chec_k Names"/>
-
-	<menuitem name="" _label="FIXME: Address _Book..."/>
-
-	<separator/>
-
-	<submenu _label="_Forms">
-
-		<menuitem name="" _label="FIXME: Ch_oose Form..."/>
-
-		<separator/>
-
-		<menuitem name="" _label="FIXME: Desi_gn This Form"/>
-
-		<menuitem name="" _label="FIXME: D_esign a Form..."/>
-
-		<separator/>
-
-		<menuitem name="" _label="FIXME: Publish _Form..."/>
-
-		<menuitem name="" _label="FIXME: Pu_blish Form As..."/>
-
-		<separator/>
-
-		<menuitem name="" _label="FIXME: Script _Debugger"/>
-
-	</submenu>
+	<menuitem name="" _label="Address _Book... (FIXME)"/>
 
 </submenu>
 
 <submenu _label="Actio_ns">
 
-	<menuitem name="" _label="FIXME: _New Appointment"/>
-
-	<separator/>
-
-	<menuitem name="" _label="FIXME: Rec_urrence..."/>
-
-	<separator/>
-
 	<menuitem name="ActionScheduleMeeting" verb="" _label="Schedule _Meeting"/>
 
 	<separator/>
 
-	<menuitem name="" _label="FIXME: Forward as v_Calendar"/>
+	<menuitem name="" _label="For_ward (FIXME)"/>
 
-	<menuitem name="" _label="FIXME: For_ward"/>
+	<menuitem name="" _label="Forward as v_Calendar (FIXME)"/>
 
 </submenu>
 
@@ -321,27 +202,19 @@
 
 	<toolitem name="FileSaveAndClose" verb=""/>
 
+	<toolitem name="FileDelete" verb=""/>
+
+	<toolitem name="FileClose" verb=""/>
+
 	<separator/>
 
 	<toolitem name="FilePrint" verb=""/>
-
-	<toolitem _label="FIXME: Insert File" pixtype="stock" pixname="Attach"/>
-
-	<separator/>
-
-	<toolitem name="FileDelete" verb=""/>
-
-	<separator/>
-
-	<toolitem name="FileClose" verb=""/>
 
 	<separator/>
 
 	<toolitem name="GoPrevious" verb=""/>
 
 	<toolitem name="GoNext" verb=""/>
-
-	<toolitem name="HelpOnline" verb=""/>
 
 </dockitem>
 
