@@ -1,3 +1,10 @@
+1999-02-15  Chris Lahey  <clahey@umich.edu>
+
+	* gnome-print-check.m4: Copied this from libhnj/libhnj.m4.  Almost
+	completely replaced the old version.  The only usage difference is
+	that it defines GNOME_PRINT_LIBS instead of GNOME_PRINT_LIB and
+	defines GNOME_PRINT_CFLAGS as well.
+
 1999-02-10  Martin Baulig  <martin@home-of-linux.org>
 
 	* gnome-objc-checks.m4: Applied a patch from Kenneth Stailey;
