@@ -1,3 +1,15 @@
+2001-07-12    <tigert@ximian.com>
+
+	* delete_message.[png,xpm]: New versions for the trashcan icon.
+	I am wondering if we should do some filename cleanup here, all menu 
+	icons should really be 16_foo.png, whereas the toolbar ones should
+	be foo.png. Currently we are mixing PNG and XPM here with some files
+	having otherwise same names (like this one)..
+
+2001-07-11    <tigert@ximian.com>
+
+	* new_appointment.[png,xpm]: New versions
+
 2001-07-10  Tuomas Kuosmanen  <tigert@ximian.com>
 
 	* new_appointment.png: New appointment icon. 	
