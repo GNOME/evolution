@@ -1,3 +1,8 @@
+2000-11-14  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* camel-stream.c (camel_stream_printf): Don't cast an int to a
+	ssize_t.
+
 2000-11-10  Dan Winship  <danw@helixcode.com>
 
 	* providers/mbox/camel-mbox-summary.c

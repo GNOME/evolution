@@ -212,7 +212,7 @@ camel_stream_printf (CamelStream *stream, const char *fmt, ... )
 {
 	va_list args;
 	char *string;
-	int ret;
+	ssize_t ret;
 
 	g_return_val_if_fail (CAMEL_IS_STREAM (stream), -1);
 
