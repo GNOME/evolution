@@ -1,3 +1,11 @@
+2001-02-02  Not Zed  <NotZed@Ximian.com>
+
+	* camel-folder-thread.c (camel_folder_thread_messages_new): When
+	we drop a fake node, dont skip checking the next in the list.
+	(camel_folder_thread_messages_new): Add an assertion check just to
+	make sure we dont get any pseudo nodes, and spit a warning if we
+	do.
+
 2001-02-04  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-stream-filter.c (do_write): Make do_write loop until the

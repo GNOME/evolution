@@ -554,13 +554,20 @@ camel_folder_thread_messages_new(CamelFolder *folder, GPtrArray *uids)
 			scan->next = newtop->next;
 			/* and link the now 'real' node into the list */
 			newtop->next = child->next;
-			c = newtop->next;
+			c = newtop;
 			e_memchunk_free(thread->node_chunks, child);
 		} else {
 			c = child;
 		}
 	}
 
+	/* this is only debug assertion stuff */
+	c = (CamelFolderThreadNode *)&head;
+	while (c->next) {
+		c = c->next;
+		if (c->message == NULL)
+			g_warning("threading missed removing a pseudo node: %s\n", c->root_subject);
+	}
 
 	thread->tree = head;
 
