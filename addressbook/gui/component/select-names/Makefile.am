@@ -17,10 +17,12 @@ $(IDL_GENERATED): $(idl_DATA)
 	$(ORBIT_IDL) -I $(srcdir) $(IDL_INCLUDES) \
 		$(srcdir)/Evolution-Addressbook-SelectNames.idl
 
-serversdir = $(libdir)/bonobo/servers
+server_in_files = GNOME_Evolution_Addressbook_SelectNames.server.in.in
 
-server_in_files = GNOME_Evolution_Addressbook_SelectNames.server.in
-servers_DATA = $(server_in_files:.server.in=.server)
+serverdir = $(libdir)/bonobo/servers
+server_DATA = $(server_in_files:.server.in.in=.server)
+$(server_in_files:.server.in.in=.server.in): $(server_in_files)
+	sed -e "s|\@LIBEXECDIR\@|$(libexecdir)|" $< > $@
 
 @INTLTOOL_SERVER_RULE@
 
@@ -93,7 +95,7 @@ etspec_DATA = e-select-names.etspec
 EXTRA_DIST = 			\
 	$(glade_DATA)		\
 	$(server_in_files)	\
-	$(servers_DATA)		\
+	$(server_DATA)		\
 	$(idl_DATA)		\
 	$(etspec_DATA)		\
 	e-select-names-marshal.list

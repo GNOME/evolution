@@ -1,3 +1,9 @@
+2002-11-19  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/component/select-names/GNOME_Evolution_Addressbook_SelectNames.server.in.in,
+	* gui/component/select-names/Makefile.am: Same changes as below
+	for the SelectNames component.
+
 2002-11-18  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/select-names/e-select-names.c
