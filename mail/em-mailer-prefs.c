@@ -31,6 +31,7 @@
 
 #include <gal/util/e-iconv.h>
 #include <gtkhtml/gtkhtml-properties.h>
+#include <libxml/tree.h>
 #include "widgets/misc/e-charset-picker.h"
 #include <bonobo/bonobo-generic-factory.h>
 
@@ -43,6 +44,30 @@ static void em_mailer_prefs_finalise   (GObject *obj);
 
 static GtkVBoxClass *parent_class = NULL;
 
+enum {
+	HEADER_LIST_NAME_COLUMN, /* displayable name of the header (may be a translation) */
+	HEADER_LIST_ENABLED_COLUMN, /* is the header enabled? */
+	HEADER_LIST_IS_DEFAULT_COLUMN,  /* is this header a default header, eg From: */
+	HEADER_LIST_HEADER_COLUMN, /* the real name of this header */
+	HEADER_LIST_N_COLUMNS, 
+};
+
+/* temporarily copied from em-format.c */
+static const struct {
+	const char *name;
+	guint32 flags;
+} default_headers[] = {
+	{ N_("From"), EM_FORMAT_HEADER_BOLD },
+	{ N_("Reply-To"), EM_FORMAT_HEADER_BOLD },
+	{ N_("To"), EM_FORMAT_HEADER_BOLD },
+	{ N_("Cc"), EM_FORMAT_HEADER_BOLD },
+	{ N_("Bcc"), EM_FORMAT_HEADER_BOLD },
+	{ N_("Subject"), EM_FORMAT_HEADER_BOLD },
+	{ N_("Date"), EM_FORMAT_HEADER_BOLD },
+	{ "x-evolution-mailer", 0 }, /* DO NOT translate */
+};
+
+#define EM_FORMAT_HEADER_XMAILER "x-evolution-mailer"
 
 GtkType
 em_mailer_prefs_get_type (void)
@@ -202,6 +227,153 @@ option_menu_connect (GtkOptionMenu *omenu, gpointer user_data)
 	}
 }
 
+
+static void
+emmp_header_remove_sensitivity (EMMailerPrefs *prefs)
+{
+	GtkTreeIter iter;
+	GtkTreeSelection *selection = gtk_tree_view_get_selection (prefs->header_list);
+	gboolean is_default;
+
+	/* remove button should be sensitive if the currenlty selected entry in the list view 
+           is not a default header. if there are no entries, or none is selected, it should be 
+           disabled
+	*/
+	if (gtk_tree_selection_get_selected (selection, NULL, &iter)) {
+		gtk_tree_model_get (GTK_TREE_MODEL (prefs->header_list_store), &iter, 
+				    HEADER_LIST_IS_DEFAULT_COLUMN, &is_default, 
+				    -1);
+		if (is_default)
+			gtk_widget_set_sensitive (GTK_WIDGET (prefs->remove_header), FALSE);
+		else
+			gtk_widget_set_sensitive (GTK_WIDGET (prefs->remove_header), TRUE);
+	} else {
+		gtk_widget_set_sensitive (GTK_WIDGET (prefs->remove_header), FALSE);
+	}
+}
+
+static gboolean
+emmp_header_is_valid (const char *header)
+{
+	const char *p = header;
+
+	if (strlen (header) == 0)
+		return FALSE;
+	while (*p) {
+		if ((*p == ':') || (*p == ' '))
+			return FALSE;
+		p++;
+	}
+	return TRUE;
+}
+
+static void
+emmp_header_add_sensitivity (EMMailerPrefs *prefs)
+{
+	const char *entry_contents;
+	GtkTreeIter iter;
+	gboolean valid;
+
+	/* the add header button should be sensitive if the text box contains 
+	   a valid header string, that is not a duplicate with something already 
+	   in the list view
+	*/
+	entry_contents = gtk_entry_get_text (GTK_ENTRY (prefs->entry_header));
+	if (!emmp_header_is_valid (entry_contents)) {
+		gtk_widget_set_sensitive (GTK_WIDGET (prefs->add_header), FALSE);
+		return;
+	}
+	/* check if this is a duplicate */
+	valid = gtk_tree_model_get_iter_first (GTK_TREE_MODEL (prefs->header_list_store), &iter);
+	while (valid) {
+		char *header_name;
+
+		gtk_tree_model_get (GTK_TREE_MODEL (prefs->header_list_store), &iter, 
+				    HEADER_LIST_HEADER_COLUMN, &header_name, 
+				    -1);
+		if (g_ascii_strcasecmp (header_name, entry_contents) == 0) {
+			gtk_widget_set_sensitive (GTK_WIDGET(prefs->add_header), FALSE);
+			return;
+		}
+		valid = gtk_tree_model_iter_next (GTK_TREE_MODEL(prefs->header_list_store), &iter);
+	}
+	gtk_widget_set_sensitive (GTK_WIDGET (prefs->add_header), TRUE);
+}
+
+static void
+emmp_header_list_enabled_toggled (GtkCellRendererToggle *cell, const char *path_string, gpointer user_data)
+{
+	EMMailerPrefs *prefs = (EMMailerPrefs *) user_data;
+	GtkTreeModel *model = GTK_TREE_MODEL (prefs->header_list_store);
+	GtkTreePath *path = gtk_tree_path_new_from_string (path_string);
+	GtkTreeIter iter;
+	int enabled;
+
+	gtk_tree_model_get_iter (model, &iter, path);
+	gtk_tree_model_get (model, &iter, HEADER_LIST_ENABLED_COLUMN, &enabled, -1);
+	enabled = !enabled;
+	gtk_list_store_set (GTK_LIST_STORE (model), &iter, HEADER_LIST_ENABLED_COLUMN,
+			   enabled, -1);
+	gtk_tree_path_free (path);
+
+	if (prefs->control)
+		evolution_config_control_changed (prefs->control);
+}
+
+static void
+emmp_header_add_header (GtkWidget *widget, gpointer user_data)
+{
+	EMMailerPrefs *prefs = (EMMailerPrefs *) user_data;
+	GtkTreeModel *model = GTK_TREE_MODEL (prefs->header_list_store);
+	GtkTreeIter iter;
+
+	gtk_list_store_append(GTK_LIST_STORE (model), &iter);
+	gtk_list_store_set(GTK_LIST_STORE (model), &iter, 
+			   HEADER_LIST_NAME_COLUMN, gtk_entry_get_text (prefs->entry_header), 
+			   HEADER_LIST_ENABLED_COLUMN, TRUE, 
+			   HEADER_LIST_HEADER_COLUMN, gtk_entry_get_text (prefs->entry_header), 
+			   HEADER_LIST_IS_DEFAULT_COLUMN, FALSE, 
+			   -1);
+	gtk_entry_set_text (prefs->entry_header, "");
+	emmp_header_remove_sensitivity (prefs);
+	emmp_header_add_sensitivity (prefs);
+
+	if (prefs->control)
+		evolution_config_control_changed (prefs->control);
+}
+
+static void
+emmp_header_remove_header (GtkWidget *button, gpointer user_data)
+{
+	EMMailerPrefs *prefs = (EMMailerPrefs *) user_data;
+	GtkTreeModel *model = GTK_TREE_MODEL (prefs->header_list_store);
+	GtkTreeSelection *selection = gtk_tree_view_get_selection (prefs->header_list);
+	GtkTreeIter iter;
+	
+	if (gtk_tree_selection_get_selected (selection, NULL, &iter)) {
+		gtk_list_store_remove (GTK_LIST_STORE (model), &iter);
+		emmp_header_remove_sensitivity (prefs);
+		if (prefs->control)
+			evolution_config_control_changed (prefs->control);
+	}
+}
+
+static void 
+emmp_header_list_row_selected (GtkTreeSelection *selection, gpointer user_data)
+{
+	EMMailerPrefs *prefs = (EMMailerPrefs *) user_data;
+
+	emmp_header_remove_sensitivity (prefs);
+}
+
+static void
+emmp_header_entry_changed (GtkWidget *entry, gpointer user_data)
+{
+	EMMailerPrefs *prefs = (EMMailerPrefs *) user_data;
+
+	emmp_header_add_sensitivity (prefs);
+}
+
 static void
 em_mailer_prefs_construct (EMMailerPrefs *prefs)
 {
@@ -209,10 +381,15 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs)
 	GSList *list;
 	GladeXML *gui;
 	gboolean bool;
-	char *font;
+	char *font, *buf;
 	int i, val;
-	char *buf;
-	
+	GSList *header_config_list, *header_add_list, *p;
+	GtkTreeIter iter;
+	GHashTable *default_header_hash;
+	GtkTreeSelection *selection;
+	GtkCellRenderer *header_list_name_renderer;
+	GtkCellRenderer *header_list_enabled_renderer;
+
 	gui = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config.glade", "preferences_tab", NULL);
 	prefs->gui = gui;
 	
@@ -361,6 +538,101 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs)
 	prefs->restore_labels = GTK_BUTTON (glade_xml_get_widget (gui, "cmdRestoreLabels"));
 	g_signal_connect (prefs->restore_labels, "clicked", G_CALLBACK (restore_labels_clicked), prefs);
 
+	/* headers */
+	prefs->add_header = GTK_BUTTON (glade_xml_get_widget (gui, "cmdHeadersAdd"));
+	prefs->remove_header = GTK_BUTTON (glade_xml_get_widget (gui, "cmdHeadersRemove"));
+	prefs->entry_header = GTK_ENTRY (glade_xml_get_widget (gui, "txtHeaders"));
+	prefs->header_list = GTK_TREE_VIEW (glade_xml_get_widget (gui, "treeHeaders"));
+	selection = gtk_tree_view_get_selection (prefs->header_list);
+	g_signal_connect (selection, "changed", G_CALLBACK (emmp_header_list_row_selected), prefs);
+	g_signal_connect (prefs->entry_header, "changed", G_CALLBACK (emmp_header_entry_changed), prefs);
+	g_signal_connect (prefs->entry_header, "activate", G_CALLBACK (emmp_header_add_header), prefs);
+	/* initialise the tree with appropriate headings */
+	prefs->header_list_store = gtk_list_store_new (HEADER_LIST_N_COLUMNS, G_TYPE_STRING, G_TYPE_BOOLEAN, G_TYPE_BOOLEAN, G_TYPE_STRING);
+	g_signal_connect (prefs->add_header, "clicked", G_CALLBACK (emmp_header_add_header), prefs);
+	g_signal_connect (prefs->remove_header, "clicked", G_CALLBACK (emmp_header_remove_header), prefs);
+	gtk_tree_view_set_model (prefs->header_list, GTK_TREE_MODEL (prefs->header_list_store));
+
+	header_list_enabled_renderer = gtk_cell_renderer_toggle_new ();
+	g_object_set (header_list_enabled_renderer, "activatable", TRUE, NULL);
+	g_signal_connect (header_list_enabled_renderer, "toggled", G_CALLBACK (emmp_header_list_enabled_toggled), prefs);
+        gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (prefs->header_list), -1, 
+						     "Enabled", header_list_enabled_renderer,
+						     "active", HEADER_LIST_ENABLED_COLUMN, 
+						     NULL);
+	header_list_name_renderer = gtk_cell_renderer_text_new ();
+	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (prefs->header_list), -1, 
+						     "Name", header_list_name_renderer,
+						     "text", HEADER_LIST_NAME_COLUMN, 
+						     NULL);
+
+	/* populated the listview with entries; firstly we add all the default headers, and then 
+	   we add read header configuration out of gconf. If a header in gconf is a default header, 
+	   we update the enabled flag accordingly
+	*/
+	header_add_list = NULL;
+	default_header_hash = g_hash_table_new (g_str_hash, g_str_equal);
+	for (i = 0; i < sizeof (default_headers) / sizeof (default_headers[0]); i++) {
+		struct _EMMailerPrefsHeader *h;
+
+
+		h = g_malloc (sizeof (struct _EMMailerPrefsHeader));
+		h->is_default = TRUE;
+		h->name = g_strdup(default_headers[i].name);
+		if (g_ascii_strcasecmp (default_headers[i].name, EM_FORMAT_HEADER_XMAILER) == 0)
+			h->enabled = FALSE;
+		else
+			h->enabled = TRUE;
+		g_hash_table_insert (default_header_hash, (gpointer)default_headers[i].name, h);
+		header_add_list = g_slist_append (header_add_list, h);
+	}
+
+	/* read stored headers from gconf */
+	header_config_list = gconf_client_get_list (prefs->gconf, "/apps/evolution/mail/display/headers", GCONF_VALUE_STRING, NULL);
+	p = header_config_list;
+	while (p) {
+		char *xml = (char *)p->data;
+		struct _EMMailerPrefsHeader *h, *def;
+
+		h = em_mailer_prefs_header_from_xml (xml);
+		if (h) {
+			def = (struct _EMMailerPrefsHeader *)g_hash_table_lookup (default_header_hash, h->name);
+			if (def) {
+				def->enabled = h->enabled;
+				em_mailer_prefs_header_free(h);
+			} else {
+				h->is_default = FALSE;
+				header_add_list = g_slist_append (header_add_list, h);
+			}
+		}
+		p = g_slist_next (p);
+	}
+	g_hash_table_destroy (default_header_hash);
+	g_slist_foreach (header_config_list, (GFunc) g_free, NULL);
+	g_slist_free (header_config_list);
+
+	p = header_add_list;
+	while (p) {
+		struct _EMMailerPrefsHeader *h = (struct _EMMailerPrefsHeader *)p->data;
+		const char *name;
+
+		if (g_ascii_strcasecmp (h->name, EM_FORMAT_HEADER_XMAILER) == 0)
+			name = _("Mailer");
+		else
+			name = _(h->name);
+		gtk_list_store_append (prefs->header_list_store, &iter);
+		gtk_list_store_set (prefs->header_list_store, &iter, 
+				    HEADER_LIST_NAME_COLUMN, name, 
+				    HEADER_LIST_ENABLED_COLUMN, h->enabled, 
+				    HEADER_LIST_IS_DEFAULT_COLUMN, h->is_default, 
+				    HEADER_LIST_HEADER_COLUMN, h->name, 
+				    -1);
+		em_mailer_prefs_header_free(h);
+		p = g_slist_next(p);
+	}
+	g_slist_free (header_add_list);
+	emmp_header_remove_sensitivity (prefs);
+
 	/* Junk prefs */
 	prefs->check_incoming = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkCheckIncomingMail"));
 	bool = gconf_client_get_bool (prefs->gconf, "/apps/evolution/mail/junk/check_incoming", NULL);
@@ -390,6 +662,9 @@ em_mailer_prefs_apply (EMMailerPrefs *prefs)
 	GSList *list, *l, *n;
 	guint32 rgb;
 	int i, val;
+	GtkTreeIter iter;
+	gboolean valid;
+	GSList *header_list;
 	
 	/* General tab */
 	
@@ -475,10 +750,134 @@ em_mailer_prefs_apply (EMMailerPrefs *prefs)
 		g_slist_free_1 (l);
 		l = n;
 	}
+
+	/* Headers */
+	header_list = NULL;
+	valid = gtk_tree_model_get_iter_first (GTK_TREE_MODEL (prefs->header_list_store), &iter);
+	while (valid) {
+		struct _EMMailerPrefsHeader h;
+		gboolean enabled;
+		char *xml;
+
+		gtk_tree_model_get (GTK_TREE_MODEL (prefs->header_list_store), &iter, 
+				    HEADER_LIST_HEADER_COLUMN, &h.name, 
+				    HEADER_LIST_ENABLED_COLUMN, &enabled, 
+				    -1);
+		h.enabled = enabled;
+		xml = em_mailer_prefs_header_to_xml (&h);
+		if (xml != NULL)
+			header_list = g_slist_append (header_list, xml);
+		valid = gtk_tree_model_iter_next (GTK_TREE_MODEL (prefs->header_list_store), &iter);
+	}
+	gconf_client_set_list (prefs->gconf, "/apps/evolution/mail/display/headers", GCONF_VALUE_STRING, header_list, NULL);
+	g_slist_foreach (header_list, (GFunc) g_free, NULL);
+	g_slist_free (header_list);
 	
 	/* junk prefs */
 	gconf_client_set_bool (prefs->gconf, "/apps/evolution/mail/junk/check_incoming",
 			       gtk_toggle_button_get_active (prefs->check_incoming), NULL);
 
 	gconf_client_suggest_sync (prefs->gconf, NULL);
+}
+
+static struct _EMMailerPrefsHeader *
+emmp_header_from_xmldoc (xmlDocPtr doc)
+{
+	xmlNodePtr root;
+	xmlChar *name;
+	struct _EMMailerPrefsHeader *h;
+
+	if (doc == NULL)
+		return NULL;
+	root = doc->children;
+	if (strcmp (root->name, "header") != 0)
+		return NULL;
+	name = xmlGetProp (root, "name");
+	if (name == NULL)
+		return NULL;
+	h = g_malloc0 (sizeof (struct _EMMailerPrefsHeader));
+	h->name = g_strdup (name);
+	xmlFree (name);
+	if (xmlHasProp (root, "enabled"))
+		h->enabled = 1;
+	else
+		h->enabled = 0;
+	return h;
+}
+
+/**
+ * em_mailer_prefs_header_from_xml
+ * @xml: XML configuration data
+ *
+ * Parses passed XML data, which should be of 
+ * the format <header name="foo" enabled />, and 
+ * returns a EMMailerPrefs structure, or NULL if there 
+ * is an error.
+ **/
+struct _EMMailerPrefsHeader *
+em_mailer_prefs_header_from_xml (const char *xml)
+{
+	xmlDocPtr doc;
+	struct _EMMailerPrefsHeader *header;
+
+	doc = xmlParseDoc ((char *)xml);
+	if (doc == NULL)
+		return NULL;
+	header = emmp_header_from_xmldoc (doc);
+	xmlFreeDoc (doc);
+	return header;
+}
+
+/**
+ * em_mailer_prefs_header_free
+ * @header: header to free
+ *
+ * Frees the memory associated with the passed header 
+ * structure.
+ */
+void
+em_mailer_prefs_header_free (struct _EMMailerPrefsHeader *header)
+{
+	if (header == NULL)
+		return;
+	g_free (header->name);
+	g_free (header);
+}
+
+/**
+ * em_mailer_prefs_header_to_xml
+ * @header: header from which to generate XML
+ *
+ * Returns the passed header as a XML structure, 
+ * or NULL on error
+ */
+char *
+em_mailer_prefs_header_to_xml (struct _EMMailerPrefsHeader *header)
+{
+	xmlDocPtr doc;
+	xmlNodePtr root;
+	xmlChar *xml;
+	char *out;
+	int size;
+
+	g_return_val_if_fail (header != NULL, NULL);
+	g_return_val_if_fail (header->name != NULL, NULL);
+
+	doc = xmlNewDoc ("1.0");
+
+	root = xmlNewDocNode (doc, NULL, "header", NULL);
+	xmlSetProp (root, "name", header->name);
+	if (header->enabled)
+		xmlSetProp (root, "enabled", NULL);
+
+	xmlDocSetRootElement (doc, root);
+	xmlDocDumpMemory (doc, &xml, &size);
+	xmlFreeDoc (doc);
+
+	out = g_malloc (size + 1);
+	memcpy (out, xml, size);
+	out[size] = 0;
+	xmlFree (xml);
+
+	return out;
 }

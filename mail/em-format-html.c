@@ -1451,10 +1451,7 @@ efh_format_header(EMFormat *emf, CamelStream *stream, CamelMedium *part, const c
 			txt = camel_medium_get_header(part, "x-mailer");
 			if (txt == NULL)
 				txt = camel_medium_get_header(part, "user-agent");
-			if (txt == NULL
-			    || ((efh->xmailer_mask & EM_FORMAT_HTML_XMAILER_OTHER) == 0
-				&& ((efh->xmailer_mask & EM_FORMAT_HTML_XMAILER_EVOLUTION) == 0
-				    || strstr(txt, "Evolution") == NULL)))
+			if (txt == NULL)
 				return;
 
 			label = _("Mailer");

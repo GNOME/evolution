@@ -233,6 +233,24 @@
     </schema>   
 
     <schema>
+      <key>/schemas/apps/evolution/mail/display/headers</key>
+      <applyto>/apps/evolution/mail/display/headers</applyto>
+      <owner>evolution-mail</owner>
+      <type>list</type>
+      <list_type>string</list_type>
+      <default>[]</default>
+      <locale name="C">
+         <short>List of custom headers and whether they are enabled.</short>
+         <long>
+           This key should contain a list of XML structures specifying custom headers, 
+           and whether they are to be displayed. The format of the XML structure is 
+           &lt;header enabled&gt; - set enabled if the header is to be displayed 
+           in the mail view.
+         </long>
+      </locale>
+    </schema>
+
+    <schema>
       <key>/schemas/apps/evolution/mail/display/mime_types</key>
       <applyto>/apps/evolution/mail/display/mime_types</applyto>
       <owner>evolution-mail</owner>

@@ -37,6 +37,7 @@ extern "C" {
 #include <libgnomeui/gnome-font-picker.h>
 
 #include "evolution-config-control.h"
+#include "em-format.h"
 
 #include <shell/Evolution.h>
 
@@ -48,6 +49,13 @@ extern "C" {
 
 typedef struct _EMMailerPrefs EMMailerPrefs;
 typedef struct _EMMailerPrefsClass EMMailerPrefsClass;
+typedef struct _EMMailerPrefsHeader EMMailerPrefsHeader;
+
+struct _EMMailerPrefsHeader {
+	char *name;
+	int enabled:1;
+	int is_default:1;
+};
 
 struct _EMMailerPrefs {
 	GtkVBox parent_object;
@@ -99,6 +107,13 @@ struct _EMMailerPrefs {
 	} labels[5];
 	GtkButton *restore_labels;
 
+	/* Headers tab */
+	GtkButton *add_header;
+	GtkButton *remove_header;
+	GtkEntry *entry_header;
+	GtkTreeView *header_list;
+	GtkListStore *header_list_store;
+
 	/* Junk prefs */
 	GtkToggleButton *check_incoming;
 };
@@ -116,6 +131,10 @@ GtkType em_mailer_prefs_get_type (void);
 GtkWidget *em_mailer_prefs_new (void);
 
 void em_mailer_prefs_apply (EMMailerPrefs *prefs);
+
+EMMailerPrefsHeader *em_mailer_prefs_header_from_xml(const char *xml);
+char *em_mailer_prefs_header_to_xml(EMMailerPrefsHeader *header);
+void em_mailer_prefs_header_free(EMMailerPrefsHeader *header);
 
 /* needed by global config */
 #define EM_MAILER_PREFS_CONTROL_ID "OAFIID:GNOME_Evolution_Mail_MailerPrefs_ConfigControl:" BASE_VERSION

@@ -1,3 +1,51 @@
+2003-12-11  Grahame Bowland  <grahame@angrygoats.net>
+
+	* em-format-html.c (efh_format_header): display 
+	x-evolution-mailer pseudo header irrespective of 
+	xmailer_mask. This is now handled by a header 
+	configuration dialog.
+	
+	* mail-config.glade: add tab to mail configuration 
+	dialog to allow custom headers to be specified for 
+	display.
+
+	* em-mailer-prefs.h: modify struct _EMMailerPrefs to 
+	add widgets for custom header tab. Add defines for custom 
+	header flags. Add struct EMMailerCustomHeader to describe
+	custom headers, and add function 
+	em_mailer_custom_headers_from_xml to allow XML from gconf 
+	key to be parsed into this structure.
+
+	* em-folder-view.c (emfv_setting_notify): catch changes to 
+	custom header gconf key and update mail view to correspond
+
+	* em-mailer-prefs.c (em_mailer_prefs_apply): save custom 
+	headers to gconf
+	(header_list_enabled_toggled): toggle clicked toggle column
+	(add_header): add header to custom header list if valid
+	(remove_header): remove selected custom header
+	(is_valid_header): return true if passed header is valid, 
+	otherwise false
+	(entry_header_changed):	call add_header_update_sensitivity
+	(em_mailer_prefs_construct): initialise header selection tab. 
+	Load gconf data for header selection dialog.
+	(em_mailer_custom_header_to_xml): load a header structure 
+	from XML document structure
+	(em_mailer_custom_header_from_xml): load a header 
+	structure from a string containing valid XML. if any failure, 
+	the header.name is set to NULL.
+	(header_list_row_selected): call 
+	remove_header_update_sensitivity
+	(remove_header_update_sensitivity): set the sensitivity of 
+	the remove button to FALSE if the list is empty or nothing 
+	is selected. Otherwise, set it to TRUE.
+	(add_header_update_sensitivity): set the sensitivity of the 
+	the add button to FALSE if the entry box is empty, contains 
+	a duplicate header, or contains an invalid header. Otherwise, 
+	set it to TRUE.
+	
+	* evolution-mail.schemas.in.in: add mail/display/headers 
+
 2003-12-10  Larry Ewing  <lewing@ximian.com>
 
 	* em-format-html.c: add text/x-patch as a plain type.

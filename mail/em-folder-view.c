@@ -62,6 +62,7 @@
 #include "em-format-html-print.h"
 #include "em-folder-selection.h"
 #include "em-folder-view.h"
+#include "em-mailer-prefs.h"
 #include "em-message-browser.h"
 #include "message-list.h"
 #include "em-utils.h"
@@ -1901,6 +1902,7 @@ enum {
 	EMFV_MARK_SEEN_TIMEOUT,
 	EMFV_LOAD_HTTP,
 	EMFV_XMAILER_MASK,
+	EMFV_HEADERS,
 	EMFV_SETTINGS		/* last, for loop count */
 };
 
@@ -1916,6 +1918,7 @@ static const char * const emfv_display_keys[] = {
 	"mark_seen_timeout",
 	"load_http_images",
 	"xmailer_mask",
+	"headers",
 };
 
 static GHashTable *emfv_setting_key;
@@ -1979,6 +1982,34 @@ emfv_setting_notify(GConfClient *gconf, guint cnxn_id, GConfEntry *entry, EMFold
 	case EMFV_XMAILER_MASK:
 		em_format_html_set_xmailer_mask((EMFormatHTML *)emfv->preview, gconf_value_get_int(gconf_entry_get_value(entry)));
 		break;
+	case EMFV_HEADERS: {
+		GSList *header_config_list, *p;
+		EMFormat *emf = (EMFormat *)emfv->preview;
+		int added_headers = 0;
+
+		header_config_list = gconf_client_get_list(gconf, "/apps/evolution/mail/display/headers", GCONF_VALUE_STRING, NULL);
+      		em_format_clear_headers((EMFormat *)emfv->preview);
+		p = header_config_list;
+		while (p) {
+			EMMailerPrefsHeader *h;
+			char *xml = (char *)p->data;
+			
+			h = em_mailer_prefs_header_from_xml(xml);
+			if (h && h->enabled) {
+				em_format_add_header(emf, h->name, EM_FORMAT_HEADER_BOLD);
+				added_headers++;
+			}
+			em_mailer_prefs_header_free(h);
+			p = g_slist_next(p);
+		}
+		g_slist_foreach(header_config_list, (GFunc) g_free, NULL);
+		g_slist_free(header_config_list);
+		if (added_headers == 0)
+			em_format_default_headers(emf);
+		/* force a redraw */
+		if (emf->message)
+			em_format_format_clone(emf, emf->message, emf);
+		break; }
 	}
 }
 
