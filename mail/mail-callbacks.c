@@ -753,7 +753,7 @@ do_forward_attach(CamelFolder *folder, GPtrArray *messages, CamelMimePart *part,
 	}
 }
 
-static void
+void
 forward_messages (CamelFolder *folder, GPtrArray *uids, gboolean doinline)
 {
 	if (doinline && uids->len == 1) {
