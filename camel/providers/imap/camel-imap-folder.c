@@ -263,7 +263,7 @@ imap_init (CamelFolder *folder, CamelStore *parent_store, CamelFolder *parent_fo
 	else
 		folder_path = g_strdup (folder->full_name);
 
-	status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), folder,
+	status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), NULL,
 					      &result, "SELECT %s", folder_path);
 	if (status != CAMEL_IMAP_OK) {
 		CamelService *service = CAMEL_SERVICE (folder->parent_store);

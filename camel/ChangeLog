@@ -1,3 +1,20 @@
+2000-07-16  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/imap/camel-imap-store.c: All SELECT calls now pass
+	a NULL folder argument to camel_imap_command_extended() since it's
+	not needed.
+	(imap_connect): Moved service_class->connect() to the point right
+	after a connection is established with the server rather than
+	waiting until the end of the function.
+	(camel_imap_command): Updated the documentation comment
+	(camel_imap_command_extended): Before sending a command, first
+	check to make sure we are connected; if we aren't, then reconnect.
+	Don't strncmp() command with "SELECT" as it's redundant.
+
+	* providers/imap/camel-imap-folder.c: All SELECT calls now pass
+	a NULL folder argument to camel_imap_command_extended() since it's
+	not needed.
+
 2000-07-15  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/imap/camel-imap-folder.c (camel_imap_folder_new): 

@@ -295,6 +295,9 @@ imap_connect (CamelService *service, CamelException *ex)
 		return FALSE;
 	}
 
+	/* parent class conect initialization */
+	service_class->connect (service, ex);
+	
 	store->ostream = camel_stream_fs_new_with_fd (fd);
 	store->istream = camel_stream_buffer_new (store->ostream, CAMEL_STREAM_BUFFER_READ);
 	store->command = 0;
@@ -381,7 +384,7 @@ imap_connect (CamelService *service, CamelException *ex)
 
 	d(fprintf (stderr, "IMAP provider does%shave SEARCH support\n", store->has_search_capability ? " " : "n't "));
 
-	/* FIXME: We now need to find out which directory separator this daemon uses */
+	/* We now need to find out which directory separator this daemon uses */
 	status = camel_imap_command_extended (store, NULL, &result, "LIST \"\" \"\"");
 	
 	if (status != CAMEL_IMAP_OK) {
@@ -407,9 +410,6 @@ imap_connect (CamelService *service, CamelException *ex)
 			}
 		}
 	}
-
-	/* parent class conect initialization */
-	service_class->connect (service, ex);
 	
 	return TRUE;
 }
@@ -578,6 +578,7 @@ camel_imap_status (char *cmdid, char *respbuf)
 /**
  * camel_imap_command: Send a command to a IMAP server.
  * @store: the IMAP store
+ * @folder: The folder to perform the operation in
  * @ret: a pointer to return the full server response in
  * @fmt: a printf-style format string, followed by arguments
  *
@@ -585,15 +586,15 @@ camel_imap_status (char *cmdid, char *respbuf)
  * arguments to the connected IMAP store specified by @store. It then
  * reads the server's response and parses out the status code. If
  * the caller passed a non-NULL pointer for @ret, camel_imap_command
- * will set it to point to an buffer containing the rest of the
+ * will set it to point to a buffer containing the rest of the
  * response from the IMAP server. (If @ret was passed but there was
  * no extended response, @ret will be set to NULL.) The caller must
  * free this buffer when it is done with it.
  *
  * Return value: one of CAMEL_IMAP_OK (command executed successfully),
- * CAMEL_IMAP_ERR (command encounted an error), or CAMEL_IMAP_FAIL
- * (a protocol-level error occurred, and Camel is uncertain of the
- * result of the command.)
+ * CAMEL_IMAP_NO (operational error message), CAMEL_IMAP_BAD (error
+ * message from the server), or CAMEL_IMAP_FAIL (a protocol-level error
+ * occurred, and Camel is uncertain of the result of the command.)
  **/
 gint
 camel_imap_command (CamelImapStore *store, CamelFolder *folder, char **ret, char *fmt, ...)
@@ -615,7 +616,7 @@ camel_imap_command (CamelImapStore *store, CamelFolder *folder, char **ret, char
 		else
 			folder_path = g_strdup (folder->full_name);
 		
-		s = camel_imap_command_extended (store, folder, &r, "SELECT %s", folder_path);
+		s = camel_imap_command_extended (store, NULL, &r, "SELECT %s", folder_path);
 		g_free (folder_path);
 		if (!r || s != CAMEL_IMAP_OK) {
 			*ret = r;
@@ -677,39 +678,57 @@ camel_imap_command (CamelImapStore *store, CamelFolder *folder, char **ret, char
  * camel_imap_command_extended: Send a command to a IMAP server and get
  * a multi-line response.
  * @store: the IMAP store
+ * @folder: The folder to perform the operation in
  * @ret: a pointer to return the full server response in
  * @fmt: a printf-style format string, followed by arguments
  *
  * This command sends the command specified by @fmt and the following
  * arguments to the connected IMAP store specified by @store. It then
  * reads the server's response and parses out the status code.
- * Camel_imap_command_extended will set it to point to a buffer containing the
- * response from the IMAP server. (If @ret was passed but there was The caller
- * must free this buffer when it is done with it.
+ * If the caller passed a non-NULL pointer for @ret,
+ * camel_imap_command_extended will set it to point to a buffer
+ * containing the rest of the response from the IMAP server. (If
+ * @ret was passed but there was no extended response, @ret will be
+ * set to NULL.) The caller must free this buffer when it is done
+ * with it.
  *
  * This command gets the additional data returned by "multi-line" IMAP
- * commands, such as SELECT, LIST, LSUB, and various other commands.
+ * commands, such as SELECT, LIST, FETCH, and various other commands.
  * The returned data is un-byte-stuffed, and has lines termined by
  * newlines rather than CR/LF pairs.
- *
+ 
  * Return value: one of CAMEL_IMAP_OK (command executed successfully),
- * CAMEL_IMAP_ERR (command encounted an error), or CAMEL_IMAP_FAIL
- * (a protocol-level error occurred, and Camel is uncertain of the
- * result of the command.)
+ * CAMEL_IMAP_NO (operational error message), CAMEL_IMAP_BAD (error
+ * message from the server), or CAMEL_IMAP_FAIL (a protocol-level error
+ * occurred, and Camel is uncertain of the result of the command.)
  **/
-
 gint
 camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **ret, char *fmt, ...)
 {
-	CamelURL *url = CAMEL_SERVICE (CAMEL_STORE (store))->url;
+	CamelService *service = CAMEL_SERVICE (store);
+	CamelURL *url = service->url;
 	CamelStreamBuffer *stream = CAMEL_STREAM_BUFFER (store->istream);
 	GPtrArray *data;
 	gchar *cmdid, *cmdbuf, *respbuf;
 	va_list app;
 	gint len = 0, status = CAMEL_IMAP_OK;
 
-	if (folder && store->current_folder != folder && strncmp (fmt, "SELECT", 6) &&
-	    strncmp (fmt, "CREATE", 6)) {
+	/* First make sure we're connected... */
+	if (!service->connected) {
+		CamelException *ex;
+
+		ex = camel_exception_new ();
+		
+		if (!imap_disconnect (service, ex) || !imap_connect (service, ex)) {
+			camel_exception_free (ex);
+			return CAMEL_IMAP_FAIL;
+		}
+		service->connected = TRUE;
+
+		camel_exception_free (ex);
+	}
+
+	if (folder && store->current_folder != folder && strncmp (fmt, "CREATE", 6)) {
 		/* We need to select the correct mailbox first */
 		char *r, *folder_path, *dir_sep;
 		int s;
@@ -721,7 +740,7 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
 		else
 			folder_path = g_strdup (folder->full_name);
 		
-		s = camel_imap_command_extended (store, folder, &r, "SELECT %s", folder_path);
+		s = camel_imap_command_extended (store, NULL, &r, "SELECT %s", folder_path);
 		g_free (folder_path);
 		if (!r || s != CAMEL_IMAP_OK) {
 			*ret = r;
@@ -757,7 +776,7 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
 
 	while (1) {
 		respbuf = camel_stream_buffer_read_line (stream);
-		if (!respbuf || !strncmp(respbuf, cmdid, strlen(cmdid))) {	
+		if (!respbuf || !strncmp (respbuf, cmdid, strlen (cmdid))) {	
 			/* IMAP's last response starts with our command id */
 			d(fprintf (stderr, "received: %s\n", respbuf ? respbuf : "(null)"));
 			break;
