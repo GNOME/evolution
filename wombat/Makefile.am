@@ -59,7 +59,7 @@ idldir = $(datadir)/idl
 
 idl_DATA = Evolution-Wombat.idl
 
-EXTRA_DIST = $(oaf_DATA) $(oaf_in_files) \
+EXTRA_DIST = $(oaf_DATA) $(oaf_in_files) $(idl_DATA) \
 	     GNOME_Evolution_WombatLDAP.oaf.in GNOME_Evolution_WombatNOLDAP.oaf.in
 
 if ENABLE_PURIFY
