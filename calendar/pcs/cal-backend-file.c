@@ -352,7 +352,6 @@ cal_backend_file_finalize (GObject *object)
 {
 	CalBackendFile *cbfile;
 	CalBackendFilePrivate *priv;
-	GList *clients;
 
 	g_return_if_fail (object != NULL);
 	g_return_if_fail (IS_CAL_BACKEND_FILE (object));
