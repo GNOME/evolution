@@ -3,7 +3,8 @@ INCLUDES =						\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
 	-I$(top_srcdir)					\
-	-I$(top_srcdir)/addressbook/backend/ebook	\
+	-I$(top_srcdir)/addressbook/backend		\
+	-I$(top_builddir)/addressbook/backend		\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
 
 noinst_LIBRARIES =				\

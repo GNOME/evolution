@@ -28,8 +28,8 @@
 #define __E_DESTINATION_H__
 
 #include <gtk/gtkobject.h>
-#include <addressbook/backend/ebook/e-card.h>
-#include <addressbook/backend/ebook/e-book.h>
+#include <ebook/e-card.h>
+#include <ebook/e-book.h>
 #include <gnome-xml/tree.h>
 
 #define E_TYPE_DESTINATION        (e_destination_get_type ())

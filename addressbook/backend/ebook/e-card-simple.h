@@ -15,8 +15,8 @@
 #include <time.h>
 #include <gtk/gtk.h>
 #include <stdio.h>
-#include <addressbook/backend/ebook/e-card.h>
-#include <addressbook/backend/ebook/e-card-types.h>
+#include <ebook/e-card.h>
+#include <ebook/e-card-types.h>
 #include <e-util/e-list.h>
 
 #define E_TYPE_CARD_SIMPLE            (e_card_simple_get_type ())

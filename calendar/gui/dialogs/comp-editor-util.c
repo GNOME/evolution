@@ -32,7 +32,7 @@
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-widget.h>
 #include <gal/unicode/gunicode.h>
-#include <e-destination.h>
+#include <ebook/e-destination.h>
 #include <e-util/e-time-utils.h>
 #include <cal-util/timeutil.h>
 #include "../calendar-config.h"

@@ -5,6 +5,7 @@ INCLUDES =						\
 	-DEVOLUTION_IMAGESDIR=\""$(datadir)"/images/evolution\" \
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/addressbook/backend		\
+	-I$(top_builddir)/addressbook/backend		\
 	-I$(top_srcdir)/addressbook/gui/contact-editor	\
 	-I$(top_srcdir)/addressbook/gui/merging		\
 	-I$(top_srcdir)/addressbook/gui/component	\

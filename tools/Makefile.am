@@ -17,6 +17,8 @@ INCLUDES =						\
 	-DEVOLUTION_BINDIR=\""$(bindir)"\"		\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"	\
 	-I$(top_srcdir)/addressbook			\
+	-I$(top_srcdir)/addressbook/backend		\
+	-I$(top_builddir)/addressbook/backend		\
 	$(GNOME_FULL_CFLAGS)
 
 EXTRA_DIST = $(bin_SCRIPTS) verify-evolution-install.sh \

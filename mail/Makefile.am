@@ -16,6 +16,8 @@ INCLUDES = \
 	-I$(top_srcdir)/shell				\
 	-I$(top_srcdir)/shell/importer			\
 	-I$(top_builddir)/shell/importer		\
+	-I$(top_srcdir)/addressbook/backend		\
+	-I$(top_builddir)/addressbook/backend		\
 	$(EVOLUTION_MAIL_CFLAGS)				\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\

@@ -1,3 +1,8 @@
+2002-07-09  Peter Williams  <peterw@ximian.com>
+	
+	* tools/Makefile.am (INCLUDES): Add include lines to get
+	ebook headers relative to <ebook/foo.h>, not "foo.h".
+
 2002-07-09    <jpr@ximian.com>
 
 	* configure.in: re-order nss and nspr flags

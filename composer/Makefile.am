@@ -48,8 +48,8 @@ INCLUDES =								\
 	-I$(top_builddir)/widgets					\
 	-I$(top_srcdir)/camel					 	\
 	-I$(top_builddir)/camel					 	\
-	-I$(top_srcdir)/addressbook/backend/ebook			\
-	-I$(top_builddir)/addressbook/backend/ebook			\
+	-I$(top_srcdir)/addressbook/backend				\
+	-I$(top_builddir)/addressbook/backend				\
 	-I$(top_builddir)/addressbook/gui/component/select-names	\
 	-I$(top_builddir)/shell						\
 	-I$(top_srcdir)/shell						\

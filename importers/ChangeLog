@@ -1,3 +1,12 @@
+2002-07-08  Peter Williams  <peterw@ximian.com>
+
+	* Makefile.am: Fix cflags to get at ebook headers correctly.
+	
+	* pine-importer.c: Fix include lines to get ebook headers the "right"
+	way.
+
+	* evolution-gnomecard-importer.c: Same.
+
 2002-05-27  Iain Holmes <iain@ximian.com>
 
 	* netscape-importer.c: Apply patch from Christian to fix a typo.

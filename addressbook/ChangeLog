@@ -1,3 +1,31 @@
+2002-07-08  Peter Williams  <peterw@ximian.com>
+
+	* backend/ebook/e-book.h: Normalize includes to <ebook/foo.h>, so
+	that the installed headers will work sanely.
+
+	* backend/ebook/e-card-cursor.h:
+	* backend/ebook/e-book-view.h:
+	* backend/ebook/e-card-simple.h:
+	* backend/ebook/e-card.h:
+	* backend/ebook/e-destination.h: Same.
+
+	* printing/Makefile.am (INCLUDES): add -Iaddressbook/backend
+	to access the ebook headers. Also the builddir version to get
+	the generated addressbook.h
+
+	* conduit/Makefile.am (INCLUDES): Same.
+
+	* gui/widgets/Makefile.am (INCLUDES): Same builddir fix.
+
+	* gui/merging/e-card-merging.c: Fix an ebook #include.
+
+	* gui/merging/Makefile.am (INCLUDES): Same idea.
+
+	* gui/contact-list-editor/Makefile.am (INCLUDES): Same.
+
+	* gui/contact-editor/Makefile.am (INCLUDES): Same builddir
+	change.
+
 2002-07-10  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/component/addressbook-storage.c (load_source_data): Pass

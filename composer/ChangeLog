@@ -1,3 +1,7 @@
+2002-07-08  Peter Williams  <peterw@ximian.com>
+
+	* Makefile.am (INCLUDES): Fix cflags for ebook header namespacing.
+
 2002-07-05  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* evolution-composer.c (init): Don't connect to the postpone

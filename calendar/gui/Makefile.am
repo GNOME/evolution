@@ -45,8 +45,8 @@ INCLUDES = 							\
 	-I$(top_builddir)/calendar/cal-client			\
 	-I$(top_srcdir)/libical/src/libical			\
 	-I$(top_builddir)/libical/src/libical			\
-	-I$(top_srcdir)/addressbook/backend/ebook		\
-	-I$(top_builddir)/addressbook/backend/ebook		\
+	-I$(top_srcdir)/addressbook/backend			\
+	-I$(top_builddir)/addressbook/backend			\
 	-I$(top_srcdir)/widgets					\
 	-I$(includedir)						\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"			\

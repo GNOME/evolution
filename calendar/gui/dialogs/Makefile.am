@@ -22,8 +22,8 @@ INCLUDES = 								\
 	-I$(top_builddir)/libical/src/libical				\
 	-I$(top_builddir)/shell						\
 	-I$(top_srcdir)/shell						\
-	-I$(top_srcdir)/addressbook/backend/ebook			\
-	-I$(top_builddir)/addressbook/backend/ebook			\
+	-I$(top_srcdir)/addressbook/backend				\
+	-I$(top_builddir)/addressbook/backend				\
 	-I$(includedir)							\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"				\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"				\

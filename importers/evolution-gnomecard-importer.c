@@ -34,7 +34,7 @@
 #include <bonobo/bonobo-moniker-util.h>
 #include <bonobo-conf/bonobo-config-database.h>
 
-#include <e-book.h>
+#include <ebook/e-book.h>
 
 #include <importer/evolution-intelligent-importer.h>
 #include <importer/GNOME_Evolution_Importer.h>

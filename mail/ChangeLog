@@ -1,3 +1,7 @@
+2002-07-08  Peter Williams  <peterw@ximian.com>
+
+	* Makefile.am (INCLUDES): Add -I flags to get the ebook headers.
+
 2002-07-10  Ettore Perazzoli  <ettore@ximian.com>
 
 	* subscribe-dialog.c (recursive_add_folder): Pass zero as

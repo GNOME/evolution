@@ -12,7 +12,7 @@
 
 #include "e-card-merging.h"
 #include <libgnomeui/gnome-dialog.h>
-#include "e-card-compare.h"
+#include <ebook/e-card-compare.h>
 #include <glade/glade.h>
 #include <gtk/gtksignal.h>
 #include "addressbook/gui/widgets/e-minicard-widget.h"

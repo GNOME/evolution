@@ -1,3 +1,19 @@
+2002-07-08  Peter Williams  <peterw@ximian.com>
+
+	* gui/Makefile.am (INCLUDES): Change the -I flags to get
+	it to play nicely with the new Ebook header paradigm.
+
+	* gui/dialogs/Makefile.am: Same.
+	
+	* gui/e-meeting-model.c: More of the same.
+
+	* gui/dialogs/e-delegate-dialog.c:
+	* gui/dialogs/e-meeting-model.c:
+	* gui/dialogs/comp-editor-util.c: Fix include lines to get
+	ebook headers.
+
+	* pcs/Makefile.am: Same.
+
 2002-07-02  Rodrigo Moya <rodrigo@ximian.com>
 
 	Fixes #16034

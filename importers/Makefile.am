@@ -10,7 +10,8 @@ INCLUDES = 						\
 	-I$(top_srcdir)					\
 	-I$(top_builddir)/shell				\
 	-I$(top_srcdir)/shell				\
-	-I$(top_srcdir)/addressbook/backend/ebook	\
+	-I$(top_srcdir)/addressbook/backend		\
+	-I$(top_builddir)/addressbook/backend		\
 	$(IMPORTERS_CFLAGS)
 
 IDLS = 			\
