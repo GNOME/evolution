@@ -149,8 +149,6 @@ storage_set_view_box_button_release_event_cb (GtkWidget *widget,
 	EShellView *shell_view;
 	EShellViewPrivate *priv;
 
-	puts (__FUNCTION__);
-
 	shell_view = E_SHELL_VIEW (data);
 	priv = shell_view->priv;
 
@@ -170,8 +168,6 @@ popup_storage_set_view_close_button_clicked (ETitleBar *title_bar,
 {
 	EShellView *shell_view;
 	EShellViewPrivate *priv;
-
-	puts (__FUNCTION__);
 
 	shell_view = E_SHELL_VIEW (data);
 	priv = shell_view->priv;
@@ -220,8 +216,6 @@ static void
 disconnect_popup_signals (EShellView *shell_view)
 {
 	EShellViewPrivate *priv;
-
-	puts (__FUNCTION__);
 
 	priv = shell_view->priv;
 
