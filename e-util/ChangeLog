@@ -1,3 +1,11 @@
+2003-01-06  Dan Winship  <danw@ximian.com>
+
+	* e-html-utils.c: Add this back: Connector needs it, and there's
+	no reason for addressbook and calendar to be using camel to get
+	this functionality.
+
+	* Makefile.am (libeutil_la_SOURCES): re-add e-html-utils
+
 2003-01-02  Jeffrey Stedfast  <fejj@ximian.com>
 
 	A bunch of fixes to make e-util build with -DG_DISABLE_DEPRECATED
