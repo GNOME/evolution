@@ -597,17 +597,31 @@ imap4_refresh_info (CamelFolder *folder, CamelException *ex)
 {
 	CamelIMAP4Engine *engine = ((CamelIMAP4Store *) folder->parent_store)->engine;
 	CamelFolder *selected = (CamelFolder *) engine->folder;
+	CamelIMAP4Command *ic;
+	int id;
 	
 	CAMEL_SERVICE_LOCK (folder->parent_store, connect_lock);
 	
 	if (folder != selected) {
 		if (camel_imap4_engine_select_folder (engine, folder, ex) == -1)
 			goto done;
+		
+		((CamelIMAP4Summary *) folder->summary)->update_flags = TRUE;
+	} else {
+		ic = camel_imap4_engine_queue (engine, NULL, "NOOP\r\n");
+		while ((id = camel_imap4_engine_iterate (engine)) < ic->id && id != -1)
+			;
+		
+		if (id == -1 || ic->status != CAMEL_IMAP4_COMMAND_COMPLETE)
+			camel_exception_xfer (ex, &ic->ex);
+		
+		camel_imap4_command_unref (ic);
+		
+		if (camel_exception_is_set (ex))
+			goto done;
 	}
 	
-	((CamelIMAP4Summary *) folder->summary)->update_flags = TRUE;
-	if (camel_imap4_summary_flush_updates (folder->summary, ex) == -1)
-		goto done;
+	camel_imap4_summary_flush_updates (folder->summary, ex);
 	
  done:
 	

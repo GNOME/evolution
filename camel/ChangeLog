@@ -1,5 +1,9 @@
 2004-06-16  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/imap4/camel-imap4-folder.c (imap4_refresh_info): Only
+	force a re-update of all FLAGS if this folder wasn't in the
+	SELECTED state. Otherwise, simply send a NOOP.
+
 	* providers/imap4/camel-imap4-summary.c: Added a 'first' member to
 	the imap_fetch_all_t struct so we can use that as a base offset in
 	our GPtrArray, allowing us to limit resource consumption which
