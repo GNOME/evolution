@@ -22,6 +22,7 @@
 #include <gdk/gdkkeysyms.h>
 #include "e-table-subset.h"
 #include "e-cell.h"
+#include "gal/widgets/e-hsv-utils.h"
 #include "gal/widgets/e-canvas.h"
 #include "gal/widgets/e-canvas-utils.h"
 #include "gal/util/e-util.h"
@@ -1222,6 +1223,8 @@ eti_unrealize (GnomeCanvasItem *item)
                 (*GNOME_CANVAS_ITEM_CLASS (eti_parent_class)->unrealize)(item);
 }
 
+
+
 static void
 eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width, int height)
 {
@@ -1371,22 +1374,18 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 				else
 					background = &canvas->style->bg [GTK_STATE_ACTIVE];
 			} else {
-#if 0
-				if (row % 2)
-#endif
-					background = &canvas->style->base [GTK_STATE_NORMAL];
-#if 0
-				else {
-					free_background = TRUE;
-					background = gdk_color_copy (&canvas->style->base [GTK_STATE_NORMAL]);
-					background->red -= 25000;
-					background->green += 25000;
-					background->blue -= 25000;
-
-					gdk_color_alloc (gtk_widget_get_colormap (GTK_WIDGET (canvas)), background);
-				}
-#endif
+				background = &canvas->style->base [GTK_STATE_NORMAL];
 			}
+
+#if 0
+			if (row % 2) {
+				
+			} else {
+				free_background = TRUE;
+				e_hsv_tweak (background, 0.0f, 0.0f, -0.05f);
+				gdk_color_alloc (gtk_widget_get_colormap (GTK_WIDGET (canvas)), background);
+			}
+#endif
 
 			gdk_gc_set_foreground (eti->fill_gc, background);
 			gdk_draw_rectangle (drawable, eti->fill_gc, TRUE,
