@@ -1,3 +1,9 @@
+2001-10-12  Jon Trowbridge  <trow@ximian.com>
+
+	* mail-display.c (html_button_press_event): Store our listener id.
+	(popup_info_free): Disconnect our listener when we free the popup.
+	(Bug #11040)
+
 2001-10-11  Jon Trowbridge  <trow@ximian.com>
 
 	* mail-callbacks.c (addrbook_sender): Listen for "destroy" events

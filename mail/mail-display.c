@@ -1610,6 +1610,7 @@ struct _PopupInfo {
 	GtkWidget *win;
 	guint destroy_timeout;
 	guint widget_destroy_handle;
+	Bonobo_EventSource_ListenerId listener_id;
 	gboolean hidden;
 };
 
@@ -1622,6 +1623,10 @@ popup_info_free (PopupInfo *pop)
 	if (pop) {
 		if (pop->destroy_timeout)
 			gtk_timeout_remove (pop->destroy_timeout);
+
+		bonobo_event_source_client_remove_listener (bonobo_widget_get_objref (BONOBO_WIDGET (pop->w)),
+							    pop->listener_id,
+							    NULL);
 
 		g_free (pop);
 	}
@@ -1819,9 +1824,9 @@ html_button_press_event (GtkWidget *widget, GdkEventButton *event, MailDisplay *
 					
 					pop = make_popup_window (popup_thing);
 
-					bonobo_event_source_client_add_listener (
-						bonobo_widget_get_objref (BONOBO_WIDGET (popup_thing)),
-						listener_cb, NULL, NULL, pop);
+					pop->listener_id =
+						bonobo_event_source_client_add_listener (bonobo_widget_get_objref (BONOBO_WIDGET (popup_thing)),
+											 listener_cb, NULL, NULL, pop);
 
 				} else if (url || src) {
 				        gint hide_mask = 0;
