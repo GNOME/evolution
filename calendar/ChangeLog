@@ -1,5 +1,10 @@
 2001-10-30  Damon Chaplin  <damon@ximian.com>
 
+	* gui/dialogs/task-page.c (task_page_fill_widgets): set to the default
+	timezone for DATE values, in case the user switches to a DATE-TIME.
+
+2001-10-30  Damon Chaplin  <damon@ximian.com>
+
 	* gui/dialogs/task-page.c: handle DATE values for Start and Due dates.
 
 2001-10-30  Damon Chaplin  <damon@ximian.com>

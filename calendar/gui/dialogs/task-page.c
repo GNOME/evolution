@@ -310,7 +310,8 @@ task_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	CalClientGetStatus get_tz_status;
 	GSList *l;
 	const char *categories;
-	icaltimezone *zone;
+	icaltimezone *zone, *default_zone;
+	char *location;
 
 	tpage = TASK_PAGE (page);
 	priv = tpage->priv;
@@ -333,6 +334,9 @@ task_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	}
 	cal_component_free_text_list (l);
 
+	location = calendar_config_get_timezone ();
+	default_zone = icaltimezone_get_builtin_timezone (location);
+
 	/* Due Date. */
 	cal_component_get_due (comp, &d);
 	zone = NULL;
@@ -344,22 +348,19 @@ task_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 		if (due_tt->is_date) {
 			e_date_edit_set_time_of_day (E_DATE_EDIT (priv->due_date),
 						     -1, -1);
-
+			zone = default_zone;
 		} else {
 			e_date_edit_set_time_of_day (E_DATE_EDIT (priv->due_date),
 						     due_tt->hour,
 						     due_tt->minute);
 		}
 	} else {
-		char *location;
-
 		e_date_edit_set_time (E_DATE_EDIT (priv->due_date), -1);
 
 		/* If no time is set, we use the default timezone, so the
 		   user usually doesn't have to set this when they set the
 		   date. */
-		location = calendar_config_get_timezone ();
-		zone = icaltimezone_get_builtin_timezone (location);
+		zone = default_zone;
 	}
 
 	/* Note that if we are creating a new task, the timezones may not be
@@ -392,21 +393,19 @@ task_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 		if (start_tt->is_date) {
 			e_date_edit_set_time_of_day (E_DATE_EDIT (priv->start_date),
 						     -1, -1);
+			zone = default_zone;
 		} else {
 			e_date_edit_set_time_of_day (E_DATE_EDIT (priv->start_date),
 						     start_tt->hour,
 						     start_tt->minute);
 		}
 	} else {
-		char *location;
-
 		e_date_edit_set_time (E_DATE_EDIT (priv->start_date), -1);
 
 		/* If no time is set, we use the default timezone, so the
 		   user usually doesn't have to set this when they set the
 		   date. */
-		location = calendar_config_get_timezone ();
-		zone = icaltimezone_get_builtin_timezone (location);
+		zone = default_zone;
 	}
 
 	if (!zone)
