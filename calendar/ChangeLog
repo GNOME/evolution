@@ -1,5 +1,21 @@
 2003-03-25  Dan Winship  <danw@ximian.com>
 
+	* gui/itip-utils.c: Update for e_notice move
+
+	* gui/tasks-control.c (confirm_expunge): Move the code that used
+	to be e_gnome_dialog_set_parent here, since it was marked
+	deprecated and this was the only place using it.
+
+	* gui/dialogs/comp-editor.c: Update for e_notice move
+	(page_changed_cb, page_summary_changed_cb, page_dates_changed_cb):
+	Pass a parent_window to e_notice.
+
+	* gui/dialogs/meeting-page.c: Update for e_notice move.
+	(meeting_page_fill_component, meeting_page_fill_component,
+	popup_delegate_cb): Pass a parent_window to e_notice
+
+2003-03-25  Dan Winship  <danw@ximian.com>
+
 	* cal-util/cal-util.c (cal_util_parse_ics_file): Utility wrapper
 	around icalparser.
 

@@ -42,6 +42,7 @@
 #include <gal/widgets/e-popup-menu.h>
 #include <gal/widgets/e-gui-utils.h>
 #include <widgets/misc/e-dateedit.h>
+#include <e-util/e-dialog-utils.h>
 #include <e-util/e-dialog-widgets.h>
 
 #include "../calendar-component.h"
@@ -396,7 +397,7 @@ meeting_page_fill_component (CompEditorPage *page, CalComponent *comp)
 		
 		/* Sanity Check */
 		if (addr == NULL || strlen (addr) == 0) {
-			e_notice (NULL, GTK_MESSAGE_ERROR,
+			e_notice (page, GTK_MESSAGE_ERROR,
 				  _("An organizer is required."));
 			g_free (addr);
 			g_free (cn);
@@ -420,7 +421,7 @@ meeting_page_fill_component (CompEditorPage *page, CalComponent *comp)
 	}
 
 	if (e_meeting_model_count_actual_attendees (priv->model) < 1) {
-		e_notice (NULL, GTK_MESSAGE_ERROR,
+		e_notice (page, GTK_MESSAGE_ERROR,
 			  _("At least one attendee is required."));
 		return FALSE;
 	}
@@ -575,7 +576,7 @@ popup_delegate_cb (GtkWidget *widget, gpointer data)
 
 		/* Make sure we can add the new delegatee person */
 		if (e_meeting_model_find_attendee (priv->model, address, NULL) != NULL) {
-			e_notice (NULL, GTK_MESSAGE_ERROR,
+			e_notice (mpage, GTK_MESSAGE_ERROR,
 				  _("That person is already attending the meeting!"));
 			goto cleanup;
 		}

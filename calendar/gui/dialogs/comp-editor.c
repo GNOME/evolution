@@ -38,7 +38,6 @@
 #include <bonobo/bonobo-ui-container.h>
 #include <bonobo/bonobo-ui-util.h>
 #include <gal/widgets/e-unicode.h>
-#include <gal/widgets/e-gui-utils.h>
 #include <e-util/e-dialog-utils.h>
 #include <evolution-shell-component-utils.h>
 #include "../print.h"
@@ -650,11 +649,11 @@ comp_editor_append_page (CompEditor *editor,
 	gtk_notebook_append_page (priv->notebook, page_widget, label_widget);
 
 	/* Listen for things happening on the page */
-	g_signal_connect((page), "changed",
+	g_signal_connect(page, "changed",
 			    G_CALLBACK (page_changed_cb), editor);
-	g_signal_connect((page), "summary_changed",
+	g_signal_connect(page, "summary_changed",
 			    G_CALLBACK (page_summary_changed_cb), editor);
-	g_signal_connect((page), "dates_changed",
+	g_signal_connect(page, "dates_changed",
 			    G_CALLBACK (page_dates_changed_cb), editor);
 
 	/* Listen for when the page is mapped/unmapped so we can
@@ -1328,7 +1327,7 @@ page_changed_cb (GtkObject *obj, gpointer data)
 	priv->changed = TRUE;
 
 	if (!priv->warned && priv->existing_org && !priv->user_org) {
-		e_notice (NULL, GTK_MESSAGE_INFO,
+		e_notice (editor, GTK_MESSAGE_INFO,
 			  _("Changes made to this item may be discarded if an update arrives"));
 		priv->warned = TRUE;
 	}
@@ -1352,7 +1351,7 @@ page_summary_changed_cb (GtkObject *obj, const char *summary, gpointer data)
 	priv->changed = TRUE;
 
 	if (!priv->warned && priv->existing_org && !priv->user_org) {
-		e_notice (NULL, GTK_MESSAGE_INFO,
+		e_notice (editor, GTK_MESSAGE_INFO,
 			  _("Changes made to this item may be discarded if an update arrives"));
 		priv->warned = TRUE;
 	}
@@ -1376,7 +1375,7 @@ page_dates_changed_cb (GtkObject *obj,
 	priv->changed = TRUE;
 
 	if (!priv->warned && priv->existing_org && !priv->user_org) {
-		e_notice (NULL, GTK_MESSAGE_INFO,
+		e_notice (editor, GTK_MESSAGE_INFO,
 			  _("Changes made to this item may be discarded if an update arrives"));
 		priv->warned = TRUE;
 	}

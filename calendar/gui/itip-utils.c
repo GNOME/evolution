@@ -29,11 +29,11 @@
 #include <bonobo/bonobo-moniker-util.h>
 #include <libgnome/gnome-i18n.h>
 #include <gtk/gtkwidget.h>
-#include <gal/widgets/e-gui-utils.h>
 #include <gal/widgets/e-unicode.h>
 #include <gal/util/e-util.h>
 #include <ical.h>
 #include <Evolution-Composer.h>
+#include <e-util/e-dialog-utils.h>
 #include <e-util/e-time-utils.h>
 #include <cal-util/timeutil.h>
 #include <cal-util/cal-util.h>

@@ -445,10 +445,16 @@ tasks_control_complete_cmd		(BonoboUIComponent	*uic,
 	e_tasks_complete_selected (tasks);
 }
 
+static void
+parent_destroyed (GnomeDialog *dialog, GObject *deadbeef)
+{
+	gnome_dialog_close (GNOME_DIALOG (dialog));
+}
+
 static gboolean
 confirm_expunge (ETasks *tasks)
 {
-	GtkWidget *dialog, *label, *checkbox;
+	GtkWidget *dialog, *label, *checkbox, *parent;
 	int button;
 	
 	if (!calendar_config_get_confirm_expunge ())
@@ -458,9 +464,10 @@ confirm_expunge (ETasks *tasks)
 				   GNOME_STOCK_BUTTON_YES,
 				   GNOME_STOCK_BUTTON_NO,
 				   NULL);
-	e_gnome_dialog_set_parent (GNOME_DIALOG (dialog), 
-				   GTK_WINDOW (gtk_widget_get_ancestor (GTK_WIDGET (tasks),
-									GTK_TYPE_WINDOW)));
+
+	parent = gtk_widget_get_toplevel (GTK_WIDGET (tasks));
+	gnome_dialog_set_parent (GNOME_DIALOG (dialog), GTK_WINDOW (parent));
+	g_object_weak_ref ((GObject *) parent, (GWeakNotify) parent_destroyed, dialog);
 	
 	label = gtk_label_new (_("This operation will permanently erase all tasks marked as completed. If you continue, you will not be able to recover these tasks.\n\nReally erase these tasks?"));
 	
