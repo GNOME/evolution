@@ -5,21 +5,20 @@
 # Kai Lahmann <kl@linuxfaqs.de>, 2000.
 # Matthias Warkus <mawa@iname.com>, 2000.
 # Hendrik Richter <hendrik@gnome-de.org>, 2004.
+#
 # Sprachregelungen:
 # task = Aufgabe (Auftrag klingt nach Buchhaltung)
 # mailbox = Postfach (dt. Mailbox ist die Uebersetzung von "BBS")
 # cc = Kopie
 # bcc = Blindkopie
 # 
-# 
-#: plugins/exchange-account-setup/exchange-account-setup.c:119
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-01-24 19:32+0100\n"
+"POT-Creation-Date: 2005-01-25 10:02+0100\n"
 "PO-Revision-Date: 2005-01-23 22:03+0100\n"
-"Last-Translator: Frank Arnold <frank@scirocco-5v-turbo.de>\n"
+"Last-Translator: Hendrik Richter <hendrik@gnome-de.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -359,16 +358,29 @@ msgstr "Der Kategorieeditor ist nicht verfügbar."
 #. addressbook:generic-error primary
 #. addressbook:load-error secondary
 #. addressbook:search-error secondary
+#. mail:session-message-info secondary
+#. mail:session-message-info-cancel secondary
+#. mail:session-message-warning secondary
+#. mail:session-message-warning-cancel secondary
+#. mail:session-message-error secondary
+#. mail:session-message-error-cancel secondary
+#. mail:ask-session-password secondary
+#. mail:filter-load-error secondary
 #: addressbook/addressbook-errors.xml.h:28
 #: addressbook/addressbook-errors.xml.h:36
-#: addressbook/addressbook-errors.xml.h:40
+#: addressbook/addressbook-errors.xml.h:40 mail/mail-errors.xml.h:75
+#: mail/mail-errors.xml.h:77 mail/mail-errors.xml.h:79
+#: mail/mail-errors.xml.h:81 mail/mail-errors.xml.h:83
+#: mail/mail-errors.xml.h:85 mail/mail-errors.xml.h:89
+#: mail/mail-errors.xml.h:93
 msgid "{0}"
 msgstr "{0}"
 
 #. addressbook:generic-error secondary
 #. mail-composer:no-attach secondary
+#. mail:no-save-path secondary
 #: addressbook/addressbook-errors.xml.h:30
-#: composer/mail-composer-errors.xml.h:4
+#: composer/mail-composer-errors.xml.h:4 mail/mail-errors.xml.h:97
 msgid "{1}"
 msgstr "{1}"
 
@@ -1048,7 +1060,7 @@ msgstr "An_meldemethode:"
 
 #: addressbook/gui/component/ldap-config.glade.h:47
 #: calendar/gui/dialogs/calendar-setup.c:243
-#: calendar/gui/dialogs/calendar-setup.glade.h:8 mail/mail-config.glade.h:161
+#: calendar/gui/dialogs/calendar-setup.glade.h:8 mail/mail-config.glade.h:160
 msgid "_Name:"
 msgstr "_Name:"
 
@@ -1122,13 +1134,13 @@ msgid "<b>Work</b>"
 msgstr "<b>Geschäftlich</b>"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:11
-#: addressbook/gui/contact-editor/e-contact-editor.c:184
+#: addressbook/gui/contact-editor/e-contact-editor.c:182
 #: addressbook/gui/widgets/eab-contact-display.c:346
 msgid "AIM"
 msgstr "AIM"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:12
-#: addressbook/gui/contact-editor/e-contact-editor.c:272
+#: addressbook/gui/contact-editor/e-contact-editor.c:270
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:168
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.etspec.h:1
 #: addressbook/gui/widgets/e-minicard.c:181
@@ -1136,7 +1148,7 @@ msgid "Contact"
 msgstr "Kontakt"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:13
-#: addressbook/gui/contact-editor/e-contact-editor.c:533
+#: addressbook/gui/contact-editor/e-contact-editor.c:531
 msgid "Contact Editor"
 msgstr "Kontakteditor"
 
@@ -1176,7 +1188,7 @@ msgstr "Telefon"
 
 #. red
 #: addressbook/gui/contact-editor/contact-editor.glade.h:23
-#: addressbook/gui/contact-editor/e-contact-editor.c:201
+#: addressbook/gui/contact-editor/e-contact-editor.c:199
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:235
 #: filter/filter-label.c:122 mail/em-migrate.c:1012 mail/mail-config.c:76
 #: mail/mail-config.glade.h:147
@@ -1316,7 +1328,7 @@ msgid "Address"
 msgstr "Adresse"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:103
-#: addressbook/gui/contact-editor/e-contact-editor.c:300
+#: addressbook/gui/contact-editor/e-contact-editor.c:298
 #: addressbook/gui/contact-editor/e-contact-editor-fullname.c:95
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:141
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:182
@@ -2298,81 +2310,77 @@ msgstr "Sambia"
 msgid "Zimbabwe"
 msgstr "Simbabwe"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:185
+#: addressbook/gui/contact-editor/e-contact-editor.c:183
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:64
 #: addressbook/gui/widgets/eab-contact-display.c:349
 msgid "Jabber"
 msgstr "Jabber"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:186
+#: addressbook/gui/contact-editor/e-contact-editor.c:184
 #: addressbook/gui/widgets/eab-contact-display.c:351
 msgid "Yahoo"
 msgstr "Yahoo"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:187
+#: addressbook/gui/contact-editor/e-contact-editor.c:185
 #: addressbook/gui/widgets/eab-contact-display.c:350
 msgid "MSN"
 msgstr "MSN"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:188
+#: addressbook/gui/contact-editor/e-contact-editor.c:186
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:67
 #: addressbook/gui/widgets/eab-contact-display.c:348
 msgid "ICQ"
 msgstr "ICQ"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:189
+#: addressbook/gui/contact-editor/e-contact-editor.c:187
 #: addressbook/gui/widgets/eab-contact-display.c:347
 msgid "GroupWise"
 msgstr "GroupWise"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:202
+#: addressbook/gui/contact-editor/e-contact-editor.c:200
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:231
 msgid "Home"
 msgstr "Privat"
 
 # CHECK
-#: addressbook/gui/contact-editor/e-contact-editor.c:203
+#: addressbook/gui/contact-editor/e-contact-editor.c:201
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:239
 msgid "Other"
 msgstr "Weitere"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:258
+#: addressbook/gui/contact-editor/e-contact-editor.c:256
 msgid "Source Book"
 msgstr "Quellbuch"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:265
+#: addressbook/gui/contact-editor/e-contact-editor.c:263
 msgid "Target Book"
 msgstr "Zielbuch"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:279
+#: addressbook/gui/contact-editor/e-contact-editor.c:277
 msgid "Is New Contact"
 msgstr "Ist neuer Kontakt"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:286
+#: addressbook/gui/contact-editor/e-contact-editor.c:284
 msgid "Writable Fields"
 msgstr "Beschreibbare Felder"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:293
+#: addressbook/gui/contact-editor/e-contact-editor.c:291
 msgid "Required Fields"
 msgstr "Benötigte Felder"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:307
+#: addressbook/gui/contact-editor/e-contact-editor.c:305
 msgid "Changed"
 msgstr "Geändert"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2463
-msgid "This contact belongs to these categories:"
-msgstr "Dieser Kontakt gehört in folgende Kategorien:"
-
-#: addressbook/gui/contact-editor/e-contact-editor.c:2556
+#: addressbook/gui/contact-editor/e-contact-editor.c:2544
 msgid "Please select an image for this contact"
 msgstr "Bitte wählen Sie ein Bild für diesen Kontakt"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2557
+#: addressbook/gui/contact-editor/e-contact-editor.c:2545
 msgid "No image"
 msgstr "Kein Bild"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2833
+#: addressbook/gui/contact-editor/e-contact-editor.c:2821
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -2380,7 +2388,7 @@ msgstr ""
 "Die Kontaktdaten sind ungültig:\n"
 "\n"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2885
+#: addressbook/gui/contact-editor/e-contact-editor.c:2873
 msgid "Invalid contact."
 msgstr "Kontakt ungültig."
 
@@ -4074,6 +4082,8 @@ msgstr ""
 "handelt."
 
 #: calendar/calendar-errors.xml.h:127 calendar/calendar-errors.xml.h:132
+#: mail/mail-errors.xml.h:15 mail/mail-errors.xml.h:20
+#: mail/mail-errors.xml.h:27 mail/mail-errors.xml.h:32
 msgid "_Send"
 msgstr "Ab_schicken"
 
@@ -4865,12 +4875,9 @@ msgstr "Dateiname:"
 msgid "MIME type:"
 msgstr "MIME-Typ:"
 
-#. FIXME: This routine should just be a "toggled" event handler on the checkbox cell renderer which
-#. has "activatable" set.
 #. g_object_set((GObject *)renderer, "activatable", TRUE, NULL);
 #: calendar/gui/dialogs/cal-prefs-dialog.c:576 mail/em-account-prefs.c:470
-#: mail/em-composer-prefs.c:678 mail/em-composer-prefs.c:945
-#: plugins/plugin-manager/plugin-manager.c:213
+#: mail/em-composer-prefs.c:884 plugins/plugin-manager/plugin-manager.c:213
 msgid "Enabled"
 msgstr "Aktiv"
 
@@ -4890,8 +4897,6 @@ msgstr "Nicht entfernen"
 #: calendar/gui/dialogs/cal-prefs-dialog.c:820
 #: calendar/gui/dialogs/cal-prefs-dialog.c:853 mail/em-account-prefs.c:317
 #: mail/em-account-prefs.c:345 mail/em-account-prefs.c:376
-#: mail/em-composer-prefs.c:597 mail/em-composer-prefs.c:655
-#: mail/em-composer-prefs.c:685
 msgid "Disable"
 msgstr "Deaktivieren"
 
@@ -4899,8 +4904,6 @@ msgstr "Deaktivieren"
 #: calendar/gui/dialogs/cal-prefs-dialog.c:820
 #: calendar/gui/dialogs/cal-prefs-dialog.c:855 mail/em-account-prefs.c:317
 #: mail/em-account-prefs.c:345 mail/em-account-prefs.c:378
-#: mail/em-composer-prefs.c:597 mail/em-composer-prefs.c:655
-#: mail/em-composer-prefs.c:685
 msgid "Enable"
 msgstr "Aktivieren"
 
@@ -9360,15 +9363,15 @@ msgstr ""
 "<b>(Der Editor enthält einen nicht-Text Nachrichtenrumpf, der nicht "
 "bearbeitet werden kann.)<b>"
 
-#: composer/e-msg-composer-hdrs.c:512
+#: composer/e-msg-composer-hdrs.c:519
 msgid "Posting destination"
 msgstr "Zielordner"
 
-#: composer/e-msg-composer-hdrs.c:513
+#: composer/e-msg-composer-hdrs.c:520
 msgid "Choose folders to post the message to."
 msgstr "Wählen Sie Ordner, in denen die Nachricht abgelegt werden soll."
 
-#: composer/e-msg-composer-hdrs.c:547
+#: composer/e-msg-composer-hdrs.c:554
 msgid "Click here for the address book"
 msgstr "Klicken Sie hier, um das Adressbuch zu öffnen"
 
@@ -9379,46 +9382,46 @@ msgstr "Klicken Sie hier, um das Adressbuch zu öffnen"
 #. * because that causes from_changed to be called, which
 #. * expects the reply_to fields to be initialized.
 #.
-#: composer/e-msg-composer-hdrs.c:577
+#: composer/e-msg-composer-hdrs.c:584
 msgid "_Reply-To:"
 msgstr "Antwo_rt an:"
 
 #.
 #. * From
 #.
-#: composer/e-msg-composer-hdrs.c:584
+#: composer/e-msg-composer-hdrs.c:591
 msgid "Fr_om:"
 msgstr "V_on:"
 
 #.
 #. * Subject
 #.
-#: composer/e-msg-composer-hdrs.c:591
+#: composer/e-msg-composer-hdrs.c:598
 msgid "S_ubject:"
 msgstr "Be_treff:"
 
-#: composer/e-msg-composer-hdrs.c:601
+#: composer/e-msg-composer-hdrs.c:608
 msgid "_To:"
 msgstr "_An:"
 
-#: composer/e-msg-composer-hdrs.c:602
+#: composer/e-msg-composer-hdrs.c:609
 msgid "Enter the recipients of the message"
 msgstr "Geben Sie die Empfänger der Nachricht ein"
 
-#: composer/e-msg-composer-hdrs.c:605
+#: composer/e-msg-composer-hdrs.c:612
 msgid "_Cc:"
 msgstr "_Kopie an:"
 
-#: composer/e-msg-composer-hdrs.c:606
+#: composer/e-msg-composer-hdrs.c:613
 msgid "Enter the addresses that will receive a carbon copy of the message"
 msgstr ""
 "Geben Sie die Adressen ein, die eine Kopie der Nachricht erhalten sollen"
 
-#: composer/e-msg-composer-hdrs.c:609
+#: composer/e-msg-composer-hdrs.c:616
 msgid "_Bcc:"
 msgstr "_Blindkopie an:"
 
-#: composer/e-msg-composer-hdrs.c:610
+#: composer/e-msg-composer-hdrs.c:617
 msgid ""
 "Enter the addresses that will receive a carbon copy of the message without "
 "appearing in the recipient list of the message."
@@ -9429,15 +9432,15 @@ msgstr ""
 #.
 #. * Post-To
 #.
-#: composer/e-msg-composer-hdrs.c:617
+#: composer/e-msg-composer-hdrs.c:624
 msgid "_Post To:"
 msgstr "_Veröffentlichen in:"
 
-#: composer/e-msg-composer-hdrs.c:622
+#: composer/e-msg-composer-hdrs.c:629
 msgid "Click here to select folders to post to"
 msgstr "Klicken Sie hier, um die Veröffentlichungsordner zu wählen"
 
-#: composer/e-msg-composer-hdrs.c:628
+#: composer/e-msg-composer-hdrs.c:635
 msgid "Post To:"
 msgstr "Veröffentlichen in:"
 
@@ -9475,11 +9478,14 @@ msgstr "Von »{0}« beizulegende Nachrichten konnten nicht abgerufen werden."
 
 #. mail-composer:attach-nomessages secondary
 #. mail-composer:no-sig-file secondary
+#. mail:no-create-tmp-path secondary
+#. mail:no-delete-folder secondary
 #. system:no-save-file secondary
 #. system:no-load-file secondary
 #: composer/mail-composer-errors.xml.h:14
-#: composer/mail-composer-errors.xml.h:42
-#: widgets/misc/e-system-errors.xml.h:11 widgets/misc/e-system-errors.xml.h:15
+#: composer/mail-composer-errors.xml.h:42 mail/mail-errors.xml.h:105
+#: mail/mail-errors.xml.h:117 widgets/misc/e-system-errors.xml.h:11
+#: widgets/misc/e-system-errors.xml.h:15
 msgid "Because \"{1}\"."
 msgstr "Grund: »{1}«."
 
@@ -9957,7 +9963,8 @@ msgid "Could not compile regular expression \"{1}\"."
 msgstr "Der reguläre Ausdruck »{1}« konnte nicht kompiliert werden."
 
 #. filter:no-name primary
-#: filter/filter-errors.xml.h:18
+#. mail:no-name-vfolder primary
+#: filter/filter-errors.xml.h:18 mail/mail-errors.xml.h:219
 msgid "Missing name."
 msgstr "Name fehlt."
 
@@ -10034,7 +10041,7 @@ msgstr "in der Vergangenheit"
 msgid "months"
 msgstr "Monate"
 
-#: filter/filter.glade.h:18 mail/mail-config.glade.h:173
+#: filter/filter.glade.h:18 mail/mail-config.glade.h:172
 msgid "seconds"
 msgstr "Sekunden"
 
@@ -10187,15 +10194,15 @@ msgstr "Protokoll"
 msgid "Unnamed"
 msgstr "Namenlose"
 
-#: mail/em-composer-prefs.c:949
+#: mail/em-composer-prefs.c:890
 msgid "Language(s)"
 msgstr "Sprache(n)"
 
-#: mail/em-composer-prefs.c:995
+#: mail/em-composer-prefs.c:933
 msgid "Add signature script"
 msgstr "Signaturskript hinzufügen"
 
-#: mail/em-composer-prefs.c:1015
+#: mail/em-composer-prefs.c:953
 msgid "Signature(s)"
 msgstr "Signatur(en)"
 
@@ -12609,6 +12616,14 @@ msgstr "T_yp:"
 
 #: mail/mail-config.glade.h:135
 msgid ""
+"The list of languages here reflects only the languages for which you have a "
+"dictionary installed."
+msgstr ""
+"Diese Sprachliste enthält ausschließlich die Sprachen, für die ein "
+"Wörterbuch installiert sind."
+
+#: mail/mail-config.glade.h:136
+msgid ""
 "The output of this script will be used as your\n"
 "signature. The name you specify will be used\n"
 "for display purposes only. "
@@ -12616,16 +12631,6 @@ msgstr ""
 "Die Ausgabe dieses Skriptes wird als Signatur\n"
 "verwendet. Der von Ihnen angegebene Name\n"
 "wird lediglich zu Anzeigezwecken verwendet."
-
-#: mail/mail-config.glade.h:138
-msgid ""
-"This page allows you to configure spell checking behavior and language. The "
-"list of languages here reflects only the languages for which you have a "
-"dictionary installed."
-msgstr ""
-"Auf dieser Seite können Sie die Rechtschreibprüfung sowie die Sprache "
-"konfigurieren. Diese Sprachliste enthält ausschließlich die Sprachen, für "
-"die ein Wörterbuch installiert sind."
 
 #: mail/mail-config.glade.h:140
 msgid ""
@@ -12686,76 +12691,72 @@ msgid "_Don't sign meeting requests (for Outlook compatibility)"
 msgstr "_Besprechungsanfragen nicht signieren (zur Kompatibilität mit Outlook)"
 
 #: mail/mail-config.glade.h:154
-msgid "_Enable"
-msgstr "_Aktivieren"
-
-#: mail/mail-config.glade.h:155
 msgid "_Forward style:"
 msgstr "_Weiterleitungsstil:"
 
-#: mail/mail-config.glade.h:156
+#: mail/mail-config.glade.h:155
 msgid "_Full Name:"
 msgstr "_Voller Name:"
 
-#: mail/mail-config.glade.h:157
+#: mail/mail-config.glade.h:156
 msgid "_Host:"
 msgstr "_Rechner:"
 
-#: mail/mail-config.glade.h:158
+#: mail/mail-config.glade.h:157
 msgid "_Load images if sender is in address book"
 msgstr "Bilder _laden, falls der Absender im Adressbuch ist"
 
-#: mail/mail-config.glade.h:159
+#: mail/mail-config.glade.h:158
 msgid "_Make this my default account"
 msgstr "Dieses zum Vo_rgabekonto machen"
 
-#: mail/mail-config.glade.h:160
+#: mail/mail-config.glade.h:159
 msgid "_Mark messages as read after"
 msgstr "_Nachrichten als gelesen markieren nach"
 
-#: mail/mail-config.glade.h:162
+#: mail/mail-config.glade.h:161
 msgid "_Never load images from the Internet"
 msgstr "Bilder _nie aus dem Internet laden"
 
-#: mail/mail-config.glade.h:163
+#: mail/mail-config.glade.h:162
 msgid "_Path:"
 msgstr "_Pfad:"
 
-#: mail/mail-config.glade.h:164
+#: mail/mail-config.glade.h:163
 msgid "_Prompt when sending HTML messages to contacts that don't want them"
 msgstr ""
 "Beim Abschicken von HTML-Nachrichten an Kontakte, die keine wollen, "
 "_nachfragen"
 
-#: mail/mail-config.glade.h:165
+#: mail/mail-config.glade.h:164
 msgid "_Prompt when sending messages with an empty subject line"
 msgstr "Beim Abschicken von Nachrichten mit _leerem Betreff nachfragen"
 
-#: mail/mail-config.glade.h:166
+#: mail/mail-config.glade.h:165
 msgid "_Reply style:"
 msgstr "_Antwortstil:"
 
-#: mail/mail-config.glade.h:167
+#: mail/mail-config.glade.h:166
 msgid "_Script:"
 msgstr "_Skript:"
 
-#: mail/mail-config.glade.h:168
+#: mail/mail-config.glade.h:167
 msgid "_Show animated images"
 msgstr "_Animierte Bilder anzeigen"
 
-#: mail/mail-config.glade.h:169
+#: mail/mail-config.glade.h:168
 msgid "_Use Secure Connection:"
 msgstr "_Sichere Verbindung verwenden:"
 
-#: mail/mail-config.glade.h:170
+#: mail/mail-config.glade.h:169
 msgid "_Use the same fonts as other applications"
 msgstr "Dieselben Schriften wie andere Anwendungen _verwenden"
 
-#: mail/mail-config.glade.h:171
+#: mail/mail-config.glade.h:170
 msgid "color"
 msgstr "Farbe"
 
-#: mail/mail-config.glade.h:172
+#: mail/mail-config.glade.h:171
 msgid "description"
 msgstr "Beschreibung"
 
@@ -12871,6 +12872,645 @@ msgstr "mit allen lokalen und aktiven, entfernten Ordnern"
 #: mail/mail-dialogs.glade.h:33
 msgid "with all local folders"
 msgstr "mit allen lokalen Ordnern"
+
+#. mail:camel-service-auth-invalid primary
+#: mail/mail-errors.xml.h:2
+msgid "Invalid authentication"
+msgstr "Legitimation ungültig"
+
+# CHECK
+#. mail:camel-service-auth-invalid secondary
+#: mail/mail-errors.xml.h:4
+msgid ""
+"This server does not support this type of authentication and may not support "
+"authentication at all."
+msgstr ""
+"Dieser Server unterstützt diesen Legitimationsmechanismus nicht - "
+"möglicherweise unterstützt er keinerlei Legitimation."
+
+#. mail:camel-service-auth-failed primary
+#: mail/mail-errors.xml.h:6
+msgid "Your login to your server \"{0}\" as \"{0}\" failed."
+msgstr "Das Anmelden am Server »{0}« als »{0}« ist gescheitert."
+
+#. mail:camel-service-auth-failed secondary
+#: mail/mail-errors.xml.h:8
+msgid ""
+"Check to make sure your password is spelled correctly.  Remember that many "
+"passwords are case sensitive; your caps lock might be on."
+msgstr ""
+"Stellen Sie sicher, dass Sie Ihr Passwort korrekt eingegeben haben. Zur "
+"Erinnerung: Bei Passwörtern wird zwischen Groß-/Kleinschreibung "
+"unterschieden; Möglicherweise ist Ihre Dauerumschalttaste aktiv."
+
+#. mail:ask-send-html primary
+#: mail/mail-errors.xml.h:10
+msgid "Are you sure you want to send a message in HTML format?"
+msgstr "Sind Sie sicher, dass Sie eine HTML-Nachricht verschicken wollen?"
+
+#. mail:ask-send-html secondary
+#: mail/mail-errors.xml.h:12
+msgid ""
+"Please make sure the following recipients are willing and able to receive "
+"HTML email:\n"
+"{0}\n"
+"Send anyway?"
+msgstr ""
+"Bitte stellen Sie sicher, dass die folgenden Empfänger HTML-E-Mails abrufen "
+"können und wollen:\n"
+"{0}\n"
+"Dennoch abschicken?"
+
+#. mail:ask-send-no-subject primary
+#: mail/mail-errors.xml.h:17
+msgid "Are you sure you want to send a message without a subject?"
+msgstr ""
+"Sind Sie sicher, dass Sie eine Nachricht ohne Betreff verschicken wollen?"
+
+# CHECK 
+#. mail:ask-send-no-subject secondary
+#: mail/mail-errors.xml.h:19
+msgid ""
+"Adding a meaningful Subject line to your messages will give your recipients "
+"an idea of what your mail is about."
+msgstr ""
+"Das Hinzufügen einer Betreffzeile zu Ihren Nachrichten verschafft den "
+"Empfängern eine Vorstellung, wovon Ihre E-Mail handelt."
+
+#. mail:ask-send-only-bcc-contact primary
+#. mail:ask-send-only-bcc primary
+#: mail/mail-errors.xml.h:22 mail/mail-errors.xml.h:29
+msgid "Are you sure you want to send a message with only BCC recipients?"
+msgstr ""
+"Sind Sie sicher, dass Sie eine Nachricht verschicken wollen, die nur an "
+"Blindkopie-Empfänger gerichtet ist?"
+
+#. mail:ask-send-only-bcc-contact secondary
+#: mail/mail-errors.xml.h:24
+msgid ""
+"The contact list you are sending to is configured to hide list recipients.\n"
+"\n"
+"Many email systems add an Apparently-To header to messages that only have "
+"BCC recipients. This header, if added, will list all of your recipients in "
+"your message. To avoid this, you should add at least one To: or CC: "
+"recipient. "
+msgstr ""
+"Die zu verschickende Kontaktliste ist so konfiguriert, dass Listenempfänger "
+"verborgen werden.\n"
+"\n"
+"Viele E-Mail-Systeme fügen eine »Apparently-To«-Kopfzeile zu Nachrichten "
+"hinzu, die ausschließlich Blindkopie-Empfänger angeben. Diese Kopfzeile "
+"enthält - falls sie hinzugefügt wird - sämtliche Empfänger Ihrer Nachricht. "
+"Um dies zu umgehen, sollten Sie mindestens einen »An:«- oder »Kopie an:-"
+"Empfänger hinzufügen.«"
+
+#. mail:ask-send-only-bcc secondary
+#: mail/mail-errors.xml.h:31
+msgid ""
+"Many email systems add an Apparently-To header to messages that only have "
+"BCC recipients. This header, if added, will list all of your recipients to "
+"your message anyway. To avoid this, you should add at least one To: or CC: "
+"recipient."
+msgstr ""
+"Viele E-Mail-Systeme fügen eine »Apparently-To«-Kopfzeile zu Nachrichten "
+"hinzu, die ausschließlich Blindkopie-Empfänger angeben. Diese Kopfzeile "
+"enthält - falls sie hinzugefügt wird - sämtliche Empfänger Ihrer Nachricht. "
+"Um dies zu umgehen, sollten Sie mindestens einen »An:«- oder »Kopie an:-"
+"Empfänger hinzufügen.«"
+
+#. mail:send-no-recipients primary
+#: mail/mail-errors.xml.h:34
+msgid ""
+"This message cannot be sent because you have not specified any Recipients"
+msgstr ""
+"Diese Nachricht konnte nicht verschickt werden, da Sie keine Empfänger "
+"angegeben haben"
+
+#. mail:send-no-recipients secondary
+#: mail/mail-errors.xml.h:36
+msgid ""
+"Please enter a valid email address in the To: field. You can search for "
+"email addresses by clicking on the To: button next to the entry box."
+msgstr ""
+"Bitte geben Sie eine gültige E-Mail-Adresse im An-Feld ein. Sie können nach "
+"E-Mail-Adressen suchen, indem Sie den An-Knopf neben dem Eingabefeld "
+"anklicken."
+
+#. mail:ask-default-drafts primary
+#: mail/mail-errors.xml.h:38
+msgid "Use default drafts folder?"
+msgstr "Soll der vorgegebene Entwurfsordner benutzt werden?"
+
+#. mail:ask-default-drafts secondary
+#: mail/mail-errors.xml.h:40
+msgid ""
+"Unable to open the drafts folder for this account.  Use the system drafts "
+"folder instead?"
+msgstr ""
+"Der Entwurfsordner für dieses Konto konnte nicht geöffnet werden. Soll "
+"stattdessen der System-Entwurfsordner verwendet werden?"
+
+#: mail/mail-errors.xml.h:41
+msgid "Use _Default"
+msgstr "_Vorgabe benutzen"
+
+#. mail:ask-expunge primary
+#: mail/mail-errors.xml.h:43
+msgid ""
+"Are you sure you want to permanently remove all the deleted message in "
+"folder \"{0}\"?"
+msgstr ""
+"Sind Sie sicher, dass Sie endgültig alle gelöschten Nachrichten aus dem "
+"Ordner »{0}« entfernen wollen?"
+
+#. mail:ask-expunge secondary
+#. mail:ask-empty-trash secondary
+#: mail/mail-errors.xml.h:45 mail/mail-errors.xml.h:50
+msgid "If you continue, you will not be able to recover these messages."
+msgstr ""
+"Falls Sie fortfahren, können Sie diese Nachrichten nicht mehr "
+"wiederherstellen."
+
+#: mail/mail-errors.xml.h:46
+msgid "_Expunge"
+msgstr "_Säubern"
+
+#. mail:ask-empty-trash primary
+#: mail/mail-errors.xml.h:48
+msgid ""
+"Are you sure you want to permanently remove all the deleted messages in all "
+"folders?"
+msgstr ""
+"Sind Sie sicher, dass Sie endgültig alle gelöschten Nachrichten aus allen "
+"Ordnern entfernen wollen?"
+
+#: mail/mail-errors.xml.h:51
+msgid "_Empty Trash"
+msgstr "_Müll leeren"
+
+#. mail:ask-open-many primary
+#: mail/mail-errors.xml.h:53
+msgid "Are you sure you want to open {0} messages at once?"
+msgstr "Sind Sie sicher, dass Sie {0} Nachrichten auf einmal öffnen wollen?"
+
+#. mail:ask-open-many secondary
+#: mail/mail-errors.xml.h:55
+msgid "Opening too many messages at once may take a long time."
+msgstr ""
+"Zu viele Nachrichten auf einmal zu öffnen, könnte eine längere Zeit in "
+"Anspruch nehmen."
+
+#: mail/mail-errors.xml.h:56
+msgid "_Open Messages"
+msgstr "Nachrichten ö_ffnen"
+
+#. mail:exit-unsaved primary
+#: mail/mail-errors.xml.h:58
+msgid "You have unsent messages, do you wish to quit anyway?"
+msgstr ""
+"Es existieren unverschickte Nachrichten. Wollen Sie Evolution dennoch "
+"beenden?"
+
+#. mail:exit-unsaved secondary
+#: mail/mail-errors.xml.h:60
+msgid ""
+"If you quit, these messages will not be sent until Evolution is started "
+"again."
+msgstr ""
+"Falls Sie Evolution beenden, werden diese Nachrichten nicht verschickt, "
+"solange Evolution nicht neu gestartet wurde."
+
+#. mail:camel-exception primary
+#: mail/mail-errors.xml.h:62
+msgid "Your message with the subject \"{0}\" was not delivered."
+msgstr "Ihre Nachricht mit dem Betreff »{0}« wurde nicht zugestellt."
+
+#. mail:camel-exception secondary
+#: mail/mail-errors.xml.h:64
+msgid ""
+"The message was sent via the \"sendmail\" external application.  Sendmail "
+"reports the following error: status 67: mail not sent.\n"
+"The message is stored in the Outbox folder.  Check the message for errors "
+"and resend."
+msgstr ""
+"Diese Nachricht wurde mit Hilfe der externen Anwendung »sendmail« "
+"verschickt. Sendmail lieferte folgenden Fehler: Status 67: E-Mail nicht "
+"verschickt.\n"
+"Die Nachricht befindet sich im Ausgangsordner. Überprüfen Sie sie auf Fehler "
+"und verschicken Sie sie erneut."
+
+#. mail:async-error primary
+#: mail/mail-errors.xml.h:67
+msgid "Error while {0}."
+msgstr "Fehler bei {0}."
+
+#. mail:async-error secondary
+#: mail/mail-errors.xml.h:69
+msgid "{1}."
+msgstr "{1}."
+
+#. mail:async-error-nodescribe primary
+#: mail/mail-errors.xml.h:71
+msgid "Error while performing operation."
+msgstr "Fehler beim Ausführen eines Vorgangs."
+
+#. mail:async-error-nodescribe secondary
+#: mail/mail-errors.xml.h:73
+msgid "{0}."
+msgstr "{0}."
+
+#. mail:ask-session-password primary
+#: mail/mail-errors.xml.h:87
+msgid "Enter password."
+msgstr "Passwort eingeben."
+
+#. mail:filter-load-error primary
+#: mail/mail-errors.xml.h:91
+msgid "Error loading filter definitions."
+msgstr "Fehler beim Laden der Filterdefinitionen."
+
+#. mail:no-save-path primary
+#: mail/mail-errors.xml.h:95
+msgid "Cannot save to directory \"{0}\"."
+msgstr "Speichern in Verzeichnis »{0}« gescheitert."
+
+#. mail:no-create-path primary
+#. mail:no-write-path-exists primary
+#. mail:no-write-path-notfile primary
+#: mail/mail-errors.xml.h:99 mail/mail-errors.xml.h:107
+#: mail/mail-errors.xml.h:111
+msgid "Cannot save to file \"{0}\"."
+msgstr "In Datei »{0}« konnte nicht gespeichert werden."
+
+#. mail:no-create-path secondary
+#: mail/mail-errors.xml.h:101
+msgid "Cannot create the save directory, because \"{1}\""
+msgstr "Das Speicherverzeichnis konnte nicht angelegt werden. Grund: »{1}«."
+
+#. mail:no-create-tmp-path primary
+#: mail/mail-errors.xml.h:103
+msgid "Cannot create temporary save directory."
+msgstr "Das Temporäres Speicherverzeichnis konnte nicht angelegt werden."
+
+#. mail:no-write-path-exists secondary
+#: mail/mail-errors.xml.h:109
+msgid "File exists but cannot overwrite it."
+msgstr "Die Datei existiert, das Überschreiben ist jedoch nicht möglich."
+
+#. mail:no-write-path-notfile secondary
+#: mail/mail-errors.xml.h:113
+msgid "File exists but is not a regular file."
+msgstr "Die Datei existiert, ist jedoch keine regülare Datei"
+
+#. mail:no-delete-folder primary
+#: mail/mail-errors.xml.h:115
+msgid "Cannot delete folder \"{0}\"."
+msgstr "Ordner »{0}« konnte nicht gelöscht werden."
+
+#. mail:no-delete-special-folder primary
+#: mail/mail-errors.xml.h:119
+msgid "Cannot delete system folder \"{0}\"."
+msgstr "Systemordner »{0}« konnte nicht gelöscht werden."
+
+#. mail:no-delete-special-folder secondary
+#. mail:no-rename-special-folder secondary
+#: mail/mail-errors.xml.h:121 mail/mail-errors.xml.h:125
+msgid ""
+"System folders are required for Ximian Evolution to function correctly and "
+"cannot be renamed, moved, or deleted."
+msgstr ""
+"Ximian Evolution benötigt Systemordner, um korrekt zu funktionieren und "
+"können weder umbenannt, noch verschoben oder gelöscht werden."
+
+#. mail:no-rename-special-folder primary
+#: mail/mail-errors.xml.h:123
+msgid "Cannot rename or move system folder \"{0}\"."
+msgstr "Systemordner »{0}« konnte nicht umbenannt oder verschoben werden."
+
+#. mail:ask-delete-folder title
+#: mail/mail-errors.xml.h:127
+msgid "Delete \"{0}\"?"
+msgstr "»{0}« löschen?"
+
+#. mail:ask-delete-folder primary
+#: mail/mail-errors.xml.h:129
+msgid "Really delete folder \"{0}\" and all of its subfolders?"
+msgstr "Ordner »{0}« und alle Unterordner wirklich löschen?"
+
+#. mail:ask-delete-folder secondary
+#: mail/mail-errors.xml.h:131
+msgid ""
+"If you delete the folder, all of its contents and its subfolders contents "
+"will be deleted permanently."
+msgstr ""
+"Falls Sie einen Ordner löschen, geht sein gesamter Inhalt sowie der Inhalt "
+"seiner Unterordner dauerhaft verloren."
+
+#. mail:no-rename-folder-exists primary
+#. mail:no-rename-folder primary
+#: mail/mail-errors.xml.h:133 mail/mail-errors.xml.h:137
+msgid "Cannot rename \"{0}\" to \"{1}\"."
+msgstr "»{0}« konnte nicht in »{1}« umbenannt werden."
+
+#. mail:no-rename-folder-exists secondary
+#. mail:vfolder-notunique secondary
+#: mail/mail-errors.xml.h:135 mail/mail-errors.xml.h:197
+msgid "A folder named \"{1}\" already exists. Please use a different name."
+msgstr ""
+"Es existiert bereits ein Ordner namens »{1}«. Bitte verwenden Sie einen "
+"anderen Namen."
+
+#. mail:no-rename-folder secondary
+#: mail/mail-errors.xml.h:139
+msgid "Because \"{2}\"."
+msgstr "Grund: »{2}«."
+
+#. mail:no-move-folder-nostore primary
+#. mail:no-move-folder-to-nostore primary
+#: mail/mail-errors.xml.h:141 mail/mail-errors.xml.h:145
+msgid "Cannot move folder \"{0}\" to \"{1}\"."
+msgstr "Ordner »{0}« konnte nicht nach »{1}« verschoben werden."
+
+#. mail:no-move-folder-nostore secondary
+#. mail:no-copy-folder-nostore secondary
+#: mail/mail-errors.xml.h:143 mail/mail-errors.xml.h:151
+msgid "Cannot open source \"{2}\"."
+msgstr "Die Quelle »{2}« konnte nicht geöffnet werden."
+
+#. mail:no-move-folder-to-nostore secondary
+#. mail:no-copy-folder-to-nostore secondary
+#: mail/mail-errors.xml.h:147 mail/mail-errors.xml.h:155
+msgid "Cannot open target \"{2}\"."
+msgstr "Das Ziel »{2}« konnte nicht geöffnet werden."
+
+#. mail:no-copy-folder-nostore primary
+#. mail:no-copy-folder-to-nostore primary
+#: mail/mail-errors.xml.h:149 mail/mail-errors.xml.h:153
+msgid "Cannot copy folder \"{0}\" to \"{1}\"."
+msgstr "Ordner »{0}« konnte nicht nach »{1}« kopiert werden."
+
+#. mail:no-create-folder-nostore primary
+#: mail/mail-errors.xml.h:157
+msgid "Cannot create folder \"{0}\"."
+msgstr "Ordner »{0}« konnte nicht angelegt werden."
+
+#. mail:no-create-folder-nostore secondary
+#: mail/mail-errors.xml.h:159
+msgid "Cannot open source \"{1}\""
+msgstr "Quelle »{1}« konnte nicht geöffnet werden"
+
+#. mail:account-incomplete primary
+#. mail:account-notunique primary
+#: mail/mail-errors.xml.h:161 mail/mail-errors.xml.h:165
+msgid "Cannot save changes to account."
+msgstr "Änderungen an Konto konnten nicht gespeichert werden."
+
+#. mail:account-incomplete secondary
+#: mail/mail-errors.xml.h:163
+msgid "You have not filled in all of the required information."
+msgstr "Sie haben nicht alle erforderlichen Felder ausgefüllt."
+
+#. mail:account-notunique secondary
+#: mail/mail-errors.xml.h:167
+msgid "You may not create two accounts with the same name."
+msgstr "Sie können keine zwei Konten mit dem selben Namen anlegen."
+
+#. mail:ask-delete-account title
+#: mail/mail-errors.xml.h:169
+msgid "Delete account?"
+msgstr "Konto löschen?"
+
+#. mail:ask-delete-account primary
+#: mail/mail-errors.xml.h:171
+msgid "Are you sure you want to delete this account?"
+msgstr "Sind Sie sicher, dass Sie dieses Konto löschen wollen?"
+
+#. mail:ask-delete-account secondary
+#: mail/mail-errors.xml.h:173
+msgid "If you proceed, the account information will be deleted permanently."
+msgstr ""
+"Falls Sie fortfahren, werden die Konteninformationen dauerhaft gelöscht."
+
+#: mail/mail-errors.xml.h:174
+msgid "Don't delete"
+msgstr "Nicht löschen"
+
+#. mail:no-save-signature primary
+#: mail/mail-errors.xml.h:176
+msgid "Could not save signature file."
+msgstr "Signaturdatei konnte nicht gespeichert werden."
+
+#. mail:no-save-signature secondary
+#: mail/mail-errors.xml.h:178
+msgid "Because \"{0}\"."
+msgstr "Grund: »{0}«."
+
+#. mail:signature-notscript primary
+#: mail/mail-errors.xml.h:180
+msgid "Cannot set signature script \"{0}\"."
+msgstr "Signaturskript »{0}« konnte nicht festgelegt werden."
+
+#. mail:signature-notscript secondary
+#: mail/mail-errors.xml.h:182
+msgid "The script file must exist and be executable."
+msgstr "Die Skriptdatei muss existieren und ausführbar sein."
+
+# CHECK
+#. mail:ask-signature-changed title
+#: mail/mail-errors.xml.h:184
+msgid "Discard changed?"
+msgstr "Änderungen verwerfen?"
+
+#. mail:ask-signature-changed primary
+#: mail/mail-errors.xml.h:186
+msgid "Do you wish to save your changes?"
+msgstr "Wollen Sie die vorgenommenen Änderungen speichern?"
+
+#. mail:ask-signature-changed secondary
+#: mail/mail-errors.xml.h:188
+msgid "This signature has been changed, but has not been saved."
+msgstr "Diese Signatur wurde geändert, aber nicht gespeichert"
+
+#: mail/mail-errors.xml.h:189
+msgid "_Discard changes"
+msgstr "Änderungen _verwerfen"
+
+#. mail:vfolder-notexist primary
+#: mail/mail-errors.xml.h:191
+msgid "Cannot edit vFolder \"{0}\" as it does not exist."
+msgstr "VOrdner »{0}« konnte nicht abgerufen werden, da er nicht existiert."
+
+#. mail:vfolder-notexist secondary
+#: mail/mail-errors.xml.h:193
+msgid ""
+"This folder may have been added implictly, go to the virtual folder editor "
+"to add it explictly, if required."
+msgstr ""
+"Möglicherweise wurde dieser Ordner implizit hinzugefügt. Falls erforderlich, "
+"können Sie zum Editor für virtuelle Ordner gehen, um ihn explizit "
+"hinzuzufügen."
+
+#. mail:vfolder-notunique primary
+#: mail/mail-errors.xml.h:195
+msgid "Cannot add vFolder \"{0}\"."
+msgstr "VOrdner »{0}« konnte nicht hinzugefügt werden."
+
+#. mail:vfolder-updated primary
+#: mail/mail-errors.xml.h:199
+msgid "vFolders automatically updated."
+msgstr "vOrdner automatisch aktualisiert."
+
+#. mail:vfolder-updated secondary
+#: mail/mail-errors.xml.h:201
+msgid ""
+"The following vFolder(s):\n"
+"{0}\n"
+"Used the now removed folder:\n"
+"    \"{1}\"\n"
+"And have been updated."
+msgstr ""
+"Der bzw. die folgende(n) vOrdner:\n"
+"{0}\n"
+"verwendete(n) den soeben entfernten Ordner:\n"
+"    »{1}«\n"
+"Und wurde(n) aktualisiert."
+
+#. mail:filter-updated primary
+#: mail/mail-errors.xml.h:207
+msgid "Mail filters automatically updated."
+msgstr "E-Mail-Filter automatisch aktualisiert."
+
+#. mail:filter-updated secondary
+#: mail/mail-errors.xml.h:209
+msgid ""
+"The following filter rule(s):\n"
+"{0}\n"
+"Used the now removed folder:\n"
+"    \"{1}\"\n"
+"And have been updated."
+msgstr ""
+"Die folgende(n) Filteregel(n):\n"
+"{0}\n"
+"verwendete(n) den soeben entfernten Ordner:\n"
+"    »{1}«\n"
+"Und wurde(n) aktualisiert.Der bzw. die folgende(n) vOrdner:\n"
+"%sverwenden den gelöschten Ordner:\n"
+"   »%s«\n"
+"Und wurden aktualisiert."
+
+#. mail:no-folder primary
+#: mail/mail-errors.xml.h:215
+msgid "Missing folder."
+msgstr "Ordner fehlt."
+
+#. mail:no-folder secondary
+#: mail/mail-errors.xml.h:217
+msgid "You must specify a folder."
+msgstr "Sie müssen einen Ordner angeben"
+
+#. mail:no-name-vfolder secondary
+#: mail/mail-errors.xml.h:221
+msgid "You must name this vFolder."
+msgstr "Sie müssen einen Namen für diesen vFolder vergeben."
+
+#. mail:vfolder-no-source primary
+#: mail/mail-errors.xml.h:223
+msgid "No sources selected."
+msgstr "Keine Quellen gewählt."
+
+# CHECK
+#. mail:vfolder-no-source secondary
+#: mail/mail-errors.xml.h:225
+msgid ""
+"You must specify at least one folder as a source.\n"
+"Either by selecting the folders individually, and/or by selecting\n"
+"all local folders, all remote folders, or both."
+msgstr ""
+"Sie müssen mindestens einen Ordner als Quelle angeben.\n"
+"Dies geschieht entweder durch individuelle Auswahl der Ordner, und/oder "
+"durch das Wählen aller lokalen oder aller entfernten Ordner, oder beider."
+
+#. mail:ask-migrate-existing primary
+#: mail/mail-errors.xml.h:229
+msgid "Problem migrating old mail folder \"{0}\"."
+msgstr "Probleme beim Migrieren des alten E-Mail-Ordners »{0}«."
+
+#. mail:ask-migrate-existing secondary
+#: mail/mail-errors.xml.h:231
+msgid ""
+"A non-empty folder at \"{1}\" already exists.\n"
+"\n"
+"You can choose to ignore this folder, overwrite or append its contents, or "
+"quit.\n"
+msgstr ""
+"Es existiert bereits ein nichtleerer Ordner unter »{1}«.\n"
+"\n"
+"Sie können diesen Ordner ignorieren, überschreiben, seinen Inhalt anhängen "
+"oder abbrechen.\n"
+
+#: mail/mail-errors.xml.h:235
+msgid "Ignore"
+msgstr "Ignorieren"
+
+#: mail/mail-errors.xml.h:236 widgets/misc/e-system-errors.xml.h:7
+msgid "_Overwrite"
+msgstr "Ü_berschreiben"
+
+#: mail/mail-errors.xml.h:237
+msgid "_Append"
+msgstr "An_hängen"
+
+#. mail:no-load-license primary
+#: mail/mail-errors.xml.h:239
+msgid "Unable to read license file."
+msgstr "Die Lizenzdatei konnte nicht gelesen werden."
+
+#. mail:no-load-license secondary
+#: mail/mail-errors.xml.h:241
+msgid ""
+"Cannot read the license file \"{0}\", due to an\n"
+"      installation problem.  You will not be able to use this provider "
+"until\n"
+"      you can accept its license."
+msgstr ""
+"Die Lizenzdatei »{0}« konnte wegen einem Installationsproblem\n"
+"      nicht gelesen werden. Die Nutzung dieses Providers ist nicht möglich,\n"
+"      solange Sie dessen Lizenz nicht akzeptiert haben."
+
+#. mail:checking-service title
+#: mail/mail-errors.xml.h:245
+msgid "Querying server"
+msgstr "Abfrage des Servers"
+
+#. mail:checking-service primary
+#: mail/mail-errors.xml.h:247
+msgid "Please wait."
+msgstr "Bitte warten."
+
+#. mail:checking-service secondary
+#: mail/mail-errors.xml.h:249
+msgid "Querying server for a list of supported authentication mechanisms."
+msgstr ""
+"Abfrage des Servers nach einer Liste der unterstützten "
+"Legitimationsmechanismen."
+
+#. mail:gw-accountsetup-error primary
+#: mail/mail-errors.xml.h:251
+msgid ""
+"Unable to connect to the GroupWise\n"
+"server."
+msgstr ""
+"Verbindungsaufbau mit GroupWise-Server\n"
+"gescheitert."
+
+#. mail:gw-accountsetup-error secondary
+#: mail/mail-errors.xml.h:254
+msgid ""
+"\n"
+"Please check your account settings and try again.\n"
+msgstr ""
+"\n"
+"Bitte überprüfen Sie ihre Kontoeinstellungen und versuchen es erneut.\n"
 
 #: mail/mail-folder-cache.c:813
 #, c-format
@@ -13304,22 +13944,26 @@ msgid "Review"
 msgstr "Überprüfen"
 
 #: mail/searchtypes.xml.h:1
+msgid "Body contains"
+msgstr "Rumpf enthält"
+
+#: mail/searchtypes.xml.h:2
 msgid "Message contains"
 msgstr "Nachricht enthält"
 
-#: mail/searchtypes.xml.h:2
+#: mail/searchtypes.xml.h:3
 msgid "Recipients contain"
 msgstr "Empfänger enthalten"
 
-#: mail/searchtypes.xml.h:3
+#: mail/searchtypes.xml.h:4
 msgid "Sender contains"
 msgstr "Absender enthält"
 
-#: mail/searchtypes.xml.h:4
+#: mail/searchtypes.xml.h:5
 msgid "Subject contains"
 msgstr "Betreff enthält"
 
-#: mail/searchtypes.xml.h:5
+#: mail/searchtypes.xml.h:6
 msgid "Subject or Sender contains"
 msgstr "Betreff oder Absender enthält"
 
@@ -13976,59 +14620,6 @@ msgstr ""
 "Informationen für diese Aktion bereitstellt.\n"
 "\n"
 "Kopf: {0}"
-
-#: plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:1
-msgid "Contact list _owner"
-msgstr "Kontaktlisten_besitzer"
-
-#: plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:2
-msgid "Contact the owner of the mailing list this message belongs to"
-msgstr "Kontakt zum Eigner der Mailingliste dieser Nachricht aufnehmen"
-
-#: plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:3
-msgid "Get an archive of the list this message belongs to"
-msgstr "Ein Archiv der Mailingliste dieser Nachricht abrufen"
-
-#: plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:4
-msgid "Get information about the usage of the list this message belongs to"
-msgstr ""
-"Informationen über die Nutzung der Mailingliste dieser Nachricht abrufen"
-
-#: plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:5
-msgid "Get list _archive"
-msgstr "Listen_archiv abrufen"
-
-#: plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:6
-msgid "Get list _usage information"
-msgstr "Ben_utzungsinformationen der Liste abrufen"
-
-#: plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:7
-msgid "Mailing _List"
-msgstr "Mailing_liste"
-
-#: plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:8
-msgid "Post a message to the mailing list this message belongs to"
-msgstr "Eine Nachricht an die Mailingliste der gewählten Nachricht verfassen"
-
-#: plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:9
-msgid "Subscribe to the mailing list this message belongs to"
-msgstr "Die Mailingliste der gewählten Nachricht abonnieren"
-
-#: plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:10
-msgid "Unsubscribe to the mailing list this message belongs to"
-msgstr "Die Mailingliste der gewählten Nachricht abbestellen"
-
-#: plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:11
-msgid "_Post message to list"
-msgstr "_Nachricht an Liste schicken"
-
-#: plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:12
-msgid "_Subscribe to list"
-msgstr "Liste _abonnieren"
-
-#: plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:13
-msgid "_Un-subscribe to list"
-msgstr "Liste ab_bestellen"
 
 #. Create the checkbox we will display, complete with mnemonic that is unique in the dialog
 #: plugins/new-mail-notify/new-mail-notify.c:66
@@ -17380,10 +17971,6 @@ msgstr "Datei »{0}« existiert."
 msgid "Do you wish to overwrite it?"
 msgstr "Soll sie überschrieben werden?"
 
-#: widgets/misc/e-system-errors.xml.h:7
-msgid "_Overwrite"
-msgstr "Ü_berschreiben"
-
 #. system:no-save-file primary
 #: widgets/misc/e-system-errors.xml.h:9
 msgid "Cannot save file \"{0}\"."
@@ -17404,8 +17991,52 @@ msgstr "%s (...)"
 msgid "%s (%d%% complete)"
 msgstr "%s (zu %d%% abgeschlossen)"
 
-#~ msgid "Body contains"
-#~ msgstr "Rumpf enthält"
+#~ msgid "This contact belongs to these categories:"
+#~ msgstr "Dieser Kontakt gehört in folgende Kategorien:"
+
+#~ msgid "_Enable"
+#~ msgstr "_Aktivieren"
+
+#~ msgid "Contact list _owner"
+#~ msgstr "Kontaktlisten_besitzer"
+
+#~ msgid "Contact the owner of the mailing list this message belongs to"
+#~ msgstr "Kontakt zum Eigner der Mailingliste dieser Nachricht aufnehmen"
+
+#~ msgid "Get an archive of the list this message belongs to"
+#~ msgstr "Ein Archiv der Mailingliste dieser Nachricht abrufen"
+
+#~ msgid "Get information about the usage of the list this message belongs to"
+#~ msgstr ""
+#~ "Informationen über die Nutzung der Mailingliste dieser Nachricht abrufen"
+
+#~ msgid "Get list _archive"
+#~ msgstr "Listen_archiv abrufen"
+
+#~ msgid "Get list _usage information"
+#~ msgstr "Ben_utzungsinformationen der Liste abrufen"
+
+#~ msgid "Mailing _List"
+#~ msgstr "Mailing_liste"
+
+#~ msgid "Post a message to the mailing list this message belongs to"
+#~ msgstr ""
+#~ "Eine Nachricht an die Mailingliste der gewählten Nachricht verfassen"
+
+#~ msgid "Subscribe to the mailing list this message belongs to"
+#~ msgstr "Die Mailingliste der gewählten Nachricht abonnieren"
+
+#~ msgid "Unsubscribe to the mailing list this message belongs to"
+#~ msgstr "Die Mailingliste der gewählten Nachricht abbestellen"
+
+#~ msgid "_Post message to list"
+#~ msgstr "_Nachricht an Liste schicken"
+
+#~ msgid "_Subscribe to list"
+#~ msgstr "Liste _abonnieren"
+
+#~ msgid "_Un-subscribe to list"
+#~ msgstr "Liste ab_bestellen"
 
 #~ msgid "Body does not contain"
 #~ msgstr "Rumpf enthält nicht"
@@ -17443,444 +18074,6 @@ msgstr "%s (zu %d%% abgeschlossen)"
 
 #~ msgid "Print Setup"
 #~ msgstr "Druckeinstellungen"
-
-#~ msgid "Invalid authentication"
-#~ msgstr "Legitimation ungültig"
-
-# CHECK
-#~ msgid ""
-#~ "This server does not support this type of authentication and may not "
-#~ "support authentication at all."
-#~ msgstr ""
-#~ "Dieser Server unterstützt diesen Legitimationsmechanismus nicht - "
-#~ "möglicherweise unterstützt er keinerlei Legitimation."
-
-#~ msgid "Your login to your server \"{0}\" as \"{0}\" failed."
-#~ msgstr "Das Anmelden am Server »{0}« als »{0}« ist gescheitert."
-
-#~ msgid ""
-#~ "Check to make sure your password is spelled correctly.  Remember that "
-#~ "many passwords are case sensitive; your caps lock might be on."
-#~ msgstr ""
-#~ "Stellen Sie sicher, dass Sie Ihr Passwort korrekt eingegeben haben. Zur "
-#~ "Erinnerung: Bei Passwörtern wird zwischen Groß-/Kleinschreibung "
-#~ "unterschieden; Möglicherweise ist Ihre Dauerumschalttaste aktiv."
-
-#~ msgid "Are you sure you want to send a message in HTML format?"
-#~ msgstr "Sind Sie sicher, dass Sie eine HTML-Nachricht verschicken wollen?"
-
-#~ msgid ""
-#~ "Please make sure the following recipients are willing and able to receive "
-#~ "HTML email:\n"
-#~ "{0}\n"
-#~ "Send anyway?"
-#~ msgstr ""
-#~ "Bitte stellen Sie sicher, dass die folgenden Empfänger HTML-E-Mails "
-#~ "abrufen können und wollen:\n"
-#~ "{0}\n"
-#~ "Dennoch abschicken?"
-
-#~ msgid "Are you sure you want to send a message without a subject?"
-#~ msgstr ""
-#~ "Sind Sie sicher, dass Sie eine Nachricht ohne Betreff verschicken wollen?"
-
-# CHECK 
-#~ msgid ""
-#~ "Adding a meaningful Subject line to your messages will give your "
-#~ "recipients an idea of what your mail is about."
-#~ msgstr ""
-#~ "Das Hinzufügen einer Betreffzeile zu Ihren Nachrichten verschafft den "
-#~ "Empfängern eine Vorstellung, wovon Ihre E-Mail handelt."
-
-#~ msgid "Are you sure you want to send a message with only BCC recipients?"
-#~ msgstr ""
-#~ "Sind Sie sicher, dass Sie eine Nachricht verschicken wollen, die nur an "
-#~ "Blindkopie-Empfänger gerichtet ist?"
-
-#~ msgid ""
-#~ "The contact list you are sending to is configured to hide list "
-#~ "recipients.\n"
-#~ "\n"
-#~ "Many email systems add an Apparently-To header to messages that only have "
-#~ "BCC recipients. This header, if added, will list all of your recipients "
-#~ "in your message. To avoid this, you should add at least one To: or CC: "
-#~ "recipient. "
-#~ msgstr ""
-#~ "Die zu verschickende Kontaktliste ist so konfiguriert, dass "
-#~ "Listenempfänger verborgen werden.\n"
-#~ "\n"
-#~ "Viele E-Mail-Systeme fügen eine »Apparently-To«-Kopfzeile zu Nachrichten "
-#~ "hinzu, die ausschließlich Blindkopie-Empfänger angeben. Diese Kopfzeile "
-#~ "enthält - falls sie hinzugefügt wird - sämtliche Empfänger Ihrer "
-#~ "Nachricht. Um dies zu umgehen, sollten Sie mindestens einen »An:«- oder "
-#~ "»Kopie an:-Empfänger hinzufügen.«"
-
-#~ msgid ""
-#~ "Many email systems add an Apparently-To header to messages that only have "
-#~ "BCC recipients. This header, if added, will list all of your recipients "
-#~ "to your message anyway. To avoid this, you should add at least one To: or "
-#~ "CC: recipient."
-#~ msgstr ""
-#~ "Viele E-Mail-Systeme fügen eine »Apparently-To«-Kopfzeile zu Nachrichten "
-#~ "hinzu, die ausschließlich Blindkopie-Empfänger angeben. Diese Kopfzeile "
-#~ "enthält - falls sie hinzugefügt wird - sämtliche Empfänger Ihrer "
-#~ "Nachricht. Um dies zu umgehen, sollten Sie mindestens einen »An:«- oder "
-#~ "»Kopie an:-Empfänger hinzufügen.«"
-
-#~ msgid ""
-#~ "This message cannot be sent because you have not specified any Recipients"
-#~ msgstr ""
-#~ "Diese Nachricht konnte nicht verschickt werden, da Sie keine Empfänger "
-#~ "angegeben haben"
-
-#~ msgid ""
-#~ "Please enter a valid email address in the To: field. You can search for "
-#~ "email addresses by clicking on the To: button next to the entry box."
-#~ msgstr ""
-#~ "Bitte geben Sie eine gültige E-Mail-Adresse im An-Feld ein. Sie können "
-#~ "nach E-Mail-Adressen suchen, indem Sie den An-Knopf neben dem Eingabefeld "
-#~ "anklicken."
-
-#~ msgid ""
-#~ "Unable to open the drafts folder for this account.  Use the system drafts "
-#~ "folder instead?"
-#~ msgstr ""
-#~ "Der Entwurfsordner für dieses Konto konnte nicht geöffnet werden. Soll "
-#~ "stattdessen der System-Entwurfsordner verwendet werden?"
-
-#~ msgid ""
-#~ "Are you sure you want to permanently remove all the deleted message in "
-#~ "folder \"{0}\"?"
-#~ msgstr ""
-#~ "Sind Sie sicher, dass Sie endgültig alle gelöschten Nachrichten aus dem "
-#~ "Ordner »{0}« entfernen wollen?"
-
-#~ msgid "If you continue, you will not be able to recover these messages."
-#~ msgstr ""
-#~ "Falls Sie fortfahren, können Sie diese Nachrichten nicht mehr "
-#~ "wiederherstellen."
-
-#~ msgid "_Expunge"
-#~ msgstr "_Säubern"
-
-#~ msgid ""
-#~ "Are you sure you want to permanently remove all the deleted messages in "
-#~ "all folders?"
-#~ msgstr ""
-#~ "Sind Sie sicher, dass Sie endgültig alle gelöschten Nachrichten aus allen "
-#~ "Ordnern entfernen wollen?"
-
-#~ msgid "_Empty Trash"
-#~ msgstr "_Müll leeren"
-
-#~ msgid "Are you sure you want to open {0} messages at once?"
-#~ msgstr "Sind Sie sicher, dass Sie {0} Nachrichten auf einmal öffnen wollen?"
-
-#~ msgid "Opening too many messages at once may take a long time."
-#~ msgstr ""
-#~ "Zu viele Nachrichten auf einmal zu öffnen, könnte eine längere Zeit in "
-#~ "Anspruch nehmen."
-
-#~ msgid "_Open Messages"
-#~ msgstr "Nachrichten ö_ffnen"
-
-#~ msgid "You have unsent messages, do you wish to quit anyway?"
-#~ msgstr ""
-#~ "Es existieren unverschickte Nachrichten. Wollen Sie Evolution dennoch "
-#~ "beenden?"
-
-#~ msgid ""
-#~ "If you quit, these messages will not be sent until Evolution is started "
-#~ "again."
-#~ msgstr ""
-#~ "Falls Sie Evolution beenden, werden diese Nachrichten nicht verschickt, "
-#~ "solange Evolution nicht neu gestartet wurde."
-
-#~ msgid "Your message with the subject \"{0}\" was not delivered."
-#~ msgstr "Ihre Nachricht mit dem Betreff »{0}« wurde nicht zugestellt."
-
-#~ msgid ""
-#~ "The message was sent via the \"sendmail\" external application.  Sendmail "
-#~ "reports the following error: status 67: mail not sent.\n"
-#~ "The message is stored in the Outbox folder.  Check the message for errors "
-#~ "and resend."
-#~ msgstr ""
-#~ "Diese Nachricht wurde mit Hilfe der externen Anwendung »sendmail« "
-#~ "verschickt. Sendmail lieferte folgenden Fehler: Status 67: E-Mail nicht "
-#~ "verschickt.\n"
-#~ "Die Nachricht befindet sich im Ausgangsordner. Überprüfen Sie sie auf "
-#~ "Fehler und verschicken Sie sie erneut."
-
-#~ msgid "Error while {0}."
-#~ msgstr "Fehler bei {0}."
-
-#~ msgid "{1}."
-#~ msgstr "{1}."
-
-#~ msgid "Error while performing operation."
-#~ msgstr "Fehler beim Ausführen eines Vorgangs."
-
-#~ msgid "{0}."
-#~ msgstr "{0}."
-
-#~ msgid "Enter password."
-#~ msgstr "Passwort eingeben."
-
-#~ msgid "Error loading filter definitions."
-#~ msgstr "Fehler beim Laden der Filterdefinitionen."
-
-#~ msgid "Cannot save to directory \"{0}\"."
-#~ msgstr "Speichern in Verzeichnis »{0}« gescheitert."
-
-#~ msgid "Cannot save to file \"{0}\"."
-#~ msgstr "In Datei »{0}« konnte nicht gespeichert werden."
-
-#~ msgid "Cannot create the save directory, because \"{1}\""
-#~ msgstr "Das Speicherverzeichnis konnte nicht angelegt werden. Grund: »{1}«."
-
-#~ msgid "Cannot create temporary save directory."
-#~ msgstr "Das Temporäres Speicherverzeichnis konnte nicht angelegt werden."
-
-#~ msgid "File exists but cannot overwrite it."
-#~ msgstr "Die Datei existiert, das Überschreiben ist jedoch nicht möglich."
-
-#~ msgid "File exists but is not a regular file."
-#~ msgstr "Die Datei existiert, ist jedoch keine regülare Datei"
-
-#~ msgid "Cannot delete folder \"{0}\"."
-#~ msgstr "Ordner »{0}« konnte nicht gelöscht werden."
-
-#~ msgid "Cannot delete system folder \"{0}\"."
-#~ msgstr "Systemordner »{0}« konnte nicht gelöscht werden."
-
-#~ msgid ""
-#~ "System folders are required for Ximian Evolution to function correctly "
-#~ "and cannot be renamed, moved, or deleted."
-#~ msgstr ""
-#~ "Ximian Evolution benötigt Systemordner, um korrekt zu funktionieren und "
-#~ "können weder umbenannt, noch verschoben oder gelöscht werden."
-
-#~ msgid "Cannot rename or move system folder \"{0}\"."
-#~ msgstr "Systemordner »{0}« konnte nicht umbenannt oder verschoben werden."
-
-#~ msgid "Delete \"{0}\"?"
-#~ msgstr "»{0}« löschen?"
-
-#~ msgid "Really delete folder \"{0}\" and all of its subfolders?"
-#~ msgstr "Ordner »{0}« und alle Unterordner wirklich löschen?"
-
-#~ msgid ""
-#~ "If you delete the folder, all of its contents and its subfolders contents "
-#~ "will be deleted permanently."
-#~ msgstr ""
-#~ "Falls Sie einen Ordner löschen, geht sein gesamter Inhalt sowie der "
-#~ "Inhalt seiner Unterordner dauerhaft verloren."
-
-#~ msgid "Cannot rename \"{0}\" to \"{1}\"."
-#~ msgstr "»{0}« konnte nicht in »{1}« umbenannt werden."
-
-#~ msgid "A folder named \"{1}\" already exists. Please use a different name."
-#~ msgstr ""
-#~ "Es existiert bereits ein Ordner namens »{1}«. Bitte verwenden Sie einen "
-#~ "anderen Namen."
-
-#~ msgid "Because \"{2}\"."
-#~ msgstr "Grund: »{2}«."
-
-#~ msgid "Cannot move folder \"{0}\" to \"{1}\"."
-#~ msgstr "Ordner »{0}« konnte nicht nach »{1}« verschoben werden."
-
-#~ msgid "Cannot open source \"{2}\"."
-#~ msgstr "Die Quelle »{2}« konnte nicht geöffnet werden."
-
-#~ msgid "Cannot open target \"{2}\"."
-#~ msgstr "Das Ziel »{2}« konnte nicht geöffnet werden."
-
-#~ msgid "Cannot copy folder \"{0}\" to \"{1}\"."
-#~ msgstr "Ordner »{0}« konnte nicht nach »{1}« kopiert werden."
-
-#~ msgid "Cannot create folder \"{0}\"."
-#~ msgstr "Ordner »{0}« konnte nicht angelegt werden."
-
-#~ msgid "Cannot open source \"{1}\""
-#~ msgstr "Quelle »{1}« konnte nicht geöffnet werden"
-
-#~ msgid "Cannot save changes to account."
-#~ msgstr "Änderungen an Konto konnten nicht gespeichert werden."
-
-#~ msgid "You have not filled in all of the required information."
-#~ msgstr "Sie haben nicht alle erforderlichen Felder ausgefüllt."
-
-#~ msgid "You may not create two accounts with the same name."
-#~ msgstr "Sie können keine zwei Konten mit dem selben Namen anlegen."
-
-#~ msgid "Delete account?"
-#~ msgstr "Konto löschen?"
-
-#~ msgid "Are you sure you want to delete this account?"
-#~ msgstr "Sind Sie sicher, dass Sie dieses Konto löschen wollen?"
-
-#~ msgid "If you proceed, the account information will be deleted permanently."
-#~ msgstr ""
-#~ "Falls Sie fortfahren, werden die Konteninformationen dauerhaft gelöscht."
-
-#~ msgid "Don't delete"
-#~ msgstr "Nicht löschen"
-
-#~ msgid "Could not save signature file."
-#~ msgstr "Signaturdatei konnte nicht gespeichert werden."
-
-#~ msgid "Because \"{0}\"."
-#~ msgstr "Grund: »{0}«."
-
-#~ msgid "Cannot set signature script \"{0}\"."
-#~ msgstr "Signaturskript »{0}« konnte nicht festgelegt werden."
-
-#~ msgid "The script file must exist and be executable."
-#~ msgstr "Die Skriptdatei muss existieren und ausführbar sein."
-
-# CHECK
-#~ msgid "Discard changed?"
-#~ msgstr "Änderungen verwerfen?"
-
-#~ msgid "Do you wish to save your changes?"
-#~ msgstr "Wollen Sie die vorgenommenen Änderungen speichern?"
-
-#~ msgid "This signature has been changed, but has not been saved."
-#~ msgstr "Diese Signatur wurde geändert, aber nicht gespeichert"
-
-#~ msgid "_Discard changes"
-#~ msgstr "Änderungen _verwerfen"
-
-#~ msgid "Cannot edit vFolder \"{0}\" as it does not exist."
-#~ msgstr "VOrdner »{0}« konnte nicht abgerufen werden, da er nicht existiert."
-
-#~ msgid ""
-#~ "This folder may have been added implictly, go to the virtual folder "
-#~ "editor to add it explictly, if required."
-#~ msgstr ""
-#~ "Möglicherweise wurde dieser Ordner implizit hinzugefügt. Falls "
-#~ "erforderlich, können Sie zum Editor für virtuelle Ordner gehen, um ihn "
-#~ "explizit hinzuzufügen."
-
-#~ msgid "Cannot add vFolder \"{0}\"."
-#~ msgstr "VOrdner »{0}« konnte nicht hinzugefügt werden."
-
-#~ msgid "vFolders automatically updated."
-#~ msgstr "vOrdner automatisch aktualisiert."
-
-#~ msgid ""
-#~ "The following vFolder(s):\n"
-#~ "{0}\n"
-#~ "Used the now removed folder:\n"
-#~ "    \"{1}\"\n"
-#~ "And have been updated."
-#~ msgstr ""
-#~ "Der bzw. die folgende(n) vOrdner:\n"
-#~ "{0}\n"
-#~ "verwendete(n) den soeben entfernten Ordner:\n"
-#~ "    »{1}«\n"
-#~ "Und wurde(n) aktualisiert."
-
-#~ msgid "Mail filters automatically updated."
-#~ msgstr "E-Mail-Filter automatisch aktualisiert."
-
-#~ msgid ""
-#~ "The following filter rule(s):\n"
-#~ "{0}\n"
-#~ "Used the now removed folder:\n"
-#~ "    \"{1}\"\n"
-#~ "And have been updated."
-#~ msgstr ""
-#~ "Die folgende(n) Filteregel(n):\n"
-#~ "{0}\n"
-#~ "verwendete(n) den soeben entfernten Ordner:\n"
-#~ "    »{1}«\n"
-#~ "Und wurde(n) aktualisiert.Der bzw. die folgende(n) vOrdner:\n"
-#~ "%sverwenden den gelöschten Ordner:\n"
-#~ "   »%s«\n"
-#~ "Und wurden aktualisiert."
-
-#~ msgid "Missing folder."
-#~ msgstr "Ordner fehlt."
-
-#~ msgid "You must specify a folder."
-#~ msgstr "Sie müssen einen Ordner angeben"
-
-#~ msgid "You must name this vFolder."
-#~ msgstr "Sie müssen einen Namen für diesen vFolder vergeben."
-
-#~ msgid "No sources selected."
-#~ msgstr "Keine Quellen gewählt."
-
-# CHECK
-#~ msgid ""
-#~ "You must specify at least one folder as a source.\n"
-#~ "Either by selecting the folders individually, and/or by selecting\n"
-#~ "all local folders, all remote folders, or both."
-#~ msgstr ""
-#~ "Sie müssen mindestens einen Ordner als Quelle angeben.\n"
-#~ "Dies geschieht entweder durch individuelle Auswahl der Ordner, und/oder "
-#~ "durch das Wählen aller lokalen oder aller entfernten Ordner, oder beider."
-
-#~ msgid "Problem migrating old mail folder \"{0}\"."
-#~ msgstr "Probleme beim Migrieren des alten E-Mail-Ordners »{0}«."
-
-#~ msgid ""
-#~ "A non-empty folder at \"{1}\" already exists.\n"
-#~ "\n"
-#~ "You can choose to ignore this folder, overwrite or append its contents, "
-#~ "or quit.\n"
-#~ msgstr ""
-#~ "Es existiert bereits ein nichtleerer Ordner unter »{1}«.\n"
-#~ "\n"
-#~ "Sie können diesen Ordner ignorieren, überschreiben, seinen Inhalt "
-#~ "anhängen oder abbrechen.\n"
-
-#~ msgid "Ignore"
-#~ msgstr "Ignorieren"
-
-#~ msgid "_Append"
-#~ msgstr "An_hängen"
-
-#~ msgid "Unable to read license file."
-#~ msgstr "Die Lizenzdatei konnte nicht gelesen werden."
-
-#~ msgid ""
-#~ "Cannot read the license file \"{0}\", due to an\n"
-#~ "      installation problem.  You will not be able to use this provider "
-#~ "until\n"
-#~ "      you can accept its license."
-#~ msgstr ""
-#~ "Die Lizenzdatei »{0}« konnte wegen einem Installationsproblem\n"
-#~ "      nicht gelesen werden. Die Nutzung dieses Providers ist nicht "
-#~ "möglich,\n"
-#~ "      solange Sie dessen Lizenz nicht akzeptiert haben."
-
-#~ msgid "Querying server"
-#~ msgstr "Abfrage des Servers"
-
-#~ msgid "Please wait."
-#~ msgstr "Bitte warten."
-
-#~ msgid "Querying server for a list of supported authentication mechanisms."
-#~ msgstr ""
-#~ "Abfrage des Servers nach einer Liste der unterstützten "
-#~ "Legitimationsmechanismen."
-
-#~ msgid ""
-#~ "Unable to connect to the GroupWise\n"
-#~ "server."
-#~ msgstr ""
-#~ "Verbindungsaufbau mit GroupWise-Server\n"
-#~ "gescheitert."
-
-#~ msgid ""
-#~ "\n"
-#~ "Please check your account settings and try again.\n"
-#~ msgstr ""
-#~ "\n"
-#~ "Bitte überprüfen Sie ihre Kontoeinstellungen und versuchen es erneut.\n"
 
 #~ msgid "Address:"
 #~ msgstr "Adresse:"

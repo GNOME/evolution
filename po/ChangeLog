@@ -1,3 +1,7 @@
+2005-01-25  Hendrik Richter  <hendrik@gnome-de.org>
+
+	* de.po: Updated German translation.
+
 2005-01-24  Francisco Javier F. Serrador  <serrador@cvs.gnome.org>
 
 	* es.po: Updated Spanish translation.
@@ -2947,4 +2951,4 @@
 
 2003-06-03  Stanislav Brabec  <sbrabec@suse.cz>
 
-	* cs.po: Fixed quotes: \\" -> \".
+	* cs.po: Fixed quotes: \" -> \".
