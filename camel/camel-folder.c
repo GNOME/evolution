@@ -245,6 +245,7 @@ camel_folder_is_open(CamelFolder *folder)
  * It is an error to ask a folder begining with the 
  * folder separator character.  
  * 
+ * @folder : the folder
  * @folderName: subfolder path. NULL if the subfolder object
  *        could not be created
  **/

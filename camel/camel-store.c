@@ -29,7 +29,6 @@ static GtkObjectClass *camel_store_parent_class=NULL;
 #define CS_CLASS(so) CAMEL_STORE_CLASS (GTK_OBJECT(so)->klass)
 
 static void camel_store_set_separator(CamelStore *store, gchar sep);
-static gchar camel_store_get_geparator(CamelStore *store);
 static CamelFolder *camel_store_get_root_folder(CamelStore *store);
 static CamelFolder *camel_store_get_default_folder(CamelStore *store);
 
@@ -42,7 +41,7 @@ camel_store_class_init (CamelStoreClass *camel_store_class)
 	
 	/* virtual method definition */
 	camel_store_class->set_separator = camel_store_set_separator;
-	camel_store_class->get_separator = camel_store_get_geparator;
+	camel_store_class->get_separator = camel_store_get_separator;
 	camel_store_class->get_folder = camel_store_get_folder;
 	camel_store_class->get_root_folder = camel_store_get_root_folder;
 	camel_store_class->get_default_folder = camel_store_get_default_folder;
@@ -87,7 +86,8 @@ camel_store_get_type (void)
  * camel_store_set_separator: set the character which separates this folder 
  * path from the folders names in a lower level of hierarchy.
  *
- * 
+ * @store:
+ * @sep:
  *
  **/
 static void
@@ -102,11 +102,11 @@ camel_store_set_separator(CamelStore *store, gchar sep)
  * camel_store_get_separator: return the character which separates this folder 
  * path from the folders names in a lower level of hierarchy.
  *
- * 
+ * @store: store
  *
  **/
-static gchar
-camel_store_get_geparator(CamelStore *store)
+gchar
+camel_store_get_separator(CamelStore *store)
 {
 	g_assert(store);
 	return store->separator;
@@ -127,9 +127,12 @@ camel_store_get_geparator(CamelStore *store)
  * If it does not exist, you can create it with its 
  * "create" method.
  *
- * @Return value: the folder
+ * @store: store
+ * @folder_name: name of the folder to get
+ *
+ * Return value: the folder
  **/
-static CamelFolder *
+CamelFolder *
 camel_store_get_folder(CamelStore *store, GString *folder_name)
 {
 

@@ -77,6 +77,7 @@ typedef struct {
 GtkType camel_store_get_type (void);
 
 CamelFolder *camel_store_get_folder(CamelStore *store, GString *folder_name);
+gchar camel_store_get_separator(CamelStore *store);
 
 #ifdef __cplusplus
 }

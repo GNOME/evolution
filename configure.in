@@ -46,4 +46,6 @@ Makefile
 macros/Makefile
 po/Makefile.in
 camel/Makefile
+devel-docs/Makefile
+devel-docs/camel/Makefile
 ])

@@ -28,7 +28,6 @@ static GtkObjectClass *camel_service_parent_class=NULL;
 /* Returns the class for a CamelService */
 #define CSERV_CLASS(so) CAMEL_SERVICE_CLASS (GTK_OBJECT(so)->klass)
 
-static void camel_service_connect(CamelService *service);
 static void camel_service_connect_to_with_login_passwd(CamelService *service, GString *host, GString *login, GString *passwd);
 static void camel_service_connect_to_with_login_passwd_port(CamelService *service, GString *host, GString *login, GString *passwd, guint port);
 static gboolean camel_service_is_connected(CamelService *service);
@@ -102,7 +101,7 @@ camel_service_connect(CamelService *service)
 
 
 /**
- * camel_service_connect_to:login:password : connect to the specified address
+ * camel_service_connect_to: connect to the specified address
  * 
  * Connect to the service, but do not use the session
  * default parameters to retrieve server's address

@@ -65,6 +65,7 @@ typedef struct {
 
 
 /* public methods */
+void camel_service_connect(CamelService *service);
 
 /* Standard Gtk function */
 GtkType camel_service_get_type (void);
