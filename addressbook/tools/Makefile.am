@@ -2,7 +2,7 @@ privlibexec_SCRIPTS =					\
 	csv2vcard					\
 	evolution-addressbook-clean
 
-bin_PROGRAMS =			\
+privlibexec_PROGRAMS =			\
 	evolution-addressbook-export	
 
 INCLUDES =						\

@@ -1,3 +1,9 @@
+2004-06-29  Rodney Dawes  <dobey@novell.com>
+
+	* tools/Makefile.am (bin_PROGRAMS): Change to privlibexec_PROGRAMS
+
+	Fixes #60832
+
 2004-06-28  Not Zed  <NotZed@Ximian.com>
 
 	* gui/component/addressbook-component.c
