@@ -37,6 +37,7 @@
 #include "mail-session.h"
 #include "mail-tools.h"
 #include "mail-mt.h"
+#include "e-util/e-passwords.h"
 
 CamelSession *session;
 
@@ -50,7 +51,6 @@ CamelSession *session;
 typedef struct _MailSession {
 	CamelSession parent_object;
 
-	GHashTable *passwords;
 	gboolean interaction_enabled;
 	FILE *filter_logfile;
 } MailSession;
@@ -76,26 +76,9 @@ static CamelFilterDriver *get_filter_driver (CamelSession *session,
 					     CamelException *ex);
 
 
-static char *decode_base64 (char *base64);
-
 static void
 init (MailSession *session)
 {
-	char *key, *value;
-	void *iter;
-
-	session->passwords = g_hash_table_new (g_str_hash, g_str_equal);
-
-	iter = gnome_config_private_init_iterator ("/Evolution/Passwords");
-	if (iter) {
-		while (gnome_config_iterator_next (iter, &key, &value)) {
-			g_hash_table_insert (session->passwords,
-					     decode_base64 (key),
-					     decode_base64 (value));
-			g_free (key);
-			g_free (value);
-		}
-	}
 }
 
 static void
@@ -169,11 +152,11 @@ get_password (CamelSession *session, const char *prompt, gboolean secret,
 	key = make_key (service, item);
 	if (!key)
 		return NULL;
-	
-	ans = g_hash_table_lookup (mail_session->passwords, key);
+
+	ans = e_passwords_get_password (key);
 	if (ans) {
 		g_free (key);
-		return g_strdup (ans);
+		return ans;
 	}
 	
 	if (!mail_session->interaction_enabled ||
@@ -185,8 +168,8 @@ get_password (CamelSession *session, const char *prompt, gboolean secret,
 	}
 	
 	if (cache)
-		g_hash_table_insert (mail_session->passwords, key, g_strdup (ans));
-	
+		e_passwords_add_password (key, ans);
+
 	return ans;
 }
 
@@ -194,18 +177,11 @@ static void
 forget_password (CamelSession *session, CamelService *service,
 		 const char *item, CamelException *ex)
 {
-	MailSession *mail_session = MAIL_SESSION (session);
 	char *key = make_key (service, item);
-	gpointer old_key, old_data;
+
+	e_passwords_forget_password (key);
 	
-	if (!g_hash_table_lookup_extended (mail_session->passwords, key,
-					   &old_key, &old_data))
-		return;
-	
-	g_hash_table_remove (mail_session->passwords, key);
-	memset (old_data, 0, strlen (old_data));
-	g_free (old_data);
-	g_free (old_key);
+	g_free (key);
 }
 
 static gboolean
@@ -393,82 +369,59 @@ get_filter_driver (CamelSession *session, const char *type, CamelException *ex)
 	return driver;
 }
 
-
-static char *
-decode_base64 (char *base64)
+char *
+mail_session_get_password (const char *url_string)
 {
-	char *plain, *pad = "==";
-	int len, out, state, save;
-	
-	len = strlen (base64);
-	plain = g_malloc0 (len);
-	state = save = 0;
-	out = base64_decode_step (base64, len, plain, &state, &save);
-	if (len % 4) {
-		base64_decode_step (pad, 4 - len % 4, plain + out,
-				    &state, &save);
-	}
-	
-	return plain;
+	CamelURL *url;
+	char *simple_url;
+	char *passwd;
+
+	url = camel_url_new (url_string, NULL);
+	simple_url = camel_url_to_string (url, CAMEL_URL_HIDE_PASSWORD | CAMEL_URL_HIDE_PARAMS);
+	camel_url_free (url);
+
+	passwd = e_passwords_get_password (simple_url);
+
+	g_free (simple_url);
+
+	return passwd;
 }
 
-static void
-maybe_remember_password (gpointer key, gpointer password, gpointer url)
+void
+mail_session_add_password (const char *url_string,
+			   const char *passwd)
 {
-	char *path, *key64, *pass64;
-	int len, state, save;
-	
-	len = strlen (url);
-	if (strncmp (key, url, len) != 0)
-		return;
-	
-	len = strlen (key);
-	key64 = g_malloc0 ((len + 2) * 4 / 3 + 1);
-	state = save = 0;
-	base64_encode_close (key, len, FALSE, key64, &state, &save);
-	path = g_strdup_printf ("/Evolution/Passwords/%s", key64);
-	g_free (key64);
-	
-	len = strlen (password);
-	pass64 = g_malloc0 ((len + 2) * 4 / 3 + 1);
-	state = save = 0;
-	base64_encode_close (password, len, FALSE, pass64, &state, &save);
-	
-	gnome_config_private_set_string (path, pass64);
-	g_free (path);
-	g_free (pass64);
+	CamelURL *url;
+	char *simple_url;
+
+	url = camel_url_new (url_string, NULL);
+	simple_url = camel_url_to_string (url, CAMEL_URL_HIDE_PASSWORD | CAMEL_URL_HIDE_PARAMS);
+	camel_url_free (url);
+
+	e_passwords_add_password (simple_url, passwd);
+
+	g_free (simple_url);
 }
 
 void
 mail_session_remember_password (const char *url_string)
 {
-	GHashTable *passwords = MAIL_SESSION (session)->passwords;
 	CamelURL *url;
 	char *simple_url;
-	
-	if (!passwords)
-		return;
 	
 	url = camel_url_new (url_string, NULL);
 	simple_url = camel_url_to_string (url, CAMEL_URL_HIDE_PASSWORD | CAMEL_URL_HIDE_PARAMS);
 	camel_url_free (url);
-	
-	g_hash_table_foreach (passwords, maybe_remember_password, simple_url);
+
+	e_passwords_remember_password (simple_url);
+
 	g_free (simple_url);
 }
 
 void
 mail_session_forget_password (const char *key)
 {
-	GHashTable *passwords = MAIL_SESSION (session)->passwords;
-	gpointer okey, value;
-	
-	if (g_hash_table_lookup_extended (passwords, key, &okey, &value)) {
-		g_hash_table_remove (passwords, key);
-		memset (value, 0, strlen (value));
-		g_free (okey);
-		g_free (value);
-	}
+	e_passwords_forget_password (key);
 }
 
 void
@@ -492,22 +445,9 @@ mail_session_enable_interaction (gboolean enable)
 	MAIL_SESSION (session)->interaction_enabled = enable;
 }
 
-static gboolean
-free_entry (gpointer key, gpointer value, gpointer user_data)
-{
-	g_free (key);
-	memset (value, 0, strlen (value));
-	g_free (value);
-	return TRUE;
-}
-
 void
 mail_session_forget_passwords (BonoboUIComponent *uih, void *user_data,
 			       const char *path)
 {
-	GHashTable *passwords = MAIL_SESSION (session)->passwords;
-	
-	g_hash_table_foreach_remove (passwords, free_entry, NULL);
-	gnome_config_private_clean_section ("/Evolution/Passwords");
-	gnome_config_sync ();
+	e_passwords_forget_passwords ();
 }

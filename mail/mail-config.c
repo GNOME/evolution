@@ -50,6 +50,7 @@
 #include <e-util/e-html-utils.h>
 #include <e-util/e-url.h>
 #include <e-util/e-unicode-i18n.h>
+#include <e-util/e-passwords.h>
 #include "mail.h"
 #include "mail-config.h"
 #include "mail-mt.h"
@@ -886,19 +887,42 @@ mail_config_write_on_exit (void)
 	CORBA_exception_free (&ev);
 	
 	/* Passwords */
-	/* fixme: still depends on gnome-config */
-	gnome_config_private_clean_section ("/Evolution/Passwords");
+
+	/* then we make sure the ones we want to remember are in the
+           session cache */
+	accounts = mail_config_get_accounts ();
+	for ( ; accounts; accounts = accounts->next) {
+		char *passwd;
+		account = accounts->data;
+		if (account->source->save_passwd && account->source->url) {
+			passwd = mail_session_get_password (account->source->url);
+			mail_session_forget_password (account->source->url);
+			mail_session_add_password (account->source->url, passwd);
+			g_free (passwd);
+		}
+		
+		if (account->transport->save_passwd && account->transport->url) {
+			passwd = mail_session_get_password (account->transport->url);
+			mail_session_forget_password (account->transport->url);
+			mail_session_add_password (account->transport->url, passwd);
+			g_free (passwd);
+		}
+	}
+
+	/* then we clear out our component passwords */
+	e_passwords_clear_component_passwords ();
+
+	/* then we remember them */
 	accounts = mail_config_get_accounts ();
 	for ( ; accounts; accounts = accounts->next) {
 		account = accounts->data;
 		if (account->source->save_passwd && account->source->url)
 			mail_session_remember_password (account->source->url);
-		
+
 		if (account->transport->save_passwd && account->transport->url)
 			mail_session_remember_password (account->transport->url);
 	}
-	gnome_config_sync ();
-	
+
 	/* now do cleanup */
 	mail_config_clear ();
 }

@@ -1,3 +1,26 @@
+2001-10-12  Chris Toshok  <toshok@ximian.com>
+
+	* main.c (main): call e_passwords_init and e_passwords_shutdown.
+
+	* mail-session.h: add prototypes for
+	mail_session_{get,add}_password.
+
+	* mail-session.c (init): empty this out - we use e_passwords
+	instead of a local hashtable.
+	(get_password): use e_passwords_get_password and
+	e_passwords_add_password.
+	(forget_password): use e_passwords_forget_password.
+	(mail_session_remember_password): use
+	e_passwords_remember_password.
+	(mail_session_forget_password): use e_passwords_forget_password.
+	(mail_session_get_password): new function, use
+	e_passwords_get_password.
+	(mail_session_add_password): same, use e_passwords_add_password.
+	(mail_session_forget_passwords): use e_passwords_forget_passwords.
+
+	* mail-config.c (mail_config_write_on_exit): fix this up so it
+	works as desired with the e_passwords stuff.
+
 2001-10-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-display.c (mail_error_write): Convert URLS so we can get

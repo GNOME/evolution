@@ -29,6 +29,8 @@
 #include <gal/widgets/e-cursors.h>
 #include <gal/widgets/e-unicode.h>
 
+#include "e-util/e-passwords.h"
+
 #include "component-factory.h"
 #include "composer/evolution-composer.h"
 #include "mail.h"
@@ -125,6 +127,8 @@ main (int argc, char *argv [])
 	
 	e_cursors_init ();
 
+	e_passwords_init ("Mail");
+
 	mail_config_init ();
 	mail_msg_init ();
 	
@@ -145,6 +149,8 @@ main (int argc, char *argv [])
 	GDK_THREADS_LEAVE ();
 	
 	mail_config_write_on_exit ();
+
+	e_passwords_shutdown ();
 
 	return 0;
 }
