@@ -48,6 +48,9 @@
 #include "string-utils.h"
 
 #define d(x) x
+#if d(!)0
+extern gboolean camel_verbose_debug;
+#endif
 
 #define CSRVC(obj) (CAMEL_SERVICE_CLASS      (CAMEL_OBJECT_GET_CLASS (obj)))
 #define CSTRC(obj) (CAMEL_STORE_CLASS        (CAMEL_OBJECT_GET_CLASS (obj)))
@@ -322,12 +325,14 @@ remote_send_string (CamelRemoteStore *store, CamelException *ex, char *fmt, va_l
 	cmdbuf = g_strdup_vprintf (fmt, ap);
 
 #if d(!)0
-	if (strncmp (cmdbuf, "PASS ", 5) == 0)
-		fprintf (stderr, "sending : PASS xxxx\n");
-	else if (strstr (cmdbuf, "LOGIN \""))
-		fprintf (stderr, "sending : ---- LOGIN \"xxxx\" \"xxxx\"\n");
-	else
-		fprintf (stderr, "sending : %s", cmdbuf);
+	if (camel_verbose_debug) {
+		if (strncmp (cmdbuf, "PASS ", 5) == 0)
+			fprintf (stderr, "sending : PASS xxxx\n");
+		else if (strstr (cmdbuf, "LOGIN \""))
+			fprintf (stderr, "sending : ---- LOGIN \"xxxx\" \"xxxx\"\n");
+		else
+			fprintf (stderr, "sending : %s", cmdbuf);
+	}
 #endif
 	
 	if (camel_stream_printf (store->ostream, "%s", cmdbuf) == -1) {
@@ -461,8 +466,11 @@ remote_recv_line (CamelRemoteStore *store, char **dest, CamelException *ex)
 		camel_exception_clear (&dex);
 		return -1;
 	}
-	
-	d(fprintf (stderr, "received: %s\n", *dest));
+
+#if d(!)0
+	if (camel_verbose_debug)
+		fprintf (stderr, "received: %s\n", *dest);
+#endif
 	
 	return 0;
 }

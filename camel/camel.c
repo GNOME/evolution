@@ -27,11 +27,11 @@
 #include "camel.h"
 #include <unicode.h>
 
+gboolean camel_verbose_debug = FALSE;
+
 gint
 camel_init(void)
 {
-
-
 #ifdef ENABLE_THREADS
 #ifdef G_THREADS_ENABLED	
 	g_thread_init (NULL);
@@ -39,6 +39,9 @@ camel_init(void)
 	printf ("Threads are not supported by your version of glib\n");
 #endif /* G_THREADS_ENABLED */
 #endif /* ENABLE_THREADS */
+
+	if (getenv ("CAMEL_VERBOSE_DEBUG"))
+		camel_verbose_debug = TRUE;
 
 	unicode_init ();
 

@@ -1,3 +1,11 @@
+2000-09-15  Dan Winship  <danw@helixcode.com>
+
+	* camel.c (camel_init): Set camel_verbose_debug to TRUE if
+	CAMEL_VERBOSE_DEBUG is set in the environment.
+
+	* camel-remote-store.c (remote_send_line, remote_recv_line): only
+	log if camel_verbose_debug is TRUE.
+
 2000-09-14  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/imap/camel-imap-store.c (get_folder): Don't use
