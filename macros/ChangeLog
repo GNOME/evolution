@@ -1,3 +1,20 @@
+1998-05-22  Martin Baulig  <martin@home-of-linux.org>
+
+	* gnome-libgtop-check.m4 (GNOME_LIBGTOP_HOOK): New file.
+	Checks whether libgtop is installed and reads its `libgtopConf.sh'
+	file if it can be found. Defines HAVE_LIBGTOP on success and
+	provides HAVE_LIBGTOP automake conditional.
+
+1998-05-21  Martin Baulig  <martin@home-of-linux.org>
+
+	* gnome-libgtop-sysdeps.m4 (GNOME_LIBGTOP_SYSDEPS): New file.
+	(libgtop_sysdeps_dir): sysdeps directory libgtop uses.
+	(libgtop_use_machine_h): define HAVE_GLIBTOP_MACHINE_H if this
+	is `yes'.
+	(libgtop_need_server): we only need the libgtop server, when
+	this has a value of `yes'. Defines NEED_LIBGTOP and NEED_LIBGTOP
+	automake conditional.
+
 1998-05-19  Raja R Harinath  <harinath@cs.umn.edu>
 
 	* gnome-support.m4 (strerror): New check.
