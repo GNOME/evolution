@@ -638,6 +638,32 @@ comp_editor_merge_ui (CompEditor *editor, const char *filename, BonoboUIVerb *ve
 	bonobo_ui_component_add_verb_list_with_data (priv->uic, verbs, editor);
 }
 
+/**
+ * comp_editor_set_ui_prop:
+ * @editor: 
+ * @path: 
+ * @attr: 
+ * @val: 
+ * 
+ * 
+ **/
+void
+comp_editor_set_ui_prop (CompEditor *editor, 
+			 const char *path,
+			 const char *attr,
+			 const char *val)
+{
+	CompEditorPrivate *priv;
+	
+	g_return_if_fail (editor != NULL);
+	g_return_if_fail (IS_COMP_EDITOR (editor));
+	
+	priv = editor->priv;
+
+	bonobo_ui_component_set_prop (priv->uic, path, attr, val, NULL); 
+}
+
+
 /* Brings attention to a window by raising it and giving it focus */
 static void
 raise_and_focus (GtkWidget *widget)

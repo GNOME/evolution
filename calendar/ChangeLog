@@ -1,5 +1,21 @@
 2001-07-06  JP Rosevear  <jpr@ximian.com>
 
+	* gui/dialogs/meeting-page.c (init_widgets): connect to the entry
+	not the combo
+
+	* gui/dialogs/event-editor.c (set_menu_sens): set menu
+	sensitivities based on whether or not the meeting page is shown
+	(event_editor_init): call above
+	(event_editor_edit_comp): ditto
+	(schedule_meeting_cmd): ditto
+
+	* gui/dialogs/comp-editor.h: new proto
+
+	* gui/dialogs/comp-editor.c (comp_editor_set_ui_prop): new
+	function to allow for set of ui props (esp. "sensitive")
+	
+2001-07-06  JP Rosevear  <jpr@ximian.com>
+
 	* gui/dialogs/meeting-page.c (clear_widgets): actually clear some
 	widgets and hide/show widgets in the default setup
 	(meeting_page_destroy): destroy the address lists

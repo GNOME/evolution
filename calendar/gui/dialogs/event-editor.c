@@ -121,6 +121,24 @@ event_editor_class_init (EventEditorClass *klass)
 	object_class->destroy = event_editor_destroy;
 }
 
+static void
+set_menu_sens (EventEditor *ee) 
+{
+	EventEditorPrivate *priv;
+	
+	priv = ee->priv;
+
+	comp_editor_set_ui_prop (COMP_EDITOR (ee), 
+				 "/commands/ActionScheduleMeeting", 
+				 "sensitive", priv->meeting_shown ? "0" : "1");
+	comp_editor_set_ui_prop (COMP_EDITOR (ee), 
+				 "/commands/ActionRefreshMeeting", 
+				 "sensitive", priv->meeting_shown ? "1" : "0");
+	comp_editor_set_ui_prop (COMP_EDITOR (ee), 
+				 "/commands/ActionCancelMeeting", 
+				 "sensitive", priv->meeting_shown ? "1" : "0");
+}
+
 /* Object initialization function for the event editor */
 static void
 event_editor_init (EventEditor *ee)
@@ -150,11 +168,12 @@ event_editor_init (EventEditor *ee)
 				 COMP_EDITOR_PAGE (priv->meet_page),
 				 _("Meeting"));
 
-	priv->meeting_shown = TRUE;
+ 	comp_editor_merge_ui (COMP_EDITOR (ee), EVOLUTION_DATADIR 
+ 			      "/gnome/ui/evolution-event-editor.xml",
+ 			      verbs);
 	
-	comp_editor_merge_ui (COMP_EDITOR (ee), EVOLUTION_DATADIR 
-			      "/gnome/ui/evolution-event-editor.xml",
-			      verbs);
+	priv->meeting_shown = TRUE;
+	set_menu_sens (ee);
 }
 
 static void
@@ -171,6 +190,7 @@ event_editor_edit_comp (CompEditor *editor, CalComponent *comp)
 	if (attendees == NULL) {
 		comp_editor_remove_page (editor, COMP_EDITOR_PAGE (priv->meet_page));
 		priv->meeting_shown = FALSE;
+		set_menu_sens (ee);
 	}
 	cal_component_free_attendee_list (attendees);
 		
@@ -226,7 +246,8 @@ schedule_meeting_cmd (GtkWidget *widget, gpointer data)
 		comp_editor_append_page (COMP_EDITOR (ee),
 					 COMP_EDITOR_PAGE (priv->meet_page),
 					 _("Meeting"));
-		priv->meeting_shown = FALSE;
+		priv->meeting_shown = TRUE;
+		set_menu_sens (ee);
 	}
 	
 	comp_editor_show_page (COMP_EDITOR (ee),

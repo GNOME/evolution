@@ -54,6 +54,7 @@ typedef struct {
 	/* Virtual functions */
 	void (* edit_comp) (CompEditor *page, CalComponent *comp);
 } CompEditorClass;
+
 GtkType       comp_editor_get_type         (void);
 CompEditor   *comp_editor_new              (void);
 void          comp_editor_append_page      (CompEditor             *editor,
@@ -76,10 +77,11 @@ void          comp_editor_send_comp        (CompEditor             *editor,
 void          comp_editor_merge_ui         (CompEditor             *editor,
 					    const char             *filename,
 					    BonoboUIVerb           *verbs);
+void          comp_editor_set_ui_prop      (CompEditor             *editor,
+					    const char             *path,
+					    const char             *attr,
+					    const char             *val);
 void          comp_editor_focus            (CompEditor             *editor);
-
-
-
 
 
 

@@ -697,7 +697,7 @@ init_widgets (MeetingPage *mpage)
 	priv = mpage->priv;
 
 	/* Organizer */
-	gtk_signal_connect (GTK_OBJECT (priv->organizer), "changed",
+	gtk_signal_connect (GTK_OBJECT (GTK_COMBO (priv->organizer)->entry), "changed",
 			    GTK_SIGNAL_FUNC (field_changed_cb), mpage);
 
 	gtk_signal_connect (GTK_OBJECT (priv->other_organizer_btn), "clicked",
