@@ -1,5 +1,12 @@
 2002-05-10  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-callbacks.c (do_view_message): Update for the new
+	message-browser api.
+
+	* message-browser.c (message_browser_new): A brand new
+	implementation that just shows the message, none of that next/prev
+	crap that always caused problems anyway.
+
 	* mail-config.c (mail_config_add_account): Don't add any shortcuts
 	here.
 	(mail_config_remove_account): And don't remove them here. This

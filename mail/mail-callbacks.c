@@ -3107,7 +3107,7 @@ do_view_message (CamelFolder *folder, char *uid, CamelMimeMessage *message, void
 		GtkWidget *mb;
 		
 		camel_folder_set_message_flags (folder, uid, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
-		mb = message_browser_new (fb->shell, fb->uri, uid);
+		mb = message_browser_new (message);
 		gtk_widget_show (mb);
 	}
 }
