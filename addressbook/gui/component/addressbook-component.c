@@ -25,6 +25,10 @@
 #include <config.h>
 #endif
 
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <errno.h>
+
 #include <bonobo/bonobo-generic-factory.h>
 
 #include "evolution-shell-component.h"
@@ -108,7 +112,60 @@ remove_folder (EvolutionShellComponent *shell_component,
 	       const GNOME_Evolution_ShellComponentListener listener,
 	       void *closure)
 {
+	CORBA_Environment ev;
+	char *addressbook_db_path, *subdir_path;
+	struct stat sb;
+	int rv;
+
 	g_print ("should remove %s\n", physical_uri);
+
+	CORBA_exception_init(&ev);
+
+	if (!strncmp (physical_uri, "ldap://", 7)) {
+		GNOME_Evolution_ShellComponentListener_notifyResult (listener,
+								     GNOME_Evolution_ShellComponentListener_UNSUPPORTED_OPERATION,
+								     &ev);
+		CORBA_exception_free(&ev);
+		return;
+	}
+	if (strncmp (physical_uri, "file://", 7)) {
+		GNOME_Evolution_ShellComponentListener_notifyResult (listener,
+								     GNOME_Evolution_ShellComponentListener_INVALID_URI,
+								     &ev);
+		CORBA_exception_free(&ev);
+		return;
+	}
+
+	subdir_path = g_concat_dir_and_file (physical_uri + 7, "subfolders");
+	rv = stat (subdir_path, &sb);
+	g_free (subdir_path);
+	if (rv != -1) {
+		GNOME_Evolution_ShellComponentListener_notifyResult (listener,
+								     GNOME_Evolution_ShellComponentListener_HAS_SUBFOLDERS,
+								     &ev);
+		CORBA_exception_free(&ev);
+		return;
+	}
+
+	addressbook_db_path = g_concat_dir_and_file (physical_uri + 7, "addressbook.db");
+	rv = unlink (addressbook_db_path);
+	g_free (addressbook_db_path);
+	if (rv == 0) {
+		GNOME_Evolution_ShellComponentListener_notifyResult (listener,
+								     GNOME_Evolution_ShellComponentListener_OK,
+								     &ev);
+	}
+	else {
+		if (errno == EACCES || errno == EPERM)
+			GNOME_Evolution_ShellComponentListener_notifyResult (listener,
+							     GNOME_Evolution_ShellComponentListener_PERMISSION_DENIED,
+							     &ev);
+		else
+			GNOME_Evolution_ShellComponentListener_notifyResult (listener,
+							     GNOME_Evolution_ShellComponentListener_INVALID_URI, /*XXX*/
+							     &ev);
+	}
+	CORBA_exception_free(&ev);
 }
 
 static void
@@ -126,14 +183,20 @@ xfer_folder (EvolutionShellComponent *shell_component,
 	g_print ("should transfer %s to %s, %s source\n", source_physical_uri,
 		 destination_physical_uri, remove_source ? "removing" : "not removing");
 
-	if (!strncmp (source_physical_uri, "ldap:", 5)
-	    || !strncmp (destination_physical_uri, "ldap:", 5)) {
-		GNOME_Evolution_ShellComponentListener_notifyResult (listener, GNOME_Evolution_ShellComponentListener_UNSUPPORTED_OPERATION, &ev);
+	if (!strncmp (source_physical_uri, "ldap://", 7)
+	    || !strncmp (destination_physical_uri, "ldap://", 7)) {
+		GNOME_Evolution_ShellComponentListener_notifyResult (listener,
+							     GNOME_Evolution_ShellComponentListener_UNSUPPORTED_OPERATION,
+							     &ev);
+		CORBA_exception_free(&ev);
 		return;
 	}
 	if (strncmp (source_physical_uri, "file://", 7)
 	    || strncmp (destination_physical_uri, "file://", 7)) {
-		GNOME_Evolution_ShellComponentListener_notifyResult (listener, GNOME_Evolution_ShellComponentListener_INVALID_URI, &ev);
+		GNOME_Evolution_ShellComponentListener_notifyResult (listener,
+							     GNOME_Evolution_ShellComponentListener_INVALID_URI,
+							     &ev);
+		CORBA_exception_free(&ev);
 		return;
 	}
 
@@ -153,6 +216,8 @@ xfer_folder (EvolutionShellComponent *shell_component,
 	/* XXX always fail for now, until the above stuff is written */
 	GNOME_Evolution_ShellComponentListener_notifyResult (listener, GNOME_Evolution_ShellComponentListener_PERMISSION_DENIED, &ev);
 
+	g_free (source_path);
+	g_free (destination_path);
 	CORBA_exception_free (&ev);
 }
 
@@ -213,6 +278,7 @@ destination_folder_handle_motion (EvolutionShellComponentDndDestinationFolder *f
 				  gpointer user_data)
 {
 	g_print ("in destination_folder_handle_motion (%s)\n", physical_uri);
+	*suggested_action_return = GNOME_Evolution_ShellComponentDnd_ACTION_COPY | GNOME_Evolution_ShellComponentDnd_ACTION_MOVE;
 	return TRUE;
 }
 
@@ -224,6 +290,9 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *fol
 				const GNOME_Evolution_ShellComponentDnd_Data * data,
 				gpointer user_data)
 {
+	if (action == GNOME_Evolution_ShellComponentDnd_ACTION_LINK)
+		return FALSE; /* we can't create links in our addressbook format */
+
 	g_print ("in destination_folder_handle_drop (%s)\n", physical_uri);
 	return TRUE;
 }

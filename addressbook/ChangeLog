@@ -1,5 +1,11 @@
 2001-05-07  Chris Toshok  <toshok@ximian.com>
 
+	* gui/component/addressbook-component.c (remove_folder): flesh out
+	the function more.  It should work now, but there's no way to
+	invoke this method from the ui at the moment, heh.
+
+2001-05-07  Chris Toshok  <toshok@ximian.com>
+
 	* gui/component/addressbook.c (book_open_cb): Use a different
 	error message in the ldap support/no ldap support/file cases.
 
