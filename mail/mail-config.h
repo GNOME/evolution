@@ -68,17 +68,22 @@ void mail_config_read (void);
 void mail_config_write (void);
 void mail_config_write_on_exit (void);
 
-/* Accessor functions */
-gboolean mail_config_is_configured (void);
+/* General Accessor functions */
+gboolean       mail_config_is_configured   (void);
+MailConfig     *mail_config_fetch          (void);
+gboolean       mail_config_send_html       (void);
+gboolean       mail_config_thread_list     (void);
+gint           mail_config_paned_size      (void);
+void           mail_config_set_thread_list (gboolean value);
+void           mail_config_set_paned_size  (gint size);
+
+/* Identity Accessor functions */
 MailConfigIdentity *mail_config_get_default_identity (void);
+GSList             *mail_config_get_identities       (void);
+
+/* Service Accessor functions */
 MailConfigService *mail_config_get_default_source (void);
-MailConfigService *mail_config_get_transport (void);
-gboolean mail_config_send_html (void);
-gboolean mail_config_thread_list (void);
-gint mail_config_paned_size (void);
-void mail_config_set_thread_list (gboolean value);
-void mail_config_set_paned_size (gint size);
-MailConfig *mail_config_fetch (void);
+MailConfigService *mail_config_get_transport      (void);
 
 #endif
 

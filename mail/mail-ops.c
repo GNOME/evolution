@@ -544,7 +544,7 @@ cleanup_send_mail (gpointer userdata)
 static void
 composer_send_cb (EMsgComposer *composer, gpointer data)
 {
-	const MailConfigIdentity *id = NULL; 
+	const MailConfigIdentity *id = NULL;
 	static CamelTransport *transport = NULL;
 	struct post_send_data *psd = data;
 	rsm_t *info;
@@ -553,14 +553,14 @@ composer_send_cb (EMsgComposer *composer, gpointer data)
 	CamelException *ex;
 	CamelMimeMessage *message;
 	char *name, *addr;
-
+	
 	ex = camel_exception_new ();
-
+	
 	id = mail_config_get_default_identity ();
 	
 	if (!check_configured() || !id) {
 		GtkWidget *message;
-
+		
 		message = gnome_warning_dialog_parented (_("You need to configure an identity\n"
 							   "before you can send mail."),
 							 GTK_WINDOW (gtk_widget_get_ancestor (GTK_WIDGET (composer),
@@ -568,32 +568,33 @@ composer_send_cb (EMsgComposer *composer, gpointer data)
 		gnome_dialog_run_and_close (GNOME_DIALOG (message));
 		return;
 	}
-
+	
+	from = g_strdup (e_msg_composer_hdrs_get_from (E_MSG_COMPOSER_HDRS (composer->hdrs)));
 	if (!from) {
 		CamelInternetAddress *ciaddr;
-
+		
 		g_assert (id);
 		
 		name = id->name;
 		g_assert (name);
-
+		
 		addr = id->address;
 		g_assert (addr);
-
+		
 		ciaddr = camel_internet_address_new ();
 		camel_internet_address_add (ciaddr, name, addr);
 
 		from = camel_address_encode (CAMEL_ADDRESS (ciaddr));
 	}
-
+	
 	if (!transport) {
 		MailConfigService *t;
 		char *url;
-
+		
 		t = mail_config_get_transport ();
 		url = t->url;
 		g_assert (url);
-
+		
 		transport = camel_session_get_transport (session, url, ex);
 		if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
 			mail_exception_dialog ("Could not load mail transport",
@@ -602,9 +603,9 @@ composer_send_cb (EMsgComposer *composer, gpointer data)
 			return;
 		}
 	}
-
+	
 	message = e_msg_composer_get_message (composer);
-
+	
 	subject = camel_mime_message_get_subject (message);
 	if (!subject || !*subject) {
 		if (!ask_confirm_for_empty_subject (composer)) {
@@ -612,7 +613,7 @@ composer_send_cb (EMsgComposer *composer, gpointer data)
 			return;
 		}
 	}
-
+	
 	info = g_new0 (rsm_t, 1);
 	info->composer = composer;
 	info->transport = transport;

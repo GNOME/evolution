@@ -391,6 +391,12 @@ mail_config_get_default_identity ()
 	return (MailConfigIdentity *)config->ids->data;
 }
 
+GSList *
+mail_config_get_identities ()
+{
+	return config->ids;
+}
+
 MailConfigService *
 mail_config_get_default_source ()
 {
@@ -441,3 +447,5 @@ mail_config_fetch (void)
 {
 	return config;
 }
+
+
