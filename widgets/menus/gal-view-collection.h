@@ -3,7 +3,6 @@
 #define _GAL_VIEW_SET_H_
 
 #include <gtk/gtkobject.h>
-#include <gal/util/e-list.h>
 #include <gal/menus/gal-view-factory.h>
 
 #define GAL_VIEW_COLLECTION_TYPE        (gal_view_collection_get_type ())
