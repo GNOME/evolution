@@ -251,7 +251,10 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *comp)
 	bcc_list->_maximum = bcc_list->_length = 0;
 	
 	cal_component_get_summary (comp, &caltext);
-	subject = CORBA_string_dup (caltext.value);
+	if (caltext.value != NULL)
+		subject = CORBA_string_dup (caltext.value);
+	else
+		subject = CORBA_string_dup ("");
 
 	GNOME_Evolution_Composer_setHeaders (composer_server, to_list, cc_list, bcc_list, subject, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
