@@ -484,13 +484,13 @@ camel_folder_thread_messages_new(CamelFolder *folder, GPtrArray *uids)
 		if (mi->message_id.id.id) {
 			c = g_hash_table_lookup(id_table, &mi->message_id);
 			/* check for duplicate messages */
-			if (c) {
+			if (c && c->order) {
 				/* if duplicate, just make out it is a no-id message,  but try and insert it
 				   into the right spot in the tree */
 				d(printf("doing: (duplicate message id)\n"));
 				c = e_memchunk_alloc0(thread->node_chunks);
 				g_hash_table_insert(no_id_table, (void *)mi, c);
-			} else {
+			} else if (!c) {
 				d(printf("doing : %08x%08x (%s)\n", mi->message_id.id.part.hi, mi->message_id.id.part.lo, camel_message_info_subject(mi)));
 				c = e_memchunk_alloc0(thread->node_chunks);
 				g_hash_table_insert(id_table, (void *)&mi->message_id, c);
@@ -635,13 +635,13 @@ camel_folder_thread_messages_new_summary(GPtrArray *summary)
 		if (mi->message_id.id.id) {
 			c = g_hash_table_lookup(id_table, &mi->message_id);
 			/* check for duplicate messages */
-			if (c) {
+			if (c && c->order) {
 				/* if duplicate, just make out it is a no-id message,  but try and insert it
 				   into the right spot in the tree */
 				d(printf("doing: (duplicate message id)\n"));
 				c = e_memchunk_alloc0(thread->node_chunks);
 				g_hash_table_insert(no_id_table, (void *)mi, c);
-			} else {
+			} else if (!c) {
 				d(printf("doing : %08x%08x (%s)\n", mi->message_id.id.part.hi, mi->message_id.id.part.lo, camel_message_info_subject(mi)));
 				c = e_memchunk_alloc0(thread->node_chunks);
 				g_hash_table_insert(id_table, (void *)&mi->message_id, c);
