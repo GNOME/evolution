@@ -1,6 +1,10 @@
+keysdir = $(datadir)/mime-info
+keys_in_files = evolution.keys.in
+keys_DATA = $(keys_in_files:.keys.in=.keys) 
+
 mimedir = $(datadir)/mime-info
-mime_in_files = evolution.keys.in
-mime_DATA = $(mime_in_files:.keys.in=.keys)
+mime_DATA = evolution.mime
+
 @XML_I18N_MERGE_KEYS_RULE@
 
-EXTRA_DIST = $(mime_in_files)
+EXTRA_DIST = $(keys_in_files) $(mime_DATA)
