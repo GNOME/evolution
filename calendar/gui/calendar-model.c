@@ -41,11 +41,11 @@
 #include <libgnomeui/gnome-stock.h>
 #include <libgnome/gnome-i18n.h>
 #include <gal/widgets/e-unicode.h>
-
-#include "e-util/e-time-utils.h"
-#include "cal-util/timeutil.h"
-#include "calendar-commands.h"
+#include <e-util/e-time-utils.h>
+#include <cal-util/timeutil.h>
 #include "calendar-model.h"
+#include "calendar-commands.h"
+
 
 /* Private part of the ECalendarModel structure */
 struct _CalendarModelPrivate {
@@ -66,9 +66,6 @@ struct _CalendarModelPrivate {
 
 	/* Whether we display dates in 24-hour format. */
 	gboolean use_24_hour_format;
-
-	/* HACK: so that ETable can do its stupid append_row() thing */
-	guint appending_row : 1;
 
 	/* The default category to use when creating new tasks, e.g. when the
 	   filter is set to a certain category we use that category when
@@ -1286,12 +1283,6 @@ calendar_model_set_value_at (ETableModel *etm, int col, int row, const void *val
 		break;
 	}
 
-	/* FIXME: this is an ugly HACK.  ETable needs a better API for the
-	 * "click here to add an element" thingy.
-	 */
-	if (priv->appending_row)
-		return;
-
 	if (!cal_client_update_object (priv->client, comp))
 		g_message ("calendar_model_set_value_at(): Could not update the object!");
 }
@@ -1340,14 +1331,9 @@ calendar_model_append_row (ETableModel *etm, ETableModel *source, gint row)
 	CalendarModel *model;
 	CalendarModelPrivate *priv;
 	CalComponent *comp;
-	int *new_idx, col;
-	const char *uid;
 
 	model = CALENDAR_MODEL (etm);
 	priv = model->priv;
-
-	/* This is a HACK */
-	priv->appending_row = TRUE;
 
 	/* FIXME: This should support other types of components, but for now it
 	 * is only used for the task list.
@@ -1355,36 +1341,26 @@ calendar_model_append_row (ETableModel *etm, ETableModel *source, gint row)
 	comp = cal_component_new ();
 	cal_component_set_new_vtype (comp, priv->new_comp_vtype);
 
-	cal_component_get_uid (comp, &uid);
-
-	g_array_append_val (priv->objects, comp);
-	new_idx = g_new (int, 1);
-	*new_idx = priv->objects->len - 1;
-	g_hash_table_insert (priv->uid_index_hash, (char *) uid, new_idx);
-
-	/* Notify the views about the new row. I think we have to do that here,
-	   or the views may become confused when they start getting
-	   "row_changed" or "cell_changed" signals for this new row. */
-	e_table_model_row_inserted (etm, *new_idx);
-
-	for (col = 0; col < CAL_COMPONENT_FIELD_NUM_FIELDS; col++) {
-		const void *val;
-
-		if (!e_table_model_is_cell_editable (etm, col, *new_idx))
-			continue;
-
-		val = e_table_model_value_at(source, col, row);
-		e_table_model_set_value_at (etm, col, *new_idx, val);
-	}
-
-	/* This is the end of the HACK */
-	priv->appending_row = FALSE;
+	set_categories (comp, e_table_model_value_at(source, CAL_COMPONENT_FIELD_CATEGORIES, row));
+	set_classification (comp, e_table_model_value_at(source, CAL_COMPONENT_FIELD_CLASSIFICATION, row));
+	set_completed (model, comp, e_table_model_value_at(source, CAL_COMPONENT_FIELD_COMPLETED, row));
+	/* FIXME: Need to reset dtstart if dtend happens before it */
+	set_datetime (model, comp, e_table_model_value_at(source, CAL_COMPONENT_FIELD_DTEND, row), cal_component_set_dtend);
+	/* FIXME: Need to reset dtend if dtstart happens after it */
+	set_datetime (model, comp, e_table_model_value_at(source, CAL_COMPONENT_FIELD_DTSTART, row), cal_component_set_dtstart);
+	set_datetime (model, comp, e_table_model_value_at(source, CAL_COMPONENT_FIELD_DUE, row), cal_component_set_due);
+	set_geo (comp, e_table_model_value_at(source, CAL_COMPONENT_FIELD_GEO, row));
+	set_percent (comp, e_table_model_value_at(source, CAL_COMPONENT_FIELD_PERCENT, row));
+	set_priority (comp, e_table_model_value_at(source, CAL_COMPONENT_FIELD_PRIORITY, row));
+	set_summary (comp, e_table_model_value_at(source, CAL_COMPONENT_FIELD_SUMMARY, row));
+	set_transparency (comp, e_table_model_value_at(source, CAL_COMPONENT_FIELD_TRANSPARENCY, row));
+	set_url (comp, e_table_model_value_at(source, CAL_COMPONENT_FIELD_URL, row));
+	set_complete (comp, e_table_model_value_at(source, CAL_COMPONENT_FIELD_COMPLETE, row));
+	set_status (comp, e_table_model_value_at(source, CAL_COMPONENT_FIELD_STATUS, row));
 
 	if (!cal_client_update_object (priv->client, comp)) {
 		/* FIXME: Show error dialog. */
 		g_message ("calendar_model_append_row(): Could not add new object!");
-		remove_object (model, uid);
-		e_table_model_row_deleted (etm, *new_idx);
 	}
 }
 
