@@ -167,10 +167,8 @@ mail_display_queue_redisplay (MailDisplay *md)
 }
 
 static void
-on_link_clicked (GtkHTML *html, const char *url, gpointer user_data)
+on_link_clicked (GtkHTML *html, const char *url, MailDisplay *md)
 {
-	MailDisplay *md = user_data;
-
 	if (!g_strncasecmp (url, "news:", 5) ||
 	    !g_strncasecmp (url, "nntp:", 5))
 		g_warning ("Can't handle news URLs yet.");
@@ -1059,9 +1057,23 @@ mail_display_class_init (GtkObjectClass *object_class)
 }
 
 static void
+on_selection_get (GtkWidget *widget, GtkSelectionData *selection_data,
+		  guint info, guint time_stamp, gpointer data)
+{
+	gchar *text;
+
+	text = gtk_object_get_data (GTK_OBJECT(widget), "selection");
+	if (text != NULL)
+		gtk_selection_data_set (selection_data,
+					GDK_SELECTION_TYPE_STRING,
+					8, text, strlen (text));
+}
+
+static void
 link_open_in_browser (GtkWidget *w, MailDisplay *mail_display)
 {
-	g_print ("FIXME\n");
+	on_link_clicked (mail_display->html, mail_display->html->pointer_url,
+			 mail_display);
 }
 
 static void
@@ -1073,14 +1085,19 @@ link_save_as (GtkWidget *w, MailDisplay *mail_display)
 static void
 link_copy_location (GtkWidget *w, MailDisplay *mail_display)
 {
-	g_print ("FIXME\n");
+	gtk_object_set_data (GTK_OBJECT (mail_display->html),
+		"selection", g_strdup (mail_display->html->pointer_url));
+
+	gtk_selection_owner_set (GTK_WIDGET (mail_display->html),
+				 GDK_SELECTION_PRIMARY,
+				 GDK_CURRENT_TIME);
 }
 
 #define SEPARATOR  { "", NULL, (NULL), NULL,  0 }
 #define TERMINATOR { NULL, NULL, (NULL), NULL,  0 }
 
 static EPopupMenu link_menu [] = {
-	{ N_("Open link in browser (FIXME)"),    NULL,
+	{ N_("Open link in browser"),    NULL,
 	  GTK_SIGNAL_FUNC (link_open_in_browser),  NULL,  0 },
 	{ N_("Save as (FIXME)"),                 NULL,
 	  GTK_SIGNAL_FUNC (link_save_as), NULL,  0 },
@@ -1246,6 +1263,11 @@ mail_display_new (void)
 			    GTK_SIGNAL_FUNC (html_enter_notify_event), mail_display);
 	gtk_signal_connect (GTK_OBJECT (html), "iframe_created",
 			    GTK_SIGNAL_FUNC (html_iframe_created), mail_display);
+	gtk_selection_add_target (GTK_WIDGET(html),
+				  GDK_SELECTION_PRIMARY, 
+				  GDK_SELECTION_TYPE_STRING, 1);
+	gtk_signal_connect (GTK_OBJECT (html), "selection_get",
+			    GTK_SIGNAL_FUNC (on_selection_get), NULL);
 
 	gtk_container_add (GTK_CONTAINER (scroll), html);
 	gtk_widget_show (GTK_WIDGET (html));
