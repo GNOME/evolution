@@ -1,6 +1,8 @@
 2004-04-13  Not Zed  <NotZed@Ximian.com>
 
 	* em-format-html.c (efh_format_headers): use %% for %%.
+	(efh_format_done): reset load_http_now once we've done, should
+	fix #56338 finally.
 
 	* em-folder-view.c (emfv_init, emfv_finalise, emfv_activate):
 	revert dans' creatable items handler patch, moved to

@@ -1232,6 +1232,7 @@ static void efh_format_done(struct _mail_msg *mm)
 
 	d(printf("formatting finished\n"));
 
+	m->format->load_http_now = FALSE;
 	m->format->priv->format_id = -1;
 	g_signal_emit_by_name(m->format, "complete");
 }
