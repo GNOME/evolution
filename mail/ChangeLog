@@ -25,7 +25,7 @@
 
 	Fix for bug #51551
 
-	* mail-callbacks.c: (composer_get_message) Encode the value of
+	* mail-callbacks.c (composer_get_message) Encode the value of
 	"Organization:" header string here incase it contains 8 bit
 	characters.
 
@@ -37,12 +37,12 @@
 	(sig_changed): call change handler func.
 	(mail_account_gui_build_extra_conf): connect "changed" signal.
 	(default_folders_clicked): call change handler func.
-	
+
 	* mail-account-editor.c (apply_changes): disable apply button.
 	(construct): disable apply button.
 	(mail_account_editor_changed): change signal handler on editor
 	object.
-	
+
 	* mail_account_editor.h (mail_account_editor_changed): defination
 	of func above.[48998]
 	
@@ -59,7 +59,7 @@
 
 2003-10-08  Frederic Crozat  <fcrozat@mandrakesoft.com>
 
-	* mail-display.c: (pixbuf_gen_idle):
+	* mail-display.c (pixbuf_gen_idle):
 	Use gnome-thumbnail_scale_down_pixbuf if available,
 	for better performance.
 
