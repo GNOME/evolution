@@ -1,3 +1,8 @@
+2001-08-21  JP Rosevear  <jpr@ximian.com>
+
+	* gui/e-itip-control.c (write_html): strip the mailto bit for the
+	email address if we display it
+
 2001-08-21  Damon Chaplin  <damon@ximian.com>
 
 	* pcs/query.c (func_is_completed): added new e-sexp operator. We

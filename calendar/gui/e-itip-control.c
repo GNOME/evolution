@@ -546,7 +546,7 @@ write_html (EItipControl *itip, gchar *itip_desc, gchar *itip_title, gchar *opti
 	cal_component_get_organizer (priv->comp, &organizer);
 	if (organizer.value != NULL) {
 		html = g_strdup_printf (itip_desc,
-					organizer.cn ? organizer.cn : organizer.value);
+					organizer.cn ? organizer.cn : itip_strip_mailto (organizer.value));
 		gtk_html_write (GTK_HTML (priv->html), html_stream, html, strlen(html));
 		g_free (html);
 	}
