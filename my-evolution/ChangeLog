@@ -1,5 +1,10 @@
 2001-09-18  Iain Holmes  <iain@ximian.com>
 
+	* e-summary-preferences.c (mail_add_clicked_cb): Don't add folders that
+	are already in the list
+
+2001-09-18  Iain Holmes  <iain@ximian.com>
+
 	* e-summary-rdf.c (display_doc): Verbose error reporting.
 	(read_callback): Same.
 	(open_callback): Same.

@@ -688,13 +688,22 @@ mail_add_clicked_cb (GtkButton *button,
 	int row;
 	ESummaryMailRowData *rd;
 	char *text[1];
+	GList *p;
 	
 	row = GPOINTER_TO_INT (GTK_CLIST (pd->mail->all)->selection->data);
 	rd = gtk_clist_get_row_data (GTK_CLIST (pd->mail->all), row);
 	g_return_if_fail (rd != NULL);
-	
+
+	for (p = pd->summary->preferences->display_folders; p; p = p->next) {
+		if (strcmp (rd->uri + 7, p->data) == 0) {
+			/* Already in list */
+			return;
+		}
+	}
+
 	text[0] = rd->name + 1;
 	row = gtk_clist_append (GTK_CLIST (pd->mail->shown), text);
+
 	pd->summary->preferences->display_folders = g_list_prepend (pd->summary->preferences->display_folders,
 								    g_strdup (rd->uri + 7));
 	gtk_clist_set_row_data (GTK_CLIST (pd->mail->shown), row, pd->summary->preferences->display_folders);
