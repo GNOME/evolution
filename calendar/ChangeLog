@@ -1,5 +1,14 @@
 2000-06-02  Federico Mena Quintero  <federico@helixcode.com>
 
+	* gui/event-editor.c (tb_save_and_close_cb): Implemented.
+	(toolbar): Added an icon for the Save and Close command.
+	(save_ical_object): Recompute the title of the window here.  Maybe
+	it would be better to do it when we actually get the
+	"object_changed" signal from the CalClient.
+	(file_close_cb): Implemented.
+
+2000-06-02  Federico Mena Quintero  <federico@helixcode.com>
+
 	* gui/gnome-cal.c (save_ical_object_cb): Implemented.
 	(gnome_calendar_add_object): Removed function, since it was
 	identical to gnome_calendar_update_object().  Modified the rest

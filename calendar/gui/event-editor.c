@@ -1041,6 +1041,7 @@ static void
 save_ical_object (EventEditor *ee)
 {
 	EventEditorPrivate *priv;
+	char *title;
 
 	priv = ee->priv;
 
@@ -1049,9 +1050,40 @@ save_ical_object (EventEditor *ee)
 
 	dialog_to_ical_object (ee);
 
+	title = make_title_from_ico (priv->ico);
+	gtk_window_set_title (GTK_WINDOW (priv->app), title);
+	g_free (title);
+
 	gtk_signal_emit (GTK_OBJECT (ee), event_editor_signals[SAVE_ICAL_OBJECT],
 			 priv->ico);
 }
+
+/* Closes the dialog box and emits the appropriate signals */
+static void
+close_dialog (EventEditor *ee)
+{
+	EventEditorPrivate *priv;
+
+	priv = ee->priv;
+
+	g_assert (priv->app != NULL);
+
+	free_exception_clist_data (GTK_CLIST (priv->recurrence_exceptions_list));
+
+	gtk_widget_destroy (priv->app);
+	priv->app = NULL;
+
+	if (priv->ico) {
+		gtk_signal_emit (GTK_OBJECT (ee), event_editor_signals[ICAL_OBJECT_RELEASED],
+				 priv->ico->uid);
+		ical_object_unref (priv->ico);
+		priv->ico = NULL;
+	}
+
+	gtk_signal_emit (GTK_OBJECT (ee), event_editor_signals[EDITOR_CLOSED]);
+}
+
+
 
 /* File/Save callback */
 static void
@@ -1061,6 +1093,18 @@ file_save_cb (GtkWidget *widget, gpointer data)
 
 	ee = EVENT_EDITOR (data);
 	save_ical_object (ee);
+}
+
+/* File/Close callback */
+static void
+file_close_cb (GtkWidget *widget, gpointer data)
+{
+	EventEditor *ee;
+
+	/* FIXME: need to check for a dirty object */
+
+	ee = EVENT_EDITOR (data);
+	close_dialog (ee);
 }
 
 
@@ -1108,7 +1152,7 @@ static GnomeUIInfo file_menu[] = {
 	GNOMEUIINFO_SEPARATOR,
 	GNOMEUIINFO_MENU_PROPERTIES_ITEM (NULL, NULL),
 	GNOMEUIINFO_SEPARATOR,
-	GNOMEUIINFO_MENU_CLOSE_ITEM (NULL, NULL),
+	GNOMEUIINFO_MENU_CLOSE_ITEM (file_close_cb, NULL),
 	GNOMEUIINFO_END
 };
 
@@ -1254,10 +1298,26 @@ create_menu (EventEditor *ee)
 
 
 
+/* Toolbar/Save and Close callback */
+static void
+tb_save_and_close_cb (GtkWidget *widget, gpointer data)
+{
+	EventEditor *ee;
+
+	ee = EVENT_EDITOR (data);
+	save_ical_object (ee);
+	close_dialog (ee);
+}
+
+
+
 /* Toolbar */
 
 static GnomeUIInfo toolbar[] = {
-	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Save and Close"), NULL, NULL),
+	GNOMEUIINFO_ITEM_STOCK (N_("FIXME: Save and Close"),
+				N_("Saves the appointment and closes the dialog box"),
+				tb_save_and_close_cb,
+				GNOME_STOCK_PIXMAP_SAVE),
 	GNOMEUIINFO_SEPARATOR,
 	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Print..."), NULL, NULL),
 	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Insert File..."), NULL, NULL),
@@ -1309,24 +1369,11 @@ static gint
 app_delete_event_cb (GtkWidget *widget, GdkEvent *event, gpointer data)
 {
 	EventEditor *ee;
-	EventEditorPrivate *priv;
+
+	/* FIXME: need to check for a dirty object */
 
 	ee = EVENT_EDITOR (data);
-	priv = ee->priv;
-
-	free_exception_clist_data (GTK_CLIST (priv->recurrence_exceptions_list));
-
-	gtk_widget_destroy (priv->app);
-	priv->app = NULL;
-
-	if (priv->ico) {
-		gtk_signal_emit (GTK_OBJECT (ee), event_editor_signals[ICAL_OBJECT_RELEASED],
-				 priv->ico->uid);
-		ical_object_unref (priv->ico);
-		priv->ico = NULL;
-	}
-
-	gtk_signal_emit (GTK_OBJECT (ee), event_editor_signals[EDITOR_CLOSED]);
+	close_dialog (ee);
 
 	return TRUE;
 }
