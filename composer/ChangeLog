@@ -1,3 +1,11 @@
+2003-03-20  Jeffrey Stedfast  <fejj@ximian.com>
+
+	Fixes for bug #39813
+
+	* e-msg-composer.c (composer_finalise): Don't unregister the
+	signature event handler here.
+	(destroy): Unregister it here instead.
+
 2003-03-19  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (add_attachments_handle_mime_part): Change the

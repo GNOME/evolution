@@ -2311,11 +2311,9 @@ static void
 composer_finalise (GObject *object)
 {
 	EMsgComposer *composer;
-
+	
 	composer = E_MSG_COMPOSER (object);
-
-	mail_config_signature_unregister_client ((MailConfigSignatureClient) sig_event_client, composer);
-
+	
 	if (composer->extra_hdr_names) {
 		int i;
 		
@@ -2334,10 +2332,10 @@ composer_finalise (GObject *object)
 	g_free (composer->charset);
 	g_free (composer->mime_type);
 	g_free (composer->mime_body);
-
+	
 	if (composer->redirect)
 		camel_object_unref (composer->redirect);
-
+	
 	if (G_OBJECT_CLASS (parent_class)->finalize != NULL)
 		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
@@ -2362,7 +2360,7 @@ destroy (GtkObject *object)
 	CORBA_Environment ev;
 	
 	composer = E_MSG_COMPOSER (object);
-		
+	
 	CORBA_exception_init (&ev);
 	
 	if (composer->uic) {
@@ -2406,6 +2404,8 @@ destroy (GtkObject *object)
 		bonobo_object_unref (composer->editor_listener);
 		composer->editor_listener = NULL;
 	}
+	
+	mail_config_signature_unregister_client ((MailConfigSignatureClient) sig_event_client, composer);
 	
 	if (GTK_OBJECT_CLASS (parent_class)->destroy != NULL)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
