@@ -239,8 +239,10 @@ main (int argc, char **argv)
 
 	if (!( (did_pas = setup_pas (argc, argv))
 	       && (did_pcs = setup_pcs (argc, argv))
-	       && (did_config = setup_config (argc, argv))
-	       && (did_private = setup_private (argc, argv)))) {
+	       && (did_private = setup_private (argc, argv))
+	       /* WARNING: Do not change the order here.  `setup_config()' must
+		  come last, to work around an OAF race condition.  */
+	       && (did_config = setup_config (argc, argv)))) {
 
 		const gchar *failed = NULL;
 

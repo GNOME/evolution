@@ -1,3 +1,8 @@
+2001-10-22  Ettore Perazzoli  <ettore@ximian.com>
+
+	* wombat.c (main): Register the public ConfigDatabase interface
+	last to work around an OAF race condition.
+
 2001-10-11  Chris Toshok  <toshok@ximian.com>
 
 	* Makefile.am (wombat_SOURCES): add wombat-private-moniker.[ch].
