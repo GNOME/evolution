@@ -1,3 +1,16 @@
+2001-08-13  JP Rosevear  <jpr@ximian.com>
+
+	* gui/e-itip-control.c (update_item): add dialog for feedback
+	(remove_item): ditto
+	(send_item): ditto
+	(send_freebusy): ditto
+
+2001-08-13  JP Rosevear  <jpr@ximian.com>
+
+	* gui/e-itip-control.c: rewrite the gui to use gtkhtml
+
+	* gui/Makefile.am: define the icon dir
+
 2001-08-12  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* gui/e-itip-control.h: Remove #include <config.h> from here.

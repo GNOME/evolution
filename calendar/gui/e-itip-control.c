@@ -923,6 +923,7 @@ update_item (EItipControl *itip)
 	icalcomponent *clone;
 	CalClient *client;
 	CalComponentVType type;
+	GtkWidget *dialog;
 	
 	priv = itip->priv;
 
@@ -935,12 +936,12 @@ update_item (EItipControl *itip)
 	clone = icalcomponent_new_clone (priv->ical_comp);
 	icalcomponent_add_component (priv->top_level, clone);
 	
-	if (!cal_client_update_objects (client, priv->top_level)) {
-		GtkWidget *dialog;
-		
-		dialog = gnome_warning_dialog(_("I couldn't update your calendar file!\n"));
-		gnome_dialog_run (GNOME_DIALOG(dialog));
-	}
+	if (!cal_client_update_objects (client, priv->top_level))
+		dialog = gnome_warning_dialog (_("I couldn't update your calendar file!\n"));
+	else
+		dialog = gnome_ok_dialog (_("Update complete\n"));
+	gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+
 	icalcomponent_remove_component (priv->top_level, clone);
 }
 
@@ -951,6 +952,7 @@ remove_item (EItipControl *itip)
 	CalClient *client;
 	CalComponentVType type;
 	const char *uid;
+	GtkWidget *dialog;
 	
 	priv = itip->priv;
 
@@ -961,12 +963,11 @@ remove_item (EItipControl *itip)
 		client = priv->event_client;
 
 	cal_component_get_uid (priv->comp, &uid);
-	if (!cal_client_remove_object (client, uid)) {
-		GtkWidget *dialog;
-		
-		dialog = gnome_warning_dialog(_("I couldn't remove the item from your calendar file!\n"));
-		gnome_dialog_run (GNOME_DIALOG(dialog));
-	}
+	if (!cal_client_remove_object (client, uid))
+		dialog = gnome_warning_dialog (_("I couldn't remove the item from your calendar file!\n"));
+	else
+		dialog = gnome_ok_dialog (_("Removal Complete"));
+	gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
 }
 
 static void
@@ -976,7 +977,8 @@ send_item (EItipControl *itip)
 	CalComponent *comp;
 	CalComponentVType type;
 	const char *uid;
-	CalClientGetStatus status = CAL_CLIENT_GET_NOT_FOUND;
+	CalClientGetStatus status;
+	GtkWidget *dialog;
 
 	priv = itip->priv;
 	
@@ -991,10 +993,16 @@ send_item (EItipControl *itip)
 		status = cal_client_get_object (priv->task_client, uid, &comp);
 		break;
 	default:
+		status = CAL_CLIENT_GET_NOT_FOUND;
 	}
 
-	if (status == CAL_CLIENT_GET_SUCCESS)
+	if (status == CAL_CLIENT_GET_SUCCESS) {
 		itip_send_comp (CAL_COMPONENT_METHOD_PUBLISH, comp);
+		dialog = gnome_ok_dialog (_("Item sent!\n"));
+	} else {
+		dialog = gnome_warning_dialog (_("The item could not be send!\n"));
+	}
+	gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
 }
 
 static void
@@ -1005,6 +1013,7 @@ send_freebusy (EItipControl *itip)
 	CalComponentDateTime datetime;
 	CalClientGetStatus status;
 	time_t start, end;
+	GtkWidget *dialog;
 
 	priv = itip->priv;
 	
@@ -1014,8 +1023,14 @@ send_freebusy (EItipControl *itip)
 	cal_component_get_dtend (priv->comp, &datetime);
 	end = icaltime_as_timet (*datetime.value);
 	status = cal_client_get_free_busy (priv->event_client, start, end, &comp);
-	if (status == CAL_CLIENT_GET_SUCCESS)
+
+	if (status == CAL_CLIENT_GET_SUCCESS) {
 		itip_send_comp (CAL_COMPONENT_METHOD_REPLY, comp);
+		dialog = gnome_ok_dialog (_("Item sent!\n"));
+	} else {
+		dialog = gnome_warning_dialog (_("The item could not be send!\n"));
+	}
+	gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
 }
 
 static void
