@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-10-01 20:31+0200\n"
-"PO-Revision-Date: 2004-09-26 23:16+0800\n"
+"POT-Creation-Date: 2004-10-08 12:16+0200\n"
+"PO-Revision-Date: 2004-10-09 00:22+0800\n"
 "Last-Translator: Funda Wang <fundawang@linux.net.cn>\n"
 "Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
 "MIME-Version: 1.0\n"
@@ -2878,8 +2878,8 @@ msgstr "不支持的协议"
 #: calendar/gui/e-cal-component-preview.c:233
 #: calendar/gui/e-cal-model-tasks.c:353 calendar/gui/e-cal-model-tasks.c:656
 #: calendar/gui/e-calendar-table.c:473 calendar/gui/print.c:2349
-#: camel/camel-service.c:723 camel/camel-service.c:887
-#: camel/camel-service.c:1015 camel/providers/pop3/camel-pop3-store.c:463
+#: camel/camel-service.c:724 camel/camel-service.c:886
+#: camel/camel-service.c:1017 camel/providers/pop3/camel-pop3-store.c:463
 #: camel/providers/pop3/camel-pop3-store.c:544
 msgid "Cancelled"
 msgstr "已经取消"
@@ -2891,6 +2891,7 @@ msgstr "无法取消"
 
 #. E_BOOK_ERROR_AUTHENTICATION_FAILED
 #: addressbook/gui/widgets/eab-gui-util.c:63
+#: calendar/gui/comp-editor-factory.c:428
 msgid "Authentication Failed"
 msgstr "认证失败"
 
@@ -3710,7 +3711,7 @@ msgstr "Evolution 日历异常退出。"
 msgid "Your calendars will not be available until Evolution is restarted."
 msgstr "除非您重新启动 Evolution，否则您的日历无法使用。"
 
-#: calendar/common/authentication.c:47 calendar/gui/e-pub-utils.c:301
+#: calendar/common/authentication.c:49 calendar/gui/e-pub-utils.c:301
 #: smime/gui/component.c:48
 msgid "Enter password"
 msgstr "输入密码"
@@ -4232,19 +4233,29 @@ msgstr "周视图"
 msgid "Month View"
 msgstr "月视图"
 
-#: calendar/gui/comp-editor-factory.c:409
+#: calendar/gui/comp-editor-factory.c:410
 msgid "Error while opening the calendar"
 msgstr "打开日历时出错"
 
-#: calendar/gui/comp-editor-factory.c:420
+#: calendar/gui/comp-editor-factory.c:416
 msgid "Method not supported when opening the calendar"
 msgstr "打开日历的方法不支持"
 
-#: calendar/gui/comp-editor-factory.c:426
+#: calendar/gui/comp-editor-factory.c:422
 msgid "Permission denied to open the calendar"
 msgstr "没有权限打开日历"
 
-#: calendar/gui/comp-editor-factory.c:474
+#: calendar/gui/comp-editor-factory.c:434
+#: camel/providers/imap/camel-imap-command.c:303
+#: camel/providers/imap/camel-imap-command.c:400
+#: camel/providers/imap4/camel-imap4-store.c:260
+#: camel/providers/pop3/camel-pop3-store.c:550
+#: camel/providers/pop3/camel-pop3-store.c:557
+#: camel/providers/pop3/camel-pop3-store.c:563 shell/e-shell.c:1228
+msgid "Unknown error"
+msgstr "未知的错误"
+
+#: calendar/gui/comp-editor-factory.c:478
 #, c-format
 msgid "open_client(): %s"
 msgstr "open_client()：%s"
@@ -5821,7 +5832,7 @@ msgstr "把任务标记为完成(_M)"
 #. FIXME: need to disable for undeletable folders
 #: calendar/gui/e-calendar-table.c:1063 calendar/gui/e-calendar-table.c:1081
 #: calendar/gui/e-calendar-view.c:1451 calendar/gui/e-calendar-view.c:1484
-#: mail/em-folder-tree.c:2722 mail/em-folder-view.c:924
+#: mail/em-folder-tree.c:2720 mail/em-folder-view.c:924
 #: ui/evolution-addressbook.xml.h:33 ui/evolution-calendar.xml.h:40
 #: ui/evolution-comp-editor.xml.h:17 ui/evolution-contact-editor.xml.h:14
 #: ui/evolution-mail-message.xml.h:112 ui/evolution-tasks.xml.h:21
@@ -9411,26 +9422,26 @@ msgstr "以非 pop 源进行 SMTP 之前的 POP 授权"
 msgid "Regular expression compilation failed: %s: %s"
 msgstr "常规表达式编译失败：%s：%s"
 
-#: camel/camel-service.c:273
+#: camel/camel-service.c:274
 #, c-format
 msgid "URL '%s' needs a username component"
 msgstr "URL“%s”需要用户名组件"
 
-#: camel/camel-service.c:277
+#: camel/camel-service.c:278
 #, c-format
 msgid "URL '%s' needs a host component"
 msgstr "URL“%s”需要主机组件"
 
-#: camel/camel-service.c:281
+#: camel/camel-service.c:282
 #, c-format
 msgid "URL '%s' needs a path component"
 msgstr "URL“%s”需要路径组件"
 
-#: camel/camel-service.c:742
+#: camel/camel-service.c:743
 msgid "cannot create thread"
 msgstr "无法创建线索"
 
-#: camel/camel-service.c:891
+#: camel/camel-service.c:890
 #, c-format
 msgid "Resolving: %s"
 msgstr "解析：%s"
@@ -9439,13 +9450,23 @@ msgstr "解析：%s"
 msgid "Host lookup failed"
 msgstr "主机查阅失败"
 
-#: camel/camel-service.c:1019
+#: camel/camel-service.c:914
+#, c-format
+msgid "Host lookup failed: %s: %s"
+msgstr "主机查阅失败：%s：%s"
+
+#: camel/camel-service.c:1021
 msgid "Resolving address"
 msgstr "解析地址"
 
-#: camel/camel-service.c:1039
+#: camel/camel-service.c:1041
 msgid "Name lookup failed"
 msgstr "名称查阅失败"
+
+#: camel/camel-service.c:1044
+#, c-format
+msgid "Name lookup failed: %s"
+msgstr "名称查阅失败：%s"
 
 #: camel/camel-session.c:282
 #, c-format
@@ -10035,15 +10056,6 @@ msgstr "操作已取消"
 #, c-format
 msgid "Server unexpectedly disconnected: %s"
 msgstr "服务器意外地中止了连接：%s"
-
-#: camel/providers/imap/camel-imap-command.c:303
-#: camel/providers/imap/camel-imap-command.c:400
-#: camel/providers/imap4/camel-imap4-store.c:260
-#: camel/providers/pop3/camel-pop3-store.c:550
-#: camel/providers/pop3/camel-pop3-store.c:557
-#: camel/providers/pop3/camel-pop3-store.c:563 shell/e-shell.c:1228
-msgid "Unknown error"
-msgstr "未知的错误"
 
 #. for imap ALERT codes, account user@host
 #: camel/providers/imap/camel-imap-command.c:320
@@ -12730,14 +12742,14 @@ msgstr "签名"
 msgid "-------- Forwarded Message --------"
 msgstr "-------- 转发的信件 --------"
 
-#: mail/em-composer-utils.c:1502
+#: mail/em-composer-utils.c:1505
 msgid "an unknown sender"
 msgstr "未知发件人"
 
 #. Note to translators: this is the attribution string used when quoting messages.
 #. * each ${Variable} gets replaced with a value. To see a full list of available
 #. * variables, see em-composer-utils.c:1514
-#: mail/em-composer-utils.c:1549
+#: mail/em-composer-utils.c:1552
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
@@ -13031,7 +13043,7 @@ msgstr "<单击此处以便选择文件夹>"
 msgid "Create New Folder"
 msgstr "创建新文件夹"
 
-#: mail/em-folder-selector.c:166 mail/em-folder-tree.c:2442
+#: mail/em-folder-selector.c:166 mail/em-folder-tree.c:2440
 #: mail/mail-component.c:712
 msgid "Specify where to create the folder:"
 msgstr "指定在哪里创建文件夹："
@@ -13090,7 +13102,7 @@ msgstr "复制到文件夹(_C)"
 msgid "_Move to Folder"
 msgstr "移动到文件夹(_M)"
 
-#: mail/em-folder-tree.c:1014 mail/em-folder-tree.c:2228
+#: mail/em-folder-tree.c:1014 mail/em-folder-tree.c:2226
 #: mail/em-folder-view.c:803 mail/message-list.c:1703
 msgid "_Move"
 msgstr "移动(_M)"
@@ -13104,63 +13116,63 @@ msgstr "取消拖曳(_D)"
 msgid "Scanning folders in \"%s\""
 msgstr "在“%s”中扫描文件夹"
 
-#: mail/em-folder-tree.c:2215 mail/em-folder-tree.c:2228
+#: mail/em-folder-tree.c:2213 mail/em-folder-tree.c:2226
 #: mail/em-folder-view.c:803 mail/em-folder-view.c:817
 #: mail/importers/evolution-mbox-importer.c:119
 #: mail/importers/evolution-outlook-importer.c:133
 msgid "Select folder"
 msgstr "选择文件夹"
 
-#: mail/em-folder-tree.c:2215 mail/em-folder-view.c:817
+#: mail/em-folder-tree.c:2213 mail/em-folder-view.c:817
 msgid "C_opy"
 msgstr "复制(_O)"
 
-#: mail/em-folder-tree.c:2255
+#: mail/em-folder-tree.c:2253
 #, c-format
 msgid "Creating folder `%s'"
 msgstr "创建文件夹“%s”"
 
-#: mail/em-folder-tree.c:2442 mail/mail-component.c:712
+#: mail/em-folder-tree.c:2440 mail/mail-component.c:712
 msgid "Create folder"
 msgstr "创建文件夹"
 
-#: mail/em-folder-tree.c:2633
+#: mail/em-folder-tree.c:2631
 #, c-format
 msgid "Rename the \"%s\" folder to:"
 msgstr "把文件夹“%s”重命名为："
 
-#: mail/em-folder-tree.c:2635
+#: mail/em-folder-tree.c:2633
 msgid "Rename Folder"
 msgstr "重命名文件夹"
 
-#: mail/em-folder-tree.c:2710 ui/evolution-addressbook.xml.h:44
+#: mail/em-folder-tree.c:2708 ui/evolution-addressbook.xml.h:44
 #: ui/evolution-mail-global.xml.h:18 ui/evolution-mail-messagedisplay.xml.h:8
 #: ui/evolution-message-composer.xml.h:53 ui/evolution.xml.h:37
 msgid "_View"
 msgstr "查看(_V)"
 
-#: mail/em-folder-tree.c:2711
+#: mail/em-folder-tree.c:2709
 msgid "Open in _New Window"
 msgstr "在新窗口中打开(_N)"
 
-#: mail/em-folder-tree.c:2715
+#: mail/em-folder-tree.c:2713
 msgid "_Copy..."
 msgstr "复制(_C)..."
 
-#: mail/em-folder-tree.c:2716
+#: mail/em-folder-tree.c:2714
 msgid "_Move..."
 msgstr "移动(_M)..."
 
 #. FIXME: need to disable for nochildren folders
-#: mail/em-folder-tree.c:2720
+#: mail/em-folder-tree.c:2718
 msgid "_New Folder..."
 msgstr "新建文件夹(_N)..."
 
-#: mail/em-folder-tree.c:2723
+#: mail/em-folder-tree.c:2721
 msgid "_Rename..."
 msgstr "重命名(_R)..."
 
-#: mail/em-folder-tree.c:2726 ui/evolution-mail-list.xml.h:27
+#: mail/em-folder-tree.c:2724 ui/evolution-mail-list.xml.h:27
 msgid "_Properties"
 msgstr "属性(_P)"
 
@@ -18970,7 +18982,7 @@ msgstr "%Y年%B"
 msgid "Now"
 msgstr "现在"
 
-#: widgets/misc/e-cell-date-edit.c:805
+#: widgets/misc/e-cell-date-edit.c:810
 #, c-format
 msgid "The time must be in the format: %s"
 msgstr "时间必须采用格式：%s"
@@ -19244,10 +19256,3 @@ msgstr "%s (...)"
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% 完成)"
 
-#~ msgid "Could not connect to %s (port %d): %s"
-#~ msgstr "无法连接到 %s (端口 %d)：%s"
-
-#~ msgid ""
-#~ "Failed to connect to IMAP server %s in secure mode: Server does not "
-#~ "support STARTTLS"
-#~ msgstr "以安全模式连接到 IMAP 服务器 %s 失败：服务器不支持 STARTTLS"
