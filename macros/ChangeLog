@@ -1,3 +1,7 @@
+Sat Mar  7 00:04:22 1998  Tom Tromey  <tromey@cygnus.com>
+
+	* gnome-support.m4 (GNOME_SUPPORT_CHECKS): Check for strnlen().
+
 Wed Mar  4 01:02:55 1998  Tom Tromey  <tromey@cygnus.com>
 
 	* gnome-support.m4 (GNOME_SUPPORT_CHECKS): Check for argp code,
