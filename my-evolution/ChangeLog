@@ -1,3 +1,10 @@
+2003-02-19  Dan Winship  <danw@ximian.com>
+
+	* e-summary-rdf.c: Declare xmlSubstituteEntitiesDefaultValue
+	extern.
+	(message_finished): And set its value here. Fixes a duplicate
+	symbol error on OS X.
+
 2003-02-10  Ettore Perazzoli  <ettore@ximian.com>
 
 	* Makefile.am: Split the IDL generated rules so ${ORBIT_IDL}

@@ -63,7 +63,7 @@ typedef struct _RDF {
 	SoupMessage *message;
 } RDF;
 
-int xmlSubstituteEntitiesDefaultValue = 1;
+extern int xmlSubstituteEntitiesDefaultValue;
 
 char *
 e_summary_rdf_get_html (ESummary *summary)
@@ -342,6 +342,7 @@ message_finished (SoupMessage *msg,
 		r->cache = NULL;
 	}
 
+	xmlSubstituteEntitiesDefaultValue = 1;
 	doc = xmlParseMemory (msg->response.body, msg->response.length);
 	r->cache = doc;
 	r->message = NULL;
