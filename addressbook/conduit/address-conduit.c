@@ -84,6 +84,43 @@ typedef struct
 	CardObjectChangeType type;
 } CardObjectChange;
 
+
+static ECardSimpleField priority [] = {
+	E_CARD_SIMPLE_FIELD_PHONE_BUSINESS,
+	E_CARD_SIMPLE_FIELD_PHONE_HOME,
+	E_CARD_SIMPLE_FIELD_PHONE_BUSINESS_FAX,
+	E_CARD_SIMPLE_FIELD_EMAIL,
+	E_CARD_SIMPLE_FIELD_PHONE_PAGER,
+	E_CARD_SIMPLE_FIELD_PHONE_MOBILE,
+	E_CARD_SIMPLE_FIELD_PHONE_BUSINESS_2,
+	E_CARD_SIMPLE_FIELD_PHONE_HOME_2,
+	E_CARD_SIMPLE_FIELD_PHONE_HOME_FAX,
+	E_CARD_SIMPLE_FIELD_EMAIL_2,
+	E_CARD_SIMPLE_FIELD_PHONE_OTHER,
+	E_CARD_SIMPLE_FIELD_PHONE_PRIMARY,
+	E_CARD_SIMPLE_FIELD_PHONE_OTHER_FAX,
+	E_CARD_SIMPLE_FIELD_EMAIL_3,
+	E_CARD_SIMPLE_FIELD_LAST
+};
+
+static char *priority_label [] = {
+	"Work",
+	"Home",
+	"Fax",
+	"E-mail",
+	"Pager",
+	"Mobile",
+	"Work",
+	"Home",
+	"Fax",
+	"E-mail",
+	"Other",
+	"Main",
+	"Fax",
+	"E-Mail",
+	NULL
+};
+
 /* Debug routines */
 static char *
 print_local (EAddrLocalRecord *local)
@@ -274,6 +311,148 @@ next_changed_item (EAddrConduitContext *ctxt, GList *changes)
 	return NULL;
 }
 
+static int
+get_label (EAddrConduitContext *ctxt, const char *label)
+{
+	int i;
+	
+	for (i = 0; i < 8; i++) {
+		if (!strcmp (ctxt->ai.phoneLabels[i], label))
+			return i;
+	}
+
+	return 0;
+}
+
+static ECardSimpleField
+get_next_mail (ECardSimpleField *field)
+{
+	if (field == NULL)
+		return E_CARD_SIMPLE_FIELD_EMAIL;
+	
+	switch (*field) {
+	case E_CARD_SIMPLE_FIELD_EMAIL:
+		return E_CARD_SIMPLE_FIELD_EMAIL_2;
+	case E_CARD_SIMPLE_FIELD_EMAIL_2:
+		return E_CARD_SIMPLE_FIELD_EMAIL_3;
+	default:
+	}
+
+	return E_CARD_SIMPLE_FIELD_LAST;
+}
+
+static ECardSimpleField
+get_next_home (ECardSimpleField *field)
+{
+	if (field == NULL)
+		return E_CARD_SIMPLE_FIELD_PHONE_HOME;
+	
+	switch (*field) {
+	case E_CARD_SIMPLE_FIELD_PHONE_HOME:
+		return E_CARD_SIMPLE_FIELD_PHONE_HOME_2;
+	default:
+	}
+
+	return E_CARD_SIMPLE_FIELD_LAST;
+}
+
+static ECardSimpleField
+get_next_work (ECardSimpleField *field)
+{
+	if (field == NULL)
+		return E_CARD_SIMPLE_FIELD_PHONE_BUSINESS;
+	
+	switch (*field) {
+	case E_CARD_SIMPLE_FIELD_PHONE_BUSINESS:
+		return E_CARD_SIMPLE_FIELD_PHONE_BUSINESS_2;
+	default:
+	}
+
+	return E_CARD_SIMPLE_FIELD_LAST;
+}
+
+static ECardSimpleField
+get_next_fax (ECardSimpleField *field)
+{
+	if (field == NULL)
+		return E_CARD_SIMPLE_FIELD_PHONE_BUSINESS_FAX;
+	
+	switch (*field) {
+	case E_CARD_SIMPLE_FIELD_PHONE_BUSINESS_FAX:
+		return E_CARD_SIMPLE_FIELD_PHONE_HOME_FAX;
+	case E_CARD_SIMPLE_FIELD_PHONE_HOME_FAX:
+		return E_CARD_SIMPLE_FIELD_PHONE_OTHER_FAX;
+	default:
+	}
+
+	return E_CARD_SIMPLE_FIELD_LAST;
+}
+
+static ECardSimpleField
+get_next_other (ECardSimpleField *field)
+{
+	if (field == NULL)
+		return E_CARD_SIMPLE_FIELD_PHONE_OTHER;
+
+	return E_CARD_SIMPLE_FIELD_LAST;
+}
+
+static ECardSimpleField
+get_next_main (ECardSimpleField *field)
+{
+	if (field == NULL)
+		return E_CARD_SIMPLE_FIELD_PHONE_PRIMARY;
+
+	return E_CARD_SIMPLE_FIELD_LAST;
+}
+
+static ECardSimpleField
+get_next_pager (ECardSimpleField *field)
+{
+	if (field == NULL)
+		return E_CARD_SIMPLE_FIELD_PHONE_PAGER;
+
+	return E_CARD_SIMPLE_FIELD_LAST;
+}
+
+static ECardSimpleField
+get_next_mobile (ECardSimpleField *field)
+{
+	if (field == NULL)
+		return E_CARD_SIMPLE_FIELD_PHONE_MOBILE;
+
+	return E_CARD_SIMPLE_FIELD_LAST;
+}
+
+static void
+get_next_init (ECardSimpleField *next_mail,
+	       ECardSimpleField *next_home,
+	       ECardSimpleField *next_work,
+	       ECardSimpleField *next_fax,
+	       ECardSimpleField *next_other,
+	       ECardSimpleField *next_main,
+	       ECardSimpleField *next_pager,
+	       ECardSimpleField *next_mobile)
+{	
+	*next_mail = get_next_mail (NULL);
+	*next_home = get_next_home (NULL);
+	*next_work = get_next_work (NULL);
+	*next_fax = get_next_fax (NULL);
+	*next_other = get_next_other (NULL);
+	*next_main = get_next_main (NULL);
+	*next_pager = get_next_pager (NULL);
+	*next_mobile = get_next_mobile (NULL);
+}
+
+static gboolean
+is_next_done (ECardSimpleField field)
+{
+	if (field == E_CARD_SIMPLE_FIELD_LAST)
+		return TRUE;
+	
+	return FALSE;
+}
+
 static char *
 get_entry_text (struct Address address, int field)
 {
@@ -340,6 +519,9 @@ local_record_from_ecard (EAddrLocalRecord *local, ECard *ecard, EAddrConduitCont
 	ECardSimple *simple;
 	const ECardDeliveryAddress *delivery;
 	int phone = entryPhone1;
+	ECardSimpleField next_mail, next_home, next_work, next_fax;
+	ECardSimpleField next_other, next_main, next_pager, next_mobile;
+	gboolean syncable;
 	int i;
 	
 	g_return_if_fail (local != NULL);
@@ -392,36 +574,140 @@ local_record_from_ecard (EAddrLocalRecord *local, ECard *ecard, EAddrConduitCont
 	}
 
 	/* Phone numbers */
-	for (i = 0; i <= 7 && phone <= entryPhone5; i++) {
+	get_next_init (&next_mail, &next_home, &next_work, &next_fax,
+		       &next_other, &next_main, &next_pager, &next_mobile);
+
+	/* See if everything is syncable */
+	syncable = TRUE;
+	for (i = entryPhone1; i <= entryPhone5; i++) {
+		char *phonelabel = ctxt->ai.phoneLabels[local->addr->phoneLabel[i - entryPhone1]];
 		const char *phone_str = NULL;
-		char *phonelabel = ctxt->ai.phoneLabels[i];
 		
-		if (!strcmp (phonelabel, "E-mail"))
-			phone_str = e_card_simple_get_const (simple, E_CARD_SIMPLE_FIELD_EMAIL);
-		else if (!strcmp (phonelabel, "Home"))
-			phone_str = e_card_simple_get_const (simple, E_CARD_SIMPLE_FIELD_PHONE_HOME);
-		else if (!strcmp (phonelabel, "Work"))
-			phone_str = e_card_simple_get_const (simple, E_CARD_SIMPLE_FIELD_PHONE_BUSINESS);
-		else if (!strcmp (phonelabel, "Fax"))
-			phone_str = e_card_simple_get_const (simple, E_CARD_SIMPLE_FIELD_PHONE_BUSINESS_FAX);
-		else if (!strcmp (phonelabel, "Other"))
-			phone_str = e_card_simple_get_const (simple, E_CARD_SIMPLE_FIELD_PHONE_OTHER);
-		else if (!strcmp (phonelabel, "Main"))
-			phone_str = e_card_simple_get_const (simple, E_CARD_SIMPLE_FIELD_PHONE_PRIMARY);
-		else if (!strcmp (phonelabel, "Pager"))
-			phone_str = e_card_simple_get_const (simple, E_CARD_SIMPLE_FIELD_PHONE_PAGER);
-		else if (!strcmp (phonelabel, "Mobile"))
-			phone_str = e_card_simple_get_const (simple, E_CARD_SIMPLE_FIELD_PHONE_MOBILE);
-		
-		if (phone_str && *phone_str) {
-			local->addr->entry[phone] = e_pilot_utf8_to_pchar (phone_str);
-			local->addr->phoneLabel[phone - entryPhone1] = i;
-			phone++;
+		if (!strcmp (phonelabel, "E-mail")) {
+			if (is_next_done (next_mail)) {
+				syncable = FALSE;
+				break;
+			}
+			phone_str = e_card_simple_get_const (simple, next_home);
+			if (phone_str && *phone_str)
+				next_mail = get_next_mail (&next_mail);
+		} else if (!strcmp (phonelabel, "Home")) {
+			if (is_next_done (next_home)) {
+				syncable = FALSE;
+				break;
+			}
+			phone_str = e_card_simple_get_const (simple, next_home);
+			if (phone_str && *phone_str)
+				next_home = get_next_home (&next_home);
+		} else if (!strcmp (phonelabel, "Work")) {
+			if (is_next_done (next_work)) {
+				syncable = FALSE;
+				break;
+			}
+			phone_str = e_card_simple_get_const (simple, next_work);
+			if (phone_str && *phone_str)
+				next_work = get_next_work (&next_work);
+		} else if (!strcmp (phonelabel, "Fax")) {
+			if (is_next_done (next_fax)) {
+				syncable = FALSE;
+				break;
+			}
+			phone_str = e_card_simple_get_const (simple, next_fax);
+			if (phone_str && *phone_str)
+				next_fax = get_next_fax (&next_fax);
+		} else if (!strcmp (phonelabel, "Other")) {
+			if (is_next_done (next_other)) {
+				syncable = FALSE;
+				break;
+			}
+			phone_str = e_card_simple_get_const (simple, next_other);
+			if (phone_str && *phone_str)
+				next_other = get_next_other (&next_other);
+		} else if (!strcmp (phonelabel, "Main")) {
+			if (is_next_done (next_main)) {
+				syncable = FALSE;
+				break;
+			}
+			phone_str = e_card_simple_get_const (simple, next_main);
+			if (phone_str && *phone_str)
+				next_main = get_next_main (&next_main);
+		} else if (!strcmp (phonelabel, "Pager")) {
+			if (is_next_done (next_pager)) {
+				syncable = FALSE;
+				break;
+			}
+			phone_str = e_card_simple_get_const (simple, next_pager);
+			if (phone_str && *phone_str)
+				next_pager = get_next_pager (&next_pager);
+		} else if (!strcmp (phonelabel, "Mobile")) {
+			if (is_next_done (next_mobile)) {
+				syncable = FALSE;
+				break;
+			}
+			phone_str = e_card_simple_get_const (simple, next_mobile);
+			if (phone_str && *phone_str)
+				next_mobile = get_next_mobile (&next_mobile);
 		}		
 	}
-	for (; phone <= entryPhone5; phone++)
-		local->addr->phoneLabel[phone - entryPhone1] = phone - entryPhone1;
 
+	if (syncable) {
+		INFO ("Syncable");
+		/* Sync by priority */
+		for (i = 0, phone = entryPhone1; 
+		     priority[i] != E_CARD_SIMPLE_FIELD_LAST && phone <= entryPhone5; i++) {
+			const char *phone_str;
+			
+			phone_str = e_card_simple_get_const (simple, priority[i]);
+			if (phone_str && *phone_str) {
+				local->addr->entry[phone] = e_pilot_utf8_to_pchar (phone_str);
+				local->addr->phoneLabel[phone - entryPhone1] = 
+					get_label (ctxt, priority_label[i]);
+				phone++;
+			}
+		}
+		for ( ; phone <= entryPhone5; phone++)
+			      local->addr->phoneLabel[phone - entryPhone1] = phone - entryPhone1;
+	} else {
+		INFO ("Not Syncable");
+		get_next_init (&next_mail, &next_home, &next_work, &next_fax,
+			       &next_other, &next_main, &next_pager, &next_mobile);
+
+		/* Not completely syncable, so do the best we can */
+		for (i = entryPhone1; i <= entryPhone5; i++) {
+			char *phonelabel = ctxt->ai.phoneLabels[local->addr->phoneLabel[i - entryPhone1]];
+			const char *phone_str = NULL;
+			
+			if (!strcmp (phonelabel, "E-mail") && !is_next_done (next_mail)) {
+				phone_str = e_card_simple_get_const (simple, next_mail);
+				next_mail = get_next_mail (&next_mail);
+			} else if (!strcmp (phonelabel, "Home") && !is_next_done (next_home)) {
+				phone_str = e_card_simple_get_const (simple, next_home);
+				next_home = get_next_home (&next_home);
+			} else if (!strcmp (phonelabel, "Work") && !is_next_done (next_work)) {
+				phone_str = e_card_simple_get_const (simple, next_work);
+				next_work = get_next_work (&next_work);
+			} else if (!strcmp (phonelabel, "Fax") && !is_next_done (next_fax)) {
+				phone_str = e_card_simple_get_const (simple, next_fax);
+				next_fax = get_next_fax (&next_fax);
+			} else if (!strcmp (phonelabel, "Other")  && !is_next_done (next_other)) {
+				phone_str = e_card_simple_get_const (simple, next_other);
+				next_other = get_next_other (&next_other);
+			} else if (!strcmp (phonelabel, "Main") && !is_next_done (next_main)) {
+				phone_str = e_card_simple_get_const (simple, next_main);
+				next_main = get_next_main (&next_main);
+			} else if (!strcmp (phonelabel, "Pager") && !is_next_done (next_pager)) {
+				phone_str = e_card_simple_get_const (simple, next_pager);
+				next_pager = get_next_pager (&next_pager);
+			} else if (!strcmp (phonelabel, "Mobile") && !is_next_done (next_mobile)) {
+				phone_str = e_card_simple_get_const (simple, next_mobile);
+				next_mobile = get_next_mobile (&next_mobile);
+			}
+			
+			if (phone_str && *phone_str)
+				local->addr->entry[i] = e_pilot_utf8_to_pchar (phone_str);
+		}
+	}
+	
 	/* Note */
 	local->addr->entry[entryNote] = e_pilot_utf8_to_pchar (ecard->note);
 
@@ -464,12 +750,12 @@ ecard_from_remote_record(EAddrConduitContext *ctxt,
 	struct Address address;
 	ECard *ecard;
 	ECardSimple *simple;
-	ECardDeliveryAddress delivery;
-	ECardAddrLabel label;
+	ECardDeliveryAddress *delivery;
+	ECardAddrLabel *label;
 	char *txt;
 	char *stringparts[3];
-	ECardSimpleField last_business, last_home, last_fax;
-	ECardSimpleEmailId last_email;
+	ECardSimpleField next_mail, next_home, next_work, next_fax;
+	ECardSimpleField next_other, next_main, next_pager, next_mobile;
 	int i;
 
 	g_return_val_if_fail(remote!=NULL,NULL);
@@ -505,92 +791,57 @@ ecard_from_remote_record(EAddrConduitContext *ctxt,
 	g_free (txt);
 
 	/* Address */
-	memset (&delivery, 0, sizeof (ECardDeliveryAddress));
-	delivery.flags = E_CARD_ADDR_WORK;
-	delivery.street = get_entry_text (address, entryAddress);
-	delivery.city = get_entry_text (address, entryCity);
-	delivery.region = get_entry_text (address, entryState);
-	delivery.country = get_entry_text (address, entryCountry);
-	delivery.code = get_entry_text (address, entryZip);
+	delivery = e_card_delivery_address_new ();
+	delivery->flags = E_CARD_ADDR_WORK;
+	delivery->street = get_entry_text (address, entryAddress);
+	delivery->city = get_entry_text (address, entryCity);
+	delivery->region = get_entry_text (address, entryState);
+	delivery->country = get_entry_text (address, entryCountry);
+	delivery->code = get_entry_text (address, entryZip);
 
-	label.flags = E_CARD_ADDR_WORK;
-	label.data = e_card_delivery_address_to_string (&delivery);
+	label = e_card_address_label_new ();
+	label->flags = E_CARD_ADDR_WORK;
+	label->data = e_card_delivery_address_to_string (delivery);
 
-	e_card_simple_set_address (simple, E_CARD_SIMPLE_ADDRESS_ID_BUSINESS, &label);
-	e_card_simple_set_delivery_address (simple, E_CARD_SIMPLE_ADDRESS_ID_BUSINESS, &delivery);
+	e_card_simple_set_address (simple, E_CARD_SIMPLE_ADDRESS_ID_BUSINESS, label);
+	e_card_simple_set_delivery_address (simple, E_CARD_SIMPLE_ADDRESS_ID_BUSINESS, delivery);
 
-	free (delivery.street);
-	free (delivery.city);
-	free (delivery.region);
-	free (delivery.country);
-	free (delivery.code);
-	g_free (label.data);
-
-	last_business = E_CARD_SIMPLE_FIELD_PHONE_BUSINESS;
-	last_home = E_CARD_SIMPLE_FIELD_PHONE_HOME;
-	last_fax = E_CARD_SIMPLE_FIELD_PHONE_BUSINESS_FAX;
-	last_email = E_CARD_SIMPLE_EMAIL_ID_EMAIL;
-
+	e_card_delivery_address_unref (delivery);
+	e_card_address_label_unref (label);
+	
 	/* Phone numbers */
+	get_next_init (&next_mail, &next_home, &next_work, &next_fax,
+		       &next_other, &next_main, &next_pager, &next_mobile);
+
 	for (i = entryPhone1; i <= entryPhone5; i++) {
 		char *phonelabel = ctxt->ai.phoneLabels[address.phoneLabel[i - entryPhone1]];
 		char *phonenum = get_entry_text (address, i);
-
-		if (!strcmp (phonenum, "")) {
-			g_free (phonenum);
-			continue;
-		}
 		
-		if (!strcmp (phonelabel, "E-mail")) {
-			e_card_simple_set_email(simple, last_email, phonenum);
-
-			switch (last_email) {
-			case E_CARD_SIMPLE_EMAIL_ID_EMAIL:
-				last_email = E_CARD_SIMPLE_EMAIL_ID_EMAIL_2;
-				break;
-			case E_CARD_SIMPLE_EMAIL_ID_EMAIL_2:
-				last_email = E_CARD_SIMPLE_EMAIL_ID_EMAIL_3;
-				break;
-			default:
-			}
-		} else if (!strcmp (phonelabel, "Home")) {
-			e_card_simple_set(simple, last_home, phonenum);
-
-			switch (last_home) {
-			case E_CARD_SIMPLE_FIELD_PHONE_HOME:
-				last_home = E_CARD_SIMPLE_FIELD_PHONE_HOME_2;
-				break;
-			default:
-			}
-		} else if (!strcmp (phonelabel, "Work")) {
-			e_card_simple_set(simple, last_business, phonenum);
-			
-			switch (last_business) {
-			case E_CARD_SIMPLE_FIELD_PHONE_BUSINESS:
-				last_business = E_CARD_SIMPLE_FIELD_PHONE_BUSINESS_2;
-				break;
-			default:
-			}
-		} else if (!strcmp (phonelabel, "Fax")) {
-			e_card_simple_set(simple, last_fax, phonenum);
-
-			switch (last_fax) {
-			case E_CARD_SIMPLE_FIELD_PHONE_BUSINESS_FAX:
-				last_fax = E_CARD_SIMPLE_FIELD_PHONE_HOME_FAX;
-				break;
-			case E_CARD_SIMPLE_FIELD_PHONE_HOME_FAX:
-				last_fax = E_CARD_SIMPLE_FIELD_PHONE_OTHER_FAX;
-				break;
-			default:
-			}
-		} else if (!strcmp (phonelabel, "Other"))
-			e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_PHONE_OTHER, phonenum);
-		else if (!strcmp (phonelabel, "Main"))
-			e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_PHONE_PRIMARY, phonenum);
-		else if (!strcmp (phonelabel, "Pager"))
-			e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_PHONE_PAGER, phonenum);
-		else if (!strcmp (phonelabel, "Mobile"))
-			e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_PHONE_MOBILE, phonenum);
+		if (!strcmp (phonelabel, "E-mail") && !is_next_done (next_mail)) {
+			e_card_simple_set (simple, next_mail, phonenum);
+			next_mail = get_next_mail (&next_mail);
+		} else if (!strcmp (phonelabel, "Home") && !is_next_done (next_home)) {
+			e_card_simple_set (simple, next_home, phonenum);
+			next_home = get_next_home (&next_home);
+		} else if (!strcmp (phonelabel, "Work") && !is_next_done (next_work)) {
+			e_card_simple_set (simple, next_work, phonenum);
+			next_work = get_next_work (&next_work);
+		} else if (!strcmp (phonelabel, "Fax") && !is_next_done (next_fax)) {
+			e_card_simple_set (simple, next_fax, phonenum);
+			next_fax = get_next_fax (&next_fax);
+		} else if (!strcmp (phonelabel, "Other") && !is_next_done (next_other)) {
+			e_card_simple_set (simple, next_other, phonenum);
+			next_other = get_next_other (&next_other);
+		} else if (!strcmp (phonelabel, "Main") && !is_next_done (next_main)) {
+			e_card_simple_set (simple, next_main, phonenum);
+			next_main = get_next_main (&next_main);
+		} else if (!strcmp (phonelabel, "Pager") && !is_next_done (next_pager)) {
+			e_card_simple_set (simple, next_pager, phonenum);
+			next_pager = get_next_pager (&next_pager);
+		} else if (!strcmp (phonelabel, "Mobile") && !is_next_done (next_mobile)) {
+			e_card_simple_set (simple, next_mobile, phonenum);
+			next_mobile = get_next_mobile (&next_mobile);
+		}
 		
 		g_free (phonenum);
 	}

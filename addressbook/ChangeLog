@@ -1,3 +1,11 @@
+2001-10-17  JP Rosevear  <jpr@ximian.com>
+
+	* conduit/address-conduit.c (ecard_from_remote_record): sync all
+	the fields we can, with out overwriting
+	(local_record_from_ecard): write the fields to the pilot in
+	priority order unless there are fields on the pilot we can't
+	store, then fill in the fields as they are on the pilot
+
 2001-10-17  Christopher James Lahey  <clahey@ximian.com>
 
 	* backend/ebook/e-card.c (e_card_get_vobject): Did a bit of clean
