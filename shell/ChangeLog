@@ -1,3 +1,7 @@
+2000-08-09  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-shell-view.c: Fixed a warning.
+
 2000-08-09  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-shell-view-menu.c (menu_create_file_new): Create a placeholder

@@ -1181,7 +1181,6 @@ e_shell_view_load_settings (EShellView *shell_view,
 	EShellViewPrivate *priv;
 	int val;
 	char *stringval;
-	char *path;
 
 	g_return_val_if_fail (shell_view != NULL, FALSE);
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), FALSE);
