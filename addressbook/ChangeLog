@@ -1,3 +1,11 @@
+2004-09-09  Sivaiah Nallagatla  <snallagatla@novell.com>
+
+	Part of fix for #59582.
+
+	* gui/contact-editor/e-contact-editor.c 
+	(sensitize_address): check for _LABEL type address fields also in
+	supported fileds while sensitizing the address fields.
+
 2004-09-08  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #64080.

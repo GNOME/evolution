@@ -1909,7 +1909,8 @@ sensitize_address (EContactEditor *editor)
 		gboolean enabled = TRUE;
 
 		if (!editor->target_editable ||
-		    !is_field_supported (editor, addresses [i]))
+		    !(is_field_supported (editor, addresses [i]) || 
+		      is_field_supported (editor, address_labels[i])))
 			enabled = FALSE;
 
 		sensitize_address_record (editor, i, enabled);
