@@ -694,8 +694,7 @@ folder_browser_copy (GtkWidget *menuitem, FolderBrowser *fb)
 	cut = menuitem == NULL;
 	
 	if (GTK_WIDGET_HAS_FOCUS (fb->mail_display->html)) {
-		/* Copy text from the HTML Engine */
-		html_engine_copy (fb->mail_display->html->engine);
+		gtk_html_copy (fb->mail_display->html);
 		return;
 	}
 	
