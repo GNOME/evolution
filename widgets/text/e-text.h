@@ -224,6 +224,11 @@ struct _EText {
 
 	gint dbl_timeout;               /* Double click timeout */
 	gint tpl_timeout;               /* Triple click timeout */
+
+	gint     last_type_request;       /* Last selection type requested. */
+	guint32  last_time_request;       /* The time of the last selection request. */
+	guint32  last_selection_request;  /* The time of the last selection request. */
+	GList   *queued_requests;         /* Queued selection requests. */
 };
 
 struct _ETextClass {

@@ -436,6 +436,10 @@ e_text_init (EText *text)
 	text->style                   = E_FONT_PLAIN;
 	text->allow_newlines          = TRUE;
 
+	text->last_type_request       = -1;
+	text->last_time_request       = 0;
+	text->queued_requests         = NULL;
+
 	e_canvas_item_set_reflow_callback(GNOME_CANVAS_ITEM(text), e_text_reflow);
 }
 
@@ -3765,14 +3769,95 @@ _selection_get (GtkInvisible *invisible,
 	}
 }
 
+typedef struct {
+	guint32 time;
+	GdkAtom selection;
+} SelectionAndTime;
+
+static const char *formats[] = {"UTF8_STRING", "UTF-8", "STRING"};
+#define E_STRING_ATOM 2
+static const int format_count = sizeof (formats) / sizeof (formats[0]);
+static GdkAtom atoms[sizeof (formats) / sizeof (formats[0])];
+static int initialized = FALSE;
+
+static inline void
+init_atoms (void)
+{
+	int type;
+	if (!initialized) {
+		for (type = 0; type < format_count; type++) 
+			atoms[type] = gdk_atom_intern (formats[type], FALSE);
+		initialized = TRUE;
+	}
+}
+
+static void
+e_text_request_paste (EText *text)
+{
+	GdkAtom format_atom;
+	GtkWidget *invisible;
+	int type = text->last_type_request;
+
+	init_atoms ();
+
+	format_atom = GDK_NONE;
+
+	while (format_atom == GDK_NONE) {
+		type ++;
+
+		if (type >= format_count) {
+			if (text->queued_requests) {
+				guint32 *new_time = text->queued_requests->data;
+				text->queued_requests = g_list_remove_link (text->queued_requests, text->queued_requests);
+				text->last_time_request = *new_time;
+				g_free (new_time);
+
+				type = -1;
+			} else {
+				text->last_type_request = -1;
+				text->last_time_request = 0;
+				return;
+			}
+		}
+
+		format_atom = atoms [type];
+	}
+
+	/* And request the format target for the required selection */
+	invisible = e_text_get_invisible(text);
+	gtk_selection_convert(invisible,
+			      text->last_selection_request,
+			      format_atom,
+			      text->last_time_request);
+
+	text->last_type_request = type;
+	return;
+}
+
 static void
 _selection_received (GtkInvisible *invisible,
 		     GtkSelectionData *selection_data,
 		     guint time,
 		     EText *text)
 {
-	if (selection_data->length < 0 || selection_data->type != GDK_SELECTION_TYPE_STRING) {
+	init_atoms ();
+	if (selection_data->length < 0) {
+		e_text_request_paste (text);
 		return;
+	} else if (selection_data->type == atoms[E_STRING_ATOM]) {
+		ETextEventProcessorCommand command;
+		char *string;
+
+		string = e_utf8_from_gtk_string_sized (GTK_WIDGET (GNOME_CANVAS_ITEM(text)->canvas),
+						       selection_data->data,
+						       selection_data->length);
+		command.action = E_TEP_INSERT;
+		command.position = E_TEP_SELECTION;
+		command.string = string;
+		command.value = strlen (string);
+		command.time = time;
+		e_text_command(text->tep, &command, text);
+		g_free (string);
 	} else {
 		ETextEventProcessorCommand command;
 		command.action = E_TEP_INSERT;
@@ -3781,6 +3866,33 @@ _selection_received (GtkInvisible *invisible,
 		command.value = selection_data->length;
 		command.time = time;
 		e_text_command(text->tep, &command, text);
+	}
+	text->last_type_request = -1;
+	if (text->queued_requests) {
+		SelectionAndTime *new_request = text->queued_requests->data;
+		text->queued_requests = g_list_remove_link (text->queued_requests, text->queued_requests);
+		text->last_time_request = new_request->time;
+		text->last_selection_request = new_request->selection;
+		g_free (new_request);
+		e_text_request_paste (text);
+	}
+}
+
+
+
+static void
+e_text_get_selection(EText *text, GdkAtom selection, guint32 time)
+{
+	if (text->last_type_request == -1) {
+		text->last_time_request = time;
+		text->last_selection_request = selection;
+		e_text_request_paste (text);
+	} else {
+		SelectionAndTime *new_request = g_new (SelectionAndTime, 1);
+		new_request->time = time;
+		new_request->selection = selection;
+		/* FIXME: Queue the selection request type as well. */
+		text->queued_requests = g_list_append (text->queued_requests, new_request);
 	}
 }
 
@@ -3808,17 +3920,6 @@ e_text_supply_selection (EText *text, guint time, GdkAtom selection, guchar *dat
 	
 	if (selection == GDK_SELECTION_PRIMARY)
 		text->has_selection = successful;
-}
-
-static void
-e_text_get_selection(EText *text, GdkAtom selection, guint32 time)
-{
-	GtkWidget *invisible;
-	invisible = e_text_get_invisible(text);
-	gtk_selection_convert(invisible,
-			      selection,
-			      GDK_SELECTION_TYPE_STRING,
-			      time);
 }
 
 #if 0
