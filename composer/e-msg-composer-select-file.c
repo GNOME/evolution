@@ -103,11 +103,14 @@ create_file_selection (EMsgComposer *composer)
 	GtkWidget *widget;
 	GtkWidget *ok_button;
 	GtkWidget *cancel_button;
+	char *path;
 
 	info = g_new (FileSelectionInfo, 1);
 
 	widget        = gtk_file_selection_new (NULL);
-	gtk_file_selection_set_filename (GTK_FILE_SELECTION (widget), g_get_home_dir ());
+	path = g_strdup_printf ("%s/", g_get_home_dir ());
+	gtk_file_selection_set_filename (GTK_FILE_SELECTION (widget), path);
+	g_free (path);
 	gtk_window_set_wmclass (GTK_WINDOW (widget), "fileselection", 
 				"Evolution:composer");
 	ok_button     = GTK_FILE_SELECTION (widget)->ok_button;
