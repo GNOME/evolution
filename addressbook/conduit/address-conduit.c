@@ -372,7 +372,7 @@ local_record_from_ecard (EAddrLocalRecord *local, ECard *ecard, EAddrConduitCont
 		local->addr->entry[entryCountry] = e_pilot_utf8_to_pchar (delivery->country);
 	}
 	
-	for (i = 0; i <= 7; i++) {
+	for (i = 0; i <= 7 && phone <= entryPhone5; i++) {
 		const char *phone_str = NULL;
 		char *phonelabel = ctxt->ai.phoneLabels[i];
 		
@@ -397,9 +397,10 @@ local_record_from_ecard (EAddrLocalRecord *local, ECard *ecard, EAddrConduitCont
 			local->addr->entry[phone] = e_pilot_utf8_to_pchar (phone_str);
 			local->addr->phoneLabel[phone - entryPhone1] = i;
 			phone++;
-		}
-		
+		}		
 	}
+	for (; phone <= entryPhone5; phone++)
+		local->addr->phoneLabel[phone - entryPhone1] = phone - entryPhone1;
 
 	gtk_object_unref (GTK_OBJECT (simple));
 }

@@ -1,3 +1,9 @@
+2001-04-11  JP Rosevear  <jpr@ximian.com>
+
+	* conduit/address-conduit.c (local_record_from_ecard): Don't add
+	more than five phone numbers and set the remaining blank entries
+	to some reasonable defaults
+
 2001-04-11  Christopher James Lahey  <clahey@ximian.com>
 
 	* backend/ebook/e-card-simple.h: Added
