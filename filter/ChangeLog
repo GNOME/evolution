@@ -1,3 +1,9 @@
+2003-03-20  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* rule-editor.c (rule_editor_set_sensitive): Don't return here -
+	this is a void function.
+	(rule_editor_set_source): Same.
+
 2003-03-18  Not Zed  <NotZed@Ximian.com>
 
 	* rule-context.c (new_rule_response): use the same code as in

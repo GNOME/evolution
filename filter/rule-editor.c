@@ -178,14 +178,14 @@ rule_editor_new (RuleContext *rc, const char *source)
 void
 rule_editor_set_sensitive (RuleEditor *re)
 {
-	return RULE_EDITOR_GET_CLASS (re)->set_sensitive (re);
+	RULE_EDITOR_GET_CLASS (re)->set_sensitive (re);
 }
 
 /* used internally by implementations */
 void
 rule_editor_set_source (RuleEditor *re, const char *source)
 {
-	return RULE_EDITOR_GET_CLASS (re)->set_source (re, source);
+	RULE_EDITOR_GET_CLASS (re)->set_source (re, source);
 }
 
 /* factory method for "add" button */
