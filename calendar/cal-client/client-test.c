@@ -221,7 +221,7 @@ main (int argc, char **argv)
 	textdomain (PACKAGE);
 
 	gnome_program_init ("tl-test", VERSION, LIBGNOME_MODULE, argc, argv, NULL);
-	oaf_init (argc, argv);
+	bonobo_activation_init (argc, argv);
 
 	if (!bonobo_init (&argc, argv)) {
 		g_message ("main(): could not initialize Bonobo");

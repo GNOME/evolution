@@ -21,7 +21,7 @@
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
-#include <gtk/gtksignal.h>
+#include "cal-util/cal-util-marshal.h"
 #include "cal-client-multi.h"
 
 /* Private part of the CalClientMulti structure */
@@ -31,8 +31,8 @@ struct _CalClientMultiPrivate {
 };
 
 static void cal_client_multi_class_init (CalClientMultiClass *klass);
-static void cal_client_multi_init       (CalClientMulti *multi);
-static void cal_client_multi_destroy    (GtkObject *object);
+static void cal_client_multi_init       (CalClientMulti *multi, CalClientMultiClass *klass);
+static void cal_client_multi_finalize   (GObject *object);
 
 /* signal IDs */
 enum {
@@ -45,7 +45,7 @@ enum {
 };
 
 static guint cal_multi_signals[LAST_SIGNAL];
-static GtkObjectClass *parent_class = NULL;
+static GObjectClass *parent_class = NULL;
 
 /*
  * Private functions
@@ -59,24 +59,23 @@ static GtkObjectClass *parent_class = NULL;
  *
  * Returns: The type ID of the #CalClientMulti class
  */
-GtkType
+GType
 cal_client_multi_get_type (void)
 {
-	static GtkType type = 0;
+	static GType type = 0;
 
 	if (!type) {
-		static const GtkTypeInfo info = {
-			"CalClientMulti",
-			sizeof (CalClientMulti),
-			sizeof (CalClientMultiClass),
-			(GtkClassInitFunc) cal_client_multi_class_init,
-			(GtkObjectInitFunc) cal_client_multi_init,
-			NULL,
-			NULL,
-			(GtkClassInitFunc) NULL
-		};
-
-		type = gtk_type_unique (GTK_TYPE_OBJECT, &info);
+		static GTypeInfo info = {
+                        sizeof (CalClientMultiClass),
+                        (GBaseInitFunc) NULL,
+                        (GBaseFinalizeFunc) NULL,
+                        (GClassInitFunc) cal_client_multi_class_init,
+                        NULL, NULL,
+                        sizeof (CalClientMulti),
+                        0,
+                        (GInstanceInitFunc) cal_client_multi_init
+                };
+		type = g_type_register_static (G_TYPE_OBJECT, "CalClientMulti", &info, 0);
 	}
 
 	return type;
@@ -86,57 +85,62 @@ cal_client_multi_get_type (void)
 static void
 cal_client_multi_class_init (CalClientMultiClass *klass)
 {
-	GtkObjectClass *object_class = GTK_OBJECT_CLASS (klass);
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
-	parent_class = gtk_type_class (GTK_TYPE_OBJECT);
+	parent_class = g_type_class_peek_parent (klass);
 	
 	cal_multi_signals[CAL_OPENED] =
-		gtk_signal_new ("cal_opened",
-				GTK_RUN_FIRST,
-				G_TYPE_FROM_CLASS (object_class),
-				GTK_SIGNAL_OFFSET (CalClientMultiClass, cal_opened),
-				gtk_marshal_NONE__POINTER_INT,
-				GTK_TYPE_NONE, 2,
-				GTK_TYPE_POINTER, GTK_TYPE_ENUM);
+		g_signal_new ("cal_opened",
+			      G_TYPE_FROM_CLASS (klass),
+			      G_SIGNAL_RUN_FIRST,
+			      G_STRUCT_OFFSET (CalClientMultiClass, cal_opened),
+			      NULL, NULL,
+			      cal_util_marshal_VOID__POINTER_ENUM,
+			      G_TYPE_NONE, 2,
+			      G_TYPE_POINTER, G_TYPE_ENUM);
 	cal_multi_signals[OBJ_UPDATED] =
-		gtk_signal_new ("obj_updated",
-				GTK_RUN_FIRST,
-				G_TYPE_FROM_CLASS (object_class),
-				GTK_SIGNAL_OFFSET (CalClientMultiClass, obj_updated),
-				gtk_marshal_NONE__POINTER_POINTER,
-				GTK_TYPE_NONE, 2,
-				GTK_TYPE_POINTER, GTK_TYPE_STRING);
+		g_signal_new ("obj_updated",
+			      G_TYPE_FROM_CLASS (klass),
+			      G_SIGNAL_RUN_FIRST,
+			      G_STRUCT_OFFSET (CalClientMultiClass, obj_updated),
+			      NULL, NULL,
+			      cal_util_marshal_VOID__POINTER_STRING,
+			      G_TYPE_NONE, 2,
+			      G_TYPE_POINTER, G_TYPE_STRING);
 	cal_multi_signals[OBJ_REMOVED] =
-		gtk_signal_new ("obj_removed",
-				GTK_RUN_FIRST,
-				G_TYPE_FROM_CLASS (object_class),
-				GTK_SIGNAL_OFFSET (CalClientMultiClass, obj_removed),
-				gtk_marshal_NONE__POINTER_POINTER,
-				GTK_TYPE_NONE, 2,
-				GTK_TYPE_POINTER, GTK_TYPE_STRING);
+		g_signal_new ("obj_removed",
+			      G_TYPE_FROM_CLASS (klass),
+			      G_SIGNAL_RUN_FIRST,
+			      G_STRUCT_OFFSET (CalClientMultiClass, obj_removed),
+			      NULL, NULL,
+			      cal_util_marshal_VOID__POINTER_STRING,
+			      G_TYPE_NONE, 2,
+			      G_TYPE_POINTER, G_TYPE_STRING);
 	cal_multi_signals[CATEGORIES_CHANGED] =
-		gtk_signal_new ("categories_changed",
-				GTK_RUN_FIRST,
-				G_TYPE_FROM_CLASS (object_class),
-				GTK_SIGNAL_OFFSET (CalClientMultiClass, categories_changed),
-				gtk_marshal_NONE__POINTER_POINTER,
-				GTK_TYPE_NONE, 2,
-				GTK_TYPE_POINTER, GTK_TYPE_POINTER);
+		g_signal_new ("categories_changed",
+			      G_TYPE_FROM_CLASS (klass),
+			      G_SIGNAL_RUN_FIRST,
+			      G_STRUCT_OFFSET (CalClientMultiClass, categories_changed),
+			      NULL, NULL,
+			      cal_util_marshal_VOID__POINTER_POINTER,
+			      G_TYPE_NONE, 2,
+			      G_TYPE_POINTER, G_TYPE_POINTER);
 	cal_multi_signals[FORGET_PASSWORD] =
-		gtk_signal_new ("forget_password",
-				GTK_RUN_FIRST,
-                                G_TYPE_FROM_CLASS (object_class),
-                                GTK_SIGNAL_OFFSET (CalClientMultiClass, forget_password),
-                                gtk_marshal_NONE__POINTER_POINTER,
-                                GTK_TYPE_NONE, 2,
-                                GTK_TYPE_STRING, GTK_TYPE_STRING);
+		g_signal_new ("forget_password",
+			      G_TYPE_FROM_CLASS (klass),
+			      G_SIGNAL_RUN_FIRST,
+			      G_STRUCT_OFFSET (CalClientMultiClass, forget_password),
+			      NULL, NULL,
+			      cal_util_marshal_VOID__STRING_STRING,
+			      G_TYPE_NONE, 2,
+			      G_TYPE_STRING, G_TYPE_STRING);
 
-	object_class->destroy = cal_client_multi_destroy;
+	object_class->finalize = cal_client_multi_finalize;
 }
 
 /* object initialization function for the multi calendar client */
 static void
-cal_client_multi_init (CalClientMulti *multi)
+cal_client_multi_init (CalClientMulti *multi, CalClientMultiClass *klass)
 {
 	multi->priv = g_new0 (CalClientMultiPrivate, 1);
 	multi->priv->calendars = g_hash_table_new (g_str_hash, g_str_equal);
@@ -153,12 +157,12 @@ free_calendar (gpointer key, gpointer value, gpointer data)
 	multi->priv->uris = g_list_remove (multi->priv->uris, key);
 
 	g_free (key);
-	gtk_object_unref (GTK_OBJECT (value));
+	g_object_unref (G_OBJECT (value));
 }
 
-/* destroy handler for the multi calendar client */
+/* finalize handler for the multi calendar client */
 static void
-cal_client_multi_destroy (GtkObject *object)
+cal_client_multi_finalize (GObject *object)
 {
 	CalClientMulti *multi = (CalClientMulti *) object;
 
@@ -173,8 +177,8 @@ cal_client_multi_destroy (GtkObject *object)
 	multi->priv = NULL;
 
 	/* chain to parent class' destroy handler */
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	if (G_OBJECT_CLASS (parent_class)->finalize)
+		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 /**
@@ -191,7 +195,7 @@ cal_client_multi_new (void)
 {
 	CalClientMulti *multi;
 
-	multi = gtk_type_new (CAL_CLIENT_MULTI_TYPE);
+	multi = g_object_new (CAL_CLIENT_MULTI_TYPE, NULL);
 	return multi;
 }
 
@@ -204,9 +208,9 @@ client_cal_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer us
 	g_return_if_fail (IS_CAL_CLIENT (client));
 	g_return_if_fail (IS_CAL_CLIENT_MULTI (multi));
 
-	gtk_signal_emit (GTK_OBJECT (multi),
-			 cal_multi_signals[CAL_OPENED],
-			 client, status);
+	g_signal_emit (G_OBJECT (multi),
+		       cal_multi_signals[CAL_OPENED], 0,
+		       client, status);
 }
 
 static void
@@ -217,9 +221,9 @@ client_obj_updated_cb (CalClient *client, const char *uid, gpointer user_data)
 	g_return_if_fail (IS_CAL_CLIENT (client));
 	g_return_if_fail (IS_CAL_CLIENT_MULTI (multi));
 
-	gtk_signal_emit (GTK_OBJECT (multi),
-			 cal_multi_signals[OBJ_UPDATED],
-			 client, uid);
+	g_signal_emit (G_OBJECT (multi),
+		       cal_multi_signals[OBJ_UPDATED], 0,
+		       client, uid);
 }
 
 static void
@@ -230,9 +234,9 @@ client_obj_removed_cb (CalClient *client, const char *uid, gpointer user_data)
 	g_return_if_fail (IS_CAL_CLIENT (client));
 	g_return_if_fail (IS_CAL_CLIENT_MULTI (multi));
 
-	gtk_signal_emit (GTK_OBJECT (multi),
-			 cal_multi_signals[OBJ_REMOVED],
-			 client, uid);
+	g_signal_emit (G_OBJECT (multi),
+		       cal_multi_signals[OBJ_REMOVED], 0,
+		       client, uid);
 }
 
 static void
@@ -243,9 +247,9 @@ client_categories_changed_cb (CalClient *client, GPtrArray *categories, gpointer
 	g_return_if_fail (IS_CAL_CLIENT (client));
 	g_return_if_fail (IS_CAL_CLIENT_MULTI (multi));
 
-	gtk_signal_emit (GTK_OBJECT (multi),
-			 cal_multi_signals[CATEGORIES_CHANGED],
-			 client, categories);
+	g_signal_emit (G_OBJECT (multi),
+		       cal_multi_signals[CATEGORIES_CHANGED], 0,
+		       client, categories);
 }
 
 static void
@@ -256,9 +260,9 @@ client_forget_password_cb (CalClient *client, const char *key, gpointer user_dat
 	g_return_if_fail (IS_CAL_CLIENT (client));
 	g_return_if_fail (IS_CAL_CLIENT_MULTI (multi));
 
-	gtk_signal_emit (GTK_OBJECT (multi),
-			 cal_multi_signals[FORGET_PASSWORD],
-			 client, key);
+	g_signal_emit (G_OBJECT (multi),
+		       cal_multi_signals[FORGET_PASSWORD], 0,
+		       client, key);
 }
 /**
  * cal_client_multi_add_client
@@ -284,32 +288,34 @@ cal_client_multi_add_client (CalClientMulti *multi, CalClient *client)
 		return;
 	}
 
-	gtk_object_ref (GTK_OBJECT (client));
+	g_object_ref (G_OBJECT (client));
 	multi->priv->uris = g_list_append (multi->priv->uris, uri);
 	g_hash_table_insert (multi->priv->calendars, uri, client);
 
 	/* set up CalClient's signal handlers */
-	gtk_signal_disconnect_by_data (GTK_OBJECT (client), multi);
-	gtk_signal_connect (GTK_OBJECT (client),
-			    "cal_opened",
-			    GTK_SIGNAL_FUNC (client_cal_opened_cb),
-			    multi);
-	gtk_signal_connect (GTK_OBJECT (client),
-			    "obj_updated",
-			    GTK_SIGNAL_FUNC (client_obj_updated_cb),
-			    multi);
-	gtk_signal_connect (GTK_OBJECT (client),
-			    "obj_removed",
-			    GTK_SIGNAL_FUNC (client_obj_removed_cb),
-			    multi);
-	gtk_signal_connect (GTK_OBJECT (client),
-			    "categories_changed",
-			    GTK_SIGNAL_FUNC (client_categories_changed_cb),
-			    multi);
-	gtk_signal_connect (GTK_OBJECT (client),
-			    "forget_password",
-			    GTK_SIGNAL_FUNC (client_forget_password_cb),
-			    multi);
+	g_signal_handlers_disconnect_matched (G_OBJECT (client), 
+					      G_SIGNAL_MATCH_DATA,
+					      0, 0, NULL, NULL, multi);
+	g_signal_connect (G_OBJECT (client),
+			  "cal_opened",
+			  G_CALLBACK (client_cal_opened_cb),
+			  multi);
+	g_signal_connect (G_OBJECT (client),
+			  "obj_updated",
+			  G_CALLBACK (client_obj_updated_cb),
+			  multi);
+	g_signal_connect (G_OBJECT (client),
+			  "obj_removed",
+			  G_CALLBACK (client_obj_removed_cb),
+			  multi);
+	g_signal_connect (G_OBJECT (client),
+			  "categories_changed",
+			  G_CALLBACK (client_categories_changed_cb),
+			  multi);
+	g_signal_connect (G_OBJECT (client),
+			  "forget_password",
+			  G_CALLBACK (client_forget_password_cb),
+			  multi);
 }
 
 typedef struct {
@@ -380,11 +386,11 @@ cal_client_multi_open_calendar (CalClientMulti *multi,
 	result = cal_client_open_calendar (client, str_uri, only_if_exists);
 	if (result) {
 		cal_client_multi_add_client (multi, client);
-		gtk_object_unref (GTK_OBJECT (client));
+		g_object_unref (G_OBJECT (client));
 		return client;
 	}
 
-	gtk_object_unref (GTK_OBJECT (client));
+	g_object_unref (G_OBJECT (client));
 
 	return NULL;
 }

@@ -22,8 +22,8 @@
 #include <config.h>
 #endif
 
-#include <gtk/gtksignal.h>
 #include <bonobo/bonobo-exception.h>
+#include "cal-util/cal-util-marshal.h"
 #include "cal-query.h"
 #include "query-listener.h"
 
@@ -40,9 +40,9 @@ struct _CalQueryPrivate {
 
 
 
-static void cal_query_class_init (CalQueryClass *class);
-static void cal_query_init (CalQuery *query);
-static void cal_query_destroy (GtkObject *object);
+static void cal_query_class_init (CalQueryClass *klass);
+static void cal_query_init (CalQuery *query, CalQueryClass *klass);
+static void cal_query_finalize (GObject *object);
 
 /* Signal IDs */
 enum {
@@ -53,16 +53,9 @@ enum {
 	LAST_SIGNAL
 };
 
-static void marshal_obj_updated (GtkObject *object,
-				 GtkSignalFunc func, gpointer func_data,
-				 GtkArg *args);
-static void marshal_query_done (GtkObject *object,
-				GtkSignalFunc func, gpointer func_data,
-				GtkArg *args);
-
 static guint query_signals[LAST_SIGNAL];
 
-static GtkObjectClass *parent_class;
+static GObjectClass *parent_class;
 
 
 
@@ -74,24 +67,23 @@ static GtkObjectClass *parent_class;
  * 
  * Return value: The type ID of the #CalQuery class.
  **/
-GtkType
+GType
 cal_query_get_type (void)
 {
-	static GtkType cal_query_type = 0;
+	static GType cal_query_type = 0;
 
 	if (!cal_query_type) {
-		static const GtkTypeInfo cal_query_info = {
-			"CalQuery",
-			sizeof (CalQuery),
-			sizeof (CalQueryClass),
-			(GtkClassInitFunc) cal_query_class_init,
-			(GtkObjectInitFunc) cal_query_init,
-			NULL, /* reserved_1 */
-			NULL, /* reserved_2 */
-			(GtkClassInitFunc) NULL
-		};
-
-		cal_query_type = gtk_type_unique (GTK_TYPE_OBJECT, &cal_query_info);
+		static GTypeInfo info = {
+                        sizeof (CalQueryClass),
+                        (GBaseInitFunc) NULL,
+                        (GBaseFinalizeFunc) NULL,
+                        (GClassInitFunc) cal_query_class_init,
+                        NULL, NULL,
+                        sizeof (CalQuery),
+                        0,
+                        (GInstanceInitFunc) cal_query_init
+                };
+		cal_query_type = g_type_register_static (G_TYPE_OBJECT, "CalQuery", &info, 0);
 	}
 
 	return cal_query_type;
@@ -99,64 +91,66 @@ cal_query_get_type (void)
 
 /* Class initialization function for the calendar query */
 static void
-cal_query_class_init (CalQueryClass *class)
+cal_query_class_init (CalQueryClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 
-	object_class = (GtkObjectClass *) class;
+	object_class = (GObjectClass *) klass;
 
-	parent_class = gtk_type_class (GTK_TYPE_OBJECT);
+	parent_class = g_type_class_peek_parent (klass);
 
 	query_signals[OBJ_UPDATED] =
-		gtk_signal_new ("obj_updated",
-				GTK_RUN_FIRST,
-				G_TYPE_FROM_CLASS (object_class),
-				GTK_SIGNAL_OFFSET (CalQueryClass, obj_updated),
-				marshal_obj_updated,
-				GTK_TYPE_NONE, 4,
-				GTK_TYPE_STRING,
-				GTK_TYPE_BOOL,
-				GTK_TYPE_INT,
-				GTK_TYPE_INT);
+		g_signal_new ("obj_updated",
+			      G_TYPE_FROM_CLASS (klass),
+			      G_SIGNAL_RUN_FIRST,
+			      G_STRUCT_OFFSET (CalQueryClass, obj_updated),
+			      NULL, NULL,
+			      cal_util_marshal_VOID__STRING_BOOLEAN_INT_INT,
+			      G_TYPE_NONE, 4,
+			      G_TYPE_STRING,
+			      G_TYPE_BOOLEAN,
+			      G_TYPE_INT,
+			      G_TYPE_INT);
 	query_signals[OBJ_REMOVED] =
-		gtk_signal_new ("obj_removed",
-				GTK_RUN_FIRST,
-				G_TYPE_FROM_CLASS (object_class),
-				GTK_SIGNAL_OFFSET (CalQueryClass, obj_removed),
-				gtk_marshal_NONE__STRING,
-				GTK_TYPE_NONE, 1,
-				GTK_TYPE_STRING);
+		g_signal_new ("obj_removed",
+			      G_TYPE_FROM_CLASS (klass),
+			      G_SIGNAL_RUN_FIRST,
+			      G_STRUCT_OFFSET (CalQueryClass, obj_removed),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__STRING,
+			      G_TYPE_NONE, 1,
+			      G_TYPE_STRING);
 	query_signals[QUERY_DONE] =
-		gtk_signal_new ("query_done",
-				GTK_RUN_FIRST,
-				G_TYPE_FROM_CLASS (object_class),
-				GTK_SIGNAL_OFFSET (CalQueryClass, query_done),
-				marshal_query_done,
-				GTK_TYPE_NONE, 2,
-				GTK_TYPE_ENUM,
-				GTK_TYPE_STRING);
+		g_signal_new ("query_done",
+			      G_TYPE_FROM_CLASS (klass),
+			      G_SIGNAL_RUN_FIRST,
+			      G_STRUCT_OFFSET (CalQueryClass, query_done),
+			      NULL, NULL,
+			      cal_util_marshal_VOID__ENUM_STRING,
+			      G_TYPE_NONE, 2,
+			      G_TYPE_ENUM,
+			      G_TYPE_STRING);
 	query_signals[EVAL_ERROR] =
-		gtk_signal_new ("eval_error",
-				GTK_RUN_FIRST,
-				G_TYPE_FROM_CLASS (object_class),
-				GTK_SIGNAL_OFFSET (CalQueryClass, eval_error),
-				gtk_marshal_NONE__STRING,
-				GTK_TYPE_NONE, 1,
-				GTK_TYPE_STRING);
+		g_signal_new ("eval_error",
+			      G_TYPE_FROM_CLASS (klass),
+			      G_SIGNAL_RUN_FIRST,
+			      G_STRUCT_OFFSET (CalQueryClass, eval_error),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__STRING,
+			      G_TYPE_NONE, 1,
+			      G_TYPE_STRING);
 
-	gtk_object_class_add_signals (object_class, query_signals, LAST_SIGNAL);
+	klass->obj_updated = NULL;
+	klass->obj_removed = NULL;
+	klass->query_done = NULL;
+	klass->eval_error = NULL;
 
-	class->obj_updated = NULL;
-	class->obj_removed = NULL;
-	class->query_done = NULL;
-	class->eval_error = NULL;
-
-	object_class->destroy = cal_query_destroy;
+	object_class->finalize = cal_query_finalize;
 }
 
 /* Object initialization function for the calendar query */
 static void
-cal_query_init (CalQuery *query)
+cal_query_init (CalQuery *query, CalQueryClass *klass)
 {
 	CalQueryPrivate *priv;
 
@@ -167,9 +161,9 @@ cal_query_init (CalQuery *query)
 	priv->corba_query = CORBA_OBJECT_NIL;
 }
 
-/* Destroy handler for the calendar query */
+/* Finalize handler for the calendar query */
 static void
-cal_query_destroy (GtkObject *object)
+cal_query_finalize (GObject *object)
 {
 	CalQuery *query;
 	CalQueryPrivate *priv;
@@ -201,42 +195,8 @@ cal_query_destroy (GtkObject *object)
 	g_free (priv);
 	query->priv = NULL;
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
-}
-
-
-
-/* Marshalers */
-
-typedef void (* ObjUpdatedFunc) (CalQuery *query, const char *uid,
-				 gboolean query_in_progress, int n_scanned, int total,
-				 gpointer data);
-
-static void
-marshal_obj_updated (GtkObject *object, GtkSignalFunc func, gpointer func_data, GtkArg *args)
-{
-	ObjUpdatedFunc f;
-
-	f = (ObjUpdatedFunc) func;
-
-	(* f) (CAL_QUERY (object), GTK_VALUE_STRING (args[0]),
-	       GTK_VALUE_BOOL (args[1]), GTK_VALUE_INT (args[2]), GTK_VALUE_INT (args[3]),
-	       func_data);
-}
-
-typedef void (* QueryDoneFunc) (CalQuery *query, CalQueryDoneStatus status, const char *error_str,
-				gpointer data);
-
-static void
-marshal_query_done (GtkObject *object, GtkSignalFunc func, gpointer func_data, GtkArg *args)
-{
-	QueryDoneFunc f;
-
-	f = (QueryDoneFunc) func;
-
-	(* f) (CAL_QUERY (object), GTK_VALUE_ENUM (args[0]), GTK_VALUE_STRING (args[1]),
-	       func_data);
+	if (G_OBJECT_CLASS (parent_class)->finalize)
+		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 
@@ -256,9 +216,9 @@ obj_updated_cb (QueryListener *ql,
 	query = CAL_QUERY (data);
 
 	for (n = 0; n < uids->_length; n++) {
-		gtk_signal_emit (GTK_OBJECT (query), query_signals[OBJ_UPDATED],
-				 uids->_buffer[n], query_in_progress,
-				 (int) n_scanned, (int) total);
+		g_signal_emit (G_OBJECT (query), query_signals[OBJ_UPDATED], 0,
+			       uids->_buffer[n], query_in_progress,
+			       (int) n_scanned, (int) total);
 	}
 }
 
@@ -272,8 +232,8 @@ obj_removed_cb (QueryListener *ql,
 
 	query = CAL_QUERY (data);
 
-	gtk_signal_emit (GTK_OBJECT (query), query_signals[OBJ_REMOVED],
-			 uid);
+	g_signal_emit (G_OBJECT (query), query_signals[OBJ_REMOVED],
+		       0, uid);
 }
 
 /* Callback used when the query terminates */
@@ -302,8 +262,8 @@ query_done_cb (QueryListener *ql,
 		return;
 	}
 
-	gtk_signal_emit (GTK_OBJECT (query), query_signals[QUERY_DONE],
-			 status, error_str);
+	g_signal_emit (G_OBJECT (query), query_signals[QUERY_DONE], 0,
+		       status, error_str);
 }
 
 /* Callback used when an error occurs when evaluating the query */
@@ -316,8 +276,8 @@ eval_error_cb (QueryListener *ql,
 
 	query = CAL_QUERY (data);
 
-	gtk_signal_emit (GTK_OBJECT (query), query_signals[EVAL_ERROR],
-			 error_str);
+	g_signal_emit (G_OBJECT (query), query_signals[EVAL_ERROR], 0,
+		       error_str);
 }
 
 /**
@@ -400,10 +360,10 @@ cal_query_new (GNOME_Evolution_Calendar_Cal cal,
 {
 	CalQuery *query;
 
-	query = gtk_type_new (CAL_QUERY_TYPE);
+	query = g_object_new (CAL_QUERY_TYPE, NULL);
 
 	if (!cal_query_construct (query, cal, sexp)) {
-		gtk_object_unref (GTK_OBJECT (query));
+		g_object_unref (G_OBJECT (query));
 		return NULL;
 	}
 

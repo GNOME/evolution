@@ -40,9 +40,9 @@ struct CalListenerPrivate {
 
 
 
-static void cal_listener_class_init (CalListenerClass *class);
-static void cal_listener_init (CalListener *listener);
-static void cal_listener_destroy (GtkObject *object);
+static void cal_listener_class_init (CalListenerClass *klass);
+static void cal_listener_init (CalListener *listener, CalListenerClass *klass);
+static void cal_listener_finalize (GObject *object);
 
 static void impl_notifyCalOpened (PortableServer_Servant servant,
 				  GNOME_Evolution_Calendar_Listener_OpenStatus status,
@@ -65,38 +65,38 @@ static void impl_notifyCategoriesChanged (PortableServer_Servant servant,
 					  const GNOME_Evolution_Calendar_StringSeq *categories,
 					  CORBA_Environment *ev);
 
-static BonoboXObjectClass *parent_class;
+static BonoboObjectClass *parent_class;
 
 
 
-BONOBO_X_TYPE_FUNC_FULL (CalListener,
-			 GNOME_Evolution_Calendar_Listener,
-			 BONOBO_X_OBJECT_TYPE,
-			 cal_listener);
+BONOBO_TYPE_FUNC_FULL (CalListener,
+		       GNOME_Evolution_Calendar_Listener,
+		       BONOBO_TYPE_OBJECT,
+		       cal_listener);
 
 /* Class initialization function for the calendar listener */
 static void
-cal_listener_class_init (CalListenerClass *class)
+cal_listener_class_init (CalListenerClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 
-	object_class = (GtkObjectClass *) class;
+	object_class = (GObjectClass *) klass;
 
-	parent_class = gtk_type_class (BONOBO_X_OBJECT_TYPE);
+	parent_class = g_type_class_peek_parent (klass);
 
-	class->epv.notifyCalOpened = impl_notifyCalOpened;
-	class->epv.notifyCalSetMode = impl_notifyCalSetMode;
-	class->epv.notifyObjUpdated = impl_notifyObjUpdated;
-	class->epv.notifyObjRemoved = impl_notifyObjRemoved;
-	class->epv.notifyErrorOccurred = impl_notifyErrorOccurred;
-	class->epv.notifyCategoriesChanged = impl_notifyCategoriesChanged;
+	klass->epv.notifyCalOpened = impl_notifyCalOpened;
+	klass->epv.notifyCalSetMode = impl_notifyCalSetMode;
+	klass->epv.notifyObjUpdated = impl_notifyObjUpdated;
+	klass->epv.notifyObjRemoved = impl_notifyObjRemoved;
+	klass->epv.notifyErrorOccurred = impl_notifyErrorOccurred;
+	klass->epv.notifyCategoriesChanged = impl_notifyCategoriesChanged;
 
-	object_class->destroy = cal_listener_destroy;
+	object_class->finalize = cal_listener_finalize;
 }
 
 /* Object initialization function for the calendar listener */
 static void
-cal_listener_init (CalListener *listener)
+cal_listener_init (CalListener *listener, CalListenerClass *klass)
 {
 	CalListenerPrivate *priv;
 
@@ -112,9 +112,9 @@ cal_listener_init (CalListener *listener)
 	priv->notify = TRUE;
 }
 
-/* Destroy handler for the calendar listener */
+/* Finalize handler for the calendar listener */
 static void
-cal_listener_destroy (GtkObject *object)
+cal_listener_finalize (GObject *object)
 {
 	CalListener *listener;
 	CalListenerPrivate *priv;
@@ -137,8 +137,8 @@ cal_listener_destroy (GtkObject *object)
 	g_free (priv);
 	listener->priv = NULL;
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	if (G_OBJECT_CLASS (parent_class)->finalize)
+		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 
@@ -364,7 +364,7 @@ cal_listener_new (CalListenerCalOpenedFn cal_opened_fn,
 	g_return_val_if_fail (error_occurred_fn != NULL, NULL);
 	g_return_val_if_fail (categories_changed_fn != NULL, NULL);
 
-	listener = gtk_type_new (CAL_LISTENER_TYPE);
+	listener = g_object_new (CAL_LISTENER_TYPE, NULL);
 	return cal_listener_construct (listener,
 				       cal_opened_fn,
 				       cal_set_mode_fn,

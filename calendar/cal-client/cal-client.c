@@ -28,6 +28,7 @@
 
 #include "e-util/e-component-listener.h"
 #include "e-util/e-config-listener.h"
+#include "cal-util/cal-util-marshal.h"
 #include "cal-client-types.h"
 #include "cal-client.h"
 #include "cal-listener.h"
@@ -135,7 +136,7 @@ cal_client_get_type (void)
                         0,
                         (GInstanceInitFunc) cal_client_init
                 };
-		cal_component_type = g_type_register_static (G_TYPE_OBJECT, "CalClient", &info, 0);
+		cal_client_type = g_type_register_static (G_TYPE_OBJECT, "CalClient", &info, 0);
 	}
 
 	return cal_client_type;
@@ -147,7 +148,7 @@ cal_client_class_init (CalClientClass *klass)
 {
 	GObjectClass *object_class;
 
-	object_class = (GObjectClass *) class;
+	object_class = (GObjectClass *) klass;
 
 	parent_class = g_type_class_peek_parent (klass);
 
@@ -173,7 +174,7 @@ cal_client_class_init (CalClientClass *klass)
 	cal_client_signals[OBJ_UPDATED] =
 		g_signal_new ("obj_updated",
 			      G_TYPE_FROM_CLASS (klass),
-			      G_SIGNAL_RUN_FIRST
+			      G_SIGNAL_RUN_FIRST,
 			      G_STRUCT_OFFSET (CalClientClass, obj_updated),
 			      NULL, NULL,
 			      g_cclosure_marshal_VOID__STRING,
@@ -192,7 +193,7 @@ cal_client_class_init (CalClientClass *klass)
 		g_signal_new ("backend_error",
 			      G_TYPE_FROM_CLASS (klass),
 			      G_SIGNAL_RUN_FIRST,
-			      G_STRUCT__OFFSET (CalClientClass, backend_error),
+			      G_STRUCT_OFFSET (CalClientClass, backend_error),
 			      NULL, NULL,
 			      g_cclosure_marshal_VOID__STRING,
 			      G_TYPE_NONE, 1,
@@ -219,7 +220,7 @@ cal_client_class_init (CalClientClass *klass)
 		g_signal_new ("backend_died",
 			      G_TYPE_FROM_CLASS (klass),
 			      G_SIGNAL_RUN_FIRST,
-			      G_STRUCT_SIGNAL_OFFSET (CalClientClass, backend_died),
+			      G_STRUCT_OFFSET (CalClientClass, backend_died),
 			      NULL, NULL,
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
@@ -362,7 +363,7 @@ cal_client_finalize (GObject *object)
 
 	if (priv->comp_listener) {
 		g_signal_handlers_disconnect_matched (G_OBJECT (priv->comp_listener),
-						       G_SIGNAL_MATCH_DATA,
+						      G_SIGNAL_MATCH_DATA,
 						      0, 0, NULL, NULL,
 						      client);
 		g_object_unref (G_OBJECT (priv->comp_listener));
@@ -1837,8 +1838,8 @@ get_objects_atomically (CalClient *client, CalObjType type, time_t start, time_t
 	 * notification signals and generate the final list of components.
 	 */
 
-	g_signal_handler_disconnect_by_func (G_OBJECT (client), obj_updated_id, client);
-	g_signal_handler_disconnect (G_OBJECT (client), obj_removed_id, client);
+	g_signal_handlers_disconnect_by_func (G_OBJECT (client), obj_updated_id, client);
+	g_signal_handlers_disconnect_by_func (G_OBJECT (client), obj_removed_id, client);
 
 	objects = NULL;
 	g_hash_table_foreach (uid_comp_hash, add_component, &objects);

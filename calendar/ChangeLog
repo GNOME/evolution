@@ -1,5 +1,22 @@
 2002-11-04  Rodrigo Moya <rodrigo@ximian.com>
 
+	* cal-util/cal-util-marshal.list: added new marshallers.
+
+	* cal-client/cal-client.c (get_objects_atomically): fixed calls to
+	g_signal_handler_disconnect_by_func.
+	(cal_client_class_init): fixed typos.
+
+	* cal-client/cal-client-multi.[ch]:
+	* cal-client/cal-client-types.c:
+	* cal-client/cal-query.[ch]: ported to GObject.
+
+	* cal-client/cal-listener.[ch]: converted to BonoboObject.
+
+	* cal-client/Makefile.am:
+	* pcs/Makefile.am: fixed flags for orbit-idl
+
+2002-11-04  Rodrigo Moya <rodrigo@ximian.com>
+
 	* cal-util/Makefile.am:
 	* cal-util/cal-util-marshal.list: added marshallers.
 

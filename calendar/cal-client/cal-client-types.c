@@ -44,7 +44,7 @@ cal_client_change_list_free (GList *list)
 		g_assert (c != NULL);
 		g_assert (c->comp != NULL);
 
-		gtk_object_unref (GTK_OBJECT (c->comp));
+		g_object_unref (G_OBJECT (c->comp));
 		g_free (c);
 	}
 
