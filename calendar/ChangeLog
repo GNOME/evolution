@@ -1,5 +1,11 @@
 2003-02-11  JP Rosevear  <jpr@ximian.com>
+	
+	Fixes #37883
+	
+	* idl/evolution-calendar.idl: getLdapAttribute can raise NotFound
 
+2003-02-11  JP Rosevear  <jpr@ximian.com>
+	
 	Fixes #37806, #37697
 	
 	* gui/e-itip-control.c (e_itip_control_set_data): if the text is
