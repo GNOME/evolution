@@ -25,7 +25,9 @@ INCLUDES =						\
 privlib_LTLIBRARIES = libevolution-a11y.la 
 
 libevolution_a11y_la_SOURCES =				\
-	$(CALENDAR_IDL_GENERATED_H)
+	$(CALENDAR_IDL_GENERATED_H)			\
+        ea-factory.h
+
 
 BUILT_SOURCES = $(CALENDAR_IDL_GENERATED_H)
 
