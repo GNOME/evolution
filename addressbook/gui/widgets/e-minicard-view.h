@@ -72,7 +72,7 @@ struct _EMinicardView
 
 	int canvas_destroy_id;
 
-	int create_card_id, remove_card_id, modify_card_id;
+	int create_card_id, remove_card_id, modify_card_id, status_message_id;
 
 	guint first_get_view : 1;
 };
@@ -80,6 +80,11 @@ struct _EMinicardView
 struct _EMinicardViewClass
 {
 	EReflowSortedClass parent_class;
+
+	/*
+	 * Signals
+	 */
+	void (*status_message) (EMinicardView *mini_view, const gchar *message);
 };
 
 GtkType    e_minicard_view_get_type (void);

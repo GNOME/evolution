@@ -55,6 +55,11 @@ struct _EMinicardViewWidget
 struct _EMinicardViewWidgetClass
 {
 	ECanvasClass parent_class;
+
+	/*
+	 * Signals
+	 */
+	void (*status_message) (EMinicardView *mini_view, const gchar *message);
 };
 
 GtkType    e_minicard_view_widget_get_type (void);

@@ -32,6 +32,13 @@ enum {
 	ARG_EDITABLE,
 };
 
+enum {
+	STATUS_MESSAGE,
+	LAST_SIGNAL
+};
+
+static guint e_addressbook_model_signals [LAST_SIGNAL] = {0, };
+
 static void
 remove_book_view(EAddressbookModel *model)
 {
@@ -44,10 +51,14 @@ remove_book_view(EAddressbookModel *model)
 	if (model->book_view && model->modify_card_id)
 		gtk_signal_disconnect(GTK_OBJECT (model->book_view),
 				      model->modify_card_id);
+	if (model->book_view && model->status_message_id)
+		gtk_signal_disconnect(GTK_OBJECT (model->book_view),
+				      model->status_message_id);
 
 	model->create_card_id = 0;
 	model->remove_card_id = 0;
 	model->modify_card_id = 0;
+	model->status_message_id = 0;
 
 	if (model->book_view)
 		gtk_object_unref(GTK_OBJECT(model->book_view));
@@ -236,6 +247,16 @@ modify_card(EBookView *book_view,
 }
 
 static void
+status_message (EBookView *book_view,
+		char* status,
+		EAddressbookModel *model)
+{
+	gtk_signal_emit (GTK_OBJECT (model),
+			 e_addressbook_model_signals [STATUS_MESSAGE],
+			 status);
+}
+
+static void
 e_addressbook_model_class_init (GtkObjectClass *object_class)
 {
 	ETableModelClass *model_class = (ETableModelClass *) object_class;
@@ -252,6 +273,16 @@ e_addressbook_model_class_init (GtkObjectClass *object_class)
 				 GTK_ARG_READWRITE, ARG_QUERY);
 	gtk_object_add_arg_type ("EAddressbookModel::editable", GTK_TYPE_BOOL,
 				 GTK_ARG_READWRITE, ARG_EDITABLE);
+
+	e_addressbook_model_signals [STATUS_MESSAGE] =
+		gtk_signal_new ("status_message",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (EAddressbookModelClass, status_message),
+				gtk_marshal_NONE__POINTER,
+				GTK_TYPE_NONE, 1, GTK_TYPE_POINTER);
+
+	gtk_object_class_add_signals (object_class, e_addressbook_model_signals, LAST_SIGNAL);
 	
 	model_class->column_count = addressbook_col_count;
 	model_class->row_count = addressbook_row_count;
@@ -277,6 +308,7 @@ e_addressbook_model_init (GtkObject *object)
 	model->create_card_id = 0;
 	model->remove_card_id = 0;
 	model->modify_card_id = 0;
+	model->status_message_id = 0;
 	model->data = NULL;
 	model->data_count = 0;
 	model->editable = TRUE;
@@ -304,6 +336,10 @@ book_view_loaded (EBook *book, EBookStatus status, EBookView *book_view, gpointe
 						  "card_changed",
 						  GTK_SIGNAL_FUNC(modify_card),
 						  model);
+	model->status_message_id = gtk_signal_connect(GTK_OBJECT(model->book_view),
+						      "status_message",
+						      GTK_SIGNAL_FUNC(status_message),
+						      model);
 
 	for ( i = 0; i < model->data_count; i++ ) {
 		gtk_object_unref(GTK_OBJECT(model->data[i]));

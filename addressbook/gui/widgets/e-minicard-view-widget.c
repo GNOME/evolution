@@ -42,6 +42,14 @@ enum {
 	ARG_QUERY
 };
 
+enum {
+	STATUS_MESSAGE,
+	LAST_SIGNAL
+};
+
+static guint e_minicard_view_widget_signals [LAST_SIGNAL] = {0, };
+
+
 GtkType
 e_minicard_view_widget_get_type (void)
 {
@@ -84,6 +92,16 @@ e_minicard_view_widget_class_init (EMinicardViewWidgetClass *klass)
 				 GTK_ARG_READWRITE, ARG_BOOK);
 	gtk_object_add_arg_type ("EMinicardViewWidget::query", GTK_TYPE_STRING,
 				 GTK_ARG_READWRITE, ARG_QUERY);
+
+	e_minicard_view_widget_signals [STATUS_MESSAGE] =
+		gtk_signal_new ("status_message",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (EMinicardViewWidgetClass, status_message),
+				gtk_marshal_NONE__POINTER,
+				GTK_TYPE_NONE, 1, GTK_TYPE_POINTER);
+
+	gtk_object_class_add_signals (object_class, e_minicard_view_widget_signals, LAST_SIGNAL);
 
 	object_class->set_arg       = e_minicard_view_widget_set_arg;
 	object_class->get_arg       = e_minicard_view_widget_get_arg;
@@ -176,6 +194,16 @@ e_minicard_view_widget_destroy (GtkObject *object)
 }
 
 static void
+status_message (EMinicardView *mini_view,
+		char* status,
+		EMinicardViewWidget *view)
+{
+	gtk_signal_emit (GTK_OBJECT (view),
+			 e_minicard_view_widget_signals [STATUS_MESSAGE],
+			 status);
+}
+
+static void
 e_minicard_view_widget_realize (GtkWidget *widget)
 {
 	EMinicardViewWidget *view = E_MINICARD_VIEW_WIDGET(widget);
@@ -196,6 +224,12 @@ e_minicard_view_widget_realize (GtkWidget *widget)
 		"height", (double) 100,
 		"minimum_width", (double) 100,
 		NULL );
+
+	gtk_signal_connect(GTK_OBJECT(view->emv),
+			   "status_message",
+			   GTK_SIGNAL_FUNC(status_message),
+			   view);
+
 	gtk_object_set(GTK_OBJECT(view->emv),
 		       "book", view->book,
 		       "query", view->query,

@@ -1,5 +1,54 @@
 2001-01-09  Chris Toshok  <toshok@helixcode.com>
 
+	* gui/widgets/e-minicard-view-widget.c
+	(e_minicard_view_widget_class_init): register our status_message
+	signal.
+	(status_message): new function, emit our status_message signal.
+	(e_minicard_view_widget_realize): connect to the EMinicardView's
+	status_message signal.
+
+	* gui/widgets/e-minicard-view-widget.h: add status_message signal.
+
+	* gui/widgets/e-minicard-view.c (e_minicard_view_class_init):
+	register our status_message signal.
+	(e_minicard_view_init): init status_message_id.
+	(status_message): new function, emit our status_message signal.
+	(book_view_loaded): connect to the EBookView's status_message
+	signal.
+	(disconnect_signals): disconnect status_message_id.
+
+	* gui/widgets/e-minicard-view.h: add status_mesage_id, and
+	status_message signal.
+
+	* gui/widgets/e-addressbook-model.c (status_message): new
+	function, emit our status_message.
+	(e_addressbook_model_class_init): register our "status_message"
+	signal.
+	(book_view_loaded): connect to the EBookView's status_message
+	signal, so we can chain it to our parent.
+	(e_addressbook_model_init): init status_message_id.
+	(remove_book_view): disconnect status_message_id.
+
+	* gui/widgets/e-addressbook-model.h: add status_message_id, and
+	status_message signal.
+
+	* backend/pas/pas-backend-ldap.c change the objectclass we create
+	objects with to "inetOrgPerson" as it encompasses the fields we
+	use.
+	(create_dn_from_ecard): remove the mail/org handling from
+	here.  we just prepend cn=$cn onto the base dn.
+	(create_card_handler): remove the NULL that build_mods_from_ecards
+	adds at the end, and insert our objectClass.
+	(modify_card_handler): call search_for_dn to get the ECardSimple
+	of the old card, since it might (and does in the current code)
+	doing a brute force search.
+	(search_for_dn): new function, to search for an entry by its dn.
+	right now we brute force (objectclass=*) under the base dn and
+	compare dn's.  going to add a first pass that explodes the dn and
+	searches that way, using (objectclass=*) as a last resort.  also,
+	here's where we'd put the extensibleMatch code if we want to go
+	that route.
+
 	* backend/ebook/e-card.c (e_card_set_arg): if we're setting the
 	full name regenerate ecard->name.
 

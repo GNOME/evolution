@@ -152,8 +152,9 @@ e_addressbook_view_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 
 	switch (arg_id){
 	case ARG_BOOK:
-		if (eav->book)
+		if (eav->book) {
 			gtk_object_unref(GTK_OBJECT(eav->book));
+		}
 		if (GTK_VALUE_OBJECT(*arg)) {
 			eav->book = E_BOOK(GTK_VALUE_OBJECT(*arg));
 			gtk_object_ref(GTK_OBJECT(eav->book));
@@ -534,6 +535,12 @@ table_right_click(ETableScrolled *table, gint row, gint col, GdkEvent *event, EA
 		return FALSE;
 }
 
+static void
+status_message (GtkObject *object, const gchar *message, EAddressbookView *eav)
+{
+	printf ("status = %s\n", message);
+}
+
 #define SPEC "<?xml version=\"1.0\"?>      \
 <ETableSpecification click-to-add=\"true\" draw-grid=\"true\" _click-to-add-message=\"* Click here to add a contact *\">   \
   <ETableColumn model_col= \"0\" _title=\"Name\"          expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
@@ -640,6 +647,11 @@ change_view_type (EAddressbookView *view, EAddressbookViewType view_type)
 	}
 
 	view->view_type = view_type;
+
+	gtk_signal_connect (view->object,
+			    "status_message",
+			    GTK_SIGNAL_FUNC (status_message),
+			    view);
 
 	gtk_object_set(view->object,
 		       "query", view->query,

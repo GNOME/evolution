@@ -44,6 +44,13 @@ enum {
 	ARG_QUERY
 };
 
+enum {
+	STATUS_MESSAGE,
+	LAST_SIGNAL
+};
+
+static guint e_minicard_view_signals [LAST_SIGNAL] = {0, };
+
 GtkType
 e_minicard_view_get_type (void)
 {
@@ -84,6 +91,16 @@ e_minicard_view_class_init (EMinicardViewClass *klass)
 				 GTK_ARG_READWRITE, ARG_BOOK);
 	gtk_object_add_arg_type ("EMinicardView::query", GTK_TYPE_STRING,
 				 GTK_ARG_READWRITE, ARG_QUERY);
+
+	e_minicard_view_signals [STATUS_MESSAGE] =
+		gtk_signal_new ("status_message",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (EMinicardViewClass, status_message),
+				gtk_marshal_NONE__POINTER,
+				GTK_TYPE_NONE, 1, GTK_TYPE_POINTER);
+
+	gtk_object_class_add_signals (object_class, e_minicard_view_signals, LAST_SIGNAL);
 	
 	object_class->set_arg   = e_minicard_view_set_arg;
 	object_class->get_arg   = e_minicard_view_get_arg;
@@ -104,6 +121,7 @@ e_minicard_view_init (EMinicardView *view)
 	view->create_card_id = 0;
 	view->remove_card_id = 0;
 	view->modify_card_id = 0;
+	view->status_message_id = 0;
 	view->canvas_destroy_id = 0;
 	view->first_get_view = TRUE;
 	
@@ -145,6 +163,16 @@ modify_card(EBookView *book_view, const GList *cards, EMinicardView *view)
 }
 
 static void
+status_message (EBookView *book_view,
+		char* status,
+		EMinicardView *view)
+{
+	gtk_signal_emit (GTK_OBJECT (view),
+			 e_minicard_view_signals [STATUS_MESSAGE],
+			 status);
+}
+
+static void
 remove_card(EBookView *book_view, const char *id, EMinicardView *view)
 {
 	e_reflow_sorted_remove_item(E_REFLOW_SORTED(view), id);
@@ -181,6 +209,10 @@ book_view_loaded (EBook *book, EBookStatus status, EBookView *book_view, gpointe
 						  "card_changed",
 						  GTK_SIGNAL_FUNC(modify_card),
 						  view);
+	view->status_message_id = gtk_signal_connect(GTK_OBJECT(view->book_view),
+						     "status_message",
+						     GTK_SIGNAL_FUNC(status_message),
+						     view);
 
 	g_list_foreach(E_REFLOW(view)->items, (GFunc) gtk_object_unref, NULL);
 	g_list_foreach(E_REFLOW(view)->items, (GFunc) gtk_object_destroy, NULL);
@@ -373,10 +405,14 @@ disconnect_signals(EMinicardView *view)
 	if (view->book_view && view->modify_card_id)
 		gtk_signal_disconnect(GTK_OBJECT (view->book_view),
 				      view->modify_card_id);
+	if (view->book_view && view->status_message_id)
+		gtk_signal_disconnect(GTK_OBJECT (view->book_view),
+				      view->status_message_id);
 
 	view->create_card_id = 0;
 	view->remove_card_id = 0;
 	view->modify_card_id = 0;
+	view->status_message_id = 0;
 }
 
 static void

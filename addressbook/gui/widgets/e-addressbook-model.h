@@ -20,7 +20,10 @@
    3   Phone
 */
 
-typedef struct {
+typedef struct _EAddressbookModel EAddressbookModel;
+typedef struct _EAddressbookModelClass EAddressbookModelClass;
+
+struct _EAddressbookModel {
 	ETableModel parent;
 
 	/* item specific fields */
@@ -33,16 +36,21 @@ typedef struct {
 	ECardSimple **data;
 	int data_count;
 
-	int create_card_id, remove_card_id, modify_card_id;
+	int create_card_id, remove_card_id, modify_card_id, status_message_id;
 
 	guint editable : 1;
 	guint first_get_view : 1;
-} EAddressbookModel;
+};
 
 
-typedef struct {
+struct _EAddressbookModelClass {
 	ETableModelClass parent_class;
-} EAddressbookModelClass;
+
+	/*
+	 * Signals
+	 */
+	void (*status_message) (EAddressbookModel *model, const gchar *message);
+};
 
 
 GtkType e_addressbook_model_get_type (void);

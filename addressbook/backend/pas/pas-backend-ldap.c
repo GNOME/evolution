@@ -42,7 +42,7 @@
 #define LDAP_MAX_SEARCH_RESPONSES 100
 
 /* this really needs addressing */
-#define OBJECT_CLASS "person"
+#define OBJECT_CLASS "inetOrgPerson"
 
 
 static gchar *query_prop_to_ldap(gchar *query_prop);
@@ -133,6 +133,7 @@ struct prop_info {
 
 #define DN_NORMAL_PROP(fid,q,a) {fid, q, a, PROP_TYPE_NORMAL | PROP_DN, NULL}
 #define DN_LIST_PROP(fid,q,a,ctor,ber,cmp) {fid, q, a, PROP_TYPE_LIST | PROP_DN, ctor, ber, cmp}
+#define LIST_PROP(fid,q,a,ctor,ber,cmp) {fid, q, a, PROP_TYPE_LIST, ctor, ber, cmp}
 #define NORMAL_PROP(fid,q,a) {fid, q, a, PROP_TYPE_NORMAL, NULL}
 
 	DN_NORMAL_PROP (E_CARD_SIMPLE_FIELD_FULL_NAME, "full_name", "cn" ),
@@ -140,7 +141,7 @@ struct prop_info {
 	NORMAL_PROP    (E_CARD_SIMPLE_FIELD_TITLE,     "title", "title"),
 	DN_NORMAL_PROP (E_CARD_SIMPLE_FIELD_ORG,       "org", "o"),
 	NORMAL_PROP    (E_CARD_SIMPLE_FIELD_PHONE_PRIMARY, "phone", "telephonenumber"),
-	DN_LIST_PROP   (E_CARD_SIMPLE_FIELD_EMAIL, "email", "mail", email_populate_func, email_ber_func, email_compare_func)
+	LIST_PROP      (E_CARD_SIMPLE_FIELD_EMAIL, "email", "mail", email_populate_func, email_ber_func, email_compare_func)
 
 #undef DN_NORMAL_PROP
 #undef DN_LIST_PROP
@@ -352,47 +353,25 @@ ldap_error_to_response (int ldap_error)
 
 
 static char *
-create_dn_from_ecard (ECardSimple *card)
+create_dn_from_ecard (ECardSimple *card, const char *root_dn)
 {
-	char *o, *o_part = NULL;
-	const char *mail;
-	char *mail_part = NULL;
 	char *cn, *cn_part = NULL;
 	char *dn;
 	gboolean need_comma = FALSE;
 
-	o = e_card_simple_get (card, E_CARD_SIMPLE_FIELD_ORG);
-	if (o) {
-		o_part = g_strdup_printf ("o=%s", o);
-		need_comma = TRUE;
-	}
-	else {
-		o_part = g_strdup ("");
-		need_comma = FALSE;
-	}
-
-	mail = e_card_simple_get_email (card, E_CARD_SIMPLE_EMAIL_ID_EMAIL);
-	if (mail) {
-		mail_part = g_strdup_printf ("mail=%s%s", mail, need_comma ? "," : "");
-		need_comma = TRUE;
-	}
-	else {
-		mail_part = g_strdup ("");
-	}
-
 	cn = e_card_simple_get (card, E_CARD_SIMPLE_FIELD_FULL_NAME);
 	if (cn) {
-		cn_part = g_strdup_printf ("cn=\"%s\"%s", cn, need_comma ? "," : "");
+		cn_part = g_strdup_printf ("cn=%s%s", cn, need_comma ? "," : "");
 	}
 	else {
 		cn_part = g_strdup ("");
 	}
 
-	dn = g_strdup_printf ("%s%s%s", cn_part, mail_part, o_part);
+	dn = g_strdup_printf ("%s%s%s", cn_part,
+			      (root_dn && strlen(root_dn)) ? "," : "",
+			      (root_dn && strlen(root_dn)) ? root_dn: "");
 
 	g_free (cn_part);
-	g_free (mail_part);
-	g_free (o_part);
 
 	g_print ("generated dn: %s\n", dn);
 
@@ -469,7 +448,7 @@ build_mods_from_ecards (ECardSimple *current, ECardSimple *new, gboolean *new_dn
 
 			if (prop_info[i].prop_type & PROP_TYPE_NORMAL) {
 				mod->mod_values = g_new (char*, 2);
-				mod->mod_values[0] = e_card_simple_get (new, prop_info[i].field_id);
+				mod->mod_values[0] = new_prop;
 				mod->mod_values[1] = NULL;
 			}
 			else {
@@ -478,6 +457,7 @@ build_mods_from_ecards (ECardSimple *current, ECardSimple *new, gboolean *new_dn
 
 			g_ptr_array_add (result, mod);
 		}
+		
 	}
 
 	/* NULL terminate the list of modifications */
@@ -522,27 +502,34 @@ create_card_handler (PASBackend *backend, LDAPOp *op)
 	LDAPMod *objectclass_mod;
 	LDAP *ldap;
 
+	printf ("vcard = %s\n", create_op->vcard);
+
 	new_ecard = e_card_new (create_op->vcard);
 	new_card = e_card_simple_new (new_ecard);
 
-	dn = create_dn_from_ecard (new_card);
+	dn = create_dn_from_ecard (new_card, bl->priv->ldap_rootdn);
 
 	ldap = bl->priv->ldap;
 
 	/* build our mods */
 	mod_array = build_mods_from_ecards (NULL, new_card, NULL);
-	objectclass_mod = g_new (LDAPMod, 1);
 
+	/* remove the NULL at the end */
+	g_ptr_array_remove (mod_array, NULL);
+
+	objectclass_mod = g_new (LDAPMod, 1);
 	objectclass_mod->mod_op = LDAP_MOD_ADD;
-	objectclass_mod->mod_type = g_strdup ("objectclass");
+	objectclass_mod->mod_type = g_strdup ("objectClass");
 	objectclass_mod->mod_values = g_new (char*, 1);
 	objectclass_mod->mod_values[0] = g_strdup (OBJECT_CLASS);
 	objectclass_mod->mod_values[1] = NULL;
-
 	g_ptr_array_add (mod_array, objectclass_mod);
+
+	g_ptr_array_add (mod_array, NULL);
 
 	ldap_mods = (LDAPMod**)mod_array->pdata;
 
+	g_print ("adding card dn: %s\n", dn);
 	/* actually perform the ldap add */
 	ldap_error = ldap_add_s (ldap, dn, ldap_mods);
 
@@ -641,6 +628,50 @@ typedef struct {
 	char *vcard;
 } LDAPModifyOp;
 
+static ECardSimple *
+search_for_dn (PASBackendLDAP *bl, const char *dn)
+{
+#if 0
+	char **attrs;
+#endif
+	char *query;
+	LDAP *ldap = bl->priv->ldap;
+	LDAPMessage    *res, *e;
+	ECardSimple *result = NULL;
+
+#if 0
+	/* this is broken because if we (say) modify the cn and can't
+           modify the dn (because it overlaps), we lose the ability to
+           search by that component of the dn. */
+	attrs = ldap_explode_dn (dn, 0);
+	query = g_strdup_printf ("(%s)", attrs[0]);
+	printf ("searching for %s\n", query);
+#else
+	query = g_strdup ("(objectclass=*)");
+#endif
+
+	if (ldap_search_s (ldap,
+			   bl->priv->ldap_rootdn,
+			   bl->priv->ldap_scope,
+			   query,
+			   NULL, 0, &res) != -1) {
+		e = ldap_first_entry (ldap, res);
+		while (NULL != e) {
+			if (!strcmp (ldap_get_dn (ldap, e), dn)) {
+				printf ("found it\n");
+				result = build_card_from_entry (ldap, e);
+				break;
+			}
+			e = ldap_next_entry (ldap, e);
+		}
+
+		ldap_msgfree(res);
+	}
+
+	g_free (query);
+	return result;
+}
+
 static gboolean
 modify_card_handler (PASBackend *backend, LDAPOp *op)
 {
@@ -649,63 +680,43 @@ modify_card_handler (PASBackend *backend, LDAPOp *op)
 	ECard *new_ecard;
 	char *id;
 	int response;
-	int            ldap_error;
-	LDAPMessage    *res, *e;
-	char *query;
+	int            ldap_error = LDAP_SUCCESS;
 	GPtrArray *mod_array;
 	LDAPMod **ldap_mods;
 	LDAP *ldap;
+	ECardSimple *current_card;
 
 	new_ecard = e_card_new (modify_op->vcard);
 	id = e_card_get_id(new_ecard);
 
 	ldap = bl->priv->ldap;
 
-	/* we don't get sent the original vcard along with the new one
-           in this call, so we have to query the ldap server for the
-           original record so we can compute our delta. */
-	query = g_strdup_printf ("(dn=%s)", id);
-	ldap_error = ldap_search_s (ldap,
-				    bl->priv->ldap_rootdn,
-				    bl->priv->ldap_scope,
-				    query, NULL, 0, &res);
+	current_card = search_for_dn (bl, id);
 
-	if (ldap_error == LDAP_SUCCESS) {
-		/* get the single card from the list (we're guaranteed
-                   either 1 or 0 since we looked up by dn, which is
-                   unique) */
-		e = ldap_first_entry (ldap, res);
-		if (e)	{
-			ECardSimple *new_card = e_card_simple_new (new_ecard);
-			ECardSimple *current_card = build_card_from_entry (ldap, e);
-			gboolean need_new_dn;
+	if (current_card) {
+		ECardSimple *new_card = e_card_simple_new (new_ecard);
+		gboolean need_new_dn;
 
-			/* build our mods */
-			mod_array = build_mods_from_ecards (current_card, new_card, &need_new_dn);
-			if (mod_array->len > 0) {
-				ldap_mods = (LDAPMod**)mod_array->pdata;
+		/* build our mods */
+		mod_array = build_mods_from_ecards (current_card, new_card, &need_new_dn);
+		if (mod_array->len > 0) {
+			ldap_mods = (LDAPMod**)mod_array->pdata;
 
-				/* actually perform the ldap modify */
-				ldap_error = ldap_modify_s (ldap, id, ldap_mods);
-				g_print ("ldap_modify_s returned 0x%x (%s) status\n", ldap_error, ldap_err2string(ldap_error));
-			}
-			else {
-				g_print ("modify list empty.  on modification sent\n");
-			}
-
-			/* and clean up */
-			free_mods (mod_array);
-			gtk_object_unref (GTK_OBJECT(new_card));
-			gtk_object_unref (GTK_OBJECT(current_card));
+			/* actually perform the ldap modify */
+			ldap_error = ldap_modify_s (ldap, id, ldap_mods);
+			g_print ("ldap_modify_s returned 0x%x (%s) status\n", ldap_error, ldap_err2string(ldap_error));
 		}
 		else {
-			g_print ("didn't find original card\n");
+			g_print ("modify list empty.  no modification sent\n");
 		}
 
-		ldap_msgfree(res);
+		/* and clean up */
+		free_mods (mod_array);
+		gtk_object_unref (GTK_OBJECT(new_card));
+		gtk_object_unref (GTK_OBJECT(current_card));
 	}
 	else {
-		g_print ("ldap_search_s returned 0x%x (%s) status\n", ldap_error, ldap_err2string(ldap_error));
+		g_print ("didn't find original card\n");
 	}
 
 	response = ldap_error_to_response (ldap_error);
