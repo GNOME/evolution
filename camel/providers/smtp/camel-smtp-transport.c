@@ -391,9 +391,6 @@ connect_to_server (CamelService *service, int try_starttls, CamelException *ex)
 #endif /* HAVE_SSL */
 }
 
-#define EXCEPTION_RETRY(ex) (camel_exception_get_id (ex) != CAMEL_EXCEPTION_USER_CANCEL && \
-			     camel_exception_get_id (ex) != CAMEL_EXCEPTION_SERVICE_UNAVAILABLE)
-
 static gboolean
 connect_to_server_wrapper (CamelService *service, CamelException *ex)
 {
@@ -401,12 +398,12 @@ connect_to_server_wrapper (CamelService *service, CamelException *ex)
 	CamelSmtpTransport *transport = (CamelSmtpTransport *) service;
 	
 	if (transport->flags & CAMEL_SMTP_TRANSPORT_USE_SSL_ALWAYS) {
-		/* First try STARTTLS */
-		if (!connect_to_server (service, TRUE, ex)) {
-			if (!(transport->flags & CAMEL_SMTP_TRANSPORT_STARTTLS) && EXCEPTION_RETRY (ex)) {
-				/* STARTTLS is unavailable - okay, now try port 465 */
+		/* First try connecting to the SSL port  */
+		if (!connect_to_server (service, FALSE, ex)) {
+			if (camel_exception_get_id (ex) == CAMEL_EXCEPTION_SERVICE_UNAVAILABLE) {
+				/* Seems the SSL port is unavailable, lets try STARTTLS */
 				camel_exception_clear (ex);
-				return connect_to_server (service, FALSE, ex);
+				return connect_to_server (service, TRUE, ex);
 			} else {
 				return FALSE;
 			}

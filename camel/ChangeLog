@@ -1,5 +1,9 @@
 2002-03-18  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/smtp/camel-smtp-transport.c
+	(connect_to_server_wrapper): Updated to use the same logic as the
+	POP code.
+
 	* providers/pop3/camel-pop3-store.c (connect_to_server): No longer
 	takes a stls_supported argument since we no longer need it with
 	the new logic.
