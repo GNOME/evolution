@@ -101,7 +101,6 @@ folder_browser_load_folder (FolderBrowser *fb, const char *name)
 		g_free (store_name);
 
 	} else if (!strncmp (name, "imap:", 5)) {
-		/* uhm, I'm just guessing here - this code might be wrong */
 		char *service, *ptr;
 		
 		fprintf (stderr, "\n****** name = %s ******\n", name);
@@ -120,10 +119,12 @@ folder_browser_load_folder (FolderBrowser *fb, const char *name)
 			if (*ptr == '/') {
 				if (url && url->path) {
 					fprintf (stderr, "namespace = %s\n", url->path + 1);
-					ptr += strlen (url->path);
+					ptr += strlen (url->path) + 1;
 				}
 
-				for ( ; *ptr && *ptr == '/'; ptr++);
+				if (*ptr == '/')
+					ptr++;
+				/*for ( ; *ptr && *ptr == '/'; ptr++);*/
 
 				folder_name = g_strdup (ptr);
 				

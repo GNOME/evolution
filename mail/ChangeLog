@@ -1,3 +1,8 @@
+2000-06-23  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* folder-browser.c (folder_browser_load_folder): Improved the
+	code to separate the imap namespace from the folder name.
+
 2000-06-23  Peter Williams  <peterw@curious-george.helixcode.com>
 
 	* component-factory.c: Include e-util/e-setup.h for the
