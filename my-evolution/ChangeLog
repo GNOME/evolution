@@ -1,3 +1,14 @@
+2001-08-09  Anna Marie Dirks <anna@ximian.com>
+        * my-evolution.glade : added accelerators to all useful widgets
+	in this file such that this dialog can now be fully navigated from
+	the keyboard. 
+
+	* e-summary-preferences.c : changed the construct_pixmap_button
+	function to take glade xml, an hbox and pixmap, making it possible
+	to use glade to define and change the keyboard accelerators, instead
+	of trying to do this in the c code. 
+
+
 2001-08-06  Damon Chaplin  <damon@ximian.com>
 
 	* e-summary-tasks.c (sort_uids): 

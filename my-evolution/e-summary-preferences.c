@@ -1102,23 +1102,18 @@ calendar_today_toggled_cb (GtkToggleButton *tb,
 }
 
 static void
-construct_pixmap_button (GtkButton *button,
-			 const char *text,
+construct_pixmap_button (GladeXML *xml,
+			 const char *id,
 			 const char *image)
 {
-	GtkWidget *label, *box, *pixmap;
+	GtkWidget *box, *pixmap;
 
-	g_return_if_fail (button != NULL);
-
-	box = gtk_hbox_new (FALSE, 0);
-	label = gtk_label_new (text);
-	gtk_box_pack_start (GTK_BOX (box), label, TRUE, TRUE, 0);
-
+	box = glade_xml_get_widget (xml, id);
+	
 	pixmap = gnome_stock_pixmap_widget (NULL, image);
 	gtk_box_pack_start (GTK_BOX (box), pixmap, TRUE, TRUE, 0);
 
-	gtk_container_add (GTK_CONTAINER (button), box);
-	gtk_widget_show_all (box);
+	gtk_widget_show (pixmap);
 }
 
 static gboolean
@@ -1158,14 +1153,14 @@ make_property_dialog (PropertyData *pd)
 
 	mail->add = glade_xml_get_widget (pd->xml, "button4");
 	g_return_val_if_fail (mail->add != NULL, FALSE);
-	construct_pixmap_button (GTK_BUTTON (mail->add), _("Add"),
+	construct_pixmap_button (pd->xml, "hbox-mailadd", 
 				 GNOME_STOCK_BUTTON_NEXT);
 	gtk_signal_connect (GTK_OBJECT (mail->add), "clicked",
 			    GTK_SIGNAL_FUNC (mail_add_clicked_cb), pd);
 
 	mail->remove = glade_xml_get_widget (pd->xml, "button5");
 	g_return_val_if_fail (mail->remove != NULL, FALSE);
-	construct_pixmap_button (GTK_BUTTON (mail->remove), _("Remove"),
+	construct_pixmap_button (pd->xml, "hbox-mailremove", 
 				 GNOME_STOCK_BUTTON_PREV);
 	gtk_signal_connect (GTK_OBJECT (mail->remove), "clicked",
 			    GTK_SIGNAL_FUNC (mail_remove_clicked_cb), pd);
@@ -1206,7 +1201,7 @@ make_property_dialog (PropertyData *pd)
 	rdf->add = glade_xml_get_widget (pd->xml, "button9");
 	g_return_val_if_fail (rdf->add != NULL, FALSE);
 
-	construct_pixmap_button (GTK_BUTTON (rdf->add), _("Add"),
+	construct_pixmap_button (pd->xml, "hbox-newsadd", 
 				 GNOME_STOCK_BUTTON_NEXT);
 	gtk_widget_set_sensitive (rdf->add, FALSE);
 	gtk_signal_connect (GTK_OBJECT (rdf->add), "clicked",
@@ -1215,7 +1210,7 @@ make_property_dialog (PropertyData *pd)
 	rdf->remove = glade_xml_get_widget (pd->xml, "button10");
 	g_return_val_if_fail (rdf->remove != NULL, FALSE);
 
-	construct_pixmap_button (GTK_BUTTON (rdf->remove), _("Remove"),
+	construct_pixmap_button (pd->xml, "hbox-newsremove", 
 				 GNOME_STOCK_BUTTON_PREV);
 	gtk_widget_set_sensitive (rdf->remove, FALSE);
 	gtk_signal_connect (GTK_OBJECT (rdf->remove), "clicked",
@@ -1268,7 +1263,7 @@ make_property_dialog (PropertyData *pd)
 	weather->add = glade_xml_get_widget (pd->xml, "button6");
 	g_return_val_if_fail (weather->add != NULL, FALSE);
 
-	construct_pixmap_button (GTK_BUTTON (weather->add), _("Add"),
+	construct_pixmap_button (pd->xml, "hbox-weatheradd", 
 				 GNOME_STOCK_BUTTON_NEXT);
 	gtk_signal_connect (GTK_OBJECT (weather->add), "clicked",
 			    GTK_SIGNAL_FUNC (weather_add_clicked_cb), pd);
@@ -1276,7 +1271,7 @@ make_property_dialog (PropertyData *pd)
 	weather->remove = glade_xml_get_widget (pd->xml, "button7");
 	g_return_val_if_fail (weather->remove != NULL, FALSE);
 	
-	construct_pixmap_button (GTK_BUTTON (weather->remove), _("Remove"),
+	construct_pixmap_button (pd->xml, "hbox-weatherremove", 
 				 GNOME_STOCK_BUTTON_PREV);
 	gtk_signal_connect (GTK_OBJECT (weather->remove), "clicked",
 			    GTK_SIGNAL_FUNC (weather_remove_clicked_cb), pd);
