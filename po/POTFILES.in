@@ -291,7 +291,6 @@ mail/local-config.glade
 mail/mail-account-editor.c
 mail/mail-account-gui.c
 mail/mail-accounts.c
-mail/mail-accounts.etspec
 mail/mail-autofilter.c
 mail/mail-callbacks.c
 mail/mail-composer-prefs.c
@@ -319,7 +318,6 @@ mail/message-list.etspec
 mail/message-tag-editor.c
 mail/message-tag-followup.c
 mail/message-tags.glade
-mail/subscribe-dialog.etspec
 mail/subscribe-dialog.glade
 shell/e-config-upgrade.c
 shell/e-folder-dnd-bridge.c
