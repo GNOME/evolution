@@ -1,3 +1,9 @@
+1999-08-04  Robert Brady  <rwb197@ecs.soton.ac.uk>
+
+	* camel/gmime-rfc2047.[ch]: added an implemention of RFC2047
+	  (support for character sets other than US-ASCII in MIME
+	  headers). Not actually called from anywhere yet.
+
 1999-08-03  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* camel/providers/MH/camel-mh-folder.c (_create): 
