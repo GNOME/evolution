@@ -1,3 +1,29 @@
+2000-06-22  Chris Toshok  <toshok@helixcode.com>
+
+	* providers/nntp/.cvsignore: ignore test-newsrc
+
+	* providers/nntp/camel-nntp-store.c,
+	providers/nntp/camel-nntp-store.h,
+	providers/nntp/camel-nntp-folder.c,
+	providers/nntp/camel-nntp-folder.h,
+	providers/nntp/camel-nntp-utils.c: Bring the nntp provider up to a
+	state where it builds and is usable with the current camel.  there
+	are still warts (semi-broken .newsrc file handling, and a lack of
+	a subscribe ui -- in fact no way to add a new server, really), but
+	it'll display news messages.
+
+	* providers/nntp/Makefile.am (libcamelnntp_la_SOURCES): add
+	camel-nntp-newsrc.c
+	(libcamelnntpinclude_HEADERS): add camel-nntp-newsrc.h
+	also, add test-newsrc stuff.
+	
+	* providers/nntp/test-newsrc.c: new file that tests the newsrc
+	stuff by parsing and regurgitating a .newsrc file for a particular
+	server.
+
+	* providers/nntp/camel-nntp-newsrc.c,
+	providers/nntp/camel-nntp-newsrc.h: new files, initial support for .newsrc files.
+
 2000-06-22  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/imap/camel-imap-folder.c (imap_get_message_count): 
