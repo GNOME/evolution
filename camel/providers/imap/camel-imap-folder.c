@@ -199,8 +199,6 @@ camel_imap_folder_new (CamelStore *parent, char *folder_name, CamelException *ex
 	if (!strcmp (folder_name, url->path + 1))
 		folder->can_hold_messages = FALSE;
 	
-	/*CF_CLASS (folder)->refresh_info (folder, ex);*/
-	
 	if (camel_exception_is_set (ex)) {
 		camel_object_unref (CAMEL_OBJECT (folder));
 		return NULL;
@@ -360,7 +358,6 @@ imap_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 static void
 imap_expunge (CamelFolder *folder, CamelException *ex)
 {
-	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
 	gchar *result;
 	gint status;
 	

@@ -488,17 +488,16 @@ get_folder (CamelStore *store, const char *folder_name, gboolean create, CamelEx
 {
 	CamelURL *url = CAMEL_SERVICE (store)->url;
 	CamelFolder *new_folder;
-	char *folder_path, *dir_sep;
+	char *folder_path;
 	gboolean exists = FALSE;
 	gboolean selectable;
 	
 	g_return_val_if_fail (store != NULL, NULL);
 	g_return_val_if_fail (folder_name != NULL, NULL);
 	
-	dir_sep = CAMEL_IMAP_STORE (store)->dir_sep;
-	
 	/* if we're trying to get the top-level dir, we really want the namespace */
-	if (!dir_sep || !strcmp (folder_name, dir_sep))
+	/* Yes, we use a hard-coded "/" here - this just means top-level directory */
+	if (!strcmp (folder_name, "/"))
 		folder_path = g_strdup (url->path + 1);
 	else
 		folder_path = g_strdup (folder_name);
@@ -509,7 +508,8 @@ get_folder (CamelStore *store, const char *folder_name, gboolean create, CamelEx
 		return NULL;
 	
 	/* this is the top-level dir, we already know it exists - it has to! */
-	if (!strcmp (folder_name, dir_sep)) {
+	/* Yes, we use a hard-coded "/" here - this just means top-level directory */
+	if (!strcmp (folder_name, "/")) {
 		camel_folder_refresh_info (new_folder, ex);
 		return new_folder;
 	}

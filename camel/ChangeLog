@@ -1,3 +1,11 @@
+2000-09-14  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/imap/camel-imap-store.c (get_folder): Don't use
+	dir_sep as top-level directory, use "/".
+
+	* providers/imap/camel-imap-folder.c (imap_expunge): Get rid of
+	unused variable.
+
 2000-09-13  Dan Winship  <danw@helixcode.com>
 
 	* providers/imap/camel-imap-folder.c (imap_expunge): Don't look at
