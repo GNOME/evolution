@@ -25,10 +25,14 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#include <errno.h>
 
 #include <camel/camel-sasl.h>
+#include <camel/camel-utf8.h>
 #include <camel/camel-tcp-stream-raw.h>
 #include <camel/camel-tcp-stream-ssl.h>
+
+#include <camel/camel-private.h>
 
 #include "camel-imap-store.h"
 #include "camel-imap-engine.h"
@@ -49,9 +53,6 @@ static char *imap_get_name (CamelService *service, gboolean brief);
 static gboolean imap_connect (CamelService *service, CamelException *ex);
 static gboolean imap_disconnect (CamelService *service, gboolean clean, CamelException *ex);
 static GList *imap_query_auth_types (CamelService *service, CamelException *ex);
-
-static guint imap_hash_folder_name (gconstpointer key);
-static gint imap_compare_folder_name (gconstpointer a, gconstpointer b);
 
 /* store methods */
 static CamelFolder *imap_get_folder (CamelStore *store, const char *folder_name, guint32 flags, CamelException *ex);
@@ -87,19 +88,43 @@ camel_imap_store_get_type (void)
 	return type;
 }
 
+static guint
+imap_hash_folder_name (gconstpointer key)
+{
+	if (g_ascii_strcasecmp (key, "INBOX") == 0)
+		return g_str_hash ("INBOX");
+	else
+		return g_str_hash (key);
+}
+
+static gint
+imap_compare_folder_name (gconstpointer a, gconstpointer b)
+{
+	gconstpointer aname = a, bname = b;
+
+	if (g_ascii_strcasecmp (a, "INBOX") == 0)
+		aname = "INBOX";
+	if (g_ascii_strcasecmp (b, "INBOX") == 0)
+		bname = "INBOX";
+	return g_str_equal (aname, bname);
+}
+
 static void
 camel_imap_store_class_init (CamelIMAPStoreClass *klass)
 {
 	CamelServiceClass *service_class = (CamelServiceClass *) klass;
 	CamelStoreClass *store_class = (CamelStoreClass *) klass;
 	
-	parent_class = camel_type_get_global_classfuncs (CAMEL_STORE_TYPE);
+	parent_class = (CamelStoreClass *) camel_type_get_global_classfuncs (CAMEL_STORE_TYPE);
 	
 	service_class->construct = imap_construct;
 	service_class->get_name = imap_get_name;
 	service_class->connect = imap_connect;
 	service_class->disconnect = imap_disconnect;
 	service_class->query_auth_types = imap_query_auth_types;
+	
+	store_class->hash_folder_name = imap_hash_folder_name;
+	store_class->compare_folder_name = imap_compare_folder_name;
 	
 	store_class->get_folder = imap_get_folder;
 	store_class->create_folder = imap_create_folder;
@@ -317,7 +342,7 @@ connect_to_server_wrapper (CamelService *service, CamelException *ex)
 	
 	if (ssl_mode == USE_SSL_ALWAYS) {
 		/* First try the ssl port */
-		if (!(ret = connect_to_server (service, h, ssl_mode, FALSE, err))) {
+		if (!(ret = connect_to_server (service, h, ssl_mode, FALSE, ex))) {
 			if (camel_exception_get_id (ex) == CAMEL_EXCEPTION_SERVICE_UNAVAILABLE) {
 				/* The ssl port seems to be unavailable, lets try STARTTLS */
 				camel_exception_clear (ex);
@@ -329,7 +354,7 @@ connect_to_server_wrapper (CamelService *service, CamelException *ex)
 		ret = connect_to_server (service, h, ssl_mode, TRUE, ex);
 	} else {
 		/* User doesn't care about SSL */
-		ret = connect_to_server (service, h, USE_SSL_ALWAYS, FALSE, err);
+		ret = connect_to_server (service, h, USE_SSL_ALWAYS, FALSE, ex);
 	}
 	
 	camel_free_host (h);
@@ -347,7 +372,7 @@ sasl_auth (CamelIMAPEngine *engine, CamelIMAPCommand *ic, const unsigned char *l
 	if (camel_sasl_authenticated (sasl)) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
 				      _("Cannot authenticate to IMAP server %s using the %s authentication mechanism"),
-				      engine->url->host, engine->url->auth);
+				      engine->url->host, engine->url->authmech);
 		return -1;
 	}
 	
@@ -357,7 +382,7 @@ sasl_auth (CamelIMAPEngine *engine, CamelIMAPCommand *ic, const unsigned char *l
 	if (*linebuf == '\0')
 		linebuf = NULL;
 	
-	if (!(challenge = camel_sasl_challenge_base64 (sasl, (const char *) linebuf, err)))
+	if (!(challenge = camel_sasl_challenge_base64 (sasl, (const char *) linebuf, ex)))
 		return -1;
 	
 	fprintf (stderr, "sending : %s\r\n", challenge);
@@ -404,13 +429,13 @@ imap_try_authenticate (CamelService *service, gboolean reprompt, const char *err
 			return FALSE;
 	}
 	
-	if (service->url->auth) {
+	if (service->url->authmech) {
 		CamelServiceAuthType *mech;
 		
-		mech = g_hash_table_lookup (store->engine->authtypes, service->url->auth);
+		mech = g_hash_table_lookup (store->engine->authtypes, service->url->authmech);
 		sasl = camel_sasl_new ("imap", mech->authproto, service);
 		
-		ic = camel_imap_engine_queue (store->engine, NULL, "AUTHENTICATE %s\r\n", service->url->auth);
+		ic = camel_imap_engine_queue (store->engine, NULL, "AUTHENTICATE %s\r\n", service->url->authmech);
 		ic->plus = sasl_auth;
 		ic->user_data = sasl;
 	} else {
@@ -461,12 +486,12 @@ imap_connect (CamelService *service, CamelException *ex)
 		return FALSE;
 	}
 	
-#define CANT_USE_AUTHMECH (!(mech = g_hash_table_lookup (store->engine->authtypes, service->url->auth)))
-	if (service->url->auth && CANT_USE_AUTHMECH) {
+#define CANT_USE_AUTHMECH (!(mech = g_hash_table_lookup (store->engine->authtypes, service->url->authmech)))
+	if (service->url->authmech && CANT_USE_AUTHMECH) {
 		/* Oops. We can't AUTH using the requested mechanism */
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
 				      _("Cannot authenticate to IMAP server %s using %s"),
-				      service->url->host, service->url->auth);
+				      service->url->host, service->url->authmech);
 		
 		camel_object_unref (store->engine);
 		store->engine = NULL;
@@ -596,8 +621,8 @@ imap_create_folder (CamelStore *store, const char *parent_name, const char *fold
 	/* FIXME: also need to deal with parent folders that can't
 	 * contain subfolders - delete them and re-create with the
 	 * proper hint */
-	CamelIMAPEngine *engine = ((CamelIMAPStore *) folder->store)->engine;
-	CamelFolderInfo *fi = NULL
+	CamelIMAPEngine *engine = ((CamelIMAPStore *) store)->engine;
+	CamelFolderInfo *fi = NULL;
 	CamelIMAPCommand *ic;
 	char *utf7_name;
 	const char *c;
@@ -664,7 +689,7 @@ imap_create_folder (CamelStore *store, const char *parent_name, const char *fold
 static void
 imap_delete_folder (CamelStore *store, const char *folder_name, CamelException *ex)
 {
-	CamelIMAPEngine *engine = ((CamelIMAPStore *) folder->store)->engine;
+	CamelIMAPEngine *engine = ((CamelIMAPStore *) store)->engine;
 	CamelIMAPCommand *ic;
 	char *utf7_name;
 	int id;
@@ -728,7 +753,7 @@ imap_sync (CamelStore *store, gboolean expunge, CamelException *ex)
 static CamelFolderInfo *
 imap_get_folder_info (CamelStore *store, const char *top, guint32 flags, CamelException *ex)
 {
-
+	return NULL;
 }
 
 static void
@@ -739,7 +764,7 @@ imap_subscribe_folder (CamelStore *store, const char *folder_name, CamelExceptio
 	char *utf7_name;
 	int id;
 	
-	utf7_name = imap_fodler_utf7_name (store, folder_name);
+	utf7_name = imap_folder_utf7_name (store, folder_name);
 	ic = camel_imap_engine_queue (engine, NULL, "SUBSCRIBE %S\r\n", utf7_name);
 	g_free (utf7_name);
 	
@@ -784,7 +809,7 @@ imap_unsubscribe_folder (CamelStore *store, const char *folder_name, CamelExcept
 	char *utf7_name;
 	int id;
 	
-	utf7_name = imap_fodler_utf7_name (store, folder_name);
+	utf7_name = imap_folder_utf7_name (store, folder_name);
 	ic = camel_imap_engine_queue (engine, NULL, "UNSUBSCRIBE %S\r\n", utf7_name);
 	g_free (utf7_name);
 	
