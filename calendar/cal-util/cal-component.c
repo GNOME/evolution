@@ -4573,12 +4573,12 @@ cal_component_alarm_set_action (CalComponentAlarm *alarm, CalAlarmAction action)
 /**
  * cal_component_alarm_get_attach:
  * @alarm: An alarm.
- * @attach: Return value for the attachment; should be freed using icalattachtype_free().
+ * @attach: Return value for the attachment; should be freed using icalattach_unref().
  * 
  * Queries the attachment property of an alarm.
  **/
 void
-cal_component_alarm_get_attach (CalComponentAlarm *alarm, struct icalattachtype **attach)
+cal_component_alarm_get_attach (CalComponentAlarm *alarm, icalattach **attach)
 {
 	g_return_if_fail (alarm != NULL);
 	g_return_if_fail (attach != NULL);
@@ -4586,12 +4586,8 @@ cal_component_alarm_get_attach (CalComponentAlarm *alarm, struct icalattachtype 
 	g_assert (alarm->icalcomp != NULL);
 
 	if (alarm->attach) {
-		*attach = icalattachtype_new ();
-		**attach = icalproperty_get_attach (alarm->attach);
-		/* FIXME: This is bogus in libical; icalattachtype is supposed
-		 * to be refcounted but the property functions return it by
-		 * value.
-		 */
+		*attach = icalproperty_get_attach (alarm->attach);
+		icalattach_ref (*attach);
 	} else
 		*attach = NULL;
 }
@@ -4604,7 +4600,7 @@ cal_component_alarm_get_attach (CalComponentAlarm *alarm, struct icalattachtype 
  * Sets the attachment property of an alarm.
  **/
 void
-cal_component_alarm_set_attach (CalComponentAlarm *alarm, struct icalattachtype *attach)
+cal_component_alarm_set_attach (CalComponentAlarm *alarm, icalattach *attach)
 {
 	g_return_if_fail (alarm != NULL);
 
@@ -4617,7 +4613,7 @@ cal_component_alarm_set_attach (CalComponentAlarm *alarm, struct icalattachtype 
 	}
 
 	if (attach) {
-		alarm->attach = icalproperty_new_attach (*attach);
+		alarm->attach = icalproperty_new_attach (attach);
 		icalcomponent_add_property (alarm->icalcomp, alarm->attach);
 	}
 }

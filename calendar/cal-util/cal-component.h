@@ -437,8 +437,8 @@ const char *cal_component_alarm_get_uid (CalComponentAlarm *alarm);
 void cal_component_alarm_get_action (CalComponentAlarm *alarm, CalAlarmAction *action);
 void cal_component_alarm_set_action (CalComponentAlarm *alarm, CalAlarmAction action);
 
-void cal_component_alarm_get_attach (CalComponentAlarm *alarm, struct icalattachtype **attach);
-void cal_component_alarm_set_attach (CalComponentAlarm *alarm, struct icalattachtype *attach);
+void cal_component_alarm_get_attach (CalComponentAlarm *alarm, icalattach **attach);
+void cal_component_alarm_set_attach (CalComponentAlarm *alarm, icalattach *attach);
 
 void cal_component_alarm_get_description (CalComponentAlarm *alarm, CalComponentText *description);
 void cal_component_alarm_set_description (CalComponentAlarm *alarm, CalComponentText *description);

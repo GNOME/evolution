@@ -1,3 +1,14 @@
+2001-09-10  Federico Mena Quintero  <federico@ximian.com>
+
+	* cal-util/cal-component.c (cal_component_alarm_get_attach):
+	Handle the new icalattach type instead of struct icalattachtype.
+	(cal_component_alarm_set_attach): Likewise.
+
+	* gui/dialogs/alarm-options.c (alarm_to_aalarm_widgets): Likewise.
+	(alarm_to_palarm_widgets): Likewise.
+	(aalarm_widgets_to_alarm): Likewise.
+	(palarm_widgets_to_alarm): Likewise.
+
 2001-09-05  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Fix #958, ShellComponents should not be created by factories, for

@@ -205,7 +205,7 @@ init_widgets (Dialog *dialog)
 static void
 alarm_to_aalarm_widgets (Dialog *dialog, CalComponentAlarm *alarm)
 {
-	struct icalattachtype *attach;
+	icalattach *attach;
 	char *url;
 
 	cal_component_alarm_get_attach (alarm, &attach);
@@ -219,16 +219,14 @@ alarm_to_aalarm_widgets (Dialog *dialog, CalComponentAlarm *alarm)
 
 	url = NULL;
 
-	if (icalattachtype_get_base64 (attach))
-		g_message ("alarm_to_aalarm_widgets(): FIXME: we don't support base64 data yet");
-	else if (icalattachtype_get_binary (attach))
-		g_message ("alarm_to_aalarm_widgets(): FIXME: we don't support binary data yet");
+	if (icalattach_get_is_url (attach))
+		url = icalattach_get_url (attach);
 	else
-		url = icalattachtype_get_url (attach);
+		g_message ("alarm_to_aalarm_widgets(): FIXME: we don't support inline data yet");
 
 	e_dialog_editable_set (dialog->aalarm_attach, url);
 
-	icalattachtype_free (attach);
+	icalattach_unref (attach);
 }
 
 /* Fills the display alarm widgets with the values from the alarm component */
@@ -253,7 +251,7 @@ alarm_to_malarm_widgets (Dialog *dialog, CalComponentAlarm *alarm)
 static void
 alarm_to_palarm_widgets (Dialog *dialog, CalComponentAlarm *alarm)
 {
-	struct icalattachtype *attach;
+	icalattach *attach;
 	CalComponentText description;
 
 	cal_component_alarm_get_attach (alarm, &attach);
@@ -262,10 +260,14 @@ alarm_to_palarm_widgets (Dialog *dialog, CalComponentAlarm *alarm)
 	if (attach) {
 		char *url;
 
-		url = icalattachtype_get_url (attach);
-		e_dialog_editable_set (dialog->palarm_program, url);
+		if (icalattach_get_is_url (attach)) {
+			url = icalattach_get_url (attach);
+			e_dialog_editable_set (dialog->palarm_program, url);
+		} else
+			g_message ("alarm_to_palarm_widgets(): Don't know what to do with non-URL "
+				   "attachments");
 
-		icalattachtype_free (attach);
+		icalattach_unref (attach);
 	}
 
 	e_dialog_editable_set (dialog->palarm_args, description.value);
@@ -443,16 +445,14 @@ static void
 aalarm_widgets_to_alarm (Dialog *dialog, CalComponentAlarm *alarm)
 {
 	char *url;
-	struct icalattachtype *attach;
-
-	attach = icalattachtype_new ();
+	icalattach *attach;
 
 	url = e_dialog_editable_get (dialog->aalarm_attach);
-	icalattachtype_set_url (attach, url ? url : "");
+	attach = icalattach_new_from_url (url ? url : "");
 	g_free (url);
 
 	cal_component_alarm_set_attach (alarm, attach);
-	icalattachtype_free (attach);
+	icalattach_unref (attach);
 }
 
 /* Fills the display alarm data with the values from the widgets */
@@ -482,18 +482,16 @@ static void
 palarm_widgets_to_alarm (Dialog *dialog, CalComponentAlarm *alarm)
 {
 	char *program;
-	struct icalattachtype *attach;
+	icalattach *attach;
 	char *str;
 	CalComponentText description;
 
-	attach = icalattachtype_new ();
-
 	program = e_dialog_editable_get (dialog->palarm_program);
-	icalattachtype_set_url (attach, program ? program : "");
+	attach = icalattach_new_from_url (program ? program : "");
 	g_free (program);
 
 	cal_component_alarm_set_attach (alarm, attach);
-	icalattachtype_free (attach);
+	icalattach_unref (attach);
 
 	str = e_dialog_editable_get (dialog->palarm_args);
 	description.value = str;
