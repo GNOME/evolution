@@ -1,3 +1,12 @@
+2002-06-18  JP Rosevear  <jpr@ximian.com>
+
+	* Update timezones (from Damon)
+
+2002-06-07  JP Rosevear  <jpr@ximian.com>
+ 
+ 	* src/libical/icalparameter.c (icalparameter_as_ical_string):
+ 	quote if the item contains a comma
+	
 2002-04-01  Dan Winship  <danw@ximian.com>
 
 	Darwin/OS portability from Max Horn <max@quendi.de>
