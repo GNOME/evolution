@@ -381,7 +381,6 @@ evolution_shell_component_client_new (const char *id)
 {
 	CORBA_Environment ev;
 	CORBA_Object corba_object;
-	char *ior;
 
 	g_return_val_if_fail (id != NULL, NULL);
 

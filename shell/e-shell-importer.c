@@ -55,9 +55,11 @@
 #include <glade/glade.h>
 #include <gtkhtml/gtkhtml.h>
 #include <gal/widgets/e-gui-utils.h>
-#include <e-util/e-html-utils.h>
 #include <gal/widgets/e-gui-utils.h>
 #include <gal/widgets/e-unicode.h>
+
+#include "e-util/e-html-utils.h"
+#include "e-util/e-gtk-utils.h"
 
 #include "e-shell-importer.h"
 #include "importer/GNOME_Evolution_Importer.h"

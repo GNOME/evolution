@@ -515,7 +515,7 @@ e_shell_show_folder_creation_dialog (EShell *shell,
 
 	storage_set_view = add_storage_set_view (dialog, gui, shell, default_parent_folder);
 	if (default_type == NULL) {
-		char *dt;
+		const char *dt;
 
 		dt = get_type_from_parent_path (shell, default_parent_folder);
 		folder_types = add_folder_types (dialog, gui, shell, dt);

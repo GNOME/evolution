@@ -1,5 +1,20 @@
 2001-10-25  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-importer.c: #include "e-util/e-gtk-utils.h".
+
+	* e-shell-folder-creation-dialog.c
+	(e_shell_show_folder_creation_dialog): Constify a local variable
+	to placate a warning.
+
+	* e-activity-handler.c (task_widget_cancel_callback): #if 0'ed
+	out.
+
+	* evolution-shell-component-client.c
+	(evolution_shell_component_client_new): Remove unused variable
+	`ior'.
+
+2001-10-25  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-activity-handler.c (impl_destroy): Set ->priv to NULL.
 	(impl_operationStarted): Check for priv not being NULL.
 	(impl_operationProgressing): Likewise.

@@ -170,6 +170,7 @@ report_task_event (ActivityInfo *activity_info,
 
 /* ETaskWidget actions.  */
 
+#if 0
 static void
 task_widget_cancel_callback (GtkWidget *widget,
 			     void *data)
@@ -190,7 +191,6 @@ task_widget_show_details_callback (GtkWidget *widget,
 	report_task_event (activity_info, "ShowDetails");
 }
 
-#if 0
 static void
 show_cancellation_popup (ActivityInfo *activity_info,
 			 GtkWidget *task_widget,
