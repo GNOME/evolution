@@ -1,3 +1,8 @@
+2003-04-23  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-day-view.c (e_day_view_on_delete_occurrence): removed
+	unused variable..
+
 2003-04-23  Hans Petter Jansson  <hpj@ximian.com>
 
 	Fixes #41641

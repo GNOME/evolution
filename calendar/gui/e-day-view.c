@@ -4163,7 +4163,6 @@ e_day_view_on_delete_occurrence (GtkWidget *widget, gpointer data)
 {
 	EDayView *day_view;
 	EDayViewEvent *event;
-	CalComponent *comp;
 
 	day_view = E_DAY_VIEW (data);
 
