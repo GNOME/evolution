@@ -89,6 +89,7 @@ const char *authors[] = {
 	"Peter Williams",
 	"Dan Winship",
 	"Michael Zucchi",
+	"Rodrigo Moya",
 	NULL
 };
 
