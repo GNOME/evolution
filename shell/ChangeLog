@@ -1,3 +1,9 @@
+2004-07-22  Jeffrey Stedfast  <fejj@novell.com>
+
+	* e-shell-importer.c (e_shell_importer_start_import): Use
+	stock_mail-import instead of stock_import? *shrug* Fixes bug
+	#61778.
+
 2004-07-08  Frederic Crozat  <fcrozat@mandrakesoft.com>
 
 	* Makefile.am:

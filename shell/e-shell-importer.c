@@ -1177,7 +1177,7 @@ e_shell_importer_start_import (EShellWindow *shell_window)
 		return;
 	}
 	
-	icon = e_icon_factory_get_icon ("stock_import", E_ICON_SIZE_DIALOG);
+	icon = e_icon_factory_get_icon ("stock_mail-import", E_ICON_SIZE_DIALOG);
 	
 	dialog_open = TRUE;
 	data->window = shell_window;
