@@ -2,7 +2,7 @@
 #  FILE: Makefile.am
 #  CREATOR: eric 
 #  
-#  $Id: Makefile.am,v 1.38 2003/09/22 07:32:29 hansp Exp $
+#  $Id: Makefile.am,v 1.39 2003/10/07 14:28:18 danw Exp $
 #
 #
 # (C) COPYRIGHT 2000, Eric Busboom, http://www.softwarestudio.org
@@ -35,10 +35,6 @@ cxx_headers=
 endif
 
 privlib_LTLIBRARIES = libical-evolution.la $(cxx_lib)
-
-noinst_LTLIBRARIES = libical-evolution-static.la
-libical_evolution_static_la_SOURCES = $(libical_evolution_la_SOURCES)
-libical_evolution_static_la_LDFLAGS = --all-static
 
 CPPFLAGS = -DPACKAGE_DATA_DIR=\""$(privdatadir)"\"
 
