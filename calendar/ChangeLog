@@ -1,3 +1,18 @@
+2002-09-25  Dan Winship  <danw@ximian.com>
+
+	* gui/component-factory.c (folder_types): Add "calendar/public"
+	and "tasks/public".
+	(type_is_calendar, type_is_tasks): New utility functions
+	(create_view, create_folder, remove_folder, xfer_folder,
+	sc_user_create_new_item_cb): Use type_is_calendar/type_is_tasks
+
+	* importers/icalendar-importer.c (get_uri_from_folder_path): allow
+	importing into public calendar/task folders too.
+
+	* gui/e-itip-control.c: Note that it's intentional that we use
+	"calendar" and "tasks" here instead of "calendar/*" and "tasks/*".
+	(31032)
+
 2002-09-25  JP Rosevear  <jpr@ximian.com>
 
 	* gui/itip-utils.c (itip_send_comp): if the item being sent is not

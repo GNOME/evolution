@@ -202,9 +202,11 @@ get_uri_from_folder_path (ICalImporter *ici, const char *folderpath)
 			} else {
 				uri = g_strdup (corba_folder->physicalUri);
 
-				if (!strcmp (corba_folder->type, "tasks"))
+				if (!strcmp (corba_folder->type, "tasks") ||
+				    !strcmp (corba_folder->type, "tasks/public"))
 					ici->folder_contains_tasks = TRUE;
-				else if (!strcmp (corba_folder->type, "calendar"))
+				else if (!strcmp (corba_folder->type, "calendar") ||
+					 !strcmp (corba_folder->type, "calendar/public"))
 					ici->folder_contains_events = TRUE;
 			}
 

@@ -87,6 +87,9 @@ struct _EItipControlPrivate {
 
 extern EvolutionShellClient *global_shell_client;	
 
+/* We intentionally use "calendar" instead of "calendar/*" here. We
+ * don't want public calendars.
+ */
 static const char *calendar_types[] = { "calendar", NULL };
 static const char *tasks_types[] = { "tasks", NULL };
 

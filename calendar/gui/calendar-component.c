@@ -52,6 +52,8 @@
 /* Folder type IDs */
 #define FOLDER_CALENDAR "calendar"
 #define FOLDER_TASKS "tasks"
+#define FOLDER_PUBLIC_CALENDAR "calendar/public"
+#define FOLDER_PUBLIC_TASKS "tasks/public"
 
 /* IDs for user creatable items */
 #define CREATE_EVENT_ID "event"
@@ -69,15 +71,39 @@ static const EvolutionShellComponentFolderType folder_types[] = {
 	  N_("Calendar"),
 	  N_("Folder containing appointments and events"),
 	  TRUE, NULL, NULL },
+	{ FOLDER_PUBLIC_CALENDAR,
+	  "evolution-calendar.png",
+	  N_("Public Calendar"),
+	  N_("Public folder containing appointments and events"),
+	  FALSE, NULL, NULL },
 	{ FOLDER_TASKS,
 	  "evolution-tasks.png",
 	  N_("Tasks"),
 	  N_("Folder containing to-do items"),
 	  TRUE, NULL, NULL },
+	{ FOLDER_PUBLIC_TASKS,
+	  "evolution-tasks.png",
+	  N_("Public Tasks"),
+	  N_("Public folder containing to-do items"),
+	  FALSE, NULL, NULL },
 	{ NULL, NULL }
 };
 
 
+
+static inline gboolean
+type_is_calendar (const char *type)
+{
+	return !strcmp (type, FOLDER_CALENDAR) ||
+		!strcmp (type, FOLDER_PUBLIC_CALENDAR);
+}
+
+static inline gboolean
+type_is_tasks (const char *type)
+{
+	return !strcmp (type, FOLDER_TASKS) ||
+		!strcmp (type, FOLDER_PUBLIC_TASKS);
+}
 
 /* EvolutionShellComponent methods and signals.  */
 
@@ -91,11 +117,11 @@ create_view (EvolutionShellComponent *shell_component,
 {
 	BonoboControl *control;
 
-	if (!g_strcasecmp (type, "calendar")) {
+	if (type_is_calendar (type)) {
 		control = control_factory_new_control ();
 		if (!control)
 			return EVOLUTION_SHELL_COMPONENT_CORBAERROR;
-	} else if (!g_strcasecmp (type, "tasks")) {
+	} else if (type_is_tasks (type)) {
 		control = tasks_control_new ();
 		if (!control)
 			return EVOLUTION_SHELL_COMPONENT_CORBAERROR;
@@ -104,7 +130,7 @@ create_view (EvolutionShellComponent *shell_component,
 	}
 
 	bonobo_control_set_property (control, "folder_uri", physical_uri, NULL);
-	if (!g_strcasecmp (type, "calendar") && *view_info)
+	if (type_is_calendar (type) && *view_info)
 		bonobo_control_set_property (control, "view", view_info, NULL);
 
 	*control_return = control;
@@ -124,7 +150,7 @@ create_folder (EvolutionShellComponent *shell_component,
 
 	CORBA_exception_init (&ev);
 
-	if (strcmp (type, FOLDER_CALENDAR) && strcmp (type, FOLDER_TASKS)) {
+	if (!type_is_calendar (type) && !type_is_tasks (type)) {
 		GNOME_Evolution_ShellComponentListener_notifyResult (
 			listener,
 			GNOME_Evolution_ShellComponentListener_UNSUPPORTED_TYPE,
@@ -210,7 +236,7 @@ remove_folder (EvolutionShellComponent *shell_component,
 	GnomeVFSResult data_result, backup_result;
 
 	/* check type */
-	if (strcmp (type, FOLDER_CALENDAR) && strcmp (type, FOLDER_TASKS)) {
+	if (!type_is_calendar (type) && !type_is_tasks (type)) {
 		CORBA_Environment ev;
 
 		CORBA_exception_init (&ev);
@@ -243,10 +269,10 @@ remove_folder (EvolutionShellComponent *shell_component,
 
 	/* Compute the URIs of the appropriate files */
 
-	if (strcmp (type, FOLDER_CALENDAR) == 0) {
+	if (type_is_calendar (type)) {
 		data_uri = gnome_vfs_uri_append_file_name (dir_uri, "calendar.ics");
 		backup_uri = gnome_vfs_uri_append_file_name (dir_uri, "calendar.ics~");
-	} else if (strcmp (type, FOLDER_TASKS) == 0) {
+	} else if (type_is_tasks (type)) {
 		data_uri = gnome_vfs_uri_append_file_name (dir_uri, "tasks.ics");
 		backup_uri = gnome_vfs_uri_append_file_name (dir_uri, "tasks.ics~");
 	} else {
@@ -423,7 +449,7 @@ xfer_folder (EvolutionShellComponent *shell_component,
 	CORBA_exception_init (&ev);
 
 	/* check type */
-	if (strcmp (type, FOLDER_CALENDAR) && strcmp (type, FOLDER_TASKS)) {
+	if (!type_is_calendar (type) && !type_is_tasks (type)) {
 		GNOME_Evolution_ShellComponentListener_notifyResult (
 			listener,
 			GNOME_Evolution_ShellComponentListener_UNSUPPORTED_TYPE,
@@ -446,10 +472,10 @@ xfer_folder (EvolutionShellComponent *shell_component,
 		return;
 	}
 
-	if (strcmp (type, FOLDER_CALENDAR) == 0) {
+	if (type_is_calendar (type)) {
 		filename = "calendar.ics";
 		backup_filename = "calendar.ics~";
-	} else if (strcmp (type, FOLDER_TASKS) == 0) {
+	} else if (type_is_tasks (type)) {
 		filename = "tasks.ics";
 		backup_filename = "tasks.ics~";
 	} else {
@@ -606,28 +632,28 @@ sc_user_create_new_item_cb (EvolutionShellComponent *shell_component,
 			    const char *parent_folder_type)
 {
 	if (strcmp (id, CREATE_EVENT_ID) == 0) {
-		if (strcmp (parent_folder_type, FOLDER_CALENDAR) == 0)
+		if (type_is_calendar (parent_folder_type))
 			create_component (parent_folder_physical_uri, 
 					  GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_EVENT);
 		else
 			create_component (NULL,
 					  GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_EVENT);
  	} else if (strcmp (id, CREATE_ALLDAY_EVENT_ID) == 0) {
-		if (strcmp (parent_folder_type, FOLDER_CALENDAR) == 0)
+		if (type_is_calendar (parent_folder_type))
 			create_component (parent_folder_physical_uri, 
 					  GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_ALLDAY_EVENT);
 		else
 			create_component (NULL,
 					  GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_ALLDAY_EVENT);
 	} else if (strcmp (id, CREATE_MEETING_ID) == 0) {
-		if (strcmp (parent_folder_type, FOLDER_CALENDAR) == 0)
+		if (type_is_calendar (parent_folder_type))
 			create_component (parent_folder_physical_uri,
 					  GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_MEETING);
 		else
 			create_component (NULL,
 					  GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_MEETING);
 	} else if (strcmp (id, CREATE_TASK_ID) == 0) {
-		if (strcmp (parent_folder_type, FOLDER_TASKS) == 0)
+		if (type_is_tasks (parent_folder_type))
 			create_component (parent_folder_physical_uri,
 					  GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_TODO);
 		else
@@ -708,22 +734,22 @@ create_object (void)
 	add_creatable_item (shell_component, CREATE_EVENT_ID,
 			    _("New appointment"), _("_Appointment"),
 			    _("Create a new appointment"),
-			    "calendar", 'a', "new_appointment.xpm");
+			    FOLDER_CALENDAR, 'a', "new_appointment.xpm");
 
 	add_creatable_item (shell_component, CREATE_MEETING_ID,
 			    _("New meeting"), _("_Meeting"),
 			    _("Create a new meeting request"),
-			    "calendar", 's', "meeting-request-16.png");
+			    FOLDER_CALENDAR, 's', "meeting-request-16.png");
 
 	add_creatable_item (shell_component, CREATE_TASK_ID,
 			    _("New task"), _("_Task"),
 			    _("Create a new task"),
-			    "tasks", 't', "new_task-16.png");
+			    FOLDER_TASKS, 't', "new_task-16.png");
 
 	add_creatable_item (shell_component, CREATE_ALLDAY_EVENT_ID,
 			    _("New All Day Appointment"), _("All _Day Appointment"),
 			    _("Create a new all-day appointment"),
-			    "calendar", 'd', "new_all_day_event.png");
+			    FOLDER_CALENDAR, 'd', "new_all_day_event.png");
 
 	gtk_signal_connect (GTK_OBJECT (shell_component), "user_create_new_item",
 			    GTK_SIGNAL_FUNC (sc_user_create_new_item_cb), NULL);
