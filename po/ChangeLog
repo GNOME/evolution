@@ -1,3 +1,7 @@
+2005-02-23  JP Rosevear  <jpr@novell.com>
+
+	* POTFILES.in: e-passwords moved to e-d-s
+
 2005-02-23  Jordi Mallach   <jordi@sindominio.net>
 
 	* ca.po: Updated Catalan translation by
