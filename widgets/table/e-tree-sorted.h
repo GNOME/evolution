@@ -30,6 +30,9 @@ struct ETreeSorted {
 
 struct ETreeSortedClass {
 	ETreeModelClass parent_class;
+
+	/* Signals */
+	void       (*node_resorted)         (ETreeSorted *etm, ETreePath node);
 };
 
 
@@ -50,6 +53,10 @@ int          e_tree_sorted_orig_position       (ETreeSorted    *ets,
 						ETreePath       path);
 int          e_tree_sorted_node_num_children   (ETreeSorted    *ets,
 						ETreePath       path);
+
+void         e_tree_sorted_node_resorted       (ETreeSorted    *tree_model,
+						ETreePath       node);
+
 
 #ifdef __cplusplus
 }

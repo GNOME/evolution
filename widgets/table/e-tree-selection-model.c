@@ -63,12 +63,7 @@ struct ETreeSelectionModelPriv {
 	int          tree_model_node_inserted_id;
 	int          tree_model_node_removed_id;
 
-	int          sorted_model_pre_change_id;
-	int          sorted_model_node_changed_id;
-	int          sorted_model_node_data_changed_id;
-	int          sorted_model_node_col_changed_id;
-	int          sorted_model_node_inserted_id;
-	int          sorted_model_node_removed_id;
+	int          sorted_model_node_resorted_id;
 };
 
 /* ETreeSelectionModelNode helpers */
@@ -419,14 +414,8 @@ etsm_node_removed (ETreeModel *etm, ETreePath parent, ETreePath child, int old_p
 }
 
 
-
 static void
-etsm_sorted_pre_change (ETreeModel *etm, ETreeSelectionModel *etsm)
-{
-}
-
-static void
-etsm_sorted_node_changed (ETreeModel *etm, ETreePath node, ETreeSelectionModel *etsm)
+etsm_sorted_node_resorted (ETreeModel *etm, ETreePath node, ETreeSelectionModel *etsm)
 {
 	int cursor_row = etsm_cursor_row_real (etsm);
 	e_selection_model_selection_changed(E_SELECTION_MODEL(etsm));
@@ -436,29 +425,6 @@ etsm_sorted_node_changed (ETreeModel *etm, ETreePath node, ETreeSelectionModel *
 	else
 		e_selection_model_cursor_changed(E_SELECTION_MODEL(etsm), -1, -1);
 }
-
-static void
-etsm_sorted_node_data_changed (ETreeModel *etm, ETreePath node, ETreeSelectionModel *etsm)
-{
-}
-
-static void
-etsm_sorted_node_col_changed (ETreeModel *etm, ETreePath node, int col, ETreeSelectionModel *etsm)
-{
-}
-
-static void
-etsm_sorted_node_inserted (ETreeModel *etm, ETreePath parent, ETreePath child, ETreeSelectionModel *etsm)
-{
-	etsm_sorted_node_changed(etm, parent, etsm);
-}
-
-static void
-etsm_sorted_node_removed (ETreeModel *etm, ETreePath parent, ETreePath child, int old_position, ETreeSelectionModel *etsm)
-{
-	etsm_sorted_node_changed(etm, parent, etsm);
-}
-
 
 static void
 add_model(ETreeSelectionModel *etsm, ETreeModel *model)
@@ -529,18 +495,8 @@ add_ets(ETreeSelectionModel *etsm, ETreeSorted *ets)
 		return;
 
 	gtk_object_ref(GTK_OBJECT(priv->ets));
-	priv->sorted_model_pre_change_id        = gtk_signal_connect (GTK_OBJECT (priv->ets), "pre_change",
-								      GTK_SIGNAL_FUNC (etsm_sorted_pre_change), etsm);
-	priv->sorted_model_node_changed_id      = gtk_signal_connect (GTK_OBJECT (priv->ets), "node_changed",
-								    GTK_SIGNAL_FUNC (etsm_sorted_node_changed), etsm);
-	priv->sorted_model_node_data_changed_id = gtk_signal_connect (GTK_OBJECT (priv->ets), "node_data_changed",
-								    GTK_SIGNAL_FUNC (etsm_sorted_node_data_changed), etsm);
-	priv->sorted_model_node_col_changed_id  = gtk_signal_connect (GTK_OBJECT (priv->ets), "node_col_changed",
-								    GTK_SIGNAL_FUNC (etsm_sorted_node_col_changed), etsm);
-	priv->sorted_model_node_inserted_id     = gtk_signal_connect (GTK_OBJECT (priv->ets), "node_inserted",
-								    GTK_SIGNAL_FUNC (etsm_sorted_node_inserted), etsm);
-	priv->sorted_model_node_removed_id      = gtk_signal_connect (GTK_OBJECT (priv->ets), "node_removed",
-								    GTK_SIGNAL_FUNC (etsm_sorted_node_removed), etsm);
+	priv->sorted_model_node_resorted_id      = gtk_signal_connect (GTK_OBJECT (priv->ets), "node_resorted",
+								       GTK_SIGNAL_FUNC (etsm_sorted_node_resorted), etsm);
 }
 
 static void
@@ -552,27 +508,12 @@ drop_ets(ETreeSelectionModel *etsm)
 		return;
 
 	gtk_signal_disconnect (GTK_OBJECT (priv->ets),
-			       priv->sorted_model_pre_change_id);
-	gtk_signal_disconnect (GTK_OBJECT (priv->ets),
-			       priv->sorted_model_node_changed_id);
-	gtk_signal_disconnect (GTK_OBJECT (priv->ets),
-			       priv->sorted_model_node_data_changed_id);
-	gtk_signal_disconnect (GTK_OBJECT (priv->ets),
-			       priv->sorted_model_node_col_changed_id);
-	gtk_signal_disconnect (GTK_OBJECT (priv->ets),
-			       priv->sorted_model_node_inserted_id);
-	gtk_signal_disconnect (GTK_OBJECT (priv->ets),
-			       priv->sorted_model_node_removed_id);
+			       priv->sorted_model_node_resorted_id);
 
 	gtk_object_unref (GTK_OBJECT (priv->ets));
 	priv->ets = NULL;
 
-	priv->sorted_model_pre_change_id = 0;
-	priv->sorted_model_node_changed_id = 0;
-	priv->sorted_model_node_data_changed_id = 0;
-	priv->sorted_model_node_col_changed_id = 0;
-	priv->sorted_model_node_inserted_id = 0;
-	priv->sorted_model_node_removed_id = 0;
+	priv->sorted_model_node_resorted_id = 0;
 }
 
 /* Virtual functions */
@@ -1235,12 +1176,7 @@ e_tree_selection_model_init (ETreeSelectionModel *etsm)
 	priv->tree_model_node_inserted_id       = 0;
 	priv->tree_model_node_removed_id        = 0;
 
-	priv->sorted_model_pre_change_id        = 0;
-	priv->sorted_model_node_changed_id      = 0;
-	priv->sorted_model_node_data_changed_id = 0;
-	priv->sorted_model_node_col_changed_id  = 0;
-	priv->sorted_model_node_inserted_id     = 0;
-	priv->sorted_model_node_removed_id      = 0;
+	priv->sorted_model_node_resorted_id      = 0;
 }
 
 static void

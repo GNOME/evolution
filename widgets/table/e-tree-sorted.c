@@ -45,6 +45,13 @@
 static ETreeModel *parent_class;
 static GMemChunk  *node_chunk;
 
+enum {
+	NODE_RESORTED,
+	LAST_SIGNAL
+};
+
+static guint signals [LAST_SIGNAL] = {0, };
+
 typedef struct ETreeSortedPath ETreeSortedPath;
 
 struct ETreeSortedPath {
@@ -381,6 +388,7 @@ reposition_path (ETreeSorted *ets, ETreeSortedPath *path)
 					for (i = old_index; i <= new_index; i++)
 						parent->children[i]->position = i;
 					e_tree_model_node_changed(E_TREE_MODEL(ets), parent);
+					e_tree_sorted_node_resorted(ets, parent);
 					e_tree_model_pre_change(E_TREE_MODEL(ets));
 				} else if (new_index < old_index) {
 					int i;
@@ -390,6 +398,7 @@ reposition_path (ETreeSorted *ets, ETreeSortedPath *path)
 					for (i = new_index; i <= old_index; i++)
 						parent->children[i]->position = i;
 					e_tree_model_node_changed(E_TREE_MODEL(ets), parent);
+					e_tree_sorted_node_resorted(ets, parent);
 					e_tree_model_pre_change(E_TREE_MODEL(ets));
 				}
 			}
@@ -481,8 +490,10 @@ resort_node (ETreeSorted *ets, ETreeSortedPath *path, gboolean resort_all_childr
 		path->child_needs_resort = 0;
 		path->needs_regen_to_sort = 0;
 		path->resort_all_children = 0;
-		if (needs_resort && send_signals && path->num_children > 0)
+		if (needs_resort && send_signals && path->num_children > 0) {
 			e_tree_model_node_changed(E_TREE_MODEL(ets), path);
+			e_tree_sorted_node_resorted(ets, path);
+		}
 	}
 }
 
@@ -1103,17 +1114,20 @@ ets_sort_info_changed (ETableSortInfo *sort_info, ETreeSorted *ets)
 /* Initialization and creation */
 
 static void
-e_tree_sorted_class_init (GtkObjectClass *klass)
+e_tree_sorted_class_init (ETreeSortedClass *klass)
 {
-	ETreeModelClass *tree_class      = (ETreeModelClass *) klass;
+	ETreeModelClass *tree_class      = E_TREE_MODEL_CLASS (klass);
+	GtkObjectClass *object_class     = GTK_OBJECT_CLASS (klass);
 
 	parent_class                     = gtk_type_class (PARENT_TYPE);
 
 	node_chunk                       = g_mem_chunk_create (ETreeSortedPath, TREEPATH_CHUNK_AREA_SIZE, G_ALLOC_AND_FREE);
+
+	klass->node_resorted             = NULL;
 	
-	klass->destroy                   = ets_destroy;
-	klass->set_arg                   = ets_set_arg;
-	klass->get_arg                   = ets_get_arg;
+	object_class->destroy            = ets_destroy;
+	object_class->set_arg            = ets_set_arg;
+	object_class->get_arg            = ets_get_arg;
 
 	tree_class->get_root             = ets_get_root;
 	tree_class->get_parent           = ets_get_parent;
@@ -1155,6 +1169,16 @@ e_tree_sorted_class_init (GtkObjectClass *klass)
 
 	gtk_object_add_arg_type ("ETreeSorted::sort_info", E_TABLE_SORT_INFO_TYPE,
 				 GTK_ARG_READWRITE, ARG_SORT_INFO);
+
+	signals [NODE_RESORTED] =
+		gtk_signal_new ("node_resorted",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (ETreeSortedClass, node_resorted),
+				gtk_marshal_NONE__POINTER,
+				GTK_TYPE_NONE, 1, GTK_TYPE_POINTER);
+
+	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 }
 
 static void
@@ -1278,4 +1302,14 @@ e_tree_sorted_node_num_children   (ETreeSorted    *ets,
 {
 	ETreeSortedPath *sorted_path = path;
 	return sorted_path->num_children;
+}
+
+void
+e_tree_sorted_node_resorted  (ETreeSorted *sorted, ETreePath node)
+{
+	g_return_if_fail (sorted != NULL);
+	g_return_if_fail (E_IS_TREE_SORTED (sorted));
+	
+	gtk_signal_emit (GTK_OBJECT (sorted),
+			 signals [NODE_RESORTED], node);
 }
