@@ -132,7 +132,7 @@ static void mh_append_message(CamelFolder * folder, CamelMimeMessage * message, 
 	d(printf("Appending message\n"));
 
 	/* add it to the summary/assign the uid, etc */
-	mi = camel_local_summary_add(lf->summary, message, info, lf->changes, ex);
+	mi = camel_local_summary_add((CamelLocalSummary *)folder->summary, message, info, lf->changes, ex);
 	if (camel_exception_is_set(ex)) {
 		return;
 	}
@@ -179,10 +179,13 @@ static CamelMimeMessage *mh_get_message(CamelFolder * folder, const gchar * uid,
 	d(printf("getting message: %s\n", uid));
 
 	/* get the message summary info */
-	if ((info = camel_folder_summary_uid((CamelFolderSummary *)lf->summary, uid)) == NULL) {
+	if ((info = camel_folder_summary_uid(folder->summary, uid)) == NULL) {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_FOLDER_INVALID_UID, _("Cannot get message: %s\n  %s"), uid, _("No such message"));
 		return NULL;
 	}
+
+	/* we only need it to check the message exists */
+	camel_folder_summary_info_free(folder->summary, info);
 
 	name = g_strdup_printf("%s/%s", lf->folder_path, uid);
 	if ((message_stream = camel_stream_fs_new_with_name(name, O_RDONLY, 0)) == NULL) {

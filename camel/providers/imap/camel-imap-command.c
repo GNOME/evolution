@@ -67,6 +67,9 @@ static char *imap_command_strdup_vprintf (CamelImapStore *store,
  * and quoted strings otherwise. (%S does not support strings that
  * contain newlines.)
  *
+ * This function assumes you have an exclusive lock on the command
+ * channel/stream.
+ *
  * Return value: %NULL if an error occurred (in which case @ex will
  * be set). Otherwise, a CamelImapResponse describing the server's
  * response, which the caller must free with camel_imap_response_free().
@@ -120,6 +123,8 @@ camel_imap_command (CamelImapStore *store, CamelFolder *folder,
  * This method is for sending continuing responses to the IMAP server
  * after camel_imap_command returns a CAMEL_IMAP_PLUS response.
  * 
+ * This function assumes you have an exclusive lock on the remote stream.
+ *
  * Return value: as for camel_imap_command()
  **/
 CamelImapResponse *

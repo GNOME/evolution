@@ -40,7 +40,8 @@ extern "C" {
 
 typedef struct {
 	CamelStore parent_object;	
-	
+	struct _CamelRemoteStorePrivate *priv;
+
 	CamelStream *istream, *ostream;
 	guint timeout_id, default_port;
 } CamelRemoteStore;
@@ -61,6 +62,9 @@ typedef struct {
 
 /* Standard Camel function */
 CamelType camel_remote_store_get_type (void);
+
+/* FIXME: All of these i/o functions need an api overhaul, they're not like
+   any other functions, anywhere in the world ... */
 
 /* Extra public functions */
 gint camel_remote_store_send_string (CamelRemoteStore *store, CamelException *ex,

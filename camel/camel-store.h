@@ -57,7 +57,9 @@ typedef struct _CamelFolderInfo {
 struct _CamelStore
 {
 	CamelService parent_object;
+	struct _CamelStorePrivate *priv;
 
+	/* should have cache_lock when accessing this (priv->cache_lock) */
 	GHashTable *folders;
 
 	int flags;
@@ -99,6 +101,7 @@ typedef struct {
         void            (*uncache_folder)           (CamelStore *store,
 						     CamelFolder *folder);
 
+	/* this should take flags instead, so its more futureproof */
 	CamelFolderInfo *(*get_folder_info)         (CamelStore *store,
 						     const char *top,
 						     gboolean fast,

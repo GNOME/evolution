@@ -31,6 +31,7 @@
 #include "camel-imap-command.h"
 #include "camel-imap-folder.h"
 #include "camel-imap-search.h"
+#include "camel-imap-private.h"
 
 static ESExpResult *
 imap_body_contains (struct _ESExp *f, int argc, struct _ESExpResult **argv,
@@ -72,10 +73,13 @@ imap_body_contains (struct _ESExp *f, int argc, struct _ESExpResult **argv,
 	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (s->folder);
 	char *value = argv[0]->value.string;
 	CamelImapResponse *response;
-	char *result, *p, *lasts = NULL;
+	char *result, *p, *lasts = NULL, *real_uid;
 	const char *uid;
 	ESExpResult *r;
 	CamelMessageInfo *info;
+	GHashTable *uid_hash = NULL;
+
+	CAMEL_IMAP_STORE_LOCK(store, command_lock);
 
 	if (s->current) {
 		uid = camel_message_info_uid (s->current);
@@ -91,6 +95,9 @@ imap_body_contains (struct _ESExp *f, int argc, struct _ESExpResult **argv,
 					       "UID SEARCH BODY \"%s\"",
 					       value);
 	}
+
+	CAMEL_IMAP_STORE_UNLOCK(store, command_lock);
+
 	if (!response)
 		return r;
 	result = camel_imap_response_extract (response, "SEARCH", NULL);
@@ -105,13 +112,26 @@ imap_body_contains (struct _ESExp *f, int argc, struct _ESExpResult **argv,
 				break;
 			}
 		} else {
-			/* FIXME: The strings added to the array must be
-			 * static...
-			 */
-			info = camel_folder_summary_uid (imap_folder->summary, p);
-			g_ptr_array_add (r->value.ptrarray, (char *)camel_message_info_uid (info));
+			/* if we need to setup a hash of summary items, this way we get
+			   access to the summary memory which is locked for the duration of
+			   the search, and wont vanish on us */
+			if (uid_hash == NULL) {
+				int i;
+
+				uid_hash = g_hash_table_new(g_str_hash, g_str_equal);
+				for (i=0;i<s->summary->len;i++) {
+					info = s->summary->pdata[i];
+					g_hash_table_insert(uid_hash, camel_message_info_uid(info), info);
+				}
+			}
+			if (g_hash_table_lookup_extended(uid_hash, p, &real_uid, &info))
+				g_ptr_array_add (r->value.ptrarray, real_uid);
 		}
 	}
+
+	/* we could probably cache this globally, but its probably not worth it */
+	if (uid_hash)
+		g_hash_table_destroy(uid_hash);
 
 	return r;
 }

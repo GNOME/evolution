@@ -31,6 +31,8 @@
 #include <ctype.h>
 #include <stdlib.h>
 
+#include "camel-private.h"
+
 static CamelObjectClass *parent_class = NULL;
 
 /* Returns the class for a CamelService */
@@ -64,6 +66,17 @@ camel_service_class_init (CamelServiceClass *camel_service_class)
 }
 
 static void
+camel_service_init (void *o, void *k)
+{
+	CamelService *service = o;
+
+	service->priv = g_malloc0(sizeof(*service->priv));
+#ifdef ENABLE_THREADS
+	service->priv->connect_lock = e_mutex_new(E_MUTEX_REC);
+#endif
+}
+
+static void
 camel_service_finalize (CamelObject *object)
 {
 	CamelService *camel_service = CAMEL_SERVICE (object);
@@ -85,6 +98,11 @@ camel_service_finalize (CamelObject *object)
 		camel_url_free (camel_service->url);
 	if (camel_service->session)
 		camel_object_unref (CAMEL_OBJECT (camel_service->session));
+
+#ifdef ENABLE_THREADS
+	e_mutex_destroy(camel_service->priv->connect_lock);
+#endif
+	g_free(camel_service->priv);
 }
 
 
@@ -100,7 +118,7 @@ camel_service_get_type (void)
 							  sizeof (CamelServiceClass),
 							  (CamelObjectClassInitFunc) camel_service_class_init,
 							  NULL,
-							  NULL,
+							  (CamelObjectInitFunc) camel_service_init,
 							  camel_service_finalize );
 	}
 
@@ -209,24 +227,28 @@ service_connect (CamelService *service, CamelException *ex)
 gboolean
 camel_service_connect (CamelService *service, CamelException *ex)
 {
+	gboolean ret = FALSE;
+
 	g_return_val_if_fail (CAMEL_IS_SERVICE (service), FALSE);
 	g_return_val_if_fail (service->session != NULL, FALSE);
 	g_return_val_if_fail (service->url != NULL, FALSE);
+
+	CAMEL_SERVICE_LOCK(service, connect_lock);
 
 	if (service->connected) {
 		/* But we're still connected, so no exception
 		 * and return true.
 		 */
 		g_warning ("camel_service_connect: trying to connect to an already connected service");
-		return TRUE;
-	}
-
-	if (CSERV_CLASS (service)->connect (service, ex)) {
+		ret = TRUE;
+	} else if (CSERV_CLASS (service)->connect (service, ex)) {
 		service->connected = TRUE;
-		return TRUE;
+		ret = TRUE;
 	}
 
-	return FALSE;
+	CAMEL_SERVICE_UNLOCK(service, connect_lock);
+
+	return ret;
 }
 
 static gboolean
@@ -257,13 +279,17 @@ gboolean
 camel_service_disconnect (CamelService *service, gboolean clean,
 			  CamelException *ex)
 {
-	gboolean res;
+	gboolean res = TRUE;
 
-	if (!service->connected)
-		return TRUE;
+	CAMEL_SERVICE_LOCK(service, connect_lock);
 
-	res = CSERV_CLASS (service)->disconnect (service, clean, ex);
-	service->connected = FALSE;
+	if (service->connected) {
+		res = CSERV_CLASS (service)->disconnect (service, clean, ex);
+		service->connected = FALSE;
+	}
+
+	CAMEL_SERVICE_UNLOCK(service, connect_lock);
+
 	return res;
 }
 
@@ -431,10 +457,20 @@ query_auth_types_func (CamelService *service, CamelException *ex)
 GList *
 camel_service_query_auth_types (CamelService *service, CamelException *ex)
 {
+	GList *ret;
+
+	/* note that we get the connect lock here, which means the callee
+	   must not call the connect functions itself */
+	CAMEL_SERVICE_LOCK(service, connect_lock);
+
 	if (service->url->empty)
-		return CSERV_CLASS (service)->query_auth_types_generic (service, ex);
+		ret = CSERV_CLASS (service)->query_auth_types_generic (service, ex);
 	else
-		return CSERV_CLASS (service)->query_auth_types_connected (service, ex);
+		ret = CSERV_CLASS (service)->query_auth_types_connected (service, ex);
+
+	CAMEL_SERVICE_UNLOCK(service, connect_lock);
+
+	return ret;
 }
 
 static void
@@ -474,6 +510,8 @@ camel_service_gethost (CamelService *service, CamelException *ex)
 {
 	struct hostent *h;
 	char *hostname;
+
+#warning "This needs to use gethostbyname_r()"
 
 	if (service->url->host)
 		hostname = service->url->host;

@@ -54,6 +54,9 @@ static CamelLocalFolderClass *parent_class = NULL;
 static int mbox_lock(CamelLocalFolder *lf, CamelLockType type, CamelException *ex);
 static void mbox_unlock(CamelLocalFolder *lf);
 
+static void mbox_set_message_user_flag(CamelFolder *folder, const char *uid, const char *name, gboolean value);
+static void mbox_set_message_user_tag(CamelFolder *folder, const char *uid, const char *name, const char *value);
+
 static void mbox_append_message(CamelFolder *folder, CamelMimeMessage * message, const CamelMessageInfo * info,	CamelException *ex);
 static CamelMimeMessage *mbox_get_message(CamelFolder *folder, const gchar * uid, CamelException *ex);
 static CamelLocalSummary *mbox_create_summary(const char *path, const char *folder, ibex *index);
@@ -73,6 +76,9 @@ camel_mbox_folder_class_init(CamelMboxFolderClass * camel_mbox_folder_class)
 	/* virtual method overload */
 	camel_folder_class->append_message = mbox_append_message;
 	camel_folder_class->get_message = mbox_get_message;
+
+	camel_folder_class->set_message_user_flag = mbox_set_message_user_flag;
+	camel_folder_class->set_message_user_tag = mbox_set_message_user_tag;
 
 	lclass->create_summary = mbox_create_summary;
 	lclass->lock = mbox_lock;
@@ -164,7 +170,7 @@ mbox_append_message(CamelFolder *folder, CamelMimeMessage * message, const Camel
 	CamelLocalFolder *lf = (CamelLocalFolder *)folder;
 	CamelStream *output_stream = NULL, *filter_stream = NULL;
 	CamelMimeFilter *filter_from = NULL;
-	CamelMboxSummary *mbs = (CamelMboxSummary *)lf->summary;
+	CamelMboxSummary *mbs = (CamelMboxSummary *)folder->summary;
 	CamelMessageInfo *mi;
 	char *fromline = NULL;
 	int fd;
@@ -179,12 +185,12 @@ mbox_append_message(CamelFolder *folder, CamelMimeMessage * message, const Camel
 	d(printf("Appending message\n"));
 
 	/* first, check the summary is correct (updates folder_size too) */
-	camel_local_summary_check(lf->summary, lf->changes, ex);
+	camel_local_summary_check((CamelLocalSummary *)folder->summary, lf->changes, ex);
 	if (camel_exception_is_set(ex))
 		goto fail;
 
 	/* add it to the summary/assign the uid, etc */
-	mi = camel_local_summary_add(lf->summary, message, info, lf->changes, ex);
+	mi = camel_local_summary_add((CamelLocalSummary *)folder->summary, message, info, lf->changes, ex);
 	if (camel_exception_is_set(ex))
 		goto fail;
 
@@ -199,7 +205,7 @@ mbox_append_message(CamelFolder *folder, CamelMimeMessage * message, const Camel
 	/* and we need to set the frompos/XEV explicitly */
 	((CamelMboxMessageInfo *)mi)->frompos = mbs->folder_size?mbs->folder_size+1:0;
 #if 0
-	xev = camel_local_summary_encode_x_evolution(lf->summary, mi);
+	xev = camel_local_summary_encode_x_evolution((CamelLocalSummary *)folder->summary, mi);
 	if (xev) {
 		/* the x-ev header should match the 'current' flags, no problem, so store as much */
 		camel_medium_set_header((CamelMedium *)message, "X-Evolution", xev);
@@ -304,7 +310,7 @@ mbox_get_message(CamelFolder *folder, const gchar * uid, CamelException *ex)
 	
 retry:
 	/* get the message summary info */
-	info = (CamelMboxMessageInfo *) camel_folder_summary_uid((CamelFolderSummary *)lf->summary, uid);
+	info = (CamelMboxMessageInfo *) camel_folder_summary_uid(folder->summary, uid);
 
 	if (info == NULL) {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_FOLDER_INVALID_UID,
@@ -327,6 +333,7 @@ retry:
 				     _("Cannot get message: %s from folder %s\n  %s"), uid, lf->folder_path,
 				     strerror(errno));
 		camel_local_folder_unlock(lf);
+		camel_folder_summary_info_free(folder->summary, (CamelMessageInfo *)info);
 		return NULL;
 	}
 
@@ -345,10 +352,11 @@ retry:
 			  camel_mime_parser_state(parser));
 
 		camel_object_unref((CamelObject *)parser);
+		camel_folder_summary_info_free(folder->summary, (CamelMessageInfo *)info);
 
 		if (!retried) {
 			retried = TRUE;
-			camel_local_summary_check(lf->summary, lf->changes, ex);
+			camel_local_summary_check((CamelLocalSummary *)folder->summary, lf->changes, ex);
 			if (!camel_exception_is_set(ex))
 				goto retry;
 		}
@@ -360,6 +368,8 @@ retry:
 		camel_local_folder_unlock(lf);
 		return NULL;
 	}
+
+	camel_folder_summary_info_free(folder->summary, (CamelMessageInfo *)info);
 	
 	message = camel_mime_message_new();
 	if (camel_mime_part_construct_from_parser((CamelMimePart *)message, parser) == -1) {
@@ -385,4 +395,40 @@ retry:
 	}
 	
 	return message;
+}
+
+static void
+mbox_set_message_user_flag(CamelFolder *folder, const char *uid, const char *name, gboolean value)
+{
+	CamelMessageInfo *info;
+
+	g_return_if_fail(folder->summary != NULL);
+
+	info = camel_folder_summary_uid(folder->summary, uid);
+	g_return_if_fail(info != NULL);
+
+	if (camel_flag_set(&info->user_flags, name, value)) {
+		info->flags |= CAMEL_MESSAGE_FOLDER_FLAGGED|CAMEL_MESSAGE_FOLDER_XEVCHANGE;
+		camel_folder_summary_touch(folder->summary);
+		camel_object_trigger_event(CAMEL_OBJECT(folder), "message_changed", (char *) uid);
+	}
+	camel_folder_summary_info_free(folder->summary, info);
+}
+
+static void
+mbox_set_message_user_tag(CamelFolder *folder, const char *uid, const char *name, const char *value)
+{
+	CamelMessageInfo *info;
+
+	g_return_if_fail(folder->summary != NULL);
+
+	info = camel_folder_summary_uid(folder->summary, uid);
+	g_return_if_fail(info != NULL);
+
+	if (camel_tag_set(&info->user_tags, name, value)) {
+		info->flags |= CAMEL_MESSAGE_FOLDER_FLAGGED|CAMEL_MESSAGE_FOLDER_XEVCHANGE;
+		camel_folder_summary_touch(folder->summary);
+		camel_object_trigger_event(CAMEL_OBJECT(folder), "message_changed", (char *) uid);
+	}
+	camel_folder_summary_info_free(folder->summary, info);
 }

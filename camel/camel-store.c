@@ -31,6 +31,8 @@
 #include "camel-folder.h"
 #include "camel-exception.h"
 
+#include "camel-private.h"
+
 static CamelServiceClass *parent_class = NULL;
 
 /* Returns the class for a CamelStore */
@@ -93,6 +95,12 @@ camel_store_init (void *o, void *k)
 	if (store->folders == NULL)
 		store->folders = g_hash_table_new (g_str_hash, g_str_equal);
 	store->flags = 0;
+
+	store->priv = g_malloc0(sizeof(*store->priv));
+#ifdef ENABLE_THREADS
+	store->priv->folder_lock = g_mutex_new();
+	store->priv->cache_lock = g_mutex_new();
+#endif
 }
 
 static void
@@ -108,6 +116,12 @@ camel_store_finalize (CamelObject *object)
 		}
 		g_hash_table_destroy (store->folders);
 	}
+
+#ifdef ENABLE_THREADS
+	g_mutex_free(store->priv->folder_lock);
+	g_mutex_free(store->priv->cache_lock);
+#endif
+	g_free(store->priv);
 }
 
 
@@ -185,13 +199,19 @@ get_default_folder_name (CamelStore *store, CamelException *ex)
 static CamelFolder *
 lookup_folder (CamelStore *store, const char *folder_name)
 {
+	CamelFolder *folder = NULL;
+
+	CAMEL_STORE_LOCK(store, cache_lock);
+
 	if (store->folders) {
-		CamelFolder *folder = g_hash_table_lookup (store->folders, folder_name);
+		folder = g_hash_table_lookup (store->folders, folder_name);
 		if (folder)
 			camel_object_ref(CAMEL_OBJECT(folder));
-		return folder;
 	}
-	return NULL;
+
+	CAMEL_STORE_UNLOCK(store, cache_lock);
+
+	return folder;
 }
 
 static void folder_finalize (CamelObject *folder, gpointer event_data, gpointer user_data)
@@ -202,16 +222,18 @@ static void folder_finalize (CamelObject *folder, gpointer event_data, gpointer 
 static void
 cache_folder (CamelStore *store, const char *folder_name, CamelFolder *folder)
 {
-	if (!store->folders)
-		return;
+	CAMEL_STORE_LOCK(store, cache_lock);
 
-	if (g_hash_table_lookup (store->folders, folder_name)) {
-		g_warning ("Caching folder %s that already exists.",
-			   folder_name);
+	if (store->folders) {
+		if (g_hash_table_lookup (store->folders, folder_name)) {
+			g_warning ("Caching folder %s that already exists.", folder_name);
+		}
+		g_hash_table_insert (store->folders, g_strdup (folder_name), folder);
+
+		camel_object_hook_event (CAMEL_OBJECT (folder), "finalize", folder_finalize, store);
 	}
-	g_hash_table_insert (store->folders, g_strdup (folder_name), folder);
 
-	camel_object_hook_event (CAMEL_OBJECT (folder), "finalize", folder_finalize, store);
+	CAMEL_STORE_UNLOCK(store, cache_lock);
 
 	/*
 	 * gt_k so as not to get caught by my little gt_k cleanliness detector.
@@ -235,7 +257,11 @@ folder_matches (gpointer key, gpointer value, gpointer user_data)
 static void
 uncache_folder (CamelStore *store, CamelFolder *folder)
 {
+	CAMEL_STORE_LOCK(store, cache_lock);
+
 	g_hash_table_foreach_remove (store->folders, folder_matches, folder);
+
+	CAMEL_STORE_UNLOCK(store, cache_lock);
 }
 
 
@@ -243,6 +269,8 @@ static CamelFolder *
 get_folder_internal(CamelStore *store, const char *folder_name, guint32 flags, CamelException *ex)
 {
 	CamelFolder *folder = NULL;
+
+	/* NB: we already have folder_lock */
 
 	/* Try cache first. */
 	folder = CS_CLASS(store)->lookup_folder(store, folder_name);
@@ -279,11 +307,16 @@ camel_store_get_folder(CamelStore *store, const char *folder_name, guint32 flags
 	char *name;
 	CamelFolder *folder = NULL;
 
+	CAMEL_STORE_LOCK(store, folder_lock);
+
 	name = CS_CLASS(store)->get_folder_name(store, folder_name, ex);
 	if (name) {
 		folder = get_folder_internal(store, name, flags, ex);
 		g_free (name);
 	}
+
+	CAMEL_STORE_UNLOCK(store, folder_lock);
+
 	return folder;
 }
 
@@ -302,11 +335,15 @@ camel_store_delete_folder (CamelStore *store, const char *folder_name,
 {
 	char *name;
 
+	CAMEL_STORE_LOCK(store, folder_lock);
+
 	name = CS_CLASS (store)->get_folder_name (store, folder_name, ex);
 	if (name) {
 		CS_CLASS (store)->delete_folder (store, name, ex);
 		g_free (name);
 	}
+
+	CAMEL_STORE_UNLOCK(store, folder_lock);
 }
 
 /**
@@ -325,6 +362,8 @@ void             camel_store_rename_folder      (CamelStore *store,
 {
 	char *old, *new;
 
+	CAMEL_STORE_LOCK(store, folder_lock);
+
 	old = CS_CLASS (store)->get_folder_name(store, old_name, ex);
 	if (old) {
 		new = CS_CLASS (store)->get_folder_name(store, new_name, ex);
@@ -334,6 +373,8 @@ void             camel_store_rename_folder      (CamelStore *store,
 		}
 		g_free(old);
 	}
+
+	CAMEL_STORE_UNLOCK(store, folder_lock);
 }
 
 
@@ -351,11 +392,16 @@ camel_store_get_root_folder (CamelStore *store, CamelException *ex)
 	char *name;
 	CamelFolder *folder = NULL;
 
+	CAMEL_STORE_LOCK(store, folder_lock);
+
 	name = CS_CLASS (store)->get_root_folder_name (store, ex);
 	if (name) {
 		folder = get_folder_internal (store, name, CAMEL_STORE_FOLDER_CREATE, ex);
 		g_free (name);
 	}
+
+	CAMEL_STORE_UNLOCK(store, folder_lock);
+
 	return folder;
 }
 
@@ -374,11 +420,16 @@ camel_store_get_default_folder (CamelStore *store, CamelException *ex)
 	char *name;
 	CamelFolder *folder = NULL;
 
+	CAMEL_STORE_LOCK(store, folder_lock);
+
 	name = CS_CLASS (store)->get_default_folder_name (store, ex);
 	if (name) {
 		folder = get_folder_internal (store, name, CAMEL_STORE_FOLDER_CREATE, ex);
 		g_free (name);
 	}
+
+	CAMEL_STORE_UNLOCK(store, folder_lock);
+
 	return folder;
 }
 
@@ -420,11 +471,17 @@ camel_store_get_folder_info (CamelStore *store, const char *top,
 			     gboolean subscribed_only,
 			     CamelException *ex)
 {
+	CamelFolderInfo *ret;
+
 	g_return_val_if_fail (CAMEL_IS_STORE (store), NULL);
 
-	return CS_CLASS (store)->get_folder_info (store, top, fast,
-						  recursive, subscribed_only,
-						  ex);
+	CAMEL_STORE_LOCK(store, folder_lock);
+
+	ret = CS_CLASS (store)->get_folder_info (store, top, fast, recursive, subscribed_only, ex);
+
+	CAMEL_STORE_UNLOCK(store, folder_lock);
+
+	return ret;
 }
 
 
@@ -596,10 +653,18 @@ gboolean
 camel_store_folder_subscribed (CamelStore *store,
 			       const char *folder_name)
 {
+	gboolean ret;
+
 	g_return_val_if_fail (CAMEL_IS_STORE (store), FALSE);
 	g_return_val_if_fail (store->flags & CAMEL_STORE_SUBSCRIPTIONS, FALSE);
 
-	return CS_CLASS (store)->folder_subscribed (store, folder_name);
+	CAMEL_STORE_LOCK(store, folder_lock);
+
+	ret = CS_CLASS (store)->folder_subscribed (store, folder_name);
+
+	CAMEL_STORE_UNLOCK(store, folder_lock);
+
+	return ret;
 }
 
 static void
@@ -622,7 +687,11 @@ camel_store_subscribe_folder (CamelStore *store,
 	g_return_if_fail (CAMEL_IS_STORE (store));
 	g_return_if_fail (store->flags & CAMEL_STORE_SUBSCRIPTIONS);
 
+	CAMEL_STORE_LOCK(store, folder_lock);
+
 	CS_CLASS (store)->subscribe_folder (store, folder_name, ex);
+
+	CAMEL_STORE_UNLOCK(store, folder_lock);
 }
 
 static void
@@ -646,6 +715,10 @@ camel_store_unsubscribe_folder (CamelStore *store,
 	g_return_if_fail (CAMEL_IS_STORE (store));
 	g_return_if_fail (store->flags & CAMEL_STORE_SUBSCRIPTIONS);
 
+	CAMEL_STORE_LOCK(store, folder_lock);
+
 	CS_CLASS (store)->unsubscribe_folder (store, folder_name, ex);
+
+	CAMEL_STORE_UNLOCK(store, folder_lock);
 }
 

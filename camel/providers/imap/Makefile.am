@@ -42,6 +42,9 @@ libcamelimapinclude_HEADERS =			\
 
 libcamelimap_la_LDFLAGS = $(KRB4_LDFLAGS) -version-info 0:0:0
 
+noinst_HEADERS =				\
+	camel-imap-private.h
+
 EXTRA_DIST = libcamelimap.urls
 
 

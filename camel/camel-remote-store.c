@@ -47,6 +47,8 @@
 #include "camel-url.h"
 #include "string-utils.h"
 
+#include "camel-private.h"
+
 #define d(x) x
 #if d(!)0
 extern gboolean camel_verbose_debug;
@@ -112,17 +114,24 @@ camel_remote_store_init (CamelObject *object)
 	remote_store->istream = NULL;
 	remote_store->ostream = NULL;
 	remote_store->timeout_id = 0;
+
+	remote_store->priv = g_malloc0(sizeof(*remote_store->priv));
+#ifdef ENABLE_THREADS
+	remote_store->priv->stream_lock = e_mutex_new(E_MUTEX_REC);
+#endif
 }
 
-/*
- *static void
- *camel_remote_store_finalize (CamelObject *object)
- *{
- *	CamelRemoteStore *remote_store = CAMEL_REMOTE_STORE (object);
- *
- *	g_free (remote_store->nice_name);
- *}
- */
+static void
+camel_remote_store_finalise(CamelObject *object)
+{
+	CamelRemoteStore *remote_store = CAMEL_REMOTE_STORE (object);
+
+#ifdef ENABLE_THREADS
+	e_mutex_destroy(remote_store->priv->stream_lock);
+#endif
+	g_free(remote_store->priv);
+}
+
 
 CamelType
 camel_remote_store_get_type (void)
@@ -137,7 +146,7 @@ camel_remote_store_get_type (void)
 					     (CamelObjectClassInitFunc) camel_remote_store_class_init,
 					     NULL,
 					     (CamelObjectInitFunc) camel_remote_store_init,
-					     (CamelObjectFinalizeFunc) NULL);
+					     (CamelObjectFinalizeFunc) camel_remote_store_finalise);
 	}
 	
 	return camel_remote_store_type;
@@ -193,7 +202,14 @@ remote_get_name (CamelService *service, gboolean brief)
 static gboolean
 timeout_cb (gpointer data)
 {
-	CRSC (data)->keepalive (CAMEL_REMOTE_STORE (data));
+	CamelRemoteStore *store = CAMEL_REMOTE_STORE(data);
+
+	CAMEL_REMOTE_STORE_LOCK(store, stream_lock);
+
+	CRSC (data)->keepalive(store);
+
+	CAMEL_REMOTE_STORE_UNLOCK(store, stream_lock);
+
 	return TRUE;
 }
 
@@ -331,6 +347,9 @@ remote_send_string (CamelRemoteStore *store, CamelException *ex, char *fmt, va_l
 	return 0;
 }
 
+/* FIXME: All of these functions need an api overhaul, they're not like
+   any other functions, anywhere in the world ... */
+
 /**
  * camel_remote_store_send_string: Writes a string to the server
  * @store: a CamelRemoteStore
@@ -353,7 +372,9 @@ camel_remote_store_send_string (CamelRemoteStore *store, CamelException *ex,
 	g_return_val_if_fail (fmt, -1);
 	
 	va_start (ap, fmt);
+	CAMEL_REMOTE_STORE_LOCK(store, stream_lock);
 	ret = CRSC (store)->send_string (store, ex, fmt, ap);
+	CAMEL_REMOTE_STORE_UNLOCK(store, stream_lock);
 	va_end (ap);
 	
 	return ret;
@@ -362,9 +383,11 @@ camel_remote_store_send_string (CamelRemoteStore *store, CamelException *ex,
 static gint
 remote_send_stream (CamelRemoteStore *store, CamelStream *stream, CamelException *ex)
 {
+	int ret;
+
 	/* Check for connectedness. Failed (or cancelled) operations will
 	 * close the connection. */
-	
+
 	if (store->ostream == NULL) {
 		d(g_message ("remote: (sendstream) disconnected, reconnecting."));
 		
@@ -374,15 +397,15 @@ remote_send_stream (CamelRemoteStore *store, CamelStream *stream, CamelException
 	
 	d(fprintf (stderr, "(sending stream)\n"));
 	
-	if (camel_stream_write_to_stream (stream, store->ostream) < 0) {
+	ret = camel_stream_write_to_stream (stream, store->ostream);
+	if (ret < 0) {
 		camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
 				     g_strerror (errno));
 		
 		camel_service_disconnect (CAMEL_SERVICE (store), FALSE, NULL);
-		return -1;
 	}
-	
-	return 0;
+
+	return ret;
 }
 
 /**
@@ -398,10 +421,18 @@ remote_send_stream (CamelRemoteStore *store, CamelStream *stream, CamelException
 gint 
 camel_remote_store_send_stream (CamelRemoteStore *store, CamelStream *stream, CamelException *ex)
 {
+	int ret;
+
 	g_return_val_if_fail (CAMEL_IS_REMOTE_STORE (store), -1);
 	g_return_val_if_fail (CAMEL_IS_STREAM (stream), -1);
+
+	CAMEL_REMOTE_STORE_LOCK(store, stream_lock);
 	
-	return CRSC (store)->send_stream (store, stream, ex);
+	ret = CRSC (store)->send_stream (store, stream, ex);
+
+	CAMEL_REMOTE_STORE_UNLOCK(store, stream_lock);
+
+	return ret;
 }
 
 static int
@@ -476,7 +507,7 @@ remote_recv_line (CamelRemoteStore *store, char **dest, CamelException *ex)
  * @dest: a pointer that will be set to the location of a buffer
  *        holding the server's response
  * @ex: a CamelException
- * Return value: 0 on success, -1 on error
+ * Return value: -1 on error, otherwise the length read.
  *
  * Reads a line from the server (terminated by \n or \r\n).
  **/
@@ -485,10 +516,18 @@ gint
 camel_remote_store_recv_line (CamelRemoteStore *store, char **dest,
 			      CamelException *ex)
 {
+	int ret;
+
 	g_return_val_if_fail (CAMEL_IS_REMOTE_STORE (store), -1);
 	g_return_val_if_fail (dest, -1);
+
+	CAMEL_REMOTE_STORE_LOCK(store, stream_lock);
 	
-	return CRSC (store)->recv_line (store, dest, ex);
+	ret = CRSC (store)->recv_line (store, dest, ex);
+
+	CAMEL_REMOTE_STORE_UNLOCK(store, stream_lock);
+
+	return ret;
 }
 
 static void
@@ -507,9 +546,12 @@ refresh_folder_info (gpointer key, gpointer value, gpointer data)
  *
  * Refreshes the folders listed in the folders hashtable.
  **/
-
 void
 camel_remote_store_refresh_folders (CamelRemoteStore *store, CamelException *ex)
 {
+	CAMEL_STORE_LOCK(store, cache_lock);
+
 	g_hash_table_foreach (CAMEL_STORE (store)->folders, refresh_folder_info, ex);
+
+	CAMEL_STORE_UNLOCK(store, cache_lock);
 }	

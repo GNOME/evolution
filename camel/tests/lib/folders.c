@@ -11,7 +11,7 @@ test_folder_counts(CamelFolder *folder, int total, int unread)
 {
 	GPtrArray *s;
 	int i, myunread;
-	const CamelMessageInfo *info;
+	CamelMessageInfo *info;
 
 	push("test folder counts %d total %d unread", total, unread);
 
@@ -41,6 +41,7 @@ test_folder_counts(CamelFolder *folder, int total, int unread)
 		info = camel_folder_get_message_info(folder, s->pdata[i]);
 		if (info->flags & CAMEL_MESSAGE_SEEN)
 			myunread--;
+		camel_folder_free_message_info(folder, info);
 	}
 	check(unread == myunread);
 	camel_folder_free_uids(folder, s);
@@ -81,7 +82,7 @@ void
 test_folder_message(CamelFolder *folder, const char *uid)
 {
 	CamelMimeMessage *msg;
-	const CamelMessageInfo *info;
+	CamelMessageInfo *info;
 	GPtrArray *s;
 	int i;
 	CamelException *ex = camel_exception_new();
@@ -93,6 +94,7 @@ test_folder_message(CamelFolder *folder, const char *uid)
 	info = camel_folder_get_message_info(folder, uid);
 	check(info != NULL);
 	check(strcmp(camel_message_info_uid(info), uid) == 0);
+	camel_folder_free_message_info(folder, info);
 
 	/* then, getting message */
 	msg = camel_folder_get_message(folder, uid, ex);
@@ -137,7 +139,7 @@ void
 test_folder_not_message(CamelFolder *folder, const char *uid)
 {
 	CamelMimeMessage *msg;
-	const CamelMessageInfo *info;
+	CamelMessageInfo *info;
 	GPtrArray *s;
 	int i;
 	CamelException *ex = camel_exception_new();
@@ -314,7 +316,7 @@ test_folder_message_ops(CamelSession *session, const char *name, int local)
 	int j;
 	int indexed, max;
 	GPtrArray *uids;
-	const CamelMessageInfo *info;
+	CamelMessageInfo *info;
 
 	max=local?2:1;
 
@@ -390,6 +392,7 @@ test_folder_message_ops(CamelSession *session, const char *name, int local)
 			check_msg(strcmp(camel_message_info_subject(info), subject)==0,
 				  "info->subject %s", camel_message_info_subject(info));
 			camel_folder_free_uids(folder, uids);
+			camel_folder_free_message_info(folder, info);
 			pull();
 
 			test_free(subject);
@@ -429,6 +432,7 @@ test_folder_message_ops(CamelSession *session, const char *name, int local)
 			check_msg(strcmp(camel_message_info_subject(info), subject)==0,
 				  "info->subject %s", camel_message_info_subject(info));
 			test_free(subject);
+			camel_folder_free_message_info(folder, info);
 			pull();
 		}
 
@@ -455,6 +459,7 @@ test_folder_message_ops(CamelSession *session, const char *name, int local)
 			check_msg(strcmp(camel_message_info_subject(info), subject)==0,
 				  "info->subject %s", camel_message_info_subject(info));
 			test_free(subject);
+			camel_folder_free_message_info(folder, info);
 			pull();
 		}
 		pull();
@@ -483,6 +488,7 @@ test_folder_message_ops(CamelSession *session, const char *name, int local)
 			check_msg(strcmp(camel_message_info_subject(info), subject)==0,
 				  "info->subject %s", camel_message_info_subject(info));
 			test_free(subject);
+			camel_folder_free_message_info(folder, info);
 			pull();
 		}
 		pull();

@@ -33,6 +33,7 @@
 
 #include <ctype.h>
 
+#include "camel-private.h"
 #include "e-util/e-memory.h"
 
 #define d(x) /*(printf("%s(%d): ", __FILE__, __LINE__),(x))*/
@@ -474,6 +475,7 @@ remove_summary(char *key, CamelMessageInfo *info, CamelLocalSummary *cls)
 	if (cls->index)
 		ibex_unindex(cls->index, (char *)camel_message_info_uid(info));
 	camel_folder_summary_remove((CamelFolderSummary *)cls, info);
+	camel_folder_summary_info_free((CamelFolderSummary *)cls, info);
 }
 
 static int
@@ -551,33 +553,47 @@ maildir_summary_check(CamelLocalSummary *cls, CamelFolderChangeInfo *changes, Ca
 		if (info == NULL || (cls->index && (!ibex_contains_name(cls->index, uid)))) {
 			/* need to add this file to the summary */
 			if (info != NULL) {
-				g_hash_table_remove(left, uid);
+				CamelMessageInfo *old = g_hash_table_lookup(left, camel_message_info_uid(info));
+				if (old) {
+					g_hash_table_remove(left, uid);
+					camel_folder_summary_info_free((CamelFolderSummary *)cls, old);
+				}
 				camel_folder_summary_remove((CamelFolderSummary *)cls, info);
+				camel_folder_summary_info_free((CamelFolderSummary *)cls, info);
 			}
 			camel_maildir_summary_add(cls, d->d_name, forceindex);
 		} else {
 			const char *filename;
+			CamelMessageInfo *old;
 
-			g_hash_table_remove(left, camel_message_info_uid(info));
+			old = g_hash_table_lookup(left, camel_message_info_uid(info));
+			if (old) {
+				camel_folder_summary_info_free((CamelFolderSummary *)cls, old);
+				g_hash_table_remove(left, camel_message_info_uid(info));
+			}
 
 			mdi = (CamelMaildirMessageInfo *)info;
 			filename = camel_maildir_info_filename(mdi);
 			/* TODO: only store the extension in the mdi->filename struct, not the whole lot */
 			if (filename == NULL || strcmp(filename, d->d_name) != 0) {
 #ifdef DOESTRV
+#warning "cannot modify the estrv after its been setup, for mt-safe code"
 				d(printf("filename changed: %s to %s\n", filename, d->d_name));
 
 				/* need to update the summary hash string reference since it might (will) change */
+				CAMEL_SUMMARY_LOCK(s, summary_lock);
 				g_hash_table_remove(s->messages_uid, uid);
 				info->strings = e_strv_set_ref(info->strings, CAMEL_MAILDIR_INFO_FILENAME, d->d_name);
 				/* we need to re-pack as well */
 				info->strings = e_strv_pack(info->strings);
 				g_hash_table_insert(s->messages_uid, (char *)camel_message_info_uid(info), info);
+				CAMEL_SUMMARY_UNLOCK(s, summary_lock);
 #else	
 				g_free(mdi->filename);
 				mdi->filename = g_strdup(d->d_name);
 #endif	
 			}
+			camel_folder_summary_info_free((CamelFolderSummary *)cls, info);
 		}
 		g_free(uid);
 	}
@@ -597,9 +613,10 @@ maildir_summary_check(CamelLocalSummary *cls, CamelFolderChangeInfo *changes, Ca
 				continue;
 
 			/* already in summary?  shouldn't happen, but just incase ... */
-			if (camel_folder_summary_uid((CamelFolderSummary *)cls, name))
+			if ((info = camel_folder_summary_uid((CamelFolderSummary *)cls, name))) {
+				camel_folder_summary_info_free((CamelFolderSummary *)cls, info);
 				newname = destname = camel_folder_summary_next_uid_string(s);
-			else {
+			} else {
 				newname = NULL;
 				destname = name;
 			}
@@ -633,7 +650,9 @@ maildir_summary_check(CamelLocalSummary *cls, CamelFolderChangeInfo *changes, Ca
 	g_free(cur);
 
 	/* sort the summary based on receive time, since the directory order is not useful */
+	CAMEL_SUMMARY_LOCK(s, summary_lock);
 	qsort(s->messages->pdata, s->messages->len, sizeof(CamelMessageInfo *), sort_receive_cmp);
+	CAMEL_SUMMARY_UNLOCK(s, summary_lock);
 
 	/* FIXME: move this up a class? */
 
@@ -699,12 +718,18 @@ maildir_summary_sync(CamelLocalSummary *cls, gboolean expunge, CamelFolderChange
 					/* we'll assume it didn't work, but dont change anything else */
 					g_free(newname);
 				} else {
+					/* TODO: If this is made mt-safe, then this code could be a problem, since
+					   the estrv is being modified.
+					   Sigh, this may mean the maildir name has to be cached another way */
 #ifdef DOESTRV
+#warning "cannot modify the estrv after its been setup, for mt-safe code"
+					CAMEL_SUMMARY_LOCK(s, summary_lock);
 					/* need to update the summary hash ref */
 					g_hash_table_remove(s->messages_uid, camel_message_info_uid(info));
 					info->strings = e_strv_set_ref_free(info->strings, CAMEL_MAILDIR_INFO_FILENAME, newname);
 					info->strings = e_strv_pack(info->strings);
 					g_hash_table_insert(s->messages_uid, (char *)camel_message_info_uid(info), info);
+					CAMEL_SUMMARY_UNLOCK(s, summary_lock);
 #else
 					g_free(mdi->filename);
 					mdi->filename = newname;
@@ -719,6 +744,7 @@ maildir_summary_sync(CamelLocalSummary *cls, gboolean expunge, CamelFolderChange
 			/* strip FOLDER_MESSAGE_FLAGED, etc */
 			info->flags &= 0xffff;
 		}
+		camel_folder_summary_info_free((CamelFolderSummary *)cls, info);
 	}
 	return 0;
 }

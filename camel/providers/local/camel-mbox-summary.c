@@ -306,6 +306,7 @@ summary_update(CamelLocalSummary *cls, off_t offset, CamelFolderChangeInfo *chan
 			CamelMessageInfo *mi = camel_folder_summary_index(s, i);
 
 			camel_folder_change_info_add_source(changeinfo, camel_message_info_uid(mi));
+			camel_folder_summary_info_free(s, mi);
 		}
 	}
 
@@ -318,6 +319,7 @@ summary_update(CamelLocalSummary *cls, off_t offset, CamelFolderChangeInfo *chan
 		for (i = 0; i < count; i++) {
 			CamelMessageInfo *mi = camel_folder_summary_index(s, i);
 			camel_folder_change_info_add_update(changeinfo, camel_message_info_uid(mi));
+			camel_folder_summary_info_free(s, mi);
 		}
 		camel_folder_change_info_build_diff(changeinfo);
 	}
@@ -459,7 +461,7 @@ mbox_summary_sync_full(CamelLocalSummary *cls, gboolean expunge, CamelFolderChan
 	CamelFolderSummary *s = (CamelFolderSummary *)mbs;
 	CamelMimeParser *mp = NULL;
 	int i, count;
-	CamelMboxMessageInfo *info;
+	CamelMboxMessageInfo *info = NULL;
 	int fd = -1, fdout = -1;
 	char *tmpname = NULL;
 	char *buffer, *xevnew = NULL;
@@ -533,6 +535,7 @@ mbox_summary_sync_full(CamelLocalSummary *cls, gboolean expunge, CamelFolderChan
 			/* remove it from the change list */
 			camel_folder_change_info_remove_uid(changeinfo, uid);
 			camel_folder_summary_remove(s, (CamelMessageInfo *)info);
+			camel_folder_summary_info_free(s, (CamelMessageInfo *)info);
 			count--;
 			i--;
 			info = NULL;
@@ -584,6 +587,8 @@ mbox_summary_sync_full(CamelLocalSummary *cls, gboolean expunge, CamelFolderChan
 			d(printf("we are now at %d, from = %d\n", (int)camel_mime_parser_tell(mp),
 				 (int)camel_mime_parser_tell_start_from(mp)));
 			camel_mime_parser_unstep(mp);
+			camel_folder_summary_info_free(s, (CamelMessageInfo *)info);
+			info = NULL;
 		}
 	}
 
@@ -634,6 +639,8 @@ mbox_summary_sync_full(CamelLocalSummary *cls, gboolean expunge, CamelFolderChan
 		unlink(tmpname);
 	if (mp)
 		camel_object_unref((CamelObject *)mp);
+	if (info)
+		camel_folder_summary_info_free(s, (CamelMessageInfo *)info);
 
 	return -1;
 }
@@ -646,7 +653,7 @@ mbox_summary_sync_quick(CamelLocalSummary *cls, gboolean expunge, CamelFolderCha
 	CamelFolderSummary *s = (CamelFolderSummary *)mbs;
 	CamelMimeParser *mp = NULL;
 	int i, count;
-	CamelMboxMessageInfo *info;
+	CamelMboxMessageInfo *info = NULL;
 	int fd = -1;
 	char *xevnew, *xevtmp;
 	const char *xev;
@@ -678,8 +685,11 @@ mbox_summary_sync_quick(CamelLocalSummary *cls, gboolean expunge, CamelFolderCha
 
 		d(printf("Checking message %s %08x\n", info->info.uid, info->info.flags));
 
-		if ((info->info.flags & CAMEL_MESSAGE_FOLDER_FLAGGED) == 0)
+		if ((info->info.flags & CAMEL_MESSAGE_FOLDER_FLAGGED) == 0) {
+			camel_folder_summary_info_free(s, (CamelMessageInfo *)info);
+			info = NULL;
 			continue;
+		}
 
 		d(printf("Updating message %s\n", info->info.uid));
 
@@ -738,6 +748,7 @@ mbox_summary_sync_quick(CamelLocalSummary *cls, gboolean expunge, CamelFolderCha
 		camel_mime_parser_drop_step(mp);
 
 		info->info.flags &= 0xffff;
+		camel_folder_summary_info_free(s, (CamelMessageInfo *)info);
 	}
 
 	d(printf("Closing folders\n"));
@@ -757,9 +768,10 @@ mbox_summary_sync_quick(CamelLocalSummary *cls, gboolean expunge, CamelFolderCha
  error:
 	if (fd != -1)
 		close(fd);
-	
 	if (mp)
 		camel_object_unref((CamelObject *)mp);
+	if (info)
+		camel_folder_summary_info_free(s, (CamelMessageInfo *)info);
 
 	return -1;
 }
@@ -792,6 +804,7 @@ mbox_summary_sync(CamelLocalSummary *cls, gboolean expunge, CamelFolderChangeInf
 			quick = FALSE;
 		else
 			work |= (info->flags & CAMEL_MESSAGE_FOLDER_FLAGGED) != 0;
+		camel_folder_summary_info_free(s, info);
 	}
 
 	/* yuck i hate this logic, but its to simplify the 'all ok, update summary' and failover cases */

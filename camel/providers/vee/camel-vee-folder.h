@@ -43,9 +43,6 @@ struct _CamelVeeFolder {
 	char *vname;		/* local name */
 	CamelFolder *local;	/* local storage for folder */
 
-	/* FIXME: Move this to a summary object??? */
-	GPtrArray *messages; /* message info's */
-	GHashTable *messages_uid;
 	CamelFolderChangeInfo *changes;
 #ifdef DYNAMIC
 	CamelFolderSearch *search;

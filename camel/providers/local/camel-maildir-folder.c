@@ -131,7 +131,7 @@ static void maildir_append_message(CamelFolder * folder, CamelMimeMessage * mess
 	d(printf("Appending message\n"));
 
 	/* add it to the summary/assign the uid, etc */
-	mi = camel_local_summary_add(lf->summary, message, info, lf->changes, ex);
+	mi = camel_local_summary_add((CamelLocalSummary *)folder->summary, message, info, lf->changes, ex);
 	if (camel_exception_is_set(ex)) {
 		return;
 	}
@@ -191,7 +191,7 @@ static CamelMimeMessage *maildir_get_message(CamelFolder * folder, const gchar *
 	d(printf("getting message: %s\n", uid));
 
 	/* get the message summary info */
-	if ((info = camel_folder_summary_uid((CamelFolderSummary *)lf->summary, uid)) == NULL) {
+	if ((info = camel_folder_summary_uid(folder->summary, uid)) == NULL) {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_FOLDER_INVALID_UID, _("Cannot get message: %s\n  %s"), uid, _("No such message"));
 		return NULL;
 	}
@@ -200,6 +200,9 @@ static CamelMimeMessage *maildir_get_message(CamelFolder * folder, const gchar *
 
 	/* what do we do if the message flags (and :info data) changes?  filename mismatch - need to recheck I guess */
 	name = g_strdup_printf("%s/cur/%s", lf->folder_path, camel_maildir_info_filename(mdi));
+
+	camel_folder_summary_info_free(folder->summary, info);
+
 	if ((message_stream = camel_stream_fs_new_with_name(name, O_RDONLY, 0)) == NULL) {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_FOLDER_INVALID_UID, _("Cannot get message: %s\n  %s"),
 				     name, g_strerror(errno));

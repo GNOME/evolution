@@ -34,7 +34,7 @@ camel_init(void)
 {
 #ifdef ENABLE_THREADS
 #ifdef G_THREADS_ENABLED	
-	g_thread_init (NULL);
+	/*g_thread_init (NULL);*/
 #else  /* G_THREADS_ENABLED */
 	printf ("Threads are not supported by your version of glib\n");
 #endif /* G_THREADS_ENABLED */

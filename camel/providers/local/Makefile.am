@@ -47,6 +47,9 @@ libcamellocalinclude_HEADERS =			\
 	camel-maildir-store.h			\
 	camel-maildir-summary.h
 
+noinst_HEADERS =				\
+	camel-local-private.h
+
 libcamellocal_la_LDFLAGS = -version-info 0:0:0
 
 libcamellocal_la_LIBADD = $(top_builddir)/e-util/libeutil.la $(top_builddir)/libibex/libibex.la $(UNICODE_LIBS)

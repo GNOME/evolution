@@ -15,11 +15,13 @@ LDADD = \
 check_PROGRAMS =  	\
 	test1	test4	test5	\
 	test2	test6	test7	\
-	test3
+	test3			\
+	test8
 
 TESTS = test1 test4 test5 \
 	test2 test6 test7 \
-	test3
+	test3		  \
+	test8
 
 
 

@@ -38,6 +38,8 @@ typedef struct _CamelFolderThreadNode {
 typedef struct CamelFolderThread {
 	struct _CamelFolderThreadNode *tree;
 	struct _EMemChunk *node_chunks;
+	CamelFolder *folder;
+	GPtrArray *summary;
 } CamelFolderThread;
 
 CamelFolderThread *camel_folder_thread_messages_new(CamelFolder *folder, GPtrArray *uids);

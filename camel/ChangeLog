@@ -1,3 +1,33 @@
+2000-12-24  Not Zed  <NotZed@HelixCode.com>
+
+	* providers/imap/camel-imap-search.c (imap_body_contains): Lock
+	the command channel while searching.
+	(imap_body_contains): If performing a whole uid search, then add
+	references to our own summary items, dont look it up in the
+	folder.  This way they can't vanish unexpectedly.
+
+	* providers/imap/camel-imap-folder.h (CamelImapFolder): Added a
+	private field.
+
+	* providers/imap/camel-imap-private.h: Added lock for imap
+	searches.
+
+	* Merge from camel-mt-branch.
+	
+	* providers/imap/camel-imap-folder.c (imap_update_summary): Merge
+	fix, use the folder->summary.
+	(imap_get_message_flags, imap_set_message_flags,
+	imap_get_message_user_flag, imap_set_message_user_flag): Removed
+	again.
+	(camel_imap_folder_init): Setup private data/lock.
+	(imap_finalize): Free private data/search lock.
+	(imap_search_free): Lock the search_lock.
+	(imap_search_by_expression): Lock the search lock when using the
+	search object.  Also copy/ref hte summary, rather than getting it
+	directly.
+	(imap_refresh_info): Free any info lookups.  Use folder->summary
+	not imap_folder->summary.  And lock around commands.
+
 2000-12-22  Dan Winship  <danw@helixcode.com>
 
 	* providers/imap/camel-imap-store.c (get_folder_info): When
@@ -76,6 +106,570 @@
 	* providers/imap/camel-imap-folder.c: Use %S instead of "%s" where
 	appropriate.
 
+2000-12-22  Not Zed  <NotZed@HelixCode.com>
+
+	* camel-folder-summary.c (GLOBAL_INFO_UNLOCK): Doh, cut and paste
+	victim again, call unlock instead of lock!
+	(summary_assign_uid): Unlock around trying to get a new uid, if we
+	have a clash.
+
+2000-12-21  Not Zed  <NotZed@HelixCode.com>
+
+	* tests/folder/Makefile.am (TESTS): reenabled the tests here.
+
+	* providers/nntp/camel-nntp-newsrc.c (CamelNNTPNewsrc): Add a
+	lock.  Made completely mt-safe.  Sigh, this is all so i can
+	support snooping of the set_flags stuff inside camel-nntp-folder,
+	since i've removed the global folder lock from all of the other
+	folder summary operations.
+	(camel_nntp_newsrc_read_for_server): Setup lock.
+	(camel_nntp_newsrc_get_highest_article_read): Lock internal access.
+	(camel_nntp_newsrc_get_num_articles_read): 
+	(camel_nntp_newsrc_mark_article_read): 
+	(camel_nntp_newsrc_mark_range_read): 
+	(camel_nntp_newsrc_article_is_read): 
+	(camel_nntp_newsrc_group_is_subscribed): 
+	(camel_nntp_newsrc_unsubscribe_group): 
+	(camel_nntp_newsrc_subscribe_group): 
+	(camel_nntp_newsrc_get_subscribed_group_names): 
+	(camel_nntp_newsrc_get_all_group_names): "
+	(camel_nntp_newsrc_write_to_file): Lock internal accesses.
+	(camel_nntp_newsrc_write): Lock around diry stuff.
+
+	* providers/local/camel-maildir-summary.c (maildir_summary_check):
+	Lock around our internal poking of the summary hashtable/array.
+	(maildir_summary_sync): And the same here too.
+
+	* camel-folder-summary.c: Moved the summaryprivate data into
+	camel-private.h.  Only needed for the locks really.
+	(camel_folder_summary_init): Setup locks.
+	(camel_folder_summary_set_filename): Lock.
+	(camel_folder_summary_index): lock
+	(camel_folder_summary_uid): Lock
+	(camel_folder_summary_next_uid): "
+	(camel_folder_summary_set_uid): "
+	(camel_folder_summary_load): Lock around whole load.  Hrm,
+	probably not required.
+	(camel_folder_summary_save): Lock around whole save, this is
+	reqwuired, unless we ref/copy the whole list first, and i couldn't
+	be bothreed.
+	(camel_folder_summary_add): lock
+	(summary_assign_uid): Lock around internal accesses.
+	(camel_folder_summary_info_new_from_parser): Lock around filtr stuff.
+	(camel_folder_summary_info_ref): Add locking.  Could probably use
+	its own lock?
+	(camel_folder_summary_touch): Add locking, likewise.
+	(camel_folder_summary_clear): Lock.  If the preiovus two are
+	changed, then so this will need mroe locking.
+	(camel_folder_summary_info_free): Lock around refcounting.
+	(camel_folder_summary_remove): Locking.
+	(camel_folder_summary_remove_uid): Lock ref, unlock, unref.  Also
+	fixed a bug that would have made this never work, freeing the key,
+	which isn't allocated.
+	(camel_folder_summary_remove_index): lock, ref, unlock unref also.
+	(camel_message_info_ref): Lock using a separate global lock, since
+	we have no context here.
+	(camel_message_info_free): Here too.
+	(content_info_alloc): Use an alocation lock here.  avoids races
+	with setting up content_info_chunks, etc.
+	(camel_folder_summary_info_new): And here too.
+	(camel_folder_summary_load): Changed to use a differnet lock for
+	loading/saving.
+	(camel_folder_summary_init): Doh, i do need a reflock afterall,
+	set one up.
+	(camel_folder_summary_finalize): Free it.
+	(camel_folder_summary_index): Add a reflock.
+	(camel_folder_summary_uid): And here too.
+	(camel_folder_summary_info_free): Use reflock instead of
+	summary_lock.
+	(camel_folder_summary_info_ref): Likewise.
+	(camel_folder_summary_remove_uid): Add reflocking.
+	(camel_folder_summary_remove_index): And here too.
+
+	* providers/vee/camel-vee-folder.c (camel_vee_folder_new): Setup a
+	summary object.
+	(vee_folder_build): Build each item into the real summary object.
+	(vee_folder_add, vee_folder_add_uid, vee_folder_add_change): New
+	functions to add a single record to the vfolder summary.
+	(vee_folder_build_folder): Use a real summary.
+	(vee_get_uids): Removed, use default impl.
+	(vee_free_message_info): "
+	(vee_get_message_info): "
+	(vee_get_summary): "
+	(vee_get_unread_message_count): "
+	(vee_get_message_count): "
+	(vee_sync): Make vee-folder-sync sync all subordinate folders.
+	Well i dont think this is right, but enough peopl ehave aksed for
+	it.
+	(vee_expunge): Same for expunge.
+	(vee_set_message_flags): Call parent class, then mirror flags to
+	subfolder.
+	(vee_get_message_user_flag): Removed, we just use the default
+	impl, and our flags should always match.
+	(vee_set_message_user_flag): Snoop the set and set on subfolder.
+	(vee_get_message_flags): Removed, jsut use parent impl, assume our
+	copy matches the real ones.
+	(get_real_message): Removed.  We sort ofneed to keep the
+	summaryitem refed while we use it, so this doesn't make as much
+	sense as it did once.
+	(camel_vee_folder_finalise): Unhook listening events as we unref
+	folders.
+	(camel_vee_folder_new): Set the summary messageinfo data size
+	properly.
+	(vfolder_remove_match): Fixed for summary change.
+	(folder_changed): ditto.  Also stopped changed items from being
+	re-searched and possibly removed.  Might have to resort to the old
+	whole-search idea again.
+	(message_changed): Similarly.  Might be easier just not to bother
+	with a whole search.
+
+	* providers/vee/camel-vee-folder.h: Removes summary
+	hashtable/array, and use a real summary object.  Sigh, more work.
+
+	* providers/nntp/camel-nntp-folder.c (nntp_folder_sync): Move
+	summary to folder object.
+	(nntp_folder_get_message_count): Removed, use default impl.
+	(nntp_folder_set_message_flags): Call parent impl to do the work,
+	but snoop for newsrc.
+	(nntp_folder_get_uids): Removed, use default impl.
+	(nntp_folder_get_summary): "
+	(nntp_folder_get_message_info): "
+	(nntp_folder_free_message_info): "
+	(camel_nntp_folder_new): moved summary to folder class
+	
+	* providers/imap/camel-imap-folder.c (camel_imap_folder_init):
+	Move summary to folder object.
+	(camel_imap_folder_new): "
+	(imap_finalize): No longer unref the summary (or infact, do
+	anything else either).
+	(imap_refresh_info): move summary to folder object.
+	(imap_sync): "
+	(imap_get_message_count): Removed, use default impl.
+	(imap_get_unread_message_count): "
+	(imap_get_uids): "
+	(imap_get_summary): "
+	(imap_free_summary): "
+	(imap_get_message_info): "
+	(imap_free_message_info): "
+	(imap_get_message_flags): "
+	(imap_set_message_flags): "
+	(imap_get_message_user_flag): ", this changes functionality, but
+	only by providing non-permanent flags.
+	(imap_set_message_user_flag): "
+	(imap_update_summary): move summary to folder object, and use
+	camel_folder_summary_info_new_from_header, instead of calling the
+	virtual function directly.
+
+	* providers/local/camel-maildir-folder.c (maildir_append_message):
+	move summary to folder object, again.
+	(maildir_get_message): "
+
+	* providers/local/camel-mh-folder.c (mh_append_message): move
+	summary to folder object.
+	(mh_get_message): "
+
+	* providers/local/camel-mbox-folder.c (mbox_append_message): Move
+	summary to folder object
+	(mbox_get_message): "
+	(mbox_set_message_user_flag): We need our own copy of this, sigh,
+	so we can track if the xev needs a rewrite (probably, its only a
+	guide anyway).
+	(mbox_set_message_user_tag): Same same with this one.
+	(camel_mbox_folder_class_init): Link in these new virtual functions.
+
+	* providers/local/camel-local-folder.h (CamelLocalFolder): removed
+	summary.
+
+	* providers/local/camel-local-folder.c (local_get_message_count): 
+	(local_get_unread_message_count): 
+	(local_get_uids): 
+	(local_get_summary): 
+	(local_free_summary): 
+	(local_get_message_info): 
+	(local_free_message_info): 
+	(local_get_message_flags): 
+	(local_set_message_flags): 
+	(local_get_message_user_flag): 
+	(local_set_message_user_flag): 
+	(local_get_message_user_tag): 
+	(local_set_message_user_tag): Removed, all now use default
+	implementation.
+	(camel_local_folder_class_init): Removed overrides.
+	(local_init): Clear folder->summary.
+	(local_finalize): move summary to folder.
+	(camel_local_folder_construct): "
+	(local_sync): "
+
+	* camel-folder.c (free_summary): Provide a real impl.
+	(get_summary): "
+	(free_uids): "
+	(get_uids): "
+	(free_message_info): "
+	(get_message_info): "
+	(set_message_user_tag): "
+	(get_message_user_tag): "
+	(set_message_user_flag): "
+	(get_message_user_flag): "  Sigh, the last so far.
+	(get_message_flags): Sigh, 1 more afterall.
+	(get_unread_message_count): And and this.
+	(get_message_count): and this!
+	(set_message_flags): Sigh, and this.
+	(camel_folder_finalize): Unref the summary if we have it.
+	(camel_folder_free_uids): Remove locking.
+	(camel_folder_get_message_flags): Remove locks, since the summary
+	is now mt-safe.
+	(camel_folder_set_message_flags): "
+	(camel_folder_get_message_user_flag): "
+	(camel_folder_set_message_user_flag): "
+	(camel_folder_get_message_user_tag): "
+	(camel_folder_set_message_user_tag): "
+	(camel_folder_get_message_info): "
+	(camel_folder_free_message_info): "
+	(camel_folder_get_uids): "
+	(camel_folder_free_summary): "
+	(camel_folder_get_unread_message_count): "
+	(get_unread_message_count): Check we got info, no big deal, but
+	the summary might change while we're counting, and upset the count
+	slightly.
+	(camel_folder_get_message_count): Remove locks.
+
+	* camel-folder.h (struct _CamelFolder): Added CamelFolderSummary
+	to the base folder object.  Sigh, this is going to be a lot of
+	work ...
+
+	* camel-service.c (camel_service_init, finalise): changed
+	connect_lock to be recursive e_mutex.
+
+	* camel-remote-store.c (camel_remote_store_init, finalise): Changed
+	stream_lock to recursive e_mutex.
+
+	* camel-private.h (RemoteStorePrivate, ServicePrivate): Use
+	recursive mutexes for connect_lock & stream_lock.  Ick.  Because
+	of the imap code.
+
+	* providers/imap/camel-imap-private.h: Change the command_lock to
+	be an EMutex.
+
+	* providers/imap/camel-imap-store.c (connect_to_server): Removed
+	the command_lock stuff.  If we are just connected again, it should
+	be safe to assume we have exclusive access at this point without
+	it (and yes, removes a deadlock).
+	(imap_create): Remove a lock that wasn't even supposed to be
+	there.
+	(camel_imap_store_finalize, init): g_mutex->e_mutex(E_MUTEX_REC).
+	Use a recursive mutex since the imap code is multiply recursivly
+	calling some functions (sigh, it would be nice to fix this).
+
+2000-12-20  Not Zed  <NotZed@HelixCode.com>
+
+	* camel-folder.c (folder_changed): Change the locks to inside the
+	if.  Stops a deadloc,k and we dont need a lock to read a value.
+	(message_changed): Likewise.
+
+	* camel.c (camel_init): Blah, comment out g_thread_init, leave it
+	to the caller, since it can only ever be done once.
+
+	* camel-folder-thread.c (camel_folder_thread_messages_new): Ref
+	and save the folder in the thread return.  Also get the summary
+	once, and access that for the messageinfo's.  Added bonus that now
+	threads should come out in a similar order.  We need to do this so
+	that the messageinfo's dont get unref'd under us, and using the
+	summary directly simplifies memory management.
+	(camel_folder_thread_messages_destroy): Free the summary/unref the
+	folder.
+
+	* camel-folder-thread.h: Add a folder to CamelFolderThread struct.
+
+2000-12-19  Not Zed  <NotZed@HelixCode.com>
+
+	* providers/imap/camel-imap-utils.c (imap_translate_sexp): Unref
+	using e_sexp_unref, since it is no longer an object.
+
+	* tests/lib/camel-test.c: Added a global lock, and made it
+	thread-aware.
+
+	* camel-exception.c: Add a global lock.  Not sure its really
+	needed here, but it doesn't really hurt.
+	(camel_exception_clear): Lock around access.
+	(camel_exception_set): Same.
+	(camel_exception_setv): "
+	(camel_exception_xfer): "
+
+	* providers/local/Makefile.am (noinst_HEADERS): Added, for
+	camel-local-private.h
+
+	* camel-folder.c (camel_folder_search_by_expression): Removed
+	locking here, now upto the implementing class to lock.
+	(camel_folder_search_free): Removed the folder lock here too, for
+	consistency really, and the locking probably wasn't needed.
+
+	* providers/local/camel-local-folder.c (local_get_summary):
+	Changed to copy/ref the summary items.
+	(local_free_summary): Unref the summary items/free the array.
+	(local_get_unread_message_count): Free info lookups.
+	(local_search_by_expression): Perform more fine-grained locking,
+	and dont lock the whole folder while searching, just the search
+	object.  Dum de dum, it *would* be possible to not even have to
+	lock the search, by using our own copy of the search object each
+	time.  Could be investigated.
+	(local_init): Init priaate data/lock.
+	(local_finalize): Free private data/lock.
+	(local_search_free): Also lock around the search object, because
+	it accesses global data inside.
+
+	* README.mt: Some info about the mt code development.
+
+	* camel-folder-search.c (match_message): Put in a warning, this
+	plain deadlocks so far, but i'm going to bed now.
+	(camel_folder_search_finalize): Use e_sexp_unref() since its no
+	longer an object.
+
+	* camel-session.c (camel_session_init): Init private data/lock.
+	(camel_session_finalise): Free private data/lock.
+	(camel_session_register_provider): Lock hash insert.
+	(service_cache_remove): Lock.
+	(camel_session_list_providers): "
+	(camel_session_get_service): Lock the whole function.
+
+	* camel-session.h (struct _CamelSession): Added private data.
+
+	* providers/imap/camel-imap-store.c (camel_imap_store_init): Setup
+	private data.
+	(camel_imap_store_finalize): Free private data.
+	(connect_to_server): Lock around command calls.  I dont think its
+	needed, but it shouldn't hurt either.
+	(imap_connect): Lock around command calls.  Again, I don think it
+	is needed, but wont hurt.
+	(imap_disconnect): ditto for this one.
+	(imap_create): Lock around command.
+	(get_folder): "
+	(get_folder_info): "
+	(subscribe_folder): "
+	(unsubscribe_folder): "
+	(imap_keepalive): "
+
+	* providers/imap/camel-imap-folder.c (camel_imap_folder_new): Lock
+	around calling a command.
+	(imap_refresh_info): Likewise.
+	(imap_sync): "
+	(imap_append_message): "
+	(imap_copy_message_to): "
+	(imap_move_message_to): "
+	(imap_get_message): "
+	(imap_update_summary): "
+	(imap_search_by_expression): ", also minor logic cleanup.
+	(imap_get_summary): Copy/ref the summary items.
+	(imap_free_summary): And free it now too.
+
+	* providers/imap/camel-imap-auth.c (imap_try_kerberos_v4_auth):
+	Lock the command stream for the command session.
+
+	* providers/imap/camel-imap-private.h: Private (locking info)
+	stuff for imap provider.
+	(CAMEL_IMAP_STORE_UNLOCK): Fix to call unlock, rather than lock!
+
+	* camel-service.c (camel_service_query_auth_types): Lock also for
+	the connection here, incase the service needs to connect.
+
+	* camel-remote-store.c (camel_remote_store_init): Init private
+	data/lock.
+	(camel_remote_store_finalise): Readded, free private data/lock.
+	(remote_send_stream): Changed to return the number of bytes
+	written, like a good little stream function should.
+	(camel_remote_store_send_string): Lock for stream access.
+	(camel_remote_store_send_stream): Same here.
+	(camel_remote_store_recv_line): And here.
+	(camel_remote_store_refresh_folders): Lock the store for cache
+	access.
+	(timeout_cb): Lock for stream access.
+
+2000-12-18  Not Zed  <NotZed@HelixCode.com>
+
+	* camel-service.c (camel_service_init): Init private data.
+	(camel_service_finalise): Free private data.
+	(camel_service_connect): Lock around connection access.
+	(camel_service_disconnect): "
+
+	* camel-service.h (struct _CamelService): Added private field.
+
+	* camel-store.c (camel_store_init): Init private data/lock.
+	(camel_store_finalize): Free private data/lock.
+	(camel_store_get_folder): Lock internal calls.
+	(camel_store_delete_folder): "
+	(camel_store_rename_folder): "
+	(camel_store_get_root_folder): "
+	(camel_store_get_default_folder): "
+	(camel_store_get_folder_info): "
+	(camel_store_folder_subscribed): "
+	(camel_store_subscribe_folder): "
+	(camel_store_unsubscribe_folder): "
+	(lookup_folder): Lock accesses to the folder cache.
+	(cache_folder): "
+	(uncache_folder): And here too.
+
+	* camel-store.h (struct _CamelStore): Added a private field.
+
+	* Makefile.am (noinst_HEADERS): Add camel-private.h.  There is a
+	comment in that header as to why it ins't installed.
+
+	* camel-private.h: New header for private data, that subclasses
+	can get to.
+
+	* tests/lib/camel-test.c (camel_test_init): If we do have threads
+	enabled already, dont call g_thread_init().
+	
+	* tests/lib/folders.c (test_folder_counts): Add free of info.
+	(test_folder_message): And here too.
+
+	* providers/local/camel-maildir-summary.c (remove_summary): Free
+	info.
+	(maildir_summary_check): Free info lookups.
+
+	* providers/local/camel-mh-summary.c (message_info_new): Removed,
+	didn't add value.
+	(remove_summary): free info after being used.
+	(mh_summary_check): Free info lookups.
+	(mh_summary_sync): and here too.
+
+	* providers/local/camel-mbox-summary.c (summary_update): Free info
+	lookups.
+	(mbox_summary_sync_full): Likewise.
+	(mbox_summary_sync_quick): And here.
+	(mbox_summary_sync):  ... and here.
+
+	* providers/local/camel-maildir-folder.c (maildir_get_message):
+	Free messageinfo lookups.
+
+	* providers/local/camel-mh-folder.c (mh_get_message): Free
+	messageinfo lookups.
+
+	* providers/local/camel-mbox-folder.c (mbox_get_message): Free
+	messageinfo lookups.
+
+	* providers/local/camel-local-summary.c
+	(message_info_new_from_message): Removed, since it wasn't doing
+	anything useful.
+	(message_info_new_from_parser): Same.  And some other dead code.
+
+	* providers/local/camel-local-folder.c (local_get_message_info):
+	deconstify.
+	(local_free_message_info):new func to free info.
+	(local_get_uids): 
+	(local_get_message_flags): 
+	(local_set_message_flags): 
+	(local_get_message_user_flag): 
+	(local_set_message_user_flag): 
+	(local_get_message_user_tag): 
+	(local_set_message_user_tag): Free all info lookups.
+	(local_expunge): Dont call camel_folder_* functions, to avoid a deadlock.
+
+	* providers/nntp/camel-nntp-folder.c
+	(nntp_folder_get_message_info): deconstify.
+	(nntp_folder_free_message_info): Free summary item.
+	(nntp_folder_get_message_flags): Free summary lookup.
+	(nntp_folder_set_message_flags): and here.
+	(nntp_folder_get_uids): And here.
+
+	* providers/imap/camel-imap-auth.c: Make base64_*_simple optional
+	with the HAVE_KRB4 flag.
+
+	* providers/imap/camel-imap-folder.c (imap_free_message_info):
+	Added a free of the message info.
+	(imap_refresh_info): 
+	(imap_sync): 
+	(imap_refresh_info): 
+	(imap_get_unread_message_count): 
+	(imap_get_uids): 
+	(imap_get_message_flags): 
+	(imap_set_message_flags): Free any summary lookups.
+	(imap_get_message_flags): Get the message info directly from the
+	summary, not via the folder interface.
+	(imap_move_message_to): Dont call folder functions directly
+	(delete_message), as it will deadlock since we already have the
+	lock.
+
+	* providers/vee/camel-vee-folder.c (vee_free_message_info): Free/unref
+	the messageinfo.
+	(vee_get_message_info): First ref the internal copy, then return it.
+	(folder_changed): Free all got message info's.
+	(message_changed): And here.
+	(get_real_message): And here.
+	(vee_folder_build): and here.
+	(vee_folder_build_folder): ... and here.
+
+	* camel-folder-summary.c (camel_folder_summary_info_new):
+	Initialise the messageinfo refcount to 1.
+	(camel_folder_summary_info_free): Down the refcount till we need
+	to free.
+	(camel_folder_summary_info_ref): New function to up the refcount.
+	(camel_message_info_dup_to): Sewt the refcount of the dest to 1.
+	(camel_message_info_new): Set refcount to 1.
+	(camel_message_info_new_from_header): Dont allocate the mi
+	ourselves.
+	(camel_message_info_free): Handle refcounting.
+	(camel_message_info_ref): New function.
+	(camel_folder_summary_index): Ref the messageinfo before returning
+	it.
+	(camel_folder_summary_uid): Likewise.
+	(camel_folder_summary_save): Access the messageinfo array
+	directly, rather than through accessors (saves ref/unref).
+	(camel_folder_summary_clear): Likewise.
+	(camel_folder_summary_remove_index): Likewise.
+	(main): Free lookups.
+
+	* camel-folder-summary.h (CamelMessageInfo): Added a refcount
+	value.
+
+	* camel-folder.c (camel_folder_free_message_info): New function to
+	'free' a message info.
+	(camel_folder_get_message_info): Deconstify return.
+	(camel_folder_lock): New (internal) function to thread-lock the
+	folder.
+	(camel_folder_unlock): Likewise for unlocking.
+	(freeze): 
+	(thaw): Lock around access to folder->frozen/changed_frozen.
+	(folder_changed): Likewise.
+	(message_changed): Likewise.
+	(camel_folder_init): Init private data, locks and moved frozen
+	info.
+	(camel_folder_finalize): Free new private data, locks and moved
+	frozen info.
+	(copy_message_to): Free the messageinfo after we've used it.
+	(move_message_to): And here too.
+	(camel_folder_sync): Lock around virtual method invocation.  Just
+	locking around any virtual method that is known to need it.  This
+	is the first cut at locking.
+	(camel_folder_refresh_info): "
+	(camel_folder_expunge): "
+	(camel_folder_get_message_count): "
+	(camel_folder_get_unread_message_count): "
+	(camel_folder_append_message): "
+	(camel_folder_set_message_flags): "
+	(camel_folder_get_message_flags): "
+	(camel_folder_get_message_user_flag): "
+	(camel_folder_set_message_user_flag): "
+	(camel_folder_get_message_user_tag): "
+	(camel_folder_set_message_user_tag): "
+	(camel_folder_get_message): "
+	(camel_folder_get_uids): "
+	(camel_folder_free_uids): "
+	(camel_folder_get_summary): "
+	(camel_folder_search_by_expression): "
+	(camel_folder_free_summary): "
+	(camel_folder_search_free): "
+	(camel_folder_move_message_to): "
+	(camel_folder_copy_message_to): "
+	(copy_message_to): Dont call any of our own folder functions
+	directly, otherwise we will deadlock.
+	(move_message_to): Likewise.
+
+	* camel-folder.h (CamelFolder): Added free_message_info() function
+	& deconstify get_message_info()'s return.
+	(CamelFolder): Add a private field (for	locks).
+	(struct _CamelFolder): Moved changed_changed/frozen into private
+	data, since it really is private and now needs locked access.
+
+>>>>>>> 1.641.2.8
 2000-12-15  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* camel-mime-utils.c (header_fold): When checking to see if we

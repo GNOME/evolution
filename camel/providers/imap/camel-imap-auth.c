@@ -42,6 +42,10 @@
 #include "camel-imap-command.h"
 #include "camel-imap-utils.h"
 
+#include "camel-imap-private.h"
+
+#ifdef HAVE_KRB4
+
 static char *
 base64_encode_simple (const char *data, int len)
 {
@@ -66,7 +70,6 @@ base64_decode_simple (char *data, int len)
 				   (unsigned char *)data, &state, &save);
 }
 
-#ifdef HAVE_KRB4
 #define IMAP_KERBEROS_V4_PROTECTION_NONE      1
 #define IMAP_KERBEROS_V4_PROTECTION_INTEGRITY 2
 #define IMAP_KERBEROS_V4_PROTECTION_PRIVACY   4
@@ -85,14 +88,17 @@ imap_try_kerberos_v4_auth (CamelImapStore *store, CamelException *ex)
 	des_cblock session;
 	des_key_schedule schedule;
 
+	CAMEL_IMAP_STORE_LOCK(store, command_lock);
+
 	/* The kickoff. */
 	response = camel_imap_command (store, NULL, ex,
 				       "AUTHENTICATE KERBEROS_V4");
 	if (!response)
-		return FALSE;
+		goto fail;
 	resp = camel_imap_response_extract_continuation (response, ex);
 	if (!resp)
-		return FALSE;
+		goto fail;
+
 	data = imap_next_word (resp);
 
 	/* First server response is a base64-encoded 32-bit random number
@@ -182,6 +188,7 @@ imap_try_kerberos_v4_auth (CamelImapStore *store, CamelException *ex)
 	if (!response)
 		goto lose;
 	camel_imap_response_free (response);
+	CAMEL_IMAP_STORE_UNLOCK(store, command_lock);
 	return TRUE;
 
  break_and_lose:
@@ -197,6 +204,8 @@ imap_try_kerberos_v4_auth (CamelImapStore *store, CamelException *ex)
 		camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
 				     _("Bad authentication response from server."));
 	}
+fail:
+	CAMEL_IMAP_STORE_UNLOCK(store, command_lock);
 	return FALSE;
 }
 #endif /* HAVE_KRB4 */

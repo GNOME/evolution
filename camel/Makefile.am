@@ -127,7 +127,8 @@ libcamel_la_LIBADD = $(top_builddir)/e-util/libeutil.la $(UNICODE_LIBS)
 
 
 noinst_HEADERS =				\
-	camel-charset-map-private.h
+	camel-charset-map-private.h		\
+	camel-private.h
 
 EXTRA_DIST =					\
 	README 

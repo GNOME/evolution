@@ -47,6 +47,7 @@ extern "C" {
 
 struct _CamelService {
 	CamelObject parent_object;
+	struct _CamelServicePrivate *priv;
 
 	CamelSession *session;
 	CamelProvider *provider;

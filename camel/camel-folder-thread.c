@@ -433,7 +433,8 @@ camel_folder_thread_messages_new(CamelFolder *folder, GPtrArray *uids)
 	int i;
 	CamelFolderThreadNode *c, *child, *head;
 	CamelFolderThread *thread;
-	GPtrArray *myuids;
+	GHashTable *wanted = NULL;
+	GPtrArray *summary;
 
 #ifdef TIMEIT
 	struct timeval start, end;
@@ -445,22 +446,26 @@ camel_folder_thread_messages_new(CamelFolder *folder, GPtrArray *uids)
 	thread = g_malloc(sizeof(*thread));
 	thread->tree = NULL;
 	thread->node_chunks = e_memchunk_new(32, sizeof(CamelFolderThreadNode));
+	thread->folder = folder;
+	camel_object_ref((CamelObject *)folder);
 
-	if (uids == NULL)
-		uids = myuids = camel_folder_get_uids(folder);
-	else
-		myuids = NULL;
+	/* wanted is the list of what we want, we put it in a hash for quick lookup */
+	if (uids) {
+		wanted = g_hash_table_new(g_str_hash, g_str_equal);
+		for (i=0;i<uids->len;i++)
+			g_hash_table_insert(wanted, uids->pdata[i], uids->pdata[i]);
+	}
 
+	thread->summary = summary = camel_folder_get_summary(folder);
+	
 	id_table = g_hash_table_new((GHashFunc)id_hash, (GCompareFunc)id_equal);
 	no_id_table = g_hash_table_new(NULL, NULL);
-	for (i=0;i<uids->len;i++) {
-		const CamelMessageInfo *mi;
-		mi = camel_folder_get_message_info(folder, uids->pdata[i]);
+	for (i=0;i<summary->len;i++) {
+		CamelMessageInfo *mi = summary->pdata[i];
+		const char *uid = camel_message_info_uid(mi);
 
-		if (mi == NULL) {
-			g_warning("Folder doesn't contain uid %s", (char *)uids->pdata[i]);
+		if (wanted && g_hash_table_lookup(wanted, uid) == 0)
 			continue;
-		}
 
 		if (mi->message_id.id.id) {
 			c = g_hash_table_lookup(id_table, &mi->message_id);
@@ -540,9 +545,6 @@ camel_folder_thread_messages_new(CamelFolder *folder, GPtrArray *uids)
 	       uids->len, diff / 1000, diff % 1000);
 #endif
 
-	if (myuids)
-		camel_folder_free_uids(folder, myuids);
-
 	return thread;
 }
 
@@ -555,6 +557,8 @@ camel_folder_thread_messages_new(CamelFolder *folder, GPtrArray *uids)
 void
 camel_folder_thread_messages_destroy(CamelFolderThread *thread)
 {
+	camel_folder_free_summary(thread->folder, thread->summary);
+	camel_object_unref((CamelObject *)thread->folder);
 	e_memchunk_destroy(thread->node_chunks);
 	g_free(thread);
 }

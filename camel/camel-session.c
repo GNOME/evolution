@@ -41,6 +41,8 @@
 #include "camel-url.h"
 #include "hash-table-utils.h"
 
+#include "camel-private.h"
+
 static CamelObjectClass *parent_class;
 
 static void
@@ -48,6 +50,10 @@ camel_session_init (CamelSession *session)
 {
 	session->modules = camel_provider_init ();
 	session->providers = g_hash_table_new (g_strcase_hash, g_strcase_equal);
+	session->priv = g_malloc0(sizeof(*session->priv));
+#ifdef ENABLE_THREADS
+	session->priv->lock = g_mutex_new();
+#endif	
 }
 
 static gboolean
@@ -69,6 +75,12 @@ camel_session_finalise (CamelObject *o)
 	g_hash_table_foreach_remove (session->providers,
 				     camel_session_destroy_provider, NULL);
 	g_hash_table_destroy (session->providers);
+
+#ifdef ENABLE_THREADS
+	g_mutex_free(session->priv->lock);
+#endif	
+
+	g_free(session->priv);
 }
 
 static void
@@ -131,6 +143,9 @@ camel_session_new (const char *storage_path,
  * @provider: provider object
  *
  * Registers a protocol to provider mapping for the session.
+ *
+ * Assumes the session lock has already been obtained,
+ * which is the case for automatically loaded provider modules.
  **/
 void
 camel_session_register_provider (CamelSession *session,
@@ -194,12 +209,16 @@ camel_session_list_providers (CamelSession *session, gboolean load)
 
 	g_return_val_if_fail (CAMEL_IS_SESSION (session), NULL);
 
-	if (load) {
+	CAMEL_SESSION_LOCK(session, lock);
+
+	if (load)
 		g_hash_table_foreach (session->modules, ensure_loaded, session);
-	}
 
 	list = NULL;
 	g_hash_table_foreach (session->providers, add_to_list, &list);
+
+	CAMEL_SESSION_UNLOCK(session, lock);
+
 	return list;
 }
 
@@ -213,8 +232,12 @@ service_cache_remove (CamelService *service, gpointer event_data, gpointer user_
 	g_return_if_fail (service != NULL);
 	g_return_if_fail (service->url != NULL);
 	
+	CAMEL_SESSION_LOCK(session, lock);
+
 	provider = g_hash_table_lookup (session->providers, service->url->protocol);
 	g_hash_table_remove (provider->service_cache, service->url);
+
+	CAMEL_SESSION_UNLOCK(session, lock);
 }
 
 /**
@@ -250,6 +273,7 @@ camel_session_get_service (CamelSession *session, const char *url_string,
 
 	/* We need to look up the provider so we can then lookup
 	   the service in the provider's cache */
+	CAMEL_SESSION_LOCK(session, lock);
 	provider = g_hash_table_lookup (session->providers, url->protocol);
 	if (!provider) {
 		/* See if there's one we can load. */
@@ -261,6 +285,7 @@ camel_session_get_service (CamelSession *session, const char *url_string,
 			if (camel_exception_get_id (ex) !=
 			    CAMEL_EXCEPTION_NONE) {
 				camel_url_free (url);
+				CAMEL_SESSION_UNLOCK(session, lock);
 				return NULL;
 			}
 		}
@@ -272,6 +297,7 @@ camel_session_get_service (CamelSession *session, const char *url_string,
 				      _("No provider available for protocol `%s'"),
 				      url->protocol);
 		camel_url_free (url);
+		CAMEL_SESSION_UNLOCK(session, lock);
 		return NULL;
 	}
 	
@@ -280,6 +306,7 @@ camel_session_get_service (CamelSession *session, const char *url_string,
 	if (service != NULL) {
 		camel_url_free (url);
 		camel_object_ref (CAMEL_OBJECT (service));
+		CAMEL_SESSION_UNLOCK(session, lock);
 		return service;
 	}
 
@@ -288,6 +315,7 @@ camel_session_get_service (CamelSession *session, const char *url_string,
 		g_hash_table_insert (provider->service_cache, url, service);
 		camel_object_hook_event (CAMEL_OBJECT (service), "finalize", (CamelObjectEventHookFunc) service_cache_remove, session);
 	}
+	CAMEL_SESSION_UNLOCK(session, lock);
 
 	return service;
 }

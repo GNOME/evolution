@@ -4,38 +4,96 @@
 #include <stdio.h>
 #include <signal.h>
 
+#ifdef ENABLE_THREADS
+#include <pthread.h>
+#endif
+
+#ifdef ENABLE_THREADS
+/* well i dunno, doesn't seem to be in the headers but hte manpage mentions it */
+/* a nonportable checking mutex for glibc, not really needed, just validates
+   the test harness really */
+# ifdef PTHREAD_ERRORCHECK_MUTEX_INITIALIZER_NP
+static pthread_mutex_t lock = PTHREAD_ERRORCHECK_MUTEX_INITIALIZER_NP;
+# else
+static pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
+# endif
+#define CAMEL_TEST_LOCK pthread_mutex_lock(&lock)
+#define CAMEL_TEST_UNLOCK pthread_mutex_unlock(&lock)
+#define CAMEL_TEST_ID (pthread_self())
+#else
+#define CAMEL_TEST_LOCK
+#define CAMEL_TEST_UNLOCK
+#define CAMEL_TEST_ID (0)
+#endif
+
+static int setup;
+static int ok;
+
 struct _stack {
 	struct _stack *next;
+	int fatal;
 	char *what;
 };
 
-static int setup;
-static struct _stack *state;
-static struct _stack *nonfatal;
-static int ok;
+/* per-thread state */
+struct _state {
+	char *test;
+	int nonfatal;
+	struct _stack *state;
+};
+
+static GHashTable *info_table;
 
 int camel_test_verbose;
+
+static void
+dump_action(int id, struct _state *s, void *d)
+{
+	struct _stack *node;
+
+#ifdef ENABLE_THREADS
+	printf("\nThread %d:\n", id);
+#endif
+	node = s->state;
+	if (node) {
+		printf("Current action:\n");
+		while (node) {
+			printf("\t%s%s\n", node->fatal?"":"[nonfatal]", node->what);
+			node = node->next;
+		}
+	}
+	printf("\tTest: %s\n", s->test);
+}
 
 static void die(int sig)
 {
 	static int indie = 0;
-	struct _stack *node;
 
 	if (!indie) {
 		indie = 1;
 		printf("\n\nReceived fatal signal %d\n", sig);
-		node = state;
-		if (node) {
-			printf("Current action:\n");
-			while (node) {
-				printf("\t%s\n", node->what);
-				node = node->next;
-			}
-		}
+		g_hash_table_foreach(info_table, (GHFunc)dump_action, 0);
 	}
 
 	_exit(1);
 }
+
+static struct _state *
+current_state(void)
+{
+	struct _state *info;
+
+	if (info_table == NULL)
+		info_table = g_hash_table_new(0, 0);
+
+	info = g_hash_table_lookup(info_table, (void *)CAMEL_TEST_ID);
+	if (info == NULL) {
+		info = g_malloc0(sizeof(*info));
+		g_hash_table_insert(info_table, (void *)CAMEL_TEST_ID, info);
+	}
+	return info;
+}
+	
 
 void camel_test_init(int argc, char **argv)
 {
@@ -44,7 +102,11 @@ void camel_test_init(int argc, char **argv)
 
 	setup = 1;
 
+#ifndef ENABLE_THREADS
 	camel_init();
+#endif
+
+	info_table = g_hash_table_new(0, 0);
 
 	/* yeah, we do need ot thread init, even though camel isn't compiled with enable threads */
 	g_thread_init(NULL);
@@ -71,15 +133,25 @@ void camel_test_init(int argc, char **argv)
 
 void camel_test_start(const char *what)
 {
+	struct _state *s;
+
+	CAMEL_TEST_LOCK;
+
+	s = current_state();
+
 	if (!setup)
 		camel_test_init(0, 0);
 
 	ok = 1;
 
+	s->test = g_strdup(what);
+
 	if (camel_test_verbose > 0) {
 		printf("Test: %s ... ", what);
 		fflush(stdout);
 	}
+
+	CAMEL_TEST_UNLOCK;
 }
 
 void camel_test_push(const char *what, ...)
@@ -87,6 +159,11 @@ void camel_test_push(const char *what, ...)
 	struct _stack *node;
 	va_list ap;
 	char *text;
+	struct _state *s;
+
+	CAMEL_TEST_LOCK;
+
+	s = current_state();
 
 	va_start(ap, what);
 	text = g_strdup_vprintf(what, ap);
@@ -97,26 +174,40 @@ void camel_test_push(const char *what, ...)
 
 	node = g_malloc(sizeof(*node));
 	node->what = text;
-	node->next = state;
-	state = node;
+	node->next = s->state;
+	node->fatal = 1;
+	s->state = node;
+
+	CAMEL_TEST_UNLOCK;
 }
 
 void camel_test_pull(void)
 {
 	struct _stack *node;
+	struct _state *s;
 
-	g_assert(state);
+	CAMEL_TEST_LOCK;
+
+	s = current_state();
+
+	g_assert(s->state);
 
 	if (camel_test_verbose > 3)
-		printf("Finish step: %s\n", state->what);
+		printf("Finish step: %s\n", s->state->what);
 
-	node = state;
-	state = node->next;
+	node = s->state;
+	s->state = node->next;
+	if (!node->fatal)
+		s->nonfatal--;
 	g_free(node->what);
 	g_free(node);
+
+	CAMEL_TEST_UNLOCK;
 }
 
 /* where to set breakpoints */
+void camel_test_break(void);
+
 void camel_test_break(void)
 {
 }
@@ -130,75 +221,75 @@ void camel_test_fail(const char *why, ...)
 	va_end(ap);
 }
 
+
 void camel_test_failv(const char *why, va_list ap)
 {
-	struct _stack *node;
 	char *text;
+	struct _state *s;
+
+	CAMEL_TEST_LOCK;
+
+	s = current_state();
 
 	text = g_strdup_vprintf(why, ap);
 
-	if ((nonfatal == NULL && camel_test_verbose > 0)
-	    || (nonfatal && camel_test_verbose > 1)) {
+	if ((s->nonfatal == 0 && camel_test_verbose > 0)
+	    || (s->nonfatal && camel_test_verbose > 1)) {
 		printf("Failed.\n%s\n", text);
 		camel_test_break();
 	}
 
 	g_free(text);
 
-	if ((nonfatal == NULL && camel_test_verbose > 0)
-	    || (nonfatal && camel_test_verbose > 2)) {
-		node = state;
-		if (node) {
-			printf("Current action:\n");
-			while (node) {
-				printf("\t%s\n", node->what);
-				node = node->next;
-			}
-		}
+	if ((s->nonfatal == 0 && camel_test_verbose > 0)
+	    || (s->nonfatal && camel_test_verbose > 2)) {
+		g_hash_table_foreach(info_table, (GHFunc)dump_action, 0);
 	}
 
-	if (nonfatal == NULL) {
+	if (s->nonfatal == 0) {
 		exit(1);
 	} else {
 		ok=0;
 		if (camel_test_verbose > 1) {
-			printf("Known problem (ignored): %s\n", nonfatal->what);
+			printf("Known problem (ignored):\n");
+			dump_action(CAMEL_TEST_ID, s, 0);
 		}
 	}
+
+	CAMEL_TEST_UNLOCK;
 }
 
-void camel_test_nonfatal(const char *why, ...)
+void camel_test_nonfatal(const char *what, ...)
 {
 	struct _stack *node;
 	va_list ap;
 	char *text;
+	struct _state *s;
 
-	va_start(ap, why);
-	text = g_strdup_vprintf(why, ap);
+	CAMEL_TEST_LOCK;
+
+	s = current_state();
+
+	va_start(ap, what);
+	text = g_strdup_vprintf(what, ap);
 	va_end(ap);
 
-	if (camel_test_verbose>3)
+	if (camel_test_verbose > 3)
 		printf("Start nonfatal: %s\n", text);
 
 	node = g_malloc(sizeof(*node));
 	node->what = text;
-	node->next = nonfatal;
-	nonfatal = node;
+	node->next = s->state;
+	node->fatal = 0;
+	s->nonfatal++;
+	s->state = node;
+
+	CAMEL_TEST_UNLOCK;
 }
 
 void camel_test_fatal(void)
 {
-	struct _stack *node;
-
-	g_assert(nonfatal);
-
-	if (camel_test_verbose>3)
-		printf("Finish nonfatal: %s\n", nonfatal->what);
-
-	node = nonfatal;
-	nonfatal = node->next;
-	g_free(node->what);
-	g_free(node);
+	camel_test_pull();
 }
 
 void camel_test_end(void)

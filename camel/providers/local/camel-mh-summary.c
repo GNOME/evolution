@@ -37,8 +37,6 @@
 
 #define CAMEL_MH_SUMMARY_VERSION (0x2000)
 
-static CamelMessageInfo *message_info_new(CamelFolderSummary *, struct _header_raw *);
-
 static int mh_summary_check(CamelLocalSummary *cls, CamelFolderChangeInfo *changeinfo, CamelException *ex);
 static int mh_summary_sync(CamelLocalSummary *cls, gboolean expunge, CamelFolderChangeInfo *changeinfo, CamelException *ex);
 /*static int mh_summary_add(CamelLocalSummary *cls, CamelMimeMessage *msg, CamelMessageInfo *info, CamelFolderChangeInfo *, CamelException *ex);*/
@@ -84,7 +82,6 @@ camel_mh_summary_class_init (CamelMhSummaryClass *class)
 	parent_class = (CamelLocalSummaryClass *)camel_type_get_global_classfuncs(camel_local_summary_get_type ());
 
 	/* override methods */
-	sklass->message_info_new = message_info_new;
 	sklass->next_uid_string = mh_summary_next_uid_string;
 
 	lklass->check = mh_summary_check;
@@ -123,20 +120,6 @@ CamelMhSummary	*camel_mh_summary_new	(const char *filename, const char *mhdir, i
 
 	camel_local_summary_construct((CamelLocalSummary *)o, filename, mhdir, index);
 	return o;
-}
-
-static CamelMessageInfo *message_info_new(CamelFolderSummary * s, struct _header_raw *h)
-{
-	CamelMessageInfo *mi;
-	/*CamelMhSummary *mhs = (CamelMhSummary *)s;*/
-
-	mi = ((CamelFolderSummaryClass *) parent_class)->message_info_new(s, h);
-	/* hmm, this isn't quite right */
-	if (mi) {
-		/*mi->uid = mh_summary_next_uid_string(s);*/
-	}
-
-	return mi;
 }
 
 static char *mh_summary_next_uid_string(CamelFolderSummary *s)
@@ -206,6 +189,7 @@ remove_summary(char *key, CamelMessageInfo *info, CamelLocalSummary *cls)
 	if (cls->index)
 		ibex_unindex(cls->index, (char *)camel_message_info_uid(info));
 	camel_folder_summary_remove((CamelFolderSummary *)cls, info);
+	camel_folder_summary_info_free((CamelFolderSummary *)cls, info);
 }
 
 static int
@@ -256,11 +240,19 @@ mh_summary_check(CamelLocalSummary *cls, CamelFolderChangeInfo *changeinfo, Came
 				if (info != NULL) {
 					g_hash_table_remove(left, camel_message_info_uid(info));
 					camel_folder_summary_remove((CamelFolderSummary *)cls, info);
+					camel_folder_summary_info_free((CamelFolderSummary *)cls, info);
 				}
 				camel_mh_summary_add(cls, d->d_name, forceindex);
 			} else {
-				g_hash_table_remove(left, camel_message_info_uid(info));
-			}
+				const char *uid = camel_message_info_uid(info);
+				CamelMessageInfo *old = g_hash_table_lookup(left, uid);
+
+				if (old) {
+					camel_folder_summary_info_free((CamelFolderSummary *)cls, old);
+					g_hash_table_remove(left, uid);
+				}
+				camel_folder_summary_info_free((CamelFolderSummary *)cls, info);
+			}	
 		}
 	}
 	closedir(dir);
@@ -394,6 +386,7 @@ mh_summary_sync(CamelLocalSummary *cls, gboolean expunge, CamelFolderChangeInfo 
 				g_warning("Problem occured when trying to expunge, ignored");
 			}
 		}
+		camel_folder_summary_info_free((CamelFolderSummary *)cls, info);
 	}
 
 	return 0;

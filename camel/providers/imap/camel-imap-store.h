@@ -56,7 +56,8 @@ typedef enum {
 
 typedef struct {
 	CamelRemoteStore parent_object;	
-	
+	struct _CamelImapStorePrivate *priv;
+
 	CamelFolder *current_folder;
 	
 	guint32 command;

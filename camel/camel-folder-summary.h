@@ -121,6 +121,7 @@ typedef struct {
 #endif
 	guint32 flags;
 	guint32 size;
+	guint32 refcount;
 
 	time_t date_sent;
 	time_t date_received;
@@ -228,6 +229,7 @@ CamelMessageInfo *camel_folder_summary_info_new_from_header(CamelFolderSummary *
 CamelMessageInfo *camel_folder_summary_info_new_from_parser(CamelFolderSummary *, CamelMimeParser *);
 CamelMessageInfo *camel_folder_summary_info_new_from_message(CamelFolderSummary *, CamelMimeMessage *);
 
+void camel_folder_summary_info_ref(CamelFolderSummary *, CamelMessageInfo *);
 void camel_folder_summary_info_free(CamelFolderSummary *, CamelMessageInfo *);
 
 /* removes a summary item, doesn't fix content offsets */
@@ -280,8 +282,9 @@ void		camel_tag_list_free(CamelTag **list);
 /* message info utils for working with pseudo-messageinfo structures
    NOTE: These cannot be added to a real summary object, but suffice for all
    other external interfaces that use message info's */
-CamelMessageInfo *camel_message_info_new (void);
-CamelMessageInfo *camel_message_info_new_from_header (struct _header_raw *header);
+CamelMessageInfo *camel_message_info_new(void);
+void camel_message_info_ref(CamelMessageInfo *info);
+CamelMessageInfo *camel_message_info_new_from_header(struct _header_raw *header);
 void camel_message_info_dup_to(const CamelMessageInfo *from, CamelMessageInfo *to);
 void camel_message_info_free(CamelMessageInfo *mi);
 

@@ -60,6 +60,7 @@ typedef gboolean (*CamelTimeoutRemoveCallback) (guint id);
 struct _CamelSession
 {
 	CamelObject parent_object;
+	struct _CamelSessionPrivate *priv;
 
 	char *storage_path;
 	CamelAuthCallback authenticator;

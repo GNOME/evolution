@@ -32,6 +32,16 @@
 #include "camel-nntp-newsrc.h"
 #include <camel/camel-folder-summary.h>
 
+#ifdef ENABLE_THREADS
+#include <pthread.h>
+
+#define NEWSRC_LOCK(f, l) (g_mutex_lock(((CamelNNTPNewsrc *)f)->l))
+#define NEWSRC_UNLOCK(f, l) (g_mutex_unlock(((CamelNNTPNewsrc *)f)->l))
+#else
+#define NEWSRC_LOCK(f, l)
+#define NEWSRC_UNLOCK(f, l)
+#endif
+
 typedef struct {
 	guint low;
 	guint high;
@@ -47,7 +57,11 @@ struct CamelNNTPNewsrc {
 	gchar *filename;
 	GHashTable *groups;
 	gboolean dirty;
+#ifdef ENABLE_THREADS
+	GMutex *lock;
+#endif
 } ;
+
 
 static NewsrcGroup *
 camel_nntp_newsrc_group_add (CamelNNTPNewsrc *newsrc, const char *group_name, gboolean subscribed)
@@ -180,26 +194,40 @@ int
 camel_nntp_newsrc_get_highest_article_read (CamelNNTPNewsrc *newsrc, const char *group_name)
 {
 	NewsrcGroup *group;
+	int ret;
+
+	NEWSRC_LOCK(newsrc, lock);
 
 	group = g_hash_table_lookup (newsrc->groups, group_name);
+	ret = camel_nntp_newsrc_group_get_highest_article_read (newsrc, group);
 
-	return camel_nntp_newsrc_group_get_highest_article_read (newsrc, group);
+	NEWSRC_UNLOCK(newsrc, lock);
+
+	return ret;
 }
 
 int
 camel_nntp_newsrc_get_num_articles_read (CamelNNTPNewsrc *newsrc, const char *group_name)
 {
 	NewsrcGroup *group;
+	int ret;
+
+	NEWSRC_LOCK(newsrc, lock);
 
 	group = g_hash_table_lookup (newsrc->groups, group_name);
+	ret = camel_nntp_newsrc_group_get_num_articles_read (newsrc, group);
 
-	return camel_nntp_newsrc_group_get_num_articles_read (newsrc, group);
+	NEWSRC_UNLOCK(newsrc, lock);
+
+	return ret;
 }
 
 void
 camel_nntp_newsrc_mark_article_read (CamelNNTPNewsrc *newsrc, const char *group_name, int num)
 {
+	NEWSRC_LOCK(newsrc, lock);
 	camel_nntp_newsrc_mark_range_read (newsrc, group_name, num, num);
+	NEWSRC_UNLOCK(newsrc, lock);
 }
 
 void
@@ -216,9 +244,11 @@ camel_nntp_newsrc_mark_range_read(CamelNNTPNewsrc *newsrc, const char *group_nam
 		low = tmp;
 	}
 
+	NEWSRC_LOCK(newsrc, lock);
 	group = g_hash_table_lookup (newsrc->groups, group_name);
 
 	camel_nntp_newsrc_group_mark_range_read (newsrc, group, low, high);
+	NEWSRC_UNLOCK(newsrc, lock);
 }
 
 gboolean
@@ -226,15 +256,20 @@ camel_nntp_newsrc_article_is_read (CamelNNTPNewsrc *newsrc, const char *group_na
 {
 	int i;
 	NewsrcGroup *group;
+	int ret = FALSE;
 
+	NEWSRC_LOCK(newsrc, lock);
 	group = g_hash_table_lookup (newsrc->groups, group_name);
 	
 	for (i = 0; i < group->ranges->len; i++) {
 		if (num >= g_array_index (group->ranges, ArticleRange, i).low && 
 		    num <= g_array_index (group->ranges, ArticleRange, i).high) {
-			return TRUE;
+			ret = TRUE;
+			break;
 		}
 	}
+
+	NEWSRC_UNLOCK(newsrc, lock);
 
 	return FALSE;
 }
@@ -242,20 +277,30 @@ camel_nntp_newsrc_article_is_read (CamelNNTPNewsrc *newsrc, const char *group_na
 gboolean  
 camel_nntp_newsrc_group_is_subscribed (CamelNNTPNewsrc *newsrc, const char *group_name)
 {
-	NewsrcGroup *group = g_hash_table_lookup (newsrc->groups, group_name);
+	NewsrcGroup *group;
+	int ret = FALSE;
+
+	NEWSRC_LOCK(newsrc, lock);
+
+	group = g_hash_table_lookup (newsrc->groups, group_name);
 
 	if (group) {
-		return group->subscribed;
+		ret = group->subscribed;
 	}
-	else {
-		return FALSE;
-	}
+
+	NEWSRC_UNLOCK(newsrc, lock);
+
+	return ret;
 }
 
 void
 camel_nntp_newsrc_subscribe_group (CamelNNTPNewsrc *newsrc, const char *group_name)
 {
-	NewsrcGroup *group = g_hash_table_lookup (newsrc->groups, group_name);
+	NewsrcGroup *group;
+
+	NEWSRC_LOCK(newsrc, lock);
+
+	group = g_hash_table_lookup (newsrc->groups, group_name);
 
 	if (group) {
 		if (!group->subscribed)
@@ -265,13 +310,18 @@ camel_nntp_newsrc_subscribe_group (CamelNNTPNewsrc *newsrc, const char *group_na
 	else {
 		camel_nntp_newsrc_group_add (newsrc, group_name, TRUE);
 	}
+
+	NEWSRC_UNLOCK(newsrc, lock);
 }
 
 void
 camel_nntp_newsrc_unsubscribe_group (CamelNNTPNewsrc *newsrc, const char *group_name)
 {
-	NewsrcGroup *group = g_hash_table_lookup (newsrc->groups, group_name);
+	NewsrcGroup *group;
 
+	NEWSRC_LOCK(newsrc, lock);
+
+	group = g_hash_table_lookup (newsrc->groups, group_name);
 	if (group) {
 		if (group->subscribed)
 			newsrc->dirty = TRUE;
@@ -280,6 +330,8 @@ camel_nntp_newsrc_unsubscribe_group (CamelNNTPNewsrc *newsrc, const char *group_
 	else {
 		camel_nntp_newsrc_group_add (newsrc, group_name, FALSE);
 	}
+
+	NEWSRC_UNLOCK(newsrc, lock);
 }
 
 struct newsrc_ptr_array {
@@ -287,6 +339,7 @@ struct newsrc_ptr_array {
 	gboolean subscribed_only;
 };
 
+/* this needs to strdup the grup_name, if the group array is likely to change */
 static void
 get_group_foreach (char *group_name, NewsrcGroup *group, struct newsrc_ptr_array *npa)
 {
@@ -302,11 +355,15 @@ camel_nntp_newsrc_get_subscribed_group_names (CamelNNTPNewsrc *newsrc)
 
 	g_return_val_if_fail (newsrc, NULL);
 
+	NEWSRC_LOCK(newsrc, lock);
+
 	npa.ptr_array = g_ptr_array_new();
 	npa.subscribed_only = TRUE;
 
 	g_hash_table_foreach (newsrc->groups,
 			      (GHFunc)get_group_foreach, &npa);
+
+	NEWSRC_UNLOCK(newsrc, lock);
 
 	return npa.ptr_array;
 }
@@ -318,11 +375,15 @@ camel_nntp_newsrc_get_all_group_names (CamelNNTPNewsrc *newsrc)
 
 	g_return_val_if_fail (newsrc, NULL);
 
+	NEWSRC_LOCK(newsrc, lock);
+
 	npa.ptr_array = g_ptr_array_new();
 	npa.subscribed_only = FALSE;
 
 	g_hash_table_foreach (newsrc->groups,
 			      (GHFunc)get_group_foreach, &npa);
+
+	NEWSRC_UNLOCK(newsrc, lock);
 
 	return npa.ptr_array;
 }
@@ -395,9 +456,13 @@ camel_nntp_newsrc_write_to_file(CamelNNTPNewsrc *newsrc, FILE *fp)
 	newsrc_fp.newsrc = newsrc;
 	newsrc_fp.fp = fp;
 
+	NEWSRC_LOCK(newsrc, lock);
+
 	g_hash_table_foreach (newsrc->groups,
 			      (GHFunc)camel_nntp_newsrc_write_group_line,
 			      &newsrc_fp);
+
+	NEWSRC_UNLOCK(newsrc, lock);
 }
 
 void
@@ -407,17 +472,21 @@ camel_nntp_newsrc_write(CamelNNTPNewsrc *newsrc)
 
 	g_return_if_fail (newsrc);
 
+	NEWSRC_LOCK(newsrc, lock);
+
 	if (!newsrc->dirty)
 		return;
 
 	if ((fp = fopen(newsrc->filename, "w")) == NULL) {
 		g_warning ("Couldn't open newsrc file '%s'.\n", newsrc->filename);
+		NEWSRC_UNLOCK(newsrc, lock);
 		return;
 	}
 
-	camel_nntp_newsrc_write_to_file(newsrc, fp);
-
 	newsrc->dirty = FALSE;
+	NEWSRC_UNLOCK(newsrc, lock);
+
+	camel_nntp_newsrc_write_to_file(newsrc, fp);
 
 	fclose(fp);
 }
@@ -535,6 +604,9 @@ camel_nntp_newsrc_read_for_server (const char *server)
 	newsrc = g_new0(CamelNNTPNewsrc, 1);
 	newsrc->filename = filename;
 	newsrc->groups = g_hash_table_new (g_str_hash, g_str_equal);
+#ifdef ENABLE_THREADS
+	newsrc->lock = g_mutex_new();
+#endif
 
 	if ((fd = open(filename, O_RDONLY)) == -1) {
 		g_warning ("~/.newsrc-%s not present.\n", server);

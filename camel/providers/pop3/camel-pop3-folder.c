@@ -122,7 +122,8 @@ camel_pop3_folder_new (CamelStore *parent, CamelException *ex)
 	folder = CAMEL_FOLDER (camel_object_new (CAMEL_POP3_FOLDER_TYPE));
 	camel_folder_construct (folder, parent, "inbox", "inbox");
 
-	camel_folder_refresh_info (folder, ex);
+	/* mt-ok, since we dont have the folder-lock for new() */
+	camel_folder_refresh_info (folder, ex);/* mt-ok */
 	if (camel_exception_is_set (ex)) {
 		camel_object_unref (CAMEL_OBJECT (folder));
 		folder = NULL;

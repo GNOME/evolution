@@ -32,6 +32,8 @@
 #include "string-utils.h"
 #include "e-util/e-memory.h"
 
+#include "camel-private.h"
+
 static CamelObjectClass *parent_class = NULL;
 
 /* Returns the class for a CamelFolder */
@@ -80,8 +82,8 @@ static CamelMimeMessage *get_message         (CamelFolder *folder,
 					      const gchar *uid,
 					      CamelException *ex);
 
-static const CamelMessageInfo *get_message_info (CamelFolder *folder,
-						 const char *uid);
+static CamelMessageInfo *get_message_info	(CamelFolder *folder, const char *uid);
+static void		 free_message_info	(CamelFolder *folder, CamelMessageInfo *info);
 
 static GPtrArray      *search_by_expression  (CamelFolder *folder,
 					      const char *exp,
@@ -140,6 +142,7 @@ camel_folder_class_init (CamelFolderClass *camel_folder_class)
 	camel_folder_class->search_by_expression = search_by_expression;
 	camel_folder_class->search_free = search_free;
 	camel_folder_class->get_message_info = get_message_info;
+	camel_folder_class->free_message_info = free_message_info;
 	camel_folder_class->copy_message_to = copy_message_to;
 	camel_folder_class->move_message_to = move_message_to;
 	camel_folder_class->freeze = freeze;
@@ -157,8 +160,13 @@ camel_folder_init (gpointer object, gpointer klass)
 {
 	CamelFolder *folder = object;
 
-	folder->frozen = 0;
-	folder->changed_frozen = camel_folder_change_info_new();
+	folder->priv = g_malloc0(sizeof(*folder->priv));
+	folder->priv->frozen = 0;
+	folder->priv->changed_frozen = camel_folder_change_info_new();
+#ifdef ENABLE_THREADS
+	folder->priv->lock = g_mutex_new();
+	folder->priv->change_lock = g_mutex_new();
+#endif
 }
 
 static void
@@ -172,7 +180,15 @@ camel_folder_finalize (CamelObject *object)
 	if (camel_folder->parent_store)
 		camel_object_unref (CAMEL_OBJECT (camel_folder->parent_store));
 
-	camel_folder_change_info_free(camel_folder->changed_frozen);
+	if (camel_folder->summary)
+		camel_object_unref((CamelObject *)camel_folder->summary);
+
+	camel_folder_change_info_free(camel_folder->priv->changed_frozen);
+#ifdef ENABLE_THREADS
+	g_mutex_free(camel_folder->priv->lock);
+	g_mutex_free(camel_folder->priv->change_lock);
+#endif
+	g_free(camel_folder->priv);
 }
 
 CamelType
@@ -241,7 +257,11 @@ camel_folder_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 {
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 
+	CAMEL_FOLDER_LOCK(folder, lock);
+
 	CF_CLASS (folder)->sync (folder, expunge, ex);
+
+	CAMEL_FOLDER_UNLOCK(folder, lock);
 }
 
 
@@ -263,7 +283,11 @@ camel_folder_refresh_info (CamelFolder *folder, CamelException *ex)
 {
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 
+	CAMEL_FOLDER_LOCK(folder, lock);
+
 	CF_CLASS (folder)->refresh_info (folder, ex);
+
+	CAMEL_FOLDER_UNLOCK(folder, lock);
 }
 
 
@@ -355,16 +379,19 @@ camel_folder_expunge (CamelFolder *folder, CamelException *ex)
 {
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 
-	CF_CLASS (folder)->expunge (folder, ex);
-}
+	CAMEL_FOLDER_LOCK(folder, lock);
 
+	CF_CLASS (folder)->expunge (folder, ex);
+
+	CAMEL_FOLDER_UNLOCK(folder, lock);
+}
 
 static int
 get_message_count (CamelFolder *folder)
 {
-	g_warning ("CamelFolder::get_message_count not implemented "
-		   "for `%s'", camel_type_to_name (CAMEL_OBJECT_GET_TYPE (folder)));
-	return -1;
+	g_return_val_if_fail(folder->summary != NULL, -1);
+
+	return camel_folder_summary_count(folder->summary);
 }
 
 /**
@@ -376,18 +403,33 @@ get_message_count (CamelFolder *folder)
 int
 camel_folder_get_message_count (CamelFolder *folder)
 {
+	int ret;
+
 	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), -1);
 
-	return CF_CLASS (folder)->get_message_count (folder);
+	ret = CF_CLASS (folder)->get_message_count (folder);
+
+	return ret;
 }
 
-
 static int
-get_unread_message_count (CamelFolder *folder)
+get_unread_message_count(CamelFolder *folder)
 {
-	g_warning ("CamelFolder::get_unread_message_count not implemented "
-		   "for `%s'", camel_type_to_name (CAMEL_OBJECT_GET_TYPE (folder)));
-	return -1;
+	int i, count, unread=0;
+
+	g_return_val_if_fail(folder->summary != NULL, -1);
+
+	count = camel_folder_summary_count(folder->summary);
+	for (i=0; i<count; i++) {
+		CamelMessageInfo *info = camel_folder_summary_index(folder->summary, i);
+
+		if (info && !(info->flags & CAMEL_MESSAGE_SEEN))
+			unread++;
+
+		camel_folder_summary_info_free(folder->summary, info);
+	}
+
+	return unread;
 }
 
 /**
@@ -399,11 +441,14 @@ get_unread_message_count (CamelFolder *folder)
 int
 camel_folder_get_unread_message_count (CamelFolder *folder)
 {
+	int ret;
+
 	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), -1);
+	
+	ret = CF_CLASS (folder)->get_unread_message_count (folder);
 
-	return CF_CLASS (folder)->get_unread_message_count (folder);
+	return ret;
 }
-
 
 static void
 append_message (CamelFolder *folder, CamelMimeMessage *message,
@@ -432,7 +477,11 @@ camel_folder_append_message (CamelFolder *folder, CamelMimeMessage *message,
 {
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 
+	CAMEL_FOLDER_LOCK(folder, lock);
+
 	CF_CLASS (folder)->append_message (folder, message, info, ex);
+
+	CAMEL_FOLDER_UNLOCK(folder, lock);
 }
 
 
@@ -458,13 +507,21 @@ camel_folder_get_permanent_flags (CamelFolder *folder)
 	return CF_CLASS (folder)->get_permanent_flags (folder);
 }
 
-
 static guint32
-get_message_flags (CamelFolder *folder, const char *uid)
+get_message_flags(CamelFolder *folder, const char *uid)
 {
-	g_warning ("CamelFolder::get_message_flags not implemented for `%s'",
-		   camel_type_to_name (CAMEL_OBJECT_GET_TYPE (folder)));
-	return 0;
+	CamelMessageInfo *info;
+	guint32 flags;
+
+	g_return_val_if_fail(folder->summary != NULL, 0);
+
+	info = camel_folder_summary_uid(folder->summary, uid);
+	g_return_val_if_fail(info != NULL, 0);
+
+	flags = info->flags;
+	camel_folder_summary_info_free(folder->summary, info);
+
+	return flags;
 }
 
 /**
@@ -478,18 +535,37 @@ get_message_flags (CamelFolder *folder, const char *uid)
 guint32
 camel_folder_get_message_flags (CamelFolder *folder, const char *uid)
 {
+	guint32 ret;
+
 	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), 0);
 
-	return CF_CLASS (folder)->get_message_flags (folder, uid);
+	ret = CF_CLASS (folder)->get_message_flags (folder, uid);
+
+	return ret;
 }
 
-
 static void
-set_message_flags (CamelFolder *folder, const char *uid,
-		   guint32 flags, guint32 set)
+set_message_flags(CamelFolder *folder, const char *uid, guint32 flags, guint32 set)
 {
-	g_warning ("CamelFolder::set_message_flags not implemented for `%s'",
-		   camel_type_to_name (CAMEL_OBJECT_GET_TYPE (folder)));
+	CamelMessageInfo *info;
+	guint32 new;
+
+	g_return_if_fail(folder->summary != NULL);
+
+	info = camel_folder_summary_uid(folder->summary, uid);
+	g_return_if_fail(info != NULL);
+
+	new = (info->flags & ~flags) | (set & flags);
+	if (new == info->flags) {
+		camel_folder_summary_info_free(folder->summary, info);
+		return;
+	}
+
+	info->flags = new | CAMEL_MESSAGE_FOLDER_FLAGGED;
+	camel_folder_summary_touch(folder->summary);
+	camel_folder_summary_info_free(folder->summary, info);
+
+	camel_object_trigger_event(CAMEL_OBJECT(folder), "message_changed", (char *) uid);
 }
 
 /**
@@ -514,12 +590,20 @@ camel_folder_set_message_flags (CamelFolder *folder, const char *uid,
 
 
 static gboolean
-get_message_user_flag (CamelFolder *folder, const char *uid,
-		       const char *name)
+get_message_user_flag(CamelFolder *folder, const char *uid, const char *name)
 {
-	g_warning ("CamelFolder::get_message_user_flag not implemented "
-		   "for `%s'", camel_type_to_name (CAMEL_OBJECT_GET_TYPE (folder)));
-	return FALSE;
+	CamelMessageInfo *info;
+	gboolean ret;
+
+	g_return_val_if_fail(folder->summary != NULL, FALSE);
+
+	info = camel_folder_summary_uid(folder->summary, uid);
+	g_return_val_if_fail(info != NULL, FALSE);
+
+	ret = camel_flag_get(&info->user_flags, name);
+	camel_folder_summary_info_free(folder->summary, info);
+
+	return ret;
 }
 
 /**
@@ -534,18 +618,31 @@ gboolean
 camel_folder_get_message_user_flag (CamelFolder *folder, const char *uid,
 				    const char *name)
 {
+	gboolean ret;
+
 	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), 0);
 
-	return CF_CLASS (folder)->get_message_user_flag (folder, uid, name);
+	ret = CF_CLASS (folder)->get_message_user_flag (folder, uid, name);
+
+	return ret;
 }
 
-
 static void
-set_message_user_flag (CamelFolder *folder, const char *uid,
-		       const char *name, gboolean value)
+set_message_user_flag(CamelFolder *folder, const char *uid, const char *name, gboolean value)
 {
-	g_warning ("CamelFolder::set_message_user_flag not implemented "
-		   "for `%s'", camel_type_to_name (CAMEL_OBJECT_GET_TYPE (folder)));
+	CamelMessageInfo *info;
+
+	g_return_if_fail(folder->summary != NULL);
+
+	info = camel_folder_summary_uid(folder->summary, uid);
+	g_return_if_fail(info != NULL);
+
+	if (camel_flag_set(&info->user_flags, name, value)) {
+		info->flags |= CAMEL_MESSAGE_FOLDER_FLAGGED;
+		camel_folder_summary_touch(folder->summary);
+		camel_object_trigger_event(CAMEL_OBJECT(folder), "message_changed", (char *) uid);
+	}
+	camel_folder_summary_info_free(folder->summary, info);
 }
 
 /**
@@ -568,11 +665,23 @@ camel_folder_set_message_user_flag (CamelFolder *folder, const char *uid,
 	CF_CLASS (folder)->set_message_user_flag (folder, uid, name, value);
 }
 
-static const char *get_message_user_tag(CamelFolder *folder, const char *uid, const char *name)
+static const char *
+get_message_user_tag(CamelFolder *folder, const char *uid, const char *name)
 {
-	g_warning ("CamelFolder::get_message_user_tag not implemented "
-		   "for `%s'", camel_type_to_name (CAMEL_OBJECT_GET_TYPE (folder)));
-	return NULL;
+	CamelMessageInfo *info;
+	const char *ret;
+
+	g_return_val_if_fail(folder->summary != NULL, NULL);
+
+	info = camel_folder_summary_uid(folder->summary, uid);
+	g_return_val_if_fail(info != NULL, FALSE);
+
+#warning "Need to duplicate tag string"
+
+	ret = camel_tag_get(&info->user_tags, name);
+	camel_folder_summary_info_free(folder->summary, info);
+
+	return ret;
 }
 
 /**
@@ -586,17 +695,32 @@ static const char *get_message_user_tag(CamelFolder *folder, const char *uid, co
 const char *
 camel_folder_get_message_user_tag (CamelFolder *folder, const char *uid,  const char *name)
 {
+	const char *ret;
+
 	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), 0);
 
-	return CF_CLASS (folder)->get_message_user_tag (folder, uid, name);
-}
+#warning "get_message_user_tag() needs to copy the tag contents"
+	ret = CF_CLASS (folder)->get_message_user_tag (folder, uid, name);
 
+	return ret;
+}
 
 static void
 set_message_user_tag(CamelFolder *folder, const char *uid, const char *name, const char *value)
 {
-	g_warning ("CamelFolder::set_message_user_tag not implemented "
-		   "for `%s'", camel_type_to_name (CAMEL_OBJECT_GET_TYPE (folder)));
+	CamelMessageInfo *info;
+
+	g_return_if_fail(folder->summary != NULL);
+
+	info = camel_folder_summary_uid(folder->summary, uid);
+	g_return_if_fail(info != NULL);
+
+	if (camel_tag_set(&info->user_tags, name, value)) {
+		info->flags |= CAMEL_MESSAGE_FOLDER_FLAGGED;
+		camel_folder_summary_touch(folder->summary);
+		camel_object_trigger_event(CAMEL_OBJECT(folder), "message_changed", (char *) uid);
+	}
+	camel_folder_summary_info_free(folder->summary, info);
 }
 
 /**
@@ -618,13 +742,12 @@ camel_folder_set_message_user_tag (CamelFolder *folder, const char *uid, const c
 	CF_CLASS (folder)->set_message_user_tag (folder, uid, name, value);
 }
 
-
-static const CamelMessageInfo *
+static CamelMessageInfo *
 get_message_info (CamelFolder *folder, const char *uid)
 {
-	g_warning ("CamelFolder::get_message_info not implemented for `%s'",
-		   camel_type_to_name (CAMEL_OBJECT_GET_TYPE (folder)));
-	return NULL;
+	g_return_val_if_fail(folder->summary != NULL, NULL);
+
+	return camel_folder_summary_uid(folder->summary, uid);
 }
 
 /**
@@ -632,17 +755,48 @@ get_message_info (CamelFolder *folder, const char *uid)
  * @folder: a CamelFolder
  * @uid: the uid of a message
  *
- * Return value: the summary information for the indicated message
+ * Retrieve the CamelMessageInfo for the specified @uid.  This return
+ * must be freed using free_message_info().
+ *
+ * Return value: the summary information for the indicated message, or NULL
+ * if the uid does not exist.
  **/
-const CamelMessageInfo *
+CamelMessageInfo *
 camel_folder_get_message_info (CamelFolder *folder, const char *uid)
 {
+	CamelMessageInfo *ret;
+
 	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), NULL);
 	g_return_val_if_fail (uid != NULL, NULL);
 
-	return CF_CLASS (folder)->get_message_info (folder, uid);
+	ret = CF_CLASS (folder)->get_message_info (folder, uid);
+
+	return ret;
 }
 
+static void
+free_message_info (CamelFolder *folder, CamelMessageInfo *info)
+{
+	g_return_if_fail(folder->summary != NULL);
+
+	camel_folder_summary_info_free(folder->summary, info);
+}
+
+/**
+ * camel_folder_free_message_info:
+ * @folder: 
+ * @info: 
+ * 
+ * Free (unref) a CamelMessageInfo, previously obtained with get_message_info().
+ **/
+void
+camel_folder_free_message_info(CamelFolder *folder, CamelMessageInfo *info)
+{
+	g_return_if_fail(CAMEL_IS_FOLDER (folder));
+	g_return_if_fail(info != NULL);
+
+	CF_CLASS (folder)->free_message_info(folder, info);
+}
 
 /* TODO: is this function required anyway? */
 gboolean
@@ -677,21 +831,45 @@ get_message (CamelFolder *folder, const gchar *uid, CamelException *ex)
  * Return value: Message corresponding to the UID
  **/
 CamelMimeMessage *
-camel_folder_get_message (CamelFolder *folder, const gchar *uid,
-			  CamelException *ex)
+camel_folder_get_message (CamelFolder *folder, const gchar *uid, CamelException *ex)
 {
+	CamelMimeMessage *ret;
+
 	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), NULL);
 
-	return CF_CLASS (folder)->get_message (folder, uid, ex);
+	CAMEL_FOLDER_LOCK(folder, lock);
+
+	ret = CF_CLASS (folder)->get_message (folder, uid, ex);
+
+	CAMEL_FOLDER_UNLOCK(folder, lock);
+
+	return ret;
 }
 
-
 static GPtrArray *
-get_uids (CamelFolder *folder)
+get_uids(CamelFolder *folder)
 {
-	g_warning ("CamelFolder::get_uids not implemented for `%s'",
-		   camel_type_to_name (CAMEL_OBJECT_GET_TYPE (folder)));
-	return NULL;
+	GPtrArray *array;
+	int i, count;
+
+	array = g_ptr_array_new();
+
+	g_return_val_if_fail(folder->summary != NULL, array);
+
+	count = camel_folder_summary_count(folder->summary);
+	g_ptr_array_set_size(array, count);
+	for (i=0; i<count; i++) {
+		CamelMessageInfo *info = camel_folder_summary_index(folder->summary, i);
+
+		if (info) {
+			array->pdata[i] = g_strdup(camel_message_info_uid(info));
+			camel_folder_summary_info_free(folder->summary, info);
+		} else {
+			array->pdata[i] = g_strdup("xx unknown uid xx");
+		}
+	}
+
+	return array;
 }
 
 /**
@@ -709,17 +887,23 @@ get_uids (CamelFolder *folder)
 GPtrArray *
 camel_folder_get_uids (CamelFolder *folder)
 {
+	GPtrArray *ret;
+
 	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), NULL);
 
-	return CF_CLASS (folder)->get_uids (folder);
-}
+	ret = CF_CLASS (folder)->get_uids (folder);
 
+	return ret;
+}
 
 static void
 free_uids (CamelFolder *folder, GPtrArray *array)
 {
-	g_warning ("CamelFolder::free_uids not implemented for `%s'",
-		   camel_type_to_name (CAMEL_OBJECT_GET_TYPE (folder)));
+	int i;
+
+	for (i=0; i<array->len; i++)
+		g_free(array->pdata[i]);
+	g_ptr_array_free(array, TRUE);
 }
 
 /**
@@ -737,13 +921,20 @@ camel_folder_free_uids (CamelFolder *folder, GPtrArray *array)
 	CF_CLASS (folder)->free_uids (folder, array);
 }
 
-
 static GPtrArray *
-get_summary (CamelFolder *folder)
+get_summary(CamelFolder *folder)
 {
-	g_warning ("CamelFolder::get_summary not implemented for `%s'",
-		   camel_type_to_name (CAMEL_OBJECT_GET_TYPE (folder)));
-	return NULL;
+	GPtrArray *res = g_ptr_array_new();
+	int i, count;
+
+	g_return_val_if_fail(folder->summary != NULL, res);
+
+	count = camel_folder_summary_count(folder->summary);
+	g_ptr_array_set_size(res, count);
+	for (i=0;i<count;i++)
+		res->pdata[i] = camel_folder_summary_index(folder->summary, i);
+
+	return res;
 }
 
 /**
@@ -759,17 +950,26 @@ get_summary (CamelFolder *folder)
 GPtrArray *
 camel_folder_get_summary (CamelFolder *folder)
 {
+	GPtrArray *ret;
+
 	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), NULL);
 
-	return CF_CLASS (folder)->get_summary (folder);
+	ret = CF_CLASS (folder)->get_summary (folder);
+
+	return ret;
 }
 
-
 static void
-free_summary (CamelFolder *folder, GPtrArray *array)
+free_summary(CamelFolder *folder, GPtrArray *summary)
 {
-	g_warning ("CamelFolder::free_summary not implemented for `%s'",
-		   camel_type_to_name (CAMEL_OBJECT_GET_TYPE (folder)));
+	int i;
+
+	g_return_if_fail(folder->summary != NULL);
+
+	for (i=0;i<summary->len;i++)
+		camel_folder_summary_info_free(folder->summary, summary->pdata[i]);
+
+	g_ptr_array_free(summary, TRUE);
 }
 
 /**
@@ -826,10 +1026,16 @@ GPtrArray *
 camel_folder_search_by_expression (CamelFolder *folder, const char *expression,
 				   CamelException *ex)
 {
+	GPtrArray *ret;
+
 	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), NULL);
 	g_return_val_if_fail (folder->has_search_capability, NULL);
 
-	return CF_CLASS (folder)->search_by_expression (folder, expression, ex);
+	/* NOTE: that it is upto the callee to lock */
+
+	ret = CF_CLASS (folder)->search_by_expression (folder, expression, ex);
+
+	return ret;
 }
 
 static void
@@ -855,25 +1061,28 @@ camel_folder_search_free (CamelFolder *folder, GPtrArray *result)
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 	g_return_if_fail (folder->has_search_capability);
 
-	return CF_CLASS (folder)->search_free (folder, result);
+	/* NOTE: upto the callee to lock */
+	CF_CLASS (folder)->search_free (folder, result);
 }
 
 
 static void
-copy_message_to (CamelFolder *source, const char *uid, CamelFolder *dest,
-		 CamelException *ex)
+copy_message_to (CamelFolder *source, const char *uid, CamelFolder *dest, CamelException *ex)
 {
 	CamelMimeMessage *msg;
-	const CamelMessageInfo *info;
+	CamelMessageInfo *info;
 
 	/* Default implementation. */
 	
-	msg = camel_folder_get_message (source, uid, ex);
+	/* we alredy have the lock, dont deadlock */
+	msg = CF_CLASS(source)->get_message(source, uid, ex);
 	if (!msg)
 		return;
-	info = camel_folder_get_message_info (source, uid);
+	info = CF_CLASS(source)->get_message_info (source, uid);
 	camel_folder_append_message (dest, msg, info, ex);
 	camel_object_unref (CAMEL_OBJECT (msg));
+	if (info)
+		CF_CLASS(source)->free_message_info(source, info);
 }
 
 /**
@@ -900,11 +1109,14 @@ camel_folder_copy_message_to (CamelFolder *source, const char *uid,
 
 	g_warning("CamelFolder.copy_message_to() is a deprecated api");
 
-	if (source->parent_store == dest->parent_store) {
-		return CF_CLASS (source)->copy_message_to (source, uid,
-							   dest, ex);
-	} else
-		return copy_message_to (source, uid, dest, ex);
+	CAMEL_FOLDER_LOCK(source, lock);
+
+	if (source->parent_store == dest->parent_store)
+		return CF_CLASS (source)->copy_message_to (source, uid, dest, ex);
+	else
+		copy_message_to (source, uid, dest, ex);
+
+	CAMEL_FOLDER_UNLOCK(source, lock);
 }
 
 
@@ -913,19 +1125,21 @@ move_message_to (CamelFolder *source, const char *uid,
 		 CamelFolder *dest, CamelException *ex)
 {
 	CamelMimeMessage *msg;
-	const CamelMessageInfo *info;
+	CamelMessageInfo *info;
 
 	/* Default implementation. */
 	
-	msg = camel_folder_get_message (source, uid, ex);
+	msg = CF_CLASS(source)->get_message (source, uid, ex);
 	if (!msg)
 		return;
-	info = camel_folder_get_message_info (source, uid);
+	info = CF_CLASS(source)->get_message_info (source, uid);
 	camel_folder_append_message (dest, msg, info, ex);
 	camel_object_unref (CAMEL_OBJECT (msg));
-	if (camel_exception_is_set(ex))
-		return;
-	camel_folder_delete_message (source, uid);
+	if (!camel_exception_is_set(ex))
+		CF_CLASS(source)->set_message_flags(source, uid, CAMEL_MESSAGE_DELETED, CAMEL_MESSAGE_DELETED);
+
+	if (info)
+		CF_CLASS(source)->free_message_info(source, info);
 }
 
 /**
@@ -939,9 +1153,6 @@ move_message_to (CamelFolder *source, const char *uid,
  * @dest folders have the same parent_store, this may be more efficient
  * than a camel_folder_append_message() followed by
  * camel_folder_delete_message().
- *
- * FIXME: This call should be depracated, since append_message() can
- * determine this from the message itself.
  **/
 void
 camel_folder_move_message_to (CamelFolder *source, const char *uid,
@@ -953,17 +1164,24 @@ camel_folder_move_message_to (CamelFolder *source, const char *uid,
 
 	g_warning("CamelFolder.move_message_to() is a deprecated api");
 
-	if (source->parent_store == dest->parent_store) {
-		return CF_CLASS (source)->move_message_to (source, uid,
-							   dest, ex);
-	} else
-		return move_message_to (source, uid, dest, ex);
+	CAMEL_FOLDER_LOCK(source, lock);
+
+	if (source->parent_store == dest->parent_store)
+		CF_CLASS (source)->move_message_to (source, uid, dest, ex);
+	else
+		move_message_to (source, uid, dest, ex);
+
+	CAMEL_FOLDER_UNLOCK(source, lock);
 }
 
 static void
 freeze (CamelFolder *folder)
 {
-	folder->frozen++;
+	CAMEL_FOLDER_LOCK(folder, change_lock);
+
+	folder->priv->frozen++;
+
+	CAMEL_FOLDER_UNLOCK(folder, change_lock);
 }
 
 /**
@@ -989,23 +1207,25 @@ thaw (CamelFolder * folder)
 	int i;
 	CamelFolderChangeInfo *info;
 
-	folder->frozen--;
-	if (folder->frozen != 0)
-		return;
+	CAMEL_FOLDER_LOCK(folder, change_lock);
 
-	/* If we have more or less messages, do a folder changed, otherwise just
-	   do a message changed for each one.
-	   TODO: message_changed is now probably irrelevant and not required */
-	info = folder->changed_frozen;
-	if (info->uid_added->len > 0 || info->uid_removed->len > 0) {
-		camel_object_trigger_event(CAMEL_OBJECT(folder), "folder_changed", info);
-	} else if (info->uid_changed->len > 0) {
-		for (i=0;i<info->uid_changed->len;i++) {
-			camel_object_trigger_event(CAMEL_OBJECT(folder), "message_changed", info->uid_changed->pdata[i]);
+	folder->priv->frozen--;
+	if (folder->priv->frozen == 0) {
+		/* If we have more or less messages, do a folder changed, otherwise just
+		   do a message changed for each one.
+		   TODO: message_changed is now probably irrelevant and not required */
+		info = folder->priv->changed_frozen;
+		if (info->uid_added->len > 0 || info->uid_removed->len > 0) {
+			camel_object_trigger_event(CAMEL_OBJECT(folder), "folder_changed", info);
+		} else if (info->uid_changed->len > 0) {
+			for (i=0;i<info->uid_changed->len;i++) {
+				camel_object_trigger_event(CAMEL_OBJECT(folder), "message_changed", info->uid_changed->pdata[i]);
+			}
 		}
+		camel_folder_change_info_clear(info);
 	}
 
-	camel_folder_change_info_clear(info);
+	CAMEL_FOLDER_UNLOCK(folder, change_lock);
 }
 
 /**
@@ -1019,7 +1239,7 @@ void
 camel_folder_thaw (CamelFolder *folder)
 {
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
-	g_return_if_fail (folder->frozen != 0);
+	g_return_if_fail (folder->priv->frozen != 0);
 
 	CF_CLASS (folder)->thaw (folder);
 }
@@ -1031,29 +1251,40 @@ folder_changed (CamelObject *obj, gpointer event_data)
 {
 	CamelFolder *folder = CAMEL_FOLDER (obj);
 	CamelFolderChangeInfo *changed = event_data;
+	gboolean ret = TRUE;
 
-	if (folder->frozen) {
+	if (folder->priv->frozen) {
+		CAMEL_FOLDER_LOCK(folder, change_lock);
+
 		if (changed != NULL)
-			camel_folder_change_info_cat(folder->changed_frozen, changed);
+			camel_folder_change_info_cat(folder->priv->changed_frozen, changed);
 		else
 			g_warning("Class %s is passing NULL to folder_changed event",
 				  camel_type_to_name (CAMEL_OBJECT_GET_TYPE (folder)));
-		return FALSE;
+		ret = FALSE;
+
+		CAMEL_FOLDER_UNLOCK(folder, change_lock);
 	}
-	return TRUE;
+
+	return ret;
 }
 
 static gboolean
 message_changed (CamelObject *obj, /*const char *uid*/gpointer event_data)
 {
 	CamelFolder *folder = CAMEL_FOLDER (obj);
+	gboolean ret = TRUE;
 
-	if (folder->frozen) {
-		camel_folder_change_info_change_uid(folder->changed_frozen, (char *)event_data);
-		return FALSE;
+	if (folder->priv->frozen) {
+		CAMEL_FOLDER_LOCK(folder, change_lock);
+	
+		camel_folder_change_info_change_uid(folder->priv->changed_frozen, (char *)event_data);
+		ret = FALSE;
+
+		CAMEL_FOLDER_UNLOCK(folder, change_lock);
 	}
 
-	return TRUE;
+	return ret;
 }
 
 
@@ -1112,6 +1343,9 @@ camel_folder_free_deep (CamelFolder *folder, GPtrArray *array)
  * @void: 
  * 
  * Create a new folder change info structure.
+ *
+ * Change info structures are not MT-SAFE and must be
+ * locked for exclusive access externally.
  * 
  * Return value: 
  **/

@@ -27,7 +27,21 @@
 #include <config.h>
 #include "camel-exception.h"
 
+/* i dont know why gthread_mutex stuff even exists, this is easier */
 
+/* also, i'm not convinced mutexes are needed here.  But it
+   doesn't really hurt either */
+#ifdef ENABLE_THREADS
+#include <pthread.h>
+
+static pthread_mutex_t exception_mutex = PTHREAD_MUTEX_INITIALIZER;
+
+#define CAMEL_EXCEPTION_LOCK(e) (pthread_mutex_lock(&exception_mutex))
+#define CAMEL_EXCEPTION_UNLOCK(e) (pthread_mutex_unlock(&exception_mutex))
+#else
+#define CAMEL_EXCEPTION_LOCK(e) 
+#define CAMEL_EXCEPTION_UNLOCK(e) 
+#endif
 
 /**
  * camel_exception_new: allocate a new exception object. 
@@ -83,19 +97,18 @@ camel_exception_init (CamelException *ex)
 void 
 camel_exception_clear (CamelException *exception)
 {
-	if (!exception) return;
-	
-	/* free the description text */
+	if (!exception)
+		return;
+
+	CAMEL_EXCEPTION_LOCK(exception);
+
 	if (exception->desc)
 		g_free (exception->desc);
 	exception->desc = NULL;
-
-	/* set the Exception Id to NULL */
 	exception->id = CAMEL_EXCEPTION_NONE;
+
+	CAMEL_EXCEPTION_UNLOCK(exception);
 }
-
-
-
 
 /**
  * camel_exception_free: Free an exception 
@@ -108,12 +121,11 @@ camel_exception_clear (CamelException *exception)
 void 
 camel_exception_free (CamelException *exception)
 {
-	if (!exception) return;
+	if (!exception)
+		return;
 	
-	/* free the description text */
 	if (exception->desc)
 		g_free (exception->desc);
-       	/* free the exeption itself */
 	g_free (exception);
 }
 
@@ -137,17 +149,19 @@ camel_exception_set (CamelException *ex,
 		     ExceptionId id,
 		     const char *desc)
 {
-	/* if no exception is given, do nothing */
-	if (!ex) return;
+	if (!ex)
+		return;
+
+	CAMEL_EXCEPTION_LOCK(exception);
 
 	ex->id = id;
 
-	/* remove the previous exception description */
 	if (ex->desc)
-		g_free (ex->desc);
-	ex->desc = g_strdup (desc);
-}
+		g_free(ex->desc);
+	ex->desc = g_strdup(desc);
 
+	CAMEL_EXCEPTION_UNLOCK(exception);
+}
 
 /**
  * camel_exception_setv: set an exception 
@@ -178,25 +192,22 @@ camel_exception_setv (CamelException *ex,
 {
 	va_list args;
 	
-	/* if no exception is given, do nothing */
-	if (!ex) return;
+	if (!ex)
+		return;
+
+	CAMEL_EXCEPTION_LOCK(exception);
 	
 	if (ex->desc)
 		g_free (ex->desc);
 	
-	/* create the temporary exception string */
 	va_start(args, format);
 	ex->desc = g_strdup_vprintf (format, args);
 	va_end (args);
 
 	ex->id = id;
+
+	CAMEL_EXCEPTION_UNLOCK(exception);
 }
-
-
-
-
-
-
 
 /**
  * camel_exception_xfer: transfer an exception
@@ -212,6 +223,8 @@ void
 camel_exception_xfer (CamelException *ex_dst,
 		      CamelException *ex_src)
 {
+	CAMEL_EXCEPTION_LOCK(exception);
+
 	if (ex_dst->desc)
 		g_free (ex_dst->desc);
 
@@ -220,13 +233,9 @@ camel_exception_xfer (CamelException *ex_dst,
 
 	ex_src->desc = NULL;
 	ex_src->id = CAMEL_EXCEPTION_NONE;
+
+	CAMEL_EXCEPTION_UNLOCK(exception);
 }
-
-
-
-
-
-
 
 /**
  * camel_exception_get_id: get the exception id
@@ -246,9 +255,6 @@ camel_exception_get_id (CamelException *ex)
 		return CAMEL_EXCEPTION_NONE;
 }
 
-
-
-
 /**
  * camel_exception_get_description: get the description of an exception.
  * @ex: The exception object
@@ -262,8 +268,10 @@ camel_exception_get_id (CamelException *ex)
 const gchar *
 camel_exception_get_description (CamelException *ex)
 {
+	char *ret = NULL;
+
 	if (ex)
-		return ex->desc;
-	else 
-		return NULL;
+		ret = ex->desc;
+
+	return ret;
 }
