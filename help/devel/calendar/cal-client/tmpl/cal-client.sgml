@@ -61,15 +61,6 @@ GTK+ object for communication with personal calendar server.
     destroyed.
   </para>
 
-@CAL_CLIENT_LOAD_SUCCESS: Indicates a successful load or create
-  operation; the corresponding calendar is ready for use.
-@CAL_CLIENT_LOAD_ERROR: Indicates an error while loading or creating
-  the calendar.
-@CAL_CLIENT_LOAD_IN_USE: Indicates that a create request failed
-  because the specified calendar was already being used by another
-  client.
-@CAL_CLIENT_LOAD_METHOD_NOT_SUPPORTED: Indicates an error due to
-  trying to load a calendar for which a backend type is not present.
 
 <!-- ##### ENUM CalClientGetStatus ##### -->
   <para>
@@ -77,21 +68,12 @@ GTK+ object for communication with personal calendar server.
     function.
   </para>
 
-@CAL_CLIENT_GET_SUCCESS: Indicates a successful get operation.
-@CAL_CLIENT_GET_NOT_FOUND: Indicates that the requested object was
-  not found.
-@CAL_CLIENT_GET_SYNTAX_ERROR: Indicates a syntax error when parsing
-  the requested object.  This could indicate a bug in the calendar
-  client libraries or in the Wombat server.
 
 <!-- ##### ENUM CalClientChangeType ##### -->
 <para>
 
 </para>
 
-@CAL_CLIENT_CHANGE_ADDED: 
-@CAL_CLIENT_CHANGE_MODIFIED: 
-@CAL_CLIENT_CHANGE_DELETED: 
 
 <!-- ##### FUNCTION cal_client_new ##### -->
 <para>

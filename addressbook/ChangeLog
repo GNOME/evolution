@@ -1,5 +1,8 @@
 2001-01-09  Miguel de Icaza  <miguel@gnu.org>
 
+	* gui/widgets/Makefile.am (minicard_widget_test_LDADD): Put GNOME
+	libraries at the end to make the thing compile.
+
 	* printing/Makefile.am: Order LDADD flags correctly so it compiles.
 
 2001-01-09  Chris Toshok  <toshok@helixcode.com>

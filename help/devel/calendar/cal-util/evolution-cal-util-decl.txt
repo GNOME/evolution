@@ -64,7 +64,7 @@ typedef enum {
 	CAL_COMPONENT_CLASS_UNKNOWN
 } CalComponentClassification;
 </ENUM>
-<TYPEDEF>
+<STRUCT>
 <NAME>CalComponentDateTime</NAME>
 typedef struct {
 	/* Actual date/time value */
@@ -73,7 +73,7 @@ typedef struct {
 	/* Timezone ID */
 	const char *tzid;
 } CalComponentDateTime;
-</TYPEDEF>
+</STRUCT>
 <ENUM>
 <NAME>CalComponentPeriodType</NAME>
 typedef enum {
@@ -81,7 +81,7 @@ typedef enum {
 	CAL_COMPONENT_PERIOD_DURATION
 } CalComponentPeriodType;
 </ENUM>
-<TYPEDEF>
+<STRUCT>
 <NAME>CalComponentPeriod</NAME>
 typedef struct {
 	CalComponentPeriodType type;
@@ -93,8 +93,8 @@ typedef struct {
 		struct icaldurationtype duration;
 	} u;
 } CalComponentPeriod;
-</TYPEDEF>
-<TYPEDEF>
+</STRUCT>
+<STRUCT>
 <NAME>CalComponentText</NAME>
 typedef struct {
 	/* Description string */
@@ -103,7 +103,7 @@ typedef struct {
 	/* Alternate representation URI */
 	const char *altrep;
 } CalComponentText;
-</TYPEDEF>
+</STRUCT>
 <ENUM>
 <NAME>CalComponentTransparency</NAME>
 typedef enum {
@@ -129,6 +129,12 @@ struct CalComponent {
 
 	/* Private data */
 	CalComponentPrivate *priv;
+};
+</STRUCT>
+<STRUCT>
+<NAME>CalComponentClass</NAME>
+struct CalComponentClass {
+	GtkObjectClass parent_class;
 };
 </STRUCT>
 <FUNCTION>
@@ -529,7 +535,7 @@ GSList *text_list
 <STRUCT>
 <NAME>CalComponentAlarm</NAME>
 </STRUCT>
-<TYPEDEF>
+<STRUCT>
 <NAME>CalAlarmInstance</NAME>
 typedef struct {
 	/* UID of the alarm that triggered */
@@ -541,8 +547,8 @@ typedef struct {
 	/* Actual event occurrence to which this trigger corresponds */
 	time_t occur;
 } CalAlarmInstance;
-</TYPEDEF>
-<TYPEDEF>
+</STRUCT>
+<STRUCT>
 <NAME>CalComponentAlarms</NAME>
 typedef struct {
 	/* The actual component */
@@ -551,7 +557,7 @@ typedef struct {
 	/* List of CalAlarmInstance structures */
 	GSList *alarms;
 } CalComponentAlarms;
-</TYPEDEF>
+</STRUCT>
 <ENUM>
 <NAME>CalAlarmAction</NAME>
 typedef enum {
@@ -572,7 +578,7 @@ typedef enum {
 	CAL_ALARM_TRIGGER_ABSOLUTE
 } CalAlarmTriggerType;
 </ENUM>
-<TYPEDEF>
+<STRUCT>
 <NAME>CalAlarmTrigger</NAME>
 typedef struct {
 	CalAlarmTriggerType type;
@@ -582,7 +588,7 @@ typedef struct {
 		struct icaltimetype abs_time;
 	} u;
 } CalAlarmTrigger;
-</TYPEDEF>
+</STRUCT>
 <FUNCTION>
 <NAME>cal_component_has_alarms</NAME>
 <RETURNS>gboolean  </RETURNS>
@@ -646,14 +652,14 @@ CalComponent *comp,
 <RETURNS>void 	</RETURNS>
 CalComponent		*comp,time_t			 start,time_t			 end,CalRecurInstanceFn	 cb,gpointer                cb_data
 </FUNCTION>
-<TYPEDEF>
+<STRUCT>
 <NAME>CalObjInstance</NAME>
 typedef struct {
 	char *uid;			/* UID of the object */
 	time_t start;			/* Start time of instance */
 	time_t end;			/* End time of instance */
 } CalObjInstance;
-</TYPEDEF>
+</STRUCT>
 <FUNCTION>
 <NAME>cal_obj_instance_list_free</NAME>
 <RETURNS>void  </RETURNS>

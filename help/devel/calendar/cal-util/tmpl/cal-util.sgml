@@ -14,7 +14,7 @@ Miscellaneous utilities
 
 </para>
 
-<!-- ##### TYPEDEF CalObjInstance ##### -->
+<!-- ##### STRUCT CalObjInstance ##### -->
 <para>
 
 </para>
@@ -33,10 +33,6 @@ Miscellaneous utilities
 
 </para>
 
-@CALOBJ_TYPE_EVENT: 
-@CALOBJ_TYPE_TODO: 
-@CALOBJ_TYPE_JOURNAL: 
-@CALOBJ_TYPE_ANY: 
 
 <!-- ##### FUNCTION cal_obj_uid_list_free ##### -->
 <para>

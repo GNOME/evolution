@@ -53,10 +53,7 @@ minicard_test_SOURCES = 	\
 	test-minicard.c
 
 minicard_test_LDADD =							\
-	$(EXTRA_GNOME_LIBS)						\
 	libeminicard.a							\
-	$(BONOBO_GNOME_LIBS)						\
-	$(GNOME_PRINT_LIBS)						\
 	$(top_builddir)/addressbook/backend/ebook/libebook.la		\
 	$(top_builddir)/e-util/libeutil.la				\
 	$(top_builddir)/libversit/libversit.la				\
@@ -64,15 +61,15 @@ minicard_test_LDADD =							\
 	$(top_builddir)/addressbook/contact-editor/libecontacteditor.a	\
 	$(top_builddir)/addressbook/printing/libecontactprint.a		\
 	$(top_builddir)/widgets/misc/libemiscwidgets.a 			\
-	$(top_builddir)/e-util/libeutil.la
+	$(top_builddir)/e-util/libeutil.la				\
+	$(EXTRA_GNOME_LIBS)						\
+	$(BONOBO_GNOME_LIBS)						\
+	$(GNOME_PRINT_LIBS)
 
 reflow_test_SOURCES = 	\
 	test-reflow.c
 
 reflow_test_LDADD =							\
-	$(EXTRA_GNOME_LIBS)						\
-	$(BONOBO_GNOME_LIBS)						\
-	$(GNOME_PRINT_LIBS)						\
 	libeminicard.a							\
 	$(top_builddir)/addressbook/backend/ebook/libebook.la		\
 	$(top_builddir)/e-util/libeutil.la				\
@@ -81,7 +78,10 @@ reflow_test_LDADD =							\
 	$(top_builddir)/addressbook/contact-editor/libecontacteditor.a	\
 	$(top_builddir)/addressbook/printing/libecontactprint.a		\
 	$(top_builddir)/widgets/misc/libemiscwidgets.a 			\
-	$(top_builddir)/e-util/libeutil.la
+	$(top_builddir)/e-util/libeutil.la				\
+	$(EXTRA_GNOME_LIBS)						\
+	$(BONOBO_GNOME_LIBS)						\
+	$(GNOME_PRINT_LIBS)
 
 #minicard_view_test_SOURCES = 	\
 #	test-minicard-view.c
@@ -103,9 +103,6 @@ minicard_widget_test_SOURCES = 	\
 	e-minicard-widget-test.c
 
 minicard_widget_test_LDADD =						\
-	$(EXTRA_GNOME_LIBS)						\
-	$(BONOBO_GNOME_LIBS)						\
-	$(GNOME_PRINT_LIBS)						\
 	libeminicard.a							\
 	$(top_builddir)/addressbook/backend/ebook/libebook.la		\
 	$(top_builddir)/e-util/libeutil.la				\
@@ -114,7 +111,10 @@ minicard_widget_test_LDADD =						\
 	$(top_builddir)/addressbook/contact-editor/libecontacteditor.a	\
 	$(top_builddir)/addressbook/printing/libecontactprint.a		\
 	$(top_builddir)/widgets/misc/libemiscwidgets.a 			\
-	$(top_builddir)/e-util/libeutil.la
+	$(top_builddir)/e-util/libeutil.la				\
+	$(EXTRA_GNOME_LIBS)						\
+	$(BONOBO_GNOME_LIBS)						\
+	$(GNOME_PRINT_LIBS)
 
 gladedir   = $(datadir)/evolution/glade
 glade_DATA = alphabet.glade 

@@ -1,3 +1,16 @@
+<ENUM>
+<NAME>CalClientChangeType</NAME>
+typedef enum {
+	CAL_CLIENT_CHANGE_ADDED = 1 << 0,
+	CAL_CLIENT_CHANGE_MODIFIED = 1 << 1,
+	CAL_CLIENT_CHANGE_DELETED = 1 << 2
+} CalClientChangeType;
+</ENUM>
+<FUNCTION>
+<NAME>cal_client_change_list_free</NAME>
+<RETURNS>void  </RETURNS>
+GList *list
+</FUNCTION>
 <MACRO>
 <NAME>CAL_CLIENT_TYPE</NAME>
 #define CAL_CLIENT_TYPE            (cal_client_get_type ())
@@ -51,6 +64,19 @@ struct CalClient {
 
 	/* Private data */
 	CalClientPrivate *priv;
+};
+</STRUCT>
+<STRUCT>
+<NAME>CalClientClass</NAME>
+struct CalClientClass {
+	GtkObjectClass parent_class;
+
+	/* Notification signals */
+
+	void (* cal_loaded) (CalClient *client, CalClientLoadStatus status);
+
+	void (* obj_updated) (CalClient *client, const char *uid);
+	void (* obj_removed) (CalClient *client, const char *uid);
 };
 </STRUCT>
 <FUNCTION>
@@ -137,17 +163,4 @@ CalClient *client, CalComponent *comp
 <NAME>cal_client_remove_object</NAME>
 <RETURNS>gboolean  </RETURNS>
 CalClient *client, const char *uid
-</FUNCTION>
-<ENUM>
-<NAME>CalClientChangeType</NAME>
-typedef enum {
-	CAL_CLIENT_CHANGE_ADDED = 1 << 0,
-	CAL_CLIENT_CHANGE_MODIFIED = 1 << 1,
-	CAL_CLIENT_CHANGE_DELETED = 1 << 2
-} CalClientChangeType;
-</ENUM>
-<FUNCTION>
-<NAME>cal_client_change_list_free</NAME>
-<RETURNS>void  </RETURNS>
-GList *list
 </FUNCTION>

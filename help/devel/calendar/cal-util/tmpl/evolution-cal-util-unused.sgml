@@ -53,8 +53,7 @@
 
 </para>
 
-@trigger: 
-<!--
+@trigger: <!--
 Local variables:
 mode: sgml
 sgml-parent-document: ("../../../evolution-devel-guide.sgml" "book" "refsect2" "")

@@ -1,2 +1,5 @@
 GtkObject
+  GtkWidget
+    GtkRange
+    GtkContainer
   CalComponent

@@ -83,13 +83,6 @@ RFC 2445 iCalendar component object.
     vtype of an uninitialized #CalComponent.
   </para>
 
-@CAL_COMPONENT_NO_TYPE: Returned from cal_component_get_vtype() to
-  indicate an uninitialized #CalComponent object.
-@CAL_COMPONENT_EVENT: Indicates a VEVENT component.
-@CAL_COMPONENT_TODO: Indicates a VTODO component.
-@CAL_COMPONENT_JOURNAL: Indicates a VJOURNAL component.
-@CAL_COMPONENT_FREEBUSY: Indicates a VFREEBUSY component.
-@CAL_COMPONENT_TIMEZONE: Indicates a VTIMEZOME component.
 
 <!-- ##### ENUM CalComponentField ##### -->
   <para>
@@ -97,25 +90,6 @@ RFC 2445 iCalendar component object.
     are used by the calendar GUI code in &Evolution;.
   </para>
 
-@CAL_COMPONENT_FIELD_CATEGORIES: Component's list of categories.
-@CAL_COMPONENT_FIELD_CLASSIFICATION: Component's classification.
-@CAL_COMPONENT_FIELD_COMPLETED: Component's completion date.
-@CAL_COMPONENT_FIELD_DTEND: Component's ending date.
-@CAL_COMPONENT_FIELD_DTSTART: Component's starting date.
-@CAL_COMPONENT_FIELD_DUE: Component's due date.
-@CAL_COMPONENT_FIELD_GEO: Component's geographical position.
-@CAL_COMPONENT_FIELD_PERCENT: Component's percent completed value.
-@CAL_COMPONENT_FIELD_PRIORITY: Component's priority.
-@CAL_COMPONENT_FIELD_SUMMARY: Component's summary.
-@CAL_COMPONENT_FIELD_TRANSPARENCY: Component's transparency value.
-@CAL_COMPONENT_FIELD_URL: Component's URL.
-@CAL_COMPONENT_FIELD_HAS_ALARMS: Whether the component has any alarms.
-@CAL_COMPONENT_FIELD_ICON: Which icon to use for the component.
-@CAL_COMPONENT_FIELD_COMPLETE: Whether the component has been completed.
-@CAL_COMPONENT_FIELD_RECURRING: Whether the component has any recurrences.
-@CAL_COMPONENT_FIELD_OVERDUE: Whether the component is overdue.
-@CAL_COMPONENT_FIELD_COLOR: Which color to use for the component.
-@CAL_COMPONENT_FIELD_NUM_FIELDS: Total number of enumerated fields.
 
 <!-- ##### ENUM CalComponentClassification ##### -->
   <para>
@@ -123,16 +97,8 @@ RFC 2445 iCalendar component object.
     component.
   </para>
 
-@CAL_COMPONENT_CLASS_NONE: Indicates that no access classification has
-    been set for the corresponding component.
-@CAL_COMPONENT_CLASS_PUBLIC: Public access.
-@CAL_COMPONENT_CLASS_PRIVATE: Private access.
-@CAL_COMPONENT_CLASS_CONFIDENTIAL: Confidential access.
-@CAL_COMPONENT_CLASS_UNKNOWN: Unknown access classification value,
-  used when &libical; returns something #CalComponent does not know
-  about.
 
-<!-- ##### TYPEDEF CalComponentDateTime ##### -->
+<!-- ##### STRUCT CalComponentDateTime ##### -->
   <para>
     This structure defines a date and time value.
   </para>
@@ -143,18 +109,14 @@ RFC 2445 iCalendar component object.
     Defines how a period of time is specified.
   </para>
 
-@CAL_COMPONENT_PERIOD_DATETIME: Indicates that the period is specified
-  by starting and ending date/time values.
-@CAL_COMPONENT_PERIOD_DURATION: Indicates that the period is specified
-  as a starding date/time and a duration value.
 
-<!-- ##### TYPEDEF CalComponentPeriod ##### -->
+<!-- ##### STRUCT CalComponentPeriod ##### -->
   <para>
     This structure defines a period of time.
   </para>
 
 
-<!-- ##### TYPEDEF CalComponentText ##### -->
+<!-- ##### STRUCT CalComponentText ##### -->
   <para>
     This structure defines the value of a text property that may have
     an alternate representation parameter.
@@ -166,10 +128,6 @@ RFC 2445 iCalendar component object.
 
 </para>
 
-@CAL_COMPONENT_TRANSP_NONE: 
-@CAL_COMPONENT_TRANSP_TRANSPARENT: 
-@CAL_COMPONENT_TRANSP_OPAQUE: 
-@CAL_COMPONENT_TRANSP_UNKNOWN: 
 
 <!-- ##### FUNCTION cal_component_gen_uid ##### -->
 <para>
@@ -848,13 +806,13 @@ RFC 2445 iCalendar component object.
 </para>
 
 
-<!-- ##### TYPEDEF CalAlarmInstance ##### -->
+<!-- ##### STRUCT CalAlarmInstance ##### -->
 <para>
 
 </para>
 
 
-<!-- ##### TYPEDEF CalComponentAlarms ##### -->
+<!-- ##### STRUCT CalComponentAlarms ##### -->
 <para>
 
 </para>
@@ -865,24 +823,14 @@ RFC 2445 iCalendar component object.
 
 </para>
 
-@CAL_ALARM_NONE: 
-@CAL_ALARM_AUDIO: 
-@CAL_ALARM_DISPLAY: 
-@CAL_ALARM_EMAIL: 
-@CAL_ALARM_PROCEDURE: 
-@CAL_ALARM_UNKNOWN: 
 
 <!-- ##### ENUM CalAlarmTriggerType ##### -->
 <para>
 
 </para>
 
-@CAL_ALARM_TRIGGER_NONE: 
-@CAL_ALARM_TRIGGER_RELATIVE_START: 
-@CAL_ALARM_TRIGGER_RELATIVE_END: 
-@CAL_ALARM_TRIGGER_ABSOLUTE: 
 
-<!-- ##### TYPEDEF CalAlarmTrigger ##### -->
+<!-- ##### STRUCT CalAlarmTrigger ##### -->
 <para>
 
 </para>
