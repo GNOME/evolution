@@ -596,8 +596,13 @@ e_select_names_destroy (GtkObject *object)
 	gtk_object_unref(GTK_OBJECT(e_select_names->gui));
 	g_hash_table_foreach(e_select_names->children, (GHFunc) e_select_names_child_free, e_select_names);
 	g_hash_table_destroy(e_select_names->children);
+	gtk_object_unref(GTK_OBJECT(e_select_names->without));
+	gtk_object_unref(GTK_OBJECT(e_select_names->adapter));
+	gtk_object_unref(GTK_OBJECT(e_select_names->model));
 
 	g_free(e_select_names->def);
+
+	(*(GTK_OBJECT_CLASS(parent_class))->destroy)(object);
 }
 
 GtkWidget*
