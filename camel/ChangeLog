@@ -1,5 +1,8 @@
 2001-10-30    <NotZed@Ximian.com>
 
+	* providers/local/camel-local-store.c (rename_folder): Dont try to
+	move ibex if we have none.
+
 	* camel-tcp-stream-openssl.c (stream_write): Fixed compilation
 	errors.
 

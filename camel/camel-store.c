@@ -418,7 +418,7 @@ camel_store_rename_folder (CamelStore *store, const char *old_name, const char *
 	struct _get_info info = { store, NULL, old_name, new_name };
 	int i;
 
-	printf("store rename folder '%s' '%s'\n", old_name, new_name);
+	d(printf("store rename folder %s '%s' '%s'\n", ((CamelService *)store)->url->protocol, old_name, new_name));
 
 	if (strcmp(old_name, new_name) == 0)
 		return;

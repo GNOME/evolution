@@ -317,10 +317,12 @@ rename_folder(CamelStore *store, const char *old, const char *new, CamelExceptio
 
 	/* try to rollback failures, has obvious races */
 
+	d(printf("local rename folder '%s' '%s'\n", old, new));
+
 	CAMEL_STORE_LOCK(store, cache_lock);
 	folder = g_hash_table_lookup(store->folders, old);
 	if (folder) {
-		if (ibex_move(folder->index, newibex) == -1)
+		if (folder->index && ibex_move(folder->index, newibex) == -1)
 			goto ibex_failed;
 	} else {
 		if (xrename(old, new, path, ".ibex", TRUE, ex))
@@ -344,9 +346,10 @@ base_failed:
 	xrename(new, old, path, ".ev-summary", TRUE, ex);
 
 summary_failed:
-	if (folder)
-		ibex_move(folder->index, oldibex);
-	else
+	if (folder) {
+		if (folder->index)
+			ibex_move(folder->index, oldibex);
+	} else
 		xrename(new, old, path, ".ibex", TRUE, ex);
 
 ibex_failed:
