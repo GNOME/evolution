@@ -1,3 +1,7 @@
+2004-10-27  JP Rosevear  <jpr@novell.com>
+
+	* Makefile.am: use E_WIDGET instead of GNOME_FULL
+
 2004-10-14  JP Rosevear  <jpr@novell.com>
 
 	* e-pilot-settings.c: fix e-source-option-menu include

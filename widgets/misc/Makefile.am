@@ -4,7 +4,7 @@ INCLUDES =								\
 	-DMAP_DIR=\""$(imagesdir)"\"					\
 	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"			\
 	-DG_LOG_DOMAIN=__FILE__						\
-	$(GNOME_FULL_CFLAGS)
+	$(E_WIDGETS_CFLAGS)
 
 privlib_LTLIBRARIES =	\
 	libemiscwidgets.la
@@ -86,7 +86,7 @@ errordir = $(privdatadir)/errors
 
 libemiscwidgets_la_LIBADD = $(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/a11y/widgets/libevolution-widgets-a11y.la	\
-	$(GNOME_FULL_LIBS)
+	$(E_WIDGETS_LIBS)
 
 noinst_LTLIBRARIES = libefilterbar.la
 
@@ -110,7 +110,7 @@ test_calendar_SOURCES = 	\
 test_calendar_LDADD = 						\
 	./libemiscwidgets.la					\
 	$(top_builddir)/e-util/libeutil.la			\
-	$(GNOME_FULL_LIBS)
+	$(E_WIDGETS_LIBS)
 
 # test-dateedit
 
@@ -120,7 +120,7 @@ test_dateedit_SOURCES = 	\
 test_dateedit_LDADD = 			\
 	./libemiscwidgets.la		\
 	$(top_builddir)/e-util/libeutil.la	\
-	$(GNOME_FULL_LIBS)
+	$(E_WIDGETS_LIBS)
 
 # test-dropdown-button
 
@@ -130,7 +130,7 @@ test_dropdown_button_SOURCES = 	\
 test_dropdown_button_LDADD =	\
 	./libemiscwidgets.la	\
 	$(top_builddir)/e-util/libeutil.la  \
-	$(GNOME_FULL_LIBS)
+	$(E_WIDGETS_LIBS)
 
 # test-multi-config-dialog
 
@@ -140,7 +140,7 @@ test_multi_config_dialog_SOURCES = 	\
 test_multi_config_dialog_LDADD = 	\
 	./libemiscwidgets.la		\
 	$(top_builddir)/e-util/libeutil.la	\
-	$(GNOME_FULL_LIBS)
+	$(E_WIDGETS_LIBS)
 
 # test-title-bar
 
@@ -150,7 +150,7 @@ test_title_bar_SOURCES = 	\
 test_title_bar_LDADD = 		\
 	./libemiscwidgets.la	\
 	$(top_builddir)/e-util/libeutil.la	\
-	$(GNOME_FULL_LIBS)
+	$(E_WIDGETS_LIBS)
 
 test_error_SOURCES = 	\
 	test-error.c
@@ -158,7 +158,7 @@ test_error_SOURCES = 	\
 test_error_LDADD = 				\
 	$(top_builddir)/e-util/libeutil.la	\
 	./libemiscwidgets.la			\
-	$(GNOME_FULL_LIBS)
+	$(E_WIDGETS_LIBS)
 
 
 BUILT_SOURCES = $(MARSHAL_GENERATED) $(error_i18n)
