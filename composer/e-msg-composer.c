@@ -1018,6 +1018,7 @@ typedef struct _AutosaveManager AutosaveManager;
 struct _AutosaveManager {
 	GHashTable *table;
 	guint id;
+	gboolean ask;
 };
 
 static AutosaveManager *am = NULL;
@@ -1115,23 +1116,23 @@ autosave_query_cb (gint reply, gpointer data)
 	*ok = !reply;
 }
 
-static GList *
-autosave_query_load_orphans (AutosaveManager *am, EMsgComposer *composer)
+static void
+autosave_manager_query_load_orphans (AutosaveManager *am, EMsgComposer *composer)
 {
 	GtkWidget *dialog;
 	DIR *dir;
 	struct dirent *d;
-	GList *matches = NULL;
+	GSList *match = NULL;
 	gint len = strlen (AUTOSAVE_SEED);
 	gint pre_len;
 	gint ok;
-
+	
 	/* length of the seed minus the XXXXXX */
 	pre_len = len - 6;
-
+	
 	dir = opendir (g_get_home_dir());
 	if (!dir) {
-		return NULL;
+		return;
 	}
 		    
 	while ((d = readdir (dir))) {
@@ -1145,16 +1146,25 @@ autosave_query_load_orphans (AutosaveManager *am, EMsgComposer *composer)
 			gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
 
 			if (ok) {
-				char *filename = g_strdup_printf ("%s/%s", g_get_home_dir (), d->d_name);
-				EMsgComposer *composer;
-
-				composer = autosave_load_draft (filename);
-
-				g_free (filename);
+				match = g_slist_prepend (match, 
+							 g_strdup_printf ("%s/%s", 
+									  g_get_home_dir(),
+									  d->d_name));
 			}
 		}
 	}
-	return matches;
+	
+	while (match != NULL) {
+		GSList *next = match->next;
+		char *filename = match->data;
+		EMsgComposer *composer;
+		
+		composer = autosave_load_draft (filename);
+		
+		g_free (filename);
+		g_slist_free_1 (match);
+		match = next;
+	}			
 }
 
 static void
@@ -1175,20 +1185,6 @@ autosave_run (gpointer data)
 	return TRUE;
 }
 
-static void
-autosave_start (AutosaveManager *am)
-{
-	if (am->id == 0)
-		am->id = gtk_timeout_add (AUTOSAVE_INTERVAL, autosave_run, am);
-}
-
-static void
-autosave_stop (AutosaveManager *am)
-{
-	if (am->id)
-		gtk_timeout_remove (am->id);
-}
-
 static gboolean
 autosave_init_file (EMsgComposer *composer)
 {
@@ -1199,39 +1195,63 @@ autosave_init_file (EMsgComposer *composer)
 	}
 	return FALSE;
 }
+static void
+autosave_manager_start (AutosaveManager *am)
+{
+	if (am->id == 0)
+		am->id = gtk_timeout_add (AUTOSAVE_INTERVAL, autosave_run, am);
+}
 
 static void
-autosave_register (EMsgComposer *composer) 
+autosave_manager_stop (AutosaveManager *am)
+{
+	if (am->id)
+		gtk_timeout_remove (am->id);
+}
+
+AutosaveManager *
+autosave_manager_new ()
+{
+	AutosaveManager *am;
+	
+	am = g_new (AutosaveManager, 1);
+	am->table = g_hash_table_new (g_str_hash, g_str_equal);
+	am->id = 0;
+	am->ask = TRUE;
+
+	return am;
+}
+
+static void
+autosave_manager_register (AutosaveManager *am, EMsgComposer *composer) 
 {
 	char *key;
 
 	g_return_if_fail (composer != NULL);
 
-	if (am == NULL) {
-		am = g_new (AutosaveManager, 1);
-		am->table = g_hash_table_new (g_str_hash, g_str_equal);
-		am->id = 0;
-	}
-
 	if (autosave_init_file (composer)) {
 		key = g_basename (composer->autosave_file);
 		g_hash_table_insert (am->table, key, composer);
-		autosave_query_load_orphans (am, composer);
+		if (am->ask) {
+			am->ask = FALSE;
+			autosave_manager_query_load_orphans (am, composer);
+		} 
+			
 	}
-	autosave_start (am);
+	autosave_manager_start (am);
 }
 
 static void
-autosave_unregister (EMsgComposer *composer) 
+autosave_manager_unregister (AutosaveManager *am, EMsgComposer *composer) 
 {
 	g_hash_table_remove (am->table, g_basename (composer->autosave_file));
 	
 	close (composer->autosave_fd);
 	unlink (composer->autosave_file);
 	g_free (composer->autosave_file);
-
+	
 	if (g_hash_table_size (am->table) == 0)
-		autosave_stop (am);
+		autosave_manager_stop (am);
 }
 
 static void
@@ -1875,7 +1895,7 @@ destroy (GtkObject *object)
 	
 	g_free (composer->charset);
 
-	autosave_unregister (composer);
+	autosave_manager_unregister (am, composer);
 
 	CORBA_exception_init (&ev);
 	
@@ -2066,7 +2086,10 @@ init (EMsgComposer *composer)
 	composer->autosave_file            = NULL;
 	composer->autosave_fd              = -1;
 
-	autosave_register (composer);
+	if (am == NULL) {
+		am = autosave_manager_new ();
+	}
+	autosave_manager_register (am, composer);
 }
 
 
