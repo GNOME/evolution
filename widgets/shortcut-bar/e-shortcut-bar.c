@@ -191,6 +191,9 @@ e_shortcut_bar_add_group (EShortcutBar *shortcut_bar, gchar *group_name)
 	g_return_val_if_fail (E_IS_SHORTCUT_BAR (shortcut_bar), -1);
 	g_return_val_if_fail (group_name != NULL, -1);
 
+	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
+	gtk_widget_push_visual (gdk_rgb_get_visual ());
+
 	group_num = shortcut_bar->groups->len;
 	g_array_append_val (shortcut_bar->groups, tmp_group);
 
@@ -199,8 +202,12 @@ e_shortcut_bar_add_group (EShortcutBar *shortcut_bar, gchar *group_name)
 
 	group->vscrolled_bar = e_vscrolled_bar_new (NULL);
 	gtk_widget_show (group->vscrolled_bar);
-	gtk_signal_connect (GTK_OBJECT (E_VSCROLLED_BAR (group->vscrolled_bar)->up_button), "pressed", GTK_SIGNAL_FUNC (e_shortcut_bar_stop_editing), shortcut_bar);
-	gtk_signal_connect (GTK_OBJECT (E_VSCROLLED_BAR (group->vscrolled_bar)->down_button), "pressed", GTK_SIGNAL_FUNC (e_shortcut_bar_stop_editing), shortcut_bar);
+	gtk_signal_connect (
+		GTK_OBJECT (E_VSCROLLED_BAR (group->vscrolled_bar)->up_button),
+		"pressed", GTK_SIGNAL_FUNC (e_shortcut_bar_stop_editing), shortcut_bar);
+	gtk_signal_connect (
+		GTK_OBJECT (E_VSCROLLED_BAR (group->vscrolled_bar)->down_button),
+		"pressed", GTK_SIGNAL_FUNC (e_shortcut_bar_stop_editing), shortcut_bar);
 
 	group->icon_bar = e_icon_bar_new ();
 	gtk_widget_show (group->icon_bar);
@@ -246,6 +253,8 @@ e_shortcut_bar_add_group (EShortcutBar *shortcut_bar, gchar *group_name)
 	e_group_bar_add_group (E_GROUP_BAR (shortcut_bar),
 			       group->vscrolled_bar, button, -1);
 
+	gtk_widget_pop_visual ();
+	gtk_widget_pop_colormap ();
 
 	return group_num;
 }
