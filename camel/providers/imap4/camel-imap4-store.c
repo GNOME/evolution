@@ -98,15 +98,16 @@ imap4_hash_folder_name (gconstpointer key)
 		return g_str_hash (key);
 }
 
-static gint
+static int
 imap4_compare_folder_name (gconstpointer a, gconstpointer b)
 {
 	gconstpointer aname = a, bname = b;
-
+	
 	if (g_ascii_strcasecmp (a, "INBOX") == 0)
 		aname = "INBOX";
 	if (g_ascii_strcasecmp (b, "INBOX") == 0)
 		bname = "INBOX";
+	
 	return g_str_equal (aname, bname);
 }
 
