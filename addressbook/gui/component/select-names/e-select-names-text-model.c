@@ -818,12 +818,9 @@ e_select_names_text_model_get_nth_obj (ETextModel *model, gint n, gint *len)
 static void
 e_select_names_text_model_activate_obj (ETextModel *model, gint n)
 {
-#if notyet
-	/* XXX the new ebook doesn't have e_contact_get_book, and we
-	   don't really want to add it, so this can't be implemented
-	   this simply anymore */
 	ESelectNamesModel *source = E_SELECT_NAMES_TEXT_MODEL (model)->source;
 	EContact *contact;
+	EBook *book;
 	gint i;
 
 	i = nth_obj_index (source, n);
@@ -831,19 +828,28 @@ e_select_names_text_model_activate_obj (ETextModel *model, gint n)
 
 	contact = e_select_names_model_get_contact (source, i);
 	g_return_if_fail (contact != NULL);
-	
+
+	/* XXX unfortunately we don't have an e_contact_get_book call
+	   anymore, so we can't query for the addressbook that the
+	   contact came from.  however, since we're bringing up a
+	   read-only contact editor, it really doesn't matter what we
+	   show in the source option menu, does it? */
+	book = e_book_new_system_addressbook (NULL);
+	g_return_if_fail (book != NULL);
+
 	/* present read-only contact editor when someone double clicks from here */
 	if (e_contact_get (contact, E_CONTACT_IS_LIST)) {
 		EContactListEditor *ce;
-		ce = e_addressbook_show_contact_list_editor (e_contact_get_book(contact), contact, FALSE, FALSE);
-		e_contact_list_editor_raise (ce);
+		ce = eab_show_contact_list_editor (book, contact, FALSE, FALSE);
+		eab_editor_raise (EAB_EDITOR (ce));
 	}
 	else {
-		EABContactEditor *ce;
-		ce = e_addressbook_show_contact_editor (e_contact_get_book(contact), contact, FALSE, FALSE);
-		e_contact_editor_raise (ce);
+		EContactEditor *ce;
+		ce = eab_show_contact_editor (book, contact, FALSE, FALSE);
+		eab_editor_raise (EAB_EDITOR (ce));
 	}
-#endif
+
+	g_object_unref (book);
 }
 
 

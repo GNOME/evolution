@@ -1,5 +1,15 @@
 2004-05-25  Chris Toshok  <toshok@ximian.com>
 
+	* gui/component/select-names/e-select-names-text-model.c
+	(e_select_names_text_model_activate_obj): reenable this function,
+	in a slightly broken manner.  we don't have e_contact_get_book
+	anymore (well, we never had it really... but we lost
+	e_card_get_book).  load the system addressbook and supply that to
+	the editors.  shouldn't be a problem, since it's a read-only
+	editor anyway.
+
+2004-05-25  Chris Toshok  <toshok@ximian.com>
+
 	[ fixes #58654 ]
 	
 	* gui/component/select-names/e-select-names.c (update_query):
