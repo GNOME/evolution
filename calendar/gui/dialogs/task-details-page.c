@@ -317,7 +317,8 @@ task_details_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	}
 	e_dialog_option_menu_set (priv->status, status, status_map);
 
-	cal_component_free_percent (percent);
+	if (percent)
+		cal_component_free_percent (percent);
 
 	/* Completed Date. */
 	cal_component_get_completed (comp, &completed);
