@@ -5,6 +5,7 @@ XML_FILES =					\
 	evolution-contact-editor.xml		\
 	evolution-contact-list-editor.xml	\
 	evolution-comp-editor.xml		\
+	evolution-composer-entries.xml		\
 	evolution-event-editor.xml		\
 	evolution-executive-summary.xml		\
 	evolution-mail-message.xml		\
