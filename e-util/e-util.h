@@ -43,8 +43,16 @@ char *e_read_file  (const char *filename);
 gint e_write_file(const char *filename, const char *data, int flags);
 
 void e_marshal_INT__INT_INT_POINTER (GtkObject * object,
-				      GtkSignalFunc func,
-				      gpointer func_data, GtkArg * args);
+				     GtkSignalFunc func,
+				     gpointer func_data, GtkArg * args);
+
+void e_marshal_NONE__OBJECT_DOUBLE_DOUBLE_BOOL (GtkObject * object,
+						GtkSignalFunc func,
+						gpointer func_data, GtkArg * args);
+
+void e_marshal_DOUBLE__OBJECT_DOUBLE_DOUBLE (GtkObject * object,
+					     GtkSignalFunc func,
+					     gpointer func_data, GtkArg * args);
 
 
 #endif /* _E_UTIL_H_ */

@@ -22,6 +22,8 @@ libeutil_la_SOURCES =			\
 	e-html-utils.h			\
 	e-popup-menu.c			\
 	e-popup-menu.h			\
+	e-printable.c			\
+	e-printable.h			\
 	e-setup.c			\
 	e-setup.h			\
 	e-sexp.c			\

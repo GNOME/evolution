@@ -160,22 +160,68 @@ e_write_file(const char *filename, const char *data, int flags)
 	return 0;
 }
 
-typedef gint (*GtkSignal_NONE__INT_INT_POINTER) (GtkObject * object,
-						 gint arg1,
-						 gint arg2,
-						 gpointer arg3,
-						 gpointer user_data);
+typedef gint (*GtkSignal_INT__INT_INT_POINTER) (GtkObject * object,
+						gint arg1,
+						gint arg2,
+						gpointer arg3,
+						gpointer user_data);
 
 void
 e_marshal_INT__INT_INT_POINTER (GtkObject * object,
 				GtkSignalFunc func,
 				gpointer func_data, GtkArg * args)
 {
-	GtkSignal_NONE__INT_INT_POINTER rfunc;
+	GtkSignal_INT__INT_INT_POINTER rfunc;
 	gint *return_val;
 	return_val = GTK_RETLOC_INT (args[3]);
-	rfunc = (GtkSignal_NONE__INT_INT_POINTER) func;
+	rfunc = (GtkSignal_INT__INT_INT_POINTER) func;
 	*return_val = (*rfunc) (object,
-				GTK_VALUE_INT (args[0]),
-				GTK_VALUE_INT (args[1]), GTK_VALUE_POINTER (args[2]), func_data);
+				GTK_VALUE_INT     (args[0]),
+				GTK_VALUE_INT     (args[1]),
+				GTK_VALUE_POINTER (args[2]),
+				func_data);
+}
+
+typedef void (*GtkSignal_NONE__OBJECT_DOUBLE_DOUBLE_BOOL) (GtkObject * object,
+							      GtkObject *arg1,
+							      gdouble arg2,
+							      gdouble arg3,
+							      gboolean arg4,
+							      gpointer user_data);
+
+void
+e_marshal_NONE__OBJECT_DOUBLE_DOUBLE_BOOL (GtkObject * object,
+					   GtkSignalFunc func,
+					   gpointer func_data, GtkArg * args)
+{
+	GtkSignal_NONE__OBJECT_DOUBLE_DOUBLE_BOOL rfunc;
+	rfunc = (GtkSignal_NONE__OBJECT_DOUBLE_DOUBLE_BOOL) func;
+	(*rfunc) (object,
+		  GTK_VALUE_OBJECT (args[0]),
+		  GTK_VALUE_DOUBLE (args[1]),
+		  GTK_VALUE_DOUBLE (args[2]),
+		  GTK_VALUE_BOOL   (args[3]),
+		  func_data);
+}
+
+typedef gdouble (*GtkSignal_DOUBLE__OBJECT_DOUBLE_DOUBLE) (GtkObject * object,
+							   GtkObject *arg1,
+							   gdouble arg2,
+							   gdouble arg3,
+							   gpointer user_data);
+
+void
+e_marshal_DOUBLE__OBJECT_DOUBLE_DOUBLE (GtkObject * object,
+					GtkSignalFunc func,
+					gpointer func_data, GtkArg * args)
+{
+	GtkSignal_DOUBLE__OBJECT_DOUBLE_DOUBLE rfunc;
+	gdouble *return_val;
+	return_val = GTK_RETLOC_DOUBLE (args[3]);
+	rfunc = (GtkSignal_DOUBLE__OBJECT_DOUBLE_DOUBLE) func;
+	*return_val = (*rfunc) (object,
+				GTK_VALUE_OBJECT (args[0]),
+				GTK_VALUE_DOUBLE (args[1]),
+				GTK_VALUE_DOUBLE (args[2]),
+				func_data);
 }

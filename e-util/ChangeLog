@@ -1,3 +1,15 @@
+2000-06-10  Christopher James Lahey  <clahey@helixcode.com>
+
+	* Makefile.am: Added e-printable.c and e-printable.h.
+
+	* e-printable.c, e-printable.h: This new class is a printing
+	context.  Other classes return an EPrintable which represents a
+	context for printing that object.
+
+	* e-util.c, e-util.h: Added
+	e_marshal_NONE__OBJECT_DOUBLE_DOUBLE_BOOL and
+	e_marshal_DOUBLE__OBJECT_DOUBLE_DOUBLE.
+
 2000-06-01  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-util.c: Fixed e_marshal_INT__INT_INT_POINTER.
