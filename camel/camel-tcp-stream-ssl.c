@@ -38,6 +38,8 @@
 #include <prerr.h>
 #include "nss.h"    /* Don't use <> here or it will include the system nss.h instead */
 #include <ssl.h>
+#include <cert.h>
+#include <certdb.h>
 
 #include "camel-tcp-stream-ssl.h"
 #include "camel-session.h"
@@ -333,6 +335,7 @@ ssl_auth_cert (void *data, PRFileDesc *sockfd, PRBool checksig, PRBool is_server
 static SECStatus
 ssl_bad_cert (void *data, PRFileDesc *sockfd)
 {
+	CamelTcpStreamSSL *ssl;
 	CERTCertificate *cert;
 	CamelService *service;
 	char *prompt, *cert_str;
@@ -341,7 +344,8 @@ ssl_bad_cert (void *data, PRFileDesc *sockfd)
 	g_return_val_if_fail (data != NULL, SECFailure);
 	g_return_val_if_fail (CAMEL_IS_SERVICE (data), SECFailure);
 	
-	service = CAMEL_SERVICE (data);
+	ssl = CAMEL_TCP_STREAM_SSL (data);
+	service = ssl->priv->service;
 	
 	cert = SSL_PeerCertificate (sockfd);
 	
@@ -369,8 +373,28 @@ ssl_bad_cert (void *data, PRFileDesc *sockfd)
 	accept = camel_session_alert_user (service->session, CAMEL_SESSION_ALERT_WARNING, prompt, TRUE);
 	g_free (prompt);
 	
-	if (accept)
+	if (accept) {
+		CERTCertificate *temp;
+		CERTCertTrust *trust;
+		PK11SlotInfo *slot;
+		char *nickname;
+		
+		nickname = CERT_MakeCANickname (cert);
+		
+		slot = PK11_GetInternalKeySlot ();
+		
+		trust = PORT_ZAlloc (sizeof (CERTCertTrust));
+		trust->sslFlags = CERTDB_TRUSTED_CA | CERTDB_VALID_CA;
+		
+		temp = CERT_NewTempCertificate (ssl->priv->certdb, &cert->derCert, NULL, PR_FALSE, PR_TRUE);
+		
+		CERT_AddTempCertToPerm (temp, nickname, trust);
+		
+		CERT_DestroyCertificate (temp);
+		PORT_Free (nickname);
+		
 		return SECSuccess;
+	}
 	
 	return SECFailure;
 }
@@ -406,7 +430,7 @@ stream_connect (CamelTcpStream *stream, struct hostent *host, int port)
 	
 	/*SSL_GetClientAuthDataHook (sslSocket, ssl_get_client_auth, (void *)certNickname);*/
 	/*SSL_AuthCertificateHook (ssl_fd, ssl_auth_cert, (void *) CERT_GetDefaultCertDB ());*/
-	SSL_BadCertHook (ssl_fd, ssl_bad_cert, ssl->priv->service);
+	SSL_BadCertHook (ssl_fd, ssl_bad_cert, ssl);
 	
 	ssl->priv->sockfd = ssl_fd;
 	
