@@ -277,6 +277,7 @@ mail/em-folder-view.c
 mail/em-format-html-display.c
 mail/em-format-html-print.c
 mail/em-format-html.c
+mail/em-format-quote.c
 mail/em-format.c
 mail/em-junk-filter.c
 mail/em-mailer-prefs.c
