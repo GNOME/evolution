@@ -1,11 +1,11 @@
-[evolution:card-server]
+[evolution:addressbook-server]
 type=exe
-repo_id=IDL:Evolution/CardServer:1.0
+repo_id=IDL:Evolution/BookFactory:1.0 IDL:Bonobo/Unknown:1.0
 description=The Personal Addressbook Server
 location_info=wombat
 
-[evolution:calendar-factory]
+[evolution:calendar-server]
 type=exe
 repo_id=IDL:Evolution/Calendar/CalFactory:1.0 IDL:Bonobo/Unknown:1.0
-description=Calendar factory for the Personal Calendar Server
+description=The Personal Calendar Server
 location_info=wombat

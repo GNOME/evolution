@@ -1,3 +1,8 @@
+2000-03-28  Matt Loper  <matt@helixcode.com>
+
+	* e-table-text-model.c (e_table_text_model_destroy): made
+	assertion more accurate.
+
 2000-03-27  Michael Meeks  <michael@helixcode.com>
 
 	* e-table-item.c (eti_update): try and fix the convoluted logic.

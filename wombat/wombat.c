@@ -9,6 +9,10 @@
 #include <bonobo.h>
 #include <backend/pas-book-factory.h>
 #include <backend/pas-backend-file.h>
+#include <libgnomevfs/gnome-vfs-init.h>
+#include <libgnorba/gnorba.h>
+#include <cal-factory.h>
+#include <calobj.h>
 
 CORBA_Environment ev;
 CORBA_ORB orb;
@@ -26,20 +30,45 @@ setup_pas (int argc, char **argv)
 	pas_book_factory_activate (factory);
 }
 
-#include "cal-factory.h"
-#include "calobj.h"
+
 static void
 setup_pcs (int argc, char **argv)
 {
-	CalFactory *factory;
-
-	factory = cal_factory_new ();
+	int result;
+	CORBA_Object object;
+	CalFactory *factory = cal_factory_new ();
+	
 	if (!factory) {
 		g_message ("%s: %d: couldn't create a Calendar factory\n",
 			   __FILE__, __LINE__);
 	}
-	
-		
+
+	object = bonobo_object_corba_objref (BONOBO_OBJECT (factory));
+
+	CORBA_exception_init (&ev);
+	result = goad_server_register (CORBA_OBJECT_NIL,
+				       object,
+				       "evolution:calendar-factory",
+				       "server",
+				       &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION || result == -1) {
+
+		g_message ("create_cal_factory(): "
+			   "could not register the calendar factory");
+		bonobo_object_unref (BONOBO_OBJECT (factory));
+		CORBA_exception_free (&ev);
+
+	} else if (result == -2) {
+
+		g_message ("create_cal_factory(): "
+			   "a calendar factory is already registered");
+		bonobo_object_unref (BONOBO_OBJECT (factory));
+		CORBA_exception_free (&ev);
+
+	}
+
+	CORBA_exception_free (&ev);	
 }
 
 static void
@@ -47,7 +76,6 @@ setup_config (int argc, char **argv)
 {
 }
 
-#include <libgnomevfs/gnome-vfs-init.h>
 static void
 setup_vfs (int argc, char **argv)
 {
@@ -57,7 +85,7 @@ setup_vfs (int argc, char **argv)
 	}
 }
 
-#include <libgnorba/gnorba.h>
+
 static void
 init_bonobo (int argc, char **argv)
 {

@@ -109,8 +109,7 @@ e_table_text_model_destroy (GtkObject *object)
 
 	model = E_TABLE_TEXT_MODEL (object);
 
-	g_assert (model->model);
-	g_assert (GTK_IS_OBJECT (model->model));
+	g_assert (!model->model || GTK_IS_OBJECT (model->model));
 	
 	if (model->cell_changed_signal_id)
 		gtk_signal_disconnect(GTK_OBJECT(model->model), 

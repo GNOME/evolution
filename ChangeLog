@@ -1,5 +1,10 @@
 2000-03-28  Matt Loper  <matt@helixcode.com>
+	* wombat/Makefile.am: new file.
 
+	* wombat/wombat.gnorba: Cleaned up.
+
+	* wombat/wombat.c (setup_pcs): filled in the rest.
+	
 	* Makefile.am: added wombat.
 
 	* wombat/wombat.gnorba: new file.
