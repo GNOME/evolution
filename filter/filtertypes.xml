@@ -278,7 +278,7 @@
     <option value="not exists">
      <title>does not exist</title>
      <code>
-	(match-all (not (header-exists ${header-field}))
+	(match-all (not (header-exists ${header-field})))
      </code>
     </option>
     <option value="matches soundex">
