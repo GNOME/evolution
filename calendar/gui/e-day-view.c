@@ -1,8 +1,9 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
 /*
- * Author :
+ * Authors :
  *  Damon Chaplin <damon@helixcode.com>
+ *  Rodrigo Moya <rodrigo@ximian.com>
  *
  * Copyright 1999, Helix Code, Inc.
  *
@@ -404,8 +405,23 @@ static gboolean e_day_view_set_event_font_cb	(EDayView	*day_view,
 						 gint		 event_num,
 						 gpointer	 data);
 
+static void selection_clear_event (GtkWidget *invisible,
+				   GdkEventSelection *event,
+				   EDayView *day_view);
+static void selection_received (GtkWidget *invisible,
+				GtkSelectionData *selection_data,
+				guint time,
+				EDayView *day_view);
+static void selection_get (GtkWidget *invisible,
+			   GtkSelectionData *selection_data,
+			   guint info,
+			   guint time_stamp,
+			   EDayView *day_view);
+static void invisible_destroyed (GtkWidget *invisible, EDayView *day_view);
+
 
 static GtkTableClass *parent_class;
+static GdkAtom clipboard_atom = GDK_NONE;
 
 
 GtkType
@@ -453,6 +469,10 @@ e_day_view_class_init (EDayViewClass *class)
 	widget_class->focus_in_event	= e_day_view_focus_in;
 	widget_class->focus_out_event	= e_day_view_focus_out;
 	widget_class->key_press_event	= e_day_view_key_press;
+
+	/* clipboard atom */
+	if (!clipboard_atom)
+		clipboard_atom = gdk_atom_intern ("CLIPBOARD", FALSE);
 }
 
 
@@ -789,6 +809,30 @@ e_day_view_init (EDayView *day_view)
 			   GTK_DEST_DEFAULT_ALL,
 			   target_table, n_targets,
 			   GDK_ACTION_COPY | GDK_ACTION_MOVE | GDK_ACTION_ASK);
+
+	/* Set up the invisible widget for the clipboard selections */
+	day_view->invisible = gtk_invisible_new ();
+	gtk_selection_add_target (day_view->invisible,
+				  clipboard_atom,
+				  GDK_SELECTION_TYPE_STRING,
+				  0);
+	gtk_signal_connect (GTK_OBJECT (day_view->invisible),
+			    "selection_get",
+			    GTK_SIGNAL_FUNC (selection_get),
+			    (gpointer) day_view);
+	gtk_signal_connect (GTK_OBJECT (day_view->invisible),
+			    "selection_clear_event",
+			    GTK_SIGNAL_FUNC (selection_clear_event),
+			    (gpointer) day_view);
+	gtk_signal_connect (GTK_OBJECT (day_view->invisible),
+			    "selection_received",
+			    GTK_SIGNAL_FUNC (selection_received),
+			    (gpointer) day_view);
+	gtk_signal_connect (GTK_OBJECT (day_view->invisible),
+			    "destroy",
+			    GTK_SIGNAL_FUNC (invisible_destroyed),
+			    (gpointer) day_view);
+	day_view->clipboard_selection = NULL;
 }
 
 
@@ -859,6 +903,11 @@ e_day_view_destroy (GtkObject *object)
 	g_array_free (day_view->long_events, TRUE);
 	for (day = 0; day < E_DAY_VIEW_MAX_DAYS; day++)
 		g_array_free (day_view->events[day], TRUE);
+
+	if (day_view->invisible)
+		gtk_widget_destroy (day_view->invisible);
+	if (day_view->clipboard_selection)
+		g_free (day_view->clipboard_selection);
 
 	GTK_OBJECT_CLASS (parent_class)->destroy (object);
 }
@@ -6369,4 +6418,52 @@ e_day_view_get_time_string_width	(EDayView	*day_view)
 				   day_view->pm_string_width);
 
 	return time_width;
+}
+
+static void
+invisible_destroyed (GtkWidget *invisible, EDayView *day_view)
+{
+	day_view->invisible = NULL;
+}
+
+static void
+selection_get (GtkWidget *invisible,
+	       GtkSelectionData *selection_data,
+	       guint info,
+	       guint time_stamp,
+	       EDayView *day_view)
+{
+	if (day_view->clipboard_selection != NULL) {
+		gtk_selection_data_set (selection_data,
+					GDK_SELECTION_TYPE_STRING,
+					8,
+					day_view->clipboard_selection,
+					strlen (day_view->clipboard_selection));
+	}
+}
+
+static void
+selection_clear_event (GtkWidget *invisible,
+		       GdkEventSelection *event,
+		       EDayView *day_view)
+{
+	if (day_view->clipboard_selection != NULL) {
+		g_free (day_view->clipboard_selection);
+		day_view->clipboard_selection = NULL;
+	}
+}
+
+static void selection_received (GtkWidget *invisible,
+				GtkSelectionData *selection_data,
+				guint time,
+				EDayView *day_view)
+{
+	if (selection_data->length < 0 ||
+	    selection_data->type != GDK_SELECTION_TYPE_STRING) {
+		return;
+	}
+
+	if (day_view->clipboard_selection != NULL)
+		g_free (day_view->clipboard_selection);
+	day_view->clipboard_selection = g_strdup ((gchar *) selection_data->data);
 }

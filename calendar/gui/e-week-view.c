@@ -33,6 +33,8 @@
 
 #include <math.h>
 #include <gdk/gdkkeysyms.h>
+#include <gtk/gtkinvisible.h>
+#include <gtk/gtkselection.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtkvscrollbar.h>
 #include <gtk/gtkwindow.h>
@@ -173,7 +175,22 @@ static gboolean e_week_view_remove_event_cb (EWeekView *week_view,
 					     gpointer data);
 static gboolean e_week_view_recalc_display_start_day	(EWeekView	*week_view);
 
+static void invisible_destroyed   (GtkWidget *invisible, EWeekView *week_view);
+static void selection_get         (GtkWidget *invisible,
+				   GtkSelectionData *selection_data,
+				   guint info,
+				   guint time_stamp,
+				   EWeekView *week_view);
+static void selection_clear_event (GtkWidget *invisible,
+				   GdkEventSelection *event,
+				   EWeekView *week_view);
+static void selection_received    (GtkWidget *invisible,
+				   GtkSelectionData *selection_data,
+				   guint time,
+				   EWeekView *week_view);
+
 static GtkTableClass *parent_class;
+static GdkAtom clipboard_atom = GDK_NONE;
 
 
 GtkType
@@ -223,6 +240,10 @@ e_week_view_class_init (EWeekViewClass *class)
 	widget_class->key_press_event	= e_week_view_key_press;
 	widget_class->expose_event	= e_week_view_expose_event;
 	widget_class->draw		= e_week_view_draw;
+
+	/* clipboard atom */
+	if (!clipboard_atom)
+		clipboard_atom = gdk_atom_intern ("CLIPBOARD", FALSE);
 }
 
 
@@ -368,6 +389,30 @@ e_week_view_init (EWeekView *week_view)
 	week_view->move_cursor = gdk_cursor_new (GDK_FLEUR);
 	week_view->resize_width_cursor = gdk_cursor_new (GDK_SB_H_DOUBLE_ARROW);
 	week_view->last_cursor_set = NULL;
+
+	/* Set up the inivisible widget for the clipboard selections */
+	week_view->invisible = gtk_invisible_new ();
+	gtk_selection_add_target (week_view->invisible,
+				  clipboard_atom,
+				  GDK_SELECTION_TYPE_STRING,
+				  0);
+	gtk_signal_connect (GTK_OBJECT (week_view->invisible),
+			    "selection_get",
+			    GTK_SIGNAL_FUNC (selection_get),
+			    (gpointer) week_view);
+	gtk_signal_connect (GTK_OBJECT (week_view->invisible),
+			    "selection_clear_event",
+			    GTK_SIGNAL_FUNC (selection_clear_event),
+			    (gpointer) week_view);
+	gtk_signal_connect (GTK_OBJECT (week_view->invisible),
+			    "selection_received",
+			    GTK_SIGNAL_FUNC (selection_received),
+			    (gpointer) week_view);
+	gtk_signal_connect (GTK_OBJECT (week_view->invisible),
+			    "destroy",
+			    GTK_SIGNAL_FUNC (invisible_destroyed),
+			    (gpointer) week_view);
+	week_view->clipboard_selection = NULL;
 }
 
 
@@ -420,6 +465,11 @@ e_week_view_destroy (GtkObject *object)
 	gdk_cursor_destroy (week_view->normal_cursor);
 	gdk_cursor_destroy (week_view->move_cursor);
 	gdk_cursor_destroy (week_view->resize_width_cursor);
+
+	if (week_view->invisible)
+		gtk_widget_destroy (week_view->invisible);
+	if (week_view->clipboard_selection)
+		g_free (week_view->clipboard_selection);
 
 	GTK_OBJECT_CLASS (parent_class)->destroy (object);
 }
@@ -3314,4 +3364,52 @@ e_week_view_get_time_string_width	(EWeekView	*week_view)
 				   week_view->pm_string_width);
 
 	return time_width;
+}
+
+static void
+invisible_destroyed (GtkWidget *invisible, EWeekView *week_view)
+{
+	week_view->invisible = NULL;
+}
+
+static void
+selection_get (GtkWidget *invisible,
+	       GtkSelectionData *selection_data,
+	       guint info,
+	       guint time_stamp,
+	       EWeekView *week_view)
+{
+	if (week_view->clipboard_selection != NULL) {
+		gtk_selection_data_set (selection_data,
+					GDK_SELECTION_TYPE_STRING,
+					8,
+					week_view->clipboard_selection,
+					strlen (week_view->clipboard_selection));
+	}
+}
+
+static void
+selection_clear_event (GtkWidget *invisible,
+		       GdkEventSelection *event,
+		       EWeekView *week_view)
+{
+	if (week_view->clipboard_selection != NULL) {
+		g_free (week_view->clipboard_selection);
+		week_view->clipboard_selection = NULL;
+	}
+}
+
+static void selection_received (GtkWidget *invisible,
+				GtkSelectionData *selection_data,
+				guint time,
+				EWeekView *week_view)
+{
+	if (selection_data->length < 0 ||
+	    selection_data->type != GDK_SELECTION_TYPE_STRING) {
+		return;
+	}
+
+	if (week_view->clipboard_selection != NULL)
+		g_free (week_view->clipboard_selection);
+	week_view->clipboard_selection = g_strdup ((gchar *) selection_data->data);
 }

@@ -344,6 +344,10 @@ struct _EWeekView
 	gchar *pm_string;
 	gint am_string_width;
 	gint pm_string_width;
+
+	/* the invisible widget to manage the clipboard selections */
+	GtkWidget *invisible;
+	gchar *clipboard_selection;
 };
 
 struct _EWeekViewClass
