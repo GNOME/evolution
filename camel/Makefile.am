@@ -32,6 +32,7 @@ libcamel_la_SOURCES = 				\
 	camel.c					\
 	camel-log.c				\
 	camel-data-wrapper.c			\
+	camel-exception.c			\
 	camel-simple-data-wrapper.c		\
 	camel-folder.c				\
 	camel-folder-summary.c			\
@@ -65,6 +66,7 @@ libcamelinclude_HEADERS =			\
 	camel.h					\
 	camel-log.h				\
 	camel-data-wrapper.h			\
+	camel-exception.h			\
 	camel-simple-data-wrapper.h		\
 	camel-folder.h				\
 	camel-folder-summary.h			\
@@ -98,4 +100,4 @@ libcamelinclude_HEADERS =			\
 libcamel_la_LDFLAGS = -version-info 0:0:0 -rpath $(libdir)
 
 
-EXTRA_DIST = README
+EXTRA_DIST = README camel-exception-list.def
