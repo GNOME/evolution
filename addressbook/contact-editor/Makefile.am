@@ -30,13 +30,13 @@ contact_editor_test_SOURCES = 	\
 	test-editor.c
 
 contact_editor_test_LDADD =					\
+	$(srcdir)/libecontacteditor.a					\
+	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/addressbook/backend/ebook/libebook.la	\
 	$(top_builddir)/addressbook/ename/libename.la		\
 	$(top_builddir)/libversit/libversit.la			\
 	$(GNOMEGNORBA_LIBS)					\
-	-lbonobo						\
-	$(top_builddir)/e-util/libeutil.la			\
-	libecontacteditor.a					\
+	$(BONOBO_GNOME_LIBS)				\
 	$(top_builddir)/widgets/e-table/libetable.a		\
 	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/widgets/e-text/libetext.a		\

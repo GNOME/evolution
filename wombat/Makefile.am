@@ -6,8 +6,8 @@ INCLUDES =						\
 	-I$(top_builddir)/addressbook/backend		\
 	-I$(top_srcdir)/calendar			\
 	-I$(top_srcdir)/calendar/pcs			\
-	$(EXTRA_GNOME_CFLAGS)				\
 	$(GNOME_INCLUDEDIR)				\
+	$(BONOBO_VFS_GNOME_CFLAGS)				\
 	-DEVOLUTION_VERSION=\""$(VERSION)"\"		\
 	-DEVOLUTION_LOCALEDIR=\""$(datadir)/locale"\"
 
@@ -28,7 +28,6 @@ wombat_LDADD =							\
 	$(top_builddir)/calendar/cal-util/libcal-util.la	\
 	$(top_builddir)/libversit/libversit.la			\
 	$(top_builddir)/e-util/libeutil.la			\
-	-lgnomevfs						\
 	$(LDAP_LIBS)
 
 wombat_LDFLAGS = `gnome-config --libs gnorba` 

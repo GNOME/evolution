@@ -1,3 +1,11 @@
+2000-06-05	Mathieu Lacage	<mathieu@gnome.org>
+
+	* addressbook/contact-editor/Makefile.am: make it 
+	compile: add proper bonobo linking params.
+	* addressbook/gui/minicard/Makefile.am: idem.
+	* wombat/Makefile.am: add BONOBO_VFS_GNOME_CFLAGS.
+	cleanup some useless includes and libs.
+
 2000-06-02  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* configure.in (ALL_LINGUAS): Add `it' and `de'.
