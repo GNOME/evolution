@@ -177,8 +177,6 @@ check_test (void)
 		gnome_canvas_root (GNOME_CANVAS (canvas)),
 		e_table_header_item_get_type (),
 		"ETableHeader", e_table_header,
-		"x",  0,
-		"y",  0,
 		NULL);
 
 	item = gnome_canvas_item_new (

@@ -377,8 +377,6 @@ etgc_add (ETableGroup *etg, gint row)
 						  e_text_get_type (),
 						  "font_gdk", etgc->font,
 						  "anchor", GTK_ANCHOR_SW,
-						  "x", (double) 0,
-						  "y", (double) 0,
 						  "fill_color", "black",
 						  NULL);
 	child = e_table_group_new (GNOME_CANVAS_GROUP (etgc), etg->full_header,

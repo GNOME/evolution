@@ -1,3 +1,13 @@
+2000-06-22  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-table-group-container.c: Remove use of the "x" and "y"
+	arguments to EText.
+
+	* e-table-item.c: Properly ref the source_model field.
+
+	* test-check.c, test-cols.c, test-table.c: Remove use of the "x"
+	and "y" arguments to ETableHeaderItem.
+
 2000-06-21  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-table-field-chooser-dialog.c: Made the Close button work.
