@@ -1,3 +1,8 @@
+2004-10-19  JP Rosevear  <jpr@novell.com>
+
+	* e-config.c, e-event.c, e-menu.c, e-plugin.c, e-plugin.h,
+	e-popup.c: convert to org.gnome hook names
+
 2004-10-07  Jeffrey Stedfast  <fejj@novell.com>
 
 	* e-passwords.c (ep_ask_password): Use "%s" as the formatter

@@ -11,7 +11,7 @@
 typedef struct _EPlugin EPlugin;
 typedef struct _EPluginClass EPluginClass;
 
-#define E_PLUGIN_CLASSID "com.ximian.evolution.plugin"
+#define E_PLUGIN_CLASSID "org.gnome.evolution.plugin"
 
 /**
  * struct _EPlugin - An EPlugin instance.

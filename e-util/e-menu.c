@@ -573,14 +573,14 @@ e_menu_target_free(EMenu *ep, void *o)
 
 /*
 <e-plugin
-  class="com.ximian.mail.plugin.popup:1.0"
-  id="com.ximian.mail.plugin.popup.item:1.0"
+  class="org.gnome.mail.plugin.popup:1.0"
+  id="org.gnome.mail.plugin.popup.item:1.0"
   type="shlib"
   location="/opt/gnome2/lib/camel/1.0/libcamelimap.so"
   name="imap"
   description="Main menu plugin">
-  <hook class="com.ximian.evolution.bonobomenu:1.0">
-  <menu id="any" target="select" view="com.ximian.mail">
+  <hook class="org.gnome.evolution.bonobomenu:1.0">
+  <menu id="any" target="select" view="org.gnome.mail">
    <ui file="ui file1"/>
    <ui file="ui file2"/>
    <pixmap command="command" pixmap="stockname" size="menu|button|small_toolbar|large_toolbar|dnd|dialog"/>
@@ -854,7 +854,7 @@ emph_class_init(EPluginHookClass *klass)
 	klass->construct = emph_construct;
 
 	/* this is actually an abstract implementation but list it anyway */
-	klass->id = "com.ximian.evolution.bonobomenu:1.0";
+	klass->id = "org.gnome.evolution.bonobomenu:1.0";
 
 	((EMenuHookClass *)klass)->target_map = g_hash_table_new(g_str_hash, g_str_equal);
 	((EMenuHookClass *)klass)->menu_class = g_type_class_ref(e_menu_get_type());

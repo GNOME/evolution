@@ -15,22 +15,22 @@
 
 /*
 <camel-plugin
-  class="com.ximian.camel.plugin.provider:1.0"
-  id="com.ximian.camel.provider.imap:1.0"
+  class="org.gnome.camel.plugin.provider:1.0"
+  id="org.gnome.camel.provider.imap:1.0"
   type="shlib"
   location="/opt/gnome2/lib/camel/1.0/libcamelimap.so"
   factory="camel_imap_provider_new">
  <name>imap</name>
  <description>IMAP4 and IMAP4v1 mail store</description>
- <class-data class="com.ximian.camel.plugin.provider:1.0"
+ <class-data class="org.gnome.camel.plugin.provider:1.0"
    protocol="imap"
    domain="mail"
    flags="remote,source,storage,ssl"/>
 </camel-plugin>
 
 <camel-plugin
-  class="com.ximian.camel.plugin.sasl:1.0"
-  id="com.ximian.camel.sasl.plain:1.0"
+  class="org.gnome.camel.plugin.sasl:1.0"
+  id="org.gnome.camel.sasl.plain:1.0"
   type="shlib"
   location="/opt/gnome2/lib/camel/1.0/libcamelsasl.so"
   factory="camel_sasl_plain_new">
