@@ -2560,7 +2560,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		}
 		e_canvas_hide_tooltip (E_CANVAS(GNOME_CANVAS_ITEM(eti)->canvas));
 
-		if (cursor_col == -1)
+		if (cursor_row == -1 && cursor_col == -1)
 			return FALSE;
 
 		eti->in_key_press = TRUE;
