@@ -1,3 +1,11 @@
+2004-01-29 Gary Ekker <gekker@novell.com>
+
+	Fixes #51871
+
+	* gui/dialogs/calendar-setup.c (calendar_setup_edit_calendar): add
+	activate handler for name_entry
+	(calendar_setup_edit_task_list): ditto
+	
 2004-01-30  JP Rosevear <jpr@ximian.com>
 
 	* gui/tasks-component.c (create_new_todo): remove extraneous ;

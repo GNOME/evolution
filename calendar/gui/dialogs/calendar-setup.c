@@ -611,6 +611,8 @@ calendar_setup_edit_calendar (GtkWindow *parent, ESource *source)
 	source_dialog->name_entry = glade_xml_get_widget (source_dialog->gui_xml, "name-entry");
 	g_signal_connect_swapped (source_dialog->name_entry, "changed",
 				  G_CALLBACK (general_page_modified), source_dialog);
+	g_signal_connect_swapped (source_dialog->name_entry, "activate",
+				  G_CALLBACK (edit_calendar_finish), source_dialog);
 
 	/* Remote page */
 	source_dialog->uri_entry = glade_xml_get_widget (source_dialog->gui_xml, "uri-entry");
@@ -758,6 +760,8 @@ calendar_setup_edit_task_list (GtkWindow *parent, ESource *source)
 	source_dialog->name_entry = glade_xml_get_widget (source_dialog->gui_xml, "name-entry");
 	g_signal_connect_swapped (source_dialog->name_entry, "changed",
 				  G_CALLBACK (general_page_modified), source_dialog);
+	g_signal_connect_swapped (source_dialog->name_entry, "activate",
+				  G_CALLBACK (edit_calendar_finish), source_dialog);
 
 	/* Finishing */
 	g_signal_connect_swapped (glade_xml_get_widget (source_dialog->gui_xml, "ok-button"), "clicked",
