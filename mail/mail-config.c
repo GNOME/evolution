@@ -775,8 +775,8 @@ void
 mail_config_write_on_exit (void)
 {
 	CORBA_Environment ev;
-	GSList *sources;
-	MailConfigService *s;
+	MailConfigAccount *account;
+	const GSList *accounts;
 	
 	/* Show Messages Threaded */
 	bonobo_config_set_boolean (config->db, "/Mail/Display/thread_list", 
@@ -881,13 +881,15 @@ mail_config_write_on_exit (void)
 	/* Passwords */
 	/* fixme: still depends on gnome-config */
 	gnome_config_private_clean_section ("/Evolution/Passwords");
-	sources = mail_config_get_sources ();
-	for ( ; sources; sources = sources->next) {
-		s = sources->data;
-		if (s->save_passwd && s->url)
-			mail_session_remember_password (s->url);
+	accounts = mail_config_get_accounts ();
+	for ( ; accounts; accounts = accounts->next) {
+		account = accounts->data;
+		if (account->source->save_passwd && account->source->url)
+			mail_session_remember_password (account->source->url);
+		
+		if (account->transport->save_passwd && account->transport->url)
+			mail_session_remember_password (account->transport->url);
 	}
-	g_slist_free (sources);
 	gnome_config_sync ();
 	
 	/* now do cleanup */
