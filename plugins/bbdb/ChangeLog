@@ -1,3 +1,13 @@
+2005-01-13  Nat Friedman  <nat@novell.com>
+
+	* gaimbuddies.c (bbdb_sync_buddy_list_check): Remove some debug
+	printfs.
+	(bbdb_sync_buddy_list): Do not query for the IM name, which is
+	slow.  Instead, query by alias and only commit the contact if we
+	have changes for it.
+	(bbdb_merge_buddy_to_contact): Return a boolean indicating whether
+	we dirtied the contact or not.
+
 2005-01-08  Nat Friedman  <nat@novell.com>
 
 	* org-gnome-evolution-bbdb.eplug.in: Reformatted the description.

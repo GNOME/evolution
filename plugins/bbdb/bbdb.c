@@ -191,8 +191,9 @@ bbdb_do_it (EBook *book, const char *name, const char *email)
 		/* FIXME: If there's more than one contact with this
 		   name, just give up; we're not smart enough for
 		   this. */
-		if (contacts->next != NULL)
+		if (contacts->next != NULL) {
 			return;
+		}
 		
 		contact = (EContact *) contacts->data;
 		add_email_to_contact (contact, email);

@@ -65,8 +65,7 @@ EBook *bbdb_open_addressbook (void);
 
 /* Forward declarations for this file. */
 void bbdb_sync_buddy_list (void);
-static EBookQuery *e_book_query_im_field_contains (const char *im);
-static void bbdb_merge_buddy_to_contact (EBook *book, GaimBuddy *b, EContact *c);
+static gboolean bbdb_merge_buddy_to_contact (EBook *book, GaimBuddy *b, EContact *c);
 static GList *bbdb_get_gaim_buddy_list (void);
 static char *get_node_text (xmlNodePtr node);
 static char *get_buddy_icon_from_setting (xmlNodePtr setting);
@@ -108,11 +107,8 @@ bbdb_sync_buddy_list_check (void)
 	g_free (last_sync_str);
 	g_object_unref (G_OBJECT (gconf));
 
-	printf ("bbdb: Last sync: %ld\n", last_sync);
-	printf ("bbdb: Modified: %ld\n", statbuf.st_mtime);
-	
 	if (statbuf.st_mtime > last_sync) {
-		fprintf (stderr, "bbdb: Buddy list dirty!\n");
+		fprintf (stderr, "bbdb: Buddy list has changed since last sync.\n");
 
 		bbdb_sync_buddy_list ();
 	}
@@ -135,7 +131,8 @@ bbdb_sync_buddy_list (void)
 		free_buddy_list (blist);
 		return;
 	}
-	
+
+	printf ("bbdb: Synchronizing buddy list to contacts...\n");
 	/* Walk the buddy list */
 	for (l = blist; l != NULL; l = l->next) {
 		GaimBuddy *b = l->data;
@@ -147,16 +144,6 @@ bbdb_sync_buddy_list (void)
 		if (b->alias == NULL || strlen (b->alias) == 0)
 			continue;
 
-		/* Check to see if the buddy is already in the addressbook */
-		query = e_book_query_im_field_contains (b->account_name);
-		e_book_get_contacts (book, query, &contacts, NULL);
-		e_book_query_unref (query);
-		if (contacts != NULL) {
-			free_contact_list (contacts);
-			continue;
-		}
-		free_contact_list (contacts);
-
 		/* Look for an exact match full name == buddy alias */
 		query = e_book_query_field_test (E_CONTACT_FULL_NAME, E_BOOK_QUERY_IS, b->alias);
 		e_book_get_contacts (book, query, &contacts, NULL);
@@ -167,31 +154,36 @@ bbdb_sync_buddy_list (void)
 			   name, just give up; we're not smart enough for
 			   this. */
 			if (contacts->next != NULL)
-				continue;
+ 				continue;
 
 			c = E_CONTACT (contacts->data);
-			
-			bbdb_merge_buddy_to_contact (book, b, c);
+
+			if (! bbdb_merge_buddy_to_contact (book, b, c))
+				continue;
 
 			/* Write it out to the addressbook */
 			if (! e_book_commit_contact (book, c, &error)) {
 				g_warning ("bbdb: Could not modify contact: %s\n", error->message);
 				g_error_free (error);
 			}
-
 			continue;
 		}
 
 		/* Otherwise, create a new contact. */
 		c = e_contact_new ();
 		e_contact_set (c, E_CONTACT_FULL_NAME, (gpointer) b->alias);
-		bbdb_merge_buddy_to_contact (book, b, c);
+		if (! bbdb_merge_buddy_to_contact (book, b, c)) {
+			g_object_unref (G_OBJECT (c));
+			continue;
+		}
+		
 		if (! e_book_add_contact (book, c, &error)) {
 			g_warning ("bbdb: Failed to add new contact: %s\n", error->message);
 			g_error_free (error);
 			return;
 		}
 		g_object_unref (G_OBJECT (c));
+		
 	}
 
 
@@ -205,43 +197,35 @@ bbdb_sync_buddy_list (void)
 
 		time (&last_sync);
 		last_sync_str = g_strdup_printf ("%ld", (glong) last_sync);
-		printf ("Str: %s\n", last_sync_str);
 		gconf_client_set_string (gconf, GCONF_KEY_GAIM_LAST_SYNC, last_sync_str, NULL);
 		g_free (last_sync_str);
 
 		g_object_unref (G_OBJECT (gconf));
 	}
+	printf ("bbdb: Done syncing buddy list to contacts.\n");
 }
 
-static EBookQuery *
-e_book_query_im_field_contains (const char *im)
+static gboolean
+im_list_contains_buddy (GList *ims, GaimBuddy *b)
 {
-	char *query_string;
-	EBookQuery *query;
-	
-	query_string = g_strdup_printf (
-		"(or "
-		    "(is \"im_aim\" \"%s\") "
-		    "(is \"im_yahoo\" \"%s\") "
-		    "(is \"im_msn\" \"%s\") "
-		    "(is \"im_icq\" \"%s\") "
-		    "(is \"im_jabber\" \"%s\") "
-   		    "(is \"im_groupwise\" \"%s\")"
-		")",
-		im, im, im, im, im, im);
+	GList *l;
+       
+	for (l = ims; l != NULL; l = l->next) {
+		char *im = (char *) l->data;
 
-	query = e_book_query_from_string (query_string);
+		if (! strcmp (im, b->alias))
+			return TRUE;
+	}
 
-	g_free (query_string);
-
-	return query;
+	return FALSE;
 }
 
-static void
+static gboolean
 bbdb_merge_buddy_to_contact (EBook *book, GaimBuddy *b, EContact *c)
 {
 	EContactField field;
 	GList *ims, *l;
+	gboolean dirty = FALSE;
 
 	EContactPhoto *photo = NULL;
 
@@ -250,10 +234,13 @@ bbdb_merge_buddy_to_contact (EBook *book, GaimBuddy *b, EContact *c)
 	/* Set the IM account */
 	field = proto_to_contact_field (b->proto);
 	ims = e_contact_get (c, field);
-	ims = g_list_append (ims, (gpointer) b->account_name);
-	e_contact_set (c, field, (gpointer) ims);
+	if (! im_list_contains_buddy (ims, b)) {
+		ims = g_list_append (ims, (gpointer) b->account_name);
+		e_contact_set (c, field, (gpointer) ims);
+		dirty = TRUE;
+	}
 
-	/* Set the photo if it's not set */
+        /* Set the photo if it's not set */
 	if (b->icon != NULL) {
 		photo = e_contact_get (c, E_CONTACT_PHOTO);
 		if (photo == NULL) {
@@ -263,10 +250,14 @@ bbdb_merge_buddy_to_contact (EBook *book, GaimBuddy *b, EContact *c)
 			if (! g_file_get_contents (b->icon, &photo->data, &photo->length, &error)) {
 				g_warning ("bbdb: Could not read buddy icon: %s\n", error->message);
 				g_error_free (error);
-				return;
+				for (l = ims; l != NULL; l = l->next)
+					g_free ((char *) l->data);
+				g_list_free (ims);
+				return dirty;
 			}
 
 			e_contact_set (c, E_CONTACT_PHOTO, (gpointer) photo);
+			dirty = TRUE;
 		}
 	}
 
@@ -279,6 +270,8 @@ bbdb_merge_buddy_to_contact (EBook *book, GaimBuddy *b, EContact *c)
 	for (l = ims; l != NULL; l = l->next)
 		g_free ((char *) l->data);
 	g_list_free (ims);
+
+	return dirty;
 }
 
 static EContactField
