@@ -19,6 +19,8 @@ libemiscwidgets_a_SOURCES = 	\
 	e-clipped-label.h	\
 	e-dateedit.c		\
 	e-dateedit.h		\
+	e-dropdown-button.c	\
+	e-dropdown-button.h	\
 	e-messagebox.c		\
 	e-messagebox.h		\
 	e-search-bar.c		\
@@ -26,17 +28,13 @@ libemiscwidgets_a_SOURCES = 	\
 	e-title-bar.c		\
 	e-title-bar.h
 
-noinst_PROGRAMS = 	\
-	test-title-bar		\
+noinst_PROGRAMS = 		\
 	test-calendar		\
-	test-dateedit
+	test-dateedit		\
+	test-dropdown-button	\
+	test-title-bar
 
-test_title_bar_SOURCES = 	\
-	test-title-bar.c
-
-test_title_bar_LDADD = 						\
-	./libemiscwidgets.a					\
-	$(EXTRA_GNOME_LIBS)
+# test-calendar
 
 test_calendar_SOURCES = 	\
 	test-calendar.c
@@ -46,11 +44,31 @@ test_calendar_LDADD = 						\
 	../../e-util/libeutil.la				\
 	$(EXTRA_GNOME_LIBS)
 
+# test-dateedit
+
 test_dateedit_SOURCES = 	\
 	test-dateedit.c
 
 test_dateedit_LDADD = 						\
 	./libemiscwidgets.a					\
 	../../e-util/libeutil.la				\
+	$(EXTRA_GNOME_LIBS)
+
+# test-dropdown-button
+
+test_dropdown_button_SOURCES = 	\
+	test-dropdown-button.c
+
+test_dropdown_button_LDADD =	\
+	./libemiscwidgets.a	\
+	$(EXTRA_GNOME_LIBS)
+
+# test-title-bar
+
+test_title_bar_SOURCES = 	\
+	test-title-bar.c
+
+test_title_bar_LDADD = 						\
+	./libemiscwidgets.a					\
 	$(EXTRA_GNOME_LIBS)
 
