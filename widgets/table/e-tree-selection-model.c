@@ -1137,6 +1137,15 @@ e_tree_selection_model_select_single_path (ETreeSelectionModel *etsm, ETreePath 
 }
 
 void
+e_tree_selection_model_add_to_selection (ETreeSelectionModel *etsm, ETreePath path)
+{
+	etsm_change_one_path(etsm, path, TRUE);
+	etsm->priv->selection_start_path = path;
+
+	e_selection_model_selection_changed(E_SELECTION_MODEL(etsm));
+}
+
+void
 e_tree_selection_model_change_cursor (ETreeSelectionModel *etsm, ETreePath path)
 {
 	int row;

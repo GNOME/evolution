@@ -181,6 +181,9 @@ void            e_tree_get_cell_geometry          (ETree                *tree,
 						   int                  *width_return,
 						   int                  *height_return);
 
+/* Useful accessors */
+ETreeModel *    e_tree_get_model                  (ETree *et);
+ESelectionModel *e_tree_get_selection_model       (ETree *et);
 
 /* Drag & drop stuff. */
 /* Target */
@@ -226,12 +229,7 @@ GdkDragContext *e_tree_drag_begin                 (ETree                *tree,
 						   GtkTargetList        *targets,
 						   GdkDragAction         actions,
 						   gint                  button,
-						   GdkEvent             *event);
-
-/* selection stuff */
-void            e_tree_select_all                 (ETree                *tree);
-void            e_tree_invert_selection           (ETree                *tree);
-
+                                                   GdkEvent             *event);
 
 /* Adapter functions */
 gboolean        e_tree_node_is_expanded           (ETree                *et,

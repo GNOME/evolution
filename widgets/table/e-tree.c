@@ -1199,34 +1199,6 @@ e_tree_selected_path_foreach     (ETree *e_tree,
 }
 #endif
 
-gint
-e_tree_selected_count     (ETree *e_tree)
-{
-	g_return_val_if_fail(e_tree != NULL, -1);
-	g_return_val_if_fail(E_IS_TREE(e_tree), -1);
-
-	return e_selection_model_selected_count(E_SELECTION_MODEL (e_tree->priv->selection));
-}
-
-void
-e_tree_select_all (ETree *tree)
-{
-	g_return_if_fail (tree != NULL);
-	g_return_if_fail (E_IS_TREE (tree));
-
-	e_selection_model_select_all (E_SELECTION_MODEL (tree->priv->selection));
-}
-
-void
-e_tree_invert_selection (ETree *tree)
-{
-	g_return_if_fail (tree != NULL);
-	g_return_if_fail (E_IS_TREE (tree));
-
-	e_selection_model_invert_selection (E_SELECTION_MODEL (tree->priv->selection));
-}
-
-
 EPrintable *
 e_tree_get_printable (ETree *e_tree)
 {
@@ -1492,6 +1464,41 @@ e_tree_get_tooltip (ETree *et)
 {
 	return E_CANVAS(et->priv->table_canvas)->tooltip_window;
 }
+
+/**
+ * e_tree_get_model:
+ * @et: the ETree
+ *
+ * Returns the model upon which this ETree is based.
+ *
+ * Returns: the model
+ **/
+ETreeModel *
+e_tree_get_model (ETree *et)
+{
+	g_return_val_if_fail (et != NULL, NULL);
+	g_return_val_if_fail (E_IS_TREE (et), NULL);
+
+	return et->priv->model;
+}
+
+/**
+ * e_tree_get_selection_model:
+ * @et: the ETree
+ *
+ * Returns the selection model of this ETree.
+ *
+ * Returns: the selection model
+ **/
+ESelectionModel *
+e_tree_get_selection_model (ETree *et)
+{
+	g_return_val_if_fail (et != NULL, NULL);
+	g_return_val_if_fail (E_IS_TREE (et), NULL);
+
+	return et->priv->selection;
+}
+
 
 struct _ETreeDragSourceSite
 {
