@@ -1,3 +1,18 @@
+2003-02-02  Hans Petter Jansson  <hpj@ximian.com>
+
+	* e-calendar-item.[ch]: Use Pango to draw.
+	(e_calendar_item_class_init): Add font_desc and week_number_font_desc
+	args.
+	(e_calendar_item_get_arg): Ditto.
+	(e_calendar_item_set_arg): Ditto.
+	(e_calendar_item_draw_month): Use Pango.
+	(e_calendar_item_draw_day_numbers): Ditto.
+
+	* e-calendar.c: Use Pango to draw. Specify just the size of the small
+	font to use, instead of all aspects of it.
+	(e_calendar_init): Produce the small font description and pass it to
+	the ECalendarItem.
+
 2003-02-01  Hans Petter Jansson  <hpj@ximian.com>
 
 	* e-dateedit.c (create_children): Don't request combo boxes that are

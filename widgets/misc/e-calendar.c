@@ -41,6 +41,8 @@
 #include <libgnomecanvas/gnome-canvas-widget.h>
 #include <gal/util/e-util.h>
 
+#define E_CALENDAR_SMALL_FONT_PTSIZE 6
+
 #define E_CALENDAR_SMALL_FONT	\
 	"-adobe-utopia-regular-r-normal-*-*-100-*-*-p-*-iso8859-*"
 #define E_CALENDAR_SMALL_FONT_FALLBACK	\
@@ -158,6 +160,7 @@ e_calendar_init (ECalendar *cal)
 {
 	GnomeCanvasGroup *canvas_group;
 	GdkFont *small_font;
+	PangoFontDescription *small_font_desc;
 	GtkWidget *button, *pixmap;
 	GdkColormap *colormap;
 	GdkPixmap *gdk_pixmap;
@@ -172,16 +175,23 @@ e_calendar_init (ECalendar *cal)
 	if (!small_font)
 		g_warning ("Couldn't load font");
 
+	small_font_desc =
+		pango_font_description_copy (gtk_widget_get_style (GTK_WIDGET (cal))->font_desc);
+	pango_font_description_set_size (small_font_desc,
+					 E_CALENDAR_SMALL_FONT_PTSIZE * PANGO_SCALE);
+
 	canvas_group = GNOME_CANVAS_GROUP (GNOME_CANVAS (cal)->root);
 
 	cal->calitem = E_CALENDAR_ITEM (gnome_canvas_item_new (canvas_group,
 							       e_calendar_item_get_type (),
 							       "week_number_font", small_font,
+							       "week_number_font_desc", small_font_desc,
 							       NULL));
 
 	if (small_font)
 		gdk_font_unref (small_font);
 
+	pango_font_description_free (small_font_desc);
 
 	/* Create the arrow buttons to move to the previous/next month. */
 	button = gtk_button_new ();
