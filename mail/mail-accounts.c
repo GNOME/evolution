@@ -361,6 +361,7 @@ construct (MailAccountsDialog *dialog)
 	gtk_signal_connect (GTK_OBJECT (dialog->mail_default), "clicked",
 			    GTK_SIGNAL_FUNC (mail_default), dialog);
 	
+#if defined (ENABLE_NNTP)
 	dialog->news_accounts = GTK_CLIST (glade_xml_get_widget (gui, "clistAccounts"));
 	gtk_signal_connect (GTK_OBJECT (dialog->news_accounts), "select-row",
 			    GTK_SIGNAL_FUNC (news_select), dialog);
@@ -375,6 +376,10 @@ construct (MailAccountsDialog *dialog)
 	dialog->news_delete = GTK_BUTTON (glade_xml_get_widget (gui, "cmdNewsDelete"));
 	gtk_signal_connect (GTK_OBJECT (dialog->news_delete), "clicked",
 			    GTK_SIGNAL_FUNC (news_delete), dialog);
+#else
+	/* remove the news tab since we don't support nntp */
+	gtk_notebook_remove_page (GTK_NOTEBOOK (notebook), 1);
+#endif
 	
 	/* now to fill in the clists */
 	dialog->accounts_row = -1;

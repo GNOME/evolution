@@ -1,3 +1,11 @@
+2001-01-16  Chris Toshok  <toshok@helixcode.com>
+
+	* component-factory.c (owner_set_cb): only load the news storage
+	if ENABLE_NNTP.
+
+	* mail-accounts.c (construct): if !ENABLE_NNTP, remove the news
+	page from the dialog.
+
 2001-01-16  Radek Doulik  <rodo@helixcode.com>
 
 	* mail-format.c (mail_generate_reply): use

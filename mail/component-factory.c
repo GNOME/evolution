@@ -190,8 +190,10 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	accounts = mail_config_get_accounts ();
 	mail_load_storages (corba_shell, accounts, TRUE);
 	
+#ifdef ENABLE_NNTP
 	news = mail_config_get_news ();
 	mail_load_storages (corba_shell, news, FALSE);
+#endif
 
 	mail_local_storage_startup (shell_client, evolution_dir);
 
