@@ -1069,7 +1069,7 @@ msgstr "Шрифти"
 
 #: po/tmp/e-contact-print.glade.h:14
 msgid "Footer:"
-msgstr ""
+msgstr "Нижн╕й колонтитул:"
 
 #: po/tmp/e-contact-print.glade.h:15
 msgid "Format"
@@ -1077,19 +1077,19 @@ msgstr "Формат"
 
 #: po/tmp/e-contact-print.glade.h:16
 msgid "Header"
-msgstr "Заголовок"
+msgstr "Верхн╕й колонтитул"
 
 #: po/tmp/e-contact-print.glade.h:17
 msgid "Header/Footer"
-msgstr ""
+msgstr "Колонтитули"
 
 #: po/tmp/e-contact-print.glade.h:18
 msgid "Headings"
-msgstr ""
+msgstr "Верхн╕ колонтитули"
 
 #: po/tmp/e-contact-print.glade.h:19
 msgid "Headings for each letter"
-msgstr ""
+msgstr "Верхн╕ колонтитули для кожного листа"
 
 #: po/tmp/e-contact-print.glade.h:20
 msgid "Height:"
@@ -1181,7 +1181,7 @@ msgstr "Розм╕р:"
 
 #: po/tmp/e-contact-print.glade.h:42
 msgid "Start on a new page"
-msgstr ""
+msgstr "Починати з ново╖ стор╕нки"
 
 #: po/tmp/e-contact-print.glade.h:43
 msgid "Style name:"
@@ -1217,7 +1217,7 @@ msgstr "пп"
 
 #: calendar/conduits/calendar/calendar-conduit-control-applet.c:127
 msgid "Evolution Calendar Conduit"
-msgstr ""
+msgstr "Канал календаря Evolution"
 
 #: calendar/conduits/calendar/calendar-conduit-control-applet.c:130
 msgid "Configuration utility for the evolution calendar conduit.\n"
@@ -1252,7 +1252,7 @@ msgstr ""
 
 #: calendar/gui/calendar-commands.c:61
 msgid "Headings:"
-msgstr ""
+msgstr "Верхн╕ колонтитули:"
 
 #: calendar/gui/calendar-commands.c:62
 msgid "Empty days:"
@@ -1268,11 +1268,11 @@ msgstr ""
 
 #: calendar/gui/calendar-commands.c:65
 msgid "Day numbers:"
-msgstr ""
+msgstr "Числа дн╕в:"
 
 #: calendar/gui/calendar-commands.c:66
 msgid "Current day's number:"
-msgstr ""
+msgstr "Число поточного дня:"
 
 #: calendar/gui/calendar-commands.c:67
 msgid "To-Do item that is not yet due:"
@@ -1588,7 +1588,7 @@ msgstr ""
 
 #: po/tmp/cal-prefs-dialog.glade.h:38
 msgid "Pick a color"
-msgstr ""
+msgstr "Виб╕р кольору"
 
 #: filter/libfilter-i18n.h:15 po/tmp/cal-prefs-dialog.glade.h:39
 msgid "Priority"
@@ -1596,11 +1596,11 @@ msgstr "Пр╕оритет"
 
 #: po/tmp/cal-prefs-dialog.glade.h:40
 msgid "Remind me of all appointments"
-msgstr ""
+msgstr "Нагадувати про вс╕ зустр╕ч╕"
 
 #: po/tmp/cal-prefs-dialog.glade.h:41
 msgid "Reminders"
-msgstr ""
+msgstr "Нагадування"
 
 #: calendar/gui/gnome-month-item.c:742 po/tmp/cal-prefs-dialog.glade.h:42
 msgid "Sat"
@@ -2548,9 +2548,8 @@ msgid "MTWTFSS"
 msgstr "ПВСЧПСН"
 
 #: calendar/gui/weekday-picker.c:353 calendar/gui/weekday-picker.c:443
-#, fuzzy
 msgid "SMTWTFS"
-msgstr "ПВСЧПСН"
+msgstr "НПВСЧПС"
 
 #. well, this is really only a programatic error
 #: camel/camel-lock.c:90 camel/camel-lock.c:109 camel/camel-movemail.c:136
