@@ -1,3 +1,7 @@
+2001-04-12  Christopher James Lahey  <clahey@ximian.com>
+
+	* configure.in: Updated the required version of gal to 0.6.99.0.
+
 2001-04-06  Not Zed  <NotZed@Ximian.com>
 
 	* README (gnome-xml): Fixed the branch name to LIB_XML_1_BRANCH
