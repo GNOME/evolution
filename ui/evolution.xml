@@ -13,6 +13,9 @@
      _tip="Send queued items and retrieve new items"
      pixtype="pixbuf"/>
 
+    <cmd name="ForgetPasswords"
+     _tip="Forget remembered passwords so you will be prompted for them again"/>
+
     <cmd name="Settings" pixtype="pixbuf"/>
 
     <cmd name="ToggleOffline" 
@@ -72,6 +75,7 @@
 
     <submenu name="Actions" _label="_Actions">
       <menuitem name="SendReceive" verb="" _label="_Send / Receive" accel="F9"/>
+      <menuitem name="ForgetPasswords" verb="" _label="Forget _Passwords"/>
       <placeholder name="ComponentActionsPlaceholder"/>
     </submenu>
 

@@ -1,3 +1,9 @@
+2004-01-15  Rodrigo Moya <rodrigo@ximian.com>
+
+	* evolution-mail-global.xml: moved 'Forget Passwords' item...
+
+	* evolution.xml: ...to the shell.
+
 2004-01-12  Meilof Veeningen  <meilof@wanadoo.nl>
 
 	* evolution-message-composer.xml: Add menu items to show To and

@@ -5,9 +5,6 @@
     <cmd name="EmptyTrash"
      _tip="Permanently remove all deleted messages from all folders"/>
 
-    <cmd name="ForgetPasswords"
-     _tip="Forget remembered passwords so you will be prompted for them again"/>
-
     <cmd name="MailCompose"
      _tip="Open a window for composing a mail message"
      pixtype="pixbuf"/>
@@ -68,8 +65,6 @@
 	<separator f="" name="emailglobal"/>
 
         <placeholder name="MailMessageActions"/>
-
-        <menuitem name="ForgetPasswords" verb="" _label="Forget _Passwords"/>
 
         <placeholder name="MailListActions"/>
 
