@@ -609,8 +609,13 @@ vee_sync(CamelFolder *folder, gboolean expunge, CamelException *ex)
 		CamelFolder *f = node->data;
 
 		camel_folder_sync(f, expunge, ex);
-		if (camel_exception_is_set(ex))
+		if (camel_exception_is_set(ex)) {
+			char *desc;
+
+			camel_object_get(f, NULL, CAMEL_OBJECT_DESCRIPTION, &desc, NULL);
+			camel_exception_setv(ex, ex->id, _("Error storing `%s': %s"), desc, ex->desc);
 			break;
+		}
 
 		if (expunge && vee_folder_build_folder(vf, f, ex) == -1)
 			break;

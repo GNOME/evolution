@@ -431,7 +431,8 @@ static void
 mbox_set_message_flags(CamelFolder *folder, const char *uid, guint32 flags, guint32 set)
 {
 	/* Basically, if anything could change the Status line, presume it does */
-	if (flags & (CAMEL_MESSAGE_SEEN|CAMEL_MESSAGE_FLAGGED|CAMEL_MESSAGE_ANSWERED|CAMEL_MESSAGE_DELETED)) {
+	if (((CamelMboxSummary *)folder->summary)->xstatus
+	    && (flags & (CAMEL_MESSAGE_SEEN|CAMEL_MESSAGE_FLAGGED|CAMEL_MESSAGE_ANSWERED|CAMEL_MESSAGE_DELETED))) {
 		flags |= CAMEL_MESSAGE_FOLDER_XEVCHANGE|CAMEL_MESSAGE_FOLDER_FLAGGED;
 		set |= CAMEL_MESSAGE_FOLDER_XEVCHANGE|CAMEL_MESSAGE_FOLDER_FLAGGED;
 	}

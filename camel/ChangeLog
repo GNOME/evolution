@@ -1,3 +1,19 @@
+2002-07-03  Not Zed  <NotZed@Ximian.com>
+
+	* camel-vee-folder.c (vee_sync): If we get an exception from the
+	child sync, update the exception string so we know where it really
+	was.
+
+	* camel-vee-store.c (change_folder): Util to emit created/deleted
+	events.
+	(vee_get_folder): If the folder has path elements, and its parents
+	dont exist, create dummy no-select nodes.  This is for bug #4246.
+	(vee_delete_folder): Use change_folder() to save code.
+
+	* providers/local/camel-mbox-folder.c (mbox_set_message_flags):
+	Only set xevchange if we're storing status headers in pine format,
+	so we dont do a full sync every time any flag changes.
+
 2002-06-27  Not Zed  <NotZed@Ximian.com>
 
 	* camel-object.c (camel_object_hook_event): Take a void object arg.

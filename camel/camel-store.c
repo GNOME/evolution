@@ -889,7 +889,7 @@ camel_folder_info_build (GPtrArray *folders, const char *namespace,
 			name = fi->full_name;
 		if (*name == separator)
 			name++;
-		
+
 		/* set the path if it isn't already set */
 		if (!fi->path)
 			camel_folder_info_build_path (fi, separator);
