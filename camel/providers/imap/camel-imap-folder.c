@@ -197,9 +197,12 @@ imap_finalize (GtkObject *object)
 	for (i = 0; i < max; i++) {
 		info = g_ptr_array_index (imap_folder->summary, i);
 		g_free (info->subject);
-		g_free (info->to);
 		g_free (info->from);
+		g_free (info->to);
+		g_free (info->cc);
 		g_free (info->uid);
+		g_free (info->message_id);
+		header_references_list_clear (&info->references);
 		g_free (info);
 		info = NULL;
 	}
@@ -491,6 +494,8 @@ imap_append_message (CamelFolder *folder, CamelMimeMessage *message, CamelExcept
 		g_free (folder_path);
 		return;
 	}
+
+	/* FIXME: we should close/free the mem stream */
 
 	g_free (result);
 	g_free (folder_path);
@@ -928,7 +933,7 @@ get_header_field (gchar *header, gchar *field)
 	/* it may be wrapped on multiple lines, so lets strip out \n's */
 	for (p = part; *p; ) {
 		if (*p == '\r' || *p == '\n')
-			memmove(p, p + 1, strlen (p) - 1);
+			memmove (p, p + 1, strlen (p) - 1);
 		else
 			p++;
 	}
@@ -936,14 +941,20 @@ get_header_field (gchar *header, gchar *field)
 	return part;
 }
 
+static char *header_fields[] = { "subject", "from", "to", "cc", "date",
+				 "received", "message-id", "references",
+				 "in-reply-to", "" };
+
 GPtrArray *
 imap_get_summary (CamelFolder *folder, CamelException *ex)
 {
 	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
 	GPtrArray *array = NULL;
 	CamelMessageInfo *info;
-	gint num, i = 0, status = 0;
-	char *result, *datestr, *p, *q;
+	gint num, i, j, status = 0;
+	char *result, *p, *q;
+	const char *received;
+	struct _header_raw *h, *tail = NULL;
 
 	if (imap_folder->summary)
 		return imap_folder->summary;
@@ -967,16 +978,66 @@ imap_get_summary (CamelFolder *folder, CamelException *ex)
 			g_free (result);
 			break;
 		}
-		
-		info = g_malloc0 (sizeof (CamelMessageInfo));
-		info->subject = get_header_field (result, "\nSubject:");
-		info->to = get_header_field (result, "\nTo:");
-		info->from = get_header_field (result, "\nFrom:");
 
-		datestr = get_header_field (result, "\nDate:");
-		info->date_sent = header_decode_date (datestr, NULL);
-		g_free (datestr);
+		/* construct the header list */
+		h = NULL;
+		for (j = 0; *header_fields[j]; j++) {
+			struct _header_raw *raw;
+			char *field, *value;
+
+			field = g_strdup_printf ("\n%s:", header_fields[j]);
+			value = get_header_field (result, field);
+			g_free (field);
+			if (!value)
+				continue;
+			
+			raw = g_malloc0 (sizeof (struct _header_raw));
+			raw->next = NULL;
+			raw->name = g_strdup (header_fields[j]);
+			raw->value = value;
+			raw->offset = -1;
+
+			if (!h) {
+				h = raw;
+				tail = h;
+			} else {
+				tail->next = raw;
+				tail = raw;
+			}
+		}
+
+		/* construct the CamelMessageInfo */
+		info = g_malloc0 (sizeof (CamelMessageInfo));
+		info->subject = camel_summary_format_string (h, "subject");
+		info->from = camel_summary_format_address (h, "from");
+		info->to = camel_summary_format_address (h, "to");
+		info->cc = camel_summary_format_address (h, "cc");
+		info->user_flags = NULL;
+		info->date_sent = header_decode_date (header_raw_find (&h, "date", NULL), NULL);
+		received = header_raw_find (&h, "received", NULL);
+		if (received)
+			received = strrchr (received, ';');
+		if (received)
+			info->date_received = header_decode_date (received + 1, NULL);
+		else
+			info->date_received = 0;
+		info->message_id = header_msgid_decode (header_raw_find (&h, "message-id", NULL));
+		/* if we have a references, use that, otherwise, see if we have an in-reply-to
+		   header, with parsable content, otherwise *shrug* */
+		info->references = header_references_decode (header_raw_find (&h, "references", NULL));
+		if (info->references == NULL)
+			info->references = header_references_decode (header_raw_find (&h, "in-reply-to", NULL));
+
 		g_free (result);
+
+		while (h->next) {
+			struct _header_raw *next = h->next;
+			
+			g_free (h->name);
+			g_free (h->value);
+			g_free (h);
+			h = next;
+		}
 
 		/* now to get the UID */
 		status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), folder,
@@ -993,8 +1054,11 @@ imap_get_summary (CamelFolder *folder, CamelException *ex)
 			g_free (result);
 
 			g_free (info->subject);
-			g_free (info->to);
 			g_free (info->from);
+			g_free (info->to);
+			g_free (info->cc);
+			g_free (info->message_id);
+			header_references_list_clear (&info->references);
 			g_free (info);
 			info = NULL;
 
@@ -1006,8 +1070,11 @@ imap_get_summary (CamelFolder *folder, CamelException *ex)
 			fprintf (stderr, "Warning: UID for message %d not found\n", i);
 
 			g_free (info->subject);
-			g_free (info->to);
 			g_free (info->from);
+			g_free (info->to);
+			g_free (info->cc);
+			g_free (info->message_id);
+			header_references_list_clear (&info->references);
 			g_free (info);
 			info = NULL;
 			
@@ -1020,8 +1087,11 @@ imap_get_summary (CamelFolder *folder, CamelException *ex)
 			fprintf (stderr, "Warning: UID for message %d not found\n", i);
 
 			g_free (info->subject);
-			g_free (info->to);
 			g_free (info->from);
+			g_free (info->to);
+			g_free (info->cc);
+			g_free (info->message_id);
+			header_references_list_clear (&info->references);
 			g_free (info);
 			info = NULL;
 			
@@ -1049,8 +1119,12 @@ imap_get_summary (CamelFolder *folder, CamelException *ex)
 			g_free (result);
 
 			g_free (info->subject);
-			g_free (info->to);
 			g_free (info->from);
+			g_free (info->to);
+			g_free (info->cc);
+			g_free (info->message_id);
+			g_free (info->uid);
+			header_references_list_clear (&info->references);
 			g_free (info);
 			info = NULL;
 
@@ -1062,8 +1136,12 @@ imap_get_summary (CamelFolder *folder, CamelException *ex)
 			fprintf (stderr, "Warning: FLAGS for message %d not found\n", i);
 
 			g_free (info->subject);
-			g_free (info->to);
 			g_free (info->from);
+			g_free (info->to);
+			g_free (info->cc);
+			g_free (info->message_id);
+			g_free (info->uid);
+			header_references_list_clear (&info->references);
 			g_free (info);
 			info = NULL;
 			
@@ -1076,8 +1154,12 @@ imap_get_summary (CamelFolder *folder, CamelException *ex)
 			fprintf (stderr, "Warning: FLAGS for message %d not found\n", i);
 
 			g_free (info->subject);
-			g_free (info->to);
 			g_free (info->from);
+			g_free (info->to);
+			g_free (info->cc);
+			g_free (info->message_id);
+			g_free (info->uid);
+			header_references_list_clear (&info->references);
 			g_free (info);
 			info = NULL;
 			
@@ -1120,8 +1202,10 @@ imap_get_message_info (CamelFolder *folder, const char *uid)
 {
 	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
 	CamelMessageInfo *info = NULL;
-	char *result, *datestr, *p;
-	int status;
+	struct _header_raw *h, *tail = NULL;
+	const char *received;
+	char *result, *p;
+	int j, status;
 
 	/* lets first check to see if we have the message info cached */
 	if (imap_folder->summary) {
@@ -1130,7 +1214,7 @@ imap_get_message_info (CamelFolder *folder, const char *uid)
 		max = imap_folder->summary->len;
 		for (i = 0; i < max; i++) {
 			info = g_ptr_array_index (imap_folder->summary, i);
-			if (!strcmp(info->uid, uid))
+			if (!strcmp (info->uid, uid))
 				return info;
 		}
 	}
@@ -1145,18 +1229,66 @@ imap_get_message_info (CamelFolder *folder, const char *uid)
 		return NULL;
 	}
 
-	info = g_malloc0 (sizeof (CamelMessageInfo));
-	info->subject = get_header_field (result, "\nSubject:");
-	info->to = get_header_field (result, "\nTo:");
-	info->from = get_header_field (result, "\nFrom:");
+	h = NULL;
+	for (j = 0; *header_fields[j]; j++) {
+		struct _header_raw *raw;
+		char *field, *value;
+		
+		field = g_strdup_printf ("\n%s:", header_fields[j]);
+		value = get_header_field (result, field);
+		g_free (field);
+		if (!value)
+			continue;
+		
+		raw = g_malloc0 (sizeof (struct _header_raw));
+		raw->next = NULL;
+		raw->name = g_strdup (header_fields[j]);
+		raw->value = value;
+		raw->offset = -1;
+		
+		if (!h) {
+			h = raw;
+			tail = h;
+		} else {
+			tail->next = raw;
+			tail = raw;
+		}
+	}
 	
-	datestr = get_header_field (result, "\nDate:");
-	info->date_sent = header_decode_date (datestr, NULL);
-	g_free (datestr);
+	/* construct the CamelMessageInfo */
+	info = g_malloc0 (sizeof (CamelMessageInfo));
+	info->subject = camel_summary_format_string (h, "subject");
+	info->from = camel_summary_format_address (h, "from");
+	info->to = camel_summary_format_address (h, "to");
+	info->cc = camel_summary_format_address (h, "cc");
+	info->user_flags = NULL;
+	info->date_sent = header_decode_date (header_raw_find (&h, "date", NULL), NULL);
+	received = header_raw_find (&h, "received", NULL);
+	if (received)
+		received = strrchr (received, ';');
+	if (received)
+		info->date_received = header_decode_date (received + 1, NULL);
+	else
+		info->date_received = 0;
+	info->message_id = header_msgid_decode (header_raw_find (&h, "message-id", NULL));
+	/* if we have a references, use that, otherwise, see if we have an in-reply-to
+	   header, with parsable content, otherwise *shrug* */
+	info->references = header_references_decode (header_raw_find (&h, "references", NULL));
+	if (info->references == NULL)
+		info->references = header_references_decode (header_raw_find (&h, "in-reply-to", NULL));
 	
 	info->uid = g_strdup (uid);
 	g_free (result);
 
+	while (h->next) {
+		struct _header_raw *next = h->next;
+		
+		g_free (h->name);
+		g_free (h->value);
+		g_free (h);
+		h = next;
+	}
+	
 	/* now to get the flags */
 	status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), folder,
 					      &result, "UID FETCH %s FLAGS", uid);

@@ -1,5 +1,12 @@
 2000-07-06  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* providers/imap/camel-imap-folder.c (imap_get_summary): Parse for
+	more header information to allow message threading in IMAP.
+	(imap_get_message_info): Same.
+
+	* camel-folder-summary.c: Renamed summary_format_* to
+	camel_summary_format_* and moved them into public scope.
+
 	* providers/smtp/camel-smtp-transport.c (smtp_connect): Oops. Don't
 	pass port # as a string in the error code (if it fails to connect).
 

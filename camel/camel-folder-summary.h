@@ -194,6 +194,10 @@ CamelMessageInfo *camel_folder_summary_uid(CamelFolderSummary *, const char *uid
 /* shift content ... */
 void camel_folder_summary_offset_content(CamelMessageContentInfo *content, off_t offset);
 
+/* summary formatting utils */
+char *camel_summary_format_address (struct _header_raw *h, const char *name);
+char *camel_summary_format_string (struct _header_raw *h, const char *name);
+
 /* summary file loading/saving helper functions */
 int camel_folder_summary_encode_fixed_int32(FILE *, gint32);
 int camel_folder_summary_decode_fixed_int32(FILE *, gint32 *);

@@ -906,8 +906,8 @@ static CamelMessageContentInfo * content_info_new_from_parser(CamelFolderSummary
 	return ci;
 }
 
-static char *
-summary_format_address(struct _header_raw *h, const char *name)
+char *
+camel_summary_format_address(struct _header_raw *h, const char *name)
 {
 	struct _header_address *addr;
 	const char *text;
@@ -924,8 +924,8 @@ summary_format_address(struct _header_raw *h, const char *name)
 	return ret;
 }
 
-static char *
-summary_format_string(struct _header_raw *h, const char *name)
+char *
+camel_summary_format_string(struct _header_raw *h, const char *name)
 {
 	const char *text;
 
@@ -947,10 +947,10 @@ message_info_new(CamelFolderSummary *s, struct _header_raw *h)
 
 	mi = g_malloc0(s->message_info_size);
 
-	mi->subject = summary_format_string(h, "subject");
-	mi->from = summary_format_address(h, "from");
-	mi->to = summary_format_address(h, "to");
-	mi->cc = summary_format_address(h, "cc");
+	mi->subject = camel_summary_format_string(h, "subject");
+	mi->from = camel_summary_format_address(h, "from");
+	mi->to = camel_summary_format_address(h, "to");
+	mi->cc = camel_summary_format_address(h, "cc");
 	mi->user_flags = NULL;
 	mi->date_sent = header_decode_date(header_raw_find(&h, "date", NULL), NULL);
 	received = header_raw_find(&h, "received", NULL);
