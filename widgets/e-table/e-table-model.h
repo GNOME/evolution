@@ -26,6 +26,11 @@ typedef struct {
 	void        (*set_value_at)     (ETableModel *etm, int col, int row, void *value);
 	gboolean    (*is_cell_editable) (ETableModel *etm, int col, int row);
 	int         (*row_height)       (ETableModel *etm, int row);
+
+	/*
+	 * Signals
+	 */
+	void        (*model_changed)    (ETableModel *etm, int row);
 } ETableModelClass;
 
 GtkType     e_table_model_get_type (void);
@@ -42,6 +47,7 @@ gboolean    e_table_model_is_cell_editable (ETableModel *e_table_model, int col,
 /*
  * Routines for emitting signals on the e_table
  */
+void        e_table_model_changed          (ETableModel *e_table_model);
 
 #endif /* _E_TABLE_MODEL_H_ */
 

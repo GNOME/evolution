@@ -17,6 +17,8 @@ libevolutionwidgets_a_SOURCES = 		\
 	e-table-header.h			\
 	e-table-header-item.c			\
 	e-table-header-item.h			\
+	e-table-item.c				\
+	e-table-item.h				\
 	e-table-model.c				\
 	e-table-model.h				\
 	e-table-render.c			\
@@ -34,7 +36,7 @@ table_test_SOURCES = 	\
 
 table_test_LDADD =		\
 	$(EXTRA_GNOME_LIBS)	\
-	libevolutionwidgets.la
+	libevolutionwidgets.a
 
 EXTRA_DIST =		\
 	sample.table

@@ -6,7 +6,7 @@
  * Author:
  *   Miguel de Icaza (miguel@gnu.org)
  *
- * (C) 1999 International GNOME Support.
+ * (C) 1999 Helix Code, Inc.
  */
 
 #include <config.h>

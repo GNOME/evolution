@@ -4,14 +4,22 @@
  * Author:
  *   Miguel de Icaza (miguel@gnu.org)
  *
- * (C) 1999 International GNOME Support.
+ * (C) 1999 Helix Code, Inc.
  */
 #include <config.h>
+#include <gtk/gtksignal.h>
 #include "e-table-model.h"
 
 #define ETM_CLASS(e) ((ETableModelClass *)((GtkObject *)e)->klass)
 
 static GtkObjectClass *e_table_model_parent_class;
+
+enum {
+	MODEL_CHANGED,
+	LAST_SIGNAL
+};
+
+static guint etm_signals [LAST_SIGNAL] = { 0, };
 
 int
 e_table_model_column_count (ETableModel *etable)
@@ -67,11 +75,21 @@ e_table_model_destroy (GtkObject *object)
 }
 
 static void
-e_table_model_class_init (GtkObjectClass *class)
+e_table_model_class_init (GtkObjectClass *object_class)
 {
 	e_table_model_parent_class = gtk_type_class (gtk_object_get_type ());
 	
-	class->destroy = e_table_model_destroy;
+	object_class->destroy = e_table_model_destroy;
+
+	etm_signals [MODEL_CHANGED] =
+		gtk_signal_new ("model_changed",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (ETableModelClass, model_changed),
+				gtk_marshal_NONE__NONE,
+				GTK_TYPE_NONE, 0);
+	
+	gtk_object_class_add_signals (object_class, etm_signals, LAST_SIGNAL);
 }
 
 GtkType
@@ -111,6 +129,13 @@ e_table_model_height (ETableModel *etable)
 		size += e_table_model_row_height (etable, i);
 
 	return size;
+}
+
+void
+e_table_model_changed (ETableModel *e_table_model)
+{
+	gtk_signal_emit (GTK_OBJECT (e_table_model),
+			 etm_signals [MODEL_CHANGED]);
 }
 
 #if 0

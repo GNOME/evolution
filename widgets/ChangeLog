@@ -1,3 +1,14 @@
+1999-11-18  Miguel de Icaza  <miguel@gnu.org>
+
+	* e-table-model.c (e_table_model_class_init): Add model_changed
+	signal here.
+
+	* e-table-item.c, e-table-item.h: New files.  They implement the
+	view of the ETableModel as Canvas Items.
+	
+	* e-table-header-item.c (ethi_set_arg): Ref header here.
+	(ethi_destroy): Unref it here.
+
 1999-11-17  Ettore Perazzoli  <ettore@gnu.org>
 
 	* e-msg-composer-address-dialog.c: Moved to `$(srcdir)/composer'.

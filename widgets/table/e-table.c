@@ -4,7 +4,7 @@
  * Author:
  *   Miguel de Icaza (miguel@gnu.org)
  *
- * Copyright 1999, International GNOME Support
+ * Copyright 1999, Helix Code, Inc
  */
 #include <config.h>
 #include <libgnomeui/gnome-canvas.h>

@@ -36,7 +36,7 @@ ethi_destroy (GtkObject *object)
 {
 	ETableHeaderItem *ethi = E_TABLE_HEADER_ITEM (object);
 
-	gtk_object_unref (GTK_OBJECT (ethi));
+	gtk_object_unref (GTK_OBJECT (ethi->eth));
 	
 	if (GTK_OBJECT_CLASS (ethi_parent_class)->destroy)
 		(*GTK_OBJECT_CLASS (ethi_parent_class)->destroy) (object);
@@ -84,6 +84,7 @@ ethi_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	switch (arg_id){
 	case ARG_TABLE_HEADER:
 		ethi->eth = GTK_VALUE_POINTER (*arg);
+		gtk_object_ref (GTK_OBJECT (ethi->eth));
 		break;
 
 	case ARG_TABLE_X:

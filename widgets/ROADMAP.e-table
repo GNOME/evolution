@@ -1,0 +1,57 @@
+
+The E-Table package implements an editable table that provides
+user-defined rendering, user-defined editing, sorting and grouping of
+the objects displayed.
+
+It is inspired by Java's Swing JTable object.  There are models for
+the actual table contents and for the table headers; they are the
+actual repository of information.
+
+The objects are rendered by various view objects.  In the current code
+base, we use we use GnomeCanvasItems to do the rendering.  One for
+each table and one for the headers.
+
+* The Models
+
+All of them are GtkObjects.
+
+e-table-model.h, e-table-model.c:
+
+	These implement the abstract E-Table-Model class.  You
+	can derive this object to create your own data repository.
+
+e-table-simple.h, e-table-simple.c:
+
+	A simple implementation of e-table-model that uses callback
+	routines (you provide the callbacks).  For lazy people, like
+	me. 
+
+e-table-header.h, e-table-header.c:
+
+	These implement the ETableHeader model.  They describe what
+	columns are shown in the screen and in which order.
+
+e-table-col.h, e-table-col.c:
+
+	Describes a single column (the size, the string displayed, the
+	rendering function for each row, comparission function for
+	thsi field).
+
+* The Views
+
+e-table-item.c, e-table-item.h
+
+	This is a canvas item that renders the contents of a
+	ETableModel into the screen.
+
+e-table-header-item.c, e-table-header-item.h
+
+	This canvas item renders the ETableHeader headings.
+
+* The Filters
+
+e-table-sorted.c, e-table-sorted.h
+
+	This is an ETableModel that can sort an existing ETableModel.
+
+
