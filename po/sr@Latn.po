@@ -8,14 +8,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Ximian Evolution 1.4\n"
-"POT-Creation-Date: 2003-09-15 14:36-0400\n"
-"PO-Revision-Date: 2003-09-08 15:40+0200\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2003-09-26 17:45+0200\n"
+"PO-Revision-Date: 2003-09-26 17:47+0200\n"
 "Last-Translator: Igor Nestorović <jung@one.ekof.bg.ac.yu>\n"
 "Language-Team: Serbian (sr) <serbiangnome-lista@nongnu.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Report-Msgid-Bugs-To: \n"
 "Plural-Forms: nplurals=3;    plural=n%10==1 && n%100!=11 ? 0 :    n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
@@ -562,7 +562,7 @@ msgid "Evolution Addressbook folder viewer"
 msgstr "Preglednik direktorijuma Evolucija adresara"
 
 #: addressbook/gui/component/addressbook-component.c:76
-#: addressbook/gui/component/addressbook-component.c:625
+#: addressbook/gui/component/addressbook-component.c:628
 #: importers/netscape-importer.c:1874 mail/importers/netscape-importer.c:1844
 #: shell/e-local-storage.c:178 shell/e-shortcuts.c:1087
 msgid "Contacts"
@@ -588,27 +588,27 @@ msgstr "Javni kontakti"
 msgid "Public folder containing contact information"
 msgstr "Javni direktorijum sa podacima o kontaktima"
 
-#: addressbook/gui/component/addressbook-component.c:579
+#: addressbook/gui/component/addressbook-component.c:582
 msgid "New Contact"
 msgstr "Novi kontakt"
 
-#: addressbook/gui/component/addressbook-component.c:579
+#: addressbook/gui/component/addressbook-component.c:582
 msgid "_Contact"
 msgstr "_Kontakt"
 
-#: addressbook/gui/component/addressbook-component.c:580
+#: addressbook/gui/component/addressbook-component.c:583
 msgid "Create a new contact"
 msgstr "Unesi novi kontakt"
 
-#: addressbook/gui/component/addressbook-component.c:583
+#: addressbook/gui/component/addressbook-component.c:586
 msgid "New Contact List"
 msgstr "Nova kontakt lista"
 
-#: addressbook/gui/component/addressbook-component.c:583
+#: addressbook/gui/component/addressbook-component.c:586
 msgid "Contact _List"
 msgstr "Kontakt _lista"
 
-#: addressbook/gui/component/addressbook-component.c:584
+#: addressbook/gui/component/addressbook-component.c:587
 msgid "Create a new contact list"
 msgstr "Napravi novu kontakt listu"
 
@@ -915,8 +915,7 @@ msgstr ""
 "Čestitam, završili ste podešavanje ovog LDAP servera. Sada\n"
 "možete pristupiti ovom direktorijumu.\n"
 "\n"
-"Molim pritisnite \"Finish\" dugme da sačuvate podešavanja koja ste uneli "
-"ovde."
+"Molim pritisnite \"Finish\" dugme da sačuvate podešavanja koja ste uneli ovde."
 
 #: addressbook/gui/component/ldap-config.glade.h:19
 msgid "Connecting"
@@ -1042,16 +1041,14 @@ msgid ""
 "LDAP\n"
 "searches, and for creating and editing contacts. "
 msgstr ""
-"Odabiranje ove opcije omogućiće promenu podrazumevanih podešavanja  "
-"Evolucije\n"
+"Odabiranje ove opcije omogućiće promenu podrazumevanih podešavanja  Evolucije\n"
 "za LDAP pretrage, i za upisivanje i menjanje kontakata. "
 
 #: addressbook/gui/component/ldap-config.glade.h:47
 msgid ""
 "Specifying a display name is the last required step in configuring an LDAP "
 "server."
-msgstr ""
-"Odabiranje imena je poslednji obavezan korak u podešavanju LDAP servera."
+msgstr "Odabiranje imena je poslednji obavezan korak u podešavanju LDAP servera."
 
 #: addressbook/gui/component/ldap-config.glade.h:48
 msgid "Step 1: Server Information"
@@ -1273,7 +1270,7 @@ msgstr "Ukloni sve"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:211
 #: addressbook/gui/component/select-names/e-select-names.c:694
-#: composer/e-msg-composer-attachment-bar.c:450
+#: composer/e-msg-composer-attachment-bar.c:464
 msgid "Remove"
 msgstr "Ukloni"
 
@@ -1762,7 +1759,7 @@ msgstr "Danska"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:194
 msgid "Djibouti"
-msgstr "Džibuti"
+msgstr "DŽibuti"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:195
 msgid "Dominica"
@@ -2346,7 +2343,7 @@ msgstr "Južna Afrika"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:327
 msgid "South Georgia And The South Sandwich Islands"
-msgstr "Južna Džordžija i Južna Sendvič Ostrva"
+msgstr "Južna DŽordžija i Južna Sendvič Ostrva"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:328
 #: my-evolution/Locations.h:2124
@@ -3067,7 +3064,7 @@ msgstr "Kopiraj"
 msgid "Paste"
 msgstr "Umetni"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:915 filter/libfilter-i18n.h:10
+#: addressbook/gui/widgets/e-addressbook-view.c:915 filter/libfilter-i18n.h:11
 #: mail/mail-accounts.c:234 ui/evolution-addressbook.xml.h:8
 #: ui/evolution-comp-editor.xml.h:4 ui/evolution-contact-editor.xml.h:2
 #: ui/evolution-contact-list-editor.xml.h:2 ui/evolution-mail-message.xml.h:20
@@ -4413,8 +4410,8 @@ msgid ""
 "The journal entry being deleted is published, would you like to send a "
 "cancellation notice?"
 msgstr ""
-"Obrisani unos u dnevnik je objavljen, želite li da pošaljete poruku za "
-"njegovo otkazivanje?"
+"Obrisani unos u dnevnik je objavljen, želite li da pošaljete poruku za njegovo "
+"otkazivanje?"
 
 #: calendar/gui/dialogs/cancel-comp.c:79
 msgid "Are you sure you want to cancel and delete this journal entry?"
@@ -4820,7 +4817,7 @@ msgstr "RSVP"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:10
 #: calendar/gui/e-calendar-table.etspec.h:15
-#: calendar/gui/e-meeting-time-sel.etspec.h:10 filter/libfilter-i18n.h:36
+#: calendar/gui/e-meeting-time-sel.etspec.h:10 filter/libfilter-i18n.h:58
 #: mail/message-list.etspec.h:12
 msgid "Status"
 msgstr "Stanje"
@@ -5295,7 +5292,7 @@ msgid "Alarms"
 msgstr "Alarmi"
 
 #: calendar/gui/e-calendar-table.etspec.h:7 camel/camel-filter-driver.c:1156
-#: camel/camel-filter-driver.c:1251 mail/mail-send-recv.c:584
+#: camel/camel-filter-driver.c:1251 mail/mail-send-recv.c:578
 msgid "Complete"
 msgstr "Završeno"
 
@@ -5643,8 +5640,9 @@ msgid "Send Latest Information"
 msgstr "Pošalji najnoviju informaciju"
 
 #: calendar/gui/e-itip-control.c:1211 calendar/gui/itip-utils.c:439
-#: mail/mail-send-recv.c:389 mail/mail-send-recv.c:446
-#: shell/evolution-shell-component.c:1185 ui/evolution-mail-global.xml.h:1
+#: mail/mail-send-recv.c:388 mail/mail-send-recv.c:440
+#: shell/e-shell-startup-wizard.c:781 shell/evolution-shell-component.c:1185
+#: ui/evolution-mail-global.xml.h:1
 msgid "Cancel"
 msgstr "Odustani"
 
@@ -6661,7 +6659,7 @@ msgstr "Afrika/Dar_es_Salam"
 
 #: calendar/zones.h:25
 msgid "Africa/Djibouti"
-msgstr "Afrika/Džibuti"
+msgstr "Afrika/DŽibuti"
 
 #: calendar/zones.h:26
 msgid "Africa/Douala"
@@ -7021,11 +7019,11 @@ msgstr "Amerika/Jamajka"
 
 #: calendar/zones.h:115
 msgid "America/Jujuy"
-msgstr "Amerika/Džudžui"
+msgstr "Amerika/DŽudžui"
 
 #: calendar/zones.h:116
 msgid "America/Juneau"
-msgstr "Amerika/Džuno"
+msgstr "Amerika/DŽuno"
 
 #: calendar/zones.h:117
 msgid "America/Kentucky/Louisville"
@@ -7209,7 +7207,7 @@ msgstr "Amerika/Šiprok"
 
 #: calendar/zones.h:162
 msgid "America/St_Johns"
-msgstr "Amerika/Sent_Džon"
+msgstr "Amerika/Sent_DŽon"
 
 #: calendar/zones.h:163
 msgid "America/St_Kitts"
@@ -7429,11 +7427,11 @@ msgstr "Azija/Istanbul"
 
 #: calendar/zones.h:217
 msgid "Asia/Jakarta"
-msgstr "Azija/Džakarta"
+msgstr "Azija/DŽakarta"
 
 #: calendar/zones.h:218
 msgid "Asia/Jayapura"
-msgstr "Azija/Džajapura"
+msgstr "Azija/DŽajapura"
 
 #: calendar/zones.h:219
 msgid "Asia/Jerusalem"
@@ -7657,7 +7655,7 @@ msgstr "Atlantik/Reikjavik"
 
 #: calendar/zones.h:274
 msgid "Atlantic/South_Georgia"
-msgstr "Atlantik/Saut_Džordžija"
+msgstr "Atlantik/Saut_DŽordžija"
 
 #: calendar/zones.h:275
 msgid "Atlantic/St_Helena"
@@ -8013,7 +8011,7 @@ msgstr "Pacifik/Honolulu"
 
 #: calendar/zones.h:363
 msgid "Pacific/Johnston"
-msgstr "Pacifik/Džonson"
+msgstr "Pacifik/DŽonson"
 
 #: calendar/zones.h:364
 msgid "Pacific/Kiritimati"
@@ -8343,7 +8341,7 @@ msgstr ""
 
 #: camel/camel-gpg-context.c:821 camel/camel-gpg-context.c:1297
 #: camel/camel-gpg-context.c:1403 camel/camel-gpg-context.c:1473
-#: camel/camel-gpg-context.c:1529 mail/mail-send-recv.c:580
+#: camel/camel-gpg-context.c:1529 mail/mail-send-recv.c:574
 msgid "Cancelled."
 msgstr "Poništeno."
 
@@ -8579,8 +8577,8 @@ msgid ""
 "This option will connect to the server using a secure CRAM-MD5 password, if "
 "the server supports it."
 msgstr ""
-"Ova opcija će povezati na server korišćenjem sigurnosne CRAM-MD5 lozinke, "
-"ako je server podržava."
+"Ova opcija će povezati na server korišćenjem sigurnosne CRAM-MD5 lozinke, ako "
+"je server podržava."
 
 #: camel/camel-sasl-digest-md5.c:48
 msgid "DIGEST-MD5"
@@ -9470,8 +9468,7 @@ msgid ""
 "For reading and storing local mail in external standard mbox spool files.\n"
 "May also be used to read a tree of Elm, Pine, or Mutt style folders."
 msgstr ""
-"Za čitanje i smeštanje lokalne pošte u spoljne standardne mbox spool "
-"datoteke.\n"
+"Za čitanje i smeštanje lokalne pošte u spoljne standardne mbox spool datoteke.\n"
 "Takođe se može koristiti za čitanje stabla direktorijuma u Elm, Pine, ili "
 "Mutt stilu."
 
@@ -9926,9 +9923,9 @@ msgid "Retrieving POP summary"
 msgstr "Preuzimam POP sažetak"
 
 #: camel/providers/pop3/camel-pop3-folder.c:262
-#: camel/providers/pop3/camel-pop3-folder.c:429
-#: camel/providers/pop3/camel-pop3-folder.c:490
-#: camel/providers/pop3/camel-pop3-folder.c:508
+#: camel/providers/pop3/camel-pop3-folder.c:430
+#: camel/providers/pop3/camel-pop3-folder.c:491
+#: camel/providers/pop3/camel-pop3-folder.c:509
 msgid "User cancelled"
 msgstr "Korisnik poništen"
 
@@ -9941,27 +9938,27 @@ msgstr "Ne mogu da dobijem POP sažetak: %s"
 msgid "Expunging deleted messages"
 msgstr "Izbacujem obrisane poruke"
 
-#: camel/providers/pop3/camel-pop3-folder.c:403
+#: camel/providers/pop3/camel-pop3-folder.c:404
 #, c-format
 msgid "No message with uid %s"
 msgstr "Nema poruka sa uid %s"
 
 #. Sigh, most of the crap in this function is so that the cancel button
 #. returns the proper exception code.  Sigh.
-#: camel/providers/pop3/camel-pop3-folder.c:410
+#: camel/providers/pop3/camel-pop3-folder.c:411
 #, c-format
 msgid "Retrieving POP message %d"
 msgstr "Preuzimam POP poruku %d"
 
-#: camel/providers/pop3/camel-pop3-folder.c:432
-#: camel/providers/pop3/camel-pop3-folder.c:493
-#: camel/providers/pop3/camel-pop3-folder.c:500
-#: camel/providers/pop3/camel-pop3-folder.c:511
+#: camel/providers/pop3/camel-pop3-folder.c:433
+#: camel/providers/pop3/camel-pop3-folder.c:494
+#: camel/providers/pop3/camel-pop3-folder.c:501
+#: camel/providers/pop3/camel-pop3-folder.c:512
 #, c-format
 msgid "Cannot get message %s: %s"
 msgstr "Ne mogu da dobijem poruku %s: %s"
 
-#: camel/providers/pop3/camel-pop3-folder.c:500
+#: camel/providers/pop3/camel-pop3-folder.c:501
 msgid "Unknown reason"
 msgstr "Nepoznat razlog"
 
@@ -10372,8 +10369,7 @@ msgstr "DATA pogrešan odgovor"
 #: camel/providers/smtp/camel-smtp-transport.c:1334
 #, c-format
 msgid "DATA send timed out: message termination: %s: mail not sent"
-msgstr ""
-"DATA slanju isteklo je vreme: završetak poruke: %s: poruka nije poslata"
+msgstr "DATA slanju isteklo je vreme: završetak poruke: %s: poruka nije poslata"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1354
 msgid "DATA termination response error"
@@ -10413,19 +10409,19 @@ msgid "%.0fG"
 msgstr "%.0fG"
 
 #. This is a filename. Translators take note.
-#: composer/e-msg-composer-attachment-bar.c:313 mail/mail-display.c:226
+#: composer/e-msg-composer-attachment-bar.c:320 mail/mail-display.c:226
 msgid "attachment"
 msgstr "prilog"
 
-#: composer/e-msg-composer-attachment-bar.c:451
+#: composer/e-msg-composer-attachment-bar.c:465
 msgid "Remove selected items from the attachment list"
 msgstr "Ukloni odabrane predmete sa liste priloga"
 
-#: composer/e-msg-composer-attachment-bar.c:481
+#: composer/e-msg-composer-attachment-bar.c:495
 msgid "Add attachment..."
 msgstr "Dodaj prilog..."
 
-#: composer/e-msg-composer-attachment-bar.c:482
+#: composer/e-msg-composer-attachment-bar.c:496
 msgid "Attach a file to the message"
 msgstr "Dodaj datoteku poruci"
 
@@ -10679,8 +10675,7 @@ msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
 msgstr ""
-"<b>(Urednik sadrži u tekstu poruke ne sadrži tekst, i ne može biti menjan.)"
-"<b>"
+"<b>(Urednik sadrži u tekstu poruke ne sadrži tekst, i ne može biti menjan.)<b>"
 
 #: data/evolution.desktop.in.in.h:1
 msgid "The Evolution groupware suite"
@@ -11078,7 +11073,7 @@ msgstr ""
 "Greška u regularnom izrazu '%s':\n"
 "%s"
 
-#: filter/filter-label.c:121 filter/libfilter-i18n.h:17 mail/mail-config.c:65
+#: filter/filter-label.c:121 filter/libfilter-i18n.h:26 mail/mail-config.c:65
 #: mail/mail-config.glade.h:62 shell/e-config-upgrade.c:1454
 msgid "Important"
 msgstr "Važno"
@@ -11270,214 +11265,214 @@ msgid "Beep"
 msgstr "Zvono"
 
 #: filter/libfilter-i18n.h:7
+msgid "contains"
+msgstr "sadrži"
+
+#: filter/libfilter-i18n.h:8
 msgid "Copy to Folder"
 msgstr "Kopiraj u direktorijum"
 
-#: filter/libfilter-i18n.h:8
+#: filter/libfilter-i18n.h:9
 msgid "Date received"
 msgstr "Datum primanja"
 
-#: filter/libfilter-i18n.h:9
+#: filter/libfilter-i18n.h:10
 msgid "Date sent"
 msgstr "Datum slanja"
 
-#: filter/libfilter-i18n.h:11
+#: filter/libfilter-i18n.h:12
 msgid "Deleted"
 msgstr "Obrisano"
 
-#: filter/libfilter-i18n.h:12
+#: filter/libfilter-i18n.h:13
+msgid "does not contain"
+msgstr "ne sadrži"
+
+#: filter/libfilter-i18n.h:14
+msgid "does not end with"
+msgstr "ne završava se sa"
+
+#: filter/libfilter-i18n.h:15
+msgid "does not exist"
+msgstr "ne postoji"
+
+#: filter/libfilter-i18n.h:16
+msgid "does not return"
+msgstr "ne vraća"
+
+#: filter/libfilter-i18n.h:17
+msgid "does not sound like"
+msgstr "ne zvuči kao"
+
+#: filter/libfilter-i18n.h:18
+msgid "does not start with"
+msgstr "ne počinje sa"
+
+#: filter/libfilter-i18n.h:19
 msgid "Do Not Exist"
 msgstr "Ne postoji"
 
-#: filter/libfilter-i18n.h:13
+#: filter/libfilter-i18n.h:20
 msgid "Draft"
 msgstr "Priprema"
 
-#: filter/libfilter-i18n.h:14
+#: filter/libfilter-i18n.h:21
+msgid "ends with"
+msgstr "završava se sa"
+
+#: filter/libfilter-i18n.h:22
 msgid "Exist"
 msgstr "Postoji"
 
-#: filter/libfilter-i18n.h:15
+#: filter/libfilter-i18n.h:23
+msgid "exists"
+msgstr "postoji"
+
+#: filter/libfilter-i18n.h:24
 msgid "Expression"
 msgstr "Izraz"
 
-#: filter/libfilter-i18n.h:16
+#: filter/libfilter-i18n.h:25
 msgid "Follow Up"
 msgstr "Sledi"
 
-#: filter/libfilter-i18n.h:18 mail/folder-browser.c:1824
+#: filter/libfilter-i18n.h:27
+msgid "is"
+msgstr "je"
+
+#: filter/libfilter-i18n.h:28
+msgid "is after"
+msgstr "je posle"
+
+#: filter/libfilter-i18n.h:29
+msgid "is before"
+msgstr "je pre"
+
+#: filter/libfilter-i18n.h:30
+msgid "is Flagged"
+msgstr "je označen"
+
+#: filter/libfilter-i18n.h:31
+msgid "is greater than"
+msgstr "je veći od"
+
+#: filter/libfilter-i18n.h:32
+msgid "is less than"
+msgstr "je manji od"
+
+#: filter/libfilter-i18n.h:33
+msgid "is not"
+msgstr "nije"
+
+#: filter/libfilter-i18n.h:34
+msgid "is not Flagged"
+msgstr "nije označen"
+
+#: filter/libfilter-i18n.h:35 mail/folder-browser.c:1824
 msgid "Label"
 msgstr "Etiketa"
 
-#: filter/libfilter-i18n.h:19
+#: filter/libfilter-i18n.h:36
 msgid "Mailing list"
 msgstr "Dopisna lista"
 
-#: filter/libfilter-i18n.h:20
+#: filter/libfilter-i18n.h:37
 msgid "Message Body"
 msgstr "Telo poruke"
 
-#: filter/libfilter-i18n.h:21
+#: filter/libfilter-i18n.h:38
 msgid "Message Header"
 msgstr "Zaglavlje poruke"
 
-#: filter/libfilter-i18n.h:22
+#: filter/libfilter-i18n.h:39
 msgid "Move to Folder"
 msgstr "Premesti u direktorijum"
 
-#: filter/libfilter-i18n.h:23
+#: filter/libfilter-i18n.h:40
 msgid "Pipe Message to Shell Command"
 msgstr "Veži poruku za komandu iz konzole"
 
-#: filter/libfilter-i18n.h:24
+#: filter/libfilter-i18n.h:41
 msgid "Play Sound"
 msgstr "Pusti zvuk"
 
-#: filter/libfilter-i18n.h:25 mail/message-tag-followup.c:68
+#: filter/libfilter-i18n.h:42 mail/message-tag-followup.c:68
 msgid "Read"
 msgstr "Čitaj"
 
-#: filter/libfilter-i18n.h:26
+#: filter/libfilter-i18n.h:43
 msgid "Recipients"
 msgstr "Primaoci"
 
-#: filter/libfilter-i18n.h:27
+#: filter/libfilter-i18n.h:44
 msgid "Regex Match"
 msgstr "Reg. izraz pretraga"
 
-#: filter/libfilter-i18n.h:28
+#: filter/libfilter-i18n.h:45
 msgid "Replied to"
 msgstr "Odgovoreno na"
 
-#: filter/libfilter-i18n.h:29 filter/score-rule.c:184 filter/score-rule.c:186
+#: filter/libfilter-i18n.h:46
+msgid "returns"
+msgstr "povraćaji"
+
+#: filter/libfilter-i18n.h:47
+msgid "returns greater than"
+msgstr "više povraćaja od"
+
+#: filter/libfilter-i18n.h:48
+msgid "returns less than"
+msgstr "manje povraćaja od"
+
+#: filter/libfilter-i18n.h:49 filter/score-rule.c:184 filter/score-rule.c:186
 #: mail/message-list.etspec.h:10
 msgid "Score"
 msgstr "Rezultat"
 
-#: filter/libfilter-i18n.h:30 mail/mail-callbacks.c:1820
+#: filter/libfilter-i18n.h:50 mail/mail-callbacks.c:1820
 msgid "Sender"
 msgstr "Pošiljalac"
 
-#: filter/libfilter-i18n.h:31
+#: filter/libfilter-i18n.h:51
 msgid "Set Status"
 msgstr "Dodeli status"
 
-#: filter/libfilter-i18n.h:32
+#: filter/libfilter-i18n.h:52
 msgid "Shell Command"
 msgstr "Komanda iz konzole"
 
-#: filter/libfilter-i18n.h:33
+#: filter/libfilter-i18n.h:53
 msgid "Size (kB)"
 msgstr "Veličina (kB)"
 
-#: filter/libfilter-i18n.h:34
+#: filter/libfilter-i18n.h:54
+msgid "sounds like"
+msgstr "zvuči kao"
+
+#: filter/libfilter-i18n.h:55
 msgid "Source Account"
 msgstr "Izvorni nalog"
 
-#: filter/libfilter-i18n.h:35
+#: filter/libfilter-i18n.h:56
 msgid "Specific header"
 msgstr "Određeno zaglavlje"
 
-#: filter/libfilter-i18n.h:37
+#: filter/libfilter-i18n.h:57
+msgid "starts with"
+msgstr "počinje sa"
+
+#: filter/libfilter-i18n.h:59
 msgid "Stop Processing"
 msgstr "Prekini sa obradom"
 
-#: filter/libfilter-i18n.h:38 mail/mail-format.c:937
+#: filter/libfilter-i18n.h:60 mail/mail-format.c:937
 #: mail/message-list.etspec.h:13 mail/message-tag-followup.c:305
 msgid "Subject"
 msgstr "Naslov"
 
-#: filter/libfilter-i18n.h:39
+#: filter/libfilter-i18n.h:61
 msgid "Unset Status"
 msgstr "Nedodeljen status"
-
-#: filter/libfilter-i18n.h:40
-msgid "contains"
-msgstr "sadrži"
-
-#: filter/libfilter-i18n.h:41
-msgid "does not contain"
-msgstr "ne sadrži"
-
-#: filter/libfilter-i18n.h:42
-msgid "does not end with"
-msgstr "ne završava se sa"
-
-#: filter/libfilter-i18n.h:43
-msgid "does not exist"
-msgstr "ne postoji"
-
-#: filter/libfilter-i18n.h:44
-msgid "does not return"
-msgstr "ne vraća"
-
-#: filter/libfilter-i18n.h:45
-msgid "does not sound like"
-msgstr "ne zvuči kao"
-
-#: filter/libfilter-i18n.h:46
-msgid "does not start with"
-msgstr "ne počinje sa"
-
-#: filter/libfilter-i18n.h:47
-msgid "ends with"
-msgstr "završava se sa"
-
-#: filter/libfilter-i18n.h:48
-msgid "exists"
-msgstr "postoji"
-
-#: filter/libfilter-i18n.h:49
-msgid "is Flagged"
-msgstr "je označen"
-
-#: filter/libfilter-i18n.h:50
-msgid "is after"
-msgstr "je posle"
-
-#: filter/libfilter-i18n.h:51
-msgid "is before"
-msgstr "je pre"
-
-#: filter/libfilter-i18n.h:52
-msgid "is greater than"
-msgstr "je veći od"
-
-#: filter/libfilter-i18n.h:53
-msgid "is less than"
-msgstr "je manji od"
-
-#: filter/libfilter-i18n.h:54
-msgid "is not Flagged"
-msgstr "nije označen"
-
-#: filter/libfilter-i18n.h:55
-msgid "is not"
-msgstr "nije"
-
-#: filter/libfilter-i18n.h:56
-msgid "is"
-msgstr "je"
-
-#: filter/libfilter-i18n.h:57
-msgid "returns greater than"
-msgstr "više povraćaja od"
-
-#: filter/libfilter-i18n.h:58
-msgid "returns less than"
-msgstr "manje povraćaja od"
-
-#: filter/libfilter-i18n.h:59
-msgid "returns"
-msgstr "povraćaji"
-
-#: filter/libfilter-i18n.h:60
-msgid "sounds like"
-msgstr "zvuči kao"
-
-#: filter/libfilter-i18n.h:61
-msgid "starts with"
-msgstr "počinje sa"
 
 #: filter/rule-context.c:664 filter/rule-editor.c:241 filter/rule-editor.c:326
 #: mail/mail-vfolder.c:917
@@ -12248,8 +12243,8 @@ msgid ""
 "Since the contact list you are sending to is configured to hide the list's "
 "addresses, this message will contain only Bcc recipients."
 msgstr ""
-"Pošto je kontakt lista koju šaljete podešena da sakrije adrese, ova poruke "
-"će sadržati samo skrivene primaoce."
+"Pošto je kontakt lista koju šaljete podešena da sakrije adrese, ova poruke će "
+"sadržati samo skrivene primaoce."
 
 #: mail/mail-callbacks.c:318
 msgid "This message contains only Bcc recipients."
@@ -13127,31 +13122,31 @@ msgstr "Preuzimam slike"
 msgid "Loading message content"
 msgstr "Učitavam poruku"
 
-#: mail/mail-display.c:1875
+#: mail/mail-display.c:1880
 msgid "Overdue:"
 msgstr "Prekoračeno:"
 
-#: mail/mail-display.c:1879
+#: mail/mail-display.c:1884
 msgid "by %B %d, %Y, %l:%M %p"
 msgstr "do %d. %B, %Y. %k:%M"
 
-#: mail/mail-display.c:2236
+#: mail/mail-display.c:2241
 msgid "Open Link in Browser"
 msgstr "Otvori vezu u čitaču"
 
-#: mail/mail-display.c:2237
+#: mail/mail-display.c:2242
 msgid "Copy Link Location"
 msgstr "Kopiraj adresu veze"
 
-#: mail/mail-display.c:2239
+#: mail/mail-display.c:2244
 msgid "Save Link as (FIXME)"
 msgstr "Sačuvaj vezu kao (FIXME)"
 
-#: mail/mail-display.c:2241
+#: mail/mail-display.c:2246
 msgid "Save Image as..."
 msgstr "Sačuvaj sliku kao..."
 
-#: mail/mail-folder-cache.c:745
+#: mail/mail-folder-cache.c:746
 #, c-format
 msgid "Pinging %s"
 msgstr "Pingujem %s"
@@ -13542,11 +13537,11 @@ msgstr "Pošalji i primi poštu"
 msgid "Cancel _All"
 msgstr "Poništi _sve"
 
-#: mail/mail-send-recv.c:391
+#: mail/mail-send-recv.c:390
 msgid "Updating..."
 msgstr "Osvežavam..."
 
-#: mail/mail-send-recv.c:391 mail/mail-send-recv.c:448
+#: mail/mail-send-recv.c:390 mail/mail-send-recv.c:442
 msgid "Waiting..."
 msgstr "Čekam..."
 
@@ -14131,7 +14126,7 @@ msgstr "Alice Springs"
 
 #: my-evolution/Locations.h:60
 msgid "Al-Jouf"
-msgstr "Al-Džiuf"
+msgstr "Al-DŽiuf"
 
 #: my-evolution/Locations.h:61
 msgid "Allentown"
@@ -17021,7 +17016,7 @@ msgstr "George Airport"
 
 #: my-evolution/Locations.h:810
 msgid "Georgetown"
-msgstr "Džordžtaun"
+msgstr "DŽordžtaun"
 
 #: my-evolution/Locations.h:813
 msgid "Ghardaia"
@@ -17834,11 +17829,11 @@ msgstr "Izumo Airport"
 
 #: my-evolution/Locations.h:1026
 msgid "Jackson"
-msgstr "Džekson"
+msgstr "DŽekson"
 
 #: my-evolution/Locations.h:1027
 msgid "Jacksonville"
-msgstr "Džeksonvil"
+msgstr "DŽeksonvil"
 
 #: my-evolution/Locations.h:1028
 msgid "Jacksonville-Craig Airport"
@@ -17854,7 +17849,7 @@ msgstr "Jaffrey"
 
 #: my-evolution/Locations.h:1032
 msgid "Jamestown"
-msgstr "Džejmstaun"
+msgstr "DŽejmstaun"
 
 #: my-evolution/Locations.h:1033
 msgid "Janesville"
@@ -19858,7 +19853,7 @@ msgstr "New Iberia"
 
 #: my-evolution/Locations.h:1544
 msgid "New Jersey"
-msgstr "Nju Džersi"
+msgstr "Nju DŽersi"
 
 #: my-evolution/Locations.h:1545
 msgid "New Mexico"
@@ -25516,6 +25511,22 @@ msgstr "Ne mogu da otvorim deljeni direktorijum: %s"
 #: shell/e-shell-shared-folder-picker-dialog.c:535
 msgid "Cannot find the specified shared folder."
 msgstr "Ne mogu da nađem navedeni deljeni direktorijum."
+
+#: shell/e-shell-startup-wizard.c:771
+msgid ""
+"If you quit the Evolution Setup Assistant now, all of the information that "
+"you have entered will be forgotten. You will need to run this assistant "
+"again before using Evolution.\n"
+"\n"
+"Do you want to quit using the Assistant now?"
+msgstr ""
+"Ukoliko sada zatvorite pomoćnika za postavljanje Evolucije, svi podaci koje ste uneli će biti zanemareni. Moraćete da pokrenete ovog pomoćnika ponovo pre nego što počnete da koristite Evoluciju.\n"
+"\n"
+"Da li sada želite da zatvorite pomoćnika?"
+
+#: shell/e-shell-startup-wizard.c:782
+msgid "Quit Assistant"
+msgstr "Zatvorite pomoćnika"
 
 #: shell/e-shell-user-creatable-items-handler.c:587
 #: shell/e-shell-user-creatable-items-handler.c:643
