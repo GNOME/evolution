@@ -84,7 +84,6 @@ static void
 owner_unset_cb (EvolutionShellComponent *shell_component,
 		gpointer user_data)
 {
-	g_free (evolution_dir);
 	owner_count --;
 	if (owner_count <= 0)
 		gtk_main_quit();
