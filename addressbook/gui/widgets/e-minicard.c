@@ -695,6 +695,8 @@ field_changed (EText *text, EMinicard *e_minicard)
 {
 	ECardSimpleType type;
 	char *string;
+	char *new_string;
+	gboolean is_list = FALSE;
 
 	type = GPOINTER_TO_INT
 		(gtk_object_get_data(GTK_OBJECT(text),
@@ -702,6 +704,31 @@ field_changed (EText *text, EMinicard *e_minicard)
 	gtk_object_get(GTK_OBJECT(text),
 		       "text", &string,
 		       NULL);
+
+	/* 
+	 * If the card is coresponding with a contact list and the field be 
+	 * changed is e-mail address, should wrap it before write it back.
+	 */
+	new_string = (char*)e_card_simple_get_const (e_minicard->simple, 
+						     E_CARD_SIMPLE_FIELD_IS_LIST); 
+
+	is_list = (NULL != new_string);	
+
+	if  (is_list && (E_CARD_SIMPLE_FIELD_EMAIL == type || 
+	    	  E_CARD_SIMPLE_FIELD_EMAIL_2 == type ||
+		      E_CARD_SIMPLE_FIELD_EMAIL_3 == type)) {
+		if (string && *string) {
+			EDestination *dest = e_destination_new (); 
+			if (dest != NULL){
+				e_destination_set_email (dest, string);
+				new_string = e_destination_export(dest);
+				g_free(string);
+				string=new_string;
+				gtk_object_unref (GTK_OBJECT (dest));
+			}
+		}
+	}
+
 	e_card_simple_set(e_minicard->simple,
 			  type,
 			  string);
