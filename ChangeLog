@@ -1,3 +1,7 @@
+2000-10-22  Robert Brady  <rwb197@zepler.org>
+
+	* configure.in: Added "en_GB" to ALL_LINGUAS.
+
 2000-10-20  Michael Meeks  <michael@helixcode.com>
 
 	* notes/component-factory.c (control_activate_cb): 
