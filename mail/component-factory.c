@@ -171,7 +171,7 @@ create_view (EvolutionShellComponent *shell_component,
 }
 
 static void
-do_create_folder (char *uri, CamelFolder *folder, void *data)
+create_folder_done (char *uri, CamelFolder *folder, void *data)
 {
 	GNOME_Evolution_ShellComponentListener listener = data;
 	CORBA_Environment ev;
@@ -204,7 +204,7 @@ create_folder (EvolutionShellComponent *shell_component,
 		   looks silly but turns into a CamelURL that has
 		   url->provider of "mbox" */
 		uri = g_strdup_printf ("mbox://%s", physical_uri);
-		mail_create_folder (uri, do_create_folder, CORBA_Object_duplicate (listener, &ev));
+		mail_create_folder (uri, create_folder_done, CORBA_Object_duplicate (listener, &ev));
 	} else {
 		GNOME_Evolution_ShellComponentListener_notifyResult (
 			listener, GNOME_Evolution_ShellComponentListener_UNSUPPORTED_TYPE, &ev);
@@ -213,7 +213,7 @@ create_folder (EvolutionShellComponent *shell_component,
 }
 
 static void
-do_remove_folder (char *uri, gboolean removed, void *data)
+remove_folder_done (char *uri, gboolean removed, void *data)
 {
 	GNOME_Evolution_ShellComponentListener listener = data;
 	GNOME_Evolution_ShellComponentListener_Result result;
@@ -248,15 +248,12 @@ remove_folder (EvolutionShellComponent *shell_component,
 		return;
 	}
 	
-	mail_remove_folder (physical_uri, do_remove_folder, CORBA_Object_duplicate (listener, &ev));
-	GNOME_Evolution_ShellComponentListener_notifyResult (listener,
-							     GNOME_Evolution_ShellComponentListener_OK, &ev);
-	
+	mail_remove_folder (physical_uri, remove_folder_done, CORBA_Object_duplicate (listener, &ev));
 	CORBA_exception_free (&ev);
 }
 
 static void
-do_xfer_folder (gboolean ok, void *data)
+xfer_folder_done (gboolean ok, void *data)
 {
 	GNOME_Evolution_ShellComponentListener listener = data;
 	GNOME_Evolution_ShellComponentListener_Result result;
@@ -315,11 +312,8 @@ xfer_folder (EvolutionShellComponent *shell_component,
 	if (source) {
 		uids = camel_folder_get_uids (source);
 		mail_transfer_messages (source, uids, remove_source, destination_physical_uri,
-					do_xfer_folder,
+					xfer_folder_done,
 					CORBA_Object_duplicate (listener, &ev));
-		
-		GNOME_Evolution_ShellComponentListener_notifyResult (listener, GNOME_Evolution_ShellComponentListener_OK,
-								     &ev);
 	} else
 		GNOME_Evolution_ShellComponentListener_notifyResult (listener, GNOME_Evolution_ShellComponentListener_INVALID_URI, &ev);
 	CORBA_exception_free (&ev);

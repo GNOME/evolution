@@ -310,23 +310,30 @@ mail_local_store_get_type (void)
 }
 
 static CamelFolder *
-get_folder (CamelStore *store, const char *folder_name,
-	    guint32 flags, CamelException *ex)
+get_folder (CamelStore *store,
+	    const char *folder_name,
+	    guint32 flags,
+	    CamelException *ex)
 {
 	MailLocalStore *local_store = (MailLocalStore *)store;
 	CamelFolder *folder;
 	MailLocalFolder *local_folder;
-	
-	local_folder = g_hash_table_lookup (local_store->folders, folder_name);
+	char *name;
+
+	name = g_strconcat (CAMEL_SERVICE (store)->url->path, folder_name, NULL);
+
+	local_folder = g_hash_table_lookup (local_store->folders, name);
+
 	if (local_folder) {
 		folder = local_folder->folder;
 		camel_object_ref (CAMEL_OBJECT (folder));
 	} else {
 		folder = NULL;
 		camel_exception_setv (ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
-				      _("No such folder %s"), folder_name);
+				      _("No such folder %s"), name);
 	}
-	
+
+	g_free (name);
 	return folder;
 }
 
@@ -504,8 +511,10 @@ register_folder_registered(struct _mail_msg *mm)
 	if (local_folder->folder) {
 		gchar *name;
 		
-		g_hash_table_insert (local_folder->local_store->folders, local_folder->uri + 8,
+		g_hash_table_insert (local_folder->local_store->folders,
+				     local_folder->uri + 8,
 				     local_folder);
+
 		/* Remove the circular ref once the local store knows aboutthe folder */
 		camel_object_unref ((CamelObject *)local_folder->local_store);
 		
@@ -555,7 +564,7 @@ local_storage_new_folder_cb (EvolutionStorageListener *storage_listener,
 	MailLocalFolder *local_folder;
 	struct _register_msg *m;
 	int id;
-	
+
 	if (strcmp (folder->type, "mail") != 0 ||
 	    strncmp (folder->physical_uri, "file://", 7) != 0 ||
 	    strncmp (folder->physical_uri + 7, local_store->local_path,

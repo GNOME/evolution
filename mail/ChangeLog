@@ -1,3 +1,22 @@
+2001-08-13  Jason Leach  <jleach@ximian.com>
+
+	* mail-local.c (get_folder): Fix this so it can actually get
+	folders from the hash of folders on the local store (it was
+	looking up plain @folder_name, which is typically "mbox", instead
+	of the full URI, /home/jleach/evolution/local/Foo/mbox).
+
+	* component-factory.c (do_remove_folder): Rename to
+	remove_folder_done, more fitting for it's purpose.
+	(do_xfer_folder): Similar name change.
+	(do_create_folder): Similar name change.
+	(remove_folder): Don't notifyResult for the component here, we
+	will notify with our result in remove_folder_done.
+	(xfer_folder): Ditto.
+
+	* mail-vfolder.c (vfolder_refresh): Create new folders with unread
+	counts of "0" instead of #FALSE (which just happens to be #defined
+	as zero).
+
 2001-08-13  Peter Williams  <peterw@ximian.com>
 
 	* mail-send-recv.c (mail_autoreceive_setup): Break most of the
