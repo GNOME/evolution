@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution VERSION\n"
 "POT-Creation-Date: 2002-02-07 11:27-0500\n"
-"PO-Revision-Date: 2002-05-07 08:46-0400\n"
+"PO-Revision-Date: 2002-05-09 23:50-0400\n"
 "Last-Translator: pclouds <pclouds@gmx.net>\n"
 "Language-Team: GnomeVI <gnomevi-list@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -356,7 +356,7 @@ msgstr "\n  Gia đình:     "
 msgid ""
 "\n"
 "  Suffix:     "
-msgstr ""
+msgstr "\n  Tiếp vĩ ngữ:    "
 
 #: addressbook/backend/ebook/e-card.c:3733
 msgid ""
@@ -675,7 +675,7 @@ msgstr ""
 #: calendar/gui/dialogs/comp-editor-util.c:366 shell/e-local-storage.c:172
 #: shell/e-shortcuts.c:1061
 msgid "Contacts"
-msgstr ""
+msgstr "Liên lạc"
 
 #: addressbook/gui/component/addressbook-component.c:71
 msgid "Folder containing contact information"
@@ -917,7 +917,7 @@ msgstr "Bất kỳ phân loại nào"
 
 #: addressbook/gui/component/addressbook.c:1112
 msgid "The URI that the Folder Browser will display"
-msgstr "URI sẽ được Bộ duyệt Thư mục hiển thị"
+msgstr "URI sẽ được Bộ duyệt thư mục hiển thị"
 
 #.
 #. * This is the code for the UI thingie that lets you manipulate the e-mail
@@ -1073,7 +1073,7 @@ msgstr "_Phân loại:"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:7
 msgid "_Folder:"
-msgstr "_Thư mục:"
+msgstr "_thư mục:"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:8
 msgid "_Message Recipients:"
@@ -1117,7 +1117,7 @@ msgstr "Bộ hiệu chỉnh liên lạc"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:11
 msgid "D_epartment:"
-msgstr ""
+msgstr "Cơ _quan:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:12
 #: calendar/gui/dialogs/task-editor.c:183
@@ -1161,7 +1161,7 @@ msgstr "Tổ _chức:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:24
 msgid "P_rofession:"
-msgstr ""
+msgstr "_Nghề nghiệp:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:25
 msgid "Phone Types"
@@ -2434,7 +2434,7 @@ msgstr "Lưu danh sách bằng VCard"
 
 #: addressbook/gui/merging/e-card-duplicate-detected.glade.h:1
 msgid "Add Anyway"
-msgstr ""
+msgstr "Thêm bằng mọi giá"
 
 #: addressbook/gui/merging/e-card-duplicate-detected.glade.h:2
 #: addressbook/gui/merging/e-card-merging-book-commit-duplicate-detected.glade.h:4
@@ -2454,12 +2454,12 @@ msgid ""
 "The name or email address of this contact already exists\n"
 "in this folder.  Would you like to add it anyway?"
 msgstr ""
-"Tên hoặc địa chỉ email của liên lạc này đã có trong thư\n"
-"mục rồi. Bạn có muốn thêm nó nữa?"
+"Tên hoặc địa chỉ email của liên lạc này đã có rồi.\n"
+"Bạn có muốn thêm nó nữa?"
 
 #: addressbook/gui/merging/e-card-merging-book-commit-duplicate-detected.glade.h:1
 msgid "Change Anyway"
-msgstr ""
+msgstr "Đổi bằng mọi giá"
 
 #: addressbook/gui/merging/e-card-merging-book-commit-duplicate-detected.glade.h:2
 msgid "Changed Contact:"
@@ -2571,7 +2571,7 @@ msgstr "Kho ngoại tuyến"
 #: addressbook/gui/widgets/e-addressbook-util.c:36 shell/e-storage.c:516
 #: shell/evolution-shell-component.c:1035
 msgid "Permission denied"
-msgstr ""
+msgstr "Không đủ quyền truy cập"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:37
 msgid "Card not found"
@@ -2656,7 +2656,7 @@ msgstr "Điện thoại kinh doanh"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:855
 msgid "Callback Phone"
-msgstr ""
+msgstr "Số gọi lại"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:856
 msgid "Company Phone"
@@ -2758,7 +2758,7 @@ msgstr "Font"
 
 #: addressbook/printing/e-contact-print.glade.h:9
 msgid "Footer:"
-msgstr ""
+msgstr "Footer:"
 
 #: addressbook/printing/e-contact-print.glade.h:10
 msgid "Format"
@@ -2766,11 +2766,11 @@ msgstr "Dạng thức"
 
 #: addressbook/printing/e-contact-print.glade.h:11
 msgid "Header"
-msgstr ""
+msgstr "Header"
 
 #: addressbook/printing/e-contact-print.glade.h:12
 msgid "Header/Footer"
-msgstr ""
+msgstr "Header/Footer"
 
 #: addressbook/printing/e-contact-print.glade.h:13
 msgid "Headings"
@@ -2786,7 +2786,7 @@ msgstr "Cao:"
 
 #: addressbook/printing/e-contact-print.glade.h:16
 msgid "Immediately follow each other"
-msgstr ""
+msgstr "Theo ngay sau mỗi cái"
 
 #: addressbook/printing/e-contact-print.glade.h:17
 msgid "Include:"
@@ -4422,7 +4422,7 @@ msgstr "Thái Bình Dương/Yap"
 
 #: calendar/cal-util/cal-component.c:1207
 msgid "Untitled appointment"
-msgstr ""
+msgstr "Cuộc hẹn không tên"
 
 #: calendar/cal-util/cal-util.c:498 calendar/cal-util/cal-util.c:520
 #: calendar/gui/dialogs/task-details-page.glade.h:6
@@ -4622,7 +4622,7 @@ msgstr "%d %B"
 #: calendar/gui/calendar-commands.c:820
 msgid ""
 "Could not create the calendar view.  Please check your ORBit and OAF setup."
-msgstr ""
+msgstr "Không thể tạo khung xem lịch. Vui lòng kiểm tra thiết lập ORBit và OAF."
 
 #: calendar/gui/calendar-model.c:418 calendar/gui/calendar-model.c:988
 #: calendar/gui/e-calendar-table.c:384
@@ -4640,19 +4640,19 @@ msgstr "Công cộng"
 
 #: calendar/gui/calendar-model.c:536
 msgid "N"
-msgstr ""
+msgstr "B"
 
 #: calendar/gui/calendar-model.c:536
 msgid "S"
-msgstr ""
+msgstr "N"
 
 #: calendar/gui/calendar-model.c:538
 msgid "E"
-msgstr ""
+msgstr "Đ"
 
 #: calendar/gui/calendar-model.c:538
 msgid "W"
-msgstr ""
+msgstr "T"
 
 #: calendar/gui/calendar-model.c:603 calendar/gui/calendar-model.c:1147
 #: calendar/gui/e-calendar-table.c:457
@@ -4732,19 +4732,19 @@ msgstr "Đang tìm"
 
 #: calendar/gui/calendar-view-factory.c:148 views/calendar/galview.xml.h:1
 msgid "Day View"
-msgstr ""
+msgstr "Khung ngày"
 
 #: calendar/gui/calendar-view-factory.c:151 views/calendar/galview.xml.h:4
 msgid "Work Week View"
-msgstr ""
+msgstr "Khung tuần làm việc"
 
 #: calendar/gui/calendar-view-factory.c:154 views/calendar/galview.xml.h:3
 msgid "Week View"
-msgstr ""
+msgstr "Khung tuần"
 
 #: calendar/gui/calendar-view-factory.c:157 views/calendar/galview.xml.h:2
 msgid "Month View"
-msgstr ""
+msgstr "Khung tháng"
 
 #: calendar/gui/cal-search-bar.c:56
 msgid "Summary contains"
@@ -5132,7 +5132,7 @@ msgstr "_Ba"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:25
 msgid "Tas_ks due today:"
-msgstr "Nhiệm _vụ trong ngày:"
+msgstr "_Công việc trong ngày:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:26
 #: calendar/gui/dialogs/recurrence-page.c:962
@@ -5304,11 +5304,11 @@ msgstr "Đã hoàn tất "
 
 #: calendar/gui/dialogs/comp-editor-util.c:199 calendar/gui/print.c:2175
 msgid " (Due "
-msgstr ""
+msgstr " (Đến hạn "
 
 #: calendar/gui/dialogs/comp-editor-util.c:201 calendar/gui/print.c:2177
 msgid "Due "
-msgstr ""
+msgstr "Đến hạn "
 
 #: calendar/gui/dialogs/comp-editor.c:303
 msgid "Could not update object!"
@@ -5430,7 +5430,7 @@ msgstr "Đệ quy"
 #: calendar/gui/dialogs/event-editor.c:260
 #: calendar/gui/dialogs/event-editor.c:363
 msgid "Scheduling"
-msgstr ""
+msgstr "Lập lịch biểu"
 
 #: calendar/gui/dialogs/event-editor.c:207
 #: calendar/gui/dialogs/event-editor.c:263
@@ -5738,7 +5738,7 @@ msgstr "Ngày _bắt đầu:"
 
 #: calendar/gui/dialogs/task-page.glade.h:11
 msgid "_Due Date:"
-msgstr ""
+msgstr "N_gày đến hạn:"
 
 #: calendar/gui/e-calendar-table.c:427
 msgid "0%"
@@ -5880,7 +5880,7 @@ msgstr "Ngày hoàn tất"
 
 #: calendar/gui/e-calendar-table.etspec.h:9
 msgid "Due Date"
-msgstr ""
+msgstr "Ngày đến hạn"
 
 #: calendar/gui/e-calendar-table.etspec.h:10
 msgid "End Date"
@@ -5968,11 +5968,11 @@ msgstr ""
 
 #: calendar/gui/e-day-view.c:3569 calendar/gui/e-week-view.c:3457
 msgid "Delete this _Occurrence"
-msgstr ""
+msgstr "_Xóa lần này"
 
 #: calendar/gui/e-day-view.c:3571 calendar/gui/e-week-view.c:3459
 msgid "Delete _All Occurrences"
-msgstr ""
+msgstr "Xóa _mọi lần"
 
 #: calendar/gui/e-itip-control.c:536
 msgid "Meeting begins: <b>"
@@ -6008,7 +6008,7 @@ msgstr "Công việc hoàn tất: <b>"
 
 #: calendar/gui/e-itip-control.c:593
 msgid "Task Due: <b>"
-msgstr ""
+msgstr "Công việc đến hạn: <b>"
 
 #: calendar/gui/e-itip-control.c:630 calendar/gui/e-itip-control.c:679
 msgid "iCalendar Information"
@@ -6174,7 +6174,7 @@ msgstr "Đề nghị công việc"
 #: calendar/gui/e-itip-control.c:990
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing task."
-msgstr ""
+msgstr "<b>%s</b> muốn thêm vào công việc đã có."
 
 #: calendar/gui/e-itip-control.c:991
 msgid "Task Update"
@@ -6329,15 +6329,15 @@ msgstr "Thông điệp server:"
 
 #: calendar/gui/e-itip-control.glade.h:12
 msgid "date-end"
-msgstr ""
+msgstr "ngày kết thúc"
 
 #: calendar/gui/e-itip-control.glade.h:13
 msgid "date-start"
-msgstr ""
+msgstr "ngày bắt đầu"
 
 #: calendar/gui/e-meeting-model.c:95
 msgid "Chair Persons"
-msgstr ""
+msgstr "Người chủ trì"
 
 #: calendar/gui/e-meeting-model.c:96 calendar/gui/e-meeting-model.c:1570
 msgid "Required Participants"
@@ -6394,7 +6394,7 @@ msgstr "Người không tham dự"
 #: calendar/gui/e-meeting-model.c:319 calendar/gui/e-meeting-model.c:342
 #: calendar/gui/e-meeting-model.c:542 calendar/gui/e-meeting-model.c:823
 msgid "Needs Action"
-msgstr ""
+msgstr "Cần hành động"
 
 #: calendar/gui/e-meeting-model.c:321 calendar/gui/e-meeting-model.c:344
 #: calendar/gui/e-meeting-model.c:824
@@ -6409,7 +6409,7 @@ msgstr "Từ chối"
 #: calendar/gui/e-meeting-model.c:325 calendar/gui/e-meeting-model.c:348
 #: calendar/gui/e-meeting-model.c:826 calendar/gui/e-meeting-time-sel.c:431
 msgid "Tentative"
-msgstr ""
+msgstr "Có thể làm"
 
 #: calendar/gui/e-meeting-model.c:327 calendar/gui/e-meeting-model.c:350
 #: calendar/gui/e-meeting-model.c:827
@@ -6418,7 +6418,7 @@ msgstr "Ủy nhiệm"
 
 #: calendar/gui/e-meeting-model.c:331 calendar/gui/e-meeting-model.c:354
 msgid "In Process"
-msgstr ""
+msgstr "Trong tiến trình"
 
 #. This is a strftime() format string %A = full weekday name,
 #. %B = full month name, %d = month day, %Y = full year.
@@ -7405,7 +7405,7 @@ msgstr "Tùy chọn này sẽ kết nối tới server bằng cách đang nhập
 
 #: camel/camel-sasl-anonymous.c:110 camel/camel-sasl-plain.c:87
 msgid "Authentication failed."
-msgstr ""
+msgstr "Chứng thực thất bại."
 
 #: camel/camel-sasl-anonymous.c:119
 #, c-format
@@ -7498,7 +7498,7 @@ msgstr ""
 #: camel/camel-sasl-kerberos4.c:218
 #: camel/providers/imap/camel-imap-store.c:495
 msgid "Bad authentication response from server."
-msgstr ""
+msgstr "Trả lời chứng thực từ server sai."
 
 #: camel/camel-sasl-login.c:32
 msgid "NT Login"
@@ -7510,7 +7510,7 @@ msgstr "Tùy chọn này sẽ kết nối tới server bằng mật khẩu đơn
 
 #: camel/camel-sasl-login.c:127
 msgid "Unknown authentication state."
-msgstr ""
+msgstr "Trạng thái chứng thực lạ."
 
 #: camel/camel-sasl-plain.c:32 camel/providers/imap/camel-imap-provider.c:80
 #: camel/providers/nntp/camel-nntp-store.c:301
@@ -7524,7 +7524,7 @@ msgstr "POP trước SMTP"
 
 #: camel/camel-sasl-popb4smtp.c:36
 msgid "This option will authorise a POP connection before attempting SMTP"
-msgstr ""
+msgstr "Tùy chọn này sẽ chứng thực kết nối POP trước khi thử SMTP"
 
 #: camel/camel-sasl-popb4smtp.c:107
 msgid "POP Source URI"
@@ -7580,7 +7580,7 @@ msgstr "Lỗi tra cứu máy chủ: %s: lỗi lạ"
 
 #: camel/camel-session.c:75
 msgid "Virtual folder email provider"
-msgstr ""
+msgstr "Bộ cung cấp thư mục ảo"
 
 #: camel/camel-session.c:77
 msgid "For reading mail as a query of another set of folders"
@@ -7703,7 +7703,7 @@ msgstr "Không thể xoá thư mục: %s: Thao tác không hợp lệ"
 #: camel/camel-vee-store.c:293
 #, c-format
 msgid "Cannot delete folder: %s: No such folder"
-msgstr "Không thể xóa thư mục: %s: Không có thư mục này"
+msgstr "Không thể xóa thư mục: %s: Không có thư mục như vậy"
 
 #: camel/camel-vee-store.c:306
 #, c-format
@@ -7819,7 +7819,7 @@ msgstr ""
 
 #: camel/providers/imap/camel-imap-provider.c:57
 msgid "Apply filters to new messages in INBOX on this server"
-msgstr "Áp dụng bộ lọc đối với những thông điệp mới trong hộp thư INBOX trên server này"
+msgstr "Áp dụng bộ lọc đối với những thông điệp mới trong thư mục INBOX trên server này"
 
 #: camel/providers/imap/camel-imap-provider.c:63
 msgid "IMAP"
@@ -7827,7 +7827,7 @@ msgstr "IMAP"
 
 #: camel/providers/imap/camel-imap-provider.c:65
 msgid "For reading and storing mail on IMAP servers."
-msgstr ""
+msgstr "Để đọc và lưu thư trên IMAP server."
 
 #: camel/providers/imap/camel-imap-provider.c:82
 msgid "This option will connect to the IMAP server using a plaintext password."
@@ -7836,13 +7836,13 @@ msgstr "Tùy chọn này sẽ kết nối tới IMAP server bằng mật khẩu 
 #: camel/providers/imap/camel-imap-store.c:518
 #, c-format
 msgid "IMAP server %s does not support requested authentication type %s"
-msgstr ""
+msgstr "IMAP server %s không hỗ trợ loại chứng thực được yêu cầu %s"
 
 #: camel/providers/imap/camel-imap-store.c:528
 #: camel/providers/smtp/camel-smtp-transport.c:389
 #, c-format
 msgid "No support for authentication type %s"
-msgstr ""
+msgstr "Không hỗ trợ loại chứng thực %s"
 
 #: camel/providers/imap/camel-imap-store.c:552
 #, c-format
@@ -7861,6 +7861,9 @@ msgid ""
 "%s\n"
 "\n"
 msgstr ""
+"Không thể chứng thực IMAP server.\n"
+"%s\n"
+"\n"
 
 #: camel/providers/imap/camel-imap-store.c:899
 #, c-format
@@ -7877,19 +7880,19 @@ msgstr "Thự mục mail với dạng thức MH"
 
 #: camel/providers/local/camel-local-provider.c:43
 msgid "For storing local mail in MH-like mail directories."
-msgstr ""
+msgstr "Để lưu thư cục bộ trong thư mục dạng MH."
 
 #: camel/providers/local/camel-local-provider.c:52
 msgid "Local delivery"
-msgstr ""
+msgstr "Gửi cục bộ"
 
 #: camel/providers/local/camel-local-provider.c:53
 msgid "For retrieving local mail from standard mbox formated spools."
-msgstr ""
+msgstr "Để nhận thư cục bộ từ spool dạng mbox."
 
 #: camel/providers/local/camel-local-provider.c:62
 msgid "Apply filters to new messages in INBOX"
-msgstr ""
+msgstr "Áp dụng bộ lọc cho thông điệp mới trong INBOX"
 
 #: camel/providers/local/camel-local-provider.c:68
 msgid "Maildir-format mail directories"
@@ -7897,15 +7900,15 @@ msgstr "Thư mục mail dạng thức Maildir"
 
 #: camel/providers/local/camel-local-provider.c:69
 msgid "For storing local mail in maildir directories."
-msgstr ""
+msgstr "Để lưu thư cục bộ trong thư mục maildir."
 
 #: camel/providers/local/camel-local-provider.c:80
 msgid "Standard Unix mbox spools"
-msgstr ""
+msgstr "Spool mbox Unix chuẩn"
 
 #: camel/providers/local/camel-local-provider.c:81
 msgid "For reading and storing local mail in standard mbox spool files."
-msgstr ""
+msgstr "Để đọc và lưu thư cục bộ trong tập tin mbox chuẩn."
 
 #: camel/providers/local/camel-local-store.c:138
 #: camel/providers/local/camel-local-store.c:227
@@ -7928,7 +7931,7 @@ msgstr "Không thể lấy thư mục: %s: %s"
 
 #: camel/providers/local/camel-local-store.c:184
 msgid "Local stores do not have an inbox"
-msgstr "Bộ lưu trữ cục bộ chưa có hộp thư inbox"
+msgstr "Bộ lưu trữ cục bộ chưa có thư mục inbox"
 
 #: camel/providers/local/camel-local-store.c:196
 #, c-format
@@ -8083,7 +8086,7 @@ msgid ""
 "Cannot get message: %s from folder %s\n"
 "  %s"
 msgstr ""
-"Không thể lấy thông điệp: %s từ thư mục %s\n"
+"Không thể lấy thông điệp: %s từ thư mục%s\n"
 "  %s"
 
 #: camel/providers/local/camel-mbox-folder.c:380
@@ -8231,7 +8234,7 @@ msgstr "Quá trình nối thêm thông điệp dạng MH đã bị hủy"
 #: camel/providers/local/camel-mh-folder.c:175
 #, c-format
 msgid "Cannot append message to mh folder: %s: %s"
-msgstr "Không thể nối thêm thông điệp vào hộp thư dạng MH: %s: %s"
+msgstr "Không thể nối thêm thông điệp vào thư mục dạng MH: %s: %s"
 
 #: camel/providers/local/camel-mh-store.c:109
 #, c-format
@@ -8246,12 +8249,12 @@ msgstr "Không thể mở đường dẫn thư mục dạng MH: %s: %s"
 #: camel/providers/local/camel-spool-folder.c:512
 #, c-format
 msgid "Cannot append message to spool file: %s: %s"
-msgstr ""
+msgstr "Không thể nối thông điệp vào tập tin spool: %s: %s"
 
 #: camel/providers/local/camel-spool-store.c:115
 #, c-format
 msgid "Spool `%s' does not exist or is not a regular file"
-msgstr ""
+msgstr "Spool `%s' không tồn tại hoặc không phải là một tập tin bình thường"
 
 #: camel/providers/local/camel-spool-store.c:141
 #, c-format
@@ -8261,15 +8264,15 @@ msgstr "Thư mục `%s/%s' không tồn tại"
 #: camel/providers/local/camel-spool-store.c:163
 #, c-format
 msgid "Spool mail file %s"
-msgstr ""
+msgstr "Tập tin spool %s"
 
 #: camel/providers/local/camel-spool-store.c:209
 msgid "Spool folders cannot be renamed"
-msgstr ""
+msgstr "Không thể đổi tên thư mục spool"
 
 #: camel/providers/local/camel-spool-store.c:217
 msgid "Spool folders cannot be deleted"
-msgstr ""
+msgstr "Không thể xóa thư mục spool"
 
 #: camel/providers/local/camel-spool-summary.c:788
 #: camel/providers/local/camel-spool-summary.c:797
@@ -8281,7 +8284,7 @@ msgstr "Không thể đồng bộ thư mục tạm %s: %s"
 #: camel/providers/local/camel-spool-summary.c:821
 #, c-format
 msgid "Could not sync spool folder %s: %s"
-msgstr ""
+msgstr "Không thể đồng bộ thư mục spool %s: %s"
 
 #: camel/providers/local/camel-spool-summary.c:851
 #: camel/providers/local/camel-spool-summary.c:869
@@ -8291,6 +8294,8 @@ msgid ""
 "Could not sync spool folder %s: %s\n"
 "Folder may be corrupt, copy saved in `%s'"
 msgstr ""
+"Không thể đồng bộ thư mục spool %s: %s\n"
+"Có lẽ thư mục bị hư, bản sao được lưu trong `%s'"
 
 #: camel/providers/local/camel-spool-summary.c:940
 #, c-format
@@ -8356,7 +8361,7 @@ msgstr "USENET News thông qua %s"
 msgid ""
 "This option will authenticate with the NNTP server using a plaintext "
 "password."
-msgstr ""
+msgstr "Tùy chọn này sẽ chứng thực với NNTP server bằng mật khẩu thô (không mã hóa)"
 
 #: camel/providers/nntp/camel-nntp-store.c:333
 #: camel/providers/nntp/camel-nntp-store.c:495
@@ -8379,7 +8384,7 @@ msgstr "Không thể mở thư mục: danh sách thông điệp chưa hoàn ch�
 
 #: camel/providers/pop3/camel-pop3-folder.c:252
 msgid "Expunging deleted messages"
-msgstr ""
+msgstr "Đang bỏ các thông điệp cần xóa "
 
 #: camel/providers/pop3/camel-pop3-folder.c:328
 #, c-format
@@ -8420,7 +8425,7 @@ msgstr "POP"
 
 #: camel/providers/pop3/camel-pop3-provider.c:52
 msgid "For connecting to and downloading mail from POP servers."
-msgstr ""
+msgstr "Để kết nối và tải thư về từ POP server."
 
 #: camel/providers/pop3/camel-pop3-provider.c:69
 msgid ""
@@ -8438,12 +8443,12 @@ msgstr "Tùy chọn này sẽ kết nối tới POP server dùng mật khẩu đ
 #: camel/providers/pop3/camel-pop3-provider.c:91
 msgid ""
 "This will connect to the POP server and use Kerberos 4 to authenticate to it."
-msgstr ""
+msgstr "Việc này sẽ kết nối tới POP server và dùng Kerberos 4 để chứng thực."
 
 #: camel/providers/pop3/camel-pop3-store.c:198
 #, c-format
 msgid "Could not authenticate to KPOP server: %s"
-msgstr ""
+msgstr "Không thể chứng thực KPOP server: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:214
 #, c-format
@@ -8479,6 +8484,8 @@ msgid ""
 "Unable to connect to POP server.\n"
 "No support for requested authentication mechanism."
 msgstr ""
+"Không thể kết nối tới POP server.\n"
+"Không hỗ trợ cơ chế chứng thực yêu cầu."
 
 #: camel/providers/pop3/camel-pop3-store.c:415
 #, c-format
@@ -8508,7 +8515,7 @@ msgstr "Sendmail"
 msgid ""
 "For delivering mail by passing it to the \"sendmail\" program on the local "
 "system."
-msgstr ""
+msgstr "Để gửi thư bằng cách chuyển nó cho chương trình sendmail trên hệ thống này."
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:106
 #, c-format
@@ -8550,7 +8557,7 @@ msgstr "sendmail"
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:248
 msgid "Mail delivery via the sendmail program"
-msgstr ""
+msgstr "Gửi thư thông qua chương trình sendmail"
 
 #: camel/providers/smtp/camel-smtp-provider.c:37 mail/mail-config.glade.h:65
 msgid "SMTP"
@@ -8558,7 +8565,7 @@ msgstr "SMTP"
 
 #: camel/providers/smtp/camel-smtp-provider.c:39
 msgid "For delivering mail by connecting to a remote mailhub using SMTP.\n"
-msgstr ""
+msgstr "Để gửi thư bằng cách kết nối tới mailhub từ xa dùng SMTP.\n"
 
 #: camel/providers/smtp/camel-smtp-transport.c:172
 msgid "Syntax error, command unrecognized"
@@ -8578,7 +8585,7 @@ msgstr "Tham số lệnh chưa được thi công"
 
 #: camel/providers/smtp/camel-smtp-transport.c:180
 msgid "System status, or system help reply"
-msgstr ""
+msgstr "Trạng thái hệ thống, hoặc trả lời trợ giúp hệ thống"
 
 #: camel/providers/smtp/camel-smtp-transport.c:182
 msgid "Help message"
@@ -8590,7 +8597,7 @@ msgstr "Dịch vụ sẵn sàng"
 
 #: camel/providers/smtp/camel-smtp-transport.c:186
 msgid "Service closing transmission channel"
-msgstr ""
+msgstr "Dịch vụ đang đóng kênh truyền"
 
 #: camel/providers/smtp/camel-smtp-transport.c:188
 msgid "Service not available, closing transmission channel"
@@ -8598,7 +8605,7 @@ msgstr "Dịch vụ chưa sẵn sàng, đang đóng kênh truyền thông"
 
 #: camel/providers/smtp/camel-smtp-transport.c:190
 msgid "Requested mail action okay, completed"
-msgstr ""
+msgstr "Hành động thư tín yêu cầu đã xong"
 
 #: camel/providers/smtp/camel-smtp-transport.c:192
 msgid "User not local; will forward to <forward-path>"
@@ -8606,15 +8613,15 @@ msgstr "Không phải người dùng cục bộ; đang chuyển tiếp tới <fo
 
 #: camel/providers/smtp/camel-smtp-transport.c:194
 msgid "Requested mail action not taken: mailbox unavailable"
-msgstr ""
+msgstr "Không thực hiện hành động thư tín yêu cầu: hộp thư không sẵn sàng"
 
 #: camel/providers/smtp/camel-smtp-transport.c:196
 msgid "Requested action not taken: mailbox unavailable"
-msgstr ""
+msgstr "Không thực hiện hành động yêu cầu: hộp thư không sẵn sàng"
 
 #: camel/providers/smtp/camel-smtp-transport.c:198
 msgid "Requested action aborted: error in processing"
-msgstr ""
+msgstr "Đã ngừng hành động yêu cầu: lỗi khi thực hiện"
 
 #: camel/providers/smtp/camel-smtp-transport.c:200
 msgid "User not local; please try <forward-path>"
@@ -8622,15 +8629,15 @@ msgstr "Không phải người dùng cục bộ; vui lòng thử <forward-path>"
 
 #: camel/providers/smtp/camel-smtp-transport.c:202
 msgid "Requested action not taken: insufficient system storage"
-msgstr ""
+msgstr "Không thực hiện hành động yêu cầu: không đủ chỗ chứa"
 
 #: camel/providers/smtp/camel-smtp-transport.c:204
 msgid "Requested mail action aborted: exceeded storage allocation"
-msgstr ""
+msgstr "Không thực hiện hành động thư tín yêu cầu: không đủ chỗ chứa"
 
 #: camel/providers/smtp/camel-smtp-transport.c:206
 msgid "Requested action not taken: mailbox name not allowed"
-msgstr ""
+msgstr "Không thực hiện hành động yêu cầu: tên hộp thư không hợp lệ"
 
 #: camel/providers/smtp/camel-smtp-transport.c:208
 msgid "Start mail input; end with <CRLF>.<CRLF>"
@@ -8642,33 +8649,33 @@ msgstr "Giao dịch thất bại"
 
 #: camel/providers/smtp/camel-smtp-transport.c:214
 msgid "A password transition is needed"
-msgstr ""
+msgstr "Cần chuyển tiếp mật khẩu"
 
 #: camel/providers/smtp/camel-smtp-transport.c:216
 msgid "Authentication mechanism is too weak"
-msgstr ""
+msgstr "Cơ chế chứng thực quá yếu"
 
 #: camel/providers/smtp/camel-smtp-transport.c:218
 msgid "Encryption required for requested authentication mechanism"
-msgstr ""
+msgstr "Cơ chế chứng thực yêu cầu cần phải được mã hoá"
 
 #: camel/providers/smtp/camel-smtp-transport.c:220
 msgid "Temporary authentication failure"
-msgstr ""
+msgstr "Lỗi chứng thực tạm"
 
 #: camel/providers/smtp/camel-smtp-transport.c:222
 msgid "Authentication required"
-msgstr ""
+msgstr "Yêu cầu chứng thực"
 
 #: camel/providers/smtp/camel-smtp-transport.c:317
 #, c-format
 msgid "Welcome response error: %s: possibly non-fatal"
-msgstr ""
+msgstr "Lỗi trả lời chào mừng: %s: có lẽ không phải lỗi chết người"
 
 #: camel/providers/smtp/camel-smtp-transport.c:379
 #, c-format
 msgid "SMTP server %s does not support requested authentication type %s"
-msgstr ""
+msgstr "SMTP server %s không hỗ trợ loại chứng thực yêu cầu %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:417
 #, c-format
@@ -8682,6 +8689,9 @@ msgid ""
 "%s\n"
 "\n"
 msgstr ""
+"Không thể chứng thực SMTP server.\n"
+"%s\n"
+"\n"
 
 #: camel/providers/smtp/camel-smtp-transport.c:554
 #, c-format
@@ -8691,7 +8701,7 @@ msgstr "SMTP server %s"
 #: camel/providers/smtp/camel-smtp-transport.c:556
 #, c-format
 msgid "SMTP mail delivery via %s"
-msgstr ""
+msgstr "Gửi thư (SMTP) thông qua %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:581
 msgid "Cannot send message: sender address not defined."
@@ -8711,39 +8721,39 @@ msgstr "Không thể gửi thông điệp: chưa có người nhận."
 
 #: camel/providers/smtp/camel-smtp-transport.c:684
 msgid "SMTP Greeting"
-msgstr ""
+msgstr "Chào hỏi của SMTP"
 
 #: camel/providers/smtp/camel-smtp-transport.c:706
 #, c-format
 msgid "HELO request timed out: %s: non-fatal"
-msgstr ""
+msgstr "Yêu cầu HELO quá hạn: %s: không nghiêm trọng"
 
 #: camel/providers/smtp/camel-smtp-transport.c:726
 #, c-format
 msgid "HELO response error: %s: non-fatal"
-msgstr ""
+msgstr "Lỗi trả lời HELO: %s: không nghiêm trọng"
 
 #: camel/providers/smtp/camel-smtp-transport.c:758
 msgid "SMTP Authentication"
-msgstr ""
+msgstr "Chứng thực SMTP"
 
 #: camel/providers/smtp/camel-smtp-transport.c:764
 msgid "Error creating SASL authentication object."
-msgstr ""
+msgstr "Lỗi tạo đối tượng chứng thực SASL."
 
 #: camel/providers/smtp/camel-smtp-transport.c:779
 #: camel/providers/smtp/camel-smtp-transport.c:791
 #, c-format
 msgid "AUTH request timed out: %s"
-msgstr ""
+msgstr "Yêu cầu AUTH quá hạn: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:800
 msgid "AUTH request failed."
-msgstr ""
+msgstr "Yêu cầu AUTH thất bại."
 
 #: camel/providers/smtp/camel-smtp-transport.c:848
 msgid "Bad authentication response from server.\n"
-msgstr ""
+msgstr "Trả lời chứng thực từ server sai.\n"
 
 #: camel/providers/smtp/camel-smtp-transport.c:874
 #, c-format
@@ -9009,6 +9019,8 @@ msgid ""
 "Ximian Evolution has found unsaved files from a previous session.\n"
 "Would you like to try to recover them?"
 msgstr ""
+"Ximian Evolution đã tìm thấy các tập tin chưa được lưu từ session trước.\n"
+"Bạn có muốn phục hồi chúng không?"
 
 #: composer/e-msg-composer.c:1358
 msgid ""
@@ -9066,7 +9078,7 @@ msgstr "Không thể khởi động bộ soạn thảo của Evolution."
 
 #: data/evolution.desktop.in.h:1
 msgid "The Evolution groupware suite"
-msgstr ""
+msgstr "Bộ phần mềm nhóm Evolution"
 
 #: data/evolution.desktop.in.h:2
 msgid "Ximian Evolution"
@@ -9074,7 +9086,7 @@ msgstr "Ximian Evolution"
 
 #: data/evolution.keys.in.h:1
 msgid "address card"
-msgstr ""
+msgstr "card địa chỉ"
 
 #: data/evolution.keys.in.h:2
 msgid "calendar information"
@@ -9279,6 +9291,9 @@ msgid ""
 "a time relative to when the filter is run;\n"
 "\"a week ago\", for example."
 msgstr ""
+"Ngày của thông điệp sẽ được so sánh với thời \n"
+"điểm tương đối so với lúc bộ lọc chạy; ví \n"
+"dụ \"một tuần trước\"."
 
 #. keep in sync with FilterDatespec_type!
 #: filter/filter-datespec.c:369
@@ -9342,7 +9357,7 @@ msgid ""
 "Please go back and specify a valid folder to deliver mail to."
 msgstr ""
 "Bạn quên chưa chọn thư mục.\n"
-"Vui lòng quay lại và chọn một thư mục hợp lệ để gửi mail tới."
+"Vui lòng quay lại và chọn một thư mục hợp lệ để gửi thư tới."
 
 #: filter/filter-folder.c:239 filter/vfolder-rule.c:365
 #: mail/mail-account-gui.c:837
@@ -9533,7 +9548,7 @@ msgstr "Người nhận"
 
 #: filter/libfilter-i18n.h:23
 msgid "Regex Match"
-msgstr ""
+msgstr "Khớp Regex"
 
 #: filter/libfilter-i18n.h:24
 msgid "Replied to"
@@ -9562,7 +9577,7 @@ msgstr "Tài khoản nguồn"
 
 #: filter/libfilter-i18n.h:30
 msgid "Specific header"
-msgstr ""
+msgstr "Header xác định"
 
 #: filter/libfilter-i18n.h:32
 msgid "Stop Processing"
@@ -9778,7 +9793,7 @@ msgstr "Thành phần tóm tắt thư của Evolution."
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:4
 msgid "Evolution mail folder display component."
-msgstr "Thành phần hiển thị hộp thư của Evolution."
+msgstr "Thành phần hiển thị thư mục của Evolution."
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:5
 msgid "Evolution mail folder factory component."
@@ -9802,7 +9817,7 @@ msgstr "Thư mục đang chứa thư"
 
 #: mail/component-factory.c:101
 msgid "Mail storage folder (internal)"
-msgstr "Hộp lưu trữ thư (nội tại)"
+msgstr "Thư mục lưu trữ thư (nội tại)"
 
 #: mail/component-factory.c:102
 msgid "Virtual Trash"
@@ -9810,7 +9825,7 @@ msgstr "Thùng rác ảo"
 
 #: mail/component-factory.c:102
 msgid "Virtual Trash folder"
-msgstr "Hộp thư Thùng rác ảo"
+msgstr "Thư mục Thùng rác ảo"
 
 #: mail/component-factory.c:129
 #, c-format
@@ -9819,7 +9834,7 @@ msgstr "Không thể kết nối tới kho: %s"
 
 #: mail/component-factory.c:147
 msgid "This folder cannot contain messages."
-msgstr "Hộp thư này chứa các thông điệp."
+msgstr "Thư mục này chứa các thông điệp."
 
 #: mail/component-factory.c:432
 msgid "Properties..."
@@ -9827,7 +9842,7 @@ msgstr "Thuộc tính..."
 
 #: mail/component-factory.c:432
 msgid "Change this folder's properties"
-msgstr "Thay đổi thuộc tính hộp thư này"
+msgstr "Thay đổi thuộc tính thư mục này"
 
 #: mail/component-factory.c:783
 msgid ""
@@ -9853,7 +9868,7 @@ msgstr "Không thể khởi động thành phần cấu hình thư của Evoluti
 
 #: mail/component-factory.c:990
 msgid "Cannot initialize Evolution's folder info component."
-msgstr "Không thể khởi động thành phần thông tin hộp thư của Evolution."
+msgstr "Không thể khởi động thành phần thông tin thư mục của Evolution."
 
 #: mail/component-factory.c:1206
 msgid "Cannot register storage with shell"
@@ -9942,7 +9957,7 @@ msgstr "Lọc theo n_gười nhận"
 
 #: mail/folder-browser.c:1440
 msgid "Filter on _Mailing List"
-msgstr ""
+msgstr "Lọc _Mailing list"
 
 #: mail/folder-browser.c:1448 ui/evolution-mail-message.xml.h:96
 msgid "_Edit as New Message..."
@@ -9962,7 +9977,7 @@ msgstr "T_rả lời người gửi"
 
 #: mail/folder-browser.c:1455 ui/evolution-mail-message.xml.h:73
 msgid "Reply to _List"
-msgstr ""
+msgstr "Trả lời _danh sách"
 
 #: mail/folder-browser.c:1456 ui/evolution-mail-message.xml.h:72
 msgid "Reply to _All"
@@ -9990,11 +10005,11 @@ msgstr "Đánh dấu khôn_g quan trọng"
 
 #: mail/folder-browser.c:1466
 msgid "_Move to Folder..."
-msgstr "_Chuyển tới hộp thư..."
+msgstr "_Chuyển tới thư mục..."
 
 #: mail/folder-browser.c:1467
 msgid "_Copy to Folder..."
-msgstr "C_hép vào hộp thư..."
+msgstr "C_hép vào thư mục..."
 
 #: mail/folder-browser.c:1469 ui/evolution-mail-message.xml.h:107
 msgid "_Undelete"
@@ -10014,7 +10029,7 @@ msgstr "Tạo _quy tắc mới từ thông điệp"
 
 #: mail/folder-browser.c:1628
 msgid "Filter on Mailing List"
-msgstr ""
+msgstr "Lọc mailing list"
 
 #: mail/folder-browser.c:1629
 msgid "VFolder on Mailing List"
@@ -10023,7 +10038,7 @@ msgstr ""
 #: mail/folder-browser.c:1631
 #, c-format
 msgid "Filter on Mailing List (%s)"
-msgstr ""
+msgstr "Lọc mailing list (%s)"
 
 #: mail/folder-browser.c:1632
 #, c-format
@@ -10036,7 +10051,7 @@ msgstr "Mặc định"
 
 #: mail/folder-info.c:64
 msgid "Getting Folder Information"
-msgstr "Đang lấy thông tin hộp thư"
+msgstr "Đang lấy thông tin thư mục"
 
 #: mail/importers/GNOME_Evolution_Mail_Mbox_Importer.oaf.in.h:1
 msgid "Factory to import mbox into Evolution"
@@ -10104,7 +10119,7 @@ msgstr "Bạn chưa điền đủ các thông tin yêu cầu."
 #. give our dialog an OK button and title
 #: mail/mail-account-editor-news.c:160
 msgid "Evolution News Editor"
-msgstr ""
+msgstr "Bộ soạn tin Evolution"
 
 #. give our dialog an OK button and title
 #: mail/mail-account-editor.c:160
@@ -10184,7 +10199,7 @@ msgstr "Thừ từ %s"
 #: mail/mail-autofilter.c:289
 #, c-format
 msgid "%s mailing list"
-msgstr ""
+msgstr "%s mailing list"
 
 #: mail/mail-autofilter.c:338 mail/mail-autofilter.c:358
 msgid "Add Filter Rule"
@@ -10298,13 +10313,13 @@ msgstr "Bạn có chắc muốn sửa tất cả %d thông điệp?"
 msgid ""
 "You may only edit messages saved\n"
 "in the Drafts folder."
-msgstr "Bạn chỉ có thể sửa những thông điệp trong hộp thư Nháp."
+msgstr "Bạn chỉ có thể sửa những thông điệp trong thư mục Nháp."
 
 #: mail/mail-callbacks.c:1823
 msgid ""
 "You may only resend messages\n"
 "in the Sent folder."
-msgstr "Bạn chỉ có thể gửi lại những thông điệp trong hộp thư Đã gửi"
+msgstr "Bạn chỉ có thể gửi lại những thông điệp trong thư mục Đã gửi"
 
 #: mail/mail-callbacks.c:1837
 #, c-format
@@ -10434,7 +10449,7 @@ msgstr ""
 #: mail/mail-config.c:1870
 #, c-format
 msgid "%s: Inbox"
-msgstr "%s: Hộp thư nhận"
+msgstr "%s: thư mục nhận"
 
 #: mail/mail-config.c:2112
 msgid "Checking Service"
@@ -10490,7 +10505,7 @@ msgstr "Đồ đính kèm"
 
 #: mail/mail-config.glade.h:12
 msgid "Authentication"
-msgstr ""
+msgstr "Chứng thực"
 
 #: mail/mail-config.glade.h:13
 msgid "Checking for New Mail"
@@ -10529,7 +10544,7 @@ msgstr "_Mặc định"
 
 #: mail/mail-config.glade.h:24
 msgid "Default Forward style is: "
-msgstr ""
+msgstr "Kiểu chuyển tiếp mặc định là: "
 
 #: mail/mail-config.glade.h:25
 msgid "Default character encoding: "
@@ -10610,7 +10625,7 @@ msgstr "NNTP Server:"
 
 #: mail/mail-config.glade.h:46
 msgid "News"
-msgstr ""
+msgstr "Tin tức"
 
 #: mail/mail-config.glade.h:48
 msgid "Optional Information"
@@ -10618,7 +10633,7 @@ msgstr "Thông tin tùy chọn"
 
 #: mail/mail-config.glade.h:50
 msgid "PGP _Key ID:"
-msgstr ""
+msgstr "_Khóa ID PGP:"
 
 #: mail/mail-config.glade.h:53
 msgid "Pick a color"
@@ -10626,7 +10641,7 @@ msgstr "Chọn màu"
 
 #: mail/mail-config.glade.h:54
 msgid "Pretty Good Privacy"
-msgstr ""
+msgstr "Pretty Good Privacy"
 
 #: mail/mail-config.glade.h:55
 msgid "Prompt when sending HTML messages to contacts that don't want them"
@@ -10678,11 +10693,11 @@ msgstr "Bảo mật"
 
 #: mail/mail-config.glade.h:68
 msgid "Select Filter Log file..."
-msgstr ""
+msgstr "Chọn tập tin log bộ lọc..."
 
 #: mail/mail-config.glade.h:69
 msgid "Select PGP binary"
-msgstr ""
+msgstr "Chọn chương trình PGP"
 
 #: mail/mail-config.glade.h:70 shell/glade/evolution-startup-wizard.glade.h:7
 msgid "Sending Email"
@@ -10699,7 +10714,7 @@ msgstr "Đã gửi"
 
 #: mail/mail-config.glade.h:74
 msgid "Sent _messages folder:"
-msgstr "Hộp thư thông điệp đã gửi:"
+msgstr "Thư mục thông điệp đã gửi:"
 
 #: mail/mail-config.glade.h:75
 msgid "Sent and Draft Messages"
@@ -10707,7 +10722,7 @@ msgstr "Thông điệp đã gửi và thông điệp nháp"
 
 #: mail/mail-config.glade.h:76
 msgid "Ser_ver requires authentication"
-msgstr ""
+msgstr "Ser_ver yêu cầu chứng thực"
 
 #: mail/mail-config.glade.h:77
 msgid "Server Configuration"
@@ -10735,7 +10750,7 @@ msgstr "Nguồn"
 
 #: mail/mail-config.glade.h:83
 msgid "Special Folders"
-msgstr "Hộp thư đặc biệt"
+msgstr "Thư mục đặc biệt"
 
 #: mail/mail-config.glade.h:84
 msgid "Standard Unix mbox"
@@ -10765,7 +10780,7 @@ msgstr "_Luôn ký tên lên các thư cần gửi khi dùng tài khoản này"
 
 #: mail/mail-config.glade.h:93
 msgid "_Authentication Type: "
-msgstr ""
+msgstr "_Loại chứng thực: "
 
 #: mail/mail-config.glade.h:94
 msgid "_Automatically check for new mail"
@@ -10777,7 +10792,7 @@ msgstr ""
 
 #: mail/mail-config.glade.h:97
 msgid "_Drafts folder:"
-msgstr "Hộp thư _Nháp<:"
+msgstr "Thư mục _Nháp<:"
 
 #: mail/mail-config.glade.h:99
 msgid "_Email Address:"
@@ -10785,7 +10800,7 @@ msgstr "Địa chỉ _email:"
 
 #: mail/mail-config.glade.h:100
 msgid "_Empty trash folders on exit"
-msgstr "_Xóa hộp thư Rác khi thoát"
+msgstr "_Xóa thư mục Rác khi thoát"
 
 #: mail/mail-config.glade.h:101
 msgid "_Full Name:"
@@ -10829,7 +10844,7 @@ msgstr "_Tổ chức:"
 
 #: mail/mail-config.glade.h:111
 msgid "_PGP binary path:"
-msgstr ""
+msgstr "Đường dẫn chương trình _PGP:"
 
 #: mail/mail-config.glade.h:112
 msgid "_Path:"
@@ -11005,7 +11020,7 @@ msgstr ""
 
 #: mail/mail-format.c:1837
 msgid "Evolution does not recognize this type of signed message."
-msgstr ""
+msgstr "Evolution không công nhận loại thông điệp được ký này."
 
 #: mail/mail-format.c:1845
 msgid "This message is digitally signed and has been found to be authentic."
@@ -11046,7 +11061,7 @@ msgstr ""
 
 #: mail/mail-local.c:626
 msgid "Reconfiguring folder"
-msgstr "Cấu hình lại hộp thư"
+msgstr "Cấu hình lại thư mục"
 
 #: mail/mail-local.c:707
 #, c-format
@@ -11068,12 +11083,12 @@ msgstr ""
 #: mail/mail-local.c:1281
 #, c-format
 msgid "Changing folder \"%s\" to \"%s\" format"
-msgstr "Đang đổi hộp thư \"%s\" sang dạng thức \"%s\""
+msgstr "Đang đổi thư mục \"%s\" sang dạng thức \"%s\""
 
 #: mail/mail-local.c:1296
 #, c-format
 msgid "%s may not be reconfigured because it is not a local folder"
-msgstr "%s không thể được cấu hình lại vì không phải là hộp thư cục bộ"
+msgstr "%s không thể được cấu hình lại vì không phải là thư mục cục bộ"
 
 #: mail/mail-local.c:1318
 msgid ""
@@ -11083,7 +11098,7 @@ msgstr "Nếu bạn không còn có thể mở hộp thư này nữa thì bạn 
 
 #: mail/mail-local.c:1407
 msgid "You cannot change the format of a non-local folder."
-msgstr "Bạn không thể thay đổi dạng thức của hộp-thư-không-cục-bộ."
+msgstr "Bạn không thể thay đổi dạng thức của thư-mục-không-cục-bộ."
 
 #: mail/mail-local.c:1416
 #, c-format
@@ -11114,7 +11129,7 @@ msgstr "Đang làm việc"
 
 #: mail/mail-ops.c:86
 msgid "Filtering Folder"
-msgstr "Đang lọc hộp thư"
+msgstr "Đang lọc thư mục"
 
 #: mail/mail-ops.c:249
 msgid "Fetching Mail"
@@ -11145,7 +11160,7 @@ msgstr "Hoàn tất."
 
 #: mail/mail-ops.c:788
 msgid "Saving message to folder"
-msgstr "Đang lưu thông điệp vào hộp thư"
+msgstr "Đang lưu thông điệp vào thư mục"
 
 #: mail/mail-ops.c:868
 #, c-format
@@ -11192,20 +11207,20 @@ msgstr "Đang mở kho %s"
 #: mail/mail-ops.c:1375
 #, c-format
 msgid "Removing folder %s"
-msgstr "Đang gở bỏ hộp thư %s"
+msgstr "Đang gở bỏ thư mục %s"
 
 #: mail/mail-ops.c:1469
 #, c-format
 msgid "Storing folder '%s'"
-msgstr "Đang lưu hộp thư %s"
+msgstr "Đang lưu thư mục %s"
 
 #: mail/mail-ops.c:1520
 msgid "Refreshing folder"
-msgstr "Đang cập nhật hộp thư"
+msgstr "Đang cập nhật thư mục"
 
 #: mail/mail-ops.c:1556
 msgid "Expunging folder"
-msgstr ""
+msgstr "Đang bỏ thư mục"
 
 #: mail/mail-ops.c:1605
 #, c-format
@@ -11493,27 +11508,27 @@ msgstr "Kích thước"
 #: mail/subscribe-dialog.c:219
 #, c-format
 msgid "Scanning folders under %s on \"%s\""
-msgstr "Đang quét hộp thư dưới %s trên \"%s\""
+msgstr "Đang quét thư mục dưới %s trên \"%s\""
 
 #: mail/subscribe-dialog.c:221
 #, c-format
 msgid "Scanning root-level folders on \"%s\""
-msgstr "Đang quét hộp thư gốc trên \"%s\""
+msgstr "Đang quét thư mục gốc trên \"%s\""
 
 #: mail/subscribe-dialog.c:318
 #, c-format
 msgid "Subscribing to folder \"%s\""
-msgstr "Đang đăng ký trên hộp thư \"%s\""
+msgstr "Đang đăng ký trên thư mục \"%s\""
 
 #: mail/subscribe-dialog.c:320
 #, c-format
 msgid "Unsubscribing to folder \"%s\""
-msgstr "Đang bỏ đăng ký trên hộp thư \"%s\""
+msgstr "Đang bỏ đăng ký trên thư mục \"%s\""
 
 #: mail/subscribe-dialog.c:1279 mail/subscribe-dialog.etspec.h:1
 #: shell/e-storage-set-view.etspec.h:1
 msgid "Folder"
-msgstr "Hộp thư"
+msgstr "Thư mục"
 
 #: mail/subscribe-dialog.c:1520
 msgid "No server has been selected"
@@ -11529,7 +11544,7 @@ msgstr "_Danh sách cập nhật"
 
 #: mail/subscribe-dialog.glade.h:2
 msgid "All folders"
-msgstr "Mọi hộp thư"
+msgstr "Mọi thư mục"
 
 #: mail/subscribe-dialog.glade.h:3
 msgid "Display options"
@@ -11537,7 +11552,7 @@ msgstr "Tùy chọn hiển thị"
 
 #: mail/subscribe-dialog.glade.h:4
 msgid "Folders whose names begin with:"
-msgstr "Hộp thư có tên bắt đầu bằng:"
+msgstr "Thư mục có tên bắt đầu bằng:"
 
 #: mail/subscribe-dialog.glade.h:5
 msgid "Manage Subscriptions"
@@ -11545,7 +11560,7 @@ msgstr "Quản lý đăng ký"
 
 #: mail/subscribe-dialog.glade.h:6
 msgid "Show _folders from server: "
-msgstr "Hiện _hộp thư từ server: "
+msgstr "Hiện _thư mục từ server: "
 
 #: mail/subscribe-dialog.glade.h:7
 msgid "_Subscribe"
@@ -11607,7 +11622,7 @@ msgstr ""
 
 #: my-evolution/e-summary-preferences.c:466
 msgid "Quotes of the Day"
-msgstr ""
+msgstr "Trích dẫn trong ngày"
 
 #: my-evolution/e-summary-preferences.c:946
 msgid "Add a news feed"
@@ -11716,11 +11731,11 @@ msgstr "Trời trong"
 
 #: my-evolution/metar.c:45
 msgid "Broken clouds"
-msgstr ""
+msgstr "Mây tảng"
 
 #: my-evolution/metar.c:46
 msgid "Scattered clouds"
-msgstr ""
+msgstr "Nhiều mây"
 
 #: my-evolution/metar.c:47
 msgid "Few clouds"
@@ -11728,7 +11743,7 @@ msgstr "Ít mây"
 
 #: my-evolution/metar.c:48
 msgid "Overcast"
-msgstr ""
+msgstr "U ám"
 
 #: my-evolution/metar.c:56 my-evolution/metar.c:74 my-evolution/metar.c:485
 msgid "Invalid"
@@ -11805,55 +11820,55 @@ msgstr "Bắc - Tây Bắc"
 #. DRIZZLE
 #: my-evolution/metar.c:127
 msgid "Drizzle"
-msgstr ""
+msgstr "Mưa phùn"
 
 #: my-evolution/metar.c:128
 msgid "Drizzle in the vicinity"
-msgstr ""
+msgstr "Mưa phùn trong vùng lân cận"
 
 #: my-evolution/metar.c:129
 msgid "Light drizzle"
-msgstr ""
+msgstr "Mưa phùn nhẹ"
 
 #: my-evolution/metar.c:130
 msgid "Moderate drizzle"
-msgstr ""
+msgstr "Mưa phùn vừa"
 
 #: my-evolution/metar.c:131
 msgid "Heavy drizzle"
-msgstr ""
+msgstr "Mưa phùn nặng"
 
 #: my-evolution/metar.c:132
 msgid "Shallow drizzle"
-msgstr ""
+msgstr "Chút mưa phùn"
 
 #: my-evolution/metar.c:133
 msgid "Patches of drizzle"
-msgstr ""
+msgstr "Nhiều mảng mưa phùn"
 
 #: my-evolution/metar.c:134
 msgid "Partial drizzle"
-msgstr ""
+msgstr "Một ít mưa phùn"
 
 #: my-evolution/metar.c:135 my-evolution/metar.c:150
 msgid "Thunderstorm"
-msgstr "Sấm chớp"
+msgstr "Bão kèm sấm"
 
 #: my-evolution/metar.c:136
 msgid "Windy drizzle"
-msgstr ""
+msgstr "Mưa gió"
 
 #: my-evolution/metar.c:137
 msgid "Showers"
-msgstr ""
+msgstr "Mưa"
 
 #: my-evolution/metar.c:138
 msgid "Drifting drizzle"
-msgstr ""
+msgstr "Mưa tí tách"
 
 #: my-evolution/metar.c:139
 msgid "Freezing drizzle"
-msgstr ""
+msgstr "Mưa phùn ớn lạnh"
 
 #. RAIN
 #: my-evolution/metar.c:142
@@ -11862,7 +11877,7 @@ msgstr "Mưa"
 
 #: my-evolution/metar.c:143
 msgid "Rain in the vicinity"
-msgstr ""
+msgstr "Mưa trong vùng lân cận"
 
 #: my-evolution/metar.c:144
 msgid "Light rain"
@@ -11878,11 +11893,11 @@ msgstr "Mưa nhiều"
 
 #: my-evolution/metar.c:147
 msgid "Shallow rain"
-msgstr ""
+msgstr "Chút mưa"
 
 #: my-evolution/metar.c:148
 msgid "Patches of rain"
-msgstr ""
+msgstr "Nhiều mảng mưa"
 
 #: my-evolution/metar.c:149
 msgid "Partial rainfall"
@@ -11890,19 +11905,19 @@ msgstr ""
 
 #: my-evolution/metar.c:151
 msgid "Blowing rainfall"
-msgstr ""
+msgstr "Mưa gió"
 
 #: my-evolution/metar.c:152
 msgid "Rain showers"
-msgstr ""
+msgstr "Mưa tầm tã"
 
 #: my-evolution/metar.c:153
 msgid "Drifting rain"
-msgstr ""
+msgstr "Mưa tí tách"
 
 #: my-evolution/metar.c:154
 msgid "Freezing rain"
-msgstr ""
+msgstr "Mưa ớn lạnh"
 
 #. SNOW
 #: my-evolution/metar.c:157
@@ -11911,7 +11926,7 @@ msgstr "Tuyết"
 
 #: my-evolution/metar.c:158
 msgid "Snow in the vicinity"
-msgstr ""
+msgstr "Tuyết trong vùng lân cận"
 
 #: my-evolution/metar.c:159
 msgid "Light snow"
@@ -11927,11 +11942,11 @@ msgstr "Tuyết nhiều"
 
 #: my-evolution/metar.c:162
 msgid "Shallow snow"
-msgstr ""
+msgstr "Chút tuyết"
 
 #: my-evolution/metar.c:163
 msgid "Patches of snow"
-msgstr ""
+msgstr "Nhiều mảng tuyết"
 
 #: my-evolution/metar.c:164
 msgid "Partial snowfall"
@@ -11943,44 +11958,44 @@ msgstr "Bão tuyết"
 
 #: my-evolution/metar.c:166
 msgid "Blowing snowfall"
-msgstr ""
+msgstr "Gió tuyết"
 
 #: my-evolution/metar.c:167
 msgid "Snow showers"
-msgstr ""
+msgstr "Mưa tuyết"
 
 #: my-evolution/metar.c:168
 msgid "Drifting snow"
-msgstr ""
+msgstr "Tuyết tí tách ;)"
 
 #: my-evolution/metar.c:169
 msgid "Freezing snow"
-msgstr ""
+msgstr "Tuyết lạnh"
 
 #. SNOW_GRAINS
 #: my-evolution/metar.c:172
 msgid "Snow grains"
-msgstr ""
+msgstr "Chút tuyết"
 
 #: my-evolution/metar.c:173
 msgid "Snow grains in the vicinity"
-msgstr ""
+msgstr "Chút tuyết trong vùng lân cận"
 
 #: my-evolution/metar.c:174
 msgid "Light snow grains"
-msgstr ""
+msgstr "Chút tuyết nhẹ"
 
 #: my-evolution/metar.c:175
 msgid "Moderate snow grains"
-msgstr ""
+msgstr "Chút tuyết vừa"
 
 #: my-evolution/metar.c:176
 msgid "Heavy snow grains"
-msgstr ""
+msgstr "Chút tuyết nhiều"
 
 #: my-evolution/metar.c:177
 msgid "Shallow snow grains"
-msgstr ""
+msgstr "Chút chút tuyết ;)"
 
 #: my-evolution/metar.c:178
 msgid "Patches of snow grains"
@@ -12111,104 +12126,104 @@ msgstr ""
 #. HAIL
 #: my-evolution/metar.c:217 my-evolution/Locations.h:883
 msgid "Hail"
-msgstr ""
+msgstr "Mưa đá"
 
 #: my-evolution/metar.c:218
 msgid "Hail in the vicinity"
-msgstr ""
+msgstr "Mưa đá trong vùng lân cận"
 
 #: my-evolution/metar.c:219 my-evolution/metar.c:234
 msgid "Light hail"
-msgstr ""
+msgstr "Mưa đá nhẹ"
 
 #: my-evolution/metar.c:220
 msgid "Moderate hail"
-msgstr ""
+msgstr "Mưa đá vừa"
 
 #: my-evolution/metar.c:221
 msgid "Heavy hail"
-msgstr ""
+msgstr "Mưa đá nhiều"
 
 #: my-evolution/metar.c:222
 msgid "Shallow hail"
-msgstr ""
+msgstr "Chút mưa đá"
 
 #: my-evolution/metar.c:223
 msgid "Patches of hail"
-msgstr ""
+msgstr "Nhiều mảng mưa đá"
 
 #: my-evolution/metar.c:224
 msgid "Partial hail"
-msgstr ""
+msgstr "Một ít mưa đá"
 
 #: my-evolution/metar.c:225
 msgid "Hailstorm"
-msgstr ""
+msgstr "Bão đá"
 
 #: my-evolution/metar.c:226
 msgid "Blowing hail"
-msgstr ""
+msgstr "Mưa đá kèm gió"
 
 #: my-evolution/metar.c:227
 msgid "Hail showers"
-msgstr ""
+msgstr "Mưa đá kèm mưa"
 
 #: my-evolution/metar.c:228
 msgid "Drifting hail"
-msgstr ""
+msgstr "Mưa đá tí tách"
 
 #: my-evolution/metar.c:229
 msgid "Freezing hail"
-msgstr ""
+msgstr "Mưa đá lạnh"
 
 #. SMALL_HAIL
 #: my-evolution/metar.c:232
 msgid "Small hail"
-msgstr ""
+msgstr "Mưa đá nhỏ"
 
 #: my-evolution/metar.c:233
 msgid "Small hail in the vicinity"
-msgstr ""
+msgstr "Mưa đá nhỏ trong vùng lân cận"
 
 #: my-evolution/metar.c:235
 msgid "Moderate small hail"
-msgstr ""
+msgstr "Mưa đá nhỏ vừa"
 
 #: my-evolution/metar.c:236
 msgid "Heavy small hail"
-msgstr ""
+msgstr "Mưa đá nhỏ nhiều"
 
 #: my-evolution/metar.c:237
 msgid "Shallow small hail"
-msgstr ""
+msgstr "Chút mưa đá nhỏ"
 
 #: my-evolution/metar.c:238
 msgid "Patches of small hail"
-msgstr ""
+msgstr "Nhiều mảng mưa đá nhỏ"
 
 #: my-evolution/metar.c:239
 msgid "Partial small hail"
-msgstr ""
+msgstr "Một tí mưa đá nhỏ"
 
 #: my-evolution/metar.c:240
 msgid "Small hailstorm"
-msgstr ""
+msgstr "Bão đá nhỏ"
 
 #: my-evolution/metar.c:241
 msgid "Blowing small hail"
-msgstr ""
+msgstr "Mưa đá nhỏ kèm gió"
 
 #: my-evolution/metar.c:242
 msgid "Showers of small hail"
-msgstr ""
+msgstr "Mưa đá nhỏ kèm mưa"
 
 #: my-evolution/metar.c:243
 msgid "Drifting small hail"
-msgstr ""
+msgstr "Mưa đá nhỏ tí tách"
 
 #: my-evolution/metar.c:244
 msgid "Freezing small hail"
-msgstr ""
+msgstr "Mưa đá nhỏ lạnh"
 
 #. PRECIPITATION
 #: my-evolution/metar.c:247
@@ -12270,7 +12285,7 @@ msgstr "Sương mù"
 
 #: my-evolution/metar.c:263
 msgid "Mist in the vicinity"
-msgstr ""
+msgstr "Sương mù trong vùng lân cận"
 
 #: my-evolution/metar.c:264
 msgid "Light mist"
@@ -12306,7 +12321,7 @@ msgstr ""
 
 #: my-evolution/metar.c:274
 msgid "Freezing mist"
-msgstr ""
+msgstr "Sương mù lạnh"
 
 #. FOG
 #: my-evolution/metar.c:277
@@ -12315,7 +12330,7 @@ msgstr "Sương"
 
 #: my-evolution/metar.c:278
 msgid "Fog in the vicinity"
-msgstr ""
+msgstr "Sương trong vùng lân cận"
 
 #: my-evolution/metar.c:279
 msgid "Light fog"
@@ -12331,11 +12346,11 @@ msgstr "Sương nhiều"
 
 #: my-evolution/metar.c:282
 msgid "Shallow fog"
-msgstr ""
+msgstr "Chút sương"
 
 #: my-evolution/metar.c:283
 msgid "Patches of fog"
-msgstr ""
+msgstr "Nhiều mảng sương"
 
 #: my-evolution/metar.c:284
 msgid "Partial fog"
@@ -12343,15 +12358,15 @@ msgstr ""
 
 #: my-evolution/metar.c:286
 msgid "Fog with wind"
-msgstr ""
+msgstr "Sương gió"
 
 #: my-evolution/metar.c:288
 msgid "Drifting fog"
-msgstr ""
+msgstr "Sương tí tách"
 
 #: my-evolution/metar.c:289
 msgid "Freezing fog"
-msgstr ""
+msgstr "Sương lạnh"
 
 #. SMOKE
 #: my-evolution/metar.c:292
@@ -12360,7 +12375,7 @@ msgstr "Khói"
 
 #: my-evolution/metar.c:293
 msgid "Smoke in the vicinity"
-msgstr ""
+msgstr "Khói trong vùng lân cận"
 
 #: my-evolution/metar.c:294
 msgid "Thin smoke"
@@ -12376,15 +12391,15 @@ msgstr "Khói dày"
 
 #: my-evolution/metar.c:297
 msgid "Shallow smoke"
-msgstr ""
+msgstr "Chút khói"
 
 #: my-evolution/metar.c:298
 msgid "Patches of smoke"
-msgstr ""
+msgstr "Nhiều mảng khói"
 
 #: my-evolution/metar.c:299
 msgid "Partial smoke"
-msgstr ""
+msgstr "Một ít khói"
 
 #: my-evolution/metar.c:300
 msgid "Thunderous smoke"
@@ -12405,7 +12420,7 @@ msgstr "Tro núi lửa"
 
 #: my-evolution/metar.c:308
 msgid "Volcanic ash in the vicinity"
-msgstr ""
+msgstr "Tro núi lửa trong vùng lân cận"
 
 #: my-evolution/metar.c:310
 msgid "Moderate volcanic ash"
@@ -12454,7 +12469,7 @@ msgstr "Cát"
 
 #: my-evolution/metar.c:323
 msgid "Sand in the vicinity"
-msgstr ""
+msgstr "Cát trong vùng lân cận"
 
 #: my-evolution/metar.c:324
 msgid "Light sand"
@@ -12581,19 +12596,19 @@ msgstr "Bụi"
 
 #: my-evolution/metar.c:368
 msgid "Dust in the vicinity"
-msgstr ""
+msgstr "Bụi trong vùng lân cận"
 
 #: my-evolution/metar.c:369
 msgid "Light dust"
-msgstr ""
+msgstr "Bụi nhẹ"
 
 #: my-evolution/metar.c:370
 msgid "Moderate dust"
-msgstr ""
+msgstr "Bụi vừa"
 
 #: my-evolution/metar.c:371
 msgid "Heavy dust"
-msgstr ""
+msgstr "Bụi nặng"
 
 #: my-evolution/metar.c:373
 msgid "Patches of dust"
@@ -12614,7 +12629,7 @@ msgstr ""
 #. SQUALL
 #: my-evolution/metar.c:382
 msgid "Squall"
-msgstr ""
+msgstr "Gió lạnh"
 
 #: my-evolution/metar.c:383
 msgid "Squall in the vicinity"
@@ -12659,19 +12674,19 @@ msgstr "Bão cát"
 
 #: my-evolution/metar.c:398
 msgid "Sandstorm in the vicinity"
-msgstr ""
+msgstr "Bão cát trong vùng lân cận"
 
 #: my-evolution/metar.c:399
 msgid "Light standstorm"
-msgstr ""
+msgstr "Bão cát nhẹ"
 
 #: my-evolution/metar.c:400
 msgid "Moderate sandstorm"
-msgstr ""
+msgstr "Bão cát vừa"
 
 #: my-evolution/metar.c:401
 msgid "Heavy sandstorm"
-msgstr ""
+msgstr "Báo cát mạnh"
 
 #: my-evolution/metar.c:402
 msgid "Shallow sandstorm"
@@ -12745,7 +12760,7 @@ msgstr ""
 #. FUNNEL_CLOUD
 #: my-evolution/metar.c:427
 msgid "Funnel cloud"
-msgstr ""
+msgstr "Mây ống"
 
 #: my-evolution/metar.c:428
 msgid "Funnel cloud in the vicinity"
@@ -12790,15 +12805,15 @@ msgstr "Lốc xoáy"
 
 #: my-evolution/metar.c:443
 msgid "Tornado in the vicinity"
-msgstr ""
+msgstr "Lốc xoáy trong vùng lân cận"
 
 #: my-evolution/metar.c:445
 msgid "Moderate tornado"
-msgstr ""
+msgstr "Lốc xoáy vừa"
 
 #: my-evolution/metar.c:446
 msgid "Raging tornado"
-msgstr ""
+msgstr "Bão tố"
 
 #: my-evolution/metar.c:449
 msgid "Partial tornado"
@@ -12819,7 +12834,7 @@ msgstr ""
 #. DUST_WHIRLS
 #: my-evolution/metar.c:457
 msgid "Dust whirls"
-msgstr ""
+msgstr "Gió bụi"
 
 #: my-evolution/metar.c:458
 msgid "Dust whirls in the vicinity"
@@ -12859,7 +12874,7 @@ msgstr ""
 
 #: my-evolution/my-evolution.glade.h:1
 msgid " _Remove"
-msgstr ""
+msgstr " _Loại bỏ"
 
 #: my-evolution/my-evolution.glade.h:2
 msgid "Add n_ews feed"
@@ -12871,7 +12886,7 @@ msgstr ""
 
 #: my-evolution/my-evolution.glade.h:4
 msgid "All _folders:"
-msgstr ""
+msgstr "Mọi t_hư mục:"
 
 #: my-evolution/my-evolution.glade.h:5
 msgid "All news _feeds:"
@@ -12911,7 +12926,7 @@ msgstr "Thời gian cập nhật (giây):"
 
 #: my-evolution/my-evolution.glade.h:15
 msgid "S_how full path for folders"
-msgstr "_Hiện toàn đường dẫn của hộp thư"
+msgstr "_Hiện toàn đường dẫn của thư mục"
 
 #: my-evolution/my-evolution.glade.h:16
 msgid "Show _all tasks"
@@ -12935,7 +12950,7 @@ msgstr "Thiết lập thời tiết"
 
 #: my-evolution/my-evolution.glade.h:22
 msgid "_Display folders:"
-msgstr "_Hiển thị hộp thư:"
+msgstr "_Hiển thị thư mục:"
 
 #: my-evolution/my-evolution.glade.h:23
 msgid "_Display stations:"
@@ -12967,7 +12982,7 @@ msgstr "_Một ngày"
 
 #: my-evolution/my-evolution.glade.h:30
 msgid "_Schedule"
-msgstr ""
+msgstr "_Lập lịch biểu"
 
 #: my-evolution/my-evolution.glade.h:31
 msgid "_Weather"
@@ -22727,15 +22742,15 @@ msgstr "Hủy tác vụ"
 
 #: shell/e-local-storage.c:174 shell/e-shortcuts.c:1052
 msgid "Inbox"
-msgstr "Hộp thư nhận"
+msgstr "Thư mục nhận"
 
 #: shell/e-local-storage.c:175
 msgid "Outbox"
-msgstr "Hộp thư gửi"
+msgstr "Thư mục gửi"
 
 #: shell/e-local-storage.c:636
 msgid "Local Folders"
-msgstr "Hộp thư cục bộ"
+msgstr "Thư mục cục bộ"
 
 #: shell/e-setup.c:124
 msgid "Evolution installation"
@@ -22847,11 +22862,11 @@ msgstr "Được mang lại bởi"
 
 #: shell/e-shell-folder-commands.c:176
 msgid "Cannot move a folder over itself."
-msgstr "Không thể chuyển hộp thư tới chính nó."
+msgstr "Không thể chuyển thư mục tới chính nó."
 
 #: shell/e-shell-folder-commands.c:178
 msgid "Cannot copy a folder over itself."
-msgstr "Không thể chép hộp thư vào chính nó."
+msgstr "Không thể chép thư mục vào chính nó."
 
 #: shell/e-shell-folder-commands.c:192
 msgid "Cannot move a folder into one of its descendants."
@@ -22860,20 +22875,20 @@ msgstr ""
 #: shell/e-shell-folder-commands.c:307
 #, c-format
 msgid "Specify a folder to copy folder \"%s\" into:"
-msgstr "Xác định một hộp thư để chép hộp thư \"%s\" vào:"
+msgstr "Xác định một thư mục để chép thư mục \"%s\" vào:"
 
 #: shell/e-shell-folder-commands.c:312
 msgid "Copy folder"
-msgstr "Chép hộp thư"
+msgstr "Chép thư mục"
 
 #: shell/e-shell-folder-commands.c:354
 #, c-format
 msgid "Specify a folder to move folder \"%s\" into:"
-msgstr "Xác định một hộp thư để chuyển hộp thư \"%s\" tới:"
+msgstr "Xác định một thư mục để chuyển thư mục \"%s\" tới:"
 
 #: shell/e-shell-folder-commands.c:359
 msgid "Move folder"
-msgstr "Chuyển hộp thư"
+msgstr "Chuyển thư mục"
 
 #: shell/e-shell-folder-commands.c:385
 #, c-format
@@ -22881,7 +22896,7 @@ msgid ""
 "Cannot delete folder:\n"
 "%s"
 msgstr ""
-"Không thể xóa hộp thư:\n"
+"Không thể xóa thư mục:\n"
 "%s"
 
 #: shell/e-shell-folder-commands.c:401
@@ -22893,7 +22908,7 @@ msgstr "Xoá \"%s\""
 #: shell/e-shell-folder-commands.c:411
 #, c-format
 msgid "Are you sure you want to remove the \"%s\" folder?"
-msgstr "Bạn có chắc muốn gỡ bỏ hộp thư %s?"
+msgstr "Bạn có chắc muốn gỡ bỏ thư mục %s?"
 
 #: shell/e-shell-folder-commands.c:488
 #, c-format
@@ -22901,23 +22916,23 @@ msgid ""
 "Cannot rename folder:\n"
 "%s"
 msgstr ""
-"Không thể đổi tên hộp thư:\n"
+"Không thể đổi tên thư mục:\n"
 "%s"
 
 #: shell/e-shell-folder-commands.c:537
 #, c-format
 msgid "Rename the \"%s\" folder to:"
-msgstr "Đổi tên hộp thư \"%s\" thành:"
+msgstr "Đổi tên thư mục \"%s\" thành:"
 
 #: shell/e-shell-folder-commands.c:544
 msgid "Rename folder"
-msgstr "Đổi tên hộp thư"
+msgstr "Đổi tên thư mục"
 
 #: shell/e-shell-folder-commands.c:554
 #: shell/e-shell-folder-creation-dialog.c:168
 #, c-format
 msgid "The specified folder name is not valid: %s"
-msgstr "Tên hộp thư xác định không hợp lệ: %s"
+msgstr "Tên thư mục xác định không hợp lệ: %s"
 
 #: shell/e-shell-folder-creation-dialog.c:125
 #, c-format
@@ -22925,12 +22940,12 @@ msgid ""
 "Cannot create the specified folder:\n"
 "%s"
 msgstr ""
-"Không thể tạo hộp thư đã cho:\n"
+"Không thể tạo thư mục đã cho:\n"
 "%s"
 
 #: shell/e-shell-folder-creation-dialog.c:304
 msgid "Evolution - Create new folder"
-msgstr "Evolution - Tạo hộp thư mới"
+msgstr "Evolution - Tạo thư mục mới"
 
 #: shell/e-shell-folder-selection-dialog.c:98
 msgid ""
@@ -23000,7 +23015,7 @@ msgstr "Lỗi Evolution"
 
 #: shell/e-shell-importer.c:420
 msgid "You may only import to local folders"
-msgstr "Bạn chỉ có thể nhập vào hộp thư cục bộ"
+msgstr "Bạn chỉ có thể nhập vào thư mục cục bộ"
 
 #: shell/e-shell-importer.c:435
 #, c-format
@@ -23086,11 +23101,11 @@ msgstr "Từ %s:"
 
 #: shell/e-shell-importer.c:1027
 msgid "Select folder"
-msgstr "Chọn hộp thư"
+msgstr "Chọn thư mục"
 
 #: shell/e-shell-importer.c:1028
 msgid "Select a destination folder for importing this data"
-msgstr "Chọn một hộp thư đích để nhập dữ liệu này"
+msgstr "Chọn một thư mục đích để nhập dữ liệu này"
 
 #: shell/e-shell-importer.c:1140 shell/importer/intelligent.c:193
 msgid "Import"
@@ -23113,19 +23128,19 @@ msgstr ""
 
 #: shell/e-shell-utils.c:114
 msgid "No folder name specified."
-msgstr "Chưa có tên hộp thư."
+msgstr "Chưa có tên thư mục."
 
 #: shell/e-shell-utils.c:121
 msgid "Folder name cannot contain the Return character."
-msgstr "Tên hộp thư không thể chứa ký tự Enter"
+msgstr "Tên thư mục không thể chứa ký tự Enter"
 
 #: shell/e-shell-utils.c:127
 msgid "Folder name cannot contain slashes."
-msgstr "Tên hộp thư không thể chứa ký tự '/'"
+msgstr "Tên thư mục không thể chứa ký tự '/'"
 
 #: shell/e-shell-utils.c:133
 msgid "'.' and '..' are reserved folder names."
-msgstr "'.' và '..' là hai tên hộp thư đặc biệt, được dành riêng."
+msgstr "'.' và '..' là hai tên thư mục đặc biệt, được dành riêng."
 
 #: shell/e-shell-view-menu.c:165
 msgid "Bug buddy was not found in your $PATH."
@@ -23141,11 +23156,11 @@ msgstr "Về Ximian Evolution"
 
 #: shell/e-shell-view-menu.c:424
 msgid "Go to folder..."
-msgstr "Đi tới hộp thư..."
+msgstr "Đi tới thư mục..."
 
 #: shell/e-shell-view-menu.c:425
 msgid "Select the folder that you want to open"
-msgstr "Chọn hộp thư bạn muốn mở"
+msgstr "Chọn thư mục bạn muốn mở"
 
 #: shell/e-shell-view-menu.c:545
 msgid "Create a new shortcut"
@@ -23153,7 +23168,7 @@ msgstr "Tạo lối tắt mới"
 
 #: shell/e-shell-view-menu.c:546
 msgid "Select the folder you want the shortcut to point to:"
-msgstr "Chọn hộp thư bạn muốn lối tắt chỉ đến:"
+msgstr "Chọn thư mục bạn muốn lối tắt chỉ đến:"
 
 #: shell/e-shell-view-menu.c:577
 msgid "The GNOME Pilot tools do not appear to be installed on this system."
@@ -23178,7 +23193,7 @@ msgstr "Ngoại tuyến"
 
 #: shell/e-shell-view.c:214
 msgid "(No folder displayed)"
-msgstr "(Chưa hiển thị hộp thư)"
+msgstr "(Chưa hiển thị thư mục)"
 
 #: shell/e-shell-view.c:1585
 #, c-format
@@ -23317,7 +23332,7 @@ msgstr "Đổi tên lối tắt đã chọn thành:"
 
 #: shell/e-shortcuts-view.c:384
 msgid "Open the folder linked to this shortcut"
-msgstr "Mở hộp thư liên kết của lối tắt này"
+msgstr "Mở thư mục liên kết của lối tắt này"
 
 #: shell/e-shortcuts-view.c:386 ui/evolution.xml.h:19
 msgid "Open in New _Window"
@@ -23325,7 +23340,7 @@ msgstr "Mở trong cửa sổ mới"
 
 #: shell/e-shortcuts-view.c:386
 msgid "Open the folder linked to this shortcut in a new window"
-msgstr "Mở hộp thư liên kết của lối tắt này trong cửa sổ mới"
+msgstr "Mở thư mục liên kết của lối tắt này trong cửa sổ mới"
 
 #: shell/e-shortcuts-view.c:389
 msgid "_Rename"
@@ -23357,6 +23372,8 @@ msgid ""
 "Cannot transfer folder:\n"
 "%s"
 msgstr ""
+"Không thể chuyển thư mục:\n"
+"%s"
 
 #: shell/e-storage.c:181 shell/e-storage.c:187
 msgid "(No name)"
@@ -23368,11 +23385,11 @@ msgstr "Không có lỗi"
 
 #: shell/e-storage.c:502
 msgid "A folder with the same name already exists"
-msgstr "Hộp thư cùng tên đã tồn tại"
+msgstr "Thư mục cùng tên đã tồn tại"
 
 #: shell/e-storage.c:504
 msgid "The specified folder type is not valid"
-msgstr "Kiểu hộp thư không hợp lệ"
+msgstr "Kiểu thư mục không hợp lệ"
 
 #: shell/e-storage.c:506
 msgid "I/O error"
@@ -23380,15 +23397,15 @@ msgstr "Lỗi I/O"
 
 #: shell/e-storage.c:508
 msgid "Not enough space to create the folder"
-msgstr "Không đủ chỗ để tạp hộp thư"
+msgstr "Không đủ chỗ để tạp thư mục"
 
 #: shell/e-storage.c:510
 msgid "The folder is not empty"
-msgstr "Hộp thư không rỗng"
+msgstr "Thư mục không rỗng"
 
 #: shell/e-storage.c:512
 msgid "The specified folder was not found"
-msgstr "Không tìm thấy hộp thư"
+msgstr "Không tìm thấy thư mục"
 
 #: shell/e-storage.c:514
 msgid "Function not implemented in this storage"
@@ -23404,15 +23421,15 @@ msgstr "Kho chứa này chưa hộ trợ kiểu đã cho"
 
 #: shell/e-storage.c:522
 msgid "The specified folder cannot be modified or removed"
-msgstr "Hộp thư đã cho không thể bị thay đổi hoặc loại bỏ"
+msgstr "Thư mục đã cho không thể bị thay đổi hoặc loại bỏ"
 
 #: shell/e-storage.c:524
 msgid "Cannot make a folder a child of one of its descendants"
-msgstr "Không thể tạo một hộp thư con của một trong những descendant của nó"
+msgstr "Không thể tạo một thư mục con của một trong những descendant của nó"
 
 #: shell/e-storage.c:526
 msgid "Cannot create a folder with that name"
-msgstr "Không thể tạo hộp thư với tên đó"
+msgstr "Không thể tạo thư mục với tên đó"
 
 #: shell/e-task-widget.c:191
 #, c-format
@@ -23454,7 +23471,7 @@ msgstr "Kiểu chưa hỗ trợ"
 
 #: shell/evolution-shell-component.c:1023
 msgid "Unsupported schema"
-msgstr ""
+msgstr "Lược đồ không hỗ trợ"
 
 #: shell/evolution-shell-component.c:1025
 msgid "Unsupported operation"
@@ -23474,7 +23491,7 @@ msgstr "URI sai"
 
 #: shell/evolution-shell-component.c:1037
 msgid "Has subfolders"
-msgstr "Có hộp thư con"
+msgstr "Có thư mục con"
 
 #: shell/evolution-shell-component.c:1039
 msgid "No space left"
@@ -23539,15 +23556,15 @@ msgstr "Những kết nối sau đang hoạt động:"
 
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:1
 msgid "Folder name:"
-msgstr "Tên hộp thư:"
+msgstr "Tên thư mục:"
 
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:2
 msgid "Folder type:"
-msgstr "Kiểu hộp thư:"
+msgstr "Kiểu thư mục:"
 
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:3
 msgid "Specify where to create the folder:"
-msgstr "Xác định nơi tạo hộp thư:"
+msgstr "Xác định nơi tạo thư mục:"
 
 #: shell/glade/evolution-startup-wizard.glade.h:3
 msgid "Evolution Setup Assistant"
@@ -24062,11 +24079,11 @@ msgstr "Cập nhật cuộc họp"
 
 #: ui/evolution-event-editor.xml.h:7
 msgid "Schedule _Meeting"
-msgstr ""
+msgstr "Lập lịch _cuộc họp"
 
 #: ui/evolution-event-editor.xml.h:8
 msgid "Schedule a meeting for this item"
-msgstr ""
+msgstr "Lập lịch cuộc họp cho mục này"
 
 #: ui/evolution-executive-summary.xml.h:1
 msgid "Customise My Evolution"
@@ -24090,7 +24107,7 @@ msgstr "Tạo hoặc sửa các quy tắc lọc thư mới"
 
 #: ui/evolution-mail-global.xml.h:6
 msgid "Create or edit virtual folder definitions"
-msgstr "Tạo hoặc sửa định nghĩa hộp thư ảo"
+msgstr "Tạo hoặc sửa định nghĩa thư mục ảo"
 
 #: ui/evolution-mail-global.xml.h:7
 msgid "Empty _Trash"
@@ -24114,7 +24131,7 @@ msgstr "Mở cửa sổ soạn thư"
 
 #: ui/evolution-mail-global.xml.h:12
 msgid "Permanently remove all deleted messages from all folders"
-msgstr "Loại bỏ vĩnh viễn những thông điệp đã xóa của mọi hộp thư"
+msgstr "Loại bỏ vĩnh viễn những thông điệp đã xóa của mọi thư mục"
 
 #: ui/evolution-mail-global.xml.h:13
 msgid "Send / Receive"
@@ -24130,11 +24147,11 @@ msgstr "Hiện khung xem trước"
 
 #: ui/evolution-mail-global.xml.h:16
 msgid "Subscribe or unsubscribe to folders on remote servers"
-msgstr "Đăng ký hoặc hủy đăng ký hộp thư trên server từ xa"
+msgstr "Đăng ký hoặc hủy đăng ký thư mục trên server từ xa"
 
 #: ui/evolution-mail-global.xml.h:17
 msgid "Virtual Folder _Editor..."
-msgstr "Bộ hiệu chỉnh hộp thư ảo..."
+msgstr "Bộ hiệu chỉnh thư mục ảo..."
 
 #: ui/evolution-mail-global.xml.h:19
 msgid "_Filters..."
@@ -24158,11 +24175,11 @@ msgstr "_Gửi / Nhận"
 
 #: ui/evolution-mail-global.xml.h:24
 msgid "_Subscribe to Folders..."
-msgstr "Đă_ng ký hộp thư..."
+msgstr "Đă_ng ký thư mục..."
 
 #: ui/evolution-mail-list.xml.h:1
 msgid "Change the properties of this folder"
-msgstr "Đổi thuộc tính hộp thư này"
+msgstr "Đổi thuộc tính thư mục này"
 
 #: ui/evolution-mail-list.xml.h:2
 msgid "Copy selected messages"
@@ -24207,7 +24224,7 @@ msgstr "Dán thông điệp từ clipboard"
 
 #: ui/evolution-mail-list.xml.h:12
 msgid "Permanently remove all deleted messages from this folder"
-msgstr "Loại bỏ vĩnh viễn mọi thông điệp đã xoá trong hộp thư này"
+msgstr "Loại bỏ vĩnh viễn mọi thông điệp đã xoá trong thư mục này"
 
 #: ui/evolution-mail-list.xml.h:13 ui/evolution-subscribe.xml.h:6
 msgid "Select _All"
@@ -24251,11 +24268,11 @@ msgstr "Danh sách thông điệp theo nhánh"
 
 #: ui/evolution-mail-list.xml.h:26
 msgid "_Expunge"
-msgstr ""
+msgstr "_Bỏ"
 
 #: ui/evolution-mail-list.xml.h:27 ui/evolution.xml.h:37
 msgid "_Folder"
-msgstr "_Hộp thư"
+msgstr "_thư mục"
 
 #: ui/evolution-mail-list.xml.h:28 ui/evolution-subscribe.xml.h:12
 msgid "_Invert Selection"
@@ -24287,7 +24304,7 @@ msgstr "Soạn thông điệp trả lời cho người gửi thông điệp đư
 
 #: ui/evolution-mail-message.xml.h:7
 msgid "Copy selected messages to another folder"
-msgstr "Sao chép thông điệp được chọn sang hộp thư khác"
+msgstr "Sao chép thông điệp được chọn sang thư mục khác"
 
 #: ui/evolution-mail-message.xml.h:8
 msgid "Create _Virtual Folder From Message"
@@ -24359,7 +24376,7 @@ msgstr "Hiển thị thông điệp chưa đọc trước đó"
 
 #: ui/evolution-mail-message.xml.h:26
 msgid "Filter on Mailing _List..."
-msgstr ""
+msgstr "Lọc mailing _list..."
 
 #: ui/evolution-mail-message.xml.h:27
 msgid "Filter on Se_nder..."
@@ -24865,13 +24882,12 @@ msgid "Assign Task"
 msgstr "Gán công việc"
 
 #: ui/evolution-task-editor.xml.h:2
-#, fuzzy
 msgid "Assign this task to others"
-msgstr "Gán công việc này cho others"
+msgstr "Gán công việc này cho người khác"
 
 #: ui/evolution-task-editor.xml.h:3
 msgid "Cancel Task"
-msgstr "Bỏ công việc"
+msgstr "Hủy bỏ công việc"
 
 #: ui/evolution-task-editor.xml.h:4
 msgid "Cancel this task"
@@ -24915,7 +24931,7 @@ msgstr "Nhiệm _vụ"
 
 #: ui/evolution.xml.h:1
 msgid "About Ximian Evolution..."
-msgstr ""
+msgstr "Giới thiệu Ximian Evolution..."
 
 #: ui/evolution.xml.h:2
 msgid "Add to _Shortcut Bar"
@@ -25019,7 +25035,7 @@ msgstr "Ximian Evolution _FAQ"
 
 #: ui/evolution.xml.h:32
 msgid "_About Ximian Evolution..."
-msgstr ""
+msgstr "_Giới thiệu Ximian Evolution..."
 
 #: ui/evolution.xml.h:34
 msgid "_Copy..."
@@ -25079,7 +25095,7 @@ msgstr "Nạp lại"
 
 #: ui/my-evolution.xml.h:6
 msgid "Reload the view"
-msgstr ""
+msgstr "Nạp lại khung xem"
 
 #: ui/my-evolution.xml.h:8
 msgid "_Summary Settings..."
@@ -25144,11 +25160,11 @@ msgstr ""
 
 #: widgets/menus/gal-view-menus.c:195
 msgid "_Current View"
-msgstr ""
+msgstr "_Khung xem hiện thời"
 
 #: widgets/menus/gal-view-menus.c:222
 msgid "Define Views"
-msgstr ""
+msgstr "Định nghĩa khung xem"
 
 #. Translators: These are the first characters of each day of the
 #. week, 'M' for 'Monday', 'T' for Tuesday etc.
