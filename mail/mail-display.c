@@ -148,6 +148,11 @@ on_url_requested (GtkHTML *html, const char *url, GtkHTMLStreamHandle handle,
 
 	if (strncmp (url, "x-gnome-icon:", 13) == 0) {
 		const char *name = url + 13;
+		/* FIXME: gnome_pixmap_file will cheerily accept icon
+		 * names like "../../../dev/zero". Anyway, this whole
+		 * hack needs to be replaced with something more
+		 * efficient anyway.
+		 */
 		char *path = gnome_pixmap_file (name);
 		int fd;
 
