@@ -1,3 +1,24 @@
+2000-01-25  Christopher James Lahey  <clahey@helixcode.com>
+
+	* addressbook/printing/smallbook.ecps: Example contact printing
+	style.  Not used yet.
+
+	* addressbook/printing/e-contact-print.glade: A glade file for
+	editing contact printing styles.  Not used yet.
+
+	* addressbook/printing/test-print.c: Test file for printing.
+
+	* addressbook/printing/e-contact-print.c,
+	addressbook/printing/e-contact-print.h,
+	addressbook/printing/e-contact-print-types.h,
+	addressbook/printing/Makefile.am, addressbook/printing/.cvsignore:
+	New files for contact printing support.
+
+	* addressbook/Makefile.am (SUBDIRS): Add printing.
+
+	* configure.in: Check for gnome-print.  Build the
+	addressbook/printing Makefile.
+
 2000-01-24  bertrand  <bertrand@helixcode.com>
 
 	* camel/camel-data-wrapper.h: 

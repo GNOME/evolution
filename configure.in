@@ -54,6 +54,10 @@ fi
 
 AM_CONDITIONAL(HAVE_PTHREAD, $have_pthread)
 
+dnl **************************************************
+dnl * Print check
+dnl **************************************************
+GNOME_PRINT_CHECK
 
 dnl **************************************************
 dnl * ORBit support
@@ -173,6 +177,7 @@ widgets/shortcut-bar/Makefile
 widgets/e-table/Makefile
 addressbook/Makefile
 addressbook/contact-editor/Makefile
+addressbook/printing/Makefile
 shell/Makefile
 mail/Makefile
 data/Makefile
