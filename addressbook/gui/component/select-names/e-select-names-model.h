@@ -16,7 +16,7 @@
 #include <stdio.h>
 #include <e-util/e-list.h>
 #include <libebook/e-contact.h>
-#include <addressbook/util/e-destination.h>
+#include <libebook/e-destination.h>
 
 #define E_TYPE_SELECT_NAMES_MODEL            (e_select_names_model_get_type ())
 #define E_SELECT_NAMES_MODEL(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_SELECT_NAMES_MODEL, ESelectNamesModel))

@@ -43,7 +43,7 @@
 #include "calendar-config.h"
 #include "e-meeting-list-view.h"
 #include <misc/e-cell-renderer-combo.h>
-#include <addressbook/util/e-destination.h>
+#include <libebook/e-destination.h>
 #include "e-select-names-renderer.h"
 
 #define SELECT_NAMES_OAFID "OAFIID:GNOME_Evolution_Addressbook_SelectNames:" BASE_VERSION

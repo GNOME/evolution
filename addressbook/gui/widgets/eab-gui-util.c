@@ -30,7 +30,7 @@
 #include <gal/util/e-util.h>
 #include "eab-gui-util.h"
 #include "util/eab-book-util.h"
-#include "util/e-destination.h"
+#include <libebook/e-destination.h>
 #include "widgets/misc/e-error.h"
 #include "widgets/misc/e-image-chooser.h"
 #include <e-util/e-icon-factory.h>

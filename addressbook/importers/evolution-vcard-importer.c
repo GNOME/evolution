@@ -46,7 +46,7 @@
 #include <importer/evolution-importer.h>
 #include <importer/GNOME_Evolution_Importer.h>
 #include <util/eab-book-util.h>
-#include <util/e-destination.h>
+#include <libebook/e-destination.h>
 
 #define COMPONENT_FACTORY_IID "OAFIID:GNOME_Evolution_Addressbook_VCard_ImporterFactory:" BASE_VERSION
 #define COMPONENT_IID "OAFIID:GNOME_Evolution_Addressbook_VCard_Importer:" BASE_VERSION

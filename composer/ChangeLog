@@ -1,3 +1,8 @@
+2004-12-08  Hans Petter Jansson  <hpj@novell.com>
+
+	* e-msg-composer-hdrs.h: Include <libebook/e-destination.h> from
+	evolution-data-server.
+
 2004-12-07  Not Zed  <NotZed@Ximian.com>
 
 	* e-msg-composer.c: include camel-cipher-context.h so we build if

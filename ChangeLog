@@ -1,3 +1,8 @@
+2004-12-08  Hans Petter Jansson  <hpj@novell.com>
+
+	* plugins/shared-folder/share-folder-common.c: Include
+	<libebook/e-destination.h> from evolution-data-server.
+
 2004-12-03  Sivaiah Nallagatla <snallagatla@novell.com>
 
 	* configure.in : Add groupwise-account-setup to plguin 

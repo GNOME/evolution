@@ -25,7 +25,7 @@
 #include "e-select-names-completion.h"
 #include "e-select-names-popup.h"
 #include <addressbook/util/eab-book-util.h>
-#include <addressbook/util/e-destination.h>
+#include <libebook/e-destination.h>
 #include "addressbook/gui/component/addressbook.h"
 #include <bonobo/bonobo-object.h>
 

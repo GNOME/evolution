@@ -40,7 +40,7 @@
 #include "e-minicard-view.h"
 #include "e-contact-editor.h"
 #include <e-util/e-icon-factory.h>
-#include "util/e-destination.h"
+#include <libebook/e-destination.h>
 
 static void e_minicard_init		(EMinicard		 *card);
 static void e_minicard_class_init	(EMinicardClass	 *klass);

@@ -25,7 +25,7 @@
 #include <gtk/gtkcelleditable.h>
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-widget.h>
-#include <addressbook/util/e-destination.h>
+#include <libebook/e-destination.h>
 
 #include "e-select-names-editable.h"
 #include "Evolution-Addressbook-SelectNames.h"

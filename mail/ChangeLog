@@ -1,3 +1,8 @@
+2004-12-08  Hans Petter Jansson  <hpj@novell.com>
+
+	* importers/pine-importer.c: Include <libebook/e-destination.h> from
+	evolution-data-server.
+
 2004-12-08  Rodney Dawes  <dobey@novell.com>
 
 	* em-folder-tree.c:

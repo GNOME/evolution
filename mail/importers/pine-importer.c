@@ -62,7 +62,7 @@
 #include "mail/mail-component.h"
 
 #include <libebook/e-book.h>
-#include <addressbook/util/e-destination.h>
+#include <libebook/e-destination.h>
 
 #define KEY "pine-mail-imported"
 

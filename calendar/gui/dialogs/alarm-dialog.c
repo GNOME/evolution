@@ -51,7 +51,7 @@
 #include <libecal/e-cal-time-util.h>
 #include "e-util/e-dialog-widgets.h"
 #include "e-util/e-icon-factory.h"
-#include <addressbook/util/e-destination.h>
+#include <libebook/e-destination.h>
 #include "Evolution-Addressbook-SelectNames.h"
 #include "../calendar-config.h"
 #include "comp-editor-util.h"

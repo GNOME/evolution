@@ -35,7 +35,7 @@
 #include <libical/ical.h>
 #include <glade/glade.h>
 #include <widgets/misc/e-map.h>
-#include <addressbook/util/e-destination.h>
+#include <libebook/e-destination.h>
 #include "Evolution-Addressbook-SelectNames.h"
 #include "e-delegate-dialog.h"
 

@@ -1,3 +1,19 @@
+2004-12-08  Hans Petter Jansson  <hpj@novell.com>
+
+	* gui/component/addressbook-migrate.c
+	* gui/component/select-names/e-select-names-completion.c
+	* gui/component/select-names/e-select-names-manager.c
+	* gui/component/select-names/e-select-names-model.h
+	* gui/contact-list-editor/e-contact-list-editor.h
+	* gui/contact-list-editor/e-contact-list-model.h
+	* gui/widgets/e-minicard.c
+	* gui/widgets/eab-gui-util.c
+	* importers/evolution-ldif-importer.c
+	* importers/evolution-vcard-importer.c: Include
+	<libebook/e-destination.h> from evolution-data-server.
+	* util/Makefile.am: Remove e-destination.[ch] from here.
+	* util/e-destination.[ch]: Removed.
+
 2004-12-08  S.Çaglar Onur  <caglar@uludag.org.tr>
 
 	* evolution-2.0.2/addressbook/gui/contact-editor/e-contact-editor.c

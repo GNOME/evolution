@@ -33,7 +33,7 @@
 #include <errno.h>
 
 #include "addressbook-migrate.h"
-#include "e-destination.h"
+#include <libebook/e-destination.h>
 #include <libebook/e-book.h>
 #include <libgnome/gnome-i18n.h>
 #include <gal/util/e-util.h>

@@ -31,7 +31,7 @@
 
 #include <e-util/e-account.h>
 #include <camel/camel-mime-message.h>
-#include <addressbook/util/e-destination.h>
+#include <libebook/e-destination.h>
 
 #ifdef __cplusplus
 extern "C" {

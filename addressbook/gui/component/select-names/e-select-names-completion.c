@@ -36,7 +36,7 @@
 
 #include <libebook/e-contact.h>
 #include <addressbook/util/eab-book-util.h>
-#include <addressbook/util/e-destination.h>
+#include <libebook/e-destination.h>
 #include <addressbook/gui/merging/eab-contact-compare.h>
 
 #include <libedataserver/e-sexp.h>

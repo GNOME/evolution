@@ -30,7 +30,7 @@
 
 #include <libebook/e-book.h>
 #include <libebook/e-contact.h>
-#include "addressbook/util/e-destination.h"
+#include <libebook/e-destination.h>
 
 G_BEGIN_DECLS
 
