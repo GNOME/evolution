@@ -1,3 +1,14 @@
+2002-10-15  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-session.c (main_get_filter_driver): Add the new-mail-notify
+	rule to the filter driver before adding the user defined filter
+	rules so that we can be sure that the new-mail-notify rule gets
+	invoked. Fixes bug #32328.
+
+	* mail-composer-prefs.c (mail_composer_prefs_new_signature): Make
+	sure that name[0] cannot ever be NULL. Should maybe fix bug
+	#32230.
+
 2002-10-15  Dan Winship  <danw@ximian.com>
 
 	* upgrade-mailer.c (shortcuts_upgrade_xml_file): Change the type

@@ -227,24 +227,27 @@ MailConfigSignature *
 mail_composer_prefs_new_signature (MailComposerPrefs *prefs, gboolean html, const gchar *script)
 {
 	MailConfigSignature *sig;
-	char *name [1];
+	char *name[1];
 	int row;
 	
 	sig = mail_config_signature_add (html, script);
 	
 	if (prefs) {
-		name [0] = e_utf8_to_gtk_string (GTK_WIDGET (prefs->sig_clist), sig->name);
+		if (!(name[0] = e_utf8_to_gtk_string (GTK_WIDGET (prefs->sig_clist), sig->name)))
+			name[0] = g_strdup ("");
+		
 		if (sig->script) {
-			gchar *tmp;
-
-			tmp = name [0];
-			name [0] = g_strconcat (name [0], _(" [script]"), NULL);
+			char *tmp;
+			
+			tmp = name[0];
+			name[0] = g_strconcat (tmp, _(" [script]"), NULL);
 			g_free (tmp);
 		}
+		
 		row = gtk_clist_append (prefs->sig_clist, name);
 		gtk_clist_set_row_data (prefs->sig_clist, row, sig);
 		gtk_clist_select_row (GTK_CLIST (prefs->sig_clist), row, 0);
-		g_free (name [0]);
+		g_free (name[0]);
 		/*gtk_widget_grab_focus (prefs->sig_name);*/
 	}
 	

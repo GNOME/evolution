@@ -871,16 +871,7 @@ main_get_filter_driver (CamelSession *session, const char *type, CamelException 
 	fsearch = g_string_new ("");
 	faction = g_string_new ("");
 	
-	while ((rule = rule_context_next_rule (fc, rule, type))) {
-		g_string_truncate (fsearch, 0);
-		g_string_truncate (faction, 0);
-		
-		filter_rule_build_code (rule, fsearch);
-		filter_filter_build_action ((FilterFilter *)rule, faction);
-		
-		camel_filter_driver_add_rule (driver, rule->name,
-					      fsearch->str, faction->str);
-	}
+	/* add the new-mail notification rule first to be sure that it gets invoked */
 	
 	/* FIXME: we need a way to distinguish between filtering new
            mail and re-filtering a folder because both use the
@@ -907,10 +898,23 @@ main_get_filter_driver (CamelSession *session, const char *type, CamelException 
 		camel_filter_driver_add_rule (driver, "new-mail-notification", "(begin #t)", faction->str);
 	}
 	
+	/* add the user-defined rules next */
+	while ((rule = rule_context_next_rule (fc, rule, type))) {
+		g_string_truncate (fsearch, 0);
+		g_string_truncate (faction, 0);
+		
+		filter_rule_build_code (rule, fsearch);
+		filter_filter_build_action ((FilterFilter *)rule, faction);
+		
+		camel_filter_driver_add_rule (driver, rule->name,
+					      fsearch->str, faction->str);
+	}
+	
 	g_string_free (fsearch, TRUE);
 	g_string_free (faction, TRUE);
 	
 	gtk_object_unref (GTK_OBJECT (fc));
+	
 	return driver;
 }
 
