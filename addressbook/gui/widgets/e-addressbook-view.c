@@ -30,7 +30,12 @@
 #include <gal/widgets/e-scroll-frame.h>
 #include <gal/widgets/e-popup-menu.h>
 #include "widgets/menus/gal-view-menus.h"
+
 #include <gal/menus/gal-view-factory-etable.h>
+#include <gal/menus/gal-view-etable.h>
+
+#include "gal-view-factory-minicard.h"
+#include "gal-view-minicard.h"
 
 #include "e-addressbook-model.h"
 
@@ -787,7 +792,13 @@ display_view(GalViewCollection *collection,
 	     GalView *view,
 	     gpointer data)
 {
-	g_print ("title: %s\n", gal_view_get_title(view));
+	EAddressbookView *address_view = data;
+	if (GAL_IS_VIEW_ETABLE(view)) {
+		change_view_type (address_view, E_ADDRESSBOOK_VIEW_TABLE);
+		e_table_set_state_object(e_table_scrolled_get_table(E_TABLE_SCROLLED(address_view->widget)), GAL_VIEW_ETABLE(view)->state);
+	} else if (GAL_IS_VIEW_MINICARD(view)) {
+		change_view_type (address_view, E_ADDRESSBOOK_VIEW_MINICARD);
+	}
 }
 
 void
@@ -812,18 +823,16 @@ e_addressbook_view_setup_menus (EAddressbookView *view,
 	gal_view_collection_add_factory(collection, factory);
 	gtk_object_sink(GTK_OBJECT(factory));
 
-	gal_view_collection_load(collection);
-
-#if 0
-	factory = e_minicard_view_factory_new();
+	factory = gal_view_factory_minicard_new();
 	gal_view_collection_add_factory(collection, factory);
 	gtk_object_sink(GTK_OBJECT(factory));
-#endif
+
+	gal_view_collection_load(collection);
 
 	views = gal_view_menus_new(collection);
 	gal_view_menus_apply(views, uic, NULL); /* This function probably needs to sink the views object. */
 	gtk_signal_connect(GTK_OBJECT(collection), "display_view",
-			   display_view, NULL);
+			   display_view, view);
 	/*	gtk_object_sink(GTK_OBJECT(views)); */
 
 	gtk_object_sink(GTK_OBJECT(collection));

@@ -31,7 +31,11 @@ libeminicard_a_SOURCES =			\
 	e-minicard-widget.c			\
 	e-minicard-widget.h			\
 	e-minicard.c				\
-	e-minicard.h
+	e-minicard.h				\
+	gal-view-factory-minicard.c		\
+	gal-view-factory-minicard.h		\
+	gal-view-minicard.c			\
+	gal-view-minicard.h
 
 noinst_PROGRAMS =				\
 	minicard-widget-test			\
