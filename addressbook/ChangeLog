@@ -1,3 +1,7 @@
+2000-05-01  Michael Meeks  <michael@helixcode.com>
+
+	* backend/pas/pas-book-factory.c: include gtk.
+
 2000-04-30  Federico Mena Quintero  <federico@helixcode.com>
 
 	* backend/ebook/e-book-types.h (EBookStatus): Added new status
