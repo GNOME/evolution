@@ -51,15 +51,17 @@ struct _CamelCipherContextPrivate {
 
 static int                  cipher_sign (CamelCipherContext *ctx, const char *userid, CamelCipherHash hash,
 					 CamelStream *istream, CamelStream *ostream, CamelException *ex);
-static int                  cipher_clearsign (CamelCipherContext *context, const char *userid, CamelCipherHash hash,
-					      CamelStream *istream, CamelStream *ostream, CamelException *ex);
-static CamelCipherValidity *cipher_verify (CamelCipherContext *context, CamelStream *istream,
-					   CamelStream *sigstream, CamelException *ex);
+static int                  cipher_clearsign (CamelCipherContext *context, const char *userid,
+					      CamelCipherHash hash, CamelStream *istream,
+					      CamelStream *ostream, CamelException *ex);
+static CamelCipherValidity *cipher_verify (CamelCipherContext *context, CamelCipherHash hash,
+					   CamelStream *istream, CamelStream *sigstream,
+					   CamelException *ex);
 static int                  cipher_encrypt (CamelCipherContext *context, gboolean sign, const char *userid,
-					    GPtrArray *recipients, CamelStream *istream, CamelStream *ostream,
-					    CamelException *ex);
-static int                  cipher_decrypt (CamelCipherContext *context, CamelStream *istream, CamelStream *ostream,
-					    CamelException *ex);
+					    GPtrArray *recipients, CamelStream *istream,
+					    CamelStream *ostream, CamelException *ex);
+static int                  cipher_decrypt (CamelCipherContext *context, CamelStream *istream,
+					    CamelStream *ostream, CamelException *ex);
 
 static CamelObjectClass *parent_class;
 
@@ -242,7 +244,7 @@ camel_cipher_clearsign (CamelCipherContext *context, const char *userid, CamelCi
 
 
 static CamelCipherValidity *
-cipher_verify (CamelCipherContext *context, CamelStream *istream,
+cipher_verify (CamelCipherContext *context, CamelCipherHash hash, CamelStream *istream,
 	       CamelStream *sigstream, CamelException *ex)
 {
 	camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
@@ -267,7 +269,7 @@ cipher_verify (CamelCipherContext *context, CamelStream *istream,
  * execute at all.
  **/
 CamelCipherValidity *
-camel_cipher_verify (CamelCipherContext *context, CamelStream *istream,
+camel_cipher_verify (CamelCipherContext *context, CamelCipherHash hash, CamelStream *istream,
 		     CamelStream *sigstream, CamelException *ex)
 {
 	CamelCipherValidity *valid;
@@ -276,7 +278,7 @@ camel_cipher_verify (CamelCipherContext *context, CamelStream *istream,
 	
 	CIPHER_LOCK(context);
 	
-	valid = CCC_CLASS (context)->verify (context, istream, sigstream, ex);
+	valid = CCC_CLASS (context)->verify (context, hash, istream, sigstream, ex);
 	
 	CIPHER_UNLOCK(context);
 	

@@ -358,7 +358,7 @@ camel_pgp_mime_part_verify (CamelPgpContext *context, CamelMimePart *mime_part, 
 	camel_stream_reset (sigstream);
 	
 	/* verify */
-	valid = camel_pgp_verify (context, stream, sigstream, ex);
+	valid = camel_pgp_verify (context, CAMEL_CIPHER_HASH_DEFAULT, stream, sigstream, ex);
 	
 	camel_object_unref (CAMEL_OBJECT (sigstream));
 	camel_object_unref (CAMEL_OBJECT (stream));

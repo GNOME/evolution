@@ -60,7 +60,7 @@ CamelSMimeContext   *camel_smime_context_new (CamelSession *session, const char 
 
 #define camel_smime_clearsign(c, u, h, i, o, e) camel_cipher_clearsign (CAMEL_CIPHER_CONTEXT (c), u, h, i, o, e)
 
-#define camel_smime_verify(c, i, s, e) camel_cipher_verify (CAMEL_CIPHER_CONTEXT (c), i, s, e)
+#define camel_smime_verify(c, h, i, s, e) camel_cipher_verify (CAMEL_CIPHER_CONTEXT (c), h, i, s, e)
 
 #define camel_smime_encrypt(c, s, u, r, i, o, e) camel_cipher_encrypt (CAMEL_CIPHER_CONTEXT (c), s, u, r, i, o, e)
 

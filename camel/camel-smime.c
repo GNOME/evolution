@@ -307,6 +307,28 @@ camel_smime_part_sign (CamelSMimeContext *context, CamelMimePart **mime_part, co
 	camel_object_unref (CAMEL_OBJECT (multipart));
 }
 
+struct {
+	char *name;
+	CamelCipherHash hash;
+} known_hash_types[] = {
+	{ "md5", CAMEL_CIPHER_HASH_MD5 },
+	{ "rsa-md5", CAMEL_CIPHER_HASH_MD5 },
+	{ "sha1", CAMEL_CIPHER_HASH_SHA1 },
+	{ "rsa-sha1", CAMEL_CIPHER_HASH_SHA1 },
+	{ NULL, CAMEL_CIPHER_HASH_DEFAULT }
+};
+
+static CamelCipherHash
+get_hash_type (const char *string)
+{
+	int i;
+	
+	for (i = 0; known_hash_types[i].name; i++)
+		if (!g_strcasecmp (known_hash_types[i].name, string))
+			return known_hash_types[i].hash;
+	
+	return CAMEL_CIPHER_HASH_DEFAULT;
+}
 
 /**
  * camel_smime_part_verify:
@@ -325,7 +347,10 @@ camel_smime_part_verify (CamelSMimeContext *context, CamelMimePart *mime_part, C
 	CamelStreamFilter *filtered_stream;
 	CamelMimeFilter *crlf_filter, *from_filter;
 	CamelStream *stream, *sigstream;
+	CamelContentType *type;
 	CamelCipherValidity *valid;
+	CamelCipherHash hash;
+	const char *hash_str;
 	
 	g_return_val_if_fail (mime_part != NULL, NULL);
 	g_return_val_if_fail (CAMEL_IS_MIME_PART (mime_part), NULL);
@@ -359,7 +384,10 @@ camel_smime_part_verify (CamelSMimeContext *context, CamelMimePart *mime_part, C
 	camel_stream_reset (sigstream);
 	
 	/* verify */
-	valid = camel_smime_verify (context, stream, sigstream, ex);
+	type = camel_mime_part_get_content_type (sigpart);
+	hash_str = header_content_type_param (type, "micalg");
+	hash = get_hash_type (hash_str);
+	valid = camel_smime_verify (context, hash, stream, sigstream, ex);
 	
 	camel_object_unref (CAMEL_OBJECT (sigstream));
 	camel_object_unref (CAMEL_OBJECT (stream));

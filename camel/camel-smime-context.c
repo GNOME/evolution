@@ -32,8 +32,12 @@
 
 #include "nss.h"
 #include <cert.h>
+#include <certt.h>
+#include <certdb.h>
+#include <keylow.h>
 #include <secpkcs7.h>
 #include <secmime.h>
+#include <smime.h>
 
 #include <gtk/gtk.h> /* for _() macro */
 
@@ -49,8 +53,9 @@ static int                  smime_sign (CamelCipherContext *ctx, const char *use
 static int                  smime_clearsign (CamelCipherContext *context, const char *userid,
 					     CamelCipherHash hash, CamelStream *istream,
 					     CamelStream *ostream, CamelException *ex);
-static CamelCipherValidity *smime_verify (CamelCipherContext *context, CamelStream *istream,
-					  CamelStream *sigstream, CamelException *ex);
+static CamelCipherValidity *smime_verify (CamelCipherContext *context, CamelCipherHash hash,
+					  CamelStream *istream, CamelStream *sigstream,
+					  CamelException *ex);
 static int                  smime_encrypt (CamelCipherContext *context, gboolean sign, const char *userid,
 					   GPtrArray *recipients, CamelStream *istream, CamelStream *ostream,
 					   CamelException *ex);
@@ -133,11 +138,11 @@ camel_smime_context_new (CamelSession *session, const char *certdb)
 	
 	context = CAMEL_SMIME_CONTEXT (camel_object_new (CAMEL_SMIME_CONTEXT_TYPE));
 	
-	camel_cipher_construct (CAMEL_CIPHER_CONTEXT (context), session);
+	camel_cipher_context_construct (CAMEL_CIPHER_CONTEXT (context), session);
 	
 	handle = g_new0 (CERTCertDBHandle, 1);
 	if (certdb) {
-		if (!CERT_OpenCertDBFilename (handle, certdb, FALSE)) {
+		if (!CERT_OpenCertDBFilename (handle, (char *) certdb, FALSE)) {
 			g_free (handle);
 			return NULL;
 		}
@@ -257,7 +262,7 @@ nss_hash_to_sec_oid (HASH_HashType hash)
 		return SEC_OID_MD2;
 	case HASH_AlgMD5:
 		return SEC_OID_MD5;
-	case Hash_AlgSHA1:
+	case HASH_AlgSHA1:
 		return SEC_OID_SHA1;
 	default:
 		g_assert_not_reached ();
@@ -268,7 +273,7 @@ nss_hash_to_sec_oid (HASH_HashType hash)
 static int
 smime_digest (SECItem *data, char *digestdata, unsigned int *len, unsigned int maxlen, HASH_HashType hash)
 {
-	SECHashObject *hashObj;
+	const SECHashObject *hashObj;
 	void *hashcx;
 	
 	hashObj = &SECHashObjects[hash];
@@ -327,7 +332,7 @@ smime_sign (CamelCipherContext *ctx, const char *userid, CamelCipherHash hash,
 	
 	camel_object_unref (CAMEL_OBJECT (stream));
 	
-	cert = CERT_FindCertByNickname (context->priv->certdb, userid);
+	cert = CERT_FindCertByNickname (context->priv->certdb, (char *) userid);
 	if (!cert) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Could not sign: certificate not found for \"%s\"."),
@@ -419,6 +424,7 @@ smime_verify (CamelCipherContext *ctx, CamelCipherHash hash, CamelStream *istrea
 	SECCertUsage usage;
 	GByteArray *plaintext;
 	CamelStream *stream;
+	gboolean isvalid;
 	
 	/* create our ContentInfo object */
 	stream = camel_stream_mem_new ();
@@ -460,12 +466,14 @@ smime_verify (CamelCipherContext *ctx, CamelCipherHash hash, CamelStream *istrea
 			break;
 		}
 		
-		valid->valid = SEC_PKCS7VerifyDetachedSignature (cinfo, usage, &digest,
-								 digest_type, PR_FALSE);
+		isvalid = SEC_PKCS7VerifyDetachedSignature (cinfo, usage, &digest,
+							    digest_type, PR_FALSE);
 		camel_object_unref (CAMEL_OBJECT (stream));
 	} else {
-		valid->valid = SEC_PKCS7VerifySignature (cinfo, usage, PR_FALSE);
+		isvalid = SEC_PKCS7VerifySignature (cinfo, usage, PR_FALSE);
 	}
+	
+	camel_cipher_validity_set_valid (valid, isvalid);
 	
 	SEC_PKCS7DestroyContentInfo (cinfo);
 	
@@ -487,7 +495,6 @@ smime_encrypt (CamelCipherContext *ctx, gboolean sign, const char *userid, GPtrA
 	struct _GetPasswdData *data;
 	CamelStream *stream = NULL;
 	CERTCertificate *scert;
-	SECItem secdata;
 	GByteArray *buf;
 	int i = 0;
 	
@@ -497,7 +504,7 @@ smime_encrypt (CamelCipherContext *ctx, gboolean sign, const char *userid, GPtrA
 	g_return_val_if_fail (istream != NULL, -1);
 	g_return_val_if_fail (ostream != NULL, -1);
 	
-	scert = CERT_FindCertByNickname (context->priv->certdb, userid);
+	scert = CERT_FindCertByNickname (context->priv->certdb, (char *) userid);
 	if (!scert) {
 		invalid_userkey = recipients->pdata[i];
 		goto exception;
@@ -518,7 +525,7 @@ smime_encrypt (CamelCipherContext *ctx, gboolean sign, const char *userid, GPtrA
 	g_ptr_array_add (certificates, NULL);
 	
 	data = g_new (struct _GetPasswdData, 1);
-	data->session = session;
+	data->session = ctx->session;
 	data->userid = userid;
 	data->ex = ex;
 	
@@ -593,7 +600,6 @@ static int
 smime_decrypt (CamelCipherContext *ctx, CamelStream *istream,
 	       CamelStream *ostream, CamelException *ex)
 {
-	CamelSMimeContext *context = CAMEL_SMIME_CONTEXT (ctx);
 	struct _GetPasswdData *data;
 	SEC_PKCS7DecoderContext *dcx;
 	SEC_PKCS7ContentInfo *cinfo;

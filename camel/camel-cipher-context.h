@@ -64,8 +64,9 @@ typedef struct _CamelCipherContextClass {
 	int                   (*clearsign) (CamelCipherContext *context, const char *userid, CamelCipherHash hash,
 					    CamelStream *istream, CamelStream *ostream, CamelException *ex);
 	
-	CamelCipherValidity * (*verify)    (CamelCipherContext *context, CamelStream *istream,
-					    CamelStream *sigstream, CamelException *ex);
+	CamelCipherValidity * (*verify)    (CamelCipherContext *context, CamelCipherHash hash,
+					    CamelStream *istream, CamelStream *sigstream,
+					    CamelException *ex);
 	
 	int                   (*encrypt)   (CamelCipherContext *context, gboolean sign, const char *userid,
 					    GPtrArray *recipients, CamelStream *istream, CamelStream *ostream,
@@ -89,7 +90,8 @@ int                  camel_cipher_sign (CamelCipherContext *context, const char 
 int                  camel_cipher_clearsign (CamelCipherContext *context, const char *userid, CamelCipherHash hash,
 					     CamelStream *istream, CamelStream *ostream, CamelException *ex);
 
-CamelCipherValidity *camel_cipher_verify (CamelCipherContext *context, CamelStream *istream, CamelStream *sigstream,
+CamelCipherValidity *camel_cipher_verify (CamelCipherContext *context, CamelCipherHash hash,
+					  CamelStream *istream, CamelStream *sigstream,
 					  CamelException *ex);
 
 int                  camel_cipher_encrypt (CamelCipherContext *context, gboolean sign, const char *userid,

@@ -62,15 +62,17 @@ struct _CamelPgpContextPrivate {
 
 static int                  pgp_sign (CamelCipherContext *ctx, const char *userid, CamelCipherHash hash,
 				      CamelStream *istream, CamelStream *ostream, CamelException *ex);
-static int                  pgp_clearsign (CamelCipherContext *context, const char *userid, CamelCipherHash hash,
-					   CamelStream *istream, CamelStream *ostream, CamelException *ex);
-static CamelCipherValidity *pgp_verify (CamelCipherContext *context, CamelStream *istream,
-					CamelStream *sigstream, CamelException *ex);
+static int                  pgp_clearsign (CamelCipherContext *context, const char *userid,
+					   CamelCipherHash hash, CamelStream *istream,
+					   CamelStream *ostream, CamelException *ex);
+static CamelCipherValidity *pgp_verify (CamelCipherContext *context, CamelCipherHash hash,
+					CamelStream *istream, CamelStream *sigstream,
+					CamelException *ex);
 static int                  pgp_encrypt (CamelCipherContext *context, gboolean sign, const char *userid,
 					 GPtrArray *recipients, CamelStream *istream, CamelStream *ostream,
 					 CamelException *ex);
-static int                  pgp_decrypt (CamelCipherContext *context, CamelStream *istream, CamelStream *ostream,
-					 CamelException *ex);
+static int                  pgp_decrypt (CamelCipherContext *context, CamelStream *istream,
+					 CamelStream *ostream, CamelException *ex);
 
 static CamelCipherContextClass *parent_class;
 
@@ -845,7 +847,7 @@ swrite (CamelStream *istream)
 
 
 static CamelCipherValidity *
-pgp_verify (CamelCipherContext *ctx, CamelStream *istream,
+pgp_verify (CamelCipherContext *ctx, CamelCipherHash hash, CamelStream *istream,
 	    CamelStream *sigstream, CamelException *ex)
 {
 	CamelPgpContext *context = CAMEL_PGP_CONTEXT (ctx);
