@@ -1112,7 +1112,7 @@ impl_dispose (GObject *object)
 	}
 
 	if (priv->config_listener != NULL) {
-		/* g_object_unref (priv->config_listener); FIXME */
+		g_object_unref (priv->config_listener);
 		priv->config_listener = NULL;
 	}
 
