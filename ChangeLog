@@ -1,3 +1,13 @@
+2000-02-28  NotZed  <NotZed@HelixCode.com>
+
+	* e-util/e-sexp.[ch]: Added.  moved from filter-sexp.[ch]
+
+	* e-util/Makefile.am (libeutil_a_SOURCES): Add e-sexp.
+	(noinst_LTLIBRARIES): Changed to a libtool library.
+
+	* Makefile.am (SUBDIRS): Build e-util before other stuff.
+	(SUBDIRS): Build filter after camel.
+
 2000-02-28  Chris Lahey  <clahey@umich.edu>
 
 	* widgets/e-text/e-text.c: Compilation error.

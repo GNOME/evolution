@@ -14,10 +14,10 @@ SUBDIRS =			\
 	po			\
 	macros			\
 	data			\
-	libibex			\
-	filter			\
-	camel			\
 	e-util			\
+	libibex			\
+	camel			\
+	filter			\
 	widgets			\
 	composer		\
 	mail			\

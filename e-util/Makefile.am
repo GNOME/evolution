@@ -1,9 +1,9 @@
 INCLUDES =					\
 	$(GNOME_INCLUDEDIR)
 
-noinst_LIBRARIES = libeutil.a
+noinst_LTLIBRARIES = libeutil.la
 
-libeutil_a_SOURCES = \
+libeutil_la_SOURCES = \
 	e-canvas.c	\
 	e-canvas.h	\
 	e-canvas-utils.c\
@@ -17,4 +17,6 @@ libeutil_a_SOURCES = \
 	e-util.c	\
 	e-util.h	\
 	e-xml-utils.c	\
-	e-xml-utils.h
+	e-xml-utils.h	\
+	e-sexp.c	\
+	s-sexp.h
