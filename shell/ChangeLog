@@ -1,5 +1,13 @@
 2001-10-25  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-activity-handler.c (impl_destroy): Set ->priv to NULL.
+	(impl_operationStarted): Check for priv not being NULL.
+	(impl_operationProgressing): Likewise.
+	(impl_operationFinished): Likewise.
+	(impl_requestDialog): Likewise.
+
+2001-10-25  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-startup-wizard.c (make_mail_dialog_pages): Set the
 	->mailer to be CORBA_OBJECT_NIL in case of an exception, otherwise
 	the caller will not realize about the problem.

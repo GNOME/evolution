@@ -380,6 +380,7 @@ impl_destroy (GtkObject *object)
 	}
 
 	g_free (priv);
+	handler->priv = NULL;
 
 	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
@@ -407,7 +408,7 @@ impl_operationStarted (PortableServer_Servant servant,
 
 	activity_handler = E_ACTIVITY_HANDLER (bonobo_object_from_servant (servant));
 
-	if (GTK_OBJECT_DESTROYED (activity_handler))
+	if (GTK_OBJECT_DESTROYED (activity_handler) || activity_handler->priv == NULL)
 		return;
 
 	priv = activity_handler->priv;
@@ -457,7 +458,7 @@ impl_operationProgressing (PortableServer_Servant servant,
 
 	activity_handler = E_ACTIVITY_HANDLER (bonobo_object_from_servant (servant));
 
-	if (GTK_OBJECT_DESTROYED (activity_handler))
+	if (GTK_OBJECT_DESTROYED (activity_handler) || activity_handler->priv == NULL)
 		return;
 
 	priv = activity_handler->priv;
@@ -500,7 +501,7 @@ impl_operationFinished (PortableServer_Servant servant,
 
 	activity_handler = E_ACTIVITY_HANDLER (bonobo_object_from_servant (servant));
 
-	if (GTK_OBJECT_DESTROYED (activity_handler))
+	if (GTK_OBJECT_DESTROYED (activity_handler) || activity_handler->priv == NULL)
 		return;
 
 	priv = activity_handler->priv;
@@ -528,7 +529,7 @@ impl_requestDialog (PortableServer_Servant servant,
 
 	activity_handler = E_ACTIVITY_HANDLER (bonobo_object_from_servant (servant));
 
-	if (GTK_OBJECT_DESTROYED (activity_handler))
+	if (GTK_OBJECT_DESTROYED (activity_handler) || activity_handler->priv == NULL)
 		return GNOME_Evolution_Activity_DIALOG_ACTION_ERROR;
 
 	/* FIXME implement.  */
