@@ -24,7 +24,7 @@
 #include "gal/widgets/e-canvas-utils.h"
 #include "e-entry.h"
 
-#define MIN_ENTRY_WIDTH  150
+#define MIN_ENTRY_WIDTH  50
 #define INNER_BORDER     2
 
 #define PARENT_TYPE gtk_table_get_type ()
@@ -79,6 +79,16 @@ canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc,
 			"clip_width", (double) alloc->width,
 			"clip_height", (double) alloc->height,
 			NULL);
+	switch (e_entry->justification) {
+	case GTK_JUSTIFY_RIGHT:
+		e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(e_entry->item), alloc->width, 0);
+		break;
+	case GTK_JUSTIFY_CENTER:
+		e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(e_entry->item), alloc->width / 2, 0);
+		break;
+	default:
+		break;
+	}
 }
 
 static void
@@ -146,6 +156,7 @@ e_entry_init (GtkObject *object)
 						     "draw_borders", TRUE,
 						     "draw_background", TRUE,
 						     NULL));
+	e_entry->justification = GTK_JUSTIFY_LEFT;
 	gtk_table_attach_defaults(gtk_table, GTK_WIDGET(e_entry->canvas),
 				  0, 1, 0, 1);
 	gtk_widget_show(GTK_WIDGET(e_entry->canvas));
@@ -161,12 +172,27 @@ e_entry_init (GtkObject *object)
 
 }
 
+/**
+ * e_entry_construct
+ * 
+ * Constructs the given EEntry.
+ * 
+ * Returns: The EEntry
+ **/
 EEntry *
 e_entry_construct (EEntry *e_entry)
 {
 	return e_entry;
 }
 
+
+/**
+ * e_entry_new
+ * 
+ * Creates a new EEntry.
+ * 
+ * Returns: The new EEntry
+ **/
 GtkWidget *
 e_entry_new (void)
 {
@@ -301,6 +327,8 @@ et_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 {
 	EEntry *ee = E_ENTRY (o);
 	GtkObject *item = GTK_OBJECT (ee->item);
+	GtkAnchorType anchor;
+	int width;
 	
 	switch (arg_id){
 	case ARG_MODEL:
@@ -340,8 +368,27 @@ et_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		break;
 
 	case ARG_JUSTIFICATION:
+		ee->justification = GTK_VALUE_ENUM (*arg);
+		gtk_object_get(item,
+			       "clip_width", &width,
+			       NULL);
+		switch (ee->justification) {
+		case GTK_JUSTIFY_CENTER:
+			anchor = GTK_ANCHOR_N;
+			e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(ee->item), width / 2, 0);
+			break;
+		case GTK_JUSTIFY_RIGHT:
+			anchor = GTK_ANCHOR_NE;
+			e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(ee->item), width, 0);
+			break;
+		default:
+			anchor = GTK_ANCHOR_NW;
+			e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(ee->item), 0, 0);
+			break;
+		}
 		gtk_object_set(item,
-			       "justification", GTK_VALUE_ENUM (*arg),
+			       "justification", ee->justification,
+			       "anchor", anchor,
 			       NULL);
 		break;
 

@@ -20,6 +20,7 @@ typedef struct {
 	
 	GnomeCanvas *canvas;
 	EText *item;
+	GtkJustification justification;
 } EEntry;
 
 typedef struct {
