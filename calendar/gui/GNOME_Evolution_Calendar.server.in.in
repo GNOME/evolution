@@ -39,6 +39,8 @@
 		<item value="IDL:GNOME/Evolution/Component:1.0"/>
 	</oaf_attribute>
 
+	<oaf_attribute name="evolution:component_alias" type="string" value="calendar"/>
+
 	<oaf_attribute name="name" type="string" _value="Evolution's Calendar component"/>
 
 	<oaf_attribute name="evolution:button_label" type="string" _value="Calendars"/>
@@ -71,6 +73,8 @@
 	<oaf_attribute name="repo_ids" type="stringv">
 		<item value="IDL:GNOME/Evolution/Component:1.0"/>
 	</oaf_attribute>
+
+	<oaf_attribute name="evolution:component_alias" type="string" value="tasks"/>
 
 	<oaf_attribute name="name" type="string" _value="Evolution's Tasks component"/>
 
