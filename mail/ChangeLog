@@ -1,3 +1,12 @@
+2001-09-17    <NotZed@Ximian.com>
+
+	* mail-send-recv.c (get_receive_type): Function to get the real
+	receive tpe for ag iven url.  IMAP/SPOOL/MAILDIR types just update
+	their info, dont download.
+	(build_dialogue): 
+	(mail_receive_uri): Use function above to get the right receive
+	type.
+
 2001-09-18  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-tools.c (mail_tool_remove_xevolution_headers): Oops, forgot

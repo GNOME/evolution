@@ -250,6 +250,16 @@ format_url(const char *internal_url)
         return pretty_url;
 }
 
+static send_info_t get_receive_type(const char *url)
+{
+	if (!strncmp(url, "imap:", 5)
+	    || !strncmp(url, "spool:", 6)
+	    || !strncmp(url, "maildir:", 8))
+		return SEND_UPDATE;
+	else
+		return SEND_RECEIVE;
+}
+
 static struct _send_data *
 build_dialogue (GSList *sources, CamelFolder *outbox, const char *destination)
 {
@@ -291,10 +301,7 @@ build_dialogue (GSList *sources, CamelFolder *outbox, const char *destination)
 		if (info == NULL) {
 			info = g_malloc0 (sizeof (*info));
 			/* imap and spool are handled differently */
-			if (!strncmp (source->url, "imap:", 5) || !strncmp (source->url, "spool:", 6))
-				info->type = SEND_UPDATE;
-			else
-				info->type = SEND_RECEIVE;
+			info->type = get_receive_type(source->url);
 			d(printf("adding source %s\n", source->url));
 			
 			info->uri = g_strdup (source->url);
@@ -791,11 +798,7 @@ mail_receive_uri (const char *uri, int keep)
 	
 	info = g_malloc0 (sizeof (*info));
 	/* imap is handled differently */
-	if (!strncmp (uri, "imap:", 5))
-		info->type = SEND_UPDATE;
-	else
-		info->type = SEND_RECEIVE;
-	
+	info->type = get_receive_type(uri);
 	info->bar = NULL;
 	info->status = NULL;
 	info->uri = g_strdup (uri);
