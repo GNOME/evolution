@@ -1,3 +1,13 @@
+2001-04-03  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-view.c: Fix bug #1878 "folder sometimes fails to
+	display?".  Thanks to Dan for finding out an explanation for the
+	problem.
+	(e_shell_view_display_uri): Don't set `priv->uri' here.
+	(show_existing_view): Set it here instead, and before showing the
+	control.
+	(create_new_view_for_uri): And here, likewise.
+
 2001-04-03  Christopher James Lahey  <clahey@ximian.com>
 
 	* e-shell-folder-selection-dialog.c (dbl_click_cb): Made double

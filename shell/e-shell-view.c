@@ -28,14 +28,11 @@
 #include <config.h>
 #endif
 
-#include <libgnome/gnome-defs.h>
-#include <libgnomeui/gnome-window.h>
-#include <libgnomeui/gnome-window-icon.h>
+#include <gnome.h>
+#include <bonobo.h>
 #include <bonobo/bonobo-socket.h>
-#include <bonobo/bonobo-ui-util.h>
-#include <bonobo/bonobo-widget.h>
+#include <libgnomeui/gnome-window-icon.h>
 
-#include <gal/e-paned/e-hpaned.h>
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-gui-utils.h>
 #include <gal/widgets/e-unicode.h>
@@ -56,6 +53,7 @@
 #include "e-shell-view.h"
 #include "e-shell-view-menu.h"
 
+#include <gal/e-paned/e-hpaned.h>
 
 
 static BonoboWindowClass *parent_class = NULL;
@@ -1452,6 +1450,9 @@ show_existing_view (EShellView *shell_view,
 		gtk_widget_show (control);
 	}
 
+	g_free (priv->uri);
+	priv->uri = g_strdup (uri);
+
 	set_current_notebook_page (shell_view, notebook_page);
 
 	return TRUE;
@@ -1470,6 +1471,9 @@ create_new_view_for_uri (EShellView *shell_view,
 	control = get_control_for_uri (shell_view, uri);
 	if (control == NULL)
 		return FALSE;
+
+	g_free (priv->uri);
+	priv->uri = g_strdup (uri);
 
 	gtk_widget_show (control);
 
@@ -1531,9 +1535,6 @@ e_shell_view_display_uri (EShellView *shell_view,
 		retval = FALSE;
 		goto end;
 	}
-
-	g_free (priv->uri);
-	priv->uri = g_strdup (uri);
 
 	retval = TRUE;
 
