@@ -23,6 +23,7 @@
 #include <gnome.h>
 #include "e-canvas.h"
 static void e_canvas_init           (ECanvas         *card);
+static void e_canvas_destroy        (GtkObject        *object);
 static void e_canvas_class_init	    (ECanvasClass    *klass);
 static void e_canvas_realize        (GtkWidget        *widget);
 static gint e_canvas_key            (GtkWidget        *widget,
@@ -82,6 +83,8 @@ e_canvas_class_init (ECanvasClass *klass)
 	
 	parent_class = gtk_type_class (gnome_canvas_get_type ());
 
+	object_class->destroy = e_canvas_destroy;
+
 	widget_class->key_press_event = e_canvas_key;
 	widget_class->key_release_event = e_canvas_key;
 	widget_class->focus_in_event = e_canvas_focus_in;
@@ -104,6 +107,14 @@ e_canvas_class_init (ECanvasClass *klass)
 static void
 e_canvas_init (ECanvas *canvas)
 {
+}
+
+static void
+e_canvas_destroy (GtkObject *object)
+{
+	ECanvas *canvas = E_CANVAS(object);
+	if (canvas->idle_id)
+		g_source_remove(canvas->idle_id);
 }
 
 GtkWidget *
