@@ -352,6 +352,16 @@ listen_for_changes (CompEditor *editor)
 	}
 }
 
+static void
+send_timezone (gpointer key, gpointer value, gpointer user_data)
+{
+	char *tzid = key;
+	icaltimezone *zone = value;
+	CompEditor *editor = user_data;
+
+	e_cal_add_timezone (editor->priv->client, zone, NULL);
+}
+
 static gboolean
 save_comp (CompEditor *editor)
 {
@@ -360,6 +370,7 @@ save_comp (CompEditor *editor)
 	GList *l;
 	gboolean result;
 	GError *error = NULL;
+	GHashTable *timezones;
 	const char *orig_uid;
 
 	priv = editor->priv;
@@ -367,13 +378,19 @@ save_comp (CompEditor *editor)
 	if (!priv->changed)
 		return TRUE;
 
+	timezones = g_hash_table_new (g_str_hash, g_str_equal);
+
 	clone = e_cal_component_clone (priv->comp);
 	for (l = priv->pages; l != NULL; l = l->next) {
 		if (!comp_editor_page_fill_component (l->data, clone)) {
 			g_object_unref (clone);
+			g_hash_table_destroy (timezones);
 			comp_editor_show_page (editor, COMP_EDITOR_PAGE (l->data));
 			return FALSE;
 		}
+
+		/* retrieve all timezones */
+		comp_editor_page_fill_timezones (l->data, timezones);
 	}
 	
 	/* If we are not the organizer, we don't update the sequence number */
@@ -389,6 +406,11 @@ save_comp (CompEditor *editor)
 
 	e_cal_component_get_uid (priv->comp, &orig_uid);
 
+	/* send timezones */
+	g_hash_table_foreach (timezones, (GHFunc) send_timezone, editor);
+	g_hash_table_destroy (timezones);
+
+	/* send the component to the server */
 	if (!cal_comp_is_on_server (priv->comp, priv->client)) {
 		result = e_cal_create_object (priv->client, e_cal_component_get_icalcomponent (priv->comp), NULL, &error);
 	} else {

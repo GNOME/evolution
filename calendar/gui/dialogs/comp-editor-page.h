@@ -76,6 +76,7 @@ typedef struct {
 
 	gboolean (* fill_widgets) (CompEditorPage *page, ECalComponent *comp);
 	gboolean (* fill_component) (CompEditorPage *page, ECalComponent *comp);
+	gboolean (* fill_timezones) (CompEditorPage *page, GHashTable *timezones);
 
 	void (* set_summary) (CompEditorPage *page, const char *summary);
 	void (* set_dates) (CompEditorPage *page, CompEditorPageDates *dates);
@@ -89,7 +90,9 @@ gboolean   comp_editor_page_fill_widgets           (CompEditorPage      *page,
 						    ECalComponent        *comp);
 gboolean   comp_editor_page_fill_component         (CompEditorPage      *page,
 						    ECalComponent        *comp);
-void       comp_editor_page_set_e_cal         (CompEditorPage      *page,
+gboolean   comp_editor_page_fill_timezones         (CompEditorPage      *page,
+						    GHashTable          *timezones);
+void       comp_editor_page_set_e_cal              (CompEditorPage      *page,
 						    ECal           *client);
 void       comp_editor_page_set_summary            (CompEditorPage      *page,
 						    const char          *summary);

@@ -149,6 +149,7 @@ comp_editor_page_class_init (CompEditorPageClass *class)
 	class->focus_main_widget = NULL;
 	class->fill_widgets = NULL;
 	class->fill_component = NULL;
+	class->fill_timezones = NULL;
 	class->set_summary = NULL;
 	class->set_dates = NULL;
 
@@ -264,6 +265,28 @@ comp_editor_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 
 	if (CLASS (page)->fill_component != NULL)
 		return (* CLASS (page)->fill_component) (page, comp);
+
+	return TRUE;
+}
+
+/**
+ * comp_editor_page_fill_timezones:
+ * @page: An editor page.
+ * @timezones: Hash table to which timezones will be added.
+ *
+ * Fills the given hash table with all the timezones used by the dates in the
+ * specific editor page.
+ *
+ * Returns: TRUE if the timezones were added, FALSE otherwise.
+ */
+gboolean
+comp_editor_page_fill_timezones (CompEditorPage *page, GHashTable *timezones)
+{
+	g_return_val_if_fail (IS_COMP_EDITOR_PAGE (page), FALSE);
+	g_return_val_if_fail (timezones != NULL, FALSE);
+
+	if (CLASS (page)->fill_timezones != NULL)
+		return (* CLASS (page)->fill_timezones) (page, timezones);
 
 	return TRUE;
 }

@@ -97,6 +97,7 @@ static GtkWidget *event_page_get_widget (CompEditorPage *page);
 static void event_page_focus_main_widget (CompEditorPage *page);
 static gboolean event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp);
 static gboolean event_page_fill_component (CompEditorPage *page, ECalComponent *comp);
+static gboolean event_page_fill_timezones (CompEditorPage *page, GHashTable *timezones);
 static void event_page_set_summary (CompEditorPage *page, const char *summary);
 static void event_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates);
 
@@ -132,6 +133,7 @@ event_page_class_init (EventPageClass *class)
 	editor_page_class->focus_main_widget = event_page_focus_main_widget;
 	editor_page_class->fill_widgets = event_page_fill_widgets;
 	editor_page_class->fill_component = event_page_fill_component;
+	editor_page_class->fill_timezones = event_page_fill_timezones;
 	editor_page_class->set_summary = event_page_set_summary;
 	editor_page_class->set_dates = event_page_set_dates;
 
@@ -691,6 +693,34 @@ event_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 	transparency = e_dialog_radio_get (priv->show_time_as_free,
 					   transparency_map);
 	e_cal_component_set_transparency (comp, transparency);
+
+	return TRUE;
+}
+
+/* fill_timezones handler for the event page */
+static gboolean
+event_page_fill_timezones (CompEditorPage *page, GHashTable *timezones)
+{
+	EventPage *epage;
+	EventPagePrivate *priv;
+	icaltimezone *zone;
+
+	epage = EVENT_PAGE (page);
+	priv = epage->priv;
+
+	/* add start date timezone */
+	zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (priv->start_timezone));
+	if (zone) {
+		if (!g_hash_table_lookup (timezones, icaltimezone_get_tzid (zone)))
+			g_hash_table_insert (timezones, icaltimezone_get_tzid (zone), zone);
+	}
+
+	/* add end date timezone */
+	zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (priv->end_timezone));
+	if (zone) {
+		if (!g_hash_table_lookup (timezones, icaltimezone_get_tzid (zone)))
+			g_hash_table_insert (timezones, icaltimezone_get_tzid (zone), zone);
+	}
 
 	return TRUE;
 }

@@ -93,6 +93,7 @@ static GtkWidget *task_page_get_widget (CompEditorPage *page);
 static void task_page_focus_main_widget (CompEditorPage *page);
 static gboolean task_page_fill_widgets (CompEditorPage *page, ECalComponent *comp);
 static gboolean task_page_fill_component (CompEditorPage *page, ECalComponent *comp);
+static gboolean task_page_fill_timezones (CompEditorPage *page, GHashTable *timezones);
 static void task_page_set_summary (CompEditorPage *page, const char *summary);
 static void task_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates);
 
@@ -128,6 +129,7 @@ task_page_class_init (TaskPageClass *class)
 	editor_page_class->focus_main_widget = task_page_focus_main_widget;
 	editor_page_class->fill_widgets = task_page_fill_widgets;
 	editor_page_class->fill_component = task_page_fill_component;
+	editor_page_class->fill_timezones = task_page_fill_timezones;
 	editor_page_class->set_summary = task_page_set_summary;
 	editor_page_class->set_dates = task_page_set_dates;
 
@@ -564,6 +566,34 @@ task_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 
 	if (str)
 		g_free (str);
+
+	return TRUE;
+}
+
+/* fill_timezones handler for the event page */
+static gboolean
+task_page_fill_timezones (CompEditorPage *page, GHashTable *timezones)
+{
+	TaskPage *tpage;
+	TaskPagePrivate *priv;
+	icaltimezone *zone;
+
+	tpage = TASK_PAGE (page);
+	priv = tpage->priv;
+
+	/* add due date timezone */
+	zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (priv->due_timezone));
+	if (zone) {
+		if (!g_hash_table_lookup (timezones, icaltimezone_get_tzid (zone)))
+			g_hash_table_insert (timezones, icaltimezone_get_tzid (zone), zone);
+	}
+
+	/* add start date timezone */
+	zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (priv->start_timezone));
+	if (zone) {
+		if (!g_hash_table_lookup (timezones, icaltimezone_get_tzid (zone)))
+			g_hash_table_insert (timezones, icaltimezone_get_tzid (zone), zone);
+	}
 
 	return TRUE;
 }

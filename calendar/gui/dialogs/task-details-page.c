@@ -95,6 +95,7 @@ static GtkWidget *task_details_page_get_widget (CompEditorPage *page);
 static void task_details_page_focus_main_widget (CompEditorPage *page);
 static gboolean task_details_page_fill_widgets (CompEditorPage *page, ECalComponent *comp);
 static gboolean task_details_page_fill_component (CompEditorPage *page, ECalComponent *comp);
+static gboolean task_details_page_fill_timezones (CompEditorPage *page, GHashTable *timezones);
 
 static CompEditorPageClass *parent_class = NULL;
 
@@ -128,6 +129,7 @@ task_details_page_class_init (TaskDetailsPageClass *class)
 	editor_page_class->focus_main_widget = task_details_page_focus_main_widget;
 	editor_page_class->fill_widgets = task_details_page_fill_widgets;
 	editor_page_class->fill_component = task_details_page_fill_component;
+	editor_page_class->fill_timezones = task_details_page_fill_timezones;
 
 	object_class->finalize = task_details_page_finalize;
 }
@@ -432,6 +434,27 @@ task_details_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 	e_cal_component_set_url (comp, url);
 	if (url)
 		g_free (url);
+
+	return TRUE;
+}
+
+/* fill_timezones handler for the event page */
+static gboolean
+task_details_page_fill_timezones (CompEditorPage *page, GHashTable *timezones)
+{
+	TaskDetailsPage *tdpage;
+	TaskDetailsPagePrivate *priv;
+	icaltimezone *zone;
+
+	tdpage = TASK_DETAILS_PAGE (page);
+	priv = tdpage->priv;
+
+	/* add UTC timezone, which is the one used for the DATE-COMPLETED property */
+	zone = icaltimezone_get_utc_timezone ();
+	if (zone) {
+		if (!g_hash_table_lookup (timezones, icaltimezone_get_tzid (zone)))
+			g_hash_table_insert (timezones, icaltimezone_get_tzid (zone), zone);
+	}
 
 	return TRUE;
 }

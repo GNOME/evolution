@@ -1,3 +1,24 @@
+2004-04-05  Rodrigo Moya <rodrigo@ximian.com>
+
+	Fixes #56316
+
+	* gui/dialogs/comp-editor-page.[ch]: added "fill_timezones" virtual
+	method to CompEditorPage class.
+	(comp_editor_page_fill_timezones): new function.
+	(comp_editor_page_class_init): initialize new virtual method.
+
+	* gui/dialogs/event-page.c (event_page_fill_timezones,
+	event_page_class_init):
+	* gui/dialogs/task-page.c (task_page_fill_timezones,
+	task_page_class_init):
+	* gui/dialogs/task-details-page.c (task_details_page_fill_timezones,
+	task_details_page_class_init): implemented new virtual method for pages
+	dealing with timezones.
+
+	* gui/dialogs/comp-editor.c (save_comp): call the "fill_timezones"
+	method on all pages, and call...
+	(send_timezone): ...this function for each hash table item.
+
 2004-04-01  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/gnome-cal.c (client_cal_opened_cb): set the default timezone
