@@ -175,31 +175,28 @@ static void button_clicked(GtkButton *button, FilterFolder *ff)
 {
 #ifdef SHELL
 	const char *allowed_types[] = { "mail", NULL };
-	char *def, *uri, *str;
+	char *def, *physical_uri, *evolution_uri, *str;
 
-	def = ff->uri?ff->uri:"";
+	def = ff->uri ? ff->uri : "";
+
 	evolution_shell_client_user_select_folder (global_shell_client,
 						   _("Select Folder"),
-						   def, allowed_types, NULL, &uri);
+						   def, allowed_types,
+						   &evolution_uri,
+						   &physical_uri);
 	
-	if (uri != NULL && uri[0] != '\0') {
+	if (physical_uri != NULL && physical_uri[0] != '\0') {
 		g_free(ff->uri);
+		ff->uri = physical_uri;
+
 		g_free(ff->name);
-		ff->uri = uri;
+		ff->name = g_strdup(g_basename (evolution_uri));
 
-		str = strstr(uri, "//");
-		if (str)
-			str = strchr(str+2, '/');
-		if (str)
-			str++;
-		else
-			str = uri;
-
-		ff->name = g_strdup(str);
 		gtk_label_set_text((GtkLabel *)GTK_BIN(button)->child, ff->name);
 	} else {
-		g_free(uri);
+		g_free (physical_uri);
 	}
+	g_free (evolution_uri);
 #else
 	GnomeDialog *gd;
 	GtkEntry *entry;
@@ -244,10 +241,10 @@ static GtkWidget *get_widget(FilterElement *fe)
 	char *name;
 
 	if (ff->name && ff->name[0])
-		name = ff->name;
+		label = (GtkLabel *)gtk_label_new(g_basename (ff->name));
 	else
-		name = "<click to select folder>";
-	label = (GtkLabel *)gtk_label_new(name);
+		label = (GtkLabel *)gtk_label_new(_("<click here to select a folder>"));
+
 	button = (GtkButton *)gtk_button_new();
 	gtk_container_add((GtkContainer *)button, (GtkWidget *)label);
 	gtk_widget_show((GtkWidget *)button);

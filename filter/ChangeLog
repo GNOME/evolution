@@ -1,3 +1,9 @@
+2000-08-03  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* filter-folder.c (button_clicked): Use the base name of the
+	Evoluton URI for the button's label.
+	(get_widget): Likewise.
+
 2000-08-01  Not Zed  <NotZed@HelixCode.com>
 
 	* vfolder-editor.c (rule_add): Oops, create a vfolder_rule when we
