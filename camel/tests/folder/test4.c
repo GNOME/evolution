@@ -1,4 +1,4 @@
-/* store testing */
+/* store testing, for remote folders */
 
 #include "camel-test.h"
 #include "folders.h"
@@ -17,12 +17,21 @@ static char *auth_callback(CamelAuthCallbackMode mode,
 	return NULL;
 }
 
+static int regtimeout()
+{
+	return 1;
+}
+
+static int unregtimeout()
+{
+	return 1;
+}
+
+
 #define ARRAY_LEN(x) (sizeof(x)/sizeof(x[0]))
 
-static char *local_providers[] = {
-	"mbox",
-	"mh",
-	"maildir"
+static char *remote_providers[] = {
+	"IMAP_TEST_URL",
 };
 
 int main(int argc, char **argv)
@@ -39,17 +48,22 @@ int main(int argc, char **argv)
 	/* clear out any camel-test data */
 	system("/bin/rm -rf /tmp/camel-test");
 
-	session = camel_session_new("/tmp/camel-test", auth_callback, NULL, NULL);
+	session = camel_session_new("/tmp/camel-test", auth_callback, regtimeout, unregtimeout);
 
 	/* todo: cross-check everything with folder_info checks as well */
 	/* todo: subscriptions? */
-	/* todo: work out how to do imap/pop/nntp tests */
-	for (i=0;i<ARRAY_LEN(local_providers);i++) {
-		path = g_strdup_printf("%s:///tmp/camel-test/%s", local_providers[i], local_providers[i]);
+	for (i=0;i<ARRAY_LEN(remote_providers);i++) {
+		path = getenv(remote_providers[i]);
 
-		test_folder_basic(session, path, TRUE);
-
-		g_free(path);
+		if (path == NULL) {
+			printf("Aborted (ignored).\n");
+			printf("Set '%s', to re-run test.\n", remote_providers[i]);
+			/* tells make check to ignore us in the total count */
+			_exit(77);
+		}
+		camel_test_nonfatal("The IMAP code is just rooted");
+		test_folder_basic(session, path, FALSE);
+		camel_test_fatal();
 	}
 
 	camel_object_unref((CamelObject *)session);

@@ -1,4 +1,7 @@
 
+#include "camel/camel-session.h"
+#include "camel/camel-store.h"
+
 #include <camel/camel-folder.h>
 #include <camel/camel-folder-summary.h>
 #include <camel/camel-mime-message.h>
@@ -11,3 +14,7 @@ void test_message_info(CamelMimeMessage *msg, const CamelMessageInfo *info);
 void test_folder_message(CamelFolder *folder, const char *uid);
 /* check message not present everywhere it shouldn't be */
 void test_folder_not_message(CamelFolder *folder, const char *uid);
+/* test basic folder ops on a store */
+void test_folder_basic(CamelSession *session, const char *storename, int local);
+/* test basic message operations on a folder */
+void test_folder_message_ops(CamelSession *session, const char *storename, int local);

@@ -13,11 +13,13 @@ LDADD = \
 	$(GNOMEUI_LIBS) $(INTLLIBS) $(EXTRA_GNOME_LIBS)
 
 check_PROGRAMS =  	\
-	test1		\
-	test2		\
+	test1	test4	test5	\
+	test2	test6	test7	\
 	test3
 
-TESTS = test1 test2 test3
+TESTS = test1 test4 test5 \
+	test2 test6 test7 \
+	test3
 
 
 
