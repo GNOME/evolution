@@ -33,7 +33,6 @@
 	object bag instead of a hash table for the service 'cache'.
 	(service_cache_remove): Removed, no longer required.
 
->>>>>>> 1.1801
 2003-04-21  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-gpg-context.c (gpg_ctx_parse_status): Don't set seen_eof1
