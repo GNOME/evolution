@@ -792,6 +792,8 @@ cal_client_get_uids (CalClient *client, CalObjType type)
 	return uids;
 }
 
+/* FIXME: Not used? */
+#if 0
 /* Builds a GList of CalObjInstance structures from the CORBA sequence */
 static GList *
 build_object_instance_list (Evolution_Calendar_CalObjInstanceSeq *seq)
@@ -819,6 +821,7 @@ build_object_instance_list (Evolution_Calendar_CalObjInstanceSeq *seq)
 	list = g_list_reverse (list);
 	return list;
 }
+#endif
 
 /**
  * cal_client_get_objects_in_range:
@@ -1067,7 +1070,7 @@ cal_client_update_object (CalClient *client, CalComponent *comp)
 	cal_component_get_uid (comp, &uid);
 
 	CORBA_exception_init (&ev);
-	Evolution_Calendar_Cal_update_object (priv->cal, uid, obj_string, &ev);
+	Evolution_Calendar_Cal_update_object (priv->cal, (char *) uid, obj_string, &ev);
 	g_free (obj_string);
 
 	if (ev._major == CORBA_USER_EXCEPTION &&
