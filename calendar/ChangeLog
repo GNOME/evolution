@@ -114,7 +114,6 @@
 	to 1 rather than 0, so if you move the hpane you'll see the date
 	navigator.
 
->>>>>>> 1.631
 2000-10-19  Jesse Pavel <jpavel@helixcode.com>
 
 	* gui/event-editor.[ch]: added a public function which causes the
