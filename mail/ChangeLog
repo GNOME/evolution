@@ -1,5 +1,9 @@
 2000-12-07  Dan Winship  <danw@helixcode.com>
 
+	* mail-display.c (on_object_requested): Make the iTip hack spew a
+	g_warning and not crash if you have no identity configured. To be
+	revisited.
+
 	* mail-callbacks.c: (various)
 	* folder-browser.c (filter_mlist): 
 	* mail-autofilter.c (filter_gui_add_from_message): 

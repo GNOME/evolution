@@ -585,8 +585,8 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 				MailConfigIdentity *id;
 
 				id = mail_config_get_default_identity ();
-
-				g_assert (id != NULL);
+				if (!id)
+					g_warning ("No identity configured!");
 
 				CORBA_exception_init (&ev);
 
@@ -595,7 +595,7 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 				bonobo_property_bag_client_set_value_string (prop_bag, "from_address", 
 									     from_address, &ev);
 				bonobo_property_bag_client_set_value_string (prop_bag, "my_address", 
-									     id->address, &ev);
+									     id ? id->address : "", &ev);
 				g_free(from_address);
 				CORBA_exception_free (&ev);
 			}
