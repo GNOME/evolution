@@ -386,7 +386,7 @@ impl_Storage_updateFolder (PortableServer_Servant servant,
 	if (priv->corba_storage_listeners == NULL)
 		return;
 
-	CORBA_exception_init (&ev);
+	CORBA_exception_init (ev);
 
 	for (p = priv->corba_storage_listeners; p != NULL; p = p->next) {
 		GNOME_Evolution_StorageListener listener;
@@ -396,7 +396,7 @@ impl_Storage_updateFolder (PortableServer_Servant servant,
 								     path,
 								     display_name,
 								     unread_count,
-								     &ev);
+								     ev);
 
 		if (ev->_major != CORBA_NO_EXCEPTION)
 			continue;
@@ -406,7 +406,7 @@ impl_Storage_updateFolder (PortableServer_Servant servant,
 		break;
 	}
 
-	CORBA_exception_free (&ev);
+	CORBA_exception_free (ev);
 }
 
 static void
