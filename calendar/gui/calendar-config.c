@@ -28,6 +28,8 @@
  */
 
 #include <config.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-config.h>
 #include "component-factory.h"
 #include "calendar-config.h"
 

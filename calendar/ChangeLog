@@ -1,3 +1,20 @@
+2001-04-04  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* gui/calendar-commands.c: Fix headers.
+	* gui/calendar-config.c: Same here.
+	* gui/calendar-model.c: Same here.
+	* gui/e-day-view-time-item.c: Same here.
+	* gui/e-day-view-top-item.c: Same here.
+	* gui/e-day-view.c: Same here.
+	* gui/e-meeting-edit.c: Same here.
+	* gui/e-week-view-main-item.c: Same here.
+	* gui/e-week-view.c: Same here.
+	* gui/event-editor.c: Same here.
+	* gui/gnome-cal.c: Same here.
+	* gui/goto.c: Same here.
+	* gui/main.c: Same her.
+	* gui/print.c: Same here.
+
 2001-04-02  Federico Mena Quintero  <federico@ximian.com>
 
 	* gui/e-tasks.c (e_tasks_setup_menus): Plug leak.

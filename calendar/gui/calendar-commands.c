@@ -38,6 +38,8 @@
 #include <gtk/gtkmain.h>
 #include <gtk/gtksignal.h>
 
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-util.h>
 #include <libgnomeui/gnome-dialog-util.h>
 #include <libgnomeui/gnome-messagebox.h>
 #include <libgnomeui/gnome-stock.h>

@@ -29,6 +29,9 @@
  */
 
 #include <config.h>
+#include <glib.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 #include <gal/widgets/e-gui-utils.h>
 #include "e-day-view-time-item.h"
 #include "calendar-config.h"

@@ -27,6 +27,9 @@
  */
 
 #include <config.h>
+#include <glib.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 #include "e-day-view-top-item.h"
 
 static void e_day_view_top_item_class_init	(EDayViewTopItemClass *class);

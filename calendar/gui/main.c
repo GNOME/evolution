@@ -25,7 +25,10 @@
 #include <config.h>
 #endif
 
+#include <glib.h>
 #include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
+#include <libgnomeui/gnome-init.h>
 #include <glade/glade.h>
 
 #include <liboaf/liboaf.h>
