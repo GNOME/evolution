@@ -1,5 +1,8 @@
 2002-08-05  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel.c (camel_init): Always set a g_atexit handler to
+	flush/save the camel-certdb.
+
 	* providers/imap/camel-imap-store.c (get_folder_info_online): If
 	we are asking for the toplevel folders, use the IMAP store's
 	namespace as the toplevel folder rather than an empty
