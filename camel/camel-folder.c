@@ -467,6 +467,10 @@ static void
 append_message (CamelFolder *folder, CamelMimeMessage *message,
 		const CamelMessageInfo *info, CamelException *ex)
 {
+	camel_exception_setv(ex, CAMEL_EXCEPTION_FOLDER_INVALID,
+			     _("Unsupported operation: append message: for %s"),
+			     camel_type_to_name (CAMEL_OBJECT_GET_TYPE (folder)));
+
 	g_warning ("CamelFolder::append_message not implemented for `%s'",
 		   camel_type_to_name (CAMEL_OBJECT_GET_TYPE (folder)));
 	return;
@@ -1030,6 +1034,10 @@ static GPtrArray *
 search_by_expression (CamelFolder *folder, const char *expression,
 		      CamelException *ex)
 {
+	camel_exception_setv(ex, CAMEL_EXCEPTION_FOLDER_INVALID,
+			     _("Unsupported operation: search by expression: for %s"),
+			     camel_type_to_name (CAMEL_OBJECT_GET_TYPE (folder)));
+
 	g_warning ("CamelFolder::search_by_expression not implemented for "
 		   "`%s'", camel_type_to_name (CAMEL_OBJECT_GET_TYPE (folder)));
 	return NULL;

@@ -1,5 +1,9 @@
 2001-09-24    <NotZed@Ximian.com>
 
+	* camel-folder.c (append_message): Set the exception to
+	FOLDER_INVALID rather than making out it worked.  A fix for #7025.
+	(search_by_expression): Here too.
+
 	* providers/imap/camel-imap-folder.c (imap_update_summary): In the
 	'lose' case, free messages, not fetch_data twice!
 
