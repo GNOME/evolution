@@ -55,7 +55,9 @@ typedef struct _FolderStore {
 	EvolutionStorageListener *storage_listener;
 	
 	GSList *storage_list;
-	GHashTable *folders;
+
+	GHashTable *path_to_folder;
+	GHashTable *physical_uri_to_folder;
 
 	GList *shown;
 } FolderStore;
@@ -87,9 +89,9 @@ typedef struct _StorageInfo {
 } StorageInfo;
 
 typedef struct _ESummaryMailFolder {
-	char *name;
 	char *path;
 	char *uri;
+	char *physical_uri;
 
 	int count;
 	int unread;
@@ -125,7 +127,7 @@ folder_gen_html (ESummary *summary,
 {
 	char *str, *pretty_name;
 	
-	pretty_name = make_pretty_foldername (summary, folder->name);
+	pretty_name = make_pretty_foldername (summary, folder->path);
 	str = g_strdup_printf ("<tr><td><a href=\"%s\"><pre>%s</pre></a></td><td align=\"Left\"><pre>%d/%d</pre></td></tr>", 
 			       folder->uri, pretty_name, folder->unread, folder->count);
 	g_print ("%s\n", folder->uri);
@@ -225,20 +227,24 @@ new_folder_cb (EvolutionStorageListener *listener,
 	ESummaryMailFolder *mail_folder;
 	GList *p;
 
-	if (strcmp (folder->type, "mail") != 0) {
+	if (strcmp (folder->type, "mail") != 0)
 		return;
-	}
+
+	if (strncmp (folder->evolutionUri, "evolution:", 10) != 0)
+		return;
 
 	mail_folder = g_new (ESummaryMailFolder, 1);
 	mail_folder->si = si;
-	mail_folder->path = g_strdup (folder->physicalUri);
 	mail_folder->uri = g_strdup (folder->evolutionUri);
-	mail_folder->name = g_strdup (path);
+	mail_folder->physical_uri = g_strdup (folder->physicalUri);
+	mail_folder->path = g_strdup (path);
 	mail_folder->count = -1;
 	mail_folder->unread = -1;
 	mail_folder->init = FALSE;
 
-	g_hash_table_insert (folder_store->folders, mail_folder->path, mail_folder);
+	g_hash_table_insert (folder_store->path_to_folder, mail_folder->path, mail_folder);
+	g_hash_table_insert (folder_store->physical_uri_to_folder, mail_folder->physical_uri, mail_folder);
+
 	si->folders = g_list_prepend (si->folders, mail_folder);
 
 	global_preferences = e_summary_preferences_get_global ();
@@ -248,7 +254,7 @@ new_folder_cb (EvolutionStorageListener *listener,
 		if (strcmp (f->physical_uri, folder->physicalUri) == 0) {
 			folder_store->shown = g_list_append (folder_store->shown, mail_folder);
 			g_idle_add (e_summary_mail_idle_get_info,
-				    g_strdup (mail_folder->path));
+				    g_strdup (mail_folder->physical_uri));
 		}
 	}
 }
@@ -262,14 +268,15 @@ update_folder_cb (EvolutionStorageListener *listener,
 	ESummaryMailFolder *mail_folder;
 	GList *p;
 
-	mail_folder = g_hash_table_lookup (folder_store->folders, path);
+	mail_folder = g_hash_table_lookup (folder_store->path_to_folder, path);
 	if (mail_folder == NULL) {
 		return;
 	}
 
 	for (p = folder_store->shown; p; p = p->next) {
 		if (p->data == mail_folder) {
-			g_idle_add (e_summary_mail_idle_get_info, mail_folder->path);
+			g_idle_add (e_summary_mail_idle_get_info,
+				    g_strdup (mail_folder->physical_uri));
 			return;
 		}
 	}
@@ -283,7 +290,7 @@ remove_folder_cb (EvolutionStorageListener *listener,
 	ESummaryMailFolder *mail_folder;
 	GList *p;
 
-	mail_folder = g_hash_table_lookup (folder_store->folders, path);
+	mail_folder = g_hash_table_lookup (folder_store->path_to_folder, path);
 	if (mail_folder == NULL) {
 		return;
 	}
@@ -297,10 +304,10 @@ remove_folder_cb (EvolutionStorageListener *listener,
 		}
 	}
 
-	g_hash_table_remove (folder_store->folders, path);
-	g_free (mail_folder->name);
+	g_hash_table_remove (folder_store->path_to_folder, path);
 	g_free (mail_folder->path);
 	g_free (mail_folder->uri);
+	g_free (mail_folder->physical_uri);
 	g_free (mail_folder);
 }
 
@@ -317,7 +324,7 @@ mail_change_notify (BonoboListener *listener,
 	GList *p;
 
 	count = arg->_value;
-	folder = g_hash_table_lookup (folder_store->folders, count->path);
+	folder = g_hash_table_lookup (folder_store->physical_uri_to_folder, count->path);
 
 	if (folder == NULL) {
 		return;
@@ -331,7 +338,7 @@ mail_change_notify (BonoboListener *listener,
 	global_preferences = e_summary_preferences_get_global ();
 	for (p = global_preferences->display_folders; p; p = p->next) {
 		ESummaryPrefsFolder *f = p->data;
-		if (strcmp (f->physical_uri, folder->path) == 0) {
+		if (strcmp (f->physical_uri, folder->physical_uri) == 0) {
 			e_summary_redraw_all (); /* All summaries should be redrawn, not just this one */
 			return;
 		}
@@ -533,10 +540,10 @@ e_summary_mail_reconfigure (void)
 		}
 #endif
 		uri = g_strdup (f->physical_uri);
-		folder = g_hash_table_lookup (folder_store->folders, uri);
+		folder = g_hash_table_lookup (folder_store->physical_uri_to_folder, uri);
 		if (folder != NULL) {
 			if (folder->init == FALSE) {
-				e_summary_mail_get_info (folder->path);
+				e_summary_mail_get_info (folder->physical_uri);
 			}
 			folder_store->shown = g_list_append (folder_store->shown, folder);
 		}
@@ -761,19 +768,7 @@ e_summary_mail_fill_list (ESummaryTable *est)
 	}
 }
 #endif
-const char *
-e_summary_mail_uri_to_name (const char *uri)
-{
-	ESummaryMailFolder *folder;
 
-	folder = g_hash_table_lookup (folder_store->folders, uri);
-	if (folder == NULL) {
-		return NULL;
-	} else {
-		return folder->name;
-	}
-}
-	
 #if 0
 static void
 free_folder (gpointer key,
@@ -919,7 +914,8 @@ e_summary_folder_init_folder_store (GNOME_Evolution_Shell shell)
 	folder_store->corba_listener = bonobo_object_corba_objref (BONOBO_OBJECT (listener));
 	
 	/* Create a hash table for the folders */
-	folder_store->folders = g_hash_table_new (g_str_hash, g_str_equal);
+	folder_store->path_to_folder = g_hash_table_new (g_str_hash, g_str_equal);
+	folder_store->physical_uri_to_folder = g_hash_table_new (g_str_hash, g_str_equal);
 
 	/* Wait for the mailer to tell us we're ready to register */
 	lazy_register_storages ();

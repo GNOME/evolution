@@ -231,7 +231,6 @@ vector_from_folder_list (GList *flist)
 
 	vector = string->str;
 	g_string_free (string, FALSE);
-	g_print ("vector: %s\n", vector);
 
 	return vector;
 }

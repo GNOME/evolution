@@ -1,5 +1,37 @@
 2002-09-26  Ettore Perazzoli  <ettore@ximian.com>
 
+	[#28903]
+
+	* e-summary-mail.c: Add member physical_uri to ESummaryMailFolder.
+	Removed member name.  Renamed FolderStore.folders to
+	FolderStore.path_to_folder and added
+	FolderStore.physical_uri_to_folder.
+	(new_folder_cb): Set physical_uri member.
+	(update_folder_cb): Likewise.
+	(new_folder_cb): Pass physical_uri to
+	e_summary_mail_idle_get_info().  Also g_strdup() it since that's
+	what it expects.
+	(remove_folder_cb): Free physical_uri.
+	(mail_change_notify): Compare against folder->physical_uri, not
+	->path.
+	(e_summary_mail_reconfigure): Pass folder->physical_uri to
+	e_summary_mail_get_info, not ->path.
+	(e_summary_mail_uri_to_name): Removed.
+	(e_summary_folder_init_folder_store): Initialize path_to_folder
+	and physical_uri_to_folder.
+	(new_folder_cb): Add the folder to the physical_uri_to_folder hash
+	too.
+	(mail_change_notify): Use physical_uri_to_folder to figure out the
+	folder from the uri.
+	(e_summary_mail_reconfigure): Here as well.
+
+2002-09-26  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-summary-preferences.c (vector_from_folder_list): Remove
+	debugging message.
+
+2002-09-26  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-summary-preferences.c (folder_list_from_vector): Do some
 	sanity checking so we don't crash miserably as in #28481.
 
