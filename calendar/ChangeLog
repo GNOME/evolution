@@ -1,3 +1,12 @@
+2004-07-16  JP Rosevear  <jpr@novell.com>
+
+	Fixes #61451
+
+	* gui/e-itip-control.c (get_cancel_options): don't give a cancel
+	option if the event is no where to be found
+	(show_current_event): pass in kind
+	(show_current_todo): ditto
+
 2004-07-16  Larry Ewing  <lewing@ximian.com>
 
 	* gui/calendar-component.c (set_info): use short month forms to

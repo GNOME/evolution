@@ -1111,8 +1111,20 @@ get_refresh_options ()
 }
 
 static char*
-get_cancel_options ()
-{
+get_cancel_options (gboolean found, icalcomponent_kind kind)
+{ 
+	if (!found) {
+		switch (kind) {
+		case ICAL_VEVENT_COMPONENT:
+			return g_strdup_printf ("<i>%s</i>", _("The meeting has been cancelled, however it could not be found in your calendars"));
+		case ICAL_VTODO_COMPONENT:
+ 			return g_strdup_printf ("<i>%s</i>", _("The task has been cancelled, however it could not be found in your task lists"));
+		default:
+			g_assert_not_reached ();
+			return NULL;
+		}		
+	}
+	
 	return g_strdup_printf ("<form><b>%s</b>&nbsp"
 				"<select NAME=\"action\" SIZE=\"1\"> "
 				"<option VALUE=\"C\">%s</option></select>&nbsp &nbsp "
@@ -1231,7 +1243,7 @@ show_current_event (EItipControl *itip)
 	case ICAL_METHOD_CANCEL:
 		itip_desc = _("<b>%s</b> has cancelled a meeting.");
 		itip_title = _("Meeting Cancellation");
-		options = get_cancel_options ();
+		options = get_cancel_options (priv->current_ecal ? TRUE : FALSE, ICAL_VEVENT_COMPONENT);
 
 		/* Provide extra info, since might not be in the component */
 		adjust_item (itip, priv->comp);
@@ -1299,7 +1311,7 @@ show_current_todo (EItipControl *itip)
 	case ICAL_METHOD_CANCEL:
 		itip_desc = _("<b>%s</b> has cancelled a task.");
 		itip_title = _("Task Cancellation");
-		options = get_cancel_options ();
+		options = get_cancel_options (priv->current_ecal ? TRUE : FALSE, ICAL_VTODO_COMPONENT);
 
 		/* Provide extra info, since might not be in the component */
 		adjust_item (itip, priv->comp);
