@@ -10,6 +10,9 @@ Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
 
   * Calendar
 
+    #14705 -- iMIP compatibility with versions of Outlook. (Better fix
+	      for the pseudo-fix in 1.0.1). We now support Outlook in
+	      both Workgroup and Internet-Only modes.
     #19054 -- Minimum number of alarm repetitions should be 1. (Federico)
 
   * Shell
