@@ -1,5 +1,8 @@
 2001-07-26  Peter Williams  <peterw@ximian.com>
 
+	* mail-folder-cache.c (make_folder_status): Don't display
+	"0 hidden".
+
 	* folder-browser.c (on_key_press): Make 'q' a toggle, not
 	one-way.
 

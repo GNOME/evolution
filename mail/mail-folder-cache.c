@@ -171,7 +171,7 @@ make_folder_status (mail_folder_info *mfi)
 		set_one = TRUE;
 	}
 		
-	if (mfi->flags & MAIL_FIF_HIDDEN_VALID) {
+	if (mfi->flags & MAIL_FIF_HIDDEN_VALID && mfi->hidden) {
 		if (set_one)
 			work = g_string_append (work, _(", "));
 		g_string_sprintfa (work, _("%d hidden"), mfi->hidden);
