@@ -1,3 +1,9 @@
+2001-10-29  Dan Winship  <danw@ximian.com>
+
+	* camel-disco-store.c (camel_disco_store_status): if the service
+	is being connected and thinks it's online, but the session is
+	offline, then mark the service offline as well. Fixes 13683.
+
 2001-10-29    <NotZed@Ximian.com>
 
 	* camel-mime-utils.c: Turn off w() -> warnings.

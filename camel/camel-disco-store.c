@@ -254,7 +254,14 @@ disco_get_folder_info (CamelStore *store, const char *top,
 CamelDiscoStoreStatus
 camel_disco_store_status (CamelDiscoStore *store)
 {
+	CamelService *service = CAMEL_SERVICE (store);
+
 	g_return_val_if_fail (CAMEL_IS_DISCO_STORE (store), CAMEL_DISCO_STORE_ONLINE);
+
+	if (service->status == CAMEL_SERVICE_CONNECTING &&
+	    store->status == CAMEL_DISCO_STORE_ONLINE &&
+	    !camel_session_is_online (service->session))
+		store->status = CAMEL_DISCO_STORE_OFFLINE;
 
 	return store->status;
 }
