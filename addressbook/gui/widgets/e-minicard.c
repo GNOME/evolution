@@ -774,6 +774,17 @@ remodel( EMinicard *e_minicard )
 
 				string = e_card_simple_get(e_minicard->simple, field);
 				if (string && *string) {
+					/* Magically convert embedded XML into an address. */
+					if (!strncmp (string, "<?xml", 4)) {
+						EDestination *dest = e_destination_import (string);
+						if (dest != NULL) {
+							gchar *new_string = g_strdup (e_destination_get_address (dest));
+							g_free (string);
+							string = new_string;
+							gtk_object_unref (GTK_OBJECT (dest));
+						}
+					}
+
 					e_minicard->fields = g_list_append(e_minicard->fields, minicard_field);
 					gtk_object_set(GTK_OBJECT(minicard_field->label),
 						       "field", string,

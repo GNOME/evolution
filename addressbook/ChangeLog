@@ -1,5 +1,22 @@
 2001-07-24  Chris Toshok  <toshok@ximian.com>
 
+	* gui/widgets/e-minicard.c (remodel): need the EDestination magic
+	here too for when we modify an already shown card.
+
+	* gui/contact-list-editor/e-contact-list-model.c: make
+	parent_class static, just to be anal.
+
+	* gui/contact-list-editor/e-contact-list-editor.c
+	(remove_entry_cb): removing entries changes the list, so flag it.
+	(table_drag_data_received_cb): restrict cards we add to lists to
+	be non-list cards.
+	(extract_info): clear out the email list in the card before we
+	repopulate it from the contact list model.
+	(fill_in_info): set the checkbox to active/inactive based on
+	thecard.
+
+2001-07-24  Chris Toshok  <toshok@ximian.com>
+
 	* gui/contact-editor/e-contact-editor.c (wants_html_changed): call
 	widget_changed.
 	(phone_entry_changed): same.

@@ -599,6 +599,10 @@ remove_entry_cb (GtkWidget *w, EContactListEditor *editor)
 {
 	e_table_selected_row_foreach (e_table_scrolled_get_table(E_TABLE_SCROLLED(editor->table)),
 				      (EForeachFunc)remove_row, editor);
+	if (!editor->changed) {
+		editor->changed = TRUE;
+		command_state_changed (editor);
+	}
 }
 
 static void
@@ -708,12 +712,15 @@ table_drag_data_received_cb (ETable *table, int row, int col,
 
 		for (c = card_list; c; c = c->next) {
 			ECard *ecard = c->data;
-			ECardSimple *simple = e_card_simple_new (ecard);
 
-			e_contact_list_model_add_card (E_CONTACT_LIST_MODEL (editor->model),
-						       simple);
+			if (!e_card_evolution_list (ecard)) {
+				ECardSimple *simple = e_card_simple_new (ecard);
 
-			gtk_object_unref (GTK_OBJECT (simple));
+				e_contact_list_model_add_card (E_CONTACT_LIST_MODEL (editor->model),
+							       simple);
+
+				gtk_object_unref (GTK_OBJECT (simple));
+			}
 		}
 		g_list_foreach (card_list, (GFunc)gtk_object_unref, NULL);
 		g_list_free (card_list);
@@ -746,6 +753,7 @@ extract_info(EContactListEditor *editor)
 	if (card) {
 		int i;
 		EList *email_list;
+		EIterator *email_iter;
 		char *string = e_utf8_gtk_editable_get_chars(GTK_EDITABLE (editor->list_name_entry), 0, -1);
 
 		if (string && *string)
@@ -767,6 +775,15 @@ extract_info(EContactListEditor *editor)
 				"email", &email_list,
 				NULL);
 
+		/* clear the email list */
+		email_iter = e_list_get_iterator (email_list);
+		e_iterator_last (email_iter);
+		while (e_iterator_is_valid (E_ITERATOR (email_iter))) {
+			e_iterator_delete (E_ITERATOR (email_iter));
+		}
+		gtk_object_unref (GTK_OBJECT (email_iter));
+
+		/* then refill it from the contact list model */
 		for (i = 0; i < e_table_model_row_count (editor->model); i ++) {
 			const EDestination *dest = e_contact_list_model_get_destination (E_CONTACT_LIST_MODEL (editor->model), i);
 			gchar *dest_xml = e_destination_export (dest);
@@ -802,6 +819,8 @@ fill_in_info(EContactListEditor *editor)
 			gtk_editable_insert_text (GTK_EDITABLE (editor->list_name_entry), u, strlen (u), &position);
 			g_free (u);
 		}
+
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(editor->visible_addrs_checkbutton), show_addresses);
 
 		e_contact_list_model_remove_all (E_CONTACT_LIST_MODEL (editor->model));
 

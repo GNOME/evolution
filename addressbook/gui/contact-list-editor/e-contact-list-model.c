@@ -4,7 +4,7 @@
 #include "e-contact-list-model.h"
 
 #define PARENT_TYPE e_table_model_get_type()
-ETableModelClass *parent_class;
+static ETableModelClass *parent_class;
 
 #define COLS 1
 
