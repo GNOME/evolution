@@ -1219,7 +1219,11 @@ set_view (GnomeCalendar	*gcal, GnomeCalendarViewType view_type,
 	gboolean round_selection;
 	GtkWidget *focus_widget;
 	const char *view_id;
-	
+	static gboolean updating = FALSE;
+
+	if (updating)
+		return;
+
 	priv = gcal->priv;
 
 	round_selection = FALSE;
@@ -1269,8 +1273,10 @@ set_view (GnomeCalendar	*gcal, GnomeCalendarViewType view_type,
 
 	calendar_config_set_default_view (view_type);
 
+	updating = TRUE;
 	gtk_notebook_set_page (GTK_NOTEBOOK (priv->notebook), (int) view_type);
 	gal_view_instance_set_current_view_id (priv->view_instance, view_id);
+	updating = FALSE;
 
 	if (grab_focus)
 		gtk_widget_grab_focus (focus_widget);
@@ -2602,9 +2608,14 @@ gnome_calendar_on_date_navigator_selection_changed (ECalendarItem    *calitem,
 		tt.day = end_day;
 		icaltime_adjust (&tt, 1, 0, 0, 0);
 		priv->selection_end_time = icaltime_as_timet_with_zone (tt, priv->zone);
-
+		
 		e_day_view_set_days_shown (E_DAY_VIEW (priv->day_view), new_days_shown);
-		gnome_calendar_set_view (gcal, GNOME_CAL_DAY_VIEW, TRUE, FALSE);
+		
+		if (new_days_shown == 5 && priv->current_view_type == GNOME_CAL_WORK_WEEK_VIEW)
+			gnome_calendar_set_view (gcal, GNOME_CAL_WORK_WEEK_VIEW, TRUE, FALSE);
+		else
+			gnome_calendar_set_view (gcal, GNOME_CAL_DAY_VIEW, TRUE, FALSE);
+
 	}
 
 	focus_current_view (gcal);

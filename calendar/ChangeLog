@@ -1,3 +1,11 @@
+2002-10-11  JP Rosevear  <jpr@ximian.com>
+
+	* gui/gnome-cal.c
+	(gnome_calendar_on_date_navigator_selection_changed): try to
+	preserve the work week view setting if it makes sense
+	(set_view): don't update the info again based on our view change
+	call
+
 2002-10-08  Rodrigo Moya <rodrigo@ximian.com>
 
 	Fixes #11434
