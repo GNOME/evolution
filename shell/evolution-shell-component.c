@@ -79,6 +79,8 @@ struct _EvolutionShellComponentPrivate {
 	   populateFolderContextMenu/unpopulateFolderContextMenu.  */
 	BonoboUIComponent *uic;
 
+	gulong parent_view_xid;
+
 	int ping_timeout_id;
 
 	void *closure;
@@ -500,6 +502,11 @@ impl_interactive (PortableServer_Servant servant,
 
 	bonobo_object = bonobo_object_from_servant (servant);
 	shell_component = EVOLUTION_SHELL_COMPONENT (bonobo_object);
+
+	if (interactive)
+		shell_component->priv->parent_view_xid = new_view_xid;
+	else
+		shell_component->priv->parent_view_xid = 0L;
 
 	g_signal_emit (shell_component, signals[INTERACTIVE], 0,
 		       interactive, new_view_xid);
@@ -1123,6 +1130,14 @@ evolution_shell_component_get_owner  (EvolutionShellComponent *shell_component)
 	g_return_val_if_fail (EVOLUTION_IS_SHELL_COMPONENT (shell_component), NULL);
 
 	return shell_component->priv->owner_client;
+}
+
+gulong evolution_shell_component_get_parent_view_xid(EvolutionShellComponent                            *shell_component)
+{
+	g_return_val_if_fail (shell_component != NULL, 0);
+	g_return_val_if_fail (EVOLUTION_IS_SHELL_COMPONENT (shell_component), 0);
+
+	return shell_component->priv->parent_view_xid;
 }
 
 

@@ -197,6 +197,8 @@ EvolutionShellComponent *evolution_shell_component_new (const EvolutionShellComp
 							void                                                *closure);
 EvolutionShellClient    *evolution_shell_component_get_owner  (EvolutionShellComponent                            *shell_component);
 
+gulong evolution_shell_component_get_parent_view_xid(EvolutionShellComponent                            *shell_component);
+
 void  evolution_shell_component_add_user_creatable_item  (EvolutionShellComponent *shell_component,
 							  const char              *id,
 							  const char              *description,

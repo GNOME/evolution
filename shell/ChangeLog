@@ -1,3 +1,12 @@
+2003-04-07  Not Zed  <NotZed@Ximian.com>
+
+	[#40536]
+
+	* evolution-shell-component.c (impl_interactive): If going
+	interactive, track the view id in a private area.
+	(evolution_shell_component_get_parent_view_xid): Accessor method
+	to retrieve the current view xid.
+
 2003-04-06  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-view.c (update_window_icon): Get the large version of
