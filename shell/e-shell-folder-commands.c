@@ -236,11 +236,17 @@ connect_folder_selection_dialog_signals (EShellFolderSelectionDialog *folder_sel
 
 void
 e_shell_command_create_new_folder (EShell *shell,
-				   EShellView *shell_view)
+				   EShellView *shell_view,
+				   const char *parent_folder_path)
 {
 	g_return_if_fail (shell != NULL);
 	g_return_if_fail (E_IS_SHELL (shell));
+	g_return_if_fail (shell_view != NULL || parent_folder_path != NULL);
 	g_return_if_fail (shell_view != NULL && E_IS_SHELL_VIEW (shell_view));
+	g_return_if_fail (parent_folder_path != NULL || g_path_is_absolute (parent_folder_path));
+
+	if (parent_folder_path == NULL)
+		parent_folder_path = e_shell_view_get_current_path (shell_view);
 
 	/* FIXME: Should handle the result stuff.  */
 	e_shell_show_folder_creation_dialog (shell, GTK_WINDOW (shell_view),
@@ -254,15 +260,22 @@ e_shell_command_create_new_folder (EShell *shell,
 
 void
 e_shell_command_open_folder_in_other_window (EShell *shell,
-					     EShellView *shell_view)
+					     EShellView *shell_view,
+					     const char *folder_path)
 {
 	EShellView *view;
+	char *uri;
 
 	g_return_if_fail (shell != NULL);
 	g_return_if_fail (E_IS_SHELL (shell));
 	g_return_if_fail (shell_view != NULL && E_IS_SHELL_VIEW (shell_view));
 
-	view = e_shell_create_view (shell, e_shell_view_get_current_uri (shell_view));
+	if (folder_path == NULL)
+		folder_path = e_shell_view_get_current_path (shell_view);
+
+	uri = g_strconcat (E_SHELL_URI_PREFIX, folder_path, NULL);
+	view = e_shell_create_view (shell, uri);
+	g_free (uri);
 
 	gtk_widget_show (GTK_WIDGET (view));
 }
@@ -272,38 +285,41 @@ e_shell_command_open_folder_in_other_window (EShell *shell,
 
 void
 e_shell_command_copy_folder (EShell *shell,
-			     EShellView *shell_view)
+			     EShellView *shell_view,
+			     const char *folder_path)
 {
 	GtkWidget *folder_selection_dialog;
 	FolderCommandData *data;
-	const char *current_path;
-	const char *current_uri;
+	char *uri;
 	char *caption;
 
 	g_return_if_fail (shell != NULL);
 	g_return_if_fail (E_IS_SHELL (shell));
 	g_return_if_fail (shell_view != NULL && E_IS_SHELL_VIEW (shell_view));
+	g_return_if_fail (folder_path == NULL || g_path_is_absolute (folder_path));
 
-	current_path = e_shell_view_get_current_path (shell_view);
+	if (folder_path == NULL)
+		folder_path = e_shell_view_get_current_path (shell_view);
 
-	if (current_path == NULL) {
+	if (folder_path == NULL) {
 		g_warning ("Called `e_shell_command_copy_folder()' without a valid displayed folder");
 		return;
 	}
 
 	caption = g_strdup_printf (_("Specify a folder to copy folder \"%s\" into:"),
-				   get_folder_name (shell, current_path));
+				   get_folder_name (shell, folder_path));
 
-	current_uri = e_shell_view_get_current_uri (shell_view);
+	uri = g_strconcat (E_SHELL_URI_PREFIX, folder_path, NULL);
 	folder_selection_dialog = e_shell_folder_selection_dialog_new (shell,
 								       _("Copy folder"),
 								       caption,
-								       current_uri,
+								       uri,
 								       NULL);
 
 	g_free (caption);
+	g_free (uri);
 
-	data = folder_command_data_new (shell, shell_view, FOLDER_COMMAND_COPY, current_path, NULL);
+	data = folder_command_data_new (shell, shell_view, FOLDER_COMMAND_COPY, folder_path, NULL);
 	connect_folder_selection_dialog_signals (E_SHELL_FOLDER_SELECTION_DIALOG (folder_selection_dialog),
 						 data);
 
@@ -315,38 +331,42 @@ e_shell_command_copy_folder (EShell *shell,
 
 void
 e_shell_command_move_folder (EShell *shell,
-			     EShellView *shell_view)
+			     EShellView *shell_view,
+			     const char *folder_path)
 {
 	GtkWidget *folder_selection_dialog;
 	FolderCommandData *data;
-	const char *current_path;
-	const char *current_uri;
+	char *uri;
 	char *caption;
 
 	g_return_if_fail (shell != NULL);
 	g_return_if_fail (E_IS_SHELL (shell));
 	g_return_if_fail (shell_view != NULL);
 	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
+	g_return_if_fail (folder_path == NULL || g_path_is_absolute (folder_path));
 
-	current_path = e_shell_view_get_current_path (shell_view);
-	if (current_path == NULL) {
+	if (folder_path == NULL)
+		folder_path = e_shell_view_get_current_path (shell_view);
+
+	if (folder_path == NULL) {
 		g_warning ("Called `e_shell_command_move_folder()' without a valid displayed folder");
 		return;
 	}
 
 	caption = g_strdup_printf (_("Specify a folder to move folder \"%s\" into:"),
-				   get_folder_name (shell, current_path));
+				   get_folder_name (shell, folder_path));
 
-	current_uri = e_shell_view_get_current_uri (shell_view);
+	uri = g_strconcat (E_SHELL_URI_PREFIX, folder_path, NULL);
 	folder_selection_dialog = e_shell_folder_selection_dialog_new (shell,
 								       _("Move folder"),
 								       caption,
-								       current_uri,
+								       uri,
 								       NULL);
 
 	g_free (caption);
+	g_free (uri);
 
-	data = folder_command_data_new (shell, shell_view, FOLDER_COMMAND_MOVE, current_path, NULL);
+	data = folder_command_data_new (shell, shell_view, FOLDER_COMMAND_MOVE, folder_path, NULL);
 	connect_folder_selection_dialog_signals (E_SHELL_FOLDER_SELECTION_DIALOG (folder_selection_dialog),
 						 data);
 
@@ -406,35 +426,33 @@ delete_dialog (EShellView *shell_view, const char *utf8_folder)
 
 void
 e_shell_command_delete_folder (EShell *shell,
-			       EShellView *shell_view)
+			       EShellView *shell_view,
+			       const char *folder_path)
 {
 	EStorageSet *storage_set;
-	char *path;
 
 	g_return_if_fail (shell != NULL);
 	g_return_if_fail (E_IS_SHELL (shell));
-	g_return_if_fail (shell_view != NULL);
+	g_return_if_fail (shell_view != NULL || folder_path != NULL);
 	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
+	g_return_if_fail (folder_path != NULL || g_path_is_absolute (folder_path));
 
 	storage_set = e_shell_get_storage_set (shell);
-	path = g_strdup (e_shell_view_get_current_path (shell_view));
-	
-	if (delete_dialog (shell_view, get_folder_name (shell, path)) == 0) {
-		/* Remove and destroy the control */
-		e_shell_view_remove_control_for_uri (shell_view,
-						     e_shell_view_get_current_uri (shell_view));
 
-		/* Remove the folder */
-		e_storage_set_async_remove_folder (storage_set,
-						   path,
-						   delete_cb,
-						   shell_view);
+	if (folder_path == NULL)
+		folder_path = e_shell_view_get_current_path (shell_view);
 
-		/* Select another folder to prevent bad things from happening */
+	if (delete_dialog (shell_view, get_folder_name (shell, folder_path)) == 0) {
+		char *uri;
+
+		uri = g_strconcat (E_SHELL_URI_PREFIX, folder_path, NULL);
+		e_shell_view_remove_control_for_uri (shell_view, uri);
+		g_free (uri);
+
+		e_storage_set_async_remove_folder (storage_set, folder_path, delete_cb, shell_view);
+
 		e_shell_view_display_uri (shell_view, E_SHELL_VIEW_DEFAULT_URI);
 	}
-
-	g_free (path);
 }
 
 #if 0
@@ -572,23 +590,29 @@ e_shell_command_rename_folder (EShell *shell,
 
 void
 e_shell_command_add_to_shortcut_bar (EShell *shell,
-				     EShellView *shell_view)
+				     EShellView *shell_view,
+				     const char *folder_path)
 {
 	EShortcuts *shortcuts;
 	EStorageSet *storage_set;
 	EFolder *folder;
 	int group_num;
-	const char *uri;
+	char *uri;
 	int unread_count;
 
 	g_return_if_fail (shell != NULL);
 	g_return_if_fail (E_IS_SHELL (shell));
 	g_return_if_fail (shell_view != NULL);
 	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
+	g_return_if_fail (folder_path == NULL || g_path_is_absolute (folder_path));
 
 	shortcuts = e_shell_get_shortcuts (shell);
 	group_num = e_shell_view_get_current_shortcuts_group_num (shell_view);
-	uri = e_shell_view_get_current_uri (shell_view);
+
+	if (folder_path == NULL)
+		uri = g_strdup (e_shell_view_get_current_uri (shell_view));
+	else
+		uri = g_strconcat (E_SHELL_URI_PREFIX, folder_path, NULL);
 
 	unread_count = get_folder_unread (shell, e_shell_view_get_current_path (shell_view));
 
@@ -596,4 +620,6 @@ e_shell_command_add_to_shortcut_bar (EShell *shell,
 	folder = e_storage_set_get_folder (storage_set, e_shell_view_get_current_path (shell_view));
 
 	e_shortcuts_add_shortcut (shortcuts, group_num, -1, uri, NULL, unread_count, e_folder_get_type_string (folder));
+
+	g_free (uri);
 }

@@ -2494,4 +2494,18 @@ e_shell_view_get_current_shortcuts_group_num (EShellView *shell_view)
 }
 
 
+const char *
+e_shell_view_get_folder_bar_right_click_path (EShellView *shell_view)
+{
+	EShellViewPrivate *priv;
+
+	g_return_val_if_fail (shell_view != NULL, NULL);
+	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
+
+	priv = shell_view->priv;
+
+	return e_storage_set_view_get_right_click_path (priv->storage_set_view);
+}
+
+
 E_MAKE_TYPE (e_shell_view, "EShellView", EShellView, class_init, init, BONOBO_TYPE_WINDOW)

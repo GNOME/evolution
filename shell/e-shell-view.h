@@ -107,6 +107,8 @@ int   e_shell_view_get_current_shortcuts_group_num  (EShellView *shell_view);
 void  e_shell_view_set_current_shortcuts_group_num  (EShellView *shell_view,
 						     int         group_num);
 
+/* Private -- */
+const char *e_shell_view_get_folder_bar_right_click_path (EShellView *shell_view);
 
 #ifdef __cplusplus
 }

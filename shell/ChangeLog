@@ -1,3 +1,38 @@
+2001-09-25  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-view-menu.c (get_path_for_folder_op): New helper
+	function.
+	(command_move_folder): Pass the @folder_path argument to
+	`e_shell_command_move_folder' by using it.
+	(command_copy_folder): Pass the @folder_path argument to
+	`e_shell_command_copy_folder' by using it.
+	(command_delete_folder): Pass the @folder_path argument to
+	`e_shell_command_delete_folder()' by using it.
+	(command_add_folder_to_shortcut_bar): Pass the @folder_path
+	argument to `e_shell_command_add_to_shortcut_bar()' by using it.
+	(command_create_folder): Pass the @parent_folder_path argument to
+	`e_shell_command_create_new_folder()' by using it.
+	(command_new_folder): Use `get_path_for_folder_op()'.
+
+	* e-shell-folder-commands.c (e_shell_command_add_to_shortcut_bar):
+	New arg @folder_path.
+	(e_shell_command_copy_folder): New arg @folder_path.
+	(e_shell_command_move_folder): New arg @folder_path.
+	(e_shell_command_open_folder_in_other_window): New arg @folder_path.
+	(e_shell_command_create_new_folder): New arg @parent_folder_path.
+	(e_shell_command_delete_folder): New arg @folder_path.
+
+	* e-shell-view.c (e_shell_view_get_folder_bar_right_click_path): New.
+
+	* e-storage-set-view.c: New member `right_click_row_path'.
+	(init): Init to NULL.
+	(destroy): Free.
+	(right_click): Set.
+	(popup_folder_menu): Use `gnome_popup_menu_do_popup_modal()' so we
+	are stuck in here until the menu disappears.  After that, destroy
+	the menu and  call `e_tree_right_click_up()'.
+	(e_storage_set_view_get_right_click_path): New.
+
 2001-09-21  Iain Holmes  <iain@ximian.com>
 
 	* e-shell-importer.c (folder_selected): Use GNOME functions to get

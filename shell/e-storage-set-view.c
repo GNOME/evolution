@@ -82,6 +82,9 @@ struct _EStorageSetViewPrivate {
 	/* Path of the row selected by the latest "cursor_activated" signal.  */
 	char *selected_row_path;
 
+	/* Path of the row selected by a right click.  */
+	char *right_click_row_path;
+
 	unsigned int show_folders : 1;
 	unsigned int allow_dnd : 1;
 
@@ -634,46 +637,6 @@ folder_xfer_callback (EStorageSet *storage_set,
 
 
 /* Folder context menu.  */
-/* FIXME: This should be moved somewhere else, so that also the shortcut code
-   can share it.  */
-
-#if 0
-static void
-folder_context_menu_activate_cb (BonoboUIComponent *uih,
-				 void *data,
-				 const char *path)
-{
-	EStorageSetView *storage_set_view;
-	EStorageSetViewPrivate *priv;
-
-	storage_set_view = E_STORAGE_SET_VIEW (data);
-	priv = storage_set_view->priv;
-
-	gtk_signal_emit (GTK_OBJECT (storage_set_view), signals[FOLDER_SELECTED],
-			 priv->selected_row_path);
-}
-
-static void
-remove_cb(EStorageSet *storage_set, EStorageResult result, void *data)
-{
-	g_print ("remove_cb: %d\n", result);
-}
-
-static void
-folder_context_menu_remove_cb (BonoboUIComponent *uih,
-			       void *data,
-			       const char *path)
-{
-	EStorageSetView *storage_set_view;
-	EStorageSetViewPrivate *priv;
-
-	storage_set_view = E_STORAGE_SET_VIEW (data);
-	priv = storage_set_view->priv;
-
-	e_storage_set_async_remove_folder (priv->storage_set, priv->selected_row_path,
-					   remove_cb, storage_set_view);
-}
-#endif
 
 static void
 popup_folder_menu (EStorageSetView *storage_set_view,
@@ -711,7 +674,12 @@ popup_folder_menu (EStorageSetView *storage_set_view,
 								       e_folder_get_type_string (folder));
 
 	gtk_widget_show (GTK_WIDGET (menu));
-	gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, 3, event->time);
+
+	gnome_popup_menu_do_popup_modal (GTK_WIDGET (menu), NULL, NULL, event, NULL);
+
+	gtk_widget_destroy (GTK_WIDGET (menu));
+
+	e_tree_right_click_up (E_TREE (storage_set_view));
 }
 
 
@@ -771,6 +739,7 @@ destroy (GtkObject *object)
 		CORBA_free (priv->drag_corba_data);
 
 	g_free (priv->selected_row_path);
+	g_free (priv->right_click_row_path);
 
 	g_free (priv);
 
@@ -1265,8 +1234,16 @@ right_click (ETree *etree,
 	storage_set_view = E_STORAGE_SET_VIEW (etree);
 	priv = storage_set_view->priv;
 
+	/* This should never happen, but you never know with ETree.  */
+	if (priv->right_click_row_path != NULL)
+		g_free (priv->right_click_row_path);
+	priv->right_click_row_path = g_strdup (e_tree_memory_node_get_data (E_TREE_MEMORY(priv->etree_model), path));
+
 	if (priv->container)
 		popup_folder_menu (storage_set_view, (GdkEventButton *) event);
+
+	g_free (priv->right_click_row_path);
+	priv->right_click_row_path = NULL;
 
 	return TRUE;
 }
@@ -1698,7 +1675,10 @@ init (EStorageSetView *storage_set_view)
 	priv->storage_set                 = NULL;
 	priv->path_to_etree_node          = g_hash_table_new (g_str_hash, g_str_equal);
 	priv->type_name_to_pixbuf         = g_hash_table_new (g_str_hash, g_str_equal);
+
 	priv->selected_row_path           = NULL;
+	priv->right_click_row_path        = NULL;
+
 	priv->show_folders                = TRUE;
 	priv->allow_dnd                   = TRUE;
 
@@ -2052,6 +2032,15 @@ e_storage_set_view_get_allow_dnd (EStorageSetView *storage_set_view)
 	g_return_val_if_fail (E_IS_STORAGE_SET_VIEW (storage_set_view), FALSE);
 
 	return storage_set_view->priv->allow_dnd;
+}
+
+const char *
+e_storage_set_view_get_right_click_path (EStorageSetView *storage_set_view)
+{
+	g_return_val_if_fail (storage_set_view != NULL, NULL);
+	g_return_val_if_fail (E_IS_STORAGE_SET_VIEW (storage_set_view), NULL);
+
+	return storage_set_view->priv->right_click_row_path;
 }
 
 

@@ -93,6 +93,21 @@ const char *authors[] = {
 };
 
 
+/* Utility functions.  */
+
+static const char *
+get_path_for_folder_op (EShellView *shell_view)
+{
+	const char *path;
+
+	path = e_shell_view_get_folder_bar_right_click_path (shell_view);
+	if (path != NULL)
+		return path;
+
+	return e_shell_view_get_current_path (shell_view);
+}
+
+
 /* EShellView callbacks.  */
 
 static void
@@ -285,20 +300,12 @@ command_new_folder (BonoboUIComponent *uih,
 {
 	EShellView *shell_view;
 	EShell *shell;
-	const char *current_uri;
-	const char *default_parent_folder;
 	
 	shell_view = E_SHELL_VIEW (data);
 	shell = e_shell_view_get_shell (shell_view);
-	current_uri = e_shell_view_get_current_uri (shell_view);
-	
-	if (current_uri && strncmp (current_uri, E_SHELL_URI_PREFIX, E_SHELL_URI_PREFIX_LEN) == 0)
-		default_parent_folder = current_uri + E_SHELL_URI_PREFIX_LEN;
-	else
-		default_parent_folder = NULL;
-	
+
 	e_shell_show_folder_creation_dialog (shell, GTK_WINDOW (shell_view),
-					     default_parent_folder,
+					     get_path_for_folder_op (shell_view),
 					     NULL /* result_callback */,
 					     NULL /* result_callback_data */);
 }
@@ -310,13 +317,15 @@ command_open_folder_in_new_window (BonoboUIComponent *uih,
 {
 	EShellView *shell_view, *new_view;
 	EShell *shell;
-	const char *current_uri;
+	char *uri;
 
 	shell_view = E_SHELL_VIEW (data);
 	shell = e_shell_view_get_shell (shell_view);
-	current_uri = e_shell_view_get_current_uri (shell_view);
 
-	new_view = e_shell_create_view (shell, current_uri);
+	uri = g_strconcat (E_SHELL_URI_PREFIX, get_path_for_folder_op (shell_view), NULL);
+	new_view = e_shell_create_view (shell, uri);
+	g_free (uri);
+
 	gtk_widget_show (GTK_WIDGET (new_view));
 }
 
@@ -331,7 +340,8 @@ command_move_folder (BonoboUIComponent *uih,
 	EShellView *shell_view;
 
 	shell_view = E_SHELL_VIEW (data);
-	e_shell_command_move_folder (e_shell_view_get_shell (shell_view), shell_view);
+	e_shell_command_move_folder (e_shell_view_get_shell (shell_view), shell_view,
+				     get_path_for_folder_op (shell_view));
 }
 
 static void
@@ -342,7 +352,8 @@ command_copy_folder (BonoboUIComponent *uih,
 	EShellView *shell_view;
 
 	shell_view = E_SHELL_VIEW (data);
-	e_shell_command_copy_folder (e_shell_view_get_shell (shell_view), shell_view);
+	e_shell_command_copy_folder (e_shell_view_get_shell (shell_view), shell_view,
+				     get_path_for_folder_op (shell_view));
 }
 
 static void
@@ -353,7 +364,8 @@ command_delete_folder (BonoboUIComponent *uih,
 	EShellView *shell_view;
 
 	shell_view = E_SHELL_VIEW (data);
-	e_shell_command_delete_folder (e_shell_view_get_shell (shell_view), shell_view);
+	e_shell_command_delete_folder (e_shell_view_get_shell (shell_view), shell_view,
+				       get_path_for_folder_op (shell_view));
 }
 
 static void
@@ -375,7 +387,8 @@ command_add_folder_to_shortcut_bar (BonoboUIComponent *uih,
 	EShellView *shell_view;
 
 	shell_view = E_SHELL_VIEW (data);
-	e_shell_command_add_to_shortcut_bar (e_shell_view_get_shell (shell_view), shell_view);
+	e_shell_command_add_to_shortcut_bar (e_shell_view_get_shell (shell_view), shell_view,
+					     get_path_for_folder_op (shell_view));
 }
 
 
@@ -447,7 +460,7 @@ command_create_folder (BonoboUIComponent *uih,
 	shell_view = E_SHELL_VIEW (data);
 	shell = e_shell_view_get_shell (shell_view);
 
-	e_shell_command_create_new_folder (shell, shell_view);
+	e_shell_command_create_new_folder (shell, shell_view, get_path_for_folder_op (shell_view));
 }
 
 static void

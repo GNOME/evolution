@@ -27,15 +27,15 @@
 #include "e-shell.h"
 #include "e-shell-view.h"
 
-void  e_shell_command_create_new_folder           (EShell *shell, EShellView *shell_view);
+void  e_shell_command_open_folder_in_other_window  (EShell *shell, EShellView *shell_view, const char *folder_path);
 
-void  e_shell_command_open_folder_in_other_window (EShell *shell, EShellView *shell_view);
+void  e_shell_command_create_new_folder  (EShell *shell, EShellView *shell_view, const char *parent_folder_path);
 
-void  e_shell_command_copy_folder          	  (EShell *shell, EShellView *shell_view);
-void  e_shell_command_move_folder          	  (EShell *shell, EShellView *shell_view);
-void  e_shell_command_delete_folder               (EShell *shell, EShellView *shell_view);
-void  e_shell_command_rename_folder        	  (EShell *shell, EShellView *shell_view);
+void  e_shell_command_copy_folder    (EShell *shell, EShellView *shell_view, const char *folder_path);
+void  e_shell_command_move_folder    (EShell *shell, EShellView *shell_view, const char *folder_path);
+void  e_shell_command_delete_folder  (EShell *shell, EShellView *shell_view, const char *folder_path);
+void  e_shell_command_rename_folder  (EShell *shell, EShellView *shell_view, const char *folder_path);
 
-void  e_shell_command_add_to_shortcut_bar         (EShell *shell, EShellView *shell_view);
+void  e_shell_command_add_to_shortcut_bar (EShell *shell, EShellView *shell_view, const char *folder_path);
 
 #endif

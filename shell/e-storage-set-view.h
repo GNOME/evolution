@@ -88,6 +88,8 @@ void        e_storage_set_view_set_allow_dnd       (EStorageSetView *storage_set
 						    gboolean         allow_dnd);
 gboolean    e_storage_set_view_get_allow_dnd       (EStorageSetView *storage_set_view);
 						    
+const char *e_storage_set_view_get_right_click_path (EStorageSetView *storage_set_view);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
