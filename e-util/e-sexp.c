@@ -1077,9 +1077,6 @@ e_sexp_parse(ESExp *f)
 		parse_term_free(f->tree);
 
 	f->tree = parse_list(f, FALSE);
-
-	if (f->tree)
-		parse_dump_term(f->tree, 0);
 }
 
 struct _ESExpResult *
