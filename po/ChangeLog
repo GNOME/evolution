@@ -1,3 +1,7 @@
+2001-01-03  Héctor García Álvarez <hector@scouts-es.org>
+
+        * es.po: Updated Spanish translation.
+
 2001-01-02  Chris Toshok  <toshok@helixcode.com>
 
 	* POTFILES.in: add addressbook-config.c, addressbook-storage.c,
