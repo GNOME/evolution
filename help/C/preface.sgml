@@ -244,14 +244,73 @@
     </para>
   </sect1>
 
-  <sect1 id="commontasks">
+  <sect1 id="import-tool">
+<!-- This section sucks.  Look at it, ask for improvements -->
+    <title>Importing External Files</title>
+    <para>
+      Chances are, <application>Evolution</application> isn't your first email
+      program.  You're probably switching from another program and will want
+      email from your other program.  It's for exactly these situations that
+      <application>Evolution</application> includes an import feature.
+    </para>
+    <para>
+      <application>Evolution</application> can import the following types of
+      files:
+      <itemizedlist>
+	<listitem>
+	  <para>
+	    VCard (.vcf, gcrd)
+	  </para>
+	</listitem>
+	<listitem>
+	  <para>
+	    Outlook Express 4 (.mbx)
+	  </para>
+	</listitem>
+	<listitem>
+	  <para>
+	    MBox(mbox)
+	  </para>
+	</listitem>
+      </itemizedlist>
+      VCard is a format to store addressbooks and contact information.  Outlook
+      Express and MBox format both handle your email.  If you're coming from
+      Windows, you're probably going to be importing Outlook Express files.  If
+      you're coming from a Unix program, you're probably using mbox.  Ask your
+      system administrator if you aren't sure which you use.
+    </para>
+    <para>
+      To import your files, go to
+      <menuchoice>
+	<guimenu>File</guimenu>
+	<guimenuitem>Import File</guimenuitem>
+      </menuchoice>
+    </para>
+    <para>
+    A druid will appear, helping you to import your files.  You'll need to
+    specify where the file is that you want to import.  Click
+    <guibutton>Next</guibutton> and then <guibutton>Import</guibutton>.
+    <application>Evolution</application> will present you with the Folder
+    dialoge, so you can specify where your new messages will go.  Select the
+    desired folder, and your file will be imported into
+    <application>Evolution</application>.
+    </para>
+    <para>
+      And if you're timid about using <application>Evolution</application>,
+      don't worry.  <application>Evolution</application> won't mangle your
+      files, so if you choose to use your old application instead, you can
+      import your files right back in.
+    </para>
+  </sect1>
+  
+  <sect1 id="quickref-commontasks">
     <title>Quick Reference for Common Tasks</title>
     <para>
       You might want to copy this section and tape it to the wall
       next to your computer: it's a very short summary of most of
       the things you'll want to do with
       <application>Evolution</application>.  Read <xref linkend="menuref"> if
-        you would like a complete list of keyboard shortcuts for menu commands.
+      you would like a complete list of keyboard shortcuts for menu commands.
     </para>
     
     <sect2 id="quickref-newthings">

@@ -1,5 +1,7 @@
 2001-06-25  Kevin Breit  <battery841@mediaone.net>
 
+	* C/preface.sgml: Added section for importing files
+
 	* C/usage-calendar.sgml: Removed some *'s that are causing problems.
 
 2001-06-22  Kevin Breit  <battery841@mediaone.net>
