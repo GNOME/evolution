@@ -20,7 +20,9 @@ GHashTable *passwords;
  * we deadlock....
  */
 
+#ifdef USE_BROKEN_THREADS
 #define ASYNC_AUTH_CALLBACK
+#endif
 
 #ifndef ASYNC_AUTH_CALLBACK
 static void
