@@ -1,3 +1,9 @@
+2000-08-12  Valek Filippov  <frob@df.ru>
+
+	* ru.po: updated russian translation.
+	* POTFILES.in: Added missing files that are in the build. Sorted in alphabet order
+
+
 2000-08-11  Valek Filippov  <frob@df.ru>
 
 	* ru.po: updated russian translation.

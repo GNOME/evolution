@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: E-volution\n"
-"POT-Creation-Date: 2000-08-11 15:28+0000\n"
-"PO-Revision-Date: 2000-08-11 15:40+00:00\n"
+"POT-Creation-Date: 2000-08-12 17:06+0000\n"
+"PO-Revision-Date: 2000-08-12 17:17+00:00\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -19,7 +19,8 @@ msgstr ""
 #: addressbook/demo/addressbook-factory.c:32
 #: addressbook/gui/component/addressbook-factory.c:59
 #: addressbook/gui/minicard/test-minicard-view.c:45
-#: calendar/conduits/todo/todo-conduit.c:1203 calendar/gui/main.c:68
+#: calendar/conduits/calendar/calendar-conduit.c:1669
+#: calendar/conduits/todo/todo-conduit.c:1298 calendar/gui/main.c:68
 msgid "Could not initialize Bonobo"
 msgstr "Не удалось инициализировать Bonobo"
 
@@ -135,62 +136,62 @@ msgstr ""
 msgid "BLARG\n"
 msgstr "BLARG\n"
 
-#: addressbook/conduit/address-conduit.c:446
+#: addressbook/conduit/address-conduit.c:456
 #, c-format
 msgid "Address holds %ld address entries"
 msgstr "Адрес хранит %ld записей адресов"
 
-#: addressbook/conduit/address-conduit.c:472
-#: addressbook/conduit/address-conduit.c:474
+#: addressbook/conduit/address-conduit.c:482
+#: addressbook/conduit/address-conduit.c:484
 msgid "Could not start addressbook server"
 msgstr "Невозможно запустить сервер адресной книги"
 
-#: addressbook/conduit/address-conduit.c:487
-#: addressbook/conduit/address-conduit.c:490
+#: addressbook/conduit/address-conduit.c:497
+#: addressbook/conduit/address-conduit.c:500
 msgid "Could not read pilot's Address application block"
 msgstr "Невозможно прочесть блок приложения адресов Пилота"
 
-#: addressbook/conduit/address-conduit.c:828
+#: addressbook/conduit/address-conduit.c:838
 msgid "Error while communicating with address server"
 msgstr "Ошибка при подключении к серверу адресов"
 
 #: addressbook/demo/addressbook.c:78
-#: addressbook/gui/component/addressbook.c:421
+#: addressbook/gui/component/addressbook.c:418
 #: calendar/gui/calendar-commands.c:511 notes/component-factory.c:27
 msgid "New"
 msgstr "Новый"
 
 #: addressbook/demo/addressbook.c:78
-#: addressbook/gui/component/addressbook.c:421
+#: addressbook/gui/component/addressbook.c:418
 msgid "Create a new contact"
 msgstr "Создать новый контакт"
 
 #: addressbook/demo/addressbook.c:82
-#: addressbook/gui/component/addressbook.c:425
+#: addressbook/gui/component/addressbook.c:422
 msgid "Find"
 msgstr "Найти"
 
 #: addressbook/demo/addressbook.c:82
-#: addressbook/gui/component/addressbook.c:425
+#: addressbook/gui/component/addressbook.c:422
 msgid "Find a contact"
 msgstr "Найти контакт"
 
 #: addressbook/demo/addressbook.c:83
-#: addressbook/gui/component/addressbook.c:426
+#: addressbook/gui/component/addressbook.c:423
 #: calendar/gui/calendar-commands.c:516 mail/folder-browser-factory.c:38
 #: mail/mail-view.c:145
 msgid "Print"
 msgstr "Печать"
 
 #: addressbook/demo/addressbook.c:83
-#: addressbook/gui/component/addressbook.c:426
+#: addressbook/gui/component/addressbook.c:423
 msgid "Print contacts"
 msgstr "Напечатать контакт"
 
 #. Delete
 #: addressbook/contact-editor/e-contact-editor.c:852
 #: addressbook/demo/addressbook.c:84
-#: addressbook/gui/component/addressbook.c:427
+#: addressbook/gui/component/addressbook.c:424
 #: calendar/gui/e-calendar-table.c:375
 #: calendar/gui/event-editor-dialog.glade.h:93 calendar/gui/gncal-todo.c:508
 #: mail/folder-browser-factory.c:40 mail/mail-config.glade.h:13
@@ -200,12 +201,12 @@ msgid "Delete"
 msgstr "Удалить"
 
 #: addressbook/demo/addressbook.c:84
-#: addressbook/gui/component/addressbook.c:427
+#: addressbook/gui/component/addressbook.c:424
 msgid "Delete a contact"
 msgstr "Удалить контакт"
 
 #: addressbook/demo/addressbook.c:103
-#: addressbook/gui/component/addressbook.c:512
+#: addressbook/gui/component/addressbook.c:509
 msgid "_New Contact"
 msgstr "Новый контакт"
 
@@ -230,6 +231,10 @@ msgstr "Выбрать имена из списка:"
 msgid "Message Recipients"
 msgstr "Получатели сообщения"
 
+#: addressbook/gui/minicard/e-minicard-control.c:276
+msgid "Save in addressbook"
+msgstr "Сохранить в адресной книге"
+
 #: addressbook/gui/minicard/test-minicard-view.c:100
 msgid "Reflow Test"
 msgstr "Перезапустить тест"
@@ -250,28 +255,24 @@ msgstr "Кондуит календаря Gpilotd"
 msgid "Configuration utility for the calendar conduit.\n"
 msgstr "Средство настройки для кондуита календаря.\n"
 
-#: calendar/conduits/calendar/calendar-conduit.c:583
-#, c-format
-msgid "Calendar holds %d entries"
-msgstr "Календарь хранит %d записей"
+#: calendar/conduits/calendar/calendar-conduit.c:399
+#: calendar/conduits/calendar/calendar-conduit.c:1109
+#: calendar/conduits/todo/todo-conduit.c:443
+#: calendar/conduits/todo/todo-conduit.c:1025
+msgid "Error while communicating with calendar server"
+msgstr "Ошибка при подключении к серверу календаря"
 
-#: calendar/conduits/calendar/calendar-conduit.c:618
-#: calendar/conduits/calendar/calendar-conduit.c:620
-#: calendar/conduits/todo/todo-conduit.c:643
-#: calendar/conduits/todo/todo-conduit.c:645
+#: calendar/conduits/calendar/calendar-conduit.c:776
+#: calendar/conduits/calendar/calendar-conduit.c:778
+#: calendar/conduits/todo/todo-conduit.c:707
+#: calendar/conduits/todo/todo-conduit.c:709
 msgid "Could not start gnomecal server"
 msgstr "Не удалось запустить сервер gnomecal"
 
-#: calendar/conduits/calendar/calendar-conduit.c:648
-#: calendar/conduits/calendar/calendar-conduit.c:651
+#: calendar/conduits/calendar/calendar-conduit.c:806
+#: calendar/conduits/calendar/calendar-conduit.c:809
 msgid "Could not read pilot's DateBook application block"
 msgstr "Невозможно прочесть блок приложения книги данных Пилота"
-
-#: calendar/conduits/calendar/calendar-conduit.c:906
-#: calendar/conduits/todo/todo-conduit.c:428
-#: calendar/conduits/todo/todo-conduit.c:959
-msgid "Error while communicating with calendar server"
-msgstr "Ошибка при подключении к серверу календаря"
 
 #: calendar/conduits/todo/todo-conduit-control-applet.c:146
 msgid "Gpilotd todo conduit"
@@ -281,17 +282,57 @@ msgstr "Кондуит заданий Gpilotd"
 msgid "Configuration utility for the todo conduit.\n"
 msgstr "Средство настройки для кондуита заданий.\n"
 
-#: calendar/conduits/todo/todo-conduit.c:605
-#, c-format
-msgid "Calendar holds %ld todo entries"
-msgstr "Календарь хранит %ld записей заданий"
-
-#: calendar/conduits/todo/todo-conduit.c:673
-#: calendar/conduits/todo/todo-conduit.c:676
+#: calendar/conduits/todo/todo-conduit.c:737
+#: calendar/conduits/todo/todo-conduit.c:740
 msgid "Could not read pilot's ToDo application block"
 msgstr "Невозможно прочесть блок приложения заданий Пилота"
 
-#: mail/mail-config-gui.c:425
+#: mail/mail-callbacks.c:134
+msgid ""
+"This message has no subject.\n"
+"Really send?"
+msgstr ""
+"Это сообщение не имеет темы.\n"
+"Послать его?"
+
+#: mail/mail-callbacks.c:166
+msgid ""
+"You need to configure an identity\n"
+"before you can send mail."
+msgstr ""
+"Вы должны настроить идентификацию\n"
+"до того как вы сможете послать почту."
+
+#: mail/mail-callbacks.c:182
+msgid ""
+"You need to configure a mail transport\n"
+"before you can send mail."
+msgstr ""
+"Вы должны настроить передачу почты\n"
+"до того как вы сможете послать почту."
+
+#: mail/mail-callbacks.c:388
+msgid "Move message(s) to"
+msgstr "Переместить сообщение в"
+
+#: mail/mail-callbacks.c:430
+msgid ""
+"You may only edit messages saved\n"
+"in the Drafts folder."
+msgstr ""
+"Вы можете править только сообщения\n"
+"сохраненные в папке \"Черновики\"."
+
+#: mail/mail-callbacks.c:505
+#, c-format
+msgid ""
+"Error loading filter information:\n"
+"%s"
+msgstr ""
+"Ошибка при загрузке информации фильтра:\n"
+"%s"
+
+#: mail/mail-config-gui.c:430
 msgid ""
 "Enter your name and email address to be used in outgoing mail. You may also, "
 "optionally, enter the name of your organization, and the name of a file to "
@@ -301,55 +342,55 @@ msgstr ""
 "почты. Вы можете также, дополнительно, ввести название вашей организации и "
 "название файла, в котором хранится ваша подпись."
 
-#: mail/mail-config-gui.c:438
+#: mail/mail-config-gui.c:443
 msgid "Full name:"
 msgstr "Полное имя:"
 
-#: mail/mail-config-gui.c:462
+#: mail/mail-config-gui.c:467
 msgid "Email address:"
 msgstr "Эл.адрес:"
 
-#: mail/mail-config-gui.c:477
+#: mail/mail-config-gui.c:482
 msgid "Organization:"
 msgstr "Организация:"
 
-#: mail/mail-config-gui.c:488
+#: mail/mail-config-gui.c:493
 msgid "Signature file:"
 msgstr "Файл подписи:"
 
-#: mail/mail-config-gui.c:493 mail/mail-config.glade.h:10
+#: mail/mail-config-gui.c:498 mail/mail-config.glade.h:10
 msgid "Signature File"
 msgstr "Файл подписи"
 
-#: mail/mail-config-gui.c:919
+#: mail/mail-config-gui.c:897
 msgid "Server:"
 msgstr "Сервер:"
 
-#: mail/mail-config-gui.c:925
+#: mail/mail-config-gui.c:903
 msgid "Username:"
 msgstr "Имя пользователя:"
 
-#: mail/mail-config-gui.c:931
+#: mail/mail-config-gui.c:909
 msgid "Path:"
 msgstr "Путь:"
 
-#: mail/mail-config-gui.c:939
+#: mail/mail-config-gui.c:917
 msgid "Authentication:"
 msgstr "Идентификация:"
 
-#: mail/mail-config-gui.c:951
+#: mail/mail-config-gui.c:929
 msgid "Detect supported types..."
 msgstr "Определить поддерживаемые типы..."
 
-#: mail/mail-config-gui.c:974
+#: mail/mail-config-gui.c:952
 msgid "Don't delete messages from server"
 msgstr "Не удалять сообщения с сервера"
 
-#: mail/mail-config-gui.c:986
+#: mail/mail-config-gui.c:964
 msgid "Test Settings"
 msgstr "Установки теста"
 
-#: mail/mail-config-gui.c:1116 mail/mail-config-gui.c:1164
+#: mail/mail-config-gui.c:1094 mail/mail-config-gui.c:1142
 msgid ""
 "Select the kind of mail server you have, and enter the relevant information "
 "about it.\n"
@@ -357,11 +398,13 @@ msgid ""
 "If the server requires authentication, you can click the \"Detect supported "
 "types...\" button after entering the other information."
 msgstr ""
-"Выберите вид используемого вами почтового сервера и введите соответствующую информацию о нем.\n"
+"Выберите вид используемого вами почтового сервера и введите соответствующую "
+"информацию о нем.\n"
 "\n"
-"Если сервер требует идентификации, то щелкните на кнопке \"Определить поддерживаемые типы...\" после ввода остальной информации."
+"Если сервер требует идентификации, то щелкните на кнопке \"Определить "
+"поддерживаемые типы...\" после ввода остальной информации."
 
-#: mail/mail-config-gui.c:1140
+#: mail/mail-config-gui.c:1118
 msgid ""
 "Select the kind of news server you have, and enter the relevant information "
 "about it.\n"
@@ -369,33 +412,49 @@ msgid ""
 "If the server requires authentication, you can click the \"Detect supported "
 "types...\" button after entering the other information."
 msgstr ""
-"Выберите используемый вами сервер новостей и введите соответствующую информацию о нем.\n"
+"Выберите используемый вами сервер новостей и введите соответствующую "
+"информацию о нем.\n"
 "\n"
-"Если сервер требует идентификации, вы можете щелкнуть на кнопке \"Определить поддерживаемые типы...\" после ввода остальной информации."
+"Если сервер требует идентификации, вы можете щелкнуть на кнопке \"Определить "
+"поддерживаемые типы...\" после ввода остальной информации."
 
-#: mail/mail-config-gui.c:1214
+#: mail/mail-config-gui.c:1192
 msgid "Edit Identity"
 msgstr "Правка именования"
 
-#: mail/mail-config-gui.c:1216
+#: mail/mail-config-gui.c:1194
 msgid "Add Identity"
 msgstr "Добавить именование"
 
-#: mail/mail-config-gui.c:1310
+#: mail/mail-config-gui.c:1288
 msgid "Edit Source"
 msgstr "Правка источника"
 
-#: mail/mail-config-gui.c:1312
+#: mail/mail-config-gui.c:1290
 msgid "Add Source"
 msgstr "Добавить источник"
 
-#: mail/mail-config-gui.c:1409
+#: mail/mail-config-gui.c:1387
 msgid "Edit News Server"
 msgstr "Правка сервера новостей"
 
-#: mail/mail-config-gui.c:1411
+#: mail/mail-config-gui.c:1389
 msgid "Add News Server"
 msgstr "Добавить сервер новостей"
+
+#: mail/mail-config-gui.c:2217
+msgid "The connection was successful!"
+msgstr "Соединение было успешным!"
+
+#: mail/mail-local.c:256
+#, c-format
+msgid "Changing folder \"%s\" to \"%s\" format"
+msgstr "Изменение папки \"%s\" в формат \"%s\""
+
+#: mail/mail-local.c:260
+#, c-format
+msgid "Change folder \"%s\" to \"%s\" format"
+msgstr "Изменить папку \"%s\" в формат \"%s\""
 
 #. GNOMEUIINFO_ITEM_STOCK (N_("Save"), N_("Save this message"),
 #. save_msg, GNOME_STOCK_PIXMAP_SAVE),
@@ -1208,24 +1267,24 @@ msgstr ""
 "III\n"
 "Esq.\n"
 
-#: addressbook/gui/component/addressbook.c:495
+#: addressbook/gui/component/addressbook.c:492
 msgid "_Print Contacts..."
 msgstr "Напечатать контакты..."
 
-#: addressbook/gui/component/addressbook.c:505
-#: addressbook/gui/component/addressbook.c:1044
+#: addressbook/gui/component/addressbook.c:502
+#: addressbook/gui/component/addressbook.c:972
 msgid "As _Table"
 msgstr "Как таблица"
 
-#: addressbook/gui/component/addressbook.c:520
+#: addressbook/gui/component/addressbook.c:517
 msgid "N_ew Directory Server"
 msgstr "Новый сервер каталогов"
 
-#: addressbook/gui/component/addressbook.c:603
+#: addressbook/gui/component/addressbook.c:600
 msgid "Unable to open addressbook"
 msgstr "Не удалось открыть адресную книгу"
 
-#: addressbook/gui/component/addressbook.c:608
+#: addressbook/gui/component/addressbook.c:605
 msgid ""
 "We were unable to open this addressbook.  This either\n"
 "means you have entered an incorrect URI, or have tried\n"
@@ -1245,20 +1304,20 @@ msgstr ""
 "использовать LDAP, вам надо скачать и установить \n"
 "OpenLDAP и перекомпилировать и установить evolution.\n"
 
-#: addressbook/gui/component/addressbook.c:948
+#: addressbook/gui/component/addressbook.c:876
 #: addressbook/gui/minicard/e-minicard.c:330
 msgid "Save as VCard"
 msgstr "Сохранить как VCard"
 
-#: addressbook/gui/component/addressbook.c:1015
+#: addressbook/gui/component/addressbook.c:943
 msgid "* Click here to add a contact *"
 msgstr "* Щелкните здесь чтобы добавить контакт *"
 
-#: addressbook/gui/component/addressbook.c:1051
+#: addressbook/gui/component/addressbook.c:979
 msgid "As _Minicards"
 msgstr "Как миникарточки"
 
-#: addressbook/gui/component/addressbook.c:1102
+#: addressbook/gui/component/addressbook.c:1030
 msgid "The URI that the Folder Browser will display"
 msgstr "URI, который будет показывать программа просмотра папок"
 
@@ -1797,7 +1856,48 @@ msgstr "%s%s"
 msgid "'s calendar"
 msgstr "' календарь"
 
-#: calendar/gui/calendar-model.c:452
+#: calendar/gui/calendar-model.c:323
+msgid "Public"
+msgstr "Общее"
+
+#: calendar/gui/calendar-model.c:326
+#: calendar/gui/dialogs/task-editor-dialog.glade.h:27
+msgid "Private"
+msgstr "Личное"
+
+#: calendar/gui/calendar-model.c:329
+msgid "Confidential"
+msgstr "Конфиденциальное"
+
+#: calendar/gui/calendar-model.c:332 calendar/gui/calendar-model.c:499
+msgid "Unknown"
+msgstr "Неизвестное"
+
+#: calendar/gui/calendar-model.c:419
+msgid "N"
+msgstr "С"
+
+#: calendar/gui/calendar-model.c:419
+msgid "S"
+msgstr "Ю"
+
+#: calendar/gui/calendar-model.c:421
+msgid "E"
+msgstr "В"
+
+#: calendar/gui/calendar-model.c:421
+msgid "W"
+msgstr "З"
+
+#: calendar/gui/calendar-model.c:493
+msgid "Transparent"
+msgstr "Прозрачный"
+
+#: calendar/gui/calendar-model.c:496
+msgid "Opaque"
+msgstr "Непрозрачный"
+
+#: calendar/gui/calendar-model.c:750
 #, c-format
 msgid ""
 "The date must be entered in the format: \n"
@@ -1808,7 +1908,7 @@ msgstr ""
 "\n"
 "%s"
 
-#: calendar/gui/calendar-model.c:525
+#: calendar/gui/calendar-model.c:823
 msgid ""
 "The geographical position must be entered in the format: \n"
 "\n"
@@ -1818,15 +1918,15 @@ msgstr ""
 "\n"
 "45.436845,125.862501"
 
-#: calendar/gui/calendar-model.c:570
+#: calendar/gui/calendar-model.c:868
 msgid "The percent value must be between 0 and 100"
 msgstr "Значение процента должно быть между 0 и 100"
 
-#: calendar/gui/calendar-model.c:603
+#: calendar/gui/calendar-model.c:901
 msgid "The priority must be between 0 and 10"
 msgstr "Приоритет должен быть между 0 и 10"
 
-#: calendar/gui/control-factory.c:136
+#: calendar/gui/control-factory.c:132
 msgid "The URI that the calendar will display"
 msgstr "URI, который будет показывать календарь"
 
@@ -2011,10 +2111,6 @@ msgstr "% Выполнения:"
 msgid "_Contacts..."
 msgstr "Контакты..."
 
-#: calendar/gui/dialogs/task-editor-dialog.glade.h:27
-msgid "Private"
-msgstr "Личное"
-
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:28
 msgid "Task"
 msgstr "Задание"
@@ -2084,7 +2180,7 @@ msgid "% Complete"
 msgstr "% Выполнено"
 
 #: calendar/gui/e-calendar-table.c:249 calendar/gui/gncal-todo.c:436
-#: calendar/gui/prop.c:609 mail/message-list.c:503
+#: calendar/gui/prop.c:609 mail/message-list.c:507
 msgid "Priority"
 msgstr "Приоритет"
 
@@ -3566,39 +3662,39 @@ msgstr "Список подшитых сообщений"
 msgid "_Print message"
 msgstr "Печать сообщения"
 
-#: mail/folder-browser-factory.c:81
-msgid "_Mark all messages seen"
-msgstr "Отметить все сообщения как просмотренные"
-
-#: mail/folder-browser-factory.c:86
+#: mail/folder-browser-factory.c:80
 msgid "E_dit Message"
 msgstr "Правка сообщения"
 
-#: mail/folder-browser-factory.c:92
+#: mail/folder-browser-factory.c:87
 msgid "_View Message"
 msgstr "Просмотр сообщения"
 
-#: mail/folder-browser-factory.c:98
+#: mail/folder-browser-factory.c:96
+msgid "_Mark all messages seen"
+msgstr "Отметить все сообщения как просмотренные"
+
+#: mail/folder-browser-factory.c:100
 msgid "_Expunge"
 msgstr "Вычеркнуть"
 
-#: mail/folder-browser-factory.c:104
+#: mail/folder-browser-factory.c:106
 msgid "Mail _Filters ..."
 msgstr "Почтовые фильтры ..."
 
-#: mail/folder-browser-factory.c:110
+#: mail/folder-browser-factory.c:112
 msgid "_vFolder Editor ..."
 msgstr "Редактор виртуальных папок ..."
 
-#: mail/folder-browser-factory.c:116
+#: mail/folder-browser-factory.c:118
 msgid "_Mail Configuration ..."
 msgstr "Настройка почты ..."
 
-#: mail/folder-browser-factory.c:122
+#: mail/folder-browser-factory.c:124
 msgid "Forget _Passwords"
 msgstr "Забыть пароли"
 
-#: mail/folder-browser-factory.c:129
+#: mail/folder-browser-factory.c:131
 msgid "_Configure Folder"
 msgstr "Настроить папку"
 
@@ -3682,72 +3778,76 @@ msgstr ""
 "Настройка вашей почты завершена.\n"
 "Нажмите \"Завершить\", чтобы сохранить новые установки."
 
-#: mail/mail-crypto.c:342 mail/mail-crypto.c:420
-msgid "No GPG/PGP program available."
-msgstr "Не доступна программма GPG/PGP."
+#: mail/mail-crypto.c:338 mail/mail-crypto.c:418
+msgid "Please enter your PGP/GPG passphrase."
+msgstr "Пожалуйста введите вашу парольную фразу PGP/GPG."
 
-#: mail/mail-crypto.c:348 mail/mail-crypto.c:426
+#: mail/mail-crypto.c:342 mail/mail-crypto.c:422
+msgid "No password provided."
+msgstr "Пароль не предоставлен."
+
+#: mail/mail-crypto.c:348 mail/mail-crypto.c:428
 #, c-format
 msgid "Couldn't create pipe to GPG/PGP: %s"
 msgstr "Не удалось создать канал к GPG/PGP: %s"
 
-#: mail/mail-threads.c:619
+#: mail/mail-threads.c:646
 msgid "Currently pending operations:"
 msgstr ""
 
-#: mail/mail-threads.c:820
+#: mail/mail-threads.c:847
 msgid "Incomplete message written on pipe!"
 msgstr "Неполное сообщение записано в канал!"
 
-#: mail/mail-threads.c:824
+#: mail/mail-threads.c:851
 msgid "Error reading commands from dispatching thread."
 msgstr "Ошибка чтения команд из проверяемой нити."
 
-#: mail/mail-threads.c:938
+#: mail/mail-threads.c:973
 msgid "Corrupted message from dispatching thread?"
 msgstr "Поврежденное сообщение из проверяемой нити?"
 
-#: mail/mail-threads.c:1005
+#: mail/mail-threads.c:1040
 msgid "Waiting for user to close error dialog"
 msgstr "Ожидание пока пользователь закроет окно ошибки"
 
-#: mail/mail-threads.c:1068
+#: mail/mail-threads.c:1108
 msgid "Waiting for user to enter data"
 msgstr "Ожидание пока пользователь введет данные"
 
-#: mail/mail-threads.c:1076
+#: mail/mail-threads.c:1116
 msgid "Could not create dialog box."
 msgstr "Невозможно создать окно диалога."
 
-#: mail/mail-threads.c:1124
+#: mail/mail-threads.c:1169
 msgid "User cancelled query."
 msgstr "Пользователь отменил запрос."
 
-#: mail/message-list.c:485
+#: mail/message-list.c:489
 msgid "Online Status"
 msgstr "Подключенное состояние"
 
-#: mail/message-list.c:521
+#: mail/message-list.c:525
 msgid "From"
 msgstr "От"
 
-#: mail/message-list.c:528
+#: mail/message-list.c:532
 msgid "Subject"
 msgstr "Тема"
 
-#: mail/message-list.c:535
+#: mail/message-list.c:539
 msgid "Date"
 msgstr "Дата"
 
-#: mail/message-list.c:542
+#: mail/message-list.c:546
 msgid "Received"
 msgstr "Получено"
 
-#: mail/message-list.c:549
+#: mail/message-list.c:553
 msgid "To"
 msgstr "Кому"
 
-#: mail/message-list.c:556
+#: mail/message-list.c:560
 msgid "Size"
 msgstr "Размер"
 
@@ -4299,6 +4399,15 @@ msgstr "..."
 msgid "Group %i"
 msgstr "Группа %i"
 
+#~ msgid "Calendar holds %d entries"
+#~ msgstr "Календарь хранит %d записей"
+
+#~ msgid "Calendar holds %ld todo entries"
+#~ msgstr "Календарь хранит %ld записей заданий"
+
+#~ msgid "No GPG/PGP program available."
+#~ msgstr "Не доступна программма GPG/PGP."
+
 #~ msgid "Evolution can not create its local folders"
 #~ msgstr "Evolution не удалось создать локальные папки"
 
@@ -4310,20 +4419,3 @@ msgstr "Группа %i"
 
 #~ msgid "Fetching mail"
 #~ msgstr "Получение почты"
-
-#~ msgid ""
-#~ "This message has no subject.\n"
-#~ "Really send?"
-#~ msgstr ""
-#~ "Это сообщение не имеет темы.\n"
-#~ "Послать его?"
-
-#~ msgid ""
-#~ "You need to configure an identity\n"
-#~ "before you can send mail."
-#~ msgstr ""
-#~ "Вы должны настроить идентификацию\n"
-#~ "до того как вы сможете послать почту."
-
-#~ msgid "Move message(s) to"
-#~ msgstr "Переместить сообщение в"
