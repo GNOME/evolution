@@ -490,9 +490,7 @@ e_shell_construct (EShell *shell,
 
 	priv->local_directory      = g_strdup (local_directory);
 	priv->folder_type_registry = e_folder_type_registry_new ();
-	gtk_object_ref (GTK_OBJECT (priv->folder_type_registry ));
 	priv->storage_set          = e_storage_set_new (shell->priv->folder_type_registry);
-	gtk_object_ref (GTK_OBJECT (priv->storage_set ));
 	gtk_object_ref (GTK_OBJECT (gconf_client));
 	priv->gconf_client         = gconf_client;
 
@@ -561,7 +559,8 @@ e_shell_new_view (EShell *shell,
 	view = e_shell_view_new (shell);
 
 	gtk_widget_show (view);
-	gtk_signal_connect (GTK_OBJECT (view), "destroy", GTK_SIGNAL_FUNC (view_destroy_cb), shell);
+	gtk_signal_connect (GTK_OBJECT (view), "destroy",
+			    GTK_SIGNAL_FUNC (view_destroy_cb), shell);
 
 	if (uri != NULL)
 		e_shell_view_display_uri (E_SHELL_VIEW (view), uri);
@@ -818,11 +817,19 @@ e_shell_quit (EShell *shell)
 	priv->corba_storage_registry = NULL;
 
 	e_storage_set_remove_all_storages (priv->storage_set);
-	gtk_object_unref (GTK_OBJECT (priv->storage_set));
 
+	/*
+	 *  Ok, so you thought the GUI components lifecycle was coupled to
+	 * the Shell's, in fact this is not the case, they are unref'd
+	 * here, and NULL'd to avoid shell destruction killing them again.
+	 * So; the shell can be destroyed either remotely or localy.
+	 */
+
+	gtk_object_unref (GTK_OBJECT (priv->storage_set));
 	gtk_object_unref (GTK_OBJECT (priv->shortcuts));
 	gtk_object_unref (GTK_OBJECT (priv->folder_type_registry));
 	gtk_object_unref (GTK_OBJECT (priv->component_registry));
+
 	priv->storage_set          = NULL;
 	priv->shortcuts            = NULL;
 	priv->folder_type_registry = NULL;

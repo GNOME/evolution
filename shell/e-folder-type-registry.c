@@ -155,7 +155,8 @@ set_handler (EFolderTypeRegistry *folder_type_registry,
 	if (folder_type == NULL)
 		return FALSE;
 	if (folder_type->handler != NULL) {
-		g_warning ("Folder type already has a handler -- %s", folder_type->name);
+		g_warning ("Folder type already has a handler -- %s",
+			   folder_type->name);
 		return FALSE;
 	}
 
@@ -188,7 +189,8 @@ destroy (GtkObject *object)
 	folder_type_registry = E_FOLDER_TYPE_REGISTRY (object);
 	priv = folder_type_registry->priv;
 
-	g_hash_table_foreach (priv->name_to_type, hash_forall_free_folder_type, NULL);
+	g_hash_table_foreach (priv->name_to_type,
+			      hash_forall_free_folder_type, NULL);
 	g_hash_table_destroy (priv->name_to_type);
 
 	g_free (priv);

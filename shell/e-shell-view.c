@@ -482,6 +482,8 @@ destroy (GtkObject *object)
 	g_hash_table_foreach (priv->uri_to_control, hash_forall_destroy_control, NULL);
 	g_hash_table_destroy (priv->uri_to_control);
 
+	bonobo_object_unref (priv->uih);
+
 	g_free (priv->uri);
 
 	g_free (priv);
@@ -841,8 +843,9 @@ get_control_for_uri (EShellView *shell_view,
 
 	CORBA_exception_init (&ev);
 
-	corba_control = Evolution_ShellComponent_create_view (handler, e_folder_get_physical_uri (folder),
-							      folder_type, &ev);
+	corba_control = Evolution_ShellComponent_create_view (
+		handler, e_folder_get_physical_uri (folder), folder_type, &ev);
+
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		CORBA_exception_free (&ev);
 		return NULL;

@@ -198,7 +198,8 @@ destroy (GtkObject *object)
 
 	gtk_object_unref (GTK_OBJECT (priv->folder_type_registry));
 
-	g_hash_table_foreach (priv->name_to_named_storage, (GHFunc) named_storage_destroy, NULL);
+	g_hash_table_foreach (priv->name_to_named_storage,
+			      (GHFunc) named_storage_destroy, NULL);
 	g_hash_table_destroy (priv->name_to_named_storage);
 
 	g_free (priv);

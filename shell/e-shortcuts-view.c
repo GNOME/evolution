@@ -369,6 +369,9 @@ destroy (GtkObject *object)
 	shortcuts_view = E_SHORTCUTS_VIEW (object);
 
 	priv = shortcuts_view->priv;
+
+	gtk_object_unref (GTK_OBJECT (priv->shortcuts));
+
 	g_free (priv);
 
 	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
