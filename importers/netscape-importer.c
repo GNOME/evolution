@@ -444,7 +444,57 @@ netscape_import_accounts (NetscapeImporter *importer)
 
 	CORBA_exception_free (&ev);
 }
+
+static gboolean
+is_dir_empty (const char *path)
+{
+	DIR *base;
+	struct stat buf;
+	struct dirent *contents;
+
+	base = opendir (path);
+	if (base == NULL) {
+		return TRUE; /* Can't open dir */
+	}
 	
+	contents = readdir (base);
+	while (contents != NULL) {
+		char *fullpath;
+		
+		if (strcmp (contents->d_name, ".") == 0 ||
+		    strcmp (contents->d_name, "..") == 0) {
+			contents = readdir (base);
+			continue;
+		}
+
+		fullpath = g_concat_dir_and_file (path, contents->d_name);
+		stat (fullpath, &buf);
+		if (S_ISDIR (buf.st_mode)) {
+			gboolean sub;
+
+			sub = is_dir_empty (fullpath);
+			if (sub == FALSE) {
+				g_free (fullpath);
+				closedir (base);
+				return FALSE;
+			}
+		} else {
+			/* File */
+			if (buf.st_size != 0) {
+				g_free (fullpath);
+				closedir (base);
+				return FALSE;
+			}
+		}
+
+		g_free (fullpath);
+		contents = readdir (base);
+	}
+
+	closedir (base);
+	return TRUE;
+}
+
 static gboolean
 netscape_can_import (EvolutionIntelligentImporter *ii,
 		     void *closure)
@@ -477,10 +527,11 @@ netscape_can_import (EvolutionIntelligentImporter *ii,
 	}
 
 	nsmail_dir = g_hash_table_lookup (user_prefs, "mail.directory");
-	if (nsmail_dir == NULL)
+	if (nsmail_dir == NULL) {
 		return FALSE;
-	else
-		return TRUE;
+	} else {
+		return !is_dir_empty (nsmail_dir);
+	}
 }
 
 static void
