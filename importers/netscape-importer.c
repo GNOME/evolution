@@ -256,6 +256,14 @@ netscape_init_prefs (void)
 	while (fgets (line, 4096, prefs_handle)) {
 		char *key, *value;
 
+		if (*line == 0) {
+			continue;
+		}
+
+		if (*line == '/' && line[1] == '/') {
+			continue;
+		}
+
 		key = netscape_get_key (line);
 		value = netscape_get_value (line);
 
@@ -334,7 +342,6 @@ netscape_import_accounts (NetscapeImporter *importer)
 	account.name = CORBA_string_dup (nstr ? nstr : "");
 	account.default_account = FALSE;
 	account.id = id;
-	account.source = source;
 	account.transport = transport;
 
 	account.drafts_folder_name = CORBA_string_dup ("");
@@ -346,6 +353,7 @@ netscape_import_accounts (NetscapeImporter *importer)
 	nstr = netscape_get_string ("network.hosts.pop_server");
 	if (nstr != NULL && *nstr != 0) {
 		char *url;
+		gboolean bool;
 		const char *nstr2;
 
 		nstr2 = netscape_get_string ("mail.pop_name");
@@ -355,9 +363,13 @@ netscape_import_accounts (NetscapeImporter *importer)
 			url = g_strconcat ("pop://", nstr, NULL);
 		}
 		source.url = CORBA_string_dup (url);
+		bool = netscape_get_boolean ("mail.leave_on_server");
+		g_warning ("mail.leave_on_server: %s", bool ? "true" : "false");
 		source.keep_on_server = netscape_get_boolean ("mail.leave_on_server");
 		source.auto_check = TRUE;
 		source.auto_check_time = 10;
+		bool = netscape_get_boolean ("mail.remember_password");
+		g_warning ("mail.remember_password: %s", bool ? "true" : "false");
 		source.save_passwd = netscape_get_boolean ("mail.remember_password");
 		source.enabled = TRUE;
 		g_free (url);
@@ -421,6 +433,7 @@ netscape_import_accounts (NetscapeImporter *importer)
 			return;
 		}
 	}
+	account.source = source;
 
 	GNOME_Evolution_MailConfig_addAccount (objref, &account, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
