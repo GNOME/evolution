@@ -1,5 +1,15 @@
 2000-05-07  Christopher James Lahey  <clahey@helixcode.com>
 
+	* backend/pas/pas-backend-file.c, backend/pas/pas-backend-ldap.c:
+	Removed some code that was notifying too many clients at the wrong
+	times.
+
+	* gui/component/addressbook.c: Set view->book.  Unreffed
+	view->book.  Unreffed the model instead of destroying it.  Removed
+	the /tmp/test.db stuff.
+
+2000-05-07  Christopher James Lahey  <clahey@helixcode.com>
+
 	* gui/component/addressbook.c: Make the addressbook create the
 	correct file uri.  Added a default query.  Initialize view->model
 	and view->view to NULL.

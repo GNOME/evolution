@@ -898,18 +898,8 @@ pas_backend_ldap_load_uri (PASBackend             *backend,
 
 		pas_backend_ldap_ensure_connected(bl);
 		return TRUE;
-	} else {
-		GList *l;
-
-		for (l = bl->priv->clients; l; l = l->next) {
-			PASBook *book;
-
-			book = PAS_BOOK (l->data);
-			pas_book_respond_open (book, Evolution_BookListener_OtherError);
-		}
-
+	} else
 		return FALSE;
-	}
 }
 
 /* Get_uri handler for the addressbook LDAP backend */

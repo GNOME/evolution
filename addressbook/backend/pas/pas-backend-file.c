@@ -947,18 +947,8 @@ pas_backend_file_load_uri (PASBackend             *backend,
 		
 		g_free(bf->priv->uri);
 		bf->priv->uri = g_strdup (uri);
-	} else {
-		GList *l;
-
-		for (l = bf->priv->clients; l; l = l->next) {
-			PASBook *book;
-
-			book = PAS_BOOK (l->data);
-			pas_book_respond_open (book, Evolution_BookListener_OtherError);
-		}
-
+	} else
 		return FALSE;
-	}
 
 	return TRUE;
 }

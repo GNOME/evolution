@@ -301,7 +301,7 @@ search_entry_activated (GtkWidget* widget, gpointer user_data)
 			search_word);
 	else
 		search_query = g_strdup (
-			"(contains \"full_name\" \"\")");		
+			"(contains \"full_name\" \"\")");
 
 	set_query(view, search_query);
 
@@ -315,7 +315,7 @@ make_quick_search_widget (GtkSignalFunc start_search_func,
 	GtkWidget *search_vbox = gtk_vbox_new (FALSE, 0);
 	GtkWidget *search_entry = gtk_entry_new ();
 
-	if (start_search_func) 
+	if (start_search_func)
 	{
 		gtk_signal_connect (GTK_OBJECT (search_entry), "activate",
 				    (GtkSignalFunc) search_entry_activated,
@@ -324,7 +324,7 @@ make_quick_search_widget (GtkSignalFunc start_search_func,
 	
 	/* add the search entry to the our search_vbox */
 	gtk_box_pack_start (GTK_BOX (search_vbox), search_entry,
-			    FALSE, TRUE, 3);	
+			    FALSE, TRUE, 3);
 	gtk_box_pack_start (GTK_BOX (search_vbox),
 			    gtk_label_new("Quick Search"),
 			    FALSE, TRUE, 0);
@@ -421,6 +421,8 @@ addressbook_view_free(AddressbookView *view)
 {
 	if (view->properties)
 		bonobo_object_unref(BONOBO_OBJECT(view->properties));
+	if (view->book)
+		gtk_object_unref(GTK_OBJECT(view->book));
 	g_free(view->uri);
 	g_free(view);
 }
@@ -431,26 +433,6 @@ book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 	AddressbookView *view = closure;
 	if (status == E_BOOK_STATUS_SUCCESS) {
 		set_book (view);
-	}
-}
-
-static void
-ebook_create (AddressbookView *view)
-{
-	view->book = e_book_new ();
-
-	if (!view->book) {
-		printf ("%s: %s(): Couldn't create EBook, bailing.\n",
-			__FILE__,
-			__FUNCTION__);
-		return;
-	}
-	
-
-
-	if (! e_book_load_uri (view->book, "file:/tmp/test.db", book_open_cb, view))
-	{
-		printf ("error calling load_uri!\n");
 	}
 }
 
@@ -554,11 +536,11 @@ set_prop (BonoboPropertyBag *bag,
 			uri_data = g_strdup_printf("file://%s", file_name);
 			g_free(file_name);
 		}
-		
 		if (! e_book_load_uri (book, uri_data, book_open_cb, view))
-			{
-				printf ("error calling load_uri!\n");
-			}
+			printf ("error calling load_uri!\n");
+		else
+			view->book = book;
+
 		
 		g_free(uri_data);
 		g_free(uri_file);
@@ -675,7 +657,7 @@ teardown_table_view (AddressbookView *view)
 		view->table = NULL;
 	}
 	if (view->model) {
-		gtk_object_destroy (GTK_OBJECT (view->model));
+		gtk_object_unref (GTK_OBJECT (view->model));
 		view->model = NULL;
 	}
 }
@@ -802,8 +784,6 @@ addressbook_factory (BonoboGenericFactory *Factory, void *closure)
 	change_view_type (view, ADDRESSBOOK_VIEW_TABLE);
 
 	gtk_widget_show_all( view->vbox );
-
-	ebook_create(view);
 
 	view->properties = bonobo_property_bag_new (get_prop, set_prop, view);
 
