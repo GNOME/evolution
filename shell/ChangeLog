@@ -1,5 +1,11 @@
 2001-06-26  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-storage-set-view.c (etree_value_at): Don't strdup "My
+	Evolution"!  It was getting leaked every time the e-table wanted
+	to read the value this way.
+
+2001-06-26  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-local-storage.c: Removed member `BonoboListener' from
 	`AsyncCreateFolderCallbackData' and
 	`AsyncRemoveFolderCallbackData'.

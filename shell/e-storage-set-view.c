@@ -1436,7 +1436,7 @@ etree_value_at (ETreeModel *etree, ETreePath tree_path, int col, void *model_dat
 	if (storage != NULL && col == 0)
 		return (void *) e_storage_get_name (storage);
 
-	return g_strdup ("My Evolution");
+	return _("My Evolution");
 }
 
 static void
