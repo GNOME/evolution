@@ -1,5 +1,8 @@
 2000-11-29  Dan Winship  <danw@helixcode.com>
 
+	* camel-mime-utils.c: 
+	* camel-mime-filter-charset.c: Use iconv instead of unicode_iconv.
+
 	* providers/imap/camel-imap-command.c (imap_read_untagged): Fix
 	some off-by-one-ness.
 

@@ -19,7 +19,7 @@
  */
 
 
-#include <unicode.h>
+#include <iconv.h>
 
 #include <string.h>
 #include <errno.h>
@@ -59,9 +59,9 @@ camel_mime_filter_charset_finalize(CamelObject *o)
 
 	g_free(f->from);
 	g_free(f->to);
-	if (f->ic != (unicode_iconv_t)-1) {
-		unicode_iconv_close(f->ic);
-		f->ic = (unicode_iconv_t) -1;
+	if (f->ic != (iconv_t)-1) {
+		iconv_close(f->ic);
+		f->ic = (iconv_t) -1;
 	}
 }
 
@@ -74,9 +74,9 @@ reset(CamelMimeFilter *mf)
 	int outlen = 16;
 
 	/* what happens with the output bytes if this resets the state? */
-	if (f->ic != (unicode_iconv_t) -1) {
+	if (f->ic != (iconv_t) -1) {
 		buffer = buf;
-		unicode_iconv(f->ic, NULL, 0, &buffer, &outlen);
+		iconv(f->ic, NULL, 0, &buffer, &outlen);
 	}
 }
 
@@ -89,7 +89,7 @@ complete(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out,
 	char *outbuf;
 	int inlen, outlen;
 
-	if (f->ic == (unicode_iconv_t) -1) {
+	if (f->ic == (iconv_t) -1) {
 		goto donothing;
 	}
 
@@ -106,7 +106,7 @@ complete(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out,
 	d(memset(outbuf, 0, outlen));
 
 	if (inlen>0) {
-		converted = unicode_iconv(f->ic, &inbuf, &inlen, &outbuf, &outlen);
+		converted = iconv(f->ic, &inbuf, &inlen, &outbuf, &outlen);
 		if (converted == -1) {
 			if (errno != EINVAL) {
 				g_warning("error occured converting: %s", strerror(errno));
@@ -121,7 +121,7 @@ complete(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out,
 
 	/* this 'resets' the output stream, returning back to the initial
 	   shift state for multishift charactersets */
-	converted = unicode_iconv(f->ic, NULL, 0, &outbuf, &outlen);
+	converted = iconv(f->ic, NULL, 0, &outbuf, &outlen);
 	if (converted == -1) {
 		g_warning("Conversion failed to complete: %s", strerror(errno));
 	}
@@ -155,7 +155,7 @@ filter(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out, s
 	char *outbuf;
 	int inlen, outlen;
 
-	if (f->ic == (unicode_iconv_t) -1) {
+	if (f->ic == (iconv_t) -1) {
 		goto donothing;
 	}
 
@@ -165,7 +165,7 @@ filter(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out, s
 	inlen = len;
 	outbuf = mf->outbuf;
 	outlen = mf->outsize;
-	converted = unicode_iconv(f->ic, &inbuf, &inlen, &outbuf, &outlen);
+	converted = iconv(f->ic, &inbuf, &inlen, &outbuf, &outlen);
 	if (converted == -1) {
 		if (errno != EINVAL) {
 			g_warning("error occured converting: %s", strerror(errno));
@@ -208,7 +208,7 @@ camel_mime_filter_charset_class_init (CamelMimeFilterCharsetClass *klass)
 static void
 camel_mime_filter_charset_init (CamelMimeFilterCharset *obj)
 {
-	obj->ic = (unicode_iconv_t)-1;
+	obj->ic = (iconv_t)-1;
 }
 
 /**
@@ -230,8 +230,8 @@ camel_mime_filter_charset_new_convert(const char *from_charset, const char *to_c
 {
 	CamelMimeFilterCharset *new = CAMEL_MIME_FILTER_CHARSET ( camel_object_new (camel_mime_filter_charset_get_type ()));
 
-	new->ic = unicode_iconv_open(to_charset, from_charset);
-	if (new->ic == (unicode_iconv_t) -1) {
+	new->ic = iconv_open(to_charset, from_charset);
+	if (new->ic == (iconv_t) -1) {
 		g_warning("Cannot create charset conversion from %s to %s: %s", from_charset, to_charset, strerror(errno));
 		camel_object_unref((CamelObject *)new);
 		new = NULL;

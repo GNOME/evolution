@@ -33,6 +33,7 @@
 #include <unistd.h>
 
 #include <unicode.h>
+#include <iconv.h>
 
 #include <glib.h>
 #include <time.h>
@@ -874,7 +875,7 @@ rfc2047_decode_word(const char *in, int len)
 	char *outbase = NULL;
 	char *inbuf, *outbuf;
 	int inlen, outlen;
-	unicode_iconv_t ic;
+	iconv_t ic;
 
 	d(printf("decoding '%.*s'\n", len, in));
 
@@ -920,10 +921,10 @@ rfc2047_decode_word(const char *in, int len)
 			outbuf = outbase;
 
 			/* TODO: Should this cache iconv converters? */
-			ic = unicode_iconv_open("UTF-8", encname);
-			if (ic != (unicode_iconv_t)-1) {
-				ret = unicode_iconv(ic, (const char **)&inbuf, &inlen, &outbuf, &outlen);
-				unicode_iconv_close(ic);
+			ic = iconv_open("UTF-8", encname);
+			if (ic != (iconv_t)-1) {
+				ret = iconv(ic, (const char **)&inbuf, &inlen, &outbuf, &outlen);
+				iconv_close(ic);
 				if (ret>=0) {
 					*outbuf = 0;
 					decoded = g_strdup(outbase);
@@ -1098,7 +1099,7 @@ header_decode_string(const char *in)
 static void
 rfc2047_encode_word(GString *outstring, const char *in, int len, const char *type, unsigned short safemask)
 {
-	unicode_iconv_t ic;
+	iconv_t ic;
 	char *buffer, *out, *ascii;
 	size_t inlen, outlen, enclen;
 
@@ -1112,15 +1113,15 @@ rfc2047_encode_word(GString *outstring, const char *in, int len, const char *typ
 
 	/* if we can't convert from utf-8, just encode as utf-8 */
 	if (!strcasecmp(type, "UTF-8")
-	    || (ic = unicode_iconv_open(type, "UTF-8")) == (unicode_iconv_t)-1) {
+	    || (ic = iconv_open(type, "UTF-8")) == (iconv_t)-1) {
 		memcpy(buffer, in, len);
 		out = buffer+len;
 		type = "UTF-8";
 	} else {
-		if (unicode_iconv(ic, &in, &inlen, &out, &outlen) == -1) {
+		if (iconv(ic, &in, &inlen, &out, &outlen) == -1) {
 			w(g_warning("Conversion problem: conversion truncated: %s", strerror(errno)));
 		}
-		unicode_iconv_close(ic);
+		iconv_close(ic);
 	}
 	enclen = out-buffer;
 
@@ -3126,16 +3127,16 @@ void run_test(void)
 		inbuf = "Dra¾en Kaèar";
 		inlen = strlen(inbuf);
 		outbuf = buffer;
-		ic = unicode_iconv_open("UTF-8", "ISO-8859-1");
-		unicode_iconv(ic, &inbuf, &inlen, &outbuf, &outlen);
+		ic = iconv_open("UTF-8", "ISO-8859-1");
+		iconv(ic, &inbuf, &inlen, &outbuf, &outlen);
 		test_phrase(buffer);
 
 		outlen = 256;
 		inbuf = "This is an encoded phrase Tomasz K³oczko";
 		inlen = strlen(inbuf);
 		outbuf = buffer;
-		ic = unicode_iconv_open("UTF-8", "ISO-8859-2");
-		unicode_iconv(ic, &inbuf, &inlen, &outbuf, &outlen);
+		ic = iconv_open("UTF-8", "ISO-8859-2");
+		iconv(ic, &inbuf, &inlen, &outbuf, &outlen);
 		test_phrase(buffer);
 
 	}
