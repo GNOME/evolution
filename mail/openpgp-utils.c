@@ -67,7 +67,7 @@ static PgpType pgp_type = PGP_TYPE_NONE;
 static const gchar *
 pgp_get_type_as_string (PgpType type)
 {
-	switch (pgp_type) {
+	switch (type) {
 	case PGP_TYPE_GPG:
 		return "GnuPG";
 	case PGP_TYPE_PGP5:
