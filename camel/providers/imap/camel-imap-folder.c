@@ -769,9 +769,9 @@ imap_sync_online (CamelFolder *folder, CamelException *ex)
 	 */
 	max = camel_folder_summary_count (folder->summary);
 	for (i = 0; i < max; i++) {
-		info = camel_folder_summary_index (folder->summary, i);
-		if (!info)
+		if (!(info = camel_folder_summary_index (folder->summary, i)))
 			continue;
+		
 		if (!(info->flags & CAMEL_MESSAGE_FOLDER_FLAGGED)) {
 			camel_folder_summary_info_free (folder->summary, info);
 			continue;
@@ -780,23 +780,23 @@ imap_sync_online (CamelFolder *folder, CamelException *ex)
 		/* Note: Cyrus is broken and will not accept an
 		   empty-set of flags so... if this is true then we
 		   want to unset the previously set flags.*/
-		unset = !(info->flags & CAMEL_IMAP_SERVER_FLAGS);
-				
+		unset = !(info->flags & folder->permanent_flags);
+		
 		/* Note: get_matching() uses UID_SET_LIMIT to limit
 		   the size of the uid-set string. We don't have to
 		   loop here to flush all the matching uids because
 		   they will be scooped up later by our parent loop (I
 		   think?). -- Jeff */
-		matches = get_matching (folder, info->flags & (CAMEL_IMAP_SERVER_FLAGS | CAMEL_MESSAGE_FOLDER_FLAGGED),
-					CAMEL_IMAP_SERVER_FLAGS | CAMEL_MESSAGE_FOLDER_FLAGGED, &set);
+		matches = get_matching (folder, info->flags & (folder->permanent_flags | CAMEL_MESSAGE_FOLDER_FLAGGED),
+					folder->permanent_flags | CAMEL_MESSAGE_FOLDER_FLAGGED, &set);
 		camel_folder_summary_info_free (folder->summary, info);
 		if (matches == NULL)
 			continue;
 		
 		/* FIXME: since we don't know the previously set flags,
 		   if unset is TRUE then just unset all the flags? */
-		flaglist = imap_create_flag_list (unset ? CAMEL_IMAP_SERVER_FLAGS : info->flags);
-
+		flaglist = imap_create_flag_list (unset ? folder->permanent_flags : info->flags & folder->permanent_flags);
+		
 		/* Note: to `unset' flags, use -FLAGS.SILENT (<flag list>) */
 		response = camel_imap_command (store, folder, &local_ex,
 					       "UID STORE %s %sFLAGS.SILENT %s",
@@ -811,7 +811,7 @@ imap_sync_online (CamelFolder *folder, CamelException *ex)
 			for (j = 0; j < matches->len; j++) {
 				info = matches->pdata[j];
 				info->flags &= ~CAMEL_MESSAGE_FOLDER_FLAGGED;
-				((CamelImapMessageInfo*)info)->server_flags =
+				((CamelImapMessageInfo *) info)->server_flags =
 					info->flags & CAMEL_IMAP_SERVER_FLAGS;
 			}
 			camel_folder_summary_touch (folder->summary);

@@ -1,3 +1,8 @@
+2004-01-17  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap/camel-imap-folder.c (imap_sync_online): Limit the
+	flags we set (or unset) to the folder's permanent flags.
+
 2004-01-16  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-mime-message.c (camel_mime_message_build_mbox_from): Same.
