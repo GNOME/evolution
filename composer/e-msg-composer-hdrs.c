@@ -201,34 +201,37 @@ create_from_optionmenu (EMsgComposerHdrs *hdrs)
 			continue;
 		}
 		
-		if (strcmp (account->name, account->id->address))
-			label = g_strdup_printf ("%s <%s> (%s)", account->id->name,
-						 account->id->address, account->name);
-		else
-			label = g_strdup_printf ("%s <%s>", account->id->name, account->id->address);
-		
-		native_label = e_utf8_to_gtk_string (GTK_WIDGET (menu), label);
-		item = gtk_menu_item_new_with_label (native_label);
-		g_free (native_label);
-		g_free (label);
-		
-		gtk_object_set_data (GTK_OBJECT (item), "account", account_copy (account));
-		gtk_signal_connect (GTK_OBJECT (item), "activate",
-				    GTK_SIGNAL_FUNC (from_changed), hdrs);
-		
-		if (i == default_account) {
-			first = item;
-			history = i;
+		if (account->id->address && *account->id->address) {
+
+			if (strcmp (account->name, account->id->address))
+				label = g_strdup_printf ("%s <%s> (%s)", account->id->name,
+							 account->id->address, account->name);
+			else
+				label = g_strdup_printf ("%s <%s>", account->id->name, account->id->address);
+			
+			native_label = e_utf8_to_gtk_string (GTK_WIDGET (menu), label);
+			item = gtk_menu_item_new_with_label (native_label);
+			g_free (native_label);
+			g_free (label);
+			
+			gtk_object_set_data (GTK_OBJECT (item), "account", account_copy (account));
+			gtk_signal_connect (GTK_OBJECT (item), "activate",
+					    GTK_SIGNAL_FUNC (from_changed), hdrs);
+			
+			if (i == default_account) {
+				first = item;
+				history = i;
+			}
+			
+			/* this is so we can later set which one we want */
+			hdrs->priv->from_options = g_slist_append (hdrs->priv->from_options, item);
+			
+			gtk_menu_append (GTK_MENU (menu), item);
+			gtk_widget_show (item);
+			++i;
 		}
 		
-		/* this is so we can later set which one we want */
-		hdrs->priv->from_options = g_slist_append (hdrs->priv->from_options, item);
-		
-		gtk_menu_append (GTK_MENU (menu), item);
-		gtk_widget_show (item);
-		
 		accounts = accounts->next;
-		i++;
 	}
 	
 	gtk_option_menu_set_menu (GTK_OPTION_MENU (omenu), menu);
@@ -397,6 +400,13 @@ create_headers (EMsgComposerHdrs *hdrs)
 		   "the message."));
 }
 
+static GtkDirectionType
+focus_cb (GtkContainer *contain, GtkDirectionType dir, gpointer closure)
+{
+	g_message ("FOCUS: %d", dir);
+	return dir;
+}
+
 static void
 attach_couple (EMsgComposerHdrs *hdrs, EMsgComposerHdrPair *pair, int line)
 {
@@ -406,7 +416,7 @@ attach_couple (EMsgComposerHdrs *hdrs, EMsgComposerHdrPair *pair, int line)
 		pad = GNOME_PAD;
 	else
 		pad = 2;
-	
+
 	gtk_table_attach (GTK_TABLE (hdrs),
 			  pair->label, 0, 1,
 			  line, line + 1,

@@ -1,3 +1,8 @@
+2001-10-22  Jon Trowbridge  <trow@ximian.com>
+
+	* e-msg-composer-hdrs.c (create_from_optionmenu): Check that
+	account->id->address != NULL.
+
 2001-10-21  Dan Winship  <danw@ximian.com>
 
 	Make inline images used for replies not show up as
