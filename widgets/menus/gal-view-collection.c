@@ -24,6 +24,7 @@
 #include <config.h>
 
 #include <util/e-i18n.h>
+#include <sys/stat.h>
 #include <ctype.h>
 #include <string.h>
 #include <errno.h>
@@ -384,13 +385,16 @@ load_single_dir (GalViewCollection *collection,
 		 char *dir,
 		 gboolean local)
 {
-	xmlDoc *doc;
+	xmlDoc *doc = NULL;
 	xmlNode *root;
 	xmlNode *child;
 	char *filename = g_concat_dir_and_file(dir, "galview.xml");
 	char *default_view;
-
-	doc = xmlParseFile(filename);
+	struct stat st;
+	
+	if (stat (filename, &st) != -1 && S_ISREG (st.st_mode))
+		doc = xmlParseFile (filename);
+	
 	if (!doc) {
 		g_free (filename);
 		return;
