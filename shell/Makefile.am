@@ -141,9 +141,12 @@ evolution_LDADD =						\
 	$(BONOBO_GNOME_LIBS)
 
 oafdir = $(datadir)/oaf
-oaf_DATA = GNOME_Evolution_Shell.oafinfo
+oaf_in_files = GNOME_Evolution_Shell.oaf.in
+oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)
 
-EXTRA_DIST = $(IDLS) $(oaf_DATA)
+@XML_I18N_MERGE_OAF_RULE@
+
+EXTRA_DIST = $(IDLS) $(oaf_in_files) $(oaf_DATA)
 
 # Purify support
 

@@ -1,3 +1,8 @@
+2001-02-12  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* Makefile.am: xml-i18n-tools setup.
+	* GNOME_Evolution_Shell.oaf.in: Mark strings for translation.
+	
 2001-02-10  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-view-menu.c: Moved the author list to the top of the
