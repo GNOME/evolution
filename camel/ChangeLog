@@ -1,3 +1,10 @@
+2002-09-13  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-mime-part.c (process_header): If header_msgid_decode fails
+	for the content-id field, just grab whatever is between the <>'s
+	(yes, this means that the content-id is invalid - but what can ya
+	do?). Addresses bug #21027.
+
 2002-09-11  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-mime-utils.c (header_encode_string): Revert a patch that I

@@ -212,7 +212,7 @@ process_header(CamelMedium *medium, const char *header_name, const char *header_
 {
 	CamelMimePart *mime_part = CAMEL_MIME_PART (medium);
 	CamelHeaderType header_type;
-	const char *charset;
+	const char *charset, *p;
 	char *text;
 
 	/* Try to parse the header pair. If it corresponds to something   */
@@ -234,7 +234,20 @@ process_header(CamelMedium *medium, const char *header_name, const char *header_
 		break;
 	case HEADER_CONTENT_ID:
 		g_free (mime_part->content_id);
-		mime_part->content_id = header_msgid_decode (header_value);
+		if (!(mime_part->content_id = header_msgid_decode (header_value))) {
+			header_decode_lwsp (&header_value);
+			if (*header_value == '<') {
+				p = header_value;
+				while (*p && *p != '>')
+					p++;
+				mime_part->content_id = g_strndup (header_value, p - header_value);
+			} else if (*header_value) {
+				mime_part->content_id = g_strdup (header_value);
+			}
+			
+			if (mime_part->header_value)
+				g_strstrip (mime_part->header_value);
+		}
 		break;
 	case HEADER_ENCODING:
 		text = header_token_decode (header_value);
