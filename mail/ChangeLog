@@ -1,3 +1,8 @@
+2001-08-31  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* mail-vfolder.c (vfolder_create_storage):
+	Marked string for translation (with U_).
+
 2001-08-28  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* message-list.c

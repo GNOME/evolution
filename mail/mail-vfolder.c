@@ -32,6 +32,8 @@
 #include "filter/vfolder-context.h"
 #include "filter/vfolder-editor.h"
 
+#include "e-util/e-unicode-i18n.h"
+
 #define d(x) x
 
 struct _vfolder_info {
@@ -275,7 +277,7 @@ vfolder_create_storage (EvolutionShellComponent *shell_component)
 	
 	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (global_shell_client));
 	
-	storage = evolution_storage_new (_("VFolders"), NULL, NULL);
+	storage = evolution_storage_new (U_("VFolders"), NULL, NULL);
 	if (evolution_storage_register_on_shell (storage, corba_shell) != EVOLUTION_STORAGE_OK) {
 		g_warning ("Cannot register storage");
 		return;
