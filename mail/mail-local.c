@@ -365,6 +365,12 @@ init_trash (CamelStore *store)
 			g_hash_table_foreach (local_store->folders, trash_add_folder, store);
 			/* unlock? */
 		}
+
+		/* would prefer not to special-case this, but... */
+		mail_folder_cache_note_folder ("vtrash:file:/", store->vtrash);
+		mail_folder_cache_set_update_lstorage ("vtrash:file:/", 
+						       local_store->corba_local_storage,
+						       "/local/Trash");
 	}
 }
 
