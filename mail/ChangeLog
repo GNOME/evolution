@@ -5,7 +5,7 @@
 	* em-folder-tree.c (emft_popup_rename_folder): Fixed a FIXME to
 	not use the OS-specific g_path_*() stuff.
 	(em_folder_tree_set_selected): For the case where the tree has
-	already loaded enough subfodlers to include the path we need to
+	already loaded enough subfolders to include the path we need to
 	select, exopand the nodes to that path as well. For the case that
 	the tree hasn't loaded enough of the folder nodes, load them and
 	then have the node selected/expanded to.
