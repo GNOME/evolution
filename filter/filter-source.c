@@ -33,6 +33,7 @@
 #include <gtk/gtk.h>
 #include <e-util/e-url.h>
 #include <e-util/e-sexp.h>
+#include <e-util/e-account-list.h>
 #include <camel/camel-url.h>
 
 
@@ -339,60 +340,30 @@ filter_source_add_source (FilterSource *fs, const char *account_name, const char
 static void
 filter_source_get_sources (FilterSource *fs)
 {
-#if 0
-	Bonobo_ConfigDatabase db;
-	CORBA_Environment ev;
-	int i, len;
-	
-	CORBA_exception_init (&ev);
-	db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", &ev);
-	
-	if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL) {
-		CORBA_exception_free (&ev);
-		return;
-	}
-	
-	CORBA_exception_free (&ev);
-	
-	len = bonobo_config_get_long_with_default (db, "/Mail/Accounts/num", 0, NULL);
-	
-	for (i = 0; i < len; i++) {
-		char *path, *account_name, *name, *addr, *uri;
-		CamelURL *url;
-		
-		path = g_strdup_printf ("/Mail/Accounts/source_url_%d", i);
-		uri = bonobo_config_get_string (db, path, NULL);
-		g_free (path);
-		
-		if (uri == NULL || *uri == '\0') {
-			g_free (uri);
+	EAccountList *accounts;
+	const EAccount *account;
+	EIterator *it;
+	char *uri;
+	CamelURL *url;
+
+	/* should this get the global object from mail? */
+	accounts = e_account_list_new(gconf_client_get_default());
+	for (it = e_list_get_iterator((EList *)accounts);
+	     e_iterator_is_valid(it);
+	     e_iterator_next(it)) {
+		account = (const EAccount *)e_iterator_get(it);
+
+		if (account->source == NULL || account->source->url == NULL)
 			continue;
-		}
-		
-		path = g_strdup_printf ("/Mail/Accounts/account_name_%d", i);
-		account_name = bonobo_config_get_string (db, path, NULL);
-		g_free (path);
-		
-		path = g_strdup_printf ("/Mail/Accounts/identity_name_%d", i);
-		name = bonobo_config_get_string (db, path, NULL);
-		g_free (path);
-		
-		path = g_strdup_printf ("/Mail/Accounts/identity_address_%d", i);
-		addr = bonobo_config_get_string (db, path, NULL);
-		g_free (path);
-		
-		/* hide unwanted url params and stuff */
-		url = camel_url_new (uri, NULL);
-		g_free (uri);
+
+		/* hide secret stuff */
+		url = camel_url_new (account->source->url, NULL);
 		uri = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
 		camel_url_free (url);
-		
-		filter_source_add_source (fs, account_name, name, addr, uri);
-		
-		g_free (account_name);
-		g_free (name);
-		g_free (addr);
-		g_free (uri);
+
+		filter_source_add_source (fs, account->name, account->id->name, account->id->address, uri);
+		g_free(uri);
 	}
-#endif
+	g_object_unref(it);
+	g_object_unref(accounts);
 }

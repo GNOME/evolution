@@ -1,3 +1,8 @@
+2003-02-20  Not Zed  <NotZed@Ximian.com>
+
+	* filter-source.c (filter_source_get_sources): Change to use
+	EAccountList, etc.
+
 2003-02-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* vfolder-rule.c (source_add): Get rid of the need for the
