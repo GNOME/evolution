@@ -26,6 +26,7 @@
 
 #include <bonobo.h>
 #include <evolution-services/executive-summary.h>
+#include <evolution-services/executive-summary-component-view.h>
 
 #define EXECUTIVE_SUMMARY_COMPONENT_CLIENT_TYPE (executive_summary_component_client_get_type ())
 #define EXECUTIVE_SUMMARY_COMPONENT_CLIENT(obj) (GTK_CHECK_CAST ((obj), EXECUTIVE_SUMMARY_COMPONENT_CLIENT_TYPE, ExecutiveSummaryComponentClient))
@@ -57,14 +58,10 @@ void executive_summary_component_client_unset_owner (ExecutiveSummaryComponentCl
 void executive_summary_component_client_supports (ExecutiveSummaryComponentClient *client,
 						  gboolean *bonobo,
 						  gboolean *html);
-Bonobo_Control executive_summary_component_client_create_bonobo_view (ExecutiveSummaryComponentClient *client,
-								      char **title,
-								      char **icon);
-
-char *executive_summary_component_client_create_html_view (ExecutiveSummaryComponentClient *client,
-							   char **title,
-							   char **icon);
 
 void executive_summary_component_client_configure (ExecutiveSummaryComponentClient *client);
+void executive_summary_component_client_destroy_view (ExecutiveSummaryComponentClient *client,
+						      ExecutiveSummaryComponentView *view);
 
 #endif
+

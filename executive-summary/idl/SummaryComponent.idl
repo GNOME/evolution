@@ -42,7 +42,8 @@ module Evolution {
 		 * Creates a summary of the data that the component has.
 		 * Returns: The ID of the view.
 		 */
-		long create_view (out Bonobo::Control control,
+		long create_view (in long id,
+				  out Bonobo::Control control,
 		                  out string html,
 				  out string title,
 			          out string icon);

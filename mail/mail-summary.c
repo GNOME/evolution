@@ -48,6 +48,7 @@ typedef struct {
 	CamelFolder *folder;
 
 	char *name;
+	char *uri;
 	int total, unread;
 } FolderSummary;
 
@@ -129,6 +130,7 @@ static void
 folder_free (FolderSummary *folder)
 {
 	g_free (folder->name);
+	g_free (folder->uri);
 }
 
 static void
@@ -162,7 +164,7 @@ generate_html_summary (MailSummary *summary)
 	/* Inbox first */
 	fs = summary->folders[0];
 
-	tmp = g_strdup_printf ("<table><tr><td><b>%s:</b>"
+	tmp = g_strdup_printf ("<table><tr><td><b><a href=\"view://evolution:/local/Inbox\">%s</a>:</b>"
 			       "<td align=\"right\">%d/%d</td></tr>",
 			       fs->name, fs->unread, fs->total);
 
@@ -171,9 +173,9 @@ generate_html_summary (MailSummary *summary)
 		char *tmp2; 
 
 		fs = summary->folders[i];
-		tmp2 = g_strdup_printf ("<tr><td>%s:</td>"
+		tmp2 = g_strdup_printf ("<tr><td><a href=\"view://%s\">%s</a>:</td>"
 					"<td align=\"right\">%d/%d</td></tr>",
-					fs->name, fs->unread, fs->total);
+					fs->uri, fs->name, fs->unread, fs->total);
 
 		tmp = ret_html;
 		ret_html = g_strconcat (ret_html, tmp2, NULL);
@@ -260,7 +262,7 @@ message_changed_cb (CamelObject *folder,
 }
 
 static void
-generate_folder_summarys (MailSummary *summary)
+generate_folder_summaries (MailSummary *summary)
 {
 	int numfolders = 1; /* Always at least the Inbox */
 	char *user, *system;
@@ -289,9 +291,11 @@ generate_folder_summarys (MailSummary *summary)
 	/* Inbox */
 	fs = summary->folders[0] = g_new (FolderSummary, 1);
 	fs->name = g_strdup ("Inbox");
+	fs->uri = NULL;
 	mail_tool_camel_lock_up ();
 	ex = camel_exception_new ();
 	fs->folder = mail_tool_get_local_inbox (ex);
+
 	fs->total = camel_folder_get_message_count (fs->folder);
 	fs->unread = camel_folder_get_unread_message_count (fs->folder);
 	camel_exception_free (ex);
@@ -318,6 +322,7 @@ generate_folder_summarys (MailSummary *summary)
 		uri = g_strconcat ("vfolder:", rule->name, NULL);
 		mail_tool_camel_lock_up ();
 		fs->folder = vfolder_uri_to_folder (uri, ex);
+		fs->uri = g_strconcat ("evolution:/VFolders/", rule->name, NULL);
 		g_free (uri);
 
 		fs->total = camel_folder_get_message_count (fs->folder);
@@ -355,7 +360,7 @@ create_summary_view (ExecutiveSummaryComponent *component,
 	summary->folder_to_summary = g_hash_table_new (NULL, NULL);
 	summary->view = view;
 
-	generate_folder_summarys (summary);
+	generate_folder_summaries (summary);
 
 	html = generate_html_summary (summary);
 

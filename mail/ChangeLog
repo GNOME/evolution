@@ -1,3 +1,13 @@
+2000-10-30  Iain Holmes  <iain@helixcode.com>
+
+	* mail-summary.c (generate_folder_summaries): Fix spelling :)
+	Set folder->uri to NULL for the Inbox.
+
+2000-10-26  Iain Holmes  <iain@helixcode.com>
+
+	* mail-summary.c (generate_html_summary): Add view:// uris to 
+	switch the display to that folder.
+
 2000-11-01  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* folder-browser-factory.c: Hmmm, someone can't spell Filder,

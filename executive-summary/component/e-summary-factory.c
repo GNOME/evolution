@@ -50,8 +50,8 @@
 
 static GList *control_list = NULL;
 
-GtkWidget* embed_service (GtkWidget *widget,
-			  ESummary *esummary);
+void embed_service (GtkWidget *widget,
+		    ESummary *esummary);
 
 BonoboUIVerb verbs[] = {
 	BONOBO_UI_UNSAFE_VERB ("AddService", embed_service),
@@ -118,11 +118,41 @@ control_activate_cb (BonoboControl *control,
 		     gboolean activate,
 		     gpointer user_data)
 {
+	ESummary *summary;
 	BonoboUIComponent *ui_component;
-  
+	Bonobo_ControlFrame control_frame;
+	Evolution_ShellView shell_view_interface;
+	CORBA_Environment ev;
+
 	ui_component = bonobo_control_get_ui_component (control);
 	g_assert (ui_component != NULL);
 
+	if (gtk_object_get_data (GTK_OBJECT (control), "shell_view_interface") == NULL) {
+		control_frame = bonobo_control_get_control_frame (control);
+		if (control_frame == NULL) {
+			goto out;
+		}
+
+		CORBA_exception_init (&ev);
+		shell_view_interface = Bonobo_Unknown_query_interface (control_frame,
+								       "IDL:Evolution/ShellView:1.0",
+								       &ev);
+		CORBA_exception_free (&ev);
+
+		if (shell_view_interface != CORBA_OBJECT_NIL) {
+			gtk_object_set_data (GTK_OBJECT (control),
+					     "shell_view_interface",
+					     shell_view_interface);
+		} else {
+			g_warning ("Control frame doesn't have Evolution/ShellView.");
+		}
+									       
+		summary = E_SUMMARY (user_data);
+		e_summary_set_shell_view_interface (summary, 
+						    shell_view_interface);
+	}
+
+ out:
 	if (activate)
 		control_activate (control, ui_component, user_data);
 	else
@@ -147,7 +177,6 @@ update (ExecutiveSummary *summary,
 	ESummary *esummary)
 {
 	ExecutiveSummaryComponentView *view;
-	g_print ("OI!\n");
 
 	view = e_summary_view_from_id (esummary, id);
 	executive_summary_component_view_set_html (view, html);
@@ -158,9 +187,12 @@ static void
 set_title (ExecutiveSummary *summary,
 	   int id,
 	   const char *title,
-	   gpointer user_data)
+	   ESummary *esummary)
 {
-	g_print ("Setting title to %s\n", title);
+	ExecutiveSummaryComponentView *view;
+	
+	view = e_summary_view_from_id (esummary, id);
+	executive_summary_component_view_set_title (view, title);
 }
 
 static void
@@ -186,48 +218,53 @@ view_destroyed (ExecutiveSummaryComponentView *view,
 /* A ********very********
    temporary function to embed something
 */
-GtkWidget*
+void
 embed_service (GtkWidget *widget,
 	       ESummary *esummary)
+{
+	char *required_interfaces[2] = {"IDL:Evolution:SummaryComponent:1.0",
+					NULL};
+	char *obj_id;
+	
+	obj_id = bonobo_selector_select_id ("Select a service",
+					    (const char **) required_interfaces);
+	if (obj_id == NULL)
+		return;
+
+	e_summary_factory_embed_service_from_id (esummary, obj_id);
+}
+
+void
+e_summary_factory_embed_service_from_id (ESummary *esummary,
+					 const char *obj_id)
 {
 	ExecutiveSummaryComponentClient *client;
 	ExecutiveSummary *summary;
 	ExecutiveSummaryComponentView *view;
-	char *required_interfaces[2] = {"IDL:Evolution:SummaryComponent:1.0",
-					NULL};
-	char *obj_id;
-	char *title;
-	char *icon;
-	char *html;
-
-	obj_id = bonobo_selector_select_id ("Select a service",
-					    (const char **) required_interfaces);
-	if (obj_id == NULL)
-		return NULL;
-
+	int id;
+	
 	client = executive_summary_component_client_new (obj_id);
-
-	if (client == NULL)
-		return NULL;
+	
+	g_return_if_fail (client != NULL);
 
 	/* Set the owner */
-	summary = executive_summary_new ();
+	summary = EXECUTIVE_SUMMARY (executive_summary_new ());
 	executive_summary_component_client_set_owner (client, summary);
 	gtk_signal_connect (GTK_OBJECT (summary), "flash",
-			    GTK_SIGNAL_FUNC (flash), NULL);
+			    GTK_SIGNAL_FUNC (flash), esummary);
 	gtk_signal_connect (GTK_OBJECT (summary), "set_title",
-			    GTK_SIGNAL_FUNC (set_title), NULL);
+			    GTK_SIGNAL_FUNC (set_title), esummary);
 	gtk_signal_connect (GTK_OBJECT (summary), "update",
 			    GTK_SIGNAL_FUNC (update), esummary);
 
 	/* Create view */
-	view = executive_summary_component_client_create_view (client);
+	id = executive_summary_component_create_unique_id ();
+	view = executive_summary_component_client_create_view (client, id);
 	gtk_signal_connect (GTK_OBJECT (view), "destroy",
 			    GTK_SIGNAL_FUNC (view_destroyed), client);
 
-	e_summary_add_service (esummary, summary, view);
+	e_summary_add_service (esummary, summary, view, obj_id);
 	e_summary_rebuild_page (esummary);
-	return NULL;
 }
 
 BonoboControl *

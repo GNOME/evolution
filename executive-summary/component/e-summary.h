@@ -29,8 +29,9 @@
 #include <gtk/gtkvbox.h>
 #include <evolution-services/executive-summary.h>
 #include <evolution-services/executive-summary-component-client.h>
+#include <evolution-services/executive-summary-component-view.h>
 
-#include "shell/Evolution.h"
+#include <Evolution.h>
 
 #define E_SUMMARY_TYPE (e_summary_get_type ())
 #define E_SUMMARY(obj) (GTK_CHECK_CAST ((obj), E_SUMMARY_TYPE, ESummary))
@@ -41,6 +42,13 @@
 typedef struct _ESummaryPrivate ESummaryPrivate;
 typedef struct _ESummary ESummary;
 typedef struct _ESummaryClass ESummaryClass;
+typedef struct _ESummaryWindow ESummaryWindow;
+
+struct _ESummaryWindow {
+	ExecutiveSummary *summary;
+	ExecutiveSummaryComponentView *view;
+	char *iid;
+};
 
 struct _ESummary {
   GtkVBox parent;
@@ -70,5 +78,35 @@ void e_summary_add_bonobo_service (ESummary *esummary,
 void e_summary_update_window (ESummary *esummary,
 			      ExecutiveSummary *summary,
 			      const char *html);
+void e_summary_window_free (ESummaryWindow *window,
+			    ESummary *esummary);
+void  e_summary_window_remove_from_ht (ESummaryWindow *window,
+				       ESummary *esummary);
+void e_summary_add_service (ESummary *esummary,
+			    ExecutiveSummary *summary,
+			    ExecutiveSummaryComponentView *view,
+			    const char *iid);
+ExecutiveSummaryComponentView * e_summary_view_from_id (ESummary *esummary,
+							int id);
+void e_summary_set_shell_view_interface (ESummary *summary,
+					 Evolution_ShellView svi);
+void e_summary_set_message (ESummary *esummary,
+			    const char *message,
+			    gboolean busy);
+void e_summary_unset_message (ESummary *esummary);
+void e_summary_change_current_view (ESummary *esummary,
+				    const char *uri);
+void e_summary_set_title (ESummary *esummary,
+			  const char *title);
+ESummaryWindow *e_summary_window_from_view (ESummary *esummary,
+					    ExecutiveSummaryComponentView *view);
+void e_summary_window_move_left (ESummary *esummary,
+				 ESummaryWindow *window);
+void e_summary_window_move_right (ESummary *esummary,
+				  ESummaryWindow *window);
+void e_summary_window_move_up (ESummary *esummary,
+			       ESummaryWindow *window);
+void e_summary_window_move_down (ESummary *esummary,
+				 ESummaryWindow *window);
 
 #endif

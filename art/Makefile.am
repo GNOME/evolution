@@ -18,6 +18,12 @@ images_DATA = \
 	globe.png           		\
 	house.png           		\
 	malehead.png			\
+	service-close.png		\
+	service-configure.png		\
+	service-down.png		\
+	service-left.png		\
+	service-right.png		\
+	service-up.png			\
 	splash.png
 
 buttonsdir = $(datadir)/images/evolution/buttons

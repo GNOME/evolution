@@ -145,6 +145,7 @@ impl_Evolution_SummaryComponent_unset_owner (PortableServer_Servant servant,
 
 static CORBA_long
 impl_Evolution_SummaryComponent_create_view (PortableServer_Servant servant,
+					     CORBA_long id,
 					     Bonobo_Control *control,
 					     CORBA_char **html,
 					     CORBA_char **title,
@@ -157,14 +158,12 @@ impl_Evolution_SummaryComponent_create_view (PortableServer_Servant servant,
 	ExecutiveSummaryComponentPrivate *priv;
 	BonoboObject *initial_control;
 	const char *initial_title, *initial_icon, *initial_html;
-	int id;
 	
 	bonobo_object = bonobo_object_from_servant (servant);
 	component = EXECUTIVE_SUMMARY_COMPONENT (bonobo_object);
 	priv = component->private;
 	
 	view = gtk_type_new (executive_summary_component_view_get_type ());
-	id = executive_summary_component_create_unique_id ();
 	executive_summary_component_view_set_id (view, id);
 
 	(* priv->create_view) (component, view, priv->closure);
@@ -182,7 +181,7 @@ impl_Evolution_SummaryComponent_create_view (PortableServer_Servant servant,
 	if (initial_control != NULL) {
 		*control = bonobo_object_corba_objref (BONOBO_OBJECT (initial_control));
 	} else {
-		*control = NULL;
+		*control = CORBA_OBJECT_NIL;
 	}
 
 	*html = CORBA_string_dup (initial_html ? initial_html:"");
@@ -498,5 +497,6 @@ executive_summary_component_create_unique_id (void)
 	static int id = 0;
 
 	id++;
+	g_print ("%s -- %d\n", __FUNCTION__, id);
 	return id;
 }

@@ -30,5 +30,8 @@ void e_summary_url_request (GtkHTML *html,
 void e_summary_url_click (GtkWidget *widget,
 			  const char *url,
 			  ESummary *esummary);
+void e_summary_url_over (GtkHTML *html,
+			 const char *uri,
+			 ESummary *esummary);
 
 #endif

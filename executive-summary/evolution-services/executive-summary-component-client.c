@@ -201,26 +201,30 @@ executive_summary_component_client_supports (ExecutiveSummaryComponentClient *cl
 #endif
 
 ExecutiveSummaryComponentView *
-executive_summary_component_client_create_view (ExecutiveSummaryComponentClient *client)
+executive_summary_component_client_create_view (ExecutiveSummaryComponentClient *client,
+						int id)
 {
 	ExecutiveSummaryComponentView *view;
 	Evolution_SummaryComponent component;
 	char *html, *title, *icon;
 	Bonobo_Control control;
 	BonoboControl *bc;
-	int id;
+	int ret_id;
 	CORBA_Environment ev;
-	
+
 	g_return_val_if_fail (client != NULL, NULL);
 	g_return_val_if_fail (IS_EXECUTIVE_SUMMARY_COMPONENT_CLIENT (client),
 			      NULL);
 	
 	CORBA_exception_init (&ev);
-	component = bonobo_object_corba_objref (BONOBO_OBJECT (client));
+	if (client)
+		component = bonobo_object_corba_objref (BONOBO_OBJECT (client));
 
 	/* Get all the details about the view */
-	id = Evolution_SummaryComponent_create_view (component, &control, 
-						     &html, &title, &icon, &ev);
+	g_print ("In %s\n", __FUNCTION__);
+	ret_id = Evolution_SummaryComponent_create_view (component, id, &control, 
+							 &html, &title, &icon, &ev);
+	g_print ("Out %s\n", __FUNCTION__);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("Error creating view");
 		CORBA_exception_free (&ev);
@@ -238,7 +242,7 @@ executive_summary_component_client_create_view (ExecutiveSummaryComponentClient 
 
 	view = executive_summary_component_view_new (NULL, bc, html, title,
 						     icon);
-	executive_summary_component_view_set_id (view, id);
+	executive_summary_component_view_set_id (view, ret_id);
 	
 	return view;
 }
@@ -301,7 +305,8 @@ executive_summary_component_client_configure (ExecutiveSummaryComponentClient *c
 
 void
 executive_summary_component_client_destroy_view (ExecutiveSummaryComponentClient *client,
-						 ExecutiveSummaryComponentView *view) {
+						 ExecutiveSummaryComponentView *view) 
+{
 	int id;
 	Evolution_SummaryComponent component;
 	CORBA_Environment ev;

@@ -107,6 +107,7 @@ create_view (ExecutiveSummaryComponent *component,
 	char *html = "Since you started this service<br><center>0</center><br>seconds have passed.";
 	struct userdata *ud;
 	
+	g_print ("In: %s\n", __FUNCTION__);
 	/* Create the userdata structure */
 	ud = g_new (struct userdata, 1);
 	
@@ -114,6 +115,7 @@ create_view (ExecutiveSummaryComponent *component,
 	executive_summary_component_view_construct (view, component, NULL,
 						    html, "The Magic Counter",
 						    "gnome-clock.png");
+	g_print ("Out: %s\n", __FUNCTION__);
 	/* Set the user data on the object */
 	gtk_object_set_data (GTK_OBJECT (view), "timer-data", ud);
 	

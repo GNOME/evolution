@@ -314,7 +314,7 @@ executive_summary_component_view_get_control (ExecutiveSummaryComponentView *vie
 
 	priv = view->private;
 
-	return BONOBO_OBJECT (priv->control);
+	return priv->control;
 }
 
 void
