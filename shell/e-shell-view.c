@@ -2464,8 +2464,12 @@ e_shell_view_load_settings (EShellView *shell_view,
 
 	key = g_strconcat (prefix, "DisplayedURI", NULL);
 	stringval = bonobo_config_get_string (db, key, NULL);
-	if (! e_shell_view_display_uri (shell_view, stringval))
+	if (stringval) {
+		if (! e_shell_view_display_uri (shell_view, stringval))
+			e_shell_view_display_uri (shell_view, E_SHELL_VIEW_DEFAULT_URI);
+	} else
 		e_shell_view_display_uri (shell_view, E_SHELL_VIEW_DEFAULT_URI);
+
 	g_free (stringval);
 	g_free (key);
 

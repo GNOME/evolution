@@ -1,3 +1,8 @@
+2001-10-30  Iain Holmes  <iain@ximian.com>
+
+	* e-shell-view.c (e_shell_view_load_settings): If the display uri is
+	NULL, set the view to the default.
+
 2001-10-30  Ettore Perazzoli  <ettore@ximian.com>
 
 	* evolution-shell-component.c (owner_ping_callback): Duplicate the
@@ -20,7 +25,7 @@
 	"removed_folder" signal with gtk_signal_connect_while_alive() so
 	we don't crash if the view gets destroyed.  Fixes #13285.
 
-2001-10-30    <NotZed@Ximian.com>
+2001-10-29  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-startup-wizard.c (next_func): If we're not at the end of
 	the druid list, tell the druid we're going to change the page.
