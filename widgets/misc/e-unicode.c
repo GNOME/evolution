@@ -104,7 +104,7 @@ e_utf8_strstrcasedecomp (const gchar *haystack, const gchar *needle)
 					npos++;
 				}
 				if (npos == nlen) {
-					return p;
+					return o;
 				}
 			}
 		}
@@ -152,7 +152,7 @@ e_utf8_strstrcase (const gchar *haystack, const gchar *needle)
 				npos++;
 			}
 			if (npos == nlen) {
-				return p;
+				return o;
 			}
 		}
 		o = p;
