@@ -1,3 +1,7 @@
+2000-04-04  Yuri Syrota  <rasta@renome.rovno.ua>
+
+	* configure.in: Added uk to ALL_LINGUAS.
+
 2000-04-04  Andreas Hyden  <a.hyden@cyberpoint.se>
 
 	* configure.in: Added no and sv to ALL_LINGUAS.
