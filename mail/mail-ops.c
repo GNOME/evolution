@@ -32,6 +32,7 @@
 #include "filter/filter-editor.h"
 #include "filter/filter-driver.h"
 #include "widgets/e-table/e-table.h"
+#include "mail-threads.h"
 
 /* FIXME: is there another way to do this? */
 #include "Evolution.h"
@@ -45,6 +46,7 @@
 static void
 mail_exception_dialog (char *head, CamelException *ex, gpointer widget)
 {
+#if 0
 	char *msg;
 	GtkWindow *window =
 		GTK_WINDOW (gtk_widget_get_ancestor (widget, GTK_TYPE_WINDOW));
@@ -53,6 +55,9 @@ mail_exception_dialog (char *head, CamelException *ex, gpointer widget)
 			       camel_exception_get_description (ex));
 	gnome_error_dialog_parented (msg, window);
 	g_free (msg);
+#else
+	mail_op_error( "%s: %s", head, camel_exception_get_description( ex ) );
+#endif
 }
 
 static gboolean
@@ -74,13 +79,16 @@ check_configured (void)
 	return configured;
 }
 
-/* FIXME: This is BROKEN! It fetches mail into whatever folder you're
- * currently viewing.
- */
-void
-fetch_mail (GtkWidget *button, gpointer user_data)
+typedef struct rfm_s { FolderBrowser *fb; char *source_url; } rfm_t;
+
+static void
+real_fetch_mail( gpointer user_data );
+
+/* FIXME: provide status updates */
+static void
+real_fetch_mail( gpointer user_data )
 {
-	FolderBrowser *fb = FOLDER_BROWSER (user_data);
+	FolderBrowser *fb = NULL; 
 	CamelException *ex;
 	CamelStore *store = NULL;
 	CamelFolder *folder = NULL;
@@ -89,23 +97,12 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 	char *userrules, *systemrules;
 	char *tmp_mbox = NULL, *source;
 
-	if (!check_configured ())
-		return;
-
-	path = g_strdup_printf ("=%s/config=/mail/source", evolution_dir);
-	url = gnome_config_get_string (path);
-	g_free (path);
-	if (!url) {
-		GtkWidget *win = gtk_widget_get_ancestor (GTK_WIDGET (fb),
-							  GTK_TYPE_WINDOW);
-
-		gnome_error_dialog_parented ("You have no remote mail source "
-					     "configured", GTK_WINDOW (win));
-		return;
-	}
-
+	fb = ((rfm_t *) user_data)->fb;
+	url = ((rfm_t *) user_data)->source_url;
 	path = CAMEL_SERVICE (fb->folder->parent_store)->url->path;
 	ex = camel_exception_new ();
+
+	g_free( user_data );
 
 	tmp_mbox = g_strdup_printf ("%s/movemail", path);
 
@@ -121,7 +118,7 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 
 		if (tmpfd == -1) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-					      "Couldn't create temporary "
+			 		      "Couldn't create temporary "
 					      "mbox: %s", g_strerror (errno));
 			mail_exception_dialog ("Unable to move mail", ex, fb);
 			goto cleanup;
@@ -137,7 +134,7 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 		case -1:
 			mail_exception_dialog ("Unable to move mail", ex, fb);
 			/* FALL THROUGH */
-
+			
 		case 0:
 			goto cleanup;
 		}
@@ -267,6 +264,42 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 		gtk_object_unref (GTK_OBJECT (store));
 	}
 	camel_exception_free (ex);
+}
+
+/* FIXME: This is BROKEN! It fetches mail into whatever folder you're
+ * currently viewing.
+ */
+void
+fetch_mail (GtkWidget *button, gpointer user_data)
+{
+	char *path, *url = NULL;
+	rfm_t *info;
+
+	if (!check_configured ())
+		return;
+
+	path = g_strdup_printf ("=%s/config=/mail/source", evolution_dir);
+	url = gnome_config_get_string (path);
+	g_free (path);
+
+	if (!url) {
+		GtkWidget *win = gtk_widget_get_ancestor (GTK_WIDGET (user_data),
+							  GTK_TYPE_WINDOW);
+
+		gnome_error_dialog_parented ("You have no remote mail source "
+					     "configured", GTK_WINDOW (win));
+		return;
+	}
+
+	/* This must be dynamically allocated so as not to be clobbered
+	 * when we return. Actually, making it static in the whole file
+	 * would probably work.
+	 */
+
+	info = g_new( rfm_t, 1 );
+	info->fb = FOLDER_BROWSER( user_data );
+	info->source_url = url;
+	mail_operation_try( _("Fetching mail"), real_fetch_mail, info );
 }
 
 

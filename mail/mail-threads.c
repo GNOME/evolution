@@ -32,6 +32,13 @@
 /* FIXME: support other thread types!!!! */
 #define USE_PTHREADS
 
+/* FIXME TODO: Do we need operations that don't get a progress window because
+ * they're quick, but we still want camel to be locked? We need some kind
+ * of flag to mail_operation_try, but then we also need some kind of monitor
+ * to open the window if it takes more than a second or something. That would
+ * probably entail another thread....
+ */
+
 /**
  * A function and its userdata
  **/
@@ -39,6 +46,9 @@
 typedef struct closure_s {
 	void (*func)( gpointer );
 	gpointer data;
+	
+	gchar *prettyname;
+	/* gboolean gets_window; */
 } closure_t;
 
 /**
@@ -83,7 +93,8 @@ static GtkWidget *queue_window_progress = NULL;
 
 /**
  * @op_queue: The list of operations the are scheduled
- * to proceed after the currently executing one.
+ * to proceed after the currently executing one. When
+ * only one operation is going, this is NULL.
  **/
 
 static GSList *op_queue = NULL;
@@ -93,6 +104,9 @@ static GSList *op_queue = NULL;
  * with the main thread for GTK+ calls
  *
  * @chan_reader: the GIOChannel that reads our pipe
+ *
+ * @READER: the fd in our pipe that.... reads!
+ * @WRITER: the fd in our pipe that.... writes!
  */
 
 #define READER compipe[0]
@@ -120,11 +134,17 @@ static void remove_next_pending( void );
 
 /**
  * @dispatch_thread: the pthread_t (when using pthreads, of
- * course) representing our dispatcher routine.
+ * course) representing our dispatcher routine. Never used
+ * except to make pthread_create happy
  **/
+
 static pthread_t dispatch_thread;
 
-/* FIXME: do we need to set any attributes for our thread? */
+/* FIXME: do we need to set any attributes for our thread? 
+ * If so, we need to create a pthread_attr structure and
+ * fill it in somewhere. But the defaults should be good
+ * enough.
+ */
 
 #else /* defined USE_PTHREADS */
 choke on this: no thread type defined
@@ -136,9 +156,16 @@ choke on this: no thread type defined
  * @callback: the function to call in another thread to start the operation
  * @user_data: extra data passed to the callback
  *
- * Waits for the currently executing operation to finished, then
- * executes the callback function in another thread. Returns TRUE
- * on success, FALSE on some sort of queueing error.
+ * Runs a mail operation asynchronously. If no other operation is running,
+ * we start another thread and call the callback in that thread. The function
+ * can then use the mail_op_ functions to perform limited UI returns, while
+ * the main UI is completely unlocked.
+ *
+ * If an async operation is going on when this function is called again, 
+ * it waits for the currently executing operation to finish, then
+ * executes the callback function in another thread.
+ *
+ * Returns TRUE on success, FALSE on some sort of queueing error.
  **/
 
 gboolean
@@ -150,11 +177,13 @@ mail_operation_try( const gchar *description, void (*callback)( gpointer ), gpoi
 	clur = g_new( closure_t, 1 );
 	clur->func = callback;
 	clur->data = user_data;
+	clur->prettyname = g_strdup( description );
 
 	if( mail_operation_in_progress == FALSE ) {
-		/* We got the lock. Yippeee! This means that no operations
-		 * are pending, either, so we'll create the queue window and
-		 * show only the message and progress bar.
+		/* No operations are going on, none are pending. So
+		 * we check to see if we're initialized (create the
+		 * window and the pipes), and send off the operation
+		 * on its merry way.
 		 */
 
 		mail_operation_in_progress = TRUE;
@@ -177,10 +206,11 @@ mail_operation_try( const gchar *description, void (*callback)( gpointer ), gpoi
 		GtkWidget *label;
 
 		/* Zut. We already have an operation running. Well,
-		 * queue ourselves up. */
-		
-		/* Yes, prepend is faster. But we pop operations
-		 * off the beginning later and that's a lot easier.
+		 * queue ourselves up.
+		 *
+		 * Yes, g_slist_prepend is faster down here.. But we pop
+		 * operations off the beginning of the list later and
+		 * that's a lot faster.
 		 */
 
 		op_queue = g_slist_append( op_queue, clur );
@@ -189,7 +219,7 @@ mail_operation_try( const gchar *description, void (*callback)( gpointer ), gpoi
 		label = gtk_label_new( description );
 		gtk_misc_set_alignment( GTK_MISC( label ), 1.0, 0.5 );
 		gtk_box_pack_start( GTK_BOX( queue_window_pending ), label,
-				    TRUE, TRUE, 2 );
+				    FALSE, TRUE, 2 );
 
 		/* If we want the next op to be on the bottom, uncomment this */
 		/* 1 = first on list always (0-based) */
@@ -337,22 +367,22 @@ create_queue_window( void )
 
 	vbox = gtk_vbox_new( FALSE, 4 );
 
-	pending_vb = gtk_vbox_new( TRUE, 2 );
+	pending_vb = gtk_vbox_new( FALSE, 2 );
 	queue_window_pending = pending_vb;
 
 	pending_lb = gtk_label_new( _("Currently pending operations:") );
 	gtk_misc_set_alignment( GTK_MISC( pending_lb ), 0.0, 0.0 );
 	gtk_box_pack_start( GTK_BOX( pending_vb ), pending_lb,
-			    TRUE, TRUE, 0 );
+			    FALSE, TRUE, 0 );
 
 	gtk_box_pack_start( GTK_BOX( vbox ), pending_vb,
 			    TRUE, TRUE, 4 );
 
 	/* FIXME: 'operation' is not the warmest cuddliest word. */
-	progress_lb = gtk_label_new( _("Starting operation...") );
+	progress_lb = gtk_label_new( "" );
 	queue_window_message = progress_lb;
 	gtk_box_pack_start( GTK_BOX( vbox ), progress_lb,
-			    TRUE, TRUE, 4 );
+			    FALSE, TRUE, 4 );
 
 	progress_bar = gtk_progress_bar_new();
 	queue_window_progress = progress_bar;
@@ -362,7 +392,7 @@ create_queue_window( void )
 	gtk_progress_bar_set_bar_style( GTK_PROGRESS_BAR( progress_bar ), 
 					GTK_PROGRESS_CONTINUOUS );
 	gtk_box_pack_start( GTK_BOX( vbox ), progress_bar,
-			    TRUE, TRUE, 4 );
+			    FALSE, TRUE, 4 );
 
 	gtk_container_add( GTK_CONTAINER( queue_window ), vbox );
 }
@@ -423,6 +453,7 @@ static void *dispatch_func( void *data )
 	closure_t *clur = (closure_t *) data;
 
 	msg.type = STARTING;
+	msg.message = clur->prettyname;
 	write( WRITER, &msg, sizeof( msg ) );
 
 	(clur->func)( clur->data );
@@ -430,6 +461,7 @@ static void *dispatch_func( void *data )
 	msg.type = FINISHED;
 	write( WRITER, &msg, sizeof( msg ) );
 
+	g_free( clur->prettyname );
 	g_free( data );
 
 	pthread_exit( 0 );
@@ -438,6 +470,8 @@ static void *dispatch_func( void *data )
 
 /**
  * read_msg:
+ * @source: the channel that has data to read
+ * @condition: the reason we were called
  * @userdata: unused
  *
  * A message has been recieved on our pipe; perform the appropriate 
@@ -468,8 +502,7 @@ static gboolean read_msg( GIOChannel *source, GIOCondition condition, gpointer u
 
 	switch( msg.type ) {
 	case STARTING:
-		gtk_label_set_text( GTK_LABEL( queue_window_message ),
-				    _("Starting operation...") );
+		gtk_label_set_text( GTK_LABEL( queue_window_message ), msg.message );
 		gtk_progress_bar_update( GTK_PROGRESS_BAR( queue_window_progress ), 0.0 );
 		break;
 	case PERCENTAGE:
@@ -559,8 +592,4 @@ static void remove_next_pending( void )
 	/* Hide it? */
 	if( g_list_next( children ) == NULL )
 		gtk_widget_hide( queue_window_pending );
-
-	/* FIXME: The window gets really messed up here */
-	gtk_container_resize_children( GTK_CONTAINER( queue_window_pending ) );
-	gtk_container_resize_children( GTK_CONTAINER( queue_window ) );
 }

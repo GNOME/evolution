@@ -1,3 +1,13 @@
+2000-06-22  Peter Williams  <peterw@curious-george.helixcode.com>
+
+	* mail-threads.c (various functions): Prettify the UI
+	so that the progress bar doesn't become all huge 'n stuff.
+	(mail_operation_try): Now save the operation's description,
+	so that we can display it later as the default message.
+	(read_msg): When the operation starts set the label to its
+	UI-friendly name.
+	(dispatch_func): Free the saved prettyname.
+
 2000-06-21  Christopher James Lahey  <clahey@helixcode.com>
 
 	* message-list.c: Removed an erroneous comment.
