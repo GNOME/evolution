@@ -1,5 +1,21 @@
 2001-09-13  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/imap/camel-imap-folder.c (imap_append_offline): Pass
+	an exception to the cache.
+	(imap_append_online): Same.
+	(imap_append_resyncing): Here too.
+	(imap_copy_offline): And here.
+	(handle_copyuid): Pass NULL as the exception here...
+	(parse_fetch_response): And finally here.
+
+	* providers/imap/camel-imap-message-cache.c
+	(camel_imap_message_cache_insert):
+	(insert_setup):
+	(camel_imap_message_cache_insert_stream):
+	(camel_imap_message_cache_insert_wrapper):
+	(camel_imap_message_cache_copy): Take an exception argument and
+	set it on error.
+
 	* camel-mime-part-utils.c
 	(simple_data_wrapper_construct_from_parser): Convert the charset
 	to the iconv-friendly name.

@@ -887,7 +887,7 @@ imap_append_offline (CamelFolder *folder, CamelMimeMessage *message,
 	camel_imap_summary_add_offline (folder->summary, uid, message, info);
 	CAMEL_IMAP_FOLDER_LOCK (folder, cache_lock);
 	camel_imap_message_cache_insert_wrapper (cache, uid, "",
-						 CAMEL_DATA_WRAPPER (message));
+						 CAMEL_DATA_WRAPPER (message), ex);
 	CAMEL_IMAP_FOLDER_UNLOCK (folder, cache_lock);
 
 	changes = camel_folder_change_info_new ();
@@ -997,8 +997,8 @@ imap_append_online (CamelFolder *folder, CamelMimeMessage *message,
 		 */
 		CAMEL_IMAP_FOLDER_LOCK (folder, cache_lock);
 		camel_imap_message_cache_insert_wrapper (
-			CAMEL_IMAP_FOLDER (folder)->cache,
-			uid, "", CAMEL_DATA_WRAPPER (message));
+			CAMEL_IMAP_FOLDER (folder)->cache, uid,
+			"", CAMEL_DATA_WRAPPER (message), ex);
 		CAMEL_IMAP_FOLDER_UNLOCK (folder, cache_lock);
 		g_free (uid);
 	}
@@ -1029,7 +1029,7 @@ imap_append_resyncing (CamelFolder *folder, CamelMimeMessage *message,
 
 		CAMEL_IMAP_FOLDER_LOCK (imap_folder, cache_lock);
 		camel_imap_message_cache_copy (imap_folder->cache, olduid,
-					       imap_folder->cache, uid);
+					       imap_folder->cache, uid, ex);
 		CAMEL_IMAP_FOLDER_UNLOCK (imap_folder, cache_lock);
 
 		camel_disco_diary_uidmap_add (CAMEL_DISCO_STORE (store)->diary,
@@ -1076,7 +1076,7 @@ imap_copy_offline (CamelFolder *source, GPtrArray *uids,
 		destuid = g_strdup_printf ("copy-%s:%s", source->full_name, uid);
 		camel_imap_summary_add_offline (destination->summary, destuid, message, mi);
 
-		camel_imap_message_cache_copy (sc, uid, dc, destuid);
+		camel_imap_message_cache_copy (sc, uid, dc, destuid, ex);
 		camel_folder_summary_info_free (source->summary, mi);
 		camel_object_unref (CAMEL_OBJECT (message));
 
@@ -1133,7 +1133,8 @@ handle_copyuid (CamelImapResponse *response, CamelFolder *source,
 		CAMEL_IMAP_FOLDER_LOCK (destination, cache_lock);
 		for (i = 0; i < src->len; i++) {
 			camel_imap_message_cache_copy (scache, src->pdata[i],
-						       dcache, dest->pdata[i]);
+						       dcache, dest->pdata[i],
+						       NULL);
 		}
 		CAMEL_IMAP_FOLDER_UNLOCK (source, cache_lock);
 		CAMEL_IMAP_FOLDER_UNLOCK (destination, cache_lock);
@@ -2106,7 +2107,7 @@ parse_fetch_response (CamelImapFolder *imap_folder, char *response)
 		CAMEL_IMAP_FOLDER_LOCK (imap_folder, cache_lock);
 		stream = camel_imap_message_cache_insert (imap_folder->cache,
 							  uid, part_spec,
-							  body, body_len);
+							  body, body_len, NULL);
 		CAMEL_IMAP_FOLDER_UNLOCK (imap_folder, cache_lock);
 		g_datalist_set_data_full (&data, "BODY_PART_STREAM", stream,
 					  (GDestroyNotify)camel_object_unref);

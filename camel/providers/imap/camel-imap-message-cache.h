@@ -70,15 +70,18 @@ CamelStream *camel_imap_message_cache_insert (CamelImapMessageCache *cache,
 					      const char *uid,
 					      const char *part_spec,
 					      const char *data,
-					      int len);
+					      int len,
+					      CamelException *ex);
 void camel_imap_message_cache_insert_stream  (CamelImapMessageCache *cache,
 					      const char *uid,
 					      const char *part_spec,
-					      CamelStream *data_stream);
+					      CamelStream *data_stream,
+					      CamelException *ex);
 void camel_imap_message_cache_insert_wrapper (CamelImapMessageCache *cache,
 					      const char *uid,
 					      const char *part_spec,
-					      CamelDataWrapper *wrapper);
+					      CamelDataWrapper *wrapper,
+					      CamelException *ex);
 
 CamelStream *camel_imap_message_cache_get    (CamelImapMessageCache *cache,
 					      const char *uid,
@@ -91,7 +94,8 @@ void         camel_imap_message_cache_clear  (CamelImapMessageCache *cache);
 void         camel_imap_message_cache_copy   (CamelImapMessageCache *source,
 					      const char *source_uid,
 					      CamelImapMessageCache *dest,
-					      const char *dest_uid);
+					      const char *dest_uid,
+					      CamelException *ex);
 
 /* Standard Camel function */
 CamelType camel_imap_message_cache_get_type (void);
