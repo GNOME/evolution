@@ -1,3 +1,9 @@
+2005-03-30  Li Yuan  <li.yuan@sun.com>
+
+	* gui/smime-ui.glade:
+	add a11y name to Certificates Table
+	Fixes #73914
+
 2005-02-21  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #68592
