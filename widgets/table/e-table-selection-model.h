@@ -23,7 +23,7 @@ typedef struct {
 	ETableModel *model;
 
 	gint row_count;
-        guint *selection;
+        guint32 *selection;
 	
 	gint cursor_row;
 	gint cursor_col;

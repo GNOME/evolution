@@ -44,19 +44,26 @@ model_row_inserted(ETableModel *etm, int row, ETableSelectionModel *etsm)
 	if(etsm->row_count >= 0) {
 		guint32 bitmask1 = 0xffff;
 		guint32 bitmask2;
+
+		/* Add another word if needed. */
 		if ((etsm->row_count & 0x1f) == 0) {
 			etsm->selection = e_realloc(etsm->selection, (etsm->row_count >> 5) + 1);
 			etsm->selection[etsm->row_count >> 5] = 0;
 		}
+
+		/* The box is the word that our row is in. */
 		box = row >> 5;
+		/* Shift all words to the right of our box right one bit. */
 		for (i = etsm->row_count >> 5; i > box; i--) {
 			etsm->selection[i] = (etsm->selection[i] >> 1) | (etsm->selection[i - 1] << 31)
 		}
 
+		/* Build bitmasks for the left and right half of the box */
 		offset = row & 0x1f;
 		bitmask1 = bitmask1 << (32 - offset);
 		bitmask2 = ~bitmask1;
-		etsm->selection[i] = (etsm->selection[i] & bitmask1) | ((etsm->selection[i] & bitmask2) >> 1);
+		/* Shift right half of box one bit to the right. */
+		etsm->selection[box] = (etsm->selection[box] & bitmask1) | ((etsm->selection[box] & bitmask2) >> 1);
 		etsm->row_count ++;
 	}
 }
@@ -71,13 +78,16 @@ model_row_deleted(ETableModel *etm, int row, ETableSelectionModel *etsm)
 		guint32 bitmask1 = 0xffff;
 		guint32 bitmask2;
 		box = row >> 5;
-		last = etsm->row_count >> 5
+		last = etsm->row_count >> 5;
 
+		/* Build bitmasks for the left and right half of the box */
 		offset = row & 0x1f;
 		bitmask1 = bitmask1 << (32 - offset);
 		bitmask2 = (~bitmask1) >> 1;
+		/* Shift right half of box one bit to the left. */
 		etsm->selection[box] = (etsm->selection[box] & bitmask1) | ((etsm->selection[box] & bitmask2) << 1);
 
+		/* Shift all words to the right of our box left one bit. */
 		if (box < last) {
 			etsm->selection[box] &= etsm->selection[box + 1] >> 31;
 
@@ -87,6 +97,7 @@ model_row_deleted(ETableModel *etm, int row, ETableSelectionModel *etsm)
 			etsm->selection[i] = etsm->selection[i] << 1;
 		}
 		etsm->row_count --;
+		/* Remove the last word if not needed. */
 		if ((etsm->row_count & 0x1f) == 0) {
 			etsm->selection = e_realloc(etsm->selection, etsm->row_count >> 5);
 		}

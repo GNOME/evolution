@@ -1,5 +1,15 @@
 2000-07-25  Christopher James Lahey  <clahey@helixcode.com>
 
+	* e-table-selection-model.c: Added comments to the bit data.
+
+	* e-table-selection-model.h: Made the selection data guint32s.
+
+2000-07-25  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-table-selection-model.c: More fixes.
+
+2000-07-25  Christopher James Lahey  <clahey@helixcode.com>
+
 	* e-table-selection-model.c: Fixed up the bit manipulation a bit
 	here.
 
