@@ -73,7 +73,7 @@ struct _TaskPagePrivate {
 	GtkWidget *categories;
 
 	GtkWidget *source_selector;
-	GtkWidget *sendoptions_label;
+	GtkWidget *sendoptions_frame;
 	GtkWidget *sendoptions_button;
 
 	gboolean updating;
@@ -146,7 +146,7 @@ task_page_init (TaskPage *tpage)
 	priv->classification = NULL;
 	priv->categories_btn = NULL;
 	priv->categories = NULL;
-	priv->sendoptions_label = NULL;
+	priv->sendoptions_frame = NULL;
 	priv->sendoptions_button = NULL;
 	priv->sendoptions_shown = FALSE;
 	priv->sod = NULL;
@@ -274,8 +274,7 @@ task_page_hide_options (TaskPage *page)
 {
 	g_return_if_fail (IS_TASK_PAGE (page));
 
-	gtk_widget_hide (page->priv->sendoptions_label);
-	gtk_widget_hide (page->priv->sendoptions_button);
+	gtk_widget_hide (page->priv->sendoptions_frame);
 
 	page->priv->sendoptions_shown = FALSE;
 	
@@ -285,8 +284,7 @@ task_page_show_options (TaskPage *page)
 {
 	g_return_if_fail (IS_TASK_PAGE (page));
 	
-	gtk_widget_show (page->priv->sendoptions_label);
-	gtk_widget_show (page->priv->sendoptions_button);
+	gtk_widget_show (page->priv->sendoptions_frame);
 
 	if (e_cal_get_static_capability (COMP_EDITOR_PAGE (page)->client, CAL_STATIC_CAPABILITY_NO_GEN_OPTIONS))
 		e_sendoptions_set_need_general_options (page->priv->sod, FALSE);
@@ -701,7 +699,7 @@ get_widgets (TaskPage *tpage)
 
 	priv->source_selector = GW ("source");
 	
-	priv->sendoptions_label = GW ("send-options-label");
+	priv->sendoptions_frame = GW ("send-options-frame");
 	priv->sendoptions_button = GW ("send-options-button");
 
 #undef GW
@@ -716,7 +714,7 @@ get_widgets (TaskPage *tpage)
 		&& priv->description
 		&& priv->categories_btn
 		&& priv->categories
-		&& priv->sendoptions_label
+		&& priv->sendoptions_frame
 		&& priv->sendoptions_button);
 }
 
