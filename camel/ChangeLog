@@ -1,3 +1,9 @@
+2002-05-31  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-data-cache.c (camel_data_cache_get): If we fail to be able
+	to create a stream to insert into the cache, then free the 'real'
+	path.
+
 2002-05-30  Not Zed  <NotZed@Ximian.com>
 
 	* camel-cipher-context.h: Added a protocol field for users to use.

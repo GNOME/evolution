@@ -400,6 +400,8 @@ camel_data_cache_get(CamelDataCache *cdc, const char *path, const char *key, Cam
 			camel_object_hook_event((CamelObject *)stream, "finalize", stream_finalised, cdc);
 			g_hash_table_insert(cdc->priv->busy_stream, stream, real);
 			g_hash_table_insert(cdc->priv->busy_path, real, stream);
+		} else {
+			g_free (real);
 		}
 	}
 
