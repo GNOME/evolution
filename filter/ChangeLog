@@ -1,3 +1,7 @@
+2001-08-10  Peter Williams  <peterw@ximian.com>
+
+	* rule-context.c (rule_context_add_rule_gui): Make this compile again.
+
 2001-08-10  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* rule-context.c (rule_context_add_rule_gui): No need to

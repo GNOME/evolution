@@ -437,9 +437,9 @@ rule_context_add_rule_gui (RuleContext *f, FilterRule *rule, const char *title, 
 	
 	w = filter_rule_get_widget (rule, f);
 	dialog = gnome_dialog_new (title, GNOME_STOCK_BUTTON_OK, GNOME_STOCK_BUTTON_CANCEL, NULL);
-	gtk_window_set_policy (GTK_WINDOW (gd), FALSE, TRUE, FALSE);
+	gtk_window_set_policy (GTK_WINDOW (dialog), FALSE, TRUE, FALSE);
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), w, TRUE, TRUE, 0);
-	gtk_window_set_default_size (GTK_WINDOW (gd), 600, 400);
+	gtk_window_set_default_size (GTK_WINDOW (dialog), 600, 400);
 	gtk_widget_show (w);
 	
 	gtk_object_set_data_full (GTK_OBJECT (dialog), "rule", rule, (GtkDestroyNotify) gtk_object_unref);
@@ -448,7 +448,7 @@ rule_context_add_rule_gui (RuleContext *f, FilterRule *rule, const char *title, 
 	gtk_signal_connect (GTK_OBJECT (dialog), "clicked", new_rule_clicked, f);
 	gtk_object_ref (GTK_OBJECT (f));
 	gtk_object_set_data_full (GTK_OBJECT (dialog), "context", f, (GtkDestroyNotify) gtk_object_unref);
-	gtk_widget_show (gialog);
+	gtk_widget_show (dialog);
 }
 
 void
