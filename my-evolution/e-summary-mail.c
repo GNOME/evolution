@@ -278,6 +278,8 @@ mail_change_notify (BonoboListener *listener,
 
 	mail = summary->mail;
 
+	g_return_if_fail (mail != NULL);
+
 	count = arg->_value;
 	folder = g_hash_table_lookup (mail->folders, count->path);
 
@@ -404,6 +406,8 @@ e_summary_mail_init (ESummary *summary,
 		CORBA_exception_free (&ev);
 
 		g_free (mail);
+		summary->mail = NULL;
+
 		return;
 	}
 
