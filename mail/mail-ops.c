@@ -36,6 +36,7 @@
 #include "filter/filter-editor.h"
 #include "filter/filter-driver.h"
 #include "widgets/e-table/e-table.h"
+#include "mail-local.h"
 
 /* FIXME: is there another way to do this? */
 #include "Evolution.h"

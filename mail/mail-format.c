@@ -1047,7 +1047,8 @@ handle_multipart_encrypted (CamelMimePart *part, const char *mime_type,
 	CamelDataWrapper *wrapper =
 		camel_medium_get_content_object (CAMEL_MEDIUM (part));
 	CamelMultipart *mp;
-	char *ciphertext, *passphrase, *plaintext;
+	char *ciphertext, *passphrase;
+	char *plaintext = NULL;
 	CamelException ex;
 
 	g_return_val_if_fail (CAMEL_IS_MULTIPART (wrapper), FALSE);

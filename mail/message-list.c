@@ -997,7 +997,7 @@ on_right_click (ETableScrolled *table, gint row, gint col, GdkEvent *event, Mess
 		{ NULL,                 NULL, NULL,                              0 }
 	};
 	
-	e_popup_menu_run (menu, (GdkEventButton *)event, (fb->folder == drafts_folder) ? 0 : 1, fb);
+	e_popup_menu_run (menu, (GdkEventButton *)event, (fb->folder == drafts_folder) ? 0 : 1, 0, fb);
 	
 	return TRUE;
 }
