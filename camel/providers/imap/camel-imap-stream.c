@@ -25,6 +25,7 @@
 #include "camel-imap-stream.h"
 #include <sys/types.h>
 #include <errno.h>
+#include <stdlib.h>
 
 static CamelStreamClass *parent_class = NULL;
 
@@ -128,17 +129,19 @@ stream_read (CamelStream *stream, char *buffer, size_t n)
 	if (!imap_stream->cache) {
 		/* We need to send the IMAP command since this is our first fetch */
 		CamelFolder *folder = CAMEL_FOLDER (imap_stream->folder);
-		gint status;
+		gchar *result, *p, *q;
+		gint status, part_len;
 		
 		status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store),
 						      CAMEL_FOLDER (imap_stream->folder),
-						      &imap_stream->cache, "%s",
+						      &result, "%s\r\n",
 						      imap_stream->command);
 		
-		if (status != CAMEL_IMAP_OK) {
+		if (!result || status != CAMEL_IMAP_OK) {
 			/* we got an error, dump this stuff */
-			g_free (imap_stream->cache);
+			g_free (result);
 			imap_stream->cache = NULL;
+			gtk_object_unref (GTK_OBJECT (imap_stream->folder));
 			
 			return -1;
 		}
@@ -146,6 +149,29 @@ stream_read (CamelStream *stream, char *buffer, size_t n)
 		/* we don't need the folder anymore... */
 		gtk_object_unref (GTK_OBJECT (imap_stream->folder));
 
+		/* parse out the message part */
+		for (p = result; *p && *p != '{' && *p != '\n'; p++);
+		if (*p != '{') {
+			g_free (result);
+			return -1;
+		}
+		
+		part_len = atoi (p + 1);
+		for ( ; *p && *p != '\n'; p++);
+		if (*p != '\n') {
+			g_free (result);
+			return -1;
+		}
+		
+		/* calculate the new part-length */
+		for (q = p; *q && (q - p) <= part_len; q++) {
+			if (*q == '\n')
+				part_len--;
+		}
+
+		imap_stream->cache = g_strndup (p, part_len);
+		g_free (result);
+		
 		imap_stream->cache_ptr = imap_stream->cache;
 	}
 	
