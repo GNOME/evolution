@@ -1,4 +1,4 @@
-Evolution x.x.x, xxxx-xx-xx
+Evolution 1.4.2, 2003-06-30
 ---------------------------
 
 Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
@@ -15,6 +15,12 @@ Other bugs
   * Calendar
 
     - Made all dialogs be centered on the Evolution window (Rodrigo)
+
+  * Mail
+
+    - Fixed a charset handling problem in the message composer, which
+      was introduced in 1.4.1.
+
 
 Evolution 1.4.1, 2003-06-25
 ---------------------------
