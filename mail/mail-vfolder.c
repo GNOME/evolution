@@ -321,12 +321,11 @@ vfolder_adduri(const char *uri, GList *folders, int remove)
 
 /* ********************************************************************** */
 
-/* So, uh, apparently g_list_find_custom expect the compare func to return 0 to mean true? */
 static GList *
-my_list_find(GList *l, const char *uri, GCompareFunc cmp)
+mv_find_folder(GList *l, CamelStore *store, const char *uri)
 {
 	while (l) {
-		if (cmp(l->data, uri))
+		if (camel_store_folder_uri_equal(store, l->data, uri))
 			break;
 		l = l->next;
 	}
@@ -335,7 +334,7 @@ my_list_find(GList *l, const char *uri, GCompareFunc cmp)
 
 /* uri is a camel uri */
 static int
-uri_is_ignore(const char *uri, GCompareFunc uri_cmp)
+uri_is_ignore(CamelStore *store, const char *uri)
 {
 	EAccountList *accounts;
 	EAccount *account;
@@ -347,9 +346,9 @@ uri_is_ignore(const char *uri, GCompareFunc uri_cmp)
 		 mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_SENT),
 		 mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_DRAFTS)));
 	
-	found = uri_cmp(mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_OUTBOX), uri)
-		|| uri_cmp(mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_SENT), uri)
-		|| uri_cmp(mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_DRAFTS), uri);
+	found = camel_store_folder_uri_equal(store, mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_OUTBOX), uri)
+		|| camel_store_folder_uri_equal(store, mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_SENT), uri)
+		|| camel_store_folder_uri_equal(store, mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_DRAFTS), uri);
 	
 	if (found)
 		return found;
@@ -357,14 +356,24 @@ uri_is_ignore(const char *uri, GCompareFunc uri_cmp)
 	accounts = mail_config_get_accounts ();
 	iter = e_list_get_iterator ((EList *) accounts);
 	while (e_iterator_is_valid (iter)) {
+		char *curi;
+
 		account = (EAccount *) e_iterator_get (iter);
-		
+
 		d(printf("checking sent_folder_uri '%s' == '%s'\n",
 			 account->sent_folder_uri ? account->sent_folder_uri : "empty", uri));
-		
-		found = (account->sent_folder_uri && uri_cmp (account->sent_folder_uri, uri))
-			|| (account->drafts_folder_uri && uri_cmp (account->drafts_folder_uri, uri));
-		
+
+		if (account->sent_folder_uri) {
+			curi = em_uri_to_camel(account->sent_folder_uri);
+			found = camel_store_folder_uri_equal(store, uri, curi);
+			g_free(curi);
+		}
+		if (!found && account->drafts_folder_uri) {
+			curi = em_uri_to_camel(account->drafts_folder_uri);
+			found = camel_store_folder_uri_equal(store, uri, curi);
+			g_free(curi);
+		}
+
 		if (found)
 			break;
 		
@@ -412,7 +421,6 @@ mail_vfolder_add_uri(CamelStore *store, const char *curi, int remove)
 	CamelVeeFolder *vf;
 	GList *folders = NULL, *link;
 	int remote = (((CamelService *)store)->provider->flags & CAMEL_PROVIDER_IS_REMOTE) != 0;
-	GCompareFunc uri_cmp = CAMEL_STORE_CLASS(CAMEL_OBJECT_GET_CLASS(store))->compare_folder_name;
 	int is_ignore;
 	char *uri;
 
@@ -424,7 +432,7 @@ mail_vfolder_add_uri(CamelStore *store, const char *curi, int remove)
 
 	g_assert(pthread_self() == mail_gui_thread);
 
-	is_ignore = uri_is_ignore(curi, uri_cmp);
+	is_ignore = uri_is_ignore(store, curi);
 
 	LOCK();
 
@@ -435,12 +443,12 @@ mail_vfolder_add_uri(CamelStore *store, const char *curi, int remove)
 		is_ignore = TRUE;
 	} else if (remove) {
 		if (remote) {
-			if ((link = my_list_find(source_folders_remote, (void *)uri, uri_cmp)) != NULL) {
+			if ((link = mv_find_folder(source_folders_remote, store, curi)) != NULL) {
 				g_free(link->data);
 				source_folders_remote = g_list_remove_link(source_folders_remote, link);
 			}
 		} else {
-			if ((link = my_list_find(source_folders_local, (void *)uri, uri_cmp)) != NULL) {
+			if ((link = mv_find_folder(source_folders_local, store, curi)) != NULL) {
 				g_free(link->data);
 				source_folders_local = g_list_remove_link(source_folders_local, link);
 			}
@@ -448,11 +456,11 @@ mail_vfolder_add_uri(CamelStore *store, const char *curi, int remove)
 	} else if (!is_ignore) {
 		/* we ignore drafts/sent/outbox here */
 		if (remote) {
-			if (my_list_find(source_folders_remote, (void *)uri, uri_cmp) == NULL)
-				source_folders_remote = g_list_prepend(source_folders_remote, g_strdup(uri));
+			if (mv_find_folder(source_folders_remote, store, curi) == NULL)
+				source_folders_remote = g_list_prepend(source_folders_remote, g_strdup(curi));
 		} else {
-			if (my_list_find(source_folders_local, (void *)uri, uri_cmp) == NULL)
-				source_folders_local = g_list_prepend(source_folders_local, g_strdup(uri));
+			if (mv_find_folder(source_folders_local, store, curi) == NULL)
+				source_folders_local = g_list_prepend(source_folders_local, g_strdup(curi));
 		}
 	}
 
@@ -473,15 +481,14 @@ mail_vfolder_add_uri(CamelStore *store, const char *curi, int remove)
 			|| (((EMVFolderRule *)rule)->with == EM_VFOLDER_RULE_WITH_LOCAL_REMOTE_ACTIVE)))
 			found = TRUE;
 		
-		/* we check using the store uri_cmp since its more accurate */
 		source = NULL;
 		while (!found && (source = em_vfolder_rule_next_source((EMVFolderRule *)rule, source))) {
-			char *esource;
+			char *csource;
 
-			esource = em_uri_from_camel(source);
-			found = uri_cmp(uri, esource);
-			d(printf(found?" '%s' == '%s'?\n":" '%s' != '%s'\n", uri, esource));
-			g_free(esource);
+			csource = em_uri_to_camel(source);
+			found = camel_store_folder_uri_equal(store, curi, csource);
+			d(printf(found?" '%s' == '%s'?\n":" '%s' != '%s'\n", curi, csource));
+			g_free(csource);
 		}
 
 		if (found) {
@@ -504,7 +511,6 @@ mail_vfolder_add_uri(CamelStore *store, const char *curi, int remove)
 void
 mail_vfolder_delete_uri(CamelStore *store, const char *curi)
 {
-	GCompareFunc uri_cmp = CAMEL_STORE_CLASS(CAMEL_OBJECT_GET_CLASS(store))->compare_folder_name;
 	FilterRule *rule;
 	const char *source;
 	CamelVeeFolder *vf;
@@ -530,9 +536,11 @@ mail_vfolder_delete_uri(CamelStore *store, const char *curi)
 	while ((rule = rule_context_next_rule ((RuleContext *) context, rule, NULL))) {
 		source = NULL;
 		while ((source = em_vfolder_rule_next_source ((EMVFolderRule *) rule, source))) {
+			char *csource = em_uri_to_camel(source);
+
 			/* Remove all sources that match, ignore changed events though
 			   because the adduri call above does the work async */
-			if (uri_cmp (uri, source)) {
+			if (camel_store_folder_uri_equal(store, curi, csource)) {
 				vf = g_hash_table_lookup (vfolder_hash, rule->name);
 				g_assert (vf != NULL);
 				g_signal_handlers_disconnect_matched (rule, G_SIGNAL_MATCH_FUNC|G_SIGNAL_MATCH_DATA, 0,
@@ -542,15 +550,16 @@ mail_vfolder_delete_uri(CamelStore *store, const char *curi)
 				g_string_append_printf (changed, "    %s\n", rule->name);
 				source = NULL;
 			}
+			g_free(csource);
 		}
 	}
 
-	if ((link = my_list_find(source_folders_remote, (void *)uri, uri_cmp)) != NULL) {
+	if ((link = mv_find_folder(source_folders_remote, store, curi)) != NULL) {
 		g_free(link->data);
 		source_folders_remote = g_list_remove_link(source_folders_remote, link);
 	}
 
-	if ((link = my_list_find(source_folders_local, (void *)uri, uri_cmp)) != NULL) {
+	if ((link = mv_find_folder(source_folders_local, store, curi)) != NULL) {
 		g_free(link->data);
 		source_folders_local = g_list_remove_link(source_folders_local, link);
 	}
@@ -580,7 +589,6 @@ mail_vfolder_delete_uri(CamelStore *store, const char *curi)
 void
 mail_vfolder_rename_uri(CamelStore *store, const char *cfrom, const char *cto)
 {
-	GCompareFunc uri_cmp = CAMEL_STORE_CLASS(CAMEL_OBJECT_GET_CLASS(store))->compare_folder_name;
 	FilterRule *rule;
 	const char *source;
 	CamelVeeFolder *vf;
@@ -604,9 +612,11 @@ mail_vfolder_rename_uri(CamelStore *store, const char *cfrom, const char *cto)
 	while ( (rule = rule_context_next_rule((RuleContext *)context, rule, NULL)) ) {
 		source = NULL;
 		while ( (source = em_vfolder_rule_next_source((EMVFolderRule *)rule, source)) ) {
+			char *csource = em_uri_to_camel(source);
+
 			/* Remove all sources that match, ignore changed events though
 			   because the adduri call above does the work async */
-			if (uri_cmp(from, source)) {
+			if (camel_store_folder_uri_equal(store, cfrom, csource)) {
 				d(printf("Vfolder '%s' used '%s' ('%s') now uses '%s'\n", rule->name, source, from, to));
 				vf = g_hash_table_lookup(vfolder_hash, rule->name);
 				g_assert(vf);
@@ -618,6 +628,7 @@ mail_vfolder_rename_uri(CamelStore *store, const char *cfrom, const char *cto)
 				changed++;
 				source = NULL;
 			}
+			g_free(csource);
 		}
 	}
 

@@ -1,3 +1,16 @@
+2005-01-14  Not Zed  <NotZed@Ximian.com>
+
+	** Related to changes for #65178.
+
+	* mail-vfolder.c (mv_find_folder): changed from my_list_find, take
+	store arg and use camel_Store_Folder_uri_equal() instead of wrong
+	uri_cmp function.
+	(mail_vfolder_delete_uri): same.
+	(mail_vfolder_rename_uri): same.
+	(uri_is_ignore): take store arg, and same as above.  use the right
+	uri for checking sent folder.
+	(mail_vfolder_*): convert to storing uri's in camel form.
+
 2005-01-19  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #70858.
