@@ -20,7 +20,6 @@
  */
 
 #include <config.h>
-
 #include <string.h>
 #include <glib.h>
 #include <gtk/gtkframe.h>
@@ -764,3 +763,10 @@ filter_rule_find_list (GList * l, const char *name, const char *source)
 	
 	return NULL;
 }
+
+#ifdef FOR_TRANSLATIONS_ONLY
+
+static char *list[] = {
+  N_("incoming"), N_("outgoing")
+};
+#endif

@@ -1,3 +1,8 @@
+2001-04-20  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* filter-rule.c: Pull up fix for translation of filter
+	direction drop down menu from the branch.
+	
 2001-04-18  Dan Winship  <danw@ximian.com>
 
 	* filter-colour.c, filter-datespec.c, filter-folder.c,
