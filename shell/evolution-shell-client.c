@@ -170,7 +170,7 @@ user_select_folder (EvolutionShellClient *shell_client,
 	GNOME_Evolution_FolderSelectionListener listener_interface;
 	GNOME_Evolution_Shell corba_shell;
 	CORBA_Environment ev;
-	GNOME_Evolution_Shell_FolderTypeList corba_type_list;
+	GNOME_Evolution_Shell_FolderTypeNameList corba_type_name_list;
 	int num_possible_types;
 	char *result;
 
@@ -192,12 +192,12 @@ user_select_folder (EvolutionShellClient *shell_client,
 
 	num_possible_types = count_string_items (possible_types);
 
-	corba_type_list._length  = num_possible_types;
-	corba_type_list._maximum = num_possible_types;
-	corba_type_list._buffer  = (CORBA_char **) possible_types;
+	corba_type_name_list._length  = num_possible_types;
+	corba_type_name_list._maximum = num_possible_types;
+	corba_type_name_list._buffer  = (CORBA_char **) possible_types;
 
 	GNOME_Evolution_Shell_selectUserFolder (corba_shell, listener_interface,
-						title, default_folder, &corba_type_list,
+						title, default_folder, &corba_type_name_list,
 						&ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {

@@ -32,7 +32,7 @@ module Evolution {
 		ShellComponent getComponentByType (in string type)
 			raises (NotFound);
 
-		typedef sequence<string> FolderTypeList;
+		typedef sequence<string> FolderTypeNameList;
 
 		/**
 		 * createNewView:
@@ -58,7 +58,7 @@ module Evolution {
 		void selectUserFolder (in FolderSelectionListener listener,
 					 in string title,
 					 in string default_folder,
-					 in FolderTypeList possible_types)
+					 in FolderTypeNameList possible_types)
 			raises (Busy);
 
 		/**

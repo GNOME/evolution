@@ -238,28 +238,28 @@ impl_Shell_selectUserFolder (PortableServer_Servant servant,
 			     const GNOME_Evolution_FolderSelectionListener listener,
 			     const CORBA_char *title,
 			     const CORBA_char *default_folder,
-			     const GNOME_Evolution_Shell_FolderTypeList *corba_allowed_types,
+			     const GNOME_Evolution_Shell_FolderTypeNameList *corba_allowed_type_names,
 			     CORBA_Environment *ev)
 {
 	GtkWidget *folder_selection_dialog;
 	BonoboObject *bonobo_object;
 	GNOME_Evolution_FolderSelectionListener listener_duplicate;
 	EShell *shell;
-	const char **allowed_types;
+	const char **allowed_type_names;
 	int i;
 
 	bonobo_object = bonobo_object_from_servant (servant);
 	shell = E_SHELL (bonobo_object);
 
-	allowed_types = alloca (sizeof (allowed_types[0]) * (corba_allowed_types->_length + 1));
-	for (i = 0; i < corba_allowed_types->_length; i++)
-		allowed_types[i] = corba_allowed_types->_buffer[i];
-	allowed_types[corba_allowed_types->_length] = NULL;
+	allowed_type_names = alloca (sizeof (allowed_type_names[0]) * (corba_allowed_type_names->_length + 1));
+	for (i = 0; i < corba_allowed_type_names->_length; i++)
+		allowed_type_names[i] = corba_allowed_type_names->_buffer[i];
+	allowed_type_names[corba_allowed_type_names->_length] = NULL;
 
 	/* CORBA doesn't allow you to pass a NULL pointer. */
 	if (!*default_folder)
 		default_folder = NULL;
-	folder_selection_dialog = e_shell_folder_selection_dialog_new (shell, title, default_folder, allowed_types);
+	folder_selection_dialog = e_shell_folder_selection_dialog_new (shell, title, default_folder, allowed_type_names);
 
 	listener_duplicate = CORBA_Object_duplicate (listener, ev);
 	gtk_object_set_data_full (GTK_OBJECT (folder_selection_dialog), "corba_listener",

@@ -1,3 +1,12 @@
+2001-02-26  Ettore Perazzoli  <ettore@ximian.com>
+
+	* Evolution-Shell.idl: Rename `FolderTypeList' to
+	`FolderTypeNameList' as it was confusing.
+
+	* Evolution-ShellComponent.idl: New members
+	`accepted_dnd_mime_types' and `exported_dnd_mime_types' in `struct
+	FolderType'.
+
 2001-02-24  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-storage.c (folder_changed_cb): Don't free a const pointer.
