@@ -1,3 +1,9 @@
+2003-01-17  Chris Toshok  <toshok@ximian.com>
+
+	* e-shell-settings-dialog.c (set_dialog_size): pass
+	pango_context_get_language (context) to
+	pango_context_get_metrics.
+
 2003-01-14  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-folder-selection-dialog.c
