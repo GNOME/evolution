@@ -1,3 +1,11 @@
+2004-10-11  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/component/addressbook-view.c (source_list_changed_cb): Don't
+	unref the view - removing it from the hash table will do this for us.
+	Remove from hash table after removing the notebook page.
+	(addressbook_view_init): Unref views when removed from the hash
+	table.
+
 2004-10-06  Not Zed  <NotZed@Ximian.com>
 
 	* gui/component/addressbook-view.c (popup_event_callback): 
