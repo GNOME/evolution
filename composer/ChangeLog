@@ -1,3 +1,16 @@
+2004-06-18  Not Zed  <NotZed@Ximian.com>
+
+	** Fix for #60387.
+
+	* mail-composer-errors.xml: added an error for failing to retrieve
+	to-be-attached messages.
+
+	* e-msg-composer.c (message_rfc822_dnd): remove this, we only want
+	to treat it as a real rfc822 message, not a berkeley mailbox.
+	(drag_data_received): handle the rfc822 type here, and also the
+	new x-uid-list type.
+	(attach_message): helper set a description on attached messages.
+
 2004-06-16  Not Zed  <NotZed@Ximian.com>
 
 	* e-msg-composer.c (e_msg_composer_guess_mime_type): clean up the

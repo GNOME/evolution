@@ -8,6 +8,10 @@ char *s = N_("The file `{0}' is not a regular file and cannot be sent in a messa
 char *s = N_("Directories can not be attached to Messages.");
 /* mail-composer:attach-directory secondary */
 char *s = N_("To attach the contents of this directory, either attach the files in this directory individually, or create an archive of the directory and attach it.");
+/* mail-composer:attach-nomessages primary */
+char *s = N_("Could not retrieve messages to attach from {0}.");
+/* mail-composer:attach-nomessages secondary */
+char *s = N_("Because \"{1}\".");
 /* mail-composer:recover-autosave title */
 char *s = N_("Unfinished messages found");
 /* mail-composer:recover-autosave primary */

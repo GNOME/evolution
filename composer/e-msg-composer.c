@@ -142,21 +142,23 @@ static guint signals[LAST_SIGNAL] = { 0 };
 
 enum {
 	DND_TYPE_MESSAGE_RFC822,
+	DND_TYPE_X_UID_LIST,
 	DND_TYPE_TEXT_URI_LIST,
 	DND_TYPE_NETSCAPE_URL,
 	DND_TYPE_TEXT_VCARD,
-	DND_TYPE_TEXT_CALENDAR
+	DND_TYPE_TEXT_CALENDAR,
 };
 
 static GtkTargetEntry drop_types[] = {
 	{ "message/rfc822", 0, DND_TYPE_MESSAGE_RFC822 },
+	{ "x-uid-list", 0, DND_TYPE_X_UID_LIST },
 	{ "text/uri-list", 0, DND_TYPE_TEXT_URI_LIST },
 	{ "_NETSCAPE_URL", 0, DND_TYPE_NETSCAPE_URL },
 	{ "text/x-vcard", 0, DND_TYPE_TEXT_VCARD },
-	{ "text/calendar", 0, DND_TYPE_TEXT_CALENDAR }
+	{ "text/calendar", 0, DND_TYPE_TEXT_CALENDAR },
 };
 
-static int num_drop_types = sizeof (drop_types) / sizeof (drop_types[0]);
+#define num_drop_types (sizeof (drop_types) / sizeof (drop_types[0]))
 
 static const char *emc_draft_format_names[] = { "pgp-sign", "pgp-encrypt", "smime-sign", "smime-encrypt" };
 
@@ -172,8 +174,6 @@ static GSList *all_composers = NULL;
 static GList *add_recipients (GList *list, const char *recips);
 
 static void handle_mailto (EMsgComposer *composer, const char *mailto);
-
-static void message_rfc822_dnd (EMsgComposer *composer, CamelStream *stream);
 
 /* used by e_msg_composer_add_message_attachments() */
 static void add_attachments_from_multipart (EMsgComposer *composer, CamelMultipart *multipart,
@@ -2637,39 +2637,26 @@ delete_event (GtkWidget *widget,
 }
 
 static void
-message_rfc822_dnd (EMsgComposer *composer, CamelStream *stream)
+attach_message(EMsgComposer *composer, CamelMimeMessage *msg)
 {
-	CamelMimeParser *mp;
-	
-	mp = camel_mime_parser_new ();
-	camel_mime_parser_scan_from (mp, TRUE);
-	camel_mime_parser_init_with_stream (mp, stream);
-	
-	while (camel_mime_parser_step (mp, 0, 0) == CAMEL_MIME_PARSER_STATE_FROM) {
-		CamelMimeMessage *message;
-		CamelMimePart *part;
-		
-		message = camel_mime_message_new ();
-		if (camel_mime_part_construct_from_parser (CAMEL_MIME_PART (message), mp) == -1) {
-			camel_object_unref (message);
-			break;
-		}
-		
-		part = camel_mime_part_new ();
-		camel_mime_part_set_disposition (part, "inline");
-		camel_medium_set_content_object (CAMEL_MEDIUM (part),
-						 CAMEL_DATA_WRAPPER (message));
-		camel_mime_part_set_content_type (part, "message/rfc822");
-		e_msg_composer_attachment_bar_attach_mime_part (E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar),
-								part);
-		camel_object_unref (message);
-		camel_object_unref (part);
-		
-		/* skip over the FROM_END state */
-		camel_mime_parser_step (mp, 0, 0);
-	}
-	
-	camel_object_unref (mp);
+	CamelMimePart *mime_part;
+	const char *subject;
+
+	mime_part = camel_mime_part_new();
+	camel_mime_part_set_disposition(mime_part, "inline");
+	subject = camel_mime_message_get_subject(msg);
+	if (subject) {
+		char *desc = g_strdup_printf(_("Attached message - %s"), subject);
+
+		camel_mime_part_set_description(mime_part, desc);
+		g_free(desc);
+	} else
+		camel_mime_part_set_description(mime_part, _("Attached message"));
+
+	camel_medium_set_content_object((CamelMedium *)mime_part, (CamelDataWrapper *)msg);
+	camel_mime_part_set_content_type(mime_part, "message/rfc822");
+	e_msg_composer_attachment_bar_attach_mime_part(E_MSG_COMPOSER_ATTACHMENT_BAR(composer->attachment_bar), mime_part);
+	camel_object_unref(mime_part);
 }
 
 static void
@@ -2681,6 +2668,7 @@ drag_data_received (EMsgComposer *composer, GdkDragContext *context,
 	CamelMimePart *mime_part;
 	CamelStream *stream;
 	CamelURL *url;
+	CamelMimeMessage *msg;
 	char *content_type;
 	int i;
 	
@@ -2692,8 +2680,12 @@ drag_data_received (EMsgComposer *composer, GdkDragContext *context,
 		camel_stream_write (stream, selection->data, selection->length);
 		camel_stream_reset (stream);
 		
-		message_rfc822_dnd (composer, stream);
-		camel_object_unref (stream);
+		msg = camel_mime_message_new ();
+		if (camel_data_wrapper_construct_from_stream((CamelDataWrapper *)msg, stream) != -1)
+			attach_message(composer, msg);
+
+		camel_object_unref(msg);
+		camel_object_unref(stream);
 		break;
 	case DND_TYPE_TEXT_URI_LIST:
 	case DND_TYPE_NETSCAPE_URL:
@@ -2736,9 +2728,7 @@ drag_data_received (EMsgComposer *composer, GdkDragContext *context,
 		d(printf ("dropping a %s\n", content_type));
 		
 		mime_part = camel_mime_part_new ();
-		camel_mime_part_set_content (mime_part, selection->data,
-					     selection->length, content_type);
-		
+		camel_mime_part_set_content (mime_part, selection->data, selection->length, content_type);
 		camel_mime_part_set_disposition (mime_part, "inline");
 		
 		e_msg_composer_attachment_bar_attach_mime_part
@@ -2749,6 +2739,90 @@ drag_data_received (EMsgComposer *composer, GdkDragContext *context,
 		g_free (content_type);
 
 		break;
+	case DND_TYPE_X_UID_LIST: {
+		GPtrArray *uids;
+		char *inptr, *inend;
+		CamelFolder *folder;
+		CamelException ex = CAMEL_EXCEPTION_INITIALISER;
+
+		/* NB: This all runs synchronously, could be very slow/hang/block the ui */
+
+		uids = g_ptr_array_new();
+
+		inptr = selection->data;
+		inend = selection->data + selection->length;
+		while (inptr < inend) {
+			char *start = inptr;
+
+			while (inptr < inend && *inptr)
+				inptr++;
+
+			if (start > (char *)selection->data)
+				g_ptr_array_add(uids, g_strndup(start, inptr-start));
+
+			inptr++;
+		}
+
+		if (uids->len > 0) {
+			folder = mail_tool_uri_to_folder(selection->data, 0, &ex);
+			if (folder) {
+				if (uids->len == 1) {
+					msg = camel_folder_get_message(folder, uids->pdata[0], &ex);
+					if (msg == NULL)
+						goto fail;
+					attach_message(composer, msg);
+				} else {
+					CamelMultipart *mp = camel_multipart_new();
+					char *desc;
+
+					camel_data_wrapper_set_mime_type((CamelDataWrapper *)mp, "multipart/digest");
+					camel_multipart_set_boundary(mp, NULL);
+					for (i=0;i<uids->len;i++) {
+						msg = camel_folder_get_message(folder, uids->pdata[i], &ex);
+						if (msg) {
+							mime_part = camel_mime_part_new();
+							camel_mime_part_set_disposition(mime_part, "inline");
+							camel_medium_set_content_object((CamelMedium *)mime_part, (CamelDataWrapper *)msg);
+							camel_mime_part_set_content_type(mime_part, "message/rfc822");
+							camel_multipart_add_part(mp, mime_part);
+							camel_object_unref(mime_part);
+							camel_object_unref(msg);
+						} else {
+							camel_object_unref(mp);
+							goto fail;
+						}
+					}
+					mime_part = camel_mime_part_new();
+					camel_medium_set_content_object((CamelMedium *)mime_part, (CamelDataWrapper *)mp);
+					/* translators, this count will always be >1 */
+					desc = g_strdup_printf(ngettext("Attached message", "%d attached messages", uids->len), uids->len);
+					camel_mime_part_set_description(mime_part, desc);
+					g_free(desc);
+					e_msg_composer_attachment_bar_attach_mime_part(E_MSG_COMPOSER_ATTACHMENT_BAR(composer->attachment_bar), mime_part);
+					camel_object_unref(mime_part);
+					camel_object_unref(mp);
+				}
+			fail:
+				if (camel_exception_is_set(&ex)) {
+					char *name;
+
+					camel_object_get(folder, NULL, CAMEL_FOLDER_NAME, &name, NULL);
+					e_error_run((GtkWindow *)composer, "mail-composer:attach-nomessages",
+						    name?name:(char *)selection->data, camel_exception_get_description(&ex), NULL);
+					camel_object_free(folder, CAMEL_FOLDER_NAME, name);
+				}
+				camel_object_unref(folder);
+			} else {
+				e_error_run((GtkWindow *)composer, "mail-composer:attach-nomessages",
+					    selection->data, camel_exception_get_description(&ex), NULL);
+			}
+
+			camel_exception_clear(&ex);
+		}
+
+		g_ptr_array_free(uids, TRUE);
+
+		break; }
 	default:
 		d(printf ("dropping an unknown\n"));
 		break;

@@ -15,6 +15,11 @@
   <secondary>To attach the contents of this directory, either attach the files in this directory individually, or create an archive of the directory and attach it.</secondary>
  </error>
 
+ <error id="attach-nomessages" type="error">
+  <primary>Could not retrieve messages to attach from {0}.</primary>
+  <secondary>Because &quot;{1}&quot;.</secondary>
+ </error>
+
  <error id="recover-autosave" type="question">
   <title>Unfinished messages found</title>
   <primary>Do you want to recover unfinished messages?</primary>
