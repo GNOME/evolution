@@ -399,15 +399,13 @@ e_address_western_parse (const gchar *in_address)
 										&eaw->extended );
 				}
 				else {
-					if (eaw->extended == NULL) {
-						eaw->extended = g_strdup (lines[cntr]);
-					}
-					else {
-						gchar *temp;
-						temp = g_strconcat (eaw->extended, "\n", lines[cntr], NULL);
-						g_free (eaw->extended);
-						eaw->extended = temp;
-					}
+					gchar *temp;
+					temp = g_strdup_printf (
+						"%s\n%s",
+						eaw->extended ? eaw->extended: "",
+						lines[cntr]);
+					g_free (eaw->extended);
+					eaw->extended = temp;
 				}
 			}
 		}

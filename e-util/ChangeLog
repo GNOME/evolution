@@ -1,3 +1,11 @@
+2003-03-13  Dan Winship  <danw@ximian.com>
+
+	* ename/e-address-western.c (e_address_western_parse): When
+	declaring a line to be part of "extended" because we don't know
+	what else to call it, keep the preceding "\n" so that the address
+	still looks the same when we reassemble the pieces later. Fixes
+	handling of non-US addresses
+
 2003-03-12  Dan Winship  <danw@ximian.com>
 
 	* e-xml-hash-utils.c (e_xml_to_hash): Update for a libxml2 change
