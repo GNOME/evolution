@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: evolution 1.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-02-10 12:51+0100\n"
-"PO-Revision-Date: 2005-02-10 13:30+0100\n"
+"PO-Revision-Date: 2005-02-15 01:34+0100\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian <i18n-nb@lister.ping.uio.no>\n"
 "MIME-Version: 1.0\n"
@@ -6778,7 +6778,7 @@ msgstr "Godtatt"
 #: ../calendar/gui/e-itip-control.c:1141 ../calendar/gui/itip-utils.c:425
 #: ../plugins/itip-formatter/itip-formatter.c:1392
 msgid "Tentatively Accepted"
-msgstr "Akteptert tentativt"
+msgstr "Akseptert tentativt"
 
 #: ../calendar/gui/e-itip-control.c:1145
 #: ../calendar/gui/e-meeting-list-view.c:176
@@ -15998,7 +15998,7 @@ msgstr "Signering"
 
 #: ../smime/lib/e-cert.c:870
 msgid "Non-repudiation"
-msgstr ""
+msgstr "Ikke-benekting"
 
 #: ../smime/lib/e-cert.c:874
 msgid "Key Encipherment"
