@@ -85,7 +85,6 @@ static void
 rule_editor_clicked (GtkWidget *dialog, int button, void *data)
 {
 	EFilterBar *efb = data;
-	ESearchBarItem item;
 	FilterRule *rule;
 	
 	switch (button) {
@@ -95,16 +94,9 @@ rule_editor_clicked (GtkWidget *dialog, int button, void *data)
 			if (!filter_rule_validate (rule))
 				return;
 			
-			item.text = rule->name;
-			item.id = efb->menu_base + efb->menu_rules->len;
-			item.subitems = NULL;
-			
-			g_ptr_array_add (efb->menu_rules, rule);
-			
 			rule_context_add_rule (efb->context, rule);
 			/* FIXME: check return */
 			rule_context_save (efb->context, efb->userrules);
-			e_search_bar_add_menu ((ESearchBar *)efb, &item);
 		}
 	case 1:
 		gnome_dialog_close (GNOME_DIALOG (dialog));
@@ -118,7 +110,7 @@ rule_advanced_clicked (GtkWidget *dialog, int button, void *data)
 {
 	EFilterBar *efb = data;
 	FilterRule *rule;
-
+	
 	switch (button) {
 	case 0:			/* 'ok' */
 	case 1:
@@ -154,7 +146,7 @@ menubar_activated (ESearchBar *esb, int id, void *data)
 		if (!efb->save_dialogue) {
 			GnomeDialog *gd;
 			
-			gd = (GnomeDialog *) rule_editor_new (efb->context, NULL);
+			gd = (GnomeDialog *) rule_editor_new (efb->context, FILTER_SOURCE_INCOMING);
 			gtk_window_set_title (GTK_WINDOW (gd), _("Search Editor"));
 			gtk_signal_connect (GTK_OBJECT (gd), "clicked", full_rule_editor_clicked, efb);
 			gtk_signal_connect (GTK_OBJECT (gd), "destroy", rule_editor_destroyed, efb);
@@ -334,17 +326,82 @@ build_items (ESearchBar *esb, ESearchBarItem *items, int type, int *start, GPtrA
 	return menu;
 }
 
-/* Virtual methods */
 static void
-set_menu (ESearchBar *esb, ESearchBarItem *items)
+generate_menu (ESearchBar *esb, ESearchBarItem *items)
 {
-	GArray *menu;
 	EFilterBar *efb = (EFilterBar *)esb;
+	GArray *menu;
 	
 	g_ptr_array_set_size (efb->menu_rules, 0);
 	menu = build_items (esb, items, 0, &efb->menu_base, efb->menu_rules);
 	((ESearchBarClass *)parent_class)->set_menu (esb, (ESearchBarItem *)menu->data);
 	g_array_free (menu, TRUE);
+}
+
+static ESearchBarSubitem *
+copy_subitems (ESearchBarSubitem *subitems)
+{
+	ESearchBarSubitem *items;
+	int i, num;
+	
+	for (num = 0; subitems[num].id != -1; num++)
+		;
+	
+	items = g_new (ESearchBarSubitem, num + 1);
+	for (i = 0; i < num + 1; i++) {
+		items[i].text = g_strdup (subitems[i].text);
+		items[i].id = subitems[i].id;
+		items[i].translate = subitems[i].translate;
+	}
+	
+	return items;
+}
+
+static void
+free_items (ESearchBarItem *items)
+{
+	int i, j;
+	
+	for (i = 0; items[i].id != -1; i++) {
+		g_free (items[i].text);
+		if (items[i].subitems) {
+			for (j = 0; items[i].subitems[j].id != -1; j++)
+				g_free (items[i].subitems[j].text);
+			
+			g_free (items[i].subitems);
+		}
+	}
+	
+	g_free (items);
+}
+
+/* Virtual methods */
+static void
+set_menu (ESearchBar *esb, ESearchBarItem *items)
+{
+	EFilterBar *efb = E_FILTER_BAR (esb);
+	ESearchBarItem *default_items;
+	int i, num;
+	
+	if (efb->default_items)
+		free_items (efb->default_items);
+	
+	for (num = 0; items[num].id != -1; num++)
+		;
+	
+	default_items = g_new (ESearchBarItem, num + 1);
+	for (i = 0; i < num + 1; i++) {
+		default_items[i].text = g_strdup (items[i].text);
+		default_items[i].id = items[i].id;
+		if (items[i].subitems)
+			default_items[i].subitems = copy_subitems (items[i].subitems);
+		else
+			default_items[i].subitems = NULL;
+	}
+	
+	efb->default_items = default_items;
+	
+	generate_menu (esb, default_items);
 }
 
 static void
@@ -357,6 +414,15 @@ set_option (ESearchBar *esb, ESearchBarItem *items)
 	menu = build_items (esb, items, 1, &efb->option_base, efb->option_rules);
 	((ESearchBarClass *)parent_class)->set_option (esb, (ESearchBarItem *)menu->data);
 	g_array_free (menu, TRUE);
+}
+
+static void
+context_changed (RuleContext *context, gpointer user_data)
+{
+	EFilterBar *efb = E_FILTER_BAR (user_data);
+	ESearchBar *esb = E_SEARCH_BAR (user_data);
+	
+	generate_menu (esb, efb->default_items);
 }
 
 
@@ -392,10 +458,13 @@ destroy (GtkObject *object)
 	
 	bar = E_FILTER_BAR (object);
 	gtk_object_unref (GTK_OBJECT (bar->context));
-	g_free (bar->userrules);
-	g_free (bar->systemrules);
 	g_ptr_array_free (bar->menu_rules, TRUE);
 	g_ptr_array_free (bar->option_rules, TRUE);
+	g_free (bar->systemrules);
+	g_free (bar->userrules);
+	
+	if (bar->default_items)
+		free_items (bar->default_items);
 	
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(*GTK_OBJECT_CLASS (parent_class)->destroy) (object);
@@ -466,14 +535,17 @@ e_filter_bar_new (RuleContext *context, const char *systemrules, const char *use
 	
 	bar->context = context;
 	gtk_object_ref (GTK_OBJECT (context));
-	bar->systemrules = g_strdup (systemrules);
-	bar->userrules = g_strdup (userrules);
-	rule_context_load (context, systemrules, userrules);
 	
 	bar->config = config;
 	bar->config_data = data;
 	
+	bar->systemrules = g_strdup (systemrules);
+	bar->userrules = g_strdup (userrules);
+	
 	e_search_bar_construct ((ESearchBar *)bar, &item, &item);
+	
+	gtk_signal_connect (GTK_OBJECT (context), "changed",
+			    context_changed, bar);
 	
 	return bar;
 }

@@ -1,3 +1,16 @@
+2001-10-23  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-filter-bar.c (rule_editor_clicked): Don't add the menu item
+	here, do this in the context_changed signal callback instead.
+	(context_changed): rebuild the search menu.
+	(set_menu): Copy the items into a default_items list so we can
+	regenerate the menu when something changes. Then call
+	generate_menu().
+	(generate_menu): Do what set_menu() used to do.
+	(e_filter_bar_new): Don't do a rule_context_load() anymore since
+	we don't need to.
+	(destroy): free the default_items list.
+
 2001-10-23  Damon Chaplin  <damon@ximian.com>
 
 	* e-search-bar.c (copy_subitems): copy the translate field over as
