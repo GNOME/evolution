@@ -12,6 +12,11 @@
   <property name="modal">False</property>
   <property name="resizable">True</property>
   <property name="destroy_with_parent">False</property>
+  <property name="decorated">True</property>
+  <property name="skip_taskbar_hint">False</property>
+  <property name="skip_pager_hint">False</property>
+  <property name="type_hint">GDK_WINDOW_TYPE_HINT_NORMAL</property>
+  <property name="gravity">GDK_GRAVITY_NORTH_WEST</property>
 
   <child>
     <widget class="GnomeDruid" id="startup-druid">
@@ -24,9 +29,7 @@
 	  <property name="visible">True</property>
 	  <property name="position">GNOME_EDGE_START</property>
 	  <property name="title" translatable="yes">Welcome</property>
-	  <property name="text" translatable="yes">Welcome to Evolution. The next few screens will allow
-Evolution to connect to your email accounts, and to import
-files from other applications. 
+	  <property name="text" translatable="yes">Welcome to Evolution. The next few screens will allow Evolution to connect to your email accounts, and to import files from other applications. 
 
 Please click the &quot;Forward&quot; button to continue. </property>
 	</widget>
@@ -77,8 +80,7 @@ Please click the &quot;Forward&quot; button to continue. </property>
 	  <property name="visible">True</property>
 	  <property name="position">GNOME_EDGE_FINISH</property>
 	  <property name="title" translatable="yes">Done</property>
-	  <property name="text" translatable="yes">You have successfully entered all of the information
-needed to set up Evolution. 
+	  <property name="text" translatable="yes">You have successfully entered all of the information needed to set up Evolution. 
 
 Click the &quot;Apply&quot; button to save your settings. </property>
 	</widget>

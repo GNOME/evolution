@@ -1,3 +1,7 @@
+2004-11-02  mengjie yu  <meng-jie.yu@sun.com>
+
+	* evolution-startup-wizard.glade:remove the hard line breaks.
+
 2004-10-25  Not Zed  <NotZed@Ximian.com>
 
 	* main.c (main): register event hook.
