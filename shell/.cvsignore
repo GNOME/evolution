@@ -10,6 +10,10 @@ Evolution-common.c
 Evolution-skels.c
 Evolution-stubs.c
 Evolution.h
+Evolution-Wombat-common.c
+Evolution-Wombat-skels.c
+Evolution-Wombat-stubs.c
+Evolution-Wombat.h
 ID
 Makefile
 Makefile.in
