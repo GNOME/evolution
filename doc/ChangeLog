@@ -1,3 +1,10 @@
+2001-08-14  Aaron Weber  <aaron@ximian.com>
+
+	* C/usage-mainwindow.sgml: Commented out menuref.
+	* C/usage-contact.sgml: Commented out menuref.
+	* C/evolution.sgml: commented out menuref.
+	* C/preface.sgml: commented out menuref.
+
 2001-08-12  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* C/apx-authors.sgml: Added missing ;'s after entities.

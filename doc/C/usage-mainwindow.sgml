@@ -686,8 +686,7 @@
       items will relate to mail; some will relate to other components
       of <application>Evolution</application> and some, especially
       those in the <guimenu>File Menu</guimenu> will relate to the
-      application as a whole. The contents of the menu bar are
-      described in <xref linkend="menuref">.
+      application as a whole. 
    </para>
    <para>
       <variablelist>

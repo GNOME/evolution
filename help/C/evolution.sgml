@@ -12,7 +12,7 @@
 <!ENTITY CONFIG-PREFS SYSTEM "config-prefs.sgml">
 <!ENTITY CONFIG-SYNC SYSTEM "config-sync.sgml">
 <!ENTITY CONFIG-ENCRYPTION SYSTEM "config-encryption.sgml">
-<!ENTITY MENUREF SYSTEM "menuref.sgml">
+<!-- <!ENTITY MENUREF SYSTEM "menuref.sgml"> REMOVED THIS FOR NOW -->
 <!ENTITY FAQ SYSTEM "evolution-faq.sgml">
 <!ENTITY APX-GLOSS SYSTEM "apx-gloss.sgml">
 <!ENTITY APX-COMMON-TASKS SYSTEM "apx-common-tasks.sgml">
@@ -119,6 +119,7 @@ implemented. -->
     &CONFIG-SYNC;
   </part>
 
+<!-- COMMENTED OUT MENUREF SECTION 
   <part>  
     <title>Comprehensive Menu reference</title>
     <partintro>
@@ -128,8 +129,10 @@ implemented. -->
         <application>Evolution</application> has to offer you.
       </para>
     </partintro>
-    &MENUREF;
+ &MENUREF;
   </part>
+COMMENTED OUT MENUREF -->
+
   &FAQ;
   &APX-GLOSS;
   &APX-BUGS;

@@ -138,13 +138,12 @@
     
     <para>
       The contact editor window has two tabs,
-      <guilabel>General</guilabel>, for basic contact information,
-      and <guilabel>Details</guilabel>, for a more specific
-      description of the person.  In addition, it contains a
-      <guimenu>File</guimenu> menu, (see <xref
-					       linkend="menuref-contact-editor">) and a toolbar with three
-    	items: <guilabel>Save and Close</guilabel>,
-    	<guilabel>Print</guilabel>, and <guilabel>Delete</guilabel>.
+      <guilabel>General</guilabel>, for basic contact information, and
+      <guilabel>Details</guilabel>, for a more specific description of
+      the person.  In addition, it contains a <guimenu>File</guimenu>
+      menu and a toolbar with three items: <guilabel>Save and
+      Close</guilabel>, <guilabel>Print</guilabel>, and
+      <guilabel>Delete</guilabel>.
       </para>
     
     <figure id="usage-contact-editor-fig">

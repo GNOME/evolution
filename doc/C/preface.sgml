@@ -135,10 +135,7 @@
         <link linkend="config">configuration</link>, is targeted at
         more advanced users, but anyone who wants to change the way
         <application>Evolution</application> looks or acts can benefit
-        from reading it.  In addition, there is a comprehensive <link
-        linkend="menuref">menu reference</link> which describes nearly
-        every capability that <application>Evolution</application> has
-        to offer.
+        from reading it.  
       </para>
       <formalpara>
         <title>Typographical conventions</title>
@@ -194,8 +191,7 @@
       You might want to copy this section and tape it to the wall
       next to your computer: it's a very short summary of most of
       the things you'll want to do with
-      <application>Evolution</application>.  Read <xref linkend="menuref"> if
-      you would like a complete list of keyboard shortcuts for menu commands.
+      <application>Evolution</application>.
     </para>
     
     <sect2 id="quickref-newthings">
