@@ -35,6 +35,7 @@
 
 #include "widgets/misc/e-error.h"
 #include "e-util/e-categories-config.h"
+#include "e-util/e-config-listener.h"
 #include "e-util/e-time-utils.h"
 #include "shell/e-user-creatable-items-handler.h"
 #include <libedataserver/e-url.h>
@@ -64,6 +65,8 @@ struct _ETasksPrivate {
 
 	ECalView *query;
 	
+	EConfigListener *config_listener;
+
 	/* The ECalendarTable showing the tasks. */
 	GtkWidget   *tasks_view;
 	ECalendarTableConfig *tasks_view_config;
@@ -469,6 +472,7 @@ setup_widgets (ETasks *tasks)
 			  G_CALLBACK (search_bar_sexp_changed_cb), tasks);
 	g_signal_connect (priv->search_bar, "category_changed",
 			  G_CALLBACK (search_bar_category_changed_cb), tasks);
+	config_categories_changed_cb (priv->config_listener, "/apps/evolution/general//category_master_list", tasks);
 
 	gtk_table_attach (GTK_TABLE (tasks), priv->search_bar, 0, 1, 0, 1,
 			  GTK_EXPAND | GTK_FILL | GTK_SHRINK, 0, 0, 0);
@@ -582,6 +586,29 @@ e_tasks_class_init (ETasksClass *class)
 }
 
 
+static void
+config_categories_changed_cb (EConfigListener *config_listener, const char *key, gpointer user_data)
+{
+	GList *cat_list;
+	GPtrArray *cat_array;
+	ETasksPrivate *priv;
+	ETasks *tasks = user_data;
+
+	priv = tasks->priv;
+
+	cat_array = g_ptr_array_new ();
+	cat_list = e_categories_get_list ();
+	while (cat_list != NULL) {
+		if (e_categories_is_searchable ((const char *) cat_list->data))
+			g_ptr_array_add (cat_array, cat_list->data);
+		cat_list = g_list_remove (cat_list, cat_list->data);
+	}
+
+	cal_search_bar_set_categories (priv->search_bar, cat_array);
+
+	g_ptr_array_free (cat_array, TRUE);
+}
+
 /* Object initialization function for the gnome calendar */
 static void
 e_tasks_init (ETasks *tasks)
@@ -590,6 +617,9 @@ e_tasks_init (ETasks *tasks)
 	
 	priv = g_new0 (ETasksPrivate, 1);
 	tasks->priv = priv;
+
+	priv->config_listener = e_config_listener_new ();
+	g_signal_connect (priv->config_listener, "key_changed", G_CALLBACK (config_categories_changed_cb), tasks);
 
 	setup_config (tasks);
 	setup_widgets (tasks);
@@ -602,19 +632,6 @@ e_tasks_init (ETasks *tasks)
 	priv->sexp = g_strdup ("#t");
 	priv->default_client = NULL;
 	update_view (tasks);
-}
-
-/* Callback used when the set of categories changes in the calendar client */
-static void
-client_categories_changed_cb (ECal *client, GPtrArray *categories, gpointer data)
-{
-	ETasks *tasks;
-	ETasksPrivate *priv;
-
-	tasks = E_TASKS (data);
-	priv = tasks->priv;
-
-	cal_search_bar_set_categories (CAL_SEARCH_BAR (priv->search_bar), categories);
 }
 
 GtkWidget *
@@ -653,6 +670,15 @@ e_tasks_destroy (GtkObject *object)
 
 	if (priv) {
 		GList *l;
+
+		/* unset the config listener */
+		if (priv->config_listener) {
+			g_signal_disconnect_matched (priv->config_listener,
+						     G_SIGNAL_MATCH_DATA,
+						     0, 0, NULL, NULL, tasks);
+			g_object_unref (priv->config_listener);
+			priv->config_listener = NULL;
+		}
 
 		/* disconnect from signals on all the clients */
 		for (l = priv->clients_list; l != NULL; l = l->next) {
@@ -947,7 +973,6 @@ e_tasks_add_todo_source (ETasks *tasks, ESource *source)
 	}
 
 	g_signal_connect (G_OBJECT (client), "backend_error", G_CALLBACK (backend_error_cb), tasks);
-	g_signal_connect (G_OBJECT (client), "categories_changed", G_CALLBACK (client_categories_changed_cb), tasks);
 	g_signal_connect (G_OBJECT (client), "backend_died", G_CALLBACK (backend_died_cb), tasks);
 
 	/* add the client to internal structure */	

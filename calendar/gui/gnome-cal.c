@@ -42,7 +42,9 @@
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-dialog-util.h>
 #include <bonobo/bonobo-exception.h>
+#include <libedataserver/e-categories.h>
 #include <libedataserver/e-url.h>
+#include "e-util/e-config-listener.h"
 #include "shell/e-user-creatable-items-handler.h"
 #include <libecal/e-cal-time-util.h>
 #include <gal/menus/gal-view-factory-etable.h>
@@ -95,10 +97,8 @@ struct _GnomeCalendarPrivate {
 	GHashTable *clients[E_CAL_SOURCE_TYPE_LAST];
 	GList *clients_list[E_CAL_SOURCE_TYPE_LAST];
 	ECal *default_client[E_CAL_SOURCE_TYPE_LAST];
-	
-	/* Categories from the calendar clients */
-	/* FIXME are we getting all the categories? */
-	GPtrArray *categories[E_CAL_SOURCE_TYPE_LAST];
+
+	EConfigListener *config_listener;
 
 	/*
 	 * Fields for the calendar view
@@ -767,6 +767,7 @@ update_query (GnomeCalendar *gcal)
 		e_cal_view_start (old_query);
 	}
 
+	/* free memory */
 	g_free (real_sexp);
 	e_calendar_view_set_status_message (E_CALENDAR_VIEW (priv->week_view), NULL);
 	update_todo_view (gcal);
@@ -1181,6 +1182,29 @@ month_view_adjustment_changed_cb (GtkAdjustment *adjustment, GnomeCalendar *gcal
 }
 
 static void
+config_categories_changed_cb (EConfigListener *config_listener, const char *key, gpointer user_data)
+{
+	GList *cat_list;
+	GPtrArray *cat_array;
+	GnomeCalendarPrivate *priv;
+	GnomeCalendar *gcal = user_data;
+
+	priv = gcal->priv;
+
+	cat_array = g_ptr_array_new ();
+	cat_list = e_categories_get_list ();
+	while (cat_list != NULL) {
+		if (e_categories_is_searchable ((const char *) cat_list->data))
+			g_ptr_array_add (cat_array, cat_list->data);
+		cat_list = g_list_remove (cat_list, cat_list->data);
+	}
+
+	cal_search_bar_set_categories (priv->search_bar, cat_array);
+
+	g_ptr_array_free (cat_array, TRUE);
+}
+
+static void
 setup_widgets (GnomeCalendar *gcal)
 {
 	GnomeCalendarPrivate *priv;
@@ -1197,6 +1221,7 @@ setup_widgets (GnomeCalendar *gcal)
 			  G_CALLBACK (search_bar_sexp_changed_cb), gcal);
 	g_signal_connect (priv->search_bar, "category_changed",
 			  G_CALLBACK (search_bar_category_changed_cb), gcal);
+	config_categories_changed_cb (priv->config_listener, "/apps/evolution/general//category_master_list", gcal);
 
 	gtk_widget_show (priv->search_bar);
 	gtk_box_pack_start (GTK_BOX (gcal), priv->search_bar, FALSE, FALSE, 6);
@@ -1366,6 +1391,9 @@ gnome_calendar_init (GnomeCalendar *gcal)
 	for (i = 0; i < E_CAL_SOURCE_TYPE_LAST; i++)
 		priv->clients[i] = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
 	
+	priv->config_listener = e_config_listener_new ();
+	g_signal_connect (priv->config_listener, "key_changed", G_CALLBACK (config_categories_changed_cb), gcal);
+
 	priv->current_view_type = GNOME_CAL_DAY_VIEW;
 	priv->range_selected = FALSE;
 
@@ -1386,21 +1414,6 @@ gnome_calendar_init (GnomeCalendar *gcal)
 	priv->visible_end = -1;
 }
 
-/* Frees a set of categories */
-static void
-free_categories (GPtrArray *categories)
-{
-	int i;
-
-	if (!categories)
-		return;
-
-	for (i = 0; i < categories->len; i++)
-		g_free (categories->pdata[i]);
-
-	g_ptr_array_free (categories, TRUE);
-}
-
 static void
 gnome_calendar_destroy (GtkObject *object)
 {
@@ -1417,7 +1430,16 @@ gnome_calendar_destroy (GtkObject *object)
 	if (priv) {
 		GList *l;
 		int i;
-		
+
+		/* unset the config listener */
+		if (priv->config_listener) {
+			g_signal_disconnect_matched (priv->config_listener,
+						     G_SIGNAL_MATCH_DATA,
+						     0, 0, NULL, NULL, gcal);
+			g_object_unref (priv->config_listener);
+			priv->config_listener = NULL;
+		}
+
 		/* Clean up the clients */
 		for (i = 0; i < E_CAL_SOURCE_TYPE_LAST; i++) {
 			for (l = priv->clients_list[i]; l != NULL; l = l->next) {
@@ -1438,11 +1460,6 @@ gnome_calendar_destroy (GtkObject *object)
 				g_object_unref (priv->default_client[i]);
 			}		
 			priv->default_client[i] = NULL;
-		}
-		
-		for (i = 0; i < E_CAL_SOURCE_TYPE_LAST; i++) {
-			free_categories (priv->categories[i]);
-			priv->categories[i] = NULL;
 		}
 
 		for (i = 0; i < GNOME_CAL_LAST_VIEW; i++) {
@@ -2146,22 +2163,6 @@ gnome_calendar_set_pane_positions	(GnomeCalendar	*gcal)
 	}
 }
 
-/* Duplicates an array of categories */
-static GPtrArray *
-copy_categories (GPtrArray *categories)
-{
-	GPtrArray *c;
-	int i;
-
-	c = g_ptr_array_new ();
-	g_ptr_array_set_size (c, categories->len);
-
-	for (i = 0; i < categories->len; i++)
-		c->pdata[i] = g_strdup (categories->pdata[i]);
-
-	return c;
-}
-
 static void
 client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 {
@@ -2334,83 +2335,6 @@ open_ecal (GnomeCalendar *gcal, ECal *cal, gboolean only_if_exists, open_func of
 	e_cal_open_async (cal, only_if_exists);
 
 	return TRUE;
-}
-
-/* Adds the categories from an array to a hash table if they don't exist there
- * already.
- */
-static void
-add_categories (GHashTable *categories, GPtrArray *c)
-{
-	int i;
-
-	if (!c)
-		return;
-
-	for (i = 0; i < c->len; i++) {
-		const char *cat;
-		const char *str;
-
-		cat = c->pdata[i];
-		str = g_hash_table_lookup (categories, cat);
-
-		if (!str)
-			g_hash_table_insert (categories, (char *) cat, NULL);
-	}
-}
-
-/* Appends a category from the hash table to the array */
-static void
-append_category_cb (gpointer key, gpointer value, gpointer data)
-{
-	GPtrArray *c;
-	const char *category;
-
-	category = key;
-	c = data;
-
-	g_ptr_array_set_size (c, c->len + 1);	
-	c->pdata[c->len - 1] = g_strdup (category);
-	
-}
-
-/* Callback from the calendar client when the set of categories changes.  We
- * have to merge the categories of the calendar and tasks clients.
- */
-static void
-client_categories_changed_cb (ECal *ecal, GPtrArray *categories, gpointer data)
-{
-	GnomeCalendar *gcal;
-	GnomeCalendarPrivate *priv;
-	ECalSourceType source_type;
-	GHashTable *cat_hash;
-	GPtrArray *merged;
-	int i;
-	
-	gcal = GNOME_CALENDAR (data);
-	priv = gcal->priv;
-
-	source_type = e_cal_get_source_type (ecal);
-
-	free_categories (priv->categories[source_type]);
-	priv->categories[source_type] = copy_categories (categories);
-
-	/* Build a non-duplicate list of the categories */
-	cat_hash = g_hash_table_new (g_str_hash, g_str_equal);
-	for (i = 0; i < E_CAL_SOURCE_TYPE_LAST; i++) {
-		add_categories (cat_hash, priv->categories[i]);
-	}	
-
-	/* Build the pointer array */
-	/* We size it maximally and then to 0 to pre-allocate memory */
-	merged = g_ptr_array_sized_new (g_hash_table_size (cat_hash));
-	g_ptr_array_set_size (merged, 0);
-
-	g_hash_table_foreach (cat_hash, append_category_cb, merged);
-	g_hash_table_destroy (cat_hash);
-
-	cal_search_bar_set_categories (CAL_SEARCH_BAR (priv->search_bar), merged);
-	free_categories (merged);
 }
 
 /* Callback when we get an error message from the backend */
@@ -2623,7 +2547,6 @@ gnome_calendar_add_source (GnomeCalendar *gcal, ECalSourceType source_type, ESou
 	}
 	
 	g_signal_connect (G_OBJECT (client), "backend_error", G_CALLBACK (backend_error_cb), gcal);
-	g_signal_connect (G_OBJECT (client), "categories_changed", G_CALLBACK (client_categories_changed_cb), gcal);
 	g_signal_connect (G_OBJECT (client), "backend_died", G_CALLBACK (backend_died_cb), gcal);
 
 	/* add the client to internal structure */
