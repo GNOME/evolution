@@ -141,12 +141,14 @@ window_delete_cb (GtkWidget *widget,
 		/* FIXME: notify the event editor that our data has changed. 
 			For now, I'll just display a dialog box. */
 		{
-			GtkWidget *dialog;
-		
-			dialog = gnome_warning_dialog_parented ("Note that the meeting has changed,\n"
-								"and you should save this event.",
-								GTK_WINDOW (priv->meeting_window));
-			gnome_dialog_run (GNOME_DIALOG(dialog));
+			if (!cal_client_update_object (priv->client, priv->comp)) {
+				GtkWidget *dialog;
+			
+				dialog = gnome_warning_dialog_parented ("I couldn't automatically save this meeting,\n"
+									"so try to save this event manually.",
+									GTK_WINDOW (priv->meeting_window));
+				gnome_dialog_run (GNOME_DIALOG(dialog));
+			}
 		}
 	}
 

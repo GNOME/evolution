@@ -1,3 +1,9 @@
+2000-11-09   Jesse Pavel   <jpavel@helixcode.com>
+
+	* gui/e-meeting-edit.c:  fixed a bug that would make the calendar segfault
+	if the meeting editor were called up twice without first saving the
+	component.
+
 2000-11-08   Jesse Pavel   <jpavel@helixcode.com>
 	
 	* gui/e-itip-control.c, gui/e-itip-control.glade: updated the GUI
