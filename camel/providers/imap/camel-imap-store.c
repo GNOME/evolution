@@ -163,10 +163,9 @@ try_connect (CamelService *service, CamelException *ex)
 
 	fd = socket (h->h_addrtype, SOCK_STREAM, 0);
 	if (fd == -1 || connect (fd, (struct sockaddr *)&sin, sizeof(sin)) == -1) {
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-				      "Could not connect to %s (port %s): %s",
-				      service->url->host, service->url->port,
-				      strerror(errno));
+
+		/* We don't want to set a CamelException here */
+
 		if (fd > -1)
 			close (fd);
 

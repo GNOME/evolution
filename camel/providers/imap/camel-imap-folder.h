@@ -2,10 +2,10 @@
 /* camel-imap-folder.h : Abstract class for an imap folder */
 
 /* 
+ * Author: 
+ *   Jeffrey Stedfast <fejj@helixcode.com> 
  *
- * Authors: Jeffrey Stedfast <fejj@helixcode.com> 
- *
- * Copyright (C) 2000 Helix Code .
+ * Copyright (C) 2000 Helix Code, Inc. (www.helixcode.com)
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -34,12 +34,7 @@ extern "C" {
 #endif /* __cplusplus }*/
 
 #include <gtk/gtk.h>
-#include <camel/camel-folder.h>
-#include <camel/camel-folder-search.h>
-#include <libibex/ibex.h>
-#include "camel-imap-summary.h"
-
-/*  #include "camel-store.h" */
+#include "camel-folder.h"
 
 #define CAMEL_IMAP_FOLDER_TYPE     (camel_imap_folder_get_type ())
 #define CAMEL_IMAP_FOLDER(obj)     (GTK_CHECK_CAST((obj), CAMEL_IMAP_FOLDER_TYPE, CamelImapFolder))
@@ -50,15 +45,10 @@ typedef struct {
 	CamelFolder parent_object;
 
 	gchar *folder_file_path;   /* contains the messages */
-	gchar *summary_file_path;  /* contains the messages summary */
 	gchar *folder_dir_path;    /* contains the subfolders */
 	gchar *index_file_path;	   /* index of body contents */
 
-	ibex *index;		   /* index for this folder */
-	CamelImapSummary *summary;
-	CamelFolderSearch *search; /* used to run searches, we just use the real thing (tm) */
 } CamelImapFolder;
-
 
 
 typedef struct {
@@ -70,6 +60,7 @@ typedef struct {
 
 
 /* public methods */
+CamelFolder *camel_imap_folder_new (CamelStore *parent, CamelException *ex);
 
 /* Standard Gtk function */
 GtkType camel_imap_folder_get_type (void);
