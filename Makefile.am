@@ -33,6 +33,7 @@ SUBDIRS = 			\
 	libwombat		\
 	addressbook		\
 	calendar		\
+	my-evolution		\
         art                     \
 	filter			\
 	composer		\

@@ -1,3 +1,7 @@
+2002-11-20  Ettore Perazzoli  <ettore@ximian.com>
+
+	* Makefile.am (changelogs): Add my-evolution.
+
 2002-11-20  Not Zed  <NotZed@Ximian.com>
 
 	* libibex/*: cvs removed it all.  Not much use having it around
