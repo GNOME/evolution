@@ -178,7 +178,8 @@ mail_tool_get_inbox (const gchar *url, CamelException *ex)
 }
 	
 
-CamelFolder *
+/* why is this function so stupidly complex when allthe work is done elsehwere? */
+char *
 mail_tool_do_movemail (const gchar *source_url, CamelException *ex)
 {
 	gchar *dest_url;
@@ -232,18 +233,14 @@ mail_tool_do_movemail (const gchar *source_url, CamelException *ex)
 		return NULL;
 	}
 
-	g_free (dest_path);
-
 	if (camel_exception_is_set (ex)) {
 		g_free (dest_url);
+		g_free (dest_path);
 		return NULL;
 	}
 
-	/* Get the CamelFolder for our dest_path. */
-
-	ret = mail_tool_get_folder_from_urlname (dest_url, "movemail", TRUE, ex);
 	g_free (dest_url);
-	return ret;
+	return dest_path;
 }
 
 void

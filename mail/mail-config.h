@@ -83,6 +83,9 @@ MailConfigService  *mail_config_get_default_news (void);
 GSList             *mail_config_get_news (void);
 void                mail_config_add_news (MailConfigService *source);
 
+/* static utility functions */
+char 		   *mail_config_folder_to_cachename(CamelFolder *folder, const char *prefix);
+
 #endif
 
 

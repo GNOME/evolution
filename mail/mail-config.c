@@ -550,6 +550,22 @@ mail_config_add_news (MailConfigService *news)
 	config->news = g_slist_append (config->news, new_news);
 }
 
+char *
+mail_config_folder_to_cachename(CamelFolder *folder, const char *prefix)
+{
+	char *url, *p, *filename;
+
+	url = camel_url_to_string(CAMEL_SERVICE(folder->parent_store)->url, FALSE);
+	for (p = url; *p; p++) {
+		if (!isprint((unsigned char)*p) || strchr(" /'\"`&();|<>${}!", *p))
+			*p = '_';
+	}
+	
+	filename = g_strdup_printf("%s/config/%s%s", evolution_dir, prefix, url);
+	g_free(url);
+	return filename;
+}
+
 
 
 

@@ -54,8 +54,8 @@ CamelFolder *mail_tool_get_local_inbox (CamelException *ex);
 CamelFolder *mail_tool_get_inbox (const gchar *url, CamelException *ex);
 
 /* Does a camel_movemail into the local movemail folder
- * and returns the movemail folder that was created. */
-CamelFolder *
+ * and returns the path to the new movemail folder that was created. which shoudl be freed later */
+char *
 mail_tool_do_movemail (const gchar *source_url, CamelException *ex);
 
 /* Transfers all the messages from source into dest;

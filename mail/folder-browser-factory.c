@@ -71,7 +71,7 @@ create_ondemand_hooks (FolderBrowser *fb, BonoboUIComponent *uic)
 	system = EVOLUTION_DATADIR "/evolution/filtertypes.xml";
 	fb->filter_context = filter_context_new();
 	rule_context_load ((RuleContext *) fb->filter_context, system, user);
-	while ( (rule = rule_context_next_rule((RuleContext *)fb->filter_context, rule)) != NULL ) {
+	while ( (rule = rule_context_next_rule((RuleContext *)fb->filter_context, rule, FILTER_SOURCE_DEMAND)) != NULL ) {
 		register_ondemand((RuleContext *)fb->filter_context, rule, fb, uic);
 	}
 	g_free (user);

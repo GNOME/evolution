@@ -1,3 +1,35 @@
+2000-10-12  Not Zed  <NotZed@HelixCode.com>
+
+	* message-list.c (message_list_setup_etable): Duh, fix the test
+	for the folder name, strstr != strcmp is it.
+
+2000-10-10  Not Zed  <NotZed@HelixCode.com>
+
+	* message-list.c (folder_to_cachename): Removed, changed callers
+	to use mail_config_folder_to_cachename instead.
+
+	* mail-config.c (mail_config_folder_to_cachename): New utility
+	function to get a cache name for a folder.
+
+	* mail-tools.c (mail_tool_do_movemail): Changed to return the path
+	to the mbox, rather than opening a folder of it.
+
+	* mail-ops.c (mail_incorporate_messages): Dont bother making the
+	pseudo messageinfo, filder_driver_filter_message will do it for
+	us.
+	(report_status): Callback to report status of filtering operation.
+	(do_fetch_mail): Changed significantly - for the api changes to
+	the filtering system.  Also now incorporates a mailbox file
+	directly, without having to import it into a camel folder first.
+	(mail_incorporate_messages): Removed entirely, no longer needed.
+
+	* mail-vfolder.c (vfolder_refresh): Fix for context api changes.
+	(vfolder_uri_to_folder): Likewise.
+
+	* folder-browser-factory.c (create_ondemand_hooks): Changed for
+	api changes.  Also only adds demand filters to the menu (fixed a
+	small logic bug).
+
 2000-10-11  Chris Toshok  <toshok@helixcode.com>
 
 	* subscribe-dialog.c (folder_etree_value_at): special case for
@@ -159,6 +191,7 @@
 	`mail-search-dialogue.h' and `mail-search-dialogue.c' as NotZed
 	forgot to put them into CVS.
 
+>>>>>>> 1.631
 2000-10-06  Not Zed  <NotZed@HelixCode.com>
 
 	* mail-search-dialogue.c: New widget, full search dialogue for

@@ -74,7 +74,7 @@ vfolder_refresh(void)
 	char *uri, *path;
 
 	rule = NULL;
-	while ( (rule = rule_context_next_rule((RuleContext *)context, rule)) ) {
+	while ( (rule = rule_context_next_rule((RuleContext *)context, rule, NULL)) ) {
 		info = vfolder_find(rule->name);
 		g_string_truncate(expr, 0);
 		filter_rule_build_code(rule, expr);
@@ -189,7 +189,7 @@ vfolder_uri_to_folder(const char *uri, CamelException *ex)
 
 	d(printf("Opening vfolder: %s\n", uri));
 
-	rule = (VfolderRule *)rule_context_find_rule((RuleContext *)context, info->name);
+	rule = (VfolderRule *)rule_context_find_rule((RuleContext *)context, info->name, NULL);
 
 	storeuri = g_strdup_printf("vfolder:%s/vfolder/%s", evolution_dir, info->name);
 	foldername = g_strdup_printf("mbox?%s", info->query);

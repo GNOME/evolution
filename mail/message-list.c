@@ -87,7 +87,6 @@ static void select_msg (MessageList *message_list, gint row);
 static char *filter_date (const void *data);
 static void nuke_uids (GtkObject *o);
 
-static char *folder_to_cachename(CamelFolder *folder, const char *prefix);
 static void save_tree_state(MessageList *ml);
 
 static struct {
@@ -843,7 +842,7 @@ save_header_state(MessageList *ml)
 	    || ml->etable == NULL)
 		return;
 
-	filename = folder_to_cachename(ml->folder, "et-header-");
+	filename = mail_config_folder_to_cachename(ml->folder, "et-header-");
 	e_table_scrolled_save_state(E_TABLE_SCROLLED(ml->etable), filename);
 	g_free(filename);
 }
@@ -883,17 +882,17 @@ message_list_setup_etable(MessageList *message_list)
 		char *path;
 		struct stat st;
 
-		path = folder_to_cachename(message_list->folder, "et-header-");
+		path = mail_config_folder_to_cachename(message_list->folder, "et-header-");
 		if (stat(path, &st) == 0 && st.st_size > 0 && S_ISREG(st.st_mode)) {
 			e_table_scrolled_load_state(E_TABLE_SCROLLED(message_list->etable), path);
 		} else {
 			/* I wonder if there's a better way to do this ...? */
 			name = camel_service_get_name((CAMEL_SERVICE(message_list->folder->parent_store)), TRUE);
 			printf("folder name is '%s'\n", name);
-			if (strstr(name, "/Drafts")
-			    || strstr(name, "/Outbox")
-			    || strstr(name, "/Sent")) {
-				e_table_scrolled_set_state(E_TABLE_SCROLLED(message_list->etable), state);
+			if (strstr(name, "/Drafts") != NULL
+			    || strstr(name, "/Outbox") != NULL
+			    || strstr(name, "/Sent") != NULL) {
+				e_table_scrolled_set_specification(E_TABLE_SCROLLED(message_list->etable), spec);
 			}
 			g_free(name);
 		}
@@ -984,7 +983,6 @@ message_list_destroy (GtkObject *object)
 	}
 	
 	gtk_object_unref (GTK_OBJECT (message_list->table_model));
-	
 	gtk_object_unref (GTK_OBJECT (message_list->etable));
 	
 	if (message_list->uid_rowmap) {
@@ -1126,22 +1124,6 @@ clear_tree (MessageList *ml)
 	e_tree_model_node_set_expanded (etm, ml->tree_root, TRUE);
 }
 
-static char *
-folder_to_cachename(CamelFolder *folder, const char *prefix)
-{
-	char *url, *p, *filename;
-
-	url = camel_url_to_string(CAMEL_SERVICE(folder->parent_store)->url, FALSE);
-	for (p = url; *p; p++) {
-		if (!isprint((unsigned char)*p) || strchr(" /'\"`&();|<>${}!", *p))
-			*p = '_';
-	}
-	
-	filename = g_strdup_printf("%s/config/%s%s", evolution_dir, prefix, url);
-	g_free(url);
-	return filename;
-}
-
 /* we save the node id to the file if the node should be closed when
    we start up.  We only save nodeid's for messages with children */
 static void
@@ -1181,7 +1163,7 @@ load_tree_state(MessageList *ml)
 	int len;
 
 	result = g_hash_table_new(g_str_hash, g_str_equal);
-	filename = folder_to_cachename(ml->folder, "treestate-");
+	filename = mail_config_folder_to_cachename(ml->folder, "treestate-");
 	in = fopen(filename, "r");
 	if (in) {
 		while (fgets(linebuf, sizeof(linebuf), in) != NULL) {
@@ -1205,7 +1187,7 @@ save_tree_state(MessageList *ml)
 	ETreePath *node;
 	FILE *out;
 
-	filename = folder_to_cachename(ml->folder, "treestate-");
+	filename = mail_config_folder_to_cachename(ml->folder, "treestate-");
 	out = fopen(filename, "w");
 	if (out) {
 		node = e_tree_model_get_root((ETreeModel *)ml->table_model);
