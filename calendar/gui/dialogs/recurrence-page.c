@@ -847,7 +847,7 @@ simple_recur_to_comp (RecurrencePage *rpage, CalComponent *comp)
 /* Fills a component with the data from the recurrence page; in the case of a
  * custom recurrence, it leaves it intact.
  */
-static void
+static gboolean
 fill_component (RecurrencePage *rpage, CalComponent *comp)
 {
 	RecurrencePagePrivate *priv;
@@ -912,6 +912,8 @@ fill_component (RecurrencePage *rpage, CalComponent *comp)
 
 	cal_component_set_exdate_list (comp, list);
 	cal_component_free_exdate_list (list);
+
+	return TRUE;
 }
 
 /* Re-tags the recurrence preview calendar based on the current information of
@@ -1934,9 +1936,7 @@ recurrence_page_fill_component (CompEditorPage *page, CalComponent *comp)
 	RecurrencePage *rpage;
 
 	rpage = RECURRENCE_PAGE (page);
-	fill_component (rpage, comp);
-
-	return TRUE;
+	return fill_component (rpage, comp);
 }
 
 /* set_summary handler for the recurrence page */
