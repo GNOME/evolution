@@ -1,3 +1,23 @@
+2003-06-30  Dan Winship  <danw@ximian.com>
+
+	* gui/widgets/e-addressbook-view.c (e_addressbook_view_dispose):
+	disconnect from model signals to prevent a race condition at
+	shutdown where the view gets destroyed and then the model notices
+	the backend dying before being destroyed itself.
+
+	* gui/widgets/e-addressbook-reflow-adapter.c
+	(addressbook_finalize): add, to free priv.
+	(e_addressbook_reflow_adapter_class_init): set it up
+
+	* gui/component/e-address-popup.c (e_address_popup_set_free_form):
+	Don't leak strings
+
+	* gui/component/addressbook-storage.c (load_source_data): don't
+	leak xml data.
+
+	* gui/component/addressbook-component.c (new_item_cb): don't leak
+	the new card.
+
 2003-06-25  Gilbert Fang <gilbert.fang@sun.com>
 
 	* gui/widgets/e-minicard-view-widget.c 

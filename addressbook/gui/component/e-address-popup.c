@@ -836,6 +836,9 @@ e_address_popup_set_free_form (EAddressPopup *pop, const gchar *txt)
 		e_address_popup_set_name (pop, name);
 		e_address_popup_set_email (pop, email);
 
+		g_free (name);
+		g_free (email);
+
 		return TRUE;
 	}
 	
