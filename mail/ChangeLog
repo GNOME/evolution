@@ -1,3 +1,10 @@
+2001-09-17    <NotZed@Ximian.com>
+
+	* mail-local.c (storage_listener_startup): Setup global
+	corba_storage variable.
+	(mls_get_folder): Set 'update lstorage' on the newly opened
+	folder.
+
 2001-09-17  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-display.c (invisible_selection_get_callback): Do nothing if

@@ -56,7 +56,10 @@
 #include "mail-folder-cache.h"
 #include "mail-vfolder.h"
 
-#define d(x) x
+#define d(x)
+
+/* sigh, required for passing around to some functions */
+static GNOME_Evolution_Storage local_corba_storage = CORBA_OBJECT_NIL;
 
 /* ** MailLocalStore ** (protos) ************************************************** */
 
@@ -636,9 +639,9 @@ mls_get_folder(CamelStore *store, const char *folder_name, guint32 flags, CamelE
 {
 	MailLocalStore *local_store = MAIL_LOCAL_STORE (store);
 	MailLocalFolder *folder;
-	char *physical_uri;
+	char *physical_uri, *name;
 
-	d(printf("get_folder: %s", folder_name));
+	d(printf("--LOCAL-- get_folder: %s", folder_name));
 
 	folder = (MailLocalFolder *)camel_object_new(MAIL_LOCAL_FOLDER_TYPE);
 	folder = mail_local_folder_construct(folder, local_store, folder_name, ex);
@@ -663,6 +666,11 @@ mls_get_folder(CamelStore *store, const char *folder_name, guint32 flags, CamelE
 	/* FIXME: why is this here? */
 	physical_uri = g_strdup_printf("file://%s/%s", ((CamelService *)store)->url->path, folder_name);
 	mail_folder_cache_note_folder(physical_uri, CAMEL_FOLDER (folder));
+	name = strrchr(folder_name, '/');
+	if (name) /* should always be true... */ {
+		if (local_corba_storage != CORBA_OBJECT_NIL)
+			mail_folder_cache_set_update_lstorage(physical_uri, local_corba_storage, name);
+	}
 	g_free(physical_uri);
 
 	return (CamelFolder *)folder;
@@ -834,7 +842,9 @@ storage_listener_startup (EvolutionShellClient *shellclient)
 	GNOME_Evolution_Storage corba_storage;
 	CORBA_Environment ev;
 
-	corba_storage = evolution_shell_client_get_local_storage (shellclient);
+	printf("---- CALLING STORAGE LISTENER STARTUP ---\n");
+
+	local_corba_storage = corba_storage = evolution_shell_client_get_local_storage (shellclient);
 	if (corba_storage == CORBA_OBJECT_NIL) {
 		g_warning ("No local storage available from shell client!");
 		return;
