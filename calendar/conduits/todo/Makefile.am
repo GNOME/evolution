@@ -1,7 +1,3 @@
-#
-#
-#
-
 INCLUDES = 					\
 	-I$(top_srcdir)				\
 	-I$(top_srcdir)/calendar		\
@@ -10,8 +6,6 @@ INCLUDES = 					\
 	$(BONOBO_GNOME_CFLAGS)			\
 	$(GNOME_PILOT_CFLAGS)
 
-file_conduitsdir=$(libdir)/gnome-pilot/conduits
-
 bin_PROGRAMS = todo-conduit-control-applet
 
 todo_conduit_control_applet_SOURCES = todo-conduit-control-applet.c
@@ -19,20 +13,14 @@ todo_conduit_control_applet_SOURCES = todo-conduit-control-applet.c
 todo_conduit_control_applet_LDADD = \
 		$(CAPPLET_LIBS)  \
 		$(GNOME_LIBDIR) \
-		-lgpilotdcm \
-		-lgpilotd \
-		-lgpilotdconduit \
+		$(GNOME_PILOT_LIBS) \
+		$(PISOCK_LIBDIR) $(PISOCK_LIBS) \
 		$(GNOME_CAPPLET_LIBS) \
 		$(BONOBO_VFS_GNOME_LIBS) \
 		$(GNOME_XML_LIB) \
 	        $(GNOMEUI_LIBS) \
-		$(PISOCK_LIBDIR) $(PISOCK_LIBS) \
                 $(INTLLIBS)
 
-
-#		$(top_builddir)/libgpilotdCM/libgpilotdcm.la \
-#		$(top_builddir)/gpilotd/libgpilotd.la \
-#		$(top_builddir)/gpilotd/libgpilotdconduit.la \
 
 
 # todo_conduit
@@ -83,3 +71,14 @@ EXTRA_DIST = \
 install-data-local:
 	$(mkinstalldirs) $(ccenterConduitsdir)
 	$(mkinstalldirs) $(Conduitdir)
+
+
+
+
+
+
+
+
+
+
+

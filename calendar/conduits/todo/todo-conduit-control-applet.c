@@ -351,14 +351,17 @@ main (int argc, char *argv[])
 				G_LOG_LEVEL_CRITICAL |
 				G_LOG_LEVEL_WARNING);
 	
-	/* we're a capplet */
-	gnome_capplet_init ("todo conduit control applet", NULL, argc, argv, 
+	/* Init capplet */
+	gnome_capplet_init ("Evolution ToDo conduit control applet", 
+			    NULL, argc, argv, 
 			    NULL, 0, NULL);
    
-	gpc = gnome_pilot_client_new();
-	gnome_pilot_client_connect_to_daemon(gpc);
-	pilotId = get_pilot_id_from_gpilotd();
-	if(!pilotId) return -1;
+	/* Setup Client */
+	gpc = gnome_pilot_client_new ();
+	gnome_pilot_client_connect_to_daemon (gpc);
+	pilotId = get_pilot_id_from_gpilotd ();
+	if (!pilotId) 
+		return -1;
 
 	/* put all code to set things up in here */
 	gcalconduit_load_configuration (&origState, pilotId);

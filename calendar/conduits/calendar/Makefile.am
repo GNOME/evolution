@@ -1,7 +1,3 @@
-#
-#
-#
-
 INCLUDES = 					\
 	-I$(top_srcdir)				\
 	-I$(top_srcdir)/calendar		\
@@ -10,8 +6,6 @@ INCLUDES = 					\
 	$(BONOBO_GNOME_CFLAGS)			\
 	$(GNOME_PILOT_CFLAGS)
 
-file_conduitsdir=$(libdir)/gnome-pilot/conduits
-
 bin_PROGRAMS = calendar-conduit-control-applet
 
 calendar_conduit_control_applet_SOURCES = calendar-conduit-control-applet.c
@@ -19,21 +13,13 @@ calendar_conduit_control_applet_SOURCES = calendar-conduit-control-applet.c
 calendar_conduit_control_applet_LDADD = \
 		$(CAPPLET_LIBS)  \
 		$(GNOME_LIBDIR) \
-		-lgpilotdcm \
-		-lgpilotd \
-		-lgpilotdconduit \
+		$(GNOME_PILOT_LIBS) \
+		$(PISOCK_LIBDIR) $(PISOCK_LIBS) \
 		$(GNOME_CAPPLET_LIBS) \
 		$(BONOBO_VFS_GNOME_LIBS) \
 		$(GNOME_XML_LIB) \
 	        $(GNOMEUI_LIBS) \
-		$(PISOCK_LIBDIR) $(PISOCK_LIBS) \
                 $(INTLLIBS)
-
-
-#		$(top_builddir)/libgpilotdCM/libgpilotdcm.la \
-#		$(top_builddir)/gpilotd/libgpilotd.la \
-#		$(top_builddir)/gpilotd/libgpilotdconduit.la \
-
 
 # calendar_conduit
 calendar_conduitsdir=$(libdir)/gnome-pilot/conduits

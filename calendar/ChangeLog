@@ -1,3 +1,9 @@
+2000-09-08  JP Rosevear  <jpr@helixcode.com>
+
+	* conduits/calendar/Makefile.am: Tidy
+
+	* conduits/todo/Makefile.am: Tidy
+
 2000-09-08  Federico Mena Quintero  <federico@helixcode.com>
 
 	Fall equinox cleanup!
