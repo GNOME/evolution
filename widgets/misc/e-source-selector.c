@@ -34,6 +34,7 @@
 #include <gtk/gtktreestore.h>
 #include <gtk/gtkcellrenderertoggle.h>
 #include <gtk/gtkcellrenderertext.h>
+#include <gtk/gtkcellrendererpixbuf.h>
 
 #define PARENT_TYPE gtk_tree_view_get_type ()
 static GtkTreeViewClass *parent_class = NULL;
@@ -50,8 +51,8 @@ struct _ESourceSelectorPrivate {
 	int rebuild_model_idle_id;
 
 	gboolean toggled_last;
-
 	gboolean checkboxes_shown;
+	gboolean toggle_selection;
 };
 
 typedef struct {
@@ -496,12 +497,11 @@ cell_toggled_callback (GtkCellRendererToggle *renderer,
 	}
 
 	gtk_tree_model_get (model, &iter, 0, &data, -1);
-	if (E_IS_SOURCE_GROUP (data)) {
-		gtk_tree_path_free (path);
-	} else {
+	if (!E_IS_SOURCE_GROUP (data)) {
 		source = E_SOURCE (data);
 
-		if (e_source_selector_peek_primary_selection (selector) != source) {
+		if (e_source_selector_peek_primary_selection (selector) != source
+		    || selector->priv->toggle_selection) {
 			if (source_is_selected (selector, source))
 				unselect_source (selector, source);
 			else
@@ -511,10 +511,10 @@ cell_toggled_callback (GtkCellRendererToggle *renderer,
 			
 			gtk_tree_model_row_changed (model, path, &iter);
 			g_signal_emit (selector, signals[SELECTION_CHANGED], 0);
-			
-			gtk_tree_path_free (path);
 		}
 	}
+
+	gtk_tree_path_free (path);
 	
 	g_object_unref (data);	
 }
@@ -884,6 +884,22 @@ e_source_selector_selection_shown (ESourceSelector *selector)
 	g_return_val_if_fail (E_IS_SOURCE_SELECTOR (selector), FALSE);
 
 	return selector->priv->checkboxes_shown;
+}
+
+/**
+ * e_source_selector_set_toggle_selection:
+ * @selector: 
+ * @state: 
+ * 
+ * Set the source selectr behaviour, whether you can toggle the
+ * current selection or not.
+ **/
+void
+e_source_selector_set_toggle_selection(ESourceSelector *selector, gboolean state)
+{
+	g_return_if_fail (E_IS_SOURCE_SELECTOR (selector));
+
+	selector->priv->toggle_selection = state;
 }
 
 /**

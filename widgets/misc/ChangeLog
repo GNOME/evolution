@@ -1,3 +1,11 @@
+2004-06-16  Not Zed  <NotZed@Ximian.com>
+
+	* e-source-selector.c (cell_toggled_callback): fix a path leak and
+	maek the code more structured.
+	(e_source_selector_set_toggle_selection): set the mode on whether
+	you can toggle the currnet selection or not.
+	(cell_toggled_callback): implement set_toggle_selection behaviour.
+
 2004-06-03  William Jon McCann  <mccann@jhu.edu>
 
 	* e-error.c (e_error_newv): Add HIG border width for dialog window.
