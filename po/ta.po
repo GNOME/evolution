@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: ta\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-07-14 03:30+0200\n"
-"PO-Revision-Date: 2004-07-26 16:24+0530\n"
+"PO-Revision-Date: 2004-07-27 16:30+0530\n"
 "Last-Translator: Jayaradha N <jaya@pune.redhat.com>\n"
 "Language-Team: Tamil <zhakanini@yahoogroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -4079,17 +4079,17 @@ msgstr "தேர்வு செய்யப்பட்ட நிகழ்வ�
 
 #: calendar/gui/calendar-commands.c:358
 msgid "Purge events older than"
-msgstr ""
+msgstr "நீக்க வேண்டிய பழைய நிகழ்வுகள்"
 
 #: calendar/gui/calendar-commands.c:363
 #: calendar/gui/dialogs/alarm-dialog.glade.h:21
 #: calendar/gui/dialogs/calendar-setup.glade.h:12 filter/filter.glade.h:13
 msgid "days"
-msgstr ""
+msgstr "நாட்கள்"
 
 #: calendar/gui/calendar-commands.c:432 calendar/gui/calendar-component.c:504
 msgid "%A %d %B %Y"
-msgstr ""
+msgstr "%A %d %B %Y"
 
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.
@@ -4101,20 +4101,20 @@ msgstr ""
 #: calendar/gui/e-day-view-top-item.c:714 calendar/gui/e-day-view.c:1588
 #: calendar/gui/e-week-view-main-item.c:329
 msgid "%a %d %b"
-msgstr ""
+msgstr "%a %d %b"
 
 #: calendar/gui/calendar-commands.c:437 calendar/gui/calendar-commands.c:442
 #: calendar/gui/calendar-commands.c:444 calendar/gui/calendar-component.c:509
 #: calendar/gui/calendar-component.c:514 calendar/gui/calendar-component.c:516
 msgid "%a %d %b %Y"
-msgstr ""
+msgstr "%a %d %b %Y"
 
 #: calendar/gui/calendar-commands.c:461 calendar/gui/calendar-commands.c:467
 #: calendar/gui/calendar-commands.c:473 calendar/gui/calendar-commands.c:475
 #: calendar/gui/calendar-component.c:528 calendar/gui/calendar-component.c:535
 #: calendar/gui/calendar-component.c:541 calendar/gui/calendar-component.c:543
 msgid "%d %B %Y"
-msgstr ""
+msgstr "%d %B %Y"
 
 #. strftime format %d = day of month, %B = full
 #. month name. You can change the order but don't
@@ -4122,252 +4122,252 @@ msgstr ""
 #: calendar/gui/calendar-commands.c:465 calendar/gui/calendar-component.c:533
 #: calendar/gui/e-week-view-main-item.c:337 calendar/gui/print.c:1498
 msgid "%d %B"
-msgstr ""
+msgstr "%d %B"
 
 #: calendar/gui/calendar-component.c:370
 #, c-format
 msgid "Calendar '%s' will be removed. Are you sure you want to continue?"
-msgstr ""
+msgstr "நாள்காட்டி '%s' நீக்கப்படும். தொடர விருப்பமா?"
 
 #: calendar/gui/calendar-component.c:426
 msgid "New Calendar"
-msgstr ""
+msgstr "புதிய நாள்காட்டி"
 
 #: calendar/gui/calendar-component.c:623
 msgid "Failed upgrading calendars."
-msgstr ""
+msgstr "நாள்காட்டியை புதுப்பிக்க முடியாது"
 
 #: calendar/gui/calendar-component.c:917
 #, c-format
 msgid "Unable to open the calendar '%s' for creating events and meetings"
-msgstr ""
+msgstr "புதிய நிகழ்வுகள் மற்றும் கூட்டத்தை உருவாக்க '%s' நாள்காட்டியை திறக்க முடியவில்லை"
 
 #: calendar/gui/calendar-component.c:929
 msgid "There is no calendar available for creating events and meetings"
-msgstr ""
+msgstr "நிகவுகள் மற்றும் கூட்டத்தை உருவாக்க இதில் நாள்காட்டி எதுவும் இல்லை"
 
 #: calendar/gui/calendar-component.c:1224
 msgid "New appointment"
-msgstr ""
+msgstr "புதிய நேரஒதுக்கம்"
 
 #: calendar/gui/calendar-component.c:1225
 msgid "_Appointment"
-msgstr ""
+msgstr "(_A)நேர ஒதுக்கம்"
 
 #: calendar/gui/calendar-component.c:1226
 msgid "Create a new appointment"
-msgstr ""
+msgstr "புதிய நேரபஒதுக்கத்தை உருவாக்கு"
 
 #: calendar/gui/calendar-component.c:1232
 msgid "New meeting"
-msgstr ""
+msgstr "புதிய கூட்டம்"
 
 #: calendar/gui/calendar-component.c:1233
 msgid "M_eeting"
-msgstr ""
+msgstr "(_M)கூட்டம்"
 
 #: calendar/gui/calendar-component.c:1234
 msgid "Create a new meeting request"
-msgstr ""
+msgstr "புதிய கூட்டத்தை உருவாக்க கோரிக்கை"
 
 #: calendar/gui/calendar-component.c:1240
 msgid "New all day appointment"
-msgstr ""
+msgstr "முழுநாளுக்குமான்களுக்குமான புதிய நேர ஒதுக்கம்"
 
 #: calendar/gui/calendar-component.c:1241
 msgid "All _Day Appointment"
-msgstr ""
+msgstr "(_D)முழு நாளுக்கான்களுக்குமான நேர ஒதுக்கம்"
 
 #: calendar/gui/calendar-component.c:1242
 msgid "Create a new all-day appointment"
-msgstr ""
+msgstr "முழு நாளுக்குமான நேர ஒதுக்கத்தை உருவாக்கு"
 
 #: calendar/gui/calendar-component.c:1248
 msgid "New calendar"
-msgstr ""
+msgstr "புதிய நாள்காட்டி"
 
 #: calendar/gui/calendar-component.c:1249
 msgid "Cale_ndar"
-msgstr ""
+msgstr "(_N)நாள்காட்டி"
 
 #: calendar/gui/calendar-component.c:1250
 msgid "Create a new calendar"
-msgstr ""
+msgstr "புதிய நாள்காட்டியை உருவாக்கு"
 
 #: calendar/gui/calendar-offline-handler.c:192
 #, c-format
 msgid "backend_go_offline(): %s"
-msgstr ""
+msgstr "backend_go_offline(): %s"
 
 #: calendar/gui/calendar-offline-handler.c:215
 #, c-format
 msgid "backend_go_online(): %s"
-msgstr ""
+msgstr "backend_go_online(): %s"
 
 #: calendar/gui/calendar-view-factory.c:118
 msgid "Day View"
-msgstr ""
+msgstr "நாள் காட்சி"
 
 #: calendar/gui/calendar-view-factory.c:121
 msgid "Work Week View"
-msgstr ""
+msgstr "வேலைநாட்களை மட்டும் பார்வையிடு"
 
 #: calendar/gui/calendar-view-factory.c:124
 msgid "Week View"
-msgstr ""
+msgstr "வாரநாட்களை பார்"
 
 #: calendar/gui/calendar-view-factory.c:127
 msgid "Month View"
-msgstr ""
+msgstr "மாதத்தை பார்"
 
 #: calendar/gui/comp-editor-factory.c:409
 msgid "Error while opening the calendar"
-msgstr ""
+msgstr "நாள்காட்டியை திறக்கும் போது பிழை"
 
 #: calendar/gui/comp-editor-factory.c:420
 msgid "Method not supported when opening the calendar"
-msgstr ""
+msgstr "நாள்காட்டியை திறக்க இந்த முறைக்கு ஆதரவு இல்லை"
 
 #: calendar/gui/comp-editor-factory.c:426
 msgid "Permission denied to open the calendar"
-msgstr ""
+msgstr "நாள்காட்டியை திறப்பதற்கான அனுமதி மறுக்கப்பட்டது"
 
 #: calendar/gui/comp-editor-factory.c:474
 #, c-format
 msgid "open_client(): %s"
-msgstr ""
+msgstr "open_client(): %s"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:2
 msgid "<b>Alarm</b>\t"
-msgstr ""
+msgstr "<b>எச்சரிக்கை மணி</b>\t"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:3
 msgid "<b>Options</b>"
-msgstr ""
+msgstr "<b>தேர்வுகள்</b>"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:4
 msgid "<b>Repeat</b>"
-msgstr ""
+msgstr "<b>மீண்டும் செய்</b>"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:5
 msgid "Add Alarm"
-msgstr ""
+msgstr "எச்சரிக்கை மணியை சேர்"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:6
 msgid "Custom _message"
-msgstr ""
+msgstr "(_m)ஆயத்த செய்தி"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:7
 msgid "Custom alarm sound"
-msgstr ""
+msgstr "ஆயத்த எச்சரிக்கை மணி"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:8
 msgid "Mes_sage:"
-msgstr ""
+msgstr "(_s)செய்தி:"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:9 calendar/gui/e-alarm-list.c:444
 msgid "Play a sound"
-msgstr ""
+msgstr "ஒலியை இயக்கு"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:10
 #: calendar/gui/e-alarm-list.c:448
 msgid "Pop up an alert"
-msgstr ""
+msgstr "எச்சரிக்கை ஒலியை தோன்றச்செய்"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:11
 #: calendar/gui/e-alarm-list.c:456
 msgid "Run a program"
-msgstr ""
+msgstr "நிரலை இயக்கு"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:12
 msgid "Send To:"
-msgstr ""
+msgstr "அனுப்பு :"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:13
 #: calendar/gui/e-alarm-list.c:452
 msgid "Send an email"
-msgstr ""
+msgstr "மின்னஞ்சல் அனுப்பு"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:14
 msgid "_Arguments:"
-msgstr ""
+msgstr "(_A)பயனிலைகள்:"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:15
 msgid "_Program:"
-msgstr ""
+msgstr "(_P)நிரல்கள்:"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:16
 msgid "_Repeat the alarm"
-msgstr ""
+msgstr "(_R)எச்சரிக்கை மணியை மீண்டும் ஒலிக்கச்செய்"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:17
 msgid "_Sound:"
-msgstr ""
+msgstr "(_S)ஒலி:"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:18
 msgid "after"
-msgstr ""
+msgstr "பின்"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:19
 msgid "before"
-msgstr ""
+msgstr "முன்"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:20
 #: calendar/gui/dialogs/recurrence-page.glade.h:7
 msgid "day(s)"
-msgstr ""
+msgstr "நாள்(கள்)"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:22
 msgid "end of appointment"
-msgstr ""
+msgstr "நேர ஒதுக்கத்தின் முடிவு"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:23
 msgid "extra times every"
-msgstr ""
+msgstr "ஒவ்வொருமுறையும் செலவான கூடுதல் நேரம்"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:24
 msgid "hour(s)"
-msgstr ""
+msgstr "மணிகள்"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:25
 #: calendar/gui/dialogs/calendar-setup.glade.h:13 filter/filter.glade.h:14
 msgid "hours"
-msgstr ""
+msgstr "மணிகள்"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:26
 msgid "minute(s)"
-msgstr ""
+msgstr "நிமிடம்(கள்)"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:28
 msgid "start of appointment"
-msgstr ""
+msgstr "நேர ஒதுக்கத்தின் துவக்கம்"
 
 #: calendar/gui/dialogs/alarm-list-dialog.c:192
 msgid "Action/Trigger"
-msgstr ""
+msgstr "செயல்/துவக்கு"
 
 #: calendar/gui/dialogs/alarm-list-dialog.glade.h:1
 msgid "A_dd"
-msgstr ""
+msgstr "(_d)சேர்"
 
 #: calendar/gui/dialogs/alarm-list-dialog.glade.h:2
 msgid "Alarms"
-msgstr ""
+msgstr "எச்சரிக்கை மணி"
 
 #. FIXME: This routine should just be a "toggled" event handler on the checkbox cell renderer which
 #. has "activatable" set.
 #: calendar/gui/dialogs/cal-prefs-dialog.c:567 mail/em-account-prefs.c:466
 #: mail/em-composer-prefs.c:677 mail/em-composer-prefs.c:905
 msgid "Enabled"
-msgstr ""
+msgstr "செயலில் உள்ள"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.c:721
 msgid "Are you sure you want to remove this URL?"
-msgstr ""
+msgstr "இந்த URL ஐ நீக்க வேண்டுமா?"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.c:729
 msgid "Don't Remove"
-msgstr ""
+msgstr "நீக்காதே"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.c:778
 #: calendar/gui/dialogs/cal-prefs-dialog.c:811
@@ -4376,7 +4376,7 @@ msgstr ""
 #: mail/em-composer-prefs.c:596 mail/em-composer-prefs.c:654
 #: mail/em-composer-prefs.c:684
 msgid "Disable"
-msgstr ""
+msgstr "செயல் நீக்கு"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.c:778
 #: calendar/gui/dialogs/cal-prefs-dialog.c:811
@@ -4385,190 +4385,190 @@ msgstr ""
 #: mail/em-composer-prefs.c:596 mail/em-composer-prefs.c:654
 #: mail/em-composer-prefs.c:684
 msgid "Enable"
-msgstr ""
+msgstr "செயல்படுத்து"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:1
 msgid "05 minutes"
-msgstr ""
+msgstr "05 நிமிடங்கள்"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:2
 msgid "10 minutes"
-msgstr ""
+msgstr "10 நிமிடங்கள்"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:3
 msgid "15 minutes"
-msgstr ""
+msgstr "15 நிமிடங்கள்"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:4
 msgid "30 minutes"
-msgstr ""
+msgstr "30 நிமிடங்கள்"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:5
 msgid "60 minutes"
-msgstr ""
+msgstr "60 நிமிடங்கள்"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:6
 msgid "<b>Alerts</b>"
-msgstr ""
+msgstr "<b>எச்சரிக்கை ஒலி</b>"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:7
 msgid "<b>General</b>"
-msgstr ""
+msgstr "<b>பொதுவான</b>"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:8
 msgid "<b>Task List</b>"
-msgstr ""
+msgstr "<b>பணி பட்டியல்</b>"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:9
 msgid "<b>Time</b>"
-msgstr ""
+msgstr "<b>நேரம்</b>"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:10
 msgid "<b>Work Week</b>"
-msgstr ""
+msgstr "<b>வார வேலை</b>"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:11
 msgid "Calendar and Tasks Settings"
-msgstr ""
+msgstr "நாள்காட்டி மற்றும் பணி அமைப்பு"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:12
 msgid "Color for overdue tasks"
-msgstr ""
+msgstr "நிலுவையில் உள்ள பணிகளின் நிறம்"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:13
 msgid "Color for tasks due today"
-msgstr ""
+msgstr "இன்று நிலுவையில் உள்ள பணிகளின் நிறம்"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:14
 msgid "Day _ends:"
-msgstr ""
+msgstr "(_e) நாட்கள் முடிந்தது:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:15
 msgid "Days"
-msgstr ""
+msgstr "நாட்கள்"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
 msgid "Display"
-msgstr ""
+msgstr "காட்சி"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
 #: mail/mail-config.glade.h:76
 msgid "E_nable"
-msgstr ""
+msgstr "(_n)செயலில் உள்ள"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:18
 msgid "Free/Busy Publishing"
-msgstr ""
+msgstr "வேலையாக/இல்லாமல் பதிப்பிக்கிறது"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:19
 #: calendar/gui/dialogs/recurrence-page.c:1038
 #: calendar/gui/e-itip-control.c:556
 msgid "Friday"
-msgstr ""
+msgstr "வெள்ளிக்கிழமை"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:21
 msgid "Hours"
-msgstr ""
+msgstr "மணிகள்"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:22
 msgid "Minutes"
-msgstr ""
+msgstr "நிமிடங்கள்"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:23
 #: calendar/gui/dialogs/recurrence-page.c:1034
 #: calendar/gui/e-itip-control.c:552
 msgid "Monday"
-msgstr ""
+msgstr "திங்கட்கிழமை"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:24
 msgid "S_un"
-msgstr ""
+msgstr "(_u)ஞாயிறு"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:25
 #: calendar/gui/dialogs/recurrence-page.c:1039
 #: calendar/gui/e-itip-control.c:557
 msgid "Saturday"
-msgstr ""
+msgstr "சனிக்கிழமை"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:26
 msgid "Sh_ow a reminder"
-msgstr ""
+msgstr "(_o) நினைவூட்டலை காட்டு"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:27
 msgid "Show week _numbers in date navigator"
-msgstr ""
+msgstr "(_n) தேதி நகர்த்தியில் வார எண்களை காட்டு"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:28
 #: calendar/gui/dialogs/recurrence-page.c:1040
 #: calendar/gui/e-itip-control.c:551
 msgid "Sunday"
-msgstr ""
+msgstr "ஞாயிற்றுக்கிழமை"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:29
 msgid "T_asks due today:"
-msgstr ""
+msgstr "(_a)இன்று நிலுவையில் உள்ள பணிகள்"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:30
 msgid "T_hu"
-msgstr ""
+msgstr "(_h)வியாழன்"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:31
 #: calendar/gui/dialogs/recurrence-page.c:1037
 #: calendar/gui/e-itip-control.c:555
 msgid "Thursday"
-msgstr ""
+msgstr "வியாழக்கிழமை"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:32
 msgid "Time _zone:"
-msgstr ""
+msgstr "(_z)நேரம் காட்டி:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:33
 msgid "Time format:"
-msgstr ""
+msgstr "நேரத்தின் அமைப்பு:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:34
 #: calendar/gui/dialogs/recurrence-page.c:1035
 #: calendar/gui/e-itip-control.c:553
 msgid "Tuesday"
-msgstr ""
+msgstr "செவ்வாய் கிழமை"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:35
 msgid "W_eek starts:"
-msgstr ""
+msgstr "(_e)வாரம் துவங்குகிறது:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:36
 #: calendar/gui/dialogs/recurrence-page.c:1036
 #: calendar/gui/e-itip-control.c:554
 msgid "Wednesday"
-msgstr ""
+msgstr "புதன் கிழமை"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:37
 msgid "Work days:"
-msgstr ""
+msgstr "வேலை நாட்கள்:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:38
 msgid "_12 hour (AM/PM)"
-msgstr ""
+msgstr "_12 மணி (AM/PM)"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:39
 msgid "_24 hour"
-msgstr ""
+msgstr "_24 மணி"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:40
 msgid "_Add URL"
-msgstr ""
+msgstr "(_A) URL ஐ சேர்"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:41
 msgid "_Ask for confirmation when deleting items"
-msgstr ""
+msgstr "(_A)உருப்படிகளை நீக்கும் போது உறுதிப்படுத்து"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:42
 msgid "_Compress weekends in month view"
-msgstr ""
+msgstr "(_C) மாத செய்திகளை காட்டும் போது வார செய்திகளை சுருக்கி காட்டு"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:43
 msgid "_Day begins:"
-msgstr ""
+msgstr "(_D) நாள் துவங்கியது:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:44
 #: calendar/gui/dialogs/recurrence-page.glade.h:6 filter/filter.glade.h:10
@@ -4579,465 +4579,465 @@ msgstr ""
 #: ui/evolution-signature-editor.xml.h:12 ui/evolution-subscribe.xml.h:10
 #: ui/evolution-tasks.xml.h:22
 msgid "_Edit"
-msgstr ""
+msgstr "(_E) திருத்து"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:45
 msgid "_Fri"
-msgstr ""
+msgstr "(_F) வெள்ளி"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:46
 msgid "_Hide completed tasks after"
-msgstr ""
+msgstr "(_H) முடிந்த பணிகளை மறை"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:47
 msgid "_Mon"
-msgstr ""
+msgstr "(_M) திங்கள்"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:48
 msgid "_Overdue tasks:"
-msgstr ""
+msgstr "(_O) நிலுவையில் உள்ள பணிகள்:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:49
 msgid "_Sat"
-msgstr ""
+msgstr "(_S)சனி"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:50
 msgid "_Show appointment end times in week and month views"
-msgstr ""
+msgstr "(_S) நேர ஒதுக்கம் முடிந்த நேரத்தை வார மற்றும் மாதகாட்சிகளில் காட்டு"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:51
 msgid "_Time divisions:"
-msgstr ""
+msgstr "(_T) நேர பகுப்பு :"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:52
 msgid "_Tue"
-msgstr ""
+msgstr "(_T)செவ்வாய்"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:53
 msgid "_Wed"
-msgstr ""
+msgstr "(_W)புதன்"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:54
 msgid "before every appointment"
-msgstr ""
+msgstr "ஒவ்வொரு நேர ஒதுக்கத்துக்கு முன்னும்"
 
 #: calendar/gui/dialogs/calendar-setup.c:172
 msgid "You must specify a location to get the calendar from."
-msgstr ""
+msgstr "எங்கிருந்து நாள்காட்டியை பெற விரும்புகிறீர்கள் என்பதை குறிப்பிடவும்"
 
 #: calendar/gui/dialogs/calendar-setup.c:180
 #, c-format
 msgid "The source location '%s' is not well-formed."
-msgstr ""
+msgstr "மூல இடம் '%s' சரியாக நிர்ணயிக்கப்பட்டது"
 
 #: calendar/gui/dialogs/calendar-setup.c:195
 #, c-format
 msgid "The source location '%s' is not a webcal source."
-msgstr ""
+msgstr "மூல இடம் '%s' வெப்கால் இருக்கும் இடம் இல்லை"
 
 #: calendar/gui/dialogs/calendar-setup.c:275
 #, c-format
 msgid "Source with name '%s' already exists in the selected group"
-msgstr ""
+msgstr "இந்த பெயருள்ள மூலம் '%s' தேர்வு செய்யப்பட்ட குழுவில் ஏற்கெனவே உள்ளது"
 
 #: calendar/gui/dialogs/calendar-setup.c:288
 #, c-format
 msgid ""
 "The group '%s' is remote. You must specify a location to get the calendar "
 "from"
-msgstr ""
+msgstr "குழு '%s' தொலைவில் உள்ளது. எங்கிருந்து நாள்காட்டியை பெற வேண்டும் என்பதை குறிப்பிடவும்"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:2
 msgid "Add Calendar"
-msgstr ""
+msgstr "நாள்காட்டியை சேர்"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:3
 msgid "Add Tasks Group"
-msgstr ""
+msgstr "பணி குழுக்களை சேர்"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:4
 msgid "C_olor:"
-msgstr ""
+msgstr "(_o) நிறம்"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:5 mail/mail-config.glade.h:110
 msgid "Pick a color"
-msgstr ""
+msgstr "நிறத்தை தேர்வு செய்"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:6
 msgid "_Add Calendar"
-msgstr ""
+msgstr "(_A) நாள்காட்டியை சேர்"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:7
 msgid "_Add Group"
-msgstr ""
+msgstr "(_A) குழுவை சேர்"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:9
 msgid "_Refresh:"
-msgstr ""
+msgstr "(_R) புதுப்பி:"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:10
 msgid "_Type:"
-msgstr ""
+msgstr "(_T)வகை"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:11
 msgid "_URL:"
-msgstr ""
+msgstr "_URL:"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:15 filter/filter.glade.h:20
 msgid "weeks"
-msgstr ""
+msgstr "வாரங்கள்"
 
 #: calendar/gui/dialogs/changed-comp.c:60
 msgid "This event has been deleted."
-msgstr ""
+msgstr "இந்த நிகழ்வு நீக்கப்பட்டது"
 
 #: calendar/gui/dialogs/changed-comp.c:64
 msgid "This task has been deleted."
-msgstr ""
+msgstr "இந்த பணி நீக்கப்பட்டது"
 
 #: calendar/gui/dialogs/changed-comp.c:68
 msgid "This journal entry has been deleted."
-msgstr ""
+msgstr "இந்த இதழ் உள்ளீடு நீக்கப்பட்டது"
 
 #: calendar/gui/dialogs/changed-comp.c:77
 #, c-format
 msgid "%s  You have made changes. Forget those changes and close the editor?"
-msgstr ""
+msgstr "%s மாற்றங்கள் செய்துள்ளார். இந்த மாற்றங்களை மறக்கச்செய்து தொகுப்பியை மூட வேண்டுமா?"
 
 #: calendar/gui/dialogs/changed-comp.c:79
 #, c-format
 msgid "%s  You have made no changes, close the editor?"
-msgstr ""
+msgstr "%s நீங்கள் மாற்றம் எதுவும் செய்யவில்லை. தொகுப்பியை மூட வேண்டுமா?"
 
 #: calendar/gui/dialogs/changed-comp.c:84
 msgid "This event has been changed."
-msgstr ""
+msgstr "இந்த நிகழ்வு மாற்றப்பட்டது"
 
 #: calendar/gui/dialogs/changed-comp.c:88
 msgid "This task has been changed."
-msgstr ""
+msgstr "இந்த பணி மாற்றப்பட்டது"
 
 #: calendar/gui/dialogs/changed-comp.c:92
 msgid "This journal entry has been changed."
-msgstr ""
+msgstr "இந்த இதழ் உள்ளீடு மாற்றப்பட்டது"
 
 #: calendar/gui/dialogs/changed-comp.c:101
 #, c-format
 msgid "%s  You have made changes. Forget those changes and update the editor?"
-msgstr ""
+msgstr "%s மாற்றங்கள் செய்துள்ளார். இந்த மாற்றங்களை மறக்கச்செய்து தொகுப்பியை மூட வேண்டுமா?"
 
 #: calendar/gui/dialogs/changed-comp.c:103
 #, c-format
 msgid "%s  You have made no changes, update the editor?"
-msgstr ""
+msgstr "%s நீங்கள் மாற்றம் எதுவும் செய்யவில்லை. தொகுப்பியை மூட வேண்டுமா?"
 
 #: calendar/gui/dialogs/comp-editor-page.c:464
 #, c-format
 msgid "Validation error: %s"
-msgstr ""
+msgstr "சரிபார்க்கும் போது பிழை: %s"
 
 #: calendar/gui/dialogs/comp-editor-util.c:187 calendar/gui/print.c:2258
 msgid " to "
-msgstr ""
+msgstr "பெறுநர்"
 
 #: calendar/gui/dialogs/comp-editor-util.c:191 calendar/gui/print.c:2262
 msgid " (Completed "
-msgstr ""
+msgstr "(முடிந்தது"
 
 #: calendar/gui/dialogs/comp-editor-util.c:193 calendar/gui/print.c:2264
 msgid "Completed "
-msgstr ""
+msgstr "முடிந்தது"
 
 #: calendar/gui/dialogs/comp-editor-util.c:198 calendar/gui/print.c:2269
 msgid " (Due "
-msgstr ""
+msgstr "(நிலுவையில்"
 
 #: calendar/gui/dialogs/comp-editor-util.c:200 calendar/gui/print.c:2271
 msgid "Due "
-msgstr ""
+msgstr "நிலுவையில்"
 
 #: calendar/gui/dialogs/comp-editor.c:264
 msgid "Could not update object"
-msgstr ""
+msgstr "பொருளை திருத்த முடியவில்லை"
 
 #: calendar/gui/dialogs/comp-editor.c:878
 #: calendar/gui/dialogs/comp-editor.c:915
 msgid "Edit Appointment"
-msgstr ""
+msgstr "நேர ஒதுக்கத்தை மாற்று"
 
 #: calendar/gui/dialogs/comp-editor.c:883
 #: calendar/gui/dialogs/comp-editor.c:920
 #, c-format
 msgid "Appointment - %s"
-msgstr ""
+msgstr "நேர ஒதுக்கம் - %s"
 
 #: calendar/gui/dialogs/comp-editor.c:886
 #: calendar/gui/dialogs/comp-editor.c:923
 #, c-format
 msgid "Task - %s"
-msgstr ""
+msgstr "பணி - %s"
 
 #: calendar/gui/dialogs/comp-editor.c:889
 #: calendar/gui/dialogs/comp-editor.c:926
 #, c-format
 msgid "Journal entry - %s"
-msgstr ""
+msgstr "இதழ் உள்ளீடு - %s"
 
 #: calendar/gui/dialogs/comp-editor.c:900
 #: calendar/gui/dialogs/comp-editor.c:936
 msgid "No summary"
-msgstr ""
+msgstr "சுருக்கம் இல்லை"
 
 #: calendar/gui/dialogs/comp-editor.c:1302
 #: calendar/gui/dialogs/comp-editor.c:1337
 #: calendar/gui/dialogs/comp-editor.c:1363
 msgid "Changes made to this item may be discarded if an update arrives"
-msgstr ""
+msgstr "இந்த உருப்படியில் செய்த மாற்றங்கள் புதிப்பிக்கும் போது நீக்கப்படும்"
 
 #: calendar/gui/dialogs/comp-editor.c:1387
 msgid "Unable to use current version!"
-msgstr ""
+msgstr "தற்போதைய பதிப்பை பயன்படுத்துவதற்காக மேம்படுத்தவும்"
 
 #: calendar/gui/dialogs/copy-source-dialog.c:57
 msgid "Could not open source"
-msgstr ""
+msgstr "மூலத்தை திறக்க முடியவில்லை"
 
 #: calendar/gui/dialogs/copy-source-dialog.c:65
 msgid "Could not open destination"
-msgstr ""
+msgstr "சேரும் இடத்தை திறக்க முடியவில்லை"
 
 #: calendar/gui/dialogs/copy-source-dialog.c:74
 msgid "Destination is read only"
-msgstr ""
+msgstr "சேரும் இடத்தின் பண்பு படிக்க மட்டும் என உள்ளது"
 
 #: calendar/gui/dialogs/delete-error.c:54
 msgid "The event could not be deleted due to a corba error"
-msgstr ""
+msgstr "கோப்ரா பிழையால் இந்த நிகழ்வை நீக்க முடியாது"
 
 #: calendar/gui/dialogs/delete-error.c:57
 msgid "The task could not be deleted due to a corba error"
-msgstr ""
+msgstr "கோப்ரா பிழையால் இந்த வேலையை நீக்க முடியாது"
 
 #: calendar/gui/dialogs/delete-error.c:60
 msgid "The journal entry could not be deleted due to a corba error"
-msgstr ""
+msgstr "கோப்ரா பிழையால் இந்த இதழ் உள்ளிட்டை நீக்க முடியாது"
 
 #: calendar/gui/dialogs/delete-error.c:63
 msgid "The item could not be deleted due to a corba error"
-msgstr ""
+msgstr "கோப்ரா பிழையால் இந்த உருப்படியை நீக்க முடியாது"
 
 #: calendar/gui/dialogs/delete-error.c:70
 msgid "The event could not be deleted because permission was denied"
-msgstr ""
+msgstr "அனுமதி இல்லாததால் இந்த நிகழ்வை நீக்க முடியாது"
 
 #: calendar/gui/dialogs/delete-error.c:73
 msgid "The task could not be deleted because permission was denied"
-msgstr ""
+msgstr "அனுமதி இல்லாததால் இந்த பணியை நீக்க முடியாது"
 
 #: calendar/gui/dialogs/delete-error.c:76
 msgid "The journal entry could not be deleted because permission was denied"
-msgstr ""
+msgstr "அனுமதி இல்லாததால் இந்த இதழ் உள்ளீட்டை நீக்க முடியாது"
 
 #: calendar/gui/dialogs/delete-error.c:79
 msgid "The item could not be deleted because permission was denied"
-msgstr ""
+msgstr "அனுமதி இல்லாததால் இந்த உருப்படியை நீக்க முடியாது"
 
 #: calendar/gui/dialogs/delete-error.c:86
 msgid "The event could not be deleted due to an error"
-msgstr ""
+msgstr "பிழை உள்ளதால் இந்த நிகழ்வை நீக்க முடியாது"
 
 #: calendar/gui/dialogs/delete-error.c:89
 msgid "The task could not be deleted due to an error"
-msgstr ""
+msgstr "பிழை உள்ளதால் இந்த பணியை நீக்க முடியாது"
 
 #: calendar/gui/dialogs/delete-error.c:92
 msgid "The journal entry could not be deleted due to an error"
-msgstr ""
+msgstr "பிழை உள்ளதால் இந்த இதழ் உள்ளீட்டை நீக்க முடியாது"
 
 #: calendar/gui/dialogs/delete-error.c:95
 msgid "The item could not be deleted due to an error"
-msgstr ""
+msgstr "பிழை உள்ளதால் இந்த உருப்படியை நீக்க முடியாது"
 
 #: calendar/gui/dialogs/e-delegate-dialog.glade.h:1
 msgid "Contacts..."
-msgstr ""
+msgstr "தொடர்புகள்...."
 
 #: calendar/gui/dialogs/e-delegate-dialog.glade.h:2
 msgid "Delegate To:"
-msgstr ""
+msgstr "முக்கிய விருந்தினர்களுக்கு :"
 
 #: calendar/gui/dialogs/e-delegate-dialog.glade.h:3
 msgid "Enter Delegate"
-msgstr ""
+msgstr "முக்கிய விருந்தினர்களை உள்ளிடு"
 
 #: calendar/gui/dialogs/event-editor.c:153 calendar/gui/print.c:2295
 msgid "Appointment"
-msgstr ""
+msgstr "நேர ஒதுக்கங்கள்"
 
 #: calendar/gui/dialogs/event-editor.c:162
 msgid "Recurrence"
-msgstr ""
+msgstr "மீண்டும் தோன்றுகிறது"
 
 #: calendar/gui/dialogs/event-editor.c:169
 #: calendar/gui/dialogs/event-editor.c:239
 #: calendar/gui/dialogs/event-editor.c:381
 msgid "Scheduling"
-msgstr ""
+msgstr "முன்குறிப்பீடு செய்"
 
 #: calendar/gui/dialogs/event-editor.c:176
 msgid "Invitations"
-msgstr ""
+msgstr "அழைப்புகள்"
 
 #: calendar/gui/dialogs/event-editor.c:242
 #: calendar/gui/dialogs/event-editor.c:384 ui/evolution-event-editor.xml.h:6
 msgid "Meeting"
-msgstr ""
+msgstr "கூட்டம்"
 
 #: calendar/gui/dialogs/event-page.c:692
 msgid "Event with no start date"
-msgstr ""
+msgstr "துவக்க தேதி இல்லாத நிகழ்வுகள்"
 
 #: calendar/gui/dialogs/event-page.c:695
 msgid "Event with no end date"
-msgstr ""
+msgstr "முடிவு தேதி இல்லாத நிகழ்வுகள்"
 
 #: calendar/gui/dialogs/event-page.c:855 calendar/gui/dialogs/task-page.c:523
 msgid "Start date is wrong"
-msgstr ""
+msgstr "துவக்க தேதி தவறாக உள்ளது"
 
 #: calendar/gui/dialogs/event-page.c:865
 msgid "End date is wrong"
-msgstr ""
+msgstr "முடியும் தேதி தவறாக உள்ளது"
 
 #: calendar/gui/dialogs/event-page.c:888
 msgid "Start time is wrong"
-msgstr ""
+msgstr "துவக்க நேரம் தவறாக உள்ளது"
 
 #: calendar/gui/dialogs/event-page.c:895
 msgid "End time is wrong"
-msgstr ""
+msgstr "முடியும் நேரம் தவறாக உள்ளது"
 
 #: calendar/gui/dialogs/event-page.c:1605
 #, c-format
 msgid "Unable to open the calendar '%s'."
-msgstr ""
+msgstr "நாள்காட்டியை திறக்க முடியவில்லை '%s'."
 
 #: calendar/gui/dialogs/event-page.c:1799
 #, c-format
 msgid "%d day before appointment"
 msgid_plural "%d days before appointment"
-msgstr[0] ""
+msgstr[0] "%d நேரம் ஒதுக்குவதற்கு முந்தைய நாட்கள்"
 msgstr[1] ""
 
 #: calendar/gui/dialogs/event-page.c:1807
 #, c-format
 msgid "%d hour before appointment"
 msgid_plural "%d hours before appointment"
-msgstr[0] ""
+msgstr[0] "%d நேரம் ஒதுக்குவதற்கு மணிநேரங்களுக்குு முன்"
 msgstr[1] ""
 
 #: calendar/gui/dialogs/event-page.c:1815
 #, c-format
 msgid "%d minute before appointement"
 msgid_plural "%d minutes before appointment"
-msgstr[0] ""
+msgstr[0] "%d நேரம் ஒதுக்குவதற்கு ஒரு நிமிடத்துக்குதுக்கு முன்"
 msgstr[1] ""
 
 #: calendar/gui/dialogs/event-page.glade.h:2
 msgid "1 day before appointment"
-msgstr ""
+msgstr "நேரம் ஒதுக்குவதற்கு ஒரு நாளைக்கு முன்"
 
 #: calendar/gui/dialogs/event-page.glade.h:3
 msgid "1 hour before appointment"
-msgstr ""
+msgstr "நேரம் ஒதுக்குவற்கு ஒரு மணி நேரத்துக்கு முன்"
 
 #: calendar/gui/dialogs/event-page.glade.h:4
 msgid "15 minutes before appointment"
-msgstr ""
+msgstr "நேரம் ஒதுக்குவற்கு 15 நிமிடத்துக்கு முன்"
 
 #: calendar/gui/dialogs/event-page.glade.h:5
 msgid "<b>Basics</b>"
-msgstr ""
+msgstr "<b>அடிப்படைகள்</b>"
 
 #: calendar/gui/dialogs/event-page.glade.h:6
 msgid "<b>Date and Time</b>"
-msgstr ""
+msgstr "<b>நாள் மற்றும் நேரம்</b>"
 
 #: calendar/gui/dialogs/event-page.glade.h:7
 msgid "A_ll day event"
-msgstr ""
+msgstr "(_l)முழு நாள் நிகழ்வுகளும்"
 
 #: calendar/gui/dialogs/event-page.glade.h:8
 msgid "C_ustomize..."
-msgstr ""
+msgstr "(_u)ஆயத்தமாக்கு.."
 
 #: calendar/gui/dialogs/event-page.glade.h:9
 #: calendar/gui/dialogs/task-page.glade.h:4
 msgid "Ca_tegories..."
-msgstr ""
+msgstr "(_t)வகைகள்..."
 
 #: calendar/gui/dialogs/event-page.glade.h:10
 msgid "Cale_ndar:"
-msgstr ""
+msgstr "(_n)நாள்காட்டி:"
 
 #: calendar/gui/dialogs/event-page.glade.h:11
 #: calendar/gui/dialogs/task-page.glade.h:5
 msgid "Classi_fication:"
-msgstr ""
+msgstr "(_f)பிரிவுகள்:"
 
 #: calendar/gui/dialogs/event-page.glade.h:12
 #: calendar/gui/dialogs/task-page.glade.h:6 calendar/gui/e-cal-list-view.c:259
 #: calendar/gui/e-cal-model.c:332 calendar/gui/e-calendar-table.c:354
 msgid "Confidential"
-msgstr ""
+msgstr "நம்பகமான"
 
 #: calendar/gui/dialogs/event-page.glade.h:13
 msgid "L_ocation:"
-msgstr ""
+msgstr "(_o)இடம்:"
 
 #: calendar/gui/dialogs/event-page.glade.h:14
 #: calendar/gui/dialogs/task-page.glade.h:8 calendar/gui/e-cal-list-view.c:258
 #: calendar/gui/e-cal-model.c:330 calendar/gui/e-calendar-table.c:353
 msgid "Private"
-msgstr ""
+msgstr "தனிப்பட்ட"
 
 #: calendar/gui/dialogs/event-page.glade.h:15
 #: calendar/gui/dialogs/task-page.glade.h:9 calendar/gui/e-cal-list-view.c:257
 #: calendar/gui/e-cal-model.c:321 calendar/gui/e-cal-model.c:328
 #: calendar/gui/e-calendar-table.c:352
 msgid "Public"
-msgstr ""
+msgstr "பொதுவான"
 
 #: calendar/gui/dialogs/event-page.glade.h:16
 msgid "Show time as _busy"
-msgstr ""
+msgstr "(_b) வேலையில் உள்ள நேரம் எனக்காட்டு"
 
 #: calendar/gui/dialogs/event-page.glade.h:17
 #: calendar/gui/dialogs/task-page.glade.h:11
 msgid "Su_mmary:"
-msgstr ""
+msgstr "(_m)சுருக்கம்"
 
 #: calendar/gui/dialogs/event-page.glade.h:18
 msgid "This appointment has customized alarms"
-msgstr ""
+msgstr "இந்த நேர ஒதுக்கத்தில் தனிப்பட்ட எச்சரிக்கை ஒலி உள்ளது"
 
 #: calendar/gui/dialogs/event-page.glade.h:19
 msgid "_Alarm"
-msgstr ""
+msgstr "(_A)நினைவூட்டன் மணி"
 
 #: calendar/gui/dialogs/event-page.glade.h:20
 msgid "_Description:"
-msgstr ""
+msgstr "(_D)விளக்கம்:"
 
 #: calendar/gui/dialogs/event-page.glade.h:21
 #: calendar/gui/e-meeting-time-sel.c:613
 msgid "_End time:"
-msgstr ""
+msgstr "(_E)முடியும் நேரம்:"
 
 #: calendar/gui/dialogs/event-page.glade.h:22
 #: calendar/gui/e-meeting-time-sel.c:594
 msgid "_Start time:"
-msgstr ""
+msgstr "(_S)துவக்க நேரம்"
 
 #. an empty string is the same as 'None'
 #. add a "None" option to the stores menu
@@ -5056,70 +5056,70 @@ msgstr ""
 #: widgets/misc/e-cell-date-edit.c:257 widgets/misc/e-dateedit.c:443
 #: widgets/misc/e-dateedit.c:1480 widgets/misc/e-dateedit.c:1595
 msgid "None"
-msgstr ""
+msgstr "எதுவுமில்லை"
 
 #: calendar/gui/dialogs/meeting-page.c:443
 msgid "The organizer selected no longer has an account."
-msgstr ""
+msgstr "நீங்கள் தேர்வு செய்த நாள்காட்டியில் எந்த கணக்கும் இல்லை"
 
 #: calendar/gui/dialogs/meeting-page.c:449
 msgid "An organizer is required."
-msgstr ""
+msgstr "நாள்காட்டி தேவை"
 
 #: calendar/gui/dialogs/meeting-page.c:464
 msgid "At least one attendee is required."
-msgstr ""
+msgstr "குறைந்தது ஒரு பங்கேற்பாளராவது இருக்க வேண்டும்"
 
 #: calendar/gui/dialogs/meeting-page.c:753
 msgid "_Delegate To..."
-msgstr ""
+msgstr "(_D) சிறப்பு விருந்தினராக..."
 
 #: calendar/gui/dialogs/meeting-page.c:757
 #: composer/e-msg-composer-attachment-bar.c:453
 msgid "_Remove"
-msgstr ""
+msgstr "(_R)நீக்கு"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:1
 #: calendar/gui/e-meeting-list-view.c:218
 #: calendar/gui/e-meeting-time-sel.etspec.h:1
 msgid "Attendee"
-msgstr ""
+msgstr "கலந்துகொள்பவர்கள்"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:2
 #: calendar/gui/e-meeting-time-sel.etspec.h:2
 msgid "Click here to add an attendee"
-msgstr ""
+msgstr "எல்லா பங்கேற்பாளர்களையும் க்ளிக் செய்து சேர்க்கவும்"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:3
 #: calendar/gui/e-meeting-time-sel.etspec.h:3
 msgid "Common Name"
-msgstr ""
+msgstr "பொது பெயர்"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:4
 #: calendar/gui/e-meeting-time-sel.etspec.h:4
 msgid "Delegated From"
-msgstr ""
+msgstr "விருந்து கொடுப்பவர்"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:5
 #: calendar/gui/e-meeting-time-sel.etspec.h:5
 msgid "Delegated To"
-msgstr ""
+msgstr "விருந்து பெறுபவர்"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:6
 #: calendar/gui/e-meeting-time-sel.etspec.h:6
 msgid "Language"
-msgstr ""
+msgstr "மொழி"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:7
 #: calendar/gui/e-meeting-time-sel.etspec.h:7
 msgid "Member"
-msgstr ""
+msgstr "உறுப்பினர்"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:8
 #: calendar/gui/e-itip-control.c:1060 calendar/gui/e-meeting-list-view.c:241
 #: calendar/gui/e-meeting-time-sel.etspec.h:8
 msgid "RSVP"
-msgstr ""
+msgstr "RSVP"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:10
 #: calendar/gui/dialogs/task-editor.c:158
@@ -5128,64 +5128,64 @@ msgstr ""
 #: calendar/gui/e-meeting-time-sel.etspec.h:10 mail/em-filter-i18n.h:62
 #: mail/message-list.etspec.h:12
 msgid "Status"
-msgstr ""
+msgstr "நிலை"
 
 #: calendar/gui/dialogs/meeting-page.glade.h:2
 msgid "<b>Attendees</b>"
-msgstr ""
+msgstr "<b>கலந்துகொள்பவர்கள்</b>"
 
 #: calendar/gui/dialogs/meeting-page.glade.h:3
 msgid "<b>Organizer</b>"
-msgstr ""
+msgstr "<b>ஒருங்கிணைப்பாளர்</b>"
 
 #: calendar/gui/dialogs/meeting-page.glade.h:4
 msgid "Change Or_ganizer"
-msgstr ""
+msgstr "(_g)ஒருங்கிணைப்பாளரை மாற்று"
 
 #: calendar/gui/dialogs/meeting-page.glade.h:5
 #: calendar/gui/e-meeting-time-sel.c:415
 msgid "Con_tacts..."
-msgstr ""
+msgstr "(_t) தொடர்புகள்"
 
 #: calendar/gui/dialogs/meeting-page.glade.h:7
 msgid "_Organizer:"
-msgstr ""
+msgstr "(_O)ஒருங்கிணைப்பாளர்:"
 
 #: calendar/gui/dialogs/new-calendar.glade.h:2
 msgid "<b>Calendar options</b>"
-msgstr ""
+msgstr "<b>நாள்காட்டி தேர்வுகள்</b>"
 
 #: calendar/gui/dialogs/new-calendar.glade.h:3
 msgid "Add New Calendar"
-msgstr ""
+msgstr "புதிய நாள்காட்டியை சேர்"
 
 #: calendar/gui/dialogs/new-calendar.glade.h:4
 msgid "Calendar Group"
-msgstr ""
+msgstr "நாள்காட்டி குழு"
 
 #: calendar/gui/dialogs/new-calendar.glade.h:5
 msgid "Calendar Location"
-msgstr ""
+msgstr "நாள்காட்டி உள்ள இடம்"
 
 #: calendar/gui/dialogs/new-calendar.glade.h:6
 msgid "Calendar Name"
-msgstr ""
+msgstr "நாள்காட்டியின் பெயர்"
 
 #: calendar/gui/dialogs/new-task-list.glade.h:2
 msgid "<b>Task List Options</b>"
-msgstr ""
+msgstr "<b>பணிபட்டியல் தேர்வு</b>"
 
 #: calendar/gui/dialogs/new-task-list.glade.h:3
 msgid "Add New Task List"
-msgstr ""
+msgstr "புதிய பணியை சேர்"
 
 #: calendar/gui/dialogs/new-task-list.glade.h:4
 msgid "Task List Group"
-msgstr ""
+msgstr "புதிய பணி குழு"
 
 #: calendar/gui/dialogs/new-task-list.glade.h:5
 msgid "Task List Name"
-msgstr ""
+msgstr "பணி பட்டியலின் பெயர்"
 
 #: calendar/gui/dialogs/recur-comp.c:51
 msgid "You are modifying a recurring event, what would you like to modify?"
