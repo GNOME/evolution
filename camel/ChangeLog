@@ -5,6 +5,12 @@
 
 	* camel-folder-summary.h: Added CAMEL_MESSAGE_NEEDS_REPLY flag.
 
+2001-12-07  Dan Winship  <danw@ximian.com>
+
+	* camel-mime-message.c (camel_mime_message_set_date): Fix the
+	tm_gmtoff case (its sign is the opposite of "timezone"). Fixes
+	#14678
+
 2001-11-29  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-folder-search.c (search_body_contains): Don't use regex
