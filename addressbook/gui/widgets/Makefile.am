@@ -20,7 +20,7 @@ INCLUDES =										\
 noinst_LTLIBRARIES =				\
 	libeminicard.la
 
-libeminicard_a_SOURCES =			\
+libeminicard_la_SOURCES =			\
 	e-addressbook-marshal.c			\
 	e-addressbook-reflow-adapter.c		\
 	e-addressbook-reflow-adapter.h		\
