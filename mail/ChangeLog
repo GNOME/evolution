@@ -1,3 +1,8 @@
+2000-12-12  Dan Winship  <danw@helixcode.com>
+
+	* mail-summary.h: Fix to use the right .h instead of the
+	deprecated one.
+
 2000-12-12  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-callbacks.c (forward_message): Attach a signature when

@@ -24,7 +24,7 @@
 #ifndef __MAIL_SUMMARY_H__
 #define __MAIL_SUMMARY_H__
 
-#include <evolution-services/executive-summary-component-view.h>
+#include <evolution-services/executive-summary-component.h>
 
 BonoboObject *create_summary_view (ExecutiveSummaryComponentFactory *factory,
 				   void *closure);
