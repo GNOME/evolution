@@ -1,3 +1,10 @@
+2000-05-03  Dan Winship  <danw@helixcode.com>
+
+	* mail-format.c (write_recipients_to_stream, write_headers): Make
+	the "Cc:" field optional again. (Before, we could check if
+	camel_mime_message_get_recipients returned NULL, but now we need
+	to actually look into the returned CamelInternetAddress object.)
+
 2000-05-03  Larry Ewing  <lewing@helixcode.com>
 
 	* folder-browser.c (folder_browser_gui_init): comment out the

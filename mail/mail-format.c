@@ -332,8 +332,8 @@ write_field_to_stream (const char *description, const char *value,
 static void
 write_recipients_to_stream (const gchar *recipient_type,
 			    const CamelInternetAddress *recipients,
-			    gboolean bold, GtkHTML *html,
-			    GtkHTMLStreamHandle *stream)
+			    gboolean optional, gboolean bold,
+			    GtkHTML *html, GtkHTMLStreamHandle *stream)
 {
 	int i;
 	char *recipients_string = NULL;
@@ -351,8 +351,10 @@ write_recipients_to_stream (const gchar *recipient_type,
 		g_free (old_string);
 	}
 
-	write_field_to_stream (recipient_type, recipients_string,
-			       bold, html, stream);
+	if (recipients_string || !optional) {
+		write_field_to_stream (recipient_type, recipients_string,
+				       bold, html, stream);
+	}
 	g_free (recipients_string);
 }
 
@@ -388,11 +390,11 @@ write_headers (CamelMimeMessage *mime_message, GtkBox *box)
 
 	write_recipients_to_stream ("To:",
 				    camel_mime_message_get_recipients (mime_message, CAMEL_RECIPIENT_TYPE_TO),
-				    TRUE, html, stream);
+				    FALSE, TRUE, html, stream);
 
 	recipients = camel_mime_message_get_recipients (mime_message, CAMEL_RECIPIENT_TYPE_CC);
-	if (recipients)
-		write_recipients_to_stream ("Cc:", recipients, TRUE, html, stream);
+	write_recipients_to_stream ("Cc:", recipients, TRUE, TRUE,
+				    html, stream);
 	write_field_to_stream ("Subject:",
 			       camel_mime_message_get_subject (mime_message),
 			       TRUE, html, stream);
