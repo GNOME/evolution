@@ -1,3 +1,7 @@
+2001-10-29  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-dialog-utils.c (e_set_dialog_parent): Remove a g_warning.
+
 2001-10-29  Christopher James Lahey  <clahey@ximian.com>
 
 	* ename/e-name-western.c (e_name_western_fixup): Added French

@@ -141,8 +141,6 @@ e_set_dialog_parent (GtkWindow *dialog,
 
 	xid = strtol (id, NULL, 10);
 
-	g_warning ("Got id `%s' -> %x", id, xid);
-
 	gdk_window = gdk_window_foreign_new (xid);
 	set_transient_for_gdk (dialog, gdk_window);
 }
