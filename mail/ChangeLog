@@ -4,6 +4,8 @@
 	the url->path.
 	(set_service_url): Added more error checking and also strip the
 	leading '/' from the url->path
+	(create_identity_page): Set the signature file to the one specified in
+	the identity record, else set the default path to ~/.sugnature
 
 2000-07-25  Michael Meeks  <michael@helixcode.com>
 

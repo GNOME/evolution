@@ -343,19 +343,20 @@ create_identity_page (GtkWidget *vbox, struct identity_record *idrec)
 	gtk_misc_set_alignment (GTK_MISC (sig), 1, 0);
 
 	sig_entry = gnome_file_entry_new (NULL, _("Signature File"));
-	if (idrec && idrec->sigfile)
-		gtk_entry_set_text (GTK_ENTRY (sig_entry), idrec->sigfile);
+	gnome_file_entry_set_default_path (GNOME_FILE_ENTRY (sig_entry), g_get_home_dir ());
+	if (idrec && idrec->sigfile) {
+		gtk_entry_set_text (GTK_ENTRY (gnome_file_entry_gtk_entry (
+			GNOME_FILE_ENTRY (sig_entry))), idrec->sigfile);
+	} else {
+		default_sig = g_strconcat (g_get_home_dir (), G_DIR_SEPARATOR_S,
+					   ".signature", NULL);
+		gtk_entry_set_text (GTK_ENTRY (
+			gnome_file_entry_gtk_entry (GNOME_FILE_ENTRY (sig_entry))),
+				    default_sig);
+		g_free (default_sig);
+	}
 	gtk_table_attach (GTK_TABLE (table), sig_entry, 1, 2, 4, 5,
 			  GTK_FILL, 0, 0, 0);
-	gnome_file_entry_set_default_path (GNOME_FILE_ENTRY (sig_entry),
-					   g_get_home_dir ());
-
-	default_sig = g_strconcat (g_get_home_dir (), G_DIR_SEPARATOR_S,
-				   ".signature", NULL);
-	gtk_entry_set_text (GTK_ENTRY (
-		gnome_file_entry_gtk_entry (GNOME_FILE_ENTRY (sig_entry))),
-			    default_sig);
-	g_free (default_sig);
 
 	gtk_object_set_data (GTK_OBJECT (vbox), "sig",
 			     gnome_file_entry_gtk_entry (GNOME_FILE_ENTRY (sig_entry)));
