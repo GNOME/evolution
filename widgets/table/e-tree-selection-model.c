@@ -1320,6 +1320,8 @@ e_tree_selection_model_init (ETreeSelectionModel *etsm)
 
 	priv->cursor_save_id                  = NULL;
 
+	priv->frozen_count                    = 0;
+
 
 	priv->tree_model_pre_change_id        = 0;
 	priv->tree_model_no_change_id         = 0;
