@@ -50,7 +50,7 @@ extern "C" {
 #define E_WEEK_VIEW_ICON_HEIGHT		16
 #define E_WEEK_VIEW_ICON_X_PAD		1
 #define E_WEEK_VIEW_ICON_Y_PAD		1
-#define E_WEEK_VIEW_ICON_R_PAD		1
+#define E_WEEK_VIEW_ICON_R_PAD		8
 
 /* The space on the left & right outside of the event. (The triangle to
    indicate the event continues is displayed in this space). */
@@ -71,7 +71,7 @@ extern "C" {
 #define E_WEEK_VIEW_EVENT_TIME_SPACING	2
 
 /* The space between the time and the event text or icons. */
-#define E_WEEK_VIEW_EVENT_TIME_X_PAD	2
+#define E_WEEK_VIEW_EVENT_TIME_X_PAD	8
 
 /* The space between the borders of long events and any text of icons. */
 #define E_WEEK_VIEW_EVENT_EDGE_X_PAD	2

@@ -1,3 +1,11 @@
+2004-06-22  Larry Ewing  <lewing@ximian.com>
+
+	Fixes #59824
+	
+	* gui/e-week-view.h: increase some of the passing so that the text
+	does not appear to run together.  Ideally this would be based on
+	the font size but this will work for now.
+
 2004-06-21  Rodney Dawes  <dobey@novell.com>
 
 	Fixes #56892
