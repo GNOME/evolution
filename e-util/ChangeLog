@@ -1,3 +1,11 @@
+2000-09-12  Dan Winship  <danw@helixcode.com>
+
+	* e-font.c (e_font_from_gdk_font): Change this a bit so that if
+	you pass it a bold font, it puts that in font->bold and finds a
+	lighter font for font->font (if it can). This is for themes like
+	Metal where the default font is bold.
+	(find_variants): renamed from find_best_bold
+	
 2000-09-11  Dan Winship  <danw@helixcode.com>
 
 	* e-font.c (find_best_bold): Thou shalt leave space for the

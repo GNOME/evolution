@@ -29,7 +29,9 @@ struct _EFont {
 	unicode_iconv_t from;
 };
 
-static gchar *find_best_bold (gchar **namelist, gint length, gchar *weight);
+static gboolean find_variants (gchar **namelist, gint length,
+			       gchar *base_weight, gchar **light,
+			       gchar **bold);
 
 EFont *
 e_font_from_gdk_name (const gchar *name)
@@ -51,9 +53,9 @@ e_font_from_gdk_font (GdkFont *gdkfont)
 	XFontStruct *xfs;
 	Atom font_atom, atom;
 	Bool status;
-	GdkFont *boldfont;
+	GdkFont *boldfont, *lightfont;
 
-	boldfont = NULL;
+	boldfont = lightfont = NULL;
 
 	gdk_font_ref (gdkfont);
 
@@ -78,7 +80,7 @@ e_font_from_gdk_font (GdkFont *gdkfont)
 	if (status) {
 		gchar *c[14];
 		gchar *name, *p;
-		gchar *enc, *boldname;
+		gchar *enc, *boldname, *lightname;
 		gchar **namelist;
 		GdkFont *newfont;
 		gint numfonts, len, i;
@@ -119,13 +121,31 @@ e_font_from_gdk_font (GdkFont *gdkfont)
 			    c[8], c[9], c[10], c[11], "*", enc);
 		namelist = XListFonts (GDK_FONT_XDISPLAY (gdkfont),
 				       p, 32, &numfonts);
-		boldname = find_best_bold (namelist, numfonts, c[3]);
-		if (boldname) {
-			g_snprintf (p, len, "%s-%s-%s-%s-%s-%s-%s-%s-%s-%s-%s-%s-%s-%s",
-				    c[0], c[1], c[2], boldname, c[4], c[5], "*", "*",
-				    c[8], c[9], c[10], c[11], "*", enc);
-			boldfont = gdk_font_load (p);
-		}
+		if (find_variants (namelist, numfonts, c[3],
+				   &lightname, &boldname)) {
+			if (!g_strcasecmp (c[3], lightname))
+				lightfont = gdkfont;
+			else if (!g_strcasecmp (c[3], boldname))
+				boldfont = gdkfont;
+			else
+				gdk_font_unref (gdkfont);
+
+			if (!lightfont) {
+				g_snprintf (p, len, "%s-%s-%s-%s-%s-%s-%s-%s-%s-%s-%s-%s-%s-%s",
+					    c[0], c[1], c[2], lightname, c[4],
+					    c[5], "*", "*", c[8], c[9], c[10],
+					    c[11], "*", enc);
+				lightfont = gdk_font_load (p);
+			}
+			if (!boldfont) {
+				g_snprintf (p, len, "%s-%s-%s-%s-%s-%s-%s-%s-%s-%s-%s-%s-%s-%s",
+					    c[0], c[1], c[2], boldname, c[4],
+					    c[5], "*", "*", c[8], c[9], c[10],
+					    c[11], "*", enc);
+				boldfont = gdk_font_load (p);
+			}
+		} else
+			lightfont = gdkfont;
 		XFreeFontNames (namelist);
 
 		g_free (name);
@@ -136,7 +156,7 @@ e_font_from_gdk_font (GdkFont *gdkfont)
 	xfs = GDK_FONT_XFONT (gdkfont);
 
 	font->refcount = 1;
-	font->font = gdkfont;
+	font->font = lightfont;
 	font->bold = boldfont;
 	font->twobyte = ((xfs->min_byte1 != 0) || (xfs->max_byte1 != 0));
 	font->to = e_uiconv_to_gdk_font (font->font);
@@ -420,12 +440,22 @@ e_uiconv_to_gdk_font (GdkFont *font)
 	return uiconv;
 }
 
-static gchar *
-find_best_bold (gchar **namelist, gint length, gchar *weight)
+/* Find light and bold variants of a font, ideally using the provided
+ * weight for the light variant, and a weight 2 shades darker than it
+ * for the bold variant. If there isn't something 2 shades darker, use
+ * something 3 or more shades darker if it exists, or 1 shade darker
+ * if that's all there is. If there is nothing darker than the provided
+ * weight, but there are lighter fonts, then use the darker one for
+ * bold and a lighter one for light.
+ */
+static gboolean
+find_variants (gchar **namelist, gint length, gchar *weight,
+	       gchar **lightname, gchar **boldname)
 {
 	static GHashTable *wh = NULL;
-	gint sw, fw, bw;
-	gchar *s, *f, *b;
+	/* Standard, Found, Bold, Light */
+	gint sw, fw, bw, lw;
+	gchar *s, *f, *b, *l;
 	gchar *p;
 	gint i;
 
@@ -444,10 +474,11 @@ find_best_bold (gchar **namelist, gint length, gchar *weight)
 	strcpy (s, weight);
 	g_strdown (s);
 	sw = GPOINTER_TO_INT (g_hash_table_lookup (wh, s));
-	if (sw == 0) return NULL;
+	if (sw == 0) return FALSE;
 
-	fw = 0; bw = 32;
+	fw = 0; lw = 0; bw = 32;
 	f = NULL; b = NULL;
+	*lightname = NULL; *boldname = NULL;
 
 	for (i = 0; i < length; i++) {
 		p = namelist[i];
@@ -461,16 +492,35 @@ find_best_bold (gchar **namelist, gint length, gchar *weight)
 		if (*p) *p = '\0';
 		g_strdown (f);
 		fw = GPOINTER_TO_INT (g_hash_table_lookup (wh, f));
-		if (fw && fw > sw) {
-			if (fw - 2 == sw) return namelist[i];
-			if (((fw > bw) && (bw == sw + 1)) || ((fw < bw) && (fw - 2 > sw))) {
-				bw = fw;
-				b = f;
+		if (fw) {
+			if (fw > sw) {
+				if ((fw - 2 == sw) ||
+				    ((fw > bw) && (bw == sw + 1)) ||
+				    ((fw < bw) && (fw - 2 > sw))) {
+					bw = fw;
+					b = f;
+				}
+			} else if (fw < sw) {
+				if ((fw + 2 == sw) ||
+				    ((fw < lw) && (lw == sw - 1)) ||
+				    ((fw > lw) && (fw + 2 < sw))) {
+					lw = fw;
+					l = f;
+				}
 			}
 		}
 	}
 
-	return b;
+	if (b) {
+		*lightname = weight;
+		*boldname = b;
+		return TRUE;
+	} else if (l) {
+		*lightname = l;
+		*boldname = weight;
+		return TRUE;
+	}
+	return FALSE;
 }
 
 
