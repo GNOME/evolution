@@ -552,7 +552,7 @@ static int lexWithinMode(enum LexMode mode) {
     return 0;
     }
 
-static char lexGetc_()
+static int lexGetc_()
     {
     /* get next char from input, no buffering. */
     if (lexBuf.curPos == lexBuf.inputLen)

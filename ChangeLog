@@ -1,3 +1,8 @@
+2001-03-09  Christopher James Lahey  <clahey@ximian.com>
+
+	* libversit/vcc.y: Changed int to char when returning a character
+	from a stream (since it needs to be able to hold EOF.)
+
 2001-03-01  Jakub Steiner <jimmac@ximian.com>
 
 	* art/48_evo-address-conduit.png: 48^2 version of the
