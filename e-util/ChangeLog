@@ -1,3 +1,11 @@
+2004-11-01  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #68787
+
+	* e-account.c (xml_set_content): check the new val isn't null
+	before dereferencing it.
+	* e-account.c (xml_set_prop): same here.
+
 2004-10-28  Not Zed  <NotZed@Ximian.com>
 
 	* e-config.c (ec_rebuild): revert the last change.

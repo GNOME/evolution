@@ -245,45 +245,51 @@ xml_set_int (xmlNodePtr node, const char *name, int *val)
 static gboolean
 xml_set_prop (xmlNodePtr node, const char *name, char **val)
 {
-	char *buf, *new_val;
+	char *buf;
+	int res;
 
-	buf = xmlGetProp (node, name);
-	new_val = g_strdup (buf);
-	xmlFree (buf);
-
-	/* We can use strcmp here whether the value is UTF8 or
-	 * not, since we only care if the bytes changed.
-	 */
-	if (!*val || strcmp (*val, new_val)) {
-		g_free (*val);
-		*val = new_val;
-		return TRUE;
+	buf = xmlGetProp(node, name);
+	if (buf == NULL) {
+		res = (*val != NULL);
+		if (res) {
+			g_free(*val);
+			*val = NULL;
+		}
 	} else {
-		g_free (new_val);
-		return FALSE;
+		res = *val == NULL || strcmp(*val, buf) != 0;
+		if (res) {
+			g_free(*val);
+			*val = g_strdup(buf);
+		}
+		xmlFree(buf);
 	}
+
+	return res;
 }
 
 static gboolean
 xml_set_content (xmlNodePtr node, char **val)
 {
-	char *buf, *new_val;
+	char *buf;
+	int res;
 
-	buf = xmlNodeGetContent (node);
-        new_val = g_strdup (buf);
-	xmlFree (buf);
-
-	/* We can use strcmp here whether the value is UTF8 or
-	 * not, since we only care if the bytes changed.
-	 */
-	if (!*val || strcmp (*val, new_val)) {
-		g_free (*val);
-		*val = new_val;
-		return TRUE;
+	buf = xmlNodeGetContent(node);
+	if (buf == NULL) {
+		res = (*val != NULL);
+		if (res) {
+			g_free(*val);
+			*val = NULL;
+		}
 	} else {
-		g_free (new_val);
-		return FALSE;
+		res = *val == NULL || strcmp(*val, buf) != 0;
+		if (res) {
+			g_free(*val);
+			*val = g_strdup(buf);
+		}
+		xmlFree(buf);
 	}
+
+	return res;
 }
 
 static gboolean
@@ -303,6 +309,9 @@ xml_set_identity (xmlNodePtr node, EAccountIdentity *id)
 		else if (!strcmp (node->name, "signature")) {
 			changed |= xml_set_prop (node, "uid", &id->sig_uid);
 			if (!id->sig_uid) {
+
+				/* WTF is this shit doing here?  Migrate is supposed to "handle this" */
+
 				/* set a fake sig uid so the migrate code can handle this */
 				gboolean autogen = FALSE;
 				int sig_id = 0;
