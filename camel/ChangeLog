@@ -1,3 +1,9 @@
+2001-05-10  Chris Toshok  <toshok@ximian.com>
+
+	* camel-tcp-stream-ssl.c (stream_connect): call SSL_Enable after
+	the SSL_ImportFD and before PR_Connect.  Otherwise, NSS aborts
+	during the connect.
+
 2001-05-10  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-session.c (camel_session_get_password): Don't abort if the
