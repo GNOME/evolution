@@ -49,6 +49,7 @@ struct _UserCreatableItemType {
 	char *id;
 	char *description;
 	char *menu_description;
+	char *tooltip;
 	char menu_shortcut;
 	GdkPixbuf *icon;
 };
@@ -96,6 +97,7 @@ static UserCreatableItemType *
 user_creatable_item_type_new (const char *id,
 			      const char *description,
 			      const char *menu_description,
+			      const char *tooltip,
 			      char menu_shortcut,
 			      GdkPixbuf *icon)
 {
@@ -105,6 +107,7 @@ user_creatable_item_type_new (const char *id,
 	type->id               = g_strdup (id);
 	type->description      = g_strdup (description);
 	type->menu_description = g_strdup (menu_description);
+	type->tooltip          = g_strdup (tooltip);
 	type->menu_shortcut    = menu_shortcut;
 
 	if (icon == NULL)
@@ -365,6 +368,7 @@ impl__get_userCreatableItemTypes (PortableServer_Servant servant,
 		corba_type->id              = CORBA_string_dup (type->id);
 		corba_type->description     = CORBA_string_dup (type->description);
 		corba_type->menuDescription = CORBA_string_dup (type->menu_description);
+		corba_type->tooltip         = CORBA_string_dup (type->tooltip != NULL ? type->tooltip : "");
 		corba_type->menuShortcut    = type->menu_shortcut;
 
 		e_store_corba_icon_from_pixbuf (type->icon, & corba_type->icon);
@@ -1049,6 +1053,7 @@ evolution_shell_component_add_user_creatable_item  (EvolutionShellComponent *she
 						    const char *id,
 						    const char *description,
 						    const char *menu_description,
+						    const char *tooltip,
 						    char menu_shortcut,
 						    GdkPixbuf *icon)
 {
@@ -1063,7 +1068,7 @@ evolution_shell_component_add_user_creatable_item  (EvolutionShellComponent *she
 
 	priv = shell_component->priv;
 
-	type = user_creatable_item_type_new (id, description, menu_description, menu_shortcut, icon);
+	type = user_creatable_item_type_new (id, description, menu_description, tooltip, menu_shortcut, icon);
 
 	priv->user_creatable_item_types = g_slist_prepend (priv->user_creatable_item_types, type);
 }

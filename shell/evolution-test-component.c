@@ -581,11 +581,17 @@ register_component (void)
 			    GTK_SIGNAL_FUNC (owner_unset_callback), NULL);
 
 	evolution_shell_component_add_user_creatable_item (shell_component, "Stuff",
-							   "New Stuff", "New _Stuff", '\0', NULL);
+							   "New Stuff", "New _Stuff",
+							   "Create some new stuff",
+							   '\0', NULL);
 	evolution_shell_component_add_user_creatable_item (shell_component, "MoreStuff",
-							   "New More Stuff", "New _More Stuff", 'n', NULL);
+							   "New More Stuff", "New _More Stuff",
+							   "Create more stuff",
+							   'n', NULL);
 	evolution_shell_component_add_user_creatable_item (shell_component, "FolderSelector",
-							   "Folder Selector", "New Folder _Selector", 's', NULL);
+							   "Folder Selector", "New Folder _Selector",
+							   "Show a folder selector",
+							   's', NULL);
 
 	gtk_signal_connect (GTK_OBJECT (shell_component), "user_create_new_item",
 			    GTK_SIGNAL_FUNC (user_create_new_item_callback), NULL);

@@ -1,3 +1,29 @@
+2002-07-02  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-user-creatable-items-handler.c: New member tooltip in
+	struct MenuItem.
+	(ensure_menu_items): Initialize the tooltip member.
+	(shell_view_view_changed_callback): Set the tooltip for the "New"
+	button.
+	(ensure_menu_xml): Set up the tooltip here as well.
+
+	* evolution-shell-component.c: Add tooltip member to struct
+	UserCreatableItemType.
+	(user_creatable_item_type_new): New arg @tooltip.
+	(evolution_shell_component_add_user_creatable_item): New arg
+	@tooltip.
+	(impl__get_userCreatableItemTypes): Put the tooltip in the struct
+	as well.
+
+	* e-shell-user-creatable-items-handler.c (setup_toolbar_button):
+	Create a GtkTooltips object and attach it to the combo_button
+	using gtk_object_set_data().
+	(shell_view_view_changed_callback): Set up a tooltip for the
+	button, according to the default.
+
+	* Evolution-ShellComponent.idl: Add a tooltip member to struct
+	UserCreatableItemType.
+
 2002-07-01  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell.c (e_shell_prepare_for_quit): Remove debugging message.

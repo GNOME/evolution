@@ -1,3 +1,10 @@
+2002-07-02  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/component-factory.c (add_creatable_item): New arg @tooltip.
+	Pass it to evolution_shell_component_add_user_creatable_item(),
+	which now has a @tooltip arg.
+	(create_object): Added tooltips.
+
 2002-07-01  JP Rosevear  <jpr@ximian.com>
 
 	* gui/calendar-config.c (config_read): listen for timezone config

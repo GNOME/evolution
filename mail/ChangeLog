@@ -1,3 +1,8 @@
+2002-07-02  Ettore Perazzoli  <ettore@ximian.com>
+
+	* component-factory.c (create_component): Pass a tooltip to
+	evolution_shell_component_add_user_creatable_item.
+
 2002-07-02  Sean Atkinson  <sean@cantab.net>
 
 	* mail-preferences.c: remove dependency on removed file

@@ -1,3 +1,10 @@
+2002-07-02  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/component/addressbook-component.c (add_creatable_item): New
+	arg @tooltip; pass it to
+	evolution_shell_component_add_user_creatable_item() [which now has
+	a @tooltip arg].
+
 2002-06-29  Chris Toshok  <toshok@ximian.com>
 
 	* backend/pas/Makefile.am (libpas_a_SOURCES): add

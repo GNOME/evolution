@@ -39,6 +39,7 @@
 #include <libgnome/gnome-i18n.h>
 
 #include <gtk/gtksignal.h>
+#include <gtk/gtktooltips.h>
 
 #include <stdlib.h>
 #include <ctype.h>
@@ -54,6 +55,7 @@ static GtkObjectClass *parent_class = NULL;
 
 #define SHELL_VIEW_KEY          "EShellUserCreatableItemsHandler:shell_view"
 #define COMBO_BUTTON_WIDGET_KEY "EShellUserCreatableItemsHandler:combo_button"
+#define TOOLTIPS_KEY            "EShellUserCreatableItemsHandler:tooltips"
 
 struct _Component {
 	EvolutionShellComponentClient *component_client;
@@ -67,6 +69,7 @@ struct _MenuItem {
 	const char *label;
 	char shortcut;
 	char *verb;
+	char *tooltip;
 	GdkPixbuf *icon;
 };
 typedef struct _MenuItem MenuItem;
@@ -217,6 +220,7 @@ ensure_menu_items (EShellUserCreatableItemsHandler *handler)
 				item->label    = type->menuDescription;
 				item->shortcut = type->menuShortcut;
 				item->verb     = create_verb_from_component_number_and_type_id (component_num, type->id);
+				item->tooltip  = type->tooltip;
 
 				if (strcmp (evolution_shell_component_client_get_id (component->component_client),
 					    EVOLUTION_MAIL_OAFIID) == 0
@@ -364,11 +368,11 @@ ensure_menu_xml (EShellUserCreatableItemsHandler *handler)
 	for (p = priv->menu_items; p != NULL; p = p->next) {
 		const MenuItem *item;
 		char *encoded_label;
+		char *encoded_tooltip;
 
 		item = (const MenuItem *) p->data;
 
 		encoded_label = bonobo_ui_util_encode_str (item->label);
-
 		g_string_sprintfa (xml, "<menuitem name=\"New:%s\" verb=\"%s\" label=\"%s\"",
 				   item->verb, item->verb, encoded_label);
 
@@ -379,9 +383,13 @@ ensure_menu_xml (EShellUserCreatableItemsHandler *handler)
 			g_string_sprintfa (xml, " pixtype=\"pixbuf\" pixname=\"%s\"",
 					   bonobo_ui_util_pixbuf_to_xml (item->icon));
 
+		encoded_tooltip = bonobo_ui_util_encode_str (item->tooltip);
+		g_string_sprintfa (xml, " tip=\"%s\"", encoded_tooltip);
+
 		g_string_append (xml, "/> ");
 
 		g_free (encoded_label);
+		g_free (encoded_tooltip);
 	}
 
 	g_string_append (xml, "</placeholder>");
@@ -526,6 +534,7 @@ setup_toolbar_button (EShellUserCreatableItemsHandler *handler,
 	BonoboUIComponent *ui_component;
 	GtkWidget *combo_button;
 	GtkWidget *menu;
+	GtkTooltips *tooltips;
 	BonoboControl *control;
 
 	priv = handler->priv;
@@ -550,6 +559,9 @@ setup_toolbar_button (EShellUserCreatableItemsHandler *handler,
 					BONOBO_OBJREF (control), NULL);
 
 	gtk_object_set_data (GTK_OBJECT (shell_view), COMBO_BUTTON_WIDGET_KEY, combo_button);
+
+	tooltips = gtk_tooltips_new ();
+	gtk_object_set_data (GTK_OBJECT (combo_button), TOOLTIPS_KEY, tooltips);
 }
 
 
@@ -568,6 +580,7 @@ shell_view_view_changed_callback (EShellView *shell_view,
 	EShellUserCreatableItemsHandler *handler;
 	EShellUserCreatableItemsHandlerPrivate *priv;
 	GtkWidget *combo_button_widget;
+	GtkTooltips *tooltips;
 	const MenuItem *default_menu_item;
 
 	handler = E_SHELL_USER_CREATABLE_ITEMS_HANDLER (data);
@@ -576,17 +589,22 @@ shell_view_view_changed_callback (EShellView *shell_view,
 	combo_button_widget = gtk_object_get_data (GTK_OBJECT (shell_view), COMBO_BUTTON_WIDGET_KEY);
 	g_assert (E_IS_COMBO_BUTTON (combo_button_widget));
 
+	tooltips = gtk_object_get_data (GTK_OBJECT (combo_button_widget), TOOLTIPS_KEY);
+	g_assert (tooltips != NULL);
+
 	default_menu_item = get_default_action_for_view (handler, shell_view);
 	if (default_menu_item == NULL) {
 		gtk_widget_set_sensitive (combo_button_widget, FALSE);
 		e_combo_button_set_label (E_COMBO_BUTTON (combo_button_widget), _("New"));
 		e_combo_button_set_icon (E_COMBO_BUTTON (combo_button_widget), NULL);
+		gtk_tooltips_set_tip (tooltips, combo_button_widget, NULL, NULL);
 		return;
 	}
 
 	gtk_widget_set_sensitive (combo_button_widget, TRUE);
 
 	e_combo_button_set_icon (E_COMBO_BUTTON (combo_button_widget), default_menu_item->icon);
+	gtk_tooltips_set_tip (tooltips, combo_button_widget, default_menu_item->tooltip, NULL);
 }
 
 

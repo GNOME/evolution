@@ -527,6 +527,7 @@ add_creatable_item (EvolutionShellComponent *shell_component,
 		    const char *id,
 		    const char *description,
 		    const char *menu_description,
+		    const char *tooltip,
 		    char menu_shortcut,
 		    const char *icon_name)
 {
@@ -545,6 +546,7 @@ add_creatable_item (EvolutionShellComponent *shell_component,
 							   id,
 							   description,
 							   menu_description,
+							   tooltip,
 							   menu_shortcut,
 							   icon);
 
@@ -575,10 +577,12 @@ create_component (void)
 				     BONOBO_OBJECT (destination_interface));
 
 	add_creatable_item (shell_component, "contact_list",
-			    _("New Contact List"), _("Contact _List"), 'l',
+			    _("New Contact List"), _("Contact _List"),
+			    _("Create a new contact list"), 'l',
 			    "all_contacts.xpm");
 	add_creatable_item (shell_component, "contact",
-			    _("New Contact"), _("_Contact"), 'c',
+			    _("New Contact"), _("_Contact"),
+			    _("Create a new contact"), 'c',
 			    "evolution-contacts-mini.png");
 
 	gtk_signal_connect (GTK_OBJECT (shell_component), "owner_set",

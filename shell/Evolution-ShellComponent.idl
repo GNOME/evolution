@@ -39,6 +39,7 @@ module Evolution {
 		string id;
 		string description;
 		string menuDescription;
+		string tooltip;
 		char menuShortcut;
 		Icon icon;
 	};
