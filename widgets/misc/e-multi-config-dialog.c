@@ -294,7 +294,7 @@ class_init (EMultiConfigDialogClass *class)
 	dialog_class = GTK_DIALOG_CLASS (class);
 	dialog_class->response = impl_response;
 
-	parent_class = g_type_class_ref(PARENT_TYPE);
+	parent_class = g_type_class_ref (PARENT_TYPE);
 }
 
 #define RGB_COLOR(color) (((color).red & 0xff00) << 8 | \

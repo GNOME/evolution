@@ -6,32 +6,32 @@ libexec_PROGRAMS =				\
 
 importerdir = $(privlibdir)/evolution-mail-importers
 
-INCLUDES = \
-	-I$(top_srcdir)/widgets				\
-	-I$(top_srcdir)/widgets/e-text			\
-	-I$(top_srcdir)/widgets/misc			\
-	-I$(top_srcdir)/camel				\
-	-I$(top_srcdir)					\
-	-I$(top_srcdir)/composer			\
-	-I$(top_builddir)/composer			\
-	-I$(top_builddir)/shell				\
-	-I$(top_srcdir)/shell				\
-	-I$(top_srcdir)/shell/importer			\
-	-I$(top_builddir)/shell/importer		\
-	-I$(top_srcdir)/addressbook/backend		\
-	-I$(top_builddir)/addressbook/backend		\
+INCLUDES =							\
+	-I$(top_srcdir)/widgets					\
+	-I$(top_srcdir)/widgets/e-text				\
+	-I$(top_srcdir)/widgets/misc				\
+	-I$(top_srcdir)/camel					\
+	-I$(top_srcdir)						\
+	-I$(top_srcdir)/composer				\
+	-I$(top_builddir)/composer				\
+	-I$(top_builddir)/shell					\
+	-I$(top_srcdir)/shell					\
+	-I$(top_srcdir)/shell/importer				\
+	-I$(top_builddir)/shell/importer			\
+	-I$(top_srcdir)/addressbook/backend			\
+	-I$(top_builddir)/addressbook/backend			\
 	$(EVOLUTION_MAIL_CFLAGS)				\
-	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
-	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
-	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"	\
-	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"		\
-	-DEVOLUTION_IMAGES=\""$(datadir)/images/evolution"\"	\
-	-DEVOLUTION_BUTTONSDIR=\""$(buttonsdir)"\"	\
-	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"	\
-	-DCAMEL_PROVIDERDIR=\""$(camel_providerdir)"\"	\
-	-DMAIL_IMPORTERSDIR=\""$(importerdir)"\"	\
-	-DG_DISABLE_DEPRECATED				\
-	-DGTK_DISABLE_DEPRECATED			\
+	-DEVOLUTION_DATADIR=\""$(datadir)"\"			\
+	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"			\
+	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"		\
+	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"			\
+	-DEVOLUTION_IMAGES=\""$(datadir)/evolution/images"\"	\
+	-DEVOLUTION_BUTTONSDIR=\""$(buttonsdir)"\"		\
+	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"		\
+	-DCAMEL_PROVIDERDIR=\""$(camel_providerdir)"\"		\
+	-DMAIL_IMPORTERSDIR=\""$(importerdir)"\"		\
+	-DG_DISABLE_DEPRECATED					\
+	-DGTK_DISABLE_DEPRECATED				\
 	-DG_LOG_DOMAIN=\"evolution-mail\"
 
 EVOLUTION_MAIL_CORBA_GENERATED = \
@@ -178,8 +178,8 @@ glade_DATA = mail-config.glade local-config.glade subscribe-dialog.glade message
 etspecdir = $(datadir)/evolution/etspec/
 etspec_DATA = mail-accounts.etspec message-list.etspec subscribe-dialog.etspec
 
-iconsdir = $(datadir)/images/evolution
-buttonsdir = $(datadir)/images/evolution/buttons
+iconsdir = $(datadir)/evolution/images
+buttonsdir = $(datadir)/evolution/images/buttons
 
 idl_DATA = Mailer.idl
 

@@ -1,6 +1,6 @@
 SUBDIRS = . ename
 
-imagesdir = $(datadir)/images/evolution
+imagesdir = $(datadir)/evolution/images
 
 eutilincludedir = $(includedir)/evolution/e-util
 econdincludedir = $(includedir)/evolution/e-conduit
