@@ -1,3 +1,9 @@
+2003-08-05  Jack Jia  <jack.jia@sun.com>
+
+	* evolution-comp-editor.xml: add the accelerator "P" for "Print",
+	"S" for "Save", "C" for "Save and _Close", "A" for "Save _As...",
+	"D" for "Delete". Fixes bug #47379.
+ 
 2003-07-17  Rodrigo Moya <rodrigo@ximian.com>
 
 	* evolution-tasks.xml: s/Expunge/Purge.
