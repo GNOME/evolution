@@ -305,7 +305,7 @@ void em_folder_browser_show_preview(EMFolderBrowser *emfb, gboolean state)
 		/*do_message_selected (emfb);*/
 		/*set_cursor_pos (emfb, y);*/
 	} else {
-		em_format_format((EMFormat *)emfb->view.preview, NULL);
+		em_format_format((EMFormat *)emfb->view.preview, NULL, NULL, NULL);
 		gtk_widget_hide(emfb->priv->preview);
 		/*
 		mail_display_set_message (emfb->mail_display, NULL, NULL, NULL);
@@ -590,7 +590,7 @@ emfb_empty_trash(BonoboUIComponent *uid, void *data, const char *path)
 {
 	EMFolderView *emfv = data;
 	
-	em_utils_empty_trash ((GtkWidget *) emfv);
+	em_utils_empty_trash (gtk_widget_get_toplevel ((GtkWidget *) emfv));
 }
 
 static void
