@@ -102,6 +102,7 @@ impl_ShellComponent__get_supported_types (PortableServer_Servant servant,
 	priv = shell_component->priv;
 
 	folder_type_list = GNOME_Evolution_FolderTypeList__alloc ();
+	CORBA_sequence_set_release (folder_type_list, TRUE);
 	folder_type_list->_length = g_list_length (priv->folder_types);
 	folder_type_list->_maximum = folder_type_list->_length;
 	folder_type_list->_buffer = CORBA_sequence_GNOME_Evolution_FolderType_allocbuf (folder_type_list->_maximum);

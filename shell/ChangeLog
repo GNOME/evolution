@@ -1,3 +1,9 @@
+2000-11-24  Federico Mena Quintero  <federico@helixcode.com>
+
+	* evolution-shell-component.c
+	(impl_ShellComponent__get_supported_types): Plug leak; mark the
+	CORBA sequence so that it will be released.
+
 2000-11-14  Michael Meeks  <michael@helixcode.com>
 
 	* e-shell-view.c (unmerge_on_error): add
