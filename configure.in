@@ -38,7 +38,7 @@ AC_PROG_MAKE_SET
 AC_PATH_PROG(SENDMAIL, sendmail, /usr/sbin/sendmail, /usr/sbin:/usr/lib)
 AC_DEFINE_UNQUOTED(SENDMAIL_PATH, "$SENDMAIL")
 
-ALL_LINGUAS="el no sv uk"
+ALL_LINGUAS="el gl no sv uk"
 
 AM_GNOME_GETTEXT
 
