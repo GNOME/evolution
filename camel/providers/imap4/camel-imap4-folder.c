@@ -343,10 +343,10 @@ static void
 uidset_init (struct _uidset *uidset, CamelFolderSummary *summary, size_t maxlen)
 {
 	uidset->ranges = g_new (struct _uidset_range, 1);
+	uidset->ranges->first = (guint32) -1;
+	uidset->ranges->last = (guint32) -1;
 	uidset->ranges->next = NULL;
 	uidset->ranges->buflen = 0;
-	uidset->ranges->first = 0;
-	uidset->ranges->last = 0;
 	
 	uidset->tail = uidset->ranges;
 	uidset->summary = summary;
@@ -365,6 +365,7 @@ uidset_add (struct _uidset *uidset, CamelMessageInfo *info)
 	guint32 index;
 	char *colon;
 	
+	/* Note: depends on integer overflow for initial tail->last value */
 	for (index = tail->last + 1; index < messages->len; index++) {
 		if (info == messages->pdata[index])
 			break;

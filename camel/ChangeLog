@@ -1,3 +1,9 @@
+2004-06-17  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap4/camel-imap4-folder.c (uidset_init): init
+	tail->last to (guint32) -1, so that index = tail->last + 1 will
+	start at 0 :-)
+
 2004-06-17  Rodney Dawes  <dobey@novell.com>
 
 	* camel-mime-filter-tohtml.c: Add support for the webcal, callto, and
