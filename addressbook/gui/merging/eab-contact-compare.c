@@ -613,11 +613,22 @@ query_cb (EBook *book, EBookStatus status, GList *contacts, gpointer closure)
 	/* remove the contacts we're to avoid from the list, if they're present */
 	for (i = contacts; i != NULL; i = g_list_next (i)) {
 		EContact *this_contact = E_CONTACT (i->data);
+		const gchar *this_uid;
 		GList *iterator;
 		gboolean avoid = FALSE;
+
+		this_uid = e_contact_get_const (this_contact, E_CONTACT_UID);
+		if (!this_uid)
+			continue;
+
 		for (iterator = info->avoid; iterator; iterator = iterator->next) {
-			if (!strcmp (e_contact_get_const (iterator->data, E_CONTACT_UID),
-				     e_contact_get_const (this_contact, E_CONTACT_UID))) {
+			const gchar *avoid_uid;
+
+			avoid_uid = e_contact_get_const (iterator->data, E_CONTACT_UID);
+			if (!avoid_uid)
+				continue;
+
+			if (!strcmp (avoid_uid, this_uid)) {
 				avoid = TRUE;
 				break;
 			}

@@ -1,3 +1,10 @@
+2004-09-29  Hans Petter Jansson  <hpj@ximian.com>
+
+	Fixes bug #65537.
+
+	* gui/merging/eab-contact-compare.c (query_cb): Protect against NULL
+	UIDs, and make fewer calls to e_contact_get_const () as a bonus.
+
 2004-09-24  Hao Sheng  <hao.sheng@sun.com>
 	
 	Fix for #66523
