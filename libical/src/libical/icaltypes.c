@@ -30,6 +30,7 @@
 #include "icaltypes.h"
 #include "icalerror.h"
 #include "icalmemory.h"
+#include "icalvalueimpl.h"
 #include <stdlib.h> /* for malloc and abs() */
 #include <errno.h> /* for errno */
 #include <string.h> /* for icalmemory_strdup */
@@ -37,115 +38,106 @@
 
 #define TEMP_MAX 1024
 
-void*
-icalattachtype_get_data (struct icalattachtype* type);
-
-struct icalattachtype*
-icalattachtype_new()
+icalattach *
+icalattach_new_from_url (const char *url)
 {
-    struct icalattachtype* v;
+    icalattach *attach;
+    char *url_copy;
 
-    if ( ( v = (struct icalattachtype*)
-	   malloc(sizeof(struct icalattachtype))) == 0) {
+    icalerror_check_arg_rz ((url != NULL), "url");
+
+    if ((attach = malloc (sizeof (icalattach))) == NULL) {
 	errno = ENOMEM;
-	return 0;
+	return NULL;
     }
 
-    v->refcount = 1;
+    if ((url_copy = strdup (url)) == NULL) {
+	free (attach);
+	errno = ENOMEM;
+	return NULL;
+    }
 
-    v->binary = 0;
-    v->owns_binary = 0;
+    attach->refcount = 1;
+    attach->is_url = 1;
+    attach->u.url.url = url_copy;
 
-    v->base64 = 0;
-    v->owns_base64 = 0;
-
-    v->url = 0; 
-
-    return v;
+    return attach;
 }
 
+icalattach *
+icalattach_new_from_data (const unsigned char *data, icalattach_free_fn_t free_fn,
+			  void *free_fn_data)
+{
+    icalattach *attach;
+
+    icalerror_check_arg_rz ((data != NULL), "data");
+
+    if ((attach = malloc (sizeof (icalattach))) == NULL) {
+	errno = ENOMEM;
+	return NULL;
+    }
+
+    attach->refcount = 1;
+    attach->is_url = 0;
+    attach->u.data.data = (unsigned char *) data;
+    attach->u.data.free_fn = free_fn;
+    attach->u.data.free_fn_data = free_fn_data;
+
+    return attach;
+}
 
 void
-icalattachtype_free(struct icalattachtype* v)
+icalattach_ref (icalattach *attach)
 {
-    icalerror_check_arg( (v!=0),"v");
-    
-    v->refcount--;
+    icalerror_check_arg_rv ((attach != NULL), "attach");
+    icalerror_check_arg_rv ((attach->refcount > 0), "attach->refcount > 0");
 
-    if (v->refcount <= 0){
-	
-	if (v->base64 != 0 && v->owns_base64 != 0){
-	    free(v->base64);
-	}
-
-	if (v->binary != 0 && v->owns_binary != 0){
-	    free(v->binary);
-	}
-	
-	if (v->url != 0){
-	    free(v->url);
-	}
-
-	free(v);
-    }
+    attach->refcount++;
 }
 
-void  icalattachtype_add_reference(struct icalattachtype* v)
+void
+icalattach_unref (icalattach *attach)
 {
-    icalerror_check_arg( (v!=0),"v");
-    v->refcount++;
+    icalerror_check_arg_rv ((attach != NULL), "attach");
+    icalerror_check_arg_rv ((attach->refcount > 0), "attach->refcount > 0");
+
+    attach->refcount--;
+
+    if (attach->refcount != 0)
+	return;
+
+    if (attach->is_url)
+	free (attach->u.url.url);
+    else if (attach->u.data.free_fn)
+	(* attach->u.data.free_fn) (attach->u.data.data, attach->u.data.free_fn_data);
+
+    free (attach);
 }
 
-void icalattachtype_set_url(struct icalattachtype* v, char* url)
+int
+icalattach_get_is_url (icalattach *attach)
 {
-    icalerror_check_arg( (v!=0),"v");
+    icalerror_check_arg_rz ((attach != NULL), "attach");
 
-    if (v->url != 0){
-	free (v->url);
-    }
-
-    v->url = icalmemory_strdup(url);
-
-    /* HACK This routine should do something if icalmemory_strdup returns NULL */
-
+    return attach->is_url ? 1 : 0;
 }
 
-char* icalattachtype_get_url(struct icalattachtype* v)
+const char *
+icalattach_get_url (icalattach *attach)
 {
-    icalerror_check_arg( (v!=0),"v");
-    return v->url;
+    icalerror_check_arg_rz ((attach != NULL), "attach");
+    icalerror_check_arg_rz ((attach->is_url), "attach->is_url");
+
+    return attach->u.url.url;
 }
 
-void icalattachtype_set_base64(struct icalattachtype* v, char* base64,
-				int owns)
+unsigned char *
+icalattach_get_data (icalattach *attach)
 {
-    icalerror_check_arg( (v!=0),"v");
+    icalerror_check_arg_rz ((attach != NULL), "attach");
+    icalerror_check_arg_rz ((!attach->is_url), "!attach->is_url");
 
-    v->base64 = base64;
-    v->owns_base64 = !(owns != 0 );
-    
-}
-
-char* icalattachtype_get_base64(struct icalattachtype* v)
-{
-    icalerror_check_arg( (v!=0),"v");
-    return v->base64;
-}
-
-void icalattachtype_set_binary(struct icalattachtype* v, char* binary,
-				int owns)
-{
-    icalerror_check_arg( (v!=0),"v");
-
-    v->binary = binary;
-    v->owns_binary = !(owns != 0 );
-
-}
-
-void* icalattachtype_get_binary(struct icalattachtype* v)
-{
-    icalerror_check_arg( (v!=0),"v");
-    return v->binary;
+    return attach->u.data.data;
 }
 
 

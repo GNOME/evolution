@@ -88,8 +88,9 @@ icalvalue_new (icalvalue_kind kind)
     return (icalvalue*)icalvalue_new_impl(kind);
 }
 
-icalvalue* icalvalue_new_clone(icalvalue* value){
-
+icalvalue*
+icalvalue_new_clone(icalvalue* value)
+{
     struct icalvalue_impl* new;
     struct icalvalue_impl* old = (struct icalvalue_impl*)value;
 
@@ -105,13 +106,18 @@ icalvalue* icalvalue_new_clone(icalvalue* value){
     new->size = old->size;
 
     switch (new->kind){
-
-	/* The contents of the attach value may or may not be owned by the 
-	 * library. */
 	case ICAL_ATTACH_VALUE: 
 	case ICAL_BINARY_VALUE: 
 	{
-	    /* HACK ugh. I don't feel like impleenting this */
+	    /* Hmm.  We just ref the attach value, which may not be the right
+	     * thing to do.  We cannot quite copy the data, anyways, since we
+	     * don't know how long it is.
+	     */
+	    new->data.v_attach = old->data.v_attach;
+	    if (new->data.v_attach)
+		icalattach_ref (new->data.v_attach);
+
+	    break;
 	}
 
 	case ICAL_STRING_VALUE:
@@ -156,7 +162,7 @@ icalvalue* icalvalue_new_clone(icalvalue* value){
     return new;
 }
 
-char* icalmemory_strdup_and_dequote(const char* str)
+static char* icalmemory_strdup_and_dequote(const char* str)
 {
     const char* p;
     char* out = (char*)malloc(sizeof(char) * strlen(str) +1);
@@ -257,7 +263,8 @@ icalvalue* icalvalue_new_enum(icalvalue_kind kind, int x_type, const char* str)
 }
 
 
-icalvalue* icalvalue_new_from_string_with_error(icalvalue_kind kind,const char* str,icalproperty** error)
+icalvalue*
+icalvalue_new_from_string_with_error(icalvalue_kind kind,const char* str,icalproperty** error)
 {
 
     struct icalvalue_impl *value = 0;
@@ -511,7 +518,12 @@ icalvalue_free (icalvalue* value)
     switch (v->kind){
 	case ICAL_BINARY_VALUE: 
 	case ICAL_ATTACH_VALUE: {
-	    /* HACK ugh. This will be tough to implement */
+	    if (v->data.v_attach) {
+		icalattach_unref (v->data.v_attach);
+		v->data.v_attach = NULL;
+	    }
+
+	    break;
 	}
 	case ICAL_TEXT_VALUE:
 	case ICAL_CALADDRESS_VALUE:
@@ -734,27 +746,25 @@ char* icalvalue_text_as_ical_string(icalvalue* value) {
 }
 
 
-char* icalvalue_attach_as_ical_string(icalvalue* value) {
-
-    struct icalattachtype a;
+char*
+icalvalue_attach_as_ical_string(icalvalue* value)
+{
+    icalattach *a;
     char * str;
 
     icalerror_check_arg_rz( (value!=0),"value");
 
     a = icalvalue_get_attach(value);
 
-    if (a.binary != 0) {
-	return  icalvalue_binary_as_ical_string(value);
-    } else if (a.base64 != 0) {
-	str = (char*)icalmemory_tmp_buffer(strlen(a.base64)+1);
-	strcpy(str,a.base64);
+    if (icalattach_get_is_url (a)) {
+	const char *url;
+
+	url = icalattach_get_url (a);
+	str = icalmemory_tmp_buffer (strlen (url) + 1);
+	strcpy (str, url);
 	return str;
-    } else if (a.url != 0){
-	return icalvalue_string_as_ical_string(value);
-    } else {
-	icalerrno = ICAL_MALFORMEDDATA_ERROR;
-	return 0;
-    }
+    } else
+	return icalvalue_binary_as_ical_string (value);
 }
 
 
@@ -1081,9 +1091,14 @@ icalvalue_compare(icalvalue* a, icalvalue *b)
     }
 
     switch (icalvalue_isa(a)){
-
 	case ICAL_ATTACH_VALUE:
-	case ICAL_BINARY_VALUE:
+        case ICAL_BINARY_VALUE:
+	{
+	    if (impla->data.v_attach == implb->data.v_attach)
+		return ICAL_XLICCOMPARETYPE_EQUAL;
+	    else
+		return ICAL_XLICCOMPARETYPE_NOTEQUAL;
+	}
 
 	case ICAL_BOOLEAN_VALUE:
 	{

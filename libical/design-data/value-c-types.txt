@@ -1,4 +1,4 @@
-ATTACH			autogen		struct icalattachtype	# Non-std
+ATTACH			nogen		icalattach *
 BINARY			autogen		const char*
 BOOLEAN			autogen		int
 CAL-ADDRESS		autogen		const char*

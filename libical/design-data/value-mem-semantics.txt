@@ -1,4 +1,4 @@
-ATTACH			struct icalattachtype
+ATTACH			icalattach *
 BINARY			char*
 BOOLEAN			int
 CAL-ADDRESS		char*

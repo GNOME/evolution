@@ -30,24 +30,23 @@
 #include "icalduration.h"
 #include "icalperiod.h"
 
+typedef struct icalattach_impl icalattach;
 
-/* This type type should probably be an opaque type... */
-struct icalattachtype
-{
-	void* binary;
-	int owns_binary; 
-
-	char* base64;
-	int owns_base64;
-
-	char* url;
-
-	int refcount; 
-
-};
+typedef void (* icalattach_free_fn_t) (unsigned char *data, void *user_data);
 
 /* converts base64 to binary, fetches url and stores as binary, or
    just returns data */
+
+icalattach *icalattach_new_from_url (const char *url);
+icalattach *icalattach_new_from_data (const unsigned char *data, icalattach_free_fn_t free_fn,
+				      void *free_fn_data);
+
+void icalattach_ref (icalattach *attach);
+void icalattach_unref (icalattach *attach);
+
+int icalattach_get_is_url (icalattach *attach);
+const char *icalattach_get_url (icalattach *attach);
+unsigned char *icalattach_get_data (icalattach *attach);
 
 struct icalattachtype* icalattachtype_new(void);
 void  icalattachtype_add_reference(struct icalattachtype* v);
