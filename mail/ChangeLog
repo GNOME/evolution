@@ -1,5 +1,10 @@
 2001-10-10  Larry Ewing  <lewing@ximian.com>
 
+	* mail-callbacks.c (mail_generate_reply): use new function to copy
+	the attachments from the source message.  This still isn't perfect
+	but it should avoid the problems with headers being transfered.
+	This makes images in replies work again.
+
 	* mail-display.c (save_url): copy the data.  We can't ref the byte
 	array and we can't free it so we have to copy it.
 
