@@ -1,3 +1,10 @@
+2003-01-24  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/component/Makefile.am (iconsdir): Remove definition; this is
+	now in configure.in.
+	* gui/contact-editor/Makefile.am (iconsdir): Likewise.
+	* gui/contact-list-editor/Makefile.am (iconsdir): Likewise.
+
 2003-01-23  Sean Gao  <Sean.Gao@Sun.COM>
 
 	[ fixes bug #34898 ]

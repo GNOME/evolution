@@ -45,7 +45,6 @@ e-contact-list-editor-marshal.c: e-contact-list-editor-marshal.h
 MARSHAL_GENERATED = e-contact-list-editor-marshal.c e-contact-list-editor-marshal.h
 
 
-iconsdir = $(datadir)/evolution-$(BASE_VERSION)/images
 gladedir = $(datadir)/evolution-$(BASE_VERSION)/glade
 
 glade_DATA = 					\

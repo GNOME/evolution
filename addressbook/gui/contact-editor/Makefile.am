@@ -52,7 +52,6 @@ MARSHAL_GENERATED = e-contact-editor-marshal.c e-contact-editor-marshal.h
 evolutiondir = $(datadir)/evolution-$(BASE_VERSION)
 evolution_DATA = arrow.png
 
-iconsdir = $(datadir)/evolution-$(BASE_VERSION)/images
 gladedir = $(datadir)/evolution-$(BASE_VERSION)/glade
 
 glade_DATA = 				\

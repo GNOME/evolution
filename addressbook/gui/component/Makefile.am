@@ -98,8 +98,6 @@ $(server_in_files:.server.in.in=.server.in): $(server_in_files)
 gladedir   = $(datadir)/evolution-$(BASE_VERSION)/glade
 glade_DATA = ldap-config.glade
 
-iconsdir = $(datadir)/evolution-$(BASE_VERSION)/images
-
 EXTRA_DIST =			\
 	$(glade_DATA)		\
 	$(schema_DATA)		\
