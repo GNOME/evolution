@@ -1,5 +1,10 @@
 2001-10-09  Rodrigo Moya <rodrigo@ximian.com>
 
+	* pcs/cal-factory.c (lookup_backend, add_backend): deal correctly with
+	URIs to be inserted into the hash table, so that we don't add the same
+	backend over and over because the URI strings were different (although
+	refering to the same backend)
+
 	* pcs/cal-backend-file.c (mail_account_*): moved to a common place
 	(cal_backend_file_open): check if "uristr != NULL" and not
 	"uri != NULL"

@@ -103,10 +103,20 @@ lookup_backend (CalFactory *factory, const char *uristr)
 {
 	CalFactoryPrivate *priv;
 	CalBackend *backend;
+	EUri *uri;
+	char *tmp;
 
 	priv = factory->priv;
 
-	backend = g_hash_table_lookup (priv->backends, uristr);
+	uri = e_uri_new (uristr);
+	if (!uri)
+		return NULL;
+
+	tmp = e_uri_to_string (uri, FALSE);
+	backend = g_hash_table_lookup (priv->backends, tmp);
+	g_free (tmp);
+	e_uri_free (uri);
+
 	return backend;
 }
 
@@ -152,10 +162,18 @@ static void
 add_backend (CalFactory *factory, const char *uristr, CalBackend *backend)
 {
 	CalFactoryPrivate *priv;
+	EUri *uri;
+	char *tmp;
 
 	priv = factory->priv;
 
-	g_hash_table_insert (priv->backends, g_strdup (uristr), backend);
+	uri = e_uri_new (uristr);
+	if (!uri)
+		return;
+
+	tmp = e_uri_to_string (uri, FALSE);
+	g_hash_table_insert (priv->backends, tmp, backend);
+	e_uri_free (uri);
 
 	gtk_signal_connect (GTK_OBJECT (backend), "last_client_gone",
 			    GTK_SIGNAL_FUNC (backend_last_client_gone_cb),
