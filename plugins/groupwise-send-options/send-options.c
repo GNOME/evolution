@@ -39,24 +39,49 @@
 
 #include "widgets/misc/e-send-options.h"
 
-static ESendOptionsDialog * dialog ;
+static ESendOptionsDialog * dialog = NULL ;
 
 void org_gnome_compose_send_options (EPlugin *ep, EMMenuTargetWidget *t);
+
+static time_t 
+add_day_to_time (time_t time, int days)
+{
+	struct tm *tm;
+
+	tm = localtime (&time);
+	tm->tm_mday += days;
+	tm->tm_isdst = -1;
+
+	return mktime (tm);
+}
+
+static void
+send_options_commit (EMsgComposer *comp, gpointer user_data)
+{
+	if (!user_data && !E_IS_SENDOPTIONS_DIALOG (user_data))
+		return;
+		
+	if (dialog) {
+		g_object_unref (dialog);
+		dialog = NULL;	
+	}
+}
 
 void 
 org_gnome_compose_send_options (EPlugin *ep, EMMenuTargetWidget *t)
 {
 	struct _EMenuTarget menu = t->target ;
 	EMsgComposer *comp = (struct _EMsgComposer *)menu.widget ;
-	EAccount *account = NULL ;
-	char *url, *temp = NULL ;
-	
+	EAccount *account = NULL; 
+	char *temp = NULL;
+	char *url;
+	char value [100];
+
 	account = e_msg_composer_get_preferred_account (comp) ;
 	url = g_strdup (account->transport->url) ;
 	temp = strstr (url, "groupwise") ;
 	if (!temp) {
 		g_print ("Sorry send options only available for a groupwise account\n") ;
-		goto done ;
 	} 
 	g_free (temp) ;
 	/*disply the send options dialog*/
@@ -67,30 +92,28 @@ org_gnome_compose_send_options (EPlugin *ep, EMMenuTargetWidget *t)
 
 	e_sendoptions_dialog_run (dialog, menu.widget, E_ITEM_MAIL) ;
 	
-	return ;
-	/*General Options*/
-
 	if (dialog->data->gopts->reply_enabled) {
 		if (dialog->data->gopts->reply_convenient)
 			e_msg_composer_add_header (comp, X_REPLY_CONVENIENT ,"1" ) ;
 		else if (dialog->data->gopts->reply_within) {
-			temp = g_strdup_printf ("%d", dialog->data->gopts->reply_within) ;
-			e_msg_composer_add_header (comp, X_REPLY_WITHIN , temp) ;
-			g_free (temp) ;
+			time_t t;
+			t = add_day_to_time (time (NULL), dialog->data->gopts->reply_convenient);
+			strftime (value, 17, "%Y%m%dT%H%M%SZ", gmtime (&t));
+			e_msg_composer_add_header (comp, X_REPLY_WITHIN , value) ;
 		}
 	}
 
 	if (dialog->data->gopts->expiration_enabled) {
 		if (dialog->data->gopts->expire_after != 0) {
-			temp = g_strdup_printf ("%d", dialog->data->gopts->expire_after) ;
-			e_msg_composer_add_header (comp, X_EXPIRE_AFTER, temp) ;
-			g_free (temp) ;
+			time_t t;
+			t = add_day_to_time (time (NULL), dialog->data->gopts->expire_after);
+			strftime (value, 17, "%Y%m%dT%H%M%SZ", gmtime (&t));
+			e_msg_composer_add_header (comp, X_EXPIRE_AFTER, value) ;
 		}
 	}
 	if (dialog->data->gopts->delay_enabled) {
-
-		e_msg_composer_add_header (comp, X_DELAY_UNTIL, temp) ;
-		g_free (temp) ;
+		strftime (value, 17, "%Y%m%dT%H%M%SZ", gmtime (&dialog->data->gopts->delay_until));
+		e_msg_composer_add_header (comp, X_DELAY_UNTIL, value) ;
 	}
 
 	/*Status Tracking Options*/
@@ -113,7 +136,9 @@ org_gnome_compose_send_options (EPlugin *ep, EMMenuTargetWidget *t)
 		e_msg_composer_add_header (comp, X_RETURN_NOTIFY_DECLINE, temp) ;
 		g_free (temp) ;
 	}
-done:
-	g_free (url) ;
+
+	g_signal_connect (GTK_WIDGET (comp), "destroy",
+				  G_CALLBACK (send_options_commit), dialog);
 }
+
 
