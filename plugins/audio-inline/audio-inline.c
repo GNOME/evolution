@@ -212,7 +212,7 @@ org_gnome_audio_inline_play_clicked (GtkWidget *button, EMFormatHTMLPObject *pob
 						po->thread = org_gnome_audio_inline_gst_flac_thread (filesrc);
 					}
 				} else if (!strcasecmp (type->type, "application")) {
-					if (!strcasecmp (type->subtype, "ogg")) {
+					if (!strcasecmp (type->subtype, "ogg") || !strcasecmp (type->subtype, "x-ogg")) {
 						po->thread = org_gnome_audio_inline_gst_ogg_thread (filesrc);
 					}
 				}
