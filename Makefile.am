@@ -15,6 +15,7 @@ SUBDIRS =			\
 	macros			\
 	data			\
 	libibex			\
+	filter			\
 	camel			\
 	e-util			\
 	widgets			\
