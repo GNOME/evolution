@@ -475,7 +475,7 @@ get_service (CamelSession *session, const char *url_string,
 		if (type == CAMEL_PROVIDER_STORE) {
 			guint id;
 			
-			id = camel_session_register_timeout (session, 36000, noop_cb, service);
+			id = camel_session_register_timeout (session, 600000, noop_cb, service);
 			camel_object_hook_event (CAMEL_OBJECT (service), "finalize",
 						 (CamelObjectEventHookFunc) unregister_noop,
 						 GINT_TO_POINTER (id));
