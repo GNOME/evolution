@@ -577,7 +577,7 @@ smtp_send_to (CamelTransport *transport, CamelMedium *message,
 	gboolean has_8bit_parts;
 	GList *r;
 	
-	cia = camel_mime_message_get_from(CAMEL_MIME_MESSAGE (message));
+	cia = camel_mime_message_get_from (CAMEL_MIME_MESSAGE (message));
 	if (!cia) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Cannot send message: "

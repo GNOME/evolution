@@ -98,9 +98,8 @@ camel_service_finalize (CamelObject *object)
 	if (service->connected) {
 		CamelException ex;
 		
-		/*g_warning ("camel_service_finalize: finalizing while still connected!");*/
 		camel_exception_init (&ex);
-		CSERV_CLASS (service)->disconnect (service, FALSE, &ex);
+		CSERV_CLASS (service)->disconnect (service, TRUE, &ex);
 		if (camel_exception_is_set (&ex)) {
 			g_warning ("camel_service_finalize: silent disconnect failure: %s",
 				   camel_exception_get_description (&ex));

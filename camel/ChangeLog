@@ -1,3 +1,7 @@
+2001-09-04  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-service.c (camel_service_finalize): Do a clean disconnect.
+
 2001-08-30  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/local/camel-spool-store.c (get_inbox): Return the
