@@ -915,8 +915,9 @@ pgp_verify (CamelCipherContext *ctx, CamelCipherHash hash, CamelStream *istream,
 		
 		argv[i++] = "--no-tty";
 		
-		if (!camel_session_is_online (ctx->session))
-			argv[i++] = "--no-auto-key-retrieve";
+		/*if (!camel_session_is_online (ctx->session))*/
+		argv[i++] = "--no-auto-key-retrieve";
+		
 		/*argv[i++] = "--verbose";*/
 		/*argv[i++] = "--yes";*/
 		/*argv[i++] = "--batch";*/

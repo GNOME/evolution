@@ -1,3 +1,7 @@
+2001-08-06  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-pgp-context.c (pgp_verify): Always do --no-auto-key-retrieve.
+
 2001-08-03  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-pgp-context.c (pgp_verify): Minor changes to the iconv
