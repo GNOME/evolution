@@ -1,3 +1,10 @@
+2003-06-25  Gilbert Fang <gilbert.fang@sun.com>
+
+	* gui/widgets/e-minicard-view-widget.c 
+	(e_minicard_view_widget_real_focus_in_event): new function, 
+	override the event handler for focus_in_event, set the first item
+	be focused if no focused item at all.  Fixes bug 41826.
+
 2003-06-18  Chris Toshok  <toshok@ximian.com>
 
 	* gui/contact-editor/e-contact-editor.c (fill_in_field): in the
