@@ -8,7 +8,7 @@ AM_INIT_AUTOMAKE(AC_PACKAGE_NAME, AC_PACKAGE_VERSION)
 AM_CONFIG_HEADER(config.h)
 
 AC_CANONICAL_HOST
-AC_DEFINE_UNQUOTED(VERSION_COMMENT, "(Preview Release)")
+AC_DEFINE_UNQUOTED(VERSION_COMMENT, "(Preview Release)", [Define if you want a comment appended to the version number])
 
 dnl Initialize maintainer mode
 AM_MAINTAINER_MODE
@@ -47,7 +47,7 @@ AM_GLIB_GNU_GETTEXT
 
 GETTEXT_PACKAGE=evolution-1.4
 AC_SUBST(GETTEXT_PACKAGE)
-AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE")
+AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE", [Package name for gettext])
 
 localedir='$(prefix)/$(DATADIRNAME)/locale'
 AC_SUBST(localedir)
@@ -67,7 +67,7 @@ AC_TRY_COMPILE([#include <sys/socket.h>
 int accept (int, struct sockaddr *, size_t *);
 ],[],[
 AC_MSG_RESULT(size_t)
-AC_DEFINE(socklen_t,size_t)], [
+AC_DEFINE(socklen_t,size_t,[Define to appropriate type if socklen_t is not defined])], [
 AC_MSG_RESULT(int)
 AC_DEFINE(socklen_t,int)])])
 
@@ -80,7 +80,7 @@ dnl
 dnl system mail stuff
 dnl
 AC_PATH_PROG(SENDMAIL, sendmail, /usr/sbin/sendmail, /usr/sbin:/usr/lib)
-AC_DEFINE_UNQUOTED(SENDMAIL_PATH, "$SENDMAIL")
+AC_DEFINE_UNQUOTED(SENDMAIL_PATH, "$SENDMAIL", [Path to a sendmail binary, or equivalent])
 
 AC_MSG_CHECKING(system mail directory)
 if test -d /var/mail -a '!' -h /var/mail ; then
@@ -88,7 +88,7 @@ if test -d /var/mail -a '!' -h /var/mail ; then
 else
 	system_mail_dir=/var/spool/mail
 fi
-AC_DEFINE_UNQUOTED(SYSTEM_MAIL_DIR, "$system_mail_dir")
+AC_DEFINE_UNQUOTED(SYSTEM_MAIL_DIR, "$system_mail_dir", [Directory local mail is delivered to])
 
 case `ls -ld $system_mail_dir 2>&1 | awk '{print $1;}'` in
 d??????rw?)
@@ -132,7 +132,7 @@ AC_CACHE_CHECK(for tm_gmtoff in struct tm, ac_cv_struct_tm_gmtoff,
 		tm.tm_gmtoff = 1;
 		], ac_cv_struct_tm_gmtoff=yes, ac_cv_struct_tm_gmtoff=no))
 if test $ac_cv_struct_tm_gmtoff = yes; then
-	AC_DEFINE(HAVE_TM_GMTOFF)
+	AC_DEFINE(HAVE_TM_GMTOFF, 1, [Define if struct tm has a tm_gmtoff member])
 else
 	AC_CACHE_CHECK(for timezone variable, ac_cv_var_timezone,
 		AC_TRY_COMPILE([
@@ -141,7 +141,7 @@ else
 			timezone = 1;
 		], ac_cv_var_timezone=yes, ac_cv_var_timezone=no))
 	if test $ac_cv_var_timezone = yes; then
-		AC_DEFINE(HAVE_TIMEZONE)
+		AC_DEFINE(HAVE_TIMEZONE, 1, [Define if libc defines a timezone variable])
 		AC_CACHE_CHECK(for altzone variable, ac_cv_var_altzone,
 			AC_TRY_COMPILE([
 				#include <time.h>
@@ -149,7 +149,7 @@ else
 				altzone = 1;
 			], ac_cv_var_altzone=yes, ac_cv_var_altzone=no))
 		if test $ac_cv_var_altzone = yes; then
-			AC_DEFINE(HAVE_ALTZONE)
+			AC_DEFINE(HAVE_ALTZONE, 1, [Define if libc defines an altzone variable])
 		fi
 	else
 		AC_ERROR(unable to find a way to determine timezone)
@@ -179,7 +179,7 @@ AC_CACHE_CHECK([if ctime_r wants three arguments], ac_cv_ctime_r_three_args,
 ])
 	
 if test x"$ac_cv_ctime_r_three_args" = xyes ; then
-	AC_DEFINE(CTIME_R_THREE_ARGS)
+	AC_DEFINE(CTIME_R_THREE_ARGS, 1, [Solaris-style ctime_r])
 fi
 
 dnl **************************************************
@@ -212,7 +212,7 @@ AC_CACHE_CHECK([if gethostbyname_r wants five arguments], ac_cv_gethostbyname_r_
 ])])
 	
 if test "x$ac_cv_gethostbyname_r_five_args" = "xyes" ; then
-	AC_DEFINE(GETHOSTBYNAME_R_FIVE_ARGS)
+	AC_DEFINE(GETHOSTBYNAME_R_FIVE_ARGS, 1, [Solaris-style gethostbyname_r])
 fi
 
 dnl **************************************************
@@ -245,7 +245,7 @@ AC_CACHE_CHECK([if gethostbyaddr_r wants seven arguments], ac_cv_gethostbyaddr_r
 ])])
 	
 if test "x$ac_cv_gethostbyaddr_r_seven_args" = "xyes" ; then
-	AC_DEFINE(GETHOSTBYADDR_R_SEVEN_ARGS)
+	AC_DEFINE(GETHOSTBYADDR_R_SEVEN_ARGS, 1, [Solaris-style gethostbyaddr_r])
 fi
 
 
@@ -296,9 +296,9 @@ evolution_db_version_minor=1
 evolution_db_version_patch=17
 
 evolution_db_version=${evolution_db_version_major}.${evolution_db_version_minor}.${evolution_db_version_patch}
-AC_DEFINE_UNQUOTED(EVOLUTION_DB_VERSION_MAJOR,$evolution_db_version_major)
-AC_DEFINE_UNQUOTED(EVOLUTION_DB_VERSION_MINOR,$evolution_db_version_minor)
-AC_DEFINE_UNQUOTED(EVOLUTION_DB_VERSION_PATCH,$evolution_db_version_patch)
+AC_DEFINE_UNQUOTED(EVOLUTION_DB_VERSION_MAJOR,$evolution_db_version_major,[la])
+AC_DEFINE_UNQUOTED(EVOLUTION_DB_VERSION_MINOR,$evolution_db_version_minor,[la])
+AC_DEFINE_UNQUOTED(EVOLUTION_DB_VERSION_PATCH,$evolution_db_version_patch,[la])
 
 
 AC_ARG_WITH(db3,          [  --with-db3=PREFIX              Location of db3],
@@ -433,7 +433,7 @@ dnl **************************************************
 AC_ARG_ENABLE(nntp, 
 [  --enable-nntp=[no/yes]      Attempt to compile incomplete, unsupported NNTP code],,enable_nntp=no)
 if test "x$enable_nntp" = "xyes"; then
-	AC_DEFINE(ENABLE_NNTP)
+	AC_DEFINE(ENABLE_NNTP,1,[Don't try this at home])
 	msg_nntp=yes
 else
 	msg_nntp=no
@@ -464,7 +464,7 @@ THREADS_CFLAGS="$PTHREAD_CFLAGS"
 
 AC_SUBST(THREADS_LIBS)
 AC_SUBST(THREADS_CFLAGS)
-AC_DEFINE(ENABLE_THREADS)
+AC_DEFINE(ENABLE_THREADS,1,[Required])
 
 
 dnl **************************************************
@@ -474,7 +474,7 @@ dnl **************************************************
 AC_ARG_ENABLE(dot-locking, 
 [  --enable-dot-locking=[yes/no] Enable support for locking mail files with dot locking],,enable_dot_locking=yes)
 if test "x$enable_dot_locking" = "xyes"; then
-  AC_DEFINE(USE_DOT)
+  AC_DEFINE(USE_DOT,1,[Define to use dot locking for mbox files])
   msg_dot=yes
 else
   msg_dot=no	
@@ -483,11 +483,11 @@ fi
 AC_ARG_ENABLE(file-locking, 
 [  --enable-file-locking=[fcntl/flock/no] Enable support for locking mail files with file locking],,enable_file_locking=fcntl)
 if test "x$enable_file_locking" = "xfcntl"; then
-  AC_DEFINE(USE_FCNTL)
+  AC_DEFINE(USE_FCNTL,1,[Define to use fcntl locking for mbox files])
   msg_file=fcntl
 else
   if test "x$enable_file_locking" = "xflock"; then
-    AC_DEFINE(USE_FLOCK)
+    AC_DEFINE(USE_FLOCK,1,[Define to use flock locking for mbox files])
     msg_file=flock
   else
     msg_file=no	
@@ -508,7 +508,7 @@ AC_ARG_WITH(broken-spool,
 [  --with-broken-spool=[yes/no] Using SunOS/Solaris sendmail which has a broken spool format],,with_broken_spool=${with_broken_spool:=no})
 
 if test "x$with_broken_spool" = "xyes"; then
-  AC_DEFINE(HAVE_BROKEN_SPOOL)
+  AC_DEFINE(HAVE_BROKEN_SPOOL,1,[Define if mail delivered to the system mail directory is in broken Content-Length format])
 fi
 
 AC_MSG_RESULT($with_broken_spool)
@@ -602,12 +602,12 @@ if test "$x{with_krb5}" != "xno"; then
 		LDFLAGS="$LDFLAGS_save"
 	])
 	if test "$ac_cv_lib_kerberos5" != "no"; then
-		AC_DEFINE(HAVE_KRB5)
+		AC_DEFINE(HAVE_KRB5,1,[Define if you have Krb5])
 		if test "$ac_cv_lib_kerberos5" == "$mitlibs"; then
-			AC_DEFINE(HAVE_MIT_KRB5)
+			AC_DEFINE(HAVE_MIT_KRB5,1,[Define if you have MIT Krb5])
 			msg_krb5="yes (MIT)"
 		else
-			AC_DEFINE(HAVE_HEIMDAL_KRB5)
+			AC_DEFINE(HAVE_HEIMDAL_KRB5,1,[Define if you have Heimdal])
 			msg_krb5="yes (Heimdal)"
 		fi
 		KRB5_CFLAGS="-I$with_krb5/include/krb5"
@@ -650,7 +650,7 @@ if test "x${with_krb4}" != "xno"; then
 	])
 	LDFLAGS="$LDFLAGS_save"
 	if test "$ac_cv_lib_kerberos4" != "no"; then
-		AC_DEFINE(HAVE_KRB4)
+		AC_DEFINE(HAVE_KRB4,1,[Define if you have Krb4])
 		msg_krb4="yes"
 		if test -f "$with_krb4/include/krb.h" -o -f "$with_krb4/include/port-sockets.h"; then
 			KRB4_CFLAGS="-I$with_krb4/include"
@@ -664,7 +664,7 @@ if test "x${with_krb4}" != "xno"; then
 		CFLAGS="$CFLAGS $KRB4_CFLAGS"
 		AC_TRY_COMPILE([#include "krb.h"
 		int krb_sendauth;
-		],[return 0],[AC_DEFINE(NEED_KRB_SENDAUTH_PROTO)],)
+		],[return 0],[AC_DEFINE(NEED_KRB_SENDAUTH_PROTO,1,[Need krb_sendauth proto])],)
 		CFLAGS="$CFLAGS_save"
 	fi
 else
@@ -684,7 +684,7 @@ dnl ==========================
 AC_ARG_ENABLE(pedantic-pgp-mime, 
 [  --enable-pedantic-pgp-mime=[no/yes] Enable pedantic PGP/MIME handling (not recommended)],,enable_pedantic_pgp_mime=no)
 if test "x$enable_pedantic_pgp_mime" = "xyes"; then
-	AC_DEFINE(ENABLE_PEDANTIC_PGPMIME)
+	AC_DEFINE(ENABLE_PEDANTIC_PGPMIME,1,[Probably don't want this])
 fi
 
 
@@ -737,8 +737,8 @@ dnl If the user specifies --with-foo or --enable-nss=static, then we have to do 
 			msg_ssl="yes (Mozilla NSS)"
 			mozilla_nspr="mozilla-nspr"
 			mozilla_nss="mozilla-nss"
-			AC_DEFINE(HAVE_NSS)
-			AC_DEFINE(HAVE_SSL)
+			AC_DEFINE(HAVE_NSS,1,[Define if you have NSS])
+			AC_DEFINE(HAVE_SSL,1,[Define if you have a supported SSL library])
 			MANUAL_NSPR_CFLAGS=""
 			MANUAL_NSPR_LIBS=""
 			MANUAL_NSS_CFLAGS=""
@@ -988,7 +988,7 @@ if test "$msg_ssl" = "no" -a "x${enable_openssl}" != "xno"; then
 			LDFLAGS="$LDFLAGS_save"
 		])
 		if test "x${openssl_libs}" != "xno"; then
-			AC_DEFINE(HAVE_OPENSSL)
+			AC_DEFINE(HAVE_OPENSSL,1,[Define if you have OpenSSL])
 			AC_DEFINE(HAVE_SSL)
 			msg_ssl="yes (OpenSSL)"
 			OPENSSL_LDFLAGS="$with_openssl_libs -lssl -lcrypto $DL_LDFLAGS"
@@ -1011,6 +1011,9 @@ AC_SUBST(OPENSSL_LDFLAGS)
 dnl *************************
 dnl CFLAGS and LIBS and stuff
 dnl *************************
+
+GNOME_COMPILE_WARNINGS(yes)
+CFLAGS="$CFLAGS $WARN_CFLAGS"
 
 AM_PATH_ORBIT2
 
@@ -1134,9 +1137,9 @@ dnl *******************
 
 BASE_VERSION=`echo $VERSION | awk -F. '{print $1 "." $2;}'`
 AC_SUBST(BASE_VERSION)
-AC_DEFINE_UNQUOTED(BASE_VERSION, "$BASE_VERSION")
+AC_DEFINE_UNQUOTED(BASE_VERSION, "$BASE_VERSION", [Base version (Major.Minor)])
 
-privlibdir='${libdir}'/evolution/'${BASE_VERSION}'
+privlibdir='${libdir}'/evolution/${BASE_VERSION}
 AC_SUBST(privlibdir)
 
 camel_providerdir="$privlibdir/camel-providers"
@@ -1208,7 +1211,7 @@ dnl ******************
 dnl Sub-version number
 dnl ******************
 AC_ARG_WITH(sub-version, [  --with-sub-version=VERSION Specify a sub-version string])
-AC_DEFINE_UNQUOTED(SUB_VERSION, "$with_sub_version")
+AC_DEFINE_UNQUOTED(SUB_VERSION, "$with_sub_version", [Version substring, for packagers])
 
 dnl ********************
 dnl KDE applnk directory
@@ -1220,13 +1223,11 @@ if test x"$with_kde_applnk_path" != x"no"; then
 		with_kde_applnk_path="$prefix/share/applnk"
 	fi
 	if test -d "$with_kde_applnk_path" ; then
-		AC_DEFINE(HAVE_KDE_APPLNK)
 		KDE_APPLNK_DIR="$with_kde_applnk_path"
 	else
 		AC_PATH_PROG(KDECONFIG, kde-config)
 		if test -n "$KDECONFIG"; then
 			KDE_APPLNK_DIR=`$KDECONFIG --expandvars --install apps`
-			AC_DEFINE(HAVE_KDE_APPLNK)
 		else
 			KDE_APPLNK_DIR=""
 		fi

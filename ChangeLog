@@ -1,3 +1,12 @@
+2003-02-04  Dan Winship  <danw@ximian.com>
+
+	* configure.in: Update AC_DEFINEs to use the new syntax to make
+	acconfig.h unnecessary.
+
+	* acinclude.m4: Update AC_DEFINE
+
+	* acconfig.h: Gone
+
 2003-02-03  Chris Toshok  <toshok@ximian.com>
 
 	* configure.in (EVOLUTION_MAIL): add gnome-vfs-module-2.0 to the

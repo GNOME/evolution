@@ -103,7 +103,7 @@ AC_DEFUN(EVO_LDAP_CHECK, [
 	esac
 
 	if test "$with_openldap" != no; then
-		AC_DEFINE(HAVE_LDAP)
+		AC_DEFINE(HAVE_LDAP,1,[Define if you have LDAP support])
 
 		case $with_static_ldap in
 		no|"")
