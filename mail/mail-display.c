@@ -905,7 +905,7 @@ ebook_callback (EBook *book, const gchar *addr, ECard *card, gpointer data)
 
 static void
 on_url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle,
-		  gpointer user_data)
+		       gpointer user_data)
 {
 	MailDisplay *md = user_data;
 	GHashTable *urls;
@@ -1577,6 +1577,93 @@ html_iframe_created (GtkWidget *w, GtkHTML *iframe, MailDisplay *mail_display)
 			    GTK_SIGNAL_FUNC (html_enter_notify_event), mail_display);
 }
 
+static GNOME_Evolution_ShellView
+retrieve_shell_view_interface_from_control (BonoboControl *control)
+{
+	Bonobo_ControlFrame control_frame;
+	GNOME_Evolution_ShellView shell_view_interface;
+	CORBA_Environment ev;
+
+	control_frame = bonobo_control_get_control_frame (control);
+
+	if (control_frame == NULL)
+		return CORBA_OBJECT_NIL;
+
+	CORBA_exception_init (&ev);
+	shell_view_interface = Bonobo_Unknown_queryInterface (control_frame,
+							      "IDL:GNOME/Evolution/ShellView:1.0",
+							      &ev);
+	CORBA_exception_free (&ev);
+
+	if (shell_view_interface != CORBA_OBJECT_NIL)
+		gtk_object_set_data (GTK_OBJECT (control),
+				     "mail_threads_shell_view_interface",
+				     shell_view_interface);
+	else
+		g_warning ("Control frame doesn't have Evolution/ShellView.");
+
+	return shell_view_interface;
+}
+
+static void
+set_status_message (const char *message, int busy)
+{
+	EList *controls;
+	EIterator *it;
+
+	controls = folder_browser_factory_get_control_list ();
+	for (it = e_list_get_iterator (controls); e_iterator_is_valid (it); e_iterator_next (it)) {
+		BonoboControl *control;
+		GNOME_Evolution_ShellView shell_view_interface;
+		CORBA_Environment ev;
+
+		control = BONOBO_CONTROL (e_iterator_get (it));
+
+		shell_view_interface = gtk_object_get_data (GTK_OBJECT (control), "mail_threads_shell_view_interface");
+
+		if (shell_view_interface == CORBA_OBJECT_NIL)
+			shell_view_interface = retrieve_shell_view_interface_from_control (control);
+
+		CORBA_exception_init (&ev);
+
+		if (shell_view_interface != CORBA_OBJECT_NIL) {
+
+			if (message != NULL)
+				GNOME_Evolution_ShellView_setMessage (shell_view_interface,
+								      message[0] ? message: "",
+								      busy,
+								      &ev);
+		}
+
+		CORBA_exception_free (&ev);
+
+		/* yeah we only set the first one.  Why?  Because it seems to leave
+		   random ones lying around otherwise.  Shrug. */
+		break;
+	}
+	gtk_object_unref (GTK_OBJECT(it));
+}
+
+/* For now show every url but possibly limit it to showing only http:
+   or ftp: urls */
+static void
+html_on_url (GtkHTML *html,
+	     const char *url,
+	     MailDisplay *mail_display)
+{
+	static char *previous_url = NULL;
+
+	/* This all looks silly but yes, this is the proper way to mix
+           GtkHTML's on_url with BonoboUIComponent statusbar */
+	if (!url || (previous_url && (strcmp (url, previous_url) != 0)))
+		set_status_message ("", FALSE);
+	if (url) {
+		set_status_message (url, FALSE);
+		g_free (previous_url);
+		previous_url = g_strdup (url);
+	}
+}
+
 GtkWidget *
 mail_display_new (void)
 {
@@ -1617,6 +1704,9 @@ mail_display_new (void)
 			    GTK_SIGNAL_FUNC (html_enter_notify_event), mail_display);
 	gtk_signal_connect (GTK_OBJECT (html), "iframe_created",
 			    GTK_SIGNAL_FUNC (html_iframe_created), mail_display);
+	gtk_signal_connect (GTK_OBJECT (html), "on_url",
+			    GTK_SIGNAL_FUNC (html_on_url), mail_display);
+
 #if 0
 	gtk_selection_add_target (GTK_WIDGET(html),
 				  GDK_SELECTION_PRIMARY, 
