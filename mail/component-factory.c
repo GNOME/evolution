@@ -306,6 +306,57 @@ component_factory_init (void)
 	}
 }
 
+static int
+storage_create_folder (EvolutionStorage *storage, const char *path,
+		       const char *type, const char *description,
+		       const char *parent_physical_uri, gpointer user_data)
+{
+	CamelStore *store = user_data;
+	char *name;
+	CamelURL *url;
+	CamelException ex;
+	CamelFolderInfo *fi;
+
+	if (strcmp (type, "mail") != 0)
+		return EVOLUTION_STORAGE_ERROR_UNSUPPORTED_TYPE;
+	name = strrchr (path, '/');
+	if (!name++)
+		return EVOLUTION_STORAGE_ERROR_INVALID_URI;
+
+	camel_exception_init (&ex);
+	if (*parent_physical_uri) {
+		url = camel_url_new (parent_physical_uri, NULL);
+		if (!url)
+			return EVOLUTION_STORAGE_ERROR_INVALID_URI;
+
+		fi = camel_store_create_folder (store, url->path + 1, name, &ex);
+		camel_url_free (url);
+	} else
+		fi = camel_store_create_folder (store, NULL, name, &ex);
+
+	if (camel_exception_is_set (&ex)) {
+		/* FIXME: do better than this */
+		camel_exception_clear (&ex);
+		return EVOLUTION_STORAGE_ERROR_INVALID_URI;
+	}
+
+	if (camel_store_supports_subscriptions (store))
+		camel_store_subscribe_folder (store, fi->full_name, NULL);
+
+	if (fi->unread_message_count > 0) {
+		name = g_strdup_printf ("%s (%d)", fi->name,
+					fi->unread_message_count);
+	} else
+		name = g_strdup (fi->name);
+	evolution_storage_new_folder (storage, path, name, type,
+				      fi->url ? fi->url : "", description,
+				      fi->unread_message_count > 0);
+	g_free (name);
+	camel_store_free_folder_info (store, fi);
+
+	return EVOLUTION_STORAGE_OK;
+}
+
 static void
 add_storage (const char *name, const char *uri, CamelService *store,
 	     GNOME_Evolution_Shell corba_shell, CamelException *ex)
@@ -314,6 +365,9 @@ add_storage (const char *name, const char *uri, CamelService *store,
 	EvolutionStorageResult res;
 	
 	storage = evolution_storage_new (name, uri, "mailstorage");
+	gtk_signal_connect (GTK_OBJECT (storage), "create_folder",
+			    GTK_SIGNAL_FUNC (storage_create_folder),
+			    store);
 	
 	res = evolution_storage_register_on_shell (storage, corba_shell);
 	
