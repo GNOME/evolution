@@ -34,7 +34,7 @@ ecmlw_load (ECategoriesMasterListWombat *ecmlw)
 	gboolean def;
 
 	string = e_config_listener_get_string_with_default (ecmlw->priv->listener,
-							    "/apps/Evolution/General/CategoryMasterList",
+							    "/apps/evolution/general/category_master_list",
 							    NULL,
 							    &def);
 	/* parse the XML string */
@@ -58,7 +58,7 @@ ecmlw_save (ECategoriesMasterListWombat *ecmlw)
 	d(g_print ("save: %s\n", string));
 
 	e_config_listener_set_string (ecmlw->priv->listener,
-				      "/apps/Evolution/General/CategoryMasterList",
+				      "/apps/evolution/general/category_master_list",
 				      string);
 
 	g_free (string);
