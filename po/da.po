@@ -1085,7 +1085,7 @@ msgstr "En simpel Bonobo kontrol som viser en adressebog."
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:2
 msgid "Control that displays an Evolution addressbook minicard."
-msgstr "Kontrol der viser et minikort for Evolutions adressebog.\n"
+msgstr "Kontrol der viser et minikort for Evolutions adressebog."
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:3
 msgid "Evolution Addressbook minicard viewer"
@@ -2801,7 +2801,7 @@ msgstr "Fabrik for kalenderoversigts-komponenten."
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:6
 msgid "Factory for the Evolution calendar component."
-msgstr "Fabrik for evolutions kalenderkomponent.\n"
+msgstr "Fabrik for evolutions kalenderkomponent."
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:7
 msgid "Factory for the calendar iTip view control"
