@@ -1,3 +1,12 @@
+2002-01-21  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-format.c (handle_text_plain): If the first "token" in the
+	body is "<html>", then treat this as a text/html part rather than
+	a text/plain part. Fixes bug #16817.
+
+	* component-factory.c (destination_folder_handle_drop): Removed
+	some unused variables.
+
 2002-01-17  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-format.c (try_uudecoding): Update to match new uudecode

@@ -526,7 +526,7 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *des
 				const GNOME_Evolution_ShellComponentDnd_Data *data,
 				gpointer user_data)
 {
-	char *tmp, *url, **urls, *in, *inptr, *inend;
+	char *tmp, *url, **urls;
 	gboolean retval = FALSE;
 	const char *noselect;
 	CamelFolder *folder;

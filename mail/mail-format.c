@@ -1191,6 +1191,15 @@ handle_text_plain (CamelMimePart *part, const char *mime_type,
 	text = bytes->data;
 	g_byte_array_free (bytes, FALSE);
 	
+	/* Check to see if this is a broken text/html part with content-type text/plain */
+	start = text;
+	while (isspace ((unsigned) *start))
+		start++;
+	if (!g_strncasecmp (start, "<html>", 6)) {
+		g_free (text);
+		return handle_text_html (part, "text/html", md, html, stream);
+	}
+	
 	/* Check for RFC 2646 flowed text. */
 	type = camel_mime_part_get_content_type (part);
 	format = header_content_type_param (type, "format");
