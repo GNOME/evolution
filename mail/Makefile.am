@@ -54,6 +54,30 @@ Spell-impl.o: Spell.h
 evolution_mail_SOURCES =		\
 	$(EVOLUTION_MAIL_CORBA_GENERATED)	\
 	$(IDL_GENERATED)		\
+	component-factory.c		\
+	component-factory.h		\
+	e-searching-tokenizer.c		\
+	e-searching-tokenizer.h		\
+	folder-browser.c		\
+	folder-browser.h		\
+	folder-browser-factory.c	\
+	folder-browser-factory.h	\
+	folder-browser-ui.c		\
+	folder-browser-ui.h		\
+	folder-info.c			\
+	folder-info.h			\
+	mail-account-editor.c		\
+	mail-account-editor.h		\
+	mail-account-gui.c		\
+	mail-account-gui.h		\
+	mail-accounts.c			\
+	mail-accounts.h			\
+	mail-autofilter.c		\
+	mail-autofilter.h		\
+	mail-callbacks.c		\
+	mail-callbacks.h		\
+	mail-composer-prefs.c		\
+	mail-composer-prefs.h		\
 	mail-config.c			\
 	mail-config.h			\
 	mail-config-druid.c		\

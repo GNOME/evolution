@@ -35,7 +35,6 @@
 
 #include <glib.h>
 #include <gtk/gtkdialog.h>
-#include <libgnome/gnome-defs.h>
 #include <gtkhtml/gtkhtml.h>
 #include <glade/glade.h>
 #include <e-util/e-config-listener.h>
@@ -49,7 +48,6 @@
 #include <shell/evolution-shell-client.h>
 
 #include <gal/util/e-util.h>
-#include <glib/gunicode.h>
 #include <gal/widgets/e-gui-utils.h>
 #include <e-util/e-html-utils.h>
 #include <e-util/e-url.h>
