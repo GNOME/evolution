@@ -1,3 +1,8 @@
+2002-05-22  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-combo-button.c (impl_draw): New, overrides GtkWidget::draw.
+	(impl_expose_event): New, overrides GtkWidget::expose_event.
+
 2002-05-20  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-filter-bar.c (build_items): Prepend the advanced menu with a

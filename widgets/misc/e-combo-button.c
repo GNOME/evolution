@@ -154,6 +154,61 @@ set_icon (EComboButton *combo_button,
 }
 
 
+/* Paint the borders.  */
+
+static void
+paint (EComboButton *combo_button,
+       GdkRectangle *area)
+{
+	EComboButtonPrivate *priv = combo_button->priv;
+	GtkShadowType shadow_type;
+	int separator_x;
+
+	gdk_window_set_back_pixmap (GTK_WIDGET (combo_button)->window, NULL, TRUE);
+	gdk_window_clear_area (GTK_WIDGET (combo_button)->window,
+			       area->x, area->y,
+			       area->width, area->height);
+
+	/* Only paint the outline if we are in prelight state.  */
+	if (GTK_WIDGET_STATE (combo_button) != GTK_STATE_PRELIGHT
+	    && GTK_WIDGET_STATE (combo_button) != GTK_STATE_ACTIVE)
+		return;
+
+	separator_x = (priv->label->allocation.width
+		       + priv->label->allocation.x
+		       + priv->arrow_pixmap->allocation.x) / 2;
+
+	if (GTK_WIDGET_STATE (combo_button) == GTK_STATE_ACTIVE)
+		shadow_type = GTK_SHADOW_IN;
+	else
+		shadow_type = GTK_SHADOW_OUT;
+
+	gtk_paint_box (GTK_WIDGET (combo_button)->style,
+		       GTK_WIDGET (combo_button)->window,
+		       GTK_STATE_PRELIGHT,
+		       shadow_type,
+		       area,
+		       GTK_WIDGET (combo_button),
+		       "button",
+		       0,
+		       0,
+		       separator_x,
+		       GTK_WIDGET (combo_button)->allocation.height);
+
+	gtk_paint_box (GTK_WIDGET (combo_button)->style,
+		       GTK_WIDGET (combo_button)->window,
+		       GTK_STATE_PRELIGHT,
+		       shadow_type,
+		       area,
+		       GTK_WIDGET (combo_button),
+		       "button",
+		       separator_x,
+		       0,
+		       GTK_WIDGET (combo_button)->allocation.width - separator_x,
+		       GTK_WIDGET (combo_button)->allocation.height);
+}
+
+
 /* Callbacks for the associated menu.  */
 
 static void
@@ -288,6 +343,48 @@ impl_leave_notify_event (GtkWidget *widget,
 	return FALSE;
 }
 
+static void
+impl_draw (GtkWidget    *widget,
+	   GdkRectangle *area)
+{
+	GdkRectangle child_area;
+	GdkRectangle tmp_area;
+
+	if (! GTK_WIDGET_DRAWABLE (widget))
+		return;
+
+	tmp_area = *area;
+	tmp_area.x -= GTK_CONTAINER (widget)->border_width;
+	tmp_area.y -= GTK_CONTAINER (widget)->border_width;
+
+	paint (E_COMBO_BUTTON (widget), &tmp_area);
+
+	if (GTK_BIN (widget)->child && gtk_widget_intersect (GTK_BIN (widget)->child, &tmp_area, &child_area))
+		gtk_widget_draw (GTK_BIN (widget)->child, &child_area);
+}
+
+static int
+impl_expose_event (GtkWidget *widget,
+		   GdkEventExpose *event)
+{
+	GtkBin *bin;
+	GdkEventExpose child_event;
+
+	if (! GTK_WIDGET_DRAWABLE (widget))
+		return FALSE;
+
+	bin = GTK_BIN (widget);
+      
+	paint (E_COMBO_BUTTON (widget), &event->area);
+
+	child_event = *event;
+	if (bin->child && GTK_WIDGET_NO_WINDOW (bin->child) &&
+	    gtk_widget_intersect (bin->child, &event->area, &child_event.area))
+		gtk_widget_event (bin->child, (GdkEvent*) &child_event);
+
+	return FALSE;
+}
+
 
 /* GtkButton methods.  */
 
@@ -342,6 +439,8 @@ class_init (GtkObjectClass *object_class)
 	widget_class = GTK_WIDGET_CLASS (object_class);
 	widget_class->button_press_event = impl_button_press_event;
 	widget_class->leave_notify_event = impl_leave_notify_event;
+	widget_class->draw               = impl_draw;
+	widget_class->expose_event       = impl_expose_event;
 
 	button_class = GTK_BUTTON_CLASS (object_class);
 	button_class->released = impl_released;
@@ -373,11 +472,13 @@ init (EComboButton *combo_button)
 	gtk_widget_show (priv->icon_pixmap);
 
 	priv->label = gtk_label_new ("");
-	gtk_box_pack_start (GTK_BOX (priv->hbox), priv->label, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (priv->hbox), priv->label, TRUE, TRUE,
+			    2 * GTK_WIDGET (combo_button)->style->klass->xthickness);
 	gtk_widget_show (priv->label);
 
 	priv->arrow_pixmap = create_arrow_pixmap_widget ();
-	gtk_box_pack_start (GTK_BOX (priv->hbox), priv->arrow_pixmap, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (priv->hbox), priv->arrow_pixmap, TRUE, TRUE,
+			    GTK_WIDGET (combo_button)->style->klass->xthickness);
 	gtk_widget_show (priv->arrow_pixmap);
 
 	priv->icon           = NULL;
