@@ -81,6 +81,7 @@ void         	 e_reflow_sorted_replace_item (EReflowSorted *sorted, GnomeCanvasI
 void         	 e_reflow_sorted_reorder_item (EReflowSorted *e_reflow_sorted, const gchar *id);
 GnomeCanvasItem *e_reflow_sorted_get_item     (EReflowSorted *e_reflow_sorted, const gchar *id);
 GtkType          e_reflow_sorted_get_type     (void);
+void             e_reflow_sorted_jump         (EReflowSorted *sorted, GCompareFunc compare_func, void          *value);
 
 #ifdef __cplusplus
 }

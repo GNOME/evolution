@@ -107,7 +107,7 @@ e_minicard_view_init (EMinicardView *view)
 	view->canvas_destroy_id = 0;
 	
 	gtk_object_set(GTK_OBJECT(view),
-		       "empty_message", _("There are no items to show in this view\n\n"
+		       "empty_message", _("\n\nThere are no items to show in this view\n\n"
 					  "Double-click here to create a new Contact."),
 		       NULL);
 
@@ -379,4 +379,32 @@ e_minicard_view_remove_selection(EMinicardView *view,
 			}
 		}
 	}
+}
+
+static int
+compare_to_letter(EMinicard *card, char *letter)
+{
+	g_return_val_if_fail(card != NULL, 0);
+	g_return_val_if_fail(E_IS_MINICARD(card), 0);
+
+	if (card->card) {
+		char *file_as;
+		gtk_object_get(GTK_OBJECT(card->card),
+			       "file_as", &file_as,
+			       NULL);
+		if (file_as)
+			return strncasecmp(file_as, letter, 1);
+		else
+			return 0;
+	} else {
+		return 0;
+	}
+}
+
+void       e_minicard_view_jump_to_letter   (EMinicardView *view,
+					     char           letter)
+{
+	e_reflow_sorted_jump(E_REFLOW_SORTED(view),
+			     (GCompareFunc) compare_to_letter,
+			     &letter);
 }

@@ -50,7 +50,7 @@ typedef struct {
 	AddressbookViewType view_type;
 	EBook *book;
 	GtkWidget *vbox;
-	GtkWidget *minicard_vbox;
+	GtkWidget *minicard_hbox;
 	GtkWidget *canvas;
 	GnomeCanvasItem *view;
 	GnomeCanvasItem *rect;
@@ -639,23 +639,84 @@ teardown_minicard_view (AddressbookView *view)
 		gtk_object_destroy(GTK_OBJECT(view->view));
 		view->view = NULL;
 	}
-	if (view->minicard_vbox) {
-		gtk_widget_destroy(view->minicard_vbox);
-		view->minicard_vbox = NULL;
+	if (view->minicard_hbox) {
+		gtk_widget_destroy(view->minicard_hbox);
+		view->minicard_hbox = NULL;
 	}
 
 	view->canvas = NULL;
+}
+
+typedef struct {
+	AddressbookView *view;
+	char letter;
+} LetterClosure;
+
+static void
+jump_to_letter(GtkWidget *button, LetterClosure *closure)
+{
+	if (closure->view->view)
+		e_minicard_view_jump_to_letter(E_MINICARD_VIEW(closure->view->view), closure->letter);
+}
+
+static void
+free_closure(GtkWidget *button, LetterClosure *closure)
+{
+	g_free(closure);
+}
+
+static void
+connect_button (AddressbookView *view, GladeXML *gui, char letter)
+{
+	char *name;
+	GtkWidget *button;
+	LetterClosure *closure;
+	name = g_strdup_printf("button-%c", letter);
+	button = glade_xml_get_widget(gui, name);
+	g_free(name);
+	if (!button)
+		return;
+	closure = g_new(LetterClosure, 1);
+	closure->view = view;
+	closure->letter = letter;
+	gtk_signal_connect(GTK_OBJECT(button), "clicked",
+			   GTK_SIGNAL_FUNC(jump_to_letter), closure);
+	gtk_signal_connect(GTK_OBJECT(button), "destroy",
+			   GTK_SIGNAL_FUNC(free_closure), closure);
+}
+
+static GtkWidget *
+create_alphabet (AddressbookView *view)
+{
+	GtkWidget *widget;
+	char letter;
+	GladeXML *gui = glade_xml_new (EVOLUTION_GLADEDIR "/alphabet.glade", NULL);
+
+	widget = glade_xml_get_widget(gui, "scrolledwindow-top");
+	if (!widget) {
+		return NULL;
+	}
+	
+	connect_button(view, gui, '1');
+	for (letter = 'a'; letter <= 'z'; letter ++) {
+		connect_button(view, gui, letter);
+	}
+	return widget;
 }
 
 static void
 create_minicard_view (AddressbookView *view, char *initial_query)
 {
 	GtkWidget *scrollbar;
+	GtkWidget *vbox;
+	GtkWidget *alphabet;
 
 	gtk_widget_push_visual (gdk_rgb_get_visual ());
 	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
 
-	view->minicard_vbox = gtk_vbox_new(FALSE, 0);
+	view->minicard_hbox = gtk_hbox_new(FALSE, 0);
+
+	vbox = gtk_vbox_new(FALSE, 0);
 
 	view->canvas = e_canvas_new();
 	view->rect = gnome_canvas_item_new(
@@ -683,16 +744,26 @@ create_minicard_view (AddressbookView *view, char *initial_query)
 					 0, 0,
 					 100, 100 );
 
-	gtk_box_pack_start(GTK_BOX(view->minicard_vbox), view->canvas, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(vbox), view->canvas, TRUE, TRUE, 0);
 
 	scrollbar = gtk_hscrollbar_new(
 		gtk_layout_get_hadjustment(GTK_LAYOUT(view->canvas)));
 
-	gtk_box_pack_start(GTK_BOX(view->minicard_vbox), scrollbar, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(vbox), scrollbar, FALSE, FALSE, 0);
 
-	gtk_box_pack_start(GTK_BOX(view->vbox), view->minicard_vbox, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(view->minicard_hbox), vbox, TRUE, TRUE, 0);
 
-	gtk_widget_show_all( GTK_WIDGET(view->minicard_vbox) );
+	alphabet = create_alphabet(view);
+	if (alphabet) {
+		gtk_object_ref(GTK_OBJECT(alphabet));
+		gtk_widget_unparent(alphabet);
+		gtk_box_pack_start(GTK_BOX(view->minicard_hbox), alphabet, FALSE, FALSE, 0);
+		gtk_object_unref(GTK_OBJECT(alphabet));
+	}
+
+	gtk_box_pack_start(GTK_BOX(view->vbox), view->minicard_hbox, TRUE, TRUE, 0);
+
+	gtk_widget_show_all( GTK_WIDGET(view->minicard_hbox) );
 
 	/* Connect the signals */
 	gtk_signal_connect( GTK_OBJECT( view->canvas ), "size_allocate",

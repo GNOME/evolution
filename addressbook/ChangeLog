@@ -1,5 +1,17 @@
 2000-05-30  Christopher James Lahey  <clahey@helixcode.com>
 
+	* gui/component/Makefile.am: Added alphabet.glade and
+	alphabet.glade.h.
+
+	* gui/component/addressbook.c, gui/component/alphabet.glade,
+	gui/component/alphabet.glade.h: Added an alphabet bar.
+
+	* gui/minicard/e-minicard-view.c, gui/minicard/e-minicard-view.h,
+	gui/minicard/e-reflow-sorted.c, gui/minicard/e-reflow-sorted.h:
+	Added the ability to just to a particular spot in the reflow.
+
+2000-05-30  Christopher James Lahey  <clahey@helixcode.com>
+
 	* printing/Makefile.am: Added BONOBO_GNOME_CFLAGS to CPPFLAGS.
 
 2000-05-30  Christopher James Lahey  <clahey@helixcode.com>

@@ -34,6 +34,10 @@ static void e_reflow_sorted_set_arg (GtkObject *o, GtkArg *arg, guint arg_id);
 static void e_reflow_sorted_get_arg (GtkObject *object, GtkArg *arg, guint arg_id);
 static void e_reflow_sorted_add_item(EReflow *e_reflow, GnomeCanvasItem *item);
 
+#define E_REFLOW_DIVIDER_WIDTH 2
+#define E_REFLOW_BORDER_WIDTH 7
+#define E_REFLOW_FULL_GUTTER (E_REFLOW_DIVIDER_WIDTH + E_REFLOW_BORDER_WIDTH * 2)
+
 static EReflowClass *parent_class = NULL;
 
 /* The arguments we take */
@@ -233,4 +237,33 @@ e_reflow_sorted_add_item(EReflow *reflow, GnomeCanvasItem *item)
 		}
 	}
 	e_reflow_post_add_item(reflow, item);
+}
+
+void e_reflow_sorted_jump   (EReflowSorted *sorted,
+			     GCompareFunc   compare_func,
+			     void          *value)
+{
+	int columns = 0;
+	EReflow *reflow = E_REFLOW(sorted);
+	GList *list;
+
+	for (list = reflow->columns; list; list = g_list_next(list)) {
+		if (compare_func(((GList *)list->data)->data, value) >= 0) {
+			GList *last = list->prev;
+			GtkAdjustment *adjustment;
+			if (last) {
+				GList *walk;
+				for (walk = last->data; walk != list->data; walk = g_list_next(walk)) {
+					if (compare_func(walk->data, value) >= 0) {
+						columns --;
+						break;
+					}
+				}
+			}
+			adjustment = gtk_layout_get_hadjustment(GTK_LAYOUT(GNOME_CANVAS_ITEM(sorted)->canvas));
+			gtk_adjustment_set_value(adjustment, (reflow->column_width + E_REFLOW_FULL_GUTTER) * columns);
+			return;
+		}
+		columns ++;
+	}
 }

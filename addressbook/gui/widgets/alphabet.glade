@@ -1,0 +1,382 @@
+<?xml version="1.0"?>
+<GTK-Interface>
+
+<project>
+  <name>alphabet</name>
+  <program_name>alphabet</program_name>
+  <directory></directory>
+  <source_directory>src</source_directory>
+  <pixmaps_directory>pixmaps</pixmaps_directory>
+  <language>C</language>
+  <gnome_support>True</gnome_support>
+  <gettext_support>True</gettext_support>
+  <use_widget_names>True</use_widget_names>
+  <output_main_file>False</output_main_file>
+  <output_support_files>False</output_support_files>
+  <output_build_files>False</output_build_files>
+  <gnome_help_support>True</gnome_help_support>
+  <output_translatable_strings>True</output_translatable_strings>
+  <translatable_strings_file>alphabet.glade.h</translatable_strings_file>
+</project>
+
+<widget>
+  <class>GtkWindow</class>
+  <name>window2</name>
+  <visible>False</visible>
+  <title>window2</title>
+  <type>GTK_WINDOW_TOPLEVEL</type>
+  <position>GTK_WIN_POS_NONE</position>
+  <modal>False</modal>
+  <allow_shrink>False</allow_shrink>
+  <allow_grow>True</allow_grow>
+  <auto_shrink>False</auto_shrink>
+
+  <widget>
+    <class>GtkScrolledWindow</class>
+    <name>scrolledwindow-top</name>
+    <hscrollbar_policy>GTK_POLICY_NEVER</hscrollbar_policy>
+    <vscrollbar_policy>GTK_POLICY_AUTOMATIC</vscrollbar_policy>
+    <hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
+    <vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
+
+    <widget>
+      <class>GtkViewport</class>
+      <name>viewport1</name>
+      <shadow_type>GTK_SHADOW_NONE</shadow_type>
+
+      <widget>
+	<class>GtkVBox</class>
+	<name>vbox2</name>
+	<width>27</width>
+	<homogeneous>False</homogeneous>
+	<spacing>0</spacing>
+
+	<widget>
+	  <class>GtkButton</class>
+	  <name>button-1</name>
+	  <can_focus>True</can_focus>
+	  <label>123</label>
+	  <child>
+	    <padding>0</padding>
+	    <expand>False</expand>
+	    <fill>False</fill>
+	  </child>
+	</widget>
+
+	<widget>
+	  <class>GtkButton</class>
+	  <name>button-a</name>
+	  <can_focus>True</can_focus>
+	  <label>a</label>
+	  <child>
+	    <padding>0</padding>
+	    <expand>False</expand>
+	    <fill>False</fill>
+	  </child>
+	</widget>
+
+	<widget>
+	  <class>GtkButton</class>
+	  <name>button-b</name>
+	  <can_focus>True</can_focus>
+	  <label>b</label>
+	  <child>
+	    <padding>0</padding>
+	    <expand>False</expand>
+	    <fill>False</fill>
+	  </child>
+	</widget>
+
+	<widget>
+	  <class>GtkButton</class>
+	  <name>button-c</name>
+	  <can_focus>True</can_focus>
+	  <label>c</label>
+	  <child>
+	    <padding>0</padding>
+	    <expand>False</expand>
+	    <fill>False</fill>
+	  </child>
+	</widget>
+
+	<widget>
+	  <class>GtkButton</class>
+	  <name>button-d</name>
+	  <can_focus>True</can_focus>
+	  <label>d</label>
+	  <child>
+	    <padding>0</padding>
+	    <expand>False</expand>
+	    <fill>False</fill>
+	  </child>
+	</widget>
+
+	<widget>
+	  <class>GtkButton</class>
+	  <name>button-e</name>
+	  <can_focus>True</can_focus>
+	  <label>e</label>
+	  <child>
+	    <padding>0</padding>
+	    <expand>False</expand>
+	    <fill>False</fill>
+	  </child>
+	</widget>
+
+	<widget>
+	  <class>GtkButton</class>
+	  <name>button-f</name>
+	  <can_focus>True</can_focus>
+	  <label>f</label>
+	  <child>
+	    <padding>0</padding>
+	    <expand>False</expand>
+	    <fill>False</fill>
+	  </child>
+	</widget>
+
+	<widget>
+	  <class>GtkButton</class>
+	  <name>button-g</name>
+	  <can_focus>True</can_focus>
+	  <label>g</label>
+	  <child>
+	    <padding>0</padding>
+	    <expand>False</expand>
+	    <fill>False</fill>
+	  </child>
+	</widget>
+
+	<widget>
+	  <class>GtkButton</class>
+	  <name>button-h</name>
+	  <can_focus>True</can_focus>
+	  <label>h</label>
+	  <child>
+	    <padding>0</padding>
+	    <expand>False</expand>
+	    <fill>False</fill>
+	  </child>
+	</widget>
+
+	<widget>
+	  <class>GtkButton</class>
+	  <name>button-i</name>
+	  <can_focus>True</can_focus>
+	  <label>i</label>
+	  <child>
+	    <padding>0</padding>
+	    <expand>False</expand>
+	    <fill>False</fill>
+	  </child>
+	</widget>
+
+	<widget>
+	  <class>GtkButton</class>
+	  <name>button-j</name>
+	  <can_focus>True</can_focus>
+	  <label>j</label>
+	  <child>
+	    <padding>0</padding>
+	    <expand>False</expand>
+	    <fill>False</fill>
+	  </child>
+	</widget>
+
+	<widget>
+	  <class>GtkButton</class>
+	  <name>button-k</name>
+	  <can_focus>True</can_focus>
+	  <label>k</label>
+	  <child>
+	    <padding>0</padding>
+	    <expand>False</expand>
+	    <fill>False</fill>
+	  </child>
+	</widget>
+
+	<widget>
+	  <class>GtkButton</class>
+	  <name>button-l</name>
+	  <can_focus>True</can_focus>
+	  <label>l</label>
+	  <child>
+	    <padding>0</padding>
+	    <expand>False</expand>
+	    <fill>False</fill>
+	  </child>
+	</widget>
+
+	<widget>
+	  <class>GtkButton</class>
+	  <name>button-m</name>
+	  <can_focus>True</can_focus>
+	  <label>m</label>
+	  <child>
+	    <padding>0</padding>
+	    <expand>False</expand>
+	    <fill>False</fill>
+	  </child>
+	</widget>
+
+	<widget>
+	  <class>GtkButton</class>
+	  <name>button-n</name>
+	  <can_focus>True</can_focus>
+	  <label>n</label>
+	  <child>
+	    <padding>0</padding>
+	    <expand>False</expand>
+	    <fill>False</fill>
+	  </child>
+	</widget>
+
+	<widget>
+	  <class>GtkButton</class>
+	  <name>button-o</name>
+	  <can_focus>True</can_focus>
+	  <label>o</label>
+	  <child>
+	    <padding>0</padding>
+	    <expand>False</expand>
+	    <fill>False</fill>
+	  </child>
+	</widget>
+
+	<widget>
+	  <class>GtkButton</class>
+	  <name>button-p</name>
+	  <can_focus>True</can_focus>
+	  <label>p</label>
+	  <child>
+	    <padding>0</padding>
+	    <expand>False</expand>
+	    <fill>False</fill>
+	  </child>
+	</widget>
+
+	<widget>
+	  <class>GtkButton</class>
+	  <name>button-q</name>
+	  <can_focus>True</can_focus>
+	  <label>q</label>
+	  <child>
+	    <padding>0</padding>
+	    <expand>False</expand>
+	    <fill>False</fill>
+	  </child>
+	</widget>
+
+	<widget>
+	  <class>GtkButton</class>
+	  <name>button-r</name>
+	  <can_focus>True</can_focus>
+	  <label>r</label>
+	  <child>
+	    <padding>0</padding>
+	    <expand>False</expand>
+	    <fill>False</fill>
+	  </child>
+	</widget>
+
+	<widget>
+	  <class>GtkButton</class>
+	  <name>button-s</name>
+	  <can_focus>True</can_focus>
+	  <label>s</label>
+	  <child>
+	    <padding>0</padding>
+	    <expand>False</expand>
+	    <fill>False</fill>
+	  </child>
+	</widget>
+
+	<widget>
+	  <class>GtkButton</class>
+	  <name>button-t</name>
+	  <can_focus>True</can_focus>
+	  <label>t</label>
+	  <child>
+	    <padding>0</padding>
+	    <expand>False</expand>
+	    <fill>False</fill>
+	  </child>
+	</widget>
+
+	<widget>
+	  <class>GtkButton</class>
+	  <name>button-u</name>
+	  <can_focus>True</can_focus>
+	  <label>u</label>
+	  <child>
+	    <padding>0</padding>
+	    <expand>False</expand>
+	    <fill>False</fill>
+	  </child>
+	</widget>
+
+	<widget>
+	  <class>GtkButton</class>
+	  <name>button-v</name>
+	  <can_focus>True</can_focus>
+	  <label>v</label>
+	  <child>
+	    <padding>0</padding>
+	    <expand>False</expand>
+	    <fill>False</fill>
+	  </child>
+	</widget>
+
+	<widget>
+	  <class>GtkButton</class>
+	  <name>button-w</name>
+	  <can_focus>True</can_focus>
+	  <label>w</label>
+	  <child>
+	    <padding>0</padding>
+	    <expand>False</expand>
+	    <fill>False</fill>
+	  </child>
+	</widget>
+
+	<widget>
+	  <class>GtkButton</class>
+	  <name>button-x</name>
+	  <can_focus>True</can_focus>
+	  <label>x</label>
+	  <child>
+	    <padding>0</padding>
+	    <expand>False</expand>
+	    <fill>False</fill>
+	  </child>
+	</widget>
+
+	<widget>
+	  <class>GtkButton</class>
+	  <name>button-y</name>
+	  <can_focus>True</can_focus>
+	  <label>y</label>
+	  <child>
+	    <padding>0</padding>
+	    <expand>False</expand>
+	    <fill>False</fill>
+	  </child>
+	</widget>
+
+	<widget>
+	  <class>GtkButton</class>
+	  <name>button-z</name>
+	  <can_focus>True</can_focus>
+	  <label>z</label>
+	  <child>
+	    <padding>0</padding>
+	    <expand>False</expand>
+	    <fill>False</fill>
+	  </child>
+	</widget>
+      </widget>
+    </widget>
+  </widget>
+</widget>
+
+</GTK-Interface>
