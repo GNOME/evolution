@@ -1,3 +1,23 @@
+2001-11-21  Not Zed  <NotZed@Ximian.com>
+
+	* rule-editor.c (rule_edit): Hook onto destroy event.
+	(edit_editor_destroyed): IF we get destroyed, fake a -1 click
+	event to clean up.
+	(rule_add): hook onto destroy of dialogue.
+	(add_editor_destroyed): Simulate -1 click event to clean up.  Fix
+	for #15745.
+
+2001-11-20  Not Zed  <NotZed@Ximian.com>
+
+	* vfolder-rule.c (source_add): Desensitise button while we're
+	running, and if we are destroyed, exit and do nothing when we're
+	done.  Fixes crash in #15498.
+
+	* filter-folder.c (button_clicked): Ref 'ff' around dialogue
+	showing incase we go away before it returns.  Also desensitise
+	button that invoked us while its being processed & remove
+	'is_active' hack.  Fixes similar problems to those in #15498.
+
 2001-11-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* filter-rule.c (validate): Force the user to name the filter.
