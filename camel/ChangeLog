@@ -1,3 +1,14 @@
+2000-05-02  NotZed  <NotZed@HelixCode.com>
+
+	* camel-mime-parser.c (folder_scan_header): Fix the previous
+	overflow problem properly (can happen in 2 places).
+	(header_append): A new macro to include the code changed above, so
+	it only appears in one place.
+	(folder_scan_step): Change the content type to text/plain if the
+	multipart is broken.  Doesn't actually change the header though.
+	(header_append): Also move the header-start tracking stuff here.
+	Could be a static function to save code.
+
 2000-05-02    <notzed@helixcode.com>
 
 	* camel-mime-part-utils.c

@@ -529,6 +529,7 @@ folder_scan_skip_line(struct _header_scan_state *s)
 	return -1;		/* not found */
 }
 
+/* TODO: Is there any way to make this run faster?  It gets called a lot ... */
 static struct _header_scan_stack *
 folder_boundary_check(struct _header_scan_state *s, const char *boundary, int *lastone)
 {
@@ -559,6 +560,28 @@ folder_boundary_check(struct _header_scan_state *s, const char *boundary, int *l
 		part = part->parent;
 	}
 	return NULL;
+}
+
+/* Copy the string start->inptr into the header buffer (s->outbuf),
+   grow if necessary
+   and track the start offset of the header */
+/* Basically an optimised version of g_byte_array_append() */
+#define header_append(s, start, inptr)						\
+{										\
+	register int headerlen = inptr-start;					\
+										\
+	if (headerlen >= (s->outend - s->outptr)) {				\
+		register char *outnew;						\
+		register int len = ((s->outend - s->outbuf)+headerlen)*2+1;	\
+		outnew = g_realloc(s->outbuf, len);				\
+		s->outptr = s->outptr - s->outbuf + outnew;			\
+		s->outbuf = outnew;						\
+		s->outend = outnew + len;					\
+	}									\
+	memcpy(s->outptr, start, headerlen);					\
+	s->outptr += headerlen;							\
+	if (s->header_start == -1)						\
+		s->header_start = (start-s->inbuf) + s->seek;			\
 }
 
 static struct _header_scan_stack *
@@ -613,30 +636,11 @@ retry:
 			while (inptr<=inend && (c = *inptr++)!='\n')
 				;
 
-			/* allocate/append - this wont get executed unless we have *huge* headers,
-			   and then probably only once */
-			{
-				register int headerlen = inptr-start;
-				register int len = (s->outend - s->outbuf);
-				char *outnew;
-				
-				if (headerlen >= s->outend - s->outptr) {
-					len = (len+headerlen)*2+1;
-					outnew = g_realloc(s->outbuf, len);
-					s->outptr = s->outptr - s->outbuf + outnew;
-					s->outbuf = outnew;
-					s->outend = outnew + len;
-				}
-				memcpy(s->outptr, start, headerlen);
-				s->outptr += headerlen;
-			}
+			header_append(s, start, inptr);
 
 			h(printf("outbuf[0] = %02x '%c' oubuf[1] = %02x '%c'\n",
 				 s->outbuf[0], isprint(s->outbuf[0])?s->outbuf[0]:'.',
 				 s->outbuf[1], isprint(s->outbuf[1])?s->outbuf[1]:'.'));
-
-			if (s->header_start == -1)
-				s->header_start = (start-s->inbuf) + s->seek;
 
 			if (c!='\n') {
 				s->midline = TRUE;
@@ -696,27 +700,11 @@ retry:
 
 header_truncated:
 
-	{
-		register int headerlen = inptr-start;
-		register int len = (s->outend - s->outbuf);
-		char *outnew;
-		
-		if (headerlen >= len) {
-			len = (len+headerlen)*2+1;
-			outnew = g_realloc(s->outbuf, len);
-			s->outptr = s->outptr - s->outbuf + outnew;
-			s->outbuf = outnew;
-			s->outend = outnew + len;
-		}
-		memcpy(s->outptr, start, headerlen);
-		s->outptr += headerlen;
-	}
+	header_append(s, start, inptr);
+
 	if (s->outptr>s->outbuf && s->outptr[-1] == '\n')
 		s->outptr--;
 	s->outptr[0] = 0;
-
-	if (s->header_start == -1)
-		s->header_start = (start-s->inbuf) + s->seek;
 
 	if (s->outbuf[0] == '\n'
 	    || (s->outbuf[0] == '\r' && s->outbuf[1]=='\n')) {
@@ -1042,7 +1030,10 @@ tail_recurse:
 					sprintf(h->boundary, "--%s--", bound);
 					type = HSCAN_MULTIPART;
 				} else {
-#warning actually convert the multipart to text/plain here.
+					header_content_type_unref(ct);
+					ct = header_content_type_decode("text/plain");
+/* We can't quite do this, as it will mess up all the offsets ... */
+/*					header_raw_replace(&h->headers, "Content-Type", "text/plain", offset);*/
 					g_warning("Multipart with no boundary, treating as text/plain");
 				}
 			} else if (!strcasecmp(ct->type, "message")) {
