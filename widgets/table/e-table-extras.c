@@ -102,7 +102,11 @@ e_strint_compare(gconstpointer data1, gconstpointer data2)
 static gboolean
 e_string_search(gconstpointer haystack, const char *needle)
 {
-	int length = g_utf8_strlen (needle, -1);
+	int length;
+	if (haystack == NULL)
+		return FALSE;
+
+	length = g_utf8_strlen (needle, -1);
 	if (g_utf8_strncasecmp (haystack, needle, length) == 0)
 		return TRUE;
 	else

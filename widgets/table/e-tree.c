@@ -419,7 +419,7 @@ search_search_callback (ETreeModel *model, ETreePath path, gpointer data)
 }
 
 static gboolean
-et_search_search (ETableSearch *search, char *string, ETree *et)
+et_search_search (ETableSearch *search, char *string, ETableSearchFlags flags, ETree *et)
 {
 	ETreePath cursor;
 	ETreePath found;
@@ -436,11 +436,21 @@ et_search_search (ETableSearch *search, char *string, ETree *et)
 	cursor = e_tree_get_cursor (et);
 	cursor = e_tree_sorted_model_to_view_path (et->priv->sorted, cursor);
 
+	if (flags & E_TABLE_SEARCH_FLAGS_CHECK_CURSOR_FIRST) {
+		const void *value;
+
+		value = e_tree_model_value_at (E_TREE_MODEL (et->priv->sorted), cursor, et->priv->current_search_col);
+
+		if (et->priv->current_search (value, string)) {
+			return TRUE;
+		}
+	}
+
 	found = e_tree_model_node_find (E_TREE_MODEL (et->priv->sorted), cursor, NULL, E_TREE_FIND_NEXT_FORWARD, search_search_callback, &cb_data);
 	if (found == NULL)
 		found = e_tree_model_node_find (E_TREE_MODEL (et->priv->sorted), NULL, cursor, E_TREE_FIND_NEXT_FORWARD, search_search_callback, &cb_data);
 
-	if (found) {
+	if (found && found != cursor) {
 		int model_row;
 
 		e_tree_table_adapter_show_node (et->priv->etta, found);
@@ -450,9 +460,14 @@ et_search_search (ETableSearch *search, char *string, ETree *et)
 
 		e_selection_model_select_as_key_press(E_SELECTION_MODEL (et->priv->selection), model_row, col, GDK_CONTROL_MASK);
 		return TRUE;
-	} else {
+	} else if (!(flags & E_TABLE_SEARCH_FLAGS_CHECK_CURSOR_FIRST)) {
+		const void *value;
+
+		value = e_tree_model_value_at (E_TREE_MODEL (et->priv->sorted), cursor, et->priv->current_search_col);
+
+		return et->priv->current_search (value, string);
+	} else
 		return FALSE;
-	}
 }
 
 static void

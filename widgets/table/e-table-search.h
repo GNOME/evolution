@@ -38,6 +38,10 @@ BEGIN_GNOME_DECLS
 
 typedef struct _ETableSearchPrivate ETableSearchPrivate;
 
+typedef enum {
+	E_TABLE_SEARCH_FLAGS_CHECK_CURSOR_FIRST = 1 << 0
+} ETableSearchFlags;
+
 typedef struct {
 	GtkObject   base;
 
@@ -50,7 +54,7 @@ typedef struct {
 	/*
 	 * Signals
 	 */
-	gboolean (*search)    (ETableSearch *ets, char *string /* utf8 */);
+	gboolean (*search)    (ETableSearch *ets, char *string /* utf8 */, ETableSearchFlags flags);
 	void     (*accept)    (ETableSearch *ets);
 	void     (*cancelled) (ETableSearch *ets);
 } ETableSearchClass;

@@ -342,7 +342,7 @@ check_row (ETable *et, int model_row, int col, ETableSearchFunc search, char *st
 }
 
 static gboolean
-et_search_search (ETableSearch *search, char *string, ETable *et)
+et_search_search (ETableSearch *search, char *string, ETableSearchFlags flags, ETable *et)
 {
 	int cursor;
 	int rows;
@@ -361,6 +361,9 @@ et_search_search (ETableSearch *search, char *string, ETable *et)
 	gtk_object_get(GTK_OBJECT(et->selection),
 		       "cursor_row", &cursor,
 		       NULL);
+
+	if ((flags & E_TABLE_SEARCH_FLAGS_CHECK_CURSOR_FIRST) && cursor < rows && cursor >= 0 && check_row (et, cursor, col, search_func, string))
+		return TRUE;
 
 	cursor = e_sorter_model_to_sorted (E_SORTER (et->sorter), cursor);
 
@@ -383,7 +386,7 @@ et_search_search (ETableSearch *search, char *string, ETable *et)
 	cursor = e_sorter_sorted_to_model (E_SORTER (et->sorter), cursor);
 
 	/* Check if the cursor row is the only matching row. */
-	return (cursor < rows && cursor >= 0 && check_row (et, cursor, col, search_func, string));
+	return (!(flags & E_TABLE_SEARCH_FLAGS_CHECK_CURSOR_FIRST) && cursor < rows && cursor >= 0 && check_row (et, cursor, col, search_func, string));
 }
 
 static void

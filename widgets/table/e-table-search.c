@@ -52,14 +52,14 @@ enum {
 static guint e_table_search_signals [LAST_SIGNAL] = { 0, };
 
 static gboolean
-e_table_search_search (ETableSearch *e_table_search, char *string)
+e_table_search_search (ETableSearch *e_table_search, char *string, ETableSearchFlags flags)
 {
 	gboolean ret_val;
 	g_return_val_if_fail (e_table_search != NULL, FALSE);
 	g_return_val_if_fail (E_IS_TABLE_SEARCH (e_table_search), FALSE);
 	
 	gtk_signal_emit (GTK_OBJECT (e_table_search),
-			 e_table_search_signals [SEARCH_SEARCH], string, &ret_val);
+			 e_table_search_signals [SEARCH_SEARCH], string, flags, &ret_val);
 
 	return ret_val;
 }
@@ -124,8 +124,8 @@ e_table_search_class_init (GtkObjectClass *object_class)
 				GTK_RUN_LAST,
 				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETableSearchClass, search),
-				e_marshal_BOOL__STRING,
-				GTK_TYPE_BOOL, 1, GTK_TYPE_STRING);
+				e_marshal_BOOL__STRING_ENUM,
+				GTK_TYPE_BOOL, 2, GTK_TYPE_STRING, GTK_TYPE_ENUM);
 
 	e_table_search_signals [SEARCH_ACCEPT] =
 		gtk_signal_new ("accept",
@@ -195,25 +195,28 @@ void
 e_table_search_input_character (ETableSearch *ets, gunichar character)
 {
 	char character_utf8[7];
+	char *temp_string;
 
 	g_return_if_fail (ets != NULL);
 	g_return_if_fail (E_IS_TABLE_SEARCH (ets));
 
 	character_utf8 [g_unichar_to_utf8 (character, character_utf8)] = 0;
 
-	if (character != ets->priv->last_character) {
-		char *temp_string;
-		temp_string = g_strdup_printf ("%s%s", ets->priv->search_string, character_utf8);
-		if (e_table_search_search (ets, temp_string)) {
-			g_free (ets->priv->search_string);
-			ets->priv->search_string = temp_string;
-			add_timeout (ets);
-		} else {
-			g_free (temp_string);
-		}
-	} else {
-		e_table_search_search (ets, ets->priv->search_string);
+	temp_string = g_strdup_printf ("%s%s", ets->priv->search_string, character_utf8);
+	if (e_table_search_search (ets, temp_string,
+				   ets->priv->last_character != 0 ? E_TABLE_SEARCH_FLAGS_CHECK_CURSOR_FIRST : 0)) {
+		g_free (ets->priv->search_string);
+		ets->priv->search_string = temp_string;
 		add_timeout (ets);
+		ets->priv->last_character = character;
+		return;
+	} else {
+		g_free (temp_string);
 	}
-	ets->priv->last_character = character;
+
+	if (character == ets->priv->last_character) {
+		if (ets->priv->search_string && e_table_search_search (ets, ets->priv->search_string, 0)) {
+			add_timeout (ets);
+		}
+	}
 }

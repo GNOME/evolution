@@ -834,24 +834,26 @@ e_marshal_NONE__DOUBLE (GtkObject *object,
 		  func_data);
 }
 
-typedef gboolean (*GtkSignal_BOOL__STRING) (GtkObject *,
-					    char *,
-					    gpointer user_data);
+typedef gboolean (*GtkSignal_BOOL__STRING_INT) (GtkObject *,
+						char *,
+						gint,
+						gpointer user_data);
 
 void
-e_marshal_BOOL__STRING (GtkObject *object,
-			GtkSignalFunc func,
-			gpointer func_data,
-			GtkArg *args)
+e_marshal_BOOL__STRING_INT (GtkObject *object,
+			    GtkSignalFunc func,
+			    gpointer func_data,
+			    GtkArg *args)
 {
-	GtkSignal_BOOL__STRING rfunc;
+	GtkSignal_BOOL__STRING_INT rfunc;
 	gboolean *return_val;
 
-	rfunc = (GtkSignal_BOOL__STRING) func;
-	return_val = GTK_RETLOC_BOOL (args[1]);
+	rfunc = (GtkSignal_BOOL__STRING_INT) func;
+	return_val = GTK_RETLOC_BOOL (args[2]);
 
 	*return_val = (*rfunc) (object,
 				GTK_VALUE_STRING  (args[0]),
+				GTK_VALUE_INT (args[1]),
 				func_data);
 }
 
