@@ -1,5 +1,11 @@
 2001-03-06  Jon Trowbridge  <trow@ximian.com>
 
+	* gui/component/select-names/e-select-names-text-model.c
+	(e_select_names_text_model_insert_length): Fix glitch with
+	inserting comma-delimited stuff when length > 1.
+
+2001-03-06  Jon Trowbridge  <trow@ximian.com>
+
 	* backend/ebook/e-book.c (e_book_load_local_address_book): Added.
 	Just encapsulates opening
 	file://~username/evolution/local/Contactes/addressbook.db, so that

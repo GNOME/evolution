@@ -339,6 +339,7 @@ e_select_names_text_model_insert_length (ETextModel *model, gint pos, const gcha
 					repos.pos = pos;
 					repos.len = SEPLEN;
 					e_text_model_reposition (model, e_repos_insert_shift, &repos);
+					pos += SEPLEN;
 				}
 
 			} else {
@@ -362,6 +363,7 @@ e_select_names_text_model_insert_length (ETextModel *model, gint pos, const gcha
 				repos.pos = pos;
 				repos.len = SEPLEN;
 				e_text_model_reposition (model, e_repos_insert_shift, &repos);
+				pos += SEPLEN;
 			}
 
 		} else {
