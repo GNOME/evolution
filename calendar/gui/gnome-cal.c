@@ -58,7 +58,7 @@ setup_widgets (GnomeCalendar *gcal)
 	gtk_notebook_append_page (GTK_NOTEBOOK (notebook), day_view,  gtk_label_new (_("Day View")));
 	gtk_notebook_append_page (GTK_NOTEBOOK (notebook), gcal->week_view, gtk_label_new (_("Week View")));
 	gtk_notebook_append_page (GTK_NOTEBOOK (notebook), year_view, gtk_label_new (_("Year View")));
-	gtk_notebook_append_page (GTK_NOTEBOOK (notebook), task_view, gtk_label_new (_("Tasks")));
+	gtk_notebook_append_page (GTK_NOTEBOOK (notebook), task_view, gtk_label_new (_("Todo")));
 
 	gtk_widget_show_all (notebook);
 	

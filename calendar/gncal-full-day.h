@@ -37,7 +37,7 @@ struct _GncalFullDay {
 };
 
 struct _GncalFullDayClass {
-	GtkContainerClass *parent_class;
+	GtkContainerClass parent_class;
 };
 
 

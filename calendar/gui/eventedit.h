@@ -26,13 +26,17 @@ typedef struct {
 	GtkWidget  *general_owner;
 	GtkWidget  *general_summary;
 	GtkWidget  *start_time, *end_time;
+
+	/* The associated ical object */
+	iCalObject *ical;
+	int        new_ical;
 } EventEditor;
 
 typedef struct {
 	GnomePropertyBoxClass parent_class;
 } EventEditorClass;
 
-GtkWidget *event_editor_new (void);
+GtkWidget *event_editor_new (iCalObject *);
 
 END_GNOME_DECLS
 #endif

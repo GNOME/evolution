@@ -92,6 +92,8 @@ typedef struct {
 
 	CalendarAlarm *dalarm;
 	CalendarAlarm *aalarm;
+	CalendarAlarm *palarm;
+	CalendarAlarm *malarm;
 } iCalObject;
 
 iCalObject *ical_new (char *comment, char *organizer, char *summary);

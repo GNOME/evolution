@@ -123,7 +123,7 @@ void
 display_objedit (GtkWidget *widget, GnomeCalendar *gcal)
 {
 	if (!gcal->event_editor){
-		gcal->event_editor = event_editor_new ();
+		gcal->event_editor = event_editor_new (NULL);
 		gtk_widget_show (gcal->event_editor);
 	}
 }
@@ -178,7 +178,7 @@ GnomeUIInfo gnome_cal_about_menu [] = {
 };
 
 GnomeUIInfo gnome_cal_edit_menu [] = {
-	{ GNOME_APP_UI_ITEM, N_("Appointment"), NULL, display_objedit },
+	{ GNOME_APP_UI_ITEM, N_("New appointment"), NULL, display_objedit },
 	GNOMEUIINFO_END
 };
 
