@@ -4,7 +4,7 @@ INCLUDES =						\
 
 # CORBA stuff
 
-IDLS = $(top_builddir)/wombat/wombat.idl
+IDLS = $(top_srcdir)/wombat/wombat.idl
 IDL_GENERATED = \
 	wombat.h \
 	wombat-common.c \
@@ -15,7 +15,7 @@ $(IDLS): $(ORBIT_IDL)
 
 $(IDL_GENERATED): $(IDLS)
 	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl `$(GNOME_CONFIG) --cflags idl` \
-		$(top_builddir)/wombat/wombat.idl
+		$(top_srcdir)/wombat/wombat.idl
 
 # Wombat library
 lib_LTLIBRARIES = libwombat.la

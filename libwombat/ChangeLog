@@ -1,3 +1,7 @@
+2001-06-23  Jason Leach  <jleach@ximian.com>
+
+	* Makefile.am: builddir != srcdir fixes.
+
 2001-06-22  Rodrigo Moya <rodrigo@ximian.com>
 
 	* Makefile.am: added $(ORBIT_IDL) as a dependency to the IDL
