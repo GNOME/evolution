@@ -1,3 +1,7 @@
+2001-09-04  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* evolution-mail-message.xml: Add an accel for Search Message.
+
 2001-08-29  Peter Williams  <peterw@ximian.com>
 
 	* evolution-mail-message.xml: Add a pixtype to 

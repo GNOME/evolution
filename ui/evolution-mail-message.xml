@@ -107,6 +107,7 @@
 
     <cmd name="MessageSearch"
      _tip="Search for text in the body of the displayed message"
+     accel="*Control*s"
      pixtype="pixbuf"/>
 
     <cmd name="MessageUndelete"
