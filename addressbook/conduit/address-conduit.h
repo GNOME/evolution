@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* Evolution calendar - ToDo Conduit Capplet
+/* Evolution calendar - Addressbook Conduit Capplet
  *
  * Copyright (C) 1998 Free Software Foundation
  * Copyright (C) 2000 Ximian, Inc.
@@ -34,7 +34,7 @@
 #include <gpilotd/gnome-pilot-conduit-sync-abs.h>
 #include <e-pilot-map.h>
 
-/* This is the local record structure for the Evolution ToDo conduit. */
+/* This is the local record structure for the Evolution Addressbook conduit. */
 typedef struct _EAddrLocalRecord EAddrLocalRecord;
 struct _EAddrLocalRecord {
 	/* The stuff from gnome-pilot-conduit-standard-abs.h
@@ -46,7 +46,7 @@ struct _EAddrLocalRecord {
 	/* The corresponding ECard object */
 	ECard *ecard;
 
-        /* pilot-link todo structure, used for implementing Transmit. */
+        /* pilot-link address structure, used for implementing Transmit. */
 	struct Address *addr;
 };
 
@@ -68,7 +68,7 @@ struct _EAddrConduitContext {
 	EPilotMap *map;
 };
 
-#endif __ADDR_CONDUIT_H__ 
+#endif /* __ADDR_CONDUIT_H__ */
 
 
 

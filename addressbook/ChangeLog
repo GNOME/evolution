@@ -1,3 +1,13 @@
+2001-08-20  JP Rosevear  <jpr@ximian.com>
+
+	* conduit/address-conduit.c: fix warnings, get compiling again
+
+	* conduit/address-conduit-config.h: remove c/p typos
+
+	* conduit/address-conduit.h: ditto
+
+	* conduit/Makefile.am: link against the static camel
+
 2001-08-20  Damon Chaplin  <damon@ximian.com>
 
 	* gui/contact-editor/e-contact-editor.c: use bigger Save icon for

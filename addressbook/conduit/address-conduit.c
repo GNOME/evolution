@@ -407,14 +407,22 @@ local_record_from_ecard (EAddrLocalRecord *local, ECard *ecard, EAddrConduitCont
 
 static void 
 local_record_from_uid (EAddrLocalRecord *local,
-		       char *uid,
+		       const char *uid,
 		       EAddrConduitContext *ctxt)
 {
 	ECard *ecard = NULL;
-
+	GList *l;
+	
 	g_assert (local != NULL);
 
-	ecard = e_book_get_card (ctxt->ebook, uid);
+	for (l = ctxt->cards; l != NULL; l = l->next) {
+		ecard = l->data;
+		
+		if (ecard->id && !strcmp (ecard->id, uid))
+			break;
+
+		ecard = NULL;
+	}
 
 	if (ecard != NULL) {
 		local_record_from_ecard (local, ecard, ctxt);
@@ -565,7 +573,7 @@ card_added (EBookView *book_view, const GList *cards, EAddrConduitContext *ctxt)
 		gtk_object_ref (GTK_OBJECT (coc->card));
 		ctxt->changed = g_list_prepend (ctxt->changed, coc);
 		if (!e_pilot_map_uid_is_archived (ctxt->map, e_card_get_id (coc->card)))
-			g_hash_table_insert (ctxt->changed_hash, e_card_get_id (coc->card), coc);
+			g_hash_table_insert (ctxt->changed_hash, (gpointer)e_card_get_id (coc->card), coc);
 	}
 }
 
@@ -583,7 +591,7 @@ card_changed (EBookView *book_view, const GList *cards, EAddrConduitContext *ctx
 		gtk_object_ref (GTK_OBJECT (coc->card));
 		ctxt->changed = g_list_prepend (ctxt->changed, coc);
 		if (!e_pilot_map_uid_is_archived (ctxt->map, e_card_get_id (coc->card)))
-			g_hash_table_insert (ctxt->changed_hash, e_card_get_id (coc->card), coc);
+			g_hash_table_insert (ctxt->changed_hash, (gpointer)e_card_get_id (coc->card), coc);
 	}
 }
 
@@ -599,7 +607,7 @@ card_removed (EBookView *book_view, const char *id, EAddrConduitContext *ctxt)
 
 	ctxt->changed = g_list_prepend (ctxt->changed, coc);
 	if (!e_pilot_map_uid_is_archived (ctxt->map, id))
-		g_hash_table_insert (ctxt->changed_hash, e_card_get_id (coc->card), coc);
+		g_hash_table_insert (ctxt->changed_hash, (gpointer)e_card_get_id (coc->card), coc);
 }
 
 static void
@@ -951,7 +959,7 @@ replace_record (GnomePilotConduitSyncAbs *conduit,
 		if (coc) {
 			g_hash_table_remove (ctxt->changed_hash, e_card_get_id (coc->card));
 			coc->card = local->ecard;
-			g_hash_table_insert (ctxt->changed_hash, e_card_get_id (coc->card), coc);
+			g_hash_table_insert (ctxt->changed_hash, (gpointer)e_card_get_id (coc->card), coc);
 			
 		}
 		
@@ -1011,7 +1019,7 @@ match (GnomePilotConduitSyncAbs *conduit,
        EAddrLocalRecord **local,
        EAddrConduitContext *ctxt)
 {
-  	char *uid;
+  	const char *uid;
 	
 	LOG ("match: looking for local copy of %s\n",
 	     print_remote (remote));	

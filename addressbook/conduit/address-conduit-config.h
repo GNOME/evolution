@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* Evolution calendar - ToDo Conduit Configuration
+/* Evolution calendar - Addressbook Conduit Configuration
  *
  * Copyright (C) 1998 Free Software Foundation
  * Copyright (C) 2000 Ximian, Inc.
@@ -44,7 +44,7 @@ static void
 addrconduit_load_configuration (EAddrConduitCfg **c, guint32 pilot_id) 
 {
 	gchar prefix[256];
-	g_snprintf (prefix, 255, "/gnome-pilot.d/e-todo-conduit/Pilot_%u/",
+	g_snprintf (prefix, 255, "/gnome-pilot.d/e-address-conduit/Pilot_%u/",
 		    pilot_id);
 	
 	*c = g_new0 (EAddrConduitCfg,1);
@@ -68,7 +68,7 @@ addrconduit_save_configuration (EAddrConduitCfg *c)
 {
 	gchar prefix[256];
 
-	g_snprintf (prefix, 255, "/gnome-pilot.d/e-todo-conduit/Pilot_%u/",
+	g_snprintf (prefix, 255, "/gnome-pilot.d/e-address-conduit/Pilot_%u/",
 		    c->pilot_id);
 
 	gnome_config_push_prefix (prefix);
@@ -111,11 +111,4 @@ addrconduit_destroy_configuration (EAddrConduitCfg **c)
 }
 #endif
 
-#endif __ADDR_CONDUIT_CONFIG_H__ 
-
-
-
-
-
-
-
+#endif /* __ADDR_CONDUIT_CONFIG_H__ */
