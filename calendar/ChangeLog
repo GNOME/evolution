@@ -1,3 +1,8 @@
+2003-03-07  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/alarm-notify/save.c (get_calendars_to_load): create the array
+	to be returned only once.
+
 2003-03-06  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/alarm-queue.c (display_notification): ref the CalClient.

@@ -131,11 +131,11 @@ get_calendars_to_load (void)
 	 * may not have saved the list of calendar yet.
 	 */
 
-	l = gconf_client_get_list(gconf_client_get_default(), KEY_CALENDARS, GCONF_VALUE_STRING, NULL);
+	l = gconf_client_get_list (gconf_client_get_default (), KEY_CALENDARS, GCONF_VALUE_STRING, NULL);
+	uris = g_ptr_array_new ();
 	while (l) {
 		n = l->next;
-		uris = g_ptr_array_new ();
-		g_ptr_array_add(uris, l->data);
+		g_ptr_array_add (uris, l->data);
 		g_slist_free_1(l);
 		l = n;
 	}
