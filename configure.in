@@ -327,8 +327,14 @@ dnl ******************************
 dnl Whether to use OAF
 dnl ******************************
 
-AC_ARG_ENABLE(oaf, 
-            [  --enable-oaf=[no/yes]      Use OAF instead of GOAD.],,enable_oaf=no)
+AC_MSG_CHECKING(if Bonobo uses OAF)
+if ( gnome-config --libs bonobo | grep oaf ) > /dev/null 2>&1 ; then
+	enable_oaf="yes"
+else
+	enable_oaf="no"
+fi
+
+AC_MSG_RESULT("$enable_oaf")
 
 if test "x$enable_oaf" = "xyes"; then
         AC_PATH_PROG(OAF_CONFIG,oaf-config,no)

@@ -1,3 +1,8 @@
+2000-05-01  Anders Carlsson  <andersca@gnu.org>
+
+	* configure.in: Check if bonobo uses oaf, so you don't
+	need to specify --enable-oaf.
+
 2000-04-27  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* acconfig.h: New configured #define `USING_OAF'.
