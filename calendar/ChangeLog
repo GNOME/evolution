@@ -1,5 +1,10 @@
 2001-07-27  JP Rosevear  <jpr@ximian.com>
 
+	* conduits/calendar/calendar-conduit.c (local_record_from_comp):
+	recur is always in UTC
+	
+2001-07-27  JP Rosevear  <jpr@ximian.com>
+
 	* conduits/calendar/calendar-conduit.c: handle timezones
 	everywhere
 	(get_timezone): new function to get a timezone based

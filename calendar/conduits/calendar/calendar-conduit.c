@@ -529,7 +529,7 @@ local_record_from_comp (ECalLocalRecord *local, CalComponent *comp, ECalConduitC
 			local->appt->repeatForever = 1;
 		} else {
 			local->appt->repeatForever = 0;
-			dt_time = icaltime_as_timet_with_zone (recur->until, ctxt->timezone);
+			dt_time = icaltime_as_timet (recur->until);
 			local->appt->repeatEnd = *localtime (&dt_time);
 		}
 		
