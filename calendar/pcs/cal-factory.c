@@ -97,27 +97,46 @@ free_backend (gpointer key, gpointer value, gpointer data)
 
 /* Opening calendars */
 
-/* Looks up a calendar backend in a factory's hash table of uri->cal */
+/* Looks up a calendar backend in a factory's hash table of uri->cal.  If
+ * *non-NULL, orig_uri_return will be set to point to the original key in the
+ * *hash table.
+ */
 static CalBackend *
-lookup_backend (CalFactory *factory, const char *uristr)
+lookup_backend (CalFactory *factory, const char *uristr, char **orig_uri_return)
 {
 	CalFactoryPrivate *priv;
-	CalBackend *backend;
 	EUri *uri;
 	char *tmp;
+	gboolean found;
+	gpointer orig_key;
+	gpointer data;
 
 	priv = factory->priv;
 
 	uri = e_uri_new (uristr);
-	if (!uri)
+	if (!uri) {
+		if (orig_uri_return)
+			*orig_uri_return = NULL;
+
 		return NULL;
+	}
 
 	tmp = e_uri_to_string (uri, FALSE);
-	backend = g_hash_table_lookup (priv->backends, tmp);
+	found = g_hash_table_lookup_extended (priv->backends, tmp, &orig_key, &data);
 	g_free (tmp);
 	e_uri_free (uri);
 
-	return backend;
+	if (found) {
+		if (orig_uri_return)
+			*orig_uri_return = orig_key;
+
+		return CAL_BACKEND (data);
+	} else {
+		if (orig_uri_return)
+			*orig_uri_return = FALSE;
+
+		return NULL;
+	}
 }
 
 /* Callback used when a backend loses its last connected client */
@@ -126,10 +145,9 @@ backend_last_client_gone_cb (CalBackend *backend, gpointer data)
 {
 	CalFactory *factory;
 	CalFactoryPrivate *priv;
+	CalBackend *ret_backend;
 	const char *uristr;
-	gpointer orig_key;
-	gboolean result;
-	const char *orig_uristr;
+	char *orig_uristr;
 
 	fprintf (stderr, "backend_last_client_gone_cb() called!\n");
 
@@ -141,13 +159,12 @@ backend_last_client_gone_cb (CalBackend *backend, gpointer data)
 	uristr = cal_backend_get_uri (backend);
 	g_assert (uristr != NULL);
 
-	result = g_hash_table_lookup_extended (priv->backends, uristr, &orig_key, NULL);
-	g_assert (result != FALSE);
-
-	orig_uristr = orig_key;
+	ret_backend = lookup_backend (factory, uristr, &orig_uristr);
+	g_assert (ret_backend != NULL);
+	g_assert (ret_backend == backend);
 
 	g_hash_table_remove (priv->backends, orig_uristr);
-	g_free ((gpointer) orig_uristr);
+	g_free (orig_uristr);
 
 	gtk_object_unref (GTK_OBJECT (backend));
 
@@ -348,12 +365,12 @@ add_uri (gpointer key, gpointer value, gpointer data)
 
 	switch (mode) {
 	case GNOME_Evolution_Calendar_MODE_LOCAL:
-		backend = lookup_backend (factory, uri_string);
+		backend = lookup_backend (factory, uri_string, NULL);
 		if (backend == NULL || cal_backend_get_mode (backend) != CAL_MODE_LOCAL)
 			return;
 		break;		
 	case GNOME_Evolution_Calendar_MODE_REMOTE:
-		backend = lookup_backend (factory, uri_string);
+		backend = lookup_backend (factory, uri_string, NULL);
 		if (backend == NULL || cal_backend_get_mode (backend) != CAL_MODE_REMOTE)
 			return;
 		break;		
@@ -414,7 +431,7 @@ open_fn (gpointer data)
 
 	/* Look up the backend and create it if needed */
 
-	backend = lookup_backend (factory, uri_string);
+	backend = lookup_backend (factory, uri_string, NULL);
 
 	if (!backend)
 		backend = open_backend (factory, uri_string, only_if_exists, listener);
@@ -448,7 +465,7 @@ impl_CalFactory_open (PortableServer_Servant servant,
 	gboolean result;
 	OpenJobData *jd;
 	GNOME_Evolution_Calendar_Listener listener_copy;
-	GtkType type;
+	GtkType *type;
 	EUri *uri;
 
 	factory = CAL_FACTORY (bonobo_object_from_servant (servant));

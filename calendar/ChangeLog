@@ -1,3 +1,11 @@
+2001-10-10  Federico Mena Quintero  <federico@ximian.com>
+
+	* pcs/cal-factory.c (lookup_backend): Return the original key in
+	the hash table if requested.
+	(backend_last_client_gone_cb): Use lookup_backend() so that we
+	have the URI mangling done for us.
+	(impl_CalFactory_open): The type should be GtkType *, not GtkType!
+
 2001-10-10  JP Rosevear  <jpr@ximian.com>
 
 	* cal-client/cal-client.c (cal_set_mode_cb): remove unneeded
