@@ -403,6 +403,7 @@ e_shell_folder_selection_dialog_construct (EShellFolderSelectionDialog *folder_s
 	gtk_window_set_default_size (GTK_WINDOW (folder_selection_dialog), 350, 300);
 	gtk_window_set_modal (GTK_WINDOW (folder_selection_dialog), TRUE);
 	gtk_window_set_title (GTK_WINDOW (folder_selection_dialog), title);
+	gtk_container_set_border_width (GTK_CONTAINER (folder_selection_dialog), 6);
 
 	if (allow_creation)
 		gtk_dialog_add_buttons (GTK_DIALOG (folder_selection_dialog),
@@ -425,10 +426,15 @@ e_shell_folder_selection_dialog_construct (EShellFolderSelectionDialog *folder_s
 
 	if (caption != NULL) {
 		caption_label = gtk_label_new (caption);
+		gtk_label_set_justify (GTK_LABEL (caption_label), GTK_JUSTIFY_LEFT); 
 		gtk_widget_show (caption_label);
 
 		gtk_box_pack_start (GTK_BOX (GTK_DIALOG (folder_selection_dialog)->vbox),
-				    caption_label, FALSE, TRUE, 2);
+				    caption_label, FALSE, TRUE, 6);
+		gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (folder_selection_dialog)->vbox),
+				     6);
+
+
 	}
 
 	/* Set up the storage set and its view.  */
@@ -473,10 +479,13 @@ e_shell_folder_selection_dialog_construct (EShellFolderSelectionDialog *folder_s
 					GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
 	gtk_container_add (GTK_CONTAINER (scrolled_window), priv->storage_set_view);
-
+        
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (folder_selection_dialog)->vbox),
-			    scrolled_window, TRUE, TRUE, 2);
-
+			    scrolled_window, TRUE, TRUE, 6);
+	gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (folder_selection_dialog)->vbox), 6); 
+	
+	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (folder_selection_dialog)->vbox), 6);
+	
 	gtk_widget_show (priv->storage_set_view);
 	gtk_widget_show (scrolled_window);
 
