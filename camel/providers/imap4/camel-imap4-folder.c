@@ -276,7 +276,7 @@ camel_imap4_folder_new (CamelStore *store, const char *full_name, CamelException
 	camel_folder_summary_set_filename (folder->summary, path);
 	g_free (path);
 	
-	camel_folder_summary_header_load (folder->summary);
+	camel_folder_summary_load (folder->summary);
 	
 	if (camel_imap4_engine_select_folder (((CamelIMAP4Store *) store)->engine, folder, ex) == -1) {
 		camel_object_unref (folder);

@@ -690,6 +690,7 @@ untagged_fetch_all (CamelIMAP4Engine *engine, CamelIMAP4Command *ic, guint32 ind
 	GPtrArray *added = fetch->added;
 	CamelIMAP4MessageInfo *iinfo;
 	CamelMessageInfo *info;
+	const char *iuid;
 	char uid[12];
 	
 	if (index > added->len)
@@ -774,7 +775,8 @@ untagged_fetch_all (CamelIMAP4Engine *engine, CamelIMAP4Command *ic, guint32 ind
 				goto unexpected;
 			
 			sprintf (uid, "%u", token->v.number);
-			if (camel_message_info_uid (info) != NULL) {
+			iuid = camel_message_info_uid (info);
+			if (iuid != NULL && iuid[0] != '\0') {
 				if (strcmp (camel_message_info_uid (info), uid) != 0)
 					fprintf (stderr, "Hmmm, UID mismatch for message %u\n", index);
 				else
