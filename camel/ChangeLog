@@ -1,3 +1,8 @@
+2004-01-29  Not Zed  <NotZed@Ximian.com>
+
+	* camel-url.c (camel_url_free): zero out passwd/user/host before
+	freeing them.
+
 2004-01-28  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/local/camel-mbox-store.c (rename_folder): Make sure

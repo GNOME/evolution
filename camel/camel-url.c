@@ -379,6 +379,12 @@ void
 camel_url_free (CamelURL *url)
 {
 	if (url) {
+		if (url->passwd)
+			memset(url->passwd, 0, strlen(url->passwd));
+		if (url->user)
+			memset(url->user, 0, strlen(url->user));
+		if (url->host)
+			memset(url->host, 0, strlen(url->host));
 		g_free (url->protocol);
 		g_free (url->user);
 		g_free (url->authmech);
