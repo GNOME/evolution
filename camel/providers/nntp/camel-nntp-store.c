@@ -46,6 +46,8 @@
 
 #define NNTP_PORT 119
 
+#define DUMP_EXTENSIONS
+
 static CamelRemoteStoreClass *remote_store_class = NULL;
 
 static CamelServiceClass *service_class = NULL;
@@ -354,7 +356,10 @@ nntp_store_get_folder_info (CamelStore *store, const char *top,
 			fi = g_new0 (CamelFolderInfo, 1);
 			fi->name = g_strdup (names->pdata[i]);
 			fi->full_name = g_strdup (names->pdata[i]);
-			fi->url = g_strdup_printf ("news://%s/%s", url->host, (char *)names->pdata[i]);
+			fi->url = g_strdup_printf ("nntp://%s%s%s/%s",
+						   url->user ? url->user : "",
+						   url->user ? "@" : "",
+						   url->host, (char *)names->pdata[i]);
 			/* FIXME */
 			fi->message_count = fi->unread_message_count = -1;
 
@@ -374,7 +379,7 @@ nntp_store_get_folder_info (CamelStore *store, const char *top,
 		fi = g_new0 (CamelFolderInfo, 1);
 		fi->name = g_strdup (top);
 		fi->full_name = g_strdup (top);
-		fi->url = g_strdup_printf ("news://%s/%s", url->host, top);
+		fi->url = g_strdup_printf ("nntp://%s/%s", url->host, top);
 		/* FIXME */
 		fi->message_count = fi->unread_message_count = -1;
 

@@ -1,5 +1,12 @@
 2000-10-04  Chris Toshok  <toshok@helixcode.com>
 
+	* providers/nntp/camel-nntp-store.c (nntp_store_get_folder_info):
+	use "nntp:" instead of "news:" since "news:" urls aren't supposed
+	to have host/user/port info in them.  also, if there's a user
+	defined in the url, put it in the urls for our folders.
+
+2000-10-04  Chris Toshok  <toshok@helixcode.com>
+
 	* providers/nntp/camel-nntp-auth.c (camel_nntp_auth_authenticate):
 	borrow some code from the imap provider to query the user for
 	their password, and pass the user/passwd to nntp.  be extra
