@@ -1,3 +1,7 @@
+2003-11-18  JP Rosevear <jpr@ximian.com>
+
+	* configure.in: remove db3 check
+
 2003-11-18  Rodrigo Moya <rodrigo@ximian.com>
 
 	* tools/killev.c (main): kill the alarm notification service, not
