@@ -97,13 +97,13 @@
 			_label="Using the C_ontact Manager"
 			 />
 
-			<menuitem/>
+			<separator/>
 
 			<menuitem name="HelpSubmitBug" verb=""
 			_label="Submit _Bug Report"
 			_tip="Submit bug report using Bug Buddy."/>
 
-			<menuitem/>
+			<separator/>
 
 			<menuitem name="HelpAbout" verb=""
 			_label="_About Evolution..."

@@ -46,7 +46,7 @@
 
     <submenu name="View">
 
-      <menuitem/>
+      <separator/>
 
       <menuitem name="Threaded" verb="ViewThreaded" accel="*Control*t"/>
 
@@ -88,7 +88,7 @@
         _label="_Print Message"
          accel="*Control*p"/>
 
-        <menuitem/>
+        <separator/>
 
         <menuitem name="MessageReplySndr" verb=""
         _label="Reply to _Sender"
@@ -105,7 +105,7 @@
         _label="Forward inline"
          accel="*Control**Shift*j"/>
 
-        <menuitem/>
+        <separator/>
 
         <menuitem name="MessageMarkAsRead" verb=""
         _label="Mar_k As Read"
@@ -115,7 +115,7 @@
         _label="Mark As U_nread"
          accel="*Control**Shift*k"/>
 
-        <menuitem/>
+        <separator/>
 
         <menuitem name="MessageMove" verb=""
         _label="_Move to Folder..."
@@ -133,13 +133,13 @@
         _label="_Undelete"
          accel="*Control*u"/>
 
-        <menuitem/>
+        <separator/>
 
         <menuitem name="MessageApplyFilters" verb=""
         _label="_Apply Filters"
          accel="*Control*y"/>
 
-        <menuitem/>
+        <separator/>
 
         <submenu name="MessageCreateRuleFromMessage" _label="Create Rule From Message">
 
@@ -155,7 +155,7 @@
           _label="VFolder on _Recipients"
            />
 
-          <menuitem/>
+          <separator/>
 
           <menuitem name="MessageFilterSubj" verb=""
           _label="_Filter on Subject"
@@ -174,9 +174,9 @@
         <submenu name="MessageHide" _label="Hide Messages">
 
           <menuitem name="MessageHideClear" verb="" _label="Show _All messages"/>
-          <menuitem/>
+          <separator/>
           <menuitem name="MessageHideSelected" verb="" _label="Hide _Selected messages"/>
-          <menuitem/>
+          <separator/>
           <menuitem name="MessageHideRead" verb="" _label="Hide _Read messages"/>
           <menuitem name="MessageHideDeleted" verb="" _label="Hide _Deleted messages"/>
 

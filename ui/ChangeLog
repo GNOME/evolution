@@ -1,3 +1,9 @@
+2000-12-23  Michael Meeks  <michael@helixcode.com>
+
+	* evolution-mail.xml: s/<menuitem\/>/<separator\/>/
+
+	* evolution.xml: ditto.
+
 2000-12-21  Michael Meeks  <michael@helixcode.com>
 
 	* evolution.xml: remove wierd extraneous '>'
