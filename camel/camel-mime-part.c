@@ -535,6 +535,8 @@ camel_mime_part_get_content_object(CamelMimePart *mime_part)
 static void
 _set_content_object(CamelMimePart *mime_part, CamelDataWrapper *content)
 {
+	GMimeContentField *object_content_field;
+
 	CAMEL_LOG_FULL_DEBUG ("Entering CamelMimePart::set_content_object\n");
 	if (mime_part->content) {
 		CAMEL_LOG_FULL_DEBUG ("CamelMimePart::set_content_object unreferencing old content object\n");
@@ -542,8 +544,10 @@ _set_content_object(CamelMimePart *mime_part, CamelDataWrapper *content)
 	}
 	gtk_object_ref (GTK_OBJECT (content));
 	mime_part->content = content;
-	if (mime_part->content_type) gmime_content_field_free (mime_part->content_type);
-	mime_part->content_type = camel_data_wrapper_get_mime_type_field (content);
+	object_content_field = camel_data_wrapper_get_mime_type_field (content);
+	if (mime_part->content_type && (mime_part->content_type != object_content_field)) 
+		gmime_content_field_free (mime_part->content_type);
+	mime_part->content_type = object_content_field;
 	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMimePart::set_content_object\n");
 	
 }
@@ -620,7 +624,7 @@ _write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 	write_header_table_to_stream (stream, mp->headers);
 	
 	CAMEL_LOG_FULL_DEBUG ( "CamelMimePart::write_to_stream writing content-type\n");
-	gmime_content_field_write_to_stream(mp->content_type, stream);
+	gmime_content_field_write_to_stream (mp->content_type, stream);
 	
 	camel_stream_write_string(stream,"\n");
 	_write_content_to_stream (mp, stream);
@@ -753,6 +757,7 @@ _construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 	CAMEL_LOG_FULL_DEBUG ("CamelMimePart::construct_from_stream parsing content\n");
 	content_type = camel_mime_part_get_content_type (mime_part);
 	mime_type = gmime_content_field_get_mime_type (content_type);
+	printf ("Content-Type address = %p\n", content_type);
 	if (!mime_type) {
 		CAMEL_LOG_FULL_DEBUG ("CamelMimePart::construct_from_stream content type field not found " 
 				      "using default \"text/plain\"\n");
@@ -760,9 +765,11 @@ _construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 		camel_mime_part_set_content_type (mime_part, mime_type);
 	}
 		content_object_type = data_wrapper_repository_get_data_wrapper_type (mime_type);
+		
 		CAMEL_LOG_FULL_DEBUG ("CamelMimePart::construct_from_stream content type object type used: %s\n", gtk_type_name (content_object_type));
 		g_free (mime_type);
 		content_object = CAMEL_DATA_WRAPPER (gtk_type_new (content_object_type));
+		camel_data_wrapper_set_mime_type_field (content_object, camel_mime_part_get_content_type (mime_part));
 		camel_mime_part_set_content_object (mime_part, content_object);
 		camel_data_wrapper_construct_from_stream (content_object, stream);
 		
@@ -810,3 +817,4 @@ camel_mime_part_set_text (CamelMimePart *camel_mime_part, gchar *text)
 		CAMEL_LOG_FULL_DEBUG ("CamelMimePart:: Leaving camel_mime_part_set_text\n");
 }
 
+ 

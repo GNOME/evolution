@@ -126,6 +126,7 @@ gmime_content_field_write_to_stream (GMimeContentField *content_field, CamelStre
 	if (!content_field) return;
 
 	g_assert (stream);
+	printf ("Content-field address = %p\n", content_field);
 	if (content_field->type) {
 		camel_stream_write_strings (stream, "Content-Type: ", content_field->type, NULL);
 		if (content_field->subtype) {
@@ -134,7 +135,7 @@ gmime_content_field_write_to_stream (GMimeContentField *content_field, CamelStre
 		/* print all parameters */
 		g_hash_table_foreach (content_field->parameters, _print_parameter, stream);
 		camel_stream_write_string (stream, "\n");
-	} 
+	} else CAMEL_LOG_FULL_DEBUG ("GMimeContentField::write_to_stream no mime type found\n");
 }
 
 /**

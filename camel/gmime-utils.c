@@ -32,18 +32,14 @@ gmime_write_header_pair_to_stream (CamelStream *stream, const gchar* name, const
 {
 
 	gchar *strtmp;
-	guint len;
+
 	CAMEL_LOG_FULL_DEBUG ( "gmime_write_header_pair_to_stream:: Entering\n");
 	g_assert(name);
-#warning use g_strdup_printf instead
- 
-	if (!value) return;
-	len = strlen (name) + strlen (value) +4;
-	/* 4 is for ": " and "\n\0" */
-	strtmp = g_new (gchar, len);
-	sprintf (strtmp, "%s: %s\n", name, value);
+
+	if (!value) return; 
+	strtmp = g_strdup_printf ("%s: %s\n", name, value);
 	
-	camel_stream_write (stream, strtmp, len);
+	camel_stream_write_string (stream, strtmp);
 	CAMEL_LOG_FULL_DEBUG ( "gmime_write_header_pair_to_stream:\n  writing %s\n", strtmp);
 	
 	g_free (strtmp);

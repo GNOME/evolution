@@ -1,4 +1,24 @@
+1999-08-03  root  <guiheneu@jean.joudboeuf.fr>
+
+
 1999-08-03  bertrand  <Bertrand.Guiheneuf@aful.org>
+
+	* camel/camel-mime-part.c (_set_content_object): 
+	There is a probleme here. We can not allow mime part
+	content-type field and content_object mime-type to be 
+	different. I thus chosed to set mime part object 
+	content field to be freed (if necessary) and set
+	to be a pointer to content_object mime type
+	field. 
+	(_construct_from_stream): set content_object mime type
+	to be the same as mime_part's one. This is necessary
+	because we use _set_content_type. 
+	
+	This two things are a bit hackish ansd may need
+	to be redesigned.
+	
+	* camel/gmime-utils.c (gmime_write_header_pair_to_stream): 
+	use g_strdup_printf and remove a bug.
 
 	* camel/camel-simple-data-wrapper.c (_construct_from_stream): 
 	more debugging output +  nb_bytes_read is now a signed int 

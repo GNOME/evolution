@@ -389,17 +389,16 @@ _read_part (CamelStream *new_part_stream, CamelStream *stream, gchar *normal_bou
 	CAMEL_LOG_FULL_DEBUG ("CamelMultipart:: Entering _read_part\n");
 
 	new_line = gmime_read_line_from_stream (stream);
-	printf ("== new line = \"%s\"\n", new_line);
 	while (new_line && !end_of_part && !last_part) {
 		printf ("++ new line = \"%s\"\n", new_line);
 		end_of_part = (strcmp (new_line, normal_boundary) == 0);
 		last_part   = (strcmp (new_line, end_boundary) == 0);
 		if (!end_of_part && !last_part) {
 			if (first_line) {
-				camel_stream_write_string (new_part_stream, "\n");
 				first_line = FALSE;
-			}
-			camel_stream_write_strings (new_part_stream, "\n", new_line, NULL);
+				camel_stream_write_string (new_part_stream, new_line);
+			} else camel_stream_write_strings (new_part_stream, "\n", new_line, NULL);
+
 			new_line = gmime_read_line_from_stream (stream);
 		}
 	}
@@ -425,8 +424,6 @@ _construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 	real_boundary_line = g_strdup_printf ("--%s", boundary);
 	end_boundary_line = g_strdup_printf ("--%s--", boundary);
 
-	//new_part = g_string_new ("");
-	
 	
 	/* read the prefix if any */
 	new_part_stream = camel_stream_mem_new (CAMEL_STREAM_MEM_RW);
