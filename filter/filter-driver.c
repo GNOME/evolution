@@ -337,7 +337,7 @@ do_copy (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver *d
 	int i;
 	
 	d(fprintf (stderr, "copying message...\n"));
-	p->copied = TRUE;
+	
 	for (i = 0; i < argc; i++) {
 		if (argv[i]->type == ESEXP_RES_STRING) {
 			/* open folders we intent to copy to */
@@ -349,6 +349,7 @@ do_copy (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver *d
 			if (!outbox)
 				continue;
 			
+			p->copied = TRUE;
 			camel_folder_append_message (outbox, p->message, p->info, p->ex);
 			
 			service_url = camel_service_get_url (CAMEL_SERVICE (camel_folder_get_parent_store (outbox)));
@@ -367,8 +368,7 @@ do_move (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver *d
 	int i;
 	
 	d(fprintf (stderr, "moving message...\n"));
-	p->copied = TRUE;
-	p->deleted = TRUE;  /* a 'move' is a copy & delete */
+	
 	for (i = 0; i < argc; i++) {
 		if (argv[i]->type == ESEXP_RES_STRING) {
 			/* open folders we intent to move to */
@@ -379,7 +379,10 @@ do_move (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver *d
 			outbox = open_folder (driver, folder);
 			if (!outbox)
 				continue;
-
+			
+			p->copied = TRUE;
+			p->deleted = TRUE;  /* a 'move' is a copy & delete */
+			
 			camel_folder_append_message (outbox, p->message, p->info, p->ex);
 			
 			service_url = camel_service_get_url (CAMEL_SERVICE (camel_folder_get_parent_store (outbox)));

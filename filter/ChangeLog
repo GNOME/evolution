@@ -1,3 +1,11 @@
+2001-01-13  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* filter-driver.c (do_copy): Moved p->copied to the inner part of
+	the loop so that in the case of a folder not existing, it doesn't
+	think that the message was already copied to some place and thus
+	not save it to the Inbox.
+	(do_move): Same.
+
 2001-01-10  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* filtertypes.xml: Changed Priority to Score.
