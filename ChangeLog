@@ -1,3 +1,10 @@
+2001-12-17  Ettore Perazzoli  <ettore@ximian.com>
+
+	* tools/Makefile.am (bin_SCRIPTS): Add `csv2vcard'.
+
+	* csv2vcard: New file; script by Michael MacDonald to convert CSV
+	files into VCard files.
+
 2001-12-17  Iain Holmes  <iain@ximian.com>
 
 	* NEWS: Updated for summary

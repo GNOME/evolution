@@ -1,6 +1,13 @@
-bin_SCRIPTS = killev evolution-move-tasks evolution-addressbook-clean
+bin_SCRIPTS =				\
+	csv2vcard			\
+	evolution-move-tasks		\
+	evolution-addressbook-clean	\
+	killev
 
-bin_PROGRAMS = evolution-addressbook-import evolution-addressbook-export
+bin_PROGRAMS =				\
+	evolution-addressbook-import	\
+	evolution-addressbook-export
+
 noinst_PROGRAMS = evolution-addressbook-abuse
 
 INCLUDES =							\
