@@ -309,8 +309,9 @@ void         e_table_without_hide_adopt (ETableWithout *etw,
 	}
 }
 
-void         e_table_without_show       (ETableWithout *etw,
-					 void          *key)
+void
+e_table_without_show       (ETableWithout *etw,
+			    void          *key)
 {
 	int i; /* Model row */
 	ETableSubset *etss = E_TABLE_SUBSET (etw);
@@ -331,4 +332,30 @@ void         e_table_without_show       (ETableWithout *etw,
 #endif
 		g_hash_table_remove (etw->priv->hash, key);
 	}
+}
+
+void
+e_table_without_show_all   (ETableWithout *etw)
+{
+	int i; /* Model row */
+	int row_count;
+	ETableSubset *etss = E_TABLE_SUBSET (etw);
+
+	if (etw->priv->hash) {
+		g_hash_table_foreach (etw->priv->hash, delete_hash_element, etw);
+		g_hash_table_destroy (etw->priv->hash);
+		etw->priv->hash = NULL;
+	}
+	etw->priv->hash = g_hash_table_new (etw->priv->hash_func, etw->priv->compare_func);
+
+	g_free (etss->map_table);
+	row_count = e_table_model_row_count (E_TABLE_MODEL(etw));
+	etss->map_table = g_new (int, row_count);
+
+	for (i = 0; i < row_count; i++) {
+		etss->map_table[i++] = i;
+	}
+	etss->n_map = i;
+
+	e_table_model_changed (E_TABLE_MODEL (etw));
 }

@@ -58,6 +58,7 @@ void         e_table_without_hide_adopt (ETableWithout                 *etw,
 					 void                          *key);
 void         e_table_without_show       (ETableWithout                 *etw,
 					 void                          *key);
+void         e_table_without_show_all   (ETableWithout                 *etw);
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
