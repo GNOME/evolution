@@ -2190,6 +2190,8 @@ mail_config_check_service (const char *url, CamelProviderType type, GList **auth
 	gnome_dialog_set_close (GNOME_DIALOG (dialog), FALSE);
 	gtk_signal_connect (GTK_OBJECT (dialog), "clicked",
 			    GTK_SIGNAL_FUNC (check_cancelled), &id);
+	gtk_signal_connect (GTK_OBJECT (dialog), "destroy",
+			    GTK_SIGNAL_FUNC (check_cancelled), &id);
 	gtk_window_set_modal (GTK_WINDOW (dialog), FALSE);
 	gtk_widget_show_all (dialog);
 

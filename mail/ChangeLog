@@ -1,3 +1,8 @@
+2001-12-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-format.c (handle_text_plain): Make sure i != num_specials
+	after we check for any special text markers. Fixes bug #12265.
+
 2001-12-04  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-autofilter.c (rule_from_message): Make sure that the

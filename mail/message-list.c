@@ -257,7 +257,7 @@ address_compare (gconstpointer address1, gconstpointer address2)
 #ifdef SMART_ADDRESS_COMPARE
 	EMailAddress *addr1, *addr2;
 #endif /* SMART_ADDRESS_COMPARE */
-	gint retval;
+	int retval;
 	
 	g_return_val_if_fail (address1 != NULL, 1);
 	g_return_val_if_fail (address2 != NULL, -1);

@@ -1120,7 +1120,8 @@ struct {
 	{ "begin ", try_uudecoding },
 	{ "(This file must be converted with BinHex 4.0)\n", try_inline_binhex }
 };
-#define NSPECIALS (sizeof (text_specials) / sizeof (*text_specials))
+
+static int num_specials = (sizeof (text_specials) / sizeof (text_specials[0]));
 
 static void
 write_one_text_plain_chunk (const char *text, int len, MailDisplay *md)
@@ -1174,12 +1175,12 @@ handle_text_plain (CamelMimePart *part, const char *mime_type,
 	p = text;
 	while (p && check_specials) {
 		/* Look for special cases. */
-		for (i = 0; i < NSPECIALS; i++) {
+		for (i = 0; i < num_specials; i++) {
 			start = strstr (p, text_specials[i].start);
 			if (start && (start == p || start[-1] == '\n'))
 				break;
 		}
-		if (!start)
+		if (i == num_specials)
 			break;
 		
 		/* Deal with special case */

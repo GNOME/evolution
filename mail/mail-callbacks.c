@@ -424,7 +424,7 @@ composer_sent_cb (char *uri, CamelMimeMessage *message, gboolean sent, void *dat
 		}
 		gtk_widget_destroy (GTK_WIDGET (send->composer));
 	} else {
-		e_msg_composer_set_enable_autosave(send->composer, TRUE);
+		e_msg_composer_set_enable_autosave (send->composer, TRUE);
 		gtk_widget_show (GTK_WIDGET (send->composer));
 		gtk_object_unref (GTK_OBJECT (send->composer));
 	}
@@ -618,7 +618,7 @@ composer_send_cb (EMsgComposer *composer, gpointer data)
 	send->composer = composer;
 	gtk_object_ref (GTK_OBJECT (composer));
 	gtk_widget_hide (GTK_WIDGET (composer));
-	e_msg_composer_set_enable_autosave(composer, FALSE);
+	e_msg_composer_set_enable_autosave (composer, FALSE);
 	mail_send_mail (transport->url, message, composer_sent_cb, send);
 }
 
