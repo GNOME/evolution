@@ -29,7 +29,7 @@
 #include <string.h>
 #include <libgnomeui/gnome-stock.h>
 #include <camel/camel-url.h>
-#include <openpgp-utils.h>
+#include <camel/camel-pgp-context.h>
 
 #include "mail-accounts.h"
 #include "mail-config.h"
@@ -492,18 +492,18 @@ static void
 pgp_path_changed (GtkEntry *entry, gpointer data)
 {
 	const char *path, *bin;
-	PgpType type = PGP_TYPE_NONE;
+	CamelPgpType type = CAMEL_PGP_TYPE_NONE;
 	
 	path = gtk_entry_get_text (entry);
 	bin = g_basename (path);
 	
 	/* FIXME: This detection should be better */
 	if (!strcmp (bin, "pgp"))
-		type = PGP_TYPE_PGP2;
+		type = CAMEL_PGP_TYPE_PGP2;
 	else if (!strcmp (bin, "pgpv") || !strcmp (bin, "pgpe") || !strcmp (bin, "pgpk") || !strcmp (bin, "pgps"))
-		type = PGP_TYPE_PGP5;
+		type = CAMEL_PGP_TYPE_PGP5;
 	else if (!strcmp (bin, "gpg"))
-		type = PGP_TYPE_GPG;
+		type = CAMEL_PGP_TYPE_GPG;
 	
 	mail_config_set_pgp_path (path && *path ? path : NULL);
 	mail_config_set_pgp_type (type);

@@ -38,14 +38,15 @@
 #include <gal/widgets/e-unicode.h>
 
 #include <camel/camel-mime-utils.h>
+#include <camel/camel-pgp-mime.h>
 #include <shell/e-setup.h>
 #include <e-util/e-html-utils.h>
 
 #include "mail.h"
 #include "mail-tools.h"
 #include "mail-display.h"
-#include "mail-crypto.h"
 #include "mail-mt.h"
+#include "mail-crypto.h"
 
 static char *get_data_wrapper_text (CamelDataWrapper *data);
 
@@ -1006,20 +1007,27 @@ destroy_part (CamelObject *root, gpointer event_data, gpointer user_data)
 	camel_object_unref (user_data);
 }
 
-static char *
-decode_pgp (const char *ciphertext, int *outlen, MailDisplay *md)
+static void
+decode_pgp (CamelStream *ciphertext, CamelStream *plaintext, MailDisplay *md)
 {
 	CamelException ex;
-	char *plaintext;
 	
 	camel_exception_init (&ex);
 	
 	/* FIXME: multipart parts */
 	/* another FIXME: this doesn't have to return plaintext you realize... */
 	if (g_datalist_get_data (md->data, "show_pgp")) {
-		plaintext = openpgp_decrypt (ciphertext, strlen (ciphertext), outlen, &ex);
-		if (plaintext)
-			return plaintext;
+		CamelPgpContext *ctx;
+		
+		ctx = camel_pgp_context_new (session, mail_config_get_pgp_type (),
+					     mail_config_get_pgp_path ());
+		
+		camel_pgp_decrypt (ctx, ciphertext, plaintext, &ex);
+		camel_object_unref (CAMEL_OBJECT (ctx));
+		camel_stream_reset (plaintext);
+		
+		if (!camel_exception_is_set (&ex))
+			return;
 	}
 	
 	mail_html_write (md->html, md->stream,
@@ -1041,14 +1049,14 @@ decode_pgp (const char *ciphertext, int *outlen, MailDisplay *md)
 	}
 
 	mail_html_write (md->html, md->stream, "</td></tr></table>");
-	return NULL;
 }
 
 static char *
 try_inline_pgp (char *start, MailDisplay *md)
 {
-	char *end, *ciphertext, *plaintext;
-	int outlen;
+	CamelStream *ciphertext, *plaintext;
+	GByteArray *buffer;
+	char *end;
 	
 	end = strstr (start, "-----END PGP MESSAGE-----");
 	if (!end)
@@ -1060,17 +1068,25 @@ try_inline_pgp (char *start, MailDisplay *md)
 	
 	/* FIXME: uhm, pgp decrypted data doesn't have to be plaintext
 	 * however, I suppose that since it was 'inline', it probably is */
-	ciphertext = g_strndup (start, end - start);
-	plaintext = decode_pgp (ciphertext, &outlen, md);
-	g_free (ciphertext);
-	if (plaintext && outlen > 0) {
+	
+	ciphertext = camel_stream_mem_new ();
+	camel_stream_write (ciphertext, start, end - start);
+	camel_stream_reset (ciphertext);
+	
+	plaintext = camel_stream_mem_new ();
+	decode_pgp (ciphertext, plaintext, md);
+	camel_object_unref (CAMEL_OBJECT (ciphertext));
+	
+	buffer = CAMEL_STREAM_MEM (plaintext)->buffer;
+	if (buffer && buffer->len) {
 		mail_html_write (md->html, md->stream,
 				 "<table width=\"100%%\" border=2 "
 				 "cellpadding=4><tr><td>");
-		mail_text_write (md->html, md->stream, "%s", plaintext);
+		mail_text_write (md->html, md->stream, "%.*s", buffer->len, buffer->data);
 		mail_html_write (md->html, md->stream, "</td></tr></table>");
-		g_free (plaintext);
 	}
+	
+	camel_object_unref (CAMEL_OBJECT (plaintext));
 	
 	return end;
 }
@@ -1078,9 +1094,11 @@ try_inline_pgp (char *start, MailDisplay *md)
 static char *
 try_inline_pgp_sig (char *start, MailDisplay *md)
 {
-	char *end, *ciphertext, *plaintext;
+	CamelPgpContext *context;
+	CamelStream *ciphertext;
+	CamelPgpValidity *valid;
 	CamelException *ex;
-	PgpValidity *valid;
+	char *end;
 	
 	end = strstr (start, "-----END PGP SIGNATURE-----");
 	if (!end)
@@ -1090,17 +1108,22 @@ try_inline_pgp_sig (char *start, MailDisplay *md)
 	
 	mail_html_write (md->html, md->stream, "<hr>");
 	
-	ciphertext = g_strndup (start, end - start);
-	ex = camel_exception_new ();
-	valid = openpgp_verify (ciphertext, end - start, NULL, 0, ex);
-	g_free (ciphertext);
+	context = camel_pgp_context_new (session, mail_config_get_pgp_type (),
+					 mail_config_get_pgp_path ());
 	
-	plaintext = g_strndup (start, end - start);
-	mail_text_write (md->html, md->stream, "%s", plaintext);
-	g_free (plaintext);
+	ciphertext = camel_stream_mem_new ();
+	camel_stream_write (ciphertext, start, end - start);
+	camel_stream_reset (ciphertext);
+	
+	ex = camel_exception_new ();
+	valid = camel_pgp_verify (context, ciphertext, NULL, ex);
+	camel_object_unref (CAMEL_OBJECT (ciphertext));
+	camel_object_unref (CAMEL_OBJECT (context));
+	
+	mail_text_write (md->html, md->stream, "%.*s", end - start, start);
 	
 	/* Now display the "seal-of-authenticity" or something... */
-	if (valid && openpgp_validity_get_valid (valid)) {
+	if (valid && camel_pgp_validity_get_valid (valid)) {
 		mail_html_write (md->html, md->stream,
 				 "<hr>\n<table><tr valign=top>"
 				 "<td><img src=\"%s\"></td>"
@@ -1118,16 +1141,16 @@ try_inline_pgp_sig (char *start, MailDisplay *md)
 				   "not be proven to be authentic."));
 	}
 	
-	if (valid && openpgp_validity_get_description (valid)) {
+	if (valid && camel_pgp_validity_get_description (valid)) {
 		mail_error_write (md->html, md->stream,
-				  openpgp_validity_get_description (valid));
+				  camel_pgp_validity_get_description (valid));
 		mail_html_write (md->html, md->stream, "<br><br>");
 	}
 	
 	mail_html_write (md->html, md->stream, "</font></td></table>");
 		
 	camel_exception_free (ex);
-	openpgp_validity_free (valid);
+	camel_pgp_validity_free (valid);
 	
 	return end;
 }
@@ -1433,13 +1456,15 @@ handle_multipart_encrypted (CamelMimePart *part, const char *mime_type,
 	g_return_val_if_fail (CAMEL_IS_MULTIPART (wrapper), FALSE);
 	
 	/* Currently we only handle RFC2015-style PGP encryption. */
-	if (!mail_crypto_is_rfc2015_encrypted (part))
+	if (!camel_pgp_mime_is_rfc2015_encrypted (part))
 		return handle_multipart_mixed (part, mime_type, md);
 	
 	camel_exception_init (&ex);
-	mime_part = pgp_mime_part_decrypt (part, &ex);
+	mime_part = mail_crypto_pgp_mime_part_decrypt (part, &ex);
+	
 	if (camel_exception_is_set (&ex)) {
 		/* I guess we just treat this as a multipart/mixed */
+		camel_exception_clear (&ex);
 		return handle_multipart_mixed (part, mime_type, md);
 	} else {
 		gboolean retcode;
@@ -1459,7 +1484,7 @@ handle_multipart_signed (CamelMimePart *part, const char *mime_type,
 	CamelMultipart *mp;
 	CamelException *ex;
 	gboolean output = FALSE;
-	PgpValidity *valid;
+	CamelPgpValidity *valid;
 	int nparts, i;
 	
 	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));
@@ -1467,11 +1492,11 @@ handle_multipart_signed (CamelMimePart *part, const char *mime_type,
 	g_return_val_if_fail (CAMEL_IS_MULTIPART (wrapper), FALSE);
 	
 	/* Currently we only handle RFC2015-style PGP signatures. */
-	if (!mail_crypto_is_rfc2015_signed (part))
+	if (!camel_pgp_mime_is_rfc2015_signed (part))
 		return handle_multipart_mixed (part, mime_type, md);
 	
 	ex = camel_exception_new ();
-	valid = pgp_mime_part_verify (part, ex);
+	valid = mail_crypto_pgp_mime_part_verify (part, ex);
 	
 	/* now display all the subparts *except* the signature */
 	mp = CAMEL_MULTIPART (wrapper);
@@ -1487,7 +1512,7 @@ handle_multipart_signed (CamelMimePart *part, const char *mime_type,
 	}
 	
 	/* Now display the "seal-of-authenticity" or something... */
-	if (valid && openpgp_validity_get_valid (valid)) {
+	if (valid && camel_pgp_validity_get_valid (valid)) {
 		mail_html_write (md->html, md->stream,
 				 "<hr>\n<table><tr valign=top>"
 				 "<td><img src=\"%s\"></td>"
@@ -1504,17 +1529,17 @@ handle_multipart_signed (CamelMimePart *part, const char *mime_type,
 				 _("This message is digitally signed but can "
 				   "not be proven to be authentic."));
 	}
-
-	if (valid && openpgp_validity_get_description (valid)) {
+	
+	if (valid && camel_pgp_validity_get_description (valid)) {
 		mail_error_write (md->html, md->stream,
-				  openpgp_validity_get_description (valid));
+				  camel_pgp_validity_get_description (valid));
 		mail_html_write (md->html, md->stream, "<br><br>");
 	}
 	
 	mail_html_write (md->html, md->stream, "</font></td></table>");
 	
 	camel_exception_free (ex);
-	openpgp_validity_free (valid);
+	camel_pgp_validity_free (valid);
 	
 	return TRUE;
 }

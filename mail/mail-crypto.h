@@ -24,33 +24,30 @@
 #define MAIL_CRYPTO_H
 
 #include <camel/camel.h>
-#include "openpgp-utils.h"
+#include <camel/camel-pgp-mime.h>
 
 #ifdef __cplusplus
 extern "C" {
 #pragma }
 #endif /* __cplusplus }*/
 
-gboolean mail_crypto_is_rfc2015_signed (CamelMimePart *part);
-gboolean mail_crypto_is_rfc2015_encrypted (CamelMimePart *part);
-
 gboolean mail_crypto_is_smime_v3_signed (CamelMimePart *mime_part);
 gboolean mail_crypto_is_pkcs7_mime (CamelMimePart *mime_part);
 
-void pgp_mime_part_sign (CamelMimePart **mime_part,
-			 const gchar *userid,
-			 PgpHashType hash,
-			 CamelException *ex);
+void mail_crypto_pgp_mime_part_sign (CamelMimePart **mime_part,
+				     const char *userid,
+				     CamelPgpHashType hash,
+				     CamelException *ex);
 
-PgpValidity *pgp_mime_part_verify (CamelMimePart *mime_part,
-				   CamelException *ex);
+CamelPgpValidity *mail_crypto_pgp_mime_part_verify (CamelMimePart *mime_part,
+						    CamelException *ex);
 
-void pgp_mime_part_encrypt (CamelMimePart **mime_part,
-			    const GPtrArray *recipients,
-			    CamelException *ex);
+void mail_crypto_pgp_mime_part_encrypt (CamelMimePart **mime_part,
+					GPtrArray *recipients,
+					CamelException *ex);
 
-CamelMimePart *pgp_mime_part_decrypt (CamelMimePart *mime_part,
-				      CamelException *ex);
+CamelMimePart *mail_crypto_pgp_mime_part_decrypt (CamelMimePart *mime_part,
+						  CamelException *ex);
 
 #ifdef __cplusplus
 }

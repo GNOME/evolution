@@ -96,8 +96,6 @@ evolution_mail_SOURCES =		\
 	main.c				\
 	message-list.c			\
 	message-list.h			\
-	openpgp-utils.c			\
-	openpgp-utils.h			\
 	session.c			\
 	mail-session.h			\
 	subscribe-dialog.c		\

@@ -1,3 +1,22 @@
+2001-04-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-accounts.c (pgp_path_changed): Updated for changes to PGP
+	code.
+
+	* component-factory.c (owner_set_cb): Don't init openpgp anymore
+	because we don't need it.
+
+	* mail-crypto.c: Simply wrap the camel-pgp-mime functions (also
+	renamed the functions to be prefixed with mail_crypto).
+
+	* mail-format.c (handle_multipart_signed): Update to use
+	camel_pgp_mime_is_rfc2015_signed() and other camel-pgp-mime
+	functions.
+	(handle_multipart_encrypted): Same but for rfc2015_encrypted.
+	(decode_pgp): Updated to use camel-pgp-context
+	(try_inline_pgp): Updated to use camel-pgp-context's.
+	(try_inline_pgp_sig): Same.
+
 2001-04-11  Dan Winship  <danw@ximian.com>
 
 	* mail-format.c (handle_text_plain): Only look for special

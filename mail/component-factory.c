@@ -45,7 +45,6 @@
 #include "mail-mt.h"
 #include "mail-importer.h"
 #include "mail-vfolder.h"             /* vfolder_create_storage */
-#include "openpgp-utils.h"
 
 #include "component-factory.h"
 
@@ -209,8 +208,6 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	mail_session_init ();
 	
 	mail_config_init ();
-	
-	openpgp_init (mail_config_get_pgp_path (), mail_config_get_pgp_type ());
 	
 	storages_hash = g_hash_table_new (NULL, NULL);
 	
