@@ -68,7 +68,8 @@ e_table_state_to_header (GtkWidget *widget, ETableHeader *full_header, ETableSta
 
 static ETableCol *
 et_col_spec_to_col (ETableColumnSpecification *col_spec,
-		    ETableExtras              *ete)
+		    ETableExtras              *ete,
+		    const char                *domain)
 {
 	ETableCol *col = NULL;
 	ECell *cell = NULL;
@@ -83,6 +84,8 @@ et_col_spec_to_col (ETableColumnSpecification *col_spec,
 		search = e_table_extras_get_search(ete, col_spec->search);
 
 	if (cell && compare) {
+		const char *title = dgettext (domain, col_spec->title);
+
 		if (col_spec->pixbuf && *col_spec->pixbuf) {
 			GdkPixbuf *pixbuf;
 
@@ -90,7 +93,7 @@ et_col_spec_to_col (ETableColumnSpecification *col_spec,
 				ete, col_spec->pixbuf);
 			if (pixbuf) {
 				col = e_table_col_new_with_pixbuf (
-					col_spec->model_col, gettext (col_spec->title),
+					col_spec->model_col, title,
 					pixbuf, col_spec->expansion,
 					col_spec->minimum_width,
 					cell, compare, col_spec->resizable, col_spec->disabled, col_spec->priority);
@@ -98,7 +101,7 @@ et_col_spec_to_col (ETableColumnSpecification *col_spec,
 		}
 		if (col == NULL && col_spec->title && *col_spec->title) {
 			col = e_table_col_new (
-				col_spec->model_col, gettext (col_spec->title),
+				col_spec->model_col, title,
 				col_spec->expansion, col_spec->minimum_width,
 				cell, compare, col_spec->resizable, col_spec->disabled, col_spec->priority);
 		}
@@ -121,7 +124,7 @@ e_table_spec_to_full_header (ETableSpecification *spec,
 
 	for (column = 0; spec->columns[column]; column++) {
 		ETableCol *col = et_col_spec_to_col (
-			spec->columns[column], ete);
+			spec->columns[column], ete, spec->domain);
 
 		if (col)
 			e_table_header_add_column (nh, col, -1);

@@ -74,9 +74,13 @@ config_destroy (GtkObject *object)
 	gtk_object_unref (GTK_OBJECT (config->source_state));
 	gtk_object_unref (GTK_OBJECT (config->source_spec));
 	g_free (config->header);
+	config->header = NULL;
 
 	g_slist_free (config->column_names);
 	config->column_names = NULL;
+
+	g_free (config->domain);
+	config->domain = NULL;
 	
 	GTK_OBJECT_CLASS (config_parent_class)->destroy (object);
 }
@@ -132,6 +136,8 @@ config_class_init (GtkObjectClass *object_class)
 
 	gtk_object_add_arg_type ("ETableConfig::state", E_TABLE_STATE_TYPE,
 				 GTK_ARG_READABLE, ARG_STATE);
+
+	glade_gnome_init ();
 }
 
 static ETableColumnSpecification *
@@ -222,7 +228,7 @@ update_sort_and_group_config_dialog (ETableConfig *config, gboolean is_sort)
 				continue;
 			}
 
-			text = gettext (column->title);
+			text = dgettext (config->domain, column->title);
 
 			/*
 			 * Update radio buttons
@@ -278,7 +284,7 @@ config_sort_info_update (ETableConfig *config)
 			continue;
 		}
 		
-		g_string_append (res, gettext ((column)->title));
+		g_string_append (res, dgettext (config->domain, (column)->title));
 		g_string_append_c (res, ' ');
 		g_string_append (
 			res,
@@ -319,8 +325,8 @@ config_group_info_update (ETableConfig *config)
 			g_warning ("Could not find model column in specification");
 			continue;
 		}
-		
-		g_string_append (res, gettext ((column)->title));
+
+		g_string_append (res, dgettext (config->domain, (column)->title));
 		g_string_append_c (res, ' ');
 		g_string_append (
 			res,
@@ -368,8 +374,8 @@ config_fields_info_update (ETableConfig *config)
 
 			if (config->state->columns [i] != (*column)->model_col)
 				continue;
-			
-			g_string_append (res, gettext ((*column)->title));
+
+			g_string_append (res, dgettext (config->domain, (*column)->title));
 			if (column [1])
 				g_string_append (res, ", ");
 		}
@@ -496,12 +502,13 @@ create_global_store (ETableConfig *config)
 	}
 }
 
-char *spec = "<ETableSpecification no-headers=\"true\" cursor-mode=\"line\" draw-grid=\"false\" draw-focus=\"true\" selection-mode=\"browse\"> \
-  <ETableColumn model_col= \"0\" _title=\"Name\" minimum_width=\"30\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableState> <column source=\"0\"/> \
-  <grouping/> \
-  </ETableState> \
-  </ETableSpecification>";
+char *spec = "<ETableSpecification gettext-domain=\"" E_I18N_DOMAIN "\" no-headers=\"true\" cursor-mode=\"line\" "
+    " draw-grid=\"false\" draw-focus=\"true\" selection-mode=\"browse\">"
+  "<ETableColumn model_col= \"0\" _title=\"Name\" minimum_width=\"30\" resizable=\"true\" cell=\"string\" compare=\"string\"/>"
+  "<ETableState> <column source=\"0\"/>"
+  "<grouping/>"
+  "</ETableState>"
+  "</ETableSpecification>";
 
 GtkWidget *e_table_proxy_etable_shown_new (void);
 
@@ -680,9 +687,8 @@ configure_sort_dialog (ETableConfig *config, GladeXML *gui)
 		char *label = l->data;
 
 		for (i = 0; i < 4; i++){
-			gtk_combo_text_add_item (
-				config->sort [i].combo,
-				gettext (label), label);
+			gtk_combo_text_add_item (config->sort [i].combo,
+						 dgettext (config->domain, label), label);
 		}
 	}
 
@@ -792,7 +798,7 @@ configure_group_dialog (ETableConfig *config, GladeXML *gui)
 		for (i = 0; i < 4; i++){
 			gtk_combo_text_add_item (
 				config->group [i].combo,
-				gettext (label), label);
+				dgettext (config->domain, label), label);
 		}
 	}
 
@@ -996,9 +1002,9 @@ setup_gui (ETableConfig *config)
 	create_global_store (config);
 
 	if (e_table_sort_info_get_can_group (config->state->sort_info)) {
-		gui = glade_xml_new_with_domain (ETABLE_GLADEDIR "/e-table-config.glade", NULL, PACKAGE);
+		gui = glade_xml_new_with_domain (ETABLE_GLADEDIR "/e-table-config.glade", NULL, E_I18N_DOMAIN);
 	} else {
-		gui = glade_xml_new_with_domain (ETABLE_GLADEDIR "/e-table-config-no-group.glade", NULL, PACKAGE);
+		gui = glade_xml_new_with_domain (ETABLE_GLADEDIR "/e-table-config-no-group.glade", NULL, E_I18N_DOMAIN);
 	}
 
 	gtk_object_unref (GTK_OBJECT (global_store));
@@ -1052,7 +1058,7 @@ setup_gui (ETableConfig *config)
 static void
 config_init (ETableConfig *config)
 {
-	glade_gnome_init ();
+	config->domain = NULL;
 }
 
 ETableConfig *
@@ -1076,6 +1082,8 @@ e_table_config_construct (ETableConfig        *config,
 	gtk_object_ref (GTK_OBJECT (config->source_state));
 
 	config->state = e_table_state_duplicate (state);
+
+	config->domain = g_strdup (spec->domain);
 
 	for (column = config->source_spec->columns; *column; column++){
 		char *label = (*column)->title;

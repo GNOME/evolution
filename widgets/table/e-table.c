@@ -327,6 +327,10 @@ et_destroy (GtkObject *object)
 	}
 
 	g_free(et->click_to_add_message);
+	et->click_to_add_message = NULL;
+
+	g_free(et->domain);
+	et->domain = NULL;
 
 	(*parent_class->destroy)(object);
 }
@@ -447,6 +451,7 @@ e_table_init (GtkObject *object)
 	e_table->horizontal_resize      = FALSE;
 
 	e_table->click_to_add_message   = NULL;
+	e_table->domain                 = NULL;
 
 	e_table->drag_get_data_row      = -1;
 	e_table->drag_get_data_col      = -1;
@@ -1372,9 +1377,11 @@ et_real_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 	else
 		ete = e_table_extras_new();
 
+	e_table->domain = g_strdup (specification->domain);
+
 	e_table->use_click_to_add = specification->click_to_add;
 	e_table->use_click_to_add_end = specification->click_to_add_end;
-	e_table->click_to_add_message = e_utf8_from_locale_string (gettext (specification->click_to_add_message));
+	e_table->click_to_add_message = e_utf8_from_locale_string (dgettext (e_table->domain, specification->click_to_add_message));
 	e_table->alternating_row_colors = specification->alternating_row_colors;
 	e_table->horizontal_draw_grid = specification->horizontal_draw_grid;
 	e_table->vertical_draw_grid = specification->vertical_draw_grid;

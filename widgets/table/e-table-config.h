@@ -82,6 +82,7 @@ typedef struct {
 	ETableWithout        *available_model;
 	ETable               *shown;
 	ETableSubsetVariable *shown_model;
+	char *domain;
 
 	/*
 	 * List of valid column names

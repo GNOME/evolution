@@ -22,12 +22,15 @@
  */
 
 #include <config.h>
+
+#include "gal-view-instance-save-as-dialog.h"
+
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-stock.h>
-#include "gal-view-instance-save-as-dialog.h"
 #include "gal-define-views-model.h"
 #include "gal-view-new-dialog.h"
 #include <gal/e-table/e-table-scrolled.h>
+#include <gal/util/e-i18n.h>
 
 static GnomeDialogClass *parent_class = NULL;
 #define PARENT_TYPE gnome_dialog_get_type()
@@ -218,7 +221,7 @@ gal_view_instance_save_as_dialog_init (GalViewInstanceSaveAsDialog *dialog)
 
 /* For use from libglade. */
 /* ETable creation */
-#define SPEC "<ETableSpecification no-header=\"true\" cursor-mode=\"line\" draw-grid=\"false\" selection-mode=\"single\">" \
+#define SPEC "<ETableSpecification no-header=\"true\" cursor-mode=\"line\" draw-grid=\"false\" selection-mode=\"single\" gettext-domain=\"" E_I18N_DOMAIN "\">" \
 	     "<ETableColumn model_col= \"0\" _title=\"Name\" expansion=\"1.0\" minimum_width=\"18\" resizable=\"true\" cell=\"string\" compare=\"string\"/>" \
              "<ETableState> <column source=\"0\"/> <grouping> </grouping> </ETableState>" \
 	     "</ETableSpecification>"

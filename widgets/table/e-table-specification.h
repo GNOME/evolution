@@ -61,6 +61,7 @@ typedef struct {
 	ECursorMode cursor_mode;
 
 	char *click_to_add_message;
+	char *domain;
 } ETableSpecification;
 
 typedef struct {

@@ -23,11 +23,14 @@
  */
 
 #include <config.h>
+
+#include "e-completion-view.h"
+
 #include <math.h>
 #include <gdk/gdkkeysyms.h>
 #include <gal/e-table/e-table-simple.h>
 #include <gal/e-table/e-table-scrolled.h>
-#include "e-completion-view.h"
+#include <gal/util/e-i18n.h>
 
 enum {
 	E_COMPLETION_VIEW_NONEMPTY,
@@ -677,7 +680,7 @@ lost_completion_cb (ECompletion *completion, ECompletionMatch *match, gpointer u
 /*** Table Callbacks ***/
 
 static char *simple_spec = 
-"<ETableSpecification no-headers=\"true\" draw-grid=\"false\" cursor-mode=\"line\" alternating-row-colors=\"false\">"
+"<ETableSpecification no-headers=\"true\" draw-grid=\"false\" cursor-mode=\"line\" alternating-row-colors=\"false\" gettext-domain=\"" E_I18N_DOMAIN "\">"
 "  <ETableColumn model_col=\"0\" _title=\"Node\" expansion=\"1.0\" "
 "         minimum_width=\"16\" resizable=\"true\" cell=\"string\" "
 "         compare=\"string\"/> "

@@ -45,8 +45,12 @@ BEGIN_GNOME_DECLS
 #    undef _
 #    ifdef GNOME_EXPLICIT_TRANSLATION_DOMAIN
 #        define _(String) dgettext (GNOME_EXPLICIT_TRANSLATION_DOMAIN, String)
+/* No parentheses allowed here since that breaks string concatenation. */
+#        define E_I18N_DOMAIN GNOME_EXPLICIT_TRANSLATION_DOMAIN
 #    else
 #        define _(String) dgettext (PACKAGE, String)
+/* No parentheses allowed here since that breaks string concatenation. */
+#        define E_I18N_DOMAIN PACKAGE
 #    endif
 #    ifdef gettext_noop
 #        define N_(String) gettext_noop (String)
@@ -62,6 +66,8 @@ BEGIN_GNOME_DECLS
 #    define bindtextdomain(Domain,Directory) (Domain)
 #    define _(String) (String)
 #    define N_(String) (String)
+/* No parentheses allowed here since that breaks string concatenation. */
+#    define E_I18N_DOMAIN ""
 #endif
 
 /*
