@@ -33,6 +33,7 @@
 #include "camel-imap4-engine.h"
 #include "camel-imap4-stream.h"
 #include "camel-imap4-command.h"
+#include "camel-imap4-summary.h"
 #include "camel-imap4-store-summary.h"
 
 #include "camel-imap4-utils.h"
