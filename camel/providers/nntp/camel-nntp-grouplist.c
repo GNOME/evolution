@@ -37,6 +37,7 @@ camel_nntp_get_grouplist_from_server (CamelNNTPStore *store, CamelException *ex)
 	gboolean done = FALSE;
 	CamelNNTPGroupList *list;
 
+	CAMEL_NNTP_STORE_LOCK(store);
 	status = camel_nntp_command (store, ex, NULL,
 				     "LIST");
 
@@ -73,6 +74,7 @@ camel_nntp_get_grouplist_from_server (CamelNNTPStore *store, CamelException *ex)
 			list->group_list = g_list_prepend (list->group_list, entry);
 		}
 	}
+	CAMEL_NNTP_STORE_UNLOCK(store);
 
 	list->group_list = g_list_reverse(list->group_list);
 	return list;

@@ -63,9 +63,13 @@ static gboolean ensure_news_dir_exists (CamelNNTPStore *store);
 static void
 camel_nntp_store_get_extensions (CamelNNTPStore *store, CamelException *ex)
 {
+	int rc;
+
 	store->extensions = 0;
 
-	if (camel_nntp_command (store, ex, NULL, "LIST EXTENSIONS") == NNTP_LIST_FOLLOWS) {
+	CAMEL_NNTP_STORE_LOCK(store);
+	rc = camel_nntp_command(store, ex, NULL, "LIST EXTENSIONS");
+	if (rc == NNTP_LIST_FOLLOWS || rc == NNTP_EXTENSIONS_SUPPORTED) {
 		gboolean done = FALSE;
 		CamelException ex;
 
@@ -98,6 +102,7 @@ camel_nntp_store_get_extensions (CamelNNTPStore *store, CamelException *ex)
 			g_free (line);
 		}
 	}
+	CAMEL_NNTP_STORE_UNLOCK(store);
 
 #ifdef DUMP_EXTENSIONS
 	g_print ("NNTP Extensions:");
@@ -122,6 +127,7 @@ camel_nntp_store_get_overview_fmt (CamelNNTPStore *store, CamelException *ex)
 	int i;
 	gboolean done = FALSE;
 	
+	CAMEL_NNTP_STORE_LOCK(store);
 	status = camel_nntp_command (store, ex, NULL,
 				     "LIST OVERVIEW.FMT");
 
@@ -210,6 +216,7 @@ camel_nntp_store_get_overview_fmt (CamelNNTPStore *store, CamelException *ex)
 			store->extensions &= ~CAMEL_NNTP_EXT_OVER;
 		}
 	}
+	CAMEL_NNTP_STORE_UNLOCK(store);
 }
 
 static gboolean
@@ -574,6 +581,9 @@ finalize (CamelObject *object)
 	CamelNNTPStore *nntp_store = CAMEL_NNTP_STORE (object);
 	if (nntp_store->newsrc)
 		camel_nntp_newsrc_write (nntp_store->newsrc);
+#ifdef ENABLE_THREADS
+	e_mutex_destroy(nntp_store->command_lock);
+#endif
 }
 
 static void
@@ -608,11 +618,16 @@ static void
 camel_nntp_store_init (gpointer object, gpointer klass)
 {
 	CamelRemoteStore *remote_store = CAMEL_REMOTE_STORE (object);
+	CamelNNTPStore *nntp_store = CAMEL_NNTP_STORE(object);
 	CamelStore *store = CAMEL_STORE (object);
 
 	remote_store->default_port = NNTP_PORT;
 
 	store->flags = CAMEL_STORE_SUBSCRIPTIONS;
+
+#ifdef ENABLE_THREADS
+	nntp_store->command_lock = e_mutex_new(E_MUTEX_REC);
+#endif
 }
 
 CamelType

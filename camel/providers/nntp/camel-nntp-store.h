@@ -35,11 +35,16 @@ extern "C" {
 #include "camel-nntp-newsrc.h"
 #include "camel-nntp-types.h"
 
+#include "config.h"
+
+#ifdef ENABLE_THREADS
+#include "e-util/e-msgport.h"
+#endif
+
 #define CAMEL_NNTP_STORE_TYPE     (camel_nntp_store_get_type ())
 #define CAMEL_NNTP_STORE(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_NNTP_STORE_TYPE, CamelNNTPStore))
 #define CAMEL_NNTP_STORE_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), CAMEL_NNTP_STORE_TYPE, CamelNNTPStoreClass))
 #define CAMEL_IS_NNTP_STORE(o)    (CAMEL_CHECK_TYPE((o), CAMEL_NNTP_STORE_TYPE))
-
 
 enum {
 	CAMEL_NNTP_OVER_FROM,
@@ -79,6 +84,9 @@ struct CamelNNTPStore {
 	CamelNNTPNewsrc *newsrc;
 	CamelNNTPGroupList *group_list;
 
+#ifdef ENABLE_THREADS
+	EMutex *command_lock;
+#endif
 };
 
 struct CamelNNTPStoreClass {
@@ -86,6 +94,13 @@ struct CamelNNTPStoreClass {
 
 };
 
+#ifdef ENABLE_THREADS
+#define CAMEL_NNTP_STORE_LOCK(f) (e_mutex_lock(((CamelNNTPStore *) f)->command_lock))
+#define CAMEL_NNTP_STORE_UNLOCK(f) (e_mutex_unlock(((CamelNNTPStore *) f)->command_lock))
+#else
+#define CAMEL_NNTP_STORE_LOCK(f)
+#define CAMEL_NNTP_STORE_UNLOCK(f)
+#endif
 
 /* public methods */
 void camel_nntp_store_open (CamelNNTPStore *store, CamelException *ex);
