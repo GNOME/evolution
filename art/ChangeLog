@@ -1,3 +1,7 @@
+2001-11-05  JP Rosevear  <jpr@ximian.com>
+
+	* Makefile.am (EXTRA_DIST): dist the glade data
+
 2001-11-01  Ettore Perazzoli  <ettore@ximian.com>
 
 	* Makefile.am (gladedir): New.

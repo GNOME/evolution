@@ -226,6 +226,7 @@ EXTRA_DIST = \
 	$(images_DATA)			\
 	$(buttons_DATA)			\
 	$(conduits_DATA)		\
+	$(glade_DATA)			\
 	$(appicon_DATA)
 
 
