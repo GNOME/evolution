@@ -1,3 +1,7 @@
+2004-05-03  Not Zed  <NotZed@Ximian.com>
+
+	* e-msg-composer.c: header cleanups.
+
 2004-04-28  Not Zed  <NotZed@Ximian.com>
 
 	** Changed error messages to EError.

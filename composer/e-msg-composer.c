@@ -50,6 +50,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/wait.h>
+#include <fcntl.h>
 #include <unistd.h>
 #include <errno.h>
 #include <ctype.h>
@@ -97,11 +98,18 @@
 #include <camel/camel-charset-map.h>
 #include <camel/camel-stream-filter.h>
 #include <camel/camel-mime-filter-charset.h>
+#include <camel/camel-stream-mem.h>
+#include <camel/camel-stream-fs.h>
+#include <camel/camel-mime-filter-tohtml.h>
+#include <camel/camel-multipart-signed.h>
+#include <camel/camel-multipart-encrypted.h>
+#include <camel/camel-string-utils.h>
 #if defined (HAVE_NSS) && defined (SMIME_SUPPORTED)
 #include <camel/camel-smime-context.h>
 #endif
 
 #include "mail/em-utils.h"
+#include "mail/em-composer-utils.h"
 #include "mail/mail-config.h"
 #include "mail/mail-crypto.h"
 #include "mail/mail-tools.h"
