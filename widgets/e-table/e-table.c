@@ -666,6 +666,15 @@ e_table_construct (ETable *e_table, ETableHeader *full_header,
 {
 	xmlDoc *xmlSpec;
 	char *copy;
+
+	g_return_val_if_fail(e_table != NULL, NULL);
+	g_return_val_if_fail(E_IS_TABLE(e_table), NULL);
+	g_return_val_if_fail(full_header != NULL, NULL);
+	g_return_val_if_fail(E_IS_TABLE_HEADER(full_header), NULL);
+	g_return_val_if_fail(etm != NULL, NULL);
+	g_return_val_if_fail(E_IS_TABLE_MODEL(etm), NULL);
+	g_return_val_if_fail(spec != NULL, NULL);
+
 	copy = g_strdup (spec);
 
 	xmlSpec = xmlParseMemory (copy, strlen(copy));
@@ -682,6 +691,14 @@ e_table_construct_from_spec_file (ETable *e_table, ETableHeader *full_header, ET
 {
 	xmlDoc *xmlSpec;
 
+	g_return_val_if_fail(e_table != NULL, NULL);
+	g_return_val_if_fail(E_IS_TABLE(e_table), NULL);
+	g_return_val_if_fail(full_header != NULL, NULL);
+	g_return_val_if_fail(E_IS_TABLE_HEADER(full_header), NULL);
+	g_return_val_if_fail(etm != NULL, NULL);
+	g_return_val_if_fail(E_IS_TABLE_MODEL(etm), NULL);
+	g_return_val_if_fail(filename != NULL, NULL);
+
 	xmlSpec = xmlParseFile (filename);
 	e_table = et_real_construct (e_table, full_header, etm, xmlSpec);
 	xmlFreeDoc (xmlSpec);
@@ -694,6 +711,12 @@ e_table_new (ETableHeader *full_header, ETableModel *etm, const char *spec)
 {
 	ETable *e_table;
 
+	g_return_val_if_fail(full_header != NULL, NULL);
+	g_return_val_if_fail(E_IS_TABLE_HEADER(full_header), NULL);
+	g_return_val_if_fail(etm != NULL, NULL);
+	g_return_val_if_fail(E_IS_TABLE_MODEL(etm), NULL);
+	g_return_val_if_fail(spec != NULL, NULL);
+
 	e_table = gtk_type_new (e_table_get_type ());
 
 	e_table = e_table_construct (e_table, full_header, etm, spec);
@@ -705,6 +728,12 @@ GtkWidget *
 e_table_new_from_spec_file (ETableHeader *full_header, ETableModel *etm, const char *filename)
 {
 	ETable *e_table;
+
+	g_return_val_if_fail(full_header != NULL, NULL);
+	g_return_val_if_fail(E_IS_TABLE_HEADER(full_header), NULL);
+	g_return_val_if_fail(etm != NULL, NULL);
+	g_return_val_if_fail(E_IS_TABLE_MODEL(etm), NULL);
+	g_return_val_if_fail(filename != NULL, NULL);
 
 	e_table = gtk_type_new (e_table_get_type ());
 
@@ -790,6 +819,9 @@ e_table_get_specification (ETable *e_table)
 	xmlChar *buffer;
 	gint size;
 
+	g_return_val_if_fail(e_table != NULL, NULL);
+	g_return_val_if_fail(E_IS_TABLE(e_table), NULL);
+
 	doc = et_build_tree (e_table);
 	xmlDocDumpMemory (doc, &buffer, &size);
 	xmlFreeDoc (doc);
@@ -802,6 +834,10 @@ e_table_save_specification (ETable *e_table, gchar *filename)
 {
 	xmlDoc *doc = et_build_tree (e_table);
 
+	g_return_if_fail(e_table != NULL);
+	g_return_if_fail(E_IS_TABLE(e_table));
+	g_return_if_fail(filename != NULL);
+
 	xmlSaveFile (filename, doc);
 	xmlFreeDoc (doc);
 }
@@ -809,6 +845,10 @@ e_table_save_specification (ETable *e_table, gchar *filename)
 void
 e_table_set_cursor_row (ETable *e_table, int row)
 {
+	g_return_if_fail(e_table != NULL);
+	g_return_if_fail(E_IS_TABLE(e_table));
+	g_return_if_fail(row >= 0);
+
 	row = e_table_sorter_model_to_sorted(e_table->sorter, row);
 	if (row != -1)
 		e_table_group_set_cursor_row(e_table->group, row);
@@ -817,7 +857,11 @@ e_table_set_cursor_row (ETable *e_table, int row)
 int
 e_table_get_cursor_row (ETable *e_table)
 {
-	int row = e_table_group_get_cursor_row(e_table->group);
+	int row;
+	g_return_val_if_fail(e_table != NULL, -1);
+	g_return_val_if_fail(E_IS_TABLE(e_table), -1);
+
+	row = e_table_group_get_cursor_row(e_table->group);
 	row = e_table_sorter_sorted_to_model(e_table->sorter, row);
 	return row;
 }
@@ -827,6 +871,9 @@ e_table_selected_row_foreach     (ETable *e_table,
 				  ETableForeachFunc callback,
 				  gpointer closure)
 {
+	g_return_if_fail(e_table != NULL);
+	g_return_if_fail(E_IS_TABLE(e_table));
+
 	e_table_selection_model_foreach(e_table->selection,
 					callback,
 					closure);
@@ -836,6 +883,9 @@ e_table_selected_row_foreach     (ETable *e_table,
 EPrintable *
 e_table_get_printable (ETable *e_table)
 {
+	g_return_val_if_fail(e_table != NULL, NULL);
+	g_return_val_if_fail(E_IS_TABLE(e_table), NULL);
+
 	return e_table_group_get_printable(e_table->group);
 }
 
@@ -939,6 +989,9 @@ gint
 e_table_get_next_row      (ETable *e_table,
 			   gint    model_row)
 {
+	g_return_val_if_fail(e_table != NULL, -1);
+	g_return_val_if_fail(E_IS_TABLE(e_table), -1);
+
 	if (e_table->sorter) {
 		int i;
 		i = e_table_sorter_model_to_sorted(e_table->sorter, model_row);
@@ -958,6 +1011,9 @@ gint
 e_table_get_prev_row      (ETable *e_table,
 			   gint    model_row)
 {
+	g_return_val_if_fail(e_table != NULL, -1);
+	g_return_val_if_fail(E_IS_TABLE(e_table), -1);
+
 	if (e_table->sorter) {
 		int i;
 		i = e_table_sorter_model_to_sorted(e_table->sorter, model_row);
@@ -974,6 +1030,9 @@ gint
 e_table_model_to_view_row        (ETable *e_table,
 				  gint    model_row)
 {
+	g_return_val_if_fail(e_table != NULL, -1);
+	g_return_val_if_fail(E_IS_TABLE(e_table), -1);
+
 	if (e_table->sorter)
 		return e_table_sorter_model_to_sorted(e_table->sorter, model_row);
 	else
@@ -984,6 +1043,9 @@ gint
 e_table_view_to_model_row        (ETable *e_table,
 				  gint    view_row)
 {
+	g_return_val_if_fail(e_table != NULL, -1);
+	g_return_val_if_fail(E_IS_TABLE(e_table), -1);
+
 	if (e_table->sorter)
 		return e_table_sorter_sorted_to_model(e_table->sorter, view_row);
 	else
@@ -1066,6 +1128,9 @@ void e_table_drag_get_data (ETable         *table,
 			    GdkAtom         target,
 			    guint32         time)
 {
+	g_return_if_fail(table != NULL);
+	g_return_if_fail(E_IS_TABLE(table));
+
 	table->drag_get_data_row = row;
 	table->drag_get_data_col = col;
 	gtk_drag_get_data(GTK_WIDGET(table),
@@ -1079,10 +1144,14 @@ void e_table_drag_highlight   (ETable     *table,
 			       int         row,
 			       int         col) /* col == -1 to highlight entire row. */
 {
+	g_return_if_fail(table != NULL);
+	g_return_if_fail(E_IS_TABLE(table));
 }
 
 void e_table_drag_unhighlight (ETable     *table)
 {
+	g_return_if_fail(table != NULL);
+	g_return_if_fail(E_IS_TABLE(table));
 }
 
 void e_table_drag_dest_set   (ETable               *table,
@@ -1091,6 +1160,9 @@ void e_table_drag_dest_set   (ETable               *table,
 			      gint                  n_targets,
 			      GdkDragAction         actions)
 {
+	g_return_if_fail(table != NULL);
+	g_return_if_fail(E_IS_TABLE(table));
+
 	gtk_drag_dest_set(GTK_WIDGET(table),
 			  flags,
 			  targets,
@@ -1103,6 +1175,9 @@ void e_table_drag_dest_set_proxy (ETable         *table,
 				  GdkDragProtocol protocol,
 				  gboolean        use_coordinates)
 {
+	g_return_if_fail(table != NULL);
+	g_return_if_fail(E_IS_TABLE(table));
+
 	gtk_drag_dest_set_proxy(GTK_WIDGET(table),
 				proxy_window,
 				protocol,
@@ -1115,6 +1190,9 @@ void e_table_drag_dest_set_proxy (ETable         *table,
 
 void e_table_drag_dest_unset (GtkWidget          *widget)
 {
+	g_return_if_fail(widget != NULL);
+	g_return_if_fail(E_IS_TABLE(widget));
+
 	gtk_drag_dest_unset(widget);
 }
 
@@ -1127,10 +1205,12 @@ void e_table_drag_source_set  (ETable               *table,
 			       GdkDragAction         actions)
 {
 	ETableDragSourceSite *site;
-	GtkWidget *canvas = GTK_WIDGET(table->table_canvas);
+	GtkWidget *canvas;
 
-	g_return_if_fail (table != NULL);
+	g_return_if_fail(table != NULL);
+	g_return_if_fail(E_IS_TABLE(table));
 
+	canvas = GTK_WIDGET(table->table_canvas);
 	site = table->site;
 
 	gtk_widget_add_events (canvas,
@@ -1171,6 +1251,7 @@ void e_table_drag_source_unset (ETable        *table)
 	ETableDragSourceSite *site;
 
 	g_return_if_fail (table != NULL);
+	g_return_if_fail (E_IS_TABLE(table));
 
 	site = table->site;
 
@@ -1195,6 +1276,9 @@ e_table_drag_begin (ETable            *table,
 		    gint               button,
 		    GdkEvent          *event)
 {
+	g_return_val_if_fail (table != NULL, NULL);
+	g_return_val_if_fail (E_IS_TABLE(table), NULL);
+
 	table->drag_row = row;
 	table->drag_col = col;
 
