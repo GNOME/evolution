@@ -213,8 +213,9 @@ mail_account_gui_auto_detect_extra_conf (MailAccountGui *gui)
 {
 	MailAccountGuiService *service = &gui->source;
 	CamelProvider *prov = service->provider;
-	GHashTable *settings, *auto_detected;
+	GHashTable *auto_detected;
 	GtkWidget *path;
+	CamelURL *url;
 	char *text;
 	
 	if (!prov)
@@ -226,27 +227,40 @@ mail_account_gui_auto_detect_extra_conf (MailAccountGui *gui)
 	else
 		path = NULL;
 	
-	settings = g_hash_table_new (g_str_hash, g_str_equal);
+	url = g_new0 (CamelURL, 1);
+	camel_url_set_protocol (url, prov->protocol);
+	
 	if (CAMEL_PROVIDER_ALLOWS (prov, CAMEL_URL_PART_HOST)) {
-		text = gtk_entry_get_text (service->hostname);
-		if (text)
-			g_hash_table_insert (settings, "hostname", text);
+		text = g_strdup (gtk_entry_get_text (service->hostname));
+		if (*text) {
+			char *port;
+			
+			port = strchr (text, ':');
+			if (port) {
+				*port++ = '\0';
+				camel_url_set_port (url, atoi (port));
+			}
+			
+			camel_url_set_host (url, text);
+		}
+		g_free (text);
 	}
 	
 	if (CAMEL_PROVIDER_ALLOWS (prov, CAMEL_URL_PART_USER)) {
-		text = gtk_entry_get_text (service->username);
-		if (text)
-			g_hash_table_insert (settings, "username", text);
+		text = g_strdup (gtk_entry_get_text (service->username));
+		g_strstrip (text);
+		camel_url_set_user (url, text);
+		g_free (text);
 	}
 	
 	if (path && CAMEL_PROVIDER_ALLOWS (prov, CAMEL_URL_PART_PATH)) {
 		text = gtk_entry_get_text (service->path);
-		if (text)
-			g_hash_table_insert (settings, "path", text);
+		if (text && *text)
+			camel_url_set_path (url, text);
 	}
 	
-	camel_provider_auto_detect (prov, settings, &auto_detected, NULL);
-	g_hash_table_destroy (settings);
+	camel_provider_auto_detect (prov, url, &auto_detected, NULL);
+	camel_url_free (url);
 	
 	if (auto_detected) {
 		CamelProviderConfEntry *entries;

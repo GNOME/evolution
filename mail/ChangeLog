@@ -4,6 +4,9 @@
 	whitespace from the username because users sometimes accidently
 	add extra spaces here and there. Fixes bug #24009 (along with a
 	number of other "bugs").
+	(mail_account_gui_auto_detect_extra_conf): Use a CamelURL instead
+	of a GHashTable *settings. Also parse out the port # from the
+	hostname.
 
 2002-04-29  Larry Ewing  <lewing@ximian.com>
 
