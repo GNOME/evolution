@@ -134,7 +134,7 @@ begin_dict_search (ECompletion *complete, const gchar *txt, gint pos, gint limit
 }
 
 static void
-end_dict_search (ECompletion *complete, gboolean finished, gpointer foo)
+end_dict_search (ECompletion *complete, gpointer user_data)
 {
   if (dict_tag != 0) {
     gtk_timeout_remove (dict_tag);
@@ -153,11 +153,23 @@ main (int argc, gchar **argv)
 
   read_dict ();
 
-  complete = e_completion_new (begin_dict_search, end_dict_search, NULL);
+  complete = e_completion_new ();
+  gtk_signal_connect (GTK_OBJECT (complete),
+		      "begin_completion",
+		      GTK_SIGNAL_FUNC (begin_dict_search),
+		      NULL);
+  gtk_signal_connect (GTK_OBJECT (complete),
+		      "end_completion",
+		      GTK_SIGNAL_FUNC (end_dict_search),
+		      NULL);
+  gtk_signal_connect (GTK_OBJECT (complete),
+		      "cancel_completion",
+		      GTK_SIGNAL_FUNC (end_dict_search),
+		      NULL);
 
   win = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   entry = e_entry_new ();
-  e_entry_enable_completion_full (E_ENTRY (entry), complete, 100, NULL);
+  e_entry_enable_completion_full (E_ENTRY (entry), complete, -1, NULL);
   e_entry_set_editable (E_ENTRY (entry), TRUE);
 
   gtk_container_add (GTK_CONTAINER (win), entry);

@@ -116,6 +116,7 @@ struct _EEntryPrivate {
 	gchar *pre_browse_text;
 	gint completion_delay;
 	guint completion_delay_tag;
+	gboolean ptr_grab;
 
 	guint draw_borders : 1;
 };
@@ -200,8 +201,8 @@ e_entry_proxy_changed (EText *text, EEntry *entry)
 		e_entry_cancel_delayed_completion (entry);
 		e_entry_show_popup (entry, FALSE);
 	} else if (entry->priv->popup_is_visible)
-		e_entry_start_completion (entry);
-	else if (entry->priv->completion && entry->priv->completion_delay >= 0) 
+		e_entry_start_delayed_completion (entry, 1);
+	else if (entry->priv->completion)
 		e_entry_start_delayed_completion (entry, entry->priv->completion_delay);
 
 	gtk_signal_emit (GTK_OBJECT (entry), e_entry_signals [E_ENTRY_CHANGED]);
@@ -261,7 +262,7 @@ e_entry_init (GtkObject *object)
 
 	/*
 	 * Proxy functions: we proxy the changed and activate signals
-	 * from the item to outselves
+	 * from the item to ourselves
 	 */
 	entry->priv->changed_proxy_tag = gtk_signal_connect (GTK_OBJECT (entry->priv->item),
 							     "changed",
@@ -272,7 +273,7 @@ e_entry_init (GtkObject *object)
 							      GTK_SIGNAL_FUNC (e_entry_proxy_activate),
 							      entry);
 
-	entry->priv->completion_delay = -1;
+	entry->priv->completion_delay = 1;
 }
 
 /**
@@ -406,27 +407,45 @@ e_entry_show_popup (EEntry *entry, gboolean visible)
 
 	if (visible) {
 		GtkAllocation *dim = &(GTK_WIDGET (entry)->allocation);
-		gint x, y;
+		gint x, y, fudge;
+		const GdkEventMask grab_mask = (GdkEventMask)GDK_BUTTON_PRESS_MASK | GDK_BUTTON_MOTION_MASK | GDK_BUTTON_RELEASE_MASK;
 
 		/* Figure out where to put our popup. */
 		gdk_window_get_origin (GTK_WIDGET (entry)->window, &x, &y);
 		x += dim->x;
 		y += dim->height + dim->y;
 
+		/* Put our popup slightly to the right and up, to try to give a visual cue that this popup
+		 is tied to this entry.  Otherwise one-row popups can sort of "blend" with an entry
+		 directly below. */
+		fudge = MAX (dim->height/10, 3); /* just in case we are using a really big font, etc. */
+		x += 2*fudge;
+		y -= fudge;
+
 		gtk_widget_set_uposition (pop, x, y);
 		e_completion_view_set_width (E_COMPLETION_VIEW (entry->priv->completion_view), dim->width);
 
 		gtk_widget_show (pop);
-		gdk_keyboard_grab (GTK_WIDGET (entry)->window, TRUE, GDK_CURRENT_TIME);
-		gdk_pointer_grab (GTK_WIDGET (entry->priv->completion_view)->window, TRUE,
-				  (GdkEventMask) GDK_BUTTON_PRESS_MASK | GDK_BUTTON_MOTION_MASK | GDK_BUTTON_RELEASE_MASK,
-				  NULL, NULL, GDK_CURRENT_TIME);
-		
+
+
+		if (! entry->priv->ptr_grab) {
+			entry->priv->ptr_grab = gdk_pointer_grab (GTK_WIDGET (entry->priv->completion_view)->window, TRUE,
+								  grab_mask, NULL, NULL, GDK_CURRENT_TIME);
+			if (entry->priv->ptr_grab)
+				gtk_grab_add (GTK_WIDGET (entry->priv->completion_view));
+		}
+
 	} else {
 
 		gtk_widget_hide (pop);
-		gdk_keyboard_ungrab (GDK_CURRENT_TIME);
-		gdk_pointer_ungrab (GDK_CURRENT_TIME);
+
+		if (entry->priv->ptr_grab) {
+			gdk_pointer_ungrab (GDK_CURRENT_TIME);
+			gtk_grab_remove (GTK_WIDGET (entry->priv->completion_view));
+		}
+
+		entry->priv->ptr_grab = FALSE;
+
 
 	}
 
@@ -452,11 +471,10 @@ e_entry_start_completion (EEntry *entry)
 	if (e_entry_is_empty (entry))
 		return;
 	
-	if (entry->priv->completion)
-		e_completion_begin_search (entry->priv->completion,
-					   e_entry_get_text (entry),
-					   e_entry_get_position (entry),
-					   0); /* No limit.  Probably a bad idea. */
+	e_completion_begin_search (entry->priv->completion,
+				   e_entry_get_text (entry),
+				   e_entry_get_position (entry),
+				   0); /* No limit.  Probably a bad idea. */
 }
 
 static gboolean
@@ -475,11 +493,7 @@ e_entry_start_delayed_completion (EEntry *entry, gint delay)
 		return;
 
 	e_entry_cancel_delayed_completion (entry);
-
-	if (delay == 0)
-		e_entry_start_completion (entry);
-	else 
-		entry->priv->completion_delay_tag = gtk_timeout_add (delay, start_delayed_cb, entry);
+	entry->priv->completion_delay_tag = gtk_timeout_add (MAX (delay, 1), start_delayed_cb, entry);
 }
 
 static void
@@ -488,7 +502,6 @@ e_entry_cancel_delayed_completion (EEntry *entry)
 	if (entry->priv->completion == NULL)
 		return;
 
-	e_completion_cancel_search (entry->priv->completion); /* just to be sure... */
 	if (entry->priv->completion_delay_tag) {
 		gtk_timeout_remove (entry->priv->completion_delay_tag);
 		entry->priv->completion_delay_tag = 0;
@@ -599,7 +612,8 @@ button_press_cb (GtkWidget *w, GdkEvent *ev, gpointer user_data)
 		}
 	}
 
-	e_entry_show_popup (entry, FALSE);
+	/* Treat this as an unbrowse */
+	unbrowse_cb (E_COMPLETION_VIEW (w), entry);
 }
 
 void
@@ -975,6 +989,9 @@ e_entry_destroy (GtkObject *object)
 	if (entry->priv->completion_view_popup)
 		gtk_widget_destroy (entry->priv->completion_view_popup);
 	g_free (entry->priv->pre_browse_text);
+
+	if (entry->priv->ptr_grab)
+		gdk_pointer_ungrab (GDK_CURRENT_TIME);
 
 	g_free (entry->priv);
 	entry->priv = NULL;

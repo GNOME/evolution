@@ -43,8 +43,6 @@ typedef struct _ECompletion ECompletion;
 typedef struct _ECompletionClass ECompletionClass;
 struct _ECompletionPrivate;
 
-typedef void (*ECompletionBeginFn) (ECompletion *, const gchar *text, gint pos, gint limit, gpointer user_data);
-typedef void (*ECompletionEndFn)   (ECompletion *, gboolean finished, gpointer user_data);
 typedef void (*ECompletionMatchFn) (const gchar *text, double score, gpointer extra_data, gpointer user_data);
 
 struct _ECompletion {
@@ -57,8 +55,8 @@ struct _ECompletionClass {
 	GtkObjectClass parent_class;
 
 	/* Signals */
-	void     (*begin_completion)   (ECompletion *comp);
-	void     (*completion)         (ECompletion *comp, const gchar *text, gpointer extra_data);
+	void     (*begin_completion)   (ECompletion *comp, const gchar *search_text, gint pos, gint limit);
+	void     (*completion)         (ECompletion *comp, const gchar *match_text, gpointer extra_data);
 	void     (*restart_completion) (ECompletion *comp);
 	void     (*cancel_completion)  (ECompletion *comp);
 	void     (*end_completion)     (ECompletion *comp);
@@ -76,8 +74,7 @@ gint         e_completion_match_count     (ECompletion *comp);
 void         e_completion_foreach_match   (ECompletion *comp, ECompletionMatchFn fn, gpointer user_data);
 gpointer     e_completion_find_extra_data (ECompletion *comp, const gchar *text);
 
-void         e_completion_construct    (ECompletion *comp, ECompletionBeginFn, ECompletionEndFn, gpointer user_data);
-ECompletion *e_completion_new          (ECompletionBeginFn, ECompletionEndFn, gpointer user_data);
+ECompletion *e_completion_new (void);
 
 
 
@@ -93,3 +90,4 @@ END_GNOME_DECLS
 
 
 #endif /* E_COMPLETION_H */
+

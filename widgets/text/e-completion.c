@@ -50,11 +50,6 @@ struct _Match {
 };
 
 struct _ECompletionPrivate {
-
-	ECompletionBeginFn begin_search;
-	ECompletionEndFn  end_search;
-	gpointer user_data;
-
 	gboolean searching;
 	gchar *search_text;
 	gint pos;
@@ -115,8 +110,9 @@ e_completion_class_init (ECompletionClass *klass)
 				GTK_RUN_LAST,
 				object_class->type,
 				GTK_SIGNAL_OFFSET (ECompletionClass, begin_completion),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
+				gtk_marshal_NONE__POINTER_INT_INT,
+				GTK_TYPE_NONE, 3,
+				GTK_TYPE_POINTER, GTK_TYPE_INT, GTK_TYPE_INT);
 
 	e_completion_signals[E_COMPLETION_COMPLETION] =
 		gtk_signal_new ("completion",
@@ -259,26 +255,17 @@ e_completion_begin_search (ECompletion *complete, const gchar *text, gint pos, g
 	if (complete->priv->searching)
 		e_completion_cancel_search (complete);
 
-	/* Without one of these, we can't search! */
-	if (complete->priv->begin_search) {
+	g_free (complete->priv->search_text);
+	complete->priv->search_text = g_strdup (text);
 
-		g_free (complete->priv->search_text);
-		complete->priv->search_text = g_strdup (text);
+	complete->priv->pos = pos;
+	complete->priv->searching = TRUE;
 
-		complete->priv->pos = pos;
+	e_completion_clear_matches (complete);
 
-		complete->priv->searching = TRUE;
+	complete->priv->limit = limit > 0 ? limit : G_MAXINT;
 
-		e_completion_clear_matches (complete);
-
-		complete->priv->limit = limit > 0 ? limit : G_MAXINT;
-
-		gtk_signal_emit (GTK_OBJECT (complete), e_completion_signals[E_COMPLETION_BEGIN_COMPLETION]);
-		complete->priv->begin_search (complete, text, pos, limit, complete->priv->user_data);
-		return;
-	}
-
-	g_warning ("Unable to search for \"%s\" - no virtual method specified.", text);
+	gtk_signal_emit (GTK_OBJECT (complete), e_completion_signals[E_COMPLETION_BEGIN_COMPLETION], text, pos, limit);
 }
 
 void
@@ -291,12 +278,9 @@ e_completion_cancel_search (ECompletion *complete)
 	if (!complete->priv->searching)
 		return;
 
-	if (complete->priv->end_search)
-		complete->priv->end_search (complete, FALSE, complete->priv->user_data);
+	gtk_signal_emit (GTK_OBJECT (complete), e_completion_signals[E_COMPLETION_CANCEL_COMPLETION]);
 
 	complete->priv->searching = FALSE;
-
-	gtk_signal_emit (GTK_OBJECT (complete), e_completion_signals[E_COMPLETION_CANCEL_COMPLETION]);
 }
 
 gboolean
@@ -369,25 +353,10 @@ e_completion_find_extra_data (ECompletion *complete, const gchar *text)
 	return NULL;
 }
 
-void
-e_completion_construct (ECompletion *complete, ECompletionBeginFn begin_fn, ECompletionEndFn end_fn, gpointer user_data)
-{
-	g_return_if_fail (complete != NULL);
-	g_return_if_fail (E_IS_COMPLETION (complete));
-
-	complete->priv->begin_search = begin_fn;
-	complete->priv->end_search   = end_fn;
-	complete->priv->user_data    = user_data;
-}
-
 ECompletion *
-e_completion_new (ECompletionBeginFn begin_fn, ECompletionEndFn end_fn, gpointer user_data)
+e_completion_new (void)
 {
-	ECompletion *complete = E_COMPLETION (gtk_type_new (e_completion_get_type ()));
-
-	e_completion_construct (complete, begin_fn, end_fn, user_data);
-
-	return complete;
+	return E_COMPLETION (gtk_type_new (e_completion_get_type ()));
 }
 
 static gint
@@ -501,11 +470,8 @@ e_completion_end_search (ECompletion *complete)
 	if (e_completion_sort_by_score (complete))
 		e_completion_restart (complete);
 
-	if (complete->priv->end_search)
-		complete->priv->end_search (complete, TRUE, complete->priv->user_data);
-	
-	complete->priv->searching = FALSE;
-
 	gtk_signal_emit (GTK_OBJECT (complete), e_completion_signals[E_COMPLETION_END_COMPLETION]);
+
+	complete->priv->searching = FALSE;
 }
 

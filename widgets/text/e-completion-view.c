@@ -305,6 +305,7 @@ e_completion_view_key_press_handler (GtkWidget *w, GdkEventKey *key_event, gpoin
 {
 	ECompletionView *cv = E_COMPLETION_VIEW (user_data);
 	gint dir = 0;
+	gboolean key_handled = TRUE;
 
 	/* Start up a completion.*/
 	if (cv->complete_key && key_event->keyval == cv->complete_key && !cv->editable) {
@@ -332,13 +333,18 @@ e_completion_view_key_press_handler (GtkWidget *w, GdkEventKey *key_event, gpoin
 	case GDK_KP_Up:
 		dir = -1;
 		break;
+		
+	case GDK_Tab:
+		/* Unbrowse, unhandled. */
+		cv->selection = -1;
+		dir = 0;
+		key_handled = FALSE;
+		break;
 
 	case GDK_Return:
 	case GDK_KP_Enter:
 	case GDK_space:
 	case GDK_KP_Space:
-	case GDK_Right:    /* Lynx-style "forward" */
-	case GDK_KP_Right:
 		/* Only handle these key presses if we have an active selection;
 		   otherwise, pass them on. */
 		if (cv->selection >= 0) {
@@ -352,17 +358,6 @@ e_completion_view_key_press_handler (GtkWidget *w, GdkEventKey *key_event, gpoin
 		cv->selection = -1;
 		dir = 0;
 		break;
-
-	case GDK_Left:     /* Lynx-style "back" */
-	case GDK_KP_Left:
-		if (cv->selection >= 0) {
-			/* A hack to "unbrowse" us on these keys if we are browsing. */
-			cv->selection = -1;
-			dir = 0;
-			break;
-		} 
-
-		return FALSE;
 
 	default:
 		return FALSE;
@@ -385,13 +380,14 @@ e_completion_view_key_press_handler (GtkWidget *w, GdkEventKey *key_event, gpoin
 		gtk_signal_emit (GTK_OBJECT (cv), e_completion_view_signals[E_COMPLETION_VIEW_UNBROWSE]);
 
  stop_emission:
-	gtk_signal_emit_stop_by_name (GTK_OBJECT (w), "key_press_event");
+	if (key_handled)
+		gtk_signal_emit_stop_by_name (GTK_OBJECT (w), "key_press_event");
 
-	return TRUE;
+	return key_handled;
 }
 
 static void
-begin_completion_cb (ECompletion *completion, gpointer user_data)
+begin_completion_cb (ECompletion *completion, const gchar *txt, gint pos, gint limit, gpointer user_data)
 {
 	ECompletionView *cv = E_COMPLETION_VIEW (user_data);
 
@@ -405,7 +401,7 @@ static void
 restart_completion_cb (ECompletion *completion, gpointer user_data)
 {
 	/* For now, handle restarts like the beginning of a new completion. */
-	begin_completion_cb (completion, user_data);
+	begin_completion_cb (completion, NULL, 0, 0, user_data);
 }
 
 static void
@@ -557,6 +553,8 @@ e_completion_view_construct (ECompletionView *cv, ECompletion *completion)
 
 	cv->table = e_table_scrolled_new (cv->model, NULL, simple_spec, NULL);
 
+	e_scroll_frame_set_policy (E_SCROLL_FRAME (cv->table), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+
 	frame = gtk_frame_new (NULL);
 
 	gtk_container_add (GTK_CONTAINER (cv), frame);
@@ -655,6 +653,7 @@ e_completion_view_set_width (ECompletionView *cv, gint width)
 		e_table_group_compute_location (e_completion_view_table (cv)->group,
 						&dummy, &line_height, &r, &dummy);
 	}
+
 	if (line_height >= 1000) {
 		/* Something went wrong, so we make a (possibly very lame) guess */
 		line_height = 30;
