@@ -17,14 +17,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.5.93\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-11-05 14:19+0100\n"
-"PO-Revision-Date: 2004-11-05 14:25+0100\n"
-"Last-Translator: Hendrik Brandt <eru@gmx.li>\n"
+"POT-Creation-Date: 2005-01-25 15:43+0100\n"
+"PO-Revision-Date: 2005-01-25 15:40+0100\n"
+"Last-Translator: Hendrik Brandt <heb@gnome-de.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: a11y/addressbook/ea-addressbook-view.c:94
 #: a11y/addressbook/ea-addressbook-view.c:103
@@ -2151,7 +2151,7 @@ msgstr "Bitte wählen Sie ein Bild für diesen Kontakt"
 msgid "No image"
 msgstr "Kein Bild"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2779
+#: addressbook/gui/contact-editor/e-contact-editor.c:2778
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -2159,24 +2159,24 @@ msgstr ""
 "Die Kontaktdaten sind ungültig:\n"
 "\n"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2807
+#: addressbook/gui/contact-editor/e-contact-editor.c:2806
 msgid "Invalid contact."
 msgstr "Kontakt ungültig."
 
-#: addressbook/gui/contact-editor/e-contact-quick-add.c:280
+#: addressbook/gui/contact-editor/e-contact-quick-add.c:276
 msgid "Contact Quick-Add"
 msgstr "Kontakt schnell hinzufügen"
 
-#: addressbook/gui/contact-editor/e-contact-quick-add.c:283
+#: addressbook/gui/contact-editor/e-contact-quick-add.c:279
 msgid "_Edit Full"
 msgstr "Voll _bearbeiten"
 
-#: addressbook/gui/contact-editor/e-contact-quick-add.c:301
+#: addressbook/gui/contact-editor/e-contact-quick-add.c:297
 #: mail/mail-config.glade.h:166
 msgid "_Full Name:"
 msgstr "_Voller Name:"
 
-#: addressbook/gui/contact-editor/e-contact-quick-add.c:307
+#: addressbook/gui/contact-editor/e-contact-quick-add.c:303
 msgid "E-_mail:"
 msgstr "E-_Mail:"
 
@@ -3075,12 +3075,14 @@ msgstr "Fehler beim Entfernen eines Kontakts"
 msgid ""
 "Opening %d contact will open %d new window as well.\n"
 "Do you really want to display this contact?"
+msgid_plural ""
 "Opening %d contacts will open %d new windows as well.\n"
 "Do you really want to display all of these contacts?"
-msgstr ""
+msgstr[0] ""
 "Das Öffnen von %d Kontakt würde dazu führen, dass %d\n"
 "zusätzliches Fenster geöffnet wird.\n"
 "Wollen Sie diesen Kontakt wirklich anzeigen?"
+msgstr[1] ""
 "Das Öffnen von %d Kontakten würde dazu führen, dass %d\n"
 "zusätzliche Fenster geöffnet werden.\n"
 "Wollen Sie wirklich all diese Kontakte anzeigen?"
@@ -3924,11 +3926,11 @@ msgstr "Beginnt:"
 msgid "Ending:"
 msgstr "Endet:"
 
-#: calendar/gui/alarm-notify/alarm-notify-dialog.c:259
+#: calendar/gui/alarm-notify/alarm-notify-dialog.c:253
 msgid "Evolution Alarm"
 msgstr "Evolution-Alarm"
 
-#: calendar/gui/alarm-notify/alarm-notify-dialog.c:358
+#: calendar/gui/alarm-notify/alarm-notify-dialog.c:352
 #, c-format
 msgid "Alarm on %s"
 msgstr "Alarm am %s"
@@ -4494,7 +4496,7 @@ msgstr "Minute(n)"
 msgid "start of appointment"
 msgstr "Beginn des Termins"
 
-#: calendar/gui/dialogs/alarm-list-dialog.c:192
+#: calendar/gui/dialogs/alarm-list-dialog.c:199
 msgid "Action/Trigger"
 msgstr "Aktion/Auslöser"
 
@@ -5851,7 +5853,7 @@ msgstr "Nein"
 #: calendar/gui/e-meeting-list-view.c:122
 #: calendar/gui/e-meeting-list-view.c:136 calendar/gui/e-meeting-store.c:115
 #: calendar/gui/e-meeting-store.c:150 calendar/gui/e-meeting-store.c:215
-#: camel/camel-gpg-context.c:1763 camel/camel-gpg-context.c:1814
+#: camel/camel-gpg-context.c:1767 camel/camel-gpg-context.c:1818
 #: camel/camel-tcp-stream-openssl.c:631
 #: camel/providers/imap4/camel-imap4-engine.c:1402
 #: camel/providers/imap4/camel-imap4-engine.c:1432
@@ -5995,7 +5997,7 @@ msgstr "Gewählte Aufgaben als abgeschlossen _markieren"
 #. FIXME: need to disable for undeletable folders
 #: calendar/gui/e-calendar-table.c:1063 calendar/gui/e-calendar-table.c:1081
 #: calendar/gui/e-calendar-view.c:1451 calendar/gui/e-calendar-view.c:1484
-#: mail/em-folder-tree.c:2720 mail/em-folder-view.c:925
+#: mail/em-folder-tree.c:2728 mail/em-folder-view.c:925
 #: ui/evolution-addressbook.xml.h:33 ui/evolution-calendar.xml.h:40
 #: ui/evolution-comp-editor.xml.h:17 ui/evolution-contact-editor.xml.h:14
 #: ui/evolution-mail-message.xml.h:112 ui/evolution-tasks.xml.h:21
@@ -9183,7 +9185,7 @@ msgstr ""
 
 #: camel/camel-gpg-context.c:804 camel/camel-gpg-context.c:1314
 #: camel/camel-gpg-context.c:1498 camel/camel-gpg-context.c:1589
-#: camel/camel-gpg-context.c:1697 camel/providers/nntp/camel-nntp-store.c:1261
+#: camel/camel-gpg-context.c:1701 camel/providers/nntp/camel-nntp-store.c:1279
 #: mail/mail-ops.c:716 mail/mail-send-recv.c:611
 msgid "Cancelled."
 msgstr "Abgesagt."
@@ -9221,21 +9223,21 @@ msgstr ""
 msgid "Failed to GPG %s: %s\n"
 msgstr "GPG %s gescheitert: %s\n"
 
-#: camel/camel-gpg-context.c:1275 camel/camel-smime-context.c:419
+#: camel/camel-gpg-context.c:1275 camel/camel-smime-context.c:388
 #, c-format
 msgid "Could not generate signing data: %s"
 msgstr "Signaturdaten konnten nicht erzeugt werden: %s"
 
-#: camel/camel-gpg-context.c:1307 camel/camel-gpg-context.c:1762
-#: camel/camel-gpg-context.c:1813
+#: camel/camel-gpg-context.c:1307 camel/camel-gpg-context.c:1766
+#: camel/camel-gpg-context.c:1817
 #, c-format
 msgid "Failed to execute gpg: %s"
 msgstr "gpg konnte nicht ausgeführt werden: %s"
 
 #: camel/camel-gpg-context.c:1331 camel/camel-gpg-context.c:1491
 #: camel/camel-gpg-context.c:1582 camel/camel-gpg-context.c:1605
-#: camel/camel-gpg-context.c:1690 camel/camel-gpg-context.c:1714
-#: camel/camel-gpg-context.c:1784 camel/camel-gpg-context.c:1835
+#: camel/camel-gpg-context.c:1694 camel/camel-gpg-context.c:1718
+#: camel/camel-gpg-context.c:1788 camel/camel-gpg-context.c:1839
 msgid "Failed to execute gpg."
 msgstr "gpg konnte nicht ausgeführt werden."
 
@@ -9244,8 +9246,8 @@ msgid "This is a digitally signed message part"
 msgstr "Dies ist ein digital signierter Nachrichtenteil"
 
 #: camel/camel-gpg-context.c:1431 camel/camel-gpg-context.c:1437
-#: camel/camel-gpg-context.c:1443 camel/camel-smime-context.c:721
-#: camel/camel-smime-context.c:732 camel/camel-smime-context.c:739
+#: camel/camel-gpg-context.c:1443 camel/camel-smime-context.c:690
+#: camel/camel-smime-context.c:701 camel/camel-smime-context.c:708
 msgid "Cannot verify message signature: Incorrect message format"
 msgstr ""
 "Nachrichtensignatur konnte nicht verifiziert werden: Nachrichtenformat "
@@ -9267,11 +9269,16 @@ msgstr "Verschlüsselungsdaten konnten nicht erzeugt werden: %s"
 msgid "This is a digitally encrypted message part"
 msgstr "Dies ist ein digital verschlüsselter Nachrichtenteil"
 
-#: camel/camel-gpg-context.c:1721 camel/camel-smime-context.c:995
+#: camel/camel-gpg-context.c:1674 camel/camel-multipart-encrypted.c:229
+#: camel/camel-multipart-encrypted.c:244
+msgid "Failed to decrypt MIME part: protocol error"
+msgstr "MIME-Teil konnte nicht entschlüsselt werden: Protokollfehler"
+
+#: camel/camel-gpg-context.c:1725 camel/camel-smime-context.c:964
 msgid "Encrypted content"
 msgstr "Verschlüsselter Inhalt"
 
-#: camel/camel-gpg-context.c:1740
+#: camel/camel-gpg-context.c:1744
 msgid "Unable to parse message content"
 msgstr "Syntax des Nachrichteninhalts konnte nicht analysiert werden"
 
@@ -9371,15 +9378,11 @@ msgstr "Fehler beim Schreiben der temporären E-Mail-Datei: %s"
 msgid "Error copying mail temp file: %s"
 msgstr "Fehler beim Kopieren der temporären E-Mail-Datei: %s"
 
-#: camel/camel-multipart-encrypted.c:229 camel/camel-multipart-encrypted.c:244
-msgid "Failed to decrypt MIME part: protocol error"
-msgstr "MIME-Teil konnte nicht entschlüsselt werden: Protokollfehler"
-
 #: camel/camel-multipart-encrypted.c:257
 msgid "Failed to decrypt MIME part: invalid structure"
 msgstr "MIME-Teil konnte nicht entschlüsselt werden: Ungültige Struktur"
 
-#: camel/camel-multipart-signed.c:673 camel/camel-multipart-signed.c:724
+#: camel/camel-multipart-signed.c:704 camel/camel-multipart-signed.c:755
 msgid "parse error"
 msgstr "Fehler bei der Syntaxanalyse"
 
@@ -9724,221 +9727,215 @@ msgstr ""
 "Verzeichnis %s konnte nicht angelegt werden:\n"
 "%s"
 
-# CHECK
-#: camel/camel-smime-context.c:104
-#, c-format
-msgid "Enter security pass-phrase for `%s'"
-msgstr "Geben Sie das Passwort für »%s« ein"
-
-#: camel/camel-smime-context.c:261
+#: camel/camel-smime-context.c:230
 #, c-format
 msgid "Cannot find certificate for '%s'"
 msgstr "Es konnte kein Zertifikat für »%s« gefunden werden"
 
-#: camel/camel-smime-context.c:267
+#: camel/camel-smime-context.c:236
 msgid "Cannot create CMS message"
 msgstr "CMS-Nachricht konnte nicht angelegt werden"
 
-#: camel/camel-smime-context.c:272
+#: camel/camel-smime-context.c:241
 msgid "Cannot create CMS signedData"
 msgstr "CMS-signedData-Daten konnten nicht angelegt werden"
 
-#: camel/camel-smime-context.c:278
+#: camel/camel-smime-context.c:247
 msgid "Cannot attach CMS signedData"
 msgstr "CMS-signedData-Daten konnten nicht beigelegt werden"
 
-#: camel/camel-smime-context.c:285
+#: camel/camel-smime-context.c:254
 msgid "Cannot attach CMS data"
 msgstr "CMS-Daten konnten nicht beigelegt werden"
 
-#: camel/camel-smime-context.c:291
+#: camel/camel-smime-context.c:260
 msgid "Cannot create CMS SignerInfo"
 msgstr "CMS-SignerInfo-Informationen konnten nicht angelegt werden"
 
 # CHECK
-#: camel/camel-smime-context.c:297
+#: camel/camel-smime-context.c:266
 msgid "Cannot find cert chain"
 msgstr "Zertifikatkette konnte nicht gefunden werden"
 
-#: camel/camel-smime-context.c:303
+#: camel/camel-smime-context.c:272
 msgid "Cannot add CMS SigningTime"
 msgstr "CMS-SigningTime konnte nicht hinzugefügt werden"
 
-#: camel/camel-smime-context.c:325 camel/camel-smime-context.c:337
+#: camel/camel-smime-context.c:294 camel/camel-smime-context.c:306
 #, c-format
 msgid "Encryption cert for '%s' does not exist"
 msgstr "Es existiert kein Verschlüsselungszertifikat für »%s«"
 
-#: camel/camel-smime-context.c:344
+#: camel/camel-smime-context.c:313
 msgid "Cannot add SMIMEEncKeyPrefs attribute"
 msgstr "SMIMEEncKeyPrefs-Attribut konnte nicht hinzugefügt werden"
 
-#: camel/camel-smime-context.c:349
+#: camel/camel-smime-context.c:318
 msgid "Cannot add MS SMIMEEncKeyPrefs attribute"
 msgstr "MS SMIMEEncKeyPrefs-Attribut konnte nicht hinzugefügt werden"
 
-#: camel/camel-smime-context.c:354
+#: camel/camel-smime-context.c:323
 msgid "Cannot add encryption certificate"
 msgstr "Verschlüsselungszertifikat konnte nicht hinzugefügt werden"
 
-#: camel/camel-smime-context.c:360
+#: camel/camel-smime-context.c:329
 msgid "Cannot add CMS SignerInfo"
 msgstr "CMS-SignerInfo konnte nicht hinzugefügt werden"
 
-#: camel/camel-smime-context.c:430 camel/camel-smime-context.c:877
+#: camel/camel-smime-context.c:399 camel/camel-smime-context.c:846
 msgid "Cannot create encoder context"
 msgstr "Verschlüsselungskontext konnte nicht angelegt werden"
 
-#: camel/camel-smime-context.c:436
+#: camel/camel-smime-context.c:405
 msgid "Failed to add data to CMS encoder"
 msgstr "Daten konnten nicht zu CMS-Kodierer hinzugefügt werden"
 
-#: camel/camel-smime-context.c:441 camel/camel-smime-context.c:894
+#: camel/camel-smime-context.c:410 camel/camel-smime-context.c:863
 msgid "Failed to encode data"
 msgstr "Datenverschlüsselung gescheitert"
 
-#: camel/camel-smime-context.c:514
+#: camel/camel-smime-context.c:483
 msgid "Unverified"
 msgstr "Nicht verifiziert"
 
-#: camel/camel-smime-context.c:516
+#: camel/camel-smime-context.c:485
 msgid "Good signature"
 msgstr "Signatur einwandfrei"
 
-#: camel/camel-smime-context.c:518
+#: camel/camel-smime-context.c:487
 msgid "Bad signature"
 msgstr "Signatur fehlerhaft"
 
-#: camel/camel-smime-context.c:520
+#: camel/camel-smime-context.c:489
 msgid "Content tampered with or altered in transit"
 msgstr "Inhalt bei Übertragung beschädigt oder verändert"
 
-#: camel/camel-smime-context.c:522
+#: camel/camel-smime-context.c:491
 msgid "Signing certificate not found"
 msgstr "Signaturzertifikat nicht gefunden"
 
-#: camel/camel-smime-context.c:524
+#: camel/camel-smime-context.c:493
 msgid "Signing certificate not trusted"
 msgstr "Signaturzertifikat nicht vertrauenswürdig"
 
-#: camel/camel-smime-context.c:526
+#: camel/camel-smime-context.c:495
 msgid "Signature algorithm unknown"
 msgstr "Signaturalgorithmus unbekannt"
 
-#: camel/camel-smime-context.c:528
+#: camel/camel-smime-context.c:497
 msgid "Signature algorithm unsupported"
 msgstr "Signaturalgorithmus nicht unterstützt"
 
-#: camel/camel-smime-context.c:530
+#: camel/camel-smime-context.c:499
 msgid "Malformed signature"
 msgstr "Signatur fehlerhaft formatiert"
 
-#: camel/camel-smime-context.c:532
+#: camel/camel-smime-context.c:501
 msgid "Processing error"
 msgstr "Verarbeitungsfehler"
 
-#: camel/camel-smime-context.c:569
+#: camel/camel-smime-context.c:538
 msgid "No signedData in signature"
 msgstr "Keine signedData-Daten in Signatur"
 
-#: camel/camel-smime-context.c:576
+#: camel/camel-smime-context.c:545
 msgid "Digests missing from enveloped data"
 msgstr "Digest der kuvertieren Daten fehlt"
 
-#: camel/camel-smime-context.c:589 camel/camel-smime-context.c:599
+#: camel/camel-smime-context.c:558 camel/camel-smime-context.c:568
 msgid "Cannot calculate digests"
 msgstr "Digests konnten nicht berechnet werden"
 
-#: camel/camel-smime-context.c:604
+#: camel/camel-smime-context.c:573
 msgid "Cannot set message digests"
 msgstr "Nachrichten-Digests konnten nicht festgelegt werden"
 
-#: camel/camel-smime-context.c:614 camel/camel-smime-context.c:619
+#: camel/camel-smime-context.c:583 camel/camel-smime-context.c:588
 msgid "Certificate import failed"
 msgstr "Zertifikatimport gescheitert"
 
-#: camel/camel-smime-context.c:628
+#: camel/camel-smime-context.c:597
 msgid "Certificate only message, cannot verify certificates"
 msgstr "Nur-Zertifikat-Nachricht, Zertifikatverifizierung nicht möglich"
 
-#: camel/camel-smime-context.c:631
+#: camel/camel-smime-context.c:600
 msgid "Certificate only message, certificates imported and verified"
 msgstr "Nur-Zertifikat-Nachricht, Zertifikate importiert und Verifiziert"
 
-#: camel/camel-smime-context.c:635
+#: camel/camel-smime-context.c:604
 msgid "Cannot find signature digests"
 msgstr "Signatur-Digest konnte nicht gefunden werden"
 
-#: camel/camel-smime-context.c:651
+#: camel/camel-smime-context.c:620
 #, c-format
 msgid "Signer: %s <%s>: %s\n"
 msgstr "Unterzeichner: %s <%s>: %s\n"
 
-#: camel/camel-smime-context.c:752
+#: camel/camel-smime-context.c:721
 msgid "Decoder failed"
 msgstr "Dekodiervorgang gescheitert"
 
-#: camel/camel-smime-context.c:804
+#: camel/camel-smime-context.c:773
 #, c-format
 msgid "Cannot find certificate for `%s'"
 msgstr "Es konnte kein Zertifikat für »%s« gefunden werden"
 
 # CHECK
-#: camel/camel-smime-context.c:811
+#: camel/camel-smime-context.c:780
 msgid "Cannot find common bulk encryption algorithm"
 msgstr ""
 "Es konnte kein gemeinsamer Massenverschlüsselungsalgorithmus gefunden werden"
 
 # CHECK
 #. PORT_GetError(); ??
-#: camel/camel-smime-context.c:820
+#: camel/camel-smime-context.c:789
 msgid "Cannot allocate slot for encryption bulk key"
 msgstr ""
 "Es konnte kein Slot für den Massenverschlüsselungsschlüssel bereitgestellt "
 "werden"
 
-#: camel/camel-smime-context.c:831
+#: camel/camel-smime-context.c:800
 msgid "Cannot create CMS Message"
 msgstr "CMS-Nachricht konnte nicht angelegt werden"
 
-#: camel/camel-smime-context.c:837
+#: camel/camel-smime-context.c:806
 msgid "Cannot create CMS EnvelopedData"
 msgstr "CMS-EnvelopedData-Daten konnten nicht angelegt werden"
 
-#: camel/camel-smime-context.c:843
+#: camel/camel-smime-context.c:812
 msgid "Cannot attach CMS EnvelopedData"
 msgstr "CMS-EnvelopedData-Daten konnten nicht beigelegt werden"
 
-#: camel/camel-smime-context.c:849
+#: camel/camel-smime-context.c:818
 msgid "Cannot attach CMS data object"
 msgstr "CMS-Datenobjekt konnte nicht beigelegt werden"
 
-#: camel/camel-smime-context.c:858
+#: camel/camel-smime-context.c:827
 msgid "Cannot create CMS RecipientInfo"
 msgstr "CMS-RecipientInfo-Informationen konnten nicht angelegt werden"
 
-#: camel/camel-smime-context.c:863
+#: camel/camel-smime-context.c:832
 msgid "Cannot add CMS RecipientInfo"
 msgstr "CMS-RecipientInfo-Informationen konnte nicht hinzugefügt werden"
 
-#: camel/camel-smime-context.c:888
+#: camel/camel-smime-context.c:857
 msgid "Failed to add data to encoder"
 msgstr "Hinzufügen von Daten zum Kodierer gescheitert"
 
-#: camel/camel-smime-context.c:975
+#: camel/camel-smime-context.c:944
 #, c-format
 msgid "Decoder failed, error %d"
 msgstr "Dekodierer gescheitert, Fehler %d"
 
-#: camel/camel-smime-context.c:982
+#: camel/camel-smime-context.c:951
 msgid "S/MIME Decrypt: No encrypted content found"
 msgstr "S/MIME-Entschlüselung: Kein entschlüsselter Inhalt gefunden"
 
-#: camel/camel-smime-context.c:1009
+#: camel/camel-smime-context.c:978
 msgid "import keys: unimplemented"
 msgstr "Schlüssel importieren: Nicht implementiert"
 
-#: camel/camel-smime-context.c:1017
+#: camel/camel-smime-context.c:986
 msgid "export keys: unimplemented"
 msgstr "Schlüssel exportieren: Nicht implementiert"
 
@@ -9964,12 +9961,13 @@ msgid "Cannot create folder: %s: folder exists"
 msgstr "Ordner konnte nicht angelegt werden: %s: Ordner existiert"
 
 #: camel/camel-store.c:389 camel/camel-vee-store.c:366
+#: camel/providers/local/camel-maildir-store.c:216
 #, c-format
 msgid "Cannot delete folder: %s: Invalid operation"
 msgstr "Ordner konnte nicht gelöscht werden: %s: Ungültiger Vorgang"
 
 #: camel/camel-store.c:439 camel/camel-vee-store.c:403
-#: camel/providers/local/camel-maildir-store.c:232
+#: camel/providers/local/camel-maildir-store.c:288
 #, c-format
 msgid "Cannot rename folder: %s: Invalid operation"
 msgstr "Ordner konnte nicht umbenannt werden: %s: Ungültiger Vorgang"
@@ -10310,7 +10308,7 @@ msgstr "Checkliste"
 
 #: camel/providers/imap/camel-imap-command.c:218
 #: camel/providers/imap/camel-imap-command.c:257
-#: camel/providers/imap/camel-imap-command.c:447
+#: camel/providers/imap/camel-imap-command.c:459
 #: camel/providers/imap/camel-imap-store.c:3240
 msgid "Operation cancelled"
 msgstr "Vorgang abgebrochen"
@@ -10341,16 +10339,16 @@ msgstr "Unerwartete Antwort von IMAP-Server: %s"
 msgid "IMAP command failed: %s"
 msgstr "IMAP-Befehl gescheitert: %s"
 
-#: camel/providers/imap/camel-imap-command.c:457
+#: camel/providers/imap/camel-imap-command.c:469
 msgid "Server response ended too soon."
 msgstr "Antwort des Servers endete zu früh."
 
-#: camel/providers/imap/camel-imap-command.c:649
+#: camel/providers/imap/camel-imap-command.c:674
 #, c-format
 msgid "IMAP server response did not contain %s information"
 msgstr "Antwort des IMAP-Servers enthielt keine %s-Informationen"
 
-#: camel/providers/imap/camel-imap-command.c:685
+#: camel/providers/imap/camel-imap-command.c:710
 #, c-format
 msgid "Unexpected OK response from IMAP server: %s"
 msgstr "Unerwartete OK-Antwort von IMAP-Server: %s"
@@ -10374,12 +10372,12 @@ msgstr "Der Ordner wurde zerstört und auf dem Serverneu angelegt."
 msgid "Scanning for changed messages"
 msgstr "Nach geänderten Nachrichten suchen"
 
-#: camel/providers/imap/camel-imap-folder.c:1938
+#: camel/providers/imap/camel-imap-folder.c:1940
 #, c-format
 msgid "Unable to retrieve message: %s"
 msgstr "Nachricht konnte nicht abgerufen werden: %s"
 
-#: camel/providers/imap/camel-imap-folder.c:1975
+#: camel/providers/imap/camel-imap-folder.c:1980
 #, c-format
 msgid ""
 "Cannot get message: %s\n"
@@ -10388,36 +10386,36 @@ msgstr ""
 "Nachricht konnte nicht abgerufen werden: %s\n"
 "  %s"
 
-#: camel/providers/imap/camel-imap-folder.c:1975
+#: camel/providers/imap/camel-imap-folder.c:1980
 #: camel/providers/local/camel-maildir-folder.c:244
 #: camel/providers/local/camel-mbox-folder.c:415
 #: camel/providers/local/camel-mh-folder.c:202
 msgid "No such message"
 msgstr "Nachricht existiert nicht"
 
-#: camel/providers/imap/camel-imap-folder.c:2017
-#: camel/providers/imap/camel-imap-folder.c:2620
+#: camel/providers/imap/camel-imap-folder.c:2022
+#: camel/providers/imap/camel-imap-folder.c:2625
 #: camel/providers/nntp/camel-nntp-folder.c:220
 msgid "This message is not currently available"
 msgstr "Diese Nachricht ist derzeit nicht verfügbar"
 
-#: camel/providers/imap/camel-imap-folder.c:2283
-#: camel/providers/imap/camel-imap-folder.c:2353
+#: camel/providers/imap/camel-imap-folder.c:2288
+#: camel/providers/imap/camel-imap-folder.c:2358
 msgid "Fetching summary information for new messages"
 msgstr "Zusammenfassungsinformationen für neue Nachrichten werden abgerufen"
 
-#: camel/providers/imap/camel-imap-folder.c:2461
+#: camel/providers/imap/camel-imap-folder.c:2466
 #, c-format
 msgid "Incomplete server response: no information provided for message %d"
 msgstr ""
 "Unvollständige Server-Antwort: Keine Informationen zu Nachricht %d erhalten"
 
-#: camel/providers/imap/camel-imap-folder.c:2469
+#: camel/providers/imap/camel-imap-folder.c:2474
 #, c-format
 msgid "Incomplete server response: no UID provided for message %d"
 msgstr "Unvollständige Server-Antwort: Keine UID für Nachricht %d erhalten"
 
-#: camel/providers/imap/camel-imap-folder.c:2482
+#: camel/providers/imap/camel-imap-folder.c:2487
 #, c-format
 msgid ""
 "Unexpected server response: Identical UIDs provided for messages %d and %d"
@@ -10425,7 +10423,7 @@ msgstr ""
 "Unerwartete Server-Antwort: Identische UIDs für Nachrichten %d und %d "
 "erhalten"
 
-#: camel/providers/imap/camel-imap-folder.c:2658
+#: camel/providers/imap/camel-imap-folder.c:2663
 msgid "Could not find message body in FETCH response."
 msgstr "Nachrichtenrumpf in Antwort auf FETCH konnte nicht gefunden werden."
 
@@ -10511,7 +10509,7 @@ msgstr "IMAP-Dienst für %s auf %s"
 #: camel/providers/imap/camel-imap-store.c:559
 #: camel/providers/imap/camel-imap-store.c:587
 #: camel/providers/imapp/camel-imapp-store.c:249
-#: camel/providers/nntp/camel-nntp-store.c:230
+#: camel/providers/nntp/camel-nntp-store.c:228
 #: camel/providers/pop3/camel-pop3-store.c:184
 #: camel/providers/smtp/camel-smtp-transport.c:278
 #: camel/providers/smtp/camel-smtp-transport.c:304
@@ -10530,8 +10528,8 @@ msgstr "SSL nicht verfügbar"
 #: camel/providers/imap/camel-imap-store.c:861
 #: camel/providers/imap4/camel-imap4-store.c:221
 #: camel/providers/imapp/camel-imapp-store.c:246
-#: camel/providers/nntp/camel-nntp-store.c:227
-#: camel/providers/nntp/camel-nntp-store.c:245
+#: camel/providers/nntp/camel-nntp-store.c:225
+#: camel/providers/nntp/camel-nntp-store.c:243
 #: camel/providers/pop3/camel-pop3-store.c:210
 msgid "Connection cancelled"
 msgstr "Verbindung abgebrochen"
@@ -10600,7 +10598,7 @@ msgstr "Ordner %s existiert nicht"
 
 #: camel/providers/imap/camel-imap-store.c:1901
 #: camel/providers/imap/camel-imap-store.c:2279
-#: camel/providers/imap4/camel-imap4-store.c:745
+#: camel/providers/imap4/camel-imap4-store.c:745 mail/em-folder-tree.c:2637
 #, c-format
 msgid ""
 "The folder name \"%s\" is invalid because it contains the character \"%c\""
@@ -10612,7 +10610,7 @@ msgid "The parent folder is not allowed to contain subfolders"
 msgstr "Der Elternordner darf keine Unterordner enthalten"
 
 #: camel/providers/imap/camel-imap-store.c:2014
-#: camel/providers/local/camel-maildir-store.c:139
+#: camel/providers/local/camel-maildir-store.c:189
 #: camel/providers/local/camel-mbox-store.c:209
 #: camel/providers/local/camel-mh-store.c:236
 #, c-format
@@ -11039,11 +11037,14 @@ msgstr ""
 "Nachricht konnte nicht zur Zusammenfassung hinzugefügt werden: Grund "
 "unbekannt"
 
+#. create a dummy "." parent inbox, use to scan, then put back at the top level
 #. Inbox is always first
 #. translators: standard local mailbox names
 #: camel/providers/local/camel-maildir-folder.c:74
-#: camel/providers/local/camel-maildir-store.c:232
-#: camel/providers/local/camel-maildir-store.c:248
+#: camel/providers/local/camel-maildir-store.c:216
+#: camel/providers/local/camel-maildir-store.c:288
+#: camel/providers/local/camel-maildir-store.c:510
+#: camel/providers/local/camel-maildir-store.c:523
 #: camel/providers/local/camel-spool-store.c:451
 #: mail/em-folder-tree-model.c:212 mail/em-folder-tree-model.c:214
 #: mail/mail-component.c:134
@@ -11081,44 +11082,45 @@ msgstr ""
 msgid "Invalid message contents"
 msgstr "Ungültiger Inhalt der Nachricht"
 
-#: camel/providers/local/camel-maildir-store.c:109
-#: camel/providers/local/camel-mbox-store.c:151
-#: camel/providers/local/camel-mh-store.c:204
-#, c-format
-msgid "Cannot get folder `%s': %s"
-msgstr "Ordner »%s« konnte nicht abgerufen werden: %s"
-
-#: camel/providers/local/camel-maildir-store.c:113
-#: camel/providers/local/camel-mbox-store.c:159
-#: camel/providers/local/camel-mh-store.c:211
-#, c-format
-msgid "Cannot get folder `%s': folder does not exist."
-msgstr "Ordner »%s« konnte nicht abgerufen werden: Ordner existiert nicht."
-
-#: camel/providers/local/camel-maildir-store.c:121
+#: camel/providers/local/camel-maildir-store.c:145
+#: camel/providers/local/camel-maildir-store.c:170
 #: camel/providers/local/camel-mbox-store.c:181
 #: camel/providers/local/camel-mbox-store.c:193
 #, c-format
 msgid "Cannot create folder `%s': %s"
 msgstr "Ordner »%s« konnte nicht angelegt werden: %s"
 
-#: camel/providers/local/camel-maildir-store.c:136
+#: camel/providers/local/camel-maildir-store.c:158
+#: camel/providers/local/camel-mbox-store.c:151
+#: camel/providers/local/camel-mh-store.c:204
+#, c-format
+msgid "Cannot get folder `%s': %s"
+msgstr "Ordner »%s« konnte nicht abgerufen werden: %s"
+
+#: camel/providers/local/camel-maildir-store.c:162
+#: camel/providers/local/camel-mbox-store.c:159
+#: camel/providers/local/camel-mh-store.c:211
+#, c-format
+msgid "Cannot get folder `%s': folder does not exist."
+msgstr "Ordner »%s« konnte nicht abgerufen werden: Ordner existiert nicht."
+
+#: camel/providers/local/camel-maildir-store.c:186
 #, c-format
 msgid "Cannot get folder `%s': not a maildir directory."
 msgstr "Ordner »%s« konnte nicht abgerufen werden: kein Maildir-Verzeichnis."
 
-#: camel/providers/local/camel-maildir-store.c:175
-#: camel/providers/local/camel-maildir-store.c:213
+#: camel/providers/local/camel-maildir-store.c:231
+#: camel/providers/local/camel-maildir-store.c:269
 #: camel/providers/local/camel-mh-store.c:260
 #, c-format
 msgid "Could not delete folder `%s': %s"
 msgstr "Ordner »%s« konnte nicht gelöscht werden: %s"
 
-#: camel/providers/local/camel-maildir-store.c:177
+#: camel/providers/local/camel-maildir-store.c:233
 msgid "not a maildir directory"
 msgstr "kein Maildir-Verzeichnis"
 
-#: camel/providers/local/camel-maildir-store.c:355
+#: camel/providers/local/camel-maildir-store.c:435
 #: camel/providers/local/camel-spool-store.c:318
 #: camel/providers/local/camel-spool-store.c:332
 #, c-format
@@ -11426,7 +11428,7 @@ msgstr ""
 "Ordner könnte fehlerhaft sein, Kopie in »%s« gespeichert"
 
 #: camel/providers/nntp/camel-nntp-auth.c:44
-#: camel/providers/nntp/camel-nntp-store.c:1153
+#: camel/providers/nntp/camel-nntp-store.c:1161
 #, c-format
 msgid "Please enter the NNTP password for %s@%s"
 msgstr "Bitte geben Sie das NNTP-Passwort für %s@%s ein"
@@ -11529,28 +11531,22 @@ msgstr ""
 "Dies führt die Legitimation am NNTP-Server mit einem unverschlüsselten "
 "Passwort durch."
 
-#: camel/providers/nntp/camel-nntp-store.c:120
-#: camel/providers/nntp/camel-nntp-store.c:1263
-#, c-format
-msgid "NNTP Command failed: %s"
-msgstr "NNTP-Befehl gescheitert: %s"
-
-#: camel/providers/nntp/camel-nntp-store.c:248
+#: camel/providers/nntp/camel-nntp-store.c:246
 #, c-format
 msgid "Could not read greeting from %s: %s"
 msgstr "Begrüßung von %s konnte nicht gelesen werden: %s"
 
-#: camel/providers/nntp/camel-nntp-store.c:260
+#: camel/providers/nntp/camel-nntp-store.c:258
 #, c-format
 msgid "NNTP server %s returned error code %d: %s"
 msgstr "NNTP-Server %s antwortete mit Fehler-Code %d: %s"
 
-#: camel/providers/nntp/camel-nntp-store.c:429
+#: camel/providers/nntp/camel-nntp-store.c:427
 #, c-format
 msgid "USENET News via %s"
 msgstr "USENET-News über %s"
 
-#: camel/providers/nntp/camel-nntp-store.c:808
+#: camel/providers/nntp/camel-nntp-store.c:816
 #, c-format
 msgid ""
 "Error retrieving newsgroups:\n"
@@ -11561,7 +11557,7 @@ msgstr ""
 "\n"
 "%s"
 
-#: camel/providers/nntp/camel-nntp-store.c:902
+#: camel/providers/nntp/camel-nntp-store.c:910
 msgid ""
 "You cannot subscribe to this newsgroup:\n"
 "\n"
@@ -11570,43 +11566,49 @@ msgstr ""
 "Sie können diese Newsgroup nicht abonnieren, da sie nicht existiert.\n"
 "Vermutlich ist das gewählte Objekt ein Elternordner."
 
-#: camel/providers/nntp/camel-nntp-store.c:934
+#: camel/providers/nntp/camel-nntp-store.c:942
 msgid ""
 "You cannot unsubscribe to this newsgroup:\n"
 "\n"
 "newsgroup does not exist!"
 msgstr "Sie können diese Newsgroup nicht abonnieren, da sie nicht existiert."
 
-#: camel/providers/nntp/camel-nntp-store.c:959
+#: camel/providers/nntp/camel-nntp-store.c:967
 msgid "You cannot create a folder in a News store: subscribe instead."
 msgstr ""
 "Sie können in Newsgroups keine Ordner anlegen: Abonnieren Sie sie "
 "stattdessen."
 
-#: camel/providers/nntp/camel-nntp-store.c:967
+#: camel/providers/nntp/camel-nntp-store.c:975
 msgid "You cannot rename a folder in a News store."
 msgstr "Sie können in Newsgroups keine Ordner umbenennen."
 
-#: camel/providers/nntp/camel-nntp-store.c:975
+#: camel/providers/nntp/camel-nntp-store.c:983
 msgid "You cannot remove a folder in a News store: unsubscribe instead."
 msgstr ""
 "Sie können in Newsgroups keine Ordner entfernen: Bestellen Sie sie "
 "stattdessen ab."
 
-#: camel/providers/nntp/camel-nntp-store.c:1145
+#: camel/providers/nntp/camel-nntp-store.c:1153
 msgid "Authentication requested but no username provided"
-msgstr "Legitimation wurde angefragt, es wird jedoch kein Benutzername unterstützt"
+msgstr ""
+"Legitimation wurde angefragt, es wird jedoch kein Benutzername unterstützt"
 
-#: camel/providers/nntp/camel-nntp-store.c:1175
+#: camel/providers/nntp/camel-nntp-store.c:1165
 #, c-format
 msgid "Cannot authenticate to server: %s"
 msgstr "Legitimation am Server gescheitert: %s"
 
-#: camel/providers/nntp/camel-nntp-store.c:1319
+#: camel/providers/nntp/camel-nntp-store.c:1281
+#, c-format
+msgid "NNTP Command failed: %s"
+msgstr "NNTP-Befehl gescheitert: %s"
+
+#: camel/providers/nntp/camel-nntp-store.c:1337
 msgid "Not connected."
 msgstr "Nicht verbunden."
 
-#: camel/providers/nntp/camel-nntp-store.c:1370
+#: camel/providers/nntp/camel-nntp-store.c:1390
 #, c-format
 msgid "No such folder: %s"
 msgstr "Ordner existiert nicht: %s"
@@ -11716,7 +11718,9 @@ msgstr ""
 #: camel/providers/pop3/camel-pop3-store.c:232
 #, c-format
 msgid "Failed to read a valid greeting from POP server %s (port %s)"
-msgstr "Es konnte keine gültige Begrüßung durch POP-Server %s (Port %s) gelesen werden"
+msgstr ""
+"Es konnte keine gültige Begrüßung durch POP-Server %s (Port %s) gelesen "
+"werden"
 
 #: camel/providers/pop3/camel-pop3-store.c:250
 #: camel/providers/pop3/camel-pop3-store.c:279
@@ -11781,7 +11785,7 @@ msgstr ""
 "Verbindung mit POP-Server %s konnte nicht hergestellt werden.\n"
 "Fehler beim Übermitteln des Benutzernamens: %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:670
+#: camel/providers/pop3/camel-pop3-store.c:671
 #, c-format
 msgid "No such folder `%s'."
 msgstr "Ordner »%s« existiert nicht."
@@ -12034,59 +12038,59 @@ msgstr ""
 msgid "SMTP Greeting"
 msgstr "SMTP-Begrüßung"
 
-#: camel/providers/smtp/camel-smtp-transport.c:918
+#: camel/providers/smtp/camel-smtp-transport.c:927
 #, c-format
 msgid "HELO command failed: %s"
 msgstr "HELO-Befehl gescheitert: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:935
+#: camel/providers/smtp/camel-smtp-transport.c:944
 msgid "HELO command failed"
 msgstr "HELO-Befehl gescheitert"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1001
+#: camel/providers/smtp/camel-smtp-transport.c:1010
 msgid "SMTP Authentication"
 msgstr "SMTP-Legitimation"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1007
+#: camel/providers/smtp/camel-smtp-transport.c:1016
 msgid "Error creating SASL authentication object."
 msgstr "Fehler beim Anlegen eines SASL-Legitimations-Objektes."
 
-#: camel/providers/smtp/camel-smtp-transport.c:1024
-#: camel/providers/smtp/camel-smtp-transport.c:1035
+#: camel/providers/smtp/camel-smtp-transport.c:1033
+#: camel/providers/smtp/camel-smtp-transport.c:1044
 #, c-format
 msgid "AUTH command failed: %s"
 msgstr "AUTH-Befehl gescheitert: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1041
+#: camel/providers/smtp/camel-smtp-transport.c:1050
 msgid "AUTH command failed"
 msgstr "AUTH-Befehl gescheitert"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1103
+#: camel/providers/smtp/camel-smtp-transport.c:1112
 msgid "Bad authentication response from server.\n"
 msgstr "Fehlerhafte Legitimationsantwort vom Server.\n"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1128
+#: camel/providers/smtp/camel-smtp-transport.c:1137
 #, c-format
 msgid "MAIL FROM command failed: %s: mail not sent"
 msgstr "MAIL FROM-Befehl gescheitert: %s: E-Mail nicht verschickt"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1145
+#: camel/providers/smtp/camel-smtp-transport.c:1154
 msgid "MAIL FROM command failed"
 msgstr "MAIL FROM-Befehl gescheitert"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1169
+#: camel/providers/smtp/camel-smtp-transport.c:1178
 #, c-format
 msgid "RCPT TO command failed: %s: mail not sent"
 msgstr "RCPT TO-Befehl gescheitert: %s: E-Mail nicht verschickt"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1188
+#: camel/providers/smtp/camel-smtp-transport.c:1197
 #, c-format
 msgid "RCPT TO <%s> failed"
 msgstr "RCPT TO <%s> gescheitert"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1227
-#: camel/providers/smtp/camel-smtp-transport.c:1285
-#: camel/providers/smtp/camel-smtp-transport.c:1304
+#: camel/providers/smtp/camel-smtp-transport.c:1236
+#: camel/providers/smtp/camel-smtp-transport.c:1294
+#: camel/providers/smtp/camel-smtp-transport.c:1313
 #, c-format
 msgid "DATA command failed: %s: mail not sent"
 msgstr "DATA-Befehl gescheitert: %s: E-Mail nicht verschickt"
@@ -12094,26 +12098,26 @@ msgstr "DATA-Befehl gescheitert: %s: E-Mail nicht verschickt"
 #. we should have gotten instructions on how to use the DATA command:
 #. * 354 Enter mail, end with "." on a line by itself
 #.
-#: camel/providers/smtp/camel-smtp-transport.c:1244
-#: camel/providers/smtp/camel-smtp-transport.c:1320
+#: camel/providers/smtp/camel-smtp-transport.c:1253
+#: camel/providers/smtp/camel-smtp-transport.c:1329
 msgid "DATA command failed"
 msgstr "DATA-Befehl gescheitert"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1343
+#: camel/providers/smtp/camel-smtp-transport.c:1352
 #, c-format
 msgid "RSET command failed: %s"
 msgstr "RSET-Befehl gescheitert: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1359
+#: camel/providers/smtp/camel-smtp-transport.c:1368
 msgid "RSET command failed"
 msgstr "RSET-Befehl gescheitert"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1382
+#: camel/providers/smtp/camel-smtp-transport.c:1391
 #, c-format
 msgid "QUIT command failed: %s"
 msgstr "QUIT-Befehl gescheitert: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1396
+#: camel/providers/smtp/camel-smtp-transport.c:1405
 msgid "QUIT command failed"
 msgstr "QUIT-Befehl gescheitert"
 
@@ -13114,18 +13118,18 @@ msgstr "Signaturskript hinzufügen"
 msgid "Signature(s)"
 msgstr "Signatur(en)"
 
-#: mail/em-composer-utils.c:889
+#: mail/em-composer-utils.c:902
 msgid "-------- Forwarded Message --------"
 msgstr "-------- Weitergeleitete Nachricht --------"
 
-#: mail/em-composer-utils.c:1505
+#: mail/em-composer-utils.c:1518
 msgid "an unknown sender"
 msgstr "ein unbekannter Absender"
 
 #. Note to translators: this is the attribution string used when quoting messages.
 #. * each ${Variable} gets replaced with a value. To see a full list of available
 #. * variables, see em-composer-utils.c:1514
-#: mail/em-composer-utils.c:1552
+#: mail/em-composer-utils.c:1565
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
@@ -13376,7 +13380,7 @@ msgstr "beginnt mit"
 msgid "Stop Processing"
 msgstr "Verarbeitung stoppen"
 
-#: mail/em-filter-i18n.h:64 mail/em-format-html.c:1541
+#: mail/em-filter-i18n.h:64 mail/em-format-html.c:1552
 #: mail/em-format-quote.c:305 mail/em-format.c:833 mail/em-mailer-prefs.c:87
 #: mail/message-list.etspec.h:13 mail/message-tag-followup.c:329
 #: smime/lib/e-cert.c:1131
@@ -13392,22 +13396,22 @@ msgstr "Status nicht setzen"
 msgid "<b>Then</b>"
 msgstr "<b>Dann</b>"
 
-#: mail/em-folder-browser.c:129
+#: mail/em-folder-browser.c:130
 msgid "Create _Virtual Folder From Search..."
 msgstr "_Virtuellen Ordner aus Suche anlegen..."
 
-#: mail/em-folder-properties.c:122
+#: mail/em-folder-properties.c:123
 msgid "Folder Properties"
 msgstr "Ordnereigenschaften"
 
 #. TODO: can this be done in a loop?
-#: mail/em-folder-properties.c:161
+#: mail/em-folder-properties.c:162
 msgid "Total message:"
 msgid_plural "Total messages:"
 msgstr[0] "Nachricht insgesamt:"
 msgstr[1] "Nachrichten insgesamt:"
 
-#: mail/em-folder-properties.c:173
+#: mail/em-folder-properties.c:174
 msgid "Unread message:"
 msgid_plural "Unread messages:"
 msgstr[0] "Ungelesene Nachricht:"
@@ -13417,20 +13421,20 @@ msgstr[1] "Ungelesene Nachrichten:"
 msgid "<click here to select a folder>"
 msgstr "<Klicken Sie hier, um einen Ordner auszuwählen>"
 
-#: mail/em-folder-selector.c:166
+#: mail/em-folder-selector.c:138
 msgid "Create New Folder"
 msgstr "Neuen Ordner anlegen"
 
-#: mail/em-folder-selector.c:166 mail/em-folder-tree.c:2440
+#: mail/em-folder-selector.c:138 mail/em-folder-tree.c:2440
 #: mail/mail-component.c:712
 msgid "Specify where to create the folder:"
 msgstr "Angeben, wo der Ordner angelegt werden soll:"
 
-#: mail/em-folder-selector.c:304
+#: mail/em-folder-selector.c:270
 msgid "Create"
 msgstr "Anlegen"
 
-#: mail/em-folder-selector.c:308
+#: mail/em-folder-selector.c:274
 msgid "Folder _name:"
 msgstr "Ordner_name:"
 
@@ -13525,34 +13529,34 @@ msgstr "Den Ordner »%s« umbenennen in:"
 msgid "Rename Folder"
 msgstr "Ordner umbenennen"
 
-#: mail/em-folder-tree.c:2708 ui/evolution-addressbook.xml.h:44
+#: mail/em-folder-tree.c:2716 ui/evolution-addressbook.xml.h:44
 #: ui/evolution-mail-global.xml.h:18 ui/evolution-mail-messagedisplay.xml.h:8
 #: ui/evolution-message-composer.xml.h:53 ui/evolution.xml.h:37
 msgid "_View"
 msgstr "_Ansicht"
 
-#: mail/em-folder-tree.c:2709
+#: mail/em-folder-tree.c:2717
 msgid "Open in _New Window"
 msgstr "In _neuem Fenster öffnen"
 
-#: mail/em-folder-tree.c:2713
+#: mail/em-folder-tree.c:2721
 msgid "_Copy..."
 msgstr "_Kopieren..."
 
-#: mail/em-folder-tree.c:2714
+#: mail/em-folder-tree.c:2722
 msgid "_Move..."
 msgstr "_Verschieben..."
 
 #. FIXME: need to disable for nochildren folders
-#: mail/em-folder-tree.c:2718
+#: mail/em-folder-tree.c:2726
 msgid "_New Folder..."
 msgstr "Ordner a_nlegen..."
 
-#: mail/em-folder-tree.c:2721
+#: mail/em-folder-tree.c:2729
 msgid "_Rename..."
 msgstr "_Umbenennen..."
 
-#: mail/em-folder-tree.c:2724 ui/evolution-mail-list.xml.h:27
+#: mail/em-folder-tree.c:2732 ui/evolution-mail-list.xml.h:27
 msgid "_Properties"
 msgstr "Ei_genschaften"
 
@@ -13701,16 +13705,16 @@ msgid "Click to mail %s"
 msgstr "Klicken Sie hier, um eine E-Mail an %s zu verfassen"
 
 #. message-search popup match count string
-#: mail/em-format-html-display.c:410
+#: mail/em-format-html-display.c:417
 #, c-format
 msgid "Matches: %d"
 msgstr "Passt auf: %d"
 
-#: mail/em-format-html-display.c:643 mail/em-format-html.c:582
+#: mail/em-format-html-display.c:650 mail/em-format-html.c:581
 msgid "Unsigned"
 msgstr "Unsigniert"
 
-#: mail/em-format-html-display.c:643
+#: mail/em-format-html-display.c:650
 msgid ""
 "This message is not signed. There is no guarantee that this message is "
 "authentic."
@@ -13718,12 +13722,12 @@ msgstr ""
 "Diese Nachricht ist nicht signiert. Die Authentizität des Absenders ist "
 "daher nicht sichergestellt."
 
-#: mail/em-format-html-display.c:644 mail/em-format-html.c:583
+#: mail/em-format-html-display.c:651 mail/em-format-html.c:582
 msgid "Valid signature"
 msgstr "Gültige Signatur"
 
 # CHECK
-#: mail/em-format-html-display.c:644
+#: mail/em-format-html-display.c:651
 msgid ""
 "This message is signed and is valid meaning that it is very likely that this "
 "message is authentic."
@@ -13731,11 +13735,11 @@ msgstr ""
 "Diese Nachricht ist signiert und gültig. Es ist daher sehr wahrscheinlich, "
 "dass der Absender der ist, der er vorgibt zu sein."
 
-#: mail/em-format-html-display.c:645 mail/em-format-html.c:584
+#: mail/em-format-html-display.c:652 mail/em-format-html.c:583
 msgid "Invalid signature"
 msgstr "Ungültige Signatur"
 
-#: mail/em-format-html-display.c:645
+#: mail/em-format-html-display.c:652
 msgid ""
 "The signature of this message cannot be verified, it may have been altered "
 "in transit."
@@ -13743,11 +13747,11 @@ msgstr ""
 "Die Signatur dieser Nachricht konnte nicht verifiziert werden. "
 "Möglicherweise wurde sie bei der Übertragung verändert."
 
-#: mail/em-format-html-display.c:646
+#: mail/em-format-html-display.c:653
 msgid "Valid signature, cannot verify sender"
 msgstr "Gültige Signatur, Absender konnte nicht verifiziert werden"
 
-#: mail/em-format-html-display.c:646
+#: mail/em-format-html-display.c:653
 msgid ""
 "This message is signed with a valid signature, but the sender of the message "
 "cannot be verified."
@@ -13755,11 +13759,11 @@ msgstr ""
 "Diese Nachricht wurde mit einer gültigen Signatur signiert, der Absender der "
 "Nachricht konnte jedoch nicht verifiziert werden."
 
-#: mail/em-format-html-display.c:652 mail/em-format-html.c:591
+#: mail/em-format-html-display.c:659 mail/em-format-html.c:590
 msgid "Unencrypted"
 msgstr "Nicht verschlüsselt"
 
-#: mail/em-format-html-display.c:652
+#: mail/em-format-html-display.c:659
 msgid ""
 "This message is not encrypted.  Its content may be viewed in transit across "
 "the Internet."
@@ -13767,12 +13771,12 @@ msgstr ""
 "Diese Nachricht ist nicht verschlüsselt. Daher kann ihr Inhalt bei der "
 "Übertragung über das Internet möglicherweise ausgespäht werden."
 
-#: mail/em-format-html-display.c:653 mail/em-format-html.c:592
+#: mail/em-format-html-display.c:660 mail/em-format-html.c:591
 msgid "Encrypted, weak"
 msgstr "Schwach verschlüsselt"
 
 # CHECK
-#: mail/em-format-html-display.c:653
+#: mail/em-format-html-display.c:660
 msgid ""
 "This message is encrypted, but with a weak encryption algorithm.  It would "
 "be difficult, but not impossible for an outsider to view the content of this "
@@ -13782,11 +13786,11 @@ msgstr ""
 "jedoch schwach. Daher können dritte ihren inhalt zwar nur schwerlich, jedoch "
 "nicht unmöglich innerhalb eines praktikablen Zeitraums ausspähen."
 
-#: mail/em-format-html-display.c:654 mail/em-format-html.c:593
+#: mail/em-format-html-display.c:661 mail/em-format-html.c:592
 msgid "Encrypted"
 msgstr "Verschlüsselt"
 
-#: mail/em-format-html-display.c:654
+#: mail/em-format-html-display.c:661
 msgid ""
 "This message is encrypted.  It would be difficult for an outsider to view "
 "the content of this message."
@@ -13794,11 +13798,11 @@ msgstr ""
 "Diese Nachricht ist verschlüsselt. Daher können dritte ihren Inhalt nur "
 "schwerlich ausspähen."
 
-#: mail/em-format-html-display.c:655 mail/em-format-html.c:594
+#: mail/em-format-html-display.c:662 mail/em-format-html.c:593
 msgid "Encrypted, strong"
 msgstr "Stark verschlüsselt"
 
-#: mail/em-format-html-display.c:655
+#: mail/em-format-html-display.c:662
 msgid ""
 "This message is encrypted, with a strong encryption algorithm.  It would be "
 "very difficult for an outsider to view the content of this message in a "
@@ -13808,32 +13812,32 @@ msgstr ""
 "verschlüsselt. Daher können dritte ihren inhalt nur sehr schwerlich "
 "innerhalb eines praktikablen Zeitraums ausspähen."
 
-#: mail/em-format-html-display.c:756 smime/gui/smime-ui.glade.h:47
+#: mail/em-format-html-display.c:763 smime/gui/smime-ui.glade.h:47
 msgid "_View Certificate"
 msgstr "_Zertifikat anzeigen"
 
-#: mail/em-format-html-display.c:771
+#: mail/em-format-html-display.c:778
 msgid "This certificate is not viewable"
 msgstr "Dieses Zertifikat kann nicht angezeigt werden"
 
 # CHECK
-#: mail/em-format-html-display.c:1006
+#: mail/em-format-html-display.c:1013
 msgid "Completed on %B %d, %Y, %l:%M %p"
 msgstr "Fertiggestellt am %d. %B %Y, %R"
 
-#: mail/em-format-html-display.c:1014
+#: mail/em-format-html-display.c:1021
 msgid "Overdue:"
 msgstr "Überfällig:"
 
-#: mail/em-format-html-display.c:1017
+#: mail/em-format-html-display.c:1024
 msgid "by %B %d, %Y, %l:%M %p"
 msgstr "am %d. %b, %k:%M"
 
-#: mail/em-format-html-display.c:1056
+#: mail/em-format-html-display.c:1063
 msgid "_View Inline"
 msgstr "An _Ort und Stelle anzeigen"
 
-#: mail/em-format-html-display.c:1057
+#: mail/em-format-html-display.c:1064
 msgid "_Hide"
 msgstr "_Verbergen"
 
@@ -13842,96 +13846,96 @@ msgstr "_Verbergen"
 msgid "Page %d of %d"
 msgstr "Seite %d von %d"
 
-#: mail/em-format-html.c:475 mail/em-format-html.c:477
+#: mail/em-format-html.c:474 mail/em-format-html.c:476
 #, c-format
 msgid "Retrieving `%s'"
 msgstr "»%s« wird abgerufen"
 
-#: mail/em-format-html.c:585
+#: mail/em-format-html.c:584
 msgid "Valid signature but cannot verify sender"
 msgstr "Gültige Signatur, Absender konnte jedoch nicht verifiziert werden"
 
-#: mail/em-format-html.c:855
+#: mail/em-format-html.c:854
 msgid "Malformed external-body part."
 msgstr "Fehlerhaft formatierter external-body-Teil."
 
-#: mail/em-format-html.c:885
+#: mail/em-format-html.c:884
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "Zeiger auf FTP-Site (%s)"
 
-#: mail/em-format-html.c:896
+#: mail/em-format-html.c:895
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "Zeiger auf lokale Datei (%s) gültig auf Site »%s«"
 
-#: mail/em-format-html.c:898
+#: mail/em-format-html.c:897
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "Zeiger auf lokale Datei (%s)"
 
-#: mail/em-format-html.c:919
+#: mail/em-format-html.c:918
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "Zeiger auf entfernte Daten (%s)"
 
-#: mail/em-format-html.c:930
+#: mail/em-format-html.c:929
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Zeiger auf unbekannte externe Daten (Typ »%s«)"
 
-#: mail/em-format-html.c:1157
+#: mail/em-format-html.c:1156
 msgid "Formatting message"
 msgstr "Nachricht wird formatiert"
 
-#: mail/em-format-html.c:1432 mail/em-format-quote.c:192 mail/em-format.c:828
+#: mail/em-format-html.c:1443 mail/em-format-quote.c:192 mail/em-format.c:828
 #: mail/em-mailer-prefs.c:82 mail/message-list.etspec.h:7
 #: mail/message-tag-followup.c:325
 msgid "From"
 msgstr "Von"
 
-#: mail/em-format-html.c:1432 mail/em-format-quote.c:192 mail/em-format.c:829
+#: mail/em-format-html.c:1443 mail/em-format-quote.c:192 mail/em-format.c:829
 #: mail/em-mailer-prefs.c:83
 msgid "Reply-To"
 msgstr "Antwort an"
 
-#: mail/em-format-html.c:1432 mail/em-format-quote.c:192 mail/em-format.c:830
+#: mail/em-format-html.c:1443 mail/em-format-quote.c:192 mail/em-format.c:830
 #: mail/em-mailer-prefs.c:84 mail/message-list.etspec.h:14
 msgid "To"
 msgstr "An"
 
-#: mail/em-format-html.c:1432 mail/em-format-quote.c:192 mail/em-format.c:831
+#: mail/em-format-html.c:1443 mail/em-format-quote.c:192 mail/em-format.c:831
 #: mail/em-mailer-prefs.c:85
 msgid "Cc"
 msgstr "Kopie"
 
-#: mail/em-format-html.c:1432 mail/em-format-quote.c:192 mail/em-format.c:832
+#: mail/em-format-html.c:1443 mail/em-format-quote.c:192 mail/em-format.c:832
 #: mail/em-mailer-prefs.c:86
 msgid "Bcc"
 msgstr "Blindkopie"
 
 #. pseudo-header
-#: mail/em-format-html.c:1545 mail/em-format-quote.c:314
+#: mail/em-format-html.c:1556 mail/em-format-quote.c:314
 #: mail/em-mailer-prefs.c:939
 msgid "Mailer"
 msgstr "Mailer"
 
 #. translators: strftime format for local time equivalent in Date header display, with day
-#: mail/em-format-html.c:1572
+#: mail/em-format-html.c:1583
 msgid "<I> (%a, %R %Z)</I>"
 msgstr "<I> (%a, %R %Z)</I>"
 
 #. translators: strftime format for local time equivalent in Date header display, without day
-#: mail/em-format-html.c:1575
+#: mail/em-format-html.c:1586
 msgid "<I> (%R %Z)</I>"
 msgstr "<I> (%R %Z)</I>"
 
-#: mail/em-format-html.c:1585 mail/em-format-quote.c:321 mail/em-format.c:834
+#: mail/em-format-html.c:1596 mail/em-format-quote.c:321 mail/em-format.c:834
 #: mail/em-mailer-prefs.c:88 mail/message-list.etspec.h:2
 msgid "Date"
 msgstr "Datum"
 
-#: mail/em-format-html.c:1608 mail/em-format.c:835 mail/em-mailer-prefs.c:89
+#: mail/em-format-html.c:1619 mail/em-format.c:835 mail/em-mailer-prefs.c:89
 msgid "Newsgroups"
 msgstr "Newsgroups"
 
@@ -13968,7 +13972,7 @@ msgstr "Fehler beim Verifizieren der Signatur"
 msgid "Unknown error verifying signature"
 msgstr "Unbekannter Fehler beim Verifizieren der Signatur"
 
-#: mail/em-junk-filter.c:86
+#: mail/em-junk-filter.c:89
 msgid "Spamassassin (built-in)"
 msgstr "Spam-Assassin (eingebaut)"
 
@@ -16721,7 +16725,7 @@ msgstr "%d. %b, %k:%M"
 msgid "%b %d %Y"
 msgstr "%b %d %Y"
 
-#: mail/message-list.c:3384
+#: mail/message-list.c:3356
 msgid "Generating message list"
 msgstr "Nachrichtenliste wird erzeugt"
 
@@ -19862,4 +19866,3 @@ msgstr "%s (...)"
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (zu %d%% abgeschlossen)"
-
