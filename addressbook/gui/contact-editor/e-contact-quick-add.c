@@ -299,13 +299,12 @@ build_quick_add_dialog (QuickAdd *qa)
 	dialog = gtk_dialog_new_with_buttons (_("Contact Quick-Add"),
 					      NULL, /* XXX */
 					      (GtkDialogFlags) 0,
-					      GTK_STOCK_OK, GTK_RESPONSE_OK,
-					      _("Edit Full"), QUICK_ADD_RESPONSE_EDIT_FULL,
 					      GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					      _("Edit Full"), QUICK_ADD_RESPONSE_EDIT_FULL,
+					      GTK_STOCK_OK, GTK_RESPONSE_OK,
 					      NULL);
 
-	g_signal_connect (dialog, "reponse",
-			  G_CALLBACK (clicked_cb), qa);
+	g_signal_connect (dialog, "response", G_CALLBACK (clicked_cb), qa);
 
 	qa->name_entry = gtk_entry_new ();
 	if (qa->name)

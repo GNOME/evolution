@@ -1,5 +1,39 @@
 2003-01-14  Ettore Perazzoli  <ettore@ximian.com>
 
+	* gui/widgets/e-addressbook-util.c
+	(e_addressbook_prompt_save_dialog): Change dialog from
+	Yes/No/Cancel to Discard/Cancel/Save to match the HIG.
+
+	* gui/search/e-addressbook-search-dialog.c
+	(e_addressbook_search_dialog_init): Change dialog from OK/Cancel
+	to Cancel/OK to match the HIG.
+
+	* gui/contact-editor/e-contact-save-as.c (file_exists): Change
+	dialog from Overwrite/Cancel to Cancel/Overwrite to match the HIG.
+
+	* gui/contact-editor/e-contact-quick-add.c
+	(build_quick_add_dialog): Fix typo s/reponse/response/.  Also
+	change the dialog to be Edit/Cancel/OK instead of OK/Edit/Cancel
+	to match the HIG.
+
+	* gui/contact-editor/e-contact-editor.c
+	(e_contact_editor_confirm_delete): Make alert cancel/delete
+	instead of delete/cancel to match the HIG.
+
+	* gui/contact-editor/e-contact-editor-fullname.c
+	(e_contact_editor_fullname_init): Make dialog Cancel/OK instead of
+	OK/Cancel to match the HIG.
+
+	* gui/contact-editor/e-contact-editor-address.c
+	(e_contact_editor_address_init): Make dialog Cancel/OK instead of
+	OK/Cancel to match the HIG.
+
+	* gui/component/select-names/e-select-names.c
+	(e_select_names_init): Make dialog Cancel/OK instead of OK/Cancel
+	to match the HIG.
+
+2003-01-14  Ettore Perazzoli  <ettore@ximian.com>
+
 	* gui/component/Makefile.am (EXTRA_DIST): Add $(schema_DATA).
 
 2003-01-09  Chris Toshok  <toshok@ximian.com>

@@ -211,8 +211,8 @@ file_exists(GtkFileSelection *filesel, const char *filename)
 					 _("%s already exists\nDo you want to overwrite it?"), filename);
 
 	gtk_dialog_add_buttons (GTK_DIALOG (dialog),
-				_("Overwrite"), GTK_RESPONSE_ACCEPT,
 				GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
+				_("Overwrite"), GTK_RESPONSE_ACCEPT,
 				NULL);
 
 	response = gtk_dialog_run (GTK_DIALOG (dialog));

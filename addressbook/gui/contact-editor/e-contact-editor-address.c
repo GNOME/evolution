@@ -414,8 +414,8 @@ e_contact_editor_address_init (EContactEditorAddress *e_contact_editor_address)
 	char *icon_path;
 
 	gtk_dialog_add_buttons (GTK_DIALOG (e_contact_editor_address),
-				GTK_STOCK_OK, GTK_RESPONSE_OK,
 				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+				GTK_STOCK_OK, GTK_RESPONSE_OK,
 				NULL);
 
 	gtk_window_set_policy(GTK_WINDOW(e_contact_editor_address), FALSE, TRUE, FALSE);

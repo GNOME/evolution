@@ -106,8 +106,8 @@ e_contact_editor_fullname_init (EContactEditorFullname *e_contact_editor_fullnam
 	char *icon_path;
 
 	gtk_dialog_add_buttons (GTK_DIALOG (e_contact_editor_fullname),
-				GTK_STOCK_OK, GTK_RESPONSE_OK,
 				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+				GTK_STOCK_OK, GTK_RESPONSE_OK,
 				NULL);
 
 	gtk_window_set_policy(GTK_WINDOW(e_contact_editor_fullname), TRUE, TRUE, FALSE);

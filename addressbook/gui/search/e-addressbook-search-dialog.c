@@ -120,9 +120,9 @@ e_addressbook_search_dialog_init (EAddressbookSearchDialog *view)
 	gtk_widget_show(view->search);
 
 	gtk_dialog_add_buttons (dialog,
-				GTK_STOCK_OK, GTK_RESPONSE_OK,
-				/*GTK_STOCK_SAVE, GTK_RESPONSE_APPLY,*/
 				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+				/*GTK_STOCK_SAVE, GTK_RESPONSE_APPLY,*/
+				GTK_STOCK_OK, GTK_RESPONSE_OK,
 				NULL);
 	
 	gtk_dialog_set_default_response (dialog, GTK_RESPONSE_OK);

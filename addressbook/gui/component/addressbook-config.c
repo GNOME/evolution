@@ -703,7 +703,8 @@ static void
 search_base_selection_model_changed (ESelectionModel *selection_model, GtkWidget *dialog)
 {
 	gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog),
-					   GTK_RESPONSE_OK, e_selection_model_selected_count (selection_model) == 1);
+					   GTK_RESPONSE_OK,
+					   e_selection_model_selected_count (selection_model) == 1);
 }
 
 static void

@@ -73,9 +73,9 @@ e_addressbook_prompt_save_dialog (GtkWindow *parent)
 					  GTK_BUTTONS_NONE,
 					 _("Do you want to save changes?"));
 	gtk_dialog_add_buttons (GTK_DIALOG (dialog),
-				GTK_STOCK_YES, GTK_RESPONSE_YES,
-				GTK_STOCK_NO, GTK_RESPONSE_NO,
+				_("_Discard"), GTK_RESPONSE_NO,
 				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+				GTK_STOCK_SAVE, GTK_RESPONSE_YES,
 				NULL);
 
 	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_YES);

@@ -484,8 +484,8 @@ e_select_names_init (ESelectNames *e_select_names)
 	gtk_widget_unref(widget);
 
 	gtk_dialog_add_buttons (GTK_DIALOG (e_select_names),
-				GTK_STOCK_OK, GTK_RESPONSE_OK,
 				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+				GTK_STOCK_OK, GTK_RESPONSE_OK,
 				NULL);
 
 	gtk_dialog_set_default_response (GTK_DIALOG (e_select_names),
