@@ -315,8 +315,8 @@ e_table_sorting_utils_tree_check_position (ETreeModel *source, ETableSortInfo *s
 int
 e_table_sorting_utils_tree_insert(ETreeModel *source, ETableSortInfo *sort_info, ETableHeader *full_header, ETreePath *map_table, int count, ETreePath path)
 {
-	int start;
-	int end;
+	size_t start;
+	size_t end;
 	ETreeSortClosure closure;
 
 	closure.tree = source;

@@ -27,6 +27,7 @@
 
 
 #include <config.h>
+#include <string.h>
 #include <stdio.h>
 #include <gtk/gtk.h>
 #include "e-completion.h"

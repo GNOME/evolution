@@ -195,7 +195,7 @@ e_sorter_array_append  (ESorterArray *esa, int count)
 		esa->sorted = g_renew(int, esa->sorted, esa->rows + count);
 		for (i = 0; i < count; i++) {
 			int value = esa->rows;
-			int pos;
+			size_t pos;
 			e_bsearch (&value, esa->sorted, esa->rows, sizeof (int), esort_callback, esa, &pos, NULL);
 			memmove (esa->sorted + pos + 1, esa->sorted + pos, sizeof (int) * (esa->rows - pos));
 			esa->sorted[pos] = value;
