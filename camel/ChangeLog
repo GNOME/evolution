@@ -1,3 +1,15 @@
+2001-10-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* Makefile.am: Remove the stripheader filter from the build.
+
+	* camel-mime-filter-stripheader.[c,h]: Removed.
+
+	* providers/smtp/camel-smtp-transport.c (smtp_data): Check the
+	return value of camel_stream_flush to make sure it flushed the
+	data successfully before continuing. Don't use the stripheader
+	filter, it was completely broken - instead remove the header and
+	set it again after we send.
+
 2001-10-12    <NotZed@Ximian.com>
 
 	* camel-vee-folder.c (camel_vee_folder_remove_folder): Unhook from

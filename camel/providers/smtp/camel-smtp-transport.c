@@ -40,7 +40,6 @@
 #undef MIN
 #undef MAX
 #include "camel-mime-filter-crlf.h"
-#include "camel-mime-filter-stripheader.h"
 #include "camel-mime-filter-linewrap.h"
 #include "camel-stream-filter.h"
 #include "camel-smtp-transport.h"
@@ -950,9 +949,10 @@ static gboolean
 smtp_data (CamelSmtpTransport *transport, CamelMedium *message, gboolean has_8bit_parts, CamelException *ex)
 {
 	/* now we can actually send what's important :p */
-	gchar *cmdbuf, *respbuf = NULL;
+	char *cc, *cmdbuf, *respbuf = NULL;
 	CamelStreamFilter *filtered_stream;
-	CamelMimeFilter *crlffilter, *bccfilter;
+	CamelMimeFilter *crlffilter;
+	int ret;
 	
 	/* if the message contains 8bit mime parts and the server
            doesn't support it, encode 8bit parts to the best
@@ -996,14 +996,15 @@ smtp_data (CamelSmtpTransport *transport, CamelMedium *message, gboolean has_8bi
 	
 	/* setup stream filtering */
 	crlffilter = camel_mime_filter_crlf_new (CAMEL_MIME_FILTER_CRLF_ENCODE, CAMEL_MIME_FILTER_CRLF_MODE_CRLF_DOTS);
-	bccfilter = camel_mime_filter_stripheader_new ("Bcc");
 	filtered_stream = camel_stream_filter_new_with_stream (transport->ostream);
-	camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (bccfilter));
 	camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (crlffilter));
-	camel_object_unref (CAMEL_OBJECT (bccfilter));
 	camel_object_unref (CAMEL_OBJECT (crlffilter));
 	
-	if (camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), CAMEL_STREAM (filtered_stream)) == -1) {
+	cc = g_strdup (camel_medium_get_header (CAMEL_MEDIUM (message), "Cc"));
+	camel_medium_remove_header (CAMEL_MEDIUM (message), "Cc");
+	
+	ret = camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), CAMEL_STREAM (filtered_stream));
+	if (ret == -1 || camel_stream_flush (CAMEL_STREAM (filtered_stream)) == -1) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("DATA send timed out: message termination: "
 					"%s: mail not sent"),
@@ -1011,11 +1012,17 @@ smtp_data (CamelSmtpTransport *transport, CamelMedium *message, gboolean has_8bi
 		
 		camel_object_unref (CAMEL_OBJECT (filtered_stream));
 		
+		camel_medium_set_header (CAMEL_MEDIUM (message), "Cc", cc);
+		g_free (cc);
+		
 		return FALSE;
 	}
 	
-	camel_stream_flush (CAMEL_STREAM (filtered_stream));
 	camel_object_unref (CAMEL_OBJECT (filtered_stream));
+	if (cc) {
+		camel_medium_set_header (CAMEL_MEDIUM (message), "Cc", cc);
+		g_free (cc);
+	}
 	
 	/* terminate the message body */
 	
