@@ -718,7 +718,7 @@ rule_editor_construct (RuleEditor *re, RuleContext *context, GladeXML *gui, cons
 	gtk_box_pack_start((GtkBox *)((GtkDialog *)re)->vbox, w, TRUE, TRUE, 3);
 
 	for (i = 0; i < BUTTON_LAST; i++) {
-		re->priv->buttons[i] = (GtkButton *) w = glade_xml_get_widget (gui, edit_buttons[i].name);
+		re->priv->buttons[i] = (GtkButton *) (w = glade_xml_get_widget (gui, edit_buttons[i].name));
 		g_signal_connect (w, "clicked", edit_buttons[i].func, re);
 	}
 	

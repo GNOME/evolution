@@ -31,7 +31,7 @@
 
 #include "widgets/misc/e-error.h"
 #include "filter-rule.h"
-#include "filter-context.h"
+#include "rule-context.h"
 #include "filter-marshal.h"
 
 #define d(x)

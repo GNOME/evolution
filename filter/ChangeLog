@@ -1,3 +1,45 @@
+2004-06-17  Not Zed  <NotZed@Ximian.com>
+
+	** See #59885.
+
+	** Moved all of the mailer specific filter stuff into mail/*.
+
+	* filter-element.c (copy_value): implement for base types.
+
+	* filter-element.c (filter_element_copy_value): do this as a
+	virtual method.
+
+	* filter.glade: moved the vfolder stuff to mail/
+
+	* libfilter-i18n.h: removed, moved to mailer.
+
+	* filter-errors.xml: moved the vfolder/filtering errors to the
+	mail error file.
+
+	* Makefile.am (EXTRA_DIST): moved *types.xml to mail.
+	(INCLUDES): removed a bunch of mail dependencies.
+
+	* filter-*.[ch], vfolder-*.[ch]: Moved all mail related filter and
+	vfolder stuff to mail directory.
+
+	* score-*.[ch]: Removed all of it.
+
+	* vfolder-context.c (vfolder_new_element): and for vfolders.
+
+	* filter-context.c (filter_new_element): implement for filter
+	element types.
+
+	* rule-context.c (rc_new_element): replacement for old
+	filter_element_new_type_name.  only has the basics.
+
+	* filter-part.c (filter_part_xml_create): take a rule context
+	as an argument & and look up the element name off the context.
+
+	* rule-context.c (rule_context_new_element): new virtual method to
+	get an element for a given name.
+
+	* filter-element.c (filter_element_new_type_name): removed.
+
 2004-06-08  Not Zed  <NotZed@Ximian.com>
 
 	* filtertypes.xml: give the junk test a unique name. #59567.

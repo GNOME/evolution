@@ -33,7 +33,7 @@
 #include <libgnome/gnome-i18n.h>
 
 #include "filter-part.h"
-
+#include "rule-context.h"
 
 #define d(x)
 
@@ -164,7 +164,7 @@ filter_part_eq (FilterPart *fp, FilterPart *fc)
 }
 
 int
-filter_part_xml_create (FilterPart *ff, xmlNodePtr node)
+filter_part_xml_create (FilterPart *ff, xmlNodePtr node, RuleContext *rc)
 {
 	xmlNodePtr n;
 	char *type, *str;
@@ -181,7 +181,7 @@ filter_part_xml_create (FilterPart *ff, xmlNodePtr node)
 			type = xmlGetProp (n, "type");
 			d(printf ("creating new element type input '%s'\n", type));
 			if (type != NULL
-			    && (el = filter_element_new_type_name (type)) != NULL) {
+			    && (el = rule_context_new_element(rc, type)) != NULL) {
 				filter_element_xml_create (el, n);
 				xmlFree (type);
 				d(printf ("adding element part %p %s\n", ff, el, el->name));

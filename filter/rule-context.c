@@ -41,6 +41,15 @@
 #include "filter-rule.h"
 #include "filter-marshal.h"
 
+#include "filter-input.h"
+#include "filter-option.h"
+#include "filter-code.h"
+#include "filter-colour.h"
+#include "filter-datespec.h"
+#include "filter-int.h"
+#include "filter-file.h"
+#include "filter-label.h"
+
 #define d(x) 
 
 static int load(RuleContext *rc, const char *system, const char *user);
@@ -48,6 +57,7 @@ static int save(RuleContext *rc, const char *user);
 static int revert(RuleContext *rc, const char *user);
 static GList *rename_uri(RuleContext *rc, const char *olduri, const char *newuri, GCompareFunc cmp);
 static GList *delete_uri(RuleContext *rc, const char *uri, GCompareFunc cmp);
+static FilterElement *new_element(RuleContext *rc, const char *name);
 
 static void rule_context_class_init(RuleContextClass *klass);
 static void rule_context_init(RuleContext *rc);
@@ -110,7 +120,8 @@ rule_context_class_init(RuleContextClass *klass)
 	klass->revert = revert;
 	klass->rename_uri = rename_uri;
 	klass->delete_uri = delete_uri;
-	
+	klass->new_element = new_element;
+
 	/* signals */
 	signals[RULE_ADDED] =
 		g_signal_new("rule_added",
@@ -326,7 +337,7 @@ load(RuleContext *rc, const char *system, const char *user)
 				if (!strcmp(rule->name, "part")) {
 					FilterPart *part = FILTER_PART(g_object_new(part_map->type, NULL, NULL));
 					
-					if (filter_part_xml_create(part, rule) == 0) {
+					if (filter_part_xml_create(part, rule, rc) == 0) {
 						part_map->append(rc, part);
 					} else {
 						g_object_unref(part);
@@ -883,3 +894,54 @@ rule_context_free_uri_list(RuleContext *rc, GList *uris)
 		l = n;
 	}
 }
+
+static FilterElement *
+new_element(RuleContext *rc, const char *type)
+{
+	if (!strcmp (type, "string")) {
+		return (FilterElement *) filter_input_new ();
+	} else if (!strcmp (type, "address")) {
+		/* FIXME: temporary ... need real address type */
+		return (FilterElement *) filter_input_new_type_name (type);
+	} else if (!strcmp (type, "code")) {
+		return (FilterElement *) filter_code_new ();
+	} else if (!strcmp (type, "colour")) {
+		return (FilterElement *) filter_colour_new ();
+	} else if (!strcmp (type, "optionlist")) {
+		return (FilterElement *) filter_option_new ();
+	} else if (!strcmp (type, "datespec")) {
+		return (FilterElement *) filter_datespec_new ();
+	} else if (!strcmp (type, "command")) {
+		return (FilterElement *) filter_file_new_type_name (type);
+	} else if (!strcmp (type, "file")) {
+		return (FilterElement *) filter_file_new_type_name (type);
+	} else if (!strcmp (type, "integer")) {
+		return (FilterElement *) filter_int_new ();
+	} else if (!strcmp (type, "regex")) {
+		return (FilterElement *) filter_input_new_type_name (type);
+	} else if (!strcmp (type, "label")) {
+		return (FilterElement *) filter_label_new ();
+	} else {
+		g_warning("Unknown filter type '%s'", type);
+		return NULL;
+	}
+}
+
+/**
+ * rule_context_new_element:
+ * @rc: 
+ * @name: 
+ * 
+ * create a new filter element based on name.
+ * 
+ * Return value: 
+ **/
+FilterElement *
+rule_context_new_element(RuleContext *rc, const char *name)
+{
+	if (name == NULL)
+		return NULL;
+
+	return RULE_CONTEXT_GET_CLASS(rc)->new_element(rc, name);
+}
+

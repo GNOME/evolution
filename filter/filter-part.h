@@ -28,6 +28,8 @@
 
 #include "filter-input.h"
 
+struct _RuleContext;
+
 #define FILTER_TYPE_PART            (filter_part_get_type ())
 #define FILTER_PART(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), FILTER_TYPE_PART, FilterPart))
 #define FILTER_PART_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), FILTER_TYPE_PART, FilterPartClass))
@@ -63,7 +65,7 @@ FilterPart     *filter_part_new          (void);
 gboolean        filter_part_validate     (FilterPart *fp);
 int             filter_part_eq           (FilterPart *fp, FilterPart *fc);
 
-int             filter_part_xml_create   (FilterPart *ff, xmlNodePtr node);
+int             filter_part_xml_create   (FilterPart *ff, xmlNodePtr node, struct _RuleContext *rc);
 
 xmlNodePtr      filter_part_xml_encode   (FilterPart *fe);
 int             filter_part_xml_decode   (FilterPart *fe, xmlNodePtr node);

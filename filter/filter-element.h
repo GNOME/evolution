@@ -39,6 +39,8 @@
 typedef struct _FilterElement FilterElement;
 typedef struct _FilterElementClass FilterElementClass;
 
+typedef FilterElement *(*FilterElementFunc)(void *data);
+
 struct _FilterElement {
 	GObject parent_object;
 	
@@ -60,7 +62,8 @@ struct _FilterElementClass {
 	int (*xml_decode) (FilterElement *, xmlNodePtr);
 	
 	FilterElement *(*clone) (FilterElement *fe);
-	
+	void (*copy_value)(FilterElement *fe, FilterElement *se);
+
 	GtkWidget *(*get_widget) (FilterElement *);
 	void (*build_code) (FilterElement *, GString *, struct _FilterPart *ff);
 	void (*format_sexp) (FilterElement *, GString *);
@@ -70,8 +73,6 @@ struct _FilterElementClass {
 
 GType		filter_element_get_type	(void);
 FilterElement	*filter_element_new	(void);
-
-FilterElement	*filter_element_new_type_name	(const char *type);
 
 void            filter_element_set_data (FilterElement *fe, gpointer data);
 

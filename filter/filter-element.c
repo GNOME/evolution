@@ -29,30 +29,26 @@
 #include <stdlib.h>
 
 #include "filter-element.h"
-#include "filter-input.h"
-#include "filter-option.h"
-#include "filter-code.h"
-#include "filter-colour.h"
-#include "filter-datespec.h"
-#include "filter-int.h"
-#include "filter-folder.h"
-#include "filter-source.h"
-#include "filter-file.h"
-#include "filter-label.h"
 
+struct _element_type {
+	char *name;
+
+	FilterElementFunc create;
+	void *data;
+};
 
 static gboolean validate (FilterElement *fe);
 static int element_eq(FilterElement *fe, FilterElement *cm);
 static void xml_create(FilterElement *fe, xmlNodePtr node);
 static FilterElement *clone(FilterElement *fe);
+static void copy_value(FilterElement *de, FilterElement *se);
 
 static void filter_element_class_init (FilterElementClass *klass);
 static void filter_element_init	(FilterElement *fe);
 static void filter_element_finalise (GObject *obj);
 
-
 static GObjectClass *parent_class = NULL;
-
+static GHashTable *fe_table;
 
 GType
 filter_element_get_type (void)
@@ -71,7 +67,7 @@ filter_element_get_type (void)
 			0,    /* n_preallocs */
 			(GInstanceInitFunc) filter_element_init,
 		};
-		
+		fe_table = g_hash_table_new(g_str_hash, g_str_equal);
 		type = g_type_register_static (G_TYPE_OBJECT, "FilterElement", &info, 0);
 	}
 	
@@ -81,17 +77,16 @@ filter_element_get_type (void)
 static void
 filter_element_class_init (FilterElementClass *klass)
 {
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
-	
 	parent_class = g_type_class_ref (G_TYPE_OBJECT);
 	
-	object_class->finalize = filter_element_finalise;
+	((GObjectClass *)klass)->finalize = filter_element_finalise;
 	
 	/* override methods */
 	klass->validate = validate;
 	klass->eq = element_eq;
 	klass->xml_create = xml_create;
 	klass->clone = clone;
+	klass->copy_value = copy_value;
 }
 
 static void
@@ -238,55 +233,6 @@ filter_element_format_sexp (FilterElement *fe, GString *out)
 	FILTER_ELEMENT_GET_CLASS (fe)->format_sexp (fe, out);
 }
 
-/**
- * filter_element_new_type_name:
- * @type: filter element type
- * 
- * Create a new filter element based on its type name.
- * 
- * Return value: 
- **/
-FilterElement *
-filter_element_new_type_name (const char *type)
-{
-	if (type == NULL)
-		return NULL;
-	
-	if (!strcmp (type, "string")) {
-		return (FilterElement *) filter_input_new ();
-	} else if (!strcmp (type, "folder")) {
-		return (FilterElement *) filter_folder_new ();
-	} else if (!strcmp (type, "address")) {
-		/* FIXME: temporary ... need real address type */
-		return (FilterElement *) filter_input_new_type_name (type);
-	} else if (!strcmp (type, "code")) {
-		return (FilterElement *) filter_code_new ();
-	} else if (!strcmp (type, "colour")) {
-		return (FilterElement *) filter_colour_new ();
-	} else if (!strcmp (type, "optionlist") || !strcmp (type, "system-flag")) {
-		return (FilterElement *) filter_option_new ();
-	} else if (!strcmp (type, "datespec")) {
-		return (FilterElement *) filter_datespec_new ();
-	} else if (!strcmp (type, "score")) {
-		return (FilterElement *) filter_int_new_type("score", -3, 3);
-	} else if (!strcmp (type, "integer")) {
-		return (FilterElement *) filter_int_new ();
-	} else if (!strcmp (type, "regex")) {
-		return (FilterElement *) filter_input_new_type_name (type);
-	} else if (!strcmp (type, "source")) {
-    	        return (FilterElement *) filter_source_new ();
-	} else if (!strcmp (type, "command")) {
-		return (FilterElement *) filter_file_new_type_name (type);
-	} else if (!strcmp (type, "file")) {
-		return (FilterElement *) filter_file_new_type_name (type);
-	} else if (!strcmp (type, "label")) {
-		return (FilterElement *) filter_label_new ();
-	} else {
-		g_warning("Unknown filter type '%s'", type);
-		return NULL;
-	}
-}
-
 void
 filter_element_set_data (FilterElement *fe, gpointer data)
 {
@@ -327,22 +273,25 @@ clone (FilterElement *fe)
 	return new;
 }
 
-/* only copies the value, not the name/type */
-void
-filter_element_copy_value (FilterElement *de, FilterElement *se)
-{
-	/* bit of a hack, but saves having to do the same in each type ? */
+/* This is somewhat hackish, implement all the base cases in here */
+#include "filter-input.h"
+#include "filter-option.h"
+#include "filter-code.h"
+#include "filter-colour.h"
+#include "filter-datespec.h"
+#include "filter-int.h"
+#include "filter-file.h"
+#include "filter-label.h"
 
+static void
+copy_value(FilterElement *de, FilterElement *se)
+{
 	if (IS_FILTER_INPUT(se)) {
 		if (IS_FILTER_INPUT(de)) {
 			if (((FilterInput *)se)->values)
 				filter_input_set_value((FilterInput*)de, ((FilterInput *)se)->values->data);
 		} else if (IS_FILTER_INT(de)) {
 			((FilterInt *)de)->val = atoi((char *) ((FilterInput *)se)->values->data);
-		}
-	} else if (IS_FILTER_FOLDER(se)) {
-		if (IS_FILTER_FOLDER(de)) {
-			filter_folder_set_value((FilterFolder *)de, ((FilterFolder *)se)->uri);
 		}
 	} else if (IS_FILTER_COLOUR(se)) {
 		if (IS_FILTER_COLOUR(de)) {
@@ -382,4 +331,11 @@ filter_element_copy_value (FilterElement *de, FilterElement *se)
 				filter_option_set_current(d, s->current->value);
 		}
 	}
+}
+
+/* only copies the value, not the name/type */
+void
+filter_element_copy_value (FilterElement *de, FilterElement *se)
+{
+	FILTER_ELEMENT_GET_CLASS (de)->copy_value(de, se);
 }

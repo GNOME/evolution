@@ -16,11 +16,6 @@
   <secondary>You must specify a file name.</secondary>
  </error>
 
- <error id="no-folder" type="error">
-  <primary>Missing folder.</primary>
-  <secondary>You must specify a folder.</secondary>
- </error>
-
  <error id="bad-regexp" type="error">
   <primary>Bad regular expression &quot;{0}&quot;.</primary>
   <secondary>Could not compile regular expression &quot;{1}&quot;.</secondary>
@@ -31,21 +26,9 @@
   <secondary>You must name this filter.</secondary>
  </error>
 
- <error id="no-name-vfolder" type="error">
-  <primary>Missing name.</primary>
-  <secondary>You must name this vFolder.</secondary>
- </error>
-
  <error id="bad-name-notunique" type="error">
   <primary>Name &quot;{0}&quot; already used.</primary>
   <secondary>Please choose another name.</secondary>
- </error>
-
- <error id="vfolder-no-source" type="error">
-  <primary>No sources selected.</primary>
-  <secondary>You must specify at least one folder as a source.
-Either by selecting the folders individually, and/or by selecting
-all local folders, all remote folders, or both.</secondary>
  </error>
 
 </error-list>
