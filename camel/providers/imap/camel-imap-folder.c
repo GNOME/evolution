@@ -50,7 +50,7 @@
 #include "camel-exception.h"
 #include "camel-mime-utils.h"
 
-#define d(x)
+#define d(x) x
 
 #define CF_CLASS(o) (CAMEL_FOLDER_CLASS (GTK_OBJECT (o)->klass))
 
@@ -714,7 +714,7 @@ imap_get_subfolder_names (CamelFolder *folder, CamelException *ex)
 				f = folder + strlen (folder_path) + 1;
 				memmove (folder, f, strlen (f) + 1);
 			}
-			printf ("adding folder: %s\n", folder);
+			d(fprintf (stderr, "adding folder: %s\n", folder));
 			
 			g_ptr_array_add (listing, folder);
 
@@ -791,11 +791,13 @@ imap_get_message (CamelFolder *folder, const gchar *uid, CamelException *ex)
 		if (*q == '\n')
 			part_len--;
 	}
+	/* we want to make sure we get up to the last \n */
+	for ( ; *q && *q != '\n'; q++, part_len++);
 	
 	header = g_strndup (p, part_len);
 
 	g_free (result);
-	printf ("*** We got the header ***\n");
+	d(fprintf (stderr, "*** We got the header ***\n"));
 
 	status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), folder,
 					      &result, "UID FETCH %s BODY[TEXT]", uid);
@@ -833,18 +835,20 @@ imap_get_message (CamelFolder *folder, const gchar *uid, CamelException *ex)
 		if (*q == '\n')
 			part_len--;
 	}
+	/* we want to make sure we get up to the last \n */
+	for ( ; *q && *q != '\n'; q++, part_len++);
 
 	body = g_strndup (p, part_len);
 
 	g_free (result);
-	printf ("*** We got the body ***\n");
+	d(fprintf (stderr, "*** We got the body ***\n"));
 
 	mesg = g_strdup_printf ("%s\n%s", header, body);
 	g_free (header);
 	g_free (body);
-	printf ("*** We got the mesg ***\n");
+	d(fprintf (stderr, "*** We got the mesg ***\n"));
 
-	fprintf (stderr, "Message:\n%s\n", mesg);
+	d(fprintf (stderr, "Message:\n%s\n", mesg));
 
 	msgstream = camel_stream_mem_new_with_buffer (mesg, strlen (mesg) + 1);
 #if 0
@@ -853,7 +857,7 @@ imap_get_message (CamelFolder *folder, const gchar *uid, CamelException *ex)
 	id = camel_stream_filter_add (f_stream, CAMEL_MIME_FILTER (filter));
 #endif	
 	msg = camel_mime_message_new ();
-	printf ("*** We created the camel_mime_message ***\n");
+	d(fprintf (stderr, "*** We created the camel_mime_message ***\n"));
 	
 	camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (msg), msgstream);
 #if 0	
@@ -863,7 +867,7 @@ imap_get_message (CamelFolder *folder, const gchar *uid, CamelException *ex)
 	gtk_object_unref (GTK_OBJECT (msgstream));
 	/*gtk_object_unref (GTK_OBJECT (f_stream));*/
 
-	printf ("*** We're returning... ***\n");
+	d(fprintf (stderr, "*** We're returning... ***\n"));
 	
 	return msg;
 	
@@ -1067,7 +1071,7 @@ imap_get_summary (CamelFolder *folder, CamelException *ex)
 
 		if (!result || *result != '*') {
 			g_free (result);
-			fprintf (stderr, "Warning: UID for message %d not found\n", i);
+			d(fprintf (stderr, "Warning: UID for message %d not found\n", i));
 
 			g_free (info->subject);
 			g_free (info->from);
@@ -1084,7 +1088,7 @@ imap_get_summary (CamelFolder *folder, CamelException *ex)
 		p = strchr (result, '(');
 		if (!p || strncasecmp (p + 1, "UID", 3)) {
 			g_free (result);
-			fprintf (stderr, "Warning: UID for message %d not found\n", i);
+			d(fprintf (stderr, "Warning: UID for message %d not found\n", i));
 
 			g_free (info->subject);
 			g_free (info->from);
@@ -1101,7 +1105,7 @@ imap_get_summary (CamelFolder *folder, CamelException *ex)
 		for (p += 4; *p && (*p < '0' || *p > '9'); p++);    /* advance to <uid> */
 		for (q = p; *q && *q != ')' && *q != ' '; q++);     /* find the end of the <uid> */
 		info->uid = g_strndup (p, (gint)(q - p));
-		printf ("*** info->uid = %s\n", info->uid);
+		d(fprintf (stderr, "*** info->uid = %s\n", info->uid));
 		g_free (result);
 		
 		/* now to get the flags */
@@ -1133,7 +1137,7 @@ imap_get_summary (CamelFolder *folder, CamelException *ex)
 
 		if (!result || *result != '*') {
 			g_free (result);
-			fprintf (stderr, "Warning: FLAGS for message %d not found\n", i);
+			d(fprintf (stderr, "Warning: FLAGS for message %d not found\n", i));
 
 			g_free (info->subject);
 			g_free (info->from);
@@ -1151,7 +1155,7 @@ imap_get_summary (CamelFolder *folder, CamelException *ex)
 		p = strchr (result, '(') + 1;
 		if (strncasecmp (p, "FLAGS", 5)) {
 			g_free (result);
-			fprintf (stderr, "Warning: FLAGS for message %d not found\n", i);
+			d(fprintf (stderr, "Warning: FLAGS for message %d not found\n", i));
 
 			g_free (info->subject);
 			g_free (info->from);
@@ -1295,14 +1299,14 @@ imap_get_message_info (CamelFolder *folder, const char *uid)
 	
 	if (status != CAMEL_IMAP_OK) {
 		g_free (result);
-		fprintf (stderr, "Warning: Error getting FLAGS for message %s\n", uid);
+		d(fprintf (stderr, "Warning: Error getting FLAGS for message %s\n", uid));
 		
 		return info; /* I guess we should return what we got so far? */
 	}
 	
 	if (!result || *result != '*') {
 		g_free (result);
-		fprintf (stderr, "Warning: FLAGS for message %s not found\n", uid);
+		d(fprintf (stderr, "Warning: FLAGS for message %s not found\n", uid));
 
 		return info; /* I guess we should return what we got so far? */
 	}
@@ -1310,7 +1314,7 @@ imap_get_message_info (CamelFolder *folder, const char *uid)
 	p = strchr (result, '(') + 1;
 	if (strncasecmp (p, "FLAGS", 5)) {
 		g_free (result);
-		fprintf (stderr, "Warning: FLAGS for message %s not found\n", uid);
+		d(fprintf (stderr, "Warning: FLAGS for message %s not found\n", uid));
 
 		return info; /* I guess we should return what we got so far? */
 	}

@@ -168,6 +168,8 @@ stream_read (CamelStream *stream, char *buffer, size_t n)
 			if (*q == '\n')
 				part_len--;
 		}
+		/* we want to make sure we get up to the last \n */
+		for ( ; *q && *q != '\n'; q++, part_len++);
 
 		imap_stream->cache = g_strndup (p, part_len);
 		g_free (result);

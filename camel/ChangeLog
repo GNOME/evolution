@@ -1,5 +1,23 @@
 2000-07-08  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* providers/nntp/camel-nntp-folder.c: 
+	* providers/nntp/camel-nntp-utils.c: 
+	* providers/nntp/camel-nntp-store.c: Update to reflect past changes
+	in the Camel API. Use gtk macro casts wherever possible and use glib's
+	memory functions instead of standard c's (since they are not 
+	compatable)
+
+	* providers/smtp/camel-smtp-transport.c: 
+	* providers/imap/camel-imap-store.c: Wrap debug print statements
+	in a macro
+
+	* providers/imap/camel-imap-stream.c (stream_read): Make sure
+	that we get up to and including the last \n of the mime part.
+
+	* providers/imap/camel-imap-folder.c (imap_get_message): Make sure
+	that we get up to and including the last \n of the mime part.
+	Wrap debug print statements in a macro.
+
 	* providers/imap/camel-imap-stream.c (stream_read): Only cache
 	the important data (aka the mime part requested and no extra
 	server response stuff)

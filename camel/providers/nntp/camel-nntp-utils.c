@@ -104,7 +104,7 @@ get_HEAD_headers(CamelNNTPStore *nntp_store, CamelFolder *folder,
 
 			buf_alloc = 2048;
 			buf_len = 0;
-			buf = malloc(buf_alloc);
+			buf = g_malloc(buf_alloc);
 			done = FALSE;
 
 			buf[0] = 0;
@@ -125,7 +125,7 @@ get_HEAD_headers(CamelNNTPStore *nntp_store, CamelFolder *folder,
 				else {
 					if (buf_len + line_length > buf_alloc) {
 						buf_alloc *= 2;
-						buf = realloc (buf, buf_alloc);
+						buf = g_realloc (buf, buf_alloc);
 					}
 					strcat(buf, line);
 					strcat(buf, "\n");

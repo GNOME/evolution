@@ -188,7 +188,7 @@ nntp_folder_get_message_uid (CamelFolder *folder,
 }
 
 static CamelMimeMessage *
-nntp_folder_get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *ex)
+nntp_folder_get_message (CamelFolder *folder, const gchar *uid, CamelException *ex)
 {
 	CamelStream *nntp_istream;
 	CamelStream *message_stream;
@@ -223,7 +223,7 @@ nntp_folder_get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelExce
 	   then create a stream_mem for it. */
 	buf_alloc = 2048;
 	buf_len = 0;
-	buf = malloc(buf_alloc);
+	buf = g_malloc(buf_alloc);
 	done = FALSE;
 
 	buf[0] = 0;
@@ -243,7 +243,7 @@ nntp_folder_get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelExce
 		else {
 			if (buf_len + line_length > buf_alloc) {
 				buf_alloc *= 2;
-				buf = realloc (buf, buf_alloc);
+				buf = g_realloc (buf, buf_alloc);
 			}
 			strcat(buf, line);
 			strcat(buf, "\n");
@@ -257,28 +257,28 @@ nntp_folder_get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelExce
 
 	message = camel_mime_message_new ();
 	if (camel_data_wrapper_construct_from_stream ((CamelDataWrapper *)message, message_stream) == -1) {
-		gtk_object_unref ((GtkObject *)message);
-		gtk_object_unref ((GtkObject *)message_stream);
+		gtk_object_unref (GTK_OBJECT (message));
+		gtk_object_unref (GTK_OBJECT (message_stream));
 		camel_exception_setv (ex,
 				      CAMEL_EXCEPTION_FOLDER_INVALID_UID, /* XXX */
 				      "Could not create message for uid %s.", uid);
 
 		return NULL;
 	}
-	gtk_object_unref ((GtkObject *)message_stream);
+	gtk_object_unref (GTK_OBJECT (message_stream));
 
 	/* init other fields? */
-	gtk_object_ref((GtkObject *)folder);
+	gtk_object_ref (GTK_OBJECT (folder));
 
 #if 0
-	gtk_signal_connect((GtkObject *)message, "message_changed", message_changed, folder);
+	gtk_signal_connect (GTK_OBJECT (message), "message_changed", message_changed, folder);
 #endif
 
 	return message;
 }
 
 static void
-nntp_folder_delete_message_by_uid (CamelFolder *folder,
+nntp_folder_delete_message (CamelFolder *folder,
 				   const gchar *uid,
 				   CamelException *ex)
 {
@@ -367,7 +367,7 @@ nntp_folder_search_by_expression (CamelFolder *folder, const char *expression, C
 }
 
 static const CamelMessageInfo*
-nntp_folder_summary_get_by_uid (CamelFolder *folder, const char *uid)
+nntp_folder_get_message_info (CamelFolder *folder, const char *uid)
 {
 	g_assert(0);
 	return NULL;
@@ -403,8 +403,8 @@ camel_nntp_folder_class_init (CamelNNTPFolderClass *camel_nntp_folder_class)
 	camel_folder_class->set_message_flags = nntp_folder_set_message_flags;
 	camel_folder_class->get_message_flags = nntp_folder_get_message_flags;
 	camel_folder_class->get_message_uid = nntp_folder_get_message_uid;
-	camel_folder_class->get_message_by_uid = nntp_folder_get_message_by_uid;
-	camel_folder_class->delete_message_by_uid = nntp_folder_delete_message_by_uid;
+	camel_folder_class->get_message = nntp_folder_get_message;
+	camel_folder_class->delete_message = nntp_folder_delete_message;
 	camel_folder_class->get_uids = nntp_folder_get_uids;
 	camel_folder_class->free_uids = nntp_folder_free_uids;
 	camel_folder_class->get_summary = nntp_folder_get_summary;
@@ -412,7 +412,7 @@ camel_nntp_folder_class_init (CamelNNTPFolderClass *camel_nntp_folder_class)
 	camel_folder_class->get_subfolder_names = nntp_folder_get_subfolder_names;
 	camel_folder_class->free_subfolder_names = nntp_folder_free_subfolder_names;
 	camel_folder_class->search_by_expression = nntp_folder_search_by_expression;
-	camel_folder_class->summary_get_by_uid = nntp_folder_summary_get_by_uid;
+	camel_folder_class->get_message_info = nntp_folder_get_message_info;
 
 	gtk_object_class->finalize = nntp_folder_finalize;
 	

@@ -99,7 +99,7 @@ static char *
 nntp_store_get_name (CamelService *service, gboolean brief)
 {
 	/* Same info for long and brief... */
-	return g_strdup_sprintf ("USENET news via %s", service->url->host);
+	return g_strdup_printf ("USENET news via %s", service->url->host);
 }
 
 
@@ -107,7 +107,7 @@ static void
 camel_nntp_store_class_init (CamelNNTPStoreClass *camel_nntp_store_class)
 {
 	CamelStoreClass *camel_store_class = CAMEL_STORE_CLASS (camel_nntp_store_class);
-	CamelServiceClass *camel_store_class = CAMEL_SERVICE_CLASS (camel_nntp_store_class);
+	CamelServiceClass *camel_service_class = CAMEL_SERVICE_CLASS (camel_nntp_store_class);
 
 	service_class = gtk_type_class (camel_service_get_type ());
 	

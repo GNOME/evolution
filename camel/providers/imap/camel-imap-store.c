@@ -47,6 +47,8 @@
 #include "camel-url.h"
 #include "string-utils.h"
 
+#define d(x) x
+
 /* Specified in RFC 2060 */
 #define IMAP_PORT 143
 
@@ -336,7 +338,7 @@ imap_connect (CamelService *service, CamelException *ex)
 	
 	g_free (result);
 
-	fprintf (stderr, "IMAP provider does%shave SEARCH support\n", store->has_search_capability ? " " : "n't ");
+	d(fprintf (stderr, "IMAP provider does%shave SEARCH support\n", store->has_search_capability ? " " : "n't "));
 
 	service_class->connect (service, ex);
 	
@@ -384,7 +386,7 @@ imap_folder_exists (CamelFolder *folder)
 	else
 		folder_path = g_strdup (folder->full_name);
 
-	printf ("doing an EXAMINE...\n");
+	d(fprintf (stderr, "doing an EXAMINE...\n"));
 	status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), NULL,
 					      &result, "EXAMINE %s", folder_path);
 
@@ -570,7 +572,7 @@ camel_imap_command (CamelImapStore *store, CamelFolder *folder, char **ret, char
 	cmdbuf = g_strdup_vprintf (fmt, ap);
 	va_end (ap);
 
-	fprintf (stderr, "sending : %s %s\r\n", cmdid, cmdbuf);
+	d(fprintf (stderr, "sending : %s %s\r\n", cmdid, cmdbuf));
 	fflush (stderr);
 
 	if (camel_stream_printf (store->ostream, "%s %s\r\n", cmdid, cmdbuf) == -1) {
@@ -590,8 +592,7 @@ camel_imap_command (CamelImapStore *store, CamelFolder *folder, char **ret, char
 		return CAMEL_IMAP_FAIL;
 	}
 
-	fprintf (stderr, "received: %s\n", respbuf ? respbuf : "(null)");
-	fflush (stderr);
+	d(fprintf (stderr, "received: %s\n", respbuf ? respbuf : "(null)"));
 
 	status = camel_imap_status (cmdid, respbuf);
 	g_free (cmdid);
@@ -672,7 +673,7 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
 	cmdbuf = g_strdup_vprintf (fmt, app);
 	va_end (app);
 
-	fprintf (stderr, "sending : %s %s\r\n", cmdid, cmdbuf);
+	d(fprintf (stderr, "sending : %s %s\r\n", cmdid, cmdbuf));
 
 	if (camel_stream_printf (store->ostream, "%s %s\r\n", cmdid, cmdbuf) == -1) {
 		g_free (cmdbuf);
@@ -690,11 +691,11 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
 		respbuf = camel_stream_buffer_read_line (stream);
 		if (!respbuf || !strncmp(respbuf, cmdid, strlen(cmdid)) ) {	
 			/* IMAP's last response starts with our command id */
-			fprintf (stderr, "received: %s\n", respbuf ? respbuf : "(null)");
+			d(fprintf (stderr, "received: %s\n", respbuf ? respbuf : "(null)"));
 			break;
 		}
 
-		fprintf (stderr, "received: %s\n", respbuf);
+		d(fprintf (stderr, "received: %s\n", respbuf));
 
 		g_ptr_array_add (data, respbuf);
 		len += strlen (respbuf) + 1;
