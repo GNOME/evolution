@@ -1,7 +1,7 @@
 <oaf_info>
 
 <!--
-<oaf_server iid="OAFIID:GNOME_Evolution_Addressbook_SelectNamesFactory"
+<oaf_server iid="OAFIID:GNOME_Evolution_Addressbook_SelectNamesFactory_2"
             type="shlib"
             location="@COMPONENTDIR@/libevolution-addressbook.so">
 
@@ -15,7 +15,7 @@
 </oaf_server>
 -->
 
-<oaf_server iid="OAFIID:GNOME_Evolution_Addressbook_SelectNames"
+<oaf_server iid="OAFIID:GNOME_Evolution_Addressbook_SelectNames_2"
             type="factory"
             location="OAFIID:GNOME_Evolution_Addressbook_Factory_2">
 

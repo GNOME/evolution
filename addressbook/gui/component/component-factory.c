@@ -41,7 +41,7 @@
 #define ADDRESSBOOK_CONTROL_ID         "OAFIID:GNOME_Evolution_Addressbook_Control"
 #define COMPONENT_ID                   "OAFIID:GNOME_Evolution_Addressbook_Component"
 #define ADDRESS_POPUP_ID               "OAFIID:GNOME_Evolution_Addressbook_AddressPopup"
-#define SELECT_NAMES_ID                "OAFIID:GNOME_Evolution_Addressbook_SelectNames"
+#define SELECT_NAMES_ID                "OAFIID:GNOME_Evolution_Addressbook_SelectNames_2"
 #define LDAP_STORAGE_CONFIG_CONTROL_ID "OAFIID:GNOME_Evolution_LDAPStorage_ConfigControl"
 #define CERTIFICATE_MANAGER_CONFIG_CONTROL_ID "OAFIID:GNOME_Evolution_SMime_CertificateManager_ConfigControl"
 

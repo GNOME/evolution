@@ -1,5 +1,10 @@
 2003-11-03  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-shared-folder-picker-dialog.c (setup_name_selector):
+	Append "_2" to the SelectNames OAFIID.
+
+2003-11-03  Ettore Perazzoli  <ettore@ximian.com>
+
 	* GNOME_Evolution_Shell.server.in.in: Use "evolution2:config_item"
 	attributes instead of "evolution:config_item" ones.
 

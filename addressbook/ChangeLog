@@ -1,5 +1,13 @@
 2003-11-03  Ettore Perazzoli  <ettore@ximian.com>
 
+	* gui/component/select-names/e-select-names-factory.c: Update
+	factory ID.
+
+	* gui/component/select-names/GNOME_Evolution_Addressbook_SelectNames.server.in.in:
+	Version the SelectNames server IDs by appending a "_2".
+
+2003-11-03  Ettore Perazzoli  <ettore@ximian.com>
+
 	* gui/component/GNOME_Evolution_Addressbook.server.in.in: Change
 	"evolution:config_item" into "evolution2:config_item".
 
