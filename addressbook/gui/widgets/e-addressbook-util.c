@@ -307,8 +307,6 @@ got_book_cb (EBook *book, gpointer closure)
 	process_unref (process);
 }
 
-extern EvolutionShellClient *global_shell_client;
-
 void
 e_addressbook_transfer_cards (EBook *source, GList *cards /* adopted */, gboolean delete_from_source, GtkWindow *parent_window)
 {
@@ -336,10 +334,15 @@ e_addressbook_transfer_cards (EBook *source, GList *cards /* adopted */, gboolea
 			desc = _("Copy cards to");
 	}
 
+#if 0				/* EPFIXME */
 	evolution_shell_client_user_select_folder (global_shell_client,
 						   parent_window,
 						   desc, last_uri, allowed_types,
 						   &folder);
+#else
+	folder = NULL;
+#endif
+
 	if (!folder)
 		return;
 

@@ -1,3 +1,7 @@
+2003-09-29  Ettore Perazzoli  <ettore@ximian.com>
+
+	* filter-folder.c (get_widget): Use an EMFolderSelectionButton.
+
 2003-09-22  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* filter-int.c (get_widget): Listen to the "value-changed" signal
@@ -23,6 +27,15 @@
 
 	* searchtypes.xml: Added a search-specific types folder.  Also
 	contains system searches that cannot be deleted.
+
+2003-08-18  Ettore Perazzoli  <ettore@ximian.com>
+
+	* vfolder-rule.c (source_add): As a temporary measure, don't call
+	evolution_shell_client_user_select_folder() since this is not done
+	by the shell anymore.
+
+	* filter-folder.c (get_widget): Return NULL for now, since we
+	can't get the folder selector button from the shell anymore.
 
 2003-08-05  Not Zed  <NotZed@Ximian.com>
 

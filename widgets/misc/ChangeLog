@@ -1,3 +1,53 @@
+2003-08-18  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-source-selector.c (e_source_selector_selection_shown)
+	(e_source_selector_show_selection): Add precondition.
+
+2003-08-18  Ettore Perazzoli  <ettore@ximian.com>
+
+	* test-source-selector.c (on_idle_create_widget): Add a
+	checkbutton to the test window for toggling the checkboxes on and
+	off.  Also, put the list in a scrolled window and set a default
+	size for the main window.
+	(check_toggled_callback): Callback for the checkbutton.
+
+	* e-source-selector.c: New member checkboxes_shown in struct
+	ESourceSelectorPrivate.
+	(init): Set to TRUE.
+	(e_source_selector_show_selection): New.
+	(e_source_selector_selection_shown): New.
+	(toggle_cell_data_func): Don't show the toggle if checkboxes_shown
+	is FALSE.
+
+2003-08-17  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-source-selector.c: New signal "primary_selection_changed",
+	removed members list_changed_callback_id and
+	selection_changed_callback_id in ESourceSelectorPrivate.
+	(rebuild_model): If the new set of selected sources is smaller
+	than the old one, emit "selection_changed".
+	(e_source_selector_peek_primary_selection): New.
+	(e_source_selector_set_primary_selection): New.
+	(selection_changed_callback): New callback for the "changed"
+	signal on our associated GtkTreeSelection.
+	(init): Connect.
+	(impl_dispose): Disconnect.
+	(setup_model): Use signal_connect_object() instead of saving the
+	ID.
+
+2003-08-15  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-source-selector.c (cell_toggled_callback): Call
+	gtk_tree_model_row_changed() to let the model know that we changed
+	the data.
+
+2003-08-15  Ettore Perazzoli  <ettore@ximian.com>
+
+	* test-source-selector.c: New test program.
+
+	* e-source-selector.c: New file.
+	* e-source-selector.h: New file.
+
 2003-07-23  Dan Winship  <danw@ximian.com>
 
 	* Makefile.am: use EVO_MARSHAL_RULE

@@ -1,19 +1,8 @@
-2003-09-25  Jeffrey Stedfast  <fejj@ximian.com>
+2003-09-23  Ettore Perazzoli  <ettore@ximian.com>
 
-	* providers/smtp/camel-smtp-transport.c (smtp_helo): If the
-	localhost lookup results in a numeric IPv6 host, use the form
-	"[IPv6:<addr>]" as specified in rfc2821. Fixes bug #46006.
-
-2003-09-23  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* providers/local/camel-mbox-store.c (get_folder): If the CREATE
-	flag is set and the parent .sbd directory does not exist, create
-	it.
-
-	* camel-mime-utils.c (append_8bit): Don't forget to flush the
-	iconv conversion.
-
-	* tests/message/test4.c (main): Don't try dot-files.
+	* providers/local/camel-local-provider.c: Set the IS_STORAGE bit
+	in the mbox provider, since it can now contain a hierarchy of
+	folders.
 
 2003-09-22  Not Zed  <NotZed@Ximian.com>
 
@@ -670,6 +659,11 @@
 	(header_decode_mailbox): Perform a sanity check on the resultant
 	addr->str to make sure that it is valid UTF-8, if not convert it
 	to UTF-8. Fixes bug #42170.
+
+2003-07-23  Ettore Perazzoli  <ettore@ximian.com>
+
+	* camel-provider.c (camel_provider_init): Print the provider
+	directory as well, for debugging.
 
 2003-07-23  Jeffrey Stedfast  <fejj@ximian.com>
 

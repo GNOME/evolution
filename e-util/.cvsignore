@@ -6,3 +6,4 @@ Makefile.in
 *.la
 e-util-marshal.c
 e-util-marshal.h
+test-source-list

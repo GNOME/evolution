@@ -37,6 +37,7 @@
 
 #include "e-shell-utils.h"
 #include "evolution-shell-component-client.h"
+#include "e-folder-type-registry.h"
 
 
 #define PARENT_TYPE G_TYPE_OBJECT

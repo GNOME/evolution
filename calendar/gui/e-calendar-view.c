@@ -463,8 +463,6 @@ e_cal_view_set_timezone (ECalView *cal_view, icaltimezone *zone)
 void
 e_cal_view_set_status_message (ECalView *cal_view, const gchar *message)
 {
-	extern EvolutionShellClient *global_shell_client; /* ugly */
-
 	g_return_if_fail (E_IS_CAL_VIEW (cal_view));
 
 	if (!message || !*message) {
@@ -478,9 +476,12 @@ e_cal_view_set_status_message (ECalView *cal_view, const gchar *message)
 
 		if (progress_icon[0] == NULL)
 			progress_icon[0] = gdk_pixbuf_new_from_file (EVOLUTION_IMAGESDIR "/" EVOLUTION_CALENDAR_PROGRESS_IMAGE, NULL);
+
+#if 0
 		cal_view->priv->activity = evolution_activity_client_new (
 			global_shell_client, client_id,
 			progress_icon, message, TRUE, &display);
+#endif
 
 		g_free (client_id);
 	} else

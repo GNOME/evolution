@@ -325,7 +325,8 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingModel *em
 	gtk_widget_show (mts->attendees_vbox);
 
 	/* build the etable */
-	filename = g_strdup_printf ("%s/config/et-header-meeting-time-sel", evolution_dir);
+	filename = g_build_filename (calendar_component_peek_config_directory (calendar_component_peek ()),
+				     "config", "et-header-meeting-time-sel", NULL);
 	mts->model = emm;
 	if (mts->model)
 		g_object_ref (mts->model);

@@ -1433,8 +1433,6 @@ static GdkPixbuf *progress_icon[2] = { NULL, NULL };
 void
 e_calendar_table_set_status_message (ECalendarTable *cal_table, const gchar *message)
 {
-	extern EvolutionShellClient *global_shell_client; /* ugly */
-
         g_return_if_fail (E_IS_CALENDAR_TABLE (cal_table));
                                                                                 
         if (!message || !*message) {
@@ -1448,9 +1446,12 @@ e_calendar_table_set_status_message (ECalendarTable *cal_table, const gchar *mes
                                                                                 
                 if (progress_icon[0] == NULL)
                         progress_icon[0] = gdk_pixbuf_new_from_file (EVOLUTION_IMAGESDIR "/" EVOLUTION_TASKS_PROGRESS_IMAGE, NULL);
+
+#if 0				/* EPFIXME */
                 cal_table->activity = evolution_activity_client_new (
                         global_shell_client, client_id,
                         progress_icon, message, TRUE, &display);
+#endif
 
                 g_free (client_id);
         } else

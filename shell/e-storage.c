@@ -61,6 +61,7 @@ enum {
 	NEW_FOLDER,
 	UPDATED_FOLDER,
 	REMOVED_FOLDER,
+	ASYNC_OPEN_FOLDER,
 	LAST_SIGNAL
 };
 
@@ -212,15 +213,6 @@ impl_async_xfer_folder (EStorage *storage,
 	(* callback) (storage, E_STORAGE_NOTIMPLEMENTED, data);
 }
 
-static void
-impl_async_open_folder (EStorage *storage,
-			const char *path,
-			EStorageDiscoveryCallback callback,
-			void *data)
-{
-	(*callback) (storage, E_STORAGE_NOTIMPLEMENTED, path, data);
-}
-
 static gboolean
 impl_supports_shared_folders (EStorage *storage)
 {
@@ -265,7 +257,6 @@ class_init (EStorageClass *class)
 	class->async_create_folder = impl_async_create_folder;
 	class->async_remove_folder = impl_async_remove_folder;
 	class->async_xfer_folder   = impl_async_xfer_folder;
-	class->async_open_folder   = impl_async_open_folder;
 
 	class->supports_shared_folders       = impl_supports_shared_folders;
 	class->async_discover_shared_folder  = impl_async_discover_shared_folder;
@@ -298,6 +289,17 @@ class_init (EStorageClass *class)
 			      e_shell_marshal_NONE__STRING,
 			      G_TYPE_NONE, 1,
 			      G_TYPE_STRING);
+	signals[ASYNC_OPEN_FOLDER] =
+		g_signal_new ("async_open_folder",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_FIRST,
+			      G_STRUCT_OFFSET (EStorageClass, async_open_folder),
+			      NULL, NULL,
+			      e_shell_marshal_NONE__STRING_POINTER_POINTER,
+			      G_TYPE_NONE, 3,
+			      G_TYPE_STRING,
+			      G_TYPE_POINTER,
+			      G_TYPE_POINTER);
 }
 
 static void
@@ -328,7 +330,7 @@ e_storage_construct (EStorage *storage,
 
 	priv = storage->priv;
 
-	priv->name               = g_strdup (name);
+	priv->name = g_strdup (name);
 
 	e_storage_new_folder (storage, "/", root_folder);
 
@@ -500,7 +502,8 @@ e_storage_async_open_folder (EStorage *storage,
 		return;
 	}
 
-	(* ES_CLASS (storage)->async_open_folder) (storage, path, callback, data);
+	g_signal_emit (storage, signals[ASYNC_OPEN_FOLDER], 0,
+		       path, callback, data);
 }
 
 

@@ -44,8 +44,12 @@ eutilinclude_HEADERS = 				\
 	e-proxy.h				\
 	e-request.h				\
 	e-sexp.h				\
+	e-source-group.h			\
+	e-source-list.h				\
+	e-source.h				\
 	e-time-utils.h				\
 	e-trie.h				\
+	e-uid.h					\
 	e-url.h					\
 	e-xml-hash-utils.h			\
 	md5-utils.h
@@ -78,14 +82,24 @@ libeutil_la_SOURCES =				\
 	e-proxy.c				\
 	e-request.c				\
 	e-sexp.c				\
+	e-source-group.c			\
+	e-source-list.c				\
+	e-source.c				\
 	e-time-utils.c				\
 	e-trie.c				\
+	e-uid.c					\
 	e-url.c					\
 	e-util-marshal.c			\
 	e-xml-hash-utils.c			\
 	eggtrayicon.c				\
 	eggtrayicon.h				\
 	md5-utils.c
+
+noinst_PROGRAMS =				\
+	test-source-list
+
+test_source_list_SOURCES = test-source-list.c
+test_source_list_LDADD = libeutil.la
 
 MARSHAL_GENERATED = e-util-marshal.c e-util-marshal.h
 @EVO_MARSHAL_RULE@

@@ -853,7 +853,8 @@ meeting_page_construct (MeetingPage *mpage, EMeetingModel *emm,
 	g_object_ref((emm));
 	priv->model = emm;
 
-	filename = g_strdup_printf ("%s/config/et-header-meeting-page", evolution_dir);
+	filename = g_build_filename (calendar_component_peek_config_directory (calendar_component_peek ()),
+				     "et-header-meeting-page", NULL);
 	priv->etable = e_meeting_model_etable_from_model (priv->model, 
 							  EVOLUTION_ETSPECDIR "/meeting-page.etspec", 
 							  filename);

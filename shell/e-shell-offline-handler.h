@@ -24,9 +24,10 @@
 #define _E_SHELL_OFFLINE_HANDLER_H_
 
 #include <gtk/gtkobject.h>
+#include <gtk/gtkwindow.h>
 
 #include "e-component-registry.h"
-#include "e-shell-view.h"
+
 
 #ifdef __cplusplus
 extern "C" {
@@ -72,7 +73,7 @@ void                  e_shell_offline_handler_construct  (EShellOfflineHandler *
 EShellOfflineHandler *e_shell_offline_handler_new        (EShell               *shell);
 
 void  e_shell_offline_handler_put_components_offline  (EShellOfflineHandler *offline_handler,
-						       EShellView           *parent_shell_view);
+						       GtkWindow            *parent_window);
 
 #ifdef __cplusplus
 }

@@ -179,7 +179,8 @@ libevolution_calendar_la_LIBADD =					\
 	$(top_builddir)/calendar/gui/dialogs/libcal-dialogs.la		\
 	$(top_builddir)/widgets/e-timezone-dialog/libetimezonedialog.la	\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la			\
-	$(top_builddir)/a11y/calendar/libevolution-calendar-a11y.la                       \
+	$(top_builddir)/e-util/libeutil.la				\
+	$(top_builddir)/a11y/calendar/libevolution-calendar-a11y.la	\
 	$(EVOLUTION_CALENDAR_LIBS)
 
 libevolution_calendar_la_LDFLAGS = -avoid-version -module

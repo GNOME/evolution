@@ -94,8 +94,6 @@ struct _EItipControlPrivate {
 #define HTML_BODY_END   "</body>"
 #define HTML_FOOTER     "</html>"
 
-extern EvolutionShellClient *global_shell_client;	
-
 /* We intentionally use "calendar" instead of "calendar / *" here. We
  * don't want public calendars.
  */
@@ -196,6 +194,7 @@ start_default_server_async (EItipControl *itip, CalClient *client, gboolean task
 		return cal_client_open_default_calendar (client, FALSE);
 }
 
+#if 0				/* EPFIXME, rewrite this */
 static GPtrArray *
 get_servers (EItipControl *itip, EvolutionShellClient *shell_client, const char *possible_types[], gboolean tasks)
 {
@@ -263,6 +262,7 @@ get_servers (EItipControl *itip, EvolutionShellClient *shell_client, const char 
 
 	return servers;
 }
+#endif
 
 static CalClient *
 find_server (GPtrArray *servers, CalComponent *comp)
@@ -1568,13 +1568,18 @@ show_current (EItipControl *itip)
 
 	switch (type) {
 	case CAL_COMPONENT_EVENT:
-		if (!priv->event_clients)
-			priv->event_clients = get_servers (itip, global_shell_client, calendar_types, FALSE);
+		if (!priv->event_clients) {
+			priv->event_clients = g_ptr_array_new ();
+			/* EPFIXME */
+			/* priv->event_clients = get_servers (itip, global_shell_client, calendar_types, FALSE); */
+		}
 		show_current_event (itip);
 		break;
 	case CAL_COMPONENT_TODO:
-		if (!priv->task_clients)
-			priv->task_clients = get_servers (itip, global_shell_client, tasks_types, TRUE);
+		if (!priv->task_clients) {
+			/* EPFIXME */
+			/* priv->task_clients = get_servers (itip, global_shell_client, tasks_types, TRUE); */
+		}
 		show_current_todo (itip);
 		break;
 	case CAL_COMPONENT_FREEBUSY:
@@ -2210,6 +2215,7 @@ default_server_started_cb (CalClient *client, CalClientOpenStatus status, gpoint
 	vtype = cal_component_get_vtype (priv->comp);
 
 	switch (vtype) {
+#if 0				/* EPFIXME */
 	case CAL_COMPONENT_EVENT:
 		button = evolution_folder_selector_button_new (
 			global_shell_client, _("Select Calendar Folder"),
@@ -2222,6 +2228,7 @@ default_server_started_cb (CalClient *client, CalClientOpenStatus status, gpoint
 			calendar_config_default_tasks_folder (), 
 			tasks_types);
 		break;
+#endif
 	default:
 		button = NULL;
 	}

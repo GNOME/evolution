@@ -79,10 +79,12 @@
 	(Mdk bug #5348)
 
 2003-09-01  Andrew Wu <Yang.Wu@sun.com>
-       * gui/e-day-view.c:
-       (e_day_view_change_event_end_time_up):
-       (e_day_view_change_event_end_time_down):
-       Use "ctrl+shift+alt+Up/Down" to change the end time of the editing event.
+
+	* gui/e-day-view.c:
+	(e_day_view_change_event_end_time_up):
+	(e_day_view_change_event_end_time_down): Use
+	"ctrl+shift+alt+Up/Down" to change the end time of the editing
+	event.
 
 2003-08-28  Hans Petter Jansson  <hpj@ximian.com>
 
@@ -205,6 +207,51 @@
 
 	* gui/e-week-view.c (e_week_view_add_event, e_week_view_do_key_press):
 	same as e-day-view.c
+
+2003-08-18  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/calendar-component.c (impl_createControls): Oops, pass
+	[NULL, NULL] to gtk_scrolled_window_new().
+
+2003-08-18  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/main.c (factory): Ref the object from
+	calendar_component_peek() before returning it.
+
+2003-08-17  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/control-factory.h: #include <bonobo/bonobo-control.h>.
+
+	* gui/Makefile.am (libevolution_calendar_la_LIBADD): Link to
+	libeutil.
+
+	* gui/e-calendar-table.c (e_calendar_table_set_status_message):
+	Don't use the global_shell_client.
+
+	* gui/main.c (factory): Call calendar_component_peek() for the
+	GNOME_Evolution_Calendar_Component OAFIID.
+
+	* gui/GNOME_Evolution_Calendar.server.in.in: Set up the
+	GNOME_Evolution_Calendar_Component server and rename
+	GNOME_Evolution_Calendar_Factory to
+	GNOME_Evolution_Calendar_Factory_2.
+	* gui/main.c: Updated IDs accordingly.
+
+	* gui/e-meeting-time-sel.c (e_meeting_time_selector_construct):
+	Use calendar_component_peek_config_directory() instead of
+	evolution_dir.
+	* gui/gnome-cal.c (setup_widgets): Likewise.
+	(gnome_calendar_destroy): Likewise.
+	* gui/dialogs/meeting-page.c (meeting_page_construct): Likewise.
+
+	* gui/gnome-cal.c (gnome_calendar_open): #if 0 some code for
+	figuring out where the task list is.
+
+	* gui/calendar-component.c: New file.
+	* gui/calendar-component.h: New file.
+
+	* gui/itip-utils.c (itip_addresses_get): Unref the GConf client
+	from gconf_client_get_default.
 
 2003-08-15  Rodrigo Moya <rodrigo@ximian.com>
 
@@ -683,6 +730,27 @@
 
 	* cal-client/cal-client-multi.[ch]:
 	* cal-client/Makefile.am: removed obsolete code.
+
+2003-07-30  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/main.c (factory): Do not depend on global_shell_client being
+	not NULL for creating the calendar preferences dialog.
+
+	* gui/e-itip-control.c (show_current): Don't call get_servers
+	anymore [to be fixed].
+	(get_servers): #if 0ed out.
+	(object_requested_cb): Don't create the folder selector button.
+
+	* gui/e-cal-view.c (e_cal_view_set_status_message): Don't create
+	an activity client.
+
+	* gui/calendar-model.c (calendar_model_set_status_message): Don't
+	create an activity client.
+
+	* gui/calendar-component.c: Removed global variable
+	global_shell_client.
+	(owner_set_cb): Don't set global_shell_client.
+	(owner_unset_cb): Don't set it here either.
 
 2003-07-29  Rodrigo Moya <rodrigo@ximian.com>
 

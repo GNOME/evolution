@@ -193,10 +193,10 @@ camel_folder_finalize (CamelObject *object)
 	g_free(camel_folder->description);
 
 	if (camel_folder->parent_store)
-		camel_object_unref (camel_folder->parent_store);
+		camel_object_unref (CAMEL_OBJECT (camel_folder->parent_store));
 
 	if (camel_folder->summary)
-		camel_object_unref (camel_folder->summary);
+		camel_object_unref((CamelObject *)camel_folder->summary);
 
 	camel_folder_change_info_free(p->changed_frozen);
 	

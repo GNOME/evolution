@@ -925,6 +925,7 @@ set_status_message (EAddressbookView *eav, const char *message, AddressbookView 
 			view->activity = NULL;
 		}
 	}
+#if 0				/* EPFIXME */
 	else if (!view->activity) {
 		int display;
 		char *clientid = g_strdup_printf ("%p", view);
@@ -937,6 +938,7 @@ set_status_message (EAddressbookView *eav, const char *message, AddressbookView 
 
 		g_free (clientid);
 	}
+#endif
 	else {
 		evolution_activity_client_update (view->activity, message, -1.0);
 	}
@@ -1142,7 +1144,8 @@ addressbook_new_control (void)
 
 	bonobo_property_bag_add (view->properties,
 				 PROPERTY_FOLDER_URI, PROPERTY_FOLDER_URI_IDX,
-				 BONOBO_ARG_STRING, NULL, _("The URI that the Folder Browser will display"), 0);
+				 BONOBO_ARG_STRING, NULL,
+				 _("URI of the contacts that the control will display"), 0);
 
 	bonobo_control_set_properties (view->control,
 				       bonobo_object_corba_objref (BONOBO_OBJECT (view->properties)),

@@ -31,7 +31,8 @@
 #include <libgnome/gnome-i18n.h>
 
 #include "filter-folder.h"
-#include "shell/evolution-folder-selector-button.h"
+#include "mail/em-folder-selection-button.h"
+#include "mail/mail-component.h"
 #include "e-util/e-sexp.h"
 
 #define d(x)
@@ -51,9 +52,6 @@ static void filter_folder_finalise (GObject *obj);
 
 
 static FilterElementClass *parent_class = NULL;
-
-
-extern EvolutionShellClient *global_shell_client;
 
 
 GType
@@ -222,12 +220,12 @@ xml_decode (FilterElement *fe, xmlNodePtr node)
 }
 
 static void
-folder_selected (EvolutionFolderSelectorButton *button,
-		 GNOME_Evolution_Folder *folder,
+folder_selected (EMFolderSelectionButton *button,
+		 CamelFolder *folder,
 		 FilterFolder *ff)
 {
 	g_free (ff->uri);
-	ff->uri = g_strdup (folder->physicalUri);
+	ff->uri = mail_component_evomail_uri_from_folder (mail_component_peek (), folder);
 	
 	gdk_window_raise (GTK_WIDGET (gtk_widget_get_ancestor (GTK_WIDGET (button), GTK_TYPE_WINDOW))->window);
 }
@@ -235,14 +233,15 @@ folder_selected (EvolutionFolderSelectorButton *button,
 static GtkWidget *
 get_widget (FilterElement *fe)
 {
-	static const char *allowed_types[] = { "mail/*", NULL };
 	FilterFolder *ff = (FilterFolder *)fe;
+	CamelFolder *folder;
 	GtkWidget *button;
-	
-	button = evolution_folder_selector_button_new (global_shell_client,
-						       _("Select Folder"),
-						       ff->uri,
-						       allowed_types);
+
+	folder = mail_component_get_folder_from_evomail_uri (mail_component_peek (), 0, ff->uri, NULL);
+
+	button = em_folder_selection_button_new (_("Select Folder"), NULL);
+	em_folder_selection_button_set_selection (EM_FOLDER_SELECTION_BUTTON (button), folder);
+	camel_object_unref (CAMEL_OBJECT (folder));
 	
 	gtk_widget_show (button);
 	g_signal_connect (button, "selected", G_CALLBACK (folder_selected), ff);

@@ -20,13 +20,9 @@
  * Author: Iain Holmes  <iain@ximian.com>
  */
 
-#include <bonobo/bonobo-ui-component.h>
+#ifndef _E_SHELL_IMPORTER_H_
+#define _E_SHELL_IMPORTER_H_
 
-#ifndef __IMPORTER_H__
-#define __IMPORTER_H__
-
-void show_import_wizard (BonoboUIComponent *component,
-			 gpointer           user_data,
-			 const char        *cname);
+void  e_shell_importer_start_import  (void);
 
 #endif

@@ -23,6 +23,8 @@
 #ifndef _CONTROL_FACTORY_H_
 #define _CONTROL_FACTORY_H_
 
+#include <bonobo/bonobo-control.h>
+
 BonoboControl *control_factory_new_control  (void);
 
 #endif /* _CONTROL_FACTORY_H_ */

@@ -23,9 +23,9 @@
 
 #include "e-account.h"
 
+#include "e-uid.h"
+
 #include <string.h>
-#include <time.h>
-#include <unistd.h>
 
 #include <gal/util/e-util.h>
 #include <libxml/parser.h>
@@ -106,29 +106,6 @@ finalize (GObject *object)
 E_MAKE_TYPE (e_account, "EAccount", EAccount, class_init, init, PARENT_TYPE)
 
 
-char *
-e_account_gen_uid (void)
-{
-	static char *hostname;
-	static int serial;
-
-	if (!hostname) {
-		static char buffer [512];
-
-		if ((gethostname (buffer, sizeof (buffer) - 1) == 0) &&
-		    (buffer [0] != 0))
-			hostname = buffer;
-		else
-			hostname = "localhost";
-	}
-
-	return g_strdup_printf ("%lu.%lu.%d@%s",
-				(unsigned long) time (NULL),
-				(unsigned long) getpid (),
-				serial++,
-				hostname);
-}
-
 /**
  * e_account_new:
  *
@@ -141,7 +118,7 @@ e_account_new (void)
 	EAccount *account;
 
 	account = g_object_new (E_TYPE_ACCOUNT, NULL);
-	account->uid = e_account_gen_uid ();
+	account->uid = e_uid_new ();
 
 	return account;
 }

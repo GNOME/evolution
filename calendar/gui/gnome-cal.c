@@ -892,7 +892,8 @@ setup_widgets (GnomeCalendar *gcal)
 	gtk_paned_pack2 (GTK_PANED (priv->vpane), priv->todo, TRUE, TRUE);
 	gtk_widget_show (priv->todo);
 
-	filename = g_strdup_printf ("%s/config/TaskPad", evolution_dir);
+	filename = g_build_filename (calendar_component_peek_config_directory (calendar_component_peek ()),
+				     "TaskPad", NULL);
 	e_calendar_table_load_state (E_CALENDAR_TABLE (priv->todo), filename);
 	g_free (filename);
 
@@ -1043,7 +1044,8 @@ gnome_calendar_destroy (GtkObject *object)
 		g_list_free (client_list);
 		
 		/* Save the TaskPad layout. */
-		filename = g_strdup_printf ("%s/config/TaskPad", evolution_dir);
+		filename = g_build_filename (calendar_component_peek_config_directory (calendar_component_peek ()),
+					     "TaskPad", NULL);
 		e_calendar_table_save_state (E_CALENDAR_TABLE (priv->todo), filename);
 		g_free (filename);
 
@@ -2147,9 +2149,36 @@ gnome_calendar_open (GnomeCalendar *gcal, const char *str_uri)
 	}
 
 	/* Open the appropriate Tasks folder to show in the TaskPad */
-	e_calendar_table_set_status_message (E_CALENDAR_TABLE (priv->todo),
-					     _("Opening default tasks folder"));
-	success = cal_client_open_default_tasks (priv->task_pad_client, FALSE);
+
+	if (!uri) {
+#if 0				/* EPFIXME, need to do this differently.  */
+		tasks_uri = g_strdup_printf ("%s/local/Tasks/tasks.ics", evolution_dir);
+		message = g_strdup_printf (_("Opening tasks at %s"), tasks_uri);
+		e_calendar_table_set_status_message (E_CALENDAR_TABLE (priv->todo), message);
+		g_free (message);
+
+		success = cal_client_open_calendar (priv->task_pad_client, tasks_uri, FALSE);
+		g_free (tasks_uri);
+#endif
+	}
+	else {
+		if (!g_strncasecmp (uri->protocol, "file", 4)) {
+#if 0				/* EPFIXME, need to do this differently.  */
+			tasks_uri = g_strdup_printf ("%s/local/Tasks/tasks.ics", evolution_dir);
+			message = g_strdup_printf (_("Opening tasks at %s"), tasks_uri);
+			e_calendar_table_set_status_message (E_CALENDAR_TABLE (priv->todo), message);
+			g_free (message);
+
+			success = cal_client_open_calendar (priv->task_pad_client, tasks_uri, FALSE);
+			g_free (tasks_uri);
+#endif
+		}
+		else {
+			e_calendar_table_set_status_message (E_CALENDAR_TABLE (priv->todo),
+							     _("Opening default tasks folder"));
+			success = cal_client_open_default_tasks (priv->task_pad_client, FALSE);
+		}
+	}
 
 	g_free (real_uri);
         e_uri_free (uri);

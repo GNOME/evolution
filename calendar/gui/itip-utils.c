@@ -70,8 +70,11 @@ static EAccountList *accounts = NULL;
 EAccountList *
 itip_addresses_get (void)
 {
-	if (accounts == NULL)
-		accounts = e_account_list_new(gconf_client_get_default());
+	if (accounts == NULL) {
+		GConfClient *gconf_client = gconf_client_get_default ();
+		accounts = e_account_list_new (gconf_client);
+		g_object_unref (gconf_client);
+	}
 
 	return accounts;
 }

@@ -34,11 +34,11 @@
 #include <bonobo/bonobo-shlib-factory.h>
 
 
-#define FACTORY_ID "OAFIID:GNOME_Evolution_Addressbook_Factory"
+#define FACTORY_ID "OAFIID:GNOME_Evolution_Addressbook_Factory_2"
 
 #define MINICARD_CONTROL_ID            "OAFIID:GNOME_Evolution_Addressbook_MiniCard_Control"
 #define ADDRESSBOOK_CONTROL_ID         "OAFIID:GNOME_Evolution_Addressbook_Control"
-#define SHELL_COMPONENT_ID             "OAFIID:GNOME_Evolution_Addressbook_ShellComponent"
+#define COMPONENT_ID                   "OAFIID:GNOME_Evolution_Addressbook_Component"
 #define ADDRESS_WIDGET_ID              "OAFIID:GNOME_Evolution_Addressbook_AddressWidget"
 #define ADDRESS_POPUP_ID               "OAFIID:GNOME_Evolution_Addressbook_AddressPopup"
 #define SELECT_NAMES_ID                "OAFIID:GNOME_Evolution_Addressbook_SelectNames"
@@ -54,9 +54,11 @@ factory (BonoboGenericFactory *factory,
 		return BONOBO_OBJECT (e_minicard_control_new ());
 	if (strcmp (component_id, ADDRESSBOOK_CONTROL_ID) == 0)
 		return BONOBO_OBJECT (addressbook_new_control ());
-	if (strcmp (component_id, SHELL_COMPONENT_ID) == 0)
-		return addressbook_component_init ();
-	if (strcmp (component_id, ADDRESS_WIDGET_ID) == 0)
+	if (strcmp (component_id, COMPONENT_ID) == 0) {
+		BonoboObject *object = BONOBO_OBJECT (addressbook_component_peek ());
+		bonobo_object_ref (object);
+		return object;
+	} else if (strcmp (component_id, ADDRESS_WIDGET_ID) == 0)
 		return BONOBO_OBJECT (e_address_widget_new_control ());
 	if (strcmp (component_id, ADDRESS_POPUP_ID) == 0)
 		return BONOBO_OBJECT (e_address_popup_new_control ());

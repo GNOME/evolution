@@ -1127,9 +1127,7 @@ append_8bit (GString *out, const char *inbuf, size_t inlen, const char *charset)
 		e_iconv_close (ic);
 		return FALSE;
 	}
-	
-	e_iconv (ic, NULL, NULL, &outbuf, &outlen);
-	
+
 	*outbuf = 0;
 	g_string_append(out, outbase);
 	g_free(outbase);

@@ -1,3 +1,9 @@
+2003-09-29  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-folder-selection-dialog.c, e-folder-selection-dialog.h: New
+	files, based on e-shell-folder-selection-dialog.[ch].  These don't
+	require the shell, they just need an EStorageSet to work.
+
 2003-09-23  Charles Zhang  <charles.zhang@sun.com>
 
 	* e-shell-startup-wizard.c (e_shell_startup_wizard_create): connect
@@ -45,10 +51,319 @@
 	gtk_radio_button_new_with_label_from_widget() to 
 	gtk_radio_button_new_with_mnemonic_from_widget(). fix bug #47867
 
+2003-08-18  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-window.c: New member current_view in struct
+	EShellWindowPrivate.
+	(init_view): Set it to the newly added view.  Also, switch the
+	notebooks to the new page.
+	(component_button_clicked_callback): Set current_view here as
+	well, for existing views.
+	(component_view_activate): New.
+	(component_view_deactivate): New.
+	(init_view): Deactivate existing view, activate new selected view.
+	(component_button_clicked_callback): Likewise.
+	(init_view): Set the component_iface to CORBA_OBJECT_NIL in the
+	view if you cannot create the controls.
+
+2003-08-17  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-window.c (setup_widgets): Pass TRUE for @resize to
+	gtk_paned_pack2() for the view notebook.
+
+2003-07-29  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-splash.c, e-splash.h: Removed from the build.
+
+2003-07-25  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell.c (e_shell_close_all_windows): Oops.  Traverse the
+	window list with a local "next" variable like we did in the
+	original code.  Otherwise, we crash because the list is being
+	modified at each gtk_widget_destroy().
+
+2003-07-25  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-storage-browser.c (class_init): Set up "page_switched" signal.
+	(e_storage_browser_show_path): Emit "page_switched".
+
+	* e-storage-browser.h: New signal "page_switched".
+
+2003-07-25  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-window.c: Removed member ui_container from
+	EShellWindowPrivate.
+	(e_shell_window_peek_shell): New.
+	(e_shell_window_peek_bonobo_ui_component): New.
+	(e_shell_window_new): Don't set the ui_container anymore, just get
+	it ourselves.  Also call e_shell_window_commands_setup().
+
+	* e-shell-window-commands.c, e-shell-window-commands.h: New files
+	implementing the commands for the shell windows.
+
+	* e-shell.c (e_shell_close_all_windows): Renamed from
+	e_shell_destroy_all_windows().
+
+	* main.c (idle_cb): Create a new window using
+	e_shell_create_window().
+
+	* e-shell-importer.h: Define _E_SHELL_IMPORTER_H_ to prevent
+	multiple inclusion, instead of __IMPORTER_H__.  Also, do not
+	#include <bonobo/bonobo-ui-component.h>.
+
+	* e-shell-importer.c (e_shell_importer_start_import): Renamed from
+	show_import_wizard().  Don't get any args.
+
+2003-07-24  Ettore Perazzoli  <ettore@ximian.com>
+
+	* main.c: Remove the global evolution_directory variable.
+	(main): Just declare, assign and free the evolution_directory
+	variable here.  Also, use g_idle_add() instead of gtk_idle_add().
+	(idle_cb): Don't pass the evolution directory path to
+	e_shell_new() anymore, since that arg is gone.
+
+	* e-shell.c: Remove member local_directory from EShellPrivate.
+	(impl_finalize): Don't free.
+	(e_shell_init): Don't NULL.
+	(e_shell_construct): Removed arg local_directory.
+	(e_shell_new): Likewise.
+	(e_shell_construct): Don't call e_setup_check_config() here.
+	(e_shell_get_local_directory): Removed.
+
+2003-07-24  Ettore Perazzoli  <ettore@ximian.com>
+
+	* main.c: Removed global variable "no_splash".
+	(idle_cb): Updated to not pass the splash argument to
+	e_shell_new().
+	(main): Removed "--no-splash" option.
+
+	* e-shell.c: Removed members storage_set, local_storage,
+	summary_storage, folder_type_registry, component_registry,
+	corba_storage_registry from struct EShellPrivate.
+	(setup_corba_storages): Removed.
+	(e_shell_construct): Don't invoke.
+	(setup_local_storage): Removed.
+	(e_shell_construct): Don't invoke.  Also, removed initialization
+	for all the removed members.
+	(e_shell_new): No priv->storage_set anymore.
+	(e_shell_get_storage_set): Removed.
+	(e_shell_get_local_storage): Removed.
+	(e_shell_get_folder_type_registry): Removed.
+	(set_owner_on_components): Removed.
+	(set_interactive): Removed contents; do nothing for now.
+	(pop_up_activation_error_dialog): Removed.
+	(e_shell_construct): Removed arg show_splash.  Do not create a
+	splash dialog at all.
+	(e_shell_new): Removed arg show_splash here as well.
+	(e_shell_construct): No folder type registry handling here
+	anymore.
+	(setup_components): Removed splash arg.
+	(save_settings_for_components): Removed.
+	(save_settings_for_component): Removed.
+	(save_misc_settings): Removed.
+	(e_shell_save_settings): Moved the code in here.
+	(e_shell_component_maybe_crashed): Removed.
+	(e_shell_send_receive): Removed.
+	(e_shell_get_component_registry): Removed.
+	(prepare_for_quit_callback): Removed.
+
+	* evolution-storage-set-view.c: Removed from build.
+	* evolution-storage-set-view.h: Removed from build.
+	* evolution-storage-set-view-factory.c: Removed from build.
+	* evolution-storage-set-view-factory.h: Removed from build.
+
+	* e-component-registry.c, e-component-registry.h: Removed from
+	build.
+
+	* e-shell-folder-creation-dialog.c: Removed from build.
+	* e-shell-folder-creation-dialog.h: Removed from build.
+
+	* e-shell-folder-selection-dialog.c: Removed from build.
+	* e-shell-folder-selection-dialog.h: Removed from build.
+
+2003-07-24  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-setup.c: Do not #include "e-shell-config.h".
+
+	* main.c (idle_cb): Do not register the config factory.
+
+	* e-shell.c: Removed members offline_handler, shortcuts and
+	corba_shortcuts from EShellPrivate.
+	(setup_shortcuts_interface): Removed.
+	(storage_set_moved_folder_callback): Removed.
+	(e_shell_construct): Don't connect.  Also, no need to set up the
+	shortcuts either.
+	(e_shell_get_shortcuts): Removed.
+	(offline_procedure_started_cb): Removed.
+	(offline_procedure_finished_cb): Removed.
+	(e_shell_go_offline): Just assert for now.
+	(e_shell_go_online): Same.
+
+	* e-shell-config-autocompletion.c: Removed.
+	* e-shell-config-autocompletion.h: Removed.
+
+	* e-shell-config-default-folders.c: Removed.
+	* e-shell-config-default-folders.h: Removed.
+
+	* e-shell-config-folder-settings.c: Removed.
+	* e-shell-config-folder-settings.h: Removed.
+
+	* e-shell-config.c, e-shell-config.h: Removed.
+
+	* e-corba-shortcuts.c, e-corba-shortcuts.h: Removed.
+
+	* e-shortcuts-view-model.c, e-shortcuts-view-model.h: Removed.
+
+	* e-shortcuts-view.c, e-shortcuts-view.h: Removed.
+
+	* e-shortcuts.c, e-shortcuts.h: Removed.
+
+	* e-shell-offline-handler.c, e-shell-offline-handler.h: Removed.
+	
+	* e-shell-offline-sync.c, e-shell-offline-sync.h: Removed.
+
+	* e-shell-config-offline.c, e-shell-config-offline.h: Removed.
+
+2003-07-24  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell.c: Renamed signal "new_view_created" to
+	"new_window_created".  Renamed "no_views_left" to
+	"no_windows_left". Renamed EShellPrivate member "views" to
+	"windows".  Removed member user_creatable_items_handler.
+	(notify_no_windows_left_idle_cb): Renamed from
+	notify_no_views_left_idle_cb.  Emit "no_windows_left".
+	(impl_Shell_createNewView): Raise an InternalError exception.
+	(window_delete_event_cb): Renamed from view_delete_event_cb.
+	(window_weak_notify): Renamed from view_weak_notify.
+	(create_view): Removed.
+	(create_window): New.  Creates a new EShellWindow.
+	(e_shell_create_view): Removed.
+	(e_shell_create_window): New.
+	(e_shell_request_close_view): Removed.
+	(e_shell_request_close_window): New.
+	(e_shell_destroy_all_windows): Renamed from
+	e_shell_destroy_all_views.
+	(e_shell_component_maybe_crashed): Get an EShellWindow parameter,
+	instead of an EShellView.
+	(e_shell_go_offline): Likewise.
+	(e_shell_go_online): Likewise.
+	(e_shell_show_settings): Likewise.
+	(get_icon_path_for_component_info): Removed.
+	(setup_components): Do not do the user_creatable_items_handler
+	stuff here.
+	(e_shell_construct): Don't create the EUserCreatableItemsHandler
+	here.
+	(e_shell_get_user_creatable_items_handler): Crash when you get
+	here.
+
+	* e-shell-user-creatable-items-handler.c: Removed.
+	* e-shell-user-creatable-items-handler.h: Removed.
+	* e-shell-shared-folder-picker-dialog.c: Removed.
+	* e-shell-shared-folder-picker-dialog.h: Removed.
+	* e-shell-view.c, e-shell-view.h: Removed.
+	* e-shell-view-menu.c, e-shell-view-menu.h: Removed.
+	* e-shell-folder-commands.c, e-shell-folder-commands.h: Removed.
+	* e-shell-importer.c, e-shell-importer.h: Removed.
+
+	* main.c (new_window_created_callback): Renamed from
+	new_view_created_callback.
+	(window_map_callback): Renamed from view_map_callback.
+	(idle_cb): Connect to "new_window_created" instead of
+	"new_view_created".
+	(no_windows_left_cb): Renamed from no_views_left_cb.
+	(idle_cb): Connect to "no_windows_left" instead of
+	"no_views_left".
+
+	* e-shell-offline-handler.c: Changed the type of the
+	parent_shell_view member of EShellOfflineHandlerPrivate to
+	GtkWindow and renamed it to parent_window.
+	(e_shell_offline_handler_put_components_offline): Just get a
+	GtkWindow arg instead of an EShellView arg.
+
+2003-07-24  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution-shell-client.c
+	(evolution_shell_client_create_storage_set_view): Just crash when
+	you get here.
+	(evolution_shell_client_get_pixbuf_for_type): Likewise.
+	(evolution_shell_client_set_line_status): Likewise.
+	(evolution_shell_client_get_local_storage): Likewise.
+	(evolution_shell_client_get_shortcuts_interface): Likewise.
+	(evolution_shell_client_get_storage_registry_interface): Likewise.
+	(evolution_shell_client_get_activity_interface): Likewise.
+	(evolution_shell_client_user_select_folder): Likewise.
+	(evolution_shell_client_new): Likewise.
+	(evolution_shell_client_construct): Likewise.
+	(query_shell_interface): Removed.
+	(init): Do nothing.
+	(class_init): Do nothing.
+	(unref_pixbuf): Removed.
+	(impl_dispose): Removed.
+	(impl_finalize): Removed.
+	(user_select_folder): Removed.
+	(count_string_items): Removed.
+	(create_folder_selection_listener_interface): Removed.
+	(init_FolderSelectionListener_vtables): Removed.
+	(impl_FolderSelectionListener_cancel): Removed.
+	(impl_FolderSelectionListener_selected): Removed.
+	(query_shell_interface): Removed.
+
+	* e-shell.c (impl_Shell_getLocalStorage): Removed.
+	(impl_Shell_createStorageSetView): Removed.
+	(impl_Shell_getIconByType): Removed.
+	(impl_Shell_getComponentByType): Removed.
+	(impl_Shell_selectUserFolder): Removed.
+	(e_shell_class_init): Do not install removed method impls.
+	(folder_selection_dialog_cancelled_cb): Removed.
+	(folder_selection_dialog_folder_selected_cb): Removed.
+
+	* Evolution-Shell.idl (getLocalStorage): Removed
+	(createStorageSetView): Removed.
+	(selectUserFolder): Removed.
+	(getIconByType): Removed.
+	(getComponentByType): Removed.
+	(FolderSelectionListener): Removed.
+
+	* Evolution-Component.idl (requestQuit, interactive): New methods.
+
+2003-07-24  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell.c: Removed activity_handler member from EShellPrivate.
+	(setup_activity_interface): Removed.
+	(e_shell_construct): Don't call.
+	(create_view): Do not call e_activity_handler_attach_task_bar
+	here.
+
+	* e-activity-handler.c, e-activity-handler.h: Removed.
+
 2003-07-24  Yuedong Du  <yuedong.du@sun.com>
 
-	* e-shell-offline-handler.c: (dialog_response_cb): fix crash when user escape the
-	dialog. see bug #46700.
+	* e-shell-offline-handler.c: (dialog_response_cb): fix crash when
+	user escape the dialog. see bug #46700.
+
+2003-07-23  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-folder.c (e_folder_new): Accept a NULL description.
+
+	* main.c (idle_cb): Create a new EShellWindow and show it.
+
+	* e-storage.c: New signal "async_open_folder".
+	(impl_async_open_folder): Removed.
+	(class_init): Declare new signal.
+
+	* e-shell.c (setup_components): Don't actually activate any
+	components.
+
+	* e-storage-browser.c, e-storage-browser.h: New.
+
+	* e-shell-window.c, e-shell-window.h: New.
+
+	* e-shell-marshal.list: Add an entry for
+	NONE:STRING,POINTER,POINTER.
+
+	* Evolution.idl: Include Evolution-Component.idl.
+
+	* Evolution-Component.idl: New interface for Evolution components.
 
 2003-07-23  Dan Winship  <danw@ximian.com>
 
