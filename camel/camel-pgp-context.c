@@ -58,7 +58,6 @@
 struct _CamelPgpContextPrivate {
 	CamelPgpType type;
 	char *path;
-	gboolean remember;
 };
 
 static int                  pgp_sign (CamelCipherContext *ctx, const char *userid, CamelCipherHash hash,
@@ -141,7 +140,7 @@ camel_pgp_context_get_type (void)
  * Return value: the new CamelPgpContext
  **/
 CamelPgpContext *
-camel_pgp_context_new (CamelSession *session, CamelPgpType type, const char *path, gboolean remember)
+camel_pgp_context_new (CamelSession *session, CamelPgpType type, const char *path)
 {
 	CamelPgpContext *context;
 	
@@ -156,7 +155,6 @@ camel_pgp_context_new (CamelSession *session, CamelPgpType type, const char *pat
 	
 	context->priv->type = type;
 	context->priv->path = g_strdup (path);
-	context->priv->remember = remember;
 	
 	return context;
 }
@@ -214,6 +212,15 @@ pgp_forget_passphrase (CamelSession *session, CamelPgpType pgp_type, char *useri
 		type = pgp_get_type_as_string (pgp_type);
 	
 	camel_session_forget_password (session, NULL, userid ? userid : type, NULL);
+}
+
+static void
+pass_free (char *passphrase)
+{
+	if (passphrase) {
+		memset (passphrase, 0, strlen (passphrase));
+		g_free (passphrase);
+	}
 }
 
 static int
@@ -630,7 +637,7 @@ pgp_sign (CamelCipherContext *ctx, const char *userid, CamelCipherHash hash,
 					  &diagnostics);
 	
 	g_byte_array_free (plaintext, TRUE);
-	g_free (passphrase);
+	pass_free (passphrase);
 	
 	if (retval != 0 || !*ciphertext) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
@@ -641,9 +648,6 @@ pgp_sign (CamelCipherContext *ctx, const char *userid, CamelCipherHash hash,
 		
 		return -1;
 	}
-	
-	if (!context->priv->remember)
-		pgp_forget_passphrase (ctx->session, context->priv->type, (char *) userid);
 	
 	g_free (diagnostics);
 	
@@ -658,7 +662,7 @@ pgp_sign (CamelCipherContext *ctx, const char *userid, CamelCipherHash hash,
 	
 	if (passphrase) {
 		pgp_forget_passphrase (ctx->session, context->priv->type, (char *) userid);
-		g_free (passphrase);
+		pass_free (passphrase);
 	}
 	
 	return -1;
@@ -804,7 +808,7 @@ pgp_clearsign (CamelCipherContext *ctx, const char *userid, CamelCipherHash hash
 					  &diagnostics);
 	
 	g_byte_array_free (plaintext, TRUE);
-	g_free (passphrase);
+	pass_free (passphrase);
 	
 	if (retval != 0 || !*ciphertext) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
@@ -813,9 +817,6 @@ pgp_clearsign (CamelCipherContext *ctx, const char *userid, CamelCipherHash hash
 		g_free (ciphertext);
 		pgp_forget_passphrase (ctx->session, context->priv->type, (char *) userid);
 	}
-	
-	if (!context->priv->remember)
-		pgp_forget_passphrase (ctx->session, context->priv->type, (char *) userid);
 	
 	g_free (diagnostics);
 	
@@ -830,7 +831,7 @@ pgp_clearsign (CamelCipherContext *ctx, const char *userid, CamelCipherHash hash
 	
 	if (passphrase) {
 		pgp_forget_passphrase (ctx->session, context->priv->type, (char *) userid);
-		g_free (passphrase);
+		pass_free (passphrase);
 	}
 	
 	return -1;
@@ -1192,7 +1193,7 @@ pgp_encrypt (CamelCipherContext *ctx, gboolean sign, const char *userid, GPtrArr
 	
 	g_byte_array_free (plaintext, TRUE);
 	
-	g_free (passphrase);
+	pass_free (passphrase);
 	g_ptr_array_free (argv, TRUE);
 	
 	if (retval != 0 || !*ciphertext) {
@@ -1207,9 +1208,6 @@ pgp_encrypt (CamelCipherContext *ctx, gboolean sign, const char *userid, GPtrArr
 		return -1;
 	}
 	
-	if (!context->priv->remember)
-		pgp_forget_passphrase (ctx->session, context->priv->type, (char *) userid);
-	
 	g_free (diagnostics);
 	
 	camel_stream_write (ostream, ciphertext, strlen (ciphertext));
@@ -1222,7 +1220,7 @@ pgp_encrypt (CamelCipherContext *ctx, gboolean sign, const char *userid, GPtrArr
 	g_byte_array_free (plaintext, TRUE);
 	
 	if (sign) {
-		g_free (passphrase);
+		pass_free (passphrase);
 		pgp_forget_passphrase (ctx->session, context->priv->type, (char *) userid);
 	}
 	
@@ -1326,7 +1324,7 @@ pgp_decrypt (CamelCipherContext *ctx, CamelStream *istream,
 					  &diagnostics);
 	
 	g_byte_array_free (ciphertext, TRUE);
-	g_free (passphrase);
+	pass_free (passphrase);
 	
 	/* gpg returns '1' if it succeedes in decrypting but can't verify the signature */
 	if (retval != 0 || (context->priv->type == CAMEL_PGP_TYPE_GPG && retval == 1) || !*plaintext) {
@@ -1339,9 +1337,6 @@ pgp_decrypt (CamelCipherContext *ctx, CamelStream *istream,
 		
 		return -1;
 	}
-	
-	if (!context->priv->remember)
-		pgp_forget_passphrase (ctx->session, context->priv->type, NULL);
 	
 	g_free (diagnostics);
 	
@@ -1356,7 +1351,7 @@ pgp_decrypt (CamelCipherContext *ctx, CamelStream *istream,
 	
 	if (passphrase) {
 		pgp_forget_passphrase (ctx->session, context->priv->type, NULL);
-		g_free (passphrase);
+		pass_free (passphrase);
 	}
 	
 	return -1;
