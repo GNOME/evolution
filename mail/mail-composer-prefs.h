@@ -83,6 +83,11 @@ struct _MailComposerPrefs {
 	gchar *language_str_orig;
 	GdkColor spell_error_color;
 	GdkColor spell_error_color_orig;
+	GdkPixmap *mark_pixmap;
+	GdkBitmap *mark_bitmap;
+	GdkPixbuf *enabled_pixbuf;
+	GtkWidget *spell_able_button;
+
 	
 	/* Forwards and Replies */
 	GtkOptionMenu *forward_style;

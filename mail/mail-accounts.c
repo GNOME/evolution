@@ -783,6 +783,7 @@ mail_accounts_tab_construct (MailAccountsTab *prefs)
 	mail_accounts_load (prefs);
 #else
 	prefs->table = GTK_CLIST (gtk_object_get_data (GTK_OBJECT (widget), "table"));
+	gtk_clist_set_column_justification (prefs->table, 0, GTK_JUSTIFY_RIGHT);
 	
 	gtk_signal_connect (GTK_OBJECT (prefs->table), "select-row",
 			    account_cursor_change, prefs);

@@ -28,6 +28,8 @@
 #include "mail-composer-prefs.h"
 #include "composer/e-msg-composer.h"
 
+#include <gtk/gtksignal.h>
+
 #include <bonobo/bonobo-generic-factory.h>
 #include <bonobo/bonobo-object-client.h>
 
@@ -36,6 +38,8 @@
 #include "widgets/misc/e-charset-picker.h"
 
 #include "mail-config.h"
+
+#include "art/mark.xpm"
 
 static void mail_composer_prefs_class_init (MailComposerPrefsClass *class);
 static void mail_composer_prefs_init       (MailComposerPrefs *dialog);
@@ -86,7 +90,9 @@ mail_composer_prefs_class_init (MailComposerPrefsClass *klass)
 static void
 mail_composer_prefs_init (MailComposerPrefs *composer_prefs)
 {
-	;
+	composer_prefs->enabled_pixbuf = gdk_pixbuf_new_from_xpm_data ((const char **) mark_xpm);
+	gdk_pixbuf_render_pixmap_and_mask (composer_prefs->enabled_pixbuf,
+					   &composer_prefs->mark_pixmap, &composer_prefs->mark_bitmap, 128);
 }
 
 static void
@@ -96,6 +102,9 @@ mail_composer_prefs_finalise (GtkObject *obj)
 	
 	gtk_object_unref (GTK_OBJECT (prefs->gui));
 	gtk_object_unref (GTK_OBJECT (prefs->pman));
+	gdk_pixbuf_unref (prefs->enabled_pixbuf);
+	gdk_pixmap_unref (prefs->mark_pixmap);
+	gdk_bitmap_unref (prefs->mark_bitmap);
 
         ((GtkObjectClass *)(parent_class))->finalize (obj);
 }
@@ -510,7 +519,7 @@ spell_select_lang (MailComposerPrefs *prefs, const gchar *abrev)
 
 	for (i = 0; i < prefs->language_seq->_length; i ++) {
 		if (!strcasecmp (abrev, prefs->language_seq->_buffer [i].abrev)) {
-			gtk_clist_select_row (GTK_CLIST (prefs->language), i, 0);
+			gtk_clist_set_pixmap (GTK_CLIST (prefs->language), i, 0, prefs->mark_pixmap, prefs->mark_bitmap);
 		}
 	}
 }
@@ -518,10 +527,16 @@ spell_select_lang (MailComposerPrefs *prefs, const gchar *abrev)
 static void
 spell_set_ui_language (MailComposerPrefs *prefs)
 {
+	gint i;
 	gchar *l, *last, *lang;
 
 	gtk_clist_freeze (GTK_CLIST (prefs->language));
 	gtk_clist_unselect_all (GTK_CLIST (prefs->language));
+
+	for (i = 0; i < prefs->language_seq->_length; i ++) {
+		gtk_clist_set_pixmap (GTK_CLIST (prefs->language), i, 0, NULL, NULL);
+	}
+
 	last = prefs->language_str;
 	while ((l = strchr (last, ' '))) {
 		if (l != last) {
@@ -552,15 +567,20 @@ spell_set_ui (MailComposerPrefs *prefs)
 static gchar *
 spell_get_language_str (MailComposerPrefs *prefs)
 {
-	GList *selection = GTK_CLIST (prefs->language)->selection;
 	GString *str = g_string_new (NULL);
+	gint i;
 	gchar *rv;
 
-	for (; selection; selection = selection->next) {
-		g_string_append (str, gtk_clist_get_row_data (GTK_CLIST (prefs->language),
-							      GPOINTER_TO_INT (selection->data)));
-		if (selection->next)
-			g_string_append_c (str, ' ');
+	for (i = 0; i < GTK_CLIST (prefs->language)->rows; i ++) {
+		GdkPixmap *pmap = NULL;
+		GdkBitmap *bmap;
+
+		gtk_clist_get_pixmap (GTK_CLIST (prefs->language), i, 0, &pmap, &bmap);
+		if (pmap) {
+			if (str->len)
+				g_string_append_c (str, ' ');
+			g_string_append (str, gtk_clist_get_row_data (GTK_CLIST (prefs->language), i));
+		}
 	}
 
 	rv = str->str;
@@ -679,9 +699,81 @@ spell_color_set (GtkWidget *widget, guint r, guint g, guint b, guint a, gpointer
 }
 
 static void
-spell_language_changed (GtkWidget *widget, gint row, gint column, GdkEvent *event, gpointer user_data)
+spell_language_select_row (GtkWidget *widget, gint row, gint column, GdkEvent *event, MailComposerPrefs *prefs)
 {
-	spell_changed (user_data);
+	GList *sel = GTK_CLIST (prefs->language)->selection;
+
+	if (sel) {
+		GdkPixmap *pmap = NULL;
+		GdkBitmap *bmap;
+		gint row = GPOINTER_TO_INT (sel->data);
+
+		gtk_clist_get_pixmap (GTK_CLIST (prefs->language), row, 0, &pmap, &bmap);
+		if (pmap)
+			gtk_label_set_text (GTK_LABEL (GTK_BIN (prefs->spell_able_button)->child), _("Disable"));
+		else
+			gtk_label_set_text (GTK_LABEL (GTK_BIN (prefs->spell_able_button)->child), _("Enable"));
+	}
+
+	gtk_widget_set_sensitive (prefs->spell_able_button, TRUE);
+}
+
+static void
+spell_language_unselect_row (GtkWidget *widget, gint row, gint column, GdkEvent *event, MailComposerPrefs *prefs)
+{
+	gtk_widget_set_sensitive (prefs->spell_able_button, FALSE);
+}
+
+static void
+spell_language_enable (GtkWidget *widget, MailComposerPrefs *prefs)
+{
+	GList *sel = GTK_CLIST (prefs->language)->selection;
+
+	if (sel) {
+		GdkPixmap *pmap = NULL;
+		GdkBitmap *bmap;
+		gint row = GPOINTER_TO_INT (sel->data);
+
+		gtk_clist_get_pixmap (GTK_CLIST (prefs->language), row, 0, &pmap, &bmap);
+		if (pmap) {
+			gtk_clist_set_pixmap (GTK_CLIST (prefs->language), row, 0, NULL, NULL);
+			gtk_label_set_text (GTK_LABEL (GTK_BIN (prefs->spell_able_button)->child), _("Enable"));
+		} else {
+			gtk_label_set_text (GTK_LABEL (GTK_BIN (prefs->spell_able_button)->child), _("Disable"));
+			gtk_clist_set_pixmap (GTK_CLIST (prefs->language), row, 0, prefs->mark_pixmap, prefs->mark_bitmap);
+		}
+
+		spell_changed (prefs);
+	}
+}
+
+static void
+spell_language_button_press (GtkWidget *widget, GdkEventButton *event, MailComposerPrefs *prefs)
+{
+	gint row, col;
+
+	if (gtk_clist_get_selection_info (prefs->language, event->x, event->y, &row, &col)) {
+		if (col == 0) {
+			GList *sel = GTK_CLIST (prefs->language)->selection;
+			GdkPixmap *pmap = NULL;
+			GdkBitmap *bmap;
+
+			gtk_signal_emit_stop_by_name (GTK_OBJECT (widget), "button_press_event");
+
+			gtk_clist_get_pixmap (GTK_CLIST (prefs->language), row, 0, &pmap, &bmap);
+			if (pmap)
+				gtk_clist_set_pixmap (GTK_CLIST (prefs->language), row, 0, NULL, NULL);
+			else
+				gtk_clist_set_pixmap (GTK_CLIST (prefs->language), row, 0,
+						      prefs->mark_pixmap, prefs->mark_bitmap);
+
+			if (sel && GPOINTER_TO_INT (sel->data) == row)
+				gtk_label_set_text (GTK_LABEL (GTK_BIN (prefs->spell_able_button)->child),
+						    pmap ? _("Enable") : _("Disable"));
+
+			spell_changed (prefs);
+		}
+	}
 }
 
 static void
@@ -691,9 +783,10 @@ spell_setup (MailComposerPrefs *prefs)
 
 	gtk_clist_freeze (GTK_CLIST (prefs->language));
 	for (i = 0; i < prefs->language_seq->_length; i ++) {
-		gchar *texts [1];
+		gchar *texts [2];
 
-		texts [0] = _(prefs->language_seq->_buffer [i].name);
+		texts [0] = NULL;
+		texts [1] = _(prefs->language_seq->_buffer [i].name);
 		gtk_clist_append (GTK_CLIST (prefs->language), texts);
 		gtk_clist_set_row_data (GTK_CLIST (prefs->language), i, prefs->language_seq->_buffer [i].abrev);
 	}
@@ -703,7 +796,13 @@ spell_setup (MailComposerPrefs *prefs)
 	spell_set_ui (prefs);
 
 	glade_xml_signal_connect_data (prefs->gui, "spellColorSet", GTK_SIGNAL_FUNC (spell_color_set), prefs);
-	glade_xml_signal_connect_data (prefs->gui, "spellLanguageChanged", GTK_SIGNAL_FUNC (spell_language_changed), prefs);
+	glade_xml_signal_connect_data (prefs->gui, "spellLanguageSelectRow",
+				       GTK_SIGNAL_FUNC (spell_language_select_row), prefs);
+	glade_xml_signal_connect_data (prefs->gui, "spellLanguageUnselectRow",
+				       GTK_SIGNAL_FUNC (spell_language_unselect_row), prefs);
+	glade_xml_signal_connect_data (prefs->gui, "spellLanguageEnable", GTK_SIGNAL_FUNC (spell_language_enable), prefs);
+
+	gtk_signal_connect (GTK_OBJECT (prefs->language), "button_press_event", spell_language_button_press, prefs);
 }
 
 static gboolean
@@ -742,7 +841,7 @@ spell_setup_check_options (MailComposerPrefs *prefs)
 static void
 mail_composer_prefs_construct (MailComposerPrefs *prefs)
 {
-	GtkWidget *toplevel, *widget, *menu;
+	GtkWidget *toplevel, *widget, *menu, *info_pixmap;
 	GladeXML *gui;
 	int style;
 	char *names[][2] = {{"live_spell_check", "chkEnableSpellChecking"},
@@ -802,6 +901,11 @@ mail_composer_prefs_construct (MailComposerPrefs *prefs)
 	/* Spell Checking: GNOME Spell part */
 	prefs->colour = GNOME_COLOR_PICKER (glade_xml_get_widget (gui, "colorpickerSpellCheckColor"));
 	prefs->language = GTK_CLIST (glade_xml_get_widget (gui, "clistSpellCheckLanguage"));
+	prefs->spell_able_button = glade_xml_get_widget (gui, "buttonSpellCheckEnable");
+	info_pixmap = glade_xml_get_widget (gui, "pixmapSpellInfo");
+	gtk_clist_set_column_justification (prefs->language, 0, GTK_JUSTIFY_RIGHT);
+	gtk_clist_set_column_auto_resize (prefs->language, 0, TRUE);
+	gnome_pixmap_load_file (GNOME_PIXMAP (info_pixmap), EVOLUTION_IMAGES "/info-bulb.png");
 
 	if (!spell_setup_check_options (prefs)) {
 		gtk_widget_hide (GTK_WIDGET (prefs->colour));
