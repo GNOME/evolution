@@ -22,14 +22,19 @@
  */
 
 #include "camel-folder.h"
+#include "gstring-util.h"
 
 static GtkObjectClass *camel_folder_parent_class=NULL;
 
+/* Returns the class for a CamelFolder */
+#define CF_CLASS(so) CAMEL_FOLDER_CLASS (GTK_OBJECT(so)->klass)
 
 static void camel_folder_open(CamelFolder *folder);
 static void camel_folder_close(CamelFolder *folder, gboolean expunge);
 static void camel_folder_set_name(CamelFolder *folder, GString *name_string);
+static void camel_folder_set_full_name(CamelFolder *folder, GString *name_string);
 static GString *camel_folder_get_name(CamelFolder *folder);
+static GString *camel_folder_get_full_name(CamelFolder *folder);
 static gboolean camel_folder_can_hold_folders(CamelFolder *folder);
 static gboolean camel_folder_can_hold_messages(CamelFolder *folder);
 static gboolean camel_folder_exists(CamelFolder *folder);
@@ -132,6 +137,23 @@ camel_folder_set_name(CamelFolder *folder, GString *name_string)
 }
 
 
+/** 
+ * camel_folder_set_full_name : set the (full) name of the folder
+ *
+ * set the name of the folder. 
+ * The old name object is freed.
+ *
+ * @name_string: new name of the folder
+ *
+ **/
+static void
+camel_folder_set_full_name(CamelFolder *folder, GString *name_string)
+{
+    if (folder->full_name) g_string_free(folder->full_name, 0);;
+    folder->full_name = name_string;
+}
+
+
 
 /** 
  * camel_folder_get_name : get the (short) name of the folder
@@ -146,6 +168,22 @@ static GString *
 camel_folder_get_name(CamelFolder *folder)
 {
 	return folder->name;
+}
+
+
+/** 
+ * camel_folder_get_full_name : get the (full) name of the folder
+ *
+ * get the name of the folder. The fully qualified name
+ * can be obtained with the get_full_ame method (not implemented)
+ *
+ * @Return Value: name of the folder
+ *
+ **/
+static GString *
+camel_folder_get_full_name(CamelFolder *folder)
+{
+	return folder->full_name;
 }
 
 
@@ -218,3 +256,51 @@ camel_folder_get_folder(CamelFolder *folder, GString *folderName)
 }
 
 
+
+
+/** 
+ * create : create the folder object on the physical store
+ *
+ * This routine physically creates the folder object on 
+ * the store. Having created the  object does not
+ * mean the folder physically exists. If it does not
+ * exists, this routine will create it.
+ * if the folder full name contains more than one level
+ * of hierarchy, all folders between the current folder
+ * and the last folder name will be created if not existing.
+ *
+ **/
+static void
+camel_folder_create(CamelFolder *folder)
+{
+	GString *prefix;
+	gchar dich_result;
+	CamelFolder *parent;
+	gchar sep;
+
+#warning Finish it  when CamelStore is done
+
+	/*g_assert(folder->parent_store);*/
+	g_assert(folder->name);
+
+	if ( CF_CLASS(folder)->exists(folder) ) return;
+	/* sep = camel_store_get_separator(folder->parent_store); */	
+	if (folder->parent_folder) camel_folder_create(folder->parent_folder);
+	else {   
+		if (folder->full_name) {
+			dich_result = g_string_right_dichotomy(folder->full_name, sep, &prefix, NULL, STRIP_TRAILING);
+			if (dich_result!='o') {
+				g_warning("I have to handle the case where the path is not OK\n"); 
+				return;
+			} else {
+				/*
+				  parent = camel_store_get_folder(folder->parentStore,prefix);
+				  camel_folder_create(parent);
+				  [parent free];
+				*/
+			}
+		}
+	}	
+}
+
+	

@@ -51,9 +51,9 @@ typedef enum {
 } CamelFolderOpenMode;
 
 
+typedef struct _CamelFolder CamelFolder;
 
-
-typedef struct
+struct _CamelFolder
 {
 	GtkObject parent_object;
 
@@ -64,12 +64,13 @@ typedef struct
 	CamelFolderOpenMode open_mode;
 	CamelFolderState open_state;
 	GString *name;
-	/*
-	CamelStore *parent_store;
+	GString *full_name;
+#warning uncomment when CamelStore is done
+	/*CamelStore *parent_store;*/
 	CamelFolder *parent_folder;
-	*/
 	
-} CamelFolder;
+	
+};
 
 
 
@@ -80,7 +81,9 @@ typedef struct {
 	void   (*open) (CamelFolder *object);
 	void   (*close) (CamelFolder *folder, gboolean expunge);
 	void   (*set_name) (CamelFolder *folder, GString *name_string);
+	void   (*set_full_name) (CamelFolder *folder, GString *name_string);
 	GString * (*get_name) (CamelFolder *folder);
+	GString * (*get__full_name) (CamelFolder *folder);
 	gboolean (*can_hold_folders) (CamelFolder *folder);
 	gboolean (*can_hold_messages) (CamelFolder *folder);
 	gboolean (*exists) (CamelFolder *folder);

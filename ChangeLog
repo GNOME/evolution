@@ -1,3 +1,12 @@
+1999-04-18   bertrand <Bertrand.Guiheneuf@inria.fr>
+
+	* camel/camel-folder.c: 
+	(camel_folder_create): implemented (partially)
+	have to write CamelStore before finishing it.
+
+	* camel/camel-folder.h (CamelFolder): added full_name field
+	(CamelFolderClass): added set/get_full_name methods
+
 1999-04-18  bertrand <Bertrand.Guiheneuf@inria.fr>
 
 	* camel/camel-folder.c: some work

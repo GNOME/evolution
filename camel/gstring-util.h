@@ -44,6 +44,8 @@ typedef enum {
 
 gboolean g_string_equals(GString *string1, GString *string2);
 GString *g_string_clone(GString *string);
+gchar g_string_right_dichotomy( GString *string, gchar sep, GString **prefix, GString **suffix, DichotomyOption options);
+void g_string_append_g_string(GString *dest_string, GString *other_string);
 
 
 #ifdef __cplusplus

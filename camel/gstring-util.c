@@ -157,3 +157,21 @@ g_string_right_dichotomy( GString *string, gchar sep, GString **prefix, GString 
 	return 'o';
 }
 
+
+
+/**
+ * g_string_append_g_string : append a GString to another  GString
+ *
+ * @dest_string : string which will be appended
+ * @other_string : string to append
+ *
+ **/
+void 
+g_string_append_g_string(GString *dest_string, GString *other_string)
+{
+	g_assert(other_string);
+	g_assert(dest_string);
+	g_assert(other_string->str);
+
+	g_string_append(dest_string, other_string->str);
+}
