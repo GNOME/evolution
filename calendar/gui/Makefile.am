@@ -118,7 +118,7 @@ calendar_pilot_sync_LDADD =	\
 	$(PISOCK_LIBS)		\
 	$(LINK_FLAGS)
 
-
+if HAVE_GNOME_PILOT
 #calendar_conduit
 calendar_conduitsdir=$(libdir)/gnome-pilot/conduits
 
@@ -186,6 +186,7 @@ todo_conduit_control_applet_LDADD = \
         $(PISOCK_LIBS) \
 	$(GNOME_PILOT_LIBS) \
         $(INTLLIBS) 
+endif
 
 gnomecal_LDADD = $(LINK_FLAGS)
 

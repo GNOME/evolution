@@ -1,3 +1,8 @@
+1999-10-13  Eskil Olsen   <deity@eskil.dk>
+
+	* Makefile.am: Hopefully the fixes the much-hated
+	gnome-pilot dependency.
+
 1999-10-07  Eskil Olsen   <deity@eskil.dk>
 
 	* calendar.c (calendar_object_changed): moved the pilot_status =
