@@ -22,6 +22,8 @@
 
 #include <config.h>
 
+#include <gtk/gtkselection.h>
+#include <gtk/gtkdnd.h>
 #include <gal/widgets/e-canvas.h>
 #include <libgnome/gnome-i18n.h>
 
@@ -38,6 +40,12 @@ static gboolean e_minicard_view_event (GnomeCanvasItem *item, GdkEvent *event);
 static void canvas_destroy (GtkObject *object, EMinicardView *view);
 static void disconnect_signals (EMinicardView *view);
 static void e_minicard_view_update_selection (EMinicardView *view);
+static void e_minicard_view_drag_data_get(GtkWidget *widget,
+					  GdkDragContext *context,
+					  GtkSelectionData *selection_data,
+					  guint info,
+					  guint time,
+					  EMinicardView *view);
 
 static EReflowSortedClass *parent_class = NULL;
 
@@ -53,6 +61,15 @@ enum {
 	STATUS_MESSAGE,
 	LAST_SIGNAL
 };
+
+enum DndTargetType {
+	DND_TARGET_TYPE_VCARD,
+};
+#define VCARD_TYPE "text/x-vcard"
+static GtkTargetEntry drag_types[] = {
+	{ VCARD_TYPE, 0, DND_TARGET_TYPE_VCARD }
+};
+static gint num_drag_types = sizeof(drag_types) / sizeof(drag_types[0]);
 
 static guint e_minicard_view_signals [LAST_SIGNAL] = {0, };
 
@@ -153,6 +170,53 @@ e_minicard_view_init (EMinicardView *view)
 	E_REFLOW_SORTED(view)->string_func  = (EReflowStringFunc) e_minicard_get_card_id;
 }
 
+static void
+e_minicard_view_drag_data_get(GtkWidget *widget,
+			      GdkDragContext *context,
+			      GtkSelectionData *selection_data,
+			      guint info,
+			      guint time,
+			      EMinicardView *view)
+{
+	printf ("e_minicard_view_drag_data_get (e_minicard = %p)\n", view->drag_card);
+
+	if (!E_IS_MINICARD_VIEW(view))
+		return;
+
+	switch (info) {
+	case DND_TARGET_TYPE_VCARD: {
+		char *value;
+
+		value = e_card_simple_get_vcard(view->drag_card->simple);
+
+		gtk_selection_data_set (selection_data,
+					selection_data->target,
+					8,
+					value, strlen (value));
+		break;
+	}
+	}
+}
+
+static int
+e_minicard_view_drag_begin (EMinicard *card, GdkEvent *event, EMinicardView *view)
+{
+	GdkDragContext *context;
+	GtkTargetList *target_list;
+	GdkDragAction actions = GDK_ACTION_MOVE;
+
+	view->drag_card = card;
+
+	target_list = gtk_target_list_new (drag_types, num_drag_types);
+
+	context = gtk_drag_begin (GTK_WIDGET (GNOME_CANVAS_ITEM (view)->canvas),
+				  target_list, actions, 1/*XXX*/, event);
+
+	gtk_drag_set_icon_default (context);
+
+	return TRUE;
+}
+
 static gint
 card_selected (EMinicard *card, GdkEvent *event, EMinicardView *view)
 {
@@ -184,6 +248,9 @@ create_card(EBookView *book_view, const GList *cards, EMinicardView *view)
 							      NULL);
 		gtk_signal_connect(GTK_OBJECT(item), "selected",
 				   GTK_SIGNAL_FUNC(card_selected), view);
+
+		gtk_signal_connect(GTK_OBJECT(item), "drag_begin",
+				   GTK_SIGNAL_FUNC(e_minicard_view_drag_begin), view);
 
 		e_reflow_add_item(E_REFLOW(view), item, &position);
 
@@ -244,6 +311,13 @@ book_view_loaded (EBook *book, EBookStatus status, EBookView *book_view, gpointe
 			gtk_signal_connect(GTK_OBJECT(GNOME_CANVAS_ITEM(view)->canvas),
 					   "destroy", GTK_SIGNAL_FUNC(canvas_destroy),
 					   view);
+
+	if (!view->canvas_drag_data_get_id)
+		view->canvas_drag_data_get_id =
+			gtk_signal_connect (GTK_OBJECT (GNOME_CANVAS_ITEM (view)->canvas),
+					    "drag_data_get",
+					    GTK_SIGNAL_FUNC (e_minicard_view_drag_data_get),
+					    view);
 
 	view->book_view = book_view;
 	if (view->book_view)

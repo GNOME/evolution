@@ -1,3 +1,28 @@
+2001-04-09  Chris Toshok  <toshok@ximian.com>
+
+	* gui/widgets/e-minicard.c (e_minicard_event): on BUTTON_PRESS: if
+	it's button 1, store the button x, y, and set drag_button_down to
+	TRUE.  on BUTTON_RELEASE: always set drag_button_down to FALSE.
+	for MOTION_NOTIFY: initiate drag if the pointer has moved 3
+	pixels.
+
+	* gui/widgets/e-minicard.h (struct _EMinicard): add fields for
+	button x, y, and a bit for if the button has been pressed so we
+	can tell whether a motion should be a drag.
+	(struct _EMinicardClass): add drag_begin signal.
+
+	* gui/widgets/e-minicard-view.c (e_minicard_view_drag_begin): new
+	function, starts the drag.
+	(book_view_loaded): connect the "drag_data_get" signal.
+	(e_minicard_view_drag_data_get): new function.
+
+	* gui/widgets/e-minicard-view.h (struct _EMinicardView): add
+	drag_card and id for canvas_drag_data_get_id.
+
+	* gui/widgets/e-addressbook-view.c (table_drag_data_get): new
+	function.
+	(create_table_view): add d&d stuff.
+
 2001-04-08  Chris Toshok  <toshok@ximian.com>
 
 	* printing/e-contact-print.c: add #include <sys/types.h> since

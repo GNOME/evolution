@@ -83,6 +83,11 @@ struct _EMinicard
 
 	guint editable : 1;
 
+	guint drag_button_down : 1;
+
+	gint button_x;
+	gint button_y;
+
 	double width;
 	double height;
 };
@@ -92,6 +97,7 @@ struct _EMinicardClass
 	GnomeCanvasGroupClass parent_class;
 
 	gint (* selected) (EMinicard *minicard, GdkEvent *event);
+	gint (* drag_begin) (EMinicard *minicard, GdkEvent *event);
 };
 
 

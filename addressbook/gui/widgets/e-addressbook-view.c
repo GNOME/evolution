@@ -74,6 +74,15 @@ enum {
 	LAST_SIGNAL
 };
 
+enum DndTargetType {
+	DND_TARGET_TYPE_VCARD,
+};
+#define VCARD_TYPE "text/x-vcard"
+static GtkTargetEntry drag_types[] = {
+	{ VCARD_TYPE, 0, DND_TARGET_TYPE_VCARD },
+};
+static const int num_drag_types = sizeof (drag_types) / sizeof (drag_types[0]);
+
 static guint e_addressbook_view_signals [LAST_SIGNAL] = {0, };
 
 GtkType
@@ -588,6 +597,38 @@ table_right_click(ETableScrolled *table, gint row, gint col, GdkEvent *event, EA
 }
 
 static void
+table_drag_data_get (ETable             *table,
+		     int                 row,
+		     int                 col,
+		     GdkDragContext     *context,
+		     GtkSelectionData   *selection_data,
+		     guint               info,
+		     guint               time,
+		     gpointer            user_data)
+{
+	EAddressbookView *view = user_data;
+
+	printf ("table_drag_data_get (row %d, col %d)\n", row, col);
+
+	if (!E_IS_ADDRESSBOOK_MODEL(view->object))
+		return;
+
+	switch (info) {
+	case DND_TARGET_TYPE_VCARD: {
+		char *value;
+
+		value = e_card_simple_get_vcard(E_ADDRESSBOOK_MODEL(view->object)->data[row]);
+
+		gtk_selection_data_set (selection_data,
+					selection_data->target,
+					8,
+					value, strlen (value));
+		break;
+	}
+	}
+}
+
+static void
 status_message (GtkObject *object, const gchar *status, EAddressbookView *eav)
 {
 	gtk_signal_emit (GTK_OBJECT (eav),
@@ -706,6 +747,15 @@ create_table_view (EAddressbookView *view)
 			   GTK_SIGNAL_FUNC(table_double_click), view);
 	gtk_signal_connect(GTK_OBJECT(e_table_scrolled_get_table(E_TABLE_SCROLLED(table))), "right_click",
 			   GTK_SIGNAL_FUNC(table_right_click), view);
+
+	/* drag & drop signals */
+	e_table_drag_source_set (E_TABLE(E_TABLE_SCROLLED(table)->table), GDK_BUTTON1_MASK,
+				 drag_types, num_drag_types, GDK_ACTION_MOVE);
+	
+	gtk_signal_connect (GTK_OBJECT (E_TABLE_SCROLLED(table)->table),
+			    "table_drag_data_get",
+			    GTK_SIGNAL_FUNC (table_drag_data_get),
+			    view);
 
 	gtk_table_attach(GTK_TABLE(view), table,
 			 0, 1,

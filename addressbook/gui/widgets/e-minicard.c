@@ -22,6 +22,7 @@
 
 #include <config.h>
 #include <glib.h>
+#include <gtk/gtkdnd.h>
 #include <gdk/gdkkeysyms.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
@@ -54,6 +55,8 @@ static void e_minicard_reflow ( GnomeCanvasItem *item, int flags );
 static void e_minicard_resize_children( EMinicard *e_minicard );
 static void remodel( EMinicard *e_minicard );
 
+static gint e_minicard_drag_begin (EMinicard *minicard, GdkEvent *event);
+
 static GnomeCanvasGroupClass *parent_class = NULL;
 
 typedef struct _EMinicardField EMinicardField;
@@ -85,6 +88,7 @@ enum {
 
 enum {
 	SELECTED,
+	DRAG_BEGIN,
 	LAST_SIGNAL
 };
 
@@ -144,6 +148,14 @@ e_minicard_class_init (EMinicardClass *klass)
 				GTK_RUN_LAST,
 				object_class->type,
 				GTK_SIGNAL_OFFSET (EMinicardClass, selected),
+				gtk_marshal_INT__POINTER,
+				GTK_TYPE_INT, 1, GTK_TYPE_POINTER);
+
+	e_minicard_signals [DRAG_BEGIN] =
+		gtk_signal_new ("drag_begin",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (EMinicardClass, drag_begin),
 				gtk_marshal_INT__POINTER,
 				GTK_TYPE_INT, 1, GTK_TYPE_POINTER);
 
@@ -647,6 +659,9 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 		if (event->button.button == 1) {
 			int ret_val = e_minicard_selected(e_minicard, event);
 			e_canvas_item_grab_focus(item, TRUE);
+			e_minicard->button_x = event->button.x;
+			e_minicard->button_y = event->button.y;
+			e_minicard->drag_button_down = TRUE;
 			return ret_val;
 		} else if (event->button.button == 3) {
 			MinicardAndParent *mnp = g_new(MinicardAndParent, 1);
@@ -666,7 +681,25 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 			e_popup_menu_run (menu, event, 0, E_IS_MINICARD_VIEW(mnp->parent) ? 0 : 1, mnp);
 		}
 		break;
+	case GDK_BUTTON_RELEASE:
+		e_minicard->drag_button_down = FALSE;
+		break;
+	case GDK_MOTION_NOTIFY:
+		/* shamelessly ripped from e-table.c, complete with
+                   broken stuck-grab behavior */
+		if (e_minicard->drag_button_down && event->motion.state & GDK_BUTTON1_MASK) {
+			if (MAX (abs (e_minicard->button_x - event->motion.x),
+				 abs (e_minicard->button_y - event->motion.y)) > 3) {
+				gint ret_val = e_minicard_drag_begin(e_minicard, event);
 
+				printf ("signalled drag begin\n");
+
+				e_minicard->drag_button_down = FALSE;
+
+				return ret_val;
+			}
+		}
+		break;
 	case GDK_2BUTTON_PRESS:
 		if (event->button.button == 1 && E_IS_MINICARD_VIEW(item->parent)) {
 			if (e_minicard->editor) {
@@ -987,5 +1020,15 @@ e_minicard_selected (EMinicard *minicard, GdkEvent *event)
 	gtk_signal_emit(GTK_OBJECT(minicard),
 			e_minicard_signals[SELECTED],
 			event, &ret_val);
+	return ret_val;
+}
+
+static gint
+e_minicard_drag_begin (EMinicard *minicard, GdkEvent *event)
+{
+	gint ret_val = 0;
+	gtk_signal_emit (GTK_OBJECT(minicard),
+			 e_minicard_signals[DRAG_BEGIN],
+			 event, &ret_val);
 	return ret_val;
 }

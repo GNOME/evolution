@@ -21,6 +21,7 @@
 #ifndef __E_MINICARD_VIEW_H__
 #define __E_MINICARD_VIEW_H__
 
+#include "e-minicard.h"
 #include <gal/widgets/e-reflow-sorted.h>
 #include <gal/widgets/e-selection-model-simple.h>
 #include "addressbook/backend/ebook/e-book.h"
@@ -71,9 +72,12 @@ struct _EMinicardView
 
 	ESelectionModelSimple *selection;
 
+	EMinicard *drag_card;
+
 	int get_view_idle;
 
 	int canvas_destroy_id;
+	int canvas_drag_data_get_id;
 
 	int create_card_id, remove_card_id, modify_card_id, status_message_id;
 
