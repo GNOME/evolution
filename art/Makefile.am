@@ -111,6 +111,7 @@ buttons_DATA = 				\
 	new_appointment.png		\
 	previous-message.png		\
 	print.png			\
+	print-preview-24.png		\
 	reply.png			\
 	reply-to-all.png		\
 	send-24-receive.png		\
@@ -147,7 +148,7 @@ categories_DATA =				\
 	16_category_strategies.png		\
 	16_category_suppliers.png		\
 	16_category_time-and-expenses.png
-	
+
 appicondir = $(datadir)/pixmaps
 appicon_DATA = evolution.png
 
