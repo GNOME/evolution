@@ -2184,6 +2184,11 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 
 	if (status == E_CALENDAR_STATUS_BUSY)
 		return;
+	
+	if (status == E_CALENDAR_STATUS_INVALID_SERVER_VERSION) {
+		e_error_run (NULL, "calendar:server-version", NULL);
+		status = E_CALENDAR_STATUS_OK;
+	}
 	if (status != E_CALENDAR_STATUS_OK) {
 		/* Make sure the source doesn't disappear on us */
 		g_object_ref (source);
@@ -2264,6 +2269,11 @@ default_client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar 
 	
 	if (status == E_CALENDAR_STATUS_BUSY)
 		return;
+
+	if (status == E_CALENDAR_STATUS_INVALID_SERVER_VERSION) {
+		e_error_run (NULL, "calendar:server-version", NULL);
+		status = E_CALENDAR_STATUS_OK;
+	}
 
 	if (status != E_CALENDAR_STATUS_OK) {
 		/* Make sure the source doesn't disappear on us */

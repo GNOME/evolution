@@ -1,3 +1,11 @@
+2005-02-03  Vivek Jain <jvivek@novell.com>
+	
+	* calendar-errors.xml : added a warning message for invalid server
+	version
+	* gui/gnome-cal.c (default_client_cal_opened_cb)
+	(client_cal_opened_cb): added a case to check the
+	call status and display warning	
+
 2005-02-02  Rodney Dawes  <dobey@novell.com>
 
 	* gui/dialogs/alarm-dialog.c (alarm_dialog_run): Set the border width

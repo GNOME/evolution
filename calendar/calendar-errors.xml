@@ -191,4 +191,10 @@
   <button label="_Send" response="GTK_RESPONSE_YES"/>
  </error>
 
+ <error id="server-version" type="warning">
+	 <title>Server Version</title> 
+	 <primary>Your server needs to be updated</primary>
+	 <secondary> Some features may not work properly with the current server version</secondary>
+ </error>
+
 </error-list>
