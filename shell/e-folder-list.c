@@ -110,7 +110,7 @@ create_display_string (EFolderList *efl, char *folder_uri, char *folder_name)
 	}
 
 	if (storage_lname) {
-		label_text = g_strdup_printf ("\"%s\" in \"%s\"", folder_name,
+		label_text = g_strdup_printf (_("\"%s\" in \"%s\""), folder_name,
 					      storage_lname);
 		g_free (storage_lname);
 	} else

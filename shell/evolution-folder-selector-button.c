@@ -118,7 +118,7 @@ set_folder (EvolutionFolderSelectorButton *folder_selector_button,
 	}
 
 	if (storage_lname) {
-		label_text = g_strdup_printf ("\"%s\" in \"%s\"", folder_lname,
+		label_text = g_strdup_printf (_("\"%s\" in \"%s\""), folder_lname,
 					      storage_lname);
 		g_free (storage_lname);
 	} else
