@@ -1,3 +1,8 @@
+2003-06-04  Rodrigo Moya <rodrigo@ximian.com>
+
+	* backend/ebook/ebook.c (e_book_do_response_open): adapted to
+	changes in EComponentListener API.
+
 2003-05-19  Chris Toshok  <toshok@ximian.com>
 
 	* backend/pas/pas-backend-ldap.c (func_beginswith): use the more
