@@ -233,7 +233,7 @@ e_table_init (GtkObject *object)
 	e_table->drop_col                           = -1;
 	e_table->site                               = NULL;
 
-	e_tasble->do_drag                           = 0;
+	e_table->do_drag                            = 0;
 
 	e_table->sorter                             = NULL;
 	e_table->selection                          = e_table_selection_model_new();
