@@ -1,3 +1,9 @@
+1998-10-25  Marius Vollmer  <mvo@zagadka.ping.de>
+
+	* gnome-guile-checks.m4: Add GUILE_LIBS to LIBS when checking
+	whether guile works.  Adding them to LDFLAGS does not work on all
+	systems.  (Thanks to Rusty Chris Holleman)
+
 1998-11-12  Andrew T. Veliath  <andrewtv@usa.net>
 
 	* gnome-orbit-check.m4: Remove AC_DEFINE(HAVE_ORBIT). Add
