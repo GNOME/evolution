@@ -332,7 +332,7 @@ if gnome-config --libs gtkhtml > /dev/null 2>&1; then
 	vers=`gnome-config --modversion gtkhtml`
 	case $vers
 	in
-	    gtkhtml-0.[01234]) gtkhtml_ok=false ;;
+	    gtkhtml-0.[01234567]) gtkhtml_ok=false ;;
 	    *) gtkhtml_ok=true ;;
 	esac
 else
@@ -342,7 +342,7 @@ fi
 if $gtkhtml_ok; then
 	AC_MSG_RESULT($vers found)
 else
-	AC_MSG_ERROR(GtkHTML 0.5 or later is required to compile Evolution)
+	AC_MSG_ERROR(GtkHTML 0.8 or later is required to compile Evolution)
 fi
 
 GTKHTML_CFLAGS="`gnome-config --cflags gtkhtml`"
@@ -350,6 +350,17 @@ GTKHTML_LIBS="`gnome-config --libs gtkhtml`"
 
 AC_SUBST(GTKHTML_CFLAGS)
 AC_SUBST(GTKHTML_LIBS)
+
+AC_MSG_CHECKING(for HTMLEditor.idl)
+if test -f `gnome-config --datadir`/gtkhtml/HTMLEditor.idl; then
+	GTK_HTML_EDITOR_IDL=`gnome-config --datadir`/gtkhtml/HTMLEditor.idl
+	AC_MSG_RESULT(found)
+else
+	AC_MSG_ERROR(HTMLEditor.idl is required to compile Evolution composer, it's included in GtkHTML
+You need GtkHTML build with html-editor-control)
+fi
+
+AC_SUBST(GTK_HTML_EDITOR_IDL)
 
 dnl ******************************
 dnl Gnome-VFS checking
