@@ -44,8 +44,6 @@ Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
     #20779 -- Set a 'name' parameter in the Content-Type header
               since Outlook doesn't seem to check the filename
               parameter on the Content-Disposition header. (Jeff)
-    #21655 -- X-MailingList should take priority over X-BeenThere.
-              (Ettore)
 
   * Shell
 
