@@ -1,3 +1,13 @@
+2001-09-14  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell.c (impl_Shell_getLocalStorage): Return a proper value.
+	(impl_Shell_createStorageSetView): Likewise.
+	(impl_Shell_setLineStatus): Likewise.
+	(impl_Shell__get_displayName): Likewise.
+	(impl_Shell_getComponentByType): Likewise.
+	(impl_Shell_createNewView): Likewise.
+	(impl_Shell_handleURI): Likewise.
+
 2001-09-14  Iain Holmes  <iain@ximian.com>
 
 	* e-shell-importer.c (start_import): Only check for local path if the

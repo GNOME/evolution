@@ -221,7 +221,7 @@ impl_Shell__get_displayName (PortableServer_Servant servant,
 	CORBA_char *retval;
 
 	if (raise_exception_if_not_ready (servant, ev))
-		return;
+		return NULL;
 
 	display_string = DisplayString (gdk_display);
 	if (display_string == NULL) 
@@ -245,7 +245,7 @@ impl_Shell_getComponentByType (PortableServer_Servant servant,
 	EShell *shell;
 
 	if (raise_exception_if_not_ready (servant, ev))
-		return;
+		return CORBA_OBJECT_NIL;
 
 	bonobo_object = bonobo_object_from_servant (servant);
 	shell = E_SHELL (bonobo_object);
@@ -275,7 +275,7 @@ impl_Shell_createNewView (PortableServer_Servant servant,
 	GNOME_Evolution_ShellView shell_view_interface;
 
 	if (raise_exception_if_not_ready (servant, ev))
-		return;
+		return CORBA_OBJECT_NIL;
 
 	bonobo_object = bonobo_object_from_servant (servant);
 	shell = E_SHELL (bonobo_object);
@@ -426,7 +426,7 @@ impl_Shell_getLocalStorage (PortableServer_Servant servant,
 	EShellPrivate *priv;
 
 	if (raise_exception_if_not_ready (servant, ev))
-		return;
+		return CORBA_OBJECT_NIL;
 
 	bonobo_object = bonobo_object_from_servant (servant);
 	shell = E_SHELL (bonobo_object);
@@ -448,7 +448,7 @@ impl_Shell_createStorageSetView (PortableServer_Servant servant,
 	BonoboControl *control;
 
 	if (raise_exception_if_not_ready (servant, ev))
-		return;
+		return CORBA_OBJECT_NIL;
 
 	bonobo_object = bonobo_object_from_servant (servant);
 	shell = E_SHELL (bonobo_object);
