@@ -358,7 +358,7 @@ build_dialogue (GSList *sources, CamelFolder *outbox, const char *destination)
 	row++;
 	gtk_widget_show_all (GTK_WIDGET (table));
 	
-	if (outbox) {
+	if (outbox && destination) {
 		info = g_hash_table_lookup (data->active, destination);
 		if (info == NULL) {
 			info = g_malloc0 (sizeof (*info));

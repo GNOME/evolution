@@ -1,5 +1,8 @@
 2001-10-03    <NotZed@Ximian.com>
 
+	* mail-send-recv.c (build_dialogue): Only build destination data
+	if we have destination != NULL.  Fixes crash of bug #10835.
+
 	* folder-browser.c (folder_browser_config_search): Set 'to' ->
 	'recipient' data for search object.  #6199.
 
