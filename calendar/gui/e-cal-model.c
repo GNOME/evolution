@@ -1264,7 +1264,8 @@ e_cal_view_objects_modified_cb (ECalView *query, GList *objects, gpointer user_d
 		e_table_model_pre_change (E_TABLE_MODEL (model));
 
 		comp_data = search_by_uid_and_client (priv, e_cal_view_get_client (query), icalcomponent_get_uid (l->data));
-		g_assert (comp_data);
+		if (!comp_data)
+			continue;
 	
 		if (comp_data->icalcomp)
 			icalcomponent_free (comp_data->icalcomp);

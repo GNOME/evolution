@@ -1,3 +1,9 @@
+2004-06-10  Rodrigo Moya <rodrigo@novell.com>
+
+	* gui/e-cal-model.c (e_cal_view_objects_modified_cb): removed
+	g_assert call, since we shouldn't crash when getting wrong
+	notifications from a backend.
+
 2004-06-10  JP Rosevear  <jpr@novell.com>
 
 	* gui/gnome-cal.c
