@@ -115,7 +115,7 @@
 
 	</menu>
 
-	<dockitem name="Toolbar">
+	<dockitem name="Toolbar" behavior="exclusive">
 
 		<toolitem name="FileSend" verb=""  _tip="Send this message now"/>
 

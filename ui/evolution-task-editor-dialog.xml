@@ -330,7 +330,7 @@
 
 </menu>
 
-<dockitem name="Toolbar">
+<dockitem name="Toolbar" behavior="exclusive">
 
 	<toolitem name="FileSaveAndClose" verb=""/>
 

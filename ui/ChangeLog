@@ -1,3 +1,9 @@
+2000-11-25  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* evolution-message-composer.xml: Make "Toolbar"'s behavior
+	"exclusive".
+	* evolution-task-editor-dialog.xml: Likewise.
+
 2000-11-21  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* evolution-mail.xml: Moved ViewSource to the View menu and made
