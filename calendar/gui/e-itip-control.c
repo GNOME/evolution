@@ -1108,10 +1108,36 @@ get_real_item (EItipControl *itip)
 }
 
 static void
+adjust_item (EItipControl *itip, CalComponent *comp)
+{
+	CalComponent *real_comp;
+	
+	real_comp = get_real_item (itip);
+	if (real_comp != NULL) {
+		CalComponentText text;
+		const char *string;
+		GSList *l;
+		
+		cal_component_get_summary (real_comp, &text);
+		cal_component_set_summary (comp, &text);
+		cal_component_get_location (real_comp, &string);
+		cal_component_set_location (comp, string);
+		cal_component_get_description_list (real_comp, &l);
+		cal_component_set_description_list (comp, l);
+		cal_component_free_text_list (l);
+		
+		gtk_object_unref (GTK_OBJECT (real_comp));
+	} else {
+		CalComponentText text = {_("Unknown"), NULL};
+		
+		cal_component_set_summary (comp, &text);
+	}
+}
+
+static void
 show_current_event (EItipControl *itip)
 {
 	EItipControlPrivate *priv;
-	CalComponent *comp;
 	const gchar *itip_title, *itip_desc;
 	char *options;
 
@@ -1141,33 +1167,23 @@ show_current_event (EItipControl *itip)
 		options = get_refresh_options ();
 
 		/* Provide extra info, since its not in the component */
-		comp = get_real_item (itip);
-		if (comp != NULL) {
-			CalComponentText text;
-			GSList *l;
-			
-			cal_component_get_summary (comp, &text);
-			cal_component_set_summary (priv->comp, &text);
-			cal_component_get_description_list (comp, &l);
-			cal_component_set_description_list (priv->comp, l);
-			cal_component_free_text_list (l);
-			
-			gtk_object_unref (GTK_OBJECT (comp));
-		} else {
-			CalComponentText text = {_("Unknown"), NULL};
-			
-			cal_component_set_summary (priv->comp, &text);
-		}
+		adjust_item (itip, priv->comp);
 		break;
 	case ICAL_METHOD_REPLY:
 		itip_desc = U_("<b>%s</b> has replied to a meeting request.");
 		itip_title = U_("Meeting Reply");
 		options = get_reply_options ();
+
+		/* Provide extra info, since might not be in the component */
+		adjust_item (itip, priv->comp);
 		break;
 	case ICAL_METHOD_CANCEL:
 		itip_desc = U_("<b>%s</b> has cancelled a meeting.");
 		itip_title = U_("Meeting Cancellation");
 		options = get_cancel_options ();
+
+		/* Provide extra info, since might not be in the component */
+		adjust_item (itip, priv->comp);
 		break;
 	default:
 		itip_desc = U_("<b>%s</b> has sent an unintelligible message.");
@@ -1212,35 +1228,24 @@ show_current_todo (EItipControl *itip)
 		itip_title = U_("Task Update Request");
 		options = get_refresh_options ();
 
-
 		/* Provide extra info, since its not in the component */
-		comp = get_real_item (itip);
-		if (comp != NULL) {
-			CalComponentText text;
-			GSList *l;
-			
-			cal_component_get_summary (comp, &text);
-			cal_component_set_summary (priv->comp, &text);
-			cal_component_get_description_list (comp, &l);
-			cal_component_set_description_list (priv->comp, l);
-			cal_component_free_text_list (l);
-			
-			gtk_object_unref (GTK_OBJECT (comp));
-		} else {
-			CalComponentText text = {_("Unknown"), NULL};
-			
-			cal_component_set_summary (priv->comp, &text);
-		}
+		adjust_item (itip, priv->comp);
 		break;
 	case ICAL_METHOD_REPLY:
 		itip_desc = U_("<b>%s</b> has replied to a task assignment.");
 		itip_title = U_("Task Reply");
 		options = get_reply_options ();
+
+		/* Provide extra info, since might not be in the component */
+		adjust_item (itip, priv->comp);
 		break;
 	case ICAL_METHOD_CANCEL:
 		itip_desc = U_("<b>%s</b> has cancelled a task.");
 		itip_title = U_("Task Cancellation");
 		options = get_cancel_options ();
+
+		/* Provide extra info, since might not be in the component */
+		adjust_item (itip, priv->comp);
 		break;
 	default:
 		itip_desc = U_("<b>%s</b> has sent an unintelligible message.");

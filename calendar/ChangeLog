@@ -1,5 +1,13 @@
 2002-08-02  JP Rosevear  <jpr@ximian.com>
 
+	* gui/e-itip-control.c (adjust_item): new util function to add
+	information to an itip message that might not already be there for
+	display purposes (summary, location, etc)
+	(show_current_event): use above
+	(show_current_todo): ditto
+
+2002-08-02  JP Rosevear  <jpr@ximian.com>
+	
 	* gui/e-meeting-model.c (init): initialize value to corba nil
 
 2002-08-01  Ettore Perazzoli  <ettore@ximian.com>
