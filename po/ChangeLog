@@ -1,3 +1,8 @@
+2003-04-26  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* no.po: Updated Norwegian translation.
+	* POTFILES.in: Added calendar/gui/dialogs/delete-error.c
+	
 2003-04-25  Pablo Gonzalo del Campo <pablodc@bigfoot.com>
 
         * es.po: Updated Spanish translation by

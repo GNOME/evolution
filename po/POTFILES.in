@@ -89,6 +89,7 @@ calendar/gui/dialogs/comp-editor-page.c
 calendar/gui/dialogs/comp-editor-util.c
 calendar/gui/dialogs/comp-editor.c
 calendar/gui/dialogs/delete-comp.c
+calendar/gui/dialogs/delete-error.c
 calendar/gui/dialogs/e-delegate-dialog.glade
 calendar/gui/dialogs/event-editor.c
 calendar/gui/dialogs/event-page.c
