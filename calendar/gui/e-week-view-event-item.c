@@ -250,8 +250,13 @@ e_week_view_event_item_draw (GnomeCanvasItem  *canvas_item,
 	if (wveitem->event_num == -1 || wveitem->span_num == -1)
 		return;
 
+	g_return_if_fail(wveitem->event_num < week_view->events->len);
+
 	event = &g_array_index (week_view->events, EWeekViewEvent,
 				wveitem->event_num);
+
+	g_return_if_fail(event->spans_index + wveitem->span_num < week_view->spans->len);
+
 	span = &g_array_index (week_view->spans, EWeekViewEventSpan,
 			       event->spans_index + wveitem->span_num);
 
