@@ -340,11 +340,15 @@ mail_tool_quote_message (CamelMimeMessage *message, const char *fmt, ...)
 	gboolean want_plain;
 	gchar *text;
 	
-	want_plain = !mail_config_get_send_html ();
 	contents = camel_medium_get_content_object (CAMEL_MEDIUM (message));
 	/* We pass "want_plain" for "cite", since if it's HTML, we'll
 	 * do the citing ourself below.
 	 */
+	/* FIXME the citing logic has changed and we basically never want_plain
+	 * to be true now, but I don't want to remove all that logic until I
+	 * am sure --Larry
+	 */
+	want_plain = FALSE;
 	text = mail_get_message_body (contents, want_plain, want_plain);
 	
 	/* Set the quoted reply text. */

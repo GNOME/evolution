@@ -1,5 +1,8 @@
 2002-04-29  Larry Ewing  <lewing@ximian.com>
 
+	* mail-tools.c (mail_tool_quote_message): use the html reply logic
+	even for plain parts so that we can test out the new gtkhtml cite logic.
+
 	* importers/evolution-mbox-importer.c (process_item_fn): add const
 	to silence warning.
 
@@ -28,7 +31,6 @@
 	* mail-account-gui.c (mail_account_gui_auto_detect_extra_conf):
 	New function to auto-detect the extra config options for a source.
 
->>>>>>> 1.2146
 2002-04-24  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-account-gui.c (mail_account_gui_build_extra_conf): Allow
