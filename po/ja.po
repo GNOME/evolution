@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution CVS-20000514\n"
-"POT-Creation-Date: 2000-05-14 19:57+0900\n"
-"PO-Revision-Date: 2000-05-14 19:50+0900\n"
+"POT-Creation-Date: 2000-05-15 15:57+0900\n"
+"PO-Revision-Date: 2000-05-15 16:08+0900\n"
 "Last-Translator: Akira TAGOH <tagoh@gnome.gr.jp>\n"
 "Language-Team: Japanese <translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
@@ -23,123 +23,133 @@ msgid "Contact Editor"
 msgstr "コンタクトエディタ"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:8
-msgid "Business Fax"
-msgstr "仕事の Fax"
+msgid "_Full Name..."
+msgstr "フルネーム(_F)..."
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:9
-msgid "Home"
-msgstr "家"
-
-#: addressbook/contact-editor/e-contact-editor-strings.h:10
-#: addressbook/contact-editor/e-contact-editor-strings.h:20
-msgid "Business"
-msgstr "仕事"
-
-#: addressbook/contact-editor/e-contact-editor-strings.h:11
-msgid "Mobile"
-msgstr "モバイル"
-
-#: addressbook/contact-editor/e-contact-editor-strings.h:12
-msgid "Primary Email"
-msgstr "主要な email"
-
-#: addressbook/contact-editor/e-contact-editor-strings.h:13
-msgid "\tFull Name..."
-msgstr "\tフルネーム..."
-
-#: addressbook/contact-editor/e-contact-editor-strings.h:14
-msgid "Job Title:"
-msgstr "仕事のタイトル:"
-
-#: addressbook/contact-editor/e-contact-editor-strings.h:15
 msgid "Company:"
 msgstr "会社:"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:16
+#: addressbook/contact-editor/e-contact-editor-strings.h:10
 msgid "File As:"
 msgstr "ファイル名:"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:17
+#: addressbook/contact-editor/e-contact-editor-strings.h:11
 msgid "Web page address:"
 msgstr "Web ページアドレス:"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:18
-msgid "This is the mailing address"
-msgstr "これはメールアドレスです"
+#: addressbook/contact-editor/e-contact-editor-strings.h:12
+msgid "Wants _HTML mail"
+msgstr "HTML メールを望む(_H)"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:19
-msgid "Wants HTML mail"
-msgstr "HTML メールを望む"
-
-#: addressbook/contact-editor/e-contact-editor-strings.h:21
-#: addressbook/contact-editor/e-contact-editor-strings.h:28
+#: addressbook/contact-editor/e-contact-editor-strings.h:13
 msgid "Address:"
 msgstr "アドレス:"
 
+#: addressbook/contact-editor/e-contact-editor-strings.h:14
+msgid "_Business"
+msgstr "仕事(_B)"
+
+#: addressbook/contact-editor/e-contact-editor-strings.h:15
+msgid "_Home"
+msgstr "家(_H)"
+
+#: addressbook/contact-editor/e-contact-editor-strings.h:16
+msgid "Business _Fax"
+msgstr "仕事の Fax(_F)"
+
+#: addressbook/contact-editor/e-contact-editor-strings.h:17
+msgid "_Mobile"
+msgstr "モバイル(_M)"
+
+#: addressbook/contact-editor/e-contact-editor-strings.h:18
+msgid "Primary Email"
+msgstr "主要な email"
+
+#: addressbook/contact-editor/e-contact-editor-strings.h:19
+msgid "Business"
+msgstr "仕事"
+
+#: addressbook/contact-editor/e-contact-editor-strings.h:20
+msgid "This is the _mailing address"
+msgstr "これはメールアドレスです(_m)"
+
+#: addressbook/contact-editor/e-contact-editor-strings.h:21
+msgid "_Contacts..."
+msgstr "連絡(_C)..."
+
 #: addressbook/contact-editor/e-contact-editor-strings.h:22
+msgid "Ca_tegories..."
+msgstr "種類(_t)..."
+
+#: addressbook/contact-editor/e-contact-editor-strings.h:23
+msgid "Job Title"
+msgstr "仕事のタイトル"
+
+#: addressbook/contact-editor/e-contact-editor-strings.h:24
 msgid "General"
 msgstr "一般"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:23
+#: addressbook/contact-editor/e-contact-editor-strings.h:25
 msgid "Department:"
 msgstr "部門:"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:24
+#: addressbook/contact-editor/e-contact-editor-strings.h:26
 msgid "Office:"
 msgstr "官職:"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:25
+#: addressbook/contact-editor/e-contact-editor-strings.h:27
 msgid "Profession:"
 msgstr "専門:"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:26
+#: addressbook/contact-editor/e-contact-editor-strings.h:28
 msgid "Nickname:"
 msgstr "ニックネーム:"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:27
-msgid "Spouse's name:"
-msgstr "配偶者の名前:"
-
 #: addressbook/contact-editor/e-contact-editor-strings.h:29
+msgid "Spouse:"
+msgstr "配偶者:"
+
+#: addressbook/contact-editor/e-contact-editor-strings.h:30
 msgid "Birthday:"
 msgstr "誕生日:"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:30
+#: addressbook/contact-editor/e-contact-editor-strings.h:31
 msgid "Assistant's name:"
 msgstr "アシスタントの名前:"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:31
-msgid "Manager's name:"
+#: addressbook/contact-editor/e-contact-editor-strings.h:32
+msgid "Manager's Name:"
 msgstr "経営者の名前:"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:32
+#: addressbook/contact-editor/e-contact-editor-strings.h:33
 msgid "Anniversary:"
 msgstr "記念日:"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:33
-msgid "Internet Free-Busy"
-msgstr ""
-
 #: addressbook/contact-editor/e-contact-editor-strings.h:34
+msgid "Notes:"
+msgstr "ノート:"
+
+#: addressbook/contact-editor/e-contact-editor-strings.h:35
 msgid "Details"
 msgstr "詳細"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:35
-#: addressbook/contact-editor/e-contact-editor-strings.h:40
+#: addressbook/contact-editor/e-contact-editor-strings.h:36
+#: addressbook/contact-editor/e-contact-editor-strings.h:41
 msgid "Add"
 msgstr "追加"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:36
+#: addressbook/contact-editor/e-contact-editor-strings.h:37
 #: mail/folder-browser-factory.c:153
 msgid "Delete"
 msgstr "削除"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:37
+#: addressbook/contact-editor/e-contact-editor-strings.h:38
 msgid "Phone Types"
 msgstr "電話の種別"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:38
 #: addressbook/contact-editor/e-contact-editor-strings.h:39
+#: addressbook/contact-editor/e-contact-editor-strings.h:40
 msgid "New phone type"
 msgstr "新しい電話の種別"
 
@@ -788,31 +798,31 @@ msgstr "メッセージプレビューは表示すべきかどうか"
 msgid "Mail Component: I could not initialize Bonobo"
 msgstr "メールコンポーネント: Bonobo の初期化が出来ませんでした"
 
-#: mail/message-list.c:421
+#: mail/message-list.c:420
 msgid "Priority"
 msgstr "優先度"
 
-#: mail/message-list.c:435
+#: mail/message-list.c:434
 msgid "From"
 msgstr "差出人"
 
-#: mail/message-list.c:442
+#: mail/message-list.c:441
 msgid "Subject"
 msgstr "表題"
 
-#: mail/message-list.c:449
+#: mail/message-list.c:448
 msgid "Sent"
 msgstr "送信"
 
-#: mail/message-list.c:456
+#: mail/message-list.c:455
 msgid "Receive"
 msgstr "受信"
 
-#: mail/message-list.c:463
+#: mail/message-list.c:462
 msgid "To"
 msgstr "受取人"
 
-#: mail/message-list.c:470
+#: mail/message-list.c:469
 msgid "Size"
 msgstr "サイズ"
 
