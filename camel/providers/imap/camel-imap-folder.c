@@ -1031,6 +1031,12 @@ imap_get_summary (CamelFolder *folder, CamelException *ex)
 	
 	summary = g_ptr_array_new ();
 
+	if (num == 0) {
+		imap_folder->summary = summary;
+		
+		return summary;
+	}
+
 	status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), folder,
 					      &result, "FETCH 1:%d (UID FLAGS BODY[HEADER.FIELDS "
 					      "(SUBJECT FROM TO CC DATE MESSAGE-ID "

@@ -1,3 +1,9 @@
+2000-07-13  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/imap/camel-imap-folder.c (imap_get_summary): Oops.
+	If the number of messages in the folder is 0, don't fetch
+	summaries 1 thru 0, just return an empty summary.
+
 2000-07-13  Dan Winship  <danw@helixcode.com>
 
 	* camel-service.h: define a set of CAMEL_SERVICE_URL_ALLOW_* flags
