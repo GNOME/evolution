@@ -62,8 +62,11 @@ prop_cancel (void)
 }
 
 static void
-prop_apply (void)
+prop_apply (GtkWidget *w, int page)
 {
+	if (page != -1)
+		return;
+	
 	day_begin = GTK_ADJUSTMENT (sa)->value;
 	day_end   = GTK_ADJUSTMENT (ea)->value;
 	gnome_config_set_int ("/calendar/Calendar/Day start", day_begin);
