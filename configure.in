@@ -1372,7 +1372,7 @@ echo "\
 	IPv6 support:     $msg_ipv6
 	Dot Locking:	  $msg_dot
 	File Locking:	  $msg_file
-	Gtk-doc:	  $enable_gtk_doc
+	Gtk-doc:	  $enable_gtk_doc"
 
 if test x$enable_gtk_doc = xyes; then
 echo "

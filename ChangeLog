@@ -1,5 +1,9 @@
 2004-01-11  JP Rosevear <jpr@ximian.com>
 
+	* configure.in: dont kill the quote
+
+2004-01-11  JP Rosevear <jpr@ximian.com>
+
 	* configure.in: add enable option to build test component
 
 2004-01-08  Rodney Dawes  <dobey@ximian.com>
