@@ -1,7 +1,13 @@
+1998-06-07  Martin Baulig <martin@home-of-linux.org>
+
+	* gnome-guile-checks.m4 (GNOME_CHECK_GUILE): When
+	cross-compiling, we now check for `$host_alias-buile-guile'.
+
 1998-06-03  Martin Baulig <martin@home-of-linux.org>
 
-	* gnome-guile-checks.m4 (GNOME_CHECK_GUILE): Looks also in $GNOME_LIBDIR;
-	added failflag: GNOME_CHECK_GUILE(fail) will abort if guile cannot be found.
+	* gnome-guile-checks.m4 (GNOME_CHECK_GUILE): Looks also
+	in $GNOME_LIBDIR; added failflag: GNOME_CHECK_GUILE(fail)
+	will abort if guile cannot be found.
 
 1998-05-23  Martin Baulig  <martin@home-of-linux.org>
 
