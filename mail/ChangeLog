@@ -1,3 +1,25 @@
+2003-06-16  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #44609
+
+	* mail-vfolder.c (vfolder_edit_rule): put the ok/cancel buttons in
+	the stupid gnome 2 order.
+
+	** See bug #33593
+
+	* message-list.c (on_selection_changed_cmd): also listedn to
+	selection changed events, since the etable api has changed.
+	(get_selected_cb): helper for above.
+	(message_list_construct): hook to selection change signal.
+
+	* mail-callbacks.c (composer_send_queued_cb): Unref the composer
+	to match the ref composer_send_cb();
+
+	** See bug #44519
+
+	* message-browser.c (message_browser_message_list_built): We want
+	to disconnect from the messagelist, not folderbrowser signal.
+
 2003-06-11  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-format.c (format_mime_part): We only really want to use

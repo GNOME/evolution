@@ -212,7 +212,7 @@ message_browser_message_loaded (FolderBrowser *fb, const char *uid, MessageBrows
 	CamelMimeMessage *message;
 	char *subject = NULL;
 	char *title;
-	
+
 	folder_browser_ui_message_loaded(fb);
 	
 	message = fb->mail_display->current_message;
@@ -234,8 +234,8 @@ static void
 message_browser_message_list_built (MessageList *ml, MessageBrowser *mb)
 {
 	const char *uid = g_object_get_data (G_OBJECT (mb), "uid");
-	
-	g_signal_handlers_disconnect_matched (mb->fb, G_SIGNAL_MATCH_DATA|G_SIGNAL_MATCH_FUNC, 0, 0, NULL,
+
+	g_signal_handlers_disconnect_matched (ml, G_SIGNAL_MATCH_DATA|G_SIGNAL_MATCH_FUNC, 0, 0, NULL,
 					      message_browser_message_list_built, mb);
 	message_list_select_uid (ml, uid);
 }

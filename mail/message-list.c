@@ -131,6 +131,7 @@ typedef struct _EMailAddress EMailAddress;
 static ETreeScrolledClass *message_list_parent_class;
 
 static void on_cursor_activated_cmd (ETree *tree, int row, ETreePath path, gpointer user_data);
+static void on_selection_changed_cmd(ETree *tree, MessageList *ml);
 static gint on_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event, MessageList *list);
 static char *filter_date (time_t date);
 static char *filter_size (int size);
@@ -1453,6 +1454,10 @@ message_list_construct (MessageList *message_list)
 	
 	g_signal_connect((message_list->tree), "click",
 			 G_CALLBACK (on_click), message_list);
+
+	g_signal_connect((message_list->tree), "selection_change",
+			 G_CALLBACK (on_selection_changed_cmd), message_list);
+
 }
 
 GtkWidget *
@@ -2235,7 +2240,7 @@ on_cursor_activated_idle (gpointer data)
 	MessageList *message_list = data;
 	ESelectionModel *esm = e_tree_get_selection_model (message_list->tree);
 	int selected = e_selection_model_selected_count (esm);
-	
+
 	if (selected == 1 && message_list->cursor_uid) {
 		d(printf ("emitting cursor changed signal, for uid %s\n", message_list->cursor_uid));
 		g_signal_emit (message_list, message_list_signals[MESSAGE_SELECTED], 0, message_list->cursor_uid);
@@ -2252,7 +2257,7 @@ on_cursor_activated_cmd (ETree *tree, int row, ETreePath path, gpointer user_dat
 {
 	MessageList *message_list = MESSAGE_LIST (user_data);
 	const char *new_uid;
-	
+
 	if (path == NULL)
 		new_uid = NULL;
 	else
@@ -2270,6 +2275,29 @@ on_cursor_activated_cmd (ETree *tree, int row, ETreePath path, gpointer user_dat
 			g_idle_add_full (G_PRIORITY_LOW, on_cursor_activated_idle,
 					 message_list, NULL);
 	}
+}
+
+static void
+get_selected_cb(ETreePath path, MessageList *ml)
+{
+	g_free(ml->cursor_uid);
+	ml->cursor_uid = g_strdup(get_message_uid(ml, path));
+}
+
+static void
+on_selection_changed_cmd(ETree *tree, MessageList *ml)
+{
+	ESelectionModel *esm = e_tree_get_selection_model (ml->tree);
+	int selected = e_selection_model_selected_count (esm);
+
+	g_free(ml->cursor_uid);
+	ml->cursor_uid = NULL;
+
+	if (selected == 1)
+		e_tree_selected_path_foreach(ml->tree, (ETreeForeachFunc)get_selected_cb, ml);
+
+	if ((selected == 1 || selected == 0) && !ml->idle_id)
+		g_idle_add_full (G_PRIORITY_LOW, on_cursor_activated_idle, ml, NULL);
 }
 
 static gint

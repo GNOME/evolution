@@ -873,10 +873,10 @@ vfolder_edit_rule(const char *uri)
 
 		gd = (GtkDialog *)gtk_dialog_new_with_buttons(_("Edit VFolder"), NULL,
 							      GTK_DIALOG_DESTROY_WITH_PARENT,
-							      GTK_STOCK_OK,
-							      GTK_RESPONSE_OK,
 							      GTK_STOCK_CANCEL,
 							      GTK_RESPONSE_CANCEL,
+							      GTK_STOCK_OK,
+							      GTK_RESPONSE_OK,
 							      NULL);
 		gtk_container_set_border_width ((GtkWindow *) gd, 6);
 		gtk_box_set_spacing ((GtkBox *) gd->vbox, 6);
