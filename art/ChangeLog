@@ -1,3 +1,8 @@
+2002-07-23  Jakub Steiner <jimmac@ximian.com>
+
+	* inbox.png,outbox.png: fix the arrows
+	* font.png: the former one was vector style - from gorilla
+	
 2002-07-22    <jpr@ximian.com>
 
 	* Makefile.am: add new image
