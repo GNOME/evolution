@@ -1,3 +1,8 @@
+2005-03-01  Not Zed  <NotZed@Ximian.com>
+
+	* tests/misc/test2.c: fix the case of the charset specification,
+	now we properly canonicalise them.
+
 2005-02-28  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #72609
