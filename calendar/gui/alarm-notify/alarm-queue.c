@@ -182,11 +182,11 @@ lookup_queued_alarm (CompQueuedAlarms *cqa, gpointer alarm_id)
 	for (l = cqa->queued_alarms; l; l = l->next) {
 		qa = l->data;
 		if (qa->alarm_id == alarm_id)
-			break;
+			return qa;
 	}
 
-	g_assert (l != NULL);
-	return qa;
+	/* not found, might have been updated/removed */
+	return NULL;
 }
 
 /* Removes an alarm from the list of alarms of a component.  If the alarm was
@@ -207,7 +207,8 @@ remove_queued_alarm (CompQueuedAlarms *cqa, gpointer alarm_id)
 			break;
 	}
 
-	g_assert (l != NULL);
+	if (!l)
+		return;
 
 	cqa->queued_alarms = g_slist_remove_link (cqa->queued_alarms, l);
 	g_slist_free_1 (l);
@@ -247,6 +248,8 @@ alarm_trigger_cb (gpointer alarm_id, time_t trigger, gpointer data)
 	save_notification_time (trigger);
 
 	qa = lookup_queued_alarm (cqa, alarm_id);
+	if (!qa)
+		return;
 
 	/* Decide what to do based on the alarm action.  We use the trigger that
 	 * is passed to us instead of the one from the instance structure
@@ -642,7 +645,8 @@ display_notification (time_t trigger, CompQueuedAlarms *cqa,
 
 	comp = cqa->alarms->comp;
 	qa = lookup_queued_alarm (cqa, alarm_id);
-	g_assert (qa != NULL);
+	if (!qa)
+		return;
 
 	vtype = cal_component_get_vtype (comp);
 
@@ -699,7 +703,8 @@ audio_notification (time_t trigger, CompQueuedAlarms *cqa,
 
 	comp = cqa->alarms->comp;
 	qa = lookup_queued_alarm (cqa, alarm_id);
-	g_assert (qa != NULL);
+	if (!qa)
+		return;
 
 	alarm = cal_component_get_alarm (comp, qa->instance->auid);
 	g_assert (alarm != NULL);
@@ -798,7 +803,8 @@ procedure_notification (time_t trigger, CompQueuedAlarms *cqa, gpointer alarm_id
 
 	comp = cqa->alarms->comp;
 	qa = lookup_queued_alarm (cqa, alarm_id);
-	g_assert (qa != NULL);
+	if (!qa)
+		return;
 
 	alarm = cal_component_get_alarm (comp, qa->instance->auid);
 	g_assert (alarm != NULL);

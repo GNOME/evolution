@@ -1,3 +1,13 @@
+2002-10-07  Rodrigo Moya <rodrigo@ximian.com>
+
+	Fixes crash in #19159
+
+	* gui/alarm-notify/alarm-queue.c (lookup_queued_alarm): don't crash if
+	we don't find the queued alarm in the internal list.
+	(alarm_trigger_cb, create_snooze, display_notification,
+	 audio_notification, procedure_notification, remove_queued_alarm):
+	check return value from lookup_queued_alarm.
+
 2002-10-04  Rodrigo Moya <rodrigo@ximian.com>
 
 	Fixes #15892
