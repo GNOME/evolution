@@ -1,7 +1,8 @@
+# Makefile for libversit.a
 
-noinst_LTLIBRARIES = libversit.la
+# $Id: Makefile.am,v 1.8 2002/03/12 00:41:53 srittau Exp $
 
-libversit_la_SOURCES =	\
+VERSIT_SRC =		\
 	vcc.y		\
 	vcc.h		\
 	vobject.c	\
@@ -9,6 +10,12 @@ libversit_la_SOURCES =	\
 	port.h		\
 	vcaltmp.c	\
 	vcaltmp.h
+
+noinst_LIBRARIES = libversit.a
+noinst_LTLIBRARIES = libversit_lt.la
+
+libversit_a_SOURCES = $(VERSIT_SRC)
+libversit_lt_la_SOURCES = $(VERSIT_SRC)
 
 EXTRA_DIST = README.TXT vcaltest.c vctest.c
 

@@ -178,6 +178,27 @@ static void enterValues(const char *value);
 static void mime_error_(char *s);
  static void appendValue(const char *value);
 
+static int
+ascii_tolower(const char i) {
+	if ('A' <= i && i <= 'Z')
+		return i - ('A' - 'a');
+	return i;
+}
+
+static int
+ascii_stricmp(const char* s1, const char* s2) {
+	const char *p = s1, *q = s2;
+	while (*p || *q) {
+		char c1 = ascii_tolower(*p++);
+		char c2 = ascii_tolower(*q++);
+		if (c1 < c2)
+			return -1;
+		if (c1 > c2)
+			return 1;
+	}
+	return 0;
+}
+
 %}
 
 /***************************************************************************/
@@ -486,10 +507,10 @@ static void enterAttr(const char *s1, const char *s2)
 	}
     else
 	addProp(curProp,p1);
-    if (stricmp(p1,VCBase64Prop) == 0 || (s2 && stricmp(p2,VCBase64Prop)==0))
+    if (ascii_stricmp(p1,VCBase64Prop) == 0 || (s2 && ascii_stricmp(p2,VCBase64Prop)==0))
 	lexPushMode(L_BASE64);
-    else if (stricmp(p1,VCQuotedPrintableProp) == 0
-	    || (s2 && stricmp(p2,VCQuotedPrintableProp)==0))
+    else if (ascii_stricmp(p1,VCQuotedPrintableProp) == 0
+	    || (s2 && ascii_stricmp(p2,VCQuotedPrintableProp)==0))
 	lexPushMode(L_QUOTED_PRINTABLE);
     deleteStr(s1); deleteStr(s2);
     }
@@ -820,10 +841,10 @@ static int match_begin_name(int end) {
     char *n = lexLookaheadWord();
     int token = ID;
     if (n) {
-	if (!stricmp(n,"vcard")) token = end?END_VCARD:BEGIN_VCARD;
-	else if (!stricmp(n,"vcalendar")) token = end?END_VCAL:BEGIN_VCAL;
-	else if (!stricmp(n,"vevent")) token = end?END_VEVENT:BEGIN_VEVENT;
-	else if (!stricmp(n,"vtodo")) token = end?END_VTODO:BEGIN_VTODO;
+	if (!ascii_stricmp(n,"vcard")) token = end?END_VCARD:BEGIN_VCARD;
+	else if (!ascii_stricmp(n,"vcalendar")) token = end?END_VCAL:BEGIN_VCAL;
+	else if (!ascii_stricmp(n,"vevent")) token = end?END_VEVENT:BEGIN_VEVENT;
+	else if (!ascii_stricmp(n,"vtodo")) token = end?END_VTODO:BEGIN_VTODO;
 	deleteStr(n);
 	return token;
 	}
@@ -1134,10 +1155,10 @@ static int yylex() {
 		    if (isalpha(c)) {
 			char *t = lexGetWord();
 			yylval.str = t;
-			if (!stricmp(t, "begin")) {
+			if (!ascii_stricmp(t, "begin")) {
 			    return match_begin_end_name(0);
 			    }
-			else if (!stricmp(t,"end")) {
+			else if (!ascii_stricmp(t,"end")) {
 			    return match_begin_end_name(1);
 			    }
 		        else {
