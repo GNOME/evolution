@@ -363,6 +363,10 @@ pixmap_press (GtkWidget *widget, GdkEventButton *event, EScrollFrame *user_data)
 		return TRUE;
 	}
 
+	/* Stop the signal, since we don't want the button's class method to
+	   mess up our popup. */
+	gtk_signal_emit_stop_by_name (GTK_OBJECT (widget), "button_press_event");
+
 	part = gtk_object_get_data (GTK_OBJECT (widget), "CamelMimePart");
 	handler = mail_lookup_handler (gtk_object_get_data (GTK_OBJECT (widget),
 							    "mime_type"));

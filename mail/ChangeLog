@@ -1,3 +1,8 @@
+2001-08-17  Damon Chaplin  <damon@ximian.com>
+
+	* mail-display.c (pixmap_press): stop signal emission so the GtkButton
+	class method doesn't mess up the popup menu. Hopefully fixes bug #1828.
+
 2001-08-17  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* mail-search.c (mail_search_construct): Put _() instead of N_()
