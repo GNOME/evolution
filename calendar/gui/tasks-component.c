@@ -470,6 +470,11 @@ impl_dispose (GObject *object)
 	g_list_free (priv->notifications);
 	priv->notifications = NULL;
 
+	if (priv->activity_handler != NULL) {
+		g_object_unref (priv->activity_handler);
+		priv->activity_handler = NULL;
+	}
+
 	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
 }
 

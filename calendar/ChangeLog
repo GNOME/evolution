@@ -1,5 +1,10 @@
 2004-01-16  Rodrigo Moya <rodrigo@ximian.com>
 
+	* gui/tasks-component.c (impl_dispose): unref the activity
+	handler.
+
+2004-01-16  Rodrigo Moya <rodrigo@ximian.com>
+
 	* gui/tasks-component.[ch]
 	(tasks_component_peek_activity_handler): new function.
 	(impl_createControls): create a task bar also for the tasks
