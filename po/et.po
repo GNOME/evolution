@@ -9,10 +9,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Evolution 2.0\n"
+"Project-Id-Version: Evolution CVS HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-08-13 14:55-0400\n"
-"PO-Revision-Date: 2005-01-10 14:08+0300\n"
+"PO-Revision-Date: 2005-01-11 11:55+0300\n"
 "Last-Translator: Priit Laes <amd@tt.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -4513,7 +4513,7 @@ msgstr "Asukoht sisaldab"
 #: calendar/gui/cal-search-bar.c:350
 #: camel/camel-vee-store.c:343
 msgid "Unmatched"
-msgstr "Puudub"
+msgstr "Vastavuseta"
 
 #: calendar/gui/comp-editor-factory.c:413
 #, fuzzy
@@ -4699,26 +4699,22 @@ msgid "C_olor:"
 msgstr "_Värv:"
 
 #: calendar/gui/dialogs/calendar-setup.c:373
-#, fuzzy
 msgid "Tasks List"
-msgstr "Ülesannete nimekiri"
+msgstr "Ülesannete loend"
 
 #: calendar/gui/dialogs/calendar-setup.c:440
-#, fuzzy
 msgid "Calendar Properties"
-msgstr "Kausta omadused"
+msgstr "Kalendri omadused"
 
 #: calendar/gui/dialogs/calendar-setup.c:506
-#, fuzzy
 msgid "Task List Properties"
-msgstr "Ülesandeloetelu grupp"
+msgstr "Ülesandeloendi omadused"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:2
 msgid "Add Calendar"
 msgstr "Kalendri lisamine"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:3
-#, fuzzy
 msgid "Add Task List"
 msgstr "Lisa uus ülesandeloetelu"
 
@@ -4732,9 +4728,8 @@ msgid "_Add Calendar"
 msgstr "_Kalendri lisamine"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:7
-#, fuzzy
 msgid "_Add Task List"
-msgstr "Lisa uus ülesandeloetelu"
+msgstr "_Lisa uus ülesandeloetelu"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:9
 #: plugins/calendar-http/calendar-http.c:248
@@ -5113,7 +5108,7 @@ msgstr "Muuda sündmust"
 #: calendar/gui/dialogs/comp-editor.c:948
 #, c-format
 msgid "Meeting - %s"
-msgstr "Koosolek- %s"
+msgstr "Koosolek - %s"
 
 #: calendar/gui/dialogs/comp-editor.c:907
 #: calendar/gui/dialogs/comp-editor.c:950
@@ -5125,7 +5120,7 @@ msgstr "Sündmus - %s"
 #: calendar/gui/dialogs/comp-editor.c:954
 #, c-format
 msgid "Assigned Task - %s"
-msgstr "Määra ülesanne -%s"
+msgstr "Omistatud ülesanne - %s"
 
 #: calendar/gui/dialogs/comp-editor.c:913
 #: calendar/gui/dialogs/comp-editor.c:956
@@ -5162,7 +5157,7 @@ msgstr "Valideerimisviga: %s"
 #: calendar/gui/dialogs/comp-editor-util.c:191
 #: calendar/gui/print.c:2265
 msgid " (Completed "
-msgstr " (Valmis "
+msgstr " (Lõpetatud "
 
 #: calendar/gui/dialogs/comp-editor-util.c:193
 #: calendar/gui/print.c:2267
@@ -5248,9 +5243,8 @@ msgstr "Elementi ei ole vea tõttu võimalik kustutada"
 #  name = e_book_get_name (book);
 #  Create the contacts group
 #: calendar/gui/dialogs/e-delegate-dialog.glade.h:1
-#, fuzzy
 msgid "Contacts..."
-msgstr "Kontaktid"
+msgstr "Kontaktid..."
 
 #: calendar/gui/dialogs/e-delegate-dialog.glade.h:2
 msgid "Delegate To:"
@@ -5268,7 +5262,7 @@ msgstr "Kordumine"
 #: calendar/gui/dialogs/event-editor.c:228
 #: calendar/gui/dialogs/event-editor.c:372
 msgid "Scheduling"
-msgstr "Plaanimine"
+msgstr "Planeerimine"
 
 #: calendar/gui/dialogs/event-editor.c:166
 #: calendar/gui/dialogs/event-editor.c:231
@@ -5282,7 +5276,7 @@ msgstr "Sündmus ilma alguskuupäevata"
 
 #: calendar/gui/dialogs/event-page.c:721
 msgid "Event with no end date"
-msgstr "Sündmis ilma lõppkuupäevata"
+msgstr "Sündmus ilma lõppkuupäevata"
 
 #: calendar/gui/dialogs/event-page.c:887
 #: calendar/gui/dialogs/task-page.c:553
@@ -5341,7 +5335,7 @@ msgstr "15 minutit enne sündmust"
 
 #: calendar/gui/dialogs/event-page.glade.h:5
 msgid "<b>Basics</b>"
-msgstr "<b>Sisu</b>"
+msgstr "<b>Peamine</b>"
 
 #  and now for the action area
 #: calendar/gui/dialogs/event-page.glade.h:6
@@ -5432,9 +5426,8 @@ msgid "_Alarm"
 msgstr "_Alarm"
 
 #: calendar/gui/dialogs/event-page.glade.h:23
-#, fuzzy
 msgid "_Description:"
-msgstr "Kirjeldus:"
+msgstr "_Kirjeldus:"
 
 #: calendar/gui/dialogs/event-page.glade.h:24
 #: calendar/gui/e-meeting-time-sel.c:642
@@ -5561,9 +5554,8 @@ msgstr "_Muuda korraldajat:"
 #  Create the contacts group
 #: calendar/gui/dialogs/meeting-page.glade.h:4
 #: calendar/gui/e-meeting-time-sel.c:428
-#, fuzzy
 msgid "Con_tacts..."
-msgstr "Kontaktid"
+msgstr "_Kontaktid..."
 
 #: calendar/gui/dialogs/meeting-page.glade.h:6
 msgid "Or_ganizer:"
@@ -7012,9 +7004,8 @@ msgid "Show _zoomed out"
 msgstr "Näita _suures plaanis"
 
 #: calendar/gui/e-meeting-time-sel.c:487
-#, fuzzy
 msgid "_Update free/busy"
-msgstr "_Värskenda vaba/hõivatud"
+msgstr "_Uuenda vaba/hõivatud"
 
 #: calendar/gui/e-meeting-time-sel.c:502
 msgid "_<<"
@@ -7206,9 +7197,8 @@ msgid "Evolution's Tasks component"
 msgstr "Evolutioni aadressiraamatu komponent"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:11
-#, fuzzy
 msgid "_Calendars"
-msgstr "Kalendrid"
+msgstr "_Kalendrid"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:12
 #: views/tasks/galview.xml.h:3
@@ -9276,36 +9266,32 @@ msgid "Signing is not supported by this cipher"
 msgstr "See šiffer ei toeta allkirjastamist"
 
 #: camel/camel-cipher-context.c:129
-#, fuzzy
 msgid "Signing message"
-msgstr "Sõnumi saatmine"
+msgstr "Sõnumi allkirjastamine"
 
 #: camel/camel-cipher-context.c:146
 msgid "Verifying is not supported by this cipher"
 msgstr "See šiffer ei toeta kontrolli"
 
 #: camel/camel-cipher-context.c:172
-#, fuzzy
 msgid "Verifying message"
-msgstr "Sõnumi saatmine"
+msgstr "Sõnumi verifitseerimine"
 
 #: camel/camel-cipher-context.c:190
 msgid "Encryption is not supported by this cipher"
 msgstr "See šiffer ei toeta krüpteerimist"
 
 #: camel/camel-cipher-context.c:216
-#, fuzzy
 msgid "Encrypting message"
-msgstr "Sõnumi saatmine"
+msgstr "Sõnumi krüpteerimine"
 
 #: camel/camel-cipher-context.c:233
 msgid "Decryption is not supported by this cipher"
 msgstr "See šiffer ei toeta dekrüpteerimist"
 
 #: camel/camel-cipher-context.c:255
-#, fuzzy
 msgid "Decrypting message"
-msgstr "Sõnumi saatmine"
+msgstr "Sõnumi dekrüpteerimine"
 
 #: camel/camel-cipher-context.c:272
 msgid "You may not import keys with this cipher"
@@ -11365,7 +11351,7 @@ msgstr "Ei saa luua ühendust POP serveriga %s"
 
 #: camel/providers/local/camel-local-folder.c:179
 msgid "Index message body data"
-msgstr ""
+msgstr "Sõnumite kehatekstide indekseerimine"
 
 #  $HOME relative path + protocol string
 #. $HOME relative path + protocol string
@@ -13876,14 +13862,14 @@ msgstr "Loo otsingu baasil _Virtuaalne Kaust..."
 #: mail/em-folder-properties.c:143
 msgid "Total message:"
 msgid_plural "Total messages:"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Sõnumeid kokku:"
+msgstr[1] "Sõnumeid kokku:"
 
 #: mail/em-folder-properties.c:155
 msgid "Unread message:"
 msgid_plural "Unread messages:"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Lugemata sõnumeid:"
+msgstr[1] "Lugemata sõnumeid:"
 
 #: mail/em-folder-properties.c:269
 #: plugins/shared-folder/properties.glade.h:9
@@ -14041,9 +14027,8 @@ msgstr "VKaustad"
 #. UNMATCHED is always last
 #: mail/em-folder-tree-model.c:206
 #: mail/em-folder-tree-model.c:208
-#, fuzzy
 msgid "UNMATCHED"
-msgstr "Puudub \\{"
+msgstr "VASTAVUSETA"
 
 #: mail/em-folder-tree-model.c:491
 #: mail/em-folder-tree-model.c:795
@@ -14381,7 +14366,7 @@ msgstr "Sõnumi vormindamine"
 #: mail/em-format-quote.c:315
 #: mail/em-mailer-prefs.c:984
 msgid "Mailer"
-msgstr "Postiprogramm:"
+msgstr "Postiprogramm"
 
 #  translators: strftime format for local time equivalent in Date header display, with day
 #  translators: strftime format for local time equivalent in Date header display, with day
@@ -15342,7 +15327,7 @@ msgstr "Teema on %s"
 #: mail/mail-autofilter.c:254
 #, c-format
 msgid "Mail from %s"
-msgstr "Sõnumi saatja: %s"
+msgstr "Sõnumi saatja on %s"
 
 #: mail/mail-autofilter.c:271
 #, c-format
@@ -15355,7 +15340,7 @@ msgstr "Lisa filtreerimisreegel"
 
 #: mail/mail-component.c:139
 msgid "Drafts"
-msgstr "Mustandis"
+msgstr "Mustandid"
 
 #: mail/mail-component.c:140
 msgid "Outbox"
@@ -15376,8 +15361,8 @@ msgstr[1] "%d kustutatud"
 #, c-format
 msgid "%d junk"
 msgid_plural "%d junk"
-msgstr[0] "%d rämps"
-msgstr[1] "%d rämps"
+msgstr[0] "%d rämpskiri"
+msgstr[1] "%d rämpskirja"
 
 #: mail/mail-component.c:509
 #, c-format
@@ -15390,8 +15375,8 @@ msgstr[1] "%d mustandit"
 #, c-format
 msgid "%d sent"
 msgid_plural "%d sent"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d saadetud"
+msgstr[1] "%d saadetud"
 
 #: mail/mail-component.c:513
 #, c-format
@@ -17135,7 +17120,7 @@ msgstr "Sõnum sisaldab"
 
 #: mail/searchtypes.xml.h:5
 msgid "Recipients contain"
-msgstr ""
+msgstr "Adressaat sisaldab"
 
 #: mail/searchtypes.xml.h:6
 msgid "Sender contains"
@@ -18316,19 +18301,36 @@ msgid ""
 "We hope that you enjoy the results of our hard work, and we\n"
 "eagerly await your contributions!\n"
 msgstr ""
+"Tere. Tänan, et leidsite aega Evolution'i grupitöötarkvara\n"
+"eelvaateversiooni allalaadimiseks.\n"
+"\n"
+"See Evolution'i versioon ei ole veel valmis. Kuigi ta on päris\n"
+"lähedal sellele, leidub siiski funktsioone, mis on kas lõpetamata\n"
+"või siis ei tööta korralikult.\n"
+"\n"
+"Kui sa soovid kasutada stabiilset Evolution'i versiooni, siis eemalda\n"
+"see versiooni ja paigalda selle asemel omale versioon %s.\n"
+"\n"
+"Kui sa leiad vigu, siis palun teata meile nendest aadressil\n"
+"bugzilla.ximian.com\n"
+"\n"
+"See toode tuleb ilma igasuguse garantiita ja ei ole soovitatud\n"
+"isikutele, kellel on probleeme oma vihahoogude taltsutamisega.\n"
+"\n"
+"Me loodame, et te naudite meie raske töö tulemusi ja meie\n"
+"omakorda ootame Teie kaastööd!\n"
 
 #: shell/main.c:261
-#, fuzzy
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
 msgstr ""
 "Tänud\n"
-"Ximian Evolution'i meeskond\n"
+"Evolution'i meeskond\n"
 
 #: shell/main.c:268
 msgid "Don't tell me again"
-msgstr "Ära küsi enam uuesti"
+msgstr "Ära enam uuesti näita"
 
 #: shell/main.c:473
 msgid "Start Evolution activating the specified component"
