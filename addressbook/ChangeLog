@@ -1,3 +1,8 @@
+2004-10-27  Andre Klapper  <a9016009@gmx.de>
+
+       * tools/evolution-addressbook-export.c: 
+       Fixing a typo (bug 61069).
+
 2004-10-26  Andre Klapper <a9016009@gmx.de>
 
 	Fixes #61972.
