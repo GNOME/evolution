@@ -1,3 +1,10 @@
+2003-01-07  Dan Winship  <danw@ximian.com>
+
+	* Makefile.am (SUBDIRS): add po
+
+	* configure.in: Move ALL_LINGUAS definition to before
+	AM_GLIB_GNU_GETTEXT, or else no linguas for you!
+
 2003-01-06  Dan Winship  <danw@ximian.com>
 
 	* configure.in (AC_INIT): Use "Evolution", not "evolution", since
@@ -36,7 +43,7 @@
 
 2002-11-20  Ettore Perazzoli  <ettore@ximian.com>
 
-	* configure.in: AC_OUTPUT(my-evoluton/Makefile).
+	* configure.in: AC_OUTPUT(my-evolution/Makefile).
 
 2002-11-20  Ettore Perazzoli  <ettore@ximian.com>
 

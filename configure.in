@@ -41,7 +41,16 @@ AC_SUBST(HAVE_JW)
 
 dnl I18N stuff
 AC_PROG_INTLTOOL
+
+ALL_LINGUAS="am az bg ca cs da de el en_AU en_GB es et eu fi fr ga gl hu it ja ko lt lv nl nn no pl pt pt_BR ro ru sk sl sv tr uk vi zh_CN zh_TW"
 AM_GLIB_GNU_GETTEXT
+
+GETTEXT_PACKAGE=evolution-1.4
+AC_SUBST(GETTEXT_PACKAGE)
+AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE")
+
+localedir='$(prefix)/$(DATADIRNAME)/locale'
+AC_SUBST(localedir)
 
 dnl Initialize libtool
 AM_PROG_LIBTOOL
@@ -61,19 +70,6 @@ AC_MSG_RESULT(size_t)
 AC_DEFINE(socklen_t,size_t)], [
 AC_MSG_RESULT(int)
 AC_DEFINE(socklen_t,int)])])
-
-dnl
-dnl Gettext
-dnl
-
-ALL_LINGUAS="am az bg ca cs da de el en_AU en_GB es et eu fi fr ga gl hu it ja ko lt lv nl nn no pl pt pt_BR ro ru sk sl sv tr uk vi zh_CN zh_TW"
-
-GETTEXT_PACKAGE=evolution-1.4
-AC_SUBST(GETTEXT_PACKAGE)
-AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE")
-
-localedir='$(prefix)/$(DATADIRNAME)/locale'
-AC_SUBST(localedir)
 
 dnl
 dnl Purify support
