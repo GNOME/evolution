@@ -1,5 +1,8 @@
 2001-01-21  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-ops.c (do_send_queue): Remove the X-Evolution header before
+	we send.
+
 	* mail-crypto.c (pgp_mime_part_sign): Don't forget to unref the
 	filters.
 	(pgp_mime_part_verify): Same.

@@ -714,13 +714,16 @@ do_send_queue (gpointer in_data, gpointer op_data, CamelException *ex)
 		message = camel_folder_get_message (input->folder_queue, uids->pdata[i], ex);
 		if (camel_exception_is_set (ex))
 			break;
-
+		
+		/* Remove the X-Evolution header */
+		camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution");
+		
 		set_x_mailer (message);
-
+		
 		camel_mime_message_set_date (message, CAMEL_MESSAGE_DATE_CURRENT, 0);
 		
 		/* Get the preferred transport URI */
-		transport_url = camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Transport");
+		transport_url = (char *) camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Transport");
 		if (transport_url) {
 			transport_url = g_strdup (transport_url);
 			g_strstrip (transport_url);
