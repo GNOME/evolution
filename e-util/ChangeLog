@@ -1,3 +1,9 @@
+2000-05-30  Not Zed  <NotZed@HelixCode.com>
+
+	* e-sexp.c (e_sexp_encode_bool): Utility function to build a bool
+	as part of an expression string.
+	(e_sexp_encode_string): Likewise for strings.
+
 2000-05-30  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-canvas-utils.c, e-canvas-utils.h: Added

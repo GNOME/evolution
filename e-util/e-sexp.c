@@ -1089,6 +1089,48 @@ e_sexp_eval(ESExp *f)
 	return e_sexp_term_eval(f, f->tree);
 }
 
+/**
+ * e_sexp_encode_bool:
+ * @s: 
+ * @state: 
+ * 
+ * Encode a bool into an s-expression @s.  Bools are
+ * encoded using #t #f syntax.
+ **/
+void
+e_sexp_encode_bool(GString *s, gboolean state)
+{
+	if (state)
+		g_string_append(s, " #t");
+	else
+		g_string_append(s, " #f");
+}
+
+/**
+ * e_sexp_encode_string:
+ * @s: Destination string.
+ * @string: String expression.
+ * 
+ * Add a c string @string to the s-expression stored in
+ * the gstring @s.  Quotes are added, and special characters
+ * are escaped appropriately.
+ **/
+void
+e_sexp_encode_string(GString *s, const char *string)
+{
+	char c;
+	const char *p;
+
+	p = string;
+	g_string_append(s, " \"");
+	while ( (c = *p++) ) {
+		if (c=='\\' || c=='\"' || c=='\'')
+			g_string_append_c(s, '\\');
+		g_string_append_c(s, c);
+	}
+	g_string_append(s, "\"");
+}
+
 #ifdef TESTER
 int main(int argc, char **argv)
 {

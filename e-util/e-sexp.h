@@ -112,4 +112,8 @@ ESExpResult    *e_sexp_term_eval		(struct _ESExp *f, struct _ESExpTerm *t);
 ESExpResult    *e_sexp_result_new	(int type);
 void		e_sexp_result_free		(struct _ESExpResult *t);
 
+/* utility functions for creating s-exp strings. */
+void		e_sexp_encode_bool(GString *s, gboolean state);
+void		e_sexp_encode_string(GString *s, const char *string);
+
 #endif /* _E_SEXP_H */
