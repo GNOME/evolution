@@ -68,7 +68,7 @@ camel_mime_filter_canon_get_type (void)
 }
 
 static void
-filter(CamelMimeFilter *f, char *in, size_t len, size_t prespace, char **out, size_t *outlen, size_t *outprespace)
+filter_run(CamelMimeFilter *f, char *in, size_t len, size_t prespace, char **out, size_t *outlen, size_t *outprespace, int last)
 {
 	register unsigned char *inptr, c;
 	const unsigned char *inend, *start;
@@ -104,10 +104,13 @@ filter(CamelMimeFilter *f, char *in, size_t len, size_t prespace, char **out, si
 			if (inptr < inend-4) {
 				if (strncmp(inptr, "rom ", 4) == 0) {
 					strcpy(o, "=46rom ");
+					inptr+=4;
 					o+= 7;
 				} else
 					*o++ = 'F';
-			} else
+			} else if (last)
+				*o++ = 'F';
+			else
 				break;
 		}
 
@@ -147,73 +150,27 @@ filter(CamelMimeFilter *f, char *in, size_t len, size_t prespace, char **out, si
 	   otherwise we potentially backup a full line, which could be large */
 
 	/* we got to the end of the data without finding anything, backup to start and re-process next time around */
-	camel_mime_filter_backup(f, start, inend - start);
+	if (last) {
+		*outlen = o - f->outbuf;
+	} else {
+		camel_mime_filter_backup(f, start, inend - start);
+		*outlen = starto - f->outbuf;
+	}
 
 	*out = f->outbuf;
-	*outlen = starto - f->outbuf;
 	*outprespace = f->outpre;
+}
+
+static void
+filter(CamelMimeFilter *f, char *in, size_t len, size_t prespace, char **out, size_t *outlen, size_t *outprespace)
+{
+	filter_run(f, in, len, prespace, out, outlen, outprespace, FALSE);
 }
 
 static void 
 complete(CamelMimeFilter *f, char *in, size_t len, size_t prespace, char **out, size_t *outlen, size_t *outprespace)
 {
-	unsigned char *inptr, *inend;
-	char *o, *starto;
-	guint32 flags;
-
-	if (len)
-		filter(f, in, len, prespace, out, outlen, outprespace);
-
-	/* the data didn't contain an eol or was too short for "From ", we only need to check for "From" and add an eol */
-	if (f->backlen) {
-		inptr = (unsigned char *)f->backbuf;
-		inend = (unsigned char *)f->backbuf + f->backlen;
-		starto = o = *out + *outlen;
-		flags = ((CamelMimeFilterCanon *)f)->flags;
-
-		/* Check any embedded "From " */
-		if (f->backlen >= 5
-		    && (flags & CAMEL_MIME_FILTER_CANON_FROM)
-		    && strcmp(inptr, "From ") == 0) {
-			strcpy(o, "=46rom ");
-			o += 7;
-			inptr += 5;
-		}
-
-		/* copy the rest of it */
-		while (inptr < inend)
-			*o++ = *inptr++;
-		
-		/* check to strip trailing space */
-		if (flags & CAMEL_MIME_FILTER_CANON_STRIP) {
-			while (o>starto && (o[-1] == ' ' || o[-1] == '\t' || o[-1]=='\r'))
-				o--;
-		}
-		
-#if 0
-		/* Note: #if 0'd out because we do not want to add a
-		 * \r\n for PGP/MIME verification if it isn't there in
-		 * the original content stream */
-		
-		/* check end of line canonicalisation */
-		if (o>starto) {
-			if (flags & CAMEL_MIME_FILTER_CANON_CRLF) {
-				if (o[-1] != '\r')
-					*o++ = '\r';
-			} else {
-				if (o[-1] == '\r')
-					o--;
-			}
-		}
-		
-		/* and always finish with an eol */
-		*o++ = '\n';
-#endif
-		
-		*outlen = o - *out;
-		
-		f->backlen = 0;
-	}
+	filter_run(f, in, len, prespace, out, outlen, outprespace, TRUE);
 }
 
 static void

@@ -1,3 +1,24 @@
+2005-01-31  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #70303.
+
+	* tests/mime-filter/test1.c: added new test for
+	camel-mime-filter-canon.c
+
+	* camel-mime-filter-canon.c (filter_run): separated out from
+	filter.  Fix a case when it finds an embedded "From " not to
+	create "=46rom rom".
+	(complete): Properly canonicalise \n -> \r\n rather than just
+	copying it across (use filter_run now).
+
+2005-01-31  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #69757.
+	
+	* providers/imap/camel-imap-store.c (create_folder)
+	(parse_list_response_as_folder_info): free the
+	folder from parse_list_response.
+
 2005-01-28  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #22496.

@@ -26,11 +26,13 @@ EXTRA_DIST =				\
 	charset-gb2312.0.out
 
 check_PROGRAMS =  		\
+	test1			\
 	test-crlf		\
 	test-charset		\
 	test-tohtml
 
-TESTS = test-crlf test-charset test-tohtml
+TESTS = test1 \
+	test-crlf test-charset test-tohtml
 
 
 
