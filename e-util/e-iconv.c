@@ -135,6 +135,7 @@ struct {
 
 	/* FIXME: Japanese/Korean/Chinese stuff needs checking */
 	{ "euckr-0",        "EUC-KR"     },
+	{ "5601",           "EUC-KR"     },
 	{ "big5-0",         "BIG5"       },
 	{ "big5.eten-0",    "BIG5"       },
 	{ "big5hkscs-0",    "BIG5HKCS"   },
@@ -147,6 +148,7 @@ struct {
 	{ "ujis-0",         "ujis"  	 },
 	{ "jisx0208.1983-0","SJIS"       },
 	{ "jisx0212.1990-0","SJIS"       },
+	{ "pck",	    "SJIS"       },
 	{ NULL,             NULL         }
 };
 
