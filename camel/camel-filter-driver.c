@@ -228,27 +228,22 @@ camel_filter_driver_finalise (CamelObject *obj)
 
 /**
  * camel_filter_driver_new:
- * @system: path to system rules
- * @user: path to user rules
- * @get_folder: function to call to fetch folders
  *
- * Create a new CamelFilterDriver object.
- * 
- * Return value: A new CamelFilterDriver widget.
+ * Return value: A new CamelFilterDriver object
  **/
 CamelFilterDriver *
-camel_filter_driver_new (CamelFilterGetFolderFunc get_folder, void *data)
+camel_filter_driver_new (void)
 {
-	CamelFilterDriver *new;
-	struct _CamelFilterDriverPrivate *p;
-	
-	new = CAMEL_FILTER_DRIVER (camel_object_new(camel_filter_driver_get_type ()));
-	p = _PRIVATE (new);
-	
+	return CAMEL_FILTER_DRIVER (camel_object_new(camel_filter_driver_get_type ()));
+}
+
+void
+camel_filter_driver_set_folder_func (CamelFilterDriver *d, CamelFilterGetFolderFunc get_folder, void *data)
+{
+	struct _CamelFilterDriverPrivate *p = _PRIVATE (d);
+
 	p->get_folder = get_folder;
 	p->data = data;
-	
-	return new;
 }
 
 void
@@ -368,7 +363,6 @@ do_copy (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriv
 		if (argv[i]->type == ESEXP_RES_STRING) {
 			/* open folders we intent to copy to */
 			char *folder = argv[i]->value.string;
-			char *service_url;
 			CamelFolder *outbox;
 			
 			outbox = open_folder (driver, folder);
@@ -386,10 +380,8 @@ do_copy (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriv
 			} else
 				camel_folder_append_message (outbox, p->message, p->info, p->ex);
 			
-			service_url = camel_service_get_url (CAMEL_SERVICE (camel_folder_get_parent_store (outbox)));
 			camel_filter_driver_log (driver, FILTER_LOG_ACTION, "Copy to folder %s",
-						 service_url);
-			g_free (service_url);
+						 folder);
 		}
 	}
 	
@@ -408,7 +400,6 @@ do_move (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriv
 		if (argv[i]->type == ESEXP_RES_STRING) {
 			/* open folders we intent to move to */
 			char *folder = argv[i]->value.string;
-			char *service_url;
 			CamelFolder *outbox;
 			
 			outbox = open_folder (driver, folder);
@@ -428,10 +419,8 @@ do_move (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriv
 			} else
 				camel_folder_append_message (outbox, p->message, p->info, p->ex);
 			
-			service_url = camel_service_get_url (CAMEL_SERVICE (camel_folder_get_parent_store (outbox)));
 			camel_filter_driver_log (driver, FILTER_LOG_ACTION, "Move to folder %s",
-						 service_url);
-			g_free (service_url);
+						 folder);
 		}
 	}
 	

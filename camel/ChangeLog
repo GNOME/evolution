@@ -1,3 +1,32 @@
+2001-07-02  Dan Winship  <danw@ximian.com>
+
+	* camel-session.c (camel_session_get_filter_driver): new method to
+	get an application-initialized filter driver.
+
+	* camel-filter-driver.c (camel_filter_driver_new): Remove the
+	get_folder function and data args from here...
+	(camel_filter_driver_set_folder_func): ...and add this function to
+	set/change them.
+
+	* providers/imap/camel-imap-folder.c (camel_imap_folder_new): If
+	this folder is INBOX and we're filtering INBOX, set a flag on the
+	folder for later.
+	(imap_update_summary): Add another argument (GPtrArray *recents),
+	and if it's non-NULL, add the uids of any \Recent new messages to
+	it.
+	(camel_imap_folder_changed): If doing filtering in this folder,
+	create a recents array and pass it to imap_update_summary. Then
+	get a filter driver and use it to filter the recent messages.
+
+	* providers/imap/camel-imap-summary.h: 
+	* providers/imap/camel-imap-utils.c (imap_parse_flag_list): Add
+	support for the \Recent flag.
+
+	* providers/imap/camel-imap-provider.c (imap_conf_entries): enable
+	the "filter" option.
+
+	* camel-types.h: add CamelFilterDriver typedef here
+
 2001-07-02  Not Zed  <NotZed@Ximian.com>
 
 	* camel-lock-client.c (camel_lock_helper_init): properly return

@@ -33,7 +33,6 @@
 #define CAMEL_FILTER_DRIVER_CLASS(klass) CAMEL__CHECK_CLASS_CAST (klass, camel_filter_driver_get_type (), CamelFilterDriverClass)
 #define CAMEL_IS_FILTER_DRIVER(obj)      CAMEL_CHECK_TYPE (obj, camel_filter_driver_get_type ())
 
-typedef struct _CamelFilterDriver      CamelFilterDriver;
 typedef struct _CamelFilterDriverClass CamelFilterDriverClass;
 
 struct _CamelFilterDriver {
@@ -61,9 +60,10 @@ typedef CamelFolder * (*CamelFilterGetFolderFunc) (CamelFilterDriver *, const ch
 typedef void (CamelFilterStatusFunc)(CamelFilterDriver *driver, enum camel_filter_status_t status, int pc, const char *desc, void *data);
 
 guint         camel_filter_driver_get_type (void);
-CamelFilterDriver  *camel_filter_driver_new     (CamelFilterGetFolderFunc fetcher, void *data);
+CamelFilterDriver  *camel_filter_driver_new     (void);
 
 /* modifiers */
+void    camel_filter_driver_set_folder_func     (CamelFilterDriver *d, CamelFilterGetFolderFunc fetcher, void *data);
 void    camel_filter_driver_set_logfile         (CamelFilterDriver *d, FILE *logfile);
 void	camel_filter_driver_set_status_func     (CamelFilterDriver *d, CamelFilterStatusFunc *func,
 						 void *data);

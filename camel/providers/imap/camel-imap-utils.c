@@ -176,6 +176,8 @@ imap_parse_flag_list (char **flag_list_p)
 			flags |= CAMEL_MESSAGE_FLAGGED;
 		else if (!g_strncasecmp (flag_list, "\\Seen", len))
 			flags |= CAMEL_MESSAGE_SEEN;
+		else if (!g_strncasecmp (flag_list, "\\Recent", len))
+			flags |= CAMEL_IMAP_MESSAGE_RECENT;
 		
 		flag_list += len;
 		if (*flag_list == ' ')

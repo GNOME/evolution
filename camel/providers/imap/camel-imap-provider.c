@@ -53,7 +53,7 @@ CamelProviderConfEntry imap_conf_entries[] = {
 	{ CAMEL_PROVIDER_CONF_ENTRY, "namespace", "override_namespace",
 	  N_("Namespace") },
 	{ CAMEL_PROVIDER_CONF_SECTION_END },
-	{ CAMEL_PROVIDER_CONF_CHECKBOX, "filter", "UNIMPLEMENTED",
+	{ CAMEL_PROVIDER_CONF_CHECKBOX, "filter", NULL,
 	  N_("Apply filters to new messages in INBOX on this server"), "0" },
 	{ CAMEL_PROVIDER_CONF_END }
 };

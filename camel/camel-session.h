@@ -101,6 +101,9 @@ typedef struct {
 	gboolean        (*remove_timeout)    (CamelSession *session,
 					      guint handle);
 
+	CamelFilterDriver * (*get_filter_driver) (CamelSession *session,
+						  const char *type,
+						  CamelException *ex);
 } CamelSessionClass;
 
 
@@ -136,37 +139,41 @@ CamelService *  camel_session_get_service_connected (CamelSession *session,
 #define camel_session_get_transport(session, url_string, ex) \
 	((CamelTransport *) camel_session_get_service_connected (session, url_string, CAMEL_PROVIDER_TRANSPORT, ex))
 
-char *          camel_session_get_storage_path      (CamelSession *session,
+char *             camel_session_get_storage_path   (CamelSession *session,
 						     CamelService *service,
 						     CamelException *ex);
 
-char *          camel_session_get_password          (CamelSession *session,
+char *             camel_session_get_password       (CamelSession *session,
 						     const char *prompt,
 						     gboolean secret,
 						     CamelService *service,
 						     const char *item,
 						     CamelException *ex);
-void            camel_session_forget_password       (CamelSession *session,
+void               camel_session_forget_password    (CamelSession *session,
 						     CamelService *service,
 						     const char *item,
 						     CamelException *ex);
-gboolean        camel_session_alert_user            (CamelSession *session,
+gboolean           camel_session_alert_user         (CamelSession *session,
 						     CamelSessionAlertType type,
 						     const char *prompt,
 						     gboolean cancel);
 
-guint           camel_session_register_timeout      (CamelSession *session,
+guint              camel_session_register_timeout   (CamelSession *session,
 						     guint32 interval,
 						     CamelTimeoutCallback callback,
 						     gpointer user_data);
 
-gboolean        camel_session_remove_timeout        (CamelSession *session,
+gboolean           camel_session_remove_timeout     (CamelSession *session,
 						     guint handle);
 
 
-gboolean        camel_session_is_online             (CamelSession *session);
-void            camel_session_set_online            (CamelSession *session,
+gboolean           camel_session_is_online          (CamelSession *session);
+void               camel_session_set_online         (CamelSession *session,
 						     gboolean online);
+
+CamelFilterDriver *camel_session_get_filter_driver  (CamelSession *session,
+						     const char *type,
+						     CamelException *ex);
 
 #ifdef __cplusplus
 }

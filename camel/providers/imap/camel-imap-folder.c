@@ -50,6 +50,7 @@
 #include "camel-data-wrapper.h"
 #include "camel-disco-diary.h"
 #include "camel-exception.h"
+#include "camel-filter-driver.h"
 #include "camel-mime-filter-crlf.h"
 #include "camel-mime-filter-from.h"
 #include "camel-mime-message.h"
@@ -218,6 +219,10 @@ camel_imap_folder_new (CamelStore *parent, const char *folder_name,
 		camel_object_unref (CAMEL_OBJECT (folder));
 		return NULL;
 	}
+
+	if ((imap_store->parameters & IMAP_PARAM_FILTER_INBOX) &&
+	    !g_strcasecmp (folder_name, "INBOX"))
+		imap_folder->do_filtering = TRUE;
 
 	return folder;
 }
@@ -1515,6 +1520,7 @@ imap_cache_message (CamelDiscoFolder *disco_folder, const char *uid,
 static void
 imap_update_summary (CamelFolder *folder,
 		     CamelFolderChangeInfo *changes,
+		     GPtrArray *recents,
 		     CamelException *ex)
 {
 	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
@@ -1623,12 +1629,14 @@ imap_update_summary (CamelFolder *folder,
 		}
 		camel_folder_summary_add (folder->summary, mi);
 		camel_folder_change_info_add_uid (changes, camel_message_info_uid (mi));
+		if (recents && (mi->flags & CAMEL_IMAP_MESSAGE_RECENT))
+			g_ptr_array_add (recents, (char *)camel_message_info_uid (mi));
 	}
 	g_ptr_array_free (messages, TRUE);
 
 	/* Did more mail arrive while we were doing this? */
 	if (exists && exists > camel_folder_summary_count (folder->summary))
-		imap_update_summary (folder, changes, ex);
+		imap_update_summary (folder, changes, recents, ex);
 }
 
 /* Called with the store's command_lock locked */
@@ -1639,6 +1647,7 @@ camel_imap_folder_changed (CamelFolder *folder, int exists,
 	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
 	CamelFolderChangeInfo *changes;
 	CamelMessageInfo *info;
+	GPtrArray *recents = NULL;
 	int len;
 
 	CAMEL_IMAP_STORE_ASSERT_LOCKED (folder->parent_store, command_lock);
@@ -1660,14 +1669,33 @@ camel_imap_folder_changed (CamelFolder *folder, int exists,
 	}
 
 	len = camel_folder_summary_count (folder->summary);
-	if (exists > len)
-		imap_update_summary (folder, changes, ex);
+	if (exists > len) {
+		if (imap_folder->do_filtering)
+			recents = g_ptr_array_new ();
+		imap_update_summary (folder, changes, recents, ex);
+	}
 
 	if (camel_folder_change_info_changed (changes)) {
 		camel_object_trigger_event (CAMEL_OBJECT (folder),
 					    "folder_changed", changes);
 	}
 	camel_folder_change_info_free (changes);
+
+	if (recents) {
+		if (!camel_exception_is_set (ex) && recents->len) {
+			CamelFilterDriver *driver;
+
+			driver = camel_session_get_filter_driver (
+				CAMEL_SERVICE (folder->parent_store)->session,
+				"incoming", ex);
+			if (driver) {
+				camel_filter_driver_filter_folder (
+					driver, folder, recents, FALSE, ex);
+				camel_object_unref (CAMEL_OBJECT (driver));
+			}
+		}
+		g_ptr_array_free (recents, TRUE);
+	}
 
 	camel_folder_summary_save (folder->summary);
 }

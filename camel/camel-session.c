@@ -665,3 +665,20 @@ camel_session_set_online (CamelSession *session, gboolean online)
 {
 	session->online = online;
 }
+
+
+/**
+ * camel_session_get_filter_driver:
+ * @session: the session
+ * @type: the type of filter (eg, "incoming")
+ * @ex: a CamelException
+ *
+ * Return value: a filter driver, loaded with applicable rules
+ **/
+CamelFilterDriver *
+camel_session_get_filter_driver (CamelSession *session,
+				 const char *type,
+				 CamelException *ex)
+{
+	return CS_CLASS (session)->get_filter_driver (session, type, ex);
+}
