@@ -1,3 +1,8 @@
+2003-08-27  Calvin Liu <calvin.liu@sun.com>
+
+	* evolution-mail-message.xml: Change "Search Message" to "Search
+	in Message", which is more intuitive. Fix bug #47329.
+
 2003-08-05  Jack Jia  <jack.jia@sun.com>
 
 	* evolution-comp-editor.xml: add the accelerator "P" for "Print",
