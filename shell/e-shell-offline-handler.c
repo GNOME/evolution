@@ -28,6 +28,8 @@
 
 #include "e-shell-offline-sync.h"
 
+#include "e-shell-marshal.h"
+
 #include <gtk/gtktypeutils.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtkwidget.h>
@@ -723,7 +725,7 @@ class_init (EShellOfflineHandlerClass *klass)
 				  GTK_RUN_LAST,
 				  GTK_CLASS_TYPE (object_class),
 				  GTK_SIGNAL_OFFSET (EShellOfflineHandlerClass, offline_procedure_started),
-				  gtk_marshal_NONE__NONE,
+				  e_shell_marshal_NONE__NONE,
 				  GTK_TYPE_NONE, 0);
 
 	signals[OFFLINE_PROCEDURE_FINISHED]
@@ -731,7 +733,7 @@ class_init (EShellOfflineHandlerClass *klass)
 				  GTK_RUN_LAST,
 				  GTK_CLASS_TYPE (object_class),
 				  GTK_SIGNAL_OFFSET (EShellOfflineHandlerClass, offline_procedure_finished),
-				  gtk_marshal_NONE__BOOL,
+				  e_shell_marshal_NONE__BOOL,
 				  GTK_TYPE_NONE, 1,
 				  GTK_TYPE_BOOL);
 }

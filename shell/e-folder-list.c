@@ -41,6 +41,7 @@
 #include <gal/widgets/e-option-menu.h>
 
 #include "e-folder-list.h"
+#include "e-shell-marshal.h"
 
 #include "Evolution.h"
 
@@ -233,7 +234,7 @@ e_folder_list_class_init (EFolderListClass *klass)
 				GTK_RUN_LAST,
 				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (EFolderListClass, option_menu_changed),
-				gtk_marshal_NONE__INT,
+				e_shell_marshal_NONE__INT,
 				GTK_TYPE_NONE, 1, GTK_TYPE_INT);
 
 	signals [CHANGED] =
@@ -241,7 +242,7 @@ e_folder_list_class_init (EFolderListClass *klass)
 				GTK_RUN_LAST,
 				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (EFolderListClass, changed),
-				gtk_marshal_NONE__NONE,
+				e_shell_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
 
 	E_OBJECT_CLASS_ADD_SIGNALS (object_class, signals, LAST_SIGNAL);

@@ -36,6 +36,8 @@
 #include "evolution-wizard.h"
 #include "Evolution.h"
 
+#include "e-shell-marshal.h"
+
 struct _EvolutionWizardPrivate {
 	EvolutionWizardGetControlFn get_fn;
 	BonoboEventSource *event_source;
@@ -191,33 +193,39 @@ evolution_wizard_class_init (EvolutionWizardClass *klass)
 	signals[NEXT] = gtk_signal_new ("next", GTK_RUN_FIRST,
 					GTK_CLASS_TYPE (object_class),
 					GTK_SIGNAL_OFFSET (EvolutionWizardClass, next),
-					gtk_marshal_NONE__INT, GTK_TYPE_NONE, 
-					1, GTK_TYPE_INT);
+					e_shell_marshal_NONE__INT,
+					GTK_TYPE_NONE, 1,
+					GTK_TYPE_INT);
 	signals[PREPARE] = gtk_signal_new ("prepare", GTK_RUN_FIRST,
 					   GTK_CLASS_TYPE (object_class),
 					   GTK_SIGNAL_OFFSET (EvolutionWizardClass, prepare),
-					   gtk_marshal_NONE__INT, GTK_TYPE_NONE,
-					   1, GTK_TYPE_INT);
+					   e_shell_marshal_NONE__INT,
+					   GTK_TYPE_NONE, 1,
+					   GTK_TYPE_INT);
 	signals[BACK] = gtk_signal_new ("back", GTK_RUN_FIRST,
 					GTK_CLASS_TYPE (object_class),
 					GTK_SIGNAL_OFFSET (EvolutionWizardClass, back),
-					gtk_marshal_NONE__INT, GTK_TYPE_NONE,
-					1, GTK_TYPE_INT);
+					e_shell_marshal_NONE__INT,
+					GTK_TYPE_NONE, 1,
+					GTK_TYPE_INT);
 	signals[FINISH] = gtk_signal_new ("finish", GTK_RUN_FIRST,
 					  GTK_CLASS_TYPE (object_class),
 					  GTK_SIGNAL_OFFSET (EvolutionWizardClass, finish),
-					  gtk_marshal_NONE__INT, GTK_TYPE_NONE,
-					  1, GTK_TYPE_INT);
+					  e_shell_marshal_NONE__INT,
+					  GTK_TYPE_NONE, 1,
+					  GTK_TYPE_INT);
 	signals[CANCEL] = gtk_signal_new ("cancel", GTK_RUN_FIRST,
 					  GTK_CLASS_TYPE (object_class),
 					  GTK_SIGNAL_OFFSET (EvolutionWizardClass, cancel),
-					  gtk_marshal_NONE__INT, GTK_TYPE_NONE,
-					  1, GTK_TYPE_INT);
+					  e_shell_marshal_NONE__INT,
+					  GTK_TYPE_NONE, 1,
+					  GTK_TYPE_INT);
 	signals[HELP] = gtk_signal_new ("help", GTK_RUN_FIRST,
 					GTK_CLASS_TYPE (object_class),
 					GTK_SIGNAL_OFFSET (EvolutionWizardClass, help),
-					gtk_marshal_NONE__INT, GTK_TYPE_NONE,
-					1, GTK_TYPE_INT);
+					e_shell_marshal_NONE__INT,
+					GTK_TYPE_NONE, 1,
+					GTK_TYPE_INT);
 
 	parent_class = gtk_type_class (PARENT_TYPE);
 

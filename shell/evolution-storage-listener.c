@@ -30,6 +30,8 @@
 
 #include "evolution-storage-listener.h"
 
+#include "e-shell-marshal.h"
+
 
 #define PARENT_TYPE gtk_object_get_type ()
 static GtkObjectClass *parent_class = NULL;
@@ -258,14 +260,14 @@ class_init (EvolutionStorageListenerClass *klass)
 						  GTK_RUN_FIRST,
 						  GTK_CLASS_TYPE (object_class),
 						  GTK_SIGNAL_OFFSET (EvolutionStorageListenerClass, destroyed),
-						  gtk_marshal_NONE__NONE,
+						  e_shell_marshal_NONE__NONE,
 						  GTK_TYPE_NONE, 0);
 
 	signals[NEW_FOLDER]     = gtk_signal_new ("new_folder",
 						  GTK_RUN_FIRST,
 						  GTK_CLASS_TYPE (object_class),
 						  GTK_SIGNAL_OFFSET (EvolutionStorageListenerClass, new_folder),
-						  gtk_marshal_NONE__POINTER_POINTER,
+						  e_shell_marshal_NONE__STRING_POINTER,
 						  GTK_TYPE_NONE, 2,
 						  GTK_TYPE_STRING,
 						  GTK_TYPE_POINTER);
@@ -274,7 +276,7 @@ class_init (EvolutionStorageListenerClass *klass)
 						  GTK_RUN_FIRST,
 						  GTK_CLASS_TYPE (object_class),
 						  GTK_SIGNAL_OFFSET (EvolutionStorageListenerClass, update_folder),
-						  gtk_marshal_NONE__POINTER_INT,
+						  e_shell_marshal_NONE__STRING_INT,
 						  GTK_TYPE_NONE, 2,
 						  GTK_TYPE_STRING,
 						  GTK_TYPE_INT);
@@ -283,7 +285,7 @@ class_init (EvolutionStorageListenerClass *klass)
 						  GTK_RUN_FIRST,
 						  GTK_CLASS_TYPE (object_class),
 						  GTK_SIGNAL_OFFSET (EvolutionStorageListenerClass, removed_folder),
-						  gtk_marshal_NONE__POINTER,
+						  e_shell_marshal_NONE__STRING,
 						  GTK_TYPE_NONE, 1,
 						  GTK_TYPE_STRING);
 
@@ -291,7 +293,7 @@ class_init (EvolutionStorageListenerClass *klass)
 						  GTK_RUN_FIRST,
 						  GTK_CLASS_TYPE (object_class),
 						  GTK_SIGNAL_OFFSET (EvolutionStorageListenerClass, has_subfolders),
-						  gtk_marshal_NONE__POINTER_POINTER,
+						  e_shell_marshal_NONE__STRING_STRING,
 						  GTK_TYPE_NONE, 2,
 						  GTK_TYPE_STRING,
 						  GTK_TYPE_STRING);

@@ -1540,7 +1540,7 @@ class_init (EShellViewClass *klass)
 				  GTK_RUN_FIRST,
 				  GTK_CLASS_TYPE (object_class),
 				  GTK_SIGNAL_OFFSET (EShellViewClass, view_changed),
-				  e_shell_marshal_NONE__POINTER_POINTER_POINTER_POINTER,
+				  e_shell_marshal_NONE__STRING_STRING_STRING_STRING,
 				  GTK_TYPE_NONE, 4,
 				  GTK_TYPE_STRING,
 				  GTK_TYPE_STRING,

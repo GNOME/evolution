@@ -25,6 +25,7 @@
 #endif
 
 #include "e-folder.h"
+#include "e-shell-marshal.h"
 
 #include "e-util/e-corba-utils.h"
 
@@ -146,14 +147,14 @@ class_init (EFolderClass *klass)
 					   GTK_RUN_FIRST,
 					   GTK_CLASS_TYPE (object_class),
 					   GTK_SIGNAL_OFFSET (EFolderClass, changed),
-					   gtk_marshal_NONE__NONE,
+					   e_shell_marshal_NONE__NONE,
 					   GTK_TYPE_NONE, 0);
 
 	signals[NAME_CHANGED] = gtk_signal_new ("name_changed",
 						GTK_RUN_FIRST,
 						GTK_CLASS_TYPE (object_class),
 						GTK_SIGNAL_OFFSET (EFolderClass, name_changed),
-						gtk_marshal_NONE__NONE,
+						e_shell_marshal_NONE__NONE,
 						GTK_TYPE_NONE, 0);
 
 	klass->save_info 	= impl_save_info;

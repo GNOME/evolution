@@ -31,6 +31,8 @@
 
 #include "evolution-session.h"
 
+#include "e-shell-marshal.h"
+
 
 #define PARENT_TYPE bonobo_x_object_get_type ()
 static BonoboXObjectClass *parent_class = NULL;
@@ -126,7 +128,7 @@ class_init (EvolutionSessionClass *klass)
 				  GTK_RUN_FIRST,
 				  GTK_CLASS_TYPE (object_class),
 				  GTK_SIGNAL_OFFSET (EvolutionSessionClass, load_configuration),
-				  gtk_marshal_NONE__STRING,
+				  e_shell_marshal_NONE__STRING,
 				  GTK_TYPE_NONE, 1,
 				  GTK_TYPE_STRING);
 	signals[SAVE_CONFIGURATION]
@@ -134,7 +136,7 @@ class_init (EvolutionSessionClass *klass)
 				  GTK_RUN_FIRST,
 				  GTK_CLASS_TYPE (object_class),
 				  GTK_SIGNAL_OFFSET (EvolutionSessionClass, save_configuration),
-				  gtk_marshal_NONE__STRING,
+				  e_shell_marshal_NONE__STRING,
 				  GTK_TYPE_NONE, 1,
 				  GTK_TYPE_STRING);
 

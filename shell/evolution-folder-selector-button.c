@@ -24,6 +24,8 @@
 
 #include "evolution-folder-selector-button.h"
 
+#include "e-shell-marshal.h"
+
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-unicode.h>
 
@@ -257,20 +259,20 @@ class_init (EvolutionFolderSelectorButtonClass *klass)
 					    GTK_RUN_FIRST,
 					    GTK_CLASS_TYPE (object_class),
 					    GTK_SIGNAL_OFFSET (EvolutionFolderSelectorButtonClass, popped_up),
-					    gtk_marshal_NONE__NONE,
+					    e_shell_marshal_NONE__NONE,
 					    GTK_TYPE_NONE, 0);
 	signals[SELECTED] = gtk_signal_new ("selected",
 					    GTK_RUN_FIRST,
 					    GTK_CLASS_TYPE (object_class),
 					    GTK_SIGNAL_OFFSET (EvolutionFolderSelectorButtonClass, selected),
-					    gtk_marshal_NONE__POINTER,
+					    e_shell_marshal_NONE__POINTER,
 					    GTK_TYPE_NONE, 1,
 					    GTK_TYPE_POINTER);
 	signals[CANCELED] = gtk_signal_new ("canceled",
 					    GTK_RUN_FIRST,
 					    GTK_CLASS_TYPE (object_class),
 					    GTK_SIGNAL_OFFSET (EvolutionFolderSelectorButtonClass, canceled),
-					    gtk_marshal_NONE__NONE,
+					    e_shell_marshal_NONE__NONE,
 					    GTK_TYPE_NONE, 0);
 }
 

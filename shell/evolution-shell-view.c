@@ -30,6 +30,8 @@
 
 #include "evolution-shell-view.h"
 
+#include "e-shell-marshal.h"
+
 
 #define PARENT_TYPE bonobo_x_object_get_type ()
 static BonoboXObjectClass *parent_class = NULL;
@@ -166,7 +168,7 @@ class_init (EvolutionShellViewClass *klass)
 				  GTK_RUN_FIRST,
 				  GTK_CLASS_TYPE (object_class),
 				  GTK_SIGNAL_OFFSET (EvolutionShellViewClass, set_message),
-				  gtk_marshal_NONE__POINTER_INT,
+				  e_shell_marshal_NONE__STRING_INT,
 				  GTK_TYPE_NONE, 2,
 				  GTK_TYPE_STRING,
 				  GTK_TYPE_BOOL);
@@ -176,7 +178,7 @@ class_init (EvolutionShellViewClass *klass)
 				  GTK_RUN_FIRST,
 				  GTK_CLASS_TYPE (object_class),
 				  GTK_SIGNAL_OFFSET (EvolutionShellViewClass, unset_message),
-				  gtk_marshal_NONE__NONE,
+				  e_shell_marshal_NONE__NONE,
 				  GTK_TYPE_NONE, 0);
 
 	signals[CHANGE_VIEW]
@@ -184,7 +186,7 @@ class_init (EvolutionShellViewClass *klass)
 				  GTK_RUN_FIRST,
 				  GTK_CLASS_TYPE (object_class),
 				  GTK_SIGNAL_OFFSET (EvolutionShellViewClass, change_current_view),
-				  gtk_marshal_NONE__POINTER,
+				  e_shell_marshal_NONE__STRING,
 				  GTK_TYPE_NONE, 1,
 				  GTK_TYPE_STRING);
 
@@ -193,7 +195,7 @@ class_init (EvolutionShellViewClass *klass)
 				  GTK_RUN_FIRST,
 				  GTK_CLASS_TYPE (object_class),
 				  GTK_SIGNAL_OFFSET (EvolutionShellViewClass, set_title),
-				  gtk_marshal_NONE__POINTER,
+				  e_shell_marshal_NONE__STRING,
 				  GTK_TYPE_NONE, 1,
 				  GTK_TYPE_STRING);
 
@@ -202,7 +204,7 @@ class_init (EvolutionShellViewClass *klass)
 				  GTK_RUN_FIRST,
 				  GTK_CLASS_TYPE (object_class),
 				  GTK_SIGNAL_OFFSET (EvolutionShellViewClass, set_folder_bar_label),
-				  gtk_marshal_NONE__POINTER,
+				  e_shell_marshal_NONE__STRING,
 				  GTK_TYPE_NONE, 1,
 				  GTK_TYPE_STRING);
 
@@ -211,7 +213,7 @@ class_init (EvolutionShellViewClass *klass)
 				  GTK_RUN_FIRST,
 				  GTK_CLASS_TYPE (object_class),
 				  GTK_SIGNAL_OFFSET (EvolutionShellViewClass, show_settings),
-				  gtk_marshal_NONE__NONE,
+				  e_shell_marshal_NONE__NONE,
 				  GTK_TYPE_NONE, 0);
 
 	parent_class = gtk_type_class (bonobo_x_object_get_type ());

@@ -1,3 +1,47 @@
+2002-11-20  Chris Toshok  <toshok@ximian.com>
+
+	* e-folder-list.c (e_folder_list_class_init): use e_shell_
+	marshallers, and make sure STRING parameters map to *_STRING*
+	marshallers.
+
+	* evolution-wizard.c (evolution_wizard_class_init): same.
+
+	* evolution-storage.c (class_init): same.
+
+	* evolution-storage-set-view-listener.c (class_init): same.
+
+	* evolution-storage-listener.c (class_init): same.
+
+	* evolution-shell-view.c (class_init): same.
+
+	* evolution-session.c (class_init): same.
+
+	* evolution-folder-selector-button.c (class_init): same.
+
+	* evolution-config-control.c (class_init): same.
+
+	* evolution-activity-client.c (class_init): same.
+
+	* e-storage-set.c (class_init): same.
+
+	* e-shortcuts.c (class_init): same.
+
+	* e-shortcuts-view.c (class_init): same.
+
+	* e-shell.c (class_init): same.
+
+	* e-shell-view.c (class_init): same.
+
+	* e-shell-offline-handler.c (class_init): same.
+
+	* e-shell-folder-title-bar.c (class_init): same.
+
+	* e-shell-folder-selection-dialog.c (class_init): same.
+
+	* e-folder.c (class_init): same.
+
+	* e-shell-marshal.list: add all the STRING marshallers.
+	
 2002-11-20  Not Zed  <NotZed@Ximian.com>
 
 	* e-shell-importer.c (prepare_intelligent_page): gnome message box

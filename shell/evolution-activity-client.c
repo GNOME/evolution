@@ -33,6 +33,8 @@
 
 #include "e-shell-corba-icon-utils.h"
 
+#include "e-shell-marshal.h"
+
 #include <gtk/gtksignal.h>
 #include <gtk/gtkmain.h>
 
@@ -229,7 +231,7 @@ class_init (EvolutionActivityClientClass *klass)
 				  GTK_RUN_FIRST,
 				  GTK_CLASS_TYPE (object_class),
 				  GTK_SIGNAL_OFFSET (EvolutionActivityClientClass, show_details),
-				  gtk_marshal_NONE__NONE,
+				  e_shell_marshal_NONE__NONE,
 				  GTK_TYPE_NONE, 0);
 
 	signals[CANCEL] 
@@ -237,7 +239,7 @@ class_init (EvolutionActivityClientClass *klass)
 				  GTK_RUN_FIRST,
 				  GTK_CLASS_TYPE (object_class),
 				  GTK_SIGNAL_OFFSET (EvolutionActivityClientClass, cancel),
-				  gtk_marshal_NONE__NONE,
+				  e_shell_marshal_NONE__NONE,
 				  GTK_TYPE_NONE, 0);
 }
 

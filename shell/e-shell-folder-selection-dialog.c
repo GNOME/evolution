@@ -27,6 +27,7 @@
 #include "e-shell-folder-selection-dialog.h"
 
 #include "e-shell-constants.h"
+#include "e-shell-marshal.h"
 #include "e-storage-set-view.h"
 #include "e-storage-set.h"
 
@@ -287,7 +288,7 @@ class_init (EShellFolderSelectionDialogClass *klass)
 				  GTK_RUN_LAST,
 				  GTK_CLASS_TYPE (object_class),
 				  GTK_SIGNAL_OFFSET (EShellFolderSelectionDialogClass, folder_selected),
-				  gtk_marshal_NONE__POINTER,
+				  e_shell_marshal_NONE__STRING,
 				  GTK_TYPE_NONE, 1,
 				  GTK_TYPE_STRING);
 
@@ -296,7 +297,7 @@ class_init (EShellFolderSelectionDialogClass *klass)
 				  GTK_RUN_LAST,
 				  GTK_CLASS_TYPE (object_class),
 				  GTK_SIGNAL_OFFSET (EShellFolderSelectionDialogClass, cancelled),
-				  gtk_marshal_NONE__NONE,
+				  e_shell_marshal_NONE__NONE,
 				  GTK_TYPE_NONE, 0);
 }
 

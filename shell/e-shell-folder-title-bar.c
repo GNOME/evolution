@@ -37,6 +37,7 @@
 
 #include "widgets/misc/e-clipped-label.h"
 #include "e-shell-constants.h"
+#include "e-shell-marshal.h"
 #include "e-shell-folder-title-bar.h"
 
 
@@ -474,7 +475,7 @@ class_init (EShellFolderTitleBarClass *klass)
 						 GTK_RUN_FIRST,
 						 GTK_CLASS_TYPE (object_class),
 						 GTK_SIGNAL_OFFSET (EShellFolderTitleBarClass, title_toggled),
-						 gtk_marshal_NONE__BOOL,
+						 e_shell_marshal_NONE__BOOL,
 						 GTK_TYPE_NONE, 1,
 						 GTK_TYPE_BOOL);
 
@@ -482,14 +483,14 @@ class_init (EShellFolderTitleBarClass *klass)
 						GTK_RUN_FIRST,
 						GTK_CLASS_TYPE (object_class),
 						GTK_SIGNAL_OFFSET (EShellFolderTitleBarClass, back_clicked),
-						gtk_marshal_NONE__NONE,
+						e_shell_marshal_NONE__NONE,
 						GTK_TYPE_NONE, 0);
 
 	signals[FORWARD_CLICKED] = gtk_signal_new ("forward_clicked",
 						   GTK_RUN_FIRST,
 						   GTK_CLASS_TYPE (object_class),
 						   GTK_SIGNAL_OFFSET (EShellFolderTitleBarClass, forward_clicked),
-						   gtk_marshal_NONE__NONE,
+						   e_shell_marshal_NONE__NONE,
 						   GTK_TYPE_NONE, 0);
 }
 

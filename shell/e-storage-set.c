@@ -431,7 +431,7 @@ class_init (EStorageSetClass *klass)
 				GTK_RUN_FIRST,
 				GTK_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (EStorageSetClass, moved_folder),
-				e_shell_marshal_NONE__POINTER_POINTER,
+				e_shell_marshal_NONE__STRING_STRING,
 				GTK_TYPE_NONE, 2,
 				GTK_TYPE_STRING,
 				GTK_TYPE_STRING);

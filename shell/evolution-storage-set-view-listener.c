@@ -30,6 +30,8 @@
 
 #include "evolution-storage-set-view-listener.h"
 
+#include "e-shell-marshal.h"
+
 
 #define PARENT_TYPE gtk_object_get_type ()
 static GtkObjectClass *parent_class = NULL;
@@ -202,14 +204,14 @@ class_init (EvolutionStorageSetViewListenerClass *klass)
 						   GTK_RUN_FIRST,
 						   GTK_CLASS_TYPE (object_class),
 						   GTK_SIGNAL_OFFSET (EvolutionStorageSetViewListenerClass, folder_selected),
-						   gtk_marshal_NONE__STRING,
+						   e_shell_marshal_NONE__STRING,
 						   GTK_TYPE_NONE, 1,
 						   GTK_TYPE_STRING);
 	signals[FOLDER_TOGGLED] = gtk_signal_new ("folder_toggled",
 						  GTK_RUN_FIRST,
 						  GTK_CLASS_TYPE (object_class),
 						  GTK_SIGNAL_OFFSET (EvolutionStorageSetViewListenerClass, folder_toggled),
-						  gtk_marshal_NONE__NONE,
+						  e_shell_marshal_NONE__NONE,
 						  GTK_TYPE_NONE, 0);
 
 	corba_class_init ();

@@ -702,7 +702,7 @@ class_init (EShortcutsClass *klass)
 				  GTK_RUN_FIRST,
 				  GTK_CLASS_TYPE (object_class),
 				  GTK_SIGNAL_OFFSET (EShortcutsClass, rename_group),
-				  e_shell_marshal_NONE__INT_POINTER,
+				  e_shell_marshal_NONE__INT_STRING,
 				  GTK_TYPE_NONE, 2,
 				  GTK_TYPE_INT,
 				  GTK_TYPE_STRING);

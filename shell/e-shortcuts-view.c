@@ -28,6 +28,7 @@
 
 #include "e-folder-dnd-bridge.h"
 #include "e-shell-constants.h"
+#include "e-shell-marshal.h"
 #include "e-shortcuts-view-model.h"
 
 #include "e-util/e-request.h"
@@ -711,7 +712,7 @@ class_init (EShortcutsViewClass *klass)
 				GTK_RUN_LAST | GTK_RUN_ACTION,
 				GTK_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (EShortcutsViewClass, activate_shortcut),
-				e_marshal_NONE__POINTER_POINTER_INT,
+				e_shell_marshal_NONE__POINTER_STRING_INT,
 				GTK_TYPE_NONE, 3,
 				GTK_TYPE_POINTER,
 				GTK_TYPE_STRING,
@@ -723,7 +724,7 @@ class_init (EShortcutsViewClass *klass)
 				GTK_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (EShortcutsViewClass,
 						   hide_requested),
-				gtk_marshal_NONE__NONE,
+				e_shell_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
 }
 

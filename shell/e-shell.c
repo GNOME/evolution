@@ -1179,7 +1179,7 @@ class_init (EShellClass *klass)
 				GTK_RUN_LAST,
 				GTK_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (EShellClass, no_views_left),
-				gtk_marshal_NONE__NONE,
+				e_shell_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
 
 	signals[LINE_STATUS_CHANGED] =
@@ -1196,7 +1196,7 @@ class_init (EShellClass *klass)
 				GTK_RUN_LAST,
 				GTK_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (EShellClass, new_view_created),
-				gtk_marshal_NONE__POINTER,
+				e_shell_marshal_NONE__POINTER,
 				GTK_TYPE_NONE, 1,
 				GTK_TYPE_POINTER);
 
