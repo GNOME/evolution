@@ -204,7 +204,15 @@ e_tree_init (GtkObject *object)
 
 	e_tree->priv = g_new(ETreePriv, 1);
 
+	e_tree->priv->model = NULL;
+	e_tree->priv->sorted = NULL;
+	e_tree->priv->etta = NULL;
+
+	e_tree->priv->full_header = NULL;
+	e_tree->priv->header = NULL;
+
 	e_tree->priv->sort_info = NULL;
+	e_tree->priv->sorter = NULL;
 	e_tree->priv->reflow_idle_id = 0;
 
 	e_tree->priv->horizontal_draw_grid = 1;
@@ -213,6 +221,7 @@ e_tree_init (GtkObject *object)
 	e_tree->priv->cursor_mode = E_CURSOR_SIMPLE;
 	e_tree->priv->length_threshold = 200;
 
+	e_tree->priv->row_selection_active = FALSE;
 	e_tree->priv->horizontal_scrolling = FALSE;
 
 	e_tree->priv->drop_row = -1;
@@ -229,6 +238,15 @@ e_tree_init (GtkObject *object)
 
 	e_tree->priv->selection = E_SELECTION_MODEL(e_table_selection_model_new());
 	e_tree->priv->spec = NULL;
+
+	e_tree->priv->header_canvas = NULL;
+	e_tree->priv->table_canvas = NULL;
+
+	e_tree->priv->header_item = NULL;
+	e_tree->priv->root = NULL;
+
+	e_tree->priv->white_item = NULL;
+	e_tree->priv->item = NULL;
 }
 
 /* Grab_focus handler for the ETree */
