@@ -33,6 +33,7 @@
 #include <gal/widgets/e-popup-menu.h>
 #include <gal/menus/gal-view-factory-etable.h>
 #include <gal/menus/gal-view-etable.h>
+#include <libgnomeui/gnome-dialog-util.h>
 
 #include <libgnomeprint/gnome-print.h>
 #include <libgnomeprint/gnome-print-dialog.h>
@@ -73,6 +74,8 @@ static void selection_received (GtkWidget *invisible, GtkSelectionData *selectio
 static void selection_get (GtkWidget *invisible, GtkSelectionData *selection_data,
 			   guint info, guint time_stamp, EAddressbookView *view);
 static void invisible_destroyed (GtkWidget *invisible, EAddressbookView *view);
+
+static void e_book_error_dialog (const gchar *msg, EBookStatus status);
 
 static GtkTableClass *parent_class = NULL;
 
@@ -226,6 +229,9 @@ static void
 e_addressbook_view_destroy (GtkObject *object)
 {
 	EAddressbookView *eav = E_ADDRESSBOOK_VIEW(object);
+
+	if (eav->model)
+		gtk_object_unref(GTK_OBJECT(eav->model));
 
 	if (eav->book)
 		gtk_object_unref(GTK_OBJECT(eav->book));
@@ -457,6 +463,8 @@ create_minicard_view (EAddressbookView *view)
 	gtk_widget_pop_colormap ();
 
 	e_reflow_model_changed (E_REFLOW_MODEL (adapter));
+
+	gtk_object_unref (GTK_OBJECT (adapter));
 }
 
 
@@ -465,6 +473,8 @@ card_added_cb (EBook* book, EBookStatus status, const char *id,
 	    gpointer user_data)
 {
 	g_print ("%s: %s(): a card was added\n", __FILE__, __FUNCTION__);
+	if (status != E_BOOK_STATUS_SUCCESS)
+		e_book_error_dialog (_("Error adding card"), status);
 }
 
 static void
@@ -472,6 +482,17 @@ card_modified_cb (EBook* book, EBookStatus status,
 		  gpointer user_data)
 {
 	g_print ("%s: %s(): a card was modified\n", __FILE__, __FUNCTION__);
+	if (status != E_BOOK_STATUS_SUCCESS)
+		e_book_error_dialog (_("Error modifying card"), status);
+}
+
+static void
+card_removed_cb (EBook* book, EBookStatus status,
+		 gpointer user_data)
+{
+	g_print ("%s: %s(): a card was removed\n", __FILE__, __FUNCTION__);
+	if (status != E_BOOK_STATUS_SUCCESS)
+		e_book_error_dialog (_("Error removing card"), status);
 }
 
 /* Callback for the add_card signal from the contact editor */
@@ -501,7 +522,7 @@ delete_card_cb (EContactEditor *ce, ECard *card, gpointer data)
 	EBook *book;
 
 	book = E_BOOK (data);
-	e_book_remove_card (book, card, card_modified_cb, NULL);
+	e_book_remove_card (book, card, card_removed_cb, NULL);
 }
 
 /* Callback used when the contact editor is closed */
@@ -734,11 +755,17 @@ table_drag_data_get (ETable             *table,
 }
 
 static void
-status_message (GtkObject *object, const gchar *status, EAddressbookView *eav)
+emit_status_message (EAddressbookView *eav, const gchar *status)
 {
 	gtk_signal_emit (GTK_OBJECT (eav),
 			 e_addressbook_view_signals [STATUS_MESSAGE],
 			 status);
+}
+
+static void
+status_message (GtkObject *object, const gchar *status, EAddressbookView *eav)
+{
+	emit_status_message (eav, status);
 }
 
 static void
@@ -1142,7 +1169,13 @@ e_addressbook_view_print(EAddressbookView *view)
 static void
 card_deleted_cb (EBook* book, EBookStatus status, gpointer user_data)
 {
-	g_print ("%s: %s(): a card was deleted\n", __FILE__, __FUNCTION__);
+	EAddressbookView *view = user_data;
+
+	emit_status_message (view, _("Done."));
+
+	if (status != E_BOOK_STATUS_SUCCESS) {
+		e_book_error_dialog (_("Error removing card"), status);
+	}
 }
 
 static void
@@ -1158,7 +1191,7 @@ do_remove (int i, gpointer user_data)
 
 	card = e_addressbook_model_get_card (view->model, i);
 
-	e_book_remove_card(book, card, card_deleted_cb, NULL);
+	e_book_remove_card(book, card, card_deleted_cb, view);
 
 	gtk_object_unref (GTK_OBJECT (card));
 }
@@ -1170,6 +1203,8 @@ e_addressbook_view_delete_selection(EAddressbookView *view)
 
 	g_return_if_fail (model);
 
+	emit_status_message (view, _("Removing cards..."));
+
 	e_selection_model_foreach (model,
 				   do_remove,
 				   view);
@@ -1179,6 +1214,28 @@ static void
 invisible_destroyed (GtkWidget *invisible, EAddressbookView *view)
 {
 	view->invisible = NULL;
+}
+
+static void
+e_book_error_dialog (const gchar *msg, EBookStatus status)
+{
+	static char *status_to_string[] = {
+		N_("Success"),
+		N_("Unknown error"),
+		N_("Repository offline"),
+		N_("Permission denied"),
+		N_("Card not found"),
+		N_("Protocol not supported"),
+		N_("Canceled"),
+		N_("Other error")
+	};
+	char *error_msg;
+
+	error_msg = g_strdup_printf ("%s: %s", msg, status_to_string [status]);
+
+	gtk_widget_show (gnome_error_dialog (error_msg));
+
+	g_free (error_msg);
 }
 
 static void

@@ -197,11 +197,13 @@ writable_status (EBook *book,
 		 gboolean writable,
 		 EAddressbookModel *model)
 {
-	model->editable = writable;
+	if (!model->editable_set) {
+		model->editable = writable;
 
-	gtk_signal_emit (GTK_OBJECT (model),
-			 e_addressbook_model_signals [WRITABLE_STATUS],
-			 writable);
+		gtk_signal_emit (GTK_OBJECT (model),
+				 e_addressbook_model_signals [WRITABLE_STATUS],
+				 writable);
+	}
 }
 
 static void
@@ -298,6 +300,7 @@ e_addressbook_model_init (GtkObject *object)
 	model->allocated_count = 0;
 	model->search_in_progress = FALSE;
 	model->editable = FALSE;
+	model->editable_set = FALSE;
 	model->first_get_view = TRUE;
 }
 
@@ -416,6 +419,7 @@ e_addressbook_model_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		break;
 	case ARG_EDITABLE:
 		model->editable = GTK_VALUE_BOOL (*arg);
+		model->editable_set = TRUE;
 		break;
 	}
 }

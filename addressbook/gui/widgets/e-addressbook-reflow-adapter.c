@@ -244,7 +244,7 @@ e_addressbook_reflow_adapter_right_click (EAddressbookReflowAdapter *adapter, Gd
 }
 
 static void
-addressbook_destroy(GtkObject *object)
+addressbook_finalize(GtkObject *object)
 {
 	EAddressbookReflowAdapter *adapter = E_ADDRESSBOOK_REFLOW_ADAPTER(object);
 
@@ -495,7 +495,7 @@ e_addressbook_reflow_adapter_class_init (GtkObjectClass *object_class)
 
 	object_class->set_arg = addressbook_set_arg;
 	object_class->get_arg = addressbook_get_arg;
-	object_class->destroy = addressbook_destroy;
+	object_class->finalize = addressbook_finalize;
 
 	gtk_object_add_arg_type ("EAddressbookReflowAdapter::book", GTK_TYPE_OBJECT, 
 				 GTK_ARG_READWRITE, ARG_BOOK);
@@ -567,6 +567,7 @@ e_addressbook_reflow_adapter_construct (EAddressbookReflowAdapter *adapter,
 	EAddressbookReflowAdapterPrivate *priv = adapter->priv;
 
 	priv->model = model;
+	gtk_object_ref (GTK_OBJECT (priv->model));
 
 	priv->create_card_id = gtk_signal_connect(GTK_OBJECT(priv->model),
 						  "card_added",

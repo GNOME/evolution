@@ -33,6 +33,7 @@ struct _EAddressbookModel {
 
 	guint search_in_progress : 1;
 	guint editable : 1;
+	guint editable_set : 1;
 	guint first_get_view : 1;
 };
 

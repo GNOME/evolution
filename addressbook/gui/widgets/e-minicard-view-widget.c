@@ -138,6 +138,7 @@ e_minicard_view_widget_new (EAddressbookReflowAdapter *adapter)
 	EMinicardViewWidget *widget = E_MINICARD_VIEW_WIDGET (gtk_type_new (e_minicard_view_widget_get_type ()));
 
 	widget->adapter = adapter;
+	gtk_object_ref (GTK_OBJECT (widget->adapter));
 
 	return GTK_WIDGET (widget);
 }
@@ -212,7 +213,9 @@ e_minicard_view_widget_destroy (GtkObject *object)
 	if (view->book)
 		gtk_object_unref(GTK_OBJECT(view->book));
 	g_free(view->query);
-  
+
+	gtk_object_unref (GTK_OBJECT (view->adapter));
+
 	GTK_OBJECT_CLASS(parent_class)->destroy (object);
 }
 
@@ -335,4 +338,6 @@ e_minicard_view_widget_get_selection_model (EMinicardViewWidget *view)
 {
 	if (view->emv)
 		return E_SELECTION_MODEL (E_REFLOW (view->emv)->selection);
+	else
+		return NULL;
 }

@@ -707,13 +707,15 @@ set_status_message (EAddressbookView *eav, const char *message, AddressbookView 
 	CORBA_exception_init (&ev);
 
 	shell_view_interface = retrieve_shell_view_interface_from_control (view->control);
+	if (!shell_view_interface) {
+		CORBA_exception_free (&ev);
+		return;
+	}
 
 	if (message == NULL || message[0] == 0) {
-		printf ("clearing message\n");
 		GNOME_Evolution_ShellView_unsetMessage (shell_view_interface, &ev);
 	}
 	else {
-		printf ("setting message %s\n", message);
 		GNOME_Evolution_ShellView_setMessage (shell_view_interface,
 						      message,
 						      e_addressbook_view_can_stop (view->view), &ev);

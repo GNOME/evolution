@@ -1,3 +1,50 @@
+2001-06-03  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component/addressbook.c (set_status_message): remove spew,
+	and don't call the ShellView CORBA method if the interface doesn't
+	exist (for whatever reason.)
+
+	* gui/widgets/e-addressbook-view.c (e_addressbook_view_destroy):
+	unref the EAddressbookModel.
+	(create_minicard_view): unref the adapter.
+	(card_added_cb): call e_book_error_dialog if status != SUCCESS.
+	(card_modified_cb): same.
+	(card_removed_cb): new function, and same.
+	(delete_card_cb): pass card_removed_cb as the callback.
+	(emit_status_message): new function, just emit status_message.
+	(status_message): change to call emit_status_message.
+	(card_deleted_cb): emit_status_message ("Done."), and call
+	e_book_error_dialog if status != SUCCESS.
+	(do_remove): pass view in the closure arg.
+	(e_addressbook_view_delete_selection): emit status "Removing
+	cards..." before starting the removal.
+	(e_book_error_dialog): new function - pop up a (possibly) helpful
+	message about why an operation failed.
+
+	* gui/widgets/e-minicard-view-widget.c
+	(e_minicard_view_widget_new): ref the EAddressbookReflowAdapter.
+	(e_minicard_view_widget_destroy): unref the adapter.
+	(e_minicard_view_widget_get_selection_model): if there isn't a
+	minicard view return NULL.
+
+	* gui/widgets/e-addressbook-table-adapter.c
+	(e_addressbook_table_adapter_construct): ref the
+	EAddressbookModel.
+
+	* gui/widgets/e-addressbook-reflow-adapter.c
+	(addressbook_finalize): rename this from addressbook_destroy, to
+	reflect the method change.
+	(e_addressbook_reflow_adapter_class_init): same.
+	(e_addressbook_reflow_adapter_construct): ref the
+	EAddressbookModel.
+
+	* gui/widgets/e-addressbook-model.h: add editable_set flag.
+
+	* gui/widgets/e-addressbook-model.c (writable_status): only record
+	the writable state of the addressbook if the user hasn't set it.
+	(e_addressbook_model_init): init editable_set to FALSE.
+	(e_addressbook_model_set_arg): set editable_set to TRUE.
+
 2001-06-03  Ettore Perazzoli  <ettore@ximian.com>
 
 	* backend/ebook/Makefile.am (evolution_vcard_importer_LDADD): Move

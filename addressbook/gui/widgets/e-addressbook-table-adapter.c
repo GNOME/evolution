@@ -319,6 +319,7 @@ e_addressbook_table_adapter_construct (EAddressbookTableAdapter *adapter,
 	EAddressbookTableAdapterPrivate *priv = adapter->priv;
 
 	priv->model = model;
+	gtk_object_ref (GTK_OBJECT (priv->model));
 
 	priv->create_card_id = gtk_signal_connect(GTK_OBJECT(priv->model),
 						  "card_added",
