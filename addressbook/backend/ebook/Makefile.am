@@ -49,11 +49,7 @@ INCLUDES =						\
 	-DLIBGNOME_DISABLE_DEPRECATED			\
         $(EVOLUTION_ADDRESSBOOK_CFLAGS)
 
-privlib_LTLIBRARIES = libebook.la libebook-static.la
-
-# Make sure the libraries are not built in parallel when using a parallel make;
-# libtool can't handle that.
-libebook_static_la_DEPENDENCIES = libebook.la
+privlib_LTLIBRARIES = libebook.la
 
 libebook_la_SOURCES =					\
 	$(CORBA_SOURCE)					\
@@ -92,12 +88,6 @@ libebookinclude_HEADERS =				\
 	e-destination.h					\
 	addressbook.h
 
-
-#
-# make a static library for use by addressbook's conduit's shared library
-#
-libebook_static_la_SOURCES = $(libebook_la_SOURCES)
-libebook_static_la_LDFLAGS = -all-static
 
 MARSHAL_GENERATED = e-book-marshal.c e-book-marshal.h
 @EVO_MARSHAL_RULE@

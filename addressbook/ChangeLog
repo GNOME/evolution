@@ -1,3 +1,12 @@
+2003-09-11  Dan Winship  <danw@ximian.com>
+
+	* backend/ebook/Makefile.am (privlib_LTLIBRARIES): Remove
+	libebook-static.la
+
+	* conduit/Makefile.am (libeaddress_conduit_la_LIBADD): Use
+	non-static versions of libraries: the static ones were only needed
+	for libtool 1.3.
+
 2003-08-26  JP Rosevear  <jpr@ximian.com>
  
  	* conduit/address-conduit.c (ecard_from_remote_record): duplicate
