@@ -12,30 +12,6 @@
    </para>
 
 
-<note id="shortcuts">
-<title>Custom Keyboard Shortcuts</title>
-<para>
-  If you have set custom keyboard shortcuts for your desktop, (you can
-   do this the control center: select
-   <menuchoice><guimenu>System</guimenu><guimenuitem>Settings</guimenuitem></menuchoice>
-   from your menu panel), they may interfere with Evolution keyboard
-   shortcuts.
-</para>
-<para>
-   For example, if you have chosen Emacs-style key bindings for your
-   desktop-wide text editor, the shortcut
-   <keycombo action="simul">
-    <keycap>Ctrl</keycap>
-    <keycap>W</keycap>
-  </keycombo>
-  will act as "Cut region" rather than as "Close Window" in the
-  message composer.
-</para>
-</note>
-
-
-
-
   <sect1 id="quickref-open">
       <title>Opening or Creating Anything</title>
       <para>
