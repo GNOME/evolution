@@ -1,3 +1,7 @@
+2000-10-06  Chris Toshok  <toshok@helixcode.com>
+
+	* art/empty.xpm: make it transparent instead of white.
+
 2000-10-06  Christophe Merlet  <christophe@merlet.net>
 
 	* *.desktop: Added french strings.
