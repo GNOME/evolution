@@ -32,20 +32,20 @@
  */
 #define N_CHARS(x) (CHAR_WIDTH * (x))
 
-#define COL_ICON_WIDTH        (16)
-#define COL_CHECK_BOX_WIDTH   (16)
-#define COL_FROM_EXPANSION    (24.0)
-#define COL_FROM_WIDTH_MIN    (32)
-#define COL_SUBJECT_EXPANSION (30.0)
-#define COL_SUBJECT_WIDTH_MIN (32)
-#define COL_SENT_EXPANSION    (24.0)
-#define COL_SENT_WIDTH_MIN    (32)
-#define COL_RECEIVE_EXPANSION (20.0)
-#define COL_RECEIVE_WIDTH_MIN (32)
-#define COL_TO_EXPANSION      (24.0)
-#define COL_TO_WIDTH_MIN      (32)
-#define COL_SIZE_EXPANSION    (6.0)
-#define COL_SIZE_WIDTH_MIN    (32)
+#define COL_ICON_WIDTH         (16)
+#define COL_CHECK_BOX_WIDTH    (16)
+#define COL_FROM_EXPANSION     (24.0)
+#define COL_FROM_WIDTH_MIN     (32)
+#define COL_SUBJECT_EXPANSION  (30.0)
+#define COL_SUBJECT_WIDTH_MIN  (32)
+#define COL_SENT_EXPANSION     (24.0)
+#define COL_SENT_WIDTH_MIN     (32)
+#define COL_RECEIVED_EXPANSION (20.0)
+#define COL_RECEIVED_WIDTH_MIN (32)
+#define COL_TO_EXPANSION       (24.0)
+#define COL_TO_WIDTH_MIN       (32)
+#define COL_SIZE_EXPANSION     (6.0)
+#define COL_SIZE_WIDTH_MIN     (32)
 
 #define PARENT_TYPE (bonobo_object_get_type ())
 
@@ -274,8 +274,8 @@ ml_value_at (ETableModel *etm, int col, int row, void *data)
 		retval = GINT_TO_POINTER (msg_info->date_sent);
 		break;
 		
-	case COL_RECEIVE:
-		retval = "receive";
+	case COL_RECEIVED:
+		retval = GINT_TO_POINTER (msg_info->date_received);
 		break;
 		
 	case COL_TO:
@@ -361,11 +361,11 @@ ml_duplicate_value (ETableModel *etm, int col, const void *value, void *data)
 	case COL_DELETED:
 	case COL_UNREAD:
 	case COL_SENT:
+	case COL_RECEIVED:
 		return (void *) value;
 
 	case COL_FROM:
 	case COL_SUBJECT:
-	case COL_RECEIVE:
 	case COL_TO:
 	case COL_SIZE:
 		return g_strdup (value);
@@ -386,11 +386,11 @@ ml_free_value (ETableModel *etm, int col, void *value, void *data)
 	case COL_DELETED:
 	case COL_UNREAD:
 	case COL_SENT:
+	case COL_RECEIVED:
 		break;
 
 	case COL_FROM:
 	case COL_SUBJECT:
-	case COL_RECEIVE:
 	case COL_TO:
 	case COL_SIZE:
 		g_free (value);
@@ -411,11 +411,11 @@ ml_initialize_value (ETableModel *etm, int col, void *data)
 	case COL_DELETED:
 	case COL_UNREAD:
 	case COL_SENT:
+	case COL_RECEIVED:
 		return NULL;
 
 	case COL_FROM:
 	case COL_SUBJECT:
-	case COL_RECEIVE:
 	case COL_TO:
 	case COL_SIZE:
 		return g_strdup("");
@@ -437,11 +437,11 @@ ml_value_is_empty (ETableModel *etm, int col, const void *value, void *data)
 	case COL_DELETED:
 	case COL_UNREAD:
 	case COL_SENT:
+	case COL_RECEIVED:
 		return value == NULL;
 
 	case COL_FROM:
 	case COL_SUBJECT:
-	case COL_RECEIVE:
 	case COL_TO:
 	case COL_SIZE:
 		return !(value && *(char *)value);
@@ -619,12 +619,12 @@ message_list_init_header (MessageList *message_list)
 			message_list->render_date,
 			g_int_compare, TRUE);
 	
-	message_list->table_cols [COL_RECEIVE] =
+	message_list->table_cols [COL_RECEIVED] =
 		e_table_col_new (
-			COL_RECEIVE, _("Receive"),
-			COL_RECEIVE_EXPANSION, COL_RECEIVE_WIDTH_MIN,
-			message_list->render_text,
-			g_str_compare, TRUE);
+			COL_RECEIVED, _("Received"),
+			COL_RECEIVED_EXPANSION, COL_RECEIVED_WIDTH_MIN,
+			message_list->render_date,
+			g_int_compare, TRUE);
 
 	message_list->table_cols [COL_TO] =
 		e_table_col_new (
@@ -641,7 +641,7 @@ message_list_init_header (MessageList *message_list)
 			g_str_compare, TRUE);
 	
 	/*
-	 * Dummy init: It setups the headers to match the order in which
+	 * Dummy init: It sets up the headers to match the order in which
 	 * they are defined.  In the future e-table widget will take care
 	 * of this.
 	 */

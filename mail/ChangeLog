@@ -1,4 +1,9 @@
+2000-06-21  Dan Winship  <danw@helixcode.com>
+
+	* message-list.c: Update received date to work like sent date.
+
 2000-06-21  Peter Williams  <peterw@helixcode.com>
+
 	* mail-thread.{c,h}: New files -- a simple API for executing
 	the major mail ops (fetch_mail etc) asynchronously, allowing
 	the operations to send messages and update a progress bar.
