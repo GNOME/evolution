@@ -10889,7 +10889,7 @@ msgstr "Synkroniser kategorier"
 #. in 12-hour format, without seconds.
 #: e-util/e-time-utils.c:171 e-util/e-time-utils.c:384
 msgid "%a %m/%d/%Y %I:%M %p"
-msgstr "%a %d.%m.%Y %H:%M"
+msgstr "%a %d.%m.%Y %H.%M"
 
 #. strptime format of a weekday, a date and a time,
 #. in 24-hour format, without seconds.
@@ -13692,7 +13692,7 @@ msgstr "I går %l:%M %p"
 
 #: mail/message-list.c:1104
 msgid "%a %l:%M %p"
-msgstr "%a %H:%M"
+msgstr "%a %H.%M"
 
 #: mail/message-list.c:1112
 msgid "%b %d %l:%M %p"
