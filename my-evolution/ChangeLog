@@ -1,5 +1,17 @@
 2001-07-30  Iain Holmes  <iain@ximian.com>
 
+	* e-summary-preferences.c: Remove the Wipe Trackers references.
+	
+	* e-summary-rdf.c: Remove the wip trackers as I'm not 100% sure what it
+	does, and it didn't work.
+
+	* e-summary.h: Remove the wipe_trackers boolean
+
+	* my-evolution.glade: Remove the wipe trackers and shrink the New Feed
+	button
+
+2001-07-30  Iain Holmes  <iain@ximian.com>
+
 	* e-sumary-calendar.c (generate_html): Correct the URL for the links.
 
 2001-07-27  Iain Holmes  <iain@ximian.com>

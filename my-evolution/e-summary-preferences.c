@@ -165,7 +165,6 @@ e_summary_preferences_restore (ESummaryPrefs *prefs)
 	prefs->rdf_refresh_time = bonobo_config_get_long_with_default (db, "My-Evolution/RDF/rdf_refresh_time", 600, NULL);
 
 	prefs->limit = bonobo_config_get_long_with_default (db, "My-Evolution/RDF/limit", 10, NULL);
-	prefs->wipe_trackers = bonobo_config_get_boolean_with_default (db, "My-Evolution/RDF/wipe_trackers", FALSE, NULL);
 
 	vector = bonobo_config_get_string (db, "My-Evolution/Weather/stations", &ev);
 	if (BONOBO_EX (&ev) || vector == NULL) {
@@ -245,7 +244,6 @@ e_summary_preferences_save (ESummaryPrefs *prefs)
 
 	bonobo_config_set_long (db, "My-Evolution/RDF/rdf_refresh_time", prefs->rdf_refresh_time, NULL);
 	bonobo_config_set_long (db, "My-Evolution/RDF/limit", prefs->limit, NULL);
-	bonobo_config_set_boolean (db, "My-Evolution/RDF/wipe_trackers", prefs->wipe_trackers, NULL);
 
 	vector = vector_from_str_list (prefs->stations);
 	bonobo_config_set_string (db, "My-Evolution/Weather/stations", vector, NULL);
@@ -319,7 +317,6 @@ e_summary_preferences_copy (ESummaryPrefs *prefs)
 	prefs_copy->rdf_urls = copy_str_list (prefs->rdf_urls);
 	prefs_copy->rdf_refresh_time = prefs->rdf_refresh_time;
 	prefs_copy->limit = prefs->limit;
-	prefs_copy->wipe_trackers = prefs->wipe_trackers;
 
 	prefs_copy->stations = copy_str_list (prefs->stations);
 	prefs_copy->units = prefs->units;
@@ -356,7 +353,6 @@ e_summary_preferences_init (ESummary *summary)
 	make_initial_rdf_list (prefs);
 	prefs->rdf_refresh_time = 600;
 	prefs->limit = 10;
-	prefs->wipe_trackers = FALSE;
 
 	/* Weather */
 	make_initial_weather_list (prefs);
@@ -375,7 +371,7 @@ struct _MailPage {
 
 struct _RDFPage {
 	GtkWidget *all, *shown;
-	GtkWidget *refresh, *limit, *wipe_trackers;
+	GtkWidget *refresh, *limit;
 	GtkWidget *add, *remove;
 	GtkWidget *new_url;
 
@@ -766,15 +762,6 @@ rdf_shown_unselect_row_cb (GtkCList *clist,
 	if (GTK_CLIST (pd->rdf->shown)->selection == NULL) {
 		gtk_widget_set_sensitive (pd->rdf->remove, FALSE);
 	}
-}
-
-static void
-rdf_wipe_trackers_toggled_cb (GtkToggleButton *tb,
-			      PropertyData *pd)
-{
-	pd->summary->preferences->wipe_trackers = gtk_toggle_button_get_active (tb);
-
-	gnome_property_box_changed (pd->box);
 }
 
 static void
@@ -1216,10 +1203,6 @@ make_property_dialog (PropertyData *pd)
 	gtk_signal_connect (GTK_OBJECT (GTK_SPIN_BUTTON (rdf->limit)->adjustment), "value_changed",
 			    GTK_SIGNAL_FUNC (rdf_limit_value_changed_cb), pd);
 
-	rdf->wipe_trackers = glade_xml_get_widget (pd->xml, "checkbutton2");
-	g_return_val_if_fail (rdf->wipe_trackers != NULL, FALSE);
-	gtk_signal_connect (GTK_OBJECT (rdf->wipe_trackers), "toggled",
-			    GTK_SIGNAL_FUNC (rdf_wipe_trackers_toggled_cb), pd);
 	rdf->add = glade_xml_get_widget (pd->xml, "button9");
 	g_return_val_if_fail (rdf->add != NULL, FALSE);
 

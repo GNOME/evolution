@@ -154,7 +154,6 @@ tree_walk (xmlNodePtr root,
 	xmlNodePtr channel = NULL;
 	xmlNodePtr image = NULL;
 	xmlNodePtr item[16];
-	gboolean wipe_trackers;
 	int items = 0;
 	int limit;
 	int i;
@@ -163,10 +162,8 @@ tree_walk (xmlNodePtr root,
 
 	if (r->summary->preferences == NULL) {
 		limit = 10;
-		wipe_trackers = FALSE;
 	} else {
 		limit = r->summary->preferences->limit;
-		wipe_trackers = r->summary->preferences->wipe_trackers;
 	}
 
 	/* FIXME: Need arrows */
@@ -257,38 +254,9 @@ tree_walk (xmlNodePtr root,
 	for (i = 0; i < items; i++) {
 		char *p = layer_find (item[i]->childs, "title", "No information");
 		
-		if (wipe_trackers) {
-			char *p = layer_find_url (item[i]->childs, "link", "");
-			char *x = strchr (p, '?');
-			unsigned char *r, *w;
-			int n;
-			if (x == NULL)
-				continue;
-			x++;
-			r = x;
-			w = x;
-			while (*r) {
-				if (*r == '+') {
-					*w++ = ' ';
-				} else if (*r == '%') {
-					sscanf (r+1, "%02x", &n);
-					*w++ = n;
-					r += 2;
-				} else {
-					*w++ = *r;
-					}
-				r++;
-			}
-			*w = 0;
-			tmp = g_strdup_printf ("<LI><font size=\"-1\"><A href=\"%s\">\n", x+4);
-			g_string_append (html, tmp);
-			g_free (tmp);
-		}
-		else {
-			tmp = g_strdup_printf ("<LI><font size=\"-1\"><A href=\"%s\">\n", layer_find_url(item[i]->childs, "link", ""));
-			g_string_append (html, tmp);
-			g_free (tmp);
-		}
+		tmp = g_strdup_printf ("<LI><font size=\"-1\"><A href=\"%s\">\n", layer_find_url(item[i]->childs, "link", ""));
+		g_string_append (html, tmp);
+		g_free (tmp);
 		
 		p = e_utf8_from_locale_string (p);
 		tmp = g_strdup_printf ("%s\n</A></font></li>", p);

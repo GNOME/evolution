@@ -69,7 +69,6 @@ struct _ESummaryPrefs {
 	GList *rdf_urls;
 	int rdf_refresh_time;
 	int limit;
-	gboolean wipe_trackers;
 
 	/* Weather */
 	GList *stations;
