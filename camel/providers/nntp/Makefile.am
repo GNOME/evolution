@@ -27,7 +27,8 @@ libcamelnntp_la_SOURCES = 			\
 libcamelnntpinclude_HEADERS =			\
 	camel-nntp-folder.h			\
 	camel-nntp-newsrc.h			\
-	camel-nntp-store.h
+	camel-nntp-store.h			\
+	camel-nntp-utils.h
 
 libcamelnntp_la_LDFLAGS = -version-info 0:0:0
 
