@@ -32,6 +32,8 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
              (Toshok)
     #25148 - Selected contacts fields are not scrolling properly
              (Toshok)
+    #23036 - Export Contact Data to CSV, XLS, etc. (for mail merge,
+             etc.) (Gilbert Fang)
     #20210 - Cannot save changes when invoked from mailer (Toshok)
     #19178 - importers only target default contact folder. (Toshok)
 
