@@ -971,7 +971,7 @@ create_new_event (CalendarComponent *calendar_component, CalendarComponentView *
 		ECalComponent *comp;
 		EventEditor *editor;
 
-		editor = event_editor_new (ecal);
+		editor = event_editor_new (ecal, is_meeting);
 		comp = cal_comp_event_new_with_current_time (ecal, is_allday);
 		e_cal_component_commit_sequence (comp);
 

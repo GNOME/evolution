@@ -245,6 +245,8 @@ edit_existing (OpenClient *oc, const char *uid)
 	icalcomponent *icalcomp;
 	CompEditor *editor;
 	ECalComponentVType vtype;
+	/* Presence of attendees indicates that component is a meeting */
+	GSList *attendees = NULL;
 
 	g_assert (oc->open);
 
@@ -269,7 +271,8 @@ edit_existing (OpenClient *oc, const char *uid)
 
 	switch (vtype) {
 	case E_CAL_COMPONENT_EVENT:
-		editor = COMP_EDITOR (event_editor_new (oc->client));
+		e_cal_component_get_attendee_list (comp, &attendees);
+		editor = COMP_EDITOR (event_editor_new (oc->client, attendees ? TRUE: FALSE));
 		break;
 
 	case E_CAL_COMPONENT_TODO:
@@ -311,12 +314,15 @@ edit_new (OpenClient *oc, const GNOME_Evolution_Calendar_CompEditorFactory_CompE
 	
 	switch (type) {
 	case GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_EVENT:
+		editor = COMP_EDITOR (event_editor_new (oc->client, FALSE));
+		comp = cal_comp_event_new_with_current_time (oc->client, FALSE);
+		break;
 	case GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_MEETING:
-		editor = COMP_EDITOR (event_editor_new (oc->client));
+		editor = COMP_EDITOR (event_editor_new (oc->client, TRUE));
 		comp = cal_comp_event_new_with_current_time (oc->client, FALSE);
 		break;
 	case GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_ALLDAY_EVENT:
-		editor = COMP_EDITOR (event_editor_new (oc->client));
+		editor = COMP_EDITOR (event_editor_new (oc->client, FALSE));
 		comp = cal_comp_event_new_with_current_time (oc->client, TRUE);
 		break;
 	case GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_TODO:

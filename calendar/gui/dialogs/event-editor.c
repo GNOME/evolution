@@ -47,7 +47,7 @@ struct _EventEditorPrivate {
 	SchedulePage *sched_page;
 
 	EMeetingStore *model;
-	
+	gboolean is_meeting;
 	gboolean meeting_shown;
 	gboolean updating;	
 };
@@ -205,11 +205,8 @@ event_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 	e_cal_component_get_organizer (comp, &organizer);
 	e_cal_component_get_attendee_list (comp, &attendees);
 
-	/* Clear things up */
-	e_meeting_store_remove_all_attendees (priv->model);
-
 	/* Set up the attendees */
-	if (attendees == NULL) {
+	if (attendees == NULL && !priv->is_meeting) {
 		comp_editor_remove_page (editor, COMP_EDITOR_PAGE (priv->meet_page));
 		comp_editor_remove_page (editor, COMP_EDITOR_PAGE (priv->sched_page));
 		priv->meeting_shown = FALSE;
@@ -344,11 +341,12 @@ event_editor_finalize (GObject *object)
  * editor could not be created.
  **/
 EventEditor *
-event_editor_new (ECal *client)
+event_editor_new (ECal *client, gboolean is_meeting)
 {
 	EventEditor *ee;
 
 	ee = EVENT_EDITOR (g_object_new (TYPE_EVENT_EDITOR, NULL));
+	ee->priv->is_meeting = is_meeting;
 	return event_editor_construct (ee, client);
 }
 
@@ -381,7 +379,6 @@ event_editor_show_meeting (EventEditor *ee)
 {
 	g_return_if_fail (ee != NULL);
 	g_return_if_fail (IS_EVENT_EDITOR (ee));
-
 
 	show_meeting (ee);
 }

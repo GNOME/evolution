@@ -1,3 +1,22 @@
+2004-10-19  Harish Krishnaswamy  <kharish@novell.com>
+
+	* gui/calendar-component.c (create_new_event):
+	* gui/e-calendar-view.c: (e_calendar_view_edit_appointment):
+	* gui/comp-editor-factory.c (edit_existing), (edit_new):
+	* gui/dialogs/event-editor.c (event_editor_edit_comp),
+	 (event_editor_new): updated the calls to event_editor_new 
+	with additional argument.
+	* gui/dialogs/event-editor.h: add parameter is_meeting to
+	distinguish between events and  meetings.
+	* gui/dialogs/meeting-page.c: (sensitize_widgets):
+	use explicit GError variable so that BUSY_ERROR
+	conditions do not lead us to think the calendar is readonly.
+	* gui/e-meeting-store.c: (refresh_queue_remove), (ems_init),
+	(e_meeting_store_remove_attendee), (freebusy_async),
+	(refresh_busy_periods), (refresh_queue_add): Make free-busy calls 
+	to backends async. Fixed the problem of spurious attendees getting 
+	added to the refresh_data.
+	
 2004-10-14  Not Zed  <NotZed@Ximian.com>
 
 	* gui/e-cal-menu.c (e_cal_menu_target_new_select): dont access a

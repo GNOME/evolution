@@ -52,6 +52,7 @@ struct _EMeetingStorePrivate {
 
 	GPtrArray *refresh_queue;
 	GHashTable *refresh_data;
+	GMutex *mutex;
 	guint refresh_idle_id;
 };
 
@@ -555,6 +556,9 @@ refresh_queue_remove (EMeetingStore *store, EMeetingAttendee *attendee)
 	qdata = g_hash_table_lookup (priv->refresh_data, attendee);
 	if (qdata) {
 		g_hash_table_remove (priv->refresh_data, attendee);
+		g_mutex_lock (priv->mutex);
+		g_hash_table_remove (priv->refresh_data, itip_strip_mailto (e_meeting_attendee_get_address (attendee)));
+		g_mutex_unlock (priv->mutex);
 		g_ptr_array_free (qdata->call_backs, TRUE);
 		g_ptr_array_free (qdata->data, TRUE);
 		g_free (qdata);
@@ -591,6 +595,8 @@ ems_finalize (GObject *obj)
  	
  	if (priv->refresh_idle_id)
  		g_source_remove (priv->refresh_idle_id);
+
+	g_mutex_free (priv->mutex);
  		
 	g_free (priv);
 
@@ -621,7 +627,9 @@ ems_init (EMeetingStore *store)
 	priv->zone = calendar_config_get_icaltimezone ();
 	
 	priv->refresh_queue = g_ptr_array_new ();
-	priv->refresh_data = g_hash_table_new (g_direct_hash, g_direct_equal);
+	priv->refresh_data = g_hash_table_new (g_str_hash, g_str_equal);
+
+	priv->mutex = g_mutex_new ();
 
 	start_addressbook_server (store);
 }
@@ -795,6 +803,7 @@ e_meeting_store_remove_attendee (EMeetingStore *store, EMeetingAttendee *attende
 	}	
 	
 	if (row != -1) {
+
 		g_ptr_array_remove_index (store->priv->attendees, row);		
 		g_object_unref (attendee);
 
@@ -1107,6 +1116,51 @@ process_free_busy (EMeetingStoreQueueData *qdata, char *text)
 	process_callbacks (qdata);
 }
 
+typedef struct {
+	ECal *client;
+	time_t startt;
+	time_t endt;
+	GList *users;
+	GList *fb_data;
+	EMeetingAttendee *attendee;
+	EMeetingStoreQueueData *qdata;
+} FreeBusyAsyncData;
+
+static gboolean
+freebusy_async (gpointer data)
+{
+	FreeBusyAsyncData *fbd = data;
+	EMeetingAttendee *attendee = fbd->attendee;
+	
+	if (fbd->client) {
+		e_cal_get_free_busy (fbd->client, fbd->users, fbd->startt, fbd->endt, &(fbd->fb_data), NULL);
+
+		g_list_foreach (fbd->users, (GFunc)g_free, NULL);
+		g_list_free (fbd->users);
+
+		if (fbd->fb_data != NULL) {
+			ECalComponent *comp = fbd->fb_data->data;
+			char *comp_str;
+				
+			comp_str = e_cal_component_get_as_string (comp);
+			process_free_busy (fbd->qdata, comp_str);
+			g_free (comp_str);
+		}
+		return TRUE;
+	}
+	
+
+	/* Look for fburl's of attendee with no free busy info on server */
+	if (!e_meeting_attendee_is_set_address (attendee)) {
+		process_callbacks (fbd->qdata);
+		return TRUE;
+	}
+	
+	return TRUE;
+
+
+}
+
 static gboolean
 refresh_busy_periods (gpointer data)
 {	
@@ -1114,8 +1168,10 @@ refresh_busy_periods (gpointer data)
 	EMeetingStorePrivate *priv;
 	EMeetingAttendee *attendee = NULL;
 	EMeetingStoreQueueData *qdata = NULL;
-	char *query;
 	int i;
+	GThread *thread;
+	GError *error = NULL;
+	FreeBusyAsyncData *fbd;
 	
 	priv = store->priv;
 
@@ -1124,7 +1180,7 @@ refresh_busy_periods (gpointer data)
 		attendee = g_ptr_array_index (priv->refresh_queue, i);
 		g_assert (attendee != NULL);
 
-		qdata = g_hash_table_lookup (priv->refresh_data, attendee);
+		qdata = g_hash_table_lookup (priv->refresh_data, itip_strip_mailto (e_meeting_attendee_get_address (attendee)));
 		if (!qdata)
 			continue;
 
@@ -1144,20 +1200,23 @@ refresh_busy_periods (gpointer data)
 	/* We take a ref in case we get destroyed in the gui during a callback */
 	g_object_ref (qdata->store);
 	
+	fbd = g_new0 (FreeBusyAsyncData, 1);
+	fbd->client = priv->client;
+	fbd->users = NULL;
+	fbd->fb_data = NULL;	
+
 	/* Check the server for free busy data */	
 	if (priv->client) {
-		GList *fb_data = NULL, *users = NULL;
 		struct icaltimetype itt;
-		time_t startt, endt;
 		const char *user;
-		
+				
 		itt = icaltime_null_time ();
 		itt.year = g_date_year (&qdata->start.date);
 		itt.month = g_date_month (&qdata->start.date);
 		itt.day = g_date_day (&qdata->start.date);
 		itt.hour = qdata->start.hour;
 		itt.minute = qdata->start.minute;
-		startt = icaltime_as_timet_with_zone (itt, priv->zone);
+		fbd->startt = icaltime_as_timet_with_zone (itt, priv->zone);
 
 		itt = icaltime_null_time ();
 		itt.year = g_date_year (&qdata->end.date);
@@ -1165,37 +1224,22 @@ refresh_busy_periods (gpointer data)
 		itt.day = g_date_day (&qdata->end.date);
 		itt.hour = qdata->end.hour;
 		itt.minute = qdata->end.minute;
-		endt = icaltime_as_timet_with_zone (itt, priv->zone);
+		fbd->endt = icaltime_as_timet_with_zone (itt, priv->zone);
+		fbd->qdata = qdata;
+		fbd->attendee = attendee;
 
 		user = itip_strip_mailto (e_meeting_attendee_get_address (attendee));
-		users = g_list_append (users, g_strdup (user));
-		e_cal_get_free_busy (priv->client, users, startt, endt, &fb_data, NULL);
+		fbd->users = g_list_append (fbd->users, g_strdup (user));
 
-		g_list_foreach (users, (GFunc)g_free, NULL);
-		g_list_free (users);
-
-		if (fb_data != NULL) {
-			ECalComponent *comp = fb_data->data;
-			char *comp_str;
-				
-			comp_str = e_cal_component_get_as_string (comp);
-			process_free_busy (qdata, comp_str);
-			g_free (comp_str);
-			return TRUE;
-		}
 	}
-
-	/* Look for fburl's of attendee with no free busy info on server */
-	if (!e_meeting_attendee_is_set_address (attendee)) {
-		process_callbacks (qdata);
-		return TRUE;
+		
+	thread = g_thread_create ((GThreadFunc) freebusy_async, fbd, FALSE, &error);
+	if (!thread) {
+		/* do clean up stuff here */
+		g_list_foreach (fbd->users, (GFunc)g_free, NULL);
+		g_list_free (fbd->users);
+		return FALSE;
 	}
-	
-	query = g_strdup_printf ("(contains \"email\" \"%s\")", 
-				 itip_strip_mailto (e_meeting_attendee_get_address (attendee)));
-	process_callbacks (qdata);
-	g_free (query);
-
 	return TRUE;
 }
 		
@@ -1209,14 +1253,24 @@ refresh_queue_add (EMeetingStore *store, int row,
 	EMeetingStorePrivate *priv;
 	EMeetingAttendee *attendee;
 	EMeetingStoreQueueData *qdata;
+	int i;
 
 	priv = store->priv;
 	
 	attendee = g_ptr_array_index (priv->attendees, row);
-	if (attendee == NULL)
+	if ((attendee == NULL) || !strcmp (itip_strip_mailto (e_meeting_attendee_get_address (attendee)), ""))
 		return;
+	/* check the queue if the attendee is already in there*/
+	for (i = 0; i < priv->refresh_queue->len; i++) {
+		if (attendee == g_ptr_array_index (priv->refresh_queue, i))
+			return;		
+		if (!strcmp (e_meeting_attendee_get_address (attendee), e_meeting_attendee_get_address (g_ptr_array_index (priv->refresh_queue, i))))
+				return;
+	}
 
-	qdata = g_hash_table_lookup (priv->refresh_data, attendee);
+	g_mutex_lock (priv->mutex);
+	qdata = g_hash_table_lookup (priv->refresh_data, itip_strip_mailto (e_meeting_attendee_get_address (attendee)));
+
 	if (qdata == NULL) {
 		qdata = g_new0 (EMeetingStoreQueueData, 1);
 
@@ -1233,15 +1287,17 @@ refresh_queue_add (EMeetingStore *store, int row,
 		g_ptr_array_add (qdata->call_backs, call_back);
 		g_ptr_array_add (qdata->data, data);
 
-		g_hash_table_insert (priv->refresh_data, attendee, qdata);
+		g_hash_table_insert (priv->refresh_data, itip_strip_mailto (e_meeting_attendee_get_address (attendee)), qdata);
 	} else {
 		if (e_meeting_time_compare_times (start, &qdata->start) == -1)
 			qdata->start = *start;
-		if (e_meeting_time_compare_times (end, &qdata->end) == 1)
+		if (e_meeting_time_compare_times (end, &qdata->end) == -1)
 			qdata->end = *end;
 		g_ptr_array_add (qdata->call_backs, call_back);
 		g_ptr_array_add (qdata->data, data);
 	}
+	g_mutex_unlock (priv->mutex);
+
 
 	g_object_ref (attendee);
 	g_ptr_array_add (priv->refresh_queue, attendee);

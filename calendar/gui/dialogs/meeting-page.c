@@ -305,12 +305,15 @@ clear_widgets (MeetingPage *mpage)
 static void
 sensitize_widgets (MeetingPage *mpage)
 {
-	gboolean read_only;
+	gboolean read_only = FALSE, user_org;
 	MeetingPagePrivate *priv = mpage->priv;
-
-	if (!e_cal_is_read_only (COMP_EDITOR_PAGE (mpage)->client, &read_only, NULL))
-		read_only = TRUE;
-
+	GError *error = NULL;
+	
+	if (!e_cal_is_read_only (COMP_EDITOR_PAGE (mpage)->client, &read_only, &error)) {
+		if (error->code != E_CALENDAR_STATUS_BUSY)
+			read_only = TRUE;
+		g_error_free (error);
+	}	
 	gtk_widget_set_sensitive (priv->organizer, !read_only);
 	gtk_widget_set_sensitive (priv->existing_organizer_btn, !read_only);
 	gtk_widget_set_sensitive (priv->add, !read_only && priv->user_org);

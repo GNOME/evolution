@@ -1610,7 +1610,7 @@ e_calendar_view_edit_appointment (ECalendarView *cal_view,
 	if (!ce) {
 		EventEditor *ee;
 
-		ee = event_editor_new (client);
+		ee = event_editor_new (client, meeting);
 		ce = COMP_EDITOR (ee);
 
 		comp = e_cal_component_new ();
