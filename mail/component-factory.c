@@ -131,7 +131,7 @@ create_view (EvolutionShellComponent *shell_component,
 		CamelURL *url;
 		
 		url = camel_url_new (physical_uri, NULL);
-		if (url && !g_strcasecmp (camel_url_get_param (url, "noselect"), "yes"))
+		if (url && g_strcasecmp (camel_url_get_param (url, "noselect"), "yes"))
 			control = create_noselect_control ();
 		else
 			control = folder_browser_factory_new_control (physical_uri,
