@@ -305,10 +305,10 @@ msgstr ""
 #: addressbook/backend/ebook/load-pine-addressbook.c:17
 #: addressbook/backend/ebook/test-client-list.c:18
 #: addressbook/backend/ebook/test-client.c:29
-#: addressbook/conduit/address-conduit.c:991
+#: addressbook/conduit/address-conduit.c:1011
 #: addressbook/gui/component/addressbook-factory.c:38
-#: calendar/conduits/calendar/calendar-conduit.c:1136
-#: calendar/conduits/todo/todo-conduit.c:945 calendar/gui/main.c:54
+#: calendar/conduits/calendar/calendar-conduit.c:1130
+#: calendar/conduits/todo/todo-conduit.c:946 calendar/gui/main.c:53
 msgid "Could not initialize Bonobo"
 msgstr "Kunne ikke initiere Bonobo"
 
@@ -431,28 +431,28 @@ msgstr ""
 "En fejl opstod under forsøg på at hente\n"
 "pilot-listen fra gnome-pilot dæmonen"
 
-#: addressbook/conduit/address-conduit.c:197
+#: addressbook/conduit/address-conduit.c:191
 msgid "Cursor could not be loaded\n"
 msgstr "Markøren kunne ikke indlæses\n"
 
-#: addressbook/conduit/address-conduit.c:210
+#: addressbook/conduit/address-conduit.c:204
 msgid "EBook not loaded\n"
 msgstr "EBook ikke indlæst\n"
 
-#: addressbook/conduit/address-conduit.c:583
-#: calendar/conduits/calendar/calendar-conduit.c:715
-#: calendar/conduits/todo/todo-conduit.c:523
+#: addressbook/conduit/address-conduit.c:603
+#: calendar/conduits/calendar/calendar-conduit.c:709
+#: calendar/conduits/todo/todo-conduit.c:524
 msgid "Could not start wombat server"
 msgstr "Kunne ikke starte wombat-tjener"
 
-#: addressbook/conduit/address-conduit.c:584
-#: calendar/conduits/calendar/calendar-conduit.c:716
-#: calendar/conduits/todo/todo-conduit.c:524
+#: addressbook/conduit/address-conduit.c:604
+#: calendar/conduits/calendar/calendar-conduit.c:710
+#: calendar/conduits/todo/todo-conduit.c:525
 msgid "Could not start wombat"
 msgstr "Kunne ikke starte wombat"
 
-#: addressbook/conduit/address-conduit.c:616
-#: addressbook/conduit/address-conduit.c:619
+#: addressbook/conduit/address-conduit.c:636
+#: addressbook/conduit/address-conduit.c:639
 msgid "Could not read pilot's Address application block"
 msgstr "Kunne ikke læse pilotens adresseapplikationsblok"
 
@@ -828,7 +828,7 @@ msgstr "Eksterne kataloger"
 msgid "Search"
 msgstr "Søg..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:417
+#: addressbook/gui/widgets/e-addressbook-view.c:451
 #: addressbook/gui/widgets/e-minicard.c:338
 msgid "Save as VCard"
 msgstr "Gem som vCard"
@@ -851,22 +851,6 @@ msgstr ""
 "\n"
 "Dobbelt-klik her for at oprette en ny kontakt."
 
-#. String to use in 12-hour time format for times in the morning.
-#: calendar/cal-util/timeutil.c:64 calendar/gui/e-day-view.c:551
-#: calendar/gui/e-week-view.c:288 calendar/gui/print.c:605
-msgid "am"
-msgstr " "
-
-#. String to use in 12-hour time format for times in the afternoon.
-#: calendar/cal-util/timeutil.c:64 calendar/gui/e-day-view.c:554
-#: calendar/gui/e-week-view.c:291 calendar/gui/print.c:604
-msgid "pm"
-msgstr " "
-
-#: calendar/cal-util/timeutil.c:66
-msgid "h"
-msgstr "h"
-
 #: calendar/conduits/calendar/calendar-conduit-control-applet.c:127
 msgid "Evolution Calendar Conduit"
 msgstr "Evolution kalender-komponent"
@@ -875,13 +859,13 @@ msgstr "Evolution kalender-komponent"
 msgid "Configuration utility for the evolution calendar conduit.\n"
 msgstr "Konfigurationsværktøj for evolutions kalenderkomponent.\n"
 
-#: calendar/conduits/calendar/calendar-conduit.c:671
-#: calendar/conduits/todo/todo-conduit.c:479
+#: calendar/conduits/calendar/calendar-conduit.c:665
+#: calendar/conduits/todo/todo-conduit.c:480
 msgid "Error while communicating with calendar server"
 msgstr "Fejl under kommunikation med kalendertjeneren"
 
-#: calendar/conduits/calendar/calendar-conduit.c:770
-#: calendar/conduits/calendar/calendar-conduit.c:773
+#: calendar/conduits/calendar/calendar-conduit.c:764
+#: calendar/conduits/calendar/calendar-conduit.c:767
 msgid "Could not read pilot's Calendar application block"
 msgstr "Kunne ikke læse pilotens kalenderapplikationsblok"
 
@@ -893,8 +877,8 @@ msgstr "Evolution opgaveliste-komponent"
 msgid "Configuration utility for the evolution todo conduit.\n"
 msgstr "Konfigurationsværktøj for evolutions opgavelistekomponent.\n"
 
-#: calendar/conduits/todo/todo-conduit.c:578
-#: calendar/conduits/todo/todo-conduit.c:581
+#: calendar/conduits/todo/todo-conduit.c:579
+#: calendar/conduits/todo/todo-conduit.c:582
 msgid "Could not read pilot's ToDo application block"
 msgstr "Kunne ikke læse pilotens applikationsblok for opgaveliste"
 
@@ -1183,6 +1167,18 @@ msgstr "%a %d %b"
 msgid "%d %b"
 msgstr "%d %b"
 
+#. String to use in 12-hour time format for times in the morning.
+#: calendar/gui/e-day-view.c:551 calendar/gui/e-week-view.c:288
+#: calendar/gui/print.c:605
+msgid "am"
+msgstr " "
+
+#. String to use in 12-hour time format for times in the afternoon.
+#: calendar/gui/e-day-view.c:554 calendar/gui/e-week-view.c:291
+#: calendar/gui/print.c:604
+msgid "pm"
+msgstr " "
+
 #: calendar/gui/e-day-view.c:2944 calendar/gui/e-day-view.c:2951
 #: calendar/gui/e-day-view.c:2960 calendar/gui/e-week-view.c:3167
 #: calendar/gui/e-week-view.c:3174 calendar/gui/e-week-view.c:3183
@@ -1278,32 +1274,32 @@ msgstr "Denne aftale indeholder gentagelser som Evolution ikke kan redigere."
 msgid "%a %b %d %Y"
 msgstr "%a %d %b %Y"
 
-#: calendar/gui/gnome-cal.c:718 calendar/gui/gnome-cal.c:1474
-#: calendar/gui/gnome-cal.c:1530
+#: calendar/gui/gnome-cal.c:720 calendar/gui/gnome-cal.c:1484
+#: calendar/gui/gnome-cal.c:1540
 msgid "Reminder of your appointment at "
 msgstr "Påmindelse om din aftale "
 
-#: calendar/gui/gnome-cal.c:1152
+#: calendar/gui/gnome-cal.c:1158
 #, c-format
 msgid "Could not load the calendar in `%s'"
 msgstr "Kunne ikke indlæse kalenderen i '%s'"
 
-#: calendar/gui/gnome-cal.c:1163
+#: calendar/gui/gnome-cal.c:1169
 #, c-format
 msgid "Could not create a calendar in `%s'"
 msgstr "Kunne ikke oprette en kalender i '%s'"
 
-#: calendar/gui/gnome-cal.c:1174
+#: calendar/gui/gnome-cal.c:1180
 #, c-format
 msgid "The method required to load `%s' is not supported"
 msgstr "Metoden der kræves for at indlæse '%s' er ikke understøttet"
 
-#: calendar/gui/gnome-cal.c:1466
+#: calendar/gui/gnome-cal.c:1476
 msgid "Snooze"
 msgstr "Udsæt"
 
 #. Idea: we need Snooze option :-)
-#: calendar/gui/gnome-cal.c:1479 calendar/gui/gnome-cal.c:1534
+#: calendar/gui/gnome-cal.c:1489 calendar/gui/gnome-cal.c:1544
 #: mail/mail-search-dialogue.c:104
 msgid "Ok"
 msgstr "Ok"
@@ -1359,6 +1355,10 @@ msgstr ""
 #: calendar/gui/goto.c:318
 msgid "Go to today"
 msgstr "Gå til idag"
+
+#: calendar/gui/main.c:48
+msgid "Could not initialize GNOME"
+msgstr "Kunne ikke initiere GNOME"
 
 #: calendar/gui/print.c:288
 msgid "1st"
@@ -1761,12 +1761,12 @@ msgstr "Svar fra IMAP-tjener indeholdt ikke %s-information"
 msgid "Unexpected OK response from IMAP server: %s"
 msgstr "Uventet svar 'OK' fra IMAP-tjener: %s"
 
-#: camel/providers/imap/camel-imap-folder.c:216
+#: camel/providers/imap/camel-imap-folder.c:217
 #, c-format
 msgid "Could not load summary for %s"
 msgstr "Kunne ikke indlæse sammendrag for %s"
 
-#: camel/providers/imap/camel-imap-folder.c:586
+#: camel/providers/imap/camel-imap-folder.c:574
 msgid "Could not find message body in FETCH response."
 msgstr "Kunne ikke finde beskedskrop i FETCH-svar."
 
@@ -2356,8 +2356,9 @@ msgid ""
 "This option will connect to the SMTP server without using any kind of "
 "authentication. This should be fine for connecting to most SMTP servers."
 msgstr ""
-"Dette alternativ lader dig koble til SMTP-tjeneren uden brug af nogen form for "
-"autentificering. Dette burde virke for opkobling til de fleste SMTP-servere."
+"Dette alternativ lader dig koble til SMTP-tjeneren uden brug af nogen form "
+"for autentificering. Dette burde virke for opkobling til de fleste "
+"SMTP-servere."
 
 #: camel/providers/smtp/camel-smtp-transport.c:292
 #: camel/providers/smtp/camel-smtp-transport.c:297
@@ -2368,8 +2369,7 @@ msgstr "CRAM-MD5"
 msgid ""
 "This option will connect to the SMTP server using CRAM-MD5 authentication."
 msgstr ""
-"Dette lader dig koble til SMTP-serveren ved at bruge CRAM-MD5"
-"autenticering."
+"Dette lader dig koble til SMTP-serveren ved at bruge CRAM-MD5autenticering."
 
 #: camel/providers/smtp/camel-smtp-transport.c:332
 #, c-format
@@ -4935,6 +4935,9 @@ msgstr " "
 #, c-format
 msgid "Group %i"
 msgstr "Gruppe %i"
+
+#~ msgid "h"
+#~ msgstr "h"
 
 #~ msgid "january"
 #~ msgstr "januar"
