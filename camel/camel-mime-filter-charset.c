@@ -101,8 +101,6 @@ complete(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out,
 	outbuf = mf->outbuf;
 	outlen = mf->outsize;
 
-	outbuf[0] = '\0';
-
 	if (inlen>0) {
 		converted = unicode_iconv(f->ic, &inbuf, &inlen, &outbuf, &outlen);
 		if (converted == -1) {

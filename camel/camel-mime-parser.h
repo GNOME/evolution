@@ -103,6 +103,10 @@ const char *camel_mime_parser_header(CamelMimeParser *, const char *, int *offse
 /* get all raw headers. READ ONLY! */
 struct _header_raw *camel_mime_parser_headers_raw(CamelMimeParser *);
 
+/* get multipart pre/postface */
+const char *camel_mime_parser_preface(CamelMimeParser *m);
+const char *camel_mime_parser_postface(CamelMimeParser *m);
+
 /* add a processing filter for body contents */
 int camel_mime_parser_filter_add(CamelMimeParser *, CamelMimeFilter *);
 void camel_mime_parser_filter_remove(CamelMimeParser *, int);

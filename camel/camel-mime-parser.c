@@ -254,6 +254,11 @@ struct _header_scan_stack {
 
 	struct _header_content_type *content_type;
 
+	/* I dont use GString's casue you can't efficiently append a buffer to them */
+	GByteArray *pretext;	/* for multipart types, save the pre-boundary data here */
+	GByteArray *posttext;	/* for multipart types, save the post-boundary data here */
+	int prestage;		/* used to determine if it is a pre-boundary or post-boundary data segment */
+
 	char *boundary;		/* for multipart/ * boundaries, including leading -- and trailing -- for the final part */
 	int boundarylen;	/* length of boundary, including leading -- */
 };
@@ -471,6 +476,60 @@ camel_mime_parser_headers_raw(CamelMimeParser *m)
 		return s->parts->headers;
 	return NULL;
 }
+
+static const char *
+byte_array_to_string(GByteArray *array)
+{
+	if (array == NULL)
+		return NULL;
+
+	if (array->len == 0 || array->data[array->len-1] != '\0')
+		g_byte_array_append(array, "", 1);
+
+	return array->data;
+}
+
+/**
+ * camel_mime_parser_preface:
+ * @m: 
+ * 
+ * Retrieve the preface text for the current multipart.
+ * Can only be used when the state is HSCAN_MULTIPART_END.
+ * 
+ * Return value: The preface text, or NULL if there wasn't any.
+ **/
+const char *
+camel_mime_parser_preface(CamelMimeParser *m)
+{
+	struct _header_scan_state *s = _PRIVATE(m);
+
+	if (s->parts)
+		return byte_array_to_string(s->parts->pretext);
+
+	return NULL;
+}
+
+/**
+ * camel_mime_parser_postface:
+ * @m: 
+ * 
+ * Retrieve the postface text for the current multipart.
+ * Only returns valid data when the current state if
+ * HSCAN_MULTIPART_END.
+ * 
+ * Return value: The postface text, or NULL if there wasn't any.
+ **/
+const char *
+camel_mime_parser_postface(CamelMimeParser *m)
+{
+	struct _header_scan_state *s = _PRIVATE(m);
+
+	if (s->parts)
+		return byte_array_to_string(s->parts->posttext);
+
+	return NULL;
+}
+
 
 /**
  * camel_mime_parser_init_with_fd:
@@ -906,6 +965,10 @@ folder_pull_part(struct _header_scan_state *s)
 		header_raw_clear(&h->headers);
 #endif
 		header_content_type_unref(h->content_type);
+		if (h->pretext)
+			g_byte_array_free(h->pretext, TRUE);
+		if (h->posttext)
+			g_byte_array_free(h->posttext, TRUE);
 		g_free(h);
 	} else {
 		g_warning("Header stack underflow!\n");
@@ -1219,6 +1282,7 @@ folder_scan_content(struct _header_scan_state *s, int *lastone, char **data, int
 	int len;
 	struct _header_scan_stack *part, *overpart = s->parts;
 	int already_packed = FALSE;
+	int onboundary = FALSE;
 
 	c(printf("scanning content\n"));
 
@@ -1252,8 +1316,10 @@ retry:
 		while (inptr<=inend) {
 			if (!s->midline
 			    && (part = folder_boundary_check(s, inptr, lastone))) {
-				if ( (inptr-start) )
+				if ( (inptr-start) ) {
+					onboundary = TRUE;
 					goto content;
+				}
 				
 				goto normal_exit;
 			}
@@ -1335,7 +1401,11 @@ normal_exit:
 	s->inptr = inptr;
 
 	*data = start;
-	*length = inptr-start;
+	/* if we hit a boundary, we should not include the closing \n */
+	if (onboundary)
+		*length = inptr-start-1;
+	else
+		*length = inptr-start;
 
 /*	printf("got %scontent: %.*s", s->midline?"partial ":"", inptr-start, start);*/
 
@@ -1615,10 +1685,22 @@ tail_recurse:
 			do {
 				hb = folder_scan_content(s, &state, databuffer, datalength);
 				if (*datalength>0) {
-					/* FIXME: needs a state to return this shit??? */
-					d(printf("Multipart Content: '%.*s'\n", *datalength, *databuffer));
+					/* instead of a new state, we'll just store it locally and provide
+					   an accessor function */
+					d(printf("Multipart %s Content %p: '%.*s'\n",
+						 h->prestage>0?"post":"pre", h, *datalength, *databuffer));
+					if (h->prestage > 0) {
+						if (h->posttext == NULL)
+							h->posttext = g_byte_array_new();
+						g_byte_array_append(h->posttext, *databuffer, *datalength);
+					} else {
+						if (h->pretext == NULL)
+							h->pretext = g_byte_array_new();
+						g_byte_array_append(h->pretext, *databuffer, *datalength);
+					}
 				}
 			} while (hb==h && *datalength>0);
+			h->prestage++;
 			if (*datalength==0 && hb==h) {
 				d(printf("got boundary: %s\n", hb->boundary));
 				folder_scan_skip_line(s);

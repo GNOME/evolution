@@ -21,6 +21,9 @@
 
 #include "camel-stream-filter.h"
 
+#define d(x)
+/*#include <stdio.h>*/
+
 struct _filter {
 	struct _filter *next;
 	int id;
@@ -233,9 +236,20 @@ do_read (CamelStream *stream, char *buffer, size_t n)
 			f = p->filters;
 			p->filtered = p->buffer;
 			p->filteredlen = size;
+
+			d(printf ("\n\nOriginal content: '"));
+			d(fwrite(p->filtered, sizeof(char), p->filteredlen, stdout));
+			d(printf("'\n"));
+
 			while (f) {
 				camel_mime_filter_filter(f->filter, p->filtered, p->filteredlen, presize,
 							 &p->filtered, &p->filteredlen, &presize);
+
+				d(printf ("Filtered content (%s): '",
+					  camel_type_to_name(((CamelObject *)f->filter)->s.type)));
+				d(fwrite(p->filtered, sizeof(char), p->filteredlen, stdout));
+				d(printf("'\n"));
+
 				f = f->next;
 			}
 		}
@@ -249,6 +263,9 @@ do_read (CamelStream *stream, char *buffer, size_t n)
 	return size;
 }
 
+/* Note: Since the caller expects to write out as much as they asked us to
+   write (for 'success'), we return what they asked us to write (for 'success')
+   rather than the true number of written bytes */
 static ssize_t
 do_write (CamelStream *stream, const char *buf, size_t n)
 {
@@ -257,17 +274,31 @@ do_write (CamelStream *stream, const char *buf, size_t n)
 	struct _filter *f;
 	int presize;
 	char *buffer = (char *)buf;
+	size_t len = n;
 
 	p->last_was_read = FALSE;
+
+	d(printf ("\n\nWriting: Original content: '"));
+	d(fwrite(buffer, sizeof(char), len, stdout));
+	d(printf("'\n"));
 
 	f = p->filters;
 	presize = 0;
 	while (f) {
-		camel_mime_filter_filter(f->filter, buffer, n, presize, &buffer, &n, &presize);
+		camel_mime_filter_filter(f->filter, buffer, len, presize, &buffer, &len, &presize);
+
+		d(printf ("Filtered content (%s): '",
+			  camel_type_to_name(((CamelObject *)f->filter)->s.type)));
+		d(fwrite(buffer, sizeof(char), len, stdout));
+		d(printf("'\n"));
+
 		f = f->next;
 	}
 
-	return camel_stream_write(filter->source, buffer, n);
+	if (camel_stream_write(filter->source, buffer, len) != len)
+		return -1;
+
+	return n;
 }
 
 static int
@@ -288,8 +319,19 @@ do_flush (CamelStream *stream)
 	len = 0;
 	presize = 0;
 	f = p->filters;
+	
+	d(printf ("\n\nFlushing: Original content: '"));
+	d(fwrite(buffer, sizeof(char), len, stdout));
+	d(printf("'\n"));
+
 	while (f) {
 		camel_mime_filter_complete(f->filter, buffer, len, presize, &buffer, &len, &presize);
+
+		d(printf ("Filtered content (%s): '",
+			  camel_type_to_name(((CamelObject *)f->filter)->s.type)));
+		d(fwrite(buffer, sizeof(char), len, stdout));
+		d(printf("'\n"));
+
 		f = f->next;
 	}
 	if (len > 0 && camel_stream_write(filter->source, buffer, len) == -1)

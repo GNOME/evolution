@@ -94,6 +94,8 @@ void                camel_multipart_set_boundary   (CamelMultipart *multipart,
 						    gchar *boundary);
 const gchar *       camel_multipart_get_boundary   (CamelMultipart *multipart);
 
+void		    camel_multipart_set_preface	   (CamelMultipart *multipart, const char *preface);
+void		    camel_multipart_set_postface   (CamelMultipart *multipart, const char *postface);
 
 #ifdef __cplusplus
 }

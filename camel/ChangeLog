@@ -1,3 +1,53 @@
+2000-11-04  Not Zed  <NotZed@HelixCode.com>
+
+	* camel-mime-part-utils.c
+	(camel_mime_part_construct_content_from_parser): Set the
+	preface/postface from the parser into the multipart object.
+
+	* camel-multipart.c (camel_multipart_set_postface): Function to
+	set the postface text on a multipart.
+	(camel_multipart_set_preface): Similarly for preface text.
+
+	* camel-mime-parser.c (folder_scan_content): If we scan until a
+	boundary, then we do not include the \n that starts the boundary
+	line in the content.
+	(struct _header_scan_stack): Added a ByteArray to store the
+	multipart pre/post-text as we're scanning.
+	(folder_pull_part): Free pre/posttext if they are allocated.
+	(folder_scan_step): Build into the pre/posttext arrays as we
+	encounter data.
+	(camel_mime_parser_preface): REturn the multipart preface text, if
+	there is any scanned.
+	(camel_mime_parser_postface): Likewise for postface text.
+	(byte_array_to_string): helper function for above.
+
+	* providers/mbox/camel-mbox-folder.c (mbox_append_message): Change
+	the from line to be "\nFrom ..." always, so no need to
+	check/append a \n to messages.
+	(mbox_append_message): Open the output stream with append mode
+	[assuming this is more efficient than seeking to the end]
+	And dont prepend \n  on the From line if its the first in the
+	mbox.
+	(mbox_append_message): Pass the offset of the real start of the
+	"From " line when we perform the update (which may != 'seek')
+
+	* camel-mime-filter-charset.c (complete): Removed the terminating
+	NUL 'fix'.
+
+	* camel-stream-filter.c (do_read): Added some debug.
+	(do_flush): And here.
+	(do_write): And here too.
+	(do_write): ARGH!!! ARGH!  Ok, so the filter stream was writing a
+	different number of bytes than the requester was asking it to
+	write (because of filtering, of course!).  So instead of returning
+	the true number of written bytes, we'll return what they asked us
+	to write - unless there is an error in which case we return -1.
+
+	* camel-mime-utils.c (base64_encode_close): Sigh, forgot to make
+	it unsigned.  I think this is actually a gcc bug as (48 >> 2)
+	somehow ended up negative, when it obviously should not, even if
+	the data load was signed.
+
 2000-11-03  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* camel-url.c: Undo my incorrect fix - I misunderstood danw -

@@ -282,18 +282,19 @@ base64_encode_close(unsigned char *in, int inlen, gboolean break_lines, unsigned
 	if (inlen>0)
 		outptr += base64_encode_step(in, inlen, break_lines, outptr, state, save);
 
-	c1 = ((char *)save)[1];
-	c2 = ((char *)save)[2];
+	c1 = ((unsigned char *)save)[1];
+	c2 = ((unsigned char *)save)[2];
 
 	switch (((char *)save)[0]) {
 	case 2:
-		outptr[2] = base64_alphabet [ ( (c2 &0x0f) << 2 ) ];
+		outptr[2] = base64_alphabet[ ( (c2 &0x0f) << 2 ) ];
+		g_assert(outptr[2] != 0);
 		goto skip;
 	case 1:
 		outptr[2] = '=';
 	skip:
-		outptr[0] = base64_alphabet [ c1 >> 2 ];
-		outptr[1] = base64_alphabet [ c2 >> 4 | ( (c1&0x3) << 4 )];
+		outptr[0] = base64_alphabet[ c1 >> 2 ];
+		outptr[1] = base64_alphabet[ c2 >> 4 | ( (c1&0x3) << 4 )];
 		outptr[3] = '=';
 		outptr += 4;
 		break;
@@ -345,10 +346,10 @@ base64_encode_step(unsigned char *in, int len, gboolean break_lines, unsigned ch
 			c2 = *inptr++;
 		skip2:
 			c3 = *inptr++;
-			*outptr++ = base64_alphabet [ c1 >> 2 ];
-			*outptr++ = base64_alphabet [ c2 >> 4 | ( (c1&0x3) << 4 ) ];
-			*outptr++ = base64_alphabet [ ( (c2 &0x0f) << 2 ) | (c3 >> 6) ];
-			*outptr++ = base64_alphabet [ c3 & 0x3f ];
+			*outptr++ = base64_alphabet[ c1 >> 2 ];
+			*outptr++ = base64_alphabet[ c2 >> 4 | ( (c1&0x3) << 4 ) ];
+			*outptr++ = base64_alphabet[ ( (c2 &0x0f) << 2 ) | (c3 >> 6) ];
+			*outptr++ = base64_alphabet[ c3 & 0x3f ];
 			/* this is a bit ugly ... */
 			if (break_lines && (++already)>=19) {
 				*outptr++='\n';

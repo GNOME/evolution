@@ -474,3 +474,47 @@ write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 
 	return total;
 }
+
+/**
+ * camel_multipart_set_preface:
+ * @multipart: 
+ * @preface: 
+ * 
+ * Set the preface text for this multipart.  Will be written out infront
+ * of the multipart.  This text should only include US-ASCII strings, and
+ * be relatively short, and will be ignored by any MIME mail client.
+ **/
+void
+camel_multipart_set_preface(CamelMultipart *multipart, const char *preface)
+{
+	if (multipart->preface != preface) {
+		g_free(multipart->preface);
+		if (preface)
+			multipart->preface = g_strdup(preface);
+		else
+			multipart->preface = NULL;
+	}
+}
+
+/**
+ * camel_multipart_set_postface:
+ * @multipart: 
+ * @postface: 
+ * 
+ * Set the postfix text for this multipart.  Will be written out after
+ * the last boundary of the multipart, and ignored by any MIME mail
+ * client.
+ *
+ * Generally postface texts should not be sent with multipart messages.
+ **/
+void
+camel_multipart_set_postface(CamelMultipart *multipart, const char *postface)
+{
+	if (multipart->postface != postface) {
+		g_free(multipart->postface);
+		if (postface)
+			multipart->postface = g_strdup(postface);
+		else
+			multipart->postface = NULL;
+	}
+}

@@ -218,6 +218,10 @@ camel_mime_part_construct_content_from_parser(CamelMimePart *dw, CamelMimeParser
 			camel_object_unref ((CamelObject *)bodypart);
 		}
 
+		/* these are only return valid data in the MULTIPART_END state */
+		camel_multipart_set_preface((CamelMultipart *)content, camel_mime_parser_preface(mp));
+		camel_multipart_set_postface((CamelMultipart *)content, camel_mime_parser_postface(mp));
+
 		d(printf("Created multi-part\n"));
 		break; }
 	default:

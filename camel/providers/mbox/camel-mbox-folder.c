@@ -303,29 +303,18 @@ mbox_append_message(CamelFolder *folder, CamelMimeMessage * message, const Camel
 	CamelMessageInfo *newinfo;
 	struct stat st;
 	off_t seek = -1;
-	char *xev, last;
+	char *xev;
 	guint32 uid;
 	char *fromline = NULL;
 
 	if (stat(mbox_folder->folder_file_path, &st) != 0)
 		goto fail;
 
-	output_stream = camel_stream_fs_new_with_name(mbox_folder->folder_file_path, O_RDWR, 0600);
+	output_stream = camel_stream_fs_new_with_name(mbox_folder->folder_file_path, O_WRONLY|O_APPEND, 0600);
 	if (output_stream == NULL)
 		goto fail;
 
-	if (st.st_size) {
-		seek = camel_seekable_stream_seek((CamelSeekableStream *) output_stream, st.st_size - 1, SEEK_SET);
-		if (++seek != st.st_size)
-			goto fail;
-
-		/* If the mbox doesn't end with a newline, fix that. */
-		if (camel_stream_read(output_stream, &last, 1) != 1)
-			goto fail;
-		if (last != '\n')
-			camel_stream_write(output_stream, "\n", 1);
-	} else
-		seek = 0;
+	seek = st.st_size;
 
 	/* assign a new x-evolution header/uid */
 	camel_medium_remove_header(CAMEL_MEDIUM(message), "X-Evolution");
@@ -337,7 +326,7 @@ mbox_append_message(CamelFolder *folder, CamelMimeMessage * message, const Camel
 
 	/* we must write this to the non-filtered stream ... */
 	fromline = camel_mbox_summary_build_from(CAMEL_MIME_PART(message)->headers);
-	if (camel_stream_write_string(output_stream, fromline) == -1)
+	if (camel_stream_printf(output_stream, seek==0?"%s":"\n%s", fromline) == -1)
 		goto fail;
 
 	/* and write the content to the filtering stream, that translated '\nFrom' into '\n>From' */
@@ -357,7 +346,7 @@ mbox_append_message(CamelFolder *folder, CamelMimeMessage * message, const Camel
 	g_free(fromline);
 
 	/* force a summary update - will only update from the new position, if it can */
-	if (camel_mbox_summary_update(mbox_folder->summary, seek, mbox_folder->changes) == 0) {
+	if (camel_mbox_summary_update(mbox_folder->summary, seek==0?seek:seek+1, mbox_folder->changes) == 0) {
 		char uidstr[16];
 
 		sprintf(uidstr, "%u", uid);
