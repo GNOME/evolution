@@ -42,8 +42,10 @@
     <oaf_attribute name="description" type="string"
 		   _value="Evolution component for handling mail."/>
 
-    <oaf_attribute name="evolution:shell-component-icon" type="string"
+    <oaf_attribute name="evolution:shell_component_icon" type="string"
 		   value="evolution-inbox.png"/>
+    <oaf_attribute name="evolution:shell_component_launch_order" type="number"
+		   value="1"/>
   </oaf_server>
 
   <!-- Summary component, for showing info in the summary -->
