@@ -2,6 +2,10 @@
 
 	* conduit/address-conduit.c (set_status_cleared): Protect against
 	a NULL uid. Fixes bug #57619.
+	(ecard_from_remote_record): Set the full_name of the contact so
+	that we can use that as the FILE_AS rather than the company name,
+	which sucked. Fixes a bug I may or may not have reported months
+	ago.
 
 2004-06-02  Hans Petter Jansson  <hpj@ximian.com>
 

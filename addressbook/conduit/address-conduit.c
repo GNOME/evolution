@@ -981,9 +981,10 @@ ecard_from_remote_record(EAddrConduitContext *ctxt,
 	EContactName *name;
 	EContactAddress *eaddress;
 	EContactField mailing_address;
-	char *txt, *find;
+	char *txt, *find, *full_name;
 	EContactField next_mail, next_home, next_work, next_fax;
 	EContactField next_other, next_main, next_pager, next_mobile;
+	const char *file_as;
 	int i;
 
 	g_return_val_if_fail(remote!=NULL,NULL);
@@ -999,14 +1000,17 @@ ecard_from_remote_record(EAddrConduitContext *ctxt,
 	name = e_contact_name_new ();
 	name->given = get_entry_text (address, entryFirstname);
 	name->family = get_entry_text (address, entryLastname);
-
-	e_contact_set (contact, E_CONTACT_NAME, name);
-	e_contact_name_free (name);
 	
-	/* File as */
-	if (!e_contact_get_const (contact, E_CONTACT_FULL_NAME))
+	full_name = e_contact_name_to_string (name);
+	e_contact_set (contact, E_CONTACT_FULL_NAME, full_name);
+	e_contact_name_free (name);
+	g_free (full_name);
+	
+	/* File As */
+	file_as = e_contact_get_const (contact, E_CONTACT_FILE_AS);
+	if (!file_as || *file_as == '\0')
 		set_contact_text (contact, E_CONTACT_FILE_AS, address, entryCompany);
-
+	
 	/* Title and Company */
 	set_contact_text (contact, E_CONTACT_TITLE, address, entryTitle);
 	set_contact_text (contact, E_CONTACT_ORG, address, entryCompany);
