@@ -176,7 +176,7 @@ camel_provider_get_for_protocol (const gchar *protocol, ProviderType type)
 		if (protocol_is_found) 
 			provider_is_found = (current_provider->provider_type == type);
 		
-		g_list_next (current_provider_node);
+		current_provider_node = current_provider_node->next;
 		}
 
 	if (provider_is_found) return current_provider;

@@ -88,6 +88,7 @@ po/Makefile.in
 camel/Makefile
 camel/providers/Makefile
 camel/providers/MH/Makefile
+camel/providers/maildir/Makefile
 devel-docs/Makefile
 devel-docs/camel/Makefile
 tests/Makefile

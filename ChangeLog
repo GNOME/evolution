@@ -1,5 +1,14 @@
 1999-09-02  bertrand  <Bertrand.Guiheneuf@aful.org>
 
+	* camel/providers/maildir: Added (experimental) maildir 
+	provider written by Jukka Zitting <hukka@greywolves.org>
+	
+	* camel/providers/Makefile.am (SUBDIRS): build maildir
+	provider.
+
+	* camel/camel-provider.c (camel_provider_get_for_protocol):
+	bug fix. patch from  Jukka Zitting <hukka@greywolves.org>
+
 	* camel/camel-mime-message.c (_write_one_recipient_to_stream): 
 	changed decl to fit CRLFunc. 
 	(_write_recipients_to_stream): 
