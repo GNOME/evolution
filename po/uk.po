@@ -6175,14 +6175,12 @@ msgid "Threaded Message list"
 msgstr "Переслати це пов╕домлення"
 
 #: po/tmp/evolution-mail.xml.h:42
-#, fuzzy
 msgid "VFolder on Se_nder"
-msgstr "Файлу не знайдено"
+msgstr "В╕ртуальна тека в╕дправника"
 
 #: po/tmp/evolution-mail.xml.h:43
-#, fuzzy
 msgid "VFolder on _Recipients"
-msgstr "Адресати пов╕домлення"
+msgstr "В╕ртуальна тека отримувач╕в"
 
 #: po/tmp/evolution-mail.xml.h:44
 msgid "View Raw Message Source"
