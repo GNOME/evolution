@@ -910,7 +910,6 @@ gnome_calendar_init (GnomeCalendar *gcal)
 	priv->current_view_type = GNOME_CAL_DAY_VIEW;
 	priv->range_selected = FALSE;
 
-	setup_widgets (gcal);
 	priv->dn_query = NULL;
 	priv->sexp = g_strdup ("#t"); /* Match all */
 
@@ -1683,6 +1682,8 @@ gnome_calendar_construct (GnomeCalendar *gcal)
 
 	priv = gcal->priv;
 
+	setup_widgets (gcal);
+
 	/*
 	 * Calendar Folder Client.
 	 */
@@ -1745,6 +1746,16 @@ gnome_calendar_new (void)
 	}
 
 	return GTK_WIDGET (gcal);
+}
+
+void
+gnome_calendar_set_ui_component (GnomeCalendar *gcal,
+				 BonoboUIComponent *ui_component)
+{
+	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
+	g_return_if_fail (ui_component == NULL || BONOBO_IS_UI_COMPONENT (ui_component));
+
+	e_search_bar_set_ui_component (E_SEARCH_BAR (gcal->priv->search_bar), ui_component);
 }
 
 /**

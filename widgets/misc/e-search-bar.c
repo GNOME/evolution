@@ -39,8 +39,11 @@
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 
+#include <bonobo/bonobo-ui-util.h>
+
+#include <stdlib.h>
+
 #include "e-search-bar.h"
-#include "e-dropdown-button.h"
 
 
 enum {
@@ -97,12 +100,20 @@ emit_menu_activated (ESearchBar *esb, int item)
 /* Callbacks.  */
 
 static void
-menubar_activated_cb (GtkWidget *widget, ESearchBar *esb)
+search_verb_cb (BonoboUIComponent *ui_component,
+		void *data,
+		const char *verb_name)
 {
+	ESearchBar *esb;
+	const char *p;
 	int id;
 
-	id = GPOINTER_TO_INT (gtk_object_get_data (GTK_OBJECT (widget), "EsbMenuId"));
+	esb = E_SEARCH_BAR (data);
 
+	p = strrchr (verb_name, ':');
+	g_assert (p != NULL);
+
+	id = atoi (p + 1);
 	emit_menu_activated (esb, id);
 }
 
@@ -299,63 +310,63 @@ copy_subitems (ESearchBarSubitem *subitems)
 }
 
 static void
-add_dropdown (ESearchBar *esb, ESearchBarItem *items)
+update_bonobo_menus (ESearchBar *esb)
 {
-	GtkWidget *menu = esb->dropdown_menu;
-	GtkWidget *item;
-	
-	if (items->text) {
-		char *str;
-		str = _(items->text);
-		if (str == items->text) {
-			/* It may be english string, or utf8 rule name */
-			item = e_utf8_gtk_menu_item_new_with_label (GTK_MENU (menu), str);
-		} else
-			item = gtk_menu_item_new_with_label (str);
-	} else {
-		item = gtk_menu_item_new();
-		gtk_widget_set_sensitive (item, FALSE);
+	GString *xml;
+	GSList *p;
+	char *verb_name;
+
+	xml = g_string_new ("<placeholder name=\"SearchBar\">");
+
+	for (p = esb->menu_items; p != NULL; p = p->next) {
+		const ESearchBarItem *item;
+
+		item = (const ESearchBarItem *) p->data;
+
+		verb_name = g_strdup_printf ("ESearchBar:Activate:%d", item->id);
+		bonobo_ui_component_add_verb (esb->ui_component, verb_name, search_verb_cb, esb);
+
+		if (item->text == NULL) {
+			g_string_append (xml, "<separator/>");
+		} else {
+			char *encoded_label;
+
+			encoded_label = bonobo_ui_util_encode_str (item->text);
+			g_string_sprintfa (xml, "<menuitem name=\"%s\" verb=\"%s\" label=\"%s\"/>",
+					   verb_name, verb_name, encoded_label);
+			g_free (encoded_label);
+		}
 	}
-	
-	gtk_widget_show (item);
-	gtk_menu_append (GTK_MENU (menu), item);
-	gtk_object_set_data (GTK_OBJECT (item), "EsbMenuId", GINT_TO_POINTER (items->id));
-	gtk_signal_connect (GTK_OBJECT (item), "activate",
-			    GTK_SIGNAL_FUNC (menubar_activated_cb),
-			    esb);
+
+	g_string_sprintfa (xml, "</placeholder>");
+
+	bonobo_ui_component_set (esb->ui_component, "/menu/Search", xml->str, NULL);
+
+	g_string_free (xml, TRUE);
+	g_free (verb_name);
 }
 
 static void
-set_dropdown (ESearchBar *esb,
-	      ESearchBarItem *items)
+set_menu (ESearchBar *esb,
+	  ESearchBarItem *items)
 {
-	GtkWidget *menu;
-	GtkWidget *dropdown;
 	int i;
 	
-	menu = esb->dropdown_menu = gtk_menu_new ();
-	for (i = 0; items[i].id != -1; i++)
-		add_dropdown (esb, items + i);
-	
-	gtk_widget_show_all (menu);
-	
-	dropdown = e_dropdown_button_new (_("Sear_ch"), GTK_MENU (menu));
-	gtk_widget_show (dropdown);
-	
-	if (esb->dropdown_holder == NULL) {
-		/* See the comment in `put_in_spacer_widget()' to understand
-		   why we have to do this.  */
-		
-		esb->dropdown_holder = put_in_spacer_widget (dropdown);
-		esb->dropdown = dropdown;
-		gtk_widget_show (esb->dropdown_holder);
+	for (i = 0; items[i].id != -1; i++) {
+		ESearchBarItem *new_item;
 
-		gtk_box_pack_start (GTK_BOX (esb), esb->dropdown_holder, FALSE, FALSE, 0);
-	} else {
-		gtk_widget_destroy (esb->dropdown);
-		esb->dropdown = dropdown;
-		gtk_container_add (GTK_CONTAINER (esb->dropdown_holder), esb->dropdown);
+		g_assert (items[i].subitems == NULL);
+
+		new_item = g_new (ESearchBarItem, 1);
+		new_item->text 	   = items[i].text;
+		new_item->id   	   = items[i].id;
+		new_item->subitems = NULL;
+
+		esb->menu_items = g_slist_append (esb->menu_items, new_item);
 	}
+
+	if (esb->ui_component != NULL)
+		update_bonobo_menus (esb);
 }
 
 /* Frees an array of subitem information */
@@ -393,8 +404,6 @@ static void
 set_option (ESearchBar *esb, ESearchBarItem *items)
 {
 	GtkWidget *menu;
-	GtkRequisition dropdown_requisition;
-	GtkRequisition option_requisition;
 	int i;
 
 	if (esb->option) {
@@ -448,15 +457,6 @@ set_option (ESearchBar *esb, ESearchBarItem *items)
 	gtk_option_menu_set_history (GTK_OPTION_MENU (esb->option), 0);
 
 	gtk_widget_set_sensitive (esb->option, TRUE);
-
-	/* Set the minimum height of this widget to that of the dropdown
-           button, for a better look.  */
-	g_assert (esb->dropdown != NULL);
-
-	gtk_widget_size_request (esb->dropdown, &dropdown_requisition);
-	gtk_widget_size_request (esb->option, &option_requisition);
-
-	gtk_container_set_border_width (GTK_CONTAINER (esb->dropdown), GTK_CONTAINER (esb->option)->border_width);
 }
 
 static void
@@ -564,9 +564,14 @@ impl_destroy (GtkObject *object)
 	
 	g_return_if_fail (object != NULL);
 	g_return_if_fail (E_IS_SEARCH_BAR (object));
-	
-	/* These two we do need to unref, because we explicitly hold
+
+	/* These three we do need to unref, because we explicitly hold
 	   references to them. */
+
+	if (esb->ui_component != NULL) {
+		bonobo_object_unref (BONOBO_OBJECT (esb->ui_component));
+		esb->ui_component = NULL;
+	}
 	if (esb->entry)
 		gtk_object_unref (GTK_OBJECT (esb->entry));
 	if (esb->suboption)
@@ -595,7 +600,7 @@ class_init (ESearchBarClass *klass)
 	object_class->get_arg = impl_get_arg;
 	object_class->destroy = impl_destroy;
 	
-	klass->set_menu = set_dropdown;
+	klass->set_menu = set_menu;
 	klass->set_option = set_option;
 	
 	gtk_object_add_arg_type ("ESearchBar::item_id", GTK_TYPE_ENUM,
@@ -635,12 +640,23 @@ class_init (ESearchBarClass *klass)
 static void
 init (ESearchBar *esb)
 {
-	esb->dropdown      = NULL;
-	esb->option        = NULL;
-	esb->entry         = NULL;
+	esb->ui_component     = NULL;
+	esb->menu_items       = NULL;
+
+	esb->option           = NULL;
+	esb->entry            = NULL;
+	esb->suboption        = NULL;
 	
-	esb->item_id = 0;
-	esb->subitem_id = 0;
+	esb->option_menu      = NULL;
+	esb->suboption_menu   = NULL;
+	esb->dropdown_menu    = NULL;
+	esb->activate_button  = NULL;
+	esb->entry_box        = NULL;
+
+	esb->pending_activate = 0;
+
+	esb->item_id          = 0;
+	esb->subitem_id       = 0;
 }
 
 
@@ -664,7 +680,7 @@ e_search_bar_construct (ESearchBar *search_bar,
 	g_return_if_fail (E_IS_SEARCH_BAR (search_bar));
 	g_return_if_fail (menu_items != NULL);
 	g_return_if_fail (option_items != NULL);
-	
+
 	gtk_box_set_spacing (GTK_BOX (search_bar), 1);
 
 	e_search_bar_set_menu (search_bar, menu_items);
@@ -709,7 +725,7 @@ e_search_bar_add_menu (ESearchBar *search_bar, ESearchBarItem *menu_item)
 	g_return_if_fail (E_IS_SEARCH_BAR (search_bar));
 	g_return_if_fail (menu_item != NULL);
 	
-	add_dropdown (search_bar, menu_item);
+	set_menu (search_bar, menu_item);
 }
 
 void
@@ -771,7 +787,7 @@ e_search_bar_new (ESearchBarItem *menu_items,
 		  ESearchBarItem *option_items)
 {
 	GtkWidget *widget;
-	
+
 	g_return_val_if_fail (menu_items != NULL, NULL);
 	g_return_val_if_fail (option_items != NULL, NULL);
 	
@@ -780,6 +796,22 @@ e_search_bar_new (ESearchBarItem *menu_items,
 	e_search_bar_construct (E_SEARCH_BAR (widget), menu_items, option_items);
 	
 	return widget;
+}
+
+void
+e_search_bar_set_ui_component (ESearchBar *search_bar,
+			       BonoboUIComponent *ui_component)
+{
+	g_return_if_fail (E_IS_SEARCH_BAR (search_bar));
+
+	if (search_bar->ui_component != NULL)
+		bonobo_object_unref (BONOBO_OBJECT (search_bar->ui_component));
+
+	search_bar->ui_component = ui_component;
+	if (ui_component != NULL) {
+		bonobo_object_ref (BONOBO_OBJECT (ui_component));
+		update_bonobo_menus (search_bar);
+	}
 }
 
 void

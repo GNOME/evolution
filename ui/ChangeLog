@@ -1,5 +1,7 @@
 2002-03-14  Ettore Perazzoli  <ettore@ximian.com>
 
+	* evolution.xml: Add a "Search" menu.
+
 	* my-evolution.xml: Remove "Settings" item.
 
 2002-03-14  JP Rosevear  <jpr@ximian.com>

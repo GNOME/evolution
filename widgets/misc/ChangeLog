@@ -1,3 +1,20 @@
+2002-03-15  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-search-bar.c (init): Init various members to NULL.
+	(set_dropdown): Removed.
+	(add_dropdown): Removed.
+	(set_menu): New.
+	(add_menu_items): New.
+	(set_option): No need to setup the dropdown size here anymore.
+	(verb_cb): Function implementing the search menu verbs.
+	(update_bonobo_menus): New.
+	(e_search_bar_set_ui_component): New.
+
+	* e-search-bar.h: Remove the dropdown button stuff from struct
+	ESearchBar.  Add `uic' and `items' members.
+
+	* e-filter-bar.c (e_filter_bar_new): Get a @uic arg.
+
 2002-03-15  Christopher James Lahey  <clahey@ximian.com>
 
 	* e-multi-config-dialog.c (init): Set horizontal scroll policy to

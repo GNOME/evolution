@@ -31,6 +31,7 @@
 #include <bonobo/bonobo-ui-component.h>
 #include <widgets/misc/e-calendar.h>
 #include <cal-client/cal-client.h>
+
 #include "e-calendar-table.h"
 
 BEGIN_GNOME_DECLS
@@ -81,6 +82,9 @@ GtkType    gnome_calendar_get_type         	(void);
 GtkWidget *gnome_calendar_construct		(GnomeCalendar *gcal);
 
 GtkWidget *gnome_calendar_new			(void);
+
+void gnome_calendar_set_ui_component (GnomeCalendar *cal,
+				      BonoboUIComponent *ui_component);
 
 ECalendarTable *gnome_calendar_get_task_pad	(GnomeCalendar *gcal);
 

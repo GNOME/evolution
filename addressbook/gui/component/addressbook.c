@@ -395,6 +395,8 @@ control_activate (BonoboControl     *control,
 	bonobo_ui_component_set_container (uic, remote_ui_container);
 	bonobo_object_release_unref (remote_ui_container, NULL);
 
+	e_search_bar_set_ui_component (view->search, uic);
+
 	bonobo_ui_component_add_verb_list_with_data (
 		uic, verbs, view);
 	

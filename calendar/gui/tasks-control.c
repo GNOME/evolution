@@ -101,7 +101,7 @@ static void tasks_control_print_preview_cmd	(BonoboUIComponent	*uic,
 
 
 BonoboControl *
-tasks_control_new			(void)
+tasks_control_new (void)
 {
 	BonoboControl *control;
 	GtkWidget *tasks;
@@ -109,11 +109,11 @@ tasks_control_new			(void)
 	tasks = e_tasks_new ();
 	if (!tasks)
 		return NULL;
-
 	gtk_widget_show (tasks);
 
 	control = bonobo_control_new (tasks);
 	if (!control) {
+		gtk_widget_destroy (tasks);
 		g_message ("control_factory_fn(): could not create the control!");
 		return NULL;
 	}
@@ -303,6 +303,8 @@ tasks_control_activate (BonoboControl *control, ETasks *tasks)
 	uic = bonobo_control_get_ui_component (control);
 	g_assert (uic != NULL);
 
+	e_tasks_set_ui_component (tasks, uic);
+
 	remote_uih = bonobo_control_get_remote_ui_container (control);
 	bonobo_ui_component_set_container (uic, remote_uih);
 	bonobo_object_release_unref (remote_uih, NULL);
@@ -347,7 +349,10 @@ static void
 tasks_control_deactivate (BonoboControl *control, ETasks *tasks)
 {
 	BonoboUIComponent *uic = bonobo_control_get_ui_component (control);
+
 	g_assert (uic != NULL);
+
+	e_tasks_set_ui_component (tasks, NULL);
 
 	e_tasks_discard_view_menus (tasks);
 

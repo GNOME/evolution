@@ -1,3 +1,20 @@
+2002-03-15  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/tasks-control.c (tasks_control_activate): Call
+	`e_tasks_set_ui_component()' here to give it the
+	BonoboUIComponent.
+	(tasks_control_deactivate): Likewise, call it here to unset the
+	BonoboUIComponent.
+
+	* gui/e-tasks.c (e_tasks_set_ui_component): New.
+
+	* gui/calendar-commands.c (calendar_control_activate): Call
+	gnome_calendar_set_ui_component() here.
+	(calendar_control_deactivate): ...And here, with a NULL
+	BonoboUIComponent.
+
+	* gui/gnome-cal.c (gnome_calendar_set_ui_component): New.
+
 2002-03-15  JP Rosevear  <jpr@ximian.com>
 
 	* gui/main.c: use bonobo exception macros to tidy

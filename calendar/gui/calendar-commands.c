@@ -686,6 +686,8 @@ calendar_control_activate (BonoboControl *control,
 	uic = bonobo_control_get_ui_component (control);
 	g_assert (uic != NULL);
 
+	gnome_calendar_set_ui_component (gcal, uic);
+
 	remote_uih = bonobo_control_get_remote_ui_container (control);
 	bonobo_ui_component_set_container (uic, remote_uih);
 	bonobo_object_release_unref (remote_uih, NULL);
@@ -735,9 +737,12 @@ void
 calendar_control_deactivate (BonoboControl *control, GnomeCalendar *gcal)
 {
 	FocusData *focus;
+	BonoboUIComponent *uic;
 
-	BonoboUIComponent *uic = bonobo_control_get_ui_component (control);
+	uic = bonobo_control_get_ui_component (control);
 	g_assert (uic != NULL);
+
+	gnome_calendar_set_ui_component (gcal, uic);
 
 	focus = gtk_object_get_data (GTK_OBJECT (control), "focus_data");
 	g_assert (focus != NULL);

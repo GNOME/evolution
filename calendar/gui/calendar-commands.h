@@ -25,8 +25,10 @@
 #ifndef CALENDAR_COMMANDS_H
 #define CALENDAR_COMMANDS_H
 
-#include <bonobo/bonobo-control.h>
 #include "gnome-cal.h"
+
+#include <bonobo/bonobo-control.h>
+#include <bonobo/bonobo-ui-component.h>
 
 /* This tells all the calendars to reload the config settings. */
 void update_all_config_settings (void);

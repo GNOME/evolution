@@ -99,6 +99,8 @@ control_activate (BonoboControl     *control,
 
 	if (fb->folder)
 		mail_refresh_folder (fb->folder, NULL, NULL);
+
+	e_search_bar_set_ui_component (E_SEARCH_BAR (fb->search), uic);
 }
 
 static void
@@ -118,6 +120,8 @@ control_deactivate (BonoboControl     *control,
 	
 	folder_browser_set_ui_component (fb, NULL);
 	folder_browser_set_shell_view (fb, CORBA_OBJECT_NIL);
+
+	e_search_bar_set_ui_component (E_SEARCH_BAR (fb->search), NULL);
 }
 
 static void

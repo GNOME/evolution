@@ -145,6 +145,10 @@
       <menuitem name="PilotSettings" verb="" _label="_Pilot Settings..."/>
     </submenu>
 
+    <submenu name="Search" _label="_Search">
+      <placeholder name="SearchBar"/>
+    </submenu>
+
     <submenu name="Help" _label="_Help">
 
       <placeholder name="BuiltMenuItems"/>

@@ -160,7 +160,7 @@
 
 	<oaf_attribute name="evolution:config_item:icon_name" type="string"
 		       value="evolution-contacts.png"/>
-
+    
 	<oaf_attribute name="description" type="string"
 		       _value="Configuration control for the Evolution Addressbook."/>
 

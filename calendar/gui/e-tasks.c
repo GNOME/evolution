@@ -125,8 +125,6 @@ e_tasks_init (ETasks *tasks)
 	priv->query = NULL;
 	priv->view_instance = NULL;
 	priv->view_menus = NULL;
-
-	setup_widgets (tasks);
 }
 
 /* Callback used when the selection changes in the table. */
@@ -244,6 +242,8 @@ e_tasks_construct (ETasks *tasks)
 
 	priv = tasks->priv;
 
+	setup_widgets (tasks);
+
 	priv->client = cal_client_new ();
 	if (!priv->client)
 		return NULL;
@@ -278,6 +278,17 @@ e_tasks_new (void)
 	all_tasks = g_list_prepend (all_tasks, tasks);
 
 	return GTK_WIDGET (tasks);
+}
+
+
+void
+e_tasks_set_ui_component (ETasks *tasks,
+			  BonoboUIComponent *ui_component)
+{
+	g_return_if_fail (E_IS_TASKS (tasks));
+	g_return_if_fail (ui_component == NULL || BONOBO_IS_UI_COMPONENT (ui_component));
+
+	e_search_bar_set_ui_component (E_SEARCH_BAR (tasks->priv->search_bar), ui_component);
 }
 
 

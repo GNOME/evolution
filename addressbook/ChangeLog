@@ -1,4 +1,8 @@
-2002-03-13  Ettore Perazzoli  <ettore@ximian.com>
+2002-03-15  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/component/addressbook.c (control_activate): Call
+	`e_search_bar_set_ui_component()' to set the BonoboUIComponent for
+	the search bar.
 
 	* gui/component/GNOME_Evolution_Addressbook.oaf.in: Add an icon
 	for the LDAP sources configuration control.
