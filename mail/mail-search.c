@@ -32,6 +32,7 @@
 #include <gtkhtml/gtkhtml-search.h>
 #include <gtkhtml/htmlengine.h>
 #include <libgnomeui/gnome-window-icon.h>
+#include <gdk/gdkkeysyms.h>
 
 
 static ESearchingTokenizer *mail_search_tokenizer (MailSearch *ms);
@@ -273,6 +274,7 @@ mail_search_construct (MailSearch *ms, MailDisplay *mail)
 	GtkWidget *button;
 	GtkWidget *msg_hbox;
 	GtkWidget *msg_frame;
+	GtkAccelGroup *accel_group;
 	
 	g_return_if_fail (ms != NULL && IS_MAIL_SEARCH (ms));
 	g_return_if_fail (mail != NULL && IS_MAIL_DISPLAY (mail));
@@ -284,12 +286,14 @@ mail_search_construct (MailSearch *ms, MailDisplay *mail)
 	
 	gtk_window_set_title ((GtkWindow *) ms, _("Find in Message"));
 	
-	button = gtk_button_new_from_stock (GTK_STOCK_FIND);
-	gtk_button_set_label ((GtkButton *) button, _("Search"));
-	gtk_dialog_add_action_widget ((GtkDialog*) ms, button, GTK_RESPONSE_ACCEPT);
-	gtk_dialog_add_button ((GtkDialog *) ms, GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
+	button = gtk_dialog_add_button ((GtkDialog *) ms, GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
 	gtk_dialog_set_default_response ((GtkDialog *) ms, GTK_RESPONSE_ACCEPT);
-	
+	accel_group = gtk_accel_group_new ();
+	gtk_window_add_accel_group (GTK_WINDOW (ms), accel_group);
+	gtk_widget_add_accelerator (button, "activate", accel_group, GDK_Escape, 0, GTK_ACCEL_LOCKED);
+
+	gtk_dialog_add_button ((GtkDialog *) ms, GTK_STOCK_FIND, GTK_RESPONSE_ACCEPT);
+
 	ms->search_forward = TRUE;
 	ms->case_sensitive = FALSE;
 	

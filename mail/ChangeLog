@@ -1,3 +1,10 @@
+2003-06-03  Federico Mena Quintero  <federico@ximian.com>
+
+	* mail-search.c (mail_search_construct): Put the buttons in HIG
+	order; don't replace the label of the stock Find button.  Also,
+	add Escape as a keybinding for the Close button (see why GTK+ is
+	on crack on b.g.o #74221 and #101293).
+
 2003-06-02  Not Zed  <NotZed@Ximian.com>
 
 	** This and jeffs patch for #43862.
