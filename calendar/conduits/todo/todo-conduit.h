@@ -47,11 +47,11 @@ struct _EToDoLocalRecord {
 	/* The corresponding Comp object */
 	CalComponent *comp;
 
-        /* pilot-link todo structure, used for implementing Transmit. */
+        /* pilot-link todo structure */
 	struct ToDo *todo;
 };
 
-/* This is the context for all the GnomeCal conduit methods. */
+/* This is the context for all the Evolution ToDo  conduit methods. */
 typedef struct _EToDoConduitContext EToDoConduitContext;
 struct _EToDoConduitContext {
 	EToDoConduitCfg *cfg;

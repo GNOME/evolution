@@ -47,11 +47,11 @@ struct _ECalLocalRecord {
 	/* The corresponding Comp object */
 	CalComponent *comp;
 
-        /* pilot-link todo structure, used for implementing Transmit. */
+        /* pilot-link todo structure */
 	struct Appointment *appt;
 };
 
-/* This is the context for all the GnomeCal conduit methods. */
+/* This is the context for all the Evolution Calendar conduit methods. */
 typedef struct _ECalConduitContext ECalConduitContext;
 struct _ECalConduitContext {
 	ECalConduitCfg *cfg;

@@ -47,7 +47,7 @@
 GnomePilotConduit * conduit_get_gpilot_conduit (guint32);
 void conduit_destroy_gpilot_conduit (GnomePilotConduit*);
 
-#define CONDUIT_VERSION "0.1.4"
+#define CONDUIT_VERSION "0.1.5"
 #ifdef G_LOG_DOMAIN
 #undef G_LOG_DOMAIN
 #endif
@@ -111,29 +111,49 @@ static char *print_remote (GnomePilotRecord *remote)
 }
 
 /* Context Routines */
-static void
-e_calendar_context_new (ECalConduitContext **ctxt, guint32 pilot_id) 
+static ECalConduitContext *
+e_calendar_context_new (guint32 pilot_id) 
 {
-	*ctxt = g_new0 (ECalConduitContext,1);
-	g_assert (ctxt!=NULL);
+	ECalConduitContext *ctxt = g_new0 (ECalConduitContext, 1);
 
-	calconduit_load_configuration (&(*ctxt)->cfg, pilot_id);
+	calconduit_load_configuration (&ctxt->cfg, pilot_id);
+
+	return ctxt;
 }
 
 static void
-e_calendar_context_destroy (ECalConduitContext **ctxt)
+e_calendar_context_foreach_change (gpointer key, gpointer value, gpointer data) 
 {
-	g_return_if_fail (ctxt!=NULL);
-	g_return_if_fail (*ctxt!=NULL);
+	g_free (key);
+}
 
-	if ((*ctxt)->client != NULL)
-		gtk_object_unref (GTK_OBJECT ((*ctxt)->client));
+static void
+e_calendar_context_destroy (ECalConduitContext *ctxt)
+{
+	g_return_if_fail (ctxt != NULL);
 
-	if ((*ctxt)->cfg != NULL)
-		calconduit_destroy_configuration (&(*ctxt)->cfg);
+	if (ctxt->cfg != NULL)
+		calconduit_destroy_configuration (&ctxt->cfg);
 
-	g_free (*ctxt);
-	*ctxt = NULL;
+	if (ctxt->client != NULL)
+		gtk_object_unref (GTK_OBJECT (ctxt->client));
+
+	if (ctxt->calendar_file)
+		g_free (ctxt->calendar_file);
+
+	if (ctxt->uids)
+		cal_obj_uid_list_free (ctxt->uids);
+
+	if (ctxt->changed_hash)
+		g_hash_table_foreach (ctxt->changed_hash, e_calendar_context_foreach_change, NULL);
+
+	if (ctxt->changed)
+		cal_client_change_list_free (ctxt->changed);
+	
+	if (ctxt->map)
+		e_pilot_map_destroy (ctxt->map);
+
+	g_free (ctxt);
 }
 
 /* Calendar Server routines */
@@ -516,7 +536,8 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 	int pos, i;
 	CalComponentText summary = {NULL, NULL};
 	CalComponentDateTime dt = {NULL, NULL};
-
+	char *txt;
+	
 	g_return_val_if_fail (remote != NULL, NULL);
 
 	memset (&appt, 0, sizeof (struct Appointment));
@@ -532,9 +553,9 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 
 	cal_component_set_last_modified (comp, &now);
 
-	summary.value = e_pilot_utf8_from_pchar (appt.description);
+	summary.value = txt = e_pilot_utf8_from_pchar (appt.description);
 	cal_component_set_summary (comp, &summary);
-	free (summary.value);
+	free (txt);
 
 	/* The iCal description field */
 	if (!appt.note) {
@@ -543,13 +564,13 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 		GSList l;
 		CalComponentText text;
 
-		text.value = e_pilot_utf8_from_pchar (appt.note);
+		text.value = txt = e_pilot_utf8_from_pchar (appt.note);
 		text.altrep = NULL;
 		l.data = &text;
 		l.next = NULL;
 
 		cal_component_set_description_list (comp, &l);
-		free (text.value);
+		free (txt);
 	} 
 
 	if (!is_empty_time (appt.begin)) {
@@ -1138,7 +1159,7 @@ conduit_get_gpilot_conduit (guint32 pilot_id)
 	gnome_pilot_conduit_construct (GNOME_PILOT_CONDUIT (retval),
 				       "e_calendar_conduit");
 
-	e_calendar_context_new (&ctxt, pilot_id);
+	ctxt = e_calendar_context_new (pilot_id);
 	gtk_object_set_data (GTK_OBJECT (retval), "calconduit_context", ctxt);
 
 	gtk_signal_connect (retval, "pre_sync", (GtkSignalFunc) pre_sync, ctxt);
@@ -1167,12 +1188,11 @@ conduit_get_gpilot_conduit (guint32 pilot_id)
 void
 conduit_destroy_gpilot_conduit (GnomePilotConduit *conduit)
 { 
+	GtkObject *obj = GTK_OBJECT (conduit);
 	ECalConduitContext *ctxt;
 
-	ctxt = gtk_object_get_data (GTK_OBJECT (conduit), 
-				    "calconduit_context");
+	ctxt = gtk_object_get_data (obj, "calconduit_context");
+	e_calendar_context_destroy (ctxt);
 
-	e_calendar_context_destroy (&ctxt);
-
-	gtk_object_destroy (GTK_OBJECT (conduit));
+	gtk_object_destroy (obj);
 }

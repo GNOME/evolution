@@ -1,3 +1,21 @@
+2000-12-20  JP Rosevear  <jpr@helixcode.com>
+
+	* conduits/todo/todo-conduit.h: Fix erroneous documentation
+
+	* conduits/todo/todo-conduit.c (comp_from_remote_record): if 
+	!is_empty_time rather than is_empty_time
+	(e_todo_context_new): Return a pointer rather than fill in
+	a parameter
+	(e_todo_context_foreach_change): Free just the key
+	(e_todo_context_destroy): Plug this enormous leakage.  I had assumed
+	i had done this earlier, which isn't too bright when anything beyond
+	2 minutes ago is fuzzy.
+	(comp_from_remote_record): Kill warnings
+	(post_sync): Destroy the map later
+	(conduit_get_gpilot_conduit): Fix e_todo_context_new params
+
+	* conduits/calendar/calendar-conduit.[hc]: Similar to above 
+	
 2000-12-19  JP Rosevear  <jpr@helixcode.com>
 
 	* conduits/calendar/calendar-conduit.c: Remove pointless comment
