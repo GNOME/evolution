@@ -1,3 +1,7 @@
+2002-11-07  Rodrigo Moya <rodrigo@ximian.com>
+
+	* camel-object.h: removed gnome-defs.h, it does not exist.
+
 2002-11-05  Not Zed  <NotZed@Ximian.com>
 
 	* Makefile.am (camel_lock_helper_LDADD): Created temporary link
