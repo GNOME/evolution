@@ -1305,6 +1305,7 @@ shell/Makefile
 shell/evolution-nognome
 shell/glade/Makefile
 shell/importer/Makefile
+my-evolution/Makefile
 ui/Makefile
 views/Makefile
 views/addressbook/Makefile

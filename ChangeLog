@@ -1,5 +1,9 @@
 2002-11-20  Ettore Perazzoli  <ettore@ximian.com>
 
+	* configure.in: AC_OUTPUT(my-evoluton/Makefile).
+
+2002-11-20  Ettore Perazzoli  <ettore@ximian.com>
+
 	* Makefile.am (changelogs): Add my-evolution.
 
 2002-11-20  Not Zed  <NotZed@Ximian.com>
