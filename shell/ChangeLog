@@ -1,4 +1,14 @@
 2003-04-21  Anna Marie Dirks  <anna@ximian.com>
+
+	* e-shell-folder-commands.c (delete_dialog): Corrected border 
+	with for Delete Folder dialog. Fixes 41036. 
+	(e_shell_command_copy_folder): Corrected capitalization of the "Copy
+	Folder" window title. Partial fix for 41025. 
+	(e_shell_command_move_folder): Corrected the capitalization of the
+	"Move Folder" dialog. Fixes 41024.
+
+
+2003-04-21  Anna Marie Dirks  <anna@ximian.com>
 	
 	* e-shell-folder-selection-dialog.c 
 	(e_shell_folder_selection_dialog_construct): Added appropriate border 

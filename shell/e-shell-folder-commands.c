@@ -320,7 +320,7 @@ e_shell_command_copy_folder (EShell *shell,
 				   get_folder_name (shell, folder_path));
 
 	uri = g_strconcat (E_SHELL_URI_PREFIX, folder_path, NULL);
-	folder_selection_dialog = e_shell_folder_selection_dialog_new (shell, _("Copy folder"),
+	folder_selection_dialog = e_shell_folder_selection_dialog_new (shell, _("Copy Folder"),
 								       caption, uri, NULL, TRUE);
 
 	g_free (caption);
@@ -364,7 +364,7 @@ e_shell_command_move_folder (EShell *shell,
 				   get_folder_name (shell, folder_path));
 
 	uri = g_strconcat (E_SHELL_URI_PREFIX, folder_path, NULL);
-	folder_selection_dialog = e_shell_folder_selection_dialog_new (shell, _("Move folder"),
+	folder_selection_dialog = e_shell_folder_selection_dialog_new (shell, _("Move Folder"),
 								       caption, uri, NULL, TRUE);
 
 	g_free (caption);
@@ -408,6 +408,10 @@ delete_dialog (EShellView *shell_view, const char *folder_name)
 	gtk_dialog_add_button (GTK_DIALOG (dialog), GTK_STOCK_DELETE, GTK_RESPONSE_OK);
 
 	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
+	
+	gtk_container_set_border_width (GTK_CONTAINER (dialog), 6); 
+	
+	gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (dialog)->vbox), 6);
 
 	title = g_strdup_printf (_("Delete \"%s\""), folder_name);
 	gtk_window_set_title (GTK_WINDOW (dialog), title);
@@ -537,7 +541,7 @@ e_shell_command_rename_folder (EShell *shell,
 		const char *reason;
 
 		new_name = e_request_string (shell_view != NULL ? GTK_WINDOW (shell_view) : NULL,
-					     _("Rename folder"), prompt, old_name);
+					     _("Rename Folder"), prompt, old_name);
 
 		if (new_name == NULL)
 			return;
