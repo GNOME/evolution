@@ -5,9 +5,9 @@ AM_CONFIG_HEADER(config.h)
 cflags_set=${CFLAGS+set}
 
 EVOLUTION_MAJOR_VERSION=0
-EVOLUTION_MINOR_VERSION=0
-EVOLUTION_MICRO_VERSION=5
-VERSION=$EVOLUTION_MINOR_VERSION.$EVOLUTION_MICRO_VERSION
+EVOLUTION_MINOR_VERSION=5
+EVOLUTION_MICRO_VERSION=1
+VERSION=$EVOLUTION_MAJOR_VERSION.$EVOLUTION_MINOR_VERSION.$EVOLUTION_MICRO_VERSION
 PACKAGE=evolution
 
 AM_INIT_AUTOMAKE($PACKAGE, $VERSION)
@@ -210,11 +210,11 @@ AC_SUBST(GNOME_PRINT_CFLAGS)
 dnl ******************************
 dnl Check for Bonobo
 dnl ******************************
-AC_MSG_CHECKING(for Bonobo >= 0.19)
+AC_MSG_CHECKING(for Bonobo >= 0.17)
 if gnome-config --libs bonobox > /dev/null 2>&1; then
 	vers=`gnome-config --modversion bonobo | sed -e "s/bonobo-//" | \
 		awk 'BEGIN { FS = "."; } { printf "%d", $1 * 1000 + $2;}'`
-	if test "$vers" -ge 19; then
+	if test "$vers" -ge 17; then
 		bonobo_ok=true
 	else
 		bonobo_ok=false
@@ -226,7 +226,7 @@ fi
 if $bonobo_ok; then
 	AC_MSG_RESULT($vers found)
 else
-	AC_MSG_ERROR(Bonobo newer than 0.18 is required to compile Evolution)
+	AC_MSG_ERROR(Bonobo newer than 0.17 is required to compile Evolution)
 fi
 
 dnl ******************************
@@ -293,13 +293,13 @@ AC_SUBST(EXTRA_GNOME_LIBS)
 AC_SUBST(EXTRA_GNOME_CFLAGS)
 
 
-BONOBO_GNOME_LIBS="`gnome-config --libs bonobox_print libglade gdk_pixbuf gnomecanvaspixbuf gnomeui` $UNICODE_LIBS $OAF_LIBS"
-BONOBO_GNOME_CFLAGS="`gnome-config --cflags bonobox_print libglade gdk_pixbuf gnomecanvaspixbuf gnomeui ` $UNICODE_CFLAGS $OAF_CFLAGS"
+BONOBO_GNOME_LIBS="`gnome-config --libs bonobox libglade gdk_pixbuf gnomecanvaspixbuf gnomeui` $UNICODE_LIBS $OAF_LIBS"
+BONOBO_GNOME_CFLAGS="`gnome-config --cflags bonobox libglade gdk_pixbuf gnomecanvaspixbuf gnomeui ` $UNICODE_CFLAGS $OAF_CFLAGS"
 AC_SUBST(BONOBO_GNOME_LIBS)
 AC_SUBST(BONOBO_GNOME_CFLAGS)
 
-BONOBO_HTML_GNOME_LIBS="`gnome-config --libs bonobox_print libglade gdk_pixbuf gtkhtml gnomecanvaspixbuf gnomeui ` $THREAD_LIBS $UNICODE_LIBS"
-BONOBO_HTML_GNOME_CFLAGS="`gnome-config --cflags bonobox_print libglade gdk_pixbuf gtkhtml gnomecanvaspixbuf gnomeui ` $THREAD_CFLAGS $UNICODE_CFLAGS"
+BONOBO_HTML_GNOME_LIBS="`gnome-config --libs bonobox libglade gdk_pixbuf gtkhtml gnomecanvaspixbuf gnomeui ` $THREAD_LIBS $UNICODE_LIBS"
+BONOBO_HTML_GNOME_CFLAGS="`gnome-config --cflags bonobox libglade gdk_pixbuf gtkhtml gnomecanvaspixbuf gnomeui ` $THREAD_CFLAGS $UNICODE_CFLAGS"
 AC_SUBST(BONOBO_HTML_GNOME_LIBS)
 AC_SUBST(BONOBO_HTML_GNOME_CFLAGS)
 
@@ -572,7 +572,6 @@ widgets/Makefile
 widgets/e-paned/Makefile
 widgets/e-table/Makefile
 widgets/e-text/Makefile
-widgets/e-reflow/Makefile
 widgets/meeting-time-sel/Makefile
 widgets/misc/Makefile
 widgets/shortcut-bar/Makefile
@@ -586,7 +585,7 @@ addressbook/backend/idl/Makefile
 addressbook/backend/pas/Makefile
 addressbook/backend/ebook/Makefile
 addressbook/gui/Makefile
-addressbook/gui/widgets/Makefile
+addressbook/gui/minicard/Makefile
 addressbook/gui/search/Makefile
 addressbook/gui/component/Makefile
 addressbook/gui/component/select-names/Makefile
@@ -609,7 +608,6 @@ calendar/conduits/todo/Makefile
 filter/Makefile
 wombat/Makefile
 art/Makefile
-ui/Makefile
 default_user/Makefile
 default_user/local/Makefile
 default_user/local/Calendar/Makefile

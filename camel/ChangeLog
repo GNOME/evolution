@@ -6,39 +6,12 @@
 	* camel-remote-store.c (remote_send_line, remote_recv_line): only
 	log if camel_verbose_debug is TRUE.
 
-2000-09-14  Jeffrey Stedfast  <fejj@helixcode.com>
-
-	* providers/imap/camel-imap-store.c (get_folder): Don't use
-	dir_sep as top-level directory, use "/".
-
-	* providers/imap/camel-imap-folder.c (imap_expunge): Get rid of
-	unused variable.
-
 2000-09-13  Dan Winship  <danw@helixcode.com>
 
 	* providers/imap/camel-imap-folder.c (imap_expunge): Don't look at
 	the response of the command. camel_imap_command_extended()
 	processes EXPUNGE responses itself, so if we do it here too we
 	remove twice as many summary items as we should.
-
-2000-09-13  Jeffrey Stedfast  <fejj@helixcode.com>
-
-	* providers/imap/camel-imap-store.c (imap_folder_exists): Rewrote
-	to take a third argument (gboolean *selectable) so that we can
-	find out if the folder is selectable or not as we look to see if
-	it exists. Also, don't use EXAMINE because that will not work on
-	non-selectable folders, so use LIST instead.
-	(get_folder): Check to see if the folder exists even vefore
-	calling imap_create as this will save time. If the folder does
-	exist, find out if it's selectable. Moved the call to refresh_info
-	here.
-
-	* providers/imap/camel-imap-folder.c (imap_get_uids): Check for a
-	NULL summary.
-	(camel_imap_folder_new): Don't call refresh_info here - call it in
-	get_folder() because we don't know if this folder even exists on
-	the server yet! And even if it does, we don't know if it can hold
-	messages or not yet.
 
 2000-09-12  Jeffrey Stedfast  <fejj@helixcode.com>
 

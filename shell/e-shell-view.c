@@ -30,6 +30,7 @@
 
 #include <gnome.h>
 #include <bonobo.h>
+#include <bonobo/bonobo-socket.h>
 #include <libgnomeui/gnome-window-icon.h>
 
 #include "widgets/misc/e-clipped-label.h"
@@ -53,7 +54,8 @@
 #include <widgets/e-paned/e-hpaned.h>
 
 
-static BonoboWinClass *parent_class = NULL;
+#define PARENT_TYPE gnome_app_get_type () /* Losing GnomeApp does not define GNOME_TYPE_APP.  */
+static GnomeAppClass *parent_class = NULL;
 
 struct _EShellViewPrivate {
 	/* The shell.  */
@@ -100,6 +102,9 @@ struct _EShellViewPrivate {
 
 	/* Status of the progress bar.  */
 	int progress_bar_value;
+
+	/* List of sockets we created.  */
+	GList *sockets;
 };
 
 enum {
@@ -424,13 +429,10 @@ static void
 setup_widgets (EShellView *shell_view)
 {
 	EShellViewPrivate *priv;
-#if 0
 	GtkWidget *progress_bar;
-#endif
 
 	priv = shell_view->priv;
 
-#if 0
 	/* The application bar.  */
 
 	priv->appbar = gnome_appbar_new (TRUE, TRUE, GNOME_PREFERENCES_NEVER);
@@ -442,7 +444,6 @@ setup_widgets (EShellView *shell_view)
 
 	gtk_progress_bar_set_orientation (GTK_PROGRESS_BAR (progress_bar), GTK_PROGRESS_LEFT_TO_RIGHT);
 	gtk_progress_bar_set_bar_style   (GTK_PROGRESS_BAR (progress_bar), GTK_PROGRESS_CONTINUOUS);
-#endif
 
 	/* The shortcut bar.  */
 
@@ -488,7 +489,7 @@ setup_widgets (EShellView *shell_view)
 	e_paned_add2 (E_PANED (priv->hpaned), priv->view_vbox);
 	e_paned_set_position (E_PANED (priv->hpaned), DEFAULT_SHORTCUT_BAR_WIDTH);
 
-	bonobo_win_set_contents (BONOBO_WIN (shell_view), priv->hpaned);
+	gnome_app_set_contents (GNOME_APP (shell_view), priv->hpaned);
 
 	/* Show stuff.  */
 
@@ -506,9 +507,7 @@ setup_widgets (EShellView *shell_view)
 	priv->folder_bar_mode   = E_SHELL_VIEW_SUBWINDOW_STICKY;
 
 	/* FIXME: Session management and stuff?  */
-	gtk_window_set_default_size (
-		GTK_WINDOW (shell_view),
-		DEFAULT_WIDTH, DEFAULT_HEIGHT);
+	gtk_window_set_default_size (GTK_WINDOW (shell_view), DEFAULT_WIDTH, DEFAULT_HEIGHT);
 }
 
 
@@ -524,10 +523,10 @@ setup_bonobo_ui_handler (EShellView *shell_view)
 
 	uih = bonobo_ui_handler_new ();
 
-	bonobo_ui_handler_set_app (uih, BONOBO_WIN (shell_view));
+	bonobo_ui_handler_set_app (uih, GNOME_APP (shell_view));
 	bonobo_ui_handler_create_menubar (uih);
-	bonobo_ui_handler_create_toolbar (uih, "Toolbar");
-/*	bonobo_ui_handler_set_statusbar (uih, priv->appbar);*/
+	/* bonobo_ui_handler_create_toolbar (uih, "Toolbar"); */
+	bonobo_ui_handler_set_statusbar (uih, priv->appbar);
 
 	priv->uih = uih;
 }
@@ -553,9 +552,20 @@ destroy (GtkObject *object)
 {
 	EShellView *shell_view;
 	EShellViewPrivate *priv;
+	GList *p;
 
 	shell_view = E_SHELL_VIEW (object);
 	priv = shell_view->priv;
+
+	for (p = priv->sockets; p != NULL; p = p->next) {
+		GtkWidget *socket_widget;
+		int destroy_connection_id;
+
+		socket_widget = GTK_WIDGET (p->data);
+		destroy_connection_id = GPOINTER_TO_INT (gtk_object_get_data (GTK_OBJECT (socket_widget),
+									      "e_shell_view_destroy_connection_id"));
+		gtk_signal_disconnect (GTK_OBJECT (socket_widget), destroy_connection_id);
+	}
 
 	g_hash_table_foreach (priv->uri_to_control, hash_forall_destroy_control, NULL);
 	g_hash_table_destroy (priv->uri_to_control);
@@ -572,10 +582,13 @@ destroy (GtkObject *object)
 	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
-/* Unrealize handler */
+/* Unrealize handler.  */
 static void
 unrealize (GtkWidget *widget)
 {
+	if (GTK_WIDGET_CLASS (parent_class)->unrealize)
+		(* GTK_WIDGET_CLASS (parent_class)->unrealize) (widget);
+
 	/* We flush so that all the destroy window requests for foreign windows
 	 * get sent over the X wire.  Hopefully this will diminish the chance of
 	 * hitting the CORBA (sync) vs. Xlib (async) race conditions.  This is
@@ -589,11 +602,13 @@ static  int
 delete_event (GtkWidget *widget,
 	      GdkEventAny *event)
 {
+	EShellView *shell_view;
 	EShell *shell;
 
-	shell = e_shell_view_get_shell (E_SHELL_VIEW (widget));
-	e_shell_quit (shell);
+	shell_view = E_SHELL_VIEW (widget);
 
+	shell = e_shell_view_get_shell (shell_view);
+	e_shell_quit (shell);
 	/* FIXME: Is this right, or should it be FALSE? */
 	return TRUE;
 }
@@ -605,12 +620,17 @@ static void
 class_init (EShellViewClass *klass)
 {
 	GtkObjectClass *object_class;
+	GtkWidgetClass *widget_class;
 
 	object_class = (GtkObjectClass *) klass;
+	widget_class = (GtkWidgetClass *) klass;
 
 	object_class->destroy = destroy;
 
-	parent_class = gtk_type_class (BONOBO_WIN_TYPE);
+	widget_class->unrealize    = unrealize;
+	widget_class->delete_event = delete_event;
+
+	parent_class = gtk_type_class (gnome_app_get_type ());
 
 	signals[SHORTCUT_BAR_MODE_CHANGED]
 		= gtk_signal_new ("shortcut_bar_mode_changed",
@@ -667,6 +687,8 @@ init (EShellView *shell_view)
 	priv->progress_bar_timeout_id = 0;
 	priv->progress_bar_value      = 0;
 
+	priv->sockets	              = NULL;
+
 	shell_view->priv = priv;
 }
 
@@ -678,19 +700,16 @@ init (EShellView *shell_view)
 static int
 progress_bar_timeout_cb (void *data)
 {
-#if 0
 	EShellView *shell_view;
 	EShellViewPrivate *priv;
 	GtkWidget *progress_bar;
 
-#warning FIXME: I broke it
 	shell_view = E_SHELL_VIEW (data);
 	priv = shell_view->priv;
 	progress_bar = GNOME_APPBAR (GNOME_APP (shell_view)->statusbar)->progress;
 
 	priv->progress_bar_value = ! priv->progress_bar_value;
 	gtk_progress_set_value (GTK_PROGRESS (progress_bar), priv->progress_bar_value);
-#endif
 
 	return TRUE;
 }
@@ -698,11 +717,9 @@ progress_bar_timeout_cb (void *data)
 static void
 start_progress_bar (EShellView *shell_view)
 {
-#if 0
 	EShellViewPrivate *priv;
 	GtkWidget *progress_bar;
 
-#warning FIXME: I broke it
 	priv = shell_view->priv;
 	progress_bar = GNOME_APPBAR (GNOME_APP (shell_view)->statusbar)->progress;
 
@@ -715,17 +732,14 @@ start_progress_bar (EShellView *shell_view)
 
 	gtk_progress_set_activity_mode (GTK_PROGRESS (progress_bar), TRUE);
 	gtk_progress_set_value (GTK_PROGRESS (progress_bar), priv->progress_bar_value);
-#endif
 }
 
 static void
 stop_progress_bar (EShellView *shell_view)
 {
-#if 0
 	EShellViewPrivate *priv;
 	GtkWidget *progress_bar;
 
-#warning FIXME: I broke it
 	priv = shell_view->priv;
 	progress_bar = GNOME_APPBAR (GNOME_APP (shell_view)->statusbar)->progress;
 
@@ -736,7 +750,6 @@ stop_progress_bar (EShellView *shell_view)
 
 	gtk_progress_set_activity_mode (GTK_PROGRESS (progress_bar), FALSE);
 	gtk_progress_set_value (GTK_PROGRESS (progress_bar), 0);
-#endif
 }
 
 
@@ -748,30 +761,30 @@ shell_view_interface_set_message_cb (EvolutionShellView *shell_view,
 				     gboolean busy,
 				     void *data)
 {
-	char *status;
-	EShellView *view;
+	GnomeApp *app;
+	GnomeAppBar *app_bar;
 
-	view = E_SHELL_VIEW (data);
+	app = GNOME_APP (data);
+	app_bar = GNOME_APPBAR (app->statusbar);
 
-	g_return_if_fail (view != NULL);
+	gtk_progress_set_value (GTK_PROGRESS (app_bar->progress), 1.0);
 
-	if (message) {
+	if (message != NULL) {
 		const char *newline;
-		
+
 		newline = strchr (message, '\n');
+		if (newline == NULL) {
+			gnome_appbar_set_status (app_bar, message);
+		} else {
+			char *message_until_newline;
 
-		if (!newline)
-			status = g_strdup (message);
-		else
-			status = g_strndup (message, newline - message);
-	} else
-		status = g_strdup ("");
-
-	bonobo_ui_container_set_status (
-		bonobo_ui_compat_get_container (view->priv->uih),
-		status, NULL);
-
-	g_free (status);
+			message_until_newline = g_strndup (message, newline - message);
+			gnome_appbar_set_status (app_bar, message_until_newline);
+			g_free (message_until_newline);
+		}
+	} else {
+		gnome_appbar_set_status (app_bar, "");
+	}
 
 	if (busy)
 		start_progress_bar (E_SHELL_VIEW (data));
@@ -783,49 +796,32 @@ static void
 shell_view_interface_unset_message_cb (EvolutionShellView *shell_view,
 				       void *data)
 {
-	EShellView *view;
+	GnomeApp *app;
+	GnomeAppBar *app_bar;
 
-	view = E_SHELL_VIEW (data);
+	app = GNOME_APP (data);
+	app_bar = GNOME_APPBAR (app->statusbar);
 
-	g_return_if_fail (view != NULL);
-
-	bonobo_ui_container_set_status (
-		bonobo_ui_compat_get_container (view->priv->uih),
-		"", NULL);
+	gnome_appbar_set_status (app_bar, "");
 
 	stop_progress_bar (E_SHELL_VIEW (data));
 }
 
 
-EShellView *
+void
 e_shell_view_construct (EShellView *shell_view,
-			EShell     *shell)
+			EShell *shell)
 {
 	EShellViewPrivate *priv;
-	EShellView *view;
-	GtkObject *window;
 
-	g_return_val_if_fail (shell != NULL, NULL);
-	g_return_val_if_fail (shell_view != NULL, NULL);
-	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
-	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
+	g_return_if_fail (shell_view != NULL);
+	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
+	g_return_if_fail (shell != NULL);
+	g_return_if_fail (E_IS_SHELL (shell));
 
 	priv = shell_view->priv;
 
-	view = E_SHELL_VIEW (bonobo_win_construct (
-		BONOBO_WIN (shell_view), "evolution", "Evolution"));
-
-	if (!view) {
-		gtk_object_unref (GTK_OBJECT (shell_view));
-		return NULL;
-	}		
-
-	window = GTK_OBJECT (view);
-	gtk_signal_connect_after (window, "unrealize",
-				  (GtkSignalFunc) unrealize, NULL);
-
-	gtk_signal_connect (window, "delete_event",
-			    (GtkSignalFunc) delete_event, NULL);
+	gnome_app_construct (GNOME_APP (shell_view), "evolution", "Evolution");
 
 	priv->shell = shell;
 
@@ -835,11 +831,9 @@ e_shell_view_construct (EShellView *shell_view,
 	e_shell_view_menu_setup (shell_view);
 
 	e_shell_view_set_folder_bar_mode (shell_view, E_SHELL_VIEW_SUBWINDOW_HIDDEN);
-
-	return view;
 }
 
-EShellView *
+GtkWidget *
 e_shell_view_new (EShell *shell)
 {
 	GtkWidget *new;
@@ -848,8 +842,9 @@ e_shell_view_new (EShell *shell)
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
 	new = gtk_type_new (e_shell_view_get_type ());
+	e_shell_view_construct (E_SHELL_VIEW (new), shell);
 
-	return e_shell_view_construct (E_SHELL_VIEW (new), shell);
+	return new;
 }
 
 
@@ -907,11 +902,9 @@ update_window_icon (EShellView *shell_view,
 	}
 
 	if (icon_path == NULL) {
-		gnome_window_icon_set_from_default (
-			GTK_WINDOW (shell_view));
+		gnome_window_icon_set_from_default (GTK_WINDOW (shell_view));
 	} else {
-		gnome_window_icon_set_from_file (
-			GTK_WINDOW (shell_view), icon_path);
+		gnome_window_icon_set_from_file (GTK_WINDOW (shell_view), icon_path);
 		g_free (icon_path);
 	}
 }
@@ -946,11 +939,15 @@ update_folder_title_bar (EShellView *shell_view,
 
 	if (folder_icon)
 		e_shell_folder_title_bar_set_icon (E_SHELL_FOLDER_TITLE_BAR (priv->view_title_bar), folder_icon);
+
 	if (folder_name) {
-		gchar * utf;
+		char *utf;
+
 		utf = e_utf8_to_gtk_string (GTK_WIDGET (priv->view_title_bar), folder_name);
 		e_shell_folder_title_bar_set_title (E_SHELL_FOLDER_TITLE_BAR (priv->view_title_bar), utf);
 		g_free (utf);
+	} else {
+		e_shell_folder_title_bar_set_title (E_SHELL_FOLDER_TITLE_BAR (priv->view_title_bar), _("(None)"));
 	}
 }
 
@@ -1059,6 +1056,73 @@ setup_evolution_shell_view_interface (EShellView *shell_view,
 				     BONOBO_OBJECT (shell_view_interface));
 }
 
+
+/* Socket destruction handling.  */
+
+static GtkWidget *
+find_socket (GtkContainer *container)
+{
+	GList *children, *tmp;
+
+	children = gtk_container_children (container);
+	while (children) {
+		if (BONOBO_IS_SOCKET (children->data))
+			return children->data;
+		else if (GTK_IS_CONTAINER (children->data)) {
+			GtkWidget *socket = find_socket (children->data);
+			if (socket)
+				return socket;
+		}
+		tmp = children->next;
+		g_list_free_1 (children);
+		children = tmp;
+	}
+	return NULL;
+}
+
+static void
+socket_destroy_cb (GtkWidget *socket_widget, gpointer data)
+{
+	EShellView *shell_view;
+	EShellViewPrivate *priv;
+	EFolder *folder;
+	GtkWidget *control;
+	const char *uri;
+	char *copy_of_uri;
+
+	shell_view = E_SHELL_VIEW (data);
+	priv = shell_view->priv;
+
+	uri = (const char *) gtk_object_get_data (GTK_OBJECT (socket_widget), "e_shell_view_folder_uri");
+
+	/* Strdup here as the string will be freed when the socket is destroyed.  */
+	copy_of_uri = g_strdup (uri);
+
+	control = g_hash_table_lookup (priv->uri_to_control, uri);
+	if (control == NULL) {
+		g_warning ("What?! Destroyed socket for non-existing URI?  -- %s", uri);
+		return;
+	}
+
+	priv->sockets = g_list_remove (priv->sockets, socket_widget);
+
+	gtk_widget_destroy (control);
+	g_hash_table_remove (priv->uri_to_control, uri);
+
+	folder = e_storage_set_get_folder (e_shell_get_storage_set (priv->shell),
+					   get_storage_set_path_from_uri (uri));
+
+	e_shell_view_display_uri (shell_view, NULL);
+
+	e_notice (GTK_WINDOW (shell_view), GNOME_MESSAGE_BOX_ERROR,
+		  _("Ooops!  The view for %s has died unexpectedly.  :-(\n"
+		    "This probably means that the %s component has crashed."),
+		  uri, e_folder_get_type_string (folder));
+
+	g_free (copy_of_uri);
+}
+
+
 /* Create a new view for @uri with @control.  It assumes a view for @uri does not exist yet.  */
 static GtkWidget *
 get_control_for_uri (EShellView *shell_view,
@@ -1068,13 +1132,15 @@ get_control_for_uri (EShellView *shell_view,
 	EFolderTypeRegistry *folder_type_registry;
 	EStorageSet *storage_set;
 	EFolder *folder;
+	Bonobo_UIHandler corba_uih;
 	EvolutionShellComponentClient *handler_client;
 	Bonobo_Control corba_control;
 	Evolution_ShellComponent handler;
 	const char *path;
 	const char *folder_type;
-	GtkWidget *control;
+	GtkWidget *control, *socket;
 	CORBA_Environment ev;
+	int destroy_connection_id;
 
 	priv = shell_view->priv;
 
@@ -1117,9 +1183,19 @@ get_control_for_uri (EShellView *shell_view,
 
 	CORBA_exception_free (&ev);
 
-	control = bonobo_widget_new_control_from_objref (
-		corba_control,
-		bonobo_ui_compat_get_container (priv->uih));
+	corba_uih = bonobo_object_corba_objref (BONOBO_OBJECT (priv->uih));
+	control = bonobo_widget_new_control_from_objref (corba_control, corba_uih);
+
+	socket = find_socket (GTK_CONTAINER (control));
+	destroy_connection_id = gtk_signal_connect (GTK_OBJECT (socket), "destroy",
+						    GTK_SIGNAL_FUNC (socket_destroy_cb),
+						    shell_view);
+	gtk_object_set_data (GTK_OBJECT (socket),
+			     "e_shell_view_destroy_connection_id",
+			     GINT_TO_POINTER (destroy_connection_id));
+	gtk_object_set_data_full (GTK_OBJECT (socket), "e_shell_view_folder_uri", g_strdup (uri), g_free);
+
+	priv->sockets = g_list_prepend (priv->sockets, socket);
 
 	setup_evolution_shell_view_interface (shell_view, control);
 
@@ -1483,4 +1559,4 @@ e_shell_view_load_settings (EShellView *shell_view,
 }
 
 
-E_MAKE_TYPE (e_shell_view, "EShellView", EShellView, class_init, init, BONOBO_WIN_TYPE)
+E_MAKE_TYPE (e_shell_view, "EShellView", EShellView, class_init, init, PARENT_TYPE)

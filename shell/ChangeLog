@@ -3,60 +3,27 @@
 	* e-storage.c (get_path_for_physical_uri_foreach): foreach_data
 	should be set to the caller-supplied data, not the tree item data.
 
-2000-09-14  Iain Holmes  <iain@helixcode.com>
+2000-09-15  Ettore Perazzoli  <ettore@helixcode.com>
 
-	* e-shell-folder-title-bar.c (e_shell_folder_title_bar_construct):
-	Remove the *kludge* so that the button width is set properly.
-	Fixes bug #XXXX
+	* e-setup.c (setup_sent_folder): New function to set up the `Sent'
+	folder.  This shouldn't be done here, but well, at least now users
+	can get the `Sent' folder.
+	(e_setup): Call it.
 
-2000-09-14  Michael Meeks  <michael@helixcode.com>
+2000-09-15  Ettore Perazzoli  <ettore@helixcode.com>
 
-	* e-shell-view-menu.c: Remove sillies in toggle paths.
-
-2000-09-14  Michael Meeks  <michael@helixcode.com>
-
-	* e-shell-view.c: move fn to bonobo.
+	* e-shell-view.c: New member `sockets.
+	(init): Init to NULL.
+	(destroy): Free.  Also, disconnect the "destroy" signal from them
+	before the controls get destroyed.
+	(find_socket): New function.  [Thanks Dan.]
+	(socket_destroy_cb): New callback for the destruction of a socket.
+	(get_control_for_uri): Get the socket through `find_socket()' and
+	connect the "destroy" signal to `socket_destroy_cb'.
 
 2000-09-14  Christopher James Lahey  <clahey@helixcode.com>
 
 	* Makefile.am: Added $(GNOME_PRINT_LIBS) to evolution_LDADD.
-
-2000-09-14  Michael Meeks  <michael@helixcode.com>
-
-	* e-shell-view.c (e_shell_view_construct): prune cruft.
-	(shell_view_interface_unset_message_cb),
-	(shell_view_interface_set_message_cb): impl.
-
-2000-09-14  Michael Meeks  <michael@helixcode.com>
-
-	* e-shell-view-menu.c (e_shell_view_menu_setup): re-order to suit and
-	add freeze / thaw, update paths to toggles, remove warnings
-
-2000-09-07  Michael Meeks  <michael@helixcode.com>
-
-	* e-shell-view-menu.c: Re-hash pretty much the whole file
-
-	* ui.xml: Add.
-
-	* e-shell-view.c (e_shell_view_construct): connect unrealize & delete_event
-	to theit signals on the window (class_init): remove widget_class bits.
-
-2000-09-06  Michael Meeks  <michael@helixcode.com>
-
-	* e-shell.c (view_destroy_cb, destroy, e_shell_new_view, e_shell_quit): 
-	update to track object type change.
-
-	* e-shell.c (e_shell_restore_from_settings): ditto.
-
-	* main.c (idle_cb): ditto.
-
-	* e-shell-view.c (e_shell_view_new, e_shell_view_construct, setup_widgets): 
-	updated for BonoboApp.
-	(progress_bar_timeout_cb, start_progress_bar, stop_progress_bar),
-	(shell_view_interface_set_message_cb, shell_view_interface_unset_message_cb): 
-	emasculated for now.
-
-	* e-storage-set-view.c (popup_folder_menu): disable popup menu for now.
 
 2000-09-13  Ettore Perazzoli  <ettore@helixcode.com>
 

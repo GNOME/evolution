@@ -95,6 +95,67 @@ copy_default_stuff (const char *evolution_directory)
 }
 
 
+/* Temporary hack to set up the Sent folder.  */
+static gboolean
+setup_sent_folder (const char *evolution_directory)
+{
+	struct stat statinfo;
+	char *sent_folder_path;
+	char *sent_folder_metadata_path;
+	FILE *f;
+
+	sent_folder_path = g_concat_dir_and_file (evolution_directory, "local/Sent");
+
+	if (stat (sent_folder_path, &statinfo) != 0) {
+		if (mkdir (sent_folder_path, 0700) != 0) {
+			e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+				  _("Cannot create the `%s' directory:\n%s"),
+				  sent_folder_path, strerror (errno));
+			g_free (sent_folder_path);
+			return FALSE;
+		}
+	} else {
+		if (! S_ISDIR (statinfo.st_mode)) {
+			e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+				  _("File `%s' exists, but is not a directory.\n"
+				    "Please remove it and restart Evolution."),
+				  sent_folder_path);
+			g_free (sent_folder_path);
+			return FALSE;
+		}
+	}
+
+	/* So, the directory exists.  Now create the metadata file.  Sigh, this
+           is a totally bad hack.  */
+
+	sent_folder_metadata_path = g_concat_dir_and_file (sent_folder_path, "folder-metadata.xml");
+
+	f = fopen (sent_folder_metadata_path, "w");
+	if (f == NULL) {
+		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+			  _("Cannot create `%s':\n%s"),
+			  sent_folder_path, g_strerror (errno));
+		g_free (sent_folder_path);
+		g_free (sent_folder_metadata_path);
+		return FALSE;
+	}
+
+	fprintf (f,
+		 "<?xml version=\"1.0\"?>\n"
+		 "<efolder>\n"
+		 "	<type>mail</type>\n"
+		 "	<description>Sent mail folder</description>\n"
+		 "</efolder>\n");
+
+	fclose (f);
+
+	g_free (sent_folder_metadata_path);
+	g_free (sent_folder_path);
+
+	return TRUE;
+}
+
+
 gboolean
 e_setup (const char *evolution_directory)
 {
@@ -140,5 +201,8 @@ e_setup (const char *evolution_directory)
 	}
 	g_free (file);
 
-	return TRUE;
+	/* Finally, make sure there is a Sent folder.
+	 * FIXME: This should not be done here.
+	 */
+	return setup_sent_folder (evolution_directory);
 }

@@ -8,41 +8,6 @@
 	* contact-editor/Makefile.am, gui/widgets/Makefile.am: Added
 	$(GNOME_PRINT_LIBS) to all of the test files in these directories.
 
-2000-09-14  Michael Meeks  <michael@helixcode.com>
-
-	* gui/component/Makefile.am (evolution_addressbook_LDADD): fix path.
-
-	* gui/component/addressbook.c: update include.
-
-	* gui/component/addressbook-factory.c: update include.
-
-	* gui/widgets/e-minicard-view.h: update include.
-
-	* gui/search/e-addressbook-search-dialog.c: update include path.
-
-2000-09-13  Michael Meeks  <michael@helixcode.com>
-
-	* contact-editor/e-contact-editor.c (e_contact_editor_init): hack.
-	(create_toolbar): ditto.
-
-2000-09-07  Michael Meeks  <michael@helixcode.com>
-
-	* gui/component/addressbook.c: Radicaly update UI handler code.
-
-2000-09-13  Christopher James Lahey  <clahey@helixcode.com>
-
-	* gui/widgets/*, gui/minicard/*: Moved gui/minicard to
-	gui/widgets, except for e-reflow.c, e-reflow.h, e-reflow-sorted.c,
-	and e-reflow-sorted.h.
-
-	* gui/widgets/Makefile.am: Added e-reflow to the INCLUDES list and
-	libereflow.a to a bunch of LDADD lines.
-
-	* gui/component/Makefile.am (evolution_addressbook_LDADD): Added
-	libereflow.a here.
-
-	* gui/Makefile.am (SUBDIRS): Replaced minicard with widgets.
-
 2000-09-12  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* gui/component/select-names/Makefile.am: Add space after `-I'

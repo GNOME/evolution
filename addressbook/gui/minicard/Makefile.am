@@ -5,7 +5,6 @@ INCLUDES =						\
 	-I$(top_builddir)/addressbook/backend		\
 	-I$(top_srcdir)/addressbook/contact-editor	\
 	-I$(top_srcdir)/widgets/e-text			\
-	-I$(top_srcdir)/widgets/e-reflow		\
 	-I$(top_srcdir)/widgets/misc			\
 	$(BONOBO_GNOME_CFLAGS)
 
@@ -24,7 +23,11 @@ libeminicard_a_SOURCES =			\
 	e-minicard-widget.c			\
 	e-minicard-widget.h			\
 	e-minicard.c				\
-	e-minicard.h
+	e-minicard.h				\
+	e-reflow-sorted.c			\
+	e-reflow-sorted.h			\
+	e-reflow.c				\
+	e-reflow.h
 
 noinst_PROGRAMS =				\
 	minicard-widget-test			\
@@ -59,7 +62,6 @@ minicard_test_LDADD =							\
 	$(top_builddir)/addressbook/printing/libecontactprint.a		\
 	$(top_builddir)/widgets/e-table/libetable.a			\
 	$(top_builddir)/widgets/misc/libemiscwidgets.a 			\
-	$(top_builddir)/widgets/e-reflow/libereflow.a 			\
 	$(top_builddir)/e-util/libeutil.la				\
 	$(top_builddir)/widgets/e-text/libetext.a
 
@@ -79,7 +81,6 @@ reflow_test_LDADD =							\
 	$(top_builddir)/addressbook/printing/libecontactprint.a		\
 	$(top_builddir)/widgets/e-table/libetable.a			\
 	$(top_builddir)/widgets/misc/libemiscwidgets.a 			\
-	$(top_builddir)/widgets/e-reflow/libereflow.a 			\
 	$(top_builddir)/e-util/libeutil.la				\
 	$(top_builddir)/widgets/e-text/libetext.a
 
@@ -117,6 +118,5 @@ minicard_widget_test_LDADD =				\
 	$(top_builddir)/addressbook/printing/libecontactprint.a		\
 	$(top_builddir)/widgets/e-table/libetable.a			\
 	$(top_builddir)/widgets/misc/libemiscwidgets.a 			\
-	$(top_builddir)/widgets/e-reflow/libereflow.a 			\
 	$(top_builddir)/e-util/libeutil.la				\
 	$(top_builddir)/widgets/e-text/libetext.a

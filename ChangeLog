@@ -3,20 +3,11 @@
 	* configure.in, evolution.spec.in: remove spec file. We haven't
 	been keeping it up to date, and it's only good for RH anyway, and
 	if people really want a spec file they can get it from our SRPMs.
+	(VERSION): Update to 0.5.1
 
-2000-09-07  Michael Meeks  <michael@helixcode.com>
+2000-09-15  Ettore Perazzoli  <ettore@helixcode.com>
 
-	* configure.in: Require Bonobo 0.19
-
-2000-09-13  Christopher James Lahey  <clahey@helixcode.com>
-
-	* configure.in: Added widgets/e-reflow/Makefile.  Replaced
-	addressbook/gui/minicard/Makefile with
-	addressbook/gui/widgets/Makefile.
-
-2000-09-13  Tuomas Kuosmanen  <tigert@localhost>
-
-	* art/pin.png: added icon for the folder tree "pin down" button
+	* NEWS (Shell): New Shell 0.5.1 stuff.
 
 2000-09-12  JP Rosevear  <jpr@helixcode.com>
 
