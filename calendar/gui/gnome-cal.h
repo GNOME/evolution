@@ -78,7 +78,7 @@ CalClient *gnome_calendar_get_task_pad_cal_client(GnomeCalendar *gcal);
 
 gboolean   gnome_calendar_open                  (GnomeCalendar *gcal, const char *str_uri);
 
-void gnome_calendar_set_query (GnomeCalendar *gcal, char *sexp);
+void gnome_calendar_set_query (GnomeCalendar *gcal, const char *sexp);
 
 void       gnome_calendar_next             	(GnomeCalendar *gcal);
 void       gnome_calendar_previous         	(GnomeCalendar *gcal);

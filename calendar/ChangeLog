@@ -1,5 +1,10 @@
 2001-07-27  Federico Mena Quintero  <federico@ximian.com>
 
+	* gui/gnome-cal.c (gnome_calendar_set_query): Constify and set the
+	query sexp on the task pad's model as well.
+
+2001-07-27  Federico Mena Quintero  <federico@ximian.com>
+
 	* gui/cal-search-bar.[ch]: New files with a derivative of
 	ESearchBar that generates sexps for calendar queries directly.
 

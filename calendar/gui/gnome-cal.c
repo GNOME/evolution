@@ -208,15 +208,18 @@ gnome_calendar_class_init (GnomeCalendarClass *class)
  * Sets the query sexp for all the views in a calendar.
  **/
 void
-gnome_calendar_set_query (GnomeCalendar *gcal, char *sexp)
+gnome_calendar_set_query (GnomeCalendar *gcal, const char *sexp)
 {
 	GnomeCalendarPrivate *priv;
+	CalendarModel *model;
 
 	g_return_if_fail (gcal != NULL);
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
 	g_return_if_fail (sexp != NULL);
 
 	priv = gcal->priv;
+
+	/* Set the query on the main view */
 
 	switch (priv->current_view_type) {
 	case GNOME_CAL_DAY_VIEW:
@@ -239,6 +242,11 @@ gnome_calendar_set_query (GnomeCalendar *gcal, char *sexp)
 		g_warning ("A penguin bit my hand!");
 		g_assert_not_reached ();
 	}
+
+	/* Set the query on the task pad */
+
+	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo));
+	calendar_model_set_query (model, sexp);
 }
 
 /* Returns the current time, for the ECalendarItem. */
