@@ -297,6 +297,18 @@ e_shell_command_move_folder (EShell *shell,
 	gtk_widget_show (folder_selection_dialog);
 }
 
+void
+e_shell_command_delete_folder (EShell *shell,
+			       EShellView *shell_view)
+{
+	g_return_if_fail (shell != NULL);
+	g_return_if_fail (E_IS_SHELL (shell));
+	g_return_if_fail (shell_view != NULL);
+	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
+
+	g_warning ("To be implemented");
+}
+
 
 void
 e_shell_command_rename_folder (EShell *shell,
@@ -304,7 +316,8 @@ e_shell_command_rename_folder (EShell *shell,
 {
 	g_return_if_fail (shell != NULL);
 	g_return_if_fail (E_IS_SHELL (shell));
-	g_return_if_fail (shell_view != NULL && E_IS_SHELL_VIEW (shell_view));
+	g_return_if_fail (shell_view != NULL);
+	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
 
 	g_warning ("To be implemented");
 }

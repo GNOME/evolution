@@ -1,3 +1,15 @@
+2001-06-05  Jason Leach  <jleach@ximian.com>
+
+	* e-shell-view-menu.c: Plug in all the folder tree right click
+	menu verbs so bonobo-warnings aren't emitted (even though the
+	respective implementation functions are currently unimplemented).
+	(command_delete_folder): New function, see above.
+	(command_rename_folder): Ditto.
+	(command_folder_properties): Ditto.
+
+	* e-shell-folder-commands.c (e_shell_command_delete_folder): New
+	function, currently unimplemented.
+
 2001-06-04  Jason Leach  <jleach@ximian.com>
 
 	(Fixing bug #1299: Shell saves shortcuts when display name
