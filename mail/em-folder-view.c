@@ -1734,6 +1734,9 @@ static const EMFolderViewEnable emfv_enable_map[] = {
 
 	{ "ViewLoadImages",	      EM_POPUP_SELECT_ONE },
 
+	/* always enabled */
+	{ "MailStop", 0 },
+
 	{ NULL },
 
 	/* always enabled

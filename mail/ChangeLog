@@ -1,5 +1,11 @@
 2005-03-31  Not Zed  <NotZed@Ximian.com>
 
+	** See bug #72935
+
+	* em-folder-view.c: always enable the stop button.
+
+2005-03-31  Not Zed  <NotZed@Ximian.com>
+
 	** See bug #72518
 
 	* em-folder-tree.c (emft_popup_delete_folder): prompt for vfolder
