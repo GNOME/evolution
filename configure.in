@@ -1346,12 +1346,13 @@ if test x"$enable_plugins" = "xno"; then
 	plugins_enabled=""
 	msg_plugins="no"
 else
-	if test x"$enable_plugins" = "xall"; then
+	if test x"$enable_plugins" = "xyes" | test x"$enable_plugins" = "xall"; then
 		plugins_enabled="$plugins_all"
+		msg_plugins="yes (all)"
 	else
 		plugins_enabled="$enable_plugins"
+		msg_plugins="yes ($enable_plugins)"
 	fi	
-	msg_plugins="$enable_plugins"
 fi
 AC_SUBST(plugins_enabled)
 AC_SUBST(plugins_all)
