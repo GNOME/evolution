@@ -1,3 +1,15 @@
+2000-11-06  Christopher James Lahey  <clahey@helixcode.com>
+
+	* gui/component/addressbook.c: Switched from EAddressbookSearch to
+	ESearchBar.
+
+	* gui/widgets/Makefile.am, gui/widgets/e-addressbook-search.c,
+	gui/widgets/e-addressbook-search.h: Removed EAddressbookSearch.
+	This has been moved to filter/ and renamed ESearchBar.
+
+	* printing/e-contact-print-envelope.c: Forgot to set the font.
+	This works for me now.
+
 2000-11-06  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* gui/component/select-names/e-select-names-bonobo.c

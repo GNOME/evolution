@@ -114,6 +114,7 @@ static void
 ecpe_linelist_print(GnomePrintContext *pc, GnomeFont *font, char *address, EcpeLine *linelist, double x, double y)
 {
 	int i;
+	gnome_print_setfont(pc, font);
 	for (i = 0; linelist[i].length != -1; i++) {
 		gnome_print_moveto(pc, x, y + gnome_font_get_ascender(font));
 		gnome_print_show_sized (pc, address + linelist[i].start, linelist[i].length);

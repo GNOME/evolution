@@ -22,7 +22,7 @@
 #include "addressbook/gui/search/e-addressbook-search-dialog.h"
 
 #include "addressbook/gui/widgets/e-addressbook-view.h"
-#include "addressbook/gui/widgets/e-addressbook-search.h"
+#include "filter/e-search-bar.h"
 
 #include <select-names/e-select-names.h>
 #include <select-names/e-select-names-manager.h>
@@ -41,7 +41,7 @@
 
 typedef struct {
 	EAddressbookView *view;
-	EAddressbookSearch *search;
+	ESearchBar *search;
 	GtkWidget *vbox;
 	BonoboControl *control;
 	BonoboPropertyBag *properties;
@@ -492,28 +492,72 @@ set_prop (BonoboPropertyBag *bag,
 	}
 }
 
+enum {
+	ESB_SHOW_ALL,
+	ESB_ADVANCED,
+};
+
+static ESearchBarItem addressbook_search_menu_items[] = {
+	{ N_("Show All"), ESB_SHOW_ALL },
+	{ NULL, 0 },
+	{ N_("Advanced..."), ESB_ADVANCED},
+	{ NULL, -1 }
+};
+
 static void
-addressbook_query_changed (EAddressbookSearch *eas, AddressbookView *view)
+addressbook_menu_activated (ESearchBar *esb, int id, AddressbookView *view)
+{
+	EBook *book;
+	switch (id) {
+	case ESB_SHOW_ALL:
+		e_addressbook_view_show_all(view->view);
+		break;
+	case ESB_ADVANCED:
+		gtk_object_get(GTK_OBJECT(view->view),
+			       "book", &book,
+			       NULL);
+		g_assert (E_IS_BOOK (book));
+
+		gtk_widget_show(e_addressbook_search_dialog_new(book));
+		break;
+	}
+}
+
+enum {
+	ESB_ANY,
+	ESB_FULL_NAME,
+	ESB_EMAIL,
+};
+
+static ESearchBarItem addressbook_search_option_items[] = {
+	{ N_("Any field contains"), ESB_ANY },
+	{ N_("Name contains"), ESB_FULL_NAME },
+	{ N_("Email contains"), ESB_EMAIL },
+	{ NULL, -1 }
+};
+
+static void
+addressbook_query_changed (ESearchBar *esb, AddressbookView *view)
 {
 	char *search_word, *search_query;
 	int search_type;
 
-	gtk_object_get(GTK_OBJECT(eas),
+	gtk_object_get(GTK_OBJECT(esb),
 		       "text", &search_word,
 		       "option_choice", &search_type,
 		       NULL);
 
 	if (search_word && strlen (search_word)) {
 		switch (search_type) {
-		case 0:
+		case ESB_ANY:
 			search_query = g_strdup_printf ("(contains \"x-evolution-any-field\" \"%s\")",
 							search_word);
 			break;
-		case 1:
+		case ESB_FULL_NAME:
 			search_query = g_strdup_printf ("(contains \"full_name\" \"%s\")",
 							search_word);
 			break;
-		case 2:
+		case ESB_EMAIL:
 			search_query = g_strdup_printf ("(contains \"email\" \"%s\")",
 							search_word);
 			break;
@@ -530,25 +574,6 @@ addressbook_query_changed (EAddressbookSearch *eas, AddressbookView *view)
 
 	g_free (search_query);
 	g_free (search_word);
-}
-
-static void
-addressbook_menu_activated (EAddressbookSearch *eas, int id, AddressbookView *view)
-{
-	EBook *book;
-	switch (id) {
-	case 0:
-		e_addressbook_view_show_all(view->view);
-		break;
-	case 1:
-		gtk_object_get(GTK_OBJECT(view->view),
-			       "book", &book,
-			       NULL);
-		g_assert (E_IS_BOOK (book));
-
-		gtk_widget_show(e_addressbook_search_dialog_new(book));
-		break;
-	}
 }
 
 BonoboControl *
@@ -569,7 +594,8 @@ addressbook_factory_new_control (void)
 	/* Create the control. */
 	view->control = bonobo_control_new(view->vbox);
 
-	view->search = E_ADDRESSBOOK_SEARCH(e_addressbook_search_new());
+	view->search = E_SEARCH_BAR(e_search_bar_new(addressbook_search_menu_items,
+						     addressbook_search_option_items));
 	gtk_box_pack_start (GTK_BOX (view->vbox), GTK_WIDGET (view->search),
 			    FALSE, FALSE, 0);
 	gtk_signal_connect (GTK_OBJECT (view->search), "query_changed",
