@@ -1,5 +1,35 @@
 2000-05-16  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* e-storage-set-view.c: Get rid of the `ICON_WIDTH' and
+	`ICON_HEIGHT' #defines.
+	(get_pixmap_and_mask_for_folder): Get the mini icon instead of the
+	big one.  Use `E_SHELL_MINI_ICON_SIZE' instead of `ICON_WIDTH' and
+	`ICON_HEIGHT'.
+
+	* e-folder-type-repository.c: New member `mini_icon_pixbuf' in
+	`FolderType'.
+	(folder_type_new): Initialize `mini_icon_pixbuf' by loading the
+	mini icon if possible.  If the mini icon is not found, resort to
+	the big one.
+	(folder_type_free): Unref the mini icon.
+	(e_folder_type_repository_get_icon_for_type): New arg @mini.  If
+	true, return the mini icon instead of the standard one.
+
+	* e-shell-view.c (set_icon): Get the mini icon instead of the big
+	one by using `e_shell_get_icon_path's @try_mini arg.
+
+	* e-shell-constants.h: New file.
+
+	* e-shell-utils.c
+	(e_shell_get_icon_path): New arg @try_mini.  If true, look for the
+	mini version [whose name ends in `-mini'].
+
+	* e-folder-type-repository.c
+	(folder_type_new): Free string returned by
+	`e_shell_get_icon_path()'.
+
+2000-05-16  Ettore Perazzoli  <ettore@helixcode.com>
+
 	* e-shell-view.c: New members `storage_set_view_box',
 	`shortcut_bar_box', `hpaned1_position', `hpaned2_position' in
 	`EShellViewPrivate'.

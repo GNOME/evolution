@@ -1,3 +1,7 @@
+2000-05-16  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* art/Makefile.am: Install the mini icons.
+
 2000-05-16  Chris Toshok  <toshok@helixcode.com>
 
 	* configure.in: add --with-purify-options support, and default it

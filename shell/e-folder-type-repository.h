@@ -63,7 +63,8 @@ void                   e_folder_type_repository_construct  (EFolderTypeRepositor
 EFolderTypeRepository *e_folder_type_repository_new        (void);
 
 GdkPixbuf  *e_folder_type_repository_get_icon_for_type        (EFolderTypeRepository *folder_type_repository,
-							       const char            *type_name);
+							       const char            *type_name,
+							       gboolean               mini);
 const char *e_folder_type_repository_get_icon_name_for_type   (EFolderTypeRepository *folder_type_repository,
 							       const char            *type_name);
 const char *e_folder_type_repository_get_control_id_for_type  (EFolderTypeRepository *folder_type_repository,

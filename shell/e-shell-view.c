@@ -452,7 +452,7 @@ set_icon (EShellView *shell_view,
 		if (icon_name == NULL)
 			icon_path = NULL;
 		else
-			icon_path = e_shell_get_icon_path (icon_name);
+			icon_path = e_shell_get_icon_path (icon_name, TRUE);
 	}
 
 	if (icon_path == NULL) {

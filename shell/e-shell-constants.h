@@ -21,10 +21,16 @@
  * Author: Ettore Perazzoli
  */
 
-#ifndef E_SHELL_UTILS_H
-#define E_SHELL_UTILS_H
+#ifndef E_SHELL_CONSTANTS_H
+#define E_SHELL_CONSTANTS_H
 
-char *e_shell_get_icon_path (const char *icon_name,
-			     gboolean try_mini);
+#define E_SHELL_URI_PREFIX		"evolution:"
+#define E_SHELL_URI_PREFIX_LEN		10
+
+#define E_SHELL_MINI_ICON_SUFFIX	"-mini"
+#define E_SHELL_MINI_ICON_SUFFIX_LEN	5
+
+#define E_SHELL_ICON_SIZE		48
+#define E_SHELL_MINI_ICON_SIZE		16
 
 #endif

@@ -33,6 +33,7 @@ evolution_SOURCES = 			\
 	e-local-storage.h		\
 	e-setup.c			\
 	e-setup.h			\
+	e-shell-constants.h		\
 	e-shell-utils.c			\
 	e-shell-utils.h			\
 	e-shell-view-menu.c		\

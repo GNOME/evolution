@@ -28,6 +28,7 @@
 #include <gnome.h>
 
 #include "e-util/e-util.h"
+#include "e-shell-constants.h"
 
 #include "e-storage-set-view.h"
 
@@ -67,10 +68,6 @@ enum {
 };
 
 static guint signals[LAST_SIGNAL] = { 0 };
-
-
-#define ICON_WIDTH  24
-#define ICON_HEIGHT 24
 
 
 /* DND stuff.  */
@@ -424,32 +421,36 @@ get_pixmap_and_mask_for_folder (EStorageSetView *storage_set_view,
 
 	type_name = e_folder_get_type_string (folder);
 	icon_pixbuf = e_folder_type_repository_get_icon_for_type (folder_type_repository,
-								  type_name);
+								  type_name, TRUE);
 
 	scaled_pixbuf = gdk_pixbuf_new (gdk_pixbuf_get_colorspace (icon_pixbuf),
 					gdk_pixbuf_get_has_alpha (icon_pixbuf),
 					gdk_pixbuf_get_bits_per_sample (icon_pixbuf),
-					ICON_WIDTH, ICON_HEIGHT);
+					E_SHELL_MINI_ICON_SIZE, E_SHELL_MINI_ICON_SIZE);
 
 	gdk_pixbuf_scale (icon_pixbuf, scaled_pixbuf,
-			  0, 0, ICON_WIDTH, ICON_HEIGHT,
+			  0, 0, E_SHELL_MINI_ICON_SIZE, E_SHELL_MINI_ICON_SIZE,
 			  0.0, 0.0,
-			  (double) ICON_WIDTH / gdk_pixbuf_get_width (icon_pixbuf),
-			  (double) ICON_HEIGHT / gdk_pixbuf_get_height (icon_pixbuf),
+			  (double) E_SHELL_MINI_ICON_SIZE / gdk_pixbuf_get_width (icon_pixbuf),
+			  (double) E_SHELL_MINI_ICON_SIZE / gdk_pixbuf_get_height (icon_pixbuf),
 			  GDK_INTERP_HYPER);
 
 	visual = gdk_rgb_get_visual ();
-	*pixmap_return = gdk_pixmap_new (NULL, ICON_WIDTH, ICON_HEIGHT, visual->depth);
+	*pixmap_return = gdk_pixmap_new (NULL,
+					 E_SHELL_MINI_ICON_SIZE, E_SHELL_MINI_ICON_SIZE,
+					 visual->depth);
 
 	gc = gdk_gc_new (*pixmap_return);
 	gdk_pixbuf_render_to_drawable (scaled_pixbuf, *pixmap_return, gc, 0, 0, 0, 0,
-				       ICON_WIDTH, ICON_HEIGHT,
+				       E_SHELL_MINI_ICON_SIZE, E_SHELL_MINI_ICON_SIZE,
 				       GDK_RGB_DITHER_NORMAL, 0, 0);
 	gdk_gc_unref (gc);
 
-	*mask_return = gdk_pixmap_new (NULL, ICON_WIDTH, ICON_HEIGHT, 1);
-	gdk_pixbuf_render_threshold_alpha (scaled_pixbuf, *mask_return, 0, 0, 0, 0,
-					   ICON_WIDTH, ICON_HEIGHT, 0x7f);
+	*mask_return = gdk_pixmap_new (NULL, E_SHELL_MINI_ICON_SIZE, E_SHELL_MINI_ICON_SIZE, 1);
+	gdk_pixbuf_render_threshold_alpha (scaled_pixbuf, *mask_return,
+					   0, 0, 0, 0,
+					   E_SHELL_MINI_ICON_SIZE, E_SHELL_MINI_ICON_SIZE,
+					   0x7f);
 
 	gdk_pixbuf_unref (scaled_pixbuf);
 }
@@ -556,7 +557,7 @@ e_storage_set_view_construct (EStorageSetView *storage_set_view,
 	gtk_ctree_construct (ctree, 1, 0, NULL);
 	gtk_ctree_set_line_style (ctree, GTK_CTREE_LINES_DOTTED);
 	gtk_clist_set_selection_mode (GTK_CLIST (ctree), GTK_SELECTION_BROWSE);
-	gtk_clist_set_row_height (GTK_CLIST (ctree), ICON_HEIGHT);
+	gtk_clist_set_row_height (GTK_CLIST (ctree), E_SHELL_MINI_ICON_SIZE);
 	
 	priv = storage_set_view->priv;
 

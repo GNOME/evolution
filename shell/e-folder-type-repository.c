@@ -41,8 +41,11 @@ static GtkObjectClass *parent_class = NULL;
 struct _FolderType {
 	char *name;
 	char *icon_name;
-	GdkPixbuf *icon_pixbuf;
 	char *control_id;
+
+	/* The icon, standard (48x48) and mini (16x16) versions.  */
+	GdkPixbuf *icon_pixbuf;
+	GdkPixbuf *mini_icon_pixbuf;
 };
 typedef struct _FolderType FolderType;
 
@@ -80,11 +83,23 @@ folder_type_new (const char *name,
 	new->icon_name  = g_strdup (icon_name);
 	new->control_id = g_strdup (control_id);
 
-	icon_path = e_shell_get_icon_path (icon_name);
+	icon_path = e_shell_get_icon_path (icon_name, FALSE);
 	if (icon_path == NULL)
 		new->icon_pixbuf = NULL;
 	else
 		new->icon_pixbuf = gdk_pixbuf_new_from_file (icon_path);
+
+	icon_path = e_shell_get_icon_path (icon_name, TRUE);
+	if (icon_path != NULL) {
+		new->mini_icon_pixbuf = gdk_pixbuf_new_from_file (icon_path);
+	} else {
+		if (new->icon_pixbuf != NULL)
+			new->mini_icon_pixbuf = gdk_pixbuf_ref (new->icon_pixbuf);
+		else
+			new->mini_icon_pixbuf = NULL;
+	}
+
+	g_free (icon_path);
 
 	return new;
 }
@@ -98,6 +113,8 @@ folder_type_free (FolderType *folder_type)
 
 	if (folder_type->icon_pixbuf != NULL)
 		gdk_pixbuf_unref (folder_type->icon_pixbuf);
+	if (folder_type->mini_icon_pixbuf != NULL)
+		gdk_pixbuf_unref (folder_type->mini_icon_pixbuf);
 
 	g_free (folder_type);
 }
@@ -241,7 +258,8 @@ e_folder_type_repository_get_icon_name_for_type (EFolderTypeRepository *folder_t
 
 GdkPixbuf *
 e_folder_type_repository_get_icon_for_type (EFolderTypeRepository *folder_type_repository,
-					    const char *type_name)
+					    const char *type_name,
+					    gboolean mini)
 {
 	const FolderType *folder_type;
 
@@ -255,7 +273,10 @@ e_folder_type_repository_get_icon_for_type (EFolderTypeRepository *folder_type_r
 		return NULL;
 	}
 
-	return folder_type->icon_pixbuf;
+	if (mini)
+		return folder_type->mini_icon_pixbuf;
+	else
+		return folder_type->icon_pixbuf;
 }
 
 const char *

@@ -171,7 +171,8 @@ icon_callback (EShortcutBar *shortcut_bar,
 	if (type == NULL)
 		return NULL;
 
-	pixbuf = e_folder_type_repository_get_icon_for_type (folder_type_repository, type);
+	/* FIXME mini icons?  */
+	pixbuf = e_folder_type_repository_get_icon_for_type (folder_type_repository, type, FALSE);
 	if (pixbuf != NULL)
 		gdk_pixbuf_ref (pixbuf);
 
