@@ -1,5 +1,12 @@
 2001-07-12  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-filter-driver.c (camel_filter_driver_filter_message):
+	Okay, I've decided that that user is just on crack. We don't want
+	to allow filtering of deleted messages or we could get some
+	unexpected behavior.
+
+2001-07-12  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* camel-filter-driver.c (do_move): Only set p->copied and
 	p->deleted if the messages are copied without an exception.
 	(do_copy): Same - but obviously we don't set the p->deleted here

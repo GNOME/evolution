@@ -1,7 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  *  Copyright (C) 2000 Ximian Inc.
- *  Copyright (C) 2001 Ximian Inc.
  *
  *  Authors: Michael Zucchi <notzed@ximian.com>
  *           Jeffrey Stedfast <fejj@ximian.com>
@@ -852,6 +851,9 @@ camel_filter_driver_filter_message (CamelFilterDriver *driver, CamelMimeMessage 
 		
 		info = camel_message_info_new_from_header (h);
 		freeinfo = TRUE;
+	} else {
+		if (info->flags & CAMEL_MESSAGE_DELETED)
+			return 0;
 	}
 	
 	p->ex = ex;
@@ -862,9 +864,6 @@ camel_filter_driver_filter_message (CamelFilterDriver *driver, CamelMimeMessage 
 	p->info = info;
 	p->uid = uid;
 	p->source = source;
-	
-	if (info->flags & CAMEL_MESSAGE_DELETED)
-		p->deleted = TRUE;
 	
 	if (original_source_url && camel_mime_message_get_source (message) == NULL)
 		camel_mime_message_set_source (message, original_source_url);
