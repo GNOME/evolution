@@ -105,7 +105,7 @@ static struct _ESExpTerm * parse_value(ESExp *f);
 
 static void parse_dump_term(struct _ESExpTerm *t, int depth);
 
-#ifdef E_SEXP_IS_GTK_OBJECT
+#ifdef E_SEXP_IS_G_OBJECT
 static GObjectClass *parent_class;
 #endif
 
@@ -1028,17 +1028,15 @@ parse_list(ESExp *f, int gotbrace)
 
 static void e_sexp_finalise(void *);
 
-#ifdef E_SEXP_IS_GTK_OBJECT
+#ifdef E_SEXP_IS_G_OBJECT
 static void
-e_sexp_class_init (ESExpClass *class)
+e_sexp_class_init (ESExpClass *klass)
 {
-	GtkObjectClass *object_class;
-	
-	object_class = (GtkObjectClass *) class;
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
 	object_class->finalize = e_sexp_finalise;
 
-	parent_class = gtk_type_class (gtk_object_get_type ());
+	parent_class = g_type_class_ref (g_object_get_type ());
 }
 #endif
 
@@ -1088,8 +1086,8 @@ e_sexp_finalise(void *o)
 	g_scanner_scope_foreach_symbol(s->scanner, 0, free_symbol, 0);
 	g_scanner_destroy(s->scanner);
 
-#ifdef E_SEXP_IS_GTK_OBJECT
-	((GtkObjectClass *)(parent_class))->finalize((GtkObject *)o);
+#ifdef E_SEXP_IS_G_OBJECT
+	G_OBJECT_CLASS (parent_class)->finalize (o);
 #endif
 }
 

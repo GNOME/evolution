@@ -1,3 +1,8 @@
+2003-04-14  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-sexp.c: Finished an #if 0'd out port to GObject from an #if
+	0'd out GtkObject subclassing.
+
 2003-04-15  Hans Petter Jansson  <hpj@ximian.com>
 
 	* e-sexp.c (e_sexp_add_function)

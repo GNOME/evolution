@@ -12,7 +12,7 @@
 #include <glib-object.h>
 #endif
 
-#ifdef E_SEXP_IS_GTK_OBJECT
+#ifdef E_SEXP_IS_G_OBJECT
 #define E_TYPE_SEXP            (e_sexp_get_type ())
 #define E_SEXP(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_SEXP, ESExp))
 #define E_SEXP_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_SEXP, ESExpClass))
@@ -121,7 +121,7 @@ struct _ESExp {
 };
 
 struct _ESExpClass {
-#ifdef E_SEXP_IS_GTK_OBJECT
+#ifdef E_SEXP_IS_G_OBJECT
 	GObjectClass parent_class;
 #else
 	int dummy;
