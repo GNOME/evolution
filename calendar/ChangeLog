@@ -1,3 +1,10 @@
+2000-10-23  JP Rosevear  <jpr@helixcode.com>
+
+	* conduits/todo/Makefile.am: Add libeconduit-static.la
+
+	* conduits/todo/todo-conduit.c (post_sync): Use e_pilot_map_write
+	(pre_sync): Use e_pilot_map_read
+
 2000-10-21  Damon Chaplin  <damon@helixcode.com>
 
 	* gui/dialogs/cal-prefs-dialog.c (cal_prefs_dialog_use_24_hour_toggled): removed debug message.

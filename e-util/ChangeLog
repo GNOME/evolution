@@ -1,3 +1,9 @@
+2000-10-23  JP Rosevear  <jpr@helixcode.com>
+
+	* e-pilot-map.c: Pilot map functions grabbed from existing conduits
+
+	* e-pilot-map.h (e_pilot_map_write): Header
+
 2000-10-18  Dan Winship  <danw@helixcode.com>
 
 	* e-html-utils.c (e_text_to_html): If unicode_get_utf8 returns -1,

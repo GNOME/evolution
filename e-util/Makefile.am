@@ -11,7 +11,8 @@ INCLUDES =					\
 	-DG_LOG_DOMAIN=\"e-utils\"		\
 	$(UNICODE_CFLAGS)
 
-noinst_LTLIBRARIES = libeutil.la libeutil-static.la
+noinst_LTLIBRARIES = libeutil.la libeutil-static.la \
+	libeconduit.la libeconduit-static.la
 
 libeutil_la_SOURCES =			\
 	e-dialog-widgets.c		\
@@ -35,3 +36,13 @@ libeutil_la_LIBADD = $(UNICODE_LIBS)
 
 libeutil_static_la_SOURCES = $(libeutil_la_SOURCES)
 libeutil_static_la_LDFLAGS = --all-static
+
+libeconduit_la_SOURCES =		\
+	e-pilot-map.c			\
+	e-pilot-map.h
+
+libeconduit_static_la_SOURCES = $(libeconduit_la_SOURCES)
+libeconduit_static_la_LDFLAGS = --all-static
+
+
+
