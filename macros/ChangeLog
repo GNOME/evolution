@@ -1,5 +1,12 @@
 2000-06-13  Martin Baulig  <baulig@suse.de>
 
+	* gnome-bonobo-check.am (AM_BONOBO_USES_OAF): New macro.
+	Checks whether Bonobo uses OAF and defines `BONOBO_USES_OAF'
+	if appropriate. Also provides `BONOBO_USES_OAF' automake
+	conditional.
+
+2000-06-13  Martin Baulig  <baulig@suse.de>
+
 	* Makefile.am (EXTRA_DIST): Added `gnome-gettext.m4'.
 	(gnome_aclocal_DATA): Added `gnome-gettext.m4'.
 
