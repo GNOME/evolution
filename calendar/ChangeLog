@@ -1,5 +1,9 @@
 2000-09-20  JP Rosevear  <jpr@helixcode.com>
 
+	* pcs/cal-backend.c (cal_backend_get_log_entries): Oops
+
+2000-09-20  JP Rosevear  <jpr@helixcode.com>
+
 	* pcs/cal-backend.c (cal_backend_get_log_entries): Use a local
 	sax handler.
 

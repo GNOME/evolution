@@ -664,7 +664,7 @@ cal_backend_get_log_entries (CalBackend *backend, CalObjType type, time_t since)
 	state.hash = hash;
 
 	filename = cal_backend_log_name (backend->uri);	
-	if (xmlSAXUserParseFile (&logSAXParser, &state, filename) < 0)
+	if (xmlSAXUserParseFile (&handler, &state, filename) < 0)
 		return NULL;
 	
 	return hash;
