@@ -1,5 +1,8 @@
 2001-07-23  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-search.c (toggled_fwd_cb): Oops. Uncomment this code since
+	Trow fixed GtkHTML to actually have this function now.
+
 	* mail-config.glade: Fixed the "Read" to be Read in the glade file
 	per menesis' request.
 
