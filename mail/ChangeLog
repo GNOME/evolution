@@ -1,3 +1,8 @@
+2000-07-16  Jeffrey Stedfast <fejj@helixcode.com>
+
+	* folder-browser.c, component-factory.c: Initial code to support
+	IMAP folders that don't use "/" as a directory separator.
+
 2000-07-15  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* mail-ops.c (set_x_mailer_header): New helper function to set the

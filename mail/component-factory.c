@@ -1,6 +1,8 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 /* component-factory.c
  *
+ * Authors: Ettore Perazzoli <ettore@helixcode.com>
+ *
  * Copyright (C) 2000  Helix Code, Inc.
  *
  * This program is free software; you can redistribute it and/or
@@ -17,8 +19,6 @@
  * License along with this program; if not, write to the
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
  * Boston, MA 02111-1307, USA.
- *
- * Author: Ettore Perazzoli
  */
 
 #ifdef HAVE_CONFIG_H
@@ -317,25 +317,25 @@ create_imap_storage (EvolutionShellComponent *shell_component)
 		return;
 	}
 
-	ii = g_new( struct create_info_s, 1 );
+	ii = g_new (struct create_info_s, 1);
 	ii->storage = storage;
-	ii->source = g_strdup( source );
+	ii->source = g_strdup (source);
 
 #ifdef USE_BROKEN_THREADS
-	mail_operation_try( "Create IMAP Storage", real_create_imap_storage, g_free, ii );
+	mail_operation_try ("Create IMAP Storage", real_create_imap_storage, g_free, ii);
 #else
-	real_create_imap_storage( ii );
-	g_free( ii );
+	real_create_imap_storage (ii);
+	g_free (ii);
 #endif
 	/* Note the g_free as our cleanup function deleting the ii struct when we're done */
 }
 
 static void
-real_create_imap_storage( gpointer user_data )
+real_create_imap_storage (gpointer user_data)
 {	
 	CamelException *ex;
 	EvolutionStorage *storage;
-	char *p, *source;
+	char *p, *source, *dir_sep;
 	CamelStore *store;
 	CamelFolder *folder;
 	GPtrArray *lsub;
@@ -347,8 +347,8 @@ real_create_imap_storage( gpointer user_data )
 	source = ii->source;
 
 #ifdef USE_BROKEN_THREADS
-	mail_op_hide_progressbar();
-	mail_op_set_message( "Connecting to IMAP service..." );
+	mail_op_hide_progressbar ();
+	mail_op_set_message ("Connecting to IMAP service...");
 #endif
 	ex = camel_exception_new ();
 	
@@ -363,7 +363,7 @@ real_create_imap_storage( gpointer user_data )
 	}
 
 #ifdef USE_BROKEN_THREADS
-	mail_op_set_message( "Connected. Examining folders..." );
+	mail_op_set_message ("Connected. Examining folders...");
 #endif
 
 	folder = camel_store_get_root_folder (store, ex);
@@ -377,25 +377,38 @@ real_create_imap_storage( gpointer user_data )
 	p = g_strdup_printf ("%s/INBOX", source);
 	evolution_storage_new_folder (storage, "/INBOX", "mail", p, "description");
 
+	/*dir_sep = CAMEL_IMAP_STORE (store)->dir_sep;*/
+	
 	max = lsub->len;
 	for (i = 0; i < max; i++) {
-		char *path, *buf;
+		char *path, *buf, *dirname;
 
-		path = g_strdup_printf ("/%s", (char *)lsub->pdata[i]);
-		buf = g_strdup_printf ("%s/%s", source, path);
+#if 0
+		if (strcmp (dir_sep, "/")) {
+			dirname = e_strreplace ((char *)lsub->pdata[i], dir_sep, "/");
+		} else {
+			dirname = g_strdup ((char *)lsub->pdata[i]);
+		}
+#endif
+		dirname = g_strdup ((char *)lsub->pdata[i]);
+
+		path = g_strdup_printf ("/%s", dirname);
+		g_free (dirname);
+		buf = g_strdup_printf ("%s/%s", source, path + 1);
+		printf ("buf = %s\n", buf);
 
 #ifdef USE_BROKEN_THREADS
-		mail_op_set_message( "Adding %s", path );
+		mail_op_set_message ("Adding %s", path);
 #endif
 
 		evolution_storage_new_folder (storage, path, "mail", buf, "description");
 	}
 
  cleanup:
-	g_free( ii->source );
+	g_free (ii->source);
 #ifdef USE_BROKEN_THREADS
-	if( camel_exception_is_set( ex ) )
-		mail_op_error( "%s", camel_exception_get_description( ex ) );
+	if (camel_exception_is_set (ex))
+		mail_op_error ("%s", camel_exception_get_description (ex));
 #endif
 	camel_exception_free (ex);
 }

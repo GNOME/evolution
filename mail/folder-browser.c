@@ -61,7 +61,7 @@ CamelFolder *
 mail_uri_to_folder (const char *name)
 {
 	char *store_name, *msg;
-	CamelStore *store;
+	CamelStore *store = NULL;
 	CamelFolder *folder = NULL;
 	CamelException *ex;
 
@@ -91,6 +91,7 @@ mail_uri_to_folder (const char *name)
 				source_name = g_strdup_printf ("file://%s/local/Inbox", evolution_dir);
 				source_folder = mail_uri_to_folder (source_name);
 				g_free (source_name);
+#warning "Not Good (tm). It might be better to have some sort of high level Camel interface for this"
 				if (source_folder)
 					camel_vee_folder_add_folder (folder, source_folder);
 			}
@@ -105,11 +106,15 @@ mail_uri_to_folder (const char *name)
 		for (ptr = service + 7; *ptr && *ptr != '/'; ptr++);
 		ptr++;
 		*ptr = '\0';
+		
 		store = camel_session_get_store (session, service, ex);
 		g_free (service);
+
 		if (store) {
 			CamelURL *url = CAMEL_SERVICE (store)->url;
-			char *folder_name;
+			char *tree_name, *folder_name, *dir_sep;
+
+			/*dir_sep = CAMEL_IMAP_STORE (store)->dir_sep;*/
 
 			for (ptr = (char *)(name + 7); *ptr && *ptr != '/'; ptr++);
 			if (*ptr == '/') {
@@ -124,6 +129,8 @@ mail_uri_to_folder (const char *name)
 				/*for ( ; *ptr && *ptr == '/'; ptr++);*/
 
 				folder_name = g_strdup (ptr);
+				/*tree_name = g_strdup (ptr);*/
+				/*folder_name = e_strreplace (tree_name, "/", dir_sep);*/
 				
 				folder = camel_store_get_folder (store, folder_name, TRUE, ex);
 				g_free (folder_name);
