@@ -31,6 +31,7 @@
 #include <utime.h>
 #include <fcntl.h>
 #include <ctype.h>
+#include <errno.h>
 
 #include <e-util/md5-utils.h>
 
@@ -283,8 +284,10 @@ envelope_decode_addresses (CamelIMAP4Engine *engine, char **addrlist, CamelExcep
 static int
 envelope_decode_date (CamelIMAP4Engine *engine, time_t *date, CamelException *ex)
 {
+	unsigned char *literal = NULL;
 	camel_imap4_token_t token;
 	const char *nstring;
+	size_t n;
 	
 	if (camel_imap4_engine_next_token (engine, &token, ex) == -1)
 		return -1;
@@ -299,12 +302,21 @@ envelope_decode_date (CamelIMAP4Engine *engine, time_t *date, CamelException *ex
 	case CAMEL_IMAP4_TOKEN_QSTRING:
 		nstring = token.v.qstring;
 		break;
+	case CAMEL_IMAP4_TOKEN_LITERAL:
+		if (camel_imap4_engine_literal (engine, &literal, &n, ex) == -1)
+			return -1;
+		
+		nstring = literal;
+		break;
 	default:
 		camel_imap4_utils_set_unexpected_token_error (ex, engine, &token);
 		return -1;
 	}
 	
 	*date = camel_header_decode_date (nstring, NULL);
+	
+	if (literal)
+		g_free (literal);
 	
 	return 0;
 }
@@ -313,6 +325,8 @@ static int
 envelope_decode_nstring (CamelIMAP4Engine *engine, char **nstring, gboolean rfc2047, CamelException *ex)
 {
 	camel_imap4_token_t token;
+	unsigned char *literal;
+	size_t n;
 	
 	if (camel_imap4_engine_next_token (engine, &token, ex) == -1)
 		return -1;
@@ -332,6 +346,17 @@ envelope_decode_nstring (CamelIMAP4Engine *engine, char **nstring, gboolean rfc2
 			*nstring = camel_header_decode_string (token.v.qstring, NULL);
 		else
 			*nstring = g_strdup (token.v.qstring);
+		break;
+	case CAMEL_IMAP4_TOKEN_LITERAL:
+		if (camel_imap4_engine_literal (engine, &literal, &n, ex) == -1)
+			return -1;
+		
+		if (rfc2047) {
+			*nstring = camel_header_decode_string (literal, NULL);
+			g_free (literal);
+		} else
+			*nstring = literal;
+		
 		break;
 	default:
 		camel_imap4_utils_set_unexpected_token_error (ex, engine, &token);

@@ -1,5 +1,9 @@
 2004-10-28  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/imap4/camel-imap4-summary.c (envelope_decode_nstring):
+	Handle literal strings.
+	(envelope_decode_date): Same. Fixes bug #68894.
+
 	* providers/imap4/camel-imap4-stream.c
 	(camel_imap4_stream_next_token): Properly tokenise "\*" as a flag
 	token. Fixes bug #68869.
