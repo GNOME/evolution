@@ -1,5 +1,10 @@
 2002-04-19  Anna Marie Dirks  <anna@ximian.com>
 
+	* mail-config.glade: Added yet more accelerators for the new config
+	dialog--this time for the composer pages
+
+2002-04-19  Anna Marie Dirks  <anna@ximian.com>
+
 	* mail-config.glade: Added a bunch of accelerators for the new config
 	dialog
 

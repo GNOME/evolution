@@ -3863,7 +3863,7 @@ Baltic (ISO-8859-4)
 	    <class>GtkCheckButton</class>
 	    <name>chkSendHTML</name>
 	    <can_focus>True</can_focus>
-	    <label>_Send messages in HTML format by default</label>
+	    <label>S_end messages in HTML format by default</label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
 	    <child>
@@ -3877,7 +3877,7 @@ Baltic (ISO-8859-4)
 	    <class>GtkCheckButton</class>
 	    <name>chkPromptEmptySubject</name>
 	    <can_focus>True</can_focus>
-	    <label>Prompt when sending messages with an empty subject line</label>
+	    <label>_Prompt when sending messages with an empty subject line</label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
 	    <child>
@@ -3891,7 +3891,7 @@ Baltic (ISO-8859-4)
 	    <class>GtkCheckButton</class>
 	    <name>chkPromptBccOnly</name>
 	    <can_focus>True</can_focus>
-	    <label>Prompt when sending messages with only _Bcc recipients defined</label>
+	    <label>P_rompt when sending messages with only Bcc recipients defined</label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
 	    <child>
@@ -3915,13 +3915,14 @@ Baltic (ISO-8859-4)
 	    <widget>
 	      <class>GtkLabel</class>
 	      <name>lblCharset</name>
-	      <label>Character Set:</label>
+	      <label>_Character set:</label>
 	      <justify>GTK_JUSTIFY_CENTER</justify>
 	      <wrap>False</wrap>
 	      <xalign>0.5</xalign>
 	      <yalign>0.5</yalign>
 	      <xpad>0</xpad>
 	      <ypad>0</ypad>
+	      <default_focus_target>omenuCharset</default_focus_target>
 	      <child>
 		<padding>0</padding>
 		<expand>False</expand>
@@ -3994,13 +3995,14 @@ Baltic (ISO-8859-4)
 	    <widget>
 	      <class>GtkLabel</class>
 	      <name>lblSpellCheckColor</name>
-	      <label>Misspelled color: </label>
+	      <label>C_olor for misspelled words: </label>
 	      <justify>GTK_JUSTIFY_CENTER</justify>
 	      <wrap>False</wrap>
 	      <xalign>0.5</xalign>
 	      <yalign>0.5</yalign>
 	      <xpad>0</xpad>
 	      <ypad>0</ypad>
+	      <default_focus_target>colorpickerSpellCheckColor</default_focus_target>
 	      <child>
 		<padding>0</padding>
 		<expand>False</expand>
@@ -4038,13 +4040,14 @@ Baltic (ISO-8859-4)
 	    <widget>
 	      <class>GtkLabel</class>
 	      <name>lblSpellCheckLanguage</name>
-	      <label>Language:</label>
+	      <label>_Language:</label>
 	      <justify>GTK_JUSTIFY_CENTER</justify>
 	      <wrap>False</wrap>
 	      <xalign>0.5</xalign>
 	      <yalign>0.5</yalign>
 	      <xpad>0</xpad>
 	      <ypad>0</ypad>
+	      <default_focus_target>entry30</default_focus_target>
 	      <child>
 		<padding>0</padding>
 		<expand>False</expand>
@@ -4111,7 +4114,7 @@ Arabic
 	  <widget>
 	    <class>GtkLabel</class>
 	    <name>lblForwardStyle</name>
-	    <label>Default Forward style:</label>
+	    <label>_Default Forward style:</label>
 	    <justify>GTK_JUSTIFY_CENTER</justify>
 	    <wrap>False</wrap>
 	    <xalign>0</xalign>
@@ -4137,7 +4140,7 @@ Arabic
 	  <widget>
 	    <class>GtkLabel</class>
 	    <name>lblReplyStyle</name>
-	    <label>Default Reply style:</label>
+	    <label>Def_ault Reply style:</label>
 	    <justify>GTK_JUSTIFY_CENTER</justify>
 	    <wrap>False</wrap>
 	    <xalign>0</xalign>
@@ -4250,7 +4253,7 @@ Quoted
       <class>GtkLabel</class>
       <child_name>Notebook:tab</child_name>
       <name>lblGeneral</name>
-      <label>General</label>
+      <label>_General</label>
       <justify>GTK_JUSTIFY_CENTER</justify>
       <wrap>False</wrap>
       <xalign>0.5</xalign>
@@ -4280,13 +4283,14 @@ Quoted
 	<widget>
 	  <class>GtkLabel</class>
 	  <name>label438</name>
-	  <label>Shortcuts type:</label>
+	  <label>Shortcuts _type:</label>
 	  <justify>GTK_JUSTIFY_CENTER</justify>
 	  <wrap>False</wrap>
 	  <xalign>0.5</xalign>
 	  <yalign>0.5</yalign>
 	  <xpad>0</xpad>
 	  <ypad>0</ypad>
+	  <default_focus_target>optionmenu36</default_focus_target>
 	  <child>
 	    <padding>0</padding>
 	    <expand>False</expand>
@@ -4443,7 +4447,7 @@ Microsoft
       <class>GtkLabel</class>
       <child_name>Notebook:tab</child_name>
       <name>lblKeyboardShortcuts</name>
-      <label>Keyboard Shortcuts</label>
+      <label>_Keyboard Shortcuts</label>
       <justify>GTK_JUSTIFY_CENTER</justify>
       <wrap>False</wrap>
       <xalign>0.5</xalign>
@@ -4652,7 +4656,7 @@ Microsoft
 	<class>GtkCheckButton</class>
 	<name>chkAdvancedSignature</name>
 	<can_focus>True</can_focus>
-	<label>Enable advanced options</label>
+	<label>E_nable advanced options</label>
 	<active>False</active>
 	<draw_indicator>True</draw_indicator>
 	<child>
@@ -4838,7 +4842,7 @@ Microsoft
       <class>GtkLabel</class>
       <child_name>Notebook:tab</child_name>
       <name>lblSignatures</name>
-      <label>Signatures</label>
+      <label>_Signatures</label>
       <justify>GTK_JUSTIFY_CENTER</justify>
       <wrap>False</wrap>
       <xalign>0.5</xalign>
