@@ -1,3 +1,49 @@
+2001-04-12  Federico Mena Quintero  <federico@ximian.com>
+
+	* gui/e-day-view.c (update_query): New function to restart a query
+	for the day view.
+	(query_obj_updated_cb): Renamed from obj_updated_cb(); updated for
+	queries instead of calendar clients.
+	(query_obj_removed_cb): Likewise.
+	(cal_opened_cb): Just update_query() instead of queueing reloading
+	all the events.
+	(e_day_view_set_cal_client): Likewise.
+	(e_day_view_set_query): Likewise.
+	(e_day_view_set_selected_time_range): Likewise.
+	(e_day_view_set_days_shown): Likewise.
+	(e_day_view_recalc_work_week): Likewise.
+	(e_day_view_queue_reload_events): Removed function now that events
+	are updated entirely by the query.
+	(e_day_view_reload_events_idle_cb): Likewise.
+	(e_day_view_reload_events): Likewise.
+	(e_day_view_init): Use a pretty arrow instead of GDK_TOP_LEFT_ARROW.
+
+	* gui/e-week-view.c: Analogous changes to the ones in e-day-view.c.
+	(e_week_view_init): Use a pretty arrow instead of GDK_TOP_LEFT_ARROW.
+
+	* cal-util/timeutil.c (isodate_from_time_t): Return a g_strdup()ed
+	version of the string instead of a pointer to a static buffer.
+	(time_from_isodate): Resurrected function.  Polished up to our
+	current standards of paranoia.
+
+	* pcs/query.c (func_time_now): New function (time-now).
+	(func_make_time): New function (make-time ISODATE).
+	(func_time_add_day): New function (time-add-day TIME N).
+	(func_time_day_begin): New function (time-day-begin TIME).
+	(func_time_day_end): New function (time-day-end TIME).
+	(func_occur_in_time_range): Use time_t values instead of ints.
+	(match_component): Free the stringized component.  Free the ESexp
+	result value.
+
+	* gui/e-day-view.h: Removed a couple of unused prototypes.
+
+	* pcs/query.c (query_destroy): Oops, disconnect from the backend.
+
+	* pcs/cal.c (Cal_get_query): Duplicate the query reference before
+	we return it.
+
+	* gui/calendar-commands.c (pixmaps): Fixed paths to image files.
+
 2001-04-11  JP Rosevear  <jpr@ximian.com>
 
 	* pcs/cal-backend-file.c (cal_backend_file_compute_changes):

@@ -30,6 +30,7 @@
 #include <gtk/gtksignal.h>
 #include <e-util/e-sexp.h>
 #include <cal-util/cal-recur.h>
+#include <cal-util/timeutil.h>
 #include "query.h"
 
 
@@ -138,6 +139,7 @@ query_destroy (GtkObject *object)
 	priv = query->priv;
 
 	if (priv->backend) {
+		gtk_signal_disconnect_by_data (GTK_OBJECT (priv->backend), query);
 		gtk_object_unref (GTK_OBJECT (priv->backend));
 		priv->backend = NULL;
 	}
@@ -200,7 +202,164 @@ query_destroy (GtkObject *object)
 
 
 
-/* Search engine functions */
+/* E-Sexp functions */
+
+/* (time-now)
+ *
+ * Returns a time_t of time (NULL).
+ */
+static ESExpResult *
+func_time_now (ESExp *esexp, int argc, ESExpResult **argv, void *data)
+{
+	ESExpResult *result;
+
+	if (argc != 0) {
+		e_sexp_fatal_error (esexp, _("time-now expects 0 arguments"));
+		return NULL;
+	}
+
+	result = e_sexp_result_new (esexp, ESEXP_RES_TIME);
+	result->value.time = time (NULL);
+
+	return result;
+}
+
+/* (make-time ISODATE)
+ *
+ * ISODATE - string, ISO 8601 date/time representation
+ *
+ * Constructs a time_t value for the specified date.
+ */
+static ESExpResult *
+func_make_time (ESExp *esexp, int argc, ESExpResult **argv, void *data)
+{
+	const char *str;
+	time_t t;
+	ESExpResult *result;
+
+	if (argc != 1) {
+		e_sexp_fatal_error (esexp, _("make-time expects 1 argument"));
+		return NULL;
+	}
+
+	if (argv[0]->type != ESEXP_RES_STRING) {
+		e_sexp_fatal_error (esexp, _("make-time expects argument 1 "
+					     "to be a string"));
+		return NULL;
+	}
+	str = argv[0]->value.string;
+
+	t = time_from_isodate (str);
+	if (t == -1) {
+		e_sexp_fatal_error (esexp, _("make-time argument 1 must be an "
+					     "ISO 8601 date/time string"));
+		return NULL;
+	}
+
+	result = e_sexp_result_new (esexp, ESEXP_RES_TIME);
+	result->value.time = t;
+
+	return result;
+}
+
+/* (time-add-day TIME N)
+ *
+ * TIME - time_t, base time
+ * N - int, number of days to add
+ *
+ * Adds the specified number of days to a time value.
+ */
+static ESExpResult *
+func_time_add_day (ESExp *esexp, int argc, ESExpResult **argv, void *data)
+{
+	ESExpResult *result;
+	time_t t;
+	int n;
+
+	if (argc != 2) {
+		e_sexp_fatal_error (esexp, _("time-add-day expects 2 arguments"));
+		return NULL;
+	}
+
+	if (argv[0]->type != ESEXP_RES_TIME) {
+		e_sexp_fatal_error (esexp, _("time-add-day expects argument 1 "
+					     "to be a time_t"));
+		return NULL;
+	}
+	t = argv[0]->value.time;
+
+	if (argv[1]->type != ESEXP_RES_INT) {
+		e_sexp_fatal_error (esexp, _("time-add-day expects argument 2 "
+					     "to be an integer"));
+		return NULL;
+	}
+	n = argv[1]->value.number;
+	
+	result = e_sexp_result_new (esexp, ESEXP_RES_TIME);
+	result->value.time = time_add_day (t, n);
+
+	return result;
+}
+
+/* (time-day-begin TIME)
+ *
+ * TIME - time_t, base time
+ *
+ * Returns the start of the day, according to the local time.
+ */
+static ESExpResult *
+func_time_day_begin (ESExp *esexp, int argc, ESExpResult **argv, void *data)
+{
+	time_t t;
+	ESExpResult *result;
+
+	if (argc != 1) {
+		e_sexp_fatal_error (esexp, _("time-day-begin expects 1 argument"));
+		return NULL;
+	}
+
+	if (argv[0]->type != ESEXP_RES_TIME) {
+		e_sexp_fatal_error (esexp, _("time-day-begin expects argument 1 "
+					     "to be a time_t"));
+		return NULL;
+	}
+	t = argv[0]->value.time;
+
+	result = e_sexp_result_new (esexp, ESEXP_RES_TIME);
+	result->value.time = time_day_begin (t);
+
+	return result;
+}
+
+/* (time-day-end TIME)
+ *
+ * TIME - time_t, base time
+ *
+ * Returns the end of the day, according to the local time.
+ */
+static ESExpResult *
+func_time_day_end (ESExp *esexp, int argc, ESExpResult **argv, void *data)
+{
+	time_t t;
+	ESExpResult *result;
+
+	if (argc != 1) {
+		e_sexp_fatal_error (esexp, _("time-day-end expects 1 argument"));
+		return NULL;
+	}
+
+	if (argv[0]->type != ESEXP_RES_TIME) {
+		e_sexp_fatal_error (esexp, _("time-day-end expects argument 1 "
+					     "to be a time_t"));
+		return NULL;
+	}
+	t = argv[0]->value.time;
+
+	result = e_sexp_result_new (esexp, ESEXP_RES_TIME);
+	result->value.time = time_day_end (t);
+
+	return result;
+}
 
 /* (get-vtype)
  *
@@ -284,14 +443,12 @@ instance_occur_cb (CalComponent *comp, time_t start, time_t end, gpointer data)
 
 /* (occur-in-time-range? START END)
  *
- * START - int, time_t start of the time range
- * END - int, time_t end of the time range
+ * START - time_t, start of the time range
+ * END - time_t, end of the time range
  *
  * Returns a boolean indicating whether the component has any occurrences in the
  * specified time range.
- *
- * We may prefer to switch this to a string representation of times (ISO 8601,
- * perhaps).  */
+ */
 static ESExpResult *
 func_occur_in_time_range (ESExp *esexp, int argc, ESExpResult **argv, void *data)
 {
@@ -315,19 +472,19 @@ func_occur_in_time_range (ESExp *esexp, int argc, ESExpResult **argv, void *data
 		return NULL;
 	}
 
-	if (argv[0]->type != ESEXP_RES_INT) {
+	if (argv[0]->type != ESEXP_RES_TIME) {
 		e_sexp_fatal_error (esexp, _("occur-in-time-range? expects argument 1 "
-					     "to be an integer"));
+					     "to be a time_t"));
 		return NULL;
 	}
-	start = argv[0]->value.number;
+	start = argv[0]->value.time;
 
-	if (argv[1]->type != ESEXP_RES_INT) {
+	if (argv[1]->type != ESEXP_RES_TIME) {
 		e_sexp_fatal_error (esexp, _("occur-in-time-range? expects argument 2 "
-					     "to be an integer"));
+					     "to be a time_t"));
 		return NULL;
 	}
-	end = argv[1]->value.number;
+	end = argv[1]->value.time;
 
 	/* See if there is at least one instance in that range */
 
@@ -446,6 +603,14 @@ static struct {
 	char *name;
 	ESExpFunc *func;
 } functions[] = {
+	/* Time-related functions */
+	{ "time-now", func_time_now },
+	{ "make-time", func_make_time },
+	{ "time-add-day", func_time_add_day },
+	{ "time-day-begin", func_time_day_begin },
+	{ "time-day-end", func_time_day_end },
+
+	/* Component-related functions */
 	{ "get-vtype", func_get_vtype },
 	{ "occur-in-time-range?", func_occur_in_time_range }
 };
@@ -487,6 +652,8 @@ match_component (Query *query, const char *uid,
 	icalcomp = icalparser_parse_string (comp_str);
 	g_assert (icalcomp != NULL);
 
+	g_free (comp_str);
+
 	comp = cal_component_new ();
 	set_succeeded = cal_component_set_icalcomponent (comp, icalcomp);
 	g_assert (set_succeeded);
@@ -518,6 +685,7 @@ match_component (Query *query, const char *uid,
 				   "an evaluation error");
 
 		CORBA_exception_free (&ev);
+		return;
 	} else if (result->type != ESEXP_RES_BOOL) {
 		CORBA_Environment ev;
 
@@ -541,6 +709,8 @@ match_component (Query *query, const char *uid,
 		else
 			remove_component (query, uid);
 	}
+
+	e_sexp_result_free (priv->esexp, result);
 }
 
 /* Processes a single component that is queued in the list */

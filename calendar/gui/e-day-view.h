@@ -235,6 +235,10 @@ struct _EDayView
 	/* Calendar client object we are monitoring */
 	CalClient *client;
 
+	/* S-expression for query and the query object */
+	char *sexp;
+	CalQuery *query;
+
 	/* The start and end of the days shown. */
 	time_t lower;
 	time_t upper;
@@ -269,9 +273,6 @@ struct _EDayView
 	   layout is not necessary. */
 	gboolean long_events_need_reshape;
 	gboolean need_reshape[E_DAY_VIEW_MAX_DAYS];
-
-	/* The id of our idle function to reload all events. */
-	gint reload_events_idle_id;
 
 	/* The number of minutes per row. 5, 10, 15, 30 or 60. */
 	gint mins_per_row;
@@ -488,6 +489,9 @@ void       e_day_view_set_calendar		(EDayView	*day_view,
 void       e_day_view_set_cal_client		(EDayView	*day_view,
 						 CalClient	*client);
 
+void       e_day_view_set_query			(EDayView	*day_view,
+						 const char	*sexp);
+
 /* This sets the selected time range. The EDayView will show the day or week
    corresponding to the start time. If the start_time & end_time are not equal
    and are both visible in the view, then the selection is set to those times,
@@ -500,16 +504,6 @@ void       e_day_view_set_selected_time_range	(EDayView	*day_view,
 void       e_day_view_get_selected_time_range	(EDayView	*day_view,
 						 time_t		*start_time,
 						 time_t		*end_time);
-
-/* This is called when one event has been added or updated. */
-void       e_day_view_update_event		(EDayView	*day_view,
-						 const gchar	*uid);
-
-/* This removes all the events associated with the given uid. Note that for
-   recurring events there may be more than one. If any events are found and
-   removed we need to layout the events again. */
-void	   e_day_view_remove_event		(EDayView	*day_view,
-						 const gchar	*uid);
 
 /* Whether we are displaying a work-week, in which case the display always
    starts on the first day of the working week. */

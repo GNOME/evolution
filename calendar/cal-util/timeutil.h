@@ -17,6 +17,7 @@
 
 
 char   *isodate_from_time_t     (time_t t);
+time_t time_from_isodate (const char *str);
 
 time_t time_add_minutes (time_t time, int minutes);
 time_t time_add_day (time_t time, int days);

@@ -9,6 +9,7 @@
  */
 
 #include <string.h>
+#include <ctype.h>
 #include <glib.h>
 #include "timeutil.h"
 
@@ -24,15 +25,85 @@ print_time_t (time_t t)
 		tm->tm_hour, tm->tm_min, tm->tm_sec);
 }
 
+/**
+ * isodate_from_time_t:
+ * @t: A time value.
+ * 
+ * Creates an ISO 8601 local time representation from a time value.
+ * 
+ * Return value: String with the ISO 8601 representation of the local time.
+ **/
 char *
 isodate_from_time_t (time_t t)
 {
 	struct tm *tm;
-	static char isotime [40];
+	char isotime[40];
 
 	tm = localtime (&t);
 	strftime (isotime, sizeof (isotime)-1, "%Y%m%dT%H%M%S", tm);
-	return isotime;
+	return g_strdup (isotime);
+}
+
+/**
+ * time_from_isodate:
+ * @str: Date/time value in ISO 8601 format.
+ * 
+ * Converts an ISO 8601 time string into a time_t value.
+ * 
+ * Return value: Time_t corresponding to the specified ISO string.
+ **/
+time_t
+time_from_isodate (const char *str)
+{
+	int len;
+	struct tm my_tm;
+	time_t t;
+	int i;
+
+	g_return_val_if_fail (str != NULL, -1);
+
+	/* yyyymmdd[Thhmmss[Z]] */
+
+	len = strlen (str);
+
+	if (!(len == 8 || len == 15 || len == 16))
+		return -1;
+
+	for (i = 0; i < len; i++)
+		if (!((i != 8 && i != 15 && isdigit (str[i]))
+		      || (i == 8 && str[i] == 'T')
+		      || (i == 15 && str[i] == 'Z')))
+			return -1;
+
+	memset (&my_tm, 0, sizeof (my_tm));
+
+#define digit_at(x,y) (x[y] - '0')
+
+	my_tm.tm_year = (digit_at (str, 0) * 1000 + digit_at (str, 1) * 100 +
+			 digit_at (str, 2) * 10 + digit_at (str, 3)) - 1900;
+
+	my_tm.tm_mon  = digit_at (str, 4) * 10 + digit_at (str, 5) - 1;
+	my_tm.tm_mday = digit_at (str, 6) * 10 + digit_at (str, 7);
+
+	if (len > 8) {
+		my_tm.tm_hour = digit_at (str, 9) * 10 + digit_at (str, 10);
+		my_tm.tm_min  = digit_at (str, 11) * 10 + digit_at (str, 12);
+		my_tm.tm_sec  = digit_at (str, 13) * 10 + digit_at (str, 14);
+	}
+
+	my_tm.tm_isdst = -1;
+
+	t = mktime (&my_tm);
+
+	if (len == 16) {
+#if defined(HAVE_TM_GMTOFF)
+		t -= my_tm.tm_gmtoff;
+#elsif defined(HAVE_TIMEZONE)
+		t -= timezone;
+#endif
+	}
+	    
+	return t;
 }
 
 time_t

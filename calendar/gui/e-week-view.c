@@ -109,9 +109,6 @@ static gint e_week_view_convert_position_to_day (EWeekView *week_view,
 static void e_week_view_update_selection (EWeekView *week_view,
 					  gint day);
 
-static void e_week_view_queue_reload_events (EWeekView *week_view);
-static gboolean e_week_view_reload_events_idle_cb	(gpointer data);
-static void e_week_view_reload_events (EWeekView *week_view);
 static void e_week_view_free_events (EWeekView *week_view);
 static gboolean e_week_view_add_event (CalComponent *comp,
 				       time_t	  start,
@@ -257,13 +254,14 @@ e_week_view_init (EWeekView *week_view)
 
 	week_view->calendar = NULL;
 	week_view->client = NULL;
+	week_view->sexp = g_strdup ("#t"); /* match all by default */
+	week_view->query = NULL;
 
 	week_view->events = g_array_new (FALSE, FALSE,
 					 sizeof (EWeekViewEvent));
 	week_view->events_sorted = TRUE;
 	week_view->events_need_layout = FALSE;
 	week_view->events_need_reshape = FALSE;
-	week_view->reload_events_idle_id = 0;
 
 	week_view->spans = NULL;
 
@@ -383,7 +381,7 @@ e_week_view_init (EWeekView *week_view)
 
 
 	/* Create the cursors. */
-	week_view->normal_cursor = gdk_cursor_new (GDK_TOP_LEFT_ARROW);
+	week_view->normal_cursor = gdk_cursor_new (GDK_LEFT_PTR);
 	week_view->move_cursor = gdk_cursor_new (GDK_FLEUR);
 	week_view->resize_width_cursor = gdk_cursor_new (GDK_SB_H_DOUBLE_ARROW);
 	week_view->last_cursor_set = NULL;
@@ -416,15 +414,21 @@ e_week_view_destroy (GtkObject *object)
 
 	e_week_view_free_events (week_view);
 
-	if (week_view->reload_events_idle_id != 0) {
-		g_source_remove (week_view->reload_events_idle_id);
-		week_view->reload_events_idle_id = 0;
-	}
-
 	if (week_view->client) {
 		gtk_signal_disconnect_by_data (GTK_OBJECT (week_view->client), week_view);
 		gtk_object_unref (GTK_OBJECT (week_view->client));
 		week_view->client = NULL;
+	}
+
+	if (week_view->sexp) {
+		g_free (week_view->sexp);
+		week_view->sexp = NULL;
+	}
+
+	if (week_view->query) {
+		gtk_signal_disconnect_by_data (GTK_OBJECT (week_view->query), week_view);
+		gtk_object_unref (GTK_OBJECT (week_view->query));
+		week_view->query = NULL;
 	}
 
 	if (week_view->small_font)
@@ -880,23 +884,11 @@ e_week_view_set_calendar	(EWeekView	*week_view,
 }
 
 
-/* Callback used when the calendar client finishes opening */
+/* Callback used when a component is updated in the live query */
 static void
-cal_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer data)
-{
-	EWeekView *week_view;
-
-	week_view = E_WEEK_VIEW (data);
-
-	if (status != CAL_CLIENT_OPEN_SUCCESS)
-		return;
-
-	e_week_view_queue_reload_events (week_view);
-}
-
-/* Callback used when the calendar client tells us that an object changed */
-static void
-obj_updated_cb (CalClient *client, const char *uid, gpointer data)
+query_obj_updated_cb (CalQuery *query, const char *uid,
+		      gboolean query_in_progress, int n_scanned, int total,
+		      gpointer data)
 {
 	EWeekView *week_view;
 	EWeekViewEvent *event;
@@ -905,9 +897,6 @@ obj_updated_cb (CalClient *client, const char *uid, gpointer data)
 	CalClientGetStatus status;
 
 	week_view = E_WEEK_VIEW (data);
-
-	/* Sanity check. */
-	g_return_if_fail (client == week_view->client);
 
 	/* If we don't have a valid date set yet, just return. */
 	if (!g_date_valid (&week_view->first_day_shown))
@@ -927,12 +916,6 @@ obj_updated_cb (CalClient *client, const char *uid, gpointer data)
 
 	case CAL_CLIENT_GET_NOT_FOUND:
 		/* The object is no longer in the server, so do nothing */
-		return;
-	}
-
-	/* We only care about events. */
-	if (cal_component_get_vtype (comp) != CAL_COMPONENT_EVENT) {
-		gtk_object_unref (GTK_OBJECT (comp));
 		return;
 	}
 
@@ -981,9 +964,9 @@ obj_updated_cb (CalClient *client, const char *uid, gpointer data)
 	gtk_widget_queue_draw (week_view->main_canvas);
 }
 
-/* Callback used when the calendar client tells us that an object was removed */
+/* Callback used when a component is removed from the live query */
 static void
-obj_removed_cb (CalClient *client, const char *uid, gpointer data)
+query_obj_removed_cb (CalClient *client, const char *uid, gpointer data)
 {
 	EWeekView *week_view;
 
@@ -996,6 +979,117 @@ obj_removed_cb (CalClient *client, const char *uid, gpointer data)
 	gtk_widget_queue_draw (week_view->main_canvas);
 }
 
+/* Callback used when a query ends */
+static void
+query_query_done_cb (CalQuery *query, CalQueryDoneStatus status, const char *error_str, gpointer data)
+{
+	EWeekView *week_view;
+
+	week_view = E_WEEK_VIEW (data);
+
+	/* FIXME */
+
+	if (status != CAL_QUERY_DONE_SUCCESS)
+		fprintf (stderr, "query done: %s\n", error_str);
+}
+
+/* Callback used when an evaluation error occurs when running a query */
+static void
+query_eval_error_cb (CalQuery *query, const char *error_str, gpointer data)
+{
+	EWeekView *week_view;
+
+	week_view = E_WEEK_VIEW (data);
+
+	/* FIXME */
+
+	fprintf (stderr, "eval error: %s\n", error_str);
+}
+
+/* Builds a complete query sexp for the week view by adding the predicates to
+ * filter only for VEVENTS that fit in the week view's time range.
+ */
+static char *
+adjust_query_sexp (EWeekView *week_view, const char *sexp)
+{
+	int num_days;
+	char *start, *end;
+	char *new_sexp;
+
+	/* If the dates have not been set yet, we just want an empty query. */
+	if (!g_date_valid (&week_view->first_day_shown))
+		return g_strdup ("#f");
+
+	num_days = week_view->multi_week_view ? week_view->weeks_shown * 7 : 7;
+
+	start = isodate_from_time_t (week_view->day_starts[0]);
+	end = isodate_from_time_t (week_view->day_starts[num_days]);
+
+	new_sexp = g_strdup_printf ("(and (= (get-vtype) \"VEVENT\")"
+				    "     (occur-in-time-range? (make-time \"%s\")"
+				    "                           (make-time \"%s\"))"
+				    "     %s)",
+				    start, end,
+				    sexp);
+
+	g_free (start);
+	g_free (end);
+
+	return new_sexp;
+}
+
+/* Restarts a query for the week view */
+static void
+update_query (EWeekView *week_view)
+{
+	char *real_sexp;
+
+	e_week_view_free_events (week_view);
+	gtk_widget_queue_draw (week_view->main_canvas);
+
+	if (!(week_view->client
+	      && cal_client_get_load_state (week_view->client) == CAL_CLIENT_LOAD_LOADED))
+		return;
+
+	if (week_view->query) {
+		gtk_signal_disconnect_by_data (GTK_OBJECT (week_view->query), week_view);
+		gtk_object_unref (GTK_OBJECT (week_view->query));
+	}
+
+	g_assert (week_view->sexp != NULL);
+	real_sexp = adjust_query_sexp (week_view, week_view->sexp);
+
+	week_view->query = cal_client_get_query (week_view->client, real_sexp);
+	g_free (real_sexp);
+
+	if (!week_view->query) {
+		g_message ("update_query(): Could not create the query");
+		return;
+	}
+
+	gtk_signal_connect (GTK_OBJECT (week_view->query), "obj_updated",
+			    GTK_SIGNAL_FUNC (query_obj_updated_cb), week_view);
+	gtk_signal_connect (GTK_OBJECT (week_view->query), "obj_removed",
+			    GTK_SIGNAL_FUNC (query_obj_removed_cb), week_view);
+	gtk_signal_connect (GTK_OBJECT (week_view->query), "query_done",
+			    GTK_SIGNAL_FUNC (query_query_done_cb), week_view);
+	gtk_signal_connect (GTK_OBJECT (week_view->query), "eval_error",
+			    GTK_SIGNAL_FUNC (query_eval_error_cb), week_view);
+}
+
+/* Callback used when the calendar client finishes opening */
+static void
+cal_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer data)
+{
+	EWeekView *week_view;
+
+	week_view = E_WEEK_VIEW (data);
+
+	if (status != CAL_CLIENT_OPEN_SUCCESS)
+		return;
+
+	update_query (week_view);
+}
 
 /**
  * e_week_view_set_cal_client:
@@ -1028,17 +1122,35 @@ e_week_view_set_cal_client	(EWeekView	*week_view,
 	week_view->client = client;
 
 	if (week_view->client) {
-		if (cal_client_get_load_state (week_view->client) != CAL_CLIENT_LOAD_LOADED)
+		if (cal_client_get_load_state (week_view->client) == CAL_CLIENT_LOAD_LOADED)
+			update_query (week_view);
+		else
 			gtk_signal_connect (GTK_OBJECT (week_view->client), "cal_opened",
 					    GTK_SIGNAL_FUNC (cal_opened_cb), week_view);
-
-		gtk_signal_connect (GTK_OBJECT (week_view->client), "obj_updated",
-				    GTK_SIGNAL_FUNC (obj_updated_cb), week_view);
-		gtk_signal_connect (GTK_OBJECT (week_view->client), "obj_removed",
-				    GTK_SIGNAL_FUNC (obj_removed_cb), week_view);
 	}
+}
 
-	e_week_view_queue_reload_events (week_view);
+/**
+ * e_week_view_set_query:
+ * @week_view: A week view.
+ * @sexp: S-expression that defines the query.
+ * 
+ * Sets the query sexp that the week view will use for filtering the displayed
+ * events.
+ **/
+void
+e_week_view_set_query (EWeekView *week_view, const char *sexp)
+{
+	g_return_if_fail (week_view != NULL);
+	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
+	g_return_if_fail (sexp != NULL);
+
+	if (week_view->sexp)
+		g_free (week_view->sexp);
+
+	week_view->sexp = g_strdup (sexp);
+
+	update_query (week_view);
 }
 
 
@@ -1108,7 +1220,7 @@ e_week_view_set_selected_time_range	(EWeekView	*week_view,
 		start_time = time_add_day (start_time, -day_offset);
 		start_time = time_day_begin (start_time);
 		e_week_view_recalc_day_starts (week_view, start_time);
-		e_week_view_queue_reload_events (week_view);
+		update_query (week_view);
 	}
 
 	/* Set the selection to the given days. */
@@ -1138,7 +1250,6 @@ e_week_view_set_selected_time_range	(EWeekView	*week_view,
 	   signal handler will not try to reload the events. */
 	if (update_adjustment_value)
 		gtk_adjustment_set_value (GTK_RANGE (week_view->vscrollbar)->adjustment, 0);
-
 
 	gtk_widget_queue_draw (week_view->main_canvas);
 }
@@ -1227,7 +1338,7 @@ e_week_view_set_first_day_shown		(EWeekView	*week_view,
 		g_date_to_struct_tm (&base_date, &start_tm);
 		start_time = mktime (&start_tm);
 		e_week_view_recalc_day_starts (week_view, start_time);
-		e_week_view_queue_reload_events (week_view);
+		update_query (week_view);
 	}
 
 	/* Try to keep the previous selection, but if it is no longer shown
@@ -1255,7 +1366,6 @@ e_week_view_set_first_day_shown		(EWeekView	*week_view,
 	   signal handler will not try to reload the events. */
 	if (update_adjustment_value)
 		gtk_adjustment_set_value (GTK_RANGE (week_view->vscrollbar)->adjustment, 0);
-
 
 	gtk_widget_queue_draw (week_view->main_canvas);
 }
@@ -1364,8 +1474,7 @@ e_week_view_set_weeks_shown	(EWeekView	*week_view,
 		if (g_date_valid (&week_view->first_day_shown))
 			e_week_view_set_first_day_shown (week_view, &week_view->first_day_shown);
 
-		/* Make sure the events are reloaded. */
-		e_week_view_queue_reload_events (week_view);
+		update_query (week_view);
 	}
 }
 
@@ -2016,77 +2125,6 @@ e_week_view_update_selection (EWeekView *week_view,
 	if (need_redraw) {
 		gtk_widget_queue_draw (week_view->main_canvas);
 	}
-}
-
-
-/* This frees any events currently loaded, and queues a reload. */
-static void
-e_week_view_queue_reload_events (EWeekView *week_view)
-{
-	e_week_view_free_events (week_view);
-
-	if (week_view->reload_events_idle_id == 0) {
-		/* We'll use a low priority here, so the user can scroll
-		   the view quickly. */
-		week_view->reload_events_idle_id = g_idle_add_full
-			(G_PRIORITY_LOW,
-			 e_week_view_reload_events_idle_cb, week_view, NULL);
-	}
-}
-
-
-static gboolean
-e_week_view_reload_events_idle_cb	(gpointer data)
-{
-	EWeekView *week_view;
-
-	g_return_val_if_fail (E_IS_WEEK_VIEW (data), FALSE);
-
-	GDK_THREADS_ENTER ();
-
-	week_view = E_WEEK_VIEW (data);
-
-	week_view->reload_events_idle_id = 0;
-
-	e_week_view_reload_events (week_view);
-
-	GDK_THREADS_LEAVE ();
-	return FALSE;
-}
-
-
-static void
-e_week_view_reload_events (EWeekView *week_view)
-{
-	gint num_days;
-
-	e_week_view_free_events (week_view);
-
-	if (!(week_view->client
-	      && cal_client_get_load_state (week_view->client) == CAL_CLIENT_LOAD_LOADED))
-		return;
-
-	/* Only load events if the date range has been set. */
-	if (g_date_valid (&week_view->first_day_shown)) {
-		num_days = week_view->multi_week_view
-			? week_view->weeks_shown * 7 : 7;
-
-#if 0
-		g_print ("EWeekView (%s) generating instances\n",
-			 week_view->multi_week_view ? "Month View" : "Week View");
-#endif
-		cal_client_generate_instances (week_view->client,
-					       CALOBJ_TYPE_EVENT,
-					       week_view->day_starts[0],
-					       week_view->day_starts[num_days],
-					       e_week_view_add_event,
-					       week_view);
-	}
-
-	week_view->events_need_reshape = TRUE;
-	e_week_view_check_layout (week_view);
-
-	gtk_widget_queue_draw (week_view->main_canvas);
 }
 
 
@@ -2777,7 +2815,7 @@ e_week_view_on_adjustment_changed (GtkAdjustment *adjustment,
 	lower = time_day_begin (lower);
 
 	e_week_view_recalc_day_starts (week_view, lower);
-	e_week_view_queue_reload_events (week_view);
+	update_query (week_view);
 
 	/* Update the selection, if needed. */
 	if (week_view->selection_start_day != -1) {

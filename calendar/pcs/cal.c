@@ -456,6 +456,8 @@ Cal_get_query (PortableServer_Servant servant,
 	Cal *cal;
 	CalPrivate *priv;
 	Query *query;
+	CORBA_Environment ev2;
+	GNOME_Evolution_Calendar_Query query_copy;
 
 	cal = CAL (bonobo_object_from_servant (servant));
 	priv = cal->priv;
@@ -468,7 +470,20 @@ Cal_get_query (PortableServer_Servant servant,
 		return CORBA_OBJECT_NIL;
 	}
 
-	return BONOBO_OBJREF (query);
+	CORBA_exception_init (&ev2);
+	query_copy = CORBA_Object_duplicate (BONOBO_OBJREF (query), &ev2);
+	if (ev2._major != CORBA_NO_EXCEPTION) {
+		CORBA_exception_free (&ev2);
+		g_message ("Cal_get_query(): Could not duplicate the query reference");
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+				     ex_GNOME_Evolution_Calendar_Cal_CouldNotCreate,
+				     NULL);
+		return CORBA_OBJECT_NIL;
+	}
+
+	CORBA_exception_free (&ev2);
+
+	return query_copy;
 }
 
 /**

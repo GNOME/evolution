@@ -207,7 +207,7 @@ cal_query_destroy (GtkObject *object)
 
 /* Marshalers */
 
-typedef void (* ObjUpdatedFunc) (QueryListener *ql, const char *uid,
+typedef void (* ObjUpdatedFunc) (CalQuery *query, const char *uid,
 				 gboolean query_in_progress, int n_scanned, int total,
 				 gpointer data);
 
@@ -218,12 +218,12 @@ marshal_obj_updated (GtkObject *object, GtkSignalFunc func, gpointer func_data, 
 
 	f = (ObjUpdatedFunc) func;
 
-	(* f) (QUERY_LISTENER (object), GTK_VALUE_STRING (args[0]),
+	(* f) (CAL_QUERY (object), GTK_VALUE_STRING (args[0]),
 	       GTK_VALUE_BOOL (args[1]), GTK_VALUE_INT (args[2]), GTK_VALUE_INT (args[3]),
 	       func_data);
 }
 
-typedef void (* QueryDoneFunc) (QueryListener *ql, CalQueryDoneStatus status, const char *error_str,
+typedef void (* QueryDoneFunc) (CalQuery *query, CalQueryDoneStatus status, const char *error_str,
 				gpointer data);
 
 static void
@@ -233,7 +233,7 @@ marshal_query_done (GtkObject *object, GtkSignalFunc func, gpointer func_data, G
 
 	f = (QueryDoneFunc) func;
 
-	(* f) (QUERY_LISTENER (object), GTK_VALUE_ENUM (args[0]), GTK_VALUE_STRING (args[1]),
+	(* f) (CAL_QUERY (object), GTK_VALUE_ENUM (args[0]), GTK_VALUE_STRING (args[1]),
 	       func_data);
 }
 

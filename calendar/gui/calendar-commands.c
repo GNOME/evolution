@@ -387,12 +387,12 @@ static EPixmap pixmaps [] =
 	E_PIXMAP ("/menu/File/Print/Print Preview",		"print-preview.xpm"),
 	E_PIXMAP ("/menu/Actions/Component/CalendarNew",	"new_appointment.xpm"),
 	E_PIXMAP ("/menu/Tools/Component/CalendarPreferences",	"configure_16_calendar.xpm"),
-	E_PIXMAP ("/Toolbar/New",		"buttons/new_appointment.png"),
 
-	E_PIXMAP ("/Toolbar/DayView",		"buttons/dayview.xpm"),
-	E_PIXMAP ("/Toolbar/WorkWeekView",	"buttons/workweekview.xpm"),
-	E_PIXMAP ("/Toolbar/WeekView",		"buttons/weekview.xpm"),
-	E_PIXMAP ("/Toolbar/MonthView",		"buttons/monthview.xpm"),
+	E_PIXMAP ("/Toolbar/New",				"buttons/new_appointment.png"),
+	E_PIXMAP ("/Toolbar/DayView",				"buttons/dayview.xpm"),
+	E_PIXMAP ("/Toolbar/WorkWeekView",			"buttons/workweekview.xpm"),
+	E_PIXMAP ("/Toolbar/WeekView",				"buttons/weekview.xpm"),
+	E_PIXMAP ("/Toolbar/MonthView",				"buttons/monthview.xpm"),
 
 	E_PIXMAP_END
 };

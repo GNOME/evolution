@@ -186,14 +186,15 @@ struct _EWeekView
 	/* Calendar client object we are monitoring */
 	CalClient *client;
 
+	/* S-expression for query and the query object */
+	char *sexp;
+	CalQuery *query;
+
 	/* The array of EWeekViewEvent elements. */
 	GArray *events;
 	gboolean events_sorted;
 	gboolean events_need_layout;
 	gboolean events_need_reshape;
-
-	/* The id of our idle function to reload all events. */
-	gint reload_events_idle_id;
 
 	/* An array of EWeekViewEventSpan elements. Each event has its own
 	   space within this array, and uses the spans_index and num_spans
@@ -362,6 +363,9 @@ void	   e_week_view_set_first_day_shown	(EWeekView	*week_view,
 
 void       e_week_view_set_cal_client		(EWeekView	*week_view,
 						 CalClient	*client);
+
+void       e_week_view_set_query		(EWeekView	*week_view,
+						 const char	*sexp);
 
 /* The selected time range. The EWeekView will show the corresponding
    month and the days between start_time and end_time will be selected.
