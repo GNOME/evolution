@@ -927,7 +927,9 @@ do_popup_menu(EAddressbookView *view, GdkEvent *event)
 		E_POPUP_ITEM (N_("Delete"), GTK_SIGNAL_FUNC(delete), POPUP_READONLY_MASK | POPUP_NOSELECTION_MASK),
 		E_POPUP_SEPARATOR,
 
+#if 0
 		E_POPUP_SUBMENU (N_("Current View"), submenu = gal_view_instance_get_popup_menu (view->view_instance), 0),
+#endif
 		E_POPUP_TERMINATOR
 	};
 

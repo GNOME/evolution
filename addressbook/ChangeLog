@@ -1,3 +1,10 @@
+2002-10-02  Chris Toshok  <toshok@ximian.com>
+
+	[ Fix #28392 ]
+	* gui/widgets/e-addressbook-view.c (do_popup_menu): #if 0 out the
+	gal_view submenu, since it's not spec'ed to be there anyway (as
+	per bug #16250).
+
 2002-09-30  Chris Toshok  <toshok@ximian.com>
 
 	[ Fixes #31321 ]
