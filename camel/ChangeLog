@@ -1,3 +1,9 @@
+2001-09-06  Dan Winship  <danw@ximian.com>
+
+	* providers/pop3/camel-pop3-provider.c: #ifdef out the "delete
+	after N days" option in pop3_conf_entries, since it won't be done
+	for 1.0.
+
 2001-09-04  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-remote-store.c (remote_disconnect): Too late to sync the
