@@ -1057,7 +1057,7 @@ void mail_scan_subfolders(CamelStore *store, EvolutionStorage *storage)
 	int id;
 
 	id = mail_get_folderinfo(store, do_scan_subfolders, storage);
-	mail_msg_wait(id);
+	/*mail_msg_wait(id);*/
 }
 
 /* ** ATTACH MESSAGES ****************************************************** */
@@ -1179,6 +1179,71 @@ mail_get_folder(const char *uri, void (*done) (char *uri, CamelFolder *folder, v
 	int id;
 
 	m = mail_msg_new(&get_folder_op, NULL, sizeof(*m));
+	m->uri = g_strdup(uri);
+	m->data = data;
+	m->done = done;
+
+	id = m->msg.seq;
+	e_thread_put(mail_thread_new, (EMsg *)m);
+	return id;
+}
+
+/* ** GET STORE ******************************************************* */
+
+struct _get_store_msg {
+	struct _mail_msg msg;
+
+	char *uri;
+	CamelStore *store;
+	void (*done) (char *uri, CamelStore *store, void *data);
+	void *data;
+};
+
+static char *get_store_desc(struct _mail_msg *mm, int done)
+{
+	struct _get_store_msg *m = (struct _get_store_msg *)mm;
+	
+	return g_strdup_printf(_("Opening store %s"), m->uri);
+}
+
+static void get_store_get(struct _mail_msg *mm)
+{
+	struct _get_store_msg *m = (struct _get_store_msg *)mm;
+
+	m->store = camel_session_get_store(session, m->uri, &mm->ex);
+}
+
+static void get_store_got(struct _mail_msg *mm)
+{
+	struct _get_store_msg *m = (struct _get_store_msg *)mm;
+
+	if (m->done)
+		m->done(m->uri, m->store, m->data);
+}
+
+static void get_store_free(struct _mail_msg *mm)
+{
+	struct _get_store_msg *m = (struct _get_store_msg *)mm;
+
+	g_free(m->uri);
+	if (m->store)
+		camel_object_unref((CamelObject *)m->store);
+}
+
+static struct _mail_msg_op get_store_op = {
+	get_store_desc,
+	get_store_get,
+	get_store_got,
+	get_store_free,
+};
+
+int
+mail_get_store(const char *uri, void (*done) (char *uri, CamelStore *store, void *data), void *data)
+{
+	struct _get_store_msg *m;
+	int id;
+
+	m = mail_msg_new(&get_store_op, NULL, sizeof(*m));
 	m->uri = g_strdup(uri);
 	m->data = data;
 	m->done = done;

@@ -58,6 +58,10 @@ void mail_get_messages(CamelFolder *folder, GPtrArray *uids,
 int mail_get_folder(const char *uri,
 		    void (*done) (char *uri, CamelFolder *folder, void *data), void *data);
 
+/* and for a store */
+int mail_get_store(const char *uri,
+		   void (*done) (char *uri, CamelStore *store, void *data), void *data);
+
 /* build an attachment */
 void mail_build_attachment(CamelFolder *folder, GPtrArray *uids,
 			   void (*done)(CamelFolder *folder, GPtrArray *messages, CamelMimePart *part, char *subject, void *data), void *data);

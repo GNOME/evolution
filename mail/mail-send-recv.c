@@ -470,6 +470,24 @@ receive_get_folder(CamelFilterDriver *d, const char *uri, void *data, CamelExcep
 	return folder;
 }
 
+static void
+receive_update_got_store(char *uri, CamelStore *store, void *data)
+{
+	struct _send_info *info = data;
+
+	if (store) {
+		EvolutionStorage *storage = mail_lookup_storage(store);
+		if (storage) {
+			mail_update_subfolders(store, storage, receive_update_done, info);
+			gtk_object_unref((GtkObject *)storage);
+		} else {
+			receive_done("", info);
+		}
+	} else {
+		receive_done("", info);
+	}
+}
+
 void mail_send_receive(void)
 {
 	GSList *sources;
@@ -478,8 +496,6 @@ void mail_send_receive(void)
 	struct _send_data *data;
 	extern CamelFolder *outbox_folder;
 	const MailConfigAccount *account;
-	CamelStore *store;
-	CamelException *ex;
 
 	sources = mail_config_get_sources();
 	if (!sources)
@@ -519,21 +535,7 @@ void mail_send_receive(void)
 			break;
 		case SEND_UPDATE:
 			/* FIXME: error reporting? */
-			ex = camel_exception_new();
-			store = camel_session_get_store(session, info->uri, ex);
-			if (store) {
-				EvolutionStorage *storage = mail_lookup_storage(store);
-				if (storage) {
-					mail_update_subfolders(store, storage, receive_update_done, info);
-					gtk_object_unref((GtkObject *)storage);
-				} else {
-					receive_done("", info);
-				}
-				camel_object_unref((CamelObject *)store);
-			} else {
-				receive_done("", info);
-			}
-			camel_exception_free(ex);
+			mail_get_store(info->uri, receive_update_got_store, info);
 			break;
 		}
 		scan = scan->next;

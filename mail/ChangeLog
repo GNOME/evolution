@@ -1,3 +1,30 @@
+2001-01-29  Not Zed  <NotZed@Ximian.com>
+
+	* message-list.c (tree_equal): Debug function to compare the tree
+	we think we have, after an incremental update.
+	(build_tree): Check the tree after we've built it.
+
+	* mail-mt.c (mail_get_password): If we are being called from the
+	main gui thread, then just call the dialogue directly.  Ideally we
+	dont want this anyway but lets handle the case nicely.
+	(mail_get_password): Try locking around the password request, to
+	single-queue any password requests.
+	(mail_msg_init): Push an exit handler to clean it up on completion.
+
+	* mail-send-recv.c (receive_update_got_store): New function called
+	when the store has been retrieved asynchronously.
+	(mail_send_receive): Get the store asynchronously.  This was
+	causing problems where the password dialogue would try and be
+	called from the main thread via a message.
+
+	* mail-ops.c (mail_get_store): New function to get a store
+	(a)synchronously.  More or less taken from subscribe-dialog, which
+	i will remove later.
+	(mail_scan_subfolders): Try running the scan subfolder thing
+	asynchronously, to help startup time.  Not sure if this will work,
+	but presumably the shell can handle the folders appearing later
+	ok.
+
 2001-01-28  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-config-druid.c (set_defaults): Turns out that I was wrong

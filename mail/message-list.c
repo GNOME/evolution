@@ -1460,6 +1460,8 @@ static void build_subtree (MessageList *ml, ETreePath *parent, CamelFolderThread
 
 static void build_subtree_diff (MessageList *ml, ETreePath *parent, ETreePath *path, CamelFolderThreadNode *c, int *row, GHashTable *expanded_nodes);
 
+static int tree_equal(ETreeModel *etm, ETreePath *ap, CamelFolderThreadNode *bp);
+
 static void
 build_tree (MessageList *ml, CamelFolderThread *thread, CamelFolderChangeInfo *changes)
 {
@@ -1489,7 +1491,7 @@ build_tree (MessageList *ml, CamelFolderThread *thread, CamelFolderChangeInfo *c
 		e_tree_model_node_set_expanded(etm, ml->tree_root, TRUE);
 	}
 
-#define BROKEN_ETREE	/* avoid some broken code in etree(?) by not using the incremental update */
+/*#define BROKEN_ETREE*/	/* avoid some broken code in etree(?) by not using the incremental update */
 
 	top = e_tree_model_node_get_first_child(etm, ml->tree_root);
 #ifndef BROKEN_ETREE
@@ -1502,6 +1504,8 @@ build_tree (MessageList *ml, CamelFolderThread *thread, CamelFolderChangeInfo *c
 #ifndef BROKEN_ETREE
 	} else {
 		build_subtree_diff(ml, ml->tree_root, top,  thread->tree, &row, expanded_nodes);
+		top = e_tree_model_node_get_first_child(etm, ml->tree_root);
+		tree_equal(ml->table_model, top, thread->tree);
 	}
 #endif
 	free_tree_state(expanded_nodes);
@@ -1599,6 +1603,57 @@ node_equal(ETreeModel *etm, ETreePath *ap, CamelFolderThreadNode *bp)
 			return 1;
 	}
 	return 0;
+}
+
+/* debug function - compare the two trees to see if they are the same */
+static int
+tree_equal(ETreeModel *etm, ETreePath *ap, CamelFolderThreadNode *bp)
+{
+	char *uid;
+
+	while (ap && bp) {
+		if (!node_equal(etm, ap, bp)) {
+			g_warning("Nodes in tree differ");
+			uid = e_tree_model_node_get_data(etm, ap);
+			if (id_is_uid(uid))
+				printf("table uid = %s\n", id_uid(uid));
+			else
+				printf("table subject = %s\n", id_subject(uid));
+			if (bp->message)
+				printf("camel uid = %s\n", camel_message_info_uid(bp->message));
+			else
+				printf("camel subject = %s\n", bp->root_subject);
+			return FALSE;
+		} else {
+			if (!tree_equal(etm, e_tree_model_node_get_first_child(etm, ap), bp->child))
+				return FALSE;
+		}
+		bp = bp->next;
+		ap = e_tree_model_node_get_next(etm, ap);
+	}
+
+	if (ap || bp) {
+		g_warning("Tree differs, out of nodes in one branch");
+		if (ap) {
+			uid = e_tree_model_node_get_data(etm, ap);
+			if (uid) {
+				if (id_is_uid(uid))
+					printf("table uid = %s\n", id_uid(uid));
+				else
+					printf("table subject = %s\n", id_subject(uid));
+			} else
+				printf("uid is empty?\n");
+		}
+		if (bp) {
+			if (bp->message)
+				printf("camel uid = %s\n", camel_message_info_uid(bp->message));
+			else
+				printf("camel subject = %s\n", bp->root_subject);
+			return FALSE;
+		}
+		return FALSE;
+	}
+	return TRUE;
 }
 
 /* adds a single node, retains save state, and handles adding children if required */

@@ -216,6 +216,17 @@ mail_msg_received(EThread *e, EMsg *msg, void *data)
 		m->ops->receive_msg(m);
 }
 
+void mail_msg_cleanup(void)
+{
+	e_thread_destroy(mail_thread_queued);
+	e_thread_destroy(mail_thread_new);
+
+	e_msgport_destroy(mail_gui_port);
+	e_msgport_destroy(mail_gui_reply_port);
+
+	/* FIXME: channels too, etc */
+}
+
 void mail_msg_init(void)
 {
 	mail_gui_reply_port = e_msgport_new();
@@ -238,6 +249,8 @@ void mail_msg_init(void)
 
 	mail_msg_active = g_hash_table_new(NULL, NULL);
 	mail_gui_thread = pthread_self();
+
+	atexit(mail_msg_cleanup);
 }
 
 /* ********************************************************************** */
@@ -492,9 +505,19 @@ mail_get_password(char *prompt, gboolean secret)
 	m->prompt = prompt;
 	m->secret = secret;
 
-	e_msgport_put(mail_gui_port, (EMsg *)m);
-	e_msgport_wait(pass_reply);
-	r = (struct _pass_msg *)e_msgport_get(pass_reply);
+	if (pthread_self() == mail_gui_thread) {
+		do_get_pass((struct _mail_msg *)m);
+		r = m;
+	} else {
+		static pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
+
+		/* we want this single-threaded, this is the easiest way to do it without blocking ? */
+		pthread_mutex_lock(&lock);
+		e_msgport_put(mail_gui_port, (EMsg *)m);
+		e_msgport_wait(pass_reply);
+		r = (struct _pass_msg *)e_msgport_get(pass_reply);
+		pthread_mutex_unlock(&lock);
+	}
 
 	g_assert(r == m);
 

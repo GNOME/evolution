@@ -31,11 +31,11 @@
 #include "mail.h"
 #include "mail-mt.h"
 
-#if 0
+#if 1
 static int blowup(int status)
 {
 	printf("memory blew up, status %d\n", status);
-	/*abort();*/
+	abort();
 	return status;
 }
 #endif
@@ -62,7 +62,7 @@ main (int argc, char *argv [])
 	CORBA_ORB orb;
 	struct sigaction sa, osa;
 
-#if 0
+#if 1
 	/* used to make elfence work */
 #if 0
 	free (malloc (10));
