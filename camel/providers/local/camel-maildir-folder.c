@@ -56,6 +56,35 @@ static CamelMimeMessage *maildir_get_message(CamelFolder * folder, const gchar *
 
 static void maildir_finalize(CamelObject * object);
 
+static int
+maildir_folder_getv(CamelObject *object, CamelException *ex, CamelArgGetV *args)
+{
+	CamelFolder *folder = (CamelFolder *)object;
+	int i;
+	guint32 tag;
+
+	for (i=0;i<args->argc;i++) {
+		CamelArgGet *arg = &args->argv[i];
+
+		tag = arg->tag;
+
+		switch (tag & CAMEL_ARG_TAG) {
+		case CAMEL_FOLDER_ARG_NAME:
+			if (!strcmp(folder->full_name, "."))
+				*arg->ca_str = _("Inbox");
+			else
+				*arg->ca_str = folder->name;
+			break;
+		default:
+			continue;
+		}
+
+		arg->tag = (tag & CAMEL_ARG_TYPE) | CAMEL_ARG_IGNORE;
+	}
+
+	return ((CamelObjectClass *)parent_class)->getv(object, ex, args);
+}
+
 static void camel_maildir_folder_class_init(CamelObjectClass * camel_maildir_folder_class)
 {
 	CamelFolderClass *camel_folder_class = CAMEL_FOLDER_CLASS(camel_maildir_folder_class);
@@ -66,6 +95,8 @@ static void camel_maildir_folder_class_init(CamelObjectClass * camel_maildir_fol
 	/* virtual method definition */
 
 	/* virtual method overload */
+	((CamelObjectClass *)camel_folder_class)->getv = maildir_folder_getv;
+
 	camel_folder_class->append_message = maildir_append_message;
 	camel_folder_class->get_message = maildir_get_message;
 

@@ -1,5 +1,9 @@
 2004-06-28  Not Zed  <NotZed@Ximian.com>
 
+	* providers/local/camel-maildir-folder.c (maildir_folder_getv):
+	override CAMEL_FOLDER_NAME arg so we can translate "." into
+	"Inbox".
+
 	* providers/local/camel-maildir-store.c (camel_folder_info_new):
 	take url argument directly, fixes a memleak.
 	(camel_folder_info_new): make the toplevel "." into "Inbox"

@@ -50,6 +50,7 @@ static CamelLocalStoreClass *parent_class = NULL;
 static CamelFolder *get_folder(CamelStore * store, const char *folder_name, guint32 flags, CamelException * ex);
 static CamelFolder *get_inbox (CamelStore *store, CamelException *ex);
 static void delete_folder(CamelStore * store, const char *folder_name, CamelException * ex);
+static void maildir_rename_folder(CamelStore *store, const char *old, const char *new, CamelException *ex);
 
 static CamelFolderInfo * get_folder_info (CamelStore *store, const char *top, guint32 flags, CamelException *ex);
 
@@ -64,6 +65,7 @@ static void camel_maildir_store_class_init(CamelObjectClass * camel_maildir_stor
 	camel_store_class->get_folder = get_folder;
 	camel_store_class->get_inbox = get_inbox;
 	camel_store_class->delete_folder = delete_folder;
+	camel_store_class->rename_folder = maildir_rename_folder;
 
 	camel_store_class->get_folder_info = get_folder_info;
 	camel_store_class->free_folder_info = camel_store_free_folder_info_full;
@@ -225,8 +227,6 @@ static void delete_folder(CamelStore * store, const char *folder_name, CamelExce
 static void
 maildir_rename_folder(CamelStore *store, const char *old, const char *new, CamelException *ex)
 {
-	CamelFolder *folder;
-
 	if (strcmp(old, ".") == 0) {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
 				     _("Cannot rename folder: %s: Invalid operation"), _("Inbox"));
