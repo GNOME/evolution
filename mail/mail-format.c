@@ -1040,14 +1040,30 @@ static char *
 get_data_wrapper_text (CamelDataWrapper *wrapper)
 {
 	CamelStream *memstream;
+	CamelStreamFilter *filtered_stream;
 	GByteArray *ba;
 	char *text, *end;
 	
 	memstream = camel_stream_mem_new ();
 	ba = g_byte_array_new ();
 	camel_stream_mem_set_byte_array (CAMEL_STREAM_MEM (memstream), ba);
-	camel_data_wrapper_write_to_stream (wrapper, memstream);
+	
+	filtered_stream = camel_stream_filter_new_with_stream (memstream);
 	camel_object_unref (CAMEL_OBJECT (memstream));
+	
+	if (wrapper->rawtext) {
+		CamelMimeFilterCharset *filter;
+		const char *charset;
+		
+		charset = mail_config_get_default_charset ();
+		filter = camel_mime_filter_charset_new_convert (charset, "utf-8");
+		camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (filter));
+		camel_object_unref (CAMEL_OBJECT (filter));
+	}
+	
+	camel_data_wrapper_write_to_stream (wrapper, CAMEL_STREAM (filtered_stream));
+	camel_stream_flush (CAMEL_STREAM (filtered_stream));
+	camel_object_unref (CAMEL_OBJECT (filtered_stream));
 	
 	for (text = ba->data, end = text + ba->len; text < end; text++) {
 		if (!isspace ((unsigned char)*text))
