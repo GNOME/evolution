@@ -615,16 +615,29 @@ gboolean camel_filter_search_match(CamelMimeMessage *message, CamelMessageInfo *
 	}
 	
 	e_sexp_input_text (sexp, expression, strlen (expression));
-	e_sexp_parse (sexp);
+	if (e_sexp_parse (sexp) == -1) {
+		if (!camel_exception_is_set(ex))
+			camel_exception_setv(ex, 1, _("Error executing filter search: %s: %s"), e_sexp_error(sexp), expression);
+		goto error;
+	}
 	result = e_sexp_eval (sexp);
-	
+	if (result == NULL) {
+		if (!camel_exception_is_set(ex))
+		camel_exception_setv(ex, 1, _("Error executing filter search: %s: %s"), e_sexp_error(sexp), expression);
+		goto error;
+	}
+
 	if (result->type == ESEXP_RES_BOOL)
 		retval = result->value.bool;
 	else
 		retval = FALSE;
 	
-	e_sexp_unref(sexp);
 	e_sexp_result_free (result);
+	e_sexp_unref(sexp);
 	
 	return retval;
+
+error:
+	e_sexp_unref(sexp);
+	return FALSE;
 }

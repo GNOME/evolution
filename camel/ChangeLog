@@ -1,5 +1,15 @@
 2001-01-23  Not Zed  <NotZed@Ximian.com>
 
+	* camel-filter-search.c (camel_filter_search_match): Perform error
+	checking on parsing/execution.
+
+	* camel-folder-search.c (camel_folder_search_execute_expression):
+	Perform error handling on search expression.
+	(CamelFolderSearchPrivate): Add a camelexception for error
+	returns.
+	(camel_folder_search_execute_expression): Setup exception pointer.
+	(search_match_all): Quit on error.
+
 	* providers/imap/camel-imap-summary.c (message_info_load): Removed
 	some debug 'warnings', as they should now be displayed at the
 	toplevel loader, and just made the code match similar code
@@ -18,6 +28,8 @@
 	* camel-filter-driver.c (close_folder): avoid /0 by updating after
 	we've done the sync.
 	(close_folders): Setup the first progress report to start it off.
+	(camel_filter_driver_filter_message): Fix a fixme, check errors in
+	e_sexp parsing, etc.
 
 2001-01-22  Christopher James Lahey  <clahey@helixcode.com>
 

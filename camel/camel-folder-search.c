@@ -47,6 +47,7 @@
 
 struct _CamelFolderSearchPrivate {
 	GHashTable *mempool_hash;
+	CamelException *ex;
 };
 
 #define _PRIVATE(o) (((CamelFolderSearch *)(o))->priv)
@@ -304,21 +305,34 @@ GPtrArray *
 camel_folder_search_execute_expression(CamelFolderSearch *search, const char *expr, CamelException *ex)
 {
 	ESExpResult *r;
-	GPtrArray *matches = g_ptr_array_new ();
+	GPtrArray *matches;
 	int i;
 	GHashTable *results;
 	EMemPool *pool;
 	struct _CamelFolderSearchPrivate *p = _PRIVATE(search);
 
+	p->ex = ex;
+
 	/* only re-parse if the search has changed */
 	if (search->last_search == NULL
 	    || strcmp(search->last_search, expr)) {
 		e_sexp_input_text(search->sexp, expr, strlen(expr));
-		e_sexp_parse(search->sexp);
+		if (e_sexp_parse(search->sexp) == -1) {
+			camel_exception_setv(ex, 1, _("Cannot parse search expression: %s:\n%s"), e_sexp_error(search->sexp), expr);
+			return NULL;
+		}
+
 		g_free(search->last_search);
 		search->last_search = g_strdup(expr);
 	}
 	r = e_sexp_eval(search->sexp);
+	if (r == NULL) {
+		if (!camel_exception_is_set(ex))
+			camel_exception_setv(ex, 1, _("Error executing search expression: %s:\n%s"), e_sexp_error(search->sexp), expr);
+		return NULL;
+	}
+
+	matches = g_ptr_array_new();
 
 	/* now create a folder summary to return?? */
 	if (r
@@ -459,6 +473,7 @@ search_match_all(struct _ESExp *f, int argc, struct _ESExpTerm **argv, CamelFold
 					g_ptr_array_add(r->value.ptrarray, (char *)camel_message_info_uid(search->current));
 			} else {
 				g_warning("invalid syntax, matches require a single bool result");
+				e_sexp_fatal_error(f, _("(match-all) requires a single bool result"));
 			}
 			e_sexp_result_free(r1);
 		} else {
@@ -472,6 +487,7 @@ search_match_all(struct _ESExp *f, int argc, struct _ESExpTerm **argv, CamelFold
 	if (search->summary == NULL) {
 		/* TODO: make it work - e.g. use the folder and so forth for a slower search */
 		g_warning("No summary supplied, match-all doesn't work with no summary");
+		g_assert(0);
 		return r;
 	}
 
@@ -485,6 +501,7 @@ search_match_all(struct _ESExp *f, int argc, struct _ESExpTerm **argv, CamelFold
 					g_ptr_array_add(r->value.ptrarray, (char *)camel_message_info_uid(search->current));
 			} else {
 				g_warning("invalid syntax, matches require a single bool result");
+				e_sexp_fatal_error(f, _("(match-all) requires a single bool result"));
 			}
 			e_sexp_result_free(r1);
 		} else {

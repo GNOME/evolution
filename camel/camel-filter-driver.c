@@ -761,13 +761,18 @@ camel_filter_driver_filter_message (CamelFilterDriver *driver, CamelMimeMessage 
 		if (camel_filter_search_match(p->message, p->info, source_url, node->match, p->ex)) {
 			filtered = TRUE;
 			camel_filter_driver_log (driver, FILTER_LOG_START, node->name);
-#ifndef NO_WARNINGS
-#warning "Must check expression parsed and executed properly?"
-#endif			
+
 			/* perform necessary filtering actions */
 			e_sexp_input_text (p->eval, node->action, strlen (node->action));
-			e_sexp_parse (p->eval);
+			if (e_sexp_parse (p->eval) == -1) {
+				camel_exception_setv(ex, 1, _("Error parsing filter: %s: %s"), e_sexp_error(p->eval), node->action);
+				goto error;
+			}
 			r = e_sexp_eval (p->eval);
+			if (r == NULL) {
+				camel_exception_setv(ex, 1, _("Error executing filter: %s: %s"), e_sexp_error(p->eval), node->action);
+				goto error;
+			}
 			e_sexp_result_free (r);
 			if (p->terminated)
 				break;
@@ -786,10 +791,11 @@ camel_filter_driver_filter_message (CamelFilterDriver *driver, CamelMimeMessage 
 		camel_filter_driver_log (driver, FILTER_LOG_ACTION, "Copy to default folder");
 		camel_folder_append_message (p->defaultfolder, p->message, p->info, p->ex);
 	}
+
+error:	
+	if (filtered)
+		camel_filter_driver_log (driver, FILTER_LOG_END, NULL);
 	
 	if (freeinfo)
 		camel_message_info_free (info);
-	
-	if (filtered)
-		camel_filter_driver_log (driver, FILTER_LOG_END, NULL);
 }
