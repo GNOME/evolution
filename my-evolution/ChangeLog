@@ -1,3 +1,11 @@
+2002-05-20  Iain Holmes <iain@ximian.com>
+
+	* e-summary-preferences.c (add_dialog_clicked_cb): Add a new summary
+	to the All table.
+	(make_property_dialog): Hook up the new button.
+
+	* e-summary-shown.c (e_summary_shown_init): Add some spacing.
+
 2002-05-20  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-summary-table.c: Don't show the headers in the folder table.

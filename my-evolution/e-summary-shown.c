@@ -487,11 +487,11 @@ e_summary_shown_init (ESummaryShown *shown)
 
 	priv->all = make_table (shown->all_model, _("All"), GTK_SIGNAL_FUNC (all_selection_changed), shown);
 	
-	gtk_box_pack_start (GTK_BOX (shown), priv->all->etable, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (shown), priv->all->etable, TRUE, TRUE, 2);
 	gtk_widget_show (priv->all->etable);
 	
 	vbox = gtk_vbox_new (TRUE, 0);
-	gtk_box_pack_start (GTK_BOX (shown), vbox, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (shown), vbox, FALSE, FALSE, 2);
 
 	/* Fixme: nice GFX version */
 	priv->add = construct_pixmap_button (_("Add"), GNOME_STOCK_BUTTON_NEXT);
@@ -511,7 +511,7 @@ e_summary_shown_init (ESummaryShown *shown)
 
 	priv->shown = make_table (shown->shown_model, _("Shown"), GTK_SIGNAL_FUNC (shown_selection_changed), shown);
 
-	gtk_box_pack_start (GTK_BOX (shown), priv->shown->etable, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (shown), priv->shown->etable, TRUE, TRUE, 2);
 	gtk_widget_show (priv->shown->etable);
 }
 

@@ -421,7 +421,7 @@ struct _MailPage {
 struct _RDFPage {
 	GtkWidget *etable;
 	GtkWidget *refresh, *limit;
-	GtkWidget *new_url, *delete_url;
+	GtkWidget *new_button, *delete_url;
 
 	GHashTable *default_hash, *model;
 	GList *known, *tmp_list;
@@ -703,7 +703,49 @@ mail_show_full_path_toggled_cb (GtkToggleButton *tb,
 	evolution_config_control_changed (pd->config_control);
 }
 
-#if 0
+static void
+add_dialog_clicked_cb (GtkWidget *widget,
+		       int button,
+		       PropertyData *pd)
+{
+	if (button == 0) {
+		char *url;
+		char *name;
+
+		name = gtk_entry_get_text (pd->new_name_entry);
+		url = gtk_entry_get_text (pd->new_url_entry);
+
+		if (name != NULL && *name != 0 &&
+		    url != NULL && *url != 0) {
+			ESummaryShownModelEntry *entry;
+			struct _RDFInfo *info;
+
+			info = g_new (struct _RDFInfo, 1);
+			info->url = g_strdup (url);
+			info->name = g_strdup (name);
+			info->custom = TRUE;
+
+			pd->rdf->known = g_list_append (pd->rdf->known, info);
+
+			entry = g_new (ESummaryShownModelEntry, 1);
+			entry->location = g_strdup (info->url);
+			entry->name = g_strdup (info->name);
+			entry->showable = TRUE;
+
+			e_summary_shown_add_node (pd->rdf->etable, TRUE,
+						  entry, NULL, TRUE, NULL);
+
+			/* Should we add to shown? */
+
+			save_known_rdfs (pd->rdf->known);
+
+			evolution_config_control_changed (pd->config_control);
+		}
+	}
+
+	gtk_widget_destroy (widget);
+}
+
 static void
 rdf_new_url_clicked_cb (GtkButton *button,
 			PropertyData *pd)
@@ -745,7 +787,6 @@ rdf_new_url_clicked_cb (GtkButton *button,
 			    hbox, TRUE, TRUE, 0);
 	gtk_widget_show_all (add_dialog);
 }
-#endif
 
 static void
 rdf_refresh_value_changed_cb (GtkAdjustment *adj,
@@ -949,6 +990,11 @@ make_property_dialog (PropertyData *pd)
 				   (float) global_preferences->limit);
 	gtk_signal_connect (GTK_OBJECT (GTK_SPIN_BUTTON (rdf->limit)->adjustment), "value_changed",
 			    GTK_SIGNAL_FUNC (rdf_limit_value_changed_cb), pd);
+
+	rdf->new_button = glade_xml_get_widget (pd->xml, "button11");
+	g_return_val_if_fail (rdf->limit != NULL, FALSE);
+	gtk_signal_connect (GTK_OBJECT (rdf->new_button), "clicked",
+			    GTK_SIGNAL_FUNC (rdf_new_url_clicked_cb), pd);
 
 	/* Weather */
 	weather = pd->weather = g_new (struct _WeatherPage, 1);
