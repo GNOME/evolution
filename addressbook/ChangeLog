@@ -1,3 +1,11 @@
+2004-03-09  Rodney Dawes  <dobey@ximian.com>
+
+	* gui/contact-editor/e-contact-editor-im.c (e_contact_editor_im_edit):
+	Remove the dialog separator, and set appropriate border widths for the
+	button area box and the dialog's vbox
+	* gui/contact-editor/im.glade: Apply patch from Christian Neumair to
+	make the IM editor dialog HIG compliant
+
 2004-03-08  Sivaiah Nallagatla <snallagatla@novell.com>
 	* gui/contact-editor/e-contact-editor.c (enable_writable_fields):
 	fixed a typo, which is causing probelm in building up email ui

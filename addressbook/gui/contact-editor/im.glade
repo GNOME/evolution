@@ -2,22 +2,21 @@
 <!DOCTYPE glade-interface SYSTEM "http://glade.gnome.org/glade-2.0.dtd">
 
 <glade-interface>
-<requires lib="gnome"/>
 
 <widget class="GtkDialog" id="dialog-im">
   <property name="title" translatable="yes">Add IM Account</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
   <property name="modal">True</property>
-  <property name="resizable">False</property>
+  <property name="resizable">True</property>
   <property name="destroy_with_parent">False</property>
-  <property name="has_separator">True</property>
+  <property name="has_separator">False</property>
 
   <child internal-child="vbox">
     <widget class="GtkVBox" id="dialog-vbox1">
       <property name="visible">True</property>
       <property name="homogeneous">False</property>
-      <property name="spacing">0</property>
+      <property name="spacing">2</property>
 
       <child internal-child="action_area">
 	<widget class="GtkHButtonBox" id="dialog-action_area1">
@@ -64,21 +63,22 @@
 	  <property name="n_columns">2</property>
 	  <property name="homogeneous">False</property>
 	  <property name="row_spacing">6</property>
-	  <property name="column_spacing">6</property>
+	  <property name="column_spacing">12</property>
 
 	  <child>
 	    <widget class="GtkLabel" id="label-service">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">IM Service:</property>
-	      <property name="use_underline">False</property>
+	      <property name="label" translatable="yes">_IM Service:</property>
+	      <property name="use_underline">True</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
 	      <property name="wrap">False</property>
 	      <property name="selectable">False</property>
-	      <property name="xalign">1</property>
+	      <property name="xalign">0</property>
 	      <property name="yalign">0.5</property>
 	      <property name="xpad">0</property>
 	      <property name="ypad">0</property>
+	      <property name="mnemonic_widget">optmenu-service</property>
 	    </widget>
 	    <packing>
 	      <property name="left_attach">0</property>
@@ -109,16 +109,17 @@
 	  <child>
 	    <widget class="GtkLabel" id="label-username">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">Account name:</property>
-	      <property name="use_underline">False</property>
+	      <property name="label" translatable="yes">_Account name:</property>
+	      <property name="use_underline">True</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
 	      <property name="wrap">False</property>
 	      <property name="selectable">False</property>
-	      <property name="xalign">1</property>
+	      <property name="xalign">0</property>
 	      <property name="yalign">0.5</property>
 	      <property name="xpad">0</property>
 	      <property name="ypad">0</property>
+	      <property name="mnemonic_widget">entry-username</property>
 	    </widget>
 	    <packing>
 	      <property name="left_attach">0</property>
@@ -154,16 +155,17 @@
 	  <child>
 	    <widget class="GtkLabel" id="label-location">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">Location:</property>
-	      <property name="use_underline">False</property>
+	      <property name="label" translatable="yes">_Location:</property>
+	      <property name="use_underline">True</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
 	      <property name="wrap">False</property>
 	      <property name="selectable">False</property>
-	      <property name="xalign">1</property>
+	      <property name="xalign">0</property>
 	      <property name="yalign">0.5</property>
 	      <property name="xpad">0</property>
 	      <property name="ypad">0</property>
+	      <property name="mnemonic_widget">optmenu-location</property>
 	    </widget>
 	    <packing>
 	      <property name="left_attach">0</property>

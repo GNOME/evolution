@@ -267,6 +267,10 @@ e_contact_editor_im_init (EContactEditorIm *e_contact_editor_im)
 				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 				GTK_STOCK_OK, GTK_RESPONSE_OK,
 				NULL);
+	gtk_dialog_set_has_separator (GTK_DIALOG (e_contact_editor_im), FALSE);
+
+	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (e_contact_editor_im)->action_area), 12);
+	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (e_contact_editor_im)->vbox), 0);
 
 	gtk_window_set_resizable(GTK_WINDOW(e_contact_editor_im), TRUE);
 
