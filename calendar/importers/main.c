@@ -29,10 +29,10 @@
 #include <bonobo/bonobo-main.h>
 #include "evolution-calendar-importer.h"
 
-#define IMPORTER_FACTORY_ID   "OAFIID:GNOME_Evolution_Calendar_ImporterFactory"
-#define ICALENDAR_IMPORTER_ID "OAFIID:GNOME_Evolution_Calendar_iCalendar_Importer"
-#define VCALENDAR_IMPORTER_ID "OAFIID:GNOME_Evolution_Calendar_vCalendar_Importer"
-#define GNOME_CALENDAR_IMPORTER_ID "OAFIID:GNOME_Evolution_Gnome_Calendar_Intelligent_Importer"
+#define IMPORTER_FACTORY_ID   "OAFIID:GNOME_Evolution_Calendar_ImporterFactory:" BASE_VERSION
+#define ICALENDAR_IMPORTER_ID "OAFIID:GNOME_Evolution_Calendar_iCalendar_Importer:" BASE_VERSION
+#define VCALENDAR_IMPORTER_ID "OAFIID:GNOME_Evolution_Calendar_vCalendar_Importer:" BASE_VERSION
+#define GNOME_CALENDAR_IMPORTER_ID "OAFIID:GNOME_Evolution_Gnome_Calendar_Intelligent_Importer:" BASE_VERSION
 
 static BonoboObject *
 importer_factory_fn (BonoboGenericFactory *factory, const char *id, void *closure)

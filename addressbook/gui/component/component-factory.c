@@ -35,15 +35,15 @@
 #include <bonobo/bonobo-shlib-factory.h>
 
 
-#define FACTORY_ID "OAFIID:GNOME_Evolution_Addressbook_Factory_2"
+#define FACTORY_ID "OAFIID:GNOME_Evolution_Addressbook_Factory:" BASE_VERSION
 
-#define VCARD_CONTROL_ID               "OAFIID:GNOME_Evolution_Addressbook_VCard_Control"
-#define ADDRESSBOOK_CONTROL_ID         "OAFIID:GNOME_Evolution_Addressbook_Control"
-#define COMPONENT_ID                   "OAFIID:GNOME_Evolution_Addressbook_Component"
-#define ADDRESS_POPUP_ID               "OAFIID:GNOME_Evolution_Addressbook_AddressPopup"
-#define SELECT_NAMES_ID                "OAFIID:GNOME_Evolution_Addressbook_SelectNames_2"
-#define LDAP_STORAGE_CONFIG_CONTROL_ID "OAFIID:GNOME_Evolution_LDAPStorage_ConfigControl"
-#define CERTIFICATE_MANAGER_CONFIG_CONTROL_ID "OAFIID:GNOME_Evolution_SMime_CertificateManager_ConfigControl"
+#define VCARD_CONTROL_ID               "OAFIID:GNOME_Evolution_Addressbook_VCard_Control:" BASE_VERSION
+#define ADDRESSBOOK_CONTROL_ID         "OAFIID:GNOME_Evolution_Addressbook_Control:" BASE_VERSION
+#define COMPONENT_ID                   "OAFIID:GNOME_Evolution_Addressbook_Component:" BASE_VERSION
+#define ADDRESS_POPUP_ID               "OAFIID:GNOME_Evolution_Addressbook_AddressPopup:" BASE_VERSION
+#define SELECT_NAMES_ID                "OAFIID:GNOME_Evolution_Addressbook_SelectNames:" BASE_VERSION
+#define LDAP_STORAGE_CONFIG_CONTROL_ID "OAFIID:GNOME_Evolution_LDAPStorage_ConfigControl:" BASE_VERSION
+#define CERTIFICATE_MANAGER_CONFIG_CONTROL_ID "OAFIID:GNOME_Evolution_SMime_CertificateManager_ConfigControl:" BASE_VERSION
 
 
 static BonoboObject *

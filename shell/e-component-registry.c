@@ -130,11 +130,14 @@ query_components (EComponentRegistry *registry)
 	Bonobo_ServerInfoList *info_list;
 	CORBA_Environment ev;
 	GSList *language_list;
+	char *query;
 	int i;
 
 	CORBA_exception_init (&ev);
+	query = g_strdup_printf ("repo_ids.has ('IDL:GNOME/Evolution/Component:%s')", BASE_VERSION);
+	info_list = bonobo_activation_query (query, NULL, &ev);
+	g_free (query);
 
-	info_list = bonobo_activation_query ("repo_ids.has ('IDL:GNOME/Evolution/Component:1.0')", NULL, &ev);
 	if (BONOBO_EX (&ev)) {
 		char *ex_text = bonobo_exception_get_text (&ev);
 		g_warning ("Cannot query for components: %s\n", ex_text);

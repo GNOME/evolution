@@ -115,7 +115,7 @@ GtkWidget *em_mailer_prefs_new (void);
 void em_mailer_prefs_apply (EMMailerPrefs *prefs);
 
 /* needed by global config */
-#define EM_MAILER_PREFS_CONTROL_ID "OAFIID:GNOME_Evolution_Mail_MailerPrefs_ConfigControl_2"
+#define EM_MAILER_PREFS_CONTROL_ID "OAFIID:GNOME_Evolution_Mail_MailerPrefs_ConfigControl:" BASE_VERSION
 
 #ifdef __cplusplus
 }

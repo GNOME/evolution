@@ -45,13 +45,13 @@
 #include <string.h>
 
 
-#define FACTORY_ID	"OAFIID:GNOME_Evolution_Mail_Factory_2"
+#define FACTORY_ID	"OAFIID:GNOME_Evolution_Mail_Factory:" BASE_VERSION
 
-#define COMPONENT_ID	"OAFIID:GNOME_Evolution_Mail_Component_2"
-#define COMPOSER_ID	"OAFIID:GNOME_Evolution_Mail_Composer"
-#define FOLDER_INFO_ID	"OAFIID:GNOME_Evolution_FolderInfo"
-#define MAIL_CONFIG_ID	"OAFIID:GNOME_Evolution_MailConfig"
-#define WIZARD_ID	"OAFIID:GNOME_Evolution_Mail_Wizard"
+#define COMPONENT_ID	"OAFIID:GNOME_Evolution_Mail_Component:" BASE_VERSION
+#define COMPOSER_ID	"OAFIID:GNOME_Evolution_Mail_Composer:" BASE_VERSION
+#define FOLDER_INFO_ID	"OAFIID:GNOME_Evolution_FolderInfo:" BASE_VERSION
+#define MAIL_CONFIG_ID	"OAFIID:GNOME_Evolution_MailConfig:" BASE_VERSION
+#define WIZARD_ID	"OAFIID:GNOME_Evolution_Mail_Wizard:" BASE_VERSION
 
 
 static BonoboObject *

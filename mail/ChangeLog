@@ -1,3 +1,19 @@
+2003-12-01  Rodney Dawes  <dobey@ximian.com>
+
+	* GNOME_Evlution_Mail.server.in.in:
+	* em-account-prefs.c:
+	* em-composer-prefs.c:
+	* em-mailer-prefs.h:
+	* mail-component-factory.c:
+	* mail-config-factory.c:
+	* mail-font-prefs.h:
+	* importers/*.server.in.in:
+	* importers/elm-importer.c:
+	* importers/evolution-mbox-importer.c:
+	* importers/evolution-outlook-importer.c:
+	* importers/netscape-importer.c:
+	* importers/pine-importer.c: Use BASE_VERSION for repo_ids and OAFIIDs
+
 2003-12-01  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-composer-utils.c (composer_get_message): rfc2047 encode the

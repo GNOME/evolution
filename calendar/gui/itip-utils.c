@@ -40,7 +40,7 @@
 #include "calendar-config.h"
 #include "itip-utils.h"
 
-#define GNOME_EVOLUTION_COMPOSER_OAFIID "OAFIID:GNOME_Evolution_Mail_Composer"
+#define GNOME_EVOLUTION_COMPOSER_OAFIID "OAFIID:GNOME_Evolution_Mail_Composer:" BASE_VERSION
 
 static gchar *itip_methods[] = {
 	"PUBLISH",

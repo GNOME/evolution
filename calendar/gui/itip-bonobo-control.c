@@ -250,7 +250,7 @@ itip_bonobo_control_new (void)
 
 	stream = bonobo_persist_stream_new (pstream_load, pstream_save,
 					    pstream_get_content_types,
-					    "OAFIID:GNOME_Evolution_Calendar_iTip_Control",
+					    "OAFIID:GNOME_Evolution_Calendar_iTip_Control:" BASE_VERSION,
 					    itip);
 
 	if (stream == NULL) {

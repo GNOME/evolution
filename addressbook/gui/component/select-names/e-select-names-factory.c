@@ -30,7 +30,7 @@
 #include "e-select-names-factory.h"
 
 
-#define COMPONENT_FACTORY_ID "OAFIID:GNOME_Evolution_Addressbook_SelectNamesFactory_2"
+#define COMPONENT_FACTORY_ID "OAFIID:GNOME_Evolution_Addressbook_SelectNamesFactory:" BASE_VERSION
 
 static BonoboGenericFactory *factory = NULL;
 

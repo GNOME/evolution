@@ -59,8 +59,8 @@
 #include <ebook/e-book.h>
 #include <ebook/e-card-simple.h>
 
-#define PINE_INTELLIGENT_IMPORTER_IID "OAFIID:GNOME_Evolution_Mail_Pine_Intelligent_Importer_Factory"
-#define MBOX_IMPORTER_IID "OAFIID:GNOME_Evolution_Mail_Mbox_Importer"
+#define PINE_INTELLIGENT_IMPORTER_IID "OAFIID:GNOME_Evolution_Mail_Pine_Intelligent_Importer_Factory:" BASE_VERSION
+#define MBOX_IMPORTER_IID "OAFIID:GNOME_Evolution_Mail_Mbox_Importer:" BASE_VERSION
 #define KEY "pine-mail-imported"
 
 /*#define SUPER_IMPORTER_DEBUG*/

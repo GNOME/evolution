@@ -1,3 +1,21 @@
+2003-12-01  Rodney Dawes  <dobey@ximian.com>
+
+	* gui/GNOME_Evolution_Calendar.server.in.in:
+	* gui/calendar-commands.c:
+	* gui/e-meeting-list-view.c:
+	* gui/e-meeting-model.c:
+	* gui/e-select-names-editable.c:
+	* gui/itip-bonobo-control.c:
+	* gui/itip-utils.c:
+	* gui/main.c:
+	* gui/alarm-notify/GNOME_Evolution_Calendar_AlarmNotify.server.in.in:
+	* gui/alarm-notify/alarm-queue.c:
+	* gui/alarm-notify/notify-main.c:
+	* gui/dialogs/alarm-options.c:
+	* gui/dialogs/e-delegate-dialog.c:
+	* importers/GNOME_Evolution_Calendar_Importer.server.in.in:
+	* importers/main.c: Use BASE_VERSION for repo_ids and OAFIIDs
+
 2003-12-01  JP Rosevear <jpr@ximian.com>
 
 	* conduits/todo/Makefile.am: put the conduits in their own dir

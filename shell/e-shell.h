@@ -81,7 +81,7 @@ struct _EShellClass {
 
 
 /* ID for registering the shell in the OAF name service.  */
-#define E_SHELL_OAFIID  "OAFIID:GNOME_Evolution_Shell_2"
+#define E_SHELL_OAFIID  "OAFIID:GNOME_Evolution_Shell:" BASE_VERSION
 
 enum _EShellConstructResult {
 	E_SHELL_CONSTRUCT_RESULT_OK,

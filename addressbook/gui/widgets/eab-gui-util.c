@@ -558,7 +558,7 @@ eab_transfer_contacts (EBook *source, GList *contacts /* adopted */, gboolean de
 
 #include <Evolution-Composer.h>
 
-#define COMPOSER_OAFID "OAFIID:GNOME_Evolution_Mail_Composer"
+#define COMPOSER_OAFID "OAFIID:GNOME_Evolution_Mail_Composer:" BASE_VERSION
 
 void
 eab_send_contact_list (GList *contacts, EABDisposition disposition)

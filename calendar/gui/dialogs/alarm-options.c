@@ -87,7 +87,7 @@ typedef struct {
 	GtkWidget *palarm_args;
 } Dialog;
 
-#define SELECT_NAMES_OAFID "OAFIID:GNOME_Evolution_Addressbook_SelectNames_2"
+#define SELECT_NAMES_OAFID "OAFIID:GNOME_Evolution_Addressbook_SelectNames:" BASE_VERSION
 static const char *section_name = "Send To";
 
 

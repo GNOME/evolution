@@ -58,7 +58,7 @@ GtkType      mail_font_prefs_get_type (void);
 GtkWidget *  mail_font_prefs_new (void);
 void         mail_font_prefs_apply (MailFontPrefs *prefs);
 
-#define MAIL_FONT_PREFS_CONTROL_ID "OAFIID:GNOME_Evolution_Mail_FontPrefs_ConfigControl"
+#define MAIL_FONT_PREFS_CONTROL_ID "OAFIID:GNOME_Evolution_Mail_FontPrefs_ConfigControl:" BASE_VERSION
 
 #ifdef __cplusplus
 }

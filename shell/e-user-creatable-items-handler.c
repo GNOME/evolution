@@ -54,7 +54,7 @@ static GObjectClass *parent_class = NULL;
 
 #define VERB_PREFIX "ShellUserCreatableItemVerb"
 
-#define EVOLUTION_MAIL_OAFIID "OAFIID:GNOME_Evolution_Mail_ShellComponent"
+#define EVOLUTION_MAIL_OAFIID "OAFIID:GNOME_Evolution_Mail_ShellComponent:" BASE_VERSION
 
 #define SHELL_WINDOW_KEY          "EUserCreatableItemsHandler:shell_window"
 #define COMBO_BUTTON_WIDGET_KEY "EUserCreatableItemsHandler:combo_button"

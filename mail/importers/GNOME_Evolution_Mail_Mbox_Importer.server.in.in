@@ -1,6 +1,6 @@
 <oaf_info>
 
-<oaf_server iid="OAFIID:GNOME_Evolution_Mail_Mbox_ImporterFactory"
+<oaf_server iid="OAFIID:GNOME_Evolution_Mail_Mbox_ImporterFactory:@VERSION@"
 	    type="exe"
 	    location="@BINDIR@/evolution-@VERSION@">
 
@@ -12,12 +12,12 @@
 		       _value="Evolution mbox importer"/>
 </oaf_server>
 
-<oaf_server iid="OAFIID:GNOME_Evolution_Mail_Mbox_Importer"
+<oaf_server iid="OAFIID:GNOME_Evolution_Mail_Mbox_Importer:@VERSION@"
 	    type="factory"
-	    location="OAFIID:GNOME_Evolution_Mail_Mbox_ImporterFactory">
+	    location="OAFIID:GNOME_Evolution_Mail_Mbox_ImporterFactory:@VERSION@">
 
 	<oaf_attribute name="repo_ids" type="stringv">
-		<item value="IDL:GNOME/Evolution/Importer:1.0"/>
+		<item value="IDL:GNOME/Evolution/Importer:@VERSION@"/>
 	</oaf_attribute>
 
 	<oaf_attribute name="evolution:menu_name" type="string"

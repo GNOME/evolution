@@ -625,7 +625,7 @@ edit_component (ECal *client, ECalComponent *comp)
 	/* Get the factory */
 
 	CORBA_exception_init (&ev);
-	factory = bonobo_activation_activate_from_id ("OAFIID:GNOME_Evolution_Calendar_CompEditorFactory",
+	factory = bonobo_activation_activate_from_id ("OAFIID:GNOME_Evolution_Calendar_CompEditorFactory:" BASE_VERSION,
 						      0, NULL, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {

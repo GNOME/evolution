@@ -55,7 +55,7 @@
 #define OUT
 #endif
 
-#define MBOX_FACTORY_IID "OAFIID:GNOME_Evolution_Mail_Mbox_ImporterFactory"
+#define MBOX_FACTORY_IID "OAFIID:GNOME_Evolution_Mail_Mbox_ImporterFactory:" BASE_VERSION
 
 typedef struct {
 	MailImporter importer; /* Parent */

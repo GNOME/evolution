@@ -49,7 +49,7 @@ typedef struct {
 	EABContactDisplayRenderMode render_mode;
 } EABVCardControl;
 
-#define VCARD_CONTROL_ID "OAFIID:GNOME_Evolution_Addressbook_VCard_Control"
+#define VCARD_CONTROL_ID "OAFIID:GNOME_Evolution_Addressbook_VCard_Control:" BASE_VERSION
 
 /*
  * Bonobo::PersistStream

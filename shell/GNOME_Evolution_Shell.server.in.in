@@ -1,32 +1,32 @@
 <oaf_info>
 
-  <oaf_server iid="OAFIID:GNOME_Evolution_Shell_2"
+  <oaf_server iid="OAFIID:GNOME_Evolution_Shell:@VERSION@"
 	      type="exe"
 	      location="@BINDIR@/evolution-@VERSION@">
 
     <oaf_attribute name="repo_ids" type="stringv">
-      <item value="IDL:GNOME/Evolution/Shell:1.0"/>
+      <item value="IDL:GNOME/Evolution/Shell:@VERSION@"/>
     </oaf_attribute>
 
     <oaf_attribute name="name" type="string"
 		   _value="Evolution Shell"/>
   </oaf_server>
 
-  <oaf_server iid="OAFIID:GNOME_Evolution_Shell_Config_Factory_2"
+  <oaf_server iid="OAFIID:GNOME_Evolution_Shell_Config_Factory:@VERSION@"
 	      type="exe"
-	      location="evolution-exchange-storage">
+	      location="@BINDIR@/evolution-@VERSION@">
 
     <oaf_attribute name="repo_ids" type="stringv">
       <item value="IDL:GNOME/GenericFactory:1.0"/>
     </oaf_attribute>
   </oaf_server>
 
-  <oaf_server iid="OAFIID:GNOME_Evolution_Shell_Config_FolderSettings_Control_2"
+  <oaf_server iid="OAFIID:GNOME_Evolution_Shell_Config_FolderSettings_Control:@VERSION@"
 	      type="factory"
-	      location="OAFIID:GNOME_Evolution_Shell_Config_Factory">
+	      location="OAFIID:GNOME_Evolution_Shell_Config_Factory:@VERSION@">
 
     <oaf_attribute name="repo_ids" type="stringv">
-      <item value="IDL:GNOME/Evolution/ConfigControl:1.0"/>
+      <item value="IDL:GNOME/Evolution/ConfigControl:@VERSION@"/>
     </oaf_attribute>
 
     <oaf_attribute name="evolution2:config_item:title" type="string"

@@ -163,7 +163,7 @@ main (int argc, char **argv)
 
 	gnome_sound_init ("localhost");
 
-	factory = bonobo_generic_factory_new ("OAFIID:GNOME_Evolution_Calendar_AlarmNotify_2",
+	factory = bonobo_generic_factory_new ("OAFIID:GNOME_Evolution_Calendar_AlarmNotify:" BASE_VERSION,
 					      (BonoboFactoryCallback) alarm_notify_factory_fn, NULL);
 	if (!factory)
 		g_error (_("Could not create the alarm notify service factory"));

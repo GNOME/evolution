@@ -1,6 +1,6 @@
 <oaf_info>
 
-<oaf_server iid="OAFIID:GNOME_Evolution_Mail_Pine_Intelligent_Importer_Factory"
+<oaf_server iid="OAFIID:GNOME_Evolution_Mail_Pine_Intelligent_Importer_Factory:@VERSION@"
 	    type="exe"
 	    location="@BINDIR@/evolution-@VERSION@">
 
@@ -12,12 +12,12 @@
 		       _value="Evolution Pine importer"/>
 </oaf_server>
 
-<oaf_server iid="OAFIID:GNOME_Evolution_Mail_Pine_Intelligent_Importer"
+<oaf_server iid="OAFIID:GNOME_Evolution_Mail_Pine_Intelligent_Importer:@VERSION@"
 	    type="factory"
-	    location="OAFIID:GNOME_Evolution_Mail_Pine_Intelligent_Importer_Factory">
+	    location="OAFIID:GNOME_Evolution_Mail_Pine_Intelligent_Importer_Factory:@VERSION@">
 
 	<oaf_attribute name="repo_ids" type="stringv">
-		<item value="IDL:GNOME/Evolution/IntelligentImporter:1.0"/>
+		<item value="IDL:GNOME/Evolution/IntelligentImporter:@VERSION@"/>
 	</oaf_attribute>
 
 	<oaf_attribute name="name" type="string"

@@ -41,7 +41,7 @@
 #include "mail-tools.h"
 
 
-#define OUTLOOK_FACTORY_IID "OAFIID:GNOME_Evolution_Mail_Outlook_ImporterFactory"
+#define OUTLOOK_FACTORY_IID "OAFIID:GNOME_Evolution_Mail_Outlook_ImporterFactory:" BASE_VERSION
 
 extern char *evolution_dir;
 typedef struct {

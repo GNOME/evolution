@@ -33,7 +33,7 @@
 
 #include "mail-config-factory.h"
 
-#define CONFIG_CONTROL_FACTORY_ID "OAFIID:GNOME_Evolution_Mail_ConfigControlFactory"
+#define CONFIG_CONTROL_FACTORY_ID "OAFIID:GNOME_Evolution_Mail_ConfigControlFactory:" BASE_VERSION
 
 
 typedef void (*ApplyFunc) (GtkWidget *prefs);

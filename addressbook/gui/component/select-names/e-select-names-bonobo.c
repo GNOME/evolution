@@ -500,7 +500,7 @@ impl_SelectNames_activate_dialog (PortableServer_Servant servant,
 	priv = select_names->priv;
 
 	shell = bonobo_activation_activate_from_id  (
-		"OAFIID:GNOME_Evolution_Shell",
+		"OAFIID:GNOME_Evolution_Shell:" BASE_VERSION,
 		Bonobo_ACTIVATION_FLAG_EXISTING_ONLY,
 		NULL, ev);
 	if (BONOBO_EX (ev))

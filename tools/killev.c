@@ -199,18 +199,18 @@ main (int argc, char **argv)
 	languages = e_get_language_list ();
 	components = g_hash_table_new (g_str_hash, g_str_equal);
 
-	add_matching_repo_id ("IDL:GNOME/Evolution/Shell:1.0");
+	add_matching_repo_id ("IDL:GNOME/Evolution/Shell:" BASE_VERSION);
 	g_hash_table_foreach_remove (components, kill_component, NULL);
 
-	add_matching_repo_id ("IDL:GNOME/Evolution/ShellComponent:1.0");
-	add_matching_repo_id ("IDL:GNOME/Evolution/Calendar/CalFactory:1.0");
-	add_matching_repo_id ("IDL:GNOME/Evolution/BookFactory:1.0");
-	add_matching_repo_id ("IDL:GNOME/Evolution/Importer:1.0");
-	add_matching_repo_id ("IDL:GNOME/Evolution/IntelligentImporter:1.0");
-	add_matching_repo_id ("IDL:GNOME/Spell/Checker:0.1");
+	add_matching_repo_id ("IDL:GNOME/Evolution/ShellComponent:" BASE_VERSION);
+	add_matching_repo_id ("IDL:GNOME/Evolution/Calendar/CalFactory:" BASE_VERSION);
+	add_matching_repo_id ("IDL:GNOME/Evolution/BookFactory:" BASE_VERSION);
+	add_matching_repo_id ("IDL:GNOME/Evolution/Importer:" BASE_VERSION);
+	add_matching_repo_id ("IDL:GNOME/Evolution/IntelligentImporter:" BASE_VERSION);
+	add_matching_repo_id ("IDL:GNOME/Spell/Dictionary:0.3");
 
-	add_matching_iid ("OAFIID:GNOME_Evolution_Calendar_AlarmNotify_2");
-	add_matching_iid ("OAFIID:GNOME_GtkHTML_Editor_Factory:3.0");
+	add_matching_iid ("OAFIID:GNOME_Evolution_Calendar_AlarmNotify:" BASE_VERSION);
+	add_matching_iid ("OAFIID:GNOME_GtkHTML_Editor_Factory:3.1");
 
 	g_hash_table_foreach_remove (components, kill_component, NULL);
 

@@ -74,9 +74,9 @@ EvolutionShellClient *global_shell_client = NULL;
 
 static char          *filter_name = N_("Priority Filter \"%s\"");
 
-#define FACTORY_IID "OAFIID:GNOME_Evolution_Mail_Netscape_Intelligent_Importer_Factory"
-#define MBOX_IMPORTER_IID "OAFIID:GNOME_Evolution_Mail_Mbox_Importer"
-#define MAIL_CONFIG_IID "OAFIID:GNOME_Evolution_MailConfig"
+#define FACTORY_IID "OAFIID:GNOME_Evolution_Mail_Netscape_Intelligent_Importer_Factory:" BASE_VERSION
+#define MBOX_IMPORTER_IID "OAFIID:GNOME_Evolution_Mail_Mbox_Importer:" BASE_VERSION
+#define MAIL_CONFIG_IID "OAFIID:GNOME_Evolution_MailConfig:" BASE_VERSION
 
 #define KEY "netscape-mail-imported"
 

@@ -1,6 +1,6 @@
 <oaf_info>
 
-<oaf_server iid="OAFIID:GNOME_Evolution_Calendar_ImporterFactory"
+<oaf_server iid="OAFIID:GNOME_Evolution_Calendar_ImporterFactory:@VERSION@"
 	    type="shlib"
 	    location="@IMPORTERSDIR@/libevolution-calendar-importers.so">
 
@@ -11,12 +11,12 @@
                        _value="Evolution iCalendar importer"/>
 </oaf_server>
 
-<oaf_server iid="OAFIID:GNOME_Evolution_Calendar_iCalendar_Importer"
+<oaf_server iid="OAFIID:GNOME_Evolution_Calendar_iCalendar_Importer:@VERSION@"
 	    type="factory"
-	    location="OAFIID:GNOME_Evolution_Calendar_ImporterFactory">
+	    location="OAFIID:GNOME_Evolution_Calendar_ImporterFactory:@VERSION@">
 
 	<oaf_attribute name="repo_ids" type="stringv">
-		<item value="IDL:GNOME/Evolution/Importer:1.0"/>
+		<item value="IDL:GNOME/Evolution/Importer:@VERSION@"/>
 	</oaf_attribute>
 	<oaf_attribute name="evolution:menu_name" type="string"
                        _value="iCalendar files (.ics)"/>
@@ -25,12 +25,12 @@
 
 </oaf_server>
 
-<oaf_server iid="OAFIID:GNOME_Evolution_Calendar_vCalendar_Importer"
+<oaf_server iid="OAFIID:GNOME_Evolution_Calendar_vCalendar_Importer:@VERSION@"
 	    type="factory"
-	    location="OAFIID:GNOME_Evolution_Calendar_ImporterFactory">
+	    location="OAFIID:GNOME_Evolution_Calendar_ImporterFactory:@VERSION@">
 
 	<oaf_attribute name="repo_ids" type="stringv">
-		<item value="IDL:GNOME/Evolution/Importer:1.0"/>
+		<item value="IDL:GNOME/Evolution/Importer:@VERSION@"/>
 	</oaf_attribute>
 	<oaf_attribute name="evolution:menu_name" type="string"
                        _value="vCalendar files (.vcf)"/>
@@ -39,12 +39,12 @@
 
 </oaf_server>
 
-<oaf_server iid="OAFIID:GNOME_Evolution_Gnome_Calendar_Intelligent_Importer"
+<oaf_server iid="OAFIID:GNOME_Evolution_Gnome_Calendar_Intelligent_Importer:@VERSION@"
 	    type="factory"
-	    location="OAFIID:GNOME_Evolution_Calendar_ImporterFactory">
+	    location="OAFIID:GNOME_Evolution_Calendar_ImporterFactory:@VERSION@">
 
 	<oaf_attribute name="repo_ids" type="stringv">
-		<item value="IDL:GNOME/Evolution/IntelligentImporter:1.0"/>
+		<item value="IDL:GNOME/Evolution/IntelligentImporter:@VERSION@"/>
 	</oaf_attribute>
 
         <oaf_attribute name="name" type="string"

@@ -45,8 +45,8 @@
 #define LDAPS_PORT_STRING "636"
 
 #define GLADE_FILE_NAME "ldap-config.glade"
-#define CONFIG_CONTROL_FACTORY_ID "OAFIID:GNOME_Evolution_Addressbook_ConfigControlFactory"
-#define LDAP_CONFIG_CONTROL_ID "OAFIID:GNOME_Evolution_LDAPStorage_ConfigControl"
+#define CONFIG_CONTROL_FACTORY_ID "OAFIID:GNOME_Evolution_Addressbook_ConfigControlFactory:" BASE_VERSION
+#define LDAP_CONFIG_CONTROL_ID "OAFIID:GNOME_Evolution_LDAPStorage_ConfigControl:" BASE_VERSION
 
 GtkWidget* supported_bases_create_table (char *name, char *string1, char *string2,
 					 int num1, int num2);

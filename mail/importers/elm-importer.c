@@ -54,8 +54,8 @@
 
 #include "mail/mail-importer.h"
 
-#define ELM_INTELLIGENT_IMPORTER_IID "OAFIID:GNOME_Evolution_Mail_Elm_Intelligent_Importer_Factory"
-#define MBOX_IMPORTER_IID "OAFIID:GNOME_Evolution_Mail_Mbox_Importer"
+#define ELM_INTELLIGENT_IMPORTER_IID "OAFIID:GNOME_Evolution_Mail_Elm_Intelligent_Importer_Factory:" BASE_VERSION
+#define MBOX_IMPORTER_IID "OAFIID:GNOME_Evolution_Mail_Mbox_Importer:" BASE_VERSION
 #define KEY "elm-mail-imported"
 
 /*#define SUPER_IMPORTER_DEBUG*/

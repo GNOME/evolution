@@ -142,7 +142,7 @@ static CORBA_Object
 get_shell_activity_iface (GNOME_Evolution_Shell shell_iface)
 {
 	CORBA_Object iface_object;
-	const char *iface_name = "IDL:GNOME/Evolution/Activity:1.0";
+	const char *iface_name = "IDL:GNOME/Evolution/Activity:" BASE_VERSION;
 
  	iface_object = bonobo_object_query_remote (shell_iface, iface_name, NULL);
 	if (iface_object == CORBA_OBJECT_NIL)

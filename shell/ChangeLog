@@ -1,3 +1,15 @@
+2003-12-01  Rodney Dawes  <dobey@ximian.com>
+
+	* GNOME_Evolution_Shell.server.in.in:
+	* e-component-registry.c:
+	* e-shell-config.c:
+	* e-shell-shared-folder-picker-dialog.c:
+	* e-shell-startup-wizard.c:
+	* e-shell.h:
+	* e-user-creatable-items-handler.c:
+	* evolution-activity-client.c:
+	* evolution-storage.c: Use BASE_VERSION for repo_ids and OAFIIDs
+
 2003-11-30  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell.c (struct _EShellPrivate): New member offline_handler.

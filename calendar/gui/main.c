@@ -50,15 +50,15 @@
 #include "tasks-component.h"
 
 
-#define FACTORY_ID "OAFIID:GNOME_Evolution_Calendar_Factory_2"
+#define FACTORY_ID "OAFIID:GNOME_Evolution_Calendar_Factory:" BASE_VERSION
 
-#define CALENDAR_COMPONENT_ID  "OAFIID:GNOME_Evolution_Calendar_Component"
-#define CALENDAR_CONTROL_ID    "OAFIID:GNOME_Evolution_Calendar_Control"
-#define TASKS_COMPONENT_ID     "OAFIID:GNOME_Evolution_Tasks_Component"
-#define TASKS_CONTROL_ID       "OAFIID:GNOME_Evolution_Tasks_Control"
-#define ITIP_CONTROL_ID        "OAFIID:GNOME_Evolution_Calendar_iTip_Control"
-#define CONFIG_CONTROL_ID      "OAFIID:GNOME_Evolution_Calendar_ConfigControl"
-#define COMP_EDITOR_FACTORY_ID "OAFIID:GNOME_Evolution_Calendar_CompEditorFactory"
+#define CALENDAR_COMPONENT_ID  "OAFIID:GNOME_Evolution_Calendar_Component:" BASE_VERSION
+#define CALENDAR_CONTROL_ID    "OAFIID:GNOME_Evolution_Calendar_Control:" BASE_VERSION
+#define TASKS_COMPONENT_ID     "OAFIID:GNOME_Evolution_Tasks_Component:" BASE_VERSION
+#define TASKS_CONTROL_ID       "OAFIID:GNOME_Evolution_Tasks_Control:" BASE_VERSION
+#define ITIP_CONTROL_ID        "OAFIID:GNOME_Evolution_Calendar_iTip_Control:" BASE_VERSION
+#define CONFIG_CONTROL_ID      "OAFIID:GNOME_Evolution_Calendar_ConfigControl:" BASE_VERSION
+#define COMP_EDITOR_FACTORY_ID "OAFIID:GNOME_Evolution_Calendar_CompEditorFactory:" BASE_VERSION
 
 ECompEditorRegistry *comp_editor_registry = NULL;
 
@@ -99,7 +99,7 @@ launch_alarm_daemon_cb (gpointer data)
 
 	/* activate the alarm daemon */
 	CORBA_exception_init (&ev);
-	an = bonobo_activation_activate_from_id ("OAFIID:GNOME_Evolution_Calendar_AlarmNotify_2", 0, NULL, &ev);
+	an = bonobo_activation_activate_from_id ("OAFIID:GNOME_Evolution_Calendar_AlarmNotify:" BASE_VERSION, 0, NULL, &ev);
 
 	if (BONOBO_EX (&ev)) {
 		g_message ("launch_alarm_daemon_cb(): Could not activate the alarm notification service");

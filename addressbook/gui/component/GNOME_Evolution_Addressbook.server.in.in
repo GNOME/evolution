@@ -1,6 +1,6 @@
 <oaf_info>
 
-<oaf_server iid="OAFIID:GNOME_Evolution_Addressbook_Factory_2"
+<oaf_server iid="OAFIID:GNOME_Evolution_Addressbook_Factory:@VERSION@"
             type="shlib"
             location="@COMPONENTDIR@/libevolution-addressbook.so">
 
@@ -13,9 +13,9 @@
 
 </oaf_server>
 
-<oaf_server iid="OAFIID:GNOME_Evolution_Addressbook_VCard_Control"
+<oaf_server iid="OAFIID:GNOME_Evolution_Addressbook_VCard_Control:@VERSION@"
             type="factory"
-            location="OAFIID:GNOME_Evolution_Addressbook_Factory_2">
+            location="OAFIID:GNOME_Evolution_Addressbook_Factory:@VERSION@">
 
 	<oaf_attribute name="repo_ids" type="stringv">
 		<item value="IDL:Bonobo/Control:1.0"/>
@@ -32,12 +32,12 @@
 
 </oaf_server>
 
-<oaf_server iid="OAFIID:GNOME_Evolution_Addressbook_Control_2"
+<oaf_server iid="OAFIID:GNOME_Evolution_Addressbook_Control:@VERSION@"
             type="factory"
-            location="OAFIID:GNOME_Evolution_Addressbook_Factory_2">
+            location="OAFIID:GNOME_Evolution_Addressbook_Factory:@VERSION@">
 
 	<oaf_attribute name="repo_ids" type="stringv">
-		<item value="IDL:BonoboControl/addressbook-control:1.0"/>
+		<item value="IDL:BonoboControl/addressbook-control:@VERSION@"/>
 		<item value="IDL:GNOME/Control:1.0"/>
 	</oaf_attribute>
 
@@ -46,12 +46,12 @@
 
 </oaf_server>
 
-<oaf_server iid="OAFIID:GNOME_Evolution_Addressbook_Component"
+<oaf_server iid="OAFIID:GNOME_Evolution_Addressbook_Component:@VERSION@"
             type="factory"
-            location="OAFIID:GNOME_Evolution_Addressbook_Factory_2">
+            location="OAFIID:GNOME_Evolution_Addressbook_Factory:@VERSION@">
 
 	<oaf_attribute name="repo_ids" type="stringv">
-		<item value="IDL:GNOME/Evolution/Component:1.0"/>
+		<item value="IDL:GNOME/Evolution/Component:@VERSION@"/>
 	</oaf_attribute>
 
 	<oaf_attribute name="name" type="string"
@@ -65,12 +65,12 @@
 
 </oaf_server>
 
-<oaf_server iid="OAFIID:GNOME_Evolution_Addressbook_AddressWidget"
+<oaf_server iid="OAFIID:GNOME_Evolution_Addressbook_AddressWidget:@VERSION@"
 	    type="factory"
-	    location="OAFIID:GNOME_Evolution_Addressbook_Factory_2">
+	    location="OAFIID:GNOME_Evolution_Addressbook_Factory:@VERSION@">
 
 	<oaf_attribute name="repo_ids" type="stringv">
-		<item value="IDL:BonoboControl/address-widget:1.0"/>
+		<item value="IDL:BonoboControl/address-widget:@VERSION@"/>
 		<item value="IDL:GNOME/Control:1.0"/>
 	</oaf_attribute>
 
@@ -79,12 +79,12 @@
 
 </oaf_server>
 
-<oaf_server iid="OAFIID:GNOME_Evolution_Addressbook_AddressPopup"
+<oaf_server iid="OAFIID:GNOME_Evolution_Addressbook_AddressPopup:@VERSION@"
 	    type="factory"
-	    location="OAFIID:GNOME_Evolution_Addressbook_Factory_2">
+	    location="OAFIID:GNOME_Evolution_Addressbook_Factory:@VERSION@">
 
 	<oaf_attribute name="repo_ids" type="stringv">
-		<item value="IDL:BonoboControl/address-widget:1.0"/>
+		<item value="IDL:BonoboControl/address-widget:@VERSION@"/>
 		<item value="IDL:GNOME/Control:1.0"/>
 	</oaf_attribute>
 
@@ -93,12 +93,12 @@
 
 </oaf_server>
 
-<oaf_server iid="OAFIID:GNOME_Evolution_LDAPStorage_ConfigControl"
+<oaf_server iid="OAFIID:GNOME_Evolution_LDAPStorage_ConfigControl:@VERSION@"
             type="factory"
-	    location="OAFIID:GNOME_Evolution_Addressbook_Factory_2">
+	    location="OAFIID:GNOME_Evolution_Addressbook_Factory:@VERSION@">
 
 	<oaf_attribute name="repo_ids" type="stringv">
-		<item value="IDL:GNOME/Evolution/ConfigControl:1.0"/>
+		<item value="IDL:GNOME/Evolution/ConfigControl:@VERSION@"/>
 	</oaf_attribute>
 
 	<oaf_attribute name="evolution2:config_item:title" type="string"
@@ -121,12 +121,12 @@
 
 </oaf_server>
 
-<oaf_server iid="OAFIID:GNOME_Evolution_SMime_CertificateManager_ConfigControl"
+<oaf_server iid="OAFIID:GNOME_Evolution_SMime_CertificateManager_ConfigControl:@VERSION@"
             type="factory"
-            location="OAFIID:GNOME_Evolution_Addressbook_Factory_2">
+            location="OAFIID:GNOME_Evolution_Addressbook_Factory:@VERSION@">
                                                                                           
         <oaf_attribute name="repo_ids" type="stringv">
-                <item value="IDL:GNOME/Evolution/ConfigControl:1.0"/>
+                <item value="IDL:GNOME/Evolution/ConfigControl:@VERSION@"/>
         </oaf_attribute>
                                                                                           
         <oaf_attribute name="evolution2:config_item:title" type="string"

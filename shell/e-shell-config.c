@@ -32,9 +32,9 @@
 #include <bonobo/bonobo-generic-factory.h>
 
 
-#define E_SHELL_CONFIG_FACTORY_OAFIID "OAFIID:GNOME_Evolution_Shell_Config_Factory"
+#define E_SHELL_CONFIG_FACTORY_OAFIID "OAFIID:GNOME_Evolution_Shell_Config_Factory:" BASE_VERSION
 
-#define E_SHELL_CONFIG_FOLDER_SETTINGS_OAFIID "OAFIID:GNOME_Evolution_Shell_Config_FolderSettings_Control"
+#define E_SHELL_CONFIG_FOLDER_SETTINGS_OAFIID "OAFIID:GNOME_Evolution_Shell_Config_FolderSettings_Control:" BASE_VERSION
 
 
 static BonoboObject *

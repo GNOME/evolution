@@ -121,7 +121,7 @@ void em_composer_prefs_apply (EMComposerPrefs *prefs);
 MailConfigSignature *em_composer_prefs_new_signature (GtkWindow *parent, gboolean html, const char *script);
 
 /* needed by global config */
-#define EM_COMPOSER_PREFS_CONTROL_ID "OAFIID:GNOME_Evolution_Mail_ComposerPrefs_ConfigControl_2"
+#define EM_COMPOSER_PREFS_CONTROL_ID "OAFIID:GNOME_Evolution_Mail_ComposerPrefs_ConfigControl:" BASE_VERSION
 
 #ifdef __cplusplus
 }

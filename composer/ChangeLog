@@ -1,3 +1,7 @@
+2003-12-01  Rodney Dawes  <dobey@ximian.com>
+
+	* e-msg-composer-hdrs.h: Use BASE_VERSION for repo_ids and OAFIIDs
+
 2003-11-11  Radek Doulik  <rodo@ximian.com>
 
 	* e-msg-composer.c (e_msg_composer_set_autosaved): new method to

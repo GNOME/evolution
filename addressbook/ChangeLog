@@ -1,3 +1,16 @@
+2003-12-01  Rodney Dawes  <dobey@ximian.com>
+
+	* gui/component/GNOME_Evolution_Addressbook.server.in.in:
+	* gui/component/addressbook-config.c:
+	* gui/component/addressbook.c:
+	* gui/component/component-factory.c:
+	* gui/component/select-names/GNOME_Evolution_Addressbook_SelectNames.server.in.in:
+	* gui/component/select-names/e-select-names-bonobo.c:
+	* gui/component/select-names/e-select-names-factory.c:
+	* gui/widgets/eab-gui-util.c:
+	* gui/widgets/eab-vcard-control.c: Use BASE_VERSION for repo_ids and
+	  OAFIIDs
+
 2003-12-01  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/component/ldap-config.glade: Fix start page text.
