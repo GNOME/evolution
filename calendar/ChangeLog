@@ -1,3 +1,8 @@
+1999-02-04  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* eventedit.c (date_edit_new): New convenience function to create
+	a properly-configured date editor widget.
+
 1999-02-03  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
 	* gncal-week-view.c (gncal_week_view_new): Make the calendar start
