@@ -1,5 +1,31 @@
 2004-03-08  Jakub Steiner <jimmac@ximian.com>
 
+	* alarm.png
+	* briefcase.png
+	* cellphone.png
+	* envelope.png
+	* evolution-calendar.png
+	* evolution-notes-mini.png
+	* evolution-notes.png
+	* evolution-tasks-mini.png
+	* evolution-tasks.png
+	* evolution-today.png
+	* ico-calendar.png
+	* im-invisible.png
+	* import.png
+	* mail-config-druid-identity.png
+	* print-preview-24.png
+	* print.png
+	* schedule-meeting-16.png
+	* schedule-meeting-16.xpm
+	* schedule-meeting-24.png
+	* stock-notjunk-24.png
+	* summary-settings.png: since using gnome-icon-theme is miles away, I tried
+	  bringing the art/ mess a bit up to date. Lots of xpm hell still
+	  :(
+
+2004-03-08  Jakub Steiner <jimmac@ximian.com>
+
 	* im-nov.png: (16x16). closes bug #54972
 	
 2004-02-25 Sivaiah Nallagatla <snallagatla@novell.com>
