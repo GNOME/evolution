@@ -11,12 +11,25 @@ DIE=0
     DIE=1
 }
 
+(grep -q "^AM_PROG_LIBTOOL" configure.in) && {
 (libtool --version) < /dev/null > /dev/null 2>&1 || {
     echo
     echo "**Error**: You must have "\`libtool\'" installed to compile Gnome."
     echo "Get ftp://ftp.gnu.org/pub/gnu/libtool-1.2.tar.gz"
     echo "(or a newer version if it is available)"
     DIE=1
+}
+}
+
+grep -q "^AM_GNU_GETTEXT" configure.in && {
+grep -q "sed.*POTFILES" configure.in || \
+(gettext --version) < /dev/null > /dev/null 2>&1 || {
+    echo
+    echo "**Error**: You must have "\`gettext\'" installed to compile Gnome."
+    echo "Get ftp://alpha.gnu.org/gnu/gettext-0.10.35.tar.gz"
+    echo "(or a newer version if it is available)"
+    DIE=1
+}
 }
 
 (automake --version) < /dev/null > /dev/null 2>&1 || {
@@ -71,9 +84,24 @@ do
     	    if test -d $k; then aclocalinclude="$aclocalinclude -I $k"; \
     	    else echo "**Warning**: No such directory \`$k'.  Ignored."; fi; \
     	done; \
-    	libtoolize --copy --force; \
+	if grep -q "^AM_GNU_GETTEXT" configure.in; then \
+	    if grep -q "sed.*POTFILES" configure.in; then \
+		: do nothing -- we still have an old unmodified configure.in
+	    else
+		echo "Running gettextize...  Ignore non-fatal messages."; \
+		echo "no" | gettextize --force; \
+	    fi \
+	fi; \
+	if grep -q "^AM_PROG_LIBTOOL" configure.in; then \
+	    echo "Running libtoolize..."; \
+	    libtoolize --force; \
+	fi
     	aclocal $aclocalinclude; \
-    	autoheader; automake --add-missing --gnu $am_opt; autoheader; autoconf)
+	if grep -q "^AM_CONFIG_HEADER" configure.in; then \
+	    echo "Running autoheader..."; \
+	    autoheader; \
+	fi
+    	automake --add-missing --gnu $am_opt; autoconf)
     fi
 done
 

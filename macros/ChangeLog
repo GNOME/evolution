@@ -1,3 +1,8 @@
+1998-12-01  Changwoo Ryu  <cwryu@adam.kaist.ac.kr>
+
+	* autogen.sh: Run gettextize if needed.
+	: Run libtoolize only if configure.in has "^AM_PROG_LIBTOOL".
+
 1998-11-30  Jeff Garzik  <jgarzik@pobox.com>
 
 	* gnome.m4: Re-arranged tests such that "--without-gnome" is
