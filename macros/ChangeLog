@@ -1,3 +1,7 @@
+2000-01-16  Vadim Strizhevsky  <vadim@optonline.net>
+
+	* gnome-pilot.m4: Fix typo in PILOT_LINK_HOOK.
+
 2000-01-15  Eskil Heyn Olsen  <deity@eskil.dk>
 	
 	* gnome-pilot.m4: PILOT_LINK_HOOK now check pilot-link version.

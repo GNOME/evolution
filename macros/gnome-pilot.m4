@@ -102,7 +102,7 @@ AC_DEFUN([GNOME_PILOT_HOOK],[
 	])
 	AM_CONDITIONAL(HAVE_GNOME_PILOT,test x$gnome_cv_pilot_found = xyes)
 	if test x$gnome_cv_pilot_found = xyes; then
-		PILOT_LINK_CHECK(($1)
+		PILOT_LINK_CHECK($1)
 		GNOME_PILOT_CFLAGS=`gnome-pilot-config --cflags client conduitmgmt`
 		GNOME_PILOT_LIBS=`gnome-pilot-config --libs client conduitmgmt`
 		$2
