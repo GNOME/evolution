@@ -58,6 +58,7 @@
 #include "camel-mime-utils.h"
 #include "camel-imap-private.h"
 #include "camel-multipart.h"
+#include "camel-operation.h"
 
 #define d(x) x
 
@@ -325,6 +326,8 @@ imap_rescan (CamelFolder *folder, int exists, CamelException *ex)
 	CamelImapMessageInfo *iinfo;
 	GArray *removed;
 
+	camel_operation_start(NULL, _("Scanning IMAP folder"));
+
 	/* Get UIDs and flags of all messages. */
 	if (exists > 0) {
 		response = camel_imap_command (store, folder, ex,
@@ -364,6 +367,10 @@ imap_rescan (CamelFolder *folder, int exists, CamelException *ex)
 	removed = g_array_new (FALSE, FALSE, sizeof (int));
 	summary_len = camel_folder_summary_count (folder->summary);
 	for (i = 0; i < summary_len && i < exists; i++) {
+		int pc = (i*100)/MIN(summary_len, exists);
+
+		camel_operation_progress(NULL, pc);
+
 		/* Shouldn't happen, but... */
 		if (!new[i].uid)
 			continue;
@@ -413,6 +420,8 @@ imap_rescan (CamelFolder *folder, int exists, CamelException *ex)
 	/* And finally update the summary. */
 	camel_imap_folder_changed (folder, exists, removed, ex);
 	g_array_free (removed, TRUE);
+
+	camel_operation_end(NULL);
 }
 
 static void
@@ -445,6 +454,8 @@ imap_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 	CamelImapResponse *response;
 	int i, max;
 
+	camel_operation_start(NULL, _("Synchronising IMAP folder"));
+
 	/* Set the flags on any messages that have changed this session */
 	max = camel_folder_summary_count (folder->summary);
 	for (i = 0; i < max; i++) {
@@ -455,8 +466,12 @@ imap_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 			sync_message (store, folder, info, ex);
 		camel_folder_summary_info_free(folder->summary, info);
 
-		if (camel_exception_is_set (ex))
+		camel_operation_progress(NULL, (i+1)*100/max);
+
+		if (camel_exception_is_set (ex)) {
+			camel_operation_end(NULL);
 			return;
+		}
 	}
 
 	if (expunge) {
@@ -467,6 +482,8 @@ imap_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 	}
 
 	camel_folder_summary_save (folder->summary);
+
+	camel_operation_end(NULL);
 }
 
 static void

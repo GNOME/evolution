@@ -1,3 +1,12 @@
+2001-02-23  Not Zed  <NotZed@Ximian.com>
+
+	* providers/imap/camel-imap-folder.c (imap_sync): Add some
+	internal progress reporting.
+	(imap_rescan): Do some progress reporting.
+
+	* camel-mime-part.c (init_header_name_table): Add the message-id
+	to the formatted table, so we dont try and wrap it, and break it.
+
 2001-02-22  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-folder.h: Remove the 'FIXME: remove because this isn't
