@@ -1,5 +1,15 @@
 1999-08-12  bertrand  <Bertrand.Guiheneuf@aful.org>
 
+	* camel/camel-session.c (camel_session_get_store_for_protocol): 
+	compilation and runtime fixes.
+
+	* camel/providers/MH/camel-mh-store.c (_init): 
+	synced with CamelStore.
+
+	* camel/camel-store.c (_init): 
+	in CamelStore::init, url_name is now const.
+	disabled url_name copy.
+
 	* camel/camel-session.c (camel_session_get_store): 
 	new function: returns a store for an URL. 
 	(camel_session_get_store_for_protocol): 

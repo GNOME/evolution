@@ -23,6 +23,8 @@
 #include <config.h>
 #include "camel-session.h"
 #include "string-utils.h"
+#include "url-util.h"
+#include "camel-provider.h"
 
 static GtkObjectClass *parent_class=NULL;
 
@@ -154,7 +156,7 @@ camel_session_get_store_from_provider (CamelSession *session, CamelProvider *pro
 CamelStore *
 camel_session_get_store_for_protocol (CamelSession *session, const gchar *protocol)
 {
-	CamelProvider *provider = NULL;
+	const CamelProvider *provider = NULL;
 	CamelStore *new_store;
 
 	/* look if there is a provider assiciated to this

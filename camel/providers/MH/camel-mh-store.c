@@ -32,7 +32,7 @@ static CamelStoreClass *parent_class=NULL;
 #define CF_CLASS(so) CAMEL_FOLDER_CLASS (GTK_OBJECT(so)->klass)
 #define CMHF_CLASS(so) CAMEL_MH_FOLDER_CLASS (GTK_OBJECT(so)->klass)
 
-static void _init (CamelStore *store, CamelSession *session, gchar *url_name);
+static void _init (CamelStore *store, CamelSession *session, const gchar *url_name);
 static CamelFolder *_get_folder (CamelStore *store, const gchar *folder_name);
 
 
@@ -108,7 +108,7 @@ camel_mh_store_get_toplevel_dir (CamelMhStore *store)
 
 
 static void 
-_init (CamelStore *store, CamelSession *session, gchar *url_name)
+_init (CamelStore *store, CamelSession *session, const gchar *url_name)
 {
 	CamelMhStore *mh_store = CAMEL_MH_STORE (store);
 	Gurl *store_url;

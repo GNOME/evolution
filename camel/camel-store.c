@@ -32,7 +32,7 @@ static CamelServiceClass *parent_class = NULL;
 static void _set_separator(CamelStore *store, gchar sep);
 static CamelFolder *_get_root_folder(CamelStore *store);
 static CamelFolder *_get_default_folder(CamelStore *store);
-static void _init(CamelStore *store, CamelSession *session, gchar *url_name);
+static void _init(CamelStore *store, CamelSession *session, const gchar *url_name);
 static CamelFolder *_get_folder (CamelStore *store, const gchar *folder_name);
 static gchar _get_separator (CamelStore *store);
 
@@ -102,7 +102,7 @@ camel_store_get_type (void)
  * 
  **/
 void 
-camel_store_init (CamelStore *store, CamelSession *session, gchar *url_name)
+camel_store_init (CamelStore *store, CamelSession *session, const gchar *url_name)
 {
 	g_assert(store);
 	CS_CLASS(store)->init (store, session, url_name);
@@ -121,7 +121,7 @@ camel_store_init (CamelStore *store, CamelSession *session, gchar *url_name)
  * 
  **/
 static void 
-_init (CamelStore *store, CamelSession *session, gchar *url_name)
+_init (CamelStore *store, CamelSession *session, const gchar *url_name)
 {
 	
 #warning re-enable assertion here.
@@ -131,7 +131,7 @@ _init (CamelStore *store, CamelSession *session, gchar *url_name)
 	if (store->session) gtk_object_unref (GTK_OBJECT (store->session));
 	store->session = session;
 	gtk_object_ref (GTK_OBJECT (session));
-	store->url_name = url_name;
+	/*store->url_name = url_name;*/
 }
 
 
