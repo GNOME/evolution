@@ -159,9 +159,27 @@
             click</member> <member><userinput>Anything you type
             in</userinput></member> <member><computeroutput>Text
             output from a computer</computeroutput></member>
-            <member><glossterm linkend="apx-gloss">Words</glossterm>
+	  <member><glossterm linkend="apx-gloss">Words</glossterm>
             that are defined in the <xref linkend="apx-gloss">.</member>
 	  </simplelist>
+	  <tip id="example-tip">
+	      <title>Example Tip</title>
+	      <para>
+		This is what an example looks like.
+	      </para>
+	    </tip>
+	  <example>
+	    <title>Example Example</title>
+	    <para>
+	      This is what an example looks like.
+	    </para>
+	  </example>
+	    <warning id="example-warning">
+	      <title>Example Warning</title>
+	      <para>
+		This is what a warning looks like.
+	      </para>
+	  </warning>
         </para>
       </formalpara>
   </sect1>
@@ -241,8 +259,9 @@
     <para>
       Chances are, <application>Evolution</application> isn't your first email
       program.  You're probably switching from another program and will want
-      email from your other program.  It's for exactly these situations that
-      <application>Evolution</application> includes an import feature.
+      access to your email from your old program.  It's for exactly these 
+      situations that <application>Evolution</application> includes an import 
+      feature.
     </para>
     <para>
       <application>Evolution</application> can import the following types of
@@ -250,22 +269,22 @@
       <itemizedlist>
 	<listitem>
 	  <para>
-	    VCard (.vcf, gcrd)
+	    VCard (.vcf, gcrd) - Contacts
 	  </para>
 	</listitem>
 	<listitem>
 	  <para>
-	    Outlook Express 4 (.mbx)
+	    Outlook Express 4 (.mbx) - Email
 	  </para>
 	</listitem>
 	<listitem>
 	  <para>
-	    MBox(mbox)
+	    MBox(mbox) - Email
 	  </para>
 	</listitem>
       </itemizedlist>
       VCard is a format to store addressbooks and contact information.  Outlook
-      Express and MBox format both handle your email.  If you're coming from
+      handles your email.  If you're coming from
       Windows, you're probably going to be importing Outlook Express files.  If
       you're coming from a Unix program, you're probably using mbox.  Ask your
       system administrator if you aren't sure which you use.
@@ -277,6 +296,15 @@
 	from Eudora, you'll want to select mbox.
       </para>
     </note>
+    <note>
+      <title>Outlook 2000</title>
+      <para>
+	Outlook 2000 uses a format which <application>Evolution</application>
+	cannot directly import.  However, you can import it using Mozilla on
+	Windows.  Please see the FAQ for more information.
+      </para>
+    </note>
+      
     <para>
       To import your files, go to
       <menuchoice>
@@ -285,7 +313,7 @@
       </menuchoice>
     </para>
     <para>
-    A druid will appear, helping you to import your files.  You'll need to
+    An assistant will appear, helping you to import your files.  You'll need to
     specify where the file is that you want to import.  Click
     <guibutton>Next</guibutton> and then <guibutton>Import</guibutton>.
     <application>Evolution</application> will present you with the Folder
@@ -520,7 +548,12 @@
 	    <term></term>
 	    <listitem>
 	      <para>
-		
+		<tip id="new-appt">
+		  <title>New Appointments Fast</title>
+		  <para>
+		    Double-click in a blank space to create a new appointment.
+		  </para>
+		</tip>
 	      </para>
 	    </listitem>
 	    </varlistentry>
@@ -537,21 +570,20 @@
 
         <variablelist>
 	  <varlistentry>
-	    <term>Edit a User</term>
+	    <term>Edit a Contact</term>
 	    <listitem>
 	      <para>
-		You can edit a user two ways:
+		You can edit a contact two ways:
 		<itemizedlist>
 		  <listitem>
 		    <para>
-		      Single click on the person's "rolodex card" and you can
+		      Click once on the person's address card and you can
 		      edit the person's properties all in the same window.
 		    </para>
 		  </listitem>
 		  <listitem>
 		    <para>
-		      Double-click on the contact's card and enter details about
-		      the person.
+		      Double-click on the contact's card and alter their details.
 		    </para>
 		  </listitem>
 		</itemizedlist>
@@ -579,7 +611,7 @@
 	    <term>Email a Contact</term>
 	    <listitem>
 	      <para>
-		Right click on a contact and click on 
+		Right click on a contact and select 
 		<guilabel>Send message to contact</guilabel>.
                </para>
 	    </listitem>

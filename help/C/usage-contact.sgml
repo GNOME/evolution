@@ -53,25 +53,24 @@
     </para>
 
     <para>
-      The <guilabel>Contact List</guilabel> lists your contacts which you
-      entered.
+      The <guilabel>Contact List</guilabel> lists your contacts.
     </para>
 
     <para>
-       To open up your address book, click on
+       To open your address book, click on
        <guibutton>Contacts</guibutton> in the shortcut bar, or select
        one of your contacts folders from the folder bar.  <xref
        linkend="usage-contact-fig"> shows the address book in all
        its organizational glory.  By default, the address book
        shows all your cards in alphabetical order, in a <glossterm
-       linkend="minicard">minicard</glossterm> format.  You can select
+       linkend="minicard">minicard</glossterm> view.  You can select
        other views from the <guimenu>View</guimenu> menu, and adjust
        the width of the columns by clicking and dragging the grey
        column dividers.
     </para>
 
     <para>
-       The toolbar for the address book is quite simple:
+       The toolbar for the address book is quite simple.
        <itemizedlist>
 	<listitem><para>
            <guibutton>New</guibutton> creates a new card.
@@ -91,7 +90,8 @@
         <listitem><para> <guibutton>View All</guibutton> displays all
            the address information in the folder.  Use this button to
            refresh the display for a network folder, or to switch from
-           viewing the results of a search and see the whole contents.
+           viewing the results of a search and see all your contacts.
+	    <!-- Lets xref to search feature -->
            </para></listitem>
 
         <listitem><para> <guibutton>Stop</guibutton> stops loading
@@ -104,7 +104,7 @@
     <para>
        Your contact information fills the rest of the display.  Move
        through the cards alphabetically with the buttons and the
-       scrollbar at the right of the window. Of course, if you have
+       scrollbar to the right of the window. Of course, if you have
        more than a few people listed, you'll want some way of finding
        them more quickly, which is why there's a search feature.
     </para>
@@ -113,6 +113,7 @@
   <sect1 id="usage-contact-cards">
     <title>The Contact Editor</title>
     <para>
+      To delete a contact:
       <orderedlist numeration="arabic">
 	<listitem>
 	  <para>
@@ -121,7 +122,7 @@
 	</listitem>
 	<listitem>
 	  <para>
-	    Press <guibutton>Delete</guibutton>.
+	    Press the <guibutton>Delete</guibutton> button.
 	  </para>
 	</listitem>
       </orderedlist>
@@ -129,9 +130,8 @@
     <para>
        If you want to add or change cards, you'll use the contact
        editor.  To change a card that already exists, double click on
-       it to open the contact editor window with all the current
-       information already filled in.  If you want to create a new
-       one, clicking the <guibutton>New</guibutton> button in the
+       it to open the contact editor window.  If you want to create a new
+       card, clicking the <guibutton>New</guibutton> button in the
        toolbar will open the same window, with blank entry boxes for
        you to fill in.
     </para>
@@ -212,36 +212,36 @@
 		    </variablelist>
                    </para>
 		</listitem>
-	        <listitem>
-		  <para>
-                    The <guilabel>Full Name</guilabel> field also
-                    interacts with the <guilabel>File As</guilabel>
-                    box to help you organize your contacts.
-                  </para>
-                  <para>
-                    To see how it works, type a name in the
-                    <guilabel>Full Name</guilabel> field:
-                    <userinput>Rupert T. Monkey</userinput>.  You'll
-                    notice that the <guilabel>File As</guilabel> field
-                    also fills up, but in reverse:
-                    <computeroutput>Monkey, Rupert</computeroutput>.
-                    You can pick <computeroutput>Rupert Monkey
-                    </computeroutput> from the drop-down, or type in
-                    your own, such as <userinput> T. Rupert Monkey
-                    </userinput>.
-                 </para>
-		  <tip>
-		    <title>Filing Suggestion</title>
-		   
-		    <para>
-                      Don't enter something entirely different from
-                      the actual name, since you might forget that
-                      you've filed Rupert's information under "F" for
-                      "Fictitious Ximian Employee."
-                    </para>
-		  </tip>
-		</listitem>
 	      </itemizedlist>
+	      </para>
+		<para>
+		  The <guilabel>Full Name</guilabel> field also
+		  interacts with the <guilabel>File As</guilabel>
+		  box to help you organize your contacts.
+		</para>
+		<para>
+		  To see how it works, type a name in the
+		  <guilabel>Full Name</guilabel> field:
+		  <userinput>Rupert T. Monkey</userinput>.  You'll
+		  notice that the <guilabel>File As</guilabel> field
+		  also fills in, but in reverse:
+		  <computeroutput>Monkey, Rupert</computeroutput>.
+		  You can pick <computeroutput>Rupert Monkey
+		  </computeroutput> from the drop-down, or type in
+		  your own, such as <userinput> T. Rupert Monkey
+		  </userinput>.
+		</para>
+		<tip>
+		  <title>Filing Suggestion</title>
+		  
+		  <para>
+		    Don't enter something entirely different from
+		    the actual name, since you might forget that
+		    you've filed Rupert's information under "F" for
+		    "Fictitious Ximian Employee."
+		  </para>
+		</tip>
+
              </para>
            </listitem>
 	</varlistentry>
@@ -284,7 +284,7 @@
 	</listitem>
 	<listitem>
 	  <para>
-	    The globe - Misc. notes
+	    The globe - Miscellanious notes
 	  </para>
 	</listitem>
       </itemizedlist>
@@ -331,7 +331,7 @@
     </para>
     <para>
       You can refine searches by doing several in
-      succession, or start over by pressing the <guibutton>View
+      succession, or start over by pressing the <guibutton>Show
 	All</guibutton> button.
     </para>
     <para>
@@ -372,7 +372,7 @@
 	</listitem>
 	<listitem>
 	  <para>
-	    Name the rule in the <guilabel>Rule name</guilabel> field.
+	    Name the rule in the <guilabel>Rule Name</guilabel> field.
 	  </para>
 	</listitem>
 	<listitem>
@@ -383,7 +383,7 @@
 	<listitem>
 	  <para>
 	    If you want to add more critera, click the <guibutton>Add
-	    criterion</guibutton> button.
+	    Criterion</guibutton> button.
 	  </para>
 	</listitem>
 	<listitem>
@@ -405,7 +405,7 @@
     <para>
        Organizing your address book is a lot like organizing your
        mail.  You can have folders and searches the same way you can
-       with mail, but the address book does not allow vFolders.  It
+       with mail, but the address book does not allow Virtual Folders.  It
        does, however, allow each card to fall under several
        categories, and allow you to create your own categories.  To
        learn about categories, read <xref
@@ -428,8 +428,8 @@
       <para>
          <application>Evolution</application> offers two ways for you
          to organize your cards.  The first way is to use folders;
-         this works the same way that mail folders do.  For more
-         flexibility, you can also mark contacts as members of
+         this works the same way mail folders do.  For more
+         flexibility, you can also mark contacts as elements of
          different categories.
       </para>
 
@@ -464,9 +464,8 @@
 	<title>Grouping with Categories</title>
 	<para>
            The other way to group cards is to mark them as belonging
-           to different categories.  The difference between folders
-           and categories is that folders contain cards, but category
-           membership is a property of each card.  That means that you
+           to different categories.  
+           That means that you
            can mark a card as being in several categories or no
            category at all.  For example, I put my friend Matthew's
            card in the "Business" category, because he works with me,
@@ -507,13 +506,13 @@
     <para>
        If you keep your cards on a network using an <glossterm
        linkend="ldap">LDAP</glossterm> server, you can share access to
-       them, browse other address books, or maintain a shared set of
+       them, browse other peoples address books, or maintain a shared set of
        contact information for your company or your department.  This
        is the sort of feature you'll want to use if your company has a
        list of vendors and clients that needs constant updating.  If
-       share calendars as well as address books, people can avoid
+       you share calendars as well as address books, people can avoid
        duplicating work and keep up to date on developments within
-       their work-group or across the entire company.
+       their workgroup or across the entire company.
     </para>
 
      <example id="usage-contact-sharing-ex">
@@ -596,7 +595,7 @@
 	card.  To do so, right click on any email address or email
 	message, and select <guimenuitem>Add Address
 	Card</guimenuitem> from the menu that appears.  Of course,
-	<application> Evolution</application> also adds cards from a
+	<application> Evolution</application> can also add cards from a
 	hand-held device during HotSync operation.  For more
 	information about that, see <xref linkend="usage-sync">.
       </para>

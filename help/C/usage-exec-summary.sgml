@@ -136,7 +136,7 @@
 	components in My Evolution.
       </para>
       <sect3 id="modifying-components-mail">
-	<title>Modifying Mail</title>
+	<title>Customizing My Evolution Mail Summary</title>
 	<para>
 	  To modify mail:
 	  <orderedlist numeration="arabic">
@@ -164,7 +164,7 @@
 	  The right section shows which folders are displayed.
 	</para>
 	<para>
-	  To add a folder to be displayed, click on a folder in the
+	  To add a folder to the summary, click on a folder in the
 	  <guilabel>All folders</guilabel> section and click the
 	  <guibutton>Add</guibutton> button.
 	</para>

@@ -41,7 +41,7 @@
 	    <term><guilabel>Composer</guilabel></term>
 	    <listitem>
 	      <para>
-		Customizes the composer window's behavior.
+		Customizes the composer's behavior.
 	      </para>
 	    </listitem>
 	  </varlistentry>
@@ -145,7 +145,7 @@
 	<title>Mail Sources</title>
 	<para>
           The <interface>Mail Sources</interface> tab allows you to
-          edit, add, or delete methods of retrieving mail from
+          add, edit, or delete methods of retrieving mail from
           servers.  Clicking on <guibutton>Add</guibutton> or
           <guibutton>Edit</guibutton> will bring up a dialog box to
           offer you the following options:
@@ -168,7 +168,7 @@
 	      <listitem>
 		<para>
                   Enter the name of the mail source server in this
-                  field. If you use an  may or may not be the same as your
+                  field. Your POP server may or may not be the same as your
                   <glossterm linkend="smtp">SMTP</glossterm> server.
                 </para>
 	      </listitem>
@@ -221,14 +221,15 @@
             listings and check and download mail from all POP servers.
             In other words, <guibutton>Get Mail</guibutton> gets your
             mail, no matter how many sources you have, or what types
-            they are.
+            they are.  You can disable checking mail on accounts in their
+            properties.
           </para>
       </sect3>
 
       <sect3 id="config-prefs-mail-network-transports">
 	<title>Mail Transports</title>
 	<para>
-           The <interface>Mail Transports</interface> tab lets you set
+           The <interface>Mail Transports</interface> tab lets you choose
            how you will send mail.  <application>Evolution</application> currently supports two
            mail transport options: <glossterm linkend="smtp">SMTP</glossterm>, which
            uses a remote mail server, and
@@ -266,7 +267,7 @@
             Click <guibutton>Add</guibutton> to add a news server; you
             will be prompted for its name.  Enter the name, click
             <guibutton>OK</guibutton>, and you're done.  You can have
-            as many mail servers as you like, of course.  News servers
+            as many news servers as you like, of course.  News servers
             will appear next to your IMAP servers in the
             <interface>folder bar</interface>.
           </para>
@@ -296,12 +297,12 @@
 	  </varlistentry>
 	  <varlistentry>
                 <term> 
-                   <guilabel>Mark Messages as Seen After</guilabel>
+                   <guilabel>Mark Messages as Read After</guilabel>
                 </term>
                 <listitem><para> 
                     When you click on a message,
                     <application>Evolution</application> will wait a
-                    moment before marking it as seen. You can set the
+                    moment before marking it as read. You can set the
                     delay, in milliseconds, here.
                  </para></listitem>
               </varlistentry>
@@ -336,10 +337,8 @@
           <guimenuitem>Calendar
           Configuration</guimenuitem></menuchoice> from the Calendar
           view.  This will open up the
-          <interface>Preferences</interface> window.  It contains four
-          tabs: <guilabel>Time display</guilabel>,
-          <guilabel>Colors</guilabel>, <guilabel>To Do List</guilabel>
-          and <guilabel>Alarms</guilabel>.  The <interface>calendar
+          <interface>Preferences</interface> window.  It contains three
+          tabs: <guilabel>Calendar</guilabel>, <guilabel>TaskPad</guilabel>, <guilabel>Reminders</guilabel>.  The <interface>calendar
           preferences window</interface> is illustrated in <xref
           linkend="config-prefs-cal-fig">.
 
@@ -402,12 +401,12 @@
         sample calendar on the right and a list of ten items that can
         be colored in different ways.  If you click on the color
         button to the right of each item, you will bring up a
-        color-selector window where you can choose to alter that
+        color-selector window where you can alter that
         color.  By clicking <guibutton>OK</guibutton> in the color
         selection dialog, you can see the results of the color on the
         sample calendar.
      </para>
-     <para>The display elements whose color you can set are:
+     <para>The display elements colors you can set are:
 
           <itemizedlist>
            <listitem>
@@ -459,7 +458,7 @@
 	  <listitem>
 	    <para> <guilabel>To-Do item that is not yet
              due:</guilabel> Text color for To-Do list items that are
-             not yet due.  (Or maybe background color? find out!)
+             not yet due. 
                </para>
 	  </listitem>
 
@@ -540,10 +539,10 @@
 	  <listitem>
 	    <para><guilabel>Beep on display alarms</guilabel>: select
 	    this box to have <application>Evolution</application> beep
-	    at you for any alarms you have set.  If you leave this box
+	    at you for any alarms you have set. These beeps
+	    are distinct from full-fledged audio alarms. If you leave this box
 	    unchecked, <application>Evolution</application> will only
-	    alert you to events by opening a dialog box. These beeps
-	    are distinct from full-fledged audio alarms.
+	    alert you to events by opening a dialog box. 
            </para>
 	  </listitem>
 	  <listitem>

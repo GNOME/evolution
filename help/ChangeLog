@@ -1,3 +1,17 @@
+2001-07-11  Kevin Breit  <battery841@mediaone.net>
+
+	* C/usage-calendar.sgml: More edits.
+
+	* C/usage-contact.sgml: Sick amounts of changes too!
+
+	* C/usage-mail-org.sgml: Heavy editing...touched almost everything.
+
+	* C/usage-exec-summary.sgml: Minor change.  There was only one change for this chapter, cuz I'm such a 'godly' writer...yeah.
+
+	* C/usage-mainwindow.sgml: A bit of editing.
+
+	* C/preface.sgml: Screwed with the examples and did some cleanup.
+
 2001-07-10  Aaron Weber  <aaron@ximian.com>
 
 	* C/usage-mail-org.sgml: validation.

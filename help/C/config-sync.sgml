@@ -2,7 +2,7 @@
      <title>Setting up your synchronization system</title> 
      <para>
         Synchronization presents you with two issues you'll need to
-        deal with. 
+        address. 
         <simplelist>
           <member>
             Your computer needs to recognize and access your handheld.
@@ -107,14 +107,14 @@
 
 
       <para> 
-         <warning> 
+         <tip> 
 	  <title>Data Loss Prevention</title> 
 	  <para>
 	    It's always a good idea to make a backup.  To do that,
 	    make a copy of your <systemitem>
 	    <filename>~/evolution</filename> </systemitem> directory.
           </para>
-	</warning>
+	</tip>
        </para>
 
     </chapter>

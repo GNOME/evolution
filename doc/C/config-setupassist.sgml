@@ -47,9 +47,9 @@
 -->
 
       <para>
-         The setup assistant (sometimes called a
+         The setup assistant, sometimes called a
 	 <glossterm>Druid</glossterm>, by analogy with the "Wizards"
-	 that some other programs use) will guide you through the
+	 that some other programs use, will guide you through the
 	 network configuration process.  It will ask you for some
 	 basic information; your system administrator or ISP should
 	 have the answers you'll need.  The mail setup assistant is
@@ -166,7 +166,7 @@
             </para>
 	    <para>
 	      In the <guilabel>Username:</guilabel> input box, type your
-	      username for your email account (the part before the @).
+	      username for your email account (the part before the "@").
 	    </para>
 	  </listitem>
        </varlistentry>

@@ -111,7 +111,7 @@ lack of time, resources, and interest.
     <sect2 id="usage-calendar-apts-basic">
       <title>Creating events</title>
       <para>
-	To create a new calendar event, select
+	To create a new appointment, select
         <menuchoice>
 	  <guimenu>File</guimenu>
 	  <guisubmenu>New</guisubmenu> 
@@ -158,7 +158,7 @@ lack of time, resources, and interest.
       <para>
          You can have as many as four different
          <guilabel>Alarms</guilabel>, any time prior to the event
-         you've scheduled.  You can have one alarm of each type:
+         you've scheduled.  You can have one alarm of each of the following types:
          <variablelist>
            <varlistentry>
 	    <term><guilabel>Display</guilabel></term>
@@ -214,7 +214,7 @@ lack of time, resources, and interest.
          determined. <!-- FIXME -->
       </para>
       <para>
-        <application>Evolution</application> allows for categorizing your
+        <application>Evolution</application> lets you categorize your
 	appointments, which can help if you lead a busy life.  The bottom
 	section of the <guilabel>Appointment</guilabel> tab is where your
 	categorization is done.
@@ -225,7 +225,7 @@ lack of time, resources, and interest.
 	<para>
 	 You can add a new category to your category list by clicking on
          <guibutton>Edit Master Category List...</guibutton> and single-clicking
-	 on <guilabel> Click here to add a category </guilabel>.
+	 on <guilabel> Click here to add a category</guilabel>.
 	</para>
       </tip>
 

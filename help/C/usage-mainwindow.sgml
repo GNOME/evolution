@@ -36,16 +36,6 @@
 	the message list view, where  a summary of your email is displayed.
 	If you're running the program for the first time,
 	you'll have one message: a welcome from Ximian.
-	<!-- ==============Figure=================================== -->
-    <figure id="usage-mainwindow-fig">
-    <title>Evolution Main Window and Inbox</title>
-    <screenshot>
-      <screeninfo>Evolution Main Window</screeninfo>
-      <graphic fileref="fig/mainwindow-pic" format="png" srccredit="Kevin Breit">
-	</graphic>
-    </screenshot>
-    </figure>
-<!-- ==============End of Figure=================================== -->
     </para>
   <sect2 id="usage-mainwindow-shortcutbar">
     <title>The Shortcut Bar</title>
@@ -215,7 +205,7 @@
 	    the messages you have marked for deletion but not yet
 	    <glossterm linkend="expunge">expunged</glossterm>. Note that 
 	    once you have expunged a message, it
-	    is gone for good.
+	    is permanently deleted.
 	   </para>
 	 </listitem>
       </itemizedlist>
@@ -226,8 +216,9 @@
        <para>
          You don't need the folder bar or the shortcut bar to move
          around the main window. You can use <keycap>Tab</keycap> to
-         switch from one part of the window to another, and the folder
-         menu on the right side of the window just below the toolbar
+         switch from one part of the window to another. When you hide the folder
+         bar, 
+         there is a menu on the left side of the window just below the toolbar
          to move about the folder tree, even with the folder and
          shortcut bars hidden.
        </para>
@@ -312,10 +303,10 @@
     <sect3 id="subfolders">
     <title>Subfolders</title>
       <para>
-        <application>Evolution</application> can also manage subfolders.
-	Subfolders are folders inside of folders.  This works well if
+        <application>Evolution</application> can also manage subfolders,
+	subfolders are folders inside of folders.  This works well if
 	you want to try to separate your home folders from your work
-	folders. 
+	folders, or if you like to keep very organized.
       </para>
 
     
@@ -348,7 +339,7 @@
     </para>
 
     <para>
-      You can also rearrange folders and messages with by dragging and
+      You can also rearrange folders and messages by dragging and
       dropping them.
     </para>
 
@@ -368,13 +359,13 @@
 -->
 
 	<para>
-	  Any time new information arrives in a folder, that folder label
-	  is displayed in bold text, along with the amount of new messages in
+	  Any time new information arrives in a mail folder, that folder label
+	  is displayed in bold text, along with the number of new messages in
 	  that folder inside of paranthesis.
 	</para>
       </sect3>
-      </sect2>
-
+    </sect2>
+    
     <sect2 id="usage-mainwindow-menubar">
     <title>The Menu Bar</title>
     <para>

@@ -19,7 +19,7 @@
          <guilabel>Date</guilabel> fields. You can change their order
          and remove them by dragging and dropping them.  
 
-      To add columns to sort by:
+      To add columns:
       <orderedlist numeration="arabic">
 	<listitem>
 	  <para>
@@ -61,8 +61,10 @@
 	  <varlistentry>
 	    <term><guimenuitem>Group By this Field</guimenuitem></term>
 	    <listitem><para>
-		Groups messages instead of sorting them. (FIXME: Explain further) 
-	      </para></listitem>
+	      Groups messages instead of sorting them. This makes each contact
+	      with identical properties in the specified field to be placed in
+	      its own group and physically separated from others. 
+	    </para></listitem>
 	  </varlistentry>
 	  
 	  <varlistentry>
@@ -75,12 +77,13 @@
 	  
 	  <varlistentry>
 	    <term><guimenuitem>Field
-		Chooser</guimenuitem></term> <listitem><para> A list
-		of column headers; just drag and drop them into
-		place between two existing headers. A red arrow will
-		appear to show you where you're about to put the
-		column.  </para></listitem>
-	  </varlistentry>
+		Chooser</guimenuitem></term> <listitem><para> 
+	      When you choose this item, a list
+	      of column headers will appear; just drag and drop them into
+	      place between two existing headers. A red arrow will
+	      appear to show you where you're about to put the
+	      column.  </para></listitem>
+	</varlistentry>
 	</variablelist>
       </para>
     </sect1>
@@ -226,7 +229,7 @@
         actions that may effect the same message in several ways.  For
         example, your filters could put copies of one message into
         multiple folders, or keep a copy and send one to another
-        person as well, and it can do that in under a second. Which is
+        person as well, and it can do that quickly. Which is
         to say, it's faster and more flexible than an actual person
         with a pile of envelopes.
       </para>
@@ -330,8 +333,8 @@
 		
 		<listitem>
 		  <para>
-		    Attachments - Create a filter whether or not you have an
-		    attachment in the email.
+		    Attachments - Create a filter based on whether or not you 
+		    have an attachment in the email.
 		  </para>
 		</listitem>
 		
@@ -459,12 +462,12 @@
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Press <guibutton>OK</guibutton>.
+	      Press <guibutton>OK</guibutton> in the filter editor window.
 	    </para>
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Press <guibutton>OK</guibutton>.
+	      Press <guibutton>OK</guibutton> in the filter manager window.
 	    </para>
 	  </listitem>
 	</orderedlist>
@@ -494,13 +497,15 @@
       </para>
       <para>
 	<note>
-	  <title>Notable Filter Features</title>
+	  <title>Changing Folder Names and Filters</title>
 	  <para>
 	    <itemizedlist>
-	      <listitem><para>
+	      <listitem>
+		<para>
 		  Incoming email that your filters don't move goes into the Inbox; 
-		  outgoing mail that they don't move ends up in the Sent folder.
-	    </para>
+		  outgoing mail that they don't move ends up in the Sent
+		  folder.  So be sure to change the filters that go with it.
+		</para>
 	      </listitem>
 	    </itemizedlist>
 	  </para>
@@ -554,7 +559,7 @@
     <example id="usage-mail-organize-vFolders-ex">
       <title>Using Folders, Searches, and Virtual Folders</title>
       <para>
-	To organize their mailbox, Jim sets up a virtual volder for emails from
+	To organize his mailbox, Jim sets up a virtual volder for emails from
 	his friend and co-worker Anna.  He has another one for messages that
 	have ximian.com in the address and <application>Evolution</application> in the subject line, so he
 	can keep a record of what people from work send him about
@@ -589,9 +594,9 @@
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Name your filter in the <guilabel>Rule name</guilabel> field.
-	      For each filter criterion, you must first select 
-	      which of the following parts of the message you want the filter to 
+	      Name your virtual folder in the <guilabel>Rule name</guilabel> field.
+	      For each criterion, you must first select 
+	      which of the following parts of the message you want the search to 
 	      examine:
 	      <itemizedlist>
 		<listitem><para>
@@ -608,7 +613,7 @@
 		  </para></listitem>
 		
 		<listitem><para>
-		    Specific Header - The filter can look at any header you
+		    Specific Header - The virtual folder can look at any header you
 		    want, even obscure or custom ones. Enter the header name
 		    in the first text box, and put your search text in the
 		    second one.
@@ -622,15 +627,15 @@
 		  <para>
 		    Expression - For programmers only: match a message according to an
 		    expression you write in the Scheme language, used to
-		    define filters in <application>Evolution</application>.
+		    define virtual folders in <application>Evolution</application>.
 		  </para>
 		</listitem>
 		
-		<listitem><para> Date sent - Filter messages according to the date on
+		<listitem><para> Date sent - Search messages according to the date on
 		    which they were sent: First, choose the conditions you
 		    want a message to meet &mdash; <guilabel>before</guilabel>
 		    a given time, <guilabel>after</guilabel> it, and so forth.
-		    Then, choose the time. The filter will compare the
+		    Then, choose the time. The virtual folder will compare the
 		    message's time-stamp to the system clock when the filter
 		    is run, or to a specific time and date you choose from a
 		    calendar.  You can even have it look for messages within a
@@ -646,8 +651,9 @@
 		
 		<listitem><para>
 		    Score - Emails have a standard priority range from -3 (least
-		    important) to 3 (most important). You can have filters set the
-		    priority of messages you recieve, and then have other filters 
+		    important) to 3 (most important). You can have virtual folders set the
+		    priority of messages you recieve, and then have other
+		    virtual folders 
 		    applied only to those messages which have a certain priority.
 		  </para></listitem>
 		
@@ -659,21 +665,21 @@
 		
 		<listitem>
 		  <para>
-		    Status - Filters according to the status of a message, such as
+		    Status - Searches according to the status of a message, such as
 		    'New'.
 		  </para>
 		</listitem>
 		
 		<listitem>
 		  <para>
-		    Attachments - Create a filter whether or not you have an
+		    Attachments - Create a virtual folder based on  whether or not you have an
 		    attachment in the email.
 		  </para>
 		</listitem>
 		
 		<listitem>
 		  <para>
-		    Mailing List - Filter based on the mailing list it came from.
+		    Mailing List - Search based on the mailing list it came from.
 		  </para>
 		</listitem>
 		
@@ -687,7 +693,7 @@
 		
 		<listitem>
 		  <para>
-		    Source Account - Filter messages according the server you got them from.
+		    Source Account - Search messages according the server you got them from.
 		    You can enter a URL or choose one from the drop-down
 		    list.  This ability is only relevant if you use more
 		    than one mail source.
@@ -699,7 +705,7 @@
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Select the criterion for the condition.
+	      Select criteria to search by.
 	    </para>
 	  </listitem>
 	  <listitem>
@@ -708,7 +714,7 @@
 	      <itemizedlist>
 		<listitem>
 		  <para>
-		    specific folders only
+		    Specific folders only
 		    <note>
 		      <para>
 			If you select specific folders only, you need to specify the
@@ -719,17 +725,17 @@
 		</listitem>
 		<listitem>
 		  <para>
-		    all local folders
+		    All local folders
 		  </para>
 		</listitem>
 		<listitem>
 		  <para>
-		    with all active remote folders
+		    With all active remote folders
 		  </para>
 		</listitem>
 		<listitem>
 		  <para>
-		    with all local and active folders
+		    With all local and active folders
 		  </para>
 		</listitem>
 	      </itemizedlist>
@@ -738,16 +744,16 @@
 	  </listitem>
 	  <listitem>
 	<para>
-	      If you want multiple criterion for this filter, press <guibutton>Add
+	      If you want multiple criteria for this filter, press <guibutton>Add
 		criterion</guibutton> and repeat the previous step.
 	    </para>
-      </listitem>
+	  </listitem>
     </orderedlist>
 
       <figure id="usage-mail-vfolder-fig-createrule">
-	<title>Selecting a vFolder Rule</title>
+	<title>Selecting a Virtual Folder Rule</title>
 	<screenshot>
-	  <screeninfo>Creating a vFolder Rule</screeninfo>
+	  <screeninfo>Creating a Virtual Folder Rule</screeninfo>
 	  <graphic fileref="fig/vfolder-createrule-fig" format="png" srccredit="Aaron Weber">
 	  </graphic>
 	</screenshot>
@@ -755,10 +761,10 @@
       </para>
     </sect2>
     <sect2 id="usage-mail-vfolder-unmatched">
-      <title>The Unmatched vFolder</title>
+      <title>The Unmatched Virtual Folder</title>
       <para>
-	Obveously, not all messages will fit into all your vFolders.  That is
-	what the UNMATCHED vFolder is for.  The UNMATCHED vFolder is a vFolder
+	Obveously, not all messages will fit into all your Virtual Folders.  That is
+	what the UNMATCHED Virtual Folder is for.  The UNMATCHED Virtual Folder is a folder
 	for any mail that doesn't get matched by other rules.
       </para>
     </sect2>

@@ -4,7 +4,7 @@
     <title> A Guide to the Evolution Mailer</title>
     <para>
        <application>Evolution</application> email is like other email
-       programs in all the ways you would hope:
+       programs in all the ways that matter:
      <itemizedlist>
        <listitem>
          <para>
@@ -15,7 +15,7 @@
        <listitem>
          <para>
           It can send and receive mail in HTML or as plain text, and
-          permits multiple file attachments.
+          makes it easy to send and recieve multiple file attachments.
          </para>
        </listitem>
        <listitem>
@@ -28,7 +28,12 @@
            even NNTP messages (newsgroups), which aren't technically
            email.
          </para>
-       </listitem>
+	</listitem>
+	<listitem>
+	  <para>
+	    Lets you enhance your security with encryption.
+	  </para>
+	</listitem>
      </itemizedlist>
     </para>
     <para>
@@ -130,9 +135,8 @@
     <sect2 id="usage-mail-listorder">
       <title>Sorting the message list</title>
       <para>
-	One of the ways <application>Evolution</application> lets
-	you choose the way you work is the way it lets you sort your
-	message lists.  To sort by sender, subject, or date, click
+	<application>Evolution</application> helps you work by letting you sort
+	your email.  To sort by sender, subject, or date, click
 	on the bars with those labels at the top of the message
 	list. The direction of the arrow next to the label indicates
 	the direction of the sort, and if you click again, you'll
@@ -179,8 +183,8 @@
 	    <note>
 	      <title>Deleted but still here?</title>
 	      <para>
-		When you do this, your message is marked to be deleted.  It is
-		not until you expunge the message that the message is gone.
+		When you do this, your message is marked to be deleted.  Your
+		email is not gone until you have expunged it.
 	      </para>
 	    </note>
 	  </listitem>
@@ -201,9 +205,9 @@
 	</orderedlist>
       </para>
       <note>
-	<title>Trash is Actually a vFolder?</title>
+	<title>Trash is Actually a Virtual Folder?</title>
 	<para>
-	  Your trash bin is actually a vFolder that searches for all mails that
+	  Your trash bin is actually a Virtual Folder that searches for all mails that
 	  are queued to be deleted.
 	</para>
       </note>
@@ -249,21 +253,21 @@
       information it needs to check your email.
     </para>
     <para>
-      The druid will give you several dialog boxes where you setup:
+      The assistant will give you several dialog boxes where you configure:
       <itemizedlist>
 	<listitem>
 	  <para>
-	    Setup your personal information
+	    your personal information
 	  </para>
 	</listitem>
 	<listitem>
 	  <para>
-	    Setup your outgoing email server information
+	    your outgoing email server information
 	  </para>
 	</listitem>
 	<listitem>
 	  <para>
-	    Identity Name
+	    your mail account identity name
 	  </para>
 	</listitem>
       </itemizedlist>
@@ -279,7 +283,7 @@
       <title>Can't Check Mail?</title>
       <para>
 	If you get an error message instead of mail, you probably need to check
-	your network settings.  If you.  To learn how to do that,
+	your network settings.  To learn how to do that,
 	 have a look at <xref linkend="config-prefs-mail-network">, or
 	 ask your system administrator.
        </para>
@@ -382,9 +386,14 @@
       -->
         <para>
            <application>Evolution</application> can also display
-           HTML-formatted mail, complete with graphics.  HTML
-           formatting will display automatically, although you can
-           turn it off if you prefer.
+           HTML-formatted mail, complete with graphics.  Graphics don't load
+           automatically by default, becuase they can be large and take a long
+           time to download.  They can also be used by spammers to help track
+           who reads their email.  So having them not load automatically helps
+           protect your privacy.
+	<!-- I say the privacy thing because I saw an internal email which
+           stated that gallop polls show people are concerned about online
+           security and that we'd be best marketing Evolution as more secure -->
       </para>
     </sect2>
   </sect1>
@@ -435,9 +444,8 @@
            when you press <guibutton>Send</guibutton> in another
            message, or <guibutton>Get Mail</guibutton> in the main
            mail window, all your unsent messages will go out at once.
-           Many times, one might want to use "Send Later" becuase it gives
-           you a chance to change your mind about a message before it
-           is sent.  This way, you may not say something you may regret.
+           You might want to use "Send Later" becuase it gives
+           you a chance to change your mind about a message before you send it.
         </para>
         <para>
            To learn more about how you can specify message queue and
@@ -563,7 +571,7 @@
                  category into the <guilabel>To:</guilabel> or
                  <guilabel>Cc:</guilabel> fields, he'll make the
                  company's <emphasis>entire</emphasis> client list
-                 public. However, but putting his "Clients" addressbook
+                 public. But putting his "Clients" addressbook
                  into the Bcc: section, that will cause them to be hidden
                  from the competition.  It seems insignificant, but it can
                  make a huge difference in some situations.
@@ -592,7 +600,7 @@
             Alternately, you can click on the
             <guibutton>To:</guibutton>, <guibutton>Cc:</guibutton>, or
             <guibutton>Bcc:</guibutton> buttons to get a list &mdash;
-            a potentially a very long one &mdash; of the email addresses
+            potentially a very long one &mdash; of the email addresses
             in your contact manager.  Select addresses and click on
             the arrows to move them into the appropriate address
             columns.
@@ -610,14 +618,14 @@
         <title>Replying to Messages</title>
         <para>
            To reply to a message, press the
-           <guibutton>Reply</guibutton> button while it is selected,
-           or choose <guimenuitem>Reply to Sender</guimenuitem> from
+           <guibutton>Reply:</guibutton> button while it is selected,
+           or choose <guimenuitem>Reply to Sender:</guimenuitem> from
            the message's right-click menu.  That will open the
            <interface>message composer</interface>.  The
-           <guilabel>To:</guilabel> and <guilabel>Subject</guilabel>
+           <guilabel>To:</guilabel> and <guilabel>Subject:</guilabel>
            fields will already be filled, although you can alter them
            if you wish.  In addition, the full text of the old message
-           is inserted into the new message, either in italics (for
+           is inserted into the new message, either grey (for
            HTML display) or with the &gt; character before each line
            (in plain text mode), to indicate that it's part of the
            previous message.  People often intersperse their message
@@ -671,8 +679,11 @@ with quoted materials and the relevant replies interspersed-->
               collaboration on the Internet works.  They allow people to send one
               message to one server.  The server then knows who is subscribed to the
               mailing list, and sends a copy of your email to all the people on the
-              list.  As a matter of fact, mailing lists are one of the main ways in
-              which <application>Evolution</application> was developed.
+              list.  
+              For example, evolution-hackers@ximian.com allows the
+              <application>Evolution</application> programmers to converse
+              publically about their latest developments so that everyone can
+              stay up to date.
             </para>
             <para>
               There are two different types of mailing lists.  The first is a
@@ -979,8 +990,8 @@ with quoted materials and the relevant replies interspersed-->
         <title>Forwarding Mail</title>
         <para>
           The post office forwards your mail for you when you change
-          addresses, and you can forward mail when you get a letter by
-          mistake.  The email <guilabel>Forward</guilabel> button
+          addresses, and you can forward a letter if it comes to you by mistake.
+          The email <guilabel>Forward</guilabel> button
           works in much the same way.  It's particularly useful if you
           have received a message and you think someone else would
           like to see it.  You can forward a message as an attachment
@@ -1120,13 +1131,16 @@ with quoted materials and the relevant replies interspersed-->
 	<example>
 	  <title>Encryption Example</title>
 	  <para>
-	    Kevin orders an <application>Evolution</application> t-shirt from
-	    Ximian, Inc. over the Internet.  He puts in his credit card number
-	    which is 1234-567-8901.  For security, his computer encrypts the
-	    credit card number so it can be safely transmitted over the Internet.
-	    The number now is @#$23ui7yr87#@!48970fsd, which holds no intentional
-	    resemblance to the initial number.  When the information gets to
-	    Ximian, Inc. it'll be decrypted into the initial number.
+	    Kevin sends his friend Rachel and email and chooses to encrypt it.
+	    The email has the following contents:
+	      Hi Rachel.
+	      Go banana!
+	      Kevin
+	    He tells <application>Evolution</application> to encrypt the
+	    message.  The computer encrypts the message which now looks like
+	    @#$23ui7yr87#@!48970fsd.  When the information gets to Rachel,
+	    she'll decrypt the message and it'll show up in plain text for her
+	    to read.
 	  </para>
 	</example>
 	Encryption can be used in email in two ways: to verify that the sender is
@@ -1149,14 +1163,14 @@ with quoted materials and the relevant replies interspersed-->
 	</para>
       </tip>
       <para>
-	You can start by typing in: <command>gpg --gen-key</command>.  At the
-	first question, select 1.  The next question asks you about key length.
+	You can start by typing in: <command>gpg --gen-key</command> at the
+	console.  When you are asked about the algorythm to use, select 1.  The next question asks you about key length.
 	The longer the key, more stronger it is.  However, the longer the key, the
 	longer it takes to generate.  This is your choice.  However, 1024 bits
 	(default) should be adequate.  The next question asks you if you want your
 	key to expire.  Expiring keys make your key invalid after a certain amount
-	of time, so old keys don't float around active.  This is the same concept
-	as a coupon at a supermarket.  Next, you'll type in your Real name, your
+	of time, so old keys don't float around when they aren't used anymore.  This is the same concept
+	as a coupon at a supermarket.  Next, you'll type in your real name, your
 	email address, and a comment.  You should not forge this information, as
 	it is used later to verify who you are.  Assuming that all your
 	information is correct, press "O" to continue.  GPG now asks you for a
@@ -1165,7 +1179,7 @@ with quoted materials and the relevant replies interspersed-->
 	sensitive, which means that it does know the difference between capital
 	letters and lower-case.  Now your key is generated.  It is recommend you
 	surf the Internet, read your email, or write a letter in a word
-	processor.  This help creates randomness in the key.
+	processor while your key is generated.
       </para>
       <para>
 	Once this is completed, you'll be dropped back to the command line.
@@ -1188,8 +1202,42 @@ with quoted materials and the relevant replies interspersed-->
 	You will be prompted to type in your password <!-- verify that you need to
 	enter your password here --> and your key will be uploaded for your
 	friends to download.
+	<note id="why-keyserver">
+	  <title>Why Use a Keyserver?</title>
+	  <para>
+	    Keyservers store your public keys for you so that your friends can
+	    decrypt your messages.  If you choose not to use a keyserver, you
+	    can manually send your friends your public key.  It is much easier
+	    though to upload to a keyserver and then let your friends download
+	    your public key on their own wish. <!-- Bad wording -->
+	  </para>
+	</note>
+	<note id="pub-priv">
+	  <title>Public Key?  Private Key?  Whats the difference?</title>
+	  <para>
+	    GPG uses two types of keys: public and private.  The private should
+	    be given out to no one, ever.  Your private key allows your mail to
+	    be signed and encrypted and decrypted by anyone who has it.  The
+	    public key is what you give your friends so that they can decrypt
+	    your mails.
+	  </para>
+	</note>
       </para>
     </sect2>
+    <sect2 id="encrypt-getting-key">
+      <title>Retrieving a Friends Key</title>
+      <para>
+	To encrypt a message to your friends, you'll need to use their public
+	key in combination with your private key.
+	<application>Evolution</application> does that transparently, but you
+	still need to get their key off a keyserver.  To do that, type:
+	<command>
+	  gpg --recv-keys --keyserver wwwkeys.pgp.net keyid
+	</command>.  You will need to type in your password, and then their ID
+	will automatically be added to your keyring.
+      </para>
+    </sect2>
+
     <sect2 id="encrypt-evo-integ">
       <title>Setting up Evolution's Encryption</title>
       <para>
@@ -1201,7 +1249,7 @@ with quoted materials and the relevant replies interspersed-->
 	Once there, select the account you'd like to associate the key to and click
 	the <guibutton>Edit</guibutton> button.  In the
 	<guilabel>Security</guilabel> tab is a section labeled <guilabel>Pretty
-	  Goog Privacy</guilabel>.  Enter your key ID and click
+	  Good Privacy</guilabel>.  Enter your key ID and click
 	<guibutton>OK</guibutton>.  Your key is now integrated into your identity
 	in <application>Evolution</application>.
       </para>
@@ -1209,7 +1257,7 @@ with quoted materials and the relevant replies interspersed-->
     <sect2 id="encrypt-sending">
       <title>Sending Encrypted Messages</title>
       <para>
-	You can either sign or encrypt a message.  When you sign a message, verify
+	You can either sign or encrypt a message.  When you sign a message, you verify
 	that you were the one who sent it, and that no one is forging your
 	identity.  Encrypting a message makes it impossible for someone with
 	prying eyes to view it while it's in transmission.
