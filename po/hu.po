@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-08-13 14:55-0400\n"
-"PO-Revision-Date: 2004-08-10 12:48+0200\n"
+"POT-Creation-Date: 2004-08-18 11:10+0200\n"
+"PO-Revision-Date: 2004-08-18 14:57+0200\n"
 "Last-Translator: Gabor Kelemen <kelemeng@gnome.hu>\n"
 "Language-Team: Hungarian <gnome@gnome.hu>\n"
 "MIME-Version: 1.0\n"
@@ -188,8 +188,6 @@ msgstr ""
 "változtatásokat?"
 
 #: addressbook/addressbook-errors.xml.h:43
-#: addressbook/gui/contact-editor/e-contact-editor.c:2803
-#: addressbook/gui/contact-editor/e-contact-editor.c:2827
 msgid "_Discard"
 msgstr "_Elvetés"
 
@@ -2154,22 +2152,6 @@ msgstr ""
 msgid "Invalid contact."
 msgstr "Érvénytelen névjegy."
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2799
-msgid ""
-"The contact cannot be saved to the selected address book. Do you want to "
-"discard changes?"
-msgstr ""
-"A névjegy nem menthető a kiválasztott címjegyzékbe. Vissza szeretné vonni a "
-"változtatásokat?"
-
-#: addressbook/gui/contact-editor/e-contact-editor.c:2822
-msgid ""
-"You are moving the contact from one address book to another, but it cannot "
-"be removed from the source. Do you want to save a copy instead?"
-msgstr ""
-"Áthelyez egy névjegyet az egyik címjegyzékből a másikba de az nem törölhető "
-"a forrásból. Szeretne inkább egy másolatot menteni ehelyett?"
-
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:280
 msgid "Contact Quick-Add"
 msgstr "Gyors névjegy hozzáadás"
@@ -3052,7 +3034,7 @@ msgid "Error adding list"
 msgstr "Hiba a lista hozzáadásakor"
 
 #: addressbook/gui/widgets/eab-gui-util.c:170
-#: addressbook/gui/widgets/eab-gui-util.c:640
+#: addressbook/gui/widgets/eab-gui-util.c:643
 msgid "Error adding contact"
 msgstr "Hiba a névjegy hozzáadásakor"
 
@@ -3069,20 +3051,26 @@ msgid "Error removing list"
 msgstr "Hiba a lista törlésekor"
 
 #: addressbook/gui/widgets/eab-gui-util.c:193
-#: addressbook/gui/widgets/eab-gui-util.c:598
+#: addressbook/gui/widgets/eab-gui-util.c:601
 msgid "Error removing contact"
 msgstr "Hiba a névjegy törlésekor"
 
 #: addressbook/gui/widgets/eab-gui-util.c:275
 #, c-format
 msgid ""
+"Opening %d contact will open %d new window as well.\n"
+"Do you really want to display this contact?"
+msgid_plural ""
 "Opening %d contacts will open %d new windows as well.\n"
 "Do you really want to display all of these contacts?"
-msgstr ""
+msgstr[0] ""
+"%d névjegy megnyitásával megnyitásra kerül %d új ablak is.\n"
+"Valóban meg szeretné jeleníteni a névjegyet?"
+msgstr[1] ""
 "%d névjegy megnyitásával megnyitásra kerül %d új ablak is.\n"
 "Valóban meg szeretné jeleníteni az összes ilyen névjegyet?"
 
-#: addressbook/gui/widgets/eab-gui-util.c:301
+#: addressbook/gui/widgets/eab-gui-util.c:304
 #, c-format
 msgid ""
 "%s already exists\n"
@@ -3091,44 +3079,44 @@ msgstr ""
 "%s már létezik\n"
 "Szeretné felülírni?"
 
-#: addressbook/gui/widgets/eab-gui-util.c:305
+#: addressbook/gui/widgets/eab-gui-util.c:308
 msgid "Overwrite"
 msgstr "Felülírás"
 
 #. This is a filename. Translators take note.
-#: addressbook/gui/widgets/eab-gui-util.c:383
+#: addressbook/gui/widgets/eab-gui-util.c:386
 msgid "card.vcf"
 msgstr "névjegykártya.vcf"
 
-#: addressbook/gui/widgets/eab-gui-util.c:545
+#: addressbook/gui/widgets/eab-gui-util.c:548
 msgid "list"
 msgstr "lista"
 
-#: addressbook/gui/widgets/eab-gui-util.c:694
+#: addressbook/gui/widgets/eab-gui-util.c:697
 msgid "Move contact to"
 msgstr "Névjegy áthelyezése a következő helyre"
 
-#: addressbook/gui/widgets/eab-gui-util.c:696
+#: addressbook/gui/widgets/eab-gui-util.c:699
 msgid "Copy contact to"
 msgstr "Névjegy másolása a következő helyre"
 
-#: addressbook/gui/widgets/eab-gui-util.c:699
+#: addressbook/gui/widgets/eab-gui-util.c:702
 msgid "Move contacts to"
 msgstr "Névjegyek áthelyezése a következő helyre"
 
-#: addressbook/gui/widgets/eab-gui-util.c:701
+#: addressbook/gui/widgets/eab-gui-util.c:704
 msgid "Copy contacts to"
 msgstr "Névjegy másolása a következő helyre"
 
-#: addressbook/gui/widgets/eab-gui-util.c:704
+#: addressbook/gui/widgets/eab-gui-util.c:707
 msgid "Select target addressbook."
 msgstr "Válassza ki a cél címjegyzéket."
 
-#: addressbook/gui/widgets/eab-gui-util.c:927
+#: addressbook/gui/widgets/eab-gui-util.c:930
 msgid "Multiple VCards"
 msgstr "Több VCard"
 
-#: addressbook/gui/widgets/eab-gui-util.c:930
+#: addressbook/gui/widgets/eab-gui-util.c:933
 #, c-format
 msgid "VCard for %s"
 msgstr "%s VCard-ja"
@@ -4788,9 +4776,8 @@ msgid "_Add Calendar"
 msgstr "Naptár hozzá_adása"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:7
-#, fuzzy
 msgid "_Add Task List"
-msgstr "Feladatlista hozzáadása"
+msgstr "Feladatlista hozzá_adása"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:9
 msgid "_Refresh:"
@@ -6046,9 +6033,8 @@ msgid "_Forward as iCalendar..."
 msgstr "_Továbbítás iCalendar-ként..."
 
 #: calendar/gui/e-calendar-view.c:1452
-#, fuzzy
 msgid "Make this Occurrence _Movable"
-msgstr "Az előfordulás törlése"
+msgstr "Ezen előfordulás _mozgathatóvá tétele"
 
 #: calendar/gui/e-calendar-view.c:1453 calendar/gui/e-calendar-view.c:1485
 msgid "Delete this _Occurrence"
@@ -10182,7 +10168,6 @@ msgid "Automatically synchronize remote mail locally"
 msgstr "A távoli levelek automatikus szinkronizálása a helyiekkel"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:69
-#, fuzzy
 msgid "Address Book and Calendar"
 msgstr "Címjegyzék és naptár"
 
@@ -10195,9 +10180,8 @@ msgid "Post Office Agent SOAP Port:"
 msgstr ""
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:78
-#, fuzzy
 msgid "Use Secure Connection (SSL)"
-msgstr "_Biztonságos kapcsolat használata (SSL):"
+msgstr "Biztonságos kapcsolat használata (SSL)"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:92
 msgid "Novell GroupWise"
@@ -12402,9 +12386,8 @@ msgid "Evolution"
 msgstr "Evolution"
 
 #: data/evolution.desktop.in.in.h:2
-#, fuzzy
 msgid "The Evolution Groupware Suite"
-msgstr "A Ximian Evolution csoportmunka-programcsomag"
+msgstr "Az Evolution csoportmunka-programcsomag"
 
 #: data/evolution.keys.in.in.h:1
 msgid "address card"
@@ -16510,7 +16493,7 @@ msgstr "%b. %e., %k.%M"
 msgid "%b %d %Y"
 msgstr "%Y %b %d"
 
-#: mail/message-list.c:3376
+#: mail/message-list.c:3380
 msgid "Generating message list"
 msgstr "Levéllista létrehozása"
 
@@ -17099,11 +17082,11 @@ msgid ""
 "We hope that you enjoy the results of our hard work, and we\n"
 "eagerly await your contributions!\n"
 msgstr ""
-"Üdvözöljük! Köszönjük, hogy letöltötte az Ximian Evolution csoportmunka-"
-"szoftver\n"
+"Üdvözöljük! Köszönjük, hogy letöltötte az Evolution csoportmunka-szoftver\n"
 "előzetes verzióját.\n"
 "\n"
-"A Ximian Evolution még nincs kész. Már közel van a befejezéshez, de vannak\n"
+"Az Evolution ezen verziója még nincs kész. Már közel van a befejezéshez, de "
+"vannak\n"
 "olyan szolgáltatások, amelyek hiányoznak vagy csak félig működnek. \n"
 "\n"
 "Ha az Evolution stabil verziójára vágyik, távolítsa el ezt a verziót,\n"
@@ -17130,7 +17113,7 @@ msgstr "Ne jelenítse meg többet"
 
 #: shell/main.c:462
 msgid "Start Evolution activating the specified component"
-msgstr "Evolution indítása "
+msgstr "Az Evolution indítása a megadott összetevő aktiválásával"
 
 #: shell/main.c:464
 msgid "Start in offline mode"
@@ -17229,13 +17212,12 @@ msgstr ""
 "\"evolution\" könyvtárat később kézzel törölheti, ahogy Önnek megfelel.\n"
 
 #: shell/shell-errors.xml.h:25
-#, fuzzy
 msgid "_Remind Me Later"
-msgstr "Emlékeztető!!"
+msgstr "_Emlékeztessen később"
 
 #: shell/shell-errors.xml.h:26
 msgid "_Keep Data"
-msgstr ""
+msgstr "Adatok _megtartása"
 
 #. shell:upgrade-remove-1-4-confirm title
 #. shell:upgrade-remove-1-4-confirm primary
@@ -19617,21 +19599,3 @@ msgstr "%s (...)"
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% kész)"
-
-#~ msgid "_Add Group"
-#~ msgstr "Csoport hozzá_adása"
-
-#~ msgid "Use ssl"
-#~ msgstr "SSL használata"
-
-#~ msgid "Ximian Evolution (Unstable)"
-#~ msgstr "Ximian Evolution (Unstable)"
-
-#~ msgid "Remember this password"
-#~ msgstr "Jelszó megjegyzése"
-
-#~ msgid "Remember this password for the remainder of this session"
-#~ msgstr "Jelszó megjegyzése a munkafolyamat hátralevő részére"
-
-#~ msgid "Keep"
-#~ msgstr "Megtartás"
