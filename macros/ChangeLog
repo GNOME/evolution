@@ -1,4 +1,4 @@
-1998-11-12  Andrew T. Veliath  <andrewv@usa.net>
+1998-11-12  Andrew T. Veliath  <andrewtv@usa.net>
 
 	* gnome-orbit-check.m4: Remove AC_DEFINE(HAVE_ORBIT). Add
 	AM_CONDITIONAL for HAVE_ORBIT.  gnome-gnorba-check.m4: Same with
