@@ -43,7 +43,6 @@
 
 #include "camel-stream-filter.h"
 #include "camel-seekable-substream.h"
-#include "camel-mime-filter-chomp.h"
 #include "camel-mime-filter-crlf.h"
 #include "camel-mime-filter-canon.h"
 
