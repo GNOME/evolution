@@ -1,5 +1,11 @@
 2000-08-04  Christopher James Lahey  <clahey@helixcode.com>
 
+	* e-table.c, e-table.h: Built code to have autodrags only work
+	from within the table and to report the row dragged from
+	automatically.
+
+2000-08-04  Christopher James Lahey  <clahey@helixcode.com>
+
 	* e-table-group-container.c, e-table-group-leaf.c,
 	e-table-group.c, e-table-group.h, e-table-item.c, e-table-item.h:
 	Made drag events calculate a row and column and signal that

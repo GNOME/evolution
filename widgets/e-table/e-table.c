@@ -112,6 +112,9 @@ static void et_drag_data_received(GtkWidget *widget,
 				  guint info,
 				  guint time,
 				  ETable *et);
+static gint e_table_drag_source_event_cb (GtkWidget      *widget,
+					  GdkEvent       *event,
+					  ETable         *table);
 
 static void
 et_destroy (GtkObject *object)
@@ -178,10 +181,11 @@ e_table_init (GtkObject *object)
 
 	e_table->drag_get_data_row = -1;
 	e_table->drag_get_data_col = -1;
-	e_table->drag_row = -1;
-	e_table->drag_col = -1;
 	e_table->drop_row = -1;
 	e_table->drop_col = -1;
+	e_table->site = NULL;
+	e_table->drag_source_button_press_event_id = 0;
+	e_table->drag_source_motion_notify_event_id = 0;
 
 	e_table->selection = e_table_selection_model_new();
 	e_table->cursor_loc = E_TABLE_CURSOR_LOC_NONE;
@@ -915,6 +919,73 @@ set_scroll_adjustments   (ETable *table,
 				    hadjustment);
 }
 
+struct _ETableDragSourceSite 
+{
+	GdkModifierType    start_button_mask;
+	GtkTargetList     *target_list;        /* Targets for drag data */
+	GdkDragAction      actions;            /* Possible actions */
+	GdkColormap       *colormap;	         /* Colormap for drag icon */
+	GdkPixmap         *pixmap;             /* Icon for drag data */
+	GdkBitmap         *mask;
+	
+	/* Stored button press information to detect drag beginning */
+	gint               state;
+	gint               x, y;
+	gint               row, col;
+};
+
+typedef enum 
+{
+  GTK_DRAG_STATUS_DRAG,
+  GTK_DRAG_STATUS_WAIT,
+  GTK_DRAG_STATUS_DROP
+} GtkDragStatus;
+
+typedef struct _GtkDragDestInfo GtkDragDestInfo;  
+typedef struct _GtkDragSourceInfo GtkDragSourceInfo;
+
+struct _GtkDragDestInfo 
+{
+  GtkWidget         *widget;	   /* Widget in which drag is in */
+  GdkDragContext    *context;	   /* Drag context */
+  GtkDragSourceInfo *proxy_source; /* Set if this is a proxy drag */
+  GtkSelectionData  *proxy_data;   /* Set while retrieving proxied data */
+  gboolean           dropped : 1;     /* Set after we receive a drop */
+  guint32            proxy_drop_time; /* Timestamp for proxied drop */
+  gboolean           proxy_drop_wait : 1; /* Set if we are waiting for a
+					   * status reply before sending
+					   * a proxied drop on.
+					   */
+  gint               drop_x, drop_y; /* Position of drop */
+};
+
+struct _GtkDragSourceInfo 
+{
+  GtkWidget         *widget;
+  GtkTargetList     *target_list; /* Targets for drag data */
+  GdkDragAction      possible_actions; /* Actions allowed by source */
+  GdkDragContext    *context;	  /* drag context */
+  GtkWidget         *icon_window; /* Window for drag */
+  GtkWidget         *ipc_widget;  /* GtkInvisible for grab, message passing */
+  GdkCursor         *cursor;	  /* Cursor for drag */
+  gint hot_x, hot_y;		  /* Hot spot for drag */
+  gint button;			  /* mouse button starting drag */
+
+  GtkDragStatus      status;	  /* drag status */
+  GdkEvent          *last_event;  /* motion event waiting for response */
+
+  gint               start_x, start_y; /* Initial position */
+  gint               cur_x, cur_y;     /* Current Position */
+
+  GList             *selections;  /* selections we've claimed */
+  
+  GtkDragDestInfo   *proxy_dest;  /* Set if this is a proxy drag */
+
+  guint              drop_timeout;     /* Timeout for aborting drop */
+  guint              destroy_icon : 1; /* If true, destroy icon_window
+					*/
+};
+
 /* Drag & drop stuff. */
 /* Target */
 void e_table_drag_get_data (ETable         *table,
@@ -984,16 +1055,60 @@ void e_table_drag_source_set  (ETable               *table,
 			       gint                  n_targets,
 			       GdkDragAction         actions)
 {
-	gtk_drag_source_set(GTK_WIDGET(table),
-			    start_button_mask,
-			    targets,
-			    n_targets,
-			    actions);
+	ETableDragSourceSite *site;
+	GtkWidget *canvas = GTK_WIDGET(table->table_canvas);
+
+	g_return_if_fail (table != NULL);
+
+	site = table->site;
+
+	gtk_widget_add_events (canvas,
+			       gtk_widget_get_events (canvas) |
+			       GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK |
+			       GDK_BUTTON_MOTION_MASK);
+
+	if (site) {
+		if (site->target_list)
+			gtk_target_list_unref (site->target_list);
+	} else {
+		site = g_new0 (ETableDragSourceSite, 1);
+
+		table->drag_source_button_press_event_id =
+			gtk_signal_connect (GTK_OBJECT (canvas), "button_press_event",
+					    GTK_SIGNAL_FUNC (e_table_drag_source_event_cb),
+					    site);
+		table->drag_source_motion_notify_event_id =
+			gtk_signal_connect (GTK_OBJECT (canvas), "motion_notify_event",
+					    GTK_SIGNAL_FUNC (e_table_drag_source_event_cb),
+					    site);
+
+		table->site = site;
+	}
+
+	site->start_button_mask = start_button_mask;
+
+	if (targets)
+		site->target_list = gtk_target_list_new (targets, n_targets);
+	else
+		site->target_list = NULL;
+
+	site->actions = actions;
 }
 
 void e_table_drag_source_unset (ETable        *table)
 {
-	gtk_drag_source_unset(GTK_WIDGET(table));
+	ETableDragSourceSite *site;
+
+	g_return_if_fail (table != NULL);
+
+	site = table->site;
+
+	if (site) {
+		gtk_signal_disconnect (GTK_OBJECT (table->table_canvas), table->drag_source_button_press_event_id);
+		gtk_signal_disconnect (GTK_OBJECT (table->table_canvas), table->drag_source_motion_notify_event_id);
+		g_free(site);
+		table->site = NULL;
+	}
 }
 
 /* There probably should be functions for setting the targets
@@ -1029,10 +1144,7 @@ e_table_compute_location(ETable *table,
 {
 	if (!(row || col))
 		return;
-	if (row)
-		*row = 0;
-	if (col)
-		*col = 0;
+	e_table_group_compute_location(table->group, &x, &y, row, col);
 }
 
 static void
@@ -1132,15 +1244,16 @@ et_drag_motion(GtkWidget *widget,
 	}
 	et->drop_row = row;
 	et->drop_col = col;
-	gtk_signal_emit (GTK_OBJECT (et),
-			 et_signals [TABLE_DRAG_MOTION],
-			 et->drop_row,
-			 et->drop_col,
-			 context,
-			 x,
-			 y,
-			 time,
-			 &ret_val);
+	if (row >= 0 && col >= 0)
+		gtk_signal_emit (GTK_OBJECT (et),
+				 et_signals [TABLE_DRAG_MOTION],
+				 et->drop_row,
+				 et->drop_col,
+				 context,
+				 x,
+				 y,
+				 time,
+				 &ret_val);
 	return ret_val;
 }
 
@@ -1168,27 +1281,29 @@ et_drag_drop(GtkWidget *widget,
 				 et->drop_col,
 				 context,
 				 time);
+		if (row >= 0 && col >= 0)
+			gtk_signal_emit (GTK_OBJECT (et),
+					 et_signals [TABLE_DRAG_MOTION],
+					 row,
+					 col,
+					 context,
+					 x,
+					 y,
+					 time,
+					 &ret_val);
+	}
+	et->drop_row = row;
+	et->drop_col = col;
+	if (row >= 0 && col >= 0)
 		gtk_signal_emit (GTK_OBJECT (et),
-				 et_signals [TABLE_DRAG_MOTION],
-				 row,
-				 col,
+				 et_signals [TABLE_DRAG_DROP],
+				 et->drop_row,
+				 et->drop_col,
 				 context,
 				 x,
 				 y,
 				 time,
 				 &ret_val);
-	}
-	et->drop_row = row;
-	et->drop_col = col;
-	gtk_signal_emit (GTK_OBJECT (et),
-			 et_signals [TABLE_DRAG_DROP],
-			 et->drop_row,
-			 et->drop_col,
-			 context,
-			 x,
-			 y,
-			 time,
-			 &ret_val);
 	et->drop_row = -1;
 	et->drop_col = -1;
 	return ret_val;
@@ -1221,6 +1336,82 @@ et_drag_data_received(GtkWidget *widget,
 			 selection_data,
 			 info,
 			 time);
+}
+
+static gint
+e_table_drag_source_event_cb (GtkWidget      *widget,
+			      GdkEvent       *event,
+			      ETable         *table)
+{
+	ETableDragSourceSite *site;
+	site = table->site;
+
+	switch (event->type) {
+	case GDK_BUTTON_PRESS:
+		if ((GDK_BUTTON1_MASK << (event->button.button - 1)) & site->start_button_mask) {
+			int row, col;
+			e_table_compute_location(table, widget, event->button.x, event->button.y, &row, &col);
+			if (row >= 0 && col >= 0) {
+				site->state |= (GDK_BUTTON1_MASK << (event->button.button - 1));
+				site->x = event->button.x;
+				site->y = event->button.y;
+				site->row = row;
+				site->col = col;
+			}
+		}
+		break;
+      
+	case GDK_BUTTON_RELEASE:
+		if ((GDK_BUTTON1_MASK << (event->button.button - 1)) & site->start_button_mask) {
+			site->state &= ~(GDK_BUTTON1_MASK << (event->button.button - 1));
+		}
+		break;
+	  
+	case GDK_MOTION_NOTIFY:
+		if (site->state & event->motion.state & site->start_button_mask) {
+			/* FIXME: This is really broken and can leave us
+			 * with a stuck grab
+			 */
+			int i;
+			for (i=1; i<6; i++) {
+				if (site->state & event->motion.state & 
+				    GDK_BUTTON1_MASK << (i - 1))
+					break;
+			}
+		  
+			if (MAX (abs (site->x - event->motion.x),
+				 abs (site->y - event->motion.y)) > 3) {
+				GtkDragSourceInfo *info;
+				GdkDragContext *context;
+			  
+				site->state = 0;
+				context = e_table_drag_begin (table, site->row, site->col,
+							      site->target_list,
+							      site->actions, 
+							      i, event);
+
+
+				info = g_dataset_get_data (context, "gtk-info");
+
+				if (!info->icon_window) {
+					if (site->pixmap)
+						gtk_drag_set_icon_pixmap (context,
+									  site->colormap,
+									  site->pixmap,
+									  site->mask, -2, -2);
+					else
+						gtk_drag_set_icon_default (context);
+				}
+			  
+				return TRUE;
+			}
+		}
+		break;
+
+	default:			/* hit for 2/3BUTTON_PRESS */
+		break;
+	}
+	return FALSE;
 }
 
 static void

@@ -21,6 +21,8 @@ BEGIN_GNOME_DECLS
 #define E_IS_TABLE(o)       (GTK_CHECK_TYPE ((o), E_TABLE_TYPE))
 #define E_IS_TABLE_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_TABLE_TYPE))
 
+typedef struct _ETableDragSourceSite ETableDragSourceSite;
+
 typedef enum {
 	E_TABLE_CURSOR_LOC_NONE = 0,
 	E_TABLE_CURSOR_LOC_ETCTA = 1 << 0,
@@ -77,11 +79,15 @@ typedef struct {
 	int drag_get_data_row;
 	int drag_get_data_col;
 
-	int drag_row;
-	int drag_col;
-
 	int drop_row;
 	int drop_col;
+
+	int drag_row;
+	int drag_col;
+	ETableDragSourceSite *site;
+	
+	int drag_source_button_press_event_id;
+	int drag_source_motion_notify_event_id;
 } ETable;
 
 typedef struct {
