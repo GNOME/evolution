@@ -1,3 +1,7 @@
+2001-08-17  JP Rosevear  <jpr@ximian.com>
+
+	* mail-config-druid.c: remove dead structure
+
 2001-08-17  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-config.c (mail_config_write): Save the always-sign options

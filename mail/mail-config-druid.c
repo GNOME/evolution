@@ -66,7 +66,6 @@ static EvolutionWizard *account_wizard;
 
 typedef struct {
 	MailAccountGui *gui;
-	MailConfigDruidIdentity *id_page;
 
 	MailConfigAccount *account;
 	EvolutionWizard *wizard;
