@@ -1,3 +1,18 @@
+2001-12-04  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-display.c (stream_write_or_redisplay_when_loaded): Check
+	that the mail-display hasn't been destroyed.
+	(mail_display_redisplay): Same here.
+
+2001-12-07  Dan Winship  <danw@ximian.com>
+
+	* mail-send-recv.c (receive_update_got_store): If updating a store
+	that we don't have an associated storage for, just request a
+	folder tree and then free it. (For the Connector)
+
+	* mail-callbacks.h: Add missing part of Jeff's 12-03 patch so this
+	actually compiles.
+
 2001-12-06  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-ops.c (mail_send_message): s/PREVIEW_RELEASE/VERSION_COMMENT

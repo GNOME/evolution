@@ -84,6 +84,7 @@ void load_images           (GtkWidget *widget, gpointer user_data);
 void add_sender_to_addrbook (BonoboUIComponent *uih, void *user_data, const char *path);
 void move_msg              (BonoboUIComponent *uih, void *user_data, const char *path);
 void copy_msg              (BonoboUIComponent *uih, void *user_data, const char *path);
+void add_sender_to_addrbook(BonoboUIComponent *uih, void *user_data, const char *path);
 void select_all            (BonoboUIComponent *uih, void *user_data, const char *path);
 void select_thread         (BonoboUIComponent *uih, void *user_data, const char *path);
 void invert_selection      (BonoboUIComponent *uih, void *user_data, const char *path);
