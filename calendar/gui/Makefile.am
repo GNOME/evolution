@@ -61,9 +61,7 @@ glade_DATA = 					\
 glade_messages = event-editor-dialog.glade.h
 
 evolution_calendar_SOURCES =			\
-	Evolution-Composer.h			\
-	Evolution-Composer-common.c		\
-	Evolution-Composer-stubs.c		\
+	$(IDL_GENERATED)			\
 	alarm.c					\
 	alarm.h					\
 	calendar-config.c			\

@@ -99,40 +99,49 @@ get_icalparam_by_type (icalproperty *prop, icalparameter_kind kind)
 }
 
 
+static void
+save_organizer (EMeetingEditorPrivate *priv)
+{
+	icalproperty *prop;
+	icalvalue *value;
+	gchar *text;
+
+	/* Save the organizer into the iCAL object. */
+
+	text = gtk_entry_get_text (GTK_ENTRY (priv->organizer_entry));
+	if (strlen (text) > 0) {
+		gchar buffer[200];
+		g_snprintf (buffer, 190, "MAILTO:%s", text);
+	
+		prop = icalcomponent_get_first_property (priv->vevent, ICAL_ORGANIZER_PROPERTY);
+		if (prop == NULL) {
+			/* We need to add an ORGANIZER property. */
+			prop = icalproperty_new (ICAL_ORGANIZER_PROPERTY);
+			icalcomponent_add_property (priv->vevent, prop);
+		}
+		value = icalvalue_new_text (buffer);
+		icalproperty_set_value (prop, value);
+	}
+}
+	
+	
+
 static gboolean
 window_delete_cb (GtkWidget *widget,
 		  GdkEvent *event,
 		  gpointer data)
 {	
 	EMeetingEditorPrivate *priv;
-	gchar *text;
 
 	priv = (EMeetingEditorPrivate *) ((EMeetingEditor *)data)->priv;
+
+	save_organizer (priv);
 
 	if (priv->dirty == TRUE) {
 		/* FIXME: notify the event editor that our data has changed. 
 			For now, I'll just display a dialog box. */
 		{
 			GtkWidget *dialog;
-			icalproperty *prop;
-			icalvalue *value;
-
-			/* Save the organizer into the iCAL object. */
-        		prop = icalcomponent_get_first_property (priv->vevent, ICAL_ORGANIZER_PROPERTY);
-
-			text = gtk_entry_get_text (GTK_ENTRY (priv->organizer_entry));
-			if (strlen (text) > 0) {
-				gchar buffer[200];
-				g_snprintf (buffer, 190, "MAILTO:%s", text);
-				
-				if (prop == NULL) {
-					/* We need to add an ORGANIZER property. */
-					prop = icalproperty_new (ICAL_ORGANIZER_PROPERTY);
-					icalcomponent_add_property (priv->vevent, prop);
-				}
-				value = icalvalue_new_text (buffer);
-				icalproperty_set_value (prop, value);
-			}
 		
 			dialog = gnome_warning_dialog_parented ("Note that the meeting has changed,\n"
 								"and you should save this event.",
@@ -588,6 +597,8 @@ send_button_clicked_cb (GtkWidget *widget, gpointer data)
 		icalvalue *value;
 		gchar *ical_string;
 
+		save_organizer (priv);
+		
 		comp = icalcomponent_new (ICAL_VCALENDAR_COMPONENT);
 		
 		prop = icalproperty_new (ICAL_PRODID_PROPERTY);
@@ -615,6 +626,18 @@ send_button_clicked_cb (GtkWidget *widget, gpointer data)
 		icalcomponent_free (comp);
 	}
 
+
+	/********
+	 * This is for debugging.
+	 ********/
+	{
+		FILE *fp = fopen ("/home/jpavel/attach_data.icl", "w");
+
+		fputs (attach_data, fp);
+
+		fclose (fp);
+	}
+
 	Evolution_Composer_attach_data (composer_server, 
 					content_type, filename, description,
 					show_inline, attach_data,
@@ -637,14 +660,22 @@ send_button_clicked_cb (GtkWidget *widget, gpointer data)
 	CORBA_exception_free (&ev);
 
 	/* Let's free shit up. */
+
+	/* Beware--depending on whether CORBA_free is recursive, which I
+	   think is is, we might have memory leaks, in which case the code
+	   below is necessary. */
+#if 0
 	for (cntr = 0; cntr < priv->numentries; cntr++) {
 		recipient = &(to_list->_buffer[cntr]);
 		CORBA_free (recipient->name);
 		CORBA_free (recipient->address);
 		recipient->name = recipient->address = NULL;
 	}
+#endif
 
-	CORBA_free (to_list->_buffer);
+	if (CORBA_sequence_get_release (to_list) != FALSE)
+		CORBA_free (to_list->_buffer);
+
 	CORBA_free (to_list);
 	CORBA_free (cc_list);
 	CORBA_free (bcc_list);
@@ -655,7 +686,7 @@ send_button_clicked_cb (GtkWidget *widget, gpointer data)
 	CORBA_free (description);
 	CORBA_free (attach_data);
 
-	bonobo_object_unref (BONOBO_OBJECT (bonobo_server)); 
+	bonobo_object_unref (BONOBO_OBJECT (bonobo_server));  
 }
 
 	

@@ -1,5 +1,11 @@
 2000-10-25  Jesse Pavel <jpavel@helixcode.com>
 
+	* gui/e-meeting-edit.c: brushed up some code to deal with
+	the organizer entry, and solidified the CORBA memory-freeing
+	issues.
+
+2000-10-25  Jesse Pavel <jpavel@helixcode.com>
+
 	* removed the Evolution-Composer generated files, due
 	to a tip on how we do things.
 
