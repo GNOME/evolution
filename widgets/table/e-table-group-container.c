@@ -3,7 +3,8 @@
  * E-Table-Group.c: Implements the grouping objects for elements on a table
  *
  * Author:
- *   Miguel de Icaza (miguel@gnu.org ()
+ *   Chris Lahey (clahey@helixcode.com)
+ *   Miguel de Icaza (miguel@gnu.org)
  *
  * Copyright 1999, 2000 Helix Code, Inc.
  */
@@ -549,6 +550,7 @@ etgc_add (ETableGroup *etg, gint row)
 	ETableGroup *child;
 	ETableGroupContainerChildNode *child_node;
 	int i = 0;
+
 	for (; list; list = g_list_next (list), i++){
 		int comp_val;
 		child_node = (ETableGroupContainerChildNode *)(list->data);
@@ -792,13 +794,14 @@ etgc_reflow (GnomeCanvasItem *item, gint flags)
 {
 	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER(item);
 	gboolean frozen;
-	gtk_object_get (GTK_OBJECT(etgc),
-		       "frozen", &frozen,
-		       NULL);
+
+	gtk_object_get (GTK_OBJECT(etgc), "frozen", &frozen, NULL);
+	
 	if (frozen){
 		etgc->idle = 0;
 		return;
 	}
+
 	if (GTK_OBJECT_FLAGS(etgc)& GNOME_CANVAS_ITEM_REALIZED){
 		gdouble old_height;
 		

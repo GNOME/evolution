@@ -1,3 +1,23 @@
+Short Term TODO items:
+
+Functionality:
+
+	1. Remove the internal XML API.
+	2. Implement GUI grouping.
+	3. Implement context menu on item-bars.
+	4. Implement config tool for the view.
+	5. Add multi-sorting.
+
+GUI:
+	1. Implement behaviours for "line-selection"
+	2. Implement good behaviour for editing.
+	3. Use the theme information for the captions.
+	4. Use the font from the widget style.
+	5. Fix the update problems when a group is resized.
+
+GUI 2:
+	1. Make the insertion points be shaped X windows instead of canvas items.
+
 Implement e-cell-height
 Implement computation of heights from the e-cell-heights
 Make sure we compute the height from that
