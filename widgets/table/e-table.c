@@ -1010,6 +1010,7 @@ et_real_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 
 	gtk_object_set(GTK_OBJECT(e_table->selection),
 		       "selection_mode", specification->selection_mode,
+		       "cursor_mode", specification->cursor_mode,
 		       NULL);
 
 	e_table->model = etm;

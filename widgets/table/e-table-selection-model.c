@@ -45,6 +45,7 @@ enum {
 	ARG_CURSOR_ROW,
 	ARG_CURSOR_COL,
 	ARG_SELECTION_MODE,
+	ARG_CURSOR_MODE,
 };
 
 static void
@@ -222,6 +223,10 @@ etsm_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	case ARG_SELECTION_MODE:
 		GTK_VALUE_ENUM(*arg) = etsm->mode;
 		break;
+
+	case ARG_CURSOR_MODE:
+		GTK_VALUE_ENUM(*arg) = etsm->cursor_mode;
+		break;
 	}
 }
 
@@ -255,6 +260,10 @@ etsm_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 			e_table_selection_model_do_something(etsm, etsm->cursor_row, etsm->cursor_col, 0);
 		}
 		break;
+
+	case ARG_CURSOR_MODE:
+		etsm->cursor_mode = GTK_VALUE_ENUM(*arg);
+		break;
 	}
 }
 
@@ -268,6 +277,7 @@ e_table_selection_model_init (ETableSelectionModel *selection)
 	selection->cursor_row = -1;
 	selection->cursor_col = -1;
 	selection->mode = GTK_SELECTION_MULTIPLE;
+	selection->cursor_mode = E_TABLE_CURSOR_SIMPLE;
 }
 
 static void
@@ -323,6 +333,8 @@ e_table_selection_model_class_init (ETableSelectionModelClass *klass)
 				 GTK_ARG_READWRITE, ARG_CURSOR_COL);
 	gtk_object_add_arg_type ("ETableSelectionModel::selection_mode", GTK_TYPE_ENUM,
 				 GTK_ARG_READWRITE, ARG_SELECTION_MODE);
+	gtk_object_add_arg_type ("ETableSelectionModel::cursor_mode", GTK_TYPE_ENUM,
+				 GTK_ARG_READWRITE, ARG_CURSOR_MODE);
 }
 
 E_MAKE_TYPE(e_table_selection_model, "ETableSelectionModel", ETableSelectionModel,
@@ -671,6 +683,38 @@ e_table_selection_model_key_press      (ETableSelectionModel *selection,
 	case GDK_KP_Enter:
 		if (selection->mode != GTK_SELECTION_SINGLE) {
 			etsm_select_single_row (selection, selection->cursor_row);
+			gtk_signal_emit(GTK_OBJECT(selection),
+					e_table_selection_model_signals[CURSOR_ACTIVATED], selection->cursor_row, selection->cursor_col);
+			return TRUE;
+		}
+		break;
+	case GDK_Home:
+	case GDK_KP_Home:
+		if (selection->cursor_mode == E_TABLE_CURSOR_LINE) {
+			int row = 0;
+
+			row = e_table_sorter_sorted_to_model(selection->sorter, row);
+			selection->cursor_row = row;
+
+			etsm_select_single_row (selection, selection->cursor_row);
+			gtk_signal_emit(GTK_OBJECT(selection),
+					e_table_selection_model_signals[CURSOR_CHANGED], selection->cursor_row, selection->cursor_col);
+			gtk_signal_emit(GTK_OBJECT(selection),
+					e_table_selection_model_signals[CURSOR_ACTIVATED], selection->cursor_row, selection->cursor_col);
+			return TRUE;
+		}
+		break;
+	case GDK_End:
+	case GDK_KP_End:
+		if (selection->cursor_mode == E_TABLE_CURSOR_LINE) {
+			int row = selection->row_count - 1;
+
+			row = e_table_sorter_sorted_to_model(selection->sorter, row);
+			selection->cursor_row = row;
+
+			etsm_select_single_row (selection, selection->cursor_row);
+			gtk_signal_emit(GTK_OBJECT(selection),
+					e_table_selection_model_signals[CURSOR_CHANGED], selection->cursor_row, selection->cursor_col);
 			gtk_signal_emit(GTK_OBJECT(selection),
 					e_table_selection_model_signals[CURSOR_ACTIVATED], selection->cursor_row, selection->cursor_col);
 			return TRUE;

@@ -1858,6 +1858,22 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 				return_val = FALSE;
 			break;
 #endif
+		case GDK_Home:
+		case GDK_KP_Home:
+			if (eti->cursor_mode == E_TABLE_CURSOR_SIMPLE) {
+				eti_cursor_move (eti, model_to_view_row(eti, cursor_row), 0);
+				return_val = TRUE;
+			} else 
+				return_val = e_table_selection_model_key_press(eti->selection, (GdkEventKey *) e);
+			break;
+		case GDK_End:
+		case GDK_KP_End:
+			if (eti->cursor_mode == E_TABLE_CURSOR_SIMPLE) {
+				eti_cursor_move (eti, model_to_view_row(eti, cursor_row), eti->cols - 1);
+				return_val = TRUE;
+			} else 
+				return_val = e_table_selection_model_key_press(eti->selection, (GdkEventKey *) e);
+			break;
 		case GDK_Tab:
 		case GDK_KP_Tab:
 		case GDK_ISO_Left_Tab:

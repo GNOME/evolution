@@ -34,6 +34,7 @@ typedef struct {
 	guint group_info_changed : 1;
 
 	GtkSelectionMode mode;
+	ETableCursorMode cursor_mode;
 } ETableSelectionModel;
 
 typedef struct {
