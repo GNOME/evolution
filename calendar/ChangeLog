@@ -1,3 +1,13 @@
+2004-09-28  JP Rosevear  <jpr@novell.com>
+
+	Fixes #61766
+	
+	* gui/migration.c (create_calendar_contact_source): set a color
+	for the contacts
+	(create_calendar_sources): set a color for the personal source and
+	make in primary and default if nothing else is either
+	(create_task_sources): ditto for tasks personal source
+
 2004-09-24  Rodrigo Moya <rodrigo@novell.com>
 
 	Fixes #65599

@@ -46,6 +46,7 @@
 #include <e-util/e-folder-map.h>
 #include <libedataserver/e-dbhash.h>
 #include <libedataserver/e-xml-hash-utils.h>
+#include "calendar-config.h"
 #include "calendar-config-keys.h"
 #include "migration.h"
 
@@ -381,6 +382,7 @@ create_calendar_contact_source (ESourceList *source_list)
 	e_source_group_add_source (group, source, -1);
 	g_object_unref (source);
 
+	e_source_set_color (source, 0xFED4D3);
 	e_source_group_set_readonly (group, TRUE);
 
 	return group;
@@ -457,7 +459,18 @@ create_calendar_sources (CalendarComponent *component,
 		/* Create the default Person calendar */
 		ESource *source = e_source_new (_("Personal"), PERSONAL_RELATIVE_URI);
 		e_source_group_add_source (*on_this_computer, source, -1);
+		
+		if (!calendar_config_get_primary_calendar () && !calendar_config_get_calendars_selected ()) {
+			GSList selected;
 
+			calendar_config_set_primary_calendar (e_source_peek_uid (source));
+
+			selected.data = (gpointer)e_source_peek_uid (source);
+			selected.next = NULL;
+			calendar_config_set_calendars_selected (&selected);
+		}
+		
+		e_source_set_color (source, 0xBECEDD);
 		*personal_source = source;
 	}
 
@@ -540,6 +553,17 @@ create_task_sources (TasksComponent *component,
 		ESource *source = e_source_new (_("Personal"), PERSONAL_RELATIVE_URI);
 		e_source_group_add_source (*on_this_computer, source, -1);
 
+		if (!calendar_config_get_primary_tasks () && !calendar_config_get_tasks_selected ()) {
+			GSList selected;
+
+			calendar_config_set_primary_tasks (e_source_peek_uid (source));
+
+			selected.data = (gpointer)e_source_peek_uid (source);
+			selected.next = NULL;
+			calendar_config_set_tasks_selected (&selected);
+		}
+
+		e_source_set_color (source, 0xBECEDD);
 		*personal_source = source;
 	}
 
