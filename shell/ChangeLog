@@ -1,5 +1,10 @@
 2002-03-26  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-component-info.c: New.
+	* e-component-info.h: New.
+
+2002-03-26  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-settings-dialog.c (load_pages): g_warning if the control
 	cannot be activated.
 
