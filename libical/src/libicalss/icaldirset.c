@@ -65,7 +65,7 @@
 #include "icalfilesetimpl.h"
 #include "icalgauge.h"
 
-#include <limits.h>
+#include <limits.h> /* For PATH_MAX */
 #include <dirent.h> /* for opendir() */
 #include <errno.h>
 #include <sys/types.h> /* for opendir() */
@@ -191,7 +191,7 @@ icaldirset* icaldirset_new(const char* dir)
     impl = icaldirset_new_impl();
 
     if (impl ==0){
-	icalerror_set_errno(ICAL_ALLOCATION_ERROR);
+	icalerror_set_errno(ICAL_NEWFAILED_ERROR);
 	return 0;
     }
     
@@ -252,7 +252,7 @@ int icaldirset_next_uid_number(icaldirset* store)
     struct icaldirset_impl *impl = (struct icaldirset_impl*)store;
     char sequence = 0;
     char temp[128];
-    char filename[PATH_MAX];
+    char filename[ICAL_PATH_MAX];
     char *r;
     FILE *f;
     struct stat sbuf;
@@ -304,7 +304,7 @@ int icaldirset_next_uid_number(icaldirset* store)
 icalerrorenum icaldirset_next_cluster(icaldirset* store)
 {
     struct icaldirset_impl *impl = (struct icaldirset_impl*)store;
-    char path[PATH_MAX];
+    char path[ICAL_PATH_MAX];
 
     if (impl->directory_iterator == 0){
 	icalerror_set_errno(ICAL_INTERNAL_ERROR);
@@ -332,7 +332,7 @@ icalerrorenum icaldirset_next_cluster(icaldirset* store)
 
 void icaldirset_add_uid(icaldirset* store, icaldirset* comp)
 {
-    char uidstring[PATH_MAX];
+    char uidstring[ICAL_PATH_MAX];
     icalproperty *uid;
     struct utsname unamebuf;
 
@@ -363,7 +363,7 @@ void icaldirset_add_uid(icaldirset* store, icaldirset* comp)
 icalerrorenum icaldirset_add_component(icaldirset* store, icaldirset* comp)
 {
     struct icaldirset_impl *impl;
-    char clustername[PATH_MAX];
+    char clustername[ICAL_PATH_MAX];
     icalproperty *dt;
     icalvalue *v;
     struct icaltimetype tm;
@@ -418,7 +418,7 @@ icalerrorenum icaldirset_add_component(icaldirset* store, icaldirset* comp)
 
     tm = icalvalue_get_datetime(v);
 
-    snprintf(clustername,PATH_MAX,"%s/%04d%02d",impl->dir,tm.year,tm.month);
+    snprintf(clustername,ICAL_PATH_MAX,"%s/%04d%02d",impl->dir,tm.year,tm.month);
 
     /* Load the cluster and insert the object */
 
@@ -633,7 +633,7 @@ icalcomponent* icaldirset_get_first_component(icaldirset* store)
 {
     struct icaldirset_impl *impl = (struct icaldirset_impl*)store;
     icalerrorenum error;
-    char path[PATH_MAX];
+    char path[ICAL_PATH_MAX];
 
     error = icaldirset_read_directory(impl);
 
@@ -649,7 +649,7 @@ icalcomponent* icaldirset_get_first_component(icaldirset* store)
 	return 0;
     }
     
-    snprintf(path,PATH_MAX,"%s/%s",impl->dir,(char*)pvl_data(impl->directory_iterator));
+    snprintf(path,ICAL_PATH_MAX,"%s/%s",impl->dir,(char*)pvl_data(impl->directory_iterator));
 
     /* If the next cluster we need is different than the current cluster, 
        delete the current one and get a new one */

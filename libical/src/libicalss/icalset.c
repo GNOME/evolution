@@ -123,7 +123,7 @@ struct icalset_impl icalset_get_impl(icalset* set)
     struct icalset_impl  impl;
 
     memset(&impl,0,sizeof(impl));
-    icalerror_check_arg_rv( (set!=0),"set");
+    icalerror_check_arg_re( (set!=0),"set",impl);
 
     if(strcmp((char*)set,ICALSET_ID)==0) {
 	/* It is actually a set, so just sent the reference back out. */

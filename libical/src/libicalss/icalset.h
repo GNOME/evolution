@@ -37,8 +37,18 @@
 #ifndef ICALSET_H
 #define ICALSET_H
 
+#include <limits.h> /* For PATH_MAX */
 #include "ical.h"
 #include "icalerror.h"
+
+#ifdef PATH_MAX
+#define ICAL_PATH_MAX PATH_MAX
+#else
+#define ICAL_PATH_MAX 1024
+#endif
+
+
+
 
 typedef void icalset;
 

@@ -29,4 +29,21 @@ const char* icallangbind_get_property_val(icalproperty* p);
 const char* icallangbind_get_parameter(icalproperty *p, const char* parameter);
 icalcomponent* icallangbind_get_component(icalcomponent *c, const char* comp);
 
+icalproperty* icallangbind_get_first_property(icalcomponent *c,
+                                              const char* prop);
+
+icalproperty* icallangbind_get_next_property(icalcomponent *c,
+                                              const char* prop);
+
+icalcomponent* icallangbind_get_first_component(icalcomponent *c,
+                                              const char* comp);
+
+icalcomponent* icallangbind_get_next_component(icalcomponent *c,
+                                              const char* comp);
+
+
+const char* icallangbind_property_eval_string(icalproperty* prop, char* sep);
+
+
+int icallangbind_string_to_open_flag(const char* str);
 #endif /*__ICALLANGBIND_H__*/
