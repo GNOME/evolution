@@ -1,3 +1,8 @@
+2000-10-18  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* camel-mime-filter-charset.c (complete): Put a zero at the start
+	of the outbuf.
+
 2000-10-17  Dan Winship  <danw@helixcode.com>
 
 	* providers/imap/camel-imap-folder.c (imap_refresh_info): Remove
