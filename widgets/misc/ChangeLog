@@ -1,3 +1,8 @@
+2005-01-26  Rodney Dawes  <dobey@novell.com>
+
+	* e-error.c (e_error_newv): Fix up spacing to be HIG compliant for
+	the borders around the dialogs
+
 2005-01-25  Not Zed  <NotZed@Ximian.com>
 
 	* e-error.c: turn off debug output, people think its a significant

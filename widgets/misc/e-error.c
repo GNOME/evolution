@@ -414,7 +414,9 @@ e_error_newv(GtkWindow *parent, const char *tag, const char *arg0, va_list ap)
 	dialog = (GtkDialog *)gtk_dialog_new();
 	gtk_dialog_set_has_separator(dialog, FALSE);
 
-	gtk_container_set_border_width((GtkContainer *)dialog, 6);
+	gtk_widget_ensure_style ((GtkWidget *)dialog);
+	gtk_container_set_border_width ((GtkContainer *)(dialog->vbox), 0);
+	gtk_container_set_border_width ((GtkContainer *)(dialog->action_area), 12);
 
 	if (parent == NULL && ee_parent_list)
 		parent = (GtkWindow *)ee_parent_list->data;
