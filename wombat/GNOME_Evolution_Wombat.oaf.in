@@ -10,7 +10,7 @@
 	</oaf_attribute>
 
 	<oaf_attribute name="description" type="string"
-                       value="The Personal Addressbook Server"/>
+                       _value="The Personal Addressbook Server"/>
 </oaf_server>
 
 <oaf_server iid="OAFIID:GNOME_Evolution_Wombat_CalendarFactory"
@@ -23,7 +23,7 @@
 	</oaf_attribute>
 
 	<oaf_attribute name="description" type="string"
-                       value="The Personal Calendar Server; calendar factory"/>
+                       _value="The Personal Calendar Server; calendar factory"/>
 
 </oaf_server>
 

@@ -1,3 +1,8 @@
+2001-02-12  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* Makefile.am: xml-i18n-tools setup.
+	* GNOME_Evolution_Wombat.oaf.in: Mark strings for translation.
+	
 2001-02-08  JP Rosevear  <jpr@ximian.com>
 
 	* Makefile.am: Remove useless ldflags
