@@ -42,7 +42,6 @@
 
 	* e-shell.c (save_settings_for_component): lower-case the config prefix.
 
->>>>>>> 1.1176
 2003-02-20  Dan Winship  <danw@ximian.com>
 
 	* Makefile.am (evolution_LDADD):
