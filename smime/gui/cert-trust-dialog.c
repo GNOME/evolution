@@ -79,11 +79,11 @@ ctd_response(GtkWidget *w, guint id, CertTrustDialogData *data)
 		CERT_ChangeCertTrust (CERT_GetDefaultCertDB(), icert, &trust);
 		break;
 	case GTK_RESPONSE_ACCEPT: {
-		g_signal_stop_emission_by_name(w, "response");
-
 		/* just *what on earth* was chris thinking here!?!?!  copied from certificate-manager.c */
 		GtkWidget *dialog = ca_trust_dialog_show (data->cacert, FALSE);
 		CERTCertificate *icert = e_cert_get_internal_cert (data->cacert);
+
+		g_signal_stop_emission_by_name(w, "response");
 
 		ca_trust_dialog_set_trust (dialog,
 					   e_cert_trust_has_trusted_ca (icert->trust, TRUE,  FALSE, FALSE),

@@ -1,3 +1,10 @@
+2004-08-16  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #62963.
+
+	* gui/cert-trust-dialog.c (ctd_response): fix c99 syntax. Spotted
+	by Vincent Noel <vnoel@cox.net>
+
 2004-08-12  Carlos Garnacho Parro  <carlosg@gnome.org>
 
 	* gui/certificate-manager.c: Optionally use GtkFileChooser if
