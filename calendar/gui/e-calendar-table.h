@@ -26,7 +26,6 @@
 
 #include <gtk/gtktable.h>
 #include <gal/e-table/e-table-scrolled.h>
-#include <shell/evolution-activity-client.h>
 #include <widgets/misc/e-cell-date-edit.h>
 #include "e-cal-model.h"
 
@@ -63,8 +62,8 @@ struct _ECalendarTable {
 	gchar *clipboard_selection;
 	icalcomponent *tmp_vcal;
 
-	/* The activity client used to show messages on the status bar. */
-        EvolutionActivityClient *activity;
+	/* Activity ID for the EActivityHandler (i.e. the status bar).  */
+	guint activity_id;
 };
 
 struct _ECalendarTableClass {

@@ -62,7 +62,9 @@ struct _CalendarComponentPrivate {
 	GnomeCalendar *calendar;
 	GtkWidget *source_selector;
 
-	guint selected_not;	
+	guint selected_not;
+
+	EActivityHandler *activity_handler;
 };
 
 /* FIXME This should be gnome cal likely */
@@ -474,6 +476,11 @@ impl_dispose (GObject *object)
 		priv->selected_not = 0;
 	}
 
+	if (priv->activity_handler != NULL) {
+		g_object_unref (priv->activity_handler);
+		priv->activity_handler = NULL;
+	}
+
 	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
 }
 
@@ -515,8 +522,10 @@ impl_createControls (PortableServer_Servant servant,
 	CalendarComponent *calendar_component = CALENDAR_COMPONENT (bonobo_object_from_servant (servant));
 	CalendarComponentPrivate *priv;
 	GtkWidget *selector_scrolled_window;
+	GtkWidget *statusbar_widget;
 	BonoboControl *sidebar_control;
 	BonoboControl *view_control;
+	BonoboControl *statusbar_control;
 	
 	priv = calendar_component->priv;
 	
@@ -566,6 +575,11 @@ impl_createControls (PortableServer_Servant servant,
 				 G_CALLBACK (fill_popup_menu_cb),
 				 G_OBJECT (calendar_component), 0);
 
+	statusbar_widget = e_task_bar_new ();
+	gtk_widget_show (statusbar_widget);
+	e_activity_handler_attach_task_bar (priv->activity_handler, E_TASK_BAR (statusbar_widget));
+	statusbar_control = bonobo_control_new (statusbar_widget);
+
 	/* Load the selection from the last run */
 	update_selection (calendar_component);	
 	update_primary_selection (calendar_component);
@@ -577,16 +591,7 @@ impl_createControls (PortableServer_Servant servant,
 	/* Return the controls */
 	*corba_sidebar_control = CORBA_Object_duplicate (BONOBO_OBJREF (sidebar_control), ev);
 	*corba_view_control = CORBA_Object_duplicate (BONOBO_OBJREF (view_control), ev);
-
-	/* FIXME temporary for testing.  */
-	{
-		GtkWidget *label = gtk_label_new ("Hey hey this is the calendar");
-		BonoboControl *control;
-
-		gtk_widget_show (label);
-		control = bonobo_control_new (label);
-		*corba_statusbar_control = CORBA_Object_duplicate (BONOBO_OBJREF (control), ev);
-	}
+	*corba_statusbar_control = CORBA_Object_duplicate (BONOBO_OBJREF (statusbar_control), ev);
 }
 
 
@@ -707,6 +712,8 @@ calendar_component_init (CalendarComponent *component)
 	priv->source_list = e_source_list_new_for_gconf (priv->gconf_client,
 							 "/apps/evolution/calendar/sources");
 
+	priv->activity_handler = e_activity_handler_new ();
+
 	/* create default calendars if there are no groups */
 	groups = e_source_list_peek_groups (priv->source_list);
 	if (!groups) {
@@ -776,6 +783,13 @@ const char *
 calendar_component_peek_config_directory (CalendarComponent *component)
 {
 	return component->priv->config_directory;
+}
+
+
+EActivityHandler *
+calendar_component_peek_activity_handler (CalendarComponent *component)
+{
+	return component->priv->activity_handler;
 }
 
 

@@ -5,8 +5,7 @@
  *  Damon Chaplin <damon@ximian.com>
  *  Rodrigo Moya <rodrigo@ximian.com>
  *
- * Copyright 2000, Ximian, Inc.
- * Copyright 2000, Ximian, Inc.
+ * Copyright 2000, 2001, 2002, 2003 Novell, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -42,15 +41,17 @@
 #include <e-util/e-dialog-utils.h>
 #include <widgets/misc/e-cell-date-edit.h>
 #include <widgets/misc/e-cell-percent.h>
-#include "e-comp-editor-registry.h"
-#include "e-calendar-table.h"
-#include "e-cell-date-edit-text.h"
+
+#include "calendar-component.h"
 #include "calendar-config.h"
-#include "e-cal-model-tasks.h"
-#include "print.h"
 #include "dialogs/delete-comp.h"
 #include "dialogs/delete-error.h"
 #include "dialogs/task-editor.h"
+#include "e-cal-model-tasks.h"
+#include "e-calendar-table.h"
+#include "e-cell-date-edit-text.h"
+#include "e-comp-editor-registry.h"
+#include "print.h"
 
 /* Pixmaps. */
 #include "art/task.xpm"
@@ -315,8 +316,6 @@ e_calendar_table_init (ECalendarTable *cal_table)
 	gint i;
 	GdkPixbuf *pixbuf;
 	GList *strings;
-
-	cal_table->activity = NULL;
 
 	/* Create the model */
 
@@ -1435,32 +1434,31 @@ static char *test[] = {
 
 /* Displays messages on the status bar */
 #define EVOLUTION_TASKS_PROGRESS_IMAGE "evolution-tasks-mini.png"
-static GdkPixbuf *progress_icon[2] = { NULL, NULL };
+static GdkPixbuf *progress_icon = NULL;
 
 void
 e_calendar_table_set_status_message (ECalendarTable *cal_table, const gchar *message)
 {
+	EActivityHandler *activity_handler = calendar_component_peek_activity_handler (calendar_component_peek ());
+
         g_return_if_fail (E_IS_CALENDAR_TABLE (cal_table));
                                                                                 
         if (!message || !*message) {
-                if (cal_table->activity) {
-                        g_object_unref (cal_table->activity);
-                        cal_table->activity = NULL;
-                }
-        } else if (!cal_table->activity) {
-                int display;
+		if (cal_table->activity_id != 0) {
+			e_activity_handler_operation_finished (activity_handler, cal_table->activity_id);
+			cal_table->activity_id = 0;
+		}
+        } else if (cal_table->activity_id == 0) {
                 char *client_id = g_strdup_printf ("%p", cal_table);
                                                                                 
-                if (progress_icon[0] == NULL)
-                        progress_icon[0] = gdk_pixbuf_new_from_file (EVOLUTION_IMAGESDIR "/" EVOLUTION_TASKS_PROGRESS_IMAGE, NULL);
+                if (progress_icon == NULL)
+                        progress_icon = gdk_pixbuf_new_from_file (EVOLUTION_IMAGESDIR "/" EVOLUTION_TASKS_PROGRESS_IMAGE, NULL);
 
-#if 0				/* EPFIXME */
-                cal_table->activity = evolution_activity_client_new (
-                        global_shell_client, client_id,
-                        progress_icon, message, TRUE, &display);
-#endif
+                cal_table->activity_id = e_activity_handler_operation_started (activity_handler, client_id,
+									       progress_icon, message, TRUE);
 
                 g_free (client_id);
-        } else
-                evolution_activity_client_update (cal_table->activity, message, -1.0);
+        } else {
+                evolution_activity_client_update (activity_handler, cal_table->activity_id, message, -1.0);
+	}
 }

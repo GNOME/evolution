@@ -1,3 +1,22 @@
+2003-12-02  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/e-calendar-table.h (struct _ECalendarTable): Replace member
+	"activity" with an "activity_id".
+
+	* gui/e-cal-view.c (struct _ECalendarViewPrivate): Replace member
+	"activity" with "activity_id".
+	(e_calendar_view_destroy): Don't unref activity here anymore.
+	(e_calendar_view_set_status_message): Report progress using the
+	EActivityHandler off the CalendarComponent.
+
+	* gui/calendar-component.c
+	(struct _CalendarComponentPrivate): New member activity_handler.
+	(calendar_component_init): Init.
+	(calendar_component_peek_activity_handler): New.
+	(impl_dispose): Unref.
+	(impl_createControls): Return an ETaskBar for the statusbar
+	control.
+
 2003-12-01  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/calendar-component.c (impl_createControls): Pass a label for

@@ -30,8 +30,9 @@
 #include "e-util/e-dialog-utils.h"
 #include "e-calendar-marshal.h"
 #include <libecal/e-cal-time-util.h>
-#include "evolution-activity-client.h"
+
 #include "calendar-commands.h"
+#include "calendar-component.h"
 #include "calendar-config.h"
 #include "comp-util.h"
 #include "e-cal-model-calendar.h"
@@ -50,7 +51,7 @@
 
 /* Used for the status bar messages */
 #define EVOLUTION_CALENDAR_PROGRESS_IMAGE "evolution-calendar-mini.png"
-static GdkPixbuf *progress_icon[2] = { NULL, NULL };
+static GdkPixbuf *progress_icon = NULL;
 
 struct _ECalendarViewPrivate {
 	/* The GnomeCalendar we are associated to */
@@ -59,8 +60,8 @@ struct _ECalendarViewPrivate {
 	/* The calendar model we are monitoring */
 	ECalModel *model;
 
-	/* The activity client used to show messages on the status bar. */
-	EvolutionActivityClient *activity;
+	/* Current activity (for the EActivityHandler, i.e. the status bar).  */
+	guint activity_id;
 
 	/* clipboard selections */
 	gchar *clipboard_selection;
@@ -360,11 +361,6 @@ e_calendar_view_destroy (GtkObject *object)
 			cal_view->priv->model = NULL;
 		}
 
-		if (cal_view->priv->activity) {
-			g_object_unref (cal_view->priv->activity);
-			cal_view->priv->activity = NULL;
-		}
-
 		if (cal_view->priv->clipboard_selection) {
 			g_free (cal_view->priv->clipboard_selection);
 			cal_view->priv->clipboard_selection = NULL;
@@ -516,31 +512,27 @@ e_calendar_view_set_use_24_hour_format (ECalendarView *cal_view, gboolean use_24
 void
 e_calendar_view_set_status_message (ECalendarView *cal_view, const gchar *message)
 {
+	EActivityHandler *activity_handler = calendar_component_peek_activity_handler (calendar_component_peek ());
+
 	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
 
 	if (!message || !*message) {
-		if (cal_view->priv->activity) {
-			g_object_unref (cal_view->priv->activity);
-			cal_view->priv->activity = NULL;
+		if (cal_view->priv->activity_id != 0) {
+			e_activity_handler_operation_finished (activity_handler, cal_view->priv->activity_id);
+			cal_view->priv->activity_id = 0;
 		}
-	} else if (!cal_view->priv->activity) {
-#if 0
-		int display;
-#endif
+	} else if (cal_view->priv->activity_id == 0) {
 		char *client_id = g_strdup_printf ("%p", cal_view);
 
-		if (progress_icon[0] == NULL)
-			progress_icon[0] = gdk_pixbuf_new_from_file (EVOLUTION_IMAGESDIR "/" EVOLUTION_CALENDAR_PROGRESS_IMAGE, NULL);
+		if (progress_icon == NULL)
+			progress_icon = gdk_pixbuf_new_from_file (EVOLUTION_IMAGESDIR "/" EVOLUTION_CALENDAR_PROGRESS_IMAGE, NULL);
 
-#if 0
-		cal_view->priv->activity = evolution_activity_client_new (
-			global_shell_client, client_id,
-			progress_icon, message, TRUE, &display);
-#endif
+		cal_view->priv->activity_id = e_activity_handler_operation_started (activity_handler, client_id, progress_icon, message, TRUE);
 
 		g_free (client_id);
-	} else
-		evolution_activity_client_update (cal_view->priv->activity, message, -1.0);
+	} else {
+		e_activity_handler_operation_progressing (activity_handler, cal_view->priv->activity_id, message, -1.0);
+	}
 }
 
 GList *

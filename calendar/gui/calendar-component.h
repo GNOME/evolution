@@ -26,6 +26,8 @@
 
 #include <bonobo/bonobo-object.h>
 #include <libedataserver/e-source-list.h>
+
+#include "e-activity-handler.h"
 #include "Evolution.h"
 
 
@@ -57,9 +59,9 @@ GType calendar_component_get_type  (void);
 
 CalendarComponent *calendar_component_peek  (void);
 
-const char *calendar_component_peek_config_directory  (CalendarComponent *component);
-
-ESourceList *calendar_component_peek_source_list (CalendarComponent *component);
+const char       *calendar_component_peek_config_directory  (CalendarComponent *component);
+ESourceList      *calendar_component_peek_source_list       (CalendarComponent *component);
+EActivityHandler *calendar_component_peek_activity_handler  (CalendarComponent *component);
 
 
 #endif /* _CALENDAR_COMPONENT_H_ */
