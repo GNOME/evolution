@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.2.2.99\n"
-"POT-Creation-Date: 2003-02-10 13:31+0100\n"
+"POT-Creation-Date: 2003-02-10 14:07+0100\n"
 "PO-Revision-Date: 2003-02-10 13:25+0100\n"
 "Last-Translator: Christophe Merlet (RedFox) <redfox@redfoxcenter.org>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -214,7 +214,7 @@ msgstr "Site Web"
 
 #: addressbook/backend/ebook/e-card-simple.c:88
 msgid "Url"
-msgstr "Url"
+msgstr "URL"
 
 #: addressbook/backend/ebook/e-card-simple.c:89
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:11
@@ -326,7 +326,7 @@ msgstr "%x"
 #: addressbook/backend/ebook/e-card-simple.c:853
 #: addressbook/backend/ebook/e-destination.c:706
 msgid "Unnamed List"
-msgstr "Liste de Contacts Sans Nom"
+msgstr "Liste de contacts sans nom"
 
 #: addressbook/backend/ebook/e-card.c:2683
 msgid "Multiple VCards"
@@ -498,7 +498,7 @@ msgstr "Serveur LDAP contenant les inforamtions des contacts"
 
 #: addressbook/gui/component/addressbook-component.c:77
 msgid "Public Contacts"
-msgstr "Contacts Publics"
+msgstr "Contacts publics"
 
 #: addressbook/gui/component/addressbook-component.c:77
 msgid "Public folder containing contact information"
@@ -523,7 +523,7 @@ msgstr "Nouvelle liste de contacts"
 
 #: addressbook/gui/component/addressbook-component.c:590
 msgid "Contact _List"
-msgstr "_Liste de Contacts"
+msgstr "_Liste de contacts"
 
 #: addressbook/gui/component/addressbook-component.c:591
 msgid "Create a new contact list"
@@ -876,7 +876,7 @@ msgstr "_Nom distinctif :"
 
 #: addressbook/gui/component/ldap-config.glade.h:30
 msgid "Email Address:"
-msgstr "Adresse électronique : "
+msgstr "Adresse électronique :"
 
 #: addressbook/gui/component/ldap-config.glade.h:31
 msgid "Evolution Attribute"
@@ -985,7 +985,7 @@ msgstr "Sélectionner tout"
 
 #: addressbook/gui/component/ldap-config.glade.h:54
 msgid "Selected:"
-msgstr "Sélectionné : "
+msgstr "Sélectionné :"
 
 #: addressbook/gui/component/ldap-config.glade.h:55
 msgid ""
@@ -1216,7 +1216,7 @@ msgstr ""
 
 #: addressbook/gui/component/ldap-config.glade.h:103
 msgid "U_se SSL/TLS:"
-msgstr "Utili_ser SSL/TLS : "
+msgstr "Utili_ser SSL/TLS :"
 
 #: addressbook/gui/component/ldap-config.glade.h:104
 msgid "Using distinguished name (DN)"
@@ -1267,7 +1267,7 @@ msgstr "_Nom pour l'affichage"
 
 #: addressbook/gui/component/ldap-config.glade.h:114
 msgid "_Distinguished Name (DN):"
-msgstr "Nom _Distinctif (DN) : "
+msgstr "Nom _Distinctif (DN) :"
 
 #: addressbook/gui/component/ldap-config.glade.h:115
 msgid "_Don't use SSL/TLS"
@@ -1333,7 +1333,7 @@ msgstr "Nom du _serveur :"
 
 #: addressbook/gui/component/ldap-config.glade.h:129
 msgid "_Timeout (minutes):"
-msgstr "_Temps d'attente maximum (minutes) : "
+msgstr "_Temps d'attente maximum (minutes) :"
 
 #: addressbook/gui/component/ldap-config.glade.h:130
 msgid "account-druid"
@@ -1429,9 +1429,8 @@ msgstr "Trouver un contact dans"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:1
 #: ui/evolution-addressbook.h:16
-#, fuzzy
 msgid "Find"
-msgstr "Rechercher : "
+msgstr "Rechercher"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:2
 msgid "Select Names"
@@ -1439,11 +1438,11 @@ msgstr "Sélectionnez des noms"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:3
 msgid "Selected Contacts:"
-msgstr "Contacts Sélectionnés : "
+msgstr "Contacts sélectionnés :"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:4
 msgid "Show Contacts"
-msgstr "Afficher les Contacts"
+msgstr "Afficher les contacts"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:5
 msgid ""
@@ -1451,7 +1450,7 @@ msgid ""
 "select one from the list below:"
 msgstr ""
 "Veuillez saisir un nom dans le champ ou\n"
-"sélectionnez en un dans la liste ci-dessous : "
+"sélectionnez en un dans la liste ci-dessous :"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:7
 msgid "_Category:"
@@ -1463,7 +1462,7 @@ msgstr "_Dossier :"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:1
 msgid "A_ssistant's name:"
-msgstr "Nom de l'A_ssistant : "
+msgstr "Nom de l'_assistant :"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:2
 msgid "Add_ress..."
@@ -1508,7 +1507,7 @@ msgstr "Détails"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:13
 msgid "F_ree/Busy URL:"
-msgstr "URL Lib_re/-Occupé :"
+msgstr "URL _Libre/Occupé :"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:14
 msgid "File A_s:"
@@ -1589,7 +1588,7 @@ msgstr "_Bureau :"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:36
 msgid "_Public Calendar URL:"
-msgstr "Url du calendrier _public :"
+msgstr "URL du calendrier _public :"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:37
 msgid "_Web page address:"
@@ -2638,7 +2637,7 @@ msgstr "Ce contact appartient à ces catégories :"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:1047
 msgid "Save Contact as VCard"
-msgstr "Enregistrer comme VCard"
+msgstr "Enregistrer le contact comme VCard"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:1762
 msgid "TTY/TDD"
@@ -2847,19 +2846,19 @@ msgstr "Contact dupliqué détecté"
 
 #: addressbook/gui/merging/e-card-duplicate-detected.glade.h:3
 msgid "New Contact:"
-msgstr "Nouveau contact"
+msgstr "Nouveau contact :"
 
 #: addressbook/gui/merging/e-card-duplicate-detected.glade.h:4
 msgid "Original Contact:"
-msgstr "Contact initial : "
+msgstr "Contact initial :"
 
 #: addressbook/gui/merging/e-card-duplicate-detected.glade.h:5
 msgid ""
 "The name or email address of this contact already exists\n"
 "in this folder.  Would you like to add it anyway?"
 msgstr ""
-"Le nom ou l'adresse E-mail de ce contact existe déjà\n"
-"dans ce dossier. Voulez vous quand même l'ajouter ?"
+"Le nom ou l'adresse électronique de ce contact existe déjà\n"
+"dans ce dossier. Voulez-vous quand même l'ajouter ?"
 
 #: addressbook/gui/merging/e-card-merging-book-commit-duplicate-detected.glade.h:1
 msgid "Change Anyway"
@@ -2867,7 +2866,7 @@ msgstr "Changer de toute façon"
 
 #: addressbook/gui/merging/e-card-merging-book-commit-duplicate-detected.glade.h:2
 msgid "Changed Contact:"
-msgstr "Contact Modifié :"
+msgstr "Contact modifié :"
 
 #: addressbook/gui/merging/e-card-merging-book-commit-duplicate-detected.glade.h:3
 msgid "Conflicting Contact:"
@@ -2878,8 +2877,8 @@ msgid ""
 "The changed email or name of this contact already\n"
 "exists in this folder.  Would you like to add it anyway?"
 msgstr ""
-"Le nom ou l'adresse E-mail modifié  de ce contact existe déjà\n"
-"dans ce dossier. Voulez vous quand même l'ajouter ?"
+"Le nom ou l'adresse électronique modifié de ce contact existe déjà\n"
+"dans ce dossier. Voulez-vous quand même l'ajouter ?"
 
 #: addressbook/gui/search/e-addressbook-search-dialog.c:145
 #: widgets/misc/e-filter-bar.c:153
@@ -3246,7 +3245,7 @@ msgstr ""
 "\n"
 "Il n'y a aucun élément à afficher dans cette vue.\n"
 "\n"
-"Double-cliquez ici pour créer un nouveau Contact."
+"Double-cliquez ici pour créer un nouveau contact."
 
 #: addressbook/gui/widgets/e-minicard-view.c:143
 msgid ""
@@ -3563,11 +3562,11 @@ msgstr "Utilitaire pour le service de notification d'alarme"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:216
 msgid "Starting:"
-msgstr "Débute : "
+msgstr "Débute :"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:218
 msgid "Ending:"
-msgstr "Fini : "
+msgstr "Fini :"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:231
 msgid "invalid time"
@@ -3861,7 +3860,7 @@ msgstr "Dossier public contenant des éléments « À Faire »"
 
 #: calendar/gui/component-factory.c:750
 msgid "New appointment"
-msgstr "Nouveau RDV"
+msgstr "Nouveau rendez-vous"
 
 #: calendar/gui/component-factory.c:750
 msgid "_Appointment"
@@ -3897,16 +3896,15 @@ msgstr "Créer une nouvelle tâche"
 
 #: calendar/gui/component-factory.c:765
 msgid "New All Day Appointment"
-msgstr "Nouveau rendez-vous quotidien"
+msgstr "Nouveau rendez-vous pour toute la journée"
 
 #: calendar/gui/component-factory.c:765
 msgid "All _Day Appointment"
-msgstr "Rendez-vous _journée entière"
+msgstr "Rendez-vous pour toute la _journée"
 
 #: calendar/gui/component-factory.c:766
-#, fuzzy
 msgid "Create a new all-day appointment"
-msgstr "Nouveau rendez-vous quotidien"
+msgstr "Crée un rendez-vous pour toute la journée"
 
 #: calendar/gui/control-factory.c:123
 #, c-format
@@ -3957,7 +3955,7 @@ msgstr "Corps du message"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:4
 msgid "Play sound:"
-msgstr "Jouer le son : "
+msgstr "Jouer le son :"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:5
 msgid "Repeat the alarm"
@@ -4091,7 +4089,7 @@ msgstr "%s %s après la fin du rendez-vous"
 #: calendar/gui/dialogs/alarm-page.c:447
 #, c-format
 msgid "%s at the end of the appointment"
-msgstr "%s à la fin du  rendez-vous"
+msgstr "%s à la fin du rendez-vous"
 
 #: calendar/gui/dialogs/alarm-page.c:471
 #, c-format
@@ -4147,7 +4145,7 @@ msgstr "jour(s)"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:15
 msgid "end of appointment"
-msgstr "Fin du rendez-vous"
+msgstr "fin du rendez-vous"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:16
 msgid "hour(s)"
@@ -4159,7 +4157,7 @@ msgstr "minute(s)"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:18
 msgid "start of appointment"
-msgstr "Début du rendez-vous"
+msgstr "début du rendez-vous"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:1
 msgid "05 minutes"
@@ -4199,7 +4197,7 @@ msgstr "Couleur des tâches du jour"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:10
 msgid "Day _ends:"
-msgstr "La journé_e se termine : "
+msgstr "La journé_e se termine :"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:11
 msgid "Days"
@@ -4251,7 +4249,7 @@ msgstr "Dimanche"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:21
 msgid "T_asks due today:"
-msgstr "Tâches d'_aujourd'hui : "
+msgstr "Tâches d'_aujourd'hui :"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:22
 msgid "T_hu"
@@ -4287,7 +4285,7 @@ msgstr "Mardi"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:29
 msgid "W_eek starts:"
-msgstr "La s_emaine débute : "
+msgstr "La s_emaine débute :"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:30
 #: calendar/gui/dialogs/recurrence-page.c:1144
@@ -4302,7 +4300,7 @@ msgstr "Sem. Travail"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:32
 msgid "Work days:"
-msgstr "Jours ouvrés : "
+msgstr "Jours ouvrés :"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:33
 msgid "_12 hour (AM/PM)"
@@ -4322,7 +4320,7 @@ msgstr "_Compresser les week-ends dans la vue mensuelle"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:37
 msgid "_Day begins:"
-msgstr "Le _jour commence : "
+msgstr "Le _jour commence :"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:38
 msgid "_Display"
@@ -4347,7 +4345,7 @@ msgstr "_Lun"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:43
 msgid "_Overdue tasks:"
-msgstr "Tâches en _retard : "
+msgstr "Tâches en _retard :"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:44
 msgid "_Sat"
@@ -4356,12 +4354,12 @@ msgstr "_Sam"
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:45
 msgid "_Show appointment end times in week and month views"
 msgstr ""
-"_Afficher les heures de fin de rendez-vous dans les vues mensuelles et "
+"_Afficher les heures de fin du rendez-vous dans les vues mensuelles et "
 "hebdomadaires"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:46
 msgid "_Time divisions:"
-msgstr "Di_visions horaires : "
+msgstr "Di_visions horaires :"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:47
 msgid "_Tue"
@@ -5438,7 +5436,7 @@ msgstr "<i>Aucun</i>"
 
 #: calendar/gui/e-itip-control.c:1037
 msgid "Location:"
-msgstr "Lieu : "
+msgstr "Emplacement :"
 
 #: calendar/gui/e-itip-control.c:1051
 msgid "Status:"
@@ -6012,7 +6010,7 @@ msgstr "Nettoyage"
 
 #: calendar/gui/e-week-view.c:3535
 msgid "New _Appointment..."
-msgstr "Nouveau _RDV..."
+msgstr "Nouveau _rendez-vous..."
 
 #: calendar/gui/gnome-cal.c:1533
 #, c-format
@@ -6391,13 +6389,13 @@ msgstr "Contacts : "
 
 #: calendar/gui/print.c:2430
 msgid "Print Calendar"
-msgstr "Imprimer le Calendrier"
+msgstr "Imprimer le calendrier"
 
 #: calendar/gui/print.c:2521 calendar/gui/print.c:2613
 #: calendar/gui/tasks-control.c:589 mail/mail-callbacks.c:3229
 #: my-evolution/e-summary.c:633
 msgid "Print Preview"
-msgstr "Aperçu Avant Impression"
+msgstr "Aperçu avant impression"
 
 #: calendar/gui/print.c:2550
 msgid "Print Item"
@@ -8947,7 +8945,7 @@ msgstr "Utilisation invalide"
 #: camel/camel-tcp-stream-openssl.c:613
 #, fuzzy
 msgid "Certificate untrusted"
-msgstr "ID de Certificat : "
+msgstr "ID de Certificat :"
 
 #: camel/camel-tcp-stream-openssl.c:615
 msgid "Certificate rejected"
@@ -10121,11 +10119,11 @@ msgstr "Commande non implémentée"
 
 #: camel/providers/smtp/camel-smtp-transport.c:180
 msgid "Command parameter not implemented"
-msgstr "Paramètre non implémenté"
+msgstr "Paramètre de commande non implémenté"
 
 #: camel/providers/smtp/camel-smtp-transport.c:182
 msgid "System status, or system help reply"
-msgstr "Statut système, ou réponse à une aide système"
+msgstr "État système, ou réponse à une aide système"
 
 #: camel/providers/smtp/camel-smtp-transport.c:184
 msgid "Help message"
@@ -10423,7 +10421,7 @@ msgstr "Propriétés de la pièce-jointe"
 
 #: composer/e-msg-composer-attachment.glade.h:3
 msgid "File name:"
-msgstr "Nom du fichier : "
+msgstr "Nom du fichier :"
 
 #: composer/e-msg-composer-attachment.glade.h:4
 msgid "MIME type:"
@@ -10605,7 +10603,7 @@ msgstr "Ouvrir un fichier"
 
 #: composer/e-msg-composer.c:1927
 msgid "Signature:"
-msgstr "Signature : "
+msgstr "Signature :"
 
 #: composer/e-msg-composer.c:1968 mail/mail-account-gui.c:1231
 msgid "Autogenerated"
@@ -10734,7 +10732,7 @@ msgstr "Se souvenir de ce mot de passe pour le reste de cette session"
 
 #: e-util/e-pilot-settings.c:96
 msgid "Sync Private Records:"
-msgstr "Synchroniser les enregistrements privés : "
+msgstr "Synchroniser les enregistrements privés :"
 
 #: e-util/e-pilot-settings.c:105
 msgid "Sync Categories:"
@@ -11642,11 +11640,11 @@ msgstr "Composer un nouveau message"
 
 #: mail/component-factory.c:1055
 msgid "New Message Post"
-msgstr "Nouveau poste de message"
+msgstr "Nouveau message postal"
 
 #: mail/component-factory.c:1055
 msgid "_Post Message"
-msgstr "_Poster le message"
+msgstr "Message _postal"
 
 #: mail/component-factory.c:1056
 msgid "Post a new mail message"
@@ -11929,7 +11927,7 @@ msgstr "_Hôte :"
 
 #: mail/mail-account-gui.c:747 mail/mail-config.glade.h:129
 msgid "User_name:"
-msgstr "_Nom d'utilisateur : "
+msgstr "_Nom d'utilisateur :"
 
 #: mail/mail-account-gui.c:751 mail/mail-config.glade.h:166
 msgid "_Path:"
@@ -12423,7 +12421,7 @@ msgstr "Recherche de nouveau courrier"
 
 #: mail/mail-config.glade.h:30
 msgid "Color for _misspelled words:"
-msgstr "Couleur pour les _mots mal orthographiés : "
+msgstr "Couleur pour les _mots mal orthographiés :"
 
 #: mail/mail-config.glade.h:31
 msgid "Composing Messages"
@@ -12459,7 +12457,7 @@ msgstr "Comportement par defaut"
 
 #: mail/mail-config.glade.h:42
 msgid "Default character _encoding:"
-msgstr "_Encodage de caractères par défaut : "
+msgstr "_Encodage de caractères par défaut :"
 
 #: mail/mail-config.glade.h:43
 msgid "Deleting Mail"
@@ -12482,9 +12480,8 @@ msgid "Done"
 msgstr "Fait"
 
 #: mail/mail-config.glade.h:49
-#, fuzzy
 msgid "Drafts _folder:"
-msgstr "Dossier des _brouillons : "
+msgstr "Dossier des _brouillons :"
 
 #: mail/mail-config.glade.h:50
 msgid "E_nable"
@@ -12500,7 +12497,7 @@ msgstr "Comptes de courrier"
 
 #: mail/mail-config.glade.h:53
 msgid "Email _address:"
-msgstr "_Adresse électronique : "
+msgstr "_Adresse électronique :"
 
 #: mail/mail-config.glade.h:54
 msgid "Empty _trash folders on exit"
@@ -12512,7 +12509,7 @@ msgstr "Exécuter une commande..."
 
 #: mail/mail-config.glade.h:57
 msgid "Fi_xed -width:"
-msgstr "Largeur fi_xe : "
+msgstr "Largeur fi_xe :"
 
 #: mail/mail-config.glade.h:58
 msgid "Font Properties"
@@ -12688,7 +12685,7 @@ msgstr "Envoi du message"
 
 #: mail/mail-config.glade.h:112
 msgid "Sent _messages folder:"
-msgstr "Dossier des _messages envoyés : "
+msgstr "Dossier des _messages envoyés :"
 
 #: mail/mail-config.glade.h:113
 msgid "Sent and Draft Messages"
@@ -12708,11 +12705,11 @@ msgstr "_Type de serveur : "
 
 #: mail/mail-config.glade.h:117
 msgid "Shortcuts _type:"
-msgstr "_Type de raccourcis : "
+msgstr "_Type de raccourcis :"
 
 #: mail/mail-config.glade.h:118
 msgid "Specify _filename:"
-msgstr "Spécifiez le nom de _fichier : "
+msgstr "Spécifiez le nom de _fichier :"
 
 #: mail/mail-config.glade.h:119
 msgid "Spell Checking Language"
@@ -12908,7 +12905,7 @@ msgstr "_Signatures"
 
 #: mail/mail-config.glade.h:177
 msgid "_Use secure connection (SSL):"
-msgstr "_Utilisez une connexion sécurisée (SSL) : "
+msgstr "_Utilisez une connexion sécurisée (SSL) :"
 
 #: mail/mail-config.glade.h:178
 msgid "_Variable-width:"
@@ -13000,7 +12997,7 @@ msgstr "Chargement contenu de message"
 
 #: mail/mail-display.c:1784
 msgid "Overdue:"
-msgstr "Retard : "
+msgstr "Retard :"
 
 #: mail/mail-display.c:1788
 msgid "by %B %d, %Y, %l:%M %P"
@@ -13336,7 +13333,7 @@ msgstr "Reconnexion à %s"
 
 #: mail/mail-search-dialogue.c:113 widgets/misc/e-search-bar.c:515
 msgid "_Search"
-msgstr "_Rechercher"
+msgstr "_Recherche"
 
 #: mail/mail-search.c:137
 msgid "(Untitled Message)"
@@ -13364,7 +13361,7 @@ msgstr "Recherche vers l'avant"
 
 #: mail/mail-search.c:343
 msgid "Find:"
-msgstr "Rechercher : "
+msgstr "Rechercher :"
 
 #: mail/mail-search.c:346
 msgid "Matches:"
@@ -13604,9 +13601,8 @@ msgid "Follow Up Flag"
 msgstr "Marqueur « Donner suite »"
 
 #: mail/message-list.etspec.h:8
-#, fuzzy
 msgid "Original Location"
-msgstr "Contact initial : "
+msgstr "Emplacement initial"
 
 #: mail/message-list.etspec.h:9
 msgid "Received"
@@ -13672,11 +13668,11 @@ msgstr "Effa_cer le Marqueur"
 
 #: mail/message-tags.glade.h:8
 msgid "_Due by:"
-msgstr "_Date d'échéance : "
+msgstr "_Date d'échéance :"
 
 #: mail/message-tags.glade.h:9
 msgid "_Flag:"
-msgstr "_Marqueur : "
+msgstr "_Marqueur :"
 
 #: mail/subscribe-dialog.c:231
 #, c-format
@@ -23603,11 +23599,11 @@ msgstr "Citations du jour"
 
 #: my-evolution/e-summary-preferences.c:840
 msgid "Add a news feed"
-msgstr "Ajouter un serveur de news"
+msgstr "Ajouter un serveur de nouvelles"
 
 #: my-evolution/e-summary-preferences.c:848
 msgid "Enter the URL of the news feed you wish to add"
-msgstr "Saisissez l'URL du serveur de news que vous voulez ajouter"
+msgstr "Saisissez l'URL du serveur de nouvelles que vous voulez ajouter"
 
 #: my-evolution/e-summary-rdf.c:303
 msgid "Error downloading RDF"
@@ -24866,7 +24862,7 @@ msgstr "Nombre Ma_ximum d'éléments affichés"
 
 #: my-evolution/my-evolution.glade.h:7
 msgid "News Feed Settings"
-msgstr "Paramétrage du serveur de news"
+msgstr "Paramétrage du serveur de nouvelles"
 
 #: my-evolution/my-evolution.glade.h:8
 msgid "One mont_h"
@@ -25205,7 +25201,7 @@ msgstr ""
 #: shell/e-shell-folder-commands.c:535
 #, c-format
 msgid "Rename the \"%s\" folder to:"
-msgstr "Renommer le dossier « %s » en : "
+msgstr "Renommer le dossier « %s » en :"
 
 #: shell/e-shell-folder-commands.c:542
 msgid "Rename folder"
@@ -25921,23 +25917,23 @@ msgstr "Les connexions suivantes sont actives :"
 
 #: shell/glade/e-shell-config-default-folders.glade.h:1
 msgid "C_alendar:"
-msgstr "C_alendrier : "
+msgstr "C_alendrier :"
 
 #: shell/glade/e-shell-config-default-folders.glade.h:2
 msgid "_Contacts:"
-msgstr "_Contacts : "
+msgstr "_Contacts :"
 
 #: shell/glade/e-shell-config-default-folders.glade.h:3
 msgid "_Mail:"
-msgstr "_Courrier : "
+msgstr "_Courrier :"
 
 #: shell/glade/e-shell-config-default-folders.glade.h:4
 msgid "_Tasks:"
-msgstr "_Tâches : "
+msgstr "_Tâches :"
 
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:1
 msgid "Folder name:"
-msgstr "Nom du dossier : "
+msgstr "Nom du dossier :"
 
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:2
 msgid "Folder type:"
@@ -25945,23 +25941,23 @@ msgstr "Type de dossier :"
 
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:3
 msgid "Specify where to create the folder:"
-msgstr "Précisez où créer le dossier."
+msgstr "Précisez où créer le dossier :"
 
 #: shell/glade/e-shell-shared-folder-picker-dialog.glade.h:1
 msgid "Open Other User's Folder"
-msgstr "Ouvrir un Dossier d'un Autre Utilisateur"
+msgstr "Ouvrir un dossier d'un autre utilisateur"
 
 #: shell/glade/e-shell-shared-folder-picker-dialog.glade.h:2
 msgid "_Account:"
-msgstr "_Compte : "
+msgstr "_Compte :"
 
 #: shell/glade/e-shell-shared-folder-picker-dialog.glade.h:3
 msgid "_Folder Name:"
-msgstr "Nom du _Dossier : "
+msgstr "Nom du _dossier :"
 
 #: shell/glade/e-shell-shared-folder-picker-dialog.glade.h:4
 msgid "_User:"
-msgstr "_Utilisateur : "
+msgstr "_Utilisateur :"
 
 #: shell/glade/evolution-startup-wizard.glade.h:3
 msgid "Evolution Setup Assistant"
@@ -26247,7 +26243,7 @@ msgstr "Prévisualiser les contacts à imprimer"
 #: ui/evolution-comp-editor.xml.h:9 ui/evolution-mail-message.xml.h:68
 #: ui/evolution-tasks.xml.h:12
 msgid "Print Pre_view"
-msgstr "_Aperçu Avant Impression"
+msgstr "_Aperçu avant impression"
 
 #: ui/evolution-addressbook.xml.h:18
 msgid "Print selected contacts"
@@ -26289,7 +26285,7 @@ msgstr "Voir le contact courant"
 #: ui/evolution-mail-messagedisplay.xml.h:4 ui/evolution-task-editor.xml.h:9
 #: ui/evolution-tasks.xml.h:14 ui/evolution.xml.h:45
 msgid "_Actions"
-msgstr "_Actions"
+msgstr "A_ctions"
 
 #: ui/evolution-addressbook.xml.h:34 ui/evolution-contact-editor.xml.h:13
 msgid "_Forward Contact..."
@@ -27221,7 +27217,7 @@ msgstr "Afficher les _pièces-jointes"
 #: ui/evolution-message-composer.h:44 ui/evolution-signature-editor.xml.h:13
 #: ui/evolution.xml.h:54
 msgid "_Help"
-msgstr "A_ide"
+msgstr "_Aide"
 
 #: ui/evolution-message-composer.h:45
 msgid "_About..."
@@ -27526,7 +27522,7 @@ msgstr "Paramètres du Pi_lot..."
 
 #: ui/evolution.xml.h:27
 msgid "Pilot Con_duit Settings..."
-msgstr "Paramétrage des _conduites de Pilot..."
+msgstr "Paramètres des _conduites du Pilot..."
 
 #: ui/evolution.xml.h:28
 msgid "Remove a folder added with \"Open Other User's Folder\""
@@ -27661,15 +27657,15 @@ msgstr "Recharger la vue"
 
 #: views/addressbook/galview.xml.h:1
 msgid "By _Company"
-msgstr "Par _Société"
+msgstr "Par _société"
 
 #: views/addressbook/galview.xml.h:2
 msgid "_Address Cards"
-msgstr "Cartes _Adresse"
+msgstr "_Cartes de visite"
 
 #: views/addressbook/galview.xml.h:3
 msgid "_Phone List"
-msgstr "Liste de _téléphones"
+msgstr "_Liste de téléphonique"
 
 #: views/calendar/galview.xml.h:1
 msgid "W_eek View"
@@ -28182,7 +28178,7 @@ msgstr "init_bonobo() : Ne peut initialiser Bonobo"
 #~ msgstr "_Rafraîchir la liste "
 
 #~ msgid "Show _folders from server: "
-#~ msgstr "Afficher les _dossiers du serveur :"
+#~ msgstr "Afficher les _dossiers du serveur : "
 
 #~ msgid ""
 #~ "Evolution is unable to get the addressbook local storage.\n"
@@ -28311,7 +28307,7 @@ msgstr "init_bonobo() : Ne peut initialiser Bonobo"
 #~ msgstr "Vous ne pouvez importer que vers des dossiers locaux"
 
 #~ msgid "_Contact List"
-#~ msgstr "Liste de Contacts"
+#~ msgstr "Liste de _contacts"
 
 #~ msgid "Inline Text _File..."
 #~ msgstr "Insérer un _fichier texte..."
