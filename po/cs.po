@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-10-14 14:16+0200\n"
-"PO-Revision-Date: 2003-10-17 22:45+0200\n"
+"POT-Creation-Date: 2003-11-20 14:16+0100\n"
+"PO-Revision-Date: 2003-11-20 18:30+0100\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -392,7 +392,7 @@ msgstr "Organizační jednotka"
 msgid "Role"
 msgstr "Funkce"
 
-#: addressbook/backend/ebook/e-card.c:1436 mail/mail-format.c:966
+#: addressbook/backend/ebook/e-card.c:1436 mail/mail-format.c:970
 msgid "Mailer"
 msgstr "Program elektronické pošty"
 
@@ -451,7 +451,7 @@ msgid "Could not initialize Bonobo"
 msgstr "Nelze spustit Bonobo"
 
 #: addressbook/backend/pas/pas-backend-file.c:464
-#: addressbook/backend/pas/pas-backend-ldap.c:3050
+#: addressbook/backend/pas/pas-backend-ldap.c:3051
 msgid "Searching..."
 msgstr "Vyhledávám..."
 
@@ -484,11 +484,11 @@ msgstr "Odstraňuji kartu ze serveru LDAP..."
 msgid "Modifying card from LDAP server..."
 msgstr "Upravuji kartu ze serveru LDAP..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:2961
+#: addressbook/backend/pas/pas-backend-ldap.c:2962
 msgid "Receiving LDAP search results..."
 msgstr "Přijímám výsledky hledání LDAP"
 
-#: addressbook/backend/pas/pas-backend-ldap.c:3070
+#: addressbook/backend/pas/pas-backend-ldap.c:3071
 msgid "Error performing search"
 msgstr "Chyba při provádění hledání"
 
@@ -2883,9 +2883,8 @@ msgstr "Protokol není podporován"
 #: calendar/gui/calendar-model.c:759 calendar/gui/calendar-model.c:1184
 #: calendar/gui/dialogs/task-details-page.glade.h:3
 #: calendar/gui/e-calendar-table.c:477 calendar/gui/print.c:2307
-#: camel/camel-service.c:747 camel/camel-service.c:788
-#: camel/camel-service.c:878 camel/camel-service.c:921
-#: camel/providers/pop3/camel-pop3-store.c:443
+#: camel/camel-service.c:830 camel/camel-service.c:884
+#: camel/camel-service.c:906 camel/providers/pop3/camel-pop3-store.c:443
 #: camel/providers/pop3/camel-pop3-store.c:520
 msgid "Cancelled"
 msgstr "Zrušeno"
@@ -3818,7 +3817,7 @@ msgstr "Veřejná složka obsahující události a schůzky"
 
 #: calendar/gui/calendar-component.c:80 calendar/gui/e-tasks.c:738
 #: calendar/gui/print.c:1789 calendar/gui/tasks-control.c:487
-#: calendar/importers/icalendar-importer.c:644
+#: calendar/importers/icalendar-importer.c:655
 #: importers/netscape-importer.c:1875 mail/importers/netscape-importer.c:1845
 #: my-evolution/e-summary-tasks.c:329 my-evolution/e-summary-tasks.c:338
 #: shell/e-local-storage.c:183 shell/e-shortcuts.c:1086
@@ -3958,8 +3957,8 @@ msgstr ""
 #. An empty string is the same as 'None'.
 #: calendar/gui/calendar-model.c:1176 calendar/gui/dialogs/meeting-page.c:330
 #: calendar/gui/dialogs/meeting-page.glade.h:2 composer/e-msg-composer.c:2084
-#: mail/folder-browser.c:1776 mail/mail-account-gui.c:1260
-#: mail/mail-account-gui.c:1692 mail/mail-accounts.c:442
+#: mail/folder-browser.c:1776 mail/mail-account-gui.c:1275
+#: mail/mail-account-gui.c:1709 mail/mail-accounts.c:442
 #: mail/mail-config.glade.h:76
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:194
 #: widgets/misc/e-cell-date-edit.c:257 widgets/misc/e-dateedit.c:442
@@ -4899,7 +4898,7 @@ msgstr "den"
 msgid "on the"
 msgstr "_"
 
-#: calendar/gui/dialogs/recurrence-page.c:1357
+#: calendar/gui/dialogs/recurrence-page.c:1358
 msgid "occurrences"
 msgstr "opakování"
 
@@ -5582,8 +5581,8 @@ msgstr "Zamítnuto"
 #: calendar/gui/e-itip-control.c:1062 calendar/gui/e-itip-control.c:1270
 #: calendar/gui/e-meeting-model.c:222 calendar/gui/e-meeting-model.c:257
 #: calendar/gui/e-meeting-model.c:322 calendar/gui/e-meeting-model.c:759
-#: calendar/gui/e-meeting-model.c:775 camel/camel-gpg-context.c:1574
-#: camel/camel-gpg-context.c:1625 camel/camel-tcp-stream-openssl.c:634
+#: calendar/gui/e-meeting-model.c:775 camel/camel-gpg-context.c:1589
+#: camel/camel-gpg-context.c:1640 camel/camel-tcp-stream-openssl.c:634
 #: camel/providers/smtp/camel-smtp-transport.c:173
 #: camel/providers/smtp/camel-smtp-transport.c:228 mail/folder-browser.c:347
 #: mail/mail-display.c:943 widgets/misc/e-charset-picker.c:60
@@ -6439,15 +6438,15 @@ msgstr "soubory iCalendar (.ics)"
 msgid "vCalendar files (.vcf)"
 msgstr "soubory vCalendar (.vcf)"
 
-#: calendar/importers/icalendar-importer.c:403
+#: calendar/importers/icalendar-importer.c:414
 msgid "Reminder!!"
 msgstr "Připomínka!!"
 
-#: calendar/importers/icalendar-importer.c:637
+#: calendar/importers/icalendar-importer.c:648
 msgid "Calendar Events"
 msgstr "Události kalendáře"
 
-#: calendar/importers/icalendar-importer.c:662
+#: calendar/importers/icalendar-importer.c:673
 msgid ""
 "Evolution has found Gnome Calendar files.\n"
 "Would you like to import them into Evolution?"
@@ -6455,7 +6454,7 @@ msgstr ""
 "Evolution našla soubory kalendáře Gnome.\n"
 "Chcete je importovat do Evolution?"
 
-#: calendar/importers/icalendar-importer.c:669
+#: calendar/importers/icalendar-importer.c:680
 msgid "Gnome Calendar"
 msgstr "Kalendář Gnome"
 
@@ -8306,7 +8305,7 @@ msgstr "Přesunuji zprávy"
 msgid "Copying messages"
 msgstr "Kopíruji zprávy"
 
-#: camel/camel-gpg-context.c:762
+#: camel/camel-gpg-context.c:769
 #, c-format
 msgid ""
 "Unexpected GnuPG status message encountered:\n"
@@ -8317,15 +8316,15 @@ msgstr ""
 "\n"
 "%s"
 
-#: camel/camel-gpg-context.c:777
+#: camel/camel-gpg-context.c:783
 msgid "Failed to parse gpg userid hint."
 msgstr "Selhalo zpracování nápovědy gpg userid."
 
-#: camel/camel-gpg-context.c:802
+#: camel/camel-gpg-context.c:808
 msgid "Failed to parse gpg passphrase request."
 msgstr "Selhalo zpracování požadavku gpg hesla."
 
-#: camel/camel-gpg-context.c:810
+#: camel/camel-gpg-context.c:816
 #, c-format
 msgid ""
 "You need a passphrase to unlock the key for\n"
@@ -8334,30 +8333,30 @@ msgstr ""
 "Potřebujete heslo pro odemčení klíče pro\n"
 "uživatele: \"%s\""
 
-#: camel/camel-gpg-context.c:821 camel/camel-gpg-context.c:1297
-#: camel/camel-gpg-context.c:1403 camel/camel-gpg-context.c:1473
-#: camel/camel-gpg-context.c:1529 mail/mail-send-recv.c:574
+#: camel/camel-gpg-context.c:836 camel/camel-gpg-context.c:1312
+#: camel/camel-gpg-context.c:1418 camel/camel-gpg-context.c:1488
+#: camel/camel-gpg-context.c:1544 mail/mail-send-recv.c:574
 msgid "Cancelled."
 msgstr "Zrušeno"
 
-#: camel/camel-gpg-context.c:839
+#: camel/camel-gpg-context.c:854
 msgid "Failed to unlock secret key: 3 bad passphrases given."
 msgstr "Selhalo odemčení tajného klíče. Byla zadána tři chybná hesla."
 
-#: camel/camel-gpg-context.c:845
+#: camel/camel-gpg-context.c:860
 #, c-format
 msgid "Unexpected response from GnuPG: %s"
 msgstr "Neočekávaná odpověď od GnuPG: %s"
 
-#: camel/camel-gpg-context.c:857
+#: camel/camel-gpg-context.c:872
 msgid "No data provided"
 msgstr "Nejsou poskytnuta žádná data."
 
-#: camel/camel-gpg-context.c:895
+#: camel/camel-gpg-context.c:910
 msgid "Failed to encrypt: No valid recipients specified."
 msgstr "Nelze zašifrovat zprávu: nejsou určeni platní adresáti."
 
-#: camel/camel-gpg-context.c:1172
+#: camel/camel-gpg-context.c:1187
 #, c-format
 msgid ""
 "Failed to GPG %s: %s\n"
@@ -8368,25 +8367,25 @@ msgstr ""
 "\n"
 "%s"
 
-#: camel/camel-gpg-context.c:1177
+#: camel/camel-gpg-context.c:1192
 #, c-format
 msgid "Failed to GPG %s: %s\n"
 msgstr "Nepodařilo se GPG %s: %s\n"
 
-#: camel/camel-gpg-context.c:1288 camel/camel-gpg-context.c:1573
-#: camel/camel-gpg-context.c:1624
+#: camel/camel-gpg-context.c:1303 camel/camel-gpg-context.c:1588
+#: camel/camel-gpg-context.c:1639
 #, c-format
 msgid "Failed to execute gpg: %s"
 msgstr "Nepodařilo se provést gpg: %s"
 
-#: camel/camel-gpg-context.c:1318 camel/camel-gpg-context.c:1395
-#: camel/camel-gpg-context.c:1464 camel/camel-gpg-context.c:1494
-#: camel/camel-gpg-context.c:1520 camel/camel-gpg-context.c:1550
-#: camel/camel-gpg-context.c:1595 camel/camel-gpg-context.c:1646
+#: camel/camel-gpg-context.c:1333 camel/camel-gpg-context.c:1410
+#: camel/camel-gpg-context.c:1479 camel/camel-gpg-context.c:1509
+#: camel/camel-gpg-context.c:1535 camel/camel-gpg-context.c:1565
+#: camel/camel-gpg-context.c:1610 camel/camel-gpg-context.c:1661
 msgid "Failed to execute gpg."
 msgstr "Nepodařilo se provést gpg."
 
-#: camel/camel-gpg-context.c:1380
+#: camel/camel-gpg-context.c:1395
 #, c-format
 msgid "Cannot verify message signature: could not create temp file: %s"
 msgstr "Nelze ověřit podpis zprávy: nelze vytvořit dočasný soubor: %s"
@@ -8774,40 +8773,25 @@ msgstr "URL '%s' vyžaduje komponentu hostitele"
 msgid "URL '%s' needs a path component"
 msgstr "URL '%s' vyžaduje komponentu cesty"
 
-#: camel/camel-service.c:752
+#: camel/camel-service.c:801
 #, c-format
 msgid "Resolving: %s"
 msgstr "Zjišťuje se: %s"
 
-#: camel/camel-service.c:786 camel/camel-service.c:919
+#: camel/camel-service.c:803
+msgid "Resolving address"
+msgstr "Zjišťuje se adresa"
+
+#: camel/camel-service.c:828
 #, c-format
 msgid "Failure in name lookup: %s"
 msgstr "Selhalo hledání jména: %s"
 
-#: camel/camel-service.c:807 camel/camel-service.c:940
-#, c-format
-msgid "Host lookup failed: cannot create thread: %s"
-msgstr "Selhalo hledání počítače: nemohu vytvořit thread: %s"
-
-#: camel/camel-service.c:821
-#, c-format
-msgid "Host lookup failed: %s: host not found"
-msgstr "Selhalo hledání počítače: %s: počítač nenalezen"
-
-#: camel/camel-service.c:824
-#, c-format
-msgid "Host lookup failed: %s: unknown reason"
-msgstr "Selhalo hledání počítače: %s: neznámý důvod"
-
-#: camel/camel-service.c:883
-msgid "Resolving address"
-msgstr "Zjišťuje se adresa"
-
-#: camel/camel-service.c:956
+#: camel/camel-service.c:860
 msgid "Host lookup failed: host not found"
 msgstr "Selhalo hledání počítače: počítač nenalezen"
 
-#: camel/camel-service.c:959
+#: camel/camel-service.c:863
 msgid "Host lookup failed: unknown reason"
 msgstr "Selhalo hledání počítače: neznámý důvod"
 
@@ -9349,7 +9333,7 @@ msgid "IMAP server %s does not support requested authentication type %s"
 msgstr "IMAP server %s nepodporuje požadovaný typ ověření %s"
 
 #: camel/providers/imap/camel-imap-store.c:1085
-#: camel/providers/smtp/camel-smtp-transport.c:486
+#: camel/providers/smtp/camel-smtp-transport.c:477
 #, c-format
 msgid "No support for authentication type %s"
 msgstr "Typ ověření %s není podporován"
@@ -10230,36 +10214,36 @@ msgstr "Je požadováno ověření"
 msgid "Welcome response error"
 msgstr "Chyba odpovědi přivítání"
 
-#: camel/providers/smtp/camel-smtp-transport.c:343
-#: camel/providers/smtp/camel-smtp-transport.c:382
+#: camel/providers/smtp/camel-smtp-transport.c:334
+#: camel/providers/smtp/camel-smtp-transport.c:373
 #, c-format
 msgid "Failed to connect to SMTP server %s in secure mode: %s"
 msgstr "Nepodařilo se spojit se SMTP serverem %s v bezpečném modu: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:344
+#: camel/providers/smtp/camel-smtp-transport.c:335
 msgid "server does not appear to support SSL"
 msgstr "server pravděpodobně nepodporuje SSL"
 
-#: camel/providers/smtp/camel-smtp-transport.c:358
+#: camel/providers/smtp/camel-smtp-transport.c:349
 #, c-format
 msgid "STARTTLS request timed out: %s"
 msgstr "Vypršel čas požadavku STARTTLS: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:373
+#: camel/providers/smtp/camel-smtp-transport.c:364
 msgid "STARTTLS response error"
 msgstr "Chyba odpovědi STARTTLS"
 
-#: camel/providers/smtp/camel-smtp-transport.c:476
+#: camel/providers/smtp/camel-smtp-transport.c:467
 #, c-format
 msgid "SMTP server %s does not support requested authentication type %s."
 msgstr "SMTP server %s nepodporuje požadovaný typ ověření %s."
 
-#: camel/providers/smtp/camel-smtp-transport.c:514
+#: camel/providers/smtp/camel-smtp-transport.c:505
 #, c-format
 msgid "%sPlease enter the SMTP password for %s@%s"
 msgstr "%sUveďte SMTP heslo pro %s@%s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:533
+#: camel/providers/smtp/camel-smtp-transport.c:524
 #, c-format
 msgid ""
 "Unable to authenticate to SMTP server.\n"
@@ -10270,87 +10254,87 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: camel/providers/smtp/camel-smtp-transport.c:666
+#: camel/providers/smtp/camel-smtp-transport.c:657
 #, c-format
 msgid "SMTP server %s"
 msgstr "SMTP server %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:668
+#: camel/providers/smtp/camel-smtp-transport.c:659
 #, c-format
 msgid "SMTP mail delivery via %s"
 msgstr "Doručení pošty SMTP pomocí %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:686
+#: camel/providers/smtp/camel-smtp-transport.c:677
 msgid "Cannot send message: sender address not valid."
 msgstr "Zprávu nelze poslat: adresa odesílatele je neplatná."
 
-#: camel/providers/smtp/camel-smtp-transport.c:691 mail/mail-ops.c:637
+#: camel/providers/smtp/camel-smtp-transport.c:682 mail/mail-ops.c:637
 msgid "Sending message"
 msgstr "Posílám zprávu"
 
-#: camel/providers/smtp/camel-smtp-transport.c:706
+#: camel/providers/smtp/camel-smtp-transport.c:697
 msgid "Cannot send message: no recipients defined."
 msgstr "Nelze poslat zprávu: nebyli určeni příjemci."
 
-#: camel/providers/smtp/camel-smtp-transport.c:715
+#: camel/providers/smtp/camel-smtp-transport.c:706
 msgid "Cannot send message: one or more invalid recipients"
 msgstr "Nelze poslat zprávu: jeden nebo více neplatných příjemců"
 
-#: camel/providers/smtp/camel-smtp-transport.c:880
+#: camel/providers/smtp/camel-smtp-transport.c:871
 msgid "SMTP Greeting"
 msgstr "SMTP pozdrav"
 
-#: camel/providers/smtp/camel-smtp-transport.c:929
+#: camel/providers/smtp/camel-smtp-transport.c:920
 #, c-format
 msgid "HELO request timed out: %s"
 msgstr "Vypršel čas odpovědi HELO: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:951
+#: camel/providers/smtp/camel-smtp-transport.c:942
 msgid "HELO response error"
 msgstr "Chyba odpovědi HELO"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1017
+#: camel/providers/smtp/camel-smtp-transport.c:1008
 msgid "SMTP Authentication"
 msgstr "SMTP ověření"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1023
+#: camel/providers/smtp/camel-smtp-transport.c:1014
 msgid "Error creating SASL authentication object."
 msgstr "Chyba při vytváření ověřovacího objektu SASL."
 
-#: camel/providers/smtp/camel-smtp-transport.c:1040
-#: camel/providers/smtp/camel-smtp-transport.c:1052
+#: camel/providers/smtp/camel-smtp-transport.c:1031
+#: camel/providers/smtp/camel-smtp-transport.c:1043
 #, c-format
 msgid "AUTH request timed out: %s"
 msgstr "Vypršel čas požadavku AUTH: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1061
+#: camel/providers/smtp/camel-smtp-transport.c:1052
 msgid "AUTH request failed."
 msgstr "Požadavek AUTH selhal."
 
-#: camel/providers/smtp/camel-smtp-transport.c:1122
+#: camel/providers/smtp/camel-smtp-transport.c:1113
 msgid "Bad authentication response from server.\n"
 msgstr "Neplatná odpověď na ověření od serveru.\n"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1147
+#: camel/providers/smtp/camel-smtp-transport.c:1138
 #, c-format
 msgid "MAIL FROM request timed out: %s: mail not sent"
 msgstr "Vypršel čas požadavku MAIL FROM: %s: pošta neodeslána"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1167
+#: camel/providers/smtp/camel-smtp-transport.c:1158
 msgid "MAIL FROM response error"
 msgstr "Chyba odpovědi MAIL FROM"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1191
+#: camel/providers/smtp/camel-smtp-transport.c:1182
 #, c-format
 msgid "RCPT TO request timed out: %s: mail not sent"
 msgstr "Vypršel čas požadavku RCPT TO: %s: pošta neodeslána"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1213
+#: camel/providers/smtp/camel-smtp-transport.c:1204
 #, c-format
 msgid "RCPT TO <%s> failed"
 msgstr "RCPT TO <%s> selhal"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1252
+#: camel/providers/smtp/camel-smtp-transport.c:1243
 #, c-format
 msgid "DATA request timed out: %s: mail not sent"
 msgstr "Vypršel čas požadavku DATA: %s: pošta neodeslána"
@@ -10358,35 +10342,35 @@ msgstr "Vypršel čas požadavku DATA: %s: pošta neodeslána"
 #. we should have gotten instructions on how to use the DATA command:
 #. * 354 Enter mail, end with "." on a line by itself
 #.
-#: camel/providers/smtp/camel-smtp-transport.c:1272
+#: camel/providers/smtp/camel-smtp-transport.c:1263
 msgid "DATA response error"
 msgstr "Chyba odpovědi DATA"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1313
-#: camel/providers/smtp/camel-smtp-transport.c:1336
+#: camel/providers/smtp/camel-smtp-transport.c:1304
+#: camel/providers/smtp/camel-smtp-transport.c:1327
 #, c-format
 msgid "DATA send timed out: message termination: %s: mail not sent"
 msgstr "Vypršel čas posílání DATA: konec zprávy: %s: pošta neodeslána"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1356
+#: camel/providers/smtp/camel-smtp-transport.c:1347
 msgid "DATA termination response error"
 msgstr "Chyba odpovědi ukončení DATA"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1379
+#: camel/providers/smtp/camel-smtp-transport.c:1370
 #, c-format
 msgid "RSET request timed out: %s"
 msgstr "Vypršel čas požadavku RSET: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1399
+#: camel/providers/smtp/camel-smtp-transport.c:1390
 msgid "RSET response error"
 msgstr "Chyba odpovědi RSET"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1422
+#: camel/providers/smtp/camel-smtp-transport.c:1413
 #, c-format
 msgid "QUIT request timed out: %s"
 msgstr "Vypršel čas požadavku QUIT: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1442
+#: camel/providers/smtp/camel-smtp-transport.c:1433
 msgid "QUIT response error"
 msgstr "Chyba odpovědi QUIT"
 
@@ -10522,7 +10506,6 @@ msgstr "Poslat komu:"
 msgid "Posting destination"
 msgstr "Cíl odeslání"
 
-#: composer/e-msg-composer-select-file.c:102
 #: composer/e-msg-composer-select-file.c:119
 msgid "Attach file(s)"
 msgstr "Připojit soubor(y)"
@@ -10630,7 +10613,7 @@ msgstr "Otevřít soubor"
 msgid "Signature:"
 msgstr "Podpis:"
 
-#: composer/e-msg-composer.c:2085 mail/mail-account-gui.c:1261
+#: composer/e-msg-composer.c:2085 mail/mail-account-gui.c:1276
 msgid "Autogenerated"
 msgstr "automatický"
 
@@ -11059,7 +11042,7 @@ msgid "You must specify a folder."
 msgstr "Musíte uvést složku."
 
 #: filter/filter-folder.c:243 filter/vfolder-rule.c:438
-#: mail/mail-account-gui.c:1510 mail/mail-account-gui.c:1524
+#: mail/mail-account-gui.c:1527 mail/mail-account-gui.c:1541
 msgid "Select Folder"
 msgstr "Vybrat složku"
 
@@ -11463,7 +11446,7 @@ msgstr "začíná na"
 msgid "Stop Processing"
 msgstr "Zastavit zpracování"
 
-#: filter/libfilter-i18n.h:60 mail/mail-format.c:937
+#: filter/libfilter-i18n.h:60 mail/mail-format.c:941
 #: mail/message-list.etspec.h:13 mail/message-tag-followup.c:305
 msgid "Subject"
 msgstr "Předmět"
@@ -12074,23 +12057,23 @@ msgid "You have not filled in all of the required information."
 msgstr "Nevyplnili jste všechny požadované informace."
 
 #. give our dialog an OK button and title
-#: mail/mail-account-editor.c:146
+#: mail/mail-account-editor.c:149
 msgid "Evolution Account Editor"
 msgstr "Editor účtů Evolution"
 
-#: mail/mail-account-gui.c:752 mail/mail-config.glade.h:149
+#: mail/mail-account-gui.c:760 mail/mail-config.glade.h:149
 msgid "_Host:"
 msgstr "_Počítač:"
 
-#: mail/mail-account-gui.c:756 mail/mail-config.glade.h:123
+#: mail/mail-account-gui.c:764 mail/mail-config.glade.h:123
 msgid "User_name:"
 msgstr "_Jméno uživatele:"
 
-#: mail/mail-account-gui.c:760 mail/mail-config.glade.h:156
+#: mail/mail-account-gui.c:768 mail/mail-config.glade.h:156
 msgid "_Path:"
 msgstr "_Cesta:"
 
-#: mail/mail-account-gui.c:1886
+#: mail/mail-account-gui.c:1942
 msgid "You may not create two accounts with the same name."
 msgstr "Nemůžete vytvořit dva účty se stejným jménem."
 
@@ -12868,7 +12851,10 @@ msgid ""
 "This page allows you to configure spell checking behavior and language. The "
 "list of languages here reflects only the languages for which you have a "
 "dictionary installed."
-msgstr "Tato stránka vám umožňuje nastavit jazyk a podmínky pro kontrolu pravopisu. Uvedený seznam jazyků odpovídá tomu, pro jaké jazyky máte nainstalován slovník."
+msgstr ""
+"Tato stránka vám umožňuje nastavit jazyk a podmínky pro kontrolu pravopisu. "
+"Uvedený seznam jazyků odpovídá tomu, pro jaké jazyky máte nainstalován "
+"slovník."
 
 #: mail/mail-config.glade.h:121
 msgid ""
@@ -13150,90 +13136,90 @@ msgstr "Uložit obrázek jako..."
 msgid "Pinging %s"
 msgstr "Zkouší se %s"
 
-#: mail/mail-format.c:668
+#: mail/mail-format.c:672
 #, c-format
 msgid "%s attachment"
 msgstr "%s příloha"
 
-#: mail/mail-format.c:710 mail/mail-format.c:1528 mail/mail-format.c:1597
-#: mail/mail-format.c:1717 mail/mail-format.c:1841 mail/mail-format.c:1866
+#: mail/mail-format.c:714 mail/mail-format.c:1532 mail/mail-format.c:1601
+#: mail/mail-format.c:1721 mail/mail-format.c:1845 mail/mail-format.c:1870
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "Není možné zpracovat zprávu MIME. Zobrazí se jako zdrojový kód."
 
-#: mail/mail-format.c:788 mail/message-list.etspec.h:2
+#: mail/mail-format.c:792 mail/message-list.etspec.h:2
 msgid "Date"
 msgstr "Datum"
 
-#: mail/mail-format.c:874
+#: mail/mail-format.c:878
 msgid "Bad Address"
 msgstr "Špatná adresa"
 
-#: mail/mail-format.c:915 mail/message-list.etspec.h:7
+#: mail/mail-format.c:919 mail/message-list.etspec.h:7
 #: mail/message-tag-followup.c:301
 msgid "From"
 msgstr "Od"
 
-#: mail/mail-format.c:919
+#: mail/mail-format.c:923
 msgid "Reply-To"
 msgstr "Odpovědět-komu"
 
-#: mail/mail-format.c:924 mail/message-list.etspec.h:14
+#: mail/mail-format.c:928 mail/message-list.etspec.h:14
 msgid "To"
 msgstr "Komu"
 
-#: mail/mail-format.c:929
+#: mail/mail-format.c:933
 msgid "Cc"
 msgstr "Kopie"
 
-#: mail/mail-format.c:934
+#: mail/mail-format.c:938
 msgid "Bcc"
 msgstr "Skrytá kopie"
 
-#: mail/mail-format.c:1640
+#: mail/mail-format.c:1644
 msgid ""
 "This message is digitally signed. Click the lock icon for more information."
 msgstr ""
 "Tato zpráva je digitálně podepsaná. Kliknutím na ikonu zámku získáte "
 "podrobnosti."
 
-#: mail/mail-format.c:1668
+#: mail/mail-format.c:1672
 msgid "Could not create a PGP verfication context"
 msgstr "Nepodařilo se vytvořit kontext ověření PGP."
 
-#: mail/mail-format.c:1676
+#: mail/mail-format.c:1680
 msgid "This message is digitally signed and has been found to be authentic."
 msgstr "Tato zpráva je digitálně podepsaná a byla shledána platnou."
 
-#: mail/mail-format.c:1683
+#: mail/mail-format.c:1687
 msgid "This message is digitally signed but can not be proven to be authentic."
 msgstr "Tato zpráva je digitálně podepsaná, ale nelze ověřit její platnost."
 
-#: mail/mail-format.c:1947
+#: mail/mail-format.c:1951
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "Odkaz na FTP server (%s)"
 
-#: mail/mail-format.c:1958
+#: mail/mail-format.c:1962
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "Odkaz na lokální soubor (%s) platný na serveru \"%s\""
 
-#: mail/mail-format.c:1961
+#: mail/mail-format.c:1965
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "Odkaz na lokální soubor (%s)"
 
-#: mail/mail-format.c:1988
+#: mail/mail-format.c:1992
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "Odkaz na vzdálená data (%s)"
 
-#: mail/mail-format.c:1994
+#: mail/mail-format.c:1998
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Odkaz na neznámá externí data (typ \"%s\")"
 
-#: mail/mail-format.c:1996
+#: mail/mail-format.c:2000
 msgid "Malformed external-body part."
 msgstr "Chybná část externího těla."
 
@@ -13481,31 +13467,31 @@ msgstr "Znovu se připojuji na %s"
 msgid "(Untitled Message)"
 msgstr "(Nepojmenovaná zpráva)"
 
-#: mail/mail-search.c:236
+#: mail/mail-search.c:234
 msgid "Untitled Message"
 msgstr "Nepojmenovaná zpráva"
 
-#: mail/mail-search.c:238
+#: mail/mail-search.c:236
 msgid "Empty Message"
 msgstr "Prázdná zpráva"
 
-#: mail/mail-search.c:287
+#: mail/mail-search.c:283
 msgid "Find in Message"
 msgstr "Hledat ve zprávě"
 
-#: mail/mail-search.c:320
+#: mail/mail-search.c:316
 msgid "Case Sensitive"
 msgstr "Rozlišovat malá/velká"
 
-#: mail/mail-search.c:322
+#: mail/mail-search.c:317
 msgid "Search Forward"
 msgstr "Hledat dopředu"
 
-#: mail/mail-search.c:342
+#: mail/mail-search.c:334
 msgid "Find:"
 msgstr "Hledat:"
 
-#: mail/mail-search.c:346
+#: mail/mail-search.c:338
 msgid "Matches:"
 msgstr "Odpovídá:"
 
@@ -27946,7 +27932,7 @@ msgstr "_Vyhledávání"
 msgid "_Find Now"
 msgstr "_Hledat"
 
-#: widgets/misc/e-search-bar.c:538
+#: widgets/misc/e-search-bar.c:538 widgets/misc/e-search-bar.c:928
 msgid "_Clear"
 msgstr "Vy_mazat"
 
@@ -27962,13 +27948,9 @@ msgstr "ID podpoložky"
 msgid "Text"
 msgstr "Text"
 
-#: widgets/misc/e-search-bar.c:928
-msgid "Clear"
-msgstr "Zrušit filtr"
-
 #: widgets/misc/e-search-bar.c:930
-msgid "Find Now"
-msgstr "Hledat"
+msgid "Find _Now"
+msgstr "Hledat _nyní"
 
 #: wombat/GNOME_Evolution_WombatLDAP.server.in.in.h:1
 msgid "Evolution Addressbook local/LDAP backend"
@@ -27982,6 +27964,9 @@ msgstr "Obsluha místního souboru kalendáře Evolution"
 #: wombat/GNOME_Evolution_WombatNOLDAP.server.in.in.h:1
 msgid "Evolution Addressbook local file backend"
 msgstr "Obsluha místního souboru adresáře Evolution"
+
+#~ msgid "Clear"
+#~ msgstr "Zrušit filtr"
 
 #~ msgid "However, the message was successfully sent."
 #~ msgstr "Zpráva byla ale úspěšně odeslána."
