@@ -39,7 +39,6 @@ struct _CalendarViewPrivate {
 
 static void calendar_view_finalize (GObject *object);
 
-static void calendar_view_edit (GalView *view, GtkWindow *parent_window);
 static void calendar_view_load (GalView *view, const char *filename);
 static void calendar_view_save (GalView *view, const char *filename);
 static const char *calendar_view_get_title (GalView *view);
@@ -59,7 +58,7 @@ calendar_view_class_init (CalendarViewClass *class)
 	gal_view_class = (GalViewClass *) class;
 	object_class = (GObjectClass *) class;
 
-	gal_view_class->edit = calendar_view_edit;
+	gal_view_class->edit = NULL;
 	gal_view_class->load = calendar_view_load;
 	gal_view_class->save = calendar_view_save;
 	gal_view_class->get_title = calendar_view_get_title;
@@ -108,13 +107,6 @@ calendar_view_finalize (GObject *object)
 }
 
 
-
-/* edit method of the calendar view */
-static void
-calendar_view_edit (GalView *view, GtkWindow *parent_window)
-{
-	/* nothing */
-}
 
 /* load method of the calendar view */
 static void

@@ -1,3 +1,10 @@
+2005-03-16  Li Yuan  <li.yuan@sun.com>
+
+	* gui/calendar-view.c: (calendar_view_class_init):
+	remove the edit function.
+
+	Fixes # 40762
+
 2005-03-22  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* gui/calendar-component.c: (popup_event_cb): Popup all the 
