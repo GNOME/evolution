@@ -313,7 +313,7 @@ folder_getv(CamelObject *object, CamelException *ex, CamelArgGetV *args)
 	CamelFolder *folder = (CamelFolder *)object;
 	int i;
 	guint32 tag;
-	int unread = -1, deleted = 0, junked = 0, visible = 0, count;
+	int unread = -1, deleted = 0, junked = 0, visible = 0, count = -1;
 
 	for (i=0;i<args->argc;i++) {
 		CamelArgGet *arg = &args->argv[i];
@@ -389,7 +389,7 @@ folder_getv(CamelObject *object, CamelException *ex, CamelArgGetV *args)
 			*arg->ca_int = count;
 			break;
 		case CAMEL_FOLDER_ARG_UID_ARRAY: {
-			int j, count;
+			int j;
 			CamelMessageInfo *info;
 			GPtrArray *array;
 
