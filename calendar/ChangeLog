@@ -1,3 +1,7 @@
+1998-04-06  Carsten Schaar  <nhadcasc@fs-maphy.uni-hannover.de>
+
+	* versit/.cvsignore: New file.
+
 Fri Apr  3 22:31:54 1998  Tom Tromey  <tromey@cygnus.com>
 
 	* calendar.c: Include <config.h>.
