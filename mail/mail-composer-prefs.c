@@ -144,6 +144,23 @@ menu_changed (GtkWidget *widget, gpointer user_data)
 }
 
 static void
+option_menu_connect (GtkOptionMenu *omenu, gpointer user_data)
+{
+	GtkWidget *menu, *item;
+	GList *items;
+	
+	menu = gtk_option_menu_get_menu (omenu);
+	
+	items = GTK_MENU_SHELL (menu)->children;
+	while (items) {
+		item = items->data;
+		gtk_signal_connect (GTK_OBJECT (item), "activate",
+				    menu_changed, user_data);
+		items = items->next;
+	}
+}
+
+static void
 mail_composer_prefs_construct (MailComposerPrefs *prefs)
 {
 	GtkWidget *toplevel, *menu;
@@ -183,8 +200,7 @@ mail_composer_prefs_construct (MailComposerPrefs *prefs)
 	prefs->charset = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuCharset"));
 	menu = e_charset_picker_new (mail_config_get_default_charset ());
 	gtk_option_menu_set_menu (prefs->charset, GTK_WIDGET (menu));
-	gtk_signal_connect (GTK_OBJECT (prefs->charset), "clicked",
-			    menu_changed, prefs);
+	option_menu_connect (prefs->charset, prefs);
 	
 	/* Spell Checking */
 	prefs->spell_check = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkEnableSpellChecking"));
@@ -197,16 +213,14 @@ mail_composer_prefs_construct (MailComposerPrefs *prefs)
 	style = 0;
 	gtk_container_foreach (GTK_CONTAINER (gtk_option_menu_get_menu (prefs->forward_style)),
 			       attach_style_info, &style);
-	gtk_signal_connect (GTK_OBJECT (prefs->forward_style), "clicked",
-			    menu_changed, prefs);
+	option_menu_connect (prefs->forward_style, prefs);
 	
 	prefs->reply_style = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuReplyStyle"));
 	gtk_option_menu_set_history (prefs->reply_style, mail_config_get_default_reply_style ());
 	style = 0;
 	gtk_container_foreach (GTK_CONTAINER (gtk_option_menu_get_menu (prefs->reply_style)),
 			       attach_style_info, &style);
-	gtk_signal_connect (GTK_OBJECT (prefs->reply_style), "clicked",
-			    menu_changed, prefs);
+	option_menu_connect (prefs->reply_style, prefs);
 	
 	/* FIXME: do the other tabs... */
 }

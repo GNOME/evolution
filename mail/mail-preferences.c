@@ -157,6 +157,23 @@ menu_changed (GtkWidget *widget, gpointer user_data)
 }
 
 static void
+option_menu_connect (GtkOptionMenu *omenu, gpointer user_data)
+{
+	GtkWidget *menu, *item;
+	GList *items;
+	
+	menu = gtk_option_menu_get_menu (omenu);
+	
+	items = GTK_MENU_SHELL (menu)->children;
+	while (items) {
+		item = items->data;
+		gtk_signal_connect (GTK_OBJECT (item), "activate",
+				    menu_changed, user_data);
+		items = items->next;
+	}
+}
+
+static void
 mail_preferences_construct (MailPreferences *prefs)
 {
 	GtkWidget *toplevel, *menu;
@@ -191,8 +208,7 @@ mail_preferences_construct (MailPreferences *prefs)
 	prefs->charset = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuCharset"));
 	menu = e_charset_picker_new (mail_config_get_default_charset ());
 	gtk_option_menu_set_menu (prefs->charset, GTK_WIDGET (menu));
-	gtk_signal_connect (GTK_OBJECT (prefs->charset), "clicked",
-			    menu_changed, prefs);
+	option_menu_connect (prefs->charset, prefs);
 	
 	prefs->citation_highlight = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkHighlightCitations"));
 	gtk_toggle_button_set_active (prefs->citation_highlight, mail_config_get_citation_highlight ());
