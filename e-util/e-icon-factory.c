@@ -177,6 +177,8 @@ static gboolean
 icon_foreach_remove (gpointer key, gpointer value, gpointer user_data)
 {
 	icon_free (value);
+
+	return TRUE;
 }
 
 static void
