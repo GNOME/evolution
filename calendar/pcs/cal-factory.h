@@ -41,11 +41,13 @@ BEGIN_GNOME_DECLS
 typedef struct _CalFactory CalFactory;
 typedef struct _CalFactoryClass CalFactoryClass;
 
+typedef struct _CalFactoryPrivate CalFactoryPrivate;
+
 struct _CalFactory {
 	BonoboObject object;
 
 	/* Private data */
-	gpointer priv;
+	CalFactoryPrivate *priv;
 };
 
 struct _CalFactoryClass {

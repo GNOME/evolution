@@ -1,3 +1,33 @@
+2000-08-28  Federico Mena Quintero  <federico@helixcode.com>
+
+	* cal-client/cal-client.c (cal_client_is_loaded): New function.
+	We need this from code that dynamically updates from a client and
+	could not have connected to the "cal_loaded" signal right after
+	the client was created.
+
+	* gui/calendar-model.c (load_objects): Do not try to load the
+	objects if the client has not been loaded yet.
+	(cal_loaded_cb): Check the status value.
+
+	* gui/calendar-model.h (CalendarModel): Declare the private
+	structure here so that gdb will give me love.
+
+	* pcs/cal-factory.h (CalFactory): Likewise.
+
+	* pcs/cal.h (Cal): Likewise.
+
+	* cal-client/cal-listener.h (CalListener): Likewise.
+
+	* cal-client/cal-client.h (CalClient): Likewise.
+
+	* pcs/cal-backend.h (CalBackend): This no longer has a private
+	structure, so remove it.
+
+	* cal-util/Makefile.am (libcal_util_la_SOURCES): Removed the
+	vCalendar and old iCalendar cruft.
+	(libcal_utilinclude_HEADERS): Likewise.
+	Removed the obsolete iCalendar test program.
+
 2000-08-28  JP Rosevear  <jpr@helixcode.com>
 
 	* cal-util/timeutil.h: We no longer need time_from_icaltimetype

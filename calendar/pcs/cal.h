@@ -37,11 +37,13 @@ BEGIN_GNOME_DECLS
 #define IS_CAL(obj)         (GTK_CHECK_TYPE ((obj), CAL_TYPE))
 #define IS_CAL_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), CAL_TYPE))
 
+typedef struct _CalPrivate CalPrivate;
+
 struct _Cal {
 	BonoboObject object;
 
 	/* Private data */
-	gpointer priv;
+	CalPrivate *priv;
 };
 
 struct _CalClass {

@@ -40,11 +40,13 @@ BEGIN_GNOME_DECLS
 typedef struct _CalListener CalListener;
 typedef struct _CalListenerClass CalListenerClass;
 
+typedef struct _CalListenerPrivate CalListenerPrivate;
+
 struct _CalListener {
 	BonoboObject object;
 
 	/* Private data */
-	gpointer priv;
+	CalListenerPrivate *priv;
 };
 
 struct _CalListenerClass {

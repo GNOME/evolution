@@ -22,7 +22,6 @@
 #include <config.h>
 #include <stdlib.h>
 #include "cal-util.h"
-#include "libversit/vcc.h"
 
 
 

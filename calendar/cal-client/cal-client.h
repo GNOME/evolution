@@ -40,6 +40,8 @@ BEGIN_GNOME_DECLS
 typedef struct _CalClient CalClient;
 typedef struct _CalClientClass CalClientClass;
 
+typedef struct _CalClientPrivate CalClientPrivate;
+
 /* Load status for the cal_loaded signal */
 typedef enum {
 	CAL_CLIENT_LOAD_SUCCESS,
@@ -59,7 +61,7 @@ struct _CalClient {
 	GtkObject object;
 
 	/* Private data */
-	gpointer priv;
+	CalClientPrivate *priv;
 };
 
 struct _CalClientClass {
@@ -81,6 +83,8 @@ CalClient *cal_client_new (void);
 
 gboolean cal_client_load_calendar (CalClient *client, const char *str_uri);
 gboolean cal_client_create_calendar (CalClient *client, const char *str_uri);
+
+gboolean cal_client_is_loaded (CalClient *client);
 
 int cal_client_get_n_objects (CalClient *client, CalObjType type);
 

@@ -40,11 +40,13 @@ BEGIN_GNOME_DECLS
 typedef struct _CalendarModel CalendarModel;
 typedef struct _CalendarModelClass CalendarModelClass;
 
+typedef struct _CalendarModelPrivate CalendarModelPrivate;
+
 struct _CalendarModel {
 	ETableModel model;
 
 	/* Private data */
-	gpointer priv;
+	CalendarModelPrivate *priv;
 };
 
 struct _CalendarModelClass {

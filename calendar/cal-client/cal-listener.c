@@ -26,10 +26,10 @@
 
 
 /* Private part of the CalListener structure */
-typedef struct {
+struct _CalListenerPrivate {
 	/* The calendar this listener refers to */
 	Evolution_Calendar_Cal cal;
-} CalListenerPrivate;
+};
 
 
 

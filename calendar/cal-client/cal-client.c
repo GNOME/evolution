@@ -42,7 +42,7 @@ typedef enum {
 } LoadState;
 
 /* Private part of the CalClient structure */
-typedef struct {
+struct _CalClientPrivate {
 	/* Load state to avoid multiple loads */
 	LoadState load_state;
 
@@ -54,7 +54,7 @@ typedef struct {
 
 	/* The calendar client interface object we are contacting */
 	Evolution_Calendar_Cal cal;
-} CalClientPrivate;
+};
 
 
 
@@ -546,6 +546,27 @@ gboolean
 cal_client_create_calendar (CalClient *client, const char *str_uri)
 {
 	return load_or_create (client, str_uri, FALSE);
+}
+
+/**
+ * cal_client_is_loaded:
+ * @client: A calendar client.
+ * 
+ * Queries whether a calendar client has been loaded successfully.
+ * 
+ * Return value: TRUE if the client has been loaded, FALSE if it has not or if
+ * the loading process is not finished yet.
+ **/
+gboolean
+cal_client_is_loaded (CalClient *client)
+{
+	CalClientPrivate *priv;
+
+	g_return_val_if_fail (client != NULL, FALSE);
+	g_return_val_if_fail (IS_CAL_CLIENT (client), FALSE);
+
+	priv = client->priv;
+	return (priv->load_state == LOAD_STATE_LOADED);
 }
 
 /* Converts our representation of a calendar component type into its CORBA representation */

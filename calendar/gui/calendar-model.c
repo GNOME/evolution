@@ -39,7 +39,7 @@
 
 
 /* Private part of the ECalendarModel structure */
-typedef struct {
+struct _CalendarModelPrivate {
 	/* Calendar client we are using */
 	CalClient *client;
 
@@ -54,7 +54,7 @@ typedef struct {
 
 	/* HACK: so that ETable can do its stupid append_row() thing */
 	guint appending_row : 1;
-} CalendarModelPrivate;
+};
 
 
 
@@ -1443,7 +1443,10 @@ cal_loaded_cb (CalClient *client,
 	g_return_if_fail (IS_CALENDAR_MODEL (model));
 
 	e_table_model_pre_change (E_TABLE_MODEL (model));
-	load_objects (model);
+
+	if (status == CAL_CLIENT_LOAD_SUCCESS)
+		load_objects (model);
+
 	e_table_model_changed (E_TABLE_MODEL (model));
 }
 
@@ -1619,6 +1622,9 @@ load_objects (CalendarModel *model)
 	GList *l;
 
 	priv = model->priv;
+
+	if (!cal_client_is_loaded (priv->client))
+		return;
 
 	uids = cal_client_get_uids (priv->client, priv->type);
 

@@ -26,13 +26,13 @@
 
 
 /* Private part of the Cal structure */
-typedef struct {
+struct _CalPrivate {
 	/* Our backend */
 	CalBackend *backend;
 
 	/* Listener on the client we notify */
 	Evolution_Calendar_Listener listener;
-} CalPrivate;
+};
 
 
 

@@ -49,9 +49,6 @@ typedef enum {
 
 struct _CalBackend {
 	GtkObject object;
-
-	/* Private data */
-	gpointer priv;
 };
 
 struct _CalBackendClass {

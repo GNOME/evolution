@@ -31,13 +31,13 @@
 
 
 /* Private part of the CalFactory structure */
-typedef struct {
+struct _CalFactoryPrivate {
 	/* Hash table from URI method strings to GtkType * for backend class types */
 	GHashTable *methods;
 
 	/* Hash table from GnomeVFSURI structures to CalBackend objects */
 	GHashTable *backends;
-} CalFactoryPrivate;
+};
 
 
 
