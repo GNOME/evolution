@@ -742,7 +742,8 @@ table_drag_begin (ETable *etable,
 	priv->drag_corba_source_interface = Bonobo_Unknown_queryInterface (corba_component,
 									   "IDL:GNOME/Evolution/ShellComponentDnd/SourceFolder:1.0",
 									   &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
+	if (ev._major != CORBA_NO_EXCEPTION
+	    || priv->drag_corba_source_interface == CORBA_OBJECT_NIL) {
 		priv->drag_corba_source_interface = CORBA_OBJECT_NIL;
 
 		CORBA_exception_free (&ev);
@@ -790,6 +791,9 @@ table_drag_end (ETable *table,
 
 	storage_set_view = E_STORAGE_SET_VIEW (table);
 	priv = storage_set_view->priv;
+
+	if (priv->drag_corba_source_interface == CORBA_OBJECT_NIL)
+		return;
 
 	CORBA_exception_init (&ev);
 
@@ -1341,25 +1345,21 @@ init (EStorageSetView *storage_set_view)
 
 	priv = g_new (EStorageSetViewPrivate, 1);
 
-	priv->storage_set                                 = NULL;
-	priv->path_to_etree_node                          = g_hash_table_new (g_str_hash, g_str_equal);
-	priv->type_name_to_pixbuf                         = g_hash_table_new (g_str_hash, g_str_equal);
-	priv->selected_row_path                           = NULL;
-	priv->show_folders                                = TRUE;
+	priv->storage_set                 = NULL;
+	priv->path_to_etree_node          = g_hash_table_new (g_str_hash, g_str_equal);
+	priv->type_name_to_pixbuf         = g_hash_table_new (g_str_hash, g_str_equal);
+	priv->selected_row_path           = NULL;
+	priv->show_folders                = TRUE;
 
-	priv->drag_corba_source_interface                 = CORBA_OBJECT_NIL;
+	priv->drag_corba_source_interface = CORBA_OBJECT_NIL;
 
-	priv->drag_corba_source_context->physical_uri     = NULL;
-	priv->drag_corba_source_context->folder_type      = NULL;
-	priv->drag_corba_source_context->possible_actions = GNOME_Evolution_ShellComponentDnd_ACTION_DEFAULT;
-	priv->drag_corba_source_context->suggested_action = GNOME_Evolution_ShellComponentDnd_ACTION_DEFAULT;
+	priv->drag_corba_source_context   = NULL;
+	priv->drag_corba_data             = NULL;
 
-	priv->drag_corba_data                             = NULL;
-
-	priv->drag_x                                      = 0;
-	priv->drag_y                                      = 0;
-	priv->drag_column                                 = 0;
-	priv->drag_row                                    = 0;
+	priv->drag_x                      = 0;
+	priv->drag_y                      = 0;
+	priv->drag_column                 = 0;
+	priv->drag_row                    = 0;
 
 	storage_set_view->priv = priv;
 }

@@ -1,5 +1,14 @@
 2001-03-19  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-storage-set-view.c (init): Ooops.  Initialize the
+	`drag_corba_source_context' member.  correctly.
+	(table_drag_begin): Don't crash if queryInterface returns
+	`CORBA_OBJECT_NIL'.
+	(table_drag_end): Don't do anything if the
+	`drag_corba_source_interface' is `CORBA_OBJECT_NIL'.
+
+2001-03-19  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-storage-set-view.c New members `drag_data',
 	`drag_corba_source_interface' and `drag_corba_source_context in
 	`EStorageSetViewPrivate'.
