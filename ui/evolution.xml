@@ -171,7 +171,6 @@
       <separator/>
       <placeholder name="ComponentPlaceholder"/>
       <menuitem name="PilotSettings" verb="" _label="Pi_lot Settings..." _tip="Set up Pilot configuration"/>
-      <menuitem name="PilotConduitSettings" verb="" _label="Pilot Con_duit Settings..." _tip="Set up Pilot conduit configuration"/>
     </submenu>
 
     <placeholder name="SearchPlaceholder">

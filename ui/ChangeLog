@@ -1,3 +1,7 @@
+2003-03-20  JP Rosevear  <jpr@ximian.com>
+
+	* evolution.xml: remove conduit settings as a separate entry
+
 2003-02-28  Ettore Perazzoli  <ettore@ximian.com>
 
 	* evolution-mail-message.xml: Make "MessageReplyList" and
