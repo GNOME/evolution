@@ -23,6 +23,9 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
              contact editor. (Toshok)
     #42780 - Crash on solaris due to missing NULL in g_guild_filename.
              (sean.gao@sun.com)
+    #43016 - Crash when adding duplicate contact. (Toshok)
+    #43023 - All contacts have disappeared. (Toshok)
+    #43090 - GalView menu missing from the addressbook. (Toshok)
 
   * Calendar
 
