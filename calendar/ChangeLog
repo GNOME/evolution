@@ -1,3 +1,10 @@
+2004-08-16  JP Rosevear  <jpr@ximian.com>
+
+	Fixes #62706
+	
+	* gui/e-cal-model.c (e_cal_model_set_timezone): set the default
+	timezone on the server
+
 2004-08-16  Sivaiah Nallagatla <snallagatla@novell.com>
 	
 	* gui/alarm-notify/alarm-notify.h : change the prototype of 

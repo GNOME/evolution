@@ -1090,7 +1090,8 @@ void
 e_cal_model_set_timezone (ECalModel *model, icaltimezone *zone)
 {
 	ECalModelPrivate *priv;
-
+	GList *l;
+	
 	g_return_if_fail (E_IS_CAL_MODEL (model));
 
 	priv = model->priv;
@@ -1098,6 +1099,9 @@ e_cal_model_set_timezone (ECalModel *model, icaltimezone *zone)
 		e_table_model_pre_change (E_TABLE_MODEL (model));
 		priv->zone = zone;
 
+		for (l = priv->clients; l; l = l->next)
+			e_cal_set_default_timezone (((ECalModelClient *)l->data)->client, priv->zone, NULL);
+		
 		/* the timezone affects the times shown for date fields,
 		   so we need to redisplay everything */
 		e_table_model_changed (E_TABLE_MODEL (model));
