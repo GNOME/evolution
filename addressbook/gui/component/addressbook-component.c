@@ -407,12 +407,17 @@ static void
 new_item_cb (EBook *book, gpointer closure)
 {
 	gboolean is_list = GPOINTER_TO_INT (closure);
+	ECard *card;
+
 	if (book == NULL)
 		return;
+
+	card = e_card_new ("");
 	if (is_list)
-		e_addressbook_show_contact_list_editor (book, e_card_new(""), TRUE, TRUE);
+		e_addressbook_show_contact_list_editor (book, card, TRUE, TRUE);
 	else
-		e_addressbook_show_contact_editor (book, e_card_new(""), TRUE, TRUE);
+		e_addressbook_show_contact_editor (book, card, TRUE, TRUE);
+	g_object_unref (card);
 }
 
 static void

@@ -1,3 +1,9 @@
+2003-07-02  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/alarm-notify/alarm-notify-dialog.c (alarm_notify_dialog): use
+	gtk_window_set_icon instead of gtk_window_set_icon_from_file, which
+	is 2.2.
+
 2003-06-27  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/dialogs/send-comp.[ch] (send_component_dialog):
