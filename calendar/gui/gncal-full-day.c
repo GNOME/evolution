@@ -192,13 +192,16 @@ child_set_text_pos (Child *child)
 {
 	GtkAllocation allocation;
 	int has_focus;
-
+	int handle_size;
+	
 	has_focus = GTK_WIDGET_HAS_FOCUS (child->widget);
 
-	allocation.x = HANDLE_SIZE;
-	allocation.y = has_focus ? HANDLE_SIZE : 0;
-	allocation.width = child->width - HANDLE_SIZE - child->decor_width;
-	allocation.height = child->height - (has_focus ? (2 * HANDLE_SIZE) : 0);
+	handle_size = (child->ico->recur) ? 0 : HANDLE_SIZE;
+	
+	allocation.x = handle_size;
+	allocation.y = has_focus ? handle_size : 0;
+	allocation.width = child->width - handle_size - child->decor_width;
+	allocation.height = child->height - (has_focus ? (2 * handle_size) : 0);
 
 	gtk_widget_size_request (child->widget, &child->widget->requisition); /* FIXME: is this needed? */
 	gtk_widget_size_allocate (child->widget, &allocation);
@@ -556,7 +559,7 @@ child_set_size (Child *child)
 	width = child->width;
 	height = child->rows_used * row_height;
 
-	if (GTK_WIDGET_HAS_FOCUS (child->widget)) {
+	if (GTK_WIDGET_HAS_FOCUS (child->widget) && !child->ico->recur) {
 		y -= HANDLE_SIZE;
 		height += 2 * HANDLE_SIZE;
 	}
@@ -572,6 +575,7 @@ child_focus_in (GtkWidget *widget, GdkEventFocus *event, gpointer data)
 	child = data;
 
 	child_set_size (child);
+	gdk_window_raise (child->window);
 
 	return FALSE;
 }
@@ -735,83 +739,6 @@ child_destroy (GncalFullDay *fullday, Child *child)
 	g_free (child);
 }
 
-static struct layout_row *
-layout_get_rows (GncalFullDay *fullday, int *rowcount)
-{
-	struct layout_row *rows;
-	int max_i;
-	int f_rows;
-	GList *children;
-	Child *child;
-	int i, n;
-
-	get_tm_range (fullday, fullday->lower, fullday->upper, NULL, NULL, NULL, &f_rows);
-
-	*rowcount = f_rows;
-	rows = g_new0 (struct layout_row, f_rows);
-	max_i = 0;
-
-	for (children = fullday->children; children; children = children->next) {
-		child = children->data;
-
-		for (i = 0; i < child->rows_used; i++) {
-			n = child->lower_row + i;
-
-			rows[n].intersections++;
-			
-			if (rows[n].intersections > max_i)
-				max_i = rows[n].intersections;
-		}
-	}
-
-	for (i = 0; i < f_rows; i++)
-		rows[i].slots = g_new0 (int, max_i);
-
-	return rows;
-}
-
-static void
-layout_free_rows (struct layout_row *rows, int f_rows)
-{
-	int i;
-
-	for (i = 0; i < f_rows; i++)
-		g_free (rows[i].slots);
-
-	g_free (rows);
-}
-
-static void
-layout_get_child_intersections (Child *child, struct layout_row *rows, int *min, int *max)
-{
-	int i, n;
-	int imin, imax;
-
-	imax = 0;
-
-	for (i = 0; i < child->rows_used; i++) {
-		n = child->lower_row + i;
-
-		if (rows[n].intersections > imax)
-			imax = rows[n].intersections;
-	}
-
-	imin = imax;
-
-	for (i = 0; i < child->rows_used; i++) {
-		n = child->lower_row + i;
-
-		if (rows[n].intersections < imin)
-			imin = rows[n].intersections;
-	}
-
-	if (min)
-		*min = imin;
-
-	if (max)
-		*max = imax;
-}
-
 static int
 calc_labels_width (GncalFullDay *fullday)
 {
@@ -846,42 +773,145 @@ calc_labels_width (GncalFullDay *fullday)
 	return max_w;
 }
 
-static void
-layout_child (GncalFullDay *fullday, Child *child, struct layout_row *rows, int left_x)
+#define MAX_CHILDREN_ON_ROW 32
+
+#define xy(a,x,y) (a[((y) * MAX_CHILDREN_ON_ROW) + (x)])
+
+static int
+range_empty (char *array, int slot, int lower, int count)
 {
-	GtkWidget *widget;
+	int i;
 
-	widget = GTK_WIDGET (fullday);
+	for (i = 0; i < count; i++)
+		if (xy (array, slot, lower+i) != 0)
+			return 0;
+	return 1;
+}
 
-	child->x = left_x;
+static void
+range_allocate (char *array, int slot, int lower, int count, int val)
+{
+	int i;
 
-	/* FIXME: for now, the children overlap.  Make it layout them nicely. */
+	for (i = 0; i < count; i++)
+		xy (array, slot, lower+i) = val;
+}
 
-	child->width = widget->allocation.width - (widget->style->klass->xthickness + left_x);
+static int
+can_expand (char *array, int *allocations, int top_slot, int val, int lower, int count)
+{
+	int slot, i;
+	int cols = 0;
 
-	/* Position child */
+	for (slot = allocations [val] + 1; slot < top_slot; slot++){
+		for (i = 0; i < count; i++)
+			if (xy (array, slot, lower+i))
+				return cols;
+		cols++;
+	}
+	return cols;
+}
 
-	child_set_size (child);
+static void
+expand_space (char *array, int *allocations, int val, int lower, int count, int cols)
+{
+	int j, i, slot;
+
+	for (i = 0; i < count; i++){
+		slot = allocations [val] + 1;
+		for (j = 0; j < cols; j++)
+			xy (array, slot, lower+i) = val;
+	}
 }
 
 static void
 layout_children (GncalFullDay *fullday)
 {
-	struct layout_row *rows;
-	GList *children;
 	GtkWidget *widget;
-	int left_x, rowcount;
+	int lines = (24 * 60) / fullday->interval;
+	char *array = g_malloc0 (sizeof (char) * lines * MAX_CHILDREN_ON_ROW);
+	GList *children;
+	int val, slot;
+	int  *allocations, *columns;
+	int top_slot = 0;
+	int left_x, cols;
+	int pixels_per_col, extra_pixels, extra, usable_pixels;
+	int child_count;
+	
+	if (!fullday->children)
+		return;
+	
+	/* initial allocation */
+	child_count = g_list_length (fullday->children) + 2;
+	allocations = g_malloc0 (sizeof (int) * child_count);
+	columns     = g_malloc0 (sizeof (int) * child_count);
+	val = 1;
+	for (children = fullday->children; children; children = children->next, val++){
+		Child *child = children->data;
 
-	rows = layout_get_rows (fullday, &rowcount);
+		allocations [val] = 0;
+		columns     [val] = 1;
+		for (slot = 0; slot < MAX_CHILDREN_ON_ROW; slot++){
+			if (range_empty (array, slot, child->lower_row, child->rows_used)){
+				/*
+				  printf ("Child %d uses %d-%d allocates slot=%d\n", val, child->lower_row,
+				  child->lower_row + child->rows_used, slot);
+				*/
+				
+				range_allocate (array, slot, child->lower_row, child->rows_used, val);
+				allocations [val] = slot;
+				columns     [val] = 1;
+				if (slot+1 > top_slot)
+					top_slot = slot+1;
+				break;
+			}
+		}
+	}
+#if DEBUGME
+	for (val = 0; val < 48; val++){
+		int j;
+		
+		printf ("%d: ", val);
+		for (j = 0; j < top_slot; j++){
+			printf (" %d", xy (array, j, val));
+		}
+		printf ("\n");
+	}
+#endif
+	/* Expand */
+	val = 1;
+	for (children = fullday->children; children; children = children->next, val++){
+		Child *child = children->data;
+		
+		cols = can_expand (array, allocations, top_slot, val, child->lower_row, child->rows_used);
+		/* printf ("Can expand regresa: %d\n", cols); */
+		if (!cols)
+			continue;
+		expand_space (array, allocations, val, child->lower_row, child->rows_used, cols);
+		columns [val] += cols;
+	}
 
+	/* Assign the spaces */
 	widget = GTK_WIDGET (fullday);
-
 	left_x = 2 * (widget->style->klass->xthickness + TEXT_BORDER) + calc_labels_width (fullday);
 
-	for (children = fullday->children; children; children = children->next)
-		layout_child (fullday, children->data, rows, left_x);
+	usable_pixels  = widget->allocation.width-left_x - widget->style->klass->xthickness;
+	pixels_per_col = usable_pixels / top_slot;
+	extra_pixels   = usable_pixels % top_slot;
+	
+	val = 1;
+	for (children = fullday->children; children; children = children->next, val++){
+		Child *child = children->data;
+		
+		child->x     = left_x + pixels_per_col * allocations [val];
+		extra = (allocations [val] + columns [val] == top_slot) ? extra_pixels : 0;
+		child->width = pixels_per_col * columns [val] + extra;
+		child_set_size (child);
 
-	layout_free_rows (rows, rowcount);
+		/* printf ("Setting child %d to %d for %d pixels\n", val, allocations [val], columns [val]); */
+	}
+	g_free (allocations);
+	g_free (columns);
 }
 
 guint
@@ -1236,6 +1266,7 @@ paint_back (GncalFullDay *fullday, GdkRectangle *area)
 	int i;
 	GdkRectangle rect, dest, aarea;
 	int f_rows;
+	int draw_focus;
 
 	p.widget = GTK_WIDGET (fullday);
 	p.di = fullday->drag_info;
@@ -1261,7 +1292,35 @@ paint_back (GncalFullDay *fullday, GdkRectangle *area)
 
 	/* Frame shadow */
 
-	gtk_widget_draw_focus (p.widget);
+	rect.x = 0;
+	rect.y = 0;
+	rect.width = p.widget->allocation.width;
+	rect.height = p.widget->style->klass->ythickness;
+	
+	draw_focus = gdk_rectangle_intersect (&rect, area, &dest);
+
+	if (!draw_focus) {
+		rect.y = p.widget->allocation.height - rect.height;
+
+		draw_focus = gdk_rectangle_intersect (&rect, area, &dest);
+	}
+
+	if (!draw_focus) {
+		rect.y = p.widget->style->klass->ythickness;
+		rect.width = p.widget->style->klass->xthickness;
+		rect.height = p.widget->allocation.height - 2 * rect.y;
+
+		draw_focus = gdk_rectangle_intersect (&rect, area, &dest);
+	}
+
+	if (!draw_focus) {
+		rect.x = p.widget->allocation.width - rect.width;
+
+		draw_focus = gdk_rectangle_intersect (&rect, area, &dest);
+	}
+
+	if (draw_focus)
+		gtk_widget_draw_focus (p.widget);
 
 	/* Rows */
 

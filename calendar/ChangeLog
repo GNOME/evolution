@@ -1,3 +1,17 @@
+1998-05-18  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* gncal-full-day.c (layout_children): Implemented ultra-cool
+	layout for the events that share the same time range.  Gals and
+	guys you can now drop Outlook on the recycle bin.  
+
+	Which reminds me.  We do not have a recycle bin.  How could that
+	happen in a project as cool as this one?  Someone explain this to
+	me. 
+
+1998-05-18  Federico Mena  <federico@nuclecu.unam.mx>
+
+	* gncal-full-day.c (paint_back): Eliminated unnecessary border repainting.
+
 Sun May 17 17:55:03 1998  Havoc Pennington  <hp@pobox.com>
 
 	* gncal-todo.c (simple_todo_editor): Close dialog when return is pressed.
