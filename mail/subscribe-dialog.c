@@ -26,6 +26,7 @@
 #include <bonobo/bonobo-control.h> 
 #include <bonobo/bonobo-ui-component.h>
 #include <bonobo/bonobo-ui-util.h>
+#include <bonobo/bonobo-widget.h>
 
 #include "art/empty.xpm"
 #include "art/mark.xpm"
@@ -391,22 +392,12 @@ subscribe_dialog_gui_init (SubscribeDialog *sc)
 	Bonobo_UIContainer container;
 	GtkWidget         *folder_search_widget;
 	BonoboControl     *search_control;
-	GtkWidget *bonobo_win;
+	CORBA_Environment ev;
+
+	CORBA_exception_init (&ev);
 
 	/* Construct the app */
-	bonobo_win = bonobo_win_new ("subscribe-dialog", "Subscribe");
-
-	sc->storage_set_view = gtk_label_new ("Storage Set View");
-	sc->table = gtk_table_new (1, 2, FALSE);
-
-	sc->hpaned = e_hpaned_new ();
-	e_paned_add1 (E_PANED (sc->hpaned), sc->storage_set_view);
-	e_paned_add2 (E_PANED (sc->hpaned), sc->table);
-	e_paned_set_position (E_PANED (sc->hpaned), DEFAULT_STORAGE_SET_WIDTH);
-
-	bonobo_win_set_contents (BONOBO_WIN (bonobo_win), sc->hpaned);
-	gtk_widget_destroy (sc->app);
-	sc->app = bonobo_win;
+	sc->app = bonobo_win_new ("subscribe-dialog", "Subscribe");
 
 	/* Build the menu and toolbar */
 	sc->uih = bonobo_ui_handler_new ();
@@ -433,6 +424,21 @@ subscribe_dialog_gui_init (SubscribeDialog *sc)
 
 	update_pixmaps (container);
 
+	bonobo_ui_container_thaw (container, NULL);
+
+	sc->storage_set_control = Evolution_Shell_create_storage_set_view (sc->shell, &ev);
+	sc->storage_set_view_widget = bonobo_widget_new_control_from_objref (sc->storage_set_control,
+									     container);
+
+	sc->table = gtk_table_new (1, 2, FALSE);
+
+	sc->hpaned = e_hpaned_new ();
+	e_paned_add1 (E_PANED (sc->hpaned), sc->storage_set_view_widget);
+	e_paned_add2 (E_PANED (sc->hpaned), sc->table);
+	e_paned_set_position (E_PANED (sc->hpaned), DEFAULT_STORAGE_SET_WIDTH);
+
+	bonobo_win_set_contents (BONOBO_WIN (sc->app), sc->hpaned);
+
 	folder_search_widget = make_folder_search_widget (subscribe_search, sc);
 	gtk_widget_show_all (folder_search_widget);
 	search_control = bonobo_control_new (folder_search_widget);
@@ -442,9 +448,6 @@ subscribe_dialog_gui_init (SubscribeDialog *sc)
 					bonobo_object_corba_objref (BONOBO_OBJECT (search_control)),
 					NULL);
 					
-	bonobo_ui_container_thaw (container, NULL);
-
-
 	/* set our our contents */
 	sc->description = html_new (TRUE);
 	put_html (GTK_HTML (sc->description), EXAMPLE_DESCR);
@@ -525,7 +528,7 @@ subscribe_dialog_gui_init (SubscribeDialog *sc)
 	gtk_widget_show (sc->description);
 	gtk_widget_show (sc->etable);
 	gtk_widget_show (sc->table);
-	gtk_widget_show (sc->storage_set_view);
+	gtk_widget_show (sc->storage_set_view_widget);
 	gtk_widget_show (sc->hpaned);
 
 	/* FIXME: Session management and stuff?  */

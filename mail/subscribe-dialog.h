@@ -7,6 +7,7 @@
 #include "mail-types.h"
 #include <gtk/gtktable.h>
 #include <gal/e-table/e-tree-model.h>
+#include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-ui-compat.h>
 #include <bonobo/bonobo-property-bag.h>
 #include "shell/Evolution.h"
@@ -21,19 +22,21 @@
 struct  _SubscribeDialog {
 	GtkObject parent;
 
-	Evolution_Shell    shell;
+	Evolution_Shell           shell;
+	Bonobo_Control            storage_set_control;
+	Evolution_StorageSetView  storage_set_view;
+	
+	BonoboUIHandler          *uih;
 
-	BonoboUIHandler   *uih;
+	GtkWidget                *app;
 
-	GtkWidget         *app;
-
-	GtkWidget         *storage_set_view;
-	GtkWidget         *hpaned;
-	GtkWidget         *table;
-	GtkWidget         *description;
-	GtkWidget         *etable;
-	ETreeModel        *model;
-	ETreePath         *root;
+	GtkWidget         	 *storage_set_view_widget;
+	GtkWidget         	 *hpaned;
+	GtkWidget         	 *table;
+	GtkWidget         	 *description;
+	GtkWidget         	 *etable;
+	ETreeModel        	 *model;
+	ETreePath         	 *root; 
 };
 
 

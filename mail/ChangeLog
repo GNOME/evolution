@@ -1,3 +1,12 @@
+2000-10-02  Chris Toshok  <toshok@helixcode.com>
+
+	* subscribe-dialog.h: add fields for the storage set
+	Bonobo_Control and Evolution_StorageSetView interfaces.
+
+	* subscribe-dialog.c (subscribe_dialog_gui_init): create the uih
+	as early as possible, and add the storage set view to the left
+	side of the hpaned.
+
 2000-09-22  Michael Meeks  <michael@helixcode.com>
 
 	* folder-browser-factory.c (set_pixmap): upd.
