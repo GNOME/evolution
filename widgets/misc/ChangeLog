@@ -1,3 +1,7 @@
+2001-03-22  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-filter-bar.c (rule_editor_clicked): Validate the filter rule.
+
 2001-03-18  Damon Chaplin  <damon@ximian.com>
 
 	* e-cell-date-edit.c (e_cell_date_edit_show_time_invalid_warning): 

@@ -84,9 +84,12 @@ static void rule_editor_clicked(GtkWidget *w, int button, void *data)
 	case 0:
 		rule = gtk_object_get_data((GtkObject *)w, "rule");
 		if (rule) {
+			if (!filter_rule_validate (rule))
+				return;
+			
 			item.text = rule->name;
 			item.id = efb->menu_base + efb->menu_rules->len;
-
+			
 			g_ptr_array_add(efb->menu_rules, rule);
 
 			rule_context_add_rule(efb->context, rule);
