@@ -92,11 +92,12 @@
       The view column does not necessarily depend on only one model
       column. In some cases, the view column renderer can be given a
       reference to another model column to get extra information about
-      its display. For example, to display deleted messages with a
-      line through them, you would create a model column with no view
-      column corresponding to whether the message is deleted, and then
-      you would tell the text column to strikethrough the display if
-      that column had a value corresponding to deleted.
+      its display. For example, a mail program could display deleted
+      messages with a line through them by creating a model column
+      with no corresponding view column that told whether or not the
+      message is deleted, and then having the text column
+      strikethrough the display if the invisible column had a value
+      corresponding to "deleted".
     </para>
 
     <para>
