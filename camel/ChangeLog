@@ -1,3 +1,8 @@
+2003-03-21  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-sasl-gssapi.c: #include <com_err.h> instead of
+	#include <et/com_err.h>
+
 2003-03-20  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-sasl.c: Plug in GSSAPI support.
