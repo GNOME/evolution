@@ -1388,11 +1388,11 @@ e_text_reflow (GnomeCanvasItem *item, int flags)
 			text->xofs_edit = 2 + x - text->clip_width;
 		}
 		
-		if ((text->font->ascent + text->font->descent) * (i - 1) < text->yofs_edit)
-			text->yofs_edit = (text->font->ascent + text->font->descent) * (i - 1);
+		if ((text->font->ascent + text->font->descent) * i < text->yofs_edit)
+			text->yofs_edit = (text->font->ascent + text->font->descent) * i;
 		
-		if (2 + (text->font->ascent + text->font->descent) * i - text->clip_height > text->yofs_edit)
-			text->yofs_edit = 2 + (text->font->ascent + text->font->descent) * i - text->clip_height;
+		if ((text->font->ascent + text->font->descent) * (i + 1) - (text->clip_height != -1 ? text->clip_height : text->height) > text->yofs_edit)
+			text->yofs_edit = (text->font->ascent + text->font->descent) * (i + 1) - (text->clip_height != -1 ? text->clip_height : text->height);
 	}
 	if ( text->needs_calc_height ) {
 		calc_height (text);
@@ -2871,11 +2871,11 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 			text->xofs_edit = 2 + x - text->clip_width;
 		}
 		
-		if ((text->font->ascent + text->font->descent) * (i - 1) < text->yofs_edit)
-			text->yofs_edit = (text->font->ascent + text->font->descent) * (i - 1);
+		if ((text->font->ascent + text->font->descent) * i < text->yofs_edit)
+			text->yofs_edit = (text->font->ascent + text->font->descent) * i;
 		
-		if (2 + (text->font->ascent + text->font->descent) * i - text->clip_height > text->yofs_edit)
-			text->yofs_edit = 2 + (text->font->ascent + text->font->descent) * i - text->clip_height;
+		if ((text->font->ascent + text->font->descent) * (i + 1) - (text->clip_height != -1 ? text->clip_height : text->height) > text->yofs_edit)
+			text->yofs_edit = (text->font->ascent + text->font->descent) * (i + 1) - (text->clip_height != -1 ? text->clip_height : text->height);
 	}
 
 	text->needs_redraw = 1;

@@ -1,5 +1,9 @@
 2000-06-21  Christopher James Lahey  <clahey@helixcode.com>
 
+	* widgets/e-text/e-text.c: Fixed some vertical scroll bugs.
+
+2000-06-21  Christopher James Lahey  <clahey@helixcode.com>
+
 	* widgets/e-text/e-text.c: Fix a bug with intial vertical scroll.
 
 2000-06-21  Christopher James Lahey  <clahey@helixcode.com>
