@@ -728,7 +728,7 @@ message_list_copy(MessageList *ml, gboolean cut)
 	GPtrArray *uids;
 
 	clear_selection(ml, &p->clipboard);
-		
+	
 	uids = message_list_get_selected(ml);
 
 	if (uids->len > 0) {

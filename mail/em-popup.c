@@ -880,11 +880,29 @@ emp_apps_open_in(GtkWidget *w, struct _open_in_item *item)
 
 	path = em_utils_temp_save_part(item->target->widget, item->target->data.part.part);
 	if (path) {
-		char *command;
 		int douri = (item->app->expects_uris == GNOME_VFS_MIME_APPLICATION_ARGUMENT_TYPE_URIS);
-				
-		command = g_strdup_printf(douri?"%s file://%s &":"%s %s &", item->app->command, path);
-
+		char *command;
+		
+		if (item->app->requires_terminal) {
+			char *term, *args = NULL;
+			GConfClient *gconf;
+			
+			gconf = gconf_client_get_default ();
+			if ((term = gconf_client_get_string (gconf, "/desktop/gnome/applications/terminal/exec", NULL)))
+				args = gconf_client_get_string (gconf, "/desktop/gnome/applications/terminal/exec_arg", NULL);
+			g_object_unref (gconf);
+			
+			if (term == NULL)
+				return;
+			
+			command = g_strdup_printf ("%s%s%s %s %s%s &", term, args ? " " : "", args ? args : "",
+						   item->app->command, douri ? "file://" : "", path);
+			g_free (term);
+			g_free (args);
+		} else {
+			command = g_strdup_printf ("%s %s%s &", item->app->command, douri ? "file://" : "", path);
+		}
+		
 		/* FIXME: Do not use system here */
 		system(command);
 		g_free(command);

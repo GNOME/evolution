@@ -1,3 +1,9 @@
+2004-06-22  Jeffrey Stedfast  <fejj@novell.com>
+
+	* em-popup.c (emp_apps_open_in): If the app requires a terminal to
+	run, give it a bloody terminal (who uses vi in an xterm to view
+	attached text files? *sigh*). Fixes bug #51259.
+
 2004-06-21  Chris Toshok  <toshok@ximian.com>
 
 	* em-folder-tree.c (render_display_name): gtk_tree_model_get on a
