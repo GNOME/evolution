@@ -260,6 +260,9 @@ query_backend_new (Query *query, CalBackend *backend)
 	g_return_val_if_fail (IS_QUERY (query), NULL);
 	g_return_val_if_fail (IS_CAL_BACKEND (backend), NULL);
 
+	if (!loaded_backends)
+		loaded_backends = g_hash_table_new (g_str_hash, g_str_equal);
+
 	/* see if we already have the backend loaded */
 	qb = g_hash_table_lookup (loaded_backends,
 				  cal_backend_get_uri (backend));
@@ -283,8 +286,6 @@ query_backend_new (Query *query, CalBackend *backend)
 		gtk_signal_connect (GTK_OBJECT (backend), "obj_removed",
 				    GTK_SIGNAL_FUNC (object_removed_cb), qb);
 
-		if (!loaded_backends)
-			loaded_backends = g_hash_table_new (g_str_hash, g_str_equal);
 		g_hash_table_insert (loaded_backends, qb->priv->uri, qb);
 	}
 

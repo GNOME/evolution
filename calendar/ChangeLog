@@ -1,17 +1,24 @@
+2002-08-08  Dan Winship  <danw@ximian.com>
+
+	* pcs/query-backend.c (query_backend_new): Initialize
+	loaded_backends before using it. (Just kills off a harmless
+	g_warning.)
+
 2002-08-08  Rodrigo Moya <rodrigo@ximian.com>
 
 	Fixes #15710
 
-	* cal-util/cal-component.[ch] (cal_component_alarm_get_icalcomponent):
-	new function for getting the icalcomponent from a CalComponentAlarm.
+	* cal-util/cal-component.[ch]
+	(cal_component_alarm_get_icalcomponent): new function for getting
+	the icalcomponent from a CalComponentAlarm.
 
 	* gui/comp-util.c (cal_comp_event_new_with_defaults): added
-	X-EVOLUTION-NEEDS-DESCRIPTION property to the default reminder alarm,
-	so that we can identify it when saving the component.
+	X-EVOLUTION-NEEDS-DESCRIPTION property to the default reminder
+	alarm, so that we can identify it when saving the component.
 
-	* gui/dialogs/alarm-page.c (alarm_page_fill_component): if the alarm
-	has the X-EVOLUTION-NEEDS-DESCRIPTION property, set the description to
-	be the same as of the component.
+	* gui/dialogs/alarm-page.c (alarm_page_fill_component): if the
+	alarm has the X-EVOLUTION-NEEDS-DESCRIPTION property, set the
+	description to be the same as of the component.
 
 2002-08-07  JP Rosevear  <jpr@ximian.com>
 
