@@ -440,7 +440,7 @@ search_entry_activated (GtkWidget* widget, gpointer user_data)
 	if (search_word && strlen (search_word))
 		search_query = g_strdup_printf (
 			"(contains \"x-evolution-any-field\" \"%s\")",
-			search_word, search_word);
+			search_word);
 	else
 		search_query = g_strdup (
 			"(contains \"full_name\" \"\")");
