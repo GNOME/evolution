@@ -1,5 +1,18 @@
 2002-11-11  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/imap/camel-imap-folder.c (get_message_simple): Use
+	g_strerror when setting an exception string (we need it to be in
+	UTF-8).
+
+	* providers/pop3/camel-pop3-store.c (pop3_try_authenticate): Use
+	g_strerror when setting an exception string (we need it to be in
+	UTF-8).
+
+	* providers/pop3/camel-pop3-folder.c (pop3_refresh_info): Use
+	g_strerror when setting an exception string (we need it to be in
+	UTF-8).
+	(pop3_get_message): Same.
+
 	* providers/local/camel-spool-summary.c (spool_summary_sync_full):
 	Use g_strerror when setting an exception string (we need it to be
 	in UTF-8).

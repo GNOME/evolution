@@ -1869,7 +1869,8 @@ get_message_simple (CamelImapFolder *imap_folder, const char *uid,
 	camel_object_unref (CAMEL_OBJECT (stream));
 	if (ret == -1) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-				      _("Unable to retrieve message: %s"), strerror(errno));
+				      _("Unable to retrieve message: %s"),
+				      g_strerror (errno));
 		camel_object_unref (CAMEL_OBJECT (msg));
 		return NULL;
 	}

@@ -64,7 +64,7 @@ stream_fill(CamelPOP3Stream *is)
 			is->end[0] = '\n';
 			return is->end - is->ptr;
 		} else {
-			dd(printf("POP3_STREAM_FILL(ERROR): '%s'\n", strerror(errno)));
+			dd(printf("POP3_STREAM_FILL(ERROR): '%s'\n", strerror (errno)));
 			return -1;
 		}
 	}

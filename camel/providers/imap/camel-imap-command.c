@@ -448,9 +448,11 @@ imap_read_untagged (CamelImapStore *store, char *line, CamelException *ex)
 		nread = camel_stream_read (store->istream, str->str + 1, length);
 		if (nread == -1) {
 			if (errno == EINTR)
-				camel_exception_set (ex, CAMEL_EXCEPTION_USER_CANCEL, _("Operation cancelled"));
+				camel_exception_set (ex, CAMEL_EXCEPTION_USER_CANCEL,
+						     _("Operation cancelled"));
 			else
-				camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE, g_strerror (errno));
+				camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+						     g_strerror (errno));
 			camel_service_disconnect (CAMEL_SERVICE (store), FALSE, NULL);
 			g_string_free (str, TRUE);
 			goto lose;

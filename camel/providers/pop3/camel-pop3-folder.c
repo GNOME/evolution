@@ -261,7 +261,9 @@ pop3_refresh_info (CamelFolder *folder, CamelException *ex)
 		if (errno == EINTR)
 			camel_exception_setv(ex, CAMEL_EXCEPTION_USER_CANCEL, _("User cancelled"));
 		else
-			camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM, _("Cannot get POP summary: %s"), strerror(errno));
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+					      _("Cannot get POP summary: %s"),
+					      g_strerror (errno));
 	}
 
 	/* TODO: check every id has a uid & commands returned OK too? */
@@ -426,7 +428,9 @@ pop3_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 			if (fi->err == EINTR)
 				camel_exception_setv(ex, CAMEL_EXCEPTION_USER_CANCEL, _("User cancelled"));
 			else
-				camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM, _("Cannot get message %s: %s"), uid, strerror(fi->err));
+				camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+						      _("Cannot get message %s: %s"),
+						      uid, g_strerror (fi->err));
 			goto fail;
 		}
 	}
@@ -485,12 +489,13 @@ pop3_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 			if (fi->err == EINTR)
 				camel_exception_setv(ex, CAMEL_EXCEPTION_USER_CANCEL, _("User cancelled"));
 			else
-				camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM, _("Cannot get message %s: %s"), uid, strerror(fi->err));
+				camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+						      _("Cannot get message %s: %s"),
+						      uid, g_strerror (fi->err));
 			goto done;
 		}
 
-		if (camel_stream_read(stream, buffer, 1) != 1
-		    || buffer[0] != '#') {
+		if (camel_stream_read(stream, buffer, 1) != 1 || buffer[0] != '#') {
 			camel_exception_setv(ex, CAMEL_EXCEPTION_FOLDER_INVALID_UID,
 					     _("Cannot get message %s: %s"), uid, _("Unknown reason"));
 			goto done;
@@ -502,7 +507,9 @@ pop3_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 		if (errno == EINTR)
 			camel_exception_setv(ex, CAMEL_EXCEPTION_USER_CANCEL, _("User cancelled"));
 		else
-			camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM, _("Cannot get message %s: %s"), uid, strerror(errno));
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+					      _("Cannot get message %s: %s"),
+					      uid, g_strerror (errno));
 		camel_object_unref((CamelObject *)message);
 		message = NULL;
 	}
