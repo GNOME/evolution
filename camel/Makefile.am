@@ -17,6 +17,7 @@ libcamel_la_SOURCES = 				\
 	camel-data-wrapper.c			\
 	camel-simple-data-wrapper.c		\
 	camel-folder.c				\
+	camel-folder-pt-proxy.c			\
 	camel-folder-summary.c			\
 	camel-medium.c				\
 	camel-mime-body-part.c			\
@@ -48,6 +49,7 @@ libcamelinclude_HEADERS =			\
 	camel-data-wrapper.h			\
 	camel-simple-data-wrapper.h		\
 	camel-folder.h				\
+	camel-folder-pt-proxy.h			\
 	camel-folder-summary.h			\
 	camel-mime-body-part.h			\
 	camel-medium.h				\
