@@ -123,6 +123,7 @@ impl_ShellComponent__get_supported_types (PortableServer_Servant servant,
 static void
 impl_ShellComponent_set_owner (PortableServer_Servant servant,
 			       const Evolution_Shell shell,
+			       const CORBA_char *evolution_homedir,
 			       CORBA_Environment *ev)
 {
 	BonoboObject *bonobo_object;
@@ -144,7 +145,7 @@ impl_ShellComponent_set_owner (PortableServer_Servant servant,
 
 	if (ev->_major == CORBA_NO_EXCEPTION) {
 		priv->owner_client = evolution_shell_client_new (shell_duplicate);
-		gtk_signal_emit (GTK_OBJECT (shell_component), signals[OWNER_SET], priv->owner_client);
+		gtk_signal_emit (GTK_OBJECT (shell_component), signals[OWNER_SET], priv->owner_client, evolution_homedir);
 	}
 }
 
@@ -371,9 +372,9 @@ class_init (EvolutionShellComponentClass *klass)
 				  GTK_RUN_FIRST,
 				  object_class->type,
 				  GTK_SIGNAL_OFFSET (EvolutionShellComponentClass, owner_set),
-				  gtk_marshal_NONE__POINTER,
-				  GTK_TYPE_NONE, 1,
-				  GTK_TYPE_POINTER);
+				  gtk_marshal_NONE__POINTER_POINTER,
+				  GTK_TYPE_NONE, 2,
+				  GTK_TYPE_POINTER, GTK_TYPE_POINTER);
 
 	signals[OWNER_UNSET]
 		= gtk_signal_new ("owner_unset",

@@ -563,6 +563,15 @@ e_shell_new_view (EShell *shell,
 }
 
 
+const char *
+e_shell_get_local_directory (EShell *shell)
+{
+	g_return_val_if_fail (shell != NULL, NULL);
+	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
+
+	return shell->priv->local_directory;
+}
+
 EShortcuts *
 e_shell_get_shortcuts (EShell *shell)
 {

@@ -1,3 +1,23 @@
+2000-08-10  Dan Winship  <danw@helixcode.com>
+
+	* Evolution-ShellComponent.idl: add "in string evolution_homedir"
+	to ShellComponent::set_owner's arguments.
+
+	* e-shell.c (e_shell_get_local_directory): Expose local_directory.
+
+	* e-component-registry.c (register_component): Pass the shell's
+	"local_directory" to the component as its evolution_homedir.
+
+	* evolution-shell-component.c (impl_ShellComponent_set_owner):
+	Update to include evolution_homedir.
+	(class_init): Update signal prototype.
+
+	* evolution-shell-component-client.c
+	(evolution_shell_component_client_set_owner): Update to include
+	evolution_homedir.
+
+	* e-init.c: Remove. This wasn't being used.
+
 2000-08-10  Peter Williams  <peterw@helixcode.com>
 
 	* e-shell-view-menu.c (command_about_box): Add lil' ol'

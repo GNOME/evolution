@@ -71,6 +71,7 @@ EShell              *e_shell_new                       (const char      *local_d
 GtkWidget           *e_shell_new_view                  (EShell          *shell,
 							const char      *uri);
 
+const char          *e_shell_get_local_directory       (EShell          *shell);
 EShortcuts          *e_shell_get_shortcuts             (EShell          *shell);
 EStorageSet         *e_shell_get_storage_set           (EShell          *shell);
 EFolderTypeRegistry *e_shell_get_folder_type_registry  (EShell          *shell);

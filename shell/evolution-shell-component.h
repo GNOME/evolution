@@ -111,7 +111,8 @@ struct _EvolutionShellComponentClass {
 	/* Signals.  */
 
 	void (* owner_set)   (EvolutionShellComponent *shell_component,
-			      EvolutionShellClient *shell_client);
+			      EvolutionShellClient *shell_client,
+			      const char *evolution_homedir);
 	void (* owner_unset) (EvolutionShellComponent *shell_component);
 };
 

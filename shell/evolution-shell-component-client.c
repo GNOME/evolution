@@ -347,7 +347,8 @@ evolution_shell_component_client_new (const char *id)
 
 EvolutionShellComponentResult
 evolution_shell_component_client_set_owner (EvolutionShellComponentClient *shell_component_client,
-					    Evolution_Shell shell)
+					    Evolution_Shell shell,
+					    const char *evolution_homedir)
 {
 	EvolutionShellComponentResult result;
 	CORBA_Environment ev;
@@ -359,7 +360,7 @@ evolution_shell_component_client_set_owner (EvolutionShellComponentClient *shell
 	CORBA_exception_init (&ev);
 
 	Evolution_ShellComponent_set_owner (bonobo_object_corba_objref (BONOBO_OBJECT (shell_component_client)),
-					    shell, &ev);
+					    shell, evolution_homedir, &ev);
 
 	result = corba_exception_to_result (&ev);
 

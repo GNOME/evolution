@@ -138,6 +138,7 @@ register_component (EComponentRegistry *component_registry,
 	EvolutionShellComponentClient *client;
 	CORBA_Environment ev;
 	CORBA_unsigned_long i;
+	const char *local_directory;
 
 	priv = component_registry->priv;
 
@@ -157,8 +158,9 @@ register_component (EComponentRegistry *component_registry,
 
 	component_corba_interface = bonobo_object_corba_objref (BONOBO_OBJECT (client));
 	shell_corba_interface = bonobo_object_corba_objref (BONOBO_OBJECT (priv->shell));
+	local_directory = e_shell_get_local_directory (priv->shell);
 
-	Evolution_ShellComponent_set_owner (component_corba_interface, shell_corba_interface, &ev);
+	Evolution_ShellComponent_set_owner (component_corba_interface, shell_corba_interface, local_directory, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		bonobo_object_unref (BONOBO_OBJECT (client));
 		CORBA_exception_free (&ev);

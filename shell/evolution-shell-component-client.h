@@ -68,7 +68,8 @@ EvolutionShellComponentClient *evolution_shell_component_client_new        (cons
 
 /* Synchronous operations.  */
 EvolutionShellComponentResult  evolution_shell_component_client_set_owner    (EvolutionShellComponentClient  *shell_component_client,
-									      Evolution_Shell                 shell);
+									      Evolution_Shell                 shell,
+									      const char                     *evolution_homedir);
 EvolutionShellComponentResult  evolution_shell_component_client_unset_owner  (EvolutionShellComponentClient  *shell_component_client,
 									      Evolution_Shell                 shell);
 EvolutionShellComponentResult  evolution_shell_component_client_create_view  (EvolutionShellComponentClient  *shell_component_client,
