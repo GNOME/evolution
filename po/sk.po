@@ -3,11 +3,11 @@
 # Stanislav Visnovsky <visnovsky@nenya.ms.mff.cuni.cz>, 2001.
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution 0.15\n"
-"POT-Creation-Date: 2001-10-10 11:08-0400\n"
-"PO-Revision-Date: 2001-09-27 16:27CET\n"
+"Project-Id-Version: evolution 0.16\n"
+"POT-Creation-Date: 2001-10-12 18:07+0200\n"
+"PO-Revision-Date: 2001-10-12 18:17CET\n"
 "Last-Translator: Stanislav Visnovsky <visnovsky@nenya.ms.mff.cuni.cz>\n"
-"Language-Team: Slovak <sk-i18n@linux.sk>\n"
+"Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-2\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -22,7 +22,7 @@ msgid "Imports VCard files into Evolution."
 msgstr "Importuje súbory VCard do Evolution."
 
 #: addressbook/backend/ebook/e-card-simple.c:58
-#: addressbook/gui/widgets/e-addressbook-view.c:868
+#: addressbook/gui/widgets/e-addressbook-view.c:877
 msgid "File As"
 msgstr "Ulo¾i» ako"
 
@@ -31,12 +31,12 @@ msgid "Name"
 msgstr "Meno"
 
 #: addressbook/backend/ebook/e-card-simple.c:60
-#: addressbook/gui/widgets/e-addressbook-view.c:870
+#: addressbook/gui/widgets/e-addressbook-view.c:879
 msgid "Email"
 msgstr "E-mail"
 
 #: addressbook/backend/ebook/e-card-simple.c:61
-#: addressbook/gui/contact-editor/e-contact-editor.c:1609
+#: addressbook/gui/contact-editor/e-contact-editor.c:1602
 msgid "Primary"
 msgstr "Primárny"
 
@@ -46,15 +46,15 @@ msgstr "Prim"
 
 #: addressbook/backend/ebook/e-card-simple.c:62
 #: addressbook/backend/ebook/e-card-simple.c:92
-#: addressbook/gui/contact-editor/e-contact-editor.c:1594
-#: addressbook/gui/widgets/e-addressbook-view.c:902
+#: addressbook/gui/contact-editor/e-contact-editor.c:1587
+#: addressbook/gui/widgets/e-addressbook-view.c:911
 msgid "Assistant"
 msgstr "Asistent"
 
 #: addressbook/backend/ebook/e-card-simple.c:63
 #: addressbook/backend/ebook/e-card-simple.c:68
-#: addressbook/gui/contact-editor/e-contact-editor.c:1595
-#: addressbook/gui/contact-editor/e-contact-editor.c:1662
+#: addressbook/gui/contact-editor/e-contact-editor.c:1588
+#: addressbook/gui/contact-editor/e-contact-editor.c:1655
 msgid "Business"
 msgstr "Zamestnanie"
 
@@ -64,12 +64,12 @@ msgid "Bus"
 msgstr "Zam"
 
 #: addressbook/backend/ebook/e-card-simple.c:64
-#: addressbook/gui/contact-editor/e-contact-editor.c:1598
+#: addressbook/gui/contact-editor/e-contact-editor.c:1591
 msgid "Callback"
 msgstr "Spätné volanie"
 
 #: addressbook/backend/ebook/e-card-simple.c:65
-#: addressbook/gui/contact-editor/e-contact-editor.c:1600
+#: addressbook/gui/contact-editor/e-contact-editor.c:1593
 msgid "Company"
 msgstr "Firma"
 
@@ -79,13 +79,13 @@ msgstr "Firma"
 
 #: addressbook/backend/ebook/e-card-simple.c:66
 #: addressbook/backend/ebook/e-card-simple.c:69
-#: addressbook/gui/contact-editor/e-contact-editor.c:1601
-#: addressbook/gui/contact-editor/e-contact-editor.c:1663
+#: addressbook/gui/contact-editor/e-contact-editor.c:1594
+#: addressbook/gui/contact-editor/e-contact-editor.c:1656
 msgid "Home"
 msgstr "Domov"
 
 #: addressbook/backend/ebook/e-card-simple.c:67
-#: addressbook/gui/widgets/e-addressbook-view.c:877
+#: addressbook/gui/widgets/e-addressbook-view.c:886
 msgid "Organization"
 msgstr "Organizácia"
 
@@ -94,18 +94,18 @@ msgid "Org"
 msgstr "Org"
 
 #: addressbook/backend/ebook/e-card-simple.c:70
-#: addressbook/gui/contact-editor/e-contact-editor.c:1605
+#: addressbook/gui/contact-editor/e-contact-editor.c:1598
 msgid "Mobile"
 msgstr "Mobil"
 
 #: addressbook/backend/ebook/e-card-simple.c:71
-#: addressbook/gui/contact-editor/e-contact-editor.c:1599
+#: addressbook/gui/contact-editor/e-contact-editor.c:1592
 msgid "Car"
 msgstr "Auto"
 
 #: addressbook/backend/ebook/e-card-simple.c:72
-#: addressbook/gui/contact-editor/e-contact-editor.c:1597
-#: addressbook/gui/widgets/e-addressbook-view.c:882
+#: addressbook/gui/contact-editor/e-contact-editor.c:1590
+#: addressbook/gui/widgets/e-addressbook-view.c:891
 msgid "Business Fax"
 msgstr "Pracovný fax"
 
@@ -114,13 +114,13 @@ msgid "Bus Fax"
 msgstr "Prac. fax"
 
 #: addressbook/backend/ebook/e-card-simple.c:73
-#: addressbook/gui/contact-editor/e-contact-editor.c:1603
-#: addressbook/gui/widgets/e-addressbook-view.c:883
+#: addressbook/gui/contact-editor/e-contact-editor.c:1596
+#: addressbook/gui/widgets/e-addressbook-view.c:892
 msgid "Home Fax"
 msgstr "Domáci fax"
 
 #: addressbook/backend/ebook/e-card-simple.c:74
-#: addressbook/gui/contact-editor/e-contact-editor.c:1596
+#: addressbook/gui/contact-editor/e-contact-editor.c:1589
 msgid "Business 2"
 msgstr "Zamestnanie 2"
 
@@ -129,69 +129,69 @@ msgid "Bus 2"
 msgstr "Zam 2"
 
 #: addressbook/backend/ebook/e-card-simple.c:75
-#: addressbook/gui/contact-editor/e-contact-editor.c:1602
+#: addressbook/gui/contact-editor/e-contact-editor.c:1595
 msgid "Home 2"
 msgstr "Domov 2"
 
 #: addressbook/backend/ebook/e-card-simple.c:76
-#: addressbook/gui/contact-editor/e-contact-editor.c:1604
-#: addressbook/gui/widgets/e-addressbook-view.c:886
+#: addressbook/gui/contact-editor/e-contact-editor.c:1597
+#: addressbook/gui/widgets/e-addressbook-view.c:895
 msgid "ISDN"
 msgstr "ISDN"
 
 #: addressbook/backend/ebook/e-card-simple.c:77
 #: addressbook/backend/ebook/e-card-simple.c:83
-#: addressbook/gui/contact-editor/e-contact-editor.c:1606
-#: addressbook/gui/contact-editor/e-contact-editor.c:1664
+#: addressbook/gui/contact-editor/e-contact-editor.c:1599
+#: addressbook/gui/contact-editor/e-contact-editor.c:1657
 #: mail/mail-config.glade.h:52
 msgid "Other"
 msgstr "Iné"
 
 #: addressbook/backend/ebook/e-card-simple.c:78
-#: addressbook/gui/contact-editor/e-contact-editor.c:1607
-#: addressbook/gui/widgets/e-addressbook-view.c:888
+#: addressbook/gui/contact-editor/e-contact-editor.c:1600
+#: addressbook/gui/widgets/e-addressbook-view.c:897
 msgid "Other Fax"
 msgstr "Ïal¹í fax"
 
 #: addressbook/backend/ebook/e-card-simple.c:79
-#: addressbook/gui/contact-editor/e-contact-editor.c:1608
-#: addressbook/gui/widgets/e-addressbook-view.c:889
+#: addressbook/gui/contact-editor/e-contact-editor.c:1601
+#: addressbook/gui/widgets/e-addressbook-view.c:898
 msgid "Pager"
 msgstr "Pager"
 
 #: addressbook/backend/ebook/e-card-simple.c:80
-#: addressbook/gui/contact-editor/e-contact-editor.c:1610
-#: addressbook/gui/widgets/e-addressbook-view.c:890
+#: addressbook/gui/contact-editor/e-contact-editor.c:1603
+#: addressbook/gui/widgets/e-addressbook-view.c:899
 msgid "Radio"
 msgstr "Rádio"
 
 #: addressbook/backend/ebook/e-card-simple.c:81
-#: addressbook/gui/contact-editor/e-contact-editor.c:1611
-#: addressbook/gui/widgets/e-addressbook-view.c:891
+#: addressbook/gui/contact-editor/e-contact-editor.c:1604
+#: addressbook/gui/widgets/e-addressbook-view.c:900
 msgid "Telex"
 msgstr "Telex"
 
 #: addressbook/backend/ebook/e-card-simple.c:82
-#: addressbook/gui/widgets/e-addressbook-view.c:892
+#: addressbook/gui/widgets/e-addressbook-view.c:901
 msgid "TTY"
 msgstr "TTY"
 
 #: addressbook/backend/ebook/e-card-simple.c:84
 #: addressbook/gui/component/e-address-popup.c:476
-#: addressbook/gui/contact-editor/e-contact-editor.c:1637
-#: addressbook/gui/widgets/e-addressbook-view.c:894
+#: addressbook/gui/contact-editor/e-contact-editor.c:1630
+#: addressbook/gui/widgets/e-addressbook-view.c:903
 msgid "Email 2"
 msgstr "E-mail 2"
 
 #: addressbook/backend/ebook/e-card-simple.c:85
 #: addressbook/gui/component/e-address-popup.c:486
-#: addressbook/gui/contact-editor/e-contact-editor.c:1638
-#: addressbook/gui/widgets/e-addressbook-view.c:895
+#: addressbook/gui/contact-editor/e-contact-editor.c:1631
+#: addressbook/gui/widgets/e-addressbook-view.c:904
 msgid "Email 3"
 msgstr "E-mail 3"
 
 #: addressbook/backend/ebook/e-card-simple.c:86
-#: addressbook/gui/widgets/e-addressbook-view.c:896
+#: addressbook/gui/widgets/e-addressbook-view.c:905
 msgid "Web Site"
 msgstr "WWW stránka"
 
@@ -200,7 +200,7 @@ msgid "Url"
 msgstr "Url"
 
 #: addressbook/backend/ebook/e-card-simple.c:87
-#: addressbook/gui/widgets/e-addressbook-view.c:897
+#: addressbook/gui/widgets/e-addressbook-view.c:906
 msgid "Department"
 msgstr "Oddelenie"
 
@@ -209,7 +209,7 @@ msgid "Dep"
 msgstr "Odd"
 
 #: addressbook/backend/ebook/e-card-simple.c:88
-#: addressbook/gui/widgets/e-addressbook-view.c:898
+#: addressbook/gui/widgets/e-addressbook-view.c:907
 msgid "Office"
 msgstr "Pracovisko"
 
@@ -218,12 +218,12 @@ msgid "Off"
 msgstr "Prac."
 
 #: addressbook/backend/ebook/e-card-simple.c:89
-#: addressbook/gui/widgets/e-addressbook-view.c:899
+#: addressbook/gui/widgets/e-addressbook-view.c:908
 msgid "Title"
 msgstr "Titul"
 
 #: addressbook/backend/ebook/e-card-simple.c:90
-#: addressbook/gui/widgets/e-addressbook-view.c:900
+#: addressbook/gui/widgets/e-addressbook-view.c:909
 msgid "Profession"
 msgstr "Povolanie"
 
@@ -232,7 +232,7 @@ msgid "Prof"
 msgstr "Pov."
 
 #: addressbook/backend/ebook/e-card-simple.c:91
-#: addressbook/gui/widgets/e-addressbook-view.c:901
+#: addressbook/gui/widgets/e-addressbook-view.c:910
 msgid "Manager"
 msgstr "Vedúci"
 
@@ -245,7 +245,7 @@ msgid "Ass"
 msgstr "Asist."
 
 #: addressbook/backend/ebook/e-card-simple.c:93
-#: addressbook/gui/widgets/e-addressbook-view.c:903
+#: addressbook/gui/widgets/e-addressbook-view.c:912
 msgid "Nickname"
 msgstr "Prezývka"
 
@@ -254,12 +254,12 @@ msgid "Nick"
 msgstr "Prez."
 
 #: addressbook/backend/ebook/e-card-simple.c:94
-#: addressbook/gui/widgets/e-addressbook-view.c:904
+#: addressbook/gui/widgets/e-addressbook-view.c:913
 msgid "Spouse"
 msgstr "Man¾el(ka)"
 
 #: addressbook/backend/ebook/e-card-simple.c:95
-#: addressbook/gui/widgets/e-addressbook-view.c:905
+#: addressbook/gui/widgets/e-addressbook-view.c:914
 msgid "Note"
 msgstr "Poznámka"
 
@@ -272,7 +272,7 @@ msgid "CALUri"
 msgstr "CALUri"
 
 #: addressbook/backend/ebook/e-card-simple.c:97
-#: addressbook/gui/widgets/e-addressbook-view.c:906
+#: addressbook/gui/widgets/e-addressbook-view.c:915
 msgid "Free-busy URL"
 msgstr "Voµno/zaneprázdnený URL"
 
@@ -301,11 +301,11 @@ msgstr "Kategórie"
 msgid "Family Name"
 msgstr "Priezvisko"
 
-#: addressbook/backend/ebook/e-card.c:3564
+#: addressbook/backend/ebook/e-card.c:3620
 msgid "Card: "
 msgstr "Karta: "
 
-#: addressbook/backend/ebook/e-card.c:3566
+#: addressbook/backend/ebook/e-card.c:3622
 msgid ""
 "\n"
 "Name: "
@@ -313,7 +313,7 @@ msgstr ""
 "\n"
 "Meno: "
 
-#: addressbook/backend/ebook/e-card.c:3567
+#: addressbook/backend/ebook/e-card.c:3623
 msgid ""
 "\n"
 "  Prefix:     "
@@ -321,7 +321,7 @@ msgstr ""
 "\n"
 "  Predpona:     "
 
-#: addressbook/backend/ebook/e-card.c:3568
+#: addressbook/backend/ebook/e-card.c:3624
 msgid ""
 "\n"
 "  Given:      "
@@ -329,7 +329,7 @@ msgstr ""
 "\n"
 "  Krstné:      "
 
-#: addressbook/backend/ebook/e-card.c:3569
+#: addressbook/backend/ebook/e-card.c:3625
 msgid ""
 "\n"
 "  Additional: "
@@ -337,7 +337,7 @@ msgstr ""
 "\n"
 "  Ïal¹ie: "
 
-#: addressbook/backend/ebook/e-card.c:3570
+#: addressbook/backend/ebook/e-card.c:3626
 msgid ""
 "\n"
 "  Family:     "
@@ -345,7 +345,7 @@ msgstr ""
 "\n"
 "  Priezvisko:     "
 
-#: addressbook/backend/ebook/e-card.c:3571
+#: addressbook/backend/ebook/e-card.c:3627
 msgid ""
 "\n"
 "  Suffix:     "
@@ -353,7 +353,7 @@ msgstr ""
 "\n"
 "  Prípona:     "
 
-#: addressbook/backend/ebook/e-card.c:3585
+#: addressbook/backend/ebook/e-card.c:3641
 msgid ""
 "\n"
 "Birth Date: "
@@ -361,7 +361,7 @@ msgstr ""
 "\n"
 "Dátum narodenia:"
 
-#: addressbook/backend/ebook/e-card.c:3596
+#: addressbook/backend/ebook/e-card.c:3652
 msgid ""
 "\n"
 "Address:"
@@ -369,7 +369,7 @@ msgstr ""
 "\n"
 "Adresa:"
 
-#: addressbook/backend/ebook/e-card.c:3598
+#: addressbook/backend/ebook/e-card.c:3654
 msgid ""
 "\n"
 "  Postal Box:  "
@@ -377,7 +377,7 @@ msgstr ""
 "\n"
 "Po¹tová schránka:"
 
-#: addressbook/backend/ebook/e-card.c:3599
+#: addressbook/backend/ebook/e-card.c:3655
 msgid ""
 "\n"
 "  Ext:         "
@@ -385,7 +385,7 @@ msgstr ""
 "\n"
 "  Príp:         "
 
-#: addressbook/backend/ebook/e-card.c:3600
+#: addressbook/backend/ebook/e-card.c:3656
 msgid ""
 "\n"
 "  Street:      "
@@ -393,7 +393,7 @@ msgstr ""
 "\n"
 "  Ulica:      "
 
-#: addressbook/backend/ebook/e-card.c:3601
+#: addressbook/backend/ebook/e-card.c:3657
 msgid ""
 "\n"
 "  City:        "
@@ -401,7 +401,7 @@ msgstr ""
 "\n"
 "   Mesto:  "
 
-#: addressbook/backend/ebook/e-card.c:3602
+#: addressbook/backend/ebook/e-card.c:3658
 msgid ""
 "\n"
 "  Region:      "
@@ -409,7 +409,7 @@ msgstr ""
 "\n"
 "  Región:      "
 
-#: addressbook/backend/ebook/e-card.c:3603
+#: addressbook/backend/ebook/e-card.c:3659
 msgid ""
 "\n"
 "  Postal Code: "
@@ -417,7 +417,7 @@ msgstr ""
 "\n"
 "   PSÈ:  "
 
-#: addressbook/backend/ebook/e-card.c:3604
+#: addressbook/backend/ebook/e-card.c:3660
 msgid ""
 "\n"
 "  Country:     "
@@ -425,7 +425,7 @@ msgstr ""
 "\n"
 "  Krajina:  "
 
-#: addressbook/backend/ebook/e-card.c:3617
+#: addressbook/backend/ebook/e-card.c:3673
 msgid ""
 "\n"
 "Delivery Label: "
@@ -433,7 +433,7 @@ msgstr ""
 "\n"
 "Dodacie ozn:"
 
-#: addressbook/backend/ebook/e-card.c:3629
+#: addressbook/backend/ebook/e-card.c:3685
 msgid ""
 "\n"
 "Telephones:\n"
@@ -441,7 +441,7 @@ msgstr ""
 "\n"
 "Telefóny:\n"
 
-#: addressbook/backend/ebook/e-card.c:3632
+#: addressbook/backend/ebook/e-card.c:3688
 msgid ""
 "\n"
 "Telephone:"
@@ -449,7 +449,7 @@ msgstr ""
 "\n"
 " Telefón: "
 
-#: addressbook/backend/ebook/e-card.c:3656
+#: addressbook/backend/ebook/e-card.c:3712
 msgid ""
 "\n"
 "E-mail:\n"
@@ -457,7 +457,7 @@ msgstr ""
 "\n"
 "E-mail:\n"
 
-#: addressbook/backend/ebook/e-card.c:3659
+#: addressbook/backend/ebook/e-card.c:3715
 msgid ""
 "\n"
 "E-mail:"
@@ -465,7 +465,7 @@ msgstr ""
 "\n"
 "E-mail:"
 
-#: addressbook/backend/ebook/e-card.c:3678
+#: addressbook/backend/ebook/e-card.c:3734
 msgid ""
 "\n"
 "Mailer: "
@@ -473,7 +473,7 @@ msgstr ""
 "\n"
 "Po¹t.klient:"
 
-#: addressbook/backend/ebook/e-card.c:3684
+#: addressbook/backend/ebook/e-card.c:3740
 msgid ""
 "\n"
 "Time Zone: "
@@ -481,7 +481,7 @@ msgstr ""
 "\n"
 "Èasová zóna:"
 
-#: addressbook/backend/ebook/e-card.c:3692
+#: addressbook/backend/ebook/e-card.c:3748
 msgid ""
 "\n"
 "Geo Location: "
@@ -489,7 +489,7 @@ msgstr ""
 "\n"
 "Miesto: "
 
-#: addressbook/backend/ebook/e-card.c:3696
+#: addressbook/backend/ebook/e-card.c:3752
 msgid ""
 "\n"
 "Business Role: "
@@ -497,7 +497,7 @@ msgstr ""
 "\n"
 "Pozícia: "
 
-#: addressbook/backend/ebook/e-card.c:3708
+#: addressbook/backend/ebook/e-card.c:3764
 msgid ""
 "\n"
 "Org: "
@@ -505,7 +505,7 @@ msgstr ""
 "\n"
 "Org: "
 
-#: addressbook/backend/ebook/e-card.c:3709
+#: addressbook/backend/ebook/e-card.c:3765
 msgid ""
 "\n"
 "  Name:  "
@@ -513,7 +513,7 @@ msgstr ""
 "\n"
 " Meno: "
 
-#: addressbook/backend/ebook/e-card.c:3710
+#: addressbook/backend/ebook/e-card.c:3766
 msgid ""
 "\n"
 "  Unit:  "
@@ -521,7 +521,7 @@ msgstr ""
 "\n"
 "  Vlastné:"
 
-#: addressbook/backend/ebook/e-card.c:3711
+#: addressbook/backend/ebook/e-card.c:3767
 msgid ""
 "\n"
 "  Unit2: "
@@ -529,7 +529,7 @@ msgstr ""
 "\n"
 "  Vlastné2: "
 
-#: addressbook/backend/ebook/e-card.c:3712
+#: addressbook/backend/ebook/e-card.c:3768
 msgid ""
 "\n"
 "  Unit3: "
@@ -537,7 +537,7 @@ msgstr ""
 "\n"
 "  Vlastné3: "
 
-#: addressbook/backend/ebook/e-card.c:3713
+#: addressbook/backend/ebook/e-card.c:3769
 msgid ""
 "\n"
 "  Unit4: "
@@ -545,7 +545,7 @@ msgstr ""
 "\n"
 "  Vlastné4: "
 
-#: addressbook/backend/ebook/e-card.c:3717
+#: addressbook/backend/ebook/e-card.c:3773
 msgid ""
 "\n"
 "Categories: "
@@ -553,7 +553,7 @@ msgstr ""
 "\n"
 "Kategórie: "
 
-#: addressbook/backend/ebook/e-card.c:3718
+#: addressbook/backend/ebook/e-card.c:3774
 msgid ""
 "\n"
 "Comment: "
@@ -571,7 +571,7 @@ msgstr ""
 #.
 #. add_SoundType (string, crd->sound.type);
 #. }
-#: addressbook/backend/ebook/e-card.c:3731
+#: addressbook/backend/ebook/e-card.c:3787
 msgid ""
 "\n"
 "Unique String: "
@@ -579,7 +579,7 @@ msgstr ""
 "\n"
 "Unikátny re»azec:"
 
-#: addressbook/backend/ebook/e-card.c:3734
+#: addressbook/backend/ebook/e-card.c:3790
 msgid ""
 "\n"
 "Public Key: "
@@ -587,11 +587,11 @@ msgstr ""
 "\n"
 "Verejný kµúè:"
 
-#: addressbook/backend/ebook/e-card.c:4087
+#: addressbook/backend/ebook/e-card.c:4143
 msgid "Multiple VCards"
 msgstr "Viacero VKariet"
 
-#: addressbook/backend/ebook/e-card.c:4095
+#: addressbook/backend/ebook/e-card.c:4151
 #, c-format
 msgid "VCard for %s"
 msgstr "VKartapre %s"
@@ -601,7 +601,7 @@ msgstr "VKartapre %s"
 #: addressbook/backend/ebook/test-client-list.c:23
 #: addressbook/backend/ebook/test-client.c:33
 #: addressbook/conduit/address-conduit.c:1169
-#: addressbook/gui/component/addressbook-factory.c:48
+#: addressbook/gui/component/addressbook-factory.c:49
 #: calendar/conduits/calendar/calendar-conduit.c:1266
 #: calendar/conduits/todo/todo-conduit.c:1034
 #: calendar/gui/alarm-notify/notify-main.c:78 calendar/gui/main.c:63
@@ -721,8 +721,7 @@ msgstr "Vytváracie rozhranie pre uká¾kový ovládací prvok Adresár"
 
 #: addressbook/gui/component/addressbook-component.c:66
 #: calendar/gui/dialogs/comp-editor-util.c:289
-#: calendar/gui/dialogs/comp-editor-util.c:345 shell/e-local-storage.c:173
-#: shell/e-shortcuts.c:1062
+#: calendar/gui/dialogs/comp-editor-util.c:345 shell/e-shortcuts.c:1062
 msgid "Contacts"
 msgstr "Kontakty"
 
@@ -797,9 +796,8 @@ msgid "Email Address:"
 msgstr "E-mailová adresa:"
 
 #: addressbook/gui/component/addressbook-config.glade.h:10
-msgid ""
-"Evolution will use this email address to authenticate you with the server"
-msgstr ""
+msgid "Evolution will use this email address to authenticate you with the server"
+msgstr "Evolution pou¾ije túto e-mailovú adresu pre prihlásenie na vá¹ server"
 
 #: addressbook/gui/component/addressbook-config.glade.h:11
 msgid "One"
@@ -895,15 +893,11 @@ msgstr "_Port:"
 msgid "_Server name:"
 msgstr "_Meno serveru:"
 
-#: addressbook/gui/component/addressbook-storage.c:168
-msgid "Other Contacts"
-msgstr "Iné kontakty"
-
-#: addressbook/gui/component/addressbook.c:400
+#: addressbook/gui/component/addressbook.c:460
 msgid "Unable to open addressbook"
 msgstr "Nie je mo¾né otvori» adresár"
 
-#: addressbook/gui/component/addressbook.c:409
+#: addressbook/gui/component/addressbook.c:469
 msgid ""
 "We were unable to open this addressbook.  This either\n"
 "means you have entered an incorrect URI, or the LDAP server\n"
@@ -912,7 +906,7 @@ msgstr ""
 "Nebolo mo¾né otvori» tento adresár. To buï znamená, ¾e ste\n"
 "zadali neplatné URI, alebo LDAP server nefunguje."
 
-#: addressbook/gui/component/addressbook.c:414
+#: addressbook/gui/component/addressbook.c:474
 msgid ""
 "This version of Evolution does not have LDAP support\n"
 "compiled in to it.  If you want to use LDAP in Evolution\n"
@@ -923,7 +917,7 @@ msgstr ""
 "Ak chcete LDAP v Evolution pou¾íva», musíte ho prekompilova»\n"
 "z CVS po získaní OpenLDAP z tohto odkazu.\n"
 
-#: addressbook/gui/component/addressbook.c:422
+#: addressbook/gui/component/addressbook.c:482
 msgid ""
 "We were unable to open this addressbook.  Please check that the\n"
 "path exists and that you have permission to access it."
@@ -931,42 +925,42 @@ msgstr ""
 "Nebolo mo¾né otvori» tento adresár. Prosím, overte, ¾e cesta\n"
 "existuje a ¾e máte dostatoèné práva."
 
-#: addressbook/gui/component/addressbook.c:550
-#, fuzzy, c-format
+#: addressbook/gui/component/addressbook.c:615
+#, c-format
 msgid "Enter password for %s (user %s)"
-msgstr "Zadajte va¹e heslo pre %s"
+msgstr "Zadajte heslo pre %s (pou¾ívateµ %s)"
 
-#: addressbook/gui/component/addressbook.c:655
+#: addressbook/gui/component/addressbook.c:720
 #: calendar/gui/cal-search-bar.c:55
 msgid "Any field contains"
 msgstr "¥ubovoµné pole obsahuje"
 
-#: addressbook/gui/component/addressbook.c:656
+#: addressbook/gui/component/addressbook.c:721
 msgid "Name contains"
 msgstr "Meno obsahuje"
 
-#: addressbook/gui/component/addressbook.c:657
+#: addressbook/gui/component/addressbook.c:722
 msgid "Email contains"
 msgstr "E-mail obsahuje"
 
-#: addressbook/gui/component/addressbook.c:658
+#: addressbook/gui/component/addressbook.c:723
 #: calendar/gui/cal-search-bar.c:59
 msgid "Category is"
 msgstr "Kategória je"
 
 #. We attach subitems below
-#: addressbook/gui/component/addressbook.c:659 widgets/misc/e-filter-bar.h:97
+#: addressbook/gui/component/addressbook.c:724 widgets/misc/e-filter-bar.h:97
 #: widgets/misc/e-filter-bar.h:104
 msgid "Advanced..."
 msgstr "Pokroèilé..."
 
 #. All, unmatched, separator
-#: addressbook/gui/component/addressbook.c:889
+#: addressbook/gui/component/addressbook.c:955
 #: calendar/gui/cal-search-bar.c:412
 msgid "Any Category"
 msgstr "¥ubovoµná kategória"
 
-#: addressbook/gui/component/addressbook.c:929
+#: addressbook/gui/component/addressbook.c:995
 msgid "The URI that the Folder Browser will display"
 msgstr "URI, ktoré zobrazí prehliadaè prieèinku"
 
@@ -981,7 +975,7 @@ msgstr "(niè)"
 
 #: addressbook/gui/component/e-address-popup.c:466
 #: addressbook/gui/contact-editor/contact-editor.glade.h:17
-#: addressbook/gui/contact-editor/e-contact-editor.c:1636
+#: addressbook/gui/contact-editor/e-contact-editor.c:1629
 msgid "Primary Email"
 msgstr "Primárny e-mail"
 
@@ -1036,7 +1030,7 @@ msgid "Factory for the Addressbook's name selection interface"
 msgstr "Vytváracie rozhranie pre rozhranie pre výber mena adresára."
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:164
-#: addressbook/gui/component/select-names/e-select-names.c:763
+#: addressbook/gui/component/select-names/e-select-names.c:757
 #: composer/e-msg-composer-attachment-bar.c:497 filter/filter-filter.c:436
 #: filter/filter-rule.c:613 shell/e-shortcuts-view.c:181
 msgid "Remove"
@@ -1067,7 +1061,7 @@ msgstr "(%d nezobrazených)"
 msgid "Unnamed Contact"
 msgstr "Kontakt bez mena"
 
-#: addressbook/gui/component/select-names/e-select-names.c:522
+#: addressbook/gui/component/select-names/e-select-names.c:516
 msgid ""
 "Evolution is unable to get the addressbook local storage. This may have been "
 "caused by the evolution-addressbook component crashing. To help us better "
@@ -1080,7 +1074,7 @@ msgstr ""
 "vyrie¹ili tento problém, po¹lite e-mail Jonovi Trowbridgeovi <trow@ximian."
 "com> s detailným popisom okolností, pri ktorých sa chyba objavila. Ïakujeme."
 
-#: addressbook/gui/component/select-names/e-select-names.c:599
+#: addressbook/gui/component/select-names/e-select-names.c:593
 msgid "Select Contacts from Addressbook"
 msgstr "Vyberte kontakty z adresára"
 
@@ -1140,7 +1134,7 @@ msgstr "Spolupráca"
 
 #. Construct the app
 #: addressbook/gui/contact-editor/contact-editor.glade.h:6
-#: addressbook/gui/contact-editor/e-contact-editor.c:1241
+#: addressbook/gui/contact-editor/e-contact-editor.c:1236
 msgid "Contact Editor"
 msgstr "Editor kontaktov"
 
@@ -1274,24 +1268,18 @@ msgid "_Web page address:"
 msgstr "Adresa _WWW stránky:"
 
 #: addressbook/gui/contact-editor/e-contact-editor-confirm-delete.glade.h:1
-msgid ""
-"Are you sure you want\n"
-"to delete this contact?"
-msgstr "Naozaj chcete odstráni» tento kontakt?"
-
-#: addressbook/gui/contact-editor/e-contact-editor-confirm-delete.glade.h:3
 msgid "Delete Contact?"
 msgstr "Odstráni» kontakt?"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:759
+#: addressbook/gui/contact-editor/e-contact-editor.c:754
 msgid "This contact belongs to these categories:"
 msgstr "Tento kontakt patrí do týchto kategórií:"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:1612
+#: addressbook/gui/contact-editor/e-contact-editor.c:1605
 msgid "TTY/TDD"
 msgstr "TTY/TDD"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2234
+#: addressbook/gui/contact-editor/e-contact-editor.c:2227
 #, c-format
 msgid "Could not find widget for a field: `%s'"
 msgstr "Nie je mo¾né nájs» prvok pre pole: `%s'"
@@ -1305,7 +1293,7 @@ msgid "Edit Full"
 msgstr "Upravi» celé"
 
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:311
-#: addressbook/gui/widgets/e-addressbook-view.c:869
+#: addressbook/gui/widgets/e-addressbook-view.c:878
 msgid "Full Name"
 msgstr "Celé meno"
 
@@ -1967,9 +1955,8 @@ msgid "Palau"
 msgstr "Palau"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:162
-#, fuzzy
 msgid "Palestinian Territory"
-msgstr "Britské teritórium Indický oceán"
+msgstr "Palestínske územia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:163
 msgid "Panama"
@@ -2440,24 +2427,24 @@ msgstr "Pokroèilé hµadanie"
 msgid "Search"
 msgstr "Hµada»"
 
-#: addressbook/gui/widgets/e-addressbook-model.c:121
+#: addressbook/gui/widgets/e-addressbook-model.c:127
 msgid "No cards"
 msgstr "®iadne karty"
 
-#: addressbook/gui/widgets/e-addressbook-model.c:124
+#: addressbook/gui/widgets/e-addressbook-model.c:130
 msgid "1 card"
 msgstr "1 karta"
 
-#: addressbook/gui/widgets/e-addressbook-model.c:127
+#: addressbook/gui/widgets/e-addressbook-model.c:133
 #, c-format
 msgid "%d cards"
 msgstr "%d kariet"
 
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:138
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:267
-#: addressbook/gui/widgets/e-addressbook-view.c:691
-#: addressbook/gui/widgets/e-addressbook-view.c:753
-#: addressbook/gui/widgets/e-addressbook-view.c:1422
+#: addressbook/gui/widgets/e-addressbook-view.c:699
+#: addressbook/gui/widgets/e-addressbook-view.c:761
+#: addressbook/gui/widgets/e-addressbook-view.c:1433
 #: ui/evolution-addressbook.xml.h:19
 msgid "Save as VCard"
 msgstr "Ulo¾i» ako VCard"
@@ -2468,18 +2455,18 @@ msgid "Open"
 msgstr "Otvori»"
 
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:268
-#: addressbook/gui/widgets/e-addressbook-view.c:754
+#: addressbook/gui/widgets/e-addressbook-view.c:762
 #: ui/evolution-addressbook.xml.h:10
 msgid "Forward Contact"
 msgstr "Preda» ïalej kontakt"
 
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:269
-#: addressbook/gui/widgets/e-addressbook-view.c:755
+#: addressbook/gui/widgets/e-addressbook-view.c:763
 msgid "Send Message to Contact"
 msgstr "Posla» správu kontaktu"
 
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:270
-#: addressbook/gui/widgets/e-addressbook-view.c:756
+#: addressbook/gui/widgets/e-addressbook-view.c:764
 #: ui/evolution-addressbook.xml.h:16 ui/evolution-comp-editor.xml.h:8
 #: ui/evolution-contact-editor.xml.h:4 ui/evolution-mail-message.xml.h:63
 #: ui/my-evolution.xml.h:2
@@ -2487,12 +2474,12 @@ msgid "Print"
 msgstr "Tlaèi»"
 
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:272
-#: addressbook/gui/widgets/e-addressbook-view.c:758
+#: addressbook/gui/widgets/e-addressbook-view.c:766
 msgid "Print Envelope"
 msgstr "Tlaèi» obálku"
 
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:274
-#: addressbook/gui/widgets/e-addressbook-view.c:760 filter/libfilter-i18n.h:11
+#: addressbook/gui/widgets/e-addressbook-view.c:768 filter/libfilter-i18n.h:11
 #: mail/mail-accounts.c:281 ui/evolution-addressbook.xml.h:8
 #: ui/evolution-comp-editor.xml.h:4 ui/evolution-contact-editor.xml.h:2
 #: ui/evolution-contact-list-editor.xml.h:2 ui/evolution-mail-message.xml.h:16
@@ -2511,7 +2498,7 @@ msgid "Success"
 msgstr "Úspech"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:35
-#: camel/providers/imap/camel-imap-command.c:340 shell/e-shell.c:1712
+#: camel/providers/imap/camel-imap-command.c:340 shell/e-shell.c:1732
 #: shell/e-storage.c:525
 msgid "Unknown error"
 msgstr "Neznáma chyba"
@@ -2539,8 +2526,8 @@ msgstr "Protokol nepodporovaný"
 #: addressbook/gui/widgets/e-addressbook-util.c:41
 #: calendar/gui/calendar-model.c:726 calendar/gui/calendar-model.c:1247
 #: calendar/gui/dialogs/task-details-page.glade.h:3
-#: calendar/gui/e-calendar-table.c:461 camel/camel-service.c:603
-#: camel/camel-service.c:639
+#: calendar/gui/e-calendar-table.c:461 camel/camel-service.c:608
+#: camel/camel-service.c:644
 msgid "Cancelled"
 msgstr "Zru¹ený"
 
@@ -2565,14 +2552,14 @@ msgid "Error removing list"
 msgstr "Chyba pri odstraòovaní zoznamu"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:78
-#: addressbook/gui/widgets/e-addressbook-view.c:1297
+#: addressbook/gui/widgets/e-addressbook-view.c:1306
 msgid "Error removing card"
 msgstr "Chyba pri odstraòovaní karty"
 
 #. Translators: put here a list of labels you want to see on buttons in
 #. addressbook. You may use any character to separate labels but it must
 #. also be placed at the begining ot the string
-#: addressbook/gui/widgets/e-addressbook-view.c:399
+#: addressbook/gui/widgets/e-addressbook-view.c:407
 msgid ",123,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z"
 msgstr ",123,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z"
 
@@ -2580,67 +2567,67 @@ msgstr ",123,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z"
 #. in addressbook. You may use any character to separate labels but it
 #. must also be placed at the begining ot the string.
 #. Use lower case letters if possible.
-#: addressbook/gui/widgets/e-addressbook-view.c:404
+#: addressbook/gui/widgets/e-addressbook-view.c:412
 msgid ",0,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z"
 msgstr ",0,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:867
+#: addressbook/gui/widgets/e-addressbook-view.c:876
 msgid "* Click here to add a contact *"
 msgstr "* Kliknutím pridáte kontakt *"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:871
+#: addressbook/gui/widgets/e-addressbook-view.c:880
 msgid "Primary Phone"
 msgstr "Primárny telefón"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:872
+#: addressbook/gui/widgets/e-addressbook-view.c:881
 msgid "Assistant Phone"
 msgstr "Asistentov telefón"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:873
+#: addressbook/gui/widgets/e-addressbook-view.c:882
 msgid "Business Phone"
 msgstr "Telefón do zamestania"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:874
+#: addressbook/gui/widgets/e-addressbook-view.c:883
 msgid "Callback Phone"
 msgstr "Spätné volanie"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:875
+#: addressbook/gui/widgets/e-addressbook-view.c:884
 msgid "Company Phone"
 msgstr "Firemný felefón"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:876
+#: addressbook/gui/widgets/e-addressbook-view.c:885
 msgid "Home Phone"
 msgstr "Telefón domov"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:878
+#: addressbook/gui/widgets/e-addressbook-view.c:887
 msgid "Business Address"
 msgstr "Adresa zamestania"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:879
+#: addressbook/gui/widgets/e-addressbook-view.c:888
 msgid "Home Address"
 msgstr "Adresa domov"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:880
+#: addressbook/gui/widgets/e-addressbook-view.c:889
 msgid "Mobile Phone"
 msgstr "Mobil"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:881
+#: addressbook/gui/widgets/e-addressbook-view.c:890
 msgid "Car Phone"
 msgstr "Telefón v aute"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:884
+#: addressbook/gui/widgets/e-addressbook-view.c:893
 msgid "Business Phone 2"
 msgstr "Telefón do zamestnania 2"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:885
+#: addressbook/gui/widgets/e-addressbook-view.c:894
 msgid "Home Phone 2"
 msgstr "Telefón domov 2"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:887
+#: addressbook/gui/widgets/e-addressbook-view.c:896
 msgid "Other Phone"
 msgstr "Iný telefón"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:893
+#: addressbook/gui/widgets/e-addressbook-view.c:902
 msgid "Other Address"
 msgstr "Iná adresa"
 
@@ -3066,8 +3053,7 @@ msgid "%d %B"
 msgstr "%d %B"
 
 #: calendar/gui/calendar-commands.c:677
-msgid ""
-"Could not create the calendar view.  Please check your ORBit and OAF setup."
+msgid "Could not create the calendar view.  Please check your ORBit and OAF setup."
 msgstr ""
 "Nie je mo¾né vytvori» kalendárový pohµad. Prosím, overte nastavenie ORBit a "
 "OAF."
@@ -3226,12 +3212,12 @@ msgstr "Popis obsahuje"
 msgid "Comment contains"
 msgstr "Komentár obsahuje"
 
-#: calendar/gui/cal-search-bar.c:416 mail/mail-ops.c:1061
+#: calendar/gui/cal-search-bar.c:416
 msgid "Unmatched"
 msgstr "Nenájdené"
 
-#: calendar/gui/component-factory.c:63 my-evolution/my-evolution.glade.h:6
-#: shell/e-local-storage.c:172 shell/e-shortcuts.c:1056
+#: calendar/gui/component-factory.c:63 my-evolution/my-evolution.glade.h:7
+#: shell/e-shortcuts.c:1056
 msgid "Calendar"
 msgstr "Kalendár"
 
@@ -3239,9 +3225,8 @@ msgstr "Kalendár"
 msgid "Folder containing appointments and events"
 msgstr "Prieèinok obsahujúci schôdzky a udalosti"
 
-#: calendar/gui/component-factory.c:68 calendar/gui/print.c:1723
-#: my-evolution/e-summary-tasks.c:235 my-evolution/e-summary-tasks.c:251
-#: shell/e-local-storage.c:178 shell/e-shortcuts.c:1059
+#: calendar/gui/component-factory.c:68 my-evolution/e-summary-tasks.c:235
+#: my-evolution/e-summary-tasks.c:251 shell/e-shortcuts.c:1059
 #: views/tasks/galview.xml.h:1
 msgid "Tasks"
 msgstr "Úlohy"
@@ -3809,12 +3794,12 @@ msgstr "Polo¾ka denníka - %s"
 msgid "No summary"
 msgstr "®iadny súhrn"
 
-#: calendar/gui/dialogs/comp-editor.c:954 mail/mail-callbacks.c:1748
+#: calendar/gui/dialogs/comp-editor.c:954 mail/mail-callbacks.c:1764
 #: mail/mail-display.c:100
 msgid "Overwrite file?"
 msgstr "Prepísa» súbor?"
 
-#: calendar/gui/dialogs/comp-editor.c:958 mail/mail-callbacks.c:1756
+#: calendar/gui/dialogs/comp-editor.c:958 mail/mail-callbacks.c:1771
 #: mail/mail-display.c:104
 msgid ""
 "A file by that name already exists.\n"
@@ -3946,7 +3931,7 @@ msgid "Pu_blic"
 msgstr "_Verejné"
 
 #: calendar/gui/dialogs/event-page.glade.h:10
-#: calendar/gui/e-calendar-table.etspec.h:13
+#: calendar/gui/e-calendar-table.etspec.h:12
 msgid "Show Time As"
 msgstr "Zobrazi» èas ako"
 
@@ -3999,54 +3984,49 @@ msgstr "Úèastník"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:2
 #: calendar/gui/e-meeting-time-sel.etspec.h:2
-msgid "Click here to add an attendee"
-msgstr "Kliknutím pridáte úèastníka"
-
-#: calendar/gui/dialogs/meeting-page.etspec.h:3
-#: calendar/gui/e-meeting-time-sel.etspec.h:3
 msgid "Common Name"
 msgstr "Spoloèé meno"
 
-#: calendar/gui/dialogs/meeting-page.etspec.h:4
-#: calendar/gui/e-meeting-time-sel.etspec.h:4
+#: calendar/gui/dialogs/meeting-page.etspec.h:3
+#: calendar/gui/e-meeting-time-sel.etspec.h:3
 msgid "Delegated From"
 msgstr "Delegované od"
 
-#: calendar/gui/dialogs/meeting-page.etspec.h:5
-#: calendar/gui/e-meeting-time-sel.etspec.h:5
+#: calendar/gui/dialogs/meeting-page.etspec.h:4
+#: calendar/gui/e-meeting-time-sel.etspec.h:4
 msgid "Delegated To"
 msgstr "Delegované na"
 
-#: calendar/gui/dialogs/meeting-page.etspec.h:6
-#: calendar/gui/e-meeting-time-sel.etspec.h:6
+#: calendar/gui/dialogs/meeting-page.etspec.h:5
+#: calendar/gui/e-meeting-time-sel.etspec.h:5
 msgid "Language"
 msgstr "Jazyk"
 
-#: calendar/gui/dialogs/meeting-page.etspec.h:7
-#: calendar/gui/e-meeting-time-sel.etspec.h:7
+#: calendar/gui/dialogs/meeting-page.etspec.h:6
+#: calendar/gui/e-meeting-time-sel.etspec.h:6
 msgid "Member"
 msgstr "Èlen"
 
-#: calendar/gui/dialogs/meeting-page.etspec.h:8
-#: calendar/gui/e-meeting-time-sel.etspec.h:8
+#: calendar/gui/dialogs/meeting-page.etspec.h:7
+#: calendar/gui/e-meeting-time-sel.etspec.h:7
 msgid "RSVP"
 msgstr "RSVP"
 
-#: calendar/gui/dialogs/meeting-page.etspec.h:9
-#: calendar/gui/e-meeting-time-sel.etspec.h:9
+#: calendar/gui/dialogs/meeting-page.etspec.h:8
+#: calendar/gui/e-meeting-time-sel.etspec.h:8
 msgid "Role"
 msgstr "Rola"
 
-#: calendar/gui/dialogs/meeting-page.etspec.h:10
-#: calendar/gui/e-calendar-table.etspec.h:15
-#: calendar/gui/e-meeting-time-sel.etspec.h:10 filter/libfilter-i18n.h:49
+#: calendar/gui/dialogs/meeting-page.etspec.h:9
+#: calendar/gui/e-calendar-table.etspec.h:14
+#: calendar/gui/e-meeting-time-sel.etspec.h:9 filter/libfilter-i18n.h:49
 #: mail/message-list.etspec.h:8
 msgid "Status"
 msgstr "Stav"
 
-#: calendar/gui/dialogs/meeting-page.etspec.h:11
-#: calendar/gui/e-calendar-table.etspec.h:18
-#: calendar/gui/e-meeting-time-sel.etspec.h:11 mail/mail-config.glade.h:87
+#: calendar/gui/dialogs/meeting-page.etspec.h:10
+#: calendar/gui/e-calendar-table.etspec.h:17
+#: calendar/gui/e-meeting-time-sel.etspec.h:10 mail/mail-config.glade.h:87
 #: shell/glade/e-active-connection-dialog.glade.h:5
 msgid "Type"
 msgstr "Typ"
@@ -4317,7 +4297,6 @@ msgid "_Delete Selected Tasks"
 msgstr "O_dstráni» vybrané úlohy"
 
 #: calendar/gui/e-calendar-table.c:1194
-#: calendar/gui/e-calendar-table.etspec.h:6
 msgid "Click to add a task"
 msgstr "Kliknutím pridáte úlohu"
 
@@ -4325,48 +4304,48 @@ msgstr "Kliknutím pridáte úlohu"
 msgid "Alarms"
 msgstr "Alarmy"
 
-#: calendar/gui/e-calendar-table.etspec.h:7 camel/camel-filter-driver.c:718
+#: calendar/gui/e-calendar-table.etspec.h:6 camel/camel-filter-driver.c:718
 #: camel/camel-filter-driver.c:834
 msgid "Complete"
 msgstr "Hotovo"
 
-#: calendar/gui/e-calendar-table.etspec.h:8
+#: calendar/gui/e-calendar-table.etspec.h:7
 msgid "Completion Date"
 msgstr "Dátum dokonèenia"
 
-#: calendar/gui/e-calendar-table.etspec.h:9
+#: calendar/gui/e-calendar-table.etspec.h:8
 msgid "Due Date"
 msgstr "Termín"
 
-#: calendar/gui/e-calendar-table.etspec.h:10
+#: calendar/gui/e-calendar-table.etspec.h:9
 msgid "End Date"
 msgstr "Dátum konca"
 
-#: calendar/gui/e-calendar-table.etspec.h:11
+#: calendar/gui/e-calendar-table.etspec.h:10
 msgid "Geographical Position"
 msgstr "Geografické umiestnenie"
 
-#: calendar/gui/e-calendar-table.etspec.h:12
+#: calendar/gui/e-calendar-table.etspec.h:11
 msgid "Priority"
 msgstr "Priorita"
 
-#: calendar/gui/e-calendar-table.etspec.h:14
+#: calendar/gui/e-calendar-table.etspec.h:13
 msgid "Start Date"
 msgstr "Dátum ¹tartu"
 
 #. FIXME: Inbox shortcut should point to something else for
 #. people who won't care about using /Local Folders/Inbox
-#: calendar/gui/e-calendar-table.etspec.h:16
+#: calendar/gui/e-calendar-table.etspec.h:15
 #: my-evolution/component-factory.c:45 shell/e-shortcuts.c:1050
-#: shell/e-storage-set-view.c:1453 shell/e-summary-storage.c:80
+#: shell/e-storage-set-view.c:1453
 msgid "Summary"
 msgstr "Súhrn"
 
-#: calendar/gui/e-calendar-table.etspec.h:17
+#: calendar/gui/e-calendar-table.etspec.h:16
 msgid "Task sort"
 msgstr "Triedenie úloh"
 
-#: calendar/gui/e-calendar-table.etspec.h:19
+#: calendar/gui/e-calendar-table.etspec.h:18
 msgid "URL"
 msgstr "URL"
 
@@ -4391,13 +4370,11 @@ msgstr "%d %b"
 
 #. String to use in 12-hour time format for times in the morning.
 #: calendar/gui/e-day-view.c:609 calendar/gui/e-week-view.c:345
-#: calendar/gui/print.c:769
 msgid "am"
 msgstr "dopoludnia"
 
 #. String to use in 12-hour time format for times in the afternoon.
 #: calendar/gui/e-day-view.c:612 calendar/gui/e-week-view.c:348
-#: calendar/gui/print.c:771
 msgid "pm"
 msgstr "popoludní"
 
@@ -4430,257 +4407,47 @@ msgstr "Odstráni» tento vý_skyt"
 msgid "Delete _All Occurrences"
 msgstr "Odstráni» _v¹etky výskyty"
 
-#: calendar/gui/e-itip-control.c:469
-msgid "Meeting begins: <b>"
-msgstr "Stretnutie zaèína: <b>"
-
-#: calendar/gui/e-itip-control.c:474
-msgid "Task begins: <b>"
-msgstr "Úloha zaèína: <b>"
-
-#: calendar/gui/e-itip-control.c:479
-msgid "Free/Busy info begins: <b>"
-msgstr "Informácie o voµnom èase zaèína: <b>"
-
-#: calendar/gui/e-itip-control.c:483
-msgid "Begins: <b>"
-msgstr "Zaèína: <b>"
-
-#. Describe what the user can do
-#: calendar/gui/e-itip-control.c:677
-msgid ""
-"<br> Please review the following information, and then select an action from "
-"the menu below."
-msgstr ""
-"<br> Prosím, skontrolujte nasledujúce informácie a vyberte akciu z menu dole."
-
-#: calendar/gui/e-itip-control.c:692
-#, c-format
-msgid "<b>Summary:</b> %s<br><br>"
-msgstr "<b>Súhrn:</b> %s<br><br>"
-
-#: calendar/gui/e-itip-control.c:692
-msgid "<i>None</i>"
-msgstr "<i>®iadny</i>"
-
-#: calendar/gui/e-itip-control.c:702
-#, c-format
-msgid "<b>Description:</b> %s"
-msgstr "<b>Popis:</b> %s"
-
-#: calendar/gui/e-itip-control.c:737
-#, c-format
-msgid "<b>%s</b> has published meeting information."
-msgstr "<b>%s</b> poslal informácie o stretnutí."
-
-#: calendar/gui/e-itip-control.c:738
-msgid "Meeting Information"
-msgstr "Informácie o stretnutí"
-
-#: calendar/gui/e-itip-control.c:742
-#, c-format
-msgid "<b>%s</b> requests your presence at a meeting."
-msgstr "<b>%s</b> vy¾aduje va¹u úèas» na stretnutí."
-
-#: calendar/gui/e-itip-control.c:743
-msgid "Meeting Proposal"
-msgstr "Návrh na stretnutie"
-
-#: calendar/gui/e-itip-control.c:747
-#, c-format
-msgid "<b>%s</b> wishes to add to an existing meeting."
-msgstr "<b>%s</b> si praje by» pridaný do existujúceho stretnutia."
-
-#: calendar/gui/e-itip-control.c:748
-msgid "Meeting Update"
-msgstr "Aktualizácia stretnutia"
-
-#: calendar/gui/e-itip-control.c:752
-#, c-format
-msgid "<b>%s</b> wishes to receive the latest meeting information."
-msgstr "<b>%s</b> po¾aduje najnov¹ie informácie o stretnutí."
-
-#: calendar/gui/e-itip-control.c:753
-msgid "Meeting Update Request"
-msgstr "Po¾iadavka na aktualizáciu stretnutia"
-
-#: calendar/gui/e-itip-control.c:757
-#, c-format
-msgid "<b>%s</b> has replied to a meeting request."
-msgstr "<b>%s</b> odpovedal na po¾iadavku na stretnutie."
-
-#: calendar/gui/e-itip-control.c:758
-msgid "Meeting Reply"
-msgstr "Odpoveï na stretnutie"
-
-#: calendar/gui/e-itip-control.c:762
-#, c-format
-msgid "<b>%s</b> has cancelled a meeting."
-msgstr "<b>%s</b> zru¹il stretnutie."
-
-#: calendar/gui/e-itip-control.c:763
-msgid "Meeting Cancellation"
-msgstr "Zru¹enie stretnutia"
-
-#: calendar/gui/e-itip-control.c:767 calendar/gui/e-itip-control.c:815
-#: calendar/gui/e-itip-control.c:848
-#, c-format
-msgid "<b>%s</b> has sent an unintelligible message."
-msgstr "<b>%s</b> poslal neplatnú správu."
-
-#: calendar/gui/e-itip-control.c:768
-msgid "Bad Meeting Message"
-msgstr "Neplatná správa o stretnutí"
-
-#: calendar/gui/e-itip-control.c:785
-#, c-format
-msgid "<b>%s</b> has published task information."
-msgstr "<b>%s</b> poslal informácie o úlohe."
-
-#: calendar/gui/e-itip-control.c:786
-msgid "Task Information"
-msgstr "Informácia o úlohe"
-
-#: calendar/gui/e-itip-control.c:790
-#, c-format
-msgid "<b>%s</b> requests you perform a task."
-msgstr "<b>%s</b> po¾aduje, aby ste vykonali úlohu."
-
-#: calendar/gui/e-itip-control.c:791
-msgid "Task Proposal"
-msgstr "Návrh na úlohu"
-
-#: calendar/gui/e-itip-control.c:795
-#, c-format
-msgid "<b>%s</b> wishes to add to an existing task."
-msgstr "<b>%s</b> si praje by» pridaný do existujúcej úlohy."
-
-#: calendar/gui/e-itip-control.c:796
-msgid "Task Update"
-msgstr "Aktualizácia úlohy"
-
-#: calendar/gui/e-itip-control.c:800
-#, c-format
-msgid "<b>%s</b> wishes to receive the latest task information."
-msgstr "<b>%s</b> si praje dosta» najnov¹ie informácie o úlohe."
-
-#: calendar/gui/e-itip-control.c:801
-msgid "Task Update Request"
-msgstr "Po¾iadavka na aktualizáciu úlohy"
-
-#: calendar/gui/e-itip-control.c:805
-#, c-format
-msgid "<b>%s</b> has replied to a task assignment."
-msgstr "<b>%s</b> odpovedal na priradenie úlohy."
-
-#: calendar/gui/e-itip-control.c:806
-msgid "Task Reply"
-msgstr "Odpoveï na úlohu"
-
-#: calendar/gui/e-itip-control.c:810
-#, c-format
-msgid "<b>%s</b> has cancelled a task."
-msgstr "<b>%s</b> zru¹il úlohu."
-
-#: calendar/gui/e-itip-control.c:811
-msgid "Task Cancellation"
-msgstr "Zru¹enie úlohy"
-
-#: calendar/gui/e-itip-control.c:816
-msgid "Bad Task Message"
-msgstr "Neplatná správa o úlohe"
-
-#: calendar/gui/e-itip-control.c:833
-#, c-format
-msgid "<b>%s</b> has published free/busy information."
-msgstr "<b>%s</b> oznámil informácie o voµnom èase."
-
-#: calendar/gui/e-itip-control.c:834
-msgid "Free/Busy Information"
-msgstr "Informácie o voµnom èase"
-
-#: calendar/gui/e-itip-control.c:838
-#, c-format
-msgid "<b>%s</b> requests your free/busy information."
-msgstr "<b>%s</b> po¾aduje informáciu o va¹om voµnom èase."
-
-#: calendar/gui/e-itip-control.c:839
-msgid "Free/Busy Request"
-msgstr "Po¾iadavka na voµný èas"
-
-#: calendar/gui/e-itip-control.c:843
-#, c-format
-msgid "<b>%s</b> has replied to a free/busy request."
-msgstr "<b>%s</b> odpovedal na po¾iadavku na voµný èas."
-
-#: calendar/gui/e-itip-control.c:844
-msgid "Free/Busy Reply"
-msgstr "Odpoveï o voµnom èase"
-
-#: calendar/gui/e-itip-control.c:849
-msgid "Bad Free/Busy Message"
-msgstr "Neplatná správa o voµnom èase"
-
-#: calendar/gui/e-itip-control.c:917
-msgid "The message does not appear to be properly formed"
-msgstr "Správa vyzerá, ¾e má nesprávny formát"
-
-#: calendar/gui/e-itip-control.c:936
-msgid "The message contains only unsupported requests."
-msgstr "Správa obsahuje iba nepodporované po¾iadavky."
-
-#: calendar/gui/e-itip-control.c:964 calendar/gui/e-itip-control.c:970
-msgid "The attachment does not contain a valid calendar message"
-msgstr "Príloha neobsahuje platnú správu kalendára"
-
-#: calendar/gui/e-itip-control.c:995
-#, fuzzy
-msgid "The attachment has no viewable calendar items"
-msgstr "Príloha neobsahuje platnú správu kalendára"
-
-#: calendar/gui/e-itip-control.c:1094
+#: calendar/gui/e-itip-control.c:1082
 msgid "Calendar file could not be updated!\n"
 msgstr "Súbor kalendára nie je aktualizova»!\n"
 
-#: calendar/gui/e-itip-control.c:1096
+#: calendar/gui/e-itip-control.c:1084
 msgid "Update complete\n"
 msgstr "Aktualizácia dokonèená\n"
 
-#: calendar/gui/e-itip-control.c:1141
+#: calendar/gui/e-itip-control.c:1129
 msgid "Attendee status could not be updated because of an invalid status!\n"
-msgstr ""
-"Stav úèastníka nie je mo¾né aktualizova», preto¾e jeho stav nie je platný!\n"
+msgstr "Stav úèastníka nie je mo¾né aktualizova», preto¾e jeho stav nie je platný!\n"
 
-#: calendar/gui/e-itip-control.c:1149
+#: calendar/gui/e-itip-control.c:1137
 msgid "Attendee status ould not be updated!\n"
 msgstr "Stav úèastníka nie je mo¾né aktualizova»!\n"
 
-#: calendar/gui/e-itip-control.c:1151
+#: calendar/gui/e-itip-control.c:1139
 msgid "Attendee status updated\n"
 msgstr "Stav úèastníka bol aktualizovaný\n"
 
-#: calendar/gui/e-itip-control.c:1153
+#: calendar/gui/e-itip-control.c:1141
 msgid "Attendee status can not be updated because the item no longer exists"
-msgstr ""
-"Stav úèastníka nie je mo¾né aktualizova», preto¾e polo¾ka u¾ neexistuje"
+msgstr "Stav úèastníka nie je mo¾né aktualizova», preto¾e polo¾ka u¾ neexistuje"
 
-#: calendar/gui/e-itip-control.c:1181
+#: calendar/gui/e-itip-control.c:1169
 msgid "I couldn't remove the item from your calendar file!\n"
 msgstr "Nie je mo¾né odstráni» polo¾ku zo súboru s kalendárom!\n"
 
-#: calendar/gui/e-itip-control.c:1183
+#: calendar/gui/e-itip-control.c:1171
 msgid "Removal Complete"
 msgstr "Odstránenie dokonèené"
 
-#: calendar/gui/e-itip-control.c:1215 calendar/gui/e-itip-control.c:1249
+#: calendar/gui/e-itip-control.c:1203 calendar/gui/e-itip-control.c:1237
 msgid "Item sent!\n"
 msgstr "Polo¾ka poslaná!\n"
 
-#: calendar/gui/e-itip-control.c:1217 calendar/gui/e-itip-control.c:1253
+#: calendar/gui/e-itip-control.c:1205 calendar/gui/e-itip-control.c:1241
 msgid "The item could not be sent!\n"
 msgstr "Polo¾ku nie je mo¾né posla»!\n"
 
-#: calendar/gui/e-itip-control.c:1417
+#: calendar/gui/e-itip-control.c:1405
 msgid "Unable to find any of your identities in the attendees list!\n"
 msgstr "Nepodarilo sa nájs» ¾iadnu z va¹ich identít v zozname úèastníkov!\n"
 
@@ -4966,7 +4733,7 @@ msgstr "September"
 
 #: calendar/gui/itip-utils.c:253
 msgid "Atleast one attendee is necessary"
-msgstr ""
+msgstr "Nutný je aspoò jeden úèastník"
 
 #: calendar/gui/itip-utils.c:283
 msgid "An organizer must be set."
@@ -5166,7 +4933,7 @@ msgid "Print Calendar"
 msgstr "Tlaèi» kalendár"
 
 #: calendar/gui/print.c:2312 calendar/gui/print.c:2404
-#: mail/mail-callbacks.c:2164 my-evolution/e-summary.c:607
+#: mail/mail-callbacks.c:2180 my-evolution/e-summary.c:607
 #: ui/evolution-addressbook.xml.h:17 ui/evolution-mail-message.xml.h:64
 msgid "Print Preview"
 msgstr "Uká¾ka pred tlaèou"
@@ -5432,7 +5199,7 @@ msgstr "Chyba pri spracovávaní filtra: %s: %s"
 msgid "Error executing filter: %s: %s"
 msgstr "Chyba pri vykonávaní filtra: %s: %s"
 
-#: camel/camel-filter-search.c:493 camel/camel-filter-search.c:500
+#: camel/camel-filter-search.c:495 camel/camel-filter-search.c:502
 #, c-format
 msgid "Error executing filter search: %s: %s"
 msgstr "Chyba pri vykonávaní hµadania filtra: %s: %s"
@@ -5448,9 +5215,9 @@ msgid "Unsupported operation: search by expression: for %s"
 msgstr "Nepodporovaná operácia: hµadanie výrazom: %s"
 
 #: camel/camel-folder.c:1087
-#, fuzzy, c-format
+#, c-format
 msgid "Unsupported operation: search by uids: for %s"
-msgstr "Nepodporovaná operácia: hµadanie výrazom: %s"
+msgstr "Nepodporovaná operácia: hµadanie pomocou uid: %s"
 
 #: camel/camel-folder.c:1266
 msgid "Moving messages"
@@ -5582,79 +5349,76 @@ msgstr "Chyba pri zápise po¹ty do doèasného súboru: %s"
 msgid "Error copying mail temp file: %s"
 msgstr "Chyba kopírovaní doèasného súboru: po¹ty %s"
 
-#: camel/camel-pgp-context.c:191
+#: camel/camel-pgp-context.c:192
 #, c-format
 msgid "Please enter your %s passphrase for %s"
 msgstr "Prosím, zadajte va¹e %s heslo pre %s"
 
-#: camel/camel-pgp-context.c:194
+#: camel/camel-pgp-context.c:195
 #, c-format
 msgid "Please enter your %s passphrase"
 msgstr "Prosím, zadajte va¹e %s heslo"
 
-#: camel/camel-pgp-context.c:525
+#: camel/camel-pgp-context.c:526
 msgid "Cannot sign this message: no plaintext to sign"
 msgstr "Nie je mo¾né podpísa» správu: ¾iadny text na podpis"
 
-#: camel/camel-pgp-context.c:532 camel/camel-pgp-context.c:706
+#: camel/camel-pgp-context.c:533 camel/camel-pgp-context.c:707
 msgid "Cannot sign this message: no password provided"
 msgstr "Nie je mo¾né podpísa» správu: nezadané heslo"
 
-#: camel/camel-pgp-context.c:538 camel/camel-pgp-context.c:712
+#: camel/camel-pgp-context.c:539 camel/camel-pgp-context.c:713
 #, c-format
 msgid "Cannot sign this message: couldn't create pipe to GPG/PGP: %s"
-msgstr ""
-"Nie je mo¾né podpísa» správu: nie je mo¾né vytvori» rúru do GPG/PGP: %s"
+msgstr "Nie je mo¾né podpísa» správu: nie je mo¾né vytvori» rúru do GPG/PGP: %s"
 
-#: camel/camel-pgp-context.c:699
+#: camel/camel-pgp-context.c:700
 msgid "Cannot sign this message: no plaintext to clearsign"
 msgstr "Nie je mo¾né podpísa» správu: ¾iadny text pre podpis v texte"
 
-#: camel/camel-pgp-context.c:891
+#: camel/camel-pgp-context.c:892
 msgid "Cannot verify this message: no plaintext to verify"
 msgstr "Nie je mo¾né overi» správu: ¾iadny text na overenie"
 
-#: camel/camel-pgp-context.c:897
+#: camel/camel-pgp-context.c:898
 #, c-format
 msgid "Cannot verify this message: couldn't create pipe to GPG/PGP: %s"
 msgstr "Nie je mo¾né overi» správu: nie je mo¾né vytvori» rúru do GPG/PGP: %s"
 
-#: camel/camel-pgp-context.c:908
+#: camel/camel-pgp-context.c:909
 #, c-format
 msgid "Cannot verify this message: couldn't create temp file: %s"
 msgstr "Nie je mo¾né overi» správu: nie je mo¾né vytvori» doèasný súbor: %s"
 
-#: camel/camel-pgp-context.c:1076
+#: camel/camel-pgp-context.c:1077
 msgid "Cannot encrypt this message: no plaintext to encrypt"
 msgstr "Nie je mo¾né za¹ifrova» správu: ¾iadny text na za¹ifrovanie"
 
-#: camel/camel-pgp-context.c:1086
+#: camel/camel-pgp-context.c:1087
 msgid "Cannot encrypt this message: no password provided"
 msgstr "Nie je mo¾né za¹ifrova» správu: nezadané heslo"
 
-#: camel/camel-pgp-context.c:1093
+#: camel/camel-pgp-context.c:1094
 #, c-format
 msgid "Cannot encrypt this message: couldn't create pipe to GPG/PGP: %s"
-msgstr ""
-"Nie je mo¾né za¹ifrova» správu: nie je mo¾né vytvori» rúru do GPG/PGP: %s"
+msgstr "Nie je mo¾né za¹ifrova» správu: nie je mo¾né vytvori» rúru do GPG/PGP: %s"
 
-#: camel/camel-pgp-context.c:1102
+#: camel/camel-pgp-context.c:1103
 msgid "Cannot encrypt this message: no recipients specified"
 msgstr "Nie je mo¾né za¹iftova» správu: adresáti nie sú definovaní"
 
-#: camel/camel-pgp-context.c:1264
+#: camel/camel-pgp-context.c:1265
 msgid "Cannot decrypt this message: no ciphertext to decrypt"
 msgstr "Nie je mo¾né de¹ifrova» správu: ¾iadny ¹ifrovaný text na de¹ifrovanie"
 
-#: camel/camel-pgp-context.c:1272
+#: camel/camel-pgp-context.c:1273
 msgid "Cannot decrypt this message: no password provided"
 msgstr "Nie je mo¾né de¹ifrova» správu: nezadané heslo"
 
-#: camel/camel-pgp-context.c:1279
+#: camel/camel-pgp-context.c:1280
 #, c-format
 msgid "Cannot decrypt this message: couldn't create pipe to GPG/PGP: %s"
-msgstr ""
-"Nie je mo¾né de¹ifrova» správu: nie je mo¾né vytvori» rúru do GPG/PGP: %s"
+msgstr "Nie je mo¾né de¹ifrova» správu: nie je mo¾né vytvori» rúru do GPG/PGP: %s"
 
 #: camel/camel-provider.c:131
 #, c-format
@@ -5781,8 +5545,7 @@ msgstr "Správa challenge pre server neplatná\n"
 
 #: camel/camel-sasl-digest-md5.c:825
 msgid "Server challenge contained invalid \"Quality of Protection\" token\n"
-msgstr ""
-"Správa challenge pre server obsahovala neplatný prvok \"Kvalita ochrany\"\n"
+msgstr "Správa challenge pre server obsahovala neplatný prvok \"Kvalita ochrany\"\n"
 
 #: camel/camel-sasl-digest-md5.c:847
 msgid "Server response did not contain authorization data\n"
@@ -5824,8 +5587,7 @@ msgstr "Prihlásenie NT"
 
 #: camel/camel-sasl-login.c:34 camel/camel-sasl-plain.c:34
 msgid "This option will connect to the server using a simple password."
-msgstr ""
-"Táto voµba pripojí na server pomocou hesiel prená¹aných ako èistý text."
+msgstr "Táto voµba pripojí na server pomocou hesiel prená¹aných ako èistý text."
 
 #: camel/camel-sasl-login.c:127
 msgid "Unknown authentication state."
@@ -5877,22 +5639,22 @@ msgstr "URL '%s' vy¾aduje komponentu hostiteµa"
 msgid "URL '%s' needs a path component"
 msgstr "URL '%s' vy¾aduje komponentu cesty"
 
-#: camel/camel-service.c:607
+#: camel/camel-service.c:612
 #, c-format
 msgid "Resolving: %s"
 msgstr "Zis»ujem adresu: %s"
 
-#: camel/camel-service.c:634
+#: camel/camel-service.c:639
 #, c-format
 msgid "Failure in name lookup: %s"
 msgstr "Zlyhalo hµadanie mena: %s"
 
-#: camel/camel-service.c:659
+#: camel/camel-service.c:664
 #, c-format
 msgid "Host lookup failed: %s: host not found"
 msgstr "Zlyhalo hµadanie hostiteµa: %s: hostiteµ nenájdený"
 
-#: camel/camel-service.c:661
+#: camel/camel-service.c:666
 #, c-format
 msgid "Host lookup failed: %s: unknown reason"
 msgstr "Zlyhalo hµadanie hostiteµa: %s: neznámy dôvod"
@@ -5957,15 +5719,14 @@ msgid "Failed to verify certificates."
 msgstr "Nepodarilo sa overi» certifikáty"
 
 #: camel/camel-store.c:218
-#, fuzzy
 msgid "Cannot get folder: Invalid operation on this store"
-msgstr "Nie je mo¾né vytvori» prieèinok: Neplatná operácia pre tento sklad"
+msgstr "Nie je mo¾né získa» prieèinok: Neplatná operácia pre tento sklad"
 
 #: camel/camel-store.c:279
 msgid "Cannot create folder: Invalid operation on this store"
 msgstr "Nie je mo¾né vytvori» prieèinok: Neplatná operácia pre tento sklad"
 
-#: camel/camel-tcp-stream-openssl.c:491
+#: camel/camel-tcp-stream-openssl.c:542
 #, c-format
 msgid ""
 "Issuer: %s\n"
@@ -5975,7 +5736,7 @@ msgstr ""
 "Pre: %s"
 
 #. construct our user prompt
-#: camel/camel-tcp-stream-openssl.c:496 camel/camel-tcp-stream-ssl.c:369
+#: camel/camel-tcp-stream-openssl.c:547 camel/camel-tcp-stream-ssl.c:421
 #, c-format
 msgid ""
 "Bad certificate from %s:\n"
@@ -5990,7 +5751,7 @@ msgstr ""
 "\n"
 "Chcete ho aj tak akceptova»?"
 
-#: camel/camel-tcp-stream-ssl.c:353
+#: camel/camel-tcp-stream-ssl.c:405
 #, c-format
 msgid ""
 "EMail: %s\n"
@@ -6014,12 +5775,12 @@ msgstr ""
 msgid "Could not parse URL `%s'"
 msgstr "Nie je mo¾né spracova» URL `%s'"
 
-#: camel/camel-vee-folder.c:562
+#: camel/camel-vee-folder.c:564
 #, c-format
 msgid "No such message %s in %s"
 msgstr "Taká správa neexistuje %s v %s"
 
-#: camel/camel-vee-folder.c:702
+#: camel/camel-vee-folder.c:717
 #, c-format
 msgid "No such message: %s"
 msgstr "®iadna taká správa: %s"
@@ -6130,7 +5891,7 @@ msgstr "Kontrolujem novú po¹tu"
 msgid "Check for new messages in all folders"
 msgstr "Kontrolujem novú po¹tu vo v¹etkých prieèinkoch"
 
-#: camel/providers/imap/camel-imap-provider.c:48 shell/e-shell-view.c:836
+#: camel/providers/imap/camel-imap-provider.c:48 shell/e-shell-view.c:837
 msgid "Folders"
 msgstr "Prieèinky"
 
@@ -6148,8 +5909,7 @@ msgstr "Priestor mien"
 
 #: camel/providers/imap/camel-imap-provider.c:57
 msgid "Apply filters to new messages in INBOX on this server"
-msgstr ""
-"Aplikova» filtre na nové správy v prieèinku novej po¹ty na tomto serveri"
+msgstr "Aplikova» filtre na nové správy v prieèinku novej po¹ty na tomto serveri"
 
 #: camel/providers/imap/camel-imap-provider.c:63
 msgid "IMAP"
@@ -6161,8 +5921,7 @@ msgstr "Pre èítanie a ukladanie po¹ty na IMAP serveroch."
 
 #: camel/providers/imap/camel-imap-provider.c:82
 msgid "This option will connect to the IMAP server using a plaintext password."
-msgstr ""
-"Táto voµba pripojí na IMAP server pomocou hesiel prená¹aných ako èistý text."
+msgstr "Táto voµba pripojí na IMAP server pomocou hesiel prená¹aných ako èistý text."
 
 #: camel/providers/imap/camel-imap-store.c:517
 #, c-format
@@ -6285,9 +6044,9 @@ msgid "Could not delete folder index file `%s': %s"
 msgstr "Nie je mo¾né odstráni» indexový súbor prieèinku`%s': %s"
 
 #: camel/providers/local/camel-local-summary.c:367
-#, fuzzy, c-format
+#, c-format
 msgid "Could not save summary: %s: %s"
-msgstr "Nie je mo¾né naèíta» súhrn pre %s"
+msgstr "Nie je mo¾né ulo¾i» súhrn: %s: %s"
 
 #: camel/providers/local/camel-local-summary.c:423
 #: camel/providers/local/camel-spool-summary.c:1158
@@ -6780,8 +6539,7 @@ msgstr ""
 "tento protokol podporuje."
 
 #: camel/providers/pop3/camel-pop3-provider.c:92
-msgid ""
-"This will connect to the POP server and use Kerberos 4 to authenticate to it."
+msgid "This will connect to the POP server and use Kerberos 4 to authenticate to it."
 msgstr "Táto voµba vás spojí s POP serverom pomocou overenia Kerberos 4."
 
 #: camel/providers/pop3/camel-pop3-store.c:199
@@ -6952,8 +6710,7 @@ msgstr "Pou¾ívateµ nie je lokálny, bude predaná podµa <forward-path>"
 
 #: camel/providers/smtp/camel-smtp-transport.c:193
 msgid "Requested mail action not taken: mailbox unavailable"
-msgstr ""
-"Po¾adovaná po¹tová akcia nevykonaná, po¹tová schránka nie je k dispozícii"
+msgstr "Po¾adovaná po¹tová akcia nevykonaná, po¹tová schránka nie je k dispozícii"
 
 #: camel/providers/smtp/camel-smtp-transport.c:195
 msgid "Requested action not taken: mailbox unavailable"
@@ -7199,14 +6956,14 @@ msgstr "Prilo¾í súbor k správe"
 
 #: composer/e-msg-composer-attachment.c:168
 #: composer/e-msg-composer-attachment.c:184
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot attach file %s: %s"
-msgstr "Nie je mo¾né skontrolova» prieèinok: %s: %s"
+msgstr "Nie je mo¾né prilo¾i» súbor %s: %s"
 
 #: composer/e-msg-composer-attachment.c:176
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot attach file %s: not a regular file"
-msgstr "`%s' nie je normálny súbor."
+msgstr "Nie je mo¾né prilo¾i» súbor %s: nie je to normálny súbor"
 
 #: composer/e-msg-composer-attachment.glade.h:1
 msgid "Attachment properties"
@@ -7583,14 +7340,12 @@ msgid "seconds"
 msgstr "sekúnd"
 
 #: filter/filter-datespec.c:194
-#, fuzzy
 msgid "You have forgotten to choose a date."
-msgstr "Aj. Zabudli ste vybra» dátum."
+msgstr "Zabudli ste vybra» dátum."
 
 #: filter/filter-datespec.c:196
-#, fuzzy
 msgid "You have chosen an invalid date."
-msgstr "Aj. Vybrali ste neplatný dátum."
+msgstr "Vybrali ste neplatný dátum."
 
 #: filter/filter-datespec.c:271
 msgid ""
@@ -7677,12 +7432,11 @@ msgid "Add action"
 msgstr "Prida» akciu"
 
 #: filter/filter-folder.c:147
-#, fuzzy
 msgid ""
 "You forgot to choose a folder.\n"
 "Please go back and specify a valid folder to deliver mail to."
 msgstr ""
-"Aj, zabudli ste vybra» prieèinok.\n"
+"Zabudli ste vybra» prieèinok.\n"
 "Prosím, vrá»te sa a zadajte platný prieèinok, kam doruèi» po¹tu."
 
 #: filter/filter-folder.c:232 filter/vfolder-rule.c:356
@@ -7936,7 +7690,7 @@ msgstr "Odpovedaná"
 msgid "Score"
 msgstr "Skóre"
 
-#: filter/libfilter-i18n.h:42 mail/mail-callbacks.c:1326
+#: filter/libfilter-i18n.h:42 mail/mail-callbacks.c:1333
 msgid "Sender"
 msgstr "Odosielateµ"
 
@@ -7968,7 +7722,7 @@ msgstr "zaèína na"
 msgid "Stop Processing"
 msgstr "Zastavi» spracovanie"
 
-#: filter/libfilter-i18n.h:51 mail/mail-format.c:926
+#: filter/libfilter-i18n.h:51 mail/mail-format.c:927
 #: mail/message-list.etspec.h:9
 msgid "Subject"
 msgstr "Predmet"
@@ -7998,9 +7752,8 @@ msgid "Score Rules"
 msgstr "Pravidlá skóre"
 
 #: filter/vfolder-rule.c:206
-#, fuzzy
 msgid "You need to to specify at least one folder as a source."
-msgstr "Jaj. Musíte zada» aspoò jeden prieèinok ako zdrojový."
+msgstr "Musíte zada» aspoò jeden prieèinok ako zdrojový."
 
 #: importers/elm-importer.c:96
 msgid "Evolution is importing your old Elm mail"
@@ -8150,9 +7903,9 @@ msgid "Virtual Trash folder"
 msgstr "Virtuálny prieèinok s odpadkami"
 
 #: mail/component-factory.c:125
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot connect to store: %s"
-msgstr "Nie je mo¾né sa spoji» so serverom: %s"
+msgstr "Nie je mo¾né sa spoji» so skladom: %s"
 
 #: mail/component-factory.c:146
 msgid "This folder cannot contain messages."
@@ -8174,29 +7927,27 @@ msgstr ""
 "Niektoré va¹e nastavenia po¹ty vyzerajú ako po¹kodené. Prosím, skontrolujte, "
 "¾e je v¹etko v poriadku."
 
-#: mail/component-factory.c:857
+#: mail/component-factory.c:861
 msgid "New Mail Message"
 msgstr "Nová správa"
 
-#: mail/component-factory.c:857
+#: mail/component-factory.c:861
 msgid "New _Mail Message"
 msgstr "Nová _správa"
 
-#: mail/component-factory.c:881
+#: mail/component-factory.c:885
 msgid "Cannot initialize Evolution's mail component."
 msgstr "Nie je mo¾né inicializova» po¹tový komponent Evolution."
 
-#: mail/component-factory.c:890
-#, fuzzy
+#: mail/component-factory.c:894
 msgid "Cannot initialize Evolution's mail config component."
-msgstr "Nie je mo¾né inicializova» po¹tový komponent Evolution."
+msgstr "Nie je mo¾né inicializova» konfiguraèný komponent pre po¹tu Evolution."
 
-#: mail/component-factory.c:896
-#, fuzzy
+#: mail/component-factory.c:900
 msgid "Cannot initialize Evolution's folder info component."
-msgstr "Nie je mo¾né inicializova» po¹tový komponent Evolution."
+msgstr "Nie je mo¾né inicializova» komponent pre infomácie o prieèinkoch Evolution."
 
-#: mail/component-factory.c:1061
+#: mail/component-factory.c:1065
 msgid "Cannot register storage with shell"
 msgstr "Nie je mo¾né zaregistrova» sklad u shellu"
 
@@ -8240,9 +7991,9 @@ msgid "%d unsent"
 msgstr "%d neposlaných"
 
 #: mail/folder-browser.c:767
-#, fuzzy, c-format
+#, c-format
 msgid "%d sent"
-msgstr "%d neposlaných"
+msgstr "%d poslaných"
 
 #: mail/folder-browser.c:769
 #, c-format
@@ -8392,18 +8143,26 @@ msgid "Imports Outlook Express 4 files into Evolution"
 msgstr "Importuje súbory Outlook Express 4 do Evolution"
 
 #: mail/local-config.glade.h:1
+msgid "Body contents"
+msgstr "Obsah tela"
+
+#: mail/local-config.glade.h:2
 msgid "Current store format:"
 msgstr "Súèasný formát ukladania:"
 
-#: mail/local-config.glade.h:2
+#: mail/local-config.glade.h:3
+msgid "Indexing:"
+msgstr "Index:"
+
+#: mail/local-config.glade.h:4
 msgid "Mailbox Format"
 msgstr "Formát po¹tová schránky"
 
-#: mail/local-config.glade.h:3
+#: mail/local-config.glade.h:5
 msgid "New store format:"
 msgstr "Nový formát ukladania:"
 
-#: mail/local-config.glade.h:4
+#: mail/local-config.glade.h:6
 msgid ""
 "Note: When converting between mailbox formats, a failure\n"
 "(such as lack of disk space) may not be automatically\n"
@@ -8413,15 +8172,15 @@ msgstr ""
 "nie je mo¾ná automatická oprava pri zlyhaní (napr. nedostatku\n"
 "miesta na disku). Prosím, pou¾ívajte túto funkciu opatrne."
 
-#: mail/local-config.glade.h:7
+#: mail/local-config.glade.h:9
 msgid "maildir"
 msgstr "maildir"
 
-#: mail/local-config.glade.h:8
+#: mail/local-config.glade.h:10
 msgid "mbox"
 msgstr "mbox"
 
-#: mail/local-config.glade.h:9
+#: mail/local-config.glade.h:11
 msgid "mh"
 msgstr "mh"
 
@@ -8518,7 +8277,7 @@ msgstr "%s konferencia"
 msgid "Add Filter Rule"
 msgstr "Prida» pravidlo filtra"
 
-#: mail/mail-callbacks.c:164
+#: mail/mail-callbacks.c:140
 msgid ""
 "You have not configured the mail client.\n"
 "You need to do this before you can send,\n"
@@ -8530,7 +8289,7 @@ msgstr ""
 "posiela», prijíma» alebo písa» po¹tu.\n"
 "Chcete ho nastavi» teraz?"
 
-#: mail/mail-callbacks.c:216
+#: mail/mail-callbacks.c:192
 msgid ""
 "You need to configure an identity\n"
 "before you can compose mail."
@@ -8538,7 +8297,7 @@ msgstr ""
 "Predtým, ako zaènete písa» správu,\n"
 "musíte nastavi» identitu."
 
-#: mail/mail-callbacks.c:228
+#: mail/mail-callbacks.c:204
 msgid ""
 "You need to configure a mail transport\n"
 "before you can compose mail."
@@ -8546,12 +8305,12 @@ msgstr ""
 "Predtým, ako zaènete písa» správu,\n"
 "musíte nastavi» spôsob prenosu.."
 
-#: mail/mail-callbacks.c:252
+#: mail/mail-callbacks.c:230
 msgid "You have not set a mail transport method"
 msgstr "Nemáte nastavený spôsob prenosu po¹ty"
 
 #. FIXME: this wording sucks
-#: mail/mail-callbacks.c:283
+#: mail/mail-callbacks.c:264
 msgid ""
 "You are sending an HTML-formatted message, but the following recipients do "
 "not want HTML-formatted mail:\n"
@@ -8559,11 +8318,11 @@ msgstr ""
 "Posielate správu formátovanú ako HTML, ale nasledujúci adresáti nechcú "
 "dostáva» takto formátovanú po¹tu:\n"
 
-#: mail/mail-callbacks.c:298
+#: mail/mail-callbacks.c:279
 msgid "Send anyway?"
 msgstr "Posla» aj tak?"
 
-#: mail/mail-callbacks.c:340
+#: mail/mail-callbacks.c:321
 msgid ""
 "This message has no subject.\n"
 "Really send?"
@@ -8571,7 +8330,7 @@ msgstr ""
 "Táto správa nemá predmet.\n"
 "Naozaj ju chcete posla»?"
 
-#: mail/mail-callbacks.c:384
+#: mail/mail-callbacks.c:365
 msgid ""
 "Since the contact list you are sending to is configured to hide the list's "
 "addresses, this message will contain only Bcc recipients."
@@ -8579,11 +8338,11 @@ msgstr ""
 "Ked¾e je zoznam kontaktov, ktorý posielate, nastavený tak, aby skryl adresy, "
 "táto správa bude obsahova» iba príjemcov Bcc."
 
-#: mail/mail-callbacks.c:388
+#: mail/mail-callbacks.c:369
 msgid "This message contains only Bcc recipients."
 msgstr "Táto správa obsahuje iba adresátov Bcc."
 
-#: mail/mail-callbacks.c:392
+#: mail/mail-callbacks.c:373
 msgid ""
 "It is possible that the mail server may reveal the recipients by adding an "
 "Apparently-To header.\n"
@@ -8593,40 +8352,40 @@ msgstr ""
 "Apparently-To.\n"
 "Posla» aj tak?"
 
-#: mail/mail-callbacks.c:486
+#: mail/mail-callbacks.c:467
 msgid "This message contains invalid recipients:"
 msgstr "Táto správa obsahuje neplatných adresátov:"
 
-#: mail/mail-callbacks.c:521
+#: mail/mail-callbacks.c:502
 msgid "You must specify recipients in order to send this message."
 msgstr "Musíte zada» adresátov pre poslanie tejto správy."
 
-#: mail/mail-callbacks.c:617
+#: mail/mail-callbacks.c:598
 msgid "You must configure an account before you can send this email."
 msgstr "Musíte nastavi» úèet pred poslaním tejto správy."
 
-#: mail/mail-callbacks.c:850
+#: mail/mail-callbacks.c:834
 msgid "an unknown sender"
 msgstr "neznámy odosielateµ"
 
-#: mail/mail-callbacks.c:855
+#: mail/mail-callbacks.c:839
 msgid "On %a, %Y-%m-%d at %H:%M, %%s wrote:"
 msgstr "Dòa %a, %Y-%m-%d at %H:%M, %%s napísal:"
 
-#: mail/mail-callbacks.c:1244
+#: mail/mail-callbacks.c:1235
 msgid "Move message(s) to"
 msgstr "Presunú» správu do"
 
-#: mail/mail-callbacks.c:1246
+#: mail/mail-callbacks.c:1237
 msgid "Copy message(s) to"
 msgstr "Kopírova» správu do"
 
-#: mail/mail-callbacks.c:1622
+#: mail/mail-callbacks.c:1632
 #, c-format
 msgid "Are you sure you want to edit all %d messages?"
 msgstr "Naozaj chcete upravi» v¹etkých %d správ?"
 
-#: mail/mail-callbacks.c:1644
+#: mail/mail-callbacks.c:1654
 msgid ""
 "You may only edit messages saved\n"
 "in the Drafts folder."
@@ -8634,7 +8393,7 @@ msgstr ""
 "Upravova» mô¾ete iba správy ulo¾ené\n"
 "v prieèinku Koncepty."
 
-#: mail/mail-callbacks.c:1679
+#: mail/mail-callbacks.c:1690
 msgid ""
 "You may only resend messages\n"
 "in the Sent folder."
@@ -8642,28 +8401,28 @@ msgstr ""
 "Iba správy z prieèinku Odoslané je mo¾né\n"
 "znovu posla»."
 
-#: mail/mail-callbacks.c:1692
+#: mail/mail-callbacks.c:1704
 #, c-format
 msgid "Are you sure you want to resend all %d messages?"
 msgstr "Naozaj chcete znovu posla» v¹etkých %d správ?"
 
-#: mail/mail-callbacks.c:1713
+#: mail/mail-callbacks.c:1727
 msgid "No Message Selected"
 msgstr "®iadna vybraná správa"
 
-#: mail/mail-callbacks.c:1800
+#: mail/mail-callbacks.c:1815
 msgid "Save Message As..."
 msgstr "Ulo¾i» správu ako..."
 
-#: mail/mail-callbacks.c:1802
+#: mail/mail-callbacks.c:1817
 msgid "Save Messages As..."
 msgstr "Ulo¾i» správy ako..."
 
-#: mail/mail-callbacks.c:1947 widgets/misc/e-messagebox.c:159
+#: mail/mail-callbacks.c:1962 widgets/misc/e-messagebox.c:159
 msgid "Warning"
 msgstr "Varovanie"
 
-#: mail/mail-callbacks.c:1954
+#: mail/mail-callbacks.c:1969
 msgid ""
 "This operation will permanently erase all messages marked as deleted. If you "
 "continue, you will not be able to recover these messages.\n"
@@ -8675,11 +8434,11 @@ msgstr ""
 "\n"
 "Naozaj odstráni» tieto správy?"
 
-#: mail/mail-callbacks.c:1961
+#: mail/mail-callbacks.c:1976
 msgid "Do not ask me again."
 msgstr "Túto správu u¾ nezobrazova»."
 
-#: mail/mail-callbacks.c:2066
+#: mail/mail-callbacks.c:2081
 #, c-format
 msgid ""
 "Error loading filter information:\n"
@@ -8688,19 +8447,19 @@ msgstr ""
 "Chyba pri naèítavaní informácie o filtroch:\n"
 "%s"
 
-#: mail/mail-callbacks.c:2077
+#: mail/mail-callbacks.c:2093
 msgid "Filters"
 msgstr "Filtre"
 
-#: mail/mail-callbacks.c:2125
+#: mail/mail-callbacks.c:2141
 msgid "Print Message"
 msgstr "Tlaèi» správu"
 
-#: mail/mail-callbacks.c:2171
+#: mail/mail-callbacks.c:2187
 msgid "Printing of message failed"
 msgstr "Tlaè správy zlyhala"
 
-#: mail/mail-callbacks.c:2260
+#: mail/mail-callbacks.c:2276
 #, c-format
 msgid "Are you sure you want to open all %d messages in separate windows?"
 msgstr "Naozaj chcete otvori» v¹etkých %d správ v samostatných oknách?"
@@ -8760,32 +8519,22 @@ msgstr ""
 msgid "Evolution Account Assistant"
 msgstr "Sprievodca úètom Evolution"
 
-#: mail/mail-config.c:315
-#, c-format
-msgid "Account %d"
-msgstr "Úèet %d"
-
-#: mail/mail-config.c:1618
+#: mail/mail-config.c:1619
 #, c-format
 msgid ""
 "Could not get inbox for new mail store:\n"
 "%s\n"
 "No shortcut will be created."
 msgstr ""
+"Nie je mo¾né získa» schránku pre nové správy v sklade:\n"
+"%s\n"
+"Skratka nebude vytvorená."
 
-#. Create the shortcut. FIXME: This only works if the
-#. * full name matches the path.
-#.
-#: mail/mail-config.c:1629
-#, c-format
-msgid "%s: Inbox"
-msgstr "%s: Doruèená po¹ta"
-
-#: mail/mail-config.c:1873
+#: mail/mail-config.c:1872
 msgid "Checking Service"
 msgstr "Kontrolujem slu¾bu"
 
-#: mail/mail-config.c:1944 mail/mail-config.c:1947
+#: mail/mail-config.c:1943 mail/mail-config.c:1946
 msgid "Connecting to server..."
 msgstr "Pripájam sa na server..."
 
@@ -8897,7 +8646,7 @@ msgstr "Zobrazenie"
 msgid "Done"
 msgstr "Hotovo"
 
-#: mail/mail-config.glade.h:32 shell/e-local-storage.c:174
+#: mail/mail-config.glade.h:32
 msgid "Drafts"
 msgstr "Koncepty"
 
@@ -8983,9 +8732,8 @@ msgid "Pretty Good Privacy"
 msgstr "Pretty Good Privacy"
 
 #: mail/mail-config.glade.h:58
-#, fuzzy
 msgid "Prompt when sending HTML messages to contacts that don't want them"
-msgstr "Pýta» sa pri posielaní správ be_z predmetu"
+msgstr "Pýta» sa pri posielaní HTML správ kontaktom, ktoré nechcú tento formát"
 
 #: mail/mail-config.glade.h:59
 msgid "Prompt when sending messages with an _empty subject"
@@ -9044,7 +8792,6 @@ msgid "Sending Mail"
 msgstr "Posielanie po¹ty"
 
 #: mail/mail-config.glade.h:75 mail/message-list.etspec.h:6
-#: shell/e-local-storage.c:177
 msgid "Sent"
 msgstr "Odoslané"
 
@@ -9292,102 +9039,101 @@ msgstr "Ulo¾i» odkaz ako"
 msgid "Save Image as..."
 msgstr "Ulo¾i» obrázok ako..."
 
-#: mail/mail-format.c:628
+#: mail/mail-format.c:629
 #, c-format
 msgid "%s attachment"
 msgstr "%s príloha"
 
-#: mail/mail-format.c:681
+#: mail/mail-format.c:682
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "Nie je mo¾né spracova» správu MIME. Zobrazujem ako zdrojový kód."
 
-#: mail/mail-format.c:765
+#: mail/mail-format.c:766
 msgid "Date"
 msgstr "Dátum"
 
-#: mail/mail-format.c:867
+#: mail/mail-format.c:868
 msgid "Bad Address"
 msgstr "Neplatná adresa"
 
-#: mail/mail-format.c:908 mail/message-list.etspec.h:3
+#: mail/mail-format.c:909 mail/message-list.etspec.h:3
 msgid "From"
 msgstr "Od"
 
-#: mail/mail-format.c:911
+#: mail/mail-format.c:912
 msgid "Reply-To"
 msgstr "Reply-To"
 
-#: mail/mail-format.c:915 mail/message-list.etspec.h:10
+#: mail/mail-format.c:916 mail/message-list.etspec.h:10
 msgid "To"
 msgstr "Komu"
 
-#: mail/mail-format.c:919
+#: mail/mail-format.c:920
 msgid "Cc"
 msgstr "Cc"
 
-#: mail/mail-format.c:923
-#, fuzzy
+#: mail/mail-format.c:924
 msgid "Bcc"
-msgstr "Bcc:"
+msgstr "Bcc"
 
-#: mail/mail-format.c:1370
+#: mail/mail-format.c:1371
 msgid "No GPG/PGP program configured."
 msgstr "Nenastavený ¾iadny program GPG/PGP."
 
-#: mail/mail-format.c:1386
+#: mail/mail-format.c:1387
 msgid "Encrypted message not displayed"
 msgstr "Za¹ifrovaná správa nie je zobrazená"
 
-#: mail/mail-format.c:1397
+#: mail/mail-format.c:1398
 msgid "Encrypted message"
 msgstr "Za¹ifrovaná správa"
 
-#: mail/mail-format.c:1398
+#: mail/mail-format.c:1399
 msgid "Click icon to decrypt."
 msgstr "Kliknite na ikonu pre de¹ifrovanie."
 
-#: mail/mail-format.c:1453
+#: mail/mail-format.c:1454
 msgid "This message is digitally signed and has been found to be authentic."
 msgstr "Táto správa je digitálne podpísaná a podpis je platný."
 
-#: mail/mail-format.c:1464
+#: mail/mail-format.c:1465
 msgid "This message is digitally signed but can not be proven to be authentic."
 msgstr "Táto správa je digitálne podpísaná ale podpis nie je platný."
 
-#: mail/mail-format.c:2141
+#: mail/mail-format.c:2142
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "Odkaz na FTP server (%s)"
 
-#: mail/mail-format.c:2155
+#: mail/mail-format.c:2156
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "Odkaz na lokálny súbor (%s) platný na serveri \"%s\""
 
-#: mail/mail-format.c:2160
+#: mail/mail-format.c:2161
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "Odkaz na lokálny súbor (%s)"
 
-#: mail/mail-format.c:2189
+#: mail/mail-format.c:2190
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "Odkaz na vzdialené dáta (%s)"
 
-#: mail/mail-format.c:2197
+#: mail/mail-format.c:2198
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Odkaz na neznáme externé dáta (typ \"%s\")"
 
-#: mail/mail-format.c:2202
+#: mail/mail-format.c:2203
 msgid "Malformed external-body part."
 msgstr "Nesprávna èas» externého tela."
 
-#: mail/mail-local.c:582
+#: mail/mail-local.c:589
 msgid "Reconfiguring folder"
 msgstr "Znovu nastavujem prieèinok"
 
-#: mail/mail-local.c:655
+#: mail/mail-local.c:670
 #, c-format
 msgid ""
 "Cannot save folder metainfo; you'll probably find you can't\n"
@@ -9396,27 +9142,27 @@ msgstr ""
 "Nie je mo¾né ulo¾i» metainformácie prieèinku, asi zistíte,\n"
 "¾e ho nie je mo¾né ani otvori»: %s: %s"
 
-#: mail/mail-local.c:708
+#: mail/mail-local.c:723
 #, c-format
 msgid "Cannot save folder metainfo to %s: %s"
 msgstr "Nie je mo¾né ulo¾i» metainformácie prieèinku do %s: %s"
 
-#: mail/mail-local.c:754
+#: mail/mail-local.c:769
 #, c-format
 msgid "Cannot delete folder metadata %s: %s"
 msgstr "Nie je mo¾né odstráni» metainformácie prieèinku %s: %s"
 
-#: mail/mail-local.c:1119
+#: mail/mail-local.c:1136
 #, c-format
 msgid "Changing folder \"%s\" to \"%s\" format"
 msgstr "Mení prieèinok \"%s\" na formát \"%s\""
 
-#: mail/mail-local.c:1134
+#: mail/mail-local.c:1151
 #, c-format
 msgid "%s may not be reconfigured because it is not a local folder"
 msgstr "%s nie je mo¾né znovu nastavi», preto¾e to nie je lokálny prieèinok"
 
-#: mail/mail-local.c:1156
+#: mail/mail-local.c:1173
 msgid ""
 "If you can no longer open this mailbox, then\n"
 "you may need to repair it manually."
@@ -9424,14 +9170,14 @@ msgstr ""
 "Ak nemô¾ete otvori» túto po¹tovú schránku, potom\n"
 "ju budete musie» opravi» ruène."
 
-#: mail/mail-local.c:1244
+#: mail/mail-local.c:1262
 msgid "You cannot change the format of a non-local folder."
 msgstr "Nemô¾ete zmeni¾ formát nelokálnych prieèinkov."
 
-#: mail/mail-local.c:1253
-#, fuzzy, c-format
+#: mail/mail-local.c:1271
+#, c-format
 msgid "Reconfigure /%s"
-msgstr "Znovu nastavi» %s"
+msgstr "Znovu nastavi» /%s"
 
 #: mail/mail-mt.c:199
 #, c-format
@@ -9519,9 +9265,9 @@ msgid "Copying messages to %s"
 msgstr "Kopírujem správy do %s"
 
 #: mail/mail-ops.c:877
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot copy a folder `%s' to itself"
-msgstr "Nie je mo¾né skopírova» prieèinok sám do seba."
+msgstr "Nie je mo¾né skopírova» prieèinok `%s' sám do seba"
 
 #: mail/mail-ops.c:884
 msgid "Moving"
@@ -9535,11 +9281,6 @@ msgstr "Kopírujem"
 #, c-format
 msgid "Scanning folders in \"%s\""
 msgstr "Prechádzam prieèinky v \"%s\""
-
-#. Fill in the new fields
-#: mail/mail-ops.c:1047 shell/e-local-storage.c:179
-msgid "Trash"
-msgstr "Odpadky"
 
 #: mail/mail-ops.c:1180
 msgid "Forwarded messages"
@@ -9630,9 +9371,9 @@ msgid "Disconnecting from %s"
 msgstr "Odpojujem sa od %s"
 
 #: mail/mail-ops.c:2078
-#, fuzzy, c-format
+#, c-format
 msgid "Reconnecting to %s"
-msgstr "Odpojujem sa od %s"
+msgstr "Znovu sa pripojujem na %s"
 
 #: mail/mail-search-dialogue.c:113
 msgid "_Search"
@@ -9732,9 +9473,9 @@ msgid "Setting up vfolder: %s"
 msgstr "Nastavujem vprieèinok: '%s'"
 
 #: mail/mail-vfolder.c:203
-#, fuzzy, c-format
+#, c-format
 msgid "Updating vfolders for uri: %s"
-msgstr "Prechádzam prieèinky v \"%s\""
+msgstr "Aktualizujem vprieèinky pre uri: %s"
 
 #: mail/mail-vfolder.c:416
 #, c-format
@@ -9744,20 +9485,19 @@ msgid ""
 "    '%s'\n"
 "And have been updated."
 msgstr ""
-
-#: mail/mail-vfolder.c:638
-msgid "VFolders"
-msgstr "VPrieèinky"
+"Tieto vprieèinky:\n"
+"%spou¾ívali odstránený prieèinok:\n"
+"    '%s'\n"
+"A boli aktualizované."
 
 #: mail/mail-vfolder.c:736
-#, fuzzy
 msgid "Edit VFolder"
-msgstr "Upravi» vprieèinky"
+msgstr "Upravi» vprieèinok"
 
 #: mail/mail-vfolder.c:751
 #, c-format
 msgid "Trying to edit a vfolder '%s' which doesn't exist."
-msgstr ""
+msgstr "Pokús o úpravu vprieèinku '%s', ktorý neexistuje."
 
 #: mail/mail-vfolder.c:805
 msgid "New VFolder"
@@ -9978,7 +9718,7 @@ msgstr "Nastavenie súhrnu"
 msgid "Error downloading RDF"
 msgstr "Chyba naèítavania RDF"
 
-#: my-evolution/e-summary-rdf.c:507
+#: my-evolution/e-summary-rdf.c:512
 msgid "News Feed"
 msgstr "Kanály správ"
 
@@ -9998,7 +9738,7 @@ msgstr "Moje poèasie"
 msgid "<dd><b>The weather server could not be contacted</b></dd>"
 msgstr "<dd><b>Server poèasia nemohol by» kontaktovaný</b></dd>"
 
-#: my-evolution/e-summary-weather.c:539
+#: my-evolution/e-summary-weather.c:546
 msgid "Weather"
 msgstr "Poèasie"
 
@@ -10006,12 +9746,11 @@ msgstr "Poèasie"
 #. see in My Evolution by default. You can find the list of all
 #. stations and their codes in Evolution sources
 #. (evolution/my-evolution/Locations)
-#: my-evolution/e-summary-weather.c:630
-#, fuzzy
+#: my-evolution/e-summary-weather.c:637
 msgid "KBOS:EGAA:RJTT"
 msgstr "LZIB:LZTT:LKPR"
 
-#: my-evolution/e-summary-weather.c:691
+#: my-evolution/e-summary-weather.c:698
 msgid "Regions"
 msgstr "Oblasti"
 
@@ -11233,14 +10972,13 @@ msgstr "V¹etky _prieèinky:"
 msgid "All news _feeds:"
 msgstr "V¹etky _kanály správ:"
 
-#: my-evolution/my-evolution.glade.h:7
-msgid "How many days should the calendar display at once?"
-msgstr "Koµko dní má naraz kalendár zobrazi»?"
+#: my-evolution/my-evolution.glade.h:6
+msgid "C_elcius"
+msgstr "C_elzius"
 
 #: my-evolution/my-evolution.glade.h:8
-#, fuzzy
-msgid "M_etric"
-msgstr "_metrické"
+msgid "How many days should the calendar display at once?"
+msgstr "Koµko dní má naraz kalendár zobrazi»?"
 
 #: my-evolution/my-evolution.glade.h:9
 msgid "Ma_x number of items shown:"
@@ -11279,12 +11017,12 @@ msgid "Show _today's tasks"
 msgstr "Zobrazi» _dne¹né úlohy"
 
 #: my-evolution/my-evolution.glade.h:18
-msgid "Tasks "
-msgstr "Úlohy "
+msgid "Show temperatures in:"
+msgstr "Zobrazi» teplotu v:"
 
 #: my-evolution/my-evolution.glade.h:19
-msgid "Units: "
-msgstr "Jednotky:"
+msgid "Tasks "
+msgstr "Úlohy "
 
 #: my-evolution/my-evolution.glade.h:20
 msgid "Weather settings"
@@ -11303,13 +11041,12 @@ msgid "_Displayed feeds:"
 msgstr "_Zobrazené kanály:"
 
 #: my-evolution/my-evolution.glade.h:25
-msgid "_Five days"
-msgstr "_Pä» dní"
+msgid "_Fahrenheit"
+msgstr "_Fahrenheit"
 
 #: my-evolution/my-evolution.glade.h:26
-#, fuzzy
-msgid "_Imperial"
-msgstr "_imperiálne"
+msgid "_Five days"
+msgstr "_Pä» dní"
 
 #: my-evolution/my-evolution.glade.h:27
 msgid "_Mail"
@@ -11343,18 +11080,6 @@ msgstr "Zobrazi» detaily"
 msgid "Cancel Operation"
 msgstr "Zru¹i» operáciu"
 
-#: shell/e-local-storage.c:175 shell/e-shortcuts.c:1053
-msgid "Inbox"
-msgstr "Doruèená po¹ta"
-
-#: shell/e-local-storage.c:176
-msgid "Outbox"
-msgstr "Po¹ta na odoslanie"
-
-#: shell/e-local-storage.c:624
-msgid "Local Folders"
-msgstr "Lokálne prieèinky"
-
 #: shell/e-setup.c:125
 msgid "Evolution installation"
 msgstr "In¹talácia Evolution"
@@ -11369,8 +11094,7 @@ msgstr ""
 
 #: shell/e-setup.c:130
 msgid "Please click \"OK\" to install the files, or \"Cancel\" to exit."
-msgstr ""
-"Prosím, stlaète \"OK\" pre in¹taláciu súborov, alebo \"Zru¹i»\" pre koniec."
+msgstr "Prosím, stlaète \"OK\" pre in¹taláciu súborov, alebo \"Zru¹i»\" pre koniec."
 
 #: shell/e-setup.c:170
 msgid "Could not update files correctly"
@@ -11442,25 +11166,25 @@ msgstr "Nie je mo¾né skopírova» prieèinok sám do seba."
 msgid "Cannot move a folder into one of its descendants."
 msgstr "Nie je mo¾né presunú» prieèinok do jednoho zo svojích podprieèinkov."
 
-#: shell/e-shell-folder-commands.c:308
+#: shell/e-shell-folder-commands.c:307
 #, c-format
 msgid "Specify a folder to copy folder \"%s\" into:"
 msgstr "Zadajte prieèinok, kam chcete skopírova» prieèinok \"%s\":"
 
-#: shell/e-shell-folder-commands.c:313
+#: shell/e-shell-folder-commands.c:312
 msgid "Copy folder"
 msgstr "Kopírova» prieèinok"
 
-#: shell/e-shell-folder-commands.c:355
+#: shell/e-shell-folder-commands.c:354
 #, c-format
 msgid "Specify a folder to move folder \"%s\" into:"
 msgstr "Zadajte prieèinok, kam presunú» preèinok \"%s\":"
 
-#: shell/e-shell-folder-commands.c:360
+#: shell/e-shell-folder-commands.c:359
 msgid "Move folder"
 msgstr "Presunú» prieèinok"
 
-#: shell/e-shell-folder-commands.c:386
+#: shell/e-shell-folder-commands.c:385
 #, c-format
 msgid ""
 "Cannot delete folder:\n"
@@ -11469,18 +11193,18 @@ msgstr ""
 "Nie je mo¾né odstráni» prieèinok:\n"
 "%s"
 
-#: shell/e-shell-folder-commands.c:402
+#: shell/e-shell-folder-commands.c:401
 #, c-format
 msgid "Delete \"%s\""
 msgstr "Odstráni» \"%s\""
 
 #. "Are you sure..." label
-#: shell/e-shell-folder-commands.c:412
+#: shell/e-shell-folder-commands.c:411
 #, c-format
 msgid "Are you sure you want to remove the \"%s\" folder?"
 msgstr "Naozaj chcete odstráni» prieèinok \"%s\"?"
 
-#: shell/e-shell-folder-commands.c:457
+#: shell/e-shell-folder-commands.c:456
 #, c-format
 msgid ""
 "Cannot rename folder:\n"
@@ -11489,12 +11213,12 @@ msgstr ""
 "Nie je mo¾né premenova» prieèinok:\n"
 "%s"
 
-#: shell/e-shell-folder-commands.c:490
+#: shell/e-shell-folder-commands.c:489
 #, c-format
 msgid "Rename the \"%s\" folder to:"
 msgstr "Premenova» prieèinok \"%s\" na:"
 
-#: shell/e-shell-folder-commands.c:493
+#: shell/e-shell-folder-commands.c:492
 msgid "Rename folder"
 msgstr "Premenova» prieèinok"
 
@@ -11550,7 +11274,7 @@ msgstr "(Bez mena)"
 
 #: shell/e-shell-importer.c:141
 msgid "Choose the type of importer to run"
-msgstr ""
+msgstr "Vyberte typ importéra, ktorý chcete spusti»"
 
 #: shell/e-shell-importer.c:144
 msgid ""
@@ -11567,11 +11291,8 @@ msgstr ""
 "ho pokúsi urèi»."
 
 #: shell/e-shell-importer.c:150
-#, fuzzy
 msgid "Please select the information that you would like to import"
-msgstr ""
-"Prosím, vyberte informácie, ktoré\n"
-"chcete importova»"
+msgstr "Prosím, vyberte informácie, ktoré chcete importova»"
 
 #. Importer isn't ready yet.
 #. Wait 5 seconds and try again.
@@ -11664,12 +11385,11 @@ msgstr "Typ súboru:"
 
 #: shell/e-shell-importer.c:651
 msgid "Import data and settings from older programs"
-msgstr ""
+msgstr "Importova» dáta a nastavenia zo star¹ích programov"
 
 #: shell/e-shell-importer.c:655
-#, fuzzy
 msgid "Import a single file"
-msgstr "Importuje externý súbor"
+msgstr "Importova» jeden súbor"
 
 #: shell/e-shell-importer.c:720 shell/e-shell-startup-wizard.c:582
 msgid ""
@@ -11700,7 +11420,7 @@ msgstr "Vyberte cieµový prieèinok pre import týchro dát"
 msgid "Import"
 msgstr "Import"
 
-#: shell/e-shell-offline-handler.c:562
+#: shell/e-shell-offline-handler.c:560
 msgid "Closing connections..."
 msgstr "Zatváram spojenia..."
 
@@ -11769,12 +11489,12 @@ msgstr "Vyberte prieèinok, kam má skratka smerova»:"
 
 #: shell/e-shell-view-menu.c:595
 msgid "The GNOME Pilot tools do not appear to be installed on this system."
-msgstr ""
+msgstr "Vyzerá to, ¾e nemáte nain¹talované nástroje pre PalmPilota GNOME."
 
 #: shell/e-shell-view-menu.c:603
-#, fuzzy, c-format
+#, c-format
 msgid "Error executing %s."
-msgstr "Chyba pri vykonávaní filtra: %s: %s"
+msgstr "Chyba pri vykonávaní %s."
 
 #: shell/e-shell-view-menu.c:705
 msgid "Work Online"
@@ -11789,39 +11509,37 @@ msgstr "Pracova» off-line"
 msgid "(No folder displayed)"
 msgstr "(Nezobrazený ¾iadny prieèinok)"
 
-#: shell/e-shell-view.c:1584
+#: shell/e-shell-view.c:1585
 #, c-format
 msgid "%s (%d)"
 msgstr "%s (%d)"
 
-#: shell/e-shell-view.c:1586
+#: shell/e-shell-view.c:1587
 msgid "(None)"
 msgstr "(®iadna)"
 
-#: shell/e-shell-view.c:1591
+#: shell/e-shell-view.c:1592
 #, c-format
 msgid "%s - Ximian Evolution %s"
 msgstr "%s - Ximian Evolution %s"
 
-#: shell/e-shell-view.c:1593
+#: shell/e-shell-view.c:1594
 #, c-format
 msgid "%s - Ximian Evolution %s [%s]"
 msgstr "%s - Ximian Evolution %s [%s]"
 
-#: shell/e-shell-view.c:1633
-msgid ""
-"Ximian Evolution is currently online.  Click on this button to work offline."
+#: shell/e-shell-view.c:1634
+msgid "Ximian Evolution is currently online.  Click on this button to work offline."
 msgstr ""
 "Ximian Evolution je momentálne on-line. Stlaèením tohto tlaèidla prejdete do "
 "módu off-line."
 
-#: shell/e-shell-view.c:1640
+#: shell/e-shell-view.c:1641
 msgid "Ximian Evolution is in the process of going offline."
 msgstr "Ximian Evolution prechádza do módu off-line."
 
-#: shell/e-shell-view.c:1646
-msgid ""
-"Ximian Evolution is currently offline.  Click on this button to work online."
+#: shell/e-shell-view.c:1647
+msgid "Ximian Evolution is currently offline.  Click on this button to work online."
 msgstr ""
 "Ximian Evolution je momentálne off-line. Stlaèením tohto tlaèidla prejdete "
 "do módu on-line."
@@ -11831,31 +11549,34 @@ msgstr ""
 msgid "Cannot set up local storage -- %s"
 msgstr "Nepodarilo sa vytvori» lokálny sklad -- %s"
 
-#: shell/e-shell.c:1497
+#: shell/e-shell.c:1499
 #, c-format
 msgid ""
 "The Evolution component that handles folders of type \"%s\"\n"
 "has unexpectedly quit. You will need to quit Evolution and restart\n"
 "in order to access that data again."
 msgstr ""
+"Komponent Evolution, ktorý sa stará o prieèinky typu \"%s\"\n"
+"neoèakávane skonèil. Musíte ukonèi» Evolution a znovu ju\n"
+"spusti», aby ste získali prístup k va¹im dátam."
 
-#: shell/e-shell.c:1702 widgets/misc/e-cell-date-edit.c:248
+#: shell/e-shell.c:1722 widgets/misc/e-cell-date-edit.c:248
 msgid "OK"
 msgstr "OK"
 
-#: shell/e-shell.c:1704
+#: shell/e-shell.c:1724
 msgid "Invalid arguments"
 msgstr "Neplatné argumenty"
 
-#: shell/e-shell.c:1706
+#: shell/e-shell.c:1726
 msgid "Cannot register on OAF"
 msgstr "Nie je mo¾né zaregistrova» u OAF"
 
-#: shell/e-shell.c:1708
+#: shell/e-shell.c:1728
 msgid "Configuration Database not found"
 msgstr "Konfiguraèná databáza nenájdená"
 
-#: shell/e-shell.c:1710 shell/e-storage.c:501
+#: shell/e-shell.c:1730 shell/e-storage.c:501
 msgid "Generic error"
 msgstr "V¹eobecná chyba"
 
@@ -11979,6 +11700,10 @@ msgstr "Chyba pri ukladaní skratiek."
 #: shell/e-shortcuts.c:1044
 msgid "Shortcuts"
 msgstr "Skratky"
+
+#: shell/e-shortcuts.c:1053
+msgid "Inbox"
+msgstr "Doruèená po¹ta"
 
 #: shell/e-storage-set-view.c:645
 #, c-format
@@ -12118,24 +11843,20 @@ msgid "Evolution Importer Assistant"
 msgstr "Nástroj Evolution pre import"
 
 #: shell/importer/import.glade.h:4
-#, fuzzy
 msgid "Import File (step 3 of 3)"
-msgstr "Import súboru (krok 2 z 2)"
+msgstr "Import súboru (krok 3 z 3)"
 
 #: shell/importer/import.glade.h:5
-#, fuzzy
 msgid "Importer Type (step 1 of 3)"
-msgstr "Import súboru (krok 2 z 2)"
+msgstr "Typ importu (krok 1 z 3)"
 
 #: shell/importer/import.glade.h:6
-#, fuzzy
 msgid "Select Importers (step 2 of 3)"
-msgstr "Vyberte súbor (krok 1 z 2)"
+msgstr "Vyberte importér (krok 2 z 3)"
 
 #: shell/importer/import.glade.h:7
-#, fuzzy
 msgid "Select a File (step 2 of 3)"
-msgstr "Vyberte súbor (krok 1 z 2)"
+msgstr "Vyberte súbor (krok 2 z 3)"
 
 #: shell/importer/import.glade.h:8
 msgid ""
@@ -12167,7 +11888,7 @@ msgstr "Evolution na¹iel tieto súbory dát pre import:"
 msgid "Evolution is now exiting ..."
 msgstr "Evolution konèí..."
 
-#: shell/main.c:162
+#: shell/main.c:190
 #, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
@@ -12196,7 +11917,7 @@ msgstr ""
 "Dúfame, ¾e vás pote¹ia výsledky na¹ej »a¾kej práce a netrpezlivo\n"
 "èakáme na vá¹ príspevok!\n"
 
-#: shell/main.c:183
+#: shell/main.c:211
 msgid ""
 "Thanks\n"
 "The Ximian Evolution Team\n"
@@ -12204,24 +11925,24 @@ msgstr ""
 "Vïaka\n"
 "Tím Ximian Evolution\n"
 
-#: shell/main.c:236
+#: shell/main.c:265
 msgid "Cannot access the Ximian Evolution shell."
 msgstr "Nie je mo¾né inicializova» shell Ximian Evolution."
 
-#: shell/main.c:245
+#: shell/main.c:274
 #, c-format
 msgid "Cannot initialize the Ximian Evolution shell: %s"
 msgstr "Nie je mo¾né inicializova» shell Ximian Evolution: %s"
 
-#: shell/main.c:301
+#: shell/main.c:346
 msgid "Disable splash screen"
 msgstr "Zakáza» úvodné okno"
 
-#: shell/main.c:302
+#: shell/main.c:347
 msgid "Send the debugging output of all components to a file."
 msgstr "Posla» ladiaci výstup zo v¹etkých komponent od súboru."
 
-#: shell/main.c:344
+#: shell/main.c:389
 msgid "Cannot initialize the Bonobo component system."
 msgstr "Nie je mo¾né inicializova» komponentový systém Bonobo."
 
@@ -12727,8 +12448,7 @@ msgid "Hide _Read Messages"
 msgstr "Skry» _preèítané správy"
 
 #: ui/evolution-mail-list.xml.h:8
-msgid ""
-"Hide deleted messages rather than displaying them with a line through them"
+msgid "Hide deleted messages rather than displaying them with a line through them"
 msgstr "Skryje zmazané správy namiesto zobrazenia ¹krtnutím"
 
 #: ui/evolution-mail-list.xml.h:9
@@ -13472,7 +13192,7 @@ msgstr "Ukonèí program"
 
 #: ui/evolution.xml.h:15
 msgid "Import data from other programs"
-msgstr ""
+msgstr "Importova» dáta z iných programov"
 
 #: ui/evolution.xml.h:17
 msgid "Move this folder to another place"
@@ -13500,8 +13220,7 @@ msgstr "_Posla» správu o chybe"
 
 #: ui/evolution.xml.h:24
 msgid "Submit a bug report using Bug Buddy"
-msgstr ""
-"Po¹le správu o chybe pomocou nástroja pre oznamovanie chýb Priateµ v núdzi."
+msgstr "Po¹le správu o chybe pomocou nástroja pre oznamovanie chýb Priateµ v núdzi."
 
 #: ui/evolution.xml.h:25
 msgid "Toggle"
@@ -13544,9 +13263,8 @@ msgid "_Go to Folder..."
 msgstr "_Prejs» do prieèinku..."
 
 #: ui/evolution.xml.h:41
-#, fuzzy
 msgid "_Import..."
-msgstr "Importujem..."
+msgstr "_Import..."
 
 #: ui/evolution.xml.h:42
 msgid "_Move..."
@@ -13561,9 +13279,8 @@ msgid "_New Folder"
 msgstr "Nový _prieèinok"
 
 #: ui/evolution.xml.h:45
-#, fuzzy
 msgid "_Pilot Settings..."
-msgstr "Nastavenie _po¹ty..."
+msgstr "Nastavenie _pilota..."
 
 #: ui/evolution.xml.h:46
 msgid "_Rename..."
@@ -13823,51 +13540,15 @@ msgstr "Osobný adresárový server"
 msgid "The Personal Calendar Server; calendar factory"
 msgstr "Vytváracie rozhranie kalendára pre Osobný kalendárový server."
 
-#: wombat/wombat.c:176
+#: wombat/wombat.c:193
 msgid "setup_vfs(): could not initialize GNOME-VFS"
 msgstr "setup_vfs(): Nie je mo¾né inicializova» GNOME"
 
-#: wombat/wombat.c:188
+#: wombat/wombat.c:205
 msgid "init_corba(): could not initialize GNOME"
 msgstr "init_corba(): Nie je mo¾né inicializova» GNOME"
 
-#: wombat/wombat.c:201
+#: wombat/wombat.c:218
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): Nie je mo¾né inicializova» Bonobo"
 
-#~ msgid "Please enter your email address and password for access to %s"
-#~ msgstr "Prosím, zadajte va¹u e-mailovú adresu a heslo pre %s"
-
-#~ msgid "LDAP Authentication"
-#~ msgstr "Overenie LDAP"
-
-#~ msgid "Password:"
-#~ msgstr "Heslo:"
-
-#~ msgid "Sent By:"
-#~ msgstr "Poslané:"
-
-#~ msgid "Couldn't create temporary mbox `%s': %s"
-#~ msgstr "Nie je mo¾né vytvori» doèasnú po¹tovú schránku `%s': %s"
-
-#~ msgid ""
-#~ "Ooops!  The views for `%s' have died unexpectedly.  :-(\n"
-#~ "This probably means that the %s component has crashed."
-#~ msgstr ""
-#~ "Aj! Pohµad pre `%s' neoèakávane spadol. :-(\n"
-#~ "To asi znamená, ¾e komponent %s spadol."
-
-#~ msgid "Evolution Shortcuts"
-#~ msgstr "Skratky Evolution"
-
-#~ msgid "Message _preview should be displayed by default"
-#~ msgstr "©tandardne zobrazova» _náhµad správy"
-
-#~ msgid "Message list should display in a _threaded fashion by default"
-#~ msgstr "©tandardne zobrazova» správy ako _vlákna"
-
-#~ msgid "_Debug"
-#~ msgstr "_Ladi»"
-
-#~ msgid "_Import File..."
-#~ msgstr "_Importova» súbor..."
