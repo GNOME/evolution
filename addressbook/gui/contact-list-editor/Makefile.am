@@ -21,8 +21,24 @@ noinst_LIBRARIES =				\
 libecontactlisteditor_a_SOURCES = 		\
 	e-contact-list-editor.c			\
 	e-contact-list-editor.h			\
+	e-contact-list-editor-marshal.c		\
 	e-contact-list-model.c			\
 	e-contact-list-model.h
+
+# GLib marshalling cruft
+
+e-contact-list-editor-marshal.h: e-contact-list-editor-marshal.list
+	( @GLIB_GENMARSHAL@ --prefix=ecle_marshal e-contact-list-editor-marshal.list --header > e-contact-list-editor-marshal.tmp \
+	&& mv e-contact-list-editor-marshal.tmp e-contact-list-editor-marshal.h ) \
+	|| ( rm -f e-contact-list-editor-marshal.tmp && exit 1 )
+
+e-contact-list-editor-marshal.c: e-contact-list-editor-marshal.h
+	( @GLIB_GENMARSHAL@ --prefix=ecle_marshal e-contact-list-editor-marshal.list --body > e-contact-list-editor-marshal.tmp \
+	&& mv e-contact-list-editor-marshal.tmp e-contact-list-editor-marshal.c ) \
+	|| ( rm -f e-contact-list-editor-marshal.tmp && exit 1 )
+
+MARSHAL_GENERATED = e-contact-list-editor-marshal.c e-contact-list-editor-marshal.h
+
 
 iconsdir = $(datadir)/images/evolution
 
@@ -34,5 +50,9 @@ glade_DATA = 					\
 etspecdir   = $(datadir)/evolution/etspec
 etspec_DATA = e-contact-list-editor.etspec
 
+BUILT_SOURCES = $(MARSHAL_GENERATED)
+CLEANFILES = $(BUILT_SOURCES)
+
 EXTRA_DIST = $(glade_DATA)	\
-	$(etspec_DATA)
+	     $(etspec_DATA)	\
+	     e-contact-list-editor-marshal.list

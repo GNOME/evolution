@@ -2,11 +2,14 @@
 #ifndef _E_CONTACT_LIST_MODEL_H_
 #define _E_CONTACT_LIST_MODEL_H_
 
+#include <gtk/gtk.h>
 #include <gal/e-table/e-table-model.h>
 #include "addressbook/backend/ebook/e-book.h"
 #include "addressbook/backend/ebook/e-book-view.h"
 #include "addressbook/backend/ebook/e-card-simple.h"
 #include "addressbook/backend/ebook/e-destination.h"
+
+G_BEGIN_DECLS
 
 #define E_CONTACT_LIST_MODEL_TYPE        (e_contact_list_model_get_type ())
 #define E_CONTACT_LIST_MODEL(o)          (GTK_CHECK_CAST ((o), E_CONTACT_LIST_MODEL_TYPE, EContactListModel))
@@ -31,7 +34,7 @@ struct _EContactListModelClass {
 };
 
 
-GtkType      e_contact_list_model_get_type (void);
+GType      e_contact_list_model_get_type (void);
 void         e_contact_list_model_construct (EContactListModel *model);
 ETableModel *e_contact_list_model_new (void);
 
@@ -43,5 +46,7 @@ void	     e_contact_list_model_remove_row (EContactListModel *model, int row);
 void         e_contact_list_model_remove_all (EContactListModel *model);
 
 const EDestination *e_contact_list_model_get_destination (EContactListModel *model, int row);
+
+G_END_DECLS
 
 #endif /* _E_CONTACT_LIST_MODEL_H_ */

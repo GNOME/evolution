@@ -30,16 +30,13 @@
 #include "addressbook/backend/ebook/e-card.h"
 #include "addressbook/backend/ebook/e-card-simple.h"
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
-#define E_CONTACT_LIST_EDITOR_TYPE			(e_contact_list_editor_get_type ())
-#define E_CONTACT_LIST_EDITOR(obj)			(GTK_CHECK_CAST ((obj), E_CONTACT_LIST_EDITOR_TYPE, EContactListEditor))
-#define E_CONTACT_LIST_EDITOR_CLASS(klass)		(GTK_CHECK_CLASS_CAST ((klass), E_CONTACT_LIST_EDITOR_TYPE, EContactListEditorClass))
-#define E_IS_CONTACT_LIST_EDITOR(obj)		(GTK_CHECK_TYPE ((obj), E_CONTACT_LIST_EDITOR_TYPE))
-#define E_IS_CONTACT_LIST_EDITOR_CLASS(klass)	(GTK_CHECK_CLASS_TYPE ((obj), E_CONTACT_LIST_EDITOR_TYPE))
+#define E_TYPE_CONTACT_LIST_EDITOR	   (e_contact_list_editor_get_type ())
+#define E_CONTACT_LIST_EDITOR(obj)	   (G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_CONTACT_LIST_EDITOR, EContactListEditor))
+#define E_CONTACT_LIST_EDITOR_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_CONTACT_LIST_EDITOR, EContactListEditorClass))
+#define E_IS_CONTACT_LIST_EDITOR(obj)	   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_CONTACT_LIST_EDITOR))
+#define E_IS_CONTACT_LIST_EDITOR_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((obj), E_TYPE_CONTACT_LIST_EDITOR))
 
 
 typedef struct _EContactListEditor       EContactListEditor;
@@ -96,7 +93,7 @@ EContactListEditor *e_contact_list_editor_new                (EBook *book,
 							      ECard *list_card,
 							      gboolean is_new_list,
 							      gboolean editable);
-GtkType             e_contact_list_editor_get_type           (void);
+GType               e_contact_list_editor_get_type           (void);
 void                e_contact_list_editor_show               (EContactListEditor *editor);
 void                e_contact_list_editor_raise              (EContactListEditor *editor);
 
@@ -104,9 +101,7 @@ gboolean            e_contact_list_editor_confirm_delete     (GtkWindow      *pa
 
 gboolean            e_contact_list_editor_request_close_all  (void);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 
 #endif /* __E_CONTACT_LIST_EDITOR_H__ */
