@@ -22,21 +22,16 @@
  *  USA
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
-#include <string.h>
-#include <time.h>
-
-#include <glib.h>
-
 #include "camel-filter-driver.h"
 #include "camel-filter-search.h"
 
 #include "camel-exception.h"
 #include "camel-service.h"
 #include "camel-mime-message.h"
+
+#include <glib.h>
+
+#include <time.h>
 
 #include "e-util/e-sexp.h"
 #include "e-util/e-memory.h"
@@ -640,7 +635,7 @@ camel_filter_driver_filter_mbox (CamelFilterDriver *driver, const char *mbox, Ca
 	
 	fd = open (mbox, O_RDONLY);
 	if (fd == -1) {
-		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, _("Unable to open spool folder"));
+		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, "Unable to open spool folder");
 		goto fail;
 	}
 	/* to get the filesize */
@@ -649,7 +644,7 @@ camel_filter_driver_filter_mbox (CamelFilterDriver *driver, const char *mbox, Ca
 	mp = camel_mime_parser_new ();
 	camel_mime_parser_scan_from (mp, TRUE);
 	if (camel_mime_parser_init_with_fd (mp, fd) == -1) {
-		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, _("Unable to process spool folder"));
+		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, "Unable to process spool folder");
 		goto fail;
 	}
 	fd = -1;
@@ -663,12 +658,12 @@ camel_filter_driver_filter_mbox (CamelFilterDriver *driver, const char *mbox, Ca
 		if (st.st_size > 0)
 			pc = (int)(100.0 * ((double)camel_mime_parser_tell (mp) / (double)st.st_size));
 		
-		report_status (driver, CAMEL_FILTER_STATUS_START, pc, _("Getting message %d (%d%%)"), i, pc);
+		report_status (driver, CAMEL_FILTER_STATUS_START, pc, "Getting message %d (%d%%)", i, pc);
 		
 		msg = camel_mime_message_new ();
 		if (camel_mime_part_construct_from_parser (CAMEL_MIME_PART (msg), mp) == -1) {
-			report_status (driver, CAMEL_FILTER_STATUS_END, 100, _("Failed message %d"), i);
-			camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, _("Cannot open message"));
+			report_status (driver, CAMEL_FILTER_STATUS_END, 100, "Failed message %d", i);
+			camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, "Cannot open message");
 			camel_object_unref (CAMEL_OBJECT (msg));
 			goto fail;
 		}
@@ -676,7 +671,7 @@ camel_filter_driver_filter_mbox (CamelFilterDriver *driver, const char *mbox, Ca
 		status = camel_filter_driver_filter_message (driver, msg, NULL, NULL, NULL, source_url, ex);
 		camel_object_unref (CAMEL_OBJECT (msg));
 		if (camel_exception_is_set (ex) || status == -1) {
-			report_status (driver, CAMEL_FILTER_STATUS_END, 100, _("Failed message %d"), i);
+			report_status (driver, CAMEL_FILTER_STATUS_END, 100, "Failed message %d", i);
 			goto fail;
 		}
 		
@@ -687,11 +682,11 @@ camel_filter_driver_filter_mbox (CamelFilterDriver *driver, const char *mbox, Ca
 	}
 
 	if (p->defaultfolder) {
-		report_status(driver, CAMEL_FILTER_STATUS_PROGRESS, 100, _("Syncing folder"));
+		report_status(driver, CAMEL_FILTER_STATUS_PROGRESS, 100, "Syncing folder");
 		camel_folder_sync(p->defaultfolder, FALSE, ex);
 	}
 
-	report_status (driver, CAMEL_FILTER_STATUS_END, 100, _("Complete"));
+	report_status (driver, CAMEL_FILTER_STATUS_END, 100, "Complete");
 	
 	return 0;
 	
@@ -776,7 +771,7 @@ camel_filter_driver_filter_folder (CamelFilterDriver *driver, CamelFolder *folde
 		
 		if (remove)
 			camel_folder_set_message_flags (folder, uids->pdata[i],
-							CAMEL_MESSAGE_DELETED, CAMEL_MESSAGE_DELETED);
+							CAMEL_MESSAGE_DELETED|CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_DELETED|CAMEL_MESSAGE_SEEN);
 		
 		camel_object_unref (CAMEL_OBJECT (message));
 	}
@@ -849,8 +844,7 @@ camel_filter_driver_filter_message (CamelFilterDriver *driver, CamelMimeMessage 
 	p->uid = uid;
 	p->source = source;
 	
-	if (camel_mime_message_get_source (message) == NULL)
-		camel_mime_message_set_source (message, source_url);
+	/* camel_mime_message_set_identity (message, source_url); */
 	
 	node = (struct _filter_rule *)p->rules.head;
 	while (node->next) {
@@ -880,7 +874,7 @@ camel_filter_driver_filter_message (CamelFilterDriver *driver, CamelMimeMessage 
 	
 	/* *Now* we can set the DELETED flag... */
 	if (p->deleted)
-		info->flags = info->flags | CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_FOLDER_FLAGGED;
+		info->flags = info->flags | CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_FOLDER_FLAGGED | CAMEL_MESSAGE_SEEN;
 	
 	/* Logic: if !Moved and there exists a default folder... */
 	if (!(p->copied && p->deleted) && p->defaultfolder) {

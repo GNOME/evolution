@@ -55,6 +55,7 @@ int camel_operation_cancel_check(CamelOperation *cc);
 int camel_operation_cancel_fd(CamelOperation *cc);
 
 void camel_operation_start(CamelOperation *cc, char *what, ...);
+void camel_operation_start_transient(CamelOperation *cc, char *what, ...);
 void camel_operation_progress(CamelOperation *cc, int pc);
 void camel_operation_progress_count(CamelOperation *cc, int sofar);
 void camel_operation_end(CamelOperation *cc);

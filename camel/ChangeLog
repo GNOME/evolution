@@ -1,3 +1,26 @@
+2001-03-30  Not Zed  <NotZed@Ximian.com>
+
+	* providers/pop3/camel-pop3-folder.c (pop3_get_message): Change
+	the pop download into a transient event.
+
+	* camel-operation.c (stamp): Get a timestamp that changes 4x a
+	second (or rather, arbitrarily more often than 1/second).
+	(camel_operation_progress): Use stamp() for time updates.
+	(camel_operation_progress_count): "
+	(camel_operation_start): Store the status as a struct status_stack
+	item.
+	(camel_operation_start_transient): New function to start a
+	transient event, which is only reported if it runs for too
+	long/and is reset afterwards.
+	(camel_operation_progress):
+	(camel_operation_progress_count): Fix for status_stack changes,
+	and account for transient updates. 
+
+	* camel-filter-driver.c (camel_filter_driver_filter_folder): When
+	we remove things (set deleted), always set seen too, to mirror
+	interface behaviour when you delete.
+	(camel_filter_driver_filter_message): And same here too.
+
 2001-03-30  Dan Winship  <danw@ximian.com>
 
 	* providers/pop3/camel-pop3-store.c (connect_to_server,
