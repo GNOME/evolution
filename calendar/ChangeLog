@@ -1,3 +1,9 @@
+2004-05-28  Kidd Wang  <kidd.wang@sun.com>
+
+	* gui/e-week-view.c: (e_week_view_event_move),
+	(e_week_view_get_day_offset_of_event): a more straightforward way
+	to calculate the offset of a day within the week.
+
 2004-05-26  Jeffrey Stedfast  <fejj@novell.com>
 
 	Fix for bug #57818.
@@ -22,6 +28,12 @@
 
 	* gui/gnome-cal.c (gnome_calendar_remove_source_by_uid): remove all
 	queries we've got for the removed source.
+
+2004-05-26  Kidd Wang  <kidd.wang@sun.com>
+
+	* gui/e-week-view.c: (e_week_view_event_move),
+	(e_week_view_get_day_offset_of_event): a more straightforward way
+	to calculate the offset of a day within the week.
 
 2004-05-26  Kidd Wang  <kidd.wang@sun.com>
 

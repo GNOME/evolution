@@ -3174,12 +3174,14 @@ static gboolean e_week_view_event_move (ECalendarView *cal_view, ECalViewMoveDir
 
 	current_start_day = e_week_view_get_day_offset_of_event (week_view,start_dt);
 	current_end_day = e_week_view_get_day_offset_of_event (week_view,end_dt);
+	if (is_all_day)
+		current_end_day--;
 
 	if (current_start_day < 0) {
 		return TRUE;
 	}
 	if (week_view->multi_week_view) {
-		if (current_end_day > week_view->weeks_shown * 7) {
+		if (current_end_day >= week_view->weeks_shown * 7) {
 			return TRUE;
 		}
 	}else {
@@ -3195,14 +3197,12 @@ static gboolean e_week_view_event_move (ECalendarView *cal_view, ECalViewMoveDir
 static gint
 e_week_view_get_day_offset_of_event (EWeekView *week_view, time_t event_time)
 {
-	struct tm first_day_shown_tm = {0};
-	struct tm *event_time_tm;
-
-	event_time_tm = NULL;
-
-	g_date_to_struct_tm (&(week_view->first_day_shown), &first_day_shown_tm);
-	event_time_tm = gmtime (&event_time);
-	return (event_time_tm->tm_yday - first_day_shown_tm.tm_yday);
+	time_t first_day = week_view->day_starts[0];
+	
+	if (event_time - first_day < 0)
+		return -1;
+	else
+		return (event_time - first_day) / (24 * 60 * 60);
 }
 
 static void
