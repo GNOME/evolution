@@ -538,7 +538,7 @@ query_objects_changed_cb (ECal *client, GList *objects, gpointer data)
 
 		if (!found) {
 			remove_comp (ca, uid);
-			return;
+			continue;
 		}
 
 		cqa = lookup_comp_queued_alarms (ca, uid);

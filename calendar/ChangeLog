@@ -1,3 +1,9 @@
+2004-03-29  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/alarm-notify/alarm-queue.c (query_objects_changed_cb): removed
+	misplaced return statement that prevented the rest of the objects list
+	to be processed.
+
 2004-03-29  Kidd Wang  <kidd.wang@sun.com>
 
 	* gui/e-calendar-view.c: (e_calendar_view_class_init): remove the
