@@ -1,3 +1,7 @@
+2001-07-20  JP Rosevear  <jpr@ximian.com>
+
+	* Pull up test fixes to get them building again
+
 2001-07-20  Not Zed  <NotZed@Ximian.com>
 
 	* camel-charset-map.c (camel_charset_get_iconv_friendly_name):

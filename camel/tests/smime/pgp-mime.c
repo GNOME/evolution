@@ -109,7 +109,7 @@ int main (int argc, char **argv)
 	
 	session = camel_pgp_session_new ("/tmp/camel-test");
 	
-	ctx = camel_pgp_context_new (session, CAMEL_PGP_TYPE_GPG, "/usr/bin/gpg");
+	ctx = camel_pgp_context_new (session, CAMEL_PGP_TYPE_GPG, "/usr/bin/gpg", FALSE);
 	
 	camel_test_start ("Test of PGP/MIME functions");
 	
