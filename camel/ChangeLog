@@ -1,5 +1,12 @@
 2002-12-16  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-mime-part-utils.c
+	(simple_data_wrapper_construct_from_parser): Detect text/html
+	parts that were marked as text/plain and re-tag them as text/html
+	parts. Note: currently just checks if the first non-lwsp char is a
+	'<' - but we might need to be smarter about this? *sigh* Stupid
+	Windows mailers.
+
 	* camel-mime-filter-tohtml.c (camel_text_to_html): New convenience
 	function to replace calls to e_text_to_html() in the
 	mailer/composer etc.

@@ -231,8 +231,8 @@ simple_data_wrapper_construct_from_parser (CamelDataWrapper *dw, CamelMimeParser
 	int len, decid = -1, crlfid = -1;
 	struct _header_content_type *ct;
 	const char *charset = NULL;
-	GByteArray *buffer;
 	char *encoding, *buf;
+	GByteArray *buffer;
 	CamelStream *mem;
 	
 	d(printf ("simple_data_wrapper_construct_from_parser()\n"));
@@ -259,29 +259,47 @@ simple_data_wrapper_construct_from_parser (CamelDataWrapper *dw, CamelMimeParser
 	}
 	
 	/* If we're doing text, we also need to do CRLF->LF and may have to convert it to UTF8 as well. */
-	ct = camel_mime_parser_content_type(mp);
-	if (header_content_type_is(ct, "text", "*")) {
-		charset = header_content_type_param(ct, "charset");
-		charset = e_iconv_charset_name(charset);
+	ct = camel_mime_parser_content_type (mp);
+	if (header_content_type_is (ct, "text", "*")) {
+		charset = header_content_type_param (ct, "charset");
+		charset = e_iconv_charset_name (charset);
 		
 		if (fdec) {
-			d(printf("Adding CRLF conversion filter\n"));
-			fcrlf = (CamelMimeFilter *)camel_mime_filter_crlf_new(CAMEL_MIME_FILTER_CRLF_DECODE,
-									      CAMEL_MIME_FILTER_CRLF_MODE_CRLF_ONLY);
-			crlfid = camel_mime_parser_filter_add(mp, fcrlf);
+			d(printf ("Adding CRLF conversion filter\n"));
+			fcrlf = camel_mime_filter_crlf_new (CAMEL_MIME_FILTER_CRLF_DECODE,
+							    CAMEL_MIME_FILTER_CRLF_MODE_CRLF_ONLY);
+			crlfid = camel_mime_parser_filter_add (mp, fcrlf);
 		}
 	}
 	
 	/* read in the entire content */
-	buffer = g_byte_array_new();
-	while (camel_mime_parser_step(mp, &buf, &len) != HSCAN_BODY_END) {
+	buffer = g_byte_array_new ();
+	while (camel_mime_parser_step (mp, &buf, &len) != HSCAN_BODY_END) {
 		d(printf("appending o/p data: %d: %.*s\n", len, len, buf));
-		g_byte_array_append(buffer, buf, len);
+		g_byte_array_append (buffer, buf, len);
 	}
-
+	
+	/* check for broken Outlook/Web mailers that like to send html marked as text/plain */
+	if (header_content_type_is (ct, "text", "plain")) {
+		register const unsigned char *inptr;
+		const unsigned char *inend;
+		
+		inptr = buffer->data;
+		inend = inptr + buffer->len;
+		
+		while (inptr < inend && isspace ((int) *inptr))
+			inptr++;
+		
+		if (inptr < inend && *inptr == '<') {
+			/* re-tag as text/html */
+			g_free (ct->subtype);
+			ct->subtype = g_strdup ("html");
+		}
+	}
+	
 	/* Possible Lame Mailer Alert... check the META tags for a charset */
 	if (!charset && header_content_type_is (ct, "text", "html"))
-		charset = check_html_charset(buffer->data, buffer->len);
+		charset = check_html_charset (buffer->data, buffer->len);
 	
 	/* if we need to do charset conversion, see if we can/it works/etc */
 	if (charset && !(strcasecmp (charset, "us-ascii") == 0
