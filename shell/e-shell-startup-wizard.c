@@ -54,7 +54,7 @@
 typedef struct _TimezoneDialogPage {
 	GtkWidget *page;
 	GtkWidget *vbox;
-	GtkObject *etd;
+	GObject *etd;
 } TimezoneDialogPage;
 
 typedef struct _ImportDialogPage {
@@ -592,7 +592,7 @@ make_timezone_page (SWData *data)
 	page->vbox = GTK_WIDGET (GNOME_DRUID_PAGE_STANDARD (page->page)->vbox);
 
 	etd = e_timezone_dialog_new ();
-	page->etd = GTK_OBJECT (etd);
+	page->etd = G_OBJECT (etd);
 	e_timezone_dialog_reparent (E_TIMEZONE_DIALOG (page->etd), page->vbox);
 
 	return page;

@@ -1,5 +1,11 @@
 2002-11-13  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-startup-wizard.c: Change type of member etd in
+	TimezoneDialogPage to GObject from GtkObject.
+	(make_timezone_page): Cast to G_OBJECT() not GTK_OBJECT().
+
+2002-11-13  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-startup-wizard.c (e_shell_startup_wizard_create):
 	Connect finish_func to the "next" signal for now, since GnomeDruid
 	seems to be borked.
