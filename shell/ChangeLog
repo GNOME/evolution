@@ -1,3 +1,9 @@
+2001-05-26  Dan Winship  <danw@ximian.com>
+
+	* e-storage-set-view.c (destroy): Don't free the hash keys in
+	priv->path_to_etree_node, because they're owned by the ETree now.
+	(e_storage_set_view_set_show_folders): Likewise.
+
 2001-05-25  Peter Williams  <peterw@ximian.com>
 
 	* Makefile.am: Change libeshell from a noinst_LIBRARIES to

@@ -735,12 +735,6 @@ popup_folder_menu (EStorageSetView *storage_set_view,
 /* GtkObject methods.  */
 
 static void
-path_free_func (gpointer key, gpointer value, gpointer user_data)
-{
-	g_free (key);
-}
-
-static void
 pixbuf_free_func (gpointer key, gpointer value, gpointer user_data)
 {
 	g_free (key);
@@ -760,9 +754,7 @@ destroy (GtkObject *object)
 	e_tree_memory_node_remove (E_TREE_MEMORY(priv->etree_model), priv->root_node);
 	gtk_object_unref (GTK_OBJECT (priv->etree_model));
 
-	/* now free up all the paths stored in the hash table and
-           destroy the hash table itself */
-	g_hash_table_foreach (priv->path_to_etree_node, path_free_func, NULL);
+	/* the data in the hash table was all freed by freeing the tree */
 	g_hash_table_destroy (priv->path_to_etree_node);
 
 	/* now free up all the type_names and pixbufs stored in the
@@ -2003,7 +1995,6 @@ e_storage_set_view_set_show_folders (EStorageSetView *storage_set_view,
 
 	/* tear down existing tree and hash table mappings */
 	e_tree_memory_node_remove (E_TREE_MEMORY(priv->etree_model), priv->root_node);
-	g_hash_table_foreach (priv->path_to_etree_node, path_free_func, NULL);
 
 	/* now re-add the root node */
 	priv->root_node = e_tree_memory_node_insert (E_TREE_MEMORY(priv->etree_model), NULL, -1, g_strdup ("/Root Node"));
