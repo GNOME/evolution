@@ -1,3 +1,8 @@
+2005-01-19  Jeffrey Stedfast  <fejj@novell.com>
+
+	* em-folder-properties.c (emfp_get_folder_item): Increment i each
+	time thru the loop or we lose widgets.
+
 2005-01-19  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #66943.

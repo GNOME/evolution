@@ -201,6 +201,7 @@ emfp_get_folder_item(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, 
 		
 		row++;
 		l = l->next;
+		i++;
 	}
 
 	return table;

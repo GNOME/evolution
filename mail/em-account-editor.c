@@ -936,7 +936,8 @@ emae_url_set_hostport(CamelURL *url, const char *txt)
 {
 	const char *port;
 	char *host;
-
+	
+	/* FIXME: what if this was a raw IPv6 address? */
 	if (txt && (port = strchr(txt, ':'))) {
 		camel_url_set_port(url, atoi(port+1));
 		host = g_alloca(port-txt+1);
