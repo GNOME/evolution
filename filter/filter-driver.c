@@ -549,11 +549,14 @@ filter_driver_log (FilterDriver *driver, enum filter_log_t status, const char *d
 	struct _FilterDriverPrivate *p = _PRIVATE (driver);
 	
 	if (p->logfile) {
-		va_list ap;
-		char *str;
+		char *str = NULL;
 		
-		va_start (ap, desc);
-		str = g_strdup_vprintf (desc, ap);
+		if (desc) {
+			va_list ap;
+			
+			va_start (ap, desc);
+			str = g_strdup_vprintf (desc, ap);
+		}
 		
 		switch (status) {
 		case FILTER_LOG_START: {
