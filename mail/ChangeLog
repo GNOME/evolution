@@ -1,3 +1,9 @@
+2001-12-04  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-autofilter.c (rule_from_message): Make sure that the
+	message subject is non-NULL beforetrying to base a vfolder rule
+	off it. Fixes bug #16284.
+
 2001-12-07  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-accounts.c (construct): Connect to the dialog's "destroy"
