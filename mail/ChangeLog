@@ -1,3 +1,8 @@
+2004-03-10  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-session.c (request_password): Focus the entry widget. Fixes
+	bug #55330.
+
 2004-03-10  Radek Doulik  <rodo@ximian.com>
 
 	* em-junk-filter.c (pipe_to_sa_with_error): call

@@ -280,6 +280,7 @@ request_password (struct _pass_msg *m)
 	g_signal_connect (m->entry, "activate", G_CALLBACK (pass_activate), password_dialog);
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (password_dialog)->vbox), m->entry, TRUE, FALSE, 3);
 	gtk_widget_show (m->entry);
+	gtk_widget_grab_focus (m->entry);
 	
 	if ((m->flags & CAMEL_SESSION_PASSWORD_REPROMPT) && m->result) {
 		gtk_entry_set_text ((GtkEntry *) m->entry, m->result);
