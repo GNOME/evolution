@@ -210,6 +210,8 @@ complete(CamelMimeFilter *f, char *in, size_t len, size_t prespace, char **out, 
 		*o++ = '\n';
 
 		*outlen = o - *out;
+		
+		f->backlen = 0;
 	}
 }
 

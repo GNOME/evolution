@@ -698,14 +698,14 @@ smtp_send_to (CamelTransport *transport, CamelMimeMessage *message,
 		return FALSE;
 	}
 	
-	if (!recipients) {
+	len = camel_address_length (recipients);
+	if (len == 0) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Cannot send message: no recipients defined."));
 		camel_operation_end (NULL);
 		return FALSE;
 	}
 	
-	len = camel_address_length (recipients);
 	cia = CAMEL_INTERNET_ADDRESS (recipients);
 	for (i = 0; i < len; i++) {
 		if (!camel_internet_address_get (cia, i, NULL, &addr)) {

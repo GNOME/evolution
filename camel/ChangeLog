@@ -1,3 +1,15 @@
+2003-01-06  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-mime-filter-canon.c (complete): Set the backbuflen to 0 so
+	that calling us again won't re-flush the same data.
+
+2003-01-04  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/smtp/camel-smtp-transport.c (smtp_send_to): Instead of
+	checking recipients != NULL, check that camel_address_length
+	(recipients) != 0 since it is illegal for recipients to be NULL
+	(camel_transport_send_to already checks this).
+
 2002-12-15  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-multipart-signed.c (camel_multipart_signed_verify): Don't
