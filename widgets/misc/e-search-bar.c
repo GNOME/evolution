@@ -497,10 +497,17 @@ update_bonobo_menus (ESearchBar *esb)
 	GString *xml;
 	GSList *p;
 	char *verb_name;
+	char *encoded_title;
 
-	bonobo_ui_component_rm (esb->ui_component, "/menu/Search/SearchBar", NULL);
+	bonobo_ui_component_rm (esb->ui_component, "/menu/SearchPlaceholder/Search", NULL);
 
-	xml = g_string_new ("<placeholder name=\"SearchBar\">");
+	xml = g_string_new ("");
+
+	encoded_title = bonobo_ui_util_encode_str (_("_Search"));
+	g_string_sprintfa (xml, "<submenu name=\"Search\" label=\"%s\">", encoded_title);
+	g_free (encoded_title);
+
+	g_string_sprintfa (xml, "<placeholder name=\"SearchBar\">");
 
 	append_xml_menu_item (xml, "FindNow", _("_Find Now"), "ESearchBar:FindNow", NULL);
 	append_xml_menu_item (xml, "Clear", _("_Clear"), "ESearchBar:Clear", "*Control**Shift*b");
@@ -522,8 +529,9 @@ update_bonobo_menus (ESearchBar *esb)
 	}
 
 	g_string_sprintfa (xml, "</placeholder>");
+	g_string_sprintfa (xml, "</submenu>");
 
-	bonobo_ui_component_set (esb->ui_component, "/menu/Search", xml->str, NULL);
+	bonobo_ui_component_set (esb->ui_component, "/menu/SearchPlaceholder", xml->str, NULL);
 
 	g_string_free (xml, TRUE);
 }
