@@ -1,3 +1,8 @@
+2000-10-24  Jesse Pavel <jpavel@helixcode.com>
+
+	* gui/e-meeting-edit.c: I've added code to interact with the mailer's
+	CORBA interfaces, though it's not yet working.
+
 2000-10-23  JP Rosevear  <jpr@helixcode.com>
 
 	* conduits/todo/todo-conduit.c (local_record_from_comp): Use

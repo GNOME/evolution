@@ -25,6 +25,8 @@
 #include <icaltypes.h>
 #include <ical.h>
 #include <widgets/meeting-time-sel/e-meeting-time-sel.h>
+#include <composer/Composer.h>
+#include <string.h>
 #include "e-meeting-edit.h"
 
 #define E_MEETING_GLADE_XML "e-meeting-dialog.glade"
@@ -42,7 +44,7 @@ struct _EMeetingEditorPrivate {
 	GtkWidget *organizer_entry;
 	GtkWidget *role_entry;
 	GtkWidget *rsvp_check;
-	GtkWidget *schedule_button;
+	GtkWidget *send_button, *schedule_button;
 	
 	gint changed_signal_id;
 
@@ -246,12 +248,14 @@ put_property_in_list (icalproperty *prop, gint rownum, gpointer data)
 
 	
 
-/* edit_attendee() performs the GUI manipulation and interaction for
-   editing `prop' and returns TRUE if the user indicated that he wants
-   to save the new property information.
-
-   Note that it is necessary that the property have parameters of the types
-   RSVP, PARTSTAT, and ROLE already when passed into this function. */
+/********
+ * edit_attendee() performs the GUI manipulation and interaction for
+ * editing `prop' and returns TRUE if the user indicated that he wants
+ * to save the new property information.
+ * 
+ * Note that it is necessary that the property have parameters of the types
+ * RSVP, PARTSTAT, and ROLE already when passed into this function. 
+ ********/
 static gboolean
 edit_attendee (icalproperty *prop, gpointer data)
 {
@@ -483,7 +487,108 @@ schedule_button_clicked_cb (GtkWidget *widget, gpointer data)
 	return;
 }
 
+#define COMPOSER_OAFID "OAFIID:evolution-composer:evolution-mail:cd8618ea-53e1-4b9e-88cf-ec578bdb903b"
 
+
+static gchar *itip_methods = {
+	"REQUEST"
+};
+
+enum itip_method_enum {
+	METHOD_REQUEST
+};
+
+/********
+ * This routine is called when the send button is clicked. Duh. 
+ * Actually, I'm just testing my commenting macros.
+ ********/
+static void
+send_button_clicked_cb (GtkWidget *widget, gpointer data)
+{
+	EMeetingEditorPrivate *priv;
+	BonoboObjectClient *bonobo_server;
+	Evolution_Composer composer_server;
+	CORBA_Environment ev;
+	Evolution_Composer_RecipientList *to_list, *cc_list, *bcc_list;
+	Evolution_Composer_Recipient *recipient;
+	gchar *cell_text;
+	CORBA_char *subject;
+	gint cntr;
+	gint len;
+	CalComponentText caltext;
+	CORBA_char *content_type, *filename, *description, *data;
+	CORBA_boolean show_inline;
+	CORBA_char tempstr[200];
+
+
+	/********
+	 * CODE
+	 ********/
+
+	priv = (EMeetingEditorPrivate *) ((EMeetingEditor *)data)->priv;
+
+	CORBA_exception_init (&ev);
+
+	/* First, I obtain an object reference that represents the Composer. */
+	bonobo_server = bonobo_object_activate (COMPOSER_OAFID, 0);
+
+	g_return_if_fail (bonobo_server != NULL);
+
+	composer_server = bonobo_object_corba_objref (BONOBO_OBJECT (bonobo_server));
+
+	/* All right, now I have to convert my list of recipients into one of those
+	   CORBA sequences. */
+	to_list = Evolution_Composer_RecipientList__alloc ();
+	to_list->_maximum = priv->numentries;
+	to_list->_length = priv->numentries; 
+	to_list->_buffer = CORBA_sequence_Evolution_Composer_Recipient_allocbuf (priv->numentries);
+
+	for (cntr = 0; cntr < priv->numentries; cntr++) {
+		gtk_clist_get_text (GTK_CLIST (priv->attendee_list),
+				    cntr, ADDRESS_COL,
+				    &cell_text);
+		len = strlen (cell_text);
+
+		recipient = &(to_list->_buffer[cntr]);
+		recipient->name = CORBA_string_alloc (0);  /* FIXME: we may want an actual name here. */
+		recipient->address = CORBA_string_alloc (len);
+		strcpy (recipient->address, cell_text);
+	}
+
+	cc_list = Evolution_Composer_RecipientList__alloc ();
+	cc_list->_maximum = cc_list->_length = 0;
+	bcc_list = Evolution_Composer_RecipientList__alloc ();
+	bcc_list->_maximum = bcc_list->_length = 0;
+
+	cal_component_get_summary (priv->comp, &caltext);
+	subject = CORBA_string_alloc (strlen (caltext.value));
+	strcpy (subject, caltext.value);
+
+	Evolution_Composer_set_headers (composer_server, to_list, cc_list, bcc_list, subject, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_printerr ("gui/e-meeting-edit.c: I couldn't set the composer headers via CORBA! Aagh.\n");
+		CORBA_exception_free (&ev);
+	}
+
+	sprintf (tempstr, "text/calendar; METHOD=%s", itip_methods[METHOD_REQUEST]);
+	content_type = CORBA_string_alloc (strlen (tempstr));
+	filename = CORBA_string_alloc (0);
+	description = CORBA_string_alloc (0);
+	show_inline = FALSE;
+
+	/* For tomorrow, I need to extract a string representation of our iCal object, and
+	   copy it into the `data' member, to send via CORBA. */
+	
+
+	
+	CORBA_exception_free (&ev);
+
+	bonobo_object_unref (BONOBO_OBJECT (bonobo_server));
+
+
+}
+
+	
 static void 
 add_button_clicked_cb (GtkWidget *widget, gpointer data)
 {
@@ -582,14 +687,6 @@ edit_button_clicked_cb (GtkWidget *widget, gpointer data)
 			icalproperty_remove_parameter (prop, ICAL_ROLE_PARAMETER);
 			icalproperty_remove_parameter (prop, ICAL_RSVP_PARAMETER);
 			icalproperty_remove_parameter (prop, ICAL_PARTSTAT_PARAMETER);
-
-#if 0
-			/* This was used when I was debugging libical. */
-			param = get_icalparam_by_type (prop, ICAL_ROLE_PARAMETER);
-			if (param != NULL)
-				g_print ("e-meeting-edit.c: param should be NULL, but it isn't.\n");
-#endif
-
 
 			param = icalparameter_new_clone (get_icalparam_by_type (new_prop, ICAL_ROLE_PARAMETER));
 			g_assert (param != NULL);
@@ -719,6 +816,10 @@ e_meeting_edit (EMeetingEditor *editor)
 	
 	gtk_signal_connect (GTK_OBJECT (priv->schedule_button), "clicked",
 			    GTK_SIGNAL_FUNC (schedule_button_clicked_cb), editor);
+	
+	gtk_signal_connect (GTK_OBJECT (priv->send_button), "clicked",
+			    GTK_SIGNAL_FUNC (send_button_clicked_cb), editor);
+
 
 	add_button = glade_xml_get_widget (priv->xml, "add_button");
 	delete_button = glade_xml_get_widget (priv->xml, "delete_button");
