@@ -1,3 +1,14 @@
+2002-07-16  Peter Williams  <peterw@ximian.com>
+
+	* e-msg-composer.c (create_composer): Instead of doing this with a
+	weakref, do it by connecting to the destroy signal. The weakref was
+	not getting notified in certain conditions that I could never really
+	pin down, and this caused problems at exit.
+
+	* e-msg-composer-hdrs.c (create_headers): Reorder to create reply_to
+	before from, because create_from_optionmenu causes from_changed to
+	be called, which expects reply_to.entry to exist.
+
 2002-07-15  Radek Doulik  <rodo@ximian.com>
 
 	* e-msg-composer.c (build_message): added save_html_object_data

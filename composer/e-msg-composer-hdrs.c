@@ -365,13 +365,11 @@ create_headers (EMsgComposerHdrs *hdrs)
 	EMsgComposerHdrsPrivate *priv = hdrs->priv;
 	
 	/*
-	 * From:
-	 */
-	priv->from.label = gtk_label_new (_("From:"));
-	priv->from.entry = create_from_optionmenu (hdrs);
-	
-	/*
 	 * Reply-To:
+	 *
+	 * Create this before we call create_from_optionmenu,
+	 * because that causes from_changed to be called, which
+	 * expects the reply_to fields to be initialized.
 	 */
 	priv->reply_to.label = gtk_label_new (_("Reply-To:"));
 	priv->reply_to.entry = e_entry_new ();
@@ -380,6 +378,12 @@ create_headers (EMsgComposerHdrs *hdrs)
 			"use_ellipsis", TRUE,
 			"allow_newlines", FALSE,
 			NULL);
+	
+	/*
+	 * From:
+	 */
+	priv->from.label = gtk_label_new (_("From:"));
+	priv->from.entry = create_from_optionmenu (hdrs);
 	
 	/*
 	 * Subject:

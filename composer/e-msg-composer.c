@@ -2695,9 +2695,9 @@ create_composer (void)
 	
 	all_composers = g_slist_prepend (all_composers, composer);
 
-	gtk_object_weakref (GTK_OBJECT (composer),
-			    msg_composer_destroy_notify,
-			    composer);
+	gtk_signal_connect (GTK_OBJECT (composer), "destroy",
+			    GTK_SIGNAL_FUNC (msg_composer_destroy_notify),
+			    NULL);
 
 	gtk_window_set_default_size (GTK_WINDOW (composer),
 				     DEFAULT_WIDTH, DEFAULT_HEIGHT);
