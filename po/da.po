@@ -28,7 +28,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-02-14 14:18+0100\n"
+"POT-Creation-Date: 2005-02-16 11:25+0100\n"
 "PO-Revision-Date: 2005-02-14 14:17+0100\n"
 "Last-Translator: Martin Willemoes Hansen <mwh@sysrq.dk>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
@@ -113,7 +113,7 @@ msgstr "Ny aftale"
 
 #: a11y/calendar/ea-cal-view.c:307
 msgid "New All Day Event"
-msgstr "Ny begivenhed som varer hele dagen"
+msgstr "Ny heldagsbegivenhed"
 
 #: a11y/calendar/ea-cal-view.c:308 calendar/gui/e-calendar-view.c:1372
 msgid "New Meeting"
@@ -121,7 +121,7 @@ msgstr "Nyt møde"
 
 #: a11y/calendar/ea-cal-view.c:309
 msgid "Go to Today"
-msgstr "Gå til i dag"
+msgstr "Gå til dags dato"
 
 #: a11y/calendar/ea-cal-view.c:310
 msgid "Go to Date"
@@ -783,7 +783,7 @@ msgstr ""
 
 #: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:5
 msgid "Show preview pane"
-msgstr "Vis forhåndsvisnings-ruden"
+msgstr "Vis forhåndsvisningsruden"
 
 #: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:6
 msgid ""
@@ -807,7 +807,7 @@ msgstr "Vertikal position for ruden"
 
 #: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:10
 msgid "Whether to show the preview pane."
-msgstr "Om forhåndsvisnings-ruden vises."
+msgstr "Om forhåndsvisningsruden vises."
 
 #: addressbook/gui/component/ldap-config.glade.h:1
 #: addressbook/gui/contact-editor/contact-editor.glade.h:1
@@ -2427,7 +2427,7 @@ msgid ""
 "Are you sure you want\n"
 "to delete these contacts?"
 msgstr ""
-"Er du sikker på, at du vil\n"
+"Er du sikker på du vil\n"
 "fjerne disse kontakter?"
 
 #: addressbook/gui/contact-editor/eab-editor.c:322
@@ -2435,7 +2435,7 @@ msgid ""
 "Are you sure you want\n"
 "to delete this contact?"
 msgstr ""
-"Er du sikker på, at du vil\n"
+"Er du sikker på du vil\n"
 "slette denne kontakt?"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:2
@@ -3200,8 +3200,8 @@ msgid ""
 "load the addressbook once in online mode to download its contents"
 msgstr ""
 "Kunne ikke åbne denne adressebog. Dette betyder enten at bogen ikke er "
-"markeret til afkoblet brug eller ikke er blevet overført for afkoblet brug. "
-"Vær så venlig at indlæse bogen i tilkoblet-tilstand for at overføre dens "
+"markeret til afkoblet brug eller ikke er blevet overført før afkoblet brug. "
+"Vær så venlig at indlæse bogen i tilkoblet tilstand for at overføre dens "
 "indhold"
 
 #: addressbook/gui/widgets/eab-gui-util.c:98
@@ -3686,7 +3686,7 @@ msgstr "[vcard|csv]"
 
 #: addressbook/tools/evolution-addressbook-export.c:61
 msgid "Export in asynchronous mode"
-msgstr "Eksportér i asynkron-tilstand"
+msgstr "Eksportér i asynkron tilstand"
 
 # Lack of space after the comma
 # http://bugzilla.ximian.com/show_bug.cgi?id=61069
@@ -3694,7 +3694,7 @@ msgstr "Eksportér i asynkron-tilstand"
 msgid ""
 "The number of cards in one output file in asychronous mode, default size 100."
 msgstr ""
-"Antallet af visitkort i én uddatafil i asynkron-tilstand, standardstørrelsen "
+"Antallet af visitkort i én uddatafil i asynkron tilstand, standardstørrelsen "
 "100."
 
 #: addressbook/tools/evolution-addressbook-export.c:63
@@ -3714,7 +3714,7 @@ msgstr "Understøt kun csv- eller vcard-format."
 
 #: addressbook/tools/evolution-addressbook-export.c:114
 msgid "In async mode, output must be file."
-msgstr "I asynkron-tilstand skal uddata være en fil."
+msgstr "I asynkron tilstand skal uddata være en fil."
 
 # Strange use of English
 # http://bugzilla.ximian.com/show_bug.cgi?id=61070
@@ -3768,7 +3768,7 @@ msgstr "Send notits:"
 #. calendar:prompt-delete-meeting primary
 #: calendar/calendar-errors.xml.h:8
 msgid "Are you sure you want to delete this meeting?"
-msgstr "Er du sikker på, at du vil slette dette møde?"
+msgstr "Er du sikker på du vil slette dette møde?"
 
 #. calendar:prompt-delete-meeting secondary
 #: calendar/calendar-errors.xml.h:10
@@ -3789,7 +3789,7 @@ msgstr ""
 #. calendar:prompt-delete-task primary
 #: calendar/calendar-errors.xml.h:18 calendar/calendar-errors.xml.h:44
 msgid "Are you sure you want to delete this task?"
-msgstr "Er du sikker på, at du vil slette denne opgave?"
+msgstr "Er du sikker på du vil slette denne opgave?"
 
 #. calendar:prompt-delete-task secondary
 #. calendar:prompt-delete-named-task secondary
@@ -3818,7 +3818,7 @@ msgstr ""
 #. calendar:prompt-delete-journal primary
 #: calendar/calendar-errors.xml.h:28 calendar/calendar-errors.xml.h:52
 msgid "Are you sure you want to delete this journal entry?"
-msgstr "Er du sikker på, at du vil slette denne journalopføring?"
+msgstr "Er du sikker på du vil slette denne journalopføring?"
 
 #. calendar:prompt-delete-journal secondary
 #: calendar/calendar-errors.xml.h:30
@@ -3832,7 +3832,7 @@ msgstr ""
 #. calendar:prompt-delete-titled-appointment primary
 #: calendar/calendar-errors.xml.h:32
 msgid "Are you sure you want to delete the appointment titled '{0}'?"
-msgstr "Er du sikker på, at du vil slette aftalen med titlen \"{0}\"?"
+msgstr "Er du sikker på du vil slette aftalen med titlen \"{0}\"?"
 
 #. calendar:prompt-delete-titled-appointment secondary
 #. calendar:prompt-delete-appointment secondary
@@ -3846,17 +3846,17 @@ msgstr ""
 #. calendar:prompt-delete-appointment primary
 #: calendar/calendar-errors.xml.h:36
 msgid "Are you sure you want to delete this appointment?"
-msgstr "Er du sikker på, at du vil slette denne aftale?"
+msgstr "Er du sikker på du vil slette denne aftale?"
 
 #. calendar:prompt-delete-named-task primary
 #: calendar/calendar-errors.xml.h:40
 msgid "Are you sure you want to delete the '{0}' task?"
-msgstr "Er du sikker på, at du vil slette \"{0}\" opgaven?"
+msgstr "Er du sikker på du vil slette \"{0}\" opgaven?"
 
 #. calendar:prompt-delete-named-journal primary
 #: calendar/calendar-errors.xml.h:48
 msgid "Are you sure you want to delete the journal entry '{0}'?"
-msgstr "Er du sikker på, at du vil slette journalopføringen \"{0}\"?"
+msgstr "Er du sikker på du vil slette journalopføringen \"{0}\"?"
 
 #. calendar:prompt-delete-named-journal secondary
 #. calendar:prompt-delete-journal secondary
@@ -3870,7 +3870,7 @@ msgstr ""
 #. calendar:prompt-delete-appointments primary
 #: calendar/calendar-errors.xml.h:56
 msgid "Are you sure you want to delete these {0} appointments?"
-msgstr "Er du sikker på, at du vil slette disse {0} aftaler?"
+msgstr "Er du sikker på du vil slette disse {0} aftaler?"
 
 #. calendar:prompt-delete-appointments secondary
 #: calendar/calendar-errors.xml.h:58
@@ -3884,7 +3884,7 @@ msgstr ""
 #. calendar:prompt-delete-tasks primary
 #: calendar/calendar-errors.xml.h:60
 msgid "Are you sure you want to delete these {0} tasks?"
-msgstr "Er du sikker på, at du vil slette disse {0} opgaver?"
+msgstr "Er du sikker på du vil slette disse {0} opgaver?"
 
 #. calendar:prompt-delete-tasks secondary
 #: calendar/calendar-errors.xml.h:62
@@ -3896,7 +3896,7 @@ msgstr ""
 #. calendar:prompt-delete-journals primary
 #: calendar/calendar-errors.xml.h:64
 msgid "Are you sure you want to delete these {0} journal entries?"
-msgstr "Er du sikker på, at du vil slette disse {0} journalopføringer?"
+msgstr "Er du sikker på du vil slette disse {0} journalopføringer?"
 
 #. calendar:prompt-delete-journals secondary
 #: calendar/calendar-errors.xml.h:66
@@ -4048,7 +4048,7 @@ msgstr "Denne opgaveliste vil blive fjernet permanent."
 #. calendar:prompt-send-no-subject-calendar primary
 #: calendar/calendar-errors.xml.h:124
 msgid "Are you sure you want to send the appointment without a summary?"
-msgstr "Er du sikker på at du vil sende aftalen uden et sammendrag?"
+msgstr "Er du sikker på du vil sende aftalen uden et sammendrag?"
 
 #. calendar:prompt-send-no-subject-calendar secondary
 #: calendar/calendar-errors.xml.h:126
@@ -4068,7 +4068,7 @@ msgstr "_Send"
 #. calendar:prompt-send-no-subject-task primary
 #: calendar/calendar-errors.xml.h:129
 msgid "Are you sure you want to send the task without a summary?"
-msgstr "Er du sikker på at du vil sende din opgave uden et sammendrag?"
+msgstr "Er du sikker på du vil sende opgaven uden et sammendrag?"
 
 #. calendar:prompt-send-no-subject-task secondary
 #: calendar/calendar-errors.xml.h:131
@@ -4076,8 +4076,8 @@ msgid ""
 "Adding a meaningful Summary to your task will give your recipients an idea "
 "of what your task is about."
 msgstr ""
-"Hvis du giver din opgave et meningsfyldt sammendrag, vil dine modtagere få "
-"en idé om, hvad din opgave handler om."
+"Hvis du giver opgaven et meningsfyldt sammendrag, vil dine modtagere få en "
+"idé om, hvad opgaven handler om."
 
 #. calendar:prompt-no-contents-offline-calendar primary
 #: calendar/calendar-errors.xml.h:134
@@ -4329,7 +4329,7 @@ msgstr ""
 "\n"
 "        %s\n"
 "\n"
-"Er du sikker på, at du vil køre dette program?"
+"Er du sikker på du vil køre dette program?"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:1128
 msgid "Do not ask me about this program again."
@@ -4516,7 +4516,7 @@ msgstr "Vis skærmalarmer i statusfeltet"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:37
 msgid "Show week numbers in date navigator"
-msgstr "Vis uge-numre i datonavigationen"
+msgstr "Vis ugenumre i datonavigationen"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:38
 msgid "Tasks due today color"
@@ -4578,11 +4578,11 @@ msgstr ""
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:50
 msgid "Week start"
-msgstr "Ugen begynder"
+msgstr "Ugestart"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:51
 msgid "Weekday the week starts on, from Sunday (0) to Saturday (6)."
-msgstr "Ugedagen hvorpå ugen starter, fra søndag (0) til lørdag (6)."
+msgstr "Ugedag hvorpå ugen starter, fra søndag (0) til lørdag (6)."
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:52
 msgid "Whether or not to use the notification tray for display alarms."
@@ -4603,7 +4603,7 @@ msgid ""
 "Whether to compress weekends in the month view, which puts Saturday and "
 "Sunday in the space of one weekday."
 msgstr ""
-"Om weekender skal komprimeres i månedsvisningen, dette vil give lørdag og "
+"Om weekender skal komprimeres i månedsvisningen, hvilket vil give lørdag og "
 "søndag samme plads som en enkelt ugedag."
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:56
@@ -4964,7 +4964,7 @@ msgstr "_Tilføj bilag..."
 
 #: calendar/gui/dialogs/cal-attachment-bar.c:699
 msgid "Attachment Bar"
-msgstr "Bilaglinje"
+msgstr "Bilagslinje"
 
 #: calendar/gui/dialogs/cal-attachment-select-file.c:96
 #: calendar/gui/dialogs/cal-attachment-select-file.c:115
@@ -5024,7 +5024,7 @@ msgstr "Aktiveret"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.c:730
 msgid "Are you sure you want to remove this URL?"
-msgstr "Er du sikker på, at du vil slette denne URL?"
+msgstr "Er du sikker på du vil slette denne URL?"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.c:733
 msgid "Remove"
@@ -5214,7 +5214,7 @@ msgstr "Tirsdag"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:41
 msgid "W_eek starts:"
-msgstr "_Ugen begynder:"
+msgstr "_Ugestart:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:42
 #: calendar/gui/dialogs/recurrence-page.c:1042
@@ -5300,7 +5300,7 @@ msgstr "menu af valgmuligheder for tidsenheder"
 
 #: calendar/gui/dialogs/calendar-setup.c:284
 msgid "Copy calendar contents locally for offline operation"
-msgstr "Kopiér kalenderindhold lokalt i afkoblet-tilstand"
+msgstr "Kopiér kalenderindhold lokalt i afkoblet tilstand"
 
 #: calendar/gui/dialogs/calendar-setup.c:336
 #: calendar/gui/dialogs/calendar-setup.glade.h:4
@@ -5487,7 +5487,8 @@ msgstr "Vis _vedlæggelseslinjen (drop vedlæggelser her)"
 
 #: calendar/gui/dialogs/comp-editor.c:952
 msgid "Attachment Button: Press space key to toggle attachment bar"
-msgstr "Bilagknap: Tryk på mellemrumstasten for at slå bilaglinjen til og fra"
+msgstr ""
+"Bilagsknap: Tryk på mellemrumstasten for at slå bilagslinjen til og fra"
 
 #: calendar/gui/dialogs/comp-editor.c:1499
 #: calendar/gui/dialogs/comp-editor.c:1542
@@ -5704,7 +5705,7 @@ msgstr "<b>Dato og tid</b>"
 #: calendar/gui/dialogs/event-page.glade.h:7
 #: calendar/gui/dialogs/task-page.glade.h:3
 msgid "<b>Send Options</b>"
-msgstr "<b>Send-indstillinger</b>"
+msgstr "<b>Afsendingsindstillinger</b>"
 
 #: calendar/gui/dialogs/event-page.glade.h:8
 msgid "A_ll day event"
@@ -5712,7 +5713,7 @@ msgstr "Varer he_le dagen"
 
 #: calendar/gui/dialogs/event-page.glade.h:9
 msgid "Ad_vanced  send options"
-msgstr "A_vancerede send-indstillinger"
+msgstr "A_vancerede afsendingsindstillinger"
 
 #: calendar/gui/dialogs/event-page.glade.h:10
 msgid "C_ustomize..."
@@ -6076,7 +6077,7 @@ msgstr "Hjemmeside"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:1
 msgid "<span weight=\"bold\">Miscellaneous</span>"
-msgstr "<span weight=\"bold\">Diverse\t</span>"
+msgstr "<span weight=\"bold\">Diverse</span>"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:2
 msgid "<span weight=\"bold\">Status</span>"
@@ -6173,7 +6174,7 @@ msgstr "Kan ikke åbne opgaver i \"%s\"."
 
 #: calendar/gui/dialogs/task-page.glade.h:4
 msgid "Ad_vanced send options"
-msgstr "A_vancerede send-valgmuligheder"
+msgstr "A_vancerede afsendingsindstillinger"
 
 #: calendar/gui/dialogs/task-page.glade.h:9
 msgid "D_escription:"
@@ -6607,7 +6608,7 @@ msgstr "Ny _aftale..."
 
 #: calendar/gui/e-calendar-view.c:1371
 msgid "New All Day _Event"
-msgstr "Ny begivenhed som varer h_ele dagen"
+msgstr "Ny heldags_begivenhed"
 
 #: calendar/gui/e-calendar-view.c:1373
 msgid "New Task"
@@ -6830,7 +6831,7 @@ msgstr "Accepteret"
 #: calendar/gui/e-itip-control.c:1141 calendar/gui/itip-utils.c:425
 #: plugins/itip-formatter/itip-formatter.c:1392
 msgid "Tentatively Accepted"
-msgstr "Tentativt godtaget"
+msgstr "Forsøgsvist godtaget"
 
 #: calendar/gui/e-itip-control.c:1145 calendar/gui/e-meeting-list-view.c:176
 #: calendar/gui/e-meeting-store.c:190 calendar/gui/e-meeting-store.c:213
@@ -7084,7 +7085,7 @@ msgstr "Godtaget"
 
 #: calendar/gui/e-itip-control.c:2261
 msgid "Tentatively accept"
-msgstr "Tentativt accepteret"
+msgstr "Forsøgsvist accepteret"
 
 #: calendar/gui/e-itip-control.c:2262
 msgid "Decline"
@@ -7210,7 +7211,7 @@ msgstr "Behøver handling"
 #: calendar/gui/e-meeting-list-view.c:177 calendar/gui/e-meeting-store.c:192
 #: calendar/gui/e-meeting-store.c:215 calendar/gui/e-meeting-time-sel.c:411
 msgid "Tentative"
-msgstr "Tentativ"
+msgstr "Forsøgsvis"
 
 #: calendar/gui/e-meeting-list-view.c:178 calendar/gui/e-meeting-store.c:194
 #: calendar/gui/e-meeting-store.c:217
@@ -9661,7 +9662,7 @@ msgid ""
 "Are you sure you want to discard the message, titled '{0}', you are "
 "composing?"
 msgstr ""
-"Er du sikker på at du vil kassere beskeden med titlen \"{0}\" som du skriver?"
+"Er du sikker på du vil kassere beskeden med titlen \"{0}\" som du skriver?"
 
 #. mail-composer:exit-unsaved secondary
 #: composer/mail-composer-errors.xml.h:32
@@ -9974,7 +9975,7 @@ msgstr "%H"
 
 #: e-util/eggtrayicon.c:119
 msgid "The orientation of the tray."
-msgstr "Statusfeltes orientering."
+msgstr "Statusfeltets orientering."
 
 #: filter/filter-datespec.c:73
 #, c-format
@@ -10739,7 +10740,7 @@ msgstr "Indlæser..."
 
 #: mail/em-folder-tree.c:688
 msgid "Mail Folder Tree"
-msgstr "E-postmappe-træ"
+msgstr "E-post-mappe-træ"
 
 #: mail/em-folder-tree.c:921
 #, c-format
@@ -10816,7 +10817,7 @@ msgstr "Ændr navn på mappe"
 
 #: mail/em-folder-tree.c:2728
 msgid "Folder names cannot contain '/'"
-msgstr "Et mappenavn kan ikke indeholde en \"/\""
+msgstr "Mappenavne kan ikke indeholde \"/\""
 
 #: mail/em-folder-tree.c:2802 ui/evolution-addressbook.xml.h:44
 #: ui/evolution-mail-global.xml.h:17 ui/evolution-mail-messagedisplay.xml.h:8
@@ -10938,7 +10939,7 @@ msgstr "Ska_b regel fra besked"
 
 #: mail/em-folder-view.c:1010
 msgid "vFolder on _Subject"
-msgstr "Virtuel mappe for _emnet"
+msgstr "Virtuel mappe for _emne"
 
 #: mail/em-folder-view.c:1011
 msgid "vFolder on Se_nder"
@@ -10950,7 +10951,7 @@ msgstr "Virtuel mappe for modtage_re"
 
 #: mail/em-folder-view.c:1013
 msgid "vFolder on Mailing _List"
-msgstr "Virtuel mappe på e-post-_liste"
+msgstr "Virtuel mappe for e-post-_liste"
 
 #: mail/em-folder-view.c:1017
 msgid "Filter on Sub_ject"
@@ -11277,8 +11278,8 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
-"Stedet og hierarkiet for Evolutions e-postmapper er ændret siden Evolution 1."
-"x.\n"
+"Stedet og hierarkiet for Evolutions e-post-mapper er ændret siden Evolution "
+"1.x.\n"
 "\n"
 "Vent venligst mens Evolution migrerer dine mapper..."
 
@@ -11531,8 +11532,8 @@ msgid ""
 "If a user tries to open 10 or more messages at one time, ask the user if "
 "they really want to do it."
 msgstr ""
-"Hvis en bruger forsøger at åbne 10 eller flere beskeder på en gang, spørg om "
-"brugeren virkelig ønsker det."
+"Hvis en bruger forsøger at åbne 10 eller flere beskeder på en gang, så spørg "
+"om brugeren virkelig ønsker det."
 
 #: mail/evolution-mail.schemas.in.in.h:28
 msgid ""
@@ -11746,11 +11747,11 @@ msgstr "Vis slettede beskeder i beskedlisten"
 
 #: mail/evolution-mail.schemas.in.in.h:73
 msgid "Show the \"Preview\" pane"
-msgstr "Vis forhåndsvisnings-ruden"
+msgstr "Vis forhåndsvisningsruden"
 
 #: mail/evolution-mail.schemas.in.in.h:74
 msgid "Show the \"Preview\" pane."
-msgstr "Vis forhåndsvisnings-ruden."
+msgstr "Vis forhåndsvisningsruden."
 
 #: mail/evolution-mail.schemas.in.in.h:75
 msgid "Sound file to play when new mail arrives."
@@ -12174,7 +12175,7 @@ msgstr[1] "%d ulæste"
 
 #: mail/mail-component.c:691
 msgid "New Mail Message"
-msgstr "Ny e-post-besked"
+msgstr "Nyt e-brev"
 
 #: mail/mail-component.c:692
 msgid "_Mail Message"
@@ -12182,7 +12183,7 @@ msgstr "Send _besked"
 
 #: mail/mail-component.c:693
 msgid "Compose a new mail message"
-msgstr "Skriv en ny e-post-besked"
+msgstr "Skriv et nyt e-brev"
 
 #: mail/mail-component.c:699
 msgid "New Mail Folder"
@@ -12966,7 +12967,7 @@ msgstr ""
 #. mail:ask-send-html primary
 #: mail/mail-errors.xml.h:10
 msgid "Are you sure you want to send a message in HTML format?"
-msgstr "Er du sikker på, at du vil sende en besked der benytter HTML?"
+msgstr "Er du sikker på du vil sende en besked der benytter HTML?"
 
 #. mail:ask-send-html secondary
 #: mail/mail-errors.xml.h:12
@@ -12984,7 +12985,7 @@ msgstr ""
 #. mail:ask-send-no-subject primary
 #: mail/mail-errors.xml.h:17
 msgid "Are you sure you want to send a message without a subject?"
-msgstr "Er du sikker på, at du vil sende en besked uden emne?"
+msgstr "Er du sikker på du vil sende en besked uden emne?"
 
 #. mail:ask-send-no-subject secondary
 #: mail/mail-errors.xml.h:19
@@ -12999,7 +13000,7 @@ msgstr ""
 #. mail:ask-send-only-bcc primary
 #: mail/mail-errors.xml.h:22 mail/mail-errors.xml.h:29
 msgid "Are you sure you want to send a message with only BCC recipients?"
-msgstr "Er du sikker på, at du vil sende en besked der kun har BCC-modtagere?"
+msgstr "Er du sikker på du vil sende en besked der kun har BCC-modtagere?"
 
 #. mail:ask-send-only-bcc-contact secondary
 #: mail/mail-errors.xml.h:24
@@ -13071,7 +13072,7 @@ msgid ""
 "Are you sure you want to permanently remove all the deleted message in "
 "folder \"{0}\"?"
 msgstr ""
-"Er du sikker på, at du vil fjerne alle de slettede beskeder i mappen \"{0}\" "
+"Er du sikker på du vil fjerne alle de slettede beskeder i mappen \"{0}\" "
 "permanent?"
 
 #. mail:ask-expunge secondary
@@ -13090,7 +13091,7 @@ msgid ""
 "Are you sure you want to permanently remove all the deleted messages in all "
 "folders?"
 msgstr ""
-"Er du sikker på, at du vil fjerne alle de slettede beskeder i alle mapperne, "
+"Er du sikker på du vil fjerne alle de slettede beskeder i alle mapperne, "
 "permanent?"
 
 #: mail/mail-errors.xml.h:51
@@ -13100,7 +13101,7 @@ msgstr "_Tøm affaldskurven"
 #. mail:ask-open-many primary
 #: mail/mail-errors.xml.h:53
 msgid "Are you sure you want to open {0} messages at once?"
-msgstr "Er du sikker på at du vil åbne {0} beskeder på en gang?"
+msgstr "Er du sikker på du vil åbne {0} beskeder på en gang?"
 
 #. mail:ask-open-many secondary
 #: mail/mail-errors.xml.h:55
@@ -13239,8 +13240,7 @@ msgstr "Slet \"{0}\"?"
 #. mail:ask-delete-folder primary
 #: mail/mail-errors.xml.h:129
 msgid "Really delete folder \"{0}\" and all of its subfolders?"
-msgstr ""
-"Er du sikker på at du vil slette mappen \"{0}\" og alle dens undermapper?"
+msgstr "Er du sikker på du vil slette mappen \"{0}\" og alle dens undermapper?"
 
 #. mail:ask-delete-folder secondary
 #: mail/mail-errors.xml.h:131
@@ -13325,7 +13325,7 @@ msgstr "Slet konto?"
 #. mail:ask-delete-account primary
 #: mail/mail-errors.xml.h:171
 msgid "Are you sure you want to delete this account?"
-msgstr "Er du sikker på, at du vil slette denne konto?"
+msgstr "Er du sikker på du vil slette denne konto?"
 
 #. mail:ask-delete-account secondary
 #: mail/mail-errors.xml.h:173
@@ -14076,15 +14076,15 @@ msgstr "Synkronisér med venneliste nu"
 #: plugins/calendar-weather/calendar-weather.c:54
 #: plugins/calendar-weather/calendar-weather.c:60
 msgid "Weather: Cloudy"
-msgstr "Vejr: Overskyget"
+msgstr "Vejr: Overskyet"
 
 #: plugins/calendar-weather/calendar-weather.c:61
 msgid "Weather: Fog"
-msgstr "Vejr: Tåge"
+msgstr "Vejr: Tåget"
 
 #: plugins/calendar-weather/calendar-weather.c:62
 msgid "Weather: Partly Cloudy"
-msgstr "Vejr: Delvis skyget"
+msgstr "Vejr: Delvist skyet"
 
 #: plugins/calendar-weather/calendar-weather.c:63
 msgid "Weather: Rain"
@@ -14210,12 +14210,12 @@ msgstr "Afkrydsningsliste"
 
 #: plugins/groupwise-send-options/org-gnome-compose-send-options.xml.h:1
 msgid "Add Send Options to groupwise messages"
-msgstr "Føj send-valgmuligheder til Groupwise-beskeder"
+msgstr "Føj afsendingsindstillinger til Groupwise-beskeder"
 
 #: plugins/groupwise-send-options/org-gnome-compose-send-options.xml.h:2
 #: widgets/misc/e-send-options.glade.h:20
 msgid "Send Options"
-msgstr "Send-valgmuligheder"
+msgstr "Afsendingsindstillinger"
 
 #: plugins/itip-formatter/itip-formatter.c:704
 msgid "Unable to parse item"
@@ -14234,7 +14234,7 @@ msgstr "Sendt til kalenderen \"%s\" som accepteret"
 #: plugins/itip-formatter/itip-formatter.c:772
 #, c-format
 msgid "Sent to calendar '%s' as tentative"
-msgstr "Sendt til kalenderen \"%s\" som tentativ"
+msgstr "Sendt til kalenderen \"%s\" forsøgsvist"
 
 #: plugins/itip-formatter/itip-formatter.c:777
 #, c-format
@@ -14643,7 +14643,7 @@ msgstr ""
 #. org.gnome.mailing-list-actions:ask-send-message primary
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:10
 msgid "Send e-mail message to mailing list?"
-msgstr "Send e-post-besked til e-post-listen?"
+msgstr "Send e-brev til e-post-listen?"
 
 #. org.gnome.mailing-list-actions:ask-send-message secondary
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:12
@@ -14654,8 +14654,8 @@ msgid ""
 "You should receive an answer from the mailing list shortly after the message "
 "has been sent."
 msgstr ""
-"En e-post-besked vil blive sendt til adressen \"{0}\". Du kan enten sende "
-"beskeden automatisk eller se og ændre den først.\n"
+"Et e-brev vil blive sendt til adressen \"{0}\". Du kan enten sende beskeden "
+"automatisk eller se og ændre den først.\n"
 "\n"
 "Du burde modtage et svar fra e-post-listen kort efter at beskeden er blevet "
 "sendt."
@@ -14717,7 +14717,7 @@ msgstr "Håndtér udvidelsesmoduler..."
 
 #: plugins/plugin-manager/plugin-manager.c:45
 msgid "Author(s)"
-msgstr "Forfatter(er)"
+msgstr "Forfatter(e)"
 
 #: plugins/plugin-manager/plugin-manager.c:46
 msgid "Id"
@@ -14738,7 +14738,7 @@ msgstr "Udvidelsesmodulhåndtering"
 
 #: plugins/plugin-manager/plugin-manager.c:201
 msgid "Note: Some changes will not take effect until restart"
-msgstr "Note: Nogle ændringer vil ikke tages i brug før genstart"
+msgstr "Bemærk: Nogle ændringer vil ikke have effekt før genstart"
 
 #: plugins/plugin-manager/plugin-manager.c:210
 msgid "Plugin"
@@ -14746,7 +14746,7 @@ msgstr "Udvidelsesmodul"
 
 #: plugins/prefer-plain/prefer-plain.c:105
 msgid "Show HTML if present"
-msgstr "Vis HTML vis det er tilstede"
+msgstr "Vis HTML hvis det er tilstede"
 
 #: plugins/prefer-plain/prefer-plain.c:106
 msgid "Prefer PLAIN"
@@ -14984,7 +14984,7 @@ msgstr "Udskrivningsindstillinger"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:10
 msgid "Skip development warning dialog"
-msgstr "Sprig advarselsvinduet for udviklingsversionen over"
+msgstr "Spring advarselsvinduet for udviklingsversionen over"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:11 shell/main.c:475
 msgid "Start in offline mode"
@@ -15014,8 +15014,8 @@ msgid ""
 "The last upgraded configuration version of Evolution, with major/minor/"
 "configuration level"
 msgstr ""
-"Den sidste opgraderede konfigurationsversionen for Evolution, med "
-"hovednummer/undernummer/konfigurationsniveau"
+"Den sidste opgraderede konfigurationsversion for Evolution, med hovednummer/"
+"undernummer/konfigurationsniveau"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:17
 msgid ""
@@ -15034,7 +15034,7 @@ msgstr "Værktøjslinjen er synlig"
 #: shell/apps_evolution_shell.schemas.in.in.h:19
 msgid "Whether Evolution will start up in offline mode instead of online mode."
 msgstr ""
-"Om Evolution starter i afkoblet-tilstand istedet for opkoblet-tilstand."
+"Om Evolution starter i afkoblet tilstand istedet for opkoblet tilstand."
 
 #: shell/apps_evolution_shell.schemas.in.in.h:20
 msgid "Whether the toolbar should be visible."
@@ -16509,7 +16509,7 @@ msgstr "_Tøm affaldskurven"
 
 #: ui/evolution-mail-global.xml.h:7
 msgid "Open a window for composing a mail message"
-msgstr "Åbn et vindue for at skrive en e-post-besked"
+msgstr "Åbn et vindue for at skrive et e-brev"
 
 #: ui/evolution-mail-global.xml.h:8
 msgid "Permanently remove all deleted messages from all folders"
@@ -16962,7 +16962,7 @@ msgstr "Vis besked med fulde e-post-headere"
 
 #: ui/evolution-mail-message.xml.h:100
 msgid "Show the raw email source of the message"
-msgstr "Vis e-post-beskeden i sin rå form"
+msgstr "Vis e-brevet i sin rå form"
 
 #: ui/evolution-mail-message.xml.h:101
 msgid "Text Si_ze"
@@ -17498,7 +17498,7 @@ msgstr "_Send / modtag"
 
 #: ui/evolution.xml.h:47
 msgid "_Text only"
-msgstr "Kun _text"
+msgstr "Kun _tekst"
 
 #: ui/evolution.xml.h:50
 msgid "_Window"
@@ -17973,7 +17973,7 @@ msgid ""
 "Mail Receipt"
 msgstr ""
 "Ingen\n"
-"E-post-kvitering"
+"E-post-kvittering"
 
 #: widgets/misc/e-send-options.glade.h:12
 msgid ""
@@ -17981,7 +17981,7 @@ msgid ""
 "Mail Receipt\n"
 msgstr ""
 "Ingen\n"
-"E-post-kvitering\n"
+"E-post-kvittering\n"
 
 #: widgets/misc/e-send-options.glade.h:15
 msgid ""
@@ -18015,7 +18015,7 @@ msgstr ""
 
 #: widgets/misc/e-send-options.glade.h:26
 msgid "W_ithin"
-msgstr "_Inden"
+msgstr "_Indenfor"
 
 #: widgets/misc/e-send-options.glade.h:27
 msgid "When acce_pted: "
@@ -18039,7 +18039,7 @@ msgstr "_Al information"
 
 #: widgets/misc/e-send-options.glade.h:32
 msgid "_Delay message delivery"
-msgstr "_Forsink lervering af besked"
+msgstr "_Forsink levering af besked"
 
 #: widgets/misc/e-send-options.glade.h:33
 msgid "_Delivered"
@@ -18297,7 +18297,7 @@ msgstr "klik her for at gå til adresse"
 #~ msgstr "Resynkroniserer med server"
 
 #~ msgid "Downloading new messages for offline mode"
-#~ msgstr "Henter nye beskeder for afkoblet-tilstand"
+#~ msgstr "Henter nye beskeder for afkoblet tilstand"
 
 #~ msgid "Preparing folder '%s' for offline"
 #~ msgstr "Forbereder mappen \"%s\" til afkoblet tilstand"
@@ -19373,7 +19373,7 @@ msgstr "klik her for at gå til adresse"
 #~ msgstr "Kan ikke hente besked %s: %s"
 
 #~ msgid "This message is not available in offline mode."
-#~ msgstr "Denne besked er ikke tilgængelig i afkoblet-tilstand."
+#~ msgstr "Denne besked er ikke tilgængelig i afkoblet tilstand."
 
 #~ msgid "Cannot get message %s from folder `%s': No such message"
 #~ msgstr "Kan ikke hente beskeden %s fra mappen \"%s\": Ingen sådan besked"
@@ -19382,7 +19382,7 @@ msgstr "klik her for at gå til adresse"
 #~ msgstr "Kan ikke hente beskeden %s fra mappen \"%s\": Ugyldig handling"
 
 #~ msgid "Cannot append messages to IMAP folders in offline mode."
-#~ msgstr "Kan ikke føje beskeder til IMAP-mapper i afkoblet-tilstand."
+#~ msgstr "Kan ikke føje beskeder til IMAP-mapper i afkoblet tilstand."
 
 #~ msgid "Cannot append message to folder `%s': Unknown error"
 #~ msgstr "Kan ikke føje beskeden til mappen \"%s\": Ukendt fejl"
@@ -19392,11 +19392,11 @@ msgstr "klik her for at gå til adresse"
 
 #~ msgid "Cannot move messages to or from IMAP folders in offline mode."
 #~ msgstr ""
-#~ "Kan ikke flytte beskeder til eller fra IMAP-mapper i afkoblet-tilstand."
+#~ "Kan ikke flytte beskeder til eller fra IMAP-mapper i afkoblet tilstand."
 
 #~ msgid "Cannot copy messages to or from IMAP folders in offline mode."
 #~ msgstr ""
-#~ "Kan ikke kopiere beskeder til eller fra IMAP-mapper i afkoblet-tilstand."
+#~ "Kan ikke kopiere beskeder til eller fra IMAP-mapper i afkoblet tilstand."
 
 #~ msgid "Cannot move messages from folder `%s' to folder `%s': Unknown"
 #~ msgstr ""
@@ -19456,7 +19456,7 @@ msgstr "klik her for at gå til adresse"
 #~ msgstr "Godkendelse mislykkedes på IMAP-serveren %s ved brug af %s"
 
 #~ msgid "Cannot create IMAP folders in offline mode."
-#~ msgstr "Kan ikke oprette IMAP-mapper i afkoblet-tilstand."
+#~ msgstr "Kan ikke oprette IMAP-mapper i afkoblet tilstand."
 
 #~ msgid "Cannot get folder `%s' on IMAP server %s: Unknown"
 #~ msgstr "Kan ikke hente mappeen \"%s\" på IMAP-serveren %s: Ukendt"
@@ -19471,7 +19471,7 @@ msgstr "klik her for at gå til adresse"
 #~ msgstr "Kan ikke slette mappen \"%s\": Speciel mappe"
 
 #~ msgid "Cannot delete IMAP folders in offline mode."
-#~ msgstr "Kan ikke slette IMAP-mapper i afkoblet-tilstand."
+#~ msgstr "Kan ikke slette IMAP-mapper i afkoblet tilstand."
 
 #~ msgid "Cannot delete folder `%s': Invalid mailbox name"
 #~ msgstr "Kan ikke slette mappen \"%s\": Ugyldigt postkassenavn"
@@ -19483,7 +19483,7 @@ msgstr "klik her for at gå til adresse"
 #~ msgstr "Kan ikke omdøbe mappen \"%s\" til \"%s\": Speciel mappe"
 
 #~ msgid "Cannot rename IMAP folders in offline mode."
-#~ msgstr "Kan ikke omdøbe IMAP-mapper i afkoblet-tilstand."
+#~ msgstr "Kan ikke omdøbe IMAP-mapper i afkoblet tilstand."
 
 #~ msgid "Cannot rename folder `%s' to `%s': Invalid mailbox name"
 #~ msgstr "Kan ikke omdøbe mappen \"%s\" til \"%s\": Ugyldigt postkassenavn"
@@ -19500,7 +19500,7 @@ msgstr "klik her for at gå til adresse"
 #~ msgstr "Ugyldig handling"
 
 #~ msgid "Cannot subscribe to IMAP folders in offline mode."
-#~ msgstr "Kan ikke abonnere på IMAP-mapper i afkoblet-tilstand."
+#~ msgstr "Kan ikke abonnere på IMAP-mapper i afkoblet tilstand."
 
 #~ msgid "Cannot subscribe to folder `%s': Invalid mailbox name"
 #~ msgstr "Kan ikke abonnere på mappen \"%s\": Ugyldigt postkassenavn"
@@ -19509,7 +19509,7 @@ msgstr "klik her for at gå til adresse"
 #~ msgstr "Kan ikke abonnere på mappen \"%s\": Ugyldig handling"
 
 #~ msgid "Cannot unsubscribe from IMAP folders in offline mode."
-#~ msgstr "Kan ikke opsige abonnement af IMAP-mapper i afkoblet-tilstand."
+#~ msgstr "Kan ikke opsige abonnement af IMAP-mapper i afkoblet tilstand."
 
 #~ msgid "Cannot unsubscribe from folder `%s': Invalid mailbox name"
 #~ msgstr "Kan ikke opsige abonnement af mappen \"%s\": Ugyldigt postkassenavn"
@@ -19583,7 +19583,7 @@ msgstr "klik her for at gå til adresse"
 #~ msgstr "Brug filtre for nye beskeder i indbakke"
 
 #~ msgid "Maildir-format mail directories"
-#~ msgstr "E-postmapper i \"Maildir\" format"
+#~ msgstr "E-post-mapper i \"Maildir\" format"
 
 #~ msgid "For storing local mail in maildir directories."
 #~ msgstr "For lagring af lokal e-post i qmail maildir beskedmapper."
@@ -20339,7 +20339,7 @@ msgstr "klik her for at gå til adresse"
 #~ msgstr "Emne indeholder ikke"
 
 #~ msgid "Whether Evolution should start up in offline mode"
-#~ msgstr "Om Evolution skal startes i afkoblet-tilstand"
+#~ msgstr "Om Evolution skal startes i afkoblet tilstand"
 
 #~ msgid "Close this item"
 #~ msgstr "Luk denne opføring"
@@ -20506,8 +20506,7 @@ msgstr "klik her for at gå til adresse"
 #~ msgid ""
 #~ "Address book '%s' will be removed. Are you sure you want to continue?"
 #~ msgstr ""
-#~ "Adressebogen \"%s\" vil blive fjernet. Er du sikker på at du vil "
-#~ "fortsætte?"
+#~ "Adressebogen \"%s\" vil blive fjernet. Er du sikker på du vil fortsætte?"
 
 #~ msgid "Go to Folder..."
 #~ msgstr "Gå til mappe..."
@@ -20526,7 +20525,7 @@ msgstr "klik her for at gå til adresse"
 
 #~ msgid "Calendar '%s' will be removed. Are you sure you want to continue?"
 #~ msgstr ""
-#~ "Kalenderen \"%s\" vil blive fjernet. Er du sikker på at du vil fortsætte?"
+#~ "Kalenderen \"%s\" vil blive fjernet. Er du sikker på du vil fortsætte?"
 
 #~ msgid "_Destination"
 #~ msgstr "_Målmappe"
@@ -20536,8 +20535,7 @@ msgstr "klik her for at gå til adresse"
 
 #~ msgid "Task List '%s' will be removed. Are you sure you want to continue?"
 #~ msgstr ""
-#~ "Opgavelisten \"%s\" vil blive fjernet. Er du sikker på at du vil "
-#~ "fortsætte?"
+#~ "Opgavelisten \"%s\" vil blive fjernet. Er du sikker på du vil fortsætte?"
 
 #~ msgid "Select individual file"
 #~ msgstr "Vælg en individuel fil"
@@ -20854,7 +20852,7 @@ msgstr "klik her for at gå til adresse"
 #~ "Opgaven som fjernes er tildelt. Vil du sende en aflysningsmeddelselse?"
 
 #~ msgid "Are you sure you want to cancel and delete this task?"
-#~ msgstr "Er du sikker på, at du vil aflyse og slette denne opgave?"
+#~ msgstr "Er du sikker på du vil aflyse og slette denne opgave?"
 
 #~ msgid ""
 #~ "The journal entry being deleted is published, would you like to send a "
@@ -20864,13 +20862,13 @@ msgstr "klik her for at gå til adresse"
 #~ "aflysningsmeddelelse?"
 
 #~ msgid "Are you sure you want to delete this untitled appointment?"
-#~ msgstr "Er du sikker på at du vil slette denne aftale uden titel?"
+#~ msgstr "Er du sikker på du vil slette denne aftale uden titel?"
 
 #~ msgid "Are you sure you want to delete this untitled task?"
-#~ msgstr "Er du sikker på at du vil slette denne opgave uden titel?"
+#~ msgstr "Er du sikker på du vil slette denne opgave uden titel?"
 
 #~ msgid "Are you sure want to delete this untitled journal entry?"
-#~ msgstr "Er du sikker på at du vil slette denne journalopføring uden titel?"
+#~ msgstr "Er du sikker på du vil slette denne journalopføring uden titel?"
 
 #~ msgid "_Invite Others..."
 #~ msgstr "_Invitér andre..."
