@@ -273,7 +273,7 @@ class_init (EvolutionShellComponentClass *klass)
 				  GTK_TYPE_POINTER);
 
 	signals[OWNER_UNSET]
-		= gtk_signal_new ("owner_set",
+		= gtk_signal_new ("owner_unset",
 				  GTK_RUN_FIRST,
 				  object_class->type,
 				  GTK_SIGNAL_OFFSET (EvolutionShellComponentClass, owner_unset),

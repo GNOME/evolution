@@ -1,5 +1,8 @@
 2000-05-31  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* evolution-shell-component.c (class_init): Eeek!
+	s/owner_set/owner_unset/.
+
 	* e-shell-folder-title-bar.c (e_shell_folder_title_bar_construct):
 	Increase the size of the border of the hbox slightly to make the
 	title bar a bit nicer.
