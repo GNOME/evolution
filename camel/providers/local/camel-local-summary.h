@@ -82,7 +82,7 @@ char *camel_local_summary_encode_x_evolution(CamelLocalSummary *cls, const Camel
 int camel_local_summary_decode_x_evolution(CamelLocalSummary *cls, const char *xev, CamelMessageInfo *info);
 
 /* utility functions - write headers to a file with optional X-Evolution header and/or status header */
-int camel_local_summary_write_headers(int fd, struct _header_raw *header, const char *xevline, const char *status, const char *xstatus);
+int camel_local_summary_write_headers(int fd, struct _camel_header_raw *header, const char *xevline, const char *status, const char *xstatus);
 
 #endif /* ! _CAMEL_LOCAL_SUMMARY_H */
 

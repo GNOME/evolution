@@ -1,5 +1,108 @@
 2003-08-25  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-mime-utils.[c,h]: Namespaced.
+
+	* camel-data-wrapper.c: updated for namespace changed made to
+	camel-mime-utils.[c,h]
+
+	* camel-digest-folder.c: updated for namespace changed made to
+	camel-mime-utils.[c,h]
+
+	* camel-filter-driver.c: updated for namespace changed made to
+	camel-mime-utils.[c,h]
+
+	* camel-filter-search.c: updated for namespace changed made to
+	camel-mime-utils.[c,h]
+
+	* camel-folder-search.c: updated for namespace changed made to
+	camel-mime-utils.[c,h]
+
+	* camel-folder-summary.[c,h]: updated for namespace changed made to
+	camel-mime-utils.[c,h]
+
+	* camel-http-stream.c: updated for namespace changed made to
+	camel-mime-utils.[c,h]
+
+	* camel-http-stream.h: updated for namespace changed made to
+	camel-mime-utils.[c,h]
+
+	* camel-internet-address.c: updated for namespace changed made to
+	camel-mime-utils.[c,h]
+
+	* camel-medium.[c,h]: updated for namespace changed made to
+	camel-mime-utils.[c,h]
+
+	* camel-mime-message.c: updated for namespace changed made to
+	camel-mime-utils.[c,h]
+
+	* camel-mime-parser.[c,h]: updated for namespace changed made to
+	camel-mime-utils.[c,h]
+
+	* camel-mime-part-utils.c: updated for namespace changed made to
+	camel-mime-utils.[c,h]
+
+	* camel-mime-part.[c,h]: updated for namespace changed made to
+	camel-mime-utils.[c,h]
+
+	* camel-movemail.c: updated for namespace changed made to
+	camel-mime-utils.[c,h]
+
+	* camel-multipart-encrypted.c: updated for namespace changed made
+	to camel-mime-utils.[c,h]
+
+	* camel-multipart-signed.c: updated for namespace changed made to
+	camel-mime-utils.[c,h]
+
+	* camel-multipart.c: updated for namespace changed made to
+	camel-mime-utils.[c,h]
+
+	* camel-search-private.[c,h]: updated for namespace changed made to
+	camel-mime-utils.[c,h]
+
+	* camel-types.h: updated for namespace changed made to
+	camel-mime-utils.[c,h]
+
+	* providers/imap/camel-imap-folder.c: updated for namespace
+	changed made to camel-mime-utils.[c,h]
+
+	* providers/imap/camel-imap-store-summary.c: updated for namespace
+	changed made to camel-mime-utils.[c,h]
+
+	* providers/imap/camel-imap-utils.c: updated for namespace changed
+	made to camel-mime-utils.[c,h]
+
+	* providers/imapp/camel-imapp-utils.[c,h]: updated for namespace
+	changed made to camel-mime-utils.[c,h]
+
+	* providers/local/camel-local-summary.[c,h]: updated for namespace
+	changed made to camel-mime-utils.[c,h]
+
+	* providers/local/camel-maildir-summary.c: updated for namespace
+	changed made to camel-mime-utils.[c,h]
+
+	* providers/local/camel-mbox-summary.c: updated for namespace
+	changed made to camel-mime-utils.[c,h]
+
+	* providers/local/camel-spool-summary.h: updated for namespace
+	changed made to camel-mime-utils.[c,h]
+
+	* providers/nntp/camel-nntp-summary.c: updated for namespace
+	changed made to camel-mime-utils.[c,h]
+
+	* providers/nntp/camel-nntp-utils.c: updated for namespace changed
+	made to camel-mime-utils.[c,h]
+
+	* providers/pop3/camel-pop3-folder.c: updated for namespace
+	changed made to camel-mime-utils.[c,h]
+
+	* providers/sendmail/camel-sendmail-transport.c: updated for
+	namespace changed made to camel-mime-utils.[c,h]
+
+	* providers/smtp/camel-smtp-transport.c: updated for namespace
+	changed made to camel-mime-utils.[c,h]
+
+2003-08-25  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* camel-filter-driver.c (pipe_to_system): Added some more error
 	checking for reading/writing to the pipes. Fixes bug #47880.
 

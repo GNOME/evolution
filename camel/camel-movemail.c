@@ -402,7 +402,7 @@ camel_movemail_copy_filter(int fromfd, int tofd, off_t start, size_t bytes, Came
 /* write the headers back out again, but not he Content-Length header, because we dont
    want	to maintain it! */
 static int
-solaris_header_write(int fd, struct _header_raw *header)
+solaris_header_write(int fd, struct _camel_header_raw *header)
 {
         struct iovec iv[4];
         int outlen = 0, len;

@@ -24,10 +24,9 @@
 #ifdef __cplusplus
 extern "C" {
 #pragma }
-#endif /* __cplusplus }*/
+#endif /* __cplusplus */
 
 typedef struct _CamelAddress CamelAddress;
-typedef struct _header_content_type CamelContentType;
 typedef struct _CamelDigestFolder CamelDigestFolder;
 typedef struct _CamelDigestStore CamelDigestStore;
 typedef struct _CamelDiscoDiary CamelDiscoDiary;

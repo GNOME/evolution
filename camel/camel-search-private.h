@@ -52,7 +52,7 @@ int camel_search_build_match_regex(regex_t *pattern, camel_search_flags_t type, 
 gboolean camel_search_message_body_contains(CamelDataWrapper *object, regex_t *pattern);
 
 gboolean camel_search_header_match(const char *value, const char *match, camel_search_match_t how, camel_search_t type, const char *default_charset);
-gboolean camel_search_header_soundex(const char *header, const char *match);
+gboolean camel_search_camel_header_soundex(const char *header, const char *match);
 
 /* TODO: replace with a real search function */
 const char *camel_ustrstrcase(const char *haystack, const char *needle);

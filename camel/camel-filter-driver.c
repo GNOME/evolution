@@ -1349,7 +1349,7 @@ camel_filter_driver_filter_message (CamelFilterDriver *driver, CamelMimeMessage 
 	}
 	
 	if (info == NULL) {
-		struct _header_raw *h;
+		struct _camel_header_raw *h;
 		
 		if (message) {
 			camel_object_ref (CAMEL_OBJECT (message));

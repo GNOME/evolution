@@ -96,10 +96,10 @@ camel_http_stream_finalize (CamelObject *object)
 		camel_object_unref(http->parser);
 	
 	if (http->content_type)
-		header_content_type_unref (http->content_type);
+		camel_content_type_unref (http->content_type);
 	
 	if (http->headers)
-		header_raw_clear (&http->headers);
+		camel_header_raw_clear (&http->headers);
 	
 	if (http->session)
 		camel_object_unref(http->session);
@@ -261,7 +261,7 @@ http_get_statuscode (CamelHttpStream *http)
 	/* parse the HTTP status code */
 	if (!strncasecmp (buffer, "HTTP/", 5)) {
 		token = http_next_token (buffer);
-		http->statuscode = header_decode_int (&token);
+		http->statuscode = camel_header_decode_int (&token);
 		return http->statuscode;
 	}
 
@@ -273,7 +273,7 @@ http_get_statuscode (CamelHttpStream *http)
 static int
 http_get_headers (CamelHttpStream *http)
 {
-	struct _header_raw *headers, *node, *tail;
+	struct _camel_header_raw *headers, *node, *tail;
 	const char *type;
 	char *buf;
 	size_t len;
@@ -290,23 +290,23 @@ http_get_headers (CamelHttpStream *http)
 	case HSCAN_HEADER:
 		headers = camel_mime_parser_headers_raw (http->parser);
 		if (http->content_type)
-			header_content_type_unref (http->content_type);
-		type = header_raw_find (&headers, "Content-Type", NULL);
+			camel_content_type_unref (http->content_type);
+		type = camel_header_raw_find (&headers, "Content-Type", NULL);
 		if (type)
-			http->content_type = header_content_type_decode (type);
+			http->content_type = camel_content_type_decode (type);
 		else
 			http->content_type = NULL;
 		
 		if (http->headers)
-			header_raw_clear (&http->headers);
+			camel_header_raw_clear (&http->headers);
 		
 		http->headers = NULL;
-		tail = (struct _header_raw *) &http->headers;
+		tail = (struct _camel_header_raw *) &http->headers;
 		
 		d(printf("HTTP Headers:\n"));
 		while (headers) {
 			d(printf(" %s:%s\n", headers->name, headers->value));
-			node = g_new (struct _header_raw, 1);
+			node = g_new (struct _camel_header_raw, 1);
 			node->next = NULL;
 			node->name = g_strdup (headers->name);
 			node->value = g_strdup (headers->value);
@@ -432,13 +432,13 @@ stream_read (CamelStream *stream, char *buffer, size_t n)
 		case 302: {
 			char *loc;
 
-			header_content_type_unref (http->content_type);
+			camel_content_type_unref (http->content_type);
 			http->content_type = NULL;
 			http_disconnect(http);
 
-			loc = g_strdup(header_raw_find(&http->headers, "Location", NULL));
+			loc = g_strdup(camel_header_raw_find(&http->headers, "Location", NULL));
 			if (loc == NULL) {
-				header_raw_clear(&http->headers);
+				camel_header_raw_clear(&http->headers);
 				return -1;
 			}
 
@@ -449,11 +449,11 @@ stream_read (CamelStream *stream, char *buffer, size_t n)
 			http->url = camel_url_new(loc, NULL);
 			if (http->url == NULL) {
 				printf("redirect url '%s' cannot be parsed\n", loc);
-				header_raw_clear (&http->headers);
+				camel_header_raw_clear (&http->headers);
 				return -1;
 			}
 			d(printf(" redirect url = %p\n", http->url));
-			header_raw_clear (&http->headers);
+			camel_header_raw_clear (&http->headers);
 
 			goto redirect;
 			break; }
@@ -536,7 +536,7 @@ camel_http_stream_get_content_type (CamelHttpStream *http_stream)
 	}
 	
 	if (http_stream->content_type)
-		header_content_type_ref (http_stream->content_type);
+		camel_content_type_ref (http_stream->content_type);
 	
 	return http_stream->content_type;
 }

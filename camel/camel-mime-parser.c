@@ -253,9 +253,9 @@ struct _header_scan_stack {
 #ifdef MEMPOOL
 	MemPool *pool;		/* memory pool to keep track of headers/etc at this level */
 #endif
-	struct _header_raw *headers;	/* headers for this part */
+	struct _camel_header_raw *headers;	/* headers for this part */
 
-	struct _header_content_type *content_type;
+	CamelContentType *content_type;
 
 	/* I dont use GString's casue you can't efficiently append a buffer to them */
 	GByteArray *pretext;	/* for multipart types, save the pre-boundary data here */
@@ -462,7 +462,7 @@ camel_mime_parser_header(CamelMimeParser *m, const char *name, int *offset)
 
 	if (s->parts &&
 	    s->parts->headers) {
-		return header_raw_find(&s->parts->headers, name, offset);
+		return camel_header_raw_find(&s->parts->headers, name, offset);
 	}
 	return NULL;
 }
@@ -478,7 +478,7 @@ camel_mime_parser_header(CamelMimeParser *m, const char *name, int *offset)
  * Return value: The raw headers, or NULL if there are no headers
  * defined for the current part or state.  These are READ ONLY.
  **/
-struct _header_raw *
+struct _camel_header_raw *
 camel_mime_parser_headers_raw(CamelMimeParser *m)
 {
 	struct _header_scan_state *s = _PRIVATE(m);
@@ -607,7 +607,7 @@ camel_mime_parser_init_with_stream(CamelMimeParser *m, CamelStream *stream)
 
 /**
  * camel_mime_parser_scan_from:
- * @m: 
+ * @parser: MIME parser object
  * @scan_from: #TRUE if the scanner should scan From lines.
  * 
  * Tell the scanner if it should scan "^From " lines or not.
@@ -622,15 +622,16 @@ camel_mime_parser_init_with_stream(CamelMimeParser *m, CamelStream *stream)
  * scan_pre_from().
  **/
 void
-camel_mime_parser_scan_from(CamelMimeParser *m, int scan_from)
+camel_mime_parser_scan_from (CamelMimeParser *parser, gboolean scan_from)
 {
-	struct _header_scan_state *s = _PRIVATE(m);
+	struct _header_scan_state *s = _PRIVATE (parser);
+	
 	s->scan_from = scan_from;
 }
 
 /**
  * camel_mime_parser_scan_pre_from:
- * @: 
+ * @parser: MIME parser object
  * @scan_pre_from: #TRUE if we want to get pre-from data.
  * 
  * Tell the scanner whether we want to know abou the pre-from
@@ -638,15 +639,16 @@ camel_mime_parser_scan_from(CamelMimeParser *m, int scan_from)
  * state HSCAN_PRE_FROM which returns the specified data.
  **/
 void
-camel_mime_parser_scan_pre_from(CamelMimeParser *m, int scan_pre_from)
+camel_mime_parser_scan_pre_from (CamelMimeParser *parser, gboolean scan_pre_from)
 {
-	struct _header_scan_state *s = _PRIVATE(m);
+	struct _header_scan_state *s = _PRIVATE (parser);
+	
 	s->scan_pre_from = scan_pre_from;
 }
 
 /**
  * camel_mime_parser_content_type:
- * @m: 
+ * @parser: MIME parser object
  * 
  * Get the content type defined in the current part.
  * 
@@ -654,21 +656,22 @@ camel_mime_parser_scan_pre_from(CamelMimeParser *m, int scan_pre_from)
  * is no content-type defined for this part of state of the
  * parser.
  **/
-struct _header_content_type *
-camel_mime_parser_content_type(CamelMimeParser *m)
+CamelContentType *
+camel_mime_parser_content_type (CamelMimeParser *parser)
 {
-	struct _header_scan_state *s = _PRIVATE(m);
-
+	struct _header_scan_state *s = _PRIVATE (parser);
+	
 	/* FIXME: should this search up until it's found the 'right'
 	   content-type?  can it? */
 	if (s->parts)
 		return s->parts->content_type;
+	
 	return NULL;
 }
 
 /**
  * camel_mime_parser_unstep:
- * @m: 
+ * @parser: MIME parser object
  * 
  * Cause the last step operation to repeat itself.  If this is 
  * called repeated times, then the same step will be repeated
@@ -677,16 +680,17 @@ camel_mime_parser_content_type(CamelMimeParser *m)
  * Note that it is not possible to scan back using this function,
  * only to have a way of peeking the next state.
  **/
-void camel_mime_parser_unstep(CamelMimeParser *m)
+void
+camel_mime_parser_unstep (CamelMimeParser *parser)
 {
-	struct _header_scan_state *s = _PRIVATE(m);
-
+	struct _header_scan_state *s = _PRIVATE (parser);
+	
 	s->unstep++;
 }
 
 /**
  * camel_mime_parser_drop_step:
- * @m: 
+ * @parser: MIME parser object
  * 
  * Drop the last step call.  This should only be used
  * in conjunction with seeking of the stream as the
@@ -695,17 +699,18 @@ void camel_mime_parser_unstep(CamelMimeParser *m)
  *
  * Use this call with care.
  **/
-void camel_mime_parser_drop_step(CamelMimeParser *m)
+void
+camel_mime_parser_drop_step (CamelMimeParser *parser)
 {
-	struct _header_scan_state *s = _PRIVATE(m);
-
+	struct _header_scan_state *s = _PRIVATE (parser);
+	
 	s->unstep = 0;
 	folder_scan_drop_step(s);
 }
 
 /**
  * camel_mime_parser_step:
- * @m: 
+ * @parser: MIME parser object 
  * @databuffer: Pointer to accept a pointer to the data
  * associated with this step (if any).  May be #NULL,
  * in which case datalength is also ingored.
@@ -729,9 +734,9 @@ void camel_mime_parser_drop_step(CamelMimeParser *m)
  * is returned.
  **/
 enum _header_state
-camel_mime_parser_step(CamelMimeParser *m, char **databuffer, size_t *datalength)
+camel_mime_parser_step (CamelMimeParser *parser, char **databuffer, size_t *datalength)
 {
-	struct _header_scan_state *s = _PRIVATE(m);
+	struct _header_scan_state *s = _PRIVATE (parser);
 
 	d(printf("OLD STATE:  '%s' :\n", states[s->state]));
 
@@ -755,7 +760,7 @@ camel_mime_parser_step(CamelMimeParser *m, char **databuffer, size_t *datalength
 
 /**
  * camel_mime_parser_read:
- * @m: 
+ * @parser: MIME parser object
  * @databuffer: 
  * @len: 
  * 
@@ -774,9 +779,9 @@ camel_mime_parser_step(CamelMimeParser *m, char **databuffer, size_t *datalength
  * Return value: The number of bytes available, or -1 on error.
  **/
 int
-camel_mime_parser_read(CamelMimeParser *m, const char **databuffer, int len)
+camel_mime_parser_read (CamelMimeParser *parser, const char **databuffer, int len)
 {
-	struct _header_scan_state *s = _PRIVATE(m);
+	struct _header_scan_state *s = _PRIVATE (parser);
 	int there;
 
 	if (len == 0)
@@ -806,7 +811,7 @@ camel_mime_parser_read(CamelMimeParser *m, const char **databuffer, int len)
 
 /**
  * camel_mime_parser_tell:
- * @m: 
+ * @parser: MIME parser object
  * 
  * Return the current scanning offset.  The meaning of this
  * value will depend on the current state of the parser.
@@ -824,16 +829,17 @@ camel_mime_parser_read(CamelMimeParser *m, const char **databuffer, int len)
  * 
  * Return value: See above.
  **/
-off_t camel_mime_parser_tell(CamelMimeParser *m)
+off_t
+camel_mime_parser_tell (CamelMimeParser *parser)
 {
-	struct _header_scan_state *s = _PRIVATE(m);
+	struct _header_scan_state *s = _PRIVATE (parser);
 
 	return folder_tell(s);
 }
 
 /**
  * camel_mime_parser_tell_start_headers:
- * @m: 
+ * @parser: MIME parser object
  * 
  * Find out the position within the file of where the
  * headers started, this is cached by the parser
@@ -842,16 +848,17 @@ off_t camel_mime_parser_tell(CamelMimeParser *m)
  * Return value: The header start position, or -1 if
  * no headers were scanned in the current state.
  **/
-off_t camel_mime_parser_tell_start_headers(CamelMimeParser *m)
+off_t
+camel_mime_parser_tell_start_headers (CamelMimeParser *parser)
 {
-	struct _header_scan_state *s = _PRIVATE(m);
+	struct _header_scan_state *s = _PRIVATE (parser);
 
 	return s->start_of_headers;
 }
 
 /**
  * camel_mime_parser_tell_start_from:
- * @m: 
+ * @parser: MIME parser object
  * 
  * If the parser is scanning From lines, then this returns
  * the position of the start of the From line.
@@ -859,17 +866,18 @@ off_t camel_mime_parser_tell_start_headers(CamelMimeParser *m)
  * Return value: The start of the from line, or -1 if there
  * was no From line, or From lines are not being scanned.
  **/
-off_t camel_mime_parser_tell_start_from(CamelMimeParser *m)
+off_t
+camel_mime_parser_tell_start_from (CamelMimeParser *parser)
 {
-	struct _header_scan_state *s = _PRIVATE(m);
+	struct _header_scan_state *s = _PRIVATE (parser);
 
 	return s->start_of_from;
 }
 
 /**
  * camel_mime_parser_seek:
- * @m: 
- * @off: Number of bytes to offset the seek by.
+ * @parser: MIME parser object
+ * @offset: Number of bytes to offset the seek by.
  * @whence: SEEK_SET, SEEK_CUR, SEEK_END
  * 
  * Reset the source position to a known value.
@@ -883,29 +891,33 @@ off_t camel_mime_parser_tell_start_from(CamelMimeParser *m)
  * an error (for example, trying to seek on a non-seekable
  * stream or file descriptor).
  **/
-off_t camel_mime_parser_seek(CamelMimeParser *m, off_t off, int whence)
+off_t
+camel_mime_parser_seek(CamelMimeParser *parser, off_t offset, int whence)
 {
-	struct _header_scan_state *s = _PRIVATE(m);
-	return folder_seek(s, off, whence);
+	struct _header_scan_state *s = _PRIVATE (parser);
+	
+	return folder_seek(s, offset, whence);
 }
 
 /**
  * camel_mime_parser_state:
- * @m: 
+ * @parser: MIME parser object
  * 
  * Get the current parser state.
  * 
  * Return value: The current parser state.
  **/
-enum _header_state camel_mime_parser_state(CamelMimeParser *m)
+enum _header_state
+camel_mime_parser_state (CamelMimeParser *parser)
 {
-	struct _header_scan_state *s = _PRIVATE(m);
+	struct _header_scan_state *s = _PRIVATE (parser);
+	
 	return s->state;
 }
 
 /**
  * camel_mime_parser_stream:
- * @m: 
+ * @parser: MIME parser object
  * 
  * Get the stream, if any, the parser has been initialised
  * with.  May be used to setup sub-streams, but should not
@@ -916,15 +928,17 @@ enum _header_state camel_mime_parser_state(CamelMimeParser *m)
  * if the parser is reading from a file descriptor or is
  * uninitialised.
  **/
-CamelStream *camel_mime_parser_stream(CamelMimeParser *m)
+CamelStream *
+camel_mime_parser_stream (CamelMimeParser *parser)
 {
-	struct _header_scan_state *s = _PRIVATE(m);
+	struct _header_scan_state *s = _PRIVATE (parser);
+	
 	return s->stream;
 }
 
 /**
  * camel_mime_parser_fd:
- * @m: 
+ * @parser: MIME parser object
  * 
  * Return the file descriptor, if any, the parser has been
  * initialised with.
@@ -936,17 +950,20 @@ CamelStream *camel_mime_parser_stream(CamelMimeParser *m)
  * Return value: The file descriptor or -1 if the parser
  * is reading from a stream or has not been initialised.
  **/
-int camel_mime_parser_fd(CamelMimeParser *m)
+int
+camel_mime_parser_fd (CamelMimeParser *parser)
 {
-	struct _header_scan_state *s = _PRIVATE(m);
+	struct _header_scan_state *s = _PRIVATE (parser);
+	
 	return s->fd;
 }
 
 /* Return errno of the parser, incase any error occured during processing */
-int camel_mime_parser_errno(CamelMimeParser *m)
+int
+camel_mime_parser_errno (CamelMimeParser *parser)
 {
-	struct _header_scan_state *s = _PRIVATE(m);
-
+	struct _header_scan_state *s = _PRIVATE (parser);
+	
 	return s->ioerrno;
 }
 
@@ -1071,9 +1088,9 @@ folder_pull_part(struct _header_scan_state *s)
 #ifdef MEMPOOL
 		mempool_free(h->pool);
 #else
-		header_raw_clear(&h->headers);
+		camel_header_raw_clear(&h->headers);
 #endif
-		header_content_type_unref(h->content_type);
+		camel_content_type_unref(h->content_type);
 		if (h->pretext)
 			g_byte_array_free(h->pretext, TRUE);
 		if (h->posttext)
@@ -1169,7 +1186,7 @@ folder_boundary_check(struct _header_scan_state *s, const char *boundary, int *l
 static void
 header_append_mempool(struct _header_scan_state *s, struct _header_scan_stack *h, char *header, int offset)
 {
-	struct _header_raw *l, *n;
+	struct _camel_header_raw *l, *n;
 	char *content;
 	
 	content = strchr(header, ':');
@@ -1192,7 +1209,7 @@ header_append_mempool(struct _header_scan_state *s, struct _header_scan_stack *h
 		
 		n->offset = offset;
 		
-		l = (struct _header_raw *)&h->headers;
+		l = (struct _camel_header_raw *)&h->headers;
 		while (l->next) {
 			l = l->next;
 		}
@@ -1581,7 +1598,7 @@ folder_scan_step(struct _header_scan_state *s, char **databuffer, size_t *datale
 	const char *bound;
 	int type;
 	int state;
-	struct _header_content_type *ct = NULL;
+	CamelContentType *ct = NULL;
 	struct _header_scan_filter *f;
 	size_t presize;
 
@@ -1663,11 +1680,11 @@ tail_recurse:
 		/* FIXME: should this check for MIME-Version: 1.0 as well? */
 
 		type = HSCAN_HEADER;
-		if ( (content = header_raw_find(&h->headers, "Content-Type", NULL))
-		     && (ct = header_content_type_decode(content))) {
+		if ( (content = camel_header_raw_find(&h->headers, "Content-Type", NULL))
+		     && (ct = camel_content_type_decode(content))) {
 			if (!strcasecmp(ct->type, "multipart")) {
-				if (!header_content_type_is(ct, "multipart", "signed")
-				    && (bound = header_content_type_param(ct, "boundary"))) {
+				if (!camel_content_type_is(ct, "multipart", "signed")
+				    && (bound = camel_content_type_param(ct, "boundary"))) {
 					d(printf("multipart, boundary = %s\n", bound));
 					h->boundarylen = strlen(bound)+2;
 					h->boundarylenfinal = h->boundarylen+2;
@@ -1675,10 +1692,10 @@ tail_recurse:
 					sprintf(h->boundary, "--%s--", bound);
 					type = HSCAN_MULTIPART;
 				} else {
-					/*header_content_type_unref(ct);
-					  ct = header_content_type_decode("text/plain");*/
+					/*camel_content_type_unref(ct);
+					  ct = camel_content_type_decode("text/plain");*/
 /* We can't quite do this, as it will mess up all the offsets ... */
-/*					header_raw_replace(&h->headers, "Content-Type", "text/plain", offset);*/
+/*					camel_header_raw_replace(&h->headers, "Content-Type", "text/plain", offset);*/
 					/*g_warning("Multipart with no boundary, treating as text/plain");*/
 				}
 			} else if (!strcasecmp(ct->type, "message")) {
@@ -1691,14 +1708,14 @@ tail_recurse:
 		} else {
 			/* make the default type for multipart/digest be message/rfc822 */
 			if ((s->parts
-			     && header_content_type_is(s->parts->content_type, "multipart", "digest"))) {
-				ct = header_content_type_decode("message/rfc822");
+			     && camel_content_type_is(s->parts->content_type, "multipart", "digest"))) {
+				ct = camel_content_type_decode("message/rfc822");
 				type = HSCAN_MESSAGE;
 				d(printf("parent was multipart/digest, autoupgrading to message/rfc822?\n"));
 				/* maybe we should do this too?
 				   header_raw_append_parse(&h->headers, "Content-Type: message/rfc822", -1);*/
 			} else {
-				ct = header_content_type_decode("text/plain");
+				ct = camel_content_type_decode("text/plain");
 			}
 		}
 		h->content_type = ct;
@@ -1895,7 +1912,7 @@ int main(int argc, char **argv)
 			switch (s->state) {
 			case HSCAN_HEADER:
 				if (s->parts->content_type
-				    && (charset = header_content_type_param(s->parts->content_type, "charset"))) {
+				    && (charset = camel_content_type_param(s->parts->content_type, "charset"))) {
 					if (strcasecmp(charset, "us-ascii")) {
 #if 0
 						folder_push_filter_charset(s, "UTF-8", charset);
@@ -1907,7 +1924,7 @@ int main(int argc, char **argv)
 					charset = NULL;
 				}
 
-				encoding = header_raw_find(&s->parts->headers, "Content-transfer-encoding", 0);
+				encoding = camel_header_raw_find(&s->parts->headers, "Content-transfer-encoding", 0);
 				printf("encoding = '%s'\n", encoding);
 				if (encoding && !strncasecmp(encoding, " base64", 7)) {
 					printf("adding base64 filter\n");

@@ -88,13 +88,13 @@ camel_mime_part_construct_content_from_parser (CamelMimePart *dw, CamelMimeParse
 
 	ct = camel_mime_parser_content_type (mp);
 
-	encoding = header_content_encoding_decode (camel_mime_parser_header (mp, "Content-Transfer-Encoding", NULL));
+	encoding = camel_header_content_encoding_decode (camel_mime_parser_header (mp, "Content-Transfer-Encoding", NULL));
 	
 	switch (camel_mime_parser_state (mp)) {
 	case HSCAN_HEADER:
 		d(printf("Creating body part\n"));
 		/* multipart/signed is some fucked up type that we must treat as binary data, fun huh, idiots. */
-		if (header_content_type_is (ct, "multipart", "signed")) {
+		if (camel_content_type_is (ct, "multipart", "signed")) {
 			content = (CamelDataWrapper *) camel_multipart_signed_new ();
 			camel_multipart_construct_from_parser ((CamelMultipart *) content, mp);
 		} else {
@@ -109,9 +109,9 @@ camel_mime_part_construct_content_from_parser (CamelMimePart *dw, CamelMimeParse
 		break;
 	case HSCAN_MULTIPART:
 		d(printf("Creating multi-part\n"));
-		if (header_content_type_is (ct, "multipart", "encrypted"))
+		if (camel_content_type_is (ct, "multipart", "encrypted"))
 			content = (CamelDataWrapper *) camel_multipart_encrypted_new ();
-		else if (header_content_type_is (ct, "multipart", "signed"))
+		else if (camel_content_type_is (ct, "multipart", "signed"))
 			content = (CamelDataWrapper *) camel_multipart_signed_new ();
 		else
 			content = (CamelDataWrapper *) camel_multipart_new ();

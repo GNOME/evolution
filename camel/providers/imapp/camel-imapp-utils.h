@@ -48,10 +48,10 @@ void imap_parse_flags(CamelIMAPPStream *stream, guint32 *flagsp) /* IO,PARSE */;
 void imap_write_flags(CamelStream *stream, guint32 flags) /* IO */;
 
 /* ********************************************************************** */
-void imap_parse_param_list(CamelIMAPPStream *is, struct _header_param **plist) /* IO,PARSE */;
-struct _CamelMimeDisposition *imap_parse_ext_optional(CamelIMAPPStream *is) /* IO,PARSE */;
+void imap_parse_param_list(CamelIMAPPStream *is, struct _camel_header_param **plist) /* IO,PARSE */;
+struct _CamelContentDisposition *imap_parse_ext_optional(CamelIMAPPStream *is) /* IO,PARSE */;
 struct _CamelMessageContentInfo *imap_parse_body_fields(CamelIMAPPStream *is) /* IO,PARSE */;
-struct _header_address *imap_parse_address_list(CamelIMAPPStream *is) /* IO,PARSE */;
+struct _camel_header_address *imap_parse_address_list(CamelIMAPPStream *is) /* IO,PARSE */;
 struct _CamelMessageInfo *imap_parse_envelope(CamelIMAPPStream *is) /* IO, PARSE */;
 struct _CamelMessageContentInfo *imap_parse_body(CamelIMAPPStream *is) /* IO,PARSE */;
 char *imap_parse_section(CamelIMAPPStream *is) /* IO,PARSE */;

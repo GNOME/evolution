@@ -84,18 +84,18 @@ camel_internet_address_get_type(void)
 static int
 internet_decode	(CamelAddress *a, const char *raw)
 {
-	struct _header_address *ha, *n;
+	struct _camel_header_address *ha, *n;
 	int count = a->addresses->len;
 
 	/* Should probably use its own decoder or something */
-	ha = header_address_decode(raw, NULL);
+	ha = camel_header_address_decode(raw, NULL);
 	if (ha) {
 		n = ha;
 		while (n) {
 			if (n->type == HEADER_ADDRESS_NAME) {
 				camel_internet_address_add((CamelInternetAddress *)a, n->name, n->v.addr);
 			} else if (n->type == HEADER_ADDRESS_GROUP) {
-				struct _header_address *g = n->v.members;
+				struct _camel_header_address *g = n->v.members;
 				while (g) {
 					if (g->type == HEADER_ADDRESS_NAME)
 						camel_internet_address_add((CamelInternetAddress *)a, g->name, g->v.addr);
@@ -105,7 +105,7 @@ internet_decode	(CamelAddress *a, const char *raw)
 			}
 			n = n->next;
 		}
-		header_address_list_clear(&ha);
+		camel_header_address_list_clear(&ha);
 	}
 	
 	return a->addresses->len - count;
@@ -413,7 +413,7 @@ camel_internet_address_find_address(CamelInternetAddress *a, const char *address
 char *
 camel_internet_address_encode_address(int *inlen, const char *real, const char *addr)
 {
-	char *name = header_encode_phrase(real);
+	char *name = camel_header_encode_phrase(real);
 	char *ret = NULL, *addra = NULL;
 	int len = *inlen;
 	GString *out = g_string_new("");
@@ -422,7 +422,7 @@ camel_internet_address_encode_address(int *inlen, const char *real, const char *
 
 	if (name && name[0]) {
 		if (strlen(name) + len > CAMEL_FOLD_SIZE) {
-			char *folded = header_address_fold(name, len);
+			char *folded = camel_header_address_fold(name, len);
 			char *last;
 			g_string_append(out, folded);
 			g_free(folded);

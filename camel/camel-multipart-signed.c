@@ -279,11 +279,11 @@ set_mime_type_field(CamelDataWrapper *data_wrapper, CamelContentType *mime_type)
 	if (mime_type) {
 		const char *micalg, *protocol;
 
-		protocol = header_content_type_param(mime_type, "protocol");
+		protocol = camel_content_type_param(mime_type, "protocol");
 		g_free(mps->protocol);
 		mps->protocol = g_strdup(protocol);
 
-		micalg = header_content_type_param(mime_type, "micalg");
+		micalg = camel_content_type_param(mime_type, "micalg");
 		g_free(mps->micalg);
 		mps->micalg = g_strdup(micalg);
 	}
@@ -432,7 +432,7 @@ static int
 signed_construct_from_parser(CamelMultipart *multipart, struct _CamelMimeParser *mp)
 {
 	int err;
-	struct _header_content_type *content_type;
+	CamelContentType *content_type;
 	CamelMultipartSigned *mps = (CamelMultipartSigned *)multipart;
 	char *buf;
 	size_t len;
@@ -444,7 +444,7 @@ signed_construct_from_parser(CamelMultipart *multipart, struct _CamelMimeParser 
 
 	/* All we do is copy it to a memstream */
 	content_type = camel_mime_parser_content_type(mp);
-	camel_multipart_set_boundary(multipart, header_content_type_param(content_type, "boundary"));
+	camel_multipart_set_boundary(multipart, camel_content_type_param(content_type, "boundary"));
 
 	mem = camel_stream_mem_new();
 	while (camel_mime_parser_step(mp, &buf, &len) != HSCAN_BODY_END)
@@ -646,11 +646,11 @@ camel_multipart_signed_sign(CamelMultipartSigned *mps, CamelCipherContext *conte
 	camel_mime_part_set_description(signature, _("This is a digitally signed message part"));
 
 	/* setup our mime type and boundary */
-	mime_type = header_content_type_new("multipart", "signed");
-	header_content_type_set_param(mime_type, "micalg", camel_cipher_hash_to_id(context, hash));
-	header_content_type_set_param(mime_type, "protocol", context->sign_protocol);
+	mime_type = camel_content_type_new("multipart", "signed");
+	camel_content_type_set_param(mime_type, "micalg", camel_cipher_hash_to_id(context, hash));
+	camel_content_type_set_param(mime_type, "protocol", context->sign_protocol);
 	camel_data_wrapper_set_mime_type_field(CAMEL_DATA_WRAPPER (mps), mime_type);
-	header_content_type_unref(mime_type);
+	camel_content_type_unref(mime_type);
 	camel_multipart_set_boundary((CamelMultipart *)mps, NULL);
 
 	/* just keep the whole raw content.  We dont *really* need to do this because

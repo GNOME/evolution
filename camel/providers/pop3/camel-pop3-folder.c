@@ -145,7 +145,7 @@ cmd_builduid(CamelPOP3Engine *pe, CamelPOP3Stream *stream, void *data)
 	CamelPOP3FolderInfo *fi = data;
 	MD5Context md5;
 	unsigned char digest[16];
-	struct _header_raw *h;
+	struct _camel_header_raw *h;
 	CamelMimeParser *mp;
 
 	/* TODO; somehow work out the limit and use that for proper progress reporting

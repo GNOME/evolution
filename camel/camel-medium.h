@@ -31,7 +31,7 @@
 #ifdef __cplusplus
 extern "C" {
 #pragma }
-#endif /* __cplusplus }*/
+#endif /* __cplusplus */
 
 #include <camel/camel-data-wrapper.h>
 
@@ -46,8 +46,7 @@ typedef struct {
 	const char *value;
 } CamelMediumHeader;
 
-struct _CamelMedium
-{
+struct _CamelMedium {
 	CamelDataWrapper parent_object;
 
 	/* The content of the medium, as opposed to our parent
@@ -55,34 +54,32 @@ struct _CamelMedium
 	 * content.
 	 */
 	CamelDataWrapper *content;
-
 };
 
 typedef struct {
 	CamelDataWrapperClass parent_class;
 
 	/* Virtual methods */
-	void  (*add_header) (CamelMedium *medium, const gchar *header_name, const void *header_value);
-	void  (*set_header) (CamelMedium *medium, const gchar *header_name, const void *header_value);
-	void  (*remove_header) (CamelMedium *medium, const gchar *header_name);
-	const void * (*get_header) (CamelMedium *medium,  const gchar *header_name);
+	void  (*add_header) (CamelMedium *medium, const char *name, const void *value);
+	void  (*set_header) (CamelMedium *medium, const char *name, const void *value);
+	void  (*remove_header) (CamelMedium *medium, const char *name);
+	const void * (*get_header) (CamelMedium *medium,  const char *name);
 
 	GArray * (*get_headers) (CamelMedium *medium);
 	void (*free_headers) (CamelMedium *medium, GArray *headers);
 
 	CamelDataWrapper * (*get_content_object) (CamelMedium *medium);
 	void (*set_content_object) (CamelMedium *medium, CamelDataWrapper *content);
-
 } CamelMediumClass;
 
 /* Standard Camel function */
 CamelType camel_medium_get_type (void);
 
 /* Header get/set interface */
-void camel_medium_add_header (CamelMedium *medium, const gchar *header_name, const void *header_value);
-void camel_medium_set_header (CamelMedium *medium, const gchar *header_name, const void *header_value);
-void camel_medium_remove_header (CamelMedium *medium, const gchar *header_name);
-const void *camel_medium_get_header (CamelMedium *medium, const gchar *header_name);
+void camel_medium_add_header (CamelMedium *medium, const char *name, const void *value);
+void camel_medium_set_header (CamelMedium *medium, const char *name, const void *value);
+void camel_medium_remove_header (CamelMedium *medium, const char *name);
+const void *camel_medium_get_header (CamelMedium *medium, const char *name);
 
 GArray *camel_medium_get_headers (CamelMedium *medium);
 void camel_medium_free_headers (CamelMedium *medium, GArray *headers);

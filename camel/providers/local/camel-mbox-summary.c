@@ -49,7 +49,7 @@
 static int summary_header_load (CamelFolderSummary *, FILE *);
 static int summary_header_save (CamelFolderSummary *, FILE *);
 
-static CamelMessageInfo * message_info_new (CamelFolderSummary *, struct _header_raw *);
+static CamelMessageInfo * message_info_new (CamelFolderSummary *, struct _camel_header_raw *);
 static CamelMessageInfo * message_info_new_from_parser (CamelFolderSummary *, CamelMimeParser *);
 static CamelMessageInfo * message_info_load (CamelFolderSummary *, FILE *);
 static int		  message_info_save (CamelFolderSummary *, FILE *, CamelMessageInfo *);
@@ -187,7 +187,7 @@ summary_header_save(CamelFolderSummary *s, FILE *out)
 }
 
 static CamelMessageInfo *
-message_info_new(CamelFolderSummary *s, struct _header_raw *h)
+message_info_new(CamelFolderSummary *s, struct _camel_header_raw *h)
 {
 	CamelMessageInfo *mi;
 	CamelMboxSummary *mbs = (CamelMboxSummary *)s;
@@ -204,16 +204,16 @@ message_info_new(CamelFolderSummary *s, struct _header_raw *h)
 
 		if (mbs->xstatus) {
 			/* check for existance of status & x-status headers */
-			status = header_raw_find(&h, "Status", NULL);
+			status = camel_header_raw_find(&h, "Status", NULL);
 			if (status)
 				flags = decode_status(status);
-			xstatus = header_raw_find(&h, "X-Status", NULL);
+			xstatus = camel_header_raw_find(&h, "X-Status", NULL);
 			if (xstatus)
 				flags |= decode_status(xstatus);
 		}
 #endif
 		/* if we have an xev header, use it, else assign a new one */
-		xev = header_raw_find(&h, "X-Evolution", NULL);
+		xev = camel_header_raw_find(&h, "X-Evolution", NULL);
 		if (xev != NULL
 		    && camel_local_summary_decode_x_evolution((CamelLocalSummary *)s, xev, mi) == 0) {
 			uid = camel_message_info_uid(mi);
@@ -667,7 +667,7 @@ mbox_summary_sync_quick(CamelMboxSummary *mbs, gboolean expunge, CamelFolderChan
 		/* SIGH: encode_param_list is about the only function which folds headers by itself.
 		   This should be fixed somehow differently (either parser doesn't fold headers,
 		   or param_list doesn't, or something */
-		xevtmp = header_unfold(xevnew);
+		xevtmp = camel_header_unfold(xevnew);
 		/* the raw header contains a leading ' ', so (dis)count that too */
 		if (strlen(xev)-1 != strlen(xevtmp)) {
 			printf ("strlen(xev)-1 = %d; strlen(xevtmp) = %d\n", strlen(xev)-1, strlen(xevtmp));

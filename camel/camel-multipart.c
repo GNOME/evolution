@@ -374,7 +374,7 @@ set_boundary (CamelMultipart *multipart, const char *boundary)
 		boundary = bbuf;
 	}
 
-	header_content_type_set_param (cdw->mime_type, "boundary", boundary);
+	camel_content_type_set_param (cdw->mime_type, "boundary", boundary);
 }
 
 /**
@@ -402,7 +402,7 @@ get_boundary (CamelMultipart *multipart)
 	CamelDataWrapper *cdw = CAMEL_DATA_WRAPPER (multipart);
 
 	g_return_val_if_fail (cdw->mime_type != NULL, NULL);
-	return header_content_type_param (cdw->mime_type, "boundary");
+	return camel_content_type_param (cdw->mime_type, "boundary");
 }
 
 /**
@@ -546,7 +546,7 @@ static int
 construct_from_parser(CamelMultipart *multipart, struct _CamelMimeParser *mp)
 {
 	int err;
-	struct _header_content_type *content_type;
+	CamelContentType *content_type;
 	CamelMimePart *bodypart;
 	char *buf;
 	size_t len;
@@ -558,7 +558,7 @@ construct_from_parser(CamelMultipart *multipart, struct _CamelMimeParser *mp)
 		
 	content_type = camel_mime_parser_content_type(mp);
 	camel_multipart_set_boundary(multipart,
-				     header_content_type_param(content_type, "boundary"));
+				     camel_content_type_param(content_type, "boundary"));
 	
 	while (camel_mime_parser_step(mp, &buf, &len) != HSCAN_MULTIPART_END) {
 		camel_mime_parser_unstep(mp);
