@@ -619,8 +619,10 @@ existing_attendee (EMeetingAttendee *ia, ECalComponent *comp)
 		const char *address;
 		
 		address = itip_strip_mailto (attendee->value);
-		if (address && !g_strcasecmp (ia_address, address))
+		if (address && !g_strcasecmp (ia_address, address)) {
+			e_cal_component_free_attendee_list (attendees);
 			return TRUE;
+		}
 	}
 	
 	e_cal_component_free_attendee_list (attendees);
