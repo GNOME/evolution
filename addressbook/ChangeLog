@@ -1,3 +1,8 @@
+2000-08-14  Peter Williams  <peterw@helixcode.com>
+
+	* backend/pas/pas-backend-file.c: Include the proper db1/db.h
+	as in RedHat 7.0 -- patch from Kenny Graunke <kwg@teleport.com>
+
 2000-08-13  Chris Toshok  <toshok@helixcode.com>
 
 	* conduit/Makefile.am (libaddress_conduit_la_SOURCES): add

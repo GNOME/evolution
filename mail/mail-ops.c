@@ -796,7 +796,7 @@ do_scan_subfolders (gpointer in_data, gpointer op_data, CamelException *ex)
 		info = g_new (scan_subfolders_folderinfo_t, 1);
 		info->path = g_strdup_printf ("/%s", (char *) lsub->pdata[i]);
 		info->uri = g_strdup_printf ("%s%s%s", input->source_uri, splice,
-					     lsub->pdata[i]);
+					     (char *)lsub->pdata[i]);
 		g_ptr_array_add (data->new_folders, info);
 	}
 	

@@ -1,3 +1,9 @@
+2000-08-14  Peter Williams  <peterw@helixcode.com>
+
+	* configure.in: Check for db1/db.h too, which is what
+	RH 7.0 uses for the old db headers. Patch from Kenny Graunke
+	<kwg@teleport.com>
+
 2000-08-13  Chris Toshok  <toshok@helixcode.com>
 
 	* configure.in: offer --enable-pilot-conduits to add pilot

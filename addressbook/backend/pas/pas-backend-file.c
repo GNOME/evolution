@@ -14,7 +14,11 @@
 #ifdef HAVE_DB_185_H
 #include <db_185.h>
 #else
+#ifdef HAVE_DB1_DB_H
+#include <db1/db.h>
+#else
 #include <db.h>
+#endif
 #endif
 
 #include "pas-backend-file.h"

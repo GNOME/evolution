@@ -52,9 +52,12 @@ gboolean mail_operation_queue (const mail_operation_spec * spec,
 
 /* User interface hooks for the other thread */
 
+#if 0
 void mail_op_set_percentage (gfloat percentage);
 void mail_op_hide_progressbar (void);
 void mail_op_show_progressbar (void);
+#endif
+
 void mail_op_set_message (gchar * fmt, ...) G_GNUC_PRINTF (1, 2);
 void mail_op_error (gchar * fmt, ...) G_GNUC_PRINTF (1, 2);
 gboolean mail_op_get_password (gchar * prompt, gboolean secret,
