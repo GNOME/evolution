@@ -5,21 +5,21 @@
   <code>
    (match-all (header-contains "From" ${sender}))
   </code>
-  <description lang="en">When the from address matches <source type="address" name="sender">sender(s)</source>.</description>
+  <description lang="en">The From address matches <source type="address" name="sender">sender(s)</source>.</description>
 </rule>
 
 <rule name="to-address">
   <code>
    (match-all (header-contains "To" ${receipient}))
   </code>
-  <description lang="en">When the to address matches <source type="address" name="receipient">receipients</source>.</description>
+  <description lang="en">The To address matches <source type="address" name="receipient">receipients</source>.</description>
 </rule>
 
 <rule name="cc-address">
   <code>
     (match-all (header-contains "CC" ${self-email}))
   </code>
-  <description lang="en">When I am in the cc list.</description>
+  <description lang="en">I am in the cc list.</description>
 </rule>
 
 <rule name="msg-size">
@@ -27,7 +27,7 @@
    (&amp; (&gt; message-size (size-lower size-range))
       (&lt; message-size (size-uppwer size-range)))
   </code>
-  <description lang="en">When the message is a <source type="size-range" name="size">certain size</source>.</description>
+  <description lang="en">The message is a <source type="size-range" name="size">certain size</source>.</description>
 </rule>
 </ruleset>
 
@@ -36,7 +36,25 @@
   <code>
     (copy-to ${folder})
   </code>
-  <description language="en">Send me a copy, to <source type="folder" name="folder">folder</source>.</description>
+  <description language="en">Send a copy to <source type="folder" name="folder">folder</source>.</description>
+</rule>
+<rule name="forward">
+  <code>
+    (forward-to ${address})
+  </code>
+  <description language="en">Forward the message to <source type="address" name="address">people</source>.</description>
+</rule>
+<rule name="delete">
+  <code>
+    (delete)
+  </code>
+  <description language="en">Delete message.</description>
+</rule>
+<rule name="stop">
+  <code>
+    (stop)
+  </code>
+  <description language="en">Stop processing further rules for this message.</description>
 </rule>
 </ruleset>
 
