@@ -3125,7 +3125,7 @@ regen_list_regen (struct _mail_msg *mm)
 	
 	if (m->folder != m->ml->folder)
 		return;
-	
+
 	/* if we have hidedeleted on, use a search to find it out, merge with existing search if set */
 	if (!camel_folder_has_search_capability(m->folder)) {
 		/* if we have no search capability, dont let search or hide deleted work */
@@ -3287,6 +3287,9 @@ regen_list_regened (struct _mail_msg *mm)
 	if (camel_operation_cancel_check(mm->cancel))
 		return;
 
+	if (m->ml->folder != m->folder)
+		return;
+
 	if (m->dotree) {
 		save_tree_state (m->ml);
 		
@@ -3308,7 +3311,7 @@ regen_list_free (struct _mail_msg *mm)
 {
 	struct _regen_list_msg *m = (struct _regen_list_msg *)mm;
 	int i;
-	
+
 	if (m->summary) {
 		for (i = 0; i < m->summary->len; i++)
 			camel_folder_free_message_info (m->folder, m->summary->pdata[i]);
@@ -3386,7 +3389,7 @@ mail_regen_list (MessageList *ml, const char *search, const char *hideexpr, Came
 		return;
 	}
 #endif
-	
+
 	m = mail_msg_new (&regen_list_op, NULL, sizeof (*m));
 	m->ml = ml;
 	m->search = g_strdup (search);
@@ -3409,6 +3412,6 @@ mail_regen_list (MessageList *ml, const char *search, const char *hideexpr, Came
 	}
 
 	ml->regen = g_list_prepend(ml->regen, m);
-	
+
 	e_thread_put (mail_thread_new, (EMsg *)m);
 }
