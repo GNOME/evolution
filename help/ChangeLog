@@ -1,5 +1,7 @@
 2001-06-25  Kevin Breit  <battery841@mediaone.net>
 
+	* C/usage-exec-summary.sgml: Fixed a few typos
+
 	* C/preface.sgml: Added section for importing files
 
 	* C/usage-calendar.sgml: Removed some *'s that are causing problems.

@@ -11,9 +11,9 @@
     </para>
 
     <sect1 id="exec-intro">
-      <title>Introducing the My Evolution</title>
+      <title>Introducing My Evolution</title>
       <para>
-        The first thing you'll want to do with the My Evolution
+        The first thing you'll want to do with My Evolution
         is add a service. Click the <guibutton>Add Service</guibutton>
         button in the toolbar, then select one of the available
         services.  Services may vary depending upon your system, but
