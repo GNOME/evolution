@@ -647,6 +647,9 @@ CAMEL_LIBS="`gnome-config --libs gal xml` $THREADS_LIBS"
 AC_SUBST(CAMEL_CFLAGS)
 AC_SUBST(CAMEL_LIBS)
 
+camel_providerdir='$(libdir)/evolution/camel-providers/'$EVOLUTION_MAJOR_VERSION.$EVOLUTION_MINOR_VERSION
+AC_SUBST(camel_providerdir)
+
 MAILER_CFLAGS="`gnome-config --cflags gtkhtml libglade gdk_pixbuf gnomecanvaspixbuf gnomeui gal bonobo_conf bonobox bonobox_print vfs oaf` $THREADS_CFLAGS"
 MAILER_LIBS="`gnome-config --libs gtkhtml libglade gdk_pixbuf gnomecanvaspixbuf gnomeui gal bonobo_conf bonobox bonobox_print vfs oaf` $THREADS_LIBS"
 AC_SUBST(MAILER_CFLAGS)

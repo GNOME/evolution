@@ -2,10 +2,8 @@
 
 libcamellocalincludedir = $(includedir)/camel
 
-providerdir = $(pkglibdir)/camel-providers/$(VERSION)
-
-provider_LTLIBRARIES = libcamellocal.la
-provider_DATA = libcamellocal.urls
+camel_provider_LTLIBRARIES = libcamellocal.la
+camel_provider_DATA = libcamellocal.urls
 
 INCLUDES = -I.. \
 	-I$(srcdir)/..				\

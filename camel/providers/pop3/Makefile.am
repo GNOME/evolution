@@ -2,10 +2,8 @@
 
 libcamelpop3includedir = $(includedir)/camel
 
-providerdir = $(pkglibdir)/camel-providers/$(VERSION)
-
-provider_LTLIBRARIES = libcamelpop3.la
-provider_DATA = libcamelpop3.urls
+camel_provider_LTLIBRARIES = libcamelpop3.la
+camel_provider_DATA = libcamelpop3.urls
 
 INCLUDES =					\
 	-I..					\

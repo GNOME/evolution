@@ -2,11 +2,8 @@
 
 libcamelimapincludedir = $(includedir)/camel
 
-
-providerdir = $(pkglibdir)/camel-providers/$(VERSION)
-
-provider_LTLIBRARIES = libcamelimap.la
-provider_DATA = libcamelimap.urls
+camel_provider_LTLIBRARIES = libcamelimap.la
+camel_provider_DATA = libcamelimap.urls
 
 INCLUDES = -I.. \
 	-I$(srcdir)/..				\

@@ -2,10 +2,8 @@
 
 libcamelnntpincludedir = $(includedir)/camel
 
-providerdir = $(pkglibdir)/camel-providers/$(VERSION)
-
-provider_LTLIBRARIES = libcamelnntp.la
-provider_DATA = libcamelnntp.urls
+camel_provider_LTLIBRARIES = libcamelnntp.la
+camel_provider_DATA = libcamelnntp.urls
 
 INCLUDES = -I../..				\
 	-I$(top_srcdir)/camel			\
