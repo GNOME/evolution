@@ -718,26 +718,28 @@ attach_to_multipart (CamelMultipart *multipart,
 	
 	content_type = camel_mime_part_get_content_type (attachment->body);
 	
-	if (header_content_type_is (content_type, "text", "*")) {
-		CamelStream *stream;
-		GByteArray *array;
-		guchar *text;
-		
-		array = g_byte_array_new ();
-		stream = camel_stream_mem_new_with_byte_array (array);
-		camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (attachment->body), stream);
-		g_byte_array_append (array, "", 1);
-		text = array->data;
-		
-		if (is_8bit (text))
-			camel_mime_part_set_encoding (attachment->body, best_encoding (text));
-		else
-			camel_mime_part_set_encoding (attachment->body, CAMEL_MIME_PART_ENCODING_7BIT);
-		
-		camel_object_unref (CAMEL_OBJECT (stream));
-	} else if (!header_content_type_is (content_type, "message", "*")) {
-		camel_mime_part_set_encoding (attachment->body,
-					      CAMEL_MIME_PART_ENCODING_BASE64);
+	if (!header_content_type_is (content_type, "multipart", "*")) {
+		if (header_content_type_is (content_type, "text", "*")) {
+			CamelStream *stream;
+			GByteArray *array;
+			guchar *text;
+			
+			array = g_byte_array_new ();
+			stream = camel_stream_mem_new_with_byte_array (array);
+			camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (attachment->body), stream);
+			g_byte_array_append (array, "", 1);
+			text = array->data;
+			
+			if (is_8bit (text))
+				camel_mime_part_set_encoding (attachment->body, best_encoding (text));
+			else
+				camel_mime_part_set_encoding (attachment->body, CAMEL_MIME_PART_ENCODING_7BIT);
+			
+			camel_object_unref (CAMEL_OBJECT (stream));
+		} else if (!header_content_type_is (content_type, "message", "*")) {
+			camel_mime_part_set_encoding (attachment->body,
+						      CAMEL_MIME_PART_ENCODING_BASE64);
+		}
 	}
 	
 	camel_multipart_add_part (multipart, attachment->body);

@@ -1,3 +1,8 @@
+2001-02-10  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer-attachment-bar.c (attach_to_multipart):
+	multipart/* is another mime type we DO NOT want to encode ;-)
+
 2001-02-06  Christopher James Lahey  <clahey@ximian.com>
 
 	* e-msg-composer-hdrs.c (address_button_clicked_cb, add_header):
