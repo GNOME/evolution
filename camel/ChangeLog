@@ -1,3 +1,14 @@
+2004-02-25  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-filter-driver.c (camel_filter_driver_filter_folder): Free
+	the uids *after* reporting Complete, otherwise we get an FMR if
+	our caller didn't pass in the uids.
+
+	* camel-sasl-gssapi.c (gssapi_challenge): #ifdef out another
+	gss_release_buffer() call as this function causes memory
+	corruption if using Heimdal's implementation of Kerberos5. Yay
+	Heimdal.
+
 2004-02-25    <rodo@ximian.com>
 
 	* camel-folder.c (get_unread_message_count): do not avoid junk

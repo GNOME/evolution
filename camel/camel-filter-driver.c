@@ -1250,9 +1250,6 @@ camel_filter_driver_filter_folder (CamelFilterDriver *driver, CamelFolder *folde
 			camel_uid_cache_save_uid (cache, uids->pdata[i]);
 	}
 	
-	if (freeuids)
-		camel_folder_free_uids (folder, uids);
-	
 	if (p->defaultfolder) {
 		report_status (driver, CAMEL_FILTER_STATUS_PROGRESS, 100, _("Syncing folder"));
 		camel_folder_sync (p->defaultfolder, FALSE, camel_exception_is_set (ex) ? NULL : ex);
@@ -1260,6 +1257,9 @@ camel_filter_driver_filter_folder (CamelFilterDriver *driver, CamelFolder *folde
 	
 	if (i == uids->len)
 		report_status (driver, CAMEL_FILTER_STATUS_END, 100, _("Complete"));
+	
+	if (freeuids)
+		camel_folder_free_uids (folder, uids);
 	
 	g_free (source_url);
 	

@@ -297,7 +297,9 @@ gssapi_challenge (CamelSasl *sasl, GByteArray *token, CamelException *ex)
 		if ((((unsigned char *) outbuf.value)[0] & DESIRED_SECURITY_LAYER) != DESIRED_SECURITY_LAYER) {
 			camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
 					     _("Unsupported security layer."));
+#ifndef HAVE_HEIMDAL_KRB5
 			gss_release_buffer (&minor, &outbuf);
+#endif
 			return NULL;
 		}
 		
