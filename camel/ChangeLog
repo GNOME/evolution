@@ -1,3 +1,8 @@
+2001-10-03  Dan Winship  <danw@ximian.com>
+
+	* providers/local/camel-local-provider.c (local_url_equal):
+	Strange are the ways of alloca. Fixes 11543.
+
 2001-10-02  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-tcp-stream-ssl.c (ssl_bad_cert): Import the certificate if
