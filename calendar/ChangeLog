@@ -1,4 +1,11 @@
 2004-09-21  JP Rosevear  <jpr@novell.com>
+ 
+ 	Fixes #66158
+ 	
+ 	* gui/e-cal-model-tasks.c (e_cal_model_tasks_mark_task_complete):
+ 	notify of change so completion status updates immediately
+ 
+2004-09-21  JP Rosevear  <jpr@novell.com>
 
 	Fixes #59194
 	
