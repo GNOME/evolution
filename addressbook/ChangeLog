@@ -1,11 +1,3 @@
-2004-06-21  Chris Toshok  <toshok@ximian.com>
-
-	* gui/component/select-names/e-select-names-completion.c
-	(e_select_names_completion_start_query): make completion respect
-	your download limit for a given source.  speeds up completion
-	substantially (or rather, speeds up switching of queries) when the
-	ldap server has tons of entries.
-
 2004-06-21  Federico Mena Quintero  <federico@ximian.com>
 
 	* gui/contact-editor/contact-editor.glade: Make the scrolled
