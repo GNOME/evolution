@@ -1,0 +1,5 @@
+2003-08-27  Bolian Yin <bolian.yin@sun.com>
+
+	* misc/Makefile.am: add dependency on a11y/widgets.
+	* misc/e-calendar-item.c (e_calendar_item_class_init): a11y init.
+	  (e_calendar_item_bounds): new func, impl the bounds virtual func.

@@ -4,6 +4,7 @@
 INCLUDES =								\
 	-I$(top_srcdir)							\
 	-I$(top_srcdir)/widgets/shortcut-bar				\
+	-I$(top_srcdir)/a11y/widgets/					\
 	-DMAP_DIR=\""$(imagesdir)"\"					\
 	-DG_LOG_DOMAIN=__FILE__						\
 	-DG_DISABLE_DEPRECATED						\
@@ -53,7 +54,8 @@ libemiscwidgets_la_SOURCES =			\
 MARSHAL_GENERATED = e-util-marshal.c e-util-marshal.h
 @EVO_MARSHAL_RULE@
 
-libemiscwidgets_la_LIBADD = $(top_builddir)/e-util/libeutil.la
+libemiscwidgets_la_LIBADD = $(top_builddir)/e-util/libeutil.la		\
+	$(top_builddir)/a11y/widgets/libevolution-widgets-a11y.la
 
 noinst_LTLIBRARIES = libefilterbar.la
 

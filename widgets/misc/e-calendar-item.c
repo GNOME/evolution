@@ -31,6 +31,7 @@
 #endif
 
 #include "e-calendar-item.h"
+#include "ea-widgets.h"
 
 #include <time.h>
 #include <string.h>
@@ -131,6 +132,9 @@ static double e_calendar_item_point	(GnomeCanvasItem *item,
 					 GnomeCanvasItem **actual_item);
 static gint e_calendar_item_event	(GnomeCanvasItem *item,
 					 GdkEvent	 *event);
+static void e_calendar_item_bounds (GnomeCanvasItem *item, double *x1, double *y1,
+				    double *x2, double *y2);
+
 static gboolean e_calendar_item_button_press	(ECalendarItem	*calitem,
 						 GdkEvent	*event);
 static gboolean e_calendar_item_button_release	(ECalendarItem	*calitem,
@@ -367,9 +371,12 @@ e_calendar_item_class_init (ECalendarItemClass *class)
 	item_class->draw        = e_calendar_item_draw;
 	item_class->point       = e_calendar_item_point;
 	item_class->event       = e_calendar_item_event;
+	item_class->bounds      = e_calendar_item_bounds;
 
 	class->date_range_changed	= NULL;
 	class->selection_changed	= NULL;
+
+	e_calendar_item_a11y_init ();
 }
 
 
@@ -1601,7 +1608,20 @@ e_calendar_item_event (GnomeCanvasItem *item, GdkEvent *event)
 	return FALSE;
 }
 
+static void
+e_calendar_item_bounds (GnomeCanvasItem *item, double *x1, double *y1,
+			double *x2, double *y2)
+{
+	ECalendarItem *calitem;
 
+	g_return_if_fail (E_IS_CALENDAR_ITEM (item));
+
+	calitem = E_CALENDAR_ITEM (item);
+	*x1 = calitem->x1;
+	*y1 = calitem->y1;
+	*x2 = calitem->x2;
+	*y2 = calitem->y2;
+}
 
 /* This checks if any fonts have changed, and if so it recalculates the
    text sizes and the minimum month size. */
