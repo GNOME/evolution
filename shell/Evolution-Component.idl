@@ -33,11 +33,18 @@ module Evolution {
 	interface Component : Bonobo::Unknown {
 		exception Failed {};
 		exception UnknownType {};
+		/* We don't know about the old version we're upgrading from */
+		exception UnsupportedVersion {};
+		/* We encountered a non-recoverable, fatal error, explain why */
+		exception UpgradeFailed {
+			string what;
+			string why;
+		};
 
 		/*** Upgrade path.  ***/
 
-		boolean upgradeFromVersion (in short major, in short minor, in short revision);
-
+		void upgradeFromVersion (in short major, in short minor, in short revision)
+			raises (UnsupportedVersion, UpgradeFailed);
 
 		/*** Basic functionality.  ***/
 

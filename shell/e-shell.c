@@ -28,6 +28,8 @@
 
 #include "e-util/e-dialog-utils.h"
 #include "e-util/e-bconf-map.h"
+#include "e-util/e-fsutils.h"
+#include "widgets/misc/e-error.h"
 
 #include "e-shell-constants.h"
 #include "e-shell-offline-handler.h"
@@ -468,7 +470,7 @@ e_shell_init (EShell *shell)
 	shell->priv = priv;
 }
 
-static gboolean
+static void
 detect_version (GConfClient *gconf, int *major, int *minor, int *revision)
 {
 	char *val, *evolution_dir;
@@ -517,8 +519,6 @@ detect_version (GConfClient *gconf, int *major, int *minor, int *revision)
 	}
 
 	g_free (evolution_dir);
-
-	return TRUE;
 }
 
 static void
@@ -530,12 +530,30 @@ attempt_upgrade (EShell *shell)
 
 	gconf_client = gconf_client_get_default ();
 
-	if (!detect_version (gconf_client, &major, &minor, &revision)
-	    || !e_shell_attempt_upgrade (shell, major, minor, revision)) 
-		e_notice (NULL, GTK_MESSAGE_ERROR,
-			  _("Warning: Evolution could not upgrade all your data from version %d.%d.%d.\n"
-			    "The data hasn't been deleted, but it will not be seen by this version of Evolution.\n"),
-			  major, minor, revision);
+	detect_version (gconf_client, &major, &minor, &revision);
+
+	/* if upgrading from < 1.5, we need to copy most data from ~/evolution to ~/.evolution */
+	if (major == 1 && minor < 5) {
+		char *path;
+		long size, space;
+
+		path = g_build_filename(g_get_home_dir(), "evolution", NULL);
+		size = e_fsutils_usage(path);
+		g_free(path);
+		space = e_fsutils_avail(g_get_home_dir());
+		if (size != -1 && space != -1 && space < size) {
+			char *required = g_strdup_printf(_("%ld KB"), size);
+			char *have = g_strdup_printf(_("%ld KB"), space);
+
+			e_error_run(NULL, "shell:upgrade-nospace", required, have, NULL);
+			g_free(required);
+			g_free(have);
+			_exit(0);
+		}
+	}
+
+	if (!e_shell_attempt_upgrade (shell, major, minor, revision))
+		_exit(0);
 
 	version_string = g_strdup_printf ("%s.%s", BASE_VERSION, UPGRADE_REVISION);
 	gconf_client_set_string (gconf_client, "/apps/evolution/version", version_string, NULL);
@@ -662,7 +680,6 @@ e_shell_new (EShellStartupLineMode startup_line_mode,
 	return new;
 }
 
-
 /**
  * e_shell_attempt_upgrade:
  * @shell: 
@@ -679,6 +696,7 @@ e_shell_attempt_upgrade (EShell *shell, int major, int minor, int revision)
 	GSList *component_infos, *p;
 	int current_major, current_minor, current_revision;
 	gboolean success;
+	int res;
 
 	g_return_val_if_fail (E_IS_SHELL (shell), FALSE);
 
@@ -695,39 +713,41 @@ e_shell_attempt_upgrade (EShell *shell, int major, int minor, int revision)
 	success = TRUE;
 
 	component_infos = e_component_registry_peek_list (shell->priv->component_registry);
-	for (p = component_infos; p != NULL; p = p->next) {
+	for (p = component_infos; success && p != NULL; p = p->next) {
 		const EComponentInfo *info = p->data;
 		CORBA_Environment ev;
 		gboolean component_upgraded;
 
 		CORBA_exception_init (&ev);
 		
-		component_upgraded = GNOME_Evolution_Component_upgradeFromVersion (info->iface, major, minor, revision, &ev);
+		GNOME_Evolution_Component_upgradeFromVersion (info->iface, major, minor, revision, &ev);
 		
 		if (BONOBO_EX (&ev)) {
 			char *exception_text;
+			CORBA_char *id = CORBA_exception_id(&ev);
 
-			/* Ignore components that do not implement this version, it might just mean that they don't need an
-			   upgrade path. */
-			if (strcmp (ev._id, ex_CORBA_NO_IMPLEMENT) == 0) {
-				CORBA_exception_free (&ev);
-				continue;
-			}
+			if (strcmp (id, ex_CORBA_NO_IMPLEMENT) == 0) {
+				/* Ignore components that do not implement this version, it
+				   might just mean that they don't need an upgrade path. */
+			} else if (strcmp (id,  ex_GNOME_Evolution_Component_UpgradeFailed) == 0) {
+				GNOME_Evolution_Component_UpgradeFailed *ex = CORBA_exception_value(&ev);
 
-			exception_text = bonobo_exception_get_text (&ev);
-			g_warning ("Upgrade of component \"%s\" from version %d.%d.%d failed with exception %s",
-				   info->alias, major, minor, revision, exception_text);
-			g_free (exception_text);
-			CORBA_exception_free (&ev);
-			success = FALSE;
-		} else {
-			CORBA_exception_free (&ev);
-			if (! component_upgraded) {
-				g_warning ("Component \"%s\" could not upgrade configuration from version %d.%d.%d",
-					   info->alias, major, minor, revision);
-				success = FALSE;
+				res = e_error_run(NULL, "shell:upgrade-failed", ex->what, ex->why, NULL);
+				if (res == GTK_RESPONSE_CANCEL)
+					success = FALSE;
+			} else if (strcmp (id,  ex_GNOME_Evolution_Component_UnsupportedVersion) == 0) {
+				/* This is non-fatal */
+				/* DO WE CARE??? */
+				printf("Upgrade of component failed, unsupported prior version\n");
+			} else {
+				exception_text = bonobo_exception_get_text (&ev);
+				res = e_error_run(NULL, "shell:upgrade-failed", exception_text, _("Uknown system error."), NULL);
+				g_free (exception_text);
+				if (res == GTK_RESPONSE_CANCEL)
+					success = FALSE;
 			}
 		}
+		CORBA_exception_free (&ev);
 	}
 
 	return success;

@@ -198,6 +198,12 @@ server_DATA = $(server_in_files:.server.in.in=_$(BASE_VERSION).server)
 @EVO_SERVER_RULE@
 @INTLTOOL_SERVER_RULE@
 
+error_DATA = shell-errors.xml
+error_i18n = $(error_DATA:.xml=.xml.h)
+errordir = $(privdatadir)/errors
+%.xml.h: %.xml
+	$(top_builddir)/e-util/e-error-tool $^
+
 etspec_DATA = e-storage-set-view.etspec
 
 icons = 			\
@@ -252,6 +258,7 @@ EXTRA_DIST = 					\
 	$(IDLS)					\
 	$(server_in_files)			\
 	GNOME_Evolution_Test.server.in.in	\
+	$(error_DATA) $(error_i18n)		\
 	$(etspec_DATA)				\
 	$(schema_DATA)				\
 	$(icons)				\
@@ -273,7 +280,7 @@ evolution.pure: evolution
 
 endif
 
-BUILT_SOURCES = $(IDL_GENERATED) $(SELECT_NAMES_IDL_GENERATED) $(MARSHAL_GENERATED) $(server_DATA) $(testserver_DATA) $(DATASERVER_IDL_GENERATED)
+BUILT_SOURCES = $(IDL_GENERATED) $(SELECT_NAMES_IDL_GENERATED) $(MARSHAL_GENERATED) $(server_DATA) $(testserver_DATA) $(DATASERVER_IDL_GENERATED) $(error_i18n)
 CLEANFILES = $(BUILT_SOURCES)
 
 dist-hook:

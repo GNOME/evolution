@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<error-list domain="shell">
+
+ <error id="upgrade-nospace" type="error">
+  <primary>Insufficient disk space for upgrade.</primary>
+  <secondary>Upgrading your data and settings will require upto {0} of disk space, but you only have {1} available.
+
+You will need to make more space available in your home directory before you can continue.</secondary>
+  <button stock="gtk-quit" response="GTK_RESPONSE_CANCEL"/>
+ </error>
+
+ <error id="upgrade-failed" type="error">
+  <primary>Upgrade from previous version failed:
+{0}</primary>
+  <secondary>{1}
+
+If you choose to continue, you may not have access to some of your old data.
+</secondary>
+  <button stock="gtk-quit" response="GTK_RESPONSE_CANCEL"/>
+  <button stock="gtk-ok" _label="Continue" response="GTK_RESPONSE_OK"/>
+ </error>
+
+</error-list>
