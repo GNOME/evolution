@@ -50,8 +50,10 @@ hexval (gchar c) {
 }
 
 static gchar *
-decode_quoted(const gchar *text, const gchar *end) {
+decode_quoted (const gchar *text, const gchar *end) 
+{
 	gchar *to = malloc(end - text + 1), *to_2 = to;
+
         if (!to) return NULL;
 	while (*text && text < end) {
 		if (*text == '=') {
@@ -75,7 +77,8 @@ decode_quoted(const gchar *text, const gchar *end) {
 }
 
 static gchar *
-decode_base64(const gchar *data, const gchar *end) {
+decode_base64 (const gchar *data, const gchar *end) 
+{
 	unsigned short pattern = 0;
 	int bits = 0;
 	int delimiter = '=';
@@ -119,76 +122,77 @@ build_base64_rank_table (void)
 }
 
 
-gchar*
+gchar *
 rfc2047_decode_word (const gchar *data, const gchar *into_what) 
 {
-	const char *charset = strstr(data, "=?"), *encoding, *text, *end;
+	const char *charset = strstr (data, "=?"), *encoding, *text, *end;
 
 	char *buffer, *b, *cooked_data;
 	
-	buffer = g_malloc(strlen(data) * 2);
+	buffer = g_malloc (strlen(data) * 2);
 	b = buffer;
 
-	if (!charset) return strdup(data);
+	if (!charset) return strdup (data);
 	charset+=2;
 
-	encoding = strchr(charset, '?');
-	if (!encoding) return strdup(data);
+	encoding = strchr (charset, '?');
+	if (!encoding) return strdup (data);
 	encoding++;
 
 	text = strchr(encoding, '?');
-	if (!text) return strdup(data);
+	if (!text) return strdup (data);
 	text++;
 
 	end = strstr(text, "?=");
-	if (!end) return strdup(data);
+	if (!end) return strdup (data);
 
 	b[0] = 0;
 
 	if (toupper(*encoding)=='Q')
-		cooked_data = decode_quoted(text, end);
-	else if (toupper(*encoding)=='B')
-		cooked_data = decode_base64(text, end);
+		cooked_data = decode_quoted (text, end);
+	else if (toupper (*encoding)=='B')
+		cooked_data = decode_base64 (text, end);
 	else
 		return g_strdup(data);
 
 	{
-		char *c = strchr(charset, '?');
-		char *q = g_malloc(c - charset + 1);
+		char *c = strchr (charset, '?');
+		char *q = g_malloc (c - charset + 1);
 		char *cook_2 = cooked_data;
-		int cook_len = strlen(cook_2);
+		int cook_len = strlen (cook_2);
 		int b_len = 4096;
 		iconv_t i;
-		strncpy(q, charset, c - charset);
+		strncpy (q, charset, c - charset);
 		q[c - charset] = 0;
-		i = unicode_iconv_open(into_what, q);
+		i = unicode_iconv_open (into_what, q);
 		if (!i) {
-			g_free(q);
-			return g_strdup(buffer);
+			g_free (q);
+			return g_strdup (buffer);
 		}
-		if (unicode_iconv(i, &cook_2, &cook_len, &b, &b_len)==-1)
+		if (unicode_iconv (i, &cook_2, &cook_len, &b, &b_len)==-1)
 			/* FIXME : use approximation code if we can't convert it properly. */
 			;
-		unicode_iconv_close(i);
+		unicode_iconv_close (i);
 		*b = 0;
 	}
 
-	return g_strdup(buffer);
+	return g_strdup (buffer);
 }
 
 static const gchar *
-find_end_of_encoded_word(const gchar *data) {
+find_end_of_encoded_word (const gchar *data) 
+{
 	/* We can't just search for ?=,
            because of the case :
            "=?charset?q?=ff?=" :( */
 	if (!data) return NULL;
-	data = strstr(data, "=?");
+	data = strstr (data, "=?");
 	if (!data) return NULL;
 	data = strchr(data+2, '?');
 	if (!data) return NULL;
-	data = strchr(data+1, '?');
+	data = strchr (data+1, '?');
 	if (!data) return NULL;
-	data = strstr(data+1, "?=");
+	data = strstr (data+1, "?=");
 	if (!data) return NULL;
 	return data + 2;
 }
@@ -196,34 +200,34 @@ find_end_of_encoded_word(const gchar *data) {
 gchar *
 gmime_rfc2047_decode (const gchar *data, const gchar *into_what) 
 {
-	char *buffer = malloc(strlen(data) * 4), *b = buffer;
+	char *buffer = malloc (strlen(data) * 4), *b = buffer;
 
 	int was_encoded_word = 0;
 
 	build_base64_rank_table ();
 
 	while (data && *data) {
-		char *word_start = strstr(data, "=?"), *decoded;
+		char *word_start = strstr (data, "=?"), *decoded;
 		if (!word_start) {
-			strcpy(b, data);
-			b[strlen(data)] = 0;
+			strcpy (b, data);
+			b[strlen (data)] = 0;
 			return buffer;
 		}
 		if (word_start != data) {
 
-			if (strspn(data, " \t\n\r") != (word_start - data)) {
-				strncpy(b, data, word_start - data);
+			if (strspn (data, " \t\n\r") != (word_start - data)) {
+				strncpy (b, data, word_start - data);
 				b += word_start - data;
 				*b = 0;
 			}
 		}
-		decoded = rfc2047_decode_word(word_start, into_what);
-		strcpy(b, decoded);
-		b += strlen(decoded);
+		decoded = rfc2047_decode_word (word_start, into_what);
+		strcpy (b, decoded);
+		b += strlen (decoded);
 		*b = 0;
-		g_free(decoded);
+		g_free (decoded);
 
-		data = find_end_of_encoded_word(data);
+		data = find_end_of_encoded_word (data);
 	}
 
 	*b = 0;
@@ -232,34 +236,37 @@ gmime_rfc2047_decode (const gchar *data, const gchar *into_what)
 
 #define isnt_ascii(a) ((a) <= 0x1f || (a) >= 0x7f)
 
-static int rfc2047_clean(const gchar *string) {
-	if (strstr(string, "?=")) return 1;
+static int 
+rfc2047_clean (const gchar *string) {
+	if (strstr (string, "?=")) return 1;
 	while (*string) {
-		if (!isnt_ascii((unsigned char)*string))
+		if (!isnt_ascii ((unsigned char)*string))
 			return 0;
 		string++;
 	}
 	return 1;
 }
 
-static gchar *encode_word (const gchar *string, const gchar *said_charset) {
+static gchar *
+encode_word (const gchar *string, const gchar *said_charset) 
+{
 	if (rfc2047_clean(string)) 
 		/* don't bother encoding it if it has no odd characters in it */
-		return g_strdup(string);
+		return g_strdup (string);
 	{
-		char *temp = malloc(strlen(string) * 4 + 1), *t = temp;
-		t += sprintf(t, "=?%s?q?", said_charset);
+		char *temp = malloc (strlen(string) * 4 + 1), *t = temp;
+		t += sprintf (t, "=?%s?q?", said_charset);
 		while (*string) {
 			if (*string == ' ')
 				*(t++) = '_';
-			else if (*string <= 0x1f || *string >= 0x7f || *string == '=' || *string == '?') 
-				t += sprintf(t, "=%2x", (unsigned char)*string);
+			else if ((*string <= 0x1f) || (*string >= 0x7f) || (*string == '=') || (*string == '?')) 
+				t += sprintf (t, "=%2x", (unsigned char)*string);
 			else
 				*(t++) = *string;
 			      
 			string++;
 		}
-		t += sprintf(t, "?=");
+		t += sprintf (t, "?=");
 		*t = 0;
 	        return temp;
 	}
@@ -268,21 +275,21 @@ static gchar *encode_word (const gchar *string, const gchar *said_charset) {
 gchar *
 gmime_rfc2047_encode (const gchar *string, const gchar *charset) 
 {
-	int temp_len = strlen(string)*4 + 1;
-	char *temp = g_malloc(temp_len), *temp_2 = temp;
-	int string_length = strlen(string);
+	int temp_len = strlen (string)*4 + 1;
+	char *temp = g_malloc (temp_len), *temp_2 = temp;
+	int string_length = strlen (string);
 	char *encoded = NULL;
 
 	/* first, let us convert to UTF-8 */
-	iconv_t i = unicode_iconv_open("UTF-8", charset);
-	unicode_iconv(i, &string, &string_length, &temp_2, &temp_len);
-	unicode_iconv_close(i);
+	iconv_t i = unicode_iconv_open ("UTF-8", charset);
+	unicode_iconv (i, &string, &string_length, &temp_2, &temp_len);
+	unicode_iconv_close (i);
 	
 	/* null terminate it */
 	*temp_2 = 0;
 
 	/* now encode it as if it were a single word */
-	encoded = encode_word(temp, "UTF-8");
+	encoded = encode_word (temp, "UTF-8");
 	
 	/*
 	  

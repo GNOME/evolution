@@ -1,0 +1,99 @@
+Hi everyone,
+
+This mail talks about problems related to message referencing in
+Camel. I would like to get people thoughts about two specific issues:
+
+1) How to identify reliably messages within folders. 
+2) How to handle references in folders to messages physically stored
+   in other folders.
+
+
+
+
+Currently, in Camel there is only one way to retrieve a message from a
+mail store:
+     CamelMimeMessage * 
+     get_message (CamelFolder *folder, gint number)
+
+where number is an integer representing the message rank within its
+parent folder.
+
+This is a traditional method (JavaMail, MAPI) and it is very useful
+because this is often the only way to get a message from a classical
+store (pop3 for example).
+
+Moreover, various documents ([1], [2]) proposed to generalize the URL
+scheme used in Camel ([3]) to access mail stores to identify
+messages. For instance:
+
+pop3://po.myisp.com:1
+
+ 
+However, referencing a message with its number within a folder is a
+very unreliable method:
+
+1) Message order in a folder can change during a session: 
+   
+   The user can move or remove messages from the folder, thus
+   completely changing message numbers.  We could however imagine to
+   follow message operations in order to keep camel in a coherent
+   state at each time instant. This could be quite complex but may
+   be feasible using gtk signal system.
+
+2) Message order can change between sessions:
+
+   Gnome-mailer was designed from the begining to allow messages to be
+   stored in classical mailboxes (mbox, maildir, MH, IMAP ...), in
+   order to allow users to run other MUA on their mailboxes if
+   necessary.  These other MUA can change message order within folders
+   without any chance for Camel to trace the operations.
+   
+These two scenarii show that it is quite impossible to use reliable
+folder caching or message referencing if messages are referenced only
+with their position within their parent folder.
+   
+
+We thus have to find a general way to identify and retreive a message
+within its folder. One thing is sure, however: all folders
+implementation won't allow this method. Pop3 stores will always access
+messages using their rank on the server. MUA using will thus have to be
+prepared to access some stores providing only the old fashionned message 
+number access method. 
+
+Basically, we have two choices:
+
+1) Accessing messages using (mailbox) Unique ID (UID)
+
+   A UID is a string identifier associated to a message, which is
+   guaranteed to be unique within its parent folder and which will not
+   to change between sessions.
+
+2) Accessing messages using Message ID
+
+   A Message ID is a string identifier associated to a messages which
+   is guaranteed to be unique in the world, that is, no other message
+   can have the same Message ID. The message ID is defined and RFC 822, and 
+   is stored as a message header
+   Message-id: ...
+   
+(1) Already exists in IMAP. It is quite simple to define on local
+stores (MH, mbox, ....) but may not resist to message modification by
+other MUA.  Methods based on Message-id matching or message
+content-checksum seem to be the best one. Using an "X-" header is
+another possibility on non-read only headers. A combination of these
+three methods may be the most reliable solution. 
+Impossible to implement on POP3
+
+(2) Can be used with IMAP, but would be very ineficient. The main
+issue with this method is its dependancy upon other MUAs and
+MTAs. Message-id is set during message transport. Moreover, some
+messages may even not have anay Message-id header. These are major
+issues when accessing read-only stores. 
+Impossible to implement on POP3
+   
+
+
+
+[1] : http://www.selequa.com/%7epurp/gnomail/mail2db.html
+[2] : http://www.selequa.com/%7epurp/gnomail/dbRecFmt.html
+[3] : http://www.gnome.org/mailing-lists/archives/gnome-mailer-list/1999-April/0248.shtml
