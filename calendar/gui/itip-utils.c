@@ -33,6 +33,7 @@
 #include <libgnome/gnome-i18n.h>
 #include <gtk/gtkwidget.h>
 #include <gal/widgets/e-gui-utils.h>
+#include <gal/widgets/e-unicode.h>
 #include <gal/util/e-unicode-i18n.h>
 #include <gal/util/e-util.h>
 #include <ical.h>
@@ -193,30 +194,6 @@ itip_strip_mailto (const gchar *address)
 	return address;
 }
 
-static char *
-get_label (struct icaltimetype *tt)
-{
-	char buffer[1000];
-	struct tm tmp_tm = { 0 };
-	
-	tmp_tm.tm_year = tt->year - 1900;
-	tmp_tm.tm_mon = tt->month - 1;
-	tmp_tm.tm_mday = tt->day;
-	tmp_tm.tm_hour = tt->hour;
-	tmp_tm.tm_min = tt->minute;
-	tmp_tm.tm_sec = tt->second;
-	tmp_tm.tm_isdst = -1;
-
-	tmp_tm.tm_wday = time_day_of_week (tt->day, tt->month - 1, tt->year);
-
-	e_time_format_date_and_time (&tmp_tm,
-				     calendar_config_get_24_hour_format (), 
-				     FALSE, FALSE,
-				     buffer, 1000);
-	
-	return g_strdup (buffer);
-}
-
 typedef struct {
 	GHashTable *tzids;
 	icalcomponent *icomp;	
@@ -301,25 +278,95 @@ comp_to_list (CalComponentItipMethod method, CalComponent *comp)
 }
 	
 static CORBA_char *
-comp_subject (CalComponent *comp) 
+comp_subject (CalComponentItipMethod method, CalComponent *comp)
 {
 	CalComponentText caltext;
+	const char *description, *prefix = NULL;
+	GSList *alist;
+	int *sequence;
+	CORBA_char *subject;
+
 	cal_component_get_summary (comp, &caltext);
 	if (caltext.value != NULL)	
-		return CORBA_string_dup (caltext.value);
+		description = caltext.value;
+	else {
+		switch (cal_component_get_vtype (comp)) {
+		case CAL_COMPONENT_EVENT:
+			description = U_("Event information");
+		case CAL_COMPONENT_TODO:
+			description = U_("Task information");
+		case CAL_COMPONENT_JOURNAL:
+			description = U_("Journal information");
+		case CAL_COMPONENT_FREEBUSY:
+			description = U_("Free/Busy information");
+		default:
+			description = U_("Calendar information");
+		}
+	}
 
-	switch (cal_component_get_vtype (comp)) {
-	case CAL_COMPONENT_EVENT:
-		return CORBA_string_dup (U_("Event information"));
-	case CAL_COMPONENT_TODO:
-		return CORBA_string_dup (U_("Task information"));
-	case CAL_COMPONENT_JOURNAL:
-		return CORBA_string_dup (U_("Journal information"));
-	case CAL_COMPONENT_FREEBUSY:
-		return CORBA_string_dup (U_("Free/Busy information"));
+	switch (method) {
+	case CAL_COMPONENT_METHOD_PUBLISH:
+	case CAL_COMPONENT_METHOD_REQUEST:
+		/* FIXME: If this is an update to a previous
+		 * PUBLISH or REQUEST, then
+			prefix = U_("Updated");
+		 */
+		break;
+
+	case CAL_COMPONENT_METHOD_REPLY:
+		cal_component_get_attendee_list (comp, &alist);
+		if (alist != NULL) {
+			CalComponentAttendee *a = alist->data;
+
+			switch (a->status) {
+			case ICAL_PARTSTAT_ACCEPTED:
+				prefix = U_("Accepted");
+				break;
+			case ICAL_PARTSTAT_TENTATIVE:
+				prefix = U_("Tentatively Accepted");
+				break;
+			case ICAL_PARTSTAT_DECLINED:
+				prefix = U_("Declined");
+				break;
+			default:
+				break;
+			}
+			cal_component_free_attendee_list (alist);
+		}
+		break;
+
+	case CAL_COMPONENT_METHOD_ADD:
+		prefix = U_("Updated");
+		break;
+
+	case CAL_COMPONENT_METHOD_CANCEL:
+		prefix = U_("Cancel");
+		break;
+
+	case CAL_COMPONENT_METHOD_REFRESH:
+		prefix = U_("Refresh");
+		break;
+
+	case CAL_COMPONENT_METHOD_COUNTER:
+		prefix = U_("Counter-proposal");
+		break;
+
+	case CAL_COMPONENT_METHOD_DECLINECOUNTER:
+		prefix = U_("Declined");
+		break;
+
 	default:
-		return CORBA_string_dup (U_("Calendar information"));
-	}		
+		break;
+	}
+
+	if (prefix) {
+		subject = CORBA_string_alloc (strlen (description) +
+					      strlen (prefix) + 3);
+		sprintf (subject, "%s: %s", prefix, description);
+	} else
+		subject = CORBA_string_dup (description);
+
+	return subject;
 }
 
 static CORBA_char *
@@ -332,46 +379,6 @@ comp_content_type (CalComponent *comp, CalComponentItipMethod method)
 		 "freebusy.ifb" : "calendar.ics", itip_methods[method]);
 	return CORBA_string_dup (tmp);
 
-}
-
-static CORBA_char *
-comp_description (CalComponent *comp)
-{
-	CORBA_char *description;	
-	CalComponentDateTime dt;
-	char *start = NULL, *end = NULL;
-
-	switch (cal_component_get_vtype (comp)) {
-	case CAL_COMPONENT_EVENT:
-		return CORBA_string_dup (U_("Event information"));
-	case CAL_COMPONENT_TODO:
-		return CORBA_string_dup (U_("Task information"));
-	case CAL_COMPONENT_JOURNAL:
-		return CORBA_string_dup (U_("Journal information"));
-	case CAL_COMPONENT_FREEBUSY:
-		cal_component_get_dtstart (comp, &dt);
-		if (dt.value) {
-			start = get_label (dt.value);
-			cal_component_get_dtend (comp, &dt);
-			if (dt.value)
-				end = get_label (dt.value);
-		}
-		if (start != NULL && end != NULL) {
-			char *tmp, *tmp_utf;
-			tmp = g_strdup_printf (_("Free/Busy information (%s to %s)"), start, end);
-			tmp_utf = e_utf8_from_locale_string (tmp);
-			description = CORBA_string_dup (tmp_utf);
-			g_free (tmp_utf);
-			g_free (tmp);
-		} else {
-			description = CORBA_string_dup (U_("Free/Busy information"));
-		}
-		g_free (start);
-		g_free (end);
-		return description;		
-	default:
-		return CORBA_string_dup (U_("iCalendar information"));
-	}
 }
 
 static void
@@ -692,7 +699,6 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *send_comp,
 	CORBA_char *subject = NULL, *body = NULL, *content_type = NULL;
 	CORBA_char *filename = NULL, *description = NULL;
 	GNOME_Evolution_Composer_AttachmentData *attach_data = NULL;
-	CORBA_boolean show_inline;
 	char *ical_string;
 	CORBA_Environment ev;
 	
@@ -717,7 +723,7 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *send_comp,
 	bcc_list->_maximum = bcc_list->_length = 0;
 	
 	/* Subject information */
-	subject = comp_subject (comp);
+	subject = comp_subject (method, comp);
 	
 	/* Set recipients, subject */
 	GNOME_Evolution_Composer_setHeaders (composer_server, to_list, cc_list, bcc_list, subject, &ev);

@@ -1,3 +1,10 @@
+2002-03-04  Dan Winship  <danw@ximian.com>
+
+	* gui/itip-utils.c (comp_subject): Prefix the subject with an
+	indicator like "Accepted" or "Cancelled" explaining what the
+	action is, since Outlook doesn't display any of that information
+	inline like we do. (20780)
+
 2002-02-28  Rodrigo Moya <rodrigo@ximian.com>
 
 	* calendar/gui/e-itip-control.c (e_itip_control_set_data): added the
