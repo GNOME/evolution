@@ -6,6 +6,7 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
   * Calendar
 
     #45274 - Tab through events in week view (Bolian Yin)
+    #45524 - Doen't use stock icons (Rodrigo)
 
 Evolution 1.4.2, 2003-06-30
 ---------------------------
