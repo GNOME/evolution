@@ -583,6 +583,11 @@ EVO_CHECK_LIB(GAL, gal, 0.19.99.10)
 EVO_CHECK_LIB(GtkHTML, gtkhtml, 1.0)
 EVO_CHECK_LIB(Libsoup, soup, 0.6)
 
+AM_PATH_GCONF(1.0)
+if test "x$GCONF_CFLAGS" = "x" ; then
+	AC_MSG_ERROR(Evolution requires GConf to be installed)
+fi
+
 dnl ******************************
 dnl Pilot checking
 dnl ******************************
@@ -1045,7 +1050,7 @@ dnl --- evolution-mail flags
 camel_providerdir='$(libdir)/evolution/camel-providers/'$EVOLUTION_MAJOR_VERSION.$EVOLUTION_MINOR_VERSION
 AC_SUBST(camel_providerdir)
 
-EVO_SET_COMPILE_FLAGS(EVOLUTION_MAIL, $FULL_GNOME_DEPS, $THREADS_CFLAGS, $THREADS_LIBS)
+EVO_SET_COMPILE_FLAGS(EVOLUTION_MAIL, $FULL_GNOME_DEPS, $GCONF_CFLAGS $THREADS_CFLAGS, $GCONF_LIBS $THREADS_LIBS)
 AC_SUBST(EVOLUTION_MAIL_CFLAGS)
 AC_SUBST(EVOLUTION_MAIL_LIBS)
 
