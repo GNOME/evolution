@@ -1774,7 +1774,7 @@ build_card_from_entry (LDAP *ldap, LDAPMessage *e)
 		struct prop_info *info = NULL;
 
 		for (i = 0; i < num_prop_infos; i ++)
-			if (!strcmp (attr, prop_info[i].ldap_attr))
+			if (!g_strcasecmp (attr, prop_info[i].ldap_attr))
 				info = &prop_info[i];
 
 		if (info) {

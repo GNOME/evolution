@@ -1,5 +1,10 @@
 2001-08-07  Chris Toshok  <toshok@ximian.com>
 
+	* backend/pas/pas-backend-ldap.c (build_card_from_entry): use
+	g_strcasecmp since ldap attribute names are not case sensitive.
+
+2001-08-07  Chris Toshok  <toshok@ximian.com>
+
 	* gui/contact-list-editor/e-contact-list-editor.c
 	(table_drag_data_received_cb): make sure we update the changed
 	state if a successful drop happens.
