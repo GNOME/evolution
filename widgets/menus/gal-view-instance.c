@@ -322,7 +322,11 @@ gal_view_instance_construct (GalViewInstance *instance, GalViewCollection *colle
 	instance->collection_changed_id =
 		g_signal_connect (collection, "changed",
 				  G_CALLBACK (collection_changed), instance);
-	instance->instance_id = g_strdup (instance_id);
+
+	if (instance_id)
+		instance->instance_id = g_strdup (instance_id);
+	else
+		instance->instance_id = g_strdup ("");
 
 	safe_id = g_strdup (instance->instance_id);
 	e_filename_make_safe (safe_id);
