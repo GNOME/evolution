@@ -358,7 +358,12 @@ e_destination_is_valid (const EDestination *dest)
 		return TRUE;
 
 	email = e_destination_get_email (dest);
-	return email && *email && strchr (email, '@');
+	
+	/* FIXME: if we really wanted to get fancy here, we could
+           check to make sure that the address was valid according to
+           rfc822's addr-spec grammar. */
+	
+	return email && *email;
 }
 
 gboolean
