@@ -1,3 +1,8 @@
+1999-03-30  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* gncal-todo.c (convert_time_t_to_char): Made static.  Make it use
+	the full year format for strftime().
+
 1999-03-27  Nuno Ferreira  <nmrf@rnl.ist.utl.pt>
 
 	* calobj.c: Include <config.h> So that strings get translated.

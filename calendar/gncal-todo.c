@@ -473,22 +473,19 @@ gncal_todo_new (GnomeCalendar *calendar)
 	return GTK_WIDGET (todo);
 }
 
-
-
-char *
+static char *
 convert_time_t_to_char (time_t t)
 {
-	char *buffer;
+	char buf[100];
 	struct tm *tm;
 
-	buffer = g_malloc(15);
 	tm = localtime (&t);
-	strftime(buffer, 15, "%m/%d/%y", tm);
+	strftime(buf, sizeof (buf), "%m/%d/%Y", tm);
 
-	return buffer;
+	return g_strdup (buf);
 }
 
-GtkStyle *
+static GtkStyle *
 make_overdue_todo_style(GncalTodo *todo)
 {
 	GtkStyle *overdue_style = NULL;
@@ -531,7 +528,7 @@ insert_in_clist (GncalTodo *todo, iCalObject *ico)
 	 */
 
 	if(ico->dtend && todo_show_due_date) {
-		text[1] = convert_time_t_to_char(ico->dtend);
+		text[1] = convert_time_t_to_char (ico->dtend);
 		/* Append the data's pointer so later it can be properly freed */
 		todo->data_ptrs = g_slist_append (todo->data_ptrs, text[1]);
 	}
