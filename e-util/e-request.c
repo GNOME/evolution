@@ -29,6 +29,7 @@
 
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-stock.h>
+#include <gal/widgets/e-unicode.h>
 
 #include <gtk/gtklabel.h>
 #include <gtk/gtkentry.h>
@@ -72,7 +73,7 @@ e_request_string (GtkWindow *parent,
 	gtk_box_pack_start (GTK_BOX (vbox), prompt_label, TRUE, TRUE, 0);
 
 	entry = gtk_entry_new ();
-	gtk_entry_set_text (GTK_ENTRY (entry), default_string);
+	e_utf8_gtk_entry_set_text (GTK_ENTRY (entry), default_string);
 	gtk_entry_select_region (GTK_ENTRY (entry), 0, -1);
 	gtk_box_pack_start (GTK_BOX (vbox), entry, TRUE, TRUE, 0);
 
@@ -86,7 +87,7 @@ e_request_string (GtkWindow *parent,
 	switch (gnome_dialog_run (GNOME_DIALOG (dialog))) {
 	case 0:
 		/* OK.  */
-		retval = g_strdup (gtk_entry_get_text (GTK_ENTRY (entry)));
+		retval = e_utf8_gtk_entry_get_text (GTK_ENTRY (entry));
 		break;
 	case -1:
 	case 1:
