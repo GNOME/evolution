@@ -2036,6 +2036,9 @@ pas_backend_ldap_process_authenticate_user (PASBackend *backend,
 	pas_book_respond_authenticate_user (book,
 				    ldap_error_to_response (ldap_error));
 
+	if (ldap_error == LDAP_SUCCESS)
+		pas_book_report_writable (book, TRUE);
+
 	if (!bl->priv->evolutionPersonChecked)
 		check_schema_support (bl);
 }

@@ -656,6 +656,28 @@ pas_book_report_connection (PASBook  *book,
 	CORBA_exception_free (&ev);
 }
 
+/**
+ * pas_book_report_writable:
+ */
+void
+pas_book_report_writable (PASBook                           *book,
+			  gboolean                           writable)
+{
+	CORBA_Environment ev;
+
+	CORBA_exception_init (&ev);
+
+	GNOME_Evolution_Addressbook_BookListener_notifyWritable (
+		book->priv->listener, (CORBA_boolean) writable, &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_warning ("pas_book_report_writable: Exception "
+			   "responding to BookListener!\n");
+	}
+
+	CORBA_exception_free (&ev);
+}
+
 static gboolean
 pas_book_construct (PASBook                *book,
 		    PASBackend             *backend,

@@ -100,6 +100,9 @@ void                    pas_book_respond_get_changes    (PASBook                
 void                    pas_book_report_connection      (PASBook                           *book,
 							 gboolean                           connected);
 
+void                    pas_book_report_writable        (PASBook                           *book,
+							 gboolean                           writable);
+
 gboolean                pas_book_can_write              (PASBook                           *book);
 gboolean                pas_book_can_write_card         (PASBook                           *book,
 							 const char                        *id);

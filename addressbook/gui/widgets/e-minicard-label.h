@@ -58,6 +58,7 @@ struct _EMinicardLabel
 	double width;
 	double height;
 	double max_field_name_length;
+	guint editable : 1;
 	GnomeCanvasItem *fieldname;
 	GnomeCanvasItem *field;
 	GnomeCanvasItem *rect;

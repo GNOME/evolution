@@ -50,6 +50,7 @@ struct _EBookPrivate {
 
 enum {
 	OPEN_PROGRESS,
+	WRITABLE_STATUS,
 	LINK_STATUS,
 	LAST_SIGNAL
 };
@@ -336,6 +337,14 @@ e_book_do_link_event (EBook                 *book,
 }
 
 static void
+e_book_do_writable_event (EBook                 *book,
+			  EBookListenerResponse *resp)
+{
+	gtk_signal_emit (GTK_OBJECT (book), e_book_signals [WRITABLE_STATUS],
+			 resp->writable);
+}
+
+static void
 e_book_do_response_get_supported_fields (EBook                 *book,
 					 EBookListenerResponse *resp)
 {
@@ -397,6 +406,9 @@ e_book_check_listener_queue (EBookListener *listener, EBook *book)
 		break;
 	case LinkStatusEvent:
 		e_book_do_link_event (book, resp);
+		break;
+	case WritableStatusEvent:
+		e_book_do_writable_event (book, resp);
 		break;
 	default:
 		g_error ("EBook: Unknown operation %d in listener queue!\n",
@@ -1180,6 +1192,15 @@ e_book_class_init (EBookClass *klass)
 				GTK_RUN_LAST,
 				object_class->type,
 				GTK_SIGNAL_OFFSET (EBookClass, link_status),
+				gtk_marshal_NONE__BOOL,
+				GTK_TYPE_NONE, 1,
+				GTK_TYPE_BOOL);
+
+	e_book_signals [WRITABLE_STATUS] =
+		gtk_signal_new ("writable_status",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (EBookClass, writable_status),
 				gtk_marshal_NONE__BOOL,
 				GTK_TYPE_NONE, 1,
 				GTK_TYPE_BOOL);

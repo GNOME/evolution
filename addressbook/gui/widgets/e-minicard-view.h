@@ -67,6 +67,7 @@ struct _EMinicardView
 	/* item specific fields */
 	EBook *book;
 	char *query;
+	guint editable : 1;
 	EBookView *book_view;
 
 	ESelectionModelSimple *selection;

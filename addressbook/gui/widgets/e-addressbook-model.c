@@ -311,7 +311,7 @@ e_addressbook_model_init (GtkObject *object)
 	model->status_message_id = 0;
 	model->data = NULL;
 	model->data_count = 0;
-	model->editable = TRUE;
+	model->editable = FALSE;
 	model->first_get_view = TRUE;
 }
 

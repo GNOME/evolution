@@ -142,6 +142,20 @@ module Addressbook {
 		 * being asked.
 		 */
 		void notifyConnectionStatus (in boolean connected);
+
+		/**
+		 * notifyWritable:
+		 *
+		 * Used to report whether or not a backend can write
+		 * to a given addressbook.  All books default to
+		 * read-only, so unless you receive a notification
+		 * saying otherwise, treat the book as read-only.  It
+		 * is presumed that this notification will be sent
+		 * early (just after a connection is opened, usually),
+		 * but it may also be sent later, if/when the backend
+		 * notices a change.
+		 */
+		void notifyWritable (in boolean writable);
 	};
 
 	interface BookFactory : Bonobo::Unknown {

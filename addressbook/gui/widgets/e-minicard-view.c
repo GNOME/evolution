@@ -42,7 +42,8 @@ static EReflowSortedClass *parent_class = NULL;
 enum {
 	ARG_0,
 	ARG_BOOK,
-	ARG_QUERY
+	ARG_QUERY,
+	ARG_EDITABLE
 };
 
 enum {
@@ -92,6 +93,8 @@ e_minicard_view_class_init (EMinicardViewClass *klass)
 				 GTK_ARG_READWRITE, ARG_BOOK);
 	gtk_object_add_arg_type ("EMinicardView::query", GTK_TYPE_STRING,
 				 GTK_ARG_READWRITE, ARG_QUERY);
+	gtk_object_add_arg_type ("EMinicardView::editable", GTK_TYPE_BOOL,
+				 GTK_ARG_READWRITE, ARG_EDITABLE);
 
 	e_minicard_view_signals [STATUS_MESSAGE] =
 		gtk_signal_new ("status_message",
@@ -123,6 +126,7 @@ e_minicard_view_init (EMinicardView *view)
 {
 	view->book = NULL;
 	view->query = g_strdup("(contains \"x-evolution-any-field\" \"\")");
+	view->editable = FALSE;
 	view->book_view = NULL;
 	view->get_view_idle = 0;
 	view->create_card_id = 0;
@@ -173,6 +177,7 @@ create_card(EBookView *book_view, const GList *cards, EMinicardView *view)
 		GnomeCanvasItem *item = gnome_canvas_item_new(GNOME_CANVAS_GROUP(view),
 							      e_minicard_get_type(),
 							      "card", cards->data,
+							      "editable", view->editable,
 							      NULL);
 		gtk_signal_connect(GTK_OBJECT(item), "selected",
 				   GTK_SIGNAL_FUNC(card_selected), view);
@@ -318,6 +323,17 @@ e_minicard_view_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		if (view->get_view_idle == 0)
 			view->get_view_idle = g_idle_add((GSourceFunc)get_view, view);
 		break;
+	case ARG_EDITABLE: {
+		GList *l;
+		view->editable = GTK_VALUE_BOOL (*arg);
+		/* bit of a hack */
+		for (l = E_REFLOW (view)->items; l; l = g_list_next(l)) {
+			gtk_object_set (GTK_OBJECT (l->data),
+					"editable", view->editable,
+					NULL);
+		}
+		break;
+	}
 	}
 }
 
@@ -334,6 +350,9 @@ e_minicard_view_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		break;
 	case ARG_QUERY:
 		GTK_VALUE_STRING (*arg) = g_strdup(e_minicard_view->query);
+		break;
+	case ARG_EDITABLE:
+		GTK_VALUE_BOOL (*arg) = e_minicard_view->editable;
 		break;
 	default:
 		arg->type = GTK_TYPE_INVALID;
@@ -402,14 +421,14 @@ editor_closed_cb (EContactEditor *ce, gpointer data)
 }
 
 static void
-supported_fields_cb (EBook *book, EBookStatus status, EList *fields, EMinicard *e_minicard)
+supported_fields_cb (EBook *book, EBookStatus status, EList *fields, EMinicardView *view)
 {
 	ECard *card;
 	EContactEditor *ce;
 
 	card = e_card_new("");
 
-	ce = e_contact_editor_new (card, TRUE, fields, FALSE);
+	ce = e_contact_editor_new (card, TRUE, fields, !view->editable);
 
 	gtk_signal_connect (GTK_OBJECT (ce), "add_card",
 			    GTK_SIGNAL_FUNC (add_card_cb), book);
@@ -440,7 +459,7 @@ e_minicard_view_event (GnomeCanvasItem *item, GdkEvent *event)
 
 			e_book_get_supported_fields (book,
 						     (EBookFieldsCallback)supported_fields_cb,
-						     NULL);
+						     view);
 		}
 		return TRUE;
 	default:

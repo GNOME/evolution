@@ -52,6 +52,7 @@ typedef enum {
 
 	/* Async events */
 	LinkStatusEvent,
+	WritableStatusEvent,
 	OpenProgressEvent,
 } EBookListenerOperation;
 
@@ -79,6 +80,9 @@ typedef struct {
 
 	/* For LinkStatusEvent */
 	gboolean                connected;
+
+	/* For WritableStatusEvent */
+	gboolean                writable;
 
 	/* For Card[Added|Removed|Modified]Event */
 	char                   *id;

@@ -1330,30 +1330,43 @@ pas_backend_file_load_uri (PASBackend             *backend,
 {
 	PASBackendFile *bf = PAS_BACKEND_FILE (backend);
 	char           *filename;
+	gboolean       writable = FALSE;
+	GList          *l;
 
 	g_assert (bf->priv->loaded == FALSE);
 
 	filename = pas_backend_file_extract_path_from_uri (uri);
 
 	bf->priv->file_db = dbopen (filename, O_RDWR, 0666, DB_HASH, NULL);
-	if (bf->priv->file_db == NULL) {
-		bf->priv->file_db = dbopen (filename, O_RDWR | O_CREAT, 0666, DB_HASH, NULL);
+	if (bf->priv->file_db) {
+		writable = TRUE;
+	}
+	else {
+		/* try to open the file read-only */
+		bf->priv->file_db = dbopen (filename, O_RDONLY, 0666, DB_HASH, NULL);
 
-		if (bf->priv->file_db) {
-			char *create_initial_file;
-			char *dir;
+		if (!bf->priv->file_db) {
+			/* lastly, try and create the file */
+			bf->priv->file_db = dbopen (filename, O_RDWR | O_CREAT, 0666, DB_HASH, NULL);
 
-			dir = g_dirname(filename);
-			create_initial_file = g_concat_dir_and_file(dir, "create-initial");
+			if (bf->priv->file_db) {
+				char *create_initial_file;
+				char *dir;
 
-			if (g_file_exists(create_initial_file)) {
-				char *id;
-				id = do_create(backend, INITIAL_VCARD, NULL);
-				g_free (id);
+				dir = g_dirname(filename);
+				create_initial_file = g_concat_dir_and_file(dir, "create-initial");
+
+				if (g_file_exists(create_initial_file)) {
+					char *id;
+					id = do_create(backend, INITIAL_VCARD, NULL);
+					g_free (id);
+				}
+
+				g_free(create_initial_file);
+				g_free(dir);
+
+				writable = TRUE;
 			}
-
-			g_free(create_initial_file);
-			g_free(dir);
 		}
 	}
 
@@ -1368,6 +1381,13 @@ pas_backend_file_load_uri (PASBackend             *backend,
 		bf->priv->uri = g_strdup (uri);
 	} else
 		return FALSE;
+
+	/* report the writable status of the book to all its clients */
+	for (l = bf->priv->clients; l; l = g_list_next (l)) {
+		PASBook *book = l->data;
+
+		pas_book_report_writable (book, writable);
+	}
 
 	return TRUE;
 }

@@ -63,6 +63,7 @@ struct _EAddressbookView
 
 	EBook *book;
 	char  *query;
+	guint editable : 1;
 
 	GtkObject *object;
 	GtkWidget *widget;

@@ -140,6 +140,7 @@ e_addressbook_view_init (EAddressbookView *eav)
 {
 	eav->view_type = E_ADDRESSBOOK_VIEW_NONE;
 
+	eav->editable = FALSE;
 	eav->book = NULL;
 	eav->query = g_strdup("(contains \"x-evolution-any-field\" \"\")");
 
@@ -168,6 +169,16 @@ e_addressbook_view_new (void)
 }
 
 static void
+book_writable_cb (EBook *book, gboolean writable, EAddressbookView *eav)
+{
+	eav->editable = writable;
+	if (eav->object)
+		gtk_object_set (GTK_OBJECT (eav->object),
+				"editable", eav->editable,
+				NULL);
+}
+
+static void
 e_addressbook_view_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 {
 	EAddressbookView *eav = E_ADDRESSBOOK_VIEW(object);
@@ -180,13 +191,18 @@ e_addressbook_view_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		if (GTK_VALUE_OBJECT(*arg)) {
 			eav->book = E_BOOK(GTK_VALUE_OBJECT(*arg));
 			gtk_object_ref(GTK_OBJECT(eav->book));
+			gtk_signal_connect (GTK_OBJECT (eav->book),
+					    "writable_status",
+					    book_writable_cb, eav);
 		}
 		else
 			eav->book = NULL;
 		if (eav->object)
 			gtk_object_set(GTK_OBJECT(eav->object),
 				       "book", eav->book,
+				       "editable", eav->editable,
 				       NULL);
+
 		break;
 	case ARG_QUERY:
 		g_free(eav->query);
@@ -391,12 +407,17 @@ editor_closed_cb (EContactEditor *ce, gpointer data)
 	gtk_object_unref (GTK_OBJECT (ce));
 }
 
+typedef struct {
+	EAddressbookView *view;
+	ECard *card;
+} CardAndView;
+
 static void
-supported_fields_cb (EBook *book, EBookStatus status, EList *fields, ECard *card)
+supported_fields_cb (EBook *book, EBookStatus status, EList *fields, CardAndView *card_and_view)
 {
 	EContactEditor *ce;
 
-	ce = e_contact_editor_new (card, FALSE, fields, FALSE);
+	ce = e_contact_editor_new (card_and_view->card, FALSE, fields, !card_and_view->view->editable);
 
 	gtk_signal_connect (GTK_OBJECT (ce), "add_card",
 			    GTK_SIGNAL_FUNC (add_card_cb), book);
@@ -407,7 +428,9 @@ supported_fields_cb (EBook *book, EBookStatus status, EList *fields, ECard *card
 	gtk_signal_connect (GTK_OBJECT (ce), "editor_closed",
 			    GTK_SIGNAL_FUNC (editor_closed_cb), NULL);
 
-	gtk_object_unref(GTK_OBJECT(card));
+	gtk_object_unref(GTK_OBJECT(card_and_view->card));
+
+	g_free (card_and_view);
 }
 
 static void
@@ -417,14 +440,18 @@ table_double_click(ETableScrolled *table, gint row, EAddressbookView *view)
 		EAddressbookModel *model = E_ADDRESSBOOK_MODEL(view->object);
 		ECard *card = e_addressbook_model_get_card(model, row);
 		EBook *book;
-		
+		CardAndView *card_and_view;
+
 		gtk_object_get(GTK_OBJECT(model),
 			       "book", &book,
 			       NULL);
 		
 		g_assert (E_IS_BOOK (book));
 
-		e_book_get_supported_fields (book, (EBookFieldsCallback)supported_fields_cb, card);
+		card_and_view = g_new (CardAndView, 1);
+		card_and_view->card = card;
+		card_and_view->view = view;
+		e_book_get_supported_fields (book, (EBookFieldsCallback)supported_fields_cb, card_and_view);
 	}
 }
 
@@ -730,6 +757,7 @@ change_view_type (EAddressbookView *view, EAddressbookViewType view_type)
 	gtk_object_set(view->object,
 		       "query", view->query,
 		       "book", view->book,
+		       "editable", view->editable,
 		       NULL);
 }
 

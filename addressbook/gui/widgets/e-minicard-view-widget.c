@@ -39,7 +39,8 @@ static ECanvasClass *parent_class = NULL;
 enum {
 	ARG_0,
 	ARG_BOOK,
-	ARG_QUERY
+	ARG_QUERY,
+	ARG_EDITABLE
 };
 
 enum {
@@ -92,6 +93,8 @@ e_minicard_view_widget_class_init (EMinicardViewWidgetClass *klass)
 				 GTK_ARG_READWRITE, ARG_BOOK);
 	gtk_object_add_arg_type ("EMinicardViewWidget::query", GTK_TYPE_STRING,
 				 GTK_ARG_READWRITE, ARG_QUERY);
+	gtk_object_add_arg_type ("EMinicardViewWidget::editable", GTK_TYPE_BOOL,
+				 GTK_ARG_READWRITE, ARG_EDITABLE);
 
 	e_minicard_view_widget_signals [STATUS_MESSAGE] =
 		gtk_signal_new ("status_message",
@@ -121,6 +124,7 @@ e_minicard_view_widget_init (EMinicardViewWidget *view)
 
 	view->book = NULL;
 	view->query = NULL;
+	view->editable = FALSE;
 }
 
 GtkWidget *
@@ -158,6 +162,12 @@ e_minicard_view_widget_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 				       "query", emvw->query,
 				       NULL);
 		break;
+	case ARG_EDITABLE:
+		emvw->editable = GTK_VALUE_BOOL(*arg);
+		gtk_object_set (GTK_OBJECT(emvw->emv),
+				"editable", emvw->editable,
+				NULL);
+		break;
 	}
 }
 
@@ -174,6 +184,9 @@ e_minicard_view_widget_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		break;
 	case ARG_QUERY:
 		GTK_VALUE_STRING (*arg) = g_strdup(emvw->query);
+		break;
+	case ARG_EDITABLE:
+		GTK_VALUE_BOOL (*arg) = emvw->editable;
 		break;
 	default:
 		arg->type = GTK_TYPE_INVALID;
@@ -233,6 +246,7 @@ e_minicard_view_widget_realize (GtkWidget *widget)
 	gtk_object_set(GTK_OBJECT(view->emv),
 		       "book", view->book,
 		       "query", view->query,
+		       "editable", view->editable,
 		       NULL);
 
 	if (GTK_WIDGET_CLASS(parent_class)->realize)

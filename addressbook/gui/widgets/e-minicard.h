@@ -80,7 +80,9 @@ struct _EMinicard
 	guint selected : 1;
 	
 	guint has_focus : 1;
-	
+
+	guint editable : 1;
+
 	double width;
 	double height;
 };

@@ -188,6 +188,20 @@ e_book_listener_queue_link_status (EBookListener *listener,
 }
 
 static void
+e_book_listener_queue_writable_status (EBookListener *listener,
+				       gboolean       writable)
+{
+	EBookListenerResponse *resp;
+
+	resp = g_new0 (EBookListenerResponse, 1);
+
+	resp->op        = WritableStatusEvent;
+	resp->writable  = writable;
+
+	e_book_listener_queue_response (listener, resp);
+}
+
+static void
 e_book_listener_queue_authentication_response (EBookListener *listener,
 					       EBookStatus    status)
 {
@@ -392,6 +406,16 @@ impl_BookListener_report_connection_status (PortableServer_Servant servant,
 
 	e_book_listener_queue_link_status (
 		listener, connected);
+}
+
+static void
+impl_BookListener_report_writable (PortableServer_Servant servant,
+				   const CORBA_boolean writable,
+				   CORBA_Environment *ev)
+{
+	EBookListener *listener = E_BOOK_LISTENER (bonobo_object_from_servant (servant));
+
+	e_book_listener_queue_writable_status (listener, writable);
 }
 
 /**
@@ -627,6 +651,7 @@ e_book_listener_get_epv (void)
 	epv->notifyChangesRequested = impl_BookListener_respond_get_changes;
 
 	epv->notifyConnectionStatus = impl_BookListener_report_connection_status;
+	epv->notifyWritable         = impl_BookListener_report_writable;
 
 	return epv;
 }

@@ -51,6 +51,7 @@ enum {
 	ARG_FIELDNAME,
 	ARG_TEXT_MODEL,
 	ARG_MAX_FIELD_NAME_WIDTH,
+	ARG_EDITABLE
 };
 
 GtkType
@@ -103,6 +104,8 @@ e_minicard_label_class_init (EMinicardLabelClass *klass)
 			   GTK_ARG_READWRITE, ARG_TEXT_MODEL);
   gtk_object_add_arg_type ("EMinicardLabel::max_field_name_length", GTK_TYPE_DOUBLE,
 			   GTK_ARG_READWRITE, ARG_MAX_FIELD_NAME_WIDTH);
+  gtk_object_add_arg_type ("EMinicardLabel::editable", GTK_TYPE_BOOL, 
+			   GTK_ARG_READWRITE, ARG_EDITABLE);
  
   object_class->set_arg = e_minicard_label_set_arg;
   object_class->get_arg = e_minicard_label_get_arg;
@@ -159,6 +162,10 @@ e_minicard_label_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	case ARG_MAX_FIELD_NAME_WIDTH:
 		e_minicard_label->max_field_name_length = GTK_VALUE_DOUBLE (*arg);
 		break;
+	case ARG_EDITABLE:
+		e_minicard_label->editable = GTK_VALUE_BOOL (*arg);
+		gtk_object_set (GTK_OBJECT (e_minicard_label->field), "editable", e_minicard_label->editable, NULL);
+		break;
 	}
 }
 
@@ -195,6 +202,9 @@ e_minicard_label_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		break;
 	case ARG_MAX_FIELD_NAME_WIDTH:
 		GTK_VALUE_DOUBLE (*arg) = e_minicard_label->max_field_name_length;
+		break;
+	case ARG_EDITABLE:
+		GTK_VALUE_BOOL (*arg) = e_minicard_label->editable;
 		break;
 	default:
 		arg->type = GTK_TYPE_INVALID;
@@ -258,7 +268,7 @@ e_minicard_label_construct (GnomeCanvasItem *item)
 				 "use_ellipsis", TRUE,
 				 "font_gdk", font,
 				 "fill_color", "black",
-				 "editable", TRUE,
+				 "editable", e_minicard_label->editable,
 				 "draw_background", FALSE,
 				 NULL );
 	e_canvas_item_move_absolute(e_minicard_label->field, ( e_minicard_label->width / 2 + 2), 1);

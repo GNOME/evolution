@@ -50,6 +50,7 @@ struct _EMinicardViewWidget
 
 	EBook *book;
 	char *query;
+	guint editable : 1;
 };
 
 struct _EMinicardViewWidgetClass
