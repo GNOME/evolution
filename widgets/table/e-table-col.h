@@ -47,26 +47,27 @@ typedef enum {
  * Information about a single column
  */
 typedef struct {
-	GtkObject    base;
-	char        *text;
-	GdkPixbuf   *pixbuf;
-	int          min_width;
-	int          width;
-	double       expansion;
-	short        x;
-	GCompareFunc compare;
-	unsigned int is_pixbuf:1;
-	unsigned int selected:1;
-	unsigned int resizable:1;
-	unsigned int disabled:1;
-	unsigned int sortable:1;
-	unsigned int groupable:1;
-	int          col_idx;
-	int          priority;
+	GtkObject         base;
+	char             *text;
+	GdkPixbuf        *pixbuf;
+	int               min_width;
+	int               width;
+	double            expansion;
+	short             x;
+	GCompareFunc      compare;
+	ETableSearchFunc  search;
+	unsigned int      is_pixbuf:1;
+	unsigned int      selected:1;
+	unsigned int      resizable:1;
+	unsigned int      disabled:1;
+	unsigned int      sortable:1;
+	unsigned int      groupable:1;
+	int               col_idx;
+	int               priority;
 
-	GtkJustification justification;
+	GtkJustification  justification;
 
-	ECell         *ecell;
+	ECell            *ecell;
 } ETableCol;
 
 typedef struct {

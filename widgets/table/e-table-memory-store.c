@@ -320,7 +320,10 @@ e_table_memory_store_insert (ETableMemoryStore *etms, int row, void **store, gpo
 	int i;
 
 	e_table_memory_insert (E_TABLE_MEMORY (etms), row, data);
+
 	row_count = e_table_model_row_count (E_TABLE_MODEL (etms));
+	if (row == -1)
+		row = row_count - 1;
 	etms->priv->store = g_realloc (etms->priv->store, etms->priv->col_count * row_count * sizeof (void *));
 	memmove (etms->priv->store + etms->priv->col_count * (row + 1),
 		 etms->priv->store + etms->priv->col_count * row,
@@ -357,14 +360,15 @@ e_table_memory_store_insert_adopt (ETableMemoryStore *etms, int row, void **stor
 	int row_count;
 	int i;
 
-	row_count = e_table_model_row_count (E_TABLE_MODEL (etms));
-
 	e_table_memory_insert (E_TABLE_MEMORY (etms), row, data);
 
-	etms->priv->store = g_realloc (etms->priv->store, etms->priv->col_count * (row_count + 1) * sizeof (void *));
+	row_count = e_table_model_row_count (E_TABLE_MODEL (etms));
+	if (row == -1)
+		row = row_count - 1;
+	etms->priv->store = g_realloc (etms->priv->store, etms->priv->col_count * row_count * sizeof (void *));
 	memmove (etms->priv->store + etms->priv->col_count * (row + 1),
 		 etms->priv->store + etms->priv->col_count * row,
-		 etms->priv->col_count * (row_count - row) * sizeof (void *));
+		 etms->priv->col_count * (row_count - row - 1) * sizeof (void *));
 
 	for (i = 0; i < etms->priv->col_count; i++) {
 		STORE_LOCATOR(etms, i, row) = store[i];

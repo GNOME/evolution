@@ -33,6 +33,7 @@
 #include "gal/e-table/e-cell-size.h"
 #include "gal/e-table/e-cell-tree.h"
 #include "e-table-extras.h"
+#include <string.h>
 
 #define PARENT_TYPE (gtk_object_get_type())
 
@@ -65,14 +66,17 @@ ete_destroy (GtkObject *object)
 
 	g_hash_table_foreach (ete->cells, (GHFunc) cell_hash_free, NULL);
 	g_hash_table_foreach (ete->compares, (GHFunc) g_free, NULL);
+	g_hash_table_foreach (ete->searches, (GHFunc) g_free, NULL);
 	g_hash_table_foreach (ete->pixbufs, (GHFunc) pixbuf_hash_free, NULL);
 
 	g_hash_table_destroy (ete->cells);
 	g_hash_table_destroy (ete->compares);
+	g_hash_table_destroy (ete->searches);
 	g_hash_table_destroy (ete->pixbufs);
 
 	ete->cells = NULL;
 	ete->compares = NULL;
+	ete->searches = NULL;
 	ete->pixbufs = NULL;
 
 	GTK_OBJECT_CLASS (ete_parent_class)->destroy (object);
@@ -95,16 +99,29 @@ e_strint_compare(gconstpointer data1, gconstpointer data2)
 	return g_int_compare(GINT_TO_POINTER(int1), GINT_TO_POINTER(int2));
 }
 
+static gboolean
+e_string_search(gconstpointer haystack, const char *needle)
+{
+	int length = g_utf8_strlen (needle, -1);
+	if (g_utf8_strncasecmp (haystack, needle, length) == 0)
+		return TRUE;
+	else
+		return FALSE;
+}
+
 static void
 ete_init (ETableExtras *extras)
 {
 	extras->cells = g_hash_table_new(g_str_hash, g_str_equal);
 	extras->compares = g_hash_table_new(g_str_hash, g_str_equal);
+	extras->searches = g_hash_table_new(g_str_hash, g_str_equal);
 	extras->pixbufs = g_hash_table_new(g_str_hash, g_str_equal);
 
 	e_table_extras_add_compare(extras, "string", g_str_compare);
 	e_table_extras_add_compare(extras, "integer", g_int_compare);
 	e_table_extras_add_compare(extras, "string-integer", e_strint_compare);
+
+	e_table_extras_add_search(extras, "string", e_string_search);
 
 	e_table_extras_add_cell(extras, "checkbox", e_cell_checkbox_new());
 	e_table_extras_add_cell(extras, "date", e_cell_date_new (NULL, GTK_JUSTIFY_LEFT));
@@ -162,8 +179,8 @@ e_table_extras_add_compare  (ETableExtras *extras,
 	gchar *old_key;
 	GCompareFunc old_compare;
 
-	if (g_hash_table_lookup_extended (extras->cells, id, (gpointer *)&old_key, (gpointer *)&old_compare)) {
-		g_hash_table_remove (extras->cells, old_key);
+	if (g_hash_table_lookup_extended (extras->compares, id, (gpointer *)&old_key, (gpointer *)&old_compare)) {
+		g_hash_table_remove (extras->compares, old_key);
 		g_free (old_key);
 	}
 
@@ -175,6 +192,29 @@ e_table_extras_get_compare  (ETableExtras *extras,
 			     char         *id)
 {
 	return g_hash_table_lookup(extras->compares, id);
+}
+
+void
+e_table_extras_add_search  (ETableExtras     *extras,
+			    char             *id,
+			    ETableSearchFunc  search)
+{
+	gchar *old_key;
+	ETableSearchFunc old_search;
+
+	if (g_hash_table_lookup_extended (extras->searches, id, (gpointer *)&old_key, (gpointer *)&old_search)) {
+		g_hash_table_remove (extras->searches, old_key);
+		g_free (old_key);
+	}
+
+	g_hash_table_insert(extras->searches, g_strdup(id), search);
+}
+
+ETableSearchFunc
+e_table_extras_get_search  (ETableExtras *extras,
+			    char         *id)
+{
+	return g_hash_table_lookup(extras->searches, id);
 }
 
 void

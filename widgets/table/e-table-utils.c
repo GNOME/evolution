@@ -71,11 +71,16 @@ et_col_spec_to_col (ETableColumnSpecification *col_spec,
 		    ETableExtras              *ete)
 {
 	ETableCol *col = NULL;
-	ECell *cell;
-	GCompareFunc compare;
+	ECell *cell = NULL;
+	GCompareFunc compare = NULL;
+	ETableSearchFunc search = NULL;
 
-	cell = e_table_extras_get_cell(ete, col_spec->cell);
-	compare = e_table_extras_get_compare(ete, col_spec->compare);
+	if (col_spec->cell)
+		cell = e_table_extras_get_cell(ete, col_spec->cell);
+	if (col_spec->compare)
+		compare = e_table_extras_get_compare(ete, col_spec->compare);
+	if (col_spec->search)
+		search = e_table_extras_get_search(ete, col_spec->search);
 
 	if (cell && compare) {
 		if (col_spec->pixbuf && *col_spec->pixbuf) {
@@ -97,6 +102,7 @@ et_col_spec_to_col (ETableColumnSpecification *col_spec,
 				col_spec->expansion, col_spec->minimum_width,
 				cell, compare, col_spec->resizable, col_spec->disabled, col_spec->priority);
 		}
+		col->search = search;
 	}
 	return col;
 }

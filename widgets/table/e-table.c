@@ -255,6 +255,16 @@ et_destroy (GtkObject *object)
 
 	et_disconnect_model (et);
 
+	if (et->search) {
+		if (et->search_search_id)
+			gtk_signal_disconnect (GTK_OBJECT (et->search),
+					       et->search_search_id);
+		if (et->search_accept_id)
+			gtk_signal_disconnect (GTK_OBJECT (et->search),
+					       et->search_accept_id);
+		gtk_object_unref (GTK_OBJECT (et->search));
+	}
+
 	if (et->group_info_change_id)
 		gtk_signal_disconnect (GTK_OBJECT (et->sort_info),
 				       et->group_info_change_id);
@@ -305,6 +315,76 @@ et_unrealize (GtkWidget *widget)
 		GTK_WIDGET_CLASS (parent_class)->unrealize (widget);
 }
 
+static gboolean
+check_row (ETable *et, int model_row, int col, ETableSearchFunc search, char *string)
+{
+	const void *value;
+
+	value = e_table_model_value_at (et->model, col, model_row);
+
+	return search (value, string);
+}
+
+static gboolean
+et_search_search (ETableSearch *search, char *string, ETable *et)
+{
+	int cursor;
+	int rows;
+	int i;
+	int col;
+	ETableSearchFunc search_func;
+
+	col = et->current_search_col;
+	if (col == -1)
+		return FALSE;
+
+	rows = e_table_model_row_count (et->model);
+
+	search_func = et->current_search;
+
+	gtk_object_get(GTK_OBJECT(et->selection),
+		       "cursor_row", &cursor,
+		       NULL);
+
+	cursor = e_sorter_model_to_sorted (E_SORTER (et->sorter), cursor);
+
+	for (i = cursor + 1; i < rows; i++) {
+		int model_row = e_sorter_sorted_to_model (E_SORTER (et->sorter), i);
+		if (check_row (et, model_row, col, search_func, string)) {
+			e_selection_model_select_as_key_press(E_SELECTION_MODEL (et->selection), model_row, col, GDK_CONTROL_MASK);
+			return TRUE;
+		}
+	}
+
+	for (i = 0; i < cursor; i++) {
+		int model_row = e_sorter_sorted_to_model (E_SORTER (et->sorter), i);
+		if (check_row (et, model_row, col, search_func, string)) {
+			e_selection_model_select_as_key_press(E_SELECTION_MODEL (et->selection), model_row, col, GDK_CONTROL_MASK);
+			return TRUE;
+		}
+	}
+
+	cursor = e_sorter_sorted_to_model (E_SORTER (et->sorter), cursor);
+
+	/* Check if the cursor row is the only matching row. */
+	return (cursor < rows && cursor >= 0 && check_row (et, cursor, col, search_func, string));
+}
+
+static void
+et_search_accept (ETableSearch *search, ETable *et)
+{
+	int col, cursor;
+
+	col = et->current_search_col;
+	if (col == -1)
+		return;
+
+	gtk_object_get(GTK_OBJECT(et->selection),
+		       "cursor_row", &cursor,
+		       NULL);
+	e_selection_model_select_as_key_press(E_SELECTION_MODEL (et->selection), cursor, col, 0);
+}
+
 static void
 e_table_init (GtkObject *object)
 {
@@ -351,6 +431,18 @@ e_table_init (GtkObject *object)
 	e_table->selection              = e_table_selection_model_new();
 	e_table->cursor_loc             = E_TABLE_CURSOR_LOC_NONE;
 	e_table->spec                   = NULL;
+
+	e_table->search                 = e_table_search_new();
+
+	e_table->search_search_id       = 
+		gtk_signal_connect (GTK_OBJECT (e_table->search), "search",
+				    GTK_SIGNAL_FUNC (et_search_search), e_table);
+	e_table->search_accept_id       = 
+		gtk_signal_connect (GTK_OBJECT (e_table->search), "accept",
+				    GTK_SIGNAL_FUNC (et_search_accept), e_table);
+
+	e_table->current_search         = NULL;
+	e_table->current_search_col     = -1;
 }
 
 /* Grab_focus handler for the ETable */
@@ -642,6 +734,11 @@ group_key_press (ETableGroup *etg, int row, int col, GdkEvent *event, ETable *et
 		return_val = 1;
 		break;
 	default:
+		if ((key->keyval >= GDK_a && key->keyval <= GDK_z) ||
+		    (key->keyval >= GDK_A && key->keyval <= GDK_Z) ||
+		    (key->keyval >= GDK_0 && key->keyval <= GDK_9)) {
+			e_table_search_input_character (et->search, key->keyval);
+		}
 		gtk_signal_emit (GTK_OBJECT (et),
 				 et_signals [KEY_PRESS],
 				 row, col, event, &return_val);
@@ -1220,6 +1317,7 @@ et_real_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 		   ETableSpecification *specification, ETableState *state)
 {
 	int row = 0;
+	int col_count, i;
 
 	if (ete)
 		gtk_object_ref(GTK_OBJECT(ete));
@@ -1235,6 +1333,16 @@ et_real_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 	e_table->draw_focus = specification->draw_focus;
 	e_table->cursor_mode = specification->cursor_mode;
 	e_table->full_header = e_table_spec_to_full_header(specification, ete);
+
+	col_count = e_table_header_count (e_table->full_header);
+	for (i = 0; i < col_count; i++) {
+		ETableCol *col = e_table_header_get_column(e_table->full_header, i);
+		if (col && col->search) {
+			e_table->current_search_col = col->col_idx;
+			e_table->current_search = col->search;
+			break;
+		}
+	}
 
 	gtk_object_set(GTK_OBJECT(e_table->selection),
 		       "selection_mode", specification->selection_mode,

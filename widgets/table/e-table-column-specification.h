@@ -52,6 +52,7 @@ typedef struct {
 
 	char *cell;
 	char *compare;
+	char *search;
 	int priority;
 } ETableColumnSpecification;
 

@@ -39,6 +39,7 @@
 #include <gal/widgets/e-printable.h>
 #include <gal/e-table/e-table-state.h>
 #include <gal/e-table/e-table-sorter.h>
+#include <gal/e-table/e-table-search.h>
 #include <libgnome/gnome-defs.h>
 
 BEGIN_GNOME_DECLS
@@ -73,6 +74,14 @@ typedef struct {
 	ETableSelectionModel *selection;
 	ETableCursorLoc cursor_loc;
 	ETableSpecification *spec;
+
+	ETableSearch     *search;
+
+	ETableSearchFunc  current_search;
+	int               current_search_col;
+
+	guint   	  search_search_id;
+	guint   	  search_accept_id;
 
 	int table_model_change_id;
 	int table_row_change_id;

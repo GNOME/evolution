@@ -39,6 +39,9 @@ BEGIN_GNOME_DECLS
 #define E_IS_CELL(o)       (GTK_CHECK_TYPE ((o), E_CELL_TYPE))
 #define E_IS_CELL_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_CELL_TYPE))
 
+typedef gboolean (*ETableSearchFunc) (gconstpointer haystack,
+				      const char *needle);
+
 typedef enum {
 	E_CELL_SELECTED       = 1 << 0,
 

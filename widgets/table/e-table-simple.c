@@ -281,3 +281,33 @@ e_table_simple_new  (ETableSimpleColumnCountFn      col_count,
 
 	return (ETableModel *) et;
 }
+
+void *
+e_table_simple_string_duplicate_value (ETableModel *etm, int col, const void *val, void *data)
+{
+	return g_strdup (val);
+}
+
+void
+e_table_simple_string_free_value (ETableModel *etm, int col, void *val, void *data)
+{
+	g_free (val);
+}
+
+void *
+e_table_simple_string_initialize_value (ETableModel *etm, int col, void *data)
+{
+	return g_strdup ("");
+}
+
+gboolean
+e_table_simple_string_value_is_empty (ETableModel *etm, int col, const void *val, void *data)
+{
+	return !(val && * (char *) val);
+}
+
+char *
+e_table_simple_string_value_to_string (ETableModel *etm, int col, const void *val, void *data)
+{
+	return g_strdup (val);
+}
