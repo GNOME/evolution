@@ -1,35 +1,61 @@
-Evolution 1.0.6, 00-00-0000
-
-  * Mailer
-
-    #25456 -- Crash when deleting an account that has not been added
-              to the Evolution storage yet.  (Jeff)
-
-    #24615 -- VFolders with the UNMATCHED vfolder as a source hang.
-              (Michael)
-
-    ------ -- Limit the size of UID arrays to 4k to make sure that the
-              FETCH command was small enough for some IMAP server 
-              limitations.  (Jeff)
-
-  * Calendar
-
-    #23350 -- Crash when refreshing meeting or task (JP)
-
-    #16962 -- Make the schedule page use the work hours set in the
-	      preferences (JP)
-
-    #24783 -- Fix crash in wombat (Rodrigo)
-
-    #25056 -- wombat segfaults when scrolling around calendar in month view
-              (Rodrigo)
-
-Evolution 1.0.5, 05-06-2002
+Evolution 1.0.6, 2002-06-03
 ---------------------------
 
 Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
 
-  * Mailer
+  * Calendar
+
+    #23350 -- Crash when refreshing meeting or task.  (JP)
+    #16962 -- Make the schedule page use the work hours set in the
+              preferences.  (JP)
+    #24783 -- Fix crash in wombat.  (Rodrigo)
+
+  * Mail
+
+    #11391 -- Bogus gnome_vfs_file_info_unref() that caused an
+              occasional crash.  (Frederic Crozat)
+    #19920 -- Messages hiding in threaded view.  (Michael)
+    #21604 -- Various crashes.  (Michael)
+    #23782 -- Stop button causes a hang.  (Michael)
+    #25056 -- wombat segfaults when scrolling around calendar in month view
+              (Rodrigo)
+    #25456 -- Crash when deleting an account that has not been added
+              to the Evolution storage yet.  (Jeff)
+    #24615 -- VFolders with the UNMATCHED vfolder as a source hang.
+              (Michael)
+
+  * Shell
+
+    #24284 -- Copyright notice inconsistent in the about box.
+              (Ettore)
+
+Other fixes:
+
+  * Mail
+
+    - Limit the size of UID arrays to 4k to make sure that the FETCH
+      command was small enough for some IMAP server limitations.
+      (Jeff)
+
+  * Misc
+
+    - Fixed some typos in the names of some French locations.
+      (Christophe Merlet)
+
+Updated translations:
+
+    - et (GNOME ET Team)
+    - sk (Stanislav Visnovsky)
+    - fr (Christophe Merlet)
+    - fi (Sami Pesonen)
+
+
+Evolution 1.0.5, 2002-05-06
+---------------------------
+
+Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
+
+  * Mail
 
     #24140 -- Crash when downloading a message with invalid header.
               (Jeff)
@@ -57,7 +83,7 @@ Updated translations:
   - pl (GNOME PL Team)
 
 
-Evolution 1.0.4, 04-18-2002
+Evolution 1.0.4, 2002-04-18
 ---------------------------
 
 Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
@@ -75,7 +101,7 @@ Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
 
     #22047 -- Crash after closing the start-up wizard.  (Ettore)
 
-  * Mailer
+  * Mail
 
      #8214 -- "Error Synchronizing Folder" on incoming mail spool.
               (Michael)
@@ -95,7 +121,7 @@ Other fixes:
     - Added getQuery method to CalBackend to allow custom queries for
       each calendar backend.  (Rodrigo)
 
-  * Mailer
+  * Mail
 
     - Fixed Daylight-Savings-Time calculations on systems that use 
       tm.tm_gmtoff rather than 'timezone' (affects BSD systems).  (Jeff)
@@ -120,7 +146,7 @@ Updated translations:
   - pt_BR (Gustavo Maciel Dias Vieira)
 
 
-Evolution 1.0.3, 03-19-2002
+Evolution 1.0.3, 2002-03-19
 ---------------------------
 
 Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
@@ -160,7 +186,7 @@ Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
     #21240 -- Calendar Reminders don't appear for appointments in remote
               servers.  (Rodrigo)
 
-  * Mailer
+  * Mail
 
     #19564 -- Don't crash when changing to disconnected mode.  (Michael)
     #20779 -- Set a 'name' parameter in the Content-Type header
@@ -212,7 +238,7 @@ Updated translations:
   - pt_BR (Gustavo Maciel Dias Vieira)
 
 
-Evolution 1.0.2, 01-24-2002
+Evolution 1.0.2, 2002-01-24
 ---------------------------
 
 Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
@@ -289,7 +315,7 @@ Updated translations:
   - sv (Christian Rose)
 
 
-Evolution 1.0.1, 12-18-2001
+Evolution 1.0.1, 2001-12-18
 ---------------------------
 
 New features:

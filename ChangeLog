@@ -1,3 +1,9 @@
+== Version 1.0.6. ==
+
+2002-06-03  Ettore Perazzoli  <ettore@ximian.com>
+
+	* configure.in: 1.0.6.
+
 2002-06-01  Tõivo Leedjärv  <toivo@linux.ee>
 
 	* configure.in: Added et to ALL_LINGUAS.

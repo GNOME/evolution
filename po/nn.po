@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution-1.01\n"
-"POT-Creation-Date: 2002-05-06 14:32-0400\n"
+"POT-Creation-Date: 2002-06-03 18:52-0400\n"
 "PO-Revision-Date: 2002-01-30 06:10+0100\n"
 "Last-Translator: Roy-Magne Mo <rmo@sunnmore.net>\n"
 "Language-Team: \n"
@@ -2695,7 +2695,7 @@ msgstr "Protokollen er ikkje støtta"
 #: calendar/gui/calendar-model.c:763 calendar/gui/calendar-model.c:1197
 #: calendar/gui/dialogs/task-details-page.glade.h:3
 #: calendar/gui/e-calendar-table.c:481 calendar/gui/print.c:2276
-#: camel/camel-service.c:610 camel/camel-service.c:646
+#: camel/camel-service.c:611 camel/camel-service.c:647
 msgid "Cancelled"
 msgstr "Avbroten"
 
@@ -7164,107 +7164,107 @@ msgstr ""
 msgid "SMTWTFS"
 msgstr "MTOTFLS"
 
-#: calendar/pcs/query.c:247
+#: calendar/pcs/query.c:248
 msgid "time-now expects 0 arguments"
 msgstr ""
 
-#: calendar/pcs/query.c:271
+#: calendar/pcs/query.c:272
 msgid "make-time expects 1 argument"
 msgstr ""
 
-#: calendar/pcs/query.c:276
+#: calendar/pcs/query.c:277
 msgid "make-time expects argument 1 to be a string"
 msgstr ""
 
-#: calendar/pcs/query.c:284
+#: calendar/pcs/query.c:285
 msgid "make-time argument 1 must be an ISO 8601 date/time string"
 msgstr ""
 
-#: calendar/pcs/query.c:313
+#: calendar/pcs/query.c:314
 msgid "time-add-day expects 2 arguments"
 msgstr ""
 
-#: calendar/pcs/query.c:318
+#: calendar/pcs/query.c:319
 msgid "time-add-day expects argument 1 to be a time_t"
 msgstr ""
 
-#: calendar/pcs/query.c:325
+#: calendar/pcs/query.c:326
 msgid "time-add-day expects argument 2 to be an integer"
 msgstr ""
 
-#: calendar/pcs/query.c:352
+#: calendar/pcs/query.c:353
 msgid "time-day-begin expects 1 argument"
 msgstr ""
 
-#: calendar/pcs/query.c:357
+#: calendar/pcs/query.c:358
 msgid "time-day-begin expects argument 1 to be a time_t"
 msgstr ""
 
-#: calendar/pcs/query.c:384
+#: calendar/pcs/query.c:385
 msgid "time-day-end expects 1 argument"
 msgstr ""
 
-#: calendar/pcs/query.c:389
+#: calendar/pcs/query.c:390
 msgid "time-day-end expects argument 1 to be a time_t"
 msgstr ""
 
-#: calendar/pcs/query.c:425
+#: calendar/pcs/query.c:426
 msgid "get-vtype expects 0 arguments"
 msgstr ""
 
-#: calendar/pcs/query.c:521
+#: calendar/pcs/query.c:522
 msgid "occur-in-time-range? expects 2 arguments"
 msgstr ""
 
-#: calendar/pcs/query.c:526
+#: calendar/pcs/query.c:527
 msgid "occur-in-time-range? expects argument 1 to be a time_t"
 msgstr ""
 
-#: calendar/pcs/query.c:533
+#: calendar/pcs/query.c:534
 msgid "occur-in-time-range? expects argument 2 to be a time_t"
 msgstr ""
 
-#: calendar/pcs/query.c:663
+#: calendar/pcs/query.c:664
 msgid "contains? expects 2 arguments"
 msgstr ""
 
-#: calendar/pcs/query.c:668
+#: calendar/pcs/query.c:669
 msgid "contains? expects argument 1 to be a string"
 msgstr ""
 
-#: calendar/pcs/query.c:675
+#: calendar/pcs/query.c:676
 msgid "contains? expects argument 2 to be a string"
 msgstr ""
 
-#: calendar/pcs/query.c:692
+#: calendar/pcs/query.c:693
 msgid ""
 "contains? expects argument 1 to be one of \"any\", \"summary\", \"description"
 "\""
 msgstr ""
 
-#: calendar/pcs/query.c:734
+#: calendar/pcs/query.c:735
 msgid "has-categories? expects at least 1 argument"
 msgstr ""
 
-#: calendar/pcs/query.c:746
+#: calendar/pcs/query.c:747
 msgid ""
 "has-categories? expects all arguments to be strings or one and only one "
 "argument to be a boolean false (#f)"
 msgstr ""
 
-#: calendar/pcs/query.c:834
+#: calendar/pcs/query.c:835
 msgid "is-completed? expects 0 arguments"
 msgstr ""
 
-#: calendar/pcs/query.c:879
+#: calendar/pcs/query.c:880
 msgid "completed-before? expects 1 argument"
 msgstr ""
 
-#: calendar/pcs/query.c:884
+#: calendar/pcs/query.c:885
 msgid "completed-before? expects argument 1 to be a time_t"
 msgstr ""
 
-#: calendar/pcs/query.c:1161
+#: calendar/pcs/query.c:1160
 msgid "Evaluation of the search expression did not yield a boolean value"
 msgstr ""
 
@@ -7834,22 +7834,22 @@ msgstr ""
 msgid "URL '%s' needs a path component"
 msgstr ""
 
-#: camel/camel-service.c:614
+#: camel/camel-service.c:615
 #, c-format
 msgid "Resolving: %s"
 msgstr "Slår opp: %s"
 
-#: camel/camel-service.c:641
+#: camel/camel-service.c:642
 #, c-format
 msgid "Failure in name lookup: %s"
 msgstr "Feil i namneoppslag: %s"
 
-#: camel/camel-service.c:666
+#: camel/camel-service.c:667
 #, c-format
 msgid "Host lookup failed: %s: host not found"
 msgstr ""
 
-#: camel/camel-service.c:668
+#: camel/camel-service.c:669
 #, c-format
 msgid "Host lookup failed: %s: unknown reason"
 msgstr ""
@@ -7956,12 +7956,12 @@ msgstr ""
 msgid "Could not parse URL `%s'"
 msgstr "Klarter ikkje å tolke URL frå «%s»"
 
-#: camel/camel-vee-folder.c:588
+#: camel/camel-vee-folder.c:589
 #, c-format
 msgid "No such message %s in %s"
 msgstr "Inga slik melding %s i %s"
 
-#: camel/camel-vee-folder.c:749
+#: camel/camel-vee-folder.c:750
 #, c-format
 msgid "No such message: %s"
 msgstr "Inga slik melding: %s"
@@ -8015,45 +8015,45 @@ msgstr ""
 msgid "Unexpected OK response from IMAP server: %s"
 msgstr ""
 
-#: camel/providers/imap/camel-imap-folder.c:194
+#: camel/providers/imap/camel-imap-folder.c:198
 #, fuzzy, c-format
 msgid "Could not create directory %s: %s"
 msgstr ""
 "Kan ikkje laga heimekatalog\n"
 "Feil: %1"
 
-#: camel/providers/imap/camel-imap-folder.c:213
+#: camel/providers/imap/camel-imap-folder.c:217
 #, fuzzy, c-format
 msgid "Could not load summary for %s"
 msgstr "Kunne ikkje lasta kalender '%1'.\n"
 
-#: camel/providers/imap/camel-imap-folder.c:277
+#: camel/providers/imap/camel-imap-folder.c:281
 msgid "Folder was destroyed and recreated on server."
 msgstr ""
 
 #. Check UIDs and flags of all messages we already know of.
-#: camel/providers/imap/camel-imap-folder.c:461
+#: camel/providers/imap/camel-imap-folder.c:465
 #, fuzzy
 msgid "Scanning for changed messages"
 msgstr "Melding"
 
-#: camel/providers/imap/camel-imap-folder.c:1585
-#: camel/providers/imap/camel-imap-folder.c:2028
+#: camel/providers/imap/camel-imap-folder.c:1626
+#: camel/providers/imap/camel-imap-folder.c:2081
 #, fuzzy
 msgid "This message is not currently available"
 msgstr "%1 er ikkje tilgjengeleg."
 
-#: camel/providers/imap/camel-imap-folder.c:1740
-#: camel/providers/imap/camel-imap-folder.c:1821
+#: camel/providers/imap/camel-imap-folder.c:1781
+#: camel/providers/imap/camel-imap-folder.c:1855
 msgid "Fetching summary information for new messages"
 msgstr ""
 
-#: camel/providers/imap/camel-imap-folder.c:1746
+#: camel/providers/imap/camel-imap-folder.c:1787
 #, fuzzy
 msgid "Scanning for new messages"
 msgstr "Melding"
 
-#: camel/providers/imap/camel-imap-folder.c:2065
+#: camel/providers/imap/camel-imap-folder.c:2118
 msgid "Could not find message body in FETCH response."
 msgstr ""
 
@@ -19001,84 +19001,85 @@ msgid "Monida"
 msgstr "Monida"
 
 #: my-evolution/Locations.h:1434
-msgid "Monpellier-Mediterrannee"
-msgstr "Monpellier-Mediterrannee"
-
-#: my-evolution/Locations.h:1435
 msgid "Monroe"
 msgstr "Monroe"
 
-#: my-evolution/Locations.h:1436
+#: my-evolution/Locations.h:1435
 msgid "Montague"
 msgstr "Montague"
 
-#: my-evolution/Locations.h:1437
+#: my-evolution/Locations.h:1436
 msgid "Montana"
 msgstr "Montana"
 
-#: my-evolution/Locations.h:1438
+#: my-evolution/Locations.h:1437
 msgid "Mont-de-Marsan"
 msgstr "Mont-de-Marsan"
 
-#: my-evolution/Locations.h:1439
+#: my-evolution/Locations.h:1438
 msgid "Monte Argentario"
 msgstr "Monte Argentario"
 
-#: my-evolution/Locations.h:1440
+#: my-evolution/Locations.h:1439
 msgid "Monte Bisbino"
 msgstr "Monte Bisbino"
 
-#: my-evolution/Locations.h:1441
+#: my-evolution/Locations.h:1440
 msgid "Monte Calamita"
 msgstr "Monte Calamita"
 
-#: my-evolution/Locations.h:1442
+#: my-evolution/Locations.h:1441
 msgid "Monte Cimone"
 msgstr "Monte Cimone"
 
-#: my-evolution/Locations.h:1443
+#: my-evolution/Locations.h:1442
 msgid "Montego Bay"
 msgstr "Montego Bay"
 
-#: my-evolution/Locations.h:1444
+#: my-evolution/Locations.h:1443
 msgid "Monte Malanotte"
 msgstr "Monte Malanotte"
 
-#: my-evolution/Locations.h:1445
+#: my-evolution/Locations.h:1444
 msgid "Monterey"
 msgstr "Monterey"
 
-#: my-evolution/Locations.h:1446
+#: my-evolution/Locations.h:1445
 msgid "Monterrey"
 msgstr "Monterrey"
 
-#: my-evolution/Locations.h:1447
+#: my-evolution/Locations.h:1446
 msgid "Monte Scuro"
 msgstr "Monte Scuro"
 
-#: my-evolution/Locations.h:1448
+#: my-evolution/Locations.h:1447
 msgid "Monte Terminillo"
 msgstr "Monte Terminillo"
 
-#: my-evolution/Locations.h:1449
+#: my-evolution/Locations.h:1448
 msgid "Montevideo/Carrasco"
 msgstr "Montevideo/Carrasco"
 
-#: my-evolution/Locations.h:1450
+#: my-evolution/Locations.h:1449
 msgid "Montgomery"
 msgstr "Montgomery"
 
-#: my-evolution/Locations.h:1451
+#: my-evolution/Locations.h:1450
 msgid "Montgomery-Maxwell AFB"
 msgstr "Montgomery-Maxwell AFB"
 
-#: my-evolution/Locations.h:1452
+#: my-evolution/Locations.h:1451
 msgid "Monticello"
 msgstr "Monticello"
 
-#: my-evolution/Locations.h:1453
+#: my-evolution/Locations.h:1452
 msgid "Montpelier"
 msgstr "Montpelier"
+
+#: my-evolution/Locations.h:1453
+#, fuzzy
+msgid "Montpellier-Mediterranee"
+msgstr "Monpellier-Mediterrannee"
 
 #: my-evolution/Locations.h:1454
 msgid "Montreal Dorval"
@@ -19289,7 +19290,8 @@ msgid "Nanning"
 msgstr "Nanning"
 
 #: my-evolution/Locations.h:1507
-msgid "Nantes Adlantique"
+#, fuzzy
+msgid "Nantes Atlantique"
 msgstr "Nantes Adlantique"
 
 #: my-evolution/Locations.h:1508
@@ -23347,7 +23349,8 @@ msgid "Evolution "
 msgstr "Evolution"
 
 #: shell/e-shell-about-box.c:41
-msgid "Copyright 1999, 2000, 2001 Ximian, Inc."
+#, fuzzy
+msgid "Copyright 1999-2002 Ximian, Inc."
 msgstr "Opphavsrett © 1999, 2000, 2001 Ximian, Inc."
 
 #: shell/e-shell-about-box.c:43

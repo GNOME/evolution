@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.16.99\n"
-"POT-Creation-Date: 2002-05-06 14:32-0400\n"
+"POT-Creation-Date: 2002-06-03 18:52-0400\n"
 "PO-Revision-Date: 2001-09-10 09:55+0800\n"
 "Last-Translator: Joe Man <trmetal@yahoo.com.hk>\n"
 "Language-Team: Chinese <zh-l10n@linux.org.tw>\n"
@@ -3242,7 +3242,7 @@ msgstr "通訊協定不支援"
 #: calendar/gui/calendar-model.c:763 calendar/gui/calendar-model.c:1197
 #: calendar/gui/dialogs/task-details-page.glade.h:3
 #: calendar/gui/e-calendar-table.c:481 calendar/gui/print.c:2276
-#: camel/camel-service.c:610 camel/camel-service.c:646
+#: camel/camel-service.c:611 camel/camel-service.c:647
 msgid "Cancelled"
 msgstr "已取消"
 
@@ -8493,90 +8493,90 @@ msgstr ""
 msgid "SMTWTFS"
 msgstr "日一二三四五六"
 
-#: calendar/pcs/query.c:247
+#: calendar/pcs/query.c:248
 msgid "time-now expects 0 arguments"
 msgstr "time-now 要求 0 個參數"
 
-#: calendar/pcs/query.c:271
+#: calendar/pcs/query.c:272
 msgid "make-time expects 1 argument"
 msgstr "make-time 要求 1 個參數"
 
-#: calendar/pcs/query.c:276
+#: calendar/pcs/query.c:277
 msgid "make-time expects argument 1 to be a string"
 msgstr "make-time 要求參數 1 為字串"
 
-#: calendar/pcs/query.c:284
+#: calendar/pcs/query.c:285
 msgid "make-time argument 1 must be an ISO 8601 date/time string"
 msgstr "make-time 參數 1 必須為 ISO 8601 日期/時間字串"
 
-#: calendar/pcs/query.c:313
+#: calendar/pcs/query.c:314
 msgid "time-add-day expects 2 arguments"
 msgstr "time-add-day 要求 2 個參數"
 
-#: calendar/pcs/query.c:318
+#: calendar/pcs/query.c:319
 msgid "time-add-day expects argument 1 to be a time_t"
 msgstr "time-add-day 要求參數 1 為 time_t"
 
-#: calendar/pcs/query.c:325
+#: calendar/pcs/query.c:326
 msgid "time-add-day expects argument 2 to be an integer"
 msgstr "time-add-day 要求參數 2 為整數"
 
-#: calendar/pcs/query.c:352
+#: calendar/pcs/query.c:353
 msgid "time-day-begin expects 1 argument"
 msgstr "time-day-begin 要求 1 個參數"
 
-#: calendar/pcs/query.c:357
+#: calendar/pcs/query.c:358
 msgid "time-day-begin expects argument 1 to be a time_t"
 msgstr "time-day-begin 要求參數 1 為 time_t"
 
-#: calendar/pcs/query.c:384
+#: calendar/pcs/query.c:385
 msgid "time-day-end expects 1 argument"
 msgstr "time-day-end 要求 1 個參數"
 
-#: calendar/pcs/query.c:389
+#: calendar/pcs/query.c:390
 msgid "time-day-end expects argument 1 to be a time_t"
 msgstr "time-day-end 要求參數 1 為 time_t"
 
-#: calendar/pcs/query.c:425
+#: calendar/pcs/query.c:426
 msgid "get-vtype expects 0 arguments"
 msgstr "get-vtype 要求 0 個參數"
 
-#: calendar/pcs/query.c:521
+#: calendar/pcs/query.c:522
 msgid "occur-in-time-range? expects 2 arguments"
 msgstr "occur-in-time-range? 要求 2 個參數"
 
-#: calendar/pcs/query.c:526
+#: calendar/pcs/query.c:527
 msgid "occur-in-time-range? expects argument 1 to be a time_t"
 msgstr "occur-in-time-range? 要求參數 1 為 time_t"
 
-#: calendar/pcs/query.c:533
+#: calendar/pcs/query.c:534
 msgid "occur-in-time-range? expects argument 2 to be a time_t"
 msgstr "occur-in-time-range? 要求參數 2 為 time_t"
 
 # camel/providers/smtp/camel-smtp-transport.c:170
-#: calendar/pcs/query.c:663
+#: calendar/pcs/query.c:664
 msgid "contains? expects 2 arguments"
 msgstr "contains? 要求 2 個參數"
 
-#: calendar/pcs/query.c:668
+#: calendar/pcs/query.c:669
 msgid "contains? expects argument 1 to be a string"
 msgstr "contains? 要求參數 1 為字串"
 
-#: calendar/pcs/query.c:675
+#: calendar/pcs/query.c:676
 msgid "contains? expects argument 2 to be a string"
 msgstr "contains? 要求參數 2 為字串"
 
-#: calendar/pcs/query.c:692
+#: calendar/pcs/query.c:693
 msgid ""
 "contains? expects argument 1 to be one of \"any\", \"summary\", \"description"
 "\""
 msgstr "contains? 要求參數 1 為 \"any\", \"summary\", \"description\" 其中之一"
 
-#: calendar/pcs/query.c:734
+#: calendar/pcs/query.c:735
 msgid "has-categories? expects at least 1 argument"
 msgstr "has-categories? 要求至少 1 個參數"
 
-#: calendar/pcs/query.c:746
+#: calendar/pcs/query.c:747
 msgid ""
 "has-categories? expects all arguments to be strings or one and only one "
 "argument to be a boolean false (#f)"
@@ -8584,22 +8584,22 @@ msgstr ""
 "has-categories? 要求所有的參數為字串或僅有的一個為布林值 false(#f) 的參數"
 
 # camel/providers/smtp/camel-smtp-transport.c:170
-#: calendar/pcs/query.c:834
+#: calendar/pcs/query.c:835
 msgid "is-completed? expects 0 arguments"
 msgstr "is-completed? 要求 0 個參數"
 
 # camel/providers/smtp/camel-smtp-transport.c:170
-#: calendar/pcs/query.c:879
+#: calendar/pcs/query.c:880
 #, fuzzy
 msgid "completed-before? expects 1 argument"
 msgstr "is-completed? 要求 0 個參數"
 
-#: calendar/pcs/query.c:884
+#: calendar/pcs/query.c:885
 #, fuzzy
 msgid "completed-before? expects argument 1 to be a time_t"
 msgstr "time-day-begin 要求參數 1 為 time_t"
 
-#: calendar/pcs/query.c:1161
+#: calendar/pcs/query.c:1160
 msgid "Evaluation of the search expression did not yield a boolean value"
 msgstr "搜尋表示出的值結果不能為布林值"
 
@@ -9299,25 +9299,25 @@ msgid "URL '%s' needs a path component"
 msgstr "URL '%s' 須要 path 元件"
 
 # camel/camel-service.c:548
-#: camel/camel-service.c:614
+#: camel/camel-service.c:615
 #, c-format
 msgid "Resolving: %s"
 msgstr "解析：%s"
 
 # camel/camel-service.c:575
-#: camel/camel-service.c:641
+#: camel/camel-service.c:642
 #, c-format
 msgid "Failure in name lookup: %s"
 msgstr "搜尋名稱失敗： %s"
 
 # camel/camel-service.c:600
-#: camel/camel-service.c:666
+#: camel/camel-service.c:667
 #, c-format
 msgid "Host lookup failed: %s: host not found"
 msgstr "搜尋主機失敗： %s ：找不到主機"
 
 # camel/camel-service.c:602
-#: camel/camel-service.c:668
+#: camel/camel-service.c:669
 #, c-format
 msgid "Host lookup failed: %s: unknown reason"
 msgstr "搜尋主機失敗： %s ：不明原因"
@@ -9449,13 +9449,13 @@ msgid "Could not parse URL `%s'"
 msgstr "不能分析 URL `%s'"
 
 # camel/camel-vee-folder.c:451
-#: camel/camel-vee-folder.c:588
+#: camel/camel-vee-folder.c:589
 #, c-format
 msgid "No such message %s in %s"
 msgstr "%2$s 沒有 %1$s 這個郵件"
 
 # camel/camel-vee-folder.c:546
-#: camel/camel-vee-folder.c:749
+#: camel/camel-vee-folder.c:750
 #, c-format
 msgid "No such message: %s"
 msgstr "沒有這個郵件： %s"
@@ -9525,47 +9525,47 @@ msgid "Unexpected OK response from IMAP server: %s"
 msgstr "從 IMAP 伺服器傳回不當的 OK 回應： %s"
 
 # camel/providers/imap/camel-imap-folder.c:172
-#: camel/providers/imap/camel-imap-folder.c:194
+#: camel/providers/imap/camel-imap-folder.c:198
 #, c-format
 msgid "Could not create directory %s: %s"
 msgstr "不能建立目錄 %s： %s"
 
 # camel/providers/imap/camel-imap-folder.c:191
-#: camel/providers/imap/camel-imap-folder.c:213
+#: camel/providers/imap/camel-imap-folder.c:217
 #, c-format
 msgid "Could not load summary for %s"
 msgstr "不能載入給 %s 的摘要"
 
-#: camel/providers/imap/camel-imap-folder.c:277
+#: camel/providers/imap/camel-imap-folder.c:281
 msgid "Folder was destroyed and recreated on server."
 msgstr "資料夾已破壞並在伺服器上重建。"
 
 # mail/mail-ops.c:1649
 #. Check UIDs and flags of all messages we already know of.
-#: camel/providers/imap/camel-imap-folder.c:461
+#: camel/providers/imap/camel-imap-folder.c:465
 msgid "Scanning for changed messages"
 msgstr "掃描變更過的郵件"
 
 # camel/providers/imap/camel-imap-folder.c:1047
 # camel/providers/imap/camel-imap-folder.c:1281
-#: camel/providers/imap/camel-imap-folder.c:1585
-#: camel/providers/imap/camel-imap-folder.c:2028
+#: camel/providers/imap/camel-imap-folder.c:1626
+#: camel/providers/imap/camel-imap-folder.c:2081
 msgid "This message is not currently available"
 msgstr "這封郵件目前仍未可用"
 
-#: camel/providers/imap/camel-imap-folder.c:1740
-#: camel/providers/imap/camel-imap-folder.c:1821
+#: camel/providers/imap/camel-imap-folder.c:1781
+#: camel/providers/imap/camel-imap-folder.c:1855
 msgid "Fetching summary information for new messages"
 msgstr "正取得新郵件的摘要資訊"
 
 # mail/mail-ops.c:992
-#: camel/providers/imap/camel-imap-folder.c:1746
+#: camel/providers/imap/camel-imap-folder.c:1787
 msgid "Scanning for new messages"
 msgstr "掃描新郵件"
 
 # camel/providers/imap/camel-imap-folder.c:1075
 # camel/providers/imap/camel-imap-folder.c:1314
-#: camel/providers/imap/camel-imap-folder.c:2065
+#: camel/providers/imap/camel-imap-folder.c:2118
 msgid "Could not find message body in FETCH response."
 msgstr "在 FETCH 的回應內找不到郵件的內文。"
 
@@ -22408,104 +22408,104 @@ msgstr "摩納哥"
 msgid "Monida"
 msgstr "星期一"
 
-#: my-evolution/Locations.h:1434
-msgid "Monpellier-Mediterrannee"
-msgstr ""
-
 # calendar/gui/dialogs/cal-prefs-dialog.glade.h:30
 # calendar/gui/event-editor.c:475
-#: my-evolution/Locations.h:1435
+#: my-evolution/Locations.h:1434
 #, fuzzy
 msgid "Monroe"
 msgstr "摩納哥"
 
 # addressbook/gui/widgets/e-addressbook-view.c:732
-#: my-evolution/Locations.h:1436
+#: my-evolution/Locations.h:1435
 #, fuzzy
 msgid "Montague"
 msgstr "主管"
 
 # ui/evolution-calendar.xml.h:15
-#: my-evolution/Locations.h:1437
+#: my-evolution/Locations.h:1436
 #, fuzzy
 msgid "Montana"
 msgstr "月"
 
-#: my-evolution/Locations.h:1438
+#: my-evolution/Locations.h:1437
 msgid "Mont-de-Marsan"
 msgstr ""
 
-#: my-evolution/Locations.h:1439
+#: my-evolution/Locations.h:1438
 msgid "Monte Argentario"
 msgstr ""
 
-#: my-evolution/Locations.h:1440
+#: my-evolution/Locations.h:1439
 #, fuzzy
 msgid "Monte Bisbino"
 msgstr "中雪"
 
-#: my-evolution/Locations.h:1441
+#: my-evolution/Locations.h:1440
 msgid "Monte Calamita"
 msgstr ""
 
 # ui/evolution-calendar.xml.h:15
-#: my-evolution/Locations.h:1442
+#: my-evolution/Locations.h:1441
 #, fuzzy
 msgid "Monte Cimone"
 msgstr "月檢視"
 
-#: my-evolution/Locations.h:1443
+#: my-evolution/Locations.h:1442
 #, fuzzy
 msgid "Montego Bay"
 msgstr "蒙古"
 
-#: my-evolution/Locations.h:1444
+#: my-evolution/Locations.h:1443
 msgid "Monte Malanotte"
 msgstr ""
 
-#: my-evolution/Locations.h:1445
+#: my-evolution/Locations.h:1444
 #, fuzzy
 msgid "Monterey"
 msgstr "蒙瑟拉特島"
 
-#: my-evolution/Locations.h:1446
+#: my-evolution/Locations.h:1445
 #, fuzzy
 msgid "Monterrey"
 msgstr "蒙瑟拉特島"
 
-#: my-evolution/Locations.h:1447
+#: my-evolution/Locations.h:1446
 msgid "Monte Scuro"
 msgstr ""
 
-#: my-evolution/Locations.h:1448
+#: my-evolution/Locations.h:1447
 msgid "Monte Terminillo"
 msgstr ""
 
-#: my-evolution/Locations.h:1449
+#: my-evolution/Locations.h:1448
 msgid "Montevideo/Carrasco"
 msgstr ""
 
-#: my-evolution/Locations.h:1450
+#: my-evolution/Locations.h:1449
 #, fuzzy
 msgid "Montgomery"
 msgstr "蒙瑟拉特島"
 
-#: my-evolution/Locations.h:1451
+#: my-evolution/Locations.h:1450
 msgid "Montgomery-Maxwell AFB"
 msgstr ""
 
 # calendar/gui/dialogs/cal-prefs-dialog.glade.h:30
 # calendar/gui/event-editor.c:475
-#: my-evolution/Locations.h:1452
+#: my-evolution/Locations.h:1451
 #, fuzzy
 msgid "Monticello"
 msgstr "摩納哥"
 
 # ui/evolution-calendar.xml.h:15
-#: my-evolution/Locations.h:1453
+#: my-evolution/Locations.h:1452
 #, fuzzy
 msgid "Montpelier"
 msgstr "月檢視"
+
+#: my-evolution/Locations.h:1453
+msgid "Montpellier-Mediterranee"
+msgstr ""
 
 #: my-evolution/Locations.h:1454
 msgid "Montreal Dorval"
@@ -22744,7 +22744,7 @@ msgid "Nanning"
 msgstr "警告"
 
 #: my-evolution/Locations.h:1507
-msgid "Nantes Adlantique"
+msgid "Nantes Atlantique"
 msgstr ""
 
 #: my-evolution/Locations.h:1508
@@ -27726,7 +27726,8 @@ msgstr "Evolution"
 
 # shell/e-shell-view-menu.c:230
 #: shell/e-shell-about-box.c:41
-msgid "Copyright 1999, 2000, 2001 Ximian, Inc."
+#, fuzzy
+msgid "Copyright 1999-2002 Ximian, Inc."
 msgstr "版權 1999, 2000, 2001 Ximian, Inc."
 
 #: shell/e-shell-about-box.c:43

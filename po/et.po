@@ -12,7 +12,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Evolution 1.0.5\n"
-"POT-Creation-Date: 2002-06-01 17:22+0300\n"
+"POT-Creation-Date: 2002-06-03 18:52-0400\n"
 "PO-Revision-Date: 2002-05-27 19:18+0200\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
@@ -5889,46 +5889,57 @@ msgid "_Due Date:"
 msgstr "_T‰htaeg:"
 
 #: calendar/gui/e-calendar-table.c:427
+#, c-format
 msgid "0%"
 msgstr "0%"
 
 #: calendar/gui/e-calendar-table.c:428
+#, c-format
 msgid "10%"
 msgstr "10%"
 
 #: calendar/gui/e-calendar-table.c:429
+#, c-format
 msgid "20%"
 msgstr "20%"
 
 #: calendar/gui/e-calendar-table.c:430
+#, c-format
 msgid "30%"
 msgstr "30%"
 
 #: calendar/gui/e-calendar-table.c:431
+#, c-format
 msgid "40%"
 msgstr "40%"
 
 #: calendar/gui/e-calendar-table.c:432
+#, c-format
 msgid "50%"
 msgstr "50%"
 
 #: calendar/gui/e-calendar-table.c:433
+#, c-format
 msgid "60%"
 msgstr "60%"
 
 #: calendar/gui/e-calendar-table.c:434
+#, c-format
 msgid "70%"
 msgstr "70%"
 
 #: calendar/gui/e-calendar-table.c:435
+#, c-format
 msgid "80%"
 msgstr "80%"
 
 #: calendar/gui/e-calendar-table.c:436
+#, c-format
 msgid "90%"
 msgstr "90%"
 
 #: calendar/gui/e-calendar-table.c:437
+#, c-format
 msgid "100%"
 msgstr "100%"
 
@@ -7879,12 +7890,12 @@ msgstr ""
 msgid "Could not parse URL `%s'"
 msgstr ""
 
-#: camel/camel-vee-folder.c:588
+#: camel/camel-vee-folder.c:589
 #, c-format
 msgid "No such message %s in %s"
 msgstr ""
 
-#: camel/camel-vee-folder.c:749
+#: camel/camel-vee-folder.c:750
 #, c-format
 msgid "No such message: %s"
 msgstr "Sınumit %s ei leitud"
@@ -7937,40 +7948,40 @@ msgstr "IMAP serveri vastus ei sisaldanud %s infot"
 msgid "Unexpected OK response from IMAP server: %s"
 msgstr "Ootamatu OK vastus IMAP serverilt: %s"
 
-#: camel/providers/imap/camel-imap-folder.c:194
+#: camel/providers/imap/camel-imap-folder.c:198
 #, c-format
 msgid "Could not create directory %s: %s"
 msgstr "Ei saa luua kataloogi %s: %s"
 
-#: camel/providers/imap/camel-imap-folder.c:213
+#: camel/providers/imap/camel-imap-folder.c:217
 #, c-format
 msgid "Could not load summary for %s"
 msgstr "Ei saa laadida %s kokkuvıtet"
 
-#: camel/providers/imap/camel-imap-folder.c:277
+#: camel/providers/imap/camel-imap-folder.c:281
 msgid "Folder was destroyed and recreated on server."
 msgstr "Kaust h‰vitati ja taasloodi serveris."
 
 #. Check UIDs and flags of all messages we already know of.
-#: camel/providers/imap/camel-imap-folder.c:461
+#: camel/providers/imap/camel-imap-folder.c:465
 msgid "Scanning for changed messages"
 msgstr "Kontrollin muudetud sınumite olemasolu"
 
-#: camel/providers/imap/camel-imap-folder.c:1585
-#: camel/providers/imap/camel-imap-folder.c:2028
+#: camel/providers/imap/camel-imap-folder.c:1626
+#: camel/providers/imap/camel-imap-folder.c:2081
 msgid "This message is not currently available"
 msgstr "See sınum ei ole hetkel k‰ttesaadav"
 
-#: camel/providers/imap/camel-imap-folder.c:1740
-#: camel/providers/imap/camel-imap-folder.c:1821
+#: camel/providers/imap/camel-imap-folder.c:1781
+#: camel/providers/imap/camel-imap-folder.c:1855
 msgid "Fetching summary information for new messages"
 msgstr "Vıtan kokkuvıtvat infot uute sınumite kohta"
 
-#: camel/providers/imap/camel-imap-folder.c:1746
+#: camel/providers/imap/camel-imap-folder.c:1787
 msgid "Scanning for new messages"
 msgstr "Kontrollin uute sınumite olemasolu"
 
-#: camel/providers/imap/camel-imap-folder.c:2065
+#: camel/providers/imap/camel-imap-folder.c:2118
 msgid "Could not find message body in FETCH response."
 msgstr "Ei leia sınumi sisu FETCH vastuses."
 
@@ -12319,7 +12330,7 @@ msgid "Freezing ice pellets"
 msgstr "J‰‰tuvad j‰‰terad"
 
 #. HAIL
-#: my-evolution/metar.c:217 my-evolution/Locations.h:883
+#: my-evolution/Locations.h:883 my-evolution/metar.c:217
 msgid "Hail"
 msgstr "Rahe"
 
@@ -23041,7 +23052,8 @@ msgid "Evolution "
 msgstr "Evolution "
 
 #: shell/e-shell-about-box.c:41
-msgid "Copyright 1999, 2000, 2001 Ximian, Inc."
+#, fuzzy
+msgid "Copyright 1999-2002 Ximian, Inc."
 msgstr "Copyright 1999, 2000, 2001 Ximian, Inc."
 
 #: shell/e-shell-about-box.c:43
