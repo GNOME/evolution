@@ -1,5 +1,5 @@
 
-soundsdir = $(datadir)/evolution/sounds
+soundsdir = $(datadir)/evolution-$(BASE_VERSION)/sounds
 
 sounds_DATA = \
 	default_alarm.wav
