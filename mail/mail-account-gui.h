@@ -68,7 +68,9 @@ typedef struct {
 	GnomeFileEntry *signature;
 	GnomeFileEntry *html_signature;
 	GtkToggleButton *has_html_signature;
-	
+	GtkButton *edit_signature;
+	GtkButton *edit_html_signature;
+
 	/* incoming mail */
 	MailAccountGuiService source;
 	GtkToggleButton *source_auto_check;

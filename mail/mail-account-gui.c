@@ -28,11 +28,13 @@
 
 #include <string.h>
 
+#include <bonobo.h>
 #include <gal/widgets/e-unicode.h>
 
 #include "shell/evolution-shell-client.h"
 #include "mail-account-gui.h"
 #include "mail-session.h"
+#include "e-msg-composer.h"
 
 extern char *default_drafts_folder_uri, *default_sent_folder_uri;
 
@@ -778,6 +780,225 @@ provider_compare (const CamelProvider *p1, const CamelProvider *p2)
 	}
 }
 
+/*
+ * Signature editor
+ *
+ */
+
+struct _ESignatureEditor {
+	MailAccountGui *gui;
+	GtkWidget *win;
+	GtkWidget *control;
+
+	gchar *filename;
+	gboolean html;
+	gboolean has_changed;
+};
+typedef struct _ESignatureEditor ESignatureEditor;
+
+#define E_SIGNATURE_EDITOR(o) ((ESignatureEditor *) o)
+
+#define DEFAULT_WIDTH 600
+#define DEFAULT_HEIGHT 500
+
+enum { REPLY_YES = 0, REPLY_NO, REPLY_CANCEL };
+
+static void
+destroy_editor (ESignatureEditor *editor)
+{
+		gtk_widget_destroy (editor->win);
+		g_free (editor->filename);
+		g_free (editor);
+}
+
+static void
+exit_dialog_cb (int reply, ESignatureEditor *editor)
+{
+	switch (reply) {
+	case REPLY_YES:
+		/* this has to be done async */
+		// save_signature (editor);
+		destroy_editor (editor);
+		break;
+	case REPLY_NO:
+		destroy_editor (editor);
+		break;
+	case REPLY_CANCEL:
+	default:
+	}
+}
+
+static void
+do_exit (ESignatureEditor *editor)
+{
+	if (editor->has_changed) {
+		GtkWidget *dialog;
+		GtkWidget *label;
+		gint button;
+
+		dialog = gnome_dialog_new (_("Save signature"),
+					   GNOME_STOCK_BUTTON_YES,      /* Save */
+					   GNOME_STOCK_BUTTON_NO,       /* Don't save */
+					   GNOME_STOCK_BUTTON_CANCEL,   /* Cancel */
+					   NULL);
+		
+		label = gtk_label_new (_("This signature has been changed, but hasn't been saved.\n"
+					 "\nDo you wish to save your changes?"));
+		gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), label, TRUE, TRUE, 0);
+		gtk_widget_show (label);
+		gnome_dialog_set_parent (GNOME_DIALOG (dialog), GTK_WINDOW (editor->win));
+		gnome_dialog_set_default (GNOME_DIALOG (dialog), 0);
+		button = gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+
+		exit_dialog_cb (button, editor);
+	} else
+		destroy_editor (editor);
+}
+
+static void
+menu_file_save_cb (BonoboUIComponent *uic,
+		   void *data,
+		   const char *path)
+{
+	ESignatureEditor *editor;
+	Bonobo_PersistFile pfile_iface;
+	CORBA_Environment ev;
+
+	editor = E_SIGNATURE_EDITOR (data);
+	if (editor->html) {
+		CORBA_exception_init (&ev);
+
+		pfile_iface = bonobo_object_client_query_interface (bonobo_widget_get_server (BONOBO_WIDGET (editor->control)),
+								    "IDL:Bonobo/PersistFile:1.0", NULL);
+		Bonobo_PersistFile_save (pfile_iface, editor->filename, &ev);
+		if (ev._major != CORBA_NO_EXCEPTION)
+			g_warning ("Cannot save.");
+		CORBA_exception_free (&ev);
+	} else {
+		/* TODO: save plain version */
+		g_warning ("TODO: save plain version");
+	}
+}
+
+static void
+menu_file_close_cb (BonoboUIComponent *uic, gpointer data, const gchar *path)
+{
+	ESignatureEditor *editor;
+
+	editor = E_SIGNATURE_EDITOR (data);
+	do_exit (editor);
+}
+
+static BonoboUIVerb verbs [] = {
+
+	BONOBO_UI_VERB ("FileSave",   menu_file_save_cb),
+	BONOBO_UI_VERB ("FileClose",  menu_file_close_cb),
+
+	BONOBO_UI_VERB_END
+};
+
+static void
+load_signature (ESignatureEditor *editor)
+{
+	CORBA_Environment ev;
+
+	if (editor->html) {
+		Bonobo_PersistFile pfile_iface;
+
+		pfile_iface = bonobo_object_client_query_interface (bonobo_widget_get_server (BONOBO_WIDGET (editor->control)),
+								    "IDL:Bonobo/PersistFile:1.0", NULL);
+		CORBA_exception_init (&ev);
+		Bonobo_PersistFile_load (pfile_iface, editor->filename, &ev);
+		CORBA_exception_free (&ev);
+	} else {
+		gchar *data;
+
+		data = e_msg_composer_get_sig_file_content (editor->filename, editor->html);
+
+		/* TODO: send data to control */
+		g_warning ("TODO: send data to control");
+
+		g_free (data);
+	}
+}
+
+static void
+launch_signature_editor (MailAccountGui *gui, const gchar *filename, gboolean html)
+{
+	ESignatureEditor *editor;
+	BonoboUIComponent *component;
+	BonoboUIContainer *container;
+	gchar *title;
+
+	if (!filename || !*filename)
+		return;
+
+	editor = g_new0 (ESignatureEditor, 1);
+
+	editor->html     = html;
+	editor->filename = g_strdup (filename);
+
+	title       = g_strdup_printf ("Edit %ssignature (%s)", html ? "HTML " : "", filename);
+	editor->win = bonobo_window_new ("e-sig-editor", title);
+	editor->gui = gui;
+	gtk_window_set_default_size (GTK_WINDOW (editor->win), DEFAULT_WIDTH, DEFAULT_HEIGHT);
+	gtk_window_set_policy (GTK_WINDOW (editor->win), FALSE, TRUE, FALSE);
+	gtk_window_set_modal (GTK_WINDOW (editor->win), TRUE);
+	g_free (title);
+
+	container = bonobo_ui_container_new ();
+	bonobo_ui_container_set_win (container, BONOBO_WINDOW (editor->win));
+
+	component = bonobo_ui_component_new ("evolution-signature-editor");
+	bonobo_ui_component_set_container (component, bonobo_object_corba_objref (BONOBO_OBJECT (container)));
+	bonobo_ui_component_add_verb_list_with_data (component, verbs, editor);
+	bonobo_ui_util_set_ui (component, EVOLUTION_DATADIR, "evolution-signature-editor.xml", "evolution-signature-editor");
+
+	editor->control = bonobo_widget_new_control ("OAFIID:GNOME_GtkHTML_Editor",
+						     bonobo_ui_component_get_container (component));
+
+	if (editor->control == NULL) {
+		g_warning ("Cannot get 'OAFIID:GNOME_GtkHTML_Editor'.");
+
+		destroy_editor (editor);
+		return;
+	}
+
+	load_signature (editor);
+
+	bonobo_window_set_contents (BONOBO_WINDOW (editor->win), editor->control);
+	bonobo_widget_set_property (BONOBO_WIDGET (editor->control), "FormatHTML", html, NULL);
+	gtk_widget_show (GTK_WIDGET (editor->win));
+	gtk_widget_show (GTK_WIDGET (editor->control));
+	gtk_widget_grab_focus (editor->control);
+}
+
+static void
+edit_signature (GtkWidget *w, MailAccountGui *gui)
+{
+	launch_signature_editor (gui, gtk_entry_get_text (GTK_ENTRY (gnome_file_entry_gtk_entry (gui->signature))), FALSE);
+}
+
+static void
+edit_html_signature (GtkWidget *w, MailAccountGui *gui)
+{
+	launch_signature_editor (gui, gtk_entry_get_text (GTK_ENTRY (gnome_file_entry_gtk_entry (gui->html_signature))), TRUE);
+}
+
+static void
+signature_changed (GtkWidget *entry, MailAccountGui *gui)
+{
+	gtk_widget_set_sensitive (GTK_WIDGET (gui->edit_signature),
+				  *gtk_entry_get_text (GTK_ENTRY (gnome_file_entry_gtk_entry (gui->signature))) != 0);
+}
+
+static void
+html_signature_changed (GtkWidget *entry, MailAccountGui *gui)
+{
+	gtk_widget_set_sensitive (GTK_WIDGET (gui->edit_html_signature),
+				  *gtk_entry_get_text (GTK_ENTRY (gnome_file_entry_gtk_entry (gui->html_signature))) != 0);
+}
+
 MailAccountGui *
 mail_account_gui_new (MailConfigAccount *account)
 {
@@ -803,6 +1024,15 @@ mail_account_gui_new (MailConfigAccount *account)
 	gui->has_html_signature = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui->xml, "check_html_signature"));
 	gnome_file_entry_set_default_path (gui->signature, g_get_home_dir ());
 	gnome_file_entry_set_default_path (gui->html_signature, g_get_home_dir ());
+	gui->edit_signature = GTK_BUTTON (glade_xml_get_widget (gui->xml, "button_edit_signature"));
+	gui->edit_html_signature = GTK_BUTTON (glade_xml_get_widget (gui->xml, "button_edit_html_signature"));
+
+	gtk_signal_connect (GTK_OBJECT (gnome_file_entry_gtk_entry (gui->signature)), "changed", signature_changed, gui);
+	gtk_signal_connect (GTK_OBJECT (gnome_file_entry_gtk_entry (gui->html_signature)), "changed",
+			    html_signature_changed, gui);
+	gtk_signal_connect (GTK_OBJECT (gui->edit_signature), "clicked", edit_signature, gui);
+	gtk_signal_connect (GTK_OBJECT (gui->edit_html_signature), "clicked", edit_html_signature, gui);
+
 	if (account->id) {
 		if (account->id->name)
 			e_utf8_gtk_entry_set_text (gui->full_name, account->id->name);
@@ -820,9 +1050,9 @@ mail_account_gui_new (MailConfigAccount *account)
 			gtk_entry_set_text (GTK_ENTRY (gnome_file_entry_gtk_entry (gui->html_signature)),
 					    account->id->html_signature);
 		}
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (gui->has_html_signature), account->id->has_html_signature);
+		gtk_toggle_button_set_active (gui->has_html_signature, account->id->has_html_signature);
 	}
-	
+
 	/* Source */
 	gui->source.type = GTK_OPTION_MENU (glade_xml_get_widget (gui->xml, "source_type_omenu"));
 	gui->source.hostname = GTK_ENTRY (glade_xml_get_widget (gui->xml, "source_host"));
@@ -1193,8 +1423,8 @@ mail_account_gui_save (MailAccountGui *gui)
 	account->id->organization = e_utf8_gtk_entry_get_text (gui->organization);
 	account->id->signature = gnome_file_entry_get_full_path (gui->signature, TRUE);
 	account->id->html_signature = gnome_file_entry_get_full_path (gui->html_signature, TRUE);
-	account->id->has_html_signature = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (gui->has_html_signature));
-	
+	account->id->has_html_signature = gtk_toggle_button_get_active (gui->has_html_signature);
+
 	old_enabled = account->source && account->source->enabled;
 	service_destroy (account->source);
 	account->source = g_new0 (MailConfigService, 1);
