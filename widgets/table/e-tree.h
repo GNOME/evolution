@@ -12,6 +12,12 @@
 #include <gal/e-table/e-table-state.h>
 #include <gal/e-table/e-tree-model.h>
 
+/*#define E_TREE_USE_TREE_SELECTION*/
+
+#ifdef E_TREE_USE_TREE_SELECTION
+#include <gal/e-table/e-tree-selection-model.h>
+#endif
+
 BEGIN_GNOME_DECLS
 
 #define E_TREE_TYPE        (e_tree_get_type ())
@@ -149,6 +155,11 @@ ETreePath       e_tree_get_cursor                (ETree               *e_tree);
 void            e_tree_selected_row_foreach      (ETree               *e_tree,
 						  EForeachFunc         callback,
 						  gpointer             closure);
+#ifdef E_TREE_USE_TREE_SELECTION
+void            e_tree_selected_path_foreach     (ETree               *e_tree,
+						  ETreeForeachFunc     callback,
+						  gpointer             closure);
+#endif
 gint            e_tree_selected_count            (ETree               *e_tree);
 EPrintable     *e_tree_get_printable             (ETree               *e_tree);
 

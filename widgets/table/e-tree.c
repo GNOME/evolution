@@ -28,7 +28,12 @@
 #include <gal/e-table/e-table-sort-info.h>
 #include <gal/e-table/e-table-utils.h>
 
+#ifdef E_TREE_USE_TREE_SELECTION
+#include <gal/e-table/e-tree-selection-model.h>
+#else
 #include <gal/e-table/e-table-selection-model.h>
+#endif
+
 #include <gal/e-table/e-tree-sorted.h>
 #include <gal/e-table/e-tree-table-adapter.h>
 
@@ -236,7 +241,11 @@ e_tree_init (GtkObject *object)
 	e_tree->priv->drag_source_button_press_event_id = 0;
 	e_tree->priv->drag_source_motion_notify_event_id = 0;
 
+#ifdef E_TREE_USE_TREE_SELECTION
+	e_tree->priv->selection = E_SELECTION_MODEL(e_tree_selection_model_new());
+#else
 	e_tree->priv->selection = E_SELECTION_MODEL(e_table_selection_model_new());
+#endif
 	e_tree->priv->spec = NULL;
 
 	e_tree->priv->header_canvas = NULL;
@@ -1063,6 +1072,21 @@ e_tree_selected_row_foreach     (ETree *e_tree,
 				  callback,
 				  closure);
 }
+
+#ifdef E_TREE_USE_TREE_SELECTION
+void
+e_tree_selected_path_foreach     (ETree *e_tree,
+				 ETreeForeachFunc callback,
+				 gpointer closure)
+{
+	g_return_if_fail(e_tree != NULL);
+	g_return_if_fail(E_IS_TREE(e_tree));
+
+	e_tree_selection_model_foreach(E_TREE_SELECTION_MODEL (e_tree->priv->selection),
+				       callback,
+				       closure);
+}
+#endif
 
 gint
 e_tree_selected_count     (ETree *e_tree)
