@@ -1,5 +1,5 @@
-Version 0.3 "Jelly Fish"
-------------------------
+Version 0.3 "Jellyfish"
+-----------------------
 
 Shell:
 
@@ -33,7 +33,7 @@ Mailer:
 
   - text/plain mail is now line-wrapped in the mail display,
     to deal with people who don't put newlines in their mail.
-    (Radek)
+    (Dan)
 
   - Allow user to specify IMAP namespace in the mail config
     dialog.  (Dan, Jeff)
