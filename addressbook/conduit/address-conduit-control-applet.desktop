@@ -7,7 +7,7 @@ Name[tr]=Adres parçasý
 Comment=Configure the address conduit
 Comment[da]=Konfigurér Udstående
 Comment[no]=Konfigurér oppgavelisten
-Comment[tr]=Konfigurera adresskomponenten
+Comment[sv]=Konfigurera adresskanalen
 Comment[tr]=Adres parçasýnýn ayarlarý
 Exec=address-conduit-control-applet --cap-id=1
 Terminal=0
