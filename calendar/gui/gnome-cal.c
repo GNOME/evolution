@@ -51,6 +51,9 @@
 #include "e-week-view.h"
 #include "e-week-view-config.h"
 #include "e-cal-list-view.h"
+#include "e-cal-list-view-config.h"
+#include "e-mini-calendar-config.h"
+#include "e-calendar-table-config.h"
 #include "evolution-calendar.h"
 #include "gnome-cal.h"
 #include "calendar-component.h"
@@ -105,9 +108,12 @@ struct _GnomeCalendarPrivate {
 	GtkWidget   *hpane;
 	GtkWidget   *notebook;
 	GtkWidget   *vpane;
-	ECalendar   *date_navigator;
-	GtkWidget   *todo;
 
+	ECalendar   *date_navigator;
+	EMiniCalendarConfig *date_navigator_config;	
+	GtkWidget   *todo;
+	ECalendarTableConfig *todo_config;
+	
 	GtkWidget   *day_view;
 	GtkWidget   *work_week_view;
 	GtkWidget   *week_view;
@@ -125,6 +131,8 @@ struct _GnomeCalendarPrivate {
 	ECalView    *views[GNOME_CAL_LAST_VIEW];
 	GObject    *configs[GNOME_CAL_LAST_VIEW];
 	GnomeCalendarViewType current_view_type;
+	GList *notifications;
+	
 	gboolean range_selected;
 
 	/* These are the saved positions of the panes. They are multiples of
@@ -827,6 +835,67 @@ table_selection_change_cb (ETable *etable, gpointer data)
 }
 
 static void
+set_timezone (GnomeCalendar *calendar) 
+{
+	GnomeCalendarPrivate *priv;
+	char *location;
+	GList *l;
+
+	priv = calendar->priv;
+	
+	location = calendar_config_get_timezone ();
+	priv->zone = icaltimezone_get_builtin_timezone (location);
+	g_free (location);
+	
+	if (!priv->zone)
+		priv->zone = icaltimezone_get_utc_timezone ();
+
+	for (l = priv->clients_list; l != NULL; l = l->next) {
+		CalClient *client = l->data;
+		
+		if (cal_client_get_load_state (client) == CAL_CLIENT_LOAD_LOADED)
+			/* FIXME Error checking */
+			cal_client_set_default_timezone (client, priv->zone, NULL);
+	}
+	
+	if (priv->task_pad_client
+	    && cal_client_get_load_state (priv->task_pad_client) == CAL_CLIENT_LOAD_LOADED) {
+		/* FIXME Error Checking */
+		cal_client_set_default_timezone (priv->task_pad_client,
+						 priv->zone, NULL);
+	}
+}
+
+static void
+timezone_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
+{
+	GnomeCalendar *calendar = data;
+	
+	set_timezone (calendar);
+}
+
+static void
+setup_config (GnomeCalendar *calendar)
+{
+	GnomeCalendarPrivate *priv;
+	guint not;
+
+	priv = calendar->priv;
+	
+	/* Timezone */
+	set_timezone (calendar);
+	
+	not = calendar_config_add_notification_timezone (timezone_changed_cb, calendar);
+	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
+
+	/* Pane positions */
+	priv->hpane_pos = calendar_config_get_hpane_pos ();
+	priv->vpane_pos = calendar_config_get_vpane_pos ();
+	priv->hpane_pos_month_view = calendar_config_get_month_hpane_pos ();
+	priv->vpane_pos_month_view = calendar_config_get_month_vpane_pos ();
+}
+
+static void
 setup_widgets (GnomeCalendar *gcal)
 {
 	GnomeCalendarPrivate *priv;
@@ -875,6 +944,7 @@ setup_widgets (GnomeCalendar *gcal)
 	/* The ECalendar. */
 	w = e_calendar_new ();
 	priv->date_navigator = E_CALENDAR (w);
+	priv->date_navigator_config = e_mini_calendar_config_new (priv->date_navigator);
 	e_calendar_item_set_days_start_week_sel (priv->date_navigator->calitem, 9);
 	e_calendar_item_set_max_days_sel (priv->date_navigator->calitem, 42);
 	gtk_widget_show (w);
@@ -891,7 +961,7 @@ setup_widgets (GnomeCalendar *gcal)
 
 	/* The ToDo list. */
 	priv->todo = e_calendar_table_new ();
-	calendar_config_configure_e_calendar_table (E_CALENDAR_TABLE (priv->todo));
+	priv->todo_config = e_calendar_table_config_new (E_CALENDAR_TABLE (priv->todo));
 	gtk_paned_pack2 (GTK_PANED (priv->vpane), priv->todo, TRUE, TRUE);
 	gtk_widget_show (priv->todo);
 
@@ -960,6 +1030,7 @@ setup_widgets (GnomeCalendar *gcal)
 	priv->views[GNOME_CAL_MONTH_VIEW] = E_CAL_VIEW (priv->month_view);
 	priv->configs[GNOME_CAL_MONTH_VIEW] = e_week_view_config_new (E_WEEK_VIEW (priv->views[GNOME_CAL_MONTH_VIEW]));
 	priv->views[GNOME_CAL_LIST_VIEW] = E_CAL_VIEW (priv->list_view);
+	priv->configs[GNOME_CAL_MONTH_VIEW] = e_cal_list_view_config_new (E_CAL_LIST_VIEW (priv->views[GNOME_CAL_LIST_VIEW]));
 	priv->configs[GNOME_CAL_LIST_VIEW] = NULL;	
 
 	for (i = 0; i < GNOME_CAL_LAST_VIEW; i++) {
@@ -969,6 +1040,7 @@ setup_widgets (GnomeCalendar *gcal)
 		gtk_widget_show (GTK_WIDGET (priv->views[i]));
 	}
 	
+
 	gnome_calendar_update_config_settings (gcal, TRUE);
 }
 
@@ -989,7 +1061,9 @@ gnome_calendar_init (GnomeCalendar *gcal)
 	priv->current_view_type = GNOME_CAL_DAY_VIEW;
 	priv->range_selected = FALSE;
 
+	setup_config (gcal);
 	setup_widgets (gcal);
+
 	priv->dn_queries = NULL;
 	priv->sexp = g_strdup ("#t"); /* Match all */
 
@@ -1034,7 +1108,8 @@ gnome_calendar_destroy (GtkObject *object)
 
 	if (priv) {
 		GList *l;
-
+		int i;
+		
 		/* disconnect from signals on all the clients */
 		for (l = priv->clients_list; l != NULL; l = l->next) {
 			g_signal_handlers_disconnect_matched (l->data, G_SIGNAL_MATCH_DATA,
@@ -1043,12 +1118,24 @@ gnome_calendar_destroy (GtkObject *object)
 
 		g_hash_table_destroy (priv->clients);
 		g_list_free (priv->clients_list);
-		
+
 		free_categories (priv->cal_categories);
 		priv->cal_categories = NULL;
 
 		free_categories (priv->tasks_categories);
 		priv->tasks_categories = NULL;
+
+		for (i = 0; i < GNOME_CAL_LAST_VIEW; i++) {
+			if (priv->configs[i])
+				g_object_unref (priv->configs[i]);
+			priv->configs[i] = NULL;
+		}
+		g_object_unref (priv->date_navigator_config);
+		g_object_unref (priv->todo_config);
+		
+		for (l = priv->notifications; l; l = l->next)
+			calendar_config_remove_notification (GPOINTER_TO_UINT (l->data));
+		priv->notifications = NULL;
 		
 		/* Save the TaskPad layout. */
 		filename = g_build_filename (calendar_component_peek_config_directory (calendar_component_peek ()),
@@ -2254,45 +2341,10 @@ gnome_calendar_update_config_settings (GnomeCalendar *gcal,
 				       gboolean	      initializing)
 {
 	GnomeCalendarPrivate *priv;
-	char *location;
-	GList *l;
-	int i;
 	
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
 
 	priv = gcal->priv;
-
-	calendar_config_configure_e_calendar (E_CALENDAR (priv->date_navigator));
-
-	calendar_config_configure_e_calendar_table (E_CALENDAR_TABLE (priv->todo));
-
-	location = calendar_config_get_timezone ();
-	priv->zone = icaltimezone_get_builtin_timezone (location);
-
-	for (l = priv->clients_list; l != NULL; l = l->next) {
-		CalClient *client = l->data;
-		
-		if (cal_client_get_load_state (client) == CAL_CLIENT_LOAD_LOADED)
-			/* FIXME Error checking */
-			cal_client_set_default_timezone (client, priv->zone, NULL);
-	}
-	
-	if (priv->task_pad_client
-	    && cal_client_get_load_state (priv->task_pad_client) == CAL_CLIENT_LOAD_LOADED) {
-		/* FIXME Error Checking */
-		cal_client_set_default_timezone (priv->task_pad_client,
-						 priv->zone, NULL);
-	}
-
-	for (i = 0; i < GNOME_CAL_LAST_VIEW; i++)
-		e_cal_view_set_timezone (E_CAL_VIEW (priv->views[i]), priv->zone);
-
-	if (initializing) {
-		priv->hpane_pos = calendar_config_get_hpane_pos ();
-		priv->vpane_pos = calendar_config_get_vpane_pos ();
-		priv->hpane_pos_month_view = calendar_config_get_month_hpane_pos ();
-		priv->vpane_pos_month_view = calendar_config_get_month_vpane_pos ();
-	}
 
 	/* The range of days shown may have changed, so we update the date
 	   navigator if needed. */

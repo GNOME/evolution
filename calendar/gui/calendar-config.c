@@ -141,6 +141,15 @@ calendar_config_set_timezone (gchar *timezone)
 		gconf_client_set_string (config, CALENDAR_CONFIG_TIMEZONE, "UTC", NULL);
 }
 
+guint
+calendar_config_add_notification_timezone (GConfClientNotifyFunc func, gpointer data)
+{
+	guint id;
+	
+	id = gconf_client_notify_add (config, CALENDAR_CONFIG_TIMEZONE, func, data, NULL, NULL);
+	
+	return id;
+}
 
 /* Whether we use 24-hour format or 12-hour format (AM/PM). */
 gboolean
@@ -328,6 +337,15 @@ calendar_config_set_dnav_show_week_no	(gboolean     show_week_no)
 	gconf_client_set_bool (config, CALENDAR_CONFIG_DN_SHOW_WEEK_NUMBERS, show_week_no, NULL);
 }
 
+guint 
+calendar_config_add_notification_dnav_show_week_no (GConfClientNotifyFunc func, gpointer data)
+{
+	guint id;
+	
+	id = gconf_client_notify_add (config, CALENDAR_CONFIG_DN_SHOW_WEEK_NUMBERS, func, data, NULL, NULL);
+	
+	return id;
+}
 
 /* The view to show on start-up, 0 = Day, 1 = WorkWeek, 2 = Week, 3 = Month. */
 gint

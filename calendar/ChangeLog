@@ -1,3 +1,55 @@
+2003-10-29  JP Rosevear <jpr@ximian.com>
+
+	* gui/gnome-cal.c (set_timezone): set the timezone for all clients
+	(timezone_changed_cb): callback for changes
+	(setup_config): setup the configuration
+	(setup_widgets): setup up configuration managers for the list
+	view, task list and date navigator
+	(gnome_calendar_init): setup config
+	(gnome_calendar_destroy): destroy configuration managers and
+	notifications
+	(gnome_calendar_update_config_settings): remove dead bits
+
+	* gui/e-mini-calendar-config.[hc]: manage configuration of an
+	e-calendar
+
+	* gui/e-day-view-config.h: remove extraneous comment, type the
+	parent class correctly
+
+	* gui/e-week-view-config.h: ditto
+	
+	* gui/e-day-view-config.c (e_day_view_config_class_init): type the
+	class correctly
+	(set_timezone): set timezone
+	(timezone_changed_cb): timezone changed callback
+	(e_day_view_config_set_view): track timezone changes
+
+	* gui/e-week-view-config.c: ditto
+	
+	* gui/e-cell-date-edit-config.[hc]: manage configuration of a date
+	edit cell
+
+	* gui/e-calendar-table-config.[hc]: manage configuration of a
+	e-calendar-table
+
+	* gui/e-cal-list-view.c (get_current_time_cb): use the view
+	timezone to compute
+
+	* gui/e-cal-list-view-config.[hc]: manage configuration of a
+	list view
+
+	* gui/calendar-config.h: update protos
+
+	* gui/calendar-config.c
+	(calendar_config_add_notification_timezone): notify of timezone
+	change
+	(calendar_config_add_notification_dnav_show_week_no): notify of
+	show week number setting change
+
+	* gui/calendar-component.c (calendar_component_peek): remove bad comma
+
+	* gui/Makefile.am: build new config classes
+
 2003-10-29  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/calendar-component.c (fill_popup_menu_callback): fixed

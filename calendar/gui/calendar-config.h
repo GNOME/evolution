@@ -71,6 +71,7 @@ void calendar_config_remove_notification (guint id);
 /* The current timezone, e.g. "Europe/London". */
 gchar*	  calendar_config_get_timezone		(void);
 void	  calendar_config_set_timezone		(gchar	     *timezone);
+guint calendar_config_add_notification_timezone (GConfClientNotifyFunc func, gpointer data);
 
 /* The working days of the week, a bit-wise combination of flags. */
 CalWeekdays calendar_config_get_working_days	(void);
@@ -122,6 +123,7 @@ guint calendar_config_add_notification_compress_weekend (GConfClientNotifyFunc f
 /* Whether we show week numbers in the Date Navigator. */
 gboolean  calendar_config_get_dnav_show_week_no	(void);
 void	  calendar_config_set_dnav_show_week_no	(gboolean     show_week_no);
+guint calendar_config_add_notification_dnav_show_week_no (GConfClientNotifyFunc func, gpointer data);
 
 /* The view to show on start-up, 0 = Day, 1 = WorkWeek, 2 = Week, 3 = Month. */
 gint	  calendar_config_get_default_view	(void);

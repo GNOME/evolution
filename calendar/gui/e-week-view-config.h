@@ -27,10 +27,6 @@
 
 G_BEGIN_DECLS
 
-/*
- * EView - base widget class for the calendar views.
- */
-
 #define E_WEEK_VIEW_CONFIG(obj)          GTK_CHECK_CAST (obj, e_week_view_config_get_type (), EWeekViewConfig)
 #define E_WEEK_VIEW_CONFIG_CLASS(klass)  GTK_CHECK_CLASS_CAST (klass, e_week_view_config_get_type (), EWeekViewConfigClass)
 #define E_IS_WEEK_VIEW_CONFIG(obj)       GTK_CHECK_TYPE (obj, e_week_view_config_get_type ())
@@ -40,13 +36,13 @@ typedef struct _EWeekViewConfigClass   EWeekViewConfigClass;
 typedef struct _EWeekViewConfigPrivate EWeekViewConfigPrivate;
 
 struct _EWeekViewConfig {
-	ECalView parent;
+	GObject parent;
 
 	EWeekViewConfigPrivate *priv;
 };
 
 struct _EWeekViewConfigClass {
-	ECalViewClass parent_class;
+	GObjectClass parent_class;
 };
 
 GType          e_week_view_config_get_type (void);

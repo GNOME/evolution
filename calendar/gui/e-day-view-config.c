@@ -105,7 +105,7 @@ e_day_view_config_finalize (GObject *object)
 }
 
 static void
-e_day_view_config_class_init (ECalViewClass *klass)
+e_day_view_config_class_init (EDayViewConfigClass *klass)
 {
 	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 	GParamSpec *spec;
@@ -154,6 +154,33 @@ e_day_view_config_get_view (EDayViewConfig *view_config)
 	priv = view_config->priv;
 	
 	return priv->view;
+}
+
+static void
+set_timezone (EDayView *day_view) 
+{
+	char *location;
+	icaltimezone *zone;
+	
+	location = calendar_config_get_timezone ();
+	zone = icaltimezone_get_builtin_timezone (location);
+	if (!zone)
+		zone = icaltimezone_get_utc_timezone ();
+	
+	e_cal_view_set_timezone (E_CAL_VIEW (day_view), zone);
+
+	g_free (location);
+}
+
+static void
+timezone_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
+{
+	EDayViewConfig *view_config = data;
+	EDayViewConfigPrivate *priv;
+	
+	priv = view_config->priv;
+	
+	set_timezone (priv->view);
 }
 
 static void
@@ -385,7 +412,13 @@ e_day_view_config_set_view (EDayViewConfig *view_config, EDayView *day_view)
 		return;
 	
 	priv->view = g_object_ref (day_view);
+
+	/* Time zone */
+	set_timezone (day_view);
 	
+	not = calendar_config_add_notification_timezone (timezone_changed_cb, view_config);
+	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
+
 	/* Week start */
 	set_week_start (day_view);	
 
@@ -440,4 +473,3 @@ e_day_view_config_set_view (EDayViewConfig *view_config, EDayView *day_view)
 	not = calendar_config_add_notification_show_event_end (show_event_end_changed_cb, view_config);
 	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
 }
-

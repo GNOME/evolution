@@ -152,21 +152,16 @@ e_cal_list_view_init (ECalListView *cal_list_view)
 	cal_list_view->set_table_id = 0;
 }
 
-/* Returns the current time, for the ECellDateEdit items.
-   FIXME: Should probably use the timezone of the item rather than the
-   current timezone, though that may be difficult to get from here. */
+/* Returns the current time, for the ECellDateEdit items. */
 static struct tm
 get_current_time_cb (ECellDateEdit *ecde, gpointer data)
 {
-	char *location;
+	ECalListView *cal_list_view = data;
 	icaltimezone *zone;
 	struct tm tmp_tm = { 0 };
 	struct icaltimetype tt;
 
-	/* Get the current timezone. */
-	location = calendar_config_get_timezone ();
-	zone = icaltimezone_get_builtin_timezone (location);
-
+	zone = e_cal_view_get_timezone (E_CAL_VIEW (cal_list_view));
 	tt = icaltime_from_timet_with_zone (time (NULL), FALSE, zone);
 
 	/* Now copy it to the struct tm and return it. */

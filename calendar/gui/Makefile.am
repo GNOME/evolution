@@ -110,8 +110,14 @@ libevolution_calendar_la_SOURCES =		\
 	e-cal-view.h				\
 	e-cal-list-view.c			\
 	e-cal-list-view.h			\
-	e-calendar-table.h			\
+	e-cal-list-view-config.c		\
+	e-cal-list-view-config.h		\
 	e-calendar-table.c			\
+	e-calendar-table.h			\
+	e-calendar-table-config.c		\
+	e-calendar-table-config.h		\
+	e-cell-date-edit-config.c		\
+	e-cell-date-edit-config.h		\
 	e-cell-date-edit-text.h			\
 	e-cell-date-edit-text.c			\
 	e-comp-editor-registry.c		\
@@ -145,6 +151,8 @@ libevolution_calendar_la_SOURCES =		\
 	e-meeting-types.h			\
 	e-meeting-utils.c			\
 	e-meeting-utils.h			\
+	e-mini-calendar-config.c		\
+	e-mini-calendar-config.h		\
 	e-select-names-editable.c		\
 	e-select-names-editable.h		\
 	e-select-names-renderer.c		\
