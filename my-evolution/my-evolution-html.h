@@ -9,7 +9,7 @@
 
 #ifdef NOT_ETTORE
 #define HTML_1 "<html><head></head><body background=\"bcg.png\" "\
-"bgcolor=\"white\" link=\"#314e6c\" alink=\"black\" vlink=\"#314e6c\">"\
+"bgcolor=\"white\" text=\"#000000\" link=\"#314e6c\" alink=\"black\" vlink=\"#314e6c\">"\
 "<img src=\"myevo.png\" alt=\"My Evolution\" width=\"200\" height=\"31\" border=\"0\"><br>"\
 "<img src=\"empty.gif\" alt=\"\" width=\"10\" height=\"20\">"\
 "<table border=\"0\" cellspacing=\"0\" cellpadding=\"0\" width=\"100%\">"\
