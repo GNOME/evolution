@@ -9628,14 +9628,14 @@ msgstr ""
 #.
 #: composer/e-msg-composer-hdrs.c:363
 msgid "From:"
-msgstr "Z:"
+msgstr "Od:"
 
 #.
 #. * Reply-To:
 #.
 #: composer/e-msg-composer-hdrs.c:369
 msgid "Reply-To:"
-msgstr ""
+msgstr "Odpovìdìt komu:"
 
 #.
 #. * Subject:
@@ -9646,7 +9646,7 @@ msgstr "Pøedmìt:"
 
 #: composer/e-msg-composer-hdrs.c:394
 msgid "To:"
-msgstr "Do:"
+msgstr "Komu:"
 
 #: composer/e-msg-composer-hdrs.c:395
 msgid "Enter the recipients of the message"
@@ -9654,7 +9654,7 @@ msgstr ""
 
 #: composer/e-msg-composer-hdrs.c:398
 msgid "Cc:"
-msgstr ""
+msgstr "Kopie:"
 
 #: composer/e-msg-composer-hdrs.c:399
 msgid "Enter the addresses that will receive a carbon copy of the message"
@@ -9662,7 +9662,7 @@ msgstr ""
 
 #: composer/e-msg-composer-hdrs.c:402
 msgid "Bcc:"
-msgstr ""
+msgstr "Skrytá kopie:"
 
 #: composer/e-msg-composer-hdrs.c:403
 msgid ""
@@ -9673,7 +9673,7 @@ msgstr ""
 #: composer/e-msg-composer-select-file.c:267
 #: ui/evolution-message-composer.xml.h:2
 msgid "Attach a file"
-msgstr ""
+msgstr "Pøipojit soubor"
 
 #: composer/e-msg-composer.c:728
 #, c-format
@@ -9829,11 +9829,11 @@ msgstr ""
 
 #: default_user/searches.xml.h:7
 msgid "Subject contains"
-msgstr ""
+msgstr "Pøedmìt obsahuje"
 
 #: default_user/searches.xml.h:8
 msgid "Subject does not contain"
-msgstr ""
+msgstr "Pøedmìt neobsahuje"
 
 #: e-util/e-dialog-utils.c:228 mail/mail-callbacks.c:2273
 #: mail/mail-display.c:122
@@ -10398,19 +10398,19 @@ msgstr ""
 #: filter/libfilter-i18n.h:56 mail/mail-format.c:887
 #: mail/message-list.etspec.h:12
 msgid "Subject"
-msgstr ""
+msgstr "Pøedmìt"
 
 #: filter/rule-editor.c:179
 msgid "Rules"
-msgstr ""
+msgstr "Pravidla"
 
 #: filter/rule-editor.c:286
 msgid "Add Rule"
-msgstr ""
+msgstr "Pøidat pravidlo"
 
 #: filter/rule-editor.c:361
 msgid "Edit Rule"
-msgstr ""
+msgstr "Upravit pravidlo"
 
 #: filter/score-editor.c:130
 msgid "Score Rules"
