@@ -1,3 +1,12 @@
+2001-06-29  Radek Doulik  <rodo@ximian.com>
+
+	* mail-account-gui.c (menu_file_save_cb): implemented plain saving
+
+2001-06-28  Radek Doulik  <rodo@ximian.com>
+
+	* mail-account-gui.c (load_signature): implemented plain load
+	(load_signature): use e_msg_composer_get_signature_html
+
 2001-06-28  Peter Williams  <peterw@ximian.com>
 
 	* mail-ops.c (mail_send_message): Revert fejj's Bcc header removal;

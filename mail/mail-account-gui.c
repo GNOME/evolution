@@ -29,6 +29,7 @@
 #include <string.h>
 
 #include <bonobo.h>
+#include <bonobo/bonobo-stream-memory.h>
 #include <gal/widgets/e-unicode.h>
 
 #include "shell/evolution-shell-client.h"
@@ -812,12 +813,55 @@ destroy_editor (ESignatureEditor *editor)
 }
 
 static void
+menu_file_save_cb (BonoboUIComponent *uic,
+		   void *data,
+		   const char *path)
+{
+	ESignatureEditor *editor;
+	Bonobo_PersistFile pfile_iface;
+	CORBA_Environment ev;
+
+	editor = E_SIGNATURE_EDITOR (data);
+	if (editor->html) {
+		CORBA_exception_init (&ev);
+
+		pfile_iface = bonobo_object_client_query_interface (bonobo_widget_get_server (BONOBO_WIDGET (editor->control)),
+								    "IDL:Bonobo/PersistFile:1.0", NULL);
+		Bonobo_PersistFile_save (pfile_iface, editor->filename, &ev);
+		if (ev._major != CORBA_NO_EXCEPTION)
+			g_warning ("Cannot save.");
+		CORBA_exception_free (&ev);
+	} else {
+		BonoboStream *stream;
+		CORBA_Environment ev;
+		Bonobo_PersistStream pstream_iface;
+	
+		CORBA_exception_init (&ev);
+	
+		stream = bonobo_stream_open (BONOBO_IO_DRIVER_FS, editor->filename,
+					     Bonobo_Storage_WRITE | Bonobo_Storage_CREATE, 0);
+		pstream_iface = bonobo_object_client_query_interface
+			(bonobo_widget_get_server (BONOBO_WIDGET (editor->control)),
+			 "IDL:Bonobo/PersistStream:1.0", NULL);
+		Bonobo_PersistStream_save (pstream_iface, (Bonobo_Stream) bonobo_object_corba_objref (BONOBO_OBJECT (stream)),
+					   "text/plain", &ev);
+		if (ev._major != CORBA_NO_EXCEPTION) {
+			g_warning ("Exception while saving signature (%s)",
+				   bonobo_exception_get_text (&ev));
+			return;
+		}
+	
+		CORBA_exception_free (&ev);
+		bonobo_object_unref (BONOBO_OBJECT (stream));
+	}
+}
+
+static void
 exit_dialog_cb (int reply, ESignatureEditor *editor)
 {
 	switch (reply) {
 	case REPLY_YES:
-		/* this has to be done async */
-		// save_signature (editor);
+		menu_file_save_cb (NULL, editor, NULL);
 		destroy_editor (editor);
 		break;
 	case REPLY_NO:
@@ -856,31 +900,6 @@ do_exit (ESignatureEditor *editor)
 }
 
 static void
-menu_file_save_cb (BonoboUIComponent *uic,
-		   void *data,
-		   const char *path)
-{
-	ESignatureEditor *editor;
-	Bonobo_PersistFile pfile_iface;
-	CORBA_Environment ev;
-
-	editor = E_SIGNATURE_EDITOR (data);
-	if (editor->html) {
-		CORBA_exception_init (&ev);
-
-		pfile_iface = bonobo_object_client_query_interface (bonobo_widget_get_server (BONOBO_WIDGET (editor->control)),
-								    "IDL:Bonobo/PersistFile:1.0", NULL);
-		Bonobo_PersistFile_save (pfile_iface, editor->filename, &ev);
-		if (ev._major != CORBA_NO_EXCEPTION)
-			g_warning ("Cannot save.");
-		CORBA_exception_free (&ev);
-	} else {
-		/* TODO: save plain version */
-		g_warning ("TODO: save plain version");
-	}
-}
-
-static void
 menu_file_close_cb (BonoboUIComponent *uic, gpointer data, const gchar *path)
 {
 	ESignatureEditor *editor;
@@ -911,14 +930,38 @@ load_signature (ESignatureEditor *editor)
 		Bonobo_PersistFile_load (pfile_iface, editor->filename, &ev);
 		CORBA_exception_free (&ev);
 	} else {
-		gchar *data;
+		Bonobo_PersistStream pstream_iface;
+		BonoboStream *stream;
+		gchar *data, *html;
 
-		data = e_msg_composer_get_sig_file_content (editor->filename, editor->html);
-
-		/* TODO: send data to control */
-		g_warning ("TODO: send data to control");
-
+		data = e_msg_composer_get_sig_file_content (editor->filename, FALSE);
+		html = g_strdup_printf ("<PRE>\n%s", data);
 		g_free (data);
+
+		pstream_iface = bonobo_object_client_query_interface
+			(bonobo_widget_get_server (BONOBO_WIDGET (editor->control)),
+			 "IDL:Bonobo/PersistStream:1.0", NULL);
+		CORBA_exception_init (&ev);
+		stream = bonobo_stream_mem_create (html, strlen (html), TRUE, FALSE);
+
+		if (stream == NULL) {
+			g_warning ("Couldn't create memory stream\n");
+		} else {
+			BonoboObject *stream_object;
+			Bonobo_Stream corba_stream;
+
+			stream_object = BONOBO_OBJECT (stream);
+			corba_stream = bonobo_object_corba_objref (stream_object);
+			Bonobo_PersistStream_load (pstream_iface, corba_stream,
+						   "text/html", &ev);
+		}
+
+		Bonobo_Unknown_unref (pstream_iface, &ev);
+		CORBA_Object_release (pstream_iface, &ev);
+		CORBA_exception_free (&ev);
+		bonobo_object_unref (BONOBO_OBJECT (stream));
+
+		g_free (html);
 	}
 }
 
