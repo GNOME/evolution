@@ -996,13 +996,13 @@ static void
 on_print (GtkWidget *widget, gpointer user_data)
 {
 	ECalendarView *cal_view;
-	time_t start;
+	time_t start, end;
 	GnomeCalendarViewType view_type;
 	PrintView print_view;
 
 	cal_view = E_CALENDAR_VIEW (user_data);
 
-	e_calendar_view_get_visible_time_range (cal_view, &start, NULL);
+	e_calendar_view_get_visible_time_range (cal_view, &start, &end);
 	view_type = gnome_calendar_get_view (cal_view->priv->calendar);
 
 	switch (view_type) {

@@ -1,5 +1,12 @@
 2004-01-17  JP Rosevear <jpr@ximian.com>
 
+	* gui/e-cal-view.c (on_print): we are required to pass in the end
+	in-out arg
+
+	Fixes #52972
+	
+2004-01-17  JP Rosevear <jpr@ximian.com>
+
 	* gui/print.h: update protos
 
 	* gui/print.c (print_title): util routine to print a title
