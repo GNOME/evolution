@@ -262,19 +262,6 @@ storage_set_view_folder_selected_cb (EStorageSetView *storage_set_view,
 		gnome_dialog_set_sensitive (GNOME_DIALOG (dialog_data->dialog), 0, TRUE);
 }
 
-static void
-storage_set_view_storage_selected_cb (EStorageSetView *storage_set_view,
-				      const char *name,
-				      void *data)
-{
-	DialogData *dialog_data;
-
-	dialog_data = (DialogData *) data;
-
-	if (GTK_ENTRY (dialog_data->folder_name_entry)->text_length > 0)
-		gnome_dialog_set_sensitive (GNOME_DIALOG (dialog_data->dialog), 0, TRUE);
-}
-
 
 /* Shell signal callbacks.  */
 
@@ -549,8 +536,6 @@ e_shell_show_folder_creation_dialog (EShell *shell,
 
 	gtk_signal_connect (GTK_OBJECT (dialog_data->storage_set_view), "folder_selected",
 			    storage_set_view_folder_selected_cb, dialog_data);
-	gtk_signal_connect (GTK_OBJECT (dialog_data->storage_set_view), "storage_selected",
-			    storage_set_view_storage_selected_cb, dialog_data);
 
 	gtk_signal_connect_while_alive (GTK_OBJECT (shell), "destroy",
 					GTK_SIGNAL_FUNC (shell_destroy_cb), dialog_data,

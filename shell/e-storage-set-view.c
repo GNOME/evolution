@@ -101,7 +101,6 @@ struct _EStorageSetViewPrivate {
 
 enum {
 	FOLDER_SELECTED,
-	STORAGE_SELECTED,
 	DND_ACTION,
 	FOLDER_CONTEXT_MENU_POPPING_UP,
 	FOLDER_CONTEXT_MENU_POPPED_DOWN,
@@ -1332,15 +1331,8 @@ impl_cursor_activated (ETree *tree,
 	if (path) {
 		priv->selected_row_path = g_strdup (e_tree_memory_node_get_data (E_TREE_MEMORY (priv->etree_model), path));
 
-		if (e_tree_model_node_depth (priv->etree_model, path) >= 2) {
-			/* it was a folder */
-			gtk_signal_emit (GTK_OBJECT (storage_set_view), signals[FOLDER_SELECTED],
-					 priv->selected_row_path);
-		} else {
-			/* it was a storage */
-			gtk_signal_emit (GTK_OBJECT (storage_set_view), signals[STORAGE_SELECTED],
-					 priv->selected_row_path + 1);
-		}
+		gtk_signal_emit (GTK_OBJECT (storage_set_view), signals[FOLDER_SELECTED],
+				 priv->selected_row_path);
 	}
 	else
 		priv->selected_row_path = NULL;
@@ -1734,15 +1726,6 @@ class_init (EStorageSetViewClass *klass)
 				  GTK_RUN_FIRST,
 				  object_class->type,
 				  GTK_SIGNAL_OFFSET (EStorageSetViewClass, folder_selected),
-				  gtk_marshal_NONE__STRING,
-				  GTK_TYPE_NONE, 1,
-				  GTK_TYPE_STRING);
-
-	signals[STORAGE_SELECTED]
-		= gtk_signal_new ("storage_selected",
-				  GTK_RUN_FIRST,
-				  object_class->type,
-				  GTK_SIGNAL_OFFSET (EStorageSetViewClass, storage_selected),
 				  gtk_marshal_NONE__STRING,
 				  GTK_TYPE_NONE, 1,
 				  GTK_TYPE_STRING);

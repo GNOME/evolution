@@ -873,23 +873,6 @@ folder_selected_cb (EStorageSetView *storage_set_view,
 	switch_on_folder_tree_click (shell_view, path);
 }
 
-/* Callback called when a storage in the tree view is clicked.  */
-static void
-storage_selected_cb (EStorageSetView *storage_set_view,
-		     const char *name,
-		     void *data)
-{
-	EShellView *shell_view;
-	char *path;
-
-	shell_view = E_SHELL_VIEW (data);
-
-	path = g_strconcat (G_DIR_SEPARATOR_S, name, NULL);
-	switch_on_folder_tree_click (shell_view, path);
-
-	g_free (path);
-}
-
 /* Callbacks for the folder context menu in the folder bar.  */
 
 static void
@@ -1029,8 +1012,6 @@ setup_storage_set_subwindow (EShellView *shell_view)
 						   priv->ui_container);
 	gtk_signal_connect (GTK_OBJECT (storage_set_view), "folder_selected",
 			    GTK_SIGNAL_FUNC (folder_selected_cb), shell_view);
-	gtk_signal_connect (GTK_OBJECT (storage_set_view), "storage_selected",
-			    GTK_SIGNAL_FUNC (storage_selected_cb), shell_view);
 	gtk_signal_connect (GTK_OBJECT (storage_set_view), "folder_context_menu_popping_up",
 			    GTK_SIGNAL_FUNC (folder_context_menu_popping_up_cb), shell_view);
 	gtk_signal_connect (GTK_OBJECT (storage_set_view), "folder_context_menu_popped_down",

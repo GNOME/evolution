@@ -1,5 +1,30 @@
 2002-03-07  Dan Winship  <danw@ximian.com>
 
+	Addendum to previous commit: Remove "storage_selected" vs
+	"folder_selected" distinction.
+
+	* evolution-storage-set-view.c
+	(storage_set_view_widget_storage_selected_cb): Removed.
+
+	* evolution-storage-set-view-listener.c
+	(impl_GNOME_Evolution_StorageSetViewListener_notifyStorageSelected):
+	Removed.
+	(class_init): Remove STORAGE_SELECTED signal.
+
+	* e-storage-set-view.c (impl_cursor_activated): Always emit
+	FOLDER_SELECTED, never STORAGE_SELECTED.
+	(class_init): Remove STORAGE_SELECTED signal.
+
+	* e-shell-view.c (storage_selected_cb): Removed.
+
+	* e-shell-folder-creation-dialog.c
+	(storage_set_view_storage_selected_cb): Removed.
+
+	* Evolution-StorageSetView.idl (StorageSetViewListener): Remove
+	notifyStorageSelected.
+
+2002-03-07  Dan Winship  <danw@ximian.com>
+
 	Make storages-with-toplevel-views less of a hack.
 
 	* e-folder-tree.c (e_folder_tree_add): Allow the caller to "add" a
