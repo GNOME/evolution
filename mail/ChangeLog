@@ -1,3 +1,7 @@
+2002-04-13  Christophe Merlet  <redfox@eikonex.org>
+
+	* mail-config.glade: Little typo. s/IS0/ISO/
+
 2002-04-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-composer-prefs.c (mail_composer_prefs_construct): Make it

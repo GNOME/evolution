@@ -3036,7 +3036,7 @@ Kerberos
 	      <class>GtkOptionMenu</class>
 	      <name>omenuCharset</name>
 	      <can_focus>True</can_focus>
-	      <items>Baltic (IS0-8859-13)
+	      <items>Baltic (ISO-8859-13)
 Baltic (ISO-8859-4)
 </items>
 	      <initial_choice>0</initial_choice>
