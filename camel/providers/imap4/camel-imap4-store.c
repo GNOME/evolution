@@ -516,13 +516,17 @@ imap4_reconnect (CamelIMAP4Engine *engine, CamelException *ex)
 static gboolean
 imap4_connect (CamelService *service, CamelException *ex)
 {
+	CamelIMAP4Store *store = (CamelIMAP4Store *) service;
 	gboolean retval;
 	
 	if (!camel_session_is_online (service->session))
 		return TRUE;
 	
 	CAMEL_SERVICE_LOCK (service, connect_lock);
-	retval = imap4_reconnect (((CamelIMAP4Store *) service)->engine, ex);
+	if (store->engine->state == CAMEL_IMAP4_ENGINE_DISCONNECTED)
+		retval = imap4_reconnect (store->engine, ex);
+	else
+		retval = TRUE;
 	CAMEL_SERVICE_UNLOCK (service, connect_lock);
 	
 	return retval;
@@ -539,7 +543,7 @@ imap4_disconnect (CamelService *service, gboolean clean, CamelException *ex)
 		return TRUE;
 	
 	CAMEL_SERVICE_LOCK (store, connect_lock);
-	if (clean && !store->engine->istream->disconnected) {
+	if (clean && store->engine->state != CAMEL_IMAP4_ENGINE_DISCONNECTED) {
 		ic = camel_imap4_engine_queue (store->engine, NULL, "LOGOUT\r\n");
 		while ((id = camel_imap4_engine_iterate (store->engine)) < ic->id && id != -1)
 			;
@@ -1180,11 +1184,6 @@ imap4_get_folder_info (CamelStore *store, const char *top, guint32 flags, CamelE
 	}
 	
  check_online:
-	
-	if (engine->state == CAMEL_IMAP4_ENGINE_DISCONNECTED) {
-		if (!camel_service_connect ((CamelService *) store, ex))
-			return NULL;
-	}
 	
 	if (flags & CAMEL_STORE_FOLDER_INFO_SUBSCRIBED)
 		cmd = "LSUB";

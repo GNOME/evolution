@@ -1,3 +1,12 @@
+2004-11-02  Jeffrey Stedfast  <fejj@novell.com>
+
+	* providers/imap4/camel-imap4-store.c (imap4_get_folder_info):
+	Removed camel_service_connect() call which is no longer needed.
+	(imap4_connect): If engine is already connected, shortcut to
+	simply returning success.
+	(imap4_disconnect): Check engine state rather than poking at
+	stream state.
+
 2004-11-01  Jeffrey Stedfast  <fejj@novell.com>
 
 	* providers/smtp/camel-smtp-transport.c
