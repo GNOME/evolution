@@ -42,6 +42,8 @@
 #include "camel-stream-filter.h"
 #include "camel-smtp-transport.h"
 #include "camel-mime-message.h"
+#include "camel-multipart.h"
+#include "camel-mime-part.h"
 #include "camel-stream-buffer.h"
 #include "camel-stream-fs.h"
 #include "camel-session.h"
@@ -668,6 +670,9 @@ smtp_data (CamelSmtpTransport *transport, CamelMedium *message, CamelException *
 				      g_strerror (errno));
 		return FALSE;
 	}
+
+	g_free (respbuf);
+	respbuf = NULL;
 	
 	/* setup stream filtering */
 	lwfilter = camel_mime_filter_linewrap_new (998, 998, '\t');
