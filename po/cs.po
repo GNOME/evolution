@@ -12046,7 +12046,7 @@ msgstr "Od"
 
 #: mail/mail-format.c:869
 msgid "Reply-To"
-msgstr "Odpovìïet komu"
+msgstr "Odpovìdìt komu"
 
 #: mail/mail-format.c:874 mail/message-list.etspec.h:13
 msgid "To"
