@@ -100,6 +100,10 @@ struct _store_info {
 	/* we keep a reference to these so they remain around for the session */
 	CamelFolder *vtrash;
 	CamelFolder *vjunk;
+
+	/* for setup only */
+	void (*done)(CamelStore *store, CamelFolderInfo *info, void *data);
+	void *done_data;
 };
 
 struct _MailComponentPrivate {
@@ -174,6 +178,21 @@ store_info_free(struct _store_info *si)
 	g_free(si);
 }
 
+static void
+mc_add_store_done(CamelStore *store, CamelFolderInfo *info, void *data)
+{
+	struct _store_info *si = data;
+
+	if (si->done)
+		si->done(store, info, si);
+
+	/* let the counters know about the already opened junk/trash folders */
+	if (si->vtrash)
+		mail_note_folder(si->vtrash);
+	if (si->vjunk)
+		mail_note_folder(si->vjunk);
+}
+
 /* Utility functions.  */
 static void
 mc_add_store(MailComponent *component, CamelStore *store, const char *name, void (*done)(CamelStore *store, CamelFolderInfo *info, void *data))
@@ -183,9 +202,10 @@ mc_add_store(MailComponent *component, CamelStore *store, const char *name, void
 	MAIL_COMPONENT_DEFAULT(component);
 
 	si = store_info_new(store, name);
+	si->done = done;
 	g_hash_table_insert(component->priv->store_hash, store, si);
 	em_folder_tree_model_add_store(component->priv->model, store, si->name);
-	mail_note_store(store, NULL, done, component);
+	mail_note_store(store, NULL, mc_add_store_done, si);
 }
 
 static void

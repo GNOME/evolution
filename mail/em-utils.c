@@ -696,8 +696,10 @@ em_utils_flag_for_followup (GtkWidget *parent, CamelFolder *folder, GPtrArray *u
 		
 		info = camel_folder_get_message_info (folder, uids->pdata[0]);
 		if (info) {
-			if (info->user_tags)
-				message_tag_editor_set_tag_list (MESSAGE_TAG_EDITOR (editor), info->user_tags);
+			const CamelTag *tags = camel_message_info_user_tags(info);
+
+			if (tags)
+				message_tag_editor_set_tag_list (MESSAGE_TAG_EDITOR (editor), tags);
 			camel_folder_free_message_info (folder, info);
 		}
 	}

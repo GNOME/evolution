@@ -527,8 +527,8 @@ mail_send_message (CamelMimeMessage *message, const char *destination,
 	}
 	
 	/* post-process */
-	info = camel_message_info_new ();
-	info->flags = CAMEL_MESSAGE_SEEN;
+	info = camel_message_info_new(NULL);
+	camel_message_info_set_flags(info, CAMEL_MESSAGE_SEEN, ~0);
 	
 	if (sent_folder_uri) {
 		folder = mail_tool_uri_to_folder (sent_folder_uri, 0, ex);
@@ -658,10 +658,11 @@ send_queue_send(struct _mail_msg *mm)
 		CamelMessageInfo *info;
 		
 		info = camel_folder_get_message_info (m->queue, uids->pdata[i]);
-		if (info && info->flags & CAMEL_MESSAGE_DELETED)
-			continue;
-		
-		send_uids->pdata[j++] = uids->pdata[i];
+		if (info) {
+			if ((camel_message_info_flags(info) & CAMEL_MESSAGE_DELETED) == 0)
+				send_uids->pdata[j++] = uids->pdata[i];
+			camel_folder_free_message_info(m->queue, info);
+		}
 	}
 	
 	send_uids->len = j;

@@ -93,8 +93,8 @@ mail_importer_add_line (MailImporter *importer,
 		return;
 
 	camel_stream_reset (CAMEL_STREAM (importer->mstream));
-	info = g_new0 (CamelMessageInfo, 1);
-	info->flags = CAMEL_MESSAGE_SEEN;
+	info = camel_message_info_new(NULL);
+	camel_message_info_set_flags(info, CAMEL_MESSAGE_SEEN, ~0);
 
 	msg = camel_mime_message_new ();
 	camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (msg),
@@ -108,7 +108,7 @@ mail_importer_add_line (MailImporter *importer,
 	camel_object_unref (msg);
 
 	camel_exception_free (ex);
-	g_free (info);
+	camel_message_info_free(info);
 }
 
 struct _BonoboObject *mail_importer_factory_cb(struct _BonoboGenericFactory *factory, const char *iid, void *data)
@@ -230,6 +230,7 @@ import_mbox_import(struct _mail_msg *mm)
 			CamelMimeMessage *msg;
 			const char *tmp;
 			int pc;
+			guint32 flags = 0;
 
 			if (st.st_size > 0)
 				pc = (int)(100.0 * ((double)camel_mime_parser_tell(mp) / (double)st.st_size));
@@ -242,18 +243,19 @@ import_mbox_import(struct _mail_msg *mm)
 				break;
 			}
 
-			info = camel_message_info_new();
+			info = camel_message_info_new(NULL);
 
 			tmp = camel_medium_get_header((CamelMedium *)msg, "X-Mozilla-Status");
 			if (tmp)
-				info->flags |= decode_mozilla_status(tmp);
+				flags |= decode_mozilla_status(tmp);
 			tmp = camel_medium_get_header((CamelMedium *)msg, "Status");
 			if (tmp)
-				info->flags |= decode_status(tmp);
+				flags |= decode_status(tmp);
 			tmp = camel_medium_get_header((CamelMedium *)msg, "X-Status");
 			if (tmp)
-				info->flags |= decode_status(tmp);
+				flags |= decode_status(tmp);
 
+			camel_message_info_set_flags(info, flags, ~0);
 			camel_folder_append_message(folder, msg, info, NULL, &mm->ex);
 			camel_message_info_free(info);
 			camel_object_unref(msg);

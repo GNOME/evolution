@@ -798,7 +798,7 @@ auto_account_removed(EAccountList *eal, EAccount *ea, void *dummy)
 }
 
 static void
-auto_account_finalised(EAccount *ea, struct _auto_data *info)
+auto_account_finalised(struct _auto_data *info)
 {
 	if (info->timeout_id)
 		g_source_remove(info->timeout_id);

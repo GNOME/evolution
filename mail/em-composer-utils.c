@@ -415,8 +415,8 @@ em_utils_composer_send_cb (EMsgComposer *composer, gpointer user_data)
 	
 	if (mail_folder) {
 		/* mail the message */
-		info = camel_message_info_new ();
-		info->flags = CAMEL_MESSAGE_SEEN;
+		info = camel_message_info_new(NULL);
+		camel_message_info_set_flags(info, CAMEL_MESSAGE_SEEN, ~0);
 		
 		send = g_malloc (sizeof (*send));
 		send->emcs = user_data;
@@ -439,8 +439,8 @@ em_utils_composer_send_cb (EMsgComposer *composer, gpointer user_data)
 		mail_tool_destroy_xevolution (xev);
 		
 		/* mail the message */
-		info = camel_message_info_new ();
-		info->flags = CAMEL_MESSAGE_SEEN;
+		info = camel_message_info_new(NULL);
+		camel_message_info_set_flags(info, CAMEL_MESSAGE_SEEN, ~0);
 		
 		post_ptr = post_folders;
 		while (post_ptr) {
@@ -530,7 +530,7 @@ save_draft_done (CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *i
 	g_object_unref (sdi->composer);
 	if (sdi->emcs)
 		emcs_unref (sdi->emcs);
-	g_free (info);
+	camel_message_info_free(info);
 	g_free (sdi);
 }
 
@@ -578,8 +578,8 @@ em_utils_composer_save_draft_cb (EMsgComposer *composer, int quit, gpointer user
 	
 	msg = e_msg_composer_get_message_draft (composer);
 	
-	info = g_new0 (CamelMessageInfo, 1);
-	info->flags = CAMEL_MESSAGE_DRAFT | CAMEL_MESSAGE_SEEN;
+	info = camel_message_info_new(NULL);
+	camel_message_info_set_flags(info, CAMEL_MESSAGE_DRAFT | CAMEL_MESSAGE_SEEN, ~0);
 	
 	sdi = g_malloc (sizeof (struct _save_draft_info));
 	sdi->composer = composer;

@@ -206,34 +206,36 @@ em_popup_target_new_select(EMPopup *emp, struct _CamelFolder *folder, const char
 
 	for (i = 0; i < uids->len; i++) {
 		CamelMessageInfo *info = camel_folder_get_message_info(folder, uids->pdata[i]);
+		guint32 flags;
 
 		if (info == NULL)
 			continue;
 
-		if (info->flags & CAMEL_MESSAGE_SEEN)
+		flags = camel_message_info_flags(info);
+		if (flags & CAMEL_MESSAGE_SEEN)
 			mask &= ~EM_POPUP_SELECT_MARK_UNREAD;
 		else
 			mask &= ~EM_POPUP_SELECT_MARK_READ;
 		
-		if (info->flags & CAMEL_MESSAGE_DELETED)
+		if (flags & CAMEL_MESSAGE_DELETED)
 			mask &= ~EM_POPUP_SELECT_UNDELETE;
 		else
 			mask &= ~EM_POPUP_SELECT_DELETE;
 
-		if (info->flags & CAMEL_MESSAGE_FLAGGED)
+		if (flags & CAMEL_MESSAGE_FLAGGED)
 			mask &= ~EM_POPUP_SELECT_MARK_UNIMPORTANT;
 		else
 			mask &= ~EM_POPUP_SELECT_MARK_IMPORTANT;
 
-		if (info->flags & CAMEL_MESSAGE_JUNK)
+		if (flags & CAMEL_MESSAGE_JUNK)
 			mask &= ~EM_POPUP_SELECT_MARK_NOJUNK;
 		else
 			mask &= ~EM_POPUP_SELECT_MARK_JUNK;
 			
-		tmp = camel_tag_get (&info->user_tags, "follow-up");
+		tmp = camel_message_info_user_tag(info, "follow-up");
 		if (tmp && *tmp) {
 			mask &= ~EM_POPUP_SELECT_FLAG_CLEAR;
-			tmp = camel_tag_get(&info->user_tags, "completed-on");
+			tmp = camel_message_info_user_tag(info, "completed-on");
 			if (tmp == NULL || *tmp == 0)
 				mask &= ~EM_POPUP_SELECT_FLAG_COMPLETED;
 		} else

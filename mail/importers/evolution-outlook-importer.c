@@ -388,7 +388,7 @@ import_outlook_import(struct _mail_msg *mm)
 				goto fail2;
 			}
 
-			info = camel_message_info_new();
+			info = camel_message_info_new(NULL);
 			/* any headers to read? */
 
 			camel_folder_append_message(folder, msg, info, NULL, &mm->ex);

@@ -393,11 +393,19 @@ uri_is_spethal(CamelStore *store, const char *uri)
 		return TRUE;
 
 	/* don't use strcasecmp here */
-	res = url->path
-		&& (((store->flags & CAMEL_STORE_VTRASH)
-		     && strcmp(url->path, "/" CAMEL_VTRASH_NAME) == 0)
-		    || ((store->flags & CAMEL_STORE_VJUNK)
-			&& strcmp(url->path, "/" CAMEL_VJUNK_NAME) == 0));
+	if (url->fragment) {
+		res = (((store->flags & CAMEL_STORE_VTRASH)
+			&& strcmp(url->fragment, CAMEL_VTRASH_NAME) == 0)
+		       || ((store->flags & CAMEL_STORE_VJUNK)
+			   && strcmp(url->fragment, CAMEL_VJUNK_NAME) == 0));
+	} else {
+		res = url->path
+			&& (((store->flags & CAMEL_STORE_VTRASH)
+			     && strcmp(url->path, "/" CAMEL_VTRASH_NAME) == 0)
+			    || ((store->flags & CAMEL_STORE_VJUNK)
+				&& strcmp(url->path, "/" CAMEL_VJUNK_NAME) == 0));
+	}
+
 	camel_url_free(url);
 
 	return res;

@@ -144,6 +144,8 @@ libevolution_mail_la_SOURCES =			\
 	em-vfolder-editor.h			\
 	em-vfolder-rule.c			\
 	em-vfolder-rule.h			\
+	em-vfs-stream.c				\
+	em-vfs-stream.h				\
 	mail-account-editor.c			\
 	mail-account-editor.h			\
 	mail-account-gui.c			\
