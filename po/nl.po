@@ -5149,10 +5149,10 @@ msgstr "Elke"
 msgid "Exceptions"
 msgstr "Uitzonderingen"
 
+#. GRUT modified this item
 #: calendar/gui/dialogs/recurrence-page.glade.h:6
-#, fuzzy
 msgid "Preview"
-msgstr "Voorbeeld:"
+msgstr "Voorbeeld"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:7
 #, fuzzy
@@ -18509,54 +18509,65 @@ msgstr "_Wissen"
 msgid "Whether or not the expander is expanded"
 msgstr "Vr_aag om bevestiging bij het wissen van items"
 
+#. GRUT modified this item
 #: widgets/misc/e-expander.c:190
 msgid "Text of the expander's label"
-msgstr ""
+msgstr "Labeltekst van de uitklapper"
 
 #: widgets/misc/e-expander.c:197
 #, fuzzy
 msgid "Use underline"
 msgstr "Ongedefinieerd"
 
+#. GRUT modified this item
 #: widgets/misc/e-expander.c:198
 msgid ""
 "If set, an underline in the text indicates the next character should be used "
 "for the mnemonic accelerator key"
 msgstr ""
+"Indien ingesteld, geeft een onderstreping in de tekst aan dat het opvolgende "
+"teken gebruikt moet worden voor de sneltoets"
 
 #: widgets/misc/e-expander.c:205
 #, fuzzy
 msgid "Spacing"
 msgstr "Spanje"
 
+#. GRUT modified this item
 #: widgets/misc/e-expander.c:206
 msgid "Space to put between the label and the child"
-msgstr ""
+msgstr "De ruimte tussen het label en de dochter"
 
+#. GRUT modified this item
 #: widgets/misc/e-expander.c:215
 msgid "Label widget"
-msgstr ""
+msgstr "Labelwidget"
 
+#. GRUT modified this item
 #: widgets/misc/e-expander.c:216
 msgid "A widget to display in place of the usual expander label"
 msgstr ""
+"Een widget dat weergegeven wordt in plaats van het gebruikelijke uiklap-label"
 
+#. GRUT modified this item
 #: widgets/misc/e-expander.c:222
 msgid "Expander Size"
-msgstr ""
+msgstr "Uitklapper-grootte"
 
+#. GRUT modified this item
 #: widgets/misc/e-expander.c:223
 msgid "Size of the expander arrow"
-msgstr ""
+msgstr "Grootte van de uitklappijl"
 
 #: widgets/misc/e-expander.c:231
 #, fuzzy
 msgid "Indicator Spacing"
 msgstr "Indian Springs"
 
+#. GRUT modified this item
 #: widgets/misc/e-expander.c:232
 msgid "Spacing around expander arrow"
-msgstr ""
+msgstr "Spatiëring rondom uitklappijl"
 
 #: widgets/misc/e-filter-bar.c:185
 msgid "Search Editor"
