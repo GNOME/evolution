@@ -137,7 +137,7 @@ get_base_url (const char *protocol, const char *uri)
 	
 	base_url = p;
 	p = strchr (p, '/');
-	base_url = g_strdup_printf ("%s://%.*s", protocol, p ? p - base_url : strlen (base_url), base_url);
+	base_url = g_strdup_printf ("%s://%.*s", protocol, p ? (int) (p - base_url) : strlen (base_url), base_url);
 	
 	return base_url;
 }
@@ -852,6 +852,8 @@ upgrade (void)
 	mailer_upgrade (db);
 	
 	gtk_main_quit ();
+
+	return FALSE;
 }
 
 int main (int argc, char **argv)

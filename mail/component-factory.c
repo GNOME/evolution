@@ -1244,7 +1244,7 @@ storage_xfer_folder (EvolutionStorage *storage,
 {
 	CamelException ex;
 	char *src, *dst;
-	char *p, c, sep;
+	char sep;
 
 	d(printf("Transfer folder on store source = '%s' dest = '%s'\n", source_path, destination_path));
 

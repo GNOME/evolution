@@ -1,3 +1,13 @@
+2002-09-04  Ettore Perazzoli  <ettore@ximian.com>
+
+	* upgrade-mailer.c (upgrade): Return FALSE here.
+	(get_base_url): Add a cast.
+
+	* component-factory.c (storage_xfer_folder): Removed unused
+	variables.
+
+	* Makefile.am: Rename upgrade-mailer to evolution-mail-upgrade.
+
 2002-09-04  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* Makefile.am: Add upgrade-mailer.c to the build.
