@@ -824,7 +824,7 @@ dnl If the user specifies --with-foo or --enable-nss=static, then we have to do 
 	fi
 fi
 
-AM_CONDITIONAL(ENABLE_SMIME, test x$enable_smime = xyes -a $xhave_nss = xyes)
+AM_CONDITIONAL(ENABLE_SMIME, test "x$msg_smime" != "xno")
 
 AC_SUBST(MANUAL_NSPR_CFLAGS)
 AC_SUBST(MANUAL_NSPR_LIBS)

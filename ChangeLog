@@ -1,3 +1,8 @@
+2004-02-26  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* configure.in: Fixed the ENABLE_SMIME conditional to work. Fixes
+	the addressbook relocation error.
+
 2004-02-25  Chris Toshok  <toshok@ximian.com>
 
 	* configure.in: add "$xhave_nss = xyes" to the AM_CONDITIONAL for
