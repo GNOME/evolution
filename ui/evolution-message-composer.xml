@@ -23,7 +23,7 @@
 		_tip="Insert a file as text into the message"/>
 
 		<cmd name="FileSend" _label="Send" _tip="Send the message now"
-		pixtype="stock" pixname="Send Mail"/>
+		pixtype="stock" pixname="Send Mail" accel="*Control*Return"/>
 
 		<cmd name="FileSendLater" _label="Send later" _tip="Send the message later"
 		pixtype="stock" pixname="Send Mail"/>
@@ -60,7 +60,7 @@
 
 			<separator/>
 
-			<menuitem name="FileSendNow" verb="" _label="Send _Now"/>
+			<menuitem name="FileSend" verb="" _label="Send _Now"/>
 
 			<menuitem name="FileSendLater" verb="" _label="Send _Later"/>
 

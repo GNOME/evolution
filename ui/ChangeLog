@@ -1,3 +1,9 @@
+2000-11-01  Radek Doulik  <rodo@helixcode.com>
+
+	* evolution-message-composer.xml: added accel="*Control*Return" to
+	FileSend
+	replace FileSendNow with FileSend as FileSendNow wasn't defined
+
 2000-10-25  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* evolution-mail.xml: Added a MessageApplyFilters menu item.
