@@ -281,10 +281,11 @@ mail_search_construct (MailSearch *ms, MailDisplay *mail)
 	
 	gtk_window_set_title ((GtkWindow *) ms, _("Find in Message"));
 	
+	gtk_dialog_add_button ((GtkDialog *) ms, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
+	
 	button = gtk_button_new_from_stock (GTK_STOCK_FIND);
 	gtk_button_set_label ((GtkButton *) button, _("Search"));
 	gtk_dialog_add_action_widget ((GtkDialog*) ms, button, GTK_RESPONSE_ACCEPT);
-	gtk_dialog_add_button ((GtkDialog *) ms, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
 	gtk_dialog_set_default_response ((GtkDialog *) ms, GTK_RESPONSE_ACCEPT);
 	
 	ms->search_forward = TRUE;
@@ -297,16 +298,18 @@ mail_search_construct (MailSearch *ms, MailDisplay *mail)
 	
 	/* Construct the dialog contents. */
 	
-	msg_hbox     = gtk_hbox_new (FALSE, 0);
-	find_hbox    = gtk_hbox_new (FALSE, 0);
-	matches_hbox = gtk_hbox_new (FALSE, 0);
-	toggles_hbox = gtk_hbox_new (FALSE, 0);
-	frame_vbox   = gtk_vbox_new (FALSE, 0);
+	msg_hbox     = gtk_hbox_new (FALSE, 3);
+	find_hbox    = gtk_hbox_new (FALSE, 3);
+	matches_hbox = gtk_hbox_new (FALSE, 3);
+	toggles_hbox = gtk_hbox_new (FALSE, 3);
+	frame_vbox   = gtk_vbox_new (FALSE, 3);
+	gtk_container_set_border_width ((GtkContainer *) frame_vbox, 3);
 	
 	entry       = gtk_entry_new ();
 	count_label = gtk_label_new ("0");
 	
-	msg_frame   = gtk_frame_new (NULL);	
+	msg_frame   = gtk_frame_new (NULL);
+	gtk_container_set_border_width ((GtkContainer *) msg_frame, 6);
 	
 	case_check  = gtk_check_button_new_with_label (_("Case Sensitive"));
 #if 0
@@ -328,16 +331,17 @@ mail_search_construct (MailSearch *ms, MailDisplay *mail)
 #endif
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (case_check), ms->case_sensitive);
 	
-  	gtk_box_pack_start (GTK_BOX (msg_hbox), GTK_WIDGET (msg_frame), FALSE, FALSE, 3);
+  	gtk_box_pack_start (GTK_BOX (msg_hbox), GTK_WIDGET (msg_frame), TRUE, TRUE, 0);
 	
 	gtk_box_pack_start (GTK_BOX (find_hbox), gtk_label_new (_("Find:")), FALSE, FALSE, 3);
 	gtk_box_pack_start (GTK_BOX (find_hbox), entry, TRUE, TRUE, 3);
+	
 	gtk_box_pack_start (GTK_BOX (matches_hbox), gtk_hbox_new (FALSE, 0), TRUE, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (matches_hbox), gtk_label_new (_("Matches:")), FALSE, FALSE, 3);
-	gtk_box_pack_start (GTK_BOX (matches_hbox), count_label, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (matches_hbox), count_label, FALSE, FALSE, 3);
 	gtk_box_pack_start (GTK_BOX (matches_hbox), gtk_hbox_new (FALSE, 0), TRUE, TRUE, 0);
 	
-	gtk_box_pack_start (GTK_BOX (toggles_hbox), case_check, FALSE, FALSE, 4);
+	gtk_box_pack_start (GTK_BOX (toggles_hbox), case_check, FALSE, FALSE, 3);
 	
 	/*
 	 * Disabling the forward/backward search button because there are problems with it
@@ -345,14 +349,14 @@ mail_search_construct (MailSearch *ms, MailDisplay *mail)
 	 * don't know if they'll get resolved for 1.0.  Hopefully getting this fixed can
 	 * be a 1.1 item.
 	 */
-
+	
 #if 0
-	gtk_box_pack_start (GTK_BOX (toggles_hbox), fwd_check,  FALSE, FALSE, 4);
+	gtk_box_pack_start (GTK_BOX (toggles_hbox), fwd_check,  FALSE, FALSE, 3);
 #endif
 	
-	gtk_box_pack_start (GTK_BOX (frame_vbox), find_hbox, TRUE, TRUE, 8);
-  	gtk_box_pack_start (GTK_BOX (frame_vbox), matches_hbox, TRUE, TRUE, 0); 
-  	gtk_box_pack_start (GTK_BOX (frame_vbox), toggles_hbox, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (frame_vbox), find_hbox, FALSE, FALSE, 3);
+  	gtk_box_pack_start (GTK_BOX (frame_vbox), matches_hbox, FALSE, FALSE, 3); 
+  	gtk_box_pack_start (GTK_BOX (frame_vbox), toggles_hbox, FALSE, FALSE, 3);
 	
 	gtk_container_add (GTK_CONTAINER (msg_frame), GTK_WIDGET (frame_vbox));
 	
