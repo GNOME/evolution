@@ -3608,7 +3608,9 @@ camel_header_decode_date(const char *in, int *saveoffset)
 char *
 camel_header_location_decode(const char *in)
 {
-	const char *p;
+	int quote = 0;
+	GString *out = g_string_new("");
+	char c, *res;
 
 	/* Sigh. RFC2557 says:
 	 *   content-location =   "Content-Location:" [CFWS] URI [CFWS]
@@ -3618,18 +3620,33 @@ camel_header_location_decode(const char *in)
 	 *
 	 * But Netscape puts quotes around the URI when sending web
 	 * pages.
+	 *
+	 * Which is required as defined in rfc2017 [3.1].  Although
+	 * outlook doesn't do this.
+	 *
+	 * Since we get headers already unfolded, we need just drop
+	 * all whitespace.  URL's cannot contain whitespace or quoted
+	 * characters, even when included in quotes.
 	 */
 
 	header_decode_lwsp(&in);
-	if (*in == '"')
-		return header_decode_quoted_string(&in);
-	else {
-		for (p = in; *p && !camel_mime_is_lwsp(*p); p++)
-			;
-		return g_strndup(in, p - in);
+	if (*in == '"') {
+		in++;
+		quote = 1;
 	}
-}
 
+	while ( (c = *in++) ) {
+		if (quote && c=='"')
+			break;
+		if (!camel_mime_is_lwsp(c))
+			g_string_append_c(out, c);
+	}
+
+	res = g_strdup(out->str);
+	g_string_free(out, TRUE);
+
+	return res;
+}
 
 /* extra rfc checks */
 #define CHECKS
