@@ -1,3 +1,18 @@
+2004-10-15  Not Zed  <NotZed@Ximian.com>
+
+	* gui/widgets/eab-popup.c: added an any select mask and updated
+	the hook maps.
+
+	* gui/component/addressbook-component.c
+	(addressbook_component_init): register the addressbook hooks.
+
+	* gui/component/addressbook-view.c (addressbook_view_init): setup
+	the menu manager.
+	(control_activate_cb): activate the menu manager.
+	(update_command_state): and update the menu manager.
+
+	* gui/widgets/eab-menu.[ch]: Added menu manager class.
+
 2004-10-13  JP Rosevear  <jpr@novell.com>
 
 	* importers/evolution-vcard-importer.c: find source selector and

@@ -44,6 +44,8 @@ libeabwidgets_la_SOURCES =			\
 	eab-contact-display.h			\
 	eab-gui-util.c				\
 	eab-gui-util.h				\
+	eab-menu.c				\
+	eab-menu.h				\
 	eab-popup.c				\
 	eab-popup.h				\
 	eab-popup-control.c			\

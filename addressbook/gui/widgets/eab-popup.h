@@ -52,15 +52,17 @@ enum _eab_popup_target_t {
  * enum _eab_popup_target_select_t - EABPopupTargetSelect qualifiers.
  * 
  * @EAB_POPUP_SELECT_ONE: Only one item is selected.
- * @EAB_POPUP_SELECT_MANY: One ore more items are selected.
+ * @EAB_POPUP_SELECT_MANY: Two or more items are selected.
+ * @EAB_POPUP_SELECT_ANY: One or more items are selected.
  * @EAB_POPUP_SELECT_EDITABLE: Read/writable source.
  * @EAB_POPUP_SELECT_EMAIL: Has an email address.
  **/
 enum _eab_popup_target_select_t {
 	EAB_POPUP_SELECT_ONE = 1<<0,
 	EAB_POPUP_SELECT_MANY = 1<<1,
-	EAB_POPUP_SELECT_EDITABLE = 1<<2,
-	EAB_POPUP_SELECT_EMAIL = 1<<3,
+	EAB_POPUP_SELECT_ANY = 1<<2,
+	EAB_POPUP_SELECT_EDITABLE = 1<<3,
+	EAB_POPUP_SELECT_EMAIL = 1<<4,
 };
 
 /**

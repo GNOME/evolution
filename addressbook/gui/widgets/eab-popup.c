@@ -130,6 +130,8 @@ eab_popup_target_new_select(EABPopup *eabp, struct _EBook *book, int readonly, G
 	guint32 mask = ~0;
 	int has_email = FALSE, i;
 
+	/* FIXME: duplicated in eab-menu.c */
+
 	t->book = book;
 	g_object_ref(book);
 	t->cards = cards;
@@ -156,8 +158,11 @@ eab_popup_target_new_select(EABPopup *eabp, struct _EBook *book, int readonly, G
 	if (cards->len == 1)
 		mask &= ~EAB_POPUP_SELECT_ONE;
 
-	if (cards->len >= 1)
+	if (cards->len > 1)
 		mask &= ~EAB_POPUP_SELECT_MANY;
+
+	if (cards->len >= 1)
+		mask &= ~EAB_POPUP_SELECT_ANY;
 
 	t->target.mask = mask;
 
@@ -199,6 +204,9 @@ eab_popup_target_new_select_names(EABPopup *eabp, struct _ESelectNamesModel *mod
 {
 	EABPopupTargetSelectNames *t = e_popup_target_new(&eabp->popup, EAB_POPUP_TARGET_SELECT_NAMES, sizeof(*t));
 
+	/* TODO: this is sort of not very useful, maybe the popup which uses it doesn't
+	   need to be pluggable */
+
 	t->model = model;
 	g_object_ref(model);
 	t->row = row;
@@ -239,6 +247,9 @@ static void *eabph_parent_class;
 static const EPopupHookTargetMask eabph_select_masks[] = {
 	{ "one", EAB_POPUP_SELECT_ONE },
 	{ "many", EAB_POPUP_SELECT_MANY },
+	{ "any", EAB_POPUP_SELECT_ANY },
+	{ "editable", EAB_POPUP_SELECT_EDITABLE },
+	{ "email", EAB_POPUP_SELECT_EMAIL },
 	{ 0 }
 };
 

@@ -32,6 +32,9 @@
 
 G_BEGIN_DECLS
 
+struct _EABMenu;
+struct _EABMenuTargetSelect;
+
 /* EABView - A card displaying information about a contact.
  *
  * The following arguments are available:
@@ -153,6 +156,8 @@ gboolean   eab_view_can_select_all      (EABView  *view);
 gboolean   eab_view_can_stop            (EABView  *view);
 gboolean   eab_view_can_copy_to_folder  (EABView  *view);
 gboolean   eab_view_can_move_to_folder  (EABView  *view);
+
+struct _EABMenuTargetSelect *eab_view_get_menu_target (EABView *view, struct _EABMenu *menu);
 
 G_END_DECLS;
 

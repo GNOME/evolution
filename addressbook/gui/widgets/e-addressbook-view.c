@@ -44,6 +44,7 @@
 #include "addressbook/printing/e-contact-print-envelope.h"
 #include "addressbook/gui/search/e-addressbook-search-dialog.h"
 #include "addressbook/gui/widgets/eab-popup.h"
+#include "addressbook/gui/widgets/eab-menu.h"
 
 #include "e-util/e-categories-master-list-wombat.h"
 #include "e-util/e-sexp.h"
@@ -2170,4 +2171,26 @@ gboolean
 eab_view_can_move_to_folder (EABView *view)
 {
 	return view ? eab_view_selection_nonempty (view) && eab_model_editable (view->model) : FALSE;
+}
+
+EABMenuTargetSelect *
+eab_view_get_menu_target (EABView *view, EABMenu *menu)
+{
+	GPtrArray *cards = g_ptr_array_new();
+	ESelectionModel *selection_model;
+	EABMenuTargetSelect *t;
+
+	selection_model = get_selection_model (view);
+	if (selection_model) {
+		ContactAndBook cab;
+
+		cab.view = view;
+		cab.closure = cards;
+		e_selection_model_foreach(selection_model, get_card_1, &cab);
+	}
+
+	t = eab_menu_target_new_select(menu, view->book, !eab_model_editable(view->model), cards);
+	t->target.widget = (GtkWidget *)view;
+
+	return t;
 }

@@ -62,6 +62,7 @@
 #include "addressbook/printing/e-contact-print.h"
 #include "addressbook/util/eab-book-util.h"
 #include "addressbook/gui/widgets/eab-popup.h"
+#include "addressbook/gui/widgets/eab-menu.h"
 
 #define PARENT_TYPE G_TYPE_OBJECT
 static GObjectClass *parent_class = NULL;
@@ -93,6 +94,8 @@ struct _AddressbookViewPrivate {
 	ESourceList *source_list;
 	char *passwd;
 	EUserCreatableItemsHandler *creatable_items_handler;
+
+	EABMenu *menu;
 };
 
 enum DndTargetType {
@@ -337,13 +340,19 @@ update_command_state (EABView *eav, AddressbookView *view)
 {
 	AddressbookViewPrivate *priv = view->priv;
 	BonoboUIComponent *uic;
+	EABMenuTargetSelect *target;
 
 	if (eav != get_current_view (view))
 		return;
 
 	g_object_ref (view);
 
+	target = eab_view_get_menu_target(eav, priv->menu);
+	e_menu_update_target((EMenu *)priv->menu, target);
+
 	uic = bonobo_control_get_ui_component (priv->folder_view_control);
+
+	/* TODO: this stuff can mostly be made to use the target bits instead */
 
 	if (bonobo_ui_component_get_container (uic) != CORBA_OBJECT_NIL) {
 #define SET_SENSITIVE(verb,f) \
@@ -464,9 +473,11 @@ control_activate_cb (BonoboControl *control,
 
 	if (activate) {
 		control_activate (control, uic, view);
+		e_menu_activate((EMenu *)view->priv->menu, uic, activate);
 		if (activate && v && v->model)
 			eab_model_force_folder_bar_message (v->model);
 	} else {
+		e_menu_activate((EMenu *)view->priv->menu, uic, activate);
 		bonobo_ui_component_unset_container (uic, NULL);
 		eab_view_discard_menus (v);
 	}
@@ -1087,6 +1098,7 @@ addressbook_view_init (AddressbookView *view)
 			  G_CALLBACK (source_list_changed_cb), view);
 
 	priv->creatable_items_handler = e_user_creatable_items_handler_new ("contacts", NULL, NULL);
+	priv->menu = eab_menu_new("com.novell.evolution.addressbook.view");
 
 	g_signal_connect (priv->folder_view_control, "activate",
 			  G_CALLBACK (control_activate_cb), view);
@@ -1175,6 +1187,9 @@ addressbook_view_dispose (GObject *object)
 
 		if (priv->creatable_items_handler)
 			g_object_unref (priv->creatable_items_handler);
+
+		if (priv->menu)
+			g_object_unref (priv->menu);
 
 		g_free (view->priv);
 		view->priv = NULL;
