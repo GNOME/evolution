@@ -1,5 +1,8 @@
 2002-05-30  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* component-factory.c (store_disconnect): Protect against NULL
+	stores. Fixes bug #25456.
+
 	* mail-callbacks.c (view_msg): Oops, create a message-browser
 	window here, not a folder-browser-window window.
 

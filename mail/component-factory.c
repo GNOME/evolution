@@ -1382,8 +1382,10 @@ mail_lookup_storage (CamelStore *store)
 static void
 store_disconnect(CamelStore *store, void *event_data, void *data)
 {
-	camel_service_disconnect (CAMEL_SERVICE (store), TRUE, NULL);
-	camel_object_unref (CAMEL_OBJECT (store));
+	if (store) {
+		camel_service_disconnect (CAMEL_SERVICE (store), TRUE, NULL);
+		camel_object_unref (CAMEL_OBJECT (store));
+	}
 }
 
 void
