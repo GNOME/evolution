@@ -72,6 +72,7 @@ ECert*               e_cert_db_find_cert_by_nickname (ECertDB *certdb,
 						      const char *nickname,
 						      GError **error);
 
+#if notyet
 ECert*               e_cert_db_find_cert_by_key      (ECertDB *certdb,
 						      const char *db_key,
 						      GError **error);
@@ -88,6 +89,7 @@ ECert*               e_cert_db_find_email_encryption_cert (ECertDB *certdb,
 ECert*               e_cert_db_find_email_signing_cert (ECertDB *certdb,
 							const char *nickname,
 							GError **error);
+#endif
 
 ECert*               e_cert_db_find_cert_by_email_address (ECertDB *certdb,
 							   const char *nickname,
@@ -124,10 +126,12 @@ gboolean             e_cert_db_import_pkcs12_file (ECertDB *cert_db,
 						   const char *file_path,
 						   GError **error);
 
+#if notyet
 gboolean             e_cert_db_export_pkcs12_file (ECertDB *cert_db,
 						   const char *file_path,
 						   GList *certs,
 						   GError **error);
+#endif
 
 gboolean             e_cert_db_login_to_slot      (ECertDB *cert_db,
 						   PK11SlotInfo *slot);

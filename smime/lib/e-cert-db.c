@@ -128,6 +128,7 @@ e_cert_db_dispose (GObject *object)
 		G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
+#if notyet
 PRBool
 ucs2_ascii_conversion_fn (PRBool toUnicode,
 			  unsigned char *inBuf,
@@ -139,6 +140,7 @@ ucs2_ascii_conversion_fn (PRBool toUnicode,
 {
 	printf ("in ucs2_ascii_conversion_fn\n");
 }
+#endif
 
 static char* PR_CALLBACK
 pk11_password (PK11SlotInfo* slot, PRBool retry, void* arg)
@@ -203,7 +205,9 @@ initialize_nss (void)
 	SEC_PKCS12EnableCipher(PKCS12_DES_56, 1);
 	SEC_PKCS12EnableCipher(PKCS12_DES_EDE3_168, 1);
 	SEC_PKCS12SetPreferredCipher(PKCS12_DES_EDE3_168, 1);
+#if notyet
 	PORT_SetUCS2_ASCIIConversionFunction(ucs2_ascii_conversion_fn);
+#endif
 }
 
 static void
@@ -377,12 +381,12 @@ e_cert_db_find_cert_by_nickname (ECertDB *certdb,
 	}
 }
 
+#if notyet
 ECert*
 e_cert_db_find_cert_by_key (ECertDB *certdb,
 			    const char *db_key,
 			    GError **error)
 {
-#if 0
 	/*  nsNSSShutDownPreventionLock locker;*/
 	SECItem keyItem = {siBuffer, NULL, 0};
 	SECItem *dummy;
@@ -418,7 +422,6 @@ e_cert_db_find_cert_by_key (ECertDB *certdb,
 
 	/* XXX gerror */
 	return NULL;
-#endif
 }
 
 GList*
@@ -441,6 +444,7 @@ e_cert_db_find_email_signing_cert (ECertDB *certdb,
 				   GError **error)
 {
 }
+#endif
 
 ECert*
 e_cert_db_find_cert_by_email_address (ECertDB *certdb,
@@ -1110,6 +1114,7 @@ e_cert_db_import_certs_from_file (ECertDB *cert_db,
 	return rv;  
 }
 
+#if notyet
 gboolean
 e_cert_db_import_pkcs12_file (ECertDB *cert_db,
 			      const char *file_path,
@@ -1125,6 +1130,7 @@ e_cert_db_import_pkcs12_file (ECertDB *cert_db,
 
 	return TRUE;
 }
+#endif
 
 gboolean
 e_cert_db_export_pkcs12_file (ECertDB *cert_db,
