@@ -18,15 +18,6 @@
 	      		factory="org_gnome_exchange_account_setup"/>
       	</group>
     </hook>
-  </e-plugin>
-
-   <e-plugin
-    type="shlib"
-    id="org.gnome.evolution.plugin.exchange-read-url"
-    location="@PLUGINDIR@/liborg-gnome-exchange-account-settings.so"
-    load-on-startup="true"
-    name="Exchange OWA URL"
-    description="A pluign to read OWA url in account druid">
 
     <hook class="org.gnome.evolution.mail.config:1.0">
         <group
@@ -40,15 +31,6 @@
 			factory="org_gnome_exchange_read_url"/>
         </group>
     </hook>
-  </e-plugin>
-
-   <e-plugin
-    type="shlib"
-    id="org.gnome.evolution.plugin.exchange-set-url"
-    location="@PLUGINDIR@/liborg-gnome-exchange-account-settings.so"
-    load-on-startup="true"
-    name="Exchange OWA URL in Account Editor"
-    description="A pluign to read OWA url in account editor">
 
     <hook class="org.gnome.evolution.mail.config:1.0">
         <group

@@ -1,3 +1,8 @@
+2005-01-13  Sushma Rai  <rsushma@novell.com>
+
+	* org-gnome-exchange-account-setup.eplug.in: Combined
+	all the plugins into one. 
+
 2005-01-12  Sushma Rai  <rsushma@novell.com>
 
 	* exchange-ask-password.c: (validate_exchange_user):
