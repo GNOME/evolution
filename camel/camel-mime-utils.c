@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  *  Copyright (C) 2000 Ximian Inc.
  *
@@ -976,7 +977,7 @@ rfc2047_decode_word(const char *in, int len)
 	const char *inend = in+len-2;
 	const char *inbuf;
 	const char *charset;
-	char *encname;
+	char *encname, *p;
 	int tmplen;
 	int ret;
 	char *decword = NULL;
@@ -1025,6 +1026,18 @@ rfc2047_decode_word(const char *in, int len)
 			encname = alloca (tmplen + 1);
 			memcpy (encname, in + 2, tmplen);
 			encname[tmplen] = '\0';
+			
+			/* rfc2231 updates rfc2047 encoded words...
+			 * The ABNF given in RFC 2047 for encoded-words is:
+			 *   encoded-word := "=?" charset "?" encoding "?" encoded-text "?="
+			 * This specification changes this ABNF to:
+			 *   encoded-word := "=?" charset ["*" language] "?" encoding "?" encoded-text "?="
+			 */
+			
+			/* trim off the 'language' part if it's there... */
+			p = strchr (encname, '*');
+			if (p)
+				*p = '\0';
 			
 			charset = e_iconv_charset_name (encname);
 			
@@ -1873,7 +1886,7 @@ rfc2184_decode (const char *in, int len)
 		inbuf = decword = hex_decode (inptr, inend - inptr);
 		inlen = strlen (inbuf);
 		
-		ic = e_iconv_open("UTF-8", charset);
+		ic = e_iconv_open ("UTF-8", charset);
 		if (ic != (iconv_t) -1) {
 			int ret;
 			
@@ -1888,7 +1901,7 @@ rfc2184_decode (const char *in, int len)
 				decoded = outbase;
 			}
 			
-			e_iconv_close(ic);
+			e_iconv_close (ic);
 		} else {
 			decoded = decword;
 		}
@@ -1912,14 +1925,14 @@ decode_param_token (const char **in)
 		inptr++;
 	if (inptr > start) {
 		*in = inptr;
-		return g_strndup (start, inptr-start);
+		return g_strndup (start, inptr - start);
 	} else {
 		return NULL;
 	}
 }
 
 static gboolean
-header_decode_rfc2184_param (const char **in, char **paramp, int *part, gboolean *value_is_encoded)
+header_decode_rfc2184_param (const char **in, char **paramp, gboolean *value_is_encoded, int *part)
 {
 	gboolean is_rfc2184 = FALSE;
 	const char *inptr = *in;
@@ -1963,18 +1976,17 @@ header_decode_rfc2184_param (const char **in, char **paramp, int *part, gboolean
 }
 
 static int
-header_decode_param (const char **in, char **paramp, char **valuep, int *is_rfc2184_param)
+header_decode_param (const char **in, char **paramp, char **valuep, int *is_rfc2184_param, int *rfc2184_part)
 {
 	gboolean is_rfc2184_encoded = FALSE;
 	gboolean is_rfc2184 = FALSE;
 	const char *inptr = *in;
 	char *param, *value = NULL;
-	int rfc2184_part = -1;
 	
 	*is_rfc2184_param = FALSE;
+	*rfc2184_part = -1;
 	
-	is_rfc2184 = header_decode_rfc2184_param (&inptr, &param, &rfc2184_part,
-						  &is_rfc2184_encoded);
+	is_rfc2184 = header_decode_rfc2184_param (&inptr, &param, &is_rfc2184_encoded, rfc2184_part);
 	
 	if (*inptr == '=') {
 		inptr++;
@@ -1983,7 +1995,7 @@ header_decode_param (const char **in, char **paramp, char **valuep, int *is_rfc2
 		if (is_rfc2184) {
 			/* We have ourselves an rfc2184 parameter */
 			
-			if (rfc2184_part == -1) {
+			if (*rfc2184_part == -1) {
 				/* rfc2184 allows the value to be broken into
 				 * multiple parts - this isn't one of them so
 				 * it is safe to decode it.
@@ -2028,7 +2040,7 @@ header_decode_param (const char **in, char **paramp, char **valuep, int *is_rfc2
 		inbuf = value;
 		inlen = strlen (inbuf);
 		
-		charset = e_iconv_locale_charset();
+		charset = e_iconv_locale_charset ();
 		ic = e_iconv_open ("UTF-8", charset ? charset : "ISO-8859-1");
 		if (ic != (iconv_t) -1) {
 			int ret;
@@ -2778,7 +2790,7 @@ header_mime_decode(const char *in, int *maj, int *min)
 }
 
 static struct _header_param *
-header_decode_param_list(const char **in)
+header_decode_param_list (const char **in)
 {
 	const char *inptr = *in;
 	struct _header_param *head = NULL, *tail = NULL;
@@ -2790,10 +2802,11 @@ header_decode_param_list(const char **in)
 	while (*inptr == ';') {
 		struct _header_param *param;
 		char *name, *value;
+		int rfc2184_part;
 		
 		inptr++;
 		/* invalid format? */
-		if (header_decode_param (&inptr, &name, &value, &is_rfc2184) != 0)
+		if (header_decode_param (&inptr, &name, &value, &is_rfc2184, &rfc2184_part) != 0)
 			break;
 		
 		if (is_rfc2184 && tail && !strcasecmp (name, tail->name)) {
@@ -2801,6 +2814,7 @@ header_decode_param_list(const char **in)
 			 * and it looks like we've found one. Append this value to the
 			 * last value.
 			 */
+			/* FIXME: we should be ordering these based on rfc2184_part id */
 			GString *gvalue;
 			
 			gvalue = g_string_new (tail->value);
@@ -2868,7 +2882,7 @@ header_param_list_decode(const char *in)
 	return header_decode_param_list(&in);
 }
 
-/* FIXME: I wrote this in a quick & dirty fasion - it may not be 100% correct */
+
 static char *
 header_encode_param (const unsigned char *in, gboolean *encoded)
 {
@@ -2908,13 +2922,15 @@ header_encode_param (const unsigned char *in, gboolean *encoded)
 			continue;
 		}
 		
+		/* FIXME: make sure that '\'', '*', and ';' are also encoded */
+		
 		if (c > 127 && c < 256) {
 			encoding = MAX (encoding, 1);
 			g_string_sprintfa (out, "%%%c%c", tohex[(c >> 4) & 0xf], tohex[c & 0xf]);
 		} else if (c >= 256) {
 			encoding = MAX (encoding, 2);
 			g_string_sprintfa (out, "%%%c%c", tohex[(c >> 4) & 0xf], tohex[c & 0xf]);
-		} else if (is_lwsp (c) || camel_mime_special_table[c] & IS_ESAFE) {
+		} else if (is_lwsp (c) || !(camel_mime_special_table[c] & IS_ESAFE)) {
 			g_string_sprintfa (out, "%%%c%c", tohex[(c >> 4) & 0xf], tohex[c & 0xf]);
 		} else {
 			g_string_append_c (out, c);
@@ -2923,6 +2939,7 @@ header_encode_param (const unsigned char *in, gboolean *encoded)
 		inptr = newinptr;
 	}
 	
+	/* FIXME: set the 'language' as well, assuming we can get that info...? */
 	switch (encoding) {
 	default:
 		g_string_prepend (out, "iso-8859-1''");

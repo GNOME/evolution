@@ -1,3 +1,19 @@
+2001-11-19  Jeffrey Stedfast  <fejj@ximian.com>
+
+	Updates for compliance with rfc2231
+
+	* camel-mime-utils.c (header_encode_param):
+	camel_mime_special_table[c] & IS_ESAFE should have been
+	!(camel_mime_special_table[c] & IS_ESAFE). Also added a few
+	comments for how to improve the code at some future date.
+	(header_decode_param): Now takes an argument rfc2184_part so our
+	caller can get this information as well.
+	(header_decode_param_list): Pass an rfc2184_part argument to
+	header_decode_param and also added a few comments on where to
+	improve on rfc2184/rfc2231 compliance.
+	(rfc2047_decode_word): Updated to respect the updated ABNF syntax
+	of rfc2047 encoded words, yay.
+
 2001-11-16  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap/camel-imap-utils.c (imap_parse_body): Abort if
