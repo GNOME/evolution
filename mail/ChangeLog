@@ -1,3 +1,28 @@
+2001-10-09  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* folder-browser-ui.c (folder_browser_ui_add_message): Create a
+	chaqrset picker submenu in the View menu.
+
+	* mail-format.c (mail_format_raw_message): Pass the mail-display
+	to get_data_wrapper_text.
+	(get_data_wrapper_text): Use the user's override charset if one is
+	provided, otherwise user the user's default charset.
+	(handle_text_plain): Pass along the mail-display to
+	get_data_wrapper_text.
+	(handle_application_pgp): Same.
+	(handle_text_enriched): Here too.
+	(mail_get_message_body): Pass NULL as the mail-display to
+	get_data_wrapper_text since we don't have access to a
+	mail-display.
+
+	* mail-display.c (mail_display_set_charset): New function to set a
+	charset on the maildisplay. Once set, the message is redisplayed
+	using the new charset.
+	(mail_display_destroy): Free the charset.
+
+	* folder-browser.c (folder_browser_charset_changed): New callback
+	for when a user overrides the message charset.
+
 2001-10-09  Dan Winship  <danw@ximian.com>
 
 	* mail-callbacks.c (e_gnome_dialog_set_parent): Use

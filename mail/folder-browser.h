@@ -24,6 +24,8 @@
 #define IS_FOLDER_BROWSER(o)       (GTK_CHECK_TYPE ((o), FOLDER_BROWSER_TYPE))
 #define IS_FOLDER_BROWSER_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), FOLDER_BROWSER_TYPE))
 
+#define FB_DEFAULT_CHARSET _("Default")
+
 typedef enum _FolderBrowserSelectionState {
 	FB_SELSTATE_NONE,
 	FB_SELSTATE_SINGLE,
@@ -38,7 +40,7 @@ struct  _FolderBrowser {
 	
 	GNOME_Evolution_Shell shell;
 	GNOME_Evolution_ShellView shell_view;
-
+	
 	BonoboUIComponent *uicomp;
 	
 	/*
@@ -68,11 +70,11 @@ struct  _FolderBrowser {
 	gboolean     preview_shown;
 	gboolean     threaded;
 	gboolean     pref_master;
-
+	
 	FolderBrowserSelectionState selection_state;
 	GSList *sensitize_changes;
 	int sensitize_timeout_id;
-
+	
 	/* View collection and the menu handler object */
 	GalViewCollection *view_collection;
 	GalViewMenus *view_menus;
@@ -152,6 +154,12 @@ void folder_browser_set_message_display_style (BonoboUIComponent           *comp
 					       Bonobo_UIComponent_EventType type,
 					       const char                  *state,
 					       gpointer                     user_data);
+
+void folder_browser_charset_changed (BonoboUIComponent *component,
+				     const char *path,
+				     Bonobo_UIComponent_EventType type,
+				     const char *state,
+				     gpointer user_data);
 
 gboolean folder_browser_is_drafts (FolderBrowser *fb);
 gboolean folder_browser_is_sent   (FolderBrowser *fb);

@@ -48,7 +48,7 @@
 #include "mail-mt.h"
 #include "mail-crypto.h"
 
-static char *get_data_wrapper_text (CamelDataWrapper *data);
+static char *get_data_wrapper_text (CamelDataWrapper *data, MailDisplay *mail_display);
 
 static char *try_inline_pgp (char *start, CamelMimePart *part, MailDisplay *md);
 static char *try_inline_pgp_sig (char *start, CamelMimePart *part, MailDisplay *md);
@@ -209,8 +209,8 @@ mail_format_raw_message (CamelMimeMessage *mime_message, MailDisplay *md)
 		return;
 
 	mail_html_write (md->html, md->stream, "<table cellspacing=0 cellpadding=10 width=\"100%%\"><tr><td><tt>\n");
-
-	text = get_data_wrapper_text (CAMEL_DATA_WRAPPER (mime_message));
+	
+	text = get_data_wrapper_text (CAMEL_DATA_WRAPPER (mime_message), md);
 	html = e_text_to_html (text, E_TEXT_TO_HTML_CONVERT_NL | E_TEXT_TO_HTML_CONVERT_SPACES | E_TEXT_TO_HTML_ESCAPE_8BIT);
 	g_free (text);
 	gtk_html_write (md->html, md->stream, html, strlen (html));
@@ -1050,7 +1050,7 @@ mail_content_loaded (CamelDataWrapper *wrapper, MailDisplay *md, gboolean redisp
  * whitespace.
  */
 static char *
-get_data_wrapper_text (CamelDataWrapper *wrapper)
+get_data_wrapper_text (CamelDataWrapper *wrapper, MailDisplay *mail_display)
 {
 	CamelStream *memstream;
 	CamelStreamFilter *filtered_stream;
@@ -1068,7 +1068,11 @@ get_data_wrapper_text (CamelDataWrapper *wrapper)
 		CamelMimeFilterCharset *filter;
 		const char *charset;
 		
-		charset = mail_config_get_default_charset ();
+		if (mail_display && mail_display->charset)
+			charset = mail_display->charset;
+		else
+			charset = mail_config_get_default_charset ();
+		
 		filter = camel_mime_filter_charset_new_convert (charset, "utf-8");
 		if (filter) {
 			camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (filter));
@@ -1124,7 +1128,7 @@ handle_text_plain (CamelMimePart *part, const char *mime_type,
 	const char *format;
 	int i;
 	
-	text = get_data_wrapper_text (wrapper);
+	text = get_data_wrapper_text (wrapper, md);
 	if (!text)
 		return FALSE;
 	
@@ -1206,7 +1210,7 @@ handle_application_pgp (CamelMimePart *part, const char *mime_type,
 	if (g_strcasecmp (format, "text") != 0)
 		return FALSE;
 	
-	text = get_data_wrapper_text (wrapper);
+	text = get_data_wrapper_text (wrapper, md);
 	if (!text)
 		return FALSE;
 	
@@ -1684,7 +1688,7 @@ handle_text_enriched (CamelMimePart *part, const char *mime_type,
 		g_hash_table_insert (translations, "np", "<hr>");
 	}
 	
-	text = get_data_wrapper_text (wrapper);
+	text = get_data_wrapper_text (wrapper, md);
 	if (!text)
 		return FALSE;
 	
@@ -2351,7 +2355,7 @@ mail_get_message_body (CamelDataWrapper *data, gboolean want_plain, gboolean cit
 	/* Get the body data for other text/ or message/ types */
 	if (header_content_type_is (mime_type, "text", "*") ||
 	    header_content_type_is (mime_type, "message", "*")) {
-		text = get_data_wrapper_text (data);
+		text = get_data_wrapper_text (data, NULL);
 		if (text && !header_content_type_is (mime_type, "text", "html")) {
 			char *html = e_text_to_html (text, E_TEXT_TO_HTML_PRE | (cite ? E_TEXT_TO_HTML_CITE : 0));
 			g_free (text);

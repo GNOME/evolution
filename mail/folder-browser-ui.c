@@ -18,6 +18,7 @@
 #include <bonobo/bonobo-ui-component.h>
 #include <bonobo/bonobo-ui-util.h>
 
+#include "widgets/misc/e-charset-picker.h"
 #include "widgets/menus/gal-view-menus.h" /* GalView stuff */
 #include <gal/menus/gal-view-factory-etable.h>
 #include <gal/menus/gal-view-etable.h>
@@ -169,16 +170,16 @@ static void ui_add (FolderBrowser *fb,
 		    EPixmap pixcache[])
 {
 	BonoboUIComponent *uic = fb->uicomp;
-	gchar *file;
-
+	char *file;
+	
 	bonobo_ui_component_add_verb_list_with_data (uic, verb, fb);
-
+	
 	bonobo_ui_component_freeze (uic, NULL);
-
+	
 	file = g_strconcat ("evolution-mail-", name, ".xml", NULL);
 	bonobo_ui_util_set_ui (uic, EVOLUTION_DATADIR, file, "evolution-mail");
 	g_free (file);
-
+	
 	e_pixmaps_update (uic, pixcache);
 	
 	bonobo_ui_component_thaw (uic, NULL);
@@ -299,11 +300,10 @@ folder_browser_ui_add_message (FolderBrowser *fb)
 	int state;
 	BonoboUIComponent *uic = fb->uicomp;
 	FolderBrowserSelectionState prev_state;
-		
+	
 	ui_add (fb, "message", message_verbs, message_pixcache);
-
+	
 	/* Display Style */
-
 	state = fb->mail_display->display_style;
 	bonobo_ui_component_set_prop (uic, message_display_styles[state],
 				      "state", "1", NULL);
@@ -313,17 +313,20 @@ folder_browser_ui_add_message (FolderBrowser *fb)
 	/* FIXME: this kind of bypasses bonobo but seems the only way when we change components */
 	folder_browser_set_message_display_style (uic, strrchr (message_display_styles[state], '/') + 1,
 						  Bonobo_UIComponent_STATE_CHANGED, "1", fb);
-
+	
 	/* Resend Message */
-
 	if (fb->folder && !folder_browser_is_sent (fb)) 
 		bonobo_ui_component_set_prop (uic, "/commands/MessageResend", "sensitive", "0", NULL);
-
+	
 	/* sensitivity of message-specific commands */
-
 	prev_state = fb->selection_state;
 	fb->selection_state = FB_SELSTATE_UNDEFINED;
 	folder_browser_ui_set_selection_state (fb, prev_state);
+	
+	/* Charset picker */
+	e_charset_picker_bonobo_ui_populate (uic, "/menu/View", FB_DEFAULT_CHARSET,
+					     folder_browser_charset_changed,
+					     fb);
 }
 
 /*

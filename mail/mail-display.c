@@ -1353,6 +1353,23 @@ mail_display_set_message (MailDisplay *md, CamelMedium *medium)
 }
 
 /**
+ * mail_display_set_message:
+ * @mail_display: the mail display object
+ * @medium: the input camel medium, or %NULL
+ *
+ * Makes the mail_display object show the contents of the medium
+ * param.
+ **/
+void
+mail_display_set_charset (MailDisplay *mail_display, const char *charset)
+{
+	g_free (mail_display->charset);
+	mail_display->charset = g_strdup (charset);
+	
+	mail_display_queue_redisplay (mail_display);
+}
+
+/**
  * mail_display_load_images:
  * @md: the mail display object
  *
@@ -1395,6 +1412,7 @@ mail_display_destroy (GtkObject *object)
 {
 	MailDisplay *mail_display = MAIL_DISPLAY (object);
 
+	g_free (mail_display->charset);
 	g_free (mail_display->selection);
 
 	g_datalist_clear (mail_display->data);

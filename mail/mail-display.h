@@ -23,23 +23,25 @@
 
 struct _MailDisplay {
 	GtkVBox parent;
-
+	
 	EScrollFrame *scroll;
 	GtkHTML *html;
 	GtkHTMLStream *stream;
 	gint redisplay_counter;
 	gpointer last_active;
 	guint idle_id;
-
+	
+	char *charset;
+	
 	char *selection;
 	
 	CamelMimeMessage *current_message;
 	GData **data;
-
+	
 	/* Sigh.  This shouldn't be needed.  I haven't figured out why it is
 	   though.  */
 	GtkWidget *invisible;
-
+	
 	MailConfigDisplayStyle display_style;
 };
 
@@ -65,6 +67,9 @@ void           mail_display_stream_write_when_loaded (MailDisplay *md,
 
 void           mail_display_set_message (MailDisplay *mail_display, 
 					 CamelMedium *medium);
+
+void           mail_display_set_charset (MailDisplay *mail_display,
+					 const char *charset);
 
 void           mail_display_load_images (MailDisplay *mail_display);
 

@@ -138,7 +138,7 @@ folder_browser_finalise (GtkObject *object)
 	
 	g_free (folder_browser->uri);
 	folder_browser->uri = NULL;
-
+	
 	if (folder_browser->folder) {
 		camel_object_unhook_event(CAMEL_OBJECT(folder_browser->folder), "folder_changed",
 					  folder_changed, folder_browser);
@@ -1168,6 +1168,29 @@ folder_browser_set_message_display_style (BonoboUIComponent           *component
 				mail_config_set_message_display_style (i);
 			return;
 		}
+	}
+}
+
+void
+folder_browser_charset_changed (BonoboUIComponent           *component,
+				const char                  *path,
+				Bonobo_UIComponent_EventType type,
+				const char                  *state,
+				gpointer                     user_data)
+{
+	FolderBrowser *fb = FOLDER_BROWSER (user_data);
+	const char *charset;
+	
+	if (type != Bonobo_UIComponent_STATE_CHANGED)
+		return;
+	
+	if (atoi (state)) {
+		/* Charset menu names are "Charset-%s" where %s is the charset name */
+		charset = path + strlen ("Charset-");
+		if (!strcmp (charset, FB_DEFAULT_CHARSET))
+			charset = NULL;
+		
+		mail_display_set_charset (fb->mail_display, charset);
 	}
 }
 
