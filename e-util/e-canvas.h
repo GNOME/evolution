@@ -78,6 +78,10 @@ struct _ECanvas
 	int                   idle_id;
 	GList                *selection;
 	ECanvasSelectionInfo *cursor;
+
+	/* Input context for dead key support */
+	GdkIC     *ic;
+	GdkICAttr *ic_attr;
 };
 
 struct _ECanvasClass

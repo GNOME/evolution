@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-canvas.c
  * Copyright (C) 2000  Helix Code, Inc.
  * Author: Chris Lahey <clahey@helixcode.com>
@@ -26,6 +26,7 @@ static void e_canvas_init           (ECanvas         *card);
 static void e_canvas_destroy        (GtkObject        *object);
 static void e_canvas_class_init	    (ECanvasClass    *klass);
 static void e_canvas_realize        (GtkWidget        *widget);
+static void e_canvas_unrealize      (GtkWidget        *widget);
 static gint e_canvas_key            (GtkWidget        *widget,
 				     GdkEventKey      *event);
 
@@ -49,7 +50,7 @@ GtkType
 e_canvas_get_type (void)
 {
 	static GtkType canvas_type = 0;
-	
+
 	if (!canvas_type)
 	{
 		static const GtkTypeInfo canvas_info =
@@ -63,10 +64,10 @@ e_canvas_get_type (void)
 			/* reserved_2 */ NULL,
 			(GtkClassInitFunc) NULL,
 		};
-		
+
 		canvas_type = gtk_type_unique (gnome_canvas_get_type (), &canvas_info);
 	}
-	
+
 	return canvas_type;
 }
 
@@ -76,11 +77,11 @@ e_canvas_class_init (ECanvasClass *klass)
 	GtkObjectClass *object_class;
 	GnomeCanvasClass *canvas_class;
 	GtkWidgetClass *widget_class;
-	
+
 	object_class = (GtkObjectClass*) klass;
 	canvas_class = (GnomeCanvasClass *) klass;
 	widget_class = (GtkWidgetClass *) klass;
-	
+
 	parent_class = gtk_type_class (gnome_canvas_get_type ());
 
 	object_class->destroy = e_canvas_destroy;
@@ -90,7 +91,8 @@ e_canvas_class_init (ECanvasClass *klass)
 	widget_class->focus_in_event = e_canvas_focus_in;
 	widget_class->focus_out_event = e_canvas_focus_out;
 	widget_class->realize = e_canvas_realize;
-	
+	widget_class->unrealize = e_canvas_unrealize;
+
 	klass->reflow = NULL;
 
 	e_canvas_signals [REFLOW] =
@@ -109,6 +111,8 @@ e_canvas_init (ECanvas *canvas)
 {
 	canvas->selection = NULL;
 	canvas->cursor = NULL;
+	canvas->ic = NULL;
+	canvas->ic_attr = NULL;
 }
 
 static void
@@ -307,13 +311,13 @@ e_canvas_item_grab_focus (GnomeCanvasItem *item)
 	if (!GTK_WIDGET_HAS_FOCUS (GTK_WIDGET(item->canvas))) {
 		gtk_widget_grab_focus (GTK_WIDGET (item->canvas));
 	}
-	
+
 	if (focused_item) {
 		ev.focus_change.type = GDK_FOCUS_CHANGE;
 		ev.focus_change.window = GTK_LAYOUT (item->canvas)->bin_window;
 		ev.focus_change.send_event = FALSE;
 		ev.focus_change.in = TRUE;
-		
+
 		emit_event (item->canvas, &ev);
 	}
 }
@@ -323,10 +327,15 @@ static gint
 e_canvas_focus_in (GtkWidget *widget, GdkEventFocus *event)
 {
 	GnomeCanvas *canvas;
+	ECanvas *ecanvas;
 
 	canvas = GNOME_CANVAS (widget);
+	ecanvas = E_CANVAS (widget);
 
 	GTK_WIDGET_SET_FLAGS (widget, GTK_HAS_FOCUS);
+
+	if (ecanvas->ic)
+		gdk_im_begin (ecanvas->ic, canvas->layout.bin_window);
 
 	if (canvas->focused_item)
 		return emit_event (canvas, (GdkEvent *) event);
@@ -344,6 +353,8 @@ e_canvas_focus_out (GtkWidget *widget, GdkEventFocus *event)
 
 	GTK_WIDGET_UNSET_FLAGS (widget, GTK_HAS_FOCUS);
 
+	gdk_im_end ();
+
 	if (canvas->focused_item)
 		return emit_event (canvas, (GdkEvent *) event);
 	else
@@ -353,10 +364,52 @@ e_canvas_focus_out (GtkWidget *widget, GdkEventFocus *event)
 static void
 e_canvas_realize (GtkWidget *widget)
 {
+	ECanvas *ecanvas = E_CANVAS (widget);
+
 	if (GTK_WIDGET_CLASS (parent_class)->realize)
 		(* GTK_WIDGET_CLASS (parent_class)->realize) (widget);
-	
+
 	gdk_window_set_back_pixmap (GTK_LAYOUT (widget)->bin_window, NULL, FALSE);
+
+	if (gdk_im_ready () && (ecanvas->ic_attr = gdk_ic_attr_new ()) != NULL) {
+		GdkEventMask mask;
+		GdkICAttr *attr = ecanvas->ic_attr;
+		GdkICAttributesType attrmask = GDK_IC_ALL_REQ;
+		GdkIMStyle style;
+		GdkIMStyle supported_style = GDK_IM_PREEDIT_NONE |
+			GDK_IM_PREEDIT_NOTHING |
+			GDK_IM_STATUS_NONE |
+			GDK_IM_STATUS_NOTHING;
+
+		attr->style = style = gdk_im_decide_style (supported_style);
+		attr->client_window = ecanvas->parent.layout.bin_window;
+
+		ecanvas->ic = gdk_ic_new (attr, attrmask);
+		if (ecanvas->ic != NULL) {
+			mask = gdk_window_get_events (attr->client_window);
+			mask |= gdk_ic_get_events (ecanvas->ic);
+			gdk_window_set_events (attr->client_window, mask);
+
+			if (GTK_WIDGET_HAS_FOCUS (widget))
+				gdk_im_begin (ecanvas->ic, attr->client_window);
+		} else
+			g_warning ("Can't create input context.");
+	}
+
+}
+
+static void
+e_canvas_unrealize (GtkWidget *widget)
+{
+	ECanvas * ecanvas = E_CANVAS (widget);
+	if (ecanvas->ic) {
+		gdk_ic_destroy (ecanvas->ic);
+		ecanvas->ic = NULL;
+	}
+	if (ecanvas->ic_attr) {
+		gdk_ic_attr_destroy (ecanvas->ic_attr);
+		ecanvas->ic_attr = NULL;
+	}
 }
 
 static void
@@ -374,7 +427,7 @@ e_canvas_item_invoke_reflow (GnomeCanvasItem *item, int flags)
 				e_canvas_item_invoke_reflow (child, flags);
 		}
 	}
-	
+
 	if (item->object.flags & E_CANVAS_ITEM_NEEDS_REFLOW) {
 		ECanvasItemReflowFunc func;
 		func = gtk_object_get_data (GTK_OBJECT (item),
@@ -504,16 +557,16 @@ e_canvas_item_set_cursor (GnomeCanvasItem *item, gpointer id)
 	canvas->selection = NULL;
 
 	gnome_canvas_item_grab_focus(item);
-	
+
 	info = g_new(ECanvasSelectionInfo, 1);
 	info->item = item;
 	info->id = id;
-	
+
 	flags = E_CANVAS_ITEM_SELECTION_SELECT | E_CANVAS_ITEM_SELECTION_CURSOR;
 	func = gtk_object_get_data(GTK_OBJECT(item), "ECanvasItem::selection_callback");
 	if (func)
 		func(item, flags, id);
-	
+
 	canvas->selection = g_list_prepend(canvas->selection, info);
 	canvas->cursor = info;
 }
@@ -535,16 +588,16 @@ e_canvas_item_add_selection (GnomeCanvasItem *item, gpointer id)
 	g_return_if_fail(GNOME_IS_CANVAS_ITEM(item));
 	g_return_if_fail(item->canvas != NULL);
 	g_return_if_fail(E_IS_CANVAS(item->canvas));
-	
+
 	flags = E_CANVAS_ITEM_SELECTION_SELECT;
 	canvas = E_CANVAS(item->canvas);
-	
+
 	if (canvas->cursor) {
 		func = gtk_object_get_data(GTK_OBJECT(canvas->cursor->item), "ECanvasItem::selection_callback");
 		if (func)
 			func(canvas->cursor->item, flags, canvas->cursor->id);
 	}
-	
+
 	gnome_canvas_item_grab_focus(item);
 
 	flags = E_CANVAS_ITEM_SELECTION_SELECT | E_CANVAS_ITEM_SELECTION_CURSOR;
@@ -556,7 +609,7 @@ e_canvas_item_add_selection (GnomeCanvasItem *item, gpointer id)
 	func = gtk_object_get_data(GTK_OBJECT(item), "ECanvasItem::selection_callback");
 	if (func)
 		func(item, flags, id);
-	
+
 	canvas->selection = g_list_prepend(canvas->selection, info);
 	canvas->cursor = info;
 }
@@ -579,7 +632,7 @@ e_canvas_item_remove_selection (GnomeCanvasItem *item, gpointer id)
 
 	for (list = canvas->selection; list; list = g_list_next(list)) {
 		info = list->data;
-		
+
 		if (info->item == item) {
 			ECanvasItemSelectionCompareFunc compare_func;
 			compare_func = gtk_object_get_data(GTK_OBJECT(info->item), "ECanvasItem::selection_compare_callback");
@@ -601,14 +654,3 @@ e_canvas_item_remove_selection (GnomeCanvasItem *item, gpointer id)
 		}
 	}
 }
-
-
-
-
-
-
-
-
-
-
-

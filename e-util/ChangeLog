@@ -1,3 +1,12 @@
+2000-06-29  Jody Goldberg <jgoldberg@home.com>
+
+	* e-canvas.c (e_canvas_init) : Init the InputContext members
+	(e_canvas_class_init) : Add a handler for unrealize.
+	(e_canvas_focus_in) : enable the input context.
+	(e_canvas_focus_out) : enable the input context.
+	(e_canvas_realize) : Create an input context.
+	(e_canvas_unrealize) : New function to release the input context.
+
 2000-06-28  Dan Winship  <danw@helixcode.com>
 
 	* e-html-utils.c (url_extract): add ")" to the set of characters
