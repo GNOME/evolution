@@ -486,7 +486,7 @@ group_key_press (ETableGroup *etg, int row, int col, GdkEvent *event, ETable *et
 	switch (key->keyval) {
 	case GDK_Page_Down:
 		vadj = gtk_layout_get_vadjustment (GTK_LAYOUT (et->table_canvas));
-		y = CLAMP(vadj->value + (2 * vadj->page_size - 20), 0, vadj->upper);
+		y = CLAMP(vadj->value + (2 * vadj->page_size - 50), 0, vadj->upper);
 		y -= vadj->value;
 		e_table_get_cell_at (et, 30, y, &row_local, &col_local);
 		row_local = e_table_view_to_model_row (et, row_local);
@@ -496,7 +496,7 @@ group_key_press (ETableGroup *etg, int row, int col, GdkEvent *event, ETable *et
 		break;
 	case GDK_Page_Up:
 		vadj = gtk_layout_get_vadjustment (GTK_LAYOUT (et->table_canvas));
-		y = CLAMP(vadj->value - (vadj->page_size - 20), 0, vadj->upper);
+		y = CLAMP(vadj->value - (vadj->page_size - 50), 0, vadj->upper);
 		y -= vadj->value;
 		e_table_get_cell_at (et, 30, y, &row_local, &col_local);
 		row_local = e_table_view_to_model_row (et, row_local);

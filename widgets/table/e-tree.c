@@ -535,7 +535,7 @@ item_key_press (ETableItem *eti, int row, int col, GdkEvent *event, ETree *et)
 	switch (key->keyval) {
 	case GDK_Page_Down:
 		vadj = gtk_layout_get_vadjustment (GTK_LAYOUT (et->priv->table_canvas));
-		y = CLAMP(vadj->value + (2 * vadj->page_size - 20), 0, vadj->upper);
+		y = CLAMP(vadj->value + (2 * vadj->page_size - 50), 0, vadj->upper);
 		y -= vadj->value;
 		e_tree_get_cell_at (et, 30, y, &row_local, &col_local);
 		row_local = e_tree_view_to_model_row (et, row_local);
@@ -545,7 +545,7 @@ item_key_press (ETableItem *eti, int row, int col, GdkEvent *event, ETree *et)
 		break;
 	case GDK_Page_Up:
 		vadj = gtk_layout_get_vadjustment (GTK_LAYOUT (et->priv->table_canvas));
-		y = CLAMP(vadj->value - (vadj->page_size - 20), 0, vadj->upper);
+		y = CLAMP(vadj->value - (vadj->page_size - 50), 0, vadj->upper);
 		y -= vadj->value;
 		e_tree_get_cell_at (et, 30, y, &row_local, &col_local);
 		row_local = e_tree_view_to_model_row (et, row_local);
