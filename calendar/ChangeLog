@@ -1,3 +1,8 @@
+2000-12-15  Federico Mena Quintero  <federico@helixcode.com>
+
+	* cal-util/timeutil.[ch] (time_from_isodate): Removed unused
+	function, a relic from Gnomecal.
+
 2000-12-15  Dan Winship  <danw@helixcode.com>
 
 	* cal-util/timeutil.c (time_from_isodate): Fix the sign in the

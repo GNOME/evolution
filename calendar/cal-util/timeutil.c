@@ -12,40 +12,6 @@
 
 
 
-#define digit_at(x,y) (x [y] - '0')
-	
-time_t
-time_from_isodate (char *str)
-{
-	struct tm my_tm;
-	time_t t;
-
-	if (strlen (str) < 14)
-		return -1;
-	
-	my_tm.tm_year = (digit_at (str, 0) * 1000 + digit_at (str, 1) * 100 +
-		digit_at (str, 2) * 10 + digit_at (str, 3)) - 1900;
-
-	my_tm.tm_mon  = digit_at (str, 4) * 10 + digit_at (str, 5) - 1;
-	my_tm.tm_mday = digit_at (str, 6) * 10 + digit_at (str, 7);
-	my_tm.tm_hour = digit_at (str, 9) * 10 + digit_at (str, 10);
-	my_tm.tm_min  = digit_at (str, 11) * 10 + digit_at (str, 12);
-	my_tm.tm_sec  = digit_at (str, 13) * 10 + digit_at (str, 14);
-	my_tm.tm_isdst = -1;
-	
-	t = mktime (&my_tm);
-
-	if (str [15] == 'Z')
-#if defined(HAVE_TM_GMTOFF)
-		t += my_tm.tm_gmtoff
-#elif defined(HAVE_TIMEZONE)
-		t -= timezone
-#endif
-		;
-	    
-	return t;
-}
-
 void
 print_time_t (time_t t)
 {

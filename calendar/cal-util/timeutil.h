@@ -14,7 +14,6 @@
 #include <ical.h>
 
 
-time_t time_from_isodate        (char *str);
 time_t time_from_start_duration (time_t start, char *duration);
 char   *isodate_from_time_t     (time_t t);
 int    get_time_t_hour          (time_t t);
