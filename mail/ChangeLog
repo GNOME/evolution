@@ -1,3 +1,8 @@
+2001-09-27  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-session.c (mail_session_remember_password): Perform a
+	NULL-check. Hopefully fixes bug #7874.
+
 2001-09-27  Dan Winship  <danw@ximian.com>
 
 	* mail-offline-handler.c (service_is_relevant): A service needs to

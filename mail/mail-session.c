@@ -446,6 +446,9 @@ mail_session_remember_password (const char *url_string)
 	CamelURL *url;
 	char *simple_url;
 	
+	if (!passwords)
+		return;
+	
 	url = camel_url_new (url_string, NULL);
 	simple_url = camel_url_to_string (url, CAMEL_URL_HIDE_PASSWORD | CAMEL_URL_HIDE_PARAMS);
 	camel_url_free (url);
