@@ -42,6 +42,8 @@
 #include <libgnomeui/gnome-stock.h>
 #include <libgnomeui/gnome-window-icon.h>
 #include <bonobo/bonobo-main.h>
+#include <bonobo/bonobo-moniker-util.h>
+#include <bonobo/bonobo-exception.h>
 #include <glade/glade.h>
 #include <liboaf/liboaf.h>
 
@@ -69,6 +71,8 @@ static char *evolution_directory = NULL;
 static gboolean no_splash = FALSE;
 static gboolean start_online = FALSE;
 static gboolean start_offline = FALSE;
+static gboolean force_upgrade = FALSE;
+
 extern char *evolution_debug_log;
 
 
@@ -227,7 +231,7 @@ show_development_warning (GtkWindow *parent)
 		  "but some features are either unfinished or don't work properly.\n"
 		  "\n"
 		  "If you want a stable version of Evolution, we urge you to uninstall,\n"
-		  "this version, and install a 1.0.x version instead (1.0.5 recommended).\n"
+		  "this version, and install a 1.0.x version instead (1.0.8)\n"
 		  "\n"
 		  "If you find bugs, please report them to us at bugzilla.ximian.com.\n"
                   "This product comes with no warranty and is not intended for\n"
@@ -295,6 +299,46 @@ new_view_created_callback (EShell *shell,
 }
 
 
+static void
+upgrade_from_1_0_if_needed (void)
+{
+	Bonobo_ConfigDatabase config_db;
+	CORBA_Environment ev;
+	int result;
+
+	CORBA_exception_init (&ev);
+
+	config_db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", &ev);
+	if (BONOBO_EX (&ev) || config_db == CORBA_OBJECT_NIL) {
+		g_print ("(Cannot access Bonobo/ConfigDatabase, not upgrading configuration.)\n");
+		if (BONOBO_EX (&ev))
+			g_print ("\t%s\n", BONOBO_EX_ID (&ev));
+		CORBA_exception_free (&ev);
+		return;
+ 	}
+
+	CORBA_exception_free (&ev);
+
+	if (! force_upgrade
+	    && bonobo_config_get_boolean_with_default (config_db, "/Shell/upgrade_from_1_0_to_1_2_performed",
+						       FALSE, NULL))
+		return;
+
+	g_print ("\nOlder configuration files detected, upgrading...\n");
+
+	result = system (PREFIX "/bin/evolution-mail-upgrade");
+
+	if (result == 0)
+		g_print ("\n--> Configuration files upgraded from version 1.0.\n");
+	else
+		g_print ("\n*** Error upgrading configuration files -- status %d\n", result);
+
+	bonobo_config_set_boolean (config_db, "/Shell/upgrade_from_1_0_to_1_2_performed", TRUE, NULL);
+
+	bonobo_object_release_unref (config_db, NULL);
+}
+
+
 /* This is for doing stuff that requires the GTK+ loop to be running already.  */
 
 static gint
@@ -309,6 +353,8 @@ idle_cb (void *data)
 	gboolean have_evolution_uri;
 	gboolean display_default;
 	gboolean displayed_any;
+
+	upgrade_from_1_0_if_needed ();
 
 	CORBA_exception_init (&ev);
 
@@ -435,10 +481,16 @@ int
 main (int argc, char **argv)
 {
 	struct poptOption options[] = {
-		{ "no-splash", '\0', POPT_ARG_NONE, &no_splash, 0, N_("Disable splash screen"), NULL },
-		{ "offline", '\0', POPT_ARG_NONE, &start_offline, 0, N_("Start in offline mode"), NULL },
-		{ "online", '\0', POPT_ARG_NONE, &start_online, 0, N_("Start in online mode"), NULL },
-		{ "debug", '\0', POPT_ARG_STRING, &evolution_debug_log, 0, N_("Send the debugging output of all components to a file."), NULL },
+		{ "no-splash", '\0', POPT_ARG_NONE, &no_splash, 0,
+		  N_("Disable splash screen"), NULL },
+		{ "offline", '\0', POPT_ARG_NONE, &start_offline, 0, 
+		  N_("Start in offline mode"), NULL },
+		{ "online", '\0', POPT_ARG_NONE, &start_online, 0, 
+		  N_("Start in online mode"), NULL },
+		{ "debug", '\0', POPT_ARG_STRING, &evolution_debug_log, 0, 
+		  N_("Send the debugging output of all components to a file."), NULL },
+		{ "force-upgrade", '\0', POPT_ARG_STRING, &force_upgrade, 0, 
+		  N_("Force upgrading of configuration files from Evolution 1.0.x"), NULL },
 		{ NULL, '\0', POPT_ARG_INCLUDE_TABLE, &oaf_popt_options, 0, NULL, NULL },
 		POPT_AUTOHELP
 		{ NULL, '\0', 0, NULL, 0, NULL, NULL }

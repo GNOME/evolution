@@ -11,6 +11,7 @@ INCLUDES = -O							\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"            	\
 	-DEVOLUTION_GLADEDIR=\"$(datadir)/evolution/glade\"	\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"		\
+	-DPREFIX=\"$(prefix)\"					\
 	-DG_LOG_DOMAIN=\"evolution-shell\"			\
 	$(SHELL_CFLAGS)
 
