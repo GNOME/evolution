@@ -141,6 +141,7 @@ struct _CamelKeyTableClass {
 CamelType camel_key_table_get_type(void);
 
 CamelKeyTable * camel_key_table_new(CamelBlockFile *bs, camel_block_t root);
+int camel_key_table_sync(CamelKeyTable *ki);
 camel_key_t camel_key_table_add(CamelKeyTable *ki, const char *key, camel_block_t data, unsigned int flags);
 void camel_key_table_set_data(CamelKeyTable *ki, camel_key_t keyid, camel_block_t data);
 void camel_key_table_set_flags(CamelKeyTable *ki, camel_key_t keyid, unsigned int flags, unsigned int set);

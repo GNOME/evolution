@@ -193,14 +193,22 @@ text_index_add_name_to_word(CamelIndex *idx, const char *word, camel_key_t namei
 		if (wordid == 0) {
 			data = 0;
 			wordid = camel_key_table_add(p->word_index, word, 0, 0);
-			if (wordid == 0)
+			if (wordid == 0){
+				g_warning("Could not create key entry for word '%s': %s\n", word, strerror(errno));
 				return;
-			camel_partition_table_add(p->word_hash, word, wordid);
+			}
+			if (camel_partition_table_add(p->word_hash, word, wordid) == -1) {
+				g_warning("Could not create hash entry for word '%s': %s\n", word, strerror(errno));
+				return;
+			}
 			rb->words++;
+			camel_block_file_touch_block(p->blocks, p->blocks->root_block);
 		} else {
 			data = camel_key_table_lookup(p->word_index, wordid, NULL, 0);
-			if (data == 0)
+			if (data == 0) {
+				g_warning("Could not find key entry for word '%s': %s\n", word, strerror(errno));
 				return;
+			}
 		}
 		
 		w = g_malloc0(sizeof(*w));
@@ -220,6 +228,8 @@ text_index_add_name_to_word(CamelIndex *idx, const char *word, camel_key_t namei
 			if (camel_key_file_write(p->links, &ww->data, ww->used, ww->names) != -1) {
 				io(printf("  new data [%x]\n", ww->data));
 				rb->keys++;
+				camel_block_file_touch_block(p->blocks, p->blocks->root_block);
+				/* if this call fails - we still point to the old data - not fatal */
 				camel_key_table_set_data(p->word_index, ww->wordid, ww->data);
 				e_dlist_remove((EDListNode *)ww);
 				g_hash_table_remove(p->words, ww->word);
@@ -239,6 +249,8 @@ text_index_add_name_to_word(CamelIndex *idx, const char *word, camel_key_t namei
 			io(printf("writing key file entry '%s' [%x]\n", w->word, w->data));
 			if (camel_key_file_write(p->links, &w->data, w->used, w->names) != -1) {
 				rb->keys++;
+				camel_block_file_touch_block(p->blocks, p->blocks->root_block);
+				/* if this call fails - we still point to the old data - not fatal */
 				camel_key_table_set_data(p->word_index, w->wordid, w->data);
 			}
 			/* FIXME: what to on error?  lost data? */
@@ -264,7 +276,7 @@ text_index_sync(CamelIndex *idx)
 
 	CAMEL_TEXT_INDEX_LOCK(idx, lock);
 
-	/* we sync, bump down the cahce limits since we dont need them for reading */
+	/* we sync, bump down the cache limits since we dont need them for reading */
 	p->blocks->block_cache_limit = 128;
 	/* this doesn't really need to be dropped, its only used in updates anyway */
 	p->word_cache_limit = 1024;
@@ -277,6 +289,7 @@ text_index_sync(CamelIndex *idx)
 			if (camel_key_file_write(p->links, &ww->data, ww->used, ww->names) != -1) {
 				io(printf("  new data [%x]\n", ww->data));
 				rb->keys++;
+				camel_block_file_touch_block(p->blocks, p->blocks->root_block);
 				camel_key_table_set_data(p->word_index, ww->wordid, ww->data);
 			} else {
 				ret = -1;
@@ -288,6 +301,10 @@ text_index_sync(CamelIndex *idx)
 		g_free(ww);
 	}	
 
+	if (camel_key_table_sync(p->word_index) == -1
+	    || camel_key_table_sync(p->name_index) == -1)
+		ret = -1;
+
 	/* only do the frag/compress check if we did some new writes on this index */
 	if (ret == 0 && work) {
 		wfrag = rb->words ? (((rb->keys - rb->words) * 100)/ rb->words) : 0;
@@ -298,9 +315,11 @@ text_index_sync(CamelIndex *idx)
 			ret = text_index_compress_nosync(idx);
 	}
 
+	ret = camel_block_file_sync(p->blocks);
+
 	CAMEL_TEXT_INDEX_UNLOCK(idx, lock);
 
-	return camel_block_file_sync(p->blocks);
+	return ret;
 }
 
 static void tmp_name(const char *in, char *o)
@@ -365,6 +384,8 @@ text_index_compress_nosync(CamelIndex *idx)
 	newp = CTI_PRIVATE(newidx);
 	oldp = CTI_PRIVATE(idx);
 
+	CAMEL_TEXT_INDEX_LOCK(idx, lock);
+
 	rb = (struct _CamelTextIndexRoot *)newp->blocks->root;
 
 	rb->words = 0;
@@ -399,7 +420,7 @@ text_index_compress_nosync(CamelIndex *idx)
 		g_free(name);
 		name = NULL;
 		deleted |= flags;
-	} while (oldkeyid);
+	}
 
 	/* Copy word data across, remapping/deleting and create new index for it */
 	/* We re-block the data into 256 entry lots while we're at it, since we only
@@ -423,12 +444,15 @@ text_index_compress_nosync(CamelIndex *idx)
 				if (newkeyid) {
 					newrecords[newcount++] = newkeyid;
 					if (newcount == sizeof(newrecords)/sizeof(newrecords[0])) {
-						if (camel_key_file_write(newp->links, &newdata, newcount, newrecords) == -1)
+						if (camel_key_file_write(newp->links, &newdata, newcount, newrecords) == -1) {
+							g_free(records);
 							goto fail;
+						}
 						newcount = 0;
 					}
 				}
 			}
+			g_free(records);
 		}
 		
 		if (newcount > 0) {
@@ -442,7 +466,9 @@ text_index_compress_nosync(CamelIndex *idx)
 		camel_partition_table_add(newp->word_hash, name, newkeyid);
 		g_free(name);
 		name = NULL;
-	} while (oldkeyid);
+	}
+
+	camel_block_file_touch_block(newp->blocks, newp->blocks->root_block);
 	
 	if (camel_index_sync((CamelIndex *)newidx) == -1)
 		goto fail;
@@ -468,6 +494,8 @@ text_index_compress_nosync(CamelIndex *idx)
 
 	ret = 0;
 fail:
+	CAMEL_TEXT_INDEX_UNLOCK(idx, lock);
+
 	camel_object_unref((CamelObject *)newidx);
 	g_free(name);
 	g_hash_table_destroy(remap);
@@ -489,11 +517,13 @@ text_index_rename(CamelIndex *idx, const char *path)
 	char *newlink;
 	int err, ret;
 
-	/* TODO: Needs some lock? */
+	CAMEL_TEXT_INDEX_LOCK(idx, lock);
 
 	ret = camel_block_file_rename(p->blocks, path);
-	if (ret == -1)
+	if (ret == -1) {
+		CAMEL_TEXT_INDEX_UNLOCK(idx, lock);
 		return -1;
+	}
 
 	newlink = alloca(strlen(path)+8);
 	sprintf(newlink, "%s.data", path);
@@ -501,12 +531,15 @@ text_index_rename(CamelIndex *idx, const char *path)
 	if (ret == -1) {
 		err = errno;
 		camel_block_file_rename(p->blocks, path);
+		CAMEL_TEXT_INDEX_UNLOCK(idx, lock);
 		errno = err;
 		return -1;
 	}
 
 	g_free(idx->path);
 	idx->path = g_strdup(path);
+
+	CAMEL_TEXT_INDEX_UNLOCK(idx, lock);
 
 	return 0;
 }
@@ -538,6 +571,8 @@ text_index_add_name(CamelIndex *idx, const char *name)
 	/* If we have it already replace it */
 	keyid = camel_partition_table_lookup(p->name_hash, name);
 	if (keyid != 0) {
+		/* TODO: We could just update the partition table's
+		   key pointer rather than having to delete it */
 		rb->deleted++;
 		camel_key_table_set_flags(p->name_index, keyid, 1, 1);
 		camel_partition_table_remove(p->name_hash, name);
@@ -549,7 +584,9 @@ text_index_add_name(CamelIndex *idx, const char *name)
 		rb->names++;
 	}
 
-	/* TODO: if keyid == 0, we had a failure, we shoudl somehow flag that, but for
+	camel_block_file_touch_block(p->blocks, p->blocks->root_block);
+
+	/* TODO: if keyid == 0, we had a failure, we should somehow flag that, but for
 	   now just return a valid object but discard its results, see text_index_write_name */
 
 	CAMEL_TEXT_INDEX_UNLOCK(idx, lock);
@@ -607,6 +644,7 @@ text_index_delete_name(CamelIndex *idx, const char *name)
 	keyid = camel_partition_table_lookup(p->name_hash, name);
 	if (keyid != 0) {
 		rb->deleted++;
+		camel_block_file_touch_block(p->blocks, p->blocks->root_block);
 		camel_key_table_set_flags(p->name_index, keyid, 1, 1);
 		camel_partition_table_remove(p->name_hash, name);
 	}
@@ -760,7 +798,6 @@ text_index_normalise(CamelIndex *idx, const char *in, void *data)
 	return word;
 }
 
-/* Need flags? */
 CamelTextIndex *
 camel_text_index_new(const char *path, int flags)
 {
@@ -789,24 +826,28 @@ camel_text_index_new(const char *path, int flags)
 		bl = camel_block_file_new_block(p->blocks);
 		rb->word_index_root = bl->id;
 		camel_block_file_unref_block(p->blocks, bl);
+		camel_block_file_touch_block(p->blocks, p->blocks->root_block);
 	}	
 
 	if (rb->word_hash_root == 0) {
 		bl = camel_block_file_new_block(p->blocks);
 		rb->word_hash_root = bl->id;
 		camel_block_file_unref_block(p->blocks, bl);
+		camel_block_file_touch_block(p->blocks, p->blocks->root_block);
 	}	
 
 	if (rb->name_index_root == 0) {
 		bl = camel_block_file_new_block(p->blocks);
 		rb->name_index_root = bl->id;
 		camel_block_file_unref_block(p->blocks, bl);
+		camel_block_file_touch_block(p->blocks, p->blocks->root_block);
 	}	
 
 	if (rb->name_hash_root == 0) {
 		bl = camel_block_file_new_block(p->blocks);
 		rb->name_hash_root = bl->id;
 		camel_block_file_unref_block(p->blocks, bl);
+		camel_block_file_touch_block(p->blocks, p->blocks->root_block);
 	}	
 
 	p->word_index = camel_key_table_new(p->blocks, rb->word_index_root);
@@ -1337,7 +1378,9 @@ text_index_cursor_reset(CamelIndexCursor *idc)
 	struct _CamelTextIndexCursorPrivate *p = CIC_PRIVATE(idc);
 
 	g_free(p->records);
+	p->records = NULL;
 	g_free(p->current);
+	p->current = NULL;
 	p->record_count = 0;
 	p->record_index = 0;
 	p->next = p->first;

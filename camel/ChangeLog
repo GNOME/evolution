@@ -1,4 +1,45 @@
+2002-04-03  Not Zed  <NotZed@Ximian.com>
+
+	* camel-text-index.c (text_index_sync): Sync the key tables
+	explcitly.
+
+	* camel-partition-table.c (camel_key_table_finalise): Sync root
+	block when done.
+	(camel_key_table_sync): New function, sync key table (root) explicitly.
+
 2002-04-02  Not Zed  <NotZed@Ximian.com>
+
+	* camel-block-file.c (camel_block_file_free_block): Mark root
+	block dirty when we change it (this function isn't used yet
+	anyway).
+
+	* camel-text-index.c (text_index_add_name_to_word): Touch the root
+	block when we modify the counts.  Also, abort processing on any
+	errors.
+	(text_index_sync): Fix typo in comments.  Sync the block file
+	inside the lock.
+	(text_index_compress_nosync): Lock the old index while we're
+	compressing.
+	(text_index_compress_nosync): Remove the bogus while() at the end
+	of the while() loops!  Also plug a memleak - records weren't
+	freed.
+	(text_index_rename): Lock around rename op.
+	(text_index_add_name): More typos.
+	(text_index_sync): Touch root when changing it.
+	(text_index_add_name): "
+	(text_index_delete_name): "
+	(camel_text_index_new): Touch root if we change it.
+	(text_index_cursor_reset): Make sure we NULL pointers after we
+	free them (nothing uses this yet).
+
+	* camel-partition-table.c (hash_key): Remove some debug
+	accidentally left in.
+	(camel_partition_table_add): When linking in the next block list,
+	set the right previous pointer.
+	(camel_key_table_add): Simplify the 'left' calculation (it was
+	already ok though).
+	(camel_key_table_next): Initialise returns before processing.
+	Broaden the lock slightly, and simplify validity calculations.
 
 	* providers/imap/camel-imap-store.c (imap_keepalive): Put back in
 	the exception setup stuff i disabled for debugging.

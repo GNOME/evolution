@@ -40,7 +40,7 @@
 
 /* Do we synchronously write table updates - makes the
    tables consistent after program crash without sync */
-#define SYNC_UPDATES
+/*#define SYNC_UPDATES*/
 
 #ifdef ENABLE_THREADS
 #include <pthread.h>
@@ -141,18 +141,10 @@ lookup word, if nameid is deleted, mark it in wordlist as unused and mark for wr
 
 /* ********************************************************************** */
 
-void
-camel_break_here(void)
-{
-}
-
 /* This simple hash seems to work quite well */
 static camel_hash_t hash_key(const char *key)
 {
 	camel_hash_t hash = 0xABADF00D;
-
-	if (strcmp(key, "4852") == 0)
-		camel_break_here();
 
 	while (*key) {
 		hash = hash * (*key) ^ (*key);
@@ -477,7 +469,7 @@ camel_partition_table_add(CamelPartitionTable *cpi, const char *key, camel_key_t
 
 				/* link in-memory */
 				ptnblock->next = ptblock->next;
-				ptblock->next->prev = ptblock;
+				ptblock->next->prev = ptnblock;
 				ptblock->next = ptnblock;
 				ptnblock->prev = ptblock;
 
@@ -622,8 +614,10 @@ camel_key_table_finalise(CamelKeyTable *ki)
 	p = ki->priv;
 
 	if (ki->blocks) {
-		if (ki->root_block)
+		if (ki->root_block) {
+			camel_block_file_sync_block(ki->blocks, ki->root_block);
 			camel_block_file_unref_block(ki->blocks, ki->root_block);
+		}
 		camel_block_file_sync(ki->blocks);
 		camel_object_unref((CamelObject *)ki->blocks);
 	}
@@ -680,6 +674,16 @@ camel_key_table_new(CamelBlockFile *bs, camel_block_t root)
 	return ki;
 }
 
+int
+camel_key_table_sync(CamelKeyTable *ki)
+{
+#ifdef SYNC_UPDATES
+	return 0;
+#else
+	return camel_block_file_sync_block(ki->blocks, ki->root_block);
+#endif
+}
+
 camel_key_t
 camel_key_table_add(CamelKeyTable *ki, const char *key, camel_block_t data, unsigned int flags)
 {
@@ -715,7 +719,8 @@ camel_key_table_add(CamelKeyTable *ki, const char *key, camel_block_t data, unsi
 		goto fail;
 
 	if (kblast->used > 0) {
-		left = &kblast->u.keydata[kblast->u.keys[kblast->used-1].offset] - (char *)(&kblast->u.keys[kblast->used+1]);
+		/*left = &kblast->u.keydata[kblast->u.keys[kblast->used-1].offset] - (char *)(&kblast->u.keys[kblast->used+1]);*/
+		left = kblast->u.keys[kblast->used-1].offset - sizeof(kblast->u.keys[0])*(kblast->used+1);
 		d(printf("used = %d (%d), filled = %d, left = %d  len = %d?\n",
 			 kblast->used, kblast->used * sizeof(kblast->u.keys[0]),
 			 sizeof(kblast->u.keydata) - kblast->u.keys[kblast->used-1].offset,
@@ -901,6 +906,15 @@ camel_key_table_next(CamelKeyTable *ki, camel_key_t next, char **keyp, unsigned 
 	camel_block_t blockid;
 	int index;
 
+	if (keyp)
+		*keyp = 0;
+	if (flagsp)
+		*flagsp = 0;
+	if (datap)
+		*datap = 0;
+
+	CAMEL_KEY_TABLE_LOCK(ki, lock);
+
 	if (next == 0) {
 		next = ki->root->first;
 		if (next == 0)
@@ -913,8 +927,10 @@ camel_key_table_next(CamelKeyTable *ki, camel_key_t next, char **keyp, unsigned 
 		index = next & (CAMEL_BLOCK_SIZE-1);
 		
 		bl = camel_block_file_get_block(ki->blocks, blockid);
-		if (bl == NULL)
+		if (bl == NULL) {
+			CAMEL_KEY_TABLE_UNLOCK(ki, lock);
 			return 0;
+		}
 
 		kb = (CamelKeyBlock *)&bl->data;
 
@@ -927,14 +943,14 @@ camel_key_table_next(CamelKeyTable *ki, camel_key_t next, char **keyp, unsigned 
 		}
 	} while (bl == NULL);
 
-	CAMEL_KEY_TABLE_LOCK(ki, lock);
-
 	/* invalid block data */
 	if ((kb->u.keys[index].offset >= sizeof(kb->u.keydata)
-	     || kb->u.keys[index].offset < kb->u.keydata - (char *)&kb->u.keys[kb->used])
+	     /*|| kb->u.keys[index].offset < kb->u.keydata - (char *)&kb->u.keys[kb->used])*/
+	     || kb->u.keys[index].offset < sizeof(kb->u.keys[0]) * kb->used
 	    || (index > 0 &&
 		(kb->u.keys[index-1].offset >= sizeof(kb->u.keydata)
-		 || kb->u.keys[index-1].offset < kb->u.keydata - (char *)&kb->u.keys[kb->used]))) {
+		 /*|| kb->u.keys[index-1].offset < kb->u.keydata - (char *)&kb->u.keys[kb->used]))) {*/
+		 || kb->u.keys[index-1].offset < sizeof(kb->u.keys[0]) * kb->used)))) {
 		g_warning("Block %u invalid scanning keys", bl->id);
 		camel_block_file_unref_block(ki->blocks, bl);
 		CAMEL_KEY_TABLE_UNLOCK(ki, lock);
