@@ -24,7 +24,6 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <fcntl.h>
-#include <gtk/gtksignal.h>
 #include <gtk/gtkcheckbutton.h>
 #include <gtk/gtkhbox.h>
 #include <gtk/gtkvbox.h>

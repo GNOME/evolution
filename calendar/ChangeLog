@@ -1,3 +1,9 @@
+2004-02-10  JP Rosevear <jpr@ximian.com>
+
+	* importers/icalendar-importer.c: remove useless include
+
+	* importers/Makefile.am: remove executable build cruft
+
 2004-02-09  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/gnome-cal.c (client_cal_opened_cb): don't add the clients to the
