@@ -1085,7 +1085,7 @@ e_tree_model_node_remove (ETreeModel *etree, ETreePath *path)
 		} else {
 			memmove(&g_array_index(priv->row_array, ETreePath *, base),
 				&g_array_index(priv->row_array, ETreePath *, base+visible),
-				(visible) * sizeof(ETreePath *));
+				(priv->row_array->len - (base+visible)) * sizeof(ETreePath *));
 			g_array_set_size(priv->row_array, priv->row_array->len - visible);
 		}
 
