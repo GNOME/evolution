@@ -1,3 +1,10 @@
+2003-07-22  Antonio Xu <antonio.xu@sun.com>
+
+	* e-shell-importer.c: (show_import_wizard): use
+	g_signal_connect_after to connect "prepare" signal.
+	(prepare_intelligent_page): Display some error log and disable
+	forward button rather than jump to finish page.  [#46017]
+
 2003-07-15  Antonio Xu  <antonio.xu@sun.com>
                                                                                 
         * e-shell-startup-wizard.c (e_shell_startup_wizard_create): connect
