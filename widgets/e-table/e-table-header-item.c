@@ -592,6 +592,10 @@ ethi_start_drag (ETableHeaderItem *ethi, GdkEvent *event)
 	GtkWidget *widget = GTK_WIDGET (GNOME_CANVAS_ITEM (ethi)->canvas);
 	GtkTargetList *list;
 	GdkDragContext *context;
+	ETableCol *ecol;
+	int col_width;
+	GdkPixmap *pixmap;
+	GdkGC *gc;
 
 	ethi->drag_col = ethi_find_col_by_x (ethi, event->motion.x);
 	if (ethi->drag_col == -1)
@@ -599,6 +603,25 @@ ethi_start_drag (ETableHeaderItem *ethi, GdkEvent *event)
 
 	list = gtk_target_list_new (ethi_drag_types, ELEMENTS (ethi_drag_types));
 	context = gtk_drag_begin (widget, list, GDK_ACTION_MOVE, 1, event);
+
+	ecol = e_table_header_get_column (ethi->eth, ethi->drag_col);
+	if (ethi->drag_col == ethi->resize_col)
+	  col_width = ethi->resize_width;
+	else
+	  col_width = ecol->width;
+	pixmap = gdk_pixmap_new(widget->window, col_width, ethi->height, -1);
+	gc = widget->style->bg_gc [GTK_STATE_ACTIVE];
+	draw_button (ethi, ecol, pixmap, gc,
+		     widget->style,
+		     0, 0, col_width, ethi->height);
+	gtk_drag_set_icon_pixmap        (context,
+					 gdk_window_get_colormap(widget->window),
+					 pixmap,
+					 NULL,
+					 col_width / 2,
+					 ethi->height / 2);
+	gdk_pixmap_unref(pixmap);
+
 	ethi->maybe_drag = FALSE;
 }
 

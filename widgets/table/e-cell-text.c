@@ -817,6 +817,34 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 		break;
 	case GDK_BUTTON_PRESS: /* Fall Through */
 	case GDK_BUTTON_RELEASE:
+		if (!edit_display && event->type == GDK_BUTTON_RELEASE && event->button.button == 1) {
+			GdkEventButton button = event->button;
+
+			e_table_item_enter_edit (text_view->cell_view.e_table_item_view, view_col, row);
+			edit = text_view->edit;
+			cellptr = CURRENT_CELL(edit);
+			edit_display = TRUE;
+			
+			e_tep_event.button.type = GDK_BUTTON_PRESS;
+			e_tep_event.button.time = button.time;
+			e_tep_event.button.state = button.state;
+			e_tep_event.button.button = button.button;
+			e_tep_event.button.position = _get_position_from_xy(cellptr, button.x, button.y);
+			_get_tep(edit);
+			return_val = e_text_event_processor_handle_event (edit->tep,
+									  &e_tep_event);
+			if (event->button.button == 1) {
+				if (event->type == GDK_BUTTON_PRESS)
+					edit->button_down = TRUE;
+				else
+					edit->button_down = FALSE;
+			}
+			edit->lastx = button.x;
+			edit->lasty = button.y;
+			edit->last_state = button.state;
+
+			e_tep_event.button.type = GDK_BUTTON_RELEASE;
+		}		
 		if (edit_display) {
 			GdkEventButton button = event->button;
 			e_tep_event.button.time = button.time;
@@ -835,9 +863,6 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 			edit->lastx = button.x;
 			edit->lasty = button.y;
 			edit->last_state = button.state;
-		} else if (ect->editable && event->type == GDK_BUTTON_RELEASE && event->button.button == 1) {
-			e_table_item_enter_edit (text_view->cell_view.e_table_item_view, view_col, row);
-			return 1;
 		}
 		break;
 	case GDK_MOTION_NOTIFY:
