@@ -10,6 +10,7 @@
 		accel="*Ctrl*w"/>
 
 		<cmd name="FileSaveClose" _label="Save and Close"
+		_tip="Save the current file and close the window"
 		pixtype="stock" pixname="Save" accel="*Ctrl*s"/>
 
 		<cmd name="FormatHtml" _label="H_TML" _tip="Send the mail in HTML format"

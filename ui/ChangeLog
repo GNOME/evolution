@@ -1,3 +1,8 @@
+2002-07-18  Peter Williams  <peterw@ximian.com>
+
+	* evolution-signature-editor.xml: Add a tooltip to the Save item
+	as per bug 27901.
+	
 2002-07-18  Ettore Perazzoli  <ettore@ximian.com>
 
 	* evolution.xml: Change shortcut for "PilotSettings" to be `l'
