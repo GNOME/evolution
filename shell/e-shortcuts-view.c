@@ -482,7 +482,6 @@ get_shortcut_info (EShortcutsView *shortcuts_view,
 {
 	EShortcutsViewPrivate *priv;
 	EStorageSet *storage_set;
-	EStorage *storage;
 	EFolder *folder;
 	const char *path;
 
@@ -501,18 +500,10 @@ get_shortcut_info (EShortcutsView *shortcuts_view,
 	if (folder != NULL) {
 		*unread_count_return = e_folder_get_unread_count (folder);
 		*type_return = e_folder_get_type_string (folder);
-		return;
-	}
-
-	storage = e_storage_set_get_storage (storage_set, path + 1);
-	if (storage != NULL) {
+	} else {
 		*unread_count_return = 0;
-		*type_return = e_storage_get_toplevel_node_type (storage);
-		return;
+		*type_return = NULL;
 	}
-
-	*unread_count_return = 0;
-	*type_return = NULL;
 }
 
 static void

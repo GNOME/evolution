@@ -1016,11 +1016,13 @@ construct (ELocalStorage *local_storage,
 	   const char *base_path)
 {
 	ELocalStoragePrivate *priv;
+	EFolder *root_folder;
 	int base_path_len;
 
+	root_folder = e_folder_new (U_("Local Folders"), "noselect", "");
 	e_storage_construct (E_STORAGE (local_storage),
-			     E_LOCAL_STORAGE_NAME, U_("Local Folders"),
-			     NULL, NULL);
+			     E_LOCAL_STORAGE_NAME,
+			     root_folder);
 
 	priv = local_storage->priv;
 
@@ -1038,8 +1040,7 @@ construct (ELocalStorage *local_storage,
 	priv->base_path = g_strndup (base_path, base_path_len);
 
 	g_assert (priv->bonobo_interface == NULL);
-	priv->bonobo_interface = evolution_storage_new (E_LOCAL_STORAGE_NAME,
-							NULL, NULL);
+	priv->bonobo_interface = evolution_storage_new (E_LOCAL_STORAGE_NAME);
 
 	gtk_signal_connect (GTK_OBJECT (priv->bonobo_interface), "create_folder",
 			    GTK_SIGNAL_FUNC (bonobo_interface_create_folder_cb), 

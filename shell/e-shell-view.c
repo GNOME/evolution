@@ -1802,30 +1802,19 @@ update_for_current_uri (EShellView *shell_view)
 
 	path = get_storage_set_path_from_uri (priv->uri);
 
+	folder = NULL;
 	folder_name = NULL;
 	type = NULL;
 	unread_count = 0;
 
-	if (path == NULL) {
-		folder = NULL;
-	} else {
+	if (path != NULL) {
 		folder = e_storage_set_get_folder (e_shell_get_storage_set (priv->shell), path);
 
 		if (folder != NULL) {
 			folder_name = e_folder_get_name (folder);
 			type = e_folder_get_type_string (folder);
 			unread_count = e_folder_get_unread_count (folder);
-		} else if (path != NULL) {
-			EStorage *storage;
-
-			storage = e_storage_set_get_storage (e_shell_get_storage_set (priv->shell), path + 1);
-			unread_count = 0;
-
-			if (storage != NULL) {
-				folder_name = e_storage_get_display_name (storage);
-				type = e_storage_get_toplevel_node_type (storage);
-			}
-		} 
+		}
 	}
 
 	if (unread_count > 0)
@@ -2020,17 +2009,10 @@ socket_destroy_cb (GtkWidget *socket_widget, gpointer data)
 	path = get_storage_set_path_from_uri (uri);
 	folder = e_storage_set_get_folder (e_shell_get_storage_set (priv->shell), path);
 
-	if (folder != NULL) {
+	if (folder != NULL)
 		folder_type = e_folder_get_type_string (folder);
-	} else {
-		EStorage *storage;
-
-		storage = e_storage_set_get_storage (e_shell_get_storage_set (priv->shell), path + 1);
-		if (storage == NULL)
-			folder_type = NULL;
-		else
-			folder_type = e_storage_get_toplevel_node_type (storage);
-	}
+	else
+		folder_type = NULL;
 
 	/* See if we were actively viewing the uri for the socket that's being closed */
 	current_uri = e_shell_view_get_current_uri (shell_view);
@@ -2054,27 +2036,6 @@ socket_destroy_cb (GtkWidget *socket_widget, gpointer data)
 }
 
 
-static const char *
-get_type_for_storage (EShellView *shell_view,
-		      const char *name,
-		      const char **physical_uri_return)
-{
-	EShellViewPrivate *priv;
-	EStorageSet *storage_set;
-	EStorage *storage;
-
-	priv = shell_view->priv;
-
-	storage_set = e_shell_get_storage_set (priv->shell);
-	storage = e_storage_set_get_storage (storage_set, name);
-	if (!storage)
-		return NULL;
-
-	*physical_uri_return = e_storage_get_toplevel_node_uri (storage);
-
-	return e_storage_get_toplevel_node_type (storage);
-}
-
 static const char *
 get_type_for_folder (EShellView *shell_view,
 		     const char *path,
@@ -2112,7 +2073,6 @@ get_view_for_uri (EShellView *shell_view,
 	GtkWidget *socket;
 	Bonobo_Control corba_control;
 	const char *path;
-	const char *slash;
 	const char *physical_uri;
 	const char *folder_type;
 	int destroy_connection_id;
@@ -2127,13 +2087,8 @@ get_view_for_uri (EShellView *shell_view,
 	if (*path == '\0')
 		return NULL;
 
-	/* FIXME: This code needs to be made more robust.  */
-	slash = strchr (path + 1, G_DIR_SEPARATOR);
-	if (slash == NULL || slash[1] == '\0')
-		folder_type = get_type_for_storage (shell_view, path + 1, &physical_uri);
-	else
-		folder_type = get_type_for_folder (shell_view, path, &physical_uri);
-	if (folder_type == NULL)
+	folder_type = get_type_for_folder (shell_view, path, &physical_uri);
+	if (folder_type == NULL || strcmp (folder_type, "noselect") == 0)
 		return NULL;
 
 	folder_type_registry = e_shell_get_folder_type_registry (e_shell_view_get_shell (shell_view));

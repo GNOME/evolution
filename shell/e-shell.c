@@ -639,6 +639,7 @@ setup_local_storage (EShell *shell)
 	EStorage *local_storage;
 	EShellPrivate *priv;
 	gchar *local_storage_path;
+	EFolder *summary_folder;
 
 	priv = shell->priv;
 
@@ -657,9 +658,10 @@ setup_local_storage (EShell *shell)
 	e_storage_set_add_storage (priv->storage_set, local_storage);
 	priv->local_storage = E_LOCAL_STORAGE (local_storage);
 
+	summary_folder = e_folder_new (U_("Summary"), "summary", "");
+	e_folder_set_physical_uri (summary_folder, "/");
 	priv->summary_storage = e_storage_new (E_SUMMARY_STORAGE_NAME,
-					       U_("Summary"),
-					       "/", "summary");
+					       summary_folder);
 	e_storage_set_add_storage (priv->storage_set, priv->summary_storage);
 
 	return TRUE;

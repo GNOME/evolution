@@ -52,15 +52,6 @@ struct _EStoragePrivate {
 
 	/* Internal name of the storage */
 	char *name;
-
-	/* User-visible localized UTF-8 name */
-	char *display_name;
-
-	/* URI for the toplevel node.  */
-	char *toplevel_node_uri;
-
-	/* Toplevel node type.  */
-	char *toplevel_node_type;
 };
 
 enum {
@@ -148,9 +139,6 @@ destroy (GtkObject *object)
 		e_folder_tree_destroy (priv->folder_tree);
 
 	g_free (priv->name);
-	g_free (priv->display_name);
-	g_free (priv->toplevel_node_uri);
-	g_free (priv->toplevel_node_type);
 
 	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
@@ -187,12 +175,6 @@ static const char *
 impl_get_name (EStorage *storage)
 {
 	return storage->priv->name;
-}
-
-static const char *
-impl_get_display_name (EStorage *storage)
-{
-	return storage->priv->display_name;
 }
 
 static void
@@ -242,7 +224,6 @@ class_init (EStorageClass *class)
 	class->get_subfolder_paths = impl_get_subfolder_paths;
 	class->get_folder          = impl_get_folder;
 	class->get_name            = impl_get_name;
-	class->get_display_name    = impl_get_display_name;
 	class->async_create_folder = impl_async_create_folder;
 	class->async_remove_folder = impl_async_remove_folder;
 	class->async_xfer_folder   = impl_async_xfer_folder;
@@ -282,9 +263,8 @@ init (EStorage *storage)
 
 	priv = g_new (EStoragePrivate, 1);
 
-	priv->folder_tree        = e_folder_tree_new (folder_destroy_notify, NULL);
-	priv->toplevel_node_uri  = NULL;
-	priv->toplevel_node_type = NULL;
+	priv->folder_tree  = e_folder_tree_new (folder_destroy_notify, NULL);
+	priv->name         = NULL;
 
 	storage->priv = priv;
 }
@@ -295,9 +275,7 @@ init (EStorage *storage)
 void
 e_storage_construct (EStorage *storage,
 		     const char *name,
-		     const char *display_name,
-		     const char *toplevel_node_uri,
-		     const char *toplevel_node_type)
+		     EFolder *root_folder)
 {
 	EStoragePrivate *priv;
 
@@ -307,25 +285,21 @@ e_storage_construct (EStorage *storage,
 	priv = storage->priv;
 
 	priv->name               = g_strdup (name);
-	priv->display_name       = g_strdup (display_name);
-	priv->toplevel_node_uri  = g_strdup (toplevel_node_uri);
-	priv->toplevel_node_type = g_strdup (toplevel_node_type);
+
+	e_storage_new_folder (storage, "/", root_folder);
 
 	GTK_OBJECT_UNSET_FLAGS (GTK_OBJECT (storage), GTK_FLOATING);
 }
 
 EStorage *
 e_storage_new (const char *name,
-	       const char *display_name,
-	       const char *toplevel_node_uri,
-	       const char *toplevel_node_type)
+	       EFolder *root_folder)
 {
 	EStorage *new;
 
 	new = gtk_type_new (e_storage_get_type ());
 
-	e_storage_construct (new, name, display_name,
-			     toplevel_node_uri, toplevel_node_type);
+	e_storage_construct (new, name, root_folder);
 
 	return new;
 }
@@ -379,55 +353,6 @@ e_storage_get_name (EStorage *storage)
 	g_return_val_if_fail (E_IS_STORAGE (storage), NULL);
 
 	return (* ES_CLASS (storage)->get_name) (storage);
-}
-
-const char *
-e_storage_get_display_name (EStorage *storage)
-{
-	g_return_val_if_fail (storage != NULL, NULL);
-	g_return_val_if_fail (E_IS_STORAGE (storage), NULL);
-
-	return (* ES_CLASS (storage)->get_display_name) (storage);
-}
-
-/**
- * e_storage_get_toplevel_node_uri:
- * @storage: A pointer to an EStorage object
- * 
- * Get the physical URI for the toplevel node in the storage.
- * 
- * Return value: a pointer to a string representing that URI.
- **/
-const char *
-e_storage_get_toplevel_node_uri (EStorage *storage)
-{
-	EStoragePrivate *priv;
-
-	g_return_val_if_fail (storage != NULL, NULL);
-	g_return_val_if_fail (E_IS_STORAGE (storage), NULL);
-
-	priv = storage->priv;
-	return priv->toplevel_node_uri;
-}
-
-/**
- * e_storage_get_toplevel_node_type:
- * @storage: A pointer to an EStorage object.
- * 
- * Get the folder type for the toplevel node.
- * 
- * Return value: A string identifying the type of the toplevel node.
- **/
-const char *
-e_storage_get_toplevel_node_type (EStorage *storage)
-{
-	EStoragePrivate *priv;
-
-	g_return_val_if_fail (storage != NULL, NULL);
-	g_return_val_if_fail (E_IS_STORAGE (storage), NULL);
-
-	priv = storage->priv;
-	return priv->toplevel_node_type;
 }
 
 

@@ -177,7 +177,6 @@ e_folder_tree_new (EFolderDestroyNotify folder_destroy_notify,
 		   void *closure)
 {
 	EFolderTree *new;
-	Folder *root_folder;
 
 	new = g_new (EFolderTree, 1);
 
@@ -187,9 +186,7 @@ e_folder_tree_new (EFolderDestroyNotify folder_destroy_notify,
 	new->path_to_folder = g_hash_table_new (g_str_hash, g_str_equal);
 	new->data_to_path = g_hash_table_new (g_direct_hash, g_direct_equal);
 
-	root_folder = folder_new (G_DIR_SEPARATOR_S, NULL);
-	g_hash_table_insert (new->path_to_folder, root_folder->path, root_folder);
-	g_hash_table_insert (new->data_to_path, root_folder->data, root_folder->path);
+	e_folder_tree_add (new, G_DIR_SEPARATOR_S, NULL);
 
 	return new;
 }
@@ -239,6 +236,23 @@ e_folder_tree_add (EFolderTree *folder_tree,
 	g_return_val_if_fail (folder_tree != NULL, FALSE);
 	g_return_val_if_fail (path != NULL, FALSE);
 	g_return_val_if_fail (g_path_is_absolute (path), FALSE);
+
+	/* Can only "add" a new root folder if the tree is empty */
+	if (! strcmp (path, G_DIR_SEPARATOR_S)) {
+		folder = g_hash_table_lookup (folder_tree->path_to_folder, path);
+		if (folder) {
+			if (folder->subfolders) {
+				g_warning ("e_folder_tree_add() -- Trying to change root folder after adding children");
+				return FALSE;
+			}
+			remove_folder (folder_tree, folder);
+		}
+
+		folder = folder_new (path, data);
+		g_hash_table_insert (folder_tree->path_to_folder, folder->path, folder);
+		g_hash_table_insert (folder_tree->data_to_path, data, folder->path);
+		return TRUE;
+	}
 
 	parent_path = get_parent_path (path);
 

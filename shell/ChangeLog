@@ -1,3 +1,65 @@
+2002-03-07  Dan Winship  <danw@ximian.com>
+
+	Make storages-with-toplevel-views less of a hack.
+
+	* e-folder-tree.c (e_folder_tree_add): Allow the caller to "add" a
+	root folder, if the existing root folder has no children.
+	(e_folder_tree_new): Use e_folder_tree_add to create the root
+	folder, since it can do that now.
+
+	* e-storage.c: (e_storage_construct): Replace toplevel_node_uri
+	and toplevel_node_type args with root_folder.
+	(e_storage_new): Likewise.
+	(*): Remove toplevel uri/type stuff everywhere. Also remove
+	display_name since now we will use the name of the root folder for
+	that.
+
+	* evolution-storage.c: Remove toplevel uri/type stuff everywhere.
+
+	* e-local-storage.c (construct): Pass root_folder to
+	e_storage_construct instead of toplevel uri/type.
+	Also, evolution_storage_new no longer takes toplevel uri/type.
+
+	* e-corba-storage.c (e_corba_storage_construct): Out with toplevel
+	uri/type, in with root_folder.
+	(e_corba_storage_new): Remove toplevel uri/type.
+
+	* e-shell.c (setup_local_storage): Create a top-level folder of
+	type "summary" for the Summary storage.
+
+	* e-storage-set-view.c (set_e_shortcut_selection): Remove
+	special-case for storages.
+	(etree_icon_at): Remove special case for figuring out storage
+	icons (but leave the code that makes the icon disappear once the
+	storage is opened).
+	(etree_value_at): Remove special case for storage names. (But
+	still make storages always bold.) Remove unused special-case code
+	for Summary.
+
+	* e-shortcuts.c (load_shortcuts): Remove special case for
+	storages, reorganize a bit.
+
+	* e-shortcuts-view.c (get_shortcut_info): Remove special case for
+	storages.
+
+	* e-shell-view.c (update_for_current_uri): Remove special case for
+	storages.
+	(socket_destroy_cb): Likewise.
+	(get_type_for_storage): No longer needed.
+	(get_view_for_uri): No longer needs to special-case storages (but
+	add a special case for folders of type "noselect", to make them
+	unselectable like storages-without-toplevel-views used to be).
+
+	* e-storage-set.c (get_storage_for_path): If passed "/foo", return
+	"/" as subpath_return so e_storage_set_get_folder will DTRT in the
+	NWO.
+
+	* Evolution-Storage.idl (addStorage): Remove the toplevel_node_uri
+	and toplevel_node_type arguments.
+
+	* e-corba-storage-registry.c (impl_StorageRegistry_addStorage):
+	Likewise.
+
 2002-03-06  Dan Winship  <danw@ximian.com>
 
 	* e-storage.c: Keep the storage name and display_name in

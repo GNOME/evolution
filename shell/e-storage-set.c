@@ -219,22 +219,23 @@ get_storage_for_path (EStorageSet *storage_set,
 	const char *first_separator;
 
 	g_return_val_if_fail (g_path_is_absolute (path), NULL);
+	g_return_val_if_fail (path[1] != G_DIR_SEPARATOR, NULL);
 
 	/* Skip initial separator.  */
 	path++;
 
 	first_separator = strchr (path, G_DIR_SEPARATOR);
 
-	if (first_separator == NULL || first_separator == path || first_separator[1] == 0) {
-		*subpath_return = NULL;
-		return NULL;
+	if (first_separator == NULL || first_separator[1] == 0) {
+		storage = e_storage_set_get_storage (storage_set, path);
+		*subpath_return = G_DIR_SEPARATOR_S;
+	} else {
+		storage_name = g_strndup (path, first_separator - path);
+		storage = e_storage_set_get_storage (storage_set, storage_name);
+		g_free (storage_name);
+
+		*subpath_return = first_separator;
 	}
-
-	storage_name = g_strndup (path, first_separator - path);
-	storage = e_storage_set_get_storage (storage_set, storage_name);
-	g_free (storage_name);
-
-	*subpath_return = first_separator;
 
 	return storage;
 }

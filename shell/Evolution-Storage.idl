@@ -99,12 +99,8 @@ module Evolution {
 			string name;
 		};
 		
-		/* FIXME: The toplevel attributes should probably be attributes
-                   of the storage instead of being passed here.  */
 		StorageListener addStorage (in Storage storage,
-					    in string name,
-					    in string toplevel_node_uri,
-					    in string toplevel_node_type)
+					    in string name)
 			raises (Exists);
 		
 		Storage getStorageByName (in string name)

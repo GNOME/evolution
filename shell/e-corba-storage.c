@@ -490,13 +490,12 @@ init (ECorbaStorage *corba_storage)
 /* FIXME: OK to have a boolean construct function?  */
 void
 e_corba_storage_construct (ECorbaStorage *corba_storage,
-			   const char *toplevel_node_uri,
-			   const char *toplevel_node_type,
 			   const GNOME_Evolution_Storage storage_interface,
 			   const char *name)
 {
 	ECorbaStoragePrivate *priv;
 	CORBA_Environment ev;
+	EFolder *root_folder;
 
 	g_return_if_fail (corba_storage != NULL);
 	g_return_if_fail (E_IS_CORBA_STORAGE (corba_storage));
@@ -504,8 +503,8 @@ e_corba_storage_construct (ECorbaStorage *corba_storage,
 	g_return_if_fail (name != NULL);
 
 	/* FIXME: Need separate name and display name. */
-	e_storage_construct (E_STORAGE (corba_storage), name, name,
-			     toplevel_node_uri, toplevel_node_type);
+	root_folder = e_folder_new (name, "noselect", "");
+	e_storage_construct (E_STORAGE (corba_storage), name, root_folder);
 
 	priv = corba_storage->priv;
 
@@ -523,9 +522,7 @@ e_corba_storage_construct (ECorbaStorage *corba_storage,
 }
 
 EStorage *
-e_corba_storage_new (const char *toplevel_node_uri,
-		     const char *toplevel_node_type,
-		     const GNOME_Evolution_Storage storage_interface,
+e_corba_storage_new (const GNOME_Evolution_Storage storage_interface,
 		     const char *name)
 {
 	EStorage *new;
@@ -536,8 +533,6 @@ e_corba_storage_new (const char *toplevel_node_uri,
 	new = gtk_type_new (e_corba_storage_get_type ());
 
 	e_corba_storage_construct (E_CORBA_STORAGE (new),
-				   toplevel_node_uri,
-				   toplevel_node_type,
 				   storage_interface, name);
 
 	return new;

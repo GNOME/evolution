@@ -47,12 +47,6 @@ struct _EvolutionStoragePrivate {
 	/* What we will display as the name of the storage. */
 	char *display_name;
 
-	/* URI for the toplevel node of the storage.  */
-	char *toplevel_node_uri;
-
-	/* Type for the toplevel node of the storage.  */
-	char *toplevel_node_type;
-
 	/* The set of folders we have in this storage.  */
 	EFolderTree *folder_tree;
 
@@ -77,15 +71,6 @@ static guint signals[LAST_SIGNAL] = { 0 };
 
 
 /* Utility functions.  */
-
-static const CORBA_char *
-safe_corba_string (const char *s)
-{
-        if (s == NULL)
-                return (CORBA_char *) "";
-
-        return s;
-}
 
 static void
 list_through_listener_foreach (EFolderTree *tree,
@@ -420,8 +405,6 @@ destroy (GtkObject *object)
 	priv = storage->priv;
 
 	g_free (priv->name);
-	g_free (priv->toplevel_node_uri);
-	g_free (priv->toplevel_node_type);
 	if (priv->folder_tree != NULL)
 		e_folder_tree_destroy (priv->folder_tree);
 	if (priv->uri_to_path != NULL) {
@@ -581,8 +564,6 @@ init (EvolutionStorage *storage)
 
 	priv = g_new (EvolutionStoragePrivate, 1);
 	priv->name                    = NULL;
-	priv->toplevel_node_uri       = NULL;
-	priv->toplevel_node_type      = NULL;
 	priv->folder_tree             = e_folder_tree_new (folder_destroy_notify, storage);
 	priv->uri_to_path             = g_hash_table_new (g_str_hash, g_str_equal);
 	priv->corba_storage_listeners = NULL;
@@ -611,9 +592,7 @@ evolution_storage_get_epv (void)
 void
 evolution_storage_construct (EvolutionStorage *storage,
 			     GNOME_Evolution_Storage corba_object,
-			     const char *name,
-			     const char *toplevel_node_uri,
-			     const char *toplevel_node_type)
+			     const char *name)
 {
 	EvolutionStoragePrivate *priv;
 	CORBA_Environment ev;
@@ -630,16 +609,12 @@ evolution_storage_construct (EvolutionStorage *storage,
 
 	priv = storage->priv;
 	priv->name               = g_strdup (name);
-	priv->toplevel_node_uri  = g_strdup (toplevel_node_uri);
-	priv->toplevel_node_type = g_strdup (toplevel_node_type);
 
 	CORBA_exception_free (&ev);
 }
 
 EvolutionStorage *
-evolution_storage_new (const char *name,
-		       const char *toplevel_node_uri,
-		       const char *toplevel_node_type)
+evolution_storage_new (const char *name)
 {
 	EvolutionStorage *new;
 	POA_GNOME_Evolution_Storage *servant;
@@ -655,7 +630,7 @@ evolution_storage_new (const char *name,
 	new = gtk_type_new (evolution_storage_get_type ());
 
 	corba_object = bonobo_object_activate_servant (BONOBO_OBJECT (new), servant);
-	evolution_storage_construct (new, corba_object, name, toplevel_node_uri, toplevel_node_type);
+	evolution_storage_construct (new, corba_object, name);
 
 	return new;
 }
@@ -695,8 +670,6 @@ evolution_storage_register (EvolutionStorage *evolution_storage,
 	corba_storage_listener = GNOME_Evolution_StorageRegistry_addStorage (corba_storage_registry,
 									     corba_storage,
 									     priv->name,
-									     safe_corba_string (priv->toplevel_node_uri),
-									     safe_corba_string (priv->toplevel_node_type),
 									     &ev);
 
 	if (ev._major == CORBA_NO_EXCEPTION) {

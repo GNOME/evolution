@@ -585,17 +585,10 @@ set_e_shortcut_selection (EStorageSetView *storage_set_view,
 	g_assert (folder_path != NULL);
 
 	folder = e_storage_set_get_folder (priv->storage_set, folder_path);
-	if (folder != NULL) {
+	if (folder != NULL)
 		name = e_folder_get_name (folder);
-	} else {
-		EStorage *storage;
-
-		storage = e_storage_set_get_storage (priv->storage_set, folder_path + 1);
-		if (storage != NULL)
-			name = e_storage_get_display_name (storage);
-		else
-			name = NULL;
-	}
+	else
+		name = NULL;
 
 	/* FIXME: Get `evolution:' from somewhere instead of hardcoding it here.  */
 
@@ -1356,31 +1349,31 @@ impl_cursor_activated (ETree *tree,
 
 /* ETreeModel Methods */
 
+static gboolean
+path_is_storage (ETreeModel *etree,
+		 ETreePath tree_path)
+{
+	return e_tree_model_node_depth (etree, tree_path) == 1;
+}
+
 static GdkPixbuf*
 etree_icon_at (ETreeModel *etree,
 	       ETreePath tree_path,
 	       void *model_data)
 {
-	EFolderTypeRegistry *folder_type_registry;
 	EStorageSetView *storage_set_view;
 	EStorageSet *storage_set;
 	EFolder *folder;
 	char *path;
-	int depth;
 
 	storage_set_view = E_STORAGE_SET_VIEW (model_data);
 	storage_set = storage_set_view->priv->storage_set;
 
-	/* Tree depth will indicate storages or folders */
-	depth = e_tree_model_node_depth (etree, tree_path);
-
 	path = (char*) e_tree_memory_node_get_data (E_TREE_MEMORY(etree), tree_path);
 
-	/* Is this a storage?  */
-
-	if (depth == 1) {
+	/* No icon for a storage with children */
+	if (path_is_storage (etree, tree_path)) {
 		EStorage *storage;
-		const char *storage_type;
 		GList *subfolder_paths;
 
 		storage = e_storage_set_get_storage (storage_set, path + 1);
@@ -1389,16 +1382,7 @@ etree_icon_at (ETreeModel *etree,
 			e_free_string_list (subfolder_paths);
 			return NULL;
 		}
-
-		folder_type_registry = e_storage_set_get_folder_type_registry (storage_set);
-		storage_type = e_storage_get_toplevel_node_type (storage);
-		if (storage_type != NULL)
-			return e_folder_type_registry_get_icon_for_type (folder_type_registry, storage_type, TRUE);
-		else
-			return NULL;
 	}
-
-	/* Folder.  */
 
 	folder = e_storage_set_get_folder (storage_set, path);
 	if (folder == NULL)
@@ -1456,46 +1440,42 @@ etree_value_at (ETreeModel *etree,
 {
 	EStorageSetView *storage_set_view;
 	EStorageSet *storage_set;
-	EStorage *storage;
 	EFolder *folder;
 	char *path;
+	const char *folder_name;
+	int unread_count;
 
 	storage_set_view = E_STORAGE_SET_VIEW (model_data);
 	storage_set = storage_set_view->priv->storage_set;
 
+	/* Storages are always highlighted. */
+	if (path_is_storage (etree, tree_path) && col == 1)
+		return (void *) TRUE;
+
 	path = (char *) e_tree_memory_node_get_data (E_TREE_MEMORY(etree), tree_path);
 
 	folder = e_storage_set_get_folder (storage_set, path);
-	if (folder != NULL) {
-		const char *folder_name = e_folder_get_name (folder);
-		int unread_count = e_folder_get_unread_count (folder);
+	if (folder == NULL)
+		return (void *) "?";
 
-		if (unread_count > 0)
-			gtk_object_set_data_full (GTK_OBJECT (folder), "name_with_unread",
-						  g_strdup_printf ("%s (%d)", folder_name, unread_count), g_free);
+	if (col == 1)
+		return (void *) e_folder_get_highlighted (folder);
 
-		if (col == 0)
-			if (unread_count > 0)
-				return (void *) gtk_object_get_data (GTK_OBJECT (folder),
-								     "name_with_unread");
-			else
-				return (void *) folder_name;
-		else
-			return (void *) e_folder_get_highlighted (folder);
-	}
+	folder_name = e_folder_get_name (folder);
+	unread_count = e_folder_get_unread_count (folder);
 
-	storage = e_storage_set_get_storage (storage_set, path + 1);
-	if (storage != NULL) {
-		if (col == 0)
-			return (void *) e_storage_get_display_name (storage);
-		else
-			return (void *) TRUE;
-	}
+	if (unread_count > 0) {
+		char *name_with_unread;
 
-	if (col == 0)
-		return _("Summary");
-	else
-		return (void *) TRUE;
+		name_with_unread = g_strdup_printf ("%s (%d)", folder_name,
+						    unread_count);
+		gtk_object_set_data_full (GTK_OBJECT (folder),
+					  "name_with_unread",
+					  name_with_unread, g_free);
+
+		return (void *) name_with_unread;
+	} else
+		return (void *) folder_name;
 }
 
 static void

@@ -328,51 +328,32 @@ load_shortcuts (EShortcuts *shortcuts,
 				continue;
 
 			uri  = xmlNodeListGetString (doc, q->childs, 1);
-			name = xmlGetProp (q, "name");
-			type = xmlGetProp (q, "type");
+			if (uri == NULL)
+				continue;
 
-			if (uri != NULL && strncmp (uri, E_SHELL_URI_PREFIX, E_SHELL_URI_PREFIX_LEN) == 0) {
+			if (strncmp (uri, E_SHELL_URI_PREFIX, E_SHELL_URI_PREFIX_LEN) == 0) {
 				EFolder *folder;
 
 				folder = e_storage_set_get_folder (priv->storage_set, uri + E_SHELL_URI_PREFIX_LEN);
 				if (folder != NULL) {
-					if (type != NULL)
-						xmlFree (type);
+					name = xmlMemStrdup (e_folder_get_name (folder));
 					type = xmlMemStrdup (e_folder_get_type_string (folder));
 				} else {
-					EStorage *storage;
-					const char *storage_type;
-
-					storage = e_storage_set_get_storage (priv->storage_set,
-									     uri + E_SHELL_URI_PREFIX_LEN + 1);
-					if (storage != NULL) {
-						if (type != NULL)
-							xmlFree (type);
-						storage_type = e_storage_get_toplevel_node_type (storage);
-
-						if (storage_type == NULL)
-							type = NULL;
-						else
-							type = xmlMemStrdup (storage_type);
-
-						if (name != NULL)
-							xmlFree (name);
-
-						name = xmlMemStrdup (e_storage_get_display_name (storage));
-					}
+					name = xmlGetProp (q, "name");
+					type = xmlGetProp (q, "type");
 				}
 
 				shortcut_item = shortcut_item_new (uri, name, 0, type);
 				shortcut_group->shortcuts = g_slist_prepend (shortcut_group->shortcuts,
 									     shortcut_item);
+
+				if (name != NULL)
+					xmlFree (name);
+				if (type != NULL)
+					xmlFree (type);
 			}
 
-			if (uri != NULL)
-				xmlFree (uri);
-			if (name != NULL)
-				xmlFree (name);
-			if (type != NULL)
-				xmlFree (type);
+			xmlFree (uri);
 		}
 
 		shortcut_group->shortcuts = g_slist_reverse (shortcut_group->shortcuts);
