@@ -1,3 +1,7 @@
+2005-01-26  David Trowbridge <trowbrds@cs.colorado.edu>
+
+	* org-gnome-calendar-weather.eplug.in: fix typo
+
 2005-01-25  Rodrigo Moya <rodrigo@novell.com>
 
 	* calendar-weather.c (e_plugin_lib_enable): set all new categories to

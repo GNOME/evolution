@@ -19,7 +19,7 @@
 		<item
 		 type="item_table"
 		 path="00.general/00.source/50.units"
-		 factory="e_calendar_weather_temperature"/>
+		 factory="e_calendar_weather_units"/>
 		<item
 		 type="item_table"
 		 path="00.general/00.source/60.refresh"
