@@ -47,7 +47,7 @@ idl_DATA = $(IDLS)
 glade_DATA =					\
 	e-msg-composer-attachment.glade
 
-noinst_LIBRARIES = libcomposer.a
+noinst_LTLIBRARIES = libcomposer.la
 
 INCLUDES =								\
 	-I$(top_srcdir)							\
@@ -70,7 +70,7 @@ INCLUDES =								\
 	-DGTK_DISABLE_DEPRECATED					\
 	$(EVOLUTION_MAIL_CFLAGS)
 
-libcomposer_a_SOURCES = 			\
+libcomposer_la_SOURCES = 			\
 	$(IDL_GENERATED)			\
 	$(HTML_EDITOR_GENERATED)		\
 	composer-marshal.c			\

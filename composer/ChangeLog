@@ -1,3 +1,8 @@
+2003-02-21  Dan Winship  <danw@ximian.com>
+
+	* Makefile.am: build libcomposer as a shared library so it can be
+	linked into libevolution-mail.so without portability problems
+
 2003-02-20  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (composer_get_default_charset_setting): Same as
