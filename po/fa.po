@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: evolution 1.4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-09-26 11:09+0200\n"
-"PO-Revision-Date: 2004-10-04 17:36+0330\n"
+"PO-Revision-Date: 2004-10-05 17:14+0330\n"
 "Last-Translator: Meelad Zakaria <meelad@bamdad.org>\n"
 "Language-Team: Persian <farsi@lists.sharif.edu>\n"
 "MIME-Version: 1.0\n"
@@ -54,7 +54,7 @@ msgstr "کارت کوچک evolution"
 #. addressbook:ldap-init primary
 #: addressbook/addressbook-errors.xml.h:2
 msgid "This addressbook could not be opened."
-msgstr "باز کردن این دفترچه‌ی نشانی مقدور نیست."
+msgstr "باز کردن این دفترچه‌ی نشانی ممکن نیست."
 
 #. addressbook:ldap-init secondary
 #: addressbook/addressbook-errors.xml.h:4
@@ -101,7 +101,7 @@ msgstr "این کارگزار از اطلاعات شمای LDAPv3 پشتیبان
 #. addressbook:ldap-get-schema primary
 #: addressbook/addressbook-errors.xml.h:16
 msgid "Could not get schema information for LDAP server."
-msgstr "دسترسی به اطلاعات شما برای کارگزار LDAP مقدور نیست."
+msgstr "دسترسی به اطلاعات شما برای کارگزار LDAP ممکن نیست."
 
 #. addressbook:ldap-invalid-schema primary
 #: addressbook/addressbook-errors.xml.h:18
@@ -111,7 +111,7 @@ msgstr "کارگزار LDAP با اطلاعات شمای معتبری پاسخ �
 #. addressbook:remove-addressbook primary
 #: addressbook/addressbook-errors.xml.h:20
 msgid "Could not remove addressbook."
-msgstr "حذف دفترچه‌ی نشانی مقدور نیست."
+msgstr "حذف دفترچه‌ی نشانی ممکن نیست."
 
 #. addressbook:edit-categories primary
 #: addressbook/addressbook-errors.xml.h:22
@@ -150,7 +150,7 @@ msgstr "{1}"
 #. addressbook:load-error title
 #: addressbook/addressbook-errors.xml.h:28
 msgid "Unable to open addressbook"
-msgstr "باز کردن دفترچه‌ی نشانی مقدور نیست"
+msgstr "باز کردن دفترچه‌ی نشانی ممکن نیست"
 
 #. addressbook:load-error primary
 #: addressbook/addressbook-errors.xml.h:30
@@ -160,7 +160,7 @@ msgstr "خطا در بار کردن دفترچه‌ی نشانی"
 #. addressbook:search-error primary
 #: addressbook/addressbook-errors.xml.h:34
 msgid "Unable to perform search."
-msgstr "انجام جست و جو مقدور نیست."
+msgstr "انجام جست و جو ممکن نیست."
 
 #. addressbook:prompt-save primary
 #: addressbook/addressbook-errors.xml.h:38
@@ -181,7 +181,7 @@ msgstr "دور انداختن"
 #. addressbook:prompt-move primary
 #: addressbook/addressbook-errors.xml.h:43
 msgid "Cannot move contact."
-msgstr "انتقال آشنا مقدور نیست."
+msgstr "انتقال آشنا ممکن نیست."
 
 #. addressbook:prompt-move secondary
 #: addressbook/addressbook-errors.xml.h:45
@@ -194,7 +194,7 @@ msgstr "شما سعی می‌کنید آشنایی را از یک دفترچه�
 #. addressbook:save-error primary
 #: addressbook/addressbook-errors.xml.h:47
 msgid "Unable to save contact(s)."
-msgstr "ذخیره‌ی آشنا(ها) مقدور نیست"
+msgstr "ذخیره‌ی آشنا(ها) ممکن نیست"
 
 #. addressbook:save-error secondary
 #: addressbook/addressbook-errors.xml.h:49
@@ -219,7 +219,7 @@ msgstr "نشانی هم‌گام پیش‌فرض:"
 #: addressbook/conduit/address-conduit.c:1183
 #: addressbook/conduit/address-conduit.c:1184
 msgid "Could not load addressbook"
-msgstr "بار کردن دفترچه‌ی نشانی مقدور نیست"
+msgstr "بار کردن دفترچه‌ی نشانی ممکن نیست"
 
 #: addressbook/conduit/address-conduit.c:1252
 #: addressbook/conduit/address-conduit.c:1255
@@ -2886,7 +2886,7 @@ msgstr "لغو شد"
 #. E_BOOK_ERROR_COULD_NOT_CANCEL
 #: addressbook/gui/widgets/eab-gui-util.c:62
 msgid "Could not cancel"
-msgstr "انصراف مقدور نیست"
+msgstr "انصراف ممکن نیست"
 
 #. E_BOOK_ERROR_AUTHENTICATION_FAILED
 #: addressbook/gui/widgets/eab-gui-util.c:63
@@ -3367,11 +3367,11 @@ msgstr "این باید کد چاپ آشنا را آزمایش کند"
 #: addressbook/tools/evolution-addressbook-export-list-cards.c:693
 #: addressbook/tools/evolution-addressbook-export-list-folders.c:49
 msgid "Can not open file"
-msgstr "باز کردن پرونده مقدور نیست"
+msgstr "باز کردن پرونده ممکن نیست"
 
 #: addressbook/tools/evolution-addressbook-export-list-folders.c:43
 msgid "Couldn't get list of addressbooks"
-msgstr "گرفتن فهرست دفترچه‌های نشانی مقدور نیست"
+msgstr "گرفتن فهرست دفترچه‌های نشانی ممکن نیست"
 
 #: addressbook/tools/evolution-addressbook-export-list-folders.c:71
 msgid "failed to open book"
@@ -3893,7 +3893,7 @@ msgstr ""
 
 #: calendar/gui/alarm-notify/notify-main.c:139
 msgid "Could not initialize Bonobo"
-msgstr "راه اندازی بونوبو مقدور نیست."
+msgstr "راه اندازی بونوبو ممکن نیست."
 
 #: calendar/gui/alarm-notify/notify-main.c:150
 msgid "Could not create the alarm notify service factory"
@@ -4777,19 +4777,19 @@ msgstr "ویرایش قرار"
 #: calendar/gui/dialogs/comp-editor.c:920
 #, c-format
 msgid "Appointment - %s"
-msgstr ""
+msgstr "قرار - %s"
 
 #: calendar/gui/dialogs/comp-editor.c:886
 #: calendar/gui/dialogs/comp-editor.c:923
 #, c-format
 msgid "Task - %s"
-msgstr ""
+msgstr "تکلیف - %s"
 
 #: calendar/gui/dialogs/comp-editor.c:889
 #: calendar/gui/dialogs/comp-editor.c:926
 #, c-format
 msgid "Journal entry - %s"
-msgstr ""
+msgstr "مدخل یادداشت روزانه - %s"
 
 #: calendar/gui/dialogs/comp-editor.c:900
 #: calendar/gui/dialogs/comp-editor.c:936
@@ -4808,11 +4808,11 @@ msgstr "استفاده از نسخه‌ی جاری امکان پذیر نیست!
 
 #: calendar/gui/dialogs/copy-source-dialog.c:61
 msgid "Could not open source"
-msgstr "یاز کردن مبدأ مقدور نیست"
+msgstr "یاز کردن مبدأ ممکن نیست"
 
 #: calendar/gui/dialogs/copy-source-dialog.c:69
 msgid "Could not open destination"
-msgstr "باز کردن مقصد مقدور نیست"
+msgstr "باز کردن مقصد ممکن نیست"
 
 #: calendar/gui/dialogs/copy-source-dialog.c:78
 msgid "Destination is read only"
@@ -4820,51 +4820,51 @@ msgstr "مقصد فقط خواندنی است"
 
 #: calendar/gui/dialogs/delete-error.c:54
 msgid "The event could not be deleted due to a corba error"
-msgstr ""
+msgstr "به دلیل یک خطای کوربا حذف رویداد ممکن نیست"
 
 #: calendar/gui/dialogs/delete-error.c:57
 msgid "The task could not be deleted due to a corba error"
-msgstr ""
+msgstr "به دلیل یک خطای کوربا حذف تکلیف ممکن نیست"
 
 #: calendar/gui/dialogs/delete-error.c:60
 msgid "The journal entry could not be deleted due to a corba error"
-msgstr ""
+msgstr "به دلیل یک خطای کوربا حذف مدخل یادداشت روزانه ممکن نیست"
 
 #: calendar/gui/dialogs/delete-error.c:63
 msgid "The item could not be deleted due to a corba error"
-msgstr ""
+msgstr "به دلیل یک خطای کوربا حذف این مورد ممکن نیست"
 
 #: calendar/gui/dialogs/delete-error.c:70
 msgid "The event could not be deleted because permission was denied"
-msgstr "حذف رویداد مقدور نیست چون اجازه داده نشده است"
+msgstr "حذف رویداد ممکن نیست چون اجازه داده نشده است"
 
 #: calendar/gui/dialogs/delete-error.c:73
 msgid "The task could not be deleted because permission was denied"
-msgstr "حذف تکلیف مقدور نیست چون اجازه داده نشد"
+msgstr "حذف تکلیف ممکن نیست چون اجازه داده نشد"
 
 #: calendar/gui/dialogs/delete-error.c:76
 msgid "The journal entry could not be deleted because permission was denied"
-msgstr ""
+msgstr "حذف مدخل یادداشت روزانه ممکن نیست چون اجازه داده نشده است"
 
 #: calendar/gui/dialogs/delete-error.c:79
 msgid "The item could not be deleted because permission was denied"
-msgstr "حذف مورد مقدور نیست چون اجازه داده نشد"
+msgstr "حذف مورد ممکن نیست چون اجازه داده نشد"
 
 #: calendar/gui/dialogs/delete-error.c:86
 msgid "The event could not be deleted due to an error"
-msgstr "به دلیل یک خطا حذف رویداد مقدور نیست"
+msgstr "به دلیل یک خطا حذف رویداد ممکن نیست"
 
 #: calendar/gui/dialogs/delete-error.c:89
 msgid "The task could not be deleted due to an error"
-msgstr "به دلیل یک خطا حذف تکلیف مقدور نیست"
+msgstr "به دلیل یک خطا حذف تکلیف ممکن نیست"
 
 #: calendar/gui/dialogs/delete-error.c:92
 msgid "The journal entry could not be deleted due to an error"
-msgstr ""
+msgstr "به دلیل یک خطا حذف مدخل یادداشت روزانه ممکن نیست"
 
 #: calendar/gui/dialogs/delete-error.c:95
 msgid "The item could not be deleted due to an error"
-msgstr "به دلیل یک خطا حذف این مورد مقدور نیست"
+msgstr "به دلیل یک خطا حذف این مورد ممکن نیست"
 
 #: calendar/gui/dialogs/e-delegate-dialog.glade.h:1
 msgid "Contacts..."
@@ -4872,11 +4872,11 @@ msgstr "آشنا‌ها..."
 
 #: calendar/gui/dialogs/e-delegate-dialog.glade.h:2
 msgid "Delegate To:"
-msgstr ""
+msgstr "واگذاری به:"
 
 #: calendar/gui/dialogs/e-delegate-dialog.glade.h:3
 msgid "Enter Delegate"
-msgstr ""
+msgstr "نماینده را وارد کنید"
 
 #: calendar/gui/dialogs/event-editor.c:153 calendar/gui/print.c:2295
 msgid "Appointment"
@@ -4925,7 +4925,7 @@ msgstr "زمان پایان اشتباه است"
 #: calendar/gui/dialogs/event-page.c:1605
 #, c-format
 msgid "Unable to open the calendar '%s'."
-msgstr "باز کردن تقویم '%s' مقدور نیست."
+msgstr "باز کردن تقویم '%s' ممکن نیست."
 
 #: calendar/gui/dialogs/event-page.c:1804
 #, c-format
@@ -5075,7 +5075,7 @@ msgstr "حضور دست کم یک نفر الزامی است."
 
 #: calendar/gui/dialogs/meeting-page.c:795
 msgid "_Delegate To..."
-msgstr ""
+msgstr "_واگذاری به..."
 
 #: calendar/gui/dialogs/meeting-page.c:799
 #: composer/e-msg-composer-attachment-bar.c:453
@@ -5086,12 +5086,12 @@ msgstr "حذف"
 #: calendar/gui/e-meeting-list-view.c:218
 #: calendar/gui/e-meeting-time-sel.etspec.h:1
 msgid "Attendee"
-msgstr ""
+msgstr "حضار"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:2
 #: calendar/gui/e-meeting-time-sel.etspec.h:2
 msgid "Click here to add an attendee"
-msgstr ""
+msgstr "برای افزودن یک شرکت‌کننده اینجا کلیک کنید"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:3
 #: calendar/gui/e-meeting-time-sel.etspec.h:3
@@ -5106,7 +5106,7 @@ msgstr "به نمایندگی از"
 #: calendar/gui/dialogs/meeting-page.etspec.h:5
 #: calendar/gui/e-meeting-time-sel.etspec.h:5
 msgid "Delegated To"
-msgstr "اعطای نمایندگی به"
+msgstr "واگذاری به"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:6
 #: calendar/gui/e-meeting-time-sel.etspec.h:6
@@ -5148,7 +5148,7 @@ msgstr "آشنا‌ها..."
 
 #: calendar/gui/dialogs/meeting-page.glade.h:6
 msgid "Or_ganizer:"
-msgstr "سازمان‌دهنده:"
+msgstr "_سازمان‌دهنده:"
 
 #: calendar/gui/dialogs/meeting-page.glade.h:7
 #: calendar/gui/e-itip-control.glade.h:9
@@ -5234,27 +5234,27 @@ msgstr ""
 
 #: calendar/gui/dialogs/recurrence-page.c:989
 msgid "first"
-msgstr ""
+msgstr "اول"
 
 #: calendar/gui/dialogs/recurrence-page.c:990
 msgid "second"
-msgstr ""
+msgstr "دوم"
 
 #: calendar/gui/dialogs/recurrence-page.c:991
 msgid "third"
-msgstr ""
+msgstr "سوم"
 
 #: calendar/gui/dialogs/recurrence-page.c:992
 msgid "fourth"
-msgstr ""
+msgstr "چهارم"
 
 #: calendar/gui/dialogs/recurrence-page.c:993
 msgid "last"
-msgstr ""
+msgstr "آخر"
 
 #: calendar/gui/dialogs/recurrence-page.c:1016
 msgid "Other Date"
-msgstr ""
+msgstr "تاریخ دیگر"
 
 #: calendar/gui/dialogs/recurrence-page.c:1044
 msgid "day"
@@ -5266,7 +5266,7 @@ msgstr ""
 
 #: calendar/gui/dialogs/recurrence-page.c:1367
 msgid "occurrences"
-msgstr ""
+msgstr "مورد"
 
 #: calendar/gui/dialogs/recurrence-page.c:2320
 msgid "Date/Time"
@@ -5299,7 +5299,7 @@ msgstr ""
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:9
 msgid "forever"
-msgstr ""
+msgstr "همیشه"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:10
 msgid "month(s)"
@@ -5307,7 +5307,7 @@ msgstr "ماه"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:11
 msgid "until"
-msgstr ""
+msgstr "تا"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:12
 msgid "week(s)"
@@ -5323,7 +5323,7 @@ msgstr "انتخاب مقصد"
 
 #: calendar/gui/dialogs/select-source-dialog.c:110
 msgid "_Destination"
-msgstr "مقصد"
+msgstr "م_قصد"
 
 #: calendar/gui/dialogs/select-source-dialog.c:112
 msgid "Task List"
@@ -5422,7 +5422,7 @@ msgstr ""
 
 #: calendar/gui/dialogs/task-page.c:496
 msgid "Due date is wrong"
-msgstr ""
+msgstr "تاریخ سررسید اشتباه است"
 
 #: calendar/gui/dialogs/task-page.c:831
 #, c-format
@@ -5439,11 +5439,11 @@ msgstr "<span weight=\"bold\">تاریخ و زمان</span>"
 
 #: calendar/gui/dialogs/task-page.glade.h:7
 msgid "D_escription:"
-msgstr "شرح:"
+msgstr "_شرح:"
 
 #: calendar/gui/dialogs/task-page.glade.h:10
 msgid "Sta_rt date:"
-msgstr "تاریخ آغاز:"
+msgstr "تاریخ آ_غاز:"
 
 #: calendar/gui/dialogs/task-page.glade.h:12
 msgid "_Due date:"
@@ -5455,11 +5455,11 @@ msgstr "گروه:"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:3
 msgid "<b>Free/Busy C_alendars</b>"
-msgstr ""
+msgstr "<b>تقویم‌های آزاد/مشغول</b>"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:4
 msgid "<b>Publishing Frequency</b>"
-msgstr ""
+msgstr "<b>بسامد انتشار</b>"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:5
 msgid "<b>Publishing _Location</b>"
@@ -5471,27 +5471,27 @@ msgstr "ویرایش‌گر آزاد/مشغول"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:7
 msgid "_Daily"
-msgstr "روزانه"
+msgstr "_روزانه"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:8
 msgid "_Manual"
-msgstr "دستی"
+msgstr "_دستی"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:9
 msgid "_Password:"
-msgstr "کلمه‌ی عبور:"
+msgstr "کلمه‌ی _عبور:"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:10
 msgid "_Remember password"
-msgstr "به یاد داشتن کلمه‌ی عبور"
+msgstr "به _خاطر سپردن کلمه‌ی عبور"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:11
 msgid "_Username:"
-msgstr "نام کاربر:"
+msgstr "نام _کاربر:"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:12
 msgid "_Weekly"
-msgstr "هفتگی"
+msgstr "_هفتگی"
 
 #: calendar/gui/e-alarm-list.c:395
 #, c-format
@@ -5525,7 +5525,7 @@ msgstr[0] "%Id ثانیه"
 
 #: calendar/gui/e-alarm-list.c:462
 msgid "Unknown action to be performed"
-msgstr ""
+msgstr "عملی ناشناخته در آستانه‌ی اجراست"
 
 #: calendar/gui/e-alarm-list.c:474
 #, c-format
@@ -5634,19 +5634,19 @@ msgstr "مشغول"
 
 #: calendar/gui/e-cal-model-tasks.c:303
 msgid "N"
-msgstr ""
+msgstr "N"
 
 #: calendar/gui/e-cal-model-tasks.c:303
 msgid "S"
-msgstr ""
+msgstr "S"
 
 #: calendar/gui/e-cal-model-tasks.c:305 smime/lib/e-cert.c:681
 msgid "E"
-msgstr ""
+msgstr "E"
 
 #: calendar/gui/e-cal-model-tasks.c:305
 msgid "W"
-msgstr ""
+msgstr "W"
 
 #: calendar/gui/e-cal-model-tasks.c:602
 msgid ""
@@ -5654,6 +5654,9 @@ msgid ""
 "\n"
 "45.436845,125.862501"
 msgstr ""
+"موقعیت جغرافیایی باید در این قالب وارد شود: \n"
+"\n"
+"45.436845,125.862501"
 
 #: calendar/gui/e-cal-model-tasks.c:1013 calendar/gui/e-cal-model.c:955
 #: calendar/gui/e-meeting-list-view.c:146 calendar/gui/e-meeting-store.c:159
@@ -5762,7 +5765,7 @@ msgstr "باز کردن صفحه‌ی وب"
 #: mail/em-folder-view.c:901 mail/em-popup.c:691 mail/em-popup.c:807
 #: ui/evolution-mail-message.xml.h:128
 msgid "_Save As..."
-msgstr "ذخیره به نام..."
+msgstr "_ذخیره به نام..."
 
 #: calendar/gui/e-calendar-table.c:1046 calendar/gui/e-calendar-table.c:1088
 #: calendar/gui/e-calendar-view.c:1410 calendar/gui/e-calendar-view.c:1433
@@ -5771,14 +5774,14 @@ msgstr "ذخیره به نام..."
 #: ui/evolution-contact-editor.xml.h:17 ui/evolution-mail-message.xml.h:125
 #: ui/evolution-tasks.xml.h:25
 msgid "_Print..."
-msgstr "چاپ..."
+msgstr "چا_پ..."
 
 #: calendar/gui/e-calendar-table.c:1050 calendar/gui/e-calendar-table.c:1079
 #: calendar/gui/e-calendar-view.c:1438 calendar/gui/e-calendar-view.c:1482
 #: ui/evolution-addressbook.xml.h:1 ui/evolution-calendar.xml.h:1
 #: ui/evolution-tasks.xml.h:1
 msgid "C_ut"
-msgstr "بریدن"
+msgstr "_بریدن"
 
 #: calendar/gui/e-calendar-table.c:1051 calendar/gui/e-calendar-table.c:1077
 #: calendar/gui/e-calendar-view.c:1439 calendar/gui/e-calendar-view.c:1480
@@ -5787,7 +5790,7 @@ msgstr "بریدن"
 #: ui/evolution-composer-entries.xml.h:7 ui/evolution-mail-message.xml.h:109
 #: ui/evolution-tasks.xml.h:20
 msgid "_Copy"
-msgstr "نسخه‌برداری"
+msgstr "_نسخه‌برداری"
 
 #: calendar/gui/e-calendar-table.c:1052 calendar/gui/e-calendar-table.c:1086
 #: calendar/gui/e-calendar-view.c:1414 calendar/gui/e-calendar-view.c:1440
@@ -5795,7 +5798,7 @@ msgstr "نسخه‌برداری"
 #: ui/evolution-calendar.xml.h:43 ui/evolution-composer-entries.xml.h:9
 #: ui/evolution-mail-message.xml.h:123 ui/evolution-tasks.xml.h:24
 msgid "_Paste"
-msgstr "چسباندن"
+msgstr "چسباندن_"
 
 #: calendar/gui/e-calendar-table.c:1056
 msgid "_Assign Task"
@@ -5901,19 +5904,19 @@ msgstr "انتخاب تاریخ..."
 
 #: calendar/gui/e-calendar-view.c:1425 ui/evolution-calendar.xml.h:45
 msgid "_Publish Free/Busy Information"
-msgstr ""
+msgstr "انت_شار اطلاعات آزاد/مشغول"
 
 #: calendar/gui/e-calendar-view.c:1444
 msgid "Cop_y to Calendar..."
-msgstr "نسخه‌برداری در تقویم"
+msgstr "نس_خه‌برداری در تقویم"
 
 #: calendar/gui/e-calendar-view.c:1445
 msgid "Mo_ve to Calendar..."
-msgstr "انتقال به تقویم"
+msgstr "انت_قال به تقویم"
 
 #: calendar/gui/e-calendar-view.c:1446
 msgid "_Schedule Meeting..."
-msgstr "زمان‌بندی جلسه..."
+msgstr "_زمان‌بندی جلسه..."
 
 #: calendar/gui/e-calendar-view.c:1447
 msgid "_Forward as iCalendar..."
@@ -5925,23 +5928,23 @@ msgstr "قابل انتقال کردن این مورد"
 
 #: calendar/gui/e-calendar-view.c:1453 calendar/gui/e-calendar-view.c:1485
 msgid "Delete this _Occurrence"
-msgstr "حذف این مورد"
+msgstr "حذف این _مورد"
 
 #: calendar/gui/e-calendar-view.c:1454 calendar/gui/e-calendar-view.c:1486
 msgid "Delete _All Occurrences"
-msgstr "حذف همه‌ی موارد"
+msgstr "حذف _همه‌ی موارد"
 
 #: calendar/gui/e-calendar-view.c:1488
 msgid "Go to _Today"
-msgstr "رفتن به امروز"
+msgstr "رفتن به _امروز"
 
 #: calendar/gui/e-calendar-view.c:1490
 msgid "_Go to Date..."
-msgstr "رفتن به تاریخ..."
+msgstr "_رفتن به تاریخ..."
 
 #: calendar/gui/e-calendar-view.c:1520 ui/evolution.xml.h:35
 msgid "_Settings..."
-msgstr "تنظیمات..."
+msgstr "تن_ظیمات..."
 
 #. strftime format of a weekday, a date and a time, 24-hour.
 #. strptime format of a weekday, a date and a time,
@@ -6344,7 +6347,7 @@ msgstr "مورد ارسال شد!\n"
 
 #: calendar/gui/e-itip-control.c:2036 calendar/gui/e-itip-control.c:2086
 msgid "The item could not be sent!\n"
-msgstr "ارسال مورد مقدور نیست!\n"
+msgstr "ارسال مورد ممکن نیست!\n"
 
 #: calendar/gui/e-itip-control.c:2166
 msgid "Choose an action:"
@@ -8804,7 +8807,7 @@ msgstr ""
 
 #: camel/camel-filter-driver.c:1147
 msgid "Cannot open message"
-msgstr "باز کردن پیغام مقدور نیست"
+msgstr "باز کردن پیغام ممکن نیست"
 
 #: camel/camel-filter-driver.c:1148 camel/camel-filter-driver.c:1160
 #, c-format
@@ -9015,7 +9018,7 @@ msgstr ""
 #: camel/camel-gpg-context.c:1565
 #, c-format
 msgid "Could not generate encrypting data: %s"
-msgstr "تولید داده‌های رمزنگاری شده مقدور نیست: %s"
+msgstr "تولید داده‌های رمزنگاری شده ممکن نیست: %s"
 
 #: camel/camel-gpg-context.c:1623
 msgid "This is a digitally encrypted message part"
@@ -9027,7 +9030,7 @@ msgstr "محتویات رمزنگاری شده"
 
 #: camel/camel-gpg-context.c:1740
 msgid "Unable to parse message content"
-msgstr "تجزیه‌ی محتویات پیغام مقدور نیست"
+msgstr "تجزیه‌ی محتویات پیغام ممکن نیست"
 
 #: camel/camel-lock-client.c:100
 #, c-format
@@ -9047,12 +9050,12 @@ msgstr ""
 #: camel/camel-lock-client.c:204
 #, c-format
 msgid "Could not lock '%s'"
-msgstr "قفل کردن '%s' مقدور نیست"
+msgstr "قفل کردن '%s' ممکن نیست"
 
 #: camel/camel-lock.c:92 camel/camel-lock.c:113
 #, c-format
 msgid "Could not create lock file for %s: %s"
-msgstr "ایجاد پرونده‌ی قفل شده برای %s مقدور نیست: %s"
+msgstr "ایجاد پرونده‌ی قفل شده برای %s ممکن نیست: %s"
 
 #: camel/camel-lock.c:154
 #, c-format
@@ -9077,7 +9080,7 @@ msgstr ""
 #: camel/camel-movemail.c:120
 #, c-format
 msgid "Could not open mail file %s: %s"
-msgstr "باز کردن پرونده‌ی نامه‌ی %s مقدور نیست: %s"
+msgstr "باز کردن پرونده‌ی نامه‌ی %s ممکن نیست: %s"
 
 #: camel/camel-movemail.c:128
 #, c-format
@@ -9097,7 +9100,7 @@ msgstr "ایجاد لوله مفدور نیست: %s"
 #: camel/camel-movemail.c:199
 #, c-format
 msgid "Could not fork: %s"
-msgstr "دادن انشعاب مقدور نیست: %s"
+msgstr "دادن انشعاب ممکن نیست: %s"
 
 #: camel/camel-movemail.c:237
 #, c-format
@@ -9151,7 +9154,7 @@ msgstr ""
 #: camel/camel-provider.c:181
 #, c-format
 msgid "Could not load %s: %s"
-msgstr "بار کردن %s مقدور نیست: %s"
+msgstr "بار کردن %s ممکن نیست: %s"
 
 #: camel/camel-provider.c:189
 #, c-format
@@ -9636,7 +9639,7 @@ msgstr ""
 #: camel/camel-store.c:243
 #, c-format
 msgid "Cannot create folder `%s': folder exists"
-msgstr "ایجاد پوشه‌ی '%s' مقدور نیست: پوشه وجود دارد"
+msgstr "ایجاد پوشه‌ی '%s' ممکن نیست: پوشه وجود دارد"
 
 #: camel/camel-store.c:297
 msgid "Cannot create folder: Invalid operation on this store"
@@ -9645,18 +9648,18 @@ msgstr ""
 #: camel/camel-store.c:325
 #, c-format
 msgid "Cannot create folder: %s: folder exists"
-msgstr "ایجاد پوشه مقدور نیست: %s: پوشه وجود دارد"
+msgstr "ایجاد پوشه ممکن نیست: %s: پوشه وجود دارد"
 
 #: camel/camel-store.c:389 camel/camel-vee-store.c:351
 #, c-format
 msgid "Cannot delete folder: %s: Invalid operation"
-msgstr "حذف پوشه مقدور نیست: %s: عملیات نامعتبر"
+msgstr "حذف پوشه ممکن نیست: %s: عملیات نامعتبر"
 
 #: camel/camel-store.c:439 camel/camel-vee-store.c:388
 #: camel/providers/local/camel-maildir-store.c:232
 #, c-format
 msgid "Cannot rename folder: %s: Invalid operation"
-msgstr "تغییر نام پوشه مقدور نیست: %s: عملیات نامعتبر"
+msgstr "تغییر نام پوشه ممکن نیست: %s: عملیات نامعتبر"
 
 #: camel/camel-store.c:777
 msgid "Trash"
@@ -9854,7 +9857,7 @@ msgstr ""
 #: camel/camel-url.c:292
 #, c-format
 msgid "Could not parse URL `%s'"
-msgstr "تجزیه‌ی URL '%s' مقدور نیست"
+msgstr "تجزیه‌ی URL '%s' ممکن نیست"
 
 #: camel/camel-vee-folder.c:633
 #, c-format
@@ -9873,20 +9876,20 @@ msgstr ""
 #: camel/camel-vee-store.c:374
 #, c-format
 msgid "Cannot delete folder: %s: No such folder"
-msgstr "حذف پوشه مقدور نیست: %s: چنین پوشه‌ای وجود ندارد"
+msgstr "حذف پوشه ممکن نیست: %s: چنین پوشه‌ای وجود ندارد"
 
 #: camel/camel-vee-store.c:396
 #, c-format
 msgid "Cannot rename folder: %s: No such folder"
-msgstr "تغییر نام پوشه مقدور نیست: %s: پوشه وجود ندارد"
+msgstr "تغییر نام پوشه ممکن نیست: %s: پوشه وجود ندارد"
 
 #: camel/camel-vtrash-folder.c:44
 msgid "Cannot copy messages to the Trash folder"
-msgstr "نسخه‌برداری از پیغام‌ها در پوشه‌ی سطل آشغال مقدور نیست"
+msgstr "نسخه‌برداری از پیغام‌ها در پوشه‌ی سطل آشغال ممکن نیست"
 
 #: camel/camel-vtrash-folder.c:46
 msgid "Cannot copy messages to the Junk folder"
-msgstr "نسخه‌برداری از پیغام در پوشه‌ی آشغال مقدور نیست"
+msgstr "نسخه‌برداری از پیغام در پوشه‌ی آشغال ممکن نیست"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:53
 #: camel/providers/imap4/camel-imap4-provider.c:35
@@ -10020,12 +10023,12 @@ msgstr ""
 #: camel/providers/imap/camel-imap-folder.c:226
 #, c-format
 msgid "Could not create directory %s: %s"
-msgstr "ایجاد شاخه‌ی %s مقدور نیست: %s"
+msgstr "ایجاد شاخه‌ی %s ممکن نیست: %s"
 
 #: camel/providers/imap/camel-imap-folder.c:245
 #, c-format
 msgid "Could not load summary for %s"
-msgstr "بار کردن خلاصه‌ی %s مقدور نیست"
+msgstr "بار کردن خلاصه‌ی %s ممکن نیست"
 
 #: camel/providers/imap/camel-imap-folder.c:330
 msgid "Folder was destroyed and recreated on server."
@@ -10174,7 +10177,7 @@ msgstr ""
 #: camel/providers/smtp/camel-smtp-transport.c:292
 #, c-format
 msgid "Could not connect to %s (port %s): %s"
-msgstr "اتصال به  %s مقدور نیست(درگاه %s(: %s"
+msgstr "اتصال به  %s ممکن نیست(درگاه %s(: %s"
 
 #: camel/providers/imap/camel-imap-store.c:554
 #: camel/providers/imap4/camel-imap4-store.c:216
@@ -10271,7 +10274,7 @@ msgstr "پوشه‌ی پدر اجازه‌ی داشتن زیرپوشه را ند
 #: camel/providers/local/camel-mh-store.c:236
 #, c-format
 msgid "Cannot create folder `%s': folder exists."
-msgstr "ایجاد پوشه‌ی '%s' مقدور نیست: پوشه وجود دارد."
+msgstr "ایجاد پوشه‌ی '%s' ممکن نیست: پوشه وجود دارد."
 
 #: camel/providers/imap/camel-imap-store.c:2279
 #, c-format
@@ -10297,7 +10300,7 @@ msgstr ""
 #: camel/providers/imap4/camel-imap4-engine.c:414
 #, c-format
 msgid "Cannot select folder `%s': Invalid mailbox name"
-msgstr "انتخاب پوشه‌ی '%s' مقدور نیست: نام صندوق پستی نامعتبر است"
+msgstr "انتخاب پوشه‌ی '%s' ممکن نیست: نام صندوق پستی نامعتبر است"
 
 #: camel/providers/imap4/camel-imap4-engine.c:420
 #, c-format
@@ -10427,12 +10430,12 @@ msgstr ""
 #: camel/providers/imap4/camel-imap4-store.c:821
 #, c-format
 msgid "Cannot create folder `%s': Bad command"
-msgstr "ایجاد پوشه‌ی '%s' مقدور نیست: فرمان نامناسب"
+msgstr "ایجاد پوشه‌ی '%s' ممکن نیست: فرمان نامناسب"
 
 #: camel/providers/imap4/camel-imap4-store.c:852
 #, c-format
 msgid "Cannot delete folder `%s': Special folder"
-msgstr "حذف پوشه‌ی '%s' مقدور نیست: پوشه‌ی خاص"
+msgstr "حذف پوشه‌ی '%s' ممکن نیست: پوشه‌ی خاص"
 
 #: camel/providers/imap4/camel-imap4-store.c:911
 #, c-format
@@ -10442,12 +10445,12 @@ msgstr ""
 #: camel/providers/imap4/camel-imap4-store.c:916
 #, c-format
 msgid "Cannot delete folder `%s': Bad command"
-msgstr "حذف پوشه‌ی '%s' مقدور نیست: فرمان نامناسب"
+msgstr "حذف پوشه‌ی '%s' ممکن نیست: فرمان نامناسب"
 
 #: camel/providers/imap4/camel-imap4-store.c:936
 #, c-format
 msgid "Cannot rename folder `%s' to `%s': Special folder"
-msgstr "تغییر نام پوشه‌ی '%s' به '%s' مقدور نیست: پوشه‌ی خاص"
+msgstr "تغییر نام پوشه‌ی '%s' به '%s' ممکن نیست: پوشه‌ی خاص"
 
 #: camel/providers/imap4/camel-imap4-store.c:968
 #, c-format
@@ -10457,7 +10460,7 @@ msgstr ""
 #: camel/providers/imap4/camel-imap4-store.c:973
 #, c-format
 msgid "Cannot rename folder `%s' to `%s': Bad command"
-msgstr "تغییر نام پوشه‌ی '%s' به '%s' مقدور نیست: فرمان نامناسب"
+msgstr "تغییر نام پوشه‌ی '%s' به '%s' ممکن نیست: فرمان نامناسب"
 
 #: camel/providers/imap4/camel-imap4-store.c:1221
 #, c-format
@@ -10633,7 +10636,7 @@ msgstr ""
 #: camel/providers/local/camel-local-store.c:398
 #, c-format
 msgid "Could not rename '%s': %s"
-msgstr "تغییر نام '%s' مقدور نیست: %s"
+msgstr "تغییر نام '%s' ممکن نیست: %s"
 
 #: camel/providers/local/camel-local-store.c:423
 #: camel/providers/local/camel-mbox-store.c:284
@@ -10656,7 +10659,7 @@ msgstr ""
 #: camel/providers/local/camel-local-summary.c:405
 #, c-format
 msgid "Could not save summary: %s: %s"
-msgstr "ذخیره‌ی خلاصه مقدور نیست: %s: %s"
+msgstr "ذخیره‌ی خلاصه ممکن نیست: %s: %s"
 
 #: camel/providers/local/camel-local-summary.c:464
 msgid "Unable to add message to summary: unknown reason"
@@ -10720,7 +10723,7 @@ msgstr ""
 #: camel/providers/local/camel-mbox-store.c:196
 #, c-format
 msgid "Cannot create folder `%s': %s"
-msgstr "‌ایجاد پوشه‌ی %s مقدور نیست: %s"
+msgstr "‌ایجاد پوشه‌ی %s ممکن نیست: %s"
 
 #: camel/providers/local/camel-maildir-store.c:136
 #, c-format
@@ -10732,7 +10735,7 @@ msgstr ""
 #: camel/providers/local/camel-mh-store.c:260
 #, c-format
 msgid "Could not delete folder `%s': %s"
-msgstr "حذف پوشه‌ی '%s' مقدور نیست: %s"
+msgstr "حذف پوشه‌ی '%s' ممکن نیست: %s"
 
 #: camel/providers/local/camel-maildir-store.c:177
 msgid "not a maildir directory"
@@ -10743,7 +10746,7 @@ msgstr ""
 #: camel/providers/local/camel-spool-store.c:314
 #, c-format
 msgid "Could not scan folder `%s': %s"
-msgstr "پویش پوشه‌ی '%s' مقدور نیست: %s"
+msgstr "پویش پوشه‌ی '%s' ممکن نیست: %s"
 
 #: camel/providers/local/camel-maildir-summary.c:419
 #: camel/providers/local/camel-maildir-summary.c:550
@@ -10799,7 +10802,7 @@ msgstr ""
 #: camel/providers/local/camel-mbox-store.c:176
 #: camel/providers/local/camel-mbox-store.c:361
 msgid "Cannot create a folder by this name."
-msgstr "ایجاد پوشه‌ای با این نام مقدور نیست."
+msgstr "ایجاد پوشه‌ای با این نام ممکن نیست."
 
 #: camel/providers/local/camel-mbox-store.c:206
 #, c-format
@@ -10813,7 +10816,7 @@ msgstr ""
 msgid ""
 "Could not delete folder `%s':\n"
 "%s"
-msgstr "حذف پوشه‌ی '%s' مقدور نیست:/n%s"
+msgstr "حذف پوشه‌ی '%s' ممکن نیست:/n%s"
 
 #: camel/providers/local/camel-mbox-store.c:255
 #, c-format
@@ -10828,12 +10831,12 @@ msgstr "پوشه‌ی '%s' خالی نیست. حذف نشد."
 #: camel/providers/local/camel-mbox-store.c:374
 #, c-format
 msgid "Cannot create directory `%s': %s."
-msgstr "ایجاد شاخه‌ی '%s' مقدور نیست: %s."
+msgstr "ایجاد شاخه‌ی '%s' ممکن نیست: %s."
 
 #: camel/providers/local/camel-mbox-store.c:388
 #, c-format
 msgid "Cannot create folder: %s: %s"
-msgstr "ایجاد پوشه مقدور نیست: %s: %s"
+msgstr "ایجاد پوشه ممکن نیست: %s: %s"
 
 #: camel/providers/local/camel-mbox-store.c:390
 msgid "Folder already exists"
@@ -10846,17 +10849,17 @@ msgstr "نام جدید پشوه غیرمجاز است."
 #: camel/providers/local/camel-mbox-store.c:485
 #, c-format
 msgid "Could not rename `%s': `%s': %s"
-msgstr "تغییر نام '%s' مقدور نیست: '%s': %s"
+msgstr "تغییر نام '%s' ممکن نیست: '%s': %s"
 
 #: camel/providers/local/camel-mbox-store.c:560
 #, c-format
 msgid "Could not rename '%s' to %s: %s"
-msgstr "تغییر نام '%s' به %s مقدور نیست: %s"
+msgstr "تغییر نام '%s' به %s ممکن نیست: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:375
 #, c-format
 msgid "Could not open folder: %s: %s"
-msgstr "باز کردن پوشه مقدور نیست: %s: %s"
+msgstr "باز کردن پوشه ممکن نیست: %s: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:423
 #, c-format
@@ -10873,29 +10876,29 @@ msgstr ""
 #: camel/providers/local/camel-spool-summary.c:142
 #, c-format
 msgid "Could not open file: %s: %s"
-msgstr "باز کردن پرونده مقدور نیست: %s: %s"
+msgstr "باز کردن پرونده ممکن نیست: %s: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:559
 #: camel/providers/local/camel-spool-summary.c:162
 #, c-format
 msgid "Cannot open temporary mailbox: %s"
-msgstr "باز کردن صندوق نامه‌ی موقت مقدور نیست: %s"
+msgstr "باز کردن صندوق نامه‌ی موقت ممکن نیست: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:572
 #: camel/providers/local/camel-mbox-summary.c:736
 #, c-format
 msgid "Could not close source folder %s: %s"
-msgstr "باز کردن پوشه‌ی مبدأ %s مقدور نیست: %s"
+msgstr "باز کردن پوشه‌ی مبدأ %s ممکن نیست: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:581
 #, c-format
 msgid "Could not close temp folder: %s"
-msgstr "بستن پوشه‌ی موقت مقدور نیست: %s"
+msgstr "بستن پوشه‌ی موقت ممکن نیست: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:592
 #, c-format
 msgid "Could not rename folder: %s"
-msgstr "تغییر نام پوشه مقدور نیست: %s"
+msgstr "تغییر نام پوشه ممکن نیست: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:676
 #: camel/providers/local/camel-mbox-summary.c:684
@@ -11300,7 +11303,7 @@ msgstr ""
 #: camel/providers/pop3/camel-pop3-store.c:202
 #, c-format
 msgid "Could not connect to POP server %s (port %s): %s"
-msgstr "اتصال به کارگزار ‏POP %s (درگاه %s) مقدور نیست: %s"
+msgstr "اتصال به کارگزار ‏POP %s (درگاه %s) ممکن نیست: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:221
 #, fuzzy, c-format
@@ -11317,7 +11320,7 @@ msgstr ""
 #: camel/providers/pop3/camel-pop3-store.c:378
 #, c-format
 msgid "Could not connect to POP server %s"
-msgstr "اتصال به کارگزار POP %s مقدور نیست"
+msgstr "اتصال به کارگزار POP %s ممکن نیست"
 
 #: camel/providers/pop3/camel-pop3-store.c:419
 #: camel/providers/pop3/camel-pop3-store.c:533
@@ -11382,22 +11385,22 @@ msgstr ""
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:113
 msgid "Could not parse recipient list"
-msgstr "تجزیه‌ی فهرست گیرندگان مقدور نیست"
+msgstr "تجزیه‌ی فهرست گیرندگان ممکن نیست"
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:144
 #, c-format
 msgid "Could not create pipe to sendmail: %s: mail not sent"
-msgstr "ایجاد لوله به sendmail مقدور نیست: %s: نامه ارسال نشد"
+msgstr "ایجاد لوله به sendmail ممکن نیست: %s: نامه ارسال نشد"
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:165
 #, c-format
 msgid "Could not fork sendmail: %s: mail not sent"
-msgstr "انشعاب در sendmail مقدور نیست: %s: نامه ارسال نشد"
+msgstr "انشعاب در sendmail ممکن نیست: %s: نامه ارسال نشد"
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:205
 #, c-format
 msgid "Could not send message: %s"
-msgstr "ارسال پیغام مقدور نیست: %s"
+msgstr "ارسال پیغام ممکن نیست: %s"
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:233
 #, c-format
@@ -11407,7 +11410,7 @@ msgstr ""
 #: camel/providers/sendmail/camel-sendmail-transport.c:240
 #, c-format
 msgid "Could not execute %s: mail not sent."
-msgstr "اجرای %s مقدور نیست: نامه ارسال نشد."
+msgstr "اجرای %s ممکن نیست: نامه ارسال نشد."
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:245
 #, c-format
@@ -11586,11 +11589,11 @@ msgstr ""
 
 #: camel/providers/smtp/camel-smtp-transport.c:684
 msgid "Cannot send message: service not connected."
-msgstr "ارسال پیغام مقدور نیست: سرویس متصل نیست."
+msgstr "ارسال پیغام ممکن نیست: سرویس متصل نیست."
 
 #: camel/providers/smtp/camel-smtp-transport.c:690
 msgid "Cannot send message: sender address not valid."
-msgstr "ارسال پیغام مقدور نیست: نشانی فرستنده معتبر نیست."
+msgstr "ارسال پیغام ممکن نیست: نشانی فرستنده معتبر نیست."
 
 #: camel/providers/smtp/camel-smtp-transport.c:694
 msgid "Sending message"
@@ -11598,11 +11601,11 @@ msgstr "در حال ارسال پیغام"
 
 #: camel/providers/smtp/camel-smtp-transport.c:709
 msgid "Cannot send message: no recipients defined."
-msgstr "ارسال پیغام مقدور نیست: گیرنده‌ای معین نشده است."
+msgstr "ارسال پیغام ممکن نیست: گیرنده‌ای معین نشده است."
 
 #: camel/providers/smtp/camel-smtp-transport.c:720
 msgid "Cannot send message: one or more invalid recipients"
-msgstr "ارسال پیغام مقدور نیست: دست کم یکی از گیرنده‌ها معتبر نیستند"
+msgstr "ارسال پیغام ممکن نیست: دست کم یکی از گیرنده‌ها معتبر نیستند"
 
 #: camel/providers/smtp/camel-smtp-transport.c:889
 msgid "SMTP Greeting"
@@ -11726,12 +11729,12 @@ msgstr "پیوست کردن یک پرونده به پیغام"
 #: composer/e-msg-composer-attachment.c:189
 #, c-format
 msgid "Cannot attach file %s: %s"
-msgstr "پیوست کردن پرونده‌ی %s مقدور نیست: %s"
+msgstr "پیوست کردن پرونده‌ی %s ممکن نیست: %s"
 
 #: composer/e-msg-composer-attachment.c:181
 #, c-format
 msgid "Cannot attach file %s: not a regular file"
-msgstr "پیوست کردن پرونده‌ی %s مقدور نیست: پرونده متعارف نیست"
+msgstr "پیوست کردن پرونده‌ی %s ممکن نیست: پرونده متعارف نیست"
 
 #: composer/e-msg-composer-attachment.glade.h:2
 msgid "Attachment Properties"
@@ -11844,11 +11847,11 @@ msgstr ""
 
 #: composer/e-msg-composer.c:1268
 msgid "Could not open file"
-msgstr "باز کردن پرونده مقدور نیست"
+msgstr "باز کردن پرونده ممکن نیست"
 
 #: composer/e-msg-composer.c:1276
 msgid "Unable to retrieve message from editor"
-msgstr "بازیابی پیغلم از ویرایش‌گر مقدور نیست"
+msgstr "بازیابی پیغلم از ویرایش‌گر ممکن نیست"
 
 #: composer/e-msg-composer.c:1546
 msgid "Untitled Message"
@@ -12019,7 +12022,7 @@ msgstr "_ذخیره‌ی پیغام"
 #. mail-composer:no-build-message primary
 #: composer/mail-composer-errors.xml.h:36
 msgid "Could not create message."
-msgstr "ایجاد پیغام مقدور نیست."
+msgstr "ایجاد پیغام ممکن نیست."
 
 #. mail-composer:no-build-message secondary
 #: composer/mail-composer-errors.xml.h:38
@@ -12029,7 +12032,7 @@ msgstr "به دلیل \"{0}\"، شاید لازم باشد گزینه‌های �
 #. mail-composer:no-sig-file primary
 #: composer/mail-composer-errors.xml.h:40
 msgid "Could not read signature file \"{0}\"."
-msgstr "خواندن پرونده‌ی امضای \"{0}\" مقدور نیست."
+msgstr "خواندن پرونده‌ی امضای \"{0}\" ممکن نیست."
 
 #. mail-composer:all-accounts-deleted primary
 #: composer/mail-composer-errors.xml.h:44
@@ -12046,7 +12049,7 @@ msgstr "پبش از آن که بتوانید نامه‌ای بنویسید لا
 #: composer/mail-composer-errors.xml.h:48
 #: composer/mail-composer-errors.xml.h:52
 msgid "Could not create composer window."
-msgstr "ایجاد پنجره‌ی نگارش مقدور نیست."
+msgstr "ایجاد پنجره‌ی نگارش ممکن نیست."
 
 #. mail-composer:no-address-control secondary
 #: composer/mail-composer-errors.xml.h:50
@@ -13275,13 +13278,11 @@ msgid "Unencrypted"
 msgstr "رمزنگاری نشده"
 
 #: mail/em-format-html-display.c:652
-#, fuzzy
 msgid ""
 "This message is not encrypted.  Its content may be viewed in transit across "
 "the Internet."
 msgstr ""
-"این پیغام رمزنگاری شده است. برای یک بیگانه مشکل خواهد بود که محتویات پیغام "
-"را ببیند."
+"این پیغام رمزنگاری شده نیست. محتویات آن هنگام مخابره روی اینترنت قابل دیدن خواهد بود."
 
 #: mail/em-format-html-display.c:653 mail/em-format-html.c:592
 msgid "Encrypted, weak"
@@ -13362,7 +13363,7 @@ msgstr "در حال بازیابی '%s'"
 
 #: mail/em-format-html.c:585
 msgid "Valid signature but cannot verify sender"
-msgstr "امضا معتبر است ولی تأیید فرستنده مقدور نیست"
+msgstr "امضا معتبر است ولی تأیید فرستنده ممکن نیست"
 
 #: mail/em-format-html.c:871
 msgid "Malformed external-body part."
@@ -13455,7 +13456,7 @@ msgstr ""
 
 #: mail/em-format.c:1097 mail/em-format.c:1230
 msgid "Could not parse S/MIME message: Unknown error"
-msgstr "تجزیه‌ی پیغام S/MIME مقدور نیست: خطای ناشناخته"
+msgstr "تجزیه‌ی پیغام S/MIME ممکن نیست: خطای ناشناخته"
 
 #: mail/em-format.c:1220
 msgid "Unsupported encryption type for multipart/encrypted"
@@ -15392,7 +15393,7 @@ msgstr "خطا در بار کردن تعاریف صافی‌ها"
 #. mail:no-save-path primary
 #: mail/mail-errors.xml.h:90
 msgid "Cannot save to directory \"{0}\"."
-msgstr "ذخیره کردن در شاخه‌ی \"{0}\" مقدور نیست"
+msgstr "ذخیره کردن در شاخه‌ی \"{0}\" ممکن نیست"
 
 #. mail:no-create-path primary
 #. mail:no-write-path-exists primary
@@ -15400,22 +15401,22 @@ msgstr "ذخیره کردن در شاخه‌ی \"{0}\" مقدور نیست"
 #: mail/mail-errors.xml.h:94 mail/mail-errors.xml.h:102
 #: mail/mail-errors.xml.h:106
 msgid "Cannot save to file \"{0}\"."
-msgstr "ذخیره در پرونده‌ی \"{0}\" مقدور نیست"
+msgstr "ذخیره در پرونده‌ی \"{0}\" ممکن نیست"
 
 #. mail:no-create-path secondary
 #: mail/mail-errors.xml.h:96
 msgid "Cannot create the save directory, because \"{1}\""
-msgstr "ایجاد شاخه‌ی ذخیره سازی مقدور نیست، چون \"{1}\""
+msgstr "ایجاد شاخه‌ی ذخیره سازی ممکن نیست، چون \"{1}\""
 
 #. mail:no-create-tmp-path primary
 #: mail/mail-errors.xml.h:98
 msgid "Cannot create temporary save directory."
-msgstr "ایجاد شاخه‌ی ذخیره‌سازی موقت مقدور نیست."
+msgstr "ایجاد شاخه‌ی ذخیره‌سازی موقت ممکن نیست."
 
 #. mail:no-write-path-exists secondary
 #: mail/mail-errors.xml.h:104
 msgid "File exists but cannot overwrite it."
-msgstr "پرونده وجود دارد ولی رونویسی روی آن مقدور نیست."
+msgstr "پرونده وجود دارد ولی رونویسی روی آن ممکن نیست."
 
 #. mail:no-write-path-notfile secondary
 #: mail/mail-errors.xml.h:108
@@ -15425,12 +15426,12 @@ msgstr "پرونده وجود دارد ولی یک پرونده‌ی متعار�
 #. mail:no-delete-folder primary
 #: mail/mail-errors.xml.h:110
 msgid "Cannot delete folder \"{0}\"."
-msgstr "حذف پوشه‌ی \"{0}\" مقدور نیست"
+msgstr "حذف پوشه‌ی \"{0}\" ممکن نیست"
 
 #. mail:no-delete-special-folder primary
 #: mail/mail-errors.xml.h:114
 msgid "Cannot delete system folder \"{0}\"."
-msgstr "حذف پوشه‌ی سیستم \"{0}\" مقدور نیست."
+msgstr "حذف پوشه‌ی سیستم \"{0}\" ممکن نیست."
 
 #. mail:no-delete-special-folder secondary
 #. mail:no-rename-special-folder secondary
@@ -15443,7 +15444,7 @@ msgstr ""
 #. mail:no-rename-special-folder primary
 #: mail/mail-errors.xml.h:118
 msgid "Cannot rename or move system folder \"{0}\"."
-msgstr "تغییر نام یا انتقال پشوه‌ی سیستم \"{0}\" مقدور نیست."
+msgstr "تغییر نام یا انتقال پشوه‌ی سیستم \"{0}\" ممکن نیست."
 
 #. mail:ask-delete-folder title
 #: mail/mail-errors.xml.h:122
@@ -15468,7 +15469,7 @@ msgstr ""
 #. mail:no-rename-folder primary
 #: mail/mail-errors.xml.h:128 mail/mail-errors.xml.h:132
 msgid "Cannot rename \"{0}\" to \"{1}\"."
-msgstr "تغییر نام \"{0}\" به \"{1}\" مقدور نیست"
+msgstr "تغییر نام \"{0}\" به \"{1}\" ممکن نیست"
 
 #. mail:no-rename-folder-exists secondary
 #. mail:vfolder-notunique secondary
@@ -15485,41 +15486,41 @@ msgstr "چون \"{2}\"."
 #. mail:no-move-folder-to-nostore primary
 #: mail/mail-errors.xml.h:136 mail/mail-errors.xml.h:140
 msgid "Cannot move folder \"{0}\" to \"{1}\"."
-msgstr "انتقال پوشه‌ی \"{0}\" به \"{1}\" مقدور نیست."
+msgstr "انتقال پوشه‌ی \"{0}\" به \"{1}\" ممکن نیست."
 
 #. mail:no-move-folder-nostore secondary
 #. mail:no-copy-folder-nostore secondary
 #: mail/mail-errors.xml.h:138 mail/mail-errors.xml.h:146
 msgid "Cannot open source \"{2}\"."
-msgstr "باز کردن مبدأ \"{2}\" مقدور نیست."
+msgstr "باز کردن مبدأ \"{2}\" ممکن نیست."
 
 #. mail:no-move-folder-to-nostore secondary
 #. mail:no-copy-folder-to-nostore secondary
 #: mail/mail-errors.xml.h:142 mail/mail-errors.xml.h:150
 msgid "Cannot open target \"{2}\"."
-msgstr "باز کردن مقصد \"{2}\" مقدور نیست."
+msgstr "باز کردن مقصد \"{2}\" ممکن نیست."
 
 #. mail:no-copy-folder-nostore primary
 #. mail:no-copy-folder-to-nostore primary
 #: mail/mail-errors.xml.h:144 mail/mail-errors.xml.h:148
 msgid "Cannot copy folder \"{0}\" to \"{1}\"."
-msgstr "نسخه‌برداری از پوشه‌ی \"{0}\" در \"{1}\" مقدور نیست."
+msgstr "نسخه‌برداری از پوشه‌ی \"{0}\" در \"{1}\" ممکن نیست."
 
 #. mail:no-create-folder-nostore primary
 #: mail/mail-errors.xml.h:152
 msgid "Cannot create folder \"{0}\"."
-msgstr "ایجاد پوشه‌ی \"{0}\" مقدور نیست"
+msgstr "ایجاد پوشه‌ی \"{0}\" ممکن نیست"
 
 #. mail:no-create-folder-nostore secondary
 #: mail/mail-errors.xml.h:154
 msgid "Cannot open source \"{1}\""
-msgstr "باز کردن مبدأ \"{1}\" مقدور نیست."
+msgstr "باز کردن مبدأ \"{1}\" ممکن نیست."
 
 #. mail:account-incomplete primary
 #. mail:account-notunique primary
 #: mail/mail-errors.xml.h:156 mail/mail-errors.xml.h:160
 msgid "Cannot save changes to account."
-msgstr "ذخیره‌ی تغییرات در حساب مقدور نیست."
+msgstr "ذخیره‌ی تغییرات در حساب ممکن نیست."
 
 #. mail:account-incomplete secondary
 #: mail/mail-errors.xml.h:158
@@ -15553,7 +15554,7 @@ msgstr "حذف نشود"
 #. mail:no-save-signature primary
 #: mail/mail-errors.xml.h:171
 msgid "Could not save signature file."
-msgstr "ذخیره‌ی پرونده‌ی امضا مقدور نیست."
+msgstr "ذخیره‌ی پرونده‌ی امضا ممکن نیست."
 
 #. mail:no-save-signature secondary
 #: mail/mail-errors.xml.h:173
@@ -15856,13 +15857,13 @@ msgid ""
 "Cannot create output file: %s:\n"
 " %s"
 msgstr ""
-"ایجاد پرونده‌ی خروجی مقدور نیست: %s:\n"
+"ایجاد پرونده‌ی خروجی ممکن نیست: %s:\n"
 " %s"
 
 #: mail/mail-ops.c:2020
 #, c-format
 msgid "Could not write data: %s"
-msgstr "نوشتن داده‌ها مقدور نیست: %s"
+msgstr "نوشتن داده‌ها ممکن نیست: %s"
 
 #: mail/mail-ops.c:2168
 #, c-format
@@ -17265,7 +17266,7 @@ msgstr "موضوع پیش‌فرض برای پیغام."
 #: tools/killev.c:61
 #, c-format
 msgid "Could not execute '%s': %s\n"
-msgstr "اجرای '%s' مقدور نیست: %s\n"
+msgstr "اجرای '%s' ممکن نیست: %s\n"
 
 #: tools/killev.c:76
 #, c-format
@@ -19023,12 +19024,12 @@ msgstr "آیا می‌خواهید آن را رونویسی کنید؟"
 #. system:no-save-file primary
 #: widgets/misc/e-system-errors.xml.h:9
 msgid "Cannot save file \"{0}\"."
-msgstr "ذخیره‌ی پرونده‌ی \"{0}\" مقدور نیست."
+msgstr "ذخیره‌ی پرونده‌ی \"{0}\" ممکن نیست."
 
 #. system:no-load-file primary
 #: widgets/misc/e-system-errors.xml.h:13
 msgid "Cannot open file \"{0}\"."
-msgstr "باز کردن پرونده‌ی \"{0}\" مقدور نیست."
+msgstr "باز کردن پرونده‌ی \"{0}\" ممکن نیست."
 
 #: widgets/misc/e-task-widget.c:212
 #, c-format
