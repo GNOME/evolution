@@ -313,18 +313,31 @@ build_quick_add_dialog (QuickAdd *qa)
 }
 
 void
-e_contact_quick_add (const gchar *name, const gchar *email,
+e_contact_quick_add (const gchar *in_name, const gchar *email,
 		     EContactQuickAddCallback cb, gpointer closure)
 {
 	QuickAdd *qa;
 	GtkWidget *dialog;
+	gchar *name;
+	gint len;
 
 	/* We need to have *something* to work with. */
-	if (name == NULL && email == NULL) {
+	if (in_name == NULL && email == NULL) {
 		if (cb)
 			cb (NULL, closure);
 		return;
 	}
+
+	name = g_strdup (in_name);
+
+	/* Remove extra whitespace and the quotes some mailers put around names. */
+	g_strstrip (name);
+	len = strlen (name);
+	if ((name[0] == '\'' && name[len-1] == '\'') || (name[0] == '"' && name[len-1] == '"')) {
+		name[0] = ' ';
+		name[len-1] = ' ';
+	}
+	g_strstrip (name);
 
 	qa = quick_add_new ();
 	qa->cb = cb;
@@ -336,6 +349,8 @@ e_contact_quick_add (const gchar *name, const gchar *email,
 
 	dialog = build_quick_add_dialog (qa);
 	gtk_widget_show_all (dialog);
+
+	g_free (name);
 }
 
 void
@@ -394,9 +409,6 @@ e_contact_quick_add_free_form (const gchar *text, EContactQuickAddCallback cb, g
 		name = g_strdup (text);
 		
 
-	/* Clean up name */
-	if (name && *name)
-		g_strstrip (name);
 
 	/* Clean up email, remove bracketing <>s */
 	if (email && *email) {
