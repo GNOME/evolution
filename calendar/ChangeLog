@@ -1,3 +1,12 @@
+2004-03-05  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/alarm-notify/alarm-notify.c (alarm_notify_init): set a GConf
+	listener callback to list for changes in selected calendars.
+	(alarm_notify_finalize): remove the GConf notification listener.
+	(conf_changed_cb): callback to react on configuration changes. Process
+	the new selected calendars and remove the unselected ones.
+	(process_removal_in_hash): callback to remove unselected calendars.
+
 2004-03-04  Rodrigo Moya <rodrigo@ximian.com>
 
 	Fixes #50294

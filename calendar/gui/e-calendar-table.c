@@ -702,7 +702,7 @@ delete_selected_components (ECalendarTable *cal_table)
 		GError *error = NULL;
 		
 		e_cal_remove_object (comp_data->client, 
-					  icalcomponent_get_uid (comp_data->icalcomp), &error);
+				     icalcomponent_get_uid (comp_data->icalcomp), &error);
 		delete_error_dialog (error, E_CAL_COMPONENT_TODO);
 		g_clear_error (&error);
 	}

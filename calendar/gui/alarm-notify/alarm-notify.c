@@ -27,6 +27,7 @@
 #include <libecal/e-cal.h>
 #include "alarm-notify.h"
 #include "alarm-queue.h"
+#include "config-data.h"
 #include "common/authentication.h"
 #include "e-util/e-url.h"
 
@@ -36,6 +37,9 @@
 struct _AlarmNotifyPrivate {
 	/* Mapping from EUri's to LoadedClient structures */
 	GHashTable *uri_client_hash;
+
+	/* ID of GConf notification listener */
+	guint notification_id;
 };
 
 
@@ -64,16 +68,101 @@ alarm_notify_class_init (AlarmNotifyClass *klass)
 	object_class->finalize = alarm_notify_finalize;
 }
 
+typedef struct {
+	AlarmNotify *an;
+	GPtrArray *cals;
+} ProcessRemovalsData;
+
+static void
+process_removal_in_hash (gpointer key, gpointer value, gpointer user_data)
+{
+	int i;
+	char *uri = key;
+	ProcessRemovalsData *prd = user_data;
+
+	/* search the list of selected calendars */
+	for (i = 0; i < prd->cals->len; i++) {
+		ESource *source;
+		char *source_uri;
+		gboolean found = FALSE;
+
+		source = prd->cals->pdata[i];
+		source_uri = e_source_get_uri (source);
+		if (strcmp (source_uri, uri) == 0)
+			found = TRUE;
+
+		g_free (source_uri);
+		if (found)
+			return;
+	}
+
+	/* not found, so remove it */
+	alarm_notify_remove_calendar (prd->an, uri);
+}
+
+static void
+conf_changed_cb (GConfClient *conf_client, guint cnxn_id, GConfEntry *entry, gpointer user_data)
+{
+	AlarmNotify *an;
+	AlarmNotifyPrivate *priv;
+	GPtrArray *cals;
+	const char *key_name;
+	int i;
+	ProcessRemovalsData prd;
+
+	an = ALARM_NOTIFY (user_data);
+	priv = an->priv;
+
+	key_name = gconf_entry_get_key (entry);
+	if (!key_name ||
+	    (key_name && strcmp (key_name, "/apps/evolution/calendar/sources") != 0) ||
+	    (key_name && strcmp (key_name, "/apps/evolution/tasks/sources") != 0))
+		return;
+
+	cals = config_data_get_calendars_to_load ();
+	if (!cals)
+		return;
+
+	/* process the additions */
+	for (i = 0; i < cals->len; i++) {
+		ESource *source;
+		char *uri;
+
+		source = cals->pdata[i];
+
+		uri = e_source_get_uri (source);
+		if (!g_hash_table_lookup (priv->uri_client_hash, uri))
+			alarm_notify_add_calendar (an, uri, FALSE);
+
+		g_free (uri);
+	}
+
+	/* process the removals */
+	prd.an = an;
+	prd.cals = cals;
+	g_hash_table_foreach (priv->uri_client_hash, (GHFunc) process_removal_in_hash, &prd);
+
+	g_ptr_array_free (cals, TRUE);
+}
+
 /* Object initialization function for the alarm notify system */
 static void
 alarm_notify_init (AlarmNotify *an, AlarmNotifyClass *klass)
 {
 	AlarmNotifyPrivate *priv;
+	GConfClient *conf_client;
 
 	priv = g_new0 (AlarmNotifyPrivate, 1);
 	an->priv = priv;
 
 	priv->uri_client_hash = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
+
+	/* setup listener for getting changes in selected calendars */
+	conf_client = config_data_get_conf_client ();
+	gconf_client_add_dir (conf_client, "/apps/evolution", GCONF_CLIENT_PRELOAD_NONE, NULL);
+
+	priv->notification_id = gconf_client_notify_add (conf_client, "/apps/evolution",
+							 (GConfClientNotifyFunc) conf_changed_cb, an, NULL, NULL);
 }
 
 static void
@@ -96,6 +185,9 @@ alarm_notify_finalize (GObject *object)
 
 	an = ALARM_NOTIFY (object);
 	priv = an->priv;
+
+	gconf_client_notify_remove (config_data_get_conf_client (), priv->notification_id);
+	priv->notification_id = -1;
 
 	g_hash_table_foreach (priv->uri_client_hash, dequeue_client, NULL);
 	g_hash_table_destroy (priv->uri_client_hash);
