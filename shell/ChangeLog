@@ -1,3 +1,20 @@
+2004-05-27  Not Zed  <NotZed@Ximian.com>
+
+	** See #58827.
+
+	* e-shell-window.c (switch_view): api change
+	
+	* e-shell.c (impl_Shell_handleURI): Fixed for api change.
+	(impl_Shell_handleURI): check the component alias for an alternate
+	uri schema path.  'quick hack' for activating components from
+	command line.  This may, or may not, continue to function.
+
+	* e-component-registry.c (e_component_registry_peek_info): added
+	an id for search type.
+	(e_component_registry_peek_info_for_uri_schema): ^ makes this
+	redundant, removed.
+	(e_component_registry_activate): fixed for api change.
+
 2004-05-28  Rodney Dawes  <dobey@novell.com>
 
 	* e-shell-importer.c (e_shell_importer_start_import):

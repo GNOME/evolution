@@ -241,24 +241,33 @@ impl_Shell_handleURI (PortableServer_Servant servant,
 {
 	EShell *shell = E_SHELL (bonobo_object_from_servant (servant));
 	EComponentInfo *component_info;
-	const char *colon_p;
-	char *schema;
+	char *schema, *p;
+	int show = FALSE;
 
-	colon_p = strchr (uri, ':');
-	if (colon_p == NULL)
-		schema = g_strdup (uri);
-	else
-		schema = g_strndup (uri, colon_p - uri);
+	schema = g_alloca(strlen(uri)+1);
+	strcpy(schema, uri);
+	p = strchr(schema, ':');
+	if (p)
+		*p = 0;
 
-	component_info = e_component_registry_peek_info_for_uri_schema (shell->priv->component_registry, schema);
-	g_free (schema);
+	component_info = e_component_registry_peek_info(shell->priv->component_registry, ECR_FIELD_SCHEMA, schema);
+	if (component_info == NULL) {
+		show = TRUE;
+		component_info = e_component_registry_peek_info(shell->priv->component_registry, ECR_FIELD_ALIAS, schema);
+	}
 
 	if (component_info == NULL) {
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION, ex_GNOME_Evolution_Shell_UnsupportedSchema, NULL);
 		return;
 	}
 
+	if (show && shell->priv->windows)
+		e_shell_window_switch_to_component((EShellWindow *)shell->priv->windows->data, component_info->id);
+
 	GNOME_Evolution_Component_handleURI (component_info->iface, uri, ev);
+	/* not an error not to implement it */
+	if (ev->_id != NULL && strcmp(ev->_id, ex_CORBA_NO_IMPLEMENT) == 0)
+		memset(ev, 0, sizeof(*ev));
 }
 
 static void

@@ -282,43 +282,35 @@ e_component_registry_peek_list (EComponentRegistry *registry)
 
 EComponentInfo *
 e_component_registry_peek_info (EComponentRegistry *registry,
-				const char *id)
+				enum _EComponentRegistryField field,
+				const char *key)
 {
-	GSList *p;
+	GSList *p, *q;
 
 	g_return_val_if_fail (E_IS_COMPONENT_REGISTRY (registry), NULL);
 
 	for (p = registry->priv->infos; p != NULL; p = p->next) {
 		EComponentInfo *info = p->data;
 
-		if (strcmp (info->id, id) == 0)
-			return info;
-	}
-
-	return NULL;
-}
-
-
-EComponentInfo *
-e_component_registry_peek_info_for_uri_schema  (EComponentRegistry *registry,
-						const char *requested_schema)
-{
-	GSList *p, *q;
-
-	for (p = registry->priv->infos; p != NULL; p = p->next) {
-		EComponentInfo *info = p->data;
-
-		for (q = info->uri_schemas; q != NULL; q = q->next) {
-			const char *schema = q->data;
-
-			if (strcmp (schema, requested_schema) == 0)
+		switch (field) {
+		case ECR_FIELD_ID:
+			if (strcmp (info->id, key) == 0)
 				return info;
+			break;
+		case ECR_FIELD_ALIAS:
+			if (strcmp (info->alias, key) == 0)
+				return info;
+			break;
+		case ECR_FIELD_SCHEMA:
+			for (q = info->uri_schemas; q != NULL; q = q->next)
+				if (strcmp((char *)q->data, key) == 0)
+					return info;
+			break;
 		}
 	}
 
 	return NULL;
 }
-
 
 GNOME_Evolution_Component
 e_component_registry_activate (EComponentRegistry *registry,
@@ -329,7 +321,7 @@ e_component_registry_activate (EComponentRegistry *registry,
 
 	g_return_val_if_fail (E_IS_COMPONENT_REGISTRY (registry), CORBA_OBJECT_NIL);
 
-	info = e_component_registry_peek_info (registry, id);
+	info = e_component_registry_peek_info (registry, ECR_FIELD_ID, id);
 	if (info == NULL) {
 		g_warning (G_GNUC_FUNCTION " - Unknown id \"%s\"", id);
 		return CORBA_OBJECT_NIL;

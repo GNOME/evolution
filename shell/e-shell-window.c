@@ -280,6 +280,7 @@ switch_view (EShellWindow *window, ComponentView *component_view)
 	GConfClient *gconf_client = gconf_client_get_default ();
 	EComponentRegistry *registry = e_shell_peek_component_registry (window->priv->shell);
 	EComponentInfo *info = e_component_registry_peek_info (registry,
+							       ECR_FIELD_ID,
 							       component_view->component_id);
 	char *title;
 

@@ -57,6 +57,11 @@ struct _EComponentRegistryClass {
 	GObjectClass parent_class;
 };
 
+enum _EComponentRegistryField {
+	ECR_FIELD_ID,
+	ECR_FIELD_ALIAS,
+	ECR_FIELD_SCHEMA,
+};
 
 struct _EComponentInfo {
 	char *id;
@@ -85,10 +90,8 @@ EComponentRegistry *e_component_registry_new       (void);
 
 GSList         *e_component_registry_peek_list  (EComponentRegistry *registry);
 EComponentInfo *e_component_registry_peek_info  (EComponentRegistry *registry,
-						 const char         *id);
-
-EComponentInfo *e_component_registry_peek_info_for_uri_schema  (EComponentRegistry *registry,
-								const char         *schema);
+						 enum _EComponentRegistryField type,
+						 const char *key);
 
 GNOME_Evolution_Component  e_component_registry_activate  (EComponentRegistry *registry,
 							   const char         *id,
