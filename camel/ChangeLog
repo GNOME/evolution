@@ -1,3 +1,8 @@
+2004-06-18  Jeffrey Stedfast  <fejj@novell.com>
+
+	* camel-stream-buffer.c (set_vbuf): Need to re-init sbf->ptr and
+	sbf->end too, or we'll be sorrryy!
+
 2004-06-18  Not Zed  <NotZed@Ximian.com>
 
 	* camel-exception.h (CAMEL_EXCEPTION_INITIALISER): setup for
