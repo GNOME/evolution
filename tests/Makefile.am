@@ -8,6 +8,7 @@ LDADD = \
 	$(GNOME_LIBDIR) 		\
 	$(GNOMEUI_LIBS) $(INTLLIBS)
 
-noinst_PROGRAMS =  \
-	test1
+noinst_PROGRAMS =  	\
+	test1		\
+	test2
 

@@ -1,8 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* camelMimePart.c : Abstract class for a mime_part */
 
-/** THIS IS MOSTLY AN ABSTRACT CLASS THAT SHOULD HAVE BEEN AN
-    INTERFACE. **/
 
 /* 
  *
@@ -485,6 +483,9 @@ _write_content_to_file (CamelMimePart *mime_part, FILE *file)
 }
 
 
+
+
+
 static void
 _write_to_file(CamelDataWrapper *data_wrapper, FILE *file)
 {
@@ -495,6 +496,8 @@ _write_to_file(CamelDataWrapper *data_wrapper, FILE *file)
 	WHPTF (file, "Content-Description", mp->description);
 	WHPTF (file, "Content-MD5", mp->content_MD5);
 	WHPTF (file, "Content-id", mp->content_id);
+	write_header_with_glist_to_file (file, "Content-Language", mp->content_languages);
+	write_header_table_to_file (file, mp->headers);
 	fprintf(file,"\n");
 	if (mp->content) camel_data_wrapper_write_to_file (mp->content, file);
 	

@@ -495,28 +495,10 @@ _write_one_recipient_to_file (gpointer key, gpointer value, gpointer user_data)
 {
 	GString *recipient_type = (GString *)key;
 	GList *recipients = (GList *)value;
-	GString *current;
+	//	GString *current;
 	FILE *file = (FILE *)user_data;
-
-	if ( (recipient_type) && (recipient_type->str) && 
-	     (recipients) )
-		{
-			gboolean first;
-
-			fprintf(file, "%s: ", recipient_type->str);
-			first = TRUE;
-			while (recipients) {
-				current = (GString *)recipients->data;
-				if ( (current) && (current->str) ) {
-					if (!first) fprintf(file, ", ");
-					else first = FALSE;
-					fprintf(file, "%s", current->str);
-				}
-				recipients = g_list_next(recipients);
-				
-			}
-			fprintf(file, "\n");
-		}
+	if ( (recipient_type) && (recipient_type->str) )
+	     write_header_with_glist_to_file (file, recipient_type->str, recipients);
 }
 
 static void

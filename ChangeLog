@@ -1,3 +1,14 @@
+1999-05-26  bertrand  <Bertrand.Guiheneuf@inria.fr>
+
+	* camel/gmime-utils.c (get_header_lines_from_file): 
+	new func. Parses message header zone and returns
+	a Glist of all header lines.
+
+	* tests/test2.c: tests message parsing
+
+	* camel/gmime-utils.c (write_header_table_to_file): 
+	new func to write a table of headers.
+
 1999-05-20  bertrand  <Bertrand.Guiheneuf@inria.fr>
 
 	* camel/camel-mime-message.c (_write_to_file): 
