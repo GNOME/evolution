@@ -451,7 +451,7 @@ create_msg_composer (const char *url)
 	composer = url ? e_msg_composer_new_from_url (url) : e_msg_composer_new ();
 	
 	if (composer) {
-		e_msg_composer_hdrs_set_from_account (composer->hdrs, account->name);
+		e_msg_composer_hdrs_set_from_account (E_MSG_COMPOSER_HDRS (composer->hdrs), account->name);
 		e_msg_composer_set_send_html (composer, send_html);
 		e_msg_composer_show_sig_file (composer);
 	}
