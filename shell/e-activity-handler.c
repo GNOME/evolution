@@ -388,10 +388,6 @@ impl_operationStarted (PortableServer_Servant servant,
 
 	activity_handler = E_ACTIVITY_HANDLER (bonobo_object_from_servant (servant));
 
-	/* FIXME */
-	if (/* GTK_OBJECT_DESTROYED (activity_handler) || */ activity_handler->priv == NULL)
-		return;
-
 	priv = activity_handler->priv;
 
 	if (icon->_length == 0) {
@@ -439,10 +435,6 @@ impl_operationProgressing (PortableServer_Servant servant,
 
 	activity_handler = E_ACTIVITY_HANDLER (bonobo_object_from_servant (servant));
 
-	/* FIXME */
-	if (/* GTK_OBJECT_DESTROYED (activity_handler) || */ activity_handler->priv == NULL)
-		return;
-
 	priv = activity_handler->priv;
 
 	p = lookup_activity (priv->activity_infos, activity_id, &order_number);
@@ -483,10 +475,6 @@ impl_operationFinished (PortableServer_Servant servant,
 
 	activity_handler = E_ACTIVITY_HANDLER (bonobo_object_from_servant (servant));
 
-	/* FIXME */
-	if (/* GTK_OBJECT_DESTROYED (activity_handler) || */ activity_handler->priv == NULL)
-		return;
-
 	priv = activity_handler->priv;
 
 	p = lookup_activity (priv->activity_infos, activity_id, &order_number);
@@ -511,10 +499,6 @@ impl_requestDialog (PortableServer_Servant servant,
 	EActivityHandler *activity_handler;
 
 	activity_handler = E_ACTIVITY_HANDLER (bonobo_object_from_servant (servant));
-
-	/* FIXME */
-	if (/* GTK_OBJECT_DESTROYED (activity_handler) || */ activity_handler->priv == NULL)
-		return GNOME_Evolution_Activity_DIALOG_ACTION_ERROR;
 
 	/* FIXME implement.  */
 	g_warning ("Evolution::Activity::requestDialog not implemented");

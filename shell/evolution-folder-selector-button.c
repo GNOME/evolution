@@ -161,6 +161,8 @@ clicked (GtkButton *button)
 
 	g_signal_emit (folder_selector_button, signals[POPPED_UP], 0);
 
+	g_object_add_weak_pointer (G_OBJECT (parent_window), (void **) &parent_window);
+
 	evolution_shell_client_user_select_folder (priv->shell_client,
 						   parent_window,
 						   priv->title,
@@ -168,17 +170,15 @@ clicked (GtkButton *button)
 						   (const char **)priv->possible_types,
 						   &return_folder);
 
-#if 0				/* FIXME */
+	g_object_remove_weak_pointer (G_OBJECT (parent_window), (void **) &parent_window);
+
 	/* If the parent gets destroyed despite our best efforts (eg,
 	 * because its own parent got destroyed), then the folder
 	 * selector button will have been destroyed too and we need
 	 * to just bail out here.
 	 */
-	if (GTK_OBJECT_DESTROYED (parent_window)) {
-		g_object_unref (parent_window);
+	if (parent_window == NULL)
 		return;
-	}
-#endif
 
 	gtk_widget_set_sensitive (GTK_WIDGET (parent_window), TRUE);
 	g_object_unref (parent_window);

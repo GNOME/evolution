@@ -1,5 +1,17 @@
 2002-11-15  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-activity-handler.c (impl_operationStarted): No need to check
+	for priv being NULL here anymore.
+	(impl_operationProgressing): Likewise.
+	(impl_operationFinished): Likewise.
+	(impl_requestDialog): Likewise.
+
+	* evolution-folder-selector-button.c (clicked): Use
+	g_object_add_weak_pointer() on the parent_window instead of using
+	GTK_OBJECT_DESTROYED().
+
+2002-11-15  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-startup-wizard.c (e_shell_startup_wizard_create): For
 	now, always return TRUE.
 
