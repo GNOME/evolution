@@ -1,3 +1,15 @@
+2001-07-24  Not Zed  <NotZed@Ximian.com>
+
+	* camel-operation.c (camel_operation_register, unregister): Added
+	some warnings for bad cases.
+
+2001-07-23  Not Zed  <NotZed@Ximian.com>
+
+	* camel-operation.c (camel_operation_register): Only insert a hash
+	entry if we haven't already.
+	(camel_operation_unregister): Only remove the has entry if the id
+	is a real thread.
+
 2001-07-23  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-filter-driver.c (do_move): Slight fix for when source ==
