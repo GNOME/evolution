@@ -91,6 +91,8 @@ void		calendar_model_set_timezone	    (CalendarModel *model,
 void		calendar_model_set_default_category (CalendarModel	*model,
 						     const char		*default_category);
 
+void            calendar_model_set_status_message   (CalendarModel      *model,
+						     const char         *message);
 
 
 

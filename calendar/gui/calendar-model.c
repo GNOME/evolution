@@ -108,7 +108,6 @@ static void *calendar_model_initialize_value (ETableModel *etm, int col);
 static gboolean calendar_model_value_is_empty (ETableModel *etm, int col, const void *value);
 static char * calendar_model_value_to_string (ETableModel *etm, int col, const void *value);
 static int remove_object (CalendarModel *model, const char *uid);
-static void set_status_message (CalendarModel *model, const char *message);
 static void ensure_task_complete (CalComponent *comp,
 				  time_t completed_date);
 static void ensure_task_not_complete (CalComponent *comp);
@@ -1869,7 +1868,7 @@ query_query_done_cb (CalQuery *query, CalQueryDoneStatus status, const char *err
 
 	/* FIXME */
 
-	set_status_message (model, NULL);
+	calendar_model_set_status_message (model, NULL);
 
 	if (status != CAL_QUERY_DONE_SUCCESS)
 		fprintf (stderr, "query done: %s\n", error_str);
@@ -1885,7 +1884,7 @@ query_eval_error_cb (CalQuery *query, const char *error_str, gpointer data)
 
 	/* FIXME */
 
-	set_status_message (model, NULL);
+	calendar_model_set_status_message (model, NULL);
 
 	fprintf (stderr, "eval error: %s\n", error_str);
 }
@@ -2008,7 +2007,7 @@ update_query (CalendarModel *model)
 	g_assert (priv->sexp != NULL);
 	real_sexp = adjust_query_sexp (model, priv->sexp);
 
-	set_status_message (model, _("Searching"));
+	calendar_model_set_status_message (model, _("Searching"));
 	priv->query = cal_client_get_query (priv->client, real_sexp);
 	g_free (real_sexp);
 
@@ -2102,8 +2101,8 @@ remove_object (CalendarModel *model, const char *uid)
 #define EVOLUTION_TASKS_PROGRESS_IMAGE "evolution-tasks-mini.png"
 static GdkPixbuf *progress_icon[2] = { NULL, NULL };
 
-static void
-set_status_message (CalendarModel *model, const char *message)
+void
+calendar_model_set_status_message (CalendarModel *model, const char *message)
 {
 	extern EvolutionShellClient *global_shell_client; /* ugly */
 	CalendarModelPrivate *priv;

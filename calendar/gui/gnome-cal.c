@@ -1341,6 +1341,8 @@ client_cal_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer da
 	gcal = GNOME_CALENDAR (data);
 	priv = gcal->priv;
 
+	e_week_view_set_status_message (priv->week_view, NULL);
+
 	switch (status) {
 	case CAL_CLIENT_OPEN_SUCCESS:
 		if (client == priv->client)
@@ -1657,6 +1659,7 @@ gnome_calendar_open (GnomeCalendar *gcal, const char *str_uri)
 	char *tasks_uri;
 	gboolean success;
 	EUri *uri;
+	char *message;
 
 	g_return_val_if_fail (gcal != NULL, FALSE);
 	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), FALSE);
@@ -1671,6 +1674,10 @@ gnome_calendar_open (GnomeCalendar *gcal, const char *str_uri)
 	g_return_val_if_fail (
 		cal_client_get_load_state (priv->task_pad_client) == CAL_CLIENT_LOAD_NOT_LOADED,
 		FALSE);
+
+	message = g_strdup_printf (_("Opening calendar at %s"), str_uri);
+	e_week_view_set_status_message (priv->week_view, message);
+	g_free (message);
 
 	if (!cal_client_open_calendar (priv->client, str_uri, FALSE)) {
 		g_message ("gnome_calendar_open(): Could not issue the request");

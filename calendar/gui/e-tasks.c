@@ -318,12 +318,19 @@ e_tasks_open			(ETasks		*tasks,
 {
 	ETasksPrivate *priv;
 	char *config_filename;
+	char *message;
 
 	g_return_val_if_fail (tasks != NULL, FALSE);
 	g_return_val_if_fail (E_IS_TASKS (tasks), FALSE);
 	g_return_val_if_fail (file != NULL, FALSE);
 
 	priv = tasks->priv;
+
+	message = g_strdup_printf (_("Opening tasks at %s"), file);
+	calendar_model_set_status_message (
+		e_calendar_table_get_model (priv->tasks_view),
+		message);
+	g_free (message);
 
 	if (!cal_client_open_calendar (priv->client, file, FALSE)) {
 		g_message ("e_tasks_open(): Could not issue the request");
@@ -374,6 +381,9 @@ cal_opened_cb				(CalClient	*client,
 
 	tasks = E_TASKS (data);
 	priv = tasks->priv;
+
+	calendar_model_set_status_message (
+		e_calendar_table_get_model (priv->tasks_view), NULL);
 
 	switch (status) {
 	case CAL_CLIENT_OPEN_SUCCESS:

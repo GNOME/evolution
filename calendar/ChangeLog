@@ -1,5 +1,16 @@
 2001-10-19  Rodrigo Moya <rodrigo@ximian.com>
 
+	* gui/calendar-model.c (calendar_model_set_status_message): make
+	it a public function
+
+	* gui/e-tasks.c (e_tasks_open): display progress messages
+	(cal_opened_cb): clean up status bar messages
+
+	* gui/gnome-cal.c (gnome_calendar_open): display progress messages
+	(client_cal_opened_cb): clean up status bar messages
+
+2001-10-19  Rodrigo Moya <rodrigo@ximian.com>
+	
 	* gui/calendar-model.c (set_status_message): new function
 	(update_query): call set_status_message
 	(query_query_done_cb):
