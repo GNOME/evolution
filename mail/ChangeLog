@@ -1,5 +1,9 @@
 2002-09-18  Not Zed  <NotZed@Ximian.com>
 
+	* mail-config-druid.c (wizard_back_cb): If going back from a page
+	past our end (i.e. the final page), jump to the last page we know
+	of.  For #29293.
+
 	* component-factory.c (notify_listener_exception): helper to map a
 	camel excpeiton to a listener result.
 	(storage_create_folder): Use above to return more meaningful error.

@@ -941,7 +941,9 @@ wizard_back_cb (EvolutionWizard *wizard,
                 int page_num,
                 MailConfigWizard *gui) 
 {
-        if (wizard_pages[page_num].back_func == NULL
+	if (page_num >= 5)
+		evolution_wizard_set_page(wizard, 4, NULL);
+        else if (wizard_pages[page_num].back_func == NULL
 	    || !(wizard_pages[page_num].back_func (wizard, gui))) {
 		if (page_num > 0)
 			evolution_wizard_set_page(wizard, page_num-1, NULL);
