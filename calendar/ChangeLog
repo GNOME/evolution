@@ -1,5 +1,7 @@
 1998-04-21  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* main.c (save_ok): Added call to gtk_window_set_wmclass.
+
 	* gncal-day-panel.c (calendar_day_selected): Fix, years for mktime
 	should substract 1900 and gtk_calendar stores years relative to
 	year 0. 

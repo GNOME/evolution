@@ -222,7 +222,8 @@ save_ok (GtkWidget *widget, GtkFileSelection *fs)
 	GnomeCalendar *gcal;
 
 	gcal = GNOME_CALENDAR (gtk_object_get_user_data (GTK_OBJECT (fs)));
-
+	gtk_window_set_wmclass (GTK_WINDOW (gcal), "gnomecal", "gnomecal");
+	
 	if (gcal->cal->filename)
 		g_free (gcal->cal->filename);
 
