@@ -1,5 +1,11 @@
 2003-05-21  Ettore Perazzoli  <ettore@ximian.com>
 
+	* configure.in: Bump version to 1.3.91.99.
+
+== Version 1.3.91 ==
+
+2003-05-21  Ettore Perazzoli  <ettore@ximian.com>
+
 	* configure.in: Renamed GAL_VERSION to GAL_REQUIRED; also, made it
 	not AC_SUBST() it anymore since it's only used in configure.
 	Added GTKHTML_REQUIRED and made all the libgtkhtml-3.0 checks use
