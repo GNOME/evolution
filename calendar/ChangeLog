@@ -1,3 +1,8 @@
+1999-08-01  Peter Teichman  <pat4@acpub.duke.edu>
+
+	* calendar-pilot-sync.c (sync_object_to_pilot): The multi-day
+	appointment corruption bug is dead. Whoo!
+
 1999-07-31  Peter Teichman  <pat4@acpub.duke.edu>
 
 	* Makefile.am: fixed this up slightly with respect to pilot conduits

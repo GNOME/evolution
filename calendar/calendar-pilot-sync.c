@@ -396,14 +396,19 @@ sync_object_to_pilot (GNOME_Calendar_Repository repo, iCalObject *obj, int pilot
 	if ((a->end.tm_mday != a->begin.tm_mday) ||
 	    (a->end.tm_mon != a->begin.tm_mon) ||
 	    (a->end.tm_year != a->begin.tm_year)){
+		a->event = 1;
+		a->begin.tm_sec = 0;
+		a->begin.tm_min = 0;
+		a->begin.tm_hour = 0;
+
+		a->end.tm_sec = 0;
+		a->end.tm_min = 0;
+		a->end.tm_hour = 0;
 
 		a->repeatEnd = a->end;
 		a->repeatForever = 0;
-		a->repeatFrequency = 0;
+		a->repeatFrequency = 1;
 		a->repeatType = repeatDaily;
-		a->end.tm_mday = a->begin.tm_mday;
-		a->end.tm_mon = a->begin.tm_mon;
-		a->end.tm_year = a->begin.tm_year;
 	}
 	   
 	/*
@@ -447,6 +452,7 @@ sync_object_to_pilot (GNOME_Calendar_Repository repo, iCalObject *obj, int pilot
 	dlp_WriteRecord (
 		pilot_fd, db, 0,
 		obj->pilot_id, 0, buffer, rec_len, &new_id);
+	
 	GNOME_Calendar_Repository_update_pilot_id (repo, obj->uid, new_id, ICAL_PILOT_SYNC_NONE, &ev);
 	
 	free_Appointment (a);
