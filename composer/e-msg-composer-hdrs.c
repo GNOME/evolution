@@ -708,7 +708,10 @@ e_msg_composer_hdrs_new (BonoboUIComponent *uic, int visible_mask, int visible_f
 	new = g_object_new (e_msg_composer_hdrs_get_type (), NULL);
 	priv = new->priv;
 	priv->uic = uic;
-	
+
+	g_object_ref (new);
+	gtk_object_sink (GTK_OBJECT (new));
+
 	if (!setup_corba (new)) {
 		g_object_unref (new);
 		return NULL;
