@@ -1,5 +1,17 @@
 2001-06-21  JP Rosevear  <jpr@ximian.com>
 
+	* gui/main.c (main): update to new call
+
+	* gui/e-itip-control.[hc]: break the widget bits out on their own
+	into a proper object, basic stuff seems to be working again
+	
+	* gui/itip-control-factory.c: put the control specific bits here
+	from e-itip-control.c
+
+	* gui/itip-control-factory.h: new header
+
+2001-06-21  JP Rosevear  <jpr@ximian.com>
+
 	* gui/dialogs/Makefile.am (gladedir): add include path
 
 	* gui/dialogs/comp-editor.c (setup_widgets): remove buttons and

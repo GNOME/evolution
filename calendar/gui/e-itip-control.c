@@ -1,99 +1,367 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* Evolution calendar - Control for displaying iTIP mail messages
+/* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
+/* e-itip-control.c
  *
- * Copyright (C) 2000 Helix Code, Inc.
- * Copyright (C) 2000 Ximian, Inc.
+ * Copyright (C) 2001  Ximian, Inc.
  *
- * Author: Jesse Pavel <jpavel@ximian.com>
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU General Public
+ * License along with this program; if not, write to the
+ * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+ * Boston, MA 02111-1307, USA.
+ *
+ * Author: JP Rosevear
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
-#include <time.h>
+#endif
+
 #include <glib.h>
-#include <gtk/gtkobject.h>
-#include <gtk/gtkwidget.h>
+#include <gtk/gtkmisc.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
+#include <libgnome/gnome-util.h>
+#include <libgnomeui/gnome-stock.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-dialog-util.h>
-#include <bonobo/bonobo-generic-factory.h>
-#include <bonobo/bonobo-persist-stream.h>
-#include <bonobo/bonobo-stream-client.h>
-#include <bonobo/bonobo-context.h>
-
-#include <glade/glade.h>
 #include <ical.h>
-#include <Evolution-Composer.h>
-
-#include "e-itip-control.h"
 #include <cal-util/cal-component.h>
 #include <cal-client/cal-client.h>
 #include <e-util/e-time-utils.h>
+#include <e-util/e-dialog-widgets.h>
 #include "calendar-config.h"
 #include "itip-utils.h"
-
-#define MAIL_COMPOSER_OAF_IID "OAFIID:GNOME_Evolution_Mail_Composer"
-
-#define DEFAULT_WIDTH 400
-#define DEFAULT_HEIGHT 300
-
-extern gchar *evolution_dir;
-
-typedef struct _EItipControlPrivate EItipControlPrivate;
+#include "e-itip-control.h"
 
 struct _EItipControlPrivate {
-	GladeXML *xml, *xml2;
-	GtkWidget *main_frame;
-	GtkWidget *organizer_entry, *dtstart_label, *dtend_label;
-	GtkWidget *summary_entry, *description_box, *message_text;
-	GtkWidget *button_box;
-	GtkWidget *address_entry;
-	GtkWidget *add_button;
-	GtkWidget *loading_window;
-	GtkWidget *loading_progress;
+	GtkWidget *summary;
+	GtkWidget *datetime;
+	GtkWidget *message;
+	GtkWidget *count;
+	GtkWidget *options;
+	GtkWidget *ok;
+	GtkWidget *next;
+	GtkWidget *prev;
 
-	icalcomponent *main_comp, *comp;
-	CalComponent *cal_comp;
+	CalClient *event_client;
+	CalClient *task_client;
+
 	char *vcalendar;
-	gchar *from_address, *my_address, *organizer;
-	icalparameter_partstat new_partstat;
+	CalComponent *comp;
+	icalcomponent *main_comp;
+	icalcomponent *ical_comp;
+	icalcompiter iter;
+	icalproperty_method method;
+
+	const int *map;
+	int current;
+	int total;
+
+	gchar *from_address;
+	gchar *my_address;
 };
 
-enum E_ITIP_BONOBO_ARGS {
-	FROM_ADDRESS_ARG_ID,
-	MY_ADDRESS_ARG_ID
+/* Option menu maps */
+enum { 
+	UPDATE_CALENDAR
 };
 
+enum { 
+	ACCEPT_TO_CALENDAR_RSVP,
+	ACCEPT_TO_CALENDAR,
+	TENTATIVE_TO_CALENDAR_RSVP,
+	TENTATIVE_TO_CALENDAR,
+	DECLINE_TO_CALENDAR_RSVP,
+	DECLINE_TO_CALENDAR
+};
 
-/********
- * find_attendee() searches through the attendee properties of `comp'
- * and returns the one the value of which is the same as `address' if such
- * a property exists. Otherwise, it will return NULL.
- ********/
+enum { 
+	SEND_FREEBUSY
+};
+
+enum { 
+	CANCEL_CALENDAR
+};
+
+static const int publish_map[] = {
+	UPDATE_CALENDAR,
+	-1
+};
+
+static const char *publish_text_map[] = {
+	"Update Calendar",
+	NULL
+};
+
+static const int request_map[] = {
+	ACCEPT_TO_CALENDAR_RSVP,
+	ACCEPT_TO_CALENDAR,
+	TENTATIVE_TO_CALENDAR_RSVP,
+	TENTATIVE_TO_CALENDAR,
+	DECLINE_TO_CALENDAR_RSVP,
+	DECLINE_TO_CALENDAR,
+	-1
+};
+
+static const char *request_text_map[] = {
+	"Accept and RSVP",
+	"Accept and do not RSVP",
+	"Tentatively accept and RSVP",
+	"Tentatively accept and do not RSVP",
+	"Decline and RSVP",
+	"Decline and do not RSVP",
+	NULL
+};
+
+static const int request_fb_map[] = {
+	SEND_FREEBUSY,
+	-1
+};
+
+static const char *request_fb_text_map[] = {
+	"Send Free/Busy Information",
+	NULL
+};
+
+static const int reply_map[] = {
+	UPDATE_CALENDAR,
+	-1
+};
+
+static const char *reply_text_map[] = {
+	"Update Calendar",
+	NULL
+};
+
+static const int cancel_map[] = {
+	CANCEL_CALENDAR,
+	-1
+};
+
+static const char *cancel_text_map[] = {
+	"Cancel",
+	NULL
+};
+
+static void class_init	(EItipControlClass	 *klass);
+static void init	(EItipControl		 *itip);
+static void destroy	(GtkObject               *obj);
+
+static void prev_clicked_cb (GtkWidget *widget, gpointer data);
+static void next_clicked_cb (GtkWidget *widget, gpointer data);
+static void ok_clicked_cb (GtkWidget *widget, gpointer data);
+
+static GtkVBoxClass *parent_class = NULL;
+
+
+GtkType
+e_itip_control_get_type (void)
+{
+	static GtkType type = 0;
+
+	if (type == 0) {
+		static const GtkTypeInfo info =
+		{
+			"EItipControl",
+			sizeof (EItipControl),
+			sizeof (EItipControlClass),
+			(GtkClassInitFunc) class_init,
+			(GtkObjectInitFunc) init,
+			/* reserved_1 */ NULL,
+			/* reserved_2 */ NULL,
+			(GtkClassInitFunc) NULL,
+		};
+
+		type = gtk_type_unique (gtk_vbox_get_type (), &info);
+	}
+
+	return type;
+}
+
+static void
+class_init (EItipControlClass *klass)
+{
+	GtkObjectClass *object_class;
+
+	object_class = GTK_OBJECT_CLASS (klass);
+
+	parent_class = gtk_type_class (gtk_vbox_get_type ());
+
+	object_class->destroy = destroy;
+}
+
+
+/* Calendar Server routines */
+static void
+start_calendar_server_cb (CalClient *cal_client,
+			  CalClientOpenStatus status,
+			  gpointer data)
+{
+	gboolean *success = data;
+
+	if (status == CAL_CLIENT_OPEN_SUCCESS)
+		*success = TRUE;
+	else
+		*success = FALSE;
+
+	gtk_main_quit (); /* end the sub event loop */
+}
+
+static CalClient *
+start_calendar_server (gchar *uri)
+{
+	CalClient *client;
+	gchar *filename;
+	gboolean success;
+	
+	client = cal_client_new ();
+
+	/* FIX ME */
+	filename = g_concat_dir_and_file (g_get_home_dir (), uri);
+
+	gtk_signal_connect (GTK_OBJECT (client), "cal_opened",
+			    start_calendar_server_cb, &success);
+
+	if (!cal_client_open_calendar (client, filename, FALSE))
+		return NULL;
+
+	/* run a sub event loop to turn cal-client's async load
+	   notification into a synchronous call */
+	gtk_main ();
+
+	if (success)
+		return client;
+
+	return NULL;
+}
+
+static void
+init (EItipControl *itip)
+{
+	EItipControlPrivate *priv;
+	GtkWidget *hbox, *table, *lbl;
+	
+	priv = g_new0 (EItipControlPrivate, 1);
+
+	itip->priv = priv;
+
+	/* Header */
+	priv->count = gtk_label_new ("0 of 0");
+	gtk_widget_show (priv->count);
+	priv->prev = gnome_stock_button (GNOME_STOCK_BUTTON_PREV);
+	gtk_widget_show (priv->prev);
+	priv->next = gnome_stock_button (GNOME_STOCK_BUTTON_NEXT);
+	gtk_widget_show (priv->next);
+
+	hbox = gtk_hbox_new (FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox), priv->prev, FALSE, FALSE, 4);
+	gtk_box_pack_start (GTK_BOX (hbox), priv->count, TRUE, TRUE, 4);
+	gtk_box_pack_start (GTK_BOX (hbox), priv->next, FALSE, FALSE, 4);
+	gtk_widget_show (hbox);
+
+	gtk_box_pack_start (GTK_BOX (itip), hbox, FALSE, FALSE, 4);
+
+	gtk_signal_connect (GTK_OBJECT (priv->prev), "clicked",
+			    GTK_SIGNAL_FUNC (prev_clicked_cb), itip);
+	gtk_signal_connect (GTK_OBJECT (priv->next), "clicked",
+			    GTK_SIGNAL_FUNC (next_clicked_cb), itip);
+
+	/* Information */
+	table = gtk_table_new (1, 3, FALSE);
+	gtk_widget_show (table);
+
+	lbl = gtk_label_new (_("Summary:"));
+	gtk_misc_set_alignment (GTK_MISC (lbl), 0.0, 0.0);
+	gtk_widget_show (lbl);
+	gtk_table_attach (GTK_TABLE (table), lbl, 0, 1, 0, 1,
+			  GTK_EXPAND & GTK_FILL, GTK_SHRINK, 4, 0);
+	priv->summary = gtk_label_new ("");
+	gtk_misc_set_alignment (GTK_MISC (priv->summary), 0.0, 0.5);
+	gtk_widget_show (priv->summary);
+	gtk_table_attach (GTK_TABLE (table), priv->summary, 1, 2, 0, 1,
+			  GTK_EXPAND & GTK_FILL, GTK_EXPAND, 4, 0);
+
+	lbl = gtk_label_new (_("Date/Time:"));
+	gtk_misc_set_alignment (GTK_MISC (lbl), 0.0, 0.5);
+	gtk_widget_show (lbl);
+	gtk_table_attach (GTK_TABLE (table), lbl, 0, 1, 1, 2, 
+			  GTK_EXPAND, GTK_SHRINK, 4, 0);
+	priv->datetime = gtk_label_new ("");
+	gtk_misc_set_alignment (GTK_MISC (priv->datetime), 0.0, 0.5);
+	gtk_widget_show (priv->datetime);
+	gtk_table_attach (GTK_TABLE (table), priv->datetime, 1, 2, 1, 2,
+			  GTK_EXPAND & GTK_FILL, GTK_EXPAND, 4, 0);
+
+	priv->message = gtk_label_new ("");
+	gtk_label_set_line_wrap (GTK_LABEL (priv->message), TRUE);
+	gtk_widget_show (priv->message);
+	gtk_table_attach (GTK_TABLE (table), priv->message, 0, 2, 2, 3, 
+			  GTK_EXPAND & GTK_FILL, GTK_EXPAND & GTK_FILL, 4, 0);
+
+	gtk_box_pack_start (GTK_BOX (itip), table, FALSE, FALSE, 4);
+
+	/* Actions */
+	priv->options = gtk_option_menu_new ();
+	gtk_widget_show (priv->options);
+	priv->ok = gnome_stock_button (GNOME_STOCK_BUTTON_OK);
+	gtk_widget_show (priv->ok);
+
+	hbox = hbox = gtk_hbox_new (FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox), priv->options, TRUE, TRUE, 4);
+	gtk_box_pack_start (GTK_BOX (hbox), priv->ok, FALSE, FALSE, 4);
+	gtk_widget_show (hbox);
+
+	gtk_signal_connect (GTK_OBJECT (priv->ok), "clicked",
+			    GTK_SIGNAL_FUNC (ok_clicked_cb), itip);
+
+	gtk_box_pack_start (GTK_BOX (itip), hbox, FALSE, FALSE, 4);
+
+	/* Get the cal clients */
+	priv->event_client = start_calendar_server ("evolution/local/Calendar/calendar.ics");
+	if (priv->event_client == NULL)
+		g_warning ("Unable to start calendar client");
+	priv->task_client = start_calendar_server ("evolution/local/Tasks/tasks.ics");
+		g_warning ("Unable to start calendar client");
+}
+
+static void
+destroy (GtkObject *obj)
+{
+	EItipControl *itip = E_ITIP_CONTROL (obj);
+	EItipControlPrivate *priv;
+
+	priv = itip->priv;
+
+	g_free (priv);
+}
+
+GtkWidget *
+e_itip_control_new (void)
+{
+	return gtk_type_new (E_TYPE_ITIP_CONTROL);
+}
+
 static icalproperty *
-find_attendee (icalcomponent *comp, char *address)
+find_attendee (icalcomponent *ical_comp, char *address)
 {
 	icalproperty *prop;
 	const char *attendee, *text;
 	icalvalue *value;
 	
-	for (prop = icalcomponent_get_first_property (comp, ICAL_ATTENDEE_PROPERTY);
+	g_return_val_if_fail (address != NULL, NULL);
+
+	for (prop = icalcomponent_get_first_property (ical_comp, ICAL_ATTENDEE_PROPERTY);
 	     prop != NULL;
-	     prop = icalcomponent_get_next_property (comp, ICAL_ATTENDEE_PROPERTY))
+	     prop = icalcomponent_get_next_property (ical_comp, ICAL_ATTENDEE_PROPERTY))
 	{
 		value = icalproperty_get_value (prop);
 		if (!value)
@@ -108,125 +376,538 @@ find_attendee (icalcomponent *comp, char *address)
 		else
 			text = attendee;
 
-		if (strcmp (text, address) == 0) {
-			/* We have found the correct property. */
+		if (!strstr (text, address))
 			break;
-		}
 	}
 			
 	return prop;
 }
 
 static void
-itip_control_destroy_cb (GtkObject *object,
-		    gpointer data)
+set_label (EItipControl *itip) 
 {
-	EItipControlPrivate *priv = data;
-
-	gtk_object_unref (GTK_OBJECT (priv->xml));
-	gtk_object_unref (GTK_OBJECT (priv->xml2));
-
-	if (priv->main_comp != NULL) {
-		if (priv->comp != NULL)
-			icalcomponent_remove_component (priv->main_comp, priv->comp);
+	EItipControlPrivate *priv;
+	gchar *text;
 	
-		icalcomponent_free (priv->main_comp);
+	priv = itip->priv;
+	
+	text = g_strdup_printf ("%d of %d", priv->current, priv->total);
+	gtk_label_set_text (GTK_LABEL (priv->count), text);
+
+}
+
+static void
+set_button_status (EItipControl *itip) 
+{
+	EItipControlPrivate *priv;
+
+	priv = itip->priv;
+
+	if (priv->current == priv->total)
+		gtk_widget_set_sensitive (priv->next, FALSE);
+	else
+		gtk_widget_set_sensitive (priv->next, TRUE);
+
+	if (priv->current == 1)
+		gtk_widget_set_sensitive (priv->prev, FALSE);
+	else
+		gtk_widget_set_sensitive (priv->prev, TRUE);
+}
+
+static GtkWidget *
+create_menu (const char **map) 
+{
+	GtkWidget *menu, *item;
+	int i;
+	
+	menu = gtk_menu_new ();
+
+	for (i = 0; map[i] != NULL; i++) {
+		item = gtk_menu_item_new_with_label (map[i]);
+		gtk_widget_show (item);
+		gtk_menu_append (GTK_MENU (menu), item);
+	}
+	gtk_widget_show (menu);
+	
+	return menu;
+}
+
+static void
+set_options (EItipControl *itip)
+{
+	EItipControlPrivate *priv;
+	gboolean sens = TRUE;
+	
+	priv = itip->priv;
+	
+	switch (priv->method) {
+	case ICAL_METHOD_PUBLISH:
+		priv->map = publish_map;
+		gtk_option_menu_set_menu (GTK_OPTION_MENU (priv->options), 
+					  create_menu (publish_text_map));
+		break;
+	case ICAL_METHOD_REQUEST:
+		priv->map = request_map;
+		gtk_option_menu_set_menu (GTK_OPTION_MENU (priv->options),
+					  create_menu (request_text_map));
+		break;
+	case ICAL_METHOD_REPLY:
+		priv->map = reply_map;
+		gtk_option_menu_set_menu (GTK_OPTION_MENU (priv->options),
+					  create_menu (reply_text_map));
+		break;
+	case ICAL_METHOD_CANCEL:
+		priv->map = cancel_map;
+		gtk_option_menu_set_menu (GTK_OPTION_MENU (priv->options),
+					  create_menu (cancel_text_map));
+		break;
+	default:
+		priv->map = NULL;
+		gtk_option_menu_remove_menu (GTK_OPTION_MENU (priv->options));
+		sens = FALSE;
 	}
 
+	gtk_widget_set_sensitive (priv->options, sens);
+	gtk_widget_set_sensitive (priv->ok, sens);
+}
 
-	if (priv->cal_comp != NULL) {
-		gtk_object_unref (GTK_OBJECT (priv->cal_comp));
+
+static void
+set_options_freebusy (EItipControl *itip)
+{
+	EItipControlPrivate *priv;
+	gboolean sens = TRUE;
+	
+	priv = itip->priv;
+	
+	switch (priv->method) {
+	case ICAL_METHOD_REQUEST:
+		priv->map = request_fb_map;
+		gtk_option_menu_set_menu (GTK_OPTION_MENU (priv->options),
+					  create_menu (request_fb_text_map));
+		break;
+	default:
+		priv->map = NULL;
+		gtk_option_menu_remove_menu (GTK_OPTION_MENU (priv->options));
+		sens = FALSE;
 	}
 
-	if (priv->from_address != NULL)
+	gtk_widget_set_sensitive (priv->options, sens);
+	gtk_widget_set_sensitive (priv->ok, sens);
+}
+
+static void
+write_label_piece (time_t t, char *buffer, int size, char *stext, char *etext)
+{
+	struct tm *tmp_tm;
+	int len;
+	
+	tmp_tm = localtime (&t);
+	if (stext != NULL)
+		strcat (buffer, stext);
+
+	len = strlen (buffer);
+	e_time_format_date_and_time (tmp_tm,
+				     calendar_config_get_24_hour_format (), 
+				     FALSE, FALSE,
+				     &buffer[len], size - len);
+	if (etext != NULL)
+		strcat (buffer, etext);
+}
+
+static void
+set_date_label (GtkWidget *lbl, CalComponent *comp)
+{
+	CalComponentDateTime datetime;
+	time_t start = 0, end = 0, complete = 0, due = 0;
+	static char buffer[1024];
+
+	cal_component_get_dtstart (comp, &datetime);
+	if (datetime.value)
+		start = icaltime_as_timet (*datetime.value);
+	cal_component_get_dtend (comp, &datetime);
+	if (datetime.value)
+		end = icaltime_as_timet (*datetime.value);
+	cal_component_get_due (comp, &datetime);
+	if (datetime.value)
+		due = icaltime_as_timet (*datetime.value);
+	cal_component_get_completed (comp, &datetime.value);
+	if (datetime.value)
+		complete = icaltime_as_timet (*datetime.value);
+
+	buffer[0] = '\0';
+
+	if (start > 0)
+		write_label_piece (start, buffer, 1024, NULL, NULL);
+
+	if (end > 0 && start > 0)
+		write_label_piece (end, buffer, 1024, _(" to "), NULL);
+
+	if (complete > 0) {
+		if (start > 0)
+			write_label_piece (complete, buffer, 1024, _(" (Completed "), ")");
+		else
+			write_label_piece (complete, buffer, 1024, _("Completed "), NULL);
+	}
+	
+	if (due > 0 && complete == 0) {
+		if (start > 0)
+			write_label_piece (due, buffer, 1024, _(" (Due "), ")");
+		else
+			write_label_piece (due, buffer, 1024, _("Due "), NULL);
+	}
+
+	gtk_label_set_text (GTK_LABEL (lbl), buffer);
+}
+
+static void
+set_message (EItipControl *itip, gchar *message, gboolean err) 
+{
+	EItipControlPrivate *priv;
+	GtkStyle *style = NULL;
+	
+	priv = itip->priv;
+
+	if (err) {
+		GdkColor color = {0, 65535, 0, 0};
+		
+		style = gtk_style_copy (gtk_widget_get_style (priv->message));
+		style->fg[0] = color;
+		gtk_widget_set_style (priv->message, style);
+	} else {
+		gtk_widget_restore_default_style (priv->message);
+	}
+
+	if (message != NULL)
+		gtk_label_set_text (GTK_LABEL (priv->message), message);		
+	else
+		gtk_label_set_text (GTK_LABEL (priv->message), "");
+
+	if (err) {
+		gtk_style_unref (style);
+	}
+}
+
+static void
+show_current_event (EItipControl *itip) 
+{
+	EItipControlPrivate *priv;
+	CalComponentText text;
+	
+	priv = itip->priv;
+
+	set_options (itip);
+	
+	cal_component_get_summary (priv->comp, &text);
+	if (text.value)
+		gtk_label_set_text (GTK_LABEL (priv->summary), text.value);
+	else
+		gtk_label_set_text (GTK_LABEL (priv->summary), "");
+
+	set_date_label (priv->datetime, priv->comp);
+
+	switch (priv->method) {
+	case ICAL_METHOD_PUBLISH:
+		set_message (itip, _("This is an event that can be added to your calendar."), FALSE);
+		break;
+	case ICAL_METHOD_REQUEST:
+		set_message (itip, _("This is a meeting request."), FALSE);
+		break;
+	case ICAL_METHOD_ADD:
+		set_message (itip, _("This is one or more additions to a current meeting."), FALSE);
+		break;
+	case ICAL_METHOD_REFRESH:
+		set_message (itip, _("This is a request for the latest event information."), FALSE);
+		break;
+	case ICAL_METHOD_REPLY:
+		set_message (itip, _("This is a reply to a meeting request."), FALSE);
+		break;
+	case ICAL_METHOD_CANCEL:
+		set_message (itip, _("This is an event cancellation."), FALSE);
+		break;
+	default:
+		set_message (itip, _("The message is not understandable."), TRUE);
+	}
+}
+
+static void
+show_current_todo (EItipControl *itip) 
+{
+	EItipControlPrivate *priv;
+	CalComponentText text;
+	
+	priv = itip->priv;
+
+	set_options (itip);
+	
+	cal_component_get_summary (priv->comp, &text);
+	if (text.value)
+		gtk_label_set_text (GTK_LABEL (priv->summary), text.value);
+	else
+		gtk_label_set_text (GTK_LABEL (priv->summary), "");
+
+	set_date_label (priv->datetime, priv->comp);
+
+	switch (priv->method) {
+	case ICAL_METHOD_PUBLISH:
+		set_message (itip, _("This is an task that can be added to your calendar."), FALSE);
+		break;
+	case ICAL_METHOD_REQUEST:
+		set_message (itip, _("This is a task request."), FALSE);
+		break;
+	case ICAL_METHOD_REFRESH:
+		set_message (itip, _("This is a request for the latest task information."), FALSE);
+		break;
+	case ICAL_METHOD_REPLY:
+		set_message (itip, _("This is a reply to a task request."), FALSE);
+		break;
+	case ICAL_METHOD_CANCEL:
+		set_message (itip, _("This is an task cancellation."), FALSE);
+		break;
+	default:
+		set_message (itip, _("The message is not understandable."), TRUE);
+	}
+}
+
+static void
+show_current_freebusy (EItipControl *itip) 
+{
+	EItipControlPrivate *priv;
+	
+	priv = itip->priv;
+
+	set_options_freebusy (itip);
+	
+	gtk_label_set_text (GTK_LABEL (priv->summary), "");
+
+	set_date_label (priv->datetime, priv->comp);
+
+	switch (priv->method) {
+	case ICAL_METHOD_PUBLISH:
+		set_message (itip, _("This is freebusy information."), FALSE);
+		break;
+	case ICAL_METHOD_REQUEST:
+		set_message (itip, _("This is a request for freebusy information."), FALSE);
+		break;
+	case ICAL_METHOD_REPLY:
+		set_message (itip, _("This is a reply to a freebusy request."), FALSE);
+		break;
+	default:
+		set_message (itip, _("The message is not understandable."), TRUE);
+	}
+}
+
+static void
+show_current (EItipControl *itip) 
+{
+	EItipControlPrivate *priv;
+	CalComponentVType type;
+
+	priv = itip->priv;
+
+	set_label (itip);
+	set_button_status (itip);
+
+	if (priv->comp)
+		gtk_object_unref (GTK_OBJECT (priv->comp));
+	
+	priv->comp = cal_component_new ();
+	if (!cal_component_set_icalcomponent (priv->comp, priv->ical_comp)) {
+		set_message (itip, _("The message does not appear to be properly formed"), TRUE);
+		gtk_object_unref (GTK_OBJECT (priv->comp));
+		priv->comp = NULL;
+		return;
+	};
+
+	type = cal_component_get_vtype (priv->comp);
+
+	switch (type) {
+	case CAL_COMPONENT_EVENT:
+		show_current_event (itip);
+		break;
+	case CAL_COMPONENT_TODO:
+		show_current_todo (itip);
+		break;
+	case CAL_COMPONENT_FREEBUSY:
+		show_current_freebusy (itip);
+		break;
+	default:
+		set_message (itip, _("The message contains only unsupported requests."), TRUE);
+	}
+}
+
+void
+e_itip_control_set_data (EItipControl *itip, const gchar *text) 
+{
+	EItipControlPrivate *priv;
+	icalproperty *prop;
+	
+	priv = itip->priv;
+	
+	priv->vcalendar = g_strdup (text);
+	
+	priv->main_comp = icalparser_parse_string (priv->vcalendar);
+	if (priv->main_comp == NULL) {
+		set_message (itip, _("The information contained in this attachment was not valid"), TRUE);
+		priv->comp = NULL;
+		priv->total = 0;
+		priv->current = 0;
+		goto show;
+		
+	}
+
+	prop = icalcomponent_get_first_property (priv->main_comp, ICAL_METHOD_PROPERTY);
+	priv->method = icalproperty_get_method (prop);
+
+	priv->iter = icalcomponent_begin_component (priv->main_comp, ICAL_ANY_COMPONENT);
+	priv->ical_comp = icalcompiter_deref (&priv->iter);
+	
+	priv->total = icalcomponent_count_components (priv->main_comp, ICAL_VEVENT_COMPONENT);
+	priv->total += icalcomponent_count_components (priv->main_comp, ICAL_VTODO_COMPONENT);
+	priv->total += icalcomponent_count_components (priv->main_comp, ICAL_VFREEBUSY_COMPONENT);
+	
+	if (priv->total > 0)
+		priv->current = 1;
+	else
+		priv->current = 0;
+
+ show:	
+	show_current (itip);
+}
+
+gchar *
+e_itip_control_get_data (EItipControl *itip) 
+{
+	EItipControlPrivate *priv;
+
+	priv = itip->priv;
+	
+	return g_strdup (priv->vcalendar);
+}
+
+gint
+e_itip_control_get_data_size (EItipControl *itip) 
+{
+	EItipControlPrivate *priv;
+
+	priv = itip->priv;
+	
+	if (priv->vcalendar == NULL)
+		return 0;
+	
+	return strlen (priv->vcalendar);
+}
+
+void
+e_itip_control_set_from_address (EItipControl *itip, const gchar *address)
+{
+	EItipControlPrivate *priv;
+
+	priv = itip->priv;
+
+	if (priv->from_address)
 		g_free (priv->from_address);
 	
-	if (priv->organizer != NULL)
-		g_free (priv->organizer);
-
-	if (priv->vcalendar != NULL)
-		g_free (priv->vcalendar);
-
-	g_free (priv);
-}
-	
-
-static void
-cal_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer data)
-{
-	EItipControlPrivate *priv = data;
-
-	gtk_widget_hide (priv->loading_progress);
-
-	if (status == CAL_CLIENT_OPEN_SUCCESS) {
-		if (cal_client_update_object (client, priv->cal_comp) == FALSE) {
-			GtkWidget *dialog;
-	
-			dialog = gnome_warning_dialog(_("I couldn't update your calendar file!\n"));
-			gnome_dialog_run (GNOME_DIALOG(dialog));
-		} else {
-			/* We have success. */
-			GtkWidget *dialog;
-	
-			dialog = gnome_ok_dialog(_("Component successfully updated."));
-			gnome_dialog_run (GNOME_DIALOG(dialog));
-		}
-	} else {
-		GtkWidget *dialog;
-
-		dialog = gnome_ok_dialog(_("There was an error loading the calendar file."));
-		gnome_dialog_run (GNOME_DIALOG(dialog));
-	}
-
-	gtk_object_unref (GTK_OBJECT (client));
-	return;
+	priv->from_address = g_strdup (address);
 }
 
-static void
-update_calendar (EItipControlPrivate *priv)
+const gchar *
+e_itip_control_get_from_address (EItipControl *itip)
 {
-	gchar cal_uri[255];
+	EItipControlPrivate *priv;
+
+	priv = itip->priv;
+
+	return priv->from_address;
+}
+
+
+void
+e_itip_control_set_my_address (EItipControl *itip, const gchar *address)
+{
+	EItipControlPrivate *priv;
+
+	priv = itip->priv;
+
+	if (priv->my_address)
+		g_free (priv->my_address);
+	
+	priv->my_address = g_strdup (address);
+}
+
+const gchar *
+e_itip_control_get_my_address (EItipControl *itip)
+{
+	EItipControlPrivate *priv;
+
+	priv = itip->priv;
+
+	return priv->my_address;
+}
+
+
+static void
+update_item (EItipControl *itip) 
+{
+	EItipControlPrivate *priv;
 	CalClient *client;
-
-	snprintf (cal_uri, 250, "%s/local/Calendar/calendar.ics", evolution_dir);
+	CalComponentVType type;
 	
-	client = cal_client_new ();
+	priv = itip->priv;
 
-	gtk_signal_connect (GTK_OBJECT (client), "cal_opened",
-	    	   	    GTK_SIGNAL_FUNC (cal_opened_cb), priv);
+	type = cal_component_get_vtype (priv->comp);
+	if (type == CAL_COMPONENT_TODO)
+		client = priv->task_client;
+	else 
+		client = priv->event_client;
 	
-	if (cal_client_open_calendar (client, cal_uri, FALSE) == FALSE) {
+	if (!cal_client_update_object (client, priv->comp)) {
 		GtkWidget *dialog;
-
-		dialog = gnome_warning_dialog(_("I couldn't open your calendar file!\n"));
+		
+		dialog = gnome_warning_dialog(_("I couldn't update your calendar file!\n"));
 		gnome_dialog_run (GNOME_DIALOG(dialog));
-		gtk_object_unref (GTK_OBJECT (client));
-	
-		return;
 	}
-
-	gtk_progress_bar_update (GTK_PROGRESS_BAR (priv->loading_progress), 0.5);
-	gtk_widget_show (priv->loading_progress);
-
-	return;
 }
 
 static void
-add_button_clicked_cb (GtkWidget *widget, gpointer data)
+remove_item (EItipControl *itip) 
 {
-	EItipControlPrivate *priv = data;
+	EItipControlPrivate *priv;
+	CalClient *client;
+	CalComponentVType type;
+	const char *uid;
+	
+	priv = itip->priv;
 
-	update_calendar (priv);
+	type = cal_component_get_vtype (priv->comp);
+	if (type == CAL_COMPONENT_TODO)
+		client = priv->task_client;
+	else 
+		client = priv->event_client;
 
-	return;
+	cal_component_get_uid (priv->comp, &uid);
+	if (!cal_client_remove_object (client, uid)) {
+		GtkWidget *dialog;
+		
+		dialog = gnome_warning_dialog(_("I couldn't remove the item from your calendar file!\n"));
+		gnome_dialog_run (GNOME_DIALOG(dialog));
+	}
 }
 
 static void
-change_my_status (icalparameter_partstat status, EItipControlPrivate *priv)
+send_freebusy (void) 
 {
+}
+
+static void
+change_status (EItipControl *itip, gchar *address, icalparameter_partstat status)
+{
+	EItipControlPrivate *priv;
 	icalproperty *prop;
 
-	prop = find_attendee (priv->comp, priv->my_address);
+	priv = itip->priv;
+
+	prop = find_attendee (priv->ical_comp, address);
 	if (prop) {
 		icalparameter *param;
 
@@ -237,698 +918,77 @@ change_my_status (icalparameter_partstat status, EItipControlPrivate *priv)
 }
 
 static void
-accept_button_clicked_cb (GtkWidget *widget, gpointer data)
+prev_clicked_cb (GtkWidget *widget, gpointer data) 
 {
-	EItipControlPrivate *priv = data;
-
-	change_my_status (ICAL_PARTSTAT_ACCEPTED, priv);
-	itip_send_comp (CAL_COMPONENT_METHOD_REPLY, priv->cal_comp);
-	update_calendar (priv);
-	
-	return;
-}
-
-static void
-tentative_button_clicked_cb (GtkWidget *widget, gpointer data)
-{
-	EItipControlPrivate *priv = data;
-
-	change_my_status (ICAL_PARTSTAT_TENTATIVE, priv);
-	itip_send_comp (CAL_COMPONENT_METHOD_REPLY, priv->cal_comp);
-	update_calendar (priv);
-	
-	return;
-}
-
-static void
-decline_button_clicked_cb (GtkWidget *widget, gpointer data)
-{
-	EItipControlPrivate *priv = data;
-
-	change_my_status (ICAL_PARTSTAT_DECLINED, priv);
-	itip_send_comp (CAL_COMPONENT_METHOD_REPLY, priv->cal_comp);
-	
-	return;
-}
-
-
-/********
- * load_calendar_store() opens and loads the calendar referred to by cal_uri
- * and sets cal_client as a client for that store. If cal_uri is NULL,
- * we load the default calendar URI.  If all goes well, it returns TRUE;
- * otherwise, it returns FALSE.
- ********/
-static gboolean
-load_calendar_store (char *cal_uri, CalClient **cal_client)
-{
-	char uri_buf[255];
-	char *uri;
-	
-	if (cal_uri == NULL) {
-		snprintf (uri_buf, 250, "%s/local/Calendar/calendar.ics", evolution_dir);
-		uri = uri_buf;
-	}
-	else {
-		uri = cal_uri;
-	}
-
-	*cal_client = cal_client_new ();
-	if (cal_client_open_calendar (*cal_client, uri, FALSE) == FALSE) {
-		return FALSE;
-	}
-
-	/* FIXME!!!!!!  This is fucking ugly. */
-
-	while (!cal_client_get_load_state (*cal_client) != CAL_CLIENT_LOAD_LOADED) {
-		gtk_main_iteration_do (FALSE);  /* Do a non-blocking iteration. */
-		usleep (200000L);   /* Pause for 1/5th of a second before checking again.*/
-	}
-
-	return TRUE;
-}
-
-
-static void
-update_reply_cb (GtkWidget *widget, gpointer data)
-{
-	EItipControlPrivate *priv = data;
-	CalClient *cal_client;
-	CalComponent *cal_comp;
-	icalcomponent *comp;
-	icalproperty *prop;
-	icalparameter *param;
-	const char *uid;
-
-	if (load_calendar_store (NULL, &cal_client) == FALSE) {
-		GtkWidget *dialog;
-
-		dialog = gnome_warning_dialog(_("I couldn't load your calendar file!\n"));
-		gnome_dialog_run (GNOME_DIALOG(dialog));
-		gtk_object_unref (GTK_OBJECT (cal_client));
-	
-		return;
-	}
-	
-
-	cal_component_get_uid (priv->cal_comp, &uid);
-	if (cal_client_get_object (cal_client, uid, &cal_comp) != CAL_CLIENT_GET_SUCCESS) {
-		GtkWidget *dialog;
-
-		dialog = gnome_warning_dialog(_("I couldn't read your calendar file!\n"));
-		gnome_dialog_run (GNOME_DIALOG(dialog));
-		gtk_object_unref (GTK_OBJECT (cal_client));
-	
-		return;
-	}
-
-	comp = cal_component_get_icalcomponent (cal_comp);
-
-	prop = find_attendee (comp, priv->from_address);
-	if (!prop) {
-		GtkWidget *dialog;
-
-		dialog = gnome_warning_dialog(_("This is a reply from someone who was uninvited!"));
-		gnome_dialog_run (GNOME_DIALOG(dialog));
-		gtk_object_unref (GTK_OBJECT (cal_client));
-		gtk_object_unref (GTK_OBJECT (cal_comp));
-	
-		return;
-	}
-	
-	icalproperty_remove_parameter (prop, ICAL_PARTSTAT_PARAMETER);
-	param = icalparameter_new_partstat (priv->new_partstat);
-	icalproperty_add_parameter (prop, param);
-
-	/* Now we need to update the object in the calendar store. */
-	if (!cal_client_update_object (cal_client, cal_comp)) {
-		GtkWidget *dialog;
-
-		dialog = gnome_warning_dialog(_("I couldn't update your calendar store."));
-		gnome_dialog_run (GNOME_DIALOG(dialog));
-		gtk_object_unref (GTK_OBJECT (cal_client));
-		gtk_object_unref (GTK_OBJECT (cal_comp));
-	
-		return;
-	}
-	else {
-		/* We have success. */
-		GtkWidget *dialog;
-
-		dialog = gnome_ok_dialog(_("Component successfully updated."));
-		gnome_dialog_run (GNOME_DIALOG(dialog));
-	}
-
-	
-	gtk_object_unref (GTK_OBJECT (cal_client));
-	gtk_object_unref (GTK_OBJECT (cal_comp));
-}
-
-static void
-cancel_meeting_cb (GtkWidget *widget, gpointer data)
-{
-	EItipControlPrivate *priv = data;
-	CalClient *cal_client;
-	const char *uid;
-
-	if (load_calendar_store (NULL, &cal_client) == FALSE) {
-		GtkWidget *dialog;
-
-		dialog = gnome_warning_dialog(_("I couldn't load your calendar file!\n"));
-		gnome_dialog_run (GNOME_DIALOG(dialog));
-		gtk_object_unref (GTK_OBJECT (cal_client));
-	
-		return;
-	}
-
-	cal_component_get_uid (priv->cal_comp, &uid);
-	if (cal_client_remove_object (cal_client, uid) == FALSE) {
-		GtkWidget *dialog;
-
-		dialog = gnome_warning_dialog(_("I couldn't delete the calendar component!\n"));
-		gnome_dialog_run (GNOME_DIALOG(dialog));
-		gtk_object_unref (GTK_OBJECT (cal_client));
-	
-		return;
-	}
-	else {
-		/* We have success! */
-		GtkWidget *dialog;
-
-		dialog = gnome_ok_dialog(_("Component successfully deleted."));
-		gnome_dialog_run (GNOME_DIALOG(dialog));
-	}
-		
-}
-
-
-
-/*
- * Bonobo::PersistStream
- *
- * These two functions implement the Bonobo::PersistStream load and
- * save methods which allow data to be loaded into and out of the
- * BonoboObject.
- */
-
-static char *
-stream_read (Bonobo_Stream stream)
-{
-	Bonobo_Stream_iobuf *buffer;
-	CORBA_Environment    ev;
-	gchar *data = NULL;
-	gint length = 0;
-
-	CORBA_exception_init (&ev);
-	do {
-#define READ_CHUNK_SIZE 65536
-		Bonobo_Stream_read (stream, READ_CHUNK_SIZE,
-				    &buffer, &ev);
-
-		if (ev._major != CORBA_NO_EXCEPTION) {
-			CORBA_exception_free (&ev);
-			return NULL;
-		}
-
-		if (buffer->_length <= 0)
-			break;
-
-		data = g_realloc (data,
-				  length + buffer->_length);
-
-		memcpy (data + length,
-			buffer->_buffer, buffer->_length);
-
-		length += buffer->_length;
-
-		CORBA_free (buffer);
-#undef READ_CHUNK_SIZE
-	} while (1);
-
-	CORBA_free (buffer);
-	CORBA_exception_free (&ev);
-
-	if (data == NULL)
-	  data = g_strdup("");
-
-	return data;
-} /* stream_read */
-
-/*
- * This function implements the Bonobo::PersistStream:load method.
- */
-static void
-pstream_load (BonoboPersistStream *ps, const Bonobo_Stream stream,
-	      Bonobo_Persist_ContentType type, void *data,
-	      CORBA_Environment *ev)
-{
-	EItipControlPrivate *priv = data;
-	CalComponentText text;
-	CalComponentDateTime datetime;
-	CalComponentOrganizer organizer;
-	icalproperty *prop;
-	GSList *list, *l;
-	time_t t;
-	gint pos = 0;
-	icalcompiter iter;
-	icalcomponent_kind comp_kind;
-	char message[256];
-	
-
-	if (type && g_strcasecmp (type, "text/calendar") != 0 &&	    
-	    g_strcasecmp (type, "text/x-calendar") != 0) {	    
-		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-				     ex_Bonobo_Persist_WrongDataType, NULL);
-		return;
-	}
-
-	if ((priv->vcalendar = stream_read (stream)) == NULL) {
-		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-				     ex_Bonobo_Persist_FileNotFound, NULL);
-		return;
-	}
-
-	/* Do something with the data, here. */
-
-	priv->main_comp = icalparser_parse_string (priv->vcalendar);
-	if (priv->main_comp == NULL) {
-		g_printerr ("e-itip-control.c: the iCalendar data was invalid!\n");
-		return;
-	}
-
-	iter = icalcomponent_begin_component (priv->main_comp, ICAL_ANY_COMPONENT);
-	priv->comp = icalcompiter_deref (&iter);
-
-	{   
-		FILE *fp;
-
-		fp = fopen ("/tmp/evo.debug", "w");
-
-		fputs ("The raw vCalendar data:\n\n", fp);
-		fputs (priv->vcalendar, fp);
-
-		fputs ("The main component:\n\n", fp);
-		fputs (icalcomponent_as_ical_string (priv->main_comp), fp);
-
-		fputs ("The child component:\n\n", fp);
-		fputs (icalcomponent_as_ical_string (priv->comp), fp);
-
-		fclose (fp);
-	}
-
-	if (priv->comp == NULL) {
-		g_printerr ("e-itip-control.c: I could not extract a proper component from\n"
-			    "     the vCalendar data.\n");
-		icalcomponent_free (priv->main_comp);
-		return;
-	}
-
-	comp_kind = icalcomponent_isa (priv->comp);
-
-	switch (comp_kind) {
-	case ICAL_VEVENT_COMPONENT:
-	case ICAL_VTODO_COMPONENT:
-	case ICAL_VJOURNAL_COMPONENT:
-		priv->cal_comp = cal_component_new ();
-		if (cal_component_set_icalcomponent (priv->cal_comp, priv->comp) == FALSE) {
-			g_printerr ("e-itip-control.c: I couldn't create a CalComponent from the iTip data.\n");
-			gtk_object_unref (GTK_OBJECT (priv->cal_comp));
-		}
-		break;
-	case ICAL_VFREEBUSY_COMPONENT:
-		/* Take care of busy time information. */
-		return;
-		break;
-	default:
-		/* We don't know what this is, so bail. */
-	{
-		GtkWidget *dialog;
-
-		dialog = gnome_warning_dialog(_("I don't recognize this type of calendar component."));
-		gnome_dialog_run (GNOME_DIALOG(dialog));
-
-		g_free (priv->vcalendar);
-		priv->vcalendar = NULL;
-
-		return;
-	}
-		break;
-	} /* End switch. */
-
-	
-	/* Fill in the gui */
-	cal_component_get_organizer (priv->cal_comp, &organizer);
-	priv->organizer = g_strdup (organizer.value);
-	gtk_entry_set_text (GTK_ENTRY (priv->organizer_entry), priv->organizer);
-	
-	cal_component_get_summary (priv->cal_comp, &text);
-	gtk_entry_set_text (GTK_ENTRY (priv->summary_entry), text.value);
-
-	cal_component_get_description_list (priv->cal_comp, &list);
-	for (l = list; l != NULL; l = l->next) {
-		text = *((CalComponentText *)l->data);
-		
-		gtk_editable_insert_text (GTK_EDITABLE (priv->description_box),
-					  text.value, strlen (text.value), &pos);
-	}
-	cal_component_free_text_list (list);
-	
-	cal_component_get_dtstart (priv->cal_comp, &datetime);
-	t = icaltime_as_timet (*datetime.value);
-	e_time_format_date_and_time (localtime (&t), 
-				     calendar_config_get_24_hour_format (), 
-				     FALSE, FALSE, message, sizeof (message));
-	gtk_label_set_text (GTK_LABEL (priv->dtstart_label), message);
-	
-	cal_component_get_dtend (priv->cal_comp, &datetime);
-	t = icaltime_as_timet (*datetime.value);
-	e_time_format_date_and_time (localtime (&t), 
-				     calendar_config_get_24_hour_format (), 
-				     FALSE, FALSE, message, sizeof (message));
-	gtk_label_set_text (GTK_LABEL (priv->dtend_label), message);
-
-        /* Clear out any old-assed text that's been lying around in my message box. */
-	gtk_editable_delete_text (GTK_EDITABLE (priv->message_text), 0, -1);
-	
-#if 0
-	prop = icalcomponent_get_first_property (priv->comp, ICAL_ORGANIZER_PROPERTY);
-	if (prop) {
-		organizer = icalproperty_get_organizer (prop);
-		
-		/* Here I strip off the "MAILTO:" if it is present. */
-		new_text = strchr (organizer, ':');
-		if (new_text != NULL)
-			new_text++;
-		else
-			new_text = organizer;
-
-		priv->organizer = g_strdup (new_text);
-		gtk_entry_set_text (GTK_ENTRY (priv->organizer_entry), new_text);
-	}
-#endif
-
-	prop = icalcomponent_get_first_property (priv->main_comp, ICAL_METHOD_PROPERTY);
-	switch (icalproperty_get_method (prop)) {
-	case ICAL_METHOD_PUBLISH:
-	{
-		GtkWidget *button;
-
-		snprintf (message, 250, "%s has published calendar information, "
-			  "which you can add to your own calendar. "
-			  "No reply is necessary.", 
-			  priv->from_address);
-			
-		button =  gtk_button_new_with_label (_("Add to Calendar"));
-		gtk_box_pack_start (GTK_BOX (priv->button_box), button, FALSE, FALSE, 3);
-		gtk_widget_show (button);
-
-		gtk_signal_connect (GTK_OBJECT (button), "clicked",
-				    GTK_SIGNAL_FUNC (add_button_clicked_cb), priv);
-			
-		break;
-	}
-	case ICAL_METHOD_REQUEST:
-	{
-		/* I'll check if I have to rsvp. */
-		icalproperty *prop;
-		icalparameter *param;
-		int rsvp = FALSE;
-
-		prop = find_attendee (priv->comp, priv->my_address);
-		if (prop) {
-			param = get_icalparam_by_type (prop, ICAL_RSVP_PARAMETER);
-	
-			if (param) {
-				if (icalparameter_get_rsvp (param))
-					rsvp = TRUE;
-			}
-		}
-
-		snprintf (message, 250, "This is a meeting organized by %s, "
-			  "who indicated that you %s RSVP.",
-			  (priv->organizer ? priv->organizer : "an unknown person"), 
-			  (rsvp ? "should" : "don't have to") );
-
-		if (rsvp) {
-			GtkWidget *accept_button, *decline_button, *tentative_button;
-
-			accept_button = gtk_button_new_with_label (_(" Accept "));
-			decline_button = gtk_button_new_with_label (_(" Decline "));
-			tentative_button = gtk_button_new_with_label (_(" Tentative "));
-
-			gtk_box_pack_start (GTK_BOX (priv->button_box), decline_button, FALSE, FALSE, 3);
-			gtk_box_pack_end (GTK_BOX (priv->button_box), accept_button, FALSE, FALSE, 3);
-			gtk_box_pack_end (GTK_BOX (priv->button_box), tentative_button, FALSE, FALSE, 3);
-
-			gtk_signal_connect (GTK_OBJECT (accept_button), "clicked",
-					    GTK_SIGNAL_FUNC (accept_button_clicked_cb), priv);
-			gtk_signal_connect (GTK_OBJECT (tentative_button), "clicked",
-					    GTK_SIGNAL_FUNC (tentative_button_clicked_cb), priv);
-			gtk_signal_connect (GTK_OBJECT (decline_button), "clicked",
-					    GTK_SIGNAL_FUNC (decline_button_clicked_cb), priv);
-
-			gtk_widget_show (accept_button);
-			gtk_widget_show (tentative_button);
-			gtk_widget_show (decline_button);
-		}
-
-	}
-	break;
-	case ICAL_METHOD_REPLY:
-	{
-		icalproperty *prop;
-		icalparameter *param;
-		gboolean success = FALSE;
-
-		prop = find_attendee (priv->comp, priv->from_address);
-		if (prop) {
-			param = get_icalparam_by_type (prop, ICAL_PARTSTAT_PARAMETER);
-			if (param) {
-				success = TRUE;
-
-				priv->new_partstat = icalparameter_get_partstat (param);
-			}
-		}
-
-		if (!success) {
-			snprintf (message, 250, "%s sent a reply to a meeting request, but "
-				  "the reply is not properly formed.",
-				  priv->from_address);
-		}
-		else {
-			GtkWidget *button;
-		
-			button =  gtk_button_new_with_label (_("Update Calendar"));
-			gtk_box_pack_start (GTK_BOX (priv->button_box), button, FALSE, FALSE, 3);
-			gtk_widget_show (button);
-	
-			gtk_signal_connect (GTK_OBJECT (button), "clicked",
-					    GTK_SIGNAL_FUNC (update_reply_cb), priv);
-				
-			snprintf (message, 250, "%s responded to your request, replying with: %s",
-				  priv->from_address, partstat_values[priv->new_partstat]);
-		}
-
-	}
-	break;
-	case ICAL_METHOD_CANCEL:
-		if (strcmp (priv->organizer, priv->from_address) != 0) {
-			snprintf (message, 250, "%s sent a cancellation request, but is not "
-				  "the organizer of the meeting.",
-				  priv->from_address);
-		} else {
-			GtkWidget *button;
-
-			button =  gtk_button_new_with_label (_("Cancel Meeting"));
-			gtk_box_pack_start (GTK_BOX (priv->button_box), button, FALSE, FALSE, 3);
-			gtk_widget_show (button);
-
-			gtk_signal_connect (GTK_OBJECT (button), "clicked",
-					    GTK_SIGNAL_FUNC (cancel_meeting_cb), priv);
-
-			snprintf (message, 250, "%s sent a cancellation request. You can"
-				  " delete this event from your calendar, if you wish.",
-				  priv->organizer);
-		}
-		break;
-	default:
-		snprintf (message, 250, "I haven't the slightest notion what this calendar "
-			  "object represents. Sorry.");
-	}
-
-	pos = 0;
-	gtk_editable_insert_text (GTK_EDITABLE (priv->message_text), 
-				  message, strlen (message), &pos);
-} /* pstream_load */
-
-/*
- * This function implements the Bonobo::PersistStream:save method.
- */
-static void
-pstream_save (BonoboPersistStream *ps, const Bonobo_Stream stream,
-	      Bonobo_Persist_ContentType type, void *data,
-	      CORBA_Environment *ev)
-{
-	EItipControlPrivate *priv = data;
-	int                  length;
-
-	if (type && g_strcasecmp (type, "text/calendar") != 0 &&	    
-	    g_strcasecmp (type, "text/x-calendar") != 0) {	    
-		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-				     ex_Bonobo_Persist_WrongDataType, NULL);
-		return;
-	}
-
-	/* Put something into vcalendar here. */
-	length = strlen (priv->vcalendar);
-
-	bonobo_stream_client_write (stream, priv->vcalendar, length, ev);
-} /* pstream_save */
-
-static CORBA_long
-pstream_get_max_size (BonoboPersistStream *ps, void *data,
-		      CORBA_Environment *ev)
-{
-	EItipControlPrivate *priv = data;
-  
-  	if (priv->vcalendar)
-		return strlen (priv->vcalendar);
-	else
-		return 0L;
-}
-
-static Bonobo_Persist_ContentTypeList *
-pstream_get_content_types (BonoboPersistStream *ps, void *closure,
-			   CORBA_Environment *ev)
-{
-	return bonobo_persist_generate_content_types (2, "text/calendar", "text/x-calendar");
-}
-
-static void
-get_prop ( BonoboPropertyBag *bag, 
-	   BonoboArg *arg,
-	   guint arg_id, 	      
-	   CORBA_Environment *ev,
-	   gpointer user_data)
-{
-	EItipControlPrivate *priv = user_data;
-
-	if (arg_id == FROM_ADDRESS_ARG_ID) {
-		BONOBO_ARG_SET_STRING (arg, priv->from_address);
-	}
-	else if (arg_id == MY_ADDRESS_ARG_ID) {
-		BONOBO_ARG_SET_STRING (arg, priv->my_address);
-	}
-}
-
-static void
-set_prop ( BonoboPropertyBag *bag, 
-	   const BonoboArg *arg,
-	   guint arg_id, 
-	   CORBA_Environment *ev,
-	   gpointer user_data)
-{
-	EItipControlPrivate *priv = user_data;
-
-	if (arg_id == FROM_ADDRESS_ARG_ID) {
-		if (priv->from_address)
-			g_free (priv->from_address);
-	
-		
-		priv->from_address = g_strdup (BONOBO_ARG_GET_STRING (arg));
-
-		/* Let's set the widget here, though I'm not sure if
-		   it will work. */
-		gtk_entry_set_text (GTK_ENTRY (priv->address_entry), priv->from_address);
-		
-	}
-	else if (arg_id == MY_ADDRESS_ARG_ID) {
-		if (priv->my_address)
-			g_free (priv->my_address);
-		
-		priv->my_address = g_strdup (BONOBO_ARG_GET_STRING (arg));
-	}
-}
-
-
-static BonoboObject *
-e_itip_control_factory (BonoboGenericFactory *Factory, void *closure)
-{
-	BonoboControl      *control;
-	BonoboPropertyBag *prop_bag;
-	BonoboPersistStream *stream;
+	EItipControl *itip = E_ITIP_CONTROL (data);
 	EItipControlPrivate *priv;
 
-	priv = g_new0 (EItipControlPrivate, 1);
-
-	priv->xml = glade_xml_new (EVOLUTION_GLADEDIR "/" "e-itip-control.glade", "main_frame");
-
-	/* Create the control. */
-	priv->main_frame = glade_xml_get_widget (priv->xml, "main_frame");
-	priv->organizer_entry = glade_xml_get_widget (priv->xml, "organizer_entry");
-	priv->dtstart_label = glade_xml_get_widget (priv->xml, "dtstart_label");
-	priv->dtend_label = glade_xml_get_widget (priv->xml, "dtend_label");
-	priv->summary_entry = glade_xml_get_widget (priv->xml, "summary_entry");
-	priv->description_box = glade_xml_get_widget (priv->xml, "description_box");
-	/* priv->add_button = glade_xml_get_widget (priv->xml, "add_button"); */
-	priv->button_box = glade_xml_get_widget (priv->xml, "button_box");
-	priv->address_entry = glade_xml_get_widget (priv->xml, "address_entry");
-	priv->message_text = glade_xml_get_widget (priv->xml, "message_text");
-
-	gtk_text_set_word_wrap (GTK_TEXT (priv->message_text), TRUE);
+	priv = itip->priv;
 	
-	priv->xml2 = glade_xml_new (EVOLUTION_GLADEDIR "/" "e-itip-control.glade", "loading_window");
-	priv->loading_progress = glade_xml_get_widget (priv->xml2, "loading_progress");
-	priv->loading_window = glade_xml_get_widget (priv->xml2, "loading_window");
+	priv->current--;
+	priv->ical_comp = icalcompiter_prior (&priv->iter);
 
-	gtk_signal_connect (GTK_OBJECT (priv->main_frame), "destroy",
-			    GTK_SIGNAL_FUNC (itip_control_destroy_cb), priv);
-
-	gtk_widget_show (priv->main_frame);
-
-	control = bonobo_control_new (priv->main_frame);
-
-	/* create a property bag */
-	prop_bag = bonobo_property_bag_new ( get_prop, set_prop, priv );
-	bonobo_property_bag_add (prop_bag, "from_address", FROM_ADDRESS_ARG_ID, BONOBO_ARG_STRING, NULL,
-				 "from_address", 0 );
-	bonobo_property_bag_add (prop_bag, "my_address", MY_ADDRESS_ARG_ID, BONOBO_ARG_STRING, NULL,
-				 "my_address", 0 );
-
-	bonobo_control_set_properties (control, prop_bag);
-	bonobo_object_unref (BONOBO_OBJECT (prop_bag));
-
-	bonobo_control_set_automerge (control, TRUE);	
-
-	stream = bonobo_persist_stream_new (pstream_load, pstream_save,
-					    pstream_get_max_size,
-					    pstream_get_content_types,
-					    priv);
-
-	if (stream == NULL) {
-		bonobo_object_unref (BONOBO_OBJECT (control));
-		return NULL;
-	}
-
-	bonobo_object_add_interface (BONOBO_OBJECT (control),
-				    BONOBO_OBJECT (stream));
-
-	return BONOBO_OBJECT (control);
+	show_current (itip);
 }
 
-void
-e_itip_control_factory_init (void)
+static void
+next_clicked_cb (GtkWidget *widget, gpointer data)
 {
-	static BonoboGenericFactory *factory = NULL;
+	EItipControl *itip = E_ITIP_CONTROL (data);
+	EItipControlPrivate *priv;
 
-	if (factory != NULL)
-		return;
-
-	factory = bonobo_generic_factory_new (
-		"OAFIID:GNOME_Evolution_Calendar_iTip_ControlFactory",
-		e_itip_control_factory, NULL);
-	bonobo_running_context_auto_exit_unref (BONOBO_OBJECT (factory));;
+	priv = itip->priv;
 	
-	if (factory == NULL)
-		g_error ("I could not register an iTip control factory.");
+	priv->current++;
+	priv->ical_comp = icalcompiter_next (&priv->iter);
+
+	show_current (itip);
 }
 
+static void
+ok_clicked_cb (GtkWidget *widget, gpointer data)
+{
+	EItipControl *itip = E_ITIP_CONTROL (data);
+	EItipControlPrivate *priv;
+	gint selection;
+	
+	priv = itip->priv;
+
+	selection = e_dialog_option_menu_get (priv->options, priv->map);
+
+	if (priv->map == publish_map) {
+		update_item (itip);
+	} else if (priv->map == request_map) {
+		gboolean rsvp = FALSE;
+		
+		switch (selection) {
+		case ACCEPT_TO_CALENDAR_RSVP:
+			rsvp = TRUE;
+		case ACCEPT_TO_CALENDAR:
+			change_status (itip, priv->my_address, ICAL_PARTSTAT_ACCEPTED);
+			break;
+		case TENTATIVE_TO_CALENDAR_RSVP:
+			rsvp = TRUE;
+		case TENTATIVE_TO_CALENDAR:
+			change_status (itip, priv->my_address, ICAL_PARTSTAT_TENTATIVE);
+			break;
+		case DECLINE_TO_CALENDAR_RSVP:
+			rsvp = TRUE;
+		case DECLINE_TO_CALENDAR:
+			change_status (itip, priv->my_address, ICAL_PARTSTAT_DECLINED);
+			break;
+		}
+		update_item (itip);
+		if (rsvp)
+			itip_send_comp (CAL_COMPONENT_METHOD_REPLY, priv->comp);
+
+	} else if (priv->map == request_fb_map) {
+		send_freebusy ();
+
+	} else if (priv->map == reply_map) {
+		update_item (itip);
+
+	} else if (priv->map == cancel_map) {
+		remove_item (itip);
+	}
+}

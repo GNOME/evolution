@@ -97,9 +97,6 @@ static void print_preview_cmd (GtkWidget *widget, gpointer data);
 static void print_setup_cmd (GtkWidget *widget, gpointer data);
 static void close_cmd (GtkWidget *widget, gpointer data);
 
-static void save_clicked_cb (GtkWidget *widget, gpointer data);
-static void close_clicked_cb (GtkWidget *widget, gpointer data);
-static void help_clicked_cb (GtkWidget *widget, gpointer data);
 static gint delete_event_cb (GtkWidget *widget, GdkEvent *event, gpointer data);
 
 static EPixmap pixmaps [] =
@@ -177,9 +174,6 @@ setup_widgets (CompEditor *editor)
 	CompEditorPrivate *priv;
 	BonoboUIContainer *container;
 	GtkWidget *vbox;
-	GtkWidget *bbox;
-	GtkWidget *pixmap;
-	GtkWidget *button;
 
 	priv = editor->priv;
 
@@ -899,30 +893,6 @@ close_cmd (GtkWidget *widget, gpointer data)
 
 	if (prompt_to_save_changes (editor))
 		close_dialog (editor);
-}
-
-static void
-save_clicked_cb (GtkWidget *widget, gpointer data)
-{
-	CompEditor *editor = COMP_EDITOR (data);
-
-	save_comp (editor);
-	close_dialog (editor);
-}
-
-static void
-close_clicked_cb (GtkWidget *widget, gpointer data)
-{
-	CompEditor *editor = COMP_EDITOR (data);
-
-	if (prompt_to_save_changes (editor))
-		close_dialog (editor);
-}
-
-/* Button callbacks */
-static void
-help_clicked_cb (GtkWidget *widget, gpointer data)
-{
 }
 
 static void

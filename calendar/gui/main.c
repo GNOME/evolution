@@ -41,7 +41,7 @@
 #include "calendar-config.h"
 #include "component-factory.h"
 #include "control-factory.h"
-#include "e-itip-control.h"
+#include "itip-control-factory.h"
 #include "tasks-control-factory.h"
 
 static void
@@ -77,7 +77,7 @@ main (int argc, char **argv)
 
 	control_factory_init ();
 	component_factory_init ();
-	e_itip_control_factory_init ();
+	itip_control_factory_init ();
 	tasks_control_factory_init ();
 
 	bonobo_main ();
