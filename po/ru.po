@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: E-volution\n"
-"POT-Creation-Date: 2000-07-08 12:58+0000\n"
-"PO-Revision-Date: 2000-07-08 12:58+00:00\n"
+"POT-Creation-Date: 2000-07-09 18:27+0000\n"
+"PO-Revision-Date: 2000-07-09 18:29+00:00\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8-bit\n"
 
 #: addressbook/backend/ebook/load-pine-addressbook.c:41
-#: addressbook/gui/component/addressbook-factory.c:57
+#: addressbook/gui/component/addressbook-factory.c:58
 #: calendar/gui/calendar-pilot-sync.c:138
 #: calendar/gui/evolution-calendar-control.c:64 calendar/gui/main.c:68
 msgid "Could not initialize Bonobo"
@@ -319,7 +319,7 @@ msgstr "Формат"
 
 #. FIXME: add Favorites here
 #: addressbook/contact-editor/e-contact-editor.c:743
-#: calendar/gui/event-editor.c:1281 shell/e-shell-view-menu.c:497
+#: calendar/gui/event-editor.c:1281 shell/e-shell-view-menu.c:473
 msgid "_Tools"
 msgstr "Инструменты"
 
@@ -688,78 +688,78 @@ msgstr ""
 "III\n"
 "Esq.\n"
 
-#: addressbook/gui/component/addressbook.c:426 mail/message-list.c:536
+#: addressbook/gui/component/addressbook.c:422 mail/message-list.c:523
 msgid "To"
 msgstr "Кому"
 
-#: addressbook/gui/component/addressbook.c:426 mail/message-list.c:508
+#: addressbook/gui/component/addressbook.c:422 mail/message-list.c:495
 msgid "From"
 msgstr "От"
 
-#: addressbook/gui/component/addressbook.c:426
+#: addressbook/gui/component/addressbook.c:422
 msgid "Cc"
 msgstr "Копия"
 
-#: addressbook/gui/component/addressbook.c:450
+#: addressbook/gui/component/addressbook.c:446
 #: calendar/gui/calendar-commands.c:544
 msgid "New"
 msgstr "Новый"
 
-#: addressbook/gui/component/addressbook.c:450
+#: addressbook/gui/component/addressbook.c:446
 msgid "Create a new contact"
 msgstr "Создать новый контакт"
 
-#: addressbook/gui/component/addressbook.c:454
+#: addressbook/gui/component/addressbook.c:450
 msgid "Find"
 msgstr "Найти"
 
-#: addressbook/gui/component/addressbook.c:454
+#: addressbook/gui/component/addressbook.c:450
 msgid "Find a contact"
 msgstr "Найти контакт"
 
-#: addressbook/gui/component/addressbook.c:455
-#: addressbook/gui/component/addressbook.c:522
+#: addressbook/gui/component/addressbook.c:451
+#: addressbook/gui/component/addressbook.c:518
 #: calendar/gui/calendar-commands.c:548 mail/folder-browser-factory.c:43
 msgid "Print"
 msgstr "Печать"
 
-#: addressbook/gui/component/addressbook.c:455
+#: addressbook/gui/component/addressbook.c:451
 msgid "Print contacts"
 msgstr "Напечатать контакт"
 
 #. Delete
-#: addressbook/gui/component/addressbook.c:456
+#: addressbook/gui/component/addressbook.c:452
 #: calendar/gui/event-editor-dialog.glade.h:93 calendar/gui/gncal-todo.c:498
 #: mail/folder-browser-factory.c:45
 msgid "Delete"
 msgstr "Удалить"
 
-#: addressbook/gui/component/addressbook.c:456
+#: addressbook/gui/component/addressbook.c:452
 msgid "Delete a contact"
 msgstr "Удалить контакт"
 
-#: addressbook/gui/component/addressbook.c:529
+#: addressbook/gui/component/addressbook.c:525
 msgid "Test Select Names"
 msgstr "Проверка выбранных имен"
 
-#: addressbook/gui/component/addressbook.c:536
-#: addressbook/gui/component/addressbook.c:1079
+#: addressbook/gui/component/addressbook.c:532
+#: addressbook/gui/component/addressbook.c:1073
 msgid "As _Table"
 msgstr "Как таблица"
 
-#: addressbook/gui/component/addressbook.c:543
+#: addressbook/gui/component/addressbook.c:539
 msgid "_New Contact"
 msgstr "Новый контакт"
 
-#: addressbook/gui/component/addressbook.c:551
+#: addressbook/gui/component/addressbook.c:547
 msgid "N_ew Directory Server"
 msgstr "Новый сервер каталогов"
 
-#: addressbook/gui/component/addressbook.c:630
+#: addressbook/gui/component/addressbook.c:626
 msgid "Unable to open addressbook"
 msgstr "Не удалось открыть адресную книгу"
 
-#: addressbook/gui/component/addressbook.c:635
+#: addressbook/gui/component/addressbook.c:631
 msgid ""
 "We were unable to open this addressbook.  This either\n"
 "means you have entered an incorrect URI, or have tried\n"
@@ -771,20 +771,20 @@ msgid ""
 "OpenLDAP and recompile and install evolution.\n"
 msgstr ""
 
-#: addressbook/gui/component/addressbook.c:983
+#: addressbook/gui/component/addressbook.c:977
 #: addressbook/gui/minicard/e-minicard.c:329
 msgid "Save as VCard"
 msgstr "Сохранить как VCard"
 
-#: addressbook/gui/component/addressbook.c:1050
+#: addressbook/gui/component/addressbook.c:1044
 msgid "* Click here to add a contact *"
 msgstr "* Щелкните здесь чтобы добавить контакт *"
 
-#: addressbook/gui/component/addressbook.c:1086
+#: addressbook/gui/component/addressbook.c:1080
 msgid "As _Minicards"
 msgstr "Как миникарточки"
 
-#: addressbook/gui/component/addressbook.c:1137
+#: addressbook/gui/component/addressbook.c:1131
 msgid "The URI that the Folder Browser will display"
 msgstr "URI, который будет показывать программа просмотра папок"
 
@@ -1238,7 +1238,7 @@ msgstr "Год"
 msgid "Show 1 year"
 msgstr "Показать 1 год"
 
-#: calendar/gui/calendar-commands.c:544 calendar/gui/calendar-commands.c:690
+#: calendar/gui/calendar-commands.c:544 calendar/gui/calendar-commands.c:682
 msgid "Create a new appointment"
 msgstr "Создать новую встречу"
 
@@ -1303,43 +1303,35 @@ msgstr "Сохранить календарь как"
 msgid "Print..."
 msgstr "Печать..."
 
-#: calendar/gui/calendar-commands.c:679
-msgid "_Close Calendar"
-msgstr "Закрыть календарь"
-
-#: calendar/gui/calendar-commands.c:680
-msgid "Close current calendar"
-msgstr "Закрыть текущий календарь"
-
-#: calendar/gui/calendar-commands.c:690
+#: calendar/gui/calendar-commands.c:682
 msgid "_New appointment..."
 msgstr "Новая встреча..."
 
-#: calendar/gui/calendar-commands.c:695
+#: calendar/gui/calendar-commands.c:687
 msgid "New appointment for _today..."
 msgstr "Новая встреча сегодня..."
 
-#: calendar/gui/calendar-commands.c:696
+#: calendar/gui/calendar-commands.c:688
 msgid "Create a new appointment for today"
 msgstr "Создать новую встречу сегодня"
 
-#: calendar/gui/calendar-commands.c:704 calendar/gui/prop.c:712
+#: calendar/gui/calendar-commands.c:696 calendar/gui/prop.c:712
 msgid "Preferences"
 msgstr "Настройки"
 
-#: calendar/gui/calendar-commands.c:711 calendar/gui/calendar-commands.c:712
+#: calendar/gui/calendar-commands.c:703 calendar/gui/calendar-commands.c:704
 msgid "About Calendar"
 msgstr "О программе \"Календарь\""
 
 #. i18n: This "%s%s" indicates possession. Languages where the order is
 #. * the inverse should translate it to "%2$s%1$s".
 #.
-#: calendar/gui/calendar-commands.c:754
+#: calendar/gui/calendar-commands.c:746
 #, c-format
 msgid "%s%s"
 msgstr "%s%s"
 
-#: calendar/gui/calendar-commands.c:754
+#: calendar/gui/calendar-commands.c:746
 msgid "'s calendar"
 msgstr "' календарь"
 
@@ -1765,7 +1757,7 @@ msgstr "Конфиденциальное"
 msgid "Recurrence rule"
 msgstr "Правила повторения"
 
-#: calendar/gui/event-editor-dialog.glade.h:43 shell/e-shell-view.c:574
+#: calendar/gui/event-editor-dialog.glade.h:43 shell/e-shell-view.c:575
 msgid "None"
 msgstr "Нет"
 
@@ -2190,7 +2182,7 @@ msgid "Due Date"
 msgstr "Условленная дата"
 
 #: calendar/gui/gncal-todo.c:426 calendar/gui/prop.c:605
-#: mail/message-list.c:494
+#: mail/message-list.c:481
 msgid "Priority"
 msgstr "Приоритет"
 
@@ -2624,7 +2616,7 @@ msgstr "gnome-unknown.xpm"
 msgid "Enabled"
 msgstr "Включено"
 
-#: composer/e-msg-composer-address-dialog.c:183 composer/e-msg-composer.c:749
+#: composer/e-msg-composer-address-dialog.c:183 composer/e-msg-composer.c:755
 msgid "Cut"
 msgstr "Вырезать"
 
@@ -2632,7 +2624,7 @@ msgstr "Вырезать"
 msgid "Cut selected item into clipboard"
 msgstr "Вырезает выделенный элемент в буфер обмена"
 
-#: composer/e-msg-composer-address-dialog.c:187 composer/e-msg-composer.c:750
+#: composer/e-msg-composer-address-dialog.c:187 composer/e-msg-composer.c:756
 msgid "Copy"
 msgstr "Скопировать"
 
@@ -2641,7 +2633,7 @@ msgid "Copy selected item into clipboard"
 msgstr "Копирует выделенный элемент в буфер обмена"
 
 #: composer/e-msg-composer-address-dialog.c:191
-#: composer/e-msg-composer-address-dialog.c:199 composer/e-msg-composer.c:751
+#: composer/e-msg-composer-address-dialog.c:199 composer/e-msg-composer.c:757
 msgid "Paste"
 msgstr "Вставить"
 
@@ -2768,27 +2760,27 @@ msgstr "Имя файла:"
 msgid "Click here for the address book"
 msgstr "Щелкните здесь для адресной книги"
 
-#: composer/e-msg-composer-hdrs.c:215
+#: composer/e-msg-composer-hdrs.c:216
 msgid "To:"
 msgstr "Кому:"
 
-#: composer/e-msg-composer-hdrs.c:216
+#: composer/e-msg-composer-hdrs.c:217
 msgid "Enter the recipients of the message"
 msgstr "Введите получателей сообщения"
 
-#: composer/e-msg-composer-hdrs.c:220
+#: composer/e-msg-composer-hdrs.c:221
 msgid "Cc:"
 msgstr "Копия:"
 
-#: composer/e-msg-composer-hdrs.c:221
+#: composer/e-msg-composer-hdrs.c:222
 msgid "Enter the addresses that will receive a carbon copy of the message"
 msgstr "Введите адресатов, которые получат копию сообщения"
 
-#: composer/e-msg-composer-hdrs.c:226
+#: composer/e-msg-composer-hdrs.c:227
 msgid "Bcc:"
 msgstr "Скр.копия:"
 
-#: composer/e-msg-composer-hdrs.c:227
+#: composer/e-msg-composer-hdrs.c:228
 msgid ""
 "Enter the addresses that will receive a carbon copy of the message without "
 "appearing in the recipient list of the message."
@@ -2796,11 +2788,11 @@ msgstr ""
 "Введите адресатов, которые получат копию сообщения не попав в список "
 "получателей."
 
-#: composer/e-msg-composer-hdrs.c:233
+#: composer/e-msg-composer-hdrs.c:234
 msgid "Subject:"
 msgstr "Тема:"
 
-#: composer/e-msg-composer-hdrs.c:234
+#: composer/e-msg-composer-hdrs.c:235
 msgid "Enter the subject of the mail"
 msgstr "Введите тему письма"
 
@@ -2834,7 +2826,7 @@ msgstr "Сохранить в папке..."
 msgid "Save the message in a specified folder"
 msgstr "Сохранить сообщение в указанной папке"
 
-#: composer/e-msg-composer.c:710 composer/e-msg-composer.c:747
+#: composer/e-msg-composer.c:710 composer/e-msg-composer.c:752
 msgid "Send"
 msgstr "Отправить"
 
@@ -2842,47 +2834,47 @@ msgstr "Отправить"
 msgid "Send the message"
 msgstr "Отправить сообщение"
 
-#: composer/e-msg-composer.c:718
+#: composer/e-msg-composer.c:722
 msgid "View _attachments"
 msgstr "Просмотреть вложения"
 
-#: composer/e-msg-composer.c:718
+#: composer/e-msg-composer.c:722
 msgid "View/hide attachments"
 msgstr "Показать/скрыть вложения"
 
-#: composer/e-msg-composer.c:747
+#: composer/e-msg-composer.c:752
 msgid "Send this message"
 msgstr "Отправить это сообщение"
 
-#: composer/e-msg-composer.c:749
+#: composer/e-msg-composer.c:755
 msgid "Cut selected region into the clipboard"
 msgstr "Вырезать выделенную область в буфер обмена"
 
-#: composer/e-msg-composer.c:750
+#: composer/e-msg-composer.c:756
 msgid "Copy selected region into the clipboard"
 msgstr "Скопировать выделенную область в буфер обмена"
 
-#: composer/e-msg-composer.c:751
+#: composer/e-msg-composer.c:757
 msgid "Paste selected region into the clipboard"
 msgstr "Вставить выделенную область в буфер обмена"
 
-#: composer/e-msg-composer.c:752
+#: composer/e-msg-composer.c:758
 msgid "Undo"
 msgstr "Откат"
 
-#: composer/e-msg-composer.c:752
+#: composer/e-msg-composer.c:758
 msgid "Undo last operation"
 msgstr "Отменить последнюю операцию"
 
-#: composer/e-msg-composer.c:754
+#: composer/e-msg-composer.c:761
 msgid "Attach"
 msgstr "Присоединить"
 
-#: composer/e-msg-composer.c:754
+#: composer/e-msg-composer.c:761
 msgid "Attach a file"
 msgstr "Присоединить файл"
 
-#: composer/e-msg-composer.c:912
+#: composer/e-msg-composer.c:919
 msgid "Compose a message"
 msgstr "Создать сообщение"
 
@@ -2979,23 +2971,27 @@ msgstr "Распечатать выделенное сообщение"
 msgid "Delete this message"
 msgstr "Удалить это сообщение"
 
-#: mail/folder-browser-factory.c:64
+#: mail/folder-browser-factory.c:65
+msgid "_Threaded Message List"
+msgstr ""
+
+#: mail/folder-browser-factory.c:74
 msgid "_Expunge"
 msgstr "Вычеркнуть"
 
-#: mail/folder-browser-factory.c:70
+#: mail/folder-browser-factory.c:80
 msgid "_Filter Druid ..."
 msgstr "Помощник по фильтрам ..."
 
-#: mail/folder-browser-factory.c:76
+#: mail/folder-browser-factory.c:86
 msgid "_Virtual Folder Druid ..."
 msgstr "Помощник по виртуальным папкам ..."
 
-#: mail/folder-browser-factory.c:82
+#: mail/folder-browser-factory.c:92
 msgid "_Mail Configuration ..."
 msgstr "Настройка почты ..."
 
-#: mail/folder-browser-factory.c:88
+#: mail/folder-browser-factory.c:98
 msgid "Forget _Passwords"
 msgstr "Забыть пароли"
 
@@ -3107,11 +3103,11 @@ msgstr "Правка источника"
 msgid "Add Source"
 msgstr "Добавить источник"
 
-#: mail/mail-ops.c:356
+#: mail/mail-ops.c:389
 msgid "Fetching mail"
 msgstr "Получение почты"
 
-#: mail/mail-ops.c:368
+#: mail/mail-ops.c:401
 msgid ""
 "This message has no subject.\n"
 "Really send?"
@@ -3119,7 +3115,7 @@ msgstr ""
 "Это сообщение не имеет темы.\n"
 "Послать его?"
 
-#: mail/mail-ops.c:663
+#: mail/mail-ops.c:749
 #, fuzzy
 msgid "Refile message(s) to"
 msgstr "Найти сообщения"
@@ -3152,23 +3148,23 @@ msgstr "Пользователь отменил запрос."
 msgid "Mail Component: I could not initialize Bonobo"
 msgstr "Почтовый компонент: не удалось инициализировать Bonobo"
 
-#: mail/message-list.c:480
+#: mail/message-list.c:467
 msgid "Online Status"
 msgstr "Подключенное состояние"
 
-#: mail/message-list.c:515
+#: mail/message-list.c:502
 msgid "Subject"
 msgstr "Тема"
 
-#: mail/message-list.c:522
+#: mail/message-list.c:509
 msgid "Date"
 msgstr "Дата"
 
-#: mail/message-list.c:529
+#: mail/message-list.c:516
 msgid "Received"
 msgstr "Получено"
 
-#: mail/message-list.c:543
+#: mail/message-list.c:530
 msgid "Size"
 msgstr "Размер"
 
@@ -3292,151 +3288,122 @@ msgstr ""
 msgid "Go to folder..."
 msgstr "Перейти к папке..."
 
-#: shell/e-shell-view-menu.c:370
+#: shell/e-shell-view-menu.c:365
 msgid "_Folder"
 msgstr "Папка"
 
-#: shell/e-shell-view-menu.c:374
+#: shell/e-shell-view-menu.c:369
 msgid "Evolution _Bar Shortcut"
 msgstr "Строка ярлыков Evolution"
 
-#: shell/e-shell-view-menu.c:380
-msgid "_Mail message"
-msgstr "Почтовое сообщение"
+#: shell/e-shell-view-menu.c:375
+msgid "_Mail message (FIXME)"
+msgstr "Почтовое сообщение (FIXME)"
 
-#: shell/e-shell-view-menu.c:381 shell/e-shell-view-menu.c:384
+#: shell/e-shell-view-menu.c:376 shell/e-shell-view-menu.c:379
 msgid "Composes a new mail message"
 msgstr "Создать новое сообщение"
 
-#: shell/e-shell-view-menu.c:383
-msgid "_Appointment"
-msgstr "Встреча"
+#: shell/e-shell-view-menu.c:378
+msgid "_Appointment (FIXME)"
+msgstr "Встреча (FIXME)"
 
-#: shell/e-shell-view-menu.c:386
-msgid "Meeting Re_quest"
-msgstr "Запрос встречи"
+#: shell/e-shell-view-menu.c:381
+msgid "_Contact (FIXME)"
+msgstr "Контакт (FIXME)"
 
-#: shell/e-shell-view-menu.c:389
-msgid "_Contact"
-msgstr "Контакт"
+#: shell/e-shell-view-menu.c:384
+msgid "_Task (FIXME)"
+msgstr "Задание (FIXME)"
 
-#: shell/e-shell-view-menu.c:392
-msgid "_Task"
-msgstr "Задание"
+#: shell/e-shell-view-menu.c:387
+msgid "Task _Request (FIXME)"
+msgstr "Запрос задания (FIXME)"
 
-#: shell/e-shell-view-menu.c:395
-msgid "Task _Request"
-msgstr "Запрос задания"
+#: shell/e-shell-view-menu.c:390
+msgid "_Journal Entry (FIXME)"
+msgstr "Журнальная строка (FIXME)"
 
 #: shell/e-shell-view-menu.c:398
-msgid "_Journal Entry"
-msgstr "Журнальная строка"
-
-#: shell/e-shell-view-menu.c:401
-msgid "_Note"
-msgstr "Заметка"
-
-#: shell/e-shell-view-menu.c:411
-msgid "_Selected Items"
-msgstr "Выделенные элементы"
-
-#: shell/e-shell-view-menu.c:419
 msgid "_New"
 msgstr "Новое"
 
-#: shell/e-shell-view-menu.c:420
-msgid "_Open"
-msgstr "Открыть"
-
-#: shell/e-shell-view-menu.c:422
-msgid "Clos_e All Items"
-msgstr "Закрыть все"
-
-#: shell/e-shell-view-menu.c:422
-msgid "Closes all the open items"
-msgstr "Закрыть все что открыто"
-
-#: shell/e-shell-view-menu.c:426
+#: shell/e-shell-view-menu.c:402
 msgid "_Go to folder..."
 msgstr "Перейти к папке..."
 
-#: shell/e-shell-view-menu.c:426
+#: shell/e-shell-view-menu.c:402
 msgid "Display a different folder"
 msgstr "Показать другую папку"
 
-#: shell/e-shell-view-menu.c:428
+#: shell/e-shell-view-menu.c:404
 msgid "_Create new folder..."
 msgstr "Создать новую папку..."
 
-#: shell/e-shell-view-menu.c:428
+#: shell/e-shell-view-menu.c:404
 msgid "Create a new folder"
 msgstr "Создать новую папку"
 
-#: shell/e-shell-view-menu.c:443
+#: shell/e-shell-view-menu.c:419
 msgid "Show _shortcut bar"
 msgstr "Показать строку закладок"
 
-#: shell/e-shell-view-menu.c:444
+#: shell/e-shell-view-menu.c:420
 msgid "Show the shortcut bar"
 msgstr "Показать строку закладок"
 
-#: shell/e-shell-view-menu.c:446
+#: shell/e-shell-view-menu.c:422
 msgid "Show _folder bar"
 msgstr "Показать строку папок"
 
-#: shell/e-shell-view-menu.c:447
+#: shell/e-shell-view-menu.c:423
 msgid "Show the folder bar"
 msgstr "Показать строку папок"
 
-#: shell/e-shell-view-menu.c:464
+#: shell/e-shell-view-menu.c:440
 msgid "Help _Index"
 msgstr "Индекс справки"
 
-#: shell/e-shell-view-menu.c:467
+#: shell/e-shell-view-menu.c:443
 msgid "Getting _Started"
 msgstr "Введение"
 
-#: shell/e-shell-view-menu.c:470
+#: shell/e-shell-view-menu.c:446
 msgid "Using the _Mailer"
 msgstr "Использование почты"
 
-#: shell/e-shell-view-menu.c:473
+#: shell/e-shell-view-menu.c:449
 msgid "Using the _Calendar"
 msgstr "Использование календаря"
 
-#: shell/e-shell-view-menu.c:476
+#: shell/e-shell-view-menu.c:452
 msgid "Using the Cont_act Manager"
 msgstr "Использование диспетчера контактов"
 
-#: shell/e-shell-view-menu.c:481
+#: shell/e-shell-view-menu.c:457
 msgid "_Submit bug report"
 msgstr "Отправить сообщение об ошибке"
 
-#: shell/e-shell-view-menu.c:482
+#: shell/e-shell-view-menu.c:458
 msgid "Submit bug-report via bug-buddy"
 msgstr "Оправить сообщение об ошибке через bug-buddy"
 
-#: shell/e-shell-view-menu.c:498
+#: shell/e-shell-view-menu.c:474
 msgid "_Actions"
 msgstr "Действия"
 
-#: shell/e-shell-view.c:112
+#: shell/e-shell-view.c:113
 msgid "(No folder displayed)"
 msgstr "(Папки не показаны)"
 
-#: shell/e-shell-view.c:207
+#: shell/e-shell-view.c:208
 msgid "Folders"
 msgstr "Папки"
 
-#: shell/e-shell-view.c:578
+#: shell/e-shell-view.c:579
 #, c-format
 msgid "Evolution - %s"
 msgstr "Эволюция - %s"
-
-#: shell/e-shell-view.c:646
-#, c-format
-msgid "Cannot open location: %s"
-msgstr "Невозможно открыть: %s"
 
 #: shell/e-shell.c:296
 #, c-format
