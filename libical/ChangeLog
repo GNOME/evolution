@@ -1,3 +1,14 @@
+2003-03-17  Hans Petter Jansson  <hpj@ximian.com>
+
+	Part of fix for #34095
+
+	* scripts/mkderivedparameters.pl: Generate code to free old
+	string value when a new one is set.
+
+	* src/libical/icalperiod.c (icalperiodtype_as_ical_string):
+	Callers expect a temporary string, and thus won't free it, so
+	allocate returned memory from the temporary ring.
+
 2003-02-10  Ettore Perazzoli  <ettore@ximian.com>
 
 	* src/libical/Makefile.am (libical_static_la_DEPENDENCIES): Make
