@@ -1,5 +1,8 @@
 2001-10-23    <NotZed@Ximian.com>
 
+	* mail-display.c (mail_display_destroy): Remove the idle_id when
+	we're destroyed so the idle func doesn't run on an invalid object.
+
 	* message-list.c (regen_list_regened): Dont do anything if we're
 	destroyed #13021.
 

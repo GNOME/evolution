@@ -1492,6 +1492,9 @@ mail_display_destroy (GtkObject *object)
 	g_datalist_clear (mail_display->data);
 	g_free (mail_display->data);
 
+	if (mail_display->idle_id)
+		gtk_timeout_remove(mail_display->idle_id);
+
 	gtk_widget_unref (mail_display->invisible);
 
 	mail_display_parent_class->destroy (object);
