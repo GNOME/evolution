@@ -1352,6 +1352,11 @@ static struct _gconf_map calendar_alarmnotify_map[] = {
 	{ 0 },
 };
 
+static struct _gconf_map general_map[] = {
+	/* /General */
+	{ "CategoryMasterList", "general/category_master_list", BMAP_STRING }
+};
+
 /* ********************************************************************** */
 
 static struct {
@@ -1391,6 +1396,8 @@ static struct {
 	{ "/Calendar/Other/Map", calendar_other_map },
 	{ "/Calendar/DateNavigator", calendar_datenavigator_map },
 	{ "/Calendar/AlarmNotify", calendar_alarmnotify_map },
+
+	{ "/General", general_map },
 
 	{ 0 },
 };
