@@ -1,5 +1,10 @@
 2003-04-10  Rodrigo Moya <rodrigo@ximian.com>
 
+	* gui/alarm-notify/alarm-queue.c (remove_queued_alarm): only remove
+	the alarm for backends that want it (Exchange).
+
+2003-04-10  Rodrigo Moya <rodrigo@ximian.com>
+
 	* cal-util/cal-util.h: added #define's for static capabilities.
 
 	* pcs/cal-backend-file.c (cal_backend_file_get_static_capabilities):
