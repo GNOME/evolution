@@ -1,3 +1,8 @@
+2000-08-09  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-shell-view-menu.c (menu_create_file_new): Create a placeholder
+	for the print items.
+
 2000-08-08  Dan Winship  <danw@helixcode.com>
 
 	* e-setup.c (e_setup): Check for ~/evolution/shortcuts.xml in

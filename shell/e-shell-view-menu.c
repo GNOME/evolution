@@ -455,6 +455,8 @@ menu_create_file (BonoboUIHandler *uih,
 					 0, 0,
 					 command_create_folder, data);
 
+	bonobo_ui_handler_menu_new_placeholder (uih, "/File/<Print Placeholder>");
+
 	bonobo_ui_handler_menu_new_separator (uih, "/File/Separator2", -1);
 
 	bonobo_ui_handler_menu_new_item (uih, "/File/Exit",
