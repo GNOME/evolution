@@ -1,3 +1,9 @@
+2002-04-10  Dan Winship  <danw@ximian.com>
+
+	* Makefile.am (images_DATA), folder-settings.png: Add. (Copied
+	from Unscalable Gorilla because it was handy. Will probably get
+	changed to something else...)
+
 2002-03-28  Ettore Perazzoli  <ettore@ximian.com>
 
 	* calendar-and-tasks-settings.png: New.

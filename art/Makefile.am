@@ -52,6 +52,7 @@ images_DATA = \
 	flag-for-followup-16.png	\
 	folder-copy-16.png		\
 	folder-move-16.png		\
+	folder-settings.png		\
 	folder.xpm			\
 	forward.xpm			\
 	globe.png           		\
