@@ -227,13 +227,15 @@ char
 	
 	vobj = newVObject (VCCardProp);
 
-	if ( card->file_as )
+	if ( card->file_as && *card->file_as )
 		addPropValue(vobj, "X-EVOLUTION-FILE-AS", card->file_as);
+	else if (card->file_as)
+		addProp(vobj, "X-EVOLUTION-FILE_AS");
 
 	if ( card->fname )
 		addPropValue(vobj, VCFullNameProp, card->fname);
 
-	if ( card->name ) {
+	if ( card->name && (card->name->prefix || card->name->given || card->name->additional || card->name->family || card->name->suffix) ) {
 		VObject *nameprop;
 		nameprop = addProp(vobj, VCNameProp);
 		if ( card->name->prefix )
@@ -704,6 +706,27 @@ parse(ECard *card, VObject *vobj)
 	initPropIterator(&iterator, vobj);
 	while(moreIteration (&iterator)) {
 		parse_attribute(card, nextVObject(&iterator));
+	}
+	if (!card->name) {
+		if (card->fname) {
+			card->name = e_card_name_from_string(card->fname);
+		}
+	}
+	if (!card->file_as) {
+		if (card->name) {
+			ECardName *name = card->name;
+			char *strings[3], **stringptr;
+			char *string;
+			stringptr = strings;
+			if (name->family && *name->family)
+				*(stringptr++) = name->family;
+			if (name->given && *name->given)
+				*(stringptr++) = name->given;
+			*stringptr = NULL;
+			string = g_strjoinv(", ", strings);
+			card->file_as = string;
+		} else
+			card->file_as = g_strdup("");
 	}
 }
 

@@ -449,6 +449,7 @@ remodel( EMinicard *e_minicard )
 {
 	if (e_minicard->card) {
 		char *fname;
+		char *file_as;
 		char *url;
 		char *org;
 		char *title;
@@ -469,6 +470,7 @@ remodel( EMinicard *e_minicard )
 
 		gtk_object_get(GTK_OBJECT(e_minicard->card),
 			       "full_name",  &fname,
+			       "file_as",    &file_as,
 			       "address",    &address_list,
 			       "phone",      &phone_list,
 			       "email",      &email_list,
@@ -478,17 +480,19 @@ remodel( EMinicard *e_minicard )
 			       "role",       &role,
 			       NULL);
 
-		if (fname) {
-			add_field(e_minicard, "Name:", fname);
-			if (e_minicard->header_text)
-				gnome_canvas_item_set(e_minicard->header_text, 
-						      "text", fname,
+		if (e_minicard->header_text) {
+			if (file_as)
+				gnome_canvas_item_set(e_minicard->header_text,
+						      "text", file_as,
 						      NULL);
-		} else
-			if (e_minicard->header_text)
+			else
 				gnome_canvas_item_set(e_minicard->header_text,
 						      "text", "",
 						      NULL);
+		}
+
+		if (fname)
+			add_field(e_minicard, "Name:", fname);
 
 		if (org)
 			add_field(e_minicard, "Company:", org);
@@ -592,7 +596,7 @@ e_minicard_get_card_id (EMinicard *minicard)
 	if (minicard->card) {
 		return e_card_get_id(minicard->card);
 	} else {
-		return NULL;
+		return "";
 	}
 }
 
@@ -605,20 +609,20 @@ e_minicard_compare (EMinicard *minicard1, EMinicard *minicard2)
 	g_return_val_if_fail(E_IS_MINICARD(minicard2), 0);
 
 	if (minicard1->card && minicard2->card) {
-		char *fname1, *fname2;
+		char *file_as1, *file_as2;
 		gtk_object_get(GTK_OBJECT(minicard1->card),
-			       "full_name", &fname1,
+			       "file_as", &file_as1,
 			       NULL);
 		gtk_object_get(GTK_OBJECT(minicard2->card),
-			       "full_name", &fname2,
+			       "file_as", &file_as2,
 			       NULL);
-		if (fname1 && fname2)
-			return strcmp(fname1, fname2);
-		if (fname1)
+		if (file_as1 && file_as2)
+			return strcmp(file_as1, file_as2);
+		if (file_as1)
 			return -1;
-		if (fname2)
+		if (file_as2)
 			return 1;
-		return 0;
+		return strcmp(e_minicard_get_card_id(minicard1), e_minicard_get_card_id(minicard2));
 	} else {
 		return 0;
 	}

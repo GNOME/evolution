@@ -1,5 +1,27 @@
 2000-04-30  Christopher James Lahey  <clahey@helixcode.com>
 
+	* backend/ebook/e-card.c: Make file as not have the : after it if
+	it's empty.  If there's no name, or file_as, fill in these fields
+	with defaults based on full_name or name respectively.
+
+	* backend/ebook/load-pine-addressbook.c: New file to do import of
+	pine .addressbook files.
+
+	* backend/pas/pas-backend-file.c: Made empty fields act as the
+	empty string for searches.
+
+	* contact-editor/e-contact-editor.c,
+	contact-editor/e-contact-editor.h: Made the File As field update
+	properly as you edit the name and company fields.  Added the pull
+	down list of File As choices.  Made sure that all fields will
+	be set to NULL if they are deleted to the empty string.
+
+	* gui/minicard/e-minicard.c: Use the File As field instead of the
+	Full Name field for the header.  Make identical compares on the
+	File As field do a compare on the uid.
+
+2000-04-30  Christopher James Lahey  <clahey@helixcode.com>
+
 	* contact-editor/e-contact-editor-fullname.c,
 	contact-editor/fullname.glade: Fixed a string mismatch.
 

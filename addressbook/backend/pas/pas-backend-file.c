@@ -287,6 +287,9 @@ entry_compare(PASBackendFileSearchContext *ctx, struct _ESExp *f,
 				if (prop && compare(prop, argv[1]->value.string)) {
 					truth = TRUE;
 				}
+				if ((!prop) && compare("", argv[1]->value.string)) {
+					truth = TRUE;
+				}
 			}
 			else if (info->prop_type == PROP_TYPE_LIST) {
 				/* the special searches that match any of the list elements */
