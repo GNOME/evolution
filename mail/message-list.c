@@ -2221,6 +2221,7 @@ static void hide_save_state(MessageList *ml)
 			g_hash_table_foreach(ml->hidden, (GHFunc)hide_save_1, out);
 		fclose(out);
 	}
+	mail_tool_camel_lock_down();
 }
 
 /* ** REGENERATE MESSAGELIST ********************************************** */
