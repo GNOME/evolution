@@ -1,3 +1,7 @@
+2003-04-07  Radek Doulik  <rodo@ximian.com>
+
+	* mail-composer-prefs.c (spell_load_values): use e_iconv_locale_language
+
 2003-04-07  Dan Winship  <danw@ximian.com>
 
 	* GNOME_Evolution_Mail.server.in.in: Clean up server names

@@ -566,8 +566,8 @@ spell_load_values (MailComposerPrefs *prefs)
 {
 	GConfValue *val;
 	char *def_lang;
-	
-	def_lang = g_strdup ("en_us");
+
+	def_lang = g_strdup (e_iconv_locale_language ());
 	g_free (prefs->language_str);
 	prefs->language_str = g_strdup (def_lang);
 	prefs->spell_error_color.red   = 0xffff;
