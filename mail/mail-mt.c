@@ -1045,7 +1045,7 @@ static void do_op_status(struct _mail_msg *mm)
 	 * keep track of it too.
 	 */
 	if (data->activity == NULL && global_shell_client) {
-		char *clientid, *what;
+		char *what;
 		int display;
 		
 		/* its being created/removed?  well leave it be */
@@ -1075,7 +1075,6 @@ static void do_op_status(struct _mail_msg *mm)
 			
 			if (msg->ops->describe_msg)
 				g_free (what);
-			g_free (clientid);
 			
 			MAIL_MT_LOCK (mail_msg_lock);
 			if (data->activity_state == 3) {

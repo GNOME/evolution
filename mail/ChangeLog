@@ -1,3 +1,8 @@
+2001-10-22  Ettore Perazzoli  <ettore@ximian.com>
+
+	* mail-mt.c (do_op_status): Don't free `clientid' as it's
+	uninitialized.
+
 2001-10-22  Christopher James Lahey  <clahey@ximian.com>
 
 	* message-list.etspec (Score): disable this column.  Fixes Ximian
