@@ -18,6 +18,9 @@
 #include <cal-client/cal-client.h>
 #include <cal-util/timeutil.h>
 
+#include <bonobo/bonobo-exception.h>
+#include <liboaf/liboaf.h>
+
 struct _ESummaryTasks {
 	CalClient *client;
 
@@ -248,8 +251,8 @@ generate_html (gpointer data)
 			if (completed == NULL) {
 				tmp = g_strdup_printf ("<img align=\"middle\" src=\"task.xpm\" "
 						       "alt=\"\" width=\"16\" height=\"16\">  &#160; "
-						       "<font size=\"-1\"><a href=\"evolution:/local/Tasks\">%s</a></font><br>", 
-						       text.value ? text.value : _("(No Description)"));
+						       "<font size=\"-1\"><a href=\"tasks:/%s\">%s</a></font><br>", 
+						       uid, text.value ? text.value : _("(No Description)"));
 			} else {
 #if 0
 				tmp = g_strdup_printf ("<img align=\"middle\" src=\"task.xpm\" "
@@ -300,10 +303,37 @@ obj_changed_cb (CalClient *client,
 
 static void
 e_summary_tasks_protocol (ESummary *summary,
-			     const char *uri,
-			     void *closure)
+			  const char *uri,
+			  void *closure)
 {
+	ESummaryTasks *tasks;
+	CORBA_Environment ev;
+	const char *comp_uri;
+	GNOME_Evolution_Calendar_CompEditorFactory factory;
 
+	tasks = (ESummaryTasks *) closure;
+
+	comp_uri = cal_client_get_uri (tasks->client);
+
+	/* Get the factory */
+	CORBA_exception_init (&ev);
+	factory = oaf_activate_from_id ("OAFIID:GNOME_Evolution_Calendar_CompEditorFactory", 0, NULL, &ev);
+	if (BONOBO_EX (&ev)) {
+		g_message ("%d: Could not activate the component editor factory (%s)", __FUNCTION__,
+			   CORBA_exception_id (&ev));
+		CORBA_exception_free (&ev);
+		return;
+	}
+	
+	GNOME_Evolution_Calendar_CompEditorFactory_editExisting (factory, comp_uri, (char *)uri + 7, &ev);
+	
+	if (BONOBO_EX (&ev)) {
+		g_message ("%s: Execption while editing the component (%s)", __FUNCTION__, 
+			   CORBA_exception_id (&ev));
+	}
+	
+	CORBA_exception_free (&ev);
+	bonobo_object_release_unref (factory, NULL);
 }
 
 void

@@ -1,3 +1,12 @@
+2001-09-19  Iain Holmes  <iain@ximian.com>
+
+	* e-summary-tasks.c (e_summary_tasks_protocol): Open a task editor.
+	(generate_html): Embed the uid of the task in the url.
+
+	* e-summary-calendar.c (e_summary_calendar_protocol): Open a calendar
+	editor.
+	(generate_html): Embed the uid of the task in the url.
+	
 2001-09-19  Larry Ewing  <lewing@ximian.com>
 
 	* e-summary-rdf.c (read_callback): remove redundant if.

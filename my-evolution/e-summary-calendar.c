@@ -22,6 +22,8 @@
 #include <bonobo/bonobo-moniker-util.h>
 #include <bonobo-conf/bonobo-config-database.h>
 
+#include <liboaf/liboaf.h>
+
 struct _ESummaryCalendar {
 	CalClient *client;
 
@@ -40,6 +42,7 @@ e_summary_calendar_get_html (ESummary *summary)
 }
 
 typedef struct {
+	char *uid;
 	CalComponent *comp;
 	CalComponentDateTime dt;
 	icaltimezone *zone;
@@ -80,6 +83,7 @@ uids_to_array (ESummary *summary,
 
 		event = g_new (ESummaryCalEvent, 1);
 
+		event->uid = g_strdup (p->data);
 		status = cal_client_get_object (client, p->data, &event->comp);
 		if (status != CAL_CLIENT_GET_SUCCESS) {
 			g_free (event);
@@ -113,6 +117,7 @@ free_event_array (GPtrArray *array)
 		ESummaryCalEvent *event;
 		
 		event = array->pdata[i];
+		g_free (event->uid);
 		gtk_object_unref (GTK_OBJECT (event->comp));
 	}
 
@@ -203,8 +208,8 @@ generate_html (gpointer data)
 
 			tmp = g_strdup_printf ("<img align=\"middle\" src=\"new_appointment.xpm\" "
 					       "alt=\"\" width=\"16\" height=\"16\">  &#160; "
-					       "<font size=\"-1\"><a href=\"evolution:/local/Calendar\">%s, %s</a></font><br>", 
-					       start_str, text.value);
+					       "<font size=\"-1\"><a href=\"calendar:/%s\">%s, %s</a></font><br>", 
+					       event->uid, start_str, text.value);
 			g_free (start_str);
 			
 			g_string_append (string, tmp);
@@ -249,7 +254,34 @@ e_summary_calendar_protocol (ESummary *summary,
 			     const char *uri,
 			     void *closure)
 {
+	ESummaryCalendar *calendar;
+	CORBA_Environment ev;
+	const char *comp_uri;
+	GNOME_Evolution_Calendar_CompEditorFactory factory;
 
+	calendar = (ESummaryCalendar *) closure;
+
+	comp_uri = cal_client_get_uri (calendar->client);
+
+	/* Get the factory */
+	CORBA_exception_init (&ev);
+	factory = oaf_activate_from_id ("OAFIID:GNOME_Evolution_Calendar_CompEditorFactory", 0, NULL, &ev);
+	if (BONOBO_EX (&ev)) {
+		g_message ("%d: Could not activate the component editor factory (%s)", __FUNCTION__,
+			   CORBA_exception_id (&ev));
+		CORBA_exception_free (&ev);
+		return;
+	}
+
+	GNOME_Evolution_Calendar_CompEditorFactory_editExisting (factory, comp_uri, (char *)uri + 10, &ev);
+
+	if (BONOBO_EX (&ev)) {
+		g_message ("%s: Execption while editing the component (%s)", __FUNCTION__, 
+			   CORBA_exception_id (&ev));
+	}
+
+	CORBA_exception_free (&ev);
+	bonobo_object_release_unref (factory, NULL);
 }
 
 static gboolean
