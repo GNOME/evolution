@@ -1,3 +1,8 @@
+2001-08-26  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-ops.c (report_status): Call va_end() so LinuxPPC doesn't
+	have a caniption.
+
 2001-08-24  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-display.c (launch_cb): Use the new e_mkdtemp function.

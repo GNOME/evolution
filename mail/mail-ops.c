@@ -671,16 +671,17 @@ struct _send_queue_msg {
 };
 
 static void
-report_status(struct _send_queue_msg *m, enum camel_filter_status_t status, int pc, const char *desc, ...)
+report_status (struct _send_queue_msg *m, enum camel_filter_status_t status, int pc, const char *desc, ...)
 {
 	va_list ap;
 	char *str;
 	
 	if (m->status) {
-		va_start(ap, desc);
-		str = g_strdup_vprintf(desc, ap);
-		m->status(m->driver, status, pc, str, m->status_data);
-		g_free(str);
+		va_start (ap, desc);
+		str = g_strdup_vprintf (desc, ap);
+		va_end (ap);
+		m->status (m->driver, status, pc, str, m->status_data);
+		g_free (str);
 	}
 }
 
