@@ -616,40 +616,6 @@ main_get_filter_driver (CamelSession *session, const char *type, CamelException 
 	fsearch = g_string_new ("");
 	faction = g_string_new ("");
 	
-	/* add the new-mail notification rule first to be sure that it gets invoked */
-	
-	/* FIXME: we need a way to distinguish between filtering new
-           mail and re-filtering a folder because both use the
-           "incoming" filter type */
-	notify = gconf_client_get_int (gconf, "/apps/evolution/mail/notify/type", NULL);
-	if (notify != MAIL_CONFIG_NOTIFY_NOT && !strcmp (type, "incoming")) {
-		char *filename;
-		
-		g_string_truncate (faction, 0);
-		
-		g_string_append (faction, "(only-once \"new-mail-notification\" ");
-		
-		switch (notify) {
-		case MAIL_CONFIG_NOTIFY_PLAY_SOUND:
-			filename = gconf_client_get_string (gconf, "/apps/evolution/mail/notify/sound", NULL);
-			if (filename) {
-				g_string_append_printf (faction, "\"(play-sound \\\"%s\\\")\"", filename);
-				g_free (filename);
-				break;
-			}
-			/* fall through */
-		case MAIL_CONFIG_NOTIFY_BEEP:
-			g_string_append (faction, "\"(beep)\"");
-			break;
-		default:
-			break;
-		}
-		
-		g_string_append (faction, ")");
-		
-		camel_filter_driver_add_rule (driver, "new-mail-notification", "(begin #t)", faction->str);
-	}
-	
 	/* add the user-defined rules next */
 	while ((rule = rule_context_next_rule (fc, rule, type))) {
 		g_string_truncate (fsearch, 0);

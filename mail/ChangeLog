@@ -1,3 +1,19 @@
+2003-08-18  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-session.c (main_get_filter_driver): Removed the
+	new-mail-notification mess.
+
+	* mail-folder-cache.c (notify_idle_cb): New idle callback to alert
+	the user about new mail.
+	(notify_type_changed): New function to intercept user changes to
+	his/her notification settings changes.
+	(real_flush_updates): Initialise new mail notification if not yet
+	initialised and setup an idle callback if none is already set.
+	(update_1folder): Now takes an additional argument `new' which
+	states whether or not the fodler got any new mail so that we may
+	handle notify the user (if needed).
+	(folder_changed): Pass in the number of new messages received.
+
 2003-08-19  Not Zed  <NotZed@Ximian.com>
 
 	* mail-callbacks.c (mail_generate_reply): Added a comment for

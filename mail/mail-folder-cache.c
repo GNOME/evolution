@@ -31,7 +31,9 @@
 
 #include <pthread.h>
 #include <string.h>
+#include <time.h>
 
+#include <libgnome/gnome-sound.h>
 #include <bonobo/bonobo-exception.h>
 #include <camel/camel-store.h>
 #include <camel/camel-folder.h>
@@ -78,6 +80,7 @@ struct _folder_update {
 	unsigned int delete:1;	/* deleting as well? */
 	unsigned int add:1;	/* add to vfolder */
 	unsigned int unsub:1;   /* unsubcribing? */
+	unsigned int new:1;     /* new mail arrived? */
 
 	char *path;
 	char *name;
@@ -111,6 +114,13 @@ static void folder_finalised(CamelObject *o, gpointer event_data, gpointer user_
 static guint ping_id = 0;
 static gboolean ping_cb (gpointer user_data);
 
+static guint notify_id = 0;
+static int notify_type = -1;
+
+static time_t last_notify = 0;
+static guint notify_idle_id = 0;
+static gboolean notify_idle_cb (gpointer user_data);
+
 
 /* Store to storeinfo table, active stores */
 static GHashTable *stores = NULL;
@@ -130,10 +140,47 @@ free_update(struct _folder_update *up)
 	g_free(up->name);
 	g_free(up->uri);
 	if (up->store)
-		camel_object_unref((CamelObject *)up->store);
+		camel_object_unref(up->store);
 	g_free(up->oldpath);
 	g_free(up->olduri);
 	g_free(up);
+}
+
+static gboolean
+notify_idle_cb (gpointer user_data)
+{
+	GConfClient *gconf;
+	char *filename;
+	
+	gconf = mail_config_get_gconf_client ();
+	
+	switch (notify_type) {
+	case MAIL_CONFIG_NOTIFY_PLAY_SOUND:
+		filename = gconf_client_get_string (gconf, "/apps/evolution/mail/notify/sound", NULL);
+		if (filename != NULL) {
+			gnome_sound_play (filename);
+			g_free (filename);
+		}
+		break;
+	case MAIL_CONFIG_NOTIFY_BEEP:
+		gdk_beep ();
+		break;
+	default:
+		break;
+	}
+	
+	time (&last_notify);
+	
+	notify_idle_id = 0;
+	
+	return FALSE;
+}
+
+static void
+notify_type_changed (GConfClient *client, guint cnxn_id,
+		     GConfEntry *entry, gpointer user_data)
+{
+	notify_type = gconf_client_get_int (client, "/apps/evolution/mail/notify/type", NULL);
 }
 
 static void
@@ -144,10 +191,10 @@ real_flush_updates(void *o, void *event_data, void *data)
 	EvolutionStorage *storage;
 	GNOME_Evolution_Storage corba_storage;
 	CORBA_Environment ev;
+	time_t now;
 
 	LOCK(info_lock);
 	while ((up = (struct _folder_update *)e_dlist_remhead(&updates))) {
-
 		si = g_hash_table_lookup(stores, up->store);
 		if (si) {
 			storage = si->storage;
@@ -185,7 +232,8 @@ real_flush_updates(void *o, void *event_data, void *data)
 				d(printf("renaming folder '%s' to '%s'\n", up->olduri, up->uri));
 				mail_vfolder_rename_uri(up->store, up->olduri, up->uri);
 				mail_filter_rename_uri(up->store, up->olduri, up->uri);
-				mail_config_uri_renamed(CAMEL_STORE_CLASS(CAMEL_OBJECT_GET_CLASS(up->store))->compare_folder_name, up->olduri, up->uri);
+				mail_config_uri_renamed(CAMEL_STORE_CLASS(CAMEL_OBJECT_GET_CLASS(up->store))->compare_folder_name,
+							up->olduri, up->uri);
 			}
 				
 			if (up->name == NULL) {
@@ -211,9 +259,26 @@ real_flush_updates(void *o, void *event_data, void *data)
 			if (!up->olduri && up->add)
 				mail_vfolder_add_uri(up->store, up->uri, FALSE);
 		}
-
+		
+		/* new mail notification */
+		if (notify_type == -1) {
+			/* need to track the user's new-mail-notification settings... */
+			GConfClient *gconf;
+			
+			gconf = mail_config_get_gconf_client ();
+			gconf_client_add_dir (gconf, "/apps/evolution/mail/notify",
+					      GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
+			notify_id = gconf_client_notify_add (gconf, "/apps/evolution/mail/notify",
+							     notify_type_changed, NULL, NULL, NULL);
+			notify_type = gconf_client_get_int (gconf, "/apps/evolution/mail/notify/type", NULL);
+		}
+		
+		time (&now);
+		if (notify_type != 0 && up->new && notify_idle_id == 0 && (now - last_notify >= 5))
+			notify_idle_id = g_idle_add_full (G_PRIORITY_LOW, notify_idle_cb, NULL, NULL);
+		
 		free_update(up);
-
+		
 		if (storage)
 			bonobo_object_unref((BonoboObject *)storage);
 		
@@ -295,7 +360,7 @@ free_folder_info(struct _folder_info *mfi)
  * it's correct.  */
 
 static void
-update_1folder(struct _folder_info *mfi, CamelFolderInfo *info)
+update_1folder(struct _folder_info *mfi, int new, CamelFolderInfo *info)
 {
 	struct _store_info *si;
 	struct _folder_update *up;
@@ -328,6 +393,7 @@ update_1folder(struct _folder_info *mfi, CamelFolderInfo *info)
 	up = g_malloc0(sizeof(*up));
 	up->path = g_strdup(mfi->path);
 	up->unread = unread;
+	up->new = new ? 1 : 0;
 	up->store = mfi->store_info->store;
 	camel_object_ref(up->store);
 	e_dlist_addtail(&updates, (EDListNode *)up);
@@ -342,7 +408,7 @@ setup_folder(CamelFolderInfo *fi, struct _store_info *si)
 
 	mfi = g_hash_table_lookup(si->folders, fi->full_name);
 	if (mfi) {
-		update_1folder(mfi, fi);
+		update_1folder(mfi, 0, fi);
 	} else {
 		/* always 'add it', but only 'add it' to non-local stores */
 		/*d(printf("Adding new folder: %s (%s) %d unread\n", fi->path, fi->url, fi->unread_message_count));*/
@@ -385,15 +451,35 @@ create_folders(CamelFolderInfo *fi, struct _store_info *si)
 }
 
 static void
-folder_changed(CamelObject *o, gpointer event_data, gpointer user_data)
+folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
+{
+	extern CamelFolder *outbox_folder, *sent_folder;
+	CamelFolderChangeInfo *changes = event_data;
+	CamelFolder *folder = (CamelFolder *) o;
+	struct _folder_info *mfi = user_data;
+	int new = 0;
+	
+	if (mfi->folder != folder)
+		return;
+	
+	if (!CAMEL_IS_VTRASH_FOLDER (folder) && folder != outbox_folder && folder != sent_folder && changes && changes->uid_added)
+		new = changes->uid_added->len;
+	
+	LOCK(info_lock);
+	update_1folder(mfi, new, NULL);
+	UNLOCK(info_lock);
+}
+
+static void
+message_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 {
 	struct _folder_info *mfi = user_data;
-
-	if (mfi->folder != CAMEL_FOLDER(o))
+	
+	if (mfi->folder != CAMEL_FOLDER (o))
 		return;
-
+	
 	LOCK(info_lock);
-	update_1folder(mfi, NULL);
+	update_1folder(mfi, 0, NULL);
 	UNLOCK(info_lock);
 }
 
@@ -458,11 +544,11 @@ void mail_note_folder(CamelFolder *folder)
 	mfi->folder = folder;
 
 	camel_object_hook_event(folder, "folder_changed", folder_changed, mfi);
-	camel_object_hook_event(folder, "message_changed", folder_changed, mfi);
+	camel_object_hook_event(folder, "message_changed", message_changed, mfi);
 	camel_object_hook_event(folder, "renamed", folder_renamed, mfi);
 	camel_object_hook_event(folder, "finalize", folder_finalised, mfi);
 
-	update_1folder(mfi, NULL);
+	update_1folder(mfi, 0, NULL);
 
 	UNLOCK(info_lock);
 }
