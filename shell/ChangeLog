@@ -1,5 +1,12 @@
 2003-02-24  Ettore Perazzoli  <ettore@ximian.com>
 
+	* evolution-shell-component.c (impl_populateFolderContextMenu):
+	Don't release_unref the corba_uih since
+	bonobo_ui_component_set_container() takes ownership of the object
+	without reffing it.
+
+2003-02-24  Ettore Perazzoli  <ettore@ximian.com>
+
 	* glade/e-active-connection-dialog.glade: Update dialog to use
 	stock response IDs.
 

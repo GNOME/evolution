@@ -669,7 +669,6 @@ impl_populateFolderContextMenu (PortableServer_Servant servant,
 
 	priv->uic = bonobo_ui_component_new_default ();
 	bonobo_ui_component_set_container (priv->uic, corba_uih, NULL);
-	bonobo_object_release_unref (corba_uih, NULL);
 
 	(* priv->populate_folder_context_menu_fn) (shell_component, priv->uic, physical_uri, type, priv->closure);
 }
