@@ -31,6 +31,7 @@
 #include <config.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <gnome.h>
 #include <gal/e-table/e-table-scrolled.h>
 #include <gal/e-table/e-cell-checkbox.h>
 #include <gal/e-table/e-cell-toggle.h>

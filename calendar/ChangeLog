@@ -1,3 +1,35 @@
+2001-02-05  JP Rosevear  <jpr@ximian.com>
+
+	* gui/event-editor.c (get_widgets): get the new reminder widgets
+	(sync_entries): different callback data
+	(summary_changed_cb): take different data and handle various cases
+	(init_widgets): connect signals for the new widgets
+	(get_alarm_duration_string): give a text string of the alarm
+	duration
+	(get_alarm_string): give a string representing the alarm
+	(fill_widgets): make sure we don't loop infinitely and remove old
+	alarm cruft
+	(reminder_to_comp_object): dump alarm info in the gui into the cal
+	component
+	(append_alarm): add alarm to the clist
+	(reminder_add_cb): create new alarm
+	(reminder_delete_cb): remove the alarm from the list
+
+	* gui/event-editor-dialog.glade: Update gui
+
+	* gui/e-calendar-table.c: include gnome.h for all the menu stuff
+
+	* gui/calendar-summary.c: for internationalization
+
+	* gui/tasks-control.c: include gnome.h
+
+	* gui/e-tasks.c: ditto
+
+	* gui/e-itip-control.c: ditto
+
+	* cal-util/cal-recur.c (cal_recur_set_rule_end_date): Update for
+	libical changes
+
 2001-02-05  Christopher James Lahey  <clahey@helixcode.com>
 
 	* gui/calendar-model.c: Fixed up these #includes.

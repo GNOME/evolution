@@ -332,6 +332,7 @@ void cal_component_remove_alarm (CalComponent *comp, const char *auid);
 
 GList *cal_component_get_alarm_uids (CalComponent *comp);
 CalComponentAlarm *cal_component_get_alarm (CalComponent *comp, const char *auid);
+void cal_component_free_alarm_uids (GList *alarm_uids);
 
 void cal_component_alarms_free (CalComponentAlarms *alarms);
 

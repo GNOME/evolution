@@ -28,6 +28,7 @@
 
 #include <time.h>
 
+#include <gnome.h>
 #include <bonobo.h>
 
 #include <liboaf/liboaf.h>

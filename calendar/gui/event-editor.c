@@ -42,8 +42,46 @@
 #include "widget-util.h"
 
 
+enum { BEFORE, AFTER};
+enum { MINUTES, HOURS, DAYS};
 
-/* Options for monthly recurrences */
+/* Reminder maps */
+static const int reminder_action_map[] = {
+	CAL_ALARM_DISPLAY,
+	CAL_ALARM_AUDIO,
+	CAL_ALARM_EMAIL,
+	CAL_ALARM_PROCEDURE,
+	-1
+};
+
+static const int reminder_value_map[] = {
+	MINUTES,
+	HOURS,
+	DAYS,
+	-1
+};
+
+static const int reminder_relative_map[] = {
+	BEFORE,
+	AFTER,
+	-1
+};
+
+static const int reminder_time_map[] = {
+	CAL_ALARM_TRIGGER_RELATIVE_START,
+	CAL_ALARM_TRIGGER_RELATIVE_END,
+	-1
+};
+
+/* Recurrence maps */
+static const int recur_freq_map[] = {
+	ICAL_DAILY_RECURRENCE,
+	ICAL_WEEKLY_RECURRENCE,
+	ICAL_MONTHLY_RECURRENCE,
+	ICAL_YEARLY_RECURRENCE,
+	-1
+};
+
 enum month_day_options {
 	MONTH_DAY_NTH,
 	MONTH_DAY_MON,
@@ -92,22 +130,6 @@ struct _EventEditorPrivate {
 
 	GtkWidget *description;
 
-	GtkWidget *alarm_display;
-	GtkWidget *alarm_program;
-	GtkWidget *alarm_audio;
-	GtkWidget *alarm_mail;
-	GtkWidget *alarm_display_amount;
-	GtkWidget *alarm_display_unit;
-	GtkWidget *alarm_audio_amount;
-	GtkWidget *alarm_audio_unit;
-	GtkWidget *alarm_program_amount;
-	GtkWidget *alarm_program_unit;
-	GtkWidget *alarm_program_run_program;
-	GtkWidget *alarm_program_run_program_entry;
-	GtkWidget *alarm_mail_amount;
-	GtkWidget *alarm_mail_unit;
-	GtkWidget *alarm_mail_mail_to;
-
 	GtkWidget *classification_public;
 	GtkWidget *classification_private;
 	GtkWidget *classification_confidential;
@@ -115,6 +137,19 @@ struct _EventEditorPrivate {
 	GtkWidget *categories;
 	GtkWidget *categories_btn;
 
+	GtkWidget *reminder_summary;
+	GtkWidget *reminder_starting_date;
+
+	GtkWidget *reminder_list;
+	GtkWidget *reminder_add;
+	GtkWidget *reminder_delete;
+
+	GtkWidget *reminder_action;
+	GtkWidget *reminder_interval_value;
+	GtkWidget *reminder_value_units;
+	GtkWidget *reminder_relative;
+	GtkWidget *reminder_time;
+	
 	GtkWidget *recurrence_summary;
 	GtkWidget *recurrence_starting_date;
 
@@ -178,13 +213,16 @@ static void event_editor_destroy (GtkObject *object);
 static GtkObjectClass *parent_class;
 
 
+static void append_alarm (EventEditor *ee, CalComponentAlarm *alarm);
 static void append_exception (EventEditor *ee, time_t t);
 static void check_all_day (EventEditor *ee);
 static void set_all_day (GtkWidget *toggle, EventEditor *ee);
-static void alarm_toggle (GtkWidget *toggle, EventEditor *ee);
 static void date_changed_cb (EDateEdit *dedit, gpointer data);
 static void preview_recur (EventEditor *ee);
 static void recur_to_comp_object (EventEditor *ee, CalComponent *comp);
+static void reminder_to_comp_object (EventEditor *ee, CalComponent *comp);
+static void reminder_add_cb (GtkWidget *widget, EventEditor *ee);
+static void reminder_delete_cb (GtkWidget *widget, EventEditor *ee);
 static void recurrence_exception_add_cb (GtkWidget *widget, EventEditor *ee);
 static void recurrence_exception_modify_cb (GtkWidget *widget, EventEditor *ee);
 static void recurrence_exception_delete_cb (GtkWidget *widget, EventEditor *ee);
@@ -589,14 +627,6 @@ make_recur_monthly_special (EventEditor *ee)
 			    GTK_SIGNAL_FUNC (month_day_menu_selection_done_cb), ee);
 }
 
-static const int recur_freq_map[] = {
-	ICAL_DAILY_RECURRENCE,
-	ICAL_WEEKLY_RECURRENCE,
-	ICAL_MONTHLY_RECURRENCE,
-	ICAL_YEARLY_RECURRENCE,
-	-1
-};
-
 /* Changes the recurrence-special widget to match the interval units.
  *
  * For daily recurrences: nothing.
@@ -927,28 +957,25 @@ get_widgets (EventEditor *ee)
 
 	priv->description = GW ("description");
 
-	priv->alarm_display = GW ("alarm-display");
-	priv->alarm_program = GW ("alarm-program");
-	priv->alarm_audio = GW ("alarm-audio");
-	priv->alarm_mail = GW ("alarm-mail");
-	priv->alarm_display_amount = GW ("alarm-display-amount");
-	priv->alarm_display_unit = GW ("alarm-display-unit");
-	priv->alarm_audio_amount = GW ("alarm-audio-amount");
-	priv->alarm_audio_unit = GW ("alarm-audio-unit");
-	priv->alarm_program_amount = GW ("alarm-program-amount");
-	priv->alarm_program_unit = GW ("alarm-program-unit");
-	priv->alarm_program_run_program = GW ("alarm-program-run-program");
-	priv->alarm_program_run_program_entry = GW ("alarm-program-run-program-entry");
-	priv->alarm_mail_amount = GW ("alarm-mail-amount");
-	priv->alarm_mail_unit = GW ("alarm-mail-unit");
-	priv->alarm_mail_mail_to = GW ("alarm-mail-mail-to");
-
 	priv->classification_public = GW ("classification-public");
 	priv->classification_private = GW ("classification-private");
 	priv->classification_confidential = GW ("classification-confidential");
 
 	priv->categories = GW ("categories");
 	priv->categories_btn = GW ("categories-button");
+
+	priv->reminder_summary = GW ("reminder-summary");
+	priv->reminder_starting_date = GW ("reminder-starting-date");
+
+	priv->reminder_list = GW ("reminder-list");
+	priv->reminder_add = GW ("reminder-add");
+	priv->reminder_delete = GW ("reminder-delete");
+
+	priv->reminder_action = GW ("reminder-action");
+	priv->reminder_interval_value = GW ("reminder-interval-value");
+	priv->reminder_value_units = GW ("reminder-value-units");
+	priv->reminder_relative = GW ("reminder-relative");
+	priv->reminder_time = GW ("reminder-time");
 
 	priv->recurrence_summary = GW ("recurrence-summary");
 	priv->recurrence_starting_date = GW ("recurrence-starting-date");
@@ -980,24 +1007,19 @@ get_widgets (EventEditor *ee)
 		&& priv->end_time
 		&& priv->all_day_event
 		&& priv->description
-		&& priv->alarm_display
-		&& priv->alarm_program
-		&& priv->alarm_audio
-		&& priv->alarm_mail
-		&& priv->alarm_display_amount
-		&& priv->alarm_display_unit
-		&& priv->alarm_audio_amount
-		&& priv->alarm_audio_unit
-		&& priv->alarm_program_amount
-		&& priv->alarm_program_unit
-		&& priv->alarm_program_run_program
-		&& priv->alarm_program_run_program_entry
-		&& priv->alarm_mail_amount
-		&& priv->alarm_mail_unit
-		&& priv->alarm_mail_mail_to
 		&& priv->classification_public
 		&& priv->classification_private
 		&& priv->classification_confidential
+		&& priv->reminder_summary
+		&& priv->reminder_starting_date
+		&& priv->reminder_list
+		&& priv->reminder_add
+		&& priv->reminder_delete
+		&& priv->reminder_action
+		&& priv->reminder_interval_value
+		&& priv->reminder_value_units
+		&& priv->reminder_relative
+		&& priv->reminder_time
 		&& priv->recurrence_summary
 		&& priv->recurrence_starting_date
 		&& priv->recurrence_none
@@ -1022,33 +1044,33 @@ get_widgets (EventEditor *ee)
  * other.
  */
 static void
-sync_entries (GtkEditable *source, GtkEditable *dest)
+sync_entries (EventEditor *ee, GtkEditable *source, GtkEditable *dest)
 {
 	char *str;
 
-	gtk_signal_handler_block_by_data (GTK_OBJECT (dest), source);
+	gtk_signal_handler_block_by_data (GTK_OBJECT (dest), ee);
 
 	str = gtk_editable_get_chars (source, 0, -1);
 	gtk_entry_set_text (GTK_ENTRY (dest), str);
 	g_free (str);
 
-	gtk_signal_handler_unblock_by_data (GTK_OBJECT (dest), source);
+	gtk_signal_handler_unblock_by_data (GTK_OBJECT (dest), ee);
 }
 
 /* Syncs the contents of two date editor widgets, while blocking signals on the
  * specified data.
  */
 static void
-sync_date_edits (EDateEdit *source, EDateEdit *dest)
+sync_date_edits (EventEditor *ee, EDateEdit *source, EDateEdit *dest)
 {
 	time_t t;
 
-	gtk_signal_handler_block_by_data (GTK_OBJECT (dest), source);
+	gtk_signal_handler_block_by_data (GTK_OBJECT (dest), ee);
 
 	t = e_date_edit_get_time (source);
 	e_date_edit_set_time (dest, t);
 
-	gtk_signal_handler_unblock_by_data (GTK_OBJECT (dest), source);
+	gtk_signal_handler_unblock_by_data (GTK_OBJECT (dest), ee);
 }
 
 /* Callback used when one of the general or recurrence summary entries change;
@@ -1057,7 +1079,18 @@ sync_date_edits (EDateEdit *source, EDateEdit *dest)
 static void
 summary_changed_cb (GtkEditable *editable, gpointer data)
 {
-	sync_entries (editable, GTK_EDITABLE (data));
+	EventEditor *ee;
+	EventEditorPrivate *priv;
+	
+	ee = EVENT_EDITOR (data);
+	priv = ee->priv;
+	
+	if (editable != GTK_EDITABLE (priv->general_summary))
+		sync_entries (ee, editable, GTK_EDITABLE (priv->general_summary));
+	if (editable != GTK_EDITABLE (priv->reminder_summary)) 
+		sync_entries (ee, editable, GTK_EDITABLE (priv->reminder_summary));
+	if (editable != GTK_EDITABLE (priv->recurrence_summary))
+		sync_entries (ee, editable, GTK_EDITABLE (priv->recurrence_summary));
 }
 
 /* Callback used when one of the general or recurrence starting date widgets
@@ -1066,7 +1099,18 @@ summary_changed_cb (GtkEditable *editable, gpointer data)
 static void
 start_date_changed_cb (EDateEdit *de, gpointer data)
 {
-	sync_date_edits (de, E_DATE_EDIT (data));
+	EventEditor *ee;
+	EventEditorPrivate *priv;
+	
+	ee = EVENT_EDITOR (data);
+	priv = ee->priv;
+	
+	if (de != E_DATE_EDIT (priv->start_time))
+		sync_date_edits (ee,de, E_DATE_EDIT (priv->start_time));
+	if (de != E_DATE_EDIT (priv->reminder_starting_date)) 
+		sync_date_edits (ee, de, E_DATE_EDIT (priv->reminder_starting_date));
+	if (de != E_DATE_EDIT (priv->recurrence_starting_date))
+		sync_date_edits (ee, de, E_DATE_EDIT (priv->recurrence_starting_date));
 }
 
 /* Callback used when the displayed date range in the recurrence preview
@@ -1092,12 +1136,13 @@ init_widgets (EventEditor *ee)
 
 	priv = ee->priv;
 
-	/* Summary in the main and recurrence pages */
-
+	/* Summary in the main, reminder and recurrence pages */
 	gtk_signal_connect (GTK_OBJECT (priv->general_summary), "changed",
-			    GTK_SIGNAL_FUNC (summary_changed_cb), priv->recurrence_summary);
+			    GTK_SIGNAL_FUNC (summary_changed_cb), ee);
+	gtk_signal_connect (GTK_OBJECT (priv->reminder_summary), "changed",
+			    GTK_SIGNAL_FUNC (summary_changed_cb), ee);
 	gtk_signal_connect (GTK_OBJECT (priv->recurrence_summary), "changed",
-			    GTK_SIGNAL_FUNC (summary_changed_cb), priv->general_summary);
+			    GTK_SIGNAL_FUNC (summary_changed_cb), ee);
 
 	/* Categories button */
 	gtk_signal_connect (GTK_OBJECT (priv->categories_btn), "clicked",
@@ -1106,9 +1151,11 @@ init_widgets (EventEditor *ee)
 	/* Start dates in the main and recurrence pages */
 
 	gtk_signal_connect (GTK_OBJECT (priv->start_time), "changed",
-			    GTK_SIGNAL_FUNC (start_date_changed_cb), priv->recurrence_starting_date);
+			    GTK_SIGNAL_FUNC (start_date_changed_cb), ee);
+	gtk_signal_connect (GTK_OBJECT (priv->reminder_starting_date), "changed",
+			    GTK_SIGNAL_FUNC (start_date_changed_cb), ee);
 	gtk_signal_connect (GTK_OBJECT (priv->recurrence_starting_date), "changed",
-			    GTK_SIGNAL_FUNC (start_date_changed_cb), priv->start_time);
+			    GTK_SIGNAL_FUNC (start_date_changed_cb), ee);
 
 	/* Start and end times */
 
@@ -1120,16 +1167,12 @@ init_widgets (EventEditor *ee)
 	gtk_signal_connect (GTK_OBJECT (priv->all_day_event), "toggled",
 			    GTK_SIGNAL_FUNC (set_all_day), ee);
 
-	/* Alarms */
+	/* Reminder buttons */
 
-	gtk_signal_connect (GTK_OBJECT (priv->alarm_display), "toggled",
-			    GTK_SIGNAL_FUNC (alarm_toggle), ee);
-	gtk_signal_connect (GTK_OBJECT (priv->alarm_program), "toggled",
-			    GTK_SIGNAL_FUNC (alarm_toggle), ee);
-	gtk_signal_connect (GTK_OBJECT (priv->alarm_audio), "toggled",
-			    GTK_SIGNAL_FUNC (alarm_toggle), ee);
-	gtk_signal_connect (GTK_OBJECT (priv->alarm_mail), "toggled",
-			    GTK_SIGNAL_FUNC (alarm_toggle), ee);
+	gtk_signal_connect (GTK_OBJECT (priv->reminder_add), "clicked",
+			    GTK_SIGNAL_FUNC (reminder_add_cb), ee);
+	gtk_signal_connect (GTK_OBJECT (priv->reminder_delete), "clicked",
+			    GTK_SIGNAL_FUNC (reminder_delete_cb), ee);
 
 	/* Recurrence preview */
 
@@ -1200,40 +1243,6 @@ init_widgets (EventEditor *ee)
 			    "toggled",
 			    GTK_SIGNAL_FUNC (field_changed), ee);
 
-	/* Reminder Page. */
-	gtk_signal_connect (GTK_OBJECT (GTK_SPIN_BUTTON (priv->alarm_display_amount)->adjustment),
-			    "value_changed",
-			    GTK_SIGNAL_FUNC (field_changed), ee);
-	gtk_signal_connect (GTK_OBJECT (GTK_SPIN_BUTTON (priv->alarm_audio_amount)->adjustment),
-			    "value_changed",
-			    GTK_SIGNAL_FUNC (field_changed), ee);
-	gtk_signal_connect (GTK_OBJECT (GTK_SPIN_BUTTON (priv->alarm_program_amount)->adjustment),
-			    "value_changed",
-			    GTK_SIGNAL_FUNC (field_changed), ee);
-	gtk_signal_connect (GTK_OBJECT (GTK_SPIN_BUTTON (priv->alarm_mail_amount)->adjustment),
-			    "value_changed",
-			    GTK_SIGNAL_FUNC (field_changed), ee);
-
-	gtk_signal_connect (GTK_OBJECT (GTK_OPTION_MENU (priv->alarm_display_unit)->menu),
-			    "deactivate",
-			    GTK_SIGNAL_FUNC (field_changed), ee);
-	gtk_signal_connect (GTK_OBJECT (GTK_OPTION_MENU (priv->alarm_audio_unit)->menu),
-			    "deactivate",
-			    GTK_SIGNAL_FUNC (field_changed), ee);
-	gtk_signal_connect (GTK_OBJECT (GTK_OPTION_MENU (priv->alarm_program_unit)->menu),
-			    "deactivate",
-			    GTK_SIGNAL_FUNC (field_changed), ee);
-	gtk_signal_connect (GTK_OBJECT (GTK_OPTION_MENU (priv->alarm_mail_unit)->menu),
-			    "deactivate",
-			    GTK_SIGNAL_FUNC (field_changed), ee);
-
-	gtk_signal_connect (GTK_OBJECT (priv->alarm_program_run_program_entry),
-			    "changed",
-			    GTK_SIGNAL_FUNC (field_changed), ee);
-	gtk_signal_connect (GTK_OBJECT (priv->alarm_mail_mail_to),
-			    "changed",
-			    GTK_SIGNAL_FUNC (field_changed), ee);
-
 
 	/* Recurrence Page. */
 }
@@ -1299,30 +1308,6 @@ clear_widgets (EventEditor *ee)
 	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->end_time), ee);
 
 	check_all_day (ee);
-
-	/* Alarms */
-
-	/* FIXME: these should use configurable defaults */
-
-	e_dialog_toggle_set (priv->alarm_display, FALSE);
-	e_dialog_toggle_set (priv->alarm_program, FALSE);
-	e_dialog_toggle_set (priv->alarm_audio, FALSE);
-	e_dialog_toggle_set (priv->alarm_mail, FALSE);
-
-	e_dialog_spin_set (priv->alarm_display_amount, 15);
-	e_dialog_spin_set (priv->alarm_audio_amount, 15);
-	e_dialog_spin_set (priv->alarm_program_amount, 15);
-	e_dialog_spin_set (priv->alarm_mail_amount, 15);
-
-#if 0
-	alarm_unit_set (priv->alarm_display_unit, ALARM_MINUTES);
-	alarm_unit_set (priv->alarm_audio_unit, ALARM_MINUTES);
-	alarm_unit_set (priv->alarm_program_unit, ALARM_MINUTES);
-	alarm_unit_set (priv->alarm_mail_unit, ALARM_MINUTES);
-#endif
-
-	e_dialog_editable_set (priv->alarm_program_run_program_entry, NULL);
-	e_dialog_editable_set (priv->alarm_mail_mail_to, NULL);
 
 	/* Classification */
 
@@ -1544,6 +1529,132 @@ set_recur_special_defaults (EventEditor *ee)
 
 	priv->recurrence_weekday_day_mask = mask;
 	priv->recurrence_weekday_blocked_day_mask = mask;
+}
+
+static char *
+get_alarm_duration_string (struct icaldurationtype *duration)
+{
+	GString *string = g_string_new (NULL);
+	char *ret;
+	
+	if (duration->days > 1)
+		g_string_sprintf (string, _(" %d days"), duration->days);
+	else if (duration->days == 1)
+		g_string_append (string, _(" 1 day"));
+	
+	if (duration->weeks > 1)
+		g_string_sprintf (string, _(" %d weeks"), duration->weeks);
+	else if (duration->weeks == 1)
+		g_string_append (string, _(" 1 week"));
+
+	if (duration->hours > 1)
+		g_string_sprintf (string, _(" %d hours"), duration->hours);
+	else if (duration->hours == 1)
+		g_string_append (string, _(" 1 hour"));
+
+	if (duration->minutes > 1)
+		g_string_sprintf (string, _(" %d minutes"), duration->minutes);
+	else if (duration->minutes == 1)
+		g_string_append (string, _(" 1 minute"));
+
+	if (duration->seconds > 1)
+		g_string_sprintf (string, _(" %d seconds"), duration->seconds);
+	else if (duration->seconds == 1)
+		g_string_append (string, _(" 1 second"));
+
+	ret = string->str;
+	g_string_free (string, FALSE);
+	
+	return ret;
+}
+
+static char *
+get_alarm_string (CalComponentAlarm *alarm) 
+{
+	CalAlarmAction action;
+	CalAlarmTrigger trigger;
+	char string[256];
+	char *dur;
+	
+	string [0] = '\0';
+
+	cal_component_alarm_get_action (alarm, &action);
+	cal_component_alarm_get_trigger (alarm, &trigger);
+
+	switch (action) {	
+	case CAL_ALARM_AUDIO:
+		strcat (string, _("Play a sound"));
+		break;
+	case CAL_ALARM_DISPLAY:
+		strcat (string, _("Show a dialog"));
+		break;
+	case CAL_ALARM_EMAIL:
+		strcat (string, _("Send an email"));
+		break;
+	case CAL_ALARM_PROCEDURE:
+		strcat (string, _("Run a program"));
+		break;
+	case CAL_ALARM_NONE:
+	case CAL_ALARM_UNKNOWN:
+		strcat (string, _("Unknown"));
+		break;
+	}
+
+	switch (trigger.type) {	
+	case CAL_ALARM_TRIGGER_RELATIVE_START:
+		dur = get_alarm_duration_string (&trigger.u.rel_duration);
+		strcat (string, dur);
+		g_free (dur);
+		
+		if (trigger.u.rel_duration.is_neg)
+			strcat (string, _(" before start of appointment"));
+		else
+			strcat (string, _(" after start of appointment"));
+		break;
+	case CAL_ALARM_TRIGGER_RELATIVE_END:
+		dur = get_alarm_duration_string (&trigger.u.rel_duration);
+		strcat (string, dur);
+		g_free (dur);
+		
+		if (trigger.u.rel_duration.is_neg)
+			strcat (string, _(" before end of appointment"));
+		else
+			strcat (string, _(" after end of appointment"));
+		break;
+	case CAL_ALARM_TRIGGER_NONE:
+	case CAL_ALARM_TRIGGER_ABSOLUTE:
+		strcat (string, _("Unknown"));
+		break;
+	}
+	
+	return g_strdup (string);
+}
+
+static void
+fill_reminder_widgets (EventEditor *ee)
+{
+	EventEditorPrivate *priv;
+	GList *alarms, *l;
+	GtkCList *clist;
+	
+	int row = 0;
+	
+	priv = ee->priv;
+	g_assert (priv->comp != NULL);
+
+	if (!cal_component_has_alarms (priv->comp))
+		return;
+	
+	alarms = cal_component_get_alarm_uids (priv->comp);
+
+	clist = GTK_CLIST (priv->reminder_list);
+	for (l = alarms; l != NULL; l = l->next, row++) {
+		CalComponentAlarm *ca = cal_component_get_alarm (priv->comp, l->data);
+
+		/* Add it to the clist */
+		append_alarm (ee, ca);
+	}
+	cal_component_free_alarm_uids (alarms);
 }
 
 /* Fills in the recurrence widgets with the values from the calendar component.
@@ -1910,43 +2021,15 @@ fill_widgets (EventEditor *ee)
 	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->start_time), ee);
 	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->end_time), ee);
 
-	e_date_edit_set_time (E_DATE_EDIT (priv->start_time), dtstart); /* will set recur start too */
+	e_date_edit_set_time (E_DATE_EDIT (priv->start_time), dtstart);
+	e_date_edit_set_time (E_DATE_EDIT (priv->reminder_starting_date), dtstart);
+	e_date_edit_set_time (E_DATE_EDIT (priv->recurrence_starting_date), dtstart);
 	e_date_edit_set_time (E_DATE_EDIT (priv->end_time), dtend);
 
 	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->start_time), ee);
 	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->end_time), ee);
 
 	check_all_day (ee);
-
-	/* Alarms */
-#if 0
-	e_dialog_toggle_set (priv->alarm_display, priv->ico->dalarm.enabled);
-	e_dialog_toggle_set (priv->alarm_program, priv->ico->palarm.enabled);
-	e_dialog_toggle_set (priv->alarm_audio, priv->ico->aalarm.enabled);
-	e_dialog_toggle_set (priv->alarm_mail, priv->ico->malarm.enabled);
-
-	/* Alarm data */
-
-	e_dialog_spin_set (priv->alarm_display_amount, priv->ico->dalarm.count);
-	e_dialog_spin_set (priv->alarm_audio_amount, priv->ico->aalarm.count);
-	e_dialog_spin_set (priv->alarm_program_amount, priv->ico->palarm.count);
-	e_dialog_spin_set (priv->alarm_mail_amount, priv->ico->malarm.count);
-
-	alarm_unit_set (priv->alarm_display_unit, priv->ico->dalarm.units);
-	alarm_unit_set (priv->alarm_audio_unit, priv->ico->aalarm.units);
-	alarm_unit_set (priv->alarm_program_unit, priv->ico->palarm.units);
-	alarm_unit_set (priv->alarm_mail_unit, priv->ico->malarm.units);
-
-	e_dialog_editable_set (priv->alarm_program_run_program_entry, priv->ico->palarm.data);
-	e_dialog_editable_set (priv->alarm_mail_mail_to, priv->ico->malarm.data);
-#endif
-
-	/* Call alarm_toggle to set the sensitivity of the widgets. */
-	alarm_toggle (priv->alarm_display, ee);
-	alarm_toggle (priv->alarm_audio, ee);
-	alarm_toggle (priv->alarm_program, ee);
-	alarm_toggle (priv->alarm_mail, ee);
-
 
 	/* Classification */
 
@@ -1972,9 +2055,12 @@ fill_widgets (EventEditor *ee)
 	cal_component_get_categories (priv->comp, &categories);
 	e_dialog_editable_set (priv->categories, categories);
 
+	/* Reminders */
+	fill_reminder_widgets (ee);
+	
 	/* Recurrences */
 	fill_recurrence_widgets (ee);
-
+	
 	/* Do this last, since the callbacks will set it to TRUE. */
 	event_editor_set_changed (ee, FALSE);
 }
@@ -2015,6 +2101,31 @@ nth_weekday (int pos, icalrecurrencetype_weekday weekday)
 	g_assert (pos > 0 && pos <= 5);
 
 	return (pos << 3) | (int) weekday;
+}
+
+static void
+reminder_to_comp_object (EventEditor *ee, CalComponent *comp)
+{
+	EventEditorPrivate *priv;
+	GList *alarms, *l;
+	GtkCList *reminder_list;
+	int i;
+	
+	priv = ee->priv;
+	
+	/* Erase all the old ones */
+	alarms = cal_component_get_alarm_uids (comp);
+	for (l = alarms; l != NULL; l = l->next)
+	     cal_component_remove_alarm (comp, l->data);
+	cal_component_free_alarm_uids (alarms);
+	
+	reminder_list = GTK_CLIST (priv->reminder_list);
+	for (i = 0; i < reminder_list->rows; i++) {
+		CalComponentAlarm *alarm;
+		
+		alarm = gtk_clist_get_row_data (reminder_list, i);
+		cal_component_add_alarm (priv->comp, alarm);
+	}
 }
 
 /* Gets the simple recurrence data from the recurrence widgets and stores it in
@@ -2323,34 +2434,11 @@ dialog_to_comp_object (EventEditor *ee, CalComponent *comp)
 	if (cat)
 		g_free (cat);
 
-#if 0
-	ico->dalarm.enabled = e_dialog_toggle_get (priv->alarm_display);
-	ico->aalarm.enabled = e_dialog_toggle_get (priv->alarm_program);
-	ico->palarm.enabled = e_dialog_toggle_get (priv->alarm_audio);
-	ico->malarm.enabled = e_dialog_toggle_get (priv->alarm_mail);
-
-	ico->dalarm.count = e_dialog_spin_get_int (priv->alarm_display_amount);
-	ico->aalarm.count = e_dialog_spin_get_int (priv->alarm_audio_amount);
-	ico->palarm.count = e_dialog_spin_get_int (priv->alarm_program_amount);
-	ico->malarm.count = e_dialog_spin_get_int (priv->alarm_mail_amount);
-
-	ico->dalarm.units = alarm_unit_get (priv->alarm_display_unit);
-	ico->aalarm.units = alarm_unit_get (priv->alarm_audio_unit);
-	ico->palarm.units = alarm_unit_get (priv->alarm_program_unit);
-	ico->malarm.units = alarm_unit_get (priv->alarm_mail_unit);
-
-	if (ico->palarm.data)
-		g_free (ico->palarm.data);
-
-	if (ico->malarm.data)
-		g_free (ico->malarm.data);
-
-	ico->palarm.data = e_dialog_editable_get (priv->alarm_program_run_program_entry);
-	ico->malarm.data = e_dialog_editable_get (priv->alarm_mail_mail_to);
-#endif
-
 	cal_component_set_classification (comp, classification_get (priv->classification_public));
 
+	/* Reminder information */
+	reminder_to_comp_object (ee, comp);
+	
 	/* Recurrence information */
 	recur_to_comp_object (ee, comp);
 
@@ -2833,43 +2921,6 @@ event_editor_focus (EventEditor *ee)
 	raise_and_focus (priv->app);
 }
 
-/* Sets the sensitivity of the relevant alarm widgets. Called when filling
-   the widgets initially and when the alarm button is toggled. */
-static void
-alarm_toggle (GtkWidget *toggle, EventEditor *ee)
-{
-	EventEditorPrivate *priv;
-	GtkWidget *alarm_amount = NULL;
-	GtkWidget *alarm_unit = NULL;
-	gboolean active;
-
-	priv = ee->priv;
-
-	event_editor_set_changed (ee, TRUE);
-
-	active = GTK_TOGGLE_BUTTON (toggle)->active;
-
-	if (toggle == priv->alarm_display) {
-		alarm_amount = priv->alarm_display_amount;
-		alarm_unit = priv->alarm_display_unit;
-	} else if (toggle == priv->alarm_audio) {
-		alarm_amount = priv->alarm_audio_amount;
-		alarm_unit = priv->alarm_audio_unit;
-	} else if (toggle == priv->alarm_program) {
-		alarm_amount = priv->alarm_program_amount;
-		alarm_unit = priv->alarm_program_unit;
-		gtk_widget_set_sensitive (priv->alarm_program_run_program, active);
-	} else if (toggle == priv->alarm_mail) {
-		alarm_amount = priv->alarm_mail_amount;
-		alarm_unit = priv->alarm_mail_unit;
-		gtk_widget_set_sensitive (priv->alarm_mail_mail_to, active);
-	} else
-		g_assert_not_reached ();
-
-	gtk_widget_set_sensitive (alarm_amount, active);
-	gtk_widget_set_sensitive (alarm_unit, active);
-}
-
 /* Checks if the event's time starts and ends at midnight, and sets the
  * "all day event" box accordingly.
  */
@@ -3081,6 +3132,99 @@ date_changed_cb (EDateEdit *dedit, gpointer data)
 
 	preview_recur (ee);
 }
+
+/* Appends an exception date to the list */
+static void
+append_alarm (EventEditor *ee, CalComponentAlarm *alarm)
+{
+	EventEditorPrivate *priv;
+	char *c[1];
+	int i;
+	GtkCList *clist;
+
+	priv = ee->priv;
+
+	clist = GTK_CLIST (priv->reminder_list);
+
+	c[0] = get_alarm_string (alarm);
+	i = e_utf8_gtk_clist_append (clist, c);
+
+	gtk_clist_set_row_data (clist, i, alarm);
+	gtk_clist_select_row (clist, i, 0);
+	g_free (c[0]);
+	
+	gtk_widget_set_sensitive (priv->reminder_delete, TRUE);
+}
+
+/* Callback for the "add reminder" button */
+static void
+reminder_add_cb (GtkWidget *widget, EventEditor *ee)
+{
+	EventEditorPrivate *priv;
+	CalComponentAlarm *alarm;
+	CalAlarmTrigger trigger;
+	
+	priv = ee->priv;
+
+	event_editor_set_changed (ee, TRUE);
+
+	alarm = cal_component_alarm_new ();
+
+	memset (&trigger, 0, sizeof (CalAlarmTrigger));
+	trigger.type = e_dialog_option_menu_get (priv->reminder_time, reminder_time_map);
+	if (e_dialog_option_menu_get (priv->reminder_relative, reminder_relative_map) == BEFORE)
+		trigger.u.rel_duration.is_neg = 1;
+	else
+		trigger.u.rel_duration.is_neg = 0;
+	
+	switch (e_dialog_option_menu_get (priv->reminder_relative, reminder_relative_map)) {
+	case MINUTES:
+		trigger.u.rel_duration.minutes =  e_dialog_spin_get_int (priv->reminder_interval_value);
+		break;
+	case HOURS:
+		trigger.u.rel_duration.hours =  e_dialog_spin_get_int (priv->reminder_interval_value);
+		break;
+	case DAYS:
+		trigger.u.rel_duration.days =  e_dialog_spin_get_int (priv->reminder_interval_value);
+		break;
+	}
+	cal_component_alarm_set_trigger (alarm, trigger);
+
+	cal_component_alarm_set_action (alarm, e_dialog_option_menu_get (priv->reminder_action, reminder_action_map));
+
+	append_alarm (ee, alarm);
+}
+
+/* Callback for the "delete reminder" button */
+static void
+reminder_delete_cb (GtkWidget *widget, EventEditor *ee)
+{
+	EventEditorPrivate *priv;
+	GtkCList *clist;
+	int sel;
+
+	priv = ee->priv;
+
+	clist = GTK_CLIST (priv->reminder_list);
+	if (!clist->selection)
+		return;
+
+	event_editor_set_changed (ee, TRUE);
+
+	sel = GPOINTER_TO_INT (clist->selection->data);
+
+	cal_component_alarm_free (gtk_clist_get_row_data (clist, sel));
+
+	gtk_clist_remove (clist, sel);
+	if (sel >= clist->rows)
+		sel--;
+
+	if (clist->rows > 0)
+		gtk_clist_select_row (clist, sel, 0);
+	else
+		gtk_widget_set_sensitive (priv->reminder_delete, FALSE);
+}
+
 
 /* Builds a static string out of an exception date */
 static char *

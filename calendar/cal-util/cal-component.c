@@ -3644,6 +3644,12 @@ cal_component_get_alarm (CalComponent *comp, const char *auid)
 		return NULL;
 }
 
+void 
+cal_component_free_alarm_uids (GList *alarm_uids)
+{
+
+}
+
 /**
  * cal_component_alarms_free:
  * @alarms: Component alarms structure.

@@ -17,24 +17,29 @@ gchar *s = N_("_Confidential");
 gchar *s = N_("_Contacts");
 gchar *s = N_("Ca_tegories...");
 gchar *s = N_("General");
-gchar *s = N_("Minutes");
-gchar *s = N_("Hours");
-gchar *s = N_("Days");
-gchar *s = N_("Minutes");
-gchar *s = N_("Hours");
-gchar *s = N_("Days");
-gchar *s = N_("Minutes");
-gchar *s = N_("Hours");
-gchar *s = N_("Days");
-gchar *s = N_("Minutes");
-gchar *s = N_("Hours");
-gchar *s = N_("Days");
-gchar *s = N_("_Display");
-gchar *s = N_("_Program");
-gchar *s = N_("_Mail");
-gchar *s = N_("Mail _to:");
-gchar *s = N_("_Run program:");
-gchar *s = N_("_Audio");
+gchar *s = N_("Appointment Basics");
+gchar *s = N_("Su_mmary:");
+gchar *s = N_("_Starting date:");
+gchar *s = N_("Reminders");
+gchar *s = N_("Show a dialog\n"
+              "Play a sound\n"
+              "Send an email\n"
+              "Run a program\n"
+              "");
+gchar *s = N_("minute(s)\n"
+              "hour(s)\n"
+              "day(s)\n"
+              "");
+gchar *s = N_("before\n"
+              "after\n"
+              "");
+gchar *s = N_("start of appointment\n"
+              "end of appointment\n"
+              "");
+gchar *s = N_("Settings...");
+gchar *s = N_("label55");
+gchar *s = N_("Add");
+gchar *s = N_("Delete");
 gchar *s = N_("Reminder");
 gchar *s = N_("Appointment Basics");
 gchar *s = N_("Su_mmary:");
@@ -44,13 +49,15 @@ gchar *s = N_("No recurrence");
 gchar *s = N_("Simple recurrence");
 gchar *s = N_("Custom recurrence");
 gchar *s = N_("Every");
-gchar *s = N_("day(s)");
-gchar *s = N_("week(s)");
-gchar *s = N_("month(s)");
-gchar *s = N_("year(s)");
-gchar *s = N_("for");
-gchar *s = N_("until");
-gchar *s = N_("forever");
+gchar *s = N_("day(s)\n"
+              "week(s)\n"
+              "month(s)\n"
+              "year(s)\n"
+              "");
+gchar *s = N_("for\n"
+              "until\n"
+              "forever\n"
+              "");
 gchar *s = N_("Exceptions");
 gchar *s = N_("Add");
 gchar *s = N_("Modify");
