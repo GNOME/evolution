@@ -1,5 +1,10 @@
 2004-01-08  JP Rosevear <jpr@ximian.com>
 
+	* e-shell.c (e_shell_attempt_upgrade): make sure we actually
+	upgrade between revisions
+
+2004-01-08  JP Rosevear <jpr@ximian.com>
+
 	* e-shell-startup-wizard.c (get_intelligent_importers): add a ')'
 	to create a valid query
 

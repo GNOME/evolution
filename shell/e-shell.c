@@ -596,7 +596,7 @@ e_shell_attempt_upgrade (EShell *shell,
 
 	if (! (current_major > major
 	       || (current_major == major && current_minor > minor)
-	       || (current_minor == current_minor && current_revision > current_revision))) {
+	       || (current_minor == current_minor && current_revision > revision))) {
 		return TRUE;
 	}
 
