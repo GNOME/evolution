@@ -249,7 +249,7 @@ strdup __argz_count __argz_stringify __argz_next])
        fi
        for lang in $LINGUAS; do
          case "$ALL_LINGUAS" in
-          *\ $lang\ *|$lang\ *|*\ $lang) NEW_LINGUAS="$NEW_LINGUAS $lang" ;;
+          *$lang*) NEW_LINGUAS="$NEW_LINGUAS $lang" ;;
          esac
        done
        LINGUAS=$NEW_LINGUAS
