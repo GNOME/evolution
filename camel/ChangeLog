@@ -1,3 +1,10 @@
+2004-01-20  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #52899.
+
+	* camel-gpg-context.c (gpg_ctx_parse_status): use need_id as the
+	password key, not userid.
+
 2004-01-19  Siviaah Nallagatla <snallagatla@novell.com>
                                                                                                                              
         * providers/groupwise/camel-gw-listener.c ( remove_calender_tasks_sources,
