@@ -1,3 +1,7 @@
+2004-01-26  JP Rosevear  <jpr@ximian.com>
+
+	* configure.in: bump requirements, version
+
 2004-01-24  Sanlig Badral  <badral@openmn.org>
 
 	* configure.in: added "mn" to ALL_LINGUAS.

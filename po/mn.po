@@ -6,14 +6,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.3.5\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-01-24 08:53+0100\n"
+"POT-Creation-Date: 2004-01-26 13:51-0500\n"
 "PO-Revision-Date: 2004-01-14 12:40+0800\n"
 "Last-Translator: Dulmandakh <sdulmandakh@yahoo.com>\n"
 "Language-Team: Mongolian <openmn-gnome@lists.sf.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Report-Msgid-Bugs-To: \n"
 
 #: addressbook/conduit/address-conduit.c:272
 msgid "Default Sync Address:"
@@ -47,7 +47,7 @@ msgstr "Автомат гүйцээлтийг энд тохируул"
 #. name = e_book_get_name (book);
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:4
 #: addressbook/tools/evolution-addressbook-export-list-folders.c:51
-#: calendar/gui/migration.c:188 mail/importers/netscape-importer.c:1844
+#: calendar/gui/migration.c:341 mail/importers/netscape-importer.c:1844
 #: shell/e-shortcuts.c:1088
 msgid "Contacts"
 msgstr "Холбоонууд"
@@ -100,7 +100,7 @@ msgstr "Шинэ хаягийн дэвтэр"
 
 #: addressbook/gui/component/addressbook-component.c:269
 #: addressbook/gui/widgets/e-addressbook-view.c:1046
-#: calendar/gui/calendar-component.c:359 calendar/gui/tasks-component.c:407
+#: calendar/gui/calendar-component.c:360 calendar/gui/tasks-component.c:363
 #: filter/libfilter-i18n.h:11 mail/em-account-prefs.c:236
 #: ui/evolution-addressbook.xml.h:8 ui/evolution-comp-editor.xml.h:4
 #: ui/evolution-contact-editor.xml.h:3
@@ -109,7 +109,7 @@ msgid "Delete"
 msgstr "Устгах"
 
 #: addressbook/gui/component/addressbook-component.c:270
-#: calendar/gui/calendar-component.c:360 calendar/gui/tasks-component.c:409
+#: calendar/gui/calendar-component.c:361 calendar/gui/tasks-component.c:365
 msgid "Properties..."
 msgstr "Шинжүүд:"
 
@@ -165,11 +165,12 @@ msgstr ""
 msgid "Server did not respond with valid schema information"
 msgstr ""
 
-#: addressbook/gui/component/addressbook-migrate.c:45 mail/em-migrate.c:1070
+#: addressbook/gui/component/addressbook-migrate.c:46
+#: calendar/gui/migration.c:127 mail/em-migrate.c:1070
 msgid "Migrating..."
 msgstr ""
 
-#: addressbook/gui/component/addressbook-migrate.c:53
+#: addressbook/gui/component/addressbook-migrate.c:54
 msgid ""
 "The location and hierarchy of the Evolution contact folders has changed "
 "since Evolution 1.x.\n"
@@ -177,37 +178,39 @@ msgid ""
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
 
-#: addressbook/gui/component/addressbook-migrate.c:86 mail/em-migrate.c:1111
+#: addressbook/gui/component/addressbook-migrate.c:87
+#: calendar/gui/migration.c:174 mail/em-migrate.c:1111
 #, c-format
 msgid "Migrating `%s':"
 msgstr ""
 
 #. create the local source group
-#: addressbook/gui/component/addressbook-migrate.c:427
-#: calendar/gui/migration.c:225 calendar/gui/migration.c:290
+#: addressbook/gui/component/addressbook-migrate.c:384
+#: calendar/gui/migration.c:378 calendar/gui/migration.c:443
 msgid "On This Computer"
 msgstr "Энэ компьютер дээр"
 
 #. orange
-#: addressbook/gui/component/addressbook-migrate.c:437
-#: calendar/gui/migration.c:238 calendar/gui/migration.c:303
-#: calendar/gui/migration.c:365 calendar/gui/migration.c:435
+#: addressbook/gui/component/addressbook-migrate.c:394
+#: addressbook/gui/component/addressbook-migrate.c:427
+#: calendar/gui/migration.c:391 calendar/gui/migration.c:456
+#: calendar/gui/migration.c:524 calendar/gui/migration.c:611
 #: filter/filter-label.c:123 mail/em-migrate.c:924 mail/mail-config.c:65
 #: mail/mail-config.glade.h:90
 msgid "Personal"
 msgstr "Хувийн"
 
 #. Create the LDAP source group
-#: addressbook/gui/component/addressbook-migrate.c:445
+#: addressbook/gui/component/addressbook-migrate.c:402
 msgid "On LDAP Servers"
 msgstr "LDAP серверүүдэд"
 
-#: addressbook/gui/component/addressbook-migrate.c:578
+#: addressbook/gui/component/addressbook-migrate.c:529
 #, fuzzy
 msgid "LDAP Servers"
 msgstr "LDAP серверүүдэд"
 
-#: addressbook/gui/component/addressbook-migrate.c:698
+#: addressbook/gui/component/addressbook-migrate.c:649
 #, fuzzy
 msgid "Autocompletion Settings"
 msgstr "Автоматаар гүйцээх"
@@ -753,7 +756,8 @@ msgid "Source"
 msgstr "Эх үүсвэр"
 
 #: addressbook/gui/component/select-names/e-select-names.c:494
-msgid "Select Contents from Address Book"
+#: addressbook/gui/component/select-names/select-names.glade.h:6
+msgid "Select Contacts from Address Book"
 msgstr ""
 
 #: addressbook/gui/component/select-names/select-names.glade.h:2
@@ -775,10 +779,6 @@ msgstr "Хаягийн дэвтэр:"
 #, fuzzy
 msgid "C_ategory:"
 msgstr "_"
-
-#: addressbook/gui/component/select-names/select-names.glade.h:6
-msgid "Select Contacts from Address Book"
-msgstr ""
 
 #: addressbook/gui/component/select-names/select-names.glade.h:7
 #, fuzzy
@@ -915,7 +915,7 @@ msgstr ""
 #: addressbook/gui/contact-editor/contact-editor.glade.h:33
 #: calendar/gui/dialogs/meeting-page.c:649 calendar/gui/e-cal-view.c:1263
 #: calendar/gui/e-cal-view.c:1294 calendar/gui/e-calendar-table.c:1057
-#: calendar/gui/e-calendar-table.c:1075 mail/em-folder-tree.c:1772
+#: calendar/gui/e-calendar-table.c:1075 mail/em-folder-tree.c:1773
 #: mail/em-folder-view.c:736 ui/evolution-addressbook.xml.h:33
 #: ui/evolution-calendar.xml.h:35 ui/evolution-comp-editor.xml.h:17
 #: ui/evolution-contact-editor.xml.h:14 ui/evolution-mail-message.xml.h:110
@@ -2378,7 +2378,7 @@ msgstr "Хаягийн дэвтэр"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:810
 #: addressbook/gui/widgets/e-addressbook-view.c:1030
-#: addressbook/gui/widgets/e-addressbook-view.c:1957
+#: addressbook/gui/widgets/e-addressbook-view.c:1964
 #: ui/evolution-addressbook.xml.h:19
 msgid "Save as VCard"
 msgstr ""
@@ -2446,9 +2446,9 @@ msgstr "Хайчлах"
 
 #. create the dialog
 #: addressbook/gui/widgets/e-addressbook-view.c:1044
-#: calendar/gui/calendar-component.c:357
+#: calendar/gui/calendar-component.c:358
 #: calendar/gui/dialogs/copy-source-dialog.c:136
-#: calendar/gui/tasks-component.c:405 ui/evolution-addressbook.xml.h:2
+#: calendar/gui/tasks-component.c:361 ui/evolution-addressbook.xml.h:2
 #: ui/evolution-mail-message.xml.h:9 ui/evolution-tasks.xml.h:2
 msgid "Copy"
 msgstr "Хуулах"
@@ -2748,7 +2748,7 @@ msgstr "Амжилттай"
 #: camel/providers/imap/camel-imap-command.c:306
 #: camel/providers/imap/camel-imap-command.c:403
 #: camel/providers/pop3/camel-pop3-store.c:540
-#: camel/providers/pop3/camel-pop3-store.c:547 shell/e-shell.c:1006
+#: camel/providers/pop3/camel-pop3-store.c:547 shell/e-shell.c:1002
 msgid "Unknown error"
 msgstr "Үл мэдэгдэх алдаа"
 
@@ -2885,11 +2885,11 @@ msgstr "Холбоонуудыг зөөх"
 msgid "Copy contacts to"
 msgstr "Холбоонуудыг хуулах"
 
-#: addressbook/gui/widgets/eab-gui-util.c:706
+#: addressbook/gui/widgets/eab-gui-util.c:707
 msgid "Multiple VCards"
 msgstr ""
 
-#: addressbook/gui/widgets/eab-gui-util.c:714
+#: addressbook/gui/widgets/eab-gui-util.c:710
 #, c-format
 msgid "VCard for %s"
 msgstr ""
@@ -3251,7 +3251,7 @@ msgstr "Оролтын файл"
 msgid "No filename provided."
 msgstr ""
 
-#: addressbook/util/eab-destination.c:675
+#: addressbook/util/eab-destination.c:677
 msgid "Unnamed List"
 msgstr "Нэр үгүй жагсаалт"
 
@@ -3333,7 +3333,7 @@ msgid "Evolution's Tasks component"
 msgstr ""
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:12
-#: calendar/gui/e-tasks.c:1109 calendar/gui/print.c:1825
+#: calendar/gui/e-tasks.c:1112 calendar/gui/print.c:1825
 #: calendar/gui/tasks-control.c:516
 #: calendar/importers/icalendar-importer.c:717
 #: mail/importers/netscape-importer.c:1845 shell/e-shortcuts.c:1087
@@ -3651,65 +3651,65 @@ msgstr "%d %B"
 msgid "Calendar '%s' will be removed. Are you sure you want to continue?"
 msgstr ""
 
-#: calendar/gui/calendar-component.c:355
+#: calendar/gui/calendar-component.c:356
 #: calendar/gui/dialogs/calendar-setup.glade.h:13
 msgid "New Calendar"
 msgstr "Шинэ хуанли"
 
-#: calendar/gui/calendar-component.c:600
+#: calendar/gui/calendar-component.c:601
 msgid "New appointment"
 msgstr "Шинэ зориулалт"
 
-#: calendar/gui/calendar-component.c:601
+#: calendar/gui/calendar-component.c:602
 msgid "_Appointment"
 msgstr "_Зориулалт"
 
-#: calendar/gui/calendar-component.c:602
+#: calendar/gui/calendar-component.c:603
 msgid "Create a new appointment"
 msgstr "Шинэ зориулалт үүсгэх"
 
-#: calendar/gui/calendar-component.c:607
+#: calendar/gui/calendar-component.c:608
 msgid "New meeting"
 msgstr "Шинэ уулзалт"
 
-#: calendar/gui/calendar-component.c:608
+#: calendar/gui/calendar-component.c:609
 msgid "M_eeting"
 msgstr "Уул_залт"
 
-#: calendar/gui/calendar-component.c:609
+#: calendar/gui/calendar-component.c:610
 msgid "Create a new meeting request"
 msgstr "Шинэ уулзалтын хүсэлт үүсгэх"
 
-#: calendar/gui/calendar-component.c:614
+#: calendar/gui/calendar-component.c:615
 msgid "New all day appointment"
 msgstr "Бүтэн өдрийн шинэ зориулалт"
 
-#: calendar/gui/calendar-component.c:615
+#: calendar/gui/calendar-component.c:616
 msgid "All _Day Appointment"
 msgstr "Бүтэн _өдрийн төлөвлөгөө"
 
-#: calendar/gui/calendar-component.c:616
+#: calendar/gui/calendar-component.c:617
 msgid "Create a new all-day appointment"
 msgstr ""
 
-#: calendar/gui/calendar-component.c:621
+#: calendar/gui/calendar-component.c:622
 msgid "New calendar"
 msgstr "Шинэ хуанли"
 
-#: calendar/gui/calendar-component.c:622
+#: calendar/gui/calendar-component.c:623
 msgid "C_alendar"
 msgstr "_Хуанли"
 
-#: calendar/gui/calendar-component.c:623
+#: calendar/gui/calendar-component.c:624
 msgid "Create a new calendar"
 msgstr "Шинэ хуанли үүсгэх"
 
-#: calendar/gui/calendar-component.c:690
+#: calendar/gui/calendar-component.c:691
 #, c-format
 msgid "Unable to open the calendar '%s' for creating events and meetings"
 msgstr ""
 
-#: calendar/gui/calendar-component.c:702
+#: calendar/gui/calendar-component.c:703
 msgid "There is no calendar available for creating events and meetings"
 msgstr ""
 
@@ -4245,7 +4245,7 @@ msgstr ""
 "уу."
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:14
-#: calendar/gui/tasks-component.c:403
+#: calendar/gui/tasks-component.c:359
 msgid "New Task List"
 msgstr ""
 
@@ -5450,7 +5450,7 @@ msgstr "Х_ачлах"
 
 #: calendar/gui/e-cal-view.c:1253 calendar/gui/e-cal-view.c:1290
 #: calendar/gui/e-calendar-table.c:1045 calendar/gui/e-calendar-table.c:1071
-#: mail/em-folder-tree.c:1765 ui/evolution-addressbook.xml.h:31
+#: mail/em-folder-tree.c:1766 ui/evolution-addressbook.xml.h:31
 #: ui/evolution-calendar.xml.h:34 ui/evolution-composer-entries.xml.h:7
 #: ui/evolution-mail-message.xml.h:107 ui/evolution-tasks.xml.h:18
 msgid "_Copy"
@@ -5791,7 +5791,7 @@ msgstr "Шинэчлэх"
 #: calendar/gui/e-itip-control.c:1036 calendar/gui/e-itip-control.c:1067
 #: calendar/gui/e-itip-control.c:1090 calendar/gui/e-itip-control.c:1103
 #: calendar/gui/e-itip-control.c:1116 calendar/gui/e-itip-control.c:1129
-#: shell/e-shell.c:996 widgets/misc/e-cell-date-edit.c:265
+#: shell/e-shell.c:992 widgets/misc/e-cell-date-edit.c:265
 msgid "OK"
 msgstr "За"
 
@@ -6303,40 +6303,40 @@ msgid ""
 msgstr ""
 
 #. FIXME: this doesn't remove the task list from the list or anything
-#: calendar/gui/e-tasks.c:766 calendar/gui/gnome-cal.c:1914
+#: calendar/gui/e-tasks.c:766 calendar/gui/gnome-cal.c:1913
 #, c-format
 msgid ""
 "The task backend for\n"
 "%s\n"
-" has crashed. You will have to restart Evolution in order to use it again"
+" has crashed."
 msgstr ""
 
-#: calendar/gui/e-tasks.c:841
+#: calendar/gui/e-tasks.c:846
 #, c-format
 msgid "Opening tasks at %s"
 msgstr ""
 
-#: calendar/gui/e-tasks.c:862
+#: calendar/gui/e-tasks.c:867
 #, fuzzy, c-format
 msgid ""
 "Error opening %s:\n"
 "%s"
 msgstr "Жагсаалтыг устгахад алдаа гарлаа"
 
-#: calendar/gui/e-tasks.c:882
+#: calendar/gui/e-tasks.c:886
 #, fuzzy
 msgid "Loading tasks"
 msgstr "Хуанлийг ачааллаж байна"
 
-#: calendar/gui/e-tasks.c:985
+#: calendar/gui/e-tasks.c:988
 msgid "Completing tasks..."
 msgstr ""
 
-#: calendar/gui/e-tasks.c:1008
+#: calendar/gui/e-tasks.c:1011
 msgid "Deleting selected objects..."
 msgstr "Тэмдэглэгдсэн обьектуудыг устгаж байна..."
 
-#: calendar/gui/e-tasks.c:1033
+#: calendar/gui/e-tasks.c:1036
 msgid "Expunging"
 msgstr ""
 
@@ -6350,15 +6350,15 @@ msgstr "%s-г нэмж байна"
 msgid "Could not open '%s': %s"
 msgstr "`%s' хавтсыг нээж чадахгүй байна"
 
-#: calendar/gui/gnome-cal.c:1922
+#: calendar/gui/gnome-cal.c:1921
 #, c-format
 msgid ""
 "The calendar backend for\n"
 "%s\n"
-" has crashed. You will have to restart Evolution in order to use it again"
+" has crashed."
 msgstr ""
 
-#: calendar/gui/gnome-cal.c:2804
+#: calendar/gui/gnome-cal.c:2808
 msgid "Purging"
 msgstr ""
 
@@ -6477,12 +6477,28 @@ msgstr ""
 msgid "Enter the password for %s"
 msgstr "%s %s-н нууц үгийг оруулах (%s хэрэглэгч)"
 
-#: calendar/gui/migration.c:192
+#: calendar/gui/migration.c:136
+msgid ""
+"The location and hierarchy of the Evolution task folders has changed since "
+"Evolution 1.x.\n"
+"\n"
+"Please be patient while Evolution migrates your folders..."
+msgstr ""
+
+#: calendar/gui/migration.c:140
+msgid ""
+"The location and hierarchy of the Evolution calendar folders has changed "
+"since Evolution 1.x.\n"
+"\n"
+"Please be patient while Evolution migrates your folders..."
+msgstr ""
+
+#: calendar/gui/migration.c:345
 msgid "Birthdays & Anniversaries"
 msgstr ""
 
 #. Create the web group
-#: calendar/gui/migration.c:247
+#: calendar/gui/migration.c:400
 msgid "On The Web"
 msgstr "Вэб дээр"
 
@@ -6717,41 +6733,41 @@ msgstr ""
 msgid "Print Setup"
 msgstr ""
 
-#: calendar/gui/tasks-component.c:347
+#: calendar/gui/tasks-component.c:302
 #, c-format
 msgid "Task List '%s' will be removed. Are you sure you want to continue?"
 msgstr ""
 
-#: calendar/gui/tasks-component.c:600
+#: calendar/gui/tasks-component.c:556
 msgid "New task"
 msgstr ""
 
-#: calendar/gui/tasks-component.c:601
+#: calendar/gui/tasks-component.c:557
 msgid "_Task"
 msgstr ""
 
-#: calendar/gui/tasks-component.c:602
+#: calendar/gui/tasks-component.c:558
 msgid "Create a new task"
 msgstr ""
 
-#: calendar/gui/tasks-component.c:607
+#: calendar/gui/tasks-component.c:563
 msgid "New task list"
 msgstr ""
 
-#: calendar/gui/tasks-component.c:608
+#: calendar/gui/tasks-component.c:564
 msgid "_Task List"
 msgstr ""
 
-#: calendar/gui/tasks-component.c:609
+#: calendar/gui/tasks-component.c:565
 msgid "Create a new task list"
 msgstr ""
 
-#: calendar/gui/tasks-component.c:676
+#: calendar/gui/tasks-component.c:632
 #, c-format
 msgid "Unable to open the task list '%s' for creating events and meetings"
 msgstr ""
 
-#: calendar/gui/tasks-component.c:688
+#: calendar/gui/tasks-component.c:644
 msgid "There is no calendar available for creating tasks"
 msgstr ""
 
@@ -10090,7 +10106,7 @@ msgstr ""
 msgid "Could not close temp folder: %s"
 msgstr ""
 
-#: camel/providers/local/camel-mbox-summary.c:560 mail/em-folder-tree.c:1526
+#: camel/providers/local/camel-mbox-summary.c:560 mail/em-folder-tree.c:1527
 #, c-format
 msgid "Could not rename folder: %s"
 msgstr ""
@@ -12162,26 +12178,26 @@ msgstr ""
 msgid "Inbox"
 msgstr ""
 
-#: mail/em-folder-tree-model.c:424 mail/em-folder-tree-model.c:714
+#: mail/em-folder-tree-model.c:423 mail/em-folder-tree-model.c:713
 msgid "Loading..."
 msgstr ""
 
-#: mail/em-folder-tree-model.c:1279 mail/em-utils.c:2085
+#: mail/em-folder-tree-model.c:1276 mail/em-utils.c:2085
 #, c-format
 msgid "Could not create temporary directory: %s"
 msgstr ""
 
-#: mail/em-folder-tree-model.c:1288
+#: mail/em-folder-tree-model.c:1285
 #, c-format
 msgid "Could not create temporary mbox store: %s"
 msgstr ""
 
-#: mail/em-folder-tree-model.c:1297
+#: mail/em-folder-tree-model.c:1294
 #, c-format
 msgid "Could not create temporary mbox folder: %s"
 msgstr ""
 
-#: mail/em-folder-tree-model.c:1312
+#: mail/em-folder-tree-model.c:1309
 #, c-format
 msgid "Could not copy messages to temporary mbox folder: %s"
 msgstr ""
@@ -12201,83 +12217,83 @@ msgstr ""
 msgid "Create folder"
 msgstr ""
 
-#: mail/em-folder-tree.c:1422
+#: mail/em-folder-tree.c:1423
 #, c-format
 msgid "Could not delete folder: %s"
 msgstr ""
 
-#: mail/em-folder-tree.c:1443
+#: mail/em-folder-tree.c:1444
 #, c-format
 msgid "Really delete folder \"%s\" and all of its subfolders?"
 msgstr ""
 
-#: mail/em-folder-tree.c:1453 shell/e-shell-folder-commands.c:416
+#: mail/em-folder-tree.c:1454 shell/e-shell-folder-commands.c:416
 #, c-format
 msgid "Delete \"%s\""
 msgstr ""
 
-#: mail/em-folder-tree.c:1487 shell/e-shell-folder-commands.c:534
+#: mail/em-folder-tree.c:1488 shell/e-shell-folder-commands.c:534
 #, c-format
 msgid "Rename the \"%s\" folder to:"
 msgstr ""
 
-#: mail/em-folder-tree.c:1489 shell/e-shell-folder-commands.c:541
+#: mail/em-folder-tree.c:1490 shell/e-shell-folder-commands.c:541
 msgid "Rename Folder"
 msgstr ""
 
-#: mail/em-folder-tree.c:1513 shell/e-shell-folder-commands.c:554
+#: mail/em-folder-tree.c:1514 shell/e-shell-folder-commands.c:554
 #, c-format
 msgid "A folder named \"%s\" already exists. Please use a different name."
 msgstr ""
 
-#: mail/em-folder-tree.c:1613
+#: mail/em-folder-tree.c:1614
 msgid "Folder properties"
 msgstr ""
 
 #. TODO: maybe we want some basic properties here, like message counts/approximate size/etc
-#: mail/em-folder-tree.c:1619
+#: mail/em-folder-tree.c:1620
 msgid "Properties"
 msgstr ""
 
 #. TODO: can this be done in a loop?
-#: mail/em-folder-tree.c:1628
+#: mail/em-folder-tree.c:1629
 msgid "Folder Name"
 msgstr ""
 
-#: mail/em-folder-tree.c:1639
+#: mail/em-folder-tree.c:1640
 #, fuzzy
 msgid "Total messages"
 msgstr "_Зургуудыг ачааллах"
 
-#: mail/em-folder-tree.c:1651
+#: mail/em-folder-tree.c:1652
 #, fuzzy
 msgid "Unread messages"
 msgstr "Дараагийн _уншигдаагүй мэдээлэл"
 
-#: mail/em-folder-tree.c:1760 ui/evolution-addressbook.xml.h:45
+#: mail/em-folder-tree.c:1761 ui/evolution-addressbook.xml.h:45
 #: ui/evolution-mail-global.xml.h:18 ui/evolution-mail-messagedisplay.xml.h:8
 #: ui/evolution-message-composer.xml.h:53 ui/evolution.xml.h:34
 msgid "_View"
 msgstr ""
 
-#: mail/em-folder-tree.c:1761
+#: mail/em-folder-tree.c:1762
 msgid "Open in _New Window"
 msgstr ""
 
-#: mail/em-folder-tree.c:1766
+#: mail/em-folder-tree.c:1767
 msgid "_Move"
 msgstr ""
 
 #. FIXME: need to disable for nochildren folders
-#: mail/em-folder-tree.c:1770
+#: mail/em-folder-tree.c:1771
 msgid "_New Folder..."
 msgstr ""
 
-#: mail/em-folder-tree.c:1773 shell/e-shortcuts-view.c:427
+#: mail/em-folder-tree.c:1774 shell/e-shortcuts-view.c:427
 msgid "_Rename"
 msgstr ""
 
-#: mail/em-folder-tree.c:1776 ui/evolution-mail-list.xml.h:27
+#: mail/em-folder-tree.c:1777 ui/evolution-mail-list.xml.h:27
 msgid "_Properties..."
 msgstr ""
 
@@ -15136,19 +15152,19 @@ msgid ""
 "Ximian Evolution is currently offline.  Click on this button to work online."
 msgstr ""
 
-#: shell/e-shell.c:998
+#: shell/e-shell.c:994
 msgid "Invalid arguments"
 msgstr ""
 
-#: shell/e-shell.c:1000
+#: shell/e-shell.c:996
 msgid "Cannot register on OAF"
 msgstr ""
 
-#: shell/e-shell.c:1002
+#: shell/e-shell.c:998
 msgid "Configuration Database not found"
 msgstr ""
 
-#: shell/e-shell.c:1004
+#: shell/e-shell.c:1000
 msgid "Generic error"
 msgstr ""
 
@@ -15470,16 +15486,16 @@ msgstr "Надаас ахиж бүү асуу"
 msgid "Evolution can import data from the following files:"
 msgstr "Эволюшин дараахи файлуудаас өгөгдөл оруулаж чадна:"
 
-#: shell/main.c:119 shell/main.c:632
+#: shell/main.c:115 shell/main.c:628
 msgid "Evolution"
 msgstr "Эволюшин"
 
-#: shell/main.c:125
+#: shell/main.c:121
 msgid "Evolution is now exiting ..."
 msgstr "Эволюшин гарч байна..."
 
 #. Preview/Alpha/Beta version warning message
-#: shell/main.c:275
+#: shell/main.c:271
 #, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
@@ -15499,17 +15515,17 @@ msgid ""
 "eagerly await your contributions!\n"
 msgstr ""
 
-#: shell/main.c:299
+#: shell/main.c:295
 msgid ""
 "Thanks\n"
 "The Ximian Evolution Team\n"
 msgstr ""
 
-#: shell/main.c:307
+#: shell/main.c:303
 msgid "Don't tell me again"
 msgstr ""
 
-#: shell/main.c:411
+#: shell/main.c:407
 #, c-format
 msgid ""
 "Warning: Evolution could not upgrade all your data from version %d.%d.%d.\n"
@@ -15517,36 +15533,36 @@ msgid ""
 "Evolution.\n"
 msgstr ""
 
-#: shell/main.c:490
+#: shell/main.c:486
 msgid "Cannot access the Ximian Evolution shell."
 msgstr ""
 
-#: shell/main.c:499
+#: shell/main.c:495
 #, c-format
 msgid "Cannot initialize the Ximian Evolution shell: %s"
 msgstr ""
 
-#: shell/main.c:599
+#: shell/main.c:595
 msgid "Start Evolution activating the specified component"
 msgstr ""
 
-#: shell/main.c:601
+#: shell/main.c:597
 msgid "Start in offline mode"
 msgstr ""
 
-#: shell/main.c:603
+#: shell/main.c:599
 msgid "Start in online mode"
 msgstr ""
 
-#: shell/main.c:606
+#: shell/main.c:602
 msgid "Forcibly shut down all evolution components"
 msgstr ""
 
-#: shell/main.c:609
+#: shell/main.c:605
 msgid "Send the debugging output of all components to a file."
 msgstr ""
 
-#: shell/main.c:636
+#: shell/main.c:632
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"

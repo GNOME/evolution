@@ -8,14 +8,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution HEAD\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-01-24 15:20+0900\n"
+"POT-Creation-Date: 2004-01-26 13:51-0500\n"
 "PO-Revision-Date: 2004-01-24 15:18+0900\n"
 "Last-Translator: Takeshi AIHANA <aihana@gnome.gr.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Report-Msgid-Bugs-To: \n"
 
 #: addressbook/conduit/address-conduit.c:272
 msgid "Default Sync Address:"
@@ -47,10 +47,9 @@ msgstr "ここで自動補完を設定します"
 #. can not get name, should be a bug of e-book.Anyway, should set a default name.
 #.
 #. name = e_book_get_name (book);
-#. Create the contacts group
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:4
 #: addressbook/tools/evolution-addressbook-export-list-folders.c:51
-#: calendar/gui/migration.c:188 mail/importers/netscape-importer.c:1844
+#: calendar/gui/migration.c:341 mail/importers/netscape-importer.c:1844
 #: shell/e-shortcuts.c:1088
 msgid "Contacts"
 msgstr "連絡先"
@@ -103,7 +102,7 @@ msgstr "新しいアドレス帳"
 
 #: addressbook/gui/component/addressbook-component.c:269
 #: addressbook/gui/widgets/e-addressbook-view.c:1046
-#: calendar/gui/calendar-component.c:359 calendar/gui/tasks-component.c:407
+#: calendar/gui/calendar-component.c:360 calendar/gui/tasks-component.c:363
 #: filter/libfilter-i18n.h:11 mail/em-account-prefs.c:236
 #: ui/evolution-addressbook.xml.h:8 ui/evolution-comp-editor.xml.h:4
 #: ui/evolution-contact-editor.xml.h:3
@@ -112,7 +111,7 @@ msgid "Delete"
 msgstr "削除"
 
 #: addressbook/gui/component/addressbook-component.c:270
-#: calendar/gui/calendar-component.c:360 calendar/gui/tasks-component.c:409
+#: calendar/gui/calendar-component.c:361 calendar/gui/tasks-component.c:365
 msgid "Properties..."
 msgstr "プロパティ..."
 
@@ -168,11 +167,12 @@ msgstr "スキーマ情報の取得でエラーが発生しました"
 msgid "Server did not respond with valid schema information"
 msgstr "サーバは正しいスキーマ情報で応答しません"
 
-#: addressbook/gui/component/addressbook-migrate.c:45 mail/em-migrate.c:1070
+#: addressbook/gui/component/addressbook-migrate.c:46
+#: calendar/gui/migration.c:127 mail/em-migrate.c:1070
 msgid "Migrating..."
 msgstr "移行中..."
 
-#: addressbook/gui/component/addressbook-migrate.c:53
+#: addressbook/gui/component/addressbook-migrate.c:54
 msgid ""
 "The location and hierarchy of the Evolution contact folders has changed "
 "since Evolution 1.x.\n"
@@ -184,36 +184,38 @@ msgstr ""
 "\n"
 "Evolution がお使いのフォルダを移行している間、少々お待ち下さい..."
 
-#: addressbook/gui/component/addressbook-migrate.c:86 mail/em-migrate.c:1111
+#: addressbook/gui/component/addressbook-migrate.c:87
+#: calendar/gui/migration.c:174 mail/em-migrate.c:1111
 #, c-format
 msgid "Migrating `%s':"
 msgstr "'%s' の移行中:"
 
 #. create the local source group
-#: addressbook/gui/component/addressbook-migrate.c:427
-#: calendar/gui/migration.c:225 calendar/gui/migration.c:290
+#: addressbook/gui/component/addressbook-migrate.c:384
+#: calendar/gui/migration.c:378 calendar/gui/migration.c:443
 msgid "On This Computer"
 msgstr "このコンピュータ"
 
 #. orange
-#: addressbook/gui/component/addressbook-migrate.c:437
-#: calendar/gui/migration.c:238 calendar/gui/migration.c:303
-#: calendar/gui/migration.c:365 calendar/gui/migration.c:435
+#: addressbook/gui/component/addressbook-migrate.c:394
+#: addressbook/gui/component/addressbook-migrate.c:427
+#: calendar/gui/migration.c:391 calendar/gui/migration.c:456
+#: calendar/gui/migration.c:524 calendar/gui/migration.c:611
 #: filter/filter-label.c:123 mail/em-migrate.c:924 mail/mail-config.c:65
 #: mail/mail-config.glade.h:90
 msgid "Personal"
 msgstr "プライベート"
 
 #. Create the LDAP source group
-#: addressbook/gui/component/addressbook-migrate.c:445
+#: addressbook/gui/component/addressbook-migrate.c:402
 msgid "On LDAP Servers"
 msgstr "LDAP サーバ"
 
-#: addressbook/gui/component/addressbook-migrate.c:578
+#: addressbook/gui/component/addressbook-migrate.c:529
 msgid "LDAP Servers"
 msgstr "LDAP サーバ"
 
-#: addressbook/gui/component/addressbook-migrate.c:698
+#: addressbook/gui/component/addressbook-migrate.c:649
 msgid "Autocompletion Settings"
 msgstr "自動補完の設定"
 
@@ -819,8 +821,9 @@ msgid "Source"
 msgstr "情報ソース"
 
 #: addressbook/gui/component/select-names/e-select-names.c:494
-msgid "Select Contents from Address Book"
-msgstr "アドレス帳から内容の選択"
+#: addressbook/gui/component/select-names/select-names.glade.h:6
+msgid "Select Contacts from Address Book"
+msgstr "アドレス帳から連絡先の選択"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:2
 msgid "<b>Contacts</b>"
@@ -837,10 +840,6 @@ msgstr "アドレス帳(_B):"
 #: addressbook/gui/component/select-names/select-names.glade.h:5
 msgid "C_ategory:"
 msgstr "カテゴリ(_A):"
-
-#: addressbook/gui/component/select-names/select-names.glade.h:6
-msgid "Select Contacts from Address Book"
-msgstr "アドレス帳から連絡先の選択"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:7
 msgid "_Find"
@@ -979,7 +978,7 @@ msgstr "カテゴリ(_C)..."
 #: addressbook/gui/contact-editor/contact-editor.glade.h:33
 #: calendar/gui/dialogs/meeting-page.c:649 calendar/gui/e-cal-view.c:1263
 #: calendar/gui/e-cal-view.c:1294 calendar/gui/e-calendar-table.c:1057
-#: calendar/gui/e-calendar-table.c:1075 mail/em-folder-tree.c:1772
+#: calendar/gui/e-calendar-table.c:1075 mail/em-folder-tree.c:1773
 #: mail/em-folder-view.c:736 ui/evolution-addressbook.xml.h:33
 #: ui/evolution-calendar.xml.h:35 ui/evolution-comp-editor.xml.h:17
 #: ui/evolution-contact-editor.xml.h:14 ui/evolution-mail-message.xml.h:110
@@ -2437,7 +2436,7 @@ msgstr "アドレス帳"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:810
 #: addressbook/gui/widgets/e-addressbook-view.c:1030
-#: addressbook/gui/widgets/e-addressbook-view.c:1957
+#: addressbook/gui/widgets/e-addressbook-view.c:1964
 #: ui/evolution-addressbook.xml.h:19
 msgid "Save as VCard"
 msgstr "vCard 形式で保存"
@@ -2505,9 +2504,9 @@ msgstr "切り取り"
 
 #. create the dialog
 #: addressbook/gui/widgets/e-addressbook-view.c:1044
-#: calendar/gui/calendar-component.c:357
+#: calendar/gui/calendar-component.c:358
 #: calendar/gui/dialogs/copy-source-dialog.c:136
-#: calendar/gui/tasks-component.c:405 ui/evolution-addressbook.xml.h:2
+#: calendar/gui/tasks-component.c:361 ui/evolution-addressbook.xml.h:2
 #: ui/evolution-mail-message.xml.h:9 ui/evolution-tasks.xml.h:2
 msgid "Copy"
 msgstr "コピー"
@@ -2818,7 +2817,7 @@ msgstr "成功"
 #: camel/providers/imap/camel-imap-command.c:306
 #: camel/providers/imap/camel-imap-command.c:403
 #: camel/providers/pop3/camel-pop3-store.c:540
-#: camel/providers/pop3/camel-pop3-store.c:547 shell/e-shell.c:1006
+#: camel/providers/pop3/camel-pop3-store.c:547 shell/e-shell.c:1002
 msgid "Unknown error"
 msgstr "未知のエラー"
 
@@ -2959,11 +2958,11 @@ msgstr "複数の連絡先の移動先"
 msgid "Copy contacts to"
 msgstr "複数の連絡先のコピー先"
 
-#: addressbook/gui/widgets/eab-gui-util.c:706
+#: addressbook/gui/widgets/eab-gui-util.c:707
 msgid "Multiple VCards"
 msgstr "複数の vCard"
 
-#: addressbook/gui/widgets/eab-gui-util.c:714
+#: addressbook/gui/widgets/eab-gui-util.c:710
 #, c-format
 msgid "VCard for %s"
 msgstr "%s の vCard"
@@ -3037,17 +3036,17 @@ msgstr "カード表示"
 msgid "GTK Tree View"
 msgstr "GTK+ ツリー表示"
 
-#: addressbook/gui/widgets/test-reflow.c:119
+#: addressbook/gui/widgets/test-reflow.c:106
 msgid "Reflow Test"
 msgstr "Reflow のテスト"
 
-#: addressbook/gui/widgets/test-reflow.c:120
+#: addressbook/gui/widgets/test-reflow.c:107
 #: addressbook/printing/test-contact-print-style-editor.c:54
 #: addressbook/printing/test-print.c:53
 msgid "Copyright (C) 2000, Ximian, Inc."
 msgstr "Copyright (C) 2000, Ximian, Inc."
 
-#: addressbook/gui/widgets/test-reflow.c:122
+#: addressbook/gui/widgets/test-reflow.c:109
 msgid "This should test the reflow canvas item"
 msgstr "キャンバスのアイテムを Reflow するどうかをテストします"
 
@@ -3327,7 +3326,7 @@ msgstr "ファイルの入力"
 msgid "No filename provided."
 msgstr "ファイル名が指定されていません。"
 
-#: addressbook/util/eab-destination.c:675
+#: addressbook/util/eab-destination.c:677
 msgid "Unnamed List"
 msgstr "名前なしの一覧"
 
@@ -3409,7 +3408,7 @@ msgid "Evolution's Tasks component"
 msgstr "Evolution タスクのコンポーネント"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:12
-#: calendar/gui/e-tasks.c:1109 calendar/gui/print.c:1825
+#: calendar/gui/e-tasks.c:1112 calendar/gui/print.c:1825
 #: calendar/gui/tasks-control.c:516
 #: calendar/importers/icalendar-importer.c:717
 #: mail/importers/netscape-importer.c:1845 shell/e-shortcuts.c:1087
@@ -3715,10 +3714,6 @@ msgstr "%Y年 %m月 %d日 %A"
 
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.
-#. strftime format %a = abbreviated weekday name,
-#. %d = day of month, %b = abbreviated month name.
-#. You can change the order but don't change the
-#. specifiers or add anything.
 #: calendar/gui/calendar-commands.c:434 calendar/gui/e-day-view-top-item.c:692
 #: calendar/gui/e-day-view.c:1365 calendar/gui/e-week-view-main-item.c:329
 msgid "%a %d %b"
@@ -3747,65 +3742,65 @@ msgstr "%m月 %d日"
 msgid "Calendar '%s' will be removed. Are you sure you want to continue?"
 msgstr "カレンダ '%s' を削除します。続行してもよろしいですか？"
 
-#: calendar/gui/calendar-component.c:355
+#: calendar/gui/calendar-component.c:356
 #: calendar/gui/dialogs/calendar-setup.glade.h:13
 msgid "New Calendar"
 msgstr "新しいカレンダ"
 
-#: calendar/gui/calendar-component.c:600
+#: calendar/gui/calendar-component.c:601
 msgid "New appointment"
 msgstr "新しい予定"
 
-#: calendar/gui/calendar-component.c:601
+#: calendar/gui/calendar-component.c:602
 msgid "_Appointment"
 msgstr "予定(_A)"
 
-#: calendar/gui/calendar-component.c:602
+#: calendar/gui/calendar-component.c:603
 msgid "Create a new appointment"
 msgstr "新しい予定を作成します"
 
-#: calendar/gui/calendar-component.c:607
+#: calendar/gui/calendar-component.c:608
 msgid "New meeting"
 msgstr "新規の会議"
 
-#: calendar/gui/calendar-component.c:608
+#: calendar/gui/calendar-component.c:609
 msgid "M_eeting"
 msgstr "会議(_E)"
 
-#: calendar/gui/calendar-component.c:609
+#: calendar/gui/calendar-component.c:610
 msgid "Create a new meeting request"
 msgstr "新しい会議を召集します"
 
-#: calendar/gui/calendar-component.c:614
+#: calendar/gui/calendar-component.c:615
 msgid "New all day appointment"
 msgstr "新しい終日の予定"
 
-#: calendar/gui/calendar-component.c:615
+#: calendar/gui/calendar-component.c:616
 msgid "All _Day Appointment"
 msgstr "終日の予定(_D)"
 
-#: calendar/gui/calendar-component.c:616
+#: calendar/gui/calendar-component.c:617
 msgid "Create a new all-day appointment"
 msgstr "新しい終日の予定を作成します"
 
-#: calendar/gui/calendar-component.c:621
+#: calendar/gui/calendar-component.c:622
 msgid "New calendar"
 msgstr "新しいカレンダ"
 
-#: calendar/gui/calendar-component.c:622
+#: calendar/gui/calendar-component.c:623
 msgid "C_alendar"
 msgstr "カレンダ(_A)"
 
-#: calendar/gui/calendar-component.c:623
+#: calendar/gui/calendar-component.c:624
 msgid "Create a new calendar"
 msgstr "新しいカレンダを作成します"
 
-#: calendar/gui/calendar-component.c:690
+#: calendar/gui/calendar-component.c:691
 #, c-format
 msgid "Unable to open the calendar '%s' for creating events and meetings"
 msgstr "イベントと会議を生成するためのカレンダ '%s' を開けません"
 
-#: calendar/gui/calendar-component.c:702
+#: calendar/gui/calendar-component.c:703
 msgid "There is no calendar available for creating events and meetings"
 msgstr "イベントと会議を生成するために利用可能なカレンダがありません"
 
@@ -4325,7 +4320,7 @@ msgstr ""
 "\"適用\" ボタンをクリックして、ここで入力した設定を保存して下さい。"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:14
-#: calendar/gui/tasks-component.c:403
+#: calendar/gui/tasks-component.c:359
 msgid "New Task List"
 msgstr "新しいタスク一覧"
 
@@ -4771,11 +4766,6 @@ msgid "_Start time:"
 msgstr "開始時刻(_S):"
 
 #. an empty string is the same as 'None'
-#. add a "None" option to the stores menu
-#. Put the "None" and "UTC" entries at the top of the combo's list.
-#. When "None" is selected we want the field to be cleared.
-#. Note that we don't show this here, since by default a 'None' date
-#. is not permitted.
 #: calendar/gui/dialogs/meeting-page.c:311
 #: calendar/gui/dialogs/meeting-page.glade.h:3
 #: calendar/gui/e-cal-model-tasks.c:591 composer/e-msg-composer.c:2068
@@ -5530,7 +5520,7 @@ msgstr "切り取り(_U)"
 
 #: calendar/gui/e-cal-view.c:1253 calendar/gui/e-cal-view.c:1290
 #: calendar/gui/e-calendar-table.c:1045 calendar/gui/e-calendar-table.c:1071
-#: mail/em-folder-tree.c:1765 ui/evolution-addressbook.xml.h:31
+#: mail/em-folder-tree.c:1766 ui/evolution-addressbook.xml.h:31
 #: ui/evolution-calendar.xml.h:34 ui/evolution-composer-entries.xml.h:7
 #: ui/evolution-mail-message.xml.h:107 ui/evolution-tasks.xml.h:18
 msgid "_Copy"
@@ -5668,20 +5658,12 @@ msgid "URL"
 msgstr "URL"
 
 #. strftime format of a weekday, a date and a time, 24-hour.
-#. strptime format of a weekday, a date and a time,
-#. in 24-hour format.
-#. strftime format of a weekday, a date and a
-#. time, in 24-hour format.
 #: calendar/gui/e-cell-date-edit-text.c:117 e-util/e-time-utils.c:180
 #: e-util/e-time-utils.c:393
 msgid "%a %m/%d/%Y %H:%M:%S"
 msgstr "%Y/%m/%d (%a) %H:%M:%S"
 
 #. strftime format of a weekday, a date and a time, 12-hour.
-#. strptime format of a weekday, a date and a time,
-#. in 12-hour format.
-#. strftime format of a weekday, a date and a
-#. time, in 12-hour format.
 #: calendar/gui/e-cell-date-edit-text.c:120 e-util/e-time-utils.c:175
 #: e-util/e-time-utils.c:402
 msgid "%a %m/%d/%Y %I:%M:%S %p"
@@ -5705,10 +5687,6 @@ msgstr "%02i 分分割"
 
 #. strftime format %A = full weekday name, %d = day of month,
 #. %B = full month name. Don't use any other specifiers.
-#. strftime format %A = full weekday name, %d = day of
-#. month, %B = full month name. You can change the
-#. order but don't change the specifiers or add
-#. anything.
 #: calendar/gui/e-day-view-top-item.c:688 calendar/gui/e-day-view.c:1348
 #: calendar/gui/e-week-view-main-item.c:320 calendar/gui/print.c:1519
 msgid "%A %d %B"
@@ -5716,9 +5694,6 @@ msgstr "%m月 %d日 %A"
 
 #. strftime format %d = day of month, %b = abbreviated month name.
 #. Don't use any other specifiers.
-#. strftime format %d = day of month, %b = abbreviated
-#. month name. You can change the order but don't
-#. change the specifiers or add anything.
 #: calendar/gui/e-day-view-top-item.c:696 calendar/gui/e-day-view.c:1381
 #: calendar/gui/e-week-view-main-item.c:343
 msgid "%d %b"
@@ -5838,6 +5813,7 @@ msgstr "iCalendar エラー"
 msgid "An unknown person"
 msgstr "身元不明な人"
 
+#. Describe what the user can do
 #: calendar/gui/e-itip-control.c:922
 msgid ""
 "<br> Please review the following information, and then select an action from "
@@ -5887,7 +5863,7 @@ msgstr "更新"
 #: calendar/gui/e-itip-control.c:1036 calendar/gui/e-itip-control.c:1067
 #: calendar/gui/e-itip-control.c:1090 calendar/gui/e-itip-control.c:1103
 #: calendar/gui/e-itip-control.c:1116 calendar/gui/e-itip-control.c:1129
-#: shell/e-shell.c:996 widgets/misc/e-cell-date-edit.c:265
+#: shell/e-shell.c:992 widgets/misc/e-cell-date-edit.c:265
 msgid "OK"
 msgstr "OK"
 
@@ -6295,10 +6271,6 @@ msgstr "%Y年 %m月 %d日 %A"
 
 #. This is a strftime() format string %a = abbreviated weekday
 #. name, %m = month number, %d = month day, %Y = full year.
-#. This is a strftime() format string %a = abbreviated weekday name,
-#. %m = month number, %d = month day, %Y = full year.
-#. strptime format of a weekday and a date.
-#. strftime format of a weekday and a date.
 #: calendar/gui/e-meeting-time-sel-item.c:456
 #: calendar/gui/e-meeting-time-sel.c:2093 e-util/e-time-utils.c:203
 #: e-util/e-time-utils.c:296 e-util/e-time-utils.c:384
@@ -6307,10 +6279,6 @@ msgstr "%Y/%m/%d (%a)"
 
 #. This is a strftime() format string %m = month number,
 #. %d = month day, %Y = full year.
-#. strptime format of a weekday and a date.
-#. This is the preferred date format for the locale.
-#. This is a strftime() format for a short date. %m = month,
-#. %d = day of month, %Y = year (all digits).
 #: calendar/gui/e-meeting-time-sel-item.c:460 e-util/e-time-utils.c:238
 #: e-util/e-time-utils.c:299 widgets/misc/e-dateedit.c:1606
 msgid "%m/%d/%Y"
@@ -6408,23 +6376,21 @@ msgstr ""
 "%s でエラー:\n"
 " %s"
 
-#: calendar/gui/e-tasks.c:766 calendar/gui/gnome-cal.c:1914
+#. FIXME: this doesn't remove the task list from the list or anything
+#: calendar/gui/e-tasks.c:766 calendar/gui/gnome-cal.c:1913
 #, c-format
 msgid ""
 "The task backend for\n"
 "%s\n"
-" has crashed. You will have to restart Evolution in order to use it again"
+" has crashed."
 msgstr ""
-"%s\n"
-"のタスク・バックエンドがクラッシュしました。\n"
-"再度利用するには Evolution を再起動する必要があります。"
 
-#: calendar/gui/e-tasks.c:841
+#: calendar/gui/e-tasks.c:846
 #, c-format
 msgid "Opening tasks at %s"
 msgstr "%s のタスクを開きます"
 
-#: calendar/gui/e-tasks.c:862
+#: calendar/gui/e-tasks.c:867
 #, c-format
 msgid ""
 "Error opening %s:\n"
@@ -6433,19 +6399,19 @@ msgstr ""
 "%s を開く際にエラー:\n"
 "%s"
 
-#: calendar/gui/e-tasks.c:882
+#: calendar/gui/e-tasks.c:886
 msgid "Loading tasks"
 msgstr "タスクの読み込み"
 
-#: calendar/gui/e-tasks.c:985
+#: calendar/gui/e-tasks.c:988
 msgid "Completing tasks..."
 msgstr "タスクの完了..."
 
-#: calendar/gui/e-tasks.c:1008
+#: calendar/gui/e-tasks.c:1011
 msgid "Deleting selected objects..."
 msgstr "指定したオブジェクトの削除..."
 
-#: calendar/gui/e-tasks.c:1033
+#: calendar/gui/e-tasks.c:1036
 msgid "Expunging"
 msgstr "抹消"
 
@@ -6459,18 +6425,15 @@ msgstr "%s を開く"
 msgid "Could not open '%s': %s"
 msgstr "'%s' を開けませんでした: %s"
 
-#: calendar/gui/gnome-cal.c:1922
+#: calendar/gui/gnome-cal.c:1921
 #, c-format
 msgid ""
 "The calendar backend for\n"
 "%s\n"
-" has crashed. You will have to restart Evolution in order to use it again"
+" has crashed."
 msgstr ""
-"%s \n"
-"のカレンダ・バックエンドがクラッシュしました。\n"
-"再度利用するには Evolution を再起動する必要があります。"
 
-#: calendar/gui/gnome-cal.c:2804
+#: calendar/gui/gnome-cal.c:2808
 msgid "Purging"
 msgstr "抹消中"
 
@@ -6589,12 +6552,38 @@ msgstr "イベントの出席しなければなりません。"
 msgid "Enter the password for %s"
 msgstr "%s のパスワードを入力して下さい"
 
-#: calendar/gui/migration.c:192
+#: calendar/gui/migration.c:136
+#, fuzzy
+msgid ""
+"The location and hierarchy of the Evolution task folders has changed since "
+"Evolution 1.x.\n"
+"\n"
+"Please be patient while Evolution migrates your folders..."
+msgstr ""
+"Evolution 連絡先フォルダの格納場所とその階層は Evolution バージョン 1.x から"
+"変更されました。\n"
+"\n"
+"Evolution がお使いのフォルダを移行している間、少々お待ち下さい..."
+
+#: calendar/gui/migration.c:140
+#, fuzzy
+msgid ""
+"The location and hierarchy of the Evolution calendar folders has changed "
+"since Evolution 1.x.\n"
+"\n"
+"Please be patient while Evolution migrates your folders..."
+msgstr ""
+"Evolution 連絡先フォルダの格納場所とその階層は Evolution バージョン 1.x から"
+"変更されました。\n"
+"\n"
+"Evolution がお使いのフォルダを移行している間、少々お待ち下さい..."
+
+#: calendar/gui/migration.c:345
 msgid "Birthdays & Anniversaries"
 msgstr "誕生日と記念日"
 
 #. Create the web group
-#: calendar/gui/migration.c:247
+#: calendar/gui/migration.c:400
 msgid "On The Web"
 msgstr "ウェブ"
 
@@ -6829,41 +6818,41 @@ msgstr "アイテムの印刷"
 msgid "Print Setup"
 msgstr "プリンタの設定"
 
-#: calendar/gui/tasks-component.c:347
+#: calendar/gui/tasks-component.c:302
 #, c-format
 msgid "Task List '%s' will be removed. Are you sure you want to continue?"
 msgstr "タスク一覧 '%s' を削除します。続行してもよろしいですか？"
 
-#: calendar/gui/tasks-component.c:600
+#: calendar/gui/tasks-component.c:556
 msgid "New task"
 msgstr "新規のタスク"
 
-#: calendar/gui/tasks-component.c:601
+#: calendar/gui/tasks-component.c:557
 msgid "_Task"
 msgstr "タスク(_T)"
 
-#: calendar/gui/tasks-component.c:602
+#: calendar/gui/tasks-component.c:558
 msgid "Create a new task"
 msgstr "新しいタスクを作成します"
 
-#: calendar/gui/tasks-component.c:607
+#: calendar/gui/tasks-component.c:563
 msgid "New task list"
 msgstr "新しいタスク一覧"
 
-#: calendar/gui/tasks-component.c:608
+#: calendar/gui/tasks-component.c:564
 msgid "_Task List"
 msgstr "タスク一覧(_T)"
 
-#: calendar/gui/tasks-component.c:609
+#: calendar/gui/tasks-component.c:565
 msgid "Create a new task list"
 msgstr "新しいタスク一覧を作成します"
 
-#: calendar/gui/tasks-component.c:676
+#: calendar/gui/tasks-component.c:632
 #, c-format
 msgid "Unable to open the task list '%s' for creating events and meetings"
 msgstr "イベントと会議の作成に必要なタスク一覧 '%s' を開けません"
 
-#: calendar/gui/tasks-component.c:688
+#: calendar/gui/tasks-component.c:644
 msgid "There is no calendar available for creating tasks"
 msgstr "タスクを作成できるカレンダがありません"
 
@@ -10313,7 +10302,7 @@ msgstr "元のフォルダ %s を閉じることができませんでした: %s"
 msgid "Could not close temp folder: %s"
 msgstr "作業フォルダを閉じることができませんでした: %s"
 
-#: camel/providers/local/camel-mbox-summary.c:560 mail/em-folder-tree.c:1526
+#: camel/providers/local/camel-mbox-summary.c:560 mail/em-folder-tree.c:1527
 #, c-format
 msgid "Could not rename folder: %s"
 msgstr "フォルダ名を変更できませんでした: %s"
@@ -11589,16 +11578,12 @@ msgstr "カテゴリの同期:"
 
 #. strptime format of a weekday, a date and a time,
 #. in 12-hour format, without seconds.
-#. strftime format of a weekday, a date and a
-#. time, in 12-hour format, without seconds.
 #: e-util/e-time-utils.c:185 e-util/e-time-utils.c:398
 msgid "%a %m/%d/%Y %I:%M %p"
 msgstr "%Y/%m/%d (%a) %p %I:%M"
 
 #. strptime format of a weekday, a date and a time,
 #. in 24-hour format, without seconds.
-#. strftime format of a weekday, a date and a
-#. time, in 24-hour format, without seconds.
 #: e-util/e-time-utils.c:190 e-util/e-time-utils.c:389
 msgid "%a %m/%d/%Y %H:%M"
 msgstr "%Y/%m/%d (%a) %H:%M"
@@ -11650,31 +11635,23 @@ msgid "%m/%d/%Y %H"
 msgstr "%Y/%m/%d %H時"
 
 #. strptime format for a time of day, in 12-hour format.
-#. strftime format of a time in 12-hour format.
 #: e-util/e-time-utils.c:339 e-util/e-time-utils.c:438
 msgid "%I:%M:%S %p"
 msgstr "%p %I時%M分%S秒"
 
 #. strptime format for a time of day, in 24-hour format.
-#. strftime format of a time in 24-hour format.
 #: e-util/e-time-utils.c:343 e-util/e-time-utils.c:430
 msgid "%H:%M:%S"
 msgstr "%H時%M分%S秒"
 
 #. strptime format for time of day, without seconds,
 #. in 12-hour format.
-#. strftime format of a time in 12-hour format,
-#. without seconds.
-#. This is a strftime() format. %I = hour (1-12), %M = minute, %p = am/pm string.
 #: e-util/e-time-utils.c:348 e-util/e-time-utils.c:435
 #: widgets/misc/e-dateedit.c:1416 widgets/misc/e-dateedit.c:1641
 msgid "%I:%M %p"
 msgstr "%p %I時%M分"
 
 #. strptime format for time of day, without seconds 24-hour format.
-#. strftime format of a time in 24-hour format,
-#. without seconds.
-#. This is a strftime() format. %H = hour (0-23), %M = minute.
 #: e-util/e-time-utils.c:352 e-util/e-time-utils.c:427
 #: widgets/misc/e-dateedit.c:1413 widgets/misc/e-dateedit.c:1638
 msgid "%H:%M"
@@ -12483,26 +12460,26 @@ msgstr "一致しないもの"
 msgid "Inbox"
 msgstr "受信箱"
 
-#: mail/em-folder-tree-model.c:424 mail/em-folder-tree-model.c:714
+#: mail/em-folder-tree-model.c:423 mail/em-folder-tree-model.c:713
 msgid "Loading..."
 msgstr "読み込み中..."
 
-#: mail/em-folder-tree-model.c:1279 mail/em-utils.c:2085
+#: mail/em-folder-tree-model.c:1276 mail/em-utils.c:2085
 #, c-format
 msgid "Could not create temporary directory: %s"
 msgstr "作業フォルダを作成できませんでした: %s"
 
-#: mail/em-folder-tree-model.c:1288
+#: mail/em-folder-tree-model.c:1285
 #, c-format
 msgid "Could not create temporary mbox store: %s"
 msgstr "作業用 mbox 格納場所を作成できませんでした: %s"
 
-#: mail/em-folder-tree-model.c:1297
+#: mail/em-folder-tree-model.c:1294
 #, c-format
 msgid "Could not create temporary mbox folder: %s"
 msgstr "作業用 mbox フォルダを作成できませんでした: %s"
 
-#: mail/em-folder-tree-model.c:1312
+#: mail/em-folder-tree-model.c:1309
 #, c-format
 msgid "Could not copy messages to temporary mbox folder: %s"
 msgstr "メッセージを作業用 mbox フォルダへコピーできませんでした: %s"
@@ -12522,81 +12499,81 @@ msgstr "フォルダの選択"
 msgid "Create folder"
 msgstr "フォルダの作成"
 
-#: mail/em-folder-tree.c:1422
+#: mail/em-folder-tree.c:1423
 #, c-format
 msgid "Could not delete folder: %s"
 msgstr "フォルダを削除できませんでした: %s"
 
-#: mail/em-folder-tree.c:1443
+#: mail/em-folder-tree.c:1444
 #, c-format
 msgid "Really delete folder \"%s\" and all of its subfolders?"
 msgstr "本当にフォルダ \"%s\" とそのサブフォルダの全てを削除しますか？"
 
-#: mail/em-folder-tree.c:1453 shell/e-shell-folder-commands.c:416
+#: mail/em-folder-tree.c:1454 shell/e-shell-folder-commands.c:416
 #, c-format
 msgid "Delete \"%s\""
 msgstr "\"%s\" の削除"
 
-#: mail/em-folder-tree.c:1487 shell/e-shell-folder-commands.c:534
+#: mail/em-folder-tree.c:1488 shell/e-shell-folder-commands.c:534
 #, c-format
 msgid "Rename the \"%s\" folder to:"
 msgstr "フォルダ \"%s\" の変更先:"
 
-#: mail/em-folder-tree.c:1489 shell/e-shell-folder-commands.c:541
+#: mail/em-folder-tree.c:1490 shell/e-shell-folder-commands.c:541
 msgid "Rename Folder"
 msgstr "フォルダ名の変更"
 
-#: mail/em-folder-tree.c:1513 shell/e-shell-folder-commands.c:554
+#: mail/em-folder-tree.c:1514 shell/e-shell-folder-commands.c:554
 #, c-format
 msgid "A folder named \"%s\" already exists. Please use a different name."
 msgstr "既にフォルダ名 \"%s\" があります。別の名前を使用して下さい。"
 
-#: mail/em-folder-tree.c:1613
+#: mail/em-folder-tree.c:1614
 msgid "Folder properties"
 msgstr "フォルダのプロパティ"
 
 #. TODO: maybe we want some basic properties here, like message counts/approximate size/etc
-#: mail/em-folder-tree.c:1619
+#: mail/em-folder-tree.c:1620
 msgid "Properties"
 msgstr "プロパティ"
 
 #. TODO: can this be done in a loop?
-#: mail/em-folder-tree.c:1628
+#: mail/em-folder-tree.c:1629
 msgid "Folder Name"
 msgstr "フォルダ名"
 
-#: mail/em-folder-tree.c:1639
+#: mail/em-folder-tree.c:1640
 msgid "Total messages"
 msgstr "メッセージ総数"
 
-#: mail/em-folder-tree.c:1651
+#: mail/em-folder-tree.c:1652
 msgid "Unread messages"
 msgstr "未読のメッセージ数"
 
-#: mail/em-folder-tree.c:1760 ui/evolution-addressbook.xml.h:45
+#: mail/em-folder-tree.c:1761 ui/evolution-addressbook.xml.h:45
 #: ui/evolution-mail-global.xml.h:18 ui/evolution-mail-messagedisplay.xml.h:8
 #: ui/evolution-message-composer.xml.h:53 ui/evolution.xml.h:34
 msgid "_View"
 msgstr "表示(_V)"
 
-#: mail/em-folder-tree.c:1761
+#: mail/em-folder-tree.c:1762
 msgid "Open in _New Window"
 msgstr "新しいウィンドウで開く(_N)"
 
-#: mail/em-folder-tree.c:1766
+#: mail/em-folder-tree.c:1767
 msgid "_Move"
 msgstr "移動(_M)"
 
 #. FIXME: need to disable for nochildren folders
-#: mail/em-folder-tree.c:1770
+#: mail/em-folder-tree.c:1771
 msgid "_New Folder..."
 msgstr "新しいフォルダ(_N)"
 
-#: mail/em-folder-tree.c:1773 shell/e-shortcuts-view.c:427
+#: mail/em-folder-tree.c:1774 shell/e-shortcuts-view.c:427
 msgid "_Rename"
 msgstr "名前の変更(_R)"
 
-#: mail/em-folder-tree.c:1776 ui/evolution-mail-list.xml.h:27
+#: mail/em-folder-tree.c:1777 ui/evolution-mail-list.xml.h:27
 msgid "_Properties..."
 msgstr "プロパティ(_P)..."
 
@@ -15626,19 +15603,19 @@ msgstr ""
 "現在 Ximian Evolution はオフラインです (オンラインにする場合はこのボタンをク"
 "リックして下さい)"
 
-#: shell/e-shell.c:998
+#: shell/e-shell.c:994
 msgid "Invalid arguments"
 msgstr "不正な引数"
 
-#: shell/e-shell.c:1000
+#: shell/e-shell.c:996
 msgid "Cannot register on OAF"
 msgstr "OAF に登録できません"
 
-#: shell/e-shell.c:1002
+#: shell/e-shell.c:998
 msgid "Configuration Database not found"
 msgstr "データベースの設定がありません"
 
-#: shell/e-shell.c:1004
+#: shell/e-shell.c:1000
 msgid "Generic error"
 msgstr "一般的なエラー"
 
@@ -15979,16 +15956,17 @@ msgstr "このメッセージを二度と表示しない"
 msgid "Evolution can import data from the following files:"
 msgstr "Evolution は以下のファイルからデータ取込みが可能です:"
 
-#: shell/main.c:119 shell/main.c:632
+#: shell/main.c:115 shell/main.c:628
 msgid "Evolution"
 msgstr "Evolution"
 
-#: shell/main.c:125
+#: shell/main.c:121
 msgid "Evolution is now exiting ..."
 msgstr "Evolution を終了しています..."
 
-#: shell/main.c:275
-#, c-format
+#. Preview/Alpha/Beta version warning message
+#: shell/main.c:271
+#, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
 "of the Ximian Evolution groupware suite.\n"
@@ -16023,7 +16001,7 @@ msgstr ""
 "私たちの激務の結果に満足してくれることを願い、\n"
 "そしてあなたの貢献を熱心に待っています！\n"
 
-#: shell/main.c:299
+#: shell/main.c:295
 msgid ""
 "Thanks\n"
 "The Ximian Evolution Team\n"
@@ -16031,11 +16009,11 @@ msgstr ""
 "感謝します。\n"
 "Ximian Evolution チーム\n"
 
-#: shell/main.c:307
+#: shell/main.c:303
 msgid "Don't tell me again"
 msgstr "このメッセージを二度と表示しない"
 
-#: shell/main.c:411
+#: shell/main.c:407
 #, c-format
 msgid ""
 "Warning: Evolution could not upgrade all your data from version %d.%d.%d.\n"
@@ -16046,36 +16024,36 @@ msgstr ""
 "た。\n"
 "データは削除されませんが、このバージョンの Evolution では表示されません。\n"
 
-#: shell/main.c:490
+#: shell/main.c:486
 msgid "Cannot access the Ximian Evolution shell."
 msgstr "Ximian Evolution シェルにアクセスできません。"
 
-#: shell/main.c:499
+#: shell/main.c:495
 #, c-format
 msgid "Cannot initialize the Ximian Evolution shell: %s"
 msgstr "Ximian Evolution シェルを初期化できません: %s"
 
-#: shell/main.c:599
+#: shell/main.c:595
 msgid "Start Evolution activating the specified component"
 msgstr "指定したコンポーネントを有効にして Evolution を起動する"
 
-#: shell/main.c:601
+#: shell/main.c:597
 msgid "Start in offline mode"
 msgstr "オフライン・モードで起動する"
 
-#: shell/main.c:603
+#: shell/main.c:599
 msgid "Start in online mode"
 msgstr "オンライン・モードで起動する"
 
-#: shell/main.c:606
+#: shell/main.c:602
 msgid "Forcibly shut down all evolution components"
 msgstr "全ての Evolution コンポーネントを強制終了する"
 
-#: shell/main.c:609
+#: shell/main.c:605
 msgid "Send the debugging output of all components to a file."
 msgstr "全てのコンポーネントのデバッグ出力をファイルへ送る"
 
-#: shell/main.c:636
+#: shell/main.c:632
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -18247,3 +18225,24 @@ msgstr "テキスト"
 #: widgets/misc/e-search-bar.c:930
 msgid "Find _Now"
 msgstr "今すぐ見つける(_N)"
+
+#~ msgid "Select Contents from Address Book"
+#~ msgstr "アドレス帳から内容の選択"
+
+#~ msgid ""
+#~ "The task backend for\n"
+#~ "%s\n"
+#~ " has crashed. You will have to restart Evolution in order to use it again"
+#~ msgstr ""
+#~ "%s\n"
+#~ "のタスク・バックエンドがクラッシュしました。\n"
+#~ "再度利用するには Evolution を再起動する必要があります。"
+
+#~ msgid ""
+#~ "The calendar backend for\n"
+#~ "%s\n"
+#~ " has crashed. You will have to restart Evolution in order to use it again"
+#~ msgstr ""
+#~ "%s \n"
+#~ "のカレンダ・バックエンドがクラッシュしました。\n"
+#~ "再度利用するには Evolution を再起動する必要があります。"

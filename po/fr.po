@@ -15,14 +15,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.5.2\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-01-26 01:15+0100\n"
+"POT-Creation-Date: 2004-01-26 13:51-0500\n"
 "PO-Revision-Date: 2004-01-25 22:41+0100\n"
 "Last-Translator: Sébastien Bacher <seb128@debian.org>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Report-Msgid-Bugs-To: \n"
 "Plural-Forms: nplurals=2; plural=n>1;\n"
 
 #: addressbook/conduit/address-conduit.c:272
@@ -55,7 +55,6 @@ msgstr "Configurez ici la compilation automatique"
 #. can not get name, should be a bug of e-book.Anyway, should set a default name.
 #.
 #. name = e_book_get_name (book);
-#. Create the contacts group
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:4
 #: addressbook/tools/evolution-addressbook-export-list-folders.c:51
 #: calendar/gui/migration.c:341 mail/importers/netscape-importer.c:1844
@@ -2480,7 +2479,7 @@ msgstr "Carnet d'adresses"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:810
 #: addressbook/gui/widgets/e-addressbook-view.c:1030
-#: addressbook/gui/widgets/e-addressbook-view.c:1957
+#: addressbook/gui/widgets/e-addressbook-view.c:1964
 #: ui/evolution-addressbook.xml.h:19
 msgid "Save as VCard"
 msgstr "Enregistrer comme VCard"
@@ -2862,7 +2861,7 @@ msgstr "Succès"
 #: camel/providers/imap/camel-imap-command.c:306
 #: camel/providers/imap/camel-imap-command.c:403
 #: camel/providers/pop3/camel-pop3-store.c:540
-#: camel/providers/pop3/camel-pop3-store.c:547 shell/e-shell.c:1006
+#: camel/providers/pop3/camel-pop3-store.c:547 shell/e-shell.c:1002
 msgid "Unknown error"
 msgstr "Erreur inconnue"
 
@@ -3081,17 +3080,17 @@ msgstr "Vue carte"
 msgid "GTK Tree View"
 msgstr "Affichage de l'arborescence GTK"
 
-#: addressbook/gui/widgets/test-reflow.c:119
+#: addressbook/gui/widgets/test-reflow.c:106
 msgid "Reflow Test"
 msgstr "Test de reformatage"
 
-#: addressbook/gui/widgets/test-reflow.c:120
+#: addressbook/gui/widgets/test-reflow.c:107
 #: addressbook/printing/test-contact-print-style-editor.c:54
 #: addressbook/printing/test-print.c:53
 msgid "Copyright (C) 2000, Ximian, Inc."
 msgstr "Copyright (C) 2000, Ximian, Inc."
 
-#: addressbook/gui/widgets/test-reflow.c:122
+#: addressbook/gui/widgets/test-reflow.c:109
 msgid "This should test the reflow canvas item"
 msgstr "Ceci devrait tester l'élément de reformatage du canvas"
 
@@ -3375,7 +3374,7 @@ msgstr "Fichier d'entrée"
 msgid "No filename provided."
 msgstr "Aucun nom de fichier spécifié"
 
-#: addressbook/util/eab-destination.c:675
+#: addressbook/util/eab-destination.c:677
 msgid "Unnamed List"
 msgstr "Liste de contacts sans nom"
 
@@ -3771,10 +3770,6 @@ msgstr "%A %d %B %Y"
 
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.
-#. strftime format %a = abbreviated weekday name,
-#. %d = day of month, %b = abbreviated month name.
-#. You can change the order but don't change the
-#. specifiers or add anything.
 #: calendar/gui/calendar-commands.c:434 calendar/gui/e-day-view-top-item.c:692
 #: calendar/gui/e-day-view.c:1365 calendar/gui/e-week-view-main-item.c:329
 msgid "%a %d %b"
@@ -4859,11 +4854,6 @@ msgid "_Start time:"
 msgstr "Heure de _début :"
 
 #. an empty string is the same as 'None'
-#. add a "None" option to the stores menu
-#. Put the "None" and "UTC" entries at the top of the combo's list.
-#. When "None" is selected we want the field to be cleared.
-#. Note that we don't show this here, since by default a 'None' date
-#. is not permitted.
 #: calendar/gui/dialogs/meeting-page.c:311
 #: calendar/gui/dialogs/meeting-page.glade.h:3
 #: calendar/gui/e-cal-model-tasks.c:591 composer/e-msg-composer.c:2068
@@ -5767,20 +5757,12 @@ msgid "URL"
 msgstr "URL"
 
 #. strftime format of a weekday, a date and a time, 24-hour.
-#. strptime format of a weekday, a date and a time,
-#. in 24-hour format.
-#. strftime format of a weekday, a date and a
-#. time, in 24-hour format.
 #: calendar/gui/e-cell-date-edit-text.c:117 e-util/e-time-utils.c:180
 #: e-util/e-time-utils.c:393
 msgid "%a %m/%d/%Y %H:%M:%S"
 msgstr "%a %d/%m/%Y %H:%M:%S"
 
 #. strftime format of a weekday, a date and a time, 12-hour.
-#. strptime format of a weekday, a date and a time,
-#. in 12-hour format.
-#. strftime format of a weekday, a date and a
-#. time, in 12-hour format.
 #: calendar/gui/e-cell-date-edit-text.c:120 e-util/e-time-utils.c:175
 #: e-util/e-time-utils.c:402
 msgid "%a %m/%d/%Y %I:%M:%S %p"
@@ -5804,10 +5786,6 @@ msgstr "%02i divisions par minute"
 
 #. strftime format %A = full weekday name, %d = day of month,
 #. %B = full month name. Don't use any other specifiers.
-#. strftime format %A = full weekday name, %d = day of
-#. month, %B = full month name. You can change the
-#. order but don't change the specifiers or add
-#. anything.
 #: calendar/gui/e-day-view-top-item.c:688 calendar/gui/e-day-view.c:1348
 #: calendar/gui/e-week-view-main-item.c:320 calendar/gui/print.c:1519
 msgid "%A %d %B"
@@ -5815,9 +5793,6 @@ msgstr "%A %d %B"
 
 #. strftime format %d = day of month, %b = abbreviated month name.
 #. Don't use any other specifiers.
-#. strftime format %d = day of month, %b = abbreviated
-#. month name. You can change the order but don't
-#. change the specifiers or add anything.
 #: calendar/gui/e-day-view-top-item.c:696 calendar/gui/e-day-view.c:1381
 #: calendar/gui/e-week-view-main-item.c:343
 msgid "%d %b"
@@ -5937,6 +5912,7 @@ msgstr "Erreur iCalendar"
 msgid "An unknown person"
 msgstr "Une personne inconnue"
 
+#. Describe what the user can do
 #: calendar/gui/e-itip-control.c:922
 msgid ""
 "<br> Please review the following information, and then select an action from "
@@ -5987,7 +5963,7 @@ msgstr "Mettre à jour"
 #: calendar/gui/e-itip-control.c:1036 calendar/gui/e-itip-control.c:1067
 #: calendar/gui/e-itip-control.c:1090 calendar/gui/e-itip-control.c:1103
 #: calendar/gui/e-itip-control.c:1116 calendar/gui/e-itip-control.c:1129
-#: shell/e-shell.c:996 widgets/misc/e-cell-date-edit.c:265
+#: shell/e-shell.c:992 widgets/misc/e-cell-date-edit.c:265
 msgid "OK"
 msgstr "Valider"
 
@@ -6402,10 +6378,6 @@ msgstr "%A %d %B %Y"
 
 #. This is a strftime() format string %a = abbreviated weekday
 #. name, %m = month number, %d = month day, %Y = full year.
-#. This is a strftime() format string %a = abbreviated weekday name,
-#. %m = month number, %d = month day, %Y = full year.
-#. strptime format of a weekday and a date.
-#. strftime format of a weekday and a date.
 #: calendar/gui/e-meeting-time-sel-item.c:456
 #: calendar/gui/e-meeting-time-sel.c:2093 e-util/e-time-utils.c:203
 #: e-util/e-time-utils.c:296 e-util/e-time-utils.c:384
@@ -6414,10 +6386,6 @@ msgstr "%a %d/%m/%Y"
 
 #. This is a strftime() format string %m = month number,
 #. %d = month day, %Y = full year.
-#. strptime format of a weekday and a date.
-#. This is the preferred date format for the locale.
-#. This is a strftime() format for a short date. %m = month,
-#. %d = day of month, %Y = year (all digits).
 #: calendar/gui/e-meeting-time-sel-item.c:460 e-util/e-time-utils.c:238
 #: e-util/e-time-utils.c:299 widgets/misc/e-dateedit.c:1606
 msgid "%m/%d/%Y"
@@ -11783,16 +11751,12 @@ msgstr "Synchroniser les catégories"
 
 #. strptime format of a weekday, a date and a time,
 #. in 12-hour format, without seconds.
-#. strftime format of a weekday, a date and a
-#. time, in 12-hour format, without seconds.
 #: e-util/e-time-utils.c:185 e-util/e-time-utils.c:398
 msgid "%a %m/%d/%Y %I:%M %p"
 msgstr "%a %d/%m/%Y %I:%M:%p"
 
 #. strptime format of a weekday, a date and a time,
 #. in 24-hour format, without seconds.
-#. strftime format of a weekday, a date and a
-#. time, in 24-hour format, without seconds.
 #: e-util/e-time-utils.c:190 e-util/e-time-utils.c:389
 msgid "%a %m/%d/%Y %H:%M"
 msgstr "%a %d/%m/%Y %H:%M"
@@ -11844,31 +11808,23 @@ msgid "%m/%d/%Y %H"
 msgstr "%d/%m/%Y %H"
 
 #. strptime format for a time of day, in 12-hour format.
-#. strftime format of a time in 12-hour format.
 #: e-util/e-time-utils.c:339 e-util/e-time-utils.c:438
 msgid "%I:%M:%S %p"
 msgstr "%I:%M:%S %p"
 
 #. strptime format for a time of day, in 24-hour format.
-#. strftime format of a time in 24-hour format.
 #: e-util/e-time-utils.c:343 e-util/e-time-utils.c:430
 msgid "%H:%M:%S"
 msgstr "%H:%M:%S"
 
 #. strptime format for time of day, without seconds,
 #. in 12-hour format.
-#. strftime format of a time in 12-hour format,
-#. without seconds.
-#. This is a strftime() format. %I = hour (1-12), %M = minute, %p = am/pm string.
 #: e-util/e-time-utils.c:348 e-util/e-time-utils.c:435
 #: widgets/misc/e-dateedit.c:1416 widgets/misc/e-dateedit.c:1641
 msgid "%I:%M %p"
 msgstr "%I:%M %p"
 
 #. strptime format for time of day, without seconds 24-hour format.
-#. strftime format of a time in 24-hour format,
-#. without seconds.
-#. This is a strftime() format. %H = hour (0-23), %M = minute.
 #: e-util/e-time-utils.c:352 e-util/e-time-utils.c:427
 #: widgets/misc/e-dateedit.c:1413 widgets/misc/e-dateedit.c:1638
 msgid "%H:%M"
@@ -12685,26 +12641,26 @@ msgstr "CORRESPONDPAS"
 msgid "Inbox"
 msgstr "Boîte de réception"
 
-#: mail/em-folder-tree-model.c:424 mail/em-folder-tree-model.c:714
+#: mail/em-folder-tree-model.c:423 mail/em-folder-tree-model.c:713
 msgid "Loading..."
 msgstr "Chargement..."
 
-#: mail/em-folder-tree-model.c:1279 mail/em-utils.c:2085
+#: mail/em-folder-tree-model.c:1276 mail/em-utils.c:2085
 #, c-format
 msgid "Could not create temporary directory: %s"
 msgstr "Impossible de créer de répertoire temporaire : %s."
 
-#: mail/em-folder-tree-model.c:1288
+#: mail/em-folder-tree-model.c:1285
 #, c-format
 msgid "Could not create temporary mbox store: %s"
 msgstr "Impossible de créer de stockage temporaire de mbox : %s"
 
-#: mail/em-folder-tree-model.c:1297
+#: mail/em-folder-tree-model.c:1294
 #, c-format
 msgid "Could not create temporary mbox folder: %s"
 msgstr "Impossible de créer de répertoire temporaire de stockage de mbox : %s"
 
-#: mail/em-folder-tree-model.c:1312
+#: mail/em-folder-tree-model.c:1309
 #, c-format
 msgid "Could not copy messages to temporary mbox folder: %s"
 msgstr ""
@@ -15876,19 +15832,19 @@ msgstr ""
 "Ximian Evolution est hors ligne. Cliquez sur ce bouton pour travailler en "
 "ligne."
 
-#: shell/e-shell.c:998
+#: shell/e-shell.c:994
 msgid "Invalid arguments"
 msgstr "Arguments non valides"
 
-#: shell/e-shell.c:1000
+#: shell/e-shell.c:996
 msgid "Cannot register on OAF"
 msgstr "Impossible d'enregistrer dans OAF."
 
-#: shell/e-shell.c:1002
+#: shell/e-shell.c:998
 msgid "Configuration Database not found"
 msgstr "Base de données de configuration non trouvée"
 
-#: shell/e-shell.c:1004
+#: shell/e-shell.c:1000
 msgid "Generic error"
 msgstr "Erreur générique"
 
@@ -16229,16 +16185,17 @@ msgstr "Ne plus me demander"
 msgid "Evolution can import data from the following files:"
 msgstr "Evolution peut importer des données depuis les fichiers suivants :"
 
-#: shell/main.c:119 shell/main.c:632
+#: shell/main.c:115 shell/main.c:628
 msgid "Evolution"
 msgstr "Evolution"
 
-#: shell/main.c:125
+#: shell/main.c:121
 msgid "Evolution is now exiting ..."
 msgstr "Fermeture d'Evolution..."
 
-#: shell/main.c:275
-#, c-format
+#. Preview/Alpha/Beta version warning message
+#: shell/main.c:271
+#, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
 "of the Ximian Evolution groupware suite.\n"
@@ -16274,7 +16231,7 @@ msgstr ""
 "Nous espérons que vous apprécierez le résultat de notre dur labeur,\n"
 "et nous attendons impatiemment vos contributions !\n"
 
-#: shell/main.c:299
+#: shell/main.c:295
 msgid ""
 "Thanks\n"
 "The Ximian Evolution Team\n"
@@ -16282,11 +16239,11 @@ msgstr ""
 "Merci\n"
 "L'équipe Evolution de Ximian\n"
 
-#: shell/main.c:307
+#: shell/main.c:303
 msgid "Don't tell me again"
 msgstr "Ne plus me le dire"
 
-#: shell/main.c:411
+#: shell/main.c:407
 #, c-format
 msgid ""
 "Warning: Evolution could not upgrade all your data from version %d.%d.%d.\n"
@@ -16298,36 +16255,36 @@ msgstr ""
 "Les données n'ont pas été effacée, mais elle ne seront pas vue par cette "
 "version d'Evolution.\n"
 
-#: shell/main.c:490
+#: shell/main.c:486
 msgid "Cannot access the Ximian Evolution shell."
 msgstr "Impossible d'accéder au shell de Ximian Evolution."
 
-#: shell/main.c:499
+#: shell/main.c:495
 #, c-format
 msgid "Cannot initialize the Ximian Evolution shell: %s"
 msgstr "Impossible d'initialiser le shell de Ximian Evolution : %s"
 
-#: shell/main.c:599
+#: shell/main.c:595
 msgid "Start Evolution activating the specified component"
 msgstr "Démarre Evolution en activant le composant spécifié"
 
-#: shell/main.c:601
+#: shell/main.c:597
 msgid "Start in offline mode"
 msgstr "Démarrer en mode déconnecté"
 
-#: shell/main.c:603
+#: shell/main.c:599
 msgid "Start in online mode"
 msgstr "Démarrer en mode connecté"
 
-#: shell/main.c:606
+#: shell/main.c:602
 msgid "Forcibly shut down all evolution components"
 msgstr "Forcer l'arrêt de tous les composants d'Evolution."
 
-#: shell/main.c:609
+#: shell/main.c:605
 msgid "Send the debugging output of all components to a file."
 msgstr "Envoyer la sortie de déboguage de tous les composants à un fichier."
 
-#: shell/main.c:636
+#: shell/main.c:632
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"

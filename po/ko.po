@@ -6,14 +6,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.5.2\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-01-25 18:14+0900\n"
+"POT-Creation-Date: 2004-01-26 13:51-0500\n"
 "PO-Revision-Date: 2004-01-25 23:35+0900\n"
 "Last-Translator: Changwoo Ryu <cwryu@debian.org>\n"
 "Language-Team: GNOME Korea <gnome-kr-hackers@lists.kldp.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Report-Msgid-Bugs-To: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: addressbook/conduit/address-conduit.c:272
@@ -46,7 +46,6 @@ msgstr "여기서 자동 완성을 설정합니다"
 #. can not get name, should be a bug of e-book.Anyway, should set a default name.
 #.
 #. name = e_book_get_name (book);
-#. Create the contacts group
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:4
 #: addressbook/tools/evolution-addressbook-export-list-folders.c:51
 #: calendar/gui/migration.c:341 mail/importers/netscape-importer.c:1844
@@ -964,7 +963,7 @@ msgstr "분류(_C)..."
 #: addressbook/gui/contact-editor/contact-editor.glade.h:33
 #: calendar/gui/dialogs/meeting-page.c:649 calendar/gui/e-cal-view.c:1263
 #: calendar/gui/e-cal-view.c:1294 calendar/gui/e-calendar-table.c:1057
-#: calendar/gui/e-calendar-table.c:1075 mail/em-folder-tree.c:1772
+#: calendar/gui/e-calendar-table.c:1075 mail/em-folder-tree.c:1773
 #: mail/em-folder-view.c:736 ui/evolution-addressbook.xml.h:33
 #: ui/evolution-calendar.xml.h:35 ui/evolution-comp-editor.xml.h:17
 #: ui/evolution-contact-editor.xml.h:14 ui/evolution-mail-message.xml.h:110
@@ -2424,7 +2423,7 @@ msgstr "주소록"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:810
 #: addressbook/gui/widgets/e-addressbook-view.c:1030
-#: addressbook/gui/widgets/e-addressbook-view.c:1957
+#: addressbook/gui/widgets/e-addressbook-view.c:1964
 #: ui/evolution-addressbook.xml.h:19
 msgid "Save as VCard"
 msgstr "VCard로 저장"
@@ -2809,7 +2808,7 @@ msgstr "성공했습니다"
 #: camel/providers/imap/camel-imap-command.c:306
 #: camel/providers/imap/camel-imap-command.c:403
 #: camel/providers/pop3/camel-pop3-store.c:540
-#: camel/providers/pop3/camel-pop3-store.c:547 shell/e-shell.c:1006
+#: camel/providers/pop3/camel-pop3-store.c:547 shell/e-shell.c:1002
 msgid "Unknown error"
 msgstr "알 수 없는 오류가 발생했습니다"
 
@@ -2952,11 +2951,11 @@ msgstr "연락처 이동"
 msgid "Copy contacts to"
 msgstr "연락처 복사"
 
-#: addressbook/gui/widgets/eab-gui-util.c:706
+#: addressbook/gui/widgets/eab-gui-util.c:707
 msgid "Multiple VCards"
 msgstr "여러 개 VCard"
 
-#: addressbook/gui/widgets/eab-gui-util.c:714
+#: addressbook/gui/widgets/eab-gui-util.c:710
 #, c-format
 msgid "VCard for %s"
 msgstr "%s에 대한 VCard"
@@ -3031,19 +3030,19 @@ msgid "GTK Tree View"
 msgstr "GTk 트리 뷰"
 
 # 테스트 프로그램
-#: addressbook/gui/widgets/test-reflow.c:119
+#: addressbook/gui/widgets/test-reflow.c:106
 msgid "Reflow Test"
 msgstr "Reflow 테스트"
 
 # 테스트 프로그램
-#: addressbook/gui/widgets/test-reflow.c:120
+#: addressbook/gui/widgets/test-reflow.c:107
 #: addressbook/printing/test-contact-print-style-editor.c:54
 #: addressbook/printing/test-print.c:53
 msgid "Copyright (C) 2000, Ximian, Inc."
 msgstr "Copyright (C) 2000, Ximian, Inc."
 
 # 테스트 프로그램
-#: addressbook/gui/widgets/test-reflow.c:122
+#: addressbook/gui/widgets/test-reflow.c:109
 msgid "This should test the reflow canvas item"
 msgstr "reflow canvas item을 테스트합니다"
 
@@ -3324,7 +3323,7 @@ msgstr "입력 파일"
 msgid "No filename provided."
 msgstr "파일이름이 주어지지 않았습니다."
 
-#: addressbook/util/eab-destination.c:675
+#: addressbook/util/eab-destination.c:677
 msgid "Unnamed List"
 msgstr "이름 없는 목록"
 
@@ -3728,10 +3727,6 @@ msgstr "%Y년 %B %d일 %A"
 
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.
-#. strftime format %a = abbreviated weekday name,
-#. %d = day of month, %b = abbreviated month name.
-#. You can change the order but don't change the
-#. specifiers or add anything.
 #: calendar/gui/calendar-commands.c:434 calendar/gui/e-day-view-top-item.c:692
 #: calendar/gui/e-day-view.c:1365 calendar/gui/e-week-view-main-item.c:329
 msgid "%a %d %b"
@@ -4821,11 +4816,6 @@ msgid "_Start time:"
 msgstr "시작 시각(_S):"
 
 #. an empty string is the same as 'None'
-#. add a "None" option to the stores menu
-#. Put the "None" and "UTC" entries at the top of the combo's list.
-#. When "None" is selected we want the field to be cleared.
-#. Note that we don't show this here, since by default a 'None' date
-#. is not permitted.
 #: calendar/gui/dialogs/meeting-page.c:311
 #: calendar/gui/dialogs/meeting-page.glade.h:3
 #: calendar/gui/e-cal-model-tasks.c:591 composer/e-msg-composer.c:2068
@@ -5593,7 +5583,7 @@ msgstr "잘라내기(_U)"
 
 #: calendar/gui/e-cal-view.c:1253 calendar/gui/e-cal-view.c:1290
 #: calendar/gui/e-calendar-table.c:1045 calendar/gui/e-calendar-table.c:1071
-#: mail/em-folder-tree.c:1765 ui/evolution-addressbook.xml.h:31
+#: mail/em-folder-tree.c:1766 ui/evolution-addressbook.xml.h:31
 #: ui/evolution-calendar.xml.h:34 ui/evolution-composer-entries.xml.h:7
 #: ui/evolution-mail-message.xml.h:107 ui/evolution-tasks.xml.h:18
 msgid "_Copy"
@@ -5732,20 +5722,12 @@ msgid "URL"
 msgstr "URL"
 
 #. strftime format of a weekday, a date and a time, 24-hour.
-#. strptime format of a weekday, a date and a time,
-#. in 24-hour format.
-#. strftime format of a weekday, a date and a
-#. time, in 24-hour format.
 #: calendar/gui/e-cell-date-edit-text.c:117 e-util/e-time-utils.c:180
 #: e-util/e-time-utils.c:393
 msgid "%a %m/%d/%Y %H:%M:%S"
 msgstr "%Y/%m/%d %a %H:%M:%S"
 
 #. strftime format of a weekday, a date and a time, 12-hour.
-#. strptime format of a weekday, a date and a time,
-#. in 12-hour format.
-#. strftime format of a weekday, a date and a
-#. time, in 12-hour format.
 #: calendar/gui/e-cell-date-edit-text.c:120 e-util/e-time-utils.c:175
 #: e-util/e-time-utils.c:402
 msgid "%a %m/%d/%Y %I:%M:%S %p"
@@ -5769,10 +5751,6 @@ msgstr "%02i분 단위"
 
 #. strftime format %A = full weekday name, %d = day of month,
 #. %B = full month name. Don't use any other specifiers.
-#. strftime format %A = full weekday name, %d = day of
-#. month, %B = full month name. You can change the
-#. order but don't change the specifiers or add
-#. anything.
 #: calendar/gui/e-day-view-top-item.c:688 calendar/gui/e-day-view.c:1348
 #: calendar/gui/e-week-view-main-item.c:320 calendar/gui/print.c:1519
 msgid "%A %d %B"
@@ -5780,9 +5758,6 @@ msgstr "%B %d일 %A"
 
 #. strftime format %d = day of month, %b = abbreviated month name.
 #. Don't use any other specifiers.
-#. strftime format %d = day of month, %b = abbreviated
-#. month name. You can change the order but don't
-#. change the specifiers or add anything.
 #: calendar/gui/e-day-view-top-item.c:696 calendar/gui/e-day-view.c:1381
 #: calendar/gui/e-week-view-main-item.c:343
 msgid "%d %b"
@@ -5960,7 +5935,7 @@ msgstr "업데이트"
 #: calendar/gui/e-itip-control.c:1036 calendar/gui/e-itip-control.c:1067
 #: calendar/gui/e-itip-control.c:1090 calendar/gui/e-itip-control.c:1103
 #: calendar/gui/e-itip-control.c:1116 calendar/gui/e-itip-control.c:1129
-#: shell/e-shell.c:996 widgets/misc/e-cell-date-edit.c:265
+#: shell/e-shell.c:992 widgets/misc/e-cell-date-edit.c:265
 msgid "OK"
 msgstr "확인"
 
@@ -6378,10 +6353,6 @@ msgstr "%Y년 %B %d일 %A"
 
 #. This is a strftime() format string %a = abbreviated weekday
 #. name, %m = month number, %d = month day, %Y = full year.
-#. This is a strftime() format string %a = abbreviated weekday name,
-#. %m = month number, %d = month day, %Y = full year.
-#. strptime format of a weekday and a date.
-#. strftime format of a weekday and a date.
 #: calendar/gui/e-meeting-time-sel-item.c:456
 #: calendar/gui/e-meeting-time-sel.c:2093 e-util/e-time-utils.c:203
 #: e-util/e-time-utils.c:296 e-util/e-time-utils.c:384
@@ -6390,10 +6361,6 @@ msgstr "%Y/%m/%d %a"
 
 #. This is a strftime() format string %m = month number,
 #. %d = month day, %Y = full year.
-#. strptime format of a weekday and a date.
-#. This is the preferred date format for the locale.
-#. This is a strftime() format for a short date. %m = month,
-#. %d = day of month, %Y = year (all digits).
 #: calendar/gui/e-meeting-time-sel-item.c:460 e-util/e-time-utils.c:238
 #: e-util/e-time-utils.c:299 widgets/misc/e-dateedit.c:1606
 msgid "%m/%d/%Y"
@@ -10421,7 +10388,7 @@ msgstr "원본 폴더 %s을(를) 닫을 수 없습니다: %s"
 msgid "Could not close temp folder: %s"
 msgstr "임시 폴더를 닫을 수 없음: %s"
 
-#: camel/providers/local/camel-mbox-summary.c:560 mail/em-folder-tree.c:1526
+#: camel/providers/local/camel-mbox-summary.c:560 mail/em-folder-tree.c:1527
 #, c-format
 msgid "Could not rename folder: %s"
 msgstr "폴더 이름을 바꿀 수 없습니다: %s"
@@ -11695,16 +11662,12 @@ msgstr "동기화 분류:"
 
 #. strptime format of a weekday, a date and a time,
 #. in 12-hour format, without seconds.
-#. strftime format of a weekday, a date and a
-#. time, in 12-hour format, without seconds.
 #: e-util/e-time-utils.c:185 e-util/e-time-utils.c:398
 msgid "%a %m/%d/%Y %I:%M %p"
 msgstr "%Y/%m/%d %a %p %I:%M"
 
 #. strptime format of a weekday, a date and a time,
 #. in 24-hour format, without seconds.
-#. strftime format of a weekday, a date and a
-#. time, in 24-hour format, without seconds.
 #: e-util/e-time-utils.c:190 e-util/e-time-utils.c:389
 msgid "%a %m/%d/%Y %H:%M"
 msgstr "%Y/%m/%d %a %H:%M"
@@ -11756,31 +11719,23 @@ msgid "%m/%d/%Y %H"
 msgstr "%Y/%m/%d %H"
 
 #. strptime format for a time of day, in 12-hour format.
-#. strftime format of a time in 12-hour format.
 #: e-util/e-time-utils.c:339 e-util/e-time-utils.c:438
 msgid "%I:%M:%S %p"
 msgstr "%p %I:%M:%S"
 
 #. strptime format for a time of day, in 24-hour format.
-#. strftime format of a time in 24-hour format.
 #: e-util/e-time-utils.c:343 e-util/e-time-utils.c:430
 msgid "%H:%M:%S"
 msgstr "%H:%M:%S"
 
 #. strptime format for time of day, without seconds,
 #. in 12-hour format.
-#. strftime format of a time in 12-hour format,
-#. without seconds.
-#. This is a strftime() format. %I = hour (1-12), %M = minute, %p = am/pm string.
 #: e-util/e-time-utils.c:348 e-util/e-time-utils.c:435
 #: widgets/misc/e-dateedit.c:1416 widgets/misc/e-dateedit.c:1641
 msgid "%I:%M %p"
 msgstr "%p %I:%M"
 
 #. strptime format for time of day, without seconds 24-hour format.
-#. strftime format of a time in 24-hour format,
-#. without seconds.
-#. This is a strftime() format. %H = hour (0-23), %M = minute.
 #: e-util/e-time-utils.c:352 e-util/e-time-utils.c:427
 #: widgets/misc/e-dateedit.c:1413 widgets/misc/e-dateedit.c:1638
 msgid "%H:%M"
@@ -12616,26 +12571,26 @@ msgstr "해당 없음"
 msgid "Inbox"
 msgstr "받은 편지함"
 
-#: mail/em-folder-tree-model.c:424 mail/em-folder-tree-model.c:714
+#: mail/em-folder-tree-model.c:423 mail/em-folder-tree-model.c:713
 msgid "Loading..."
 msgstr "읽어들이는 중..."
 
-#: mail/em-folder-tree-model.c:1279 mail/em-utils.c:2085
+#: mail/em-folder-tree-model.c:1276 mail/em-utils.c:2085
 #, c-format
 msgid "Could not create temporary directory: %s"
 msgstr "임시 디렉토리를 만들 수가 없습니다: %s"
 
-#: mail/em-folder-tree-model.c:1288
+#: mail/em-folder-tree-model.c:1285
 #, c-format
 msgid "Could not create temporary mbox store: %s"
 msgstr "임시 메일함 저장고를 만들 수가 없습니다: %s"
 
-#: mail/em-folder-tree-model.c:1297
+#: mail/em-folder-tree-model.c:1294
 #, c-format
 msgid "Could not create temporary mbox folder: %s"
 msgstr "임시 메일함 폴더를 만들 수가 없습니다: %s"
 
-#: mail/em-folder-tree-model.c:1312
+#: mail/em-folder-tree-model.c:1309
 #, c-format
 msgid "Could not copy messages to temporary mbox folder: %s"
 msgstr "메세지를 임시 메일함 폴더에 복사할 수 없습니다: %s"
@@ -12655,81 +12610,81 @@ msgstr "폴더 선택"
 msgid "Create folder"
 msgstr "폴더를 만듭니다"
 
-#: mail/em-folder-tree.c:1422
+#: mail/em-folder-tree.c:1423
 #, c-format
 msgid "Could not delete folder: %s"
 msgstr "폴더를 지울 수 없습니다: %s"
 
-#: mail/em-folder-tree.c:1443
+#: mail/em-folder-tree.c:1444
 #, c-format
 msgid "Really delete folder \"%s\" and all of its subfolders?"
 msgstr "정말로 \"%s\" 폴더와 그 아래 폴더를 모두 지우시겠습니까?"
 
-#: mail/em-folder-tree.c:1453 shell/e-shell-folder-commands.c:416
+#: mail/em-folder-tree.c:1454 shell/e-shell-folder-commands.c:416
 #, c-format
 msgid "Delete \"%s\""
 msgstr "\"%s\" 지우기"
 
-#: mail/em-folder-tree.c:1487 shell/e-shell-folder-commands.c:534
+#: mail/em-folder-tree.c:1488 shell/e-shell-folder-commands.c:534
 #, c-format
 msgid "Rename the \"%s\" folder to:"
 msgstr "\"%s\" 폴더 이름 바꾸기:"
 
-#: mail/em-folder-tree.c:1489 shell/e-shell-folder-commands.c:541
+#: mail/em-folder-tree.c:1490 shell/e-shell-folder-commands.c:541
 msgid "Rename Folder"
 msgstr "폴더 이름 바꾸기"
 
-#: mail/em-folder-tree.c:1513 shell/e-shell-folder-commands.c:554
+#: mail/em-folder-tree.c:1514 shell/e-shell-folder-commands.c:554
 #, c-format
 msgid "A folder named \"%s\" already exists. Please use a different name."
 msgstr "\"%s\"(이)라는 이름의 폴더가 이미 있습니다. 다른 이름을 사용하십시오."
 
-#: mail/em-folder-tree.c:1613
+#: mail/em-folder-tree.c:1614
 msgid "Folder properties"
 msgstr "글꼴 등록 정보"
 
 #. TODO: maybe we want some basic properties here, like message counts/approximate size/etc
-#: mail/em-folder-tree.c:1619
+#: mail/em-folder-tree.c:1620
 msgid "Properties"
 msgstr "등록 정보"
 
 #. TODO: can this be done in a loop?
-#: mail/em-folder-tree.c:1628
+#: mail/em-folder-tree.c:1629
 msgid "Folder Name"
 msgstr "폴더 이름"
 
-#: mail/em-folder-tree.c:1639
+#: mail/em-folder-tree.c:1640
 msgid "Total messages"
 msgstr "전체 메세지"
 
-#: mail/em-folder-tree.c:1651
+#: mail/em-folder-tree.c:1652
 msgid "Unread messages"
 msgstr "읽지 않은 메세지"
 
-#: mail/em-folder-tree.c:1760 ui/evolution-addressbook.xml.h:45
+#: mail/em-folder-tree.c:1761 ui/evolution-addressbook.xml.h:45
 #: ui/evolution-mail-global.xml.h:18 ui/evolution-mail-messagedisplay.xml.h:8
 #: ui/evolution-message-composer.xml.h:53 ui/evolution.xml.h:34
 msgid "_View"
 msgstr "보기(_V)"
 
-#: mail/em-folder-tree.c:1761
+#: mail/em-folder-tree.c:1762
 msgid "Open in _New Window"
 msgstr "새 창에서 열기(_N)"
 
-#: mail/em-folder-tree.c:1766
+#: mail/em-folder-tree.c:1767
 msgid "_Move"
 msgstr "이동(_N)"
 
 #. FIXME: need to disable for nochildren folders
-#: mail/em-folder-tree.c:1770
+#: mail/em-folder-tree.c:1771
 msgid "_New Folder..."
 msgstr "새 폴더(_N)..."
 
-#: mail/em-folder-tree.c:1773 shell/e-shortcuts-view.c:427
+#: mail/em-folder-tree.c:1774 shell/e-shortcuts-view.c:427
 msgid "_Rename"
 msgstr "이름 바꾸기(_R)"
 
-#: mail/em-folder-tree.c:1776 ui/evolution-mail-list.xml.h:27
+#: mail/em-folder-tree.c:1777 ui/evolution-mail-list.xml.h:27
 msgid "_Properties..."
 msgstr "등록 정보(_P)..."
 
@@ -13538,7 +13493,9 @@ msgstr "받은 메일에 대해 쓰레기 메일 검사를 실행합니다"
 msgid ""
 "Run junk test on incoming mail for IMAP accounts (only valid if "
 "check_incoming is set to true)"
-msgstr "IMAP 계정에 대해 받은 메일에 쓰레기 테스트를 실행합니다 (check_incoming이 참일 경우에만 효과가 있습니다)"
+msgstr ""
+"IMAP 계정에 대해 받은 메일에 쓰레기 테스트를 실행합니다 (check_incoming이 참"
+"일 경우에만 효과가 있습니다)"
 
 # Secret Option
 #: mail/evolution-mail.schemas.in.in.h:52
@@ -15753,19 +15710,19 @@ msgstr ""
 "Ximian Evolution은 오프라인 상태입니다.  온라인 상태로 작업하려면 이 단추를 "
 "누르십시오."
 
-#: shell/e-shell.c:998
+#: shell/e-shell.c:994
 msgid "Invalid arguments"
 msgstr "인자가 잘못되었습니다"
 
-#: shell/e-shell.c:1000
+#: shell/e-shell.c:996
 msgid "Cannot register on OAF"
 msgstr "OAF에 등록할 수 없습니다"
 
-#: shell/e-shell.c:1002
+#: shell/e-shell.c:998
 msgid "Configuration Database not found"
 msgstr "설정 데이터베이스를 찾을 수 없습니다"
 
-#: shell/e-shell.c:1004
+#: shell/e-shell.c:1000
 msgid "Generic error"
 msgstr "일반 오류"
 
@@ -16106,16 +16063,16 @@ msgstr "다시 물어보지 않습니다"
 msgid "Evolution can import data from the following files:"
 msgstr "다음 파일들을 Evolution으로 가져올 수 있습니다:"
 
-#: shell/main.c:119 shell/main.c:632
+#: shell/main.c:115 shell/main.c:628
 msgid "Evolution"
 msgstr "Evolution"
 
-#: shell/main.c:125
+#: shell/main.c:121
 msgid "Evolution is now exiting ..."
 msgstr "Evolution을 마칩니다..."
 
 #. Preview/Alpha/Beta version warning message
-#: shell/main.c:275
+#: shell/main.c:271
 #, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
@@ -16149,7 +16106,7 @@ msgstr ""
 "우리가 열심히 일한 결과물을 잘 써 주시길 바랍니다. 그리고 개발에 기여해\n"
 "주시기를 목이 빠지게 기다리겠습니다!\n"
 
-#: shell/main.c:299
+#: shell/main.c:295
 msgid ""
 "Thanks\n"
 "The Ximian Evolution Team\n"
@@ -16157,11 +16114,11 @@ msgstr ""
 "고맙습니다\n"
 "Ximian Evolution 팀\n"
 
-#: shell/main.c:307
+#: shell/main.c:303
 msgid "Don't tell me again"
 msgstr "다시 물어보지 않습니다"
 
-#: shell/main.c:411
+#: shell/main.c:407
 #, c-format
 msgid ""
 "Warning: Evolution could not upgrade all your data from version %d.%d.%d.\n"
@@ -16171,36 +16128,36 @@ msgstr ""
 "경고: 버전 %d.%d.%d에서 모든 데이터를 업그레이드하지 못했습니다.\n"
 "데이터는 지워지지 않았지만, 이 버전의 Evolution에서는 안 보일 것입니다.\n"
 
-#: shell/main.c:490
+#: shell/main.c:486
 msgid "Cannot access the Ximian Evolution shell."
 msgstr "Ximian Evolution 쉘에 접근할 수 없습니다."
 
-#: shell/main.c:499
+#: shell/main.c:495
 #, c-format
 msgid "Cannot initialize the Ximian Evolution shell: %s"
 msgstr "Ximian Evolution 쉘을 초기화 할 수 없습니다: %s"
 
-#: shell/main.c:599
+#: shell/main.c:595
 msgid "Start Evolution activating the specified component"
 msgstr "Evolution 시작할 때 특정 컴포넌트를 활성화합니다"
 
-#: shell/main.c:601
+#: shell/main.c:597
 msgid "Start in offline mode"
 msgstr "오프라인 모드에서 시작"
 
-#: shell/main.c:603
+#: shell/main.c:599
 msgid "Start in online mode"
 msgstr "온라인 모드에서 시작"
 
-#: shell/main.c:606
+#: shell/main.c:602
 msgid "Forcibly shut down all evolution components"
 msgstr "강제로 모든 Evolution 컴포넌트를 끝냅니다"
 
-#: shell/main.c:609
+#: shell/main.c:605
 msgid "Send the debugging output of all components to a file."
 msgstr "모든 컴포넌트의 디버깅 출력을 파일로 보냅니다."
 
-#: shell/main.c:636
+#: shell/main.c:632
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"

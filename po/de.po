@@ -14,14 +14,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.5.2\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-01-25 17:07+0100\n"
+"POT-Creation-Date: 2004-01-26 13:51-0500\n"
 "PO-Revision-Date: 2004-01-25 17:07+0100\n"
 "Last-Translator: Christian Neumair <chris@gnome-de.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Report-Msgid-Bugs-To: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: addressbook/conduit/address-conduit.c:272
@@ -1016,7 +1016,7 @@ msgstr "Ka_tegorien..."
 #: calendar/gui/dialogs/meeting-page.c:649 calendar/gui/e-cal-view.c:1263
 #: calendar/gui/e-cal-view.c:1294 calendar/gui/e-calendar-table.c:1057
 #: calendar/gui/e-calendar-table.c:1075 mail/em-folder-tree.c:1773
-#: mail/em-folder-view.c:737 ui/evolution-addressbook.xml.h:33
+#: mail/em-folder-view.c:736 ui/evolution-addressbook.xml.h:33
 #: ui/evolution-calendar.xml.h:35 ui/evolution-comp-editor.xml.h:17
 #: ui/evolution-contact-editor.xml.h:14 ui/evolution-mail-message.xml.h:110
 #: ui/evolution-tasks.xml.h:19
@@ -2477,7 +2477,7 @@ msgstr "Adressbuch"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:810
 #: addressbook/gui/widgets/e-addressbook-view.c:1030
-#: addressbook/gui/widgets/e-addressbook-view.c:1957
+#: addressbook/gui/widgets/e-addressbook-view.c:1964
 #: ui/evolution-addressbook.xml.h:19
 msgid "Save as VCard"
 msgstr "Als VCard speichern"
@@ -2861,7 +2861,7 @@ msgstr "Erfolg"
 #: camel/providers/imap/camel-imap-command.c:306
 #: camel/providers/imap/camel-imap-command.c:403
 #: camel/providers/pop3/camel-pop3-store.c:540
-#: camel/providers/pop3/camel-pop3-store.c:547 shell/e-shell.c:1006
+#: camel/providers/pop3/camel-pop3-store.c:547 shell/e-shell.c:1002
 msgid "Unknown error"
 msgstr "Unbekannter Fehler"
 
@@ -3005,11 +3005,11 @@ msgstr "Kontakt verschieben nach"
 msgid "Copy contacts to"
 msgstr "Kontakte kopieren nach"
 
-#: addressbook/gui/widgets/eab-gui-util.c:706
+#: addressbook/gui/widgets/eab-gui-util.c:707
 msgid "Multiple VCards"
 msgstr "Mehrere VCards"
 
-#: addressbook/gui/widgets/eab-gui-util.c:714
+#: addressbook/gui/widgets/eab-gui-util.c:710
 #, c-format
 msgid "VCard for %s"
 msgstr "VCard für %s"
@@ -3374,7 +3374,7 @@ msgstr "Eingabedatei"
 msgid "No filename provided."
 msgstr "Kein Dateiname angegeben."
 
-#: addressbook/util/eab-destination.c:675
+#: addressbook/util/eab-destination.c:677
 msgid "Unnamed List"
 msgstr "Namenlose Liste"
 
@@ -3507,7 +3507,7 @@ msgstr "Termin _bearbeiten"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:899 calendar/gui/e-cal-view.c:1245
 #: calendar/gui/e-cal-view.c:1310 calendar/gui/e-calendar-table.c:1037
-#: calendar/gui/e-calendar-table.c:1078 mail/em-folder-view.c:712
+#: calendar/gui/e-calendar-table.c:1078 mail/em-folder-view.c:711
 #: shell/e-shortcuts-view.c:422 ui/evolution-addressbook.xml.h:37
 msgid "_Open"
 msgstr "Ö_ffnen"
@@ -4862,7 +4862,7 @@ msgstr "_Anfangszeit:"
 #: calendar/gui/dialogs/meeting-page.c:311
 #: calendar/gui/dialogs/meeting-page.glade.h:3
 #: calendar/gui/e-cal-model-tasks.c:591 composer/e-msg-composer.c:2068
-#: mail/em-account-prefs.c:448 mail/em-folder-view.c:746
+#: mail/em-account-prefs.c:448 mail/em-folder-view.c:745
 #: mail/mail-account-gui.c:1259 mail/mail-account-gui.c:1783
 #: mail/mail-config.glade.h:82
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:194
@@ -5613,7 +5613,7 @@ msgstr "Ver_fügbarkeitsinformationen veröffentlichen"
 
 #: calendar/gui/e-cal-view.c:1246 calendar/gui/e-cal-view.c:1316
 #: calendar/gui/e-calendar-table.c:1039 calendar/gui/e-calendar-table.c:1084
-#: mail/em-folder-view.c:714 mail/em-popup.c:663 mail/em-popup.c:778
+#: mail/em-folder-view.c:713 mail/em-popup.c:659 mail/em-popup.c:774
 #: ui/evolution-mail-message.xml.h:126
 msgid "_Save As..."
 msgstr "_Speichern unter..."
@@ -5973,7 +5973,7 @@ msgstr "Aktualisieren"
 #: calendar/gui/e-itip-control.c:1036 calendar/gui/e-itip-control.c:1067
 #: calendar/gui/e-itip-control.c:1090 calendar/gui/e-itip-control.c:1103
 #: calendar/gui/e-itip-control.c:1116 calendar/gui/e-itip-control.c:1129
-#: shell/e-shell.c:996 widgets/misc/e-cell-date-edit.c:265
+#: shell/e-shell.c:992 widgets/misc/e-cell-date-edit.c:265
 msgid "OK"
 msgstr "OK"
 
@@ -6480,7 +6480,7 @@ msgstr "Priorität:"
 msgid "Web Page:"
 msgstr "Website:"
 
-#: calendar/gui/e-tasks.c:314 mail/em-folder-view.c:2138
+#: calendar/gui/e-tasks.c:314 mail/em-folder-view.c:2137
 #, c-format
 msgid "Click to open %s"
 msgstr "Klicken Sie hier, um %s zu öffnen"
@@ -9770,7 +9770,7 @@ msgstr ""
 #. default charset used in mail view
 #: camel/providers/groupwise/camel-gw-listener.c:298
 #: camel/providers/groupwise/camel-gw-listener.c:299
-#: mail/em-folder-view.c:1543 mail/em-folder-view.c:1581
+#: mail/em-folder-view.c:1542 mail/em-folder-view.c:1580
 #: mail/mail-config.glade.h:42
 msgid "Default"
 msgstr "Vorgabe"
@@ -12269,7 +12269,7 @@ msgstr "ist nicht markiert"
 msgid "Junk Test"
 msgstr "Unerwünscht-Test"
 
-#: filter/libfilter-i18n.h:37 mail/em-folder-view.c:745
+#: filter/libfilter-i18n.h:37 mail/em-folder-view.c:744
 #: widgets/misc/e-expander.c:189
 msgid "Label"
 msgstr "Beschriftung"
@@ -12662,26 +12662,26 @@ msgstr ""
 msgid "Inbox"
 msgstr "Eingang"
 
-#: mail/em-folder-tree-model.c:424 mail/em-folder-tree-model.c:714
+#: mail/em-folder-tree-model.c:423 mail/em-folder-tree-model.c:713
 msgid "Loading..."
 msgstr "Ladevorgang..."
 
-#: mail/em-folder-tree-model.c:1279 mail/em-utils.c:2085
+#: mail/em-folder-tree-model.c:1276 mail/em-utils.c:2085
 #, c-format
 msgid "Could not create temporary directory: %s"
 msgstr "Temporäres Verzeichnis konnte nicht angelegt werden: %s"
 
-#: mail/em-folder-tree-model.c:1288
+#: mail/em-folder-tree-model.c:1285
 #, c-format
 msgid "Could not create temporary mbox store: %s"
 msgstr "Temporärer mbox-Speicherort konnte nicht angelegt werden: %s"
 
-#: mail/em-folder-tree-model.c:1297
+#: mail/em-folder-tree-model.c:1294
 #, c-format
 msgid "Could not create temporary mbox folder: %s"
 msgstr "Temporärer mbox-Ordner konnte nicht angelegt werden: %s"
 
-#: mail/em-folder-tree-model.c:1312
+#: mail/em-folder-tree-model.c:1309
 #, c-format
 msgid "Could not copy messages to temporary mbox folder: %s"
 msgstr "Nachrichten konnten nicht in temporären mbox-Ordner kopiert werden: %s"
@@ -12692,7 +12692,7 @@ msgid "%s"
 msgstr "%s"
 
 #: mail/em-folder-tree.c:1199 mail/em-folder-tree.c:1212
-#: mail/em-folder-view.c:622 mail/em-folder-view.c:636
+#: mail/em-folder-view.c:621 mail/em-folder-view.c:635
 #: shell/e-shell-importer.c:1060
 msgid "Select folder"
 msgstr "Ordner wählen"
@@ -12782,142 +12782,142 @@ msgid "_Properties..."
 msgstr "Ei_genschaften..."
 
 #. { EM_POPUP_ITEM, "00.select.00", N_("_Open"), G_CALLBACK(emp_popup_open), NULL, NULL, 0 },
-#: mail/em-folder-view.c:713 mail/em-popup.c:662
+#: mail/em-folder-view.c:712 mail/em-popup.c:658
 msgid "_Edit as New Message..."
 msgstr "Als neue Nachricht _bearbeiten..."
 
-#: mail/em-folder-view.c:715
+#: mail/em-folder-view.c:714
 msgid "_Print"
 msgstr "_Drucken"
 
-#: mail/em-folder-view.c:718 ui/evolution-mail-message.xml.h:124
+#: mail/em-folder-view.c:717 ui/evolution-mail-message.xml.h:124
 msgid "_Reply to Sender"
 msgstr "_Antwort an Absender"
 
-#: mail/em-folder-view.c:719 mail/em-popup.c:782
+#: mail/em-folder-view.c:718 mail/em-popup.c:778
 #: ui/evolution-mail-message.xml.h:86
 msgid "Reply to _List"
 msgstr "Antwort an _Liste"
 
-#: mail/em-folder-view.c:720 mail/em-popup.c:783
+#: mail/em-folder-view.c:719 mail/em-popup.c:779
 #: ui/evolution-mail-message.xml.h:85
 msgid "Reply to _All"
 msgstr "Antwort an a_lle"
 
-#: mail/em-folder-view.c:721 mail/em-popup.c:785
+#: mail/em-folder-view.c:720 mail/em-popup.c:781
 #: ui/evolution-mail-message.xml.h:111
 msgid "_Forward"
 msgstr "_Weiterleiten"
 
-#: mail/em-folder-view.c:724
+#: mail/em-folder-view.c:723
 msgid "Follo_w Up..."
 msgstr "Follo_w Up..."
 
-#: mail/em-folder-view.c:725
+#: mail/em-folder-view.c:724
 msgid "Fla_g Completed"
 msgstr "Als abgeschlossen _markieren"
 
-#: mail/em-folder-view.c:726
+#: mail/em-folder-view.c:725
 msgid "Cl_ear Flag"
 msgstr "Markierung _löschen"
 
-#: mail/em-folder-view.c:729 ui/evolution-mail-message.xml.h:48
+#: mail/em-folder-view.c:728 ui/evolution-mail-message.xml.h:48
 msgid "Mar_k as Read"
 msgstr "Als gelesen mar_kieren"
 
-#: mail/em-folder-view.c:730
+#: mail/em-folder-view.c:729
 msgid "Mark as _Unread"
 msgstr "Als _ungelesen markieren"
 
-#: mail/em-folder-view.c:731
+#: mail/em-folder-view.c:730
 msgid "Mark as _Important"
 msgstr "Als _wichtig markieren"
 
-#: mail/em-folder-view.c:732
+#: mail/em-folder-view.c:731
 msgid "_Mark as Unimportant"
 msgstr "Als unwichtig _markieren"
 
-#: mail/em-folder-view.c:733 ui/evolution-mail-message.xml.h:52
+#: mail/em-folder-view.c:732 ui/evolution-mail-message.xml.h:52
 msgid "Mark as _Junk"
 msgstr "Als u_nerwünscht markieren"
 
-#: mail/em-folder-view.c:734 ui/evolution-mail-message.xml.h:53
+#: mail/em-folder-view.c:733 ui/evolution-mail-message.xml.h:53
 msgid "Mark as _Not Junk"
 msgstr "Als _nicht unerwünscht markieren"
 
-#: mail/em-folder-view.c:738
+#: mail/em-folder-view.c:737
 msgid "U_ndelete"
 msgstr "Lösche_n rückgängig"
 
-#: mail/em-folder-view.c:741
+#: mail/em-folder-view.c:740
 msgid "Mo_ve to Folder..."
 msgstr "In Ordner _verschieben..."
 
-#: mail/em-folder-view.c:742 ui/evolution-addressbook.xml.h:32
+#: mail/em-folder-view.c:741 ui/evolution-addressbook.xml.h:32
 msgid "_Copy to Folder..."
 msgstr "In Ordner _kopieren..."
 
-#: mail/em-folder-view.c:750
+#: mail/em-folder-view.c:749
 msgid "Add Sender to Address_book"
 msgstr "Absender zum Adress_buch hinzufügen"
 
-#: mail/em-folder-view.c:753
+#: mail/em-folder-view.c:752
 msgid "Appl_y Filters"
 msgstr "Filter _anwenden"
 
-#: mail/em-folder-view.c:756
+#: mail/em-folder-view.c:755
 msgid "Crea_te Rule From Message"
 msgstr "_Regel aus Nachricht anlegen"
 
-#: mail/em-folder-view.c:757
+#: mail/em-folder-view.c:756
 msgid "VFolder on _Subject"
 msgstr "VOrdner über _Betreff"
 
-#: mail/em-folder-view.c:758
+#: mail/em-folder-view.c:757
 msgid "VFolder on Se_nder"
 msgstr "VOrdner über Abse_nder"
 
-#: mail/em-folder-view.c:759
+#: mail/em-folder-view.c:758
 msgid "VFolder on _Recipients"
 msgstr "VOrdner über _Empfänger"
 
-#: mail/em-folder-view.c:760
+#: mail/em-folder-view.c:759
 msgid "VFolder on Mailing _List"
 msgstr "VOrdner über Mailing_liste"
 
-#: mail/em-folder-view.c:762
+#: mail/em-folder-view.c:761
 msgid "VFolder on Thread"
 msgstr "VOrdner über Thread"
 
-#: mail/em-folder-view.c:766
+#: mail/em-folder-view.c:765
 msgid "Filter on Sub_ject"
 msgstr "Filter über _Betreff"
 
-#: mail/em-folder-view.c:767
+#: mail/em-folder-view.c:766
 msgid "Filter on Sen_der"
 msgstr "Filter über _Absender"
 
-#: mail/em-folder-view.c:768
+#: mail/em-folder-view.c:767
 msgid "Filter on Re_cipients"
 msgstr "Filter über _Empfänger"
 
-#: mail/em-folder-view.c:769
+#: mail/em-folder-view.c:768
 msgid "Filter on _Mailing List"
 msgstr "Filter über _Mailingliste"
 
-#: mail/em-folder-view.c:771
+#: mail/em-folder-view.c:770
 msgid "Filter on Thread"
 msgstr "Filter über Thread"
 
-#: mail/em-folder-view.c:1617
+#: mail/em-folder-view.c:1616
 msgid "Print Message"
 msgstr "Nachricht drucken"
 
-#: mail/em-folder-view.c:1871
+#: mail/em-folder-view.c:1870
 msgid "_Copy Link Location"
 msgstr "Link-Ziel _kopieren"
 
-#: mail/em-folder-view.c:2133
+#: mail/em-folder-view.c:2132
 #, c-format
 msgid "Click to mail %s"
 msgstr "Klicken Sie hier, um eine E-Mail an %s zu verfassen"
@@ -13221,36 +13221,36 @@ msgstr "Verzeichnis »%s« konnte nicht angelegt werden: %s"
 msgid "Failed to open store for `%s': %s"
 msgstr "Öffnen von Speicher für »%s« fehlgeschlagen: %s"
 
-#: mail/em-popup.c:672
+#: mail/em-popup.c:668
 msgid "Save As..."
 msgstr "Speichern unter..."
 
-#: mail/em-popup.c:690
+#: mail/em-popup.c:686
 #, c-format
 msgid "untitled_image.%s"
 msgstr "namenloses_bild.%s"
 
-#: mail/em-popup.c:779
+#: mail/em-popup.c:775
 msgid "Set as _Background"
 msgstr "Zum _Hintergrund machen"
 
-#: mail/em-popup.c:781
+#: mail/em-popup.c:777
 msgid "_Reply to sender"
 msgstr "_Antwort an Absender"
 
-#: mail/em-popup.c:829
+#: mail/em-popup.c:825
 msgid "_Open Link in Browser"
 msgstr "Link im Browser ö_ffnen"
 
-#: mail/em-popup.c:830
+#: mail/em-popup.c:826
 msgid "Se_nd message to..."
 msgstr "_Nachricht schicken an..."
 
-#: mail/em-popup.c:831
+#: mail/em-popup.c:827
 msgid "_Add to Addressbook"
 msgstr "Zum Adressbuch _hinzufügen"
 
-#: mail/em-popup.c:937
+#: mail/em-popup.c:933
 #, c-format
 msgid "Open in %s..."
 msgstr "In %s öffnen..."
@@ -15882,19 +15882,19 @@ msgstr ""
 "Ximian Evolution ist im Augenblick offline. Klicken Sie auf diesen Knopf, um "
 "online zu arbeiten."
 
-#: shell/e-shell.c:998
+#: shell/e-shell.c:994
 msgid "Invalid arguments"
 msgstr "Ungültige Argumente"
 
-#: shell/e-shell.c:1000
+#: shell/e-shell.c:996
 msgid "Cannot register on OAF"
 msgstr "Registrierung bei OAF konnte nicht stattfinden"
 
-#: shell/e-shell.c:1002
+#: shell/e-shell.c:998
 msgid "Configuration Database not found"
 msgstr "Konfigurationsdatenbank nicht gefunden"
 
-#: shell/e-shell.c:1004
+#: shell/e-shell.c:1000
 msgid "Generic error"
 msgstr "Allgemeiner Fehler"
 
@@ -16238,16 +16238,16 @@ msgstr "Mich nicht mehr fragen"
 msgid "Evolution can import data from the following files:"
 msgstr "Evolution kann Daten aus den folgenden Dateien importieren:"
 
-#: shell/main.c:119 shell/main.c:632
+#: shell/main.c:115 shell/main.c:628
 msgid "Evolution"
 msgstr "Evolution"
 
-#: shell/main.c:125
+#: shell/main.c:121
 msgid "Evolution is now exiting ..."
 msgstr "Evolution wird beendet..."
 
 #. Preview/Alpha/Beta version warning message
-#: shell/main.c:275
+#: shell/main.c:271
 #, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
@@ -16290,7 +16290,7 @@ msgstr ""
 "Wir hoffen, dass Ihnen das Ergebnis unsrer harten Arbeit\n"
 "gefällt und freuen uns auf Ihren Beitrag zu diesem Projekt!\n"
 
-#: shell/main.c:299
+#: shell/main.c:295
 msgid ""
 "Thanks\n"
 "The Ximian Evolution Team\n"
@@ -16298,11 +16298,11 @@ msgstr ""
 "Vielen Dank\n"
 "Das Ximian Evolution-Team\n"
 
-#: shell/main.c:307
+#: shell/main.c:303
 msgid "Don't tell me again"
 msgstr "Nicht mehr anzeigen"
 
-#: shell/main.c:411
+#: shell/main.c:407
 #, c-format
 msgid ""
 "Warning: Evolution could not upgrade all your data from version %d.%d.%d.\n"
@@ -16314,38 +16314,38 @@ msgstr ""
 "Die Daten wurden nicht gelöscht, sind jedoch mit dieser Evolution-Version "
 "nicht zugänglich.\n"
 
-#: shell/main.c:490
+#: shell/main.c:486
 msgid "Cannot access the Ximian Evolution shell."
 msgstr ""
 "Auf die Ximian-Evolution-Bedienoberfläche konnte nicht zugegriffen werden."
 
-#: shell/main.c:499
+#: shell/main.c:495
 #, c-format
 msgid "Cannot initialize the Ximian Evolution shell: %s"
 msgstr ""
 "Die Ximian-Evolution-Bedienoberfläche konnte nicht initialisiert werden: %s"
 
-#: shell/main.c:599
+#: shell/main.c:595
 msgid "Start Evolution activating the specified component"
 msgstr "Beim Start von Evolution die angegebene Komponente aktivieren"
 
-#: shell/main.c:601
+#: shell/main.c:597
 msgid "Start in offline mode"
 msgstr "Im Offline-Modus starten"
 
-#: shell/main.c:603
+#: shell/main.c:599
 msgid "Start in online mode"
 msgstr "Im Online-Modus starten"
 
-#: shell/main.c:606
+#: shell/main.c:602
 msgid "Forcibly shut down all evolution components"
 msgstr "Alle Evolution-Komponenten dazu zwingen, herunterzufahren"
 
-#: shell/main.c:609
+#: shell/main.c:605
 msgid "Send the debugging output of all components to a file."
 msgstr "Die Diagnoseausgabe aller Komponenten in eine Datei umleiten."
 
-#: shell/main.c:636
+#: shell/main.c:632
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
