@@ -79,26 +79,25 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih,
 	bonobo_ui_handler_menu_new_item (uih, "/Actions/Mark all seen",
 					 _("_Mark all messages seen"),
 					 NULL, -1,
-					 BONOBO_UI_HANDLER_PIXMAP_STOCK,
-					 GNOME_STOCK_PIXMAP_CLEAR,
+					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
 					 0, 0, mark_all_seen, folder_browser);
 	
 	bonobo_ui_handler_menu_new_item (uih, "/Actions/Edit Message", _("E_dit Message"),
 					 NULL, -1,
 					 BONOBO_UI_HANDLER_PIXMAP_STOCK,
-					 GNOME_STOCK_PIXMAP_MAIL_NEW,
+					 GNOME_STOCK_MENU_MAIL_NEW,
 					 0, 0, edit_message, folder_browser);
 	
 	bonobo_ui_handler_menu_new_item (uih, "/Actions/View Message", _("_View Message"),
 					 NULL, -1,
 					 BONOBO_UI_HANDLER_PIXMAP_STOCK,
-					 GNOME_STOCK_PIXMAP_MAIL_NEW,
+					 GNOME_STOCK_MENU_MAIL_NEW,
 					 0, 0, view_message, folder_browser);
 	
 	bonobo_ui_handler_menu_new_item (uih, "/Actions/Expunge", _("_Expunge"),
 					 NULL, -1,
 					 BONOBO_UI_HANDLER_PIXMAP_STOCK,
-					 GNOME_STOCK_PIXMAP_TRASH,
+					 GNOME_STOCK_MENU_TRASH,
 					 0, 0, expunge_folder, folder_browser);
 
 	bonobo_ui_handler_menu_new_item (uih, "/Tools/Mail Filters ...", _("Mail _Filters ..."),

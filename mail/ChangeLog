@@ -1,3 +1,9 @@
+2000-08-09  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* folder-browser-factory.c (control_activate): Use
+	`GNOME_STOCK_MENU_*' things instead of `GNOME_STOCK_PIXMAP_*'
+	things, that are too big and look bad.
+
 2000-08-09  Not Zed  <NotZed@HelixCode.com>
 
 	* mail-autofilter.c (filter_gui_add_from_message): Helper function to add with confirm.
@@ -6,8 +12,6 @@
 
 	* message-list.c (on_right_click): Added menu to install vfolders/filters from message.
 
-<<<<<<< ChangeLog
-<<<<<<< ChangeLog
 2000-08-09  Not Zed  <NotZed@HelixCode.com>
 
 	* mail-autofilter.c: New file to hold auto filter/vfolder stuff.
@@ -67,7 +71,6 @@
 	(message_list_init): Added a right_click event to trigger a pop-up
 	menu to be displayed
 
->>>>>>> 1.379
 2000-08-08  Dan Winship  <danw@helixcode.com>
 
 	* mail-config-gui.c: Add "Don't delete messages from server"
