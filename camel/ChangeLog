@@ -1,5 +1,9 @@
 2004-06-17  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/imap4/camel-imap4-folder.c (imap4_get_uid_set): Fixed
+	to work properly. It was getting ranges wrong before sometimes
+	which was making me lose mail! Ugh.
+
 	Thanks to Christian Kellner for pointing out these bugs (and
 	submitting the original patch for service_setv)
 
