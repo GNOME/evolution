@@ -1,3 +1,10 @@
+2004-08-27  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #64023.
+
+	* providers/nntp/camel-nntp-store.c (camel_nntp_try_authenticate):
+	forget the password if it was wrong.
+
 2004-08-26  Sivaiah Nallagatla <snallagatla@novell.com>
 	
 	* provoders/groupwise/camel-gw-listner.c 

@@ -1141,9 +1141,12 @@ camel_nntp_try_authenticate (CamelNNTPStore *store, CamelException *ex)
 		ret = camel_nntp_raw_command(store, ex, &line, "authinfo pass %s", service->url->passwd);
 
 	if (ret != NNTP_AUTH_ACCEPTED) {
-		if (ret != -1)
+		if (ret != -1) {
+			/* Need to forget the password here since we have no context on it */
+			camel_session_forget_password(session, service, NULL, "password", ex);
 			camel_exception_setv(ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
 					     _("Cannot authenticate to server: %s"), line);
+		}
 		return -1;
 	}
 
