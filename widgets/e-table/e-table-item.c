@@ -689,6 +689,8 @@ eti_destroy (GtkObject *object)
 	if (eti->height_cache_idle_id)
 		g_source_remove(eti->height_cache_idle_id);
 	
+	g_free (eti->height_cache);
+	
 	if (GTK_OBJECT_CLASS (eti_parent_class)->destroy)
 		(*GTK_OBJECT_CLASS (eti_parent_class)->destroy) (object);
 }
