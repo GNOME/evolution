@@ -1616,15 +1616,27 @@ emu_add_address_cb(BonoboListener *listener, const char *name, const CORBA_any *
  **/
 void em_utils_add_address(struct _GtkWidget *parent, const char *email)
 {
+	CamelInternetAddress *cia;
 	GtkWidget *win;
 	GtkWidget *control;
 	/*GtkWidget *socket;*/
-
+	char *buf;
+	
+	cia = camel_internet_address_new ();
+	if (camel_address_decode ((CamelAddress *) cia, email) == -1) {
+		camel_object_unref (cia);
+		return;
+	}
+	
+	buf = camel_address_format ((CamelAddress *) cia);
+	camel_object_unref (cia);
+	
 	win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title((GtkWindow *)win, _("Add address"));
 	
 	control = bonobo_widget_new_control("OAFIID:GNOME_Evolution_Addressbook_AddressPopup:" BASE_VERSION, CORBA_OBJECT_NIL);
-	bonobo_widget_set_property((BonoboWidget *)control, "email", TC_CORBA_string, email, NULL);
+	bonobo_widget_set_property((BonoboWidget *)control, "email", TC_CORBA_string, buf, NULL);
+	g_free (buf);
 	
 	bonobo_event_source_client_add_listener(bonobo_widget_get_objref((BonoboWidget *)control), emu_add_address_cb, NULL, NULL, win);
 	

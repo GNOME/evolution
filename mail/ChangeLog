@@ -1,3 +1,9 @@
+2004-03-18  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-utils.c (em_utils_add_address): rfc2047 decode the address
+	here before passing it off to the addressbook (which expects it to
+	be in human-readable form, not encoded). Fixes bug #55591.
+
 2004-03-18  Not Zed  <NotZed@Ximian.com>
 
 	* mail-account-gui.c (mail_account_gui_new): save the source and
