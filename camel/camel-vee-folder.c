@@ -1196,7 +1196,7 @@ folder_changed_change(CamelSession *session, CamelSessionThreadMsg *msg)
 		/* If we are not auto-updating, just change changed uids */
 		dd(printf(" Not auto-update\n"));
 		for (i=0;i<changes->uid_changed->len;i++) {
-			printf("  changed uid '%s'\n", (char *)changes->uid_changed->pdata[i]);
+			dd(printf("  changed uid '%s'\n", (char *)changes->uid_changed->pdata[i]));
 			folder_changed_change_uid(sub, changes->uid_changed->pdata[i], hash, vf);
 		}
 	} else if ((matches = camel_folder_search_by_uids(sub, vf->expression, changes->uid_changed, NULL))) {
