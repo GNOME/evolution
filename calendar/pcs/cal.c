@@ -337,6 +337,11 @@ impl_Cal_get_alarms_in_range (PortableServer_Servant servant,
 		return NULL;
 	}
 
+	if (!seq) {
+		bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_Cal_NotFound);
+		return NULL;
+	}
+
 	return seq;
 }
 
