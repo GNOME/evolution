@@ -86,6 +86,76 @@ Calendar & Tasks:
 
   - General bug fixes.  (Federico, JP, Damon, Rodrigo)
 
+Mail:
+
+  - Use new shell ActivityClient interface for progress reporting. (Michael)
+
+  - "remember this password" check box added and debugged (Peter, Jeff)
+
+  - UI for timespan editor cleaned up (Peter)
+
+  - UTF8 issues with PGP and mail display addressed (Jeff)
+
+  - Translate some more strings (Jeff, Zbigniew Chyla)
+
+  - Fix camel_session_*_timeout functions (Michael)
+
+  - Fix application/pgp handling (Jeff)
+
+  - Fix DnD with no messages selected (Jeff)
+
+  - Respect the GTK+ theme when generating the header in the mail display (Jeff)
+
+  - Make the default date column smaller (Peter)
+
+  - Don't display "0 hidden" messages (Peter)
+
+  - 'q' now toggles the message (pre)view (Peter)
+
+  - Rename the "Date" column to "Sent" (Peter)
+
+  - Fix saving of passwords (some passwords were being saved and loaded under 
+    different URI's) (Jeff)
+
+  - Enter now always open the message in a new window (Peter)
+
+  - Gray out unsupported authentication mechanisms (Jeff)
+
+  - Fix saving/loading of several preferences. (Peter, Jason)
+
+  - Overwrite attachment files correctly. (Jeff)
+
+  - Don't lose the selection when deleting the last message (Jason)
+
+  - Improve guessing of which address to use when replying (Jeff, Jason)
+
+  - If SSL isn't supported, indicate so. (Peter)
+
+  - Improve handling of NoSelect IMAP folders. (Peter)
+
+  - Hunt down ActivityClient problems (Michael, Ettore, Jeff, Peter, Jason)
+
+  - Add a browse button for local mailboxes (Jason)
+
+  - VTrash handling improvements (Jeff, Peter)
+
+  - Display "unsent" in outbox summary (Peter)
+
+  - Only have main view folder browsers save view settings (Peter)
+
+  - Fixes to POP3 cache (Jeff)
+
+  - Handle variants of charset names (Jeff)
+
+  - Progress reporting and optimizations for IMAP (Dan)
+
+  - Progress reporting for SMTP (Michel)
+
+  - Handle unencoded eight-bit headers (Jeff)
+
+  - Miscellaneous improvements to Camel backend (Michael, Jeff)
+
+  - Segfaults fixed (the usual gang of idiots)
 
 Version 0.11 (Beta 1), 2001-07-12
 ---------------------------------
