@@ -40,6 +40,7 @@
 #include <libgnomeprint/gnome-print-master-preview.h>
 #include <libgnomeprint/gnome-print-multipage.h>
 #include <gal/widgets/e-unicode.h>
+#include <gal/unicode/gunicode.h>
 #include <addressbook/backend/ebook/e-book.h>
 #include <addressbook/backend/ebook/e-card.h>
 #include <addressbook/backend/ebook/e-card-simple.h>
@@ -599,7 +600,7 @@ card_compare (ECard *card1, ECard *card2) {
 			       "file_as", &file_as2,
 			       NULL);
 		if (file_as1 && file_as2)
-			return strcasecmp(file_as1, file_as2);
+			return g_utf8_collate(file_as1, file_as2);
 		if (file_as1)
 			return -1;
 		if (file_as2)

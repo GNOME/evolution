@@ -60,6 +60,8 @@
 #include <gal/util/e-xml-utils.h>
 #include <libgnome/gnome-i18n.h>
 
+#include "e-util/e-unicode-i18n.h"
+
 #include "evolution-shell-component.h"
 #include "evolution-storage.h"
 
@@ -135,7 +137,7 @@ addressbook_get_other_contact_storage (void)
 	EvolutionStorageResult result;
 
 	if (storage == NULL) {
-		storage = evolution_storage_new (_("Other Contacts"), NULL, NULL);
+		storage = evolution_storage_new (U_("Other Contacts"), NULL, NULL);
 		gtk_signal_connect (GTK_OBJECT (storage),
 				    "remove_folder",
 				    GTK_SIGNAL_FUNC(remove_ldap_folder), NULL);

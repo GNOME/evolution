@@ -32,6 +32,7 @@
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-canvas-utils.h>
 #include <gal/widgets/e-canvas.h>
+#include <gal/unicode/gunicode.h>
 #include "addressbook/backend/ebook/e-book.h"
 #include "e-addressbook-util.h"
 #include "e-minicard.h"
@@ -911,7 +912,7 @@ e_minicard_compare (EMinicard *minicard1, EMinicard *minicard2)
 			       "file_as", &file_as2,
 			       NULL);
 		if (file_as1 && file_as2)
-			return strcasecmp(file_as1, file_as2);
+			return g_utf8_collate(file_as1, file_as2);
 		if (file_as1)
 			return -1;
 		if (file_as2)

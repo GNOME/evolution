@@ -1,3 +1,17 @@
+2001-08-31  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* gui/component/addressbook-storage.c
+	(addressbook_get_other_contact_storage): s/_/U_/
+
+	* gui/widgets/e-addressbook-reflow-adapter.c (addressbook_compare):
+	Use g_utf8_collate.
+
+	* gui/widgets/e-minicard.c (e_minicard_compare):
+	Ditto.
+
+	* printing/e-contact-print.c (card_compare):
+	Ditto.
+
 2001-08-29  Jon Trowbridge  <trow@ximian.com>
 
 	* gui/component/select-names/e-select-names-manager.c

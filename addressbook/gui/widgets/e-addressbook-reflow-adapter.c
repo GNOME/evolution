@@ -13,6 +13,7 @@
 #include <gal/widgets/e-unicode.h>
 #include <gal/widgets/e-font.h>
 #include <gal/widgets/e-popup-menu.h>
+#include <gal/unicode/gunicode.h>
 #include "e-contact-save-as.h"
 #include "addressbook/printing/e-contact-print.h"
 #include "addressbook/printing/e-contact-print-envelope.h"
@@ -366,7 +367,7 @@ addressbook_compare (EReflowModel *erm, int n1, int n2)
 		file_as1 = card1->file_as;
 		file_as2 = card2->file_as;
 		if (file_as1 && file_as2)
-			return strcasecmp(file_as1, file_as2);
+			return g_utf8_collate(file_as1, file_as2);
 		if (file_as1)
 			return -1;
 		if (file_as2)
