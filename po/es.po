@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.5.0\n"
 "POT-Creation-Date: 2000-09-15 11:05+0200\n"
-"PO-Revision-Date: 2000-09-15 11:06+0200\n"
+"PO-Revision-Date: 2000-09-15 16:58-04:00\n"
 "Last-Translator: Carlos Perelló Marín <carlos@hispalinux.es>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -113,7 +113,7 @@ msgid ""
 "'Pilot Link Properties' capplet first."
 msgstr ""
 "No hay ningún pilot configurado, por favor seleccione primero\n"
-"el capplet 'Propiedades del enlace con Pilot'
+"el capplet 'Propiedades del enlace con Pilot'."
 
 #: addressbook/conduit/address-conduit-control-applet.c:334
 #: calendar/conduits/calendar/calendar-conduit-control-applet.c:335
@@ -970,7 +970,7 @@ msgstr "o"
 
 #: addressbook/gui/component/alphabet.glade.h:24
 msgid "p"
-msgstr "p
+msgstr "p"
 
 #: addressbook/gui/component/alphabet.glade.h:25
 msgid "q"
