@@ -1,4 +1,3 @@
-
 <chapter id="usage-mail">
   <title>Using Evolution for Email</title>
   <para>
@@ -309,7 +308,7 @@
      <sect2 id="usage-mail-getnsend-get-attach">
 	 <title>Working with Attachments and HTML Mail</title>
 	 <para>
-	   If someone sends you an <glossterm>attachment</glossterm>,
+	   If someone sends you an <glossterm linkend="attachment">attachment</glossterm>,
 	   a file attached to an email,
 	   <application>Evolution</application> will display the file
 	   at the bottom of the message to which it's attached.  Text,
@@ -376,12 +375,11 @@
       <title>Inline Images in HTML Mail</title>
       <para>
          When someone sends you HTML mail that includes an image in
-         the body of the message&mdash; like the welcome message in
-         your Inbox when you first started <application>Ximian
-         Evolution</application>&mdash;
-         <application>Evolution</application> will display the image
-         inside the message.  You can create messages like this by
-         using the
+         the body of the message (for example, the welcome message in your
+         Inbox when you first start <application>Ximian
+         Evolution</application>) <application>Evolution</application>
+         will display the image inside the message.  You can create
+         messages like this by using the
          <menuchoice><guimenu>Insert</guimenu><guimenuitem>Image</guimenuitem></menuchoice>
          tool in the message composer.
       </para>
@@ -718,8 +716,8 @@
           <para>
             Alternately, you can click on the
             <guibutton>To:</guibutton>, <guibutton>Cc:</guibutton>, or
-            <guibutton>Bcc:</guibutton> buttons to get a list &mdash;
-            potentially a very long one &mdash; of the email addresses
+            <guibutton>Bcc:</guibutton> buttons to get a list --
+            potentially a very long one -- of the email addresses
             in your contact manager.  Select addresses and click on
             the arrows to move them into the appropriate address
             columns.
@@ -833,7 +831,7 @@
         <para>
            <variablelist>
             <varlistentry>
-              <term><guimenuitem>Find</guimenuitem></term>
+              <term><guimenuitem>Find:</guimenuitem></term>
               <listitem><para> Enter a word or phrase, and
               <application>Evolution</application> will find it
               in your message.
@@ -841,7 +839,7 @@
             </varlistentry>
 
             <varlistentry>
-              <term><guimenuitem>Find Regex</guimenuitem></term>
+              <term><guimenuitem>Find Regex:</guimenuitem></term>
               <listitem>
                 <para>
                   Find a regex, also called a
@@ -852,14 +850,14 @@
             </varlistentry>
 
             <varlistentry>
-              <term><guimenuitem>Find Again</guimenuitem></term>
+              <term><guimenuitem>Find Again:</guimenuitem></term>
               <listitem><para>
                    Select this item to repeat the last search you performed.
               </para></listitem>
             </varlistentry>
 
             <varlistentry>
-               <term><guimenuitem>Replace</guimenuitem></term>
+               <term><guimenuitem>Replace:</guimenuitem></term>
                <listitem><para>
                  Find a word or phrase, and replace it with
                  something else.
@@ -928,7 +926,7 @@
             into four categories:
             <variablelist>
              <varlistentry>
-             <term>Headers and lists</term>
+             <term>Headers and lists:</term>
               <listitem>
                 <para>
                   At the left edge of the toolbar, you can choose
@@ -944,7 +942,7 @@
               </listitem>
            </varlistentry>
 	  <varlistentry>
-	    <term>Text style</term>
+	    <term>Text style:</term>
 	    <listitem>
 	      <para>
 		Use these buttons to determine the way your letters
@@ -962,7 +960,7 @@
 	    </listitem>
 	  </varlistentry>
 	  <varlistentry>
-              <term>Alignment</term>
+              <term>Alignment:</term>
 	    <listitem>
 	      <para>
 		Located next to the text style buttons, these three
@@ -976,7 +974,7 @@
 	  </varlistentry>
 
             <varlistentry>
-              <term>Indentation rules</term>
+              <term>Indentation rules:</term>
               <listitem>
                 <para>
                   The button with the arrow pointing left will reduce
@@ -987,7 +985,7 @@
           </varlistentry>
 
             <varlistentry>
-              <term>Color Selection</term>
+              <term>Color Selection:</term>
               <listitem>
                 <para>
                   At the far right is the color section tool.  The
@@ -1009,7 +1007,7 @@
            spruce up your email to make it more interesting:
 	<variablelist>
 	  <varlistentry>
-	    <term><guimenuitem>Link</guimenuitem></term>
+	    <term><guimenuitem>Link:</guimenuitem></term>
 	    <listitem>
 	      <para>
 		Lets you link some text to a website.  Use this tool to put hyperlinks in your HTML
@@ -1047,7 +1045,7 @@
 	    </listitem>
 	  </varlistentry>
 	  <varlistentry>
-	    <term><guimenuitem>Image</guimenuitem></term>
+	    <term><guimenuitem>Image:</guimenuitem></term>
 	    <listitem>
 	      <para>
 		Lets you put an image alongside text.
@@ -1094,7 +1092,7 @@
 	    </listitem>
 	  </varlistentry>
 	  <varlistentry>
-	    <term><guimenuitem>Rule</guimenuitem></term>
+	    <term><guimenuitem>Rule:</guimenuitem></term>
 	    <listitem>
 	      <para>
 		Inserts a horizontal line into the text to help divide two
@@ -1154,7 +1152,7 @@
 	    </listitem>
 	  </varlistentry>
 	  <varlistentry>
-	    <term>Table</term>
+	    <term>Table:</term>
 	    <listitem>
 	      <para>
 		Inserts a table into the text to help divide two
@@ -1583,7 +1581,7 @@
   Your options are:
       <variablelist>
 	<varlistentry>
-	  <term>Accept</term>
+	  <term>Accept:</term>
 	  <listitem>
 	    <para>
 	  Select this entry if you will attend the meeting.  When you
@@ -1594,7 +1592,7 @@
 	</varlistentry>
 
 	<varlistentry>
-	  <term>>Accept</term>
+	  <term>Tentatively Accept:</term>
 	  <listitem>
 	    <para>
 	  Select this entry if you will probably attend the meeting.
@@ -1606,7 +1604,7 @@
 	</varlistentry>
 
 	<varlistentry>
-	  <term>Decline</term>
+	  <term>Decline:</term>
 	  <listitem>
 	    <para>
 	  Select this item if you will be unable to attend the
@@ -1619,7 +1617,7 @@
 	</varlistentry>
 
 	<varlistentry>
-	  <term>RSVP</term>
+	  <term>RSVP:</term>
 	  <listitem>
 	    <para>
 	     Check this box if you would like your response sent to
@@ -1635,13 +1633,16 @@
     <title>Subscription Management</title>
     <para>
       Since IMAP folders exist on the server, and opening them or
-      checking them takes time, you need fine-grained control over
-      the way that you use IMAP folders.  That's why
-      <application>Evolution</application> has an IMAP
-      subscriptions manager.
+      checking them takes time, you need fine-grained control over the
+      way that you use IMAP folders.  That's why
+      <application>Evolution</application> has an IMAP subscriptions
+      manager.  If you prefer to have every mail folder displayed, you
+      can select that option as well. However, if you'd like to choose
+      specific items in your mailbox, and exclude others, you can use
+      the subscription management tool to do that.
     </para>
     <para>
-      To use it:
+    Here's how:
       <orderedlist numeration="arabic">
 	
 	<listitem>
@@ -1711,7 +1712,7 @@
 	    ever</emphasis>.  Your private key lets you decrypt any
 	    message encrypted with your public key.
 	  </para>
-	</note>
+ 	</note>
 
       <para>
         Using encryption takes a bit of forethought.  When you send a

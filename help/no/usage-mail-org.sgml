@@ -9,7 +9,186 @@
       to help you do it.
     </para>
 
-    <sect1 id="usage-mail-organize-columns">
+  <sect1 id="importing-mail-and-settings">
+    <title>Importing Your Old Email and Settings</title>
+    <para>
+      <application>Evolution</application> allows you to import old email and data so that you don't need to worry about losing your old information.
+    </para>
+    <sect2 id="importing-mail">
+      <title>Importing Email</title>
+      <para>
+        <application>Ximian Evolution</application> can import the following types of
+        files:
+        <variablelist>
+          <varlistentry>
+            <term>VCard (.vcf, gcrd):</term>
+            <listitem>
+              <para>
+                The addressbook format used by the GNOME, KDE, and
+                many other contact management applications. You
+                should be able to export to VCard format from any
+                address book application.
+              </para>
+            </listitem>
+          </varlistentry>
+
+	  <varlistentry>
+	    <term>iCalendar (.ics):</term>
+	    <listitem>
+	      <para>
+		A format for storing calendar files.  iCalendar is used by 
+		PalmOS based handhelds, Ximian <application>Evolution</application>, and Microsoft <application>Outlook</application>.
+	      </para>
+	    </listitem>
+	  </varlistentry>
+
+          <varlistentry>
+            <term>Microsoft Outlook Express 4 (.mbx):</term>
+            <listitem>
+              <para>
+                Email file format used by Microsoft Outlook Express
+                4. For other versions of Microsoft Outlook and Outlook Express, see
+                the workaround described in the note below.
+              </para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>MBox (mbox):</term>
+            <listitem>
+              <para>
+                The email box format used by Mozilla, Netscape,
+                Ximian Evolution, Eudora, and many other email clients.
+              </para>
+            </listitem>
+          </varlistentry>
+        </variablelist>
+      </para>
+      <para>
+        To import your old email:
+        <orderedlist numeration="arabic">
+          <listitem>
+            <para>
+              Click <menuchoice><guimenu>File</guimenu><guimenuitem>Import</guimenuitem></menuchoice>.
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              Click <guibutton>Next</guibutton> after reading the Welcome screen.
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              Select <guibutton>Import a single file</guibutton>.
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              Find the file that you wish to import into <application>Evolution</application>.
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              Click <guibutton>Import</guibutton>
+            </para>
+          </listitem>
+        </orderedlist>
+      </para>
+    </sect2>
+    <sect2 id="importing-preferences">
+      <title>Importing Preferences</title>
+      <para>
+        <application>Evolution</application> can import all your old mail, contacts, and other information from other applications, making your transition to <application>Evolution</application> even easier.
+      </para>
+      <para>
+        To import your old information:
+        <orderedlist numeration="arabic">
+          <listitem>
+            <para>
+              Click <menuchoice><guimenu>File</guimenu><guimenuitem>Import</guimenuitem></menuchoice>.
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              Click <guibutton>Next</guibutton> after reading the Welcome screen.
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              Select <guibutton>Import data and settings from older programs</guibutton>.
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              The left-most column shows the application which your information will be imported from.  You then select checkboxes on each component to import different properties of each application.
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              Click <guibutton>Next</guibutton>
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              Click <guibutton>Import</guibutton>
+            </para>
+          </listitem>
+        </orderedlist>
+      </para>
+
+<para>
+    <note>
+      <title>Microsoft Outlook and Outlook Express Users</title>
+      <para>
+	Microsoft Outlook, and versions of Outlook Express after
+	version 4, use proprietary formats that <application>Ximian
+	Evolution</application> cannot read or import.  For contacts,
+	you may have to email them to yourself and import them that
+	way.  For email, there is a simpler workaround:
+	<orderedlist numeration="arabic">
+
+	<listitem>
+	<para>
+	  While using Windows, import the files into Mozilla Mail (or
+	  another mailer, such as Netscape or Eudora, that uses the
+	  standard mbox format).
+        </para>
+        </listitem>
+	
+	<listitem>
+	<para>
+          Copy the files to the system or partition you use for
+          <application>Ximian Evolution</application>.  
+         </para>
+        </listitem>
+
+	<listitem>
+	<para>
+	  Use the <application>Ximian Evolution</application> import
+          tool to import the files.  There's more information about
+          why this works, and how, at the Ximian support website.
+      </para>
+        </listitem>
+     </orderedlist>
+    </para>
+    </note>     
+
+    <note>
+      <title>Netscape Users</title>
+      <para>
+	Before importing mail from Netscape, make sure you select
+	<menuchoice><guimenu>File</guimenu><guimenuitem>Compact All
+	Folders</guimenuitem></menuchoice>. If you don't,
+	<application>Ximian Evolution</application> will import and undelete
+	the messages in your Trash folders.
+      </para>
+    </note>     
+
+    </para>
+
+    </sect2>
+  </sect1>
+  <sect1 id="usage-mail-organize-columns">
       <title>Sorting Mail with Column Headers</title>
       <para>
          By default, the message list has columns with the following
@@ -45,21 +224,21 @@
 	options:
 	<variablelist>	  
 	<varlistentry>
-	  <term><guimenuitem>Sort Ascending</guimenuitem></term>
+	  <term><guimenuitem>Sort Ascending</guimenuitem>:</term>
 	  <listitem><para>
 	      Sorts the messages top to bottom.
 	    </para></listitem>
 	</varlistentry>
 	  
 	  <varlistentry>
-	    <term><guimenuitem>Sort Descending</guimenuitem></term>
+	    <term><guimenuitem>Sort Descending</guimenuitem>:</term>
 	    <listitem><para>
 		Sorts the messages bottom to top.
 	      </para></listitem>
 	  </varlistentry>
 	  
 	  <varlistentry>
-	    <term><guimenuitem>Group By this Field</guimenuitem></term>
+	    <term><guimenuitem>Group By this Field</guimenuitem>:</term>
 	    <listitem><para>
 	      Groups messages instead of sorting them. This makes each contact
 	      with identical properties in the specified field to be placed in
@@ -69,7 +248,7 @@
 	  
 	  <varlistentry>
 	    <term><guimenuitem>Remove this
-		Column</guimenuitem></term> <listitem><para> Remove
+		Column</guimenuitem>:</term> <listitem><para> Remove
 		this column from the display. You can also remove
 		columns by dragging the header off the list and
 		letting it drop.  </para></listitem>
@@ -77,7 +256,7 @@
 	  
 	  <varlistentry>
 	    <term><guimenuitem>Field
-		Chooser</guimenuitem></term> <listitem><para> 
+		Chooser</guimenuitem>:</term> <listitem><para> 
 	      When you choose this item, a list
 	      of column headers will appear; just drag and drop them into
 	      place between two existing headers. A red arrow will
@@ -131,7 +310,7 @@
 	right below the toolbar, and choose a search type:
 	<variablelist>
 	  <varlistentry>
-	    <term><guilabel>Body or subject contains</guilabel></term>
+	    <term><guilabel>Body or subject contains</guilabel>:</term>
 	  <listitem>
 	      <para>
 	        This will search message subjects and the messages
@@ -141,7 +320,7 @@
 	    </listitem>
 	  </varlistentry>
 	  <varlistentry>
-	    <term> <guilabel>Body contains</guilabel> </term>
+	    <term> <guilabel>Body contains</guilabel>:</term>
 	    <listitem>
 	      <para>
 	        This will search only in message text, not the subject
@@ -150,7 +329,7 @@
 	    </listitem>
 	  </varlistentry>
 	  <varlistentry>
-	    <term><guilabel>Subject contains</guilabel></term>
+	    <term><guilabel>Subject contains:</guilabel></term>
 	    <listitem>
 	      <para>
 	        This will show you messages where the search text is
@@ -160,7 +339,7 @@
 	    </listitem>
 	  </varlistentry>
 	  <varlistentry>
-	    <term><guilabel>Body does not contain</guilabel></term>
+	    <term><guilabel>Body does not contain:</guilabel></term>
 	    <listitem>
 	      <para>
 	        This finds every email message that does not have the
@@ -171,7 +350,7 @@
 	    </listitem>
 	  </varlistentry>
 	  <varlistentry>
-	    <term><guilabel>Subject does not contain</guilabel></term>
+	    <term><guilabel>Subject does not contain:</guilabel></term>
 	    <listitem>
 	      <para>
 	        This finds every mail whose subject does not contain
@@ -342,13 +521,25 @@
 		  <para>
 		    Mailing List - Filter based on the mailing list it came from.
 		  </para>
+		  <note>
+		    <title>How Does Filtering on Mailing Lists Work?</title>
+		    <para>
+		      Filtering on mailing list actually looks for a
+		      specific mailing-list header called the
+		      <computeroutput>X-BeenThere</computeroutput>
+		      header, used to identify mailing lists or other
+		      redistributors of mail.
+		    </para>
+		  </note>
 		</listitem>
 		
 		<listitem>
 		  <para>
-		    Regex Match - If you know your way around a <glossterm
-									   linkend="regular-expression">regex</glossterm>, or
-		    regular expression, put your knowledge to use here.
+		    Regex Match - If you know your way around a
+		    <glossterm
+		    linkend="regular-expression">regex</glossterm>, or
+		    regular expression, put your knowledge to use
+		    here.
 		  </para>
 		</listitem>
 		
@@ -436,16 +627,27 @@
       <example id="filter-example">
          <title>Using a Filter to Avoid Spam</title>
          <para>
-           The majority of bulk mail is tagged with the
+           A good deal of bulk mail is eventually tagged with the
            <computeroutput>Precedence: Bulk</computeroutput> header at
-           one point or another.  Some of these messages, of course,
-           could be in mailing lists you've subscribed to, but many of
-           them are unsolicited commercial email.  
+           one point or another.  Not all of it is, of course, and
+           there are "good" messages (mailing lists you subscribe to,
+           for example) that are also considered "Bulk" mail.
+           However, if you filter out all the mail with that header,
+           you'll catch a lot of the mail you don't want to get.
          </para>
          <para>
-           To catch them and put them all in one place, create a
-           new filter for incoming mail. Then:
+           To catch them and automatically mark them for deletion, do
+           the following:
             <orderedlist>
+
+             <listitem><para>
+                 Select <menuchoice><guimenu>Tools</guimenu><guimenuitem>Filters</guimenuitem></menuchoice>.
+             </para></listitem>
+
+             <listitem><para>
+                 Click <guibutton>New</guibutton>.
+             </para></listitem>
+
              <listitem><para>
                Set the first part of your search critera to look in a <guilabel>Specific header</guilabel>.
              </para></listitem>
@@ -469,17 +671,15 @@
                folder where you'd like to place bulk mail.
              </para></listitem>
 
-             <listitem><para>
-               If you like, add an action and choose <guilabel>Stop
-               Processing</guilabel> if you'd like this message to be
-               ignored by all other filters.
-             </para></listitem>
+             <listitem><para> If you like, add another action and
+               choose <guilabel>Delete</guilabel>.
+               </para></listitem>
 
              <listitem><para>
                 Click OK. You're done.
-    	     </para></listitem>
+             </para></listitem>
 	   </orderedlist>
-	 </para>
+         </para>
       </example>
     </sect2>
 
@@ -495,7 +695,7 @@
 	      Select
 	      <menuchoice>
 		<guimenu>Tools</guimenu>
-		<guimenu>Filters</guimenu>
+		<guimenuitem>Filters</guimenuitem>
 	      </menuchoice>
 	    </para>
 	  </listitem>
@@ -608,12 +808,14 @@
 
 
     <note id="unmatched-vfolder">
-      <title>The Unmatched vFolder</title>
+      <title>The "Unmatched" vFolder</title>
       <para>
 	Obviously, not all messages will fit into all your Virtual
-	Folders.  That's why <application>Ximian Evolution</application>
-	includes an UNMATCHED vFolder.  The UNMATCHED 
-	vFolder displays messages that are not matched by other rules.
+	Folders.  That's why <application>Ximian
+	Evolution</application> includes an Unmatched vFolder.  The
+	Unmatched vFolder displays messages that are not matched by
+	other rules. If you have no vFolders, the Unmatched folder
+	will contain all of your mail.
       </para>
     </note>
 
@@ -792,17 +994,17 @@
 		  </para>
 		</listitem>
 	      </itemizedlist>
-	 
-	    </para>
-	  </listitem>
-	  <listitem>
-	<para>
-	        If you want multiple criteria for this filter, press <guibutton>Add
-		criterion</guibutton> and repeat the previous step.
-	    </para>
-	  </listitem>
-    </orderedlist>
-
+	
+         </para>
+     </listitem>
+   </orderedlist>
+</para>
+<para>
+Remote folders are considered active if you are connected to the
+server; you must be connected to your mail server for the vFolder to
+include any messages from that source.
+</para>
+<para>
       <figure id="usage-mail-vfolder-fig-createrule">
 	<title>Selecting a vFolder Rule</title>
 	<screenshot>
@@ -816,29 +1018,4 @@
       </para>
     </sect2>
   </sect1>
-  <!--
-    <sect1 id="usage-mail-subscriptions">
-      <title>Subscription Management</title>
-      <para>
-         <application>Ximian Evolution</application> lets you handle your
-         IMAP and newsgroup subscriptions with the same tool: the
-         subscriptions manager.  To start using it, choose
-         <menuchoice> <guimenu>Settings</guimenu> <guimenuitem>Manage
-         Subscriptions</guimenuitem> </menuchoice>.
-      </para>
-      <para>
-         If you have configured any IMAP (mail) or NNTP (news)
-         servers, you will see them listed in the left half of the
-         subscription management window.  Click on a server to select
-         it, and you will see the folders or newsgroups available to
-         you.  You can then select individual folders and subscribe to
-         them, or remove yourself from the subscription list.
-      </para>
-      <para>
-        Once you have subscribed to a folder or newsgroup, your system
-        will check for new messages whenever you press the
-        <guibutton>Get Mail</guibutton> button.
-    </para>
-  </sect1>
--->
 </chapter>

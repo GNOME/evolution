@@ -1,108 +1,105 @@
   <chapter id="config-sync">
-     <title>Setting up your synchronization system</title> 
+     <title>Oppsett av synkronisering</title> 
      <para>
-        Synchronization presents you with two issues you'll need to
-        address. 
+        Synkronisering presenterer to problemer du må håndtere.
         <simplelist>
           <member>
-            Your computer needs to recognize and access your handheld.
-            At this time, <application>Evolution</application> only
-            supports Palm-OS devices like the PalmPilot and the
-            Handspring Visor.
+            Din datamaskin må gjenkjenne og godta din håndholdte.
+            For tiden støtter, <application>Ximian Evolution</application>
+            kun Palm-OS enheter som PalmPilot og Handspring Visor.
           </member>
           <member>
-           You should decide what sort of synchronization behavior you
-           want.
+           Du må bestemme hvilken oppførsel du ønsker for synkroniseringen.
           </member>
         </simplelist>
     </para>
 
     <para>
-       If you haven't used a handheld device with your computer
-       before, you'll need to run the GNOME <application>Control
-       Center</application> by selecting
-       <menuchoice><guimenu>System</guimenu><guimenuitem>Settings</guimenuitem></menuchoice>,
-       and make sure that <application>Pilot Link</application> is
-       properly configured.
+       Hvis du ikke har brukt en håndholdt enhet mot din datamaskin
+       før må du kjøre GNOME <application>kontrollsenter</application>
+       ved å velge <menuchoice><guimenu>System</guimenu><guimenuitem>
+       Innstillinger</guimenuitem></menuchoice>,
+       og sørge for at <application>Pilot Link</application> er
+       konfigurert på en korrekt måte.
     </para>
     <para>
-        Once your computer and your Palm-OS device are talking happily
-        to each other, select the <glossterm
-        linkend="conduit">conduits</glossterm> you want under the
-        <guilabel>Pilot Conduits</guilabel> section of the Control
-        Center.  You may use conduits to synchronize data with several
-        applications; the <application>Ximian Evolution</application>
-        conduits are labelled <guilabel>EAddress</guilabel>, for the
-        address cards in your Contact Manager,
-        <guilabel>ECalendar</guilabel>, for your Calendar, and
-        <guilabel>ETodo</guilabel>, for your Task List.
+        Når din datamaskin og din Palm-OS-enhet snakker med hverandre,
+        velg <glossterm
+        linkend="conduit">komponenter</glossterm> du ønsker under
+        <guilabel>Pilot-komponenter</guilabel> seksjonen i kontrollsenteret
+        Du kan bruke komponenter for synkronisering av data mot flere
+        applikasjoner; <application>Ximian Evolution</application>
+        komponentene er merket <guilabel>EAdresse</guilabel>, for
+        kontaktene i din adressebok, <guilabel>EKalender</guilabel>,
+        for din kalender, og <guilabel>EOppgave</guilabel>, for din
+        oppgaveliste.
     </para>
    <para>
-      To enable a conduit, click the
-        <guibutton>Enable</guibutton> to enable it, and click
-        <guibutton>Settings</guibutton> to change what it will do when
-        activated.  Your options may vary depending on the conduit,
-        but typically they will be:
+      For å aktivere en komponent klikker du
+        <guibutton>Aktiver</guibutton>. Klikk så
+        <guibutton>Innstillinger</guibutton> for å endre oppførsel ved
+        aktivering. Dine valg vil variere avhengig av komponent,
+        men vil typisk være:
 
         <variablelist>
          <varlistentry>
-            <term>Disabled</term>
+            <term>Deaktivert:</term>
             <listitem> 
                <para>
-                  Do nothing.
+                  Ikke gjør noe.
                </para>
             </listitem>
           </varlistentry>
 
          <varlistentry>
-            <term>Synchronize</term>
+            <term>Synkroniser:</term>
             <listitem> 
                <para>
-                  Copy new data from the computer to the handheld, and
-                  from the handheld to the computer.  Remove items
-                  that were on both systems but have been deleted on
-                  one.
+                  Kopier nye data fra datamaskinen til den håndholdte og
+                  fra den håndholdte til datamaskinen. Fjern oppføringer
+                  som var på begge systemene men har blitt slettet på
+                  en av dem.
                </para>
             </listitem>
           </varlistentry>
 
          <varlistentry>
-            <term>Copy From Pilot</term>
+            <term>Kopier fra pilot:</term>
             <listitem> 
                <para>
-                  If there is any new data on the the handheld device,
-                  copy it to the computer.
+                  Hvis det finnes nye data på den håndholdte enheten,
+                  kopier disse til datamaskinen.
                </para>
             </listitem>
           </varlistentry>
 
          <varlistentry>
-            <term>Copy To Pilot</term>
+            <term>Kopier til pilot:</term>
             <listitem> 
                <para>
-                 Copy new data from the computer to the handheld. 
+                 Kopier nye data fra datamaskinen til den håndholdte. 
                </para>
             </listitem>
           </varlistentry>
 
          <varlistentry>
-            <term>Merge From Pilot</term>
+            <term>Flett fra pilot:</term>
             <listitem> 
                <para>
-                  Copy new data from the handheld to the computer, and
-                  remove any information from the computer that has
-                  been deleted on the handheld.
+                  Kopier nye data fra den håndholdte til datamaskinen, og
+                  fjern all informasjon fra datamaskinen som også er slettet
+                  på den håndholdte.
                </para>
             </listitem>
           </varlistentry>
 
          <varlistentry>
-            <term>Merge To Pilot</term>
+            <term>Flett til pilot:</term>
             <listitem> 
                <para>
-                  Copy new data from the computer to the handheld, and
-                  remove any information from the handheld that has
-                  been deleted on the computer.
+                  Kopier nye data fra datamaskinen til den håndtholdte og
+                  fjern all informasjon fra den håndholdte hvis den også
+                  er slettet på datamaskinen.
                </para>
             </listitem>
           </varlistentry>
@@ -110,24 +107,20 @@
     </para>
 
     <para>
-      Select the behavior you want for each conduit you choose to use.
-      If you're not sure, go ahead and stick with
-      <guilabel>Synchronize</guilabel>.  Then, put your handheld on
-      its cradle and press the HotSync button.
+      Velg oppførselen du ønsker for hver komponent du velger å bruke.
+      Hvis du er usikker kan du bruke
+      <guilabel>Synkroniser</guilabel>.  Plasser så din håndholdte i
+      dokken og trykk på HotSync knappen.
     </para>
       <para> 
          <tip> 
-	  <title>Data Loss Prevention</title> 
+	  <title>Forhindring av datatap</title> 
 	  <para>
-	    It's always a good idea to make a backup.  To do that,
-	    make a copy of the <filename>evolution</filename>
-	    directory inside your home directory.
+	    Det er alltid lurt å ta en sikkerhetskopi. For å gjøre dette
+	    lager du en kopi av katalogen <filename>evolution</filename>
+	    i din hjemmekatalog.
           </para>
 	</tip>
        </para>
 
     </chapter>
-
-
-
-

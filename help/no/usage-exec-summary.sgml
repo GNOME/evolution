@@ -2,10 +2,10 @@
 <!DOCTYPE Chapter PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN">
 -->
 <chapter id="usage-summary">
-  <title>Using the Ximian Evolution Summary</title>
+  <title>Getting Oriented with the Ximian Evolution Summary</title>
   
   <sect1 id="summary-intro">
-    <title>Introducing the Summary</title>
+    <title>Using the Summary</title>
     <para>
       The Ximian Evolution Summary can show you what you need to know
       quickly.  It will show you your tasks for that day, how many
@@ -28,8 +28,7 @@
 	</listitem>
 	<listitem>
 	  <para>
-	    Your mail summary, showing you how many new emails are
-	    waiting in selected mail boxes.
+	    Mail summary
 	  </para>
 	</listitem>
 	<listitem>
@@ -185,7 +184,11 @@
 	  <title>Metric or Imperial?</title>
 	  <para>
 	    <application>Evolution</application> supports both
-	    Imperial and Metric measurement for weather reports.
+	    Imperial and Metric measurement for weather
+	    reports. Imperial units are sometimes called British
+	    units, but are used almost exclusively in the United
+	    States. Britain, and most of the rest of the world, use
+	    metric units.
 	  </para>
 	</tip>
       </para>

@@ -8,7 +8,7 @@
       <para>
         This book is divided into two parts, with several
         appendices. The first part is a <link linkend="usage">guided
-        tour</link>&mdash; it will explain how to use
+        tour</link>, which will explain how to use
         <application>Evolution</application>.  If you are new to
         <application>Evolution</application> or to groupware in
         general, this section is for you. The second section, covering
@@ -26,7 +26,7 @@
           <simplelist>
 	    <member><application>Applications</application></member>
 	    <member><command>Commands</command> you type at the command line</member>
-	    <member><guilabel>Labels</guilabel> for </member>
+	    <member><guilabel>Labels</guilabel> for buttons and other portions of the graphical interface</member>
 
             <member> Menu selections look like this:
                        <menuchoice>
@@ -42,25 +42,39 @@
 	  <member><glossterm linkend="apx-gloss">Words</glossterm>
             that are defined in the <xref linkend="apx-gloss">.</member>
 	  </simplelist>
+</para>
+<para>
+We'll provide assorted bits of additional information in tips set off from the rest of the book, as well. 
+
 	  <tip id="example-tip">
-	      <title>Example Tip</title>
+	      <title>Tip</title>
 	      <para>
 		Tips and bits of extra information will look like
 		this.
 	      </para>
 	    </tip>
+</para>
+
+<para>
+Examples are also set off from the rest of the text.  They look like this:
 
 	  <example>
 	    <title>Example Example</title>
 	    <para>
-	      This is what an example looks like. 
+	      This is what an example looks like.  We'll provide
+	      examples for some of the more complicated tasks you
+	      might be performing.
 	    </para>
 	  </example>
+</para>
+<para>
+Lastly, we'll have warnings, in cases where you should be careful:
 
 	    <warning id="example-warning">
 	      <title>Example Warning</title>
 	      <para>
-		This is what a warning looks like.
+		This is what a warning looks like. If there's a chance
+		you'll run into trouble, we'll warn you beforehand.
 	      </para>
 	  </warning>
         </para>

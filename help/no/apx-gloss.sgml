@@ -1,296 +1,294 @@
 <glossary id="apx-gloss">
 
- <title>Glossary</title>
+ <title>Ordliste</title>
 
  <glossentry id="attachment">
-  <glossterm>Attachment</glossterm>
+  <glossterm>Vedlegg:</glossterm>
   <glossdef>
    <para>
-    Any file sent along with an email.  Attachments may be embedded in
-    a message or appended to it.
+    Enhver fil som sendes med en melding. Vedlegg kan ligge i selve
+    meldingen eller ligge som et tillegg.
    </para>
   </glossdef>
  </glossentry>
 
 <glossentry id="automatic-indexing">
-  <glossterm>Automatic Indexing</glossterm>
+  <glossterm>Automatsk indeksering:</glossterm>
   <glossdef>
    <para>
-     Pre-sorting procedure that allows
-     <application>Evolution</application> to refer to data quickly.
-     It enables faster searches and decreases memory usage for
-     data displays.
+     Forhåndssorteringsprosedyre som lar
+     <application>Evolution</application> referere til data raskt.
+     Det muliggjøre raskere søk og reduserer minnebruk for
+     datavisninger.
    </para>
   </glossdef>
  </glossentry>
 
  <glossentry id="bcc">
-  <glossterm>Bcc (Blind Carbon Copy)</glossterm>
+  <glossterm>Bcc (Blind Carbon Copy):</glossterm>
   <glossdef>
    <para>
-    A way of addressing a message.  Bcc is used to send a group of
-    people an e-mail, while hiding their names and addresses from each
-    other.
+    En måte å adressere en melding. Bcc brukes for å sende en melding
+    til en gruppe mennesker, men samtidig skjule deres navn og e-postadresser
+    fra hverandre.
    </para>
   </glossdef>
  </glossentry>
 
  <glossentry id="cc">
-  <glossterm>Cc (Carbon Copy)</glossterm>
+  <glossterm>Cc (Carbon Copy):</glossterm>
   <glossdef>
    <para>
-    Carbon-copies are used to send a 3rd party a copy of the e-mail,
-    so they an keep up to date on a conversation, without being in the
-    To: list.
+    Karbonkopier brukes for å sende en tredjepart en kopi av en melding
+    slik at de kan holdes oppdatert i konversasjonen uten å være på
+    mottakerlisten.
    </para>
   </glossdef>
  </glossentry>
 
  <glossentry id="conduit">
-  <glossterm>Conduit</glossterm>
+  <glossterm>Conduit:</glossterm>
   <glossdef>
    <para>
-     A synchronization conduit is a small application which controls
-     the transfer of data between a handheld device and a desktop
-     computer.
+     En synkroniseringskomponent er en liten applikasjon som kontrollerer
+     overføring av data mellom en håndholdt enhet og en annen datamaskin.
    </para>
   </glossdef>
  </glossentry>
 
 
  <glossentry id="druid">
-  <glossterm>Druid</glossterm>
+  <glossterm>Druide:</glossterm>
   <glossdef>
    <para>
-    A tool which guides a user through a series of steps, usually to
-    configure or set up a program.  Equivalent to "Assistant" and
-    "Wizard."
+    Et verktøy som leder en bruker gjennom en serie steg, vanligvis for
+    å konfigurere eller sette opp et program. Samme som "Assisten" og
+    "Veiviser".
    </para>
   </glossdef>
  </glossentry>
 
  <glossentry id="evolution">
-  <glossterm>Evolution</glossterm>
+  <glossterm>Evolution:</glossterm>
   <glossdef>
    <para>
-    <application>Evolution</application> is the <acronym> GNOME
-    </acronym> groupware application.
+    <application>Evolution</application> er <acronym> GNOME's
+    </acronym> gruppevareapplikasjon.
    </para>
   </glossdef>
  </glossentry>
 
  <glossentry id="execute">
-  <glossterm>Execute</glossterm>
+  <glossterm>Kjør:</glossterm>
   <glossdef>
    <para>
-    To run a program.  Any file that can be run is called an
-    executable.  <application>Evolution</application> can download
-    executable attachments, but before they can be run, the files must
-    be marked as executable with a shell or file manager.  This
-    security precaution prevents the automatic or accidental execution
-    of malicious programs. For more information on executables and file
-    permissions, see the documentation for your file manager or shell.
+    Det å kjøre et program. Enhver fil som kan kjøres kalles
+    kjørbar fil. <application>Evolution</application> kan laste ned
+    kjørbare vedlegg, men før disse kan kjøres, må filene merkes som
+    kjørbare via skallet eller en filhåndterer. Dette er gjort som
+    et sikkerhetstiltak for å hindre automatisk eller tilfeldig kjøring
+    av ondsinnede programmer. For mer informasjon om kjørbare filer og
+    filrettigheter, se dokumentasjonen for din filhåndterer eller skall.
    </para>
   </glossdef>
  </glossentry>
 
  <glossentry id="expunge">
-  <glossterm>Expunge</glossterm>
+  <glossterm>Tøm:</glossterm>
   <glossdef>
    <para>
-     When messages are marked for deletion, they remain till they are expunged.
-     When a message is expunged, it is permanently deleted, as long as it was
-     marked for deletion.
+     Når meldinger merkes for sletting vil de bli værende til de tømmes.
+     Når en melding tømmes vil den bli slettet permanent hvis den var merket
+     for sletting.
    </para>
   </glossdef>
  </glossentry>
 
  <glossentry id="filetree">
-  <glossterm>File Tree</glossterm>
+  <glossterm>Filtre:</glossterm>
   <glossdef>
    <para>
-     A way of describing a group of files on a computer.  With the
-     perversity typical of computer (and especially Unix and Linux)
-     nomenclature, the top of the tree is called the root directory,
-     and denoted by <filename>/</filename>.
-     The rest of the "branches" spread downwards from the root.  Don't
-     confuse the root directory with the root
-     account, or root's home directory,
-     <filename>/home/root</filename>.b
+     En måte å beskrive en gruppe med filer på en datamaskin. Som et
+     resultat av datamaskinens litt fordreide syn på virkeligheten
+     blir toppen av treet kalt rotkatalogen, og vises med
+     <filename>/</filename>.
+     Resten av grenene sprer seg nedover fra roten. Ikke forveksle
+     rotkatalogen med kontoen til root (superbruker),
+     eller hjemmekatalogen til root,
+     <filename>/root</filename>.
    </para>
   </glossdef>
  </glossentry>
 
  <glossentry id="filter">
-  <glossterm>Filter</glossterm>
+  <glossterm>Filter:</glossterm>
   <glossdef>
    <para>
-    Within <application>Evolution</application>, a filter is a method
-    of sorting mail automatically.  You can create filters to perform
-    one or more actions on a message that meets any (or all) of a wide
-    range of criteria.
+    I <application>Evolution</application>, er et filter en metode
+    for automatisk sortering av meldinger. Du kan opprette filtre for å utføre
+    en eller flere handlinger på en melding som møter ethvert (eller alle)
+    av et bredt utvalg av kriterier.
    </para>
   </glossdef>
  </glossentry>
 
  <glossentry id="forward">
-  <glossterm>Forward</glossterm>
+  <glossterm>Videresend:</glossterm>
   <glossdef>
    <para>
-    If you get a message intended for someone else, you can use
-    message forwarding to send it on to the right person. 
+    Hvis du mottar en melding som var ment for noen andre kan du bruke
+    videresending for å sende den til riktig person. 
    </para>
   </glossdef>
  </glossentry>
 
  <glossentry id="groupware">
- <glossterm>Groupware</glossterm>
+ <glossterm>Gruppevare:</glossterm>
   <glossdef>
    <para>
-    Groupware is a term describing an application which helps groups
-    of people work together.  Typically, a groupware application will
-    have several productivity features built into one program,
-    including email, calendar, and addressbook tools.
+    Gruppevare er et uttrykk som beskriver en applikasjon som hjelper grupper
+    av mennesker å arbeide sammen. En gruppevareapplikasjon vil typisk
+    ha flere produktivitetsfunksjoner innebygget i ett program,
+    inkludert e-post, kalender, og adressebok.
    </para>
   </glossdef>
  </glossentry>
 
  <glossentry id="html">
-  <glossterm>HTML</glossterm>
+  <glossterm>HTML:</glossterm>
   <glossdef>
    <para>
-    Hyper-text Markup Language(<acronym>HTML</acronym>) is a language
-    for describing page layout in electronic documents like web pages,
-    help files, and email messages.  HTML can be used in email and
-    news posts to insert images and apply text treatments.
+    Hyper-text Markup Language (<acronym>HTML</acronym>) er et språk
+    for å beskrive utseende i elektroniske dokumenter som nettsider,
+    hjelpfiler, og e-postmeldinger.  HTML kan brukes til å sette inn
+    bilder og endre utseende på tekst i e-post og diskusjonsgruppeinnlegg.
    </para>
   </glossdef>
  </glossentry>
 
  <glossentry id="hot-key">
-  <glossterm>Hot Key</glossterm>
+  <glossterm>Hurtigtast:</glossterm>
   <glossdef>
    <para>
-    Hot-keys are keyboard combinations used to do actions on a
-    computer instead of using the mouse to do the same action.
-    Hot-keys can speed up computer usage.
+    Hurtigtaster er tastaturkombinasjoner som brukes for å utføre handlinger
+    på datamaskinen uten å bruke musen for å gjøre samme handling.
+    Hurtigtaster kan gjøre bruken av datamaskinen raskere.
    </para>
   </glossdef>
  </glossentry>
 
  <glossentry id="ical">
-  <glossterm>iCal</glossterm>
+  <glossterm>iCal:</glossterm>
   <glossdef>
    <para>
-    <application>iCal</application> is the program which
-    <application>Evolution</application> uses to manage the calendar
-    section.
+    <application>iCal</application> er programmet som
+    <application>Evolution</application> bruker for å håndtere kalenderen
    </para>
   </glossdef>
  </glossentry> 
 
  <glossentry id="imap">
-  <glossterm>IMAP</glossterm>
+  <glossterm>IMAP:</glossterm>
   <glossdef>
    <para>
-    Depending upon whom you ask, IMAP stands for the Internet Mail
-    Access Protocol, or the Interim Mail Access Protocol.  Whatever it
-    stands for, it allows access to email which is typically (although
-    not always) stored remotely on a server rather than on a local
-    hard disk.  Often contrasted with <glossterm>POP</glossterm>.
-    This will not be on the test.
+    Avhengig av hvem du spør, vil du høre at IMAP står for Internet
+    Mail Access Protocol, eller Interim Mail Access Protocol. Uansett hva det
+    står for gir det tilgang til e-post, vanligvis (men ikke
+    alltid) lagret eksternt på en tjener i stedet for på en lokal
+    harddisk.  I motsetning til <glossterm>POP:</glossterm>.
+    Dette vil ikke komme på prøven.
    </para>
   </glossdef>
  </glossentry>
 
 
  <glossentry id="inline">
-  <glossterm>Inline</glossterm>
+  <glossterm>Innfelt:</glossterm>
   <glossdef>
    <para>
-     Displayed as part of a message or other document, rather than
-     attached as a separate file. Contrast with <glossterm
-     linkend="attachment">Attachment</glossterm>.
+     Vises som en del av en melding eller annet dokument, i stedet for som
+     en separat fil. I motsetning til <glossterm
+     linkend="attachment">Vedlegg:</glossterm>.
    </para>
   </glossdef>
  </glossentry>
  
   <glossentry id="ldap">
-   <glossterm>LDAP</glossterm>
+   <glossterm>LDAP:</glossterm>
    <glossdef>
     <para>
-     LDAP, the Lightweight Directory Access Protocol, allows a client
-     to search through a large database of addresses, phone numbers,
-     and people stored on a server.
+     LDAP, Lightweight Directory Access Protocol, lar en klient
+     søke gjennom en stor database med adresser, telefonnummer, og
+     mennesker, som er lagret på en tjener.
     </para>
    </glossdef>
   </glossentry>
 
  <glossentry id="mail-client">
-  <glossterm>Mail Client</glossterm>
+  <glossterm>E-postklient:</glossterm>
   <glossdef>
    <para>
-    A mail client is the application with which a person reads and
-    sends e-mail.  Its counterparts are the various types of mail
-    servers, which handle user authentication and direct messages from
-    sender to recipient.
+    En e-postklient er applikasjonen som en person bruker for å lese og
+    sende e-post. I motsetning til forskjellige typer e-posttjenere,
+    som håndterer autentisering av brukere og dirigerer meldinger fra
+    avsender til mottaker.
    </para>
   </glossdef>
  </glossentry>
 
 
  <glossentry id="minicard">
-  <glossterm>Minicard</glossterm>
+  <glossterm>Minikort:</glossterm>
   <glossdef>
    <para>
-      A format for the display of contact data.  Similar in appearance
-      to a small business card.
+      Et format for visning av kontaktdata. Likt i utseende til et lite
+      visittkort.
    </para>
   </glossdef>
  </glossentry> 
 
  <glossentry id="nautilus">
-  <glossterm>Nautilus</glossterm>
+  <glossterm>Nautilus:</glossterm>
   <glossdef>
    <para>
-    <application>Nautilus</application> is the next generation file
-    manager for <acronym>GNOME</acronym> being written by Eazel.
+    <application>Nautilus</application> er neste generasjon
+    filhåndterer for <acronym>GNOME</acronym> skrevet av tidligere Eazel
+    med flere.
    </para>
   </glossdef>
  </glossentry>
 
  <glossentry id="pop">
-  <glossterm>POP</glossterm>
+  <glossterm>POP:</glossterm>
   <glossdef>
    <para>
-     POP, the Post Office Protocol, is a mechanism for email
-     transport.  In contrast to IMAP, it is used only to get mail from
-     a server and store it locally on your hard disk.
+     POP, Post Office Protocol, er en mekanisme for transport
+     av e-post. I motsetning til IMAP, brukes denne kun for å hente meldinger
+     fra en tjener og lagre den lokalt på din egen harddisk.
    </para>
   </glossdef>
  </glossentry>
 
  <glossentry id="protocol">
-  <glossterm>Protocol</glossterm>
+  <glossterm>Protokoll:</glossterm>
   <glossdef>
    <para>
-     An agreed-upon method of communication, especially one for
-     sending particular types of information between computer systems.
-     Examples include POP (Post Office Protocol), for email, and HTTP
-     (HypterText Transfer Protocol), for web pages.
+     En akseptert kommunikasjonsmetode, spesielt for sending av
+     bestemte typer informasjon mellom datamaskinsystemer.
+     Eksempler inkluderer POP (Post Office Protocol), for e-post, og HTTP
+     (HypterText Transfer Protocol), for nettsider.
    </para>
   </glossdef>
  </glossentry>
 
  <glossentry id="public-key-encryption">
-  <glossterm>Public Key Encryption</glossterm>
+  <glossterm>Public Key Encryption:</glossterm>
   <glossdef>
    <para>
-     A strong encryption method that uses a set of two "keys," one of
-     which is made public, and one of which is kept private. Data
-     encrypted using the public key can only be decrypted using the
-     private key.  The longer the keys, the more difficult it is to
-     break the encryption.
+     En sterk krypteringsmetode som bruker et sett med to "nøkler", en
+     offentlig og en som holdes privat. Data som krypteres med den
+     offentlige nøkkelen kan kun dekrypteres med den private nøkkelen.
+     Dess lengre nøklene er jo vanskeligere er det å bryte krypteringen.
    </para>
   </glossdef>
  </glossentry>
@@ -298,140 +296,124 @@
 
 
  <glossentry id="regular-expression">
-  <glossterm>Regular Expression</glossterm>
+  <glossterm>Vanlig uttrykk:</glossterm>
   <glossdef>
    <para>
-      A regular expression, or "regex", is a way of describing a
-      string of text using metacharacters or wild-card symbols.  For
-      example, the statement <userinput>fly.*so[a|u]p</userinput> means
-      "any phrase beginning with 'fly' and ending in 'soup' or
-      'soap'".  If you searched for that expression, you'd find both
-      "fly in my soup" and "fly in my soap."  There's not room here to
-      go into depth, but if you want, have a look at the documentation
-      for the <command>grep</command> command.
+      Et regulært uttrykk, eller "regex", er en måte å beskrive en
+      tekststreng ved bruk av metategn eller jokertegn. For eksempel,
+      uttrykket <userinput>fly.*so[a|u]p</userinput> betyr
+      "enhver frase som begynner med 'fly' og slutter med 'soup' eller
+      'soap'".  Hvis du søker etter dette uttrykket, vil du finne både
+      "fly in my soup" og "fly in my soap."  Det er ikke tid til å gå
+      i dybden her, men hvis du ønsker det kan du se på dokumentasjonen
+      for <command>grep</command>-kommandoen.
    </para>
   </glossdef>
  </glossentry>
 
  <glossentry id="script">
-  <glossterm>Script</glossterm>
+  <glossterm>Skript:</glossterm>
   <glossdef>
    <para>
-    A program written in an interpreted (rather than compiled)
-    language.  Often used as a synonym for "macro," to denote a series
-    of pre-recorded commands or actions within an application.
+    Et program skrevet i et fortolket (ikke kompilert)
+    språk. Brukes ofte som et synonym for "makro," for å beskrive en rekke
+    med forhåndsinspilte kommandoer eller handlinger i en applikasjon.
    </para>
   </glossdef>
  </glossentry>
 
  <glossentry id="sendmail">
-  <glossterm>Sendmail</glossterm>
+  <glossterm>Sendmail:</glossterm>
   <glossdef>
    <para>
-      As its name implies, <application>sendmail</application> is a
-      program which sends mail.  <application>Evolution</application>
-      can use it instead of <glossterm>SMTP</glossterm>; some people
-      prefer it because it offers more flexibility, but is more
-      difficult to set up.
+      Som navnet hentyder, er <application>sendmail</application> et
+      program som sender e-post. <application>Evolution</application>
+      kan bruke dette istedet for <glossterm>SMTP:</glossterm>; noen
+      foretrekker dette fordi det gir større grad av fleksibilitet, men
+      det er vanskeligere å konfigurere.
    </para>
   </glossdef>
  </glossentry>
 
 
  <glossentry id="shortcut-bar">
-  <glossterm>Shortcut Bar</glossterm>
+  <glossterm>Snarveilinje:</glossterm>
   <glossdef>
    <para>
-     A portion of <application>Evolution</application> which offers
-     users fast access to the most frequently used portions of the
-     application.
+     En del av <application>Evolution</application> som gir brukere
+     rask tilgang til de mest brukte delene av applikasjonen.
    </para>
   </glossdef>
  </glossentry>
 
   <glossentry id="signature">
-   <glossterm>Signature</glossterm>
+   <glossterm>Signatur:</glossterm>
    <glossdef>
     <para>
-     In email terms, a signature is a piece of text placed at the end
-     of every email sent, like a hand-written signature at the bottom
-     of a written letter.  A signature can be anything from a favorite
-     quotation to a link to a web page; courtesy dictates that it be
-     fewer than four lines long.
+     I e-post-terminologien er en signatur et stykke tekst plassert ved
+     slutten av alle meldinger som sendes, på samme måte som en håndskrevet
+     signatur i et brev. En signatur kan være alt fra et favorittsitat
+     til en lenke til en nettside; av hensyn til andre er normen at den
+     ikke skal være lengre enn fire linjer.
     </para>
    </glossdef>
   </glossentry> 
 
   <glossentry id="SMTP">
-   <glossterm>SMTP</glossterm>
+   <glossterm>SMTP:</glossterm>
    <glossdef>
     <para>
-      This is the most common way of transporting mail messages from
-      the client's computer (you) to the server. SMTP stands for
+      Dette er den vanligste måten å transportere e-postmeldinger fra
+      klientens datamskin (deg) til tjeneren. SMTP står for
       Simple Mail Transfer Protocol.
     </para>
    </glossdef>
   </glossentry> 
 
  <glossentry id="tooltip">
-  <glossterm>Tool-Tip</glossterm>
+  <glossterm>Verktøytips:</glossterm>
   <glossdef>
    <para>
-      A small box of explanatory text which appears when the mouse
-      pointer is held motionless over a button or other interface
-      element.
+      En liten boks med forklarende tekst som vises når muspekeren
+      holdes i ro over en knapp eller en annen del av
+      brukergrensesnittet.
    </para>
   </glossdef>
  </glossentry>
 
  <glossentry id="virus">
-  <glossterm>Virus</glossterm>
+  <glossterm>Virus:</glossterm>
   <glossdef>
    <para>
-    A program which inserts itself into other files or programs and
-    which, when executed, spreads to more programs and other
-    computers.  A virus can cause substantial damage by clogging
-    networks or disk drives, deleting files, or opening security
-    holes.
+    Et program som legger seg selv til andre filer eller programmer og
+    som, når det kjøres, sprer seg til flere programmer og andre
+    datamaskiner. Et virus kan forårsake stor skade ved å bruke
+    båndbredde, diskplass, slette filer, eller åpne sikkerhetshull.
    </para>
   </glossdef>
  </glossentry>
 
  <glossentry id="vcard">
-  <glossterm>vCard</glossterm>
+  <glossterm>vCard:</glossterm>
   <glossdef>
    <para>
-    A file format for the exchange of contact information. When you
-    get an address card attached to an email, it's probably in vCard
-    format.  Not to be confused with <glossterm
-    linkend="vfolder">vFolder</glossterm>.
+    Et filformat for utveksling av kontaktinformasjon. Når du mottar
+    et adressekort vedlagt i en melding, er det sannsynligvis i vCard-
+    format. Ikke til forveksling med <glossterm
+    linkend="vfolder">vFolder:</glossterm>.
    </para>
   </glossdef>
  </glossentry>
 
  <glossentry id="vfolder">
-  <glossterm>vFolder</glossterm>
+  <glossterm>vFolder:</glossterm>
   <glossdef>
    <para>
-    An email organization tool. vFolders allows you to create a folder
-    that contains the results of a complex search. Folder contents are
-    are updated dynamically.
+    Et verktøy for organisering av meldinger. vFoldere lar deg opprette en
+    mappe som inneholder resultatet av et komplekst søk. vFolder-innhold
+    oppdateres dynamisk.
    </para>
   </glossdef>
  </glossentry>
 
 </glossary>
-
-
-
-
-
-
-
-
-
-
-
-
-
-

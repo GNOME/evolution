@@ -103,22 +103,22 @@
 	<itemizedlist>
 	  <listitem>
 	    <para>
-	      Full Name &mdash; Your full name (Example: John Doe).
+	      Full Name: Your full name (Example: John Doe).
 	    </para>
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Email Address &mdash; Your email address (Example: john@doe.com)
+	      Email Address: Your email address (Example: john@doe.com)
 	    </para>
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Organization &mdash; The company where you work (optional).
+	      Organization: The company where you work (optional).
 	    </para>
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Signature file &mdash; If you'd like to use an email
+	      Signature file: If you'd like to use an email
 	      <glossterm linkend="signature">signature</glossterm>,
 	      select your signature file here.  Normally, the
 	      signature will be the contents of the
@@ -138,35 +138,34 @@
 	<itemizedlist>
 	  <listitem>
 	    <para>
-	      Server Type &mdash; There are numerous types of servers
+	      Server Type: There are numerous types of servers
 	      from which <application>Ximian Evolution</application>
-	      can fetch your mail:
+	      can fetch your mail.  Ask your system administrator if
+	      you're not sure which of the following are available to
+	      you:
 	      <itemizedlist>
 		<listitem>
 		  <para>
-		    POP &mdash; Downloads your email to your hard disk for
+		    POP: Downloads your email to your hard disk for
 		    permanent storage.
 		  </para>
 		</listitem>
 		<listitem>
 		  <para>
-		    IMAPv4 &mdash; Keeps the email on your server so
-		    you can access your email from any computer that
-		    supports IMAPv4 and have everything be the
-		    same. For more information about how to use IMAP
-		    mail, see <xref
-		    linkend="usage-mail-subscriptions">.
+		    IMAP: Keeps the email on your server so you
+		    can access your email from multiple systems. 
 		  </para>
 		</listitem>
 		<listitem>
 		  <para>
-		    Unix mail spool file &mdash; If you run a mail
-		    server on your desktop computer, choose this optino.
+		    Unix mail spool file: If you run a mail
+		    server on your desktop computer, choose this
+		    option.
 		  </para>
 		</listitem>
 		<listitem>
 		  <para>
-		    Standard Unix .mbox file &mdash; If you want
+		    Standard Unix .mbox file: If you want
 		    <application>Ximian Evolution</application> to
 		    read mail from a specific file, or if you download
 		    mail with another application, choose this option.
@@ -174,37 +173,57 @@
 		</listitem>
 		<listitem>
 		  <para>
-		    Qmail maildir format files &mdash; If you download your
+		    Qmail maildir format files: If you download your
 		    mail using qmail, you'll want to use this.
 		  </para>
 		</listitem>
 		<listitem>
 		  <para>
-		    None &mdash; How do you  have None?  figure out!
+		    None: Select this if you do not plan to
+		    check mail with this account.
 		  </para>
 		</listitem>
 	      </itemizedlist>
+
+         <note id="imap-note-one">
+            <title>What's an IMAP Namespace?</title>
+                <para>
+                    For IMAP mail servers, your sysadmin may provide
+		    you with a specific namespace, the path on the
+		    IMAP server where you check for mail.  If you
+		    check your IMAP mail and your folder list includes
+		    files that don't look like mail folders, you
+		    probably need to change your mail
+		    namespace. Typical values are "mail" and "Mail."
+		    If you prefer, you can choose to subscribe to
+		    individual mail folders one at a time. For more
+		    information about how to use IMAP mail, see <xref
+		    linkend="usage-mail-subscriptions">.
+               </para>
+             </note>
 	    </para>
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Email Server &mdash; This is the address of the server you're
+	      Email Server: This is the address of the server you're
 	      downloading from.
 	    </para>
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Username &mdash; The username that you login to your email.  That
+	      Username: The username that you login to your email.  That
 	      is often the part before the @ in your email.
 	    </para>
 	    <para>
-	      Authentication Type &mdash; Chances are you are using
-	      <guilabel>Password</guilabel>.  Ask your administrator for more
-	      details.  You can have <application>Ximian Evolution</application> check
-	      by clicking <guibutton>Check for supported types</guibutton>.
+	      Authentication Type: Chances are you are using
+	      <guilabel>Password</guilabel>.  Ask your administrator
+	      for more details.  You can have <application>Ximian
+	      Evolution</application> make sure you've chosen
+	      correctly by clicking <guibutton>Check for supported
+	      types</guibutton>.
 	    </para>
 	    <para>
-	      Remember Password &mdash; If you prefer to not enter your
+	      Remember Password: If you prefer to not enter your
 	      password every time you check email, press this button.
 	    </para>
 	  </listitem>
@@ -229,18 +248,18 @@
 	<itemizedlist>
 	  <listitem>
 	    <para>
-	      Server Type &mdash; There are numerous server types that
+	      Server Type: There are numerous server types that
 	      <application>Ximian Evolution</application> supports for sending your
 	      mail.
 	      <itemizedlist>
 		<listitem>
 		  <para>
-		    SMTP &mdash; Downloads mail into your mailbox file.
+		    SMTP: Downloads mail into your mailbox file.
 		  </para>
 		</listitem>
 		<listitem>
 		  <para>
-		    Sendmail &mdash; Uses another program to download your mail
+		    Sendmail: Uses another program to download your mail
 		    to your mailbox files.
 		  </para>
 		</listitem>
@@ -249,20 +268,20 @@
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Host &mdash; If you chose SMTP, enter the server's name
+	      Host: If you chose SMTP, enter the server's name
 	      or IP address here.
 	    </para>
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Server requires authentication &mdash; If your server
+	      Server requires authentication: If your server
 	      requires you to enter a password to send mail, check
 	      this box.
 	    </para>
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Authentication Type &mdash; Chances are you are using
+	      Authentication Type: Chances are you are using
 	      <guilabel>Password</guilabel>.  If you're not sure, ask
 	      your system administrator or ISP, or have
 	      <application>Ximian Evolution</application> check for you by
@@ -272,14 +291,14 @@
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Username &mdash; The account name you use when you login
+	      Username: The account name you use when you login
 	      to check your email.  Normally, this is the part of your
 	      email address before the '@' character.
 	    </para>
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Remember Password &mdash; If you prefer to not enter
+	      Remember Password: If you prefer to not enter
 	      your password every time you check email, press this
 	      button.
 	    </para>
@@ -291,35 +310,43 @@
   <sect2 id="fourth-step">
       <title>Importing Mail (Optional)</title>
       <para>
-	If <application>Ximian Evolution</application> finds mail or address
-	files from another application, it will offer to import them.
-	If you're not sure which file format your mail program uses,
-	ask your system administrator.
+	If <application>Ximian Evolution</application> finds mail or
+	address files from another application, it will offer to
+	import them.  If you're not sure which file format your mail
+	program uses, ask your system administrator.  If you want, you
+	can skip this step and return to it at a later time by
+	selecting
+	<menuchoice><guimenu>File</guimenu><guimenuitem>Import</guimenuitem></menuchoice>.
       </para>
       <para>
 	<application>Ximian Evolution</application> can import the following types of
 	files:
           <variablelist>
            <varlistentry>
-	    <term>VCard (.vcf, gcrd)</term>
+	    <term>VCard (.vcf, gcrd):</term>
 	    <listitem>
 	      <para>
-	         The most common addressbook format.
+	         The addressbook format used by the GNOME, KDE, and
+	         many other contact management applications. You
+	         should be able to export to VCard format from any
+	         address book application.
 	      </para>
 	    </listitem>
 	  </varlistentry>
 
 	  <varlistentry>
-	    <term>Outlook Express 4 (.mbx)</term>
+	    <term>Microsoft Outlook Express 4 (.mbx):</term>
 	    <listitem>
 	      <para>
-                 Email file format used by Outlook Express 4.
+                 Email file format used by Microsoft Outlook Express
+4. For other versions of Microsoft Outlook and Outlook Express, see
+the workaround described in the note below.
 	      </para>
 	    </listitem>
 	  </varlistentry>
 
 	  <varlistentry>
-	    <term>MBox (mbox)</term>
+	    <term>MBox (mbox):</term>
 	    <listitem>
 	      <para>
 	       The email box format used by Mozilla, Netscape,
@@ -331,11 +358,13 @@
 </para>
 <para>
     <note>
-      <title>Outlook 2000 Users</title>
+      <title>Microsoft Outlook and Outlook Express Users</title>
       <para>
-	Outlook 2000 uses a proprietary format that
-	<application>Ximian Evolution</application> cannot import directly.
-	To import files from Outlook 2000, do the following:
+	Microsoft Outlook, and versions of Outlook Express after
+	version 4, use proprietary formats that <application>Ximian
+	Evolution</application> cannot read or import.  For contacts,
+	you may have to email them to yourself and import them that
+	way.  For email, there is a simpler workaround:
 	<orderedlist numeration="arabic">
 
 	<listitem>
@@ -356,8 +385,8 @@
 	<listitem>
 	<para>
 	  Use the <application>Ximian Evolution</application> import
-          tool to import the files.  Read the FAQ at the Ximian
-          website for more information.
+          tool to import the files.  There's more information about
+          why this works, and how, at the Ximian support website.
       </para>
         </listitem>
      </orderedlist>
@@ -456,7 +485,7 @@
     
     <para>
       <inlinemediaobject><imageobject><imagedata  fileref="figures/full-5" format="png"></imageobject></inlinemediaobject>
-      <guilabel>Search Tools</guilabel>
+      <guilabel>Search Tool</guilabel>
     </para>
     
     <para>
@@ -484,7 +513,7 @@
 
 	    <variablelist>
 	      <varlistentry>
-		<term> <guibutton>Summary</guibutton></term>
+		<term> <guibutton>Summary</guibutton>:</term>
 		<listitem>
 	    <para>
 		    Start your day here.  The Ximian Evolution
@@ -498,7 +527,7 @@
 	      </varlistentry>
 
 	<varlistentry>
-	  <term> <guibutton>Inbox</guibutton></term>
+	  <term> <guibutton>Inbox</guibutton>:</term>
 	  <listitem>
 	    <para>
 	      Click the <guibutton>Inbox</guibutton> button to start
@@ -510,7 +539,7 @@
 	</varlistentry>
 
 	<varlistentry>
-	  <term><guibutton>Calendar</guibutton></term>
+	  <term><guibutton>Calendar</guibutton>:</term>
 	  <listitem>
 	    <para>
 	      The Calendar can store your appointments and task lists
@@ -521,7 +550,7 @@
 	</varlistentry>
 
        <varlistentry>
-         <term><guibutton>Tasks</guibutton></term>
+         <term><guibutton>Tasks</guibutton>:</term>
 	<listitem>
 	  <para>
 	     A full-size view of your calendar's task pad.
@@ -530,11 +559,11 @@
       </varlistentry>
 
 	<varlistentry>
-	  <term><guibutton>Contacts</guibutton></term>
+	  <term><guibutton>Contacts</guibutton>:</term>
 	  <listitem>
 	    <para>
-	      The Contact Manager holds your addresses, phone numbers,
-	      and contact information.  Like calendar information,
+	      The Addressbook holds contacts, with address, phone, and
+	      other personal information. Like calendar information,
 	      contact data can be synchronized with hand-held devices
 	      and shared over a network.
 	   </para>
@@ -569,7 +598,7 @@
       <application>Ximian Evolution</application>. It displays all your
       appointments, address cards, and email in a tree that's a lot
       like a <glossterm linkend="filetree">file
-      tree</glossterm>&mdash; it starts small at the top, and branches
+      tree</glossterm>-- it starts small at the top, and branches
       downwards. On most computers, there will be three or four
       folders at the base.  First, of course, is the
       <guilabel>Summary</guilabel>, a customizable summary of your
@@ -637,12 +666,11 @@
     <title>Navigating without the Folder Bar or the Shortcut Bar</title>
        <para>
          You don't need the folder bar or the shortcut bar to move
-         around the main window. You can use <keycap>Tab</keycap> to
-         switch from one part of the window to another. When you hide the folder
-         bar, 
-         there is a menu on the left side of the window just below the toolbar
-         to move about the folder tree, even with the folder and
-         shortcut bars hidden.
+         around the main window. You can use the <keycap>Tab</keycap>
+         key to switch from one part of the window to another. When
+         you hide the folder bar, there is a menu on the left side of
+         the window just below the toolbar to move about the folder
+         tree, even with the folder and shortcut bars hidden.
        </para>
      </tip>
 
@@ -764,7 +792,7 @@
    <para>
       <variablelist>
         <varlistentry>
-          <term> <guimenu>File</guimenu></term>
+          <term> <guimenu>File</guimenu>:</term>
 
           <listitem><para> Anything related to a file or to the
             operations of the application generally falls under this
@@ -773,7 +801,7 @@
         </varlistentry>
 
        <varlistentry>
-          <term> <guimenu>Edit</guimenu></term>
+          <term> <guimenu>Edit</guimenu>:</term>
           <listitem><para>
               The <guimenu>Edit</guimenu> menu holds
               useful tools that help you edit text and move it around.
@@ -781,7 +809,7 @@
         </varlistentry>
 
        <varlistentry>
-          <term> <guimenu>View</guimenu></term>
+          <term> <guimenu>View</guimenu>:</term>
           <listitem><para>
             This menu lets you decide how <application>Ximian Evolution</application> 
             should look. Some of the features control the appearance of 
@@ -791,17 +819,17 @@
         </varlistentry>
 
         <varlistentry>
-          <term> <guimenu>Actions</guimenu></term>
+          <term> <guimenu>Actions</guimenu>:</term>
           <listitem><para>
 	    Holds actions which maybe applied to a message.  Normally,
-	    if there is only one target for the action &mdash; for
-	    example, replying to a message &mdash; you can find it in
+	    if there is only one target for the action -- for
+	    example, replying to a message -- you can find it in
 	    the <guimenu>Actions</guimenu> menu.
           </para></listitem>
         </varlistentry>
 
        <varlistentry>
-          <term> <guimenu>Tools</guimenu></term>
+          <term> <guimenu>Tools</guimenu>:</term>
           <listitem><para>
              Tools for configuring, changing, and
           setting up preferences go here.  For mail, that means things like
@@ -814,7 +842,7 @@
         </varlistentry>
 
        <varlistentry>
-          <term> <guimenu>Help</guimenu></term>
+          <term> <guimenu>Help</guimenu>:</term>
           <listitem><para>
              Select among these items to open the 
              <application>Help Browser</application> 
@@ -845,8 +873,46 @@
       </para>
 
       <para>
-        FIXME: Insert picture of the Summary and labels here.
+<figure>
+	<title>The Evolution Summary</title>
+
+<screenshot>
+<graphic  format="png" fileref="figures/summary" srccredit="Kevin Breit">
+</screenshot>
+</figure>
       </para>
+
+<para>
+<inlinemediaobject><imageobject><imagedata fileref="figures/full-1" format="png"></imageobject></inlinemediaobject> <guilabel>Weather Summary</guilabel>
+</para>
+<para>
+Shows you the latest weather updates from hundreds of cities around the world.
+</para>
+<para>
+<inlinemediaobject><imageobject><imagedata fileref="figures/full-2" format="png"></imageobject></inlinemediaobject> <guilabel>News Feeds</guilabel>
+</para>
+<para>
+Displays up to the minute news from your favorite websites.
+</para>
+<para>
+<inlinemediaobject><imageobject><imagedata fileref="figures/full-3" format="png"></imageobject></inlinemediaobject> <guilabel>Mail Summary</guilabel>
+</para>
+<para>
+Shows you how many email messages you have in your selected folders, waiting to be read.
+</para>
+<para>
+<inlinemediaobject><imageobject><imagedata fileref="figures/full-4" format="png"></imageobject></inlinemediaobject> <guilabel>Calendar Summary</guilabel>
+</para>
+<para>
+Shows you your calendar.
+</para>
+<para>
+<inlinemediaobject><imageobject><imagedata fileref="figures/full-5" format="png"></imageobject></inlinemediaobject> <guilabel>Tasks</guilabel>
+</para>
+<para>
+Shows your pending tasks
+</para>
+
 
       <para>
         To add additional services to your Summary, or to edit the
@@ -883,8 +949,8 @@
               It supports multiple mail sources, including <glossterm
               linkend="imap">IMAP</glossterm>, <glossterm
               linkend="pop">POP3</glossterm>, local
-              <filename>mbox</filename> and
-              <filename>mh</filename> files.
+              <filename>mbox</filename> and <filename>mh</filename>
+              spools and files created by other mail programs.
 
 <!-- NOT FOR 1.0, but maybe later 
               and even NNTP messages (newsgroups), which aren't
@@ -940,11 +1006,11 @@
 
       <para>
         <inlinemediaobject><imageobject><imagedata  fileref="figures/full-2"
-        format="png"></imageobject></inlinemediaobject> <guilabel>Email List</guilabel>
+        format="png"></imageobject></inlinemediaobject> <guilabel>Message List</guilabel>
       </para>
     
       <para>
-        The <guilabel>Email List</guilabel> displays all the emails
+        The <guilabel>Message List</guilabel> displays all the emails
         that you have.  This includes all your read, unread, and email
         that is flagged to be deleted.
       </para>
@@ -955,9 +1021,13 @@
         message in the <interface>message list</interface> to have it
         open in a new window.  To change the sizes of a pane, just click
         and hold on the divider between the two panes.  Then you can drag
-        up and down to select the size of the panes.  Just like with
-        folders, you can right-click on messages in the message list and
-        get a menu of possible actions.
+        up and down to select the size of the panes.
+
+</para>
+<para> Just like with folders, you can right-click on messages in the
+        message list and get a menu of possible actions: you can move,
+        delete, or undelete them, and create filters or vFolders based
+        on them.
       </para>
       <para>
         Most of the mail-related actions you'll want to perform are
@@ -1048,16 +1118,14 @@
     <sect2 id="basics-contacts">
       <title>Introducing the Address Book</title>
       <para>
-        The <application>Ximian Evolution</application> address book can
-        handle all of the functions of an address book, phone book, or
-        Rolodex.  Of course, it's a lot easier to update
-        <application>Ximian Evolution</application> than it is to change an
-        actual paper book. <application>Ximian Evolution</application> also
-        allows easy synchronization with hand-held devices.  Since
-        <application>Ximian Evolution</application> supports the <glossterm
-        linkend="ldap">LDAP</glossterm> directory protocol, you can
-        use it with almost any type of existing directory server on
-        your network.
+        The <application>Ximian Evolution</application> address book
+        can handle all of the functions of an address book, phone
+        book, or Rolodex.  Of course, it's a lot easier to update
+        <application>Ximian Evolution</application> than it is to
+        change an actual paper book. <application>Ximian
+        Evolution</application> also allows easy synchronization with
+        hand-held devices and functions with <glossterm
+        linkend="ldap">LDAP</glossterm> directories on a network.
       </para>
       <para>
         Another advantage of the <application>Ximian Evolution</application>

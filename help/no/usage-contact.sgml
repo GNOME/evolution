@@ -5,15 +5,19 @@
   <title>Working with Your Contacts</title>
       <para>
         This chapter will show you how to use the
-        <application>Evolution</application> address book to organize
+        <application>Evolution</application> addressbook to organize
         any amount of contact information, share addresses over a
         network, and several ways to save time with everyday tasks. To
-        learn about configuring the address book, see <xref
-        linkend="config-prefs-contact">.
+        learn about configuring the addressbook, see <xref
+        linkend="config-prefs-contact">. You can import contacts from
+        other contact management tools with the Import tool by
+        selecting
+        <menuchoice><guimenu>File</guimenu><guimenuitem>Import</guimenuitem></menuchoice>,
+        or by mailing them to yourself as vCard attachments.
       </para>
 
     <para>
-       The toolbar for the address book is quite simple.
+       The toolbar for the addressbook is quite simple.
        <itemizedlist>
 	<listitem><para>
            Click <guibutton>New Contact</guibutton> to create a new card, or double-click 
@@ -155,15 +159,15 @@
 		</para>
 	    <para>
 		  To see how it works, type a name in the
-		  <guilabel>Full Name</guilabel> field:
-		  <userinput>Rupert T. Monkey</userinput>.  You'll
-		  notice that the <guilabel>File As</guilabel> field
-		  also fills in, but in reverse:
-		  <computeroutput>Monkey, Rupert</computeroutput>.
-		  You can pick <computeroutput>Rupert Monkey
-		  </computeroutput> from the drop-down, or type in
-		  your own, such as <userinput> T. Rupert Monkey
-		  </userinput>.
+		  <guilabel>Full Name</guilabel> field. As an example,
+		  we'll use the Ximian mascot, <userinput>Rupert
+		  T. Monkey</userinput>.  You'll notice that the
+		  <guilabel>File As</guilabel> field also fills in,
+		  but in reverse: <computeroutput>Monkey,
+		  Rupert</computeroutput>.  You can pick
+		  <computeroutput>Rupert Monkey </computeroutput> from
+		  the drop-down, or type in your own, such as
+		  <userinput> T. Rupert Monkey </userinput>.
 		</para>
 	    <tip>
 	      <title>Filing Suggestion</title>
@@ -177,7 +181,7 @@
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term>Multiple Values for Fields</term>
+	  <term>Multiple Values for Fields:</term>
             <listitem>
 	      <para>
                 If you click on the downward pointing triangle buttons
@@ -333,22 +337,22 @@
   </sect1>
 
   <sect1 id="usage-contact-organize">
-    <title>Organizing your Address Book</title>
+    <title>Organizing your Addressbook</title>
     <para>
-       Organizing your address book is a lot like organizing your
+       Organizing your addressbook is a lot like organizing your
        mail.  You can have folders and searches the same way you can
-       with mail, but the address book does not allow Virtual Folders.  It
+       with mail, but the addressbook does not allow Virtual Folders.  It
        does, however, allow each card to fall under several
        categories, and allow you to create your own categories.  To
        learn about categories, read <xref
        linkend="usage-contact-organize-group-category">.
     </para>
 
-<!--
+<!-- UNIMPLEMENTED FEATURE
     <para>
       Another useful <application>Evolution</application> feature is
       its ability to recognize when people live or work together.  If
-      several people in your address book share an address, and you
+      several people in your addressbook share an address, and you
       change the address for one of them,
       <application>Evolution</application> will ask you if you wish to
       change the address for all of them, or just for one.
@@ -414,7 +418,7 @@
            many or as few categories as you like.
         </para>
 
-       <!-- FIXME: Feature Not Implemented
+       <!-- Feature Not Implemented
 	<para>
 
            If the master list of categories doesn't suit you, you can
@@ -486,9 +490,8 @@
            To mail the list, open a new email and type the name you
            chose for the list. Ximian Evolution will address the
            message to the entire list when you send it. You can also
-           right-click on the list's address card in the Contact
-           Manager and select <guimenuitem>Send Message to
-           List</guimenuitem>.
+           right-click on the list's address card in the Addressbook
+           and select <guimenuitem>Send Message to List</guimenuitem>.
         </para>
       </sect3>
 
@@ -502,11 +505,11 @@
     <para>
        If you keep your cards on a network using an <glossterm
        linkend="ldap">LDAP</glossterm> server, you can share access to
-       them, browse other peoples address books, or maintain a shared set of
+       them, browse other peoples addressbooks, or maintain a shared set of
        contact information for your company or your department.  This
        is the sort of feature you'll want to use if your company has a
        list of vendors and clients that needs constant updating.  If
-       you share calendars as well as address books, people can avoid
+       you share calendars as well as addressbooks, people can avoid
        duplicating work and keep up to date on developments within
        their workgroup or across the entire company.
     </para>
@@ -546,8 +549,7 @@
               Network folders are only available when you are
               connected to the network.  If you use a laptop or have a
               modem connection, you may wish to copy or cache the
-              network directory and then synchronize your copy with
-              the networked version periodically.  <!-- FIXME: HOW? -->
+              network directory.  You do this by dragging and dropping your desired contacts into the local contacts list.
 	  </para>
 	  </listitem>
 
@@ -586,42 +588,21 @@
       </para>
     </sect1>
 
-    <sect1 id="contact-automation-lists">
-      <title>Sending Mail to Categories of Contacts</title>
+<!-- Unimplemented features:
       <para>
-	 You already know that when you are writing an email, you can
-	 address it to one or more people, and that
-	 <application>Evolution</application> will fill in addresses
-	 from your address book's address cards if you let it.  In
-	 addition to that, you can send email to everyone in a
-	 particular group if you choose.
-      </para>
-
-<!-- FIXME this feature not yet implemented 
-
-      <para>
-         You can also use the address book to print postal addresses
+         You can also use the addressbook to print postal addresses
 	 on mailing labels.  Future versions of
 	 <application>Evolution</application> will allow you to you
 	 export a group of cards to a spreadsheet, database, or word
 	 processor so you can print address labels or prepare large
 	 mailings.
       </para>
- -->
-
-    </sect1>
-
-    <!---  FIXME this feature not yet implemented 
-  <sect1 id="usage-contact-automation-extra">
-  <title>Map It!</title>
   <para>
-    Need a map or directions? Click
-  <guibutton>MapIt</guibutton> from within the contact
-    manager, and <application>Evolution</application> will
-    map the address for you online.
+    Need a map or directions? Click <guibutton>MapIt</guibutton> from
+  within the addressbook, and <application>Evolution</application>
+  will map the address for you online.
   </para>
-  </sect2>
-    -->
+  -->
     
     
 
