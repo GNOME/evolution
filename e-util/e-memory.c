@@ -64,15 +64,10 @@ typedef struct _MemChunkFreeNode {
 	unsigned int atoms;
 } MemChunkFreeNode;
 
-typedef struct _MemChunkNode {
-	struct _MemChunkNode *next;
-	char data[1];
-} MemChunkNode;
-
 typedef struct _EMemChunk {
 	unsigned int blocksize;	/* number of atoms in a block */
 	unsigned int atomsize;	/* size of each atom */
-	struct _MemChunkNode *blocks;
+	GPtrArray *blocks;	/* blocks of raw memory */
 	struct _MemChunkFreeNode *free;
 } MemChunk;
 
@@ -95,7 +90,7 @@ MemChunk *e_memchunk_new(int atomcount, int atomsize)
 
 	m->blocksize = atomcount;
 	m->atomsize = MAX(atomsize, sizeof(MemChunkFreeNode));
-	m->blocks = NULL;
+	m->blocks = g_ptr_array_new();
 	m->free = NULL;
 
 	return m;
@@ -109,7 +104,7 @@ MemChunk *e_memchunk_new(int atomcount, int atomsize)
  **/
 void *e_memchunk_alloc(MemChunk *m)
 {
-	MemChunkNode *b;
+	char *b;
 	MemChunkFreeNode *f;
 	void *mem;
 
@@ -124,14 +119,13 @@ void *e_memchunk_alloc(MemChunk *m)
 		}
 		return mem;
 	} else {
-		b = g_malloc(m->blocksize * m->atomsize + sizeof(*b) - sizeof(char));
-		b->next = m->blocks;
-		m->blocks = b;
-		f = (MemChunkFreeNode *)&b->data[m->atomsize];
+		b = g_malloc(m->blocksize * m->atomsize);
+		g_ptr_array_add(m->blocks, b);
+		f = (MemChunkFreeNode *)&b[m->atomsize];
 		f->atoms = m->blocksize-1;
 		f->next = NULL;
 		m->free = f;
-		return &b->data;
+		return b;
 	}
 }
 
@@ -182,12 +176,11 @@ e_memchunk_free(MemChunk *m, void *mem)
 void
 e_memchunk_empty(MemChunk *m)
 {
-	MemChunkNode *b;
+	int i;
 	MemChunkFreeNode *f, *h = NULL;
 
-	b = m->blocks;
-	while (b) {
-		f = (MemChunkFreeNode *)&b->data[0];
+	for (i=0;i<m->blocks->len;i++) {
+		f = (MemChunkFreeNode *)m->blocks->pdata[i];
 		f->atoms = m->blocksize;
 		f->next = h;
 		h = f;
@@ -197,7 +190,7 @@ e_memchunk_empty(MemChunk *m)
 
 struct _cleaninfo {
 	struct _cleaninfo *next;
-	MemChunkNode *base;
+	char *base;
 	int count;
 	int size;		/* just so tree_search has it, sigh */
 };
@@ -213,8 +206,8 @@ static int tree_compare(struct _cleaninfo *a, struct _cleaninfo *b)
 
 static int tree_search(struct _cleaninfo *a, char *mem)
 {
-	if (a->base->data <= mem) {
-		if (mem < &a->base->data[a->size])
+	if (a->base <= mem) {
+		if (mem < &a->base[a->size])
 			return 0;
 		return 1;
 	}
@@ -236,26 +229,24 @@ void
 e_memchunk_clean(MemChunk *m)
 {
 	GTree *tree;
-	MemChunkNode *b, *n;
+	int i;
 	MemChunkFreeNode *f;
 	struct _cleaninfo *ci, *hi = NULL;
 
-	b = m->blocks;
 	f = m->free;
-	if (b == NULL || f == NULL)
+	if (m->blocks->len == 0 || f == NULL)
 		return;
 
 	/* first, setup the tree/list so we can map free block addresses to block addresses */
 	tree = g_tree_new((GCompareFunc)tree_compare);
-	while (b) {
+	for (i=0;i<m->blocks->len;i++) {
 		ci = alloca(sizeof(*ci));
 		ci->count = 0;
-		ci->base = b;
+		ci->base = m->blocks->pdata[i];
 		ci->size = m->blocksize * m->atomsize;
 		g_tree_insert(tree, ci, ci);
 		ci->next = hi;
 		hi = ci;
-		b = b->next;
 	}
 
 	/* now, scan all free nodes, and count them in their tree node */
@@ -273,17 +264,8 @@ e_memchunk_clean(MemChunk *m)
 	ci = hi;
 	while (ci) {
 		if (ci->count == m->blocksize) {
-			b = (MemChunkNode *)&m->blocks;
-			n = b->next;
-			while (n) {
-				if (n == ci->base) {
-					b->next = n->next;
-					g_free(n);
-					break;
-				}
-				b = n;
-				n = b->next;
-			}
+			g_ptr_array_remove_fast(m->blocks, ci->base);
+			g_free(ci->base);
 		}
 		ci = ci->next;
 	}
@@ -300,17 +282,14 @@ e_memchunk_clean(MemChunk *m)
 void
 e_memchunk_destroy(MemChunk *m)
 {
-	MemChunkNode *b, *n;
+	int i;
 
 	if (m == NULL)
 		return;
 
-	b = m->blocks;
-	while (b) {
-		n = b->next;
-		g_free(b);
-		b = n;
-	}
+	for (i=0;i<m->blocks->len;i++)
+		g_free(m->blocks->pdata[i]);
+	g_ptr_array_free(m->blocks, TRUE);
 	g_free(m);
 }
 
