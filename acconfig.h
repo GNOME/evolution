@@ -19,6 +19,10 @@
 #undef USE_BROKEN_THREADS
 #undef BONOBO_POST_0_15
 #undef MOVEMAIL_PATH
+#undef PGP_PROGRAM
+#undef GPG_PATH
+#undef PGP5_PATH
+#undef PGP_PATH
 
 /* Define this if you want to build against the development gtk */
 #undef HAVE_DEVGTK

@@ -1,3 +1,8 @@
+2000-08-01  Dan Winship  <danw@helixcode.com>
+
+	* configure.in, acconfig.h: Add checks for GPG, PGP 5 and PGP 2.
+	Only record the first one found.
+
 2000-08-01  Damon Chaplin  <damon@helixcode.com>
 
 	* configure.in (AC_OUTPUT): removed calendar/doc/*
