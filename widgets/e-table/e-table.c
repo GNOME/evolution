@@ -925,6 +925,41 @@ set_scroll_adjustments   (ETable *table,
 				    hadjustment);
 }
 
+gint 
+e_table_get_next_row_sorted      (ETable *e_table,
+				  gint    model_row)
+{
+	if (e_table->sorter) {
+		int i;
+		i = e_table_sorter_model_to_sorted(e_table->sorter, model_row);
+		if (i < e_table_model_row_count(e_table->model)) {
+			i++;
+			return e_table_sorter_sorted_to_model(e_table->sorter, model_row);
+		} else
+			return -1;
+	} else
+		if (model_row < e_table_model_row_count(e_table->model))
+			return model_row + 1;
+		else
+			return -1;
+}
+
+gint 
+e_table_get_prev_row_sorted      (ETable *e_table,
+				  gint    model_row)
+{
+	if (e_table->sorter) {
+		int i;
+		i = e_table_sorter_model_to_sorted(e_table->sorter, model_row);
+		i--;
+		if (i >= 0)
+			return e_table_sorter_sorted_to_model(e_table->sorter, model_row);
+		else
+			return -1;
+	} else
+		return model_row - 1;
+}
+
 struct _ETableDragSourceSite 
 {
 	GdkModifierType    start_button_mask;
