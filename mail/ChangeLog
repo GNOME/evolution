@@ -6,10 +6,6 @@
 
 	* folder-browser.c (message_list_drag_data_get): Free the temp
 	GByteArrays.
-	(setup_popup_icons): Connect to the destroy signal on the pixmap
-	objects using gtk_object_unref as the callback - this way when the
-	popup menu gets destroyed, the pixmaps clean themselves up.
-	(on_right_click): Same idea for the label_menu.
 
 2002-04-17  Jeffrey Stedfast  <fejj@ximian.com>
 

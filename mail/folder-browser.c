@@ -1731,8 +1731,6 @@ setup_popup_icons (void)
 			
 			filename = g_strdup_printf ("%s/%s", EVOLUTION_IMAGES, context_pixmaps[i]);
 			context_menu[i].pixmap = gnome_pixmap_new_from_file (filename);
-			gtk_signal_connect (GTK_OBJECT (context_menu[i].pixmap), "destroy",
-					    gtk_object_unref, NULL);
 			g_free (filename);
 		}
 	}
@@ -1964,9 +1962,6 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 		label_menu[i + 2].name = e_utf8_to_locale_string (mail_config_get_label_name (i));
 		label_menu[i + 2].pixmap = gtk_pixmap_new (pixmap, NULL);
 		label_menu[i + 2].closure = closure;
-		
-		gtk_signal_connect (GTK_OBJECT (label_menu[i].pixmap), "destroy",
-				    gtk_object_unref, NULL);
 	}
 	
 	setup_popup_icons ();
