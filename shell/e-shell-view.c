@@ -2079,13 +2079,13 @@ e_shell_view_show_shortcut_bar (EShellView *shell_view,
 			e_paned_set_position (E_PANED (priv->hpaned), priv->hpaned_position);
 		}
 	} else {
-		e_paned_set_position (E_PANED (priv->hpaned), 0);
 		if (GTK_WIDGET_VISIBLE (priv->shortcut_frame)) {
-			gtk_widget_hide (priv->shortcut_frame);
 			/* FIXME this is a private field!  */
 			priv->hpaned_position = E_PANED (priv->hpaned)->child1_size;
-			e_paned_set_position (E_PANED (priv->hpaned), 0);
+
+			gtk_widget_hide (priv->shortcut_frame);
 		}
+		e_paned_set_position (E_PANED (priv->hpaned), 0);
 	}
 
 	priv->shortcut_bar_shown = !! show;
@@ -2339,13 +2339,11 @@ e_shell_view_save_settings (EShellView *shell_view,
 	g_free (key);
 
 	key = g_strconcat (prefix, "HPanedPosition", NULL);
-	bonobo_config_set_long (db, key,      
-	        e_paned_get_position (E_PANED (priv->hpaned)), NULL);
+	bonobo_config_set_long (db, key, priv->hpaned_position, NULL);
 	g_free (key);
 
 	key = g_strconcat (prefix, "ViewHPanedPosition", NULL);
-	bonobo_config_set_long (db, key,  
-	        e_paned_get_position (E_PANED (priv->view_hpaned)), NULL);
+	bonobo_config_set_long (db, key, priv->view_hpaned_position, NULL);
 	g_free (key);
 
 	key = g_strconcat (prefix, "DisplayedURI", NULL);

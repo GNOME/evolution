@@ -1,3 +1,13 @@
+2001-09-28  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Fix #8434, Shortcut bar not shown properly.]
+
+	* e-shell-view.c (e_shell_view_show_shortcut_bar): Set the
+	hpaned_position from the EPaned *before* hiding it -- otherwise,
+	the position will of course always be zero.
+	(e_shell_view_save_settings): Save from ->hpaned_position and
+	->view_hpaned_position.
+
 2001-09-28  Iain Holmes  <iain@ximian.com>
 
 	* importer/import.glade: Add new pages.
@@ -46,7 +56,6 @@
 	(e_shell_view_menu_setup): Add tools verbs.
 
 2001-09-26  Ettore Perazzoli  <ettore@ximian.com>
-
 	* e-shell-view.c (setup_verb_sensitivity_for_folder): New helper
 	function.
 	(folder_selected_cb): Call it.
