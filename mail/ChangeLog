@@ -1,3 +1,13 @@
+2004-05-05  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-autofilter.c (rule_match_thread): Removed.
+	(rule_from_message): Removed the AUTO_THREAD bit.
+
+	* em-folder-view.c: Removed vFolder/Filter on Thread. These were
+	both broken.
+	(struct _filter_data): Removed a bunch of data members since most
+	of them weren't used.
+
 2004-05-05  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #57720.

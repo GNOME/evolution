@@ -862,13 +862,11 @@ EMFV_POPUP_AUTO_TYPE(vfolder_type_current, emfv_popup_vfolder_subject, AUTO_SUBJ
 EMFV_POPUP_AUTO_TYPE(vfolder_type_current, emfv_popup_vfolder_sender, AUTO_FROM)
 EMFV_POPUP_AUTO_TYPE(vfolder_type_current, emfv_popup_vfolder_recipients, AUTO_TO)
 EMFV_POPUP_AUTO_TYPE(vfolder_type_current, emfv_popup_vfolder_mlist, AUTO_MLIST)
-EMFV_POPUP_AUTO_TYPE(vfolder_type_current, emfv_popup_vfolder_thread, AUTO_THREAD)
 
 EMFV_POPUP_AUTO_TYPE(filter_type_current, emfv_popup_filter_subject, AUTO_SUBJECT)
 EMFV_POPUP_AUTO_TYPE(filter_type_current, emfv_popup_filter_sender, AUTO_FROM)
 EMFV_POPUP_AUTO_TYPE(filter_type_current, emfv_popup_filter_recipients, AUTO_TO)
 EMFV_POPUP_AUTO_TYPE(filter_type_current, emfv_popup_filter_mlist, AUTO_MLIST)
-EMFV_POPUP_AUTO_TYPE(filter_type_current, emfv_popup_filter_thread, AUTO_THREAD)
 
 /* TODO: Move some of these to be 'standard' menu's */
 
@@ -924,8 +922,6 @@ static EMPopupItem emfv_popup_menu[] = {
 	{ EM_POPUP_ITEM, "90.filter.00/00.02", N_("VFolder on _Recipients"), G_CALLBACK(emfv_popup_vfolder_recipients), NULL, NULL, EM_POPUP_SELECT_ONE },
 	{ EM_POPUP_ITEM, "90.filter.00/00.03", N_("VFolder on Mailing _List"),
 	  G_CALLBACK(emfv_popup_vfolder_mlist), NULL, NULL, EM_POPUP_SELECT_ONE|EM_POPUP_SELECT_MAILING_LIST },
-	{ EM_POPUP_ITEM, "90.filter.00/00.04", N_("VFolder on Thread"),
-	  G_CALLBACK(emfv_popup_vfolder_thread), NULL, NULL, EM_POPUP_SELECT_ONE },
 	
 	{ EM_POPUP_BAR, "90.filter.00/10", NULL, NULL, NULL, NULL, EM_POPUP_SELECT_ONE },
 	{ EM_POPUP_ITEM, "90.filter.00/10.00", N_("Filter on Sub_ject"), G_CALLBACK(emfv_popup_filter_subject), NULL, NULL, EM_POPUP_SELECT_ONE },
@@ -933,8 +929,6 @@ static EMPopupItem emfv_popup_menu[] = {
 	{ EM_POPUP_ITEM, "90.filter.00/10.02", N_("Filter on Re_cipients"), G_CALLBACK(emfv_popup_filter_recipients),  NULL, NULL, EM_POPUP_SELECT_ONE },
 	{ EM_POPUP_ITEM, "90.filter.00/10.03", N_("Filter on _Mailing List"),
 	  G_CALLBACK(emfv_popup_filter_mlist), NULL, NULL, EM_POPUP_SELECT_ONE|EM_POPUP_SELECT_MAILING_LIST },
-	{ EM_POPUP_ITEM, "90.filter.00/10.04", N_("Filter on Thread"),
-	  G_CALLBACK(emfv_popup_filter_thread), NULL, NULL, EM_POPUP_SELECT_ONE },
 };
 
 static void
@@ -1312,24 +1306,15 @@ emfv_text_zoom_reset(BonoboUIComponent *uic, void *data, const char *path)
 /* ********************************************************************** */
 
 struct _filter_data {
-	CamelFolder *folder;
 	const char *source;
-	char *uid;
-	int type;
 	char *uri;
-	char *mlist;
-	char *references;
+	int type;
 };
 
 static void
 filter_data_free (struct _filter_data *fdata)
 {
-	g_free (fdata->uid);
 	g_free (fdata->uri);
-	if (fdata->folder)
-		camel_object_unref (fdata->folder);
-	g_free (fdata->mlist);
-	g_free (fdata->references);
 	g_free (fdata);
 }
 
@@ -1380,7 +1365,6 @@ EMFV_MAP_CALLBACK(emfv_tools_filter_subject, emfv_popup_filter_subject)
 EMFV_MAP_CALLBACK(emfv_tools_filter_sender, emfv_popup_filter_sender)
 EMFV_MAP_CALLBACK(emfv_tools_filter_recipient, emfv_popup_filter_recipients)
 EMFV_MAP_CALLBACK(emfv_tools_filter_mlist, emfv_popup_filter_mlist)
-EMFV_MAP_CALLBACK(emfv_tools_filter_thread, emfv_popup_filter_thread)
 
 static void
 vfolder_type_got_message (CamelFolder *folder, const char *uid, CamelMimeMessage *msg, void *user_data)
@@ -1422,7 +1406,6 @@ EMFV_MAP_CALLBACK(emfv_tools_vfolder_subject, emfv_popup_vfolder_subject)
 EMFV_MAP_CALLBACK(emfv_tools_vfolder_sender, emfv_popup_vfolder_sender)
 EMFV_MAP_CALLBACK(emfv_tools_vfolder_recipient, emfv_popup_vfolder_recipients)
 EMFV_MAP_CALLBACK(emfv_tools_vfolder_mlist, emfv_popup_vfolder_mlist)
-EMFV_MAP_CALLBACK(emfv_tools_vfolder_thread, emfv_popup_vfolder_thread)
 
 /* ********************************************************************** */
 
@@ -1489,12 +1472,10 @@ static BonoboUIVerb emfv_message_verbs[] = {
 	BONOBO_UI_UNSAFE_VERB ("ToolsFilterRecipient", emfv_tools_filter_recipient),
 	BONOBO_UI_UNSAFE_VERB ("ToolsFilterSender", emfv_tools_filter_sender),
 	BONOBO_UI_UNSAFE_VERB ("ToolsFilterSubject", emfv_tools_filter_subject),
-	BONOBO_UI_UNSAFE_VERB ("ToolsFilterThread", emfv_tools_filter_thread),
 	BONOBO_UI_UNSAFE_VERB ("ToolsVFolderMailingList", emfv_tools_vfolder_mlist),
 	BONOBO_UI_UNSAFE_VERB ("ToolsVFolderRecipient", emfv_tools_vfolder_recipient),
 	BONOBO_UI_UNSAFE_VERB ("ToolsVFolderSender", emfv_tools_vfolder_sender),
 	BONOBO_UI_UNSAFE_VERB ("ToolsVFolderSubject", emfv_tools_vfolder_subject),
-	BONOBO_UI_UNSAFE_VERB ("ToolsVFolderThread", emfv_tools_vfolder_thread),
 
 	BONOBO_UI_UNSAFE_VERB ("ViewLoadImages", emfv_view_load_images),
 	/* ViewHeaders stuff is a radio */
@@ -1597,12 +1578,10 @@ static const EMFolderViewEnable emfv_enable_map[] = {
 	{ "ToolsFilterRecipient",     EM_POPUP_SELECT_ONE },
 	{ "ToolsFilterSender",        EM_POPUP_SELECT_ONE },
 	{ "ToolsFilterSubject",       EM_POPUP_SELECT_ONE },
-	{ "ToolsFilterThread",        EM_POPUP_SELECT_ONE },
 	{ "ToolsVFolderMailingList",  EM_POPUP_SELECT_ONE },
 	{ "ToolsVFolderRecipient",    EM_POPUP_SELECT_ONE },
 	{ "ToolsVFolderSender",       EM_POPUP_SELECT_ONE },
 	{ "ToolsVFolderSubject",      EM_POPUP_SELECT_ONE },
-	{ "ToolsVFolderThread",       EM_POPUP_SELECT_ONE },
 
 	{ "ViewLoadImages",	      EM_POPUP_SELECT_ONE },
 

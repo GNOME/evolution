@@ -223,28 +223,6 @@ rule_match_mlist(RuleContext *context, FilterRule *rule, const char *mlist)
 }
 
 static void
-rule_match_thread (RuleContext *context, FilterRule *rule, const char *msgid)
-{
-	FilterElement *element;
-	FilterPart *part;
-	
-	if (msgid[0] == 0)
-		return;
-	
-	part = rule_context_create_part (context, "header");
-	filter_rule_add_part (rule, part);
-	
-	element = filter_part_find_element (part, "header-type");
-	filter_option_set_current ((FilterOption *) element, "contains");
-
-	element = filter_part_find_element (part, "header-field");
-	filter_input_set_value ((FilterInput *) element, "References");
-	
-	element = filter_part_find_element (part, "word");
-	filter_input_set_value ((FilterInput *) element, msgid);
-}
-
-static void
 rule_from_message (FilterRule *rule, RuleContext *context, CamelMimeMessage *msg, int flags)
 {
 	CamelInternetAddress *addr;
@@ -295,30 +273,6 @@ rule_from_message (FilterRule *rule, RuleContext *context, CamelMimeMessage *msg
 			g_free(name);
 		}
 		g_free(mlist);
-	}
-	if (flags & AUTO_THREAD) {
-		const char *msgid = NULL, *refs = NULL;
-		char *name;
-		
-		if (!(refs = camel_medium_get_header ((CamelMedium *) msg, "References"))) {
-			if (!(refs = camel_medium_get_header ((CamelMedium *) msg, "In-Reply-To")))
-				msgid = camel_mime_message_get_message_id (msg);
-		}
-		
-		if (refs || msgid) {
-			struct _camel_header_references *r = NULL;
-			
-			if (refs) {
-				r = camel_header_references_decode (refs);
-				msgid = r->id;
-			}
-			
-			rule_match_thread (context, rule, msgid);
-			name = g_strdup_printf (_("Replies to %s"), msgid);
-			
-			if (r)
-				camel_header_references_list_clear (&r);
-		}
 	}
 }
 

@@ -35,7 +35,6 @@ enum {
 	AUTO_FROM = 2,
 	AUTO_TO = 4,
 	AUTO_MLIST = 8,
-	AUTO_THREAD = 16,
 };
 
 FilterRule *vfolder_rule_from_message(VfolderContext *context, CamelMimeMessage *msg, int flags, const char *source);
