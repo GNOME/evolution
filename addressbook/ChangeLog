@@ -1,6 +1,13 @@
+2001-05-27  Dan Winship  <danw@ximian.com>
+
+	* gui/component/addressbook.c: #include
+	"evolution-shell-component-utils.h" rather than "e-gui-utils.h"
+	for e_pixmaps_update.
+
 2001-05-25  Peter Williams  <peterw@ximian.com>
 
-	* gui/component/Makefile.am: Reference libeshell.la instead of libeshell.a.
+	* gui/component/Makefile.am: Reference libeshell.la instead of
+	libeshell.a.
 
 2001-05-25  Christopher James Lahey  <clahey@ximian.com>
 
