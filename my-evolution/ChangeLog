@@ -1,3 +1,7 @@
+2003-01-14  Ettore Perazzoli  <ettore@ximian.com>
+
+	* Makefile.am (EXTRA_DIST): Add $(schema_DATA).
+
 2003-01-13  Not Zed  <NotZed@Ximian.com>
 
 	* e-summary-preferences.c (e_summary_preferences_save): fix a

@@ -116,6 +116,7 @@ install-data-local:
 # Extra
 
 EXTRA_DIST = 				\
+	$(schema_DATA)			\
 	$(summary_sources)		\
 	$(server_in_files)		\
 	$(server_DATA)			\
