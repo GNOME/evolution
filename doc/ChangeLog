@@ -1,5 +1,10 @@
 2001-06-21  Kevin Breit  <battery841@mediaone.net>
 
+	* C/usage-mail.sgml: Specify the file format
+	
+	* C/usage-mail.sgml: Trying to fix the .gif problem
+	
+
 	* C/usage-calendar.sgml: Redid graphics to add labels to them and
 	described the labels in text.
 

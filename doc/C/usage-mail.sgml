@@ -89,14 +89,14 @@
 	  <title>Evolution Mail</title>
 	  <screenshot>
 	    <screeninfo>Inbox</screeninfo>
-	    <graphic fileref="fig/mainwindow-pic" format="png" srccredit="Kevin Breit">
+	    <graphic fileref="fig/mainwindow-pic.png" srccredit="Kevin Breit">
 	</graphic>
 	</screenshot>
       </figure>
 <!-- ==============End of Figure============================== -->
 
       <para>
-	<inlinegraphic fileref="fig/full-1" format="png"></inlinegraphic>
+	<inlinegraphic fileref="fig/full-1.png"></inlinegraphic>
 	<guimenu>Menu Bar</guimenu>
       </para>
 
