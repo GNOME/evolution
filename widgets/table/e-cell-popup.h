@@ -82,12 +82,16 @@ struct _ECellPopupView {
 };
 
 
-GtkType    e_cell_popup_get_type		(void);
-ECell     *e_cell_popup_new			(void);
+GtkType  e_cell_popup_get_type           (void);
+ECell   *e_cell_popup_new                (void);
 
 /* Get and set the child ECell. */
-ECell	  *e_cell_popup_get_child		(ECellPopup	*ecp);
-void       e_cell_popup_set_child		(ECellPopup	*ecp,
-						 ECell		*child);
+ECell   *e_cell_popup_get_child          (ECellPopup *ecp);
+void     e_cell_popup_set_child          (ECellPopup *ecp,
+					  ECell      *child);
+
+void     e_cell_popup_set_shown          (ECellPopup *ecp,
+					  gboolean    shown);
+void     e_cell_popup_queue_cell_redraw  (ECellPopup *ecp);
 
 #endif /* _E_CELL_POPUP_H_ */

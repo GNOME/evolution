@@ -507,3 +507,22 @@ e_cell_popup_do_popup			(ECellPopupView	*ecp_view,
 
 	return popup_func ? popup_func (ecp, event, row, view_col) : FALSE;
 }
+
+/* This redraws the popup cell. Only use this if you know popup_view_col and
+   popup_row are valid. */
+void
+e_cell_popup_queue_cell_redraw (ECellPopup *ecp)
+{
+       ETableItem *eti = E_TABLE_ITEM (ecp->popup_cell_view->cell_view.e_table_item_view);
+
+       e_table_item_redraw_range (eti, ecp->popup_view_col, ecp->popup_row,
+                                  ecp->popup_view_col, ecp->popup_row);
+}
+
+void
+e_cell_popup_set_shown  (ECellPopup *ecp,
+			 gboolean    shown)
+{
+	ecp->popup_shown = shown;
+	e_cell_popup_queue_cell_redraw (ecp);
+}
