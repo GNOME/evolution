@@ -1,5 +1,14 @@
 2000-04-04  Christopher James Lahey  <clahey@helixcode.com>
 
+	* widgets/e-text/e-text.c: Removed an unnecessary get_bounds call.
+
+	(From a patch by Iain Holmes <ih@csd.abdn.ac.uk>)
+
+	* widgets/e-text/e-text.c: Made tooltips look more like the
+	underlying text.  Made tooltips show up more consistently.
+
+2000-04-04  Christopher James Lahey  <clahey@helixcode.com>
+
 	* addressbook/demo/Makefile.am, addressbook/demo/e-test-model.c,
 	addressbook/demo/e-test-model.h: Changed this to backend to an
 	ebook.

@@ -140,6 +140,9 @@ static ETextSuckFont *e_suck_font (GdkFont *font);
 static void e_suck_font_free (ETextSuckFont *suckfont);
 static void e_text_free_lines(EText *text);
 
+static void calc_height (EText *text);
+static void calc_line_widths (EText *text);
+static void split_into_lines (EText *text);
 
 static GnomeCanvasItemClass *parent_class;
 static GdkAtom clipboard_atom = GDK_NONE;
@@ -299,7 +302,7 @@ e_text_init (EText *text)
 	text->y = 0.0;
 	text->anchor = GTK_ANCHOR_CENTER;
 	text->justification = GTK_JUSTIFY_LEFT;
-	text->clip_width = 1.0;
+	text->clip_width = -1.0;
 	text->clip_height = -1.0;
 	text->xofs = 0.0;
 	text->yofs = 0.0;
@@ -486,6 +489,7 @@ get_bounds_item_relative (EText *text, double *px1, double *py1, double *px2, do
 		*px1 = clip_x;
 		*py1 = clip_y;
 		*px2 = clip_x + text->clip_width;
+
 		if ( text->clip_height >= 0 )
 			*py2 = clip_y + text->clip_height;
 		else
@@ -502,7 +506,7 @@ static void
 get_bounds (EText *text, double *px1, double *py1, double *px2, double *py2)
 {
 	GnomeCanvasItem *item;
-	double wx, wy;
+	double wx, wy, clip_width;
 
 	item = GNOME_CANVAS_ITEM (text);
 
@@ -513,10 +517,18 @@ get_bounds (EText *text, double *px1, double *py1, double *px2, double *py2)
 	gnome_canvas_item_i2w (item, &wx, &wy);
 	gnome_canvas_w2c (item->canvas, wx + text->xofs, wy + text->yofs, &text->cx, &text->cy);
 
-	/* Get canvas pixel coordinates for clip rectangle position */
+	/* Calculate the width and heights */
+	calc_height (text);
+	calc_line_widths (text);
 
+	if (text->clip_width < 0)
+		clip_width = text->max_width;
+	else
+		clip_width = text->clip_width;
+
+	/* Get canvas pixel coordinates for clip rectangle position */
 	gnome_canvas_w2c (item->canvas, wx, wy, &text->clip_cx, &text->clip_cy);
-	text->clip_cwidth = text->clip_width * item->canvas->pixels_per_unit;
+	text->clip_cwidth = clip_width * item->canvas->pixels_per_unit;
 	if ( text->clip_height >= 0 )
 		text->clip_cheight = text->clip_height * item->canvas->pixels_per_unit;
 	else
@@ -593,6 +605,10 @@ calc_height (EText *text)
 
 	old_height = text->height;
 
+	/* Make sure the text is split into lines first */
+	if (text->text && text->num_lines == 0) 
+		split_into_lines (text);
+
 	if (text->text && text->font)
 		text->height = (text->font->ascent + text->font->descent) * text->num_lines;
 	else
@@ -620,6 +636,10 @@ calc_line_widths (EText *text)
 	int i;
 	int j;
 
+	/* Make sure line has been split */
+	if (text->text && text->num_lines == 0)
+		split_into_lines (text);
+
 	lines = text->lines;
 	text->max_width = 0;
 
@@ -639,7 +659,8 @@ calc_line_widths (EText *text)
 			if (text->clip && 
 			    text->use_ellipsis &&
 			    ! text->editing &&
-			    lines->width > text->clip_width) {
+			    lines->width > text->clip_width &&
+			    text->clip_width >= 0) {
 				if (text->font) {
 					lines->ellipsis_length = 0;
 					for (j = 0; j < lines->length; j++ ) {
@@ -933,6 +954,7 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		break;
 
 	case ARG_TEXT:
+		text->num_lines = 1;
 		e_text_model_set_text(text->model, GTK_VALUE_STRING (*arg));
 		break;
 
@@ -1395,7 +1417,6 @@ e_text_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int fla
 			art_drect_affine_transform (&c_bbox, &i_bbox, affine);
 		}
 		text->needs_recalc_bounds = 0;
-		get_bounds (text, &x1, &y1, &x2, &y2);
 	}
 	if ( text->needs_redraw ) {
 		gnome_canvas_request_redraw (item->canvas, item->x1, item->y1, item->x2, item->y2);
@@ -2115,9 +2136,10 @@ _do_tooltip (gpointer data)
 {
 	EText *text = E_TEXT (data);
 	struct line *lines;
-	GtkWidget *label, *vbox;
+	GtkWidget *canvas;
 	gint x, y, pointer_x, pointer_y, scr_w, scr_h, tip_w, tip_h;
 	int i;
+	gdouble max_width;
 	gboolean cut_off;
 
 	if (text->editing)
@@ -2143,21 +2165,40 @@ _do_tooltip (gpointer data)
 	gdk_window_get_pointer (NULL, &pointer_x, &pointer_y, NULL);
 
 	text->tooltip_window = gtk_window_new (GTK_WINDOW_POPUP);
-	vbox = gtk_vbox_new (TRUE, 0);
-	lines = text->lines;
-	for (i = 0; i < text->num_lines; i++) {
-		gchar *linetext;
+	gtk_container_set_border_width (GTK_CONTAINER (text->tooltip_window), 2);
 
-		linetext = g_strndup (lines->text, lines->length);
-		label = gtk_label_new (linetext);
-		g_free (linetext);
-		gtk_misc_set_alignment (GTK_MISC (label), 0, 0.5);
-		gtk_box_pack_start (GTK_BOX (vbox), label, TRUE, TRUE, 0);
-		lines++;
+	canvas = e_canvas_new ();
+	gtk_container_add (GTK_CONTAINER (text->tooltip_window), canvas);
+
+	/* Ensure valid height field */
+	calc_height (text);
+
+	/* Get the longest line length */
+	max_width = 0.0;
+	for (lines = text->lines, i = 0; i < text->num_lines; lines++, i++) {
+		gdouble line_width;
+
+		line_width = gdk_text_width (text->font, lines->text, lines->length);
+		max_width = MAX (max_width, line_width);
 	}
 
-	gtk_widget_show_all (vbox);
-	gtk_container_add (GTK_CONTAINER (text->tooltip_window), vbox);
+	gnome_canvas_item_new (gnome_canvas_root (GNOME_CANVAS (canvas)),
+					  e_text_get_type (),
+					  "anchor", GTK_ANCHOR_NW,
+					  "font_gdk", text->font,
+					  "text", text->text,
+					  "editable", FALSE,
+					  "clip_width", max_width,
+					  "clip_height", (double)text->height,
+					  "clip", TRUE,
+					  NULL);
+
+	gtk_widget_set_usize (text->tooltip_window, 
+			      (int)max_width + 4, 
+			      text->height + 4);
+	gnome_canvas_set_scroll_region (GNOME_CANVAS(canvas), 0.0, 0.0, 
+					max_width, (double)text->height);
+	gtk_widget_show (canvas);
 	gtk_widget_realize (text->tooltip_window);
 	tip_w = text->tooltip_window->allocation.width;
 	tip_h = text->tooltip_window->allocation.height;
@@ -2326,7 +2367,8 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 		}
 		break;
 	case GDK_LEAVE_NOTIFY:
-		text->tooltip_count --;
+		if (text->tooltip_count > 0)
+			text->tooltip_count --;
 		if ( text->tooltip_count == 0 && text->clip) {
 			if ( text->tooltip_timeout ) {
 				gtk_timeout_remove (text->tooltip_timeout);
