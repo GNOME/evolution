@@ -147,11 +147,12 @@
 	</child>
 
 	<widget>
-	  <class>GtkButton</class>
-	  <name>button4</name>
-	  <can_focus>True</can_focus>
-	  <label>Table HERE</label>
-	  <relief>GTK_RELIEF_NORMAL</relief>
+	  <class>Custom</class>
+	  <name>custom-table</name>
+	  <creation_function>gal_define_views_dialog_create_etable</creation_function>
+	  <int1>0</int1>
+	  <int2>0</int2>
+	  <last_modification_time>Fri, 10 Nov 2000 16:37:39 GMT</last_modification_time>
 	  <child>
 	    <padding>0</padding>
 	    <expand>True</expand>
@@ -172,7 +173,7 @@
 
 	  <widget>
 	    <class>GtkButton</class>
-	    <name>button11</name>
+	    <name>button-new</name>
 	    <can_focus>True</can_focus>
 	    <label>_New...</label>
 	    <relief>GTK_RELIEF_NORMAL</relief>
@@ -312,7 +313,7 @@
 
 	<widget>
 	  <class>GtkButton</class>
-	  <name>button12</name>
+	  <name>button-reset</name>
 	  <can_focus>True</can_focus>
 	  <label>Re_set to Factory Defaults...</label>
 	  <relief>GTK_RELIEF_NORMAL</relief>

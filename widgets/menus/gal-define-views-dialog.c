@@ -22,7 +22,9 @@
 #include <config.h>
 #include <gnome.h>
 #include "gal-define-views-dialog.h"
-#include <gal/e-table/e-table-simple.h>
+#include "gal-define-views-model.h"
+#include "gal-view-new-dialog.h"
+#include <gal/e-table/e-table-scrolled.h>
 
 static void gal_define_views_dialog_init		(GalDefineViewsDialog		 *card);
 static void gal_define_views_dialog_class_init	(GalDefineViewsDialogClass	 *klass);
@@ -82,14 +84,79 @@ gal_define_views_dialog_class_init (GalDefineViewsDialogClass *klass)
 	object_class->destroy = gal_define_views_dialog_destroy;
 }
 
+/* ETable creation */
+#define SPEC "<ETableSpecification cursor-mode=\"line\" draw-grid=\"true\">" \
+	     "<ETableColumn model_col= \"0\" _tite=\"Name\" expansion=\"1.0\" minimum_width=\"18\" resizable=\"true\" cell=\"string\" compare=\"string\"/>" \
+             "<ETableState> <column source=\"0\"/> <grouping> </grouping> </ETableState>" \
+	     "</ETableSpecification>"
+
+/* For use from libglade. */
+GtkWidget *gal_define_views_dialog_create_etable(char *name, char *string1, char *string2, int int1, int int2);
+
+GtkWidget *
+gal_define_views_dialog_create_etable(char *name, char *string1, char *string2, int int1, int int2)
+{
+	GtkWidget *table;
+	ETableModel *model;
+	model = gal_define_views_model_new();
+	table = e_table_scrolled_new(model, NULL, SPEC, NULL);
+	gtk_object_set_data(table, "GalDefineViewsDialog::model", model);
+	return table;
+}
+
+/* Button callbacks */
+
 static void
-gal_define_views_dialog_init (GalDefineViewsDialog *gal_define_views_dialog)
+gdvd_button_new_dialog_callback(GtkWidget *widget, int button, GalDefineViewsDialog *dialog)
+{
+	gchar *name;
+	GalView *view;
+	switch (button) {
+	case 0:
+		gtk_object_get(GTK_OBJECT(widget),
+			       "name", &name,
+			       NULL);
+		view = gal_view_new();
+		gtk_object_set(GTK_OBJECT(widget),
+			       "name", name,
+			       NULL);
+		gal_define_views_model_append(GAL_DEFINE_VIEWS_MODEL(dialog->model), view);
+		gtk_object_unref(GTK_OBJECT(view));
+		break;
+	}
+	gnome_dialog_close(GNOME_DIALOG(widget));
+}
+
+static void
+gdvd_button_new_callback(GtkWidget *widget, GalDefineViewsDialog *dialog)
+{
+	GtkWidget *view_new_dialog = gal_view_new_dialog_new();
+	gtk_signal_connect(GTK_OBJECT(view_new_dialog), "clicked",
+			   GTK_SIGNAL_FUNC(gdvd_button_new_dialog_callback), dialog);
+	gtk_widget_show(GTK_WIDGET(view_new_dialog));
+}
+
+static void
+gdvd_connect_signal(GalDefineViewsDialog *dialog, char *widget_name, char *signal, GtkSignalFunc handler)
+{
+	GtkWidget *widget;
+
+	widget = glade_xml_get_widget(dialog->gui, widget_name);
+
+	if (widget)
+		gtk_signal_connect(GTK_OBJECT(widget), signal, handler, dialog);
+}
+
+static void
+gal_define_views_dialog_init (GalDefineViewsDialog *dialog)
 {
 	GladeXML *gui;
 	GtkWidget *widget;
+	GtkWidget *etable;
+	ETableModel *model;
 
 	gui = glade_xml_new (GAL_GLADEDIR "/gal-define-views.glade", NULL);
-	gal_define_views_dialog->gui = gui;
+	dialog->gui = gui;
 
 	widget = glade_xml_get_widget(gui, "table-top");
 	if (!widget) {
@@ -97,15 +164,23 @@ gal_define_views_dialog_init (GalDefineViewsDialog *gal_define_views_dialog)
 	}
 	gtk_widget_ref(widget);
 	gtk_widget_unparent(widget);
-	gtk_box_pack_start(GTK_BOX(GNOME_DIALOG(gal_define_views_dialog)->vbox), widget, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(GNOME_DIALOG(dialog)->vbox), widget, TRUE, TRUE, 0);
 	gtk_widget_unref(widget);
 
-	gnome_dialog_append_buttons(GNOME_DIALOG(gal_define_views_dialog),
+	gnome_dialog_append_buttons(GNOME_DIALOG(dialog),
 				    GNOME_STOCK_BUTTON_OK,
 				    GNOME_STOCK_BUTTON_CANCEL,
 				    NULL);
+
+	gdvd_connect_signal(dialog, "button-new", "clicked", GTK_SIGNAL_FUNC(gdvd_button_new_callback));
+
+	dialog->model = NULL;
+	etable = glade_xml_get_widget(dialog->gui, "custom-table");
+	if (etable) {
+		dialog->model = gtk_object_get_data(GTK_OBJECT(etable), "GalDefineViewsDialog::model");
+	}
 	
-	gtk_window_set_policy(GTK_WINDOW(gal_define_views_dialog), FALSE, TRUE, FALSE);
+	gtk_window_set_policy(GTK_WINDOW(dialog), FALSE, TRUE, FALSE);
 }
 
 static void

@@ -50,11 +50,20 @@ gal_view_menus_new (void)
 }
 
 static void
+dialog_clicked(GtkWidget *dialog, int button, GalViewMenus *menus)
+{
+	gnome_dialog_close(GNOME_DIALOG(dialog));
+}
+
+static void
 define_views(BonoboUIComponent *component,
 	     GalViewMenus      *menus,
 	     char              *cname)
 {
-	gtk_widget_show(gal_define_views_dialog_new());
+	GtkWidget *dialog = gal_define_views_dialog_new();
+	gtk_signal_connect(GTK_OBJECT(dialog), "clicked",
+			   GTK_SIGNAL_FUNC(dialog_clicked), menus);
+	gtk_widget_show(dialog);
 }
 
 static BonoboUIVerb verbs[] = {

@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* gal-define-views-dialog.h
+/* gal-view-new-dialog.h
  * Copyright (C) 2000  Helix Code, Inc.
  * Author: Chris Lahey <clahey@helixcode.com>
  *
@@ -18,19 +18,18 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
  * Boston, MA 02111-1307, USA.
  */
-#ifndef __GAL_DEFINE_VIEWS_DIALOG_H__
-#define __GAL_DEFINE_VIEWS_DIALOG_H__
+#ifndef __GAL_VIEW_NEW_DIALOG_H__
+#define __GAL_VIEW_NEW_DIALOG_H__
 
 #include <gnome.h>
 #include <glade/glade.h>
-#include <gal/e-table/e-table-model.h>
 
 #ifdef __cplusplus
 extern "C" {
 #pragma }
 #endif /* __cplusplus */
 
-/* GalDefineViewsDialog - A dialog displaying information about a contact.
+/* GalViewNewDialog - A dialog displaying information about a contact.
  *
  * The following arguments are available:
  *
@@ -38,37 +37,34 @@ extern "C" {
  * --------------------------------------------------------------------------------
  */
 
-#define GAL_DEFINE_VIEWS_DIALOG_TYPE			(gal_define_views_dialog_get_type ())
-#define GAL_DEFINE_VIEWS_DIALOG(obj)			(GTK_CHECK_CAST ((obj), GAL_DEFINE_VIEWS_DIALOG_TYPE, GalDefineViewsDialog))
-#define GAL_DEFINE_VIEWS_DIALOG_CLASS(klass)		(GTK_CHECK_CLASS_CAST ((klass), GAL_DEFINE_VIEWS_DIALOG_TYPE, GalDefineViewsDialogClass))
-#define GAL_IS_DEFINE_VIEWS_DIALOG(obj)		(GTK_CHECK_TYPE ((obj), GAL_DEFINE_VIEWS_DIALOG_TYPE))
-#define GAL_IS_DEFINE_VIEWS_DIALOG_CLASS(klass)	(GTK_CHECK_CLASS_TYPE ((obj), GAL_DEFINE_VIEWS_DIALOG_TYPE))
+#define GAL_VIEW_NEW_DIALOG_TYPE			(gal_view_new_dialog_get_type ())
+#define GAL_VIEW_NEW_DIALOG(obj)			(GTK_CHECK_CAST ((obj), GAL_VIEW_NEW_DIALOG_TYPE, GalViewNewDialog))
+#define GAL_VIEW_NEW_DIALOG_CLASS(klass)		(GTK_CHECK_CLASS_CAST ((klass), GAL_VIEW_NEW_DIALOG_TYPE, GalViewNewDialogClass))
+#define GAL_IS_VIEW_NEW_DIALOG(obj)		(GTK_CHECK_TYPE ((obj), GAL_VIEW_NEW_DIALOG_TYPE))
+#define GAL_IS_VIEW_NEW_DIALOG_CLASS(klass)	(GTK_CHECK_CLASS_TYPE ((obj), GAL_VIEW_NEW_DIALOG_TYPE))
 
-typedef struct _GalDefineViewsDialog       GalDefineViewsDialog;
-typedef struct _GalDefineViewsDialogClass  GalDefineViewsDialogClass;
+typedef struct _GalViewNewDialog       GalViewNewDialog;
+typedef struct _GalViewNewDialogClass  GalViewNewDialogClass;
 
-struct _GalDefineViewsDialog
+struct _GalViewNewDialog
 {
 	GnomeDialog parent;
 	
 	/* item specific fields */
 	GladeXML *gui;
-	ETableModel *model;
 };
 
-struct _GalDefineViewsDialogClass
+struct _GalViewNewDialogClass
 {
 	GnomeDialogClass parent_class;
 };
 
-GtkWidget               *gal_define_views_dialog_new          (void);
-GtkType                  gal_define_views_dialog_get_type     (void);
-
-void                     gal_define_views_dialog_add_section  (GalDefineViewsDialog      *gal_define_views_dialog);
+GtkWidget               *gal_view_new_dialog_new          (void);
+GtkType                  gal_view_new_dialog_get_type     (void);
 
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
 
 
-#endif /* __GAL_DEFINE_VIEWS_DIALOG_H__ */
+#endif /* __GAL_VIEW_NEW_DIALOG_H__ */
