@@ -1,3 +1,10 @@
+2001-06-01  Ettore Perazzoli  <ettore@ximian.com>
+
+	* component/Makefile.am (evolution_executive_summary_LDADD): Add
+	`$(DB3_LDADD)'.
+	* test-service/Makefile.am (test_service_LDADD): Likewise.
+	(rdf_summary_LDADD): Likewise.
+
 2001-05-27  Dan Winship  <danw@ximian.com>
 
 	* component/e-summary-factory.c: #include

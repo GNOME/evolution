@@ -1,3 +1,7 @@
+2001-06-01  Ettore Perazzoli  <ettore@ximian.com>
+
+	* Makefile.am (evolution_LDADD): Add `$(DB3_LDADD)'.
+
 2001-05-30  Jason Leach  <jleach@ximian.com>
 
 	* e-shell-view.c (e_shell_view_set_current_shortcuts_group_num):

@@ -153,7 +153,8 @@ evolution_LDADD =						\
 	$(EXTRA_GNOME_LIBS)					\
 	$(GNOME_PRINT_LIBS)					\
 	$(GTKHTML_LIBS)						\
-	$(BONOBO_GNOME_LIBS)
+	$(BONOBO_GNOME_LIBS)					\
+	$(DB3_LDADD)
 
 oafdir = $(datadir)/oaf
 oaf_in_files = GNOME_Evolution_Shell.oaf.in
