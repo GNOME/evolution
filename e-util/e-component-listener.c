@@ -143,10 +143,13 @@ ping_component_callback (gpointer user_data)
 
  out:
 	/* the component has died, so we notify and close the timeout */
+	gtk_object_ref (GTK_OBJECT (cl));
 	gtk_signal_emit (GTK_OBJECT (cl), comp_listener_signals[COMPONENT_DIED]);
 
 	cl->priv->component = CORBA_OBJECT_NIL;
 	cl->priv->ping_timeout_id = -1;
+
+	gtk_object_unref (GTK_OBJECT (cl));
 
 	return FALSE;
 }
