@@ -84,8 +84,6 @@
 
       <placeholder name="ComponentPlaceholder">
 
-	<separator f="" name="emailglobal1"/>
-
         <placeholder name="MailFilterTools">
           <menuitem name="ToolsFilters" verb="" _label="_Filters..."/>
         </placeholder>
