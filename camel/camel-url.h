@@ -35,6 +35,7 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus */
 
+/* if this changes, remember to change camel_url_copy */
 typedef struct _CamelURL {
 	char  *protocol;
 	char  *user;
@@ -79,6 +80,7 @@ const char *camel_url_get_param (CamelURL *url, const char *name);
 /* for putting url's into hash tables */
 guint camel_url_hash (const void *v);
 int camel_url_equal(const void *v, const void *v2);
+CamelURL *camel_url_copy(const CamelURL *in);
 
 #ifdef __cplusplus
 }

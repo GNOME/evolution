@@ -109,7 +109,7 @@ camel_session_destroy_provider (gpointer key, gpointer value, gpointer user_data
 
 	for (i = 0; i < CAMEL_NUM_PROVIDER_TYPES; i++) {
 		if (prov->service_cache[i])
-			g_hash_table_destroy (prov->service_cache[i]);
+			camel_object_bag_destroy (prov->service_cache[i]);
 	}
 	return TRUE;
 }
@@ -203,7 +203,8 @@ register_provider (CamelSession *session, CamelProvider *provider)
 
 	for (i = 0; i < CAMEL_NUM_PROVIDER_TYPES; i++) {
 		if (provider->object_types[i])
-			provider->service_cache[i] = g_hash_table_new (provider->url_hash, provider->url_equal);
+			provider->service_cache[i] = camel_object_bag_new (provider->url_hash, provider->url_equal,
+									   (CamelCopyFunc)camel_url_copy, (GFreeFunc)camel_url_free);
 	}
 
 	/* Translate all strings here */
@@ -383,24 +384,6 @@ camel_session_get_provider (CamelSession *session, const char *url_string,
 	return provider;
 }
 
-
-static void
-service_cache_remove (CamelService *service, gpointer event_data, gpointer user_data)
-{
-	CamelSession *session = service->session;
-	CamelProviderType type = GPOINTER_TO_INT (user_data);
-
-	g_return_if_fail (CAMEL_IS_SESSION (session));
-	g_return_if_fail (service != NULL);
-	g_return_if_fail (service->url != NULL);
-
-	CAMEL_SESSION_LOCK(session, lock);
-
-	g_hash_table_remove (service->provider->service_cache[type], service->url);
-
-	CAMEL_SESSION_UNLOCK(session, lock);
-}
-
 static CamelService *
 get_service (CamelSession *session, const char *url_string,
 	     CamelProviderType type, CamelException *ex)
@@ -436,10 +419,9 @@ get_service (CamelSession *session, const char *url_string,
 		camel_url_set_path (url, NULL);
 	
 	/* Now look up the service in the provider's cache */
-	service = g_hash_table_lookup (provider->service_cache[type], url);
+	service = camel_object_bag_reserve(provider->service_cache[type], url);
 	if (service != NULL) {
 		camel_url_free (url);
-		camel_object_ref (CAMEL_OBJECT (service));
 		return service;
 	}
 
@@ -448,15 +430,15 @@ get_service (CamelSession *session, const char *url_string,
 	camel_service_construct (service, session, provider, url, &internal_ex);
 	if (camel_exception_is_set (&internal_ex)) {
 		camel_exception_xfer (ex, &internal_ex);
-		camel_object_unref (CAMEL_OBJECT (service));
+		camel_object_unref (service);
 		service = NULL;
+		camel_object_bag_abort(provider->service_cache[type], url);
 	} else {
-		g_hash_table_insert (provider->service_cache[type], url, service);
-		camel_object_hook_event (CAMEL_OBJECT (service), "finalize",
-					 (CamelObjectEventHookFunc) service_cache_remove,
-					 GINT_TO_POINTER (type));
+		camel_object_bag_add(provider->service_cache[type], url, service);
 	}
-	
+
+	camel_url_free(url);
+
 	return service;
 }
 

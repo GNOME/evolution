@@ -172,7 +172,7 @@ typedef struct {
 	/* GList of CamelServiceAuthTypes the provider supports */
 	GList *authtypes;
 	
-	GHashTable *service_cache[CAMEL_NUM_PROVIDER_TYPES];
+	CamelObjectBag *service_cache[CAMEL_NUM_PROVIDER_TYPES];
 	
 	GHashFunc url_hash;
 	GCompareFunc url_equal;

@@ -216,12 +216,13 @@ void camel_object_free(void *vo, guint32 tag, void *value);
 
 /* for managing bags of weakly-ref'd 'child' objects */
 typedef struct _CamelObjectBag CamelObjectBag;
+typedef void *(*CamelCopyFunc)(const void *vo);
 
-CamelObjectBag *camel_object_bag_new(GHashFunc hash, GEqualFunc equal);
-void *camel_object_bag_get(CamelObjectBag *bag, const char *key);
-void *camel_object_bag_reserve(CamelObjectBag *bag, const char *key);
-void camel_object_bag_add(CamelObjectBag *bag, const char *key, void *o);
-void camel_object_bag_abort(CamelObjectBag *bag, const char *key);
+CamelObjectBag *camel_object_bag_new(GHashFunc hash, GEqualFunc equal, CamelCopyFunc keycopy, GFreeFunc keyfree);
+void *camel_object_bag_get(CamelObjectBag *bag, const void *key);
+void *camel_object_bag_reserve(CamelObjectBag *bag, const void *key);
+void camel_object_bag_add(CamelObjectBag *bag, const void *key, void *o);
+void camel_object_bag_abort(CamelObjectBag *bag, const void *key);
 GPtrArray *camel_object_bag_list(CamelObjectBag *bag);
 void camel_object_bag_remove(CamelObjectBag *bag, void *o);
 void camel_object_bag_destroy(CamelObjectBag *bag);

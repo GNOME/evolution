@@ -127,7 +127,8 @@ camel_store_init (void *o)
 
 	if (store_class->hash_folder_name) {
 		store->folders = camel_object_bag_new(store_class->hash_folder_name,
-						      store_class->compare_folder_name);
+						      store_class->compare_folder_name,
+						      (CamelCopyFunc)g_strdup, g_free);
 	} else
 		store->folders = NULL;
 	

@@ -83,6 +83,8 @@ typedef struct _CamelHookPair
 struct _CamelObjectBag {
 	GHashTable *object_table; /* object by key */
 	GHashTable *key_table;	/* key by object */
+	CamelCopyFunc copy_key;
+	GFreeFunc free_key;
 #ifdef ENABLE_THREADS
 	pthread_t owner;	/* the thread that has reserved the bag for a new entry */
 	sem_t reserve_sem;	/* used to track ownership */
@@ -1082,12 +1084,14 @@ camel_object_class_dump_tree(CamelType root)
 	object_class_dump_tree_rec(root, 0);
 }
 
-CamelObjectBag *camel_object_bag_new(GHashFunc hash, GEqualFunc equal)
+CamelObjectBag *camel_object_bag_new(GHashFunc hash, GEqualFunc equal, CamelCopyFunc keycopy, GFreeFunc keyfree)
 {
 	CamelObjectBag *bag;
 
 	bag = g_malloc(sizeof(*bag));
 	bag->object_table = g_hash_table_new(hash, equal);
+	bag->copy_key = keycopy;
+	bag->free_key = keyfree;
 	bag->key_table = g_hash_table_new(NULL, NULL);
 	bag->owner = 0;
 #ifdef ENABLE_THREADS
@@ -1098,7 +1102,7 @@ CamelObjectBag *camel_object_bag_new(GHashFunc hash, GEqualFunc equal)
 }
 
 static void
-save_object(char *key, CamelObject *o, GPtrArray *objects)
+save_object(void *key, CamelObject *o, GPtrArray *objects)
 {
 	g_ptr_array_add(objects, o);
 }
@@ -1112,8 +1116,10 @@ void camel_object_bag_destroy(CamelObjectBag *bag)
 	g_assert(i == 1);
 
 	g_hash_table_foreach(bag->object_table, (GHFunc)save_object, objects);
-	for (i=0;i<objects->len;i++)
+	for (i=0;i<objects->len;i++) {
 		camel_object_bag_remove(bag, objects->pdata[i]);
+		bag->free_key(objects->pdata[i]);
+	}
 	g_ptr_array_free(objects, TRUE);
 	g_hash_table_destroy(bag->object_table);
 	g_hash_table_destroy(bag->key_table);
@@ -1123,12 +1129,12 @@ void camel_object_bag_destroy(CamelObjectBag *bag)
 	g_free(bag);
 }
 
-void camel_object_bag_add(CamelObjectBag *bag, const char *key, void *vo)
+void camel_object_bag_add(CamelObjectBag *bag, const void *key, void *vo)
 {
 	CamelObject *o = vo;
 	CamelHookList *hooks;
 	CamelHookPair *pair;
-	char *k;
+	void *k;
 
 	hooks = camel_object_get_hooks(o);
 	E_LOCK(type_lock);
@@ -1152,7 +1158,7 @@ void camel_object_bag_add(CamelObjectBag *bag, const char *key, void *vo)
 	hooks->list = pair;
 	hooks->list_length++;
 
-	k = g_strdup(key);
+	k = bag->copy_key(key);
 	g_hash_table_insert(bag->object_table, k, vo);
 	g_hash_table_insert(bag->key_table, vo, k);
 
@@ -1167,7 +1173,7 @@ void camel_object_bag_add(CamelObjectBag *bag, const char *key, void *vo)
 	camel_object_unget_hooks(o);
 }
 
-void *camel_object_bag_get(CamelObjectBag *bag, const char *key)
+void *camel_object_bag_get(CamelObjectBag *bag, const void *key)
 {
 	CamelObject *o;
 
@@ -1201,7 +1207,7 @@ void *camel_object_bag_get(CamelObjectBag *bag, const char *key)
 /* After calling reserve, you MUST call bag_abort or bag_add */
 /* Also note that currently you can only reserve a single key
    at any one time in a given thread */
-void *camel_object_bag_reserve(CamelObjectBag *bag, const char *key)
+void *camel_object_bag_reserve(CamelObjectBag *bag, const void *key)
 {
 	CamelObject *o;
 
@@ -1235,7 +1241,7 @@ void *camel_object_bag_reserve(CamelObjectBag *bag, const char *key)
 }
 
 /* abort a reserved key */
-void camel_object_bag_abort(CamelObjectBag *bag, const char *key)
+void camel_object_bag_abort(CamelObjectBag *bag, const void *key)
 {
 #ifdef ENABLE_THREADS
 	g_assert(bag->owner == pthread_self());
@@ -1246,7 +1252,7 @@ void camel_object_bag_abort(CamelObjectBag *bag, const char *key)
 }
 
 static void
-save_bag(char *key, CamelObject *o, GPtrArray *list)
+save_bag(void *key, CamelObject *o, GPtrArray *list)
 {
 	/* we have the refcount lock already */
 	o->ref_count++;
@@ -1272,7 +1278,7 @@ GPtrArray *camel_object_bag_list(CamelObjectBag *bag)
 static void camel_object_bag_remove_unlocked(CamelObjectBag *inbag, CamelObject *o, CamelHookList *hooks)
 {
 	CamelHookPair *pair, *parent;
-	char *oldkey;
+	void *oldkey;
 	CamelObjectBag *bag;
 
 	parent = (CamelHookPair *)&hooks->list;
@@ -1286,7 +1292,7 @@ static void camel_object_bag_remove_unlocked(CamelObjectBag *inbag, CamelObject 
 			if (oldkey) {
 				g_hash_table_remove(bag->key_table, o);
 				g_hash_table_remove(bag->object_table, oldkey);
-				g_free(oldkey);
+				bag->free_key(oldkey);
 			}
 			parent->next = pair->next;
 			pair_free(pair);

@@ -1,3 +1,27 @@
+2003-04-22  Not Zed  <NotZed@Ximian.com>
+
+	** Should fix #41629, #41448, et al.
+	
+	* tests/folder/test10.c: a new torture test for object bag
+	creation/unreffing.
+
+	* camel-url.c (camel_url_copy): new function to copy a url.
+
+	* camel-object.c (camel_object_bag_new): add arguments for key
+	copy and key free functions.  Fixed all callers.
+	(camel_object_bag_destroy): fix a memleak, free the bag key.
+	(camel_object_bag_get, camel_object_bag_reserve)
+	(camel_object_bag_abort, save_bag, save_object): Make the key a
+	void type, rather than char *.
+	(camel_object_bag_add): As above, and also copy the key.
+	(camel_object_bag_remove_unlocked): free the key using
+	bag->free_key.
+
+	* camel-session.c (register_provider)
+	(camel_session_destroy_provider, get_service): Changed to use an
+	object bag instead of a hash table for the service 'cache'.
+	(service_cache_remove): Removed, no longer required.
+
 2003-04-21  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-gpg-context.c (gpg_ctx_parse_status): Don't set seen_eof1
