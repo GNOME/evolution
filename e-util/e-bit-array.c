@@ -294,6 +294,32 @@ e_bit_array_bit_count (EBitArray *eba)
 	return eba->bit_count;
 }
 
+gboolean
+e_bit_array_cross_and           (EBitArray    *eba)
+{
+	int i;
+	for (i = 0; i < eba->bit_count / 32; i++) {
+		if (eba->data[i] != ONES)
+			return FALSE;
+	}
+	if ((eba->bit_count % 32) && ((eba->data[i] & BITMASK_LEFT(eba->bit_count)) != BITMASK_LEFT(eba->bit_count)))
+		return FALSE;
+	return TRUE;
+}
+
+gboolean
+e_bit_array_cross_or            (EBitArray    *eba)
+{
+	int i;
+	for (i = 0; i < eba->bit_count / 32; i++) {
+		if (eba->data[i] != 0)
+			return TRUE;
+	}
+	if ((eba->bit_count % 32) && ((eba->data[i] & BITMASK_LEFT(eba->bit_count)) != 0))
+		return TRUE;
+	return FALSE;
+}
+
 #define OPERATE(object, i,mask,grow) ((grow) ? (((object)->data[(i)]) |= ((guint32) ~(mask))) : (((object)->data[(i)]) &= (mask)))
 
 void

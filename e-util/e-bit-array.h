@@ -57,7 +57,6 @@ void       e_bit_array_select_single_row   (EBitArray    *eba,
 void       e_bit_array_toggle_single_row   (EBitArray    *eba,
 					    int           row);
 
-/* Protected Functions */
 void       e_bit_array_insert              (EBitArray    *esm,
 					    int           row,
 					    int           count);
@@ -71,6 +70,9 @@ void       e_bit_array_move_row            (EBitArray    *esm,
 					    int           old_row,
 					    int           new_row);
 gint       e_bit_array_bit_count           (EBitArray    *esm);
+
+gboolean   e_bit_array_cross_and           (EBitArray    *esm);
+gboolean   e_bit_array_cross_or            (EBitArray    *esm);
 
 #ifdef __cplusplus
 }
