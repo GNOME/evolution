@@ -1,7 +1,0 @@
-WDEI*.h
-*.xpt
-Makefile
-Makefile.in
-.deps
-gnome-macros.dep
-macros.dep

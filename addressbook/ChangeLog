@@ -1,3 +1,16 @@
+2001-11-28  Christopher James Lahey  <clahey@ximian.com>
+ 
+ 	* gui/widgets/e-minicard-view-widget.c
+	(e_minicard_view_widget_realize): Use an #ECanvasBackground here
+	instead of a #GnomeCanvasRect.
+ 
+2001-12-17  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Fixes #17377, Evolution doesn't work on multi-depth displays.]
+
+	* gui/component/addressbook-factory.c (main): Push GdkRGB visual
+	and colormap.
+
 2001-12-16  Jon Trowbridge  <trow@ximian.com>
 
 	* gui/component/select-names/e-select-names-completion.c: Added
@@ -8,6 +21,12 @@
 	FALSE at the beginning of a potentially-cached query.
 	(e_select_names_completion_do_query): Only reuse cached cards
 	if cache_complete is TRUE.  (Fixes bug #10241)
+
+	* gui/component/select-names/e-select-names-bonobo.c
+	(impl_destroy): Disconnect from manager's 'changed' and 'ok'
+	signals.
+	(init): Store the handles when we connect to the 'changed' and
+	'ok' signals.  (Fixed bug #16852)
 
 2001-12-15  JP Rosevear  <jpr@ximian.com>
  
@@ -28,21 +47,6 @@
 	* backend/ebook/e-book-util.c (simple_query_new): Used
 	g_strdup_printf to dup a string.  Doh!  Changed to g_strdup.
 	(Bug #17126)
-
-2001-12-07  Jon Trowbridge  <trow@ximian.com>
-
-	* gui/component/select-names/e-select-names-manager.c
-	(e_select_names_manager_entry_new): Remove a reference to code
-	I don't want to commit yet. :-)
-
-	* gui/component/select-names/e-select-names-manager.c: Extensively
-	refactored -- this code had gotten _really_ ugly.  Untangle things
-	to the point where our reference counting problems are fixable.
-
-	* gui/component/select-names/e-select-names-bonobo.c
-	(impl_destroy): Remove all of the ugly hacks to work around our
-	memory management problems, and just unref the manager.
-	(Fixes #14412)
 
 2001-12-05  Chris Toshok  <toshok@ximian.com>
 
