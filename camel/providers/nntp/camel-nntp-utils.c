@@ -33,7 +33,7 @@
 #include <string.h>
 
 static void
-get_XOVER_headers(CamelNNTPStore *nntp_store, CamelFolder *folder,
+get_OVER_headers(CamelNNTPStore *nntp_store, CamelFolder *folder,
 		  int first_message, int last_message, CamelException *ex)
 {
 	int status;
@@ -43,7 +43,7 @@ get_XOVER_headers(CamelNNTPStore *nntp_store, CamelFolder *folder,
 				     "XOVER %d-%d",
 				     first_message,
 				     last_message);
-		
+
 	if (status == CAMEL_NNTP_OK) {
 		CamelStream *nntp_istream = nntp_store->istream;
 		gboolean done = FALSE;
@@ -55,23 +55,44 @@ get_XOVER_headers(CamelNNTPStore *nntp_store, CamelFolder *folder,
 
 			if (*line == '.') {
 				done = TRUE;
+				g_print ("done\n");
 			}
 			else {
 				CamelMessageInfo *new_info = g_new0(CamelMessageInfo, 1);
 				char **split_line = g_strsplit (line, "\t", 7);
+				char *subject, *from, *date, *message_id, *bytes;
 
-				new_info->subject = g_strdup(split_line[1]);
-				new_info->from = g_strdup(split_line[2]);
+				subject = split_line [nntp_store->overview_field [CAMEL_NNTP_OVER_SUBJECT].index];
+				from = split_line [nntp_store->overview_field [CAMEL_NNTP_OVER_FROM].index];
+				date = split_line [nntp_store->overview_field [CAMEL_NNTP_OVER_DATE].index];
+				message_id = split_line [nntp_store->overview_field [CAMEL_NNTP_OVER_MESSAGE_ID].index];
+				bytes = split_line [nntp_store->overview_field [CAMEL_NNTP_OVER_BYTES].index];
+
+				/* if the overview format flagged this
+                                   field as "full", skip over the
+                                   preceding field name and colon */
+				if (nntp_store->overview_field [ CAMEL_NNTP_OVER_SUBJECT ].full)
+					subject += strlen ("Subject:");
+				if (nntp_store->overview_field [ CAMEL_NNTP_OVER_FROM ].full)
+					from += strlen ("From:");
+				if (nntp_store->overview_field [ CAMEL_NNTP_OVER_DATE ].full)
+					date += strlen ("Date:");
+				if (nntp_store->overview_field [ CAMEL_NNTP_OVER_MESSAGE_ID ].full)
+					message_id += strlen ("Message-ID:");
+				if (nntp_store->overview_field [ CAMEL_NNTP_OVER_BYTES ].full)
+					bytes += strlen ("Bytes:");
+
+				new_info->subject = g_strdup(subject);
+				new_info->from = g_strdup(from);
 				new_info->to = g_strdup(nntp_folder->group_name);
-				new_info->date_sent = header_decode_date(split_line[3], NULL);
+				new_info->date_sent = header_decode_date(date, NULL);
 #if 0
 				/* XXX do we need to fill in both dates? */
-				new_info->headers.date_received = g_strdup(split_line[3]);
+				new_info->headers.date_received = g_strdup(date);
 #endif
-				new_info->size = atoi(split_line[5]);
-				new_info->uid = g_strdup_printf ("%s,%s", split_line[0], split_line[4]);
-				new_info->message_id = g_strdup(split_line[4]);
-				g_strfreev (split_line);
+				new_info->size = atoi(bytes);
+				new_info->uid = g_strdup_printf ("%s,%s", split_line[0], message_id);
+				new_info->message_id = g_strdup(message_id);
 
 				if (camel_nntp_newsrc_article_is_read (nntp_store->newsrc,
 								       nntp_folder->group_name,
@@ -79,6 +100,7 @@ get_XOVER_headers(CamelNNTPStore *nntp_store, CamelFolder *folder,
 				    new_info->flags |= CAMEL_MESSAGE_SEEN;
 
 				camel_folder_summary_add (nntp_folder->summary, new_info);
+				g_strfreev (split_line);
 			}
 			g_free (line);
 		}
@@ -204,15 +226,13 @@ camel_nntp_get_headers (CamelStore *store,
 		return;
 	}
 
-#if 0
-	if (nntp_store->extensions & CAMEL_NNTP_EXT_XOVER) {
-#endif
-		get_XOVER_headers (nntp_store, folder, first_message, last_message, ex);
-#if 0
+	if (nntp_store->extensions & CAMEL_NNTP_EXT_OVER) {
+		get_OVER_headers (nntp_store, folder, first_message, last_message, ex);
 	}
 	else {
+		g_warning ("need to fix get_HEAD_headers\n");
+#if 0		
 		get_HEAD_headers (nntp_store, folder, first_message, last_message, ex);
-	}
 #endif
+	}
 }
-

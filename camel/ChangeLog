@@ -1,3 +1,31 @@
+2000-08-31  Chris Toshok  <toshok@helixcode.com>
+
+	* providers/nntp/camel-nntp-newsrc.c
+	(camel_nntp_newsrc_read_for_server): make this a bit more robust.
+	try to create an empty .newsrc file for the server if we can't
+	open it for reading.  also, don't allocate everything until we've
+	opened the file.
+
+	* providers/nntp/camel-nntp-utils.c (get_OVER_headers): make use
+	of our overview field indices.
+	(camel_nntp_get_headers): only call get_OVER_headers if the
+	extension is present.  warn if it's not - since get_HEAD_headers
+	needs work before it works.
+
+	* providers/nntp/camel-nntp-store.c
+	(camel_nntp_store_get_extensions): new function - query the server
+	for it's extensions.
+	(camel_nntp_store_get_overview_fmt): new function - query the
+	server for the overview format and build our table of the indices
+	we care about.  support the "full" suffix on fields.
+	(nntp_store_connect): call camel_nntp_store_get_extensions and
+	camel_nntp_store_get_overview_fmt.
+
+	* providers/nntp/camel-nntp-store.h: add codes for extensions
+	found on news.mozilla.org.  only one that we care about is OVER.
+	also, add CamelNNTPOverField and an enum of the overview fields
+	that we care about.
+
 2000-08-31  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/imap/camel-imap-utils.c (imap_translate_sexp):

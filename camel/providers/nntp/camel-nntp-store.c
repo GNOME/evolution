@@ -48,6 +48,8 @@
 
 #define NNTP_PORT 119
 
+#define DUMP_EXTENSIONS
+
 static CamelServiceClass *service_class = NULL;
 
 /* Returns the class for a CamelNNTPStore */
@@ -57,6 +59,143 @@ static CamelServiceClass *service_class = NULL;
 
 static gboolean ensure_news_dir_exists (CamelNNTPStore *store);
 
+static void
+camel_nntp_store_get_extensions (CamelNNTPStore *store)
+{
+	store->extensions = 0;
+
+	if (CAMEL_NNTP_OK == camel_nntp_command (store, NULL, "LIST EXTENSIONS")) {
+		gboolean done = FALSE;
+
+		while (!done) {
+			char *line;
+
+			line = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER(store->istream));
+
+			if (*line == '.') {
+				done = TRUE;
+			}
+			else {
+#define CHECK_EXT(name,val) if (!strcasecmp (line, (name))) store->extensions |= (val)
+
+				CHECK_EXT ("SEARCH",     CAMEL_NNTP_EXT_SEARCH);
+				CHECK_EXT ("SETGET",     CAMEL_NNTP_EXT_SETGET);
+				CHECK_EXT ("OVER",       CAMEL_NNTP_EXT_OVER);
+				CHECK_EXT ("XPATTEXT",   CAMEL_NNTP_EXT_XPATTEXT);
+				CHECK_EXT ("XACTIVE",    CAMEL_NNTP_EXT_XACTIVE);
+				CHECK_EXT ("LISTMOTD",   CAMEL_NNTP_EXT_LISTMOTD);
+				CHECK_EXT ("LISTSUBSCR", CAMEL_NNTP_EXT_LISTSUBSCR);
+				CHECK_EXT ("LISTPNAMES", CAMEL_NNTP_EXT_LISTPNAMES);
+
+#undef CHECK_EXT
+			}
+
+			g_free (line);
+		}
+	}
+
+#ifdef DUMP_EXTENSIONS
+	g_print ("NNTP Extensions:");
+#define DUMP_EXT(name,val) if (store->extensions & (val)) g_print (" %s", name);
+	DUMP_EXT ("SEARCH",     CAMEL_NNTP_EXT_SEARCH);
+	DUMP_EXT ("SETGET",     CAMEL_NNTP_EXT_SETGET);
+	DUMP_EXT ("OVER",       CAMEL_NNTP_EXT_OVER);
+	DUMP_EXT ("XPATTEXT",   CAMEL_NNTP_EXT_XPATTEXT);
+	DUMP_EXT ("XACTIVE",    CAMEL_NNTP_EXT_XACTIVE);
+	DUMP_EXT ("LISTMOTD",   CAMEL_NNTP_EXT_LISTMOTD);
+	DUMP_EXT ("LISTSUBSCR", CAMEL_NNTP_EXT_LISTSUBSCR);
+	DUMP_EXT ("LISTPNAMES", CAMEL_NNTP_EXT_LISTPNAMES);
+	g_print ("\n");
+#undef DUMP_EXT
+#endif
+}
+
+static void
+camel_nntp_store_get_overview_fmt (CamelNNTPStore *store)
+{
+	int status;
+	char *result;
+	char *field;
+	int i;
+
+	status = camel_nntp_command (store, NULL,
+				     "LIST OVERVIEW.FMT");
+
+	if (status != CAMEL_NNTP_OK) {
+		/* if we can't get the overview format, we should
+                   disable OVER support */
+		g_warning ("server reported support of OVER but LIST OVERVIEW.FMT failed."
+			   "  disabling OVER\n");
+		store->extensions &= ~CAMEL_NNTP_EXT_OVER;
+		return;
+	}
+		
+	result = camel_nntp_command_get_additional_data (store);
+
+	/* count the number of fields the server returns in the
+	   overview.  start at 1 because the article number is always
+	   first */
+	store->num_overview_fields = 1;
+
+	for (i = 0; i < CAMEL_NNTP_OVER_LAST; i ++) {
+		store->overview_field [i].index = -1;
+	}
+
+	while ((field = strsep (&result, "\n"))) {
+		CamelNNTPOverField *over_field = NULL;
+		char *colon = NULL;;
+
+		if (field[0] == '\0')
+			break;
+
+		if (!strncasecmp (field, "From:", 5)) {
+			over_field = &store->overview_field [ CAMEL_NNTP_OVER_FROM ];
+			over_field->index = store->num_overview_fields;
+			colon = field + 5;
+		}
+		else if (!strncasecmp (field, "Subject:", 7)) {
+			over_field = &store->overview_field [ CAMEL_NNTP_OVER_SUBJECT ];
+			over_field->index = store->num_overview_fields;
+			colon = field + 7;
+		}
+		else if (!strncasecmp (field, "Date:", 5)) {
+			over_field = &store->overview_field [ CAMEL_NNTP_OVER_DATE ];
+			over_field->index = store->num_overview_fields;
+			colon = field + 5;
+		}
+		else if (!strncasecmp (field, "Message-ID:", 11)) {
+			over_field = &store->overview_field [ CAMEL_NNTP_OVER_MESSAGE_ID ];
+			over_field->index = store->num_overview_fields;
+			colon = field + 11;
+		}
+		else if (!strncasecmp (field, "References:", 11)) {
+			over_field = &store->overview_field [ CAMEL_NNTP_OVER_REFERENCES ];
+			over_field->index = store->num_overview_fields;
+			colon = field + 11;
+		}
+		else if (!strncasecmp (field, "Bytes:", 6)) {
+			over_field = &store->overview_field [ CAMEL_NNTP_OVER_BYTES ];
+			over_field->index = store->num_overview_fields;
+			colon = field + 11;
+		}
+		
+		if (colon && !strcmp (colon + 1, "full"))
+			over_field->full = TRUE;
+
+		store->num_overview_fields ++;
+	}
+
+	g_free (result);
+
+	for (i = 0; i < CAMEL_NNTP_OVER_LAST; i ++) {
+		if (store->overview_field [i].index == -1) {
+			g_warning ("server's OVERVIEW.FMT doesn't support minimum set we require,"
+				   " disabling OVER support.\n");
+			store->extensions &= ~CAMEL_NNTP_EXT_OVER;
+		}
+	}
+}
+
 static gboolean
 nntp_store_connect (CamelService *service, CamelException *ex)
 {
@@ -64,6 +203,7 @@ nntp_store_connect (CamelService *service, CamelException *ex)
 	struct sockaddr_in sin;
 	int fd;
 	char *buf;
+	int resp_code;
 	CamelNNTPStore *store = CAMEL_NNTP_STORE (service);
 
 	if (!ensure_news_dir_exists(store)) {
@@ -106,14 +246,29 @@ nntp_store_connect (CamelService *service, CamelException *ex)
 		return -1;
 	}
 
+	/* check if posting is allowed. */
+	resp_code = atoi (buf);
+	if (resp_code == 200) {
+		g_print ("posting allowed\n");
+		store->posting_allowed = TRUE;
+	}
+	else if (resp_code == 201) {
+		g_print ("no posting allowed\n");
+		store->posting_allowed = FALSE;
+	}
+	else {
+		g_warning ("unexpected server greeting code %d, no posting allowed\n", resp_code);
+		store->posting_allowed = FALSE;
+	}
+
 	g_free (buf);
 
 	/* get a list of extensions that the server supports */
-	if (CAMEL_NNTP_OK == camel_nntp_command (store, NULL, "LIST EXTENSIONS")) {
-		char *ext_response = camel_nntp_command_get_additional_data(store);
+	camel_nntp_store_get_extensions (store);
 
-		g_free (ext_response);
-	}
+	/* if the server supports the OVER extension, get the overview.fmt */
+	if (store->extensions & CAMEL_NNTP_EXT_OVER)
+		camel_nntp_store_get_overview_fmt (store);
 
 	return TRUE;
 }
@@ -161,6 +316,14 @@ nntp_store_get_folder (CamelStore *store, const gchar *folder_name,
 	if (!nntp_store->newsrc)
 		nntp_store->newsrc = 
 		camel_nntp_newsrc_read_for_server (CAMEL_SERVICE(store)->url->host);
+
+	if (!nntp_store->newsrc) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+				      "Unable to open or create .newsrc file for %s: %s",
+				      CAMEL_SERVICE(store)->url->host,
+				      strerror(errno));
+		return NULL;
+	}
 
 	/* check if folder has already been created */
 	/* call the standard routine for that when  */
@@ -329,13 +492,12 @@ camel_nntp_command (CamelNNTPStore *store, char **ret, char *fmt, ...)
  * a NNTP command.
  * @store: the NNTP store
  *
- * This command gets the additional data returned by
- * This command gets the additional data returned by "multi-line" POP
- * commands, such as LIST, RETR, TOP, and UIDL. This command _must_
- * be called after a successful (CAMEL_NNTP_OK) call to
- * camel_nntp_command for a command that has a multi-line response.
- * The returned data is un-byte-stuffed, and has lines termined by
- * newlines rather than CR/LF pairs.
+ * This command gets the additional data returned by This command gets
+ * the additional data returned by "multi-line" NNTP commands, such as
+ * LIST. This command must only be called after a successful
+ * (CAMEL_NNTP_OK) call to camel_nntp_command for a command that has a
+ * multi-line response.  The returned data is un-byte-stuffed, and has
+ * lines termined by newlines rather than CR/LF pairs.
  *
  * Return value: the data, which the caller must free.
  **/

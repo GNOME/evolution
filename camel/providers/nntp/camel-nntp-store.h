@@ -40,11 +40,40 @@ extern "C" {
 #define IS_CAMEL_NNTP_STORE(o)    (CAMEL_CHECK_TYPE((o), CAMEL_NNTP_STORE_TYPE))
 
 
+enum {
+	CAMEL_NNTP_OVER_FROM,
+	CAMEL_NNTP_OVER_SUBJECT,
+	CAMEL_NNTP_OVER_DATE,
+	CAMEL_NNTP_OVER_MESSAGE_ID,
+	CAMEL_NNTP_OVER_REFERENCES,
+	CAMEL_NNTP_OVER_BYTES,
+
+	CAMEL_NNTP_OVER_LAST
+};
+
+typedef struct {
+	int index;
+	gboolean full; /* full in the OVER sense - the field name
+                          precedes the ':' in the XOVER list. */
+} CamelNNTPOverField;
+
 typedef struct {
 	CamelStore parent_object;	
 
-#define CAMEL_NNTP_EXT_XOVER 0x01
+#define CAMEL_NNTP_EXT_SEARCH     (1<<0)
+#define CAMEL_NNTP_EXT_SETGET     (1<<1)
+#define CAMEL_NNTP_EXT_OVER       (1<<2)
+#define CAMEL_NNTP_EXT_XPATTEXT   (1<<3)
+#define CAMEL_NNTP_EXT_XACTIVE    (1<<4)
+#define CAMEL_NNTP_EXT_LISTMOTD   (1<<5)
+#define CAMEL_NNTP_EXT_LISTSUBSCR (1<<6)
+#define CAMEL_NNTP_EXT_LISTPNAMES (1<<7)
 	guint32 extensions;
+
+	gboolean posting_allowed;
+
+	int num_overview_fields;
+	CamelNNTPOverField overview_field[ CAMEL_NNTP_OVER_LAST ];
 
 	CamelNNTPNewsrc *newsrc;
 
