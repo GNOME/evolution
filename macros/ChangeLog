@@ -1,3 +1,9 @@
+1998-10-11  Martin Baulig  <martin@home-of-linux.org>
+
+	* gnome-libgtop-sysdeps.m4 (libgtop_postinstall): Use `:' instead
+	of the empty string if there is nothing to do since the empty string
+	is no valid shell sytax.
+
 1998-10-11  Marius Vollmer  <mvo@zagadka.ping.de>
 
 	* gnome-guile-checks.m4: Check for "guile-config" and then for

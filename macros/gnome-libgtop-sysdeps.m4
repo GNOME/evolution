@@ -132,6 +132,8 @@ main (void)
 	  ;;
 	esac
 
+	test -z "$libgtop_postinstall" && libgtop_postinstall=:
+
 	AC_MSG_RESULT($libgtop_sysdeps_dir)
 
 	AC_SUBST(libgtop_sysdeps_dir)
