@@ -568,7 +568,7 @@ remove_bonobo_menus (ESearchBar *esb)
 	if (bonobo_ui_component_get_container (esb->ui_component) == CORBA_OBJECT_NIL)
 		return;
 
-	bonobo_ui_component_rm (esb->ui_component, "/menu/SearchPlaceholder/Search", NULL);
+	bonobo_ui_component_rm (esb->ui_component, "/menu/SearchPlaceholder", NULL);
 }
 
 static void
