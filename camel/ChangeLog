@@ -1,5 +1,11 @@
 2001-03-09  Dan Winship  <danw@ximian.com>
 
+	* providers/sendmail/camel-sendmail-transport.c (sendmail_send,
+	sendmail_send_to): Remove the "-U" for now, because it breaks
+	exim's "sendmail" wrapper. (And it doesn't actually do all that
+	much to sendmail's behavior, and it was working fine before
+	anyway.)
+
 	* camel-mime-utils.c (header_fold): Fix a bug that could make this
 	walk off the end of a string. (The bug has been there since
 	December... maybe this will fix some unreproduceable crashes?)

@@ -211,7 +211,7 @@ sendmail_send_to (CamelTransport *transport, CamelMedium *message,
 	len = g_list_length (recipients);
 	argv = g_malloc ((len + 5) * sizeof (char *));
 	argv[0] = "sendmail";
-	argv[1] = "-Uif";
+	argv[1] = "-if";
 	argv[2] = from;
 	argv[3] = "--";
 
@@ -228,7 +228,7 @@ static gboolean
 sendmail_send (CamelTransport *transport, CamelMedium *message,
        CamelException *ex)
 {
-	const char *argv[4] = { "sendmail", "-Utif", NULL, NULL };
+	const char *argv[4] = { "sendmail", "-tif", NULL, NULL };
 	
 	argv[2] = get_from (message, ex);
 	if (!argv[2])
