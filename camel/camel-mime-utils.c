@@ -171,7 +171,7 @@ header_decode_init(void)
 		camel_mime_special_table[i] = 0;
 		if (i<32)
 			camel_mime_special_table[i] |= IS_CTRL;
-		if ((i>=33 && i<=60) || (i>=62 && i<=126) || i==32 || i==9)
+		if ((i>=32 && i<=60) || (i>=62 && i<=126) || i==9)
 			camel_mime_special_table[i] |= (IS_QPSAFE|IS_ESAFE);
 		if ((i>='0' && i<='9') || (i>='a' && i<='z') || (i>='A' && i<= 'Z'))
 			camel_mime_special_table[i] |= IS_PSAFE;
