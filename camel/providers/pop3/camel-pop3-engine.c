@@ -315,7 +315,6 @@ camel_pop3_engine_iterate(CamelPOP3Engine *pe, CamelPOP3Command *pcwait)
 
 		e_dlist_remove((EDListNode *)pw);
 
-
 		pe->sentlen += strlen(pw->data);
 		pw->state = CAMEL_POP3_COMMAND_DISPATCHED;
 

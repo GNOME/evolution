@@ -439,9 +439,9 @@ pop3_try_authenticate (CamelService *service, const char *errmsg,
 		       CamelException *ex)
 {
 	CamelPOP3Store *store = (CamelPOP3Store *)service;
-	int status;
 	CamelPOP3Command *pcu = NULL, *pcp = NULL;
-
+	int status;
+	
 	/* override, testing only */
 	/*printf("Forcing authmech to 'login'\n");
 	service->url->authmech = g_strdup("LOGIN");*/
@@ -494,14 +494,19 @@ pop3_try_authenticate (CamelService *service, const char *errmsg,
 				       "authentication mechanism."));
 		return FALSE;
 	}
-
-	while (camel_pop3_engine_iterate(store->engine, pcp) > 0)
+	
+	while ((status = camel_pop3_engine_iterate(store->engine, pcp)) > 0)
 		;
-	status = pcp->state != CAMEL_POP3_COMMAND_OK;
-	if (status) {
-		camel_exception_setv(ex,  CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
-				     _("Unable to connect to POP server.\nError sending password: %s"),
-				     store->engine->line);
+	
+	if (status != CAMEL_POP3_COMMAND_OK) {
+		if (status == CAMEL_POP3_COMMAND_ERR)
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
+					      _("Unable to connect to POP server.\nError sending password: %s"),
+					      store->engine->line);
+		else
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+					      _("Unable to connect to POP server.\nError sending password: %s"),
+					      errno ? g_strerror (errno) : _("Unknown error"));
 	}
 	camel_pop3_engine_command_free(store->engine, pcp);
 
@@ -542,11 +547,14 @@ pop3_connect (CamelService *service, CamelException *ex)
 			errbuf = g_strdup_printf ("%s\n\n", camel_exception_get_description (ex));
 			camel_exception_clear (ex);
 			
-			/* Uncache the password before prompting again. */
-			camel_session_forget_password (camel_service_get_session (service),
-						       service, "password", ex);
-			g_free (service->url->passwd);
-			service->url->passwd = NULL;
+			/* don't forget the password if we encountered an unknown error */
+			if (camel_exception_get_id (ex) == CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE) {
+				/* Uncache the password before prompting again. */
+				camel_session_forget_password (camel_service_get_session (service),
+							       service, "password", ex);
+				g_free (service->url->passwd);
+				service->url->passwd = NULL;
+			}
 		}
 		
 		tryagain = pop3_try_authenticate (service, errbuf, ex);
