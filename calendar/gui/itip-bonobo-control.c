@@ -199,7 +199,7 @@ get_prop (BonoboPropertyBag *bag,
 		BONOBO_ARG_SET_STRING (arg, e_itip_control_get_from_address (itip));
 		break;
 	case VIEW_ONLY_ARG_ID:
-		BONOBO_ARG_SET_BOOLEAN (arg, e_itip_control_get_view_only (itip));
+		BONOBO_ARG_SET_INT (arg, e_itip_control_get_view_only (itip));
 		break;
 	}
 }
@@ -218,7 +218,7 @@ set_prop ( BonoboPropertyBag *bag,
 		e_itip_control_set_from_address (itip, BONOBO_ARG_GET_STRING (arg));
 		break;
 	case VIEW_ONLY_ARG_ID:
-		e_itip_control_set_view_only (itip, BONOBO_ARG_GET_BOOLEAN (arg));
+		e_itip_control_set_view_only (itip, BONOBO_ARG_GET_INT (arg));
 		break;
 	}
 }
@@ -240,7 +240,7 @@ itip_bonobo_control_new (void)
 	prop_bag = bonobo_property_bag_new (get_prop, set_prop, itip);
 	bonobo_property_bag_add (prop_bag, "from_address", FROM_ADDRESS_ARG_ID, BONOBO_ARG_STRING, NULL,
 				 "from_address", 0 );
-	bonobo_property_bag_add (prop_bag, "view_only", VIEW_ONLY_ARG_ID, BONOBO_ARG_BOOLEAN, NULL,
+	bonobo_property_bag_add (prop_bag, "view_only", VIEW_ONLY_ARG_ID, BONOBO_ARG_INT, NULL,
 				 "view_only", 0 );
 
 	bonobo_control_set_properties (control, bonobo_object_corba_objref (BONOBO_OBJECT (prop_bag)), NULL);

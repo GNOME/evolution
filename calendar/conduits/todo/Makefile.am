@@ -23,7 +23,7 @@ libetodo_conduit_la_LIBADD = 						\
 	$(top_builddir)/libversit/libversit.la				\
 	$(top_builddir)/libical/src/libical/libical-static.la		\
 	$(top_builddir)/libwombat/libwombat-static.la	 		\
-	$(top_builddir)/e-util/libeconduit-static.la	 		\
+	$(top_builddir)/e-util/libeconduit.la		 		\
 	$(EVOLUTION_CALENDAR_CONDUIT_LIBS)
 
 e-todo.conduit: e-todo.conduit.in Makefile

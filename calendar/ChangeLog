@@ -1,3 +1,21 @@
+2003-06-12  Jack Jia <jack.jia@sun.com>
+ 
+ 	* gui/e-itip-control.c
+ 	(struct _EItipControlPrivate): switch the "view_only" arg to be an
+	int.
+ 	(init): ditto.
+ 	(e_itip_control_set_view_only): ditto.
+ 	(e_itip_control_get_view_only): ditto.
+ 
+ 	* gui/itip-bonobo-control.c
+ 	(get_prop): switch BONOBO_ARG_SET_BOOLEAN to BONOBO_ARG_SET_INT.
+ 	(set_prop): switch BONOBO_ARG_GET_BOOLEAN to BONOBO_ARG_GET_INT.
+ 	(itip_bonobo_control_new): switch BONOBO_ARG_BOOLEAN to
+	BONOBO_ARG_INT.
+ 
+ 	Function "bonobo_property_bag_client_set_value_gboolean" can not
+	work on solaris.
+
 2003-06-10  Bolian Yin <bolian.yin@sun.com>
 
 	Fixes #44682, Shift+F10 to active popup menu on day/week view

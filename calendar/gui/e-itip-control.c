@@ -84,7 +84,7 @@ struct _EItipControlPrivate {
 	gchar *delegator_address;
 	gchar *delegator_name;
 	gchar *my_address;
-	gboolean view_only;
+	gint   view_only;
 
 	gboolean destroyed;
 };
@@ -356,7 +356,7 @@ init (EItipControl *itip)
 	priv->delegator_address = NULL;
 	priv->delegator_name = NULL;
 	priv->my_address = NULL;
-	priv->view_only = FALSE;
+	priv->view_only = 0;
 	
 	/* Html Widget */
 	priv->html = gtk_html_new ();
@@ -1728,7 +1728,7 @@ e_itip_control_get_from_address (EItipControl *itip)
 }
 
 void
-e_itip_control_set_view_only (EItipControl *itip, gboolean view_only)
+e_itip_control_set_view_only (EItipControl *itip, gint view_only)
 {
 	EItipControlPrivate *priv;
 
@@ -1737,7 +1737,7 @@ e_itip_control_set_view_only (EItipControl *itip, gboolean view_only)
 	priv->view_only = view_only;
 }
 
-gboolean
+gint
 e_itip_control_get_view_only (EItipControl *itip)
 {
 	EItipControlPrivate *priv;
