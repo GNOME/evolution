@@ -30,6 +30,7 @@
 #include <e-util/e-util.h>
 #include <e-util/e-canvas-utils.h>
 #include <e-util/e-popup-menu.h>
+#include "addressbook/printing/e-contact-print.h"
 #include "e-contact-editor.h"
 #include "e-contact-save-as.h"
 #include "e-minicard-view.h"
@@ -329,6 +330,34 @@ save_as (GtkWidget *widget, EMinicard *minicard)
 	e_contact_save_as(_("Save as VCard"), minicard->card);
 }
 
+static void
+delete (GtkWidget *widget, EMinicard *minicard)
+{
+	EBook *book;
+	
+	if (e_contact_editor_confirm_delete()) {
+		e_card_simple_sync_card(minicard->simple);
+		
+		gtk_object_get(GTK_OBJECT(GNOME_CANVAS_ITEM(minicard)->parent),
+			       "book", &book,
+			       NULL);
+		
+		/* Add the card in the contact editor to our ebook */
+		e_book_remove_card (book,
+				    minicard->card,
+				    card_changed_cb,
+				    NULL);
+	}
+}
+
+static void
+print (GtkWidget *widget, EMinicard *minicard)
+{
+	e_card_simple_sync_card(minicard->simple);
+				
+	gtk_widget_show(e_contact_print_card_dialog_new(minicard->card));
+}
+
 /* Callback for the add_card signal from the contact editor */
 static void
 add_card_cb (EContactEditor *ce, ECard *card, gpointer data)
@@ -347,6 +376,16 @@ commit_card_cb (EContactEditor *ce, ECard *card, gpointer data)
 
 	book = E_BOOK (data);
 	e_book_commit_card (book, card, card_changed_cb, NULL);
+}
+
+/* Callback for the commit_card signal from the contact editor */
+static void
+delete_card_cb (EContactEditor *ce, ECard *card, gpointer data)
+{
+	EBook *book;
+
+	book = E_BOOK (data);
+	e_book_remove_card (book, card, card_changed_cb, NULL);
 }
 
 /* Callback used when the contact editor is closed */
@@ -410,7 +449,10 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 		if (event->button.button == 1) {
 			e_canvas_item_grab_focus(item);
 		} else if (event->button.button == 3) {
-			EPopupMenu menu[] = { {"Save as VCard", NULL, GTK_SIGNAL_FUNC(save_as), 0}, {NULL, NULL, NULL, 0} };
+			EPopupMenu menu[] = { {"Save as VCard", NULL, GTK_SIGNAL_FUNC(save_as), 0}, 
+			                      {"Print", NULL, GTK_SIGNAL_FUNC(print), 0},
+			                      {"Delete", NULL, GTK_SIGNAL_FUNC(delete), 0},
+					      {NULL, NULL, NULL, 0}};
 			e_popup_menu_run (menu, (GdkEventButton *)event, 0, e_minicard);
 		}
 		break;
@@ -431,6 +473,8 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 					    GTK_SIGNAL_FUNC (add_card_cb), book);
 			gtk_signal_connect (GTK_OBJECT (ce), "commit_card",
 					    GTK_SIGNAL_FUNC (commit_card_cb), book);
+			gtk_signal_connect (GTK_OBJECT (ce), "delete_card",
+					    GTK_SIGNAL_FUNC (delete_card_cb), book);
 			gtk_signal_connect (GTK_OBJECT (ce), "editor_closed",
 					    GTK_SIGNAL_FUNC (editor_closed_cb), NULL);
 

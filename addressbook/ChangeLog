@@ -1,3 +1,28 @@
+2000-07-13  Christopher James Lahey  <clahey@helixcode.com>
+
+	* Makefile.am: Switched the order of compilation of printing and
+	contact-editor.
+
+	* contact-editor/Makefile.am: Added printing libraries and a
+	confirm delete dialog glade file.
+
+	* contact-editor/e-contact-editor.c,
+	contact-editor/e-contact-editor.h: Enabled the delete and print
+	functions as well as providing a confirm delete dialog to the
+	outside world.
+
+	* gui/component/addressbook.c: Made the delete button on new cards
+	active.
+
+	* gui/minicard/Makefile.am: Added printing libraries to a number
+	of test programs.
+
+	* gui/minicard/e-minicard.c: Added print and delete to the right
+	click menu.  Made the delete button on the card editor active.
+
+	* printing/e-contact-print.c, printing/e-contact-print.h: Added a
+	function to print a single card.
+
 2000-07-12  Chris Toshok  <toshok@helixcode.com>
 
 	* gui/component/e-ldap-storage.c (ldap_server_foreach): oops.  fix

@@ -33,6 +33,7 @@ contact_editor_test_SOURCES = 	\
 contact_editor_test_LDADD =					\
 	libecontacteditor.a					\
 	$(top_builddir)/e-util/libeutil.la			\
+	$(top_builddir)/addressbook/printing/libecontactprint.a	\
 	$(top_builddir)/addressbook/backend/ebook/libebook.la	\
 	$(top_builddir)/addressbook/ename/libename.la		\
 	$(top_builddir)/libversit/libversit.la			\
@@ -53,10 +54,12 @@ gladedir   = $(datadir)/evolution/glade
 glade_DATA = 				\
 	contact-editor.glade		\
 	fullname.glade			\
-	categories.glade
+	categories.glade		\
+	e-contact-editor-confirm-delete.glade
 
 EXTRA_DIST = $(evolution_DATA)		\
 	$(glade_DATA)			\
 	e-contact-editor-strings.h	\
 	fullname-strings.h		\
-	categories-strings.h
+	categories-strings.h		\
+	e-contact-editor-confirm-delete.glade.h

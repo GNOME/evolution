@@ -29,11 +29,13 @@
 #include <gdk-pixbuf/gnome-canvas-pixbuf.h>
 #include <e-util/e-gui-utils.h>
 #include <e-contact-save-as.h>
+#include "addressbook/printing/e-contact-print.h"
 
 /* Signal IDs */
 enum {
 	ADD_CARD,
 	COMMIT_CARD,
+	DELETE_CARD,
 	EDITOR_CLOSED,
 	LAST_SIGNAL
 };
@@ -126,6 +128,15 @@ e_contact_editor_class_init (EContactEditorClass *klass)
 			  GTK_RUN_FIRST,
 			  object_class->type,
 			  GTK_SIGNAL_OFFSET (EContactEditorClass, commit_card),
+			  gtk_marshal_NONE__OBJECT,
+			  GTK_TYPE_NONE, 1,
+			  GTK_TYPE_OBJECT);
+
+  contact_editor_signals[DELETE_CARD] =
+	  gtk_signal_new ("delete_card",
+			  GTK_RUN_FIRST,
+			  object_class->type,
+			  GTK_SIGNAL_OFFSET (EContactEditorClass, delete_card),
 			  gtk_marshal_NONE__OBJECT,
 			  GTK_TYPE_NONE, 1,
 			  GTK_TYPE_OBJECT);
@@ -573,6 +584,59 @@ file_save_as_cb (GtkWidget *widget, gpointer data)
 	e_contact_save_as("Save as VCard", card);
 }
 
+gboolean
+e_contact_editor_confirm_delete(void)
+{
+	GnomeDialog *dialog;
+	GladeXML *gui;
+	int result;
+
+	gui = glade_xml_new (EVOLUTION_GLADEDIR "/e-contact-editor-confirm-delete.glade", NULL);
+
+	dialog = GNOME_DIALOG(glade_xml_get_widget(gui, "confirm-dialog"));
+	
+	result = gnome_dialog_run_and_close(dialog);
+
+	gtk_object_unref(GTK_OBJECT(gui));
+
+	return !result;
+}
+
+static void
+delete_cb (GtkWidget *widget, gpointer data)
+{
+	EContactEditor *ce;
+
+	if (e_contact_editor_confirm_delete()) {
+
+		ce = E_CONTACT_EDITOR (data);
+
+		extract_info (ce);
+		e_card_simple_sync_card (ce->simple);
+		
+		if (!ce->is_new_card)
+			gtk_signal_emit (GTK_OBJECT (ce), contact_editor_signals[DELETE_CARD],
+					 ce->card);
+		
+		file_close_cb(widget, data);
+	}
+}
+
+/* Emits the signal to request printing a card */
+static void
+print_cb (GtkWidget *widget, gpointer data)
+{
+	EContactEditor *ce;
+
+	ce = E_CONTACT_EDITOR (data);
+
+	extract_info (ce);
+	e_card_simple_sync_card (ce->simple);
+
+	gtk_widget_show(e_contact_print_card_dialog_new(ce->card));
+}
+
+
 /* Menu bar */
 
 static GnomeUIInfo file_new_menu[] = {
@@ -606,13 +670,13 @@ static GnomeUIInfo file_menu[] = {
 	GNOMEUIINFO_MENU_SAVE_AS_ITEM (file_save_as_cb, NULL),
 	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Save Attac_hments..."), NULL, NULL),
 	GNOMEUIINFO_SEPARATOR,
-	GNOMEUIINFO_ITEM_NONE (N_("FIXME: _Delete"), NULL, NULL),
+	GNOMEUIINFO_ITEM_NONE (N_("_Delete"), NULL, delete_cb),
 	GNOMEUIINFO_ITEM_NONE (N_("FIXME: _Move to Folder..."), NULL, NULL),
 	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Cop_y to Folder..."), NULL, NULL),
 	GNOMEUIINFO_SEPARATOR,
 	GNOMEUIINFO_SUBTREE (N_("Page Set_up"), file_page_setup_menu),
 	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Print Pre_view"), NULL, NULL),
-	GNOMEUIINFO_MENU_PRINT_ITEM (NULL, NULL),
+	GNOMEUIINFO_MENU_PRINT_ITEM (print_cb, NULL),
 	GNOMEUIINFO_SEPARATOR,
 	GNOMEUIINFO_MENU_PROPERTIES_ITEM (NULL, NULL),
 	GNOMEUIINFO_SEPARATOR,
@@ -777,16 +841,16 @@ static GnomeUIInfo toolbar[] = {
 				tb_save_and_close_cb,
 				GNOME_STOCK_PIXMAP_SAVE),
 	GNOMEUIINFO_SEPARATOR,
-	GNOMEUIINFO_ITEM_STOCK (N_("FIXME: Print..."),
-				N_("Print this item"), NULL, 
+	GNOMEUIINFO_ITEM_STOCK (N_("Print..."),
+				N_("Print this item"), print_cb, 
 				GNOME_STOCK_PIXMAP_PRINT),
 #if 0
 	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Insert File..."),
 			       N_("Insert a file as an attachment"), NULL),
 #endif
 	GNOMEUIINFO_SEPARATOR,
-	GNOMEUIINFO_ITEM_STOCK (N_("FIXME: Delete"),
-				N_("Delete this item"), NULL,
+	GNOMEUIINFO_ITEM_STOCK (N_("Delete"),
+				N_("Delete this item"), delete_cb,
 				GNOME_STOCK_PIXMAP_TRASH),
 	GNOMEUIINFO_SEPARATOR,
 	GNOMEUIINFO_ITEM_STOCK (N_("FIXME: Previous"),

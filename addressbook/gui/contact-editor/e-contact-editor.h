@@ -95,12 +95,16 @@ struct _EContactEditorClass
 
 	void (* add_card) (EContactEditor *ce, ECard *card);
 	void (* commit_card) (EContactEditor *ce, ECard *card);
+	void (* delete_card) (EContactEditor *ce, ECard *card);
 	void (* editor_closed) (EContactEditor *ce);
 };
 
 
 EContactEditor *e_contact_editor_new (ECard *card, gboolean is_new_card);
 GtkType    e_contact_editor_get_type (void);
+
+
+gboolean e_contact_editor_confirm_delete(void);
 
 #ifdef __cplusplus
 }

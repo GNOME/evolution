@@ -125,6 +125,16 @@ commit_card_cb (EContactEditor *ce, ECard *card, gpointer data)
 	e_book_commit_card (book, card, card_modified_cb, NULL);
 }
 
+/* Callback for the delete_card signal from the contact editor */
+static void
+delete_card_cb (EContactEditor *ce, ECard *card, gpointer data)
+{
+	EBook *book;
+
+	book = E_BOOK (data);
+	e_book_remove_card (book, card, card_modified_cb, NULL);
+}
+
 /* Callback used when the contact editor is closed */
 static void
 editor_closed_cb (EContactEditor *ce, gpointer data)
@@ -157,6 +167,8 @@ new_contact_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 			    GTK_SIGNAL_FUNC (add_card_cb), book);
 	gtk_signal_connect (GTK_OBJECT (ce), "commit_card",
 			    GTK_SIGNAL_FUNC (commit_card_cb), book);
+	gtk_signal_connect (GTK_OBJECT (ce), "delete_card",
+			    GTK_SIGNAL_FUNC (delete_card_cb), book);
 	gtk_signal_connect (GTK_OBJECT (ce), "editor_closed",
 			    GTK_SIGNAL_FUNC (editor_closed_cb), NULL);
 

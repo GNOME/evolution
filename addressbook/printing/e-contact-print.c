@@ -57,6 +57,7 @@ struct _EContactPrintContext
 	char *character;
 	gboolean first_contact;
 
+	gboolean uses_book;
 	int type;
 	EBook *book;
 	gchar *query;
@@ -501,6 +502,18 @@ static void
 complete_sequence(EBookView *book_view, EContactPrintContext *ctxt)
 {
 	GList *cards = ctxt->cards;
+
+	gdouble page_width  = 72 * (ctxt->style->page_width - ctxt->style->left_margin - ctxt->style->right_margin);
+
+	ctxt->first_contact = TRUE;
+	ctxt->character = NULL;
+	ctxt->y = (ctxt->style->page_height - ctxt->style->top_margin) * 72;
+	ctxt->x = (ctxt->style->left_margin) * 72;
+	if ( ctxt->style->letter_tabs ) 
+		page_width -= e_contact_get_letter_tab_width(ctxt);
+	
+	ctxt->first_char_on_page = 'A' - 1;
+
 	for(; cards; cards = cards->next) {
 		ECard *card = cards->data;
 		ECardSimple *simple = e_card_simple_new(card);
@@ -540,7 +553,8 @@ complete_sequence(EBookView *book_view, EContactPrintContext *ctxt)
 	gnome_print_showpage(ctxt->pc);
 	gnome_print_context_close(ctxt->pc);
 	g_free(ctxt->character);
-	gtk_object_unref(GTK_OBJECT(book_view));
+	if (book_view)
+		gtk_object_unref(GTK_OBJECT(book_view));
 	if (ctxt->type == GNOME_PRINT_PREVIEW) {
 		GtkWidget *preview;
 		preview = GTK_WIDGET(gnome_print_master_preview_new(ctxt->master, "Print Preview"));
@@ -550,7 +564,8 @@ complete_sequence(EBookView *book_view, EContactPrintContext *ctxt)
 	}
 	gtk_object_unref(GTK_OBJECT(ctxt->pc));
 	gtk_object_unref(GTK_OBJECT(ctxt->master));
-	gtk_object_unref(GTK_OBJECT(ctxt->book));
+	if (ctxt->book)
+		gtk_object_unref(GTK_OBJECT(ctxt->book));
 	g_free(ctxt->query);
 	g_list_foreach(ctxt->cards, (GFunc) gtk_object_unref, NULL);
 	g_list_free(ctxt->cards);
@@ -615,16 +630,6 @@ book_view_loaded (EBook *book, EBookStatus status, EBookView *book_view, EContac
 static void
 e_contact_do_print_cards (EBook *book, char *query, EContactPrintContext *ctxt)
 {
-	gdouble page_width  = 72 * (ctxt->style->page_width - ctxt->style->left_margin - ctxt->style->right_margin);
-	ctxt->first_contact = TRUE;
-	ctxt->character = NULL;
-	ctxt->y = (ctxt->style->page_height - ctxt->style->top_margin) * 72;
-	ctxt->x = (ctxt->style->left_margin) * 72;
-	if ( ctxt->style->letter_tabs ) 
-		page_width -= e_contact_get_letter_tab_width(ctxt);
-	
-	ctxt->first_char_on_page = 'A' - 1;
-
 	e_book_get_book_view(book, query, (EBookBookViewCallback) book_view_loaded, ctxt);
 }
 
@@ -972,9 +977,17 @@ e_contact_print_button(GnomeDialog *dialog, gint button, gpointer data)
 	EContactPrintStyle *style = g_new(EContactPrintStyle, 1);
 	GnomePrintMaster *master;
 	GnomePrintContext *pc;
-	EBook *book = gtk_object_get_data(GTK_OBJECT(dialog), "book");
-	char *query = gtk_object_get_data(GTK_OBJECT(dialog), "query");
+	gboolean uses_book = (gint) gtk_object_get_data(GTK_OBJECT(dialog), "uses_book");
+	EBook *book = NULL;
+	char *query = NULL;
+	ECard *card = NULL;
 	gdouble font_size;
+	if (uses_book) {
+		book = gtk_object_get_data(GTK_OBJECT(dialog), "book");
+		query = gtk_object_get_data(GTK_OBJECT(dialog), "query");
+	} else {
+		card = gtk_object_get_data(GTK_OBJECT(dialog), "card");
+	}
 	switch( button ) {
 	case GNOME_PRINT_PRINT:
 		master = gnome_print_master_new_from_dialog( GNOME_PRINT_DIALOG(dialog) );
@@ -1002,8 +1015,13 @@ e_contact_print_button(GnomeDialog *dialog, gint button, gpointer data)
 		
 		ctxt->book = book;
 		ctxt->query = query;
-		ctxt->cards = NULL;
-		e_contact_do_print(book, ctxt->query, ctxt);
+		if (uses_book) {
+			ctxt->cards = NULL;
+			e_contact_do_print(book, ctxt->query, ctxt);
+		} else {
+			ctxt->cards = g_list_append(NULL, card);
+			complete_sequence(NULL, ctxt);
+		}
 		gnome_dialog_close(dialog);
 		break;
 	case GNOME_PRINT_PREVIEW:
@@ -1030,14 +1048,23 @@ e_contact_print_button(GnomeDialog *dialog, gint button, gpointer data)
 										   72 * style->page_width,
 										   72 * style->page_height));
 		
-		gtk_object_ref(GTK_OBJECT(book));
 		ctxt->book = book;
 		ctxt->query = g_strdup(query);
-		ctxt->cards = NULL;
-		e_contact_do_print(book, ctxt->query, ctxt);
+		if (uses_book) {
+			ctxt->cards = NULL;
+			gtk_object_ref(GTK_OBJECT(book));
+			e_contact_do_print(book, ctxt->query, ctxt);
+		} else {
+			ctxt->cards = g_list_append(NULL, card);
+			gtk_object_ref(GTK_OBJECT(card));
+			complete_sequence(NULL, ctxt);
+		}
 		break;
 	case GNOME_PRINT_CANCEL:
-		gtk_object_unref(GTK_OBJECT(book));
+		if (uses_book)
+			gtk_object_unref(GTK_OBJECT(book));
+		else
+			gtk_object_unref(GTK_OBJECT(card));
 		g_free(query);
 		gnome_dialog_close(dialog);
 		g_free(style);
@@ -1057,8 +1084,26 @@ e_contact_print_dialog_new(EBook *book, char *query)
 					       NULL, NULL, NULL);
 
 	gtk_object_ref(GTK_OBJECT(book));
+	gtk_object_set_data(GTK_OBJECT(dialog), "uses_book", (void *) 1);
 	gtk_object_set_data(GTK_OBJECT(dialog), "book", book);
 	gtk_object_set_data(GTK_OBJECT(dialog), "query", g_strdup(query));
+	gtk_signal_connect(GTK_OBJECT(dialog),
+			   "clicked", GTK_SIGNAL_FUNC(e_contact_print_button), NULL);
+	gtk_signal_connect(GTK_OBJECT(dialog),
+			   "close", GTK_SIGNAL_FUNC(e_contact_print_close), NULL);
+	return dialog;
+}
+
+GtkWidget *
+e_contact_print_card_dialog_new(ECard *card)
+{
+	GtkWidget *dialog;
+	
+	dialog = gnome_print_dialog_new("Print card", GNOME_PRINT_DIALOG_COPIES);
+
+	card = e_card_duplicate(card);
+	gtk_object_set_data(GTK_OBJECT(dialog), "card", card);
+	gtk_object_set_data(GTK_OBJECT(dialog), "uses_book", (void *) 0);
 	gtk_signal_connect(GTK_OBJECT(dialog),
 			   "clicked", GTK_SIGNAL_FUNC(e_contact_print_button), NULL);
 	gtk_signal_connect(GTK_OBJECT(dialog),
