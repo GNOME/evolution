@@ -1,3 +1,16 @@
+2003-07-07  Rodrigo Moya <rodrigo@ximian.com>
+
+	Fixes #45910
+
+	* gui/dialogs/task-editor.c (task_editor_class_init): set up the
+	handler for the set_cal_client virtual method.
+	(task_editor_set_cal_client): added missing virtual method.
+
+2003-07-07  Jack Jia <jack.jia@sun.com>
+
+	* cal-client/cal-client.c (cal_client_get_static_capability): add
+	g_return_val_if_fail to check the input param.
+
 2003-07-02  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/alarm-notify/alarm-notify-dialog.c (alarm_notify_dialog): use
