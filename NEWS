@@ -8,6 +8,12 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
     #46769 - no waring when create a task which due date is earlier than
              start date (Harry Lu)
 
+Other bugs fixed:
+
+  * Calendar
+
+    - Fixed session management in alarm daemon (Rodrigo)
+
 Evolution 1.4.4, 2003-07-28
 ---------------------------
 
