@@ -406,7 +406,7 @@ e_book_unload_uri (EBook *book)
 	 * FIXME: Make sure this works if the URI is still being
 	 * loaded.
 	 */
-	if (book->priv->load_state == URINotLoaded) {
+	if (book->priv->load_state != URILoaded) {
 		g_warning ("e_book_unload_uri: No URI is loaded!\n");
 		return;
 	}
@@ -943,7 +943,7 @@ e_book_destroy (GtkObject *object)
 	EBook             *book = E_BOOK (object);
 	CORBA_Environment  ev;
 
-	if (book->priv->load_state != URINotLoaded)
+	if (book->priv->load_state == URILoaded)
 		e_book_unload_uri (book);
 
 	CORBA_exception_init (&ev);

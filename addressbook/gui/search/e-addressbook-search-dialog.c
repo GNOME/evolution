@@ -24,7 +24,7 @@
 #include <gnome.h>
 #include <e-util/e-canvas.h>
 #include "e-addressbook-search-dialog.h"
-#include "e-minicard-view-widget.h"
+#include "addressbook/gui/minicard/e-minicard-view-widget.h"
 static void e_addressbook_search_dialog_init		 (EAddressbookSearchDialog		 *widget);
 static void e_addressbook_search_dialog_class_init	 (EAddressbookSearchDialogClass	 *klass);
 static void e_addressbook_search_dialog_set_arg       (GtkObject *o, GtkArg *arg, guint arg_id);
@@ -85,15 +85,22 @@ e_addressbook_search_dialog_class_init (EAddressbookSearchDialogClass *klass)
 	object_class->set_arg       = e_addressbook_search_dialog_set_arg;
 	object_class->get_arg       = e_addressbook_search_dialog_get_arg;
 	object_class->destroy       = e_addressbook_search_dialog_destroy;
+}
 
-	widget_class->realize       = e_addressbook_search_dialog_realize;
-	widget_class->size_allocate = e_addressbook_search_dialog_size_allocate;
+static GtkWidget *
+get_widget ()
+{
+	return gtk_entry_new();
+}
 
-	canvas_class->reflow        = e_addressbook_search_dialog_reflow;
+static char *
+get_query ()
+{
+	return "(contains \"email\" \"\")";
 }
 
 static void
-button_press (GtkWidget *widget, EAddressBookSearchDialog *dialog)
+button_press (GtkWidget *widget, EAddressbookSearchDialog *dialog)
 {
 	char *query;
 	gtk_widget_show(dialog->view);
@@ -107,7 +114,7 @@ button_press (GtkWidget *widget, EAddressBookSearchDialog *dialog)
 static void
 e_addressbook_search_dialog_init (EAddressbookSearchDialog *view)
 {
-	GtkWidget *search_button;
+	GtkWidget *button;
 	GnomeDialog *dialog = GNOME_DIALOG (view);
 
 	view->search = get_widget();
@@ -116,6 +123,8 @@ e_addressbook_search_dialog_init (EAddressbookSearchDialog *view)
 
 	button = gtk_button_new_with_label(_("Search"));
 	gtk_box_pack_start(GTK_BOX(dialog->vbox), button, FALSE, FALSE, 0);
+	gtk_signal_connect(GTK_OBJECT(button), "clicked",
+			   GTK_SIGNAL_FUNC(button_press), view);
 	gtk_widget_show(button);
 
 	view->view = e_minicard_view_widget_new();
@@ -141,7 +150,7 @@ e_addressbook_search_dialog_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 
 	switch (arg_id){
 	case ARG_BOOK:
-		gtk_object_set(GTK_OBJECT(view->view),
+		gtk_object_set(GTK_OBJECT(emvw->view),
 			       "book", GTK_VALUE_OBJECT (*arg),
 			       NULL);
 		break;
@@ -157,7 +166,7 @@ e_addressbook_search_dialog_get_arg (GtkObject *object, GtkArg *arg, guint arg_i
 
 	switch (arg_id) {
 	case ARG_BOOK:
-		gtk_object_get(GTK_OBJECT(view->view),
+		gtk_object_get(GTK_OBJECT(emvw->view),
 			       "book", &(GTK_VALUE_OBJECT (*arg)),
 			       NULL);
 		break;
@@ -170,7 +179,5 @@ e_addressbook_search_dialog_get_arg (GtkObject *object, GtkArg *arg, guint arg_i
 static void
 e_addressbook_search_dialog_destroy (GtkObject *object)
 {
-	EAddressbookSearchDialog *view = E_ADDRESSBOOK_SEARCH_DIALOG(object);
-
 	GTK_OBJECT_CLASS(parent_class)->destroy (object);
 }

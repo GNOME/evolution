@@ -1,1 +1,1 @@
-SUBDIRS = minicard component
+SUBDIRS = minicard search component
