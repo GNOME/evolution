@@ -1,5 +1,8 @@
 2000-07-26  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* camel-url.c (camel_url_to_string): Should now always prepend a '/'
+	before the path if it doesn't already exist.
+
 	* providers/imap/camel-imap-folder.c: Fixed a few compiler warnings
 
 2000-07-25  Jeffrey Stedfast  <fejj@helixcode.com>
