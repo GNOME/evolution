@@ -29,6 +29,9 @@ $(HTML_EDITOR_GENERATED): $(GTK_HTML_EDITOR_IDL)
 
 ##
 
+idldir = $(datadir)/idl
+idl_DATA = $(IDLS)
+
 gladedir = $(datadir)/evolution/glade
 
 glade_DATA =					\
