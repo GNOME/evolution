@@ -1,5 +1,12 @@
 2002-07-10  Chris Toshok  <toshok@ximian.com>
 
+	* gui/component/select-names/e-select-names-completion.c
+	(e_select_names_completion_start_query): e_book_get_book_view =>
+	e_book_get_completion_view, so the backends have the option of
+	using a pregenerated summary.
+
+2002-07-10  Chris Toshok  <toshok@ximian.com>
+
 	* backend/pas/pas-backend-summary.c (clear_items): actually remove
 	the items from the pointer array too, so an error while loading
 	doesn't leave the memory summary corrupted.

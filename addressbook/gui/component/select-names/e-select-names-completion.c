@@ -1007,10 +1007,11 @@ e_select_names_completion_start_query (ESelectNamesCompletion *comp, const gchar
 
 			for (l = comp->priv->book_data; l; l = l->next) {
 				ESelectNamesCompletionBookData *book_data = l->data;
-				book_data->book_view_tag = e_book_get_book_view (book_data->book, sexp, 
-										 e_select_names_completion_got_book_view_cb, book_data);
+				book_data->book_view_tag = e_book_get_completion_view (book_data->book,
+										       sexp, 
+										       e_select_names_completion_got_book_view_cb, book_data);
 				if (! book_data->book_view_tag)
-					g_warning ("Exception calling e_book_get_book_view");
+					g_warning ("Exception calling e_book_get_completion_view");
 			}
 
 		} else {
