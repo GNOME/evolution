@@ -28,7 +28,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "POT-Creation-Date: 2003-07-18 21:27+0100\n"
-"PO-Revision-Date: 2003-07-18 21:11+0100\n"
+"PO-Revision-Date: 2003-07-19 21:16+0100\n"
 "Last-Translator: Dafydd Harries <daf@parnassus.ath.cx>\n"
 "Language-Team: Cymraeg <gnome-cy@pengwyn.linux.org.uk>\n"
 "MIME-Version: 1.0\n"
@@ -11170,7 +11170,7 @@ msgstr ""
 #: filter/libfilter-i18n.h:60 mail/mail-format.c:934
 #: mail/message-list.etspec.h:13 mail/message-tag-followup.c:305
 msgid "Subject"
-msgstr "Pwnc:"
+msgstr "Pwnc"
 
 #: filter/libfilter-i18n.h:61
 msgid "Unset Status"
