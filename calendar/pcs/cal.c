@@ -24,6 +24,7 @@
 #include <ical.h>
 #include <bonobo/bonobo-exception.h>
 #include "cal.h"
+#include "cal-backend.h"
 #include "query.h"
 #include "wombat.h"
 
@@ -427,7 +428,7 @@ impl_Cal_get_query (PortableServer_Servant servant,
 	cal = CAL (bonobo_object_from_servant (servant));
 	priv = cal->priv;
 
-	query = query_new (priv->backend, ql, sexp);
+	query = cal_backend_get_query (priv->backend, ql, sexp);
 	if (!query) {
 		bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_Cal_CouldNotCreate);
 		return CORBA_OBJECT_NIL;

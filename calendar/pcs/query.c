@@ -32,6 +32,7 @@
 #include <e-util/e-sexp.h>
 #include <cal-util/cal-recur.h>
 #include <cal-util/timeutil.h>
+#include "cal-backend.h"
 #include "query.h"
 
 
