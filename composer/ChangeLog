@@ -1,3 +1,9 @@
+2000-12-05  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* e-msg-composer.c (add_recipients): Use camel to construct the
+	list of recipients rather than just strchr(recips, ',') which is
+	very prone to errors.
+
 2000-11-03  Iain Holmes  <iain@helixcode.com>
 
 	* e-msg-composer-attachment-bar.c (update): Pass NULL

@@ -1681,6 +1681,7 @@ e_msg_composer_new_with_message (CamelMimeMessage *msg)
 	return new;
 }
 
+#if 0
 static GList *
 add_recipients (GList *list, const char *recips, gboolean decode)
 {
@@ -1698,6 +1699,32 @@ add_recipients (GList *list, const char *recips, gboolean decode)
 		recips += len;
 		if (*recips == ',')
 			recips++;
+	}
+	
+	return list;
+}
+#endif
+
+static GList *
+add_recipients (GList *list, const char *recips, gboolean decode)
+{
+	CamelInternetAddress *cia;
+	const char *name, *addr;
+	int num, i;
+	
+	cia = camel_internet_address_new ();
+	if (decode)
+		num = camel_address_decode (CAMEL_ADDRESS (cia), recips);
+	else
+		num = camel_address_unformat (CAMEL_ADDRESS (cia), recips);
+	
+	for (i = 0; i < num; i++) {
+		if (camel_internet_address_get (cia, i, &name, &addr)) {
+			char *str;
+			
+			str = camel_internet_address_format_address (name, addr);
+			list = g_list_append (list, str);
+		}
 	}
 	
 	return list;
