@@ -4,13 +4,13 @@ noinst_PROGRAMS = copycluster regression parser findobj storage stow recur testm
 LDADD = ../libical/libical.a ../libicalss/libicalss.a ../libicalvcal/libicalvcal.a 
 INCLUDES = \
 	-I . \
+	-I../libicalvcal \
+	-I $(srcdir)/../libicalvcal \
 	-I $(srcdir) \
 	-I../libical \
 	-I $(srcdir)/../libical \
 	-I../libicalss \
-	-I $(srcdir)/../libicalss \
-	-I../libicalvcal \
-	-I $(srcdir)/../libicalvcal
+	-I $(srcdir)/../libicalss
 
 findobj_SOURCES = findobj.c
 copycluster_SOURCES = copycluster.c
