@@ -2,6 +2,9 @@
 #ifndef _E_MSGPORT_H
 #define _E_MSGPORT_H
 
+#include <time.h>
+#include <glib.h>
+
 /* double-linked list yeah another one, deal */
 typedef struct _EDListNode {
 	struct _EDListNode *next;
@@ -24,6 +27,26 @@ EDListNode *e_dlist_remhead(EDList *l);
 EDListNode *e_dlist_remtail(EDList *l);
 int e_dlist_empty(EDList *l);
 int e_dlist_length(EDList *l);
+
+/* a time-based cache */
+typedef struct _EMCache EMCache;
+typedef struct _EMCacheNode EMCacheNode;
+
+/* subclass this for your data nodes, EMCache is opaque */
+struct _EMCacheNode {
+	struct _EMCacheNode *next, *prev;
+	char *key;
+	int ref_count;
+	time_t stamp;
+};
+
+EMCache *em_cache_new(time_t timeout, size_t nodesize, GFreeFunc nodefree);
+void em_cache_destroy(EMCache *emc);
+EMCacheNode *em_cache_lookup(EMCache *emc, const char *key);
+EMCacheNode *em_cache_node_new(EMCache *emc, const char *key);
+void em_cache_node_unref(EMCache *emc, EMCacheNode *n);
+void em_cache_add(EMCache *emc, EMCacheNode *n);
+void em_cache_clear(EMCache *emc);
 
 /* message ports - a simple inter-thread 'ipc' primitive */
 /* opaque handle */

@@ -1,3 +1,8 @@
+2004-01-13  Not Zed  <NotZed@Ximian.com>
+
+	* e-msgport.c (em_cache*): A time-based thread-safe in-memory
+	cache thing.  Called em_cache 'cause there's an e_cache in gal.
+
 2004-01-05  Not Zed  <NotZed@Ximian.com>
 
 	* e-memory.c (e_mempool_destroy): Fix from Zan Lynx
