@@ -1,5 +1,7 @@
 2000-04-13  Chris Toshok  <toshok@helixcode.com>
 
+	* addressbook/backend/pas/pas-backend-ldap.c: add the title attribute.
+
 	* addressbook/gui/minicard/test-reflow.c: add a title.
 
 	* addressbook/gui/minicard/e-minicard.c (remodel): add support for

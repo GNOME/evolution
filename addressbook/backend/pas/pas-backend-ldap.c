@@ -596,6 +596,7 @@ struct prop_info {
 } prop_info_table[] = {
 	/* query prop,  ldap attr,          type,              list construct function */
 	{ "full_name",  "cn",               PROP_TYPE_NORMAL,  NULL },
+	{ "title",      "title",            PROP_TYPE_NORMAL,  NULL },
 	{ "email",      "mail",             PROP_TYPE_LIST,    construct_email_list },
 	{ "phone",      "telephoneNumber",  PROP_TYPE_LIST,    construct_phone_list }
 };
