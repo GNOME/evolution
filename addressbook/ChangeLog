@@ -1,5 +1,10 @@
 2000-05-08  Christopher James Lahey  <clahey@helixcode.com>
 
+	* backend/ebook/e-card-simple.c: Fixed this up a bit.  Syncing
+	should work better now.
+
+2000-05-08  Christopher James Lahey  <clahey@helixcode.com>
+
 	* gui/minicard/e-minicard-view.c, gui/minicard/e-minicard.c,
 	gui/minicard/e-minicard.h, gui/minicard/e-reflow-sorted.c,
 	gui/minicard/e-reflow-sorted.h: Made a minimal number of things be

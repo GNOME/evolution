@@ -709,6 +709,7 @@ e_card_simple_sync_card(ECardSimple *simple)
 			for (i = 0; i < E_CARD_SIMPLE_PHONE_ID_LAST; i ++) {
 				if ((phone->flags & phone_correspondences[i]) == phone_correspondences[i]) {
 					if (simple->phone[i]) {
+						simple->phone[i]->flags = phone_correspondences[i];
 						if (simple->phone[i]->number && *simple->phone[i]->number) {
 							e_card_iterator_set(iterator, simple->phone[i]);
 						} else {
@@ -766,6 +767,7 @@ e_card_simple_sync_card(ECardSimple *simple)
 			for (i = 0; i < E_CARD_SIMPLE_ADDRESS_ID_LAST; i ++) {
 				if ((address->flags & addr_correspondences[i]) == addr_correspondences[i]) {
 					if (simple->address[i]) {
+						simple->address[i]->flags = addr_correspondences[i];
 						if (simple->address[i]->data && *simple->address[i]->data) {
 							e_card_iterator_set(iterator, simple->address[i]);
 						} else {
