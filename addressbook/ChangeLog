@@ -1,5 +1,8 @@
 2001-09-19  Jon Trowbridge  <trow@ximian.com>
 
+	* backend/ebook/e-book-util.c (e_book_name_and_email_query):
+	Freeing name[i] instead of namev[i] is a bad idea. (bug #10270)
+
 	* gui/component/select-names/e-select-names-popup.c
 	(popup_menu_card): Properly handle our GnomeUIInfo labels so that
 	they won't be leaked if they are dynamic strings, so that they

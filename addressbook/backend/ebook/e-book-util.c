@@ -417,7 +417,7 @@ e_book_name_and_email_query (EBook *book,
 		namev = g_strsplit (" ", name_cpy, 0);
 		for (i=0; namev[i]; ++i) {
 			if (*namev[i]) {
-				char *str = name[i];
+				char *str = namev[i];
 
 				namev[i] = g_strdup_printf ("(contains \"file_as\" \"%s\")", namev[i]);
 				++count;
