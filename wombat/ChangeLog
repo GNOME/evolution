@@ -1,3 +1,9 @@
+2003-10-31  Hans Petter Jansson  <hpj@ximian.com>
+
+	* Makefile.am (evolution_wombat_LDADD): Add http backend lib.
+
+	* wombat.c (setup_pcs): Register webcal method for http backend.
+
 2003-10-24  Dan Winship  <danw@ximian.com>
 
 	* Makefile.am (evolution_wombat_LDADD): put back the conditional

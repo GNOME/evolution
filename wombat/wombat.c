@@ -37,6 +37,7 @@
 #include "calendar/pcs/cal-factory.h"
 #include "calendar/pcs/cal-backend-file-events.h"
 #include "calendar/pcs/cal-backend-file-todos.h"
+#include "calendar/pcs/cal-backend-http.h"
 
 #include "wombat-interface-check.h"
 
@@ -149,6 +150,7 @@ setup_pcs (void)
 
 	cal_factory_register_method (cal_factory, "file", ICAL_VEVENT_COMPONENT, CAL_BACKEND_FILE_EVENTS_TYPE);
 	cal_factory_register_method (cal_factory, "file", ICAL_VTODO_COMPONENT, CAL_BACKEND_FILE_TODOS_TYPE);
+	cal_factory_register_method (cal_factory, "webcal", ICAL_VEVENT_COMPONENT, CAL_BACKEND_HTTP_TYPE);
 
 	if (!cal_factory_register_storage (cal_factory, CAL_FACTORY_OAF_ID)) {
 		bonobo_object_unref (BONOBO_OBJECT (cal_factory));

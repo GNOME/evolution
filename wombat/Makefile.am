@@ -52,6 +52,7 @@ evolution_wombat_LDADD =						\
 	$(top_builddir)/addressbook/backend/pas/libpasvcf.la		\
 	$(LDAP_BACKEND)							\
 	$(top_builddir)/calendar/pcs/libpcsfile.la			\
+	$(top_builddir)/calendar/pcs/libpcshttp.la			\
 	$(WOMBAT_LIBS)
 
 if ENABLE_LDAP
