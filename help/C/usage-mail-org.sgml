@@ -441,6 +441,18 @@
 	person with a pile of envelopes.
       </para>
 
+      
+	  <tip id="easy-filter">
+	      <title>Quick Filter Creation</title>
+	      <para>
+		There is an easy shortcut for fast filter or vFolder
+                creation. Right-click on the message in the message
+                list, and select one of the items under the
+                <guimenuitem>Create Rule from Message</guimenuitem>
+                submenu.
+	      </para>
+	    </tip>
+
     <sect2 id="usage-mail-org-filters-new">
       <title>Making New Filters</title>
       <para>
@@ -498,8 +510,25 @@
 		    expression you write in the Scheme language, used to
 		    define filters in <application>Ximian Evolution</application>.
 		  </para>
+
+<para>
+
+      <note id="lots-of-filters">
+        <title>What if Multiple Filters Match One Message?</title>
+         <para>
+            If you have several filters that match a single message,
+            they will all be applied to the message, in order, unless
+            one of the filters has the action <guibutton>Stop
+            Processing</guibutton>. If you use that action in a
+            filter, the messages that it affects will not be touched
+            by other filters.
+         </para>
+      </note>
+</para>
 		</listitem>
-		
+	
+
+	
 		<listitem><para> Date sent - Filter messages according to the date on
 		    which they were sent: First, choose the conditions you
 		    want a message to meet &mdash; <guilabel>before</guilabel>
@@ -642,7 +671,7 @@
 	  <listitem>
 	    <para>
 	      Set Status - If you want to add multiple actions for this filter, press
-	      <guibutton>Add filter</guibutton> and repeat the previous step.
+	      <guibutton>Add action</guibutton> and repeat the previous step.
 	    </para>
 	  </listitem>
 	  <listitem>
@@ -652,6 +681,7 @@
 	  </listitem>
 	</orderedlist>
       </para>
+      
       <note id="when-filters-go-wrong">
         <title>When Are Filters Applied?</title>
          <para>
@@ -686,6 +716,8 @@
            However, if you filter out all the mail with that header,
            you'll catch a lot of the mail you don't want to get.
          </para>
+
+
          <para>
            To catch them and automatically mark them for deletion, do
            the following:

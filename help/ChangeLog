@@ -1,3 +1,10 @@
+2002-09-19  Aaron Weber  <aaron@ximian.com>
+
+	* C/usage-mail-org.sgml: add note about filter applications, tip
+	for easy filtering.
+
+	* C/usage-mail.sgml: encryption update
+
 2002-06-27  Aaron Weber  <aaron@ximian.com>
 
 	* C/evolution-C.omf: apply patch from owen taylor

@@ -1876,7 +1876,11 @@
         message that is encrypted, you must encrypt it using your
         intended recipient's public key.  To <emphasis>get</emphasis>
         an encrypted message, you must make sure that the sender has
-        your public key in advance.
+        your public key in advance. For signing messages, it's
+        reversed: you encrypt the signature with your private key, so
+        only your public key can unlock it. When you send it, the
+        recipient gets your public key and unlocks the signature,
+        verifying your identity.
       </para>
 
       <para>
@@ -1887,8 +1891,9 @@
           </member>
           <member>
             Attach an encrypted signature to a plain text message, so
-            that the recipient can read the message without decrypting it, and 
-            only needs decryption to verify the sender's identity.
+            that the recipient can read the message without decrypting
+            it, and only needs decryption to verify the sender's
+            identity. 
            </member>
          </simplelist>
       </para>
@@ -1930,6 +1935,8 @@
 	</para>
       </tip>
     </sect2>
+
+
 
     <sect2 id="encryption-keygen">
       <title>Making Encryption Keys</title>
@@ -2053,6 +2060,12 @@ wwwkeys.pgp.net 32j38dk2</command>.  Substitute your key ID for
 	    and then let people download them from the keyserver when
 	    they want.
 	  </para>
+          <para>
+             If you don't have a key you need to unlock or encrypt a
+             message, you can have your encryption tool set to look it
+             up automatically. If it can't find the key, then you'll
+             get an error message.
+          </para>
 	</note>
 
       </para>
