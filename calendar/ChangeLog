@@ -1,3 +1,7 @@
+1998-03-12  Craig Small <csmall@small.dropbear.id.au>
+
+	* Now linked (in some horrible way) to the gtkcalendar widget.
+
 Sun Mar  8 16:38:10 1998  Tom Tromey  <tromey@cygnus.com>
 
 	* Makefile.am (INCLUDES): Added GNOME_INCLUDEDIR.

@@ -16,6 +16,7 @@
 
 #include "gncal.h"
 #include "calcs.h"
+#include "gtkcalendar.h"
 
 static GtkMenuEntry menu_items[] =
 {
@@ -34,6 +35,7 @@ GtkWidget *dailylist;
 GtkWidget *calendar_days[DAY_ARRAY_MAX];
 GtkWidget *calendar_buttons[DAY_ARRAY_MAX];
 GtkWidget *app;
+GtkWidget *calendar;
 
 #define ELEMENTS(x) (sizeof (x) / sizeof (x [0]))
 
@@ -111,6 +113,12 @@ void update_today_list(void)
 /*
  * updates the calendar that appears in the left collumn
  */
+void month_changed(GtkWidget *widget, gpointer data)
+{
+	curr_month = GTK_CALENDAR(widget)->month;
+	curr_year = GTK_CALENDAR(widget)->year;
+}
+
 void update_calendar()
 {
 	int tmpday;
@@ -119,6 +127,11 @@ void update_calendar()
 	int month_changed;
 	static int offset;
 
+	gtk_calendar_unmark_day(GTK_CALENDAR(calendar),old_day);
+	gtk_calendar_mark_day(GTK_CALENDAR(calendar), curr_day);
+	printf("Date changed (nothing happens much\n");
+/*	gtk_calendar_select_day(GTK_CALENDAR(calendar), curr_day); */
+#ifdef 0
 	/* Only update the whole calendar if the year or month has changed */
 	tmpday=1;
 	month_changed = FALSE;
@@ -147,7 +160,7 @@ void update_calendar()
 			gtk_container_border_width(GTK_CONTAINER(calendar_buttons[i]), 0);
 		}
 	} /* for i */	
-
+#endif /* 0 */
 }
 
 /*
@@ -159,13 +172,13 @@ void update_today(void)
 	char buf[50];
 
 	/* This needs to be fixed to get the right date order for the country*/
-	if (curr_month != old_month) {
+/*	if (curr_month != old_month) {
 		gtk_label_set(GTK_LABEL(month_label), month_name(curr_month));
 	}
 	if (curr_year != old_year) {
 		sprintf(buf, "%4d", curr_year);
 		gtk_label_set(GTK_LABEL(year_label), buf);
-	}
+	}*/
 	update_today_list();
 	update_calendar();
 }
@@ -345,7 +358,7 @@ void show_main_window()
 	date_hbox = gtk_hbox_new(FALSE, 1);
 	gtk_box_pack_start(GTK_BOX(left_vbox), date_hbox, FALSE, FALSE, 0);
 	gtk_widget_show(date_hbox);
-
+/*
 	prev_mth_but = gtk_button_new_with_label("<");
 	gtk_box_pack_start(GTK_BOX(date_hbox), prev_mth_but, FALSE, FALSE, 0);
 	gtk_signal_connect(GTK_OBJECT(prev_mth_but), "clicked", GTK_SIGNAL_FUNC(prev_month_but_clicked), NULL);
@@ -373,9 +386,9 @@ void show_main_window()
 	gtk_box_pack_start(GTK_BOX(date_hbox), next_year_but, FALSE, FALSE, 0);
 	gtk_signal_connect(GTK_OBJECT(next_year_but), "clicked", GTK_SIGNAL_FUNC(next_year_but_clicked), NULL);
 	gtk_widget_show(next_year_but);
-
+*/
 	/* Build up the calendar table */
-	cal_table = gtk_table_new(7,7,TRUE);
+/*	cal_table = gtk_table_new(7,7,TRUE);
 	gtk_box_pack_start(GTK_BOX(left_vbox), cal_table, FALSE, FALSE, 0);
 	gtk_widget_show(cal_table);
 
@@ -396,8 +409,13 @@ void show_main_window()
 			gtk_widget_show(calendar_days[i+j*7]);
 		}
 	}
-
-
+*/
+	calendar = gtk_calendar_new();
+	gtk_calendar_display_options(GTK_CALENDAR(calendar), GTK_CALENDAR_SHOW_DAY_NAMES | GTK_CALENDAR_SHOW_HEADING);
+	gtk_box_pack_start(GTK_BOX(left_vbox), calendar, FALSE, FALSE, 0);
+	gtk_signal_connect(GTK_OBJECT(calendar), "month_changed",
+		GTK_SIGNAL_FUNC(month_changed), NULL);
+	gtk_widget_show(calendar);
 
 
 	day_but_hbox = gtk_hbox_new(TRUE, 1);

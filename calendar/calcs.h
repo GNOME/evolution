@@ -12,9 +12,9 @@ int day_atoi(const char *string);
 const char *day_suffix(int day);
 const char *short3_day_name(int day);
 const char *short_day_name(int day);
-const char *day_name(int day);
+const char *get_day_name(int day);
 const char *short_month_name(int month);
-const char *month_name(int month);
+const char *get_month_name(int month);
 unsigned long int date2num(const int day, const int month, const int year);
 int weekday_of_date(const int day, const int month, const int year);
 

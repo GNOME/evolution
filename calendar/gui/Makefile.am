@@ -1,6 +1,7 @@
 INCLUDES = 			\
 	-I$(includedir)		\
-	$(GNOME_INCLUDEDIR)
+	$(GNOME_INCLUDEDIR)	\
+	-I../../gcalendar
 
 bin_PROGRAMS = gncal
 
@@ -13,7 +14,9 @@ gncal_SOURCES = \
 gncal_LDADD = \
 	$(GNOME_LIBDIR) \
 	$(GNOMEUI_LIBS) \
-	$(INTLLIBS)
+	$(INTLLIBS)	\
+	../../gcalendar/gtkcalendar.o \
+	../../gcalendar/lib_date.o
 
 EXTRA_DIST = \
 	gncal.desktop

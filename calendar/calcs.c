@@ -125,7 +125,7 @@ int month_atoi(const char *string)
 {
 	int i;
 	for (i = MONTH_MIN; i <= MONTH_MAX; i++)
-		if (strcasecmp(string, (char *)month_name(i)) == 0)
+		if (strcasecmp(string, (char *)get_month_name(i)) == 0)
 			return i;
 	return 0;
 }
@@ -134,7 +134,7 @@ int day_atoi(const char *string)
 {
 	int i;
 	for (i = DAY_MIN; i <= DAY_MAX; i++)
-		if (strcasecmp(string, (char *)day_name(i)) == 0)
+		if (strcasecmp(string, (char *)get_day_name(i)) == 0)
 			return i;
 	return 0;
 }
@@ -182,7 +182,7 @@ const char *short_day_name(const int day)
 /*
  * Returns the complete name of the day
  */
-const char *day_name(const int day)
+const char *get_day_name(const int day)
 {
 	static const char *name[]={"invalid day", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
 
@@ -202,7 +202,7 @@ const char *short_month_name(const int month)
 /*
  * Returns the name of the month
  */
-const char *month_name(const int month)
+const char *get_month_name(const int month)
 {
 	static const char *name[]={ "invalid month", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
 
