@@ -1,5 +1,16 @@
 2000-04-29  Dan Winship  <danw@helixcode.com>
 
+	* mail-display.c (on_link_clicked): Handle clicks on "cid" URLs by
+	popping up a "Save Attachment" dialog.
+
+	* mail-format.c (get_cid): if the part has a Content-Disposition
+	with a filename specified, record (a sanitized version of) that on
+	the wrapper when creating the cid reference, so the "save
+	attachment" code can use it later.
+	(handle_mystery): fix a bug in the cid generation here.
+
+2000-04-29  Dan Winship  <danw@helixcode.com>
+
 	* mail-format.c (lookup_handler, etc): Improve the builtin vs
 	bonobo selection code.
 	(handle_mystery): Include name and Content-Description in the

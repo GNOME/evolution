@@ -9,7 +9,10 @@
  * (C) 2000 Helix Code, Inc.
  */
 #include <config.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 #include <gnome.h>
+#include "e-util/e-setup.h"
 #include "e-util/e-util.h"
 #include "mail-display.h"
 #include "mail-format.h"
@@ -25,6 +28,92 @@ static GtkObjectClass *mail_display_parent_class;
  *----------------------------------------------------------------------*/
 
 static void
+save_data_eexist_cb (int reply, gpointer user_data)
+{
+	gboolean *ok = user_data;
+
+	*ok = reply == 0;
+	gtk_main_quit ();
+}
+
+static void
+save_data_cb (GtkWidget *widget, gpointer user_data)
+{
+	CamelStream *output = CAMEL_STREAM (user_data);
+	GtkFileSelection *file_select = (GtkFileSelection *)
+		gtk_widget_get_ancestor (widget, GTK_TYPE_FILE_SELECTION);
+	char *name, buf[1024];
+	int fd, nread;
+
+	name = gtk_file_selection_get_filename (file_select);
+
+	fd = open (name, O_WRONLY | O_CREAT | O_EXCL, S_IRUSR | S_IWUSR);
+	if (fd == -1 && errno == EEXIST) {
+		gboolean ok = FALSE;
+
+		gnome_ok_cancel_dialog_modal_parented (
+			"A file by that name already exists.\nOverwrite it?",
+			save_data_eexist_cb, &ok, GTK_WINDOW (file_select));
+		gtk_main ();
+		if (!ok)
+			return;
+		fd = open (name, O_WRONLY | O_TRUNC);
+	}
+
+	if (fd == -1) {
+		char *msg;
+
+		msg = g_strdup_printf ("Could not open file %s:\n%s",
+				       name, g_strerror (errno));
+		gnome_error_dialog_parented (msg, GTK_WINDOW (file_select));
+		return;
+	}
+
+	camel_stream_reset (output);
+	do {
+		nread = camel_stream_read (output, buf, sizeof (buf));
+		if (nread > 0)
+			write (fd, buf, nread);
+	} while (!camel_stream_eos (output));
+	close (fd);
+
+	gtk_widget_destroy (GTK_WIDGET (file_select));
+}
+
+static void
+save_data (const char *cid, CamelMimeMessage *message)
+{
+	CamelDataWrapper *data;
+	CamelStream *output;
+	GtkFileSelection *file_select;
+	char *filename;
+
+	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
+	data = gtk_object_get_data (GTK_OBJECT (message), cid);
+	g_return_if_fail (CAMEL_IS_DATA_WRAPPER (data));
+	output = camel_data_wrapper_get_output_stream (data);
+	g_return_if_fail (CAMEL_IS_STREAM (output));
+
+	file_select = GTK_FILE_SELECTION (gtk_file_selection_new ("Save Attachment"));
+	filename = gtk_object_get_data (GTK_OBJECT (data), "filename");
+	if (filename)
+		filename = g_strdup_printf ("%s/%s", evolution_dir, filename);
+	else
+		filename = g_strdup_printf ("%s/attachment", evolution_dir);
+	gtk_file_selection_set_filename (file_select, filename);
+	g_free (filename);
+
+	gtk_signal_connect (GTK_OBJECT (file_select->ok_button), "clicked", 
+			    GTK_SIGNAL_FUNC (save_data_cb), output);
+	gtk_signal_connect_object (GTK_OBJECT (file_select->cancel_button),
+				   "clicked",
+				   GTK_SIGNAL_FUNC (gtk_widget_destroy),
+				   GTK_OBJECT (file_select));
+
+	gtk_widget_show (GTK_WIDGET (file_select));
+}
+
+static void
 on_link_clicked (GtkHTML *html, const char *url, gpointer user_data)
 {
 	if (!strncasecmp (url, "news:", 5) ||
@@ -32,6 +121,8 @@ on_link_clicked (GtkHTML *html, const char *url, gpointer user_data)
 		g_warning ("Can't handle news URLs yet.");
 	else if (!strncasecmp (url, "mailto:", 7))
 		send_to_url (url);
+	else if (!strncasecmp (url, "cid:", 4))
+		save_data (url + 4, user_data);
 	else
 		gnome_url_show (url);
 }

@@ -115,6 +115,7 @@ get_cid (CamelMimePart *part, CamelMimeMessage *root)
 	CamelDataWrapper *wrapper =
 		camel_medium_get_content_object (CAMEL_MEDIUM (part));
 	char *cid;
+	const char *filename;
 
 	/* If we have a real Content-ID, use it. If we don't,
 	 * make a (syntactically invalid) fake one.
@@ -125,6 +126,29 @@ get_cid (CamelMimePart *part, CamelMimeMessage *root)
 		cid = g_strdup_printf ("@@@%p", wrapper);
 
 	gtk_object_set_data (GTK_OBJECT (root), cid, wrapper);
+
+	/* Record the filename, in case the user wants to save this
+	 * data later.
+	 */
+	filename = camel_mime_part_get_filename (part);
+	if (filename) {
+		char *safe, *p;
+
+		safe = strrchr (filename, '/');
+		if (safe)
+			safe = g_strdup (safe + 1);
+		else
+			safe = g_strdup (filename);
+
+		for (p = safe; *p; p++) {
+			if (!isascii ((unsigned char)*p) ||
+			    strchr (" /'\"`&();|<>${}!", *p))
+				*p = '_';
+		}
+
+		gtk_object_set_data (GTK_OBJECT (wrapper), "filename", safe);
+	}
+
 	return cid;
 }
 
@@ -858,7 +882,7 @@ handle_mystery (CamelMimePart *part, CamelMimeMessage *root, GtkBox *box,
 	GMimeContentField *content_type;
 
 	mail_html_new (&html, &stream, root, TRUE);
-	mail_html_write (html, stream, "<table><tr><td><a href=\"cid:%p\">"
+	mail_html_write (html, stream, "<table><tr><td><a href=\"cid:%s\">"
 			 "<img src=\"x-gnome-icon:%s\"></a></td>"
 			 "<td>%s<br>", get_cid (part, root), icon_name, id);
 
