@@ -144,6 +144,7 @@ rule_add (GtkWidget *widget, struct _editor_data *data)
 	GtkWidget *gd;
 	GtkWidget *w;
 	FilterPart *part;
+	gboolean done = FALSE;
 	
 	d(printf ("add rule\n"));
 	/* create a new rule with 1 match and 1 action */
@@ -165,30 +166,54 @@ rule_add (GtkWidget *widget, struct _editor_data *data)
 	
 	gtk_widget_show (gd);
 	
-	result = gnome_dialog_run_and_close (GNOME_DIALOG (gd));
+	while (!done) {
+		result = gnome_dialog_run (GNOME_DIALOG (gd));
 	
-	if (result == 0) {
-		GtkListItem *item;
-		GList *l = NULL;
-		gchar *s = e_utf8_to_gtk_string (GTK_WIDGET (data->list), ((FilterRule *)rule)->name);
-		
-		item = (GtkListItem *) gtk_list_item_new_with_label (s);
-		g_free (s);
-		
-		gtk_object_set_data (GTK_OBJECT (item), "rule", rule);
-		gtk_widget_show (GTK_WIDGET (item));
-		
-		l = g_list_append (l, item);
-		
-		gtk_list_append_items (data->list, l);
-		gtk_list_select_child (data->list, GTK_WIDGET (item));
-		
-		data->current = (FilterRule *)rule;
-		rule_context_add_rule (data->f, (FilterRule *)rule);
-		
-		set_sensitive (data);
-	} else {
-		gtk_object_unref (GTK_OBJECT (rule));
+		if (result == 0) {
+			GtkWidget *item;
+			GList *parts, *l = NULL;
+			gchar *s;
+			
+			done = TRUE;
+			
+			/* validate rule parts */
+			parts = ((FilterRule *)rule)->parts;
+			while (parts && done) {
+				done = filter_part_validate ((FilterPart *) parts->data);
+				parts = parts->next;
+			}
+			
+			/* validate action parts */
+			parts = rule->actions;
+			while (parts && done) {
+				done = filter_part_validate ((FilterPart *) parts->data);
+				parts = parts->next;
+			}
+			
+			if (done) {
+				s = e_utf8_to_gtk_string (GTK_WIDGET (data->list), ((FilterRule *)rule)->name);
+				item = gtk_list_item_new_with_label (s);
+				g_free (s);
+				
+				gtk_object_set_data (GTK_OBJECT (item), "rule", rule);
+				gtk_widget_show (item);
+				
+				l = g_list_append (l, GTK_LIST_ITEM (item));
+				
+				gtk_list_append_items (data->list, l);
+				gtk_list_select_child (data->list, item);
+				
+				data->current = (FilterRule *)rule;
+				rule_context_add_rule (data->f, (FilterRule *)rule);
+				
+				set_sensitive (data);
+				gtk_widget_destroy (gd);
+			}
+		} else {
+			gtk_widget_destroy (gd);
+			gtk_object_unref (GTK_OBJECT (rule));
+			done = TRUE;
+		}
 	}
 }
 
@@ -199,6 +224,7 @@ rule_edit (GtkWidget *widget, struct _editor_data *data)
 	int result;
 	GtkWidget *gd;
 	FilterRule *rule;
+	gboolean done = FALSE;
 	int pos;
 	
 	d(printf ("edit rule\n"));
@@ -213,17 +239,43 @@ rule_edit (GtkWidget *widget, struct _editor_data *data)
 	
 	gtk_widget_show (gd);
 	
-	result = gnome_dialog_run_and_close (GNOME_DIALOG (gd));
-	
-	if (result == 0) {
-		pos = rule_context_get_rank_rule (data->f, data->current, data->current_source);
-		if (pos != -1) {
-			GtkListItem *item = g_list_nth_data (data->list->children, pos);
-			gchar *s = e_utf8_to_gtk_string (GTK_WIDGET (item), data->current->name);
-			gtk_label_set_text (GTK_LABEL (GTK_BIN (item)->child), s);
-			g_free (s);
+	while (!done) {
+		result = gnome_dialog_run (GNOME_DIALOG (gd));
+		
+		if (result == 0) {
+			GList *parts;
+			
+			done = TRUE;
+			
+			/* validate rule parts */
+			parts = rule->parts;
+			while (parts && done) {
+				done = filter_part_validate ((FilterPart *) parts->data);
+				parts = parts->next;
+			}
+			
+			/* validate action parts */
+			parts = ((FilterFilter *)rule)->actions;
+			while (parts && done) {
+				done = filter_part_validate ((FilterPart *) parts->data);
+				parts = parts->next;
+			}
+			
+			if (done) {
+				pos = rule_context_get_rank_rule (data->f, data->current, data->current_source);
+				if (pos != -1) {
+					GtkListItem *item = g_list_nth_data (data->list->children, pos);
+					gchar *s = e_utf8_to_gtk_string (GTK_WIDGET (item), data->current->name);
+					gtk_label_set_text (GTK_LABEL (GTK_BIN (item)->child), s);
+					g_free (s);
+				}
+				gtk_widget_destroy (gd);
+			}
+		} else {
+			gtk_widget_destroy (gd);
+			done = TRUE;
 		}
-	 }
+	}
 }
 
 static void
@@ -233,7 +285,7 @@ rule_delete (GtkWidget *widget, struct _editor_data *data)
 	GList *l;
 	GtkListItem *item;
 	
-	d(printf("ddelete rule\n"));
+	d(printf("delete rule\n"));
 	pos = rule_context_get_rank_rule(data->f, data->current, data->current_source);
 	if (pos != -1) {
 		rule_context_remove_rule (data->f, data->current);

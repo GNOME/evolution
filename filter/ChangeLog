@@ -1,5 +1,14 @@
 2000-10-31  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* filter-folder.c (validate): Override the default validate
+	function to only return TRUE if a folder has been selected.
+
+	* filter-editor.c (rule_add): Validate that all the rule parts and
+	action parts are correctly filled in.
+	(rule_edit): Same.
+
+2000-10-31  Jeffrey Stedfast  <fejj@helixcode.com>
+
 	* filtertypes.xml: Updated to add an action to set message flags.
 
 	* filter-driver.c (do_flag): New callback to set message info
