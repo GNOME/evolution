@@ -65,8 +65,7 @@ glade_DATA = addressbook-config.glade
 
 EXTRA_DIST = 			\
 	$(glade_DATA)		\
-	$(oaf_DATA)		\
-	addressbook-config.glade
+	$(oaf_DATA)
 
 if ENABLE_PURIFY
 PLINK = $(LIBTOOL) --mode=link $(PURIFY) $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@

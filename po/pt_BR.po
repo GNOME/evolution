@@ -7322,3 +7322,7 @@ msgstr "_Buscar"
 #, c-format
 msgid "Group %i"
 msgstr "Grupo %i"
+
+#: evolution.desktop.in:4
+msgid "The Evolution groupware suite"
+msgstr "Suíte do grupo Evolution"

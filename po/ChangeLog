@@ -1,3 +1,12 @@
+2001-02-11  Gediminas Paulauskas <menesis@delfi.lt>
+
+	* *.po: added strings from .desktop files, they are translated here
+	because we use xml-i18n-tools.
+	* POTFILES.in: added these *.desktop files, missing *.glade files,
+	removed *.glade.h and similar files.
+	* POTFILES.skip: removed all *.glade.h entries - they do not exist
+	anymore.
+
 2001-02-10  Fatih Demir	<kabalak@gtranslator.org>
 
 	* tr.po: Took over the stable tr.po also to HEAD.

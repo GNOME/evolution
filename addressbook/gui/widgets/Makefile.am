@@ -125,5 +125,4 @@ gladedir   = $(datadir)/evolution/glade
 glade_DATA = alphabet.glade 
 
 EXTRA_DIST = 			\
-	$(glade_DATA)		\
-	alphabet.glade.h
+	$(glade_DATA)

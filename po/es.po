@@ -7552,3 +7552,31 @@ msgstr "No mostrar otra vez este mensaje."
 #: widgets/misc/e-search-bar.c:135
 msgid "Sear_ch"
 msgstr "Bus_car"
+
+#: evolution.desktop.in:4
+msgid "The Evolution groupware suite"
+msgstr "El programa de trabajo en grupo Evolution"
+
+#: addressbook/conduit/e-address-conduit-control-applet.desktop.in:3
+msgid "Evolution Address conduit "
+msgstr "Enlace del libro de direcciones de Evolution"
+
+#: addressbook/conduit/e-address-conduit-control-applet.desktop.in:4
+msgid "Configure the address conduit"
+msgstr "Configura el enlace del libro de direcciones"
+
+#: calendar/conduits/calendar/e-calendar-conduit-control-applet.desktop.in:3
+msgid "Evolution Calendar conduit"
+msgstr "Enlace con el calendario de Evolution"
+
+#: calendar/conduits/calendar/e-calendar-conduit-control-applet.desktop.in:4
+msgid "Configure the GnomeCal conduit"
+msgstr "Configurar el enlace con GnomeCal"
+
+#: calendar/conduits/todo/e-todo-conduit-control-applet.desktop.in:3
+msgid "Evolution ToDo conduit "
+msgstr "Enlace con el componente `Por Hacer' de Evolution"
+
+#: calendar/conduits/todo/e-todo-conduit-control-applet.desktop.in:4
+msgid "Configure the todo conduit"
+msgstr "Configurar el enlace con el componente `Por Hacer'"

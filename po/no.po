@@ -8769,3 +8769,39 @@ msgstr "Sø_k"
 
 #~ msgid "Run filter \"%s\""
 #~ msgstr "Kjør filter \"%s\""
+
+#: evolution.desktop.in:4
+msgid "The Evolution groupware suite"
+msgstr "Gruppevaresuiten Evolution"
+
+#: addressbook/conduit/e-address-conduit-control-applet.desktop.in:3
+msgid "Evolution Address conduit "
+msgstr "Oppgaver"
+
+#: addressbook/conduit/e-address-conduit-control-applet.desktop.in:4
+msgid "Configure the address conduit"
+msgstr "Konfigurér oppgavelisten"
+
+#: calendar/conduits/calendar/e-calendar-conduit-control-applet.desktop.in:3
+msgid "Evolution Calendar conduit"
+msgstr "GNOME kalender"
+
+#: calendar/conduits/calendar/e-calendar-conduit-control-applet.desktop.in:4
+msgid "Configure the GnomeCal conduit"
+msgstr "Konfigurér GnomeCal-komponent"
+
+#: calendar/conduits/todo/e-todo-conduit-control-applet.desktop.in:3
+msgid "Evolution ToDo conduit "
+msgstr "Oppgaver"
+
+#: calendar/conduits/todo/e-todo-conduit-control-applet.desktop.in:4
+msgid "Configure the todo conduit"
+msgstr "Konfigurér oppgavelisten"
+
+#: data/evolution.keys.in:3
+msgid "address card"
+msgstr "adressekort"
+
+#: data/evolution.keys.in:11
+msgid "calendar information"
+msgstr "kalenderinformasjon"

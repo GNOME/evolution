@@ -1,3 +1,11 @@
+2001-02-11  Gediminas Paulauskas <menesis@delfi.lt> 
+
+	* data/evolution.keys, evolution.desktop: removed, they are generated.
+	* data/evolution.keys.in, evolution.desktop.in: new untranslated files.
+	* data/evolution.desktop: removed, it duplicates above. 
+	* Makefile.am, data/Makefile.am: reflect above changes, merge 
+	translations. 
+
 2001-02-09  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* configure.in: Added hacks to check for Mozilla libs like nspr

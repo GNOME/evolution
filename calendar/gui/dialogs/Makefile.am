@@ -31,11 +31,5 @@ glade_DATA =			\
 	cal-prefs-dialog.glade	\
 	task-editor-dialog.glade
 
-glade_messages =			\
-	alarm-notify.glade.h		\
-	cal-prefs-dialog.glade.h	\
-	task-editor-dialog.glade.h
-
 EXTRA_DIST =			\
-	$(glade_DATA)		\
-	$(glade_messages)
+	$(glade_DATA)

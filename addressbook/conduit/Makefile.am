@@ -55,7 +55,9 @@ e-address.conduit: e-address.conduit.in Makefile
 ccenterdir = $(datadir)/control-center
 ccenterPalmPilotdir = $(ccenterdir)/Peripherals
 ccenterConduitsdir = $(ccenterPalmPilotdir)/Conduits
-ccenterConduits_DATA = e-address-conduit-control-applet.desktop 
+ccenterConduits_in_files = e-address-conduit-control-applet.desktop.in 
+ccenterConduits_DATA = $(ccenterConduits_in_files:.desktop.in=.desktop)
+@XML_I18N_MERGE_DESKTOP_RULE@
 
 panelConduitsdir = $(datadir)/gnome/apps/Settings/Peripherals/Conduits
 panelConduits_DATA = $(ccenterConduits_DATA)
@@ -65,13 +67,8 @@ Conduit_DATA = e-address.conduit
 
 EXTRA_DIST = \
 	e-address.conduit.in \
-        $(ccenterConduits_DATA)
+        $(ccenterConduits_in_files)
 
 install-data-local:
 	$(mkinstalldirs) $(ccenterConduitsdir)
 	$(mkinstalldirs) $(Conduitdir)
-
-
-
-
-

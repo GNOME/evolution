@@ -6,3 +6,4 @@ e-calendar.conduit
 .libs
 libecalendar_conduit.la
 e-calendar-conduit-control-applet
+e-calendar-conduit-control-applet.desktop

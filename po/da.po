@@ -8401,3 +8401,27 @@ msgstr "_Søg"
 
 #~ msgid "_Create New Folder..."
 #~ msgstr "_Opret ny mappe..."
+
+#: addressbook/conduit/e-address-conduit-control-applet.desktop.in:3
+msgid "Evolution Address conduit "
+msgstr "Udstående"
+
+#: addressbook/conduit/e-address-conduit-control-applet.desktop.in:4
+msgid "Configure the address conduit"
+msgstr "Konfigurér Udstående"
+
+#: calendar/conduits/calendar/e-calendar-conduit-control-applet.desktop.in:3
+msgid "Evolution Calendar conduit"
+msgstr "Gnome kalender"
+
+#: calendar/conduits/calendar/e-calendar-conduit-control-applet.desktop.in:4
+msgid "Configure the GnomeCal conduit"
+msgstr "Konfigurér GnomeCal-komponent"
+
+#: calendar/conduits/todo/e-todo-conduit-control-applet.desktop.in:3
+msgid "Evolution ToDo conduit "
+msgstr "Udstående"
+
+#: calendar/conduits/todo/e-todo-conduit-control-applet.desktop.in:4
+msgid "Configure the todo conduit"
+msgstr "Konfigurér Udstående"

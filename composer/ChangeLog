@@ -1,3 +1,9 @@
+2001-02-11  Gediminas Paulauskas <menesis@delfi.lt>
+
+	* e-msg-composer-attachment.glade.h: removed.
+	* e-msg-composer-attachment.glade: do not write strings to above.
+	* Makefile.am: don't include glade.h in EXTRA_DIST.
+	
 2001-02-10  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer-attachment-bar.c (attach_to_multipart):

@@ -5,7 +5,7 @@
 # Christian Rose <menthos@menthos.com>, 2000.
 # Martin Norbäck <d95mback@dtek.chalmers.se>, 2001.
 #
-# $Id: sv.po,v 1.61 2001/02/08 00:41:17 menthos Exp $
+# $Id: sv.po,v 1.62 2001/02/11 02:56:15 menesis Exp $
 #
 #: camel/providers/smtp/camel-smtp-transport.c:343
 msgid ""
@@ -8644,3 +8644,31 @@ msgstr "S_ök"
 
 #~ msgid "init_bonobo(): could not initialize Bonobo"
 #~ msgstr "init_bonobo(): kunde inte initiera Bonobo"
+
+#: evolution.desktop.in:4
+msgid "The Evolution groupware suite"
+msgstr "Grupprogramvaran Evolution"
+
+#: addressbook/conduit/e-address-conduit-control-applet.desktop.in:3
+msgid "Evolution Address conduit "
+msgstr "Adresser"
+
+#: addressbook/conduit/e-address-conduit-control-applet.desktop.in:4
+msgid "Configure the address conduit"
+msgstr "Konfigurera adresskanalen"
+
+#: calendar/conduits/calendar/e-calendar-conduit-control-applet.desktop.in:3
+msgid "Evolution Calendar conduit"
+msgstr "Kalenderkanal"
+
+#: calendar/conduits/calendar/e-calendar-conduit-control-applet.desktop.in:4
+msgid "Configure the GnomeCal conduit"
+msgstr "Konfigurera GnomeCal-kanalen"
+
+#: calendar/conduits/todo/e-todo-conduit-control-applet.desktop.in:3
+msgid "Evolution ToDo conduit "
+msgstr "Att göra-lista"
+
+#: calendar/conduits/todo/e-todo-conduit-control-applet.desktop.in:4
+msgid "Configure the todo conduit"
+msgstr "Konfigurerar att göra-listan"

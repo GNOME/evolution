@@ -8665,3 +8665,31 @@ msgstr "Recher_cher"
 
 #~ msgid "_Unselect All"
 #~ msgstr "_Déselectionner tout"
+
+#: evolution.desktop.in:4
+msgid "The Evolution groupware suite"
+msgstr "La suite de travail collaboratif Evolution"
+
+#: addressbook/conduit/e-address-conduit-control-applet.desktop.in:3
+msgid "Evolution Address conduit "
+msgstr "Conduit Adresses"
+
+#: addressbook/conduit/e-address-conduit-control-applet.desktop.in:4
+msgid "Configure the address conduit"
+msgstr "Configuration du conduit Adresses"
+
+#: calendar/conduits/calendar/e-calendar-conduit-control-applet.desktop.in:3
+msgid "Evolution Calendar conduit"
+msgstr "Conduit Calendrier"
+
+#: calendar/conduits/calendar/e-calendar-conduit-control-applet.desktop.in:4
+msgid "Configure the GnomeCal conduit"
+msgstr "Configuration du conduit calendrier"
+
+#: calendar/conduits/todo/e-todo-conduit-control-applet.desktop.in:3
+msgid "Evolution ToDo conduit "
+msgstr "Conduit Evolution `A Faire'"
+
+#: calendar/conduits/todo/e-todo-conduit-control-applet.desktop.in:4
+msgid "Configure the todo conduit"
+msgstr "Configuration du conduit `A Faire'"

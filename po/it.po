@@ -7700,3 +7700,6 @@ msgstr "Invia questo messaggio adesso"
 msgid "Sear_ch"
 msgstr "_Cerca"
 
+#: evolution.desktop.in:4
+msgid "The Evolution groupware suite"
+msgstr "La suite di produttivita' personale Evolution"

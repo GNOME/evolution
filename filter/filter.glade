@@ -10,8 +10,6 @@
   <language>C</language>
   <gnome_support>True</gnome_support>
   <gettext_support>True</gettext_support>
-  <output_translatable_strings>True</output_translatable_strings>
-  <translatable_strings_file>filter.glade.h</translatable_strings_file>
 </project>
 
 <widget>

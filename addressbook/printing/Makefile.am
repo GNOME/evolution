@@ -66,5 +66,4 @@ contact_print_style_editor_test_LDADD =	\
 
 EXTRA_DIST = \
 	$(glade_DATA)	\
-	$(ecps_DATA)	\
-	e-contact-print.glade.h
+	$(ecps_DATA)

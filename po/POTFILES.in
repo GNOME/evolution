@@ -6,11 +6,13 @@ addressbook/backend/ebook/test-client-list.c
 addressbook/backend/ebook/test-client.c
 addressbook/conduit/address-conduit-control-applet.c
 addressbook/conduit/address-conduit.c
+addressbook/conduit/e-address-conduit-control-applet.desktop.in
+addressbook/contact-editor/contact-editor.glade
 addressbook/contact-editor/e-contact-editor-confirm-delete.glade
 addressbook/contact-editor/e-contact-editor-strings.h
 addressbook/contact-editor/e-contact-editor.c
 addressbook/contact-editor/fulladdr.glade
-addressbook/contact-editor/fullname-strings.h
+addressbook/contact-editor/fullname.glade
 addressbook/gui/component/addressbook-factory.c
 addressbook/gui/component/addressbook.c
 addressbook/gui/component/addressbook-storage.c
@@ -27,6 +29,8 @@ addressbook/printing/e-contact-print.glade
 calendar/cal-util/timeutil.c
 calendar/conduits/calendar/calendar-conduit-control-applet.c
 calendar/conduits/calendar/calendar-conduit.c
+calendar/conduits/calendar/e-calendar-conduit-control-applet.desktop.in
+calendar/conduits/todo/e-todo-conduit-control-applet.desktop.in
 calendar/conduits/todo/todo-conduit-control-applet.c
 calendar/conduits/todo/todo-conduit.c
 calendar/gui/calendar-commands.c
@@ -45,6 +49,8 @@ calendar/gui/e-day-view-time-item.c
 calendar/gui/e-day-view-top-item.c
 calendar/gui/e-day-view.c
 calendar/gui/e-itip-control.c
+calendar/gui/e-itip-control.glade
+calendar/gui/e-meeting-dialog.glade
 calendar/gui/e-tasks.c
 calendar/gui/e-week-view-main-item.c
 calendar/gui/e-week-view.c
@@ -103,10 +109,12 @@ composer/e-msg-composer-attachment.glade
 composer/e-msg-composer-hdrs.c
 composer/e-msg-composer.c
 composer/evolution-composer.c
+data/evolution.keys.in
 executive-summary/component/component-factory.c
 executive-summary/component/e-summary-callbacks.c
 executive-summary/component/e-summary-url.c
 executive-summary/component/e-summary.c
+executive-summary/component/executive-summary-config.glade
 executive-summary/component/main.c
 executive-summary/test-service/rdf-summary.c
 filter/filter-datespec.c
@@ -151,6 +159,10 @@ mail/mail-view.c
 mail/message-list.c
 mail/openpgp-utils.c
 mail/subscribe-dialog.c
+mail/subscribe-dialog.glade
+shell/glade/e-shell-folder-creation-dialog.glade
+shell/importer/importer.c
+shell/importer/import.glade
 shell/e-setup.c
 shell/e-shell-folder-creation-dialog.c
 shell/e-shell-folder-selection-dialog.c
@@ -163,7 +175,6 @@ shell/e-shortcuts.c
 shell/e-storage-set-view.c
 shell/e-storage.c
 shell/main.c
-shell/importer/importer.c
 ui/evolution-addressbook.xml
 ui/evolution-calendar.xml
 ui/evolution-contact-editor.xml
