@@ -38,8 +38,8 @@
 #define d(x) x
 
 #define NUMERIC_CHARS          "1234567890"
-#define WEEKDAY_CHARS          "Sun,Mon,Tue,Wed,Thu,Fri,Sat,"
-#define MONTH_CHARS            "JanFebMarAprMayJunJulAugSepOctNovDec"
+#define WEEKDAY_CHARS          "SundayMondayTuesdayWednesdayThursdayFridaySaturday"
+#define MONTH_CHARS            "JanuaryFebruaryMarchAprilMayJuneJulyAugustSeptemberOctoberNovemberDecember"
 #define TIMEZONE_ALPHA_CHARS   "UTCGMTESTEDTCSTCDTMSTPSTPDTZAMNY()"
 #define TIMEZONE_NUMERIC_CHARS "-+1234567890"
 #define TIME_CHARS             "1234567890:"
@@ -53,23 +53,23 @@
 #define DATE_TOKEN_NON_TIMEZONE_NUMERIC (1 << 6)
 #define DATE_TOKEN_HAS_SIGN             (1 << 7)
 
-static unsigned int datetok_table[256] = {
-	128,111,111,111,111,111,111,111,111,111,111,111,111,111,111,111,
-	111,111,111,111,111,111,111,111,111,111,111,111,111,111,111,111,
-	111,111,111,111,111,111,111,111, 79, 79,111,175,109,175,111,111,
-	 38, 38, 38, 38, 38, 38, 38, 38, 38, 38,119,111,111,111,111,111,
-	111, 75,111, 79, 75, 79,105, 79,111,111,107,111,111, 73, 75,107,
-	 79,111,111, 73, 77, 79,111,109,111, 79, 79,111,111,111,111,111,
-	111,105,107,107,109,105,111,107,109,109,111,111,107,111,105,105,
-	107,111,105,111,105,105,107,111,111,107,111,111,111,111,111,111,
-	111,111,111,111,111,111,111,111,111,111,111,111,111,111,111,111,
-	111,111,111,111,111,111,111,111,111,111,111,111,111,111,111,111,
-	111,111,111,111,111,111,111,111,111,111,111,111,111,111,111,111,
-	111,111,111,111,111,111,111,111,111,111,111,111,111,111,111,111,
-	111,111,111,111,111,111,111,111,111,111,111,111,111,111,111,111,
-	111,111,111,111,111,111,111,111,111,111,111,111,111,111,111,111,
-	111,111,111,111,111,111,111,111,111,111,111,111,111,111,111,111,
-	111,111,111,111,111,111,111,111,111,111,111,111,111,111,111,111,
+static unsigned char datetok_table[256] = {
+        128,111,111,111,111,111,111,111,111,111,111,111,111,111,111,111,
+        111,111,111,111,111,111,111,111,111,111,111,111,111,111,111,111,
+        111,111,111,111,111,111,111,111, 79, 79,111,175,111,175,111,111,
+         38, 38, 38, 38, 38, 38, 38, 38, 38, 38,119,111,111,111,111,111,
+        111, 75,111, 79, 75, 79,105, 79,111,111,107,111,111, 73, 75,107,
+         79,111,111, 73, 77, 79,111,109,111, 79, 79,111,111,111,111,111,
+        111,105,107,107,109,105,111,107,105,105,111,111,107,107,105,105,
+        107,111,105,105,105,105,107,111,111,105,111,111,111,111,111,111,
+        111,111,111,111,111,111,111,111,111,111,111,111,111,111,111,111,
+        111,111,111,111,111,111,111,111,111,111,111,111,111,111,111,111,
+        111,111,111,111,111,111,111,111,111,111,111,111,111,111,111,111,
+        111,111,111,111,111,111,111,111,111,111,111,111,111,111,111,111,
+        111,111,111,111,111,111,111,111,111,111,111,111,111,111,111,111,
+        111,111,111,111,111,111,111,111,111,111,111,111,111,111,111,111,
+        111,111,111,111,111,111,111,111,111,111,111,111,111,111,111,111,
+        111,111,111,111,111,111,111,111,111,111,111,111,111,111,111,111,
 };
 
 /* hrm, is there a library for this shit? */
@@ -127,7 +127,7 @@ datetok (const char *date)
 		mask = 0;
 		
 		/* find the end of this token */
-		for (end = start; *end && !isspace ((int) *end) && (end > start ? !strchr ("-/", *end) : TRUE); end++) {
+		for (end = start; *end && !strchr ("-/,\t\r\n ", *end); end++) {
 			mask |= datetok_table[*end];
 		}
 		
@@ -302,6 +302,7 @@ get_tzone (struct _date_token **token)
 	return -1;
 }
 
+/* This is where things get interesting... ;-) */
 
 #define date_token_mask(t)  (((struct _date_token *) t)->mask)
 #define is_numeric(t)       ((date_token_mask (t) & DATE_TOKEN_NON_NUMERIC) == 0)
@@ -403,9 +404,9 @@ decode_broken_date (struct _date_token *tokens, int *tzone)
 	d(printf ("\n"));
 	
 	time = mktime (&tm);
-#if defined(HAVE_TIMEZONE)
+#if defined (HAVE_TIMEZONE)
 	time -= timezone;
-#elif defined(HAVE_TM_GMTOFF)
+#elif defined (HAVE_TM_GMTOFF)
 	time += tm.tm_gmtoff;
 #else
 #error Neither HAVE_TIMEZONE nor HAVE_TM_GMTOFF defined. Rerun autoheader, autoconf, etc.

@@ -1,3 +1,11 @@
+2002-04-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* broken-date-parser.c (datetok): Treat commas as token
+	delimeters.
+	(WEEKDAY_CHARS): Use full weekday names in case the broken mailer
+	used the full names.
+	(MONTH_CHARS): Same as above but for months.
+
 2002-04-11  Not Zed  <NotZed@Ximian.com>
 
 	* providers/local/camel-spool-summary.c (spool_summary_sync_full):
