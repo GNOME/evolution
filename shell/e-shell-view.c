@@ -1208,6 +1208,8 @@ e_shell_view_display_uri (EShellView *shell_view,
 
 	priv = shell_view->priv;
 
+	bonobo_win_freeze (BONOBO_WIN (shell_view));
+
 	if (uri == NULL) {
 		gtk_notebook_remove_page (GTK_NOTEBOOK (priv->notebook), 0);
 		gtk_notebook_prepend_page (GTK_NOTEBOOK (priv->notebook), create_label_for_empty_page (), NULL);
@@ -1248,6 +1250,9 @@ e_shell_view_display_uri (EShellView *shell_view,
 
  end:
 	update_for_current_uri (shell_view);
+
+	bonobo_win_thaw (BONOBO_WIN (shell_view));
+
 	return retval;
 }
 

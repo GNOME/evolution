@@ -363,17 +363,7 @@ static void
 command_xml_dump (gpointer    dummy,
 		  EShellView *view)
 {
-#if 0
-	BonoboUIHandler *uih;
-	BonoboWin *win;
-
-	uih = e_shell_view_get_bonobo_ui_component (view);
-	
-	win = bonobo_ui_handler_get_app (uih);
-       
-	bonobo_win_dump (win, "On demand");
-#endif
-	g_warning ("FIXME: to re-instate debugging dump we need to get the container");
+	bonobo_win_dump (BONOBO_WIN (view), "On demand");
 }
 
 
