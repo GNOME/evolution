@@ -330,7 +330,6 @@ dump_tree_rec(struct _tree_info *info, struct _container *c, int depth)
 int
 dump_tree(struct _container *c)
 {
-	char *p;
 	int count;
 	struct _tree_info info;
 

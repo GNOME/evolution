@@ -39,6 +39,7 @@
 #include "mail-tools.h"
 #include "mail-ops.h"
 #include "e-util/e-gui-utils.h"
+#include "mail-local-storage.h"
 
 #include "component-factory.h"
 
@@ -111,7 +112,6 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 {
 	GSList *sources;
 	Evolution_Shell corba_shell;
-	Evolution_LocalStorage corba_local_storage;
 
 	g_print ("evolution-mail: Yeeeh! We have an owner!\n");	/* FIXME */
 	

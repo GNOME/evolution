@@ -1,3 +1,43 @@
+2000-09-12  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* folder-browser-factory.c: Use the latest, shiny, amazing TigerT
+	art for the toolbar.
+
+	* component-factory.c: #include "mail-local-storage.h".
+	(owner_set_cb): Removed unused variable.
+
+	* message-list.c (filter_sender): Made static.
+	(filter_recipient): Likewise.
+	(filter_subject): Likewise.
+	(vfolder_recipient): Likewise.
+	(vfolder_sender): Likewise.
+	(vfolder_subject): Likewise.
+
+	* mail.h (vfolder_subject): Removed prototype [WTF was this doing
+	here?!?!].
+	(vfolder_sender): Likewise.
+	(vfolder_recipient): Likewise.
+	(filter_subject): Likewise.
+	(filter_sender): Likewise.
+	(filter_recipient): Likewise.
+
+	* message-list.c: Added a new "Filter on mailing list" menu item.
+	(filter_mlist): Callback for this menu item.  Use
+	`filter_gui_add_for_mailing_list' to pop up the filter dialog with
+	the appropriate rule.
+
+	* mail-autofilter.c (filter_gui_add_for_mailing_list): New.
+
+	* message-thread.c (dump_tree): Removed unused variable.
+
+	* mail-mlist-magic.c: New.
+	* mail-mlist-magic.h: New.
+
+	* mail-autofilter.c (rule_match_recipients): Mark strings for
+	translation.
+	(rule_from_message): Likewise.
+	(filter_gui_add_from_message): Likewise.
+
 2000-09-12  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-ops.c (do_fetch_mail): Was trying to unhook an event from

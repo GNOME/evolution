@@ -17,6 +17,8 @@
  *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
  */
 
+/* This file is a F*CKING MESS.  Shame to us!  */
+
 #include <gtkhtml/gtkhtml.h>
 #include <libgnomevfs/gnome-vfs-mime-handlers.h>
 #include "camel/camel.h"
@@ -124,3 +126,4 @@ void vfolder_recipient(GtkWidget *w, FolderBrowser *fb);
 void filter_subject(GtkWidget *w, FolderBrowser *fb);
 void filter_sender(GtkWidget *w, FolderBrowser *fb);
 void filter_recipient(GtkWidget *w, FolderBrowser *fb);
+void filter_mlist(GtkWidget *w, FolderBrowser *fb);

@@ -18,16 +18,20 @@
 #include <e-util/e-popup-menu.h>
 #include <camel/camel-exception.h>
 #include <camel/camel-folder.h>
+
 #include "message-list.h"
 #include "message-thread.h"
 #include "mail-threads.h"
 #include "mail-tools.h"
+#include "mail-mlist-magic.h"
 #include "mail-ops.h"
 #include "mail-config.h"
 #include "mail-vfolder.h"
 #include "mail-autofilter.h"
 #include "mail.h"
+
 #include "Mail.h"
+
 #include "widgets/e-table/e-table-header-item.h"
 #include "widgets/e-table/e-table-item.h"
 
@@ -1204,6 +1208,25 @@ filter_recipient(GtkWidget *w, FolderBrowser *fb)
 	filter_gui_add_from_message(fb->mail_display->current_message, AUTO_TO);
 }
 
+void
+filter_mlist (GtkWidget *w, FolderBrowser *fb)
+{
+	char *name;
+	char *header_value;
+	const char *header_name;
+
+	name = mail_mlist_magic_detect_list (fb->mail_display->current_message, &header_name, &header_value);
+	if (name == NULL) {
+		g_print ("No fucking mlist!\n");
+		return;
+	}
+
+	filter_gui_add_for_mailing_list (fb->mail_display->current_message, name, header_name, header_value);
+
+	g_free (name);
+	g_free (header_value);
+}
+
 static gint
 on_right_click (ETableScrolled *table, gint row, gint col, GdkEvent *event, MessageList *list)
 {
@@ -1230,6 +1253,7 @@ on_right_click (ETableScrolled *table, gint row, gint col, GdkEvent *event, Mess
 		{ "Filter on Subject",       NULL, GTK_SIGNAL_FUNC (filter_subject),    2 },
 		{ "Filter on Sender",        NULL, GTK_SIGNAL_FUNC (filter_sender),     2 },
 		{ "Filter on Recipients",    NULL, GTK_SIGNAL_FUNC (filter_recipient),  2 },
+		{ "Filter on Mailing List",  NULL, GTK_SIGNAL_FUNC (filter_mlist),      2 },
 		{ NULL,                      NULL, NULL,                                0 }
 	};
 

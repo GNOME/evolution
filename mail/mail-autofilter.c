@@ -1,6 +1,29 @@
-/*
-  code for autogenerating rules or filters from a message
-*/
+/* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
+/* mail-autofilter.c
+ *
+ * Copyright (C) 2000  Helix Code, Inc.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public
+ * License along with this program; if not, write to the
+ * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+ * Boston, MA 02111-1307, USA.
+ *
+ * Authors:
+ *   Michael Zucchi <notzed@helixcode.com>
+ *   Ettore Perazzoli <ettore@helixcode.com>
+ */
+
+/* Code for autogenerating rules or filters from a message.  */
 
 #include <ctype.h>
 
@@ -49,7 +72,7 @@ rule_match_recipients(RuleContext *context, FilterRule *rule, CamelInternetAddre
 		element = filter_part_find_element(part, "recipient");
 		filter_input_set_value((FilterInput *)element, addr);
 
-		namestr = g_strdup_printf("Mail to %s", real&&real[0]?real:addr);
+		namestr = g_strdup_printf(_("Mail to %s"), real&&real[0]?real:addr);
 		filter_rule_set_name(rule, namestr);
 		g_free(namestr);
 	}
@@ -203,7 +226,7 @@ rule_from_message(FilterRule *rule, RuleContext *context, CamelMimeMessage *msg,
 					name = scan->name;
 				else
 					name = scan->v.addr;
-				namestr = g_strdup_printf("Mail from %s", name);
+				namestr = g_strdup_printf(_("Mail from %s"), name);
 				filter_rule_set_name(rule, namestr);
 				g_free(namestr);
 			}
@@ -257,9 +280,58 @@ filter_gui_add_from_message(CamelMimeMessage *msg, int flags)
 	systemrules = g_strdup_printf("%s/evolution/filtertypes.xml", EVOLUTION_DATADIR);
 	rule_context_load((RuleContext *)fc, systemrules, userrules, NULL, NULL);
 	rule = filter_rule_from_message(fc, msg, flags);
-	rule_context_add_rule_gui((RuleContext *)fc, rule, "Add Filter Rule", userrules);
+	rule_context_add_rule_gui((RuleContext *)fc, rule, _("Add Filter Rule"), userrules);
 	g_free (userrules);
 	g_free (systemrules);
 	gtk_object_unref((GtkObject *)fc);
 }
 
+void
+filter_gui_add_for_mailing_list (CamelMimeMessage *msg,
+				 const char *list_name,
+				 const char *header_name,
+				 const char *header_value)
+{
+	FilterContext *fc;
+	FilterRule *rule;
+	FilterPart *part;
+	FilterElement *element;
+	char *userrules, *systemrules;
+	char *rule_name;
+	extern char *evolution_dir;
+
+	g_return_if_fail (msg != NULL);
+	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (msg));
+	g_return_if_fail (list_name != NULL);
+	g_return_if_fail (header_name != NULL);
+	g_return_if_fail (header_value != NULL);
+
+	fc = filter_context_new();
+	userrules = g_strdup_printf("%s/filters.xml", evolution_dir);
+	systemrules = g_strdup_printf("%s/evolution/filtertypes.xml", EVOLUTION_DATADIR);
+	rule_context_load((RuleContext *)fc, systemrules, userrules, NULL, NULL);
+
+	rule = filter_rule_new ();
+
+	part = rule_context_create_part((RuleContext *)fc, "header");
+	filter_rule_add_part((FilterRule *)rule, part);
+
+	element = filter_part_find_element(part, "header-field");
+	filter_input_set_value((FilterInput *)element, header_name);
+
+	element = filter_part_find_element(part, "header-type");
+	filter_option_set_current((FilterOption *)element, "contains");
+
+	element = filter_part_find_element(part, "word");
+	filter_input_set_value((FilterInput *)element, header_value);
+
+	rule_name = g_strdup_printf (_("%s mailing list"), list_name);
+	filter_rule_set_name ((FilterRule *) rule, rule_name);
+	g_free (rule_name);
+
+	rule_context_add_rule_gui ((RuleContext *)fc, rule, _("Add Filter Rule"), userrules);
+
+	g_free (userrules);
+	g_free (systemrules);
+	gtk_object_unref((GtkObject *)fc);
+}

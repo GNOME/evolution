@@ -29,30 +29,6 @@
 /* The FolderBrowser BonoboControls we have.  */
 static GList *control_list = NULL;
 
-static GnomeUIInfo gnome_toolbar [] = {
-	GNOMEUIINFO_ITEM_STOCK (N_("Get Mail"), N_("Send queued mail and retrieve new mail"),
-				send_receieve_mail, GNOME_STOCK_PIXMAP_MAIL_RCV),
-	GNOMEUIINFO_ITEM_STOCK (N_("Compose"), N_("Compose a new message"), compose_msg, GNOME_STOCK_PIXMAP_MAIL_NEW),
-
-	GNOMEUIINFO_SEPARATOR,
-
-	GNOMEUIINFO_ITEM_STOCK (N_("Reply"), N_("Reply to the sender of this message"), reply_to_sender, GNOME_STOCK_PIXMAP_MAIL_RPL),
-	GNOMEUIINFO_ITEM_STOCK (N_("Reply to All"), N_("Reply to all recipients of this message"), reply_to_all, GNOME_STOCK_PIXMAP_MAIL_RPL),
-
-	GNOMEUIINFO_ITEM_STOCK (N_("Forward"), N_("Forward this message"), forward_msg, GNOME_STOCK_PIXMAP_MAIL_FWD),
-
-	GNOMEUIINFO_SEPARATOR,
-
-	GNOMEUIINFO_ITEM_STOCK (N_("Move"), N_("Move message to a new folder"), move_msg, GNOME_STOCK_PIXMAP_MAIL_SND),
-	GNOMEUIINFO_ITEM_STOCK (N_("Copy"), N_("Copy message to a new folder"), copy_msg, GNOME_STOCK_PIXMAP_MAIL_SND),
-
-	GNOMEUIINFO_ITEM_STOCK (N_("Print"), N_("Print the selected message"), print_msg, GNOME_STOCK_PIXMAP_PRINT),
-
-	GNOMEUIINFO_ITEM_STOCK (N_("Delete"), N_("Delete this message"), delete_msg, GNOME_STOCK_PIXMAP_TRASH),
-
-	GNOMEUIINFO_END
-};
-
 static void
 register_ondemand (RuleContext *f, FilterRule *rule, gpointer data)
 {
@@ -106,6 +82,82 @@ remove_ondemand_hooks (FolderBrowser *fb, BonoboUIHandler *uih)
 
 		bonobo_ui_handler_menu_remove (uih, oc->path);
 	}
+}
+
+static void
+add_button_to_toolbar (GtkToolbar *toolbar,
+		       const char *label,
+		       const char *hint,
+		       const char *icon,
+		       GtkSignalFunc callback,
+		       void *data)
+{
+	GtkWidget *pixmap;
+	GtkWidget *widget;
+	char *path;
+
+	path = g_concat_dir_and_file (EVOLUTION_DATADIR "/images/evolution/buttons", icon);
+	pixmap = gnome_pixmap_new_from_file (path);
+	g_free (path);
+
+	gtk_widget_show (pixmap);
+
+	widget = gtk_toolbar_append_element (toolbar, GTK_TOOLBAR_CHILD_BUTTON, NULL, label, hint, NULL, pixmap, NULL, NULL);
+	gtk_signal_connect (GTK_OBJECT (widget), "clicked", callback, data);
+}
+
+static void
+add_stock_button_to_toolbar (GtkToolbar *toolbar,
+			     const char *label,
+			     const char *hint,
+			     const char *icon,
+			     GtkSignalFunc callback,
+			     void *data)
+{
+	GtkWidget *pixmap;
+	GtkWidget *widget;
+
+	pixmap = gnome_stock_pixmap_widget_new (GTK_WIDGET (toolbar), icon);
+	gtk_widget_show (pixmap);
+
+	widget = gtk_toolbar_append_element (toolbar, GTK_TOOLBAR_CHILD_BUTTON, NULL, label, hint, NULL, pixmap, NULL, NULL);
+	gtk_signal_connect (GTK_OBJECT (widget), "clicked", callback, data);
+}
+
+static void
+fill_toolbar (FolderBrowser *folder_browser,
+	      GtkToolbar *toolbar)
+{
+	add_button_to_toolbar (toolbar, _("Get Mail"), _("Send queued mail and retrieve new mail"),
+			       "fetch-mail.png", send_receieve_mail, folder_browser);
+	add_button_to_toolbar (toolbar, _("Compose"), _("Compose a new message"),
+			       "compose-message.png", compose_msg, folder_browser);
+
+	gtk_toolbar_append_space (toolbar);
+	add_button_to_toolbar (toolbar, _("Reply"), _("Reply to the sender of this message"),
+			       "reply.png", reply_to_sender, folder_browser);
+	add_button_to_toolbar (toolbar, _("Reply to All"), _("Reply to all recipients of this message"),
+			       "reply-to-all.png", reply_to_all, folder_browser);
+	add_button_to_toolbar (toolbar, _("Forward"), _("Forward this message"),
+			       "forward.png", forward_msg, folder_browser);
+
+	gtk_toolbar_append_space (toolbar);
+
+	add_button_to_toolbar (toolbar, _("Move"), _("Move message to a new folder"),
+			       "move-message.png", move_msg, folder_browser);
+	add_button_to_toolbar (toolbar, _("Copy"), _("Move message to a new folder"),
+			       "copy-message.png", move_msg, folder_browser);
+
+	gtk_toolbar_append_space (toolbar);
+
+	add_stock_button_to_toolbar (toolbar, _("Print"), _("Print the selected message"),
+				     GNOME_STOCK_PIXMAP_PRINT, print_msg, folder_browser);
+	add_stock_button_to_toolbar (toolbar, _("Delete"), _("Delete this message"),
+				     GNOME_STOCK_PIXMAP_TRASH, delete_msg, folder_browser);
+
+	gtk_toolbar_set_style (toolbar, GTK_TOOLBAR_BOTH);
+	gtk_toolbar_set_button_relief (toolbar, GTK_RELIEF_NONE);
+	gtk_widget_show_all (GTK_WIDGET (toolbar));
 }
 
 static void
@@ -289,11 +341,7 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih,
 	toolbar = gtk_toolbar_new (GTK_ORIENTATION_HORIZONTAL,
 				   GTK_TOOLBAR_BOTH);
 
-	gnome_app_fill_toolbar_with_data (GTK_TOOLBAR (toolbar),
-					  gnome_toolbar,
-					  NULL, folder_browser);
-
-	gtk_widget_show_all (toolbar);
+	fill_toolbar (FOLDER_BROWSER (folder_browser), GTK_TOOLBAR (toolbar));
 
 	behavior = GNOME_DOCK_ITEM_BEH_EXCLUSIVE |
                     GNOME_DOCK_ITEM_BEH_NEVER_VERTICAL;
