@@ -1,3 +1,11 @@
+2004-11-01  Sivaiah Nallagatla <snallagatla@novell.com>
+
+	* gui/widgets/eab-gui-util.c 
+	(added_cb) (_modified_cb) : Don't show
+	error dialogs when status code is E_BOOK_ERROR_CANCELLED. We don't
+	wabt to show "Error adding contact,  Cancelled" dialogs when user 
+	cancels duplicated contact detected dialog.   	  
+	
 2004-10-27  Andre Klapper  <a9016009@gmx.de>
 
        * tools/evolution-addressbook-export.c: 

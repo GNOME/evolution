@@ -166,7 +166,7 @@ added_cb (EBook* book, EBookStatus status, EContact *contact,
 {
 	gboolean is_list = GPOINTER_TO_INT (data);
 
-	if (status != E_BOOK_ERROR_OK) {
+	if (status != E_BOOK_ERROR_OK && status != E_BOOK_ERROR_CANCELLED) {
 		eab_error_dialog (is_list ? _("Error adding list") : _("Error adding contact"), status);
 	}
 }
@@ -177,7 +177,7 @@ modified_cb (EBook* book, EBookStatus status, EContact *contact,
 {
 	gboolean is_list = GPOINTER_TO_INT (data);
 
-	if (status != E_BOOK_ERROR_OK) {
+	if (status != E_BOOK_ERROR_OK && status != E_BOOK_ERROR_CANCELLED) {
 		eab_error_dialog (is_list ? _("Error modifying list") : _("Error modifying contact"),
 				  status);
 	}
