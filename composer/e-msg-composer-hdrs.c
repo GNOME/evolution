@@ -134,7 +134,6 @@ create_dropdown_entry (EMsgComposerHdrs *hdrs,
 	combo = gtk_combo_new ();
 	gtk_combo_set_use_arrows (GTK_COMBO (combo), TRUE);
 	gtk_combo_set_case_sensitive (GTK_COMBO (combo), FALSE);
-	
 	if (!strcmp (name, _("From:"))) {
 		CamelInternetAddress *ciaddr;
 		GSList *ids, *stmp;
@@ -145,7 +144,7 @@ create_dropdown_entry (EMsgComposerHdrs *hdrs,
 		ids = mail_config_get_identities ();
 		stmp = ids;
 		while (stmp) {
-			char *string;
+			char *address;
 			
 			id = stmp->data;
 			g_assert (id);			
@@ -154,22 +153,20 @@ create_dropdown_entry (EMsgComposerHdrs *hdrs,
 			
 			ciaddr = camel_internet_address_new ();
 			camel_internet_address_add (ciaddr, id->name, id->address);
-			string = camel_address_encode (CAMEL_ADDRESS (ciaddr));
-			
-			g_list_append (values, string);
+			address = camel_address_encode (CAMEL_ADDRESS (ciaddr));
+			values = g_list_append (values, address);
 			stmp = stmp->next;
 		}
 		
-		if (values)
-			gtk_combo_set_popdown_strings (GTK_COMBO (combo), values);
-		
+		gtk_combo_set_popdown_strings (GTK_COMBO (combo), values);
+
 		tmp = values;
 		while (tmp) {
 			g_free (tmp->data);
 			tmp = tmp->next;
 		}
 		g_list_free (values);
-		
+
 		id = mail_config_get_default_identity ();
 		g_assert (id);			
 		g_assert (id->name);
