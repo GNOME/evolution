@@ -336,18 +336,31 @@ build_message (EMsgComposer *composer)
 					 composer->extra_hdr_values->pdata[i]);
 	}
 	
-	data = get_text (composer->persist_stream_interface, "text/plain");
-	if (!data) {
-		/* The component has probably died */
-		camel_object_unref (CAMEL_OBJECT (new));
-		return NULL;
+	if (composer->mime_body) {
+		plain_encoding = CAMEL_MIME_PART_ENCODING_7BIT;
+		for (i = 0; composer->mime_body[i]; i++) {
+			if ((unsigned char)composer->mime_body[i] > 127) {
+				plain_encoding = CAMEL_MIME_PART_ENCODING_QUOTEDPRINTABLE;
+				break;
+			}
+		}
+		data = g_byte_array_new ();
+		g_byte_array_append (data, composer->mime_body, i);
+		type = header_content_type_decode (composer->mime_type);
+	} else {
+		data = get_text (composer->persist_stream_interface, "text/plain");
+		if (!data) {
+			/* The component has probably died */
+			camel_object_unref (CAMEL_OBJECT (new));
+			return NULL;
+		}
+		
+		/* FIXME: we may want to do better than this... */
+		charset = best_charset (data, composer->charset, &plain_encoding);
+		type = header_content_type_new ("text", "plain");
+		if (charset)
+			header_content_type_set_param (type, "charset", charset);
 	}
-	
-	/* FIXME: we may want to do better than this... */
-	charset = best_charset (data, composer->charset, &plain_encoding);
-	type = header_content_type_new ("text", "plain");
-	if (charset)
-		header_content_type_set_param (type, "charset", charset);
 	
 	plain = camel_data_wrapper_new ();
 	stream = camel_stream_mem_new_with_byte_array (data);
@@ -2053,6 +2066,8 @@ destroy (GtkObject *object)
 	g_hash_table_destroy (composer->inline_images_by_url);
 	
 	g_free (composer->charset);
+	g_free (composer->mime_type);
+	g_free (composer->mime_body);
 	
 	CORBA_exception_init (&ev);
 	
@@ -3202,6 +3217,29 @@ e_msg_composer_set_body_text (EMsgComposer *composer, const char *text)
 	/* set editor text unfortunately kills the signature so we
            have to re-show it */
 	e_msg_composer_show_sig_file (composer);
+}
+
+
+/**
+ * e_msg_composer_set_body:
+ * @composer: a composer object
+ * @body: the data to initialize the composer with
+ * @mime_type: the MIME type of data
+ *
+ * Loads the given data into the composer as the message body.
+ * This function should only be used by the CORBA composer factory.
+ **/
+void
+e_msg_composer_set_body (EMsgComposer *composer, const char *body,
+			 const char *mime_type)
+{
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+	
+	g_free (composer->mime_body);
+	composer->mime_body = g_strdup (body);
+	g_free (composer->mime_type);
+	composer->mime_type = g_strdup (mime_type);
+	composer->send_html = FALSE;
 }
 
 

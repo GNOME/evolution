@@ -33,6 +33,7 @@
 #include <camel/camel.h>
 #include "evolution-composer.h"
 #include "mail/mail-config.h"
+#include "e-util/e-html-utils.h"
 
 #define PARENT_TYPE BONOBO_OBJECT_TYPE
 static BonoboObjectClass *parent_class = NULL;
@@ -115,9 +116,10 @@ impl_Composer_set_multipart_type (PortableServer_Servant servant,
 }
 
 static void
-impl_Composer_set_body_text (PortableServer_Servant servant,
-			     const CORBA_char *text,
-			     CORBA_Environment *ev)
+impl_Composer_set_body (PortableServer_Servant servant,
+			const CORBA_char *body,
+			const CORBA_char *mime_type,
+			CORBA_Environment *ev)
 {
 	BonoboObject *bonobo_object;
 	EvolutionComposer *composer;
@@ -125,7 +127,14 @@ impl_Composer_set_body_text (PortableServer_Servant servant,
 	bonobo_object = bonobo_object_from_servant (servant);
 	composer = EVOLUTION_COMPOSER (bonobo_object);
 
-	e_msg_composer_set_body_text (composer->composer, text);
+	if (!g_strcasecmp (mime_type, "text/plain")) {
+		char *htmlbody = e_text_to_html (body, E_TEXT_TO_HTML_PRE);
+		e_msg_composer_set_body_text (composer->composer, htmlbody);
+		g_free (htmlbody);
+	} else if (!g_strcasecmp (mime_type, "text/html"))
+		e_msg_composer_set_body_text (composer->composer, body);
+	else
+		e_msg_composer_set_body (composer->composer, body, mime_type);
 }
 
 static void
@@ -200,6 +209,13 @@ impl_Composer_show (PortableServer_Servant servant,
 	bonobo_object = bonobo_object_from_servant (servant);
 	composer = EVOLUTION_COMPOSER (bonobo_object);
 
+	if (composer->composer->mime_body) {
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+				     ex_GNOME_Evolution_Composer_CannotShow,
+				     NULL);
+		return;
+	}
+
 	gtk_widget_show (GTK_WIDGET (composer->composer));
 }
 
@@ -224,7 +240,7 @@ evolution_composer_get_epv (void)
 	epv = g_new0 (POA_GNOME_Evolution_Composer__epv, 1);
 	epv->setHeaders       = impl_Composer_set_headers;
 	epv->setMultipartType = impl_Composer_set_multipart_type;
-	epv->setBodyText      = impl_Composer_set_body_text;
+	epv->setBody          = impl_Composer_set_body;
 	epv->attachMIME       = impl_Composer_attach_MIME;
 	epv->attachData       = impl_Composer_attach_data;
 	epv->show             = impl_Composer_show;

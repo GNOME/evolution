@@ -75,8 +75,8 @@ struct _EMsgComposer {
 	
 	Bonobo_ConfigDatabase    config_db;
 	
-	char *charset;
-	
+	char *mime_type, *mime_body, *charset;
+
 	char *autosave_file;
         int   autosave_fd;
 
@@ -126,6 +126,9 @@ void                     e_msg_composer_set_headers                      (EMsgCo
 									  const char        *subject);
 void                     e_msg_composer_set_body_text                    (EMsgComposer      *composer,
 									  const char        *text);
+void                     e_msg_composer_set_body                         (EMsgComposer      *composer,
+									  const char        *body,
+									  const char        *mime_type);
 void                     e_msg_composer_add_header                       (EMsgComposer      *composer,
 									  const char        *name,
 									  const char        *value);

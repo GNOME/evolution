@@ -1,3 +1,25 @@
+2002-02-25  Dan Winship  <danw@ximian.com>
+
+	Mailer side of 14705.
+	
+	* Evolution-Composer.idl (setBody): Change setBodyText to setBody
+	and take a MIME type as well.
+	(show): Add an exception.
+
+	* evolution-composer.c (impl_Composer_set_body, etc): Update for
+	IDL change. While I'm here, fix this to DTRT with both plaintext
+	and HTML bodies. (It claimed to take plain text before, but then
+	passed it to the composer as HTML.)
+	(impl_Composer_show): Raise an exception if setBody has been
+	called, since the composer window will not display the real data
+	in that case.
+
+	* e-msg-composer.c (e_msg_composer_set_body): interface for
+	impl_Composer_set_body.
+	(build_message): If e_msg_composer_set_body has been called, use
+	the body and MIME type supplied to it rather than the contents of
+	the HTML editor.
+
 2002-02-14  Radek Doulik  <rodo@ximian.com>
 
 	* e-msg-composer.c (delete_old_signature): don't insert paragraph
