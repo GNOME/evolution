@@ -32,6 +32,8 @@ libcal_dialogs_a_SOURCES =	\
 	comp-editor-util.h	\
 	delete-comp.c		\
 	delete-comp.h		\
+	e-timezone-dialog.c	\
+	e-timezone-dialog.h	\
 	event-editor.c		\
 	event-editor.h		\
 	event-page.c		\
@@ -51,6 +53,7 @@ glade_DATA =				\
 	alarm-notify.glade		\
 	alarm-page.glade		\
 	cal-prefs-dialog.glade		\
+	e-timezone-dialog.glade		\
 	event-page.glade		\
 	recurrence-page.glade		\
 	task-details-page.glade		\

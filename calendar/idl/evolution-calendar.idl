@@ -98,6 +98,18 @@ module Calendar {
 	/* Used to represent a list of components plus their triggers */
 	typedef sequence<CalComponentAlarms> CalComponentAlarmsSeq;
 
+
+	/* Used to transfer builtin timezone information. */
+	struct CalTimezoneInfo {
+		string location;
+		double latitude;
+		double longitude;
+	};
+
+	/* Used to transfer a list of timezone info */
+	typedef sequence<CalTimezoneInfo> CalTimezoneInfoSeq;
+
+
 	interface Query;
 
 	interface Listener;
@@ -163,6 +175,10 @@ module Calendar {
 		 */
 		Query getQuery (in string sexp, in QueryListener ql)
 			raises (CouldNotCreate);
+
+		/* Returns information about all the builtin timezones. */
+		CalTimezoneInfoSeq getBuiltinTimezoneInfo ()
+			raises (NotFound);
 	};
 
 	/* Listener for changes in a calendar */

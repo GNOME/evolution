@@ -1,3 +1,26 @@
+2001-06-14  Damon Chaplin  <damon@ximian.com>
+
+	* gui/dialogs/e-timezone-dialog.[hc]: 
+	* gui/dialogs/e-timezone-dialog.glade: new dialog for setting the
+	time zone.
+
+	* gui/dialogs/Makefile.am: added timezone dialog files.
+
+	* idl/evolution-calendar.idl: added CalTimezoneInfo struct and seq,
+	and getBuiltinTimezoneInfo method.
+
+	* pcs/cal.c (impl_Cal_get_builtin_timezone_info): implemented method.
+	(cal_class_init): added method to epv.
+	
+	* cal-client/cal-client.c (struct CalClientPrivate): added
+	timezone_info array to contain cached info on builtin timezone city
+	names and coordinates.
+	(cal_client_get_builtin_timezone_info): new function to get the info
+	about builtin timezones.
+
+	* cal-client/cal-client.h: added CalTimezoneInfo struct, to contain
+	the city names and coords of the builtin timezones.
+
 2001-06-13  JP Rosevear  <jpr@ximian.com>
 
 	* gui/dialogs/comp-editor-util.c (comp_editor_date_label): remove

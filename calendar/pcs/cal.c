@@ -21,6 +21,7 @@
  */
 
 #include <config.h>
+#include <ical.h>
 #include "cal.h"
 #include "query.h"
 
@@ -377,6 +378,46 @@ impl_Cal_get_query (PortableServer_Servant servant,
 	return query_copy;
 }
 
+/* Cal::getBuiltinTimezoneInfo method */
+static GNOME_Evolution_Calendar_CalTimezoneInfoSeq *
+impl_Cal_get_builtin_timezone_info (PortableServer_Servant servant,
+				    CORBA_Environment *ev)
+{
+	GNOME_Evolution_Calendar_CalTimezoneInfoSeq *seq;
+	icalarray *zones;
+	icaltimezone *zone;
+	int n, i;
+	char *location;
+
+	zones = icaltimezone_get_builtin_timezones ();
+	if (!zones) {
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+				     ex_GNOME_Evolution_Calendar_Cal_NotFound,
+				     NULL);
+		return CORBA_OBJECT_NIL;
+	}
+
+	n = zones->num_elements;
+
+	seq = GNOME_Evolution_Calendar_CalTimezoneInfoSeq__alloc ();
+	CORBA_sequence_set_release (seq, TRUE);
+	seq->_length = n;
+	seq->_buffer = CORBA_sequence_GNOME_Evolution_Calendar_CalTimezoneInfo_allocbuf (n);
+
+	/* Fill the sequence */
+
+	for (i = 0; i < n; i++) {
+		zone = icalarray_element_at (zones, i);
+		location = icaltimezone_get_location (zone);
+
+		seq->_buffer[i].location = CORBA_string_dup (location);
+		seq->_buffer[i].latitude = icaltimezone_get_latitude (zone);
+		seq->_buffer[i].longitude = icaltimezone_get_longitude (zone);
+	}
+
+	return seq;
+}
+
 /**
  * cal_construct:
  * @cal: A calendar client interface.
@@ -507,6 +548,7 @@ cal_class_init (CalClass *klass)
 	epv->updateObject = impl_Cal_update_object;
 	epv->removeObject = impl_Cal_remove_object;
 	epv->getQuery = impl_Cal_get_query;
+	epv->getBuiltinTimezoneInfo = impl_Cal_get_builtin_timezone_info;
 }
 
 
