@@ -57,10 +57,10 @@ enum {
 
 static guint signals[LAST_SIGNAL] = { 0 };
 
-guint
+GtkType
 filter_int_get_type (void)
 {
-	static guint type = 0;
+	static GtkType type = 0;
 	
 	if (!type) {
 		GtkTypeInfo type_info = {
@@ -203,16 +203,20 @@ xml_decode (FilterElement *fe, xmlNodePtr node)
 	fe->name = name;
 
 	type = xmlGetProp(node, "type");
+	d(printf ("Type = %s\n", type));
 	g_free(fs->type);
 	fs->type = g_strdup(type);
 	xmlFree(type);
 
 	intval = xmlGetProp (node, type?type:"integer");
 	if (intval) {
+		d(printf ("Value = %s\n", intval));
 		fs->val = atoi (intval);
 		xmlFree (intval);
-	} else
+	} else {
+		d(printf ("Value = ?unknown?\n"));
 		fs->val = 0;
+	}
 	
 	return 0;
 }

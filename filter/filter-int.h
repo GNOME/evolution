@@ -52,7 +52,7 @@ struct _FilterIntClass {
 	/* signals */
 };
 
-guint		filter_int_get_type	(void);
+GtkType		filter_int_get_type	(void);
 FilterInt	*filter_int_new	(void);
 FilterInt	*filter_int_new_type(const char *type, int min, int max);
 void            filter_int_set_value(FilterInt *fi, int val);

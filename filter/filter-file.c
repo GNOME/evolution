@@ -41,7 +41,7 @@
 #include "filter-file.h"
 #include "e-util/e-sexp.h"
 
-#define d(x) 
+#define d(x)
 
 static gboolean validate (FilterElement *fe);
 static int file_eq(FilterElement *fe, FilterElement *cm);
@@ -183,7 +183,7 @@ validate (FilterElement *fe)
 	
 	/* FIXME: do more to validate command-lines? */
 	
-	if (strcmp (file->type, "file") != 0) {
+	if (strcmp (file->type, "file") == 0) {
 		if (stat (file->path, &st) == -1 || !S_ISREG (st.st_mode)) {
 			char *errmsg;
 			
@@ -195,7 +195,7 @@ validate (FilterElement *fe)
 			gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
 			return FALSE;
 		}
-	} else if (strcmp (file->type, "command") != 0) {
+	} else if (strcmp (file->type, "command") == 0) {
 		/* only requirements so far is that the command can't
 		   be an empty string */
 		return file->path[0] != '\0';
@@ -270,6 +270,7 @@ xml_decode (FilterElement *fe, xmlNodePtr node)
 		
 		str = xmlNodeGetContent (n);
 		if (str) {
+			
 			decstr = e_utf8_xml1_decode (str);
 			xmlFree (str);
 		} else

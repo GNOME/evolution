@@ -1,5 +1,13 @@
 2002-07-25  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* filter-int.[c,h]: Use GtkType (I only changed this one because I
+	turned on debugging for a bit).
+
+	* filter-file.c (validate): Fix the strcmp logic a bit, I had it
+	the exact opposite of what I really wanted. Oops :-)
+
+2002-07-25  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* filter-file.c (validate): Do some minimalistic validation of
 	command-lines (ie, make sure it isn't an empty string).
 
