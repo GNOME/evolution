@@ -1,3 +1,8 @@
+2001-04-17  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/alarm-notify/Makefile.am (evolution_alarm_notify_SOURCES):
+	Add `$(CORBA_GENERATED)'.
+
 2001-04-11  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/calendar-model.c (calendar_model_append_row): Changed

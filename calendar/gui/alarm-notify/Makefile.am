@@ -23,6 +23,7 @@ INCLUDES = 						\
 	-DG_LOG_DOMAIN=\"evolution-alarm-notify\"	\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/calendar			\
+	-I$(top_builddir)/calendar			\
 	-I$(top_srcdir)/libical/src/libical		\
 	-I$(top_builddir)/libical/src/libical		\
 	-I$(top_srcdir)/widgets				\
@@ -36,6 +37,7 @@ INCLUDES = 						\
 gladedir   = $(datadir)/evolution/glade
 
 evolution_alarm_notify_SOURCES =	\
+	$(CORBA_GENERATED)		\
 	alarm-notify.c			\
 	alarm-notify.h			\
 	alarm-queue.c			\
