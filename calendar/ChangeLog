@@ -1,3 +1,9 @@
+2004-02-04 Yong Sun <Yong.Sun@sun.com>
+
+	* gui/print.c: Fix a bug in evolution/calendar/gui/print.c:
+	bound_text(). It does not break lines with the correct boundary of UTF-8
+	characters. So, for non-latin locales, it will cause printing issues.
+
 2003-12-22  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/alarm-notify/notify-main.c (client_die_cb): use
