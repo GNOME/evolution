@@ -289,6 +289,8 @@ e_contact_editor_categories_init (EContactEditorCategories *categories)
 	e_table_header_add_column (header, col, 1);
 
 	e_table = e_table_new (header, categories->model, INITIAL_SPEC);
+
+	gtk_object_sink(categories->model);
 	
 	gtk_widget_show(e_table);
 
