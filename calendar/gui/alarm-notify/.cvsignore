@@ -8,4 +8,4 @@ evolution-calendar-skels.c
 evolution-calendar-common.c
 evolution-calendar.h
 evolution-alarm-notify
-GNOME_Evolution_Calendar_AlarmNotify.oaf
+GNOME_Evolution_Calendar_AlarmNotify.server
