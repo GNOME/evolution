@@ -363,11 +363,11 @@ set_editor_text (BonoboWidget *editor, const char *sig_file, const char *text)
 
 	sig = get_signature (sig_file);
 	if (sig) {
-		if (!strncmp ("--\n", sig, 3))
+		if (!strncmp ("-- \n", sig, 3))
 			fulltext = g_strdup_printf ("%s<BR>\n<PRE>\n%s</PRE>",
 						    text, sig);
 		else
-			fulltext = g_strdup_printf ("%s<BR>\n<PRE>\n--\n%s</PRE>",
+			fulltext = g_strdup_printf ("%s<BR>\n<PRE>\n-- \n%s</PRE>",
 						    text, sig);
 	} else {
 		if (!*text)
@@ -478,21 +478,67 @@ load (EMsgComposer *composer,
 }
 
 
-/* Exit dialog.  (Displays a "discard this message?" warning before actually exiting.)  */
+/* Exit dialog.  (Displays a "Save composition to 'Drafts' before exiting?" warning before actually exiting.)  */
+
+enum { REPLY_YES = 0, REPLY_NO, REPLY_CANCEL };
 
 static void
-exit_dialog_cb (int reply,
-		void *data)
+exit_dialog_cb (int reply, EMsgComposer *composer)
 {
-	if (reply == 0)
-		gtk_widget_destroy (GTK_WIDGET (data));
+	extern CamelFolder *drafts_folder;
+	CamelMimeMessage *msg;
+	CamelException *ex;
+	char *reason;
+	
+	switch (reply) {
+	case REPLY_YES:
+		msg = e_msg_composer_get_message (composer);
+
+		ex = camel_exception_new ();
+		camel_folder_append_message (drafts_folder, msg, CAMEL_MESSAGE_DRAFT, ex);
+		if (camel_exception_is_set (ex))
+			goto error;
+		
+		camel_exception_free (ex);
+	case REPLY_NO:
+		gtk_widget_destroy (GTK_WIDGET (composer));
+		break;
+	case REPLY_CANCEL:
+	default:
+	}
+	
+	return;
+	
+ error:
+	reason = g_strdup_printf ("Error saving composition to 'Drafts': %s",
+				  camel_exception_get_description (ex));
+	
+	camel_exception_free (ex);
+	gnome_warning_dialog_parented (reason, GTK_WINDOW (composer));
+	g_free (reason);
 }
 
 static void
 do_exit (EMsgComposer *composer)
 {
-	gnome_ok_cancel_dialog_parented (_("Discard this message?"),
-					 exit_dialog_cb, composer, GTK_WINDOW (composer));
+	GtkWidget *dialog;
+	GtkWidget *label;
+	gint button;
+	
+	dialog = gnome_dialog_new (_("Evolution"),
+				   GNOME_STOCK_BUTTON_YES,      /* Save */
+				   GNOME_STOCK_BUTTON_NO,       /* Don't save */
+				   GNOME_STOCK_BUTTON_CANCEL,   /* Cancel */
+				   NULL);
+	
+	label = gtk_label_new (_("This message has not been sent.\n\nDo you wish to save your changes?"));
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), label, TRUE, TRUE, 0);
+	gtk_widget_show (label);
+	gnome_dialog_set_parent (GNOME_DIALOG (dialog), GTK_WINDOW (composer));
+	gnome_dialog_set_default (GNOME_DIALOG (dialog), 0);
+	button = gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+	
+	exit_dialog_cb (button, composer);
 }
 
 
@@ -1232,16 +1278,95 @@ GtkWidget *
 e_msg_composer_new_with_sig_file (const char *sig_file)
 {
 	GtkWidget *new;
-
+	
 	g_return_val_if_fail (gtk_main_level () > 0, NULL);
- 
+	
 	new = gtk_type_new (e_msg_composer_get_type ());
 	e_msg_composer_construct (E_MSG_COMPOSER (new));
-
+	
 	/* Load the signature, if any. */
 	set_editor_text (BONOBO_WIDGET (E_MSG_COMPOSER (new)->editor), 
 			 sig_file, "");
+	
+	return new;
+}
 
+/**
+ * e_msg_composer_new_with_message:
+ *
+ * Create a new message composer widget.  This function must be called
+ * within the GTK+ main loop, or it will fail.
+ * 
+ * Return value: A pointer to the newly created widget
+ **/
+GtkWidget *
+e_msg_composer_new_with_message (CamelMimeMessage *msg)
+{
+	const CamelInternetAddress *to, *cc, *bcc;
+	GList *tmp, *To = NULL, *Cc = NULL, *Bcc = NULL;
+	const gchar *subject;
+	GtkWidget *new;
+	guint len, i;
+	
+	g_return_val_if_fail (gtk_main_level () > 0, NULL);
+	
+	new = gtk_type_new (e_msg_composer_get_type ());
+	e_msg_composer_construct (E_MSG_COMPOSER (new));
+	
+	subject = camel_mime_message_get_subject (msg);
+	
+	to = camel_mime_message_get_recipients (msg, CAMEL_RECIPIENT_TYPE_TO);
+	cc = camel_mime_message_get_recipients (msg, CAMEL_RECIPIENT_TYPE_CC);
+	bcc = camel_mime_message_get_recipients (msg, CAMEL_RECIPIENT_TYPE_BCC);
+	
+	len = CAMEL_ADDRESS (to)->addresses->len;
+	for (i = 0; i < len; i++) {
+		const char *addr;
+		
+		if (camel_internet_address_get (to, i, NULL, &addr))
+			To = g_list_append (To, g_strdup (addr));
+	}
+	
+	len = CAMEL_ADDRESS (cc)->addresses->len;
+	for (i = 0; i < len; i++) {
+		const char *addr;
+		
+		if (camel_internet_address_get (cc, i, NULL, &addr))
+			Cc = g_list_append (Cc, g_strdup (addr));
+	}
+	
+	len = CAMEL_ADDRESS (bcc)->addresses->len;
+	for (i = 0; i < len; i++) {
+		const char *addr;
+		
+		if (camel_internet_address_get (bcc, i, NULL, &addr))
+			Bcc = g_list_append (Bcc, g_strdup (addr));
+	}
+	
+	e_msg_composer_set_headers (E_MSG_COMPOSER (new), To, Cc, Bcc, subject);
+	
+	tmp = To;
+	while (tmp) {
+		g_free (tmp->data);
+		tmp = tmp->next;
+	}
+	g_list_free (To);
+	tmp = Cc;
+	while (tmp) {
+		g_free (tmp->data);
+		tmp = tmp->next;
+	}
+	g_list_free (Cc);
+	tmp = Bcc;
+	while (tmp) {
+		g_free (tmp->data);
+		tmp = tmp->next;
+	}
+	g_list_free (Bcc);
+	
+	set_editor_text (BONOBO_WIDGET (E_MSG_COMPOSER (new)->editor), 
+			 NULL, "FIXME: like, uh... put the message here and stuff\n");
+	
 	return new;
 }
 

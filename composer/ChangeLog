@@ -1,3 +1,14 @@
+2000-08-07  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* e-msg-composer.c (do_exit): Prompt the user to save their
+	composition in Drafts.
+	(set_editor_text): Uhm, use "-- \n" not "--\n" because the space
+	is called for in the standard
+	(e_msg_composer_new_with_message): New convenience function that
+	takes a CamelMimeMessage as an argument. This will be useful when
+	we code the ability to resume the editing of a message draft (like
+	in the Drafts folder).
+
 2000-08-01  JP Rosevear  <jpr@helixcode.com>
 
 	* e-msg-composer.h: Constify param
