@@ -25,7 +25,8 @@
 #include <config.h>
 #endif
 
-#include <bonobo.h>
+#include <bonobo/bonobo-generic-factory.h>
+#include <gal/widgets/e-gui-utils.h>
 
 #include "camel.h"
 
@@ -36,6 +37,7 @@
 #include "evolution-shell-component.h"
 #include "folder-browser.h"
 #include "mail.h"		/* YUCK FIXME */
+#include "mail-config.h"
 #include "mail-tools.h"
 #include "mail-ops.h"
 #include "mail-local.h"
@@ -44,7 +46,6 @@
 #include "mail-importer.h"
 #include "mail-vfolder.h"             /* vfolder_create_storage */
 #include "openpgp-utils.h"
-#include <gal/widgets/e-gui-utils.h>
 
 #include "component-factory.h"
 

@@ -23,10 +23,9 @@
 #ifndef MAIL_CALLBACKS_H
 #define MAIL_CALLBACKS_H
 
-#include <gnome.h>
 #include <camel/camel.h>
 #include "composer/e-msg-composer.h"
-#include "mail-types.h"
+#include <mail/mail-types.h>
 #include "evolution-storage.h"
 
 #ifdef __cplusplus

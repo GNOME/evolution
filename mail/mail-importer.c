@@ -25,25 +25,30 @@
 #include <config.h>
 #endif
 
-#include <bonobo.h>
-#include "mail-importer.h"
-#include "mail-local.h"
-#include "mail.h"
-
+#include <dirent.h>
+#include <gmodule.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-util.h>
 #include <evolution-storage.h>
 #include <camel/camel-folder.h>
 #include <camel/camel-mime-message.h>
 #include <camel/camel-stream-mem.h>
 #include <camel/camel-exception.h>
 
-#include <dirent.h>
-#include <gmodule.h>
+#include "mail-importer.h"
+#include "mail-local.h"
+#include "mail.h"
+
 
 static GList *importer_modules = NULL;
 
 extern char *evolution_dir;
 
 static GNOME_Evolution_LocalStorage local_storage = NULL;
+
+/* Prototype */
+
+void mail_importer_uninit (void);
 
 /**
  * mail_importer_create_folder:

@@ -7,9 +7,25 @@
  *
  * (C) 2000, 2001 Ximian, Inc.
  */
+
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
+
 #include <ctype.h>
-#include <gnome.h>
+
+#include <gdk/gdkkeysyms.h>
+#include <gal/util/e-util.h>
+#include <gal/widgets/e-unicode.h>
+#include <gal/e-paned/e-vpaned.h>
+#include <gal/widgets/e-popup-menu.h>
+
+#include "filter/vfolder-rule.h"
+#include "filter/vfolder-context.h"
+#include "filter/filter-option.h"
+#include "filter/filter-input.h"
+
+#include "mail-search-dialogue.h"
 #include "e-util/e-sexp.h"
 #include "folder-browser.h"
 #include "mail.h"
@@ -22,21 +38,8 @@
 #include "mail-mlist-magic.h"
 #include "mail-mt.h"
 
-#include <gal/util/e-util.h>
-#include <gal/widgets/e-unicode.h>
-#include <gal/e-paned/e-vpaned.h>
-
-#include "filter/vfolder-rule.h"
-#include "filter/vfolder-context.h"
-#include "filter/filter-option.h"
-#include "filter/filter-input.h"
-
-#include "mail-search-dialogue.h"
-
 #include "mail-local.h"
 #include "mail-config.h"
-
-#include <gal/widgets/e-popup-menu.h>
 
 #define d(x) x
 

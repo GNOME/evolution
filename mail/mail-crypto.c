@@ -20,16 +20,18 @@
  *
  */
 
-
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
 
 #include <stdlib.h>
 #include <string.h>
 
+#include <camel/camel-mime-filter-from.h>
+
 #include "mail-crypto.h"
 #include "mail-session.h"
 
-#include <camel/camel-mime-filter-from.h>
 
 /** rfc2015 stuff (aka PGP/MIME) *******************************/
 

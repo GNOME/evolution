@@ -11,16 +11,29 @@
  * (C) 2000 Helix Code, Inc.
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
+
+#include <string.h>
+#include <ctype.h>
+
+#include <gal/util/e-util.h>
+#include <gal/widgets/e-gui-utils.h>
+#include <gal/e-table/e-cell-text.h>
+#include <gal/e-table/e-cell-toggle.h>
+#include <gal/e-table/e-cell-checkbox.h>
+#include <gal/e-table/e-cell-tree.h>
+#include <gal/e-table/e-cell-date.h>
+#include <gal/e-table/e-cell-size.h>
+#include <gal/e-table/e-tree-memory.h>
+#include <gal/e-table/e-tree-memory-callbacks.h>
+
 #include <camel/camel-exception.h>
 #include <camel/camel-folder.h>
 #include <e-util/ename/e-name-western.h>
 #include <camel/camel-folder-thread.h>
-#include <camel/camel-vtrash-folder.h>
 #include <e-util/e-memory.h>
-
-#include <string.h>
-#include <ctype.h>
 
 #include "mail-config.h"
 #include "message-list.h"
@@ -28,18 +41,6 @@
 #include "mail-tools.h"
 #include "mail-ops.h"
 #include "Mail.h"
-
-#include <gal/util/e-util.h>
-#include <gal/widgets/e-gui-utils.h>
-
-#include <gal/e-table/e-cell-text.h>
-#include <gal/e-table/e-cell-toggle.h>
-#include <gal/e-table/e-cell-checkbox.h>
-#include <gal/e-table/e-cell-tree.h>
-#include <gal/e-table/e-cell-date.h>
-#include <gal/e-table/e-cell-size.h>
-
-#include <gal/e-table/e-tree-memory-callbacks.h>
 
 #include "art/mail-new.xpm"
 #include "art/mail-read.xpm"

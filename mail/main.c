@@ -7,11 +7,14 @@
  * (C) 2000 Helix Code, Inc.
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
 
 #include <signal.h>
 
-#include <gnome.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnomeui/gnome-init.h>
 #include <bonobo/bonobo-main.h>
 #include <bonobo/bonobo-object-directory.h>
 #include <glade/glade.h>

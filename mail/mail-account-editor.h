@@ -29,6 +29,7 @@ extern "C" {
 #endif /* __cplusplus */
 
 #include <libgnomeui/gnome-dialog.h>
+#include <libgnomeui/gnome-file-entry.h>
 #include "mail-account-gui.h"
 
 #define MAIL_ACCOUNT_EDITOR_TYPE        (mail_account_editor_get_type ())

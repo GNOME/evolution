@@ -34,9 +34,13 @@
 #include <importer/evolution-importer.h>
 #include <importer/GNOME_Evolution_Importer.h>
 
-#include "mail-importer.h"
-
 #include <camel/camel-exception.h>
+
+#include "e-util/e-memory.h"
+
+#include "mail-importer.h"
+#include "mail-tools.h"
+
 
 #define OUTLOOK_FACTORY_IID "OAFIID:GNOME_Evolution_Mail_Outlook_ImporterFactory"
 
@@ -62,6 +66,10 @@ struct oe_msg_segmentheader {
 };
 
 typedef struct oe_msg_segmentheader oe_msg_segmentheader;
+
+/* Prototype */
+
+void mail_importer_module_init (void);
 
 
 /* EvolutionImporter methods */
@@ -260,7 +268,7 @@ load_file_fn (EvolutionImporter *eimporter,
 	if (folderpath == NULL)
 		importer->folder = mail_tool_get_local_inbox (NULL);
 	else
-		importer->folder = mail_tool_uri_to_folder (folderpath);
+		importer->folder = mail_tool_uri_to_folder (folderpath, NULL);
 
 	if (importer->folder == NULL){
 		g_warning ("Bad folder");

@@ -34,7 +34,6 @@
 #include <dirent.h>
 
 #include <glib.h>
-#include <gnome.h>
 
 #include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-generic-factory.h>
@@ -73,6 +72,11 @@ typedef struct {
 	char *foldername;
 	char *path;
 } PineFolder;
+
+/* Prototype */
+
+void mail_importer_module_init (void);
+
 
 static gboolean
 pine_is_mbox (const char *filename)

@@ -28,10 +28,15 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus */
 
-#include <gnome.h>
+#include <gtk/gtkclist.h>
+#include <gtk/gtkcheckbutton.h>
+#include <gtk/gtkspinbutton.h>
+#include <libgnomeui/gnome-color-picker.h>
+#include <libgnomeui/gnome-dialog.h>
+#include <libgnomeui/gnome-file-entry.h>
 #include <glade/glade.h>
 #include <camel.h>
-#include "shell/Evolution.h"
+#include <shell/Evolution.h>
 
 #define MAIL_ACCOUNTS_DIALOG_TYPE        (mail_accounts_dialog_get_type ())
 #define MAIL_ACCOUNTS_DIALOG(o)          (GTK_CHECK_CAST ((o), MAIL_ACCOUNTS_DIALOG_TYPE, MailAccountsDialog))

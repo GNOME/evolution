@@ -11,7 +11,7 @@
 #ifndef _FOLDER_BROWSER_FACTORY_H
 #define _FOLDER_BROWSER_FACTORY_H
 
-#include <bonobo.h>
+#include <bonobo/bonobo-control.h>
 #include "Evolution.h"
 #include "e-util/e-list.h"
 

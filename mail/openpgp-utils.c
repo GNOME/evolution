@@ -23,12 +23,9 @@
 
 
 #ifdef HAVE_CONFIG_H
-#	include <config.h>
+#include <config.h>
 #endif
 
-#include <gnome.h> /* for _() macro */
-#include "openpgp-utils.h"
-#include "mail-session.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -49,6 +46,12 @@
 #include <signal.h>
 
 #include <iconv.h>
+
+#include <glib.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h> /* for _() macro */
+#include "openpgp-utils.h"
+#include "mail-session.h"
 
 #define d(x)
 

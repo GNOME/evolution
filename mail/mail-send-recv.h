@@ -23,8 +23,6 @@
 #ifndef MAIL_SEND_RECV_H
 #define MAIL_SEND_RECV_H
 
-#include <gnome.h>
-
 #ifdef __cplusplus
 extern "C" {
 #pragma }

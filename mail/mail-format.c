@@ -23,24 +23,29 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
+
+#include <ctype.h>    /* for isprint */
+#include <string.h>   /* for strstr  */
+#include <fcntl.h>
+
+#include <liboaf/liboaf.h>
+#include <libgnome/libgnome.h>
+#include <libgnomevfs/gnome-vfs-mime-info.h>
+#include <libgnomevfs/gnome-vfs-mime-handlers.h>
+#include <gal/widgets/e-unicode.h>
+
+#include <camel/camel-mime-utils.h>
+#include <shell/e-setup.h>
+#include <e-util/e-html-utils.h>
+
 #include "mail.h"
 #include "mail-tools.h"
 #include "mail-display.h"
 #include "mail-crypto.h"
 #include "mail-mt.h"
-#include "shell/e-setup.h"
-#include "e-util/e-html-utils.h"
-#include <gal/widgets/e-unicode.h>
-#include <camel/camel-mime-utils.h>
-#include <libgnome/libgnome.h>
-#include <libgnomevfs/gnome-vfs-mime-info.h>
-#include <libgnomevfs/gnome-vfs-mime-handlers.h>
-#include <liboaf/liboaf.h>
-
-#include <ctype.h>    /* for isprint */
-#include <string.h>   /* for strstr  */
-#include <fcntl.h>
 
 static char *get_data_wrapper_text (CamelDataWrapper *data);
 

@@ -2,8 +2,6 @@
 #ifndef _MAIL_VFOLDER_H
 #define _MAIL_VFOLDER_H
 
-#include <bonobo.h>
-
 #include "Evolution.h"
 #include "evolution-storage.h"
 #include "evolution-shell-component.h"

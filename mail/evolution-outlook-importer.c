@@ -26,12 +26,14 @@
 #include <config.h>
 #endif
 
-#include "evolution-outlook-importer.h"
-
 #include <stdio.h>
 
 #include <importer/evolution-importer.h>
 #include <importer/GNOME_Evolution_Importer.h>
+
+#include <camel/camel-exception.h>
+
+#include "evolution-outlook-importer.h"
 
 #include "mail-importer.h"
 #include "mail-tools.h"

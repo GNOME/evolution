@@ -22,8 +22,17 @@
  *
  */
 
-#include "config.h"
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
+#include <sys/types.h>
+#include <sys/utsname.h>
+#include <string.h>
+#include <unistd.h>
+
+#include <libgnomeui/gnome-dialog.h>
+#include <libgnomeui/gnome-dialog-util.h>
 #include <glade/glade.h>
 #include <gtkhtml/gtkhtml.h>
 #include <gal/widgets/e-unicode.h>
@@ -32,10 +41,6 @@
 #include "mail-ops.h"
 #include "mail.h"
 #include "mail-session.h"
-#include <sys/types.h>
-#include <string.h>
-#include <unistd.h>
-#include <sys/utsname.h>
 
 static void mail_config_druid_class_init (MailConfigDruidClass *class);
 static void mail_config_druid_finalize   (GtkObject *obj);

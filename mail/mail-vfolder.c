@@ -11,7 +11,8 @@
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
-#include <bonobo.h>
+
+#include <libgnomeui/gnome-stock.h>
 
 #include "Evolution.h"
 #include "evolution-storage.h"

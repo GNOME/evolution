@@ -26,10 +26,10 @@
 #ifndef _MAIL_AUTOFILTER_H
 #define _MAIL_AUTOFILTER_H
 
-#include "filter/filter-rule.h"
-#include "filter/filter-context.h"
-#include "filter/vfolder-context.h"
-#include "camel/camel-mime-message.h"
+#include <filter/filter-rule.h>
+#include <filter/filter-context.h>
+#include <filter/vfolder-context.h>
+#include <camel/camel-mime-message.h>
 
 enum {
 	AUTO_SUBJECT = 1,

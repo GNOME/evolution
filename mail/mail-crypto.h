@@ -23,7 +23,6 @@
 #ifndef MAIL_CRYPTO_H
 #define MAIL_CRYPTO_H
 
-#include <gnome.h>
 #include <camel/camel.h>
 #include "openpgp-utils.h"
 

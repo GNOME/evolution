@@ -21,9 +21,16 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
-#include <gnome.h>
+#endif
+
 #include <stdlib.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-config.h>
+#include <libgnomeui/gnome-dialog.h>
+#include <libgnomeui/gnome-dialog-util.h>
+#include <libgnomeui/gnome-stock.h>
 #include "mail.h"
 #include "mail-session.h"
 #include "mail-mt.h"

@@ -23,8 +23,8 @@
 #ifndef MAIL_SESSION_H
 #define MAIL_SESSION_H
 
-#include <gnome.h>
-#include <bonobo.h>
+#include <glib.h>
+#include <bonobo/bonobo-ui-component.h>
 #include <camel/camel-session.h>
 
 #ifdef __cplusplus

@@ -9,9 +9,14 @@
 
 #include <config.h>
 
-#include <gnome.h>
-#include <bonobo.h>
+#include <gtk/gtkmain.h>
+#include <gtk/gtkwidget.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnomeui/gnome-init.h>
 #include <liboaf/liboaf.h>
+#include <bonobo/bonobo-main.h>
+#include <bonobo/bonobo-ui-container.h>
+#include <bonobo/bonobo-widget.h>
 
 static guint
 create_container (void)

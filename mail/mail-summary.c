@@ -25,11 +25,9 @@
 #include <config.h>
 #endif
 
-#include <bonobo.h>
 #include <bonobo/bonobo-property-bag.h>
 
 #include "camel.h"
-#include <gnome.h>
 #include "mail.h"
 #include "mail-tools.h"
 #include "mail-ops.h"

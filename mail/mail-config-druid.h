@@ -28,7 +28,8 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus */
 
-#include <gnome.h>
+#include <libgnomeui/gnome-druid.h>
+#include <libgnomeui/gnome-file-entry.h>
 #include <glade/glade.h>
 #include <camel.h>
 #include "shell/Evolution.h"

@@ -24,10 +24,10 @@
 #ifndef __MAIL_IMPORTER_H__
 #define __MAIL_IMPORTER_H__
 
+#include <bonobo/bonobo-listener.h>
 #include <camel/camel-folder.h>
 #include <camel/camel-stream-mem.h>
 #include <evolution-shell-client.h>
-#include <bonobo/bonobo-listener.h>
 
 typedef struct _MailImporter MailImporter;
 struct _MailImporter {

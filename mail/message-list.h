@@ -2,12 +2,13 @@
 #ifndef _MESSAGE_LIST_H_
 #define _MESSAGE_LIST_H_
 
-/*#include <gnome.h>*/
-#include <gtk/gtk.h>
+#include <gtk/gtkobject.h>
+#include <gtk/gtkwidget.h>
 
-#include "mail-types.h"
+#include <gal/e-table/e-table-simple.h>
+#include <gal/e-table/e-tree-simple.h>
 #include <gal/e-table/e-tree-scrolled.h>
-#include <gal/e-table/e-tree-model.h>
+#include "mail-types.h"
 
 #define MESSAGE_LIST_TYPE        (message_list_get_type ())
 #define MESSAGE_LIST(o)          (GTK_CHECK_CAST ((o), MESSAGE_LIST_TYPE, MessageList))

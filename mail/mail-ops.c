@@ -25,8 +25,11 @@
  * USA
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
 
+/* #include <ctype.h> */
 #include <errno.h>
 #include <gal/util/e-util.h>
 #include <camel/camel-mime-filter-from.h>
@@ -698,7 +701,7 @@ send_queue_send(struct _mail_msg *mm)
 		CamelMessageInfo *info;
 		int pc = (100 * i) / uids->len;
 		
-		report_status (m, CAMEL_FILTER_STATUS_START, pc, "Sending message %d of %d", i+1, uids->len);
+		report_status (m, CAMEL_FILTER_STATUS_START, pc, _("Sending message %d of %d"), i+1, uids->len);
 		
 		info = camel_folder_get_message_info (m->queue, uids->pdata[i]);
 		if (info && info->flags & CAMEL_MESSAGE_DELETED)
@@ -717,9 +720,9 @@ send_queue_send(struct _mail_msg *mm)
 	}
 	
 	if (camel_exception_is_set (&mm->ex))
-		report_status (m, CAMEL_FILTER_STATUS_END, 100, "Failed on message %d of %d", i+1, uids->len);
+		report_status (m, CAMEL_FILTER_STATUS_END, 100, _("Failed on message %d of %d"), i+1, uids->len);
 	else
-		report_status (m, CAMEL_FILTER_STATUS_END, 100, "Complete.");
+		report_status (m, CAMEL_FILTER_STATUS_END, 100, _("Complete."));
 	
 	camel_folder_free_uids (m->queue, uids);
 	

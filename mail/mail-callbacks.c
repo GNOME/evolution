@@ -25,11 +25,19 @@
  * USA
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
+
 #include <errno.h>
-#include <gnome.h>
+#include <libgnomeui/gnome-dialog.h>
+#include <libgnomeui/gnome-dialog-util.h>
+#include <libgnomeui/gnome-stock.h>
 #include <libgnomeprint/gnome-print-master.h>
 #include <libgnomeprint/gnome-print-master-preview.h>
+#include <gal/e-table/e-table.h>
+#include <gal/widgets/e-gui-utils.h>
+#include <filter/filter-editor.h>
 #include "mail.h"
 #include "mail-callbacks.h"
 #include "mail-config.h"
@@ -43,9 +51,6 @@
 #include "mail-vfolder.h"
 #include "folder-browser.h"
 #include "subscribe-dialog.h"
-#include "filter/filter-editor.h"
-#include <gal/e-table/e-table.h>
-#include <gal/widgets/e-gui-utils.h>
 #include "e-messagebox.h"
 
 /* FIXME: is there another way to do this? */

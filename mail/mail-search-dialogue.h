@@ -21,7 +21,7 @@
 #ifndef _MAIL_SEARCH_DIALOGUE_H
 #define _MAIL_SEARCH_DIALOGUE_H
 
-#include <gtk/gtk.h>
+#include <gtk/gtkwidget.h>
 #include <libgnomeui/gnome-dialog.h>
 
 #include "filter/rule-context.h"

@@ -34,7 +34,6 @@
 #include <dirent.h>
 
 #include <glib.h>
-#include <gnome.h>
 
 #include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-generic-factory.h>

@@ -20,16 +20,21 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
+
 #include <pwd.h>
 #include <ctype.h>
 
-#include <gnome.h>
+#include <glib.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-config.h>
 #include <gtkhtml/gtkhtml.h>
 #include <glade/glade.h>
 
 #include <gal/util/e-util.h>
-#include "e-util/e-html-utils.h"
+#include <e-util/e-html-utils.h>
 #include "mail.h"
 #include "mail-config.h"
 #include "mail-ops.h"

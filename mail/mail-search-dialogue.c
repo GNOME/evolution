@@ -18,9 +18,15 @@
  *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
-#include <gtk/gtk.h>
-#include <gnome.h>
+#endif
+
+#include <glib.h>
+#include <gtk/gtkentry.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
+#include <libgnomeui/gnome-stock.h>
 
 #include "mail-search-dialogue.h"
 

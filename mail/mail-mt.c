@@ -1,24 +1,33 @@
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
 #include <stdio.h>
 #include <unistd.h>
-
-#include "e-util/e-msgport.h"
-#include "camel/camel-operation.h"
-#include <glib.h>
 #include <pthread.h>
 
-#include "mail-mt.h"
+#include <glib.h>
 
-#include <gtk/gtk.h>
+#include <gtk/gtkentry.h>
+#include <gtk/gtkmain.h>
+#include <gtk/gtklabel.h>
+#include <gtk/gtkprogress.h>
+#include <gtk/gtkprogressbar.h>
+#include <gtk/gtktable.h>
+#include <gtk/gtkwidget.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
+#include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-dialog-util.h>
 #include <libgnomeui/gnome-dialog.h>
-#include <libgnome/gnome-i18n.h>
+#include <libgnomeui/gnome-stock.h>
 #include <gal/widgets/e-gui-utils.h>
 
 #include "folder-browser-factory.h"
+#include "e-util/e-msgport.h"
+#include "camel/camel-operation.h"
 
-#include <libgnomeui/gnome-dialog.h>
-#include <gtk/gtkprogress.h>
+#include "mail-mt.h"
 
 /*#define MALLOC_CHECK*/
 #define d(x) 

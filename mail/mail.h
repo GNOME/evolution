@@ -19,10 +19,11 @@
 
 /* This file is a F*CKING MESS.  Shame to us!  */
 
-#include <gtkhtml/gtkhtml.h>
 #include <libgnomevfs/gnome-vfs-mime-handlers.h>
-#include "camel/camel.h"
-#include "composer/e-msg-composer.h"
+#include <gtkhtml/gtkhtml.h>
+#include <camel/camel.h>
+#include <composer/e-msg-composer.h>
+#include <shell/evolution-storage.h>
 #include "mail-accounts.h"
 #include "mail-account-editor.h"
 #include "mail-callbacks.h"
@@ -31,7 +32,6 @@
 /*#include "folder-browser.h"*/
 #include "mail-session.h"
 #include "mail-types.h"
-#include "shell/evolution-storage.h"
 
 extern char *evolution_dir;
 

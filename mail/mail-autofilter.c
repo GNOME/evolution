@@ -28,9 +28,8 @@
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
-#include <ctype.h>
 
-#include <bonobo.h>
+#include <ctype.h>
 
 #include <libgnomeui/gnome-app.h>
 #include <libgnomeui/gnome-app-helper.h>

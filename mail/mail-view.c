@@ -20,7 +20,13 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
+
+#include <libgnomeui/gnome-app.h>
+#include <libgnomeui/gnome-app-helper.h>
+#include <libgnomeui/gnome-stock.h>
 #include "mail.h"
 #include "mail-ops.h"
 #include "camel/camel.h"

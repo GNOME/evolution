@@ -24,14 +24,14 @@
 #ifndef _SUBSCRIBE_DIALOG_H_
 #define _SUBSCRIBE_DIALOG_H_
 
-#include "mail-types.h"
-#include "camel/camel-store.h"
 #include <gtk/gtktable.h>
-#include <gal/e-table/e-tree-model.h>
-#include <gal/e-table/e-table-model.h>
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-property-bag.h>
+#include <gal/e-table/e-tree-model.h>
+#include <gal/e-table/e-table-model.h>
 #include "shell/evolution-storage.h"
+#include "mail-types.h"
+#include "camel/camel-store.h"
 
 #define SUBSCRIBE_DIALOG_TYPE        (subscribe_dialog_get_type ())
 #define SUBSCRIBE_DIALOG(o)          (GTK_CHECK_CAST ((o), SUBSCRIBE_DIALOG_TYPE, SubscribeDialog))

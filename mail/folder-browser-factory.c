@@ -8,14 +8,16 @@
  * (C) 2000 Helix Code, Inc.
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
 
-#include <gnome.h>
 #include <bonobo/bonobo-main.h>
 #include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-generic-factory.h>
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-ui-component.h>
+#include <bonobo/bonobo-ui-util.h>
 
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-gui-utils.h>
