@@ -45,7 +45,6 @@ typedef struct {
 	GnomeCanvasGroupClass parent_class;
 
 	/* Signals */
-	void        (*row_selection)         (ETableGroup *etg, int row, gboolean selected);
 	void        (*cursor_change)         (ETableGroup *etg, int row);
 	void        (*double_click)          (ETableGroup *etg, int row);
 	gint        (*right_click)           (ETableGroup *etg, int row, int col, GdkEvent *event);
@@ -65,7 +64,6 @@ typedef struct {
 	gint        (*get_focus_column)      (ETableGroup *etg);
 	ETableCol  *(*get_ecol)              (ETableGroup *etg);
 	EPrintable *(*get_printable)         (ETableGroup *etg);
-	void        (*selected_row_foreach)  (ETableGroup *etg, ETableForeachFunc func, gpointer closure);
 
 } ETableGroupClass;
 
@@ -91,9 +89,6 @@ gint             e_table_group_get_focus_column      (ETableGroup      *etg);
 ETableHeader    *e_table_group_get_header            (ETableGroup     *etg);
 ETableCol       *e_table_group_get_ecol              (ETableGroup      *etg);
 EPrintable      *e_table_group_get_printable         (ETableGroup      *etg);
-void             e_table_group_selected_row_foreach  (ETableGroup      *etg,
-						      ETableForeachFunc func,
-						      gpointer          closure);
 
 ETableGroup     *e_table_group_new       (GnomeCanvasGroup *parent,
 					  ETableHeader     *full_header,
@@ -108,9 +103,6 @@ void             e_table_group_construct (GnomeCanvasGroup *parent,
 					  ETableModel      *model);
 
 /* For emitting the signals */
-void             e_table_group_row_selection (ETableGroup      *etg,
-					      gint              row,
-					      gboolean          selected);
 void             e_table_group_cursor_change (ETableGroup      *etg,
 					      gint              row);
 void             e_table_group_double_click  (ETableGroup      *etg,

@@ -616,7 +616,7 @@ e_table_header_col_diff (ETableHeader *eth, int start_col, int end_col)
 		if (start_col < 0)
 			start_col = 0;
 		if (end_col > eth->col_count)
-			end_col = eth->col_count - 1;
+			end_col = eth->col_count;
 		
 		total = 0;
 		for (col = start_col; col < end_col; col++){

@@ -28,7 +28,6 @@
 static GtkObjectClass *parent_class;
 
 enum {
-	ROW_SELECTION,
 	CURSOR_CHANGE,
 	DOUBLE_CLICK,
 	RIGHT_CLICK,
@@ -46,14 +45,6 @@ enum {
 };
 
 static gint ets_signals [LAST_SIGNAL] = { 0, };
-
-static void
-row_selection_proxy (ETable *et, int row, gboolean selected, ETableScrolled *ets)
-{
-	gtk_signal_emit (GTK_OBJECT (ets),
-			 ets_signals [ROW_SELECTION],
-			 row, selected);
-}
 
 static void
 cursor_change_proxy (ETable *et, int row, ETableScrolled *ets)
@@ -117,8 +108,6 @@ e_table_scrolled_real_construct (ETableScrolled *ets)
 
 	gtk_container_add(GTK_CONTAINER(ets), GTK_WIDGET(ets->table));
 
-	gtk_signal_connect(GTK_OBJECT(ets->table), "row_selection",
-			   GTK_SIGNAL_FUNC(row_selection_proxy), ets);
 	gtk_signal_connect(GTK_OBJECT(ets->table), "cursor_change",
 			   GTK_SIGNAL_FUNC(cursor_change_proxy), ets);
 	gtk_signal_connect(GTK_OBJECT(ets->table), "double_click",
@@ -297,19 +286,10 @@ e_table_scrolled_class_init (GtkObjectClass *object_class)
 	object_class->set_arg = ets_set_arg;
 	object_class->get_arg = ets_get_arg;
 	
-	klass->row_selection = NULL;
 	klass->cursor_change = NULL;
 	klass->double_click = NULL;
 	klass->right_click = NULL;
 	klass->key_press = NULL;
-
-	ets_signals [ROW_SELECTION] =
-		gtk_signal_new ("row_selection",
-				GTK_RUN_LAST,
-				object_class->type,
-				GTK_SIGNAL_OFFSET (ETableScrolledClass, row_selection),
-				gtk_marshal_NONE__INT_INT,
-				GTK_TYPE_NONE, 2, GTK_TYPE_INT, GTK_TYPE_INT);
 
 	ets_signals [CURSOR_CHANGE] =
 		gtk_signal_new ("cursor_change",

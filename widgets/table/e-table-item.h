@@ -5,6 +5,7 @@
 #include <libgnomeui/gnome-canvas.h>
 #include "e-table-model.h"
 #include "e-table-header.h"
+#include "e-table-selection-model.h"
 #include "e-table-defines.h"
 #include <e-util/e-printable.h>
 
@@ -27,6 +28,7 @@ typedef struct {
 	ETableHeader    *header;
 
 	ETableModel     *source_model;
+	ETableSelectionModel *selection;
 
 	int              x1, y1;
 	int              minimum_width, width, height;
@@ -43,6 +45,9 @@ typedef struct {
 	int              table_model_cell_change_id;
 	int              table_model_row_inserted_id;
 	int              table_model_row_deleted_id;
+
+	int              selection_change_id;
+	int              cursor_change_id;
 	
 	GdkGC           *fill_gc;
 	GdkGC           *grid_gc;
@@ -77,11 +82,7 @@ typedef struct {
 	int              length_threshold;
 	
 	gint             row_guess;
-	gint             cursor_row;
-	gint             cursor_col;
 	ETableCursorMode cursor_mode;
-
-	GSList          *selection;
 
 	/*
 	 * During editing
@@ -94,7 +95,6 @@ typedef struct {
 typedef struct {
 	GnomeCanvasItemClass parent_class;
 
-	void        (*row_selection) (ETableItem *eti, int row, gboolean selected);
 	void        (*cursor_change) (ETableItem *eti, int row);
 	void        (*double_click)  (ETableItem *eti, int row);
 	gint        (*right_click)   (ETableItem *eti, int row, int col, GdkEvent *event);
@@ -114,7 +114,6 @@ gint       e_table_item_get_focused_column (ETableItem *eti);
 /*
  * Handling the selection
  */
-const GSList *e_table_item_get_selection   (ETableItem *e_table_Item);
 gboolean      e_table_item_is_row_selected (ETableItem *e_table_Item,
 					    int row);
 

@@ -31,6 +31,7 @@ enum {
 	ARG_TABLE_DRAW_FOCUS,
 	ARG_CURSOR_MODE,
 	ARG_LENGTH_THRESHOLD,
+	ARG_TABLE_SELECTION_MODEL,
 };
 
 static void etgl_set_arg (GtkObject *object, GtkArg *arg, guint arg_id);
@@ -44,6 +45,8 @@ etgl_destroy (GtkObject *object)
 		gtk_object_unref (GTK_OBJECT(etgl->subset));
 	if (etgl->item)
 		gtk_object_destroy (GTK_OBJECT(etgl->item));
+	if (etgl->table_selection_model)
+		gtk_object_unref (GTK_OBJECT(etgl->table_selection_model));
 	if (GTK_OBJECT_CLASS (etgl_parent_class)->destroy)
 		GTK_OBJECT_CLASS (etgl_parent_class)->destroy (object);
 }
@@ -78,13 +81,6 @@ e_table_group_leaf_new       (GnomeCanvasGroup *parent,
 	e_table_group_leaf_construct (parent, etgl, full_header,
 				      header, model, sort_info);
 	return E_TABLE_GROUP (etgl);
-}
-
-static void
-etgl_row_selection (GtkObject *object, gint row, gboolean selected, ETableGroupLeaf *etgl)
-{
-	if (row < E_TABLE_SUBSET(etgl->subset)->n_map)
-		e_table_group_row_selection (E_TABLE_GROUP(etgl), E_TABLE_SUBSET(etgl->subset)->map_table[row], selected);
 }
 
 static void
@@ -149,10 +145,9 @@ etgl_realize (GnomeCanvasItem *item)
 							 "cursor_mode", etgl->cursor_mode,
 							 "minimum_width", etgl->minimum_width,
 							 "length_threshold", etgl->length_threshold,
+							 "table_selection_model", etgl->table_selection_model,
 							 NULL));
 	
-	gtk_signal_connect (GTK_OBJECT(etgl->item), "row_selection",
-			    GTK_SIGNAL_FUNC(etgl_row_selection), etgl);
 	gtk_signal_connect (GTK_OBJECT(etgl->item), "cursor_change",
 			    GTK_SIGNAL_FUNC(etgl_cursor_change), etgl);
 	gtk_signal_connect (GTK_OBJECT(etgl->item), "double_click",
@@ -245,15 +240,6 @@ etgl_get_printable (ETableGroup *etg)
 }
 
 static void
-etgl_selected_row_foreach(ETableGroup *etg,
-			  ETableForeachFunc func,
-			  gpointer closure)
-{
-	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (etg);
-	e_table_item_selected_row_foreach (etgl->item, func, closure);
-}
-
-static void
 etgl_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 {
 	ETableGroup *etg = E_TABLE_GROUP (object);
@@ -284,6 +270,17 @@ etgl_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 					       NULL);
 		}
 		break;
+	case ARG_TABLE_SELECTION_MODEL:
+		if (etgl->table_selection_model)
+			gtk_object_unref(GTK_OBJECT(etgl->table_selection_model));
+		etgl->table_selection_model = E_TABLE_SELECTION_MODEL(GTK_VALUE_OBJECT (*arg));
+		if (etgl->table_selection_model)
+			gtk_object_ref(GTK_OBJECT(etgl->table_selection_model));
+		if (etgl->item) {
+			gnome_canvas_item_set (GNOME_CANVAS_ITEM(etgl->item),
+					       "table_selection_model", etgl->table_selection_model,
+					       NULL);
+		}
 
 	case ARG_TABLE_DRAW_GRID:
 		etgl->draw_grid = GTK_VALUE_BOOL (*arg);
@@ -365,7 +362,6 @@ etgl_class_init (GtkObjectClass *object_class)
 	e_group_class->get_cursor_row = etgl_get_cursor_row;
 	e_group_class->get_focus_column = etgl_get_focus_column;
 	e_group_class->get_printable = etgl_get_printable;
-	e_group_class->selected_row_foreach = etgl_selected_row_foreach;
 
 	gtk_object_add_arg_type ("ETableGroupLeaf::drawgrid", GTK_TYPE_BOOL,
 				 GTK_ARG_WRITABLE, ARG_TABLE_DRAW_GRID);
@@ -375,6 +371,8 @@ etgl_class_init (GtkObjectClass *object_class)
 				 GTK_ARG_WRITABLE, ARG_CURSOR_MODE);
 	gtk_object_add_arg_type ("ETableGroupLeaf::length_threshold", GTK_TYPE_INT,
 				 GTK_ARG_WRITABLE, ARG_LENGTH_THRESHOLD);
+	gtk_object_add_arg_type ("ETableGroupLeaf::table_selection_model", GTK_TYPE_OBJECT,
+				 GTK_ARG_WRITABLE, ARG_TABLE_SELECTION_MODEL);
 
 	gtk_object_add_arg_type ("ETableGroupLeaf::height", GTK_TYPE_DOUBLE, 
 				 GTK_ARG_READABLE, ARG_HEIGHT);
@@ -402,6 +400,8 @@ etgl_init (GtkObject *object)
 	etgl->draw_focus = 1;
 	etgl->cursor_mode = E_TABLE_CURSOR_SIMPLE;
 	etgl->length_threshold = -1;
+
+	etgl->table_selection_model = NULL;
 
 	e_canvas_item_set_reflow_callback (GNOME_CANVAS_ITEM(object), etgl_reflow);
 }

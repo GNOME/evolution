@@ -40,7 +40,6 @@
 static GtkObjectClass *e_table_parent_class;
 
 enum {
-	ROW_SELECTION,
 	CURSOR_CHANGE,
 	DOUBLE_CLICK,
 	RIGHT_CLICK,
@@ -183,6 +182,8 @@ e_table_init (GtkObject *object)
 	e_table->drag_col = -1;
 	e_table->drop_row = -1;
 	e_table->drop_col = -1;
+
+	e_table->selection = e_table_selection_model_new();
 }
 
 static void
@@ -270,18 +271,6 @@ table_canvas_reflow (GnomeCanvas *canvas, ETable *e_table)
 }
 
 static void
-group_row_selection (ETableGroup *etg, int row, gboolean selected, ETable *et)
-{
-	gtk_signal_emit (GTK_OBJECT (et),
-			 et_signals [ROW_SELECTION],
-			 row, selected);
-	if (et->row_selection_active && selected) {
-		e_table_click_to_add_commit (E_TABLE_CLICK_TO_ADD(et->click_to_add));
-		et->row_selection_active = FALSE;
-	}
-}
-
-static void
 group_cursor_change (ETableGroup *etg, int row, ETable *et)
 {
 	gtk_signal_emit (GTK_OBJECT (et),
@@ -336,9 +325,8 @@ changed_idle (gpointer data)
 				      "drawfocus", et->draw_focus,
 				      "cursor_mode", et->cursor_mode,
 				      "length_threshold", et->length_threshold,
+				      "table_selection_model", et->selection,
 				      NULL);
-		gtk_signal_connect (GTK_OBJECT (et->group), "row_selection",
-				    GTK_SIGNAL_FUNC (group_row_selection), et);
 		gtk_signal_connect (GTK_OBJECT (et->group), "cursor_change",
 				    GTK_SIGNAL_FUNC (group_cursor_change), et);
 		gtk_signal_connect (GTK_OBJECT (et->group), "double_click",
@@ -400,14 +388,6 @@ et_table_row_deleted (ETableModel *table_model, int row, ETable *et)
 }
 
 static void
-click_to_add_row_selection (ETableClickToAdd *etcta, int row, gboolean selected, ETable *et)
-{
-	if ((!et->row_selection_active) && selected) {
-		et->row_selection_active = TRUE;
-	}
-}
-
-static void
 e_table_setup_table (ETable *e_table, ETableHeader *full_header, ETableHeader *header,
 		     ETableModel *model)
 {
@@ -460,9 +440,6 @@ e_table_setup_table (ETable *e_table, ETableHeader *full_header, ETableHeader *h
 							       "message", e_table->click_to_add_message,
 							       NULL);
 		
-		gtk_signal_connect(GTK_OBJECT(e_table->click_to_add), "row_selection",
-				   GTK_SIGNAL_FUNC(click_to_add_row_selection), e_table);				   
-		
 		e_canvas_vbox_add_item(E_CANVAS_VBOX(e_table->canvas_vbox), e_table->click_to_add);
 	}
 
@@ -477,10 +454,9 @@ e_table_setup_table (ETable *e_table, ETableHeader *full_header, ETableHeader *h
 			      "drawfocus", e_table->draw_focus,
 			      "cursor_mode", e_table->cursor_mode,
 			      "length_threshold", e_table->length_threshold,
+			      "table_selection_model", e_table->selection,
 			      NULL);
 
-	gtk_signal_connect (GTK_OBJECT (e_table->group), "row_selection",
-			    GTK_SIGNAL_FUNC(group_row_selection), e_table);
 	gtk_signal_connect (GTK_OBJECT (e_table->group), "cursor_change",
 			    GTK_SIGNAL_FUNC(group_cursor_change), e_table);
 	gtk_signal_connect (GTK_OBJECT (e_table->group), "double_click",
@@ -607,6 +583,9 @@ et_real_construct (ETable *e_table, ETableHeader *full_header, ETableModel *etm,
 
 	e_table->model = etm;
 	gtk_object_ref (GTK_OBJECT (etm));
+	gtk_object_set (GTK_OBJECT (e_table->selection),
+			"model", etm,
+			NULL);
 
 	gtk_widget_push_visual (gdk_rgb_get_visual ());
 	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
@@ -812,9 +791,9 @@ e_table_selected_row_foreach     (ETable *e_table,
 				  ETableForeachFunc callback,
 				  gpointer closure)
 {
-	e_table_group_selected_row_foreach(e_table->group,
-					   callback,
-					   closure);
+	e_table_selection_model_foreach(e_table->selection,
+					callback,
+					closure);
 }
 
 
@@ -1240,7 +1219,6 @@ e_table_class_init (GtkObjectClass *object_class)
 	object_class->set_arg   	 = et_set_arg;
 	object_class->get_arg   	 = et_get_arg;
 
-	klass->row_selection    	 = NULL;
 	klass->cursor_change    	 = NULL;
 	klass->double_click     	 = NULL;
 	klass->right_click      	 = NULL;
@@ -1255,14 +1233,6 @@ e_table_class_init (GtkObjectClass *object_class)
 	klass->table_drag_motion               = NULL;
 	klass->table_drag_drop                 = NULL;
 	klass->table_drag_data_received        = NULL;
-
-	et_signals [ROW_SELECTION] =
-		gtk_signal_new ("row_selection",
-				GTK_RUN_LAST,
-				object_class->type,
-				GTK_SIGNAL_OFFSET (ETableClass, row_selection),
-				gtk_marshal_NONE__INT_INT,
-				GTK_TYPE_NONE, 2, GTK_TYPE_INT, GTK_TYPE_INT);
 
 	et_signals [CURSOR_CHANGE] =
 		gtk_signal_new ("cursor_change",

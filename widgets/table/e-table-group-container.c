@@ -37,6 +37,7 @@ enum {
 	ARG_TABLE_DRAW_GRID,
 	ARG_TABLE_DRAW_FOCUS,
 	ARG_CURSOR_MODE,
+	ARG_TABLE_SELECTION_MODEL,
 	ARG_LENGTH_THRESHOLD,
 };
 
@@ -96,6 +97,9 @@ etgc_destroy (GtkObject *object)
 
 	if (etgc->sort_info)
 		gtk_object_unref (GTK_OBJECT(etgc->sort_info));
+
+	if (etgc->table_selection_model)
+		gtk_object_unref (GTK_OBJECT(etgc->table_selection_model));
 
 	if (etgc->rect)
 		gtk_object_destroy (GTK_OBJECT(etgc->rect));
@@ -316,13 +320,6 @@ compute_text (ETableGroupContainer *etgc, ETableGroupContainerChildNode *child_n
 }
 
 static void
-child_row_selection (ETableGroup *etg, int row, gboolean selected,
-		     ETableGroupContainer *etgc)
-{
-	e_table_group_row_selection (E_TABLE_GROUP (etgc), row, selected);
-}
-
-static void
 child_cursor_change (ETableGroup *etg, int row,
 		    ETableGroupContainer *etgc)
 {
@@ -395,10 +392,9 @@ etgc_add (ETableGroup *etg, gint row)
 			      "drawgrid", etgc->draw_grid,
 			      "drawfocus", etgc->draw_focus,
 			      "cursor_mode", etgc->cursor_mode,
+			      "table_selection_model", etgc->table_selection_model,
 			      "length_threshold", etgc->length_threshold,
 			      NULL);
-	gtk_signal_connect (GTK_OBJECT (child), "row_selection",
-			    GTK_SIGNAL_FUNC (child_row_selection), etgc);
 	gtk_signal_connect (GTK_OBJECT (child), "cursor_change",
 			    GTK_SIGNAL_FUNC (child_cursor_change), etgc);
 	gtk_signal_connect (GTK_OBJECT (child), "double_click",
@@ -546,29 +542,6 @@ etgc_get_focus_column (ETableGroup *etg)
 	return 0;
 }
 
-static void
-etgc_selected_row_foreach (ETableGroup *etg,
-			   ETableForeachFunc func,
-			   gpointer closure)
-{
-	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER(etg);
-	if (etgc->children) {
-		GList *list;
-		for (list = etgc->children; list; list = list->next) {
-			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *)list->data;
-			ETableGroup *child = child_node->child;
-			e_table_group_selected_row_foreach (child, func, closure);
-		}
-	}
-}
-
-
-
-
-
-
-
-
 
 static void etgc_thaw (ETableGroup *etg)
 {
@@ -608,6 +581,20 @@ etgc_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *)list->data;
 			gtk_object_set (GTK_OBJECT(child_node->child),
 					"length_threshold", GTK_VALUE_INT (*arg),
+					NULL);
+		}
+		break;
+
+	case ARG_TABLE_SELECTION_MODEL:
+		if (etgc->table_selection_model)
+			gtk_object_unref(GTK_OBJECT(etgc->table_selection_model));
+		etgc->table_selection_model = E_TABLE_SELECTION_MODEL(GTK_VALUE_OBJECT (*arg));
+		if (etgc->table_selection_model)
+			gtk_object_ref(GTK_OBJECT(etgc->table_selection_model));
+		for (list = etgc->children; list; list = g_list_next (list)) {
+			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *)list->data;
+			gtk_object_set (GTK_OBJECT(child_node->child),
+					"table_selection_model", etgc->table_selection_model,
 					NULL);
 		}
 		break;
@@ -697,7 +684,6 @@ etgc_class_init (GtkObjectClass *object_class)
 	e_group_class->get_cursor_row = etgc_get_cursor_row;
 	e_group_class->get_focus_column = etgc_get_focus_column;
 	e_group_class->get_printable = etgc_get_printable;
-	e_group_class->selected_row_foreach = etgc_selected_row_foreach;
 
 	gtk_object_add_arg_type ("ETableGroupContainer::drawgrid", GTK_TYPE_BOOL,
 				 GTK_ARG_WRITABLE, ARG_TABLE_DRAW_GRID);
@@ -705,6 +691,8 @@ etgc_class_init (GtkObjectClass *object_class)
 				 GTK_ARG_WRITABLE, ARG_TABLE_DRAW_FOCUS);
 	gtk_object_add_arg_type ("ETableGroupContainer::cursor_mode", GTK_TYPE_INT,
 				 GTK_ARG_WRITABLE, ARG_CURSOR_MODE);
+	gtk_object_add_arg_type ("ETableGroupContainer::table_selection_model", GTK_TYPE_OBJECT,
+				 GTK_ARG_WRITABLE, ARG_TABLE_SELECTION_MODEL);
 	gtk_object_add_arg_type ("ETableGroupContainer::length_threshold", GTK_TYPE_INT,
 				 GTK_ARG_WRITABLE, ARG_LENGTH_THRESHOLD);
 
@@ -811,6 +799,7 @@ etgc_init (GtkObject *object)
 	container->draw_focus = 1;
 	container->cursor_mode = E_TABLE_CURSOR_SIMPLE;
 	container->length_threshold = -1;
+	container->table_selection_model = NULL;
 }
 
 E_MAKE_TYPE (e_table_group_container, "ETableGroupContainer", ETableGroupContainer, etgc_class_init, etgc_init, PARENT_TYPE);

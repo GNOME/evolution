@@ -41,6 +41,8 @@ typedef struct {
 	int n;
 	int length_threshold;
 
+	ETableSelectionModel *table_selection_model;
+
 	guint draw_grid : 1;
 	guint draw_focus : 1;
 	ETableCursorMode cursor_mode;

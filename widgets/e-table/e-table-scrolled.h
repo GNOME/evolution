@@ -25,7 +25,6 @@ typedef struct {
 typedef struct {
 	EScrollFrameClass parent_class;
 
-	void        (*row_selection)      (ETableScrolled *est, int row, gboolean selected);
 	void        (*cursor_change)      (ETableScrolled *est, int row);
 	void        (*double_click)       (ETableScrolled *est, int row);
 	gint        (*right_click)        (ETableScrolled *est, int row, int col, GdkEvent *event);

@@ -1,3 +1,28 @@
+2000-07-26  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-table-group-container.c, e-table-group-container.h,
+	e-table-group-leaf.c, e-table-group-leaf.h: Added "table_selection_model"
+	argument.  Removed foreach function and selection notification.
+
+	* e-table-group.c, e-table-group.h: Removed foreach function and
+	selection notification.
+	
+	* e-table-header.c: Fixed header width calculation to include the
+	last column.
+
+	* e-table-item.c, e-table-item.h: Fixed this to use the new
+	selection model.
+
+	* e-table-scrolled.c, e-table-scrolled.h: Removed selection
+	notification.
+
+	* e-table-selection-model.c, e-table-selection-model.h: Finished
+	notification signals and fixed a bunch of bit manipulations.
+	Implemented do_something method.
+
+	* e-table.c, e-table.h: Create an ETableSelectionModel and use it
+	properly.
+
 2000-07-25  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-table-selection-model.c: Made foreach call the callback in top

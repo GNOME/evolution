@@ -25,7 +25,6 @@
 static GnomeCanvasGroupClass *etg_parent_class;
 
 enum {
-	ROW_SELECTION,
 	CURSOR_CHANGE,
 	DOUBLE_CLICK,
 	RIGHT_CLICK,
@@ -240,31 +239,6 @@ e_table_group_get_printable (ETableGroup *etg)
 }
 
 void
-e_table_group_selected_row_foreach  (ETableGroup      *etg,
-				     ETableForeachFunc func,
-				     gpointer          closure)
-{
-	g_return_if_fail (etg != NULL);
-	g_return_if_fail (E_IS_TABLE_GROUP (etg));
-
-	if (ETG_CLASS (etg)->selected_row_foreach)
-		ETG_CLASS (etg)->selected_row_foreach (etg, func, closure);
-}
-
-
-
-void
-e_table_group_row_selection (ETableGroup *e_table_group, gint row, gboolean selected)
-{
-	g_return_if_fail (e_table_group != NULL);
-	g_return_if_fail (E_IS_TABLE_GROUP (e_table_group));
-
-	gtk_signal_emit (GTK_OBJECT (e_table_group),
-			 etg_signals [ROW_SELECTION],
-			 row, selected);
-}
-
-void
 e_table_group_cursor_change (ETableGroup *e_table_group, gint row)
 {
 	g_return_if_fail (e_table_group != NULL);
@@ -364,7 +338,6 @@ etg_class_init (GtkObjectClass *object_class)
 
 	item_class->event = etg_event;
 
-	klass->row_selection = NULL;
 	klass->cursor_change = NULL;
 	klass->double_click = NULL;
 	klass->right_click = NULL;
@@ -382,17 +355,8 @@ etg_class_init (GtkObjectClass *object_class)
 	klass->get_focus = etg_get_focus;
 	klass->get_ecol = NULL;
 	klass->get_printable = NULL;
-	klass->selected_row_foreach = NULL;
 
 	etg_parent_class = gtk_type_class (PARENT_TYPE);
-
-	etg_signals [ROW_SELECTION] =
-		gtk_signal_new ("row_selection",
-				GTK_RUN_LAST,
-				object_class->type,
-				GTK_SIGNAL_OFFSET (ETableGroupClass, row_selection),
-				gtk_marshal_NONE__INT_INT,
-				GTK_TYPE_NONE, 2, GTK_TYPE_INT, GTK_TYPE_INT);
 
 	etg_signals [CURSOR_CHANGE] =
 		gtk_signal_new ("cursor_change",
