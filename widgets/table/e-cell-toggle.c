@@ -90,10 +90,10 @@ etog_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	ECellToggle *toggle = E_CELL_TOGGLE (ecell_view->ecell);
 	ECellToggleView *toggle_view = (ECellToggleView *) ecell_view;
 	GdkPixbuf *image;
-	ArtPixBuf *art;
+	GdkPixbuf *flat;
 	int x, y, width, height;
 	const int value = GPOINTER_TO_INT (
-		e_table_model_value_at (ecell_view->e_table_model, model_col, row));
+		 e_table_model_value_at (ecell_view->e_table_model, model_col, row));
 
 	if (value >= toggle->n_states){
 		g_warning ("Value from the table model is %d, the states we support are [0..%d)\n",
@@ -107,72 +107,61 @@ etog_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	gdk_draw_rectangle (drawable, GTK_WIDGET (toggle_view->canvas)->style->white_gc, TRUE, x1, y1, x2 - x1, y2 - y1);
 			    
 	image = toggle->images [value];
-	art = image->art_pixbuf;
 
-	if ((x2 - x1) < art->width){
+	if ((x2 - x1) < gdk_pixbuf_get_width (image)){
 		x = x1;
 		width = x2 - x1;
 	} else {
-		x = x1 + ((x2 - x1) - art->width) / 2;
-		width = art->width;
+		x = x1 + ((x2 - x1) - gdk_pixbuf_get_width (image)) / 2;
+		width = gdk_pixbuf_get_width (image);
 	}
 
-	if ((y2 - y1) < art->height){
+	if ((y2 - y1) < gdk_pixbuf_get_height (image)){
 		y = y1;
 		height = y2 - y1;
 	} else {
-		y = y1 + ((y2 - y1) - art->height) / 2;
-		height = art->height;
+		y = y1 + ((y2 - y1) - gdk_pixbuf_get_height (image)) / 2;
+		height = gdk_pixbuf_get_height (image);
 	}
 
-
-	if (image->art_pixbuf->has_alpha){
-		GdkColor background;
-		guchar *buffer;
-		int alpha, ix, iy;
-
-		buffer = g_malloc (art->rowstride * art->height * 3);
-
-		background.red = 255;
-		background.green = 255;
-		background.blue = 255;
+#if 0 /* do alpha */
+	if (gdk_pixbuf_get_has_alpha (image)) {
+		flat = gdk_pixbuf_composite_color_simple (
+			image,
+			gdk_pixbuf_get_width (image),
+			gdk_pixbuf_get_height (image),
+			GDK_INTERP_NEAREST,
+			255,
+			32,
+			0xffffff, 0xffffff);	
 		
-		for (iy = 0; iy < art->height; iy++){
-			unsigned char *dest;
-			unsigned char *src;
-		
-			dest = buffer + (iy * art->rowstride);
-			src = art->pixels + (iy * art->rowstride);
-
-			for (ix = 0; ix < art->width; ix++){
-				alpha = src [3];
-				if (alpha == 0){
-					*dest++ = background.red;
-					*dest++ = background.green;
-					*dest++ = background.blue;
-					src += 3;
-				} else if (alpha == 255){
-					*dest++ = *src++;
-					*dest++ = *src++;
-					*dest++ = *src++;
-				} else {
-					*dest++ = (background.red +   ((*src++ - background.red) * alpha + 0x80)) >> 8;
-					*dest++ = (background.green + ((*src++ - background.green) * alpha + 0x80)) >> 8;
-					*dest++ = (background.blue +  ((*src++ - background.blue) * alpha + 0x80)) >> 8;
-				}
-				src++;
-			}
-		}
-		
-		gdk_draw_rgb_image_dithalign (
-			drawable, toggle_view->gc, x, y, width, height,
-			GDK_RGB_DITHER_NORMAL, buffer, art->rowstride, 0, 0);
-
-		g_free (buffer);
-	} else
-		gdk_draw_rgb_image_dithalign (
-			drawable, toggle_view->gc, x, y, width, height,
-			GDK_RGB_DITHER_NORMAL, art->pixels, art->rowstride, 0, 0);
+		gdk_pixbuf_render_to_drawable (flat, drawable,
+					       toggle_view->gc,
+					       0, 0,
+					       x, y,
+					       width, height,
+					       GDK_RGB_DITHER_NORMAL,
+					       0, 0);
+		gdk_pixbuf_unref (flat);
+	} else {
+		gdk_pixbuf_render_to_drawable (image, drawable,
+					       toggle_view->gc,
+					       0, 0,
+					       x, y,
+					       width, height,
+					       GDK_RGB_DITHER_NORMAL,
+					       0, 0);
+	}
+#else 
+	gdk_pixbuf_render_to_drawable_alpha (image, drawable,
+					     0, 0,
+					     x, y,
+					     width, height,
+					     GDK_PIXBUF_ALPHA_BILEVEL,
+					     128,
+					     GDK_RGB_DITHER_NORMAL,
+					     x, y);
+#endif
 }
 
 static void
@@ -283,8 +272,8 @@ e_cell_toggle_construct (ECellToggle *etog, int border, int n_states, GdkPixbuf 
 		etog->images [i] = images [i];
 		gdk_pixbuf_ref (images [i]);
 
-		if (images [i]->art_pixbuf->height > max_height)
-			max_height = images [i]->art_pixbuf->height;
+		if (gdk_pixbuf_get_height (images [i]) > max_height)
+		  max_height = gdk_pixbuf_get_height (images [i]);
 	}
 
 	etog->height = max_height;

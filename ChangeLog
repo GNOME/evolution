@@ -1,3 +1,12 @@
+2000-04-11  Larry Ewing  <lewing@helixcode.com>
+
+	* widgets/e-table/e-cell-toggle.c (etog_draw): update for new
+	gdk-pixbuf.  Added a disabled chuck of code to do alpha blending
+	on pixmaps.
+
+	* widgets/shortcut-bar/e-icon-bar.c (flatten_alpha): update for
+	new gdk-pixbuf.
+
 2000-04-11  Christopher James Lahey  <clahey@helixcode.com>
 
 	* widgets/e-text/e-text.c: Moved some logic a bit.  Minor changes.
@@ -9,8 +18,8 @@
 	(tooltip_event): Forward clicks on the tooltip onto the text item.
 	(_do_tooltip): Correct the origin co-ordinates to the items co-ords.
 	(e_text_point): Return 0 when the mouse is on the item.
-	(_do_tooltip): Make the tooltip obey the parent items line_wrap and max_
-	lines.
+	(_do_tooltip): Make the tooltip obey the parent items
+	line_wrap and max_lines.
 
 00-04-11  Chris Toshok  <toshok@helixcode.com>
 
