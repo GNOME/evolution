@@ -75,6 +75,13 @@ query_backend_init (QueryBackend *qb)
 	priv->queries = NULL;
 }
 
+static void
+free_hash_comp_cb (gpointer key, gpointer value, gpointer user_data)
+{
+	g_free (key);
+	gtk_object_unref (GTK_OBJECT (value));
+}
+
 /* Destroy handler for the backend cache */
 static void
 query_backend_destroy (GtkObject *object)
@@ -86,6 +93,10 @@ query_backend_destroy (GtkObject *object)
 
 	/* remove the QueryBackend from the internal hash table */
 	g_hash_table_remove (loaded_backends, qb->priv->uri);
+	if (g_hash_table_size (loaded_backends) == 0) {
+		g_hash_table_destroy (loaded_backends);
+		loaded_backends = NULL;
+	}
 
 	/* free memory */
 	qb->priv->backend = NULL;
@@ -93,6 +104,7 @@ query_backend_destroy (GtkObject *object)
 	g_free (qb->priv->uri);
 	qb->priv->uri = NULL;
 
+	g_hash_table_foreach (qb->priv->components, (GHFunc) free_hash_comp_cb, NULL);
 	g_hash_table_destroy (qb->priv->components);
 	qb->priv->components = NULL;
 
@@ -154,20 +166,39 @@ static void
 object_updated_cb (CalBackend *backend, const char *uid, gpointer user_data)
 {
 	gpointer orig_key, orig_value;
-	char *tmp_uid;
+	const char *tmp_uid;
 	CalComponent *comp;
+	icalcomponent *icalcomp;
+	char *comp_str;
 	QueryBackend *qb = (QueryBackend *) user_data;
 
 	g_return_if_fail (IS_QUERY_BACKEND (qb));
 
 	if (g_hash_table_lookup_extended (qb->priv->components, uid, &orig_key, &orig_value)) {
 		g_hash_table_remove (qb->priv->components, uid);
+		g_free (orig_key);
+		gtk_object_unref (GTK_OBJECT (orig_value));
 	}
 
-	comp = cal_backend_get_object_component (qb->priv->backend, uid);
-	if (IS_CAL_COMPONENT (comp)) {
+	comp_str = cal_backend_get_object (qb->priv->backend, uid);
+	if (!comp_str)
+		return;
+
+	icalcomp = icalparser_parse_string (comp_str);
+	g_free (comp_str);
+	if (icalcomp) {
+		comp = cal_component_new ();
+		if (!cal_component_set_icalcomponent (comp, icalcomp)) {
+			icalcomponent_free (icalcomp);
+			gtk_object_unref (GTK_OBJECT (comp));
+			return;
+		}
+
 		cal_component_get_uid (comp, &tmp_uid);
-		g_hash_table_insert (qb->priv->components, tmp_uid, comp);
+		if (!uid || !*uid) {
+			gtk_object_unref (GTK_OBJECT (comp));
+		} else
+			g_hash_table_insert (qb->priv->components, g_strdup (tmp_uid), comp);
 	}
 }
 
@@ -181,6 +212,8 @@ object_removed_cb (CalBackend *backend, const char *uid, gpointer user_data)
 
 	if (g_hash_table_lookup_extended (qb->priv->components, uid, &orig_key, &orig_value)) {
 		g_hash_table_remove (qb->priv->components, uid);
+		g_free (orig_key);
+		gtk_object_unref (GTK_OBJECT (orig_value));
 	}
 }
 
@@ -199,20 +232,12 @@ query_destroyed_cb (GtkObject *object, gpointer user_data)
 static void
 foreach_uid_cb (gpointer data, gpointer user_data)
 {
-	CalComponent *comp;
-	char *uid;
 	QueryBackend *qb = (QueryBackend *) user_data;
 
 	g_return_if_fail (data != NULL);
 	g_return_if_fail (IS_QUERY_BACKEND (qb));
 
-	comp = cal_backend_get_object_component (qb->priv->backend, (const char *) data);
-	if (IS_CAL_COMPONENT (comp)) {
-		cal_component_get_uid (comp, &uid);
-		g_hash_table_insert (qb->priv->components, uid, comp);
-	}
-	else
-		g_warning (_("Could not get component with UID = %s"), (const char *) data);
+	object_updated_cb (qb->priv->backend, (const char *) data, qb);
 }
 
 /**
@@ -258,6 +283,8 @@ query_backend_new (Query *query, CalBackend *backend)
 		gtk_signal_connect (GTK_OBJECT (backend), "obj_removed",
 				    GTK_SIGNAL_FUNC (object_removed_cb), qb);
 
+		if (!loaded_backends)
+			loaded_backends = g_hash_table_new (g_str_hash, g_str_equal);
 		g_hash_table_insert (loaded_backends, qb->priv->uri, qb);
 	}
 
@@ -266,4 +293,75 @@ query_backend_new (Query *query, CalBackend *backend)
 			    GTK_SIGNAL_FUNC (query_destroyed_cb), qb);
 
 	return qb;
+}
+
+typedef struct {
+	GList *uidlist;
+	CalObjType type;
+} GetUidsData;
+
+static void
+uid_hash_cb (gpointer key, gpointer value, gpointer user_data)
+{
+	CalComponentVType vtype;
+	char *uid = (char *) key;
+	CalComponent *comp = (CalComponent *) value;
+	GetUidsData *uids_data = (GetUidsData *) user_data;
+
+	g_return_if_fail (uid != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+	g_return_if_fail (uids_data != NULL);
+
+	vtype = cal_component_get_vtype (comp);
+	if (vtype == CAL_COMPONENT_EVENT && uids_data->type == CALOBJ_TYPE_EVENT)
+		uids_data->uidlist = g_list_append (uids_data->uidlist, g_strdup (uid));
+	else if (vtype == CAL_COMPONENT_TODO && uids_data->type == CALOBJ_TYPE_TODO)
+		uids_data->uidlist = g_list_append (uids_data->uidlist, g_strdup (uid));
+	else if (vtype == CAL_COMPONENT_JOURNAL && uids_data->type == CALOBJ_TYPE_JOURNAL)
+		uids_data->uidlist = g_list_append (uids_data->uidlist, g_strdup (uid));
+	else if (uids_data->type == CALOBJ_TYPE_ANY)
+		uids_data->uidlist = g_list_append (uids_data->uidlist, g_strdup (uid));
+}
+
+/**
+ * query_backend_get_uids
+ * @qb: A #QueryBackend type.
+ * @type: Type of objects to get the UIDs for.
+ *
+ * Get a list of all UIDs for objects of the given type out from
+ * the specified #QueryBackend object.
+ *
+ * Returns: a GList of UIDs, which should be freed, when no longer needed,
+ * via a call to cal_obj_uid_list_free.
+ */
+GList *
+query_backend_get_uids (QueryBackend *qb, CalObjType type)
+{
+	GetUidsData uids_data;
+
+	g_return_val_if_fail (IS_QUERY_BACKEND (qb), NULL);
+
+	uids_data.uidlist = NULL;
+	uids_data.type = type;
+	g_hash_table_foreach (qb->priv->components, (GHFunc) uid_hash_cb, &uids_data);
+
+	return uids_data.uidlist;
+}
+
+/**
+ * query_backend_get_object_component
+ * @qb: A #QueryBackend object.
+ * @uid: UID of the object to retrieve.
+ *
+ * Get a #CalComponent from the given #QueryBackend.
+ *
+ * Returns: the component if found, NULL otherwise.
+ */
+CalComponent *
+query_backend_get_object_component (QueryBackend *qb, const char *uid)
+{
+	g_return_val_if_fail (IS_QUERY_BACKEND (qb), NULL);
+	g_return_val_if_fail (uid != NULL, NULL);
+
+	return g_hash_table_lookup (qb->priv->components, uid);
 }

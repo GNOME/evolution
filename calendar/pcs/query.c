@@ -35,6 +35,7 @@
 #include <cal-util/timeutil.h>
 #include "cal-backend.h"
 #include "query.h"
+#include "query-backend.h"
 
 
 
@@ -51,6 +52,9 @@ typedef enum {
 struct _QueryPrivate {
 	/* The backend we are monitoring */
 	CalBackend *backend;
+
+	/* The cache backend */
+	QueryBackend *qb;
 
 	/* The default timezone for the calendar. */
 	icaltimezone *default_zone;
@@ -122,6 +126,7 @@ query_init (Query *query)
 	query->priv = priv;
 
 	priv->backend = NULL;
+	priv->qb = NULL;
 	priv->default_zone = NULL;
 	priv->ql = CORBA_OBJECT_NIL;
 	priv->sexp = NULL;
@@ -174,6 +179,8 @@ query_destroy (GtkObject *object)
 		gtk_object_unref (GTK_OBJECT (priv->backend));
 		priv->backend = NULL;
 	}
+
+	priv->qb = NULL;
 
 	if (priv->ql != CORBA_OBJECT_NIL) {
 		CORBA_Environment ev;
@@ -1120,7 +1127,7 @@ match_component (Query *query, const char *uid,
 	g_assert (priv->state == QUERY_IN_PROGRESS || priv->state == QUERY_DONE);
 	g_assert (priv->esexp != NULL);
 
-	comp = cal_backend_get_object_component (priv->backend, uid);
+	comp = query_backend_get_object_component (priv->qb, uid);
 	if (!comp)
 		return;
 
@@ -1302,7 +1309,7 @@ start_query (Query *query)
 	/* Populate the query with UIDs so that we can process them asynchronously */
 
 	priv->state = QUERY_IN_PROGRESS;
-	priv->pending_uids = cal_backend_get_uids (priv->backend, CALOBJ_TYPE_ANY);
+	priv->pending_uids = query_backend_get_uids (priv->qb, CALOBJ_TYPE_ANY);
 	priv->pending_total = g_list_length (priv->pending_uids);
 	priv->n_pending = priv->pending_total;
 
@@ -1406,6 +1413,7 @@ query_construct (Query *query,
 	priv->backend = backend;
 	gtk_object_ref (GTK_OBJECT (priv->backend));
 
+	priv->qb = query_backend_new (query, backend);
 	priv->default_zone = cal_backend_get_default_timezone (backend);
 
 	priv->sexp = g_strdup (sexp);

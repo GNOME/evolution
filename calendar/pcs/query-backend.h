@@ -47,6 +47,8 @@ typedef struct {
 
 GtkType       query_backend_get_type (void);
 QueryBackend *query_backend_new (Query *query, CalBackend *backend);
+GList        *query_backend_get_uids (QueryBackend *qb, CalObjType type);
+CalComponent *query_backend_get_object_component (QueryBackend *qb, const char *uid);
 
 END_GNOME_DECLS
 
