@@ -1,3 +1,14 @@
+2002-06-22  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-gpg-context.c (gpg_encrypt): Return -1 on error.
+	(gpg_decrypt): Same.
+	(gpg_sign): Again here.
+	(gpg_ctx_op_step): Only attenmpt to read from the status-fd if we
+	are not already 'complete'.
+
+	* camel-pgp-mime.c (camel_pgp_mime_part_encrypt): Flush the
+	filtered stream.
+
 2002-06-21  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-gpg-context.[c,h]: New source files implementing the

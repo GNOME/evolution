@@ -485,6 +485,7 @@ camel_pgp_mime_part_encrypt (CamelCipherContext *cipher, CamelMimePart **mime_pa
 	camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (crlf_filter));
 	camel_object_unref (CAMEL_OBJECT (crlf_filter));
 	camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (part), CAMEL_STREAM (filtered_stream));
+	camel_stream_flush (CAMEL_STREAM (filtered_stream));
 	camel_object_unref (CAMEL_OBJECT (filtered_stream));
 	camel_stream_reset (stream);
 	
