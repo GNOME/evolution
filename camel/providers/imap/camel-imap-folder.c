@@ -278,7 +278,7 @@ imap_init (CamelFolder *folder, CamelStore *parent_store, CamelFolder *parent_fo
 	imap_folder->summary = NULL;
 
 	/* SELECT the IMAP mail spool */
-	if (url && url->path && strcmp (folder->full_name, "INBOX"))
+	if (url && url->path && *(url->path + 1) && strcmp (folder->full_name, "INBOX"))
 		folder_path = g_strdup_printf ("%s/%s", url->path + 1, folder->full_name);
 	else
 		folder_path = g_strdup (folder->full_name);
@@ -439,7 +439,7 @@ imap_get_message_count (CamelFolder *folder, CamelException *ex)
 	if (imap_folder->count != -1)
 		return imap_folder->count;
 
-	if (url && url->path && strcmp (folder->full_name, "INBOX"))
+	if (url && url->path && *(url->path + 1) && strcmp (folder->full_name, "INBOX"))
 		folder_path = g_strdup_printf ("%s/%s", url->path + 1, folder->full_name);
 	else
 		folder_path = g_strdup (folder->full_name);
@@ -503,10 +503,12 @@ imap_append_message (CamelFolder *folder, CamelMimeMessage *message, CamelExcept
 	}
 
 	mem->buffer = g_byte_array_append (mem->buffer, g_strdup("\r\n"), 3);
-	if (url && url->path && strcmp(folder->full_name, "INBOX"))
+	
+	if (url && url->path && *(url->path + 1) && strcmp(folder->full_name, "INBOX"))
 		folder_path = g_strdup_printf ("%s/%s", url->path, folder->full_name);
 	else
 		folder_path = g_strdup (folder->full_name);
+	
 	status = camel_imap_command (CAMEL_IMAP_STORE (folder->parent_store),
 				     folder, &result,
 				     "APPEND %s (\\Seen) {%d}\r\n%s",
@@ -618,7 +620,8 @@ imap_get_subfolder_names (CamelFolder *folder, CamelException *ex)
 	}
 	
 	status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), folder,
-					      &result, "LIST \"\" \"%s/*\"", folder_path);
+					      &result, "LIST \"\" \"%s%s\"", folder_path,
+					      *folder_path ? "/*" : "*");
 	
 	if (status != CAMEL_IMAP_OK) {
 		CamelService *service = CAMEL_SERVICE (folder->parent_store);
@@ -661,7 +664,7 @@ imap_get_subfolder_names (CamelFolder *folder, CamelException *ex)
 			g_free (flags);
 
 			/* chop out the folder prefix */
-			if (!strncmp (folder, folder_path, strlen (folder_path))) {
+			if (*folder_path && !strncmp (folder, folder_path, strlen (folder_path))) {
 				f = folder + strlen (folder_path) + 1;
 				memmove (folder, f, strlen (f) + 1);
 			}

@@ -325,7 +325,7 @@ imap_folder_exists (CamelFolder *folder)
 	gchar *result, *folder_path;
 	gint status;
 
-	if (url && url->path && strcmp (folder->full_name, "INBOX"))
+	if (url && url->path && *(url->path + 1) && strcmp (folder->full_name, "INBOX"))
 		folder_path = g_strdup_printf ("%s/%s", url->path + 1, folder->full_name);
 	else
 		folder_path = g_strdup (folder->full_name);
@@ -367,7 +367,7 @@ imap_create (CamelFolder *folder, CamelException *ex)
 		return TRUE;
 	
         /* create the directory for the subfolder */
-	if (url && url->path && strcmp (folder->full_name, "INBOX"))
+	if (url && url->path && *(url->path + 1) && strcmp (folder->full_name, "INBOX"))
 		folder_path = g_strdup_printf ("%s/%s", url->path + 1, folder->full_name);
 	else
 		folder_path = g_strdup (folder->full_name);

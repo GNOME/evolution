@@ -1,3 +1,10 @@
+2000-06-23  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/imap/camel-imap-store.c: 
+	* providers/imap/camel-imap-folder.c: Improved folder parsing.
+	Not specifying a namespace should no longer list the entire
+	filesystem.
+
 2000-06-22  Chris Toshok  <toshok@helixcode.com>
 
 	* providers/nntp/.cvsignore: ignore test-newsrc
