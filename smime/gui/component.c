@@ -20,6 +20,11 @@
  *
  */
 
+
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <libgnome/gnome-i18n.h>
 #include "e-cert-db.h"
 #include "e-util/e-passwords.h"
