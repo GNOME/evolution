@@ -2035,6 +2035,8 @@ loc22=Paderborn-Haxterberg EDLP ------ ---
 loc23=Saarbrucken EDDR ------ ---
 loc24=Stuttgart EDDS ------ ---
 loc25=Westerland EDXW ------ ---
+loc26=Dresden-Klotzsche EDDC ------ ---
+loc27=Leipzig-Schkeuditz EDDP ------ ---
 
 [EU_GR]
 name=Greece

@@ -1,3 +1,7 @@
+2001-07-27  Iain Holmes  <iain@ximian.com>
+
+	* Locations: Add some more German cities from s.kost@webmacher.de.
+
 2001-07-23  Iain Holmes  <iain@ximian.com>
 
 	* e-summary-preferences.c (add_dialog_clicked_cb): Add the new RDF to
