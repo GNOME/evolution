@@ -1,3 +1,8 @@
+2001-01-04  Dan Winship  <danw@helixcode.com>
+
+	* providers/imap/camel-imap-folder.c (imap_rescan): Fix two
+	problems in figuring out server-expunged messages.
+
 2001-01-04  Not Zed  <NotZed@HelixCode.com>
 
 	* camel-folder.c (thaw): If we have a lot of messages changed,
