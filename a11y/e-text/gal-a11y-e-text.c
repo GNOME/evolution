@@ -109,16 +109,26 @@ et_get_text (AtkText *text,
 	     gint start_offset,
 	     gint end_offset)
 {
+        gint start, end, real_start, real_end, len;
 	const char *full_text = et_get_full_text (text);
+        if (full_text == NULL)
+                return;
+        len = g_utf8_strlen (full_text, -1);
+
+        start = MIN (MAX (0, start_offset), len);
+        end = MIN (MAX (-1, end_offset), len);
 
 	if (end_offset == -1)
-		end_offset = strlen (full_text);
+		end = strlen (full_text);
 	else
-		end_offset = g_utf8_offset_to_pointer (full_text, end_offset) - full_text;
+		end = g_utf8_offset_to_pointer (full_text, end) - full_text;
 
-	start_offset = g_utf8_offset_to_pointer (full_text, start_offset) - full_text;
+	start = g_utf8_offset_to_pointer (full_text, start) - full_text;
 
-	return g_strndup (full_text + start_offset, end_offset - start_offset);
+	real_start = MIN (start, end);
+	real_end = MAX (start, end);
+
+	return g_strndup (full_text + real_start, real_end - real_start);
 }
 
 static gchar *
@@ -170,14 +180,21 @@ et_get_text_before_offset (AtkText *text,
 static gint
 et_get_caret_offset (AtkText *text)
 {
-	EText *etext = E_TEXT (atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (text)));
-	const char *full_text = et_get_full_text (text);
+	GObject *obj;
+	EText *etext;
 	int offset;
+
+	g_return_val_if_fail (ATK_IS_GOBJECT_ACCESSIBLE(text), -1);
+	obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (text));
+	if (obj == NULL)
+		return -1;
+
+	g_return_val_if_fail (E_IS_TEXT (obj), -1);
+	etext = E_TEXT (obj);
 
 	gtk_object_get (GTK_OBJECT (etext),
 			"cursor_pos", &offset,
 			NULL);
-	offset = g_utf8_pointer_to_offset (full_text, full_text + offset);
 	return offset;
 }
 
@@ -251,18 +268,29 @@ et_get_selection (AtkText *text,
 		  gint *start_offset,
 		  gint *end_offset)
 {
-	EText *etext = E_TEXT (atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (text)));
-	if (selection_num == 0 &&
-	    etext->selection_start != etext->selection_end) {
+	gint start, end, real_start, real_end, len;
+	EText *etext;
+	if (selection_num == 0) {
 		const char *full_text = et_get_full_text (text);
-
-		if (start_offset)
-			*start_offset = g_utf8_pointer_to_offset (full_text, full_text + etext->selection_start);
-		if (end_offset)
-			*end_offset = g_utf8_pointer_to_offset (full_text, full_text + etext->selection_end);
-
-		return g_strndup (full_text + etext->selection_start, etext->selection_end - etext->selection_start);
+		if (full_text == NULL)
+			return NULL;
+		len = g_utf8_strlen (full_text, -1);
+		etext = E_TEXT (atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (text)));
+		start = MIN (etext->selection_start, etext->selection_end);
+		end = MAX (etext->selection_start, etext->selection_end);
+		start = MIN (MAX (0, start), len);
+		end = MIN (MAX (0, end), len);
+		if (start != end) {
+			if (start_offset)
+				*start_offset = start;
+			if (end_offset)
+				*end_offset = end;
+			real_start = g_utf8_offset_to_pointer (full_text, start) - full_text;
+			real_end = g_utf8_offset_to_pointer (full_text, end) - full_text;
+			return g_strndup (full_text + real_start, real_end - real_start);
+		}
 	}
+
 	return NULL;
 }
 
@@ -272,32 +300,36 @@ et_add_selection (AtkText *text,
 		  gint start_offset,
 		  gint end_offset)
 {
-	EText *etext = E_TEXT (atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (text)));
-	if (etext->selection_start == etext->selection_end &&
-	    start_offset != end_offset) {
-		ETextEventProcessorCommand command;
-		const char *full_text = et_get_full_text (text);
-		ETextEventProcessor *tep;
+	GObject *obj;
+	EText *etext;
 
-		start_offset = g_utf8_offset_to_pointer (full_text, start_offset) - full_text;
-		end_offset = g_utf8_offset_to_pointer (full_text, end_offset) - full_text;
+	g_return_val_if_fail (ATK_IS_GOBJECT_ACCESSIBLE (text), FALSE);
+	obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (text));
+	if (obj == NULL)
+		return FALSE;
+	g_return_val_if_fail (E_IS_TEXT (obj), FALSE);
+	etext = E_TEXT (obj);
 
-		gtk_object_get (GTK_OBJECT (etext),
-				"tep", &tep,
-				NULL);
+	g_return_val_if_fail (start_offset >= 0, FALSE);
+	g_return_val_if_fail (start_offset >= -1, FALSE);
+	if (end_offset == -1)
+		end_offset = et_get_character_count (text);
 
-		command.time = gtk_get_current_event_time ();
+	if (start_offset != end_offset) {
+		gint real_start, real_end;
+		real_start = MIN (start_offset, end_offset);
+		real_end = MAX (start_offset, end_offset);
+		etext->selection_start = real_start;
+		etext->selection_end = real_end;
 
-		command.action = E_TEP_MOVE;
-		command.position = E_TEP_VALUE;
-		command.value = start_offset;
-		g_signal_emit_by_name (tep, "command", 0, &command);
+		gnome_canvas_item_grab_focus (GNOME_CANVAS_ITEM (etext));
+		gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (etext));
 
-		command.action = E_TEP_SELECT;
-		command.value = end_offset;
-		g_signal_emit_by_name (tep, "command", 0, &command);
+		g_signal_emit_by_name (ATK_OBJECT (text), "text_selection_changed");
+
 		return TRUE;
 	}
+
 	return FALSE;
 }
 
@@ -306,7 +338,23 @@ static gboolean
 et_remove_selection (AtkText *text,
 		     gint selection_num)
 {
-	/* Unimplemented */
+	GObject *obj;
+	EText *etext;
+
+	g_return_val_if_fail (ATK_IS_GOBJECT_ACCESSIBLE (text), FALSE);
+	obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (text));
+	if (obj == NULL)
+		return FALSE;
+	g_return_val_if_fail (E_IS_TEXT (obj), FALSE);
+	etext = E_TEXT (obj);
+
+	if( selection_num == 0 
+	    && etext->selection_start != etext->selection_end ) {
+		etext->selection_end = etext->selection_start;
+		g_signal_emit_by_name (ATK_OBJECT(text), "text_selection_changed");
+		return TRUE;
+	}
+
 	return FALSE;
 }
 
@@ -317,8 +365,19 @@ et_set_selection (AtkText *text,
 		  gint start_offset,
 		  gint end_offset)
 {
-	/* Unimplemented */
-	return FALSE;
+	GObject *obj;
+	EText *etext;
+	int offset;
+
+	g_return_val_if_fail (ATK_IS_GOBJECT_ACCESSIBLE (text), FALSE);
+	obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (text));
+	if (obj == NULL)
+		return FALSE;
+	g_return_val_if_fail (E_IS_TEXT (obj), FALSE);
+	etext = E_TEXT (obj);
+	if (selection_num == 0)
+                return et_add_selection (text, start_offset, end_offset);
+        return FALSE;
 }
 
 
@@ -326,13 +385,27 @@ static gboolean
 et_set_caret_offset (AtkText *text,
 		     gint offset)
 {
-	EText *etext = E_TEXT (atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (text)));
-	const char *full_text = et_get_full_text (text);
+	GObject *obj;
+	EText *etext;
 
-	offset = g_utf8_offset_to_pointer (full_text, offset) - full_text;
-	gtk_object_set (GTK_OBJECT (etext),
-			"cursor_pos", &offset,
-			NULL);
+	g_return_val_if_fail (ATK_IS_GOBJECT_ACCESSIBLE (text), FALSE);
+	obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (text));
+	if (obj == NULL)
+		return FALSE;
+
+	g_return_val_if_fail (E_IS_TEXT (obj), FALSE);
+	etext = E_TEXT (obj);
+                                                                                
+	if (offset < -1)
+		return FALSE;
+	else if (offset == -1)
+		gtk_object_set (GTK_OBJECT (etext),
+				"cursor_pos", et_get_character_count (text),
+				NULL);
+	else
+		gtk_object_set (GTK_OBJECT (etext),
+				"cursor_pos", offset,
+				NULL);
 	return TRUE;
 }
 
