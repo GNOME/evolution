@@ -58,9 +58,7 @@ struct _CamelSession
 
 	CamelAuthCallback authenticator;
 
-	GHashTable *providers,
-		*modules,
-		*service_cache;
+	GHashTable *providers, *modules;
 };
 
 typedef struct {

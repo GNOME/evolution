@@ -27,6 +27,12 @@
 #include "camel-imap-store.h"
 #include "camel-provider.h"
 #include "camel-session.h"
+#include "camel-url.h"
+
+static void add_hash (guint *hash, char *s);
+static guint imap_url_hash (gconstpointer key);
+static gint check_equal (char *s1, char *s2);
+static gint imap_url_equal (gconstpointer a, gconstpointer b);
 
 static CamelProvider imap_provider = {
 	"imap",
@@ -38,7 +44,9 @@ static CamelProvider imap_provider = {
 
 	0,
 
-	{ 0, 0 }
+	{ 0, 0 },
+
+	NULL
 };
 
 void
@@ -47,7 +55,55 @@ camel_provider_module_init (CamelSession *session)
 	imap_provider.object_types[CAMEL_PROVIDER_STORE] =
 		camel_imap_store_get_type();
 
+	imap_provider.service_cache = g_hash_table_new (imap_url_hash, imap_url_equal);
+
 	camel_session_register_provider (session, &imap_provider);
 }
 
+static void
+add_hash (guint *hash, char *s)
+{
+	if (s)
+		*hash ^= g_str_hash(s);
+}
 
+static guint
+imap_url_hash (gconstpointer key)
+{
+	const CamelURL *u = (CamelURL *)key;
+	guint hash = 0;
+
+	add_hash (&hash, u->user);
+	add_hash (&hash, u->authmech);
+	add_hash (&hash, u->host);
+	hash ^= u->port;
+	
+	return hash;
+}
+
+static gint
+check_equal (char *s1, char *s2)
+{
+	if (s1 == NULL) {
+		if (s2 == NULL)
+			return TRUE;
+		else
+			return FALSE;
+	}
+	
+	if (s2 == NULL)
+		return FALSE;
+
+	return strcmp (s1, s2) == 0;
+}
+
+static gint
+imap_url_equal (gconstpointer a, gconstpointer b)
+{
+	const CamelURL *u1 = a, *u2 = b;
+	
+	return check_equal (u1->user, u2->user)
+		&& check_equal (u1->authmech, u2->authmech)
+		&& check_equal (u1->host, u2->host)
+		&& u1->port == u2->port;
+}

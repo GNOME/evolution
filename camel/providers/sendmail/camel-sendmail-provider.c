@@ -27,6 +27,7 @@
 #include "camel-provider.h"
 #include "camel-sendmail-transport.h"
 #include "camel-session.h"
+#include "camel-url.h"
 
 static CamelProvider sendmail_provider = {
 	"sendmail",
@@ -39,7 +40,9 @@ static CamelProvider sendmail_provider = {
 
 	0,
 
-	{ 0, 0 }
+	{ 0, 0 },
+
+	NULL
 };
 
 void
@@ -48,6 +51,8 @@ camel_provider_module_init (CamelSession *session)
 	sendmail_provider.object_types[CAMEL_PROVIDER_TRANSPORT] =
 		camel_sendmail_transport_get_type();
 
+	sendmail_provider.service_cache = g_hash_table_new (camel_url_hash, camel_url_equal);
+	
 	camel_session_register_provider (session, &sendmail_provider);
 }
 

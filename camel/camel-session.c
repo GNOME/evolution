@@ -6,6 +6,7 @@
  * Author:
  *  Bertrand Guiheneuf <bertrand@helixcode.com>
  *  Dan Winship <danw@helixcode.com>
+ *  Jeffrey Stedfast <fejj@helixcode.com>
  *
  * Copyright 1999, 2000 Helix Code, Inc. (http://www.helixcode.com)
  *
@@ -41,19 +42,27 @@ static void
 camel_session_init (CamelSession *session)
 {
 	session->modules = camel_provider_init ();
-	session->providers =
-		g_hash_table_new (g_strcase_hash, g_strcase_equal);
-	session->service_cache =
-		g_hash_table_new (camel_url_hash, camel_url_equal);
+	session->providers = g_hash_table_new (g_strcase_hash, g_strcase_equal);
+}
+
+static gboolean
+camel_session_destroy_provider (gpointer key, gpointer value, gpointer user_data)
+{
+	CamelProvider *prov = (CamelProvider *)value;
+
+	g_hash_table_destroy (prov->service_cache);
+
+	return TRUE;
 }
 
 static void
-camel_session_finalise(GtkObject *o)
+camel_session_finalise (GtkObject *o)
 {
 	CamelSession *session = (CamelSession *)o;
 
-	g_hash_table_destroy(session->service_cache);
-	g_hash_table_destroy(session->providers);
+	g_hash_table_foreach_remove (session->providers,
+				     camel_session_destroy_provider, NULL);
+	g_hash_table_destroy (session->providers);
 
 	GTK_OBJECT_CLASS (parent_class)->finalize (o);
 }
@@ -173,8 +182,7 @@ camel_session_list_providers (CamelSession *session, gboolean load)
 	g_return_val_if_fail (CAMEL_IS_SESSION (session), NULL);
 
 	if (load) {
-		g_hash_table_foreach (session->modules, ensure_loaded,
-				      session);
+		g_hash_table_foreach (session->modules, ensure_loaded, session);
 	}
 
 	list = NULL;
@@ -185,7 +193,14 @@ camel_session_list_providers (CamelSession *session, gboolean load)
 static void
 service_cache_remove (CamelService *service, CamelSession *session)
 {
-	g_hash_table_remove(session->service_cache, service->url);
+	CamelProvider *provider;
+
+	g_return_if_fail (CAMEL_IS_SESSION (session));
+	g_return_if_fail (service != NULL);
+	g_return_if_fail (service->url != NULL);
+	
+	provider = g_hash_table_lookup (session->providers, service->url->protocol);
+	g_hash_table_remove (provider->service_cache, service->url);
 }
 
 CamelService *
@@ -200,17 +215,8 @@ camel_session_get_service (CamelSession *session, const char *url_string,
 	if (!url)
 		return NULL;
 
-	/* lookup in cache first */
-	printf("looking up service in cache: \"%s\"\n", camel_url_to_string (url, FALSE));
-	service = g_hash_table_lookup(session->service_cache, url);
-	if (service != NULL) {
-		printf("found!!\n");
-		camel_url_free(url);
-		gtk_object_ref((GtkObject *)service);
-		return service;
-	}
-	printf("not found, creating service\n");
-
+	/* We need to look up the provider so we can then lookup
+	   the service in the provider's cache */
 	provider = g_hash_table_lookup (session->providers, url->protocol);
 	if (!provider) {
 		/* See if there's one we can load. */
@@ -236,11 +242,22 @@ camel_session_get_service (CamelSession *session, const char *url_string,
 		camel_url_free (url);
 		return NULL;
 	}
+	
+	/* Now look up the service in the provider's cache */
+	printf ("looking up service in cache: \"%s\"\n", camel_url_to_string (url, FALSE));
+	service = g_hash_table_lookup (provider->service_cache, url);
+	if (service != NULL) {
+		printf ("found!!\n");
+		camel_url_free (url);
+		gtk_object_ref (GTK_OBJECT (service));
+		return service;
+	}
+	printf ("not found, creating service\n");
 
 	service = camel_service_new (provider->object_types[type], session, url, ex);
 	if (service) {
-		g_hash_table_insert(session->service_cache, url, service);
-		gtk_signal_connect((GtkObject *)service, "destroy", service_cache_remove, session);
+		g_hash_table_insert (provider->service_cache, url, service);
+		gtk_signal_connect (GTK_OBJECT (service), "destroy", service_cache_remove, session);
 	}
 
 	return service;

@@ -1,3 +1,27 @@
+2000-06-22  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/sendmail/camel-sendmail-provider.c:
+	* providers/vee/camel-vee-provider.c:
+	* providers/smtp/camel-smtp-provider.c:
+	* providers/mbox/camel-mbox-provider.c:
+	* providers/pop3/camel-pop3-provider.c:
+	* providers/imap/camel-imap-provider.c: Updated
+	
+	* camel-session.c: Moved service_cache hash table into the
+	providers.
+	(service_cache_remove): Updated.
+	(camel_session_get_service): Updated.
+
+	* camel-url.c (camel_url_hash): Took out the hashing of
+	url->passwd. We don't want this anymore.
+
+	* providers/imap/camel-imap-folder.c (imap_init): Took out
+	references to 'namespace'
+	(camel_imap_folder_init): Same
+
+	* providers/imap/camel-imap-folder.h: No more namespace. We are
+	instead going to use url->path as the namespace.
+
 2000-06-21  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/imap/camel-imap-store.c (imap_create): Modified to

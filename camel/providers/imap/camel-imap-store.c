@@ -340,10 +340,11 @@ imap_create (CamelFolder *folder, CamelException *ex)
 		return TRUE;
 	
         /* create the directory for the subfolder */
-	if (url && url->path)
-		folder_path = g_strdup_printf ("%s/%s", url->path, folder->full_name);
+	if (url && url->path && strcmp (folder->full_name, "INBOX"))
+		folder_path = g_strdup_printf ("%s/%s", url->path + 1, folder->full_name);
 	else
 		folder_path = g_strdup (folder->full_name);
+	
 	status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), NULL,
 					      &result, "CREATE %s", folder_path);
 
@@ -368,11 +369,13 @@ static CamelFolder *
 get_folder (CamelStore *store, const char *folder_name, gboolean create, CamelException *ex)
 {
 	CamelFolder *new_folder;
+	char *folder_path;
 
 	g_return_val_if_fail (store != NULL, NULL);
 	g_return_val_if_fail (folder_name != NULL, NULL);
-	
-	new_folder = camel_imap_folder_new (store, folder_name, ex);
+
+	folder_path = g_strdup (folder_name);
+	new_folder = camel_imap_folder_new (store, folder_path, ex);
 
 	if (!imap_create (new_folder, ex)) {
 		/* we should set an exception */
@@ -431,6 +434,7 @@ camel_imap_status (char *cmdid, char *respbuf)
 gint
 camel_imap_command (CamelImapStore *store, CamelFolder *folder, char **ret, char *fmt, ...)
 {
+	CamelURL *url = CAMEL_SERVICE (store)->url;
 	gchar *cmdbuf, *respbuf;
 	gchar *cmdid;
 	va_list ap;
@@ -439,10 +443,16 @@ camel_imap_command (CamelImapStore *store, CamelFolder *folder, char **ret, char
 	if (folder && store->current_folder != folder && strncmp (fmt, "STATUS", 6) &&
 	    strncmp (fmt, "CREATE", 5) && strcmp (fmt, "CAPABILITY")) {
 		/* We need to select the correct mailbox first */
-		char *r;
+		char *r, *folder_path;
 		int s;
 
-		s = camel_imap_command_extended (store, folder, &r, "SELECT %s", folder->full_name);
+		if (url && url->path && strcmp (folder->full_name, "INBOX"))
+			folder_path = g_strdup_printf ("%s/%s", url->path + 1, folder->full_name);
+		else
+			folder_path = g_strdup (folder->full_name);
+		
+		s = camel_imap_command_extended (store, folder, &r, "SELECT %s", folder_path);
+		g_free (folder_path);
 		if (s != CAMEL_IMAP_OK) {
 			*ret = r;
 			return s;
@@ -482,7 +492,7 @@ camel_imap_command (CamelImapStore *store, CamelFolder *folder, char **ret, char
 		g_free (cmdbuf);
 		g_free (cmdid);
 		if (*ret)
-			*ret = g_strdup (strerror(errno));
+			*ret = g_strdup (strerror (errno));
 		return CAMEL_IMAP_FAIL;
 	}
 	g_free (cmdbuf);
@@ -491,11 +501,11 @@ camel_imap_command (CamelImapStore *store, CamelFolder *folder, char **ret, char
 	respbuf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (store->istream));
 	if (respbuf == NULL) {
 		if (*ret)
-			*ret = g_strdup (strerror(errno));
+			*ret = g_strdup (strerror (errno));
 		return CAMEL_IMAP_FAIL;
 	}
 
-	fprintf(stderr, "received: %s\n", respbuf ? respbuf : "(null)");
+	fprintf (stderr, "received: %s\n", respbuf ? respbuf : "(null)");
 	fflush (stderr);
 
 	status = camel_imap_status (cmdid, respbuf);
@@ -542,6 +552,7 @@ camel_imap_command (CamelImapStore *store, CamelFolder *folder, char **ret, char
 gint
 camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **ret, char *fmt, ...)
 {
+	CamelURL *url = CAMEL_SERVICE (CAMEL_STORE (store))->url;
 	CamelStreamBuffer *stream = CAMEL_STREAM_BUFFER (store->istream);
 	GPtrArray *data;
 	gchar *cmdid, *cmdbuf, *respbuf;
@@ -551,10 +562,16 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
 	if (folder && store->current_folder != folder && strncmp (fmt, "SELECT", 6) &&
 	    strncmp (fmt, "STATUS", 6) && strncmp (fmt, "CREATE", 5) && strcmp (fmt, "CAPABILITY")) {
 		/* We need to select the correct mailbox first */
-		char *r;
+		char *r, *folder_path;
 		int s;
 
-		s = camel_imap_command_extended (store, folder, &r, "SELECT %s", folder->full_name);
+		if (url && url->path && strcmp (folder->full_name, "INBOX"))
+			folder_path = g_strdup_printf ("%s/%s", url->path + 1, folder->full_name);
+		else
+			folder_path = g_strdup (folder->full_name);
+		
+		s = camel_imap_command_extended (store, folder, &r, "SELECT %s", folder_path);
+		g_free (folder_path);
 		if (s != CAMEL_IMAP_OK) {
 			*ret = r;
 			return s;
@@ -587,11 +604,11 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
 		respbuf = camel_stream_buffer_read_line (stream);
 		if (!respbuf || !strncmp(respbuf, cmdid, strlen(cmdid)) ) {	
 			/* IMAP's last response starts with our command id */
-			fprintf(stderr, "received: %s\n", respbuf ? respbuf : "(null)");
+			fprintf (stderr, "received: %s\n", respbuf ? respbuf : "(null)");
 			break;
 		}
 
-		fprintf(stderr, "received: %s\n", respbuf);
+		fprintf (stderr, "received: %s\n", respbuf);
 
 		g_ptr_array_add (data, respbuf);
 	}

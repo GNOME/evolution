@@ -27,6 +27,7 @@
 #include "camel-pop3-store.h"
 #include "camel-provider.h"
 #include "camel-session.h"
+#include "camel-url.h"
 
 static CamelProvider pop3_provider = {
 	"pop",
@@ -40,7 +41,9 @@ static CamelProvider pop3_provider = {
 
 	CAMEL_PROVIDER_IS_REMOTE,
 
-	{ 0, 0 }
+	{ 0, 0 },
+
+	NULL
 };
 
 void
@@ -49,5 +52,7 @@ camel_provider_module_init (CamelSession *session)
 	pop3_provider.object_types[CAMEL_PROVIDER_STORE] =
 		camel_pop3_store_get_type();
 
+	pop3_provider.service_cache = g_hash_table_new (camel_url_hash, camel_url_equal);
+	
 	camel_session_register_provider (session, &pop3_provider);
 }

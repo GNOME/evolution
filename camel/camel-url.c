@@ -293,7 +293,7 @@ camel_url_decode (char *part)
 }
 
 static void
-add_hash(guint *hash, char *s)
+add_hash (guint *hash, char *s)
 {
 	if (s)
 		*hash ^= g_str_hash(s);
@@ -304,13 +304,13 @@ guint camel_url_hash (const void *v)
 	const CamelURL *u = v;
 	guint hash = 0;
 
-	add_hash(&hash, u->protocol);
-	add_hash(&hash, u->user);
-	add_hash(&hash, u->authmech);
-	add_hash(&hash, u->passwd);
-	add_hash(&hash, u->host);
-	add_hash(&hash, u->path);
+	add_hash (&hash, u->protocol);
+	add_hash (&hash, u->user);
+	add_hash (&hash, u->authmech);
+	add_hash (&hash, u->host);
+	add_hash (&hash, u->path);
 	hash ^= u->port;
+	
 	return hash;
 }
 

@@ -27,6 +27,7 @@
 #include "camel-mbox-store.h"
 #include "camel-provider.h"
 #include "camel-session.h"
+#include "camel-url.h"
 
 static CamelProvider mbox_provider = {
 	"mbox",
@@ -39,7 +40,9 @@ static CamelProvider mbox_provider = {
 
 	0,
 
-	{ 0, 0 }
+	{ 0, 0 },
+
+	NULL
 };
 
 void
@@ -47,6 +50,8 @@ camel_provider_module_init (CamelSession *session)
 {
 	mbox_provider.object_types[CAMEL_PROVIDER_STORE] =
 		camel_mbox_store_get_type();
+
+	mbox_provider.service_cache = g_hash_table_new (camel_url_hash, camel_url_equal);
 
 	camel_session_register_provider (session, &mbox_provider);
 }

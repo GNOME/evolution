@@ -3,8 +3,9 @@
 
 /*
  *
- * Author :
+ * Authors:
  *  Bertrand Guiheneuf <bertrand@helixcode.com>
+ *  Jeffrey Stedfast <fejj@helixcode.com>
  *
  * Copyright 1999, 2000 Helix Code, Inc. (http://www.helixcode.com)
  *
@@ -73,11 +74,13 @@ typedef struct {
 	int flags;
 
 	GtkType object_types [CAMEL_NUM_PROVIDER_TYPES];
+
+	GHashTable *service_cache;
+	
 } CamelProvider;
 
 GHashTable *camel_provider_init (void);
-void camel_provider_load (CamelSession *session, const char *path,
-			  CamelException *ex);
+void camel_provider_load (CamelSession *session, const char *path, CamelException *ex);
 
 /* This is defined by each module, not by camel-provider.c. */
 void camel_provider_module_init (CamelSession *session);

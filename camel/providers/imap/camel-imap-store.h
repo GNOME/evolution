@@ -46,6 +46,7 @@ typedef struct {
 
 	CamelFolder *current_folder;
 	CamelStream *istream, *ostream;
+	
 	guint32 command;
 
 } CamelImapStore;

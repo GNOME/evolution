@@ -6,6 +6,7 @@
  * Authors:
  *  Bertrand Guiheneuf <bertrand@helixcode.com>
  *  Dan Winship <danw@helixcode.com>
+ *  Jeffrey Stedfast <fejj@helixcode.com>
  *
  * Copyright 1999, 2000 Helix Code, Inc. (http://www.helixcode.com)
  *
@@ -118,8 +119,7 @@ camel_provider_init (void)
  * itself with @session.
  **/ 
 void
-camel_provider_load (CamelSession *session, const char *path,
-		     CamelException *ex)
+camel_provider_load (CamelSession *session, const char *path, CamelException *ex)
 {
 	GModule *module;
 	CamelProvider *(*camel_provider_module_init) ();
