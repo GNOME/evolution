@@ -1213,10 +1213,9 @@ possibly never will be due to security evil. -->
 	    <term><guilabel>Expression</guilabel></term>
 	    <listitem>
              <para>
-               Enter a <glossterm linkend="regular-expression">regular
-	       expression</glossterm>, and
-	       <application>Evolution</application> will search the
-	       entire message, including headers, to match it for you.
+               For programmers only: match a message according to an
+               expression you write in the Scheme language, used to
+               define filters in Evolution.
 	     </para>
            </listitem>
 	  </varlistentry>
@@ -1224,16 +1223,17 @@ possibly never will be due to security evil. -->
 
 	  <varlistentry>
 	    <term><guilabel>Date Sent</guilabel></term>
-	    <listitem><para> Filter messages by when they were sent:
-	    First, choose the conditions you want a message to
-	    meet&mdash; <guilabel>before</guilabel> a given time,
-	    <guilabel>after</guilabel> it, and so forth.  Then, choose
-	    the time. The filter will compare the message's time-stamp
-	    to the system clock when the filter is run, or to a
-	    specific time and date you choose from a calendar.  You
-	    can even have it look for messages within a range of time
-	    relative to the filter&mdash perhaps you're looking for
-	    messages less than two days old.  </para></listitem>
+	    <listitem><para> Filter messages according to the date on
+	    which they were sent: First, choose the conditions you
+	    want a message to meet &mdash; <guilabel>before</guilabel>
+	    a given time, <guilabel>after</guilabel> it, and so forth.
+	    Then, choose the time. The filter will compare the
+	    message's time-stamp to the system clock when the filter
+	    is run, or to a specific time and date you choose from a
+	    calendar.  You can even have it look for messages within a
+	    range of time relative to the filter &mdash perhaps you're
+	    looking for messages less than two days old.
+          </para></listitem>
 	  </varlistentry>
 
 	  <varlistentry>

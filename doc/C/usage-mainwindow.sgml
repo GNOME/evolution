@@ -85,19 +85,20 @@
       </para>
       </listitem>
       </varlistentry>
-
+-->
 	<varlistentry>
-	  <term> <guibutton>Executive Summary:</guibutton></term>
+	  <term> <guibutton>My Evolution</guibutton></term>
 	  <listitem>
 	    <para>
-	      Start your day here.  The Executive summary gives you
-              lists of new or important messages, daily appointments
-              and urgent tasks.  You can customize its appearance and
-              content, and use it to access Evolution services.
+	      Start your day here.  <guilabel>My Evolution</guilabel>
+              gives you a quick summary of new or important messages,
+              daily appointments and urgent tasks.  You can customize
+              its appearance and content, and use it to access
+              Evolution services.
 	    </para>
 	  </listitem>
 	</varlistentry>
--->
+
 
 	<varlistentry>
 	  <term> <guibutton>Inbox</guibutton></term>
@@ -408,10 +409,10 @@
         <varlistentry>
           <term> <guimenu>Actions</guimenu></term>
           <listitem><para>
-	    Holds actions which maybe applied to a message.
-	    Normally, if there is only one target for the
-            action(example: reply to message), then the
-            action will be in here.
+	    Holds actions which maybe applied to a message.  Normally,
+	    if there is only one target for the action &mdash; for
+	    example, replying to a message &mdash; you can find it in
+	    the <guimenu>Actions</guimenu> menu.
           </para></listitem>
         </varlistentry>
 
