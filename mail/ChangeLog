@@ -1,5 +1,10 @@
 2001-05-08  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-tools.c (mail_tool_forward_message): Convert the Subject
+	header to HTML and also make sure that the Subject, To, and From
+	header values are non-NULL before feeding them into
+	e_text_to_html().
+
 	* mail-callbacks.c (edit_msg_internal): Free the UIDs if the user
 	decides to not go through with editing all the messages he
 	selected.
