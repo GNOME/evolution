@@ -16,6 +16,7 @@
 #include <bonobo/bonobo-object.h>
 #include <ebook/addressbook.h>
 #include <ebook/e-book-types.h>
+#include <e-util/e-list.h>
 
 BEGIN_GNOME_DECLS
 
@@ -70,7 +71,7 @@ typedef struct {
 	GNOME_Evolution_Addressbook_BookView      book_view;
 
 	/* For GetSupportedFields */
-	const GNOME_Evolution_Addressbook_stringlist   *fields;
+	EList                                    *fields;
 
 	/* For OpenProgressEvent */
 	char                   *msg;

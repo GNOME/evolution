@@ -81,7 +81,10 @@ enum _ECardSimpleField {
         E_CARD_SIMPLE_FIELD_FAMILY_NAME,
         E_CARD_SIMPLE_FIELD_EMAIL,
         E_CARD_SIMPLE_FIELD_PHONE_PRIMARY,
+	E_CARD_SIMPLE_FIELD_PHONE_ASSISTANT,
         E_CARD_SIMPLE_FIELD_PHONE_BUSINESS,
+        E_CARD_SIMPLE_FIELD_PHONE_CALLBACK,
+        E_CARD_SIMPLE_FIELD_PHONE_COMPANY,
         E_CARD_SIMPLE_FIELD_PHONE_HOME,
         E_CARD_SIMPLE_FIELD_ORG,
         E_CARD_SIMPLE_FIELD_ADDRESS_BUSINESS,
@@ -94,7 +97,11 @@ enum _ECardSimpleField {
         E_CARD_SIMPLE_FIELD_PHONE_HOME_2,
         E_CARD_SIMPLE_FIELD_PHONE_ISDN,
         E_CARD_SIMPLE_FIELD_PHONE_OTHER,
+        E_CARD_SIMPLE_FIELD_PHONE_OTHER_FAX,
         E_CARD_SIMPLE_FIELD_PHONE_PAGER,
+        E_CARD_SIMPLE_FIELD_PHONE_RADIO,
+        E_CARD_SIMPLE_FIELD_PHONE_TELEX,
+        E_CARD_SIMPLE_FIELD_PHONE_TTYTTD,
         E_CARD_SIMPLE_FIELD_ADDRESS_OTHER,
         E_CARD_SIMPLE_FIELD_EMAIL_2,
         E_CARD_SIMPLE_FIELD_EMAIL_3,
@@ -151,6 +158,9 @@ void                        e_card_simple_set                   (ECardSimple    
 								 const char                   *data);
 ECardSimpleType             e_card_simple_type                  (ECardSimple                  *simple,
 								 ECardSimpleField              field);
+
+const char                 *e_card_simple_get_ecard_field       (ECardSimple         *simple,
+								 ECardSimpleField     field);
 const char                 *e_card_simple_get_name              (ECardSimple                  *simple,
 								 ECardSimpleField              field);
 const char                 *e_card_simple_get_short_name        (ECardSimple                  *simple,
@@ -192,6 +202,11 @@ void                        e_card_simple_set_arbitrary         (ECardSimple    
 								 const char                   *type,
 								 const char                   *value);
 void                        e_card_simple_sync_card             (ECardSimple                  *simple);
+
+/* These map between the individual list types and ECardSimpleField */
+ECardSimpleField            e_card_simple_map_phone_to_field    (ECardSimplePhoneId            phone_id);
+ECardSimpleField            e_card_simple_map_email_to_field    (ECardSimpleEmailId            email_id);
+ECardSimpleField            e_card_simple_map_address_to_field  (ECardSimpleAddressId          address_id);
 
 /* Standard Gtk function */			      
 GtkType                     e_card_simple_get_type              (void);

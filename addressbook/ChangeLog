@@ -1,5 +1,32 @@
 2001-03-02  Chris Toshok  <toshok@ximian.com>
 
+	* backend/ebook/e-card-simple.c (field_data): add new entries for
+	phone enums, and fill in the ecard_field with (bogus in all but a
+	few cases) strings.  these are the strings sent from wombat to
+	evolution-addressbook for supported_fields.
+	(e_card_simple_get_ecard_field): new function.
+	(e_card_simple_map_phone_to_field): new function.
+	(e_card_simple_map_email_to_field): new function.
+	(e_card_simple_map_address_to_field): new function.
+
+	* backend/ebook/e-card-simple.h: add a few phone entries to the
+	ECardSimpleField enum, and add prototypes for mapping the list
+	types (phone, email, address) to ECardSimpleField.  Also, add
+	prototype for e_card_simple_get_ecard_field.
+
+	* backend/ebook/e-book.c
+	(e_book_do_response_get_supported_fields): don't build the EList
+	here, it's already built.
+
+	* backend/ebook/e-book-listener.h: change fields from the CORBA
+	sequence to the EList in our reponse struct.
+
+	* backend/ebook/e-book-listener.c
+	(e_book_listener_queue_get_supported_fields_response): we make the
+	EList here, since after we return the CORBA list is freed up.
+
+2001-03-02  Chris Toshok  <toshok@ximian.com>
+
 	* backend/pas/pas-backend-file.c
 	(pas_backend_file_process_get_supported_fields): implement
 	properly, we support everything.

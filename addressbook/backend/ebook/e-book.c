@@ -336,8 +336,6 @@ e_book_do_response_get_supported_fields (EBook                 *book,
 					 EBookListenerResponse *resp)
 {
 	EBookOp *op;
-	EList *list;
-	int i;
 
 	op = e_book_pop_op (book);
 
@@ -347,14 +345,8 @@ e_book_do_response_get_supported_fields (EBook                 *book,
 		return;
 	}
 
-	list = e_list_new ((EListCopyFunc)g_strdup, (EListFreeFunc)g_free, NULL);
-
-	for (i = 0; i < resp->fields->_length; i ++) {
-		e_list_append (list, g_strdup (resp->fields->_buffer[i]));
-	}
-
 	if (op->cb)
-		((EBookFieldsCallback) op->cb) (book, resp->status, list, op->closure);
+		((EBookFieldsCallback) op->cb) (book, resp->status, resp->fields, op->closure);
 	g_free (op);
 }
 
