@@ -1355,6 +1355,7 @@ load_content_free (struct _mail_msg *mm)
 	struct _load_content_msg *m = (struct _load_content_msg *)mm;
 	
 	g_free (m->url);
+	gtk_object_unref (GTK_OBJECT (m->html));
 	gtk_object_unref (GTK_OBJECT (m->display));
 	camel_object_unref (CAMEL_OBJECT (m->message));
 }
@@ -1396,6 +1397,7 @@ stream_write_or_redisplay_when_loaded (MailDisplay *md,
 	m->display = md;
 	gtk_object_ref (GTK_OBJECT (m->display));
 	m->html = html;
+	gtk_object_ref (GTK_OBJECT (html));
 	m->handle = handle;
 	m->url = g_strdup (url);
 	m->redisplay_counter = md->redisplay_counter;
@@ -1682,7 +1684,9 @@ static void
 mail_display_destroy (GtkObject *object)
 {
 	MailDisplay *mail_display = MAIL_DISPLAY (object);
-
+	
+	gtk_object_unref (GTK_OBJECT (mail_display->html));
+	
 	g_free (mail_display->charset);
 	g_free (mail_display->selection);
 	g_free (mail_display->followup);
@@ -2289,6 +2293,7 @@ mail_display_new (void)
 	
 	mail_display->scroll = E_SCROLL_FRAME (scroll);
 	mail_display->html = GTK_HTML (html);
+	gtk_object_ref (GTK_OBJECT (mail_display->html));
 	mail_display->last_active = NULL;
 	mail_display->data = g_new0 (GData *, 1);
 	g_datalist_init (mail_display->data);
