@@ -1,3 +1,10 @@
+2000-07-06  JP Rosevear  <jpr@arcavia.com>
+
+	* mail-config.glade*: Glade files for the configuration dialog.
+	
+	* mail-config.c (providers_config_new): Build the dialog with
+	glade.
+
 2000-07-06  Dan Winship  <danw@helixcode.com>
 
 	* folder-browser-factory.c, folder-browser.c, mail-ops.c,

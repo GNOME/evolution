@@ -103,10 +103,14 @@ gnorbadir = $(sysconfdir)/CORBA/servers
 gnorba_DATA = $(GOAD_FILES)
 endif
 
+gladedir   = $(datadir)/evolution/glade
+glade_DATA = 				\
+	mail-config.glade
+
 $(EVOLUTION_MAIL_CORBA_GENERATED): Mail.idl 
 	$(ORBIT_IDL) -I$(datadir)/idl -I`$(GNOME_CONFIG) --datadir`/idl -I$(srcdir) $(srcdir)/Mail.idl
 
-EXTRA_DIST = Mail.idl $(GOAD_FILES) $(OAF_FILES)
+EXTRA_DIST = Mail.idl $(glade_DATA) $(GOAD_FILES) $(OAF_FILES)
 
 if ENABLE_PURIFY
 PLINK = $(LIBTOOL) --mode=link $(PURIFY) $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
@@ -118,4 +122,3 @@ evolution-mail.pure: evolution-mail
 	$(PLINK) $(evolution_mail_LDFLAGS) $(evolution_mail_OBJECTS) $(evolution_mail_LDADD) $(LIBS)
 
 endif
-

@@ -29,6 +29,7 @@
 
 #include <gnome.h>
 #include <gtkhtml/gtkhtml.h>
+#include <glade/glade.h>
 
 #include "mail.h"
 #include "e-util/e-html-utils.h"
@@ -1682,38 +1683,24 @@ on_chkFormat_toggled (GtkWidget *widget, gpointer user_data)
 GtkWidget*
 providers_config_new (void)
 {
+	GladeXML *gui;
 	GtkWidget *providers_config;
 	GtkWidget *dialog_vbox1;
 	GtkWidget *notebook;
-	GtkWidget *hbox1;
-	GtkWidget *scrolledwindow1;
 	GtkWidget *clistIdentities;
-	GtkWidget *lblIdentities;
-	GtkWidget *vbuttonbox1;
 	GtkWidget *cmdIdentityAdd;
 	GtkWidget *cmdIdentityEdit;
 	GtkWidget *cmdIdentityDelete;
-	GtkWidget *lblIdentity;
-	GtkWidget *hbox2;
-	GtkWidget *scrolledwindow2;
 	GtkWidget *clistSources;
-	GtkWidget *lblMailSources;
-	GtkWidget *vbuttonbox2;
 	GtkWidget *cmdSourcesAdd;
 	GtkWidget *cmdSourcesEdit;
 	GtkWidget *cmdSourcesDelete;
-	GtkWidget *lblProviders;
-	GtkWidget *lblTransports;
-	GtkWidget *dialog_action_area1;
 	GtkWidget *cmdCamelServicesOK;
 	GtkWidget *cmdCamelServicesCancel;
 	GtkWidget *transport_page_vbox;
-	GtkWidget *format_vbox;
 	GtkWidget *chkFormat;
-	GtkWidget *lblOther;
 	GList *providers, *p, *sources, *transports;
 	GtkWidget *table, *interior_notebook;
-	char *titles[] = { _("Name"), _("Address"), _("Organization"), _("Signature file") };
 	char *path;
 	gboolean configured;
 	int page;
@@ -1738,53 +1725,30 @@ providers_config_new (void)
 						  prov);
 		}
 	}
-	
-	providers_config = gnome_dialog_new (_("Camel Providers Configuration"), NULL);
-	gtk_window_set_modal (GTK_WINDOW (providers_config), TRUE);
+
+	gui = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config.glade", NULL);
+	providers_config = glade_xml_get_widget (gui, "dialog");
+
 	gtk_widget_set_name (providers_config, "providers_config");
-	gtk_object_set_data (GTK_OBJECT (providers_config), "providers_config", providers_config);
-	gtk_window_set_policy (GTK_WINDOW (providers_config), TRUE, TRUE, FALSE);
-	gtk_window_set_default_size (GTK_WINDOW (providers_config), 460, 340);
+	gtk_object_set_data (GTK_OBJECT (providers_config), 
+			     "providers_config", providers_config);
 
-	dialog_vbox1 = GNOME_DIALOG (providers_config)->vbox;
-	gtk_widget_set_name (dialog_vbox1, "dialog_vbox1");
-	gtk_object_set_data (GTK_OBJECT (providers_config), "dialog_vbox1", dialog_vbox1);
-	gtk_widget_show (dialog_vbox1);
+	dialog_vbox1 = glade_xml_get_widget (gui, "dialog_vbox1");
+	gtk_object_set_data (GTK_OBJECT (providers_config), 
+			     "dialog_vbox1", dialog_vbox1);
 
-	notebook = gtk_notebook_new ();
-	gtk_widget_set_name (notebook, "notebook");
+	notebook = glade_xml_get_widget (gui, "notebook");
 	gtk_widget_ref (notebook);
-	gtk_object_set_data_full (GTK_OBJECT (providers_config), "notebook", notebook,
+	gtk_object_set_data_full (GTK_OBJECT (providers_config), 
+				  "notebook", notebook,
 				  (GtkDestroyNotify) gtk_widget_unref);
-	gtk_widget_show (notebook);
-	gtk_box_pack_start (GTK_BOX (dialog_vbox1), notebook, TRUE, TRUE, 0);
 
-	hbox1 = gtk_hbox_new (FALSE, 0);
-	gtk_widget_set_name (hbox1, "hbox1");
-	gtk_widget_ref (hbox1);
-	gtk_object_set_data_full (GTK_OBJECT (providers_config), "hbox1", hbox1,
-				  (GtkDestroyNotify) gtk_widget_unref);
-	gtk_widget_show (hbox1);
-	gtk_container_add (GTK_CONTAINER (notebook), hbox1);
-
-	scrolledwindow1 = gtk_scrolled_window_new (NULL, NULL);
-	gtk_widget_set_name (scrolledwindow1, "scrolledwindow1");
-	gtk_widget_ref (scrolledwindow1);
-	gtk_object_set_data_full (GTK_OBJECT (providers_config), "scrolledwindow1", scrolledwindow1,
-				  (GtkDestroyNotify) gtk_widget_unref);
-	gtk_widget_show (scrolledwindow1);
-	gtk_box_pack_start (GTK_BOX (hbox1), scrolledwindow1, TRUE, TRUE, 0);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow1), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-
-	clistIdentities = gtk_clist_new_with_titles (4, titles);
-	gtk_widget_set_name (clistIdentities, "clistIdentities");
+	clistIdentities = glade_xml_get_widget (gui, "clistIdentities");
 	gtk_widget_ref (clistIdentities);
-	gtk_object_set_data_full (GTK_OBJECT (providers_config), "clistIdentities", clistIdentities,
+	gtk_object_set_data_full (GTK_OBJECT (providers_config), 
+				  "clistIdentities", clistIdentities,
 				  (GtkDestroyNotify) gtk_widget_unref);
-	gtk_widget_show (clistIdentities);
-	gtk_container_add (GTK_CONTAINER (scrolledwindow1), clistIdentities);
 	gtk_clist_set_column_width (GTK_CLIST (clistIdentities), 0, 80);
-	gtk_clist_column_titles_show (GTK_CLIST (clistIdentities));
 
 	/* Find out if stuff has been configured */
 	path = g_strdup_printf ("=%s/config=/mail/configured", evolution_dir);
@@ -1827,86 +1791,16 @@ providers_config_new (void)
 		gtk_clist_set_row_data (GTK_CLIST (clistIdentities), 0, data);
 	}
 
+	cmdIdentityAdd = glade_xml_get_widget (gui, "cmdIdentityAdd");
+	cmdIdentityEdit = glade_xml_get_widget (gui, "cmdIdentityEdit");
+	cmdIdentityDelete = glade_xml_get_widget (gui, "cmdIdentityDelete");
 
-	lblIdentities = gtk_label_new (_("Identities"));
-	gtk_widget_set_name (lblIdentities, "lblIdentities");
-	gtk_widget_ref (lblIdentities);
-	gtk_object_set_data_full (GTK_OBJECT (providers_config), "lblIdentities", lblIdentities,
-				  (GtkDestroyNotify) gtk_widget_unref);
-	gtk_widget_show (lblIdentities);
-	gtk_clist_set_column_widget (GTK_CLIST (clistIdentities), 0, lblIdentities);
-
-	vbuttonbox1 = gtk_vbutton_box_new ();
-	gtk_widget_set_name (vbuttonbox1, "vbuttonbox1");
-	gtk_widget_ref (vbuttonbox1);
-	gtk_object_set_data_full (GTK_OBJECT (providers_config), "vbuttonbox1", vbuttonbox1,
-				  (GtkDestroyNotify) gtk_widget_unref);
-	gtk_widget_show (vbuttonbox1);
-	gtk_box_pack_start (GTK_BOX (hbox1), vbuttonbox1, FALSE, FALSE, 0);
-
-	cmdIdentityAdd = gtk_button_new_with_label (_("Add"));
-	gtk_widget_set_name (cmdIdentityAdd, "cmdIdentityAdd");
-	gtk_widget_ref (cmdIdentityAdd);
-	gtk_object_set_data_full (GTK_OBJECT (providers_config), "cmdIdentityAdd", cmdIdentityAdd,
-				  (GtkDestroyNotify) gtk_widget_unref);
-	gtk_widget_show (cmdIdentityAdd);
-	gtk_container_add (GTK_CONTAINER (vbuttonbox1), cmdIdentityAdd);
-	GTK_WIDGET_SET_FLAGS (cmdIdentityAdd, GTK_CAN_DEFAULT);
-
-	cmdIdentityEdit = gtk_button_new_with_label (_("Edit"));
-	gtk_widget_set_name (cmdIdentityEdit, "cmdIdentityEdit");
-	gtk_widget_ref (cmdIdentityEdit);
-	gtk_object_set_data_full (GTK_OBJECT (providers_config), "cmdIdentityEdit", cmdIdentityEdit,
-				  (GtkDestroyNotify) gtk_widget_unref);
-	gtk_widget_show (cmdIdentityEdit);
-	gtk_container_add (GTK_CONTAINER (vbuttonbox1), cmdIdentityEdit);
-	GTK_WIDGET_SET_FLAGS (cmdIdentityEdit, GTK_CAN_DEFAULT);
-
-	cmdIdentityDelete = gtk_button_new_with_label (_("Delete"));
-	gtk_widget_set_name (cmdIdentityDelete, "cmdIdentityDelete");
-	gtk_widget_ref (cmdIdentityDelete);
-	gtk_object_set_data_full (GTK_OBJECT (providers_config), "cmdIdentityDelete", cmdIdentityDelete,
-				  (GtkDestroyNotify) gtk_widget_unref);
-	gtk_widget_show (cmdIdentityDelete);
-	gtk_container_add (GTK_CONTAINER (vbuttonbox1), cmdIdentityDelete);
-	GTK_WIDGET_SET_FLAGS (cmdIdentityDelete, GTK_CAN_DEFAULT);
-
-	lblIdentity = gtk_label_new (_("Identity"));
-	gtk_widget_set_name (lblIdentity, "lblIdentity");
-	gtk_widget_ref (lblIdentity);
-	gtk_object_set_data_full (GTK_OBJECT (providers_config), "lblIdentity", lblIdentity,
-				  (GtkDestroyNotify) gtk_widget_unref);
-	gtk_widget_show (lblIdentity);
-	gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook), 0),
-				    lblIdentity);
-
-	hbox2 = gtk_hbox_new (FALSE, 0);
-	gtk_widget_set_name (hbox2, "hbox2");
-	gtk_widget_ref (hbox2);
-	gtk_object_set_data_full (GTK_OBJECT (providers_config), "hbox2", hbox2,
-				  (GtkDestroyNotify) gtk_widget_unref);
-	gtk_widget_show (hbox2);
-	gtk_container_add (GTK_CONTAINER (notebook), hbox2);
-
-	scrolledwindow2 = gtk_scrolled_window_new (NULL, NULL);
-	gtk_widget_set_name (scrolledwindow2, "scrolledwindow2");
-	gtk_widget_ref (scrolledwindow2);
-	gtk_object_set_data_full (GTK_OBJECT (providers_config), "scrolledwindow2", scrolledwindow2,
-				  (GtkDestroyNotify) gtk_widget_unref);
-	gtk_widget_show (scrolledwindow2);
-	gtk_box_pack_start (GTK_BOX (hbox2), scrolledwindow2, TRUE, TRUE, 0);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow2), GTK_POLICY_AUTOMATIC,
-					GTK_POLICY_AUTOMATIC);
-
-	clistSources = gtk_clist_new (1);
-	gtk_widget_set_name (clistSources, "clistSources");
+	clistSources = glade_xml_get_widget (gui, "clistSources");
 	gtk_widget_ref (clistSources);
-	gtk_object_set_data_full (GTK_OBJECT (providers_config), "clistSources", clistSources,
+	gtk_object_set_data_full (GTK_OBJECT (providers_config), 
+				  "clistSources", clistSources,
 				  (GtkDestroyNotify) gtk_widget_unref);
-	gtk_widget_show (clistSources);
-	gtk_container_add (GTK_CONTAINER (scrolledwindow2), clistSources);
 	gtk_clist_set_column_width (GTK_CLIST (clistSources), 0, 80);
-	gtk_clist_column_titles_show (GTK_CLIST (clistSources));
 
 	if (configured && !source) {
 		path = g_strdup_printf ("=%s/config=/mail/source", evolution_dir);
@@ -1924,70 +1818,17 @@ providers_config_new (void)
 		gtk_clist_set_row_data (GTK_CLIST (clistSources), 0, g_strdup(source));
 	}
 
-	lblMailSources = gtk_label_new (_("Mail sources"));
-	gtk_widget_set_name (lblMailSources, "lblMailSources");
-	gtk_widget_ref (lblMailSources);
-	gtk_object_set_data_full (GTK_OBJECT (providers_config), "lblMailSources", lblMailSources,
-				  (GtkDestroyNotify) gtk_widget_unref);
-	gtk_widget_show (lblMailSources);
-	gtk_clist_set_column_widget (GTK_CLIST (clistSources), 0, lblMailSources);
-
-	vbuttonbox2 = gtk_vbutton_box_new ();
-	gtk_widget_set_name (vbuttonbox2, "vbuttonbox2");
-	gtk_widget_ref (vbuttonbox2);
-	gtk_object_set_data_full (GTK_OBJECT (providers_config), "vbuttonbox2", vbuttonbox2,
-				  (GtkDestroyNotify) gtk_widget_unref);
-	gtk_widget_show (vbuttonbox2);
-	gtk_box_pack_start (GTK_BOX (hbox2), vbuttonbox2, FALSE, FALSE, 0);
-
-	cmdSourcesAdd = gtk_button_new_with_label (_("Add"));
-	gtk_widget_set_name (cmdSourcesAdd, "cmdSourcesAdd");
-	gtk_widget_ref (cmdSourcesAdd);
-	gtk_object_set_data_full (GTK_OBJECT (providers_config), "cmdSourcesAdd", cmdSourcesAdd,
-				  (GtkDestroyNotify) gtk_widget_unref);
-	gtk_widget_show (cmdSourcesAdd);
-	gtk_container_add (GTK_CONTAINER (vbuttonbox2), cmdSourcesAdd);
-	GTK_WIDGET_SET_FLAGS (cmdSourcesAdd, GTK_CAN_DEFAULT);
-
-	cmdSourcesEdit = gtk_button_new_with_label (_("Edit"));
-	gtk_widget_set_name (cmdSourcesEdit, "cmdSourcesEdit");
-	gtk_widget_ref (cmdSourcesEdit);
-	gtk_object_set_data_full (GTK_OBJECT (providers_config), "cmdSourcesEdit", cmdSourcesEdit,
-				  (GtkDestroyNotify) gtk_widget_unref);
-	gtk_widget_show (cmdSourcesEdit);
-	gtk_container_add (GTK_CONTAINER (vbuttonbox2), cmdSourcesEdit);
-	GTK_WIDGET_SET_FLAGS (cmdSourcesEdit, GTK_CAN_DEFAULT);
-
-	cmdSourcesDelete = gtk_button_new_with_label (_("Delete"));
-	gtk_widget_set_name (cmdSourcesDelete, "cmdSourcesDelete");
-	gtk_widget_ref (cmdSourcesDelete);
-	gtk_object_set_data_full (GTK_OBJECT (providers_config), "cmdSourcesDelete", cmdSourcesDelete,
-				  (GtkDestroyNotify) gtk_widget_unref);
-	gtk_widget_show (cmdSourcesDelete);
-	gtk_container_add (GTK_CONTAINER (vbuttonbox2), cmdSourcesDelete);
-	GTK_WIDGET_SET_FLAGS (cmdSourcesDelete, GTK_CAN_DEFAULT);
-
-	lblProviders = gtk_label_new (_("Sources"));
-	gtk_widget_set_name (lblProviders, "lblProviders");
-	gtk_widget_ref (lblProviders);
-	gtk_object_set_data_full (GTK_OBJECT (providers_config), "lblProviders", lblProviders,
-				  (GtkDestroyNotify) gtk_widget_unref);
-	gtk_widget_show (lblProviders);
-	gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook), 1),
-				    lblProviders);
-
+	cmdSourcesAdd = glade_xml_get_widget (gui, "cmdSourcesAdd");
+	cmdSourcesEdit = glade_xml_get_widget (gui, "cmdSourcesEdit");
+	cmdSourcesDelete = glade_xml_get_widget (gui, "cmdSourcesDelete");
 
 	/* Setup the transport page */
-	transport_page_vbox = gtk_vbox_new (FALSE, 0);
-	gtk_container_set_border_width (GTK_CONTAINER (transport_page_vbox), 8);
-	gtk_box_set_spacing (GTK_BOX (transport_page_vbox), 5);
-	gtk_widget_set_name (transport_page_vbox, "transport_page_vbox");
+	transport_page_vbox = glade_xml_get_widget (gui, "transport_page_vbox");
 	gtk_object_set_data (GTK_OBJECT (notebook), "transport_page_vbox", transport_page_vbox);
 	gtk_widget_ref (transport_page_vbox);
 	gtk_object_set_data_full (GTK_OBJECT (providers_config), "transport_page_vbox", transport_page_vbox,
 				  (GtkDestroyNotify) gtk_widget_unref);
-	gtk_widget_show (transport_page_vbox);
-	gtk_container_add (GTK_CONTAINER (notebook), transport_page_vbox);
+
 	if (configured && !transport) {
 		path = g_strdup_printf ("=%s/config=/mail/transport", evolution_dir);
 		transport = gnome_config_get_string (path);
@@ -2006,44 +1847,12 @@ providers_config_new (void)
 	set_service_url (GTK_OBJECT (table), transport);
 	
 
-	lblTransports = gtk_label_new (_("Transports"));
-	gtk_widget_set_name (lblTransports, "lblTransports");
-	gtk_widget_ref (lblTransports);
-	gtk_object_set_data_full (GTK_OBJECT (providers_config), "lblTransports", lblTransports,
-				  (GtkDestroyNotify) gtk_widget_unref);
-	gtk_widget_show (lblTransports);
-	gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook), 2),
-				    lblTransports);
-
 	/* Lets make a page to mark Send HTML or text/plan...yay */
-	format_vbox = gtk_vbox_new (FALSE, 0);
-	gtk_container_set_border_width (GTK_CONTAINER (format_vbox), 8);
-	gtk_box_set_spacing (GTK_BOX (format_vbox), 5);
-	gtk_widget_set_name (format_vbox, "format_vbox");
-	gtk_object_set_data (GTK_OBJECT (notebook), "format_vbox", format_vbox);
-	gtk_widget_ref (format_vbox);
-	gtk_object_set_data_full (GTK_OBJECT (providers_config), "format_vbox", format_vbox,
-				  (GtkDestroyNotify) gtk_widget_unref);
-	gtk_widget_show (format_vbox);
-	gtk_container_add (GTK_CONTAINER (notebook), format_vbox);
-
-	chkFormat = gtk_check_button_new_with_label (_("Send messages in HTML format"));
-	gtk_widget_set_name (chkFormat, "chkFormat");
+	chkFormat = glade_xml_get_widget (gui, "chkFormat");
 	gtk_object_set_data (GTK_OBJECT (notebook), "chkFormat", chkFormat);
 	gtk_widget_ref (chkFormat);
 	gtk_object_set_data_full (GTK_OBJECT (providers_config), "chkFormat", chkFormat,
 				  (GtkDestroyNotify) gtk_widget_unref);
-	gtk_widget_show (chkFormat);
-	gtk_box_pack_start (GTK_BOX (format_vbox), chkFormat, FALSE, FALSE, 0);
-	
-	lblOther = gtk_label_new (_("Other"));
-	gtk_widget_set_name (lblOther, "lblOther");
-	gtk_widget_ref (lblOther);
-	gtk_object_set_data_full (GTK_OBJECT (providers_config), "lblOther", lblOther,
-				  (GtkDestroyNotify) gtk_widget_unref);
-	gtk_widget_show (lblOther);
-	gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook), 3),
-				    lblOther);
 
 	if (configured) {
 		char *buf;
@@ -2061,31 +1870,8 @@ providers_config_new (void)
 	}
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (chkFormat), format);
 
-
-	dialog_action_area1 = GNOME_DIALOG (providers_config)->action_area;
-	gtk_widget_set_name (dialog_action_area1, "dialog_action_area1");
-	gtk_object_set_data (GTK_OBJECT (providers_config), "dialog_action_area1", dialog_action_area1);
-	gtk_widget_show (dialog_action_area1);
-	gtk_button_box_set_layout (GTK_BUTTON_BOX (dialog_action_area1), GTK_BUTTONBOX_END);
-	gtk_button_box_set_spacing (GTK_BUTTON_BOX (dialog_action_area1), 8);
-
-	gnome_dialog_append_button (GNOME_DIALOG (providers_config), GNOME_STOCK_BUTTON_OK);
-	cmdCamelServicesOK = g_list_last (GNOME_DIALOG (providers_config)->buttons)->data;
-	gtk_widget_set_name (cmdCamelServicesOK, "cmdCamelServicesOK");
-	gtk_widget_ref (cmdCamelServicesOK);
-	gtk_object_set_data_full (GTK_OBJECT (providers_config), "cmdCamelServicesOK", cmdCamelServicesOK,
-				  (GtkDestroyNotify) gtk_widget_unref);
-	gtk_widget_show (cmdCamelServicesOK);
-	GTK_WIDGET_SET_FLAGS (cmdCamelServicesOK, GTK_CAN_DEFAULT);
-
-	gnome_dialog_append_button (GNOME_DIALOG (providers_config), GNOME_STOCK_BUTTON_CANCEL);
-	cmdCamelServicesCancel = g_list_last (GNOME_DIALOG (providers_config)->buttons)->data;
-	gtk_widget_set_name (cmdCamelServicesCancel, "cmdCamelServicesCancel");
-	gtk_widget_ref (cmdCamelServicesCancel);
-	gtk_object_set_data_full (GTK_OBJECT (providers_config), "cmdCamelServicesCancel", cmdCamelServicesCancel,
-				  (GtkDestroyNotify) gtk_widget_unref);
-	gtk_widget_show (cmdCamelServicesCancel);
-	GTK_WIDGET_SET_FLAGS (cmdCamelServicesCancel, GTK_CAN_DEFAULT);
+	cmdCamelServicesOK = glade_xml_get_widget (gui, "cmdCamelServicesOK");
+	cmdCamelServicesCancel = glade_xml_get_widget (gui, "cmdCamelServicesCancel");
 
 	gtk_signal_connect (GTK_OBJECT (cmdIdentityAdd), "clicked",
 			    GTK_SIGNAL_FUNC (on_cmdIdentityAdd_clicked),
@@ -2127,3 +1913,8 @@ providers_config_new (void)
 
 	return providers_config;
 }
+
+
+
+
+
