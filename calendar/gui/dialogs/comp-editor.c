@@ -403,7 +403,7 @@ prompt_to_save_changes (CompEditor *editor, gboolean send)
 	switch (save_component_dialog (GTK_WINDOW (editor))) {
 	case GTK_RESPONSE_YES: /* Save */
 		if (cal_component_is_instance (priv->comp))
-			if (!recur_component_dialog (priv->comp, &priv->mod, GTK_WINDOW (editor)))
+			if (!recur_component_dialog (priv->client, priv->comp, &priv->mod, GTK_WINDOW (editor)))
 				return FALSE;
 
 		if (send && save_comp_with_send (editor))
@@ -1235,7 +1235,7 @@ save_cmd (GtkWidget *widget, gpointer data)
 	commit_all_fields (editor);
 
 	if (cal_component_is_instance (priv->comp))
-		if (!recur_component_dialog (priv->comp, &priv->mod, GTK_WINDOW (editor)))
+		if (!recur_component_dialog (priv->client, priv->comp, &priv->mod, GTK_WINDOW (editor)))
 			return;
 
 	save_comp_with_send (editor);
@@ -1252,7 +1252,7 @@ save_close_cmd (GtkWidget *widget, gpointer data)
 	commit_all_fields (editor);
 
 	if (cal_component_is_instance (priv->comp))
-		if (!recur_component_dialog (priv->comp, &priv->mod, GTK_WINDOW (editor)))
+		if (!recur_component_dialog (priv->client, priv->comp, &priv->mod, GTK_WINDOW (editor)))
 			return;
 
 	if (save_comp_with_send (editor))

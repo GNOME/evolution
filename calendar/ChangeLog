@@ -1,3 +1,25 @@
+2003-10-31  Dan Winship  <danw@ximian.com>
+
+	* cal-util/cal-util.h: Add CAL_STATIC_CAPABILITY_NO_THISANDFUTURE
+	and CAL_STATIC_CAPABILITY_NO_THISANDPRIOR
+
+	* gui/dialogs/recur-comp.c (recur_component_dialog): Add a
+	CalClient argument. Use cal_client_get_static_capability to decide
+	whether or not to offer THISANDFUTURE and THISANDPRIOR options
+
+	* gui/dialogs/comp-editor.c (prompt_to_save_changes, save_cmd,
+	save_close_cmd): Pass a CalClient to recur_component_dialog.
+
+	* gui/e-day-view.c (e_day_view_finish_long_event_resize,
+	e_day_view_finish_resize, e_day_view_on_editing_stopped,
+	e_day_view_on_top_canvas_drag_data_received,
+	e_day_view_on_main_canvas_drag_data_received): Likewise
+
+	* gui/e-week-view.c (e_week_view_on_editing_stopped): Likewise
+
+	* gui/calendar-component.c (impl_createControls): set an exception
+	if we fail, so evo won't crash.
+
 2003-10-31  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/e-calendar-table.c (e_calendar_table_show_popup_menu): fixed
@@ -61,11 +83,6 @@
 	editor
 
 	* gui/e-date-edit-config.[hc]: config manager for e-date-edit
-
-2003-10-29  Dan Winship  <danw@ximian.com>
-
-	* gui/calendar-component.c (impl_createControls): set an exception
-	if we fail, so evo won't crash.
 
 2003-10-29  JP Rosevear <jpr@ximian.com>
 

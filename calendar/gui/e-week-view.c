@@ -2988,6 +2988,7 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 	gchar *text = NULL;
 	CalComponent *comp;
 	CalComponentText summary;
+	CalClient *client;
 	const char *uid;
 	gboolean on_server;
 	
@@ -3020,7 +3021,8 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 	comp = cal_component_new ();
 	cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
 
-	on_server = cal_comp_is_on_server (comp, event->comp_data->client);
+	client = event->comp_data->client;
+	on_server = cal_comp_is_on_server (comp, client);
 	
 	if (string_is_empty (text) && !on_server) {
 		const char *uid;
@@ -3048,25 +3050,25 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 		cal_component_set_summary (comp, &summary);
 		
 		if (!on_server) {
-			if (!cal_client_create_object (event->comp_data->client, icalcomp, NULL, NULL))
+			if (!cal_client_create_object (client, icalcomp, NULL, NULL))
 				g_message (G_STRLOC ": Could not create the object!");
 		} else {
 			CalObjModType mod = CALOBJ_MOD_ALL;
 			GtkWindow *toplevel;
 			
 			if (cal_component_has_recurrences (comp)) {
-				if (!recur_component_dialog (comp, &mod, NULL)) {
+				if (!recur_component_dialog (client, comp, &mod, NULL)) {
 					goto out;
 				}
 			}
 			
 			/* FIXME When sending here, what exactly should we send? */
 			toplevel = GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (week_view)));
-			if (cal_client_modify_object (event->comp_data->client, icalcomp, mod, NULL)) {
-				if (itip_organizer_is_user (comp, event->comp_data->client) 
-				    && send_component_dialog (toplevel, event->comp_data->client, comp, FALSE))
+			if (cal_client_modify_object (client, icalcomp, mod, NULL)) {
+				if (itip_organizer_is_user (comp, client) 
+				    && send_component_dialog (toplevel, client, comp, FALSE))
 					itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, comp, 
-							event->comp_data->client, NULL);
+							client, NULL);
 			}
 		}
 	}

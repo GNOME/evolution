@@ -115,6 +115,8 @@ gboolean cal_util_event_dates_match (icalcomponent *icalcomp1, icalcomponent *ic
 #define CAL_STATIC_CAPABILITY_NO_EMAIL_ALARMS             "no-email-alarms"
 #define CAL_STATIC_CAPABILITY_NO_PROCEDURE_ALARMS         "no-procedure-alarms"
 #define CAL_STATIC_CAPABILITY_NO_TASK_ASSIGNMENT          "no-task-assignment"
+#define CAL_STATIC_CAPABILITY_NO_THISANDFUTURE            "no-thisandfuture"
+#define CAL_STATIC_CAPABILITY_NO_THISANDPRIOR             "no-thisandprior"
 #define CAL_STATIC_CAPABILITY_NO_TRANSPARENCY             "no-transparency"
 #define CAL_STATIC_CAPABILITY_ONE_ALARM_ONLY              "one-alarm-only"
 #define CAL_STATIC_CAPABILITY_ORGANIZER_MUST_ATTEND       "organizer-must-attend"

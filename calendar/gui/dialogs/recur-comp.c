@@ -32,12 +32,13 @@
 
 
 gboolean
-recur_component_dialog (CalComponent *comp,
+recur_component_dialog (CalClient *client,
+			CalComponent *comp,
 			CalObjModType *mod,
 			GtkWindow *parent)
 {
 	char *str;
-	GtkWidget *dialog, *rb1, *rb2, *rb3, *hbox;
+	GtkWidget *dialog, *rb_this, *rb_prior, *rb_future, *rb_all, *hbox;
 	CalComponentVType vtype;
 	gboolean ret;
 	
@@ -69,23 +70,35 @@ recur_component_dialog (CalComponent *comp,
 	
 	hbox = gtk_hbox_new (FALSE, 2);
 	gtk_container_add (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), hbox);
-	rb1 = gtk_radio_button_new_with_label (NULL, _("This Instance Only"));
-	gtk_container_add (GTK_CONTAINER (hbox), rb1);
+	rb_this = gtk_radio_button_new_with_label (NULL, _("This Instance Only"));
+	gtk_container_add (GTK_CONTAINER (hbox), rb_this);
 
-	rb2 = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON (rb1), _("This and Future Instances"));
-	gtk_container_add (GTK_CONTAINER (hbox), rb2);	
-	rb3 = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON (rb1), _("All Instances"));
-	gtk_container_add (GTK_CONTAINER (hbox), rb3);
+	if (!cal_client_get_static_capability (client, CAL_STATIC_CAPABILITY_NO_THISANDPRIOR)) {
+		rb_prior = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON (rb_this), _("This and Prior Instances"));
+		gtk_container_add (GTK_CONTAINER (hbox), rb_prior);
+	} else
+		rb_prior = NULL;
+
+	if (!cal_client_get_static_capability (client, CAL_STATIC_CAPABILITY_NO_THISANDFUTURE)) {
+		rb_future = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON (rb_this), _("This and Future Instances"));
+		gtk_container_add (GTK_CONTAINER (hbox), rb_future);
+	} else
+		rb_future = NULL;
+
+	rb_all = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON (rb_this), _("All Instances"));
+	gtk_container_add (GTK_CONTAINER (hbox), rb_all);
 
 	gtk_widget_show_all (hbox);
 
 	ret = gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK;
 
-	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (rb1)))
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (rb_this)))
 		*mod = CALOBJ_MOD_THIS;
-	else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (rb2)))
+	else if (rb_prior && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (rb_prior)))
+		*mod = CALOBJ_MOD_THISANDPRIOR;
+	else if (rb_future && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (rb_future)))
 		*mod = CALOBJ_MOD_THISANDFUTURE;
-	else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (rb3)))
+	else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (rb_all)))
 		*mod = CALOBJ_MOD_ALL;
 
 	gtk_widget_destroy (dialog);
