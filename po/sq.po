@@ -1,14 +1,15 @@
 # Përkthimi i mesazheve të evolution në shqip
 # This file is distributed under the same license as the evolution package.
+# Copyright (C) 2003, 2004 Free Software Foundation, Inc.
 # Laurent Dhima <laurenti@alblinux.net>, 2003, 2004.
 #
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution gnome-2-8.sq\n"
+"Project-Id-Version: evolution gnome-2-8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-09-02 11:11+0200\n"
-"PO-Revision-Date: 2004-09-02 19:17+0200\n"
+"POT-Creation-Date: 2004-09-03 03:12+0200\n"
+"PO-Revision-Date: 2004-09-04 13:11+0200\n"
 "Last-Translator: Laurent Dhima <laurenti@alblinux.net>\n"
 "Language-Team: Albanian <gnome-albanian-perkthyesit@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -12430,8 +12431,8 @@ msgid ""
 msgstr ""
 "<small>Kjo faqe ju mundëson të zgjidhni nëse dëshironi të njoftoheni me anë "
 "të një ricevute leximi kur një\n"
-"mesazh që keni dërguar është lexuar, dhe të specifikoni se si duhet të veprojë Evolution "
-"kur dikush kërkon ricevutë prej jush</small>"
+"mesazh që keni dërguar është lexuar, dhe të specifikoni se si duhet të "
+"veprojë Evolution kur dikush kërkon ricevutë prej jush</small>"
 
 #: designs/read_receipts/read.glade.h:6
 msgid "Always send back a read reciept"
@@ -13557,8 +13558,8 @@ msgid ""
 "The signature of this message cannot be verified, it may have been altered "
 "in transit."
 msgstr ""
-"Firma e mesazhit nuk mund të verifikohet, ka mundësi të jetë ndryshuar "
-"gjatë përcjelljes."
+"Firma e mesazhit nuk mund të verifikohet, ka mundësi të jetë ndryshuar gjatë "
+"përcjelljes."
 
 #: mail/em-format-html-display.c:646
 msgid "Valid signature, cannot verify sender"
@@ -13574,7 +13575,7 @@ msgstr ""
 
 #: mail/em-format-html-display.c:652 mail/em-format-html.c:591
 msgid "Unencrypted"
-msgstr "Jo i dekriptuar"
+msgstr "I dekriptuar"
 
 #: mail/em-format-html-display.c:652
 msgid ""
@@ -13585,69 +13586,67 @@ msgstr ""
 "kalimit në Internet."
 
 #: mail/em-format-html-display.c:653 mail/em-format-html.c:592
-#, fuzzy
 msgid "Encrypted, weak"
-msgstr "Shifruar"
+msgstr "I shifruar, i dobët"
 
 #: mail/em-format-html-display.c:653
-#, fuzzy
 msgid ""
 "This message is encrypted, but with a weak encryption algorithm.  It would "
 "be difficult, but not impossible for an outsider to view the content of this "
 "message in a practical amount of time."
-msgstr "mesazh është me a nuk për shfaq përmbajtja nga mesazh në a nga ora."
+msgstr ""
+"Ky mesazh është i kriptuar, por me një kriptim të dobët.  Duhet të jetë e "
+"vështirë, por jo e pamundur që një i jashtëm të shikojë përmbajtjen e këtij mesazhi brenda pak kohe."
 
 #: mail/em-format-html-display.c:654 mail/em-format-html.c:593
 msgid "Encrypted"
 msgstr "Shifruar"
 
 #: mail/em-format-html-display.c:654
-#, fuzzy
 msgid ""
 "This message is encrypted.  It would be difficult for an outsider to view "
 "the content of this message."
-msgstr "mesazh është për shfaq përmbajtja nga mesazh."
+msgstr ""
+"Ky mesazh është i kriptuar.  Një i jashtëm do të ketë vështirësi të shikojë "
+"përmbajtjen e këtij mesazhi."
 
 #: mail/em-format-html-display.c:655 mail/em-format-html.c:594
-#, fuzzy
 msgid "Encrypted, strong"
-msgstr "Shifruar"
+msgstr "I shifruar, fort"
 
 #: mail/em-format-html-display.c:655
-#, fuzzy
 msgid ""
 "This message is encrypted, with a strong encryption algorithm.  It would be "
 "very difficult for an outsider to view the content of this message in a "
 "practical amount of time."
-msgstr "mesazh është me a për shfaq përmbajtja nga mesazh në a nga ora."
+msgstr ""
+"Ky mesazh është i kriptuar, me një algoritëm të fortë kriptimi.  Duhet të jetë "
+"tepër e vështirë për një të jashtëm të shikojë përmbajtjen e këtij mesazhi "
+"brenda pak kohe."
 
 #: mail/em-format-html-display.c:756 smime/gui/smime-ui.glade.h:47
 msgid "_View Certificate"
 msgstr "_Shiko çertifikatën"
 
 #: mail/em-format-html-display.c:771
-#, fuzzy
 msgid "This certificate is not viewable"
-msgstr "është nuk"
+msgstr "Kjo çertifikatë nuk është e shikueshme"
 
 #: mail/em-format-html-display.c:1006
-#, fuzzy
 msgid "Completed on %B %d, %Y, %l:%M %p"
-msgstr "U plotësua në B Y M"
+msgstr "U plotësua në %B %d, %Y, %l:%M %p"
 
 #: mail/em-format-html-display.c:1014
 msgid "Overdue:"
 msgstr "Të skaduara:"
 
 #: mail/em-format-html-display.c:1017
-#, fuzzy
 msgid "by %B %d, %Y, %l:%M %p"
-msgstr "nga B Y M"
+msgstr "nga %B %d, %Y, %l:%M %p"
 
 #: mail/em-format-html-display.c:1056
-#, fuzzy
 msgid "_View Inline"
-msgstr "Paraqitja"
+msgstr "_Shfaq Inline"
 
 #: mail/em-format-html-display.c:1057
 msgid "_Hide"
@@ -13655,59 +13654,50 @@ msgstr "_Fshih"
 
 #: mail/em-format-html-print.c:130
 #, c-format
-#, fuzzy
 msgid "Page %d of %d"
-msgstr "Faqja nga"
+msgstr "Faqja %d nga %d"
 
 #: mail/em-format-html.c:475 mail/em-format-html.c:477
 #, c-format
 msgid "Retrieving `%s'"
-msgstr ""
+msgstr "Duke tërhequr `%s'"
 
 #: mail/em-format-html.c:585
-#, fuzzy
 msgid "Valid signature but cannot verify sender"
-msgstr "I vlefshëm"
+msgstr "Firmë e vlefshme por dërguesi nuk mund të verifikohet"
 
 #: mail/em-format-html.c:848
-#, fuzzy
 msgid "Malformed external-body part."
-msgstr "i jashtëm trupi."
+msgstr "Pjesë e keqformuar jashtë-trupi."
 
 #: mail/em-format-html.c:878
 #, c-format
-#, fuzzy
 msgid "Pointer to FTP site (%s)"
-msgstr "Kursori FTP siti"
+msgstr "Kursori tek siti FTP (%s)"
 
 #: mail/em-format-html.c:889
 #, c-format
-#, fuzzy
 msgid "Pointer to local file (%s) valid at site \"%s\""
-msgstr "Kursori lokal siti"
+msgstr "Kursori tek file lokal (%s) i vlefshëm tek siti \"%s\""
 
 #: mail/em-format-html.c:891
 #, c-format
-#, fuzzy
 msgid "Pointer to local file (%s)"
-msgstr "Kursori lokal"
+msgstr "Kursori tek file lokal (%s)"
 
 #: mail/em-format-html.c:912
 #, c-format
-#, fuzzy
 msgid "Pointer to remote data (%s)"
-msgstr "Kursori nÃ« distancÃ«"
+msgstr "Kursori tek e dhëna remote (%s)"
 
 #: mail/em-format-html.c:923
 #, c-format
-#, fuzzy
 msgid "Pointer to unknown external data (\"%s\" type)"
-msgstr "Kursori nuk njihet i jashtëm lloji"
+msgstr "Kursori tek një e dhënë e panjohur e jashtme (e llojit \"%s\")"
 
 #: mail/em-format-html.c:1165
-#, fuzzy
 msgid "Formatting message"
-msgstr "Duke formatuar mesazh"
+msgstr "Duke formatuar mesazhin"
 
 #: mail/em-format-html.c:1441 mail/em-format-quote.c:192 mail/em-format.c:800
 #: mail/em-mailer-prefs.c:82 mail/message-list.etspec.h:7
@@ -13717,9 +13707,8 @@ msgstr "Nga"
 
 #: mail/em-format-html.c:1441 mail/em-format-quote.c:192 mail/em-format.c:801
 #: mail/em-mailer-prefs.c:83
-#, fuzzy
 msgid "Reply-To"
-msgstr "Përgjigju Për"
+msgstr "Përgjigju-Tek"
 
 #: mail/em-format-html.c:1441 mail/em-format-quote.c:192 mail/em-format.c:802
 #: mail/em-mailer-prefs.c:84 mail/message-list.etspec.h:14
@@ -13729,12 +13718,12 @@ msgstr "Për"
 #: mail/em-format-html.c:1441 mail/em-format-quote.c:192 mail/em-format.c:803
 #: mail/em-mailer-prefs.c:85
 msgid "Cc"
-msgstr ""
+msgstr "Cc"
 
 #: mail/em-format-html.c:1441 mail/em-format-quote.c:192 mail/em-format.c:804
 #: mail/em-mailer-prefs.c:86
 msgid "Bcc"
-msgstr ""
+msgstr "Bcc"
 
 #. pseudo-header
 #: mail/em-format-html.c:1554 mail/em-format-quote.c:314
@@ -13744,15 +13733,13 @@ msgstr "Trajtuesi i postës"
 
 #. translators: strftime format for local time equivalent in Date header display, with day
 #: mail/em-format-html.c:1581
-#, fuzzy
 msgid "<I> (%a, %R %Z)</I>"
-msgstr "<I> a R Z</I>"
+msgstr "<I> (%a, %R %Z)</I>"
 
 #. translators: strftime format for local time equivalent in Date header display, without day
 #: mail/em-format-html.c:1584
-#, fuzzy
 msgid "<I> (%R %Z)</I>"
-msgstr "<I> R Z</I>"
+msgstr "<I> (%R %Z)</I>"
 
 #: mail/em-format-html.c:1594 mail/em-format-quote.c:321 mail/em-format.c:806
 #: mail/em-mailer-prefs.c:88 mail/message-list.etspec.h:2
@@ -13761,28 +13748,24 @@ msgstr "Data"
 
 #: mail/em-format-html.c:1617 mail/em-format.c:807 mail/em-mailer-prefs.c:89
 msgid "Newsgroups"
-msgstr ""
+msgstr "GrupeLajmesh"
 
 #: mail/em-format.c:1056
 #, c-format
-#, fuzzy
 msgid "%s attachment"
-msgstr "bashkangjitur"
+msgstr "%s bashkangjitur"
 
 #: mail/em-format.c:1095 mail/em-format.c:1228
-#, fuzzy
 msgid "Could not parse S/MIME message: Unknown error"
-msgstr "nuk S mesazh Nuk njihet gabim"
+msgstr "I pamundur analizimi i mesazhit S/MIME: Gabim i panjohur"
 
 #: mail/em-format.c:1218
-#, fuzzy
 msgid "Unsupported encryption type for multipart/encrypted"
-msgstr "lloji për"
+msgstr "Lloj i pasuportuar kriptimi për multipart/encrypted"
 
 #: mail/em-format.c:1379
-#, fuzzy
 msgid "Could not parse MIME message. Displaying as source."
-msgstr "nuk mesazh."
+msgstr "I apmundur analizimi i mesazhit MIME. Po shfaqet si burim."
 
 #: mail/em-format.c:1398
 msgid "Unsupported signature format"
@@ -13793,41 +13776,40 @@ msgid "Error verifying signature"
 msgstr "Gabim gjatë kontrollit të firmës"
 
 #: mail/em-format.c:1406
-#, fuzzy
 msgid "Unknown error verifying signature"
-msgstr "Nuk njihet gabim"
+msgstr "Gabim i panjohur gjatë verifikimit të firmës"
 
 #: mail/em-junk-filter.c:86
-#, fuzzy
 msgid "Spamassassin (built-in)"
-msgstr "në"
+msgstr "Spamassassin (built-in)"
 
 #: mail/em-mailer-prefs.c:100
-#, fuzzy
 msgid "Every time"
-msgstr "Çdo ora"
+msgstr "Në çdo kohë"
 
 #: mail/em-mailer-prefs.c:101
-#, fuzzy
 msgid "Once per day"
-msgstr "ditë"
+msgstr "Një herë në ditë"
 
 #: mail/em-mailer-prefs.c:102
 msgid "Once per week"
-msgstr ""
+msgstr "Një herë në javë"
 
 #: mail/em-mailer-prefs.c:103
 msgid "Once per month"
-msgstr ""
+msgstr "Një herë në muaj"
 
 #: mail/em-migrate.c:1168
-#, fuzzy
 msgid ""
 "The location and hierarchy of the Evolution mailbox folders has changed "
 "since Evolution 1.x.\n"
 "\n"
 "Please be patient while Evolution migrates your folders..."
-msgstr "pozicioni dhe gjerarkia nga Evolution Evolution x j Evolution."
+msgstr ""
+"Pozicioni dhe gjerarkia e kartelave mailbox të Evolution ka ndryshuar "
+"që nga Evolution 1.x.\n"
+"\n"
+"Durim derisa Evolution të migrojë kartelat tuaja..."
 
 #: mail/em-migrate.c:1602
 #, c-format
@@ -13841,15 +13823,13 @@ msgstr "I pamundur kopjimi i kartelës `%s' tek `%s': %s"
 
 #: mail/em-migrate.c:1813
 #, c-format
-#, fuzzy
 msgid "Unable to scan for existing mailboxes at `%s': %s"
-msgstr "për"
+msgstr "I pamundur kërkimi për mailboxe ekzistuese tek `%s': %s"
 
 #: mail/em-migrate.c:2017
 #, c-format
-#, fuzzy
 msgid "Unable to open old POP keep-on-server data `%s': %s"
-msgstr "hap POP në server"
+msgstr "E pamundur hapja e të dhënava të vjetra POP \"lër-në-server\" `%s': %s"
 
 #: mail/em-migrate.c:2031
 #, c-format
@@ -13860,9 +13840,8 @@ msgstr ""
 
 #: mail/em-migrate.c:2060
 #, c-format
-#, fuzzy
 msgid "Unable to copy POP3 keep-on-server data `%s': %s"
-msgstr "kopjo në server"
+msgstr "E pamundur kopja e të dhënave POP3 \"lër-në-server\" `%s': %s"
 
 #: mail/em-migrate.c:2415 mail/em-migrate.c:2427
 #, c-format
@@ -13875,11 +13854,12 @@ msgid "Unable to create local mail folders at `%s': %s"
 msgstr "I pamundur krijimi i kartelave lokale të postës `%s': %s"
 
 #: mail/em-migrate.c:2596
-#, fuzzy
 msgid ""
 "Unable to read settings from previous Evolution install, `evolution/config."
 "xmldb' does not exist or is corrupt."
-msgstr "rregullimet paraardhësja Evolution instalo nuk është."
+msgstr ""
+"I pamundur leximi i rregullimeve nga instalimi i vjetër i Evolution, `evolution/config."
+"xmldb' nuk ekziston ose është i dëmtuar."
 
 #: mail/em-popup.c:700
 msgid "Save As..."
@@ -13887,18 +13867,16 @@ msgstr "Ruaj Si..."
 
 #: mail/em-popup.c:718
 #, c-format
-#, fuzzy
 msgid "untitled_image.%s"
-msgstr "pa titull figurë"
+msgstr "figurë_paemër.%s"
 
 #: mail/em-popup.c:808
 msgid "Set as _Background"
 msgstr "Vendose si _sfond"
 
 #: mail/em-popup.c:810
-#, fuzzy
 msgid "_Reply to sender"
-msgstr "Përgjigju"
+msgstr "_Përgjigju dërguesit"
 
 #: mail/em-popup.c:859
 msgid "_Open Link in Browser"
@@ -13914,9 +13892,8 @@ msgstr "_Shtoje në rubrikë"
 
 #: mail/em-popup.c:985
 #, c-format
-#, fuzzy
 msgid "Open in %s..."
-msgstr "Hap në."
+msgstr "Hap në %s..."
 
 #: mail/em-subscribe-editor.c:606
 msgid "This store does not support subscriptions, or they are not enabled."
@@ -13932,14 +13909,12 @@ msgstr "Kartelë"
 
 #. FIXME: This is just to get the shadow, is there a better way?
 #: mail/em-subscribe-editor.c:852
-#, fuzzy
 msgid "Please select a server."
-msgstr "zgjidh a server."
+msgstr "Ju lutem zgjidhni një server."
 
 #: mail/em-subscribe-editor.c:873
-#, fuzzy
 msgid "No server has been selected"
-msgstr "Jo server"
+msgstr "Nuk është zgjedhur asnjë server"
 
 #: mail/em-utils.c:104
 msgid "Don't show this message again."
@@ -13977,60 +13952,51 @@ msgstr "_Shto"
 
 #: mail/em-vfolder-rule.c:574
 msgid "VFolder source"
-msgstr ""
+msgstr "Burimi i Kartelës Virtuale (VFolder)"
 
 #: mail/evolution-mail.schemas.in.in.h:1
-#, fuzzy
 msgid "Automatic link recognition"
-msgstr "Në menyrë automatike lidhje"
+msgstr "Kontrolli automatik i lidhjeve"
 
 #: mail/evolution-mail.schemas.in.in.h:2
-#, fuzzy
 msgid "Automatic smiley recognition"
-msgstr "Në menyrë automatike"
+msgstr "Kontrolli automatik i smiley"
 
 #: mail/evolution-mail.schemas.in.in.h:3
-#, fuzzy
 msgid "Check incoming mail being junk"
-msgstr "Kontrolli mail"
+msgstr "Kontrollo që posta në ardhje të mos përmbajë material për t'u refuzuar"
 
 #: mail/evolution-mail.schemas.in.in.h:4
 msgid "Citation highlight color"
-msgstr ""
+msgstr "Ngjyra e vënies në dukje të citimeve"
 
 #: mail/evolution-mail.schemas.in.in.h:5
 msgid "Citation highlight color."
-msgstr ""
+msgstr "Ngjyra e vënies në dukje të citimeve."
 
 #: mail/evolution-mail.schemas.in.in.h:6
-#, fuzzy
 msgid "Composer Window default height"
-msgstr "Dritarja prezgjedhur lartësia"
+msgstr "Lartësia e dritares së prezgjedhur të kompozuesit"
 
 #: mail/evolution-mail.schemas.in.in.h:7
-#, fuzzy
 msgid "Composer Window default width"
-msgstr "Dritarja prezgjedhur gjerësia"
+msgstr "Gjerësia e dritares së prezgjedhur të kompozuesit"
 
 #: mail/evolution-mail.schemas.in.in.h:8
-#, fuzzy
 msgid "Default charset in which to compose messages"
-msgstr "E prezgjedhur në"
+msgstr "Kodifikimi i prezgjedhur për hartimin e mesazheve"
 
 #: mail/evolution-mail.schemas.in.in.h:9
-#, fuzzy
 msgid "Default charset in which to compose messages."
-msgstr "E prezgjedhur në."
+msgstr "Kodifikimi i prezgjedhur për hartimin e mesazheve."
 
 #: mail/evolution-mail.schemas.in.in.h:10
-#, fuzzy
 msgid "Default charset in which to display messages"
-msgstr "E prezgjedhur në"
+msgstr "Kodifikimi i prezgjedhur për shfaqjen e mesazheve"
 
 #: mail/evolution-mail.schemas.in.in.h:11
-#, fuzzy
 msgid "Default charset in which to display messages."
-msgstr "E prezgjedhur në."
+msgstr "Kodifikimi i prezgjedhur për shfaqjen e mesazheve."
 
 #: mail/evolution-mail.schemas.in.in.h:12
 msgid "Default forward style"
@@ -14065,14 +14031,12 @@ msgid "Default width of the Subscribe dialog"
 msgstr "Gjerësia e prezgjedhur e dritares së dialogut të regjistrimit"
 
 #: mail/evolution-mail.schemas.in.in.h:20
-#, fuzzy
 msgid "Draw spelling error indicators on words as you type."
-msgstr "Vizato gabim në lloji."
+msgstr "Vizato treguesit e gabimeve drejtshkrimore tek fjalët që shkruani."
 
 #: mail/evolution-mail.schemas.in.in.h:21
-#, fuzzy
 msgid "Empty Trash folders on exit"
-msgstr "Bosh Koshi në"
+msgstr "Zbraz kartelat e Koshit kur mbyllet programi"
 
 #: mail/evolution-mail.schemas.in.in.h:22
 #, fuzzy
@@ -14080,225 +14044,197 @@ msgid "Empty all Trash folders when exiting Evolution."
 msgstr "Bosh Koshi Evolution."
 
 #: mail/evolution-mail.schemas.in.in.h:23
-#, fuzzy
 msgid "Enable caret mode, so that you can see a cursor when reading mail."
-msgstr "Aktivo modaliteti a mail."
+msgstr "Aktivo modalitetin \"vizore\", në këtë menyrë do të shihni një kursor gjatë leximit të një mesazhi."
 
 #: mail/evolution-mail.schemas.in.in.h:24
-#, fuzzy
 msgid "Enable/disable caret mode"
-msgstr "Aktivo ç'aktivo modaliteti"
+msgstr "Aktivo/ç'aktivo modalitetin vizore"
 
 #: mail/evolution-mail.schemas.in.in.h:25
-#, fuzzy
 msgid "Height of the message-list pane"
-msgstr "Lartësia nga mesazh lista paneli"
+msgstr "Lartësia e panelit me listën e mesazheve"
 
 #: mail/evolution-mail.schemas.in.in.h:26
-#, fuzzy
 msgid "Height of the message-list pane."
-msgstr "Lartësia nga mesazh lista paneli."
+msgstr "Lartësia e panelit me listën e mesazheve."
 
 #: mail/evolution-mail.schemas.in.in.h:27
-#, fuzzy
 msgid ""
 "If there isn't a builtin viewer for a particular mime-type inside Evolution, "
 "any mime-types appearing in this list which map to a bonobo-component viewer "
 "in GNOME's mime-type database may be used for displaying content."
-msgstr "a për a lloji Evolution çdo në lista harta a komponenti në GNOME lloji Bankë të dhënash (databazë) për përmbajtja."
+msgstr ""
+"Nëse mungon një shikues i brendshëm për një lloj të veçantë mime në Evolution, "
+"çdo lloj mime e shfaqur në këtë listë e lidhur me një shikues bonobo-component "
+"nga databaza e llojeve të mime të GNOME mund të përdoret për të shfaqur përmbajtjen."
 
 #: mail/evolution-mail.schemas.in.in.h:28
-#, fuzzy
 msgid "Last time empty trash was run"
-msgstr "E fundit ora koshi"
+msgstr "Hera e fundit kur është zbrazur koshi"
 
 #: mail/evolution-mail.schemas.in.in.h:29
-#, fuzzy
 msgid "List of Labels and their associated colors"
-msgstr "Lista nga Etiketat dhe"
+msgstr "Lista e Etiketave dhe ngjyrat relative"
 
 #: mail/evolution-mail.schemas.in.in.h:30
-#, fuzzy
 msgid "List of accepted licenses"
-msgstr "Lista nga"
+msgstr "Lista e liçencave të pranuara"
 
 #: mail/evolution-mail.schemas.in.in.h:31
-#, fuzzy
 msgid "List of accounts"
-msgstr "Lista nga"
+msgstr "Lista e llogarive"
 
 #: mail/evolution-mail.schemas.in.in.h:32
-#, fuzzy
 msgid ""
 "List of accounts known to the mail component of Evolution. The list contains "
 "strings naming subdirectories relative to /apps/evolution/mail/accounts."
-msgstr "Lista nga mail komponenti nga Evolution lista përmban mail."
+msgstr ""
+"Lista e llogarive të njohura nga komponenti mail i Evolution. Lista përmban "
+"vlerat me emrat e nëndirektorive relative "
+"me /apps/evolution/mail/accounts."
 
 #: mail/evolution-mail.schemas.in.in.h:33
-#, fuzzy
 msgid "List of custom headers and whether they are enabled."
-msgstr "Lista nga e personalizuar dhe aktiv."
+msgstr "Lista me headers e personalizuar dhe nëse ato janë aktivë."
 
 #: mail/evolution-mail.schemas.in.in.h:34
-#, fuzzy
 msgid ""
 "List of labels known to the mail component of Evolution. The list contains "
 "strings containing name:color where color uses the HTML hex encoding."
-msgstr "Lista nga mail komponenti nga Evolution lista përmban emri HTML."
+msgstr ""
+"Lista e etiketave të njohura nga komponenti mail i Evolution. Lista përmban "
+"vlerat me emri:ngjyra ku ngjyra përdor kodifikimin hex të HTML"
 
 #: mail/evolution-mail.schemas.in.in.h:35
-#, fuzzy
 msgid "List of mime types to check for bonobo component viewers"
-msgstr "Lista nga për komponenti"
+msgstr "Lista e llojeve mime për të cilët duhet kontrolluar për shikues bonobo komponentë"
 
 #: mail/evolution-mail.schemas.in.in.h:36
-#, fuzzy
 msgid "List of protocol names whose license has been accepted."
-msgstr "Lista nga liçenca."
+msgstr "Lista me emrat e protokollëve për të cilët është pranuar liçenca."
 
 #: mail/evolution-mail.schemas.in.in.h:37
-#, fuzzy
 msgid "Load images for HTML messages over http"
-msgstr "Ngarko për HTML http"
+msgstr "Ngarko figurat për mesazhet HTML over http"
 
 #: mail/evolution-mail.schemas.in.in.h:38
-#, fuzzy
 msgid ""
 "Load images for HTML messages over http(s). Possible values are: 0 - Never "
 "load images off the net 1 - Load images if sender is in the addressbook 2 - "
 "Always load images off the net"
-msgstr "Ngarko për HTML http Asnjëherë ngarkoje Ngarko është në Gjithmonë ngarkoje"
+msgstr ""
+"Ngarkon figurat për mesazhet HTML over http(s). Vlerat e mundshme "
+"janë: 0 - Asnjëherë mos ngarko figurat e internet 1 - Ngarko figurat nëse dërguesi "
+"rezulton në rubrikë 2 - Ngarko gjithmonë figurat nga internet"
 
 #: mail/evolution-mail.schemas.in.in.h:39
-#, fuzzy
 msgid "Log filter actions"
-msgstr "Log filtro"
+msgstr "Regjistro veprimet e filtrit"
 
 #: mail/evolution-mail.schemas.in.in.h:40
-#, fuzzy
 msgid "Log filter actions to the specified log file."
-msgstr "Log filtro."
+msgstr "Regjistron veprimet e filtrit tek file i specifikuar log."
 
 #: mail/evolution-mail.schemas.in.in.h:41
-#, fuzzy
 msgid "Logfile to log filter actions"
-msgstr "filtro"
+msgstr "File log për regjistrimin e veprimeve të filtrit"
 
 #: mail/evolution-mail.schemas.in.in.h:42
-#, fuzzy
 msgid "Logfile to log filter actions."
-msgstr "filtro."
+msgstr "File log për regjistrimin e veprimeve të filtrit."
 
 #: mail/evolution-mail.schemas.in.in.h:43
-#, fuzzy
 msgid "Mark as Seen after specified timeout"
-msgstr "mbas"
+msgstr "Shëno si të Shikuar mbas një kohe të caktuar"
 
 #: mail/evolution-mail.schemas.in.in.h:44
-#, fuzzy
 msgid "Mark as Seen after specified timeout."
-msgstr "mbas."
+msgstr "Shëno si të Shikuar mbas një kohe të caktuar."
 
 #: mail/evolution-mail.schemas.in.in.h:45
-#, fuzzy
 msgid "Mark citations in the message \"Preview\""
-msgstr "në mesazh Shikoje"
+msgstr "Shëno citimet tek \"Pamja e Parë\" e mesazhit"
 
 #: mail/evolution-mail.schemas.in.in.h:46
-#, fuzzy
 msgid "Mark citations in the message \"Preview\"."
-msgstr "në mesazh Shikoje."
+msgstr "Shëno citimet tek \"Pamja e Parë\" e mesazhit."
 
 #: mail/evolution-mail.schemas.in.in.h:47
 msgid "Message Window default height"
 msgstr "Lartësia e prezgjedhur e dritares së mesazhit"
 
 #: mail/evolution-mail.schemas.in.in.h:48
-#, fuzzy
 msgid "Message Window default width"
-msgstr "Mesazh Dritarja prezgjedhur gjerësia"
+msgstr "Gjerësia e prezgjedhur e dritares së mesazhit"
 
 #: mail/evolution-mail.schemas.in.in.h:49
-#, fuzzy
 msgid "Message-display style (normal, full headers, source)"
-msgstr "Mesazh"
+msgstr "Stili i shfaqjes së mesazhit (normal, me gjithë tituj, burimi)"
 
 #: mail/evolution-mail.schemas.in.in.h:50
-#, fuzzy
 msgid "Minimum days between emptying the trash on exit"
-msgstr "ditë koshi në"
+msgstr "Numri minimum i ditëve para se të zbrazet koshi kur mbyllet programi"
 
 #: mail/evolution-mail.schemas.in.in.h:51
-#, fuzzy
 msgid "Minimum time between emptying the trash on exit, in days."
-msgstr "ora koshi në në ditë."
+msgstr "Koha minimum para zbrazjes së koshit në dalje, në ditë."
 
 #: mail/evolution-mail.schemas.in.in.h:52
-#, fuzzy
 msgid "New Mail Notify sound file"
-msgstr "E re Posta"
+msgstr "File me tingullin për njoftimin e Mesazhit të Ri"
 
 #: mail/evolution-mail.schemas.in.in.h:53
-#, fuzzy
 msgid "New Mail Notify type"
-msgstr "E re Posta lloji"
+msgstr "Lloji i njoftimit të Mesazhit të Ri"
 
 #: mail/evolution-mail.schemas.in.in.h:54
-#, fuzzy
 msgid "Prompt on empty subject"
-msgstr "në"
+msgstr "Tërhiq vëmendjen kur subjekti është bosh"
 
 #: mail/evolution-mail.schemas.in.in.h:55
-#, fuzzy
 msgid "Prompt the user when he or she tries to expunge a folder."
-msgstr "përdorues a kartelë."
+msgstr "Paralajmëro përdoruesin nëse ai apo ajo mundohen të fshijnë një kartelë."
 
 #: mail/evolution-mail.schemas.in.in.h:56
-#, fuzzy
 msgid "Prompt the user when he or she tries to send a message without a Subject."
-msgstr "përdorues a mesazh a Subjekti."
+msgstr "Paralajmëro përdoruesin nëse ai apo ajo mundohen të dërgojnë një mesazh pa subjekt."
 
 #: mail/evolution-mail.schemas.in.in.h:57
-#, fuzzy
 msgid "Prompt when user expunges"
-msgstr "përdorues"
+msgstr "Paralajmërim kur përdoruesi fshin"
 
 #: mail/evolution-mail.schemas.in.in.h:58
-#, fuzzy
 msgid "Prompt when user only fills Bcc"
-msgstr "përdorues"
+msgstr "Paralajmërim nëse përdoruesi plotëson vetëm Bcc"
 
 #: mail/evolution-mail.schemas.in.in.h:59
-#, fuzzy
 msgid ""
 "Prompt when user tries to send HTML mail to recipients that may not want to "
 "receive HTML mail."
-msgstr "përdorues HTML mail nuk HTML mail."
+msgstr ""
+"Paralajmëro kur përdoruesi kërkon t'u dërgojë mesazhe HTML marrësve që "
+"nuk dëshirojnë të marrin mesazhe në HTML."
 
 #: mail/evolution-mail.schemas.in.in.h:60
-#, fuzzy
 msgid "Prompt when user tries to send a message with no To or Cc recipients."
-msgstr "përdorues a mesazh me jo Për."
+msgstr "Paralajmëro kur përdoruesi kërkon të dërgojë një mesazh pa përmbajtje tek \"Për\" apo \"Cc\"."
 
 #: mail/evolution-mail.schemas.in.in.h:61
-#, fuzzy
 msgid "Prompt when user tries to send unwanted HTML"
-msgstr "përdorues HTML"
+msgstr "Paralajmërim kur përdoruesi kërkon të dërgojë HTML të padëshiruar"
 
 #: mail/evolution-mail.schemas.in.in.h:62
-#, fuzzy
 msgid "Recognize links in text and replace them."
-msgstr "në tekst dhe."
+msgstr "Kontrollo lidhjet në tekst dhe zëvendësoi."
 
 #: mail/evolution-mail.schemas.in.in.h:63
-#, fuzzy
 msgid "Recognize smileys in text and replace them with images."
-msgstr "në tekst dhe me."
+msgstr "Kontrollo smiles në tekst dhe zëvendësoi me figurat."
 
 #: mail/evolution-mail.schemas.in.in.h:64
-#, fuzzy
 msgid "Run junk test on incoming mail"
-msgstr "Ekzekuto në mail"
+msgstr "Vër në funksion provën për material për t'u refuzuar tek mesazhet në ardhje"
 
 #: mail/evolution-mail.schemas.in.in.h:65
 msgid "Send HTML mail by default"
@@ -14313,29 +14249,24 @@ msgid "Show Animations"
 msgstr "Shfaq kontaktet"
 
 #: mail/evolution-mail.schemas.in.in.h:68
-#, fuzzy
 msgid "Show animated images as animations."
-msgstr "Shfaq."
+msgstr "Shfaq imazhet e animuar si animime."
 
 #: mail/evolution-mail.schemas.in.in.h:69
-#, fuzzy
 msgid "Show deleted messages (with a strike-through) in the message-list."
-msgstr "Shfaq me a në mesazh lista."
+msgstr "Shfaq mesazhet e fshira (me përvizim) tek lista e mesazheve."
 
 #: mail/evolution-mail.schemas.in.in.h:70
-#, fuzzy
 msgid "Show deleted messages in the message-list"
-msgstr "Shfaq në mesazh lista"
+msgstr "Shfaq mesazhet e fshira tek lista e mesazheve"
 
 #: mail/evolution-mail.schemas.in.in.h:71
-#, fuzzy
 msgid "Show the \"Preview\" pane"
-msgstr "Shfaq Shikoje paneli"
+msgstr "Shfaq panelin \"Pamja e Parë\""
 
 #: mail/evolution-mail.schemas.in.in.h:72
-#, fuzzy
 msgid "Show the \"Preview\" pane."
-msgstr "Shfaq Shikoje paneli."
+msgstr "Shfaq panelin \"Pamja e Parë\"."
 
 #: mail/evolution-mail.schemas.in.in.h:73
 #, fuzzy
@@ -14386,7 +14317,9 @@ msgid ""
 "and whether they are to be displayed. The format of the XML structure is &lt;"
 "header enabled&gt; - set enabled if the header is to be displayed in the "
 "mail view."
-msgstr "a lista nga XML e personalizuar dhe nga XML është&lt; titull aktiv&gt; aktiv titull është në mail shfaq."
+msgstr ""
+"a lista nga XML e personalizuar dhe nga XML është&lt; titull aktiv&gt; aktiv "
+"titull është në mail shfaq."
 
 #: mail/evolution-mail.schemas.in.in.h:83
 #, fuzzy
@@ -14615,8 +14548,7 @@ msgid "Scanning %s"
 msgstr ""
 
 #: mail/importers/netscape-importer.c:73
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Priority Filter \"%s\""
 msgstr "Prioriteti Filtri"
 
@@ -14634,7 +14566,9 @@ msgid ""
 "Evolution's scores, and the affected filters use scores instead\n"
 "of priorities. Check the imported filters to make sure\n"
 "everything still works as intended."
-msgstr "nga Netscape në nuk në Evolution Evolution pikët në nga j dhe j a a nga Prioriteti Filtri Netscape pikët dhe pikët Kontrolli."
+msgstr ""
+"nga Netscape në nuk në Evolution Evolution pikët në nga j dhe j a a nga "
+"Prioriteti Filtri Netscape pikët dhe pikët Kontrolli."
 
 #: mail/importers/netscape-importer.c:686
 #, fuzzy
@@ -14653,7 +14587,9 @@ msgid ""
 "which is not supported in Evolution. Those filters\n"
 "were modified to test whether that string is or is not\n"
 "contained in the message body."
-msgstr "nga Netscape nga për në a është nuk në Evolution është është nuk në mesazh trupi."
+msgstr ""
+"nga Netscape nga për në a është nuk në Evolution është është nuk në mesazh "
+"trupi."
 
 #: mail/importers/netscape-importer.c:1250
 #, fuzzy
@@ -14711,8 +14647,7 @@ msgid "Evolution Account Editor"
 msgstr "Evolution Llogaria Editori"
 
 #: mail/mail-account-gui.c:246
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid ""
 "\n"
 "Please read carefully the license agreement\n"
@@ -14721,8 +14656,7 @@ msgid ""
 msgstr "liçenca për j"
 
 #: mail/mail-account-gui.c:252
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "%s License Agreement"
 msgstr "Liçenca"
 
@@ -14742,26 +14676,22 @@ msgid "_Path:"
 msgstr "Pozicioni:"
 
 #: mail/mail-autofilter.c:74
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Mail to %s"
 msgstr "Posta"
 
 #: mail/mail-autofilter.c:238
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Subject is %s"
 msgstr "Subjekti është"
 
 #: mail/mail-autofilter.c:254
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Mail from %s"
 msgstr "Posta"
 
 #: mail/mail-autofilter.c:271
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "%s mailing list"
 msgstr "lista"
 
@@ -14907,7 +14837,9 @@ msgid ""
 "will be grouped together to make an Evolution mail account. Please enter a "
 "name for this account in the space below. This name will be used for display "
 "purposes only."
-msgstr "Ti u krye me mail identiteti mail server dhe mail Evolution mail shkruaj a emri për në hapësirë emri për."
+msgstr ""
+"Ti u krye me mail identiteti mail server dhe mail Evolution mail shkruaj a "
+"emri për në hapësirë emri për."
 
 #: mail/mail-config.c:895
 #, fuzzy
@@ -15793,7 +15725,9 @@ msgid ""
 "BCC recipients. This header, if added, will list all of your recipients in "
 "your message. To avoid this, you should add at least one To: or CC: "
 "recipient. "
-msgstr "kontakti lista është lista j shto Për titull titull lista nga në mesazh Për shto Për "
+msgstr ""
+"kontakti lista është lista j shto Për titull titull lista nga në mesazh Për "
+"shto Për "
 
 #. mail:ask-send-only-bcc secondary
 #: mail/mail-errors.xml.h:31
@@ -16284,28 +16218,24 @@ msgid "Fetching Mail"
 msgstr "Posta"
 
 #: mail/mail-ops.c:542
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Failed to apply outgoing filters: %s"
 msgstr "Dështoi apliko"
 
 #: mail/mail-ops.c:567
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid ""
 "Failed to append to %s: %s\n"
 "Appending to local `Sent' folder instead."
 msgstr "Dështoi lokal Dërguar kartelë."
 
 #: mail/mail-ops.c:576
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Failed to append to local `Sent' folder: %s"
 msgstr "Dështoi lokal Dërguar kartelë"
 
 #: mail/mail-ops.c:672
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Sending message %d of %d"
 msgstr "Duke dërguar mesazh nga"
 
@@ -16325,20 +16255,17 @@ msgid "Saving message to folder"
 msgstr "Duke ruajtur mesazh kartelë"
 
 #: mail/mail-ops.c:889
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Moving messages to %s"
 msgstr "Duke lëvizur "
 
 #: mail/mail-ops.c:889
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Copying messages to %s"
 msgstr "Duke kopjuar"
 
 #: mail/mail-ops.c:1002
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Scanning folders in \"%s\""
 msgstr "në"
 
@@ -16347,8 +16274,7 @@ msgid "Forwarded messages"
 msgstr ""
 
 #: mail/mail-ops.c:1158
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Opening folder %s"
 msgstr "kartelë"
 
@@ -16358,20 +16284,17 @@ msgid "Opening store %s"
 msgstr ""
 
 #: mail/mail-ops.c:1308
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Removing folder %s"
 msgstr "Duke hequr kartelë"
 
 #: mail/mail-ops.c:1402
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Storing folder '%s'"
 msgstr "kartelë"
 
 #: mail/mail-ops.c:1467
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Expunging and storing account '%s'"
 msgstr "Duke pastruar dhe"
 
@@ -16391,8 +16314,7 @@ msgid "Expunging folder"
 msgstr "Duke pastruar kartelë"
 
 #: mail/mail-ops.c:1607
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Emptying trash in '%s'"
 msgstr "koshi në"
 
@@ -16402,8 +16324,7 @@ msgid "Local Folders"
 msgstr "Lokale Kartelat"
 
 #: mail/mail-ops.c:1691
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Retrieving message %s"
 msgstr "mesazh"
 
@@ -16429,8 +16350,7 @@ msgid ""
 msgstr ""
 
 #: mail/mail-ops.c:1927
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid ""
 "Error saving messages to: %s:\n"
 " %s"
@@ -16449,8 +16369,7 @@ msgid ""
 msgstr ""
 
 #: mail/mail-ops.c:2020
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Could not write data: %s"
 msgstr "nuk"
 
@@ -16469,20 +16388,17 @@ msgid "Cancelling..."
 msgstr ""
 
 #: mail/mail-send-recv.c:264
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Server: %s, Type: %s"
 msgstr "Serveri Lloji"
 
 #: mail/mail-send-recv.c:266
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Path: %s, Type: %s"
 msgstr "Pozicioni Lloji"
 
 #: mail/mail-send-recv.c:268
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Type: %s"
 msgstr "Lloji"
 
@@ -16506,8 +16422,7 @@ msgid "Waiting..."
 msgstr "Në pritje."
 
 #: mail/mail-session.c:207
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Enter Password for %s"
 msgstr "Shto Fjalëkalimi për"
 
@@ -16540,14 +16455,12 @@ msgid "Could not create spool directory `%s': %s"
 msgstr "I pamundur krijimi i directory spool `%s': %s"
 
 #: mail/mail-tools.c:141
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Trying to movemail a non-mbox source `%s'"
 msgstr "a"
 
 #: mail/mail-tools.c:276
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Forwarded message - %s"
 msgstr "mesazh"
 
@@ -16557,14 +16470,12 @@ msgid "Forwarded message"
 msgstr "mesazh"
 
 #: mail/mail-tools.c:319
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Invalid folder: `%s'"
 msgstr "E pavlefshme kartelë"
 
 #: mail/mail-vfolder.c:87
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Setting up vfolder: %s"
 msgstr "Rregullimi sipër"
 
@@ -16867,7 +16778,9 @@ msgid ""
 "\n"
 "You can select \"Automatic\" if you do not know, and Evolution will attempt "
 "to work it out."
-msgstr "importo Evolution dhe zgjidh lloji nga është lista j zgjidh Në menyrë automatike nuk dhe Evolution punë."
+msgstr ""
+"importo Evolution dhe zgjidh lloji nga është lista j zgjidh Në menyrë "
+"automatike nuk dhe Evolution punë."
 
 #: shell/e-shell-importer.c:155
 #, fuzzy
@@ -16889,8 +16802,7 @@ msgid ""
 msgstr "Evolution për rregullimet importo Netscape Elm Jo rregullimet Mbrapa j"
 
 #: shell/e-shell-importer.c:232 shell/e-shell-importer.c:266
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid ""
 "Importing %s\n"
 "Importing item %d."
@@ -16902,8 +16814,7 @@ msgid "Select importer"
 msgstr "Zgjidh"
 
 #: shell/e-shell-importer.c:461 shell/e-shell-importer.c:1073
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "File %s does not exist"
 msgstr "File nuk"
 
@@ -16917,14 +16828,12 @@ msgid "Importing %s.\n"
 msgstr "Duke importuar %s.\n"
 
 #: shell/e-shell-importer.c:487 shell/e-shell-importer.c:488
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Error loading %s"
 msgstr "Gabim"
 
 #: shell/e-shell-importer.c:506
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid ""
 "Importing %s\n"
 "Importing item 1."
@@ -16969,14 +16878,12 @@ msgid "Starting Intelligent Importers"
 msgstr "Duke filluar"
 
 #: shell/e-shell-importer.c:898 shell/e-shell-startup-wizard.c:700
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "From %s:"
 msgstr "Nga:"
 
 #: shell/e-shell-importer.c:1092
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "No importer available for file %s"
 msgstr "Jo për"
 
@@ -17079,8 +16986,7 @@ msgid "Evolution is currently offline.  Click on this button to work online."
 msgstr "Evolution aktualisht është offline.  Kliko tek ky buton për të punuar online."
 
 #: shell/e-shell-window.c:637
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Switch to %s"
 msgstr "Kalo"
 
@@ -17230,8 +17136,7 @@ msgstr "Evolution importo:"
 
 #. Preview/Alpha/Beta version warning message
 #: shell/main.c:226
-#, no-c-format
-#, fuzzy
+#, fuzzy, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
 "of the Evolution groupware suite.\n"
@@ -17248,7 +17153,10 @@ msgid ""
 "\n"
 "We hope that you enjoy the results of our hard work, and we\n"
 "eagerly await your contributions!\n"
-msgstr "për ora Evolution j versioni nga Evolution është nuk është mbylle nuk punë j a versioni nga Evolution versioni dhe instalo versioni j gjej produkti me jo dhe është nuk për nga j rezultatet nga punë dhe j"
+msgstr ""
+"për ora Evolution j versioni nga Evolution është nuk është mbylle nuk punë j "
+"a versioni nga Evolution versioni dhe instalo versioni j gjej produkti me jo "
+"dhe është nuk për nga j rezultatet nga punë dhe j"
 
 #: shell/main.c:250
 msgid ""
@@ -17293,8 +17201,7 @@ msgid "Send the debugging output of all components to a file."
 msgstr "Dërgo nga a."
 
 #: shell/main.c:507
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
 "  Use %s --help for more information.\n"
@@ -17389,7 +17296,10 @@ msgid ""
 "\n"
 "Once deleted, you cannot downgrade to the previous version of Evolution "
 "without manual intervention.\n"
-msgstr "nga është informacione j është nga mail kontakti dhe kalendari është dhe versioni nga Evolution përpara j rikthe versionin e vjetër paraardhësja versioni nga Evolution manual j"
+msgstr ""
+"nga është informacione j është nga mail kontakti dhe kalendari është dhe "
+"versioni nga Evolution përpara j rikthe versionin e vjetër paraardhësja "
+"versioni nga Evolution manual j"
 
 #. shell:noshell title
 #. shell:noshell-reason title
@@ -17424,8 +17334,7 @@ msgid ""
 msgstr "sistemi nuk Evolution j j j ndihmë për detajet."
 
 #: smime/gui/ca-trust-dialog.c:91
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid ""
 "Certificate '%s' is a CA certificate.\n"
 "\n"
@@ -17479,8 +17388,7 @@ msgid "E-Mail Address"
 msgstr "Adresa E-Mail"
 
 #: smime/gui/certificate-viewer.c:334
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Certificate Viewer: %s"
 msgstr "Çertifikatë"
 
