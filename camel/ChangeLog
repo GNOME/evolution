@@ -1,5 +1,12 @@
 2000-10-05  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* camel-mime-utils.c (header_address_list_format_append): Encode
+	the name part of the address and don't quote the name.
+	(header_decode_text): Rewrote from scratch, the old code was badly
+	broken.
+
+2000-10-05  Jeffrey Stedfast  <fejj@helixcode.com>
+
 	* camel-mime-message.c (camel_mime_message_set_reply_to): Use the
 	camel_address_encode function again.
 	(camel_mime_message_set_from): Same.

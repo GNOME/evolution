@@ -139,10 +139,7 @@ enum {
 #define is_qpsafe(x) ((camel_mime_special_table[(unsigned char)(x)] & IS_QPSAFE) != 0)
 #define is_especial(x) ((camel_mime_special_table[(unsigned char)(x)] & IS_ESPECIAL) != 0)
 #define is_psafe(x) ((camel_mime_special_table[(unsigned char)(x)] & IS_PSAFE) != 0)
-
-#ifndef HAVE_ISBLANK
-#define isblank(c) ((c) == ' ' || (c) == '\t')
-#endif /* HAVE_ISBLANK */
+#define is_blank(c) ((c) == ' ' || (c) == '\t')
 
 /* only needs to be run to rebuild the tables above */
 #ifdef BUILD_TABLE
@@ -598,7 +595,7 @@ quoted_encode_step (unsigned char *in, int len, unsigned char *out, int *statep,
 			last = -1;
 		} else {
 			if (last != -1) {
-				if (is_qpsafe (last) || isblank (last)) {
+				if (is_qpsafe (last) || is_blank (last)) {
 					*outptr++ = last;
 					sofar++;
 				} else {
@@ -609,7 +606,7 @@ quoted_encode_step (unsigned char *in, int len, unsigned char *out, int *statep,
 				}
 			}
 			
-			if (is_qpsafe (c) || isblank (c)) {
+			if (is_qpsafe (c) || is_blank (c)) {
 				if (sofar > 74) {
 					*outptr++ = '=';
 					*outptr++ = '\n';
@@ -617,7 +614,7 @@ quoted_encode_step (unsigned char *in, int len, unsigned char *out, int *statep,
 				}
 				
 				/* delay output of space char */
-				if (isblank (c)) {
+				if (is_blank (c)) {
 					last = c;
 				} else {
 					*outptr++ = c;
@@ -974,6 +971,67 @@ append_latin1(GString *out, const char *in, int len)
 
 /* decodes a simple text, rfc822 */
 static char *
+header_decode_text (const char *in, int inlen)
+{
+	GString *out;
+	char *inptr, *inend, *start;
+	char *decoded;
+	
+	out = g_string_new ("");
+	start = inptr = (char *) in;
+	inend = inptr + inlen;
+	
+	while (inptr && inptr < inend) {
+		char c = *inptr++;
+		
+		if (isspace (c)) {
+			char *word, *dword;
+			guint len;
+			
+			len = inptr - start - 1;
+			word = start;
+			
+			dword = rfc2047_decode_word (word, len);
+			
+			if (dword) {
+				g_string_append (out, dword);
+				g_free (dword);
+			} else {
+				out = append_latin1 (out, word, len);
+			}
+			
+			g_string_append_c (out, c);
+			
+			start = inptr;
+		}
+	}
+	
+	if (inptr - start) {
+		char *word, *dword;
+		guint len;
+		
+		len = inptr - start;
+		word = start;
+		
+		dword = rfc2047_decode_word (word, len);
+		
+		if (dword) {
+			g_string_append (out, dword);
+			g_free (dword);
+		} else {
+			out = g_string_append_len (out, word, len);
+		}
+	}
+	
+	decoded = out->str;
+	g_string_free (out, FALSE);
+	
+	return decoded;
+}
+
+#if 0     /* This is broken */
+/* decodes a simple text, rfc822 */
+static char *
 header_decode_text(const char *in, int inlen)
 {
 	GString *out;
@@ -1003,6 +1061,7 @@ header_decode_text(const char *in, int inlen)
 
 	return encstart;
 }
+#endif
 
 char *
 header_decode_string(const char *in)
@@ -1020,7 +1079,7 @@ static char *encoding_map[] = {
 
 /* FIXME: needs a way to cache iconv opens for different charsets? */
 static void
-rfc2047_encode_word(GString *outstring, const char *in, int len, char *type, unsigned short safemask)
+rfc2047_encode_word(GString *outstring, const char *in, int len, const char *type, unsigned short safemask)
 {
 	unicode_iconv_t ic;
 	char *buffer, *out, *ascii;
@@ -2802,14 +2861,12 @@ header_address_list_format_append(GString *out, struct _header_address *a)
 	while (a) {
 		switch (a->type) {
 		case HEADER_ADDRESS_NAME:
-#ifndef NO_WARNINGS
-#warning needs to rfc2047 encode address phrase
-#endif
-			/* FIXME: 2047 encoding?? */
-			if (a->name && *a->name)
-				g_string_sprintfa(out, "\"%s\" <%s>", a->name, a->v.addr);
+			text = header_encode_phrase (a->name);
+			if (text && *text)
+				g_string_sprintfa(out, "%s <%s>", text, a->v.addr);
 			else
 				g_string_append(out, a->v.addr);
+			g_free (text);
 			break;
 		case HEADER_ADDRESS_GROUP:
 			text = header_encode_string(a->name);
