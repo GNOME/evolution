@@ -1471,9 +1471,9 @@ static EPopupMenu context_menu[] = {
 	
 	E_POPUP_SEPARATOR,
 	
-	{ N_("Flag for Follow-up"),         NULL, GTK_SIGNAL_FUNC (flag_for_followup),NULL,  CAN_FLAG_FOR_FOLLOWUP },
-	{ N_("Flag Completed"),             NULL, GTK_SIGNAL_FUNC (flag_completed),   NULL,  CAN_FLAG_COMPLETED },
-	{ N_("Clear Flag"),                 NULL, GTK_SIGNAL_FUNC (flag_clear),       NULL,  CAN_FLAG_COMPLETED },
+	{ N_("Flag for Follow-up"),         NULL, GTK_SIGNAL_FUNC (flag_for_followup),       NULL, CAN_FLAG_FOR_FOLLOWUP },
+	{ N_("Flag Completed"),             NULL, GTK_SIGNAL_FUNC (flag_followup_completed), NULL, CAN_FLAG_COMPLETED },
+	{ N_("Clear Flag"),                 NULL, GTK_SIGNAL_FUNC (flag_followup_clear),     NULL, CAN_FLAG_COMPLETED },
 	
 	/* separator here? */
 	

@@ -58,6 +58,8 @@
 #include "mail-folder-cache.h"
 #include "folder-browser.h"
 #include "subscribe-dialog.h"
+#include "message-tag-editor.h"
+#include "message-tag-followup.h"
 #include "e-messagebox.h"
 
 #include "Evolution.h"
@@ -1807,22 +1809,149 @@ toggle_as_important (BonoboUIComponent *uih, void *user_data, const char *path)
 	toggle_flags (FOLDER_BROWSER (user_data), CAMEL_MESSAGE_FLAGGED);
 }
 
+
+struct _tag_editor_data {
+	MessageTagEditor *editor;
+	FolderBrowser *fb;
+	GPtrArray *uids;
+};
+
+static void
+tag_editor_ok (GtkWidget *button, gpointer user_data)
+{
+	struct _tag_editor_data *data = user_data;
+	const char *name, *value;
+	int i;
+	
+	if (FOLDER_BROWSER_IS_DESTROYED (data->fb))
+		goto done;
+	
+	name = message_tag_editor_get_name (data->editor);
+	if (!name)
+		goto done;
+	
+	value = message_tag_editor_get_value (data->editor);
+	
+	camel_folder_freeze (data->fb->folder);
+	for (i = 0; i < data->uids->len; i++) {
+		camel_folder_set_message_user_tag (data->fb->folder, data->uids->pdata[i], name, value);
+	}
+	camel_folder_thaw (data->fb->folder);
+	
+ done:
+	gtk_widget_destroy (GTK_WIDGET (data->editor));
+}
+
+static void
+tag_editor_cancel (GtkWidget *button, gpointer user_data)
+{
+	struct _tag_editor_data *data = user_data;
+	
+	gtk_widget_destroy (GTK_WIDGET (data->editor));
+}
+
+static void
+tag_editor_destroy (GnomeDialog *dialog, gpointer user_data)
+{
+	struct _tag_editor_data *data = user_data;
+	
+	gtk_object_unref (GTK_OBJECT (data->fb));
+	g_ptr_array_free (data->uids, TRUE);
+	g_free (data);
+}
+
 void
 flag_for_followup (BonoboUIComponent *uih, void *user_data, const char *path)
 {
-	;
+	FolderBrowser *fb = FOLDER_BROWSER (user_data);
+	struct _tag_editor_data *data;
+	GtkWidget *editor;
+	GPtrArray *uids;
+	
+	if (FOLDER_BROWSER_IS_DESTROYED (fb))
+		return;
+	
+	uids = g_ptr_array_new ();
+	message_list_foreach (fb->message_list, enumerate_msg, uids);
+	
+	editor = (GtkWidget *) message_tag_followup_new ();
+	
+	data = g_new (struct _tag_editor_data, 1);
+	data->editor = MESSAGE_TAG_EDITOR (editor);
+	gtk_widget_ref (GTK_WIDGET (fb));
+	data->fb = fb;
+	data->uids = uids;
+	
+	gnome_dialog_button_connect (GNOME_DIALOG (editor), 0, tag_editor_ok, data);
+	gnome_dialog_button_connect (GNOME_DIALOG (editor), 1, tag_editor_cancel, data);
+	gnome_dialog_set_close (GNOME_DIALOG (editor), TRUE);
+	
+	gtk_signal_connect (GTK_OBJECT (editor), "destroy",
+			    tag_editor_destroy, data);
+	
+	gtk_widget_show (editor);
 }
 
 void
-flag_completed (BonoboUIComponent *uih, void *user_data, const char *path)
+flag_followup_completed (BonoboUIComponent *uih, void *user_data, const char *path)
 {
-	;
+	FolderBrowser *fb = FOLDER_BROWSER (user_data);
+	GPtrArray *uids;
+	time_t now;
+	int i;
+	
+	if (FOLDER_BROWSER_IS_DESTROYED (fb))
+		return;
+	
+	uids = g_ptr_array_new ();
+	message_list_foreach (fb->message_list, enumerate_msg, uids);
+	
+	now = time (NULL);
+	
+	camel_folder_freeze (fb->folder);
+	for (i = 0; i < uids->len; i++) {
+		struct _FollowUpTag *tag;
+		const char *tag_value;
+		char *value;
+		
+		tag_value = camel_folder_get_message_user_tag (fb->folder, uids->pdata[i], "follow-up");
+		if (!tag_value)
+			continue;
+		
+		tag = message_tag_followup_decode (tag_value);
+		tag->completed = now;
+		
+		value = message_tag_followup_encode (tag);
+		g_free (tag);
+		
+		camel_folder_set_message_user_tag (fb->folder, uids->pdata[i], "follow-up", value);
+		g_free (value);
+	}
+	camel_folder_thaw (fb->folder);
+	
+	g_ptr_array_free (uids, TRUE);
 }
 
 void
-flag_clear (BonoboUIComponent *uih, void *user_data, const char *path)
+flag_followup_clear (BonoboUIComponent *uih, void *user_data, const char *path)
 {
-	;
+	FolderBrowser *fb = FOLDER_BROWSER (user_data);
+	GPtrArray *uids;
+	int i;
+	
+	if (FOLDER_BROWSER_IS_DESTROYED (fb))
+		return;
+	
+	uids = g_ptr_array_new ();
+	message_list_foreach (fb->message_list, enumerate_msg, uids);
+	
+	camel_folder_freeze (fb->folder);
+	for (i = 0; i < uids->len; i++) {
+		camel_folder_set_message_user_tag (fb->folder, uids->pdata[i], "follow-up", NULL);
+	}
+	camel_folder_thaw (fb->folder);
+	
+	g_ptr_array_free (uids, TRUE);
 }
 
 void

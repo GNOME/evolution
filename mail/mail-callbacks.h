@@ -97,8 +97,8 @@ void mark_as_important         (BonoboUIComponent *uih, void *user_data, const c
 void mark_as_unimportant       (BonoboUIComponent *uih, void *user_data, const char *path);
 void toggle_as_important       (BonoboUIComponent *uih, void *user_data, const char *path);
 void flag_for_followup         (BonoboUIComponent *uih, void *user_data, const char *path);
-void flag_completed            (BonoboUIComponent *uih, void *user_data, const char *path);
-void flag_clear                (BonoboUIComponent *uih, void *user_data, const char *path);
+void flag_followup_completed   (BonoboUIComponent *uih, void *user_data, const char *path);
+void flag_followup_clear       (BonoboUIComponent *uih, void *user_data, const char *path);
 
 void zoom_in               (BonoboUIComponent *uih, void *user_data, const char *path);
 void zoom_out              (BonoboUIComponent *uih, void *user_data, const char *path);

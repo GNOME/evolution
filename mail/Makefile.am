@@ -108,6 +108,8 @@ evolution_mail_SOURCES =		\
 	message-list.h			\
 	message-tag-editor.c		\
 	message-tag-editor.h		\
+	message-tag-followup.c		\
+	message-tag-followup.h		\
 	subscribe-dialog.c		\
 	subscribe-dialog.h		\
 	mail.h
@@ -137,7 +139,7 @@ oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)
 @XML_I18N_MERGE_OAF_RULE@
 
 gladedir   = $(datadir)/evolution/glade
-glade_DATA = mail-config.glade local-config.glade subscribe-dialog.glade
+glade_DATA = mail-config.glade local-config.glade subscribe-dialog.glade message-tags.glade
 
 etspecdir = $(datadir)/evolution/etspec/
 etspec_DATA = message-list.etspec subscribe-dialog.etspec
