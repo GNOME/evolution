@@ -1,3 +1,7 @@
+2001-02-04  Christopher James Lahey  <clahey@ximian.com>
+
+	* configure.in: Require version 0.4.99.8 of gal.
+
 2001-02-03  Federico Mena Quintero  <federico@ximian.com>
 
 	* configure.in: Make sure we have gnome-libs 1.2.9 or higher.

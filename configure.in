@@ -332,14 +332,14 @@ fi
 dnl ******************************
 dnl Gnome App Lib checking
 dnl ******************************
-AC_MSG_CHECKING(for Gnome App libraries (GAL) >= 0.4.99.7)
+AC_MSG_CHECKING(for Gnome App libraries (GAL) >= 0.4.99.8)
 if gnome-config --libs gal > /dev/null 2>&1; then 
     vers=`gnome-config --modversion gal | sed -e "s/gal-//" -e 's/cvs$//' -e 's/pre$//' | \
         awk 'BEGIN { FS = "."; } { print $1 * 1000000 + $2 * 10000 + $3 * 100 + $4;}'`
-    if test "$vers" -ge 49907; then
+    if test "$vers" -ge 49908; then
         AC_MSG_RESULT(found)
     else
-        AC_MSG_ERROR(You need at least GNOME Application libs 0.4.99.7 for this version of Evolution)
+        AC_MSG_ERROR(You need at least GNOME Application libs 0.4.99.8 for this version of Evolution)
     fi
 else
     AC_MSG_ERROR(Did not find GnomeAppLib (GAL) installed)
