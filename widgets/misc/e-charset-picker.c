@@ -91,7 +91,7 @@ static ECharset charsets[] = {
 	{ "GB18030", E_CHARSET_CHINESE, N_("Simplified") },
 	{ "GB-2312", E_CHARSET_CHINESE, N_("Simplified") },
 	{ "HZ", E_CHARSET_CHINESE, N_("Simplified") },
-	{ "ISO-2022-CN", E_CHARSET_CHINESE, NULL },
+	{ "ISO-2022-CN", E_CHARSET_CHINESE, N_("Simplified") },
 	{ "KOI8-R", E_CHARSET_CYRILLIC, NULL },
 	{ "Windows-1251", E_CHARSET_CYRILLIC, NULL },
 	{ "KOI8-U", E_CHARSET_CYRILLIC, N_("Ukrainian") },
