@@ -1,3 +1,11 @@
+2003-08-11  Not Zed  <NotZed@Ximian.com>
+
+	* e-msgport.c (e_thread_put): check pthread_create return code
+	properly.
+	(e_mutex_lock): check pthread* return codes properly.
+	(e_mutex_unlock): Same here.
+	(e_mutex_cond_wait): and here.
+
 2003-08-05  Dan Winship  <danw@ximian.com>
 
 	* e-html-utils.c (special_chars): add a flag for non-url chars

@@ -766,8 +766,10 @@ void e_thread_put(EThread *e, EMsg *msg)
 
 	/* create the thread, if there is none to receive it yet */
 	if (e->id == E_THREAD_NONE) {
-		if (pthread_create(&e->id, NULL, thread_dispatch, e) == -1) {
-			g_warning("Could not create dispatcher thread, message queued?: %s", strerror(errno));
+		int err;
+
+		if ((err = pthread_create(&e->id, NULL, thread_dispatch, e)) != 0) {
+			g_warning("Could not create dispatcher thread, message queued?: %s", strerror(err));
 			e->id = E_THREAD_NONE;
 		}
 	}
@@ -845,14 +847,15 @@ int e_mutex_destroy(EMutex *m)
 int e_mutex_lock(EMutex *m)
 {
 	pthread_t id;
+	int err;
 
 	switch (m->type) {
 	case E_MUTEX_SIMPLE:
 		return pthread_mutex_lock(&m->mutex);
 	case E_MUTEX_REC:
 		id = pthread_self();
-		if (pthread_mutex_lock(&m->mutex) == -1)
-			return -1;
+		if ((err = pthread_mutex_lock(&m->mutex)) != 0)
+			return err;
 		while (1) {
 			if (m->owner == E_THREAD_NONE) {
 				m->owner = id;
@@ -863,26 +866,27 @@ int e_mutex_lock(EMutex *m)
 				break;
 			} else {
 				m->waiters++;
-				if (pthread_cond_wait(&m->cond, &m->mutex) == -1)
-					return -1;
+				if ((err = pthread_cond_wait(&m->cond, &m->mutex)) != 0)
+					return err;
 				m->waiters--;
 			}
 		}
 		return pthread_mutex_unlock(&m->mutex);
 	}
 
-	errno = EINVAL;
-	return -1;
+	return EINVAL;
 }
 
 int e_mutex_unlock(EMutex *m)
 {
+	int err;
+
 	switch (m->type) {
 	case E_MUTEX_SIMPLE:
 		return pthread_mutex_unlock(&m->mutex);
 	case E_MUTEX_REC:
-		if (pthread_mutex_lock(&m->mutex) == -1)
-			return -1;
+		if ((err = pthread_mutex_lock(&m->mutex)) != 0)
+			return err;
 		g_assert(m->owner == pthread_self());
 
 		m->depth--;
@@ -915,8 +919,8 @@ int e_mutex_cond_wait(void *vcond, EMutex *m)
 	case E_MUTEX_SIMPLE:
 		return pthread_cond_wait(cond, &m->mutex);
 	case E_MUTEX_REC:
-		if (pthread_mutex_lock(&m->mutex) == -1)
-			return -1;
+		if ((ret = pthread_mutex_lock(&m->mutex)) != 0)
+			return ret;
 		g_assert(m->owner == pthread_self());
 		ret = pthread_cond_wait(cond, &m->mutex);
 		g_assert(m->owner == pthread_self());
