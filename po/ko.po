@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: AC_PACKAGE_NAME AC_PACKAGE_VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2003-11-01 21:36+0900\n"
-"PO-Revision-Date: 2003-11-02 01:08+0900\n"
+"PO-Revision-Date: 2003-11-02 05:13+0900\n"
 "Last-Translator: Young-Ho, Cha <ganadist at mizi.com>\n"
 "Language-Team: GTP Korean <gnome-kr-translation@gnome.or.kr>\n"
 "MIME-Version: 1.0\n"
@@ -391,12 +391,11 @@ msgstr "조직 구분"
 #: calendar/gui/dialogs/meeting-page.etspec.h:9
 #: calendar/gui/e-meeting-time-sel.etspec.h:9
 msgid "Role"
-msgstr ""
+msgstr "역할"
 
 #: addressbook/backend/ebook/e-card.c:1436 mail/mail-format.c:970
-#, fuzzy
 msgid "Mailer"
-msgstr "편지"
+msgstr "메일 프로그램"
 
 #: addressbook/backend/ebook/e-card.c:1450
 msgid "Free/Busy URL"
@@ -407,23 +406,20 @@ msgid "ICS Calendar"
 msgstr "ICS 달력"
 
 #: addressbook/backend/ebook/e-card.c:1471
-#, fuzzy
 msgid "Related Contacts"
-msgstr "선택한 연락처:"
+msgstr "관련 연락처"
 
 #: addressbook/backend/ebook/e-card.c:1485
 msgid "Category List"
 msgstr "분류 목록"
 
 #: addressbook/backend/ebook/e-card.c:1492
-#, fuzzy
 msgid "Wants HTML"
 msgstr "HTML 사용"
 
 #: addressbook/backend/ebook/e-card.c:1499
-#, fuzzy
 msgid "Wants HTML set"
-msgstr "HTML 사용"
+msgstr "HTML 모음 사용"
 
 #: addressbook/backend/ebook/e-card.c:1506
 msgid "List"
@@ -448,9 +444,8 @@ msgid "Last Use"
 msgstr "최근 사용"
 
 #: addressbook/backend/ebook/e-card.c:1545
-#, fuzzy
 msgid "Use Score"
-msgstr "취소"
+msgstr "점수 사용"
 
 #: addressbook/backend/ebook/test-client-list.c:15
 #: addressbook/backend/ebook/test-client.c:33
@@ -590,9 +585,8 @@ msgid "Public Contacts"
 msgstr "공개 연락처"
 
 #: addressbook/gui/component/addressbook-component.c:80
-#, fuzzy
 msgid "Public folder containing contact information"
-msgstr "연락처 정보를 가지고 있는 폴더"
+msgstr "연락처 정보가 들어 있는 공개 폴더"
 
 #: addressbook/gui/component/addressbook-component.c:582
 msgid "New Contact"
@@ -636,7 +630,7 @@ msgstr ""
 
 #: addressbook/gui/component/addressbook-config.c:1193
 msgid "This server does not support LDAPv3 schema information"
-msgstr ""
+msgstr "이 서버는 LDAPv3 스키마 정보를 지원하지 않습니다"
 
 #: addressbook/gui/component/addressbook-config.c:1215
 #, fuzzy
@@ -833,7 +827,7 @@ msgstr "질의 사용(위험!)"
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:1
 #: mail/mail-config.glade.h:1
 msgid "\n"
-msgstr ""
+msgstr "\n"
 
 #: addressbook/gui/component/ldap-config.glade.h:3
 #, fuzzy
@@ -855,7 +849,7 @@ msgstr "지원하는 형식인지 확인(_C) "
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:1
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:1
 msgid "*"
-msgstr ""
+msgstr "*"
 
 #: addressbook/gui/component/ldap-config.glade.h:5
 msgid "1:00"
@@ -934,9 +928,8 @@ msgid ""
 msgstr "Evolution은 이 메일 주소로 서버에 인증할 때 사용합니다"
 
 #: addressbook/gui/component/ldap-config.glade.h:25
-#, fuzzy
 msgid "Finished"
-msgstr "찾기(_i)"
+msgstr "끝"
 
 #: addressbook/gui/component/ldap-config.glade.h:26
 #: addressbook/gui/contact-editor/contact-editor.glade.h:15
@@ -944,9 +937,8 @@ msgid "General"
 msgstr "일반 정보"
 
 #: addressbook/gui/component/ldap-config.glade.h:27
-#, fuzzy
 msgid "LDAP Configuration Assistant"
-msgstr "설정"
+msgstr "LDAP 설정 도우미"
 
 #: addressbook/gui/component/ldap-config.glade.h:28 mail/mail-account-gui.c:64
 #: mail/mail-config.glade.h:74
@@ -1135,7 +1127,7 @@ msgstr ""
 
 #: addressbook/gui/component/ldap-config.glade.h:79
 msgid "U_se SSL/TLS:"
-msgstr "SSL/TLS 사용:"
+msgstr "SSL/TLS 사용(_S):"
 
 #: addressbook/gui/component/ldap-config.glade.h:80
 msgid "Using distinguished name (DN)"
@@ -1187,12 +1179,11 @@ msgstr "서버 이름(_S):"
 
 #: addressbook/gui/component/ldap-config.glade.h:90
 msgid "_Timeout (minutes):"
-msgstr ""
+msgstr "제한 시간(분)(_T):"
 
 #: addressbook/gui/component/ldap-config.glade.h:91
-#, fuzzy
 msgid "cards"
-msgstr "카드 없음"
+msgstr "카드"
 
 #: addressbook/gui/component/ldap-config.glade.h:92
 #, fuzzy
@@ -1288,9 +1279,8 @@ msgid "_Folder:"
 msgstr "폴더(_F):"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:1
-#, fuzzy
 msgid " B_usiness:"
-msgstr "직장"
+msgstr "직장(_U):"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:3
 msgid "A_ddress..."
@@ -1309,9 +1299,8 @@ msgid "Birthda_y:"
 msgstr "생일(_Y):"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:7
-#, fuzzy
 msgid "Business fa_x:"
-msgstr "직장 팩스"
+msgstr "직장 팩스(_X):"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:8
 msgid "Collaboration"
@@ -1358,7 +1347,7 @@ msgstr "새 전화 형태"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:19
 msgid "No_tes:"
-msgstr "노트(_T):"
+msgstr "메모(_T):"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:20
 msgid "Organi_zation:"
@@ -1369,7 +1358,6 @@ msgid "P_rofession:"
 msgstr "직업(_R):"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:22
-#, fuzzy
 msgid "Primary _email:"
 msgstr "주요 전자메일(_E):"
 
@@ -1390,9 +1378,8 @@ msgid "_Business:"
 msgstr "직장(_B):"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:27
-#, fuzzy
 msgid "_Categories..."
-msgstr "분류(_T)..."
+msgstr "분류(_C)..."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:28
 #: calendar/gui/dialogs/meeting-page.c:717 calendar/gui/e-calendar-table.c:977
@@ -1451,9 +1438,8 @@ msgstr "홈페이지 주소(_W):"
 #: addressbook/gui/widgets/e-minicard-view-widget.c:120
 #: addressbook/gui/widgets/e-minicard-view.c:478
 #: addressbook/gui/widgets/e-minicard.c:183
-#, fuzzy
 msgid "Editable"
-msgstr "사용"
+msgstr "편집 가능"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:135
 #: my-evolution/Locations.h:2340
@@ -2504,9 +2490,8 @@ msgid "Writable Fields"
 msgstr "발신 항목(_F)"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:191
-#, fuzzy
 msgid "Changed"
-msgstr "챠드"
+msgstr "변경됨"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:827
 msgid "Category editor not available."
@@ -2550,9 +2535,8 @@ msgid "_Edit Full"
 msgstr "정식 이름 편집(_E)"
 
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:319
-#, fuzzy
 msgid "_Full Name:"
-msgstr "전체이름(_F):"
+msgstr "전체 이름(_F):"
 
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:325
 msgid "E-_mail:"
@@ -2689,7 +2673,6 @@ msgid "_Hide addresses when sending mail to this list"
 msgstr "이 목록으로 메일을 보낼 때 주소를 숨깁니다(_H)"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:6
-#, fuzzy
 msgid "_List name:"
 msgstr "목록 이름(_N):"
 
@@ -2717,7 +2700,6 @@ msgid "Save List as VCard"
 msgstr "VCard로 목록 저장"
 
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.etspec.h:1
-#, fuzzy
 msgid "Contact"
 msgstr "연락처"
 
@@ -2914,14 +2896,12 @@ msgid "Copy card to"
 msgstr ""
 
 #: addressbook/gui/widgets/e-addressbook-util.c:333
-#, fuzzy
 msgid "Move cards to"
-msgstr "카드 없음"
+msgstr "카드 이동"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:335
-#, fuzzy
 msgid "Copy cards to"
-msgstr "카드 없음"
+msgstr "카드 복사"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:517
 msgid "Multiple VCards"
@@ -2937,7 +2917,7 @@ msgstr ""
 #: calendar/gui/e-calendar-table.etspec.h:18
 #: calendar/gui/e-meeting-time-sel.etspec.h:11
 msgid "Type"
-msgstr ""
+msgstr "형태"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:398
 #: importers/evolution-gnomecard-importer.c:228 importers/pine-importer.c:642
@@ -3114,11 +3094,11 @@ msgstr "휴대 전화"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:29
 msgid "Other Address"
-msgstr "다른 주소"
+msgstr "기타 주소"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:31
 msgid "Other Phone"
-msgstr "다른 전화"
+msgstr "기타 전화"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:33
 msgid "Primary Phone"
@@ -3200,9 +3180,8 @@ msgstr ""
 "여기에서 보여줄 수 있는 항목이 없습니다."
 
 #: addressbook/gui/widgets/e-minicard-view.c:457
-#, fuzzy
 msgid "Adapter"
-msgstr "안도라"
+msgstr ""
 
 #: addressbook/gui/widgets/e-minicard.c:169
 #, fuzzy
@@ -3813,9 +3792,8 @@ msgid "M_eeting"
 msgstr "회의(_E)"
 
 #: calendar/gui/calendar-component.c:738
-#, fuzzy
 msgid "Create a new meeting request"
-msgstr "새 작업을 만듭니다"
+msgstr "새 회의 요청을 만듭니다"
 
 #: calendar/gui/calendar-component.c:742
 msgid "New task"
@@ -3830,19 +3808,16 @@ msgid "Create a new task"
 msgstr "새 작업을 만듭니다"
 
 #: calendar/gui/calendar-component.c:747
-#, fuzzy
 msgid "New All Day Appointment"
-msgstr "새 약속"
+msgstr "새 하루 종일 약속"
 
 #: calendar/gui/calendar-component.c:747
-#, fuzzy
 msgid "All _Day Appointment"
-msgstr "새 약속(_A)"
+msgstr "하루 종일 약속(_D)"
 
 #: calendar/gui/calendar-component.c:748
-#, fuzzy
 msgid "Create a new all-day appointment"
-msgstr "새 약속을 만듭니다"
+msgstr "새 하루 종일 약속을 만듭니다"
 
 #: calendar/gui/calendar-model.c:405 calendar/gui/calendar-model.c:964
 #: calendar/gui/e-calendar-table.c:380
@@ -3947,7 +3922,6 @@ msgid "Day View"
 msgstr "일별 보기"
 
 #: calendar/gui/calendar-view-factory.c:121
-#, fuzzy
 msgid "Work Week View"
 msgstr "근무일 주별 보기"
 
@@ -4072,7 +4046,7 @@ msgstr "날짜/시간:"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:3 calendar/gui/e-alarm-list.c:465
 msgid "Display a message"
-msgstr "메세지 보이기"
+msgstr "메세지 표시"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:4 calendar/gui/e-alarm-list.c:461
 msgid "Play a sound"
@@ -5349,9 +5323,8 @@ msgid "New All Day _Event"
 msgstr ""
 
 #: calendar/gui/e-day-view.c:3698 calendar/gui/e-week-view.c:3693
-#, fuzzy
 msgid "New Meeting"
-msgstr "회의"
+msgstr "새 회의"
 
 #: calendar/gui/e-day-view.c:3700 calendar/gui/e-week-view.c:3694
 msgid "New Task"
@@ -5797,7 +5770,7 @@ msgstr ""
 #: calendar/gui/e-itip-control.c:1885 calendar/gui/e-itip-control.c:1977
 #, fuzzy
 msgid "Object could not be found\n"
-msgstr "Bug buddy를 실행할수 없습니다."
+msgstr "Bug buddy를 실행할 수 없습니다."
 
 #: calendar/gui/e-itip-control.c:1888
 #, fuzzy
@@ -5936,7 +5909,7 @@ msgstr "방"
 #: calendar/gui/e-meeting-model.c:232 calendar/gui/e-meeting-model.c:249
 #: calendar/gui/e-meeting-model.c:771
 msgid "Chair"
-msgstr "죄장"
+msgstr "의장"
 
 #: calendar/gui/e-meeting-model.c:234 calendar/gui/e-meeting-model.c:251
 #: calendar/gui/e-meeting-model.c:532 calendar/gui/e-meeting-model.c:772
@@ -5951,7 +5924,7 @@ msgstr "선택 참석자"
 #: calendar/gui/e-meeting-model.c:238 calendar/gui/e-meeting-model.c:255
 #: calendar/gui/e-meeting-model.c:774
 msgid "Non-Participant"
-msgstr "참석 불가자"
+msgstr "불참자"
 
 #: calendar/gui/e-meeting-model.c:284 calendar/gui/e-meeting-model.c:307
 #: calendar/gui/e-meeting-model.c:540 calendar/gui/e-meeting-model.c:800
@@ -6073,14 +6046,14 @@ msgstr ""
 #: calendar/gui/e-tasks.c:418 calendar/gui/gnome-cal.c:1699
 #, fuzzy, c-format
 msgid "You don't have permission to open the folder in `%s'"
-msgstr "`%s'에있는 폴더를 열수가 없습니다"
+msgstr "`%s'에 있는 폴더를 열 수가 없습니다"
 
 #: calendar/gui/e-tasks.c:486 calendar/gui/gnome-cal.c:1918
 #, fuzzy, c-format
 msgid ""
 "Error on %s:\n"
 " %s"
-msgstr "%s을(를) 읽는중 오류 발생"
+msgstr "%s을(를) 읽는 중 오류 발생"
 
 #: calendar/gui/e-tasks.c:557
 #, fuzzy
@@ -7442,18 +7415,16 @@ msgid "Asia/Macao"
 msgstr "아시아/마카오"
 
 #: calendar/zones.h:230
-#, fuzzy
 msgid "Asia/Macau"
-msgstr "아시아/마카오"
+msgstr ""
 
 #: calendar/zones.h:231
 msgid "Asia/Magadan"
 msgstr "아시아/마가단"
 
 #: calendar/zones.h:232
-#, fuzzy
 msgid "Asia/Makassar"
-msgstr "아시아/마가단"
+msgstr ""
 
 #: calendar/zones.h:233
 msgid "Asia/Manila"
@@ -7476,9 +7447,8 @@ msgid "Asia/Omsk"
 msgstr "아시아/옴스크"
 
 #: calendar/zones.h:238
-#, fuzzy
 msgid "Asia/Oral"
-msgstr "아시아/카불"
+msgstr ""
 
 #: calendar/zones.h:239
 msgid "Asia/Phnom_Penh"
@@ -7497,9 +7467,8 @@ msgid "Asia/Qatar"
 msgstr "아시아/카타르"
 
 #: calendar/zones.h:243
-#, fuzzy
 msgid "Asia/Qyzylorda"
-msgstr "아시아/가자"
+msgstr ""
 
 #: calendar/zones.h:244
 msgid "Asia/Rangoon"
@@ -8170,12 +8139,12 @@ msgstr "폴더 동기중"
 #: camel/camel-filter-driver.c:1021 camel/camel-filter-driver.c:1394
 #, c-format
 msgid "Error parsing filter: %s: %s"
-msgstr "필터 분석중 오류: %s: %s"
+msgstr "필터 분석 중 오류: %s: %s"
 
 #: camel/camel-filter-driver.c:1030 camel/camel-filter-driver.c:1400
 #, c-format
 msgid "Error executing filter: %s: %s"
-msgstr "필터 실행중 오류: %s: %s"
+msgstr "필터 실행 중 오류: %s: %s"
 
 #: camel/camel-filter-driver.c:1097
 msgid "Unable to open spool folder"
@@ -8231,7 +8200,7 @@ msgstr "첨부"
 #: camel/camel-filter-search.c:657 camel/camel-filter-search.c:665
 #, c-format
 msgid "Error executing filter search: %s: %s"
-msgstr "필터 찾기 실행중 오류: %s: %s"
+msgstr "필터 찾기 실행 중 오류: %s: %s"
 
 #: camel/camel-folder-search.c:348
 #, c-format
@@ -8361,7 +8330,7 @@ msgstr "메세지에 파일을 첨부합니다"
 #: camel/camel-gpg-context.c:1380
 #, fuzzy, c-format
 msgid "Cannot verify message signature: could not create temp file: %s"
-msgstr "임시 파일을 만들수 없음: %s"
+msgstr "임시 파일을 만들 수 없음: %s"
 
 #: camel/camel-lock-client.c:111
 #, c-format
@@ -8445,12 +8414,12 @@ msgstr "(알 수 없는 오류)"
 #: camel/camel-movemail.c:261
 #, c-format
 msgid "Error reading mail file: %s"
-msgstr "메일파일을 읽는중 오류 발생: %s"
+msgstr "메일파일을 읽는 중 오류 발생: %s"
 
 #: camel/camel-movemail.c:272
 #, c-format
 msgid "Error writing mail temp file: %s"
-msgstr "메일 임시파일을 쓰는중 오류발생: %s"
+msgstr "메일 임시파일을 쓰는 중 오류발생: %s"
 
 #: camel/camel-movemail.c:465 camel/camel-movemail.c:532
 #, c-format
@@ -8813,12 +8782,12 @@ msgstr ""
 #: camel/camel-store.c:215
 #, fuzzy
 msgid "Cannot get folder: Invalid operation on this store"
-msgstr "폴더를 얻을수 없습니다: %s: %s"
+msgstr "폴더를 얻을 수 없습니다: %s: %s"
 
 #: camel/camel-store.c:269
 #, fuzzy
 msgid "Cannot create folder: Invalid operation on this store"
-msgstr "폴더를 얻을수 없습니다: %s: %s"
+msgstr "폴더를 얻을 수 없습니다: %s: %s"
 
 #: camel/camel-tcp-stream-openssl.c:571
 msgid "Unable to get issuer's certificate"
@@ -8843,7 +8812,7 @@ msgstr ""
 #: camel/camel-tcp-stream-openssl.c:581
 #, fuzzy
 msgid "Certificate signature failure"
-msgstr "임시 폴더를 닫을수 없음: %s"
+msgstr "임시 폴더를 닫을 수 없음: %s"
 
 #: camel/camel-tcp-stream-openssl.c:583
 msgid "Certificate Revocation List signature failure"
@@ -8868,7 +8837,7 @@ msgstr ""
 #: camel/camel-tcp-stream-openssl.c:596
 #, fuzzy
 msgid "Error in CRL"
-msgstr "%s을(를) 읽는중 오류 발생"
+msgstr "%s을(를) 읽는 중 오류 발생"
 
 #: camel/camel-tcp-stream-openssl.c:598
 #, fuzzy
@@ -9016,7 +8985,7 @@ msgstr "데이타를 쓸 수가 없습니다: %s"
 #: camel/camel-vee-folder.c:618
 #, fuzzy, c-format
 msgid "Error storing `%s': %s"
-msgstr "%s을(를) 읽는중 오류 발생"
+msgstr "%s을(를) 읽는 중 오류 발생"
 
 #: camel/camel-vee-folder.c:656
 #, fuzzy, c-format
@@ -9031,22 +9000,22 @@ msgstr "모든 폴더에서 새 메세지 확인"
 #: camel/camel-vee-store.c:261
 #, fuzzy, c-format
 msgid "Cannot delete folder: %s: Invalid operation"
-msgstr "폴더를 얻을수 없습니다: %s: %s"
+msgstr "폴더를 얻을 수 없습니다: %s: %s"
 
 #: camel/camel-vee-store.c:280
 #, fuzzy, c-format
 msgid "Cannot delete folder: %s: No such folder"
-msgstr "폴더를 얻을수 없습니다: %s: %s"
+msgstr "폴더를 얻을 수 없습니다: %s: %s"
 
 #: camel/camel-vee-store.c:293
 #, fuzzy, c-format
 msgid "Cannot rename folder: %s: Invalid operation"
-msgstr "폴더를 얻을수 없습니다: %s: %s"
+msgstr "폴더를 얻을 수 없습니다: %s: %s"
 
 #: camel/camel-vee-store.c:301
 #, fuzzy, c-format
 msgid "Cannot rename folder: %s: No such folder"
-msgstr "폴더를 얻을수 없습니다: %s: %s"
+msgstr "폴더를 얻을 수 없습니다: %s: %s"
 
 #: camel/providers/imap/camel-imap-command.c:221
 #: camel/providers/imap/camel-imap-command.c:260
@@ -9515,7 +9484,7 @@ msgstr ""
 #: camel/providers/local/camel-maildir-summary.c:548
 #, fuzzy, c-format
 msgid "Cannot open maildir directory path: %s: %s"
-msgstr "메일 폴더에 메세지를 덧붙일수 없습니다: %s: %s"
+msgstr "메일 폴더에 메세지를 덧붙일 수 없습니다: %s: %s"
 
 #: camel/providers/local/camel-maildir-summary.c:541
 #, fuzzy
@@ -10456,7 +10425,7 @@ msgstr "메시지 작성 창을 만들 수가 없습니다"
 msgid ""
 "Error while reading file %s:\n"
 "%s"
-msgstr "파일을 읽는중 오류 발생: %s"
+msgstr "파일을 읽는 중 오류 발생: %s"
 
 #: composer/e-msg-composer.c:1192
 msgid "File exists, overwrite?"
@@ -10465,17 +10434,17 @@ msgstr "파일이 있습니다, 덮어쓸까요?"
 #: composer/e-msg-composer.c:1203 composer/e-msg-composer.c:1219
 #, c-format
 msgid "Error saving file: %s"
-msgstr "파일 저장중 오류 발생: %s"
+msgstr "파일 저장 중 오류 발생: %s"
 
 #: composer/e-msg-composer.c:1242
 #, c-format
 msgid "Error loading file: %s"
-msgstr "파일을 읽는중 오류 발생: %s"
+msgstr "파일을 읽는 중 오류 발생: %s"
 
 #: composer/e-msg-composer.c:1280
 #, fuzzy, c-format
 msgid "Error accessing file: %s"
-msgstr "파일 저장중 오류 발생: %s"
+msgstr "파일 저장 중 오류 발생: %s"
 
 #: composer/e-msg-composer.c:1288
 msgid "Unable to retrieve message from editor"
@@ -10514,7 +10483,7 @@ msgid ""
 "Error autosaving message: %s\n"
 " %s"
 msgstr ""
-"%s로 메시지 저장중 오류 발생:\n"
+"%s로 메시지 저장 중 오류 발생:\n"
 " %s"
 
 #: composer/e-msg-composer.c:1417
@@ -10524,13 +10493,13 @@ msgid ""
 msgstr ""
 
 #: composer/e-msg-composer.c:1580
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The message \"%s\" has not been sent.\n"
 "\n"
 "Do you wish to save your changes?"
 msgstr ""
-"서명이 바뀌었지만, 저장되지 않았습니다.\n"
+"\"%s\" 메세지를 보내지 않았습니다.\n"
 "\n"
 "바뀐 내용을 저장하시겠습니까?"
 
@@ -10548,7 +10517,7 @@ msgstr "서명:"
 
 #: composer/e-msg-composer.c:2085 mail/mail-account-gui.c:1261
 msgid "Autogenerated"
-msgstr "자동으로 만들어짐"
+msgstr "자동으로 만들기"
 
 #: composer/e-msg-composer.c:2261 composer/e-msg-composer.c:2928
 #: composer/e-msg-composer.c:2929
@@ -11155,24 +11124,23 @@ msgstr "연도"
 #. Automatically generated. Do not edit.
 #: filter/libfilter-i18n.h:2
 msgid "Adjust Score"
-msgstr ""
+msgstr "점수 조정"
 
 #: filter/libfilter-i18n.h:3
 msgid "Assign Color"
-msgstr ""
+msgstr "색 지정"
 
 #: filter/libfilter-i18n.h:4
 msgid "Assign Score"
-msgstr ""
+msgstr "점수 지정"
 
 #: filter/libfilter-i18n.h:5
 msgid "Attachments"
 msgstr "첨부"
 
 #: filter/libfilter-i18n.h:6
-#, fuzzy
 msgid "Beep"
-msgstr "벨리즈"
+msgstr "삑 소리"
 
 #: filter/libfilter-i18n.h:7
 msgid "contains"
@@ -11300,14 +11268,12 @@ msgid "Move to Folder"
 msgstr "폴더로 이동"
 
 #: filter/libfilter-i18n.h:40
-#, fuzzy
 msgid "Pipe Message to Shell Command"
-msgstr "연락처로 메세지 보냄"
+msgstr "쉘 명령으로 메세지 파이프"
 
 #: filter/libfilter-i18n.h:41
-#, fuzzy
 msgid "Play Sound"
-msgstr "소리 연주:"
+msgstr "소리 연주"
 
 #: filter/libfilter-i18n.h:42 mail/message-tag-followup.c:68
 msgid "Read"
@@ -11319,7 +11285,7 @@ msgstr "받는 사람"
 
 #: filter/libfilter-i18n.h:44
 msgid "Regex Match"
-msgstr ""
+msgstr "정규식"
 
 #: filter/libfilter-i18n.h:45
 msgid "Replied to"
@@ -11355,7 +11321,7 @@ msgstr "상태 설정"
 
 #: filter/libfilter-i18n.h:52
 msgid "Shell Command"
-msgstr ""
+msgstr "쉘 명령"
 
 #: filter/libfilter-i18n.h:53
 msgid "Size (kB)"
@@ -11367,7 +11333,7 @@ msgstr ""
 
 #: filter/libfilter-i18n.h:55
 msgid "Source Account"
-msgstr ""
+msgstr "편지 온 계정"
 
 #: filter/libfilter-i18n.h:56
 msgid "Specific header"
@@ -11379,7 +11345,7 @@ msgstr "시작함"
 
 #: filter/libfilter-i18n.h:59
 msgid "Stop Processing"
-msgstr ""
+msgstr "처리 중지"
 
 #: filter/libfilter-i18n.h:60 mail/mail-format.c:941
 #: mail/message-list.etspec.h:13 mail/message-tag-followup.c:305
@@ -11387,9 +11353,8 @@ msgid "Subject"
 msgstr "제목"
 
 #: filter/libfilter-i18n.h:61
-#, fuzzy
 msgid "Unset Status"
-msgstr "상태 설정"
+msgstr "상태 설정 없애기"
 
 #: filter/rule-context.c:664 filter/rule-editor.c:241 filter/rule-editor.c:326
 #: mail/mail-vfolder.c:917
@@ -11410,9 +11375,8 @@ msgid "Edit Rule"
 msgstr "규칙 편집"
 
 #: filter/rule-editor.c:691
-#, fuzzy
 msgid "Rule name"
-msgstr "규칙 이름: "
+msgstr "규칙 이름"
 
 #: filter/score-editor.c:114
 msgid "Score Rules"
@@ -11603,39 +11567,32 @@ msgid "Evolution Mail"
 msgstr "Evolution"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:6
-#, fuzzy
 msgid "Evolution Mail accounts configuration control"
-msgstr "Evolution 계정 편집기"
+msgstr "Evolution 메일 계정 설정 컨트롤"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:7
-#, fuzzy
 msgid "Evolution Mail component"
-msgstr "Evolution 메일 작성기."
+msgstr "Evolution 메일 컴포넌트"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:8
-#, fuzzy
 msgid "Evolution Mail composer"
-msgstr "Evolution 메일 작성기."
+msgstr "Evolution 메일 작성기"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:9
-#, fuzzy
 msgid "Evolution Mail composer configuration control"
-msgstr "Evolution 메일 작성기."
+msgstr "Evolution 메일 작성기 설정 컨트롤"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:10
-#, fuzzy
 msgid "Evolution Mail configuration interface"
-msgstr "메일 설정 인터페이스"
+msgstr "Evolution 메일 설정 인터페이스"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:11
-#, fuzzy
 msgid "Evolution Mail folder viewer"
-msgstr "Evolution 메일 작성기."
+msgstr "Evolution 메일 폴더 보기"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:12
-#, fuzzy
 msgid "Evolution Mail preferences control"
-msgstr "메일 기본 설정"
+msgstr "Evolution 메일 기본 설정 컨트롤"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:13
 msgid "Mail Accounts"
@@ -11707,11 +11664,11 @@ msgstr "메일 메세지를 새로 작성합니다"
 
 #: mail/component-factory.c:1076
 msgid "New Message Post"
-msgstr "새 메세지 부치기"
+msgstr ""
 
 #: mail/component-factory.c:1076
 msgid "_Post Message"
-msgstr "편지 부치기(_P)"
+msgstr ""
 
 #: mail/component-factory.c:1077
 msgid "Post a new mail message"
@@ -11915,36 +11872,32 @@ msgid "Getting Folder Information"
 msgstr "폴더 정보 가져오기"
 
 #: mail/importers/GNOME_Evolution_Mail_Elm_Intelligent_Importer.server.in.in.h:1
-#, fuzzy
 msgid "Evolution Elm importer"
-msgstr "Evolution 메일 작성기."
+msgstr "Evolution ELM 가져오기"
 
 #: mail/importers/GNOME_Evolution_Mail_Mbox_Importer.server.in.in.h:1
-#, fuzzy
 msgid "Evolution mbox importer"
-msgstr "Evolution 메일 작성기."
+msgstr "Evolution mbox 가져오기"
 
 #: mail/importers/GNOME_Evolution_Mail_Mbox_Importer.server.in.in.h:2
 msgid "MBox (mbox)"
-msgstr ""
+msgstr "MBox (mbox)"
 
 #: mail/importers/GNOME_Evolution_Mail_Netscape_Intelligent_Importer.server.in.in.h:1
-#, fuzzy
 msgid "Evolution Netscape Mail importer"
-msgstr "Evolution 메일 작성기."
+msgstr "Evolution 넷스케이프 메일 가져오기"
 
 #: mail/importers/GNOME_Evolution_Mail_Outlook_Importer.server.in.in.h:1
 msgid "Evolution Outlook Express 4 importer"
-msgstr ""
+msgstr "Evolution Outlook Express 4 가져오기"
 
 #: mail/importers/GNOME_Evolution_Mail_Outlook_Importer.server.in.in.h:2
 msgid "Outlook Express 4 (.mbx)"
-msgstr ""
+msgstr "Outlook Express 4 (.mbx)"
 
 #: mail/importers/GNOME_Evolution_Mail_Pine_Intelligent_Importer.server.in.in.h:1
-#, fuzzy
 msgid "Evolution Pine importer"
-msgstr "Evolution 메일 작성기."
+msgstr "Evolution Pine 가져오기"
 
 #: mail/local-config.glade.h:1
 msgid "Current store format:"
@@ -12025,9 +11978,8 @@ msgstr "사용"
 
 #. translators: default account indicator
 #: mail/mail-accounts.c:433
-#, fuzzy
 msgid "[Default]"
-msgstr "기본값"
+msgstr "[기본값]"
 
 #. FIXME: This routine should just be a "toggled" event handler on the checkbox cell renderer which
 #. has "activatable" set.
@@ -12124,7 +12076,7 @@ msgstr ""
 #: mail/mail-callbacks.c:267
 #, fuzzy
 msgid "Send anyway?"
-msgstr "전자메일 보내기"
+msgstr "그래도 보낼까요?"
 
 #: mail/mail-callbacks.c:288
 msgid ""
@@ -12205,7 +12157,7 @@ msgstr "정말로 모든 메세지 %d개를 다시 보내겠습니까?"
 
 #: mail/mail-callbacks.c:2424
 msgid "No Message Selected"
-msgstr "아무 메세지가 선택되지 않았습니다"
+msgstr "아무 메세지도 선택하지 않았습니다"
 
 #: mail/mail-callbacks.c:2465
 #, fuzzy, c-format
@@ -12225,11 +12177,11 @@ msgstr "파일이 있습니다, 덮어쓸까요?"
 
 #: mail/mail-callbacks.c:2511
 msgid "Save Message As..."
-msgstr "다른이름으로 메세지 저장..."
+msgstr "다른 이름으로 메세지 저장..."
 
 #: mail/mail-callbacks.c:2513
 msgid "Save Messages As..."
-msgstr "다른이름으로 메세지 저장..."
+msgstr "다른 이름으로 메세지 저장..."
 
 #: mail/mail-callbacks.c:2686
 msgid ""
@@ -12261,7 +12213,7 @@ msgstr "메세지 인쇄"
 
 #: mail/mail-callbacks.c:2954
 msgid "Printing of message failed"
-msgstr "메세지 인쇄중 실패"
+msgstr "메세지 인쇄 중 실패"
 
 #: mail/mail-callbacks.c:3149
 #, c-format, fuzzy
@@ -12270,9 +12222,8 @@ msgstr "정말로 separate windows %d 메세지를 모두 지울까요?"
 
 #: mail/mail-composer-prefs.c:226 mail/mail-composer-prefs.c:349
 #: mail/mail-config.c:1376
-#, fuzzy
 msgid "Unnamed"
-msgstr "이름없는 연락처"
+msgstr "이름없음"
 
 #: mail/mail-composer-prefs.c:334
 #, fuzzy
@@ -12280,18 +12231,16 @@ msgid "You must specify a valid script name."
 msgstr "이 거르개에 이름을 주어야 합니다."
 
 #: mail/mail-composer-prefs.c:392 mail/mail-composer-prefs.c:454
-#, fuzzy
 msgid "[script]"
-msgstr "설명 없음"
+msgstr "[스크립트]"
 
 #: mail/mail-composer-prefs.c:858
 msgid "Language(s)"
 msgstr "언어"
 
 #: mail/mail-composer-prefs.c:900
-#, fuzzy
 msgid "Add script signature"
-msgstr "조건 추가"
+msgstr "스크립트 서명 더하기"
 
 #: mail/mail-composer-prefs.c:920
 msgid "Signature(s)"
@@ -12364,9 +12313,8 @@ msgid " _Check for supported types "
 msgstr "지원하는 형식인지 확인(_C) "
 
 #: mail/mail-config.glade.h:4
-#, fuzzy
 msgid "(SSL is not supported in this build of Evolution)"
-msgstr "(이 evolution 빌드는 SSL을 지원하지 않습니다)"
+msgstr "(이 Evolution 빌드는 SSL을 지원하지 않습니다)"
 
 #: mail/mail-config.glade.h:5
 msgid "(SSL is not supported in this build of evolution)"
@@ -12385,13 +12333,12 @@ msgid "Account Information"
 msgstr "계정 정보"
 
 #: mail/mail-config.glade.h:11
-#, fuzzy
 msgid "Add Sc_ript"
-msgstr "스크립트 더하기"
+msgstr "스크립트 더하기(_R)"
 
 #: mail/mail-config.glade.h:12
 msgid "Add new signature..."
-msgstr "새 서명 더하기"
+msgstr "새 서명 더하기..."
 
 #: mail/mail-config.glade.h:13
 msgid "Al_ways encrypt to myself when sending encrypted mail"
@@ -12525,7 +12472,7 @@ msgstr "끝날 때 휴지통 폴더 비우기(_T)"
 
 #: mail/mail-config.glade.h:53
 msgid "Evolution Account Assistant"
-msgstr "Evolution 계정 마법사"
+msgstr "Evolution 계정 도우미"
 
 #: mail/mail-config.glade.h:54
 msgid "Execute Command..."
@@ -12585,7 +12532,7 @@ msgstr "메세지 작성기"
 
 #: mail/mail-config.glade.h:72
 msgid "Message Display"
-msgstr "메세지 보이기"
+msgstr "메세지 표시"
 
 #: mail/mail-config.glade.h:73
 msgid "Message Fonts"
@@ -12599,7 +12546,7 @@ msgstr "새 편지 알림"
 msgid ""
 "Note: you will not be prompted for a password until you connect for the "
 "first time"
-msgstr "알림: 처음 연결이 되면 열쇠글을 물어보는 창이 뜰 것입니다"
+msgstr "알림: 처음 연결하면 열쇠글을 물어보는 창이 뜰 것입니다"
 
 #: mail/mail-config.glade.h:78
 msgid "Optional Information"
@@ -12610,9 +12557,8 @@ msgid "Or_ganization:"
 msgstr "조직(_G):"
 
 #: mail/mail-config.glade.h:81
-#, fuzzy
 msgid "PGP/GPG _Key ID:"
-msgstr "PGP 키 ID(_K):"
+msgstr "PGP/GPG 키 ID(_K):"
 
 #: mail/mail-config.glade.h:85
 msgid "Pick a color"
@@ -12757,7 +12703,6 @@ msgid "V_ariable-width:"
 msgstr "가변폭(_A):"
 
 #: mail/mail-config.glade.h:125
-#, fuzzy
 msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
@@ -13015,7 +12960,7 @@ msgstr "링크위치 복사"
 
 #: mail/mail-display.c:2251
 msgid "Save Link as (FIXME)"
-msgstr "링크를 다른이름으로 저장 (고칠예정)"
+msgstr "링크를 다른 이름으로 저장 (고칠예정)"
 
 #: mail/mail-display.c:2253
 msgid "Save Image as..."
@@ -13113,9 +13058,9 @@ msgid "Malformed external-body part."
 msgstr ""
 
 #: mail/mail-local.c:541 mail/mail-local.c:543
-#, fuzzy, c-format
+#, c-format
 msgid "Local folders/%s"
-msgstr "로컬 폴더"
+msgstr "로컬 폴더/%s"
 
 #: mail/mail-local.c:671
 msgid "Reconfiguring folder"
@@ -13173,7 +13118,7 @@ msgid ""
 "Error while performing operation:\n"
 "%s"
 msgstr ""
-"작업 수행중 에러가 발생했습니다:\n"
+"작업 수행 중 에러가 발생했습니다:\n"
 "%s"
 
 #: mail/mail-mt.c:904
@@ -13201,9 +13146,9 @@ msgid ""
 msgstr ""
 
 #: mail/mail-ops.c:593
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to append to local `Sent' folder: %s"
-msgstr "메세지에 파일을 첨부합니다"
+msgstr "로컬의 '보낸 편지함' 폴더에 추가하는 데 실패했습니다: %s"
 
 #: mail/mail-ops.c:635
 #, c-format
@@ -13218,7 +13163,7 @@ msgstr "%2$d개 중 %1$d개 메세지 보냄"
 #: mail/mail-ops.c:772
 #, c-format
 msgid "Failed on message %d of %d"
-msgstr "%2$d중 %1$d메시지 실패"
+msgstr "%2$d개 중 %1$d 메시지 실패"
 
 #: mail/mail-ops.c:774
 msgid "Complete."
@@ -13226,22 +13171,22 @@ msgstr "완료됨"
 
 #: mail/mail-ops.c:868
 msgid "Saving message to folder"
-msgstr "메세지를 폴더로 저장"
+msgstr "메세지를 폴더로 저장하는 중"
 
 #: mail/mail-ops.c:949
 #, c-format
 msgid "Moving messages to %s"
-msgstr "메시지들을 %s(으)로 옮김"
+msgstr "메시지들을 %s(으)로 옮기는 중"
 
 #: mail/mail-ops.c:949
 #, c-format
 msgid "Copying messages to %s"
-msgstr "메시지들을 %s(으)로 복사"
+msgstr "메시지들을 %s(으)로 복사하는 중"
 
 #: mail/mail-ops.c:1066
 #, c-format
 msgid "Scanning folders in \"%s\""
-msgstr "\"%s\"의 폴더 찾는 중"
+msgstr "\"%s\"의 폴더를 찾는 중"
 
 #: mail/mail-ops.c:1254
 msgid "Forwarded messages"
@@ -13315,7 +13260,7 @@ msgid ""
 "Error saving messages to: %s:\n"
 " %s"
 msgstr ""
-"%s(으)로 메시지 저장중 오류 발생:\n"
+"%s(으)로 메시지 저장 중 오류 발생:\n"
 " %s"
 
 #: mail/mail-ops.c:2060
@@ -13364,7 +13309,7 @@ msgstr "메세지에서 찾음"
 
 #: mail/mail-search.c:316
 msgid "Case Sensitive"
-msgstr "대소문자 가림"
+msgstr "대소문자 가리기"
 
 #: mail/mail-search.c:317
 msgid "Search Forward"
@@ -13376,7 +13321,7 @@ msgstr "찾기:"
 
 #: mail/mail-search.c:338
 msgid "Matches:"
-msgstr "일치함:"
+msgstr "일치:"
 
 #: mail/mail-send-recv.c:147
 msgid "Cancelling..."
@@ -13402,9 +13347,8 @@ msgid "Send & Receive Mail"
 msgstr "편지 주고받기"
 
 #: mail/mail-send-recv.c:309
-#, fuzzy
 msgid "Cancel _All"
-msgstr "모두 취소"
+msgstr "모두 취소(_A)"
 
 #: mail/mail-send-recv.c:390
 msgid "Updating..."
@@ -13447,7 +13391,7 @@ msgid ""
 "\n"
 "Do you wish to save your changes?"
 msgstr ""
-"서명이 바뀌었지만, 저장되지 않았습니다.\n"
+"서명이 바뀌었지만, 저장하지 않았습니다.\n"
 "\n"
 "바뀐 내용을 저장하시겠습니까?"
 
@@ -13460,9 +13404,8 @@ msgid "Save signature"
 msgstr "서명 저장"
 
 #: mail/mail-signature-editor.c:382
-#, fuzzy
 msgid "Edit signature"
-msgstr "조건 추가"
+msgstr "서명 편집"
 
 #: mail/mail-signature-editor.c:422
 msgid "Enter a name for this signature."
@@ -13620,9 +13563,8 @@ msgid "Follow Up Flag"
 msgstr ""
 
 #: mail/message-list.etspec.h:8
-#, fuzzy
 msgid "Original Location"
-msgstr "원래 연락처:"
+msgstr "원래 연락처"
 
 #: mail/message-list.etspec.h:9
 msgid "Received"
@@ -13668,18 +13610,16 @@ msgid "Reply to All"
 msgstr "전체 답장"
 
 #: mail/message-tag-followup.c:71
-#, fuzzy
 msgid "Review"
-msgstr "미리보기"
+msgstr "다시 보기"
 
 #: mail/message-tag-followup.c:281 mail/message-tags.glade.h:3
 msgid "Flag to Follow Up"
 msgstr ""
 
 #: mail/message-tags.glade.h:2
-#, fuzzy
 msgid "C_ompleted"
-msgstr "완료됨"
+msgstr "마침(_O)"
 
 #: mail/message-tags.glade.h:4
 msgid ""
@@ -13722,31 +13662,27 @@ msgstr "폴더"
 
 #: mail/subscribe-dialog.c:1499
 msgid "No server has been selected"
-msgstr "서버가 선택되지 않았습니다"
+msgstr "서버를 선택하지 않았습니다"
 
 #: mail/subscribe-dialog.c:1598
 msgid "Please select a server."
 msgstr "서버를 선택하십시오."
 
 #: mail/subscribe-dialog.glade.h:1
-#, fuzzy
 msgid "Folder Subscriptions"
-msgstr "구독 관리"
+msgstr "폴더 구독"
 
 #: mail/subscribe-dialog.glade.h:2
-#, fuzzy
 msgid "None Selected"
-msgstr "삭제됨"
+msgstr ""
 
 #: mail/subscribe-dialog.glade.h:3
-#, fuzzy
 msgid "S_erver:"
-msgstr "매(_E)"
+msgstr "서버(_E):"
 
 #: mail/subscribe-dialog.glade.h:4
-#, fuzzy
 msgid "Scanning folders ..."
-msgstr "폴더로 저장..."
+msgstr ""
 
 #: mail/subscribe-dialog.glade.h:5
 msgid "_Subscribe"
@@ -13761,52 +13697,44 @@ msgid "Configure the appearance of the Evolution Summary here"
 msgstr ""
 
 #: my-evolution/GNOME_Evolution_Summary.server.in.in.h:2
-#, fuzzy
 msgid "Evolution Summary"
-msgstr "Evolution 메일 작성기."
+msgstr "Evolution 요약"
 
 #: my-evolution/GNOME_Evolution_Summary.server.in.in.h:3
-#, fuzzy
 msgid "Evolution Summary component"
-msgstr "Evolution 메일 작성기."
+msgstr "Evolution 요약 컴포넌트"
 
 #: my-evolution/GNOME_Evolution_Summary.server.in.in.h:4
-#, fuzzy
 msgid "Evolution Summary configuration control"
-msgstr "Evolution 메일 작성기."
+msgstr "Evolution 요약 설정 컨트롤"
 
 #: my-evolution/GNOME_Evolution_Summary.server.in.in.h:5
 msgid "Summary Preferences"
 msgstr "요약 기본 설정"
 
 #: my-evolution/Locations.h:1
-#, fuzzy
 msgid "Aarhus"
-msgstr "벨라루스"
+msgstr ""
 
 #: my-evolution/Locations.h:2
-#, fuzzy
 msgid "Abakan"
-msgstr "아제르바이잔"
+msgstr ""
 
 #: my-evolution/Locations.h:3
 msgid "Abbotsford"
 msgstr ""
 
 #: my-evolution/Locations.h:4
-#, fuzzy
 msgid "Aberdeen"
-msgstr "참석자"
+msgstr ""
 
 #: my-evolution/Locations.h:5
-#, fuzzy
 msgid "Abha"
-msgstr "아루바"
+msgstr ""
 
 #: my-evolution/Locations.h:6
-#, fuzzy
 msgid "Abilene"
-msgstr "휴대 전화"
+msgstr ""
 
 #: my-evolution/Locations.h:7
 msgid "Abingdon"
@@ -13829,18 +13757,16 @@ msgid "Acapulco"
 msgstr ""
 
 #: my-evolution/Locations.h:12
-#, fuzzy
 msgid "Acarigua"
-msgstr "니카라과"
+msgstr ""
 
 #: my-evolution/Locations.h:13
 msgid "Adak"
 msgstr ""
 
 #: my-evolution/Locations.h:14
-#, fuzzy
 msgid "Adana"
-msgstr "알바니아"
+msgstr ""
 
 #: my-evolution/Locations.h:15
 msgid "Adana/Incirlik"
@@ -13855,9 +13781,8 @@ msgid "Aden"
 msgstr "아덴"
 
 #: my-evolution/Locations.h:18
-#, fuzzy
 msgid "Adrar"
-msgstr "안도라"
+msgstr ""
 
 #: my-evolution/Locations.h:19
 msgid "Aeroparque"
@@ -13880,9 +13805,8 @@ msgid "Afyon"
 msgstr ""
 
 #: my-evolution/Locations.h:24
-#, fuzzy
 msgid "Agen"
-msgstr "아르헨티나"
+msgstr ""
 
 #: my-evolution/Locations.h:25
 msgid "Aguascaliantes"
@@ -13953,19 +13877,16 @@ msgid "Al Baha"
 msgstr ""
 
 #: my-evolution/Locations.h:43
-#, fuzzy
 msgid "Albany"
-msgstr "알바니아"
+msgstr ""
 
 #: my-evolution/Locations.h:44
-#, fuzzy
 msgid "Albenga"
-msgstr "알바니아"
+msgstr ""
 
 #: my-evolution/Locations.h:45
-#, fuzzy
 msgid "Alberta"
-msgstr "알제리"
+msgstr ""
 
 #: my-evolution/Locations.h:46
 msgid "Alborg"
@@ -13976,9 +13897,8 @@ msgid "Albuquerque"
 msgstr ""
 
 #: my-evolution/Locations.h:48
-#, fuzzy
 msgid "Alderney"
-msgstr "폴더 이름:"
+msgstr ""
 
 #: my-evolution/Locations.h:49
 msgid "Alesund"
@@ -14001,14 +13921,12 @@ msgid "Alexandroupolis"
 msgstr "알렉산드로폴리스"
 
 #: my-evolution/Locations.h:55
-#, fuzzy
 msgid "Alghero"
-msgstr "알제리"
+msgstr ""
 
 #: my-evolution/Locations.h:56
-#, fuzzy
 msgid "Algona"
-msgstr "앙골라"
+msgstr ""
 
 #: my-evolution/Locations.h:57
 msgid "Alicante"
@@ -14031,43 +13949,36 @@ msgid "Allentown"
 msgstr ""
 
 #: my-evolution/Locations.h:62
-#, fuzzy
 msgid "Alliance"
-msgstr "고급"
+msgstr ""
 
 #: my-evolution/Locations.h:63
-#, fuzzy
 msgid "Alma"
-msgstr "앙골라"
+msgstr ""
 
 #: my-evolution/Locations.h:64
-#, fuzzy
 msgid "Almeria"
-msgstr "알제리"
+msgstr ""
 
 #: my-evolution/Locations.h:65
-#, fuzzy
 msgid "Alpena"
-msgstr "알바니아"
+msgstr ""
 
 #: my-evolution/Locations.h:66
 msgid "Al Qaysumah"
 msgstr ""
 
 #: my-evolution/Locations.h:67
-#, fuzzy
 msgid "Alta"
-msgstr "마르타"
+msgstr ""
 
 #: my-evolution/Locations.h:68
-#, fuzzy
 msgid "Altamira"
-msgstr "알바니아"
+msgstr ""
 
 #: my-evolution/Locations.h:69
-#, fuzzy
 msgid "Alton"
-msgstr "행동(_A)"
+msgstr ""
 
 #: my-evolution/Locations.h:70
 msgid "Altoona"
@@ -14090,32 +14001,28 @@ msgid "Amapala"
 msgstr ""
 
 #: my-evolution/Locations.h:75
-#, fuzzy
 msgid "Amarillo"
-msgstr "전자메일"
+msgstr ""
 
 #: my-evolution/Locations.h:76
 msgid "Amasya"
 msgstr ""
 
 #: my-evolution/Locations.h:77
-#, fuzzy
 msgid "Ambler"
-msgstr "구월"
+msgstr ""
 
 #: my-evolution/Locations.h:78
 msgid "Amelia"
 msgstr "아멜리아"
 
 #: my-evolution/Locations.h:79
-#, fuzzy
 msgid "Amendola"
-msgstr "앙골라"
+msgstr ""
 
 #: my-evolution/Locations.h:80
-#, fuzzy
 msgid "Ames"
-msgstr "마일"
+msgstr ""
 
 #: my-evolution/Locations.h:81
 msgid "Amritsar"
@@ -14134,9 +14041,8 @@ msgid "Anaktuvuk"
 msgstr ""
 
 #: my-evolution/Locations.h:85
-#, fuzzy
 msgid "Anapa"
-msgstr "일본"
+msgstr ""
 
 #: my-evolution/Locations.h:86
 msgid "Anchorage"
@@ -14147,9 +14053,8 @@ msgid "Anchorage - Elmendorf AFB"
 msgstr ""
 
 #: my-evolution/Locations.h:88
-#, fuzzy
 msgid "Ancona"
-msgstr "앙골라"
+msgstr ""
 
 #: my-evolution/Locations.h:89
 msgid "Andahuayla"
@@ -14160,14 +14065,12 @@ msgid "Anderson"
 msgstr "앤더슨"
 
 #: my-evolution/Locations.h:91
-#, fuzzy
 msgid "Andoya"
-msgstr "안도라"
+msgstr ""
 
 #: my-evolution/Locations.h:92
-#, fuzzy
 msgid "Andravida"
-msgstr "개인"
+msgstr ""
 
 #: my-evolution/Locations.h:93
 msgid "Andrews AFB"
@@ -14178,9 +14081,8 @@ msgid "Angleton"
 msgstr ""
 
 #: my-evolution/Locations.h:95
-#, fuzzy
 msgid "Aniak"
-msgstr "아르메니아"
+msgstr ""
 
 #: my-evolution/Locations.h:96
 msgid "Ankara/Esenboga"
@@ -14203,24 +14105,20 @@ msgid "Annette"
 msgstr ""
 
 #: my-evolution/Locations.h:101
-#, fuzzy
 msgid "Anniston"
-msgstr "아프가니스탄"
+msgstr ""
 
 #: my-evolution/Locations.h:102
-#, fuzzy
 msgid "Antalya"
-msgstr "이탈리아"
+msgstr ""
 
 #: my-evolution/Locations.h:103
-#, fuzzy
 msgid "Antartica"
-msgstr "남극"
+msgstr ""
 
 #: my-evolution/Locations.h:104
-#, fuzzy
 msgid "Antigo"
-msgstr "앙골라"
+msgstr ""
 
 #: my-evolution/Locations.h:105
 msgid "Antigua"
@@ -14231,9 +14129,8 @@ msgid "Antigua and Barbuda"
 msgstr "안티가 바부다"
 
 #: my-evolution/Locations.h:107
-#, fuzzy
 msgid "Antofagasta"
-msgstr "아프가니스탄"
+msgstr ""
 
 #: my-evolution/Locations.h:108
 msgid "Antwerpen/Deurne"
@@ -14256,43 +14153,36 @@ msgid "Aquadilla"
 msgstr ""
 
 #: my-evolution/Locations.h:113
-#, fuzzy
 msgid "Aracaju"
-msgstr "마코"
+msgstr ""
 
 #: my-evolution/Locations.h:114
-#, fuzzy
 msgid "Arad"
-msgstr "아루바"
+msgstr ""
 
 #: my-evolution/Locations.h:115
-#, fuzzy
 msgid "Arar"
-msgstr "아루바"
+msgstr ""
 
 #: my-evolution/Locations.h:116
-#, fuzzy
 msgid "Araxos"
-msgstr "라오스"
+msgstr ""
 
 #: my-evolution/Locations.h:117
-#, fuzzy
 msgid "Arcata"
-msgstr "남극"
+msgstr ""
 
 #: my-evolution/Locations.h:118
 msgid "Ardmore"
 msgstr ""
 
 #: my-evolution/Locations.h:119
-#, fuzzy
 msgid "Arequipa"
-msgstr "아르메니아"
+msgstr ""
 
 #: my-evolution/Locations.h:121
-#, fuzzy
 msgid "Arica"
-msgstr "오스트리아"
+msgstr ""
 
 #: my-evolution/Locations.h:122
 msgid "Arizona"
@@ -14307,14 +14197,12 @@ msgid "Arkhangelsk"
 msgstr ""
 
 #: my-evolution/Locations.h:125
-#, fuzzy
 msgid "Arlington"
-msgstr "방향"
+msgstr ""
 
 #: my-evolution/Locations.h:126
-#, fuzzy
 msgid "Artigas"
-msgstr "아르헨티나"
+msgstr ""
 
 #: my-evolution/Locations.h:127
 msgid "Asahikawa Ab"
@@ -14333,69 +14221,60 @@ msgid "Asheville"
 msgstr ""
 
 #: my-evolution/Locations.h:131
-#, fuzzy
 msgid "Ashfield"
-msgstr "예약됨"
+msgstr ""
 
 #: my-evolution/Locations.h:132
 msgid "Ashiya Ab"
 msgstr ""
 
 #: my-evolution/Locations.h:133
-#, fuzzy
 msgid "Ashland"
-msgstr "태국"
+msgstr ""
 
 #: my-evolution/Locations.h:134
 msgid "Asia"
 msgstr "아시아"
 
 #: my-evolution/Locations.h:135
-#, fuzzy
 msgid "Aspen"
-msgstr "열기"
+msgstr ""
 
 #: my-evolution/Locations.h:136
-#, fuzzy
 msgid "Asswan"
-msgstr "조수"
+msgstr ""
 
 #: my-evolution/Locations.h:137
-#, fuzzy
 msgid "Astoria"
-msgstr "오스트리아"
+msgstr ""
 
 #: my-evolution/Locations.h:138
 msgid "Astrakhan"
 msgstr ""
 
 #: my-evolution/Locations.h:139
-#, fuzzy
 msgid "Asturias"
-msgstr "오스트리아"
+msgstr ""
 
 #: my-evolution/Locations.h:140
-#, fuzzy
 msgid "Asuncion"
-msgstr "인증"
+msgstr ""
 
 #: my-evolution/Locations.h:141
 msgid "Athens"
 msgstr "아테네"
 
 #: my-evolution/Locations.h:142
-#, fuzzy
 msgid "Athinai"
-msgstr "중국"
+msgstr ""
 
 #: my-evolution/Locations.h:143
 msgid "Atlanta"
 msgstr "아틀란타"
 
 #: my-evolution/Locations.h:144
-#, fuzzy
 msgid "Atlantic"
-msgstr "자동"
+msgstr ""
 
 #: my-evolution/Locations.h:145
 msgid "Atlantic City"
@@ -14418,9 +14297,8 @@ msgid "Augsburg"
 msgstr ""
 
 #: my-evolution/Locations.h:150
-#, fuzzy
 msgid "Augusta"
-msgstr "팔월"
+msgstr ""
 
 #: my-evolution/Locations.h:151
 msgid "Aurora"
@@ -14447,9 +14325,8 @@ msgid "Ayacucho"
 msgstr ""
 
 #: my-evolution/Locations.h:159
-#, fuzzy
 msgid "Bage"
-msgstr "쪽"
+msgstr ""
 
 #: my-evolution/Locations.h:160
 msgid "Bagotville"
@@ -14484,9 +14361,8 @@ msgid "Balikesir/Bandirma"
 msgstr ""
 
 #: my-evolution/Locations.h:170
-#, fuzzy
 msgid "Ball Mountain"
-msgstr "포함"
+msgstr ""
 
 #: my-evolution/Locations.h:171
 msgid "Baltimore"
@@ -14497,14 +14373,12 @@ msgid "Baltimore-Glen Burnie"
 msgstr ""
 
 #: my-evolution/Locations.h:173
-#, fuzzy
 msgid "Banak"
-msgstr "보츠와나"
+msgstr ""
 
 #: my-evolution/Locations.h:174
-#, fuzzy
 msgid "Bandarabbass"
-msgstr "바르바도스"
+msgstr ""
 
 #: my-evolution/Locations.h:175
 msgid "Bangor"
@@ -14523,27 +14397,24 @@ msgid "Barcelona"
 msgstr "바르셀로나"
 
 #: my-evolution/Locations.h:179
-#, fuzzy
 msgid "Bardufoss"
-msgstr "바르바도스"
+msgstr ""
 
 #: my-evolution/Locations.h:180
 msgid "Bar Harbor"
 msgstr ""
 
 #: my-evolution/Locations.h:181
-#, fuzzy
 msgid "Bari"
-msgstr "바레인"
+msgstr ""
 
 #: my-evolution/Locations.h:182
 msgid "Bariloche"
 msgstr ""
 
 #: my-evolution/Locations.h:183
-#, fuzzy
 msgid "Barinas"
-msgstr "바레인"
+msgstr ""
 
 #: my-evolution/Locations.h:184
 msgid "Barking Sand"
@@ -14554,9 +14425,8 @@ msgid "Barksdale"
 msgstr ""
 
 #: my-evolution/Locations.h:186
-#, fuzzy
 msgid "Barnaul"
-msgstr "브라질"
+msgstr ""
 
 #: my-evolution/Locations.h:187
 msgid "Barquisimeto"
@@ -14571,9 +14441,8 @@ msgid "Barrow"
 msgstr ""
 
 #: my-evolution/Locations.h:190
-#, fuzzy
 msgid "Barter Island"
-msgstr "패로 제도"
+msgstr ""
 
 #: my-evolution/Locations.h:191
 msgid "Bartlesville"
@@ -14584,18 +14453,16 @@ msgid "Bartow"
 msgstr ""
 
 #: my-evolution/Locations.h:193
-#, fuzzy
 msgid "Bastia"
-msgstr "기본"
+msgstr ""
 
 #: my-evolution/Locations.h:194
 msgid "Batesville"
 msgstr ""
 
 #: my-evolution/Locations.h:195
-#, fuzzy
 msgid "Batman"
-msgstr "부탄"
+msgstr ""
 
 #: my-evolution/Locations.h:196
 msgid "Baton Rouge"
@@ -14610,32 +14477,28 @@ msgid "Battle Mountain"
 msgstr ""
 
 #: my-evolution/Locations.h:199
-#, fuzzy
 msgid "Bauru"
-msgstr "나우루"
+msgstr ""
 
 #: my-evolution/Locations.h:200
-#, fuzzy
 msgid "Bayamo"
-msgstr "바하마"
+msgstr ""
 
 #: my-evolution/Locations.h:201
 msgid "Bayreuth"
 msgstr ""
 
 #: my-evolution/Locations.h:202
-#, fuzzy
 msgid "Beatrice"
-msgstr "발트어"
+msgstr ""
 
 #: my-evolution/Locations.h:203
 msgid "Beaufort"
 msgstr ""
 
 #: my-evolution/Locations.h:204
-#, fuzzy
 msgid "Beaumont"
-msgstr "달"
+msgstr ""
 
 #: my-evolution/Locations.h:205
 msgid "Beaumont-Port Arthur"
@@ -14646,19 +14509,16 @@ msgid "Beauvais-Tille"
 msgstr ""
 
 #: my-evolution/Locations.h:207
-#, fuzzy
 msgid "Beauvechain"
-msgstr "바레인"
+msgstr ""
 
 #: my-evolution/Locations.h:208
-#, fuzzy
 msgid "Beckley"
-msgstr "벨리즈"
+msgstr ""
 
 #: my-evolution/Locations.h:209
-#, fuzzy
 msgid "Bedford"
-msgstr "동안"
+msgstr ""
 
 #: my-evolution/Locations.h:210
 msgid "Beijing"
@@ -14673,9 +14533,8 @@ msgid "Beja"
 msgstr ""
 
 #: my-evolution/Locations.h:213
-#, fuzzy
 msgid "Belem"
-msgstr "벨리즈"
+msgstr ""
 
 #: my-evolution/Locations.h:214
 msgid "Belfast/Aldergrove"
@@ -14690,9 +14549,8 @@ msgid "Belgorod"
 msgstr ""
 
 #: my-evolution/Locations.h:219
-#, fuzzy
 msgid "Belleville"
-msgstr "벨리즈"
+msgstr ""
 
 #: my-evolution/Locations.h:220
 msgid "Bellingham"
@@ -14703,9 +14561,8 @@ msgid "Belmar-Farmingdale"
 msgstr ""
 
 #: my-evolution/Locations.h:222
-#, fuzzy
 msgid "Belo Horizonte"
-msgstr "벨리즈"
+msgstr ""
 
 #: my-evolution/Locations.h:223
 msgid "Belo Horizonte Apt"
@@ -14716,14 +14573,12 @@ msgid "Bemidji"
 msgstr ""
 
 #: my-evolution/Locations.h:225
-#, fuzzy
 msgid "Benbecula"
-msgstr "베네수엘라"
+msgstr ""
 
 #: my-evolution/Locations.h:226
-#, fuzzy
 msgid "Benina"
-msgstr "베닌"
+msgstr ""
 
 #: my-evolution/Locations.h:227
 msgid "Benton Harbor"
@@ -14734,9 +14589,8 @@ msgid "Bentonville"
 msgstr ""
 
 #: my-evolution/Locations.h:229
-#, fuzzy
 msgid "Beograd"
-msgstr "다시 읽음"
+msgstr ""
 
 #: my-evolution/Locations.h:230
 msgid "Bergamo"
@@ -14771,18 +14625,16 @@ msgid "Bern"
 msgstr "베른"
 
 #: my-evolution/Locations.h:238
-#, fuzzy
 msgid "Bethel"
-msgstr "날씨"
+msgstr ""
 
 #: my-evolution/Locations.h:239
 msgid "Bethlehem Airport"
 msgstr ""
 
 #: my-evolution/Locations.h:240
-#, fuzzy
 msgid "Bettles"
-msgstr "벨리즈"
+msgstr ""
 
 #: my-evolution/Locations.h:241
 msgid "Beverly"
@@ -14801,9 +14653,8 @@ msgid "Biggin Hill"
 msgstr ""
 
 #: my-evolution/Locations.h:245
-#, fuzzy
 msgid "Big Piney"
-msgstr "인쇄"
+msgstr ""
 
 #: my-evolution/Locations.h:246
 msgid "Big River Lake"
@@ -14814,9 +14665,8 @@ msgid "Bilbao"
 msgstr ""
 
 #: my-evolution/Locations.h:248
-#, fuzzy
 msgid "Billings"
-msgstr "메일링 리스트"
+msgstr ""
 
 #: my-evolution/Locations.h:249
 msgid "Billund"
@@ -14851,14 +14701,12 @@ msgid "Blagoveschensk"
 msgstr ""
 
 #: my-evolution/Locations.h:257
-#, fuzzy
 msgid "Blanding"
-msgstr "경고"
+msgstr ""
 
 #: my-evolution/Locations.h:258
-#, fuzzy
 msgid "Block Island"
-msgstr "쿡 제도"
+msgstr ""
 
 #: my-evolution/Locations.h:259
 msgid "Bloemfontein J. B. M. Hertzog "
@@ -14893,45 +14741,40 @@ msgid "Bocas del Toro"
 msgstr ""
 
 #: my-evolution/Locations.h:267
-#, fuzzy
 msgid "Bodo"
-msgstr "본문"
+msgstr ""
 
 #: my-evolution/Locations.h:268
 msgid "Bogota/Eldorado"
 msgstr ""
 
 #: my-evolution/Locations.h:269
-#, fuzzy
 msgid "Boise"
-msgstr "닫기"
+msgstr ""
 
 #: my-evolution/Locations.h:271
 msgid "Bologna"
 msgstr ""
 
 #: my-evolution/Locations.h:272
-#, fuzzy
 msgid "Bolzano"
-msgstr "폴란드"
+msgstr ""
 
 #: my-evolution/Locations.h:273
 msgid "Bombay/Santacruz"
 msgstr ""
 
 #: my-evolution/Locations.h:274
-#, fuzzy
 msgid "Boone"
-msgstr "완료"
+msgstr ""
 
 #: my-evolution/Locations.h:275
 msgid "Bordeaux"
 msgstr ""
 
 #: my-evolution/Locations.h:276
-#, fuzzy
 msgid "Borger"
-msgstr "씩 영원히"
+msgstr ""
 
 #: my-evolution/Locations.h:277
 msgid "Bornholm"
@@ -14942,23 +14785,20 @@ msgid "Boscombe Down"
 msgstr ""
 
 #: my-evolution/Locations.h:279
-#, fuzzy
 msgid "Bosnia-Herzegovina"
-msgstr "보스니아 And Herzegowina"
+msgstr ""
 
 #: my-evolution/Locations.h:280
 msgid "Boston"
 msgstr "보스턴"
 
 #: my-evolution/Locations.h:281
-#, fuzzy
 msgid "Boulmer"
-msgstr "폴더"
+msgstr ""
 
 #: my-evolution/Locations.h:282
-#, fuzzy
 msgid "Bourges"
-msgstr "시"
+msgstr ""
 
 #: my-evolution/Locations.h:283
 msgid "Bournemouth"
@@ -14969,42 +14809,36 @@ msgid "Bowling Green"
 msgstr ""
 
 #: my-evolution/Locations.h:285
-#, fuzzy
 msgid "Bozeman"
-msgstr "한국어"
+msgstr ""
 
 #: my-evolution/Locations.h:286
-#, fuzzy
 msgid "Bradford"
-msgstr "바르바도스"
+msgstr ""
 
 #: my-evolution/Locations.h:287
 msgid "Bradshaw Field"
 msgstr ""
 
 #: my-evolution/Locations.h:288
-#, fuzzy
 msgid "Brainerd"
-msgstr "우크라이나"
+msgstr ""
 
 #: my-evolution/Locations.h:289
-#, fuzzy
 msgid "Brasilia"
-msgstr "브라질"
+msgstr ""
 
 #: my-evolution/Locations.h:290
 msgid "Brasschaat"
 msgstr ""
 
 #: my-evolution/Locations.h:291
-#, fuzzy
 msgid "Bratislava"
-msgstr "브라질"
+msgstr ""
 
 #: my-evolution/Locations.h:292
-#, fuzzy
 msgid "Bratsk"
-msgstr "초고"
+msgstr ""
 
 #: my-evolution/Locations.h:293
 msgid "Braunschweig"
@@ -15019,27 +14853,24 @@ msgid "Bremerton"
 msgstr ""
 
 #: my-evolution/Locations.h:297
-#, fuzzy
 msgid "Brest"
-msgstr "서"
+msgstr ""
 
 #: my-evolution/Locations.h:298
 msgid "Bridgeport"
 msgstr ""
 
 #: my-evolution/Locations.h:299
-#, fuzzy
 msgid "Brindisi"
-msgstr "부룬디"
+msgstr ""
 
 #: my-evolution/Locations.h:300
 msgid "Brisbane"
 msgstr ""
 
 #: my-evolution/Locations.h:301
-#, fuzzy
 msgid "Bristol"
-msgstr "브라질"
+msgstr ""
 
 #: my-evolution/Locations.h:302
 msgid "British Columbia"
@@ -15050,9 +14881,8 @@ msgid "Brno"
 msgstr ""
 
 #: my-evolution/Locations.h:304
-#, fuzzy
 msgid "Broadus"
-msgstr "바르바도스"
+msgstr ""
 
 #: my-evolution/Locations.h:305
 msgid "Broken Bow"
@@ -15071,18 +14901,16 @@ msgid "Brooksville"
 msgstr ""
 
 #: my-evolution/Locations.h:309
-#, fuzzy
 msgid "Broome"
-msgstr "아래:"
+msgstr ""
 
 #: my-evolution/Locations.h:310
 msgid "Brownsville"
 msgstr ""
 
 #: my-evolution/Locations.h:311
-#, fuzzy
 msgid "Brunswick"
-msgstr "부룬디"
+msgstr ""
 
 #: my-evolution/Locations.h:312
 msgid "Brussels-National Airport"
@@ -15093,9 +14921,8 @@ msgid "Bryansk"
 msgstr ""
 
 #: my-evolution/Locations.h:314
-#, fuzzy
 msgid "Bryce Canyon"
-msgstr "회사"
+msgstr ""
 
 #: my-evolution/Locations.h:315
 msgid "Bucaramanga/Palonegro"
@@ -15122,38 +14949,32 @@ msgid "Bullfrog"
 msgstr ""
 
 #: my-evolution/Locations.h:322
-#, fuzzy
 msgid "Burbank"
-msgstr "부탄"
+msgstr ""
 
 #: my-evolution/Locations.h:323
-#, fuzzy
 msgid "Burgas"
-msgstr "바쁨"
+msgstr ""
 
 #: my-evolution/Locations.h:324
-#, fuzzy
 msgid "Burley"
-msgstr "터키"
+msgstr ""
 
 #: my-evolution/Locations.h:325
 msgid "Burlington"
 msgstr ""
 
 #: my-evolution/Locations.h:326
-#, fuzzy
 msgid "Burnet"
-msgstr "부룬디"
+msgstr ""
 
 #: my-evolution/Locations.h:327
-#, fuzzy
 msgid "Burns"
-msgstr "바쁨"
+msgstr ""
 
 #: my-evolution/Locations.h:328
-#, fuzzy
 msgid "Bursa"
-msgstr "바쁨"
+msgstr ""
 
 #: my-evolution/Locations.h:329
 msgid "Burwell"
@@ -15168,14 +14989,12 @@ msgid "Caen-Carpiquet"
 msgstr ""
 
 #: my-evolution/Locations.h:332
-#, fuzzy
 msgid "Cagliari"
-msgstr "달력"
+msgstr ""
 
 #: my-evolution/Locations.h:333
-#, fuzzy
 msgid "Cairns"
-msgstr "죄장"
+msgstr ""
 
 #: my-evolution/Locations.h:334
 msgid "Cairo"
@@ -15202,9 +15021,8 @@ msgid "Cali/Alfonso Bonillaaragon"
 msgstr ""
 
 #: my-evolution/Locations.h:340
-#, fuzzy
 msgid "Caliente"
-msgstr "달력"
+msgstr ""
 
 #: my-evolution/Locations.h:341
 msgid "California"
@@ -15215,9 +15033,8 @@ msgid "Calvi-Ste-Catherine"
 msgstr ""
 
 #: my-evolution/Locations.h:343
-#, fuzzy
 msgid "Camaguey"
-msgstr "파라과이"
+msgstr ""
 
 #: my-evolution/Locations.h:344
 msgid "Camarillo"
@@ -15232,24 +15049,20 @@ msgid "Cameron"
 msgstr ""
 
 #: my-evolution/Locations.h:347
-#, fuzzy
 msgid "Camiri"
-msgstr "죄장"
+msgstr ""
 
 #: my-evolution/Locations.h:348
-#, fuzzy
 msgid "Campeche"
-msgstr "완료"
+msgstr ""
 
 #: my-evolution/Locations.h:349
-#, fuzzy
 msgid "Campinas"
-msgstr "캄보디아"
+msgstr ""
 
 #: my-evolution/Locations.h:350
-#, fuzzy
 msgid "Campo"
-msgstr "캄보디아"
+msgstr ""
 
 #: my-evolution/Locations.h:351
 msgid "Campo Grande"
@@ -15260,9 +15073,8 @@ msgid "Camp Stanley/H-207"
 msgstr ""
 
 #: my-evolution/Locations.h:353
-#, fuzzy
 msgid "Canaan"
-msgstr "캐나다"
+msgstr ""
 
 #: my-evolution/Locations.h:355
 msgid "Canarias/Fuerteventura"
@@ -15297,18 +15109,16 @@ msgid "Canberra"
 msgstr ""
 
 #: my-evolution/Locations.h:363
-#, fuzzy
 msgid "Cancun"
-msgstr "취소됨"
+msgstr ""
 
 #: my-evolution/Locations.h:364
 msgid "Cannes-Mandelieu"
 msgstr ""
 
 #: my-evolution/Locations.h:365
-#, fuzzy
 msgid "Cantwell"
-msgstr "취소됨"
+msgstr ""
 
 #: my-evolution/Locations.h:366
 msgid "Cape Girardeau"
@@ -15319,9 +15129,8 @@ msgid "Cape Hatteras"
 msgstr ""
 
 #: my-evolution/Locations.h:368
-#, fuzzy
 msgid "Cape Lisburne"
-msgstr "급지방법:"
+msgstr ""
 
 #: my-evolution/Locations.h:369
 msgid "Cape Newenham"
@@ -15356,34 +15165,28 @@ msgid "Caravelas"
 msgstr ""
 
 #: my-evolution/Locations.h:377
-#, fuzzy
 msgid "Carbondale"
-msgstr "캄보디아"
+msgstr ""
 
 #: my-evolution/Locations.h:378
-#, fuzzy
 msgid "Cardiff"
-msgstr "카드: "
+msgstr ""
 
 #: my-evolution/Locations.h:379
-#, fuzzy
 msgid "Caribou"
-msgstr "자동차"
+msgstr ""
 
 #: my-evolution/Locations.h:380
-#, fuzzy
 msgid "Carlisle"
-msgstr "칠레"
+msgstr ""
 
 #: my-evolution/Locations.h:381
-#, fuzzy
 msgid "Carlsbad"
-msgstr "바르바도스"
+msgstr ""
 
 #: my-evolution/Locations.h:382
-#, fuzzy
 msgid "Carroll"
-msgstr "자동차"
+msgstr ""
 
 #: my-evolution/Locations.h:383
 msgid "Cartagena/Rafael Nunez"
@@ -15394,23 +15197,20 @@ msgid "Casa Granda"
 msgstr ""
 
 #: my-evolution/Locations.h:385
-#, fuzzy
 msgid "Cascade"
-msgstr "가로"
+msgstr ""
 
 #: my-evolution/Locations.h:386
 msgid "Casper"
 msgstr "캐스퍼"
 
 #: my-evolution/Locations.h:387
-#, fuzzy
 msgid "Catacamas"
-msgstr "바하마"
+msgstr ""
 
 #: my-evolution/Locations.h:388
-#, fuzzy
 msgid "Catania"
-msgstr "크로아티아"
+msgstr ""
 
 #: my-evolution/Locations.h:390
 msgid "Cayo Largo del Sur"
@@ -15425,9 +15225,8 @@ msgid "Cecil NAS"
 msgstr ""
 
 #: my-evolution/Locations.h:393
-#, fuzzy
 msgid "Cedar City"
-msgstr "맑음"
+msgstr ""
 
 #: my-evolution/Locations.h:394
 msgid "Cedar Rapids"
@@ -15438,62 +15237,52 @@ msgid "Central and South America"
 msgstr "중앙 및 남 아메리카"
 
 #: my-evolution/Locations.h:396
-#, fuzzy
 msgid "Cervia"
-msgstr "알제리"
+msgstr ""
 
 #: my-evolution/Locations.h:397
 msgid "Chacarita"
 msgstr ""
 
 #: my-evolution/Locations.h:398
-#, fuzzy
 msgid "Chadron"
-msgstr "챠드"
+msgstr ""
 
 #: my-evolution/Locations.h:399
-#, fuzzy
 msgid "Challis"
-msgstr "죄장"
+msgstr ""
 
 #: my-evolution/Locations.h:400
-#, fuzzy
 msgid "Chamberlain"
-msgstr "카메룬"
+msgstr ""
 
 #: my-evolution/Locations.h:401
-#, fuzzy
 msgid "Chambery"
-msgstr "카메룬"
+msgstr ""
 
 #: my-evolution/Locations.h:402
-#, fuzzy
 msgid "Champaign"
-msgstr "회사"
+msgstr ""
 
 #: my-evolution/Locations.h:403
 msgid "Chandalar Lake"
 msgstr ""
 
 #: my-evolution/Locations.h:404
-#, fuzzy
 msgid "Chandler"
-msgstr "챠드"
+msgstr ""
 
 #: my-evolution/Locations.h:405
-#, fuzzy
 msgid "Chania"
-msgstr "중국"
+msgstr ""
 
 #: my-evolution/Locations.h:406
-#, fuzzy
 msgid "Chanute"
-msgstr "취소됨"
+msgstr ""
 
 #: my-evolution/Locations.h:407
-#, fuzzy
 msgid "Chariton"
-msgstr "카메룬"
+msgstr ""
 
 #: my-evolution/Locations.h:408
 msgid "Charleroi-Brussels South"
@@ -15504,9 +15293,8 @@ msgid "Charles City"
 msgstr ""
 
 #: my-evolution/Locations.h:410
-#, fuzzy
 msgid "Charleston"
-msgstr "의장"
+msgstr ""
 
 #: my-evolution/Locations.h:411
 msgid "Charlotte"
@@ -15541,14 +15329,12 @@ msgid "Chengdu"
 msgstr ""
 
 #: my-evolution/Locations.h:419
-#, fuzzy
 msgid "Cherbourg"
-msgstr "룩셈부르크"
+msgstr ""
 
 #: my-evolution/Locations.h:420
-#, fuzzy
 msgid "Cherry Point"
-msgstr "다른 전화"
+msgstr ""
 
 #: my-evolution/Locations.h:421
 msgid "Chetumal"
@@ -15567,9 +15353,8 @@ msgid "Chia Tung"
 msgstr ""
 
 #: my-evolution/Locations.h:425
-#, fuzzy
 msgid "Chiayi"
-msgstr "중국"
+msgstr ""
 
 #: my-evolution/Locations.h:426
 msgid "Chicago-DuPage"
@@ -15592,47 +15377,40 @@ msgid "Chichijima"
 msgstr ""
 
 #: my-evolution/Locations.h:431
-#, fuzzy
 msgid "Chiclayo"
-msgstr "칠레"
+msgstr ""
 
 #: my-evolution/Locations.h:432
-#, fuzzy
 msgid "Chico"
-msgstr "죄장"
+msgstr ""
 
 #: my-evolution/Locations.h:433
 msgid "Chicopee Falls"
 msgstr ""
 
 #: my-evolution/Locations.h:434
-#, fuzzy
 msgid "Chievres"
-msgstr "중국어"
+msgstr ""
 
 #: my-evolution/Locations.h:435
-#, fuzzy
 msgid "Chihhang"
-msgstr "중국"
+msgstr ""
 
 #: my-evolution/Locations.h:436
 msgid "Chihuahua"
 msgstr ""
 
 #: my-evolution/Locations.h:437
-#, fuzzy
 msgid "Childress"
-msgstr "칠레"
+msgstr ""
 
 #: my-evolution/Locations.h:439
-#, fuzzy
 msgid "China Lake"
-msgstr "중국"
+msgstr ""
 
 #: my-evolution/Locations.h:440
-#, fuzzy
 msgid "Chinandega"
-msgstr "중국"
+msgstr ""
 
 #: my-evolution/Locations.h:441
 msgid "Chinmem/Shatou"
@@ -15647,9 +15425,8 @@ msgid "Chippewa County"
 msgstr ""
 
 #: my-evolution/Locations.h:444
-#, fuzzy
 msgid "Chita"
-msgstr "중국"
+msgstr ""
 
 #: my-evolution/Locations.h:445
 msgid "Chitose Ab"
@@ -15676,9 +15453,8 @@ msgid "Christchurch"
 msgstr ""
 
 #: my-evolution/Locations.h:452
-#, fuzzy
 msgid "Chulitna"
-msgstr "중국"
+msgstr ""
 
 #: my-evolution/Locations.h:453
 msgid "Churchill"
@@ -15717,14 +15493,12 @@ msgid "Ciudad Victoria"
 msgstr ""
 
 #: my-evolution/Locations.h:462
-#, fuzzy
 msgid "Clarinda"
-msgstr "캐나다"
+msgstr ""
 
 #: my-evolution/Locations.h:463
-#, fuzzy
 msgid "Clarion"
-msgstr "비움"
+msgstr ""
 
 #: my-evolution/Locations.h:464
 msgid "Clarksburg"
@@ -15743,9 +15517,8 @@ msgid "Clermont-Ferrand"
 msgstr ""
 
 #: my-evolution/Locations.h:468
-#, fuzzy
 msgid "Cleveland"
-msgstr "그린란드"
+msgstr ""
 
 #: my-evolution/Locations.h:469
 msgid "Cleveland/Cuyahoga"
@@ -15764,9 +15537,8 @@ msgid "Clovis-Cannon AFB"
 msgstr ""
 
 #: my-evolution/Locations.h:473
-#, fuzzy
 msgid "Cobija"
-msgstr "콜롬비아"
+msgstr ""
 
 #: my-evolution/Locations.h:474
 msgid "Cochabamba"
@@ -15781,42 +15553,36 @@ msgid "Cocos Island"
 msgstr "코코스 제도"
 
 #: my-evolution/Locations.h:477
-#, fuzzy
 msgid "Cody"
-msgstr "본문"
+msgstr ""
 
 #: my-evolution/Locations.h:478
 msgid "Coeur d'Alene"
 msgstr ""
 
 #: my-evolution/Locations.h:479
-#, fuzzy
 msgid "Cold Bay"
-msgstr "폴더 모음(_F)"
+msgstr ""
 
 #: my-evolution/Locations.h:480
-#, fuzzy
 msgid "Colima"
-msgstr "콜롬비아"
+msgstr ""
 
 #: my-evolution/Locations.h:481
-#, fuzzy
 msgid "College Station"
-msgstr "모든 기상대:"
+msgstr ""
 
 #: my-evolution/Locations.h:482
 msgid "Colmar-Meyenheim"
 msgstr ""
 
 #: my-evolution/Locations.h:484
-#, fuzzy
 msgid "Colonia"
-msgstr "콜롬비아"
+msgstr ""
 
 #: my-evolution/Locations.h:485
-#, fuzzy
 msgid "Colorado"
-msgstr "코모로스"
+msgstr "콜로라도"
 
 #: my-evolution/Locations.h:486
 msgid "Colorado Springs"
@@ -15851,27 +15617,24 @@ msgid "Columbus-W Point-Starkville"
 msgstr ""
 
 #: my-evolution/Locations.h:494
-#, fuzzy
 msgid "Colville"
-msgstr "칠레"
+msgstr ""
 
 #: my-evolution/Locations.h:495
 msgid "Comodoro Rivadavia"
 msgstr ""
 
 #: my-evolution/Locations.h:496
-#, fuzzy
 msgid "Comox"
-msgstr "코모로스"
+msgstr ""
 
 #: my-evolution/Locations.h:497
 msgid "Conceicao Do Araguaia"
 msgstr ""
 
 #: my-evolution/Locations.h:498
-#, fuzzy
 msgid "Concepcion"
-msgstr "미팅 취소"
+msgstr ""
 
 #: my-evolution/Locations.h:499
 msgid "Concord"
@@ -15886,42 +15649,36 @@ msgid "Connaught"
 msgstr ""
 
 #: my-evolution/Locations.h:502
-#, fuzzy
 msgid "Connecticut"
-msgstr "연락처(_C)"
+msgstr ""
 
 #: my-evolution/Locations.h:503
-#, fuzzy
 msgid "Conroe"
-msgstr "콩고"
+msgstr ""
 
 #: my-evolution/Locations.h:504
-#, fuzzy
 msgid "Constantine"
-msgstr "연락처(_C)"
+msgstr ""
 
 #: my-evolution/Locations.h:505
 msgid "Copper Harbor"
 msgstr ""
 
 #: my-evolution/Locations.h:506
-#, fuzzy
 msgid "Cordoba"
-msgstr "콜롬비아"
+msgstr ""
 
 #: my-evolution/Locations.h:507
-#, fuzzy
 msgid "Cordova"
-msgstr "조단"
+msgstr ""
 
 #: my-evolution/Locations.h:508
 msgid "Cork"
 msgstr ""
 
 #: my-evolution/Locations.h:509
-#, fuzzy
 msgid "Coro"
-msgstr "코모로스"
+msgstr ""
 
 #: my-evolution/Locations.h:510
 msgid "Corona"
@@ -15936,24 +15693,20 @@ msgid "Corpus Christi NAS"
 msgstr ""
 
 #: my-evolution/Locations.h:513
-#, fuzzy
 msgid "Corrientes"
-msgstr "현재 보기(_C)"
+msgstr ""
 
 #: my-evolution/Locations.h:514
-#, fuzzy
 msgid "Corsicana"
-msgstr "코스타리카"
+msgstr ""
 
 #: my-evolution/Locations.h:515
-#, fuzzy
 msgid "Cortez"
-msgstr "노트"
+msgstr ""
 
 #: my-evolution/Locations.h:516
-#, fuzzy
 msgid "Corumba"
-msgstr "쿠바"
+msgstr ""
 
 #: my-evolution/Locations.h:518
 msgid "Cotulla"
@@ -15964,42 +15717,36 @@ msgid "Council Bluffs"
 msgstr ""
 
 #: my-evolution/Locations.h:520
-#, fuzzy
 msgid "Coventry"
-msgstr "국가(_y):"
+msgstr ""
 
 #: my-evolution/Locations.h:521
-#, fuzzy
 msgid "Covington"
-msgstr "콩고"
+msgstr ""
 
 #: my-evolution/Locations.h:522
 msgid "Cozumel"
 msgstr ""
 
 #: my-evolution/Locations.h:523
-#, fuzzy
 msgid "Craig"
-msgstr "크로아티아"
+msgstr ""
 
 #: my-evolution/Locations.h:524
-#, fuzzy
 msgid "Cranfield"
-msgstr "취소됨"
+msgstr ""
 
 #: my-evolution/Locations.h:525
 msgid "Crescent City"
 msgstr ""
 
 #: my-evolution/Locations.h:526
-#, fuzzy
 msgid "Creston"
-msgstr "질문"
+msgstr ""
 
 #: my-evolution/Locations.h:527
-#, fuzzy
 msgid "Crestview"
-msgstr "미리보기"
+msgstr ""
 
 #: my-evolution/Locations.h:529
 msgid "Cross City"
@@ -16010,55 +15757,48 @@ msgid "Crossville"
 msgstr "크로스빌"
 
 #: my-evolution/Locations.h:531
-#, fuzzy
 msgid "Crotone"
-msgstr "카메룬"
+msgstr ""
 
 #: my-evolution/Locations.h:533
-#, fuzzy
 msgid "Cuba Awrs"
-msgstr "쿠바"
+msgstr ""
 
 #: my-evolution/Locations.h:534
 msgid "Cuernavaca"
 msgstr ""
 
 #: my-evolution/Locations.h:535
-#, fuzzy
 msgid "Cuiaba"
-msgstr "쿠바"
+msgstr ""
 
 #: my-evolution/Locations.h:536
-#, fuzzy
 msgid "Culdrose"
-msgstr "닫기"
+msgstr ""
 
 #: my-evolution/Locations.h:537
 msgid "Culiacan"
 msgstr ""
 
 #: my-evolution/Locations.h:538
-#, fuzzy
 msgid "Cumana"
-msgstr "캐나다"
+msgstr ""
 
 #: my-evolution/Locations.h:539
 msgid "Cumberland"
 msgstr ""
 
 #: my-evolution/Locations.h:540
-#, fuzzy
 msgid "Curitiba"
-msgstr "모리타니아"
+msgstr ""
 
 #: my-evolution/Locations.h:541
 msgid "Curitiba Apt"
 msgstr ""
 
 #: my-evolution/Locations.h:542
-#, fuzzy
 msgid "Custer"
-msgstr "자르기"
+msgstr ""
 
 #: my-evolution/Locations.h:543
 msgid "Cut Bank"
@@ -16069,9 +15809,8 @@ msgid "Cuzco"
 msgstr ""
 
 #: my-evolution/Locations.h:547
-#, fuzzy
 msgid "Dagali"
-msgstr "말리"
+msgstr ""
 
 #: my-evolution/Locations.h:548
 msgid "Daggett"
@@ -16082,9 +15821,8 @@ msgid "Dalhart"
 msgstr ""
 
 #: my-evolution/Locations.h:550
-#, fuzzy
 msgid "Dalian"
-msgstr "대만"
+msgstr ""
 
 #: my-evolution/Locations.h:551
 msgid "Dallas-Addison"
@@ -16107,9 +15845,8 @@ msgid "Da Nang"
 msgstr ""
 
 #: my-evolution/Locations.h:556
-#, fuzzy
 msgid "Danbury"
-msgstr "일월"
+msgstr ""
 
 #: my-evolution/Locations.h:557
 msgid "Danville"
@@ -16132,9 +15869,8 @@ msgid "Dawadmi"
 msgstr ""
 
 #: my-evolution/Locations.h:562
-#, fuzzy
 msgid "Dayton"
-msgstr "하루씩"
+msgstr ""
 
 #: my-evolution/Locations.h:563
 msgid "Daytona Beach"
@@ -16145,9 +15881,8 @@ msgid "Dayton-Fairborn"
 msgstr ""
 
 #: my-evolution/Locations.h:565
-#, fuzzy
 msgid "Dayton-South Airport"
-msgstr "가져오지 말기"
+msgstr ""
 
 #: my-evolution/Locations.h:566
 msgid "Dead Horse"
@@ -16170,9 +15905,8 @@ msgid "Decorah"
 msgstr ""
 
 #: my-evolution/Locations.h:571
-#, fuzzy
 msgid "Deelen"
-msgstr "삭제"
+msgstr ""
 
 #: my-evolution/Locations.h:572
 msgid "Dekalb/Peachtree"
@@ -16191,28 +15925,24 @@ msgid "Del Rio"
 msgstr ""
 
 #: my-evolution/Locations.h:576
-#, fuzzy
 msgid "Delta"
-msgstr "삭제"
+msgstr ""
 
 #: my-evolution/Locations.h:577
-#, fuzzy
 msgid "Deming"
-msgstr "회의"
+msgstr ""
 
 #: my-evolution/Locations.h:578
 msgid "Den Helder/De Kooy"
 msgstr ""
 
 #: my-evolution/Locations.h:579
-#, fuzzy
 msgid "Denison"
-msgstr "크기:"
+msgstr ""
 
 #: my-evolution/Locations.h:581
-#, fuzzy
 msgid "Denton"
-msgstr "레바논"
+msgstr ""
 
 #: my-evolution/Locations.h:582
 msgid "Denver"
@@ -16235,14 +15965,12 @@ msgid "Desert Rock"
 msgstr ""
 
 #: my-evolution/Locations.h:587
-#, fuzzy
 msgid "Des Moines"
-msgstr "시간대"
+msgstr ""
 
 #: my-evolution/Locations.h:588
-#, fuzzy
 msgid "Destin"
-msgstr "질문"
+msgstr ""
 
 #: my-evolution/Locations.h:589
 msgid "Detroit"
@@ -16269,33 +15997,28 @@ msgid "Devils Lake (2)"
 msgstr ""
 
 #: my-evolution/Locations.h:595
-#, fuzzy
 msgid "Dhahran"
-msgstr "바레인"
+msgstr ""
 
 #: my-evolution/Locations.h:596
-#, fuzzy
 msgid "Dickinson"
-msgstr "크기:"
+msgstr ""
 
 #: my-evolution/Locations.h:597
-#, fuzzy
 msgid "Dijon"
-msgstr "완료"
+msgstr ""
 
 #: my-evolution/Locations.h:598
 msgid "Dillingham"
 msgstr ""
 
 #: my-evolution/Locations.h:599
-#, fuzzy
 msgid "Dillon"
-msgstr "완료"
+msgstr ""
 
 #: my-evolution/Locations.h:600
-#, fuzzy
 msgid "Dinard"
-msgstr "카드 인쇄하기"
+msgstr ""
 
 #: my-evolution/Locations.h:601
 msgid "District of Columbia"
@@ -16322,19 +16045,16 @@ msgid "Doha"
 msgstr ""
 
 #: my-evolution/Locations.h:607
-#, fuzzy
 msgid "Dole"
-msgstr "완료"
+msgstr ""
 
 #: my-evolution/Locations.h:609
-#, fuzzy
 msgid "Donetsk"
-msgstr "완료"
+msgstr ""
 
 #: my-evolution/Locations.h:610
-#, fuzzy
 msgid "Dongsha"
-msgstr "통가"
+msgstr ""
 
 #: my-evolution/Locations.h:611
 msgid "Dongshi"
@@ -16349,9 +16069,8 @@ msgid "Dortmund-Wickede"
 msgstr ""
 
 #: my-evolution/Locations.h:614
-#, fuzzy
 msgid "Dothan"
-msgstr "완료"
+msgstr ""
 
 #: my-evolution/Locations.h:615
 msgid "Douglas"
@@ -16394,19 +16113,16 @@ msgid "Dubuque"
 msgstr ""
 
 #: my-evolution/Locations.h:625
-#, fuzzy
 msgid "Dugway"
-msgstr "하루씩"
+msgstr ""
 
 #: my-evolution/Locations.h:626
-#, fuzzy
 msgid "Duluth"
-msgstr "기본값"
+msgstr ""
 
 #: my-evolution/Locations.h:627
-#, fuzzy
 msgid "Dundee"
-msgstr "완료"
+msgstr ""
 
 #: my-evolution/Locations.h:628
 msgid "Durango"
@@ -16437,9 +16153,8 @@ msgid "Dyersburg"
 msgstr ""
 
 #: my-evolution/Locations.h:635
-#, fuzzy
 msgid "Eagle"
-msgstr "사용"
+msgstr ""
 
 #: my-evolution/Locations.h:636
 msgid "Eagle Range"
@@ -16454,23 +16169,20 @@ msgid "East Midlands"
 msgstr ""
 
 #: my-evolution/Locations.h:639
-#, fuzzy
 msgid "East St Louis"
-msgstr "동남동"
+msgstr ""
 
 #: my-evolution/Locations.h:640
 msgid "Eau Claire"
 msgstr ""
 
 #: my-evolution/Locations.h:642
-#, fuzzy
 msgid "Edinburgh"
-msgstr "끝:"
+msgstr ""
 
 #: my-evolution/Locations.h:643
-#, fuzzy
 msgid "Edmonton"
-msgstr "달"
+msgstr ""
 
 #: my-evolution/Locations.h:644
 msgid "Edmonton/Villeneuve"
@@ -16513,9 +16225,8 @@ msgid "El Centro"
 msgstr ""
 
 #: my-evolution/Locations.h:655
-#, fuzzy
 msgid "El Dorado"
-msgstr "엘 살바도르"
+msgstr ""
 
 #: my-evolution/Locations.h:656
 msgid "Elefsis"
@@ -16546,23 +16257,20 @@ msgid "Elko"
 msgstr ""
 
 #: my-evolution/Locations.h:663
-#, fuzzy
 msgid "Elmira"
-msgstr "에리트리아"
+msgstr ""
 
 #: my-evolution/Locations.h:664
-#, fuzzy
 msgid "El Monte"
-msgstr "한달씩"
+msgstr ""
 
 #: my-evolution/Locations.h:665
 msgid "El Paso"
 msgstr ""
 
 #: my-evolution/Locations.h:667
-#, fuzzy
 msgid "El Salvador Int."
-msgstr "엘 살바도르"
+msgstr ""
 
 #: my-evolution/Locations.h:668
 msgid "Elsenborn"
@@ -16577,18 +16285,16 @@ msgid "Emmonak"
 msgstr ""
 
 #: my-evolution/Locations.h:671
-#, fuzzy
 msgid "Emporia"
-msgstr "중요"
+msgstr ""
 
 #: my-evolution/Locations.h:672
 msgid "Enid"
 msgstr ""
 
 #: my-evolution/Locations.h:673
-#, fuzzy
 msgid "Enid/Woodring"
-msgstr "끝:"
+msgstr ""
 
 #: my-evolution/Locations.h:674
 msgid "Enosburg Falls"
@@ -16603,9 +16309,8 @@ msgid "Ercan"
 msgstr ""
 
 #: my-evolution/Locations.h:677
-#, fuzzy
 msgid "Erie"
-msgstr "에리트리아"
+msgstr ""
 
 #: my-evolution/Locations.h:678
 msgid "Erzurum"
@@ -16644,18 +16349,16 @@ msgid "Europe"
 msgstr "유럽"
 
 #: my-evolution/Locations.h:688
-#, fuzzy
 msgid "Evanston"
-msgstr "동"
+msgstr ""
 
 #: my-evolution/Locations.h:689
 msgid "Evansville"
 msgstr ""
 
 #: my-evolution/Locations.h:690
-#, fuzzy
 msgid "Everett"
-msgstr "매"
+msgstr ""
 
 #: my-evolution/Locations.h:691
 msgid "Evergreen"
@@ -16666,18 +16369,16 @@ msgid "Evreux-Fauville"
 msgstr ""
 
 #: my-evolution/Locations.h:693
-#, fuzzy
 msgid "Exeter"
-msgstr "날씨"
+msgstr ""
 
 #: my-evolution/Locations.h:694
 msgid "Ezeiza"
 msgstr ""
 
 #: my-evolution/Locations.h:695
-#, fuzzy
 msgid "Fagernes"
-msgstr "삐삐"
+msgstr ""
 
 #: my-evolution/Locations.h:696
 msgid "Fairbanks"
@@ -16688,14 +16389,12 @@ msgid "Fairchild"
 msgstr ""
 
 #: my-evolution/Locations.h:698
-#, fuzzy
 msgid "Fairfield"
-msgstr "발신 항목(_F)"
+msgstr ""
 
 #: my-evolution/Locations.h:699
-#, fuzzy
 msgid "Fairmont"
-msgstr "글꼴"
+msgstr ""
 
 #: my-evolution/Locations.h:700
 msgid "Fallon"
@@ -16714,9 +16413,8 @@ msgid "Farbanks/Eielson AFB"
 msgstr ""
 
 #: my-evolution/Locations.h:704
-#, fuzzy
 msgid "Fargo"
-msgstr "보낸이"
+msgstr ""
 
 #: my-evolution/Locations.h:705
 msgid "Farmingdale"
@@ -16731,18 +16429,16 @@ msgid "Farmville"
 msgstr ""
 
 #: my-evolution/Locations.h:708
-#, fuzzy
 msgid "Faro"
-msgstr "보낸이"
+msgstr ""
 
 #: my-evolution/Locations.h:709
 msgid "Fayetteville"
 msgstr ""
 
 #: my-evolution/Locations.h:710
-#, fuzzy
 msgid "Feng Nin"
-msgstr "진눈깨비"
+msgstr ""
 
 #: my-evolution/Locations.h:711
 msgid "Fergus Falls"
@@ -16753,24 +16449,20 @@ msgid "Fernando De Noronha"
 msgstr ""
 
 #: my-evolution/Locations.h:713
-#, fuzzy
 msgid "Ferrara"
-msgstr "이월"
+msgstr ""
 
 #: my-evolution/Locations.h:714
-#, fuzzy
 msgid "Figari"
-msgstr "나이지리아"
+msgstr ""
 
 #: my-evolution/Locations.h:715
-#, fuzzy
 msgid "Findlay"
-msgstr "금요일"
+msgstr ""
 
 #: my-evolution/Locations.h:717
-#, fuzzy
 msgid "Firenze"
-msgstr "한가한 일"
+msgstr ""
 
 #: my-evolution/Locations.h:718
 msgid "Fitchburg"
@@ -16781,28 +16473,24 @@ msgid "Flagstaff"
 msgstr ""
 
 #: my-evolution/Locations.h:720
-#, fuzzy
 msgid "Flint"
-msgstr "찾기:"
+msgstr ""
 
 #: my-evolution/Locations.h:721
-#, fuzzy
 msgid "Flippin"
-msgstr "필리핀"
+msgstr ""
 
 #: my-evolution/Locations.h:722
-#, fuzzy
 msgid "Florence"
-msgstr "프랑스"
+msgstr ""
 
 #: my-evolution/Locations.h:723
 msgid "Florennes"
 msgstr ""
 
 #: my-evolution/Locations.h:724
-#, fuzzy
 msgid "Flores"
-msgstr "파일로 저장:"
+msgstr ""
 
 #: my-evolution/Locations.h:725
 msgid "Florianopolis"
@@ -16813,28 +16501,24 @@ msgid "Florida"
 msgstr "플로리다"
 
 #: my-evolution/Locations.h:727
-#, fuzzy
 msgid "Floro"
-msgstr "보낸이"
+msgstr ""
 
 #: my-evolution/Locations.h:728
 msgid "Fond Du Lac"
 msgstr ""
 
 #: my-evolution/Locations.h:729
-#, fuzzy
 msgid "Forde/Bringeland"
-msgstr "핀란드"
+msgstr ""
 
 #: my-evolution/Locations.h:730
-#, fuzzy
 msgid "Forli"
-msgstr "금(_F)"
+msgstr ""
 
 #: my-evolution/Locations.h:731
-#, fuzzy
 msgid "Formosa"
-msgstr "형식"
+msgstr ""
 
 #: my-evolution/Locations.h:732
 msgid "Fortaleza"
@@ -16877,9 +16561,8 @@ msgid "Fort Drum"
 msgstr ""
 
 #: my-evolution/Locations.h:742
-#, fuzzy
 msgid "Fort Eustis"
-msgstr "바로가기"
+msgstr ""
 
 #: my-evolution/Locations.h:743
 msgid "Fort Greely/Allen AAF"
@@ -16902,9 +16585,8 @@ msgid "Fort Lauderdale (International)"
 msgstr ""
 
 #: my-evolution/Locations.h:748
-#, fuzzy
 msgid "Fort Leonard"
-msgstr "전달"
+msgstr ""
 
 #: my-evolution/Locations.h:749
 msgid "Fort Lewis"
@@ -16915,9 +16597,8 @@ msgid "Fort Madison"
 msgstr ""
 
 #: my-evolution/Locations.h:751
-#, fuzzy
 msgid "Fort Meade"
-msgstr "메시지 전달(_F)"
+msgstr ""
 
 #: my-evolution/Locations.h:752
 msgid "Fort Myers (Page Field)"
@@ -16940,23 +16621,20 @@ msgid "Fort Sill"
 msgstr ""
 
 #: my-evolution/Locations.h:757
-#, fuzzy
 msgid "Fort Smith"
-msgstr "형식"
+msgstr ""
 
 #: my-evolution/Locations.h:758
-#, fuzzy
 msgid "Fort Stewart"
-msgstr "시작 안함"
+msgstr ""
 
 #: my-evolution/Locations.h:759
 msgid "Fort Stockton"
 msgstr ""
 
 #: my-evolution/Locations.h:760
-#, fuzzy
 msgid "Fort Wayne"
-msgstr "프랑스"
+msgstr ""
 
 #: my-evolution/Locations.h:761
 msgid "Fort Worth-Alliance"
@@ -16987,61 +16665,52 @@ msgid "Frankfurt/Main"
 msgstr ""
 
 #: my-evolution/Locations.h:769
-#, fuzzy
 msgid "Franklin"
-msgstr "포함해서 전달(_I)"
+msgstr ""
 
 #: my-evolution/Locations.h:770
-#, fuzzy
 msgid "Fredericton"
-msgstr "설명"
+msgstr ""
 
 #: my-evolution/Locations.h:771
-#, fuzzy
 msgid "Freeport"
-msgstr "한가한 일"
+msgstr ""
 
 #: my-evolution/Locations.h:772
 msgid "Frenchville"
 msgstr ""
 
 #: my-evolution/Locations.h:773
-#, fuzzy
 msgid "Fresno"
-msgstr "보낸이"
+msgstr ""
 
 #: my-evolution/Locations.h:774
 msgid "Fresno-Chandler"
 msgstr ""
 
 #: my-evolution/Locations.h:775
-#, fuzzy
 msgid "Friday Harbor"
-msgstr "금요일"
+msgstr ""
 
 #: my-evolution/Locations.h:776
 msgid "Friedrichshafen"
 msgstr ""
 
 #: my-evolution/Locations.h:777
-#, fuzzy
 msgid "Frigg"
-msgstr "금(_F)"
+msgstr ""
 
 #: my-evolution/Locations.h:778
-#, fuzzy
 msgid "Frontone"
-msgstr "글꼴"
+msgstr ""
 
 #: my-evolution/Locations.h:779
-#, fuzzy
 msgid "Frosinone"
-msgstr "직업"
+msgstr ""
 
 #: my-evolution/Locations.h:780
-#, fuzzy
 msgid "Fryeburg"
-msgstr "이월"
+msgstr ""
 
 #: my-evolution/Locations.h:781
 msgid "Fujairah"
@@ -17072,23 +16741,20 @@ msgid "Funchal"
 msgstr ""
 
 #: my-evolution/Locations.h:788
-#, fuzzy
 msgid "FYR Macedonia"
-msgstr "마케도니아"
+msgstr ""
 
 #: my-evolution/Locations.h:789
 msgid "Gadsden"
 msgstr ""
 
 #: my-evolution/Locations.h:790
-#, fuzzy
 msgid "Gage"
-msgstr "쪽"
+msgstr ""
 
 #: my-evolution/Locations.h:791
-#, fuzzy
 msgid "Gainesville"
-msgstr "취소됨"
+msgstr ""
 
 #: my-evolution/Locations.h:792
 msgid "Galax-Hillsville"
@@ -17103,9 +16769,8 @@ msgid "Galeao"
 msgstr ""
 
 #: my-evolution/Locations.h:795
-#, fuzzy
 msgid "Galena"
-msgstr "가나"
+msgstr ""
 
 #: my-evolution/Locations.h:796
 msgid "Galesburg"
@@ -17120,52 +16785,44 @@ msgid "Galveston"
 msgstr ""
 
 #: my-evolution/Locations.h:799
-#, fuzzy
 msgid "Gambell"
-msgstr "감비아"
+msgstr ""
 
 #: my-evolution/Locations.h:800
-#, fuzzy
 msgid "Gander"
-msgstr "보낸이"
+msgstr ""
 
 #: my-evolution/Locations.h:801
-#, fuzzy
 msgid "Garden City"
-msgstr "신원"
+msgstr ""
 
 #: my-evolution/Locations.h:802
 msgid "Gary"
 msgstr ""
 
 #: my-evolution/Locations.h:803
-#, fuzzy
 msgid "Gassim"
-msgstr "괌"
+msgstr ""
 
 #: my-evolution/Locations.h:804
-#, fuzzy
 msgid "Gatineau"
-msgstr "기니"
+msgstr ""
 
 #: my-evolution/Locations.h:805
 msgid "Gaziantep"
 msgstr ""
 
 #: my-evolution/Locations.h:806
-#, fuzzy
 msgid "Gdansk"
-msgstr "일정"
+msgstr ""
 
 #: my-evolution/Locations.h:807
-#, fuzzy
 msgid "Geneve"
-msgstr "그리스"
+msgstr ""
 
 #: my-evolution/Locations.h:808
-#, fuzzy
 msgid "Genova"
-msgstr "일반 정보"
+msgstr ""
 
 #: my-evolution/Locations.h:809
 msgid "George Airport"
@@ -17176,9 +16833,8 @@ msgid "Georgetown"
 msgstr ""
 
 #: my-evolution/Locations.h:813
-#, fuzzy
 msgid "Ghardaia"
-msgstr "가나"
+msgstr ""
 
 #: my-evolution/Locations.h:814
 msgid "Ghedi"
@@ -17189,9 +16845,8 @@ msgid "Gifu Ab"
 msgstr ""
 
 #: my-evolution/Locations.h:817
-#, fuzzy
 msgid "Gila Bend"
-msgstr "핀란드"
+msgstr ""
 
 #: my-evolution/Locations.h:818
 msgid "Gillette"
@@ -17206,46 +16861,40 @@ msgid "Gioia del Colle"
 msgstr ""
 
 #: my-evolution/Locations.h:821
-#, fuzzy
 msgid "Girona"
-msgstr "기니"
+msgstr ""
 
 #: my-evolution/Locations.h:822
-#, fuzzy
 msgid "Gizan"
-msgstr "가나"
+msgstr ""
 
 #: my-evolution/Locations.h:823
 msgid "Glasgow"
 msgstr ""
 
 #: my-evolution/Locations.h:824
-#, fuzzy
 msgid "Glendive"
-msgstr "몰디브"
+msgstr ""
 
 #: my-evolution/Locations.h:825
 msgid "Glens Falls"
 msgstr ""
 
 #: my-evolution/Locations.h:826
-#, fuzzy
 msgid "Goiania"
-msgstr "루마니아"
+msgstr ""
 
 #: my-evolution/Locations.h:827
 msgid "Goldsboro"
 msgstr ""
 
 #: my-evolution/Locations.h:828
-#, fuzzy
 msgid "Goodland"
-msgstr "폴란드"
+msgstr ""
 
 #: my-evolution/Locations.h:829
-#, fuzzy
 msgid "Goose Bay"
-msgstr "오늘로 가기"
+msgstr ""
 
 #: my-evolution/Locations.h:830
 msgid "Goteborg (Landvetter)"
@@ -17272,9 +16921,8 @@ msgid "Grand Forks"
 msgstr ""
 
 #: my-evolution/Locations.h:836
-#, fuzzy
 msgid "Grand Island"
-msgstr "포클랜드 제도"
+msgstr ""
 
 #: my-evolution/Locations.h:837
 msgid "Grand Isle"
@@ -17285,47 +16933,40 @@ msgid "Grand Junction"
 msgstr ""
 
 #: my-evolution/Locations.h:839
-#, fuzzy
 msgid "Grand Marais"
-msgstr "산마리노"
+msgstr ""
 
 #: my-evolution/Locations.h:840
 msgid "Grand Rapids"
 msgstr ""
 
 #: my-evolution/Locations.h:841
-#, fuzzy
 msgid "Grandview"
-msgstr "미리보기"
+msgstr ""
 
 #: my-evolution/Locations.h:842
-#, fuzzy
 msgid "Grangeville"
-msgstr "취소됨"
+msgstr ""
 
 #: my-evolution/Locations.h:843
-#, fuzzy
 msgid "Grants"
-msgstr "초고"
+msgstr ""
 
 #: my-evolution/Locations.h:844
-#, fuzzy
 msgid "Graz"
-msgstr "브라질"
+msgstr ""
 
 #: my-evolution/Locations.h:845
 msgid "Great Falls"
 msgstr ""
 
 #: my-evolution/Locations.h:847
-#, fuzzy
 msgid "Greeley"
-msgstr "그리스"
+msgstr ""
 
 #: my-evolution/Locations.h:848
-#, fuzzy
 msgid "Green Bay"
-msgstr "그린란드"
+msgstr ""
 
 #: my-evolution/Locations.h:849
 msgid "Green River"
@@ -17336,18 +16977,16 @@ msgid "Greensboro"
 msgstr ""
 
 #: my-evolution/Locations.h:851
-#, fuzzy
 msgid "Greenville"
-msgstr "그린란드"
+msgstr ""
 
 #: my-evolution/Locations.h:852
 msgid "Greenville-Spartanburg"
 msgstr ""
 
 #: my-evolution/Locations.h:853
-#, fuzzy
 msgid "Greenwood"
-msgstr "그린란드"
+msgstr ""
 
 #: my-evolution/Locations.h:854
 msgid "Grenoble-Saint-Geoirs"
@@ -17358,9 +16997,8 @@ msgid "Griffiss AFB"
 msgstr ""
 
 #: my-evolution/Locations.h:856
-#, fuzzy
 msgid "Groningen"
-msgstr "경고"
+msgstr ""
 
 #: my-evolution/Locations.h:857
 msgid "Grosseto"
@@ -17371,37 +17009,32 @@ msgid "Groton"
 msgstr ""
 
 #: my-evolution/Locations.h:859
-#, fuzzy
 msgid "Guadalajara"
-msgstr "과테말라"
+msgstr ""
 
 #: my-evolution/Locations.h:860
 msgid "Guadalupe Pass"
 msgstr ""
 
 #: my-evolution/Locations.h:861
-#, fuzzy
 msgid "Guanare"
-msgstr "가나"
+msgstr ""
 
 #: my-evolution/Locations.h:862
 msgid "Guangzhou"
 msgstr ""
 
 #: my-evolution/Locations.h:863
-#, fuzzy
 msgid "Guantanamo"
-msgstr "과테말라"
+msgstr ""
 
 #: my-evolution/Locations.h:864
-#, fuzzy
 msgid "Guarany"
-msgstr "독일"
+msgstr ""
 
 #: my-evolution/Locations.h:865
-#, fuzzy
 msgid "Guaratingueta"
-msgstr "기니"
+msgstr ""
 
 #: my-evolution/Locations.h:866
 msgid "Guarulhos"
@@ -17412,28 +17045,24 @@ msgid "Guayaquil/Simon Bolivar"
 msgstr ""
 
 #: my-evolution/Locations.h:869
-#, fuzzy
 msgid "Guaymas"
-msgstr "괌"
+msgstr ""
 
 #: my-evolution/Locations.h:870
-#, fuzzy
 msgid "Guernsey"
-msgstr "독일"
+msgstr ""
 
 #: my-evolution/Locations.h:871
-#, fuzzy
 msgid "Guidonia"
-msgstr "기니"
+msgstr ""
 
 #: my-evolution/Locations.h:872
 msgid "Gulfport"
 msgstr ""
 
 #: my-evolution/Locations.h:873
-#, fuzzy
 msgid "Gulkana"
-msgstr "가나"
+msgstr ""
 
 #: my-evolution/Locations.h:874
 msgid "Gullfax C"
@@ -17448,23 +17077,20 @@ msgid "Gunnison (2)"
 msgstr ""
 
 #: my-evolution/Locations.h:877
-#, fuzzy
 msgid "Guriat"
-msgstr "기니"
+msgstr ""
 
 #: my-evolution/Locations.h:878
 msgid "Gustavus"
 msgstr ""
 
 #: my-evolution/Locations.h:879
-#, fuzzy
 msgid "Guymon"
-msgstr "괌"
+msgstr ""
 
 #: my-evolution/Locations.h:880
-#, fuzzy
 msgid "Habana"
-msgstr "알바니아"
+msgstr ""
 
 #: my-evolution/Locations.h:881
 msgid "Hachijojima Airport"
@@ -17492,9 +17118,8 @@ msgid "Hailey-Sun Valley"
 msgstr ""
 
 #: my-evolution/Locations.h:887
-#, fuzzy
 msgid "Haines"
-msgstr "머릿말"
+msgstr ""
 
 #: my-evolution/Locations.h:889
 msgid "Hakodate Airport"
@@ -17517,9 +17142,8 @@ msgid "Hamburg-Finkenwerder"
 msgstr ""
 
 #: my-evolution/Locations.h:894
-#, fuzzy
 msgid "Hamilton"
-msgstr "우박"
+msgstr ""
 
 #: my-evolution/Locations.h:895
 msgid "Hammerfest"
@@ -17558,9 +17182,8 @@ msgid "Harbor Beach"
 msgstr ""
 
 #: my-evolution/Locations.h:904
-#, fuzzy
 msgid "Harlingen"
-msgstr "경고"
+msgstr ""
 
 #: my-evolution/Locations.h:905
 msgid "Harlowton"
@@ -17587,18 +17210,16 @@ msgid "Hassi-Messaoud"
 msgstr ""
 
 #: my-evolution/Locations.h:911
-#, fuzzy
 msgid "Hastings"
-msgstr "머릿말"
+msgstr ""
 
 #: my-evolution/Locations.h:912
 msgid "Haugesund"
 msgstr ""
 
 #: my-evolution/Locations.h:913
-#, fuzzy
 msgid "Havre"
-msgstr "저장"
+msgstr ""
 
 #: my-evolution/Locations.h:914
 msgid "Hawaii"
@@ -17609,18 +17230,16 @@ msgid "Hawthorne"
 msgstr ""
 
 #: my-evolution/Locations.h:916
-#, fuzzy
 msgid "Hayden"
-msgstr "머리말:"
+msgstr ""
 
 #: my-evolution/Locations.h:917
 msgid "Hayes River"
 msgstr ""
 
 #: my-evolution/Locations.h:918
-#, fuzzy
 msgid "Hays"
-msgstr "날"
+msgstr ""
 
 #: my-evolution/Locations.h:919
 msgid "Hayward"
@@ -17639,9 +17258,8 @@ msgid "Helsinki"
 msgstr "헬싱키"
 
 #: my-evolution/Locations.h:923
-#, fuzzy
 msgid "Henderson"
-msgstr "보낸이"
+msgstr ""
 
 #: my-evolution/Locations.h:924
 msgid "Hengchun"
@@ -17668,9 +17286,8 @@ msgid "Hillsboro"
 msgstr ""
 
 #: my-evolution/Locations.h:930
-#, fuzzy
 msgid "Hilo"
-msgstr "우박"
+msgstr ""
 
 #: my-evolution/Locations.h:931
 msgid "Hinesville"
@@ -17681,14 +17298,12 @@ msgid "Hiroshima Airport"
 msgstr ""
 
 #: my-evolution/Locations.h:933
-#, fuzzy
 msgid "Hobart"
-msgstr "호스트:"
+msgstr ""
 
 #: my-evolution/Locations.h:934
-#, fuzzy
 msgid "Hobbs"
-msgstr "호스트:"
+msgstr ""
 
 #: my-evolution/Locations.h:935
 msgid "Ho Chi Minh"
@@ -17715,24 +17330,20 @@ msgid "Hohenems"
 msgstr ""
 
 #: my-evolution/Locations.h:941
-#, fuzzy
 msgid "Holguin"
-msgstr "Evolution"
+msgstr ""
 
 #: my-evolution/Locations.h:942
-#, fuzzy
 msgid "Homer"
-msgstr "집"
+msgstr ""
 
 #: my-evolution/Locations.h:943
-#, fuzzy
 msgid "Homestead AFB"
-msgstr "완료됨"
+msgstr ""
 
 #: my-evolution/Locations.h:944
-#, fuzzy
 msgid "Hondo"
-msgstr "혼두라스"
+msgstr ""
 
 #: my-evolution/Locations.h:947
 msgid "Honningsvag"
@@ -17759,14 +17370,12 @@ msgid "Houghton Lake"
 msgstr ""
 
 #: my-evolution/Locations.h:953
-#, fuzzy
 msgid "Houlton"
-msgstr "나가는 것"
+msgstr ""
 
 #: my-evolution/Locations.h:954
-#, fuzzy
 msgid "Houma"
-msgstr "집"
+msgstr ""
 
 #: my-evolution/Locations.h:955
 msgid "Houston-Bush"
@@ -17789,9 +17398,8 @@ msgid "Houston-Hooks"
 msgstr ""
 
 #: my-evolution/Locations.h:960
-#, fuzzy
 msgid "Howard AFB"
-msgstr "다른 주소로 전달"
+msgstr ""
 
 #: my-evolution/Locations.h:961
 msgid "Hsinchu"
@@ -17806,9 +17414,8 @@ msgid "Huehuetenango"
 msgstr ""
 
 #: my-evolution/Locations.h:964
-#, fuzzy
 msgid "Hulien"
-msgstr "숨김"
+msgstr ""
 
 #: my-evolution/Locations.h:965
 msgid "Humberside"
@@ -17819,18 +17426,16 @@ msgid "Huntington"
 msgstr ""
 
 #: my-evolution/Locations.h:968
-#, fuzzy
 msgid "Huntsville"
-msgstr "까지"
+msgstr ""
 
 #: my-evolution/Locations.h:969
 msgid "Hurlburt"
 msgstr ""
 
 #: my-evolution/Locations.h:970
-#, fuzzy
 msgid "Huron"
-msgstr "시"
+msgstr ""
 
 #: my-evolution/Locations.h:971
 msgid "Hutchinson"
@@ -17853,14 +17458,12 @@ msgid "Hyeres-Le Palyvestre"
 msgstr ""
 
 #: my-evolution/Locations.h:976
-#, fuzzy
 msgid "Iasi"
-msgstr "기본"
+msgstr ""
 
 #: my-evolution/Locations.h:977
-#, fuzzy
 msgid "Ibiza"
-msgstr "인도"
+msgstr ""
 
 #: my-evolution/Locations.h:979
 msgid "Ichikawa"
@@ -17895,9 +17498,8 @@ msgid "Illinois"
 msgstr ""
 
 #: my-evolution/Locations.h:987
-#, fuzzy
 msgid "Imperial"
-msgstr "사월"
+msgstr ""
 
 #: my-evolution/Locations.h:988
 msgid "Imperial (2)"
@@ -17908,9 +17510,8 @@ msgid "Imperial Beach"
 msgstr ""
 
 #: my-evolution/Locations.h:990
-#, fuzzy
 msgid "In Amenas"
-msgstr "아르메니아"
+msgstr ""
 
 #: my-evolution/Locations.h:992
 msgid "Indiana"
@@ -17937,9 +17538,8 @@ msgid "Intracoastal"
 msgstr ""
 
 #: my-evolution/Locations.h:998
-#, fuzzy
 msgid "Inverness"
-msgstr "진행중"
+msgstr ""
 
 #: my-evolution/Locations.h:999
 msgid "Inyokern"
@@ -17966,18 +17566,16 @@ msgid "Iquitos"
 msgstr ""
 
 #: my-evolution/Locations.h:1005
-#, fuzzy
 msgid "Iraklion"
-msgstr "정보"
+msgstr ""
 
 #: my-evolution/Locations.h:1006
 msgid "Iran, Islamic Republic of"
 msgstr ""
 
 #: my-evolution/Locations.h:1008
-#, fuzzy
 msgid "Iron Mountain"
-msgstr "주석에 포함"
+msgstr ""
 
 #: my-evolution/Locations.h:1009
 msgid "Ironwood"
@@ -18000,9 +17598,8 @@ msgid "Islip"
 msgstr ""
 
 #: my-evolution/Locations.h:1014
-#, fuzzy
 msgid "Istanbul"
-msgstr "이탈리아"
+msgstr ""
 
 #: my-evolution/Locations.h:1015
 msgid "Itaituba"
@@ -18041,9 +17638,8 @@ msgid "Izmit"
 msgstr ""
 
 #: my-evolution/Locations.h:1025
-#, fuzzy
 msgid "Izumo Airport"
-msgstr "가져오기"
+msgstr ""
 
 #: my-evolution/Locations.h:1026
 msgid "Jackson"
@@ -18070,9 +17666,8 @@ msgid "Jamestown"
 msgstr ""
 
 #: my-evolution/Locations.h:1033
-#, fuzzy
 msgid "Janesville"
-msgstr "일본어"
+msgstr ""
 
 #: my-evolution/Locations.h:1034
 msgid "Jan Smuts"
@@ -18111,14 +17706,12 @@ msgid "Jonesboro"
 msgstr ""
 
 #: my-evolution/Locations.h:1044
-#, fuzzy
 msgid "Jonkoping"
-msgstr "복사중"
+msgstr ""
 
 #: my-evolution/Locations.h:1045
-#, fuzzy
 msgid "Joplin"
-msgstr "복사중"
+msgstr ""
 
 #: my-evolution/Locations.h:1047
 msgid "Juanjui"
@@ -18129,29 +17722,24 @@ msgid "Juan Santamaria"
 msgstr ""
 
 #: my-evolution/Locations.h:1049
-#, fuzzy
 msgid "Juigalpa"
-msgstr "일본"
+msgstr ""
 
 #: my-evolution/Locations.h:1050
-#, fuzzy
 msgid "Jujuy"
-msgstr "칠월"
+msgstr ""
 
 #: my-evolution/Locations.h:1051
-#, fuzzy
 msgid "Juliaca"
-msgstr "공용"
+msgstr ""
 
 #: my-evolution/Locations.h:1052
-#, fuzzy
 msgid "Junction"
-msgstr "인증"
+msgstr ""
 
 #: my-evolution/Locations.h:1053
-#, fuzzy
 msgid "Juneau"
-msgstr "유월"
+msgstr ""
 
 #: my-evolution/Locations.h:1054
 msgid "Kadena Ab"
@@ -18174,9 +17762,8 @@ msgid "Kake"
 msgstr ""
 
 #: my-evolution/Locations.h:1059
-#, fuzzy
 msgid "Kalamata"
-msgstr "마르타"
+msgstr ""
 
 #: my-evolution/Locations.h:1060
 msgid "Kalamazoo"
@@ -18223,14 +17810,12 @@ msgid "Kaohsiung"
 msgstr ""
 
 #: my-evolution/Locations.h:1071
-#, fuzzy
 msgid "Karachi"
-msgstr "삼월"
+msgstr ""
 
 #: my-evolution/Locations.h:1072
-#, fuzzy
 msgid "Karup"
-msgstr "단체"
+msgstr ""
 
 #: my-evolution/Locations.h:1073
 msgid "Kassel-Calden"
@@ -18257,19 +17842,16 @@ msgid "Kayseri"
 msgstr ""
 
 #: my-evolution/Locations.h:1079
-#, fuzzy
 msgid "Kazan"
-msgstr "카자흐스탄"
+msgstr ""
 
 #: my-evolution/Locations.h:1080
-#, fuzzy
 msgid "Kearney"
-msgstr "케냐"
+msgstr ""
 
 #: my-evolution/Locations.h:1081
-#, fuzzy
 msgid "Keene"
-msgstr "예멘"
+msgstr ""
 
 #: my-evolution/Locations.h:1082
 msgid "Kefallinia"
@@ -18280,19 +17862,16 @@ msgid "Keflavik"
 msgstr ""
 
 #: my-evolution/Locations.h:1084
-#, fuzzy
 msgid "Kenai"
-msgstr "케냐"
+msgstr ""
 
 #: my-evolution/Locations.h:1085
-#, fuzzy
 msgid "Kenosha"
-msgstr "케냐"
+msgstr ""
 
 #: my-evolution/Locations.h:1086
-#, fuzzy
 msgid "Kentucky"
-msgstr "케냐"
+msgstr ""
 
 #: my-evolution/Locations.h:1087
 msgid "Keokuk"
@@ -18303,18 +17882,16 @@ msgid "Kerkira"
 msgstr ""
 
 #: my-evolution/Locations.h:1089
-#, fuzzy
 msgid "Kerman"
-msgstr "독일"
+msgstr ""
 
 #: my-evolution/Locations.h:1090
 msgid "Ketchikan"
 msgstr ""
 
 #: my-evolution/Locations.h:1091
-#, fuzzy
 msgid "Key West"
-msgstr "서"
+msgstr ""
 
 #: my-evolution/Locations.h:1092
 msgid "Key West NAS"
@@ -18333,9 +17910,8 @@ msgid "Kharkiv"
 msgstr ""
 
 #: my-evolution/Locations.h:1096
-#, fuzzy
 msgid "Kikai Island"
-msgstr "쿡 제도"
+msgstr ""
 
 #: my-evolution/Locations.h:1097
 msgid "Killeen"
@@ -18474,9 +18050,8 @@ msgid "Komatsujima Ab"
 msgstr ""
 
 #: my-evolution/Locations.h:1131
-#, fuzzy
 msgid "Konya"
-msgstr "케냐"
+msgstr ""
 
 #: my-evolution/Locations.h:1132
 msgid "Korea, Democratic People's Republic of"
@@ -18495,9 +18070,8 @@ msgid "Kotzebue"
 msgstr ""
 
 #: my-evolution/Locations.h:1136
-#, fuzzy
 msgid "Kozani"
-msgstr "한국어"
+msgstr ""
 
 #: my-evolution/Locations.h:1137
 msgid "Krakow"
@@ -18528,9 +18102,8 @@ msgid "Kumamoto Airport"
 msgstr ""
 
 #: my-evolution/Locations.h:1144
-#, fuzzy
 msgid "Kunming"
-msgstr "들어오는 것"
+msgstr ""
 
 #: my-evolution/Locations.h:1145
 msgid "Kushiro Airport"
@@ -18549,18 +18122,16 @@ msgid "La Ceiba"
 msgstr ""
 
 #: my-evolution/Locations.h:1150
-#, fuzzy
 msgid "Laconia"
-msgstr "마케도니아"
+msgstr ""
 
 #: my-evolution/Locations.h:1151
 msgid "La Coruna"
 msgstr ""
 
 #: my-evolution/Locations.h:1152
-#, fuzzy
 msgid "La Crosse"
-msgstr "라오스"
+msgstr ""
 
 #: my-evolution/Locations.h:1153
 msgid "La Esperanza"
@@ -18575,19 +18146,16 @@ msgid "La Grande"
 msgstr ""
 
 #: my-evolution/Locations.h:1156
-#, fuzzy
 msgid "Lahaina"
-msgstr "바레인"
+msgstr ""
 
 #: my-evolution/Locations.h:1157
-#, fuzzy
 msgid "Lahore"
-msgstr "크게(_L)"
+msgstr ""
 
 #: my-evolution/Locations.h:1158
-#, fuzzy
 msgid "Lajes"
-msgstr "라오스"
+msgstr ""
 
 #: my-evolution/Locations.h:1159
 msgid "La Junta"
@@ -18606,57 +18174,48 @@ msgid "Lakehurst"
 msgstr ""
 
 #: my-evolution/Locations.h:1163
-#, fuzzy
 msgid "Lakeland"
-msgstr "아이랜드"
+msgstr ""
 
 #: my-evolution/Locations.h:1164
 msgid "Lake Tahoe"
 msgstr ""
 
 #: my-evolution/Locations.h:1165
-#, fuzzy
 msgid "Lakeview"
-msgstr "미리보기"
+msgstr ""
 
 #: my-evolution/Locations.h:1166
-#, fuzzy
 msgid "Lamar"
-msgstr "미얀마"
+msgstr ""
 
 #: my-evolution/Locations.h:1167
-#, fuzzy
 msgid "La Mesa"
-msgstr "편지 메세지(_M)"
+msgstr ""
 
 #: my-evolution/Locations.h:1168
-#, fuzzy
 msgid "Lamezia"
-msgstr "감비아"
+msgstr ""
 
 #: my-evolution/Locations.h:1169
-#, fuzzy
 msgid "Lamoni"
-msgstr "레바논"
+msgstr ""
 
 #: my-evolution/Locations.h:1170
 msgid "Lampedusa"
 msgstr ""
 
 #: my-evolution/Locations.h:1171
-#, fuzzy
 msgid "Lanai"
-msgstr "가나"
+msgstr ""
 
 #: my-evolution/Locations.h:1172
-#, fuzzy
 msgid "Lancaster"
-msgstr "가로"
+msgstr ""
 
 #: my-evolution/Locations.h:1173
-#, fuzzy
 msgid "Lander"
-msgstr "보낸이"
+msgstr ""
 
 #: my-evolution/Locations.h:1174
 msgid "Langebaanweg"
@@ -18667,14 +18226,12 @@ msgid "Langley AFB"
 msgstr ""
 
 #: my-evolution/Locations.h:1176
-#, fuzzy
 msgid "Lannion"
-msgstr "레바논"
+msgstr ""
 
 #: my-evolution/Locations.h:1177
-#, fuzzy
 msgid "Lansing"
-msgstr "경고"
+msgstr ""
 
 #: my-evolution/Locations.h:1178
 msgid "Lanzhou"
@@ -18693,19 +18250,16 @@ msgid "Laramie"
 msgstr ""
 
 #: my-evolution/Locations.h:1182
-#, fuzzy
 msgid "Laredo"
-msgstr "크게(_L)"
+msgstr ""
 
 #: my-evolution/Locations.h:1183
-#, fuzzy
 msgid "Larnaka"
-msgstr "스리랑카"
+msgstr ""
 
 #: my-evolution/Locations.h:1184
-#, fuzzy
 msgid "La Romana"
-msgstr "루마니아"
+msgstr ""
 
 #: my-evolution/Locations.h:1185
 msgid "Las Americas"
@@ -18720,9 +18274,8 @@ msgid "Las Vegas"
 msgstr "라스베가스"
 
 #: my-evolution/Locations.h:1188
-#, fuzzy
 msgid "Latina"
-msgstr "라트비아"
+msgstr ""
 
 #: my-evolution/Locations.h:1189
 msgid "Latrobe"
@@ -18745,18 +18298,16 @@ msgid "Lawrence"
 msgstr ""
 
 #: my-evolution/Locations.h:1194
-#, fuzzy
 msgid "Lawton"
-msgstr "레바논"
+msgstr ""
 
 #: my-evolution/Locations.h:1195
 msgid "Leadville"
 msgstr ""
 
 #: my-evolution/Locations.h:1196
-#, fuzzy
 msgid "Learmouth"
-msgstr "레소토"
+msgstr ""
 
 #: my-evolution/Locations.h:1198
 msgid "Lecce"
@@ -18767,9 +18318,8 @@ msgid "Leeds and Bradford"
 msgstr ""
 
 #: my-evolution/Locations.h:1200
-#, fuzzy
 msgid "Leesburg"
-msgstr "룩셈부르크"
+msgstr ""
 
 #: my-evolution/Locations.h:1201
 msgid "Leeuwarden"
@@ -18792,19 +18342,16 @@ msgid "Le Mans"
 msgstr ""
 
 #: my-evolution/Locations.h:1206
-#, fuzzy
 msgid "Le Marine"
-msgstr "산마리노"
+msgstr ""
 
 #: my-evolution/Locations.h:1207
-#, fuzzy
 msgid "Lemmon"
-msgstr "레바논"
+msgstr ""
 
 #: my-evolution/Locations.h:1208
-#, fuzzy
 msgid "Lemoore"
-msgstr "제거"
+msgstr ""
 
 #: my-evolution/Locations.h:1209
 msgid "Leticia/Vasquez Cobo"
@@ -18815,39 +18362,32 @@ msgid "Le Touquet"
 msgstr ""
 
 #: my-evolution/Locations.h:1211
-#, fuzzy
 msgid "Leuchars"
-msgstr "연도"
+msgstr ""
 
 #: my-evolution/Locations.h:1212
-#, fuzzy
 msgid "Lewisburg"
-msgstr "룩셈부르크"
+msgstr ""
 
 #: my-evolution/Locations.h:1213
-#, fuzzy
 msgid "Lewiston"
-msgstr "레소토"
+msgstr ""
 
 #: my-evolution/Locations.h:1214
-#, fuzzy
 msgid "Lewistown"
-msgstr "레소토"
+msgstr ""
 
 #: my-evolution/Locations.h:1215
-#, fuzzy
 msgid "Lexington"
-msgstr "레바논"
+msgstr ""
 
 #: my-evolution/Locations.h:1216
-#, fuzzy
 msgid "Liberal"
-msgstr "라이베리아"
+msgstr ""
 
 #: my-evolution/Locations.h:1218
-#, fuzzy
 msgid "Libya"
-msgstr "라이베리아"
+msgstr ""
 
 #: my-evolution/Locations.h:1219
 msgid "Lichtenburg"
@@ -18858,9 +18398,8 @@ msgid "Lidgerwood"
 msgstr ""
 
 #: my-evolution/Locations.h:1221
-#, fuzzy
 msgid "Liege"
-msgstr "니제르"
+msgstr ""
 
 #: my-evolution/Locations.h:1222
 msgid "Lihue"
@@ -18875,37 +18414,32 @@ msgid "Lima-Callao"
 msgstr ""
 
 #: my-evolution/Locations.h:1225
-#, fuzzy
 msgid "Limnos"
-msgstr "라오스"
+msgstr ""
 
 #: my-evolution/Locations.h:1226
 msgid "Limoges"
 msgstr ""
 
 #: my-evolution/Locations.h:1227
-#, fuzzy
 msgid "Limon"
-msgstr "달"
+msgstr ""
 
 #: my-evolution/Locations.h:1228
-#, fuzzy
 msgid "Lincoln"
-msgstr "들어오는 것"
+msgstr ""
 
 #: my-evolution/Locations.h:1229
 msgid "Linz"
 msgstr ""
 
 #: my-evolution/Locations.h:1230
-#, fuzzy
 msgid "Lisboa"
-msgstr "라이베리아"
+msgstr ""
 
 #: my-evolution/Locations.h:1231
-#, fuzzy
 msgid "Lista"
-msgstr "이슬비"
+msgstr ""
 
 #: my-evolution/Locations.h:1232
 msgid "Litchfield"
@@ -18936,9 +18470,8 @@ msgid "Ljubljana"
 msgstr ""
 
 #: my-evolution/Locations.h:1240
-#, fuzzy
 msgid "Logan"
-msgstr "통가"
+msgstr ""
 
 #: my-evolution/Locations.h:1241
 msgid "Lolland Falster"
@@ -18949,9 +18482,8 @@ msgid "Lompoc"
 msgstr ""
 
 #: my-evolution/Locations.h:1243
-#, fuzzy
 msgid "London"
-msgstr "레바논"
+msgstr ""
 
 #: my-evolution/Locations.h:1244
 msgid "London/City"
@@ -18970,9 +18502,8 @@ msgid "London/Stansted"
 msgstr ""
 
 #: my-evolution/Locations.h:1248
-#, fuzzy
 msgid "Londrina"
-msgstr "혼두라스"
+msgstr ""
 
 #: my-evolution/Locations.h:1249
 msgid "Lone Rock"
@@ -19015,9 +18546,8 @@ msgid "Louisville-Standiford Field"
 msgstr ""
 
 #: my-evolution/Locations.h:1259
-#, fuzzy
 msgid "Lousiana"
-msgstr "보츠와나"
+msgstr ""
 
 #: my-evolution/Locations.h:1260
 msgid "Lovelock"
@@ -19036,27 +18566,24 @@ msgid "Lufkin"
 msgstr ""
 
 #: my-evolution/Locations.h:1264
-#, fuzzy
 msgid "Lugano"
-msgstr "레바논"
+msgstr ""
 
 #: my-evolution/Locations.h:1265
 msgid "Luqa"
 msgstr ""
 
 #: my-evolution/Locations.h:1266
-#, fuzzy
 msgid "Luton"
-msgstr "나가는 것"
+msgstr ""
 
 #: my-evolution/Locations.h:1268
 msgid "Luxeuil"
 msgstr ""
 
 #: my-evolution/Locations.h:1269
-#, fuzzy
 msgid "Luxor"
-msgstr "룩셈부르크"
+msgstr ""
 
 #: my-evolution/Locations.h:1270
 msgid "Lviv"
@@ -19079,39 +18606,32 @@ msgid "Lyon-Satolas"
 msgstr ""
 
 #: my-evolution/Locations.h:1275
-#, fuzzy
 msgid "Maastricht"
-msgstr "삼월"
+msgstr ""
 
 #: my-evolution/Locations.h:1276
-#, fuzzy
 msgid "Macae"
-msgstr "마코"
+msgstr ""
 
 #: my-evolution/Locations.h:1277
-#, fuzzy
 msgid "Macapa"
-msgstr "마코"
+msgstr ""
 
 #: my-evolution/Locations.h:1278
-#, fuzzy
 msgid "Maceio"
-msgstr "모나코"
+msgstr ""
 
 #: my-evolution/Locations.h:1279
-#, fuzzy
 msgid "Macon"
-msgstr "모나코"
+msgstr ""
 
 #: my-evolution/Locations.h:1280
-#, fuzzy
 msgid "Madinah"
-msgstr "마케도니아"
+msgstr ""
 
 #: my-evolution/Locations.h:1281
-#, fuzzy
 msgid "Madison"
-msgstr "몰디브"
+msgstr ""
 
 #: my-evolution/Locations.h:1282
 msgid "Madras/Minambakkam"
@@ -19126,18 +18646,16 @@ msgid "Madrid (Cuatro Vientos)"
 msgstr ""
 
 #: my-evolution/Locations.h:1285
-#, fuzzy
 msgid "Magadan"
-msgstr "캐나다"
+msgstr ""
 
 #: my-evolution/Locations.h:1286
 msgid "Magdalena"
 msgstr ""
 
 #: my-evolution/Locations.h:1287
-#, fuzzy
 msgid "Maine"
-msgstr "비"
+msgstr ""
 
 #: my-evolution/Locations.h:1288
 msgid "Makhachkala"
@@ -19152,19 +18670,16 @@ msgid "Makung"
 msgstr ""
 
 #: my-evolution/Locations.h:1291
-#, fuzzy
 msgid "Malad City"
-msgstr "말라위"
+msgstr ""
 
 #: my-evolution/Locations.h:1292
-#, fuzzy
 msgid "Malaga"
-msgstr "마르타"
+msgstr ""
 
 #: my-evolution/Locations.h:1293
-#, fuzzy
 msgid "Malatya"
-msgstr "마르타"
+msgstr ""
 
 #: my-evolution/Locations.h:1294
 msgid "Maldonado/Punta Est"
@@ -19179,24 +18694,20 @@ msgid "Mammoth Lakes"
 msgstr ""
 
 #: my-evolution/Locations.h:1298
-#, fuzzy
 msgid "Managua"
-msgstr "파라과이"
+msgstr ""
 
 #: my-evolution/Locations.h:1299
-#, fuzzy
 msgid "Manassas"
-msgstr "말레이시아"
+msgstr ""
 
 #: my-evolution/Locations.h:1300
-#, fuzzy
 msgid "Manaus"
-msgstr "마코"
+msgstr ""
 
 #: my-evolution/Locations.h:1301
-#, fuzzy
 msgid "Manchester"
-msgstr "일치함:"
+msgstr ""
 
 #: my-evolution/Locations.h:1302
 msgid "Mangilsan Ab"
@@ -19207,47 +18718,40 @@ msgid "Manhattan"
 msgstr ""
 
 #: my-evolution/Locations.h:1304
-#, fuzzy
 msgid "Manisa"
-msgstr "마케도니아"
+msgstr ""
 
 #: my-evolution/Locations.h:1305
-#, fuzzy
 msgid "Manistee"
-msgstr "이슬비"
+msgstr ""
 
 #: my-evolution/Locations.h:1306
-#, fuzzy
 msgid "Manitoba"
-msgstr "마르타"
+msgstr ""
 
 #: my-evolution/Locations.h:1307
 msgid "Manitowoc"
 msgstr ""
 
 #: my-evolution/Locations.h:1308
-#, fuzzy
 msgid "Mankato"
-msgstr "모나코"
+msgstr ""
 
 #: my-evolution/Locations.h:1309
-#, fuzzy
 msgid "Mansfield"
-msgstr "편지"
+msgstr ""
 
 #: my-evolution/Locations.h:1310
-#, fuzzy
 msgid "Manta"
-msgstr "마르타"
+msgstr ""
 
 #: my-evolution/Locations.h:1311
 msgid "Manzanillo"
 msgstr ""
 
 #: my-evolution/Locations.h:1312
-#, fuzzy
 msgid "Maraba"
-msgstr "모리타니아"
+msgstr ""
 
 #: my-evolution/Locations.h:1313
 msgid "Maracaibo-La Chinita"
@@ -19266,37 +18770,32 @@ msgid "Mar Del Plata"
 msgstr ""
 
 #: my-evolution/Locations.h:1317
-#, fuzzy
 msgid "Margarita"
-msgstr "모리타니아"
+msgstr ""
 
 #: my-evolution/Locations.h:1318
-#, fuzzy
 msgid "Marianna"
-msgstr "모리타니아"
+msgstr ""
 
 #: my-evolution/Locations.h:1319
-#, fuzzy
 msgid "Marib"
-msgstr "편지"
+msgstr ""
 
 #: my-evolution/Locations.h:1320
 msgid "Maribor"
 msgstr ""
 
 #: my-evolution/Locations.h:1321
-#, fuzzy
 msgid "Marietta"
-msgstr "모리타니아"
+msgstr ""
 
 #: my-evolution/Locations.h:1322
 msgid "Marino di Ravenna"
 msgstr ""
 
 #: my-evolution/Locations.h:1323
-#, fuzzy
 msgid "Marion"
-msgstr "여백"
+msgstr ""
 
 #: my-evolution/Locations.h:1324
 msgid "Marion-Wytheville"
@@ -19315,38 +18814,32 @@ msgid "Marshall"
 msgstr "마샬 제도"
 
 #: my-evolution/Locations.h:1328
-#, fuzzy
 msgid "Marshalltown"
-msgstr "마샬 제도"
+msgstr ""
 
 #: my-evolution/Locations.h:1329
 msgid "Marshfield"
 msgstr ""
 
 #: my-evolution/Locations.h:1330
-#, fuzzy
 msgid "Marte"
-msgstr "날짜"
+msgstr ""
 
 #: my-evolution/Locations.h:1331
-#, fuzzy
 msgid "Marthas Vineyard"
-msgstr "읽지 않은 것으로 표시(_n)"
+msgstr ""
 
 #: my-evolution/Locations.h:1332
-#, fuzzy
 msgid "Martinsburg"
-msgstr "여백"
+msgstr ""
 
 #: my-evolution/Locations.h:1333
-#, fuzzy
 msgid "Martinsville"
-msgstr "여백"
+msgstr ""
 
 #: my-evolution/Locations.h:1334
-#, fuzzy
 msgid "Maryland"
-msgstr "아이랜드"
+msgstr ""
 
 #: my-evolution/Locations.h:1335
 msgid "Marysville"
@@ -19361,9 +18854,8 @@ msgid "Mashhad"
 msgstr ""
 
 #: my-evolution/Locations.h:1338
-#, fuzzy
 msgid "Masirah"
-msgstr "삼월"
+msgstr ""
 
 #: my-evolution/Locations.h:1339
 msgid "Mason City"
@@ -19374,14 +18866,12 @@ msgid "Massachusetts"
 msgstr ""
 
 #: my-evolution/Locations.h:1341
-#, fuzzy
 msgid "Massena"
-msgstr "마케도니아"
+msgstr ""
 
 #: my-evolution/Locations.h:1342
-#, fuzzy
 msgid "Matamoros"
-msgstr "코모로스"
+msgstr ""
 
 #: my-evolution/Locations.h:1343
 msgid "Matsumoto Airport"
@@ -19400,24 +18890,20 @@ msgid "Mattoon"
 msgstr ""
 
 #: my-evolution/Locations.h:1347
-#, fuzzy
 msgid "Mayaguez"
-msgstr "마코"
+msgstr ""
 
 #: my-evolution/Locations.h:1348
-#, fuzzy
 msgid "Mayport"
-msgstr "가져오기"
+msgstr ""
 
 #: my-evolution/Locations.h:1349
-#, fuzzy
 msgid "Mazatlan"
-msgstr "카자흐스탄"
+msgstr ""
 
 #: my-evolution/Locations.h:1350
-#, fuzzy
 msgid "Mazu"
-msgstr "마코"
+msgstr ""
 
 #: my-evolution/Locations.h:1351
 msgid "McAlester"
@@ -19428,19 +18914,16 @@ msgid "McAllen"
 msgstr ""
 
 #: my-evolution/Locations.h:1353
-#, fuzzy
 msgid "McCall"
-msgstr "편지"
+msgstr ""
 
 #: my-evolution/Locations.h:1354
-#, fuzzy
 msgid "McCarthy"
-msgstr "삼월"
+msgstr ""
 
 #: my-evolution/Locations.h:1355
-#, fuzzy
 msgid "McClellan"
-msgstr "아이슬란드"
+msgstr ""
 
 #: my-evolution/Locations.h:1356
 msgid "McComb"
@@ -19459,14 +18942,12 @@ msgid "Mc Gregor"
 msgstr ""
 
 #: my-evolution/Locations.h:1360
-#, fuzzy
 msgid "Meacham"
-msgstr "삼월"
+msgstr ""
 
 #: my-evolution/Locations.h:1361
-#, fuzzy
 msgid "Medford"
-msgstr "동안"
+msgstr ""
 
 #: my-evolution/Locations.h:1362
 msgid "Medicine Lodge"
@@ -19485,9 +18966,8 @@ msgid "Melbourne"
 msgstr "멜버른"
 
 #: my-evolution/Locations.h:1366
-#, fuzzy
 msgid "Melfa"
-msgstr "마르타"
+msgstr ""
 
 #: my-evolution/Locations.h:1367
 msgid "Melilla"
@@ -19506,9 +18986,8 @@ msgid "Memphis-NAS"
 msgstr ""
 
 #: my-evolution/Locations.h:1371
-#, fuzzy
 msgid "Mendoza"
-msgstr "마케도니아"
+msgstr ""
 
 #: my-evolution/Locations.h:1372
 msgid "Mene Grande"
@@ -19527,9 +19006,8 @@ msgid "Merced"
 msgstr "머시드"
 
 #: my-evolution/Locations.h:1376
-#, fuzzy
 msgid "Merida"
-msgstr "금요일"
+msgstr ""
 
 #: my-evolution/Locations.h:1377
 msgid "Meridian"
@@ -19540,9 +19018,8 @@ msgid "Meridian-Lauderdale"
 msgstr ""
 
 #: my-evolution/Locations.h:1379
-#, fuzzy
 msgid "Merril Field"
-msgstr "발신 항목(_F)"
+msgstr ""
 
 #: my-evolution/Locations.h:1380
 msgid "Mersa Matruh"
@@ -19561,9 +19038,8 @@ msgid "Metz-Frescaty"
 msgstr ""
 
 #: my-evolution/Locations.h:1384
-#, fuzzy
 msgid "Mexicali"
-msgstr "멕시코"
+msgstr ""
 
 #: my-evolution/Locations.h:1386
 msgid "Miami"
@@ -19586,9 +19062,8 @@ msgid "Middle East"
 msgstr "중동"
 
 #: my-evolution/Locations.h:1391
-#, fuzzy
 msgid "Middleton Island"
-msgstr "솔로몬 제도"
+msgstr ""
 
 #: my-evolution/Locations.h:1392
 msgid "Middletown"
@@ -19611,14 +19086,12 @@ msgid "Milano/Malpensa"
 msgstr ""
 
 #: my-evolution/Locations.h:1397
-#, fuzzy
 msgid "Miles City"
-msgstr "파일 종류:"
+msgstr ""
 
 #: my-evolution/Locations.h:1398
-#, fuzzy
 msgid "Milford"
-msgstr "동안"
+msgstr ""
 
 #: my-evolution/Locations.h:1399
 msgid "Millinocket"
@@ -19629,9 +19102,8 @@ msgid "Millville"
 msgstr ""
 
 #: my-evolution/Locations.h:1401
-#, fuzzy
 msgid "Milton"
-msgstr "%s에 편지 보냄"
+msgstr ""
 
 #: my-evolution/Locations.h:1402
 msgid "Milwaukee"
@@ -19646,14 +19118,12 @@ msgid "Minamitorishima"
 msgstr ""
 
 #: my-evolution/Locations.h:1405
-#, fuzzy
 msgid "Minatitlan"
-msgstr "모리타니아"
+msgstr ""
 
 #: my-evolution/Locations.h:1406
-#, fuzzy
 msgid "Minchumina"
-msgstr "들어오는 것"
+msgstr ""
 
 #: my-evolution/Locations.h:1407
 msgid "Mineralnye Vody"
@@ -19684,9 +19154,8 @@ msgid "Minocqua"
 msgstr ""
 
 #: my-evolution/Locations.h:1414
-#, fuzzy
 msgid "Minot"
-msgstr "이슬비"
+msgstr ""
 
 #: my-evolution/Locations.h:1415
 msgid "Minot AFB"
@@ -19709,14 +19178,12 @@ msgid "Missouri"
 msgstr "미주리"
 
 #: my-evolution/Locations.h:1420
-#, fuzzy
 msgid "Mitchell"
-msgstr "일치함:"
+msgstr ""
 
 #: my-evolution/Locations.h:1421
-#, fuzzy
 msgid "Mitilini"
-msgstr "메일링 리스트"
+msgstr ""
 
 #: my-evolution/Locations.h:1422
 msgid "Miyakejima Airport"
@@ -19727,23 +19194,20 @@ msgid "Miyazaki Airport"
 msgstr ""
 
 #: my-evolution/Locations.h:1424
-#, fuzzy
 msgid "Moa"
-msgstr "오월"
+msgstr ""
 
 #: my-evolution/Locations.h:1425
-#, fuzzy
 msgid "Mobile Downtown"
-msgstr "휴대 전화"
+msgstr ""
 
 #: my-evolution/Locations.h:1426
 msgid "Mobile Regional Airport"
 msgstr ""
 
 #: my-evolution/Locations.h:1427
-#, fuzzy
 msgid "Mobridge"
-msgstr "휴대전화"
+msgstr ""
 
 #: my-evolution/Locations.h:1428
 msgid "Modesto"
@@ -19754,28 +19218,24 @@ msgid "Mo I Rana"
 msgstr ""
 
 #: my-evolution/Locations.h:1430
-#, fuzzy
 msgid "Mojave"
-msgstr "이동"
+msgstr ""
 
 #: my-evolution/Locations.h:1431
-#, fuzzy
 msgid "Molde"
-msgstr "휴대전화"
+msgstr ""
 
 #: my-evolution/Locations.h:1432
-#, fuzzy
 msgid "Moldova"
-msgstr "월요일"
+msgstr ""
 
 #: my-evolution/Locations.h:1433
 msgid "Moline-Quad Cities"
 msgstr ""
 
 #: my-evolution/Locations.h:1434
-#, fuzzy
 msgid "Molokai"
-msgstr "말라위"
+msgstr ""
 
 #: my-evolution/Locations.h:1435
 msgid "Mombetsu Airport"
@@ -19786,19 +19246,16 @@ msgid "Monchengladbach"
 msgstr ""
 
 #: my-evolution/Locations.h:1437
-#, fuzzy
 msgid "Monclova"
-msgstr "모나코"
+msgstr ""
 
 #: my-evolution/Locations.h:1438
-#, fuzzy
 msgid "Moncton"
-msgstr "모나코"
+msgstr ""
 
 #: my-evolution/Locations.h:1439
-#, fuzzy
 msgid "Monida"
-msgstr "월요일"
+msgstr ""
 
 #: my-evolution/Locations.h:1440
 msgid "Monpellier-Mediterrannee"
@@ -19809,9 +19266,8 @@ msgid "Monroe"
 msgstr "먼로"
 
 #: my-evolution/Locations.h:1442
-#, fuzzy
 msgid "Montague"
-msgstr "한달씩"
+msgstr ""
 
 #: my-evolution/Locations.h:1443
 msgid "Montana"
@@ -19834,23 +19290,20 @@ msgid "Monte Calamita"
 msgstr ""
 
 #: my-evolution/Locations.h:1448
-#, fuzzy
 msgid "Monte Cimone"
-msgstr "달별 보기"
+msgstr ""
 
 #: my-evolution/Locations.h:1449
-#, fuzzy
 msgid "Montego Bay"
-msgstr "몽골리아"
+msgstr ""
 
 #: my-evolution/Locations.h:1450
 msgid "Monte Malanotte"
 msgstr ""
 
 #: my-evolution/Locations.h:1451
-#, fuzzy
 msgid "Monterey"
-msgstr "한달씩"
+msgstr ""
 
 #: my-evolution/Locations.h:1452
 msgid "Monterrey"
@@ -19877,14 +19330,12 @@ msgid "Montgomery-Maxwell AFB"
 msgstr ""
 
 #: my-evolution/Locations.h:1458
-#, fuzzy
 msgid "Monticello"
-msgstr "모나코"
+msgstr ""
 
 #: my-evolution/Locations.h:1459
-#, fuzzy
 msgid "Montpelier"
-msgstr "달별 보기"
+msgstr ""
 
 #: my-evolution/Locations.h:1460
 msgid "Montreal Dorval"
@@ -19899,28 +19350,24 @@ msgid "Montreal Saint-Hubert"
 msgstr ""
 
 #: my-evolution/Locations.h:1463
-#, fuzzy
 msgid "Montrose"
-msgstr "글꼴"
+msgstr ""
 
 #: my-evolution/Locations.h:1464
 msgid "Montrose (2)"
 msgstr ""
 
 #: my-evolution/Locations.h:1465
-#, fuzzy
 msgid "Morelia"
-msgstr "몽골리아"
+msgstr ""
 
 #: my-evolution/Locations.h:1466
-#, fuzzy
 msgid "Morgantown"
-msgstr "조직"
+msgstr ""
 
 #: my-evolution/Locations.h:1467
-#, fuzzy
 msgid "Moriarty"
-msgstr "우선순위"
+msgstr ""
 
 #: my-evolution/Locations.h:1469
 msgid "Morristown"
@@ -19939,9 +19386,8 @@ msgid "Moses Lake"
 msgstr ""
 
 #: my-evolution/Locations.h:1473
-#, fuzzy
 msgid "Mosinee"
-msgstr "휴대전화"
+msgstr ""
 
 #: my-evolution/Locations.h:1474
 msgid "Mosjoen"
@@ -19956,9 +19402,8 @@ msgid "Mountain Home"
 msgstr ""
 
 #: my-evolution/Locations.h:1477
-#, fuzzy
 msgid "Mountain View"
-msgstr "달별 보기"
+msgstr ""
 
 #: my-evolution/Locations.h:1478
 msgid "Mount Clemens"
@@ -19969,14 +19414,12 @@ msgid "Mount Holly"
 msgstr ""
 
 #: my-evolution/Locations.h:1480
-#, fuzzy
 msgid "Mount Shasta"
-msgstr "남동"
+msgstr ""
 
 #: my-evolution/Locations.h:1481
-#, fuzzy
 msgid "Mount Vernon"
-msgstr "달별 보기"
+msgstr ""
 
 #: my-evolution/Locations.h:1482
 msgid "Mount Wilson"
@@ -20007,27 +19450,24 @@ msgid "Munchen"
 msgstr ""
 
 #: my-evolution/Locations.h:1489
-#, fuzzy
 msgid "Muncie"
-msgstr "유월"
+msgstr ""
 
 #: my-evolution/Locations.h:1490
 msgid "Munster/Osnabruck"
 msgstr ""
 
 #: my-evolution/Locations.h:1491
-#, fuzzy
 msgid "Murcia"
-msgstr "모리타니아"
+msgstr ""
 
 #: my-evolution/Locations.h:1492
 msgid "Murmansk"
 msgstr ""
 
 #: my-evolution/Locations.h:1493
-#, fuzzy
 msgid "Mus"
-msgstr "분"
+msgstr ""
 
 #: my-evolution/Locations.h:1494
 msgid "Muscatine"
@@ -20042,9 +19482,8 @@ msgid "Muskegon"
 msgstr ""
 
 #: my-evolution/Locations.h:1497
-#, fuzzy
 msgid "Mykonos"
-msgstr "노트"
+msgstr ""
 
 #: my-evolution/Locations.h:1498
 msgid "Myrtle Beach"
@@ -20075,9 +19514,8 @@ msgid "Naha Airport"
 msgstr ""
 
 #: my-evolution/Locations.h:1505
-#, fuzzy
 msgid "Najran"
-msgstr "바레인"
+msgstr ""
 
 #: my-evolution/Locations.h:1506
 msgid "Nakashibetsu Airport"
@@ -20088,9 +19526,8 @@ msgid "Nalchik"
 msgstr ""
 
 #: my-evolution/Locations.h:1508
-#, fuzzy
 msgid "Namsos"
-msgstr "라오스"
+msgstr ""
 
 #: my-evolution/Locations.h:1509
 msgid "Nancy-Essey"
@@ -20105,9 +19542,8 @@ msgid "Nankishirahama Airport"
 msgstr ""
 
 #: my-evolution/Locations.h:1512
-#, fuzzy
 msgid "Nanning"
-msgstr "경고"
+msgstr ""
 
 #: my-evolution/Locations.h:1513
 msgid "Nantes Adlantique"
@@ -20118,23 +19554,20 @@ msgid "Nantucket"
 msgstr ""
 
 #: my-evolution/Locations.h:1515
-#, fuzzy
 msgid "Napa"
-msgstr "네팔"
+msgstr ""
 
 #: my-evolution/Locations.h:1516
-#, fuzzy
 msgid "Naples"
-msgstr "뉴스"
+msgstr ""
 
 #: my-evolution/Locations.h:1517
 msgid "Napoli"
 msgstr "나폴리"
 
 #: my-evolution/Locations.h:1518
-#, fuzzy
 msgid "Narvik"
-msgstr "별명"
+msgstr ""
 
 #: my-evolution/Locations.h:1519
 msgid "Nasa Shuttle"
@@ -20153,55 +19586,48 @@ msgid "Nassau"
 msgstr ""
 
 #: my-evolution/Locations.h:1523
-#, fuzzy
 msgid "Natal"
-msgstr "카타르"
+msgstr ""
 
 #: my-evolution/Locations.h:1524
-#, fuzzy
 msgid "Natchez"
-msgstr "일치함:"
+msgstr ""
 
 #: my-evolution/Locations.h:1525
 msgid "Nawabshah"
 msgstr ""
 
 #: my-evolution/Locations.h:1526
-#, fuzzy
 msgid "Nebraska"
-msgstr "새 일정"
+msgstr ""
 
 #: my-evolution/Locations.h:1527
 msgid "Needles"
 msgstr ""
 
 #: my-evolution/Locations.h:1528
-#, fuzzy
 msgid "Nenana"
-msgstr "그레나다"
+msgstr ""
 
 #: my-evolution/Locations.h:1530
 msgid "Neuquen"
 msgstr ""
 
 #: my-evolution/Locations.h:1531
-#, fuzzy
 msgid "Nevada"
-msgstr "그레나다"
+msgstr ""
 
 #: my-evolution/Locations.h:1532
 msgid "Newark"
 msgstr ""
 
 #: my-evolution/Locations.h:1533
-#, fuzzy
 msgid "New Bedford"
-msgstr "새소식 받기"
+msgstr ""
 
 #: my-evolution/Locations.h:1534
-#, fuzzy
 msgid "New Bern"
-msgstr "새 폴더(_N)"
+msgstr ""
 
 #: my-evolution/Locations.h:1535
 msgid "New Braunfels"
@@ -20236,9 +19662,8 @@ msgid "New Haven"
 msgstr ""
 
 #: my-evolution/Locations.h:1543
-#, fuzzy
 msgid "New Iberia"
-msgstr "뉴 칼레도니아"
+msgstr ""
 
 #: my-evolution/Locations.h:1544
 msgid "New Jersey"
@@ -20365,14 +19790,12 @@ msgid "North Carolina"
 msgstr "노스 캐롤리나"
 
 #: my-evolution/Locations.h:1578
-#, fuzzy
 msgid "North Conway"
-msgstr "노르웨이"
+msgstr ""
 
 #: my-evolution/Locations.h:1579
-#, fuzzy
 msgid "North Dakota"
-msgstr "북동"
+msgstr ""
 
 #: my-evolution/Locations.h:1580
 msgid "Northeast Philadelphia"
@@ -20383,34 +19806,28 @@ msgid "North Kingstown"
 msgstr ""
 
 #: my-evolution/Locations.h:1582
-#, fuzzy
 msgid "North Platte"
-msgstr "북동"
+msgstr ""
 
 #: my-evolution/Locations.h:1583
-#, fuzzy
 msgid "Northway"
-msgstr "노르웨이"
+msgstr ""
 
 #: my-evolution/Locations.h:1584
-#, fuzzy
 msgid "Northwest Territories"
-msgstr "프랑스령 남 자치구역"
+msgstr ""
 
 #: my-evolution/Locations.h:1586
-#, fuzzy
 msgid "Norwich"
-msgstr "북"
+msgstr ""
 
 #: my-evolution/Locations.h:1587
-#, fuzzy
 msgid "Norwood"
-msgstr "노르웨이"
+msgstr ""
 
 #: my-evolution/Locations.h:1588
-#, fuzzy
 msgid "Notodden"
-msgstr "노트"
+msgstr ""
 
 #: my-evolution/Locations.h:1589
 msgid "Novara/Cameri"
@@ -20433,9 +19850,8 @@ msgid "Nueva Ocotepeque"
 msgstr ""
 
 #: my-evolution/Locations.h:1594
-#, fuzzy
 msgid "Nuevo Laredo"
-msgstr "시작 안함"
+msgstr ""
 
 #: my-evolution/Locations.h:1595
 msgid "Nurnberg"
@@ -20458,9 +19874,8 @@ msgid "Oakland"
 msgstr "오크랜드"
 
 #: my-evolution/Locations.h:1600
-#, fuzzy
 msgid "Oaxaca"
-msgstr "자메이카"
+msgstr ""
 
 #: my-evolution/Locations.h:1601
 msgid "Oberpfaffenhofen"
@@ -20471,34 +19886,28 @@ msgid "Obihiro Airport"
 msgstr ""
 
 #: my-evolution/Locations.h:1603
-#, fuzzy
 msgid "Ocala"
-msgstr "팔라우"
+msgstr ""
 
 #: my-evolution/Locations.h:1604
-#, fuzzy
 msgid "Oceanside"
-msgstr "아이슬란드"
+msgstr ""
 
 #: my-evolution/Locations.h:1605
-#, fuzzy
 msgid "Odense"
-msgstr "열기"
+msgstr ""
 
 #: my-evolution/Locations.h:1606
-#, fuzzy
 msgid "Odesa"
-msgstr "열기"
+msgstr ""
 
 #: my-evolution/Locations.h:1607
-#, fuzzy
 msgid "Oelwen"
-msgstr "열기"
+msgstr ""
 
 #: my-evolution/Locations.h:1608
-#, fuzzy
 msgid "Ogden"
-msgstr "열기"
+msgstr ""
 
 #: my-evolution/Locations.h:1609
 msgid "Ogden-Hill AFB"
@@ -20513,18 +19922,16 @@ msgid "Ohio"
 msgstr "오하이오"
 
 #: my-evolution/Locations.h:1612
-#, fuzzy
 msgid "Ohrid"
-msgstr "기타"
+msgstr ""
 
 #: my-evolution/Locations.h:1613
 msgid "Oita Airport"
 msgstr ""
 
 #: my-evolution/Locations.h:1614
-#, fuzzy
 msgid "Ojika Island"
-msgstr "쿡 제도"
+msgstr ""
 
 #: my-evolution/Locations.h:1615
 msgid "Okayama Airport"
@@ -20555,41 +19962,36 @@ msgid "Oklahoma City-Midwest City"
 msgstr ""
 
 #: my-evolution/Locations.h:1622
-#, fuzzy
 msgid "Okushiri Island"
-msgstr "영국령 버진 제도"
+msgstr ""
 
 #: my-evolution/Locations.h:1623
-#, fuzzy
 msgid "Olathe"
-msgstr "기타"
+msgstr ""
 
 #: my-evolution/Locations.h:1624
 msgid "Olathe/Ind."
 msgstr ""
 
 #: my-evolution/Locations.h:1625
-#, fuzzy
 msgid "Olbia"
-msgstr "알바니아"
+msgstr ""
 
 #: my-evolution/Locations.h:1626
 msgid "Olympia"
 msgstr "올림피아"
 
 #: my-evolution/Locations.h:1627
-#, fuzzy
 msgid "Omaha"
-msgstr "오만"
+msgstr ""
 
 #: my-evolution/Locations.h:1628
 msgid "Omaha-Bellevue"
 msgstr ""
 
 #: my-evolution/Locations.h:1629
-#, fuzzy
 msgid "Omak"
-msgstr "오만"
+msgstr ""
 
 #: my-evolution/Locations.h:1631
 msgid "Ominato Ab"
@@ -20604,28 +20006,24 @@ msgid "O'Neill"
 msgstr ""
 
 #: my-evolution/Locations.h:1634
-#, fuzzy
 msgid "Ontario"
-msgstr "방향"
+msgstr ""
 
 #: my-evolution/Locations.h:1635
-#, fuzzy
 msgid "Oostende"
-msgstr "참석자"
+msgstr ""
 
 #: my-evolution/Locations.h:1636
-#, fuzzy
 msgid "Oran"
-msgstr "오만"
+msgstr ""
 
 #: my-evolution/Locations.h:1637
 msgid "Oran/Es Senia"
 msgstr ""
 
 #: my-evolution/Locations.h:1638
-#, fuzzy
 msgid "Orange"
-msgstr "프랑스"
+msgstr ""
 
 #: my-evolution/Locations.h:1639
 msgid "Orange City"
@@ -20660,9 +20058,8 @@ msgid "Orsta-Volda"
 msgstr ""
 
 #: my-evolution/Locations.h:1647
-#, fuzzy
 msgid "Oruro"
-msgstr "에러"
+msgstr ""
 
 #: my-evolution/Locations.h:1648
 msgid "Osaka International Airport"
@@ -20673,9 +20070,8 @@ msgid "Osan Ab"
 msgstr "오산 Ab"
 
 #: my-evolution/Locations.h:1650
-#, fuzzy
 msgid "Oscoda"
-msgstr "초"
+msgstr ""
 
 #: my-evolution/Locations.h:1651
 msgid "Oseberg A"
@@ -20710,14 +20106,12 @@ msgid "Owensboro"
 msgstr ""
 
 #: my-evolution/Locations.h:1659
-#, fuzzy
 msgid "Owyhee"
-msgstr "주"
+msgstr ""
 
 #: my-evolution/Locations.h:1660
-#, fuzzy
 msgid "Oxford"
-msgstr "동안"
+msgstr ""
 
 #: my-evolution/Locations.h:1661
 msgid "Oxnard"
@@ -20752,76 +20146,64 @@ msgid "Paengnyongdo Ab"
 msgstr "백령도 Ab"
 
 #: my-evolution/Locations.h:1669
-#, fuzzy
 msgid "Paganella"
-msgstr "쪽"
+msgstr ""
 
 #: my-evolution/Locations.h:1672
 msgid "Pa Kuei/Bakuai"
 msgstr ""
 
 #: my-evolution/Locations.h:1673
-#, fuzzy
 msgid "Palacios"
-msgstr "팔라우"
+msgstr ""
 
 #: my-evolution/Locations.h:1674
-#, fuzzy
 msgid "Palermo"
-msgstr "종이"
+msgstr ""
 
 #: my-evolution/Locations.h:1675
 msgid "Palma de Mallorca"
 msgstr ""
 
 #: my-evolution/Locations.h:1676
-#, fuzzy
 msgid "Palmdale"
-msgstr "팔라우"
+msgstr ""
 
 #: my-evolution/Locations.h:1677
-#, fuzzy
 msgid "Palmer"
-msgstr "삐삐"
+msgstr ""
 
 #: my-evolution/Locations.h:1678
-#, fuzzy
 msgid "Palm Springs"
-msgstr "편지 설정"
+msgstr ""
 
 #: my-evolution/Locations.h:1679
 msgid "Palo Alto"
 msgstr ""
 
 #: my-evolution/Locations.h:1680
-#, fuzzy
 msgid "Pamplona"
-msgstr "팔라우"
+msgstr ""
 
 #: my-evolution/Locations.h:1682
-#, fuzzy
 msgid "Panama City"
-msgstr "파나마"
+msgstr ""
 
 #: my-evolution/Locations.h:1683
-#, fuzzy
 msgid "Pantelleria"
-msgstr "취소됨"
+msgstr ""
 
 #: my-evolution/Locations.h:1684
-#, fuzzy
 msgid "Papa"
-msgstr "종이"
+msgstr ""
 
 #: my-evolution/Locations.h:1685
-#, fuzzy
 msgid "Paphos"
-msgstr "라오스"
+msgstr ""
 
 #: my-evolution/Locations.h:1687
-#, fuzzy
 msgid "Paris"
-msgstr "여백"
+msgstr ""
 
 #: my-evolution/Locations.h:1688
 msgid "Paris/Charles De Gaulle"
@@ -20840,9 +20222,8 @@ msgid "Parkersburg"
 msgstr ""
 
 #: my-evolution/Locations.h:1692
-#, fuzzy
 msgid "Pasco"
-msgstr "비밀번호"
+msgstr ""
 
 #: my-evolution/Locations.h:1693
 msgid "Paso De Los Libres"
@@ -20869,9 +20250,8 @@ msgid "Passo Rolle"
 msgstr ""
 
 #: my-evolution/Locations.h:1699
-#, fuzzy
 msgid "Patna"
-msgstr "파나마"
+msgstr ""
 
 #: my-evolution/Locations.h:1700
 msgid "Patterson"
@@ -20890,29 +20270,24 @@ msgid "Paxson"
 msgstr ""
 
 #: my-evolution/Locations.h:1704
-#, fuzzy
 msgid "Paysandu"
-msgstr "소리 연주:"
+msgstr ""
 
 #: my-evolution/Locations.h:1705
-#, fuzzy
 msgid "Payson"
-msgstr "소리 연주:"
+msgstr ""
 
 #: my-evolution/Locations.h:1706
-#, fuzzy
 msgid "Pellston"
-msgstr "질문"
+msgstr ""
 
 #: my-evolution/Locations.h:1707
-#, fuzzy
 msgid "Pelotas"
-msgstr "다시 읽음"
+msgstr ""
 
 #: my-evolution/Locations.h:1708
-#, fuzzy
 msgid "Pendleton"
-msgstr "선택:"
+msgstr ""
 
 #: my-evolution/Locations.h:1709
 msgid "Pennsylvania"
@@ -20935,9 +20310,8 @@ msgid "People's Republic of China"
 msgstr "중화 인민 공화국"
 
 #: my-evolution/Locations.h:1714
-#, fuzzy
 msgid "Peoria"
-msgstr "그루지야"
+msgstr ""
 
 #: my-evolution/Locations.h:1715
 msgid "Pequot Lakes"
@@ -20948,9 +20322,8 @@ msgid "Pereira/Matecana"
 msgstr ""
 
 #: my-evolution/Locations.h:1717
-#, fuzzy
 msgid "Perm"
-msgstr "페루"
+msgstr ""
 
 #: my-evolution/Locations.h:1718
 msgid "Perpignan-Rivesaltes"
@@ -20961,14 +20334,12 @@ msgid "Perry-Foley"
 msgstr ""
 
 #: my-evolution/Locations.h:1720
-#, fuzzy
 msgid "Perth"
-msgstr "페루"
+msgstr ""
 
 #: my-evolution/Locations.h:1722
-#, fuzzy
 msgid "Perugia"
-msgstr "페루"
+msgstr ""
 
 #: my-evolution/Locations.h:1723
 msgid "Pescara"
@@ -20991,19 +20362,16 @@ msgid "Philadelphia"
 msgstr ""
 
 #: my-evolution/Locations.h:1728
-#, fuzzy
 msgid "Philip"
-msgstr "필리핀"
+msgstr ""
 
 #: my-evolution/Locations.h:1729
-#, fuzzy
 msgid "Philipsburg"
-msgstr "필리핀"
+msgstr ""
 
 #: my-evolution/Locations.h:1730
-#, fuzzy
 msgid "Phillips"
-msgstr "필리핀"
+msgstr ""
 
 #: my-evolution/Locations.h:1731
 msgid "Phoenix"
@@ -21034,18 +20402,16 @@ msgid "Piedras Negras"
 msgstr ""
 
 #: my-evolution/Locations.h:1738
-#, fuzzy
 msgid "Pierre"
-msgstr "인쇄"
+msgstr ""
 
 #: my-evolution/Locations.h:1739
 msgid "Pietersburg"
 msgstr ""
 
 #: my-evolution/Locations.h:1740
-#, fuzzy
 msgid "Pikeville"
-msgstr "미리보기"
+msgstr ""
 
 #: my-evolution/Locations.h:1741
 msgid "Pine Bluff"
@@ -21064,9 +20430,8 @@ msgid "Pirassununga"
 msgstr ""
 
 #: my-evolution/Locations.h:1745
-#, fuzzy
 msgid "Pisa"
-msgstr "파키스탄"
+msgstr ""
 
 #: my-evolution/Locations.h:1746
 msgid "Pisco"
@@ -21089,9 +20454,8 @@ msgid "Plovdiv"
 msgstr ""
 
 #: my-evolution/Locations.h:1751
-#, fuzzy
 msgid "Plymouth"
-msgstr "달"
+msgstr ""
 
 #: my-evolution/Locations.h:1752
 msgid "Pocatello"
@@ -21110,56 +20474,48 @@ msgid "Podgorica Titograd"
 msgstr ""
 
 #: my-evolution/Locations.h:1756
-#, fuzzy
 msgid "Pohang Ab"
-msgstr "포항"
+msgstr ""
 
 #: my-evolution/Locations.h:1757
-#, fuzzy
 msgid "Point Hope"
-msgstr "봉투 인쇄"
+msgstr ""
 
 #: my-evolution/Locations.h:1758
-#, fuzzy
 msgid "Point Lay"
-msgstr "인쇄 요약"
+msgstr ""
 
 #: my-evolution/Locations.h:1759
-#, fuzzy
 msgid "Point Mugu"
-msgstr "메세지 인쇄"
+msgstr ""
 
 #: my-evolution/Locations.h:1760
 msgid "Point Piedras Blanca"
 msgstr ""
 
 #: my-evolution/Locations.h:1761
-#, fuzzy
 msgid "Poitiers"
-msgstr "거르개"
+msgstr ""
 
 #: my-evolution/Locations.h:1763
 msgid "Pompano Beach"
 msgstr ""
 
 #: my-evolution/Locations.h:1764
-#, fuzzy
 msgid "Ponca City"
-msgstr "전화 목록"
+msgstr ""
 
 #: my-evolution/Locations.h:1765
-#, fuzzy
 msgid "Ponce"
-msgstr "완료"
+msgstr ""
 
 #: my-evolution/Locations.h:1766
 msgid "Ponta Pora"
 msgstr ""
 
 #: my-evolution/Locations.h:1767
-#, fuzzy
 msgid "Pontiac"
-msgstr "연락처(_C)"
+msgstr ""
 
 #: my-evolution/Locations.h:1768
 msgid "Pope AFB"
@@ -21170,23 +20526,20 @@ msgid "Poplar Bluff"
 msgstr ""
 
 #: my-evolution/Locations.h:1770
-#, fuzzy
 msgid "Poprad"
-msgstr "폴란드"
+msgstr ""
 
 #: my-evolution/Locations.h:1771
-#, fuzzy
 msgid "Port Alexander"
-msgstr "폴란드"
+msgstr ""
 
 #: my-evolution/Locations.h:1772
 msgid "Port Alsworth"
 msgstr ""
 
 #: my-evolution/Locations.h:1773
-#, fuzzy
 msgid "Port Angeles"
-msgstr "봉투 인쇄"
+msgstr ""
 
 #: my-evolution/Locations.h:1774
 msgid "Port-Au-Prince"
@@ -21197,19 +20550,16 @@ msgid "Port Elizabeth"
 msgstr ""
 
 #: my-evolution/Locations.h:1776
-#, fuzzy
 msgid "Porterville"
-msgstr "미리보기"
+msgstr ""
 
 #: my-evolution/Locations.h:1777
-#, fuzzy
 msgid "Port Hardy"
-msgstr "카드 인쇄하기"
+msgstr ""
 
 #: my-evolution/Locations.h:1778
-#, fuzzy
 msgid "Port Hedland"
-msgstr "폴란드"
+msgstr ""
 
 #: my-evolution/Locations.h:1779
 msgid "Port Heiden"
@@ -21220,46 +20570,40 @@ msgid "Portland"
 msgstr "포트랜드"
 
 #: my-evolution/Locations.h:1781
-#, fuzzy
 msgid "Porto"
-msgstr "포트(_P):"
+msgstr ""
 
 #: my-evolution/Locations.h:1782
-#, fuzzy
 msgid "Porto Alegre"
-msgstr "진행중"
+msgstr ""
 
 #: my-evolution/Locations.h:1783
 msgid "Porto Alegre Apt"
 msgstr ""
 
 #: my-evolution/Locations.h:1784
-#, fuzzy
 msgid "Portoroz"
-msgstr "세로"
+msgstr ""
 
 #: my-evolution/Locations.h:1785
-#, fuzzy
 msgid "Porto Santo"
-msgstr "세로"
+msgstr ""
 
 #: my-evolution/Locations.h:1786
 msgid "Porto Velho"
 msgstr ""
 
 #: my-evolution/Locations.h:1787
-#, fuzzy
 msgid "Port Said"
-msgstr "세로"
+msgstr ""
 
 #: my-evolution/Locations.h:1788
 msgid "Portsmouth"
 msgstr ""
 
 #: my-evolution/Locations.h:1790
-#, fuzzy
 msgid "Posadas"
-msgstr "폴란드"
+msgstr ""
 
 #: my-evolution/Locations.h:1791
 msgid "Potosi"
@@ -21274,19 +20618,16 @@ msgid "Pownal"
 msgstr ""
 
 #: my-evolution/Locations.h:1794
-#, fuzzy
 msgid "Poza Rica"
-msgstr "코스타리카"
+msgstr ""
 
 #: my-evolution/Locations.h:1795
-#, fuzzy
 msgid "Poznan"
-msgstr "폴란드"
+msgstr ""
 
 #: my-evolution/Locations.h:1796
-#, fuzzy
 msgid "Praha"
-msgstr "파라과이"
+msgstr ""
 
 #: my-evolution/Locations.h:1797
 msgid "Pratica di Mare"
@@ -21297,9 +20638,8 @@ msgid "Prescott"
 msgstr ""
 
 #: my-evolution/Locations.h:1799
-#, fuzzy
 msgid "Presidente Prudente"
-msgstr "인쇄 미리보기"
+msgstr ""
 
 #: my-evolution/Locations.h:1800
 msgid "Presque Isle"
@@ -21310,118 +20650,100 @@ msgid "Prestwick"
 msgstr ""
 
 #: my-evolution/Locations.h:1802
-#, fuzzy
 msgid "Pretoria"
-msgstr "그루지야"
+msgstr ""
 
 #: my-evolution/Locations.h:1803
-#, fuzzy
 msgid "Preveza"
-msgstr "미리보기"
+msgstr ""
 
 #: my-evolution/Locations.h:1804
 msgid "Price-Carbon"
 msgstr ""
 
 #: my-evolution/Locations.h:1805
-#, fuzzy
 msgid "Pristina"
-msgstr "번체"
+msgstr ""
 
 #: my-evolution/Locations.h:1806
-#, fuzzy
 msgid "Providence"
-msgstr "주/도(_S):"
+msgstr ""
 
 #: my-evolution/Locations.h:1807
-#, fuzzy
 msgid "Provincetown"
-msgstr "미리보기"
+msgstr ""
 
 #: my-evolution/Locations.h:1808
-#, fuzzy
 msgid "Provo"
-msgstr "이전"
+msgstr ""
 
 #: my-evolution/Locations.h:1809
 msgid "Pskov"
 msgstr ""
 
 #: my-evolution/Locations.h:1810
-#, fuzzy
 msgid "Pucallpa"
-msgstr "팔라우"
+msgstr ""
 
 #: my-evolution/Locations.h:1811
 msgid "Pudahuel"
 msgstr ""
 
 #: my-evolution/Locations.h:1812
-#, fuzzy
 msgid "Puebla"
-msgstr "공용"
+msgstr ""
 
 #: my-evolution/Locations.h:1813
-#, fuzzy
 msgid "Pueblo"
-msgstr "공용"
+msgstr ""
 
 #: my-evolution/Locations.h:1814
-#, fuzzy
 msgid "Puerto Barrios"
-msgstr "푸에르토리코"
+msgstr ""
 
 #: my-evolution/Locations.h:1815
 msgid "Puerto Cabezas"
 msgstr ""
 
 #: my-evolution/Locations.h:1816
-#, fuzzy
 msgid "Puerto Escondido"
-msgstr "푸에르토리코"
+msgstr ""
 
 #: my-evolution/Locations.h:1817
-#, fuzzy
 msgid "Puerto Lempira"
-msgstr "푸에르토리코"
+msgstr ""
 
 #: my-evolution/Locations.h:1818
-#, fuzzy
 msgid "Puerto Limon"
-msgstr "푸에르토리코"
+msgstr ""
 
 #: my-evolution/Locations.h:1819
 msgid "Puerto Maldonado"
 msgstr ""
 
 #: my-evolution/Locations.h:1820
-#, fuzzy
 msgid "Puerto Montt"
-msgstr "푸에르토리코"
+msgstr ""
 
 #: my-evolution/Locations.h:1821
-#, fuzzy
 msgid "Puerto Plata"
-msgstr "푸에르토리코"
+msgstr ""
 
 #: my-evolution/Locations.h:1823
-#, fuzzy
 msgid "Puerto Suarez"
-msgstr "요약"
+msgstr ""
 
 #: my-evolution/Locations.h:1824
 msgid "Puerto Vallarta"
 msgstr ""
 
 #: my-evolution/Locations.h:1825
-#, fuzzy
 msgid "Pula"
-msgstr "팔라우"
+msgstr ""
 
 #: my-evolution/Locations.h:1826
-#, fuzzy
 msgid "Pullman"
-msgstr "폴란드"
+msgstr ""
 
 #: my-evolution/Locations.h:1827
 msgid "Punta Arenas"
@@ -21444,23 +20766,20 @@ msgid "Pusan/Kimhae"
 msgstr "부산/김해"
 
 #: my-evolution/Locations.h:1832
-#, fuzzy
 msgid "Pyongtaek Ab"
-msgstr "평택"
+msgstr ""
 
 #: my-evolution/Locations.h:1833
 msgid "Pyongyang"
 msgstr "평양"
 
 #: my-evolution/Locations.h:1835
-#, fuzzy
 msgid "Quantico"
-msgstr "질문"
+msgstr ""
 
 #: my-evolution/Locations.h:1836
-#, fuzzy
 msgid "Quebec"
-msgstr "제목"
+msgstr ""
 
 #: my-evolution/Locations.h:1837
 msgid "Quebec City"
@@ -21507,9 +20826,8 @@ msgid "Randolph AFB"
 msgstr ""
 
 #: my-evolution/Locations.h:1848
-#, fuzzy
 msgid "Rapid City"
-msgstr "회신"
+msgstr ""
 
 #: my-evolution/Locations.h:1849
 msgid "Rapid City-Ellsworth AFB"
@@ -21520,43 +20838,36 @@ msgid "Ras Al Khaimah"
 msgstr ""
 
 #: my-evolution/Locations.h:1851
-#, fuzzy
 msgid "Rawlins"
-msgstr "비"
+msgstr ""
 
 #: my-evolution/Locations.h:1852
-#, fuzzy
 msgid "Reading"
-msgstr "머릿말"
+msgstr ""
 
 #: my-evolution/Locations.h:1853
-#, fuzzy
 msgid "Rebun Island"
-msgstr "패로 제도"
+msgstr ""
 
 #: my-evolution/Locations.h:1854
-#, fuzzy
 msgid "Recife"
-msgstr "받았음"
+msgstr ""
 
 #: my-evolution/Locations.h:1855
 msgid "Red Bluff"
 msgstr ""
 
 #: my-evolution/Locations.h:1856
-#, fuzzy
 msgid "Redding"
-msgstr "머릿말"
+msgstr ""
 
 #: my-evolution/Locations.h:1857
-#, fuzzy
 msgid "Redig"
-msgstr "읽음"
+msgstr ""
 
 #: my-evolution/Locations.h:1858
-#, fuzzy
 msgid "Redmond"
-msgstr "알림"
+msgstr ""
 
 #: my-evolution/Locations.h:1859
 msgid "Red Oak"
@@ -21571,28 +20882,24 @@ msgid "Reggio Calabria"
 msgstr ""
 
 #: my-evolution/Locations.h:1862
-#, fuzzy
 msgid "Regina"
-msgstr "지역"
+msgstr ""
 
 #: my-evolution/Locations.h:1863
 msgid "Reims-Champagne"
 msgstr ""
 
 #: my-evolution/Locations.h:1864
-#, fuzzy
 msgid "Rennes"
-msgstr "알림"
+msgstr ""
 
 #: my-evolution/Locations.h:1865
-#, fuzzy
 msgid "Reno"
-msgstr "다시 읽음"
+msgstr ""
 
 #: my-evolution/Locations.h:1866
-#, fuzzy
 msgid "Renton"
-msgstr "레바논"
+msgstr ""
 
 #: my-evolution/Locations.h:1867
 msgid "Resistencia"
@@ -21603,62 +20910,52 @@ msgid "Reus"
 msgstr ""
 
 #: my-evolution/Locations.h:1869
-#, fuzzy
 msgid "Reyes"
-msgstr "회신"
+msgstr ""
 
 #: my-evolution/Locations.h:1870
 msgid "Reykjavik"
 msgstr ""
 
 #: my-evolution/Locations.h:1871
-#, fuzzy
 msgid "Reynosa"
-msgstr "다시 읽음"
+msgstr ""
 
 #: my-evolution/Locations.h:1872
-#, fuzzy
 msgid "Rhinelander"
-msgstr "핀란드"
+msgstr ""
 
 #: my-evolution/Locations.h:1873
-#, fuzzy
 msgid "Rhode Island"
-msgstr "패로 제도"
+msgstr ""
 
 #: my-evolution/Locations.h:1874
-#, fuzzy
 msgid "Riberalta"
-msgstr "지브롤터"
+msgstr ""
 
 #: my-evolution/Locations.h:1875
 msgid "Richmond"
 msgstr ""
 
 #: my-evolution/Locations.h:1876
-#, fuzzy
 msgid "Rickenbacker"
-msgstr "별명"
+msgstr ""
 
 #: my-evolution/Locations.h:1877
-#, fuzzy
 msgid "Rieti"
-msgstr "하이티"
+msgstr ""
 
 #: my-evolution/Locations.h:1878
-#, fuzzy
 msgid "Rifle"
-msgstr "파일(_F)"
+msgstr ""
 
 #: my-evolution/Locations.h:1879
-#, fuzzy
 msgid "Rijeka"
-msgstr "읽음"
+msgstr ""
 
 #: my-evolution/Locations.h:1880
-#, fuzzy
 msgid "Rimini"
-msgstr "루마니아"
+msgstr ""
 
 #: my-evolution/Locations.h:1881
 msgid "Rio De Janeiro"
@@ -21677,27 +20974,24 @@ msgid "Rioja"
 msgstr ""
 
 #: my-evolution/Locations.h:1885
-#, fuzzy
 msgid "Rio / Jacarepagua"
-msgstr "니카라과"
+msgstr ""
 
 #: my-evolution/Locations.h:1886
 msgid "Rionegro/J.M.Cordova"
 msgstr ""
 
 #: my-evolution/Locations.h:1887
-#, fuzzy
 msgid "Rishiri Island"
-msgstr "영국령 버진 제도"
+msgstr ""
 
 #: my-evolution/Locations.h:1888
 msgid "Rivas"
 msgstr ""
 
 #: my-evolution/Locations.h:1889
-#, fuzzy
 msgid "Rivera"
-msgstr "라이베리아"
+msgstr ""
 
 #: my-evolution/Locations.h:1890
 msgid "Riverside"
@@ -21712,33 +21006,28 @@ msgid "Riverton"
 msgstr ""
 
 #: my-evolution/Locations.h:1893
-#, fuzzy
 msgid "Rivne"
-msgstr "라이베리아"
+msgstr ""
 
 #: my-evolution/Locations.h:1894
-#, fuzzy
 msgid "Rivolto"
-msgstr "Evolution"
+msgstr ""
 
 #: my-evolution/Locations.h:1895
-#, fuzzy
 msgid "Riyadh"
-msgstr "읽음"
+msgstr ""
 
 #: my-evolution/Locations.h:1896
 msgid "Roanoke"
 msgstr ""
 
 #: my-evolution/Locations.h:1897
-#, fuzzy
 msgid "Roatan"
-msgstr "크로아티아"
+msgstr ""
 
 #: my-evolution/Locations.h:1898
-#, fuzzy
 msgid "Robore"
-msgstr "방"
+msgstr ""
 
 #: my-evolution/Locations.h:1899
 msgid "Rochester"
@@ -21749,9 +21038,8 @@ msgid "Rockford"
 msgstr ""
 
 #: my-evolution/Locations.h:1901
-#, fuzzy
 msgid "Rockland"
-msgstr "폴란드"
+msgstr ""
 
 #: my-evolution/Locations.h:1902
 msgid "Rockport"
@@ -21766,19 +21054,16 @@ msgid "Rocky Mount"
 msgstr ""
 
 #: my-evolution/Locations.h:1905
-#, fuzzy
 msgid "Rodos"
-msgstr "방"
+msgstr ""
 
 #: my-evolution/Locations.h:1906
-#, fuzzy
 msgid "Rogers"
-msgstr "폴더"
+msgstr ""
 
 #: my-evolution/Locations.h:1907
-#, fuzzy
 msgid "Roma/Ciampino"
-msgstr "루마니아"
+msgstr ""
 
 #: my-evolution/Locations.h:1908
 msgid "Roma/Fiumicino"
@@ -21805,9 +21090,8 @@ msgid "Roosevelt"
 msgstr ""
 
 #: my-evolution/Locations.h:1915
-#, fuzzy
 msgid "Roros"
-msgstr "방"
+msgstr ""
 
 #: my-evolution/Locations.h:1916
 msgid "Rorvik/Ryum"
@@ -21826,9 +21110,8 @@ msgid "Roseglen"
 msgstr ""
 
 #: my-evolution/Locations.h:1920
-#, fuzzy
 msgid "Rost"
-msgstr "호스트:"
+msgstr ""
 
 #: my-evolution/Locations.h:1921
 msgid "Rostov-Na-Donu"
@@ -21851,23 +21134,20 @@ msgid "Ruidoso-Sierra Blanca"
 msgstr ""
 
 #: my-evolution/Locations.h:1926
-#, fuzzy
 msgid "Rurrenabaque"
-msgstr "반복"
+msgstr ""
 
 #: my-evolution/Locations.h:1927
 msgid "Russell"
 msgstr ""
 
 #: my-evolution/Locations.h:1928
-#, fuzzy
 msgid "Russia"
-msgstr "오스트리아"
+msgstr ""
 
 #: my-evolution/Locations.h:1929
-#, fuzzy
 msgid "Rutland"
-msgstr "부탄"
+msgstr ""
 
 #: my-evolution/Locations.h:1930
 msgid "Rygge"
@@ -21886,9 +21166,8 @@ msgid "Sabine Pass"
 msgstr ""
 
 #: my-evolution/Locations.h:1934
-#, fuzzy
 msgid "Sacramento"
-msgstr "첨부"
+msgstr ""
 
 #: my-evolution/Locations.h:1935
 msgid "Sacramento-Woodland"
@@ -21899,9 +21178,8 @@ msgid "Safford-Municipal Airport"
 msgstr ""
 
 #: my-evolution/Locations.h:1937
-#, fuzzy
 msgid "Saginaw"
-msgstr "스페인"
+msgstr ""
 
 #: my-evolution/Locations.h:1938
 msgid "Saint Anthony"
@@ -21920,14 +21198,12 @@ msgid "Saint-Etienne-Boutheon"
 msgstr ""
 
 #: my-evolution/Locations.h:1942
-#, fuzzy
 msgid "Saint Mary's"
-msgstr "산마리노"
+msgstr ""
 
 #: my-evolution/Locations.h:1943
-#, fuzzy
 msgid "Saint Mawgan"
-msgstr "산마리노"
+msgstr ""
 
 #: my-evolution/Locations.h:1944
 msgid "Saint-Nazaire-Montoir"
@@ -21938,55 +21214,48 @@ msgid "Saint Paul"
 msgstr ""
 
 #: my-evolution/Locations.h:1946
-#, fuzzy
 msgid "Saiq"
-msgstr "스페인"
+msgstr ""
 
 #: my-evolution/Locations.h:1947
 msgid "Salalah"
 msgstr ""
 
 #: my-evolution/Locations.h:1948
-#, fuzzy
 msgid "Salem"
-msgstr "저장"
+msgstr ""
 
 #: my-evolution/Locations.h:1949
-#, fuzzy
 msgid "Salida"
-msgstr "소말리아"
+msgstr ""
 
 #: my-evolution/Locations.h:1950
 msgid "Salida-Harriet"
 msgstr ""
 
 #: my-evolution/Locations.h:1951
-#, fuzzy
 msgid "Salina"
-msgstr "소말리아"
+msgstr ""
 
 #: my-evolution/Locations.h:1952
-#, fuzzy
 msgid "Salinas"
-msgstr "소말리아"
+msgstr ""
 
 #: my-evolution/Locations.h:1953
 msgid "Salisbury"
 msgstr ""
 
 #: my-evolution/Locations.h:1954
-#, fuzzy
 msgid "Salmon"
-msgstr "사모아"
+msgstr ""
 
 #: my-evolution/Locations.h:1955
 msgid "Salmon (2)"
 msgstr ""
 
 #: my-evolution/Locations.h:1956
-#, fuzzy
 msgid "Salta"
-msgstr "마르타"
+msgstr ""
 
 #: my-evolution/Locations.h:1957
 msgid "Saltillo"
@@ -21997,37 +21266,32 @@ msgid "Salt Lake City"
 msgstr ""
 
 #: my-evolution/Locations.h:1959
-#, fuzzy
 msgid "Salto"
-msgstr "중지"
+msgstr ""
 
 #: my-evolution/Locations.h:1960
 msgid "Salt point"
 msgstr ""
 
 #: my-evolution/Locations.h:1961
-#, fuzzy
 msgid "Salvador"
-msgstr "엘 살바도르"
+msgstr ""
 
 #: my-evolution/Locations.h:1962
 msgid "Salzburg"
 msgstr ""
 
 #: my-evolution/Locations.h:1963
-#, fuzzy
 msgid "Samara"
-msgstr "사모아"
+msgstr ""
 
 #: my-evolution/Locations.h:1964
-#, fuzzy
 msgid "Samos"
-msgstr "사모아"
+msgstr ""
 
 #: my-evolution/Locations.h:1965
-#, fuzzy
 msgid "Samsun"
-msgstr "일(_n)"
+msgstr ""
 
 #: my-evolution/Locations.h:1966
 msgid "Sana'A"
@@ -22038,117 +21302,100 @@ msgid "San Andres Isla/Sesquicentenario"
 msgstr ""
 
 #: my-evolution/Locations.h:1968
-#, fuzzy
 msgid "San Angelo"
-msgstr "산마리노"
+msgstr ""
 
 #: my-evolution/Locations.h:1969
 msgid "San Antonio"
 msgstr "샌안토니오"
 
 #: my-evolution/Locations.h:1970
-#, fuzzy
 msgid "San Antonio Del Tachira"
-msgstr "샌안토니오"
+msgstr ""
 
 #: my-evolution/Locations.h:1971
 msgid "San Antonio-Kelly AFB"
 msgstr "샌안토니오 켈리 공군기지"
 
 #: my-evolution/Locations.h:1972
-#, fuzzy
 msgid "San Antonio-Stinson"
-msgstr "샌안토니오"
+msgstr ""
 
 #: my-evolution/Locations.h:1973
-#, fuzzy
 msgid "San Carlos"
-msgstr "산마리노"
+msgstr ""
 
 #: my-evolution/Locations.h:1974
-#, fuzzy
 msgid "Sandane"
-msgstr "수단"
+msgstr ""
 
 #: my-evolution/Locations.h:1975
-#, fuzzy
 msgid "Sandberg"
-msgstr "보낸이"
+msgstr ""
 
 #: my-evolution/Locations.h:1976
-#, fuzzy
 msgid "Sanderson"
-msgstr "보낸이"
+msgstr ""
 
 #: my-evolution/Locations.h:1977
 msgid "San Diego"
 msgstr "샌디에고"
 
 #: my-evolution/Locations.h:1978
-#, fuzzy
 msgid "San Diego-Brown"
-msgstr "샌디에고"
+msgstr ""
 
 #: my-evolution/Locations.h:1979
-#, fuzzy
 msgid "San Diego-Miramar"
-msgstr "샌디에고"
+msgstr ""
 
 #: my-evolution/Locations.h:1980
-#, fuzzy
 msgid "San Diego-Montgomery"
-msgstr "샌디에고"
+msgstr ""
 
 #: my-evolution/Locations.h:1981
-#, fuzzy
 msgid "San Diego-North Island"
-msgstr "샌디에고"
+msgstr ""
 
 #: my-evolution/Locations.h:1982
-#, fuzzy
 msgid "San Diego-Santee"
-msgstr "샌디에고"
+msgstr ""
 
 #: my-evolution/Locations.h:1983
 msgid "Sandnessjoen/Stokka"
 msgstr ""
 
 #: my-evolution/Locations.h:1984
-#, fuzzy
 msgid "Sand Point"
-msgstr "산마리노"
+msgstr ""
 
 #: my-evolution/Locations.h:1985
 msgid "San Fernando De Apure"
 msgstr ""
 
 #: my-evolution/Locations.h:1986
-#, fuzzy
 msgid "Sanford"
-msgstr "동안"
+msgstr ""
 
 #: my-evolution/Locations.h:1987
 msgid "San Francisco"
 msgstr "샌프란시스코"
 
 #: my-evolution/Locations.h:1988
-#, fuzzy
 msgid "Sangju"
-msgstr "명암"
+msgstr ""
 
 #: my-evolution/Locations.h:1989
 msgid "San Ignacio De Velasco"
 msgstr ""
 
 #: my-evolution/Locations.h:1990
-#, fuzzy
 msgid "San Joaquin"
-msgstr "산마리노"
+msgstr ""
 
 #: my-evolution/Locations.h:1991
-#, fuzzy
 msgid "San Jose"
-msgstr "저장후 마침"
+msgstr ""
 
 #: my-evolution/Locations.h:1992
 msgid "San Jose De Chiquitos"
@@ -22163,18 +21410,16 @@ msgid "San Jose-Santa Clara"
 msgstr ""
 
 #: my-evolution/Locations.h:1995
-#, fuzzy
 msgid "San Juan"
-msgstr "산마리노"
+msgstr ""
 
 #: my-evolution/Locations.h:1996
 msgid "Sankt-Peterburg"
 msgstr ""
 
 #: my-evolution/Locations.h:1997
-#, fuzzy
 msgid "Sanliurfa"
-msgstr "소말리아"
+msgstr ""
 
 #: my-evolution/Locations.h:1998
 msgid "San Luis Obispo"
@@ -22185,24 +21430,20 @@ msgid "San Luis Potosi"
 msgstr ""
 
 #: my-evolution/Locations.h:2000
-#, fuzzy
 msgid "San Miguel"
-msgstr "산마리노"
+msgstr ""
 
 #: my-evolution/Locations.h:2001
-#, fuzzy
 msgid "San Nicholas Island"
-msgstr "노퍽 섬"
+msgstr ""
 
 #: my-evolution/Locations.h:2002
-#, fuzzy
 msgid "San Salvador"
-msgstr "엘 살바도르"
+msgstr ""
 
 #: my-evolution/Locations.h:2003
-#, fuzzy
 msgid "San Sebastian"
-msgstr "산마리노"
+msgstr ""
 
 #: my-evolution/Locations.h:2004
 msgid "Santa Ana"
@@ -22221,9 +21462,8 @@ msgid "Santa Fe"
 msgstr ""
 
 #: my-evolution/Locations.h:2008
-#, fuzzy
 msgid "Santa Maria"
-msgstr "산마리노"
+msgstr ""
 
 #: my-evolution/Locations.h:2009
 msgid "Santa Marta/Simon Bolivar"
@@ -22234,14 +21474,12 @@ msgid "Santa Monica"
 msgstr ""
 
 #: my-evolution/Locations.h:2011
-#, fuzzy
 msgid "Santander"
-msgstr "보낸이"
+msgstr ""
 
 #: my-evolution/Locations.h:2012
-#, fuzzy
 msgid "Santarem"
-msgstr "카타르"
+msgstr ""
 
 #: my-evolution/Locations.h:2013
 msgid "Santa Rosa"
@@ -22264,14 +21502,12 @@ msgid "Santiago Del Estero"
 msgstr ""
 
 #: my-evolution/Locations.h:2018
-#, fuzzy
 msgid "Santorini"
-msgstr "산마리노"
+msgstr ""
 
 #: my-evolution/Locations.h:2019
-#, fuzzy
 msgid "Santos"
-msgstr "상태"
+msgstr ""
 
 #: my-evolution/Locations.h:2020
 msgid "Sao Jose Dos Campo"
@@ -22298,18 +21534,16 @@ msgid "Saranac Lake"
 msgstr ""
 
 #: my-evolution/Locations.h:2026
-#, fuzzy
 msgid "Sarasota"
-msgstr "사모아"
+msgstr ""
 
 #: my-evolution/Locations.h:2027
 msgid "Saratov"
 msgstr ""
 
 #: my-evolution/Locations.h:2028
-#, fuzzy
 msgid "Sarzana"
-msgstr "스리랑카"
+msgstr ""
 
 #: my-evolution/Locations.h:2029
 msgid "Saskatchewan"
@@ -22340,14 +21574,12 @@ msgid "Sawyer AFB"
 msgstr ""
 
 #: my-evolution/Locations.h:2037
-#, fuzzy
 msgid "Sayun"
-msgstr "일(_n)"
+msgstr ""
 
 #: my-evolution/Locations.h:2038
-#, fuzzy
 msgid "Scatsta"
-msgstr "상태"
+msgstr ""
 
 #: my-evolution/Locations.h:2039
 msgid "Schaffen"
@@ -22370,28 +21602,24 @@ msgid "Scottsdale"
 msgstr ""
 
 #: my-evolution/Locations.h:2044
-#, fuzzy
 msgid "Scranton"
-msgstr "조직"
+msgstr ""
 
 #: my-evolution/Locations.h:2045
 msgid "Seattle"
 msgstr ""
 
 #: my-evolution/Locations.h:2046
-#, fuzzy
 msgid "Seattle-Boeing"
-msgstr "설정"
+msgstr ""
 
 #: my-evolution/Locations.h:2047
-#, fuzzy
 msgid "Sedalia"
-msgstr "소말리아"
+msgstr ""
 
 #: my-evolution/Locations.h:2048
-#, fuzzy
 msgid "Seeb"
-msgstr "구월"
+msgstr ""
 
 #: my-evolution/Locations.h:2049
 msgid "Selanik"
@@ -22410,9 +21638,8 @@ msgid "Seoul/Kimp'O International Airport"
 msgstr "서울/김포 국제 공항"
 
 #: my-evolution/Locations.h:2053
-#, fuzzy
 msgid "Seoul/Yongdungp'O Rokaf Wc"
-msgstr "서울/영등포 공군기지"
+msgstr ""
 
 #: my-evolution/Locations.h:2054
 msgid "Sept-Iles"
@@ -22427,73 +21654,64 @@ msgid "Sevilla"
 msgstr ""
 
 #: my-evolution/Locations.h:2057
-#, fuzzy
 msgid "Seward"
-msgstr "검색"
+msgstr ""
 
 #: my-evolution/Locations.h:2058
 msgid "Sexton Summit"
 msgstr ""
 
 #: my-evolution/Locations.h:2059
-#, fuzzy
 msgid "Shanghai"
-msgstr "명암"
+msgstr ""
 
 #: my-evolution/Locations.h:2060
 msgid "Shannon"
 msgstr ""
 
 #: my-evolution/Locations.h:2061
-#, fuzzy
 msgid "Sharjah"
-msgstr "검색"
+msgstr ""
 
 #: my-evolution/Locations.h:2062
 msgid "Sharm El Sheikhintl"
 msgstr ""
 
 #: my-evolution/Locations.h:2063
-#, fuzzy
 msgid "Sharurah"
-msgstr "토요일"
+msgstr ""
 
 #: my-evolution/Locations.h:2064
-#, fuzzy
 msgid "Shawbury"
-msgstr "토요일"
+msgstr ""
 
 #: my-evolution/Locations.h:2065
-#, fuzzy
 msgid "Shearwater"
-msgstr "시작한 날"
+msgstr ""
 
 #: my-evolution/Locations.h:2066
 msgid "Sheboygan"
 msgstr ""
 
 #: my-evolution/Locations.h:2067
-#, fuzzy
 msgid "Sheldon"
-msgstr "스웨덴"
+msgstr ""
 
 #: my-evolution/Locations.h:2068
 msgid "Shelter Cove"
 msgstr ""
 
 #: my-evolution/Locations.h:2069
-#, fuzzy
 msgid "Shelton"
-msgstr "선택:"
+msgstr ""
 
 #: my-evolution/Locations.h:2070
 msgid "Shenandoah"
 msgstr ""
 
 #: my-evolution/Locations.h:2071
-#, fuzzy
 msgid "Sheridan"
-msgstr "수단"
+msgstr ""
 
 #: my-evolution/Locations.h:2072
 msgid "Sherman-Denison"
@@ -22508,9 +21726,8 @@ msgid "Shingle Point"
 msgstr ""
 
 #: my-evolution/Locations.h:2075
-#, fuzzy
 msgid "Shiraz"
-msgstr "크기"
+msgstr ""
 
 #: my-evolution/Locations.h:2076
 msgid "Shishmaref"
@@ -22525,9 +21742,8 @@ msgid "Shoreham"
 msgstr ""
 
 #: my-evolution/Locations.h:2079
-#, fuzzy
 msgid "Show Low"
-msgstr "한주씩 봅니다"
+msgstr ""
 
 #: my-evolution/Locations.h:2080
 msgid "Shreveport Downtown"
@@ -22538,9 +21754,8 @@ msgid "Shreveport Regional"
 msgstr ""
 
 #: my-evolution/Locations.h:2082
-#, fuzzy
 msgid "Sidney"
-msgstr "크기"
+msgstr ""
 
 #: my-evolution/Locations.h:2083
 msgid "Sigonella"
@@ -22551,14 +21766,12 @@ msgid "Siloam Springs"
 msgstr ""
 
 #: my-evolution/Locations.h:2085
-#, fuzzy
 msgid "Silver City"
-msgstr "보안"
+msgstr ""
 
 #: my-evolution/Locations.h:2086
-#, fuzzy
 msgid "Sindal"
-msgstr "일요일"
+msgstr ""
 
 #: my-evolution/Locations.h:2088
 msgid "Sioux City"
@@ -22593,28 +21806,24 @@ msgid "Skien/Geiteryggen"
 msgstr ""
 
 #: my-evolution/Locations.h:2096
-#, fuzzy
 msgid "Skive"
-msgstr "저장"
+msgstr ""
 
 #: my-evolution/Locations.h:2097
-#, fuzzy
 msgid "Skopje"
-msgstr "중지"
+msgstr ""
 
 #: my-evolution/Locations.h:2098
 msgid "Skwentna"
 msgstr ""
 
 #: my-evolution/Locations.h:2099
-#, fuzzy
 msgid "Slana"
-msgstr "알바니아"
+msgstr ""
 
 #: my-evolution/Locations.h:2102
-#, fuzzy
 msgid "Smithers"
-msgstr "소나기"
+msgstr ""
 
 #: my-evolution/Locations.h:2103
 msgid "Smyrna"
@@ -22625,9 +21834,8 @@ msgid "Snowshoe Lake"
 msgstr ""
 
 #: my-evolution/Locations.h:2105
-#, fuzzy
 msgid "Sochi"
-msgstr "남"
+msgstr ""
 
 #: my-evolution/Locations.h:2106
 msgid "Socorro"
@@ -22642,29 +21850,24 @@ msgid "Soda Springs"
 msgstr ""
 
 #: my-evolution/Locations.h:2109
-#, fuzzy
 msgid "Sofia"
-msgstr "소말리아"
+msgstr ""
 
 #: my-evolution/Locations.h:2110
-#, fuzzy
 msgid "Sogndal"
-msgstr "우간다"
+msgstr ""
 
 #: my-evolution/Locations.h:2111
-#, fuzzy
 msgid "Soldotna"
-msgstr "슬로베니아"
+msgstr ""
 
 #: my-evolution/Locations.h:2112
-#, fuzzy
 msgid "Somerset"
-msgstr "소나기"
+msgstr ""
 
 #: my-evolution/Locations.h:2113
-#, fuzzy
 msgid "Sonderborg"
-msgstr "보낸이"
+msgstr ""
 
 #: my-evolution/Locations.h:2114
 msgid "Songmu Ab"
@@ -22675,34 +21878,28 @@ msgid "Sorkjosen"
 msgstr ""
 
 #: my-evolution/Locations.h:2117
-#, fuzzy
 msgid "Southampton"
-msgstr "남동"
+msgstr ""
 
 #: my-evolution/Locations.h:2118
-#, fuzzy
 msgid "South Bend"
-msgstr "남"
+msgstr ""
 
 #: my-evolution/Locations.h:2119
-#, fuzzy
 msgid "South Carolina"
-msgstr "남 아프리카 공화국"
+msgstr ""
 
 #: my-evolution/Locations.h:2120
-#, fuzzy
 msgid "South Dakota"
-msgstr "남동"
+msgstr ""
 
 #: my-evolution/Locations.h:2121
-#, fuzzy
 msgid "Southend"
-msgstr "남"
+msgstr ""
 
 #: my-evolution/Locations.h:2122
-#, fuzzy
 msgid "South Marsh Island"
-msgstr "마샬 제도"
+msgstr ""
 
 #: my-evolution/Locations.h:2123
 msgid "South Timbalier"
@@ -22713,23 +21910,20 @@ msgid "Sparrevohn"
 msgstr ""
 
 #: my-evolution/Locations.h:2126
-#, fuzzy
 msgid "Spencer"
-msgstr "보낸이"
+msgstr ""
 
 #: my-evolution/Locations.h:2127
 msgid "Spickard"
 msgstr ""
 
 #: my-evolution/Locations.h:2128
-#, fuzzy
 msgid "Split"
-msgstr "스페인"
+msgstr ""
 
 #: my-evolution/Locations.h:2129
-#, fuzzy
 msgid "Spokane"
-msgstr "스페인"
+msgstr ""
 
 #: my-evolution/Locations.h:2130
 msgid "Spokane-Parkwater"
@@ -22740,23 +21934,20 @@ msgid "Springbok"
 msgstr ""
 
 #: my-evolution/Locations.h:2132
-#, fuzzy
 msgid "Springfield"
-msgstr "간체"
+msgstr ""
 
 #: my-evolution/Locations.h:2133
 msgid "Stampede Pass"
 msgstr ""
 
 #: my-evolution/Locations.h:2134
-#, fuzzy
 msgid "State College"
-msgstr "완료된 날짜:"
+msgstr ""
 
 #: my-evolution/Locations.h:2135
-#, fuzzy
 msgid "Stauning"
-msgstr "시작:"
+msgstr ""
 
 #: my-evolution/Locations.h:2136
 msgid "Staunton"
@@ -22767,14 +21958,12 @@ msgid "Stavanger/Sola"
 msgstr ""
 
 #: my-evolution/Locations.h:2138
-#, fuzzy
 msgid "Staverton"
-msgstr "시작:"
+msgstr ""
 
 #: my-evolution/Locations.h:2139
-#, fuzzy
 msgid "Stavropol"
-msgstr "중지"
+msgstr ""
 
 #: my-evolution/Locations.h:2140
 msgid "St Cloud"
@@ -22785,9 +21974,8 @@ msgid "Steamboat Springs"
 msgstr ""
 
 #: my-evolution/Locations.h:2142
-#, fuzzy
 msgid "Stephenville"
-msgstr "세이셸"
+msgstr ""
 
 #: my-evolution/Locations.h:2143
 msgid "St. George"
@@ -22806,14 +21994,12 @@ msgid "St Johnsbury"
 msgstr ""
 
 #: my-evolution/Locations.h:2147
-#, fuzzy
 msgid "St Joseph"
-msgstr "중지"
+msgstr ""
 
 #: my-evolution/Locations.h:2148
-#, fuzzy
 msgid "St Louis"
-msgstr "읽기 중지"
+msgstr ""
 
 #: my-evolution/Locations.h:2149
 msgid "St Louis-Spirit"
@@ -22840,19 +22026,16 @@ msgid "Stord/Sorstokken"
 msgstr ""
 
 #: my-evolution/Locations.h:2155
-#, fuzzy
 msgid "Storm Lake"
-msgstr "스리랑카"
+msgstr ""
 
 #: my-evolution/Locations.h:2156
-#, fuzzy
 msgid "Stornoway"
-msgstr "노르웨이"
+msgstr ""
 
 #: my-evolution/Locations.h:2157
-#, fuzzy
 msgid "St Paul"
-msgstr "상태"
+msgstr ""
 
 #: my-evolution/Locations.h:2158
 msgid "St Petersburg"
@@ -22871,37 +22054,32 @@ msgid "Strevell"
 msgstr ""
 
 #: my-evolution/Locations.h:2162
-#, fuzzy
 msgid "St Simon's Island"
-msgstr "솔로몬 제도"
+msgstr ""
 
 #: my-evolution/Locations.h:2163
 msgid "Stumpy Point"
 msgstr ""
 
 #: my-evolution/Locations.h:2164
-#, fuzzy
 msgid "Sturgeon Bay"
-msgstr "토요일"
+msgstr ""
 
 #: my-evolution/Locations.h:2165
 msgid "Stuttgart"
 msgstr ""
 
 #: my-evolution/Locations.h:2166
-#, fuzzy
 msgid "Sucre"
-msgstr "구독"
+msgstr ""
 
 #: my-evolution/Locations.h:2167
-#, fuzzy
 msgid "Sumburgh"
-msgstr "룩셈부르크"
+msgstr ""
 
 #: my-evolution/Locations.h:2168
-#, fuzzy
 msgid "Sumter"
-msgstr "요약"
+msgstr ""
 
 #: my-evolution/Locations.h:2169
 msgid "Sumter (2)"
@@ -22920,9 +22098,8 @@ msgid "Superior"
 msgstr ""
 
 #: my-evolution/Locations.h:2174
-#, fuzzy
 msgid "Sutton"
-msgstr "중지"
+msgstr ""
 
 #: my-evolution/Locations.h:2175
 msgid "Suwon Ab"
@@ -22965,27 +22142,24 @@ msgid "Szombathely"
 msgstr ""
 
 #: my-evolution/Locations.h:2187
-#, fuzzy
 msgid "Tabatinga"
-msgstr "번체"
+msgstr ""
 
 #: my-evolution/Locations.h:2188
 msgid "Tabriz"
 msgstr ""
 
 #: my-evolution/Locations.h:2189
-#, fuzzy
 msgid "Tabuk"
-msgstr "일정"
+msgstr ""
 
 #: my-evolution/Locations.h:2190
 msgid "Tachikawa Ab"
 msgstr ""
 
 #: my-evolution/Locations.h:2191
-#, fuzzy
 msgid "Tacna"
-msgstr "통가"
+msgstr ""
 
 #: my-evolution/Locations.h:2192
 msgid "Tacoma"
@@ -23020,29 +22194,24 @@ msgid "Taichung"
 msgstr ""
 
 #: my-evolution/Locations.h:2200
-#, fuzzy
 msgid "Taif"
-msgstr "대만"
+msgstr ""
 
 #: my-evolution/Locations.h:2201
-#, fuzzy
 msgid "Tainan"
-msgstr "대만"
+msgstr ""
 
 #: my-evolution/Locations.h:2203
-#, fuzzy
 msgid "Taiyuan"
-msgstr "대만"
+msgstr ""
 
 #: my-evolution/Locations.h:2204
-#, fuzzy
 msgid "Taiz"
-msgstr "대만"
+msgstr ""
 
 #: my-evolution/Locations.h:2205
-#, fuzzy
 msgid "Tajima"
-msgstr "대만"
+msgstr ""
 
 #: my-evolution/Locations.h:2206
 msgid "Takamatsu Airport"
@@ -23061,9 +22230,8 @@ msgid "Tallahassee"
 msgstr ""
 
 #: my-evolution/Locations.h:2210
-#, fuzzy
 msgid "Tallinn"
-msgstr "대만"
+msgstr ""
 
 #: my-evolution/Locations.h:2211
 msgid "Tamanrasset"
@@ -23074,69 +22242,60 @@ msgid "Tamanrasset/Aguenna"
 msgstr ""
 
 #: my-evolution/Locations.h:2213
-#, fuzzy
 msgid "Tampa"
-msgstr "사모아"
+msgstr ""
 
 #: my-evolution/Locations.h:2214
 msgid "Tampa-Macdill AFB"
 msgstr ""
 
 #: my-evolution/Locations.h:2215
-#, fuzzy
 msgid "Tampere"
-msgstr "종이"
+msgstr ""
 
 #: my-evolution/Locations.h:2216
 msgid "Tampico"
 msgstr ""
 
 #: my-evolution/Locations.h:2217
-#, fuzzy
 msgid "Tanana"
-msgstr "대만"
+msgstr ""
 
 #: my-evolution/Locations.h:2218
 msgid "Tanegashima Airport"
 msgstr ""
 
 #: my-evolution/Locations.h:2219
-#, fuzzy
 msgid "Taos"
-msgstr "라오스"
+msgstr ""
 
 #: my-evolution/Locations.h:2220
-#, fuzzy
 msgid "Taoyuan"
-msgstr "대만"
+msgstr ""
 
 #: my-evolution/Locations.h:2221
 msgid "Tapachula"
 msgstr ""
 
 #: my-evolution/Locations.h:2222
-#, fuzzy
 msgid "Taranto"
-msgstr "대만"
+msgstr ""
 
 #: my-evolution/Locations.h:2223
-#, fuzzy
 msgid "Tarbes"
-msgstr "테스트"
+msgstr ""
 
 #: my-evolution/Locations.h:2224
-#, fuzzy
 msgid "Tarija"
-msgstr "대만"
+msgstr ""
 
 #: my-evolution/Locations.h:2225
 msgid "Tarvisio"
 msgstr ""
 
 #: my-evolution/Locations.h:2226
-#, fuzzy
 msgid "Tatalina"
-msgstr "번체"
+msgstr ""
 
 #: my-evolution/Locations.h:2227
 msgid "Tateyama Ab"
@@ -23163,9 +22322,8 @@ msgid "Tehran-Mehrabad"
 msgstr ""
 
 #: my-evolution/Locations.h:2233
-#, fuzzy
 msgid "Tela"
-msgstr "다시 읽음"
+msgstr ""
 
 #: my-evolution/Locations.h:2234
 msgid "Temple"
@@ -23200,14 +22358,12 @@ msgid "Texarkana"
 msgstr ""
 
 #: my-evolution/Locations.h:2242
-#, fuzzy
 msgid "Texas"
-msgstr "테스트"
+msgstr "텍사스"
 
 #: my-evolution/Locations.h:2243
-#, fuzzy
 msgid "The Dalles"
-msgstr "세이셸"
+msgstr ""
 
 #: my-evolution/Locations.h:2244
 msgid "Thessaloniki"
@@ -23222,28 +22378,24 @@ msgid "Thiruvananthapuram"
 msgstr ""
 
 #: my-evolution/Locations.h:2247
-#, fuzzy
 msgid "Thisted"
-msgstr "제목"
+msgstr ""
 
 #: my-evolution/Locations.h:2248
 msgid "Thompson Falls"
 msgstr ""
 
 #: my-evolution/Locations.h:2249
-#, fuzzy
 msgid "Thumrait"
-msgstr "목요일"
+msgstr ""
 
 #: my-evolution/Locations.h:2250
-#, fuzzy
 msgid "Tianjin"
-msgstr "대만"
+msgstr ""
 
 #: my-evolution/Locations.h:2251
-#, fuzzy
 msgid "Tijuana"
-msgstr "리투아니아"
+msgstr ""
 
 #: my-evolution/Locations.h:2252
 msgid "Timisoara"
@@ -23254,14 +22406,12 @@ msgid "Tin City"
 msgstr ""
 
 #: my-evolution/Locations.h:2254
-#, fuzzy
 msgid "Tirana"
-msgstr "대만"
+msgstr ""
 
 #: my-evolution/Locations.h:2255
-#, fuzzy
 msgid "Tiree"
-msgstr "그리스어"
+msgstr ""
 
 #: my-evolution/Locations.h:2256
 msgid "Tirgu Mures"
@@ -23272,14 +22422,12 @@ msgid "Tiruchchirapalli"
 msgstr ""
 
 #: my-evolution/Locations.h:2258
-#, fuzzy
 msgid "Titusville"
-msgstr "제목"
+msgstr ""
 
 #: my-evolution/Locations.h:2259
-#, fuzzy
 msgid "Tivat"
-msgstr "개인"
+msgstr ""
 
 #: my-evolution/Locations.h:2260
 msgid "Tlemcen Zenata"
@@ -23302,18 +22450,16 @@ msgid "Tokachi GSDF"
 msgstr ""
 
 #: my-evolution/Locations.h:2265
-#, fuzzy
 msgid "Tokunoshima Island"
-msgstr "크리스마스 섬"
+msgstr ""
 
 #: my-evolution/Locations.h:2266
 msgid "Tokushima Ab"
 msgstr ""
 
 #: my-evolution/Locations.h:2267
-#, fuzzy
 msgid "Tokyo Heliport"
-msgstr "도쿄 국제공항"
+msgstr ""
 
 #: my-evolution/Locations.h:2268
 msgid "Tokyo International Airport"
@@ -23332,14 +22478,12 @@ msgid "Toluca"
 msgstr ""
 
 #: my-evolution/Locations.h:2272
-#, fuzzy
 msgid "Tonopah"
-msgstr "통가"
+msgstr ""
 
 #: my-evolution/Locations.h:2273
-#, fuzzy
 msgid "Topeka"
-msgstr "위:"
+msgstr ""
 
 #: my-evolution/Locations.h:2274
 msgid "Topeka-Forbes Field"
@@ -23358,29 +22502,24 @@ msgid "Toronto"
 msgstr ""
 
 #: my-evolution/Locations.h:2278
-#, fuzzy
 msgid "Torp"
-msgstr "위:"
+msgstr ""
 
 #: my-evolution/Locations.h:2279
-#, fuzzy
 msgid "Torrance"
-msgstr "프랑스"
+msgstr ""
 
 #: my-evolution/Locations.h:2280
-#, fuzzy
 msgid "Torreon"
-msgstr "한국어"
+msgstr ""
 
 #: my-evolution/Locations.h:2281
-#, fuzzy
 msgid "Tottori Airport"
-msgstr "시작 날짜(_S):"
+msgstr ""
 
 #: my-evolution/Locations.h:2282
-#, fuzzy
 msgid "Toulouse"
-msgstr "닫기"
+msgstr ""
 
 #: my-evolution/Locations.h:2283
 msgid "Toul-Rosieres"
@@ -23403,33 +22542,28 @@ msgid "Toyama Airport"
 msgstr ""
 
 #: my-evolution/Locations.h:2288
-#, fuzzy
 msgid "Trabzon"
-msgstr "가봉"
+msgstr ""
 
 #: my-evolution/Locations.h:2289
-#, fuzzy
 msgid "Trapani"
-msgstr "일본"
+msgstr ""
 
 #: my-evolution/Locations.h:2290
 msgid "Traverse City"
 msgstr ""
 
 #: my-evolution/Locations.h:2291
-#, fuzzy
 msgid "Trelew"
-msgstr "미리보기"
+msgstr ""
 
 #: my-evolution/Locations.h:2292
-#, fuzzy
 msgid "Trenton"
-msgstr "방향"
+msgstr ""
 
 #: my-evolution/Locations.h:2293
-#, fuzzy
 msgid "Trevico"
-msgstr "이전"
+msgstr ""
 
 #: my-evolution/Locations.h:2294
 msgid "Treviso/Istrana"
@@ -23440,9 +22574,8 @@ msgid "Treviso/S.Angelo"
 msgstr ""
 
 #: my-evolution/Locations.h:2296
-#, fuzzy
 msgid "Trieste"
-msgstr "테스트"
+msgstr ""
 
 #: my-evolution/Locations.h:2297
 msgid "Trinidad"
@@ -23469,9 +22602,8 @@ msgid "Troyes/Barberey"
 msgstr ""
 
 #: my-evolution/Locations.h:2303
-#, fuzzy
 msgid "Truckee"
-msgstr "터키"
+msgstr ""
 
 #: my-evolution/Locations.h:2304
 msgid "Truth or Consequences"
@@ -23510,34 +22642,28 @@ msgid "Tulancingo"
 msgstr ""
 
 #: my-evolution/Locations.h:2313
-#, fuzzy
 msgid "Tulcea"
-msgstr "화요일"
+msgstr ""
 
 #: my-evolution/Locations.h:2314
-#, fuzzy
 msgid "Tulsa"
-msgstr "화요일"
+msgstr ""
 
 #: my-evolution/Locations.h:2315
-#, fuzzy
 msgid "Tupelo"
-msgstr "화(_u)"
+msgstr ""
 
 #: my-evolution/Locations.h:2316
-#, fuzzy
 msgid "Turaif"
-msgstr "터키어"
+msgstr ""
 
 #: my-evolution/Locations.h:2317
-#, fuzzy
 msgid "Turin"
-msgstr "터키어"
+msgstr ""
 
 #: my-evolution/Locations.h:2319
-#, fuzzy
 msgid "Turku"
-msgstr "터키"
+msgstr ""
 
 #: my-evolution/Locations.h:2320
 msgid "Tuscaloosa"
@@ -23548,9 +22674,8 @@ msgid "Tuxtla Gutierrez"
 msgstr ""
 
 #: my-evolution/Locations.h:2322
-#, fuzzy
 msgid "Twenthe"
-msgstr "잠정적"
+msgstr ""
 
 #: my-evolution/Locations.h:2323
 msgid "Twentynine Palms"
@@ -23561,18 +22686,16 @@ msgid "Twin Falls"
 msgstr ""
 
 #: my-evolution/Locations.h:2325
-#, fuzzy
 msgid "Tyler"
-msgstr "연도"
+msgstr ""
 
 #: my-evolution/Locations.h:2326
 msgid "Tyndall AFB"
 msgstr ""
 
 #: my-evolution/Locations.h:2327
-#, fuzzy
 msgid "Tyumen"
-msgstr "동작 선택"
+msgstr ""
 
 #: my-evolution/Locations.h:2328
 msgid "Uberaba"
@@ -23623,14 +22746,12 @@ msgid "Upington"
 msgstr ""
 
 #: my-evolution/Locations.h:2343
-#, fuzzy
 msgid "Uruapan"
-msgstr "일본"
+msgstr ""
 
 #: my-evolution/Locations.h:2344
-#, fuzzy
 msgid "Uruguaiana"
-msgstr "우르과이"
+msgstr ""
 
 #: my-evolution/Locations.h:2346
 msgid "Urumqi"
@@ -23661,32 +22782,28 @@ msgid "Vadso"
 msgstr ""
 
 #: my-evolution/Locations.h:2353
-#, fuzzy
 msgid "Vaerlose"
-msgstr "닫기"
+msgstr ""
 
 #: my-evolution/Locations.h:2354
-#, fuzzy
 msgid "Vagar"
-msgstr "카타르"
+msgstr ""
 
 #: my-evolution/Locations.h:2355
 msgid "Valdez 2"
 msgstr ""
 
 #: my-evolution/Locations.h:2356
-#, fuzzy
 msgid "Valdosta"
-msgstr "마르타"
+msgstr ""
 
 #: my-evolution/Locations.h:2357
 msgid "Valdosta-Moody AFB"
 msgstr ""
 
 #: my-evolution/Locations.h:2358
-#, fuzzy
 msgid "Valencia"
-msgstr "슬로베니아"
+msgstr ""
 
 #: my-evolution/Locations.h:2359
 msgid "Valentine"
@@ -23713,18 +22830,16 @@ msgid "Valparaiso-Eglin AFB"
 msgstr ""
 
 #: my-evolution/Locations.h:2365
-#, fuzzy
 msgid "Van"
-msgstr "바누아투"
+msgstr ""
 
 #: my-evolution/Locations.h:2366
 msgid "Vancouver"
 msgstr ""
 
 #: my-evolution/Locations.h:2367
-#, fuzzy
 msgid "Vandel"
-msgstr "취소됨"
+msgstr ""
 
 #: my-evolution/Locations.h:2368
 msgid "Vandenberg AFB"
@@ -23739,37 +22854,32 @@ msgid "Van Nuys"
 msgstr ""
 
 #: my-evolution/Locations.h:2371
-#, fuzzy
 msgid "Varadero"
-msgstr "바르바도스"
+msgstr ""
 
 #: my-evolution/Locations.h:2372
 msgid "Varanasi/Babatpur"
 msgstr ""
 
 #: my-evolution/Locations.h:2373
-#, fuzzy
 msgid "Varna"
-msgstr "바누아투"
+msgstr ""
 
 #: my-evolution/Locations.h:2374
-#, fuzzy
 msgid "Vasteras"
-msgstr "붙이기"
+msgstr ""
 
 #: my-evolution/Locations.h:2375
 msgid "Vaxjo"
 msgstr ""
 
 #: my-evolution/Locations.h:2376
-#, fuzzy
 msgid "Venezia"
-msgstr "베네수엘라"
+msgstr ""
 
 #: my-evolution/Locations.h:2378
-#, fuzzy
 msgid "Venice"
-msgstr "유니코드"
+msgstr ""
 
 #: my-evolution/Locations.h:2379
 msgid "Veracruz"
@@ -23780,23 +22890,20 @@ msgid "Vermillion"
 msgstr ""
 
 #: my-evolution/Locations.h:2381
-#, fuzzy
 msgid "Vermont"
-msgstr "달"
+msgstr ""
 
 #: my-evolution/Locations.h:2382
-#, fuzzy
 msgid "Vernal"
-msgstr "일반 정보"
+msgstr ""
 
 #: my-evolution/Locations.h:2383
 msgid "Vero Beach"
 msgstr ""
 
 #: my-evolution/Locations.h:2384
-#, fuzzy
 msgid "Vicenza"
-msgstr "베네수엘라"
+msgstr ""
 
 #: my-evolution/Locations.h:2385
 msgid "Vichy-Charmeil"
@@ -23819,9 +22926,8 @@ msgid "Vigo"
 msgstr ""
 
 #: my-evolution/Locations.h:2391
-#, fuzzy
 msgid "Vilhena"
-msgstr "파일 이름:"
+msgstr ""
 
 #: my-evolution/Locations.h:2392
 msgid "Villacoublay"
@@ -23888,9 +22994,8 @@ msgid "Vladivostok"
 msgstr ""
 
 #: my-evolution/Locations.h:2408
-#, fuzzy
 msgid "Vlieland"
-msgstr "아이랜드"
+msgstr ""
 
 #: my-evolution/Locations.h:2409
 msgid "Vojens/Skrydstrup"
@@ -23905,9 +23010,8 @@ msgid "Volkel"
 msgstr ""
 
 #: my-evolution/Locations.h:2412
-#, fuzzy
 msgid "Volk Field"
-msgstr "발신 항목(_F)"
+msgstr ""
 
 #: my-evolution/Locations.h:2413
 msgid "Voronezh"
@@ -23918,9 +23022,8 @@ msgid "Voslau"
 msgstr ""
 
 #: my-evolution/Locations.h:2415
-#, fuzzy
 msgid "Waco"
-msgstr "모나코"
+msgstr ""
 
 #: my-evolution/Locations.h:2416
 msgid "Wadi Al Dawasser Airport"
@@ -23943,18 +23046,16 @@ msgid "Walla Walla"
 msgstr ""
 
 #: my-evolution/Locations.h:2421
-#, fuzzy
 msgid "Wallops Island"
-msgstr "마샬 제도"
+msgstr ""
 
 #: my-evolution/Locations.h:2422
 msgid "Walnut Ridge"
 msgstr ""
 
 #: my-evolution/Locations.h:2423
-#, fuzzy
 msgid "Warner Robins"
-msgstr "경고"
+msgstr ""
 
 #: my-evolution/Locations.h:2424
 msgid "Warroad"
@@ -23969,38 +23070,32 @@ msgid "Washington"
 msgstr "워싱턴"
 
 #: my-evolution/Locations.h:2427
-#, fuzzy
 msgid "Washington/Dulles"
-msgstr "워싱턴/Dulles"
+msgstr ""
 
 #: my-evolution/Locations.h:2428
-#, fuzzy
 msgid "Waterbury"
-msgstr "날씨"
+msgstr ""
 
 #: my-evolution/Locations.h:2429
-#, fuzzy
 msgid "Waterloo"
-msgstr "날씨"
+msgstr "워털루"
 
 #: my-evolution/Locations.h:2430
-#, fuzzy
 msgid "Watertown"
-msgstr "날씨"
+msgstr ""
 
 #: my-evolution/Locations.h:2431
-#, fuzzy
 msgid "Waterville"
-msgstr "목록"
+msgstr ""
 
 #: my-evolution/Locations.h:2432
 msgid "Waukesha"
 msgstr ""
 
 #: my-evolution/Locations.h:2433
-#, fuzzy
 msgid "Wausau"
-msgstr "바누아투"
+msgstr ""
 
 #: my-evolution/Locations.h:2434
 msgid "Waycross"
@@ -24011,9 +23106,8 @@ msgid "Waynesboro"
 msgstr ""
 
 #: my-evolution/Locations.h:2436
-#, fuzzy
 msgid "Webster City"
-msgstr "웹 사이트"
+msgstr ""
 
 #: my-evolution/Locations.h:2437
 msgid "Wejh"
@@ -24024,33 +23118,28 @@ msgid "Wellington"
 msgstr ""
 
 #: my-evolution/Locations.h:2439
-#, fuzzy
 msgid "Wenatchee"
-msgstr "날씨"
+msgstr ""
 
 #: my-evolution/Locations.h:2440
-#, fuzzy
 msgid "Wendover"
-msgstr "보낸이"
+msgstr ""
 
 #: my-evolution/Locations.h:2441
 msgid "West Atlanta"
 msgstr ""
 
 #: my-evolution/Locations.h:2442
-#, fuzzy
 msgid "West Burke"
-msgstr "서부 유럽어"
+msgstr ""
 
 #: my-evolution/Locations.h:2443
-#, fuzzy
 msgid "Westerland"
-msgstr "네델란드"
+msgstr ""
 
 #: my-evolution/Locations.h:2444
-#, fuzzy
 msgid "Westfield"
-msgstr "서"
+msgstr ""
 
 #: my-evolution/Locations.h:2445
 msgid "Westhampton"
@@ -24073,14 +23162,12 @@ msgid "West Yellowstone (2)"
 msgstr ""
 
 #: my-evolution/Locations.h:2450
-#, fuzzy
 msgid "Wheeling"
-msgstr "회의"
+msgstr ""
 
 #: my-evolution/Locations.h:2451
-#, fuzzy
 msgid "Whidbey Island"
-msgstr "크리스마스 섬"
+msgstr ""
 
 #: my-evolution/Locations.h:2452
 msgid "Whitefield"
@@ -24115,9 +23202,8 @@ msgid "Wichita-McConnell AFB"
 msgstr ""
 
 #: my-evolution/Locations.h:2460
-#, fuzzy
 msgid "Wick"
-msgstr "별명"
+msgstr ""
 
 #: my-evolution/Locations.h:2461
 msgid "Wien"
@@ -24156,9 +23242,8 @@ msgid "Wilmington"
 msgstr ""
 
 #: my-evolution/Locations.h:2470
-#, fuzzy
 msgid "Winchester"
-msgstr "리히텐슈타인"
+msgstr ""
 
 #: my-evolution/Locations.h:2471
 msgid "Windsor"
@@ -24181,9 +23266,8 @@ msgid "Winnipeg"
 msgstr ""
 
 #: my-evolution/Locations.h:2476
-#, fuzzy
 msgid "Winslow"
-msgstr "현재"
+msgstr ""
 
 #: my-evolution/Locations.h:2477
 msgid "Winston-Salem"
@@ -24194,18 +23278,16 @@ msgid "Winter Haven"
 msgstr ""
 
 #: my-evolution/Locations.h:2479
-#, fuzzy
 msgid "Winter Park"
-msgstr "비밀번호 입력"
+msgstr ""
 
 #: my-evolution/Locations.h:2480
 msgid "Wiscasset"
 msgstr ""
 
 #: my-evolution/Locations.h:2481
-#, fuzzy
 msgid "Wisconsin"
-msgstr "미크로네시아"
+msgstr "위스콘신"
 
 #: my-evolution/Locations.h:2482
 msgid "Wisconsin Rapids"
@@ -24224,29 +23306,24 @@ msgid "Wolf Point"
 msgstr ""
 
 #: my-evolution/Locations.h:2486
-#, fuzzy
 msgid "Woong Cheon"
-msgstr "홍콩"
+msgstr ""
 
 #: my-evolution/Locations.h:2487
-#, fuzzy
 msgid "Wooster"
-msgstr "꼬리말:"
+msgstr ""
 
 #: my-evolution/Locations.h:2488
-#, fuzzy
 msgid "Worcester"
-msgstr "씩 영원히"
+msgstr ""
 
 #: my-evolution/Locations.h:2489
-#, fuzzy
 msgid "Worland"
-msgstr "폴란드"
+msgstr ""
 
 #: my-evolution/Locations.h:2490
-#, fuzzy
 msgid "Worthington"
-msgstr "가져오기"
+msgstr ""
 
 #: my-evolution/Locations.h:2491
 msgid "Wrangell"
@@ -24261,14 +23338,12 @@ msgid "Wuchia Observatory"
 msgstr ""
 
 #: my-evolution/Locations.h:2494
-#, fuzzy
 msgid "Wyoming"
-msgstr "들어오는 것"
+msgstr ""
 
 #: my-evolution/Locations.h:2495
-#, fuzzy
 msgid "Xiamen"
-msgstr "이름"
+msgstr ""
 
 #: my-evolution/Locations.h:2496
 msgid "Yacuiba"
@@ -24303,9 +23378,8 @@ msgid "Yankton"
 msgstr ""
 
 #: my-evolution/Locations.h:2504
-#, fuzzy
 msgid "Yao Airport"
-msgstr "가져오지 말기"
+msgstr ""
 
 #: my-evolution/Locations.h:2505
 msgid "Yechon Ab"
@@ -24324,9 +23398,8 @@ msgid "Yellowstone"
 msgstr ""
 
 #: my-evolution/Locations.h:2510
-#, fuzzy
 msgid "Yenbo"
-msgstr "들어온 편지함"
+msgstr ""
 
 #: my-evolution/Locations.h:2511
 msgid "Yeoju Range"
@@ -24389,14 +23462,12 @@ msgid "Zacatecas"
 msgstr ""
 
 #: my-evolution/Locations.h:2527
-#, fuzzy
 msgid "Zadar"
-msgstr "달력"
+msgstr ""
 
 #: my-evolution/Locations.h:2528
-#, fuzzy
 msgid "Zagreb"
-msgstr "쪽"
+msgstr ""
 
 #: my-evolution/Locations.h:2529
 msgid "Zakinthos"
@@ -24407,14 +23478,12 @@ msgid "Zama Airfield"
 msgstr ""
 
 #: my-evolution/Locations.h:2531
-#, fuzzy
 msgid "Zanesville"
-msgstr "취소됨"
+msgstr ""
 
 #: my-evolution/Locations.h:2532
-#, fuzzy
 msgid "Zaragoza"
-msgstr "파라과이"
+msgstr ""
 
 #: my-evolution/Locations.h:2533
 msgid "Zell Am See"
@@ -24535,7 +23604,7 @@ msgstr "인쇄 요약"
 
 #: my-evolution/e-summary.c:655
 msgid "Printing of Summary failed"
-msgstr "요약 인쇄중 실패"
+msgstr "요약 인쇄 중 실패"
 
 #: my-evolution/metar.c:30
 msgid " F"
@@ -25899,7 +24968,7 @@ msgstr ""
 
 #: shell/e-shell-about-box.c:45
 msgid "Brought to you by"
-msgstr ""
+msgstr "다음 사람들 덕분에 여기까지 왔습니다"
 
 #: shell/e-shell-config-autocompletion.c:110
 #, fuzzy
@@ -25955,7 +25024,6 @@ msgid "Specify a folder to copy folder \"%s\" into:"
 msgstr ""
 
 #: shell/e-shell-folder-commands.c:323
-#, fuzzy
 msgid "Copy Folder"
 msgstr "폴더 복사"
 
@@ -25965,33 +25033,36 @@ msgid "Specify a folder to move folder \"%s\" into:"
 msgstr ""
 
 #: shell/e-shell-folder-commands.c:367
-#, fuzzy
 msgid "Move Folder"
 msgstr "폴더 이동"
 
 #: shell/e-shell-folder-commands.c:391
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot delete folder:\n"
 "%s"
-msgstr "폴더를 얻을 수 없습니다: %s: %s"
+msgstr ""
+"폴더를 지울 수 없습니다:\n"
+"%s"
 
 #: shell/e-shell-folder-commands.c:405
-#, fuzzy, c-format
+#, c-format
 msgid "Really delete folder \"%s\"?"
-msgstr "폴더를 얻을 수 없습니다: %s: %s"
+msgstr "정말로 \"%s\" 폴더를 지울까요?"
 
 #: shell/e-shell-folder-commands.c:416
-#, fuzzy, c-format
+#, c-format
 msgid "Delete \"%s\""
-msgstr "삭제"
+msgstr "\"%s\" 지우기"
 
 #: shell/e-shell-folder-commands.c:489
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot rename folder:\n"
 "%s"
-msgstr "폴더를 얻을 수 없습니다: %s: %s"
+msgstr ""
+"폴더의 이름을 바꿀 수 없습니다:\n"
+"%s"
 
 #: shell/e-shell-folder-commands.c:534
 #, fuzzy, c-format
@@ -26115,12 +25186,12 @@ msgstr ""
 #: shell/e-shell-importer.c:509
 #, fuzzy, c-format
 msgid "Error starting %s"
-msgstr "%s을(를) 읽는중 오류 발생"
+msgstr "%s을(를) 읽는 중 오류 발생"
 
 #: shell/e-shell-importer.c:523
 #, c-format
 msgid "Error loading %s"
-msgstr "%s을(를) 읽는중 오류 발생"
+msgstr "%s을(를) 읽는 중 오류 발생"
 
 #: shell/e-shell-importer.c:540
 #, c-format
@@ -26256,9 +25327,8 @@ msgid ""
 msgstr ""
 
 #: shell/e-shell-startup-wizard.c:782
-#, fuzzy
 msgid "Quit Assistant"
-msgstr "조수"
+msgstr "도우미 끝내기"
 
 #: shell/e-shell-user-creatable-items-handler.c:587
 #: shell/e-shell-user-creatable-items-handler.c:643
@@ -26267,9 +25337,8 @@ msgid "New"
 msgstr "새로 만들기"
 
 #: shell/e-shell-utils.c:116
-#, fuzzy
 msgid "No folder name specified."
-msgstr "수신자가 지정되지않음"
+msgstr "폴더 이름을 지정하지 않았습니다."
 
 #: shell/e-shell-utils.c:123
 msgid "Folder name cannot contain the Return character."
@@ -26300,7 +25369,7 @@ msgstr ""
 #: shell/e-shell-view-menu.c:97
 #, fuzzy, c-format
 msgid "Error executing %s."
-msgstr "필터 실행중 오류: %s: %s"
+msgstr "필터 실행 중 오류: %s: %s"
 
 #: shell/e-shell-view-menu.c:193
 #, fuzzy
@@ -26359,16 +25428,16 @@ msgstr "(없음)"
 #: shell/e-shell-view.c:2083
 msgid ""
 "Ximian Evolution is currently online.  Click on this button to work offline."
-msgstr ""
+msgstr "Ximian Evolution은 온라인 상태입니다.  오프라인 상태로 작업하려면 이 단추를 누르십시오."
 
 #: shell/e-shell-view.c:2090
 msgid "Ximian Evolution is in the process of going offline."
-msgstr ""
+msgstr "Ximian Evolution은 오프라인 상태로 가는 중입니다."
 
 #: shell/e-shell-view.c:2096
 msgid ""
 "Ximian Evolution is currently offline.  Click on this button to work online."
-msgstr ""
+msgstr "Ximian Evolution은 오프라인 상태입니다.  온라인 상태로 작업하려면 이 단추를 누르십시오."
 
 #: shell/e-shell.c:175
 #, c-format
@@ -26429,7 +25498,7 @@ msgstr "바로가기 모음 이름 바꾸기"
 
 #: shell/e-shortcuts-view.c:223
 msgid "Rename selected shortcut group to:"
-msgstr "선택한 바로가기 그룹 이름 바꿈:"
+msgstr "선택한 바로가기 그룹 이름 바꾸기:"
 
 #: shell/e-shortcuts-view.c:255
 msgid "_Small Icons"
@@ -26533,9 +25602,8 @@ msgid "Shortcuts"
 msgstr "바로가기"
 
 #: shell/e-storage-set-view.etspec.h:1
-#, fuzzy
 msgid "Checkbox"
-msgstr "죄장"
+msgstr "확인란"
 
 #: shell/e-storage.c:566
 msgid "No error"
@@ -26571,11 +25639,11 @@ msgstr ""
 
 #: shell/e-storage.c:586
 msgid "Operation not supported"
-msgstr "작동이 지원되지 않음"
+msgstr "작동을 지원하지 않음"
 
 #: shell/e-storage.c:588
 msgid "The specified type is not supported in this storage"
-msgstr "이 저장매체에 지정된 형식이 지원되지 않습니다"
+msgstr "이 저장매체에 지정된 형식을 지원하지 않습니다"
 
 #: shell/e-storage.c:590
 #, fuzzy
@@ -26745,14 +25813,12 @@ msgid "_Tasks:"
 msgstr "작업(_T):"
 
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:2
-#, fuzzy
 msgid "Folder _name:"
-msgstr "폴더 이름:"
+msgstr "폴더 이름(_N):"
 
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:3
-#, fuzzy
 msgid "Folder _type:"
-msgstr "폴더 종류:"
+msgstr "폴더 종류(_T):"
 
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:4
 msgid "Specify where to create the folder:"
@@ -26788,7 +25854,7 @@ msgstr "시간대 "
 
 #: shell/glade/evolution-startup-wizard.glade.h:5
 msgid "Welcome"
-msgstr ""
+msgstr "환영합니다"
 
 #: shell/glade/evolution-startup-wizard.glade.h:6
 msgid ""
@@ -26798,6 +25864,9 @@ msgid ""
 "\n"
 "Please click the \"Forward\" button to continue. "
 msgstr ""
+"Evolution을 사용하게 되신 것을 환영합니다. 다음에 올 몇 개의 화면을 거치면서 Evolution으로 전자메일 계정에 연결하도록 만들고, 다른 프로그램에서 쓰던 파일들을 가져오게 됩니다.\n"
+"\n"
+"계속하시려면 \"다음\" 단추를 누르십시오. "
 
 #: shell/glade/evolution-startup-wizard.glade.h:11
 msgid ""
@@ -26806,6 +25875,9 @@ msgid ""
 "\n"
 "Click the \"Apply\" button to save your settings. "
 msgstr ""
+"Evolution 설정에 필요한 정보를 모두 성공적으로 입력하셨습니다.\n"
+"\n"
+"이 설정을 저장하려면 \"적용\" 단추를 누르십시오."
 
 #: shell/importer/import.glade.h:1
 msgid "Click \"Import\" to begin importing the file into Evolution. "
@@ -26817,19 +25889,19 @@ msgstr "Evolution 가져오기 도우미"
 
 #: shell/importer/import.glade.h:3
 msgid "Import File (step 3 of 3)"
-msgstr "파일 가져오기 (3단계중 3번째)"
+msgstr "파일 가져오기 (3단계 중 3번째)"
 
 #: shell/importer/import.glade.h:4
 msgid "Importer Type (step 1 of 3)"
-msgstr "가져오기 형식 (3단계중 1번째)"
+msgstr "가져오기 형식 (3단계 중 1번째)"
 
 #: shell/importer/import.glade.h:5
 msgid "Select Importers (step 2 of 3)"
-msgstr "가져오기 선택 (3단계중 2번째)"
+msgstr "가져오기 선택 (3단계 중 2번째)"
 
 #: shell/importer/import.glade.h:6
 msgid "Select a File (step 2 of 3)"
-msgstr "파일 선택 (3단계중 2번째)"
+msgstr "파일 선택 (3단계 중 2번째)"
 
 #: shell/importer/import.glade.h:7
 msgid ""
@@ -26837,6 +25909,8 @@ msgid ""
 "With this assistant you will be guided through the process of\n"
 "importing external files into Evolution."
 msgstr ""
+"Evolution 가져오기 도우미에게 오신 것을 환영합니다.\n"
+"이 도우미의 안내에 따라 외부의 파일들을 Evolution으로 가져오는 단계 단계를 따르십시오."
 
 #: shell/importer/intelligent.c:189
 msgid "Importers"
@@ -26852,7 +25926,7 @@ msgstr "다시 물어보지 않습니다"
 
 #: shell/importer/intelligent.c:207
 msgid "Evolution can import data from the following files:"
-msgstr ""
+msgstr "다음 파일들을 Evolution으로 가져올 수 있습니다:"
 
 #: shell/main.c:112 shell/main.c:574
 msgid "Evolution"
@@ -26990,16 +26064,15 @@ msgstr ""
 #: ui/evolution-addressbook.xml.h:3
 #, fuzzy
 msgid "Copy Contact(s) to Another Folder..."
-msgstr "선택한 메세지를 다른 폴더로 복사합니다"
+msgstr "연락처를 다른 폴더로 복사..."
 
 #: ui/evolution-addressbook.xml.h:4 ui/evolution-calendar.xml.h:2
 msgid "Copy the selection"
 msgstr "선택한 것을 복사합니다"
 
 #: ui/evolution-addressbook.xml.h:5
-#, fuzzy
 msgid "Copy to Folder..."
-msgstr "폴더로 복사(_C)..."
+msgstr "폴더로 복사..."
 
 #: ui/evolution-addressbook.xml.h:7 ui/evolution-calendar.xml.h:3
 msgid "Cut the selection"
@@ -27010,22 +26083,20 @@ msgid "Delete selected contacts"
 msgstr "선택한 연락처를 지웁니다"
 
 #: ui/evolution-addressbook.xml.h:11
-#, fuzzy
 msgid "Move Contact(s) to Another Folder..."
-msgstr "메세지를 다른 폴더로 이동합니다"
+msgstr "연락처를 다른 폴더로 옮깁니다..."
 
 #: ui/evolution-addressbook.xml.h:12
-#, fuzzy
 msgid "Move to Folder..."
-msgstr "폴더로 이동(_M)..."
+msgstr "폴더로 이동..."
 
 #: ui/evolution-addressbook.xml.h:14 ui/evolution-calendar.xml.h:17
 msgid "Paste the clipboard"
-msgstr "클립보드에서 붙여넣습니다"
+msgstr "클립보드에서 붙여 넣습니다"
 
 #: ui/evolution-addressbook.xml.h:15
 msgid "Previews the contacts to be printed"
-msgstr "인쇄될 연락처를 미리 봅니다"
+msgstr "인쇄할 연락처를 미리 봅니다"
 
 #: ui/evolution-addressbook.xml.h:17 ui/evolution-calendar.xml.h:19
 #: ui/evolution-comp-editor.xml.h:9 ui/evolution-mail-message.xml.h:68
@@ -27160,7 +26231,7 @@ msgstr "한달씩"
 
 #: ui/evolution-calendar.xml.h:18
 msgid "Previews the calendar to be printed"
-msgstr "인쇄될 달력을 미리 봅니다"
+msgstr "인쇄할 달력을 미리 봅니다"
 
 #: ui/evolution-calendar.xml.h:20
 msgid "Print this calendar"
@@ -27213,7 +26284,7 @@ msgstr "기본 도구 모음"
 
 #: ui/evolution-comp-editor.xml.h:7
 msgid "Preview the printed item"
-msgstr "인쇄될 항목을 미리 봅니다"
+msgstr "인쇄할 항목을 미리 봅니다"
 
 #: ui/evolution-comp-editor.xml.h:10 ui/evolution-contact-editor.xml.h:6
 msgid "Print this item"
@@ -27229,11 +26300,11 @@ msgstr "다른 이름으로 저장(_A)..."
 #: ui/evolution-contact-list-editor.xml.h:6
 #: ui/evolution-signature-editor.xml.h:6
 msgid "Save and Close"
-msgstr "저장 후 마침"
+msgstr "저장 후 닫기"
 
 #: ui/evolution-comp-editor.xml.h:13
 msgid "Save and _Close"
-msgstr "저장 후 마침(_C)"
+msgstr "저장 후 닫기(_C)"
 
 #: ui/evolution-comp-editor.xml.h:14
 msgid "Save the item and close the dialog box"
@@ -27260,23 +26331,20 @@ msgid "_Save"
 msgstr "저장(_S)"
 
 #: ui/evolution-composer-entries.xml.h:1
-#, fuzzy
 msgid "Copy selected text to the clipboard"
-msgstr "선택한 메세지를 다른 폴더로 복사합니다"
+msgstr "선택한 메세지를 클립보드로 복사합니다"
 
 #: ui/evolution-composer-entries.xml.h:2 ui/evolution-mail-list.xml.h:3
 msgid "Cu_t"
 msgstr "잘라내기(_T)"
 
 #: ui/evolution-composer-entries.xml.h:3
-#, fuzzy
 msgid "Cut selected text to the clipboard"
-msgstr "클립보드에서 메세지를 붙입니다"
+msgstr "선택한 텍스트를 클립보드로 잘라냅니다"
 
 #: ui/evolution-composer-entries.xml.h:4
-#, fuzzy
 msgid "Paste text from the clipboard"
-msgstr "클립보드에서 작업을 붙입니다"
+msgstr "클립보드에서 텍스트를 붙여 넣습니다"
 
 #: ui/evolution-composer-entries.xml.h:5 ui/evolution-mail-list.xml.h:13
 #: ui/evolution-subscribe.xml.h:6
@@ -27284,9 +26352,8 @@ msgid "Select _All"
 msgstr "전부 선택(_A)"
 
 #: ui/evolution-composer-entries.xml.h:6
-#, fuzzy
 msgid "Select all text"
-msgstr "모든 연락처 선택"
+msgstr "모든 텍스트 선택"
 
 #: ui/evolution-contact-editor.xml.h:5
 msgid "Print En_velope..."
@@ -27353,7 +26420,6 @@ msgid "Schedule a meeting for this item"
 msgstr "이 항목에 대한 회의를 만듭니다"
 
 #: ui/evolution-executive-summary.xml.h:1
-#, fuzzy
 msgid "Customize My Evolution"
 msgstr "내 Evolution을 고칩니다"
 
@@ -27367,11 +26433,11 @@ msgstr "새 메세지 작성(_N)"
 
 #: ui/evolution-mail-global.xml.h:4
 msgid "Create or edit rules for filtering new mail"
-msgstr "새 메일 거르개 규칙을 만들거나 고칩니다"
+msgstr "새 메일 거르개 규칙을 만들거나 편집합니다"
 
 #: ui/evolution-mail-global.xml.h:5
 msgid "Create or edit virtual folder definitions"
-msgstr "가상 폴더 정의를 만들거나 고칩니다"
+msgstr "가상 폴더 정의를 만들거나 편집합니다"
 
 #: ui/evolution-mail-global.xml.h:6
 msgid "Empty _Trash"
@@ -27379,11 +26445,11 @@ msgstr "휴지통 비우기(_T)"
 
 #: ui/evolution-mail-global.xml.h:7
 msgid "Forget _Passwords"
-msgstr "기억된 암호 버리기"
+msgstr "기억한 암호 버리기"
 
 #: ui/evolution-mail-global.xml.h:8
 msgid "Forget remembered passwords so you will be prompted for them again"
-msgstr "기억된 암호를 버리고 다음에는 물어보게 합니다"
+msgstr "기억한 암호를 버리고 다음에 다시 물어보게 합니다"
 
 #: ui/evolution-mail-global.xml.h:9
 msgid "Open a window for composing a mail message"
@@ -27442,20 +26508,20 @@ msgstr "클립보드에서 메세지를 붙입니다"
 
 #: ui/evolution-mail-list.xml.h:5
 msgid "Hide S_elected Messages"
-msgstr "선택된 메세지 숨김(_S)"
+msgstr "선택한 메세지 숨기기(_S)"
 
 #: ui/evolution-mail-list.xml.h:6
 msgid "Hide _Deleted Messages"
-msgstr "지운 메세지 숨김(_D)"
+msgstr "지운 메세지 숨기기(_D)"
 
 #: ui/evolution-mail-list.xml.h:7
 msgid "Hide _Read Messages"
-msgstr "읽은 메세지 숨김(_R)"
+msgstr "읽은 메세지 숨기기(_R)"
 
 #: ui/evolution-mail-list.xml.h:8
 msgid ""
 "Hide deleted messages rather than displaying them with a line through them"
-msgstr ""
+msgstr "지운 메세지를 취소선을 긋는 대신 숨깁니다"
 
 #: ui/evolution-mail-list.xml.h:9
 msgid "Mark All as _Read"
@@ -27466,9 +26532,8 @@ msgid "Mark all visible messages as read"
 msgstr "보이는 모든 메세지를 읽은 것으로 표시합니다"
 
 #: ui/evolution-mail-list.xml.h:11
-#, fuzzy
 msgid "Paste message(s) from the clipboard"
-msgstr "클립보드에서 메세지를 붙입니다"
+msgstr "클립보드에서 메세지를 붙여 넣습니다"
 
 #: ui/evolution-mail-list.xml.h:12
 msgid "Permanently remove all deleted messages from this folder"
@@ -27492,7 +26557,7 @@ msgstr "모든 보이는 메세지 선택"
 
 #: ui/evolution-mail-list.xml.h:18
 msgid "Sh_ow Hidden Messages"
-msgstr "숨겨진 메세지 보임(_O)"
+msgstr "숨겨진 메세지 보기(_O)"
 
 #: ui/evolution-mail-list.xml.h:19
 msgid "Show messages that have been temporarily hidden"
@@ -27568,23 +26633,23 @@ msgstr "메시지로부터 가상 폴더 만들기(_V)"
 
 #: ui/evolution-mail-message.xml.h:11
 msgid "Create a rule to filter messages from this sender"
-msgstr "이 보낸이로 온 메세지를 거르개 규칙으로 만듭니다"
+msgstr "이 보낸이가 보낸 메세지를 거르개 규칙으로 만듭니다"
 
 #: ui/evolution-mail-message.xml.h:12
 msgid "Create a rule to filter messages to these recipients"
-msgstr "이 받는이로 온 메세지를 거르개 규칙으로 만듭니다"
+msgstr "이 받는이에게 보낸 메세지를 거르개 규칙으로 만듭니다"
 
 #: ui/evolution-mail-message.xml.h:13
 msgid "Create a rule to filter messages to this mailing list"
-msgstr "이 메일링 리스트로 온 메세지를 거르개 규칙으로 만듭니다"
+msgstr "이 메일링 리스트에게 보낸 메세지를 거르개 규칙으로 만듭니다"
 
 #: ui/evolution-mail-message.xml.h:14
 msgid "Create a rule to filter messages with this subject"
-msgstr "이 제목으로 온 메세지를 거르개 규칙으로 만듭니다"
+msgstr "이 제목으로 도착한 메세지를 거르개 규칙으로 만듭니다"
 
 #: ui/evolution-mail-message.xml.h:15
 msgid "Create a virtual folder for these recipients"
-msgstr "받는이로 가상폴더를 만듭니다"
+msgstr "이 받는이로 가상폴더를 만듭니다"
 
 #: ui/evolution-mail-message.xml.h:16
 msgid "Create a virtual folder for this mailing list"
@@ -27592,7 +26657,7 @@ msgstr "이 메일링 리스트로 가상 폴더를 만듭니다"
 
 #: ui/evolution-mail-message.xml.h:17
 msgid "Create a virtual folder for this sender"
-msgstr "보낸이로 가상 폴더를 만듭니다"
+msgstr "이 보낸이로 가상 폴더를 만듭니다"
 
 #: ui/evolution-mail-message.xml.h:18
 msgid "Create a virtual folder for this subject"
@@ -27662,7 +26727,7 @@ msgstr "전체 이름(_N)..."
 
 #: ui/evolution-mail-message.xml.h:35
 msgid "Force images in HTML mail to be loaded"
-msgstr ""
+msgstr "HTML 편지의 그림들을 강제로 읽어들입니다"
 
 #: ui/evolution-mail-message.xml.h:37
 msgid "Forward the selected message in the body of a new message"
@@ -27701,28 +26766,24 @@ msgid "Mark as Unimp_ortant"
 msgstr "중요하지 않은 것으로 표시(_O)"
 
 #: ui/evolution-mail-message.xml.h:47
-#, fuzzy
 msgid "Mark the selected message(s) as having been read"
 msgstr "선택한 메세지를 읽은 것으로 표시합니다"
 
 #: ui/evolution-mail-message.xml.h:48
-#, fuzzy
 msgid "Mark the selected message(s) as important"
 msgstr "선택한 메세지를 중요한 것으로 표시합니다 "
 
 #: ui/evolution-mail-message.xml.h:49
-#, fuzzy
 msgid "Mark the selected message(s) as not having been read"
 msgstr "선택한 메세지를 읽지 않은 것으로 표시합니다"
 
 #: ui/evolution-mail-message.xml.h:50
-#, fuzzy
 msgid "Mark the selected message(s) as unimportant"
 msgstr "선택한 메세지를 중요하지 않은 것으로 표시합니다"
 
 #: ui/evolution-mail-message.xml.h:51
 msgid "Mark the selected messages for deletion"
-msgstr "선택한 메세지를 삭제한 것으로 표시합니다"
+msgstr "선택한 메세지를 지운 것으로 표시합니다"
 
 #: ui/evolution-mail-message.xml.h:52
 msgid "Move"
@@ -27750,7 +26811,7 @@ msgstr "읽지 않은 다음 메세지(_U)"
 
 #: ui/evolution-mail-message.xml.h:58
 msgid "Open the selected message in a new window"
-msgstr "선택한 메세지 새 창에서 엽니다"
+msgstr "선택한 메세지를 새 창에서 엽니다"
 
 #: ui/evolution-mail-message.xml.h:59
 msgid "Open the selected message in the composer to re-send it"
@@ -27766,7 +26827,7 @@ msgstr "이전에 읽지 않은 메세지(_R)"
 
 #: ui/evolution-mail-message.xml.h:62
 msgid "Post a Reply"
-msgstr "답장 부치기"
+msgstr ""
 
 #: ui/evolution-mail-message.xml.h:63
 #, fuzzy
@@ -27774,13 +26835,12 @@ msgid "Post a reply to a message in a Public folder"
 msgstr "메세지를 폴더로 저장"
 
 #: ui/evolution-mail-message.xml.h:64
-#, fuzzy
 msgid "Pr_evious Important Message"
 msgstr "이전의 중요한 메세지"
 
 #: ui/evolution-mail-message.xml.h:65
 msgid "Preview the message to be printed"
-msgstr "인쇄될 메시지를 미리봅니다"
+msgstr "인쇄할 메시지를 미리봅니다"
 
 #: ui/evolution-mail-message.xml.h:66
 msgid "Previous"
@@ -27792,7 +26852,7 @@ msgstr "이 메세지 인쇄"
 
 #: ui/evolution-mail-message.xml.h:70
 msgid "Re_direct"
-msgstr ""
+msgstr "수신만 변경(_D)"
 
 #: ui/evolution-mail-message.xml.h:71
 #, fuzzy
@@ -27886,12 +26946,11 @@ msgstr "메시지 전달(_F)"
 
 #: ui/evolution-mail-message.xml.h:99
 msgid "_Go To"
-msgstr "가기(_G)"
+msgstr "이동(_G)"
 
 #: ui/evolution-mail-message.xml.h:100
-#, fuzzy
 msgid "_Inline"
-msgstr "포함해서 전달(_I)"
+msgstr "포함(_I)"
 
 #: ui/evolution-mail-message.xml.h:101
 msgid "_Larger"
@@ -27935,7 +26994,7 @@ msgstr "도구(_T)"
 
 #: ui/evolution-mail-message.xml.h:114
 msgid "_Undelete"
-msgstr "되살림(_U)"
+msgstr "되살리기(_U)"
 
 #: ui/evolution-mail-messagedisplay.xml.h:2 ui/evolution.xml.h:6
 msgid "Close this window"
@@ -28033,7 +27092,7 @@ msgstr "현재 파일을 저장"
 
 #: ui/evolution-message-composer.xml.h:22
 msgid "Save the current file with a different name"
-msgstr "현재 파일을 다른이름으로 저장합니다"
+msgstr "현재 파일을 다른 이름으로 저장합니다"
 
 #: ui/evolution-message-composer.xml.h:23
 msgid "Save the message in a specified folder"
@@ -28041,7 +27100,7 @@ msgstr "메세지를 지정한 폴더로 저장합니다"
 
 #: ui/evolution-message-composer.xml.h:24
 msgid "Send"
-msgstr "보냄"
+msgstr "보내기"
 
 #: ui/evolution-message-composer.xml.h:25
 #: ui/evolution-signature-editor.xml.h:9
@@ -28054,39 +27113,39 @@ msgstr "이 메세지를 지금 보냅니다"
 
 #: ui/evolution-message-composer.xml.h:27
 msgid "Show / hide attachments"
-msgstr "첨부물 보임/숨김"
+msgstr "첨부물 보이기/숨기기"
 
 #: ui/evolution-message-composer.xml.h:28
 msgid "Show _attachments"
-msgstr "첨부물 보기(_A)"
+msgstr "첨부물 보이기(_A)"
 
 #: ui/evolution-message-composer.xml.h:29
 msgid "Show attachments"
-msgstr "첨부물 보기"
+msgstr "첨부물 보이기"
 
 #: ui/evolution-message-composer.xml.h:30
 msgid "Sign this message with your PGP key"
-msgstr "이 메세지를 PGP키로 서명함"
+msgstr "이 메세지를 PGP키로 서명합니다"
 
 #: ui/evolution-message-composer.xml.h:31
 msgid "Sign this message with your S/MIME Signature Certificate"
-msgstr "이 메세지를 S/MIME 서명 증명으로 서명함"
+msgstr "이 메세지를 S/MIME 서명 증명으로 서명합니다"
 
 #: ui/evolution-message-composer.xml.h:32
 msgid "Toggles whether the BCC field is displayed"
-msgstr "숨은 참조 항목을 보여줄 것인지를 결정"
+msgstr "숨은 참조 항목을 보여줄 지 토글합니다"
 
 #: ui/evolution-message-composer.xml.h:33
 msgid "Toggles whether the CC field is displayed"
-msgstr "참조 항목을 보여줄 것인지를 결정"
+msgstr "참조 항목을 보여줄 지 토글합니다"
 
 #: ui/evolution-message-composer.xml.h:34
 msgid "Toggles whether the From chooser is displayed"
-msgstr "발신 항목을 보여줄 것인지를 결정"
+msgstr "발신 항목을 보여줄 지 토글합니다"
 
 #: ui/evolution-message-composer.xml.h:35
 msgid "Toggles whether the Reply-To field is displayed"
-msgstr "답장 주소 항목을 보여줄 것인지를 결정"
+msgstr "답장 주소 항목을 보여줄 지 토글합니다"
 
 #: ui/evolution-message-composer.xml.h:36
 msgid "_Attachment..."
@@ -28195,9 +27254,8 @@ msgid "Cut selected task"
 msgstr "선택한 작업을 자릅니다"
 
 #: ui/evolution-tasks.xml.h:6
-#, fuzzy
 msgid "Delete completed tasks"
-msgstr "선택한 작업을 지웁니다"
+msgstr "끝마친 작업을 지웁니다"
 
 #: ui/evolution-tasks.xml.h:7
 msgid "Delete selected tasks"
@@ -28208,18 +27266,16 @@ msgid "Mar_k as Complete"
 msgstr "완료 표시(_K)"
 
 #: ui/evolution-tasks.xml.h:9
-#, fuzzy
 msgid "Mark selected tasks as complete"
-msgstr "선택한 메세지를 삭제한 것으로 표시합니다"
+msgstr "선택한 작업을 마친 것으로 표시합니다"
 
 #: ui/evolution-tasks.xml.h:11
 msgid "Paste task from the clipboard"
-msgstr "클립보드에서 작업을 붙입니다"
+msgstr "클립보드에서 작업을 붙여 넣습니다"
 
 #: ui/evolution-tasks.xml.h:12
-#, fuzzy
 msgid "Previews the list of tasks to be printed"
-msgstr "인쇄될 연락처를 미리 봅니다"
+msgstr "인쇄할 작업 목록을 미리 봅니다"
 
 #: ui/evolution-tasks.xml.h:14
 msgid "Print the list of tasks"
@@ -28383,7 +27439,7 @@ msgstr "폴더(_F)..."
 
 #: ui/evolution.xml.h:50
 msgid "_Go to Folder..."
-msgstr "폴더로 가기(_G)..."
+msgstr "폴더로 이동(_G)..."
 
 #: ui/evolution.xml.h:51
 msgid "_Help"
@@ -28649,7 +27705,7 @@ msgstr "사용할 글자셋을 입력하십시오"
 
 #: widgets/misc/e-charset-picker.c:318
 msgid "Other..."
-msgstr "그 외..."
+msgstr "기타..."
 
 #: widgets/misc/e-clipped-label.c:111
 msgid "..."
