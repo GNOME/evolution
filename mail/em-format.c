@@ -568,8 +568,11 @@ em_format_part_as(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const
 	g_free(basestr);
 
 	if (mime_type != NULL) {
-		if (g_ascii_strcasecmp(mime_type, "application/octet-stream") == 0)
+		if (g_ascii_strcasecmp(mime_type, "application/octet-stream") == 0) {
 			emf->snoop_mime_type = mime_type = em_utils_snoop_type(part);
+			if (mime_type == NULL)
+				mime_type = "application/octet-stream";
+		}
 
 		handle = em_format_find_handler(emf, mime_type);
 		if (handle == NULL)
