@@ -63,41 +63,12 @@ enum {
 static guint signals[LAST_SIGNAL] = { 0 };
 
 
-/* FIXME this should all be in the model.  */
-
-static const char *
-get_storage_set_path_from_uri (const char *uri)
-{
-	const char *colon;
-
-	if (g_path_is_absolute (uri))
-		return NULL;
-
-	colon = strchr (uri, ':');
-	if (colon == NULL || colon == uri || colon[1] == '\0')
-		return NULL;
-
-	if (! g_path_is_absolute (colon + 1))
-		return NULL;
-
-	if (g_strncasecmp (uri, "evolution", colon - uri) != 0)
-		return NULL;
-
-	return colon + 1;
-}
-
-
 static void
 show_new_group_dialog (EShortcutsView *view)
 {
-	GtkWidget *dialog;
-	GtkWidget *label;
-	GtkWidget *entry;
-	GtkWidget *box;
 	char *group_name;
-	int button_num;
 
-	group_name = e_request_string (GTK_WIDGET (gtk_widget_get_toplevel (GTK_WIDGET (view))),
+	group_name = e_request_string (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (view))),
 				       _("Create new shortcut group"),
 				       _("Group name:"),
 				       NULL);
@@ -499,7 +470,7 @@ item_selected (EShortcutBar *shortcut_bar,
 
 static EFolder *
 get_efolder_from_shortcut (EShortcuts *shortcuts,
-			   char *item_url)
+			   const char *item_url)
 {
 	EFolderTypeRegistry *folder_type_registry;
 	EStorageSet *storage_set;

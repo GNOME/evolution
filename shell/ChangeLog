@@ -1,5 +1,16 @@
 2001-08-09  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shortcuts-view.c (show_new_group_dialog): Cast the toplevel to
+	be passed to `e_request_string()' to GtkWindow, not GtkWidget.
+	Also, remove unused variables.
+	(get_efolder_from_shortcut): Constify @item_url.
+	(get_storage_set_path_from_uri): Removed.
+
+	* evolution-shell-component.c (destroy): `p' shall be a GList, not
+	a GSList.
+
+2001-08-09  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-view.c (e_shell_view_construct): Add the menu items
 	using the EShellUserCreatableItemsHandler.
 

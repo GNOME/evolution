@@ -551,7 +551,7 @@ destroy (GtkObject *object)
 	EvolutionShellComponent *shell_component;
 	EvolutionShellComponentPrivate *priv;
 	CORBA_Environment ev;
-	GSList *p;
+	GList *p;
 
 	shell_component = EVOLUTION_SHELL_COMPONENT (object);
 
