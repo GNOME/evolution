@@ -3323,6 +3323,7 @@ e_week_view_on_key_up (EWeekView *week_view, GdkEventKey *event)
 	week_view->selection_end_day = selection_end_day;
 
 	gtk_widget_queue_draw (week_view->main_canvas);
+	g_signal_emit_by_name (week_view, "selected_time_changed");
 }
 
 static void 
@@ -3361,6 +3362,7 @@ e_week_view_on_key_down (EWeekView *week_view, GdkEventKey *event)
 	week_view->selection_end_day = selection_end_day;
 
 	gtk_widget_queue_draw (week_view->main_canvas);
+	g_signal_emit_by_name (week_view, "selected_time_changed");
 }
 
 static void 
@@ -3408,7 +3410,7 @@ e_week_view_on_key_left (EWeekView *week_view, GdkEventKey *event)
 	week_view->selection_end_day = selection_end_day;
 
 	gtk_widget_queue_draw (week_view->main_canvas);
-
+	g_signal_emit_by_name (week_view, "selected_time_changed");	
 }
 
 static void 
@@ -3458,6 +3460,7 @@ e_week_view_on_key_right (EWeekView *week_view, GdkEventKey *event)
 	week_view->selection_end_day = selection_end_day;
 
 	gtk_widget_queue_draw (week_view->main_canvas);
+	g_signal_emit_by_name (week_view, "selected_time_changed");
 }
 
 static gboolean

@@ -1,3 +1,8 @@
+2003-12-09  Andrew Wu <Yang.Wu@sun.com>
+
+	* gui/e-week-view-main-item.c (e_week_view_main_item_class_init): init a11y.
+	* gui/e-week-view.c: emit signal "selected_time_changed".
+
 2003-12-08  Bolian Yin <bolian.yin@sun.com>
 
 	* gui/e-day-view.c (e_day_view_on_editing_started): remove setting property of "handle_popup".

@@ -97,6 +97,9 @@ e_week_view_main_item_class_init (EWeekViewMainItemClass *class)
 	item_class->update      = e_week_view_main_item_update;
 	item_class->draw        = e_week_view_main_item_draw;
 	item_class->point       = e_week_view_main_item_point;
+
+	/* init the accessibility support for e_week_view_main_item */
+ 	e_week_view_main_item_a11y_init ();
 }
 
 
