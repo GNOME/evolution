@@ -1,3 +1,9 @@
+2004-04-05  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-signature-list.c (gconf_signatures_changed): Fixed to not
+	ignore signatures without uids (e.g. signatures that were from
+	prior versions).
+
 2004-04-02  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-signature.c (e_signature_to_xml): Always set a format prop so

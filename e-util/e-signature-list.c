@@ -164,32 +164,33 @@ gconf_signatures_changed (GConfClient *client, guint cnxn_id, GConfEntry *entry,
 	
 	list = gconf_client_get_list (client, "/apps/evolution/mail/signatures", GCONF_VALUE_STRING, NULL);
 	for (l = list; l; l = l->next) {
-		uid = e_signature_uid_from_xml (l->data);
-		if (!uid)
-			continue;
-		
-		/* See if this is an existing signature */
-		for (iter = e_list_get_iterator (old_sigs); e_iterator_is_valid (iter); e_iterator_next (iter)) {
-			signature = (ESignature *) e_iterator_get (iter);
-			if (!strcmp (signature->uid, uid)) {
-				/* The signature still exists, so remove
-				 * it from "old_sigs" and update it.
-				 */
-				e_iterator_delete (iter);
-				if (e_signature_set_from_xml (signature, l->data))
-					g_signal_emit (signature_list, signals[SIGNATURE_CHANGED], 0, signature);
-				goto next;
+		if ((uid = e_signature_uid_from_xml (l->data))) {
+			/* See if this is an existing signature */
+			for (iter = e_list_get_iterator (old_sigs); e_iterator_is_valid (iter); e_iterator_next (iter)) {
+				signature = (ESignature *) e_iterator_get (iter);
+				if (!strcmp (signature->uid, uid)) {
+					/* The signature still exists, so remove
+					 * it from "old_sigs" and update it.
+					 */
+					e_iterator_delete (iter);
+					if (e_signature_set_from_xml (signature, l->data))
+						g_signal_emit (signature_list, signals[SIGNATURE_CHANGED], 0, signature);
+					
+					g_object_unref (iter);
+					g_free (uid);
+					
+					continue;
+				}
 			}
+			
+			g_object_unref (iter);
 		}
 		
 		/* Must be a new signature */
 		signature = e_signature_new_from_xml (l->data);
 		e_list_append (E_LIST (signature_list), signature);
 		new_sigs = g_slist_prepend (new_sigs, signature);
-		
-	next:
 		g_free (uid);
-		g_object_unref (iter);
 	}
 	
 	/* Now emit signals for each added signature. */
