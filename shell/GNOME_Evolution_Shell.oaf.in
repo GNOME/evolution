@@ -33,7 +33,7 @@
 		   _value="Folder Settings"/>
 
     <oaf_attribute name="evolution:config_item:description" type="string"
-		   _value="This page can be used to configure various folder settings"/>
+		   _value="Configure special folders and offline folder behavior here"/>
 
     <oaf_attribute name="evolution:config_item:icon_name" type="string"
 		   value="folder-settings.png"/>
