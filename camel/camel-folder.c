@@ -251,8 +251,7 @@ camel_folder_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 static void
 refresh_info (CamelFolder *folder, CamelException *ex)
 {
-	g_warning ("CamelFolder::refresh_info not implemented for `%s'",
-		   camel_type_to_name (CAMEL_OBJECT_GET_TYPE (folder)));
+	/* No op */
 }
 
 /**
@@ -260,9 +259,7 @@ refresh_info (CamelFolder *folder, CamelException *ex)
  * @folder: The folder object
  * @ex: exception object
  *
- * Updates a folder's summary to be in sync with its backing store
- * (called upon creation and when the store's connection is lost
- * and then reestablished).
+ * Updates a folder's summary to be in sync with its backing store.
  **/
 void
 camel_folder_refresh_info (CamelFolder *folder, CamelException *ex)

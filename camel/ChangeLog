@@ -1,3 +1,23 @@
+2000-10-19  Dan Winship  <danw@helixcode.com>
+
+	* camel-folder.c (camel_folder_refresh_info): Update comment here
+	so refresh_info isn't just for reconnects any more. Make the
+	default implementation a no-op rather than an error.
+
+	* providers/nntp/camel-nntp-folder.c: Move refresh_info impl into
+	camel_nntp_folder_new, since it would have leaked memory and not
+	done anything useful if it was called later.
+
+	* providers/mbox/camel-mbox-folder.c: Remove no-longer-necessary
+	refresh_info impl.
+
+	* providers/imap/camel-imap-folder.c (camel_imap_folder_changed):
+	Update imap_folder->exists, but don't actually load the new
+	messages. This is a temporary workaround to deal with the IMAP
+	provider stealing the message list focus at annoying times.
+	(imap_copy_message_to, imap_move_message_to): Emit a
+	folder_changed by hand, for now.
+
 2000-10-19  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* providers/imap/Makefile.am (libcamelimapinclude_HEADERS): Add

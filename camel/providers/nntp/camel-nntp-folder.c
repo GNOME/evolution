@@ -58,38 +58,6 @@ static CamelFolderClass *parent_class=NULL;
 
 
 static void
-nntp_refresh_info (CamelFolder *folder, CamelException *ex)
-{
-	CamelNNTPFolder *nntp_folder = CAMEL_NNTP_FOLDER (folder);
-
-	/* load the summary if we have that ability */
-	if (folder->has_summary_capability) {
-		const gchar *root_dir_path;
-
-		root_dir_path = camel_nntp_store_get_toplevel_dir (CAMEL_NNTP_STORE(folder->parent_store));
-
-		nntp_folder->summary_file_path = g_strdup_printf ("%s/%s-ev-summary",
-							  root_dir_path,
-							  folder->name);
-
-		nntp_folder->summary = camel_folder_summary_new ();
-		camel_folder_summary_set_filename (nntp_folder->summary,
-						   nntp_folder->summary_file_path);
-
-		if (-1 == camel_folder_summary_load (nntp_folder->summary)) {
-			/* Bad or nonexistant summary file */
-			camel_nntp_get_headers (CAMEL_FOLDER( folder )->parent_store,
-						nntp_folder, ex);
-			if (camel_exception_get_id (ex))
-				return;
-
-			/* XXX check return value */
-			camel_folder_summary_save (nntp_folder->summary);
-		}
-	}
-}
-
-static void
 nntp_folder_sync (CamelFolder *folder, gboolean expunge, 
 		  CamelException *ex)
 {
@@ -295,7 +263,6 @@ camel_nntp_folder_class_init (CamelNNTPFolderClass *camel_nntp_folder_class)
 	/* virtual method definition */
 
 	/* virtual method overload */
-	camel_folder_class->refresh_info = nntp_refresh_info;
 	camel_folder_class->sync = nntp_folder_sync;
 	camel_folder_class->get_message_count = nntp_folder_get_message_count;
 	camel_folder_class->set_message_flags = nntp_folder_set_message_flags;
@@ -331,14 +298,33 @@ CamelFolder *
 camel_nntp_folder_new (CamelStore *parent, const char *folder_name, CamelException *ex)
 {
 	CamelFolder *folder = CAMEL_FOLDER (camel_object_new (CAMEL_NNTP_FOLDER_TYPE));
+	CamelNNTPFolder *nntp_folder = CAMEL_NNTP_FOLDER (folder);
+	const gchar *root_dir_path;
 
 	camel_folder_construct (folder, parent, folder_name, folder_name);
 	folder->has_summary_capability = TRUE;
 
-	camel_folder_refresh_info (folder, ex);
-	if (camel_exception_is_set (ex)) {
-		camel_object_unref (CAMEL_OBJECT (folder));
-		folder = NULL;
+	root_dir_path = camel_nntp_store_get_toplevel_dir (CAMEL_NNTP_STORE(folder->parent_store));
+	nntp_folder->summary_file_path = g_strdup_printf ("%s/%s-ev-summary",
+							  root_dir_path,
+							  folder->name);
+
+	nntp_folder->summary = camel_folder_summary_new ();
+	camel_folder_summary_set_filename (nntp_folder->summary,
+					   nntp_folder->summary_file_path);
+
+	if (-1 == camel_folder_summary_load (nntp_folder->summary)) {
+		/* Bad or nonexistant summary file */
+		camel_nntp_get_headers (CAMEL_FOLDER( folder )->parent_store,
+					nntp_folder, ex);
+		if (camel_exception_get_id (ex)) {
+			camel_object_unref (CAMEL_OBJECT (folder));
+			return NULL;
+		}
+
+		/* XXX check return value */
+		camel_folder_summary_save (nntp_folder->summary);
 	}
+
 	return folder;
 }
