@@ -1,4 +1,12 @@
+2000-12-04  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* evolution-mail.xml: Renamed "MessageForward" to
+	"MessageForwardInlined" and "MessageForwardAttach" to
+	"MessageForwardAttached".  Make the attached forward the default,
+	and the one advertised on the toolbar as well.
+
 2000-12-01  Anna Marie Dirks  <anna@helixcode.com>
+
 	* evolution.xml: Redid all the keyboard shortcuts to comply with GNOME
 	standards. Removed unnecessary shortcuts from less commonly used menu 
 	items, changed all references to "alt", etc. 

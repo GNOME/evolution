@@ -41,8 +41,8 @@ void send_receieve_mail    (GtkWidget *widget, gpointer user_data);
 
 void compose_msg           (GtkWidget *widget, gpointer user_data);
 void send_to_url           (const char *url);
-void forward_msg           (GtkWidget *widget, gpointer user_data);
-void forward_attach        (GtkWidget *widget, gpointer user_data);
+void forward_inlined       (GtkWidget *widget, gpointer user_data);
+void forward_attached      (GtkWidget *widget, gpointer user_data);
 void reply_to_sender       (GtkWidget *widget, gpointer user_data);
 void reply_to_all          (GtkWidget *widget, gpointer user_data);
 void delete_msg            (GtkWidget *widget, gpointer user_data);

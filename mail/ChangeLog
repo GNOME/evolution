@@ -1,3 +1,16 @@
+2000-12-04  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* folder-browser-factory.c: Updated to define verbs
+	"MessageForwardInlined" and "MessageForwardAttached" instead of
+	"MessageForwardInline" and "MessageForwardAttach".
+
+	* folder-browser.c (on_right_click): Make forwarding as an
+	attachment the default.
+
+	* mail-callbacks.c (forward_inlined): Renamed from `forward_msg'.
+	(forward_attached): Renamed from `forward_attach'.
+	* mail-callbacks.h: Updated accordingly.
+
 2000-12-01  Dan Winship  <danw@helixcode.com>
 
 	* session.c (mail_session_remember_password): Writes out passwords

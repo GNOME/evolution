@@ -97,12 +97,12 @@
         <menuitem name="MessageReplyAll" verb=""
         _label="Reply to _All" accel="*Control**Shift*r"/>
 
-        <menuitem name="MessageForward" verb=""
+        <menuitem name="MessageForwardAttached" verb=""
         _label="_Forward"
          accel="*Control*j"/>
 
-        <menuitem name="MessageForwardAttach" verb=""
-        _label="Forward as Attachment"
+        <menuitem name="MessageForwardInlined" verb=""
+        _label="Forward inline"
          accel="*Control**Shift*j"/>
 
         <menuitem/>
@@ -207,7 +207,7 @@
     _label="Reply to All" _tip="Reply to all recipients of this message"
     pixtype="pixbuf"/>
 
-    <toolitem name="Forward" verb="MessageForward"
+    <toolitem name="Forward" verb="MessageForwardInlined"
     _label="Forward" _tip="Forward this message"
     pixtype="pixbuf"/>
 

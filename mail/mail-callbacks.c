@@ -512,13 +512,13 @@ forward_message (FolderBrowser *fb, gboolean attach)
 }
 
 void
-forward_msg (GtkWidget *widget, gpointer user_data)
+forward_inlined (GtkWidget *widget, gpointer user_data)
 {
 	forward_message (FOLDER_BROWSER (user_data), FALSE);
 }
 
 void
-forward_attach (GtkWidget *widget, gpointer user_data)
+forward_attached (GtkWidget *widget, gpointer user_data)
 {
 	forward_message (FOLDER_BROWSER (user_data), TRUE);
 }
