@@ -172,9 +172,7 @@ get_folder(CamelStore * store, const char *folder_name, guint32 flags, CamelExce
 static CamelFolder *
 get_inbox(CamelStore *store, CamelException *ex)
 {
-	camel_exception_set(ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
-			    _("Spool stores do not have an inbox"));
-	return NULL;
+	return get_folder (store, "INBOX", CAMEL_STORE_FOLDER_CREATE, ex);
 }
 
 static char *

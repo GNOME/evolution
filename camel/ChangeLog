@@ -1,5 +1,9 @@
 2001-08-30  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/local/camel-spool-store.c (get_inbox): Return the
+	default folder (ie. INBOX) rather than saying we don't support an
+	inbox.
+
 	* camel-tcp-stream-ssl.c: #include pk11func.h.
 	(ssl_bad_cert): Use CERT_GetDefaultCertDB.
 
