@@ -1,5 +1,10 @@
 2003-10-22  Rodney Dawes  <dobey@ximian.com>
 
+	* configure.in: Revert broken previous commit and actually remove
+	mail/importers/Makefile from AC_OUTPUT
+
+2003-10-22  Rodney Dawes  <dobey@ximian.com>
+
 	* configure.in: Removed mail/importers/Makefile from AC_OUTPUT
 
 2003-10-22  Rodney Dawes  <dobey@ximian.com>

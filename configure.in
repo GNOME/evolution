@@ -1392,6 +1392,7 @@ widgets/menus/Makefile
 widgets/misc/Makefile
 wombat/Makefile
 calendar/Makefile
+calendar/importers/Makefile
 calendar/idl/Makefile
 calendar/cal-util/Makefile
 calendar/cal-client/Makefile
@@ -1404,7 +1405,6 @@ calendar/gui/alarm-notify/Makefile
 calendar/gui/dialogs/Makefile
 composer/Makefile
 mail/Makefile
-mail/importers/Makefile
 tools/Makefile
 evolution-shell.pc
 evolution-addressbook.pc
