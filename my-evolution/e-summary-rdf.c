@@ -251,15 +251,17 @@ tree_walk (xmlNodePtr root,
 
 	if (*u != '\0')
 		g_string_sprintfa (html, "<a href=\"%s\">", u);
-	if (r->cache->encoding)
-		t = e_utf8_from_charset_string (r->cache->encoding, t);
-	else
-		t = e_utf8_from_locale_string (t);
-	g_string_append (html, t);
-	g_free (t);
-	if (*u != '\0') {
-		g_string_append (html, "</a>");
+
+	if (r->cache->encoding) {
+		char *tmp = e_utf8_from_charset_string (r->cache->encoding, t);
+		g_string_append (html, tmp);
+		g_free (tmp);
+	} else {
+		g_string_append (html, t);
 	}
+
+	if (*u != '\0')
+		g_string_append (html, "</a>");
 	g_string_append (html, "</b></dt>");
 
 	if (r->shown == FALSE) {
@@ -277,14 +279,15 @@ tree_walk (xmlNodePtr root,
 		g_string_append (html, tmp);
 		g_free (tmp);
 		
-		if (r->cache->encoding)
-			p = e_utf8_from_charset_string (r->cache->encoding, p);
-		else
-			p = e_utf8_from_locale_string (p);
-		tmp = g_strdup_printf ("%s\n</A></font></li>", p);
-		g_free (p);
-		g_string_append (html, tmp);
-		g_free (tmp);
+		if (r->cache->encoding) {
+			char *tmp = e_utf8_from_charset_string (r->cache->encoding, p);
+			g_string_append (html, tmp);
+			g_free (tmp);
+		} else {
+			g_string_append (html, p);
+		}
+
+		g_string_append (html, "\n</A></font></li>");
 	}
 	g_string_append (html, "</UL>");
 }
@@ -298,16 +301,9 @@ display_doc (RDF *r)
 			     "width=\"48\" height=\"48\">");
 
 	if (r->cache == NULL) {
-		char *tmp_utf, *str;
-
-		str = g_strdup_printf ("<b>%s:</b><br>%s", _("Error downloading RDF"),
-				       r->uri);
-		tmp_utf = e_utf8_from_locale_string (str);
-		g_free (str);
-
-		g_string_append (html, tmp_utf);
-		g_string_append (html, "</dt>");
-		g_free (tmp_utf);
+		g_string_append_printf (html, "<b>%s:</b><br>%s</dt>",
+					_("Error downloading RDF"),
+					r->uri);
 	} else {
 		tree_walk (xmlDocGetRootElement (r->cache), r, html);
 	}

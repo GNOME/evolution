@@ -176,7 +176,7 @@ e_summary_mail_generate_html (ESummary *summary)
 	ESummaryMail *mail;
 	GString *string;
 	GList *p;
-	char *s, *old;
+	char *old;
 
 	g_return_if_fail (summary != NULL);
 	g_return_if_fail (IS_E_SUMMARY (summary));
@@ -185,9 +185,7 @@ e_summary_mail_generate_html (ESummary *summary)
 	string = g_string_new ("<dl><dt><img src=\"myevo-mail-summary.png\" "
 	                       "align=\"middle\" alt=\"\" width=\"48\" "
 	                       "height=\"48\"> <b><a href=\"evolution:/local/Inbox\">");
-	s = e_utf8_from_locale_string (_("Mail summary"));
-	g_string_append (string, s);
-	g_free (s);
+	g_string_append (string, _("Mail summary"));
 	g_string_append (string, "</a></b></dt><dd><table numcols=\"2\" width=\"100%\">");
 	
 	for (p = folder_store->shown; p; p = p->next) {

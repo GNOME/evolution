@@ -70,10 +70,9 @@ e_summary_weather_get_html (ESummary *summary)
 	string = g_string_new ("<dl><img src=\"ico-weather.png\" align=\"middle\" "
 	                       "alt=\"\" width=\"48\" height=\"48\"><b>"
 	                       "<a href=\"http://www.metoffice.gov.uk\">");
-	s = e_utf8_from_locale_string (_("My Weather"));
-	g_string_append (string, s);
-	g_free (s);
+	g_string_append (string, _("My Weather"));
 	g_string_append (string, "</a></b>");
+
 	for (weathers = summary->weather->weathers; weathers; weathers = weathers->next) {
 		if (((Weather *)weathers->data)->html == NULL) {
 			continue;
@@ -133,17 +132,12 @@ weather_make_html (Weather *w)
 	temp = weather_temp_string (w);
 	cond = (char *) weather_conditions_string (w);
 
-	s = e_utf8_from_locale_string (sky);
-	g_string_append (string, s);
-	g_free (s);
+	g_string_append (string, sky);
 	g_string_append_c (string, ' ');
-	s = e_utf8_from_locale_string (cond);
-	g_string_append (string, s);
-	g_free (s);
+	g_string_append (string, cond);
 	g_string_append_c (string, ' ');
-	s = e_utf8_from_locale_string (temp);
-	g_string_append (string, s);
-	g_free (s);
+	g_string_append (string, temp);
+
 	g_free (temp);
 
 #if 0
@@ -256,7 +250,6 @@ message_finished (SoupMessage *msg,
 	}
 
 	if (SOUP_MESSAGE_IS_ERROR (msg)) {
-		char *mess;
 		ESummaryWeatherLocation *location;
 
 		g_warning ("Message failed: %d\n%s", msg->errorcode,
@@ -265,12 +258,9 @@ message_finished (SoupMessage *msg,
 
 		location = g_hash_table_lookup (locations_hash, w->location);
 
-		mess = g_strdup_printf ("<br><b>%s %s</b></br>",
-					_("There was an error downloading data for"),
-					location ? location->name : w->location);
-
-		w->html = e_utf8_from_locale_string (mess);
-		g_free (mess);
+		w->html = g_strdup_printf ("<br><b>%s %s</b></br>",
+					   _("There was an error downloading data for"),
+					   location ? location->name : w->location);
 
 		e_summary_draw (w->summary);
 		return;

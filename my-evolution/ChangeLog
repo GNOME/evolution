@@ -1,3 +1,17 @@
+2003-03-27  Ettore Perazzoli  <ettore@ximian.com>
+
+	[#40358]
+
+	* e-summary.c (e_summary_init): Likewise.
+
+	* e-summary-weather.c (e_summary_weather_get_html): Likewise.
+	(weather_make_html): Likewise.
+
+	* e-summary-mail.c (e_summary_mail_generate_html): Fix so it
+	handles the fact that the translated strings are already in UTF8.
+	* e-summary-rdf.c (tree_walk): Likewise.
+	(display_doc): Likewise.
+
 2003-03-27  Not Zed  <NotZed@Ximian.com>
 
 	** see bug #40141

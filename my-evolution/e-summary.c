@@ -503,7 +503,7 @@ e_summary_init (ESummary *summary)
 	GConfClient *gconf_client;
 	ESummaryPrivate *priv;
 	GdkColor bgcolor = {0, 0xffff, 0xffff, 0xffff};
-	char *def, *default_utf;
+	char *def;
 
 	summary->priv = g_new (ESummaryPrivate, 1);
 
@@ -522,10 +522,8 @@ e_summary_init (ESummary *summary)
 					   "text/html; charset=utf-8");
 	gtk_html_set_default_background_color (GTK_HTML (priv->html), &bgcolor);
 	def = g_strdup_printf (DEFAULT_HTML, _("Please wait..."));
-	default_utf = e_utf8_from_locale_string (def);
-	gtk_html_load_from_string (GTK_HTML (priv->html), default_utf, strlen (default_utf));
+	gtk_html_load_from_string (GTK_HTML (priv->html), def, strlen (def));
 	g_free (def);
-	g_free (default_utf);
 
 	g_signal_connect (priv->html, "url-requested", G_CALLBACK (e_summary_url_requested), summary);
 	g_signal_connect (priv->html, "link-clicked", G_CALLBACK (e_summary_url_clicked), summary);

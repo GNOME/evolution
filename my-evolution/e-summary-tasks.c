@@ -321,17 +321,13 @@ generate_html (gpointer data)
 	}
 
 	if (uids == NULL) {
-		char *s1, *s2;
-
-		s1 = e_utf8_from_locale_string (_("Tasks"));
-		s2 = e_utf8_from_locale_string (_("No tasks"));
 		g_free (tasks->html);
 		tasks->html = g_strconcat ("<dl><dt><img src=\"myevo-post-it.png\" align=\"middle\" "
-					   "alt=\"\" width=\"48\" height=\"48\"> <b><a href=\"", tasks->default_uri, "\">",
-					   s1, "</a></b></dt><dd><b>", s2, "</b></dd></dl>", NULL);
-		g_free (s1);
-		g_free (s2);
-
+					   "alt=\"\" width=\"48\" height=\"48\"> "
+					   "<b><a href=\"", tasks->default_uri, "\">",
+					   _("Tasks"),
+					   "</a></b></dt><dd><b>", _("No tasks"), "</b></dd></dl>",
+					   NULL);
 		return FALSE;
 	} else {
 		char *s;
@@ -340,11 +336,9 @@ generate_html (gpointer data)
 		string = g_string_new (NULL);
 		g_string_sprintf (string, "<dl><dt><img src=\"myevo-post-it.png\" align=\"middle\" "
 				  "alt=\"\" width=\"48\" height=\"48\"> <b><a href=\"%s\">", tasks->default_uri);
-		
-		s = e_utf8_from_locale_string (_("Tasks"));
-		g_string_append (string, s);
-		g_free (s);
+		g_string_append (string, _("Tasks"));
 		g_string_append (string, "</a></b></dt><dd>");
+
 		for (l = uids; l; l = l->next) {
 			char *uid;
 			CalComponent *comp;
