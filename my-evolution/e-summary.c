@@ -167,7 +167,8 @@ destroy (GtkObject *object)
 		e_summary_tasks_free (summary);
 	}
 
-	g_source_remove (priv->tomorrow_timeout_id);
+	if (priv->tomorrow_timeout_id != 0)
+		g_source_remove (priv->tomorrow_timeout_id);
 
 	if (priv->protocol_hash) {
 		g_hash_table_foreach (priv->protocol_hash, free_protocol, NULL);
