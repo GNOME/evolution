@@ -970,8 +970,12 @@ mail_config_check_service (const char *url, CamelProviderType type, GList **auth
 	id = m->msg.seq;
 	e_thread_put(mail_thread_new, (EMsg *)m);
 
+	/* FIXME: make this use e-error.
+	 * It has to be modal otherwise we can get nasty re-entrancy whilst waiting for the
+	 * subthread to complete.
+	 * FIXME: make this whole function async to deal with this issue */
 	dialog = gtk_dialog_new_with_buttons(_("Connecting to server..."), window,
-					     GTK_DIALOG_DESTROY_WITH_PARENT,
+					     GTK_DIALOG_DESTROY_WITH_PARENT|GTK_DIALOG_MODAL,
 					     GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 					     NULL);
 	label = gtk_label_new (_("Connecting to server..."));
