@@ -11,7 +11,6 @@ EXTRA_DIST =			\
 
 SUBDIRS =			\
 	intl			\
-	po			\
 	macros			\
 	data			\
 	e-util			\
@@ -25,7 +24,9 @@ SUBDIRS =			\
 	tests			\
 	addressbook		\
 	libical			\
-	libversit		
+	libversit		\
+	po
+
 # Add this when the calendar builds. 
 #	calendar
 
