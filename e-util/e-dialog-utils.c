@@ -128,7 +128,7 @@ dialog_realized (GtkWindow *dialog, gpointer xid)
  * parent window.
  **/
 void
-e_dialog_set_transient_for_xid (GtkWidget *dialog,
+e_dialog_set_transient_for_xid (GtkWindow *dialog,
 				GdkNativeWindow xid)
 {
 	GdkDisplay *display;
@@ -143,14 +143,14 @@ e_dialog_set_transient_for_xid (GtkWidget *dialog,
 		return;
 	}
 
-	display = gdk_drawable_get_display (GDK_DRAWABLE (dialog->window));
+	display = gdk_drawable_get_display (GDK_DRAWABLE (GTK_WIDGET (dialog)->window));
 	parent = gdk_window_lookup_for_display (display, xid);
 	if (!parent) {
 		parent = gdk_window_foreign_new_for_display (display, xid);
 		g_return_if_fail (parent != NULL);
 	}
 
-	gdk_window_set_transient_for (dialog->window, parent);
+	gdk_window_set_transient_for (GTK_WIDGET (dialog)->window, parent);
 }
 
 
