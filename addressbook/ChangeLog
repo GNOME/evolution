@@ -1,5 +1,10 @@
 2004-02-06  JP Rosevear <jpr@ximian.com>
 
+	* importers/evolution-ldif-importer.c (importer_destroy_cb):
+	implement
+
+2004-02-06  JP Rosevear <jpr@ximian.com>
+
 	* importers/evolution-vcard-importer.c (importer_destroy_cb):
 	implement
 	(load_file_fn): use g_file_get_contents to get a string we can

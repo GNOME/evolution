@@ -555,7 +555,18 @@ static void
 importer_destroy_cb (gpointer data,
 		     GObject *where_object_was)
 {
-	/* FIXME Implement */
+	LDIFImporter *gci = data;
+
+	if (gci->primary)
+		g_object_unref (gci->primary);
+	
+	if (gci->book)
+		g_object_unref (gci->book);
+
+	g_list_foreach (gci->contactlist, (GFunc) g_object_unref, NULL);
+	g_list_free (gci->contactlist);
+
+	g_free (gci);
 }
 
 static gboolean
