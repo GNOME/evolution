@@ -5,20 +5,28 @@
  * Copyright 2000, Helix Code, Inc.
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
-#include <gnome.h>
-#include <bonobo.h>
-#include <liboaf/liboaf.h>
-#include <pas/pas-book-factory.h>
-#include <pas/pas-backend-file.h>
-#include <libgnomevfs/gnome-vfs-init.h>
-
-#ifdef HAVE_LDAP
-#include <pas/pas-backend-ldap.h>
 #endif
+
+#include <stdlib.h>
+#include <glib.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
+#include <libgnomeui/gnome-init.h>
+#include <liboaf/liboaf.h>
+#include <libgnomevfs/gnome-vfs-init.h>
+#include <bonobo/bonobo-main.h>
+
+#include "pas/pas-book-factory.h"
+#include "pas/pas-backend-file.h"
 
 #include "calendar/pcs/cal-factory.h"
 #include "calendar/pcs/cal-backend-file.h"
+
+#ifdef HAVE_LDAP
+#include "pas/pas-backend-ldap.h"
+#endif
 
 #include "wombat-moniker.h"
 
