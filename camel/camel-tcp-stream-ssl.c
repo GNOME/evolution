@@ -41,9 +41,11 @@
 #include <cert.h>
 #include <certdb.h>
 #include <pk11func.h>
+#include <sechash.h>
 
 #include "camel-tcp-stream-ssl.h"
 #include "camel-session.h"
+
 
 static CamelTcpStreamClass *parent_class = NULL;
 
@@ -253,8 +255,8 @@ ssl_get_client_auth (void *data, PRFileDesc *sockfd,
 	
 	proto_win = SSL_RevealPinArg (sockfd);
 	
-	if ((char *)data) {
-		cert = PK11_FindCertFromNickname ((char *)data, proto_win);
+	if ((char *) data) {
+		cert = PK11_FindCertFromNickname ((char *) data, proto_win);
 		if (cert) {
 			privKey = PK11_FindKeyByAnyCert (cert, proto_win);
 			if (privkey) {
@@ -274,7 +276,6 @@ ssl_get_client_auth (void *data, PRFileDesc *sockfd,
 		
 		if (names != NULL) {
 			for (i = 0; i < names->numnicknames; i++) {
-				
 				cert = PK11_FindCertFromNickname (names->nicknames[i], 
 								  proto_win);
 				if (!cert)
@@ -345,7 +346,7 @@ ssl_auth_cert (void *data, PRFileDesc *sockfd, PRBool checksig, PRBool is_server
 	}
 	
 	if (host)
-		PR_Free (hostName);
+		PR_Free (host);
 	
 	return secStatus;
 }
@@ -401,11 +402,13 @@ ssl_cert_is_saved (const char *certid)
 static SECStatus
 ssl_bad_cert (void *data, PRFileDesc *sockfd)
 {
-	CamelTcpStreamSSL *ssl;
-	CERTCertificate *cert;
-	CamelService *service;
+	unsigned char md5sum[16], fingerprint[40], *f;
+	CERTCertificate *cert, *issuer;
+	gboolean accept, valid_cert;
 	char *prompt, *cert_str;
-	gboolean accept;
+	CamelTcpStreamSSL *ssl;
+	CamelService *service;
+	int i;
 	
 	g_return_val_if_fail (data != NULL, SECFailure);
 	g_return_val_if_fail (CAMEL_IS_TCP_STREAM_SSL (data), SECFailure);
@@ -419,23 +422,25 @@ ssl_bad_cert (void *data, PRFileDesc *sockfd)
 	
 	cert = SSL_PeerCertificate (sockfd);
 	
-	cert_str = g_strdup_printf (_("EMail: %s\n"
-				      "Common Name: %s\n"
-				      "Organization Unit: %s\n"
-				      "Organization: %s\n"
-				      "Locality: %s\n"
-				      "State: %s\n"
-				      "Country: %s"),
-				    cert->emailAddr ? cert->emailAddr : "",
-				    CERT_GetCommonName (&cert->issuer) ? CERT_GetCommonName (&cert->issuer) : "",
-				    CERT_GetOrgUnitName (&cert->issuer) ? CERT_GetOrgUnitName (&cert->issuer) : "",
-				    CERT_GetOrgName (&cert->issuer) ? CERT_GetOrgName (&cert->issuer) : "",
-				    CERT_GetLocalityName (&cert->issuer) ? CERT_GetLocalityName (&cert->issuer) : "",
-				    CERT_GetStateName (&cert->issuer) ? CERT_GetStateName (&cert->issuer) : "",
-				    CERT_GetCountryName (&cert->issuer) ? CERT_GetCountryName (&cert->issuer) : "");
+	/* calculate the MD5 hash of the raw certificate */
+	/*md5_get_digest (cert->derCert.data, cert->derCert.len, md5sum);*/
+	HASH_HashBuf (HASH_AlgMD5, md5sum, cert->derCert.data, cert->derCert.len);
+	for (i = 0, f = fingerprint; i < 16; i++, f += 3)
+		sprintf (f, "%.2x%c", md5sum[i], i != 15 ? ':' : '\0');
+	
+	issuer = CERT_FindCertByName (CERT_GetDefaultCertDB (), &cert->derIssuer);
+	valid_cert = issuer && CERT_VerifySignedData (&cert->signatureWrap, issuer, PR_Now (), NULL);
+	
+	cert_str = g_strdup_printf (_("Issuer:            %s\n"
+				      "Subject:           %s\n"
+				      "Fingerprint:       %s\n"
+				      "Signature:         %s"),
+				    CERT_NameToAscii (&cert->issuer),
+				    CERT_NameToAscii (&cert->subject),
+				    fingerprint, valid_cert ? _("GOOD") : _("BAD"));
 	
 	/* construct our user prompt */
-	prompt = g_strdup_printf (_("Bad certificate from %s:\n\n%s\n\nDo you wish to accept anyway?"),
+	prompt = g_strdup_printf (_("SSL Certificate check for %s:\n\n%s\n\nDo you wish to accept?"),
 				  service->url->host, cert_str);
 	g_free (cert_str);
 	
@@ -444,6 +449,17 @@ ssl_bad_cert (void *data, PRFileDesc *sockfd)
 	g_free (prompt);
 	
 	if (accept) {
+#if 0
+		/* this is how mutt does it but last time I tried to
+                   use CERT_AddTempCertToPerm() I got link errors and
+                   I have also been told by the nss devs that that
+                   function has been deprecated... */
+		CERTCertTrust trust;
+		
+		CERT_DecodeTrustString (&trust, "P,,");
+		
+		CERT_AddTempCertToPerm (cert, NULL, &trust);
+#else
 		SECItem *certs[1];
 		
 		if (!cert->trust)
@@ -457,9 +473,9 @@ ssl_bad_cert (void *data, PRFileDesc *sockfd)
 				  NULL, TRUE, FALSE, cert->nickname);
 		
 		/* and since the above code doesn't seem to
-                   work... time for a good ol' fashioned hack */
+		   work... time for a good ol' fashioned hack */
 		save_ssl_cert (ssl->priv->expected_host);
-		
+#endif
 		return SECSuccess;
 	}
 	
@@ -495,7 +511,7 @@ stream_connect (CamelTcpStream *stream, struct hostent *host, int port)
 		return -1;
 	}
 	
-	/*SSL_GetClientAuthDataHook (sslSocket, ssl_get_client_auth, (void *)certNickname);*/
+	/*SSL_GetClientAuthDataHook (sslSocket, ssl_get_client_auth, (void *) certNickname);*/
 	/*SSL_AuthCertificateHook (ssl_fd, ssl_auth_cert, (void *) CERT_GetDefaultCertDB ());*/
 	SSL_BadCertHook (ssl_fd, ssl_bad_cert, ssl);
 	
