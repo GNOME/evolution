@@ -509,23 +509,19 @@ set_prop (BonoboPropertyBag *bag,
 {
 	AddressbookView *view = user_data;
 
-	EBook *book;
 	char *uri_file;
 	char *uri_data;
 	
 	switch (arg_id) {
 
 	case PROPERTY_FOLDER_URI_IDX:
-		view->uri = g_strdup(BONOBO_ARG_GET_STRING (arg));
-		
-		book = e_book_new ();
-		
-		if (!book) {
-			printf ("%s: %s(): Couldn't create EBook, bailing.\n",
-				__FILE__,
-				__FUNCTION__);
-			return;
+		if (view->uri) {
+			/* we've already had a uri set on this view, so unload it */
+			e_book_unload_uri (view->book);
+			g_free (view->uri);
 		}
+
+		view->uri = g_strdup(BONOBO_ARG_GET_STRING (arg));
 		
 		uri_file = g_concat_dir_and_file(view->uri + 7, "uri");
 

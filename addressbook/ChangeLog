@@ -1,3 +1,9 @@
+2000-05-07  Chris Toshok  <toshok@helixcode.com>
+
+	* gui/component/addressbook.c (set_prop): don't create a new
+	ebook.  instead, unload the current uri (if there is one) and load
+	the new one.
+
 2000-05-07  Christopher James Lahey  <clahey@helixcode.com>
 
 	* gui/component/e-addressbook-model.c: Replaced some model_changed
