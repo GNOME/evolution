@@ -1,3 +1,11 @@
+2001-09-25  Federico Mena Quintero  <federico@ximian.com>
+
+	* gui/alarm-notify/alarm.c (alarm_ready_cb): Check that the
+	timeout is not set up before we create a new one; the alarm_fn
+	callback may cause the alarm system to re-enter and add a new
+	alarm.  Fixes bug #10840.
+	(pop_alarm): Assert that there is at least one alarm in the queue.
+
 2001-09-25  JP Rosevear  <jpr@ximian.com>
 
 	* pcs/cal.c: use bonobo-exception stuff to clean code

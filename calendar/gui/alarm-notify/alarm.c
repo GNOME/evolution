@@ -57,8 +57,7 @@ pop_alarm (void)
 	AlarmRecord *ar;
 	GList *l;
 
-	if (!alarms)
-		return;
+	g_assert (alarms != NULL);
 
 	ar = alarms->data;
 
@@ -102,8 +101,15 @@ alarm_ready_cb (gpointer data)
 			(* ar->destroy_notify_fn) (notify_id, ar->data);
 	}
 
-	if (alarms)
-		setup_timeout (now);
+	if (alarms) {
+		/* We need this check because one of the alarm_fn above may have
+		 * re-entered and added an alarm of its own, so the timer will
+		 * already be set up.
+		 */
+		if (timeout_id != 0)
+			setup_timeout (now);
+	} else
+		g_assert (timeout_id == 0);
 
 	return FALSE;
 }
