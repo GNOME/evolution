@@ -1,3 +1,8 @@
+2003-02-23  Hans Petter Jansson  <hpj@ximian.com>
+
+	* evolution-comp-editor.xml: Fix an attributes typo and add stock
+	icon identifiers to silence warning spew.
+
 2003-01-22  Ettore Perazzoli  <ettore@ximian.com>
 
 	* Makefile.am (uidir): Removed (this is now defined in

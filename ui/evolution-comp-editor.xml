@@ -3,29 +3,35 @@
 <commands>
 
         <cmd name="FilePrint" _label="Print..."
-	_tip="Print this item"/>
+        _tip="Print this item"
+        stockid="gtk-print"/>
 
         <cmd name="FilePrintPreview" _label="Print Pre_view"
-          _tip="Preview the printed item"/>
+        _tip="Preview the printed item"
+        stockid="gtk-print-preview"/>
 
         <cmd name="FileSave" _label="Save"
 	_tip="Save the item and close the dialog box"
-	accel="*Control*s"/>
+	accel="*Control*s"
+        stockid="gtk-save"/>
 
         <cmd name="FileSaveAndClose" _label="Save and Close"
 	_tip="Save the item and close the dialog box"
-        accel="*Control*Return"/>
+        accel="*Control*Return"
+        stockid="gtk-save"/>
 
         <cmd name="FileSaveAs" _label="Save As..."
 	_tip="Save this item to disk"
-        accel="*Control*Alt*s"/>
+        accel="*Control*Alt*s"
+        stockid="gtk-save-as"/>
 
 	<cmd name="FileDelete" _label="Delete"
-	_tip="Delete this item"/>
+	_tip="Delete this item"
+        stockid="gtk-delete"/>
 
         <cmd name="FileClose" _label="C_lose"
 	_tip="Close this item"
-        pixtype="stock" pixname="Close" accel="*Control*w"/>
+        stockid="gtk-close" accel="*Control*w"/>
 
 </commands>
 
@@ -33,21 +39,21 @@
 
 <submenu name="File" _label="_File">
 
-        <menuitem name="FileSave" verb="" pixtype="pixbuf"/>
+        <menuitem name="FileSave" verb=""/>
 
-        <menuitem name="FileSaveAndClose" verb="" pixtype="pixbuf"/>
+        <menuitem name="FileSaveAndClose" verb=""/>
 
-        <menuitem name="FileSaveAs" verb="" pixtype="pixbuf"/>
+        <menuitem name="FileSaveAs" verb=""/>
 
 	<separator f="" name="ecompedit1"/>
 
-        <menuitem name="FileDelete" verb="" pixtype="pixbuf"/>
+        <menuitem name="FileDelete" verb=""/>
 
 	<separator f="" name="ecompedit2"/>
 
-	<menuitem name="FilePrint" verb="" pixtype="pixbuf"/>
+	<menuitem name="FilePrint" verb=""/>
 
-	<menuitem name="FilePrintPreview" verb="" pixtype="pixbuf"/>
+	<menuitem name="FilePrintPreview" verb=""/>
 
 	<separator f="" name="ecompedit3"/>
 
@@ -63,20 +69,20 @@
 
 </menu>
 
-<dockitem name="Toolbar"relief="none" behavior="exclusive"
+<dockitem name="Toolbar" relief="none" behavior="exclusive"
  _tip="Main toolbar" hlook="both_horiz" vlook="icon">
 
-        <toolitem name="FileSaveAndClose" verb="" _label="Save and Close" priority="1" pixtype="pixbuf"/>
+        <toolitem name="FileSaveAndClose" verb="" _label="Save and Close" priority="1"/>
 
         <placeholder name="Actions"/>
 
 	<separator f="" name="ecompedit1"/>
         
-	<toolitem name="FilePrint" verb="" _label="Print" priority="1" pixtype="pixbuf"/>
+	<toolitem name="FilePrint" verb="" _label="Print" priority="1"/>
 
 	<separator f="" name="ecompedit2"/>
 
-        <toolitem name="FileDelete" verb="" _label="Delete" priority="1" pixtype="pixbuf"/>
+        <toolitem name="FileDelete" verb="" _label="Delete" priority="1"/>
 
         <toolitem name="FileClose" verb="" _label="Close" priority="1"/>
 
