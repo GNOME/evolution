@@ -776,7 +776,8 @@ e_shell_view_menu_setup (EShellView *shell_view)
 				      SHORTCUT_BAR_TOGGLE_PATH);
 
 	/* Set up the work online / work offline menu item.  */
-	gtk_signal_connect (GTK_OBJECT (shell), "line_status_changed",
-			    GTK_SIGNAL_FUNC (shell_line_status_changed_cb), shell_view);
+	gtk_signal_connect_while_alive (GTK_OBJECT (shell), "line_status_changed",
+					GTK_SIGNAL_FUNC (shell_line_status_changed_cb), shell_view,
+					GTK_OBJECT (shell_view));
 	update_offline_menu_item (shell_view, e_shell_get_line_status (shell));
 }

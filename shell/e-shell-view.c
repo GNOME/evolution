@@ -1216,8 +1216,9 @@ e_shell_view_construct (EShellView *shell_view,
 
 	bonobo_ui_component_thaw (priv->ui_component, NULL);
 
-	gtk_signal_connect (GTK_OBJECT (shell), "line_status_changed",
-			    GTK_SIGNAL_FUNC (shell_line_status_changed_cb), view);
+	gtk_signal_connect_while_alive (GTK_OBJECT (shell), "line_status_changed",
+					GTK_SIGNAL_FUNC (shell_line_status_changed_cb), view,
+					GTK_OBJECT (view));
 
 	return view;
 }

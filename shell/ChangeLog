@@ -1,3 +1,11 @@
+2001-07-15  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-view-menu.c (e_shell_view_menu_setup): Connect the
+	"line_status_changed" signal with
+	`gtk_signal_connect_while_alive()' for the shell views, so we
+	don't crash if a view gets destroyed.
+	* e-shell-view.c (e_shell_view_construct): Likewise.
+
 2001-07-12  Jason Leach  <jleach@ximian.com>
 
 	* e-shell-view-menu.c (command_submit_bug): Because
