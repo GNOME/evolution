@@ -1,3 +1,7 @@
+2003-07-09  Federico Mena Quintero  <federico@ximian.com>
+
+	* e-url-entry.c (destroy): Chain to the parent handler.  Fixes #45236.
+
 2003-06-23  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-search-bar.c (set_menu): Translate the text.  [#45112]
