@@ -799,6 +799,9 @@ etta_proxy_node_request_collapse (ETreeModel *etm, ETreePath node, ETreeTableAda
 static void
 etta_sort_info_changed (ETableSortInfo *sort_info, ETreeTableAdapter *etta)
 {
+	if (!etta->priv->root)
+		return;
+
 	e_table_model_pre_change(E_TABLE_MODEL(etta));
 	resort_node(etta, etta->priv->root, TRUE);
 	fill_map(etta, 0, etta->priv->root);
