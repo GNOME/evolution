@@ -14,6 +14,7 @@ Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
 	      for the pseudo-fix in 1.0.1). We now support Outlook in
 	      both Workgroup and Internet-Only modes.
     #19054 -- Minimum number of alarm repetitions should be 1. (Federico)
+    #20780 -- Better subjects in iMIP messages
 
   * Shell
 
