@@ -395,6 +395,8 @@ e_contact_start_new_page(EContactPrintContext *ctxt)
 		e_contact_print_letter_tab(ctxt);
 	gnome_print_showpage(ctxt->pc);
 
+	gnome_print_beginpage (ctxt->pc, NULL);
+
 	ctxt->first_char_on_page = ctxt->last_char_on_page + 1;
 }
 
@@ -533,6 +535,8 @@ complete_sequence(EBookView *book_view, EBookViewStatus status, EContactPrintCon
 		page_width -= e_contact_get_letter_tab_width(ctxt);
 	
 	ctxt->first_char_on_page = 'A' - 1;
+
+	gnome_print_beginpage (ctxt->pc, NULL);
 
 	for(; cards; cards = cards->next) {
 		ECard *card = cards->data;
@@ -1002,7 +1006,7 @@ e_contact_print_close(GnomeDialog *dialog, gpointer data)
 }
 
 static void
-e_contact_print_button(GnomeDialog *dialog, gint button, gpointer data)
+e_contact_print_response(GtkWidget *dialog, gint response_id, gpointer data)
 {
 	EContactPrintContext *ctxt = g_new(EContactPrintContext, 1);
 	EContactPrintStyle *style = g_new(EContactPrintStyle, 1);
@@ -1022,7 +1026,7 @@ e_contact_print_button(GnomeDialog *dialog, gint button, gpointer data)
 	} else {
 		card = g_object_get_data(G_OBJECT(dialog), "card");
 	}
-	switch( button ) {
+	switch( response_id ) {
 	case GNOME_PRINT_DIALOG_RESPONSE_PRINT:
 		config = gnome_print_dialog_get_config (GNOME_PRINT_DIALOG(dialog));
 		master = gnome_print_job_new( config );
@@ -1061,7 +1065,7 @@ e_contact_print_button(GnomeDialog *dialog, gint button, gpointer data)
 			ctxt->cards = g_list_append(NULL, card);
 			complete_sequence(NULL, E_BOOK_VIEW_STATUS_SUCCESS, ctxt);
 		}
-		gnome_dialog_close(dialog);
+		gtk_widget_destroy (dialog);
 		break;
 	case GNOME_PRINT_DIALOG_RESPONSE_PREVIEW:
 		config = gnome_print_dialog_get_config (GNOME_PRINT_DIALOG(dialog));
@@ -1109,7 +1113,7 @@ e_contact_print_button(GnomeDialog *dialog, gint button, gpointer data)
 		else
 			g_object_unref(card);
 		g_free(query);
-		gnome_dialog_close(dialog);
+		gtk_widget_destroy (dialog);
 		g_free(style);
 		g_free(ctxt);
 		break;
@@ -1131,7 +1135,7 @@ e_contact_print_dialog_new(EBook *book, char *query)
 	g_object_set_data(G_OBJECT(dialog), "book", book);
 	g_object_set_data(G_OBJECT(dialog), "query", g_strdup(query));
 	g_signal_connect(dialog,
-			 "clicked", G_CALLBACK(e_contact_print_button), NULL);
+			 "response", G_CALLBACK(e_contact_print_response), NULL);
 	g_signal_connect(dialog,
 			 "close", G_CALLBACK(e_contact_print_close), NULL);
 	return dialog;
@@ -1193,7 +1197,7 @@ e_contact_print_card_dialog_new(ECard *card)
 	g_object_set_data(G_OBJECT(dialog), "card", card);
 	g_object_set_data(G_OBJECT(dialog), "uses_book", (void *) 0);
 	g_signal_connect(dialog,
-			 "clicked", G_CALLBACK(e_contact_print_button), NULL);
+			 "response", G_CALLBACK(e_contact_print_response), NULL);
 	g_signal_connect(dialog,
 			 "close", G_CALLBACK(e_contact_print_close), NULL);
 	return dialog;
@@ -1215,7 +1219,7 @@ e_contact_print_card_list_dialog_new(GList *list)
 	g_object_set_data(G_OBJECT(dialog), "card", card);
 	g_object_set_data(G_OBJECT(dialog), "uses_book", (void *) 0);
 	g_signal_connect(dialog,
-			 "clicked", G_CALLBACK(e_contact_print_button), NULL);
+			 "response", G_CALLBACK(e_contact_print_response), NULL);
 	g_signal_connect(dialog,
 			 "close", G_CALLBACK(e_contact_print_close), NULL);
 	return dialog;
