@@ -36,11 +36,11 @@ gboolean mail_crypto_is_pkcs7_mime (CamelMimePart *mime_part);
 
 void mail_crypto_pgp_mime_part_sign (CamelMimePart **mime_part,
 				     const char *userid,
-				     CamelPgpHashType hash,
+				     CamelCipherHash hash,
 				     CamelException *ex);
 
-CamelPgpValidity *mail_crypto_pgp_mime_part_verify (CamelMimePart *mime_part,
-						    CamelException *ex);
+CamelCipherValidity *mail_crypto_pgp_mime_part_verify (CamelMimePart *mime_part,
+						       CamelException *ex);
 
 void mail_crypto_pgp_mime_part_encrypt (CamelMimePart **mime_part,
 					GPtrArray *recipients,

@@ -1,3 +1,13 @@
+2001-04-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-crypto.c (mail_crypto_pgp_mime_part_sign): Use the
+	CamelCipherHash enum.
+	(mail_crypto_pgp_mime_part_verify): Use a CamelCipherValidity.
+
+	* mail-format.c (try_inline_pgp_sig): Updated to use
+	CamelCipherValidity instead of CamelPgpValidity.
+	(handle_multipart_signed): Same.
+
 2001-04-12  Dan Winship  <danw@ximian.com>
 
 	* folder-browser.c (do_message_selected, on_message_selected):

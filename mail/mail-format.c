@@ -1101,7 +1101,7 @@ try_inline_pgp_sig (char *start, MailDisplay *md)
 {
 	CamelPgpContext *context;
 	CamelStream *ciphertext;
-	CamelPgpValidity *valid;
+	CamelCipherValidity *valid;
 	CamelException *ex;
 	char *end;
 	
@@ -1128,7 +1128,7 @@ try_inline_pgp_sig (char *start, MailDisplay *md)
 	mail_text_write (md->html, md->stream, "%.*s", end - start, start);
 	
 	/* Now display the "seal-of-authenticity" or something... */
-	if (valid && camel_pgp_validity_get_valid (valid)) {
+	if (valid && camel_cipher_validity_get_valid (valid)) {
 		mail_html_write (md->html, md->stream,
 				 "<hr>\n<table><tr valign=top>"
 				 "<td><img src=\"%s\"></td>"
@@ -1146,16 +1146,16 @@ try_inline_pgp_sig (char *start, MailDisplay *md)
 				   "not be proven to be authentic."));
 	}
 	
-	if (valid && camel_pgp_validity_get_description (valid)) {
+	if (valid && camel_cipher_validity_get_description (valid)) {
 		mail_error_write (md->html, md->stream,
-				  camel_pgp_validity_get_description (valid));
+				  camel_cipher_validity_get_description (valid));
 		mail_html_write (md->html, md->stream, "<br><br>");
 	}
 	
 	mail_html_write (md->html, md->stream, "</font></td></table>");
-		
+	
 	camel_exception_free (ex);
-	camel_pgp_validity_free (valid);
+	camel_cipher_validity_free (valid);
 	
 	return end;
 }
@@ -1489,7 +1489,7 @@ handle_multipart_signed (CamelMimePart *part, const char *mime_type,
 	CamelMultipart *mp;
 	CamelException *ex;
 	gboolean output = FALSE;
-	CamelPgpValidity *valid;
+	CamelCipherValidity *valid;
 	int nparts, i;
 	
 	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));
@@ -1517,7 +1517,7 @@ handle_multipart_signed (CamelMimePart *part, const char *mime_type,
 	}
 	
 	/* Now display the "seal-of-authenticity" or something... */
-	if (valid && camel_pgp_validity_get_valid (valid)) {
+	if (valid && camel_cipher_validity_get_valid (valid)) {
 		mail_html_write (md->html, md->stream,
 				 "<hr>\n<table><tr valign=top>"
 				 "<td><img src=\"%s\"></td>"
@@ -1535,16 +1535,16 @@ handle_multipart_signed (CamelMimePart *part, const char *mime_type,
 				   "not be proven to be authentic."));
 	}
 	
-	if (valid && camel_pgp_validity_get_description (valid)) {
+	if (valid && camel_cipher_validity_get_description (valid)) {
 		mail_error_write (md->html, md->stream,
-				  camel_pgp_validity_get_description (valid));
+				  camel_cipher_validity_get_description (valid));
 		mail_html_write (md->html, md->stream, "<br><br>");
 	}
 	
 	mail_html_write (md->html, md->stream, "</font></td></table>");
 	
 	camel_exception_free (ex);
-	camel_pgp_validity_free (valid);
+	camel_cipher_validity_free (valid);
 	
 	return TRUE;
 }

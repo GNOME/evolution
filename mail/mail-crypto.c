@@ -48,7 +48,7 @@ mail_crypto_is_smime_v3_signed (CamelMimePart *mime_part)
 	if (!header_content_type_is (type, "multipart", "signed"))
 		return FALSE;
 	
-	/* check that we have a protocol param with the value: "application/pgp-signed" */
+	/* check that we have a protocol param with the value: "application/pkcs7-signature" */
 	param = header_content_type_param (type, "protocol");
 	if (!param || g_strcasecmp (param, "application/pkcs7-signature"))
 		return FALSE;
@@ -133,7 +133,7 @@ mail_crypto_is_pkcs7_mime (CamelMimePart *mime_part)
  * #ex will be set and #part will remain untouched.
  **/
 void
-mail_crypto_pgp_mime_part_sign (CamelMimePart **mime_part, const char *userid, CamelPgpHashType hash, CamelException *ex)
+mail_crypto_pgp_mime_part_sign (CamelMimePart **mime_part, const char *userid, CamelCipherHash hash, CamelException *ex)
 {
 	CamelPgpContext *context;
 	
@@ -151,11 +151,11 @@ mail_crypto_pgp_mime_part_sign (CamelMimePart **mime_part, const char *userid, C
  *
  * Returns a PgpValidity on success or NULL on fail.
  **/
-CamelPgpValidity *
+CamelCipherValidity *
 mail_crypto_pgp_mime_part_verify (CamelMimePart *mime_part, CamelException *ex)
 {
 	CamelPgpContext *context;
-	CamelPgpValidity *valid;
+	CamelCipherValidity *valid;
 	
 	context = camel_pgp_context_new (session, mail_config_get_pgp_type (),
 					 mail_config_get_pgp_path ());
