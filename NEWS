@@ -22,6 +22,54 @@ Addressbook:
 
   - Converted most of addressbook to UTF8. (Lauris)
 
+Mailer:
+
+  - Filters (but not vfolders) are now more powerful: they can check
+    any message header, and can do regexp searches on the headers and
+    body. (Jeff) A first draft of an automated mailing list recognizer
+    has been added. (It will need more/better rules.) (Ettore)
+
+  - Attachments are handled differently now. All attachments always
+    have an icon and a header, and you can right-click on the icon to
+    view/hide, save, or launch an external viewer. (Dan)
+
+  - It is no longer necessary to quit and restart after adding a new
+    IMAP server. (Peter)
+
+  - Lots of i18n/charset fixing. (Lauris)
+
+  - Shiny new icons (Tuomas)
+
+  - Giant menu reorganization. Most message operations are now in the
+    "Message" menu, and folder operations in the "Folder" menu.
+    (Ettore, Dan, Peter)
+
+  - "Mark as seen" timeout is now configurable. Mail view remembers
+    the location of the message list/message display split. (Richard
+    Hult)
+
+  - New filter category: "On-demand", for filters to be applied
+    at arbitrary times rather than during mail incorporation. (Peter)
+
+  - POP/IMAP config pages allow you to specify a port... this may
+    go away in a later release when we support ssl/ssh tunneling
+    directly. (Peter)
+
+  - Reply To All will now remove your own addresses from the recipient
+    lists (Jesse Pavel)
+
+  - Folders are synced when you switch to another folder now. (Dan)
+
+  - An IMAP bug that caused all messages to be marked as read before
+    they were read has been fixed. (Dan). The IMAP provider is now
+    more robust about dealing with other concurrent IMAP clients.
+    (Jeff)
+
+  - POP and IMAP are better about when they do and don't try to
+    reconnect. This was part of Camel operation cancellation support,
+    which unfortunately didn't make it into 0.5. (Peter)
+
+
 ETable:
 
   - ETree fixes. (Chris Toshok)
@@ -35,6 +83,7 @@ ETable:
   - Improved table printing when grouped. (Chris Lahey)
 
   - Converted most of ETable to UTF8. (Lauris)
+
 
 Version 0.4, "Alewife", 2000-08-14
 ----------------------------------

@@ -1,5 +1,7 @@
 2000-09-12  Dan Winship  <danw@helixcode.com>
 
+	* NEWS (Mailer): add most (but not all) 0.5 Mailer features
+
 	* configure.in: s/Sentbox/Sent/
 
 2000-09-12  Ettore Perazzoli  <ettore@helixcode.com>
