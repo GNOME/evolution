@@ -201,6 +201,7 @@ alarm_to_dialog (Dialog *dialog)
 	GtkWidget *menu;
 	GList *l;
 	gboolean repeat;
+	char *email;
 	int i;	
 
 	/* Clean the page */
@@ -214,6 +215,22 @@ alarm_to_dialog (Dialog *dialog)
 		else
 			gtk_widget_set_sensitive (l->data, TRUE);
 	}
+
+	/* Set a default address if possible */
+	if (!e_cal_get_static_capability (dialog->ecal, CAL_STATIC_CAPABILITY_NO_EMAIL_ALARMS)
+	    && e_cal_get_alarm_email_address (dialog->ecal, &email, NULL)) {
+		ECalComponentAttendee *a;
+		GSList attendee_list;
+		
+		a = g_new0 (ECalComponentAttendee, 1);
+		a->value = email;
+		attendee_list.data = a;
+		attendee_list.next = NULL;
+		e_cal_component_alarm_set_attendee_list (dialog->alarm, &attendee_list);
+		g_free (email);
+		g_free (a);
+	}
+
 	/* If we can repeat */
 	repeat = !e_cal_get_static_capability (dialog->ecal, CAL_STATIC_CAPABILITY_NO_ALARM_REPEAT);
 	gtk_widget_set_sensitive (dialog->repeat_toggle, repeat);
@@ -484,26 +501,6 @@ dialog_to_alarm (Dialog *dialog)
 
 	case E_CAL_COMPONENT_ALARM_EMAIL:
 		malarm_widgets_to_alarm (dialog, dialog->alarm);
-
-		/* Set a default address if neccessary */
-		if (!e_cal_component_alarm_has_attendees (dialog->alarm)) {
-			char *email;
-
-			if (!e_cal_get_static_capability (dialog->ecal, CAL_STATIC_CAPABILITY_NO_EMAIL_ALARMS)
-			    && e_cal_get_alarm_email_address (dialog->ecal, &email, NULL)) {
-				ECalComponentAttendee *a;
-				GSList attendee_list;
-				
-				a = g_new0 (ECalComponentAttendee, 1);
-				a->value = email;
-				attendee_list.data = a;
-				attendee_list.next = NULL;
-				e_cal_component_alarm_set_attendee_list (dialog->alarm, &attendee_list);
-				g_free (email);
-				g_free (a);
-			}
-		}
-
 		break;
 
 	case E_CAL_COMPONENT_ALARM_PROCEDURE:
@@ -765,6 +762,36 @@ palarm_program_changed_cb (GtkWidget *widget, gpointer data)
 }
 
 static void
+check_custom_email (Dialog *dialog)
+{
+	char *str;
+	EDestination **destv;
+	gboolean sens;
+
+	bonobo_widget_get_property (BONOBO_WIDGET (dialog->malarm_addresses), "destinations", 
+				    TC_CORBA_string, &str, NULL);
+	destv = e_destination_importv (str);
+	g_free (str);
+	
+	sens = destv != NULL;
+	gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog->toplevel), GTK_RESPONSE_OK, sens);
+
+	e_destination_freev (destv);
+}
+
+static void
+malarm_addresses_changed_cb  (BonoboListener    *listener,
+			      const char        *event_name,
+			      const CORBA_any   *arg,
+			      CORBA_Environment *ev,
+			      gpointer           data)
+{
+	Dialog *dialog = data;
+	
+	check_custom_email (dialog);
+}
+
+static void
 action_selection_done_cb (GtkMenuShell *menu_shell, gpointer data)
 {
 	Dialog *dialog = data;
@@ -791,6 +818,7 @@ action_selection_done_cb (GtkMenuShell *menu_shell, gpointer data)
 		break;
 
 	case E_CAL_COMPONENT_ALARM_EMAIL:
+		check_custom_email (dialog);
 		break;
 
 	case E_CAL_COMPONENT_ALARM_PROCEDURE:
@@ -808,6 +836,8 @@ init_widgets (Dialog *dialog)
 {
 	GtkWidget *menu;
 	GtkTextBuffer *text_buffer;
+	BonoboControlFrame *cf;
+	Bonobo_PropertyBag pb = CORBA_OBJECT_NIL;
 	
 	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (dialog->action));
 	g_signal_connect (menu, "selection_done",
@@ -834,6 +864,13 @@ init_widgets (Dialog *dialog)
 	g_signal_connect (G_OBJECT (dialog->palarm_program), "changed",
 			  G_CALLBACK (palarm_program_changed_cb), dialog);
 
+	/* Handle custom email */
+	cf = bonobo_widget_get_control_frame (BONOBO_WIDGET (dialog->malarm_addresses));
+	pb = bonobo_control_frame_get_control_property_bag (cf, NULL);
+	
+	bonobo_event_source_client_add_listener (pb, malarm_addresses_changed_cb,
+						 "Bonobo/Property:change:entry_changed",
+						 NULL, dialog);
 }
 
 gboolean
@@ -880,7 +917,8 @@ alarm_dialog_run (GtkWidget *parent, ECal *ecal, ECalComponentAlarm *alarm)
   
 	response_id = gtk_dialog_run (GTK_DIALOG (dialog.toplevel));
 
-	dialog_to_alarm (&dialog);
+	if (response_id == GTK_RESPONSE_OK)
+		dialog_to_alarm (&dialog);
 
 	gtk_widget_destroy (dialog.toplevel);
 	g_object_unref (dialog.xml);
