@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-02-02 17:53+0800\n"
+"POT-Creation-Date: 2005-02-03 00:35+0800\n"
 "PO-Revision-Date: 2005-02-02 17:57+0800\n"
 "Last-Translator: Funda Wang <fundawang@linux.net.cn>\n"
 "Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
@@ -4311,73 +4311,73 @@ msgstr "天"
 msgid "New Calendar"
 msgstr "新建日历"
 
-#: calendar/gui/calendar-component.c:701
+#: calendar/gui/calendar-component.c:703
 msgid "Failed upgrading calendars."
 msgstr "升级日历失败。"
 
-#: calendar/gui/calendar-component.c:997
+#: calendar/gui/calendar-component.c:999
 #, c-format
 msgid "Unable to open the calendar '%s' for creating events and meetings"
 msgstr "无法打开日历“%s”来创建事件和会议"
 
-#: calendar/gui/calendar-component.c:1013
+#: calendar/gui/calendar-component.c:1015
 msgid "There is no calendar available for creating events and meetings"
 msgstr "没有可创建事件和会议的日历"
 
-#: calendar/gui/calendar-component.c:1123
+#: calendar/gui/calendar-component.c:1125
 msgid "Calendar Source Selector"
 msgstr "日历源选择器"
 
-#: calendar/gui/calendar-component.c:1148
+#: calendar/gui/calendar-component.c:1150
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:2
 msgid "Calendars"
 msgstr "日历"
 
-#: calendar/gui/calendar-component.c:1314
+#: calendar/gui/calendar-component.c:1316
 msgid "New appointment"
 msgstr "新建约会"
 
-#: calendar/gui/calendar-component.c:1315
+#: calendar/gui/calendar-component.c:1317
 msgid "_Appointment"
 msgstr "约会(_A)"
 
-#: calendar/gui/calendar-component.c:1316
+#: calendar/gui/calendar-component.c:1318
 msgid "Create a new appointment"
 msgstr "创建新约会"
 
-#: calendar/gui/calendar-component.c:1322
+#: calendar/gui/calendar-component.c:1324
 msgid "New meeting"
 msgstr "新建会议"
 
-#: calendar/gui/calendar-component.c:1323
+#: calendar/gui/calendar-component.c:1325
 msgid "M_eeting"
 msgstr "会议(_E)"
 
-#: calendar/gui/calendar-component.c:1324
+#: calendar/gui/calendar-component.c:1326
 msgid "Create a new meeting request"
 msgstr "创建一条新会议请求"
 
-#: calendar/gui/calendar-component.c:1330
+#: calendar/gui/calendar-component.c:1332
 msgid "New all day appointment"
 msgstr "新建全天约会"
 
-#: calendar/gui/calendar-component.c:1331
+#: calendar/gui/calendar-component.c:1333
 msgid "All Day A_ppointment"
 msgstr "全天约会(_P)"
 
-#: calendar/gui/calendar-component.c:1332
+#: calendar/gui/calendar-component.c:1334
 msgid "Create a new all-day appointment"
 msgstr "创建新全天约会"
 
-#: calendar/gui/calendar-component.c:1338
+#: calendar/gui/calendar-component.c:1340
 msgid "New calendar"
 msgstr "新建日历"
 
-#: calendar/gui/calendar-component.c:1339
+#: calendar/gui/calendar-component.c:1341
 msgid "Cale_ndar"
 msgstr "日历(_N)"
 
-#: calendar/gui/calendar-component.c:1340
+#: calendar/gui/calendar-component.c:1342
 msgid "Create a new calendar"
 msgstr "创建新日历"
 
@@ -17480,4 +17480,3 @@ msgstr "%s (...)"
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% 完成)"
-
