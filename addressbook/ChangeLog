@@ -1,5 +1,13 @@
 2001-08-14  Christopher James Lahey  <clahey@ximian.com>
 
+	* gui/merging/e-card-merging-book-commit-duplicate-detected.glade:
+	Got rid of an extraneous _ here.
+
+	* gui/widgets/e-addressbook-util.c (e_addressbook_error_dialog):
+	Changed Canceled to Cancelled here.  Fixes Ximian bug #2465.
+
+2001-08-14  Christopher James Lahey  <clahey@ximian.com>
+
 	* backend/pas/pas-book.c (pas_book_respond_get_vcard): Oops,
 	forgot to write this function.
 

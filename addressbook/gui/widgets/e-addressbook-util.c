@@ -38,7 +38,7 @@ e_addressbook_error_dialog (const gchar *msg, EBookStatus status)
 		N_("Card not found"),
 		N_("Card ID already exists"),
 		N_("Protocol not supported"),
-		N_("Canceled"),
+		N_("Cancelled"),
 		N_("Other error")
 	};
 	char *error_msg;
