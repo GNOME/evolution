@@ -1,5 +1,9 @@
 2001-12-17  Ettore Perazzoli  <ettore@ximian.com>
 
+	* NEWS: Tidied up a bit.
+
+2001-12-17  Ettore Perazzoli  <ettore@ximian.com>
+
 	* tools/Makefile.am (bin_SCRIPTS): Add `csv2vcard'.
 
 	* csv2vcard: New file; script by Michael MacDonald to convert CSV
