@@ -1,5 +1,75 @@
-Evolution 1.1.1
----------------
+Evolution 1.1.2, 2002-10-07
+---------------------------
+
+Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
+
+  * Shell
+
+    - #11645 -- Shortcuts are not updated when a folder is moved.
+                (Ettore)
+    - #14019 -- Accessing the conduit settings from Evolution.
+                (Ettore)
+    - #16556 -- Start-up wizard doesn't propmpt for IMAP password.
+    		(Ettore)
+    - #19899 -- First-run code uses free() instead of g_free().
+                (Ettore)
+    - #24062 -- When removing a folder with unread messages, sometimes
+                its parent folder stays highlighted even when it
+                shouldn't be.  (Ettore)
+    - #27662 -- Unread count in shortcut bar doesn't update properly.
+                (Ettore)
+    - #27855 -- Send/Receive should be disabled when offline.
+                (Ettore)
+    - #28232 -- Default type for the folder creation dialog is
+	        sometimes "Contacts" instead of "mail".  (Ettore)
+    - #28317 -- File->Close doesn't work.  (Ettore)
+    - #28451 -- Renaming causes incorrect sorting in the folder tree.
+                (Ettore)
+    - #28495 -- Settings dialog resizes when you switch pages.
+                (Ettore)
+    - #29293 -- Back button on final page of new account doesn't work.
+                (Michael)
+    - #30248 -- Folder selection dialog crash.  (Mike)
+    - #30533 -- The folder creation dialog changes the parent folder
+                selection if you specify a name that already exists.
+                (Ettore)
+    - #31360 -- Crash when using the folder selection button.  (Dan)
+    - #31690 -- Importer crash.  (Ettore)
+
+Other fixes:
+
+  * Shell
+
+    - Some strings that were not translated properly before now are.
+      (Kjartan Maraas)
+
+  * Misc
+
+    - Sensitivity problem when using the folder selector.  (Toshok)
+
+    - Changed the way shared folders work with Connector.  (Dan)
+
+    - Allow accessing local folders even if some folders with
+      unknown/corrupted metadata type are found in ~/evolution/local.
+      (Ettore)
+
+    - Importer dialog now has history support.  (Rodrigo)
+
+    - We no longer allow selecting a folder of a non-allowed type with
+      a double-click in the folder selection dialog.  (Dan)
+
+Updated translations:
+
+    - ko (Young-Ho Cha, Changwoo Ryu)
+    - nn (Roy-Magne Mo)
+    - no (Kjartan Maraas)
+    - pl (Zbigniew Chyla)
+    - vi (Pablo Saratxaga)
+    - tr (Gorkem)
+
+
+Evolution 1.1.1, 2002-09-09
+---------------------------
 
 New features:
 
