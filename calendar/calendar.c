@@ -23,14 +23,19 @@
 /* Our day range */
 time_t calendar_day_begin, calendar_day_end;
 
+static void calendar_init_alarms (Calendar *cal);
+
 Calendar *
 calendar_new (char *title)
 {
 	Calendar *cal;
 
 	cal = g_new0 (Calendar, 1);
+
 	cal->title = g_strdup (title);
 
+	calendar_init_alarms (cal);
+	
 	return cal;
 }
 
@@ -47,7 +52,7 @@ try_add (iCalObject *ico, CalendarAlarm *alarm, time_t start, time_t end)
 }
 
 static int
-add_alarm (iCalObject *obj, time_t start, time_t end, void *closure)
+add_object_alarms (iCalObject *obj, time_t start, time_t end, void *closure)
 {
 	if (obj->aalarm.enabled)
 		try_add (obj, &obj->aalarm, start, end);
@@ -78,7 +83,7 @@ ical_object_try_alarms (iCalObject *obj)
 	if (max_o == -1)
 		return;
 	
-	ical_object_generate_events (obj, calendar_day_begin, calendar_day_end + max_o, add_alarm, obj);
+	ical_object_generate_events (obj, calendar_day_begin, calendar_day_end + max_o, add_object_alarms, obj);
 }
 
 void
@@ -275,12 +280,21 @@ calendar_load_from_vobject (Calendar *cal, VObject *vcal)
 	}
 }
 
+static void
+calendar_set_day (void)
+{
+	time_t calendar_today;
+	
+	calendar_today     = time (NULL);
+	calendar_day_begin = time_day_begin (calendar_today);
+	calendar_day_end   = time_day_end (calendar_today);
+}
+
 /* Loads a calendar from a file */
 char *
 calendar_load (Calendar *cal, char *fname)
 {
 	VObject *vcal;
-	time_t calendar_today;
 	struct stat s;
 	
 	if (cal->filename){
@@ -295,9 +309,8 @@ calendar_load (Calendar *cal, char *fname)
 
 	stat (fname, &s);
 	cal->file_time = s.st_mtime;
-	calendar_today     = time (NULL);
-	calendar_day_begin = time_day_begin (calendar_today);
-	calendar_day_end   = time_day_end (calendar_today);
+
+	calendar_set_day ();
 		
 	calendar_load_from_vobject (cal, vcal);
 	cleanVObject (vcal);
@@ -417,3 +430,19 @@ calendar_object_changed (Calendar *cal, iCalObject *obj, int flags)
 		;
 	ical_object_try_alarms (obj);
 }
+
+static void
+calendar_day_change (time_t time, CalendarAlarm *which, void *closure)
+{
+	calendar_set_day ();
+}
+
+static void
+calendar_init_alarms (Calendar *cal)
+{
+	CalendarAlarm day_change_alarm;
+
+	day_change_alarm.trigger = calendar_day_end;
+	alarm_add (&day_change_alarm, calendar_day_change, cal);
+}
+

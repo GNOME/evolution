@@ -74,6 +74,7 @@ alarm_ready (void *closure, int fd, GdkInputCondition cond)
 				itimer.it_value.tv_sec = next->activation_time - now;
 				itimer.it_value.tv_usec = 0;
 				setitimer (ITIMER_REAL, &itimer, NULL);
+				break;
 			} else {
 				g_free (ar);
 				ar = next;
@@ -95,7 +96,14 @@ alarm_compare_by_time (gconstpointer a, gconstpointer b)
 	return (diff < 0) ? -1 : (diff > 0) ? 1 : 0;
 }
 
-void
+/**
+ * alarm_add:
+ *
+ * Tries to schedule @alarm.
+ *
+ * Returns TRUE if the alarm was scheduled.
+ */
+gboolean
 alarm_add (CalendarAlarm *alarm, AlarmFunction fn, void *closure)
 {
 	time_t now = time (NULL);
@@ -104,7 +112,7 @@ alarm_add (CalendarAlarm *alarm, AlarmFunction fn, void *closure)
 
 	/* If it already expired, do not add it */
 	if (alarm_time < now)
-		return;
+		return FALSE;
 	
 	ar = g_new0 (AlarmRecord, 1);
 	ar->activation_time = alarm_time;
@@ -127,6 +135,8 @@ alarm_add (CalendarAlarm *alarm, AlarmFunction fn, void *closure)
 		v = setitimer (ITIMER_REAL, &itimer, NULL);
 		head_alarm = alarms->data;
 	}
+
+	return TRUE;
 }
 
 int 

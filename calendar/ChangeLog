@@ -1,3 +1,11 @@
+1999-01-28  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* calendar.c (calendar_init_alarms): Schedule an alarm for
+	midnight to change the calendar_day_begin/calendar_day_end.
+
+	* alarm.c (alarm_ready): If we reschedule, there is no need to
+	activate any pending alarms.
+
 1999-01-28  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
 	* gncal-full-day.c (child_new): Insert the summary text here.

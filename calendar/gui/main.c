@@ -505,8 +505,8 @@ setup_appbar (GtkWidget *gcal)
 {
         GnomeAppBar *appbar;
 	
-        appbar = gnome_appbar_new(FALSE, TRUE, GNOME_PREFERENCES_USER);
-	gnome_app_set_statusbar(GNOME_APP (gcal), GTK_WIDGET(appbar));
+        appbar = gnome_appbar_new (FALSE, TRUE, GNOME_PREFERENCES_USER);
+	gnome_app_set_statusbar (GNOME_APP (gcal), GTK_WIDGET(appbar));
 }
 
 static gint
