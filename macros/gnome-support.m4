@@ -62,7 +62,7 @@ AC_DEFUN([GNOME_SUPPORT_CHECKS],[
       [AC_TRY_LINK([int *p;], [extern int $v; p = &$v;],
 		   [eval "gnome_cv_var_$v=yes"],
 		   [eval "gnome_cv_var_$v=no"])])
-    if eval "test \"`echo '$libiberty_cv_var_'$v`\" = yes"; then
+    if eval "test \"`echo '$gnome_cv_var_'$v`\" = yes"; then
       AC_MSG_RESULT(yes)
       n=HAVE_`echo $v | tr 'abcdefghijklmnopqrstuvwxyz' 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'`
       AC_DEFINE_UNQUOTED($n)
