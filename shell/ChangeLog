@@ -1,3 +1,20 @@
+2002-02-23  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-storage-set-view.c (impl_destroy): Renamed from `destroy'.
+	(impl_right_click): Renamed from `right_click'.
+	(impl_cursor_activated): Renamed from `cursor_activated'.
+	(impl_tree_start_drag): Renamed from `tree_start_drag'.
+	(impl_tree_drag_begin): Renamed from `tree_drag_begin'.
+	(impl_tree_drag_end): Renamed from `tree_drag_end'.
+	(impl_tree_drag_data_get): Renamed from `tree_drag_data_get'.
+	(impl_tree_drag_data_delete): Renamed from
+	`tree_drag_data_delete'.
+	(impl_tree_drag_motion): Renamed from `tree_drag_motion'.
+	(impl_tree_drag_leave): Renamed from `tree_drag_leave'.
+	(impl_tree_drag_drop): Renamed from `tree_drag_drop'.
+	(impl_tree_drag_data_received): Renamed from
+	`tree_drag_data_received'.
+
 2002-02-22  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Fix #3029, Offline mode should be preserved across sessions.]

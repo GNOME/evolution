@@ -717,7 +717,7 @@ pixbuf_free_func (gpointer key, gpointer value, gpointer user_data)
 }
 
 static void
-destroy (GtkObject *object)
+impl_destroy (GtkObject *object)
 {
 	EStorageSetView *storage_set_view;
 	EStorageSetViewPrivate *priv;
@@ -771,8 +771,16 @@ destroy (GtkObject *object)
 }
 
 
+/* ETree methods.  */
+
+/* -- Source-side DnD.  */
+
 static gint
-tree_start_drag (ETree *tree, int row, ETreePath path, int col, GdkEvent *event)
+impl_tree_start_drag (ETree *tree,
+		      int row,
+		      ETreePath path,
+		      int col,
+		      GdkEvent *event)
 {
 	GdkDragContext *context;
 	GtkTargetList *target_list;
@@ -802,15 +810,12 @@ tree_start_drag (ETree *tree, int row, ETreePath path, int col, GdkEvent *event)
 	return TRUE;
 }
 
-
-/* ETree methods.  */
-
-/* -- Source-side DnD.  */
-
 static void
-tree_drag_begin (ETree *etree,
-		 int row, ETreePath path, int col,
-		 GdkDragContext *context)
+impl_tree_drag_begin (ETree *etree,
+		      int row,
+		      ETreePath path,
+		      int col,
+		      GdkDragContext *context)
 {
 	EStorageSetView *storage_set_view;
 	EStorageSetViewPrivate *priv;
@@ -885,11 +890,11 @@ tree_drag_begin (ETree *etree,
 }
 
 static void
-tree_drag_end (ETree *tree,
-	       int row,
-	       ETreePath path,
-	       int col,
-	       GdkDragContext *context)
+impl_tree_drag_end (ETree *tree,
+		    int row,
+		    ETreePath path,
+		    int col,
+		    GdkDragContext *context)
 {
 	EStorageSetView *storage_set_view;
 	EStorageSetViewPrivate *priv;
@@ -917,14 +922,14 @@ tree_drag_end (ETree *tree,
 }
 
 static void
-tree_drag_data_get (ETree *etree,
-		    int drag_row,
-		    ETreePath drag_path,
-		    int drag_col,
-		    GdkDragContext *context,
-		    GtkSelectionData *selection_data,
-		    unsigned int info,
-		    guint32 time)
+impl_tree_drag_data_get (ETree *etree,
+			 int drag_row,
+			 ETreePath drag_path,
+			 int drag_col,
+			 GdkDragContext *context,
+			 GtkSelectionData *selection_data,
+			 unsigned int info,
+			 guint32 time)
 {
 	EStorageSetView *storage_set_view;
 	EStorageSetViewPrivate *priv;
@@ -974,11 +979,11 @@ tree_drag_data_get (ETree *etree,
 }
 
 static void
-tree_drag_data_delete (ETree *tree,
-		       int row,
-		       ETreePath path,
-		       int col,
-		       GdkDragContext *context)
+impl_tree_drag_data_delete (ETree *tree,
+			    int row,
+			    ETreePath path,
+			    int col,
+			    GdkDragContext *context)
 {
 	EStorageSetView *storage_set_view;
 	EStorageSetViewPrivate *priv;
@@ -1064,14 +1069,14 @@ handle_evolution_path_drag_motion (EStorageSetView *storage_set_view,
 }
 
 static gboolean
-tree_drag_motion (ETree *tree,
-		  int row,
-		  ETreePath path,
-		  int col,
-		  GdkDragContext *context,
-		  int x,
-		  int y,
-		  unsigned int time)
+impl_tree_drag_motion (ETree *tree,
+		       int row,
+		       ETreePath path,
+		       int col,
+		       GdkDragContext *context,
+		       int x,
+		       int y,
+		       unsigned int time)
 {
 	EStorageSetView *storage_set_view;
 	EFolder *folder;
@@ -1136,25 +1141,25 @@ tree_drag_motion (ETree *tree,
 }
 
 static void
-tree_drag_leave (ETree *etree,
-		int row,
-		ETreePath path,
-		int col,
-		GdkDragContext *context,
-		unsigned int time)
+impl_tree_drag_leave (ETree *etree,
+		      int row,
+		      ETreePath path,
+		      int col,
+		      GdkDragContext *context,
+		      unsigned int time)
 {
 	e_tree_drag_unhighlight (etree);
 }
 
 static gboolean
-tree_drag_drop (ETree *etree,
-		int row,
-		ETreePath path,
-		int col,
-		GdkDragContext *context,
-		int x,
-		int y,
-		unsigned int time)
+impl_tree_drag_drop (ETree *etree,
+		     int row,
+		     ETreePath path,
+		     int col,
+		     GdkDragContext *context,
+		     int x,
+		     int y,
+		     unsigned int time)
 {
 	e_tree_drag_unhighlight (etree);
 	if (context->targets != NULL) {
@@ -1168,16 +1173,16 @@ tree_drag_drop (ETree *etree,
 }
 
 static void
-tree_drag_data_received (ETree *etree,
-			 int row,
-			 ETreePath path,
-			 int col,
-			 GdkDragContext *context,
-			 int x,
-			 int y,
-			 GtkSelectionData *selection_data,
-			 unsigned int info,
-			 unsigned int time)
+impl_tree_drag_data_received (ETree *etree,
+			      int row,
+			      ETreePath path,
+			      int col,
+			      GdkDragContext *context,
+			      int x,
+			      int y,
+			      GtkSelectionData *selection_data,
+			      unsigned int info,
+			      unsigned int time)
 {
 	EStorageSetView *storage_set_view;
 	EStorageSetViewPrivate *priv;
@@ -1286,11 +1291,11 @@ tree_drag_data_received (ETree *etree,
 }
 
 static gboolean
-right_click (ETree *etree,
-	     int row,
-	     ETreePath path,
-	     int col,
-	     GdkEvent *event)
+impl_right_click (ETree *etree,
+		  int row,
+		  ETreePath path,
+		  int col,
+		  GdkEvent *event)
 {
 	EStorageSetView *storage_set_view;
 	EStorageSetViewPrivate *priv;
@@ -1321,9 +1326,9 @@ right_click (ETree *etree,
 }
 
 static void
-cursor_activated (ETree *tree,
-		  int row,
-		  ETreePath path)
+impl_cursor_activated (ETree *tree,
+		       int row,
+		       ETreePath path)
 {
 	EStorageSetView *storage_set_view;
 	EStorageSetViewPrivate *priv;
@@ -1406,31 +1411,38 @@ etree_icon_at (ETreeModel *etree,
 
 /* This function returns the number of columns in our ETreeModel. */
 static int
-etree_column_count (ETreeModel *etc, void *data)
+etree_column_count (ETreeModel *etc,
+		    void *data)
 {
 	return 2;
 }
 
 static gboolean
-etree_has_save_id (ETreeModel *etm, void *data)
+etree_has_save_id (ETreeModel *etm,
+		   void *data)
 {
 	return TRUE;
 }
 
 static gchar *
-etree_get_save_id (ETreeModel *etm, ETreePath node, void *model_data)
+etree_get_save_id (ETreeModel *etm,
+		   ETreePath node,
+		   void *model_data)
 {
 	return g_strdup(e_tree_memory_node_get_data (E_TREE_MEMORY(etm), node));
 }
 
 static gboolean
-etree_has_get_node_by_id (ETreeModel *etm, void *data)
+etree_has_get_node_by_id (ETreeModel *etm,
+			  void *data)
 {
 	return TRUE;
 }
 
 static ETreePath
-etree_get_node_by_id (ETreeModel *etm, const char *save_id, void *model_data)
+etree_get_node_by_id (ETreeModel *etm,
+		      const char *save_id,
+		      void *model_data)
 {
 	EStorageSetView *storage_set_view;
 	storage_set_view = E_STORAGE_SET_VIEW (model_data);
@@ -1439,7 +1451,10 @@ etree_get_node_by_id (ETreeModel *etm, const char *save_id, void *model_data)
 }
 
 static void *
-etree_value_at (ETreeModel *etree, ETreePath tree_path, int col, void *model_data)
+etree_value_at (ETreeModel *etree,
+		ETreePath tree_path,
+		int col,
+		void *model_data)
 {
 	EStorageSetView *storage_set_view;
 	EStorageSet *storage_set;
@@ -1486,13 +1501,20 @@ etree_value_at (ETreeModel *etree, ETreePath tree_path, int col, void *model_dat
 }
 
 static void
-etree_set_value_at (ETreeModel *etree, ETreePath path, int col, const void *val, void *model_data)
+etree_set_value_at (ETreeModel *etree,
+		    ETreePath path,
+		    int col,
+		    const void *val,
+		    void *model_data)
 {
 	/* nada */
 }
 
 static gboolean
-etree_is_editable (ETreeModel *etree, ETreePath path, int col, void *model_data)
+etree_is_editable (ETreeModel *etree,
+		   ETreePath path,
+		   int col,
+		   void *model_data)
 {
 	return FALSE;
 }
@@ -1500,7 +1522,10 @@ etree_is_editable (ETreeModel *etree, ETreePath path, int col, void *model_data)
 
 /* This function duplicates the value passed to it. */
 static void *
-etree_duplicate_value (ETreeModel *etc, int col, const void *value, void *data)
+etree_duplicate_value (ETreeModel *etc,
+		       int col,
+		       const void *value,
+		       void *data)
 {
 	if (col == 0)
 		return (void *)g_strdup (value);
@@ -1510,7 +1535,10 @@ etree_duplicate_value (ETreeModel *etc, int col, const void *value, void *data)
 
 /* This function frees the value passed to it. */
 static void
-etree_free_value (ETreeModel *etc, int col, void *value, void *data)
+etree_free_value (ETreeModel *etc,
+		  int col,
+		  void *value,
+		  void *data)
 {
 	if (col == 0)
 		g_free (value);
@@ -1518,7 +1546,9 @@ etree_free_value (ETreeModel *etc, int col, void *value, void *data)
 
 /* This function creates an empty value. */
 static void *
-etree_initialize_value (ETreeModel *etc, int col, void *data)
+etree_initialize_value (ETreeModel *etc,
+			int col,
+			void *data)
 {
 	if (col == 0)
 		return g_strdup ("");
@@ -1528,7 +1558,10 @@ etree_initialize_value (ETreeModel *etc, int col, void *data)
 
 /* This function reports if a value is empty. */
 static gboolean
-etree_value_is_empty (ETreeModel *etc, int col, const void *value, void *data)
+etree_value_is_empty (ETreeModel *etc,
+		      int col,
+		      const void *value,
+		      void *data)
 {
 	if (col == 0)
 		return !(value && *(char *)value);
@@ -1538,7 +1571,10 @@ etree_value_is_empty (ETreeModel *etc, int col, const void *value, void *data)
 
 /* This function reports if a value is empty. */
 static char *
-etree_value_to_string (ETreeModel *etc, int col, const void *value, void *data)
+etree_value_to_string (ETreeModel *etc,
+		       int col,
+		       const void *value,
+		       void *data)
 {
 	if (col == 0)
 		return g_strdup(value);
@@ -1700,20 +1736,20 @@ class_init (EStorageSetViewClass *klass)
 	parent_class = gtk_type_class (e_tree_get_type ());
 
 	object_class = GTK_OBJECT_CLASS (klass);
-	object_class->destroy = destroy;
+	object_class->destroy = impl_destroy;
 
 	etree_class = E_TREE_CLASS (klass);
-	etree_class->right_click             = right_click;
-	etree_class->cursor_activated        = cursor_activated;
-	etree_class->start_drag              = tree_start_drag;
-	etree_class->tree_drag_begin         = tree_drag_begin;
-	etree_class->tree_drag_end           = tree_drag_end;
-	etree_class->tree_drag_data_get      = tree_drag_data_get;
-	etree_class->tree_drag_data_delete   = tree_drag_data_delete;
-	etree_class->tree_drag_motion        = tree_drag_motion;
-	etree_class->tree_drag_drop          = tree_drag_drop;
-	etree_class->tree_drag_leave         = tree_drag_leave;
-	etree_class->tree_drag_data_received = tree_drag_data_received;
+	etree_class->right_click             = impl_right_click;
+	etree_class->cursor_activated        = impl_cursor_activated;
+	etree_class->start_drag              = impl_tree_start_drag;
+	etree_class->tree_drag_begin         = impl_tree_drag_begin;
+	etree_class->tree_drag_end           = impl_tree_drag_end;
+	etree_class->tree_drag_data_get      = impl_tree_drag_data_get;
+	etree_class->tree_drag_data_delete   = impl_tree_drag_data_delete;
+	etree_class->tree_drag_motion        = impl_tree_drag_motion;
+	etree_class->tree_drag_drop          = impl_tree_drag_drop;
+	etree_class->tree_drag_leave         = impl_tree_drag_leave;
+	etree_class->tree_drag_data_received = impl_tree_drag_data_received;
 
 	signals[FOLDER_SELECTED]
 		= gtk_signal_new ("folder_selected",
