@@ -1,3 +1,7 @@
+2001-02-05  Iain Holmes  <iain@ximian.com>
+
+	* evolution-executive-summary.xml: Add a priority.
+
 2001-02-02  Michael Meeks  <michael@helixcode.com>
 
 	* evolution-calendar.xml: cmd / widgetify.

@@ -13,7 +13,7 @@
   <dockitem name="Toolbar">
 
     <toolitem name="AddService" verb="AddService"
-    _label="Add Service" _tip="Add a new service to the Executive Summary"
+    _label="Add Service" priority="1" _tip="Add a new service to the Executive Summary"
     pixtype="pixbuf"/>
 
     <separator/>
