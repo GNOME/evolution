@@ -1,3 +1,23 @@
+2001-06-30  Jon Trowbridge  <trow@ximian.com>
+
+	* mail-display.c (make_popup_window): Changed to return the
+	created window.
+	(find_socket): Added.  Copied from e-shell-view.c.  The fact
+	that I'm copying this bit of code all over isn't cool.
+	(html_button_press_event): Properly destroy the popup window when
+	the widget inside the control is destroyed.
+
+	* mail-callbacks.c (addrbook_sender): Added.  Implements
+	the "Add sender to addressbook" right-click. (Bug #3645)
+	(find_socket): Added.  Copied from e-shell-view.c.
+
+	* folder-browser.c: Added "Add sender to addressbook" to
+	context_menu[].
+
+	* mail-display.c: (handle_embedded_address_object): Removed.
+	(on_object_requested): Removed handling for embedded address
+	objects.  (Which was obsolete crap.)
+
 2001-06-29  Larry Ewing  <lewing@ximian.com>
 
 	* mail-display.c (html_button_press_event): remove redundant

@@ -25,6 +25,7 @@
 #include <bonobo/bonobo-stream-memory.h>
 #include <bonobo/bonobo-ui-toolbar-icon.h>
 #include <bonobo/bonobo-widget.h>
+#include <bonobo/bonobo-socket.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gdk-pixbuf/gdk-pixbuf-loader.h>
 #include <gal/util/e-util.h>
@@ -640,32 +641,6 @@ get_embedded_for_component (const char *iid, MailDisplay *md)
 	return embedded;
 }
 
-static void
-handle_embedded_address_object (GtkHTMLEmbedded *eb)
-{
-	const gchar *name, *email;
-	GtkWidget *w;
-
-	w = bonobo_widget_new_control ("OAFIID:GNOME_Evolution_Addressbook_AddressWidget",
-				       CORBA_OBJECT_NIL);
-
-	name  = gtk_html_embedded_get_parameter (eb, "name");
-	email = gtk_html_embedded_get_parameter (eb, "email");
-
-	bonobo_widget_set_property (BONOBO_WIDGET (w),
-				    "name", name,
-				    "email", email,
-				    /* Hackish: this is the bg color defined for the HTML table
-				       in mail-format.c.  If you change it there, you'd better
-				       change it here as well. */
-				    "background_rgb", 0xeeeeee,
-				    NULL);
-
-	gtk_widget_show (w);
-	gtk_container_add (GTK_CONTAINER (eb), w);
-
-	gtk_html_embedded_set_descent (eb, 0);
-}
 
 static gboolean
 on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
@@ -685,11 +660,6 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 	char *cid;
 
 	cid = eb->classid;
-
-	if (!strcmp (cid, "address")) {
-		handle_embedded_address_object (eb);
-		return TRUE;
-	}
 
 	if (!strncmp (cid, "popup:", 6))
 		cid += 6;
@@ -1431,7 +1401,7 @@ popup_size_allocate_cb (GtkWidget *widget, GtkAllocation *alloc, gpointer user_d
 
 }
 
-static void
+static GtkWidget *
 make_popup_window (GtkWidget *w)
 {
 	PopupInfo *pop = g_new0 (PopupInfo, 1);
@@ -1479,6 +1449,30 @@ make_popup_window (GtkWidget *w)
 	gtk_widget_show (w);
 	gtk_widget_show (fr);
 	gtk_widget_show (pop->win);
+
+	return pop->win;
+}
+
+/* Copied from e-shell-view.c */
+static GtkWidget *
+find_socket (GtkContainer *container)
+{
+        GList *children, *tmp;
+
+        children = gtk_container_children (container);
+        while (children) {
+                if (BONOBO_IS_SOCKET (children->data))
+                        return children->data;
+                else if (GTK_IS_CONTAINER (children->data)) {
+                        GtkWidget *socket = find_socket (children->data);
+                        if (socket)
+                                return socket;
+                }
+                tmp = children->next;
+                g_list_free_1 (children);
+                children = tmp;
+        }
+        return NULL;
 }
 
 static int
@@ -1491,7 +1485,9 @@ html_button_press_event (GtkWidget *widget, GdkEventButton *event, MailDisplay *
 		if (event->button == 3) {
 			HTMLEngine *e;
 			HTMLPoint *point;
+			GtkWidget *socket;
 			GtkWidget *popup_thing;
+			GtkWidget *win;
 
 			e     = GTK_HTML (widget)->engine;
 			point = html_engine_get_point_at (e, event->x + e->x_offset, event->y + e->y_offset, FALSE);
@@ -1506,10 +1502,20 @@ html_button_press_event (GtkWidget *widget, GdkEventButton *event, MailDisplay *
 					popup_thing = bonobo_widget_new_control ("OAFIID:GNOME_Evolution_Addressbook_AddressPopup",
 										 CORBA_OBJECT_NIL);
 
+					socket = find_socket (GTK_CONTAINER (popup_thing));
+
 					bonobo_widget_set_property (BONOBO_WIDGET (popup_thing),
 								    "email", url+7,
 								    NULL);
-					make_popup_window (popup_thing);
+					
+					win = make_popup_window (popup_thing);
+					gtk_signal_connect_object (GTK_OBJECT (socket),
+								   "destroy",
+								   GTK_SIGNAL_FUNC (gtk_widget_destroy),
+								   GTK_OBJECT (win));
+
+
+					
 
 				} else if (url) {
 

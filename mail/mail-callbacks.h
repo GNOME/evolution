@@ -62,6 +62,7 @@ void delete_msg            (GtkWidget *widget, gpointer user_data);
 void undelete_msg          (GtkWidget *widget, gpointer user_data);
 void move_msg              (GtkWidget *widget, gpointer user_data);
 void copy_msg              (GtkWidget *widget, gpointer user_data);
+void addrbook_sender       (GtkWidget *widget, gpointer user_data);
 void apply_filters         (GtkWidget *widget, gpointer user_data);
 void print_msg             (GtkWidget *widget, gpointer user_data);
 void print_preview_msg     (GtkWidget *widget, gpointer user_data);

@@ -1219,10 +1219,10 @@ static EPopupMenu context_menu[] = {
 	
 	SEPARATOR,
 	
-	/*{ _("Add Sender to Address Book"),  NULL,
+	{ N_("Add Sender to Address Book"),   NULL,
 	  GTK_SIGNAL_FUNC (addrbook_sender),  NULL,  0 },
 	  { "",                               NULL,
-	  GTK_SIGNAL_FUNC (NULL),             NULL,  0 },*/
+	  GTK_SIGNAL_FUNC (NULL),             NULL,  0 },
 	
 	{ N_("Apply Filters"),                NULL,
 	  GTK_SIGNAL_FUNC (apply_filters),    NULL,  0 },

@@ -38,6 +38,8 @@
 #include <libgnome/gnome-paper.h>
 #include <libgnomeprint/gnome-print-master.h>
 #include <libgnomeprint/gnome-print-master-preview.h>
+#include <bonobo/bonobo-widget.h>
+#include <bonobo/bonobo-socket.h>
 #include <gal/e-table/e-table.h>
 #include <gal/widgets/e-gui-utils.h>
 #include <filter/filter-editor.h>
@@ -994,6 +996,70 @@ void
 copy_msg (GtkWidget *widget, gpointer user_data)
 {
 	transfer_msg (widget, user_data, FALSE);
+}
+
+/* Copied from e-shell-view.c */
+static GtkWidget *
+find_socket (GtkContainer *container)
+{
+        GList *children, *tmp;
+
+        children = gtk_container_children (container);
+        while (children) {
+                if (BONOBO_IS_SOCKET (children->data))
+                        return children->data;
+                else if (GTK_IS_CONTAINER (children->data)) {
+                        GtkWidget *socket = find_socket (children->data);
+                        if (socket)
+                                return socket;
+                }
+                tmp = children->next;
+                g_list_free_1 (children);
+                children = tmp;
+        }
+        return NULL;
+}
+
+void
+addrbook_sender (GtkWidget *widget, gpointer user_data)
+{
+	FolderBrowser *fb = FOLDER_BROWSER (user_data);
+	CamelMimeMessage *msg = NULL;
+	const CamelInternetAddress *addr;
+	gchar *addr_str;
+	GtkWidget *win;
+	GtkWidget *control;
+	GtkWidget *socket;
+
+	if (fb && fb->mail_display)
+		msg = fb->mail_display->current_message;
+
+	if (msg == NULL)
+		return;
+
+	addr = camel_mime_message_get_from (msg);
+	if (addr == NULL)
+		return;
+
+	addr_str = camel_address_format (CAMEL_ADDRESS (addr));
+
+	win = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+	gtk_window_set_title (GTK_WINDOW (win), _("Sender"));
+
+	control = bonobo_widget_new_control ("OAFIID:GNOME_Evolution_Addressbook_AddressPopup",
+					     CORBA_OBJECT_NIL);
+	bonobo_widget_set_property (BONOBO_WIDGET (control),
+				    "email", addr_str,
+				    NULL);
+
+	socket = find_socket (GTK_CONTAINER (control));
+	gtk_signal_connect_object (GTK_OBJECT (socket),
+				   "destroy",
+				   GTK_SIGNAL_FUNC (gtk_widget_destroy),
+				   GTK_OBJECT (win));
+
+	gtk_container_add (GTK_CONTAINER (win), control);
+	gtk_widget_show_all (win);
 }
 
 void
