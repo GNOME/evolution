@@ -15,6 +15,7 @@ test-client-list
 load-pine-addressbook
 load-gnomecard-addressbook
 evolution-vcard-importer
+evolution-gnomecard-importer
 Evolution-Composer-stubs.c
 Evolution-Composer-skels.c
 Evolution-Composer-common.c
