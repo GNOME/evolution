@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.0.5\n"
 "POT-Creation-Date: 2003-04-02 13:07+0300\n"
-"PO-Revision-Date: 2003-04-02 10:18--500\n"
+"PO-Revision-Date: 2003-04-02 10:54--500\n"
 "Last-Translator: Yuriy Syrota <yuri@renome.rovno.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -13880,7 +13880,7 @@ msgstr "Вподобання Зведення"
 
 #: my-evolution/Locations.h:1
 msgid "Aarhus"
-msgstr ""
+msgstr "Архус"
 
 #: my-evolution/Locations.h:2
 msgid "Abakan"
