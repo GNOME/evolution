@@ -1,5 +1,12 @@
 2000-08-02  Dan Winship  <danw@helixcode.com>
 
+	* providers/MH: Kill this. It doesn't have any code to do anything
+	the new mh provider doesn't do better.
+
+	* providers/Makefile.am: Remove reference to MH subdir, and
+	promote nntp to fully-supported status, since it does compile and
+	all.
+
 	* camel-mime-message.c (camel_mime_message_set_subject): Trim
 	trailing space from the subject. I've now seen replies from two
 	different people that tricked the threading code by (a) not having
