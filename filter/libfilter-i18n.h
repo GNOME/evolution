@@ -46,6 +46,7 @@ char *s = N_("Replied to");
 char *s = N_("returns");
 char *s = N_("returns greater than");
 char *s = N_("returns less than");
+char *s = N_("Run Once");
 char *s = N_("Score");
 char *s = N_("Sender");
 char *s = N_("Set Status");
