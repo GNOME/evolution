@@ -6,37 +6,34 @@
 	
 	        <cmd name="FileSave" _label="Save"
 		_tip="Save the current file" pixtype="stock" pixname="Save"
-		accel="*Alt*s"/>
+		accel="*Ctrl*s"/>
 	
 	        <cmd name="FileSaveAs" _label="Save As"
 	          _tip="Save the current file with a different name"
-		  pixtype="stock" pixname="Save As"
-                  accel="*Alt*a"/>
+		  pixtype="stock" pixname="Save As"/>
 
 	        <cmd name="FileClose" _label="Close"
 		_tip="Close the current file" pixtype="stock" pixname="Close"
-		accel="*Alt*w"/>
+		accel="*Ctrl*w"/>
 
 		<cmd name="FileSaveInFolder" _label="Save in folder..."
-		_tip="Save the message in a specified folder" accel="*Alt*l"/>
+		_tip="Save the message in a specified folder"/>
 	
 		<cmd name="FileInsertFile" _label="Insert text file..."
-		_tip="Insert a file as text into the message"
-                accel="*Alt*t"/>
+		_tip="Insert a file as text into the message"/>
 
 		<cmd name="FileSend" _label="Send" _tip="Send the message now"
-		accel="*Alt*x"
+		accel="*Ctrl*Return"
                 pixtype="stock" pixname="Send Mail"/>
 
 		<cmd name="FileSendLater" _label="Send _later" _tip="Send the message later"
-		pixtype="stock" pixname="Send Mail"
-                accel="*Alt*l"/> 
+		pixtype="stock" pixname="Send Mail"/> 
 
 		<cmd name="FileAttach" _label="Attach" _tip="Attach a file"
-		pixtype="stock" pixname="Attach"/>
+		pixtype="stock" pixname="Attach" accel="*Ctrl**Alt*A"/>
 
 		<cmd name="FormatHtml" _label="HTML" _tip="Send the mail in HTML format"
-		type="toggle" state="0" accel="*Alt*h"/> 
+		type="toggle" state="0"/> 
 
 		<cmd name="ViewAttach" _label="Show attachments" _tip="Show / hide attachments"
 		type="toggle" state="0"/> 
@@ -58,10 +55,9 @@
 
 			<menuitem name="FileSave" verb="" _label="_Save"/>
 
-			<menuitem name="FileSaveAs" verb="" _label="Save _As..." accel="*Alt*a"/>
+			<menuitem name="FileSaveAs" verb="" _label="Save _As..."/>
 
-			<menuitem name="FileSaveInFolder" verb="" _label="Save in _folder... (FIXME)"
-                        accel="*Alt*l"/>
+			<menuitem name="FileSaveInFolder" verb="" _label="Save in _folder... (FIXME)"/>
 
 			<placeholder name="Print" delimit="top"/>
 			<separator/>
@@ -92,7 +88,7 @@
 
 		<submenu name="View" _label="_View">
 
-			<menuitem name="ViewAttach" verb="" _label="Show _attachments" accel="*Alt*m"/>
+			<menuitem name="ViewAttach" verb="" _label="Show _attachments"/>
 
 		</submenu>
 
@@ -102,8 +98,7 @@
 	
 			<placeholder name="BuiltMenuItems"/>
 
-		        <menuitem name="HelpAbout" verb="" _label="_About..."
-                         accel="*Alt*b" />
+		        <menuitem name="HelpAbout" verb="" _label="_About..."/>
 
 		</submenu>
 
