@@ -31,10 +31,6 @@
 
 #define d(x) x
 
-static char *get_quoted_token (char *string, int *len);
-static char *get_token (char *string, int *len);
-
-
 char *
 imap_next_word (char *buf)
 {
@@ -105,47 +101,6 @@ imap_parse_list_response (char *buf, char *namespace, char **flags, char **sep, 
 	string_unquote (*folder);  /* unquote the mailbox if it's quoted */
 	
 	return TRUE;
-}
-
-static char *
-get_quoted_token (char *string, int *len)
-{
-	char *ep;
-	
-	for (ep = string + 1; *ep; ep++)
-		if (*ep == '"' && *(ep - 1) != '\\')
-			break;
-	if (*ep)
-		ep++;
-	
-	*len = ep - string;
-	
-	return g_strndup (string, *len);
-}
-
-static char *
-get_token (char *string, int *len)
-{
-	char *p, *ep;
-	
-	for (p = string; *p && *p == ' '; p++);
-	
-	if (*p == '"') {
-		char *token;
-		int i;
-
-		token = get_quoted_token (p, &i);
-
-		*len = i + (p - string);
-		
-		return token;
-	}
-	
-	for (ep = p; *ep && *ep != ' ' && *ep != ')'; ep++);
-	
-	*len = ep - string;
-	
-	return g_strndup (p, *len);
 }
 
 static ESExpResult *
