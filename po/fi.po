@@ -6,14 +6,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2004-08-02 15:35-0400\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2004-08-03 18:18+0300\n"
 "PO-Revision-Date: 2004-06-13 21:10+0200\n"
 "Last-Translator: Ilkka Tuohela <hile@iki.fi>\n"
 "Language-Team: Gnome Finnish Translation Team <laatu@gnome-fi.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Report-Msgid-Bugs-To: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: a11y/addressbook/ea-addressbook-view.c:94
@@ -52,9 +52,8 @@ msgstr "Evolutionin minikortti"
 
 #. addressbook:ldap-init primary
 #: addressbook/addressbook-errors.xml.h:2
-#, fuzzy
 msgid "This addressbook could not be opened."
-msgstr "Kohdetta ei voitu lähettää!\n"
+msgstr "Tätä osoitekirjaa ei voitu avata."
 
 #. addressbook:ldap-init secondary
 #: addressbook/addressbook-errors.xml.h:4
@@ -62,32 +61,29 @@ msgid ""
 "This addressbook server might unreachable or the server name may be "
 "misspelled or your network connection could be down."
 msgstr ""
+"Osoitekirjapalvelin voi olla saavuttamattomissa, palvelimen nimi väärin "
+"kirjoitettu tai verkkoyhteytesi ei käytettävissä."
 
 #. addressbook:ldap-auth primary
 #: addressbook/addressbook-errors.xml.h:6
-#, fuzzy
 msgid "Failed to authenticate with LDAP server."
-msgstr ""
-"IMAP-palvelimelle tunnistautuminen epäonnistui.\n"
-"%s\n"
-"\n"
+msgstr "LDAP-palvelimelle tunnistautuminen epäonnistui."
 
 #. addressbook:ldap-auth secondary
 #: addressbook/addressbook-errors.xml.h:8
-#, fuzzy
 msgid ""
 "Check to make sure your password is spelled correctly and that you are using "
 "a supported login method. Remember that many passwords are case sensitive; "
 "your caps lock might be on."
 msgstr ""
-"Tarkista, että salasanasi on kirjoitettu oikein. Muista että monissa "
-"salasanoissa isot ja pienet kirjaimet ovat eri asia. Tarkista ettei CapsLock "
-"ole päällä."
+"Tarkista, että salasanasi on kirjoitettu oikein ja käytät palvelimen tukemaa "
+"kirjautumistapaa. Muista että monissa salasanoissa isot ja pienet kirjaimet "
+"ovat eri asia. Tarkista myös ettei Caps Lock ole päällä."
 
 #. addressbook:ldap-search-base primary
 #: addressbook/addressbook-errors.xml.h:10
 msgid "This addressbook server does not have any suggested search bases."
-msgstr ""
+msgstr "Osoitekirjapalvelimella ei ole tuettuja hakupohjia."
 
 #. addressbook:ldap-search-base secondary
 #: addressbook/addressbook-errors.xml.h:12
@@ -96,32 +92,42 @@ msgid ""
 "this functionality or it may be misconfigured. Ask your administrator for "
 "supported search bases."
 msgstr ""
+"Tämä LDAP-palvelin saattaa käyttää vanhempaa versiota LDAP:ista, joka ei tue "
+"tätä toimintoa, tai palvelin voi olla väärin konfiguroitu. Kysy "
+"ylläpidoltasi mitkä ovat tuetut hakupohjat."
 
 #. addressbook:ldap-v3-schema primary
 #: addressbook/addressbook-errors.xml.h:14
-#, fuzzy
 msgid "This server does not support LDAPv3 schema information."
-msgstr "Tämä varasto ei tue tilaamista tai tilaukset eivät ole käytössä."
+msgstr "Tämä palvelin ei tue LDAPv3 skeematietoja."
 
 #. addressbook:ldap-get-schema primary
 #: addressbook/addressbook-errors.xml.h:16
-#, fuzzy
 msgid "Could not get schema information for LDAP server."
-msgstr "Ryhmälistaa ei voitu hakea palvelimelta."
+msgstr "Skeematietoja ei voitu hakea LDAP-palvelimelta."
 
 #. addressbook:ldap-invalid-schema primary
 #: addressbook/addressbook-errors.xml.h:18
-#, fuzzy
 msgid "LDAP server did not respond with valid schema information."
-msgstr "IMAP-palvelimen vaste ei sisältänyt tietoja %s:stä"
+msgstr "LDAP palvelin ei vastannut kelvollisella skeematiedolla."
 
 #. addressbook:remove-addressbook primary
 #: addressbook/addressbook-errors.xml.h:20
-#, fuzzy
 msgid "Could not remove addressbook."
-msgstr "Osoitekirjaa ei voitu ladata"
+msgstr "Osoitekirjaa ei voitu poistaa."
 
 #. addressbook:remove-addressbook secondary
+#. addressbook:generic-error primary
+#. addressbook:load-error secondary
+#. addressbook:search-error secondary
+#. mail:session-message-info secondary
+#. mail:session-message-info-cancel secondary
+#. mail:session-message-warning secondary
+#. mail:session-message-warning-cancel secondary
+#. mail:session-message-error secondary
+#. mail:session-message-error-cancel secondary
+#. mail:ask-session-password secondary
+#. mail:filter-load-error secondary
 #: addressbook/addressbook-errors.xml.h:22
 #: addressbook/addressbook-errors.xml.h:26
 #: addressbook/addressbook-errors.xml.h:34
@@ -135,11 +141,12 @@ msgstr "{0}"
 
 #. addressbook:edit-categories primary
 #: addressbook/addressbook-errors.xml.h:24
-#, fuzzy
 msgid "Category editor not available."
-msgstr "Ei kuvausta saatavilla"
+msgstr "Luokkien muokkain ei ole käytettävissä."
 
 #. addressbook:generic-error secondary
+#. mail-composer:no-attach secondary
+#. mail:no-save-path secondary
 #: addressbook/addressbook-errors.xml.h:28
 #: composer/mail-composer-errors.xml.h:4 mail/mail-errors.xml.h:92
 msgid "{1}"
@@ -147,25 +154,21 @@ msgstr "{1}"
 
 #. addressbook:load-error title
 #: addressbook/addressbook-errors.xml.h:30
-#, fuzzy
 msgid "Unable to open addressbook"
-msgstr "Tallenna osoitekirjaan"
+msgstr "Osoitekirjaa ei voitu avata"
 
 #. addressbook:load-error primary
 #: addressbook/addressbook-errors.xml.h:32
-#, fuzzy
 msgid "Error loading addressbook."
-msgstr "Virhe ladattaessa oletusosoitekirjaa."
+msgstr "Virhe ladattaessa osoitekirjaa."
 
 #. addressbook:search-error primary
 #: addressbook/addressbook-errors.xml.h:36
-#, fuzzy
 msgid "Unable to perform search."
-msgstr "Saapuvien viestien kansiota ei voitu käsitellä"
+msgstr "Hakua ei voitu suorittaa."
 
 #. addressbook:prompt-save primary
 #: addressbook/addressbook-errors.xml.h:40
-#, fuzzy
 msgid "Would you like to save your changes?"
 msgstr "Haluatko tallentaa muutokset?"
 
@@ -175,6 +178,7 @@ msgid ""
 "You have made modifications to this contact. Do you want to save these "
 "changes?"
 msgstr ""
+"Olet tehnyt muutoksia tähän yhteystietoon. Haluatko tallentaa muutoksesi?"
 
 #: addressbook/addressbook-errors.xml.h:43
 #: addressbook/gui/contact-editor/e-contact-editor.c:2803
@@ -184,45 +188,39 @@ msgstr "Hylkää"
 
 #. addressbook:prompt-move primary
 #: addressbook/addressbook-errors.xml.h:45
-#, fuzzy
 msgid "Cannot move contact."
-msgstr "Ja yksi muu yhteystieto."
+msgstr "Yhteystietoa ei voida siirtää."
 
 #. addressbook:prompt-move secondary
 #: addressbook/addressbook-errors.xml.h:47
-#, fuzzy
 msgid ""
 "You are attempting to move a contact from one addressbook to another but it "
 "cannot be removed from the source. Do you want to save a copy instead?"
 msgstr ""
-"Olet siirtämässä yhteystietoa osoitekirjasta toiseen, mutta sitä ei voida "
-"poistaa lähdeosoitekirjasta. Haluatko tallentaa uuteen osoitekirjaan kopion?"
+"Yrität siirtää yhteystietoa osoitekirjasta toiseen, mutta sitä ei voida "
+"poistaa lähdeosoitekirjasta. Haluatko sen sijaan tallentaa kopion?"
 
 #. addressbook:save-error primary
 #: addressbook/addressbook-errors.xml.h:49
-#, fuzzy
 msgid "Unable to save contact(s)."
-msgstr "Viestin sisältöä ei voitu tulkita"
+msgstr "Yhteystietoja ei voitu tallentaa."
 
 #. addressbook:save-error secondary
 #: addressbook/addressbook-errors.xml.h:51
-#, fuzzy
 msgid "Error saving contacts to {0}: {1}"
-msgstr "Virhe lisättäessä yhteystietoa"
+msgstr "Virhe tallennettaessa yhteystietoa kohteeseen {0}: {1}"
 
 #. addressbook:backend-died primary
 #: addressbook/addressbook-errors.xml.h:53
-#, fuzzy
 msgid "The Evolution addressbook has quit unexpectedly."
-msgstr "Evolution osoitekirjan osoitteiden katselin"
+msgstr "Evolutionin osoitekirja on sulkeutunut odottamatta."
 
 #. addressbook:backend-died secondary
 #: addressbook/addressbook-errors.xml.h:55
-#, fuzzy
 msgid ""
 "Your contacts for {0} will not be available until Evolution is restarted."
 msgstr ""
-"Jos suljet, näitä viestejä ei lähetetä ennen kuin Evolution on käynnistetty "
+"Yhteystietoja {0} ei voida käyttää ennen kuin Evolution käynnistetään "
 "uudestaan."
 
 #: addressbook/conduit/address-conduit.c:298
@@ -328,14 +326,12 @@ msgid "New Address Book"
 msgstr "Uusi osoitekirja"
 
 #: addressbook/gui/component/addressbook-component.c:110
-#, fuzzy
 msgid "Address _Book"
-msgstr "_Osoitekirja:"
+msgstr "_Osoitekirja"
 
 #: addressbook/gui/component/addressbook-component.c:111
-#, fuzzy
 msgid "Create a new address book"
-msgstr "Luo uusi tehtävä"
+msgstr "Luo uusi osoitekirja"
 
 #: addressbook/gui/component/addressbook-component.c:184
 msgid "Failed upgrading Addressbook settings or folders."
@@ -353,6 +349,7 @@ msgid "Migrating `%s':"
 msgstr "Siirretään  '%s'"
 
 #. create the local source group
+#. On This Computer is always first and VFolders is always last
 #: addressbook/gui/component/addressbook-migrate.c:493
 #: calendar/gui/migration.c:450 calendar/gui/migration.c:532
 #: mail/em-folder-tree-model.c:196 mail/em-folder-tree-model.c:198
@@ -361,6 +358,9 @@ msgid "On This Computer"
 msgstr "Tällä tietokoneella"
 
 #. Create the default Person addressbook
+#. Create the default Person calendar
+#. Create the default Person task list
+#. orange
 #: addressbook/gui/component/addressbook-migrate.c:501
 #: addressbook/gui/contact-editor/contact-editor.glade.h:34
 #: calendar/gui/migration.c:458 calendar/gui/migration.c:540
@@ -547,9 +547,8 @@ msgid "<b>Type:</b>"
 msgstr "<b>Tyyppi:</b>"
 
 #: addressbook/gui/component/ldap-config.glade.h:13
-#, fuzzy
 msgid "Add Address Book"
-msgstr "Osoitekirja"
+msgstr "Lisää osoitekirja"
 
 #: addressbook/gui/component/ldap-config.glade.h:14
 msgid "Address Book Properties"
@@ -599,9 +598,8 @@ msgid "General"
 msgstr "Yleiset"
 
 #: addressbook/gui/component/ldap-config.glade.h:24
-#, fuzzy
 msgid "Lo_gin:"
-msgstr "Kirjautuminen"
+msgstr "_Kirjautuminen:"
 
 #: addressbook/gui/component/ldap-config.glade.h:25 mail/mail-account-gui.c:81
 #: mail/mail-config.glade.h:102
@@ -610,7 +608,7 @@ msgstr "Ei koskaan"
 
 #: addressbook/gui/component/ldap-config.glade.h:26
 msgid "One"
-msgstr ""
+msgstr "Yksi"
 
 #: addressbook/gui/component/ldap-config.glade.h:27
 msgid "Search _base:"
@@ -648,9 +646,8 @@ msgstr ""
 "haavoittuvainen yhteyden turvaan kohdistuville hyökkäyksille."
 
 #: addressbook/gui/component/ldap-config.glade.h:31
-#, fuzzy
 msgid "Sub"
-msgstr "Su"
+msgstr "Ali"
 
 #: addressbook/gui/component/ldap-config.glade.h:32
 msgid "Supported Search Bases"
@@ -732,9 +729,8 @@ msgid "Whenever Possible"
 msgstr "Milloin mahdollista"
 
 #: addressbook/gui/component/ldap-config.glade.h:43
-#, fuzzy
 msgid "_Add Address Book"
-msgstr "_Lisää osoitekirjaan"
+msgstr "_Lisää osoitekirja"
 
 #: addressbook/gui/component/ldap-config.glade.h:44
 msgid "_Download limit:"
@@ -858,9 +854,8 @@ msgid "_Find"
 msgstr "_Etsi:"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:8
-#, fuzzy
 msgid "_Search:"
-msgstr "_Etsi"
+msgstr "_Etsi:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:2
 msgid "<b>Email</b>"
@@ -3191,17 +3186,17 @@ msgstr "Korttinäkymä"
 msgid "GTK Tree View"
 msgstr "GTK puunäkymä"
 
-#: addressbook/gui/widgets/test-reflow.c:106
+#: addressbook/gui/widgets/test-reflow.c:119
 msgid "Reflow Test"
 msgstr "Uudelleenvirtauksen testi"
 
-#: addressbook/gui/widgets/test-reflow.c:107
+#: addressbook/gui/widgets/test-reflow.c:120
 #: addressbook/printing/test-contact-print-style-editor.c:54
 #: addressbook/printing/test-print.c:53
 msgid "Copyright (C) 2000, Ximian, Inc."
 msgstr "Tekijänoikeudet (C) 2000, Ximin, Inc."
 
-#: addressbook/gui/widgets/test-reflow.c:109
+#: addressbook/gui/widgets/test-reflow.c:122
 msgid "This should test the reflow canvas item"
 msgstr "Tämä testaa reflow canvas:ia"
 
@@ -3511,9 +3506,10 @@ msgid "Unnamed List"
 msgstr "Nimeämätön lista"
 
 #. calendar:prompt-cancel-meeting primary
+#. calendar:prompt-cancel-task primary
 #: calendar/calendar-errors.xml.h:2 calendar/calendar-errors.xml.h:12
 msgid "Would you like to send all the participants a cancellation notice?"
-msgstr ""
+msgstr "Haluatko lähettää perumisilmoituksen kaikille osanottajille?"
 
 #. calendar:prompt-cancel-meeting secondary
 #: calendar/calendar-errors.xml.h:4
@@ -3521,32 +3517,32 @@ msgid ""
 "If you don't send a cancellation notice, the other participants may not know "
 "the meeting is canceled."
 msgstr ""
+"Jos et lähetä perumisilmoitusta, eivät muut osanottajat ehkä tiedä että "
+"kokous on peruttu."
 
 #: calendar/calendar-errors.xml.h:5 calendar/calendar-errors.xml.h:15
 #: calendar/calendar-errors.xml.h:25 calendar/calendar-errors.xml.h:79
 #: calendar/calendar-errors.xml.h:85 calendar/calendar-errors.xml.h:91
 #: calendar/calendar-errors.xml.h:97
-#, fuzzy
 msgid "Don't Send"
-msgstr "Älä poista"
+msgstr "Älä lähetä"
 
+# calendar/calendar-errors.xml.h:6 calendar/calendar-errors.xml.h:16 #: calendar/calendar-errors.xml.h:26
 #: calendar/calendar-errors.xml.h:6 calendar/calendar-errors.xml.h:16
 #: calendar/calendar-errors.xml.h:26
-#, fuzzy
 msgid "Send Notice"
-msgstr "Lähetä:"
+msgstr "Lähetä huomautus"
 
 #. calendar:prompt-delete-meeting primary
 #: calendar/calendar-errors.xml.h:8
-#, fuzzy
 msgid "Are you sure you want to delete this meeting?"
-msgstr "Haluatko varmasti poistaa tämän tilin?"
+msgstr "Haluatko varmasti poistaa tämän tapaamisen?"
 
 #. calendar:prompt-delete-meeting secondary
 #: calendar/calendar-errors.xml.h:10
 msgid ""
 "All information on this meeting will be deleted and can not be restored."
-msgstr ""
+msgstr "Kaikki tiedot tästä kokouksesta poistetaan eikä niitä voida palauttaa."
 
 #. calendar:prompt-cancel-task secondary
 #: calendar/calendar-errors.xml.h:14
@@ -3554,25 +3550,26 @@ msgid ""
 "If you don't send a cancellation notice, the other participants may not know "
 "the task has been deleted."
 msgstr ""
+"Jos et lähetä perumisilmoitusta, eivät muut osanottajat ehkä tiedä että "
+"kokous on peruttu."
 
 #. calendar:prompt-delete-task primary
 #: calendar/calendar-errors.xml.h:18 calendar/calendar-errors.xml.h:44
-#, fuzzy
 msgid "Are you sure you want to delete this task?"
-msgstr ""
-"Haluatko varmasti\n"
-"poistaa tämän yhteystiedon?"
+msgstr "haluatko varmasti poistaa tämän tehtävän?"
 
+#. calendar:prompt-delete-task secondary
+#. calendar:prompt-delete-named-task secondary
 #. calendar:prompt-delete-task secondary
 #: calendar/calendar-errors.xml.h:20 calendar/calendar-errors.xml.h:42
 #: calendar/calendar-errors.xml.h:46
 msgid "All information on this task will be deleted and can not be restored."
-msgstr ""
+msgstr "Kaikki tiedot tästä tehtävästä poistetaan eikä niitä voida palauttaa."
 
 #. calendar:prompt-cancel-journal primary
 #: calendar/calendar-errors.xml.h:22
 msgid "Would you like to send a cancellation notice for this journal entry?"
-msgstr ""
+msgstr "Haluatko lähettää perumisilmoituksen tälle journalille?"
 
 #. calendar:prompt-cancel-journal secondary
 #: calendar/calendar-errors.xml.h:24
@@ -3580,12 +3577,13 @@ msgid ""
 "If you don't send a cancellation notice, the other participants may not know "
 "the journal has been deleted."
 msgstr ""
+"Jos et lähetä perumisilmoitusta, eivät muut osanottajat ehkä tiedä että "
+"journal on peruttu."
 
 #. calendar:prompt-delete-journal primary
 #: calendar/calendar-errors.xml.h:28 calendar/calendar-errors.xml.h:52
-#, fuzzy
 msgid "Are you sure you want to delete this journal entry?"
-msgstr "Haluatko varmasti poistaa tämän tilin?"
+msgstr "Haluatko varmasti poistaa tämän päiväkirjamerkinnän?"
 
 #. calendar:prompt-delete-journal secondary
 #: calendar/calendar-errors.xml.h:30
@@ -3593,52 +3591,47 @@ msgid ""
 "All information on this journal entry will be deleted and can not be "
 "restored."
 msgstr ""
+"Kaikki tiedot tästä journalin kohdasta poistetaan eikä niitä voida palauttaa."
 
 #. calendar:prompt-delete-titled-appointment primary
 #: calendar/calendar-errors.xml.h:32
-#, fuzzy
 msgid "Are you sure you want to delete the appointment titled '{0}'?"
-msgstr "Haluatko varmasti poistaa tämän tilin?"
+msgstr "Haluatko varmasti poistaa tapaamisen nimeltään '{0}'?"
 
 #. calendar:prompt-delete-titled-appointment secondary
+#. calendar:prompt-delete-appointment secondary
 #: calendar/calendar-errors.xml.h:34 calendar/calendar-errors.xml.h:38
 msgid ""
 "All information on this appointment will be deleted and can not be restored."
 msgstr ""
+"Kaikki tiedot tästä tapaamisesta poistetaan eikä niitä voida palauttaa."
 
 #. calendar:prompt-delete-appointment primary
 #: calendar/calendar-errors.xml.h:36
-#, fuzzy
 msgid "Are you sure you want to delete this appointment?"
-msgstr "Haluatko varmasti poistaa tämän tilin?"
+msgstr "Haluatko varmasti poistaa tämän tapaamisen?"
 
 #. calendar:prompt-delete-named-task primary
 #: calendar/calendar-errors.xml.h:40
-#, fuzzy
 msgid "Are you sure you want to delete the '{0}' task?"
-msgstr ""
-"Haluatko varmasti\n"
-"poistaa nämä yhteystiedot?"
+msgstr "Haluatko varmasti poistaa tehtävän '{0}'?"
 
 #. calendar:prompt-delete-named-journal primary
 #: calendar/calendar-errors.xml.h:48
-#, fuzzy
 msgid "Are you sure you want to delete the journal entry '{0}'?"
-msgstr "Haluatko varmasti poistaa tämän tilin?"
+msgstr "Haluatko varmasti poistaa journalin '{0}'?"
 
 #. calendar:prompt-delete-named-journal secondary
+#. calendar:prompt-delete-journal secondary
 #: calendar/calendar-errors.xml.h:50 calendar/calendar-errors.xml.h:54
 msgid ""
 "All information in this journal will be deleted and can not be restored."
-msgstr ""
+msgstr "Kaikki tiedot tässä journalissa poistetaan eikä niitä voida palauttaa."
 
 #. calendar:prompt-delete-appointments primary
 #: calendar/calendar-errors.xml.h:56
-#, fuzzy
 msgid "Are you sure you want to delete these {0} appointments?"
-msgstr ""
-"Haluatko varmasti\n"
-"poistaa nämä yhteystiedot?"
+msgstr "Haluatko varmasti poistaa nämä {0} tapaamista?"
 
 #. calendar:prompt-delete-appointments secondary
 #: calendar/calendar-errors.xml.h:58
@@ -3646,27 +3639,22 @@ msgid ""
 "All information on these appointments will be deleted and can not be "
 "restored."
 msgstr ""
+"Kaikki tiedot näistä tapaamisista poistetaan eikä niitä voida palauttaa."
 
 #. calendar:prompt-delete-tasks primary
 #: calendar/calendar-errors.xml.h:60
-#, fuzzy
 msgid "Are you sure you want to delete these {0} tasks?"
-msgstr ""
-"Haluatko varmasti\n"
-"poistaa nämä yhteystiedot?"
+msgstr "Haluatko varmasti poistaa nämä {0} tehtävää?"
 
 #. calendar:prompt-delete-tasks secondary
 #: calendar/calendar-errors.xml.h:62
 msgid "All information on these tasks will be deleted and can not be restored."
-msgstr ""
+msgstr "Kaikki tiedot näistä tehtävistä poistetaan eikä niitä voida palauttaa."
 
 #. calendar:prompt-delete-journals primary
 #: calendar/calendar-errors.xml.h:64
-#, fuzzy
 msgid "Are you sure you want to delete these {0} journal entries?"
-msgstr ""
-"Haluatko varmasti\n"
-"poistaa nämä yhteystiedot?"
+msgstr "Haluatko varmasti poistaa nämä {0} journalia?"
 
 #. calendar:prompt-delete-journals secondary
 #: calendar/calendar-errors.xml.h:66
@@ -3674,44 +3662,44 @@ msgid ""
 "All information in these journal entries will be deleted and can not be "
 "restored."
 msgstr ""
+"Kaikki tiedot näissä journalin kohdissa poistetaan eikä niitä voida "
+"palauttaa."
 
 #. calendar:prompt-save-appointment title
 #: calendar/calendar-errors.xml.h:68
-#, fuzzy
 msgid "Save Appointment"
-msgstr "Tapaaminen"
+msgstr "Tallenna tapaaminen"
 
 #. calendar:prompt-save-appointment primary
 #: calendar/calendar-errors.xml.h:70
-#, fuzzy
 msgid "Would you like to save your changes to this appointment?"
-msgstr "Haluatko tallentaa muutokset?"
+msgstr "Haluatko tallentaa muutokset tähän tapaamiseen?"
 
 #. calendar:prompt-save-appointment secondary
 #: calendar/calendar-errors.xml.h:72
-#, fuzzy
 msgid "You have made changes to this appointment, but not yet saved them."
-msgstr "%s Olet tehnyt muutoksia. Unohda nämä muutokset ja päivitä muokkain?"
+msgstr "Olet tehnyt muutoksia, mutta et ole vielä tallentanut niitä."
 
 #: calendar/calendar-errors.xml.h:73 composer/mail-composer-errors.xml.h:33
 msgid "Discard Changes"
 msgstr "Hylkää muutokset"
 
 #: calendar/calendar-errors.xml.h:74
-#, fuzzy
 msgid "Save Changes"
-msgstr "Tallenna viesti"
+msgstr "Tallenna muutokset"
 
 #. calendar:prompt-meeting-invite primary
 #: calendar/calendar-errors.xml.h:76
 msgid "Would you like to send meeting invitations to participants?"
-msgstr ""
+msgstr "Haluatko lähettää kokouskutsuja osallistujille?"
 
 #. calendar:prompt-meeting-invite secondary
 #: calendar/calendar-errors.xml.h:78
 msgid ""
 "Email invitations will be sent to all participants and allow them to RSVP."
 msgstr ""
+"Kutsu lähetetään sähköpostilla kaikille osanottajille ja he voivat kuitata "
+"osanottonsa."
 
 #: calendar/calendar-errors.xml.h:80 calendar/calendar-errors.xml.h:86
 #: calendar/calendar-errors.xml.h:92 calendar/calendar-errors.xml.h:98
@@ -3722,7 +3710,7 @@ msgstr "Lähetä"
 #. calendar:prompt-send-updated-meeting-info primary
 #: calendar/calendar-errors.xml.h:82
 msgid "Would you like to send updated meeting information to participants?"
-msgstr ""
+msgstr "Haluatko lähettää päivitetyt kokouksen tiedot osanottajille?"
 
 #. calendar:prompt-send-updated-meeting-info secondary
 #: calendar/calendar-errors.xml.h:84
@@ -3730,11 +3718,13 @@ msgid ""
 "Sending updated information allows other participants to keep their "
 "calendars up to date."
 msgstr ""
+"Päivitettyjen tietojen lähettäminen antaa muille mahdollisuuden pitää "
+"kalenterinsa ajan tasalla."
 
 #. calendar:prompt-send-task primary
 #: calendar/calendar-errors.xml.h:88
 msgid "Would you like to send this task to participants?"
-msgstr ""
+msgstr "Haluatko lähettää tämän tehtävän osanottajille?"
 
 #. calendar:prompt-send-task secondary
 #: calendar/calendar-errors.xml.h:90
@@ -3742,11 +3732,12 @@ msgid ""
 "Email invitations will be sent to all participants and allow them to accept "
 "this task."
 msgstr ""
+"Kutsu lähetetään kaikille osanottajille ja he voivat hyväksyä tämän tehtävän."
 
 #. calendar:prompt-send-updated-task-info primary
 #: calendar/calendar-errors.xml.h:94
 msgid "Would you like to send updated task information to participants?"
-msgstr ""
+msgstr "Halutako lähettää päivitetyn tehtävätiedon osanottajille?"
 
 #. calendar:prompt-send-updated-task-info secondary
 #: calendar/calendar-errors.xml.h:96
@@ -3754,32 +3745,31 @@ msgid ""
 "Sending updated information allows other participants to keep their task "
 "lists up to date."
 msgstr ""
+"Päivitettyjen tehtävätietojen lähettäminen antaa muille mahdollisuuden pitää "
+"tehtävälistansa ajan tasalla."
 
 #. calendar:tasks-crashed primary
 #: calendar/calendar-errors.xml.h:100
 msgid "The Evolution tasks have quit unexpectedly."
-msgstr ""
+msgstr "Evolutionin tehtäväkomponentti on sulkeutunut odottamatta."
 
 #. calendar:tasks-crashed secondary
 #: calendar/calendar-errors.xml.h:102
-#, fuzzy
 msgid "Your tasks will not be available until Evolution is restarted."
 msgstr ""
-"Jos suljet, näitä viestejä ei lähetetä ennen kuin Evolution on käynnistetty "
+"Tehtävät eivät ole käytettävissä ennen kuin Evolution on käynnistetty "
 "uudestaan."
 
 #. calendar:calendar-crashed primary
 #: calendar/calendar-errors.xml.h:104
-#, fuzzy
 msgid "The Evolution calendar has quit unexpectedly."
-msgstr "Evolutionin vCalendar-tuoja"
+msgstr "Evolutionin kalenteri sulkeutui odottamatta."
 
 #. calendar:calendar-crashed secondary
 #: calendar/calendar-errors.xml.h:106
-#, fuzzy
 msgid "Your calendars will not be available until Evolution is restarted."
 msgstr ""
-"Jos suljet, näitä viestejä ei lähetetä ennen kuin Evolution on käynnistetty "
+"Kalenterisi eivät ole käytettävissä ennen kuin Evolution on käynnistetty "
 "uudestaan."
 
 #: calendar/common/authentication.c:48 calendar/gui/e-pub-utils.c:301
@@ -3795,9 +3785,8 @@ msgstr "Jaa usean päivän tapahtumat:"
 #: calendar/conduits/calendar/calendar-conduit.c:1357
 #: calendar/conduits/todo/todo-conduit.c:879
 #: calendar/conduits/todo/todo-conduit.c:880
-#, fuzzy
 msgid "Could not start evolution-data-server"
-msgstr "wombat-palvelinta ei voitu käynnistää"
+msgstr "Evolutionin tietopalvelimen käynnistys epäonnistui"
 
 #: calendar/conduits/calendar/calendar-conduit.c:1465
 #: calendar/conduits/calendar/calendar-conduit.c:1468
@@ -4169,6 +4158,10 @@ msgstr "%A %d %B %Y"
 
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.
+#. strftime format %a = abbreviated weekday name,
+#. %d = day of month, %b = abbreviated month name.
+#. You can change the order but don't change the
+#. specifiers or add anything.
 #: calendar/gui/calendar-commands.c:435 calendar/gui/calendar-component.c:519
 #: calendar/gui/e-day-view-top-item.c:714 calendar/gui/e-day-view.c:1588
 #: calendar/gui/e-week-view-main-item.c:329
@@ -4204,18 +4197,19 @@ msgid "New Calendar"
 msgstr "Uusi kalenteri"
 
 #: calendar/gui/calendar-component.c:516
-#, fuzzy
 msgid "%A %d %b %Y"
-msgstr "%a %d %b %Y"
+msgstr "%A %d. %Bta %Y"
 
 #: calendar/gui/calendar-component.c:540 calendar/gui/calendar-component.c:547
 #: calendar/gui/calendar-component.c:553 calendar/gui/calendar-component.c:555
-#, fuzzy
 msgid "%d %b %Y"
-msgstr "%d %B %Y"
+msgstr "%d. %Bta %Y"
 
 #. strftime format %d = day of month, %b = abbreviated month name.
 #. Don't use any other specifiers.
+#. strftime format %d = day of month, %b = abbreviated
+#. month name. You can change the order but don't
+#. change the specifiers or add anything.
 #: calendar/gui/calendar-component.c:545
 #: calendar/gui/e-day-view-top-item.c:718 calendar/gui/e-day-view.c:1604
 #: calendar/gui/e-week-view-main-item.c:343
@@ -4265,7 +4259,6 @@ msgid "New all day appointment"
 msgstr "Uusi koko päivän tapaaminen"
 
 #: calendar/gui/calendar-component.c:1255
-#, fuzzy
 msgid "All Day A_ppointment"
 msgstr "Koko _päivän tapaaminen"
 
@@ -4278,9 +4271,8 @@ msgid "New calendar"
 msgstr "Uusi kalenteri"
 
 #: calendar/gui/calendar-component.c:1263
-#, fuzzy
 msgid "Cale_ndar"
-msgstr "Kalenteri"
+msgstr "_Kalenteri"
 
 #: calendar/gui/calendar-component.c:1264
 msgid "Create a new calendar"
@@ -4330,38 +4322,32 @@ msgid "open_client(): %s"
 msgstr "open_client(): %s"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:2
-#, fuzzy
 msgid "<b>Alarm</b>\t"
-msgstr "<b>Hälytykset</b>"
+msgstr "<b>Hälytys</b>"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:3
-#, fuzzy
 msgid "<b>Options</b>"
-msgstr "<b>Tehtävälistan vaihtoehdot</b>"
+msgstr "<b>Vaihtoehdot</b>"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:4
-#, fuzzy
 msgid "<b>Repeat</b>"
-msgstr "<b>Yleistä</b>"
+msgstr "<b>Toista</b>"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:5
-#, fuzzy
 msgid "Add Alarm"
-msgstr "Lisää kalenteri"
+msgstr "Lisää hälytys"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:6
-#, fuzzy
 msgid "Custom _message"
-msgstr "Kirjoita viesti"
+msgstr "Oma _viesti"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:7
 msgid "Custom alarm sound"
-msgstr ""
+msgstr "Oma _hälytysääni"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:8
-#, fuzzy
 msgid "Mes_sage:"
-msgstr "_Viestit"
+msgstr "_Viesti:"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:9 calendar/gui/e-alarm-list.c:444
 msgid "Play a sound"
@@ -4387,24 +4373,20 @@ msgid "Send an email"
 msgstr "Lähetä sähköpostia"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:14
-#, fuzzy
 msgid "_Arguments:"
-msgstr "_Osoite:"
+msgstr "_Argumentit:"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:15
-#, fuzzy
 msgid "_Program:"
-msgstr "Suorita ohjelma:"
+msgstr "_Ohjelma:"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:16
-#, fuzzy
 msgid "_Repeat the alarm"
-msgstr "Toista hälytystä"
+msgstr "_Toista hälytystä"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:17
-#, fuzzy
 msgid "_Sound:"
-msgstr "_Lähetä"
+msgstr "_Ääni:"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:18
 msgid "after"
@@ -4453,9 +4435,8 @@ msgid "A_dd"
 msgstr "_Lisää"
 
 #: calendar/gui/dialogs/alarm-list-dialog.glade.h:2
-#, fuzzy
 msgid "Alarms"
-msgstr "Hälytys %s"
+msgstr "Hälytykset"
 
 #. FIXME: This routine should just be a "toggled" event handler on the checkbox cell renderer which
 #. has "activatable" set.
@@ -4755,9 +4736,8 @@ msgid "Add Calendar"
 msgstr "Lisää kalenteri"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:3
-#, fuzzy
 msgid "Add Task List"
-msgstr "Lisää uusi tehtävälista"
+msgstr "Lisää tehtävälista"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:4
 msgid "C_olor:"
@@ -4965,9 +4945,8 @@ msgid "The item could not be deleted due to an error"
 msgstr "Kohdetta ei voitu poistaa virheen takia"
 
 #: calendar/gui/dialogs/e-delegate-dialog.glade.h:1
-#, fuzzy
 msgid "Contacts..."
-msgstr "Yhteystiedot"
+msgstr "Yhteystiedot..."
 
 #: calendar/gui/dialogs/e-delegate-dialog.glade.h:2
 msgid "Delegate To:"
@@ -4994,9 +4973,8 @@ msgstr "Ajoitus"
 #: calendar/gui/dialogs/event-editor.c:176
 #: calendar/gui/dialogs/event-editor.c:242
 #: calendar/gui/dialogs/event-editor.c:384
-#, fuzzy
 msgid "Invitations"
-msgstr "Suunta"
+msgstr "Kutsut"
 
 #: calendar/gui/dialogs/event-page.c:692
 msgid "Event with no start date"
@@ -5028,59 +5006,53 @@ msgid "Unable to open the calendar '%s'."
 msgstr "Kalenterin '%s' ei voitu avata"
 
 #: calendar/gui/dialogs/event-page.c:1799
-#, fuzzy, c-format
+#, c-format
 msgid "%d day before appointment"
 msgid_plural "%d days before appointment"
-msgstr[0] "_Ennen joka tapaamista"
-msgstr[1] "_Ennen joka tapaamista"
+msgstr[0] "%d päivä ennen tapaamista"
+msgstr[1] "%d päivää ennen tapaamista"
 
 #: calendar/gui/dialogs/event-page.c:1807
-#, fuzzy, c-format
+#, c-format
 msgid "%d hour before appointment"
 msgid_plural "%d hours before appointment"
-msgstr[0] "tapaamisen päätös"
-msgstr[1] "tapaamisen päätös"
+msgstr[0] "%d tunti ennen tapaamista"
+msgstr[1] "%d tuntia ennen tapaamista"
 
 #: calendar/gui/dialogs/event-page.c:1815
-#, fuzzy, c-format
+#, c-format
 msgid "%d minute before appointement"
 msgid_plural "%d minutes before appointment"
-msgstr[0] "_Ennen joka tapaamista"
-msgstr[1] "_Ennen joka tapaamista"
+msgstr[0] "%d minuutti ennen tapaamista"
+msgstr[1] "%d minuuttia ennen apaamista"
 
 #: calendar/gui/dialogs/event-page.glade.h:2
-#, fuzzy
 msgid "1 day before appointment"
-msgstr "_Ennen joka tapaamista"
+msgstr "1 päivä ennen tapaamista"
 
 #: calendar/gui/dialogs/event-page.glade.h:3
-#, fuzzy
 msgid "1 hour before appointment"
-msgstr "_Ennen joka tapaamista"
+msgstr "1 tunti ennen tapaamista"
 
 #: calendar/gui/dialogs/event-page.glade.h:4
-#, fuzzy
 msgid "15 minutes before appointment"
-msgstr "_Ennen joka tapaamista"
+msgstr "15 minuuttia ennen tapaamista"
 
 #: calendar/gui/dialogs/event-page.glade.h:5
-#, fuzzy
 msgid "<b>Basics</b>"
-msgstr "<b>Tehtävälista</b>"
+msgstr "<b>Perusasiat</b>"
 
 #: calendar/gui/dialogs/event-page.glade.h:6
-#, fuzzy
 msgid "<b>Date and Time</b>"
-msgstr "<b>Aika</b>"
+msgstr "<b>Päiväys ja aika</b>"
 
 #: calendar/gui/dialogs/event-page.glade.h:7
 msgid "A_ll day event"
 msgstr "_Koko päivän kestävä tapahtuma"
 
 #: calendar/gui/dialogs/event-page.glade.h:8
-#, fuzzy
 msgid "C_ustomize..."
-msgstr "Tallenna oma näkymä..."
+msgstr "_Muokkaa..."
 
 #: calendar/gui/dialogs/event-page.glade.h:9
 #: calendar/gui/dialogs/task-page.glade.h:4
@@ -5088,15 +5060,13 @@ msgid "Ca_tegories..."
 msgstr "Ry_hmät..."
 
 #: calendar/gui/dialogs/event-page.glade.h:10
-#, fuzzy
 msgid "Cale_ndar:"
-msgstr "Kalenteri:"
+msgstr "_Kalenteri:"
 
 #: calendar/gui/dialogs/event-page.glade.h:11
 #: calendar/gui/dialogs/task-page.glade.h:5
-#, fuzzy
 msgid "Classi_fication:"
-msgstr "Luokittelu"
+msgstr "_Luokittelu:"
 
 #: calendar/gui/dialogs/event-page.glade.h:12
 #: calendar/gui/dialogs/task-page.glade.h:6 calendar/gui/e-cal-list-view.c:259
@@ -5105,9 +5075,8 @@ msgid "Confidential"
 msgstr "Luottamuksellinen"
 
 #: calendar/gui/dialogs/event-page.glade.h:13
-#, fuzzy
 msgid "Locat_ion:"
-msgstr "Sijainti:"
+msgstr "_Sijainti:"
 
 #: calendar/gui/dialogs/event-page.glade.h:14
 #: calendar/gui/dialogs/task-page.glade.h:8 calendar/gui/e-cal-list-view.c:258
@@ -5123,9 +5092,8 @@ msgid "Public"
 msgstr "Julkinen"
 
 #: calendar/gui/dialogs/event-page.glade.h:16
-#, fuzzy
 msgid "Show time as _busy"
-msgstr "Näytä aika muodossa"
+msgstr "Näytä aika varattuna"
 
 #: calendar/gui/dialogs/event-page.glade.h:17
 #: calendar/gui/dialogs/task-page.glade.h:11
@@ -5134,17 +5102,15 @@ msgstr "_Yhteenveto:"
 
 #: calendar/gui/dialogs/event-page.glade.h:18
 msgid "This appointment has customized alarms"
-msgstr ""
+msgstr "Tässä tapaamisessa on muokattuja hälytyksiä"
 
 #: calendar/gui/dialogs/event-page.glade.h:19
-#, fuzzy
 msgid "_Alarm"
-msgstr "_Tyhjennä"
+msgstr "_Hälytys"
 
 #: calendar/gui/dialogs/event-page.glade.h:20
-#, fuzzy
 msgid "_Description:"
-msgstr "Kuvaus:"
+msgstr "K_uvaus:"
 
 #: calendar/gui/dialogs/event-page.glade.h:21
 #: calendar/gui/e-meeting-time-sel.c:613
@@ -5157,6 +5123,11 @@ msgid "_Start time:"
 msgstr "_Alkamisaika:"
 
 #. an empty string is the same as 'None'
+#. add a "None" option to the stores menu
+#. Put the "None" and "UTC" entries at the top of the combo's list.
+#. When "None" is selected we want the field to be cleared.
+#. Note that we don't show this here, since by default a 'None' date
+#. is not permitted.
 #: calendar/gui/dialogs/meeting-page.c:316
 #: calendar/gui/dialogs/meeting-page.glade.h:5
 #: calendar/gui/e-cal-model-tasks.c:647 calendar/gui/e-itip-control.c:928
@@ -5243,25 +5214,21 @@ msgid "Status"
 msgstr "Tila"
 
 #: calendar/gui/dialogs/meeting-page.glade.h:2
-#, fuzzy
 msgid "<b>Att_endees</b>"
-msgstr "<b>Hälytykset</b>"
+msgstr "<b>_Läsnäolijat</b>"
 
 #: calendar/gui/dialogs/meeting-page.glade.h:3
-#, fuzzy
 msgid "C_hange Organizer"
 msgstr "Vaihda _järjestäjää"
 
 #: calendar/gui/dialogs/meeting-page.glade.h:4
 #: calendar/gui/e-meeting-time-sel.c:415
-#, fuzzy
 msgid "Con_tacts..."
-msgstr "Yhteystiedot"
+msgstr "_Yhteystiedot"
 
 #: calendar/gui/dialogs/meeting-page.glade.h:6
-#, fuzzy
 msgid "Or_ganizer:"
-msgstr "Organisoija:"
+msgstr "_Järjestäjä:"
 
 #: calendar/gui/dialogs/meeting-page.glade.h:7
 #: calendar/gui/e-itip-control.glade.h:9
@@ -5387,27 +5354,24 @@ msgid "Date/Time"
 msgstr "Päiväys/Aika"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:1
-#, fuzzy
 msgid "<b>Exceptions</b>"
-msgstr "Poikkeukset"
+msgstr "<b>Poikkeukset</b>"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:2 mail/mail-config.glade.h:4
 msgid "<b>Preview</b>"
 msgstr "<b>Esikatselu</b>"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:3
-#, fuzzy
 msgid "<b>Recurrence</b>"
-msgstr "Toistuvuus"
+msgstr "<b>Toistuvuus</b>"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:4
 msgid "Every"
 msgstr "Joka"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:5
-#, fuzzy
 msgid "This appointment rec_urs"
-msgstr "_Muokkaa tapaamista"
+msgstr "Tapaaminen _toistuu"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:8
 msgid "for"
@@ -5450,14 +5414,12 @@ msgid "Completed date is wrong"
 msgstr "Valmistumispäivä on väärin"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:1
-#, fuzzy
 msgid "<span weight=\"bold\">Miscellaneous\t</span>"
-msgstr "<span weight=\"bold\">Viestin kirjasimet</span>"
+msgstr "<span weight=\"bold\">Lisäasetukset</span>"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:2
-#, fuzzy
 msgid "<span weight=\"bold\">Status</span>"
-msgstr "<span weight=\"bold\">Hälytykset</span>"
+msgstr "<span weight=\"bold\">Tila</span>"
 
 #. Pass TRUE as is_utc, so it gets converted to the current
 #. timezone.
@@ -5504,9 +5466,8 @@ msgid "Not Started"
 msgstr "Ei aloitettu"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:10
-#, fuzzy
 msgid "P_ercent complete:"
-msgstr "Valmis (%%): %i"
+msgstr "Pros_enttia valmiina:"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:11
 #: calendar/gui/e-calendar-table.c:400
@@ -5549,19 +5510,16 @@ msgid "Unable to open tasks in '%s'."
 msgstr "Tehtäviä kohteessa '%s' ei voitu avata."
 
 #: calendar/gui/dialogs/task-page.glade.h:2
-#, fuzzy
 msgid "<span weight=\"bold\">Basics</span>"
-msgstr "<span weight=\"bold\">Vaihtoehdot</span>"
+msgstr "<span weight=\"bold\">Perusasiat</span>"
 
 #: calendar/gui/dialogs/task-page.glade.h:3
-#, fuzzy
 msgid "<span weight=\"bold\">Date and Time</span>"
-msgstr "<span weight=\"bold\">Poista viesti</span>"
+msgstr "<span weight=\"bold\">Päiväys ja aika</span>"
 
 #: calendar/gui/dialogs/task-page.glade.h:7
-#, fuzzy
 msgid "D_escription:"
-msgstr "Kuvaus:"
+msgstr "_Kuvaus:"
 
 #: calendar/gui/dialogs/task-page.glade.h:10
 msgid "Sta_rt date:"
@@ -5572,58 +5530,48 @@ msgid "_Due date:"
 msgstr "_Eräpäivä:"
 
 #: calendar/gui/dialogs/task-page.glade.h:13
-#, fuzzy
 msgid "_Group:"
-msgstr "Ryhmä"
+msgstr "_Ryhmä:"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:3
-#, fuzzy
 msgid "<b>Free/Busy C_alendars</b>"
-msgstr "<b>Kalenterin vaihtoehdot</b>"
+msgstr "<b>Vapaa/Varattu _kalenterit</b>"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:4
-#, fuzzy
 msgid "<b>Publishing Frequency</b>"
-msgstr "Julkaisutiheys"
+msgstr "<b>Julkaisutiheys</b>"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:5
-#, fuzzy
 msgid "<b>Publishing _Location</b>"
-msgstr "Vapaa/Varattu-tiedon julkaisusijainti"
+msgstr "<b>Julkaisun _sijainti</b>"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:6
 msgid "Free/Busy Editor"
 msgstr "Vapaa/Varattu-muokkain"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:7
-#, fuzzy
 msgid "_Daily"
-msgstr "Päivittäin"
+msgstr "_Päivittäin"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:8
-#, fuzzy
 msgid "_Manual"
-msgstr "_Sähköposti"
+msgstr "_Manuaalinen"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:9
-#, fuzzy
 msgid "_Password:"
-msgstr "Salasana:"
+msgstr "_Salasana:"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:10
-#, fuzzy
 msgid "_Remember password"
-msgstr "Muista salasana"
+msgstr "_Muista salasana"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:11
-#, fuzzy
 msgid "_Username:"
 msgstr "Käyttäjät_unnus:"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:12
-#, fuzzy
 msgid "_Weekly"
-msgstr "Viikoittain"
+msgstr "_Viikoittain"
 
 #: calendar/gui/e-alarm-list.c:395
 #, c-format
@@ -6080,12 +6028,20 @@ msgid "_Settings..."
 msgstr "_Asetukset..."
 
 #. strftime format of a weekday, a date and a time, 24-hour.
+#. strptime format of a weekday, a date and a time,
+#. in 24-hour format.
+#. strftime format of a weekday, a date and a
+#. time, in 24-hour format.
 #: calendar/gui/e-cell-date-edit-text.c:117 e-util/e-time-utils.c:180
 #: e-util/e-time-utils.c:393
 msgid "%a %m/%d/%Y %H:%M:%S"
 msgstr "%a %d/%m/%Y %H:%M:%S"
 
 #. strftime format of a weekday, a date and a time, 12-hour.
+#. strptime format of a weekday, a date and a time,
+#. in 12-hour format.
+#. strftime format of a weekday, a date and a
+#. time, in 12-hour format.
 #: calendar/gui/e-cell-date-edit-text.c:120 e-util/e-time-utils.c:175
 #: e-util/e-time-utils.c:402
 msgid "%a %m/%d/%Y %I:%M:%S %p"
@@ -6109,6 +6065,10 @@ msgstr "%02i minuutin välein"
 
 #. strftime format %A = full weekday name, %d = day of month,
 #. %B = full month name. Don't use any other specifiers.
+#. strftime format %A = full weekday name, %d = day of
+#. month, %B = full month name. You can change the
+#. order but don't change the specifiers or add
+#. anything.
 #: calendar/gui/e-day-view-top-item.c:710 calendar/gui/e-day-view.c:1571
 #: calendar/gui/e-week-view-main-item.c:320 calendar/gui/print.c:1514
 msgid "%A %d %B"
@@ -6289,12 +6249,12 @@ msgstr "Lähetä viimeisimmät tiedot"
 msgid ""
 "The meeting has been cancelled, however it could not be found in your "
 "calendars"
-msgstr ""
+msgstr "Kokous on peruttu, mutta sitä ei voitu löytää kalentereistasi"
 
 #: calendar/gui/e-itip-control.c:1121
 msgid ""
 "The task has been cancelled, however it could not be found in your task lists"
-msgstr ""
+msgstr "Tehtävä on peruttu, mutta sitä ei voitu löytää tehtävälistoiltasi"
 
 #: calendar/gui/e-itip-control.c:1134 calendar/gui/itip-utils.c:442
 #: mail/mail-send-recv.c:410 mail/mail-send-recv.c:464
@@ -6635,6 +6595,10 @@ msgstr "%A, %B %d, %Y"
 
 #. This is a strftime() format string %a = abbreviated weekday
 #. name, %m = month number, %d = month day, %Y = full year.
+#. This is a strftime() format string %a = abbreviated weekday name,
+#. %m = month number, %d = month day, %Y = full year.
+#. strptime format of a weekday and a date.
+#. strftime format of a weekday and a date.
 #: calendar/gui/e-meeting-time-sel-item.c:456
 #: calendar/gui/e-meeting-time-sel.c:2102 e-util/e-time-utils.c:203
 #: e-util/e-time-utils.c:296 e-util/e-time-utils.c:384
@@ -6643,6 +6607,10 @@ msgstr "%a %d/%m/%Y"
 
 #. This is a strftime() format string %m = month number,
 #. %d = month day, %Y = full year.
+#. strptime format of a weekday and a date.
+#. This is the preferred date format for the locale.
+#. This is a strftime() format for a short date. %m = month,
+#. %d = day of month, %Y = year (all digits).
 #: calendar/gui/e-meeting-time-sel-item.c:460 e-util/e-time-utils.c:238
 #: e-util/e-time-utils.c:299 widgets/misc/e-dateedit.c:1604
 msgid "%m/%d/%Y"
@@ -6657,9 +6625,8 @@ msgid "No Information"
 msgstr "Ei tietoa"
 
 #: calendar/gui/e-meeting-time-sel.c:432
-#, fuzzy
 msgid "O_ptions"
-msgstr "Asetukset"
+msgstr "_Asetukset"
 
 #: calendar/gui/e-meeting-time-sel.c:449
 msgid "Show _only working hours"
@@ -7198,34 +7165,28 @@ msgid "Create a new task"
 msgstr "Luo uusi tehtävä"
 
 #: calendar/gui/tasks-component.c:1050
-#, fuzzy
 msgid "New assigned task"
-msgstr "Anna tehtäväksi"
+msgstr "Uusi tehtäväksianto"
 
 #: calendar/gui/tasks-component.c:1051
-#, fuzzy
 msgid "Assigne_d Task"
-msgstr "Anna tehtäväksi"
+msgstr "Tehtäväksi_anto"
 
 #: calendar/gui/tasks-component.c:1052
-#, fuzzy
 msgid "Create a new assigned task"
-msgstr "Luo uusi tehtävä"
+msgstr "Luo uusi tehtäväksianto"
 
 #: calendar/gui/tasks-component.c:1058
-#, fuzzy
 msgid "New task list"
 msgstr "Uusi tehtävälista"
 
 #: calendar/gui/tasks-component.c:1059
-#, fuzzy
 msgid "Task l_ist"
-msgstr "Tehtävät"
+msgstr "_Tehtävälista"
 
 #: calendar/gui/tasks-component.c:1060
-#, fuzzy
 msgid "Create a new task list"
-msgstr "Luo uusi tehtävä"
+msgstr "Luo uusi tehtävälista"
 
 #: calendar/gui/tasks-control.c:367
 msgid ""
@@ -8829,36 +8790,32 @@ msgid "Signing is not supported by this cipher"
 msgstr "Tämä salakirjoitusmenetelmä ei tue allekirjoitusta"
 
 #: camel/camel-cipher-context.c:128
-#, fuzzy
 msgid "Signing message"
-msgstr "Lähetetään viestiä"
+msgstr "Allekirjoitetaan viestiä"
 
 #: camel/camel-cipher-context.c:145
 msgid "Verifying is not supported by this cipher"
 msgstr "Tämä salakirjoitusmenetelmä ei tue varmennusta"
 
 #: camel/camel-cipher-context.c:171
-#, fuzzy
 msgid "Verifying message"
-msgstr "Lähetetään viestiä"
+msgstr "Varmistetaan viestiä"
 
 #: camel/camel-cipher-context.c:189
 msgid "Encryption is not supported by this cipher"
 msgstr "Tämä salakirjoitusmenetelmä ei tue tiedon salausta"
 
 #: camel/camel-cipher-context.c:215
-#, fuzzy
 msgid "Encrypting message"
-msgstr "Lähetetään viestiä"
+msgstr "Salataan viestiä"
 
 #: camel/camel-cipher-context.c:232
 msgid "Decryption is not supported by this cipher"
 msgstr "Tämä salakirjoitusmenetelmä ei tue salauksen purkua"
 
 #: camel/camel-cipher-context.c:254
-#, fuzzy
 msgid "Decrypting message"
-msgstr "Lähetetään viestiä"
+msgstr "Puretaan viestin salausta"
 
 #: camel/camel-cipher-context.c:271
 msgid "You may not import keys with this cipher"
@@ -8929,7 +8886,7 @@ msgid "Failed to create pipe to '%s': %s"
 msgstr "Putken '%s' luominen epäonnistui: %s"
 
 #: camel/camel-filter-driver.c:713 camel/camel-process.c:90
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to create child process '%s': %s"
 msgstr "Lapsiprosessin '%s' luominen epäonnistui: %s"
 
@@ -9792,9 +9749,8 @@ msgid "Certificate only message, certificates imported and verified"
 msgstr "Viesti on varmenne, varmenteet tuotu ja tarkistettu"
 
 #: camel/camel-smime-context.c:635
-#, fuzzy
 msgid "Cannot find signature digests"
-msgstr "Allekirjoitusten tiivisteitä ei löydy"
+msgstr "Allekirjoitustiivisteitä ei löydy"
 
 #: camel/camel-smime-context.c:651
 #, c-format
@@ -9806,50 +9762,42 @@ msgid "Decoder failed"
 msgstr "Purkaja epäonnistui"
 
 #: camel/camel-smime-context.c:804
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot find certificate for `%s'"
-msgstr "Varmennetta '%s':lle ei löydy"
+msgstr "Varmennetta `%s':lle ei löydy"
 
 #: camel/camel-smime-context.c:811
-#, fuzzy
 msgid "Cannot find common bulk encryption algorithm"
 msgstr "Yhteistä massasalausalgoritmia ei löydy"
 
 #. PORT_GetError(); ??
 #: camel/camel-smime-context.c:820
-#, fuzzy
 msgid "Cannot allocate slot for encryption bulk key"
-msgstr "Tilaa massasalausavaimelle ei voida varata"
+msgstr "Lokeroa massasalausavaimelle ei voida varata"
 
 #: camel/camel-smime-context.c:831
-#, fuzzy
 msgid "Cannot create CMS Message"
 msgstr "CMS-viestiä ei voida luoda"
 
 #: camel/camel-smime-context.c:837
-#, fuzzy
 msgid "Cannot create CMS EnvelopedData"
-msgstr "CMS EnvelopedData:a ei voida luoda"
+msgstr "CMS EnvelopedDataa ei voida luoda"
 
 #: camel/camel-smime-context.c:843
-#, fuzzy
 msgid "Cannot attach CMS EnvelopedData"
-msgstr "CMS EnvelopedData:a ei voida liittää"
+msgstr "CMS EnvelopedDataa ei voida liittää"
 
 #: camel/camel-smime-context.c:849
-#, fuzzy
 msgid "Cannot attach CMS data object"
 msgstr "CMS tieto-oliota ei voida liittää"
 
 #: camel/camel-smime-context.c:858
-#, fuzzy
 msgid "Cannot create CMS RecipientInfo"
-msgstr "CMS RecipientInfo:a ei voida luoda"
+msgstr "CMS RecipientInfoa ei voida luoda"
 
 #: camel/camel-smime-context.c:863
-#, fuzzy
 msgid "Cannot add CMS RecipientInfo"
-msgstr "CMS RecipientInfo:a ei voida lisätä"
+msgstr "CMS RecipientInfoa ei voida lisätä"
 
 #: camel/camel-smime-context.c:888
 msgid "Failed to add data to encoder"
@@ -9909,7 +9857,7 @@ msgstr "Roskakori"
 #: camel/camel-store.c:779 mail/em-filter-i18n.h:35
 #: mail/mail-config.glade.h:95 ui/evolution-mail-message.xml.h:48
 msgid "Junk"
-msgstr "Roskapostia"
+msgstr "Roskaposti"
 
 #: camel/camel-tcp-stream-openssl.c:568
 msgid "Unable to get issuer's certificate"
@@ -10193,9 +10141,8 @@ msgid "Address Book And Calendar"
 msgstr "Osoitekirja ja kalenteri"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:72
-#, fuzzy
 msgid "Post Office Agent:"
-msgstr "Postitoimiston agentin SOAP portti:"
+msgstr "Postitoimiston agentti:"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:75
 msgid "Post Office Agent SOAP Port:"
@@ -10203,7 +10150,7 @@ msgstr "Postitoimiston agentin SOAP portti:"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:78
 msgid "Use ssl"
-msgstr ""
+msgstr "Käytä SSL:ää"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:92
 msgid "Novell GroupWise"
@@ -11623,9 +11570,10 @@ msgid "Could not connect to POP server %s (port %d): %s"
 msgstr "Yhdistäminen POP-palvelimeen %s (portti %d) epäonnistui: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:214
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to read a valid greeting from POP server %s (port %d)"
-msgstr "Tunnistautuminen POP-palvelimelle %s epäonnistui: %s"
+msgstr ""
+"POP-palvelimelta %s (portissa %d) ei saatu luettua kelvollista tervehdystä"
 
 #: camel/providers/pop3/camel-pop3-store.c:232
 #: camel/providers/pop3/camel-pop3-store.c:261
@@ -11680,12 +11628,12 @@ msgstr ""
 "Virhe lähetettäessä salasanaa: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:547
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Unable to connect to POP server %s.\n"
 "Error sending username: %s"
 msgstr ""
-"Yhdistäminen POP-palvelimeen epäonnistui: %s\n"
+"Yhdistäminen POP-palvelimeen %s epäonnistui.\n"
 "Virhe lähetettäessä salasanaa: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:652
@@ -12221,17 +12169,17 @@ msgid "Compose a message"
 msgstr "Kirjoita viesti"
 
 #: composer/e-msg-composer.c:2634
-#, fuzzy, c-format
+#, c-format
 msgid "Attached message - %s"
-msgstr "Välitetty viesti - %s"
+msgstr "Liitetty viesti - %s"
 
 #. translators, this count will always be >1
 #: composer/e-msg-composer.c:2639 composer/e-msg-composer.c:2783
-#, fuzzy, c-format
+#, c-format
 msgid "Attached message"
 msgid_plural "%d attached messages"
-msgstr[0] "Liitä alkuperäinen viesti"
-msgstr[1] "Liitä alkuperäinen viesti"
+msgstr[0] "Liitetty viesti"
+msgstr[1] "%d liitettyä viestiä"
 
 #: composer/e-msg-composer.c:4341
 msgid ""
@@ -12268,11 +12216,15 @@ msgstr ""
 
 #. mail-composer:attach-nomessages primary
 #: composer/mail-composer-errors.xml.h:12
-#, fuzzy
 msgid "Could not retrieve messages to attach from {0}."
-msgstr "Viestiä ei voitu luoda."
+msgstr "Viestejä ei voitu hakea liitettäväksi kohteesta {0}."
 
 #. mail-composer:attach-nomessages secondary
+#. mail-composer:no-sig-file secondary
+#. mail:no-create-tmp-path secondary
+#. mail:no-delete-folder secondary
+#. system:no-save-file secondary
+#. system:no-load-file secondary
 #: composer/mail-composer-errors.xml.h:14
 #: composer/mail-composer-errors.xml.h:42 mail/mail-errors.xml.h:100
 #: mail/mail-errors.xml.h:112 widgets/misc/e-system-errors.xml.h:11
@@ -12371,6 +12323,7 @@ msgstr ""
 "Käyttäjätili täytyy määritellä ennen kuin sähköpostia voidaan lähettää."
 
 #. mail-composer:no-address-control primary
+#. mail-composer:no-editor-control primary
 #: composer/mail-composer-errors.xml.h:48
 #: composer/mail-composer-errors.xml.h:52
 msgid "Could not create composer window."
@@ -12538,12 +12491,16 @@ msgstr "Muista tämä salasana istunnon loppuun saakka"
 
 #. strptime format of a weekday, a date and a time,
 #. in 12-hour format, without seconds.
+#. strftime format of a weekday, a date and a
+#. time, in 12-hour format, without seconds.
 #: e-util/e-time-utils.c:185 e-util/e-time-utils.c:398
 msgid "%a %m/%d/%Y %I:%M %p"
 msgstr "%a %d/%m/%Y %I:%M %p"
 
 #. strptime format of a weekday, a date and a time,
 #. in 24-hour format, without seconds.
+#. strftime format of a weekday, a date and a
+#. time, in 24-hour format, without seconds.
 #: e-util/e-time-utils.c:190 e-util/e-time-utils.c:389
 msgid "%a %m/%d/%Y %H:%M"
 msgstr "%a %d/%m/%Y %H:%M"
@@ -12595,23 +12552,31 @@ msgid "%m/%d/%Y %H"
 msgstr "%d.%m.%Y %H"
 
 #. strptime format for a time of day, in 12-hour format.
+#. strftime format of a time in 12-hour format.
 #: e-util/e-time-utils.c:339 e-util/e-time-utils.c:438
 msgid "%I:%M:%S %p"
 msgstr "%I:%M:%S %p"
 
 #. strptime format for a time of day, in 24-hour format.
+#. strftime format of a time in 24-hour format.
 #: e-util/e-time-utils.c:343 e-util/e-time-utils.c:430
 msgid "%H:%M:%S"
 msgstr "%H:%M:%S"
 
 #. strptime format for time of day, without seconds,
 #. in 12-hour format.
+#. strftime format of a time in 12-hour format,
+#. without seconds.
+#. This is a strftime() format. %I = hour (1-12), %M = minute, %p = am/pm string.
 #: e-util/e-time-utils.c:348 e-util/e-time-utils.c:435
 #: widgets/misc/e-dateedit.c:1414 widgets/misc/e-dateedit.c:1639
 msgid "%I:%M %p"
 msgstr "%I:%M %p"
 
 #. strptime format for time of day, without seconds 24-hour format.
+#. strftime format of a time in 24-hour format,
+#. without seconds.
+#. This is a strftime() format. %H = hour (0-23), %M = minute.
 #: e-util/e-time-utils.c:352 e-util/e-time-utils.c:427
 #: widgets/misc/e-dateedit.c:1411 widgets/misc/e-dateedit.c:1636
 msgid "%H:%M"
@@ -12704,6 +12669,7 @@ msgid "Missing file name."
 msgstr "Tiedostonimi puuttuu."
 
 #. filter:no-file secondary
+#. filter:bad-file secondary
 #: filter/filter-errors.xml.h:8 filter/filter-errors.xml.h:12
 msgid "You must specify a file name."
 msgstr "Tiedostonimi täytyy antaa."
@@ -12724,6 +12690,7 @@ msgid "Could not compile regular expression \"{1}\"."
 msgstr "Säännöllistä lauseketta \"{1}\" ei voitu kääntää."
 
 #. filter:no-name primary
+#. mail:no-name-vfolder primary
 #: filter/filter-errors.xml.h:18 mail/mail-errors.xml.h:214
 msgid "Missing name."
 msgstr "Nimi puuttuu."
@@ -13016,159 +12983,131 @@ msgstr "Valitse kansio"
 #. Automatically generated. Do not edit.
 #: mail/em-filter-i18n.h:2
 msgid "Adjust Score"
-msgstr ""
+msgstr "Muuta pisteytystä"
 
 #: mail/em-filter-i18n.h:3
-#, fuzzy
 msgid "Assign Color"
-msgstr "Anna tehtäväksi"
+msgstr "Aseta väri"
 
 #: mail/em-filter-i18n.h:4
-#, fuzzy
 msgid "Assign Score"
-msgstr "Annettu tehtäväksi"
+msgstr "Aseta pistemäärä"
 
 #: mail/em-filter-i18n.h:5
-#, fuzzy
 msgid "Attachments"
-msgstr "Liite"
+msgstr "Liitteet"
 
 #: mail/em-filter-i18n.h:6
-#, fuzzy
 msgid "Beep"
-msgstr "Belize"
+msgstr "Piippaa"
 
 #: mail/em-filter-i18n.h:7
-#, fuzzy
 msgid "contains"
-msgstr "Runko sisältää"
+msgstr "sisältää"
 
 #: mail/em-filter-i18n.h:8
-#, fuzzy
 msgid "Copy to Folder"
-msgstr "_Kopioi kansioon"
+msgstr "Kopioi kansioon"
 
 #: mail/em-filter-i18n.h:9
-#, fuzzy
 msgid "Date received"
 msgstr "Otettu vastaan"
 
 #: mail/em-filter-i18n.h:10
-#, fuzzy
 msgid "Date sent"
-msgstr "Lähetetty\n"
+msgstr "Lähetetty"
 
 #: mail/em-filter-i18n.h:12
-#, fuzzy
 msgid "Deleted"
-msgstr "Poista"
+msgstr "Poistettu"
 
 #: mail/em-filter-i18n.h:13
-#, fuzzy
 msgid "does not contain"
-msgstr "Runko ei sisällä"
+msgstr "ei sisällä"
 
 #: mail/em-filter-i18n.h:14
-#, fuzzy
 msgid "does not end with"
-msgstr "Tiedostoa %s ei ole olemassa"
+msgstr "ei pääty"
 
 #: mail/em-filter-i18n.h:15
-#, fuzzy
 msgid "does not exist"
-msgstr "Tiedostoa %s ei ole olemassa"
+msgstr "ei ole olemassa"
 
 #: mail/em-filter-i18n.h:16
-#, fuzzy
 msgid "does not return"
-msgstr "Runko ei sisällä"
+msgstr "ei palauta"
 
 #: mail/em-filter-i18n.h:17
-#, fuzzy
 msgid "does not sound like"
-msgstr "Runko ei sisällä"
+msgstr "ei kuulosta samalta kuin"
 
 #: mail/em-filter-i18n.h:18
-#, fuzzy
 msgid "does not start with"
-msgstr "wombattia ei voitu käynnistää"
+msgstr "ei ala"
 
 #: mail/em-filter-i18n.h:19
 msgid "Do Not Exist"
-msgstr ""
+msgstr "Ei ole olemassa"
 
 #: mail/em-filter-i18n.h:20
-#, fuzzy
 msgid "Draft"
-msgstr "Päiväys"
+msgstr "Luonnos"
 
 #: mail/em-filter-i18n.h:21
-#, fuzzy
 msgid "ends with"
-msgstr "Nimi alkaa"
+msgstr "päättyy"
 
 #: mail/em-filter-i18n.h:22
-#, fuzzy
 msgid "Exist"
-msgstr "_Poistu"
+msgstr "On olemassa"
 
 #: mail/em-filter-i18n.h:23
-#, fuzzy
 msgid "exists"
-msgstr "Teksti"
+msgstr "on olemassa"
 
 #: mail/em-filter-i18n.h:24
-#, fuzzy
 msgid "Expression"
-msgstr "Vanhenee"
+msgstr "Lauseke"
 
 #: mail/em-filter-i18n.h:25
-#, fuzzy
 msgid "Follow Up"
 msgstr "Lähetä edelleen"
 
 #: mail/em-filter-i18n.h:27
-#, fuzzy
 msgid "is"
-msgstr "Lista"
+msgstr "on"
 
 #: mail/em-filter-i18n.h:28
-#, fuzzy
 msgid "is after"
-msgstr "jälkeen"
+msgstr "on jälkeen"
 
 #: mail/em-filter-i18n.h:29
-#, fuzzy
 msgid "is before"
-msgstr "ennen"
+msgstr "on ennen"
 
 #: mail/em-filter-i18n.h:30
-#, fuzzy
 msgid "is Flagged"
-msgstr "Merkitty"
+msgstr "on merkitty"
 
 #: mail/em-filter-i18n.h:31
 msgid "is greater than"
-msgstr ""
+msgstr "on suurempi kuin"
 
 #: mail/em-filter-i18n.h:32
 msgid "is less than"
-msgstr ""
+msgstr "on vähemmän kuin"
 
 #: mail/em-filter-i18n.h:33
-#, fuzzy
 msgid "is not"
 msgstr "Lista"
 
 #: mail/em-filter-i18n.h:34
-#, fuzzy
 msgid "is not Flagged"
-msgstr "Merkitty"
+msgstr "ei ole merkitty"
 
 #: mail/em-filter-i18n.h:36
-#, fuzzy
 msgid "Junk Test"
-msgstr "Kesäkuu"
+msgstr "Roskapostitesti"
 
 #: mail/em-filter-i18n.h:37 mail/em-folder-view.c:932
 #: widgets/misc/e-expander.c:189
@@ -13176,122 +13115,104 @@ msgid "Label"
 msgstr "Otsikko"
 
 #: mail/em-filter-i18n.h:38
-#, fuzzy
 msgid "Mailing list"
-msgstr "%s postilista"
+msgstr "Postituslista"
 
 #: mail/em-filter-i18n.h:39
-#, fuzzy
 msgid "Message Body"
-msgstr "Lähetettävä viesti"
+msgstr "Viestin runko"
 
 #: mail/em-filter-i18n.h:40
-#, fuzzy
 msgid "Message Header"
-msgstr "Lähetettävä viesti"
+msgstr "Viestin otsakkeet"
 
 #: mail/em-filter-i18n.h:41
-#, fuzzy
 msgid "Message is Junk"
-msgstr "_Viestit"
+msgstr "Viesti on roskapostia"
 
 #: mail/em-filter-i18n.h:42
-#, fuzzy
 msgid "Message is not Junk"
-msgstr "Merkitse _ei-roskapostiksi"
+msgstr "Viesti ei ole roskapostia"
 
 #: mail/em-filter-i18n.h:43
-#, fuzzy
 msgid "Move to Folder"
-msgstr "_Siirrä kansioon"
+msgstr "Siirrä kansioon"
 
 #: mail/em-filter-i18n.h:44
-#, fuzzy
 msgid "Pipe to Program"
-msgstr "Poistu ohjelmasta"
+msgstr "Välitä putkessa ohjelmalle"
 
 #: mail/em-filter-i18n.h:45
-#, fuzzy
 msgid "Play Sound"
-msgstr "Soita ääni:"
+msgstr "Soita ääni"
 
 #: mail/em-filter-i18n.h:46 mail/message-tag-followup.c:79
 msgid "Read"
 msgstr "Lue"
 
 #: mail/em-filter-i18n.h:47
-#, fuzzy
 msgid "Recipients"
-msgstr "Vastaanottajakenttä sisältää"
+msgstr "Vastaanottajat"
 
 #: mail/em-filter-i18n.h:48
 msgid "Regex Match"
-msgstr ""
+msgstr "Regex-osuma"
 
 #: mail/em-filter-i18n.h:49
-#, fuzzy
 msgid "Replied to"
-msgstr "Vastaukset"
+msgstr "Vastaus viestiin"
 
 #: mail/em-filter-i18n.h:50
 msgid "returns"
-msgstr ""
+msgstr "palauttaa"
 
 #: mail/em-filter-i18n.h:51
 msgid "returns greater than"
-msgstr ""
+msgstr "palauttaa enemmän kuin"
 
 #: mail/em-filter-i18n.h:52
-#, fuzzy
 msgid "returns less than"
-msgstr "Poista vanhemmat tapahtumat kuin"
+msgstr "palauttaa vähämmän kuin"
 
 #: mail/em-filter-i18n.h:53
-#, fuzzy
 msgid "Run Program"
-msgstr "Suorita ohjelma:"
+msgstr "Suorita ohjelma"
 
 #: mail/em-filter-i18n.h:54 mail/message-list.etspec.h:10
 msgid "Score"
 msgstr "Pistemäärä"
 
 #: mail/em-filter-i18n.h:55
-#, fuzzy
 msgid "Sender"
-msgstr "Lähetä"
+msgstr "Lähettäjä"
 
 #: mail/em-filter-i18n.h:56
-#, fuzzy
 msgid "Set Status"
-msgstr "Tila"
+msgstr "Aseta tila"
 
 #: mail/em-filter-i18n.h:57
-#, fuzzy
 msgid "Size (kB)"
-msgstr "Koko"
+msgstr "Koko (kB)"
 
 #: mail/em-filter-i18n.h:58
 msgid "sounds like"
-msgstr ""
+msgstr "kuulostaa samalta kuin"
 
 #: mail/em-filter-i18n.h:59
-#, fuzzy
 msgid "Source Account"
-msgstr "Lähdekirja"
+msgstr "Lähteen yhteystieto"
 
 #: mail/em-filter-i18n.h:60
-#, fuzzy
 msgid "Specific header"
-msgstr "vain määritellyt kansiot"
+msgstr "Annettu otsake"
 
 #: mail/em-filter-i18n.h:61
 msgid "starts with"
-msgstr ""
+msgstr "alkaa"
 
 #: mail/em-filter-i18n.h:63
-#, fuzzy
 msgid "Stop Processing"
-msgstr "Pysäytä lataaminen"
+msgstr "Pysäytä käsittely"
 
 #: mail/em-filter-i18n.h:64 mail/em-format-html.c:1550
 #: mail/em-format-quote.c:305 mail/em-format.c:805 mail/em-mailer-prefs.c:87
@@ -13301,9 +13222,8 @@ msgid "Subject"
 msgstr "Aihe"
 
 #: mail/em-filter-i18n.h:65
-#, fuzzy
 msgid "Unset Status"
-msgstr "Yhdysvallat"
+msgstr "Poista tilan asetus"
 
 #. and now for the action area
 #: mail/em-filter-rule.c:488
@@ -13315,24 +13235,21 @@ msgid "Create _Virtual Folder From Search..."
 msgstr "Luo virtuaalikansio alusta alkaen..."
 
 #: mail/em-folder-properties.c:122
-#, fuzzy
 msgid "Folder Properties"
-msgstr "kansion ominaisuudet"
+msgstr "Kansion ominaisuudet"
 
 #. TODO: can this be done in a loop?
 #: mail/em-folder-properties.c:161
-#, fuzzy
 msgid "Total message:"
 msgid_plural "Total messages:"
-msgstr[0] "Viestejä kaikkiaan"
-msgstr[1] "Viestejä kaikkiaan"
+msgstr[0] "Viesti kaikkiaan:"
+msgstr[1] "Viestejä kaikkiaan:"
 
 #: mail/em-folder-properties.c:173
-#, fuzzy
 msgid "Unread message:"
 msgid_plural "Unread messages:"
-msgstr[0] "Lukemattomia viestejä"
-msgstr[1] "Lukemattomia viestejä"
+msgstr[0] "Lukematon viesti:"
+msgstr[1] "Lukemattomia viestejä:"
 
 #: mail/em-folder-selection-button.c:120
 msgid "<click here to select a folder>"
@@ -15527,16 +15444,14 @@ msgid "description"
 msgstr "kuvaus"
 
 #: mail/mail-dialogs.glade.h:1
-#, fuzzy
 msgid ""
 "\n"
 " Please read carefully the license agreement displayed\n"
 " below and tick the check box for accepting it\n"
 msgstr ""
 "\n"
-"Lue tarkkaan allaoleva lisenssisopimus\n"
-"ohjelmalle %s\n"
-"ja ruksita laatikko, jos hyväksyt lisenssin\n"
+"Lue tarkkaan allaoleva lisenssisopimus ja laita rasti ruutuun\n"
+"jos hyväksyt lisenssin\n"
 
 #: mail/mail-dialogs.glade.h:7
 msgid "<b>vFolder Sources</b>"
@@ -15551,9 +15466,8 @@ msgid "<span weight=\"bold\">Encryption</span>"
 msgstr "<span weight=\"bold\">Salaus</span>"
 
 #: mail/mail-dialogs.glade.h:10
-#, fuzzy
 msgid "Accept License"
-msgstr "Hyväksytty"
+msgstr "Hyväksy lisenssi"
 
 #: mail/mail-dialogs.glade.h:11 mail/message-tags.glade.h:2
 msgid "C_ompleted"
@@ -15581,9 +15495,8 @@ msgid "Folder Subscriptions"
 msgstr "Kansioiden tilaukset"
 
 #: mail/mail-dialogs.glade.h:18
-#, fuzzy
 msgid "License Agreement"
-msgstr "Lisenssisopimus ohjelmalle %s"
+msgstr "Lisenssisopimus"
 
 #: mail/mail-dialogs.glade.h:19
 msgid "None Selected"
@@ -15606,9 +15519,8 @@ msgstr ""
 "Valitse tehtävä uudelleenlähetys \"Merkki\" valikosta."
 
 #: mail/mail-dialogs.glade.h:25
-#, fuzzy
 msgid "Tick this to accept the license agreement"
-msgstr "Hyväksytyt lisenssit"
+msgstr "Laita tähän rasti, jos hyväksyt lisenssiehdot"
 
 #: mail/mail-dialogs.glade.h:26 mail/message-tags.glade.h:6
 msgid "_Due By:"
@@ -15663,7 +15575,6 @@ msgstr "Kirjautumisesi palvelimelle  \"{0}\" käyttäjänä \"{0}\" epäonnistui
 
 #. mail:camel-service-auth-failed secondary
 #: mail/mail-errors.xml.h:8
-#, fuzzy
 msgid ""
 "Check to make sure your password is spelled correctly.  Remember that many "
 "passwords are case sensitive; your caps lock might be on."
@@ -15692,9 +15603,8 @@ msgstr ""
 
 #: mail/mail-errors.xml.h:15 mail/mail-errors.xml.h:20
 #: mail/mail-errors.xml.h:27 mail/mail-errors.xml.h:32
-#, fuzzy
 msgid "_Send"
-msgstr "Lähetä"
+msgstr "_Lähetä"
 
 #. mail:ask-send-no-subject primary
 #: mail/mail-errors.xml.h:17
@@ -15711,6 +15621,7 @@ msgstr ""
 "ymmärtämään, mistä viestissä on kyse."
 
 #. mail:ask-send-only-bcc-contact primary
+#. mail:ask-send-only-bcc primary
 #: mail/mail-errors.xml.h:22 mail/mail-errors.xml.h:29
 msgid "Are you sure you want to send a message with only BCC recipients?"
 msgstr ""
@@ -15792,6 +15703,7 @@ msgstr ""
 "\"?"
 
 #. mail:ask-expunge secondary
+#. mail:ask-empty-trash secondary
 #: mail/mail-errors.xml.h:45 mail/mail-errors.xml.h:50
 msgid "If you continue, you will not be able to recover these messages."
 msgstr "Jos jatkat, et voi palauttaa näitä viestejä."
@@ -15820,7 +15732,6 @@ msgstr ""
 
 #. mail:exit-unsaved secondary
 #: mail/mail-errors.xml.h:55
-#, fuzzy
 msgid ""
 "If you quit, these messages will not be sent until Evolution is started "
 "again."
@@ -15882,6 +15793,8 @@ msgid "Cannot save to directory \"{0}\"."
 msgstr "Hakemistoon \"{0}\" ei voida tallentaa."
 
 #. mail:no-create-path primary
+#. mail:no-write-path-exists primary
+#. mail:no-write-path-notfile primary
 #: mail/mail-errors.xml.h:94 mail/mail-errors.xml.h:102
 #: mail/mail-errors.xml.h:106
 msgid "Cannot save to file \"{0}\"."
@@ -15918,6 +15831,7 @@ msgid "Cannot delete system folder \"{0}\"."
 msgstr "Järjestelmäkansiota \"{0}\" ei voida poistaa."
 
 #. mail:no-delete-spethal-folder secondary
+#. mail:no-rename-spethal-folder secondary
 #: mail/mail-errors.xml.h:116 mail/mail-errors.xml.h:120
 msgid ""
 "System folders are required for Ximian Evolution to function correctly and "
@@ -15951,11 +15865,13 @@ msgstr ""
 "sisältöineen pysyvästi."
 
 #. mail:no-rename-folder-exists primary
+#. mail:no-rename-folder primary
 #: mail/mail-errors.xml.h:128 mail/mail-errors.xml.h:132
 msgid "Cannot rename \"{0}\" to \"{1}\"."
 msgstr "\"{0}\" ei voida nimetä uudelleen nimelle \"{1}\"."
 
 #. mail:no-rename-folder-exists secondary
+#. mail:vfolder-notunique secondary
 #: mail/mail-errors.xml.h:130 mail/mail-errors.xml.h:192
 msgid "A folder named \"{1}\" already exists. Please use a different name."
 msgstr "Kansio nimeltään \"{1}\" on jo olemassa. Valitse toinen nimi."
@@ -15966,21 +15882,25 @@ msgid "Because \"{2}\"."
 msgstr "Syy: \"{2\"."
 
 #. mail:no-move-folder-nostore primary
+#. mail:no-move-folder-to-nostore primary
 #: mail/mail-errors.xml.h:136 mail/mail-errors.xml.h:140
 msgid "Cannot move folder \"{0}\" to \"{1}\"."
 msgstr "Kansiota ei voida siirtää \"{0}\" kohtaan \"{1}\"."
 
 #. mail:no-move-folder-nostore secondary
+#. mail:no-copy-folder-nostore secondary
 #: mail/mail-errors.xml.h:138 mail/mail-errors.xml.h:146
 msgid "Cannot open source \"{2}\"."
 msgstr "Lähdettä \"{2}\" ei voida avata."
 
 #. mail:no-move-folder-to-nostore secondary
+#. mail:no-copy-folder-to-nostore secondary
 #: mail/mail-errors.xml.h:142 mail/mail-errors.xml.h:150
 msgid "Cannot open target \"{2}\"."
 msgstr "Kohdetta \"{2}\" ei voida avata."
 
 #. mail:no-copy-folder-nostore primary
+#. mail:no-copy-folder-to-nostore primary
 #: mail/mail-errors.xml.h:144 mail/mail-errors.xml.h:148
 msgid "Cannot copy folder \"{0}\" to \"{1}\"."
 msgstr "Kansiota ei voida kopioida \"{0}\" kohtaan \"{1}\"."
@@ -15996,6 +15916,7 @@ msgid "Cannot open source \"{1}\""
 msgstr "Lähdettä \"{1}\" ei voida avata."
 
 #. mail:account-incomplete primary
+#. mail:account-notunique primary
 #: mail/mail-errors.xml.h:156 mail/mail-errors.xml.h:160
 msgid "Cannot save changes to account."
 msgstr "Muutoksia tiliin ei voida tallentaa."
@@ -16017,11 +15938,8 @@ msgstr "Poista tili?"
 
 #. mail:ask-delete-account primary
 #: mail/mail-errors.xml.h:166
-#, fuzzy
 msgid "Are you sure you want to delete this account?"
-msgstr ""
-"Haluatko varmasti\n"
-"poistaa tämän yhteystiedon?"
+msgstr "Haluatko varmasti poistaa tämän tilin?"
 
 #. mail:ask-delete-account secondary
 #: mail/mail-errors.xml.h:168
@@ -16029,9 +15947,8 @@ msgid "If you proceed, the account information will be deleted permanently."
 msgstr "Jos jatkat, tilin tiedot poistetaan pysyvästi."
 
 #: mail/mail-errors.xml.h:169
-#, fuzzy
 msgid "Don't delete"
-msgstr "_Palauta"
+msgstr "Älä poista"
 
 #. mail:no-save-signature primary
 #: mail/mail-errors.xml.h:171
@@ -16060,7 +15977,6 @@ msgstr "Hylkää muutokset?"
 
 #. mail:ask-signature-changed primary
 #: mail/mail-errors.xml.h:181
-#, fuzzy
 msgid "Do you wish to save your changes?"
 msgstr "Haluatko tallentaa muutokset?"
 
@@ -16197,6 +16113,8 @@ msgid ""
 "Could not connect to {0}. Groupwise account setup is incomplete. You may "
 "need to setup  the account again"
 msgstr ""
+"Yhteyttä {0} ei voitu avata. Groupwise-tilin määrittely on kesken. Voi olla "
+"että joudut luomaan tilin uudestaan."
 
 #: mail/mail-folder-cache.c:795
 #, c-format
@@ -16707,9 +16625,8 @@ msgid ""
 msgstr "Jos tosi, varoitusikkunaa Evolutionin kehitysversioissa ei näytetä."
 
 #: shell/apps_evolution_shell.schemas.in.in.h:9
-#, fuzzy
 msgid "Last upgraded Evolution configuration version"
-msgstr "Evolutionin asetusten versio"
+msgstr "Viimeksi päivitetty Evolutionin asetusten versio"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:10
 msgid ""
@@ -16735,18 +16652,17 @@ msgid "Whether to skip the development warning dialog"
 msgstr "Hypätäänkö kehitysversiovaroituksen yli"
 
 #: shell/e-active-connection-dialog.glade.h:1
-#, fuzzy
 msgid "<b>Active Connections</b>"
-msgstr "<b>Todennus</b>"
+msgstr "<b>Aktiiviset yhteydet</b>"
 
 #: shell/e-active-connection-dialog.glade.h:2
-#, fuzzy
 msgid "Active Connections"
-msgstr "Suorita toiminnot"
+msgstr "Aktiiviset yhteydet"
 
 #: shell/e-active-connection-dialog.glade.h:3
 msgid "Click OK to close these connections and go offline"
 msgstr ""
+"Valitse OK sulkeaksesi nämä yhteydet ja siirtyäksesi yhteydettömään tilaan"
 
 #: shell/e-shell-folder-title-bar.c:592 shell/e-shell-folder-title-bar.c:593
 msgid "(Untitled)"
@@ -16954,7 +16870,7 @@ msgstr "Ryhmätyöohjelmisto"
 
 #: shell/e-shell-window-commands.c:563
 msgid "_Work Online"
-msgstr "Työskentele _yhteydellisessä tilassa"
+msgstr "_Yhtedellinen tila"
 
 #: shell/e-shell-window-commands.c:576 ui/evolution.xml.h:39
 msgid "_Work Offline"
@@ -16962,7 +16878,7 @@ msgstr "_Yhteydetön tila"
 
 #: shell/e-shell-window-commands.c:589 ui/evolution.xml.h:25
 msgid "Work Offline"
-msgstr "Työskentele poissa linjoilta"
+msgstr "Valitse yhteydetön tila"
 
 #: shell/e-shell-window.c:337
 msgid "Evolution is currently online.  Click on this button to work offline."
@@ -17015,23 +16931,20 @@ msgid "New"
 msgstr "Uusi"
 
 #: shell/evolution-startup-wizard.glade.h:2
-#, fuzzy
 msgid "Evolution Setup Assistant"
-msgstr "Evolutionin tuoden asetukset"
+msgstr "Evolutionin asetusapulainen"
 
 #: shell/evolution-startup-wizard.glade.h:3
-#, fuzzy
 msgid "Importing Files"
-msgstr "Tuo tiedosto"
+msgstr "Tuodaan tiedostoja"
 
 #: shell/evolution-startup-wizard.glade.h:4
-#, fuzzy
 msgid "Timezone "
-msgstr "Aikavyöhyke: "
+msgstr "Aikavyöhyke "
 
 #: shell/evolution-startup-wizard.glade.h:5
 msgid "Welcome"
-msgstr ""
+msgstr "Tervetuloa"
 
 #: shell/evolution-startup-wizard.glade.h:6
 msgid ""
@@ -17041,6 +16954,11 @@ msgid ""
 "\n"
 "Please click the \"Forward\" button to continue. "
 msgstr ""
+"Tervetuloa Evolutioniin. Seuraaviksi kysyttävien tietojen avulla\n"
+"Evolution voi ottaa yhteyttä sähköpostitileihisi ja tuoda tietoja\n"
+"muista ohjelmista.\n"
+"\n"
+"Valitse \"Jatka\" jatkaaksesi."
 
 #: shell/evolution-startup-wizard.glade.h:11
 msgid ""
@@ -17049,6 +16967,9 @@ msgid ""
 "\n"
 "Click the \"Apply\" button to save your settings. "
 msgstr ""
+"Kaikki tarvittavat tiedot on nyt onnistuneesti syötetty Evolutioniin.\n"
+"\n"
+"Valitse \"Toteuta\" tallentaaksesi asetuksesi."
 
 #: shell/evolution-test-component.c:140
 msgid "New Test"
@@ -17208,7 +17129,7 @@ msgstr ""
 #. shell:upgrade-nospace primary
 #: shell/shell-errors.xml.h:2
 msgid "Insufficient disk space for upgrade."
-msgstr ""
+msgstr "Levytila ei riitä päivitykseen."
 
 #. shell:upgrade-nospace secondary
 #: shell/shell-errors.xml.h:4
@@ -17219,6 +17140,8 @@ msgid ""
 "You will need to make more space available in your home directory before you "
 "can continue."
 msgstr ""
+"Sinun täytyy vapauttaa enemmän tilaa kotihakemistostasi ennen kuin voit "
+"jatkaa."
 
 #. shell:upgrade-failed primary
 #: shell/shell-errors.xml.h:8
@@ -17226,6 +17149,8 @@ msgid ""
 "Upgrade from previous version failed:\n"
 "{0}"
 msgstr ""
+"Päivitys edellisestä versiosta epäonnistui:\n"
+"{0}"
 
 #. shell:upgrade-failed secondary
 #: shell/shell-errors.xml.h:11
@@ -17235,16 +17160,17 @@ msgid ""
 "If you choose to continue, you may not have access to some of your old "
 "data.\n"
 msgstr ""
+"Jos päätät jatkaa, et ehkä pääse käsiksi joihinkin vanhoista tiedosistasi.\n"
 
 #: shell/shell-errors.xml.h:15
-#, fuzzy
 msgid "Continue"
-msgstr "Runko sisältää"
+msgstr "Jatka"
 
 #. shell:upgrade-remove-1-4 title
+#. shell:upgrade-remove-1-4 primary
 #: shell/shell-errors.xml.h:17 shell/shell-errors.xml.h:19
 msgid "Delete old data from version {0}?"
-msgstr ""
+msgstr "Poistetaanko vanhat tiedot versiosta {0}"
 
 #. shell:upgrade-remove-1-4 secondary
 #: shell/shell-errors.xml.h:21
@@ -17256,16 +17182,21 @@ msgid ""
 "then you may manually remove the contents of \"evolution\" at your "
 "convenience.\n"
 msgstr ""
+"Edellinen Evolutionin versio tallensi tiedot eri paikkaan.\n"
+"\n"
+"Jos päätä poistaa nämä tiedä, poistetaan hakemisto \"evolution\" ja sen "
+"sisältö pysyvästi. Jos haluat pitää nämä tiedot, voit poistaa hakemiston "
+"evolution sisältöineen halutessasi.\n"
 
 #: shell/shell-errors.xml.h:25
-#, fuzzy
 msgid "Keep"
-msgstr "Belize"
+msgstr "Pidä"
 
 #. shell:upgrade-remove-1-4-confirm title
+#. shell:upgrade-remove-1-4-confirm primary
 #: shell/shell-errors.xml.h:27 shell/shell-errors.xml.h:29
 msgid "Really delete old data?"
-msgstr ""
+msgstr "Poistetaanko vanhat tiedot varmasti?"
 
 #. shell:upgrade-remove-1-4-confirm secondary
 #: shell/shell-errors.xml.h:31
@@ -17280,18 +17211,26 @@ msgid ""
 "Once deleted, you cannot downgrade to the previous version of Evolution "
 "without manual intervention.\n"
 msgstr ""
+"Hakemisto \"evolution\" sisältöineen ollaan poistamassa pysyvästi.\n"
+"\n"
+"On suositeltavaa tarkistaa, että kaikki sähköpostisi, yhteystietosi ja "
+"kalenterimerkintäsi ovat olemassa ja että tämä Evolutionin versio toimii "
+"oikein ennen kuin nämä vanhat tiedot poistetaan.\n"
+"\n"
+"Kun vanhat tiedot on poistettu, et voi vaihtaa helposti takaisin vanhaan "
+"versioon ja saada tietojasi näkyviin ilman käsityötä.\n"
 
 #. shell:noshell title
+#. shell:noshell-reason title
 #: shell/shell-errors.xml.h:38 shell/shell-errors.xml.h:46
-#, fuzzy
 msgid "Cannot start Evolution"
-msgstr "wombat-palvelinta ei voitu käynnistää"
+msgstr "Evolutionia ei voitu käynnistää"
 
 #. shell:noshell primary
+#. shell:noshell-reason primary
 #: shell/shell-errors.xml.h:40 shell/shell-errors.xml.h:48
-#, fuzzy
 msgid "Evolution can not start."
-msgstr "Evolutionin sähköpostitilien apulainen"
+msgstr "Evolution ei käynnisty."
 
 #. shell:noshell secondary
 #: shell/shell-errors.xml.h:42
@@ -17299,7 +17238,7 @@ msgid ""
 "Your system configuration does not match your Evolution configuration.\n"
 "\n"
 "Click help for details"
-msgstr ""
+msgstr "Valitse Ohje saadaksesi lisätietoja"
 
 #. shell:noshell-reason secondary
 #: shell/shell-errors.xml.h:50
@@ -17310,6 +17249,11 @@ msgid ""
 "\n"
 "Click help for details."
 msgstr ""
+"Järjestelmäsi kokoonpano ei vastaa Evolutionin asetuksiasi:\n"
+"\n"
+"{0}\n"
+"\n"
+"Valitse Ohje saadaksesi lisätietoja"
 
 #: smime/gui/ca-trust-dialog.c:91
 #, c-format
@@ -17318,6 +17262,9 @@ msgid ""
 "\n"
 "Edit trust settings:"
 msgstr ""
+"Varmenne '%s' on varmennenviranomaisen varmenne (CA).\n"
+"\n"
+"Muokkaa luotettavuusasetuksia:"
 
 #: smime/gui/cert-trust-dialog.c:145
 msgid ""
@@ -17325,6 +17272,8 @@ msgid ""
 "then you trust the authenticity of this certificate unless otherwise "
 "indicated here"
 msgstr ""
+"Koska luotat varmenneviranomaista, joka myönsi tämän varmenteen, luotat myös "
+"tämän varmenteen oikeellisuuteen, jollei tässä muuten mainita"
 
 #: smime/gui/cert-trust-dialog.c:149
 msgid ""
@@ -17332,6 +17281,8 @@ msgid ""
 "certificate, then you do not trust the authenticity of this certificate "
 "unless otherwise indicated here"
 msgstr ""
+"Koska et luota varmenneviranomaiseen, joka myönsi tämän varmenteen, et "
+"automaattisesti luota tähän varmenteeseen, jollei tässä muuten mainita"
 
 #: smime/gui/certificate-manager.c:130 smime/gui/certificate-manager.c:353
 #: smime/gui/certificate-manager.c:556
@@ -19539,9 +19490,8 @@ msgid "Choose Image"
 msgstr "Valitse kuva"
 
 #: widgets/misc/e-pilot-settings.c:103
-#, fuzzy
 msgid "Sync with:"
-msgstr "Nimi alkaa"
+msgstr "Synkronoi:"
 
 #: widgets/misc/e-pilot-settings.c:111
 msgid "Sync Private Records:"
@@ -19609,10 +19559,12 @@ msgstr "%s (...)"
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% valmiina)"
 
+#~ msgid "_Add Contacts Group"
+#~ msgstr "Lisää yhteystietoryhmä"
+
 #~ msgid "New Contacts Group"
 #~ msgstr "Uusi yhteystietoryhmä"
 
-#, fuzzy
 #~ msgid "Contacts Grou_p"
 #~ msgstr "_Yhteystietoryhmä"
 
@@ -19643,9 +19595,6 @@ msgstr "%s (%d%% valmiina)"
 #~ msgid "Timeout:"
 #~ msgstr "Aikakatkaisu:"
 
-#~ msgid "_Add Contacts Group"
-#~ msgstr "Lisää yhteystietoryhmä"
-
 #~ msgid "_Email address:"
 #~ msgstr "_Sähköpostiosoite:"
 
@@ -19658,18 +19607,15 @@ msgstr "%s (%d%% valmiina)"
 #~ msgid "L_ocation:"
 #~ msgstr "_Sijainti:"
 
-#, fuzzy
 #~ msgid "<b>Organizer</b>"
-#~ msgstr "<b>Muuta</b>"
+#~ msgstr "<b>Järjestäjä</b>"
 
-#, fuzzy
 #~ msgid "_Organizer:"
-#~ msgstr "Organisoija:"
+#~ msgstr "Järjestäjä:"
 
 #~ msgid "New tasks group"
 #~ msgstr "Uusi tehtäväryhmä"
 
-#, fuzzy
 #~ msgid "Tasks Gro_up"
 #~ msgstr "_Tehtäväryhmä"
 
