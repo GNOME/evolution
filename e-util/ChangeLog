@@ -1,3 +1,15 @@
+2002-11-22  Not Zed  <NotZed@Ximian.com>
+
+	* e-msgport.c (EMsgPort): Added an optional nspr pipe field.
+	(e_msgport_new): Init nspr pipe to null.
+	(e_msgport_destroy): close prfiledesc's if they're open.
+	(e_msgport_prfd): get the prfiledesc to wait asynchronously on.
+	(e_msgport_put): Write notify to nspr pipe if it exists.
+	(e_msgport_wait): poll nspr pipe fd if it is set, and the pipe fd
+	isn't.
+	(e_msgport_get): skim off a notify byte on the pr pipe if set.
+	(): Include config.h, and nspr stuff if HAVE_NSS is set.
+
 2002-11-13  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-config-listener.c (e_config_listener_get_string_with_default):

@@ -43,6 +43,9 @@ void e_msgport_put(EMsgPort *mp, EMsg *msg);
 EMsg *e_msgport_wait(EMsgPort *mp);
 EMsg *e_msgport_get(EMsgPort *mp);
 void e_msgport_reply(EMsg *msg);
+#ifdef HAVE_NSS
+struct PRFileDesc *e_msgport_prfd(EMsgPort *mp);
+#endif
 
 /* e threads, a server thread with a message based request-response, and flexible queuing */
 typedef struct _EThread EThread;
