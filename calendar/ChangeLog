@@ -1,3 +1,14 @@
+2002-08-13  Dan Winship  <danw@ximian.com>
+
+	* gui/e-itip-control.c: Remove a bunch of old #if 0 code.
+	(update_item): Set X-MICROSOFT-CDO-REPLYTIME here.
+
+	* gui/itip-utils.c (comp_toplevel_with_zones): Don't set it here.
+
+	* cal-util/cal-component.c (ensure_mandatory_properties): Use
+	icaltime_current_time_with_zone rather than rolling our own.
+	(cal_component_strip_errors): Remove unused variable.
+
 2002-08-13  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/gnome-cal.c (gnome_calendar_open): set status message on

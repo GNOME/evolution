@@ -57,12 +57,6 @@
 struct _EItipControlPrivate {
 	GtkWidget *html;
 
-#if 0
-	GtkWidget *count;
-	GtkWidget *next;
-	GtkWidget *prev;
-#endif
-
 	GPtrArray *event_clients;
 	CalClient *event_client;
 	GPtrArray *task_clients;
@@ -90,38 +84,6 @@ struct _EItipControlPrivate {
 #define HTML_BODY_END   "</body>"
 #define HTML_FOOTER     "</html>"
 
-/* We don't use these now, as we need to be able to translate the text.
-   But I've left these here, in case there are problems with the new code. */
-#if 0
-#define PUBLISH_OPTIONS "<form><b>Choose an action:</b>&nbsp<select NAME=\"action\" SIZE=\"1\"> \
-<option VALUE=\"U\">Update</option></select>&nbsp &nbsp \
-<input TYPE=Submit name=\"ok\" value=\"OK\"></form>"
-
-#define REQUEST_OPTIONS "<form><b>Choose an action:</b>&nbsp<select NAME=\"action\" SIZE=\"1\"> \
-<option VALUE=\"A\">Accept</option> \
-<option VALUE=\"T\">Tentatively accept</option> \
-<option VALUE=\"D\">Decline</option></select>&nbsp \
-<input TYPE=\"checkbox\" name=\"rsvp\" value=\"1\" checked>RSVP&nbsp&nbsp\
-<input TYPE=\"submit\" name=\"ok\" value=\"OK\"><br> \
-</form>"
-
-#define REQUEST_FB_OPTIONS "<form><b>Choose an action:</b><select NAME=\"action\" SIZE=\"1\"> \
-<option VALUE=\"F\">Send Free/Busy Information</option></select>&nbsp &nbsp \
-<input TYPE=Submit name=\"ok\" value=\"OK\"></form>"
-
-#define REPLY_OPTIONS "<form><b>Choose an action:</b><select NAME=\"action\" SIZE=\"1\"> \
-<option VALUE=\"R\">Update respondent status</option></select>&nbsp &nbsp \
-<input TYPE=Submit name=\"ok\" value=\"OK\"></form>"
-
-#define REFRESH_OPTIONS "<form><b>Choose an action:</b><select NAME=\"action\" SIZE=\"1\"> \
-<option VALUE=\"S\">Send Latest Information</option></select>&nbsp &nbsp \
-<input TYPE=Submit name=\"ok\" value=\"OK\"></form>"
-
-#define CANCEL_OPTIONS "<form><b>Choose an action:</b><select NAME=\"action\" SIZE=\"1\"> \
-<option VALUE=\"C\">Cancel</option></select>&nbsp &nbsp \
-<input TYPE=Submit name=\"ok\" value=\"OK\"></form>"
-#endif
-
 extern EvolutionShellClient *global_shell_client;	
 
 static const char *calendar_types[] = { "calendar", NULL };
@@ -131,10 +93,6 @@ static void class_init	(EItipControlClass	 *klass);
 static void init	(EItipControl		 *itip);
 static void destroy	(GtkObject               *obj);
 
-#if 0
-static void prev_clicked_cb (GtkWidget *widget, gpointer data);
-static void next_clicked_cb (GtkWidget *widget, gpointer data);
-#endif
 static void url_requested_cb (GtkHTML *html, const gchar *url, GtkHTMLStream *handle, gpointer data);
 static gboolean object_requested_cb (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data);
 static void ok_clicked_cb (GtkHTML *html, const gchar *method, const gchar *url, const gchar *encoding, gpointer data);
@@ -347,25 +305,6 @@ init (EItipControl *itip)
 	/* Addresses */
 	priv->addresses = itip_addresses_get ();
 
-	/* Header */
-#if 0
-	priv->prev = gnome_stock_button (GNOME_STOCK_BUTTON_PREV);
-	gtk_widget_show (priv->prev);
-	priv->next = gnome_stock_button (GNOME_STOCK_BUTTON_NEXT);
-	gtk_widget_show (priv->next);
-
-	hbox = gtk_hbox_new (FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (hbox), priv->prev, FALSE, FALSE, 4);
-	gtk_box_pack_start (GTK_BOX (hbox), priv->count, TRUE, TRUE, 4);
-	gtk_box_pack_start (GTK_BOX (hbox), priv->next, FALSE, FALSE, 4);
-	gtk_widget_show (hbox);
-
-	gtk_signal_connect (GTK_OBJECT (priv->prev), "clicked",
-			    GTK_SIGNAL_FUNC (prev_clicked_cb), itip);
-	gtk_signal_connect (GTK_OBJECT (priv->next), "clicked",
-			    GTK_SIGNAL_FUNC (next_clicked_cb), itip);
-#endif
-
 	/* Get the cal clients */
 	priv->event_clients = get_servers (global_shell_client, calendar_types, FALSE);
 	priv->event_client = NULL;
@@ -556,39 +495,6 @@ find_attendee (icalcomponent *ical_comp, const char *address)
 	
 	return prop;
 }
-
-#if 0
-static void
-set_label (EItipControl *itip)
-{
-	EItipControlPrivate *priv;
-	gchar *text;
-
-	priv = itip->priv;
-
-	text = g_strdup_printf ("%d of %d", priv->current, priv->total);
-	gtk_label_set_text (GTK_LABEL (priv->count), text);
-
-}
-
-static void
-set_button_status (EItipControl *itip)
-{
-	EItipControlPrivate *priv;
-
-	priv = itip->priv;
-
-	if (priv->current == priv->total)
-		gtk_widget_set_sensitive (priv->next, FALSE);
-	else
-		gtk_widget_set_sensitive (priv->next, TRUE);
-
-	if (priv->current == 1)
-		gtk_widget_set_sensitive (priv->prev, FALSE);
-	else
-		gtk_widget_set_sensitive (priv->prev, TRUE);
-}
-#endif
 
 static void
 write_label_piece (EItipControl *itip, CalComponentDateTime *dt,
@@ -1309,25 +1215,6 @@ get_next (icalcompiter *iter)
 	return ret;
 }
 
-#if 0
-static icalcomponent *
-get_prev (icalcompiter *iter)
-{
-	icalcomponent *ret = NULL;
-	icalcomponent_kind kind = ICAL_NO_COMPONENT;
-
-	while (kind != ICAL_VEVENT_COMPONENT
-	       && kind != ICAL_VTODO_COMPONENT
-	       && kind != ICAL_VFREEBUSY_COMPONENT) {
-		icalcompiter_prior (iter);
-		ret = icalcompiter_deref (iter);
-		kind = icalcomponent_isa (ret);
-	}
-
-	return ret;
-}
-#endif
-
 static void
 show_current (EItipControl *itip)
 {
@@ -1337,11 +1224,6 @@ show_current (EItipControl *itip)
 	icalcompiter alarm_iter;
 
 	priv = itip->priv;
-
-#if 0
-	set_label (itip);
-	set_button_status (itip);
-#endif
 
 	if (priv->comp)
 		gtk_object_unref (GTK_OBJECT (priv->comp));
@@ -1555,6 +1437,8 @@ static void
 update_item (EItipControl *itip)
 {
 	EItipControlPrivate *priv;
+	struct icaltimetype stamp;
+	icalproperty *prop;
 	icalcomponent *clone;
 	CalClient *client;
 	CalComponentVType type;
@@ -1563,6 +1447,20 @@ update_item (EItipControl *itip)
 
 	priv = itip->priv;
 
+	/* Set X-MICROSOFT-CDO-REPLYTIME to record the time at which
+	 * the user accepted/declined the request. (Outlook ignores
+	 * SEQUENCE in REPLY reponses and instead requires that each
+	 * updated response have a later REPLYTIME than the previous
+	 * one.) This also ends up getting saved in our own copy of
+	 * the meeting, though there's currently no way to see that
+	 * information (unless it's being saved to an Exchange folder
+	 * and you then look at it in Outlook).
+	 */
+	stamp = icaltime_current_time_with_zone (icaltimezone_get_utc_timezone ());
+	prop = icalproperty_new_x (icaltime_as_ical_string (stamp));
+	icalproperty_set_x_name (prop, "X-MICROSOFT-CDO-REPLYTIME");
+	icalcomponent_add_property (priv->ical_comp, prop);
+ 
 	type = cal_component_get_vtype (priv->comp);
 	if (type == CAL_COMPONENT_TODO)
 		client = priv->task_client;
@@ -1805,36 +1703,6 @@ send_freebusy (EItipControl *itip)
 	}
 	gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
 }
-
-#if 0
-static void
-prev_clicked_cb (GtkWidget *widget, gpointer data)
-{
-	EItipControl *itip = E_ITIP_CONTROL (data);
-	EItipControlPrivate *priv;
-
-	priv = itip->priv;
-
-	priv->current--;
-	priv->ical_comp = get_prev (&priv->iter);
-
-	show_current (itip);
-}
-
-static void
-next_clicked_cb (GtkWidget *widget, gpointer data)
-{
-	EItipControl *itip = E_ITIP_CONTROL (data);
-	EItipControlPrivate *priv;
-
-	priv = itip->priv;
-
-	priv->current++;
-	priv->ical_comp = get_next (&priv->iter);
-
-	show_current (itip);
-}
-#endif
 
 static void
 button_selected_cb (EvolutionFolderSelectorButton *button, GNOME_Evolution_Folder *folder, gpointer data)

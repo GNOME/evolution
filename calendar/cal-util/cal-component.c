@@ -914,11 +914,9 @@ ensure_mandatory_properties (CalComponent *comp)
 	}
 
 	if (!priv->dtstamp) {
-		time_t tim;
 		struct icaltimetype t;
 
-		tim = time (NULL);
-		t = icaltime_from_timet_with_zone (tim, FALSE, icaltimezone_get_utc_timezone ());
+		t = icaltime_current_time_with_zone (icaltimezone_get_utc_timezone ());
 
 		priv->dtstamp = icalproperty_new_dtstamp (t);
 		icalcomponent_add_property (priv->icalcomp, priv->dtstamp);
@@ -1094,7 +1092,6 @@ void
 cal_component_strip_errors (CalComponent *comp)
 {
 	CalComponentPrivate *priv;
-	icalproperty *prop;
 	
 	g_return_if_fail (comp != NULL);
 	g_return_if_fail (IS_CAL_COMPONENT (comp));
