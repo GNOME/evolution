@@ -328,7 +328,7 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 	gint start_day, end_day;
 	gint item_x, item_y, item_w, item_h;
 	gint text_x, icon_x, icon_y, icon_x_inc;
-	iCalObject *ico;
+	CalComponent *comp;
 	gchar buffer[16];
 	gint hour, minute, offset, time_width, time_x, min_end_time_x;
 	gboolean draw_start_triangle, draw_end_triangle;
@@ -356,7 +356,7 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 	gc = day_view->main_gc;
 	fg_gc = style->fg_gc[GTK_STATE_NORMAL];
 	bg_gc = style->bg_gc[GTK_STATE_NORMAL];
-	ico = event->ico;
+	comp = event->comp;
 
 	/* Draw the lines across the top & bottom of the entire event. */
 	gdk_draw_line (drawable, fg_gc,
@@ -430,7 +430,8 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 	icon_x = text_x - icon_x_inc - x;
 	icon_y = item_y + 1 + E_DAY_VIEW_ICON_Y_PAD - y;
 
-	if (ico->recur) {
+	if (cal_component_has_rrules (comp)
+	    || cal_component_has_rdates (comp)) {
 		gdk_gc_set_clip_origin (gc, icon_x, icon_y);
 		gdk_gc_set_clip_mask (gc, day_view->recurrence_mask);
 		gdk_draw_pixmap (drawable, gc,
@@ -441,6 +442,7 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 		icon_x -= icon_x_inc;
 	}
 
+#if 0
 	if (ico->dalarm.enabled || ico->malarm.enabled
 	    || ico->palarm.enabled || ico->aalarm.enabled) {
 		gdk_gc_set_clip_origin (gc, icon_x, icon_y);
@@ -453,6 +455,7 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 		icon_x -= icon_x_inc;
 	}
 	gdk_gc_set_clip_mask (gc, NULL);
+#endif
 
 	/* Draw the start & end times, if necessary.
 	   Note that GtkLabel adds 1 to the ascent so we must do that to be

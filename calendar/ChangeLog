@@ -1,5 +1,20 @@
 2000-08-21  JP Rosevear  <jpr@helixcode.com>
 
+	* gui/e-week-view-event-item.c (e_day_view_top_draw_long_event):
+	Use CalComponent instead of iCalObject.  #if some alarm stuff
+
+2000-08-21  JP Rosevear  <jpr@helixcode.com>
+
+	* gui/e-day-view.h: Update prototypes
+
+	* gui/e-day-view.c (e_day_view_on_unrecur_appointment): 
+	Remove commented out portions.
+
+	* gui/e-week-view.c (e_week_view_on_unrecur_appointment): 
+	Tidy.
+	
+2000-08-21  JP Rosevear  <jpr@helixcode.com>
+
 	* gui/e-day-view.c 
 	(e_day_view_update_event): Use CalComponent
 	instead of iCalObject.  Work around not having a compare
