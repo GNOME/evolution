@@ -1,12 +1,13 @@
 # Brazilian Portuguese translation of Evolution.
-# Copyright (C) 2000-2003 Free Software Foundation, Inc.
-# Gustavo Maciel Dias Vieira <gdvieira@zaz.com.br>, 2000-2003.
+# Copyright (C) 2000-2004 Free Software Foundation, Inc.
+# Gustavo Maciel Dias Vieira <gdvieira@zaz.com.br>, 2000-2004.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.4.5\n"
-"POT-Creation-Date: 2003-12-05 16:39-0500\n"
-"PO-Revision-Date: 2003-12-05 16:40-0500\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2004-01-20 17:27-0500\n"
+"PO-Revision-Date: 2004-01-20 17:29-0500\n"
 "Last-Translator: Gustavo Maciel Dias Vieira <gdvieira@zaz.com.br>\n"
 "Language-Team: Brazilian Portuguese <gnome-l10n-br@listas.cipsga.org.br>\n"
 "MIME-Version: 1.0\n"
@@ -11972,7 +11973,7 @@ msgstr "Responder a _lista"
 msgid "Reply to _All"
 msgstr "Responder a _todos"
 
-#: mail/folder-browser.c:1797
+#: mail/folder-browser.c:1797 ui/evolution-mail-message.xml.h:98
 msgid "_Forward"
 msgstr "Encamin_har"
 
@@ -26408,7 +26409,7 @@ msgstr "Ver o contato atual"
 #: ui/evolution-mail-messagedisplay.xml.h:4 ui/evolution-task-editor.xml.h:9
 #: ui/evolution-tasks.xml.h:15 ui/evolution.xml.h:42
 msgid "_Actions"
-msgstr "_Ações"
+msgstr "Açõe_s"
 
 #: ui/evolution-addressbook.xml.h:34 ui/evolution-contact-editor.xml.h:13
 msgid "_Forward Contact..."
@@ -26952,8 +26953,8 @@ msgid "Display the previous unread message"
 msgstr "Exibir a mensagem não lida anterior"
 
 #: ui/evolution-mail-message.xml.h:28
-msgid "F_orward"
-msgstr "_Encaminhar"
+msgid "F_orward As..."
+msgstr "E_ncaminhar como..."
 
 #: ui/evolution-mail-message.xml.h:29
 msgid "Filter on Mailing _List..."
@@ -27190,10 +27191,6 @@ msgstr "_Copiar para pasta"
 #: ui/evolution-mail-message.xml.h:96
 msgid "_Create Filter From Message"
 msgstr "_Criar filtro a partir da mensagem"
-
-#: ui/evolution-mail-message.xml.h:98
-msgid "_Forward Message"
-msgstr "E_ncaminhar mensagem"
 
 #: ui/evolution-mail-message.xml.h:99
 msgid "_Go To"
