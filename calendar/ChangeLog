@@ -1,5 +1,8 @@
 2001-08-20  Damon Chaplin  <damon@ximian.com>
 
+	* gui/dialogs/comp-editor.c (pixmaps): use Delete icon in menu, and
+	change to bigger Save icon in toolbar.
+
 	* gui/tasks-control.c: 
 	* gui/calendar-commands.c (pixmaps): used new_task-16.png and
 	goto-16.png.
