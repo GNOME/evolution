@@ -63,7 +63,7 @@
 typedef struct {
 	
 	int fd;                          /* file descriptor of the mbox file */
-	guint real_position;             /* real position in the file */
+	glong real_position;             /* real position in the file */
 
 	
 	gchar *message_delimiter;        /* message delimiter string */
@@ -96,12 +96,20 @@ static void
 clear_message_info (CamelMboxParserMessageInfo *preparsing_info)
 {
 	preparsing_info->message_position = 0;
+	preparsing_info->size = 0;
 	preparsing_info->from = NULL;
 	preparsing_info->date = NULL;
 	preparsing_info->subject = NULL;
 	preparsing_info->status = NULL;
 	preparsing_info->priority = NULL;
 	preparsing_info->references = NULL;
+	preparsing_info->body_summary = NULL;
+	preparsing_info->end_of_headers_offset = 0;
+	
+	preparsing_info->x_evolution = NULL;
+	preparsing_info->x_evolution_offset = 0;
+	/* reparsing_info->x_evolution_length = 0; */
+		
 }
 
 
@@ -153,7 +161,7 @@ new_parser (int fd,
  * information array, i.e. the preparsed_messages 
  * field. 
  **/
-void 
+static void 
 parser_free (CamelMboxPreParser *parser)
 {
 	g_free (parser->buffer);
@@ -177,7 +185,7 @@ parser_free (CamelMboxPreParser *parser)
  **/
 static void 
 initialize_buffer (CamelMboxPreParser *parser,
-		   guint first_position)
+		   glong first_position)
 {
 	gint seek_res;
 	gint buf_nb_read;
@@ -390,7 +398,6 @@ new_message_detected (CamelMboxPreParser *parser)
  * after the "\n" at the end of the header content.
  *
  **/
-*/
 static void 
 read_header (CamelMboxPreParser *parser, gchar **header_content)
 {
@@ -548,7 +555,7 @@ read_message_begining (CamelMboxPreParser *parser, gchar **message_summary)
 GArray *
 camel_mbox_parse_file (int fd, 
 		       const gchar *message_delimiter,
-		       guint start_position,
+		       glong start_position,
 		       gboolean get_message_summary,
 		       camel_mbox_preparser_status_callback *status_callback,
 		       double status_interval,
@@ -559,7 +566,7 @@ camel_mbox_parse_file (int fd,
 	gchar c;
 	struct stat stat_buf;
 	gint fstat_result;
-	guint total_file_size;
+	glong total_file_size;
 	int last_status = 0;
 	int real_interval;
 	gboolean newline;
@@ -672,11 +679,20 @@ camel_mbox_parse_file (int fd,
 						  MBOX_PARSER_X_EVOLUTION_KW, 
 						  MBOX_PARSER_X_EVOLUTION_KW_SZ) == 0) {
 
+					/* in the case of the evolution private field, we store 
+					   the field position as well as its length because 
+					   we will have to change them */
+					parser->current_message_info.x_evolution_offset = parser->real_position
+						- parser->current_message_info.message_position;
 					advance_n_chars (parser, MBOX_PARSER_X_EVOLUTION_KW_SZ);
 					read_header (parser, (gchar **) ((gchar *)parser +
 						     G_STRUCT_OFFSET (CamelMboxPreParser, current_message_info) + 
 						     G_STRUCT_OFFSET (CamelMboxParserMessageInfo, x_evolution)));
 
+					/* 
+					   parser->current_message_info.x_evolution_length = 
+					   parser->real_position - parser->current_message_info.x_evolution_position;
+					*/
 					newline = TRUE;
 					continue;
 				}
@@ -687,6 +703,9 @@ camel_mbox_parse_file (int fd,
 				/* is it an empty line ? */
 				if (parser->buffer[parser->current_position] == '\n') {
 					
+					parser->current_message_info.end_of_headers_offset = 
+						parser->real_position - parser->current_message_info.message_position;
+
 					goto_next_char (parser);
 					if (get_message_summary)
 						newline = read_message_begining (parser, (gchar **) ((gchar *)parser +
@@ -708,9 +727,8 @@ camel_mbox_parse_file (int fd,
 				     G_STRUCT_OFFSET (CamelMboxPreParser, current_message_info), 1);	
 	}
 
-
-
 	return_value = parser->preparsed_messages;
+
 	/* free the parser */
 	parser_free (parser);
 
@@ -756,6 +774,7 @@ main (int argc, char **argv)
 	test_file_fd = open (argv[1], O_RDONLY);
 	message_positions = camel_mbox_parse_file (test_file_fd, 
 						   "From ", 
+
 						   0,
 						   TRUE,
 						   status,

@@ -3,7 +3,7 @@
 
 /* 
  *
- * Copyright (C) 1999 Bertrand Guiheneuf <bertrand@helixcode.com> .
+ * Copyright (C) 1999 Helix Code .
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -21,6 +21,7 @@
  * USA
  */
 
+/* Author : Bertrand Guiheneuf <bertrand@helixcode.com> */
 
 #include <config.h> 
 

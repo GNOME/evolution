@@ -28,8 +28,8 @@
 
 typedef struct {
 
-	guint message_position;
-	guint size;
+	glong message_position;
+	glong size;
 	gchar *from;
 	gchar *date;
 	gchar *subject;
@@ -37,7 +37,11 @@ typedef struct {
 	gchar *priority;
 	gchar *references;
 	gchar *body_summary;
+	gshort end_of_headers_offset;
+
 	gchar *x_evolution;
+	gshort x_evolution_offset;
+	/* gshort x_evolution_length; */
 
 } CamelMboxParserMessageInfo;
 
@@ -48,7 +52,7 @@ typedef void camel_mbox_preparser_status_callback (double percentage_done, gpoin
 GArray *
 camel_mbox_parse_file (int fd, 
 		       const gchar *message_delimiter,
-		       guint start_position,
+		       glong start_position,
 		       gboolean get_message_summary,
 		       camel_mbox_preparser_status_callback *status_callback,
 		       double status_interval,

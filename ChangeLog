@@ -1,3 +1,56 @@
+2000-01-17  bertrand  <bertrand@helixcode.com>
+
+	* camel/providers/mbox/camel-mbox-utils.c (camel_mbox_write_xev): 
+	(copy_file_chunk): 
+	(camel_mbox_xev_write_header_content): 
+	(camel_mbox_xev_parse_header_content): 
+	(string_to_flag): 
+	(flag_to_string): 
+	(string_to_uid): 
+	(uid_to_string): 
+	A bunch of new funcs to handle x-evolution 
+	private header field. 
+
+2000-01-15  bertrand  <bertrand@helixcode.com>
+
+	* camel/providers/mbox/camel-mbox-parser.c 
+	(camel_mbox_parse_file): 
+	store the end of headers position. 
+	
+	* camel/providers/mbox/camel-mbox-parser.h: 
+	added the end_of_header_position to locate the 
+	begining of the mail body. 
+	
+
+	* camel/providers/mbox/camel-mbox-utils.c (uid_to_string): 
+	(string_to_uid): 
+	(flag_to_string): 
+	(string_to_flag): 
+	new functions to handle uids and
+	flags in the X-Evolution header. 
+	(camel_mbox_xev_parse_header_content): 
+	new function to parse an X-Evolution 
+	header. 
+	(camel_mbox_xev_write_header_content): 
+	new function to write the X-Evolution 
+	header. 
+
+2000-01-13  bertrand  <bertrand@helixcode.com>
+
+	* camel/providers/mbox/camel-mbox-parser.c (read_next_buffer_chunk): 
+	eof is true when no more chars are available, not 
+	when we've read the entire file. 
+	(initialize_buffer): ditto.
+	(read_message_begining): documented.
+	(read_header): ditto.
+	(new_message_detected): ditto.
+	(advance_n_chars): ditto.
+	(goto_next_char): ditto.
+	(read_next_buffer_chunk): ditto.
+	(initialize_buffer): ditto.
+	(parser_free): ditto.
+	(new_parser): ditto.
+
 2000-01-15  Miguel de Icaza  <miguel@gnu.org>
 
 	* shell/e-shell.c: Construct the default folders 
@@ -34,7 +87,6 @@
 
 2000-01-14  Christopher James Lahey  <clahey@helixcode.com>
 
-=======
 	* widgets/shortcut-bar/e-shortcut-bar.c (e_shortcut_bar_add_item):
 	Use e_bar_set_item_data.
 
@@ -56,7 +108,6 @@
 
 2000-01-12    <clahey@galapagos.helixcode.com>
 
->>>>>>> 1.170
 	* widgets/e-text-event-processor-types.h,
 	widgets/e-text-event-processor-emacs-like.c, widgets/e-text.c,
 	widgets/e-text.h: Added selection and clipboard support.  Added up
@@ -128,7 +179,6 @@
 
 2000-01-12  Christopher James Lahey  <clahey@helixcode.com>
 
->>>>>>> 1.169
 	* widgets/e-minicard.c, widgets/e-minicard.h: Added a resize
 	signal for when the card changes height.  Made it so that when you
 	press tab inside of a field, it goes to the next field.

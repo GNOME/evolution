@@ -495,7 +495,7 @@ camel_thread_proxy_add_signals (CamelThreadProxy *proxy,
 					 FALSE);
 	}
 	
-		
+	
 	CAMEL_LOG_FULL_DEBUG ("Leaving CamelThreadProxy::camel_thread_proxy_init_signals\n");
 	
 	
