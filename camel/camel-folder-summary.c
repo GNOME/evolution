@@ -2352,7 +2352,7 @@ camel_message_info_dup_to(const CamelMessageInfo *from, CamelMessageInfo *to)
 
 	/* Copy strings */
 #ifdef DOEPOOLV
-	e_poolv_cpy (to->strings, from->strings);
+	to->strings = e_poolv_cpy (to->strings, from->strings);
 #elif defined (DOESTRV)
 	/* to->strings = e_strv_new(CAMEL_MESSAGE_INFO_LAST); */
 	e_strv_set(to->strings, CAMEL_MESSAGE_INFO_SUBJECT, camel_message_info_subject(from));

@@ -11,6 +11,9 @@
 	words of its own.  Things like maildir use this check to see if
 	its already been processed, and it matters if it is incorrect in
 	this case (not just wasted cycles).
+	(camel_message_info_dup_to): Assign the to->strings from the
+	e_poolv_cpy() call, since it may allocaote a new poolv if the
+	lengths do not match.
 
 	(camel_folder_summary_info_new_from_parser): And same here.
 
