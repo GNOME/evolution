@@ -27,6 +27,7 @@
 
 #include "e-task-widget.h"
 
+#include <gtk/gtkframe.h>
 #include <gtk/gtkhbox.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkpixmap.h>
@@ -40,8 +41,8 @@
 
 #define SPACING 2
 
-#define PARENT_TYPE (gtk_frame_get_type ())
-static GtkFrameClass *parent_class = NULL;
+#define PARENT_TYPE (gtk_event_box_get_type ())
+static GtkEventBoxClass *parent_class = NULL;
 
 struct _ETaskWidgetPrivate {
 	GdkPixbuf *icon_pixbuf;
@@ -95,6 +96,7 @@ e_task_widget_construct (ETaskWidget *task_widget,
 	GdkPixmap *pixmap;
 	GdkBitmap *mask;
 	GtkWidget *box;
+	GtkWidget *frame;
 
 	g_return_if_fail (task_widget != NULL);
 	g_return_if_fail (E_IS_TASK_WIDGET (task_widget));
@@ -103,10 +105,13 @@ e_task_widget_construct (ETaskWidget *task_widget,
 
 	priv = task_widget->priv;
 
-	gtk_frame_set_shadow_type (GTK_FRAME (task_widget), GTK_SHADOW_IN);
+	frame = gtk_frame_new (NULL);
+	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_IN);
+	gtk_container_add (GTK_CONTAINER (task_widget), frame);
+	gtk_widget_show (frame);
 
 	box = gtk_hbox_new (FALSE, 0);
-	gtk_container_add (GTK_CONTAINER (task_widget), box);
+	gtk_container_add (GTK_CONTAINER (frame), box);
 	gtk_widget_show (box);
 
 	priv->icon_pixbuf = gdk_pixbuf_ref (icon_pixbuf);

@@ -134,6 +134,37 @@ lookup_activity (GList *list,
 }
 
 
+/* ETaskWidget callbacks.  */
+
+static int
+task_widget_button_press_event_callback (GtkWidget *widget,
+					 GdkEventButton *button_event,
+					 void *data)
+{
+	CORBA_Environment ev;
+	ActivityInfo *activity_info;
+	CORBA_any *null_value;
+
+	activity_info = (ActivityInfo *) data;
+
+	CORBA_exception_init (&ev);
+
+	null_value = CORBA_any__alloc ();
+	null_value->_type = TC_null;
+
+	Bonobo_Listener_event (activity_info->event_listener, "Clicked", null_value, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION)
+		g_warning ("EActivityHandler: Cannot report `Clicked' event -- %s",
+			   ev._repo_id);
+
+	CORBA_free (null_value);
+ 
+	CORBA_exception_free (&ev);
+
+	return TRUE;
+}
+
+
 /* Creating and destroying ActivityInfos.  */
 
 static ActivityInfo *
@@ -183,6 +214,9 @@ task_widget_new_from_activity_info (ActivityInfo *activity_info)
 
 	widget = e_task_widget_new (activity_info->icon_pixbuf, activity_info->information);
 	gtk_widget_show (widget);
+
+	gtk_signal_connect (GTK_OBJECT (widget), "button_press_event",
+			    GTK_SIGNAL_FUNC (task_widget_button_press_event_callback), activity_info);
 
 	return E_TASK_WIDGET (widget);
 }

@@ -24,7 +24,7 @@
 #ifndef _E_TASK_WIDGET_H_
 #define _E_TASK_WIDGET_H_
 
-#include <gtk/gtkframe.h>
+#include <gtk/gtkeventbox.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
 #ifdef __cplusplus
@@ -44,13 +44,13 @@ typedef struct _ETaskWidgetPrivate ETaskWidgetPrivate;
 typedef struct _ETaskWidgetClass   ETaskWidgetClass;
 
 struct _ETaskWidget {
-	GtkFrame parent;
+	GtkEventBox parent;
 
 	ETaskWidgetPrivate *priv;
 };
 
 struct _ETaskWidgetClass {
-	GtkFrameClass parent_class;
+	GtkEventBoxClass parent_class;
 };
 
 

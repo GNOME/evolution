@@ -1,5 +1,16 @@
 2001-06-24  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-task-widget.h, e-task-widget.c: Changed to derive from
+	GtkEventBox.
+
+	* e-activity-handler.c (task_widget_button_press_event_callback):
+	New callback for the "button_press_event" signal on the
+	ETaskWidgets.  Dispatch the "Clicked" event through the Bonobo
+	listener.
+	(task_widget_new_from_activity_info): Connect here.
+
+2001-06-24  Ettore Perazzoli  <ettore@ximian.com>
+
 	* evolution-test-component.c: Changed to use the
 	`EvolutionActivityClient' object.  New global static variable
 	`activity_client'.
