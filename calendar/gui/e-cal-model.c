@@ -1215,7 +1215,8 @@ e_cal_view_objects_removed_cb (ECalView *query, GList *uids, gpointer user_data)
 		e_table_model_pre_change (E_TABLE_MODEL (model));
 		
 		comp_data = search_by_uid_and_client (priv, e_cal_view_get_client (query), l->data);
-		g_assert (comp_data);
+		if (!comp_data)
+			continue;
 		
 		pos = get_position_in_array (priv->objects, comp_data);
 			

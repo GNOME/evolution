@@ -1,3 +1,9 @@
+2004-01-22  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-cal-model.c (e_cal_view_objects_removed_cb): don't assert
+	if we can't find the component, just continue with next item in
+	the list.
+
 2004-01-22  JP Rosevear <jpr@ximian.com>
 
 	* gui/e-tasks.c (e_tasks_setup_view_menus): Remove debugging
@@ -14,7 +20,7 @@
 	base dir for the view storage
 
 	Fixes #53133
-	
+
 2004-01-21  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/e-tasks.c (e_tasks_add_todo_source): check return value
