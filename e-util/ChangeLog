@@ -1,3 +1,9 @@
+2000-05-30  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-canvas-utils.c, e-canvas-utils.h: Added
+	e_canvas_item_show_area which makes sure that a particular area of
+	a given item is in the scroll area.
+
 2000-05-30  Federico Mena Quintero  <federico@helixcode.com>
 
 	* e-dialog-widgets.c (hook_radio): Use the exported function to

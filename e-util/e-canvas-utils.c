@@ -34,3 +34,34 @@ e_canvas_item_move_absolute (GnomeCanvasItem *item, double dx, double dy)
 
 	gnome_canvas_item_affine_absolute (item, translate);
 }
+
+void
+e_canvas_item_show_area (GnomeCanvasItem *item, double x1, double y1, double x2, double y2)
+{
+	GtkAdjustment *h, *v;
+	double dx = 0, dy = 0;
+	
+	g_return_if_fail (item != NULL);
+	g_return_if_fail (GNOME_IS_CANVAS_ITEM (item));
+	
+	gnome_canvas_item_i2w(item, &x1, &y1);
+	gnome_canvas_item_i2w(item, &x2, &y2);
+
+	h = gtk_layout_get_hadjustment(GTK_LAYOUT(item->canvas));
+	v = gtk_layout_get_vadjustment(GTK_LAYOUT(item->canvas));
+
+	if (x2 > h->value + h->page_size)
+		dx = (x2 - (h->value + h->page_size));
+	if (y2 > v->value + v->page_size)
+		dy = (y2 - (v->value + v->page_size));
+
+	if (x1 < h->value + dx)
+		dx = (x1 - h->value);
+	if (y1 < v->value + dy)
+		dy = (y1 - v->value);
+
+	if (dx)
+		gtk_adjustment_set_value(h, h->value + dx);
+	if (dy)
+		gtk_adjustment_set_value(v, v->value + dy);
+}
