@@ -270,7 +270,10 @@ e_text_to_html_full (const char *input, unsigned int flags, guint32 color)
 			    !strncasecmp (cur, "nntp://", 7) ||
 			    !strncasecmp (cur, "mailto:", 7) ||
 			    !strncasecmp (cur, "news:", 5) ||
-			    !strncasecmp (cur, "file:", 5)) {
+			    !strncasecmp (cur, "file:", 5) ||
+			    !strncasecmp (cur, "callto:", 7) ||
+			    !strncasecmp (cur, "h323:", 5) ||
+			    !strncasecmp (cur, "webcal:", 7)) {
 				tmpurl = url_extract (&cur, TRUE);
 				if (tmpurl) {
 					refurl = e_text_to_html (tmpurl, 0);

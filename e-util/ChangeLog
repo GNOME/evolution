@@ -1,3 +1,8 @@
+2004-02-03  Chris Toshok  <toshok@ximian.com>
+
+	* e-html-utils.c (e_text_to_html_full): add callto:, h323:, and
+	webcal: schemes.
+
 2004-01-26  JP Rosevear <jpr@ximian.com>
 
 	* e-folder-map.c (e_folder_map_dir): use g_file_test instead of
