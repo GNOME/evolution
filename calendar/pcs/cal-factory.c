@@ -21,12 +21,13 @@
 
 #include <config.h>
 #include "cal-factory.h"
+#include "job.h"
 
 
 
 /* Private part of the CalFactory structure */
 typedef struct {
-	/* Hash table from canonized uris to loaded calendars */
+	/* Hash table from GnomeVFSURI structures to loaded calendars */
 	GHashTable *calendars;
 } CalFactoryPrivate;
 
@@ -106,7 +107,7 @@ cal_factory_init (CalFactory *factory)
 	priv = g_new0 (CalFactoryPrivate, 1);
 	factory->priv = priv;
 
-	priv->calendars = g_hash_table_new (g_str_hash, g_str_equal);
+	priv->calendars = g_hash_table_new (gnome_vfs_uri_hash, gnome_vfs_uri_hequal);
 }
 
 /* Destroy handler for the calendar */
@@ -121,6 +122,8 @@ cal_factory_destroy (GtkObject *object)
 
 	factory = CAL_FACTORY (object);
 	priv = factory->priv;
+
+	/* FIXME: free the calendar hash table */
 
 	g_free (priv);
 
@@ -152,6 +155,7 @@ CalFactory_load (PortableServer_Servant servant,
 static GNOME_Calendar_Cal
 CalFactory_create (PortableServer_Servant servant,
 		   CORBA_char *uri,
+		   GNOME_Calendar_Listener listener,
 		   CORBA_Environment *ev)
 {
 	CalFactory *factory;
@@ -160,9 +164,17 @@ CalFactory_create (PortableServer_Servant servant,
 	factory = CAL_FACTORY (gnome_object_from_servant (servant));
 	priv = factory->priv;
 
-	return cal_factory_create (factory, uri);
+	cal_factory_create (factory, uri, listener);
 }
 
+/**
+ * cal_factory_get_epv:
+ * @void: 
+ * 
+ * Creates an EPV for the CalFactory CORBA class.
+ * 
+ * Return value: A newly-allocated EPV.
+ **/
 POA_GNOME_Calendar_CalFactory__epv *
 cal_factory_get_epv (void)
 {
@@ -174,8 +186,6 @@ cal_factory_get_epv (void)
 
 	return epv;
 }
-
-
 
 /* Returns whether a CORBA object is nil */
 static gboolean
@@ -190,6 +200,77 @@ corba_object_is_nil (CORBA_Object object)
 
 	return retval;
 }
+
+
+
+/* Loading and creating calendars */
+
+/* Job data */
+typedef struct {
+	CalFactory *factory;
+	char *uri;
+	GNOME_Calendar_Listener listener;
+} LoadCreateJobData;
+
+/* Looks up a calendar in a factory's hash table of uri->cal */
+static Cal *
+lookup_calendar (CalFactory *factory, GnomeVFSURI *uri)
+{
+	CalFactoryPrivate *priv;
+	Cal *cal;
+
+	priv = factory->priv;
+
+	cal = g_hash_table_lookup (priv->calendars, uri);
+	return cal;
+}
+
+/* Loads a calendar and puts it in the factory's hash table */
+static void
+load_calendar (CalFactory *factory, GnomeVFSURI *uri, GNOME_Calendar_Listener listener)
+{
+}
+
+/* Adds a listener to a calendar */
+static void
+add_calendar_listener (CalFactory *factory, Cal *cal, GNOME_Calendar_Listener listener)
+{
+	/* FIXME */
+}
+
+/* Job handler for the load calendar command */
+static void
+load_fn (gpointer data)
+{
+	LoadCreateJobData jd;
+	GnomeVFSURI *uri;
+	Cal *cal;
+	CORBA_Environment ev;
+
+	jd = data;
+
+	/* Look up the calendar */
+
+	uri = gnome_vfs_uri_new (jd->uri);
+	cal = lookup_calendar (jd->factory, uri);
+
+	if (!cal)
+		load_calendar (factory, uri, jd->listener);
+	else
+		add_calendar_listener (factory, cal, jd->listener);
+
+	gnome_vfs_uri_unref (uri);
+	g_free (jd->uri);
+
+	CORBA_exception_init (&ev);
+	GNOME_Unknown_unref (jd->listener, &ev);
+	CORBA_Object_release (jd->listener, &ev);
+	CORBA_exception_free (&ev);
+
+	g_free (jd);
+}
+
+
 
 /**
  * cal_factory_construct:
@@ -269,4 +350,29 @@ cal_factory_new (void)
 	}
 
 	return cal_factory_construct (factory, corba_factory);
+}
+
+void
+cal_factory_load (CalFactory *factory, const char *uri, GNOME_Calendar_Listener listener)
+{
+	LoadCreateJobData *jd;
+	CORBA_Environment ev;
+
+	CORBA_exception_init (&ev);
+
+	jd = g_new (LoadCreateJobData, 1);
+	jd->factory = factory;
+	jd->uri = g_strdup (uri);
+	jd->listener = CORBA_Object_duplicate (listener, &ev);
+	GNOME_Unknown_ref (jd->listener);
+
+	job_add (load_fn, jd);
+
+	CORBA_exception_free (&ev);
+}
+
+void
+cal_factory_create (CalFactory *factory, const char *uri, GNOME_Calendar_Listener listener)
+{
+	/* FIXME */
 }

@@ -50,8 +50,7 @@ struct _CalListener {
 struct _CalListenerClass {
 	GnomeObjectClass parent_class;
 
-	void (* cal_loaded) (CalListener *listener, GNOME_Calendar_Cal cal,
-			     GNOME_Calendar_CalObj calobj);
+	void (* cal_loaded) (CalListener *listener, GNOME_Calendar_Cal cal);
 	void (* obj_added) (CalListener *listener, GNOME_Calendar_CalObj calobj);
 	void (* obj_removed) (CalListener *listener, GNOME_Calendar_CalObjUID uid);
 	void (* obj_changed) (CalListener *listener, GNOME_Calendar_CalObj calobj);

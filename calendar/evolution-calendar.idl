@@ -36,7 +36,7 @@ module Calendar {
 		/* Called from a CalFactory when a calendar is initially loaded
 		 * or created.  The listener must remember the cal object.  
 		 */
-		void cal_loaded (in Cal cal, in CalObj calobj);
+		void cal_loaded (in Cal cal);
 
 		/* Called from a Calendar when an object is added */
 		void obj_added (in CalObj calobj);

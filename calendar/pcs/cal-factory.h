@@ -59,7 +59,7 @@ GNOME_Calendar_CalFactory cal_factory_corba_object_create (GnomeObject *object);
 CalFactory *cal_factory_new (void);
 
 void cal_factory_load (CalFactory *factory, const char *uri, GNOME_Calendar_Listener listener);
-GNOME_Calendar_Cal cal_factory_create (CalFactory *factory, const char *uri);
+void cal_factory_create (CalFactory *factory, const char *uri, GNOME_Calendar_Listener listener);
 
 POA_GNOME_Calendar_CalFactory__epv *cal_factory_get_epv (void);
 

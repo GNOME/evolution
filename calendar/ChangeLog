@@ -1,3 +1,18 @@
+2000-01-18  Federico Mena Quintero  <federico@helixcode.com>
+
+	* cal-factory.c (cal_factory_load): Queue a load job.
+	(load_fn): Load job handler.  Lookup the calendar by URI, load it
+	if it is not loaded, or just report it to the new listener if it is.
+
+	* job.c job.h: New files with a simple job queue manager.
+
+	* gnome-calendar.idl (Listener::cal_loaded): Do not return the
+	whole calendar object string.  The client will be able to query
+	the calendar for the events it needs.
+
+	* cal-listener.c (Listener_cal_loaded): Ref the calendar GNOME
+	object.  We unref it when the listener is destroyed.
+
 2000-01-11  Federico Mena Quintero  <federico@helixcode.com>
 
 	* cal.c: Removed the CORBA listener methods, adjusted for the new

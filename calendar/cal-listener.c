@@ -108,9 +108,8 @@ cal_listener_class_init (CalListenerClass *class)
 				GTK_RUN_FIRST,
 				object_class->type,
 				GTK_SIGNAL_OFFSET (CalListenerClass, cal_loaded),
-				gtk_marshal_NONE__POINTER_POINTER,
-				GTK_TYPE_NONE, 2,
-				GTK_TYPE_POINTER,
+				gtk_marshal_NONE__POINTER,
+				GTK_TYPE_NONE, 1,
 				GTK_TYPE_POINTER);
 	cal_listener_signals[OBJ_ADDED] =
 		gtk_signal_new ("obj_added",
@@ -205,7 +204,6 @@ cal_listener_destroy (GtkObject *object)
 static void
 Listener_cal_loaded (PortableServer_Servant servant,
 		     GNOME_Calendar_Cal cal,
-		     GNOME_Calendar_CalObj calobj,
 		     CORBA_Environment *ev)
 {
 	CalListener *listener;
@@ -215,8 +213,9 @@ Listener_cal_loaded (PortableServer_Servant servant,
 	priv = listener->priv;
 
 	priv->cal = CORBA_Object_duplicate (cal, ev);
+	GNOME_Unknown_ref (priv->cal);
 	gtk_signal_emit (GTK_OBJECT (listener), cal_listener_signals[CAL_LOADED],
-			 cal, calobj);
+			 cal);
 }
 
 /* Listener::obj_added method */
