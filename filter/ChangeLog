@@ -1,3 +1,8 @@
+2000-09-11  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* filtertypes.xml: Updated to allow the user to specify arbitrary
+	headers.
+
 2000-09-09  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* filter-driver.c (filter_driver_run): Fixed a logic error. Only

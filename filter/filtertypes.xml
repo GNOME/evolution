@@ -54,6 +54,27 @@
    </input>
    <input type="string" name="subject"/>
  </part>
+
+ <part name="header">
+   <title>Header</title>
+   <input type="string" name="header-field"/>
+   <input type="optionlist" name="header-type">
+    <option value="contains">
+     <title>contains</title>
+     <code>
+	(match-all (header-contains ${header-field} ${subject}))
+     </code>
+    </option>
+    <option value="not contains">
+     <title>does not contain</title>
+     <code>
+	(match-all (not (header-contains ${header-field} ${subject})))
+     </code>
+    </option>
+   </input>
+   <input type="string" name="subject"/>
+ </part>
+
  <part name="body">
    <title>Message Body</title>
    <input type="optionlist" name="body-type">
