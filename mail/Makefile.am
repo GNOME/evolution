@@ -30,6 +30,7 @@ evolution_mail_SOURCES =		\
 
 evolution_mail_LDADD = 					\
 	../widgets/e-table/libetable.a			\
+	../widgets/e-text/libetext.a			\
 	../camel/libcamel.la				\
 	../e-util/libeutil.a				\
 	$(BONOBO_HTML_GNOME_LIBS)				
