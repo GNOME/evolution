@@ -1,3 +1,13 @@
+2000-11-21  Not Zed  <NotZed@HelixCode.com>
+
+	* Makefile.am (libcamel_la_SOURCES): Added
+	camel-folder-thread.[ch].
+
+	* camel-folder-thread.c: message-threading algorithm, taken from
+	evolutions' mail component, as it is generally more useful than
+	just for evolution itself.  Changed to use e-memchunks as well to
+	speed it up a little and use less mem.
+
 2000-11-20  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* camel-remote-store.c (remote_recv_line): Fixed to return the

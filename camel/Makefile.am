@@ -22,6 +22,7 @@ libcamel_la_SOURCES = 				\
 	camel-exception.c			\
 	camel-folder-search.c			\
 	camel-folder-summary.c			\
+	camel-folder-thread.c			\
 	camel-folder.c				\
 	camel-internet-address.c		\
 	camel-lock.c				\
@@ -76,6 +77,7 @@ libcamelinclude_HEADERS =			\
 	camel-exception.h			\
 	camel-folder-search.h			\
 	camel-folder-summary.h			\
+	camel-folder-thread.h			\
 	camel-folder.h				\
 	camel-internet-address.h		\
 	camel-lock.h				\
