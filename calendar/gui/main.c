@@ -49,6 +49,7 @@
 #include "e-cal-config.h"
 #include "e-cal-popup.h"
 #include "e-cal-menu.h"
+#include "e-cal-event.h"
 
 #define FACTORY_ID "OAFIID:GNOME_Evolution_Calendar_Factory:" BASE_VERSION
 
@@ -146,6 +147,7 @@ initialize (void)
 	e_plugin_hook_register_type (e_cal_popup_hook_get_type());
 	e_plugin_hook_register_type (e_cal_menu_hook_get_type());
 	e_plugin_hook_register_type (e_cal_config_hook_get_type ());
+	e_plugin_hook_register_type (e_cal_event_hook_get_type ());
 }
 
 
