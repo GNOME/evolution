@@ -1,5 +1,10 @@
 2002-02-13  Christopher James Lahey  <clahey@ximian.com>
 
+	* gui/component/select-names/e-select-names.c (set_book): Keep a
+	ref of the model in this case as well.
+
+2002-02-13  Christopher James Lahey  <clahey@ximian.com>
+
 	* gui/component/select-names/e-select-names.c (set_book): Make
 	sure to only set the query once when creating a new book and not
 	at all on addressbook model creation.  This prevents an accidental

@@ -137,6 +137,7 @@ set_book(EBook *book, EBookStatus status, ESelectNames *esn)
 	update_query (NULL, esn);
 	gtk_object_unref(GTK_OBJECT(book));
 	gtk_object_unref(GTK_OBJECT(esn));
+	gtk_object_unref(GTK_OBJECT(esn->model));
 }
 
 static void
@@ -166,6 +167,7 @@ addressbook_model_set_uri(ESelectNames *e_select_names, EAddressbookModel *model
 	book = e_book_new();
 	if (e_select_names) {
 		gtk_object_ref(GTK_OBJECT(e_select_names));
+		gtk_object_ref(GTK_OBJECT(model));
 		addressbook_load_uri(book, uri, (EBookCallback) set_book, e_select_names);
 	} else {
 		gtk_object_ref(GTK_OBJECT(model));
