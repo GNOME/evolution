@@ -1,3 +1,10 @@
+2001-10-21  Christopher James Lahey  <clahey@ximian.com>
+
+	* addressbook/By_Company.galview: Group by the correct column.
+
+	* addressbook/By_Company.galview, addressbook/Phone_List.galview:
+	Updated both sets of columns here to make more sense.
+
 2001-10-05  Christopher James Lahey  <clahey@ximian.com>
 
 	* mail/By_Sender.galview, mail/By_Status.galview,
