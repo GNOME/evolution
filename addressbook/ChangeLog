@@ -1,3 +1,8 @@
+2002-08-28  Mike Kestner  <mkestner@ximian.com>
+
+	* gui/component/select-names/e-select-names-completion.c : stop the
+	EBookViews before unreffing.
+
 2002-08-28  Dan Winship  <danw@ximian.com>
 
 	* gui/component/GNOME_Evolution_Addressbook.oaf.in: Add an

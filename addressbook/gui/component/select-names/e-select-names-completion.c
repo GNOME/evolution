@@ -753,8 +753,10 @@ e_select_names_completion_clear_book_data (ESelectNamesCompletion *comp)
 
 		gtk_object_unref (GTK_OBJECT (book_data->book));
 
-		if (book_data->book_view)
+		if (book_data->book_view) {
+			e_book_view_stop (book_data->book_view);
 			gtk_object_unref (GTK_OBJECT (book_data->book_view));
+		}
 
 		g_free (book_data);
 	}
@@ -847,8 +849,10 @@ e_select_names_completion_got_book_view_cb (EBook *book, EBookStatus status, EBo
 	}
 
 	gtk_object_ref (GTK_OBJECT (view));
-	if (book_data->book_view)
+	if (book_data->book_view) {
+		e_book_view_stop (book_data->book_view);
 		gtk_object_unref (GTK_OBJECT (book_data->book_view));
+	}
 	book_data->book_view = view;
 
 	book_data->card_added_tag = 
@@ -971,6 +975,8 @@ e_select_names_completion_stop_query (ESelectNamesCompletion *comp)
 	
 			if (out)
 				fprintf (out, "unrefed book view\n");
+
+			e_book_view_stop (book_data->book_view);
 			gtk_object_unref (GTK_OBJECT (book_data->book_view));
 			book_data->book_view = NULL;
 		}
