@@ -176,12 +176,12 @@ dnl *
         AC_MSG_RESULT(yes)
 	AC_DEFINE(HAVE_LDAP)
 	AC_SUBST(LDAP_LIBS)
-	msg_ldap=Yes
+	msg_ldap=yes
     else
 	AC_MSG_ERROR(evolution requires OpenLDAP version >= 2)
     fi
 else
-	msg_ldap=No
+	msg_ldap=no
         enable_ldap=no
 fi
 AM_CONDITIONAL(ENABLE_LDAP, test x$enable_ldap = xyes)
@@ -193,9 +193,9 @@ AC_ARG_ENABLE(nntp,
 [  --enable-nntp=[no/yes]      Enable NNTP support in evolution],,enable_nntp=no)
 if test "x$enable_nntp" = "xyes"; then
 	AC_DEFINE(ENABLE_NNTP)
-	msg_nntp=Yes
+	msg_nntp=yes
 else
-	msg_nntp=No
+	msg_nntp=no
 fi
 AM_CONDITIONAL(ENABLE_NNTP, test x$enable_nntp = xyes)
 
@@ -233,9 +233,9 @@ AC_ARG_ENABLE(dot-locking,
 [  --enable-dot-locking=[yes/no] Enable support for locking mail files with dot locking],,enable_dot_locking=yes)
 if test "x$enable_dot_locking" = "xyes"; then
   AC_DEFINE(USE_DOT)
-  msg_dot=Yes
+  msg_dot=yes
 else
-  msg_dot=No	
+  msg_dot=no	
 fi
 
 AC_ARG_ENABLE(file-locking, 
@@ -248,7 +248,7 @@ else
     AC_DEFINE(USE_FLOCK)
     msg_file=flock
   else
-    msg_file=No	
+    msg_file=no	
   fi
 fi
 
@@ -479,9 +479,9 @@ GNOME_PILOT_CHECK
 fi
 AM_CONDITIONAL(ENABLE_PILOT_CONDUITS, test "x$enable_pilot_conduits" = "xyes")
 if test x$enable_pilot_conduits = xyes; then
-   msg_pilot=Yes
+   msg_pilot=yes
 else
-   msg_pilot=No
+   msg_pilot=no
 fi
 
 dnl ******
@@ -504,7 +504,7 @@ dnl Kerberos
 dnl ********
 AC_ARG_WITH(krb5, [  --with-krb5=PREFIX      Location of Kerberos 5 libs/includes])
 AC_ARG_WITH(krb4, [  --with-krb4=PREFIX      Location of Kerberos 4 libs/includes])
-msg_krb5=No
+msg_krb5=no
 if test ${with_krb5:=no} != no; then
 	LDFLAGS_save="$LDFLAGS"
 
@@ -522,7 +522,7 @@ if test ${with_krb5:=no} != no; then
 	])
 	if test "$ac_cv_lib_kerberos5" != no; then
 		AC_DEFINE(HAVE_KRB5)
-		msg_krb5=Yes
+		msg_krb5=yes
 		KRB5_CFLAGS="-I$with_krb5/include/krb5"
 		KRB5_LDFLAGS="-L$with_krb5/lib $ac_cv_lib_kerberos5"
 	fi
@@ -531,7 +531,7 @@ else
 	AC_MSG_RESULT($with_krb5)
 fi
 
-msg_krb4=No
+msg_krb4=no
 if test x${with_krb4:=no} != xno; then
 	LDFLAGS_save="$LDFLAGS"
 	AC_CACHE_CHECK(for Kerberos 4, ac_cv_lib_kerberos4,
@@ -564,7 +564,7 @@ if test x${with_krb4:=no} != xno; then
 	LDFLAGS="$LDFLAGS_save"
 	if test "$ac_cv_lib_kerberos4" != no; then
 		AC_DEFINE(HAVE_KRB4)
-		msg_krb4=Yes
+		msg_krb4=yes
 		if test -f "$with_krb4/include/krb.h" -o -f "$with_krb4/include/port-sockets.h"; then
 			KRB4_CFLAGS="-I$with_krb4/include"
 		else
@@ -591,103 +591,82 @@ AC_SUBST(KRB4_LDFLAGS)
 
 
 dnl ====================================
-dnl = security extension support (SSL, S/MIME, and SASL)
+dnl = security extension support (SSL and S/MIME)
 dnl =
 dnl = The following voodoo does detection of mozilla libraries (nspr and nss) needed by
-dnl = Camel (SSL and SASL) and Evolution (S/MIME).
+dnl = Camel (SSL) and Evolution (S/MIME).
 dnl =
 dnl = The Evolution security extensions are only built if these libraries are found
-dnl =
-dnl = --enable-assbarn-security can be used to enable these features
 dnl ====================================
-assbarn_security_enabled="no"
-
-AC_ARG_ENABLE(,
-              [  --enable-assbarn-security     	Enable security extensions such as SSL and S/MIME],
-              ,
-              assbarn_security_enabled="yes")
-
-found_mozilla=false
-
-if test "x$assbarn_security_enabled" = "xyes"
-then 
-BUILD_MOZILLA=
-MOZILLA_CFLAGS=
-MOZILLA_LDFLAGS=
-MOZILLA_LIBS=
-
-mozilla_lib_path=/usr/lib/mozilla
-mozilla_include_path=/usr/include/mozilla
-
-dnl Add a flag to override the default mozilla lib dir
-AC_ARG_WITH(mozilla-lib-path,
-	[  --with-mozilla-lib-path		Set mozilla 'lib' path ],
-	[ mozilla_lib_path="$withval" ])
-
-dnl Add a flag to override the default mozilla include dir
-AC_ARG_WITH(mozilla-include-path,
-	[  --with-mozilla-include-path		Set mozilla 'include' path ],
-	[ mozilla_include_path="$withval" ])
-
-mozilla_nspr_libs=
-mozilla_plc_libs=
-mozilla_plds_libs=
-mozilla_nss_libs=
-
-dnl Save flags and compiler
-_save_cflags="$CFLAGS"
-_save_ldflags="$LDFLAGS"
-
-dnl Hack flags to find the mozilla stuff
-CFLAGS="$_save_cflags -I$mozilla_include_path"
-LDFLAGS="$_save_ldflags -L$mozilla_lib_path"
-
-dnl Check for nspr and friends
-AC_CHECK_LIB(nspr4, PR_Init, [mozilla_nspr_libs="-lnspr4"])
-LDFLAGS="$LDFLAGS $mozilla_nspr_libs"
-AC_CHECK_LIB(plc4, PL_strcmp, [mozilla_plc_libs="-lplc4"])
-AC_CHECK_LIB(plds4, PL_NewHashTable, [mozilla_plds_libs="-lplds4"])
-
-mozilla_all_nspr_flags="$mozilla_nspr_libs $mozilla_plc_libs $mozilla_plds_libs"
-
-dnl Check for nss
-AC_CHECK_LIB(nss, NSS_Init, [mozilla_nss_libs="-lnss"])
-
-dnl Restore the flags and compiler
-CFLAGS="$_save_cflags"
-LDFLAGS="$_save_ldflags"
-
-dnl Now make sure all the libraries are good
-AC_MSG_CHECKING(for Mozilla)
-
-if test -n "$mozilla_nspr_libs" -a \
-	-n "$mozilla_plc_libs" -a \
-	-n "$mozilla_plds_libs" -a \
-	-n "$mozilla_nss_libs"
-then
-	AC_MSG_RESULT(yes)
-	AC_PROG_CXX
-	found_mozilla=true
-
-	MOZILLA_RPATH_FLAGS="-Wl,-rpath=$mozilla_lib_path"
-	MOZILLA_CFLAGS="-I$mozilla_include_path -fno-rtti -fno-exceptions"
-	MOZILLA_LDFLAGS="-L$mozilla_lib_path"
-	MOZILLA_LIBS="$mozilla_nspr_libs \
-                      $mozilla_plc_libs \
-                      $mozilla_plds_libs \
-                      $mozilla_nss_libs"
-	AC_SUBST(MOZILLA_RPATH_FLAGS)
-	AC_SUBST(MOZILLA_CFLAGS)
-	AC_SUBST(MOZILLA_LDFLAGS)
-	AC_SUBST(MOZILLA_LIBS)
+with_nspr_includes=/usr/include
+AC_ARG_WITH(nspr-includes, [  --with-nspr-includes=PREFIX     Location of Mozilla nspr4 libs.])
+have_nspr_includes="no"
+if test "x${with_nspr_includes}" != "xno"; then
+	CFLAGS_save="$CFLAGS"
+	
+	AC_MSG_CHECKING(for Mozilla nspr4 includes in $with_nspr_includes/mozilla)
+	AC_MSG_RESULT("")
+	CFLAGS="$CFLAGS -I$with_nspr_includes"
+	AC_CHECK_HEADERS(mozilla/prinit.h mozilla/prio.h, [ moz_nspr_includes="yes" ])
+	CFLAGS="$CFLAGS_save"
+	
+	if test "x{$moz_nspr_includes}" != "xno"; then
+		have_nspr_includes="yes"
+		NSPR_CFLAGS="-I$with_nspr_includes"
+	fi
 else
+	AC_MSG_CHECKING(for Mozilla nspr4 includes)
 	AC_MSG_RESULT(no)
-	assbarn_security_enabled="no"
-	found_mozilla=false
-fi
 fi
 
-AM_CONDITIONAL(BUILD_MOZILLA, test "x$found_mozilla" = "xtrue")
+with_nspr_libs=/usr/lib/mozilla
+AC_ARG_WITH(nspr-libs, [  --with-nspr-libs=PREFIX     Location of Mozilla nspr4 libs.])
+have_nspr_libs="no"
+if test "x${with_nspr_libs}" != "xno" -a "x${have_nspr_includes}" != "xno"; then
+	CFLAGS_save="$CFLAGS"
+	LDFLAGS_save="$LDFLAGS"
+	
+	nsprlibs="-lnspr4"
+	AC_CACHE_CHECK([for Mozilla nspr libraries], moz_nspr_libs,
+	[
+		CFLAGS="$CFLAGS $NSPR_CFLAGS"
+		LDFLAGS="$LDFLAGS -L$with_nspr_libs $nsprlibs"
+		AC_TRY_LINK_FUNC(PR_Init, moz_nspr_libs="yes", moz_nspr_libs="no")
+		CFLAGS="$CFLAGS_save"
+		LDFLAGS="$LDFLAGS_save"
+	])
+	if test "x$moz_nspr_libs" != "xno"; then
+		have_nspr_libs="yes"
+		NSPR_LDFLAGS="-L$with_nspr_libs $nsprlibs"
+	fi
+else
+	AC_MSG_CHECKING(for Mozilla nspr4 libraries)
+	AC_MSG_RESULT(no)
+fi
+
+AC_ARG_WITH(nss, [  --with-nss=PREFIX     	Location of Mozilla nss3 libs/includes.])
+msg_nss="no"
+if test "x${with_nss}" != "xno" -a "x${have_nspr_libs}" != "xno"; then
+	LDFLAGS_save="$LDFLAGS"
+	
+	nsprlibs="-lnspr4"
+	nsslibs="-lnss3 -lnssckbi -lssl3 -lsmime3"
+	AC_CACHE_CHECK([for Mozilla nss libraries], moz_nss_libs,
+	[
+		LDFLAGS="$LDFLAGS -L$with_nss/lib $nsslibs"
+		AC_TRY_LINK_FUNC(NSS_Init, moz_nss_libs="yes", moz_nss_libs="no")
+		LDFLAGS="$LDFLAGS_save"
+	])
+	if test "$moz_nss_libs" != no; then
+		AC_DEFINE(HAVE_NSS)
+		msg_nss="yes"
+		NSS_CFLAGS="-I$with_nss/include"
+		NSS_LDFLAGS="-L$with_nss/lib $nsslibs"
+	fi
+else
+	AC_MSG_CHECKING(for Mozilla nss libraries)
+	AC_MSG_RESULT(no)
+fi
 
 dnl ====================================
 dnl = End mozilla hacks
@@ -879,7 +858,7 @@ echo "
 	NNTP support:     $msg_nntp
 	Pilot conduits:   $msg_pilot
 	Kerberos 4/5:     $msg_krb4/$msg_krb5
-	SSL support:      $assbarn_security_enabled
+	SSL support:      $msg_nss
 	Use movemail:	  $with_movemail
 	Dot Locking:	  $msg_dot
 	File Locking:	  $msg_file

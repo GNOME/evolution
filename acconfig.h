@@ -15,6 +15,7 @@
 #undef USING_OAF
 #undef HAVE_KRB4
 #undef HAVE_KRB5
+#undef HAVE_NSS
 #undef MOVEMAIL_PATH
 #undef USING_GNOME_PRINT_0_20
 #undef USE_DOT
