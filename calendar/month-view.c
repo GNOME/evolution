@@ -22,7 +22,16 @@
 struct child {
 	iCalObject *ico;	/* The calendar object this child refers to */
 	time_t start, end;	/* Start and end times for the instance of the event */
-	GList *items;		/* The list of canvas items needed to display this child */
+	GList *segments;	/* The list of segments needed to display this child */
+};
+
+/* Each child is composed of one or more segments.  Each segment can be considered to be
+ * the entire child clipped to a particular week, as events may span several weeks in the
+ * month view.
+ */
+struct segment {
+	time_t start, end;	/* Start/end times for this segment */
+	GnomeCanvasItem *item;	/* Canvas item used to display this segment */
 };
 
 
@@ -184,18 +193,42 @@ month_view_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 static void
 child_destroy (MonthView *mv, struct child *child)
 {
-	GList *list;
-
-	/* Destroy the list of items */
-
-	for (list = child->items; list; list = list->next)
-		gtk_object_destroy (list->data);
-
-	g_list_free (child->items);
+	/* FIXME: destroy the list of segments */
 
 	/* Destroy the child */
 
 	g_free (child);
+}
+
+/* Creates the list of segments that are used to display a child.  Each child may have several
+ * segments, because it may span several weeks in the month view.  This function only creates the
+ * segment structures and the associated canvas items, but it does not set their final position in
+ * the month view canvas -- that is done by the adjust_children() function.
+ */
+static void
+child_create_segments (MonthView *mv, struct child *child)
+{
+	/* FIXME */
+}
+
+/* Comparison function used to create the sorted list of children.  Sorts first by increasing start
+ * time and then by decreasing end time, so that "longer" events are first in the list.
+ */
+static gint
+child_compare (gconstpointer a, gconstpointer b)
+{
+	const struct child *ca, *cb;
+	time_t diff;
+
+	ca = a;
+	cb = b;
+
+	diff = ca->start - cb->start;
+
+	if (diff == 0)
+		diff = cb->end - ca->end;
+
+	return (diff < 0) ? -1 : ((diff > 0) ? 1 : 0);
 }
 
 /* This is the callback function used from the calendar iterator.  It adds events to the list of
@@ -213,8 +246,13 @@ add_event (iCalObject *ico, time_t start, time_t end, void *data)
 	child->ico = ico;
 	child->start = start;
 	child->end = end;
+	child->segments = NULL;
 
-	/* FIXME: create items */
+	child_create_segments (mv, child);
+
+	/* Add it to the list of children */
+
+	mv->children = g_list_insert_sorted (mv->children, child, child_compare);
 }
 
 void
@@ -242,6 +280,7 @@ month_view_update (MonthView *mv, iCalObject *object, int flags)
 	month_end = time_month_end (t);
 
 	calendar_iterate (mv->calendar->cal, month_begin, month_end, add_event, mv);
+	adjust_children (mv);
 }
 
 /* Unmarks the old day that was marked as current and marks the current day if appropriate */
