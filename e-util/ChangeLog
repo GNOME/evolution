@@ -1,3 +1,11 @@
+2004-11-26  JP Rosevear  <jpr@novell.com>
+
+	* e-icon-factory.h: add proto
+
+	* e-icon-factory.c (e_icon_factory_init): cast to kill warning
+	(e_icon_factory_get_image): new function to return a GtkImage
+	widget give an icon name and size
+
 2004-11-25  Chenthill Palanisamy <pchenthill@novell.com>
 
 	* e-config.c (ec_rebuild): Set the row and column spacings as

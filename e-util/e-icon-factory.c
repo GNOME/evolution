@@ -34,6 +34,7 @@
 
 #include <pthread.h>
 
+#include <gtk/gtkimage.h>
 #include <libgnomeui/gnome-icon-theme.h>
 #include <e-util/e-icon-factory.h>
 
@@ -200,7 +201,7 @@ e_icon_factory_init (void)
 	
 	icon_theme = gnome_icon_theme_new ();
 	name_to_icon = g_hash_table_new (g_str_hash, g_str_equal);
-	g_signal_connect (G_OBJECT (icon_theme), "changed", icon_theme_changed_cb, NULL);
+	g_signal_connect (G_OBJECT (icon_theme), "changed", G_CALLBACK (icon_theme_changed_cb), NULL);
 	
 	broken16_pixbuf = gdk_pixbuf_new_from_xpm_data ((const char **) broken_image_16_xpm);
 	broken24_pixbuf = gdk_pixbuf_new_from_xpm_data ((const char **) broken_image_24_xpm);
@@ -333,6 +334,18 @@ e_icon_factory_get_icon (const char *icon_name, int icon_size)
 	return pixbuf;
 }
 
+GtkWidget  *
+e_icon_factory_get_image (const char *icon_name, int icon_size)
+{
+	GdkPixbuf *pixbuf;
+	GtkWidget *image;
+	
+	pixbuf = e_icon_factory_get_icon  (icon_name, icon_size);
+	image = gtk_image_new_from_pixbuf (pixbuf);
+	g_object_unref (pixbuf);
+
+	return image;
+}
 
 /**
  * e_icon_factory_get_icon_list:
