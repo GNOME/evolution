@@ -497,6 +497,24 @@ load (EMsgComposer *composer,
 }
 
 
+/* Exit dialog.  (Displays a "discard this message?" warning before actually exiting.)  */
+
+static void
+exit_dialog_cb (int reply,
+		void *data)
+{
+	if (reply == 0)
+		gtk_widget_destroy (GTK_WIDGET (data));
+}
+
+static void
+do_exit (EMsgComposer *composer)
+{
+	gnome_ok_cancel_dialog_parented (_("Discard this message?"),
+					 exit_dialog_cb, composer, GTK_WINDOW (composer));
+}
+
+
 /* Address dialog callbacks.  */
 
 static void
@@ -592,22 +610,12 @@ send_cb (GtkWidget *widget, gpointer data)
 }
 
 static void
-exit_dialog_cb (int reply, gpointer data)
-{
-	if (reply == 0)
-		gtk_widget_destroy (GTK_WIDGET (data));
-}
-
-static void
 exit_cb (GtkWidget *widget, gpointer data)
 {
-	EMsgComposer *composer = E_MSG_COMPOSER (data);
-	GtkWindow *parent =
-		GTK_WINDOW (gtk_widget_get_ancestor (GTK_WIDGET (data),
-						     GTK_TYPE_WINDOW));
+	EMsgComposer *composer;
 
-	gnome_ok_cancel_dialog_parented (_("Discard this message?"),
-					 exit_dialog_cb, composer, parent);
+	composer = E_MSG_COMPOSER (data);
+	do_exit (composer);
 }
 	
 static void
@@ -779,6 +787,7 @@ create_toolbar (EMsgComposer *composer)
 	bonobo_ui_handler_toolbar_add_list (uih, "/Toolbar", list);
 }
 
+
 /* GtkObject methods.  */
 
 static void
@@ -828,14 +837,31 @@ destroy (GtkObject *object)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
+
+/* GtkWidget methods.  */
+
+static int
+delete_event (GtkWidget *widget,
+	      GdkEventAny *event)
+{
+	do_exit (E_MSG_COMPOSER (widget));
+
+	return TRUE;
+}
+
+
 static void
 class_init (EMsgComposerClass *klass)
 {
 	GtkObjectClass *object_class;
+	GtkWidgetClass *widget_class;
 
-	object_class = (GtkObjectClass *) klass;
+	object_class = GTK_OBJECT_CLASS (klass);
+	widget_class = GTK_WIDGET_CLASS (klass);
 
 	object_class->destroy = destroy;
+
+	widget_class->delete_event = delete_event;
 
 	parent_class = gtk_type_class (gnome_app_get_type ());
 

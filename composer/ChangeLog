@@ -1,3 +1,8 @@
+2000-07-10  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-msg-composer.c (exit_cb): Use it.
+	(delete_event): New, handler for the "delete_event" signal.
+
 2000-07-09  Dan Winship  <danw@helixcode.com>
 
 	* e-msg-composer.c (set_editor_text): Don't load "" into the
