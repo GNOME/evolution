@@ -165,6 +165,10 @@ else
     AC_MSG_ERROR(Did not find gdkpixbuf installed)
 fi
 
+dnl
+dnl Notice that this is a hack, and we wont be able to use this forever, but
+dnl at least for some time
+dnl
 if $have_pthread; then 
  	THREADS_LIBS="$PTHREAD_LIB `glib-config --libs gthread`"
 	THREADS_CFLAGS="`glib-config --cflags gthread`"
@@ -192,8 +196,8 @@ BONOBO_GNOME_CFLAGS="`gnome-config --cflags bonobo libglade gdk_pixbuf gnomecanv
 AC_SUBST(BONOBO_GNOME_LIBS)
 AC_SUBST(BONOBO_GNOME_CFLAGS)
 
-BONOBO_HTML_GNOME_LIBS="`gnome-config --libs bonobo libglade gdk_pixbuf gtkhtml gnomecanvaspixbuf gnomeui ` `glib-config --libs gthread`"
-BONOBO_HTML_GNOME_CFLAGS="`gnome-config --cflags bonobo libglade gdk_pixbuf gtkhtml gnomecanvaspixbuf gnomeui ` `glib-config --cflags gthread`"
+BONOBO_HTML_GNOME_LIBS="`gnome-config --libs bonobo libglade gdk_pixbuf gtkhtml gnomecanvaspixbuf gnomeui ` $THREAD_LIBS"
+BONOBO_HTML_GNOME_CFLAGS="`gnome-config --cflags bonobo libglade gdk_pixbuf gtkhtml gnomecanvaspixbuf gnomeui ` $THREAD_CFLAGS"
 AC_SUBST(BONOBO_HTML_GNOME_LIBS)
 AC_SUBST(BONOBO_HTML_GNOME_CFLAGS)
 
