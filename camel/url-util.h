@@ -39,6 +39,7 @@ typedef struct {
 	gchar *port;
 	gchar *path;
 
+	/* used only as a cache */
 	gchar *url_string;
 } Gurl;
 

@@ -59,8 +59,8 @@ typedef struct {
 	/* Virtual methods */	
 	void  (*write_to_stream) (CamelDataWrapper *data_wrapper, CamelStream *stream);
 	void  (*construct_from_stream) (CamelDataWrapper *data_wrapper, CamelStream *stream);
-	void  (*set_mime_type) (CamelDataWrapper *data_wrapper, GString *content_type);
-	GString * (*get_mime_type) (CamelDataWrapper *data_wrapper);
+	void  (*set_mime_type) (CamelDataWrapper *data_wrapper, gchar *content_type);
+	gchar * (*get_mime_type) (CamelDataWrapper *data_wrapper);
 
 } CamelDataWrapperClass;
 
@@ -74,8 +74,8 @@ GtkType camel_data_wrapper_get_type (void);
 
 void camel_data_wrapper_write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
 void camel_data_wrapper_construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
-void camel_data_wrapper_set_mime_type (CamelDataWrapper *data_wrapper, GString *mime_type);
-static GString *camel_data_wrapper_get_mime_type (CamelDataWrapper *data_wrapper);
+void camel_data_wrapper_set_mime_type (CamelDataWrapper *data_wrapper, gchar *mime_type);
+static gchar *camel_data_wrapper_get_mime_type (CamelDataWrapper *data_wrapper);
 
 #ifdef __cplusplus
 }

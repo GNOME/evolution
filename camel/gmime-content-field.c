@@ -23,44 +23,80 @@
 
 #include <config.h>
 #include "gmime-content-field.h"
-#include "gstring-util.h"
+/* #include "-util.h" */
 #include "camel-log.h"
 
+/
 
-GMimeContentField *
-gmime_content_field_new (GString *type, GString *subtype)
+/**
+ * gmime_content_field_new: Creates a new GMimeContentField object
+ * @type: mime type
+ * @subtype: mime subtype 
+ * 
+ * Creates a GMimeContentField object and initialize it with
+ * a mime type and a mime subtype. For example, 
+ * gmime_content_field_new ("application", "postcript");
+ * will create a content field with complete mime type 
+ * "application/postscript"
+ * 
+ * Return value: The newly created GMimeContentField object
+ **/
+void
+gmime_content_field_new (const gchar *type, const gchar *subtype)
 {
 	GMimeContentField *ctf;
 
-	ctf = g_new (GMimeContentField,1);
+	ctf = g_new (GMimeContentField, 1);
 	ctf->type = type;
 	ctf->subtype = subtype;
-	ctf->parameters =  g_hash_table_new(g_string_hash, g_string_equal_for_hash);
+	ctf->parameters =  g_hash_table_new (g_str_hash, g_str_equal);
 	
 	return ctf;
 } 
 
 
+/**
+ * gmime_content_field_set_parameter: set a parameter for a GMimeContentField object
+ * @content_field: content field
+ * @attribute: parameter name 
+ * @value: paramteter value
+ * 
+ * set a parameter (called attribute in RFC 2045) of a content field. Meaningfull
+ * or valid parameters name depend on the content type object. For example, 
+ * gmime_content_field_set_parameter (cf, "charset", "us-ascii");
+ * will make sense for a "text/plain" content field but not for a 
+ * "image/gif". This routine does not check parameter validuty.
+ **/
 void 
-gmime_content_field_set_parameter (GMimeContentField *content_field, GString *attribute, GString *value)
+gmime_content_field_set_parameter (GMimeContentField *content_field, const gchar *attribute, const gchar *value)
 {
 	gboolean attribute_exists;
-	GString *old_attribute;
-	GString *old_value;
+	gchar *old_attribute;
+	gchar *old_value;
 
 	attribute_exists = g_hash_table_lookup_extended (content_field->parameters, 
 							 attribute, 
 							 (gpointer *) &old_attribute,
 							 (gpointer *) &old_value);
+	/** CHECK THAT **/
 	if (attribute_exists) {
-		g_string_assign(old_value, value->str);
-		g_string_free (value, TRUE);
-		g_string_free (attribute, TRUE);
-	} else
-		g_hash_table_insert (content_field->parameters, attribute, value);
+		g_string_free (old_value, TRUE);
+		g_string_free (old_attribute, TRUE);
+	} 
+		
+	g_hash_table_insert (content_field->parameters, attribute, value);
 }
 
 
+/**
+ * _print_parameter: print a parameter/value pair to a stream as 
+ * described in RFC 2045
+ * @name: name of the parameter
+ * @value: value of the parameter
+ * @user_data: CamelStream object to write the text to.
+ * 
+ * 
+ **/
 static void
 _print_parameter (gpointer name, gpointer value, gpointer user_data)
 {
@@ -68,9 +104,9 @@ _print_parameter (gpointer name, gpointer value, gpointer user_data)
 	
 	camel_stream_write_strings (stream, 
 				    "; \n    ", 
-				    ((GString *)name)->str, 
+				    (gchar *)name, 
 				    "=", 
-				    ((GString *)value)->str,
+				    (gchar *)value,
 				    NULL);
 	
 }
@@ -87,9 +123,9 @@ gmime_content_field_write_to_stream (GMimeContentField *content_field, CamelStre
 {
 	if (!content_field) return;
 	if ((content_field->type) && ((content_field->type)->str)) {
-		camel_stream_write_strings (stream, "Content-Type: ", content_field->type->str, NULL);
-		if ((content_field->subtype) && ((content_field->subtype)->str)) {
-			camel_stream_write_strings (stream, "/", content_field->subtype->str, NULL);
+		camel_stream_write_strings (stream, "Content-Type: ", content_field->type, NULL);
+		if (content_field->subtype) {
+			camel_stream_write_strings (stream, "/", content_field->subtype, NULL);
 		}
 		/* print all parameters */
 		g_hash_table_foreach (content_field->parameters, _print_parameter, stream);
@@ -97,13 +133,13 @@ gmime_content_field_write_to_stream (GMimeContentField *content_field, CamelStre
 	}
 }
 
-GString * 
+gchar * 
 gmime_content_field_get_mime_type (GMimeContentField *content_field)
 {
-	GString *mime_type;
+	gchar *mime_type;
 
 	if (!content_field->type) return NULL;
-	mime_type = g_string_clone (content_field->type);
+	mime_type = g_strdup (content_field->type);
 	if (content_field->subtype) {
 		g_string_append_c (mime_type, '/');
 		g_string_append_g_string (mime_type, content_field->subtype);
@@ -113,13 +149,13 @@ gmime_content_field_get_mime_type (GMimeContentField *content_field)
 
 
 void
-gmime_content_field_construct_from_string (GMimeContentField *content_field, GString *string)
+gmime_content_field_construct_from_string (GMimeContentField *content_field, gchar *string)
 {
 	gint first, len;
 	gchar *str;
 	gint i=0;
-	GString *type, *subtype;
-	GString *param_name, *param_value;
+	gchar *type, *subtype;
+	gchar *param_name, *param_value;
 	gboolean param_end;
 	
 	CAMEL_LOG (TRACE, "Entering gmime_content_field_construct_from_string\n");
