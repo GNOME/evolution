@@ -8,8 +8,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Ximian Evolution 1.4\n"
-"POT-Creation-Date: 2003-09-02 16:26+0200\n"
-"PO-Revision-Date: 2003-09-02 16:25+0200\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2003-09-08 15:41+0200\n"
+"PO-Revision-Date: 2003-09-08 15:40+0200\n"
 "Last-Translator: Igor Nestorović <jung@one.ekof.bg.ac.yu>\n"
 "Language-Team: Serbian (sr) <serbiangnome-lista@nongnu.org>\n"
 "MIME-Version: 1.0\n"
@@ -395,7 +396,7 @@ msgstr "Organizaciona jedinica"
 msgid "Role"
 msgstr "Uloga"
 
-#: addressbook/backend/ebook/e-card.c:1436 mail/mail-format.c:963
+#: addressbook/backend/ebook/e-card.c:1436 mail/mail-format.c:966
 msgid "Mailer"
 msgstr "Pošiljalac"
 
@@ -11463,7 +11464,7 @@ msgstr "počinje sa"
 msgid "Stop Processing"
 msgstr "Prekini sa obradom"
 
-#: filter/libfilter-i18n.h:60 mail/mail-format.c:934
+#: filter/libfilter-i18n.h:60 mail/mail-format.c:937
 #: mail/message-list.etspec.h:13 mail/message-tag-followup.c:305
 msgid "Subject"
 msgstr "Naslov"
@@ -13149,90 +13150,90 @@ msgstr "Sačuvaj sliku kao..."
 msgid "Pinging %s"
 msgstr "Pingujem %s"
 
-#: mail/mail-format.c:665
+#: mail/mail-format.c:668
 #, c-format
 msgid "%s attachment"
 msgstr "%s prilog"
 
-#: mail/mail-format.c:707 mail/mail-format.c:1370 mail/mail-format.c:1439
-#: mail/mail-format.c:1559 mail/mail-format.c:1683 mail/mail-format.c:1708
+#: mail/mail-format.c:710 mail/mail-format.c:1513 mail/mail-format.c:1582
+#: mail/mail-format.c:1702 mail/mail-format.c:1826 mail/mail-format.c:1851
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "Nisam mogao da obradim MIME poruku. Pokazujem kao izvor."
 
-#: mail/mail-format.c:785 mail/message-list.etspec.h:2
+#: mail/mail-format.c:788 mail/message-list.etspec.h:2
 msgid "Date"
 msgstr "Datum"
 
-#: mail/mail-format.c:871
+#: mail/mail-format.c:874
 msgid "Bad Address"
 msgstr "Loša adresa"
 
-#: mail/mail-format.c:912 mail/message-list.etspec.h:7
+#: mail/mail-format.c:915 mail/message-list.etspec.h:7
 #: mail/message-tag-followup.c:301
 msgid "From"
 msgstr "Od"
 
-#: mail/mail-format.c:916
+#: mail/mail-format.c:919
 msgid "Reply-To"
 msgstr "Odgovor-Za"
 
-#: mail/mail-format.c:921 mail/message-list.etspec.h:14
+#: mail/mail-format.c:924 mail/message-list.etspec.h:14
 msgid "To"
 msgstr "Za"
 
-#: mail/mail-format.c:926
+#: mail/mail-format.c:929
 msgid "Cc"
 msgstr "Cc (kopija)"
 
-#: mail/mail-format.c:931
+#: mail/mail-format.c:934
 msgid "Bcc"
 msgstr "Bcc (nevidljiva kopija)"
 
-#: mail/mail-format.c:1482
+#: mail/mail-format.c:1625
 msgid ""
 "This message is digitally signed. Click the lock icon for more information."
 msgstr ""
 "Ova poruka je digitalno potpisana. Pritisnite na ikonu sa katancem za veše "
 "informacija."
 
-#: mail/mail-format.c:1510
+#: mail/mail-format.c:1653
 msgid "Could not create a PGP verfication context"
 msgstr "Nisam mogao da napravim PGP proveru"
 
-#: mail/mail-format.c:1518
+#: mail/mail-format.c:1661
 msgid "This message is digitally signed and has been found to be authentic."
 msgstr "Ova poruka je digitalno potpisana i odgovara potpisu."
 
-#: mail/mail-format.c:1525
+#: mail/mail-format.c:1668
 msgid "This message is digitally signed but can not be proven to be authentic."
 msgstr "Ova poruka je digitalno potpisana ali ne može biti proverena."
 
-#: mail/mail-format.c:1789
+#: mail/mail-format.c:1932
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "Pokazivač na FTP adresu (%s)"
 
-#: mail/mail-format.c:1800
+#: mail/mail-format.c:1943
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "Pokazivač na lokalnu datoteku (%s) koja odgovara adresi \"%s\""
 
-#: mail/mail-format.c:1803
+#: mail/mail-format.c:1946
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "pokazivač na lokalnu datoteku (%s)"
 
-#: mail/mail-format.c:1830
+#: mail/mail-format.c:1973
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "Pokazivač na mrežni podatak (%s)"
 
-#: mail/mail-format.c:1836
+#: mail/mail-format.c:1979
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Pokazivač na napoznati spoljni podatak (\"%s\" tipa)"
 
-#: mail/mail-format.c:1838
+#: mail/mail-format.c:1981
 msgid "Malformed external-body part."
 msgstr "Loše složen spoljni deo."
 
@@ -23745,6 +23746,10 @@ msgstr "Prikazano"
 #: my-evolution/e-summary-tasks.c:330
 msgid "No tasks"
 msgstr "Bez zaduženja"
+
+#: my-evolution/e-summary-tasks.c:364
+msgid "blue"
+msgstr "plava"
 
 #: my-evolution/e-summary-tasks.c:364
 msgid "(No Description)"
