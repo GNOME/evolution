@@ -207,7 +207,7 @@ emfh_enable(EPluginHook *eph, int state)
 		struct _EMFormatHookGroup *group = g->data;
 
 		klass = g_hash_table_lookup(emfh_types, group->id);
-		for (l=group->items;l;g=g_slist_next(l)) {
+		for (l=group->items;l;l=g_slist_next(l)) {
 			EMFormatHookItem *item = l->data;
 
 			if (state)

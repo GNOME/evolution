@@ -1,3 +1,12 @@
+2004-11-11  Radek Doulik  <rodo@ximian.com>
+
+	* em-format-hook.c (emfh_enable): l = g_list_next (l); in inner
+	loop instead of g = g_list_next (l).. probably typo after c'n'p
+
+	* em-format.c (em_format_class_remove_handler): in case the old
+	handler doesn't exist, remove 'info' handler from type_handler
+	table
+
 2004-11-03  Not Zed  <NotZed@Ximian.com>
 
 	* em-folder-view.c (emfv_popup): Fix the popup id.

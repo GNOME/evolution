@@ -239,7 +239,10 @@ em_format_class_remove_handler(EMFormatClass *emfc, EMFormatHandler *info)
 	current = g_hash_table_lookup(emfc->type_handlers, info->mime_type);
 	if (current == info) {
 		current = info->old;
-		g_hash_table_insert(emfc->type_handlers, current->mime_type, current);
+		if (current)
+			g_hash_table_insert(emfc->type_handlers, current->mime_type, current);
+		else
+			g_hash_table_remove(emfc->type_handlers, info->mime_type);
 	} else {
 		while (current && current->old != info)
 			current = current->old;
