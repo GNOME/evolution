@@ -1,3 +1,17 @@
+2000-08-21  Federico Mena Quintero  <federico@helixcode.com>
+
+	* gui/calendar-model.c (set_categories): New function.
+	(parse_time): Moved over from the old set_time_t().  This just
+	parses the time and leaves the warning dialog for the caller.
+	(set_datetime): New function.
+	(set_geo): Updated old function.
+	(set_percent): Updated old function.
+	(set_priority): Updated old function.
+	(set_summary): New function.
+	(set_url): New function.
+	(calendar_model_set_value_at): Updated function.
+	(calendar_model_is_cell_editable): Updated function.
+
 2000-08-21  JP Rosevear  <jpr@helixcode.com>
 
 	* gui/e-week-view.c (e_week_view_reload_events): 

@@ -26,13 +26,13 @@
 
 #include <config.h>
 #include <ctype.h>
+#include <math.h>
 #undef _XOPEN_SOURCE
 #include <sys/time.h>
 #define _XOPEN_SOURCE
 #include <time.h>
-#include <gtk/gtksignal.h>
-#include <libgnomeui/gnome-messagebox.h>
-#include <libgnomeui/gnome-stock.h>
+#include <gnome.h>
+#include <cal-util/timeutil.h>
 #include "calendar-model.h"
 #include "calendar-commands.h"
 
@@ -253,6 +253,7 @@ calendar_model_row_count (ETableModel *etm)
 	return priv->objects->len;
 }
 
+/* Creates a nice string representation of a time value */
 static char*
 get_time_t (time_t *t, gboolean skip_midnight)
 {
@@ -301,7 +302,7 @@ get_categories (CalComponent *comp)
 
 	s = str->str;
 
-	g_string_free (s, FALSE);
+	g_string_free (str, FALSE);
 	cal_component_free_categories_list (categories);
 
 	return s;
@@ -365,9 +366,9 @@ get_and_free_datetime (CalComponentDateTime dt)
 	if (!dt.value)
 		t = 0;
 	else
-		t = time_from_icaltimetype (*t.value);
+		t = time_from_icaltimetype (*dt.value);
 
-	cal_component_free_datetime (comp, &dt);
+	cal_component_free_datetime (&dt);
 
 	return get_time_t (&t, FALSE);
 }
@@ -402,7 +403,7 @@ get_due (CalComponent *comp)
 	return get_and_free_datetime (dt);
 }
 
-/* Builds a string for the PERCENT property of a calendar component */
+/* Builds a string for the GEO property of a calendar component */
 static char*
 get_geo (CalComponent *comp)
 {
@@ -467,7 +468,7 @@ get_priority (CalComponent *comp)
 static char *
 get_summary (CalComponent *comp)
 {
-	CalComponentSummary summary;
+	CalComponentText summary;
 
 	cal_component_get_summary (comp, &summary);
 
@@ -595,7 +596,7 @@ get_is_overdue (CalComponent *comp)
 
 		t = time_from_icaltimetype (*dt.value);
 
-		if (dt < time (NULL))
+		if (t < time (NULL))
 			retval = TRUE;
 		else
 			retval = FALSE;
@@ -615,7 +616,6 @@ calendar_model_value_at (ETableModel *etm, int col, int row)
 	CalendarModel *model;
 	CalendarModelPrivate *priv;
 	CalComponent *comp;
-	static char buffer[16];
 
 	model = CALENDAR_MODEL (etm);
 	priv = model->priv;
@@ -695,20 +695,7 @@ calendar_model_value_at (ETableModel *etm, int col, int row)
 	}
 }
 
-/* Replaces a string */
-static void
-set_string (char **dest, const char *value)
-{
-	if (*dest)
-		g_free (*dest);
-
-	if (value)
-		*dest = g_strdup (value);
-	else
-		*dest = NULL;
-}
-
-
+/* Returns whether a string is NULL, empty, or full of whitespace */
 static gboolean
 string_is_empty (const char *value)
 {
@@ -732,7 +719,7 @@ string_is_empty (const char *value)
 /* FIXME: We need to set the "transient_for" property for the dialog, but
    the model doesn't know anything about the windows. */
 static void
-show_date_warning ()
+show_date_warning (void)
 {
 	GtkWidget *dialog;
 	char buffer[32], message[256];
@@ -753,172 +740,302 @@ show_date_warning ()
 	gtk_widget_show (dialog);
 }
 
+/* Builds a list of categories from a comma-delimited string */
+static GSList *
+categories_from_string (const char *value)
+{
+	GSList *list;
+	const char *categ_start;
+	const char *categ_end;
+	const char *p;
 
-/* Replaces a time_t value */
+	if (!value)
+		return NULL;
+
+	list = NULL;
+
+	categ_start = categ_end = NULL;
+
+	for (p = value; *p; p++) {
+		if (categ_start) {
+			if (*p == ',') {
+				char *c;
+
+				c = g_strndup (categ_start, categ_end - categ_start + 1);
+				list = g_slist_prepend (list, c);
+
+				categ_start = categ_end = NULL;
+			} else if (!isspace (*p))
+				categ_end = p;
+		} else if (!isspace (*p) && *p != ',')
+			categ_start = categ_end = p;
+	}
+
+	if (categ_start) {
+		char *c;
+
+		c = g_strndup (categ_start, categ_end - categ_start + 1);
+		list = g_slist_prepend (list, c);
+	}
+
+	return g_slist_reverse (list);
+}
+
+/* Sets the list of categories from a comma-delimited string */
 static void
-set_time_t (time_t *dest, const char *value)
+set_categories (CalComponent *comp, const char *value)
+{
+	GSList *list;
+	GSList *l;
+
+	list = categories_from_string (value);
+
+	cal_component_set_categories_list (comp, list);
+
+	for (l = list; l; l = l->next) {
+		char *s;
+
+		s = l->data;
+		g_free (s);
+	}
+
+	g_slist_free (list);
+}
+
+/* Parses a time value entered by the user; returns -1 if it could not be
+ * parsed.  Returns 0 for an empty time.
+ */
+static time_t
+parse_time (const char *value)
 {
 	struct tm tmp_tm;
 	struct tm *today_tm;
 	time_t t;
 	const char *p;
 
-	if (string_is_empty (value)) {
-		*dest = 0;
-	} else {
-		/* Skip any weekday name. */
-		p = strptime (value, "%a", &tmp_tm);
-		if (!p)
-			p = value;
+	if (string_is_empty (value))
+		return 0;
 
-		/* Try to match the full date & time, or without the seconds,
-		   or just the date, or just the time with/without seconds.
-		   The info pages say we should clear the tm before calling
-		   strptime. It also means that if we don't match a time we
-		   get 00:00:00 which is good. */
+	/* Skip any weekday name. */
+	p = strptime (value, "%a", &tmp_tm);
+	if (!p)
+		p = value;
+
+	/* Try to match the full date & time, or without the seconds,
+	   or just the date, or just the time with/without seconds.
+	   The info pages say we should clear the tm before calling
+	   strptime. It also means that if we don't match a time we
+	   get 00:00:00 which is good. */
+	memset (&tmp_tm, 0, sizeof (tmp_tm));
+	if (!strptime (value, "%x %T", &tmp_tm)) {
 		memset (&tmp_tm, 0, sizeof (tmp_tm));
-		if (!strptime (value, "%x %T", &tmp_tm)) {
+		if (!strptime (value, "%x %H:%M", &tmp_tm)) {
 			memset (&tmp_tm, 0, sizeof (tmp_tm));
-			if (!strptime (value, "%x %H:%M", &tmp_tm)) {
+			if (!strptime (value, "%x", &tmp_tm)) {
 				memset (&tmp_tm, 0, sizeof (tmp_tm));
-				if (!strptime (value, "%x", &tmp_tm)) {
+				if (!strptime (value, "%T", &tmp_tm)) {
 					memset (&tmp_tm, 0, sizeof (tmp_tm));
-					if (!strptime (value, "%T", &tmp_tm)) {
-						memset (&tmp_tm, 0, sizeof (tmp_tm));
-						if (!strptime (value, "%H:%M", &tmp_tm)) {
-
-							g_warning ("Couldn't parse date string");
-							show_date_warning ();
-							return;
-						}
-					}
-
-					/* We only got a time, so we use the
-					   current day. */
-					t = time (NULL);
-					today_tm = localtime (&t);
-					tmp_tm.tm_mday = today_tm->tm_mday;
-					tmp_tm.tm_mon  = today_tm->tm_mon;
-					tmp_tm.tm_year = today_tm->tm_year;
+					if (!strptime (value, "%H:%M", &tmp_tm))
+						return -1; /* Could not parse it */
 				}
+
+				/* We only got a time, so we use the
+				   current day. */
+				t = time (NULL);
+				today_tm = localtime (&t);
+				tmp_tm.tm_mday = today_tm->tm_mday;
+				tmp_tm.tm_mon  = today_tm->tm_mon;
+				tmp_tm.tm_year = today_tm->tm_year;
 			}
 		}
+	}
 
-		tmp_tm.tm_isdst = -1;
-		*dest = mktime (&tmp_tm);
+	tmp_tm.tm_isdst = -1;
+	return mktime (&tmp_tm);
+}
+
+/* Sets the completion time of a component */
+static void
+set_completed (CalComponent *comp, const char *value)
+{
+	time_t t;
+	struct icaltimetype itt;
+
+	t = parse_time (value);
+	if (t == -1) {
+		show_date_warning ();
+		return;
+	} else if (t == 0) {
+		cal_component_set_completed (comp, NULL);
+		return;
+	} else {
+		itt = icaltimetype_from_timet (t, FALSE);
+		cal_component_set_completed (comp, &itt);
 	}
 }
 
-
-/* FIXME: We need to set the "transient_for" property for the dialog, but
-   the model doesn't know anything about the windows. */
+/* Sets a CalComponentDateTime value */
 static void
-show_geo_warning ()
+set_datetime (CalComponent *comp, const char *value,
+	      void (* set_func) (CalComponent *comp, CalComponentDateTime *dt))
+{
+	time_t t;
+
+	t = parse_time (value);
+	if (t == -1) {
+		show_date_warning ();
+		return;
+	} else if (t == 0) {
+		(* set_func) (comp, NULL);
+		return;
+	} else {
+		CalComponentDateTime dt;
+		struct icaltimetype itt;
+
+		itt = icaltimetype_from_timet (t, FALSE);
+		dt.value = &itt;
+		dt.tzid = NULL;
+
+		(* set_func) (comp, &dt);
+	}
+}
+
+/* FIXME: We need to set the "transient_for" property for the dialog, but the
+ * model doesn't know anything about the windows.
+ */
+static void
+show_geo_warning (void)
 {
 	GtkWidget *dialog;
 
-	dialog = gnome_message_box_new (_("The geographical position must be entered in the format: \n\n45.436845,125.862501"),
+	dialog = gnome_message_box_new (_("The geographical position must be entered "
+					  "in the format: \n\n45.436845,125.862501"),
 					GNOME_MESSAGE_BOX_ERROR,
 					GNOME_STOCK_BUTTON_OK, NULL);
 	gtk_widget_show (dialog);
 }
 
-
-/* Replaces a geo value */
+/* Sets the geographical position value of a component */
 static void
-set_geo (iCalGeo *dest, const char *value)
+set_geo (CalComponent *comp, const char *value)
 {
 	double latitude, longitude;
-	gint matched;
+	int matched;
+	struct icalgeotype geo;
 
-	if (!string_is_empty (value)) {
-		matched = sscanf (value, "%lg , %lg", &latitude, &longitude);
-
-		if (matched != 2) {
-			show_geo_warning ();
-		} else {
-			dest->valid = TRUE;
-			dest->latitude = latitude;
-			dest->longitude = longitude;
-		}
-	} else {
-		dest->valid = FALSE;
-		dest->latitude = 0.0;
-		dest->longitude = 0.0;
+	if (string_is_empty (value)) {
+		cal_component_set_geo (comp, NULL);
+		return;
 	}
+
+	matched = sscanf (value, "%lg , %lg", &latitude, &longitude);
+
+	if (matched != 2) {
+		show_geo_warning ();
+		return;
+	}
+
+	geo.lat = latitude;
+	geo.lon = longitude;
+	cal_component_set_geo (comp, &geo);
 }
 
-/* Replaces a person value */
+/* FIXME: We need to set the "transient_for" property for the dialog, but the
+ * model doesn't know anything about the windows.
+ */
 static void
-set_person (iCalPerson **dest, const iCalPerson *value)
-{
-	/* FIXME: This can't be set at present so it shouldn't be called. */
-}
-
-/* FIXME: We need to set the "transient_for" property for the dialog, but
-   the model doesn't know anything about the windows. */
-static void
-show_percent_warning ()
+show_percent_warning (void)
 {
 	GtkWidget *dialog;
 
-	dialog = gnome_message_box_new (_("The percent value must be between 0 and 100"),
+	dialog = gnome_message_box_new (_("The percent value must be between 0 and 100, inclusive"),
 					GNOME_MESSAGE_BOX_ERROR,
 					GNOME_STOCK_BUTTON_OK, NULL);
 	gtk_widget_show (dialog);
 }
 
-
-/* Sets an int value */
+/* Sets the percent value of a calendar component */
 static void
-set_percent (int *dest, const char *value)
+set_percent (CalComponent *comp, const char *value)
 {
-	gint matched, percent;
+	int matched, percent;
 
-	if (!string_is_empty (value)) {
-		matched = sscanf (value, "%i", &percent);
-
-		if (matched != 1 || percent < 0 || percent > 100) {
-			show_percent_warning ();
-		} else {
-			*dest = percent;
-		}
-	} else {
-		*dest = 0;
+	if (string_is_empty (value)) {
+		cal_component_set_percent (comp, NULL);
+		return;
 	}
+
+	matched = sscanf (value, "%i", &percent);
+
+	if (matched != 1 || percent < 0 || percent > 100) {
+		show_percent_warning ();
+		return;
+	}
+
+	cal_component_set_percent (comp, &percent);
 }
 
-/* FIXME: We need to set the "transient_for" property for the dialog, but
-   the model doesn't know anything about the windows. */
+/* FIXME: We need to set the "transient_for" property for the dialog, but the
+ * model doesn't know anything about the windows.  */
 static void
-show_priority_warning ()
+show_priority_warning (void)
 {
 	GtkWidget *dialog;
 
-	dialog = gnome_message_box_new (_("The priority must be between 0 and 10"),
+	dialog = gnome_message_box_new (_("The priority must be between 1 and 9, inclusive"),
 					GNOME_MESSAGE_BOX_ERROR,
 					GNOME_STOCK_BUTTON_OK, NULL);
 	gtk_widget_show (dialog);
 }
 
-
-/* Sets an int value */
+/* Sets the priority of a calendar component */
 static void
-set_priority (int *dest, const char *value)
+set_priority (CalComponent *comp, const char *value)
 {
-	gint matched, priority;
+	int matched, priority;
 
-	if (!string_is_empty (value)) {
-		matched = sscanf (value, "%i", &priority);
-
-		if (matched != 1 || priority < 0 || priority > 10) {
-			show_priority_warning ();
-		} else {
-			*dest = priority;
-		}
-	} else {
-		*dest = 0;
+	if (string_is_empty (value)) {
+		cal_component_set_priority (comp, NULL);
+		return;
 	}
+
+	matched = sscanf (value, "%i", &priority);
+
+	if (matched != 1 || priority < 1 || priority > 9) {
+		show_priority_warning ();
+		return;
+	}
+
+	cal_component_set_priority (comp, &priority);
+}
+
+/* Sets the summary of a calendar component */
+static void
+set_summary (CalComponent *comp, const char *value)
+{
+	CalComponentText text;
+
+	if (string_is_empty (value)) {
+		cal_component_set_summary (comp, NULL);
+		return;
+	}
+
+	text.value = value;
+	text.altrep = NULL; /* FIXME: should we preserve the old ALTREP? */
+
+	cal_component_set_summary (comp, &text);
+}
+
+/* Sets the URI of a calendar component */
+static void
+set_url (CalComponent *comp, const char *value)
+{
+	if (string_is_empty (value)) {
+		cal_component_set_url (comp, NULL);
+		return;
+	}
+
+	cal_component_set_url (comp, value);
 }
 
 /* set_value_at handler for the calendar table model */
@@ -927,93 +1044,62 @@ calendar_model_set_value_at (ETableModel *etm, int col, int row, const void *val
 {
 	CalendarModel *model;
 	CalendarModelPrivate *priv;
-	iCalObject *ico;
+	CalComponent *comp;
 
 	model = CALENDAR_MODEL (etm);
 	priv = model->priv;
 
-	g_return_if_fail (col >= 0 && col < ICAL_OBJECT_FIELD_NUM_FIELDS);
+	g_return_if_fail (col >= 0 && col < CAL_COMPONENT_FIELD_NUM_FIELDS);
 	g_return_if_fail (row >= 0 && row < priv->objects->len);
 
-	ico = g_array_index (priv->objects, iCalObject *, row);
-	g_assert (ico != NULL);
+	comp = g_array_index (priv->objects, CalComponent *, row);
+	g_assert (comp != NULL);
 
 	switch (col) {
-	case ICAL_OBJECT_FIELD_COMMENT:
-		set_string (&ico->comment, value);
+	case CAL_COMPONENT_FIELD_CATEGORIES:
+		set_categories (comp, value);
 		break;
 
-	case ICAL_OBJECT_FIELD_COMPLETED:
-		/* FIXME: Set status, percent etc. fields as well. */
-		set_time_t (&ico->completed, value);
+	/* FIXME: CLASSIFICATION requires an option menu cell renderer */
+
+	case CAL_COMPONENT_FIELD_COMPLETED:
+		set_completed (comp, value);
 		break;
 
-	case ICAL_OBJECT_FIELD_DESCRIPTION:
-		set_string (&ico->desc, value);
+	case CAL_COMPONENT_FIELD_DTEND:
+		/* FIXME: Need to reset dtstart if dtend happens before it */
+		set_datetime (comp, value, cal_component_set_dtend);
 		break;
 
-	case ICAL_OBJECT_FIELD_DTSTAMP:
-		set_time_t (&ico->dtstamp, value);
+	case CAL_COMPONENT_FIELD_DTSTART:
+		/* FIXME: Need to reset dtend if dtstart happens after it */
+		set_datetime (comp, value, cal_component_set_dtstart);
 		break;
 
-	case ICAL_OBJECT_FIELD_DTSTART:
-		set_time_t (&ico->dtstart, value);
+	case CAL_COMPONENT_FIELD_DUE:
+		set_datetime (comp, value, cal_component_set_due);
 		break;
 
-	case ICAL_OBJECT_FIELD_DTEND:
-		set_time_t (&ico->dtend, value);
+	case CAL_COMPONENT_FIELD_GEO:
+		set_geo (comp, value);
 		break;
 
-	case ICAL_OBJECT_FIELD_GEO:
-		set_geo (&ico->geo, value);
+	case CAL_COMPONENT_FIELD_PERCENT:
+		set_percent (comp, value);
 		break;
 
-	case ICAL_OBJECT_FIELD_LAST_MOD:
-		set_time_t (&ico->last_mod, value);
+	case CAL_COMPONENT_FIELD_PRIORITY:
+		set_priority (comp, value);
 		break;
 
-	case ICAL_OBJECT_FIELD_LOCATION:
-		set_string (&ico->location, value);
+	case CAL_COMPONENT_FIELD_SUMMARY:
+		set_summary (comp, value);
 		break;
 
-	case ICAL_OBJECT_FIELD_ORGANIZER:
-		set_person (&ico->organizer, value);
-		break;
+	/* FIXME: TRANSPARENCY requires an option menu cell renderer */
 
-	case ICAL_OBJECT_FIELD_PERCENT:
-		/* FIXME: If set to 0 or 100 set other fields. */
-		set_percent (&ico->percent, value);
-		break;
-
-	case ICAL_OBJECT_FIELD_PRIORITY:
-		set_priority (&ico->priority, value);
-		break;
-
-	case ICAL_OBJECT_FIELD_SUMMARY:
-		set_string (&ico->summary, value);
-		break;
-
-	case ICAL_OBJECT_FIELD_URL:
-		set_string (&ico->url, value);
-		break;
-
-	case ICAL_OBJECT_FIELD_COMPLETE:
-		/* FIXME: Need a ical_object_XXX function to mark an item
-		   complete, which will also set the 'Completed' time and
-		   maybe others such as the last modified fields. */
-		ico->percent = 100;
-		ico->completed = time (NULL);
-		break;
-
-	case ICAL_OBJECT_FIELD_HAS_ALARMS:
-	case ICAL_OBJECT_FIELD_ICON:
-	case ICAL_OBJECT_FIELD_RECURRING:
-	case ICAL_OBJECT_FIELD_OVERDUE:
-	case ICAL_OBJECT_FIELD_COLOR:
-		/* These are all computed fields which can't be set, so we
-		   do nothing. Note that the 'click-to-add' item will set all
-		   fields when finished, so we don't want to output warnings
-		   here. */
+	case CAL_COMPONENT_FIELD_URL:
+		set_url (comp, value);
 		break;
 
 	default:
@@ -1021,9 +1107,7 @@ calendar_model_set_value_at (ETableModel *etm, int col, int row, const void *val
 		break;
 	}
 
-	if (ico->new)
-		g_print ("Skipping update - new iCalObject\n");
-	else if (!cal_client_update_object (priv->client, ico))
+	if (!cal_client_update_object (priv->client, comp))
 		g_message ("calendar_model_set_value_at(): Could not update the object!");
 }
 
@@ -1037,26 +1121,30 @@ calendar_model_is_cell_editable (ETableModel *etm, int col, int row)
 	model = CALENDAR_MODEL (etm);
 	priv = model->priv;
 
-	g_return_val_if_fail (col >= 0 && col < ICAL_OBJECT_FIELD_NUM_FIELDS, FALSE);
-	/* We can't check this as 'click-to-add' passes row 0. */
+	g_return_val_if_fail (col >= 0 && col < CAL_COMPONENT_FIELD_NUM_FIELDS, FALSE);
+
+	/* FIXME: We can't check this as 'click-to-add' passes row 0. */
 	/*g_return_val_if_fail (row >= 0 && row < priv->objects->len, FALSE);*/
 
 	switch (col) {
-	case ICAL_OBJECT_FIELD_DTSTAMP:
-	case ICAL_OBJECT_FIELD_LAST_MOD:
-	case ICAL_OBJECT_FIELD_GEO:
-	case ICAL_OBJECT_FIELD_HAS_ALARMS:
-	case ICAL_OBJECT_FIELD_ICON:
-	case ICAL_OBJECT_FIELD_RECURRING:
-	case ICAL_OBJECT_FIELD_OVERDUE:
-	case ICAL_OBJECT_FIELD_COLOR:
-		return FALSE;
+	case CAL_COMPONENT_FIELD_CATEGORIES:
+	case CAL_COMPONENT_FIELD_COMPLETED:
+	case CAL_COMPONENT_FIELD_DTEND:
+	case CAL_COMPONENT_FIELD_DTSTART:
+	case CAL_COMPONENT_FIELD_DUE:
+	case CAL_COMPONENT_FIELD_GEO:
+	case CAL_COMPONENT_FIELD_PERCENT:
+	case CAL_COMPONENT_FIELD_PRIORITY:
+	case CAL_COMPONENT_FIELD_SUMMARY:
+	case CAL_COMPONENT_FIELD_URL:
+		return TRUE;
 
 	default:
-		return TRUE;
+		return FALSE;
 	}
 }
 
+/* append_row handler for the calendar model */
 static void
 calendar_model_append_row (ETableModel *etm, ETableModel *source, gint row)
 {
