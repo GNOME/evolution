@@ -472,6 +472,27 @@ e_date_edit_destroy		(GtkObject	*object)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
+/**
+ * e_date_edit_set_editable:
+ * @dedit: an #EDateEdit widget.
+ * @editable: whether or not the widget should accept edits.
+ *
+ * Allows the programmer to disallow editing (and the popping up of
+ * the calendar widget), while still allowing the user to select the
+ * date from the GtkEntry.
+ */
+void
+e_date_edit_set_editable (EDateEdit *dedit, gboolean editable)
+{
+	EDateEditPrivate *priv;
+
+	g_return_if_fail (E_IS_DATE_EDIT (dedit));
+
+	priv = dedit->priv;
+
+	gtk_entry_set_editable (GTK_ENTRY (priv->date_entry), editable);
+	gtk_widget_set_sensitive (priv->date_button, editable);
+}
 
 static void
 e_date_edit_forall		(GtkContainer	*container,

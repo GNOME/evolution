@@ -81,6 +81,10 @@ struct _EDateEditClass {
 guint      e_date_edit_get_type			(void);
 GtkWidget* e_date_edit_new			(void);
 
+/* Analogous to gtk_entry_set_editable.  disable editing, while still
+   allowing selection. */
+void       e_date_edit_set_editable             (EDateEdit      *dedit, gboolean editable);
+
 /* Returns TRUE if the last date and time set were valid. The date and time
    are only set when the user hits Return or switches keyboard focus, or
    selects a date or time from the popup. */
