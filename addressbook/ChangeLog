@@ -1,3 +1,8 @@
+2000-06-02  Christopher James Lahey  <clahey@helixcode.com>
+
+	* gui/minicard/e-minicard-view.c, gui/minicard/e-minicard.c: Made
+	double click only work on the first button.
+
 2000-06-01  Christopher James Lahey  <clahey@helixcode.com>
 
 	* gui/minicard/e-minicard.c: return TRUE if opening a contact

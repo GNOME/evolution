@@ -283,6 +283,7 @@ e_minicard_view_event (GnomeCanvasItem *item, GdkEvent *event)
 
 	switch( event->type ) {
 	case GDK_2BUTTON_PRESS:
+		if (((GdkEventButton *)event)->button == 1)
 		{
 			gint result;
 			ECard *card;

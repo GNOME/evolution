@@ -382,7 +382,7 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 		}
 		break;
 	case GDK_2BUTTON_PRESS:
-		if (E_IS_MINICARD_VIEW(item->parent)) {
+		if (event->button.button == 1 && E_IS_MINICARD_VIEW(item->parent)) {
 			gint result;
 			GtkWidget* contact_editor =
 				e_contact_editor_new(e_minicard->card);
