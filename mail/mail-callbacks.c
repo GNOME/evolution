@@ -1325,6 +1325,12 @@ redirect_get_composer (CamelMimeMessage *message)
 	if (!account)
 		account = mail_config_get_default_account ();
 	
+	/* QMail will refuse to send a message if it finds one of
+           it's Delivered-To headers in the message, so remove all
+           Delivered-To headers. Fixes bug #23635. */
+	while (camel_medium_get_header (CAMEL_MEDIUM (message), "Delivered-To"))
+		camel_medium_remove_header (CAMEL_MEDIUM (message), "Delivered-To");
+	
 	composer = e_msg_composer_new_redirect (message, account->name);
 	if (composer) {
 		gtk_signal_connect (GTK_OBJECT (composer), "send",

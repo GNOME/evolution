@@ -1,3 +1,8 @@
+2002-04-18  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (redirect_get_composer): Removed all
+	Delivered-To headers before redirecting. Fixes bug #23635.
+
 2002-04-18  Radek Doulik  <rodo@ximian.com>
 
 	* mail-callbacks.c (do_mail_print): use default paper name in case
