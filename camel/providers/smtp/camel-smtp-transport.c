@@ -313,13 +313,36 @@ _send (CamelTransport *transport, CamelMedium *message,
 {
    const CamelInternetAddress *to, *cc, *bcc;
 	GList *recipients = NULL;
+   struct _address *addr;
+   guint index, len;
 
-   /* TODO: we want to dump all recipient addresses into a GList */
 	to = camel_mime_message_get_recipients ((CamelMimeMessage *) message, CAMEL_RECIPIENT_TYPE_TO);
 	cc = camel_mime_message_get_recipients ((CamelMimeMessage *) message, CAMEL_RECIPIENT_TYPE_CC);
 	bcc = camel_mime_message_get_recipients ((CamelMimeMessage *) message, CAMEL_RECIPIENT_TYPE_BCC);
-	/*recipients = g_list_concat(to, cc);
-	recipients = g_list_concat(recipients, bcc);*/
+
+   /* get all of the To addresses into our recipient list */
+   len = ((CamelAddress *)to)->addresses->len;
+   for (index = 0; index < len; index++)
+   {
+      addr = g_ptr_array_index( ((CamelAddress *)to)->addresses, index);
+      recipients = g_list_append(recipients, g_strdup(addr->address));
+   }
+
+   /* get all of the Cc addresses into our recipient list */
+   len = ((CamelAddress *)cc)->addresses->len;
+   for (index = 0; index < len; index++)
+   {
+      addr = g_ptr_array_index( ((CamelAddress *)cc)->addresses, index);
+      recipients = g_list_append(recipients, g_strdup(addr->address));
+   }
+
+   /* get all of the Bcc addresses into our recipient list */
+   len = ((CamelAddress *)bcc)->addresses->len;
+   for (index = 0; index < len; index++)
+   {
+      addr = g_ptr_array_index( ((CamelAddress *)bcc)->addresses, index);
+      recipients = g_list_append(recipients, g_strdup(addr->address));
+   }
 
 	return _send_to (transport, message, recipients, ex);
 }

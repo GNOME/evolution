@@ -21,11 +21,6 @@
 #include "camel-mime-utils.h"
 #include "camel-internet-address.h"
 
-struct _address {
-	char *name;
-	char *address;
-};
-
 static int    internet_decode		(CamelAddress *, const char *raw);
 static char * internet_encode		(CamelAddress *);
 static void   internet_remove		(CamelAddress *, int index);

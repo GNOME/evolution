@@ -1,3 +1,12 @@
+2000-05-09  Jeffrey Stedfast  <fejj@stampede.org>
+
+	* camel-internet-address.[c,h]: Moved struct _address from
+	camel-internet-address.c to camel-internet-address.h
+	(hopefully this doesn't break anything...)
+	* providers/smtp/camel-smtp-transport.c: (_send): now
+	populates the recipient list with To, Cc, and Bcc addresses.
+	Should now be able to use this module.
+
 2000-05-09  Dan Winship  <danw@helixcode.com>
 
 	* providers/mbox/camel-mbox-folder.c (mbox_get_message_by_uid):
@@ -5,10 +14,10 @@
 
 2000-05-08  Jeffrey Stedfast  <fejj@stampede.org>
 
-	* camel-smtp-transport.c: no longer frees memory it shouldn't,
-	updated to reflect camel-stream changes involving CamelException
-	(perhaps it should use a different CamelException variable than
-	is passed to the camel smtp module?)
+	* providers/smtp/camel-smtp-transport.c: no longer frees memory it
+	shouldn't, updated to reflect camel-stream changes involving
+	CamelException (perhaps it should use a different CamelException
+	variable than is passed to the camel smtp module?)
 
 2000-05-08  Dan Winship  <danw@helixcode.com>
 
