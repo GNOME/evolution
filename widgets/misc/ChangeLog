@@ -1,3 +1,14 @@
+2004-01-28  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-filter-bar.c: Added a new property "state" which is READ-WRITE
+	so that we can save/restore state in the mailer code if we want
+	to. Sort of a work-in-progress toward fixing bug #53195.
+	(class_init): Ported to use the GObject property stuff instead of
+	the deprecated GtkArg stuff.
+	(get_property): Ported from impl_get_arg().
+	(set_property): New object::set_property implementation to set the
+	query state.
+
 2004-01-24  JP Rosevear <jpr@ximian.com>
 
 	* e-source-selector.c (cell_toggled_callback): if the source is

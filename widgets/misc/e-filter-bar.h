@@ -39,6 +39,7 @@ extern "C" {
  * name		 type		read/write	description
  * ---------------------------------------------------------------------------------
  * query         string         R               String representing query.
+ * state         string         RW              XML string representing the state.
  */
 
 #define E_FILTER_BAR_TYPE			(e_filter_bar_get_type ())

@@ -27,6 +27,11 @@
 #include <config.h>
 #endif
 
+#include <string.h>
+
+#include <libxml/tree.h>
+#include <libxml/parser.h>
+
 #include <libgnome/gnome-i18n.h>
 
 #include "e-dropdown-button.h"
@@ -45,8 +50,9 @@ static ESearchBarClass *parent_class = NULL;
 
 /* The arguments we take */
 enum {
-	ARG_0,
-	ARG_QUERY,
+	PROP_0,
+	PROP_QUERY,
+	PROP_STATE,
 };
 
 
@@ -534,22 +540,186 @@ rule_changed (FilterRule *rule, gpointer user_data)
 /* GtkObject methods.  */
 
 static void
-impl_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
+get_property (GObject *object, guint property_id, GValue *value, GParamSpec *pspec)
 {
-	EFilterBar *efb = E_FILTER_BAR(object);
+	EFilterBar *efb = (EFilterBar *) object;
 	
-	switch (arg_id) {
-	case ARG_QUERY:
+	switch (property_id) {
+	case PROP_QUERY:
 		if (efb->current_query) {
 			GString *out = g_string_new ("");
 			
 			filter_rule_build_code (efb->current_query, out);
-			GTK_VALUE_STRING (*arg) = out->str;
+			g_value_take_string (value, out->str);
 			g_string_free (out, FALSE);
 		} else {
-			GTK_VALUE_STRING (*arg) = NULL;
+			g_value_set_string (value, NULL);
 		}
 		break;
+	case PROP_STATE: {
+		/* FIXME: we should have ESearchBar save its own state to the xmlDocPtr */
+		char *xmlbuf, *text, buf[12];
+		int subitem_id, item_id, n;
+		xmlNodePtr root, node;
+		xmlDocPtr doc;
+		
+		text = e_search_bar_get_text ((ESearchBar *) efb);
+		item_id = e_search_bar_get_item_id ((ESearchBar *) efb);
+		subitem_id = e_search_bar_get_subitem_id ((ESearchBar *) efb);
+		
+		doc = xmlNewDoc ("1.0");
+		root = xmlNewDocNode (doc, NULL, "state", NULL);
+		xmlDocSetRootElement (doc, root);
+		
+		/* save the search-bar state */
+		node = xmlNewChild (root, NULL, "search-bar", NULL);
+		xmlSetProp (node, "text", text ? text : "");
+		sprintf (buf, "%d", item_id);
+		xmlSetProp (node, "item_id", buf);
+		sprintf (buf, "%d", subitem_id);
+		xmlSetProp (node, "subitem_id", buf);
+		g_free (text);
+		
+		/* save the filter-bar state */
+		node = xmlNewChild (root, NULL, "filter-bar", NULL);
+		xmlSetProp (node, "setquery", efb->setquery ? "true" : "false");
+		if (efb->current_query)
+			xmlAddChild (node, filter_rule_xml_encode (efb->current_query));
+		
+		xmlDocDumpMemory (doc, (xmlChar **) &xmlbuf, &n);
+		xmlFreeDoc (doc);
+		
+		/* remap to glib memory */
+		text = g_malloc (n + 1);
+		memcpy (text, xmlbuf, n);
+		text[n] = '\0';
+		xmlFree (xmlbuf);
+		
+		g_value_take_string (value, text);
+		
+		break; }
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+static int
+xml_get_prop_int (xmlNodePtr node, const char *prop)
+{
+	char *buf;
+	int ret;
+	
+	if ((buf = xmlGetProp (node, prop))) {
+		ret = strtol (buf, NULL, 10);
+		xmlFree (buf);
+	} else {
+		ret = -1;
+	}
+	
+	return ret;
+}
+
+static gboolean
+xml_get_prop_bool (xmlNodePtr node, const char *prop)
+{
+	gboolean bool;
+	char *buf;
+	
+	if ((buf = xmlGetProp (node, prop))) {
+		bool = !strcmp (buf, "true");
+		xmlFree (buf);
+	} else {
+		bool = FALSE;
+	}
+	
+	return bool;
+}
+
+static void
+set_property (GObject *object, guint property_id, const GValue *value, GParamSpec *pspec)
+{
+	EFilterBar *efb = (EFilterBar *) object;
+	xmlNodePtr root, node;
+	const char *state;
+	xmlDocPtr doc;
+	
+	switch (property_id) {
+	case PROP_STATE:
+		if ((state = g_value_get_string (value))) {
+			if (!(doc = xmlParseDoc ((char *) state)))
+				return;
+			
+			root = doc->children;
+			if (strcmp (root->name, "state") != 0) {
+				xmlFreeDoc (doc);
+				return;
+			}
+			
+			/* always need to restore the filter-bar state first */
+			node = root->children;
+			while (node != NULL) {
+				if (!strcmp (node->name, "filter-bar")) {
+					FilterRule *rule = NULL;
+					
+					efb->setquery = xml_get_prop_bool (node, "setquery");
+					
+					if ((node = node->children)) {
+						rule = filter_rule_new ();
+						if (filter_rule_xml_decode (rule, node, efb->context) != 0) {
+							g_object_unref (rule);
+							rule = NULL;
+						}
+					}
+					
+					if (efb->current_query)
+						g_object_unref (efb->current_query);
+					
+					efb->current_query = rule;
+					
+					break;
+				}
+				
+				node = node->next;
+			}
+			
+			/* now we can restore the search-bar state */
+			node = root->children;
+			while (node != NULL) {
+				if (!strcmp (node->name, "search-bar")) {
+					int subitem_id, item_id;
+					char *text;
+					
+					/* set the text first (it doesn't emit a signal) */
+					text = xmlGetProp (node, "text");
+					e_search_bar_set_text ((ESearchBar *) efb, text);
+					xmlFree (text);
+					
+					/* now set the item_id and subitem_id */
+					item_id = xml_get_prop_int (node, "item_id");
+					subitem_id = xml_get_prop_int (node, "subitem_id");
+					
+					if (subitem_id >= 0)
+						e_search_bar_set_ids ((ESearchBar *) efb, item_id, subitem_id);
+					else
+						e_search_bar_set_item_id ((ESearchBar *) efb, item_id);
+					
+					break;
+				}
+				
+				node = node->next;
+			}
+			
+			xmlFreeDoc (doc);
+		} else {
+			/* set default state? */
+			e_search_bar_set_text ((ESearchBar *) efb, "");
+			e_search_bar_set_item_id ((ESearchBar *) efb, 0);
+		}
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;	
 	}
 }
 
@@ -616,23 +786,26 @@ dispose (GObject *object)
 static void
 class_init (EFilterBarClass *klass)
 {
-	GObjectClass *object_class;
-	GtkObjectClass *gtk_object_class;
-	ESearchBarClass *esb_class = (ESearchBarClass *)klass;
+	GObjectClass *object_class = (GObjectClass *) klass;
+	ESearchBarClass *esb_class = (ESearchBarClass *) klass;
+	GParamSpec *pspec;
 	
-	object_class = G_OBJECT_CLASS (klass);
-	gtk_object_class = GTK_OBJECT_CLASS (klass);
-	
-	parent_class = g_type_class_ref(e_search_bar_get_type ());
+	parent_class = g_type_class_ref (e_search_bar_get_type ());
 	
 	object_class->dispose = dispose;
-	
-	gtk_object_class->get_arg = impl_get_arg;
+	object_class->get_property = get_property;
+	object_class->set_property = set_property;
 	
 	esb_class->set_menu = set_menu;
 	esb_class->set_option = set_option;
 	
-	gtk_object_add_arg_type ("EFilterBar::query", GTK_TYPE_STRING, GTK_ARG_READABLE, ARG_QUERY);
+	pspec = g_param_spec_string ("query", NULL, NULL, NULL, G_PARAM_READABLE);
+	g_object_class_install_property (object_class, PROP_QUERY, pspec);
+	
+	pspec = g_param_spec_string ("state", NULL, NULL, NULL, G_PARAM_READWRITE);
+	g_object_class_install_property (object_class, PROP_STATE, pspec);
+	
+	/*gtk_object_add_arg_type ("EFilterBar::query", GTK_TYPE_STRING, GTK_ARG_READABLE, ARG_QUERY);*/
 	
 #if 0
 	esb_signals [QUERY_CHANGED] =
