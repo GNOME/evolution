@@ -1,3 +1,8 @@
+2001-06-05  Jason Leach  <jleach@ximian.com>
+
+	* evolution.xml: Fix a little thing where it was actually saying
+	"_Delete this folder" in the statusbar.
+
 2001-05-31  Chris Toshok  <toshok@ximian.com>
 
 	* evolution-addressbook.xml: change Print Preview's name to
