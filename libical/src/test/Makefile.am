@@ -1,5 +1,5 @@
 
-noinst_PROGRAMS = copycluster regression parser findobj storage stow recur testmime
+noinst_PROGRAMS = copycluster regression parser findobj storage stow recur testmime testvcal
 
 LDADD = ../libical/libical.a ../libicalss/libicalss.a ../libicalvcal/libicalvcal.a 
 INCLUDES = \
@@ -18,6 +18,6 @@ regression_SOURCES = regression.c
 parser_SOURCES = icaltestparser.c
 storage_SOURCES = storage.c
 stow_SOURCES = stow.c
-testvcal_SOURCES =testvcal.c
+testvcal_SOURCES = testvcal.c
 recur_SOURCES = recur.c 
 test_mime = testmime.c

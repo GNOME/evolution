@@ -1,3 +1,7 @@
+2000-08-24  Federico Mena Quintero  <federico@helixcode.com>
+
+	* src/test/Makefile.am: Make it work.
+
 2000-08-04    <eric@softwarestudio.org>
 	
 	* stow.c Changed stow to write data to a file ( icalfileset) not a
