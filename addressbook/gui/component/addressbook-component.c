@@ -209,7 +209,7 @@ delete_addressbook_cb (GtkWidget *widget, AddressbookComponent *comp)
 		GTK_DIALOG_MODAL,
 		GTK_MESSAGE_QUESTION,
 		GTK_BUTTONS_YES_NO,
-		_("Addressbook '%s' will be removed. Are you sure you want to continue?"),
+		_("Address Book '%s' will be removed. Are you sure you want to continue?"),
 		e_source_peek_name (selected_source));
 	gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_YES) {
@@ -267,7 +267,7 @@ fill_popup_menu_callback (ESourceSelector *selector, GtkMenu *menu, AddressbookC
 
 	sensitive = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (comp->priv->source_selector)) ? TRUE : FALSE;
 
-	add_popup_menu_item (menu, _("New Addressbook"), NULL, G_CALLBACK (new_addressbook_cb), comp, TRUE);
+	add_popup_menu_item (menu, _("New Address Book"), NULL, G_CALLBACK (new_addressbook_cb), comp, TRUE);
 	add_popup_menu_item (menu, _("Delete"), GTK_STOCK_DELETE, G_CALLBACK (delete_addressbook_cb), comp, sensitive);
 	add_popup_menu_item (menu, _("Properties..."), NULL, G_CALLBACK (edit_addressbook_cb), comp, sensitive);
 }

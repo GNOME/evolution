@@ -885,7 +885,7 @@ eab_popup_control_construct (EABPopupControl *pop)
 	gtk_box_pack_start (GTK_BOX (pop->main_vbox), pop->generic_view, TRUE, TRUE, 0);
 	gtk_widget_show_all (pop->generic_view);
 
-	pop->query_msg = gtk_label_new (_("Querying Addressbook..."));
+	pop->query_msg = gtk_label_new (_("Querying Address Book..."));
 	gtk_box_pack_start (GTK_BOX (pop->main_vbox), pop->query_msg, TRUE, TRUE, 0);
 	gtk_widget_show (pop->query_msg);
 
