@@ -1,3 +1,9 @@
+2002-06-10  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/alarm-notify/alarm-notify.c (alarm_notify_add_calendar): removed
+	already loaded client when asked to be opened again, and
+	*really* re-open it again.
+
 2002-06-02  Rodrigo Moya <rodrigo@ximian.com>
 
 	* pcs/query.c: keep a reference to the Query object, to avoid
