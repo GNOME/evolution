@@ -210,6 +210,19 @@ load_all_folders (ELocalStorage *local_storage)
 	return TRUE;
 }
 
+static EStorageResult
+storage_result_from_component_result (EvolutionShellComponentResult result)
+{
+	switch (result) {
+	case EVOLUTION_SHELL_COMPONENT_PERMISSIONDENIED:
+		return E_STORAGE_PERMISSIONDENIED;
+	case EVOLUTION_SHELL_COMPONENT_NOSPACE:
+		return E_STORAGE_NOSPACE; 
+	default:
+		return E_STORAGE_GENERICERROR;
+	}
+}
+
 
 /* Callbacks for the async methods invoked on the `Evolution::ShellComponent's.  */
 
@@ -783,14 +796,15 @@ async_xfer_folder_step (ELocalStorage *local_storage,
 }
 
 static void
-async_xfer_folder_complete (XferData *xfer_data)
+async_xfer_folder_complete (XferData *xfer_data,
+			    gboolean success)
 {
 	ELocalStorage *local_storage;
 	GList *p;
 
 	local_storage = xfer_data->local_storage;
 
-	if (xfer_data->remove_source) {
+	if (success && xfer_data->remove_source) {
 		EStorageResult result;
 
 		/* Remove all the source physical directories, and also the
@@ -844,8 +858,10 @@ async_xfer_folder_callback (EvolutionShellComponentClient *shell_component_clien
 	item = (XferItem *) xfer_data->current_folder_item->data;
 
 	if (result != EVOLUTION_SHELL_COMPONENT_OK) {
-		(* xfer_data->callback) (E_STORAGE (xfer_data->local_storage), result, xfer_data->callback_data);
-		async_xfer_folder_complete (xfer_data);
+		(* xfer_data->callback) (E_STORAGE (xfer_data->local_storage),
+					 storage_result_from_component_result (result),
+					 xfer_data->callback_data);
+		async_xfer_folder_complete (xfer_data, FALSE);
 		return;
 	}
 
@@ -865,9 +881,8 @@ async_xfer_folder_callback (EvolutionShellComponentClient *shell_component_clien
 
 	xfer_data->current_folder_item = xfer_data->current_folder_item->next;
 	if (xfer_data->current_folder_item == NULL) {
-		(* xfer_data->callback) (E_STORAGE (xfer_data->local_storage),
-					 EVOLUTION_SHELL_COMPONENT_OK, xfer_data->callback_data);
-		async_xfer_folder_complete (xfer_data);
+		(* xfer_data->callback) (E_STORAGE (xfer_data->local_storage), E_STORAGE_OK, xfer_data->callback_data);
+		async_xfer_folder_complete (xfer_data, TRUE);
 		return;
 	}
 

@@ -1,3 +1,11 @@
+2001-10-24  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-local-storage.c (storage_result_from_component_result): New.
+	(async_xfer_folder_callback): Use it so we get the right error
+	message.
+	(async_xfer_folder_complete): New arg @success.  Don't remove the
+	directory and the metadata if @success is %FALSE.
+
 2001-10-23  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-folder-commands.c (rename_callback_data_new): Get the
