@@ -290,6 +290,7 @@ load(RuleContext *rc, const char *system, const char *user)
 	xmlNodePtr set, rule, root;
 	struct _part_set_map *part_map;
 	struct _rule_set_map *rule_map;
+	struct stat st;
 	
 	rule_context_set_error(rc, NULL);
 	
@@ -310,7 +311,9 @@ load(RuleContext *rc, const char *system, const char *user)
 		return -1;
 	}
 	/* doesn't matter if this doens't exist */
-	rc->user = xmlParseFile(user);
+	rc->user = NULL;
+	if (stat (user, &st) != -1 && S_ISREG (st.st_mode))
+		rc->user = xmlParseFile(user);
 	
 	/* now parse structure */
 	/* get rule parts */
