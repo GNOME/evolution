@@ -1,3 +1,24 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/*
+ *  Author: Vivek Jain <jvivek@novell.com>
+ *
+ *  Copyright 2004 Novell, Inc.
+ *
+ *  This program is free software; you can redistribute it and/or
+ *  modify it under the terms of version 2 of the GNU General Public
+ *  License as published by the Free Software Foundation.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
+ *
+ */
+
 #ifdef HAVE_CONFIG_H
 #  include <config.h>
 #endif
@@ -32,7 +53,20 @@ static void share_folder_finalise   (GObject *obj);
 
 static void free_node(EShUsers *user);
 static void free_all(ShareFolder *sf);
-
+static void update_list_update (ShareFolder *sf);
+static int find_node(GList *list, gchar *email);
+static void free_all(ShareFolder *sf);
+static void get_container_list (ShareFolder *sf);
+static void user_selected(GtkTreeSelection *selection, ShareFolder *sf);
+static void not_shared_clicked (GtkRadioButton *button, ShareFolder *sf);
+static void shared_clicked (GtkRadioButton *button, ShareFolder *sf);
+static void add_clicked(GtkButton *button, ShareFolder *sf);
+static void remove_clicked(GtkButton *button, ShareFolder *sf);
+static void not_ok_clicked(GtkButton *button, ShareFolder *sf);
+static void not_cancel_clicked(GtkButton *button, GtkWidget *window);
+static void not_cancel_clicked(GtkButton *button, GtkWidget *window);
+static void share_folder_construct (ShareFolder *sf);
+GType share_folder_get_type (void);
 
 static GtkVBoxClass *parent_class = NULL;
 
@@ -50,7 +84,7 @@ share_folder_get_type (void)
 			NULL, NULL,
 			sizeof (ShareFolder),
 			0,
-			(GInstanceInitFunc) share_folder_init,
+			(GInstanceInitFunc) share_folder_init
 		};
 
 		type = g_type_register_static (gtk_vbox_get_type (), "ShareFolder", &info, 0);
@@ -175,7 +209,7 @@ free_all(ShareFolder *sf)
 
 }
 
-
+/* updates the rights in case changed in the prev selection*/
 static void 
 update_list_update (ShareFolder *sf)
 {
@@ -197,9 +231,27 @@ update_list_update (ShareFolder *sf)
 	if(delete){
 		rights = rights|0x4;
 	}
+	
 	if(sf->update_list){
 		tmp = g_list_last(sf->update_list);
 		user = g_list_nth_data(tmp, 0);
+
+	if (sf->new_list && user->email){
+		sf->duplicate = find_node (sf->new_list, user->email);
+		if (sf->duplicate != -1) {
+			sf->update_list = g_list_remove(sf->update_list, user);
+			free_node (user);
+			if (g_list_length (sf->update_list) == 0)
+				sf->update_list = NULL;
+			user = g_list_nth_data (sf->new_list, sf->duplicate);	
+			sf->duplicate = -1;
+			if(user->rights != rights)
+				user->rights= rights;
+
+			return ;
+		}
+	}
+
 		if(user){
 			if(user->rights != rights){
 				user->rights= rights;
@@ -227,14 +279,14 @@ display_container (EGwContainer *container , ShareFolder *sf)
 	gboolean byme = FALSE;
 	gboolean tome = FALSE;
 
-	id_shared = e_gw_container_get_id(container);
+	id_shared = g_strdup(e_gw_container_get_id(container));
 	if( g_str_has_suffix (id_shared, "35")){
 		tail = g_strsplit(id_shared, "@", 2);
 		id_unshared = g_strconcat(tail[0], "@", "13", NULL);
 		g_strfreev(tail);
 	}
 
-	if((!strcmp(id_unshared, sf->container_id)) ||(!strcmp(id_shared, sf->container_id)) ){
+	if((!strcmp(id_unshared, sf->container_id)) || (!strcmp(id_shared, sf->container_id)) ){
 		sf->gcontainer = container;
 		byme = e_gw_container_get_is_shared_by_me(container);
 		tome = e_gw_container_get_is_shared_to_me(container);
@@ -242,22 +294,23 @@ display_container (EGwContainer *container , ShareFolder *sf)
 
 			sf->users = e_gw_container_get_length (sf->gcontainer);
 
-			if(sf->users != 0){
+			if(sf->users != 0) {
 				sf->is_shared = TRUE;
 				gtk_toggle_button_set_active((GtkToggleButton *) sf->shared, TRUE);
 				shared_clicked(sf->shared , sf);
 				if(tome){
-					gtk_widget_set_sensitive (sf->table, FALSE);
-					gtk_widget_set_sensitive (sf->shared, FALSE);
-					gtk_widget_set_sensitive (sf->not_shared, FALSE);
+					gtk_widget_set_sensitive (GTK_WIDGET (sf->table), FALSE);
+					gtk_widget_set_sensitive (GTK_WIDGET (sf->shared), FALSE);
+					gtk_widget_set_sensitive (GTK_WIDGET (sf->not_shared), FALSE);
 
 				}
+				 gtk_widget_set_sensitive (GTK_WIDGET (sf->table), TRUE);
 
 				gchar *email= NULL;
 				gchar *msg;
-				for(i = 0; i < sf->users; i++){	
+				for(i = 0; i < sf->users; i++) {	
 
-					email = g_strdup (e_gw_container_get_email(container, i));
+					email = g_strdup (e_gw_container_get_email (sf->gcontainer, i));
 					msg = g_strdup_printf ("%s", email);
 					gtk_list_store_append (GTK_LIST_STORE (sf->model), &(sf->iter));
 					gtk_list_store_set (GTK_LIST_STORE (sf->model), &(sf->iter), 0, msg, -1);			 
@@ -317,20 +370,20 @@ user_selected(GtkTreeSelection *selection, ShareFolder *sf)
 
 	gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
 	if (gtk_tree_selection_get_selected (selection, &(sf->model), &(sf->iter))){
-		gtk_widget_set_sensitive (sf->frame, TRUE);
-		gtk_widget_set_sensitive (sf->remove, TRUE);
+		gtk_widget_set_sensitive (GTK_WIDGET (sf->frame), TRUE);
+		gtk_widget_set_sensitive (GTK_WIDGET (sf->remove), TRUE);
 
-		gtk_toggle_button_set_active (sf->add, FALSE);	
-		gtk_toggle_button_set_active (sf->del, FALSE);	
-		gtk_toggle_button_set_active (sf->edit, FALSE);
-		gtk_tree_model_get (sf->model, &(sf->iter), 0, &email, -1);
-		index = (gint)g_ascii_strtod(gtk_tree_model_get_string_from_iter(sf->model, &(sf->iter)), NULL);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON ( sf->add), FALSE);	
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (sf->del), FALSE);	
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (sf->edit), FALSE);
+		gtk_tree_model_get (GTK_LIST_STORE (sf->model), &(sf->iter), 0, &email, -1);
+		index = (gint)g_ascii_strtod(gtk_tree_model_get_string_from_iter(GTK_LIST_STORE (sf->model), &(sf->iter)), NULL);
 
-		gtk_label_set_text (sf->user_rights, email); 
+		gtk_label_set_text (GTK_LABEL (sf->user_rights), email); 
 
 		sf->duplicate = find_node(sf->update_list, email);
-		if( sf->duplicate == -1){
-			if (sf->shared && index < sf->users){
+		if( sf->duplicate == -1) {
+			if (sf->shared && index < sf->users) {
 				rights = e_gw_container_get_rights (sf->gcontainer, email);
 			} else {
 				user = g_list_nth_data (sf->new_list, index - sf->users);
@@ -341,22 +394,22 @@ user_selected(GtkTreeSelection *selection, ShareFolder *sf)
 			rights = user->rights;
 			sf->duplicate = -1;
 		}
-		if(rights & 0x1)
-			gtk_toggle_button_set_active (sf->add, TRUE);		
-		if(rights & 0x2)
-			gtk_toggle_button_set_active (sf->edit, TRUE);		
-		if(rights & 0x4)
-			gtk_toggle_button_set_active (sf->del, TRUE);
+		if (rights & 0x1)
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (sf->add), TRUE);		
+		if (rights & 0x2)
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (sf->edit), TRUE);		
+		if (rights & 0x4)
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (sf->del), TRUE);
 
 
 		user = g_new0(EShUsers, 1);	
 		user->email = g_strdup (email);
 		user->rights = rights;
 
-		if(sf->duplicate != -1) {
+		if (sf->duplicate != -1) {
 			EShUsers *usr = NULL;
 			usr = g_list_nth_data (sf->update_list, sf->duplicate);
-			if(usr){
+			if (usr) {
 				sf->update_list = g_list_remove (sf->update_list, usr);
 				free_node (usr);
 			}
@@ -369,8 +422,8 @@ user_selected(GtkTreeSelection *selection, ShareFolder *sf)
 		length = g_list_length (sf->update_list);
 	}
 	else {
-		gtk_widget_set_sensitive (sf->frame, FALSE);
-		gtk_widget_set_sensitive (sf->remove, FALSE);
+		gtk_widget_set_sensitive (GTK_WIDGET (sf->frame), FALSE);
+		gtk_widget_set_sensitive (GTK_WIDGET (sf->remove), FALSE);
 
 	}
 
@@ -386,7 +439,7 @@ static void
 shared_clicked (GtkRadioButton *button, ShareFolder *sf)
 {
 
-	gtk_widget_set_sensitive (sf->table ,TRUE);
+	gtk_widget_set_sensitive (GTK_WIDGET (sf->table) ,TRUE);
 	sf->flag_for_ok = 0;        
 
 }
@@ -396,17 +449,17 @@ not_shared_clicked (GtkRadioButton *button, ShareFolder *sf)
 {
 	if (!sf->is_shared) {
 		sf->flag_for_ok = 0;
-	}else{
+	} else {
 		sf->flag_for_ok = 2;
 	}
 
-	gtk_widget_set_sensitive (sf->table, FALSE);
+	gtk_widget_set_sensitive (GTK_WIDGET (sf->table), FALSE);
 
 }
 
 
-void
-add_clicked(GtkButton       *button, ShareFolder *sf)
+static void
+add_clicked(GtkButton *button, ShareFolder *sf)
 {
 	static gchar *email = NULL;
 	EShUsers *user = NULL;
@@ -416,18 +469,19 @@ add_clicked(GtkButton       *button, ShareFolder *sf)
 	gchar *msg = NULL;
 	gboolean add,edit, delete;
 
-	email = gtk_entry_get_text (sf->name);
+	email = gtk_entry_get_text (GTK_ENTRY (sf->name));
 	if (strcmp (email, "" )) {
 		update_list_update (sf);	
 		user = g_new0 (EShUsers, 1);
 		user->email = g_strdup(email);
-	}else{ 
+	} else { 
 		return;	
+	
 	}
 	/*check whether already exists*/
 	e_gw_container_get_user_list (sf->gcontainer, &list); 
 
-	if(list && user->email){
+	if (list && user->email){
 
 		sf->duplicate = find_node (list, user->email);
 		if (sf->duplicate != -1) {	
@@ -435,7 +489,7 @@ add_clicked(GtkButton       *button, ShareFolder *sf)
 			return ;
 		}
 	}
-	if(sf->new_list && user->email){
+	if (sf->new_list && user->email){
 
 		sf->duplicate = find_node (sf->new_list, user->email);
 		if (sf->duplicate != -1) {	
@@ -444,21 +498,7 @@ add_clicked(GtkButton       *button, ShareFolder *sf)
 		}
 	}
 
-	add = gtk_toggle_button_get_active (sf->add);
-	edit = gtk_toggle_button_get_active (sf->edit);
-	delete = gtk_toggle_button_get_active (sf->del);
-	if(add) {
-		rights = rights|0x1;
-	}	
-	if(edit) {
-		rights = rights|0x2;
-	}
-	if(delete) {
-		rights = rights|0x4;
-	}
-
-
-	e_gw_container_set_rights (user, rights);
+	user->rights = rights;
 	msg = g_strdup (user->email);
 	gtk_list_store_append (GTK_LIST_STORE (sf->model), &(sf->iter));
 	gtk_list_store_set (GTK_LIST_STORE (sf->model), &(sf->iter), 0, msg, -1);
@@ -470,7 +510,6 @@ add_clicked(GtkButton       *button, ShareFolder *sf)
 
 	sf->flag_for_ok = 0;
 	gtk_entry_set_text (sf->name, "");	
-
 }
 
 
@@ -484,7 +523,7 @@ remove_clicked(GtkButton *button, ShareFolder *sf)
 	gchar *removed_addr;
 
 	/*check whether this is required*/
-	gtk_tree_model_get (sf->model, &(sf->iter), 0, &email, -1);
+	gtk_tree_model_get (GTK_LIST_STORE(sf->model), &(sf->iter), 0, &email, -1);
 
 	list = g_list_last (sf->update_list);
 	usr = g_list_nth_data (list, 0);
@@ -544,17 +583,17 @@ share_folder (ShareFolder *sf)
 
 
 				if (sf->new_list) {
-					if (e_gw_connection_share_folder (sf->cnc, sf->gcontainer, sf->new_list, sf->sub, sf->mesg, 0) == E_GW_CONNECTION_STATUS_OK);
+					if (e_gw_connection_share_folder (sf->cnc, sf->container_id, sf->new_list, sf->sub, sf->mesg, 0) == E_GW_CONNECTION_STATUS_OK);
 				}
 
 				if (sf->update_list) {
-					if (e_gw_connection_share_folder (sf->cnc, sf->gcontainer, sf->update_list, sf->sub, sf->mesg, 2) == E_GW_CONNECTION_STATUS_OK);
+					if (e_gw_connection_share_folder (sf->cnc, sf->container_id, sf->update_list, sf->sub, sf->mesg, 2) == E_GW_CONNECTION_STATUS_OK);
 				}
 			}  
 
 
 			if (sf->remove_list) {
-				if (e_gw_connection_share_folder (sf->cnc, sf->gcontainer, sf->remove_list, sf->sub, sf->mesg, 1) == E_GW_CONNECTION_STATUS_OK);
+				if (e_gw_connection_share_folder (sf->cnc, sf->container_id, sf->remove_list, sf->sub, sf->mesg, 1) == E_GW_CONNECTION_STATUS_OK);
 			}
 		}
 		else
@@ -591,7 +630,7 @@ not_ok_clicked(GtkButton *button, ShareFolder *sf)
 	if(msg)
 		sf->mesg = msg;
 
-	gtk_widget_destroy(sf->window);
+	gtk_widget_destroy (GTK_WIDGET (sf->window));
 
 
 }
@@ -608,14 +647,13 @@ notification_clicked(GtkButton *button, ShareFolder *sf)
 {
 
 	static  GladeXML *xmln;
-	GtkWidget *not_ok;
-	GtkWidget *not_cancel;
-	int length = 0;
-
+	GtkButton *not_ok;
+	GtkButton *not_cancel;
+	
 	xmln = glade_xml_new (EVOLUTION_GLADEDIR "/properties.glade" ,"window1", NULL);
 	sf->window = GTK_WINDOW (glade_xml_get_widget (xmln, "window1"));
 	sf->subject = GTK_ENTRY (glade_xml_get_widget (xmln, "entry3"));
-	gtk_entry_set_text(sf->subject , sf->sub);
+	gtk_entry_set_text(GTK_ENTRY (sf->subject) , sf->sub);
 
 	sf->message = GTK_TEXT_VIEW (glade_xml_get_widget (xmln, "textview1"));
 	not_ok = GTK_BUTTON (glade_xml_get_widget (xmln, "nOK"));
@@ -639,9 +677,8 @@ share_folder_construct (ShareFolder *sf)
 	sf->vbox = GTK_VBOX(glade_xml_get_widget(sf->xml, "vboxSharing"));
 
 
-	sf->table = GTK_TABLE (glade_xml_get_widget (sf->xml, "table26"));
-	if(!sf->table)
-	gtk_widget_set_sensitive (sf->table, FALSE);
+	sf->table = GTK_WIDGET (glade_xml_get_widget (sf->xml, "table26"));
+	gtk_widget_set_sensitive (GTK_WIDGET (sf->table), FALSE);
 
 	sf->shared = GTK_RADIO_BUTTON (glade_xml_get_widget (sf->xml, "radShared"));
 	g_signal_connect ((gpointer) sf->shared, "clicked", G_CALLBACK (shared_clicked),  sf);
@@ -651,14 +688,14 @@ share_folder_construct (ShareFolder *sf)
 
 
 	sf->add_book = GTK_BUTTON (glade_xml_get_widget (sf->xml, "Address"));
-	gtk_widget_set_sensitive (sf->add_book, FALSE);
+	gtk_widget_set_sensitive (GTK_WIDGET (sf->add_book), FALSE);
 
 	sf->add_button = GTK_BUTTON (glade_xml_get_widget(sf->xml, "Add"));
 	g_signal_connect((GtkWidget *) sf->add_button, "clicked", G_CALLBACK (add_clicked), sf);
 
 	sf->remove = GTK_BUTTON(glade_xml_get_widget(sf->xml, "Remove"));
 	g_signal_connect ((GtkWidget *) sf->remove, "clicked", G_CALLBACK (remove_clicked), sf);
-	gtk_widget_set_sensitive(sf->remove, FALSE);
+	gtk_widget_set_sensitive(GTK_WIDGET (sf->remove), FALSE);
 
 	sf->notification = GTK_BUTTON (glade_xml_get_widget (sf->xml, "Notification"));
 	g_signal_connect((GtkWidget *) sf->notification, "clicked", G_CALLBACK (notification_clicked), sf);
@@ -666,10 +703,10 @@ share_folder_construct (ShareFolder *sf)
 
 	sf->name = GTK_ENTRY (glade_xml_get_widget (sf->xml, "entry2"));
 	/*TODO:connect name and label*/
-	gtk_widget_show(sf->name);
+	gtk_widget_show (GTK_WIDGET(sf->name));
 
 	sf->frame = GTK_FRAME (glade_xml_get_widget(sf->xml, "frame1"));
-	gtk_widget_set_sensitive(sf->frame, FALSE);
+	gtk_widget_set_sensitive(GTK_WIDGET (sf->frame), FALSE);
 
 
 	sf->add = GTK_TOGGLE_BUTTON (glade_xml_get_widget (sf->xml, "checkbutton1"));
@@ -680,7 +717,7 @@ share_folder_construct (ShareFolder *sf)
 
 	sf->user_rights = GTK_LABEL (glade_xml_get_widget (sf->xml,"label550"));
 
-	sf->scrolledwindow = GTK_SCROLLED_WINDOW (glade_xml_get_widget (sf->xml,"scrolledwindow1"));
+	sf->scrolledwindow = GTK_WIDGET (glade_xml_get_widget (sf->xml,"scrolledwindow1"));
 
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sf->scrolledwindow), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
@@ -688,7 +725,7 @@ share_folder_construct (ShareFolder *sf)
 	sf->user_list = gtk_tree_view_new ();
 	gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (sf->scrolledwindow),  sf->user_list);
 	gtk_tree_view_set_model (GTK_TREE_VIEW (sf->user_list), GTK_TREE_MODEL (sf->model));
-	gtk_widget_show (sf->user_list);
+	gtk_widget_show (GTK_WIDGET (sf->user_list));
 
 
 	sf->cell = gtk_cell_renderer_text_new ();
@@ -696,7 +733,7 @@ share_folder_construct (ShareFolder *sf)
 	gtk_tree_view_append_column (GTK_TREE_VIEW (sf->user_list),
 			GTK_TREE_VIEW_COLUMN (sf->column));
 
-	g_signal_connect(gtk_tree_view_get_selection(sf->user_list), "changed", G_CALLBACK (user_selected), sf);
+	g_signal_connect(gtk_tree_view_get_selection(GTK_TREE_VIEW (sf->user_list)), "changed", G_CALLBACK (user_selected), sf);
 
 
 }

@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- *  Authors: Vivek Jain <jvivek@novell.com>
+ *  Author: Vivek Jain <jvivek@novell.com>
  *
  *  Copyright 2004 Novell, Inc.
  *
@@ -39,6 +39,7 @@
 #include <mail/em-folder-properties.h>
 #include <mail/em-folder-tree.h>
 #include <mail/em-folder-selector.h>
+
 #include <camel/providers/groupwise/camel-groupwise-store.h>
 #include <camel/providers/groupwise/camel-groupwise-folder.h>
 #include <e-gw-container.h>
@@ -64,10 +65,6 @@ void
 shared_folder_commit (EPlugin *ep, EConfigTarget *target)
 {
 
-	gchar *mesg = "Folder shared to you";
-	gchar *sub = "Shared folder notification";
-	ShareFolder *sf;
-	gchar *check = NULL;
 	if(common)
 		share_folder (common);
 	g_object_run_dispose(common);
@@ -81,9 +78,6 @@ shared_folder_abort (EPlugin *ep, EConfigTarget *target)
 {
 	printf ("aborttttttt**********\n");
 }
-
-
-
 
 
 
@@ -115,13 +109,24 @@ org_gnome_shared_folder_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_d
 		CamelGroupwiseStore *gw_store = CAMEL_GROUPWISE_STORE (folder->parent_store) ;
 		CamelGroupwiseStorePrivate *priv = gw_store->priv ;
 
-		id = g_strdup (container_id_lookup(priv,sub));
-		cnc = cnc_lookup (priv);
-		g_free (sub);
+		if (priv && sub) {
+
+			id = g_strdup (container_id_lookup(priv,sub));
+			cnc = cnc_lookup (priv);
+		} else {
+			cnc = NULL;
+			id = NULL;
+		}
+		
 		g_free (folderuri);
 		
-		sharing_tab = share_folder_new (cnc, id);
+		if (cnc && id)
+			sharing_tab = share_folder_new (cnc, id);
+		else 
+			return NULL;
+
 		gtk_notebook_append_page((GtkNotebook *) hook_data->parent, sharing_tab->vbox, gtk_label_new_with_mnemonic N_("Sharing"));
+	
 		common = sharing_tab;
 		
 
