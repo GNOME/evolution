@@ -1,5 +1,13 @@
 2001-07-25  Jason Leach  <jleach@ximian.com>
 
+	* Makefile.am (INCLUDES): $(BONOBO_CONF_CFLAGS) was here twice,
+	took out one of them.
+
+	* e-shell-view.c (socket_destroy_cb): Mem leak fix.  Thanks to the
+	amazing Jacob B. Bug #5054.
+
+2001-07-25  Jason Leach  <jleach@ximian.com>
+
 	* e-task-widget.c: #include <libgnome/gnome-defs.h> and
 	<libgnome/gnome-i18n.h> instead of the full <libgnome/libgnome.h>,
 	as noted by a comment here.

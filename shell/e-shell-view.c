@@ -1592,12 +1592,13 @@ socket_destroy_cb (GtkWidget *socket_widget, gpointer data)
 
 	uri = (const char *) gtk_object_get_data (GTK_OBJECT (socket_widget), "e_shell_view_folder_uri");
 
-	/* Strdup here as the string will be freed when the socket is destroyed.  */
+	/* Strdup here as the string will be freed when the socket is destroyed. */
  	copy_of_uri = g_strdup (uri);
 
 	control = g_hash_table_lookup (priv->uri_to_control, uri);
 	if (control == NULL) {
 		g_warning ("What?! Destroyed socket for non-existing URI?  -- %s", uri);
+		g_free (copy_of_uri);
 		return;
 	}
 
