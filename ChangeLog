@@ -1,3 +1,7 @@
+2001-08-15  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* omf-install/*: Added this for integration with scrollkeeper.
+	
 2001-08-14  Dan Winship  <danw@ximian.com>
 
 	* configure.in (LDAP_LIBS): Remove an obvious typo reported by
