@@ -27,6 +27,10 @@
 #include <gnome.h>
 #include <gal/util/e-util.h>
 #include <gal/e-table/e-table-scrolled.h>
+#include <gal/menus/gal-view-collection.h>
+#include <gal/menus/gal-view-factory-etable.h>
+#include <gal/menus/gal-view-etable.h>
+#include "widgets/menus/gal-view-menus.h"
 #include "dialogs/task-editor.h"
 #include "e-calendar-table.h"
 #include "component-factory.h"
@@ -518,3 +522,46 @@ e_tasks_add_menu_item		(gpointer key,
 	return FALSE;
 }
 
+static void
+display_view(GalViewCollection *collection,
+	     GalView *view,
+	     gpointer data)
+{
+	ETasks *tasks = data;
+	if (GAL_IS_VIEW_ETABLE(view)) {
+		e_table_set_state_object (e_table_scrolled_get_table (E_TABLE_SCROLLED (E_CALENDAR_TABLE (tasks->priv->tasks_view)->etable)), GAL_VIEW_ETABLE (view)->state);
+	}
+}
+
+void
+e_tasks_setup_menus (ETasks            *tasks,
+		     BonoboUIComponent *uic)
+{
+	GalViewCollection *collection;
+	GalViewMenus *views;
+	GalViewFactory *factory;
+	ETableSpecification *spec;
+
+	collection = gal_view_collection_new();
+	/* FIXME: Memory leak. */
+	gal_view_collection_set_storage_directories (collection,
+						     EVOLUTION_DATADIR "/evolution/views/tasks/",
+						     gnome_util_prepend_user_home ("/evolution/views/tasks/"));
+
+	spec = e_table_specification_new ();
+	e_table_specification_load_from_string (spec, e_calendar_table_get_spec());
+
+	factory = gal_view_factory_etable_new (spec);
+	gal_view_collection_add_factory (collection, factory);
+	gtk_object_sink (GTK_OBJECT (factory));
+
+	gal_view_collection_load (collection);
+
+	views = gal_view_menus_new (collection);
+	gal_view_menus_apply (views, uic, NULL); /* This function probably needs to sink the views object. */
+	gtk_signal_connect (GTK_OBJECT (collection), "display_view",
+			    display_view, tasks);
+	/*	gtk_object_sink(GTK_OBJECT(views)); */
+
+	gtk_object_sink (GTK_OBJECT (collection));
+}

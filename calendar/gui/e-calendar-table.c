@@ -682,3 +682,9 @@ e_calendar_table_on_row_deleted		(ETableModel	*model,
 	   being efficient. It doesn't happen often. */
 	e_calendar_table_apply_filter (cal_table);
 }
+
+const gchar *
+e_calendar_table_get_spec (void)
+{
+	return E_CALENDAR_TABLE_SPEC;
+}

@@ -27,7 +27,7 @@
 #define _E_TASKS_H_
 
 #include <cal-client/cal-client.h>
-
+#include <bonobo.h>
 
 #define E_TYPE_TASKS            (e_tasks_get_type ())
 #define E_TASKS(obj)            (GTK_CHECK_CAST ((obj), E_TYPE_TASKS, ETasks))
@@ -52,17 +52,20 @@ struct _ETasksClass {
 };
 
 
-GtkType    e_tasks_get_type         	(void);
-GtkWidget *e_tasks_construct		(ETasks		*tasks);
+GtkType    e_tasks_get_type        (void);
+GtkWidget *e_tasks_construct       (ETasks            *tasks);
 
-GtkWidget *e_tasks_new			(void);
+GtkWidget *e_tasks_new             (void);
 
-gboolean   e_tasks_open			(ETasks		*tasks,
-					 char		*file);
+gboolean   e_tasks_open            (ETasks            *tasks,
+				    char              *file);
 
-CalClient *e_tasks_get_cal_client	(ETasks		*tasks);
+CalClient *e_tasks_get_cal_client  (ETasks            *tasks);
 
-void	   e_tasks_new_task		(ETasks		*tasks);
+void       e_tasks_new_task        (ETasks            *tasks);
+
+void       e_tasks_setup_menus     (ETasks            *tasks,
+				    BonoboUIComponent *uic);
 
 
 #endif /* _E_TASKS_H_ */

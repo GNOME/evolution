@@ -180,7 +180,6 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB_END
 };
 
-
 static void
 tasks_control_activate			(BonoboControl		*control,
 					 ETasks			*tasks)
@@ -202,6 +201,8 @@ tasks_control_activate			(BonoboControl		*control,
 	bonobo_ui_util_set_ui (uic, EVOLUTION_DATADIR,
 			       "evolution-tasks.xml",
 			       "evolution-tasks");
+
+	e_tasks_setup_menus(tasks, uic);
 
 	bonobo_ui_component_thaw (uic, NULL);
 }

@@ -109,6 +109,8 @@ gboolean   e_calendar_table_filter_by_category  (ECalendarTable *cal_table,
 						 CalComponent	*comp,
 						 gpointer	 filter_data);
 
+const gchar *e_calendar_table_get_spec (void);
+
 
 #ifdef __cplusplus
 }

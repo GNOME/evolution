@@ -1,3 +1,16 @@
+2001-02-13  Christopher James Lahey  <clahey@ximian.com>
+
+	* gui/Makefile.am (evolution_calendar_LDADD): Added libmenus.la.
+
+	* gui/e-calendar-table.c, gui/e-calendar-table.h
+	(e_calendar_table_get_spec): Added this function.
+
+	* gui/e-tasks.c, gui/e-tasks.h (e_tasks_setup_menus): Added this
+	function.
+
+	* gui/tasks-control.c (tasks_control_activate): Call
+	e_tasks_setup_menus.
+
 2001-02-13  JP Rosevear  <jpr@ximian.com>
 
 	* gui/e-tasks.c (e_tasks_new_task): call task_editor_focus
