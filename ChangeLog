@@ -1,3 +1,9 @@
+2003-05-19  Ettore Perazzoli  <ettore@ximian.com>
+
+	* configure.in: Remove GNOME_PREFIX stuff.  Add
+	--disable-default-binary command line option, with corresponding
+	DEFAULT_BINARY Automake conditional.
+
 2003-05-19  Not Zed  <notzed@lostzed.mmc.com.au>
 
 	* NEWS: Updated for mail/ camel/ filter/ and e-util/

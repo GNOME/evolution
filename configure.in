@@ -947,15 +947,6 @@ else
 	AC_DEFINE_UNQUOTED([KILL_PROCESS_CMD], "$KILL_PROCESS_CMD", [Command to kill processes by name])
 fi
 
-dnl ****************************************************
-dnl GNOME_PREFIX is is needed by shell/evolution-nognome
-dnl ****************************************************
-dnl
-dnl FIXME this doesn't work with GNOME 2.
-
-GNOME_PREFIX="`gnome-config --prefix`"
-AC_SUBST(GNOME_PREFIX)
-
 dnl ******************************
 dnl OpenSSL
 dnl ******************************
@@ -1254,6 +1245,10 @@ dnl Sub-version number
 dnl ******************
 AC_ARG_WITH(sub-version, [  --with-sub-version=VERSION Specify a sub-version string])
 AC_DEFINE_UNQUOTED(SUB_VERSION, "$with_sub_version", [Version substring, for packagers])
+
+AC_ARG_ENABLE(default-binary, [  --disable-default-binary Do not install as the default "evolution" binary  ], , enable_default_binary=yes)
+AM_CONDITIONAL(DEFAULT_BINARY, test x$enable_default_binary = xyes)
+
 
 dnl ********************
 dnl KDE applnk directory
