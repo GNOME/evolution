@@ -758,29 +758,69 @@ fe_get_first_child (ETreeModel *model, ETreePath path)
 
 /* subscribing */
 
+static gchar *
+fe_node_to_shell_path (ftree_node *node)
+{
+	gchar *path = NULL;
+	int name_len, full_name_len;
+
+	name_len = strlen (ftree_node_get_name (node));
+	full_name_len = strlen (ftree_node_get_full_name (node));
+	
+	if (name_len != full_name_len) {
+		char *full_name;
+		gchar *iter;
+		gchar sep;
+	
+		/* so, we don't know the heirarchy separator. But
+		 * full_name = blahXblahXname, where X = separator
+		 * and name = .... name. So we can determine it.
+		 * (imap_store->dir_sep isn't really private, I guess,
+		 * so we could use that if we had the store. But also
+		 * we don't "know" that it is an IMAP store anyway.)
+		 */
+
+		full_name = ftree_node_get_full_name (node);
+		sep = full_name[full_name_len - (name_len + 1)];
+
+		if (sep != '/') {
+			path = g_new (gchar, full_name_len + 2);
+			path[0] = '/';
+			strcpy (path + 1, full_name);
+			while ((iter = strchr (path, sep)) != NULL)
+				*iter = '/';
+		}
+	}
+
+	if (!path)
+		path = g_strdup_printf ("/%s", ftree_node_get_full_name (node));
+
+	return path;
+}
+
 static void
 fe_done_subscribing (const char *full_name, const char *name, gboolean subscribe, gboolean success, gpointer user_data)
 {
 	ftree_op_data *closure = (ftree_op_data *) user_data;
 
 	if (success) {
-		CamelURL *url;
+		gchar *path;
 
-		url = camel_url_new (ftree_node_get_uri (closure->data), NULL);
+		path = fe_node_to_shell_path (closure->data);
 
 		if (subscribe) {
 			closure->data->flags |= FTREE_NODE_SUBSCRIBED;
 			recursive_add_folder (closure->ftree->e_storage,
-					      url->path, name,
+					      path, name,
 					      ftree_node_get_uri (closure->data));
 		} else {
 			closure->data->flags &= ~FTREE_NODE_SUBSCRIBED;
 
 			/* FIXME: recursively remove folder as well? Possible? */
-			evolution_storage_removed_folder (closure->ftree->e_storage, url->path);
+			evolution_storage_removed_folder (closure->ftree->e_storage, path);
 		}
 
-		camel_url_free (url);
+		g_free (path);
 		e_tree_model_node_data_changed (E_TREE_MODEL (closure->ftree), closure->path);
 	}
 

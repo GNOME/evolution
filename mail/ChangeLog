@@ -2,7 +2,12 @@
 
 	* subscribe-dialog.c (fe_done_subscribing): Instead of hackfully 
 	getting the path, use a CamelURL so that escaping is handled. Silly
-	me.
+	me. -- See below --
+	(fe_node_to_shell_path): Use node->name and node->full_name to generate
+	the the shell path of this item. Don't need to escape the URL, and
+	handle cases when dir_sep != '/'
+	(fe_done_subscribing): Use fe_node_to_shell_path instead of the CamelURL.
+	Third time's the charm...
 
 2001-08-15  Jeffrey Stedfast  <fejj@ximian.com>
 
