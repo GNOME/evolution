@@ -1,3 +1,8 @@
+2001-08-08  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-dialog-utils.h: New.
+	* e-dialog-utils.c: New.
+
 2001-08-04  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-bonobo-factory-util.c

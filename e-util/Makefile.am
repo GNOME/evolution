@@ -26,6 +26,8 @@ libeutil_la_SOURCES =				\
 	e-categories-config.h			\
 	e-corba-utils.c				\
 	e-corba-utils.h				\
+	e-dialog-utils.c			\
+	e-dialog-utils.h			\
 	e-dialog-widgets.c			\
 	e-dialog-widgets.h			\
 	e-gtk-utils.c				\
