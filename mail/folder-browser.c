@@ -441,11 +441,18 @@ folder_browser_new (Evolution_Shell shell)
 {
 	static int serial;
 	FolderBrowser *folder_browser = gtk_type_new (folder_browser_get_type ());
+	CORBA_Environment ev;
 
 	my_folder_browser_init (GTK_OBJECT (folder_browser));
 	folder_browser->uri = NULL;
 	folder_browser->serial = serial++;
 	folder_browser->shell = shell;
+
+#warning "is this a circular reference???"
+
+	CORBA_exception_init (&ev);
+	Bonobo_Unknown_ref (shell, &ev);
+	CORBA_exception_free (&ev);
 
 	return GTK_WIDGET (folder_browser);
 }

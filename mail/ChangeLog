@@ -1,3 +1,8 @@
+2000-08-29  Peter Williams  <peterw@helixcode.com>
+
+	* folder-browser.c (folder_browser_new): Ref the Evolution_Shell.
+	Is this correct, or is it a circular reference?
+	
 2000-08-29  Dan Winship  <danw@helixcode.com>
 
 	* mail-ops.c (mail_do_send_mail): Update this and related
