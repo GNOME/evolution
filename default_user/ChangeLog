@@ -1,3 +1,8 @@
+2001-03-08  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* local/Trash/folder-metadata.xml: The type of this folder is now
+	"vtrash" and not "mail".
+
 2001-03-01  Not Zed  <NotZed@Ximian.com>
 
 	* Makefile.am: Added searches.xml to default user data.
