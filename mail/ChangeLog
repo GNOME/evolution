@@ -1,3 +1,9 @@
+2000-12-09  Christopher James Lahey  <clahey@helixcode.com>
+
+	* message-list.c (message_list_init): Change the "drawfocus"
+	argument on e_table_scrolled_get_table(etable) instead of on
+	etable (etable is an ETableScrolled.)
+
 2000-12-08  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-callbacks.c (save_msg_ok): Check to see if the file already

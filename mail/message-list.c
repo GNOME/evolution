@@ -1111,7 +1111,7 @@ message_list_init (GtkObject *object)
 
 	e_scroll_frame_set_policy (E_SCROLL_FRAME (message_list->etable), GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
 
-	gtk_object_set(GTK_OBJECT(message_list->etable),
+	gtk_object_set(GTK_OBJECT(e_table_scrolled_get_table(E_TABLE_SCROLLED(message_list->etable))),
 		       "drawfocus", FALSE,
 		       NULL);
 
