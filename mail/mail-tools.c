@@ -54,14 +54,14 @@ mail_tool_get_folder_from_urlname (const gchar *url, const gchar *name,
 {
 	CamelStore *store;
 	CamelFolder *folder;
-
+	
 	store = camel_session_get_store (session, url, ex);
 	if (!store)
 		return NULL;
-
+	
 	folder = camel_store_get_folder (store, name, flags, ex);
 	camel_object_unref (CAMEL_OBJECT (store));
-
+	
 	return folder;
 }
 

@@ -177,18 +177,18 @@ static void
 create_folder_done (char *uri, CamelFolder *folder, void *data)
 {
 	GNOME_Evolution_ShellComponentListener listener = data;
-	CORBA_Environment ev;
 	GNOME_Evolution_ShellComponentListener_Result result;
-
+	CORBA_Environment ev;
+	
 	if (folder)
 		result = GNOME_Evolution_ShellComponentListener_OK;
 	else
 		result = GNOME_Evolution_ShellComponentListener_INVALID_URI;
-
-	CORBA_exception_init(&ev);
-	GNOME_Evolution_ShellComponentListener_notifyResult(listener, result, &ev);
-	CORBA_Object_release(listener, &ev);
-	CORBA_exception_free(&ev);
+	
+	CORBA_exception_init (&ev);
+	GNOME_Evolution_ShellComponentListener_notifyResult (listener, result, &ev);
+	CORBA_Object_release (listener, &ev);
+	CORBA_exception_free (&ev);
 }
 
 static void
@@ -198,20 +198,27 @@ create_folder (EvolutionShellComponent *shell_component,
 	       const GNOME_Evolution_ShellComponentListener listener,
 	       void *closure)
 {
-	char *uri;
 	CORBA_Environment ev;
+	CamelURL *url;
+	char *uri;
 	
-	CORBA_exception_init(&ev);
-	if (!strcmp (type, "mail")) {
-		/* This makes the uri start with mbox://file://, which
-		   looks silly but turns into a CamelURL that has
-		   url->provider of "mbox" */
-		uri = g_strdup_printf ("mbox://%s", physical_uri);
+	CORBA_exception_init (&ev);
+	
+	url = physical_uri ? camel_url_new (physical_uri, NULL) : NULL;
+	
+	if (url && !strcmp (type, "mail")) {
+		camel_url_set_protocol (url, "mbox");
+		uri = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
 		mail_create_folder (uri, create_folder_done, CORBA_Object_duplicate (listener, &ev));
+		g_free (uri);
 	} else {
 		GNOME_Evolution_ShellComponentListener_notifyResult (
 			listener, GNOME_Evolution_ShellComponentListener_UNSUPPORTED_TYPE, &ev);
 	}
+	
+	if (url)
+		camel_url_free (url);
+	
 	CORBA_exception_free (&ev);
 }
 

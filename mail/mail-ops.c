@@ -1293,7 +1293,7 @@ mail_get_folder (const char *uri, void (*done) (char *uri, CamelFolder *folder, 
 	struct _get_folder_msg *m;
 	int id;
 	
-	m = mail_msg_new (&get_folder_op, NULL, sizeof(*m));
+	m = mail_msg_new (&get_folder_op, NULL, sizeof (*m));
 	m->uri = g_strdup (uri);
 	m->data = data;
 	m->done = done;
@@ -1387,38 +1387,43 @@ struct _create_folder_msg {
 	void *data;
 };
 
-static char *create_folder_desc(struct _mail_msg *mm, int done)
+static char *
+create_folder_desc (struct _mail_msg *mm, int done)
 {
 	struct _create_folder_msg *m = (struct _create_folder_msg *)mm;
 	
-	return g_strdup_printf(_("Opening folder %s"), m->uri);
+	return g_strdup_printf (_("Creating folder %s"), m->uri);
 }
 
-static void create_folder_get(struct _mail_msg *mm)
+static void
+create_folder_get (struct _mail_msg *mm)
 {
 	struct _create_folder_msg *m = (struct _create_folder_msg *)mm;
-
+	
 	/* FIXME: supply a way to make indexes optional */
-	m->folder = mail_tool_get_folder_from_urlname(m->uri, "mbox",
-						      CAMEL_STORE_FOLDER_CREATE|CAMEL_STORE_FOLDER_BODY_INDEX,
-						      &mm->ex);
+	m->folder = mail_tool_get_folder_from_urlname (m->uri, "mbox",
+						       CAMEL_STORE_FOLDER_CREATE |
+						       CAMEL_STORE_FOLDER_BODY_INDEX,
+						       &mm->ex);
 }
 
-static void create_folder_got(struct _mail_msg *mm)
+static void
+create_folder_got (struct _mail_msg *mm)
 {
 	struct _create_folder_msg *m = (struct _create_folder_msg *)mm;
-
+	
 	if (m->done)
-		m->done(m->uri, m->folder, m->data);
+		m->done (m->uri, m->folder, m->data);
 }
 
-static void create_folder_free(struct _mail_msg *mm)
+static void
+create_folder_free (struct _mail_msg *mm)
 {
 	struct _create_folder_msg *m = (struct _create_folder_msg *)mm;
-
-	g_free(m->uri);
+	
+	g_free (m->uri);
 	if (m->folder)
-		camel_object_unref((CamelObject *)m->folder);
+		camel_object_unref (CAMEL_OBJECT (m->folder));
 }
 
 static struct _mail_msg_op create_folder_op = {
@@ -1429,16 +1434,16 @@ static struct _mail_msg_op create_folder_op = {
 };
 
 void
-mail_create_folder(const char *uri, void (*done) (char *uri, CamelFolder *folder, void *data), void *data)
+mail_create_folder (const char *uri, void (*done) (char *uri, CamelFolder *folder, void *data), void *data)
 {
 	struct _create_folder_msg *m;
-
-	m = mail_msg_new(&create_folder_op, NULL, sizeof(*m));
-	m->uri = g_strdup(uri);
+	
+	m = mail_msg_new (&create_folder_op, NULL, sizeof(*m));
+	m->uri = g_strdup (uri);
 	m->data = data;
 	m->done = done;
-
-	e_thread_put(mail_thread_new, (EMsg *)m);
+	
+	e_thread_put (mail_thread_new, (EMsg *)m);
 }
 
 /* ** REMOVE FOLDER ******************************************************* */

@@ -1,3 +1,13 @@
+2001-08-20  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* component-factory.c (create_folder): Modify the url and set the
+	protocol to mbox rather than hacking it and prepending mbox: to
+	the uri.
+
+	* mail-local.c (get_folder): Don't prepend the folder_name with
+	the store's path because the hash key is folder_name, not
+	/folder_name.
+
 2001-08-20  Iain Holmes  <iain@ximian.com>
 
 	* mail-config-druid.c: Change some of the text labels.
