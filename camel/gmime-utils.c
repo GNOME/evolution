@@ -62,7 +62,7 @@ _write_one_header_to_stream (gpointer key, gpointer value, gpointer user_data)
 }
 
 void 
-write_header_table_to_stream (CamelStream *stream, GHashTable *header_table)
+gmime_write_header_table_to_stream (CamelStream *stream, GHashTable *header_table)
 {
 	CAMEL_LOG_FULL_DEBUG ( "write_header_table_to_stream:: Entering\n");
 	g_hash_table_foreach (header_table, 
@@ -73,7 +73,10 @@ write_header_table_to_stream (CamelStream *stream, GHashTable *header_table)
 
 
 void 
-write_header_with_glist_to_stream (CamelStream *stream, const gchar *header_name, GList *header_values, const gchar *separator)
+gmime_write_header_with_glist_to_stream (CamelStream *stream, 
+					 const gchar *header_name, 
+					 GList *header_values, 
+					 const gchar *separator)
 {
 	
 	gchar *current;

@@ -66,7 +66,7 @@ _free_recipient_list (gpointer key, gpointer value, gpointer user_data)
 void 
 camel_recipient_table_free (CamelRecipientTable *recipient_table)
 {
-	g_return_if_fail (recipient_table);
+	if (!recipient_table) return;
 
 	/* free each recipient list */
 	g_hash_table_foreach (recipient_table->recipient_hash_table, _free_recipient_list, NULL);
@@ -79,7 +79,8 @@ camel_recipient_table_free (CamelRecipientTable *recipient_table)
 void 
 camel_recipient_table_unref (CamelRecipientTable *recipient_table)
 {
-	g_return_if_fail (recipient_table);
+	if (!recipient_table) return;
+
 	recipient_table->ref_count -= 1;
 	if (recipient_table->ref_count <1)		
 			camel_recipient_table_free (recipient_table);
@@ -142,7 +143,7 @@ camel_recipient_table_add_list (CamelRecipientTable *recipient_table,
 	
 	
 	if (existent_list) 
-		g_list_concat (existent_list, recipient_type);
+		g_list_concat (existent_list, recipient_list);
 	else 
 		g_hash_table_insert (recipient_table->recipient_hash_table, g_strdup (recipient_type), recipients_list);		
 }
@@ -190,4 +191,15 @@ camel_recipient_table_get (CamelRecipientTable *recipient_table,
 			   const gchar *recipient_type)
 {
 	return (const GList *)g_hash_table_lookup (recipient_table->recipient_hash_table, recipient_type);
+}
+
+
+
+
+void
+camel_recipient_foreach_recipient_type (CamelRecipientTable *recipient_table,
+					CRLFunc func,
+					gpointer user_data)
+{
+	g_hash_table_foreach (recipient_table->recipient_hash_table, (GHFunc)func, user_data);
 }

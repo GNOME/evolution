@@ -563,20 +563,22 @@ camel_mime_message_get_message_number (CamelMimeMessage *mime_message)
 #define WHPT gmime_write_header_pair_to_stream
 
 static void
-_write_one_recipient_to_stream (gpointer key, gpointer value, gpointer user_data)
+_write_one_recipient_to_stream (gchar *recipient_type,
+				GList *recipient_list,
+				gpointer user_data)
 {
-	gchar *recipient_type = (gchar *)key;
-	GList *recipients = (GList *)value;
-	//	gchar *current;
+	
 	CamelStream *stream = (CamelStream *)user_data;
 	if  (recipient_type)
-		write_header_with_glist_to_stream (stream, recipient_type, recipients, ", ");
+		gmime_write_header_with_glist_to_stream (stream, recipient_type, recipient_list, ", ");
 }
 
 static void
 _write_recipients_to_stream (CamelMimeMessage *mime_message, CamelStream *stream)
 {
-	//g_hash_table_foreach (mime_message->recipients, _write_one_recipient_to_stream, (gpointer)stream);
+	 camel_recipient_foreach_recipient_type (mime_message->recipients, 
+						 _write_one_recipient_to_stream, 
+						 (gpointer)stream);
 }
 
 static void

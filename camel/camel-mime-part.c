@@ -665,10 +665,10 @@ _write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 	CAMEL_LOG_FULL_DEBUG ( "CamelMimePart::write_to_stream writing content-id\n");
 	WHPT (stream, "Content-id", mp->content_id);
 	CAMEL_LOG_FULL_DEBUG ( "CamelMimePart::write_to_stream writing content-languages\n");
-	write_header_with_glist_to_stream (stream, "Content-Language", mp->content_languages,", ");
+	gmime_write_header_with_glist_to_stream (stream, "Content-Language", mp->content_languages,", ");
 	
 	CAMEL_LOG_FULL_DEBUG ( "CamelMimePart::write_to_stream writing other headers\n");
-	write_header_table_to_stream (stream, medium->headers);
+	gmime_write_header_table_to_stream (stream, medium->headers);
 	
 	CAMEL_LOG_FULL_DEBUG ( "CamelMimePart::write_to_stream writing content-type\n");
 	gmime_content_field_write_to_stream (mp->content_type, stream);

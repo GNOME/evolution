@@ -43,6 +43,11 @@ typedef struct {
 } CamelRecipientTable;
 
 
+typedef void (*CRLFunc) (gchar *recipient_type,
+			 GList *recipient_list,
+			 gpointer user_data);
+
+
 
 
 CamelRecipientTable *camel_recipient_table_new ();
@@ -66,6 +71,9 @@ void camel_recipient_table_remove (CamelRecipientTable *recipient_table,
 const GList *camel_recipient_table_get (CamelRecipientTable *recipient_table,
 					const gchar *recipient_type);
 
+void camel_recipient_foreach_recipient_type (CamelRecipientTable *recipient_table,
+					     CRLFunc func,
+					     gpointer user_data);
 
 
 #ifdef __cplusplus

@@ -1,3 +1,18 @@
+1999-09-02  bertrand  <Bertrand.Guiheneuf@aful.org>
+
+	* camel/camel-mime-message.c (_write_one_recipient_to_stream): 
+	changed decl to fit CRLFunc. 
+	(_write_recipients_to_stream): 
+	calls camel_recipient_foreach_recipient_type now.
+
+	* camel/camel-recipient.c (camel_recipient_foreach_recipient_type): 
+	new convinience function. Iterate over all recipient types.
+
+	* camel/gmime-utils.c (gmime_write_header_table_to_stream): 
+	s/write_header_table_to_stream/gmime_write_header_table_to_stream/
+	(gmime_write_header_with_glist_to_stream): 
+	s/write_header_with_glist_to_stream/gmime_write_header_with_glist_to_stream/
+
 1999-09-01  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* camel/camel-mime-message.c (_finalize): 
