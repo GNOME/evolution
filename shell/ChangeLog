@@ -1,3 +1,12 @@
+2002-11-25  Dan Winship  <danw@ximian.com>
+
+	* e-shell-settings-dialog.c (page_new): e_get_language_list now
+	returns language codes that actually work with oaf, making the
+	U_()s here redundant.
+
+	* e-component-info.c (get_i18n_value): Remove code to turn "fr_FR"
+	into "fr", since e_get_language_list will return both now.
+
 2002-11-12  Frederic Crozat  <fcrozat@mandrakesoft.com>
 
 	reviewed by: Ettore Perazzoli
