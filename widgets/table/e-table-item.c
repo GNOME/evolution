@@ -1436,7 +1436,7 @@ _do_tooltip (ETableItem *eti)
 	for (i = 0; i < eti->tooltip->row; i++)
 		y += ETI_ROW_HEIGHT (eti, i);
 	eti->tooltip->y = y;
-	eti->tooltip->eti = eti;
+	eti->tooltip->eti = GNOME_CANVAS_ITEM(eti);
 	eti->tooltip->row_height = ETI_ROW_HEIGHT (eti, i);
 	
 	g_print ("Tooltip at %d,%d\n", x, y);
@@ -1619,7 +1619,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		eti->tooltip->row = row;
 		eti->tooltip->cx = e->motion.x;
 		eti->tooltip->cy = e->motion.y;
-		eti->tooltip->timer = gtk_timeout_add (1000, _do_tooltip, eti);
+		eti->tooltip->timer = gtk_timeout_add (1000, (GSourceFunc)_do_tooltip, eti);
 
 		if (cursor_row == view_to_model_row(eti, row) && cursor_col == view_to_model_col(eti, col)){
 			ecell_view = eti->cell_views [col];

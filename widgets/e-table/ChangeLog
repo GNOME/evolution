@@ -1,3 +1,11 @@
+2000-09-16  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-cell-text.c: Added some missing #includes.
+
+	* e-cell-tree.c: Removed an unused variable.
+
+	* e-table-item.c: Added some missing casts.
+
 2000-09-16  Iain Holmes  <iain@helixcode.com>
 
 	* e-cell-text.c (ect_show_tooltip): Removed g_print.

@@ -371,7 +371,6 @@ ect_max_width (ECellView *ecell_view, int model_col, int view_col)
 		ETreePath *node;
 		GdkPixbuf *node_image;
 		int node_image_width = 0, node_image_height = 0;
-		ETreePath *parent_node;
 		
 		int offset, subcell_offset;
 		gboolean expanded, expandable;
