@@ -88,7 +88,6 @@
 			<menuitem name="FileSave" verb="" _label="_Save"/>
 			<menuitem name="FileSaveAs" verb="" _label="Save _As..."/>
                         <menuitem name="FileSaveDraft" verb="" _label="Save _Draft"/>
-			<menuitem name="FileSaveInFolder" verb="" _label="Save in _folder... (FIXME)"/>
 			<placeholder name="Print" delimit="top"/>
 			<separator/>
 			<menuitem name="FileInsertFile" verb="" _label="_Insert text file..."/>
@@ -118,7 +117,8 @@
 		</submenu>
 		
                 <submenu name="Insert" _label="_Insert">
-	                <menuitem name="FileAttach" verb="" _label="_File"/>
+	                <menuitem name="FileAttach" verb=""
+	                _label="_Attachment"/>
                 	<placeholder name="Component"/>
                 </submenu>
 		
