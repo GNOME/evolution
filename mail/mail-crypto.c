@@ -402,6 +402,20 @@ mail_crypto_openpgp_decrypt (const char *ciphertext, CamelException *ex)
 	return plaintext;
 }
 
+/**
+ * mail_crypto_openpgp_encrypt: pgp encrypt plaintext
+ * @plaintext: text to encrypt
+ * @recipients: an array of recipients to encrypt to (preferably each
+ *              element should be a pgp keyring ID however sometimes email
+ *              addresses will work assuming that your pgp keyring has an
+ *              entry for that address)
+ * @sign: TRUE if you wish to sign the encrypted text as well, FALSE otherwise
+ * @ex: a CamelException
+ *
+ * Initalizes the folder by setting the parent store, parent folder,
+ * and name.
+ **/
+
 char *
 mail_crypto_openpgp_encrypt (const char *plaintext,
 			     const GPtrArray *recipients,
@@ -414,20 +428,23 @@ mail_crypto_openpgp_encrypt (const char *plaintext,
 	int passwd_fds[2];
 	char passwd_fd[32];
 	
-	passphrase = mail_request_dialog (
-		_("Please enter your PGP/GPG passphrase."),
-		TRUE, "pgp", FALSE);
-	if (!passphrase) {
-		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
-				     _("No password provided."));
-		return NULL;
-	}
-
-	if (pipe (passwd_fds) < 0) {
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      _("Couldn't create pipe to GPG/PGP: %s"),
-				      g_strerror (errno));
-		return NULL;
+	if (sign) {
+		/* we only need the passphrase if we plan to sign */
+		passphrase = mail_request_dialog (
+			_("Please enter your PGP/GPG passphrase."),
+			TRUE, "pgp", FALSE);
+		if (!passphrase) {
+			camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
+					     _("No password provided."));
+			return NULL;
+		}
+		
+		if (pipe (passwd_fds) < 0) {
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+					      _("Couldn't create pipe to GPG/PGP: %s"),
+					      g_strerror (errno));
+			return NULL;
+		}
 	}
 	
 	i = 0;
@@ -494,14 +511,34 @@ mail_crypto_openpgp_encrypt (const char *plaintext,
 		sprintf (passwd_fd, "PGPPASSFD=%d", passwd_fds[0]);
 		putenv (passwd_fd);
 	}
-#else /* We still gotta get pgp 2.6.3 workin here ;-) */
+#else
 	path = PGP_PATH;
+	
+	recipient_list = g_ptr_array_new ();
+	for (r = 0; r < recipients->len; r++) {
+		char *buf, *recipient;
+		
+		recipient = recipients->pdata[i];
+		buf = g_strdup_printf ("-r %s", recipient);
+		g_ptr_array_add (recipient_list, buf);
+	}
 	
 	argv[i++] = "pgp";
 	argv[i++] = "-f";
+	argv[i++] = "-e";
+	argv[i++] = "-a";
+	argv[i++] = "-o";
+	argv[i++] = "-";
 	
-	sprintf (passwd_fd, "PGPPASSFD=%d", passwd_fds[0]);
-	putenv (passwd_fd);
+	for (r = 0; r < recipient_list->len; r++)
+		argv[i++] = recipient_list->pdata[r];
+	
+	if (sign) {
+		argv[i++] = "-s";
+		
+		sprintf (passwd_fd, "PGPPASSFD=%d", passwd_fds[0]);
+		putenv (passwd_fd);
+	}
 #endif
 	argv[i++] = NULL;
 
@@ -523,7 +560,11 @@ mail_crypto_openpgp_encrypt (const char *plaintext,
 	}
 	
 	g_free (diagnostics);
+	
 	return ciphertext;
 }
 
 #endif /* PGP_PROGRAM */
+
+
+
