@@ -385,6 +385,7 @@ vee_search_by_expression(CamelFolder *folder, const char *expression, CamelExcep
 			char *uid = matches->pdata[i];
 			g_ptr_array_add(result, g_strdup_printf("%p:%s", f, uid));
 		}
+		g_ptr_array_add (matches, NULL);
 		g_strfreev((char **)matches->pdata);
 		g_ptr_array_free(matches, FALSE);
 		node = g_list_next(node);

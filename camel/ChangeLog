@@ -1,3 +1,8 @@
+2000-07-31  Peter Williams  <peterw@helixcode.com>
+
+	* providers/vee/camel-vee-folder.c (vee_search_by_expression): Add a NULL
+	to the matches pointer array so that g_strfreev knows where the end is.
+
 2000-07-31  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/imap/camel-imap-utils.c (imap_translate_sexp): New
