@@ -44,7 +44,7 @@
 
 #include "e-util/e-unicode-i18n.h"
 
-#define d(x) 
+#define d(x) x
 
 static VfolderContext *context;	/* context remains open all time */
 static CamelStore *vfolder_store; /* the 1 static vfolder store */
@@ -498,7 +498,7 @@ rule_changed(FilterRule *rule, CamelFolder *folder)
 
 	/* if the folder has changed name, then add it, then remove the old manually */
 	if (strcmp(folder->full_name, rule->name) != 0) {
-		char *key;
+		char *key, *oldname;
 		CamelFolder *old;
 
 		LOCK();
@@ -513,7 +513,10 @@ rule_changed(FilterRule *rule, CamelFolder *folder)
 			g_warning("couldn't find a vfolder rule in our table? %s", folder->full_name);
 		}
 
-		camel_store_rename_folder(vfolder_store, folder->full_name, rule->name, NULL);
+		/* TODO: make the folder->full_name var thread accessible */
+		oldname = g_strdup(folder->full_name);
+		camel_store_rename_folder(vfolder_store, oldname, rule->name, NULL);
+		g_free(oldname);
 	}
 
 	d(printf("Filter rule changed? for folder '%s'!!\n", folder->name));
@@ -783,15 +786,9 @@ edit_rule_clicked(GtkWidget *w, int button, void *data)
 	if (button == 0) {
 		char *user;
 		FilterRule *rule = gtk_object_get_data((GtkObject *)w, "rule");
-		FilterRule *orig;
+		FilterRule *orig = gtk_object_get_data((GtkObject *)w, "orig");
 
-		orig = rule_context_find_rule((RuleContext *)context, rule->name, NULL);
-		if (orig) {
-			filter_rule_copy(orig, rule);
-		} else {
-			gtk_object_ref((GtkObject *)rule);
-			rule_context_add_rule((RuleContext *)context, rule);
-		}
+		filter_rule_copy(orig, rule);
 		user = g_strdup_printf("%s/vfolders.xml", evolution_dir);
 		rule_context_save((RuleContext *)context, user);
 		g_free(user);
@@ -806,15 +803,16 @@ vfolder_edit_rule(const char *uri)
 {
 	GtkWidget *w;
 	GnomeDialog *gd;
-	FilterRule *rule;
+	FilterRule *rule, *newrule;
 	CamelURL *url;
 
 	url = camel_url_new(uri, NULL);
 	if (url && url->fragment
 	    && (rule = rule_context_find_rule((RuleContext *)context, url->fragment, NULL))) {
-		rule = filter_rule_clone(rule);
+		gtk_object_ref((GtkObject *)rule);
+		newrule = filter_rule_clone(rule);
 
-		w = filter_rule_get_widget((FilterRule *)rule, (RuleContext *)context);
+		w = filter_rule_get_widget((FilterRule *)newrule, (RuleContext *)context);
 
 		gd = (GnomeDialog *)gnome_dialog_new(_("Edit VFolder"),
 						     GNOME_STOCK_BUTTON_OK,
@@ -826,7 +824,8 @@ vfolder_edit_rule(const char *uri)
 		gtk_window_set_default_size (GTK_WINDOW (gd), 500, 500);
 		gtk_box_pack_start((GtkBox *)gd->vbox, w, TRUE, TRUE, 0);
 		gtk_widget_show((GtkWidget *)gd);
-		gtk_object_set_data_full((GtkObject *)gd, "rule", rule, (GtkDestroyNotify)gtk_object_unref);
+		gtk_object_set_data_full((GtkObject *)gd, "rule", newrule, (GtkDestroyNotify)gtk_object_unref);
+		gtk_object_set_data_full((GtkObject *)gd, "orig", rule, (GtkDestroyNotify)gtk_object_unref);
 		gtk_signal_connect((GtkObject *)gd, "clicked", edit_rule_clicked, NULL);
 		gtk_widget_show((GtkWidget *)gd);
 	} else {

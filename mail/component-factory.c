@@ -46,12 +46,14 @@
 #include "mail-session.h"
 #include "mail-mt.h"
 #include "mail-importer.h"
-#include "mail-vfolder.h"             /* vfolder_create_storage */
 #include "mail-folder-cache.h"
 
 #include "component-factory.h"
 
 #include "mail-send-recv.h"
+
+#include "mail-vfolder.h"
+#include "mail-autofilter.h"
 
 char *default_drafts_folder_uri;
 CamelFolder *drafts_folder = NULL;

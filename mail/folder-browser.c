@@ -207,6 +207,11 @@ folder_browser_destroy (GtkObject *object)
 	
 	/* wait for all outstanding async events against us */
 	mail_async_event_destroy (folder_browser->async_event);
+
+	if (folder_browser->get_id != -1) {
+		mail_msg_cancel(folder_browser->get_id);
+		folder_browser->get_id = -1;
+	}
 	
 	if (folder_browser->folder) {
 		camel_object_unhook_event (CAMEL_OBJECT (folder_browser->folder), "folder_changed",
@@ -826,8 +831,10 @@ static void folder_changed(CamelObject *o, void *event_data, void *data)
 static void
 got_folder(char *uri, CamelFolder *folder, void *data)
 {
-	FolderBrowser *fb = data;
-	
+	FolderBrowser *fb = data;	
+
+	fb->get_id = -1;
+
 	d(printf ("got folder '%s' = %p, previous folder was %p\n", uri, folder, fb->folder));
 	
 	if (fb->message_list == NULL)
@@ -855,10 +862,9 @@ got_folder(char *uri, CamelFolder *folder, void *data)
 	if (fb->uicomp)
 		folder_browser_ui_set_selection_state (fb, FB_SELSTATE_NONE);
 
- done:
-	gtk_object_unref (GTK_OBJECT (fb));
-	
+ done:	
 	gtk_signal_emit (GTK_OBJECT (fb), folder_browser_signals [FOLDER_LOADED], fb->uri);
+	gtk_object_unref (GTK_OBJECT (fb));
 }
 
 void
@@ -1932,6 +1938,7 @@ folder_browser_init (GtkObject *object)
 	FolderBrowser *fb = (FolderBrowser *)object;
 
 	fb->async_event = mail_async_event_new();
+	fb->get_id = -1;
 }
 
 static void
@@ -2035,7 +2042,7 @@ folder_browser_new (const GNOME_Evolution_Shell shell, const char *uri)
 
 	folder_browser->uri = g_strdup (uri);
 	gtk_object_ref (GTK_OBJECT (folder_browser));
-	mail_get_folder (folder_browser->uri, 0, got_folder, folder_browser, mail_thread_new);
+	folder_browser->get_id = mail_get_folder (folder_browser->uri, 0, got_folder, folder_browser, mail_thread_new);
 
 	return GTK_WIDGET (folder_browser);
 }

@@ -47,7 +47,7 @@
 #include "mail-vfolder.h"
 #include "mail-autofilter.h"
 
-#define d(x) 
+#define d(x) x
 
 /* note that many things are effectively serialised by having them run in
    the main loop thread which they need to do because of corba/gtk calls */
@@ -161,13 +161,16 @@ real_flush_updates(void *o, void *event_data, void *data)
 		} else {
 			/* Its really a rename, but we have no way of telling the shell that, so remove it */
 			if (up->oldpath) {
-				if (storage != NULL)
+				if (storage != NULL) {
+					printf("Removing old folder (rename?) '%s'\n", up->oldpath);
 					evolution_storage_removed_folder(storage, up->oldpath);
+				}
 				/* ELSE? Shell supposed to handle the local snot case */
 			}
 
 			/* We can tell the vfolder code though */
 			if (up->olduri && up->add) {
+				printf("renaming folder '%s' to '%s'\n", up->olduri, up->uri);
 				mail_vfolder_rename_uri(up->store, up->olduri, up->uri);
 				mail_filter_rename_uri(up->store, up->olduri, up->uri);
 			}
@@ -590,7 +593,7 @@ store_folder_renamed(CamelObject *o, void *event_data, void *data)
 	CamelRenameInfo *info = event_data;
 	struct _store_info *si;
 
-	d(printf("Folder renamed?\n"));
+	d(printf("Folder renamed: oldbase = '%s' new->full = '%s'\n", info->old_base, info->new->full_name));
 
 	LOCK(info_lock);
 	si = g_hash_table_lookup(stores, store);

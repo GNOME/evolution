@@ -1,3 +1,20 @@
+2001-10-29    <NotZed@Ximian.com>
+
+	* mail-vfolder.c (rule_changed): Copy the folder's full_name
+	before trying to use it to rename.
+	(vfolder_edit_rule): Set 'orig' to be a reference of the original
+	rule.
+	(edit_rule_clicked): Dont lookup orig by name, copy it over
+	instead.
+
+	* folder-browser.c (got_folder): oops, emit signal before
+	unreffing object, incase we got killded during getting folder.
+	(got_folder): Reset get_id.
+	(folder_browser_new): Set get_id of the get_folder task.
+	(folder_browser_init): Init get_id.
+	(folder_browser_destroy): IF we have outstanding 'get folder' op,
+	cancel it.
+
 2001-10-28  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-account-gui.c (mail_account_gui_save): Call

@@ -821,7 +821,7 @@ static void
 mls_rename_folder(CamelStore *store, const char *old_name, const char *new_name, CamelException *ex)
 {
 	CamelStore *real_store;
-	MailLocalStore *mls = (MailLocalStore *)store;
+	/*MailLocalStore *mls = (MailLocalStore *)store;*/
 	char *uri;
 	/*CamelException local_ex;*/
 	struct _local_meta *meta;

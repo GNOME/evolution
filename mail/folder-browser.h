@@ -86,6 +86,8 @@ struct  _FolderBrowser {
 
 	/* for async events */
 	struct _MailAsyncEvent *async_event;
+
+	int get_id;		/* for getting folder op */
 };
 
 typedef struct {
