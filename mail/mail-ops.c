@@ -65,6 +65,9 @@ typedef struct rsm_s {
 } rsm_t;
 
 static void
+real_delete_msg( int model_row, gpointer user_data );
+
+static void
 real_fetch_mail( gpointer user_data );
 
 static void
@@ -610,27 +613,23 @@ forward_msg (GtkWidget *button, gpointer user_data)
 	gtk_widget_show (GTK_WIDGET (composer));	
 }
 
-void
-delete_msg (GtkWidget *button, gpointer user_data)
+static void
+real_delete_msg( int model_row, gpointer user_data )
 {
 	FolderBrowser *fb = user_data;
 	MessageList *ml = fb->message_list;
+	CamelMessageInfo *info;
 	CamelException ex;
-	guint32 flags;
-
-	if (!fb->mail_display->current_message)
-		return;
 
 	camel_exception_init (&ex);
-
-	flags = camel_folder_get_message_flags (fb->folder, ml->selected_uid,
-						&ex);
-	if (!camel_exception_is_set (&ex)) {
-		/* Toggle the deleted flag without touching other flags. */
-		camel_folder_set_message_flags (fb->folder, ml->selected_uid,
-						CAMEL_MESSAGE_DELETED,
-						~flags, &ex);
-	}
+	
+	g_assert( model_row < ml->summary_table->len );
+	info = ml->summary_table->pdata[model_row];
+		
+	/* Toggle the deleted flag without touching other flags. */
+	camel_folder_set_message_flags (fb->folder, info->uid,
+					CAMEL_MESSAGE_DELETED,
+					~(info->flags), &ex);
 
 	if (camel_exception_is_set (&ex)) {
 		mail_exception_dialog ("Could not toggle deleted flag",
@@ -639,10 +638,21 @@ delete_msg (GtkWidget *button, gpointer user_data)
 		return;
 	}
 
+}
+
+void
+delete_msg (GtkWidget *button, gpointer user_data)
+{
+	FolderBrowser *fb = user_data;
+	MessageList *ml = fb->message_list;
+	int cursor = e_table_get_cursor_row(ml->etable);
+
+	e_table_selected_row_foreach( ml->etable, real_delete_msg, fb );
 	/* Move the cursor down a row... FIXME: should skip other
-	 * deleted messages.
+	 * deleted messages. FIXME: this implementation is a bit
+	 * questionable
 	 */
-	e_table_set_cursor_row (E_TABLE (ml->etable), ml->selected_row + 1);
+	e_table_set_cursor_row (E_TABLE (ml->etable), cursor + 1);
 }
 
 static void real_expunge_folder( gpointer user_data )
