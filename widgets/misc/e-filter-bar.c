@@ -686,12 +686,10 @@ set_property (GObject *object, guint property_id, const GValue *value, GParamSpe
 					item_id = xml_get_prop_int (node, "item_id");
 					subitem_id = xml_get_prop_int (node, "subitem_id");
 					
-					efb->setquery = TRUE;
 					if (subitem_id >= 0)
 						e_search_bar_set_ids ((ESearchBar *) efb, item_id, subitem_id);
 					else
 						e_search_bar_set_item_id ((ESearchBar *) efb, item_id);
-					efb->setquery = FALSE;
 					
 					break;
 				}
