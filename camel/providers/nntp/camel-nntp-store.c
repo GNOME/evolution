@@ -563,7 +563,7 @@ nntp_store_folder_subscribed (CamelStore *store, const char *folder_name)
 {
 	CamelNNTPStore *nntp_store = CAMEL_NNTP_STORE (store);
 
-	return camel_nntp_newsrc_group_is_subscribed (nntp_store->newsrc, folder_name + 1);
+	return camel_nntp_newsrc_group_is_subscribed (nntp_store->newsrc, folder_name);
 }
 
 static void
@@ -572,7 +572,7 @@ nntp_store_subscribe_folder (CamelStore *store, const char *folder_name,
 {
 	CamelNNTPStore *nntp_store = CAMEL_NNTP_STORE (store);
 
-	camel_nntp_newsrc_subscribe_group (nntp_store->newsrc, folder_name + 1);
+	camel_nntp_newsrc_subscribe_group (nntp_store->newsrc, folder_name);
 }
 
 static void
@@ -581,7 +581,7 @@ nntp_store_unsubscribe_folder (CamelStore *store, const char *folder_name,
 {
 	CamelNNTPStore *nntp_store = CAMEL_NNTP_STORE (store);
 
-	camel_nntp_newsrc_unsubscribe_group (nntp_store->newsrc, folder_name + 1);
+	camel_nntp_newsrc_unsubscribe_group (nntp_store->newsrc, folder_name);
 }
 
 static void

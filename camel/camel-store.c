@@ -557,9 +557,11 @@ camel_folder_info_build (GPtrArray *folders, CamelFolderInfo *top,
 				g_ptr_array_add (folders, pfi);
 			}
 			fi->sibling = pfi->child;
+			fi->parent = pfi;
 			pfi->child = fi;
 		} else {
 			fi->sibling = top->child;
+			fi->parent = top;
 			top->child = fi;
 		}
 	}
@@ -591,6 +593,7 @@ camel_store_folder_subscribed (CamelStore *store,
 			       const char *folder_name)
 {
 	g_return_val_if_fail (CAMEL_IS_STORE (store), FALSE);
+	g_return_val_if_fail (store->flags & CAMEL_STORE_SUBSCRIPTIONS, FALSE);
 
 	return CS_CLASS (store)->folder_subscribed (store, folder_name);
 }
@@ -613,6 +616,7 @@ camel_store_subscribe_folder (CamelStore *store,
 			      CamelException *ex)
 {
 	g_return_if_fail (CAMEL_IS_STORE (store));
+	g_return_if_fail (store->flags & CAMEL_STORE_SUBSCRIPTIONS);
 
 	CS_CLASS (store)->subscribe_folder (store, folder_name, ex);
 }
@@ -636,6 +640,7 @@ camel_store_unsubscribe_folder (CamelStore *store,
 				CamelException *ex)
 {
 	g_return_if_fail (CAMEL_IS_STORE (store));
+	g_return_if_fail (store->flags & CAMEL_STORE_SUBSCRIPTIONS);
 
 	CS_CLASS (store)->unsubscribe_folder (store, folder_name, ex);
 }

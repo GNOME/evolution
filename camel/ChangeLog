@@ -1,3 +1,23 @@
+2000-10-25  Dan Winship  <danw@helixcode.com>
+
+	* camel-store.h: Add a "parent" field to CamelFolderInfo.
+
+	* camel-store.c (camel_folder_info_build): Deal with "parent"
+	(camel_store_folder_subscribed, camel_store_subscribe_folder,
+	camel_store_unsubscribe_folder): Add g_return_if_fails checking
+	that the folder supports subscriptions.
+
+	* providers/imap/camel-imap-store.c (folder_subscribed,
+	subscribe_folder, unsubscribe_folder): Remove "+ 1"s since the
+	mail subscribe UI won't prepend / to the folder names now.
+	(get_folder_info): Clear the "parent" field of the folderinfos
+	when removing an empty top level.
+
+	* providers/nntp/camel-nntp-store.c (nntp_store_folder_subscribed,
+	nntp_store_subscribe_folder, nntp_store_unsubscribe_folder):
+	Remove "+ 1"s since the mail subscribe UI won't prepend / to the
+	folder names now.
+
 2000-10-24  Chris Toshok  <toshok@helixcode.com>
 
 	* providers/imap/camel-imap-store.h: add subscribed_folders.
