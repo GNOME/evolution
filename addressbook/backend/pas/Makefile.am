@@ -34,12 +34,17 @@ gnome_libs =						\
 	$(GNOMEGNORBA_LIBS)				\
 	$(INTLLIBS)
 
+if ENABLE_LDAP
+LDAP_BACKEND = pas-backend-ldap.c
+endif
+
 libpas_la_SOURCES =					\
 	$(CORBA_SOURCE)					\
 	pas-book-factory.c				\
 	pas-book-view.c					\
 	pas-book.c					\
 	pas-backend-file.c				\
+	$(LDAP_BACKEND)					\
 	pas-backend.c					\
 	pas-card-cursor.c
 

@@ -89,6 +89,21 @@ dnl **************************************************
 AC_CHECK_HEADERS(db_185.h)
 
 dnl **************************************************
+dnl * ldap related stuff.
+dnl **************************************************
+AC_CHECK_LIB(lber, ber_get_tag, LDAP_LIBS="-llber")
+if test $ac_cv_lib_lber_ber_get_tag = yes; then
+AC_CHECK_LIB(ldap, ldap_open, LDAP_LIBS="-lldap $LDAP_LIBS", ,-llber)
+fi
+if test $ac_cv_lib_ldap_ldap_open = yes; then
+	AC_DEFINE(HAVE_LDAP)
+	AC_SUBST(LDAP_LIBS)
+else
+	AC_MSG_WARN(no ldap support present)
+fi
+AM_CONDITIONAL(ENABLE_LDAP, test $ac_cv_lib_ldap_ldap_open = yes)
+
+dnl **************************************************
 dnl * Posix thread support
 dnl **************************************************
 

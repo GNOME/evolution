@@ -17,13 +17,20 @@
 #include "pas-book.h"
 #include "pas-card-cursor.h"
 
+#include <e-sexp.h>
+#include <e-card.h>
+
 static PASBackendClass *pas_backend_ldap_parent_class;
 typedef struct _PASBackendLDAPCursorPrivate PASBackendLDAPCursorPrivate;
+typedef struct _PASBackendLDAPBookView PASBackendLDAPBookView;
 
 struct _PASBackendLDAPPrivate {
 	gboolean connected;
 	GList    *clients;
 	LDAP     *ldap;
+	gchar    *ldap_host;
+	int      ldap_port;
+	GList    *book_views;
 };
 
 struct _PASBackendLDAPCursorPrivate {
@@ -31,7 +38,12 @@ struct _PASBackendLDAPCursorPrivate {
 	PASBook    *book;
 
 	GList      *elements;
-	int        num_elements;
+	long       num_elements;
+};
+
+struct _PASBackendLDAPBookView {
+	PASBookView                 *book_view;
+	gchar                       *search;
 };
 
 static long
@@ -74,14 +86,64 @@ cursor_destroy(GtkObject *object, gpointer data)
 	g_free(cursor_data);
 }
 
-static char *
-pas_backend_ldap_create_unique_id (char *vcard)
+static void
+view_destroy(GtkObject *object, gpointer data)
 {
-	/* use a 32 counter and the 32 bit timestamp to make an id.
-	   it's doubtful 2^32 id's will be created in a second, so we
-	   should be okay. */
-	static guint c = 0;
-	return g_strdup_printf ("pas-id-%08lX%08X", time(NULL), c++);
+	CORBA_Environment ev;
+	Evolution_Book    corba_book;
+	PASBook           *book = (PASBook *)data;
+	PASBackendLDAP    *bl;
+	GList             *list;
+
+	bl = PAS_BACKEND_LDAP(pas_book_get_backend(book));
+	for (list = bl->priv->book_views; list; list = g_list_next(list)) {
+		PASBackendLDAPBookView *view = list->data;
+		if (view->book_view == PAS_BOOK_VIEW(object)) {
+			g_free (view->search);
+			g_free (view);
+			bl->priv->book_views = g_list_remove_link(bl->priv->book_views, list);
+			g_list_free_1(list);
+			break;
+		}
+	}
+
+	corba_book = bonobo_object_corba_objref(BONOBO_OBJECT(book));
+
+	CORBA_exception_init(&ev);
+
+	Evolution_Book_unref(corba_book, &ev);
+	
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_warning("view_destroy: Exception unreffing "
+			  "corba book.\n");
+	}
+
+	CORBA_exception_free(&ev);
+}
+
+static void
+pas_backend_ldap_ensure_connected (PASBackendLDAP *bl)
+{
+	LDAP           *ldap = bl->priv->ldap;
+	int            ldap_error;
+
+	/* the connection has gone down, or wasn't ever opened */
+	if (ldap == NULL ||
+	    (ldap_error = ldap_simple_bind_s(ldap, NULL /*binddn*/, NULL /*passwd*/)) != LDAP_SUCCESS) {
+
+		/* close connection first if it's open first */
+		if (ldap)
+			ldap_unbind (ldap);
+
+		bl->priv->ldap = ldap_open (bl->priv->ldap_host, bl->priv->ldap_port);
+		if (NULL != bl->priv->ldap)
+			bl->priv->connected = TRUE;
+		else
+			g_warning ("pas_backend_ldap_ensure_connected failed for 'ldap://%s:%d/' (error %s)\n",
+				   bl->priv->ldap_host, bl->priv->ldap_port, ldap_err2string(ldap_error));
+
+		ldap_simple_bind_s(bl->priv->ldap, NULL /*binddn*/, NULL /*passwd*/);
+	}
 }
 
 static void
@@ -89,33 +151,13 @@ pas_backend_ldap_process_create_card (PASBackend *backend,
 				      PASBook    *book,
 				      PASRequest *req)
 {
-	PASBackendLDAP *bl = PAS_BACKEND_LDAP (backend);
-	LDAP           *ldap = bl->priv->ldap;
-	int            ldap_error;
-	char           *id;
+	g_warning ("pas_backend_ldap_process_create_card not implemented\n");
 
-	id = pas_backend_ldap_create_unique_id (req->vcard);
-
-	/* XXX use ldap_add_s */
-
-	if (LDAP_SUCCESS == ldap_error) {
-		pas_book_notify_add(book, id);
-
-		pas_book_respond_create (
-				 book,
-				 Evolution_BookListener_Success,
-				 id);
-	}
-	else {
-		/* XXX need a different call status for this case, i
-                   think */
-		pas_book_respond_create (
+	pas_book_respond_create (
 				 book,
 				 Evolution_BookListener_CardNotFound,
 				 "");
-	}
 
-	g_free (id);
 	g_free (req->vcard);
 }
 
@@ -124,24 +166,11 @@ pas_backend_ldap_process_remove_card (PASBackend *backend,
 				      PASBook    *book,
 				      PASRequest *req)
 {
-	PASBackendLDAP *bl = PAS_BACKEND_LDAP (backend);
-	LDAP           *ldap = bl->priv->ldap;
-	int            ldap_error;
+	g_warning ("pas_backend_ldap_process_remove_card not implemented\n");
 
-	/* XXX use ldap_delete_s */
-
-	if (LDAP_SUCCESS == ldap_error) {
-		pas_book_notify_remove (book, req->id);
-
-		pas_book_respond_remove (
-				  book,
-				  Evolution_BookListener_Success);
-	}
-	else {
-		pas_book_respond_remove (
+	pas_book_respond_remove (
 				 book,
 				 Evolution_BookListener_CardNotFound);
-	}
 
 	g_free (req->id);
 }
@@ -156,7 +185,9 @@ pas_backend_ldap_build_all_cards_list(PASBackend *backend,
 	LDAPMessage    *res, *e;
 
 
-	if (ldap_search_s (ldap, NULL, LDAP_SCOPE_ONELEVEL,
+	if (ldap_search_s (ldap,
+			   NULL,
+			   LDAP_SCOPE_ONELEVEL,
 			   "(objectclass=*)",
 			   NULL, 0, &res) == -1) {
 		ldap_perror (ldap, "ldap_search");
@@ -191,33 +222,18 @@ pas_backend_ldap_process_modify_card (PASBackend *backend,
 				      PASBook    *book,
 				      PASRequest *req)
 {
-	PASBackendLDAP *bl = PAS_BACKEND_LDAP (backend);
-	LDAP           *ldap = bl->priv->ldap;
-	int            ldap_error;
+	g_warning ("pas_backend_ldap_process_modify_card not implemented\n");
 
-	/* XXX use ldap_modify_s */
-
-	if (LDAP_SUCCESS == ldap_error) {
-
-		pas_book_notify_change (book, req->id);
-
-		pas_book_respond_modify (
-				 book,
-				 Evolution_BookListener_Success);
-	}
-	else {
-		pas_book_respond_modify (
+	pas_book_respond_modify (
 				 book,
 				 Evolution_BookListener_CardNotFound);
-	}
-
 	g_free (req->vcard);
 }
 
 static void
-pas_backend_ldap_process_get_all_cards (PASBackend *backend,
-					PASBook    *book,
-					PASRequest *req)
+pas_backend_ldap_process_get_cursor (PASBackend *backend,
+				     PASBook    *book,
+				     PASRequest *req)
 {
 	CORBA_Environment ev;
 	PASBackendLDAPCursorPrivate *cursor_data;
@@ -238,7 +254,7 @@ pas_backend_ldap_process_get_all_cards (PASBackend *backend,
 	Evolution_Book_ref(corba_book, &ev);
 	
 	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning("pas_backend_file_process_get_all_cards: Exception reffing "
+		g_warning("pas_backend_file_process_get_cursor: Exception reffing "
 			  "corba book.\n");
 	}
 
@@ -257,6 +273,406 @@ pas_backend_ldap_process_get_all_cards (PASBackend *backend,
 		 ? Evolution_BookListener_Success 
 		 : Evolution_BookListener_CardNotFound),
 		cursor);
+}
+
+static gchar *
+map_e_card_prop_to_ldap(gchar *e_card_prop)
+{
+	if (!strcmp(e_card_prop, "full_name")) return "cn";
+	else if (!strcmp(e_card_prop, "email")) return "mail";
+	else return NULL;
+}
+
+static gchar *
+map_ldap_to_e_card_prop(gchar *ldap_attr)
+{
+	if (!strcmp(ldap_attr, "cn")) return "full_name";
+	else return NULL;
+}
+
+static ESExpResult *
+func_and(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
+{
+	GList **list = data;
+	ESExpResult *r;
+	char ** strings;
+
+	if (argc > 0) {
+		int i;
+
+		strings = g_new(char*, argc+3);
+		strings[0] = g_strdup ("(&");
+		strings[argc+3 - 2] = g_strdup (")");
+		strings[argc+3 - 1] = NULL;
+		
+		for (i = 0; i < argc; i ++) {
+			GList *list_head = *list;
+			strings[argc - i] = (*list)->data;
+			*list = g_list_remove_link(*list, *list);
+			g_list_free_1(list_head);
+		}
+
+		*list = g_list_prepend(*list, g_strjoinv(" ", strings));
+
+		for (i = 0 ; i < argc + 2; i ++)
+			g_free (strings[i]);
+
+		g_free (strings);
+	}
+
+	r = e_sexp_result_new(ESEXP_RES_BOOL);
+	r->value.bool = FALSE;
+
+	return r;
+}
+
+static ESExpResult *
+func_or(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
+{
+	GList **list = data;
+	ESExpResult *r;
+	char ** strings;
+
+	if (argc > 0) {
+		int i;
+
+		strings = g_new(char*, argc+3);
+		strings[0] = g_strdup ("(|");
+		strings[argc+3 - 2] = g_strdup (")");
+		strings[argc+3 - 1] = NULL;
+		for (i = 0; i < argc; i ++) {
+			GList *list_head = *list;
+			strings[argc - i] = (*list)->data;
+			*list = g_list_remove_link(*list, *list);
+			g_list_free_1(list_head);
+		}
+
+		*list = g_list_prepend(*list, g_strjoinv(" ", strings));
+
+		for (i = 0 ; i < argc + 2; i ++)
+			g_free (strings[i]);
+
+		g_free (strings);
+	}
+
+	r = e_sexp_result_new(ESEXP_RES_BOOL);
+	r->value.bool = FALSE;
+
+	return r;
+}
+
+static ESExpResult *
+func_not(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
+{
+	GList **list = data;
+	ESExpResult *r;
+
+	/* just replace the head of the list with the NOT of it. */
+	if (argc > 0) {
+		char *term = (*list)->data;
+		(*list)->data = g_strdup_printf("(!%s)", term);
+		g_free (term);
+	}
+
+	r = e_sexp_result_new(ESEXP_RES_BOOL);
+	r->value.bool = FALSE;
+
+	return r;
+}
+
+static ESExpResult *
+func_contains(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
+{
+	GList **list = data;
+	ESExpResult *r;
+
+	if (argc == 2
+	    && argv[0]->type == ESEXP_RES_STRING
+	    && argv[1]->type == ESEXP_RES_STRING) {
+		char *propname = argv[0]->value.string;
+		char *str = argv[1]->value.string;
+		char *ldap_attr = map_e_card_prop_to_ldap(propname);
+		gboolean one_star = FALSE;
+
+		if (strlen(str) == 0)
+			one_star = TRUE;
+
+		if (ldap_attr)
+			*list = g_list_prepend(*list,
+					       g_strdup_printf("(%s=*%s%s)",
+							       ldap_attr,
+							       str,
+							       one_star ? "" : "*"));
+	}
+
+	r = e_sexp_result_new(ESEXP_RES_BOOL);
+	r->value.bool = FALSE;
+
+	return r;
+}
+
+static ESExpResult *
+func_is(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
+{
+	GList **list = data;
+	ESExpResult *r;
+
+	if (argc == 2
+	    && argv[0]->type == ESEXP_RES_STRING
+	    && argv[1]->type == ESEXP_RES_STRING) {
+		char *propname = argv[0]->value.string;
+		char *str = argv[1]->value.string;
+		char *ldap_attr = map_e_card_prop_to_ldap(propname);
+
+		if (ldap_attr)
+			*list = g_list_prepend(*list,
+					       g_strdup_printf("(%s=%s)",
+							       ldap_attr, str));
+	}
+
+	r = e_sexp_result_new(ESEXP_RES_BOOL);
+	r->value.bool = FALSE;
+
+	return r;
+}
+
+static ESExpResult *
+func_beginswith(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
+{
+	GList **list = data;
+	ESExpResult *r;
+
+	if (argc == 2
+	    && argv[0]->type == ESEXP_RES_STRING
+	    && argv[1]->type == ESEXP_RES_STRING) {
+		char *propname = argv[0]->value.string;
+		char *str = argv[1]->value.string;
+		char *ldap_attr = map_e_card_prop_to_ldap(propname);
+		gboolean one_star = FALSE;
+
+		if (strlen(str) == 0)
+			one_star = TRUE;
+
+		if (ldap_attr)
+			*list = g_list_prepend(*list,
+					       g_strdup_printf("(%s=%s*)",
+							       ldap_attr,
+							       str));
+	}
+
+	r = e_sexp_result_new(ESEXP_RES_BOOL);
+	r->value.bool = FALSE;
+
+	return r;
+}
+
+static ESExpResult *
+func_endswith(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
+{
+	GList **list = data;
+	ESExpResult *r;
+
+	if (argc == 2
+	    && argv[0]->type == ESEXP_RES_STRING
+	    && argv[1]->type == ESEXP_RES_STRING) {
+		char *propname = argv[0]->value.string;
+		char *str = argv[1]->value.string;
+		char *ldap_attr = map_e_card_prop_to_ldap(propname);
+		gboolean one_star = FALSE;
+
+		if (strlen(str) == 0)
+			one_star = TRUE;
+
+		if (ldap_attr)
+			*list = g_list_prepend(*list,
+					       g_strdup_printf("(%s=*%s)",
+							       ldap_attr,
+							       str));
+	}
+
+	r = e_sexp_result_new(ESEXP_RES_BOOL);
+	r->value.bool = FALSE;
+
+	return r;
+}
+
+/* 'builtin' functions */
+static struct {
+	char *name;
+	ESExpFunc *func;
+	int type;		/* set to 1 if a function can perform shortcut evaluation, or
+				   doesn't execute everything, 0 otherwise */
+} symbols[] = {
+	{ "and", func_and, 0 },
+	{ "or", func_or, 0 },
+	{ "not", func_not, 0 },
+	{ "contains", func_contains, 0 },
+	{ "is", func_is, 0 },
+	{ "beginswith", func_beginswith, 0 },
+	{ "endswith", func_endswith, 0 },
+};
+
+static gchar *
+pas_backend_ldap_build_query (gchar *query)
+{
+	ESExp *sexp;
+	ESExpResult *r;
+	gchar *retval;
+	GList *list = NULL;
+	int i;
+
+	sexp = e_sexp_new();
+
+	for(i=0;i<sizeof(symbols)/sizeof(symbols[0]);i++) {
+		if (symbols[i].type == 1) {
+			e_sexp_add_ifunction(sexp, 0, symbols[i].name,
+					     (ESExpIFunc *)symbols[i].func, &list);
+		} else {
+			e_sexp_add_function(sexp, 0, symbols[i].name,
+					    symbols[i].func, &list);
+		}
+	}
+
+	e_sexp_input_text(sexp, query, strlen(query));
+	e_sexp_parse(sexp);
+
+	r = e_sexp_eval(sexp);
+
+	gtk_object_unref(GTK_OBJECT(sexp));
+	e_sexp_result_free(r);
+
+	if (list->next) {
+		g_warning ("conversion to ldap query string failed");
+		retval = NULL;
+		g_list_foreach (list, (GFunc)g_free, NULL);
+	}
+	else {
+		retval = list->data;
+	}
+
+	g_list_free (list);
+	return retval;
+}
+
+static void
+pas_backend_ldap_search (PASBackendLDAP  	*bl,
+			 PASBook         	*book,
+			 PASBackendLDAPBookView *view)
+{
+	char *ldap_query = pas_backend_ldap_build_query(view->search);
+	GList   *cards = NULL;
+
+	if (ldap_query != NULL) {
+		LDAP           *ldap = bl->priv->ldap;
+		int            ldap_error;
+		LDAPMessage    *res, *e;
+
+		pas_backend_ldap_ensure_connected(bl);
+
+		if ((ldap_error = ldap_search_s (ldap,
+						 NULL,
+						 LDAP_SCOPE_ONELEVEL,
+						 ldap_query,
+						 NULL, 0, &res)) != LDAP_SUCCESS) {
+			ldap_perror (ldap, "ldap_search");
+		}
+
+		e = ldap_first_entry(ldap, res);
+
+		while (NULL != e) {
+			ECard *card = E_CARD(gtk_type_new(e_card_get_type()));
+			char *dn = ldap_get_dn(ldap, e);
+			char *attr, *prop;
+			BerElement *ber = NULL;
+			
+			e_card_set_id (card, dn);
+			
+			/* XXX needs a bit of work here */
+			for (attr = ldap_first_attribute (ldap, e, &ber); attr;
+			     attr = ldap_next_attribute (ldap, e, ber)) {
+				prop = map_ldap_to_e_card_prop (attr);
+				
+				if (prop) {
+					char **values;
+					values = ldap_get_values (ldap, e, attr);
+
+					gtk_object_set(GTK_OBJECT(card), prop, values[0], NULL);
+
+					ldap_value_free (values);
+				}
+			}
+
+			if (ber)
+				ber_free (ber, 0);
+
+			cards = g_list_append(cards, e_card_get_vcard(card));
+
+			gtk_object_unref (GTK_OBJECT(card));
+
+			e = ldap_next_entry(ldap, e);
+		}
+
+		ldap_msgfree(res);
+
+		if (cards) {
+			pas_book_view_notify_add (view->book_view, cards);
+			
+			/*
+			** It's fine to do this now since the data has been handed off.
+			*/
+			g_list_foreach (cards, (GFunc)g_free, NULL);
+			g_list_free (cards);
+		}
+
+	}
+}
+
+static void
+pas_backend_ldap_process_get_book_view (PASBackend *backend,
+					PASBook    *book,
+					PASRequest *req)
+{
+	PASBackendLDAP *bl = PAS_BACKEND_LDAP (backend);
+	CORBA_Environment ev;
+	int               db_error = 0;
+	Evolution_Book    corba_book;
+	PASBookView       *book_view;
+	PASBackendLDAPBookView *view;
+
+	g_return_if_fail (req->listener != NULL);
+
+	corba_book = bonobo_object_corba_objref(BONOBO_OBJECT(book));
+
+	CORBA_exception_init(&ev);
+
+	Evolution_Book_ref(corba_book, &ev);
+	
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_warning("pas_backend_file_process_get_book_view: Exception reffing "
+			  "corba book.\n");
+	}
+
+	CORBA_exception_free(&ev);
+
+	book_view = pas_book_view_new (req->listener);
+
+	gtk_signal_connect(GTK_OBJECT(book_view), "destroy",
+			   GTK_SIGNAL_FUNC(view_destroy), book);
+
+	pas_book_respond_get_book_view (book,
+		(book_view != NULL
+		 ? Evolution_BookListener_Success 
+		 : Evolution_BookListener_CardNotFound /* XXX */),
+		book_view);
+
+	view = g_new(PASBackendLDAPBookView, 1);
+	view->book_view = book_view;
+	view->search = g_strdup(req->search);
+
+	bl->priv->book_views = g_list_prepend(bl->priv->book_views, view);
+
+	pas_backend_ldap_search (bl, book, view);
+
 }
 
 static void
@@ -297,9 +713,13 @@ pas_backend_ldap_process_client_requests (PASBook *book)
 	case CheckConnection:
 		pas_backend_ldap_process_check_connection (backend, book, req);
 		break;
-		
-	case GetAllCards:
-		pas_backend_ldap_process_get_all_cards (backend, book, req);
+
+	case GetCursor:
+		pas_backend_ldap_process_get_cursor (backend, book, req);
+		break;
+
+	case GetBookView:
+		pas_backend_ldap_process_get_book_view (backend, book, req);
 		break;
 	}
 
@@ -347,33 +767,19 @@ pas_backend_ldap_load_uri (PASBackend             *backend,
 
 	g_assert (bl->priv->connected == FALSE);
 
-#if 0
 	ldap_error = ldap_url_parse (uri, &lud);
 	if (LDAP_SUCCESS == ldap_error) {
-		bl->priv->ldap = ldap_open (lud->lud_host, lud->lud_port);
-		if (NULL != bl->priv->ldap)
-			bl->priv->connected = TRUE;
-		else
-			g_warning ("pas_backend_ldap_load_uri failed for '%s' (error %s)\n",
-				   uri, ldap_err2string(ldap_error));
+		bl->priv->ldap_host = g_strdup(lud->lud_host);
+		bl->priv->ldap_port = lud->lud_port;
 
 		ldap_free_urldesc(lud);
+
+		pas_backend_ldap_ensure_connected(bl);
 	}
 	else {
 		g_warning ("pas_backend_ldap_load_uri failed for '%s' (error %s)\n",
 			   uri, ldap_err2string(ldap_error));
 	}
-#else
-	bl->priv->ldap = ldap_init ("ldap.bigfoot.com", 389);
-	if (NULL != bl->priv->ldap)
-		bl->priv->connected = TRUE;
-	else
-		g_warning ("pas_backend_ldap_load_uri failed for '%s' (error %s)\n",
-			   uri, ldap_err2string(ldap_error));
-
-	ldap_bind_s(bl->priv->ldap, NULL /*binddn*/, NULL /*passwd*/, LDAP_AUTH_SIMPLE);
-
-#endif
 }
 
 static void
@@ -452,6 +858,8 @@ pas_backend_ldap_new (void)
 
 		return NULL;
 	}
+
+	backend->priv->ldap = NULL;
 
 	return PAS_BACKEND (backend);
 }

@@ -25,7 +25,7 @@ wombat_LDADD =				\
 	$(top_builddir)/calendar/cal-util/libcalutil.la     	\
 	$(top_builddir)/libversit/libversit.la 			\
 	$(top_builddir)/e-util/libeutil.la     			\
-	-lgnomevfs
+	-lgnomevfs $(LDAP_LIBS)
 
 wombat_LDFLAGS = `gnome-config --libs gnorba` 
 

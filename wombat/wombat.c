@@ -9,6 +9,9 @@
 #include <bonobo.h>
 #include <pas-book-factory.h>
 #include <pas-backend-file.h>
+#ifdef HAVE_LDAP
+#include <pas-backend-ldap.h>
+#endif
 #include <libgnomevfs/gnome-vfs-init.h>
 #include <libgnorba/gnorba.h>
 #include <cal-factory.h>
@@ -26,6 +29,11 @@ setup_pas (int argc, char **argv)
 
 	pas_book_factory_register_backend (
 		factory, "file", pas_backend_file_new);
+
+#ifdef HAVE_LDAP
+	pas_book_factory_register_backend (
+		factory, "ldap", pas_backend_ldap_new);
+#endif
 
 	pas_book_factory_activate (factory);
 }
