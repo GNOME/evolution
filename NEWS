@@ -168,6 +168,24 @@ Other bugs:
     - Cleaned up lots of compile time warnings and run-time debugging
       output  (everyone)
 
+Updated translations:
+
+  - cs (Miloslav Trmac)
+  - da (Kenneth Rode Christiansen)
+  - de (Christian Neumair)
+  - es (Francisco Javier Fernandez)
+  - fr (Christophe Fergeau)
+  - it (Marco Ciampa)
+  - ja (Takuo Kitame)
+  - no (Kjartan Maraas)
+  - pt (Duarte Loreto)
+  - pt_BR (Gustavo Maciel Das Vieira)
+  - ru (GNOME Russian Team)
+  - sv (Christian Rose, Anders Carlsson)
+
+  - Fixed encoding of the ca, en_AU, en_CB, et, eu, ro catalogs (Abel
+    Cheung)
+
 
 Evolution 1.3.3, 2003-04-29
 ---------------------------
