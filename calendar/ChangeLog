@@ -1,3 +1,10 @@
+2001-01-14  Damon Chaplin  <damon@helixcode.com>
+
+	* gui/e-calendar-table.c (E_CALENDAR_TABLE_SPEC): changed the expansion
+	values so that small text fields are 1.0, all the date fields and the
+	URL field are 2.0, and the Summary is 3.0. Hopefully the user will
+	resize the fields as desired, but at least this is a better start.
+
 2001-01-14  JP Rosevear  <jpr@ximian.com>
 
 	* conduits/calendar/Makefile.am: pass -module and -avoid-version to 

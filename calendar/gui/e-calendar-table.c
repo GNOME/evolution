@@ -177,16 +177,16 @@ static char *list [] = {
 	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "	\
 	"   cell=\"calstring\"   compare=\"string\"/>"			\
         "  <ETableColumn model_col= \"2\" _title=\"Completion Date\" "	\
-	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "	\
+	"   expansion=\"2.0\" minimum_width=\"10\" resizable=\"true\" "	\
 	"   cell=\"calstring\"   compare=\"string\"/>"			\
         "  <ETableColumn model_col= \"3\" _title=\"End Date\" "		\
-	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "	\
+	"   expansion=\"2.0\" minimum_width=\"10\" resizable=\"true\" "	\
 	"   cell=\"calstring\"   compare=\"string\"/>"			\
         "  <ETableColumn model_col= \"4\" _title=\"Start Date\" "	\
-	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "	\
+	"   expansion=\"2.0\" minimum_width=\"10\" resizable=\"true\" "	\
 	"   cell=\"calstring\"   compare=\"string\"/>"			\
         "  <ETableColumn model_col= \"5\" _title=\"Due Date\" "		\
-	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "	\
+	"   expansion=\"2.0\" minimum_width=\"10\" resizable=\"true\" "	\
 	"   cell=\"calstring\"   compare=\"string\"/>"			\
         "  <ETableColumn model_col= \"6\" _title=\"Geographical Position\" " \
 	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "	\
@@ -198,13 +198,13 @@ static char *list [] = {
 	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "	\
 	"   cell=\"calstring\"   compare=\"string\"/>"			\
         "  <ETableColumn model_col= \"9\" _title=\"Summary\" "		\
-	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "	\
+	"   expansion=\"3.0\" minimum_width=\"10\" resizable=\"true\" "	\
 	"   cell=\"calstring\"  compare=\"string\"/>"			\
         "  <ETableColumn model_col=\"10\" _title=\"Transparency\" "	\
 	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "	\
 	"   cell=\"calstring\"   compare=\"string\"/>"			\
         "  <ETableColumn model_col=\"11\" _title=\"URL\" "		\
-	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "	\
+	"   expansion=\"2.0\" minimum_width=\"10\" resizable=\"true\" "	\
 	"   cell=\"calstring\"   compare=\"string\"/>"			\
         "  <ETableColumn model_col=\"12\" _title=\"Alarms\" "		\
 	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "	\
