@@ -1,3 +1,30 @@
+2001-09-26  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-view.c (setup_verb_sensitivity_for_folder): New helper
+	function.
+	(folder_selected_cb): Call it.
+	(folder_context_menu_popping_up_cb): New callback for the
+	"folder_context_menu_popping_up" signal on the folder bar's
+	EStorageSetView; set the sensitivities of the verbs according to
+	the right-clicked folder.
+	(folder_context_menu_popped_down_cb): New, callback for the
+	"folder_context_menu_popped_down" signal on the folder bar's
+	EStorageSetView; set the sensitivities of the verbs according to
+	the currently displayed folder.
+	(e_shell_view_get_folder_bar_right_click_path): Add a cast to
+	placate a warning.
+
+	* e-storage-set-view.c (class_init): Set up the
+	"folder_context_menu_popping_up" and
+	"folder_context_menu_popped_down" signals.
+	(right_click): Emit "folder_context_menu_popping_up" before
+	popping up the menu, "folder_context_menu_popped_down" after the
+	menu is gone.
+
+	* e-storage-set-view.h: New signals
+	"folder_context_menu_popping_up" and
+	"folder_context_menu_popped_down".
+
 2001-09-25  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-folder-commands.c (e_shell_command_rename_folder):

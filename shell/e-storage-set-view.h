@@ -65,6 +65,10 @@ struct _EStorageSetViewClass {
 			     const char *source_data,
 			     const char *source_data_type,
 			     const char *target_path);
+
+	void (* folder_context_menu_popping_up)  (EStorageSetView *storage_set_view,
+						  const char *path);
+	void (* folder_context_menu_popped_down) (EStorageSetView *storage_set_view);
 };
 
 

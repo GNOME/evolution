@@ -106,6 +106,8 @@ enum {
 	FOLDER_SELECTED,
 	STORAGE_SELECTED,
 	DND_ACTION,
+	FOLDER_CONTEXT_MENU_POPPING_UP,
+	FOLDER_CONTEXT_MENU_POPPED_DOWN,
 	LAST_SIGNAL
 };
 
@@ -1248,8 +1250,16 @@ right_click (ETree *etree,
 		g_free (priv->right_click_row_path);
 	priv->right_click_row_path = g_strdup (e_tree_memory_node_get_data (E_TREE_MEMORY(priv->etree_model), path));
 
-	if (priv->container)
+	if (priv->container) {
+		gtk_signal_emit (GTK_OBJECT (storage_set_view),
+				 signals[FOLDER_CONTEXT_MENU_POPPING_UP],
+				 priv->right_click_row_path);
+
 		popup_folder_menu (storage_set_view, (GdkEventButton *) event);
+
+		gtk_signal_emit (GTK_OBJECT (storage_set_view),
+				 signals[FOLDER_CONTEXT_MENU_POPPED_DOWN]);
+	}
 
 	g_free (priv->right_click_row_path);
 	priv->right_click_row_path = NULL;
@@ -1670,6 +1680,23 @@ class_init (EStorageSetViewClass *klass)
 				  GTK_TYPE_STRING,
 				  GTK_TYPE_STRING,
 				  GTK_TYPE_STRING);
+
+	signals[FOLDER_CONTEXT_MENU_POPPING_UP]
+		= gtk_signal_new ("folder_context_menu_popping_up",
+				  GTK_RUN_FIRST,
+				  object_class->type,
+				  GTK_SIGNAL_OFFSET (EStorageSetViewClass, folder_context_menu_popping_up),
+				  gtk_marshal_NONE__STRING,
+				  GTK_TYPE_NONE, 1,
+				  GTK_TYPE_STRING);
+
+	signals[FOLDER_CONTEXT_MENU_POPPED_DOWN]
+		= gtk_signal_new ("folder_context_menu_popped_down",
+				  GTK_RUN_FIRST,
+				  object_class->type,
+				  GTK_SIGNAL_OFFSET (EStorageSetViewClass, folder_context_menu_popped_down),
+				  gtk_marshal_NONE__NONE,
+				  GTK_TYPE_NONE, 0);
 
 	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 }

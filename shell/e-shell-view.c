@@ -275,6 +275,39 @@ cleanup_delayed_selection (EShellView *shell_view)
 	}
 }
 
+static void
+setup_verb_sensitivity_for_folder (EShellView *shell_view,
+				   const char *path)
+{
+	EShellViewPrivate *priv;
+	BonoboUIComponent *ui_component;
+	const char *prop;
+
+	priv = shell_view->priv;
+
+	/* Adjust sensitivity for menu options depending on whether the folder
+           selected is a stock folder.  */
+
+	if (path == NULL) {
+		prop = "0";
+	} else {
+		EFolder *folder;
+
+		folder = e_storage_set_get_folder (e_shell_get_storage_set (priv->shell), path);
+		if (folder != NULL && ! e_folder_get_is_stock (folder))
+			prop = "1";
+		else
+			prop = "0";
+	}
+
+	ui_component = e_shell_view_get_bonobo_ui_component (shell_view);
+
+	bonobo_ui_component_set_prop (ui_component, "/commands/MoveFolder", "sensitive", prop, NULL);
+	bonobo_ui_component_set_prop (ui_component, "/commands/CopyFolder", "sensitive", prop, NULL);
+	bonobo_ui_component_set_prop (ui_component, "/commands/DeleteFolder", "sensitive", prop, NULL);
+	bonobo_ui_component_set_prop (ui_component, "/commands/RenameFolder", "sensitive", prop, NULL);
+}
+
 
 /* Folder bar pop-up handling.  */
 
@@ -594,38 +627,10 @@ folder_selected_cb (EStorageSetView *storage_set_view,
 		    void *data)
 {
 	EShellView *shell_view;
-	EShellViewPrivate *priv;
-	EStorageSet *storage_set;
-	EFolder *folder;
 
 	shell_view = E_SHELL_VIEW (data);
-	priv = shell_view->priv;
 
-	/* Adjust sensitivity for menu options depending on whether
-           the folder selected is a stock folder */
-	storage_set = e_shell_get_storage_set (priv->shell);
-	folder = e_storage_set_get_folder (storage_set, path);
-	if (folder) {
-		BonoboUIComponent *uic;
-		char *txt;
-
-		if (e_folder_get_is_stock (folder))
-			txt = "0";
-		else
-			txt = "1";
-
-		uic = e_shell_view_get_bonobo_ui_component (shell_view);
-
-		bonobo_ui_component_set_prop (uic, "/commands/MoveFolder",
-					      "sensitive", txt, NULL);
-		bonobo_ui_component_set_prop (uic, "/commands/CopyFolder",
-					      "sensitive", txt, NULL);
-		bonobo_ui_component_set_prop (uic, "/commands/DeleteFolder",
-					      "sensitive", txt, NULL);
-		bonobo_ui_component_set_prop (uic, "/commands/RenameFolder",
-					      "sensitive", txt, NULL);
-	}
-
+	setup_verb_sensitivity_for_folder (shell_view, path);
 	switch_on_folder_tree_click (shell_view, path);
 }
 
@@ -644,6 +649,31 @@ storage_selected_cb (EStorageSetView *storage_set_view,
 	switch_on_folder_tree_click (shell_view, path);
 
 	g_free (path);
+}
+
+/* Callbacks for the folder context menu in the folder bar.  */
+
+static void
+folder_context_menu_popping_up_cb (EStorageSetView *storage_set_view,
+				   const char *path,
+				   void *data)
+{
+	EShellView *shell_view;
+
+	shell_view = E_SHELL_VIEW (data);
+
+	setup_verb_sensitivity_for_folder (shell_view, path);
+}
+
+static void
+folder_context_menu_popped_down_cb (EStorageSetView *storage_set_view,
+				    void *data)
+{
+	EShellView *shell_view;
+
+	shell_view = E_SHELL_VIEW (data);
+
+	setup_verb_sensitivity_for_folder (shell_view, e_shell_view_get_current_path (shell_view));
 }
 
 /* Callback called when the button on the tree's title bar is clicked.  */
@@ -718,6 +748,10 @@ setup_storage_set_subwindow (EShellView *shell_view)
 			    GTK_SIGNAL_FUNC (folder_selected_cb), shell_view);
 	gtk_signal_connect (GTK_OBJECT (storage_set_view), "storage_selected",
 			    GTK_SIGNAL_FUNC (storage_selected_cb), shell_view);
+	gtk_signal_connect (GTK_OBJECT (storage_set_view), "folder_context_menu_popping_up",
+			    GTK_SIGNAL_FUNC (folder_context_menu_popping_up_cb), shell_view);
+	gtk_signal_connect (GTK_OBJECT (storage_set_view), "folder_context_menu_popped_down",
+			    GTK_SIGNAL_FUNC (folder_context_menu_popped_down_cb), shell_view);
 
 	scroll_frame = e_scroll_frame_new (NULL, NULL);
 	e_scroll_frame_set_policy (E_SCROLL_FRAME (scroll_frame),
@@ -2504,7 +2538,7 @@ e_shell_view_get_folder_bar_right_click_path (EShellView *shell_view)
 
 	priv = shell_view->priv;
 
-	return e_storage_set_view_get_right_click_path (priv->storage_set_view);
+	return e_storage_set_view_get_right_click_path (E_STORAGE_SET_VIEW (priv->storage_set_view));
 }
 
 
