@@ -37,6 +37,7 @@
 extern char *default_drafts_folder_uri, *default_sent_folder_uri;
 
 static void save_service (MailAccountGuiService *gsvc, GHashTable *extra_conf, MailConfigService *service);
+static void service_changed (GtkEntry *entry, gpointer user_data);
 
 static gboolean
 is_email (const char *address)

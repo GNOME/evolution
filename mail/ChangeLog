@@ -1,3 +1,9 @@
+2001-04-04  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* mail-account-gui.c: Add prototype for service_changed().
+	* message-list.h: Remove #include <gal/e-table/e-tree-simple.h>
+	since it doesn't get installed.
+	
 2001-04-04  Gediminas Paulauskas <menesis@delfi.lt>
 
 	* mail-config-druid.c (create_html): set content type to utf8.
