@@ -1,3 +1,10 @@
+2002-09-20  JP Rosevear  <jpr@ximian.com>
+
+	* gui/dialogs/meeting-page.c (meeting_page_fill_widgets): set the
+	deleted attendees array to size 0 after we clean it up
+
+	Fixes #30479
+	
 2002-09-20  Rodrigo Moya <rodrigo@ximian.com>
 
 	* pcs/query.c (parse_sexp): remove the query from the cache if it

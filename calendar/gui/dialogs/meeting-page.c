@@ -333,7 +333,8 @@ meeting_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	priv->comp = NULL;
 	
 	cleanup_attendees (priv->deleted_attendees);
-
+	g_ptr_array_set_size (priv->deleted_attendees, 0);
+	
 	/* Clean the screen */
 	clear_widgets (mpage);
 
