@@ -1,5 +1,11 @@
 2003-11-13  Ettore Perazzoli  <ettore@ximian.com>
 
+	* evolution.xml: Remove type="toggle" from the "ToggleOffline"
+	verb; I'm not sure why it was there in the first place and it was
+	causing BonoboUI to spew warnings.
+
+2003-11-13  Ettore Perazzoli  <ettore@ximian.com>
+
 	* evolution.xml: Ooops, add missing closing </popups> tag.
 
 2003-11-13  Ettore Perazzoli  <ettore@ximian.com>

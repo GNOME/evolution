@@ -15,7 +15,7 @@
 
     <cmd name="Settings" pixtype="pixbuf"/>
 
-    <cmd name="ToggleOffline" _type="Toggle"
+    <cmd name="ToggleOffline" 
       _label="_Work Offline"
       _tip="Toggle whether we are working offline."/>
 
