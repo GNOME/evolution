@@ -440,6 +440,11 @@ gpg_ctx_get_argv (struct _GpgCtx *gpg, int status_fd, char **sfd, int passwd_fd,
 	*sfd = buf = g_strdup_printf ("--status-fd=%d", status_fd);
 	g_ptr_array_add (argv, buf);
 	
+	if (gpg->need_passwd && passwd_fd != -1) {
+		*pfd = buf = g_strdup_printf ("--passphrase-fd=%d", passwd_fd);
+		g_ptr_array_add (argv, buf);
+	}
+	
 	switch (gpg->mode) {
 	case GPG_CTX_MODE_SIGN:
 		g_ptr_array_add (argv, "--sign");
@@ -491,11 +496,6 @@ gpg_ctx_get_argv (struct _GpgCtx *gpg, int status_fd, char **sfd, int passwd_fd,
 		g_ptr_array_add (argv, "--output");
 		g_ptr_array_add (argv, "-");
 		break;
-	}
-	
-	if (gpg->need_passwd && passwd_fd != -1) {
-		*pfd = buf = g_strdup_printf ("--passphrase-fd=%d", passwd_fd);
-		g_ptr_array_add (argv, buf);
 	}
 	
 	printf ("gpg command-line: ");
@@ -835,6 +835,7 @@ gpg_ctx_op_step (struct _GpgCtx *gpg, CamelException *ex)
 		ssize_t nread;
 		
 		printf ("reading from gpg's status-fd...\n");
+		fflush (stdout);
 		
 		nread = read (gpg->status_fd, buffer, sizeof (buffer));
 		if (nread == -1)
@@ -875,11 +876,33 @@ gpg_ctx_op_step (struct _GpgCtx *gpg, CamelException *ex)
 		g_byte_array_append (gpg->diagnostics, buffer, nread);
 	}
 	
-	if (wrsetp && FD_ISSET (gpg->passwd_fd, &wrset) && gpg->passwd_fd != -1 && gpg->need_passwd && gpg->passwd) {
+	if (wrsetp && gpg->passwd_fd != -1 && FD_ISSET (gpg->passwd_fd, &wrset) && gpg->need_passwd) {
 		ssize_t w, nwritten = 0;
 		size_t n;
 		
 		printf ("sending gpg our passphrase...\n");
+		
+		if (!gpg->passwd) {
+			const char *name, *userid;
+			char *prompt;
+			
+			userid = gpg->userid;
+			if (userid) {
+				name = g_hash_table_lookup (gpg->userid_hint, gpg->userid);
+				if (name == NULL)
+					name = gpg->userid;
+			} else {
+				name = "GnuPG";
+				userid = "passphrase";
+			}
+			
+			prompt = g_strdup_printf (_("You need a passphrase to unlock the key for\n"
+						    "user: \"%s\""), name);
+			
+			gpg->passwd = camel_session_get_password (gpg->session, prompt, TRUE, NULL,
+								  userid, ex);
+			g_free (prompt);
+		}
 		
 		/* send the passphrase to gpg */
 		n = strlen (gpg->passwd);
@@ -896,7 +919,7 @@ gpg_ctx_op_step (struct _GpgCtx *gpg, CamelException *ex)
 			goto exception;
 	}
 	
-	if (wrsetp && FD_ISSET (gpg->stdin, &wrset) && gpg->stdin != -1) {
+	if (wrsetp && gpg->stdin != -1 && FD_ISSET (gpg->stdin, &wrset)) {
 		char buffer[4096];
 		ssize_t nread;
 		
