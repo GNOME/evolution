@@ -1787,7 +1787,7 @@ folder_browser_gui_init (FolderBrowser *fb)
 static gint 
 do_mark_seen (gpointer data)
 {
-	FolderBrowser *fb = data;
+	FolderBrowser *fb = FOLDER_BROWSER (data);
 	
 	if (fb->new_uid && fb->loaded_uid && !strcmp (fb->new_uid, fb->loaded_uid)) {
 		camel_folder_set_message_flags (fb->folder, fb->new_uid, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
