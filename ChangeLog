@@ -1,3 +1,7 @@
+2001-03-16  Jakub Steiner <jimmac@ximian.com>
+
+	* art/48_import.png: for the import druid
+
 2001-03-15  Dan Winship  <danw@ximian.com>
 
 	* configure.in: Bump gal requirement to 0.5.99.7
