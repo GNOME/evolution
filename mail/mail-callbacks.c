@@ -763,6 +763,14 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 	return composer;
 }
 
+static void
+requeue_mail_reply(CamelFolder *folder, char *uid, CamelMimeMessage *msg, void *data)
+{
+	int mode = GPOINTER_TO_INT(data);
+
+	mail_reply(folder, msg, uid, mode);
+}
+
 void
 mail_reply (CamelFolder *folder, CamelMimeMessage *msg, const char *uid, int mode)
 {
@@ -770,9 +778,14 @@ mail_reply (CamelFolder *folder, CamelMimeMessage *msg, const char *uid, int mod
 	struct post_send_data *psd;
 	
 	g_return_if_fail (folder != NULL);
-	g_return_if_fail (msg != NULL);
 	g_return_if_fail (uid != NULL);
 	
+	if (!msg) {
+		mail_get_message (folder, uid, requeue_mail_reply,
+				  GINT_TO_POINTER(mode), mail_thread_new);
+		return;
+	}
+
 	psd = g_new (struct post_send_data, 1);
 	psd->folder = folder;
 	camel_object_ref (CAMEL_OBJECT (psd->folder));
