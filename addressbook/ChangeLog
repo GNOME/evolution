@@ -1,3 +1,9 @@
+2003-04-15  Chris Toshok  <toshok@ximian.com>
+
+	[ fixes #41252 ]
+	* gui/contact-editor/fulladdr.glade: change title from "Check
+	Address" to "Full Address".
+
 2003-04-09  Chris Toshok  <toshok@ximian.com>
 
 	[ fixes #40727 ]
