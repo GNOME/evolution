@@ -24,6 +24,7 @@
 #endif
 
 #include <stdlib.h>
+#include <limits.h>
 #include <sys/types.h>
 #include <dirent.h>
 #include <sys/stat.h>
@@ -31,6 +32,10 @@
 #include <errno.h>
 #include <string.h>
 #include <fcntl.h>
+
+#ifndef _POSIX_PATH_MAX
+#include <posix1_lim.h>
+#endif
 
 #include "camel-local-folder.h"
 #include "camel-local-store.h"
@@ -46,6 +51,10 @@
 #include "camel-local-private.h"
 
 #define d(x) /*(printf("%s(%d): ", __FILE__, __LINE__),(x))*/
+
+#ifndef PATH_MAX
+#define PATH_MAX _POSIX_PATH_MAX
+#endif
 
 static CamelFolderClass *parent_class = NULL;
 
@@ -172,6 +181,7 @@ camel_local_folder_construct(CamelLocalFolder *lf, CamelStore *parent_store, con
 	CamelFolderInfo *fi;
 	CamelFolder *folder;
 	const char *root_dir_path, *name;
+	char folder_path[PATH_MAX];
 	struct stat st;
 	int forceindex;
 
@@ -191,7 +201,14 @@ camel_local_folder_construct(CamelLocalFolder *lf, CamelStore *parent_store, con
 	lf->folder_path = g_strdup_printf("%s/%s", root_dir_path, full_name);
 	lf->summary_path = g_strdup_printf("%s/%s.ev-summary", root_dir_path, full_name);
 	lf->index_path = g_strdup_printf("%s/%s.ibex", root_dir_path, full_name);
-
+	
+	/* follow any symlinks to the mailbox */
+	if (lstat (lf->folder_path, &st) != -1 && S_ISLNK (st.st_mode) &&
+	    realpath (lf->folder_path, folder_path) != NULL) {
+		g_free (lf->folder_path);
+		lf->folder_path = g_strdup (folder_path);
+	}
+	
 	lf->changes = camel_folder_change_info_new();
 
 	/* if we have no index file, force it */

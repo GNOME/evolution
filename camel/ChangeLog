@@ -1,3 +1,22 @@
+2002-01-11  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap/camel-imap-folder.c (imap_update_summary): Kludge
+	around a bug in Exchange 5.5 that reports 2 messages with the same
+	UID. Fixes bug #17694.
+
+2002-01-09  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/local/camel-local-folder.c
+	(camel_local_folder_construct): If the mbox file is a symlink,
+	follow the symlink and get the One True Path so that we can
+	rewrite the mbox later without worrying about clobbering the
+	symlink.
+
+2001-12-11  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-service.c (camel_service_connect): Make sure that the
+	connect_op is non-NULL before unregistering/unreffing it.
+
 2001-12-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-folder-summary.c (content_info_load): Don't try setting a

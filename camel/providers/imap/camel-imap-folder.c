@@ -1849,8 +1849,35 @@ imap_update_summary (CamelFolder *folder, int exists,
 			g_datalist_clear (&data);
 			continue;
 		}
+		
 		mi = messages->pdata[seq - first];
-
+		if (mi == NULL) {
+			CamelMessageInfo *pmi = NULL;
+			int j;
+			
+			/* This is a kludge around a bug in Exchange
+			 * 5.5 that sometimes claims multiple messages
+			 * have the same UID. See bug #17694 for
+			 * details. The "solution" is to create a fake
+			 * message-info with the same details as the
+			 * previously valid message. Yes, the user
+			 * will have a clone in his/her message-list,
+			 * but at least we don't crash.
+			 */
+			
+			/* find the previous valid message info */
+			for (j = seq - first - 1; j >= 0; j--) {
+				pmi = messages->pdata[j];
+				if (pmi != NULL)
+					break;
+			}
+			
+			g_assert (pmi);
+			
+			mi = camel_message_info_new ();
+			camel_message_info_dup_to (pmi, mi);
+		}
+		
 		uid = g_datalist_get_data (&data, "UID");
 		if (uid)
 			camel_message_info_set_uid (mi, g_strdup (uid));
