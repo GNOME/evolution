@@ -1687,7 +1687,7 @@ addressbook_config_control_new (GNOME_Evolution_Shell shell)
 	Bonobo_ConfigDatabase config_db;
 	char *xml;
 	CORBA_Environment ev;
-	static const char *possible_types[] = { "contacts", "ldap-contacts" };
+	static const char *possible_types[] = { "contacts", "ldap-contacts", NULL };
 
 	CORBA_exception_init (&ev);
 
