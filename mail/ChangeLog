@@ -1,5 +1,10 @@
 2001-01-10  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* mail-config-druid.c (incoming_type_changed): Grab the focus of
+	the first widget that is sensitive.
+	(transport_type_changed): Same.
+	(identity_prepare): Grab the focus of the name entry.
+
 	* mail-callbacks.c (send_queued_mail): Prevent Federico's segfault.
 
 2001-01-10  Jeffrey Stedfast  <fejj@helixcode.com>
