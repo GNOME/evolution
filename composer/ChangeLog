@@ -1,3 +1,9 @@
+2004-10-28  Not Zed  <NotZed@Ximian.com>
+
+	* e-msg-composer.c (drag_data_received): fix the popup id.
+
+	* e-msg-composer-attachment-bar.c (emcab_popup): added popup doco.
+
 2004-10-27  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (composer_key_pressed): Close on Esc.

@@ -509,7 +509,14 @@ emcab_popup(EMsgComposerAttachmentBar *bar, GdkEventButton *event, int id)
 	for (i=0;i<sizeof(emcab_popups)/sizeof(emcab_popups[0]);i++)
 		menus = g_slist_prepend(menus, &emcab_popups[i]);
 
-	emp = em_popup_new("org.gnome.evolution.mail.composer.attachmentBar");
+	/** @HookPoint-EMPopup: Composer Attachment Bar Context Menu
+	 * @Id: org.gnome.evolution.mail.composer.attachmentbar.popup
+	 * @Class: org.gnome.evolution.mail.popup:1.0
+	 * @Target: EMPopupTargetAttachments
+	 *
+	 * This is the context menu on the composer attachment bar.
+	 */
+	emp = em_popup_new("org.gnome.evolution.mail.composer.attachmentbar.popup");
 	e_popup_add_items((EPopup *)emp, menus, emcab_popups_free, bar);
 	t = em_popup_target_new_attachments(emp, attachments);
 	t->target.widget = (GtkWidget *)bar;

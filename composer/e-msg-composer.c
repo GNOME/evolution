@@ -2926,7 +2926,7 @@ drag_data_received (EMsgComposer *composer, GdkDragContext *context,
 		memcpy(m->selection->data, selection->data, selection->length);
 		m->selection->length = selection->length;
 
-		emp = em_popup_new("org.gnome.mail.composer.popup.drop");
+		emp = em_popup_new("org.gnome.evolution.mail.composer.popup.drop");
 		for (i=0;i<sizeof(drop_popup_menu)/sizeof(drop_popup_menu[0]);i++)
 			menus = g_slist_append(menus, &drop_popup_menu[i]);
 
