@@ -1,6 +1,6 @@
 2005-02-21  JP Rosevear  <jpr@novell.com>
  
- 	Fixes #63866, #67714, #62089, #47747, #61495
+ 	Fixes #63866, #67714, #62089, #47747, #61495, #28947
  	
  	* gui/e-select-names-renderer.h: update signal
  
