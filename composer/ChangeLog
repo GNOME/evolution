@@ -1,3 +1,28 @@
+2005-02-10  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #66126.
+
+	* e-msg-composer-attachment-bar.c (destroy): destroy async file
+	requesters.
+	(add_from_user_response, add_from_user): use async file
+	requesters.
+
+	* e-msg-composer.c (save): don't fallback to saveas if the
+	filename is null.
+	(saveas, saveas_response): new functions for async file
+	requesters.
+	(menu_file_save_cb): call saveas if we have no filename.
+	(menu_file_save_as_cb): call saveas.
+	(menu_file_open_cb, file_open_response): change for async file
+	loading (which doesn't appear to be used anymore).
+	(destroy): destroy async requesters.
+
+	* e-msg-composer-select-file.c (get_selector): make it no longer
+	modal, no longer show the window.
+	(select_file_response, e_msg_composer_select_file): make it async.
+	(select_attach_response, e_msg_composer_select_file_attachments):
+	same.
+
 2005-01-24  Hans Petter Jansson  <hpj@novell.com>
 
 	* e-msg-composer-hdrs.c (create_addressbook_entry): Set pointers to the

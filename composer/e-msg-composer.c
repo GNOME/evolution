@@ -140,6 +140,9 @@
 
 typedef struct _EMsgComposerPrivate {
 	EMMenu *menu;
+
+	GtkWidget *saveas;	/* saveas async file requester */
+	GtkWidget *load;	/* same for load - not used */
 } EMsgComposerPrivate;
 
 enum {
@@ -1189,19 +1192,10 @@ show_attachments (EMsgComposer *composer,
 }
 
 static void
-save (EMsgComposer *composer, const char *default_filename)
+save (EMsgComposer *composer, const char *filename)
 {
 	CORBA_Environment ev;
-	char *filename;
 	int fd;
-	
-	if (default_filename != NULL)
-		filename = g_strdup (default_filename);
-	else
-		filename = e_msg_composer_select_file (composer, _("Save as..."), TRUE);
-	
-	if (filename == NULL)
-		return;
 	
 	/* check to see if we already have the file and that we can create it */
 	if ((fd = open (filename, O_RDONLY | O_CREAT | O_EXCL, 0777)) == -1) {
@@ -1209,16 +1203,11 @@ save (EMsgComposer *composer, const char *default_filename)
 		struct stat st;
 		
 		if (stat (filename, &st) == 0 && S_ISREG (st.st_mode)) {
-			resp = e_error_run((GtkWindow *)composer, E_ERROR_ASK_FILE_EXISTS_OVERWRITE,
-					   filename, NULL);
-			if (resp != GTK_RESPONSE_OK) {
-				g_free (filename);
+			resp = e_error_run((GtkWindow *)composer, E_ERROR_ASK_FILE_EXISTS_OVERWRITE, filename, NULL);
+			if (resp != GTK_RESPONSE_OK)
 				return;
-			}
 		} else {
-			e_error_run((GtkWindow *)composer, E_ERROR_NO_SAVE_FILE,
-				    filename, g_strerror(errnosav));
-			g_free (filename);
+			e_error_run((GtkWindow *)composer, E_ERROR_NO_SAVE_FILE, filename, g_strerror(errnosav));
 			return;
 		}
 	} else
@@ -1236,8 +1225,20 @@ save (EMsgComposer *composer, const char *default_filename)
 		e_msg_composer_unset_autosaved (composer);
 	}
 	CORBA_exception_free (&ev);
-	
-	g_free (filename);
+}
+
+static void
+saveas_response(EMsgComposer *composer, const char *name)
+{
+	save(composer, name);
+}
+
+static void
+saveas(EMsgComposer *composer)
+{
+	EMsgComposerPrivate *p = _PRIVATE(composer);
+
+	e_msg_composer_select_file (composer, &p->saveas, saveas_response, _("Save as..."), TRUE);
 }
 
 static void
@@ -1585,24 +1586,22 @@ do_exit (EMsgComposer *composer)
 }
 
 /* Menu callbacks.  */
+static void
+file_open_response(EMsgComposer *composer, const char *name)
+{
+	load (composer, name);
+}
 
 static void
 menu_file_open_cb (BonoboUIComponent *uic,
 		   void *data,
 		   const char *path)
 {
-	EMsgComposer *composer;
-	char *file_name;
-	
-	composer = E_MSG_COMPOSER (data);
-	
-	file_name = e_msg_composer_select_file (composer, _("Open file"), FALSE);
-	if (file_name == NULL)
-		return;
-	
-	load (composer, file_name);
-	
-	g_free (file_name);
+	EMsgComposerPrivate *p = _PRIVATE(data);
+
+	/* NB: This function is never used anymore */
+
+	e_msg_composer_select_file(E_MSG_COMPOSER (data), &p->load, file_open_response, _("Open File"), FALSE);
 }
 
 static void
@@ -1621,7 +1620,7 @@ menu_file_save_cb (BonoboUIComponent *uic,
 	file_name = Bonobo_PersistFile_getCurrentFile (composer->persist_file_interface, &ev);
 	
 	if (ev._major != CORBA_NO_EXCEPTION) {
-		save (composer, NULL);
+		saveas (composer);
 	} else {
 		save (composer, file_name);
 		CORBA_free (file_name);
@@ -1634,11 +1633,7 @@ menu_file_save_as_cb (BonoboUIComponent *uic,
 		      void *data,
 		      const char *path)
 {
-	EMsgComposer *composer;
-	
-	composer = E_MSG_COMPOSER (data);
-	
-	save (composer, NULL);
+	saveas (E_MSG_COMPOSER(data));
 }
 
 static void
@@ -2572,6 +2567,16 @@ destroy (GtkObject *object)
 		p->menu = NULL;
 	}
 
+	if (p->load) {
+		gtk_widget_destroy(p->load);
+		p->load = NULL;
+	}
+
+	if (p->saveas) {
+		gtk_widget_destroy(p->saveas);
+		p->saveas = NULL;
+	}
+
 	if (composer->uic) {
 		bonobo_object_unref (BONOBO_OBJECT (composer->uic));
 		composer->uic = NULL;
@@ -2641,7 +2646,7 @@ destroy (GtkObject *object)
 		g_signal_handler_disconnect (signatures, composer->sig_changed_id);
 		composer->sig_changed_id = 0;
 	}
-	
+
 	if (GTK_OBJECT_CLASS (parent_class)->destroy != NULL)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }

@@ -66,6 +66,8 @@
 static GnomeIconListClass *parent_class = NULL;
 
 struct _EMsgComposerAttachmentBarPrivate {
+	GtkWidget *attach;	/* attachment file dialogue, if active */
+
 	GList *attachments;
 	guint num_attachments;
 };
@@ -385,27 +387,22 @@ edit_selected (EMsgComposerAttachmentBar *bar)
 }
 
 /* "Attach" dialog.  */
+static void
+add_from_user_response(EMsgComposer *composer, GSList *names, int is_inline)
+{
+	while (names) {
+		add_from_file((EMsgComposerAttachmentBar *)composer->attachment_bar, names->data, is_inline ? "inline" : "attachment");
+		names = g_slist_next(names);
+	}
+}
 
 static void
 add_from_user (EMsgComposerAttachmentBar *bar)
 {
 	EMsgComposer *composer;
-	GPtrArray *file_list;
-	gboolean is_inline = FALSE;
-	int i;
 	
 	composer = E_MSG_COMPOSER (gtk_widget_get_toplevel (GTK_WIDGET (bar)));
-	
-	file_list = e_msg_composer_select_file_attachments (composer, &is_inline);
-	if (!file_list)
-		return;
-	
-	for (i = 0; i < file_list->len; i++) {
-		add_from_file (bar, file_list->pdata[i], is_inline ? "inline" : "attachment");
-		g_free (file_list->pdata[i]);
-	}
-	
-	g_ptr_array_free (file_list, TRUE);
+	e_msg_composer_select_file_attachments(composer, &bar->priv->attach, add_from_user_response);
 }
 
 
@@ -539,6 +536,10 @@ destroy (GtkObject *object)
 	
 	if (bar->priv) {
 		free_attachment_list (bar);
+
+		if (bar->priv->attach)
+			gtk_widget_destroy(bar->priv->attach);
+
 		g_free (bar->priv);
 		bar->priv = NULL;
 	}
@@ -633,6 +634,7 @@ init (EMsgComposerAttachmentBar *bar)
 	
 	priv = g_new (EMsgComposerAttachmentBarPrivate, 1);
 	
+	priv->attach = NULL;
 	priv->attachments = NULL;
 	priv->num_attachments = 0;
 	

@@ -22,7 +22,6 @@
  *
  */
 
-
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -49,11 +48,14 @@
 
 enum {
 	SELECTOR_MODE_MULTI    = (1 << 0),
-	SELECTOR_MODE_SAVE     = (1 << 1)
+	SELECTOR_MODE_SAVE     = (1 << 1),
+	SELECTOR_SHOW_INLINE = 1<<2
 };
 
+/* this is a mess */
+
 static GtkWidget*
-run_selector(EMsgComposer *composer, const char *title, guint32 flags, gboolean *showinline_p)
+get_selector(struct _EMsgComposer *composer, const char *title, guint32 flags)
 {
 	GtkWidget *selection;
 	GtkWidget *showinline = NULL;
@@ -89,10 +91,11 @@ run_selector(EMsgComposer *composer, const char *title, guint32 flags, gboolean 
 	else
 		gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (selection), path);
 	
-        if (showinline_p) {
+        if (flags & SELECTOR_SHOW_INLINE) {
 		showinline = gtk_check_button_new_with_label (_("Suggest automatic display of attachment"));
 		gtk_widget_show (showinline);
 		gtk_file_chooser_set_extra_widget (GTK_FILE_CHOOSER (selection), showinline);
+		g_object_set_data((GObject *)selection, "show-inline", showinline);
         }
 #else
 	selection = gtk_file_selection_new (title);
@@ -108,16 +111,17 @@ run_selector(EMsgComposer *composer, const char *title, guint32 flags, gboolean 
 		gtk_file_selection_set_filename (GTK_FILE_SELECTION (selection), path);
 	}
 	
-	if (showinline_p) {
+        if (flags & SELECTOR_SHOW_INLINE) {
 		showinline = gtk_check_button_new_with_label (_("Suggest automatic display of attachment"));
 		gtk_widget_show (showinline);
 		gtk_box_pack_end (GTK_BOX (GTK_FILE_SELECTION (selection)->main_vbox), showinline, FALSE, FALSE, 4);
+		g_object_set_data((GObject *)selection, "show-inline", showinline);
 	}
 #endif
 	
 	gtk_window_set_transient_for ((GtkWindow *) selection, (GtkWindow *) composer);
 	gtk_window_set_wmclass ((GtkWindow *) selection, "fileselection", "Evolution:composer");
-	gtk_window_set_modal ((GtkWindow *) selection, TRUE);
+	gtk_window_set_modal ((GtkWindow *) selection, FALSE);
 	
 	icon_list = e_icon_factory_get_icon_list ("stock_mail-compose");
 	if (icon_list) {
@@ -126,96 +130,106 @@ run_selector(EMsgComposer *composer, const char *title, guint32 flags, gboolean 
 		g_list_free (icon_list);
 	}
 	
-	if (gtk_dialog_run ((GtkDialog *) selection) == GTK_RESPONSE_OK) {
-		if (showinline_p)
-			*showinline_p = gtk_toggle_button_get_active ((GtkToggleButton *) showinline);
-		
-#ifdef USE_GTKFILECHOOSER
-		path = g_path_get_dirname (gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (selection)));
-#else
-		path = g_path_get_dirname (gtk_file_selection_get_filename (GTK_FILE_SELECTION (selection)));
-#endif
-		
-		g_object_set_data_full ((GObject *) composer, "attach_path", g_strdup_printf ("%s/", path), g_free);
-		g_free (path);
-	} else {
-		gtk_widget_destroy (selection);
-		selection = NULL;
-	}
-	
 	return selection;
+}
+
+static void
+select_file_response(GtkWidget *selector, guint response, struct _EMsgComposer *composer)
+{
+	if (response == GTK_RESPONSE_OK) {
+		const char *name;
+		char *path;
+		EMsgComposerSelectFileFunc func = g_object_get_data((GObject *)selector, "callback");
+
+#ifdef USE_GTKFILECHOOSER
+		name = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (selector));
+		path = g_path_get_dirname (gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (selector)));
+#else
+		name = gtk_file_selection_get_filename (GTK_FILE_SELECTION (selector));
+		path = g_path_get_dirname (gtk_file_selection_get_filename (GTK_FILE_SELECTION (selector)));
+#endif
+		g_object_set_data_full ((GObject *) composer, "attach_path", path, g_free);
+
+		func(composer, name);
+	}
+
+	gtk_widget_destroy(selector);
 }
 
 /**
  * e_msg_composer_select_file:
  * @composer: a composer
+ * @w: widget pointer, so same dialog is not re-shown
+ * @func: callback invoked if the user selected a file
  * @title: the title for the file selection dialog box
- * @save_mode: whether the file selection box should be shown in save mode or not
+ * @save: whether the file selection box should be shown in save mode or not
  *
  * This pops up a file selection dialog box with the given title
- * and allows the user to select a file.
+ * and allows the user to select a single file.
  *
- * Return value: the selected filename, or %NULL if the user
- * cancelled.
  **/
-char *
-e_msg_composer_select_file (EMsgComposer *composer, const char *title, gboolean save_mode)
+void e_msg_composer_select_file(struct _EMsgComposer *composer, GtkWidget **w, EMsgComposerSelectFileFunc func, const char *title, int save)
 {
-	guint32 flags = save_mode ? SELECTOR_MODE_SAVE : SELECTOR_MODE_MULTI;
-	GtkWidget *selection;
-	char *name = NULL;
-	
-	selection = run_selector (composer, title, flags, NULL);
-	if (selection) {
-#ifdef USE_GTKFILECHOOSER
-		name = g_strdup (gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (selection)));
-#else
-		name = g_strdup (gtk_file_selection_get_filename (GTK_FILE_SELECTION (selection)));
-#endif
-		gtk_widget_destroy (selection);
+	if (*w) {
+		gtk_window_present((GtkWindow *)*w);			
+		return;
 	}
 
-	return name;
+	*w = get_selector (composer, title, save ? SELECTOR_MODE_SAVE : 0);
+	g_signal_connect(*w, "response", G_CALLBACK(select_file_response), composer);
+	g_signal_connect(*w, "destroy", G_CALLBACK(gtk_widget_destroyed), w);
+	g_object_set_data((GObject *)*w, "callback", func);
+	gtk_widget_show(*w);
 }
 
-GPtrArray *
-e_msg_composer_select_file_attachments (EMsgComposer *composer, gboolean *showinline_p)
+
+static void
+select_attach_response(GtkWidget *selector, guint response, struct _EMsgComposer *composer)
 {
-	GtkWidget *selection;
-	GPtrArray *list = NULL;
-	
-	selection = run_selector (composer, _("Attach file(s)"), SELECTOR_MODE_MULTI, showinline_p);
-	
-	if (selection) {
+	if (response == GTK_RESPONSE_OK) {
+		GSList *names;
+		EMsgComposerSelectAttachFunc func = g_object_get_data((GObject *)selector, "callback");
+		GtkToggleButton *showinline = g_object_get_data((GObject *)selector, "show-inline");
+		char *path;
+
 #ifdef USE_GTKFILECHOOSER
-		GSList *files, *l, *n;
-		
-		if ((l = files = gtk_file_chooser_get_filenames (GTK_FILE_CHOOSER (selection)))) {
-			list = g_ptr_array_new ();
-			
-			while (l) {
-				n = l->next;
-				g_ptr_array_add (list, l->data);
-				g_slist_free_1 (l);
-				l = n;
-			}
-		}
+		names = gtk_file_chooser_get_filenames (GTK_FILE_CHOOSER (selector));
+		path = g_path_get_dirname (gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (selector)));
 #else
 		char **files;
-		int i;
-		
-		if ((files = gtk_file_selection_get_selections (GTK_FILE_SELECTION (selection)))) {
-			list = g_ptr_array_new ();
+
+		names = NULL;
+		if ((files = gtk_file_selection_get_selections (GTK_FILE_SELECTION (selector)))) {
 			for (i = 0; files[i]; i++)
-				g_ptr_array_add (list, files[i]);
+				g_slist_prepend(names, files[i]);
 			
 			g_free (files);
+			names = g_slist_reverse(names);
 		}
+
+		path = g_path_get_dirname (gtk_file_selection_get_filename (GTK_FILE_SELECTION (selector)));		
 #endif
-		
-		gtk_widget_destroy (selection);
+		g_object_set_data_full ((GObject *) composer, "attach_path", path, g_free);
+
+		func(composer, names, gtk_toggle_button_get_active(showinline));
+
+		g_slist_foreach(names, (GFunc)g_free, NULL);
+		g_slist_free(names);
 	}
-	
-	return list;
+
+	gtk_widget_destroy(selector);
 }
 
+void e_msg_composer_select_file_attachments(struct _EMsgComposer *composer, GtkWidget **w, EMsgComposerSelectAttachFunc func)
+{
+	if (*w) {
+		gtk_window_present((GtkWindow *)*w);			
+		return;
+	}
+
+	*w = get_selector (composer, _("Attach file(s)"), SELECTOR_MODE_MULTI|SELECTOR_SHOW_INLINE);
+	g_signal_connect(*w, "response", G_CALLBACK(select_attach_response), composer);
+	g_signal_connect(*w, "destroy", G_CALLBACK(gtk_widget_destroyed), w);
+	g_object_set_data((GObject *)*w, "callback", func);
+	gtk_widget_show(*w);
+}

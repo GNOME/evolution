@@ -24,13 +24,13 @@
 #ifndef E_MSG_COMPOSER_SELECT_FILE_H
 #define E_MSG_COMPOSER_SELECT_FILE_H
 
-#include "e-msg-composer.h"
 
-char *e_msg_composer_select_file (EMsgComposer *composer,
-				  const char *title,
-				  gboolean save_mode);
+struct _EMsgComposer;
 
-GPtrArray *e_msg_composer_select_file_attachments (EMsgComposer *composer,
-						   gboolean *inline_p);
+typedef void (*EMsgComposerSelectFileFunc)(struct _EMsgComposer *composer, const char *filename);
+typedef void (*EMsgComposerSelectAttachFunc)(struct _EMsgComposer *composer, GSList *names, int inline);
+
+void e_msg_composer_select_file(struct _EMsgComposer *composer, GtkWidget **w, EMsgComposerSelectFileFunc func, const char *title, int save);
+void e_msg_composer_select_file_attachments(struct _EMsgComposer *composer, GtkWidget **, EMsgComposerSelectAttachFunc func);
 
 #endif /* E_MSG_COMPOSER_SELECT_FILE_H */
