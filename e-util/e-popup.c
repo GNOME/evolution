@@ -254,7 +254,22 @@ ep_cmp(const void *ap, const void *bp)
 static void
 ep_activate(GtkWidget *w, struct _item_node *inode)
 {
-	inode->item->activate(inode->menu->popup, inode->item, inode->menu->data);
+	EPopupItem *item = inode->item;
+	guint32 type = item->type & E_POPUP_TYPE_MASK;
+
+	/* this is a bit hackish, use the item->type to transmit the
+	   active state, presumes we can write to this memory ...  The
+	   alternative is the EMenu idea of different callbacks, but
+	   thats painful for breaking type-safety on callbacks */
+
+	if (type == E_POPUP_TOGGLE || type == E_POPUP_RADIO) {
+		if (gtk_check_menu_item_get_active((GtkCheckMenuItem *)w))
+			item->type |= E_POPUP_ACTIVE;
+		else
+			item->type &= ~E_POPUP_ACTIVE;
+	}
+
+	item->activate(inode->menu->popup, item, inode->menu->data);
 }
 
 /**
@@ -262,18 +277,18 @@ ep_activate(GtkWidget *w, struct _item_node *inode)
  * @emp: An EPopup derived object.
  * @target: popup target, if set, then factories will be invoked.
  * This is then owned by the menu.
- * @hide_mask: used to hide menu items, not sure of it's utility,
- * since you could just 'not add them' in the first place.  Saves
- * copying logic anyway.
- * @disable_mask: used to disable menu items.
+ * @mask: If supplied, overrides the target specified mask or provides
+ * a mask if no target is supplied.  Used to enable or show menu
+ * items.
  *
  * All of the menu items registered on @emp are sorted by path, and
  * then converted into a menu heirarchy.
  *
+ *
  * Return value: A GtkMenu which can be popped up when ready.
  **/
 GtkMenu *
-e_popup_create_menu(EPopup *emp, EPopupTarget *target, guint32 hide_mask, guint32 disable_mask)
+e_popup_create_menu(EPopup *emp, EPopupTarget *target, guint32 mask)
 {
 	struct _EPopupPrivate *p = emp->priv;
 	struct _menu_node *mnode, *nnode;
@@ -287,6 +302,9 @@ e_popup_create_menu(EPopup *emp, EPopupTarget *target, guint32 hide_mask, guint3
 
 	emp->target = target;
 	ep_add_static_items(emp);
+
+	if (target && mask == 0)
+		mask = target->mask;
 
 	/* FIXME: need to override old ones with new names */
 	mnode = (struct _menu_node *)p->menus.head;
@@ -320,9 +338,9 @@ e_popup_create_menu(EPopup *emp, EPopupTarget *target, guint32 hide_mask, guint3
 		/* for bar's, the mask is exclusive or */
 		if (item->visible) {
 			if ((item->type & E_POPUP_TYPE_MASK) == E_POPUP_BAR) {
-				if ((item->visible & hide_mask) == item->visible)
+				if ((item->visible & mask) == item->visible)
 					continue;
-			} else if (item->visible & hide_mask)
+			} else if (item->visible & mask)
 				continue;
 		}
 
@@ -341,10 +359,15 @@ e_popup_create_menu(EPopup *emp, EPopupTarget *target, guint32 hide_mask, guint3
 			if (item->image) {
 				GdkPixbuf *pixbuf;
 				GtkWidget *image;
-				
-				pixbuf = e_icon_factory_get_icon ((char *)item->image, E_ICON_SIZE_MENU);
-				image = gtk_image_new_from_pixbuf (pixbuf);
-				g_object_unref (pixbuf);
+
+				/* work-around e-icon-factory not doing GTK_STOCK stuff */
+				if (strncmp((char *)item->image, "gtk-", 4) == 0) {
+					image = gtk_image_new_from_stock((char *)item->image, GTK_ICON_SIZE_MENU);
+				} else {
+					pixbuf = e_icon_factory_get_icon((char *)item->image, E_ICON_SIZE_MENU);
+					image = gtk_image_new_from_pixbuf(pixbuf);
+					g_object_unref(pixbuf);
+				}
 
 				gtk_widget_show(image);
 				menuitem = (GtkMenuItem *)gtk_image_menu_item_new();
@@ -394,7 +417,7 @@ e_popup_create_menu(EPopup *emp, EPopupTarget *target, guint32 hide_mask, guint3
 
 		gtk_menu_shell_append((GtkMenuShell *)thismenu, (GtkWidget *)menuitem);
 
-		if (item->visible & disable_mask)
+		if (item->enable & mask)
 			gtk_widget_set_sensitive((GtkWidget *)menuitem, FALSE);
 
 		gtk_widget_show((GtkWidget *)menuitem);
@@ -425,8 +448,7 @@ ep_popup_done(GtkWidget *w, EPopup *emp)
  * considered a valid pointer.
  * @target: If set, the target of the selection.  Static menu
  * items will be added.  The target will be freed once complete.
- * @hide_mask: 
- * @disable_mask: 
+ * @mask: Enable/disable and visibility mask.
  * 
  * Like popup_create_menu, but automatically sets up the menu
  * so that it is destroyed once a selection takes place, and
@@ -436,11 +458,11 @@ ep_popup_done(GtkWidget *w, EPopup *emp)
  * Return value: A menu, to popup.
  **/
 GtkMenu *
-e_popup_create_menu_once(EPopup *emp, EPopupTarget *target, guint32 hide_mask, guint32 disable_mask)
+e_popup_create_menu_once(EPopup *emp, EPopupTarget *target, guint32 mask)
 {
 	GtkMenu *menu;
 
-	menu = e_popup_create_menu(emp, target, hide_mask, disable_mask);
+	menu = e_popup_create_menu(emp, target, mask);
 
 	g_signal_connect(menu, "selection_done", G_CALLBACK(ep_popup_done), emp);
 

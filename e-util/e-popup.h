@@ -115,8 +115,8 @@ struct _EPopupItem {
 	EPopupActivateFunc activate;
 	void *user_data;	/* user data, not passed directly to @activate */
 	void *image;		/* char* for item type, GtkWidget * for image type */
-	guint32 visible;		/* visibility mask */
-	guint32 enable;		/* sensitivity mask, unimplemented */
+	guint32 visible;	/* visibility mask */
+	guint32 enable;		/* sensitivity mask */
 };
 
 /**
@@ -202,8 +202,8 @@ void e_popup_add_items(EPopup *, GSList *items, EPopupItemsFunc freefunc, void *
 
 void e_popup_add_static_items(EPopup *emp, EPopupTarget *target);
 /* do not call e_popup_create_menu, it can leak structures if not used right */
-struct _GtkMenu *e_popup_create_menu(EPopup *, EPopupTarget *, guint32 hide_mask, guint32 disable_mask);
-struct _GtkMenu *e_popup_create_menu_once(EPopup *emp, EPopupTarget *, guint32 hide_mask, guint32 disable_mask);
+struct _GtkMenu *e_popup_create_menu(EPopup *, EPopupTarget *, guint32 mask);
+struct _GtkMenu *e_popup_create_menu_once(EPopup *emp, EPopupTarget *, guint32 mask);
 
 void *e_popup_target_new(EPopup *, int type, size_t size);
 void e_popup_target_free(EPopup *, void *);

@@ -1,3 +1,12 @@
+2004-10-06  Not Zed  <NotZed@Ximian.com>
+
+	* e-popup.c (e_popup_create_menu): only take one mask parameter,
+	and implement EPopupItem->enable to do what the other mask did.
+	(ep_activate): if this is a toggle or radiobutton, set the active
+	state on the item->type.
+	(e_popup_create_menu): if a menu image starts with gtk-, then
+	assume it is a gtk stock image instead.
+
 2004-08-27  Not Zed  <NotZed@Ximian.com>
 
 	* e-passwords.c (e_passwords_ask_password): return cancelled if
