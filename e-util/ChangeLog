@@ -1,5 +1,9 @@
 2004-10-28  Not Zed  <NotZed@Ximian.com>
 
+	* e-config.c (ec_rebuild): revert the last change.
+
+2004-10-28  Not Zed  <NotZed@Ximian.com>
+
 	* e-config.c (ec_rebuild): set the default row/col spacings of the
 	table.
 

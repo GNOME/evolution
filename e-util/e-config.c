@@ -635,7 +635,7 @@ ec_rebuild(EConfig *emp)
 				if (section
 				    && ((item->type == E_CONFIG_SECTION && !GTK_IS_BOX(section))
 					|| (item->type == E_CONFIG_SECTION_TABLE && !GTK_IS_TABLE(section))))
-					g_warning("ECofnig section type is wrong");
+					g_warning("EConfig section type is wrong");
 			} else if (wn->widget == NULL) {
 				GtkWidget *frame;
 				GtkWidget *label = NULL;
@@ -652,11 +652,8 @@ ec_rebuild(EConfig *emp)
 
 				if (item->type == E_CONFIG_SECTION)
 					section = gtk_vbox_new(FALSE, 6);
-				else {
+				else
 					section = gtk_table_new(1, 1, FALSE);
-					gtk_table_set_row_spacings((GtkTable *)section, 6);
-					gtk_table_set_col_spacings((GtkTable *)section, 6);
-				}
 
 				frame = g_object_new(gtk_frame_get_type(),
 						     "shadow_type", GTK_SHADOW_NONE, 
