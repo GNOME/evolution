@@ -1,8 +1,13 @@
+2002-09-20  Aaron Weber  <aaron@ximian.com>
+
+	* C/usage-calendar.sgml: linked to wrong image.
+
 2002-09-19  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* C/evolution-C.omf: Make it validate.
 	* es/evolution-es.omf: Same here.
 	
+
 2002-09-19  Aaron Weber  <aaron@ximian.com>
 
 	* C/config-sync.sgml: add item about permissions.
