@@ -566,7 +566,7 @@ et_table_rows_inserted (ETableModel *table_model, int row, int count, ETable *et
 		if (row != row_count - count)
 			e_table_group_increment(et->group, row, count);
 		for (i = 0; i < count; i++)
-			e_table_group_add (et->group, row);
+			e_table_group_add (et->group, row + i);
 		if (et->horizontal_scrolling)
 			e_table_header_update_horizontal(et->header);
 	}
@@ -579,7 +579,7 @@ et_table_rows_deleted (ETableModel *table_model, int row, int count, ETable *et)
 	if (!et->need_rebuild) {
 		int i;
 		for (i = 0; i < count; i++)
-			e_table_group_remove (et->group, i);
+			e_table_group_remove (et->group, row + i);
 		if (row != row_count)
 			e_table_group_decrement(et->group, row, count);
 		if (et->horizontal_scrolling)
