@@ -1377,36 +1377,41 @@ forward_get_composer (CamelMimeMessage *message, const char *subject)
 }
 
 static void
-do_forward_non_attached (CamelFolder *folder, const char *uid, CamelMimeMessage *message, void *data)
+do_forward_non_attached (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages, void *data)
 {
 	MailConfigForwardStyle style = GPOINTER_TO_INT (data);
+	CamelMimeMessage *message;
 	char *subject, *text;
+	int i;
 	
-	if (!message)
+	if (messages->len == 0)
 		return;
 	
-	subject = mail_tool_generate_forward_subject (message);
-	text = mail_tool_forward_message (message, style == MAIL_CONFIG_FORWARD_QUOTED);
-	
-	if (text) {
-		EMsgComposer *composer = forward_get_composer (message, subject);
-		if (composer) {
-			CamelDataWrapper *wrapper;
-			
-			e_msg_composer_set_body_text (composer, text);
-			
-			wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (message));
-			if (CAMEL_IS_MULTIPART (wrapper))
-				e_msg_composer_add_message_attachments (composer, message, FALSE);
-			
-			gtk_widget_show (GTK_WIDGET (composer));
-			e_msg_composer_unset_changed (composer);
-			e_msg_composer_drop_editor_undo (composer);
+	for (i = 0; i < messages->len; i++) {
+		message = messages->pdata[i];
+		subject = mail_tool_generate_forward_subject (message);
+		text = mail_tool_forward_message (message, style == MAIL_CONFIG_FORWARD_QUOTED);
+		
+		if (text) {
+			EMsgComposer *composer = forward_get_composer (message, subject);
+			if (composer) {
+				CamelDataWrapper *wrapper;
+				
+				e_msg_composer_set_body_text (composer, text);
+				
+				wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (message));
+				if (CAMEL_IS_MULTIPART (wrapper))
+					e_msg_composer_add_message_attachments (composer, message, FALSE);
+				
+				gtk_widget_show (GTK_WIDGET (composer));
+				e_msg_composer_unset_changed (composer);
+				e_msg_composer_drop_editor_undo (composer);
+			}
+			g_free (text);
 		}
-		g_free (text);
+		
+		g_free (subject);
 	}
-	
-	g_free (subject);
 }
 
 static void
@@ -1424,15 +1429,7 @@ forward_message (FolderBrowser *fb, MailConfigForwardStyle style)
 	uids = g_ptr_array_new ();
 	message_list_foreach (fb->message_list, enumerate_msg, uids);
 	
-	for (i = 0; i < uids->len; i++) {
-		mail_get_message (fb->folder, uids->pdata[i],
-				  do_forward_non_attached,
-				  GINT_TO_POINTER (style),
-				  mail_thread_new);
-		g_free (uids->pdata[i]);
-	}
-	
-	g_ptr_array_free (uids, TRUE);
+	mail_get_messages (fb->folder, uids, do_forward_non_attached, GINT_TO_POINTER (style));
 }
 
 void
