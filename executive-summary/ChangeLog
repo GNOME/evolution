@@ -1,3 +1,8 @@
+2001-06-04  Ettore Perazzoli  <ettore@ximian.com>
+
+	* component/Makefile.am (evolution_executive_summary_LDADD): Move
+	`libevolution-services.la' on top.
+
 2001-06-03  Ettore Perazzoli  <ettore@ximian.com>
 
 	* test-service/Makefile.am (rdf_summary_LDADD): Move
