@@ -36,6 +36,7 @@
 
 #include "e-util/e-gtk-utils.h"
 
+#include "widgets/misc/e-clipped-label.h"
 #include "filter/filter-filter.h"
 #include "camel/camel-filter-driver.h"
 #include "camel/camel-folder.h"
@@ -110,7 +111,7 @@ struct _send_info {
 	send_state_t state;
 	GtkProgressBar *bar;
 	GtkButton *stop;
-	GtkLabel *status;
+	EClippedLabel *status;
 
 	int timeout_id;
 	char *what;
@@ -143,7 +144,7 @@ receive_cancel(GtkButton *button, struct _send_info *info)
 	if (info->state == SEND_ACTIVE) {
 		camel_operation_cancel(info->cancel);
 		if (info->status)
-			gtk_label_set_text(info->status, _("Cancelling..."));
+			e_clipped_label_set_text(info->status, _("Cancelling..."));
 		info->state = SEND_CANCELLED;
 	}
 	if (info->stop)
@@ -294,7 +295,8 @@ build_dialogue (EAccountList *accounts, CamelFolder *outbox, const char *destina
 	GList *list = NULL;
 	struct _send_data *data;
         GtkWidget *send_icon, *recv_icon; 
-	GtkLabel *label, *status_label;
+	GtkLabel *label;
+	EClippedLabel *status_label;
 	GtkProgressBar *bar;
 	GtkButton *stop;
 	GtkHSeparator *line;
@@ -386,9 +388,9 @@ build_dialogue (EAccountList *accounts, CamelFolder *outbox, const char *destina
 		
 		stop = (GtkButton *)e_gtk_button_new_with_icon(_("Cancel"), GTK_STOCK_CANCEL);
 
-		status_label = (GtkLabel *)gtk_label_new ((info->type == SEND_UPDATE) ? _("Updating...") :
-							  _("Waiting..."));
-		
+		status_label = (EClippedLabel *)e_clipped_label_new((info->type == SEND_UPDATE)?_("Updating..."):_("Waiting..."),
+								    PANGO_WEIGHT_NORMAL, 1.0);
+
 		/* g_object_set(data->label, "bold", TRUE, NULL); */
 		gtk_misc_set_alignment (GTK_MISC (label), 0, .5);
 		gtk_misc_set_alignment (GTK_MISC (status_label), 0, .5);
@@ -443,8 +445,8 @@ build_dialogue (EAccountList *accounts, CamelFolder *outbox, const char *destina
 		bar = (GtkProgressBar *)gtk_progress_bar_new ();
 		stop = (GtkButton *)e_gtk_button_new_with_icon(_("Cancel"), GTK_STOCK_CANCEL);
 
-		status_label = (GtkLabel *)gtk_label_new (_("Waiting..."));
-		
+		status_label = (EClippedLabel *)e_clipped_label_new(_("Waiting..."), PANGO_WEIGHT_NORMAL, 1.0);
+
 		gtk_misc_set_alignment (GTK_MISC (label), 0, .5);
 		gtk_misc_set_alignment (GTK_MISC (status_label), 0, .5);
 		
@@ -538,7 +540,8 @@ static int operation_status_timeout(void *data)
 
 	if (info->bar) {
 		gtk_progress_bar_set_fraction((GtkProgressBar *)info->bar, (gfloat)(info->pc/100.0));
-		gtk_label_set_text(info->status, info->what);
+		if (info->what)
+			e_clipped_label_set_text(info->status, info->what);
 		return TRUE;
 	}
 
@@ -574,11 +577,11 @@ receive_done (char *uri, void *data)
 
 		switch(info->state) {
 		case SEND_CANCELLED:
-			gtk_label_set_text(info->status, _("Cancelled."));
+			e_clipped_label_set_text(info->status, _("Cancelled."));
 			break;
 		default:
 			info->state = SEND_COMPLETE;
-			gtk_label_set_text(info->status, _("Complete."));
+			e_clipped_label_set_text(info->status, _("Complete"));
 		}
 	}
 

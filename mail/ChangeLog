@@ -1,5 +1,10 @@
 2003-09-09  Not Zed  <NotZed@Ximian.com>
 
+	* mail-send-recv.c (build_dialogue): use an eclippedlabel for
+	status.  Fixed all uses.
+
+2003-09-09  Not Zed  <NotZed@Ximian.com>
+
 	* folder-browser.c (folder_browser_set_message_preview): clear the
 	'loaded uid' when we hide, so when we re-show it reloads.
 
