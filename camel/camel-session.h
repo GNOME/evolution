@@ -85,13 +85,15 @@ typedef struct {
 					      CamelException *ex);
 
 	char *          (*get_password)      (CamelSession *session,
-					      const char *prompt,
-					      guint32 flags,
 					      CamelService *service,
+					      const char *domain,
+					      const char *prompt,
 					      const char *item,
+					      guint32 flags,
 					      CamelException *ex);
 	void            (*forget_password)   (CamelSession *session,
 					      CamelService *service,
+					      const char *domain,
 					      const char *item,
 					      CamelException *ex);
 	gboolean        (*alert_user)        (CamelSession *session,
@@ -140,13 +142,15 @@ char *             camel_session_get_storage_path   (CamelSession *session,
 						     CamelException *ex);
 
 char *             camel_session_get_password       (CamelSession *session,
-						     const char *prompt,
-						     guint32 flags,
 						     CamelService *service,
+						     const char *domain,
+						     const char *prompt,
 						     const char *item,
+						     guint32 flags,
 						     CamelException *ex);
 void               camel_session_forget_password    (CamelSession *session,
 						     CamelService *service,
+						     const char *domain,
 						     const char *item,
 						     CamelException *ex);
 gboolean           camel_session_alert_user         (CamelSession *session,

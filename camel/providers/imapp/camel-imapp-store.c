@@ -346,8 +346,8 @@ store_get_pass(CamelIMAPPStore *store)
 					  ((CamelService *)store)->url->user,
 					  ((CamelService *)store)->url->host);
 		((CamelService *)store)->url->passwd = camel_session_get_password(camel_service_get_session((CamelService *)store),
-										  prompt, CAMEL_SESSION_PASSWORD_SECRET,
-										  (CamelService*)store, "password", &ex);
+										  (CamelService *)store, NULL,
+										  prompt, "password", CAMEL_SESSION_PASSWORD_SECRET, &ex);
 		g_free (prompt);
 		if (camel_exception_is_set(&ex))
 			camel_exception_throw_ex(&ex);
@@ -418,7 +418,7 @@ imap_connect (CamelService *service, CamelException *ex)
 				switch (e->id) {
 				case CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE:
 					store->login_error = g_strdup_printf("%s\n\n", e->desc);
-					camel_session_forget_password(service->session, service, "password", ex);
+					camel_session_forget_password(service->session, service, NULL, "password", ex);
 					camel_url_set_passwd(service->url, NULL);
 					break;
 				default:

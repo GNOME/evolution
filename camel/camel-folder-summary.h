@@ -81,6 +81,8 @@ enum _CamelMessageFlags {
 					     to learn that message as junk/non junk */
 	CAMEL_MESSAGE_USER = 1<<31 /* supports user flags */
 };
+/* Changes to system flags will NOT trigger a folder changed event */
+#define CAMEL_MESSAGE_SYSTEM_MASK (0xffff << 16)
 
 typedef struct _CamelFlag {
 	struct _CamelFlag *next;

@@ -420,7 +420,7 @@ imap4_try_authenticate (CamelService *service, gboolean reprompt, const char *er
 					  service->url->user,
 					  service->url->host);
 		
-		service->url->passwd = camel_session_get_password (session, prompt, flags, service, "password", ex);
+		service->url->passwd = camel_session_get_password (session, service, NULL, prompt, "password", flags, ex);
 		
 		g_free (prompt);
 		

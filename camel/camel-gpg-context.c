@@ -772,7 +772,7 @@ gpg_ctx_parse_status (struct _GpgCtx *gpg, CamelException *ex)
 		prompt = g_strdup_printf (_("You need a passphrase to unlock the key for\n"
 					    "user: \"%s\""), name);
 		
-		if ((passwd = camel_session_get_password (gpg->session, prompt, CAMEL_SESSION_PASSWORD_SECRET, NULL, gpg->need_id, ex)) && !gpg->utf8) {
+		if ((passwd = camel_session_get_password (gpg->session, NULL, NULL, prompt,  gpg->need_id, CAMEL_SESSION_PASSWORD_SECRET, ex)) && !gpg->utf8) {
 			char *opasswd = passwd;
 			
 			if ((passwd = g_locale_to_utf8 (passwd, -1, &nread, &nwritten, NULL))) {
@@ -800,7 +800,7 @@ gpg_ctx_parse_status (struct _GpgCtx *gpg, CamelException *ex)
 	} else if (!strncmp (status, "BAD_PASSPHRASE", 14)) {
 		gpg->bad_passwds++;
 		
-		camel_session_forget_password (gpg->session, NULL, gpg->need_id, ex);
+		camel_session_forget_password (gpg->session, NULL, NULL, gpg->need_id, ex);
 		
 		if (gpg->bad_passwds == 3) {
 			camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,

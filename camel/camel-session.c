@@ -317,12 +317,13 @@ camel_session_get_storage_path (CamelSession *session, CamelService *service,
 /**
  * camel_session_get_password:
  * @session: session object
+ * @service: the service this query is being made by
+ * @domain: domain of password request.  May be null to use the default.
  * @prompt: prompt to provide to user
+ * @item: an identifier, unique within this service, for the information
  * @flags: CAMEL_SESSION_PASSWORD_REPROMPT, the prompt should force a reprompt
  * CAMEL_SESSION_PASSWORD_SECRET, whether the password is secret
  * CAMEL_SESSION_PASSWORD_STATIC, the password is remembered externally
- * @service: the service this query is being made by
- * @item: an identifier, unique within this service, for the information
  * @ex: a CamelException
  *
  * This function is used by a CamelService to ask the application and
@@ -347,16 +348,16 @@ camel_session_get_storage_path (CamelSession *session, CamelService *service,
  * Return value: the authentication information or %NULL.
  **/
 char *
-camel_session_get_password (CamelSession *session, const char *prompt,
+camel_session_get_password (CamelSession *session, CamelService *service,
+			    const char *domain, const char *prompt, const char *item,
 			    guint32 flags,
-			    CamelService *service, const char *item,
 			    CamelException *ex)
 {
 	g_return_val_if_fail (CAMEL_IS_SESSION (session), NULL);
 	g_return_val_if_fail (prompt != NULL, NULL);
 	g_return_val_if_fail (item != NULL, NULL);
 	
-	return CS_CLASS (session)->get_password (session, prompt, flags, service, item, ex);
+	return CS_CLASS (session)->get_password (session, service, domain, prompt, item, flags, ex);
 }
 
 
@@ -378,12 +379,12 @@ camel_session_get_password (CamelSession *session, const char *prompt,
  **/
 void
 camel_session_forget_password (CamelSession *session, CamelService *service,
-			       const char *item, CamelException *ex)
+			       const char *domain, const char *item, CamelException *ex)
 {
 	g_return_if_fail (CAMEL_IS_SESSION (session));
 	g_return_if_fail (item != NULL);
 
-	CS_CLASS (session)->forget_password (session, service, item, ex);
+	CS_CLASS (session)->forget_password (session, service, domain, item, ex);
 }
 
 

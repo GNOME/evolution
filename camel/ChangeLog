@@ -1,3 +1,26 @@
+2004-05-21  Not Zed  <NotZed@Ximian.com>
+
+	* camel-session.c (camel_session_get_password): added a 'domain'
+	argument, and rearragned arguments to be prettier and more
+	consistent.  Fixed all callers.
+	(camel_session_forget_password): added a domain argument.  Fixed
+	all callers.
+
+	** See #58376.
+
+	* camel-folder.c (set_message_flags): if system flags change, then
+	don't trigger a folder changed event.
+
+	* camel-folder-summary.h (CAMEL_MESSAGE_SYSTEM_MASK): added this
+	to indicate which flags are internal/apps not interested in.
+
+	* camel-folder.c (filter_free): rearrange and use some helpers.
+	(folder_changed): if we're frozen, dont go firing off threads to
+	do any processing on each change, wait until we're called
+	unfrozen.  Slight code rearragnement.
+	(filter_filter): add progress to junk learn/unlearn, and separate
+	them.
+
 2004-05-19  Suresh Chandrasekharan  <suresh.chandrasekharan@sun.com>
 
 	Fix for #58738 ja_JP.UTF-8: Evolution crashes when certain 

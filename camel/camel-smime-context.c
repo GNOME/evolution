@@ -97,13 +97,13 @@ sm_get_passwd(PK11SlotInfo *info, PRBool retry, void *arg)
 
 	/* we got a password, but its asking again, the password we had was wrong */
 	if (context->priv->password_tries > 0) {
-		camel_session_forget_password(((CamelCipherContext *)context)->session, NULL, PK11_GetTokenName(info), NULL);
+		camel_session_forget_password(((CamelCipherContext *)context)->session, NULL, NULL, PK11_GetTokenName(info), NULL);
 		context->priv->password_tries = 0;
 	}
 
 	prompt = g_strdup_printf(_("Enter security pass-phrase for `%s'"), PK11_GetTokenName(info));
-	pass = camel_session_get_password(((CamelCipherContext *)context)->session, prompt,
-					  CAMEL_SESSION_PASSWORD_SECRET|CAMEL_SESSION_PASSWORD_STATIC, NULL, PK11_GetTokenName(info), ex);
+	pass = camel_session_get_password(((CamelCipherContext *)context)->session, NULL, NULL, prompt,
+					  PK11_GetTokenName(info), CAMEL_SESSION_PASSWORD_SECRET|CAMEL_SESSION_PASSWORD_STATIC, ex);
 	camel_exception_free(ex);
 	g_free(prompt);
 	if (pass) {
