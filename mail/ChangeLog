@@ -1,3 +1,8 @@
+2003-04-14  Larry Ewing  <lewing@ximian.com>
+
+	* evolution-mail.schemas: add proper defaults for the fonts
+	settings.
+
 2003-04-11  Jeffrey Stedfast  <fejj@ximian.com>
 
 	Fixes bug #41243.

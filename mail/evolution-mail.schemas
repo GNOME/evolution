@@ -237,6 +237,7 @@
       <applyto>/apps/evolution/mail/display/fonts/variable</applyto>
       <owner>evolution-mail</owner>
       <type>string</type>
+      <default>Sans 12</default>
       <locale name="C">
          <short>Variable width font</short>
          <long>
@@ -250,6 +251,7 @@
       <applyto>/apps/evolution/mail/display/fonts/monospace</applyto>
       <owner>evolution-mail</owner>
       <type>string</type>
+      <default>Monospace 12</default>
       <locale name="C">
          <short>Terminal font</short>
          <long>
@@ -263,7 +265,7 @@
       <applyto>/apps/evolution/mail/display/fonts/use_custom</applyto>
       <owner>evolution-mail</owner>
       <type>bool</type>
-      <default>144</default>
+      <default>false</default>
       <locale name="C">
          <short>Use custom fonts</short>
          <long>
