@@ -68,7 +68,7 @@ void camel_imap_store_close (CamelImapStore *store, gboolean expunge,
 enum { CAMEL_IMAP_OK, CAMEL_IMAP_ERR, CAMEL_IMAP_FAIL };
 
 gint camel_imap_command (CamelImapStore *store, char **ret, char *fmt, ...);
-gchar *camel_imap_command_extended (CamelImapStore *store, char **ret, char *fmt, ...);
+gint camel_imap_command_extended (CamelImapStore *store, char **ret, char *fmt, ...);
 
 /* Standard Gtk function */
 GtkType camel_imap_store_get_type (void);

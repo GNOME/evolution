@@ -1,3 +1,10 @@
+2000-06-06  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/imap/camel-imap-*.[c,h]: Started on getting 
+	imap to build cleanly (tho some work has not been completed
+	so it still won't build until camel-imap-summary is finished
+	along with a few methods in camel-imap-folder)
+
 2000-06-05  Dan Winship  <danw@helixcode.com>
 
 	* camel-mime-part.c (camel_mime_part_set_disposition): fix

@@ -334,7 +334,7 @@ static CamelFolder
 	 * what was there before, and there's no
 	 * CamelImapFolder::get_subfolder yet anyway...
 	 */
-	CF_CLASS (new_folder)->init (new_folder, store, NULL,
+	CAMEL_FOLDER_CLASS (new_folder)->init (new_folder, store, NULL,
 				     folder_name, '/', ex);
 	
 	return new_folder;
@@ -464,9 +464,9 @@ camel_imap_command_extended (CamelImapStore *store, char **ret, char *fmt, ...)
 
 	/* Create the command */
 	cmdid = g_strdup_printf("A%.5d", store->command++);
-	va_start (ap, fmt);
-	cmdbuf = g_strdup_vprintf (fmt, ap);
-	va_end (ap);
+	va_start (app, fmt);
+	cmdbuf = g_strdup_vprintf (fmt, app);
+	va_end (app);
 
 	fprintf(stderr, "sending : %s %s\r\n", cmdid, cmdbuf);
 
@@ -518,7 +518,7 @@ camel_imap_command_extended (CamelImapStore *store, char **ret, char *fmt, ...)
 		*ret = g_strjoinv ("\n", (gchar **)data->pdata);
 	} else {
 		if (status != CAMEL_IMAP_FAIL)
-		        *ret = g_strdup (strchr (respbuf, ' ' + 1);
+		        *ret = g_strdup (strchr (respbuf, ' ' + 1));
 		else
 			*ret = NULL;
 	}

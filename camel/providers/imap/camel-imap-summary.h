@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  *  Copyright (C) 2000 Helix Code Inc.
  *
@@ -70,12 +71,12 @@ guint camel_imap_summary_get_type (void);
 CamelImapSummary *camel_imap_summary_new (const char *filename, const char *imap_name, ibex *index);
 
 /* load/check the summary */
-int camel_imap_summary_load(CamelImapSummary *mbs, int forceindex);
+int camel_imap_summary_load (CamelImapSummary *mbs, int forceindex);
 
 /* incremental update */
-int camel_imap_summary_update(CamelImapSummary *mbs, off_t offset);
+int camel_imap_summary_update (CamelImapSummary *mbs, off_t offset);
 
 /* perform a folder expunge */
-int camel_imap_summary_expunge(CamelImapSummary *mbs);
+int camel_imap_summary_expunge (CamelImapSummary *mbs);
 
 #endif /* ! _CAMEL_IMAP_SUMMARY_H */

@@ -37,7 +37,10 @@
 #include "camel-imap-folder.h"
 #include "camel-imap-store.h"
 #include "string-utils.h"
+#include "camel-stream.h"
 #include "camel-stream-fs.h"
+#include "camel-stream-mem.h"
+#include "camel-stream-buffer.h"
 #include "camel-data-wrapper.h"
 #include "camel-mime-message.h"
 #include "camel-stream-filter.h"
@@ -49,8 +52,8 @@
 static CamelFolderClass *parent_class = NULL;
 
 static void imap_init (CamelFolder *folder, CamelStore *parent_store,
-		   CamelFolder *parent_folder, const gchar *name,
-		   gchar separator, CamelException *ex);
+		       CamelFolder *parent_folder, const gchar *name,
+		       gchar separator, CamelException *ex);
 
 static void imap_open (CamelFolder *folder, CamelFolderOpenMode mode, CamelException *ex);
 static void imap_close (CamelFolder *folder, gboolean expunge, CamelException *ex);
@@ -164,10 +167,10 @@ camel_imap_folder_get_type (void)
 CamelFolder *
 camel_imap_folder_new (CamelStore *parent, CamelException *ex)
 {
-	/* TODO: code this */
+	/* TODO: code this - do we need this? */
 	CamelFolder *folder = CAMEL_FOLDER (gtk_object_new (camel_imap_folder_get_type (), NULL));
 
-	CF_CLASS (folder)->init (folder, parent, NULL, "inbox", '/', ex);
+	CAMEL_FOLDER_CLASS (folder)->init (folder, parent, NULL, "inbox", '/', ex);
 	return folder;
 }
 
@@ -224,8 +227,10 @@ imap_init (CamelFolder *folder, CamelStore *parent_store, CamelFolder *parent_fo
 	root_dir_path = camel_imap_store_get_toplevel_dir (CAMEL_IMAP_STORE(folder->parent_store));
 
 	imap_folder->folder_file_path = g_strdup_printf ("%s/%s", root_dir_path, folder->full_name);
+#if 0
 	imap_folder->folder_dir_path = g_strdup_printf ("%s/%s.sdb", root_dir_path, folder->full_name);
 	imap_folder->index_file_path = g_strdup_printf ("%s/%s.ibex", root_dir_path, folder->full_name);
+#endif
 }
 
 static void
@@ -242,7 +247,7 @@ imap_open (CamelFolder *folder, CamelFolderOpenMode mode, CamelException *ex)
 
 		/* SELECT the IMAP mail spool */
 		status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), &result,
-				     "SELECT %s", imap_folder->folder_file_path);
+						      "SELECT %s", imap_folder->folder_file_path);
 
 		if (status != CAMEL_IMAP_OK) {
 			CamelService *service = CAMEL_SERVICE (folder->parent_store);
@@ -267,12 +272,14 @@ imap_close (CamelFolder *folder, gboolean expunge, CamelException *ex)
 	camel_imap_store_close (CAMEL_IMAP_STORE (folder->parent_store), expunge, ex);
 	if (camel_exception_get_id (ex) == CAMEL_EXCEPTION_NONE) 
 		parent_class->close (folder, expunge, ex);
+
+	
 }
 
 static void
 imap_expunge (CamelFolder *folder, CamelException *ex)
 {
-	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
+	/*CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);*/
 	gchar *result;
 	gint status;
 
@@ -298,9 +305,11 @@ imap_expunge (CamelFolder *folder, CamelException *ex)
 static gboolean
 imap_exists (CamelFolder *folder, CamelException *ex)
 {
-	/* TODO: look at Mbox code and figure out exactly what needs to be done here */
-	CamelImapFolder *imap_folder;
-	gboolean exists;
+	/* make sure the folder exists */
+	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
+	GPtrArray *lsub;
+	gboolean exists = FALSE;
+	int i, max;
 
 	g_return_val_if_fail (folder != NULL, FALSE);
 
@@ -320,7 +329,21 @@ imap_exists (CamelFolder *folder, CamelException *ex)
 		return FALSE;
 	}
 
-	/* TODO: Finish coding this. */
+	/* Get a listing of the folders that exist */
+	lsub = imap_get_subfolder_names (folder, ex);
+
+	/* look to see if any of those subfolders match... */
+	max = lsub->len;
+	for (i = 0; i < max; i++)
+		if (!strcmp(g_ptr_array_index(lsub, i), imap_folder->folder_file_path))
+		{
+			exists = TRUE;
+			break;
+		}
+
+	g_ptr_array_free (lsub, TRUE);
+
+	return exists;
 }
 
 static gboolean
@@ -348,7 +371,6 @@ imap_create (CamelFolder *folder, CamelException *ex)
 				     "invalid folder path. Use set_name ?");
 		return FALSE;
 	}
-
 	
 	/* if the folder already exists, simply return */
 	folder_already_exists = camel_folder_exists (folder, ex);
@@ -357,7 +379,6 @@ imap_create (CamelFolder *folder, CamelException *ex)
 
 	if (folder_already_exists)
 		return TRUE;
-
 
 	/* create the directory for the subfolder */
 	status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), &result,
@@ -427,17 +448,18 @@ imap_delete (CamelFolder *folder, gboolean recurse, CamelException *ex)
 	return TRUE;
 }
 
-/* TODO: remove this */
+/* TODO: remove this - don't bother coding, it'll be moved/removed */
 gboolean
 imap_delete_messages (CamelFolder *folder, CamelException *ex)
 {
 	/* TODO: delete the messages (mark as deleted/whatever) */
+#if 0
 	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
 	gchar *result;
 	gint status;
+#endif
 
 	g_return_val_if_fail (folder != NULL, FALSE);
-
 
 	return TRUE;
 }
@@ -453,10 +475,10 @@ imap_get_message_count (CamelFolder *folder, CamelException *ex)
 
 	/* If we already have a count, return */
 	if (imap_folder->count != -1)
-		imap_folder->count;
+		return imap_folder->count;
 
 	status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), &result,
-				     "STATUS %s (MESSAGES)", imap_folder->folder_file_path);
+					      "STATUS %s (MESSAGES)", imap_folder->folder_file_path);
 
 	if (status != CAMEL_IMAP_OK) {
 		CamelService *service = CAMEL_SERVICE (folder->parent_store);
@@ -471,10 +493,11 @@ imap_get_message_count (CamelFolder *folder, CamelException *ex)
 
 	/* parse out the message count - should come in the form: "* STATUS <folder> (MESSAGES <count>)\r\n" */
 	if (result && *result == '*') {
-		/* FIXME: This should really be rewritten to not depend on absolute spacing */
-		if (msg_count = strstr(result, "MESSAGES")) {
+		if ((msg_count = strstr(result, "MESSAGES")) != NULL) {
 			msg_count += strlen("MESSAGES") + 1;
 
+			for ( ; *msg_count == ' '; msg_count++);
+			
 			/* we should now be pointing to the message count */
 			imap_folder->count = atoi(msg_count);
 		}
@@ -490,17 +513,17 @@ static void
 imap_append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException *ex)
 {
 	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
-	CamelImapStore *store = CAMEL_IMAP_STORE (folder->parent_store);
-	CamelStreamBuffer *stream = CAMEL_STREAM_BUFFER (store->istream);
 	CamelStreamMem *mem;
-	gchar *cmdid, *respbuf;
+	gchar *result;
+	gint status;
 
 	g_return_if_fail (folder != NULL);
 	g_return_if_fail (message != NULL);
 
 	/* write the message to a CamelStreamMem so we can get it's size */
-	mem = CAMEL_STREAM_MEM (camel_stream_mem_new());
+	mem = camel_stream_mem_new();
 	if (camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), CAMEL_STREAM (mem)) == -1) {
+		CamelService *service = CAMEL_SERVICE (folder->parent_store);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      "Could not APPEND message to IMAP server %s: %s.",
 				      service->url->host,
@@ -509,8 +532,9 @@ imap_append_message (CamelFolder *folder, CamelMimeMessage *message, CamelExcept
 	        return;
 	}
 
-	mem->buffer = g_byte_array_append(mem->buffer, g_strdup("\n"));
+	mem->buffer = g_byte_array_append(mem->buffer, g_strdup("\n"), 2);
 	status = camel_imap_command(CAMEL_IMAP_STORE (folder->parent_store),
+				    &result,
 				    "APPEND %s (\\Seen) {%d}\r\n%s",
 				    imap_folder->folder_file_path,
 				    mem->buffer->len,
@@ -534,43 +558,38 @@ imap_append_message (CamelFolder *folder, CamelMimeMessage *message, CamelExcept
 static GPtrArray *
 imap_get_uids (CamelFolder *folder, CamelException *ex) 
 {
-	return g_ptr_array_new();
-#if 0
-	/* TODO: Find out what this is actually supposed to do */
-	GPtrArray *array;
 	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
+	CamelImapMessageInfo *info;
+	GPtrArray *array;
 	gint i, count;
 
-	count = camel_folder_summary_count((CamelFolderSummary *)imap_folder->summary);
+	count = camel_folder_summary_count(CAMEL_FOLDER_SUMMARY (imap_folder->summary));
 	array = g_ptr_array_new ();
 	g_ptr_array_set_size (array, count);
 	for (i = 0; i < count; i++) {
-		CamelImapMessageInfo *info = 
-			(CamelImapMessageInfo *)camel_folder_summary_index((CamelFolderSummary *)imap_folder->summary, i);
+		info = CAMEL_IMAP_MESSAGE_INFO (camel_folder_summary_index(CAMEL_FOLDER_SUMMARY (imap_folder->summary), i));
 		array->pdata[i] = g_strdup(info->info.uid);
 	}
 	
 	return array;
-#endif
 }
 
 static GPtrArray *
 imap_get_subfolder_names (CamelFolder *folder, CamelException *ex)
 {
-	/* NOTE: use LSUB or LIST - preferably LSUB but I managed with LIST in Spruce */
 	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
 	GPtrArray *listing;
 	gint status;
 	gchar *result;
-
+	
 	g_return_val_if_fail (folder != NULL, g_ptr_array_new());
-
+	
 	if (imap_folder->count != -1)
-		imap_folder->count;
-
+		return g_ptr_array_new ();
+	
 	status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), &result,
-				     "LSUB \"\" \"%s\"", imap_folder->folder_file_path);
-
+					      "LSUB \"\" \"%s\"", imap_folder->folder_file_path);
+	
 	if (status != CAMEL_IMAP_OK) {
 		CamelService *service = CAMEL_SERVICE (folder->parent_store);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
@@ -581,18 +600,20 @@ imap_get_subfolder_names (CamelFolder *folder, CamelException *ex)
 		g_free (result);
 		return g_ptr_array_new ();
 	}
-
+	
 	/* parse out the subfolders */
 	listing = g_ptr_array_new ();
+	g_ptr_array_add(listing, g_strdup("INBOX"));
 	if (result) {
-		ptr = result;
+		char *ptr = result;
+		
 		while (*ptr == '*') {
-			gchar *flags, *param, *end, *dir_sep;
-
+			gchar *flags, *end, *dir_sep, *param = NULL;
+			
 			ptr = flags = strchr(ptr, '(') + 1;    /* jump to the flags section */
 			end = strchr(flags, ')');              /* locate end of flags */
-			flags = strndup(flags, (gint)(end - flags));
-
+			flags = g_strndup(flags, (gint)(end - flags));
+			
 			if (strstr(flags, "\\NoSelect")) {
 				g_free(flags);
 				continue;
@@ -608,7 +629,7 @@ imap_get_subfolder_names (CamelFolder *folder, CamelException *ex)
                         for (end = ptr; *end && *end != '\n'; end++);
 			param = g_strndup(ptr, (gint)(end - ptr));
 
-			g_ptr_array_add (listing, param);
+			g_ptr_array_add(listing, param);
 
 			g_free(dir_sep);  /* TODO: decide if we really need dir_sep */
 
@@ -624,19 +645,20 @@ imap_get_subfolder_names (CamelFolder *folder, CamelException *ex)
 }
 
 static void
-imap_delete_message_by_uid(CamelFolder *folder, const gchar *uid, CamelException *ex)
+imap_delete_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *ex)
 {
-	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
+	/*CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);*/
 	gchar *result;
 	gint status;
 
 	status = camel_imap_command_extended(CAMEL_IMAP_STORE (folder->parent_store),
-					     "STORE %s +FLAGS.SILENT (\\Deleted)", uid);
+					     &result, "UID STORE %s +FLAGS.SILENT (\\Deleted)", uid);
 
 	if (status != CAMEL_IMAP_OK) {
 		CamelService *service = CAMEL_SERVICE (folder->parent_store);
+		
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-				      "Could not mark message %s as 'Deleted' on IMAP server %s: %s"
+				      "Could not mark message %s as 'Deleted' on IMAP server %s: %s",
 				      uid, service->url->host,
 				      status == CAMEL_IMAP_ERR ? result :
 				      "Unknown error");
@@ -650,19 +672,15 @@ imap_delete_message_by_uid(CamelFolder *folder, const gchar *uid, CamelException
 
 /* track flag changes in the summary */
 static void
-message_changed(CamelMimeMessage *m, int type, CamelImapFolder *mf)
+message_changed (CamelMimeMessage *m, int type, CamelImapFolder *mf)
 {
-	return;
-
-#if 0
-	/* TODO: find a way to do this in IMAP - will probably not be easy */
 	CamelMessageInfo *info;
 	CamelFlag *flag;
 
 	printf("Message changed: %s: %d\n", m->message_uid, type);
 	switch (type) {
 	case MESSAGE_FLAGS_CHANGED:
-		info = camel_folder_summary_uid((CamelFolderSummary *)mf->summary, m->message_uid);
+		info = camel_folder_summary_uid(CAMEL_FOLDER_SUMMARY (mf->summary), m->message_uid);
 		if (info) {
 			info->flags = m->flags | CAMEL_MESSAGE_FOLDER_FLAGGED;
 			camel_flag_list_free(&info->user_flags);
@@ -671,7 +689,7 @@ message_changed(CamelMimeMessage *m, int type, CamelImapFolder *mf)
 				camel_flag_set(&info->user_flags, flag->name, TRUE);
 				flag = flag->next;
 			}
-			camel_folder_summary_touch((CamelFolderSummary *)mf->summary);
+			camel_folder_summary_touch(CAMEL_FOLDER_SUMMARY (mf->summary));
 		} else
 			g_warning("Message changed event on message not in summary: %s", m->message_uid);
 		break;
@@ -679,7 +697,6 @@ message_changed(CamelMimeMessage *m, int type, CamelImapFolder *mf)
 		printf("Unhandled message change event: %d\n", type);
 		break;
 	}
-#endif
 }
 
 static CamelMimeMessage *
@@ -687,15 +704,15 @@ imap_get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *
 {
 	/* NOTE: extremely easy to do in IMAP - just needa code it ;-) */
 	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
-	CamelStream *message_stream = NULL;
+	CamelStreamMem *message_stream = NULL;
 	CamelMimeMessage *message = NULL;
 	CamelImapMessageInfo *info;
 	CamelMimeParser *parser = NULL;
-	gchar *buffer;
-	gint len;
+	gchar *buffer, *result;
+	gint len, status;
 
 	/* get the message summary info */
-	info = (CamelImapMessageInfo *)camel_folder_summary_uid((CamelFolderSummary *)imap_folder->summary, uid);
+	info = (CamelImapMessageInfo *)camel_folder_summary_uid(CAMEL_FOLDER_SUMMARY (imap_folder->summary), uid);
 
 	if (info == NULL) {
 		errno = ENOENT;
@@ -706,8 +723,24 @@ imap_get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *
 	g_assert(info->info.content);
 	g_assert(info->frompos != -1);
 
+	/* get our message buffer */
+	status = camel_imap_command_extended(CAMEL_IMAP_STORE (folder->parent_store),
+					     &result, "UID FETCH %s (FLAGS BODY[])", uid);
+
+	if (status != CAMEL_IMAP_OK) {
+		CamelService *service = CAMEL_SERVICE (folder->parent_store);
+		
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+				      "Could not mark message %s as 'Deleted' on IMAP server %s: %s",
+				      uid, service->url->host,
+				      status == CAMEL_IMAP_ERR ? result :
+				      "Unknown error");
+		g_free (result);
+		return;
+	}
+	
 	/* where we read from */
-	message_stream = camel_stream_fs_new_with_name (imap_folder->folder_file_path, O_RDONLY, 0);
+	message_stream = camel_stream_mem_new_with_buffer (result, strlen(result));
 	if (message_stream == NULL)
 		goto fail;
 
@@ -724,13 +757,15 @@ imap_get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *
 	}
 
 	if (camel_mime_parser_tell_start_from(parser) != info->frompos) {
-		g_warning("Summary doesn't match the folder contents!  eek!");
+		g_warning("Summary doesn't match the folder contents!  eek!"
+			  "  expecting offset %ld got %ld", (long int)info->frompos,
+			  (long int)camel_mime_parser_tell_start_from(parser));
 		errno = EINVAL;
 		goto fail;
 	}
 
 	message = camel_mime_message_new();
-	if (camel_mime_part_construct_from_parser((CamelMimePart *)message, parser) == -1) {
+	if (camel_mime_part_construct_from_parser(CAMEL_MIME_PART (message), parser) == -1) {
 		g_warning("Construction failed");
 		goto fail;
 	}
@@ -746,15 +781,15 @@ imap_get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *
 
 	return message;
 
-fail:
+ fail:
 	camel_exception_setv (ex, CAMEL_EXCEPTION_FOLDER_INVALID_UID,
 			      "Cannot get message: %s",
 			      g_strerror(errno));
 
 	if (parser)
-		gtk_object_unref((GtkObject *)parser);
+		gtk_object_unref(GTK_OBJECT (parser));
 	if (message)
-		gtk_object_unref((GtkObject *)message);
+		gtk_object_unref(GTK_OBJECT (message));
 
 	return NULL;
 }
@@ -763,33 +798,33 @@ GPtrArray *
 imap_get_summary (CamelFolder *folder, CamelException *ex)
 {
 	/* TODO: what should we do here?? */
-	CamelImapFolder *imap_folder = (CamelImapFolder *)folder;
+	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
 
-	return ((CamelFolderSummary *)imap_folder->summary)->messages;
+	return CAMEL_FOLDER_SUMMARY (imap_folder->summary)->messages;
 }
 
 void
 imap_free_summary (CamelFolder *folder, GPtrArray *array)
 {
-	/* This is IMAP dude, no need to free a summary */
+	/* no-op */
 	return;
 }
 
 /* get a single message info, by uid */
 static const CamelMessageInfo *
-imap_summary_get_by_uid(CamelFolder *f, const char *uid)
+imap_summary_get_by_uid (CamelFolder *f, const char *uid)
 {
 	/* TODO: what do we do here? */
-	CamelImapFolder *imap_folder = (CamelImapFolder *)f;
+	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (f);
 
-	return camel_folder_summary_uid((CamelFolderSummary *)imap_folder->summary, uid);
+	return camel_folder_summary_uid(CAMEL_FOLDER_SUMMARY (imap_folder->summary), uid);
 }
 
 static GList *
-imap_search_by_expression(CamelFolder *folder, const char *expression, CamelException *ex)
+imap_search_by_expression (CamelFolder *folder, const char *expression, CamelException *ex)
 {
 	/* TODO: find a good way of doing this */
-	CamelImapFolder *imap_folder = (CamelImapFolder *)folder;
+	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
 
 	if (imap_folder->search == NULL) {
 		imap_folder->search = camel_folder_search_new();
@@ -798,11 +833,22 @@ imap_search_by_expression(CamelFolder *folder, const char *expression, CamelExce
 	camel_folder_search_set_folder(imap_folder->search, folder);
 	if (imap_folder->summary)
 		/* FIXME: dont access summary array directly? */
-		camel_folder_search_set_summary(imap_folder->search, ((CamelFolderSummary *)imap_folder->summary)->messages);
+		camel_folder_search_set_summary(imap_folder->search,
+						CAMEL_FOLDER_SUMMARY (imap_folder->summary)->messages);
 	camel_folder_search_set_body_index(imap_folder->search, imap_folder->index);
 
 	return camel_folder_search_execute_expression(imap_folder->search, expression, ex);
 }
+
+
+
+
+
+
+
+
+
+
 
 
 
