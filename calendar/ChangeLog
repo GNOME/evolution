@@ -1,3 +1,11 @@
+2000-09-09  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* gui/dialogs/Makefile.am (INCLUDES): Add
+	`-I$(top_builddir)/libical/src/libical' so that we get
+	`icalversion.h' from the build directory instead of taking it from
+	the installation directory, which is of course Wrong (tm).
+	* gui/Makefile.am (INCLUDES): Likewise.
+
 2000-09-08  Federico Mena Quintero  <federico@helixcode.com>
 
 	* gui/gnome-cal.c (cal_loaded_cb): New function with the

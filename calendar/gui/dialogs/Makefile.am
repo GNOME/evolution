@@ -5,6 +5,7 @@ INCLUDES = 						\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/calendar			\
 	-I$(top_srcdir)/libical/src/libical		\
+	-I$(top_builddir)/libical/src/libical		\
 	-I$(includedir)					\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
 	$(BONOBO_VFS_GNOME_CFLAGS)			\
