@@ -227,6 +227,17 @@ void
 camel_exception_xfer (CamelException *ex_dst,
 		      CamelException *ex_src)
 {
+	if (ex_src == NULL) {
+		g_warning ("camel_exception_xfer: trying to transfer NULL exception to %p\n", ex_dst);
+		return;
+	}
+
+	if (ex_dst == NULL) {
+		/* must have same side-effects */
+		camel_exception_clear (ex_src);
+		return;
+	}
+
 	CAMEL_EXCEPTION_LOCK(exception);
 
 	if (ex_dst->desc)
@@ -255,8 +266,10 @@ camel_exception_get_id (CamelException *ex)
 {
 	if (ex)
 		return ex->id;
-	else 
+	else {
+		g_warning ("camel_exception_get_id called with NULL parameter.");
 		return CAMEL_EXCEPTION_NONE;
+	}
 }
 
 /**
@@ -276,6 +289,8 @@ camel_exception_get_description (CamelException *ex)
 
 	if (ex)
 		ret = ex->desc;
-
+	else
+		g_warning ("camel_exception_get_description called with NULL parameter.");
+		
 	return ret;
 }

@@ -86,6 +86,7 @@ camel_imap_command (CamelImapStore *store, CamelFolder *folder,
 {
 	gchar *cmdbuf;
 	va_list ap;
+	CamelException internal_ex;
 
 	CAMEL_IMAP_STORE_LOCK (store, command_lock);
 
@@ -127,11 +128,13 @@ camel_imap_command (CamelImapStore *store, CamelFolder *folder,
 	cmdbuf = imap_command_strdup_vprintf (store, fmt, ap);
 	va_end (ap);
 
-	camel_remote_store_send_string (CAMEL_REMOTE_STORE (store), ex,
+	camel_exception_init (&internal_ex);
+	camel_remote_store_send_string (CAMEL_REMOTE_STORE (store), &internal_ex,
 					"%c%.5d %s\r\n", store->tag_prefix,
 					store->command++, cmdbuf);
 	g_free (cmdbuf);
-	if (camel_exception_is_set (ex)) {
+	if (camel_exception_is_set (&internal_ex)) {
+		camel_exception_xfer (ex, &internal_ex);
 		CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
 		return NULL;
 	}
@@ -172,6 +175,7 @@ static CamelImapResponse *
 imap_read_response (CamelImapStore *store, CamelException *ex)
 {
 	CamelImapResponse *response;
+	CamelException internal_ex;
 	char *respbuf, *retcode;
 
 	/* Read first line */
@@ -189,11 +193,13 @@ imap_read_response (CamelImapStore *store, CamelException *ex)
 	}
 	response->untagged = g_ptr_array_new ();
 
+	camel_exception_init (&internal_ex);
+
 	/* Check for untagged data */
 	while (!strncmp (respbuf, "* ", 2)) {
 		/* Read the rest of the response if it is multi-line. */
-		respbuf = imap_read_untagged (store, respbuf, ex);
-		if (camel_exception_is_set (ex))
+		respbuf = imap_read_untagged (store, respbuf, &internal_ex);
+		if (camel_exception_is_set (&internal_ex))
 			break;
 
 		if (!g_strncasecmp (respbuf, "* BYE", 5)) {
@@ -210,7 +216,8 @@ imap_read_response (CamelImapStore *store, CamelException *ex)
 			break;
 	}
 
-	if (!respbuf || camel_exception_is_set (ex)) {
+	if (!respbuf || camel_exception_is_set (&internal_ex)) {
+		camel_exception_xfer (ex, &internal_ex);
 		camel_imap_response_free_without_processing (store, response);
 		return NULL;
 	}

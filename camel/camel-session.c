@@ -351,7 +351,7 @@ get_service (CamelSession *session, const char *url_string,
 	CamelURL *url;
 	CamelProvider *provider;
 	CamelService *service;
-
+	CamelException internal_ex;
 	url = camel_url_new (url_string, ex);
 	if (!url)
 		return NULL;
@@ -379,8 +379,10 @@ get_service (CamelSession *session, const char *url_string,
 	}
 
 	service = (CamelService *)camel_object_new (provider->object_types[type]);
-	camel_service_construct (service, session, provider, url, ex);
-	if (camel_exception_is_set (ex)) {
+	camel_exception_init (&internal_ex);
+	camel_service_construct (service, session, provider, url, &internal_ex);
+	if (camel_exception_is_set (&internal_ex)) {
+		camel_exception_xfer (ex, &internal_ex);
 		camel_object_unref (CAMEL_OBJECT (service));
 		service = NULL;
 	} else {

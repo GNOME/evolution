@@ -444,9 +444,13 @@ static void
 store_sync (CamelStore *store, CamelException *ex)
 {
 	if (store->folders) {
+		CamelException internal_ex;
+	
+		camel_exception_init (&internal_ex);
 		CAMEL_STORE_LOCK(store, cache_lock);
-		g_hash_table_foreach (store->folders, sync_folder, ex);
+		g_hash_table_foreach (store->folders, sync_folder, &internal_ex);
 		CAMEL_STORE_UNLOCK(store, cache_lock);
+		camel_exception_xfer (ex, &internal_ex);
 	}
 }
 
