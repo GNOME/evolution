@@ -45,6 +45,8 @@
 #include <libxml/xpath.h>
 #include <string.h>
 
+#include "widgets/misc/e-error.h"
+
 #include "format-handler.h"
 
 static void 
@@ -214,23 +216,9 @@ do_save_calendar_rdf (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSource
 	uri = gnome_vfs_uri_new (dest_uri);
 
 	result = gnome_vfs_open_uri (&handle, uri, GNOME_VFS_OPEN_READ);
-	if (result == GNOME_VFS_OK) {
-		GtkWidget *warning = 
-		  gtk_message_dialog_new_with_markup (NULL,
-				GTK_DIALOG_DESTROY_WITH_PARENT,
-				GTK_MESSAGE_WARNING,
-				GTK_BUTTONS_NONE,
-				_("<b>File exists \"%s\".\n"
-				  "Do you wish to overwrite it?"), dest_uri);
-
-		gtk_dialog_add_button (GTK_DIALOG (warning), GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
-		gtk_dialog_add_button (GTK_DIALOG (warning), _("_Overwrite"), GTK_RESPONSE_YES);
-
-		doit = FALSE;
-		if (gtk_dialog_run (GTK_DIALOG (warning)) == GTK_RESPONSE_YES)
-			doit = TRUE;
-		gtk_widget_destroy (warning);
-	} 
+	if (result == GNOME_VFS_OK) 
+		doit = e_error_run(gtk_widget_get_toplevel (GTK_WIDGET (target->selector)),
+			 E_ERROR_ASK_FILE_EXISTS_OVERWRITE, dest_uri, NULL) == GTK_RESPONSE_OK;
 
 	if (doit) {
 		result = gnome_vfs_open_uri (&handle, uri, GNOME_VFS_OPEN_WRITE);
