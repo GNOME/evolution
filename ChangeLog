@@ -1,3 +1,9 @@
+2005-02-22  Rodney Dawes  <dobey@novell.com>
+
+	* data/Makefile.am (CLEANFILES): add new variable with the generated
+	keys and desktop file listed so that they get removed with make clean
+	(EXTRA_DIST): Don't dist the generated keys file
+
 2005-02-01  Priit Laes <amd@store20.com>
 
 	* configure.in : Remove duplicate entries for addressbook-groupwise,

@@ -70,10 +70,13 @@ dtappunintegrate:
 
 endif
 
+CLEANFILES =					\
+	$(desktop_file)				\
+	$(keys_file)
+
 EXTRA_DIST =					\
 	$(desktop_in_in_file)			\
 	$(mime_file)				\
-	$(keys_file)				\
 	$(keys_in_file)				\
 	$(noinst_MANS)
 
