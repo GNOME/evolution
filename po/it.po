@@ -8201,7 +8201,7 @@ msgstr "Sincronizzazione con il server"
 #: camel/camel-disco-folder.c:278
 #, c-format
 msgid "Preparing folder '%s' for offline"
-msgstr Preparazione cartella '%s' per l'accesso fuorilinea"
+msgstr "Preparazione cartella '%s' per l'accesso fuorilinea"
 
 #: camel/camel-disco-store.c:367
 msgid "You must be working online to complete this operation"
