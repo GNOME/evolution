@@ -49,7 +49,7 @@ send_component_dialog (CalClient *client, CalComponent *comp, gboolean new)
 	char *str;
 
 	if (cal_client_get_save_schedules (client))
-		return TRUE;
+		return FALSE;
 	
 	vtype = cal_component_get_vtype (comp);
 
