@@ -101,7 +101,15 @@ paint (EComboButton *combo_button,
 	int x, y, width, height;
 	int border_width;
 
-	shadow_type = GTK_BUTTON (widget)->depressed ? GTK_SHADOW_IN : GTK_SHADOW_OUT;
+	if (GTK_BUTTON (widget)->depressed || priv->menu_popped_up) {
+		shadow_type = GTK_SHADOW_IN;
+		gtk_widget_set_state (widget, GTK_STATE_ACTIVE);
+	} else if (GTK_BUTTON (widget)->relief == GTK_RELIEF_NONE &&
+		   (GTK_WIDGET_STATE (widget) == GTK_STATE_NORMAL ||
+		    GTK_WIDGET_STATE (widget) == GTK_STATE_INSENSITIVE))
+		shadow_type = GTK_SHADOW_NONE;
+	else
+		shadow_type = GTK_SHADOW_OUT;
 
 	border_width = GTK_CONTAINER (widget)->border_width;
 
@@ -134,19 +142,14 @@ paint (EComboButton *combo_button,
 		height -= 2 * (focus_width + focus_pad);
 	}
 
-	if ((GTK_BUTTON (widget)->relief != GTK_RELIEF_NONE) ||
-	    ((GTK_WIDGET_STATE(widget) != GTK_STATE_NORMAL) &&
-	     (GTK_WIDGET_STATE(widget) != GTK_STATE_ACTIVE || GTK_BUTTON (widget)->depressed) &&
-	     (GTK_WIDGET_STATE(widget) != GTK_STATE_INSENSITIVE))) {
-		gtk_paint_box (widget->style, widget->window,
-			       GTK_WIDGET_STATE (widget), shadow_type,
-			       area, widget, "button",
-			       x, y, separator_x, height);
-		gtk_paint_box (widget->style, widget->window,
-			       GTK_WIDGET_STATE (widget), shadow_type,
-			       area, widget, "button",
-			       separator_x, y, width - separator_x, height);
-	}
+	gtk_paint_box (widget->style, widget->window,
+		       GTK_WIDGET_STATE (widget), shadow_type,
+		       area, widget, "button",
+		       x, y, separator_x, height);
+	gtk_paint_box (widget->style, widget->window,
+		       GTK_WIDGET_STATE (widget), shadow_type,
+		       area, widget, "button",
+		       separator_x, y, width - separator_x, height);
 
 	if (GTK_WIDGET_HAS_FOCUS (widget)) {
 		if (interior_focus) {
@@ -441,8 +444,8 @@ e_combo_button_init (EComboButton *combo_button)
 	gtk_widget_show (priv->label);
 
 	priv->arrow_image = gtk_arrow_new (GTK_ARROW_DOWN, GTK_SHADOW_NONE);
-	gtk_box_pack_start (GTK_BOX (priv->hbox), priv->arrow_image, TRUE, TRUE,
-			    GTK_WIDGET (combo_button)->style->xthickness);
+	gtk_box_pack_end (GTK_BOX (priv->hbox), priv->arrow_image, TRUE, TRUE,
+			  GTK_WIDGET (combo_button)->style->xthickness);
 	gtk_widget_show (priv->arrow_image);
 
 	priv->icon           = NULL;

@@ -1,3 +1,12 @@
+2005-02-21  Rodney Dawes  <dobey@novell.com>
+
+	* e-combo-button.c (paint): Fix the calculation of which shadow type
+	to use to be more appropriate for the widget state and relief
+	Always call gtk_box_paint and not only in special cases like GtkButton
+	(e_combo_button_init): Change the arrow packing to pack_end
+
+	Fixes #54503
+
 2005-02-02  Li Yuan  <li.yuan@sun.com>
 
 	* e-url-entry.c: (init):
