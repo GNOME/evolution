@@ -567,6 +567,7 @@ item_key_press (ETableItem *eti, int row, int col, GdkEvent *event, ETree *et)
 
 	switch (key->keyval) {
 	case GDK_Page_Down:
+	case GDK_KP_Page_Down:
 		vadj = gtk_layout_get_vadjustment (GTK_LAYOUT (et->priv->table_canvas));
 		y = CLAMP(vadj->value + (2 * vadj->page_size - 50), 0, vadj->upper);
 		y -= vadj->value;
@@ -577,6 +578,7 @@ item_key_press (ETableItem *eti, int row, int col, GdkEvent *event, ETree *et)
 		return_val = 1;
 		break;
 	case GDK_Page_Up:
+	case GDK_KP_Page_Up:
 		vadj = gtk_layout_get_vadjustment (GTK_LAYOUT (et->priv->table_canvas));
 		y = CLAMP(vadj->value - (vadj->page_size - 50), 0, vadj->upper);
 		y -= vadj->value;
@@ -588,6 +590,7 @@ item_key_press (ETableItem *eti, int row, int col, GdkEvent *event, ETree *et)
 		break;
 	case '=':
 	case GDK_Right:
+	case GDK_KP_Right:
 		if (row != -1) {
 			path = e_tree_table_adapter_node_at_row(et->priv->etta, row);
 			if (path)
@@ -597,6 +600,7 @@ item_key_press (ETableItem *eti, int row, int col, GdkEvent *event, ETree *et)
 		break;
 	case '-':
 	case GDK_Left:
+	case GDK_KP_Left:
 		if (row != -1) {
 			path = e_tree_table_adapter_node_at_row(et->priv->etta, row);
 			if (path)
@@ -2345,7 +2349,6 @@ e_tree_drag_source_event_cb (GtkWidget      *widget,
 							     site->target_list,
 							     site->actions,
 							     i, event);
-
 
 				info = g_dataset_get_data (context, "gtk-info");
 

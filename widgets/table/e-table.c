@@ -495,6 +495,7 @@ group_key_press (ETableGroup *etg, int row, int col, GdkEvent *event, ETable *et
 
 	switch (key->keyval) {
 	case GDK_Page_Down:
+	case GDK_KP_Page_Down:
 		vadj = gtk_layout_get_vadjustment (GTK_LAYOUT (et->table_canvas));
 		y = CLAMP(vadj->value + (2 * vadj->page_size - 50), 0, vadj->upper);
 		y -= vadj->value;
@@ -505,6 +506,7 @@ group_key_press (ETableGroup *etg, int row, int col, GdkEvent *event, ETable *et
 		return_val = 1;
 		break;
 	case GDK_Page_Up:
+	case GDK_KP_Page_Up:
 		vadj = gtk_layout_get_vadjustment (GTK_LAYOUT (et->table_canvas));
 		y = CLAMP(vadj->value - (vadj->page_size - 50), 0, vadj->upper);
 		y -= vadj->value;
@@ -2047,8 +2049,6 @@ et_drag_motion(GtkWidget *widget,
 {
 	gboolean ret_val;
 
-	g_print ("x=%d, y=%d\n", x, y);
-
 	et->last_drop_x = x;
 	et->last_drop_y = y;
 	et->last_drop_time = time;
@@ -2208,7 +2208,6 @@ e_table_drag_source_event_cb (GtkWidget      *widget,
 							      site->target_list,
 							      site->actions,
 							      i, event);
-
 
 				info = g_dataset_get_data (context, "gtk-info");
 
