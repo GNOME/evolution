@@ -1,3 +1,8 @@
+2004-08-13  Rodney Dawes  <dobey@novell.com>
+
+	* camel-sasl-gssapi.c: Handle et/comm_err.h as well as the
+	normal comm_err.h
+
 2004-08-11  Jeffrey Stedfast  <fejj@novell.com>
 
 	Fix for bug #62771

@@ -28,7 +28,11 @@
 #ifdef HAVE_KRB5
 
 #include <string.h>
+#ifdef HAVE_ET_COM_ERR_H
+#include <et/com_err.h>
+#else
 #include <com_err.h>
+#endif
 #ifdef HAVE_MIT_KRB5
 #include <gssapi/gssapi.h>
 #include <gssapi/gssapi_generic.h>
