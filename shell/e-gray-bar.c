@@ -50,9 +50,9 @@ endarken_style (GtkWidget *widget)
 	new_rc_style = gtk_rc_style_new ();
 
 	for (i = 0; i < 5; i++) {
-		new_rc_style->bg[i].red      = 0xffff;
-		new_rc_style->bg[i].green    = 0x0000;
-		new_rc_style->bg[i].blue     = 0xffff;
+		new_rc_style->bg[i].red      = style->bg[i].red * .8;
+		new_rc_style->bg[i].green    = style->bg[i].green * .8;
+		new_rc_style->bg[i].blue     = style->bg[i].blue * .8;
 		new_rc_style->base[i].red    = style->base[i].red * .8;
 		new_rc_style->base[i].green  = style->base[i].green * .8;
 		new_rc_style->base[i].blue   = style->base[i].blue * .8;
