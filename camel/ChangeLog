@@ -1,3 +1,9 @@
+2001-12-16  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap/camel-imap-folder.c (get_content): Try to use the
+	original boundary so luis will stop bugging me about "data
+	corruption".
+
 2001-12-14  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-filter-driver.c

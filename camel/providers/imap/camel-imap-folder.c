@@ -1411,7 +1411,9 @@ get_content (CamelImapFolder *imap_folder, const char *uid,
 		body_mp = camel_multipart_new ();
 		camel_data_wrapper_set_mime_type_field (
 			CAMEL_DATA_WRAPPER (body_mp), ci->type);
-		camel_multipart_set_boundary (body_mp, NULL);
+		
+		/* FIXME: do we really need to set this? shouldn't it be set in the above call? */
+		camel_multipart_set_boundary (body_mp, header_content_type_param (ci->type, "boundary"));
 		
 		speclen = strlen (part_spec);
 		child_spec = g_malloc (speclen + 15);
@@ -1450,7 +1452,7 @@ get_content (CamelImapFolder *imap_folder, const char *uid,
 			camel_object_unref (CAMEL_OBJECT (content));
 			camel_multipart_add_part (body_mp, part);
 			camel_object_unref (CAMEL_OBJECT (part));
-
+			
 			ci = ci->next;
 		}
 		g_free (child_spec);
