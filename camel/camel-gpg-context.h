@@ -58,7 +58,6 @@ CamelType camel_gpg_context_get_type (void);
 CamelCipherContext *camel_gpg_context_new (CamelSession *session, const char *path);
 
 void camel_gpg_context_set_always_trust (CamelGpgContext *ctx, gboolean trust);
-gboolean camel_gpg_context_get_always_trust (CamelGpgContext *ctx);
 
 #ifdef __cplusplus
 }

@@ -1,5 +1,9 @@
 2002-06-25  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-gpg-context.c: #include <sys/time.h>
+
+2002-06-25  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* camel-gpg-context.c (gpg_hash_str): Return the option as
 	--digest-algo=<micalg>
 	(gpg_ctx_parse_status): Decode more status information and keep
