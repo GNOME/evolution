@@ -7,6 +7,10 @@
     <oaf_attribute name="repo_ids" type="stringv">
       <item value="IDL:Bonobo/GenericFactory:1.0"/>
     </oaf_attribute>
+
+    <oaf_attribute name="name" type="string"
+                   _value="Evolution Summary">
+
   </oaf_server>
 
   <oaf_server iid="OAFIID:GNOME_Evolution_Summary_ShellComponent"
@@ -17,8 +21,8 @@
       <item value="IDL:GNOME/Evolution/ShellComponent:1.0"/>
     </oaf_attribute>
 
-    <oaf_attribute name="description" type="string"
-		   _value="Evolution Summary component."/>
+    <oaf_attribute name="name" type="string"
+		   _value="Evolution Summary component"/>
 
     <oaf_attribute name="evolution:shell_component_icon" type="string"
 		   value="evolution-today.png"/>
@@ -50,8 +54,8 @@
 
     <oaf_attribute name="evolution:config_item:priority" type="string" value="-5"/>
     
-    <oaf_attribute name="description" type="string"
-		   _value="Configuration control for the Evolution Summary."/>
+    <oaf_attribute name="name" type="string"
+		   _value="Evolution Summary configuration control"/>
 
   </oaf_server>
 

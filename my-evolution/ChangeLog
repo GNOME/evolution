@@ -1,3 +1,7 @@
+2003-04-07  Dan Winship  <danw@ximian.com>
+
+	* GNOME_Evolution_Summary.server.in.in: clean up server names
+
 2003-03-31  Larry Ewing  <lewing@ximian.com>
 
 	* e-summary-factory.c: make the verbs static so they don't enter
