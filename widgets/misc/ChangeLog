@@ -1,3 +1,7 @@
+2002-12-02  Rodrigo Moya <rodrigo@ximian.com>
+
+	* e-cahrset-picker.c: Included gtkmessagedialog.h.
+
 2002-11-27  Not Zed  <NotZed@Ximian.com>
 
 	* e-charset-picker.c: Add include of gnome-dialog.h
