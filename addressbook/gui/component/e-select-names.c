@@ -165,8 +165,10 @@ e_select_names_init (ESelectNames *e_select_names)
 	if (!widget) {
 		return;
 	}
-	gtk_widget_reparent(widget,
-			    GTK_WIDGET(e_select_names));
+	gtk_widget_ref(widget);
+	gtk_widget_unparent(widget);
+	gtk_box_pack_start(GTK_BOX(GNOME_DIALOG(e_select_names)->vbox), widget, TRUE, TRUE, 0);
+	gtk_widget_unref(widget);
 
 	gnome_dialog_append_buttons(GNOME_DIALOG(e_select_names),
 				    GNOME_STOCK_BUTTON_OK,
