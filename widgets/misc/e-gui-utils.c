@@ -3,19 +3,21 @@
  * GUI utility functions
  *
  * Author:
- *   Miguel de Icaza (miguel@helixcode.com)
+ *   Miguel de Icaza <miguel@helixcode.com>
  *
- * (C) 1999 Miguel de Icaza
- * (C) 2000 Helix Code, Inc.
+ * Copyright (C) 1999 Miguel de Icaza
+ * Copyright (C) 2000, 2001 Ximian, Inc.
  */
 #include <config.h>
+
+#include "e-gui-utils.h"
+
 #include <gtk/gtkentry.h>
 #include <gtk/gtksignal.h>
 #include <libgnomeui/gnome-messagebox.h>
 #include <libgnomeui/gnome-stock.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gdk-pixbuf/gnome-canvas-pixbuf.h>
-#include "e-gui-utils.h"
 
 void
 e_notice (GtkWindow *window, const char *type, const char *format, ...)

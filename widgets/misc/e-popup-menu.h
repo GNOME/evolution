@@ -8,6 +8,9 @@
 
 BEGIN_GNOME_DECLS
 
+#define E_POPUP_SEPARATOR  { "", NULL, (NULL), NULL,  0 }
+#define E_POPUP_TERMINATOR { NULL, NULL, (NULL), NULL,  0 }
+
 typedef struct _EPopupMenu EPopupMenu;
 
 struct _EPopupMenu {
