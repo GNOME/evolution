@@ -1,5 +1,27 @@
 2000-07-21  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* e-shell-folder-title-bar.c (create_icon_pixmap): New.  Create a
+	small arrow-shaped GtkPixmap.
+	(title_button_box_realize_cb): New.  Callback for the "realize"
+	signal of the button's inner box.
+
+	* e-shell-view.c (title_bar_clicked_cb): New function, callback
+	for the "title_clicked" signal of the title bar.
+	(setup_widgets): Connect it.
+
+	* e-shell-view.c: New member `storage_set_title_bar' in
+	`EShellViewPrivate'.
+	(setup_storage_set_subwindow): Set it.
+
+	* e-shell-folder-title-bar.c: Use a GtkLabel instead of an
+	EClippedLabel for the title.
+	(title_button_clicked_cb): New.
+	(e_shell_folder_title_bar_construct): Put the label into a button.
+	Connect the button's "clicked" signal to
+	`title_button_clicked_cb'.
+
+2000-07-21  Ettore Perazzoli  <ettore@helixcode.com>
+
 	* evolution-shell-component.c
 	(impl_ShellComponent_populate_folder_context_menu): If the pointer
 	to the function to populate the folder context menu is NULL, don't

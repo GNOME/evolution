@@ -44,7 +44,6 @@ struct _EShellFolderTitleBarPrivate {
 
 	GtkWidget *hbox;
 	GtkWidget *label;
-	GtkWidget *button_hbox;
 	GtkWidget *button;
 };
 
@@ -56,14 +55,26 @@ enum {
 static guint signals[LAST_SIGNAL] = { 0 };
 
 
+static char *arrow_xpm[] = {
+	"11 5  2 1",
+	" 	c none",
+	".	c #ffffffffffff",
+	" ......... ",
+	"  .......  ",
+	"   .....   ",
+	"    ...    ",
+	"     .     ",
+};
+
+
 /* Icon handling.  */
 
 static unsigned int
 rgb_from_gdk_color (GdkColor *color)
 {
-	return (((color->red >> 8) << 16) |
-		((color->green >> 8) << 8) |
-		((color->blue >> 8)));
+	return (((color->red >> 8) << 16)
+		| ((color->green >> 8) << 8)
+		| ((color->blue >> 8)));
 }
 
 static GdkPixmap *
@@ -105,6 +116,41 @@ make_icon_pixmap (EShellFolderTitleBar *folder_title_bar,
 	}
 
 	return pixmap;
+}
+
+
+/* Icon pixmap.  */
+
+static GtkWidget *
+create_icon_pixmap (GtkWidget *parent)
+{
+	GtkWidget *gtk_pixmap;
+	GdkPixmap *gdk_pixmap;
+	GdkBitmap *gdk_mask;
+
+	gdk_pixmap = gdk_pixmap_create_from_xpm_d (parent->window, &gdk_mask, NULL, arrow_xpm);
+	gtk_pixmap = gtk_pixmap_new (gdk_pixmap, gdk_mask);
+
+	gdk_pixmap_unref (gdk_pixmap);
+	gdk_bitmap_unref (gdk_mask);
+
+	return gtk_pixmap;
+}
+
+static void
+title_button_box_realize_cb (GtkWidget *widget,
+			     void *data)
+{
+	GtkWidget *arrow_pixmap;
+
+	if (gtk_object_get_data (GTK_OBJECT (widget), "e-shell-folder-title-bar-arrow") != NULL)
+		return;
+
+	arrow_pixmap = create_icon_pixmap (widget);
+	gtk_widget_show (arrow_pixmap);
+	gtk_box_pack_start (GTK_BOX (widget), arrow_pixmap, FALSE, TRUE, 2);
+
+	gtk_object_set_data (GTK_OBJECT (widget), "e-shell-folder-title-bar-arrow", arrow_pixmap);
 }
 
 
@@ -170,9 +216,8 @@ setup_style (EShellFolderTitleBar *folder_title_bar)
 }
 
 
-/* Button signals.  */
+/* Popup button callback.  */
 
-#if 0
 static void
 title_button_clicked_cb (GtkButton *button,
 			 void *data)
@@ -180,10 +225,8 @@ title_button_clicked_cb (GtkButton *button,
 	EShellFolderTitleBar *folder_title_bar;
 
 	folder_title_bar = E_SHELL_FOLDER_TITLE_BAR (data);
-
 	gtk_signal_emit (GTK_OBJECT (folder_title_bar), signals[TITLE_CLICKED]);
 }
-#endif
 
 
 /* GTkWidget methods. */
@@ -278,17 +321,23 @@ init (EShellFolderTitleBar *shell_folder_title_bar)
 	priv->icon_widget = NULL;
 	priv->hbox        = NULL;
 	priv->label       = NULL;
-	priv->button_hbox = NULL;
 	priv->button      = NULL;
 
 	shell_folder_title_bar->priv = priv;
 }
 
 
+/**
+ * e_shell_folder_title_bar_construct:
+ * @folder_title_bar: 
+ * 
+ * Construct the folder title bar widget.
+ **/
 void
 e_shell_folder_title_bar_construct (EShellFolderTitleBar *folder_title_bar)
 {
 	EShellFolderTitleBarPrivate *priv;
+	GtkWidget *button_hbox;
 	GtkWidget *widget;
 
 	g_return_if_fail (folder_title_bar != NULL);
@@ -297,29 +346,31 @@ e_shell_folder_title_bar_construct (EShellFolderTitleBar *folder_title_bar)
 	priv = folder_title_bar->priv;
 	widget = GTK_WIDGET (folder_title_bar);
 
-	priv->label = e_clipped_label_new ("");
+	priv->label = gtk_label_new ("");
 	gtk_misc_set_padding (GTK_MISC (priv->label), 5, 0);
 	gtk_misc_set_alignment (GTK_MISC (priv->label), 0.0, 0.5);
 	gtk_widget_show (priv->label);
 
-#if 0
+	button_hbox = gtk_hbox_new (FALSE, 0);
+	gtk_signal_connect (GTK_OBJECT (button_hbox), "realize",
+			    GTK_SIGNAL_FUNC (title_button_box_realize_cb), NULL);
+	gtk_box_pack_start (GTK_BOX (button_hbox), priv->label, TRUE, TRUE, 0);
+	gtk_widget_show (button_hbox);
+
 	priv->button = gtk_button_new ();
 	gtk_button_set_relief (GTK_BUTTON (priv->button), GTK_RELIEF_NONE);
-	gtk_container_add (GTK_CONTAINER (priv->button), priv->label);
+	gtk_container_add (GTK_CONTAINER (priv->button), button_hbox);
 	GTK_WIDGET_UNSET_FLAGS (priv->button, GTK_CAN_FOCUS);
 	gtk_widget_show (priv->button);
-#endif
 
 	priv->hbox = gtk_hbox_new (FALSE, 0);
 	gtk_container_set_border_width (GTK_CONTAINER (priv->hbox), 2);
-	gtk_box_pack_start (GTK_BOX (priv->hbox), priv->label, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (priv->hbox), priv->button, FALSE, TRUE, 0);
 
 	gtk_widget_show (priv->hbox);
 
-#if 0
 	gtk_signal_connect (GTK_OBJECT (priv->button), "clicked",
 			    GTK_SIGNAL_FUNC (title_button_clicked_cb), folder_title_bar);
-#endif
 
 	gtk_container_add (GTK_CONTAINER (folder_title_bar), priv->hbox);
 
@@ -328,6 +379,14 @@ e_shell_folder_title_bar_construct (EShellFolderTitleBar *folder_title_bar)
 	e_shell_folder_title_bar_set_title (folder_title_bar, NULL);
 }
 
+/**
+ * e_shell_folder_title_bar_new:
+ * @void: 
+ * 
+ * Create a new title bar widget.
+ * 
+ * Return value: 
+ **/
 GtkWidget *
 e_shell_folder_title_bar_new (void)
 {
@@ -340,6 +399,13 @@ e_shell_folder_title_bar_new (void)
 	return GTK_WIDGET (new);
 }
 
+/**
+ * e_shell_folder_title_bar_set_title:
+ * @folder_title_bar: 
+ * @title: 
+ * 
+ * Set the title for the title bar.
+ **/
 void
 e_shell_folder_title_bar_set_title (EShellFolderTitleBar *folder_title_bar,
 				    const char *title)
@@ -352,14 +418,21 @@ e_shell_folder_title_bar_set_title (EShellFolderTitleBar *folder_title_bar,
 	priv = folder_title_bar->priv;
 
 	if (title == NULL)
-		e_clipped_label_set_text (E_CLIPPED_LABEL (priv->label), _("(Untitled)"));
+		gtk_label_set_text (GTK_LABEL (priv->label), _("(Untitled)"));
 	else
-		e_clipped_label_set_text (E_CLIPPED_LABEL (priv->label), title);
+		gtk_label_set_text (GTK_LABEL (priv->label), title);
 
 	/* FIXME: There seems to be a bug in EClippedLabel, this is just a workaround.  */
 	gtk_widget_queue_draw (GTK_WIDGET (folder_title_bar));
 }
 
+/**
+ * e_shell_folder_title_bar_set_icon:
+ * @folder_title_bar: 
+ * @icon: 
+ * 
+ * Set the name of the icon for the title bar.
+ **/
 void
 e_shell_folder_title_bar_set_icon (EShellFolderTitleBar *folder_title_bar,
 				   const GdkPixbuf *icon)
