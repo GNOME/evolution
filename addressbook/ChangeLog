@@ -1,3 +1,18 @@
+2001-07-24  Dan Winship  <danw@ximian.com>
+
+	* backend/ebook/e-book-listener.c (e_book_listener_stop): Don't
+	stop the idle_queue and unref from here, since this might be
+	called from inside e_book_listener_check_queue, and we don't want
+	to return to that function with the listener having been
+	destroyed.
+	(e_book_listener_check_queue): Don't exit early if the queue is
+	stopped. Proceed through the check if the queue is NULL (which is
+	must be if the queue is stopped), and then reach the existing code
+	to remove the idle handler. Combined with the above, this fixes
+	ximian #4485 (again). This is not a plot to boost my
+	showstopper-bugfixing count by fixing the same bug over and over
+	again.
+
 2001-07-23  Dan Winship  <danw@ximian.com>
 
 	Re-fix for my 07-18 not-quite-fix.
