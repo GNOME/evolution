@@ -862,8 +862,10 @@ impl_dispose (GObject *object)
 		priv->drag_corba_source_interface = CORBA_OBJECT_NIL;
 	}
 
-	if (priv->ui_component != NULL)
+	if (priv->ui_component != NULL) {
 		bonobo_object_unref (BONOBO_OBJECT (priv->ui_component));
+		priv->ui_component = NULL;
+	}
 
 	/* (No unreffing for priv->ui_container since we use a weakref.)  */
 
