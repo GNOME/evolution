@@ -11,6 +11,7 @@ AC_DEFUN([GNOME_INIT_HOOK],
 	AC_SUBST(GNOMEUI_LIBS)
 	AC_SUBST(GNOMEGNORBA_LIBS)
 	AC_SUBST(GTKXMHTML_LIBS)
+	AC_SUBST(GNOME_APPLET_LIBS)
 	AC_SUBST(GNOME_LIBDIR)
 	AC_SUBST(GNOME_INCLUDEDIR)
 
@@ -58,6 +59,7 @@ AC_DEFUN([GNOME_INIT_HOOK],
 	        GNOMEUI_LIBS="`$GNOME_CONFIG --libs-only-l gnomeui`"
 	        GNOMEGNORBA_LIBS="`$GNOME_CONFIG --libs-only-l gnorba gnomeui`"
 	        GTKXMHTML_LIBS="`$GNOME_CONFIG --libs-only-l gtkxmhtml`"
+	        GNOME_APPLET_LIBS="`$GNOME_CONFIG --libs-only-l applets`"
 	        GNOME_LIBDIR="`$GNOME_CONFIG --libs-only-L gnorba gnomeui`"
 	        GNOME_INCLUDEDIR="`$GNOME_CONFIG --cflags gnorba gnomeui`"
                 $1
