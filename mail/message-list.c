@@ -434,6 +434,10 @@ search_func (ETreeModel *model, ETreePath path, struct search_func_data *data)
 	info = get_message_info (data->message_list, path);
 	
 	if (info && (info->flags & data->mask) == data->flags) {
+		if (data->message_list->cursor_uid) {
+			g_free (data->message_list->cursor_uid);
+			data->message_list->cursor_uid = g_strdup (camel_message_info_uid (info));
+		}
 		gtk_signal_emit (GTK_OBJECT (data->message_list), message_list_signals[MESSAGE_SELECTED],
 				 camel_message_info_uid (info));
 		return TRUE;

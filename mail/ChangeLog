@@ -1,3 +1,8 @@
+2002-08-20  Peter Williams  <peterw@ximian.com>
+
+	* message-list.c (search_func): Once we hit the target node,
+	update the cursor_uid if it's set. Fixes #29085.
+
 2002-08-19  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-preferences.c (mail_preferences_apply): Fix a
