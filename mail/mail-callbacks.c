@@ -1404,6 +1404,7 @@ do_view_message(CamelFolder *folder, char *uid, CamelMimeMessage *message, void 
 	GtkWidget *view;
 	
 	if (message) {
+		camel_folder_set_message_flags (folder, uid, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
 		view = mail_view_create(folder, uid, message);
 		gtk_widget_show(view);
 	}
