@@ -691,6 +691,8 @@ create_msg_composer (const MailConfigAccount *account, const char *url)
 		e_msg_composer_hdrs_set_from_account (E_MSG_COMPOSER_HDRS (composer->hdrs), account->name);
 		e_msg_composer_set_send_html (composer, send_html);
 		e_msg_composer_show_sig_file (composer);
+		e_msg_composer_unset_changed (composer);
+		e_msg_composer_drop_editor_undo (composer);
 		return GTK_WIDGET (composer);
 	} else
 		return NULL;
@@ -1047,6 +1049,8 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 	} else if (references) {
 		e_msg_composer_add_header (composer, "References", references);
 	}
+
+	e_msg_composer_drop_editor_undo (composer);
 	
 	return composer;
 }
@@ -1217,6 +1221,7 @@ do_forward_non_attached (CamelFolder *folder, char *uid, CamelMimeMessage *messa
 			
 			gtk_widget_show (GTK_WIDGET (composer));
 			e_msg_composer_unset_changed (composer);
+			e_msg_composer_drop_editor_undo (composer);
 		}
 		g_free (text);
 	}
@@ -1267,6 +1272,7 @@ do_forward_attach (CamelFolder *folder, GPtrArray *messages, CamelMimePart *part
 			e_msg_composer_attach (composer, part);
 			gtk_widget_show (GTK_WIDGET (composer));
 			e_msg_composer_unset_changed (composer);
+			e_msg_composer_drop_editor_undo (composer);
 		}
 	}
 }
@@ -1356,6 +1362,7 @@ do_redirect (CamelFolder *folder, char *uid, CamelMimeMessage *message, void *da
 		
 		gtk_widget_show (GTK_WIDGET (composer));
 		e_msg_composer_unset_changed (composer);
+		e_msg_composer_drop_editor_undo (composer);
 	}
 }
 
