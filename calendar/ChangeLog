@@ -1,3 +1,8 @@
+2002-11-21  Not Zed  <NotZed@Ximian.com>
+
+	* gui/component-factory.c (create_view): pass type to
+	bonobo_control_set_property.
+
 2002-11-20  Not Zed  <NotZed@Ximian.com>
 
 	* gui/Makefile.am (EXTRA_DIST): fix typo, servers_in_files ->

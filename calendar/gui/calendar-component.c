@@ -130,9 +130,9 @@ create_view (EvolutionShellComponent *shell_component,
 		return EVOLUTION_SHELL_COMPONENT_UNSUPPORTEDTYPE;
 	}
 
-	bonobo_control_set_property (control, "folder_uri", physical_uri, NULL);
+	bonobo_control_set_property (control, "folder_uri", TC_CORBA_string, physical_uri, NULL);
 	if (type_is_calendar (type) && *view_info)
-		bonobo_control_set_property (control, "view", view_info, NULL);
+		bonobo_control_set_property (control, "view", TC_CORBA_string, view_info, NULL);
 
 	*control_return = control;
 
