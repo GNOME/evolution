@@ -1,3 +1,9 @@
+2005-01-17  Nat Friedman  <nat@novell.com>
+
+	* gui/dialogs/url-editor-dialog.glade: Changed the title for the
+	free/busy publishing settings dialog to "Free/Busy Publishing
+	Settings" (away from "Free/Busy Editor" which made no sense).
+
 2005-01-17  Rodrigo Moya <rodrigo@novell.com>
 
 	* gui/e-calendar-view.c (on_unrecur_appointment): removed the
