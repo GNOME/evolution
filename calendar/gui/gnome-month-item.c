@@ -152,6 +152,146 @@ gnome_month_item_class_init (GnomeMonthItemClass *class)
 	object_class->get_arg = gnome_month_item_get_arg;
 }
 
+/* Calculates the minimum heading height based on the heading font size and padding.  It also
+ * calculates the minimum width of the month item based on the width of the headings.
+ */
+static void
+check_heading_sizes (GnomeMonthItem *mitem)
+{
+	double m_height;
+	double m_width;
+	int width;
+	int max_width;
+	int i;
+
+	/* Calculate minimum height */
+
+	m_height = mitem->head_font->ascent + mitem->head_font->descent + 2 * mitem->head_padding;
+
+	if (mitem->head_height < m_height)
+		mitem->head_height = m_height;
+	
+	/* Go through each heading and remember the widest one */
+
+	max_width = 0;
+
+	for (i = 0; i < 7; i++) {
+		width = gdk_string_width (mitem->head_font, mitem->day_names[i]);
+		if (max_width < width)
+			max_width = width;
+	}
+
+	m_width = 7 * (max_width + 2 * mitem->head_padding);
+
+	if (mitem->width < m_width)
+		mitem->width = m_width;
+}
+
+/* Calculates the minimum width and height of the month item based on the day font size and padding.
+ * Assumes that the minimum heading height has already been computed.
+ */
+static void
+check_day_sizes (GnomeMonthItem *mitem)
+{
+	double m_height;
+	double m_width;
+	int width;
+	int max_width;
+	char buf[100];
+	int i;
+
+	/* Calculate minimum height */
+
+	m_height = mitem->head_height + 6 * (mitem->day_font->ascent + mitem->day_font->descent + 2 * mitem->day_padding);
+
+	if (mitem->height < m_height)
+		mitem->height = m_height;
+
+	/* Calculate minimum width */
+
+	max_width = 0;
+
+	for (i = 1; i < 32; i++) {
+		sprintf (buf, "%d", i);
+		width = gdk_string_width (mitem->day_font, buf);
+		if (max_width < width)
+			max_width = width;
+	}
+
+	m_width = 7 * (max_width + 2 * mitem->day_padding);
+
+	if (mitem->width < m_width)
+		mitem->width = m_width;
+}
+
+/* Calculates the minimum size of the month item based on the font sizes and paddings.  If the
+ * current size of the month item is smaller than the required minimum size, this function will
+ * change the size to the appropriate values.
+ */
+static void
+check_sizes (GnomeMonthItem *mitem)
+{
+	check_heading_sizes (mitem);
+	check_day_sizes (mitem);
+}
+
+/* Recalculates the position of the toplevel calendar group based on the logical position and anchor */
+static void
+reanchor (GnomeMonthItem *mitem)
+{
+	double x, y;
+
+	x = mitem->x;
+	y = mitem->y;
+
+	switch (mitem->anchor) {
+	case GTK_ANCHOR_NW:
+	case GTK_ANCHOR_W:
+	case GTK_ANCHOR_SW:
+		break;
+
+	case GTK_ANCHOR_N:
+	case GTK_ANCHOR_CENTER:
+	case GTK_ANCHOR_S:
+		x -= mitem->width / 2;
+		break;
+
+	case GTK_ANCHOR_NE:
+	case GTK_ANCHOR_E:
+	case GTK_ANCHOR_SE:
+		x -= mitem->width;
+		break;
+	}
+
+	switch (mitem->anchor) {
+	case GTK_ANCHOR_NW:
+	case GTK_ANCHOR_N:
+	case GTK_ANCHOR_NE:
+		break;
+
+	case GTK_ANCHOR_W:
+	case GTK_ANCHOR_CENTER:
+	case GTK_ANCHOR_E:
+		y -= mitem->height / 2;
+		break;
+
+	case GTK_ANCHOR_SW:
+	case GTK_ANCHOR_S:
+	case GTK_ANCHOR_SE:
+		y -= mitem->height;
+		break;
+	}
+
+	/* Explicitly use the canvas group class prefix since the month item class has x and y
+	 * arguments as well.
+	 */
+
+	gnome_canvas_item_set (GNOME_CANVAS_ITEM (mitem),
+			       "GnomeCanvasGroup::x", x,
+			       "GnomeCanvasGroup::y", y,
+			       NULL);
+}
+
 /* Takes an anchor specification and the corners of a rectangle, and returns an anchored point with
  * respect to that rectangle.
  */
@@ -294,6 +434,8 @@ reshape_days (GnomeMonthItem *mitem)
 static void
 reshape (GnomeMonthItem *mitem)
 {
+	check_sizes (mitem);
+	reanchor (mitem);
 	reshape_headings (mitem);
 	reshape_days (mitem);
 }
@@ -700,63 +842,6 @@ gnome_month_item_destroy (GtkObject *object)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
-/* Recalculates the position of the toplevel calendar group based on the logical position and anchor */
-static void
-reanchor (GnomeMonthItem *mitem)
-{
-	double x, y;
-
-	x = mitem->x;
-	y = mitem->y;
-
-	switch (mitem->anchor) {
-	case GTK_ANCHOR_NW:
-	case GTK_ANCHOR_W:
-	case GTK_ANCHOR_SW:
-		break;
-
-	case GTK_ANCHOR_N:
-	case GTK_ANCHOR_CENTER:
-	case GTK_ANCHOR_S:
-		x -= mitem->width / 2;
-		break;
-
-	case GTK_ANCHOR_NE:
-	case GTK_ANCHOR_E:
-	case GTK_ANCHOR_SE:
-		x -= mitem->width;
-		break;
-	}
-
-	switch (mitem->anchor) {
-	case GTK_ANCHOR_NW:
-	case GTK_ANCHOR_N:
-	case GTK_ANCHOR_NE:
-		break;
-
-	case GTK_ANCHOR_W:
-	case GTK_ANCHOR_CENTER:
-	case GTK_ANCHOR_E:
-		y -= mitem->height / 2;
-		break;
-
-	case GTK_ANCHOR_SW:
-	case GTK_ANCHOR_S:
-	case GTK_ANCHOR_SE:
-		y -= mitem->height;
-		break;
-	}
-
-	/* Explicitly use the canvas group class prefix since the month item class has x and y
-	 * arguments as well.
-	 */
-
-	gnome_canvas_item_set (GNOME_CANVAS_ITEM (mitem),
-			       "GnomeCanvasGroup::x", x,
-			       "GnomeCanvasGroup::y", y,
-			       NULL);
-}
-
 /* Sets the color of the specified pixel value to that of the specified argument, which must be in
  * GdkColor format if format is TRUE, otherwise it must be in string format.
  */
@@ -813,13 +898,11 @@ gnome_month_item_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 
 	case ARG_WIDTH:
 		mitem->width = fabs (GTK_VALUE_DOUBLE (*arg));
-		reanchor (mitem);
 		reshape (mitem);
 		break;
 
 	case ARG_HEIGHT:
 		mitem->height = fabs (GTK_VALUE_DOUBLE (*arg));
-		reanchor (mitem);
 		reshape (mitem);
 		break;
 
@@ -856,6 +939,7 @@ gnome_month_item_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 			mitem->day_names[i] = g_strdup (day_names[i]);
 
 		set_day_names (mitem);
+		reshape (mitem);
 		break;
 
 	case ARG_HEADING_HEIGHT:
@@ -889,6 +973,7 @@ gnome_month_item_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		}
 
 		set_head_font (mitem);
+		reshape (mitem);
 		break;
 
 	case ARG_HEAD_FONT_GDK:
@@ -897,6 +982,7 @@ gnome_month_item_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		mitem->head_font = GTK_VALUE_BOXED (*arg);
 		gdk_font_ref (mitem->head_font);
 		set_head_font (mitem);
+		reshape (mitem);
 		break;
 
 	case ARG_DAY_FONT:
@@ -909,6 +995,7 @@ gnome_month_item_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		}
 
 		set_day_font (mitem);
+		reshape (mitem);
 		break;
 
 	case ARG_DAY_FONT_GDK:
@@ -917,6 +1004,7 @@ gnome_month_item_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		mitem->day_font = GTK_VALUE_BOXED (*arg);
 		gdk_font_ref (mitem->day_font);
 		set_day_font (mitem);
+		reshape (mitem);
 		break;
 
 	case ARG_HEAD_COLOR:

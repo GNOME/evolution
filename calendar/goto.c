@@ -26,7 +26,6 @@ update (void)
 {
 	unmark_month_item (GNOME_MONTH_ITEM (month_item));
 	mark_month_item (GNOME_MONTH_ITEM (month_item), gnome_calendar->cal);
-	month_item_prepare_prelight (GNOME_MONTH_ITEM (month_item), default_color_func, NULL);
 }
 
 /* Callback used when the year adjustment is changed */
@@ -186,6 +185,8 @@ create_days (int day, int month, int year)
 			       "year", year,
 			       "start_on_monday", week_starts_on_monday,
 			       NULL);
+	colorify_month_item (GNOME_MONTH_ITEM (month_item), default_color_func, NULL);
+	month_item_prepare_prelight (GNOME_MONTH_ITEM (month_item), default_color_func, NULL);
 	update ();
 
 	/* Connect to size_allocate so that we can change the size of the month item and the

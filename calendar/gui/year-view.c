@@ -18,7 +18,7 @@
 
 
 #define HEAD_SPACING 4		/* Spacing between year heading and months */
-#define TITLE_SPACING 2		/* Spacing between title and calendar */
+#define TITLE_SPACING 1		/* Spacing between title and calendar */
 #define SPACING 4		/* Spacing between months */
 
 
@@ -81,62 +81,71 @@ static gint
 idle_handler (gpointer data)
 {
 	YearView *yv;
-	double width, height;
-	double mwidth, mheight;
-	double h_yofs, m_yofs;
-	double x, y;
 	GtkArg arg;
-	GdkFont *head_font, *title_font;
+	double head_height;
+	double title_height;
+	double width, height;
+	double month_width;
+	double month_height;
+	double month_yofs;
+	double xofs, yofs;
+	double x, y;
 	int i;
 
 	yv = data;
 
-	/* Get the fonts to get their size later */
+	/* Get the heights of the heading and the titles */
 
-	arg.name = "font_gdk";
+	arg.name = "text_height";
 	gtk_object_getv (GTK_OBJECT (yv->heading), 1, &arg);
-	head_font = GTK_VALUE_BOXED (arg);
+	head_height = GTK_VALUE_DOUBLE (arg) + 2 * HEAD_SPACING;
 
-	arg.name = "font_gdk";
+	arg.name = "text_height";
 	gtk_object_getv (GTK_OBJECT (yv->titles[0]), 1, &arg);
-	title_font = GTK_VALUE_BOXED (arg);
+	title_height = GTK_VALUE_DOUBLE (arg);
 
-	/* Adjust heading */
+	/* Space for the titles and months */
+
+	width = yv->canvas.width;
+	height = yv->canvas.height - head_height;
+
+	/* Offsets */
+
+	xofs = (width + SPACING) / 3.0;
+	yofs = (height + SPACING) / 4.0;
+
+	/* Month item vertical offset */
+
+	month_yofs = title_height + TITLE_SPACING;
+
+	/* Month item dimensions */
+
+	month_width = (width - 2 * SPACING) / 3.0;
+	month_height = (yofs - SPACING) - month_yofs;
+
+	/* Adjust the year heading */
 
 	gnome_canvas_item_set (yv->heading,
-			       "x", (double) yv->canvas.width / 2.0,
+			       "x", width / 2.0,
 			       "y", (double) HEAD_SPACING,
 			       NULL);
 
-	/* Adjust months */
-
-	h_yofs = 2 * HEAD_SPACING + head_font->ascent + head_font->descent;
-	m_yofs = SPACING + title_font->ascent + title_font->descent;
-
-	width = (yv->canvas.width + SPACING) / 3.0;
-	height = (yv->canvas.height - h_yofs + SPACING) / 4.0;
-
-	mwidth = (yv->canvas.width - 2 * SPACING) / 3.0;
-	mheight = (yv->canvas.height - h_yofs - 3 * SPACING - 4 * m_yofs) / 4.0;
+	/* Adjust titles and months */
 
 	for (i = 0; i < 12; i++) {
-		x = (i % 3) * width;
-		y = (i / 3) * height + h_yofs;
-
-		/* Title */
+		x = (i % 3) * xofs;
+		y = head_height + (i / 3) * yofs;
 
 		gnome_canvas_item_set (yv->titles[i],
-				       "x", x + width / 2.0,
+				       "x", x + month_width / 2.0,
 				       "y", y,
 				       NULL);
 
-		/* Month item */
-
 		gnome_canvas_item_set (yv->mitems[i],
 				       "x", x,
-				       "y", y + m_yofs,
-				       "width", mwidth,
-				       "height", mheight,
+				       "y", y + month_yofs,
+				       "width", month_width,
+				       "height", month_height,
 				       NULL);
 	}
 
@@ -433,6 +442,72 @@ setup_month_item (YearView *yv, int n)
 	month_item_prepare_prelight (GNOME_MONTH_ITEM (mitem), default_color_func, NULL);
 }
 
+/* Computes the minimum size for the year view and stores it in its internal fields */
+static void
+compute_min_size (YearView *yv)
+{
+	GtkArg args[2];
+	double m_width;
+	double m_height;
+	double max_width;
+	double w;
+	int i;
+
+	/* Compute the minimum size of the year heading */
+
+	args[0].name = "text_width";
+	args[1].name = "text_height";
+	gtk_object_getv (GTK_OBJECT (yv->heading), 1, args);
+
+	m_width = GTK_VALUE_DOUBLE (args[0]);
+	m_height = 2 * HEAD_SPACING + GTK_VALUE_DOUBLE (args[1]);
+
+	/* Add height of month titles and their spacings */
+
+	args[0].name = "text_height";
+	gtk_object_getv (GTK_OBJECT (yv->titles[0]), 1, &args[0]);
+
+	m_height += 4 * (GTK_VALUE_DOUBLE (args[0]) + TITLE_SPACING);
+
+	/* Add width of month titles */
+
+	max_width = 0.0;
+
+	for (i = 0; i < 12; i++) {
+		args[0].name = "text_width";
+		gtk_object_getv (GTK_OBJECT (yv->titles[i]), 1, &args[0]);
+
+		w = GTK_VALUE_DOUBLE (args[0]);
+		if (max_width < w)
+			max_width = w;
+	}
+
+	max_width = 3 * max_width + 2 * SPACING;
+
+	if (m_width < max_width)
+		m_width = max_width;
+
+	/* Add width of month items */
+
+	args[0].name = "width";
+	args[1].name = "height";
+	gtk_object_getv (GTK_OBJECT (yv->mitems[0]), 2, args);
+
+	max_width = 3 * GTK_VALUE_DOUBLE (args[0]) + 2 * SPACING;
+
+	if (m_width < max_width)
+		m_width = max_width;
+
+	/* Add height of month items */
+
+	m_height += 4 * GTK_VALUE_DOUBLE (args[1]) + 3 * SPACING;
+
+	/* Finally, set the minimum width and height in the year view */
+
+	yv->min_width = (int) (m_width + 0.5);
+	yv->min_height = (int) (m_height + 0.5);
+}
+
 static void
 year_view_init (YearView *yv)
 {
@@ -516,6 +591,7 @@ year_view_new (GnomeCalendar *calendar, time_t year)
 
 	year_view_colors_changed (yv);
 	year_view_set (yv, year);
+	compute_min_size (yv);
 	return GTK_WIDGET (yv);
 }
 
@@ -530,11 +606,8 @@ year_view_size_request (GtkWidget *widget, GtkRequisition *requisition)
 
 	yv = YEAR_VIEW (widget);
 
-	if (GTK_WIDGET_CLASS (parent_class)->size_request)
-		(* GTK_WIDGET_CLASS (parent_class)->size_request) (widget, requisition);
-
-	requisition->width = 200;
-	requisition->height = 150;
+	requisition->width = yv->min_width;
+	requisition->height = yv->min_height;
 }
 
 static void

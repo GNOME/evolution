@@ -60,9 +60,8 @@ setup_widgets (GnomeCalendar *gcal)
 	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->notebook), gcal->year_view,  gtk_label_new (_("Year View")));
 
 	gtk_widget_show_all (gcal->notebook);
-	
+
 	gnome_app_set_contents (GNOME_APP (gcal), gcal->notebook);
-	
 }
 
 static GtkWidget *

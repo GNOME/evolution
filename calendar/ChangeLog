@@ -1,5 +1,32 @@
 1998-09-30  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
+	* goto.c (create_days): Colorify the month item and prepare it for
+	prelighting here.
+
+	* main.c (color_props):  Changed the default colors to something
+	not dull.
+
+	* year-view.c (compute_min_size): New function to compute the
+	minimum size of the year view properly.
+	(year_view_size_request): Added two new fields to the year view
+	structure that contain the minimum size.  Return this in the
+	size_request method.
+	(year_view_new): Call compute_min_size to save the minimum size
+	for later use.
+	(idle_handler): Make it resize the items correctly.
+
+	* gnome-month-item.c (gnome_month_item_set_arg): Reshape when
+	necessary.  This is needed becaues we now actually calculate a
+	minimum size for the month item based on the font sizes and paddings.
+	(check_heading_sizes): New function to calculate a minimum size
+	based on the headings' dimensions.
+	(check_day_sizes): New function to calculate a minimum size based
+	on the day number labels' dimensions.
+	(check_sizes): New function that computes a minimum size for the
+	month item.
+	(reshape): Now calls check_sizes() to ensure a minimum size for
+	the month item.
+
 	* year-view.c (mark_current_day): New function to mark the current
 	day in the year view.
 

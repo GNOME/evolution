@@ -40,6 +40,9 @@ struct _YearView {
 
 	int old_marked_day;		/* The day that is marked as the current day */
 
+	int min_width;			/* Minimum dimensions of year view, used for size_request*/
+	int min_height;
+
 	guint idle_id;			/* ID of idle handler for resize */
 
 	int need_resize : 1;		/* Specifies whether we need to resize the canvas items or not */
