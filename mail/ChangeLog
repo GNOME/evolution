@@ -1,5 +1,14 @@
 2004-05-07  Not Zed  <NotZed@Ximian.com>
 
+	** Dunno why i bothered, but see bug #58090.
+
+	* importers/netscape-importer.c
+	(netscape_filter_parse_conditions): check for custom headers
+	properly.
+	(netscape_filter_flatfile_get_entry): put in some validate checks.
+	(netscape_filter_to_evol_filter): implement custom headers properly.
+	(ns_filter_condition_types): add missing "status" string.
+
 	** See #58017.
 
 	* message-list.c (mail_regen_list): use thread_queued, so we don't

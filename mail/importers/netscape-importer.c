@@ -146,7 +146,7 @@ typedef enum {
 static char *ns_filter_condition_types[] =
 {
 	"from", "subject", "to", "CC", "to or CC", "body", "date",
-	"priority", "age in days"
+	"status", "priority", "age in days"
 };
 
 
@@ -171,6 +171,7 @@ typedef struct
 	NsFilterConditionPropertyType  prop;
 	NsFilterActionValueType        prop_val_id;  /* for dealing with priority levels */	
 	char                          *prop_val_str;
+	char			      *type_str;
 } NsFilterCondition;
 
 typedef struct {
@@ -200,15 +201,22 @@ netscape_filter_flatfile_get_entry (FILE *f, char *key, char *val)
 	char *ptr = NULL;
 	char *ptr2 = NULL;
 
+	/* This is fugly awful code */
 	if (fgets (line, MAXLEN, f)) {
 		
 		ptr = strchr(line, '=');
+		if (ptr == NULL)
+			goto fail;
 		*ptr = '\0';
 
 		memcpy (key, line, strlen(line)+1);
 
+		if (ptr[1] == 0)
+			goto fail;
 		ptr += 2; /* Skip '=' and '"' */
 		ptr2 = strrchr (ptr, '"');
+		if (ptr2 == NULL)
+			goto fail;
 		*ptr2 = '\0';
 		
 		memcpy (val, ptr, strlen(ptr)+1);
@@ -217,7 +225,7 @@ netscape_filter_flatfile_get_entry (FILE *f, char *key, char *val)
 		return TRUE;
 		       
 	}
-
+fail:
 	*key = '\0'; *val = '\0';
 	return FALSE;
 }
@@ -284,7 +292,11 @@ netscape_filter_parse_conditions (NsFilter *nsf, FILE *f, char *condition)
 
 		cond = g_new0 (NsFilterCondition, 1);
 
-		if (!strcmp (type, ns_filter_condition_types[FROM])) {
+		if (type[0] == '\\' && type[1] == '\"' && (ptr=strstr(type+2, "\\\""))) {
+			*ptr = 0;
+			cond->type_str = g_strdup(type+2);
+			cond->type = X_MSG_HEADER;
+		} else if (!strcmp (type, ns_filter_condition_types[FROM])) {
 			cond->type = FROM;
 		} else if (!strcmp (type, ns_filter_condition_types[SUBJECT])) {
 			cond->type = SUBJECT;
@@ -304,8 +316,6 @@ netscape_filter_parse_conditions (NsFilter *nsf, FILE *f, char *condition)
 			cond->type = STATUS;
 		} else if (!strcmp (type, ns_filter_condition_types[AGE_IN_DAYS])) {
 			cond->type = AGE_IN_DAYS;
-		} else if (!strcmp (type, ns_filter_condition_types[X_MSG_HEADER])) {
-			cond->type = X_MSG_HEADER;
 		} else {
 			d(g_warning ("Unknown condition type '%s' encountered -- skipping.", type));
 			g_free (cond);
@@ -526,6 +536,7 @@ netscape_filter_cleanup (NsFilter *nsf)
 		NsFilterCondition *cond = (NsFilterCondition *)l->data;
 
 		g_free (cond->prop_val_str);
+		g_free(cond->type_str);
 		g_free (cond);
 	}
 
@@ -1061,8 +1072,27 @@ netscape_filter_to_evol_filter (FilterContext *fc, NsFilter *nsf, gboolean *prio
 			filter_rule_add_part (fr, fp);
 			el = filter_part_find_element (fp, "header-field");
 			filter_input_set_value ((FilterInput *)el, cond->prop_val_str);
+			el = filter_part_find_element (fp, "word");
+			filter_input_set_value ((FilterInput *)el, cond->type_str);
 			el = filter_part_find_element (fp, "header-type");
-			filter_option_set_current ((FilterOption*)el, "exists");			
+			switch (cond->prop) {
+			case CONTAINS:
+				filter_option_set_current ((FilterOption*)el, "contains");
+				break;
+			case CONTAINS_NOT:
+				filter_option_set_current ((FilterOption*)el, "not contains");
+				break;
+			case IS:
+				filter_option_set_current ((FilterOption*)el, "is");
+				break;
+			case IS_NOT:
+				filter_option_set_current ((FilterOption*)el, "is not");
+				break;
+			default:
+				filter_rule_remove_part (fr, fp);
+				g_object_unref((fp));
+				continue;
+			}
 			part_added = TRUE;
 			break;
 		default:
