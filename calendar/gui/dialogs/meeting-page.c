@@ -74,6 +74,7 @@ struct _MeetingPagePrivate {
 	GtkWidget *existing_organizer_table;
 	GtkWidget *existing_organizer;
 	GtkWidget *existing_organizer_btn;
+	GtkWidget *add;
 	GtkWidget *invite;
 	
 	/* ListView stuff */
@@ -481,11 +482,15 @@ get_widgets (MeetingPage *mpage)
 	priv->existing_organizer_table = GW ("existing-organizer-table");
 	priv->existing_organizer = GW ("existing-organizer");
 	priv->existing_organizer_btn = GW ("existing-organizer-button");
+
+	/* Buttons */
+	priv->add = GW ("add-attendee");
 	priv->invite = GW ("invite");
 	
 #undef GW
 
 	return (priv->invite
+		&& priv->add
 		&& priv->organizer_table
 		&& priv->organizer
 		&& priv->existing_organizer_table
@@ -542,6 +547,15 @@ change_clicked_cb (GtkWidget *widget, gpointer data)
 	priv->existing = FALSE;
 }
 
+static void
+add_clicked_cb (GtkButton *btn, MeetingPage *mpage)
+{
+	EMeetingAttendee *attendee;
+	
+	attendee = e_meeting_store_add_attendee_with_defaults (mpage->priv->model);
+	e_meeting_list_view_edit (mpage->priv->list_view, attendee);
+}
+
 /* Function called to invite more people */
 static void
 invite_cb (GtkWidget *widget, gpointer data) 
@@ -564,15 +578,17 @@ init_widgets (MeetingPage *mpage)
 	priv = mpage->priv;
 
 	/* Organizer */
-	g_signal_connect((GTK_COMBO (priv->organizer)->entry), "changed",
-			    G_CALLBACK (org_changed_cb), mpage);
+	g_signal_connect (GTK_COMBO (priv->organizer)->entry, "changed",
+			  G_CALLBACK (org_changed_cb), mpage);
 
-	g_signal_connect((priv->existing_organizer_btn), "clicked",
-			    G_CALLBACK (change_clicked_cb), mpage);
+	g_signal_connect (priv->existing_organizer_btn, "clicked",
+			  G_CALLBACK (change_clicked_cb), mpage);
+
+	/* Add attendee button */
+	g_signal_connect (priv->add, "clicked", G_CALLBACK (add_clicked_cb), mpage);
 
 	/* Invite button */
-	g_signal_connect((priv->invite), "clicked", 
-			    G_CALLBACK (invite_cb), mpage);
+	g_signal_connect(priv->invite, "clicked", G_CALLBACK (invite_cb), mpage);
 }
 
 static void
@@ -671,12 +687,6 @@ right_click_cb (ETable *etable, gint row, gint col, GdkEvent *event, gpointer da
 	return TRUE;
 }
 #endif
-
-static void
-add_btn_clicked_cb (GtkButton *btn, MeetingPage *mpage)
-{
-	e_meeting_store_add_attendee_with_defaults (mpage->priv->model);
-}
 
 /**
  * meeting_page_construct:
@@ -696,21 +706,19 @@ meeting_page_construct (MeetingPage *mpage, EMeetingStore *ems,
 	EIterator *it;
 	EAccount *def_account;
 	GList *address_strings = NULL, *l;
-	GtkWidget *sw, *btn;
+	GtkWidget *sw;
 	
 	priv = mpage->priv;
 
 	priv->xml = glade_xml_new (EVOLUTION_GLADEDIR 
 				   "/meeting-page.glade", NULL, NULL);
 	if (!priv->xml) {
-		g_message ("meeting_page_construct(): "
-			   "Could not load the Glade XML file!");
+		g_message (G_STRLOC ": Could not load the Glade XML file!");
 		return NULL;
 	}
 
 	if (!get_widgets (mpage)) {
-		g_message ("meeting_page_construct(): "
-			   "Could not find all widgets in the XML file!");
+		g_message (G_STRLOC ": Could not find all widgets in the XML file!");
 		return NULL;
 	}
 
@@ -757,11 +765,6 @@ meeting_page_construct (MeetingPage *mpage, EMeetingStore *ems,
 	/* The etable displaying attendees and their status */
 	g_object_ref (ems);
 	priv->model = ems;
-
-	btn = gtk_button_new_with_label ("Add Attendee");
-	g_signal_connect(btn, "clicked", G_CALLBACK (add_btn_clicked_cb), mpage);
-	gtk_widget_show (btn);
-	gtk_box_pack_start (GTK_BOX (priv->main), btn, FALSE, FALSE, 6);
 
 	priv->list_view = e_meeting_list_view_new (priv->model); 
 

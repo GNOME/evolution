@@ -1,3 +1,30 @@
+2003-12-24  JP Rosevear <jpr@ximian.com>
+
+	* gui/e-select-names-renderer.c (esnr_start_editing): fix the
+	signal name
+
+	* gui/dialogs/meeting-page.glade: add Add Attendee button
+
+	* gui/dialogs/meeting-page.c (get_widgets): extract add button
+	(add_clicked_cb): edit the attendee after we add it
+	(init_widgets): listen for add clicked
+	(meeting_page_construct): the add button is in the glade file now
+
+	* gui/e-select-names-editable.c (esne_start_editing): activate the
+	control
+	(e_select_names_editable_get_address): handle null dest
+	(e_select_names_editable_get_name): ditto
+
+	* gui/e-meeting-store.h: add proto
+
+	* gui/e-meeting-store.c (e_meeting_store_find_attendee_path):
+	create the path to a given attendee
+
+	* gui/e-meeting-list-view.h: add proto
+
+	* gui/e-meeting-list-view.c (e_meeting_list_view_edit): start
+	editing the address of a particular
+
 2003-12-22  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/gnome-cal.[ch] (gnome_calendar_add_event_source,

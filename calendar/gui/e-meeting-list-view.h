@@ -55,6 +55,8 @@ EMeetingListView *e_meeting_list_view_new (EMeetingStore *store);
 
 void       e_meeting_list_view_column_set_visible (EMeetingListView *emlv, const gchar *col_name, gboolean visible);
 
+void       e_meeting_list_view_edit (EMeetingListView *emlv, EMeetingAttendee *attendee);
+
 void       e_meeting_list_view_invite_others_dialog (EMeetingListView *emlv);
 
 G_END_DECLS

@@ -304,6 +304,29 @@ e_meeting_list_view_column_set_visible (EMeetingListView *view, const gchar *col
 	}
 }
 
+void
+e_meeting_list_view_edit (EMeetingListView *emlv, EMeetingAttendee *attendee)
+{
+	EMeetingListViewPrivate *priv;
+	GtkTreePath *path;
+	GtkTreeViewColumn *focus_col;
+	
+	priv = emlv->priv;
+
+	g_return_if_fail (emlv != NULL);
+	g_return_if_fail (E_IS_MEETING_LIST_VIEW (emlv));
+	g_return_if_fail (attendee != NULL);
+
+	path = e_meeting_store_find_attendee_path (priv->store, attendee);
+	focus_col = gtk_tree_view_get_column (GTK_TREE_VIEW (emlv), 0);	
+	
+	if (path) {
+		gtk_tree_view_set_cursor (GTK_TREE_VIEW (emlv), path, focus_col, TRUE);
+
+		gtk_tree_path_free (path);
+	}	
+}
+
 static void
 process_section (EMeetingListView *view, EABDestination **cards, icalparameter_role role)
 {

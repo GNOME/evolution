@@ -71,7 +71,7 @@ esnr_start_editing (GtkCellRenderer *cell, GdkEvent *event, GtkWidget *widget, c
 	ESelectNamesRenderer *sn_cell = E_SELECT_NAMES_RENDERER (cell);
 	GtkCellRendererText *text_cell = GTK_CELL_RENDERER_TEXT (cell);
 	ESelectNamesEditable *editable;
-
+	
 	if (!text_cell->editable)
 		return NULL;
 
@@ -79,7 +79,7 @@ esnr_start_editing (GtkCellRenderer *cell, GdkEvent *event, GtkWidget *widget, c
 	e_select_names_editable_set_address (editable, sn_cell->priv->address);
 	gtk_widget_show (GTK_WIDGET (editable));
 
-	g_signal_connect (editable, "editing-done", G_CALLBACK (esnr_editing_done), sn_cell);
+	g_signal_connect (editable, "editing_done", G_CALLBACK (esnr_editing_done), sn_cell);
 
 	sn_cell->priv->editable = g_object_ref (editable);
 	sn_cell->priv->path = g_strdup (path);

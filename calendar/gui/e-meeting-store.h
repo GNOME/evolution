@@ -86,6 +86,7 @@ void e_meeting_store_remove_all_attendees (EMeetingStore *im);
 
 EMeetingAttendee *e_meeting_store_find_attendee (EMeetingStore *im, const gchar *address, gint *row);
 EMeetingAttendee *e_meeting_store_find_attendee_at_row (EMeetingStore *im, gint row);
+GtkTreePath *e_meeting_store_find_attendee_path (EMeetingStore *store, EMeetingAttendee *attendee);
 
 gint e_meeting_store_count_actual_attendees (EMeetingStore *im);
 const GPtrArray *e_meeting_store_get_attendees (EMeetingStore *im);

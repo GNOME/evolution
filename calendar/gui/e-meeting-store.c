@@ -860,6 +860,28 @@ e_meeting_store_find_attendee_at_row (EMeetingStore *store, gint row)
 	return g_ptr_array_index (store->priv->attendees, row);
 }
 
+GtkTreePath *
+e_meeting_store_find_attendee_path (EMeetingStore *store, EMeetingAttendee *attendee)
+{
+	GtkTreePath *path;
+	gint row = -1, i;
+	                                                                           
+	for (i = 0; i < store->priv->attendees->len; i++) {
+		if (attendee == g_ptr_array_index (store->priv->attendees, i)) {
+			row = i;
+			break;
+		}
+	}
+	                                                                                  
+	if (row == -1)
+		return NULL;
+
+	path = gtk_tree_path_new ();
+	gtk_tree_path_append_index (path, row);
+
+	return path;	
+}
+
 gint 
 e_meeting_store_count_actual_attendees (EMeetingStore *store)
 {

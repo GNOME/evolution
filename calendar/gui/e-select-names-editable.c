@@ -44,7 +44,11 @@ static void
 esne_start_editing (GtkCellEditable *cell_editable, GdkEvent *event)
 {
 	ESelectNamesEditable *esne = E_SELECT_NAMES_EDITABLE (cell_editable);
+	BonoboControlFrame *cf;
 
+	/* Grab the focus */
+	cf = bonobo_widget_get_control_frame (BONOBO_WIDGET (cell_editable));
+	bonobo_control_frame_control_activate (cf);
 }
 
 static void
@@ -189,13 +193,14 @@ e_select_names_editable_get_address (ESelectNamesEditable *esne)
 {
 	EABDestination **dest;
 	gchar *dest_str;
-	gchar *result;
+	gchar *result = NULL;
 
 	g_return_val_if_fail (E_SELECT_NAMES_EDITABLE (esne), NULL);
 
 	dest_str = bonobo_pbclient_get_string (esne->priv->bag, "destinations", NULL);
 	dest = eab_destination_importv (dest_str);
-	result = g_strdup (eab_destination_get_email (*dest));
+	if (dest)
+		result = g_strdup (eab_destination_get_email (*dest));
 	eab_destination_freev (dest);
 
 	return result;
@@ -206,13 +211,14 @@ e_select_names_editable_get_name (ESelectNamesEditable *esne)
 {
 	EABDestination **dest;
 	gchar *dest_str;
-	gchar *result;
+	gchar *result = NULL;
 
 	g_return_val_if_fail (E_SELECT_NAMES_EDITABLE (esne), NULL);
 
 	dest_str = bonobo_pbclient_get_string (esne->priv->bag, "destinations", NULL);
 	dest = eab_destination_importv (dest_str);
-	result = g_strdup (eab_destination_get_name (*dest));
+	if (dest)
+		result = g_strdup (eab_destination_get_name (*dest));
 	eab_destination_freev (dest);
 
 	return result;
