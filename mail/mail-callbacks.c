@@ -2078,10 +2078,17 @@ create_folders (EvolutionStorage *storage, const char *prefix, CamelFolderInfo *
 	mail_folder_cache_note_folderinfo (fi->url, fi);
 
 	path = g_strdup_printf ("%s/%s", prefix, fi->name);
-	evolution_storage_new_folder (storage, path, fi->name,
-				      "mail", fi->url,
-				      fi->name, /* description */
-				      fi->unread_message_count > 0);
+
+	if (!strncmp (fi->url, "vtrash:", 7))
+		evolution_storage_new_folder (storage, path, fi->name,
+					      "vtrash", fi->url,
+					      fi->name, /* description */
+					      fi->unread_message_count > 0);
+	else
+		evolution_storage_new_folder (storage, path, fi->name,
+					      "mail", fi->url,
+					      fi->name, /* description */
+					      fi->unread_message_count > 0);
 
 	if (fi->child)
 		create_folders (storage, path, fi->child);
