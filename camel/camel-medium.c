@@ -29,6 +29,7 @@
 #include "gmime-content-field.h"
 #include "string-utils.h"
 #include "gmime-utils.h"
+#include "hash-table-utils.h"
 #include "camel-simple-data-wrapper.h"
 
 
@@ -37,8 +38,8 @@ static CamelDataWrapperClass *parent_class = NULL;
 /* Returns the class for a CamelMedium */
 #define CM_CLASS(so) CAMEL_MEDIUM_CLASS (GTK_OBJECT (so)->klass)
 
-static void add_header (CamelMedium *medium, gchar *header_name,
-			gchar *header_value);
+static void add_header (CamelMedium *medium, const gchar *header_name,
+			const gchar *header_value);
 static void remove_header (CamelMedium *medium, const gchar *header_name);
 static const gchar *get_header (CamelMedium *medium, const gchar *header_name);
 
@@ -74,7 +75,8 @@ camel_medium_init (gpointer object, gpointer klass)
 {
 	CamelMedium *camel_medium = CAMEL_MEDIUM (object);
 
-	camel_medium->headers = g_hash_table_new (g_str_hash, g_str_equal);
+	camel_medium->headers = g_hash_table_new (g_strcase_hash,
+						  g_strcase_equal);
 	camel_medium->content = NULL;
 }
 
@@ -130,7 +132,8 @@ finalize (GtkObject *object)
 
 
 static void
-add_header (CamelMedium *medium, gchar *header_name, gchar *header_value)
+add_header (CamelMedium *medium, const gchar *header_name,
+	    const gchar *header_value)
 {
 	gpointer old_name;
 	gpointer old_value;

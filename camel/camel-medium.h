@@ -64,8 +64,8 @@ typedef struct {
 	CamelDataWrapperClass parent_class;
 
 	/* Virtual methods */
-	void  (*add_header) (CamelMedium *medium, gchar *header_name,
-			     gchar *header_value);
+	void  (*add_header) (CamelMedium *medium, const gchar *header_name,
+			     const gchar *header_value);
 	void  (*remove_header) (CamelMedium *medium, const gchar *header_name);
 	const gchar * (*get_header) (CamelMedium *medium,
 				     const gchar *header_name);
@@ -83,8 +83,8 @@ GtkType camel_medium_get_type (void);
 
 
 /* public methods */
-void camel_medium_add_header (CamelMedium *medium, gchar *header_name,
-			      gchar *header_value);
+void camel_medium_add_header (CamelMedium *medium, const gchar *header_name,
+			      const gchar *header_value);
 void camel_medium_remove_header (CamelMedium *medium,
 				 const gchar *header_name);
 const gchar *camel_medium_get_header (CamelMedium *medium,
