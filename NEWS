@@ -1,3 +1,43 @@
+Evolution 1.4.x, 2003-??-??
+---------------------------
+
+Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
+
+  * Mail
+
+    #44322 - Evolution crash with weird IMAP foldername (Michael)
+    #44121 - Invalid multipart/signed message showing empty (Michael)
+    #40788 - Broken POP3 server causing evolution to hang/crash (Jeff)
+    #44457 - Crash viewing video content as inline-text (Jeff)
+    #44344 - Dont use quoted-printable encoding on anything but text/*
+             parts, interoperation with Lookout and others (Jeff)
+    #44609 - HIG issue with vFolder properties editor (Michael)
+    #33593 - Message remains displayed after last message removed from
+             list (Michael)
+    #44519 - Popup message view redraws when new mail arrives (Michael)
+    #43972 - Invert selection doesn't work (Jeff)
+    #22542 - Creating a folder in the vFolder store fails with a
+             meaningless message (Michael)
+    #43974 - Cannot retrieve "Local Delivery" mail (Michael)
+
+  * All
+
+    #42691 - Build, make clean doesn't rebuild bonobo-activation
+             .server files (Michael)
+
+Other bugs
+
+  * Mail
+
+    - Fix bug in indexer string normalisation (Larry)
+    - Major memory leak in message-threading (Larry)
+    - Only try to snoop a content-type if its application/octet-stream
+      when displaying mail parts (Jeff)
+
+  * All
+
+    - Lots of miscellaneous memory leaks
+
 Evolution 1.4, 2003-06-02
 -------------------------
 
