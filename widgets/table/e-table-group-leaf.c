@@ -343,6 +343,7 @@ etgl_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 					       "selection_model", etgl->selection_model,
 					       NULL);
 		}
+		break;
 
 	case ARG_TABLE_HORIZONTAL_DRAW_GRID:
 		etgl->horizontal_draw_grid = GTK_VALUE_BOOL (*arg);
