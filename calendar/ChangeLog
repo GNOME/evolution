@@ -1,3 +1,8 @@
+2002-04-10  Dan Winship  <danw@ximian.com>
+
+	* gui/gnome-cal.c (gnome_calendar_open): Fix this: Rodrigo's patch
+	used one of the functions I just removed. :)
+
 2002-04-10  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/gnome-cal.c (gnome_calendar_open): use the default uri for

@@ -1895,31 +1895,25 @@ gnome_calendar_open (GnomeCalendar *gcal, const char *str_uri)
 	if (!uri) {
 		tasks_uri = g_strdup_printf ("%s/local/Tasks/tasks.ics", evolution_dir);
 		success = cal_client_open_calendar (priv->task_pad_client, tasks_uri, FALSE);
-
-		add_alarms (tasks_uri);
 		g_free (tasks_uri);
 	}
 	else {
 		if (!g_strncasecmp (uri->protocol, "file", 4)) {
 			tasks_uri = g_strdup_printf ("%s/local/Tasks/tasks.ics", evolution_dir);
+			success = cal_client_open_calendar (priv->task_pad_client, tasks_uri, FALSE);
+			g_free (tasks_uri);
 		}
 		else {
-			/* we use the default uri for tasks */
-			tasks_uri = calendar_config_get_default_tasks_uri ();
-			if (!tasks_uri)
-				tasks_uri = g_strdup_printf ("%s/local/Tasks/tasks.ics", evolution_dir);
+			success = cal_client_open_default_tasks (priv->task_pad_client, FALSE);
 		}
-
-		success = cal_client_open_calendar (priv->task_pad_client, tasks_uri, FALSE);
-		add_alarms (tasks_uri);
-		g_free (tasks_uri);
-
 	}
 
 	g_free (real_uri);
 	e_uri_free (uri);
 
-	if (!success) {
+	if (success)
+		add_alarms (cal_client_get_uri (priv->task_pad_client));
+	else {
 		g_message ("gnome_calendar_open(): Could not issue the request");
 		return FALSE;
 	}
