@@ -118,6 +118,7 @@ evolution_importer_client_new_from_id (const char *id)
 		return NULL;
 	}
 
+	CORBA_exception_free (&ev);
 	if (objref == CORBA_OBJECT_NIL) {
 		g_warning ("Could not activate component %s", id);
 		return NULL;

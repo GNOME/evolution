@@ -1,3 +1,8 @@
+2001-02-02  Iain Holmes  <iain@ximian.com>
+
+	* importer/evolution-importer-client.c:
+	(evolution_importer_client_new_from_id): Free the CORBA_Environment.
+
 2001-01-30  Iain Holmes  <iain@ximian.com>
 
 	* importer/importer.c: (start_import): Added a notice if there is no
