@@ -1,3 +1,8 @@
+2001-09-14  Damon Chaplin  <damon@ximian.com>
+
+	* gui/e-itip-control.c (ok_clicked_cb): added space after 'identities'
+	in the message. Fixes bug #9896.
+
 2001-09-14  JP Rosevear  <jpr@ximian.com>
 
 	* conduits/calendar/e-calendar.conduit.in: remove translation

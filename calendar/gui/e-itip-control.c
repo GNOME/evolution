@@ -1304,7 +1304,7 @@ ok_clicked_cb (GtkHTML *html, const gchar *method, const gchar *url, const gchar
 		} else {
 			GtkWidget *dialog;
 
-			dialog = gnome_warning_dialog (_("Unable to find any of your identities"
+			dialog = gnome_warning_dialog (_("Unable to find any of your identities "
 							 "in the attendees list!\n"));
 			gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
 		}
