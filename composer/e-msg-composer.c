@@ -235,7 +235,7 @@ composer_get_default_charset_setting (void)
 	char *buf;
 	
 	gconf = gconf_client_get_default ();
-	buf = gconf_client_get_string (gconf, "/apps/evolution/mail/format/charset", NULL);
+	buf = gconf_client_get_string (gconf, "/apps/evolution/mail/composer/charset", NULL);
 	charset = e_iconv_charset_name (buf);
 	g_free (buf);
 	
