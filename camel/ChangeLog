@@ -1,3 +1,18 @@
+2004-06-11  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap4/camel-imap4-folder.c (untagged_fetch): Handle
+	getting FLAGS even though we didn't request it (server can send us
+	FLAGS info if another client changed them recently, for
+	example). Also fixed to handle the fact that not every bit of info
+	has to be in a single untagged FETCH response - it may come in
+	several untagged responses.
+
+	* providers/imap4/camel-imap4-summary.c (envelope_decode_address):
+	Decode the email address name token.
+	(envelope_decode_nstring): rfc2047 decode strings if requested.
+	(decode_envelope): Request that the subject string be rfc2047
+	decoded.
+
 2004-06-11  Not Zed  <NotZed@Ximian.com>
 
 	* providers/local/camel-maildir-store.c (get_folder_info): if we

@@ -105,6 +105,10 @@ camel_imap4_summary_init (CamelIMAP4Summary *summary, CamelIMAP4SummaryClass *kl
 		CAMEL_MESSAGE_DRAFT | CAMEL_MESSAGE_FLAGGED | CAMEL_MESSAGE_SEEN;
 	
 	folder_summary->message_info_size = sizeof (CamelIMAP4MessageInfo);
+	
+	summary->update_flags = TRUE;
+	summary->exists_changed = FALSE;
+	summary->uidvalidity_changed = FALSE;
 }
 
 static void
@@ -156,8 +160,10 @@ imap4_header_save (CamelFolderSummary *summary, FILE *fout)
 static int
 envelope_decode_address (CamelIMAP4Engine *engine, GString *addrs, CamelException *ex)
 {
+	char *addr, *name = NULL, *user = NULL;
+	struct _camel_header_address *cia;
 	camel_imap4_token_t token;
-	gboolean had_name = FALSE;
+	const char *domain = NULL;
 	int part = 0;
 	
 	if (camel_imap4_engine_next_token (engine, &token, ex) == -1)
@@ -184,24 +190,38 @@ envelope_decode_address (CamelIMAP4Engine *engine, GString *addrs, CamelExceptio
 		case CAMEL_IMAP4_TOKEN_QSTRING:
 			switch (part) {
 			case 0:
-				g_string_append_printf (addrs, "\"%s\" <", token.v.qstring);
-				had_name = TRUE;
+				name = camel_header_decode_string (token.v.qstring, NULL);
 				break;
 			case 2:
-				g_string_append (addrs, token.v.qstring);
+				user = g_strdup (token.v.qstring);
 				break;
 			case 3:
-				g_string_append_printf (addrs, "@%s%s", token.v.qstring, had_name ? ">" : "");
+				domain = token.v.qstring;
 				break;
 			}
 			break;
 		default:
 			camel_imap4_utils_set_unexpected_token_error (ex, engine, &token);
+			g_free (name);
+			g_free (user);
 			return -1;
 		}
 		
 		part++;
 	} while (part < 4);
+	
+	addr = g_strdup_printf ("%s@%s", user, domain);
+	g_free (user);
+	
+	cia = camel_header_address_new_name (name, addr);
+	g_free (name);
+	g_free (addr);
+	
+	addr = camel_header_address_list_format (cia);
+	camel_header_address_unref (cia);
+	
+	g_string_append (addrs, addr);
+	g_free (addr);
 	
 	if (camel_imap4_engine_next_token (engine, &token, ex) == -1)
 		return -1;
@@ -290,7 +310,7 @@ envelope_decode_date (CamelIMAP4Engine *engine, time_t *date, CamelException *ex
 }
 
 static int
-envelope_decode_nstring (CamelIMAP4Engine *engine, char **nstring, CamelException *ex)
+envelope_decode_nstring (CamelIMAP4Engine *engine, char **nstring, gboolean rfc2047, CamelException *ex)
 {
 	camel_imap4_token_t token;
 	
@@ -302,10 +322,16 @@ envelope_decode_nstring (CamelIMAP4Engine *engine, char **nstring, CamelExceptio
 		*nstring = NULL;
 		break;
 	case CAMEL_IMAP4_TOKEN_ATOM:
-		*nstring = g_strdup (token.v.atom);
+		if (rfc2047)
+			*nstring = camel_header_decode_string (token.v.atom, NULL);
+		else
+			*nstring = g_strdup (token.v.atom);
 		break;
 	case CAMEL_IMAP4_TOKEN_QSTRING:
-		*nstring = g_strdup (token.v.qstring);
+		if (rfc2047)
+			*nstring = camel_header_decode_string (token.v.qstring, NULL);
+		else
+			*nstring = g_strdup (token.v.qstring);
 		break;
 	default:
 		camel_imap4_utils_set_unexpected_token_error (ex, engine, &token);
@@ -365,7 +391,7 @@ decode_envelope (CamelIMAP4Engine *engine, CamelMessageInfo *info, camel_imap4_t
 		goto exception;
 	
 	/* subject */
-	if (envelope_decode_nstring (engine, &nstring, ex) == -1)
+	if (envelope_decode_nstring (engine, &nstring, TRUE, ex) == -1)
 		goto exception;
 	camel_message_info_set_subject (info, nstring);
 	
@@ -400,7 +426,7 @@ decode_envelope (CamelIMAP4Engine *engine, CamelMessageInfo *info, camel_imap4_t
 	g_free (nstring);
 	
 	/* in-reply-to */
-	if (envelope_decode_nstring (engine, &nstring, ex) == -1)
+	if (envelope_decode_nstring (engine, &nstring, FALSE, ex) == -1)
 		goto exception;
 	
 	if (nstring != NULL) {
@@ -409,7 +435,7 @@ decode_envelope (CamelIMAP4Engine *engine, CamelMessageInfo *info, camel_imap4_t
 	}
 	
 	/* message-id */
-	if (envelope_decode_nstring (engine, &nstring, ex) == -1)
+	if (envelope_decode_nstring (engine, &nstring, FALSE, ex) == -1)
 		goto exception;
 	
 	if (nstring != NULL) {
@@ -1062,18 +1088,20 @@ camel_imap4_summary_expunge (CamelFolderSummary *summary, int seqid)
 	
 	g_return_if_fail (CAMEL_IS_IMAP4_SUMMARY (summary));
 	
-	if (!(info = camel_folder_summary_index (summary, seqid - 1)))
+	seqid--;
+	if (!(info = camel_folder_summary_index (summary, seqid)))
 		return;
 	
-	imap4_summary->expunged_changed = TRUE;
+	imap4_summary->exists--;
 	
 	changes = camel_folder_change_info_new ();
 	camel_folder_change_info_remove_uid (changes, camel_message_info_uid (info));
-	camel_object_trigger_event (imap4_summary->folder, "folder_changed", changes);
-	camel_folder_change_info_free (changes);
 	
 	camel_folder_summary_info_free (summary, info);
 	camel_folder_summary_remove_index (summary, seqid);
+	
+	camel_object_trigger_event (imap4_summary->folder, "folder_changed", changes);
+	camel_folder_change_info_free (changes);
 }
 
 
@@ -1104,14 +1132,12 @@ camel_imap4_summary_flush_updates (CamelFolderSummary *summary, CamelException *
 	
 	engine = ((CamelIMAP4Store *) imap4_summary->folder->parent_store)->engine;
 	
-	if (imap4_summary->expunged_changed && imap4_summary->exists_changed) {
-		if (imap4_summary->exists == camel_folder_summary_count (summary))
-			imap4_summary->exists_changed = FALSE;
-	}
-	
 	if (imap4_summary->uidvalidity_changed) {
 		first = 1;
-	} else if (imap4_summary->exists_changed && imap4_summary->exists > 0) {
+	} else if (imap4_summary->update_flags || imap4_summary->exists_changed) {
+		/* this both updates flags and removes messages which
+		 * have since been expunged from the server by another
+		 * client */
 		scount = camel_folder_summary_count (summary);
 		ic = imap4_summary_fetch_flags (summary, 1, scount);
 		
@@ -1151,6 +1177,7 @@ camel_imap4_summary_flush_updates (CamelFolderSummary *summary, CamelException *
 		g_ptr_array_sort (summary->messages, (GCompareFunc) info_uid_sort);
 	}
 	
+	imap4_summary->update_flags = FALSE;
 	imap4_summary->exists_changed = FALSE;
 	imap4_summary->uidvalidity_changed = FALSE;
 	

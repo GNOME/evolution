@@ -616,9 +616,13 @@ imap4_refresh_info (CamelFolder *folder, CamelException *ex)
 static int
 untagged_fetch (CamelIMAP4Engine *engine, CamelIMAP4Command *ic, guint32 index, camel_imap4_token_t *token, CamelException *ex)
 {
+	CamelFolderSummary *summary = ((CamelFolder *) engine->folder)->summary;
 	CamelStream *fstream, *stream = ic->user_data;
+	CamelFolderChangeInfo *changes;
+	CamelIMAP4MessageInfo *iinfo;
+	CamelMessageInfo *info;
 	CamelMimeFilter *crlf;
-	int left = 2;
+	guint32 flags;
 	
 	if (camel_imap4_engine_next_token (engine, token, ex) == -1)
 		return -1;
@@ -632,6 +636,9 @@ untagged_fetch (CamelIMAP4Engine *engine, CamelIMAP4Command *ic, guint32 index, 
 	do {
 		if (camel_imap4_engine_next_token (engine, token, ex) == -1)
 			goto exception;
+		
+		if (token->token == ')' || token->token == '\n')
+			break;
 		
 		if (token->token != CAMEL_IMAP4_TOKEN_ATOM)
 			goto unexpected;
@@ -657,24 +664,35 @@ untagged_fetch (CamelIMAP4Engine *engine, CamelIMAP4Command *ic, guint32 index, 
 			camel_stream_write_to_stream ((CamelStream *) engine->istream, fstream);
 			camel_stream_flush (fstream);
 			camel_object_unref (fstream);
-			
-			left--;
 		} else if (!strcmp (token->v.atom, "UID")) {
 			if (camel_imap4_engine_next_token (engine, token, ex) == -1)
 				goto exception;
 			
 			if (token->token != CAMEL_IMAP4_TOKEN_NUMBER || token->v.number == 0)
 				goto unexpected;
+		} else if (!strcmp (token->v.atom, "FLAGS")) {
+			/* even though we didn't request this bit of information, it might be
+			 * given to us if another client recently changed the flags... */
+			if (camel_imap4_parse_flags_list (engine, &flags, ex) == -1)
+				goto exception;
 			
-			left--;
+			if ((info = camel_folder_summary_index (summary, index - 1))) {
+				iinfo = (CamelIMAP4MessageInfo *) info;
+				info->flags = camel_imap4_merge_flags (iinfo->server_flags, info->flags, flags);
+				iinfo->server_flags = flags;
+				
+				changes = camel_folder_change_info_new ();
+				camel_folder_change_info_change_uid (changes, camel_message_info_uid (info));
+				camel_object_trigger_event (engine->folder, "folder_changed", changes);
+				camel_folder_change_info_free (changes);
+				
+				camel_folder_summary_info_free (summary, info);
+			}
 		} else {
 			/* wtf? */
 			fprintf (stderr, "huh? %s?...\n", token->v.atom);
 		}
-	} while (left);
-	
-	if (camel_imap4_engine_next_token (engine, token, ex) == -1)
-		goto exception;
+	} while (1);
 	
 	if (token->token != ')') {
 		fprintf (stderr, "expected ')' to close untagged FETCH response\n");
