@@ -1,3 +1,14 @@
+2000-08-18  Larry Ewing  <lewing@helixcode.com>
+
+	* e-shell-folder-title-bar.c (style_set_cb): update the pixmap
+	define E_USE_STYLES to disable the current darkening behavior
+	(destroy): free the icon.
+	(e_shell_folder_title_bar_construct): style_set_cb does everything
+	important now.
+	(e_shell_folder_title_bar_set_icon): actually store the pixbuf
+	when we set it so that we still have it if the style changes and
+	take care of refcounting them properly.
+
 2000-08-17  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-shell-view-menu.c (menu_create_file): Make capitalization of

@@ -177,6 +177,7 @@ title_button_box_realize_cb (GtkWidget *widget,
 static void
 endarken_style (GtkWidget *widget)
 {
+#ifndef E_USE_STYLES
 	GtkStyle *style;
 	GtkRcStyle *new_rc_style;
 	int i;
@@ -199,6 +200,7 @@ endarken_style (GtkWidget *widget)
 	gtk_widget_modify_style (widget, new_rc_style);
 
 	gtk_rc_style_unref (new_rc_style);
+#endif
 }
 
 static void
@@ -206,33 +208,21 @@ style_set_cb (GtkWidget *widget,
 	      GtkStyle *previous_style,
 	      void *data)
 {
-	/* This will cause a style_set signal to be emitted again, so we need to do this to prevent infinite recursion.  */
+	EShellFolderTitleBar *folder_title_bar;
+
+	folder_title_bar = E_SHELL_FOLDER_TITLE_BAR (widget);
+	
+	/* 
+	   This will cause a style_set signal to be emitted again, 
+	   so we need to do this to prevent infinite recursion.  
+	*/
 	gtk_signal_handler_block_by_func (GTK_OBJECT (widget), GTK_SIGNAL_FUNC (style_set_cb), data);
 
 	endarken_style (widget);
-
 	gtk_signal_handler_unblock_by_func (GTK_OBJECT (widget), GTK_SIGNAL_FUNC (style_set_cb), data);
-}
 
-static void
-endarken_and_connect_style_set_signal (GtkWidget *widget)
-{
-	endarken_style (widget);
-	gtk_signal_connect (GTK_OBJECT (widget), "style_set",
-			    GTK_SIGNAL_FUNC (style_set_cb), NULL);
-}
-
-static void
-setup_style (EShellFolderTitleBar *folder_title_bar)
-{
-	EShellFolderTitleBarPrivate *priv;
-
-	priv = folder_title_bar->priv;
-
-	endarken_and_connect_style_set_signal (priv->label);
-	endarken_and_connect_style_set_signal (priv->button);
-	endarken_and_connect_style_set_signal (priv->button_label);
-	endarken_and_connect_style_set_signal (GTK_WIDGET (folder_title_bar));
+	if (folder_title_bar->priv->icon)
+		e_shell_folder_title_bar_set_icon (folder_title_bar, folder_title_bar->priv->icon);
 }
 
 
@@ -302,6 +292,7 @@ destroy (GtkObject *object)
 	folder_title_bar = E_SHELL_FOLDER_TITLE_BAR (object);
 	priv = folder_title_bar->priv;
 
+	gdk_pixbuf_unref (priv->icon);
 	g_free (priv);
 
 	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
@@ -408,7 +399,8 @@ e_shell_folder_title_bar_construct (EShellFolderTitleBar *folder_title_bar)
 
 	gtk_container_add (GTK_CONTAINER (folder_title_bar), priv->hbox);
 
-	setup_style (folder_title_bar);
+	gtk_signal_connect (GTK_OBJECT (folder_title_bar), "style_set",
+			    GTK_SIGNAL_FUNC (style_set_cb), NULL);
 
 	e_shell_folder_title_bar_set_title (folder_title_bar, NULL);
 
@@ -481,10 +473,17 @@ e_shell_folder_title_bar_set_icon (EShellFolderTitleBar *folder_title_bar,
 	EShellFolderTitleBarPrivate *priv;
 	GdkPixmap *pixmap;
 
+	g_return_if_fail (icon != NULL);
+
 	g_return_if_fail (folder_title_bar != NULL);
 	g_return_if_fail (E_IS_SHELL_FOLDER_TITLE_BAR (folder_title_bar));
 
 	priv = folder_title_bar->priv;
+
+	gdk_pixbuf_ref (icon);
+	if (priv->icon)
+		gdk_pixbuf_unref (priv->icon);
+	priv->icon = icon;
 
 	pixmap = make_icon_pixmap (folder_title_bar, icon);
 
