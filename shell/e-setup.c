@@ -41,6 +41,7 @@
 #include <gal/widgets/e-gui-utils.h>
 
 #include "e-local-folder.h"
+#include "e-shell-constants.h"
 
 #include "e-setup.h"
 
@@ -412,4 +413,30 @@ e_setup (const char *evolution_directory)
 	/* User has evolution directory...
 	   Check if it is up to date. */
 	return check_evolution_directory (evolution_directory);
+}
+
+
+void
+e_setup_check_db (Bonobo_ConfigDatabase db)
+{
+	gboolean def;
+
+	if (bonobo_config_get_string_with_default (db, "/DefaultFolder/mail_path", NULL, &def) == NULL) {
+		bonobo_config_set_string (db, "/DefaultFolder/mail_path",
+					  E_LOCAL_INBOX_URI, NULL);
+		bonobo_config_set_string (db, "/DefaultFolder/mail_uri",
+					  E_LOCAL_INBOX_URI, NULL);
+		bonobo_config_set_string (db, "/DefaultFolder/contacts_path",
+					  E_LOCAL_CONTACTS_URI, NULL);
+		bonobo_config_set_string (db, "/DefaultFolder/contacts_uri",
+					  E_LOCAL_CONTACTS_URI, NULL);
+		bonobo_config_set_string (db, "/DefaultFolder/calendar_path",
+					  E_LOCAL_CALENDAR_URI, NULL);
+		bonobo_config_set_string (db, "/DefaultFolder/calendar_uri",
+					  E_LOCAL_CALENDAR_URI, NULL);
+		bonobo_config_set_string (db, "/DefaultFolder/tasks_path",
+					  E_LOCAL_TASKS_URI, NULL);
+		bonobo_config_set_string (db, "/DefaultFolder/tasks_uri",
+					  E_LOCAL_TASKS_URI, NULL);
+	}
 }

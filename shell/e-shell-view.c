@@ -169,7 +169,7 @@ static guint signals[LAST_SIGNAL] = { 0 };
 
 /* URI to display when the currently displayed folder is removed from the
    storage.  */
-#define FALLBACK_URI "evolution:/local/Inbox"
+#define FALLBACK_URI E_SUMMARY_URI
 
 
 /* The icons for the offline/online status.  */

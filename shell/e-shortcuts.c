@@ -1028,19 +1028,19 @@ e_shortcuts_add_default_group (EShortcuts *shortcuts)
 	/* FIXME: Inbox shortcut should point to something else for
            people who won't care about using /Local Folders/Inbox */
 	utf = e_utf8_from_locale_string (_("Summary"));
-	e_shortcuts_add_shortcut (shortcuts, 0, -1, "evolution:/summary", utf, 0, "summary");
+	e_shortcuts_add_shortcut (shortcuts, 0, -1, E_SUMMARY_URI, utf, 0, "summary");
 	g_free (utf);
 	utf = e_utf8_from_locale_string (_("Inbox"));
-	e_shortcuts_add_shortcut (shortcuts, 0, -1, "evolution:/local/Inbox", utf, 0, "mail");
+	e_shortcuts_add_shortcut (shortcuts, 0, -1, E_LOCAL_INBOX_URI, utf, 0, "mail");
 	g_free (utf);
 	utf = e_utf8_from_locale_string (_("Calendar"));
-	e_shortcuts_add_shortcut (shortcuts, 0, -1, "evolution:/local/Calendar", utf, 0, "calendar");
+	e_shortcuts_add_shortcut (shortcuts, 0, -1, E_LOCAL_CALENDAR_URI, utf, 0, "calendar");
 	g_free (utf);
 	utf = e_utf8_from_locale_string (_("Tasks"));
-	e_shortcuts_add_shortcut (shortcuts, 0, -1, "evolution:/local/Tasks", utf, 0, "tasks");
+	e_shortcuts_add_shortcut (shortcuts, 0, -1, E_LOCAL_TASKS_URI, utf, 0, "tasks");
 	g_free (utf);
 	utf = e_utf8_from_locale_string (_("Contacts"));
-	e_shortcuts_add_shortcut (shortcuts, 0, -1, "evolution:/local/Contacts", utf, 0, "contacts");
+	e_shortcuts_add_shortcut (shortcuts, 0, -1, E_LOCAL_CONTACTS_URI, utf, 0, "contacts");
 	g_free (utf);
 }
 

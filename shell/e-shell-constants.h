@@ -38,4 +38,10 @@
 #define E_LOCAL_STORAGE_NAME            "local"
 #define E_SUMMARY_STORAGE_NAME          "summary"
 
+#define E_SUMMARY_URI			"evolution:/summary"
+#define E_LOCAL_INBOX_URI		"evolution:/local/Inbox"
+#define E_LOCAL_CONTACTS_URI		"evolution:/local/Contacts"
+#define E_LOCAL_CALENDAR_URI		"evolution:/local/Calendar"
+#define E_LOCAL_TASKS_URI		"evolution:/local/Tasks"
+
 #endif

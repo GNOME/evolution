@@ -57,6 +57,7 @@
 #include "e-corba-storage-registry.h"
 #include "e-folder-type-registry.h"
 #include "e-local-storage.h"
+#include "e-setup.h"
 #include "e-shell-constants.h"
 #include "e-shell-corba-icon-utils.h"
 #include "e-shell-folder-selection-dialog.h"
@@ -1244,6 +1245,7 @@ e_shell_construct (EShell *shell,
 		CORBA_exception_free (&ev);
 		return E_SHELL_CONSTRUCT_RESULT_NOCONFIGDB;
  	}
+	e_setup_check_db (priv->db);
 	
 	CORBA_exception_free (&ev);
 
