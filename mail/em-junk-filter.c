@@ -273,9 +273,25 @@ em_junk_sa_test_spamd (void)
 	char *spamc_binaries [3] = {"spamc", "/usr/sbin/spamc", NULL};
 	char *spamd_binaries [3] = {"spamd", "/usr/sbin/spamd", NULL};
 
+	if (em_junk_sa_gconf) {
+		char *binary;
+
+		binary = gconf_client_get_string (em_junk_sa_gconf, "/apps/evolution/mail/junk/sa/spamc_binary", NULL);
+		if (binary) {
+			spamc_binaries [0] = binary;
+			spamc_binaries [1] = NULL;
+		}
+		binary = gconf_client_get_string (em_junk_sa_gconf, "/apps/evolution/mail/junk/sa/spamd_binary", NULL);
+		if (binary) {
+			spamd_binaries [0] = binary;
+			spamd_binaries [1] = NULL;
+			try_system_spamd = FALSE;
+		}
+	}
+
 	em_junk_sa_use_spamc = FALSE;
 
-	if (em_junk_sa_local_only) {
+	if (em_junk_sa_local_only && try_system_spamd) {
 		   i = 0;
 		   argv [i++] = "/bin/sh";
 		   argv [i++] = "-c";

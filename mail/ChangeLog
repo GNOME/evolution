@@ -5,6 +5,11 @@
 
 	Fixes #60260
 
+	(em_junk_sa_test_spamd): try to get spamd/spamc binaries from
+	gconf
+
+	Implements #59368
+
 2004-06-18  Not Zed  <NotZed@Ximian.com>
 
 	** See #31027.
