@@ -17,7 +17,7 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
  * Boston, MA 02111-1307, USA.
  *
- * Author: Chris Toshok
+ * Authors: Chris Toshok, Jeffrey Stedfast
  */
 
 #ifndef E_HOST_UTILS_H
@@ -31,6 +31,8 @@
    *only* use this - it can't even coexist with naked calls to
    gethostbyname (even if they exist in libraries.)  yes, this loses
    in many ways.  blame your local OS developer. */
-int e_gethostbyname_r (const char *name, struct hostent *host, char *buf, int buflen, int *herr);
+int e_gethostbyname_r (const char *name, struct hostent *host, char *buf, size_t buflen, int *herr);
+
+int e_gethostbyaddr_r (const char *addr, int len, int type, struct hostent *host, char *buf, size_t buflen, int *herr);
 
 #endif /* E_HOST_UTILS_H */

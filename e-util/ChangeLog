@@ -1,3 +1,9 @@
+2002-04-16  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-host-utils.c (e_gethostbyaddr_r): New wrapper around
+	gethostbyaddr_r if the system has it, else a whole new
+	implementation.
+
 2002-04-11  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-sexp.c (parse_value): Handle parsing negative integers.
