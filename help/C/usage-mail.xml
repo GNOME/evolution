@@ -1758,11 +1758,11 @@ wwwkeys.pgp.net 32j38dk2</command>.  Substitute your key ID for
 	  <para>
 	    Key servers store your public keys for you so that your
 	    friends can decrypt your messages.  If you choose not to
-	    use a key server, you can manually send your people public
-	    key, include it in your signature file, or put it on your
-	    own web page. However, it's easier to publish them once,
-	    and then let people download them from a central place when
-	    they want.
+	    use a key server, you must distribute your public key in
+	    other ways. For example, you can attach it to emails or
+	    put it on your own web page. However, it's easier to
+	    publish them once, and then let people download them from
+	    a central place when they want.
 	  </para>
           <para>
              If you don't have a key you need to unlock or encrypt a
