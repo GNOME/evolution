@@ -1,3 +1,7 @@
+2000-11-02  Not Zed  <NotZed@HelixCode.com>
+
+	* Merged in camel-incremental-branch.
+
 2000-11-01  Dan Winship  <danw@helixcode.com>
 
 	* providers/imap/camel-imap-store.c (get_folder_info): Remove old
@@ -269,6 +273,108 @@
 	* camel-mime-part.c (camel_mime_part_set_description): The correct
 	fix this time - the description should be encoded here and not in
 	the camel-medium layer.
+
+2000-10-30  Not Zed  <NotZed@HelixCode.com>
+
+	* camel-folder.c (camel_folder_change_info_add_update): Fixed the
+	changeset logic, which was completely wrong.
+
+2000-10-27  Not Zed  <NotZed@HelixCode.com>
+
+	* camel-mime-utils.c (quoted_encode_step): Removed is_blank() stuff.
+	(header_decode_init): When we set the 'space' bit, dont clear all
+	the others.
+	(quoted_encode): Put back the safemask.  Yes we totally need it,
+	see rfc 2047 section 5, parts (1) and (3).
+	(CHARS_PSPECIAL): Remove '=' and '_' from the list of allowed
+	characters (this is an allowed list, not a not-allowed list, like
+	the ESPECIAL).
+	(camel_mime_special_table): Updated for fixes to definitions.
+	(CHARS_ESPECIAL): Added '_' to list of characters that should be
+	encoded.
+
+2000-10-26  Not Zed  <NotZed@HelixCode.com>
+
+	* providers/mbox/camel-mbox-summary.c (camel_mbox_summary_update):
+	Use the new camel_folder_change_info_* stuff to build the update
+	diff, rather than doing it ourselves.
+
+	* camel-folder.c (camel_folder_change_info_add_source): Add a
+	'source' list, used to create change lists.
+	(camel_folder_change_info_add_source_list): Add a list of uid's,
+	convenience function.
+	(camel_folder_change_info_add_update): Add a uid to the list of
+	uid's in the new updated list.
+	(camel_folder_change_info_add_update_list): Add a bunch of uid's
+	at once for the same purpose.
+	(camel_folder_change_info_build_diff): Take the source list, the
+	update list, and find the differences, building on the added or
+	removed list as appropriate.
+
+2000-10-20  Not Zed  <NotZed@HelixCode.com>
+
+	* providers/mbox/camel-mbox-summary.c (removed_uids): REnamed from
+	add_uid.
+	(camel_mbox_summary_update): Oops, fix the reversed logic for
+	determining the uid changesets.
+
+	* camel-folder.c (message_changed): Oops, we want to change the
+	uid, not add it.
+
+2000-10-19  Not Zed  <NotZed@HelixCode.com>
+
+	* providers/mh/camel-mh-summary.c (camel_mh_summary_sync): Added a
+	change list argument, and add expunged uid's to it.
+
+	* providers/mh/camel-mh-folder.c (mh_init): Setup the change list.
+	(mh_finalize): And free it.
+	(mh_sync): Track changes, and send a folder_changed signal as
+	appropriate.
+	(mh_expunge): Likewise.
+	(mh_append_message): Add the new uid to the change list and
+	trigger a folder_changed event.
+
+	* providers/mbox/camel-mbox-folder.c (camel_mbox_folder_new):
+	Setup a mbox list of changes structure.
+	(mbox_finalize): And free it.
+	(mbox_expunge): Include the change list with the folder_changed
+	event, and clear it off.
+	(mbox_sync): And the same for when we are just syncing the folder.
+	(mbox_append_message): And do the same here, after we've updated
+	the folder.
+
+	* providers/mbox/camel-mbox-summary.c
+	(camel_mbox_summary_build_from): Use gmtime_r to get the time
+	thread-safely.
+	(camel_mbox_summary_sync): Added a changeinfo argument.  Add any
+	removed or changed messages to the changelists as appropriate.
+	(camel_mbox_summary_update): Added a changeinfo argument.
+	Genereate a list of added/removed uid's based on the difference
+	before and after rebuilding the summary.
+
+	* camel-folder.c (camel_folder_change_info_new):
+	(camel_folder_change_info_add_uid): 
+	(change_info_add_uid): 
+	(camel_folder_change_info_remove_uid): 
+	(camel_folder_change_info_change_uid): 
+	(change_info_clear): 
+	(camel_folder_change_info_clear): 
+	(camel_folder_change_info_free):
+	(change_info_cat): 
+	(camel_folder_change_info_cat):  Bunch of utility functions for
+	working with change info lists.
+	(camel_folder_init): Init the change info list.
+	(camel_folder_finalize): And free it.
+	(thaw): Changed to pass through a list of changes, or to get the
+	changed message uids from the camelfolderchangeinfo struct, and
+	reset it.
+	(folder_changed): Add the changed lists to the frozen change list
+	if we are frozen.
+	(message_changed): Add the message to the changed list if we are
+	in the frozen state.
+
+	* camel-folder.h (CamelFolderChangeInfo): New structure to hold
+	information for the folder_changed event.
 
 2000-10-18  Ettore Perazzoli  <ettore@helixcode.com>
 

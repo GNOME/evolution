@@ -157,15 +157,13 @@ camel_folder_init (gpointer object, gpointer klass)
 	CamelFolder *folder = object;
 
 	folder->frozen = 0;
-	folder->folder_changed = FALSE;
-	folder->messages_changed = NULL;
+	folder->changed_frozen = camel_folder_change_info_new();
 }
 
 static void
 camel_folder_finalize (CamelObject *object)
 {
 	CamelFolder *camel_folder = CAMEL_FOLDER (object);
-	GList *m;
 
 	g_free (camel_folder->name);
 	g_free (camel_folder->full_name);
@@ -173,9 +171,7 @@ camel_folder_finalize (CamelObject *object)
 	if (camel_folder->parent_store)
 		camel_object_unref (CAMEL_OBJECT (camel_folder->parent_store));
 
-	for (m = camel_folder->messages_changed; m; m = m->next)
-		g_free (m->data);
-	g_list_free (camel_folder->messages_changed);
+	camel_folder_change_info_free(camel_folder->changed_frozen);
 }
 
 CamelType
@@ -979,45 +975,26 @@ camel_folder_freeze (CamelFolder * folder)
 static void
 thaw (CamelFolder * folder)
 {
-	GList *messages, *m;
+	int i;
+	CamelFolderChangeInfo *info;
 
 	folder->frozen--;
 	if (folder->frozen != 0)
 		return;
 
-	/* Clear messages_changed now in case the signal handler ends
-	 * up calling freeze and thaw itself.
-	 */
-	messages = folder->messages_changed;
-	folder->messages_changed = NULL;
-
-	/* If the folder changed, emit that and ignore the individual
-	 * messages (since the UIDs may no longer be valid).
-	 */
-	if (folder->folder_changed) {
-		folder->folder_changed = FALSE;
-
-		camel_object_trigger_event (CAMEL_OBJECT (folder),
-					    "folder_changed", NULL);
-	} else if (messages) {
-		/* FIXME: would be nice to not emit more than once for
-		 * a given message
-		 */
-		for (m = messages; m; m = m->next) {
-			camel_object_trigger_event (CAMEL_OBJECT (folder),
-						    "message_changed",
-						    m->data);
-			g_free (m->data);
+	/* If we have more or less messages, do a folder changed, otherwise just
+	   do a message changed for each one.
+	   TODO: message_changed is now probably irrelevant and not required */
+	info = folder->changed_frozen;
+	if (info->uid_added->len > 0 || info->uid_removed->len > 0) {
+		camel_object_trigger_event(CAMEL_OBJECT(folder), "folder_changed", info);
+	} else if (info->uid_changed->len > 0) {
+		for (i=0;i<info->uid_changed->len;i++) {
+			camel_object_trigger_event(CAMEL_OBJECT(folder), "message_changed", info->uid_changed->pdata[i]);
 		}
-		g_list_free (messages);
-		return;
 	}
 
-	if (messages) {
-		for (m = messages; m; m = m->next)
-			g_free (m->data);
-		g_list_free (messages);
-	}
+	camel_folder_change_info_clear(info);
 }
 
 /**
@@ -1042,12 +1019,16 @@ static gboolean
 folder_changed (CamelObject *obj, gpointer event_data)
 {
 	CamelFolder *folder = CAMEL_FOLDER (obj);
+	CamelFolderChangeInfo *changed = event_data;
 
 	if (folder->frozen) {
-		folder->folder_changed = TRUE;
+		if (changed != NULL)
+			camel_folder_change_info_cat(folder->changed_frozen, changed);
+		else
+			g_warning("Class %s is passing NULL to folder_changed event",
+				  camel_type_to_name (CAMEL_OBJECT_GET_TYPE (folder)));
 		return FALSE;
 	}
-
 	return TRUE;
 }
 
@@ -1057,17 +1038,7 @@ message_changed (CamelObject *obj, /*const char *uid*/gpointer event_data)
 	CamelFolder *folder = CAMEL_FOLDER (obj);
 
 	if (folder->frozen) {
-		/* FIXME: if there are no hooks attached, we can just
-		 * return here.
-		 */
-
-		/* Only record the UID if it will be useful later. */
-		if (!folder->folder_changed) {
-			folder->messages_changed =
-				g_list_prepend (folder->messages_changed,
-						g_strdup ((gchar *)event_data));
-		}
-
+		camel_folder_change_info_change_uid(folder->changed_frozen, (char *)event_data);
 		return FALSE;
 	}
 
@@ -1124,3 +1095,266 @@ camel_folder_free_deep (CamelFolder *folder, GPtrArray *array)
 		g_free (array->pdata[i]);
 	g_ptr_array_free (array, TRUE);
 }
+
+/**
+ * camel_folder_change_info_new:
+ * @void: 
+ * 
+ * Create a new folder change info structure.
+ * 
+ * Return value: 
+ **/
+CamelFolderChangeInfo *
+camel_folder_change_info_new(void)
+{
+	CamelFolderChangeInfo *info;
+
+	info = g_malloc(sizeof(*info));
+	info->uid_added = g_ptr_array_new();
+	info->uid_removed = g_ptr_array_new();
+	info->uid_changed = g_ptr_array_new();
+	info->uid_source = NULL;
+
+	return info;
+}
+
+/**
+ * camel_folder_change_info_add_source:
+ * @info: 
+ * @uid: 
+ * 
+ * Add a source uid for generating a changeset.
+ **/
+void
+camel_folder_change_info_add_source(CamelFolderChangeInfo *info, const char *uid)
+{
+	if (info->uid_source == NULL)
+		info->uid_source = g_hash_table_new(g_str_hash, g_str_equal);
+
+	if (g_hash_table_lookup(info->uid_source, uid) == NULL)
+		g_hash_table_insert(info->uid_source, g_strdup(uid), (void *)1);
+}
+
+/**
+ * camel_folder_change_info_add_source_list:
+ * @info: 
+ * @list: 
+ * 
+ * Add a list of source uid's for generating a changeset.
+ **/
+void
+camel_folder_change_info_add_source_list(CamelFolderChangeInfo *info, const GPtrArray *list)
+{
+	int i;
+
+	if (info->uid_source == NULL)
+		info->uid_source = g_hash_table_new(g_str_hash, g_str_equal);
+
+	for (i=0;i<list->len;i++) {
+		char *uid = list->pdata[i];
+
+		if (g_hash_table_lookup(info->uid_source, uid) == NULL)
+			g_hash_table_insert(info->uid_source, g_strdup(uid), (void *)1);
+	}
+}
+
+/**
+ * camel_folder_change_info_add_update:
+ * @info: 
+ * @uid: 
+ * 
+ * Add a uid from the updated list, used to generate a changeset diff.
+ **/
+void
+camel_folder_change_info_add_update(CamelFolderChangeInfo *info, const char *uid)
+{
+	char *key;
+	int value;
+
+	if (info->uid_source == NULL) {
+		camel_folder_change_info_add_uid(info, uid);
+		return;
+	}
+
+	if (g_hash_table_lookup_extended(info->uid_source, uid, (void **)&key, (void **)&value)) {
+		g_hash_table_remove(info->uid_source, key);
+		g_free(key);
+	} else {
+		camel_folder_change_info_add_uid(info, uid);
+	}
+}
+
+/**
+ * camel_folder_change_info_add_update_list:
+ * @info: 
+ * @list: 
+ * 
+ * Add a list of uid's from the updated list.
+ **/
+void
+camel_folder_change_info_add_update_list(CamelFolderChangeInfo *info, const GPtrArray *list)
+{
+	int i;
+
+	for (i=0;i<list->len;i++) {
+		camel_folder_change_info_add_update(info, list->pdata[i]);
+	}
+}
+
+static void
+change_info_remove(char *key, void *value, CamelFolderChangeInfo *info)
+{
+	camel_folder_change_info_remove_uid(info, key);
+	g_free(key);
+}
+
+static void
+change_info_free_update(char *key, void *value, CamelFolderChangeInfo *info)
+{
+	g_free(key);
+}
+
+/**
+ * camel_folder_change_info_build_diff:
+ * @info: 
+ * 
+ * Compare the source uid set to the updated uid set and generate the differences
+ * into the added and removed lists.
+ **/
+void
+camel_folder_change_info_build_diff(CamelFolderChangeInfo *info)
+{
+	if (info->uid_source) {
+		g_hash_table_foreach(info->uid_source, (GHFunc)change_info_remove, info);
+		g_hash_table_destroy(info->uid_source);
+		info->uid_source = NULL;
+	}
+}
+
+static void
+change_info_add_uid(CamelFolderChangeInfo *info, GPtrArray *uids, const char *uid)
+{
+	int i;
+
+	/* TODO: Check that it is in the other arrays and remove it from them/etc? */
+	for (i=0;i<uids->len;i++) {
+		if (!strcmp(uids->pdata[i], uid))
+			return;
+	}
+	g_ptr_array_add(uids, g_strdup(uid));
+}
+
+static void
+change_info_cat(CamelFolderChangeInfo *info, GPtrArray *uids, GPtrArray *source)
+{
+	int i;
+
+	for (i=0;i<source->len;i++) {
+		change_info_add_uid(info, uids, source->pdata[i]);
+	}
+}
+
+/**
+ * camel_folder_change_info_cat:
+ * @info: 
+ * @source: 
+ * 
+ * Concatenate one change info onto antoher.  Can be used to copy
+ * them too.
+ **/
+void
+camel_folder_change_info_cat(CamelFolderChangeInfo *info, CamelFolderChangeInfo *source)
+{
+	change_info_cat(info, info->uid_added, source->uid_added);
+	change_info_cat(info, info->uid_removed, source->uid_removed);
+	change_info_cat(info, info->uid_changed, source->uid_changed);
+}
+
+/**
+ * camel_folder_change_info_add_uid:
+ * @info: 
+ * @uid: 
+ * 
+ * Add a new uid to the changeinfo.
+ **/
+void
+camel_folder_change_info_add_uid(CamelFolderChangeInfo *info, const char *uid)
+{
+	change_info_add_uid(info, info->uid_added, uid);
+}
+
+/**
+ * camel_folder_change_info_remove_uid:
+ * @info: 
+ * @uid: 
+ * 
+ * Add a uid to the removed uid list.
+ **/
+void
+camel_folder_change_info_remove_uid(CamelFolderChangeInfo *info, const char *uid)
+{
+	change_info_add_uid(info, info->uid_removed, uid);
+}
+
+/**
+ * camel_folder_change_info_change_uid:
+ * @info: 
+ * @uid: 
+ * 
+ * Add a uid to the changed uid list.
+ **/
+void
+camel_folder_change_info_change_uid(CamelFolderChangeInfo *info, const char *uid)
+{
+	change_info_add_uid(info, info->uid_changed, uid);
+}
+
+static void
+change_info_clear(GPtrArray *uids)
+{
+	int i;
+
+	for (i=0;i<uids->len;i++) {
+		g_free(uids->pdata[i]);
+	}
+	g_ptr_array_set_size(uids, 0);
+}
+
+/**
+ * camel_folder_change_info_clear:
+ * @info: 
+ * 
+ * Empty out the change info; called after changes have been processed.
+ **/
+void
+camel_folder_change_info_clear(CamelFolderChangeInfo *info)
+{
+	change_info_clear(info->uid_added);
+	change_info_clear(info->uid_removed);
+	change_info_clear(info->uid_changed);
+}
+
+/**
+ * camel_folder_change_info_free:
+ * @info: 
+ * 
+ * Free memory associated with the folder change info lists.
+ **/
+void
+camel_folder_change_info_free(CamelFolderChangeInfo *info)
+{
+	if (info->uid_source) {
+		g_hash_table_foreach(info->uid_source, (GHFunc)change_info_free_update, info);
+		g_hash_table_destroy(info->uid_source);
+	}
+
+	camel_folder_change_info_clear(info);
+
+	g_ptr_array_free(info->uid_added, TRUE);
+	g_ptr_array_free(info->uid_removed, TRUE);
+	g_ptr_array_free(info->uid_changed, TRUE);
+	g_free(info);
+}
+
+
+

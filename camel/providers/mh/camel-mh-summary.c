@@ -248,7 +248,7 @@ int		camel_mh_summary_check(CamelMhSummary * mhs, int forceindex)
 
 /* sync the summary with the ondisk files.
    It doesnt store the state in the file, the summary only, == MUCH faster */
-int		camel_mh_summary_sync(CamelMhSummary * mhs, int expunge, CamelException *ex)
+int		camel_mh_summary_sync(CamelMhSummary * mhs, int expunge, CamelFolderChangeInfo *changes, CamelException *ex)
 {
 	int count, i;
 	CamelMessageInfo *info;
@@ -267,8 +267,9 @@ int		camel_mh_summary_sync(CamelMhSummary * mhs, int expunge, CamelException *ex
 		info = camel_folder_summary_index((CamelFolderSummary *)mhs, i);
 		if (info && info->flags & CAMEL_MESSAGE_DELETED) {
 			name = g_strdup_printf("%s/%s", mhs->mh_path, info->uid);
-			(printf("deleting %s\n", name));
+			d(printf("deleting %s\n", name));
 			if (unlink(name) == 0 || errno==ENOENT) {
+				camel_folder_change_info_remove_uid(changes, info->uid);
 				camel_folder_summary_remove((CamelFolderSummary *)mhs, info);
 			}
 		}

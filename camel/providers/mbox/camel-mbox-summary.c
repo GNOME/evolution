@@ -338,13 +338,29 @@ summary_rebuild(CamelMboxSummary *mbs, off_t offset)
 }
 
 int
-camel_mbox_summary_update(CamelMboxSummary *mbs, off_t offset)
+camel_mbox_summary_update(CamelMboxSummary *mbs, off_t offset, CamelFolderChangeInfo *changeinfo)
 {
-	int ret;
+	int ret, i, count;
+	CamelFolderSummary *s = (CamelFolderSummary *)mbs;
 
+	/* we use the diff function of the change_info to build the update list. */
+	for (i = 0; i < camel_folder_summary_count(s); i++) {
+		CamelMessageInfo *mi = camel_folder_summary_index(s, i);
+
+		camel_folder_change_info_add_source(changeinfo, mi->uid);
+	}
+
+	/* do the actual work */
 	mbs->index_force = FALSE;
 	ret = summary_rebuild(mbs, offset);
 
+	count = camel_folder_summary_count(s);
+	for (i = 0; i < count; i++) {
+		CamelMessageInfo *mi = camel_folder_summary_index(s, i);
+		camel_folder_change_info_add_update(changeinfo, mi->uid);
+	}
+	camel_folder_change_info_build_diff(changeinfo);
+	
 #if 0
 #warning "Saving full summary and index after every summarisation is slow ..."
 	if (ret != -1) {
@@ -590,7 +606,8 @@ camel_mbox_summary_build_from(struct _header_raw *header)
 	thetime += ((offset / 100) * (60 * 60)) + (offset % 100) * 60;
 
 	/* a pseudo, but still bogus attempt at thread safing the function */
-	memcpy(&tm, gmtime(&thetime), sizeof(tm));
+	/*memcpy(&tm, gmtime(&thetime), sizeof(tm));*/
+	gmtime_r(&thetime, &tm);
 
 	g_string_sprintfa(out, " %s %s %d %02d:%02d:%02d %4d\n",
 			  tz_days[tm.tm_wday],
@@ -602,7 +619,7 @@ camel_mbox_summary_build_from(struct _header_raw *header)
 }
 
 int
-camel_mbox_summary_sync(CamelMboxSummary *mbs, gboolean expunge, CamelException *ex)
+camel_mbox_summary_sync(CamelMboxSummary *mbs, gboolean expunge, CamelFolderChangeInfo *changeinfo, CamelException *ex)
 {
 	CamelMimeParser *mp = NULL;
 	int i, count;
@@ -619,13 +636,13 @@ camel_mbox_summary_sync(CamelMboxSummary *mbs, gboolean expunge, CamelException 
 	struct stat st;
 	char *fromline;
 
-	/* make sure we're in sync */
+	/* make sure we're in sync, after this point we at least have a complete list of id's */
 	count = camel_folder_summary_count (s);
 	if (count > 0) {
 		CamelMessageInfo *mi = camel_folder_summary_index(s, count - 1);
-		camel_mbox_summary_update(mbs, mi->content->endpos);
+		camel_mbox_summary_update(mbs, mi->content->endpos, changeinfo);
 	} else {
-		camel_mbox_summary_update(mbs, 0);
+		camel_mbox_summary_update(mbs, 0, changeinfo);
 	}
 
 	/* check if we have any work to do */
@@ -693,6 +710,8 @@ camel_mbox_summary_sync(CamelMboxSummary *mbs, gboolean expunge, CamelException 
 			offset -= (info->info.content->endpos - info->frompos);
 			if (mbs->index)
 				ibex_unindex(mbs->index, info->info.uid);
+			/* remove it from teh change list */
+			camel_folder_change_info_remove_uid(changeinfo, info->info.uid);
 			camel_folder_summary_remove(s, (CamelMessageInfo *)info);
 			count--;
 			i--;

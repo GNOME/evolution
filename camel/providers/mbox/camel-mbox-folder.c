@@ -149,6 +149,7 @@ mbox_finalize(CamelObject * object)
 	g_free(mbox_folder->folder_dir_path);
 	g_free(mbox_folder->index_file_path);
 
+	camel_folder_change_info_free(mbox_folder->changes);
 }
 
 CamelType camel_mbox_folder_get_type(void)
@@ -195,6 +196,8 @@ camel_mbox_folder_new(CamelStore *parent_store, const char *full_name, guint32 f
 	mbox_folder->folder_dir_path = g_strdup_printf("%s/%s.sdb", root_dir_path, full_name);
 	mbox_folder->index_file_path = g_strdup_printf("%s/%s.ibex", root_dir_path, full_name);
 
+	mbox_folder->changes = camel_folder_change_info_new();
+
 	/* if we have no index file, force it */
 	forceindex = stat(mbox_folder->index_file_path, &st) == -1;
 	if (flags & CAMEL_STORE_FOLDER_BODY_INDEX) {
@@ -232,8 +235,11 @@ mbox_sync(CamelFolder *folder, gboolean expunge, CamelException *ex)
 
 	if (expunge)
 		mbox_expunge(folder, ex);
-	else
-		camel_mbox_summary_sync(mbox_folder->summary, FALSE, ex);
+	else {
+		camel_mbox_summary_sync(mbox_folder->summary, FALSE, mbox_folder->changes, ex);
+		camel_object_trigger_event(CAMEL_OBJECT(folder), "folder_changed", mbox_folder->changes);
+		camel_folder_change_info_clear(mbox_folder->changes);
+	}
 
 	/* save index */
 	if (mbox_folder->index)
@@ -245,12 +251,11 @@ mbox_sync(CamelFolder *folder, gboolean expunge, CamelException *ex)
 static void
 mbox_expunge(CamelFolder *folder, CamelException *ex)
 {
-	CamelMboxFolder *mbox = CAMEL_MBOX_FOLDER(folder);
+	CamelMboxFolder *mbox_folder = CAMEL_MBOX_FOLDER(folder);
 
-	camel_mbox_summary_sync(mbox->summary, TRUE, ex);
-
-	/* TODO: check it actually changed */
-	camel_object_trigger_event(CAMEL_OBJECT(folder), "folder_changed", GINT_TO_POINTER(0));
+	camel_mbox_summary_sync(mbox_folder->summary, TRUE, mbox_folder->changes, ex);
+	camel_object_trigger_event(CAMEL_OBJECT(folder), "folder_changed", mbox_folder->changes);
+	camel_folder_change_info_clear(mbox_folder->changes);
 }
 
 static gint
@@ -352,7 +357,7 @@ mbox_append_message(CamelFolder *folder, CamelMimeMessage * message, const Camel
 	g_free(fromline);
 
 	/* force a summary update - will only update from the new position, if it can */
-	if (camel_mbox_summary_update(mbox_folder->summary, seek) == 0) {
+	if (camel_mbox_summary_update(mbox_folder->summary, seek, mbox_folder->changes) == 0) {
 		char uidstr[16];
 
 		sprintf(uidstr, "%u", uid);
@@ -372,7 +377,8 @@ mbox_append_message(CamelFolder *folder, CamelMimeMessage * message, const Camel
 				tag = tag->next;
 			}
 		}
-		camel_object_trigger_event(CAMEL_OBJECT(folder), "folder_changed", GINT_TO_POINTER(0));
+		camel_object_trigger_event(CAMEL_OBJECT(folder), "folder_changed", mbox_folder->changes);
+		camel_folder_change_info_clear(mbox_folder->changes);
 	}
 
 	return;
@@ -469,6 +475,7 @@ mbox_get_message(CamelFolder *folder, const gchar * uid, CamelException *ex)
 	}
 
 	if (camel_mime_parser_tell_start_from(parser) != info->frompos) {
+		/* TODO: This should probably perform a re-sync/etc, and try again? */
 		g_warning("Summary doesn't match the folder contents!  eek!\n"
 			  "  expecting offset %ld got %ld", (long int)info->frompos,
 			  (long int)camel_mime_parser_tell_start_from(parser));

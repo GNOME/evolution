@@ -23,6 +23,7 @@
 #define _CAMEL_MBOX_SUMMARY_H
 
 #include <camel/camel-folder-summary.h>
+#include <camel/camel-folder.h>
 #include <camel/camel-exception.h>
 #include <libibex/ibex.h>
 
@@ -70,9 +71,9 @@ CamelMboxSummary      *camel_mbox_summary_new	(const char *filename, const char 
 /* load/check the summary */
 int camel_mbox_summary_load(CamelMboxSummary *mbs, int forceindex);
 /* incremental update */
-int camel_mbox_summary_update(CamelMboxSummary *mbs, off_t offset);
+int camel_mbox_summary_update(CamelMboxSummary *mbs, off_t offset, CamelFolderChangeInfo *changeinfo);
 /* perform a folder sync or expunge, if needed */
-int camel_mbox_summary_sync (CamelMboxSummary *mbs, gboolean expunge, CamelException *ex);
+int camel_mbox_summary_sync (CamelMboxSummary *mbs, gboolean expunge, CamelFolderChangeInfo *changeinfo, CamelException *ex);
 /* generate a From line from headers */
 char *camel_mbox_summary_build_from(struct _header_raw *header);
 

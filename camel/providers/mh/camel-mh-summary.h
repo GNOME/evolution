@@ -22,6 +22,7 @@
 #define _CAMEL_MH_SUMMARY_H
 
 #include <camel/camel-folder-summary.h>
+#include <camel/camel-folder.h>
 #include <camel/camel-exception.h>
 #include <libibex/ibex.h>
 
@@ -55,7 +56,7 @@ CamelMhSummary	*camel_mh_summary_new	(const char *filename, const char *mhdir, i
 int		camel_mh_summary_load(CamelMhSummary * mhs, int forceindex);
 int		camel_mh_summary_check(CamelMhSummary * mhs, int forceindex);
 int		camel_mh_summary_add(CamelMhSummary * mhs, const char *name, int forceindex);
-int		camel_mh_summary_sync(CamelMhSummary * mhs, int expunge, CamelException *ex);
+int		camel_mh_summary_sync(CamelMhSummary * mhs, int expunge, CamelFolderChangeInfo *changes, CamelException *ex);
 
 #endif /* ! _CAMEL_MH_SUMMARY_H */
 

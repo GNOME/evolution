@@ -1576,12 +1576,19 @@ tail_recurse:
 		
 		do {
 			hb = folder_scan_content (s, &state, databuffer, datalength);
-			d(printf ("Content raw: '%.*s'\n", *datalength, *databuffer));
+
+			d(printf ("\n\nOriginal content: '"));
+			d(fwrite(*databuffer, sizeof(char), *datalength, stdout));
+			d(printf("'\n"));
 
 			if (*datalength > 0) {
 				while (f) {
 					camel_mime_filter_filter(f->filter, *databuffer, *datalength, presize,
 								 databuffer, datalength, &presize);
+					d(printf ("Filtered content (%s): '",
+						  camel_type_to_name(((CamelObject *)f->filter)->s.type)));
+					d(fwrite(*databuffer, sizeof(char), *datalength, stdout));
+					d(printf("'\n"));
 					f = f->next;
 				}
 				return;

@@ -125,6 +125,7 @@ static void mh_init(gpointer object, gpointer klass)
 
 	mh_folder->summary = NULL;
 	mh_folder->search = NULL;
+	mh_folder->changes = camel_folder_change_info_new();
 }
 
 static void mh_finalize(CamelObject * object)
@@ -138,6 +139,7 @@ static void mh_finalize(CamelObject * object)
 	g_free(mh_folder->summary_file_path);
 	g_free(mh_folder->folder_dir_path);
 	g_free(mh_folder->index_file_path);
+	camel_folder_change_info_free(mh_folder->changes);
 }
 
 CamelType camel_mh_folder_get_type(void)
@@ -222,8 +224,11 @@ static void mh_sync(CamelFolder * folder, gboolean expunge, CamelException * ex)
 
 	if (expunge)
 		mh_expunge(folder, ex);
-	else
-		camel_mh_summary_sync(mh_folder->summary, FALSE, ex);
+	else {
+		camel_mh_summary_sync(mh_folder->summary, FALSE, mh_folder->changes, ex);
+		camel_object_trigger_event(CAMEL_OBJECT(folder), "folder_changed", mh_folder->changes);
+		camel_folder_change_info_clear(mh_folder->changes);
+	}
 
 	/* save index */
 	if (mh_folder->index)
@@ -234,12 +239,11 @@ static void mh_sync(CamelFolder * folder, gboolean expunge, CamelException * ex)
 
 static void mh_expunge(CamelFolder * folder, CamelException * ex)
 {
-	CamelMhFolder *mh = CAMEL_MH_FOLDER(folder);
+	CamelMhFolder *mh_folder = CAMEL_MH_FOLDER(folder);
 
-	camel_mh_summary_sync(mh->summary, TRUE, ex);
-
-	/* TODO: check it actually changed */
-	camel_object_trigger_event(CAMEL_OBJECT(folder), "folder_changed", GINT_TO_POINTER (0));
+	camel_mh_summary_sync(mh_folder->summary, TRUE, mh_folder->changes, ex);
+	camel_object_trigger_event(CAMEL_OBJECT(folder), "folder_changed", mh_folder->changes);
+	camel_folder_change_info_clear(mh_folder->changes);
 }
 
 static gint mh_get_message_count(CamelFolder * folder)
@@ -319,7 +323,9 @@ static void mh_append_message(CamelFolder * folder, CamelMimeMessage * message, 
 		}
 	}
 
-	camel_object_trigger_event(CAMEL_OBJECT(folder), "folder_changed", GPOINTER_TO_INT (0));
+	camel_folder_change_info_add_uid(mh_folder->changes, uid);
+	camel_object_trigger_event(CAMEL_OBJECT(folder), "folder_changed", mh_folder->changes);
+	camel_folder_change_info_clear(mh_folder->changes);
 	g_free(name);
 	g_free(uid);
 	return;

@@ -75,12 +75,12 @@ static unsigned char tohex[16] = {
 static unsigned short camel_mime_special_table[256] = {
 	  5,  5,  5,  5,  5,  5,  5,  5,  5,231,  7,  5,  5, 39,  5,  5,
 	  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,
-	 50,192, 76,192,192,192,192,192, 76, 76,192,192, 76,192, 72, 68,
-	192,192,192,192,192,192,192,192,192,192, 76, 76, 76,  4, 76, 68,
-	 76,192,192,192,192,192,192,192,192,192,192,192,192,192,192,192,
-	192,192,192,192,192,192,192,192,192,192,192,108,236,108,192,192,
-	192,192,192,192,192,192,192,192,192,192,192,192,192,192,192,192,
-	192,192,192,192,192,192,192,192,192,192,192,192,192,192,192,  5,
+	242,448, 76,192,192,192,192,192, 76, 76,448,448, 76,448, 72,324,
+	448,448,448,448,448,448,448,448,448,448, 76, 76, 76,  4, 76, 68,
+	 76,448,448,448,448,448,448,448,448,448,448,448,448,448,448,448,
+	448,448,448,448,448,448,448,448,448,448,448,108,236,108,192, 64,
+	192,448,448,448,448,448,448,448,448,448,448,448,448,448,448,448,
+	448,448,448,448,448,448,448,448,448,448,448,192,192,192,192,  5,
 	  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
 	  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
 	  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
@@ -114,7 +114,7 @@ static unsigned char camel_mime_base64_rank[256] = {
   if any of these change, then the tables above should be regenerated
   by compiling this with -DBUILD_TABLE, and running.
 
-  gcc -DCLEAN_DATE -o buildtable -I.. `glib-config --cflags --libs` -lunicode -DBUILD_TABLE camel-mime-utils.c
+  gcc -DCLEAN_DATE -o buildtable -I.. `glib-config --cflags --libs` -lunicode -DBUILD_TABLE camel-mime-utils.c camel-charset-map.c
   ./buildtable
 
 */
@@ -141,7 +141,6 @@ enum {
 #define is_qpsafe(x) ((camel_mime_special_table[(unsigned char)(x)] & IS_QPSAFE) != 0)
 #define is_especial(x) ((camel_mime_special_table[(unsigned char)(x)] & IS_ESPECIAL) != 0)
 #define is_psafe(x) ((camel_mime_special_table[(unsigned char)(x)] & IS_PSAFE) != 0)
-#define is_blank(c) ((c) == ' ' || (c) == '\t')
 
 /* only needs to be run to rebuild the tables above */
 #ifdef BUILD_TABLE
@@ -151,8 +150,10 @@ enum {
 #define CHARS_SPECIAL "()<>@,;:\\\".[]"
 #define CHARS_CSPECIAL "()\\\r"	/* not in comments */
 #define CHARS_DSPECIAL "[]\\\r \t"	/* not in domains */
-#define CHARS_ESPECIAL "()<>@,;:\"/[]?.=" /* encoded word specials */
-#define CHARS_PSPECIAL "!*+-/=_" /* encoded word specials */
+#define CHARS_ESPECIAL "()<>@,;:\"/[]?.=_" /* list of characters that must be encoded.
+					      encoded word in text specials: rfc 2047 5(1)*/
+#define CHARS_PSPECIAL "!*+-/" /* list of additional characters that can be left unencoded.
+				  encoded word in phrase specials: rfc 2047 5(3) */
 
 static void
 header_remove_bits(unsigned short bit, unsigned char *vals)
@@ -204,12 +205,12 @@ header_decode_init(void)
 		if (i<32)
 			camel_mime_special_table[i] |= IS_CTRL;
 		if ((i>=33 && i<=60) || (i>=62 && i<=126) || i==32 || i==9)
-			camel_mime_special_table[i] |= IS_QPSAFE|IS_ESAFE;
+			camel_mime_special_table[i] |= (IS_QPSAFE|IS_ESAFE);
 		if ((i>='0' && i<='9') || (i>='a' && i<='z') || (i>='A' && i<= 'Z'))
 			camel_mime_special_table[i] |= IS_PSAFE;
 	}
-	camel_mime_special_table[127] = IS_CTRL;
-	camel_mime_special_table[' '] = IS_SPACE;
+	camel_mime_special_table[127] |= IS_CTRL;
+	camel_mime_special_table[' '] |= IS_SPACE;
 	header_init_bits(IS_LWSP, 0, 0, CHARS_LWSP);
 	header_init_bits(IS_TSPECIAL, IS_CTRL, 0, CHARS_TSPECIAL);
 	header_init_bits(IS_SPECIAL, 0, 0, CHARS_SPECIAL);
@@ -390,7 +391,7 @@ base64_encode_step(unsigned char *in, int len, gboolean break_lines, unsigned ch
 /**
  * base64_decode_step: decode a chunk of base64 encoded data
  * @in: input stream
- * @len: max length of data to decode ( normally strlen(in) ??)
+ * @len: max length of data to decode
  * @out: output stream
  * @state: holds the number of bits that are stored in @save
  * @save: leftover bits that have not yet been decoded
@@ -534,6 +535,7 @@ uudecode_step (unsigned char *in, int len, unsigned char *out, int *state, guint
 	return outptr - out;
 }
 
+/* complete qp encoding */
 int
 quoted_encode_close(unsigned char *in, int len, unsigned char *out, int *state, int *save)
 {
@@ -566,6 +568,7 @@ quoted_encode_close(unsigned char *in, int len, unsigned char *out, int *state, 
 	return outptr-out;
 }
 
+/* perform qp encoding, initialise state to -1 and save to 0 on first invocation */
 int
 quoted_encode_step (unsigned char *in, int len, unsigned char *out, int *statep, int *save)
 {
@@ -598,7 +601,7 @@ quoted_encode_step (unsigned char *in, int len, unsigned char *out, int *statep,
 			last = -1;
 		} else {
 			if (last != -1) {
-				if (is_qpsafe (last) || is_blank (last)) {
+				if (is_qpsafe(last)) {
 					*outptr++ = last;
 					sofar++;
 				} else {
@@ -609,7 +612,7 @@ quoted_encode_step (unsigned char *in, int len, unsigned char *out, int *statep,
 				}
 			}
 			
-			if (is_qpsafe (c) || is_blank (c)) {
+			if (is_qpsafe(c)) {
 				if (sofar > 74) {
 					*outptr++ = '=';
 					*outptr++ = '\n';
@@ -617,7 +620,7 @@ quoted_encode_step (unsigned char *in, int len, unsigned char *out, int *statep,
 				}
 				
 				/* delay output of space char */
-				if (is_blank (c)) {
+				if (c==' ' || c=='\t') {
 					last = c;
 				} else {
 					*outptr++ = c;
@@ -743,7 +746,7 @@ quoted_decode_step(unsigned char *in, int len, unsigned char *out, int *savestat
 
 /*
   this is for the "Q" encoding of international words,
-  which is slightly different than plain quoted-printable
+  which is slightly different than plain quoted-printable (mainly by allowing 0x20 <> _)
 */
 static int
 quoted_decode(const unsigned char *in, int len, unsigned char *out)
@@ -792,7 +795,6 @@ quoted_decode(const unsigned char *in, int len, unsigned char *out)
 /* rfc2047 version of quoted-printable */
 /* safemask is the mask to apply to the camel_mime_special_table to determine what
    characters can safely be included without encoding */
-/* Why do we need a 'safemask'? we always want to encode the same. */
 static int
 quoted_encode(const unsigned char *in, int len, unsigned char *out, unsigned short safemask)
 {
@@ -805,9 +807,8 @@ quoted_encode(const unsigned char *in, int len, unsigned char *out, unsigned sho
 	outptr = out;
 	while (inptr < inend) {
 		c = *inptr++;
-		if ((is_qpsafe (c) || c == ' ') && !(c == '_' || c == '?')) {
-			/*if (camel_mime_special_table[c] & safemask) {*/
-			if (c == ' ')
+		if (camel_mime_special_table[c] & safemask) {
+			if (c==' ')
 				c = '_';
 			*outptr++ = c;
 		} else {
@@ -3027,13 +3028,28 @@ void run_test(void)
 		test_phrase(buffer);
 
 		outlen = 256;
-		inbuf = "Tomasz K³oczko";
+		inbuf = "This is an encoded phrase Tomasz K³oczko";
 		inlen = strlen(inbuf);
 		outbuf = buffer;
 		ic = unicode_iconv_open("UTF-8", "ISO-8859-2");
 		unicode_iconv(ic, &inbuf, &inlen, &outbuf, &outlen);
 		test_phrase(buffer);
 
+	}
+
+	{
+		char *str = "Blah blah\n\t = ? =? ?= This is a TEST For quoted-printable-encoding-encoding-of
+	long lines, and lines that end in spaces                                                                       
+	and line sthat end in tabs 						
+	And lines that just end.";
+
+		char encoded[256];
+		int state=-1,save=0;
+		int len;
+
+		len = quoted_encode_step(str, strlen(str), encoded, &state, &save);
+		len += quoted_encode_close("", 0, encoded+len, &state, &save);
+		printf("encoded = '%.*s'\n", len, encoded);
 	}
 }
 

@@ -56,6 +56,7 @@ typedef struct {
 	ibex *index;		   /* index for this folder */
 	CamelMboxSummary *summary;
 	CamelFolderSearch *search; /* used to run searches, we just use the real thing (tm) */
+	CamelFolderChangeInfo *changes;	/* used to store changes to the folder during processing */
 } CamelMboxFolder;
 
 

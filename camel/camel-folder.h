@@ -41,13 +41,22 @@ extern "C" {
 #define CAMEL_FOLDER_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), CAMEL_FOLDER_TYPE, CamelFolderClass))
 #define CAMEL_IS_FOLDER(o)    (CAMEL_CHECK_TYPE((o), CAMEL_FOLDER_TYPE))
 
+typedef struct _CamelFolderChangeInfo CamelFolderChangeInfo;
+
+struct _CamelFolderChangeInfo {
+	GPtrArray *uid_added;
+	GPtrArray *uid_removed;
+	GPtrArray *uid_changed;
+
+	GHashTable *uid_source;	/* used to create unique lists */
+};
+
 struct _CamelFolder
 {
 	CamelObject parent_object;
 
 	int frozen;
-	gboolean folder_changed;
-	GList *messages_changed;
+	CamelFolderChangeInfo *changed_frozen; /* queues changed events */
 
 	char *name;
 	char *full_name;
@@ -142,8 +151,6 @@ typedef struct {
 	void (*freeze) (CamelFolder *folder);
 	void (*thaw)   (CamelFolder *folder);
 } CamelFolderClass;
-
-
 
 /* Standard Camel function */
 CamelType camel_folder_get_type (void);
@@ -263,6 +270,24 @@ void               camel_folder_thaw                  (CamelFolder *folder);
 void camel_folder_free_nop     (CamelFolder *folder, GPtrArray *array);
 void camel_folder_free_shallow (CamelFolder *folder, GPtrArray *array);
 void camel_folder_free_deep    (CamelFolder *folder, GPtrArray *array);
+
+/* update functions for change info */
+CamelFolderChangeInfo *	camel_folder_change_info_new		(void);
+void			camel_folder_change_info_clear		(CamelFolderChangeInfo *info);
+void			camel_folder_change_info_free		(CamelFolderChangeInfo *info);
+
+/* for building diff's automatically */
+void			camel_folder_change_info_add_source	(CamelFolderChangeInfo *info, const char *uid);
+void			camel_folder_change_info_add_source_list(CamelFolderChangeInfo *info, const GPtrArray *list);
+void			camel_folder_change_info_add_update	(CamelFolderChangeInfo *info, const char *uid);
+void			camel_folder_change_info_add_update_list(CamelFolderChangeInfo *info, const GPtrArray *list);
+void			camel_folder_change_info_build_diff	(CamelFolderChangeInfo *info);
+
+/* for manipulating diff's directly */
+void			camel_folder_change_info_cat		(CamelFolderChangeInfo *info, CamelFolderChangeInfo *s);
+void			camel_folder_change_info_add_uid	(CamelFolderChangeInfo *info, const char *uid);
+void			camel_folder_change_info_remove_uid	(CamelFolderChangeInfo *info, const char *uid);
+void			camel_folder_change_info_change_uid	(CamelFolderChangeInfo *info, const char *uid);
 
 #ifdef __cplusplus
 }
