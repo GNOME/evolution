@@ -2350,7 +2350,6 @@ mail_config_check_service (const char *url, CamelProviderType type, GList **auth
 	mail_msg_wait(id);
 	
 	gtk_widget_destroy (dialog);
-	g_object_unref(dialog);
 	dialog = NULL;
 	
 	return ret;

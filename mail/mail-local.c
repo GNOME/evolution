@@ -1408,7 +1408,6 @@ reconfigure_response(GtkDialog *dialog, int button, struct _reconfigure_msg *m)
 	}
 
 	gtk_widget_destroy((GtkWidget *)dialog);
-	g_object_unref(dialog);
 }
 
 static void

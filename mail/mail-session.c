@@ -214,7 +214,6 @@ pass_response(GtkDialog *dialogue, int button, void *data)
 	}
 
 	gtk_widget_destroy((GtkWidget *)dialogue);
-	g_object_unref(dialogue);
 
 	password_dialogue = NULL;
 	e_msgport_reply((EMsg *)m);

@@ -181,7 +181,6 @@ do_exit (ESignatureEditor *editor)
 
 		button = gtk_dialog_run((GtkDialog *)dialog);
 		gtk_widget_destroy(dialog);
-		g_object_unref(dialog);
 
 		exit_dialog_cb (button, editor);
 	} else
@@ -302,7 +301,7 @@ format_html_cb (BonoboUIComponent           *component,
 		return;
 	
 	editor->html = atoi (state);
-	bonobo_widget_set_property (BONOBO_WIDGET (editor->control), "FormatHTML", editor->html, NULL);
+	bonobo_widget_set_property (BONOBO_WIDGET (editor->control), "FormatHTML", TC_CORBA_boolean, editor->html, NULL);
 }
 
 void
@@ -333,11 +332,11 @@ mail_signature_editor (MailConfigSignature *sig)
 	bonobo_ui_component_add_verb_list_with_data (component, verbs, editor);
 	bonobo_ui_util_set_ui (component, EVOLUTION_DATADIR, "evolution-signature-editor.xml", "evolution-signature-editor", NULL);
 	
-	editor->control = bonobo_widget_new_control ("OAFIID:GNOME_GtkHTML_Editor:1.1",
+	editor->control = bonobo_widget_new_control ("OAFIID:GNOME_GtkHTML_Editor:3.0",
 						     bonobo_ui_component_get_container (component));
 	
 	if (editor->control == NULL) {
-		g_warning ("Cannot get 'OAFIID:GNOME_GtkHTML_Editor:1.1'.");
+		g_warning ("Cannot get 'OAFIID:GNOME_GtkHTML_Editor:3.0'.");
 		
 		destroy_editor (editor);
 		return;
@@ -376,7 +375,7 @@ mail_signature_editor (MailConfigSignature *sig)
 	gtk_box_pack_start_defaults (GTK_BOX (vbox), editor->control);
 
 	bonobo_window_set_contents (BONOBO_WINDOW (editor->win), vbox);
-	bonobo_widget_set_property (BONOBO_WIDGET (editor->control), "FormatHTML", editor->html, NULL);
+	bonobo_widget_set_property (BONOBO_WIDGET (editor->control), "FormatHTML", TC_CORBA_boolean, editor->html, NULL);
 	gtk_widget_show (GTK_WIDGET (editor->win));
 	gtk_widget_show (GTK_WIDGET (editor->control));
 

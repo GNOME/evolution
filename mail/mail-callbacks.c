@@ -1799,7 +1799,7 @@ addrbook_sender (GtkWidget *widget, gpointer user_data)
 	control = bonobo_widget_new_control ("OAFIID:GNOME_Evolution_Addressbook_AddressPopup",
 					     CORBA_OBJECT_NIL);
 	bonobo_widget_set_property (BONOBO_WIDGET (control),
-				    "email", addr_str,
+				    "email", TC_CORBA_string, addr_str,
 				    NULL);
 	
 	bonobo_event_source_client_add_listener (bonobo_widget_get_objref (BONOBO_WIDGET (control)),

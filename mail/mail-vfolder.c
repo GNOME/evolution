@@ -802,7 +802,6 @@ vfolder_editor_response (GtkWidget *dialog, int button, void *data)
 	vfolder_editor = NULL;
 
 	gtk_widget_destroy(dialog);
-	g_object_unref(dialog);
 }
 
 void

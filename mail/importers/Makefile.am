@@ -19,7 +19,7 @@ libmbox_la_SOURCES = evolution-mbox-importer.c \
 		     mozilla-status-headers.h
 libmbox_la_LDFLAGS = -avoid-version -module
 
-serverdir = $(datadir)/bonobo/servers
+serverdir = $(libdir)/bonobo/servers
 server_in_files = GNOME_Evolution_Mail_Mbox_Importer.server.in.in	\
 	GNOME_Evolution_Mail_Outlook_Importer.server.in.in
 server_DATA = $(server_in_files:.server.in.in=.server)

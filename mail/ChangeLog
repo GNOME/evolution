@@ -1,3 +1,36 @@
+2002-11-19  Not Zed  <NotZed@Ximian.com>
+
+	* importers/evolution-mbox-importer.c (mail_importer_module_init):
+	fix warning message, outlook->mbox.
+
+	* importers/Makefile.am: fix serverdir to point to
+	$libdir/bonobo/servers.
+
+	* mail-callbacks.c (addrbook_sender): add type to
+	bonobo_widget_set_property.
+
+	* mail-vfolder.c (vfolder_editor_response): dont unref after destroy.
+
+	* mail-session.c (pass_response): dont unref aftrer destroy.
+
+	* mail-local.c (reconfigure_response): dont unref after destroy.
+
+	* mail-display.c (launch_cb): dont unref after destroy.
+	(launch_cb): "
+	(drag_data_get_cb): "
+	(html_button_press_event): add type to bonobo_widget::set_property
+
+	* mail-config.c (mail_config_check_service): dont unref after
+	destroy.
+
+	* component-factory.c (send_receive_cb): dont unref after destroy.
+	(request_quit): "
+
+	* mail-signature-editor.c (mail_signature_editor): Use version 3.0
+	of gtkhtml editor interfaces.
+	(do_exit): dont unref after destroy.
+	(format_html_cb): Add type to bonobo_widget::set_property.
+
 2002-11-18  Radek Doulik  <rodo@ximian.com>
 
 	* mail-composer-prefs.c (spell_setup_check_options): check

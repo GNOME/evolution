@@ -379,7 +379,6 @@ launch_cb (GtkWidget *widget, gpointer user_data)
 		/* FIXME: this should be async */
 		gtk_dialog_run(dialogue);
 		gtk_widget_destroy((GtkWidget *)dialogue);
-		g_object_unref(dialogue);
 		return;
 	}
 	
@@ -394,7 +393,6 @@ launch_cb (GtkWidget *widget, gpointer user_data)
 		/* FIXME: this should be async */
 		gtk_dialog_run(dialogue);
 		gtk_widget_destroy((GtkWidget *)dialogue);
-		g_object_unref(dialogue);
 		g_free(filename);
 		return;
 	}
@@ -888,7 +886,6 @@ drag_data_get_cb (GtkWidget *widget,
 			/* FIXME: this should be async */
 			gtk_dialog_run(dialogue);
 			gtk_widget_destroy((GtkWidget *)dialogue);
-			g_object_unref(dialogue);
 		}
 		
 		filename = camel_mime_part_get_filename (part);
@@ -2316,7 +2313,7 @@ html_button_press_event (GtkWidget *widget, GdkEventButton *event, MailDisplay *
 										 CORBA_OBJECT_NIL);
 
 					bonobo_widget_set_property (BONOBO_WIDGET (popup_thing),
-								    "email", url_decoded+7,
+								    "email", TC_CORBA_string, url_decoded+7,
 								    NULL);
 					g_free (url_decoded);
 					

@@ -397,7 +397,7 @@ mail_importer_module_init (void)
 					      mbox_factory_fn, NULL);
 
 	if (factory == NULL)
-		g_warning ("Could not initialise Outlook importer factory.");
+		g_warning ("Could not initialise mbox importer factory.");
 
 	initialised = TRUE;
 }

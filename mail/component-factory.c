@@ -973,7 +973,6 @@ send_receive_cb (EvolutionShellComponent *shell_component,
 						_("You have not set a mail transport method"));
 		gtk_dialog_run((GtkDialog *)dialog);
 		gtk_widget_destroy(dialog);
-		g_object_unref(dialog);
 
 		return;
 	}
@@ -999,7 +998,6 @@ request_quit (EvolutionShellComponent *shell_component,
 	gtk_dialog_set_default_response((GtkDialog *)dialog, GTK_RESPONSE_NO);
 	resp = gtk_dialog_run((GtkDialog *)dialog);
 	gtk_widget_destroy(dialog);
-	g_object_unref(dialog);
 
 	return resp == GTK_RESPONSE_YES;
 }
