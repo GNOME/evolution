@@ -25,6 +25,7 @@ SUBDIRS =			\
 	libical			\
 	libversit		\
 	addressbook		\
+	wombat			\
 	po
 
 # Add this when the calendar builds. 
