@@ -1,8 +1,3 @@
-1999-11-16  Jeff Garzik  <jgarzik@mandrakesoft.com>
-
-	* gnome-xml-check.m4: always AC_SUBST GNOME_XML_LIB, so that
-	output variable will always be present.
-
 1999-11-09  Eskil Heyn Olsen  <deity@eskil.dk>
 
 	* gnome-pilot.m4: uses test -r instead of test -e, was reported as 

@@ -7,8 +7,6 @@ dnl Check for availability of the libxml library
 dnl the XML parser uses libz if available too
 dnl
 
-AC_SUBST(GNOME_XML_LIB)
-
 AC_DEFUN([GNOME_XML_HOOK],[
 	AC_PATH_PROG(GNOME_CONFIG,gnome-config,no)
 	if test "$GNOME_CONFIG" = no; then
@@ -18,6 +16,7 @@ AC_DEFUN([GNOME_XML_HOOK],[
 	fi
 	AC_CHECK_LIB(xml, xmlNewDoc, [
 		$1
+		AC_SUBST(GNOME_XML_LIB)
 		GNOME_XML_LIB=`$GNOME_CONFIG --libs xml`
 	], [
 		if test x$2 = xfailure; then 
