@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.0\n"
-"POT-Creation-Date: 2001-11-20 17:51+0100\n"
+"POT-Creation-Date: 2001-11-21 13:56+0100\n"
 "PO-Revision-Date: 2001-11-20 18:00+0100\n"
 "Last-Translator: Héctor García Álvarez <hector@scouts-es.org>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -9200,7 +9200,7 @@ msgstr "Noticias"
 
 #: mail/mail-config.glade.h:48
 msgid "Optional Information"
-msgstr "Información Opcional"
+msgstr "Información opcional"
 
 #: mail/mail-config.glade.h:50
 msgid "PGP _Key ID:"
@@ -9248,11 +9248,11 @@ msgstr "Recibiendo Mensajes"
 
 #: mail/mail-config.glade.h:63
 msgid "Receiving Options"
-msgstr "Recibiendo Opciones"
+msgstr "Opciones de recepción"
 
 #: mail/mail-config.glade.h:64
 msgid "Required Information"
-msgstr "Información Requerida"
+msgstr "Información requerida"
 
 #: mail/mail-config.glade.h:66
 msgid "Secure MIME"
@@ -9375,7 +9375,7 @@ msgstr "Vaciar pap_elera al salir"
 
 #: mail/mail-config.glade.h:101
 msgid "_Full Name:"
-msgstr "_Nombre completo:"
+msgstr "Nombre _completo:"
 
 #: mail/mail-config.glade.h:102
 msgid "_HTML Signature:"
