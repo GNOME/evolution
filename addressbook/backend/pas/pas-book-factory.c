@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  *
  * Author:
@@ -354,11 +355,11 @@ impl_Evolution_BookFactory_open_book (PortableServer_Servant        servant,
 	backend_factory = pas_book_factory_lookup_backend_factory (factory, uri);
 
 	if (backend_factory == NULL) {
-		g_warning ("PASBookFactory: No backend found for uri: %s\n", uri);
-
-		CORBA_exception_set (
-			ev, CORBA_USER_EXCEPTION,
-			ex_Evolution_BookFactory_ProtocolNotSupported, NULL);
+		Evolution_BookListener_respond_open_book (
+			listener,
+			Evolution_BookListener_ProtocolNotSupported,
+			CORBA_OBJECT_NIL,
+			&ev);
 
 		return;
 	}

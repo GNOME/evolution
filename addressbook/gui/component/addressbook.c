@@ -442,16 +442,18 @@ book_open_cb (EBook *book, EBookStatus status, gpointer closure)
         		NULL);
         
         	label = gtk_label_new (
-        		_("We were unable to open this addressbook.\n"
-			  "This either means you have entered an\n"
-			  "incorrect URI, or have tried to access an\n"
-			  "LDAP server and don't have LDAP support"
-			  "compiled in.  If you've entered a URI, check the\n"
-			  "the URI for correctness and reenter.\n"
-			  "If not, you probably have attempted to access\n"
-			  "an LDAP server.  If you wish to be able to use\n"
-			  "use LDAP, you'll need to download and install\n"
+        		_("We were unable to open this addressbook.  This either\n"
+			  "means you have entered an incorrect URI, or have tried\n"
+			  "to access an LDAP server and don't have LDAP support\n"
+			  "compiled in.  If you've entered a URI, check the URI for\n"
+			  "correctness and reenter.  If not, you probably have\n"
+			  "attempted to access an LDAP server.  If you wish to be\n"
+			  "able to use LDAP, you'll need to download and install\n"
 			  "OpenLDAP and recompile and install evolution.\n"));
+		gtk_misc_set_alignment(GTK_MISC(label),
+				       0, .5);
+		gtk_label_set_justify(GTK_LABEL(label),
+				      GTK_JUSTIFY_LEFT);
 		gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (warning_dialog)->vbox), 
 				    label, TRUE, TRUE, 0);
         	gtk_widget_show (label);
@@ -459,7 +461,7 @@ book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 		href = gnome_href_new ("http://www.openldap.org/", "OpenLDAP at http://www.openldap.org/");
 		gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (warning_dialog)->vbox), 
 				    href, FALSE, FALSE, 0);
-        	gtk_widget_show (label);
+        	gtk_widget_show (href);
 
 		gnome_dialog_run (GNOME_DIALOG (warning_dialog));
 		
