@@ -1,3 +1,7 @@
+2001-09-06  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* Makefile.am: Add mkdir config in dist-hook here instead.
+
 2001-09-05  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* config/: Added.

@@ -8,4 +8,5 @@ EXTRA_DIST = $(default_DATA)
 install-data-hook:
 if ENABLE_NNTP
 	-mkdir $(defaultdir)/news
+	-mkdir $(defaultdir)/config
 endif
