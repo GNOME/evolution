@@ -2286,7 +2286,8 @@ mail_get_message_rfc822 (CamelMimeMessage *message, gboolean want_plain, gboolea
 	html = e_text_to_html (buf, E_TEXT_TO_HTML_CONVERT_NL);
 	g_string_sprintfa (retval, "%s<b>Date:</b> %s<br>", citation, html);
 	g_free (html);
-
+	g_free (buf);
+	
 	if (!g_strncasecmp (text, "<pre>", 5))
 		g_string_sprintfa (retval, "%s<br>%s", citation, text + 5);
 	else
