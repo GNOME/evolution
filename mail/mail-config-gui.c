@@ -732,18 +732,18 @@ service_acceptable (MailDialogServicePage *page)
 	char *url = NULL;
 	CamelService *service;
 	CamelException *ex;
-
+	
 	url = service_page_get_url (page);
-
+	
 	ex = camel_exception_new ();
 	camel_exception_clear (ex);
 	service = camel_session_get_service (session, url, 
 					     page->spitem->type, ex);
 	g_free (url);
-
+	
 	if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE)
 		goto error;
-
+	
 	if (camel_service_connect (service, ex)) {
 		camel_service_disconnect (service, ex);
 		gtk_object_unref (GTK_OBJECT (service));
@@ -759,7 +759,7 @@ service_acceptable (MailDialogServicePage *page)
  error:
 	error_dialog (page->vbox, camel_exception_get_description (ex));
 	camel_exception_free (ex);
-
+	
 	return FALSE;
 }
 

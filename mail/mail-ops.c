@@ -1094,7 +1094,8 @@ real_view_msg (MessageList *ml, const char *uid, gpointer user_data)
 		return;
 	
 	msg = camel_folder_get_message (ml->folder, uid, data->ex);
-	
+
+	data->fb->message_list->cursor_uid = uid;
 	view = mail_view_create (msg, data->fb);
 	
 	gtk_widget_show (view);
