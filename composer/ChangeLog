@@ -1,3 +1,10 @@
+2000-07-12  Peter Williams  <peterw@helixcode.com>
+
+	* e-msg-composer.c: (view_tree) Make the "View Attachments" item
+	a toggleitem ... so that it can be toggled...
+	(menu_view_attachments_activate_cb): Treat the widget correctly
+	and toggle correctly.
+
 2000-07-10  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-msg-composer.c (exit_cb): Use it.

@@ -619,10 +619,14 @@ exit_cb (GtkWidget *widget, gpointer data)
 }
 	
 static void
-menu_view_attachments_activate_cb (GtkWidget *widget, gpointer data)
+menu_view_attachments_activate_cb (GtkWidget *widget, gpointer data, const char *path)
 {
+	gboolean state;
+
+	state = bonobo_ui_handler_menu_get_toggle_state(BONOBO_UI_HANDLER(widget), path);
+
 	e_msg_composer_show_attachments (E_MSG_COMPOSER (data),
-					 GTK_CHECK_MENU_ITEM (widget)->active);
+					 state);
 }
 
 static void
@@ -645,6 +649,172 @@ add_attachment_cb (GtkWidget *widget, gpointer data)
 	e_msg_composer_attachment_bar_attach
 		(E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar),
 		 NULL);
+}
+
+static void
+insert_file_ok_cb (GtkWidget *widget, gpointer user_data)
+{
+	GtkFileSelection *fs;
+	char *name;
+	EMsgComposer *composer;
+	struct stat sb;
+
+#if 0
+	int fd;
+	guint8 *buffer;
+	size_t bufsz, actual;
+#endif
+
+	fs = GTK_FILE_SELECTION (gtk_widget_get_ancestor (widget,
+							  GTK_TYPE_FILE_SELECTION));
+	composer = E_MSG_COMPOSER (user_data);
+	name = gtk_file_selection_get_filename (fs);
+									   
+	if (stat (name, &sb) < 0) {
+		GtkWidget *dlg;
+
+		dlg = gnome_error_dialog_parented( _("That file does not exist."),
+						   GTK_WINDOW (fs));
+		gnome_dialog_run_and_close (GNOME_DIALOG (dlg));
+		gtk_widget_destroy (GTK_WIDGET (dlg));
+		return;
+	}
+
+	if( !(S_ISREG (sb.st_mode)) ) {
+		GtkWidget *dlg;
+
+		dlg = gnome_error_dialog_parented( _("That is not a regular file."),
+						   GTK_WINDOW (fs));
+		gnome_dialog_run_and_close (GNOME_DIALOG (dlg));
+		gtk_widget_destroy (GTK_WIDGET (dlg));
+		return;
+	}
+
+	if (access (name, R_OK) != 0) {
+		GtkWidget *dlg;
+
+		dlg = gnome_error_dialog_parented( _("That file exists but is not readable."),
+						   GTK_WINDOW (fs));
+		gnome_dialog_run_and_close (GNOME_DIALOG (dlg));
+		gtk_widget_destroy (GTK_WIDGET (dlg));
+		return;
+	}
+
+#if 0
+	if ((fd = open (name, O_RDONLY)) < 0) {
+		GtkWidget *dlg;
+
+		dlg = gnome_error_dialog_parented( _("That file appeared accesible but open(2) failed."),
+						   GTK_WINDOW (fs));
+		gnome_dialog_run_and_close (GNOME_DIALOG (dlg));
+		gtk_widget_destroy (GTK_WIDGET (dlg));
+		return;
+	}
+
+	buffer = NULL;
+	bufsz = 0;
+	actual = 0;
+	#define CHUNK 5120
+
+	while( 1 ) {
+		ssize_t chunk;
+
+		if( bufsz - actual < CHUNK ) {
+			bufsz += CHUNK;
+
+			if( bufsz >= 102400 ) {
+				GtkWidget *dlg;
+				gint result;
+
+				dlg = gnome_question_dialog_modal_parented( _("The file is very large (more than 100K).\n"
+									      "Are you sure you wish to insert it?"),
+									    NULL,
+									    GTK_WINDOW (fs));
+				result = gnome_dialog_run_and_close (GNOME_DIALOG (dlg));
+				gtk_widget_destroy (GTK_WIDGET (dlg));
+				
+				if (result == 1)
+					goto cleanup;
+			}
+
+			buffer = g_realloc (buffer, bufsz * sizeof (guint8));
+		}
+
+		chunk = read (fd, &(buffer[actual]), CHUNK);
+
+		if (chunk < 0) {
+			GtkWidget *dlg;
+
+			dlg = gnome_error_dialog_parented( _("An error occurred while reading the file."),
+							   GTK_WINDOW (fs));
+			gnome_dialog_run_and_close (GNOME_DIALOG (dlg));
+			gtk_widget_destroy (GTK_WIDGET (dlg));
+			goto cleanup;
+		}
+
+		if( chunk == 0 )
+			break;
+
+		actual += chunk;
+	}
+
+	buffer[actual] = '\0';
+
+ cleanup:
+	close( fd );
+	g_free( buffer );
+#endif
+
+	{
+		Bonobo_PersistStream persist;
+		BonoboStream *stream;
+		CORBA_Environment ev;
+
+		CORBA_exception_init (&ev);
+
+		persist = (Bonobo_PersistStream)
+			bonobo_object_client_query_interface (
+			    bonobo_widget_get_server (BONOBO_WIDGET(composer->editor)),
+			    "IDL:Bonobo/PersistStream:1.0",
+			    &ev);
+		g_assert (persist != CORBA_OBJECT_NIL);
+
+		stream = bonobo_stream_fs_create (name);
+		Bonobo_PersistStream_load (persist, (Bonobo_Stream)bonobo_object_corba_objref (BONOBO_OBJECT (stream)), "text/html", &ev);
+
+		if (ev._major != CORBA_NO_EXCEPTION) {
+			/* FIXME. Some error message. */
+			return;
+		}
+		if (ev._major != CORBA_SYSTEM_EXCEPTION)
+			CORBA_Object_release (persist, &ev);
+
+		Bonobo_Unknown_unref (persist, &ev);
+		CORBA_exception_free (&ev);
+		bonobo_object_unref (BONOBO_OBJECT(stream));
+	}
+
+	gtk_widget_destroy (GTK_WIDGET(fs));
+}
+
+static void
+insert_file_cb (GtkWidget *widget, gpointer data)
+{
+	EMsgComposer *composer;
+	GtkFileSelection *fs;
+
+	composer = E_MSG_COMPOSER (data);
+
+	fs = GTK_FILE_SELECTION (gtk_file_selection_new ("Choose File"));
+	/* FIXME: remember the location or something */
+	gtk_file_selection_set_filename( fs, g_get_home_dir() );
+	gtk_signal_connect (GTK_OBJECT (fs->ok_button), "clicked",
+			    GTK_SIGNAL_FUNC (insert_file_ok_cb), data);
+	gtk_signal_connect_object (GTK_OBJECT (fs->cancel_button), 
+				   "clicked",
+				   GTK_SIGNAL_FUNC (gtk_widget_destroy), 
+				   GTK_OBJECT (fs));
+	gtk_widget_show (GTK_WIDGET(fs));
 }
 
 /* Create the address dialog if not created already.  */
@@ -718,6 +888,9 @@ static GnomeUIInfo file_tree[] = {
 	GNOMEUIINFO_ITEM_NONE (N_("Save in _folder..."), N_("Save the message in a specified folder"),
 			       NULL),
 	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_ITEM_NONE (N_("_Insert Text File"), N_("Insert a file as text into the message"),
+			       insert_file_cb),
+	GNOMEUIINFO_SEPARATOR,
 	GNOMEUIINFO_ITEM_STOCK (N_("Send"), N_("Send the message"),
 				send_cb, GNOME_STOCK_MENU_MAIL_SND),
 	GNOMEUIINFO_SEPARATOR,
@@ -730,8 +903,13 @@ static GnomeUIInfo edit_tree[] = {
 };
 
 static GnomeUIInfo view_tree[] = {
-	GNOMEUIINFO_ITEM_STOCK (N_("View _attachments"), N_("View/hide attachments"),
-				menu_view_attachments_activate_cb, GNOME_STOCK_MENU_ATTACH),
+	{ GNOME_APP_UI_TOGGLEITEM, N_("View _attachments"), 
+	  N_("View/hide attachments"), menu_view_attachments_activate_cb, 
+	  NULL, NULL, GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_ATTACH, 0,
+	  (GdkModifierType) 0, NULL },
+	  /*	GNOMEUIINFO_ITEM_STOCK (N_("View _attachments"), N_("View/hide attachments"),
+	   *			menu_view_attachments_activate_cb, GNOME_STOCK_MENU_ATTACH),
+	   */
 	GNOMEUIINFO_END
 };
 
@@ -754,6 +932,7 @@ create_menubar (EMsgComposer *composer)
 
 	list = bonobo_ui_handler_menu_parse_uiinfo_list_with_data (menubar_info, composer);
 	bonobo_ui_handler_menu_add_list (uih, "/", list);
+	/* bonobo_ui_handler_menu_free_list (list); */
 }
 
 
