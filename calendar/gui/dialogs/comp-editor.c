@@ -91,7 +91,7 @@ static void comp_editor_destroy (GtkObject *object);
 
 static void real_set_cal_client (CompEditor *editor, CalClient *client);
 static void real_edit_comp (CompEditor *editor, CalComponent *comp);
-static void real_send_comp (CompEditor *editor, CalComponentItipMethod method);
+static gboolean real_send_comp (CompEditor *editor, CalComponentItipMethod method);
 static gboolean prompt_to_save_changes (CompEditor *editor, gboolean send);
 static void delete_comp (CompEditor *editor);
 static void close_dialog (CompEditor *editor);
@@ -300,7 +300,6 @@ comp_editor_destroy (GtkObject *object)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
-
 static gboolean
 save_comp (CompEditor *editor)
 {
@@ -382,9 +381,9 @@ save_comp_with_send (CompEditor *editor)
 
  	if (send && send_component_dialog (priv->comp, !priv->existing_org)) {
  		if (itip_organizer_is_user (priv->comp))
- 			comp_editor_send_comp (editor, CAL_COMPONENT_METHOD_REQUEST);
+ 			return comp_editor_send_comp (editor, CAL_COMPONENT_METHOD_REQUEST);
  		else
- 			comp_editor_send_comp (editor, CAL_COMPONENT_METHOD_REPLY);
+ 			return comp_editor_send_comp (editor, CAL_COMPONENT_METHOD_REPLY);
  	}
 
 	return TRUE;
@@ -950,26 +949,32 @@ real_edit_comp (CompEditor *editor, CalComponent *comp)
 }
 
 
-static void
+static gboolean
 real_send_comp (CompEditor *editor, CalComponentItipMethod method)
 {
 	CompEditorPrivate *priv;
 	CalComponent *tmp_comp;
 	
-	g_return_if_fail (editor != NULL);
-	g_return_if_fail (IS_COMP_EDITOR (editor));
+	g_return_val_if_fail (editor != NULL, FALSE);
+	g_return_val_if_fail (IS_COMP_EDITOR (editor), FALSE);
 
 	priv = editor->priv;
 
-	itip_send_comp (method, priv->comp, priv->client, NULL);
+	if (itip_send_comp (method, priv->comp, priv->client, NULL)) {
+		tmp_comp = priv->comp;
+		gtk_object_ref (GTK_OBJECT (tmp_comp));
+		comp_editor_edit_comp (editor, tmp_comp);
+		gtk_object_unref (GTK_OBJECT (tmp_comp));
+		
+		comp_editor_set_changed (editor, TRUE);
+		save_comp (editor);
 
-	tmp_comp = priv->comp;
-	gtk_object_ref (GTK_OBJECT (tmp_comp));
-	comp_editor_edit_comp (editor, tmp_comp);
-	gtk_object_unref (GTK_OBJECT (tmp_comp));
+		return TRUE;
+	}
 
 	comp_editor_set_changed (editor, TRUE);
-	save_comp (editor);
+
+	return FALSE;
 }
 
 
@@ -1061,18 +1066,20 @@ comp_editor_delete_comp (CompEditor *editor)
  *
  *
  **/
-void
+gboolean
 comp_editor_send_comp (CompEditor *editor, CalComponentItipMethod method)
 {
 	CompEditorClass *klass;
 
-	g_return_if_fail (editor != NULL);
-	g_return_if_fail (IS_COMP_EDITOR (editor));
+	g_return_val_if_fail (editor != NULL, FALSE);
+	g_return_val_if_fail (IS_COMP_EDITOR (editor), FALSE);
 
 	klass = COMP_EDITOR_CLASS (GTK_OBJECT (editor)->klass);
 
 	if (klass->send_comp)
-		klass->send_comp (editor, method);
+		return klass->send_comp (editor, method);
+
+	return FALSE;
 }
 
 gboolean

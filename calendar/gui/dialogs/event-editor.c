@@ -57,7 +57,7 @@ static void event_editor_class_init (EventEditorClass *class);
 static void event_editor_init (EventEditor *ee);
 static void event_editor_set_cal_client (CompEditor *editor, CalClient *client);
 static void event_editor_edit_comp (CompEditor *editor, CalComponent *comp);
-static void event_editor_send_comp (CompEditor *editor, CalComponentItipMethod method);
+static gboolean event_editor_send_comp (CompEditor *editor, CalComponentItipMethod method);
 static void event_editor_destroy (GtkObject *object);
 
 static void schedule_meeting_cmd (GtkWidget *widget, gpointer data);
@@ -320,7 +320,7 @@ event_editor_edit_comp (CompEditor *editor, CalComponent *comp)
 	priv->updating = FALSE;
 }
 
-static void
+static gboolean
 event_editor_send_comp (CompEditor *editor, CalComponentItipMethod method)
 {
 	EventEditor *ee = EVENT_EDITOR (editor);
@@ -337,15 +337,21 @@ event_editor_send_comp (CompEditor *editor, CalComponentItipMethod method)
 	comp = meeting_page_get_cancel_comp (priv->meet_page);
 	if (comp != NULL) {
 		CalClient *client;
+		gboolean result;
 		
 		client = e_meeting_model_get_cal_client (priv->model);
-		itip_send_comp (CAL_COMPONENT_METHOD_CANCEL, comp, client, NULL);
+		result = itip_send_comp (CAL_COMPONENT_METHOD_CANCEL, comp, client, NULL);
 		gtk_object_unref (GTK_OBJECT (comp));
+
+		if (!result)
+			return FALSE;
 	}
 
  parent:
 	if (parent_class->send_comp)
-		parent_class->send_comp (editor, method);
+		return parent_class->send_comp (editor, method);
+
+	return FALSE;
 }
 
 /* Destroy handler for the event editor */

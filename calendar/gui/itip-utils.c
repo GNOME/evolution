@@ -782,7 +782,7 @@ comp_compliant (CalComponentItipMethod method, CalComponent *comp)
 	return clone;
 }
 
-void
+gboolean
 itip_send_comp (CalComponentItipMethod method, CalComponent *send_comp,
 		CalClient *client, icalcomponent *zones)
 {
@@ -799,12 +799,13 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *send_comp,
 	GNOME_Evolution_Composer_AttachmentData *attach_data = NULL;
 	char *ical_string;
 	CORBA_Environment ev;
+	gboolean retval = FALSE;
 	
 	CORBA_exception_init (&ev);
 
 	/* Obtain an object reference for the Composer. */
 	bonobo_server = bonobo_object_activate (GNOME_EVOLUTION_COMPOSER_OAFIID, 0);
-	g_return_if_fail (bonobo_server != NULL);
+	g_return_val_if_fail (bonobo_server != NULL, FALSE);
 	composer_server = BONOBO_OBJREF (bonobo_server);
 	
 	/* Give the server a chance to manipulate the comp */
@@ -858,10 +859,14 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *send_comp,
 		GNOME_Evolution_Composer_show (composer_server, &ev);
 		if (BONOBO_EX (&ev))
 			g_warning ("Unable to show the composer while sending iTip message");
+		else
+			retval = TRUE;
 	} else {		
 		GNOME_Evolution_Composer_send (composer_server, &ev);
 		if (BONOBO_EX (&ev))
 			g_warning ("Unable to send iTip message");
+		else
+			retval = TRUE;
 	}
 	
  cleanup:
@@ -891,5 +896,7 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *send_comp,
 		CORBA_free (description);
 	if (attach_data != NULL)
 		CORBA_free (attach_data);
+
+	return retval;
 }
 

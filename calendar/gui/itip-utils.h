@@ -37,8 +37,8 @@ gboolean itip_sentby_is_user (CalComponent *comp);
 
 const gchar *itip_strip_mailto (const gchar *address);
 
-void itip_send_comp (CalComponentItipMethod method, CalComponent *comp,
-		     CalClient *client, icalcomponent *zones);
+gboolean itip_send_comp (CalComponentItipMethod method, CalComponent *comp,
+			 CalClient *client, icalcomponent *zones);
 
 
 #endif

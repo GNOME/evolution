@@ -55,7 +55,7 @@ typedef struct {
 	/* Virtual functions */
 	void (* set_cal_client) (CompEditor *page, CalClient *client);
 	void (* edit_comp) (CompEditor *page, CalComponent *comp);
-	void (* send_comp) (CompEditor *page, CalComponentItipMethod method);
+	gboolean (* send_comp) (CompEditor *page, CalComponentItipMethod method);
 } CompEditorClass;
 
 GtkType       comp_editor_get_type         (void);
@@ -88,7 +88,7 @@ CalComponent *comp_editor_get_current_comp (CompEditor             *editor);
 gboolean      comp_editor_save_comp        (CompEditor             *editor,
 					    gboolean                send);
 void          comp_editor_delete_comp      (CompEditor             *editor);
-void          comp_editor_send_comp        (CompEditor             *editor,
+gboolean      comp_editor_send_comp        (CompEditor             *editor,
 					    CalComponentItipMethod  method);
 gboolean      comp_editor_close            (CompEditor             *editor);
 void          comp_editor_merge_ui         (CompEditor             *editor,

@@ -51,7 +51,7 @@ struct _TaskEditorPrivate {
 static void task_editor_class_init (TaskEditorClass *class);
 static void task_editor_init (TaskEditor *te);
 static void task_editor_edit_comp (CompEditor *editor, CalComponent *comp);
-static void task_editor_send_comp (CompEditor *editor, CalComponentItipMethod method);
+static gboolean task_editor_send_comp (CompEditor *editor, CalComponentItipMethod method);
 static void task_editor_destroy (GtkObject *object);
 
 static void assign_task_cmd (GtkWidget *widget, gpointer data);
@@ -275,7 +275,7 @@ task_editor_edit_comp (CompEditor *editor, CalComponent *comp)
 	priv->updating = FALSE;
 }
 
-static void
+static gboolean
 task_editor_send_comp (CompEditor *editor, CalComponentItipMethod method)
 {
 	TaskEditor *te = TASK_EDITOR (editor);
@@ -292,15 +292,21 @@ task_editor_send_comp (CompEditor *editor, CalComponentItipMethod method)
 	comp = meeting_page_get_cancel_comp (priv->meet_page);
 	if (comp != NULL) {
 		CalClient *client;
+		gboolean result;
 		
 		client = e_meeting_model_get_cal_client (priv->model);
-		itip_send_comp (CAL_COMPONENT_METHOD_CANCEL, comp, client, NULL);
+		result = itip_send_comp (CAL_COMPONENT_METHOD_CANCEL, comp, client, NULL);
 		gtk_object_unref (GTK_OBJECT (comp));
+
+		if (!result)
+			return FALSE;
 	}
 
  parent:
 	if (parent_class->send_comp)
-		parent_class->send_comp (editor, method);
+		return parent_class->send_comp (editor, method);
+
+	return FALSE;
 }
 
 /* Destroy handler for the event editor */

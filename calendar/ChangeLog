@@ -1,5 +1,23 @@
 2002-09-04  JP Rosevear  <jpr@ximian.com>
 
+	* gui/dialogs/event-editor.c (event_editor_send_comp): bail out if
+	we couldn't send the cancel
+
+	* gui/dialogs/task-editor.c (task_editor_send_comp): ditto
+
+	* gui/dialogs/comp-editor.c (save_comp_with_send): indicate send
+	status
+	(real_send_comp): return success/fail, only resave the component a
+	if we successfully sent
+	(comp_editor_send_comp): return success/fail
+
+	* gui/itip-utils.h: update proto
+
+	* gui/itip-utils.c (itip_send_comp): return true if we sent the
+	message
+	
+2002-09-04  JP Rosevear  <jpr@ximian.com>
+
 	* gui/itip-utils.c (comp_server_send): provide error message
 	param, give a dialog with the message if we get a busy result;
 	return TRUE if we succeed
