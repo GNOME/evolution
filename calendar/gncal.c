@@ -10,18 +10,34 @@
 #include <unistd.h>
 #include <time.h>
 #include <string.h>
-#include <gtk/gtk.h>
+
 #include <gnome.h>
 #include <config.h>
 
 #include "gncal.h"
 #include "calcs.h"
+#include "clist.h"
 #include "gtkcalendar.h"
+
+/* Function declarations */
+void parse_args(int argc, char *argv[]);
+static int save_state      (GnomeClient        *client,
+			    gint                phase,
+			    GnomeRestartStyle   save_style,
+			    gint                shutdown,
+			    GnomeInteractStyle  interact_style,
+			    gint                fast,
+			    gpointer            client_data);
+static void connect_client (GnomeClient *client, 
+			    gint         was_restarted, 
+			    gpointer     client_data);
+
+void discard_session (gchar *id);
 
 static GtkMenuEntry menu_items[] =
 {
-        {"File/Exit", "<control>Q", menu_file_quit, NULL},
-        {"Help/About", NULL, menu_help_about, NULL},
+        { N_("File/Exit"), N_("<control>Q"), menu_file_quit, NULL},
+        { N_("Help/About"), N_("<control>A"), menu_help_about, NULL},
 };
 
 #define DAY_ARRAY_MAX 35
@@ -36,6 +52,44 @@ GtkWidget *calendar_days[DAY_ARRAY_MAX];
 GtkWidget *calendar_buttons[DAY_ARRAY_MAX];
 GtkWidget *app;
 GtkWidget *calendar;
+
+int restarted = 0;
+/* Stuff we use for session state */
+int os_x = 0,
+    os_y = 0,
+    os_w = 0,
+    os_h = 0;
+
+
+/* True if parsing determined that all the work is already done.  */
+int just_exit = 0;
+
+/* These are the arguments that our application supports.  */
+static struct argp_option arguments[] =
+{
+#define DISCARD_KEY -1
+  { "discard-session", DISCARD_KEY, N_("ID"), 0, N_("Discard session"), 1 },
+  { NULL, 0, NULL, 0, NULL, 0 }
+};
+
+/* Forward declaration of the function that gets called when one of
+   our arguments is recognized.  */
+static error_t parse_an_arg (int key, char *arg, struct argp_state *state);
+
+/* This structure defines our parser.  It can be used to specify some
+   options for how our parsing function should be called.  */
+static struct argp parser =
+{
+  arguments,			/* Options.  */
+  parse_an_arg,			/* The parser function.  */
+  NULL,				/* Some docs.  */
+  NULL,				/* Some more docs.  */
+  NULL,				/* Child arguments -- gnome_init fills
+				   this in for us.  */
+  NULL,				/* Help filter.  */
+  NULL				/* Translation domain; for the app it
+				   can always be NULL.  */
+};
 
 #define ELEMENTS(x) (sizeof (x) / sizeof (x [0]))
 
@@ -71,7 +125,7 @@ void print_error(char *text)
 
 void menu_file_quit(GtkWidget *widget, gpointer data)
 {
-	gtk_exit(0);
+	gtk_main_quit();
 }
 
 void menu_help_about(GtkWidget *widget, gpointer data)
@@ -80,13 +134,13 @@ void menu_help_about(GtkWidget *widget, gpointer data)
 	gchar *authors[] = {
 		"Craig Small <csmall@small.dropbear.id.au>",
 		NULL };
-	about = gnome_about_new("Gnome Calendar", VERSION,
+	about = gnome_about_new( _("Gnome Calendar"), VERSION,
 				"(C) 1998",
 				authors,
 				/* Comments */
-				"This program shows a nice pretty "
+				_("This program shows a nice pretty "
 				"calendar and will do scheduling "
-				"real soon now!",
+				"real soon now!"),
 				NULL);
 				
 	gtk_widget_show(about);
@@ -327,17 +381,18 @@ void show_main_window()
 	gtk_widget_realize(app);
 	gtk_signal_connect(GTK_OBJECT(app), "delete_event",
 			   GTK_SIGNAL_FUNC(menu_file_quit), NULL);
-
+	if (restarted) {
+		gtk_widget_set_uposition(app, os_x, os_y);
+		gtk_widget_set_usize(app, os_w, os_h);
+	} else {
+		gtk_widget_set_usize(app,300,300);
+	}
 	main_vbox = gtk_vbox_new(FALSE, 1);
 	gnome_app_set_contents(GNOME_APP(app), main_vbox);
 	gtk_widget_show(main_vbox);
 
 	menuf = create_menu();
 	gnome_app_set_menus(GNOME_APP(app), GTK_MENU_BAR(menuf->widget));
-	/*get_main_menu(&menubar, &accel);
-	gtk_window_add_accelerator_table(GTK_WINDOW(window), accel);
-	gtk_box_pack_start(GTK_BOX(main_vbox), menubar, FALSE, FALSE, 0);
-	gtk_widget_show(menubar);*/
 
 	main_hbox = gtk_hbox_new(FALSE,1);
 	gtk_box_pack_start(GTK_BOX(main_vbox), main_hbox, TRUE, TRUE, 0);
@@ -437,50 +492,41 @@ void show_main_window()
 	gtk_signal_connect(GTK_OBJECT(next_day_but), "clicked", GTK_SIGNAL_FUNC(next_day_but_clicked), NULL);
 	gtk_widget_show(next_day_but);
 
-	scrolledwindow = gtk_scrolled_window_new(NULL, NULL);
-	gtk_box_pack_start(GTK_BOX(right_vbox), scrolledwindow, TRUE, TRUE, 0);
-	gtk_widget_show(scrolledwindow);
 
-	scroll_hbox = gtk_hbox_new(FALSE, 0);
-	gtk_container_add(GTK_CONTAINER(scrolledwindow), scroll_hbox);
-	gtk_widget_show(scroll_hbox);
-
-	hour_list = gtk_list_new();
-	gtk_box_pack_start(GTK_BOX(scroll_hbox), hour_list, FALSE, FALSE, 0);
-	gtk_widget_show(hour_list);
-
-	separator = gtk_vseparator_new();
-	gtk_box_pack_start(GTK_BOX(scroll_hbox), separator, FALSE, FALSE, 0);
-	gtk_widget_show(separator);
-
-	dailylist = gtk_list_new();
-	gtk_box_pack_start(GTK_BOX(scroll_hbox), dailylist, TRUE, TRUE, 0);
+	dailylist = create_clist();
+	gtk_box_pack_start(GTK_BOX(right_vbox), dailylist, TRUE, TRUE, 0);
 	gtk_widget_show(dailylist);
+	setup_clist(dailylist);
 
-	for (i=0; i< 24 ; i++) {
-		sprintf(buf, "%d:00", i);
-		list_item = gtk_list_item_new_with_label(buf);
-		gtk_container_add(GTK_CONTAINER(hour_list), list_item);
-		gtk_widget_show(list_item);
-
-		dailylist_item = gtk_list_item_new();
-		gtk_container_add(GTK_CONTAINER(dailylist), dailylist_item);
-		gtk_signal_connect(GTK_OBJECT(dailylist_item), "selected", GTK_SIGNAL_FUNC(dailylist_item_select), list_item);
-		gtk_signal_connect_object(GTK_OBJECT(list_item), "selected", GTK_SIGNAL_FUNC(dailylist_item_select), GTK_OBJECT(dailylist_item));
-		gtk_widget_show(dailylist_item);
-		event_label = gtk_label_new("blah");
-		gtk_container_add(GTK_CONTAINER(dailylist_item), event_label);
-		gtk_widget_show(event_label);
-	}
 	gtk_widget_show(app);
 
 }
 
 
-int main(int argc, char *argv[])
+int 
+main(int argc, char *argv[])
 {
+	GnomeClient *client;
 
-	gnome_init("gncal", NULL, argc, argv, 0, NULL);
+	argp_program_version = VERSION;
+
+
+	/* Initialise the i18n stuff */
+	bindtextdomain(PACKAGE, GNOMELOCALEDIR);
+	textdomain(PACKAGE);
+
+	/* This create a default client and arrages for it to parse some
+	   command line arguments
+	 */
+	client = gnome_client_new_default();
+
+  	/* Arrange to be told when something interesting happens.  */
+  	gtk_signal_connect (GTK_OBJECT (client), "save_yourself",
+		      GTK_SIGNAL_FUNC (save_state), (gpointer) argv[0]);
+  	gtk_signal_connect (GTK_OBJECT (client), "connect",
+		      GTK_SIGNAL_FUNC (connect_client), NULL);
+
+	gnome_init("gncal", &parser, argc, argv, 0, NULL);
 
 	show_main_window();
 
@@ -492,5 +538,144 @@ int main(int argc, char *argv[])
 	gtk_main();
 
 	return 0;
+}
+
+static error_t
+parse_an_arg (int key, char *arg, struct argp_state *state)
+{
+  if (key == DISCARD_KEY)
+    {
+      discard_session (arg);
+      just_exit = 1;
+      return 0;
+    }
+
+  /* We didn't recognize it.  */
+  return ARGP_ERR_UNKNOWN;
+}
+
+
+/* Session Management routines */
+
+
+static int
+save_state (GnomeClient        *client,
+	    gint                phase,
+	    GnomeRestartStyle   save_style,
+	    gint                shutdown,
+	    GnomeInteractStyle  interact_style,
+	    gint                fast,
+	    gpointer            client_data)
+{
+  gchar *session_id;
+  gchar *sess;
+  gchar *buf;
+  gchar *argv[3];
+  gint x, y, w, h;
+
+  session_id= gnome_client_get_id (client);
+
+  /* The only state that gnome-hello has is the window geometry. 
+     Get it. */
+  gdk_window_get_geometry (app->window, &x, &y, &w, &h, NULL);
+
+  /* Save the state using gnome-config stuff. */
+  sess = g_copy_strings ("/gncal/Saved-Session-",
+                         session_id,
+                         NULL);
+
+  buf = g_copy_strings ( sess, "/x", NULL);
+  gnome_config_set_int (buf, x);
+  g_free(buf);
+  buf = g_copy_strings ( sess, "/y", NULL);
+  gnome_config_set_int (buf, y);
+  g_free(buf);
+  buf = g_copy_strings ( sess, "/w", NULL);
+  gnome_config_set_int (buf, w);
+  g_free(buf);
+  buf = g_copy_strings ( sess, "/h", NULL);
+  gnome_config_set_int (buf, h);
+  g_free(buf);
+
+  gnome_config_sync();
+  g_free(sess);
+
+  /* Here is the real SM code. We set the argv to the parameters needed
+     to restart/discard the session that we've just saved and call
+     the gnome_session_set_*_command to tell the session manager it. */
+  argv[0] = (char*) client_data;
+  argv[1] = "--discard-session";
+  argv[2] = session_id;
+  gnome_client_set_discard_command (client, 3, argv);
+
+  /* Set commands to clone and restart this application.  Note that we
+     use the same values for both -- the session management code will
+     automatically add whatever magic option is required to set the
+     session id on startup.  */
+  gnome_client_set_clone_command (client, 1, argv);
+  gnome_client_set_restart_command (client, 1, argv);
+
+  g_print("save state\n");
+  return TRUE;
+}
+
+/* Connected to session manager. If restarted from a former session:
+   reads the state of the previous session. Sets os_* (prepare_app
+   uses them) */
+void
+connect_client (GnomeClient *client, gint was_restarted, gpointer client_data)
+{
+  gchar *session_id;
+
+  /* Note that information is stored according to our *old*
+     session id.  The id can change across sessions.  */
+  session_id = gnome_client_get_previous_id (client);
+
+  if (was_restarted && session_id != NULL)
+    {
+      gchar *sess;
+      gchar *buf;
+
+      restarted = 1;
+
+      sess = g_copy_strings ("/gncal/Saved-Session-", session_id, NULL);
+
+      buf = g_copy_strings ( sess, "/x", NULL);
+      os_x = gnome_config_get_int (buf);
+      g_free(buf);
+      buf = g_copy_strings ( sess, "/y", NULL);
+      os_y = gnome_config_get_int (buf);
+      g_free(buf);
+      buf = g_copy_strings ( sess, "/w", NULL);
+      os_w = gnome_config_get_int (buf);
+      g_free(buf);
+      buf = g_copy_strings ( sess, "/h", NULL);
+      os_h = gnome_config_get_int (buf);
+      g_free(buf);
+    }
+
+  /* If we had an old session, we clean up after ourselves.  */
+  if (session_id != NULL)
+    discard_session (session_id);
+
+  return;
+}
+
+void
+discard_session (gchar *id)
+{
+  gchar *sess;
+
+  sess = g_copy_strings ("/gncal/Saved-Session-", id, NULL);
+
+  /* we use the gnome_config_get_* to work around a bug in gnome-config 
+     (it's going under a redesign/rewrite, so i didn't correct it) */
+  gnome_config_get_int ("/gncal/Bug/work-around=0");
+
+  gnome_config_clean_section (sess);
+  gnome_config_sync ();
+
+  g_free (sess);
+  return;
 }
 
