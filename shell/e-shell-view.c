@@ -63,6 +63,7 @@ struct _EShellViewPrivate {
 	char *uri;
 
 	/* The widgetry.  */
+	GtkWidget *appbar;
 	GtkWidget *hpaned;
 	GtkWidget *view_vbox;
 	GtkWidget *view_title_bar;
@@ -227,6 +228,11 @@ setup_widgets (EShellView *shell_view)
 
 	priv = shell_view->priv;
 
+	/* The application bar.  */
+
+	priv->appbar = gnome_appbar_new (FALSE, TRUE, GNOME_PREFERENCES_NEVER);
+	gnome_app_set_statusbar (GNOME_APP (shell_view), priv->appbar);
+
 	/* The shortcut bar.  */
 
 	priv->shortcut_bar = e_shortcuts_new_view (e_shell_get_shortcuts (priv->shell));
@@ -304,6 +310,7 @@ setup_bonobo_ui_handler (EShellView *shell_view)
 
 	bonobo_ui_handler_set_app (uih, GNOME_APP (shell_view));
 	bonobo_ui_handler_create_menubar (uih);
+	bonobo_ui_handler_set_statusbar (uih, priv->appbar);
 
 	priv->uih = uih;
 }
@@ -386,6 +393,7 @@ init (EShellView *shell_view)
 	priv->uih                  = NULL;
 	priv->uri                  = NULL;
 
+	priv->appbar               = NULL;
 	priv->hpaned               = NULL;
 	priv->view_hpaned          = NULL;
 	priv->contents             = NULL;
@@ -417,15 +425,15 @@ e_shell_view_construct (EShellView *shell_view,
 	g_return_if_fail (shell != NULL);
 	g_return_if_fail (E_IS_SHELL (shell));
 
-	gnome_app_construct (GNOME_APP (shell_view), "evolution", "Evolution");
-
 	priv = shell_view->priv;
+
+	gnome_app_construct (GNOME_APP (shell_view), "evolution", "Evolution");
 
 	gtk_object_ref (GTK_OBJECT (shell));
 	priv->shell = shell;
 
-	setup_bonobo_ui_handler (shell_view);
 	setup_widgets (shell_view);
+	setup_bonobo_ui_handler (shell_view);
 
 	e_shell_view_menu_setup (shell_view);
 }
@@ -942,6 +950,15 @@ e_shell_view_get_bonobo_ui_handler (EShellView *shell_view)
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
 
 	return shell_view->priv->uih;
+}
+
+GtkWidget *
+e_shell_view_get_appbar (EShellView *shell_view)
+{
+	g_return_val_if_fail (shell_view != NULL, NULL);
+	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
+
+	return shell_view->priv->appbar;
 }
 
 

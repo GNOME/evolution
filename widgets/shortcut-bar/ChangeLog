@@ -1,3 +1,7 @@
+2000-06-01  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-shortcut-bar.c (e_shortcut_bar_get_view_type): New function.
+
 2000-05-25  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-shortcut-bar.c (e_shortcut_bar_load_image): Leak plug: free

@@ -100,36 +100,52 @@ struct _EShortcutsPrivate {
 	GHashTable *title_to_group;
 };
 
+enum {
+	NEW_GROUP,
+	REMOVE_GROUP,
+	NEW_SHORTCUT,
+	REMOVE_SHORTCUT,
+	LAST_SIGNAL
+};
+
+static guint signals[LAST_SIGNAL] = { 0 };
+
 
 static void
 unload_shortcuts (EShortcuts *shortcuts)
 {
 	EShortcutsPrivate *priv;
+	GList *orig_groups;
 	GList *p, *q;
 
 	priv = shortcuts->priv;
+	orig_groups = priv->groups;
 
 	for (p = priv->groups; p != NULL; p = p->next) {
 		ShortcutGroup *group;
 
+		gtk_signal_emit (GTK_OBJECT (shortcuts), signals[REMOVE_GROUP], 0);
+
 		group = (ShortcutGroup *) p->data;
-		g_free (group->title);
+
+		g_hash_table_remove (priv->title_to_group, group->title);
 
 		for (q = group->shortcuts; q != NULL; q = q->next)
 			g_free (q->data);
+		g_free (group->title);
 
 		g_list_free (group->shortcuts);
+
+		priv->groups = priv->groups->next;
 	}
 
-	if (priv->groups != NULL)
-		g_list_free (priv->groups);
+	if (orig_groups != NULL)
+		g_list_free (orig_groups);
 
 	priv->groups = NULL;
 
 	g_hash_table_destroy (priv->title_to_group);
 	priv->title_to_group = g_hash_table_new (g_str_hash, g_str_equal);
-
-	/* FIXME update the views.  */
 }
 
 static gboolean
@@ -140,6 +156,8 @@ load_shortcuts (EShortcuts *shortcuts,
 	xmlDoc *doc;
 	xmlNode *root;
 	xmlNode *p, *q;
+
+	/* FIXME: Update the views by emitting the appropriate signals.  */
 
 	priv = shortcuts->priv;
 
@@ -355,6 +373,46 @@ class_init (EShortcutsClass *klass)
 	object_class->destroy = destroy;
 
 	parent_class = gtk_type_class (gtk_object_get_type ());
+
+	signals[NEW_GROUP]
+		= gtk_signal_new ("new_group",
+				  GTK_RUN_FIRST,
+				  object_class->type,
+				  GTK_SIGNAL_OFFSET (EShortcutsClass, new_group),
+				  gtk_marshal_NONE__INT,
+				  GTK_TYPE_NONE, 1,
+				  GTK_TYPE_INT);
+
+	signals[REMOVE_GROUP]
+		= gtk_signal_new ("remove_group",
+				  GTK_RUN_FIRST,
+				  object_class->type,
+				  GTK_SIGNAL_OFFSET (EShortcutsClass, remove_group),
+				  gtk_marshal_NONE__INT,
+				  GTK_TYPE_NONE, 1,
+				  GTK_TYPE_INT);
+
+	signals[NEW_SHORTCUT]
+		= gtk_signal_new ("new_shortcut",
+				  GTK_RUN_FIRST,
+				  object_class->type,
+				  GTK_SIGNAL_OFFSET (EShortcutsClass, new_shortcut),
+				  gtk_marshal_NONE__INT_INT,
+				  GTK_TYPE_NONE, 2,
+				  GTK_TYPE_INT,
+				  GTK_TYPE_INT);
+
+	signals[REMOVE_SHORTCUT]
+		= gtk_signal_new ("remove_shortcut",
+				  GTK_RUN_FIRST,
+				  object_class->type,
+				  GTK_SIGNAL_OFFSET (EShortcutsClass, remove_shortcut),
+				  gtk_marshal_NONE__INT_INT,
+				  GTK_TYPE_NONE, 2,
+				  GTK_TYPE_INT,
+				  GTK_TYPE_INT);
+
+	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 }
 
 
@@ -609,6 +667,8 @@ e_shortcuts_remove_shortcut (EShortcuts *shortcuts,
 	p = g_list_nth (group->shortcuts, num);
 	g_return_if_fail (p != NULL);
 
+	gtk_signal_emit (GTK_OBJECT (shortcuts), signals[REMOVE_SHORTCUT], group_num, num);
+
 	uri = (char *) p->data;
 	g_free (uri);
 
@@ -639,6 +699,8 @@ e_shortcuts_add_shortcut (EShortcuts *shortcuts,
 
 	group->shortcuts = g_list_insert (group->shortcuts, g_strdup (uri), num);
 
+	gtk_signal_emit (GTK_OBJECT (shortcuts), signals[NEW_SHORTCUT], group_num, num);
+
 	make_dirty (shortcuts);
 }
 
@@ -657,6 +719,8 @@ e_shortcuts_remove_group (EShortcuts *shortcuts,
 
 	p = g_list_nth (priv->groups, group_num);
 	g_return_if_fail (p != NULL);
+
+	gtk_signal_emit (GTK_OBJECT (shortcuts), signals[REMOVE_GROUP], group_num);
 
 	group = (ShortcutGroup *) p->data;
 
@@ -685,6 +749,8 @@ e_shortcuts_add_group (EShortcuts *shortcuts,
 	group->shortcuts = NULL;
 
 	priv->groups = g_list_insert (priv->groups, group, group_num);
+
+	gtk_signal_emit (GTK_OBJECT (shortcuts), signals[NEW_GROUP], group_num);
 
 	make_dirty (shortcuts);
 }

@@ -1,3 +1,35 @@
+2000-06-01  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-shell-view-menu.c (e_shell_view_menu_setup): Set the
+	statusbar.
+
+	* e-shell-view.c: New member `appbar' for `EShellViewPrivate'.
+	(init): Initialize to NULL.
+	(setup_widgets): Install a status bar and set `appbar' to point to
+	it.
+	(setup_bonobo_ui_handler): Make the BonoboUIHandler use `appbar'
+	as its statusbar.
+	(e_shell_view_get_appbar): New function.
+	(e_shell_view_construct): Set up the BonoboUIHandler after setting
+	up the widgets.
+
+	* e-shortcuts.c (class_init): Add new signals "new_shortcut",
+	"removed_shortcut", "new_group", "removed_group".
+	(e_shortcuts_remove_shortcut): Emit "remove_shortcut".
+	(e_shortcuts_add_shortcut): Emit "new_shortcut".
+	(e_shortcuts_remove_group): Emit "remove_group".
+	(e_shortcuts_add_group): Emit "new_group".
+	(unload_shortcuts): Emit "remove_group" for all the groups.
+
+	* e-shortcuts.h: New signals "new_shortcut", "removed_shortcut",
+	"new_group", "removed_group".
+
+	* e-shortcuts-view.c (pop_up_right_click_menu): New function to
+	pop up the right-click menu for the shortcut bar.
+	(pop_up_right_click_menu_for_shortcut): New function.
+	(selected_item): Pop up right click menu when appropriate.  Don't
+	activate the shortcut when right-clicking.
+
 2000-05-31  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* evolution-storage.h: #include 'Evolution.h".

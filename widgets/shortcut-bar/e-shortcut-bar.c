@@ -422,6 +422,23 @@ e_shortcut_bar_set_view_type (EShortcutBar *shortcut_bar,
 }
 
 
+EIconBarViewType
+e_shortcut_bar_get_view_type (EShortcutBar *shortcut_bar,
+			      gint group_num)
+{
+	EShortcutBarGroup *group;
+
+	g_return_val_if_fail (E_IS_SHORTCUT_BAR (shortcut_bar), E_ICON_BAR_SMALL_ICONS);
+	g_return_val_if_fail (group_num >= 0, E_ICON_BAR_SMALL_ICONS);
+	g_return_val_if_fail (group_num < shortcut_bar->groups->len, E_ICON_BAR_SMALL_ICONS);
+
+	group = &g_array_index (shortcut_bar->groups,
+				EShortcutBarGroup, group_num);
+
+	return E_ICON_BAR (group->icon_bar)->view_type;
+}
+
+
 static void
 e_shortcut_bar_item_selected (EIconBar *icon_bar,
 			      GdkEvent *event,

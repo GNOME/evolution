@@ -88,6 +88,7 @@ EShellViewSubwindowMode  e_shell_view_get_folder_bar_mode    (EShellView        
 
 EShell                  *e_shell_view_get_shell              (EShellView              *shell_view);
 BonoboUIHandler         *e_shell_view_get_bonobo_ui_handler  (EShellView              *shell_view);
+GtkWidget               *e_shell_view_get_appbar             (EShellView              *shell_view);
 
 #ifdef __cplusplus
 }

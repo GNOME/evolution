@@ -57,7 +57,14 @@ struct _EShortcuts {
 
 struct _EShortcutsClass {
 	GtkObjectClass parent_class;
-};
+
+	/* Signals.  */
+
+	void  (* new_group)        (EShortcuts *shortcuts, int group_num);
+	void  (* remove_group)     (EShortcuts *shortcuts, int group_num);
+	void  (* new_shortcut)     (EShortcuts *shortcuts, int group_num, int item_num);
+	void  (* remove_shortcut)  (EShortcuts *shortcuts, int group_num, int item_num);}
+;
 
 
 GtkType      e_shortcuts_get_type                (void);

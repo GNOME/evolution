@@ -103,39 +103,41 @@ struct _EShortcutBarClass
 };
 
 
-GtkType	   e_shortcut_bar_get_type		(void);
-GtkWidget* e_shortcut_bar_new			(void);
+GtkType	   	  e_shortcut_bar_get_type	     (void);
+GtkWidget* 	  e_shortcut_bar_new		     (void);
 
 /* Adds a new group, returning the index. */
-gint	   e_shortcut_bar_add_group		(EShortcutBar	 *shortcut_bar,
-						 const gchar	 *group_name);
-void	   e_shortcut_bar_remove_group		(EShortcutBar	 *shortcut_bar,
-						 gint		  group_num);
+gint	   	  e_shortcut_bar_add_group	     (EShortcutBar	 *shortcut_bar,
+						      const gchar	 *group_name);
+void	   	  e_shortcut_bar_remove_group	     (EShortcutBar	 *shortcut_bar,
+						      gint		  group_num);
 
-/* Sets the view type for the group. */
-void	   e_shortcut_bar_set_view_type		(EShortcutBar	 *shortcut_bar,
-						 gint		  group_num,
-						 EIconBarViewType view_type);
+/* Sets/gets the view type for the group. */
+void              e_shortcut_bar_set_view_type	     (EShortcutBar	 *shortcut_bar,
+						      gint		  group_num,
+						      EIconBarViewType view_type);
+EIconBarViewType  e_shortcut_bar_get_view_type	     (EShortcutBar	 *shortcut_bar,
+						      gint		  group_num);
 
 /* Adds a new item to a group, returning the index within the group. */
-gint	   e_shortcut_bar_add_item		(EShortcutBar	 *shortcut_bar,
-						 gint		  group_num,
-						 const gchar	 *item_url,
-						 const gchar	 *item_name);
+gint	   	  e_shortcut_bar_add_item	     (EShortcutBar	 *shortcut_bar,
+						      gint		  group_num,
+						      const gchar	 *item_url,
+						      const gchar	 *item_name);
 
-void	   e_shortcut_bar_start_editing_item	(EShortcutBar	 *shortcut_bar,
-						 gint		  group_num,
-						 gint		  item_num);
-void	   e_shortcut_bar_remove_item		(EShortcutBar	 *shortcut_bar,
-						 gint		  group_num,
-						 gint		  item_num);
+void	   	  e_shortcut_bar_start_editing_item  (EShortcutBar	 *shortcut_bar,
+						      gint		  group_num,
+						      gint		  item_num);
+void	   	  e_shortcut_bar_remove_item         (EShortcutBar	 *shortcut_bar,
+						      gint		  group_num,
+						      gint		  item_num);
 
 /* Sets the callback which is called to return the icon to use for a particular
    URL. This callback must be set before any items are added. If the callback
    returns NULL the default icon is used. */
-void	   e_shortcut_bar_set_icon_callback	(EShortcutBar    *shortcut_bar,
-						 EShortcutBarIconCallback cb,
-						 gpointer         data);
+void	          e_shortcut_bar_set_icon_callback   (EShortcutBar    *shortcut_bar,
+						      EShortcutBarIconCallback cb,
+						      gpointer         data);
 
 #ifdef __cplusplus
 }
