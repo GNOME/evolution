@@ -1,3 +1,7 @@
+2000-11-28  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* evolution-mail.xml: Added Save As...
+
 2000-11-25  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* evolution-message-composer.xml: Make "Toolbar"'s behavior

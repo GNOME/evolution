@@ -85,6 +85,10 @@
         _label="_Edit Message"
          accel="*Control**Alt*e"/>
 
+        <menuitem name="MessageSaveAs" verb=""
+        _label="_Save Message As..."
+         accel="*Control**Alt*s"/>
+
         <menuitem name="MessagePrint" verb=""
         _label="_Print Message"
          accel="*Control**Alt*p"/>
