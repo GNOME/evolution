@@ -29,6 +29,7 @@
 typedef struct {
 
 	guint message_position;
+	guint size;
 	gchar *from;
 	gchar *date;
 	gchar *subject;
@@ -36,11 +37,10 @@ typedef struct {
 	gchar *priority;
 	gchar *references;
 	gchar *body_summary;
+	gchar *x_evolution;
 
 } CamelMboxParserMessageInfo;
 
 
-GArray * camel_mbox_find_message_positions (int fd, 
-					    const gchar *message_delimiter,
-					    gint first_position, 
-					    CamelException *ex);
+typedef void camel_mbox_preparser_status_callback (double percentage_done, gpointer user_data);
+
