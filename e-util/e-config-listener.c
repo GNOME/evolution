@@ -412,7 +412,7 @@ e_config_listener_get_string_with_default (EConfigListener *cl,
 					   gboolean *used_default)
 {
 	GConfValue *conf_value;
-	const char *str;
+	char *str;
 	KeyData *kd;
 	gpointer orig_key, orig_value;
 
@@ -424,14 +424,14 @@ e_config_listener_get_string_with_default (EConfigListener *cl,
 		/* not found, so retrieve it from the configuration database */
 		conf_value = gconf_client_get (cl->priv->db, key, NULL);
 		if (conf_value) {
-			str = gconf_value_get_string (conf_value);
+			str = g_strdup (gconf_value_get_string (conf_value));
 			kd = add_key (cl, key, GCONF_VALUE_STRING, (gpointer) str, FALSE);
 			gconf_value_free (conf_value);
 
 			if (used_default != NULL)
 				*used_default = FALSE;
 		} else {
-			str = def;
+			str = g_strdup (def);
 			kd = add_key (cl, key, GCONF_VALUE_STRING, (gpointer) str, TRUE);
 
 			if (used_default != NULL)
@@ -442,14 +442,14 @@ e_config_listener_get_string_with_default (EConfigListener *cl,
 		g_assert (kd != NULL);
 
 		if (kd->type == GCONF_VALUE_STRING) {
-			str = kd->value.v_str;
+			str = g_strdup (kd->value.v_str);
 			if (used_default != NULL)
 				*used_default = kd->used_default;
 		} else
 			return NULL;
 	}
 
-	return g_strdup (str);
+	return str;
 }
 
 void
