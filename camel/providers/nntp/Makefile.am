@@ -12,7 +12,9 @@ INCLUDES = -I../..				\
 	-I$(top_srcdir)/e-util			\
 	-I$(top_srcdir)				\
 	-I$(includedir)				\
-	$(EXTRA_GNOME_CFLAGS)			\
+	$(CAMEL_CFLAGS)				\
+	$(GNOME_INCLUDEDIR)			\
+	$(GTK_INCLUDEDIR)			\
 	-DG_LOG_DOMAIN=\"camel-nntp-provider\"
 
 libcamelnntp_la_SOURCES = 			\
@@ -22,28 +24,11 @@ libcamelnntp_la_SOURCES = 			\
 	camel-nntp-stream.c			\
 	camel-nntp-summary.c
 
-#	camel-nntp-auth.c			\
-#	camel-nntp-folder.c			\
-#	camel-nntp-grouplist.c			\
-#	camel-nntp-newsrc.c			\
-#	camel-nntp-provider.c			\
-#	camel-nntp-store.c			\
-#	camel-nntp-utils.c
-
 libcamelnntpinclude_HEADERS =			\
 	camel-nntp-store.h			\
 	camel-nntp-folder.h			\
 	camel-nntp-stream.h			\
 	camel-nntp-summary.h
-
-#	camel-nntp-auth.h			\
-#	camel-nntp-folder.h			\
-#	camel-nntp-grouplist.h			\
-#	camel-nntp-newsrc.h			\
-#	camel-nntp-resp-codes.h			\
-#	camel-nntp-store.h			\
-#	camel-nntp-types.h			\
-#	camel-nntp-utils.h
 
 noinst_HEADERS =				\
 	camel-nntp-private.h
