@@ -1,3 +1,17 @@
+2000-09-25  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* gui/widgets/Makefile.am:
+	* gui/component/Makefile.am:
+	* contact-editor/Makefile.am:
+	* printing/Makefile.am: Look for ename in /e-util/ename instead of
+	/addressbook/ename
+	
+	* backend/ebook/e-card.c: Updated to include e-util/ename/*.h
+
+	* ename: Moved to /e-util so it could be shared
+
+	* Makefile.am (SUBDIRS): took out ename
+
 2000-09-25  Nat Friedman  <nat@helixcode.com>
 
 	* ename/e-name-western-tables.h: Added a ton of new prefixes and

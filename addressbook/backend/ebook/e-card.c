@@ -17,8 +17,8 @@
 #include <libversit/vcc.h>
 #include "e-card.h"
 #include "e-card-pairs.h"
-#include "e-name-western.h"
-#include "e-address-western.h"
+#include <e-util/ename/e-name-western.h>
+#include <e-util/ename/e-address-western.h>
 
 #include <gal/util/e-util.h>
 
