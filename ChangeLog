@@ -1,5 +1,7 @@
 2003-02-06  Dan Winship  <danw@ximian.com>
 
+	* sounds/Makefile.am: remove soundsdir def
+
 	* tools/Makefile.am: subst in $(toolsdir) instead of $(bindir)
 
 	* tools/evolution-addressbook-clean.in:
