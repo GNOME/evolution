@@ -33,6 +33,14 @@
 
 static GtkObjectClass *folder_browser_parent_class;
 
+static void oc_destroy (gpointer obj, gpointer user)
+{
+	struct fb_ondemand_closure *oc = (struct fb_ondemand_closure *) obj;
+
+	g_free (oc->path);
+	g_free (oc);
+}
+
 static void
 folder_browser_destroy (GtkObject *object)
 {
@@ -59,6 +67,14 @@ folder_browser_destroy (GtkObject *object)
 
 	if (folder_browser->mail_display)
 		gtk_widget_destroy (GTK_WIDGET (folder_browser->mail_display));
+
+	if (folder_browser->filter_context)
+		gtk_object_unref (GTK_OBJECT (folder_browser->filter_context));
+	
+	if (folder_browser->filter_menu_paths) {
+		g_slist_foreach (folder_browser->filter_menu_paths, oc_destroy, NULL);
+		g_slist_free (folder_browser->filter_menu_paths);
+	}
 
 	folder_browser_parent_class->destroy (object);
 }
@@ -401,6 +417,9 @@ my_folder_browser_init (GtkObject *object)
 
 	gtk_signal_connect (GTK_OBJECT (fb->message_list->etable),
 			    "key_press", GTK_SIGNAL_FUNC (etable_key), fb);
+
+	fb->filter_menu_paths = NULL;
+	fb->filter_context = NULL;
 
 	folder_browser_gui_init (fb);
 }

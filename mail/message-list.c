@@ -71,6 +71,7 @@ static gint on_right_click (ETableScrolled *table, gint row, gint col, GdkEvent 
 static void on_double_click (ETableScrolled *table, gint row, MessageList *list);
 static void select_msg (MessageList *message_list, gint row);
 static char *filter_date (const void *data);
+static void nuke_uids (GtkObject *o);
 
 static struct {
 	char **image_base;
@@ -591,6 +592,8 @@ message_list_init (GtkObject *object)
 				   ml_tree_is_cell_editable,
 				   message_list);
 	e_tree_model_root_node_set_visible ((ETreeModel *)message_list->table_model, FALSE);
+	gtk_signal_connect (GTK_OBJECT (message_list->table_model), "destroy", 
+			    (GtkSignalFunc) nuke_uids, NULL);
 
 	message_list_init_renderers (message_list);
 	message_list_init_header (message_list);
@@ -844,6 +847,23 @@ build_subtree (MessageList *ml, ETreePath *parent,
 		}
 		c = c->next;
 	}
+}
+
+static gboolean
+nuke_uids_cb (GNode *node, gpointer data)
+{
+	g_free (e_tree_model_node_get_data (E_TREE_MODEL (data), node));
+	return FALSE;
+}
+
+static void
+nuke_uids (GtkObject *o)
+{
+	ETreeModel *etm = E_TREE_MODEL (o);
+
+	g_node_traverse (etm->root, G_IN_ORDER, 
+			 G_TRAVERSE_ALL, 0, 
+			 nuke_uids_cb, etm);
 }
 
 static void

@@ -80,6 +80,8 @@ void mail_reply (CamelFolder *folder, CamelMimeMessage *msg, const char *uid, gb
 void composer_send_cb (EMsgComposer *composer, gpointer data);
 void mail_print_msg (MailDisplay *md);
 
+void run_filter_ondemand (BonoboUIHandler *uih, gpointer user_data, const char *path);
+
 /* mail view */
 GtkWidget *mail_view_create (CamelFolder *source, const char *uid, CamelMimeMessage *msg);
 

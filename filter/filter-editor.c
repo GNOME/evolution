@@ -129,6 +129,7 @@ struct _editor_data {
 	FilterRule *current;
 	GtkList *list;
 	GtkButton *buttons[BUTTON_LAST];
+	enum _filter_source_t current_source;
 };
 
 static void set_sensitive(struct _editor_data *data);
@@ -144,6 +145,7 @@ static void rule_add(GtkWidget *widget, struct _editor_data *data)
 	d(printf("add rule\n"));
 	/* create a new rule with 1 match and 1 action */
 	rule = filter_filter_new();
+	((FilterRule *)rule)->source = data->current_source;
 
 	part = rule_context_next_part(data->f, NULL);
 	filter_rule_add_part((FilterRule *)rule, filter_part_clone(part));
@@ -183,13 +185,14 @@ static void rule_edit(GtkWidget *widget, struct _editor_data *data)
 	d(printf("edit rule\n"));
 	rule = data->current;
 	w = filter_rule_get_widget(rule, data->f);
-	gd = (GnomeDialog *)gnome_dialog_new("Edit Rule", "Ok", NULL);
+	gd = (GnomeDialog *)gnome_dialog_new("Edit Rule", GNOME_STOCK_BUTTON_OK, 
+					     GNOME_STOCK_BUTTON_CANCEL, NULL);
 	gtk_box_pack_start((GtkBox *)gd->vbox, w, FALSE, TRUE, 0);
 	gtk_widget_show((GtkWidget *)gd);
 	result = gnome_dialog_run_and_close(gd);
 
 	if (result == 0) {
-		pos = rule_context_get_rank_rule(data->f, data->current);
+		pos = rule_context_get_rank_rule_with_source (data->f, data->current, data->current_source);
 		if (pos != -1) {
 			GtkListItem *item = g_list_nth_data(data->list->children, pos);
 			gtk_label_set_text((GtkLabel *)(((GtkBin *)item)->child), data->current->name);
@@ -204,7 +207,7 @@ static void rule_delete(GtkWidget *widget, struct _editor_data *data)
 	GtkListItem *item;
 
 	d(printf("ddelete rule\n"));
-	pos = rule_context_get_rank_rule(data->f, data->current);
+	pos = rule_context_get_rank_rule_with_source (data->f, data->current, data->current_source);
 	if (pos != -1) {
 		rule_context_remove_rule(data->f, data->current);
 
@@ -240,7 +243,7 @@ static void rule_up(GtkWidget *widget, struct _editor_data *data)
 	int pos;
 
 	d(printf("up rule\n"));
-	pos = rule_context_get_rank_rule(data->f, data->current);
+	pos = rule_context_get_rank_rule_with_source(data->f, data->current, data->current_source);
 	if (pos>0) {
 		rule_move(data, pos, pos-1);
 	}
@@ -251,7 +254,7 @@ static void rule_down(GtkWidget *widget, struct _editor_data *data)
 	int pos;
 
 	d(printf("down rule\n"));
-	pos = rule_context_get_rank_rule(data->f, data->current);
+	pos = rule_context_get_rank_rule_with_source(data->f, data->current, data->current_source);
 	rule_move(data, pos, pos+1);
 }
 
@@ -296,12 +299,49 @@ select_rule(GtkWidget *w, GtkWidget *child, struct _editor_data *data)
 	set_sensitive(data);
 }
 
+/* FIXME: we need a way to change a rule from one source type
+ * to a different type. Maybe keep the selected ones? 
+ */
+
+static void
+select_source (GtkMenuItem *mi, struct _editor_data *data)
+{
+	FilterRule *rule = NULL;
+	GList *newitems = NULL;
+	enum _filter_source_t source;
+
+	source = (enum _filter_source_t) GPOINTER_TO_INT (
+		gtk_object_get_data (GTK_OBJECT (mi), "number"));
+
+	gtk_list_clear_items (GTK_LIST (data->list), 0, -1);
+
+	d(printf("Checking for rules that are of type %d\n", source));
+	while ((rule = rule_context_next_rule (data->f, rule)) != NULL) {
+		GtkWidget *item;
+
+		if (rule->source != source) {
+			d(printf("   skipping %s: %d != %d\n", rule->name, rule->source, source));
+			continue;
+		}
+
+		d(printf("   hit %s (%d)\n", rule->name, source));
+		item = gtk_list_item_new_with_label (rule->name);
+		gtk_object_set_data (GTK_OBJECT (item), "rule", rule);
+		gtk_widget_show (GTK_WIDGET (item));
+		newitems = g_list_append (newitems, item);
+	}
+
+	gtk_list_append_items (data->list, newitems);
+	data->current_source = source;
+	data->current = NULL;
+	set_sensitive (data);
+}
+
 GtkWidget	*filter_editor_construct	(struct _FilterContext *f)
 {
 	GladeXML *gui;
-	GtkWidget *d, *w;
+	GtkWidget *d, *w, *b, *firstitem = NULL;
 	GList *l;
-	FilterRule *rule = NULL;
 	struct _editor_data *data;
 	int i;
 
@@ -320,29 +360,28 @@ GtkWidget	*filter_editor_construct	(struct _FilterContext *f)
 		gtk_signal_connect((GtkObject *)w, "clicked", edit_buttons[i].func, data);
 	}
 
-	/* to be defined yet */
-#if 0
         w = glade_xml_get_widget (gui, "filter_source");
 	l = GTK_MENU_SHELL(GTK_OPTION_MENU(w)->menu)->children;
+	i = 0;
 	while (l) {
-		b = l->data;
+		b = GTK_WIDGET (l->data);
+
+		if (i == 0)
+			firstitem = b;
+
+		/* make sure that the glade is in sync with enum _filter_source_t! */
+		gtk_object_set_data (GTK_OBJECT (b), "number", GINT_TO_POINTER (i));
+		gtk_signal_connect (GTK_OBJECT (b), "activate", select_source, data);
+
+		i++;
 		l = l->next;
 	}
-#endif
 
         w = glade_xml_get_widget (gui, "rule_list");
 	data->list = (GtkList *)w;
-	l = NULL;
-	while ((rule = rule_context_next_rule((RuleContext *)f, rule))) {
-		GtkListItem *item = (GtkListItem *)gtk_list_item_new_with_label(rule->name);
-		gtk_object_set_data((GtkObject *)item, "rule", rule);
-		gtk_widget_show((GtkWidget *)item);
-		l = g_list_append(l, item);
-	}
-	gtk_list_append_items(data->list, l);
 	gtk_signal_connect((GtkObject *)w, "select_child", select_rule, data);
+	select_source (GTK_MENU_ITEM (firstitem), data);
 
-	set_sensitive(data);
 	gtk_object_unref((GtkObject *)gui);
 
 	return d;

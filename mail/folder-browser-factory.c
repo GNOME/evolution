@@ -53,6 +53,61 @@ static GnomeUIInfo gnome_toolbar [] = {
 };
 
 static void
+register_ondemand (RuleContext *f, FilterRule *rule, gpointer data)
+{
+	FolderBrowser *fb = FOLDER_BROWSER (data);
+	BonoboUIHandler *uih = gtk_object_get_data (GTK_OBJECT (fb), "uih");
+	gchar *text;
+	struct fb_ondemand_closure *oc;
+
+	oc = g_new (struct fb_ondemand_closure, 1);
+	oc->rule = rule;
+	oc->fb = fb;
+	oc->path = g_strdup_printf ("/Actions/Filter-%s", rule->name);
+
+	if (fb->filter_menu_paths == NULL)
+		bonobo_ui_handler_menu_new_separator (uih, "/Actions/separator2", -1);
+
+	text = g_strdup_printf (_("Run filter \"%s\""), rule->name);
+	fb->filter_menu_paths = g_slist_prepend (fb->filter_menu_paths, oc);
+
+	bonobo_ui_handler_menu_new_item (uih, oc->path, text,
+					 NULL, -1,
+					 BONOBO_UI_HANDLER_PIXMAP_NONE,
+					 0,
+					 0, 0, run_filter_ondemand, oc);
+	g_free (text);
+}
+
+static void
+create_ondemand_hooks (FolderBrowser *fb, BonoboUIHandler *uih)
+{
+	gchar *system, *user;
+
+	user = g_strdup_printf ("%s/filters.xml", evolution_dir);
+	system = EVOLUTION_DATADIR "/evolution/filtertypes.xml";
+	fb->filter_context = filter_context_new();
+	gtk_object_set_data (GTK_OBJECT (fb), "uih", uih);
+	rule_context_load ((RuleContext *) fb->filter_context, system, user,
+			   register_ondemand, fb);
+	gtk_object_remove_data (GTK_OBJECT (fb), "uih");
+	g_free (user);
+}
+
+static void
+remove_ondemand_hooks (FolderBrowser *fb, BonoboUIHandler *uih)
+{
+	GSList *iter;
+	struct fb_ondemand_closure *oc;
+
+	for (iter = fb->filter_menu_paths; iter; iter = iter->next) {
+		oc = (struct fb_ondemand_closure *) iter->data;
+
+		bonobo_ui_handler_menu_remove (uih, oc->path);
+	}
+}
+
+static void
 control_activate (BonoboControl *control, BonoboUIHandler *uih,
 		  FolderBrowser *fb)
 {
@@ -143,7 +198,9 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih,
 					 BONOBO_UI_HANDLER_PIXMAP_NONE,
 					 0,
 					 0, 0, configure_folder, folder_browser);
-	
+
+	create_ondemand_hooks (fb, uih);
+
 	toolbar = gtk_toolbar_new (GTK_ORIENTATION_HORIZONTAL,
 				   GTK_TOOLBAR_BOTH);
 
@@ -196,6 +253,8 @@ control_deactivate (BonoboControl *control,
 	bonobo_ui_handler_menu_remove (uih, "/Tools/Configure Folder");
 	bonobo_ui_handler_dock_remove (uih, toolbar_name);
 	g_free (toolbar_name);
+
+	remove_ondemand_hooks (fb, uih);
 }
 
 static void

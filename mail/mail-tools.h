@@ -26,6 +26,7 @@
 #define MAIL_TOOLS_H
 
 #include <camel/camel.h>
+#include <filter/filter-driver.h> /*eek*/
 
 /* A global recursive lock on Camel */
 void mail_tool_camel_lock_up (void);
@@ -105,5 +106,10 @@ mail_tool_uri_to_folder_noex (const char *uri);
 
 GHashTable *
 mail_lookup_url_table (CamelMimeMessage *mime_message);
+
+/* Appropriate for filter_driver_run */
+CamelFolder *
+mail_tool_filter_get_folder_func (FilterDriver *d, const char *uri, void *data);
+
 
 #endif

@@ -487,7 +487,8 @@ mail_tool_fetch_mail_into_searchable (const char *source_url, gboolean keep_on_s
 	return search_folder;
 }
 
-static CamelFolder *get_folder_func (FilterDriver *d, const char *uri, void *data)
+CamelFolder *
+mail_tool_filter_get_folder_func (FilterDriver *d, const char *uri, void *data)
 {
 	return mail_tool_uri_to_folder_noex (uri);
 }
@@ -506,17 +507,18 @@ mail_tool_filter_contents_into (CamelFolder *source, CamelFolder *dest,
         userrules = g_strdup_printf ("%s/filters.xml", evolution_dir);
         systemrules = g_strdup_printf ("%s/evolution/filtertypes.xml", EVOLUTION_DATADIR);
 	fc = filter_context_new();
-	rule_context_load ((RuleContext *)fc, systemrules, userrules);
+	rule_context_load ((RuleContext *)fc, systemrules, userrules, NULL, NULL);
         g_free (userrules);
         g_free (systemrules);
 
-        filter = filter_driver_new (fc, get_folder_func, 0);
+        filter = filter_driver_new (fc, mail_tool_filter_get_folder_func, 0);
 
 	if (hook_func)
 		camel_object_hook_event (CAMEL_OBJECT (dest), "folder_changed",
 					 hook_func, hook_data);
 
-        filter_driver_run (filter, source, dest, TRUE, hook_func, hook_data);
+        filter_driver_run (filter, source, dest, FILTER_SOURCE_INCOMING,
+			   TRUE, hook_func, hook_data);
 
 	camel_folder_sync (CAMEL_FOLDER (source), TRUE, ex);
 	camel_folder_sync (CAMEL_FOLDER (dest), TRUE, ex);

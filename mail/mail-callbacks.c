@@ -525,7 +525,7 @@ filter_edit (BonoboUIHandler *uih, void *user_data, const char *path)
 	fc = filter_context_new();
 	user = g_strdup_printf ("%s/filters.xml", evolution_dir);
 	system = g_strdup_printf ("%s/evolution/filtertypes.xml", EVOLUTION_DATADIR);
-	rule_context_load ((RuleContext *)fc, system, user);
+	rule_context_load ((RuleContext *)fc, system, user, NULL, NULL);
 	g_free (user);
 	g_free (system);
 
@@ -634,4 +634,21 @@ edit_message (BonoboUIHandler *uih, void *user_data, const char *path)
         edit_msg (NULL, user_data);
 }
 
+void
+run_filter_ondemand (BonoboUIHandler *uih, gpointer user_data, const char *path)
+{
+	struct fb_ondemand_closure *oc = (struct fb_ondemand_closure *) user_data;
+	FilterDriver *d;
 
+	if (oc->fb->folder == NULL)
+		return;
+
+	printf ("Running filter \"%s\"\n", oc->rule->name);
+
+	d = filter_driver_new (oc->fb->filter_context, 
+			       mail_tool_filter_get_folder_func,
+			       NULL);
+	filter_driver_run (d, oc->fb->folder, oc->fb->folder,
+			   FILTER_SOURCE_DEMAND, TRUE,
+			   NULL, NULL);
+}

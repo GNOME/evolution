@@ -163,7 +163,7 @@ vfolder_create_storage(EvolutionShellComponent *shell_component)
 	
 	context = vfolder_context_new();
 	printf("loading rules %s %s\n", system, user);
-	if (rule_context_load((RuleContext *)context, system, user) != 0) {
+	if (rule_context_load((RuleContext *)context, system, user, NULL, NULL) != 0) {
 		g_warning("cannot load vfolders: %s\n", ((RuleContext *)context)->error);
 	}
 	g_free(user);

@@ -158,6 +158,19 @@ static xmlNodePtr xml_encode(FilterRule *fr)
 		xmlSetProp(node, "grouping", "any");
 		break;
 	}
+
+	switch (fr->source) {
+	case FILTER_SOURCE_INCOMING:
+		xmlSetProp(node, "source", "incoming");
+		break;
+	case FILTER_SOURCE_DEMAND:
+		xmlSetProp(node, "source", "ondemand");
+		break;
+	case FILTER_SOURCE_OUTGOING:
+		xmlSetProp(node, "source", "outgoing");
+		break;
+	}
+
 	if (fr->name) {
 		work = xmlNewNode(NULL, "title");
 		xmlNodeSetContent(work, fr->name);
@@ -209,16 +222,34 @@ static int xml_decode(FilterRule *fr, xmlNodePtr node, RuleContext *f)
 {
 	xmlNodePtr work;
 	char *grouping;
+	char *source;
 
 	if (fr->name) {
 		g_free(fr->name);
 		fr->name = NULL;
 	}
+
 	grouping = xmlGetProp(node, "grouping");
 	if (!strcmp(grouping, "any"))
 		fr->grouping = FILTER_GROUP_ANY;
 	else
 		fr->grouping = FILTER_GROUP_ALL;
+
+	/* FIXME: free source and grouping? */
+	source = xmlGetProp (node, "source");
+	if (!source) /*default to incoming*/
+		fr->source = FILTER_SOURCE_INCOMING;
+	else if (!strcmp (source, "outgoing"))
+		fr->source = FILTER_SOURCE_OUTGOING;
+	else if (!strcmp (source, "ondemand"))
+		fr->source = FILTER_SOURCE_DEMAND;
+	else if (!strcmp (source, "incoming"))
+		fr->source = FILTER_SOURCE_INCOMING;
+	else {
+		g_warning ("Unknown filter source type \"%s\"", source);
+		fr->source = FILTER_SOURCE_INCOMING;
+	}
+
 	work = node->childs;
 	while (work) {
 		if (!strcmp(work->name, "partset")) {

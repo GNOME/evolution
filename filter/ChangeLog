@@ -1,3 +1,45 @@
+2000-08-17  Peter Williams  <peterw@helixcode.com>
+
+	Implement filtering on demand.
+
+	* rule-context.h: Add a new callback to rule_context_load
+	that allows the caller to hook on-demand rules into its UI.
+
+	* rule-context.c (rule_context_load): Changed to pass the
+	extra parameters to load().
+	(load): If the rule is successfully loaded, call the provided
+	callback so that the UI can be updated.
+
+	* filter-editor.c (rule_add): Set the source of the new filter.
+	(rule_edit): Use the new rule_context_get_rank_rule_with_source()
+	so that we don't get a bad index into the GtkList.
+	(rule_delete): Same as above.
+	(rule_up): Same as above.
+	(rule_down): Same as above.
+	(select_source): New function. When the user changes the 
+	dropdown list to select a new source type, repopulate the
+	list with rules of the appropriate type.
+	(filter_editor_construct): Code moved from here into
+	select_source(). Hook up all the elements of the source optionmenu
+	to callbacks to select_source().
+
+	* filter-rule.c (xml_encode): Save the rule's source type.
+	(xml_decode): Load it. Default to 'incoming' if unspecified.
+
+	* filter-rule.h: New enumeration, _filter_source_t, the
+	specifies the rule's source. Add it to struct _FilterRule.
+	
+	* filter-driver.c (filter_driver_run): Add a new input,
+	sourcetype, that specifies which rules to run (only ones
+	with the same source will be run). struct filter_mail_input_t
+	changed to accomodate.
+	(do_filter_mail): Skip rules if they're not the specified source.
+	If source and dest are the same, don't delete the messages or
+	copy unnecessarily.
+
+	* filter.glade: Make the optionmenu sensitive. Change "Outgoing"
+	to "On Demand" (outgoing should be added later).
+	
 2000-08-15  Peter Williams  <peterw@curious-george.helixcode.com>
 
 	* vfoldertype.xml, filtertypes.xml: Add entries defining the

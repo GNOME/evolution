@@ -26,7 +26,8 @@
 
 #define d(x) x
 
-static int	load(RuleContext *f, const char *system, const char *user);
+static int	load(RuleContext *f, const char *system, const char *user,
+		     RCRegisterFunc on_demand_cb, gpointer user_data);
 static int	save(RuleContext *f, const char *user);
 
 static void rule_context_class_init	(RuleContextClass *class);
@@ -167,19 +168,25 @@ rule_context_set_error(RuleContext *f, char *error)
  * @f: 
  * @system: 
  * @user: 
+ * @on_demand_cb: An optional callback to allow UI registration of on-demand rules
+ * @user_data: Extra data for the callback
  * 
  * Load a rule context from a system and user description file.
  * 
  * Return value: 
  **/
-int		rule_context_load(RuleContext *f, const char *system, const char *user)
+int		rule_context_load(RuleContext *f, const char *system, const char *user, 
+				  RCRegisterFunc on_demand_cb, gpointer user_data )
 {
 	printf("rule_context: loading %s %s\n", system, user);
 
-	return ((RuleContextClass *)((GtkObject *)f)->klass)->load(f, system, user);
+	return ((RuleContextClass *)((GtkObject *)f)->klass)->load(f, system, user,
+								   on_demand_cb,
+								   user_data);
 }
 
-static int	load(RuleContext *f, const char *system, const char *user)
+static int	load(RuleContext *f, const char *system, const char *user,
+		     RCRegisterFunc on_demand_cb, gpointer user_data)
 {
 	xmlNodePtr set, rule;
 	struct _part_set_map *part_map;
@@ -245,6 +252,9 @@ static int	load(RuleContext *f, const char *system, const char *user)
 						FilterRule *part = FILTER_RULE(gtk_type_new(rule_map->type));
 						if (filter_rule_xml_decode(part, rule, f) == 0) {
 							rule_map->append(f, part);
+
+							if (on_demand_cb && part->source == FILTER_SOURCE_DEMAND)
+								(on_demand_cb) (f, part, user_data);
 						} else {
 							gtk_object_unref((GtkObject *)part);
 							g_warning("Cannot load filter part");
@@ -397,4 +407,21 @@ void		rule_context_rank_rule(RuleContext *f, FilterRule *rule, int rank)
 int		rule_context_get_rank_rule(RuleContext *f, FilterRule *rule)
 {
 	return g_list_index(f->rules, rule);
+}
+
+int 
+rule_context_get_rank_rule_with_source(RuleContext *f, FilterRule *rule, enum _filter_source_t source)
+{
+	int i;
+	GList *iter;
+
+	i = 0;
+	for (iter = f->rules; iter; iter = iter->next) {
+		if (iter->data == rule)
+			return i;
+		if (((FilterRule *)iter->data)->source == source)
+			i++;
+	}
+
+	return -1;
 }

@@ -8,6 +8,8 @@
 #include <gtk/gtktable.h>
 #include "camel/camel-stream.h"
 #include <bonobo/bonobo-property-bag.h>
+#include "filter/filter-rule.h"
+#include "filter/filter-context.h" /*eek*/
 #include "message-list.h"
 #include "mail-display.h"
 #include "shell/Evolution.h"
@@ -18,7 +20,6 @@
 #define FOLDER_BROWSER_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), FOLDER_BROWSER_TYPE, FolderBrowserClass))
 #define IS_FOLDER_BROWSER(o)       (GTK_CHECK_TYPE ((o), FOLDER_BROWSER_TYPE))
 #define IS_FOLDER_BROWSER_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), FOLDER_BROWSER_TYPE))
-
 
 struct  _FolderBrowser {
 	GtkTable parent;
@@ -44,7 +45,10 @@ struct  _FolderBrowser {
 	GtkWidget   *search_entry;
 	
 	gboolean     preview_shown;
-	
+
+	/* Stuff to allow on-demand filtering */
+	GSList        *filter_menu_paths;
+	FilterContext *filter_context;
 };
 
 
@@ -52,8 +56,11 @@ typedef struct {
 	GtkTableClass parent_class;
 } FolderBrowserClass;
 
-
-
+struct fb_ondemand_closure {
+	FilterRule *rule;
+	FolderBrowser *fb;
+	gchar *path;
+};
 
 GtkType        folder_browser_get_type (void);
 GtkWidget     *folder_browser_new      (void);

@@ -37,11 +37,14 @@
 #include "filter-filter.h"
 #include "e-util/e-sexp.h"
 
+#define d(x)
+
 /* mail-thread filter input data type */
 typedef struct {
 	FilterDriver *driver;
 	CamelFolder *source;
 	CamelFolder *inbox;
+	enum _filter_source_t sourcetype;
 	gboolean self_destruct;
 	gpointer unhook_func;
 	gpointer unhook_data;
@@ -414,6 +417,7 @@ static const mail_operation_spec op_filter_mail =
 
 void
 filter_driver_run (FilterDriver *d, CamelFolder *source, CamelFolder *inbox,
+		   enum _filter_source_t sourcetype,
 		   gboolean self_destruct, gpointer unhook_func, gpointer unhook_data)
 {
 	filter_mail_input_t *input;
@@ -422,6 +426,7 @@ filter_driver_run (FilterDriver *d, CamelFolder *source, CamelFolder *inbox,
 	input->driver = d;
 	input->source = source;
 	input->inbox = inbox;
+	input->sourcetype = sourcetype;
 	input->self_destruct = self_destruct;
 	input->unhook_func = unhook_func;
 	input->unhook_data = unhook_data;
@@ -502,15 +507,20 @@ do_filter_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 
 	rule = NULL;
 	while ( (rule = (FilterFilter *)rule_context_next_rule((RuleContext *)p->context, (FilterRule *)rule)) ) {
+
+		if (((FilterRule *)rule)->source != input->sourcetype) {
+			d(printf("skipping rule %s - wrong source type (%d %d)\n", ((FilterRule *)rule)->name,
+			  ((FilterRule *)rule)->source, input->sourcetype));
+			continue;
+		}
+
 		g_string_truncate(s, 0);
 		g_string_truncate(a, 0);
 
 		filter_rule_build_code((FilterRule *)rule, s);
 		filter_filter_build_action(rule, a);
 
-#if 0
-		printf("applying rule %s\n action %s\n", s->str, a->str);
-#endif
+		d(printf("applying rule %s\n action %s\n", s->str, a->str));
 
 		mail_tool_camel_lock_up ();
 		p->matches = camel_folder_search_by_expression (p->source, s->str, p->ex);
@@ -574,14 +584,16 @@ do_filter_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 				copies = tmp;
 			}
 
-			if (!procuid) {
+			if (!procuid && inbox != source) {
 				printf("Applying default rule to message %s\n", uid);
 				camel_folder_append_message(inbox, mm, info, p->ex);
 			}
 
 			camel_object_unref (CAMEL_OBJECT (mm));
 		}
-		camel_folder_delete_message (p->source, uid);
+
+		if (inbox != source)
+			camel_folder_delete_message (p->source, uid);
 		mail_tool_camel_lock_down ();
 
 	}

@@ -1,3 +1,56 @@
+2000-08-17  Peter Williams  <peterw@helixcode.com>
+
+	Implement filtering on demand.
+	
+	* folder-browser-factory.c (register_ondemand): New function. Callback
+	to put the filter-on-demand filters into the bonobo UIH;
+	(create_ondemand_hooks): New function. Read in our on-demand filters 
+	and hook them into the UI.
+	(remove_ondemand_hooks): New function. Remove the hooks when done with
+	them.
+	(control_activate): Call create_ondemand_hooks()
+	(control_deactivate): Call remove_ondemand_hooks();
+
+	* mail-callbacks.c (run_filter_ondemand): New function. Callback
+	for running a filter on demand.
+	(filter_edit): Pass NULLs as the new arguments to rule_context_load.
+	
+	* mail.h: Prototype run_filter_ondemand();
+
+	* folder-browser.c (oc_destroy): New function. Iterator to destroy
+	an fb_ondemand_closure.
+	(folder_browser_destroy): Free the data associated with the ondemand
+	menu items.
+	(my_folder_browser_init): Clear the filter_ variables.
+
+	* folder-browser.h: Two new members of FolderBrowser: filter_menu_paths,
+	a list of fb_ondemand_closures so that the menu items can be freed and
+	removed; and filter_context, a permanently loaded FilterContext for
+	running the ondemand filters. Prototype the new fb_ondemand_closure
+	structure.
+
+	* mail-autofilter.c (filter_gui_add_from_message): Pass NULLs as the
+	new parameters to rule_context_load (we don't need to hook up ondemand
+	menu items...)
+
+	* mail-tools.c (mail_tool_filter_get_folder_func): Rename from 
+	get_folder_func() and make public so mail-callbacks.c:run_filter_ondemand()
+	can use it too.
+	(mail_tool_filter_contents_into): Use the new name of get_folder_func.
+	Pass NULLs as the extra arguments to rule_context_load. Pass the
+	extra source type to filter_driver_run (only use INCOMING).
+
+	* mail-tools.h: Publicly prototype mail_tool_filter_get_folder_func()
+
+	* mail-vfolder.c (vfolder_create_storage): Pass NULLs as the extra 
+	arguments to rule_context_load.
+
+	* message-list.c (message_list_init): Free our strdup'd uids when
+	the table model gets destroyed.
+	(nuke_uids): New function. Walk the tree nodes to free the uids.
+	(nuke_uids_cb): New callback for nuke_uids();
+
+
 2000-08-16  Richard Hult  <rhult@hem.passagen.se>
  
  	* mail-ops.c (cleanup_display_message): Use a configurable timeout.

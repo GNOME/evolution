@@ -52,11 +52,14 @@ struct _RuleContext {
 	GList *rule_set_list;
 };
 
+typedef void (*RCRegisterFunc)(RuleContext *f, FilterRule *rule, gpointer data);
+
 struct _RuleContextClass {
 	GtkObjectClass parent_class;
 
 	/* virtual methods */
-	int (*load)(RuleContext *f, const char *system, const char *user);
+	int (*load)(RuleContext *f, const char *system, const char *user,
+		    RCRegisterFunc on_demand_cb, gpointer user_data);
 	int (*save)(RuleContext *f, const char *user);
 
 	/* signals */
@@ -85,7 +88,8 @@ guint		rule_context_get_type	(void);
 RuleContext	*rule_context_new	(void);
 
 /* methods */
-int		rule_context_load(RuleContext *f, const char *system, const char *user);
+int		rule_context_load(RuleContext *f, const char *system, const char *user,
+				  RCRegisterFunc on_demand_cb, gpointer user_data);
 int		rule_context_save(RuleContext *f, const char *user);
 
 void		rule_context_add_part(RuleContext *f, FilterPart *new);
@@ -102,6 +106,7 @@ void		rule_context_remove_rule(RuleContext *f, FilterRule *rule);
 /* get/set the rank (position) of a rule */
 void		rule_context_rank_rule(RuleContext *f, FilterRule *rule, int rank);
 int		rule_context_get_rank_rule(RuleContext *f, FilterRule *rule);
+int             rule_context_get_rank_rule_with_source(RuleContext *f, FilterRule *rule, enum _filter_source_t source);
 
 void		rule_context_delete_rule(RuleContext *f, FilterRule *rule);
 

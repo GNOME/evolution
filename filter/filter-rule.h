@@ -39,6 +39,13 @@ enum _filter_grouping_t {
 	FILTER_GROUP_ANY	/* any rule must match */
 };
 
+enum _filter_source_t {
+	FILTER_SOURCE_INCOMING, /* performed on incoming email */
+	FILTER_SOURCE_DEMAND,   /* performed on the selected folder
+				 * when the user asks for it */
+	FILTER_SOURCE_OUTGOING  /* performed on outgoing mail */
+};
+
 struct _FilterRule {
 	GtkObject parent;
 	struct _FilterRulePrivate *priv;
@@ -46,6 +53,7 @@ struct _FilterRule {
 	char *name;
 
 	enum _filter_grouping_t grouping;
+	enum _filter_source_t source;
 	GList *parts;
 };
 
