@@ -61,5 +61,5 @@ libeconduit_la_SOURCES =		\
 libeconduit_static_la_SOURCES = $(libeconduit_la_SOURCES)
 libeconduit_static_la_LDFLAGS = --all-static
 
-EXTRA_DIST = $(pl_needed)
+EXTRA_DIST = e-pilot-util.c e-pilot-util.h
 
