@@ -85,6 +85,20 @@
 	    <fill>False</fill>
 	  </child>
 	</widget>
+
+	<widget>
+	  <class>Custom</class>
+	  <name>frame</name>
+	  <creation_function>make_html_display</creation_function>
+	  <int1>0</int1>
+	  <int2>0</int2>
+	  <last_modification_time>Thu, 11 Oct 2001 08:19:04 GMT</last_modification_time>
+	  <child>
+	    <padding>0</padding>
+	    <expand>True</expand>
+	    <fill>True</fill>
+	  </child>
+	</widget>
       </widget>
 
       <widget>

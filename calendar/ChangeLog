@@ -1,3 +1,18 @@
+2001-10-18  Larry Ewing  <lewing@ximian.com>
+
+	* gui/alarm-notify/alarm-notify-dialog.c: add html widget
+	(url_requested_cb): add function to load images from file as they
+	are requested.
+	(write_html_heading): convert to using html.
+	(alarm_notify_dialog): convert to use html display.
+	(make_html_display): this is the function the custom widget in the
+	galde file uses to create the html widget.
+
+	* gui/alarm-notify/alarm-notify.glade: add placeholder for the
+	custom html widget.
+
+	* gui/alarm-notify/Makefile.am: add flags for gtkhtml and gal.
+	
 2001-10-18  Federico Mena Quintero  <federico@ximian.com>
 
 	Adds session management for the alarm daemon.  Also makes it store
