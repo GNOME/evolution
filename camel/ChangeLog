@@ -1,5 +1,8 @@
 2001-06-07  Jon Trowbridge  <trow@ximian.com>
 
+	* camel-filter-driver.c (camel_filter_driver_filter_folder): Add a
+	separator between the service url and the folder name, if needed.
+
 	* camel-filter-driver.c (camel_filter_driver_filter_mbox): Added
 	an argument, so that the original source URI of the mbox can be
 	passed in.  This is needed because this function is called

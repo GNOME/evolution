@@ -732,10 +732,22 @@ camel_filter_driver_filter_folder (CamelFilterDriver *driver, CamelFolder *folde
 	CamelMimeMessage *message;
 	CamelMessageInfo *info;
 	char *source_url, *service_url;
+	const char *folder_name;
 	int status = 0;
+	int need_sep = 0;
 	
 	service_url = camel_service_get_url (CAMEL_SERVICE (camel_folder_get_parent_store (folder)));
-	source_url = g_strdup_printf ("%s%s", service_url, camel_folder_get_full_name (folder));
+	folder_name = camel_folder_get_full_name (folder);
+	
+	/* Add a separator unless the first char of folder_name or the last char of service_url is '/' */
+	need_sep = (folder_name && *folder_name != '/');
+	if (service_url && *service_url && !need_sep) {
+		need_sep = (service_url[strlen (service_url)-1] != '/');
+	}
+	source_url = g_strdup_printf ("%s%s%s",
+				      service_url,
+				      need_sep ? "/" : "",
+				      folder_name);
 	g_free (service_url);
 	
 	if (uids == NULL) {
