@@ -1,3 +1,11 @@
+2005-01-21  JP Rosevear  <jpr@novell.com>
+
+	Fixes #46404
+	
+	* Makefile.am: build new files
+
+	* e-print.[hc]: print related config and dialog routines
+
 2005-01-17  Rodrigo Moya <rodrigo@novell.com>
 
 	* e-url.[ch]:

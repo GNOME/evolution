@@ -43,6 +43,7 @@ eutilinclude_HEADERS = 				\
 	e-menu.h				\
 	e-mktemp.h				\
 	e-passwords.h				\
+	e-print.h				\
 	e-plugin.h				\
 	e-popup.h				\
 	e-request.h				\
@@ -82,6 +83,7 @@ libeutil_la_SOURCES =				\
 	e-passwords.c				\
 	e-plugin.c				\
 	e-popup.c				\
+	e-print.c				\
 	e-request.c				\
 	e-signature.c				\
 	e-signature-list.c			\
