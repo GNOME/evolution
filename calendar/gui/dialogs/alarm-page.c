@@ -141,7 +141,7 @@ static void alarm_page_finalize (GObject *object);
 
 static GtkWidget *alarm_page_get_widget (CompEditorPage *page);
 static void alarm_page_focus_main_widget (CompEditorPage *page);
-static void alarm_page_fill_widgets (CompEditorPage *page, ECalComponent *comp);
+static gboolean alarm_page_fill_widgets (CompEditorPage *page, ECalComponent *comp);
 static gboolean alarm_page_fill_component (CompEditorPage *page, ECalComponent *comp);
 static void alarm_page_set_summary (CompEditorPage *page, const char *summary);
 static void alarm_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates);
@@ -358,7 +358,7 @@ append_reminder (AlarmPage *apage, ECalComponentAlarm *alarm)
 }
 
 /* fill_widgets handler for the alarm page */
-static void
+static gboolean
 alarm_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 {
 	AlarmPage *apage;
@@ -422,6 +422,8 @@ alarm_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	sensitize_buttons (apage);
 
 	priv->updating = FALSE;
+
+	return TRUE;
 }
 
 /* fill_component handler for the alarm page */

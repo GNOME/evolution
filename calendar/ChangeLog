@@ -1,3 +1,24 @@
+2004-03-04  Rodrigo Moya <rodrigo@ximian.com>
+
+	Fixes #53137
+
+	* gui/dialogs/comp-editor-page.[ch]: made fill_widgets virtual
+	method return a gboolean.
+	(comp_editor_page_fill_widgets): return value from virtual method
+	implementation.
+
+	* gui/dialogs/event-page.c (event_page_fill_widgets):
+	* gui/dialogs/meeting-page.c (meeting_page_fill_widgets):
+	* gui/dialogs/recurrence-page.c (recurrence_page_fill_widgets):
+	* gui/dialogs/schedule-page.c (schedule_page_fill_widgets):
+	* gui/dialogs/task-details-page.c (task_details_page_fill_widgets):
+	* gui/dialogs/task-page.c (task_page_fill_widgets):
+	* gui/dialogs/alarm-page.c (alarm_page_fill_widgets): return value,
+	as expected from the virtual method signature.
+
+	* gui/dialogs/comp-editor.c (comp_editor_append_page): dont add the
+	page if there was an error calling the fill_widgets method.
+
 2004-03-03  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/e-cal-model.c (e_cal_model_add_client): prevent from adding

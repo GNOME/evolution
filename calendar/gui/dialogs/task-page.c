@@ -91,7 +91,7 @@ static void task_page_finalize (GObject *object);
 
 static GtkWidget *task_page_get_widget (CompEditorPage *page);
 static void task_page_focus_main_widget (CompEditorPage *page);
-static void task_page_fill_widgets (CompEditorPage *page, ECalComponent *comp);
+static gboolean task_page_fill_widgets (CompEditorPage *page, ECalComponent *comp);
 static gboolean task_page_fill_component (CompEditorPage *page, ECalComponent *comp);
 static void task_page_set_summary (CompEditorPage *page, const char *summary);
 static void task_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates);
@@ -249,7 +249,7 @@ classification_get (GtkWidget *widget)
 }
 
 /* fill_widgets handler for the task page */
-static void
+static gboolean
 task_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 {
 	TaskPage *tpage;
@@ -408,6 +408,8 @@ task_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	e_source_option_menu_select (E_SOURCE_OPTION_MENU (priv->source_selector), source);
 
 	priv->updating = FALSE;
+
+	return TRUE;
 }
 
 /* fill_component handler for the task page */

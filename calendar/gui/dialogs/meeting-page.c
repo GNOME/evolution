@@ -96,7 +96,7 @@ static void meeting_page_finalize (GObject *object);
 
 static GtkWidget *meeting_page_get_widget (CompEditorPage *page);
 static void meeting_page_focus_main_widget (CompEditorPage *page);
-static void meeting_page_fill_widgets (CompEditorPage *page, ECalComponent *comp);
+static gboolean meeting_page_fill_widgets (CompEditorPage *page, ECalComponent *comp);
 static gboolean meeting_page_fill_component (CompEditorPage *page, ECalComponent *comp);
 
 static CompEditorPageClass *parent_class = NULL;
@@ -317,7 +317,7 @@ clear_widgets (MeetingPage *mpage)
 }
 
 /* fill_widgets handler for the meeting page */
-static void
+static gboolean
 meeting_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 {
 	MeetingPage *mpage;
@@ -390,6 +390,8 @@ meeting_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	}
 	
 	priv->updating = FALSE;
+
+	return TRUE;
 }
 
 /* fill_component handler for the meeting page */

@@ -74,7 +74,7 @@ static void schedule_page_finalize (GObject *object);
 
 static GtkWidget *schedule_page_get_widget (CompEditorPage *page);
 static void schedule_page_focus_main_widget (CompEditorPage *page);
-static void schedule_page_fill_widgets (CompEditorPage *page, ECalComponent *comp);
+static gboolean schedule_page_fill_widgets (CompEditorPage *page, ECalComponent *comp);
 static gboolean schedule_page_fill_component (CompEditorPage *page, ECalComponent *comp);
 static void schedule_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates);
 
@@ -278,7 +278,7 @@ clear_widgets (SchedulePage *spage)
 }
 
 /* fill_widgets handler for the schedule page */
-static void
+static gboolean
 schedule_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 {
 	SchedulePage *spage;
@@ -302,6 +302,8 @@ schedule_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	e_cal_component_free_datetime (&end_date);
 	
 	priv->updating = FALSE;
+
+	return TRUE;
 }
 
 /* fill_component handler for the schedule page */

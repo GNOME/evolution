@@ -95,7 +95,7 @@ static void event_page_finalize (GObject *object);
 
 static GtkWidget *event_page_get_widget (CompEditorPage *page);
 static void event_page_focus_main_widget (CompEditorPage *page);
-static void event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp);
+static gboolean event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp);
 static gboolean event_page_fill_component (CompEditorPage *page, ECalComponent *comp);
 static void event_page_set_summary (CompEditorPage *page, const char *summary);
 static void event_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates);
@@ -408,7 +408,7 @@ clear_widgets (EventPage *epage)
 
 
 /* fill_widgets handler for the event page */
-static void
+static gboolean
 event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 {
 	EventPage *epage;
@@ -422,7 +422,7 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	ESource *source;
 	GSList *l;
 	
-	g_return_if_fail (page->client != NULL);
+	g_return_val_if_fail (page->client != NULL, FALSE);
 
 	epage = EVENT_PAGE (page);
 	priv = epage->priv;
@@ -452,7 +452,16 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	/* Start and end times */
 
 	e_cal_component_get_dtstart (comp, &start_date);
+	if (!start_date.value) {
+		comp_editor_page_display_validation_error (page, _("Event with no start time"), priv->start_time);
+		return FALSE;
+	}
+
 	e_cal_component_get_dtend (comp, &end_date);
+	if (!end_date.value) {
+		comp_editor_page_display_validation_error (page, _("Event with no end time"), priv->end_time);
+		return FALSE;
+	}
 
 	update_time (epage, &start_date, &end_date);
 	
@@ -520,6 +529,8 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	e_source_option_menu_select (E_SOURCE_OPTION_MENU (priv->source_selector), source);
 
 	priv->updating = FALSE;
+
+	return TRUE;
 }
 
 /* fill_component handler for the event page */

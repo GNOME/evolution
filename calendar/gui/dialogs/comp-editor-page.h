@@ -74,7 +74,7 @@ typedef struct {
 	GtkWidget *(* get_widget) (CompEditorPage *page);
 	void (* focus_main_widget) (CompEditorPage *page);
 
-	void     (* fill_widgets) (CompEditorPage *page, ECalComponent *comp);
+	gboolean (* fill_widgets) (CompEditorPage *page, ECalComponent *comp);
 	gboolean (* fill_component) (CompEditorPage *page, ECalComponent *comp);
 
 	void (* set_summary) (CompEditorPage *page, const char *summary);
@@ -85,7 +85,7 @@ typedef struct {
 GtkType    comp_editor_page_get_type               (void);
 GtkWidget *comp_editor_page_get_widget             (CompEditorPage      *page);
 void       comp_editor_page_focus_main_widget      (CompEditorPage      *page);
-void       comp_editor_page_fill_widgets           (CompEditorPage      *page,
+gboolean   comp_editor_page_fill_widgets           (CompEditorPage      *page,
 						    ECalComponent        *comp);
 gboolean   comp_editor_page_fill_component         (CompEditorPage      *page,
 						    ECalComponent        *comp);

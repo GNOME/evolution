@@ -234,7 +234,7 @@ comp_editor_page_focus_main_widget (CompEditorPage *page)
  * 
  * Fills the widgets of an editor page with the data from a calendar component.
  **/
-void
+gboolean
 comp_editor_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 {
 	g_return_if_fail (page != NULL);
@@ -242,7 +242,7 @@ comp_editor_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	g_return_if_fail (comp != NULL);
 
 	g_assert (CLASS (page)->fill_widgets != NULL);
-	(* CLASS (page)->fill_widgets) (page, comp);
+	return (* CLASS (page)->fill_widgets) (page, comp);
 }
 
 /**

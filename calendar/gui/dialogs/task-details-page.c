@@ -93,7 +93,7 @@ static void task_details_page_finalize (GObject *object);
 
 static GtkWidget *task_details_page_get_widget (CompEditorPage *page);
 static void task_details_page_focus_main_widget (CompEditorPage *page);
-static void task_details_page_fill_widgets (CompEditorPage *page, ECalComponent *comp);
+static gboolean task_details_page_fill_widgets (CompEditorPage *page, ECalComponent *comp);
 static gboolean task_details_page_fill_component (CompEditorPage *page, ECalComponent *comp);
 
 static CompEditorPageClass *parent_class = NULL;
@@ -276,7 +276,7 @@ clear_widgets (TaskDetailsPage *tdpage)
 }
 
 /* fill_widgets handler for the task page */
-static void
+static gboolean
 task_details_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 {
 	TaskDetailsPage *tdpage;
@@ -360,6 +360,8 @@ task_details_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	e_dialog_editable_set (priv->url, url);
 	
 	priv->updating = FALSE;
+
+	return TRUE;
 }
 
 /* fill_component handler for the task page */

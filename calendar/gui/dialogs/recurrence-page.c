@@ -207,7 +207,7 @@ static void recurrence_page_finalize (GObject *object);
 
 static GtkWidget *recurrence_page_get_widget (CompEditorPage *page);
 static void recurrence_page_focus_main_widget (CompEditorPage *page);
-static void recurrence_page_fill_widgets (CompEditorPage *page, ECalComponent *comp);
+static gboolean recurrence_page_fill_widgets (CompEditorPage *page, ECalComponent *comp);
 static gboolean recurrence_page_fill_component (CompEditorPage *page, ECalComponent *comp);
 static void recurrence_page_set_summary (CompEditorPage *page, const char *summary);
 static void recurrence_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates);
@@ -1494,7 +1494,7 @@ fill_ending_date (RecurrencePage *rpage, struct icalrecurrencetype *r)
  * editing and the ones we don't.  We only support at most one recurrence rule;
  * no rdates or exrules (exdates are handled just fine elsewhere).
  */
-static void
+static gboolean
 recurrence_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 {
 	RecurrencePage *rpage;
@@ -1568,7 +1568,7 @@ recurrence_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 		preview_recur (rpage);
 
 		priv->updating = FALSE;
-		return;
+		return TRUE;
 	}
 
 	/* See if it is a custom set we don't support */
@@ -1863,6 +1863,8 @@ recurrence_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	preview_recur (rpage);
 
 	priv->updating = FALSE;
+
+	return TRUE;
 }
 
 /* fill_component handler for the recurrence page */
