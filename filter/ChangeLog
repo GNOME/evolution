@@ -1,36 +1,3 @@
-2002-01-15  Not Zed  <NotZed@Ximian.com>
-
-	* filter-input.c (xml_decode): If we write "" to an xml file, we
-	read back NULL.  So if we read back NULL, convert it to "".
-	Sigh.  This makes a fix for #7801, although new gui may also be
-	required.
-
-2002-01-03  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* filter-source.c (filter_source_get_sources): Get the account
-	name because that is the string we'd like to use for display.
-	(get_widget): Generate the account label the same as we do for the
-	composer's From optionmenu.
-	(filter_source_finalize): Free the account_name.
-	(clone): Pass along the account_name member to filter_add_source
-
-2002-01-02  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* vfoldertypes.xml: Make the date comparisons read the same as the
-	ones in filtertypes.xml
-
-2001-12-17  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* filtertypes.xml: Add new action to execute a shell command.
-
-2001-12-09  Jon Trowbridge  <trow@ximian.com>
-
-	* vfoldertypes.xml: Add "Needs Reply" option to different status
-	types.
-
-	* filtertypes.xml: Add "Needs Reply" option to different status
-	types.
-
 2001-11-15  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* rule-editor.c (set_source): Removed U_.  Fixes #15415.

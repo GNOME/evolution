@@ -13,7 +13,6 @@ INCLUDES = \
 	$(GTKHTML_CFLAGS)					\
 	$(BONOBO_CONF_CFLAGS)					\
 	$(BONOBO_GNOME_CFLAGS)					\
-	$(SOUP_CFLAGS)						\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"			\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"		\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"            	\
@@ -70,10 +69,9 @@ evolution_executive_summary_LDADD = 					\
 	$(top_builddir)/libversit/libversit.la		\
 	$(top_builddir)/libical/src/libical/libical-evolution.la	\
 	$(top_builddir)/libwombat/libwombat.la		\
-	$(BONOBO_GNOME_LIBS)			\
+	$(BONOBO_VFS_GNOME_LIBS)			\
 	$(BONOBO_CONF_LIBS)				\
 	$(EXTRA_GNOME_LIBS)				\
-	$(SOUP_LIBS)					\
 	-lgal						\
 	$(GTKHTML_LIBS)
 

@@ -16,7 +16,6 @@
 #undef NEED_KRB_SENDAUTH_PROTO
 #undef HAVE_KRB5
 #undef HAVE_NSS
-#undef HAVE_OPENSSL
 #undef HAVE_SSL
 #undef USE_DOT
 #undef USE_FCNTL
@@ -34,7 +33,7 @@
 /* Sub-version identification string.  */
 #undef SUB_VERSION
 
-/* Preview-release string */
+/* Prewview-release string */
 #undef VERSION_COMMENT
 
 /* Define if ctime_r takes three arguments */

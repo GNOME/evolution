@@ -70,7 +70,6 @@ typedef struct
 	CalUnits	hide_completed_tasks_units;
 	gint		hide_completed_tasks_value;
 	gboolean	confirm_delete;
-	gboolean	confirm_expunge;
 	gboolean        use_default_reminder;
 	int             default_reminder_interval;
 	CalUnits        default_reminder_units;
@@ -247,8 +246,6 @@ config_read				(void)
 	/* Confirmation */
 	config->confirm_delete = bonobo_config_get_boolean_with_default (
 		db, "/Calendar/Other/ConfirmDelete", TRUE, NULL);
-	config->confirm_expunge = bonobo_config_get_boolean_with_default (
-		db, "/Calendar/Other/ConfirmExpunge", TRUE, NULL);
 
 	/* Default reminders */
 	config->use_default_reminder = bonobo_config_get_boolean_with_default (
@@ -361,7 +358,6 @@ calendar_config_write			(void)
 				config->hide_completed_tasks_value, NULL);
 
 	bonobo_config_set_boolean (db, "/Calendar/Other/ConfirmDelete", config->confirm_delete, NULL);
-	bonobo_config_set_boolean (db, "/Calendar/Other/ConfirmExpunge", config->confirm_expunge, NULL);
 
 	bonobo_config_set_boolean (db, "/Calendar/Other/UseDefaultReminder",
 				   config->use_default_reminder, NULL);
@@ -406,9 +402,6 @@ calendar_config_write_on_exit		(void)
 				 config->month_hpane_pos, NULL);
 	bonobo_config_set_float (db, "/Calendar/Display/MonthVPanePosition",
 				 config->month_vpane_pos, NULL);
-
-	bonobo_config_set_boolean (db, "/Calendar/Other/ConfirmExpunge",
-				   config->confirm_expunge, NULL);
 
 	Bonobo_ConfigDatabase_sync (db, &ev);
 
@@ -805,32 +798,6 @@ calendar_config_set_confirm_delete (gboolean confirm)
 	config->confirm_delete = confirm;
 }
 
-/**
- * calendar_config_get_confirm_expunge:
- *
- * Queries the configuration value for whether a confirmation dialog is
- * presented when expunging calendar/tasks items.
- *
- * Return value: Whether confirmation is required when expunging items.
- **/
-gboolean
-calendar_config_get_confirm_expunge (void)
-{
-	return config->confirm_expunge;
-}
-
-/**
- * calendar_config_set_confirm_expunge:
- * @confirm: Whether confirmation is required when expunging items.
- *
- * Sets the configuration value for whether a confirmation dialog is presented
- * when expunging calendar/tasks items.
- **/
-void
-calendar_config_set_confirm_expunge (gboolean confirm)
-{
-	config->confirm_expunge = confirm;
-}
 
 /* This sets all the common config settings for an ECalendar widget.
    These are the week start day, and whether we show week numbers. */

@@ -1,61 +1,14 @@
-2002-01-10  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* e-msg-composer.c (get_file_content): Rewrote to use CamelStreams
-	and also convert the file contents to UTF-8 (assums the file
-	charset is the same charset that the composer is set to).
-	(menu_file_insert_file_cb): Pass the composer into
-	get_file_content().
-	(e_msg_composer_get_sig_file_content): Pass NULL as the composer
-	argument.
-
-2002-01-09  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* e-msg-composer.c (class_init): Fixed the setup of the
-	"save-draft" signal so that it would actually work.
-
-2002-01-08  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* e-msg-composer.c (is_special_header): Greatly simplified. No
-	need to have a list of headers to not accept - we can just refuse
-	all headers that are not X-* headers (other than X-Evolution
-	headers).
-
 2002-01-07  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (e_msg_composer_get_message_draft): Set the
 	X-Evolution-Format header to text/plain if that is the editing
 	mode we are really in. This fixes bug #11499.
 
-2002-01-04  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* e-msg-composer.c (e_msg_composer_new_from_url): A few minor
-	fixes to make it more compliant with rfc2368. Should now be fully
-	rfc compliant as far as I can tell.
-
 2002-01-03  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer-attachment.c (e_msg_composer_attachment_edit):
 	Only connect to the parent's destroy/hide signals while the
 	attachment editor dialog is "alive".
-
-2001-12-21  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* e-msg-composer-select-file.c (composer_hide_cb): Only cancel the
-	selection dialog if it is currently in use, otherwise we'll get an
-	extra gtk_main_quit and the mailer will exit :-(
-
-2001-12-17  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* e-msg-composer.c (read_file_content): Don't block forever if we
-	are reading a fifo with no data.
-
-2001-12-14  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* e-msg-composer.c (class_init): Setup the SAVE_DRAFT signal.
-	(menu_file_save_draft_cb): Emit the SAVE_DRAFT signal.
-	(exit_dialog_cb): Same here.
-	(save_draft): Removed. This code is now a signal that
-	mail-callbacks will connect to.
 
 2001-12-11  Jeffrey Stedfast  <fejj@ximian.com>
 
@@ -67,60 +20,6 @@
 
 	* e-msg-composer.c (init): Default composer->enable_autosave to
 	TRUE.
-
-2001-12-11  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* e-msg-composer-select-file.c (confirm): If multiple-selection is
-	enabled but nothing is slected, fall back to using the filename in
-	the entry box as the "selected" file.
-	(create_file_selection): If the composer gets hidden (ie it's
-	being "sent") then cancel the file selection dialog.
-
-2001-12-11  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* e-msg-composer-select-file.c
-	(file_selection_info_destroy_notify): If the widget is non-NULL,
-	then gtk_widget_destroy that bad boy...
-
-2001-12-10  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* e-msg-composer-attachment-bar.c (add_from_user):
-	select_file_attachments now returns a GPtrArray so handle that and
-	loop until we've added all the attachment files.
-
-	* e-msg-composer-select-file.c (confirm): Add an evil kludge to
-	get a list of filenames from the GtkFileSelection widget based on
-	the label in the history option menu item and the base filenames
-	of the selected items in the filename clist.
-	(create_file_selection): Setup the clist to allow multiple
-	selection.
-	(file_selection_info_destroy_notify): Destroy the GPtrArray
-	containing the list of xselected files.
-	(select_file_internal): Return a GPtrArray of files instead of a
-	char *.
-
-2001-12-10  Jon Trowbridge  <trow@ximian.com>
-
-	* e-msg-composer.c (get_file_content): Only execute an executable
-	sig file if a magic environment variable is set.
-
-2001-12-06  Jon Trowbridge  <trow@ximian.com>
-
-	* e-msg-composer.c (executed_file_output): Added.  Executes the
-	given file and returns its output as a string.
-	(get_file_content): Stats the file to see if it is executable.
-	If it is, execute it and return the string.  If not, just read
-	the file and return the contents.
-
-2001-11-30  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* e-msg-composer.c (setup_ui): Change the FileSend tooltip the be
-	the same as the FileSendLater tooltip if we are in offline mode.
-
-2001-11-11  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* e-msg-composer.c (drag_data_received): Allow drag & drop for
-	vcards.
 
 2001-11-30  Jeffrey Stedfast  <fejj@ximian.com>
 

@@ -47,7 +47,6 @@
 #include "art/mail-new.xpm"
 #include "art/mail-read.xpm"
 #include "art/mail-replied.xpm"
-#include "art/mail-need-reply.xpm"
 #include "art/attachment.xpm"
 #include "art/priority-high.xpm"
 #include "art/empty.xpm"
@@ -151,7 +150,6 @@ static struct {
 	{ score_high_xpm,       NULL },
 	{ score_higher_xpm,     NULL },
 	{ score_highest_xpm,    NULL },
-	{ mail_need_reply_xpm,  NULL },
 	{ NULL,			NULL }
 };
 
@@ -259,7 +257,7 @@ address_compare (gconstpointer address1, gconstpointer address2)
 #ifdef SMART_ADDRESS_COMPARE
 	EMailAddress *addr1, *addr2;
 #endif /* SMART_ADDRESS_COMPARE */
-	gint retval;
+	int retval;
 	
 	g_return_val_if_fail (address1 != NULL, 1);
 	g_return_val_if_fail (address2 != NULL, -1);
@@ -407,7 +405,7 @@ message_list_select (MessageList               *message_list,
 	}
 	
 	/* If it's -1, we want the last view row, not the last model row. */
-	/* model_to_view_row etc simply doesn't work for sorted views.  Sigh. */
+	/* model_to_view_row etc simply dont work for sorted views.  Sigh. */
 	if (base_row == -1)
 		vrow = e_tree_row_count (message_list->tree) - 1;
 	else
@@ -557,7 +555,6 @@ ml_duplicate_value (ETreeModel *etm, int col, const void *value, void *data)
 {
 	switch (col){
 	case COL_MESSAGE_STATUS:
-	case COL_NEED_REPLY:
 	case COL_FLAGGED:
 	case COL_SCORE:
 	case COL_ATTACHMENT:
@@ -584,7 +581,6 @@ ml_free_value (ETreeModel *etm, int col, void *value, void *data)
 {
 	switch (col){
 	case COL_MESSAGE_STATUS:
-	case COL_NEED_REPLY:
 	case COL_FLAGGED:
 	case COL_SCORE:
 	case COL_ATTACHMENT:
@@ -610,7 +606,6 @@ ml_initialize_value (ETreeModel *etm, int col, void *data)
 {
 	switch (col){
 	case COL_MESSAGE_STATUS:
-	case COL_NEED_REPLY:
 	case COL_FLAGGED:
 	case COL_SCORE:
 	case COL_ATTACHMENT:
@@ -637,7 +632,6 @@ ml_value_is_empty (ETreeModel *etm, int col, const void *value, void *data)
 {
 	switch (col){
 	case COL_MESSAGE_STATUS:
-	case COL_NEED_REPLY:
 	case COL_FLAGGED:
 	case COL_SCORE:
 	case COL_ATTACHMENT:
@@ -666,11 +660,6 @@ static const char *status_map[] = {
 	N_("Multiple Messages"),
 };
 
-static const char *needs_reply_map[] = {
-	"",
-	N_("Needs Reply"),
-};
-
 static const char *score_map[] = {
 	N_("Lowest"),
 	N_("Lower"),
@@ -692,10 +681,6 @@ ml_value_to_string (ETreeModel *etm, int col, const void *value, void *data)
 		if (i > 4)
 			return g_strdup("");
 		return g_strdup(_(status_map[i]));
-
-	case COL_NEED_REPLY:
-		i = (unsigned int)value;
-		return g_strdup (_(needs_reply_map[i]));
 
 	case COL_SCORE:
 		i = (unsigned int)value + 3;
@@ -837,8 +822,6 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
 			return GINT_TO_POINTER (0);
 		break;
 	}
-	case COL_NEED_REPLY:
-		return GINT_TO_POINTER ((msg_info->flags & CAMEL_MESSAGE_NEEDS_REPLY) != 0);
 	case COL_FLAGGED:
 		return GINT_TO_POINTER ((msg_info->flags & CAMEL_MESSAGE_FLAGGED) != 0);
 	case COL_SCORE: {
@@ -999,7 +982,6 @@ message_list_create_extras (void)
 	e_table_extras_add_pixbuf(extras, "score", states_pixmaps [13].pixbuf);
 	e_table_extras_add_pixbuf(extras, "attachment", states_pixmaps [6].pixbuf);
 	e_table_extras_add_pixbuf(extras, "flagged", states_pixmaps [7].pixbuf);
-	e_table_extras_add_pixbuf(extras, "needsreply", states_pixmaps [15].pixbuf);
 	
 	e_table_extras_add_compare(extras, "address_compare", address_compare);
 	e_table_extras_add_compare(extras, "subject_compare", subject_compare);
@@ -1017,15 +999,11 @@ message_list_create_extras (void)
 	images [1] = states_pixmaps [7].pixbuf;
 	e_table_extras_add_cell(extras, "render_flagged", e_cell_toggle_new (0, 2, images));
 
-	images [1] = states_pixmaps [15].pixbuf;
-	e_table_extras_add_cell(extras, "render_needs_reply", e_cell_toggle_new (0, 2, images));
-
 	for (i = 0; i < 7; i++)
 		images[i] = states_pixmaps [i + 7].pixbuf;
 	
 	e_table_extras_add_cell(extras, "render_score", e_cell_toggle_new (0, 7, images));
-
-
+	
 	/* date cell */
 	cell = e_cell_date_new (NULL, GTK_JUSTIFY_LEFT);
 	gtk_object_set (GTK_OBJECT (cell),
@@ -2067,8 +2045,6 @@ on_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event, Mess
 		flag = CAMEL_MESSAGE_SEEN;
 	else if (col == COL_FLAGGED)
 		flag = CAMEL_MESSAGE_FLAGGED;
-	else if (col == COL_NEED_REPLY)
-		flag = CAMEL_MESSAGE_NEEDS_REPLY;
 	else
 		return FALSE;
 	
@@ -2078,19 +2054,14 @@ on_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event, Mess
 	}
 	
 	/* If a message was marked as deleted and the user flags it as
-	   important, marks it as needing a reply, marks it as unread,
-	   then undelete the message. */
+	   important or marks it as unread, undelete it. */
 	if (info->flags & CAMEL_MESSAGE_DELETED) {
 		
 		if (col == COL_FLAGGED && !(info->flags & CAMEL_MESSAGE_FLAGGED))
 			flag |= CAMEL_MESSAGE_DELETED;
 
-		if (col == COL_NEED_REPLY && !(info->flags & CAMEL_MESSAGE_NEEDS_REPLY))
-			flag |= CAMEL_MESSAGE_DELETED;
-
 		if (col == COL_MESSAGE_STATUS && (info->flags & CAMEL_MESSAGE_SEEN))
 			flag |= CAMEL_MESSAGE_DELETED;
-
 	}
 	
 	camel_folder_set_message_flags (list->folder, camel_message_info_uid (info), flag, ~info->flags);

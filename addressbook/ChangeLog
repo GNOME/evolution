@@ -1,14 +1,3 @@
-2002-01-23  Ettore Perazzoli  <ettore@ximian.com>
-
-	* gui/component/addressbook-component.c (create_component): Pass a
-	NULL @icon to
-	`evolution_shell_component_add_user_creatable_item()'.
-
-2002-01-23  Ettore Perazzoli  <ettore@ximian.com>
-
-	* gui/contact-editor/e-contact-editor-address.c: #include
-	<locale.h>.
-
 2002-01-22  Chris Toshok  <toshok@ximian.com>
 
 	[ fixes bug # 16864 ]
@@ -16,224 +5,11 @@
 	return a GString here, instead of writing to a fixed size buffer.
 	(parseLine): use a GString here instead of a fixed size buffer.
 
-2002-01-21  Christopher James Lahey  <clahey@ximian.com>
-
-	* backend/pas/pas-backend-ldap.c (ldap_search_handler): Set the
-	number of cards to return to the value specified in the ldap uri,
-	leaving the default at 100.  Fixes Ximian bug #13953.
-
-	* gui/component/addressbook-config.c (addressbook_source_dialog),
-	gui/component/addressbook-config.glade: Added a limit entry here
-	to edit the limit field of the source.
-
-	* gui/component/addressbook-storage.c,
-	gui/component/addressbook-storage.h
-	(addressbook_storage_init_source_uri): Added a limit field to this
-	class and pass that value through in the uri that's generated.
-
-2002-01-18  Christopher James Lahey  <clahey@ximian.com>
-
-	* backend/ebook/e-card-compare.c: Made username match with no
-	domain match be vague instead of partial.  Fixes Ximian bug
-	#13612.
-
-2002-01-18  Christopher James Lahey  <clahey@ximian.com>
-
-	* gui/component/addressbook.c (view_contact_cb): New verb to open
-	a bunch of cards.
-
-	* gui/widgets/e-addressbook-reflow-adapter.c (open_card): Call
-	e_addressbook_show_multiple_cards instead of doing this ourselves.
-
-	* gui/widgets/e-addressbook-util.c,
-	gui/widgets/e-addressbook-util.h
-	(e_addressbook_show_multiple_cards): Added this function to show a
-	bunch of cards, including a dialog if lots of windows are going to
-	appear.
-
-	* gui/widgets/e-addressbook-view.c (e_addressbook_view_view,
-	e_addressbook_view_can_view): e_addressbook_view_view calls
-	e_addressbook_show_multiple_cards on the appropriate list of
-	cards.
-
-2002-01-18  Christopher James Lahey  <clahey@ximian.com>
-
-	* gui/contact-editor/e-contact-editor-address.c
-	(fill_in_countries), gui/contact-editor/fulladdr.glade: Sort
-	country list.  Country list moves from fulladdr.glade to
-	e-contact-editor-address.c, but only a few country names have
-	actually changed.  Fixes Ximian bug #16545.
-
 2001-12-20  Zbigniew Chyla  <cyba@gnome.pl>
-
-	Fixes #17725
 
 	* evolution/addressbook/printing/e-contact-print.c (complete_sequence):
 	Do not assume that the first byte of file_as is the first letter, use
 	utf8 functions instead.
-
-2002-01-16  JP Rosevear  <jpr@ximian.com>
-
-	* conduit/address-conduit.c: move all functions here, get rid of
-	header files, use e-pilot-settings to display gui
-
-2002-01-15  JP Rosevear  <jpr@ximian.com>
-
-	* gui/component/select-names/select-names.glade: remove misleading
-	title and fix spacing
-
-2002-01-11  Christopher James Lahey  <clahey@ximian.com>
-
-	* gui/component/addressbook.c (alphabet_state_changed): Handle
-	setting the search bar to "Advanced..." when the alphabet buttons
-	are pushed and back when they're cleared.  Fixes Ximian bug
-	#12904.
-	(addressbook_menu_activated): When the user calls Search->clear,
-	set the search to ESB_ANY and "", don't just set the text.  This
-	is especially useful when it's set to ESB_ADVANCED.
-
-	* gui/widgets/e-addressbook-view.c,
-	gui/widgets/e-addressbook-view.h (alphabet_state_change): Added
-	this signal which gets emitted when the alphabet buttons are
-	pushed.
-	(command_state_change): Removed the ref pair here.  It's not
-	necessary.  gtk_signal_emit refs the object itself.
-
-2002-01-11  Christopher James Lahey  <clahey@ximian.com>
-
-	* backend/ebook/e-card-compare.c (name_synonyms): Added a couple
-	of names here.
-
-	* gui/component/select-names/e-select-names-text-model.c
-	(e_select_names_text_model_get_nth_obj): Removed an unused
-	variable.
-
-2002-01-11  Christopher James Lahey  <clahey@ximian.com>
-
-	* gui/widgets/e-addressbook-view.c,
-	gui/widgets/e-addressbook-view.h (create_alphabet): Use toggle
-	buttons here.  Fixes Ximian bug #10734.
-
-2002-01-09  Christopher James Lahey  <clahey@ximian.com>
-
-	* gui/contact-editor/e-contact-editor.c (set_fields): Choose the
-	first filled in address field here.  Fixes Ximian bug #2222.
-
-2002-01-03  Joe Shaw  <joe@ximian.com>
-
-	* backend/ebook/test-card.c: Add a test for getting arbitrary
-        fields.
-
-	* backend/pas/pas-backend-card-sexp.c (compare_arbitrary): Added.
-	(prop_info_table): Add a LIST_PROP for arbitrary fields.
-
-2002-01-03  Nat Friedman  <nat@ximian.com>
-
-	* backend/ebook/e-book.c (activate_factories_for_uri): Free the
-	query if the oaf response is of zero length.
-
-2001-12-27  Jon Trowbridge  <trow@ximian.com>
-
-	* gui/component/select-names/e-select-names.c
-	(real_add_address_cb): When we clean, don't clean the model's last
-	element.  This helps keep things working properly when we have
-	signal-character separators.
-	(section_right_click_cb): Changed to work properly with our
-	EText-emitted popup signal.
-	(e_select_names_add_section): Use ETexts for the recipient
-	sections, rather than tables.  This lets us make them directly
-	editable. (Bug #1721)
-
-	* gui/component/select-names/e-select-names-popup.c
-	(popup_info_new): Pass in a ESelectNamesTextModel, not a
-	ESelectNamesModel.
-	(e_select_names_popup): Adjust for the new signature for
-	e_select_names_model_text_pos.
-
-	* gui/component/select-names/e-select-names-manager.c
-	(focus_out_cb): Schedule a cleaning when we focus out.
-	(focus_in_cb): Cancel pending cleaning when we get focus.  This
-	helps us avoid bad things happening during the fast focus out/ins
-	that happen when the completion dropdown appears.
-	(completion_handler): Adjust for new signatures of
-	e_select_names_model_text_pos and e_select_names_model_name_pos.
-	(e_select_names_manager_entry_new): Pass in our
-	ESelectNamesTextModel when constructing the
-	ESelectNamesCompletion.
-	(e_select_names_manager_entry_free): Cancel any pending clean-ups.
-
-	* gui/component/select-names/e-select-names-bonobo.c
-	(entry_get_property_fn): Get the text off of the text model.
-	Which is the only way that really makes sense when you think about
-	it.
-
-	* gui/component/select-names/e-select-names-completion.c: Added a
-	copy of the associated ESelectNamesTextModel to
-	ESelectNamesCompletionPrivate.  This replaces the
-	ESelectNamesModel.
-	(e_select_names_completion_destroy): Unref ->text_model.
-	(e_select_names_completion_handle_request): Pass in our text
-	model's separator info when calling e_select_names_model_text_pos.
-	(e_select_names_completion_new): Pass in the text model as an arg
-	instead of the model, and ref it as needed.
-
-	* gui/component/select-names/e-select-names-text-model.c
-	(e_select_names_text_model_init): Set separator as either ", " or
-	",", depending on the value of the EVOLUTION_DISABLE_MAGIC_COMMA
-	environment variable.
-	(e_select_names_text_model_destroy): Free the separator.
-	(changed_cb): Flush our cached text on changed.
-	(e_select_names_text_model_set_source): Use our own changed_cb
-	callback on changed, rather than just connecting up
-	e_text_model_changed.
-	(e_select_names_text_model_set_separator): Added.  Lets the
-	separator between recipients be specified.
-	(e_select_names_text_model_get_text): Cache the text we get from
-	calling e_select_names_model_get_textification.
-	(e_select_names_text_model_insert_length): A bunch of small
-	changes to properly support generic separators, rather than
-	(implicit and explicitly) assuming ", ".
-	(e_select_names_text_model_delete): More small tweaks to handle
-	generic separators.
-	(e_select_names_text_model_get_nth_obj): Use new signature when
-	calling e_select_names_model_name_pos, and use our cached text.
-
-	* gui/component/select-names/e-select-names-model.c
-	(e_select_names_model_destroy): We don't cache the text or
-	addr_text anymore, so no need to free them here.
-	(e_select_names_model_changed): ...and no need to reset our text
-	and addr_text caches here.
-	(e_select_names_model_get_textification): Take a separator as an
-	arg, rather than just using ", ".  Also, no caching.
-	(e_select_names_model_get_address_text): Take a separator as an
-	arg, rather than just using ", ".  And no caching here either.
-	(e_select_names_model_clean): Add arg that give us control over
-	whether or not the last entry should get cleaned.  We need this
-	when using a one-character separator, so that new destinations
-	that get tacked onto the end don't get immediately cleaned away
-	for being empty.
-	(e_select_names_model_name_pos): Take the separator length as an
-	argument, remove implicit assumption of length 2.
-	(e_select_names_model_text_pos): Take the separator length as an
-	argument, remove implicit assumption of length 2.
-
-2001-12-20  Ettore Perazzoli  <ettore@ximian.com>
-
-	[Fix #17377, Evolution doesn't work on multi-depth displays.]
-
-	* gui/component/addressbook-factory.c (main): Push GdkRGB visual
-	and colormap.
-
-2001-12-19  Jon Trowbridge  <trow@ximian.com>
-
-	* gui/widgets/e-addressbook-reflow-adapter.c
-	(e_addressbook_reflow_adapter_right_click): Add cut/copy/paste to
-	right-click menu.
-
-	* gui/widgets/e-addressbook-view.c (table_right_click): Add
-	cut/copy/paste to right-click menu.  (Fixes bug #14528.)  Also,
-	disable some right-click options if our addressbook isn't
-	editable.
 
 2001-12-18  JP Rosevear  <jpr@ximian.com>
 
@@ -265,7 +41,7 @@
 
 	* conduit/address-conduit.c (start_addressbook_server): use
 	e_book_load_default_book here.
-	
+
 2001-12-17  Chris Toshok  <toshok@ximian.com>
 
 	[ fixes bug 17355 ]
@@ -285,6 +61,13 @@
 	(e_minicard_view_widget_realize): Use an #ECanvasBackground here
 	instead of a #GnomeCanvasRect.
  
+2001-12-17  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Fixes #17377, Evolution doesn't work on multi-depth displays.]
+
+	* gui/component/addressbook-factory.c (main): Push GdkRGB visual
+	and colormap.
+
 2001-12-16  Jon Trowbridge  <trow@ximian.com>
 
 	* gui/component/select-names/e-select-names-completion.c: Added
@@ -295,6 +78,12 @@
 	FALSE at the beginning of a potentially-cached query.
 	(e_select_names_completion_do_query): Only reuse cached cards
 	if cache_complete is TRUE.  (Fixes bug #10241)
+
+	* gui/component/select-names/e-select-names-bonobo.c
+	(impl_destroy): Disconnect from manager's 'changed' and 'ok'
+	signals.
+	(init): Store the handles when we connect to the 'changed' and
+	'ok' signals.  (Fixed bug #16852)
 
 2001-12-15  JP Rosevear  <jpr@ximian.com>
  
@@ -315,21 +104,6 @@
 	* backend/ebook/e-book-util.c (simple_query_new): Used
 	g_strdup_printf to dup a string.  Doh!  Changed to g_strdup.
 	(Bug #17126)
-
-2001-12-07  Jon Trowbridge  <trow@ximian.com>
-
-	* gui/component/select-names/e-select-names-manager.c
-	(e_select_names_manager_entry_new): Remove a reference to code
-	I don't want to commit yet. :-)
-
-	* gui/component/select-names/e-select-names-manager.c: Extensively
-	refactored -- this code had gotten _really_ ugly.  Untangle things
-	to the point where our reference counting problems are fixable.
-
-	* gui/component/select-names/e-select-names-bonobo.c
-	(impl_destroy): Remove all of the ugly hacks to work around our
-	memory management problems, and just unref the manager.
-	(Fixes #14412)
 
 2001-12-05  Chris Toshok  <toshok@ximian.com>
 

@@ -1,140 +1,8 @@
-2002-01-22  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* camel-filter-driver.c (camel_filter_driver_remove_rule_by_name):
-	New function to remove a filter rule by name.
-
-2002-01-21  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* camel-filter-driver.c (do_beep): As a temporary solution, just
-	printf ("\a"); to make a beep :-)
-
-	* providers/imap/camel-imap-command.c
-	(imap_command_strdup_vprintf): Encode the mailbox to UTF-7 here.
-
-	* providers/imap/camel-imap-utils.c (imap_parse_list_response):
-	Decode the mailbox name as we parse the list response.
-	(imap_mailbox_decode): It's only an illegal mailbox name if it
-	didn't switch back to US-ASCII mode.
-
-2002-01-18  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* providers/imap/camel-imap-utils.c (imap_mailbox_decode): New
-	function to decode an IMAP mailbox name from modified UTF-7
-	encoding to UTF-8.
-	(imap_mailbox_encode): New function to convert a mailbox name from
-	UTF-8 to IMAP's modified UTF-7 encoding.
-
-2002-01-17  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* camel-mime-filter-basic.c (filter): Stop uudecoding once the
-	CAMEL_UUDECODE_STATE_END state bit gets set. Set the
-	CAMEL_UUDECODE_STATE_BEGIN state bit once we find the begin line.
-	(reset): No longer have uu_begin or uulen state variables, these
-	are now stuffed into a single state variable.
-
-	* camel-mime-utils.c (uudecode_step): No longer needs a uulen
-	argument and also keeps track of whether or not the end of the
-	encoded data has been found in 'state'.
-	(uuencode_step): Now stuffs uulen into state so that the uulen
-	argument is no longer needed.
-	(uuencode_close): Same.
-
-2002-01-16  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* camel-mime-filter-basic.c (filter): If we don't want to corrupt
-	the uuencoded data by overwriting it with base64 decoded data
-	afterward, we need to add a break statement!
-
-	* camel-folder-summary.c (summary_build_content_info): Add code to
-	add a uu filter.
-	(camel_folder_summary_finalize): Unref the uuencode filter.
-
-2002-01-16  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* camel-mime-filter-basic.c (filter): Fixed slight logic error to
-	find the uuencode begin line. Fixes bug #18754.
-
-2002-01-15  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* providers/smtp/camel-smtp-transport.c (smtp_send_to): Updated to
-	match the new send_to API.
-	(smtp_send): Get the from address and pass that along to
-	smtp_send_to().
-
-	* providers/sendmail/camel-sendmail-transport.c
-	(sendmail_send_to): Updated to match the new send_to API.
-
-	* camel-transport.c (camel_transport_send_to): Now takes a from
-	argument too.
-
-	* providers/imap/camel-imap-folder.c (imap_update_summary): Sort
-	the needheaders UID array and fixed to respect the
-	UID_SET_LIMIT. This should now finish the fixification of bug
-	#2529. There's still the possible issue that a command-line (The
-	only command-line I can think of that can still be too long is a
-	SEARCH command, but this can't possibly be fixed until we rewrite
-	the imap code to use Zucchi's ImapEngine idea).
-
-2002-01-14  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* providers/imap/camel-imap-folder.c (imap_expunge_uids_online):
-	Move the command-lock outside the loop.
-
-2002-01-14  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* providers/imap/camel-imap-folder.c (imap_expunge_uids_online):
-	Updated to use the new imap_uid_array_to_set() interface.
-	(imap_expunge_uids_resyncing): Same.
-	(do_copy): Here too.
-	(imap_update_summary): Added a FIXME comment to rewrite allowing
-	for a uid-set limitation.
-	(get_matching): Copy some of the logic over from
-	imap_uid_adday_to_set() to limit the length of the uid-set string.
-	(imap_sync_online): Added a comment to explain what is going on
-	with get_matching() since the behavior has changed slightly.
-
-	* providers/imap/camel-imap-utils.c (imap_uid_array_to_set):
-	Modify the interface so that we can limit the size of the uid set
-	string returned.
-
-2002-01-14  Not Zed  <NotZed@Ximian.com>
-
-	* providers/imap/camel-imap-search.c (imap_body_contains):
-	Rewritten to use a cache for body searches when online.  Will need
-	some heavy testing but so far seems to be beneficial.
-
-	* providers/imap/camel-imap-folder.c (imap_search_by_expression,
-	search_by_uids): dont initialise search object here.
-	(camel_imap_folder_new): Setup search object here with pointer to
-	cache dir.
-
-2001-12-01  Not Zed  <NotZed@Ximian.com>
-
-	* camel-store-summary.[ch]: New class to store a store's folder
-	list in.  Not yet completed.
-
 2002-01-11  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap/camel-imap-folder.c (imap_update_summary): Kludge
 	around a bug in Exchange 5.5 that reports 2 messages with the same
-	UID. Fixes bug #17694. Replaces the fix from yesterday.
-
-2002-01-10  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* providers/local/camel-local-folder.c: If PATH_MAX doesn't exist,
-	use _POSIX_PATH_MAX.
-
-	* providers/imap/camel-imap-folder.c (imap_update_summary): If mi
-	is NULL, don't bother updating it. Should fix bug #17694.
-
-2002-01-10  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* camel.h: #include camel-mime-filter-tohtml.h
-
-	* providers/imap/camel-imap-folder.c (imap_update_summary): Kludge
-	around Microsoft Exchange 5.5 (bug #5348) by forgetting our
-	currently selected folder and re-SELECTing it so that the Exchange
-	server has a chance to realise it has new messages.
+	UID. Fixes bug #17694.
 
 2002-01-09  Jeffrey Stedfast  <fejj@ximian.com>
 
@@ -144,60 +12,10 @@
 	rewrite the mbox later without worrying about clobbering the
 	symlink.
 
-2002-01-08  Jeffrey Stedfast  <fejj@ximian.com>
+2001-12-11  Jeffrey Stedfast  <fejj@ximian.com>
 
-	* camel-filter-search.c (TODO): There are a few sexp callbacks
-	that could be modified to use fms->info rather than using a
-	message object (like date and possibly mlist stuff) but *only* if
-	the date exists on the CamelMessageInfo object (since it may be
-	blank except for message flags).
-	(camel_filter_search_get_message): New internal convenience
-	function to make sure that the FilterMessageSearch has loaded the
-	message (and to load the message if this isn't the case).
-	(check_header): Call camel_filter_search_get_message().
-	(header_exists): Same.
-	(header_regex): Here too.
-	(header_full_regex): And here.
-	(body_contains): Again here.
-	(body_regex): Here too.
-	(get_sent_date): Here also.
-	(get_received_date): Same.
-	(get_source): Here if we need to.
-	(camel_filter_search_match): Now takes a callback function/data
-	pair for on-demand message loading so that we don't necessarily
-	have to load the message if the defined filter rules don't require
-	it.
-
-	* camel-filter-driver.c (camel_filter_driver_filter_folder): Don't
-	bother fetching the message here, let
-	camel_filter_driver_filter_message() worry about this.
-	(get_message_cb): New utility callback to fetch a message.
-	(camel_filter_driver_filter_message): Only fetch the message if we
-	absolutely need it to get a CamelMessageInfo. Instead of passing a
-	message object to camel_filter_search_match(), pass get_message_cb
-	and some user_data so that the matching code can fetch the message
-	on demand.
-
-2002-01-07  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* camel-folder.c (filter_filter): Flush the only-once actions.
-
-	* camel-filter-driver.c (camel_filter_driver_filter_message):
-	Don't increment a filtered_count here any longer.
-	(camel_filter_driver_reset_filtered_count): Removed.
-	(camel_filter_driver_get_filtered_count): Removed.
-	(do_beep): New action.
-	(play_sound): New action to play a sound
-	(do_only_once): Another new action.
-	(camel_filter_driver_finalise): Free the only_once hash if the
-	driver has not been "flushed".
-	(camel_filter_driver_flush): Flush all of the only-once actions.
-
-	* camel-charset-map.c: Moved windows-1251 to the end of the list
-	since it contains the euro and we'd prefer to use iso-8859-15 when
-	the euro is requested than a windows charset if possible.
-
-	* camel-charset-map-private.h: Regenerated.
+	* camel-service.c (camel_service_connect): Make sure that the
+	connect_op is non-NULL before unregistering/unreffing it.
 
 2001-12-12  Jeffrey Stedfast  <fejj@ximian.com>
 
@@ -205,62 +23,6 @@
 	content-type parameter if either the name or value is NULL.
 
 	* camel-mime-utils.c (header_set_param): NULL-protection.
-
-2002-01-02  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* camel-tcp-stream-ssl.c (ssl_bad_cert): Do more like what mutt
-	does so hopefully this'll fix bug #16363 and #16300.
-
-2001-12-21  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* broken-date-parser.c (parse_broken_date): Completely
-	rewritten. It is now a load faster and a heck of a lot more
-	accurate, also now returns a time_t and sets the saveoffset
-	variable rather than returning a new char* buffer for the normal
-	camel date parser to re-parse. This saves a fair number of cpu
-	cycles :-)
-
-	* camel-mime-utils.c (header_decode_date): Cleanup the broken date
-	parsing code.
-
-2001-12-20  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* camel-address.h: Change the prototype for camel_address_get_type
-	to return a CamelType (since internally this is what it returns
-	and also in case we decide to write a replacement for the current
-	CamelObject it'd be easier to drop in).
-
-	* camel-internet-address.h: Same but for
-	camel_internet_address_get_type()
-
-	* providers/smtp/camel-smtp-transport.c (smtp_send_to): Updated to
-	use a CamelAddress of recipients.
-	(smtp_send): Since smtp_send_to now takes a CamelAddress
-	recipients argument, our lives have been simplified and we can now
-	just concat To/Cc/Bcc into a recipients addr and send away.
-
-	* providers/sendmail/camel-sendmail-transport.c
-	(sendmail_send_to): Updated to use a CamelAddress of recipients.
-
-	* camel-transport.c (camel_transport_send_to): Now takes a
-	CamelAddress argument for the recipient list rather than a GList.
-
-2001-12-19  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* providers/smtp/Makefile.am: Remove the providerdir variable.
-
-	* providers/sendmail/Makefile.am: Same.
-
-2001-12-17  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* camel-charset-map.c (camel_charset_iso_to_windows): New function
-	to map ISO charsets to the Windows charsets.
-
-	* camel-mime-part-utils.c (broken_windows_charset): Detect Windows
-	charsets.
-	(simple_data_wrapper_construct_from_parser): Simplify a tad and
-	also check for iso-8859-* charsets that are really Windows
-	charsets. Fixes bug #12631.
 
 2001-12-17  Dan Winship  <danw@ximian.com>
 
@@ -271,57 +33,12 @@
 
 	* providers/imap/Makefile.am (camel_provider_LTLIBRARIES,
 	camel_provider_DATA): renamed from provider_LTLIBRARIES,
-	provider_DATA.  
-
-	* providers/local/Makefile.am: Likewise 
-
-	* providers/nntp/Makefile.am: Likewise 
-
-	* providers/pop3/Makefile.am: Likewise 
-
-	* providers/sendmail/Makefile.am: Likewise 
-
+	provider_DATA.
+	* providers/local/Makefile.am: Likewise
+	* providers/nntp/Makefile.am: Likewise
+	* providers/pop3/Makefile.am: Likewise
+	* providers/sendmail/Makefile.am: Likewise
 	* providers/smtp/Makefile.am: Likewise
-
-2001-12-16  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* providers/imap/camel-imap-folder.c (get_content): Reverted my
-	previous changes here since it doesn't actually work afterall.
-
-	* providers/imap/camel-imap-wrapper.c (imap_wrapper_hydrate):
-	Update to do uudecoding when appropriate.
-
-2001-12-16  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* providers/imap/camel-imap-folder.c (get_content): Try to use the
-	original boundary so luis will stop bugging me about "data
-	corruption". Also preserve other params in the multipart
-	content-type by dumping it to a string and setting it on the mime
-	part.
-
-2001-12-14  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* camel-filter-driver.c
-	(camel_filter_driver_reset_filtered_count): Reset the
-	filtered_count to zero.
-	(camel_filter_driver_get_filtered_count): Return the private
-	filtered_count value.
-	(camel_filter_driver_filter_message): Increment the
-	filtered_count.
-	(camel_filter_driver_set_shell_exec_func): New function to set the
-	shell-exec func.
-	(shell_exec): New ESExp filter action callback.
-
-2001-12-14  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* camel-pgp-mime.c (camel_pgp_mime_part_verify): Removed
-	x-inline-pgp-hack kludge because it doesn't work.
-	(camel_pgp_mime_part_decrypt): Same.
-
-2001-12-13  Chris Toshok  <toshok@ximian.com>
-
-	* camel-data-cache.c: include stdlib.h (for alloca on freebsd) and
-	only include alloca.h if HAVE_ALLOCA_H is defined.
 
 2001-12-11  Zbigniew Chyla  <cyba@gnome.pl>
 
@@ -340,17 +57,6 @@
 
 	* camel-service.c (camel_service_connect): Make sure that the
 	connect_op is non-NULL before unregistering/unreffing it.
-
-2001-12-04  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* camel-mime-utils.c (header_content_type_simple): Protect against
-	either of the types being NULL.
-
-2001-12-05  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* camel-mime-filter-basic.c (filter): If complete() allocates
-	len+2 bytes for the out buffer, so should this. See bug #16371 for
-	an example case.
 
 2001-12-05  Jeffrey Stedfast  <fejj@ximian.com>
 
@@ -391,18 +97,22 @@
 	(rfc2184_decode): Use size_t's with iconv().
 	(header_decode_param): Same.
 
-2001-12-09  Jon Trowbridge  <trow@ximian.com>
-
-	* camel-folder-summary.c: Add "NeedsReply" to the flag_names array
-	for CAMEL_MESSAGE_NEEDS_REPLY.
-
-	* camel-folder-summary.h: Added CAMEL_MESSAGE_NEEDS_REPLY flag.
-
 2001-12-07  Dan Winship  <danw@ximian.com>
 
 	* camel-mime-message.c (camel_mime_message_set_date): Fix the
 	tm_gmtoff case (its sign is the opposite of "timezone"). Fixes
 	#14678
+
+2001-12-04  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-mime-utils.c (header_content_type_simple): Protect against
+	either of the types being NULL.
+
+2001-12-05  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-mime-filter-basic.c (filter): If complete() allocates
+	len+2 bytes for the out buffer, so should this. See bug #16371 for
+	an example case.
 
 2001-11-29  Jeffrey Stedfast  <fejj@ximian.com>
 
@@ -432,52 +142,12 @@
 	order, always summary_lock before ref_lock.
 	(camel_folder_summary_array): "
 	(camel_folder_summary_uid): "
-	(camel_folder_summary_remove_uid): " Fixes a deadlock.
+	(camel_folder_summary_remove_uid): "  Fixes a deadlock.
 
-2001-11-30  Not Zed  <NotZed@Ximian.com>
-  
-	* providers/nntp/camel-nntp-*.c: Completely new implementation of
-	NNTP.
-	
-	Doesn't support subscriptions yet (lists all folders), but should
-	be more reliable (faster?), and has an integrated cache.
+2001-11-21  Jeffrey Stedfast  <fejj@ximian.com>
 
-	* camel-exception.c (camel_exception_new): Use e_memchunks for
-	exception blocks.
-	(camel_exception_free): Same.
-
-	* camel-data-cache.[ch]: New object for managing on-disk caches of
-	anything that can be stored in a camel-stream.
-
-	* camel-file-utils.c (camel_file_util_mkdir): New function, just a
-	nicer place to put this (than camel-store), should be removed from
-	camel-store.
-	(camel_file_util_safe_filename): New function to url-encode a
-	filename.
-
-	* camel-mime-parser.c (drop_states): New func to drop the parser
-	state to initial state.
-	(folder_scan_init_with_fd): 
-	(folder_scan_init_with_stream): Call above func to reset state if
-	the stream is changed on us so we can change streams to reuse a
-	parser object.
-
-2001-11-25  Not Zed  <NotZed@Ximian.com>
-
-	* providers/nntp/camel-nntp-folder.c (nntp_folder_get_message): If
-	the uid doesn't have a ',' in it, fail to crash.
-
-	* providers/nntp/camel-nntp-newsrc.c
-	(camel_nntp_newsrc_article_is_read): check group != NULL before
-	scanning.
-	(camel_nntp_newsrc_get_highest_article_read): "
-	(camel_nntp_newsrc_get_num_articles_read): "
-	(camel_nntp_newsrc_mark_range_read): "
-
-	* providers/nntp/camel-nntp-store.c
-	(camel_nntp_store_get_overview_fmt): IF we dont have
-	nntp_list_follows, dont try and get a list response.
-	(nntp_store_get_folder_info): Set path part of folderinfo.
+	* Makefile.am: Remove OpenSSL library includes/LDFLAGS from the
+	build.
 
 2001-11-20  Jeffrey Stedfast  <fejj@ximian.com>
 
@@ -485,47 +155,16 @@
 	Check to see that errno is non-zero before returning
 	g_strerror. If it's 0, then we have an unknown error.
 
-2001-11-26  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* camel-mime-filter-basic.c: For the uudecoding mode, garble up
-	the "begin <mode> <filename>" line before decoding.
-
-	* camel-mime-part-utils.c
-	(simple_data_wrapper_construct_from_parser): Add a uudecoder if
-	the transfer encoding is x-uuencode.
-
-	* camel-mime-part.c (write_to_stream): Handle x-uuencoded content
-	too.
-
 2001-11-19  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-tcp-stream-ssl.c (stream_read): Added a check to see if
 	the operation has been cancelled.
 	(stream_write): Same.
 
-2001-11-19  Jeffrey Stedfast  <fejj@ximian.com>
-
-	Updates for compliance with rfc2231
-
-	* camel-mime-utils.c (header_encode_param):
-	camel_mime_special_table[c] & IS_ESAFE should have been
-	!(camel_mime_special_table[c] & IS_ESAFE). Also added a few
-	comments for how to improve the code at some future date.
-	(header_decode_param): Now takes an argument rfc2184_part so our
-	caller can get this information as well.
-	(header_decode_param_list): Pass an rfc2184_part argument to
-	header_decode_param and also added a few comments on where to
-	improve on rfc2184/rfc2231 compliance.
-	(rfc2047_decode_word): Updated to respect the updated ABNF syntax
-	of rfc2047 encoded words, yay.
-
 2001-11-16  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap/camel-imap-utils.c (imap_parse_body): Abort if
 	body == NULL.
-
-	* camel-mime-filter-tohtml.c (camel_mime_filter_tohtml_new): New
-	mime filter to convert plain text to html.
 
 2001-11-16  Jeffrey Stedfast  <fejj@ximian.com>
 
@@ -535,15 +174,6 @@
 	* camel-pgp-mime.c (camel_pgp_mime_part_encrypt): Set a name
 	parameter.
 	(camel_pgp_mime_part_sign): Same.
-
-2001-11-14  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* providers/imap/camel-imap-command.c
-	(camel_imap_command_response): If we get a BYE response, call
-	camel_service_disconnect() and set an exception. Also do the check
-	for "* BYE" first instead of passing it off imap_read_untagged()
-	since we'll just waste time in there mallocing left and right only
-	to arrive at the single response line "* BYE" again :-)
 
 2001-11-13    <NotZed@Ximian.com>
 

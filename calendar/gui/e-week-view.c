@@ -593,10 +593,6 @@ e_week_view_realize (GtkWidget *widget)
 	week_view->colors[E_WEEK_VIEW_COLOR_DATES_SELECTED].green = 65535;
 	week_view->colors[E_WEEK_VIEW_COLOR_DATES_SELECTED].blue  = 65535;
 
-	week_view->colors[E_WEEK_VIEW_COLOR_TODAY].red   = 65535;
-	week_view->colors[E_WEEK_VIEW_COLOR_TODAY].green = 0;
-	week_view->colors[E_WEEK_VIEW_COLOR_TODAY].blue  = 0;
-
 	nfailed = gdk_colormap_alloc_colors (colormap, week_view->colors,
 					     E_WEEK_VIEW_COLOR_LAST, FALSE,
 					     TRUE, success);
@@ -3192,7 +3188,7 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 		cal_component_set_summary (event->comp, &summary);
 
 		if (cal_client_update_object (week_view->client, event->comp)) {
-			if (cal_component_has_attendees (event->comp) && send_component_dialog (event->comp, FALSE))
+			if (cal_component_has_attendees (event->comp) && send_component_dialog (event->comp))
 				itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, event->comp);
 		} else {
 			g_message ("e_week_view_on_editing_stopped(): Could not update the object!");

@@ -1,0 +1,82 @@
+  This is the stable branch of Evolution.  As a consequence, any
+commit to this branch is subject to a patch review mechanism, as
+defined by the following rules:
+
+    1. Every patch will be sent to evolution-patches@ximian.com in the
+       form of a unified diff (cvs diff -u).
+
+    2. Every patch will have to be on the list for at least 24 hours
+       before being committed.  A week-end (Saturday+Sunday) counts as
+       a single 24-hour day.
+
+       If a patch is by one of the core contributors of the module the
+       patch refers to and no-one speaks up against it in the 24 hour
+       period, the author can go ahead and commit the patch.
+
+       On the other hand, patches by people who are not core
+       contributors of the module being patched will always have to be
+       confirmed as safe by one of the core contributors first.
+
+    3. As an exception to rule 2, if the patch gets approved by all
+       the core developers of the module before the 24-hour period, it
+       may get committed immediately.  This doesn't apply to the
+       modules that have only one core maintainer though (e.g. the
+       shell); in that case, the patch will have to be approved by at
+       least one core developer of another module in order to be
+       committed before the 24-hour period.
+
+    4. Core contributors are required to give their opinion on the bug
+       in the 24 hour period.
+
+    5. Core module members are defined as follows:
+
+        Addressbook:
+            Chris Lahey <clahey@ximian.com>
+            Chris Toshok <toshok@ximian.com>
+            Jon Trowbridge <trow@ximian.com>
+
+        Calendar:
+            JP Rosevear <jpr@ximian.com>
+            Damon Chaplin <damon@ximian.com>
+            Rodrigo Moya <rodrigo@ximian.com>
+
+        GAL:
+            ETable:
+                Chris Lahey <clahey@ximian.com>
+            Shortcut bar:
+                Damon Chaplin <damon@ximian.com>
+            Other GAL widgets:
+                Respective authors.
+
+        GtkHTML:
+            Radek Doulik <rodo@ximian.com>
+            Larry Ewing <lewing@ximian.com>
+
+        Importers:
+            Iain Holmes <iain@ximian.com>
+
+        Mailer:
+            Jeffrey Stedfast <fejj@ximian.com>
+            Michael Zucchi <notzed@ximian.com>
+
+        Shell:
+            Ettore Perazzoli <ettore@ximian.com>
+
+        Summary:
+            Iain Holmes <iain@ximian.com>
+
+    6. Patches must be attached to bugs that are actually on the
+       Bugzilla, and the bug # must be specified when sending the patch
+       to the list.
+
+    7. Once the patch has been committed, it is the author's
+       responsibility to:
+
+        - Close the corresponding bug on Bugzilla.
+
+        - Write to the mailing list, replying to the original message
+          containing the patch to inform the other hackers that the
+          patch has been committed.
+
+	- Update NEWS with a listing of the changes applied and
+          corresponding Ximian Bugzilla bug numbers.

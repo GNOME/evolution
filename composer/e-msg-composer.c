@@ -44,10 +44,6 @@
 #include <ctype.h>
 #include <stdlib.h>
 #include <dirent.h>
-#include <sys/time.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <unistd.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnomeui/gnome-app.h>
 #include <libgnomeui/gnome-uidefs.h>
@@ -68,8 +64,6 @@
 #include <gal/widgets/e-scroll-frame.h>
 #include <gal/e-text/e-entry.h>
 #include <gtkhtml/gtkhtml.h>
-
-/*#include <addressbook/backend/ebook/e-card.h>*/
 
 #include "widgets/misc/e-charset-picker.h"
 
@@ -105,7 +99,6 @@
 enum {
 	SEND,
 	POSTPONE,
-	SAVE_DRAFT,
 	LAST_SIGNAL
 };
 
@@ -114,13 +107,11 @@ static guint signals[LAST_SIGNAL] = { 0 };
 enum {
 	DND_TYPE_MESSAGE_RFC822,
 	DND_TYPE_TEXT_URI_LIST,
-	DND_TYPE_TEXT_VCARD,
 };
 
 static GtkTargetEntry drop_types[] = {
 	{ "message/rfc822", 0, DND_TYPE_MESSAGE_RFC822 },
 	{ "text/uri-list", 0, DND_TYPE_TEXT_URI_LIST },
-	{ "text/x-vcard", 0, DND_TYPE_TEXT_VCARD },
 };
 
 static const int num_drop_types = sizeof (drop_types) / sizeof (drop_types[0]);
@@ -668,58 +659,58 @@ build_message (EMsgComposer *composer)
 	return NULL;
 }
 
+static char *
+read_file_content (gint fd)
+{
+	GByteArray *contents;
+	gchar buf[4096];
+	gint n;
+	gchar *body;
+	
+	g_return_val_if_fail (fd > 0, NULL);
+	
+	contents = g_byte_array_new ();
+	while ((n = read (fd, buf, 4096)) > 0) {
+		g_byte_array_append (contents, buf, n);
+	}
+	g_byte_array_append (contents, "\0", 1);
+	
+	body = (n < 0) ? NULL : (gchar *)contents->data;
+	g_byte_array_free (contents, (n < 0));
+	
+	return body;
+}
 
 static char *
-get_file_content (EMsgComposer *composer, const char *file_name, gboolean want_html, guint flags)
+get_file_content (const gchar *file_name, gboolean convert, guint flags)
 {
-	CamelStreamFilter *filtered_stream;
-	CamelStreamMem *memstream;
-	CamelMimeFilter *html, *charenc;
-	CamelStream *stream;
-	GByteArray *buffer;
-	const char *charset;
-	char *content;
-	int fd;
+	gint fd;
+	char *raw;
+	char *html;
 	
-	fd = open (file_name, O_RDONLY | O_CREAT, 0644);
-	if (fd == -1) {
+	fd = open (file_name, O_RDONLY | O_CREAT, 0775);
+	
+	raw = read_file_content (fd);
+	
+	if (raw == NULL) {
 		char *msg;
 		
-		msg = g_strdup_printf (_("Error while reading file %s:\n%s"),
-				       file_name, g_strerror (errno));
+		msg = g_strdup_printf (_("Error while reading file %s:\n"
+					 "%s"), file_name, g_strerror (errno));
+		
 		gnome_error_dialog (msg);
 		g_free (msg);
+		close (fd);
 		return g_strdup ("");
 	}
+	close (fd);
 	
-	stream = camel_stream_fs_new_with_fd (fd);
-	filtered_stream = camel_stream_filter_new_with_stream (stream);
-	camel_object_unref (CAMEL_OBJECT (stream));
+	html = convert ? e_text_to_html (raw, flags) : raw;
 	
-	charset = composer ? composer->charset : mail_config_get_default_charset ();
-	charenc = (CamelMimeFilter *) camel_mime_filter_charset_new_convert (charset, "utf-8");
-	camel_stream_filter_add (filtered_stream, charenc);
-	camel_object_unref (CAMEL_OBJECT (charenc));
+	if (convert)
+		g_free (raw);
 	
-	if (want_html) {
-		html = camel_mime_filter_tohtml_new (flags, 0);
-		camel_stream_filter_add (filtered_stream, html);
-		camel_object_unref (CAMEL_OBJECT (html));
-	}
-	
-	memstream = (CamelStreamMem *) camel_stream_mem_new ();
-	buffer = g_byte_array_new ();
-	camel_stream_mem_set_byte_array (memstream, buffer);
-	
-	camel_stream_write_to_stream (CAMEL_STREAM (filtered_stream), CAMEL_STREAM (memstream));
-	camel_object_unref (CAMEL_OBJECT (filtered_stream));
-	camel_object_unref (CAMEL_OBJECT (memstream));
-	
-	g_byte_array_append (buffer, "", 1);
-	content = buffer->data;
-	g_byte_array_free (buffer, FALSE);
-	
-	return content;
+	return html;
 }
 
 char *
@@ -729,7 +720,7 @@ e_msg_composer_get_sig_file_content (const char *sigfile, gboolean in_html)
 		return NULL;
 	}
 	
-	return get_file_content (NULL, sigfile, !in_html, 0);
+	return get_file_content (sigfile, !in_html, 0);
 }
 
 static void
@@ -781,7 +772,7 @@ static gchar *
 get_signature_html (EMsgComposer *composer)
 {
 	gboolean format_html = FALSE;
-	char *text, *html = NULL, *sig_file = NULL;
+	gchar *text, *html = NULL, *sig_file = NULL;
 	
 	if (E_MSG_COMPOSER_HDRS (composer->hdrs)->account->id) {
 		MailConfigIdentity *id;
@@ -959,6 +950,96 @@ load (EMsgComposer *composer, const char *file_name)
 			  _("Error loading file: %s"), g_basename (file_name));
 	
 	CORBA_exception_free (&ev);
+}
+
+/* Exit dialog.  (Displays a "Save composition to 'Drafts' before exiting?" warning before actually exiting.)  */
+
+enum { REPLY_YES = 0, REPLY_NO, REPLY_CANCEL };
+
+struct _save_info {
+	EMsgComposer *composer;
+	int quitok;
+};
+
+static void
+save_done (CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *info, int ok, void *data)
+{
+	struct _save_info *si = data;
+	
+	if (ok && si->quitok)
+		gtk_widget_destroy (GTK_WIDGET (si->composer));
+	else
+		gtk_object_unref (GTK_OBJECT (si->composer));
+	
+	g_free (info);
+	g_free (si);
+}
+
+extern CamelFolder *drafts_folder;
+extern char *default_drafts_folder_uri;
+
+static void
+use_default_drafts_cb (gint reply, gpointer data)
+{
+	CamelFolder **folder = data;
+	
+	if (reply == 0)
+		*folder = drafts_folder;
+}
+
+static void
+save_folder (char *uri, CamelFolder *folder, gpointer data)
+{
+	CamelFolder **save = data;
+	
+	if (folder) {
+		*save = folder;
+		camel_object_ref (CAMEL_OBJECT (folder));
+	}
+}
+
+static void
+save_draft (EMsgComposer *composer, int quitok)
+{
+	CamelMimeMessage *msg;
+	CamelMessageInfo *info;
+	const MailConfigAccount *account;
+	struct _save_info *si;
+	CamelFolder *folder = NULL;
+	
+	account = e_msg_composer_get_preferred_account (composer);
+	if (account && account->drafts_folder_uri &&
+	    strcmp (account->drafts_folder_uri, default_drafts_folder_uri) != 0) {
+		int id;
+		
+		id = mail_get_folder (account->drafts_folder_uri, 0, save_folder, &folder, mail_thread_new);
+		mail_msg_wait (id);
+		
+		if (!folder) {
+			GtkWidget *dialog;
+			
+			dialog = gnome_ok_cancel_dialog_parented (_("Unable to open the drafts folder for this account.\n"
+								    "Would you like to use the default drafts folder?"),
+								  use_default_drafts_cb, &folder, GTK_WINDOW (composer));
+			gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+			if (!folder)
+				return;
+		}
+	} else
+		folder = drafts_folder;
+	
+	msg = e_msg_composer_get_message_draft (composer);
+	
+	info = g_new0 (CamelMessageInfo, 1);
+	info->flags = CAMEL_MESSAGE_DRAFT | CAMEL_MESSAGE_SEEN;
+	
+	si = g_malloc (sizeof (*si));
+	si->composer = composer;
+	gtk_object_ref (GTK_OBJECT (composer));
+	si->quitok = quitok;
+	
+	mail_append_mail (folder, msg, info, save_done, si);
+	camel_object_unref (CAMEL_OBJECT (msg));
 }
 
 #define AUTOSAVE_SEED ".evolution-composer.autosave-XXXXXX"
@@ -1173,7 +1254,6 @@ autosave_init_file (EMsgComposer *composer)
 	}
 	return FALSE;
 }
-
 static void
 autosave_manager_start (AutosaveManager *am)
 {
@@ -1247,20 +1327,17 @@ autosave_manager_unregister (AutosaveManager *am, EMsgComposer *composer)
 static void
 menu_file_save_draft_cb (BonoboUIComponent *uic, void *data, const char *path)
 {
-	gtk_signal_emit (GTK_OBJECT (data), signals[SAVE_DRAFT], FALSE);
+	save_draft (E_MSG_COMPOSER (data), FALSE);
 	e_msg_composer_unset_changed (E_MSG_COMPOSER (data));
 }
-
-/* Exit dialog.  (Displays a "Save composition to 'Drafts' before exiting?" warning before actually exiting.)  */
-
-enum { REPLY_YES = 0, REPLY_NO, REPLY_CANCEL };
 
 static void
 exit_dialog_cb (int reply, EMsgComposer *composer)
 {
 	switch (reply) {
 	case REPLY_YES:
-		gtk_signal_emit (GTK_OBJECT (composer), signals[SAVE_DRAFT], TRUE);
+		/* this has to be done async */
+		save_draft (composer, TRUE);
 		e_msg_composer_unset_changed (composer);
 		break;
 	case REPLY_NO:
@@ -1461,7 +1538,7 @@ menu_file_insert_file_cb (BonoboUIComponent *uic,
 	if (file_name == NULL)
 		return;
 	
-	html = get_file_content (composer, file_name, TRUE, E_TEXT_TO_HTML_PRE);
+	html = get_file_content (file_name, TRUE, E_TEXT_TO_HTML_PRE);
 	if (html == NULL)
 		return;
 	
@@ -2015,11 +2092,10 @@ message_rfc822_dnd (EMsgComposer *composer, CamelStream *stream)
 
 static void
 drag_data_received (EMsgComposer *composer, GdkDragContext *context,
-		    int x, int y, GtkSelectionData *selection,
+		    gint x, gint y, GtkSelectionData *selection,
 		    guint info, guint time)
 {
-	char *tmp, *filename, **filenames;
-	CamelMimePart *mime_part;
+	gchar *tmp, *filename, **filenames;
 	CamelStream *stream;
 	CamelURL *url;
 	int i;
@@ -2057,33 +2133,9 @@ drag_data_received (EMsgComposer *composer, GdkDragContext *context,
 		
 		g_free (filenames);
 		break;
-	case DND_TYPE_TEXT_VCARD:
-		printf ("dropping a text/x-vcard\n");
-		mime_part = camel_mime_part_new ();
-		camel_mime_part_set_content (mime_part, selection->data,
-					     selection->length, "text/x-vcard");
-		camel_mime_part_set_disposition (mime_part, "inline");
-		
-		e_msg_composer_attachment_bar_attach_mime_part
-			(E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar),
-			 mime_part);
-		
-		camel_object_unref (CAMEL_OBJECT (mime_part));
 	default:
-		printf ("dropping an unknown\n");
 		break;
 	}
-}
-
-typedef void (*GtkSignal_NONE__NONE_INT) (GtkObject *, int, gpointer);
-
-static void marshal_NONE__NONE_INT (GtkObject *object, GtkSignalFunc func,
-				    gpointer func_data, GtkArg *args)
-{
-	GtkSignal_NONE__NONE_INT rfunc;
-	
-	rfunc = (GtkSignal_NONE__NONE_INT) func;
-	(*rfunc)(object, GTK_VALUE_INT (args[0]), func_data);
 }
 
 
@@ -2118,14 +2170,6 @@ class_init (EMsgComposerClass *klass)
 				GTK_SIGNAL_OFFSET (EMsgComposerClass, postpone),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
-	
-	signals[SAVE_DRAFT] =
-		gtk_signal_new ("save-draft",
-				GTK_RUN_LAST,
-				object_class->type,
-				GTK_SIGNAL_OFFSET (EMsgComposerClass, save_draft),
-				marshal_NONE__NONE_INT,
-				GTK_TYPE_NONE, 1, GTK_TYPE_INT);
 	
 	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 }
@@ -2453,20 +2497,47 @@ e_msg_composer_new (void)
 	return new;
 }
 
+
+/* FIXME: are there any other headers?? */
+/* This is a list of headers that we DO NOT want to append to the
+ * extra_hdr_* arrays.
+ *
+ * Note: a '*' char can be used for a simple wilcard match.
+ * is_special_header() will use g_strNcasecmp() with the first '*'
+ * char being the end of the match string. If no '*' is present, then
+ * it will be assumed that the header must be an exact match.
+ */
+static char *special_headers[] = {
+	"Subject",
+	"Date",
+	"From",
+	"To",
+	"Cc",
+	"Bcc",
+	"Received",
+	"Message-Id",
+	"X-Evolution*",
+	"Content-*",
+	"MIME-Version",
+	NULL
+};
+
 static gboolean
 is_special_header (const char *hdr_name)
 {
-	/* Note: a header is a "special header" if it has any meaning:
-	   1. it's not a X-* header or
-	   2. it's an X-Evolution* header
-	*/
-	if (g_strncasecmp (hdr_name, "X-", 2))
-		return TRUE;
+	int i;
 	
-	if (!g_strncasecmp (hdr_name, "X-Evolution", 11))
-		return TRUE;
-	
-	/* we can keep all other X-* headers */
+	for (i = 0; special_headers[i]; i++) {
+		char *p;
+		
+		if ((p = strchr (special_headers[i], '*'))) {
+			if (!g_strncasecmp (special_headers[i], hdr_name, p - special_headers[i]))
+				return TRUE;
+		} else {
+			if (!g_strcasecmp (special_headers[i], hdr_name))
+				return TRUE;
+		}
+	}
 	
 	return FALSE;
 }
@@ -2901,21 +2972,24 @@ e_msg_composer_new_from_url (const char *url_in)
 	EDestination **tov, **ccv, **bccv;
 	char *subject = NULL, *body = NULL;
 	const char *p, *header;
-	char *content;
 	int len, clen;
+	char *url, *content;
+
 	
 	g_return_val_if_fail (g_strncasecmp (url_in, "mailto:", 7) == 0, NULL);
 	
 	composer = e_msg_composer_new ();
 	if (!composer)
 		return NULL;
-	
-	/* Parse recipients (everything after ':' until '?' or eos). */
-	p = url_in + 7;
+
+	url = g_strdup (url_in);
+	camel_url_decode (url);
+
+	/* Parse recipients (everything after ':' until '?' or eos. */
+	p = url + 7;
 	len = strcspn (p, "?");
 	if (len) {
 		content = g_strndup (p, len);
-		camel_url_decode (content);
 		to = add_recipients (to, content, FALSE);
 		g_free (content);
 	}
@@ -2935,29 +3009,21 @@ e_msg_composer_new_from_url (const char *url_in)
 			p += len + 1;
 			
 			clen = strcspn (p, "&");
-			
 			content = g_strndup (p, clen);
 			camel_url_decode (content);
-			
-			if (!g_strncasecmp (header, "to", len)) {
+
+			if (!g_strncasecmp (header, "to", len))
 				to = add_recipients (to, content, FALSE);
-			} else if (!g_strncasecmp (header, "cc", len)) {
+			else if (!g_strncasecmp (header, "cc", len))
 				cc = add_recipients (cc, content, FALSE);
-			} else if (!g_strncasecmp (header, "bcc", len)) {
+			else if (!g_strncasecmp (header, "bcc", len))
 				bcc = add_recipients (bcc, content, FALSE);
-			} else if (!g_strncasecmp (header, "subject", len)) {
-				g_free (subject);
+			else if (!g_strncasecmp (header, "subject", len))
 				subject = g_strdup (content);
-			} else if (!g_strncasecmp (header, "body", len)) {
-				g_free (body);
+			else if (!g_strncasecmp (header, "body", len))
 				body = g_strdup (content);
-			} else {
-				/* add an arbitrary header */
-				e_msg_composer_add_header (composer, header, content);
-			}
 			
 			g_free (content);
-			
 			p += clen;
 			if (*p == '&') {
 				p++;
@@ -2966,25 +3032,25 @@ e_msg_composer_new_from_url (const char *url_in)
 			}
 		}
 	}
-	
+
 	tov  = e_destination_list_to_vector (to);
 	ccv  = e_destination_list_to_vector (cc);
 	bccv = e_destination_list_to_vector (bcc);
-	
+
 	g_list_free (to);
 	g_list_free (cc);
 	g_list_free (bcc);
-	
+
 	hdrs = E_MSG_COMPOSER_HDRS (composer->hdrs);
-	
+
 	e_msg_composer_hdrs_set_to (hdrs, tov);
 	e_msg_composer_hdrs_set_cc (hdrs, ccv);
 	e_msg_composer_hdrs_set_bcc (hdrs, bccv);
-	
+
 	e_destination_freev (tov);
 	e_destination_freev (ccv);
 	e_destination_freev (bccv);
-	
+
 	if (subject) {
 		e_msg_composer_hdrs_set_subject (hdrs, subject);
 		g_free (subject);

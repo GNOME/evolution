@@ -1,14 +1,14 @@
-2001-12-11  Jon Trowbridge  <trow@ximian.com>
+2002-01-24  Ettore Perazzoli  <ettore@ximian.com>
 
-	* mail-need-reply.xpm: A new icon that sucks less.  We still need
-	some Tuomas-love.
+	* about-box, splash.png: New artwork for 1.0.2.
 
-2001-12-09  Jon Trowbridge  <trow@ximian.com>
+2001-12-18  Ettore Perazzoli  <ettore@ximian.com>
 
-	* mail-need-reply.xpm: Added a really, really ugly and
-	awful icon to symbolize "message needs a reply".
+	* about-box.png, splash.png: New artwork for 1.0.1.
 
-	* Makefile.am (EXTRA_DIST): Added mail-need-reply.xpm.
+2001-11-21  Ettore Perazzoli  <ettore@ximian.com>
+
+	* about-box.png, splash.png: New artwork for 1.0.
 
 2001-11-06  Ettore Perazzoli  <ettore@ximian.com>
 

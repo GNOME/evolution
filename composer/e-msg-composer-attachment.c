@@ -158,7 +158,7 @@ e_msg_composer_attachment_new (const char *file_name,
 	CamelDataWrapper *wrapper;
 	CamelStream *stream;
 	struct stat statbuf;
-	char *mime_type;
+	gchar *mime_type;
 	char *filename;
 	
 	g_return_val_if_fail (file_name != NULL, NULL);
@@ -438,8 +438,8 @@ e_msg_composer_attachment_edit (EMsgComposerAttachment *attachment,
 	
 	if (attachment != NULL) {
 		CamelContentType *content_type;
-		const char *disposition;
 		char *type;
+		const char *disposition;
 		
 		set_entry (editor_gui, "file_name_entry",
 			   camel_mime_part_get_filename (attachment->body));

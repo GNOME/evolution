@@ -77,8 +77,6 @@ eshellinclude_HEADERS = 			\
 libeshell_la_SOURCES = 				\
 	$(IDL_GENERATED)			\
 	e-folder-tree.c				\
-	e-shell-corba-icon-utils.c		\
-	e-shell-corba-icon-utils.h		\
 	evolution-activity-client.c		\
 	evolution-session.c			\
 	evolution-shell-client.c		\

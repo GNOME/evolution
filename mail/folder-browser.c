@@ -40,8 +40,6 @@
 #include <libgnomeui/gnome-dialog-util.h>
 
 #include <gtkhtml/htmlengine.h>
-#include <gtkhtml/htmlobject.h>
-#include <gtkhtml/htmlinterval.h>
 #include <gtkhtml/htmlengine-edit-cut-and-paste.h>
 
 #include "filter/vfolder-rule.h"
@@ -57,6 +55,7 @@
 #include "mail.h"
 #include "mail-callbacks.h"
 #include "mail-tools.h"
+#include "message-list.h"
 #include "mail-ops.h"
 #include "mail-vfolder.h"
 #include "mail-autofilter.h"
@@ -719,7 +718,7 @@ static void
 update_status_bar(FolderBrowser *fb)
 {
 	CORBA_Environment ev;
-	int tmp, total;
+	int tmp;
 	GString *work;
 	extern CamelFolder *outbox_folder, *sent_folder;
 
@@ -728,49 +727,44 @@ update_status_bar(FolderBrowser *fb)
 	    || fb->shell_view == CORBA_OBJECT_NIL)
 		return;
 
-	if (!fb->message_list->hidedeleted || !camel_folder_has_summary_capability(fb->folder)) {
-		total = camel_folder_get_message_count(fb->folder);
-	} else {
-		GPtrArray *sum = camel_folder_get_summary(fb->folder);
-		int i;
-
-		if (sum) {
-			total = 0;
-			for (i=0;i<sum->len;i++) {
-				CamelMessageInfo *info = sum->pdata[i];
-				
-				if ((info->flags & CAMEL_MESSAGE_DELETED) == 0)
-					total++;
-			}
-			camel_folder_free_summary(fb->folder, sum);
-		} else {
-			total = camel_folder_get_message_count(fb->folder);
-		}
-	}
-	
 	work = g_string_new("");
 	g_string_sprintfa(work, _("%d new"), camel_folder_get_unread_message_count(fb->folder));
 	tmp = message_list_hidden(fb->message_list);
-	if (0 < tmp && tmp < total) {
+	if (tmp) {
 		g_string_append(work, _(", "));
-		if (tmp < total / 2)
-			g_string_sprintfa(work, _("%d hidden"), tmp);
-		else  
-			g_string_sprintfa(work, _("%d visible"), total - tmp);
+		g_string_sprintfa(work, _("%d hidden"), tmp);
 	}
 	tmp = e_selection_model_selected_count(e_tree_get_selection_model(fb->message_list->tree));
 	if (tmp) {
 		g_string_append(work, _(", "));
 		g_string_sprintfa(work, _("%d selected"), tmp);
 	}
-	g_string_append(work, _(", "));
+	if (!fb->message_list->hidedeleted || !camel_folder_has_summary_capability(fb->folder)) {
+		tmp = camel_folder_get_message_count(fb->folder);
+	} else {
+		GPtrArray *sum = camel_folder_get_summary(fb->folder);
+		int i;
 
+		if (sum) {
+			tmp = 0;
+			for (i=0;i<sum->len;i++) {
+				CamelMessageInfo *info = sum->pdata[i];
+				
+				if ((info->flags & CAMEL_MESSAGE_DELETED) == 0)
+					tmp++;
+			}
+			camel_folder_free_summary(fb->folder, sum);
+		} else {
+			tmp = camel_folder_get_message_count(fb->folder);
+		}
+	}
+	g_string_append(work, _(", "));
 	if (fb->folder == outbox_folder)
-		g_string_sprintfa(work, _("%d unsent"), total);
+		g_string_sprintfa(work, _("%d unsent"), tmp);
 	else if (fb->folder == sent_folder)
-		g_string_sprintfa(work, _("%d sent"), total);
+		g_string_sprintfa(work, _("%d sent"), tmp);
 	else
-		g_string_sprintfa(work, _("%d total"), total);
+		g_string_sprintfa(work, _("%d total"), tmp);
 
 	CORBA_exception_init(&ev);
 	GNOME_Evolution_ShellView_setFolderBarLabel(fb->shell_view, work->str, &ev);
@@ -1418,17 +1412,15 @@ hide_sender(GtkWidget *w, FolderBrowser *fb)
 }
 
 enum {
-	SELECTION_SET              = 1<<1,
-	CAN_MARK_READ              = 1<<2,
-	CAN_MARK_UNREAD            = 1<<3,
-	CAN_DELETE                 = 1<<4,
-	CAN_UNDELETE               = 1<<5,
-	IS_MAILING_LIST            = 1<<6,
-	CAN_RESEND                 = 1<<7,
-	CAN_MARK_IMPORTANT         = 1<<8,
-	CAN_MARK_UNIMPORTANT       = 1<<9,
-	CAN_MARK_NEEDS_REPLY       = 1<<10,
-	CAN_MARK_DOESNT_NEED_REPLY = 1<<11
+	SELECTION_SET   = 2,
+	CAN_MARK_READ   = 4,
+	CAN_MARK_UNREAD = 8,
+	CAN_DELETE      = 16,
+	CAN_UNDELETE    = 32,
+	IS_MAILING_LIST = 64,
+	CAN_RESEND      = 128,
+	CAN_MARK_IMPORTANT = 256,
+	CAN_MARK_UNIMPORTANT = 512
 };
 
 #define MLIST_VFOLDER (3)
@@ -1455,7 +1447,7 @@ static EPopupMenu context_menu[] = {
 	{ N_("_Open"),                      NULL, GTK_SIGNAL_FUNC (open_msg),         NULL,  0 },
 	{ N_("_Edit as New Message..."),    NULL, GTK_SIGNAL_FUNC (resend_msg),       NULL,  CAN_RESEND },
 	{ N_("_Save As..."),                NULL, GTK_SIGNAL_FUNC (save_msg),         NULL,  0 },
-	{ N_("_Print"),                     NULL, GTK_SIGNAL_FUNC (print_msg),        NULL,  0 },
+	{ N_("_Print"),                     NULL, GTK_SIGNAL_FUNC (print_msg),        NULL,  SELECTION_SET },
 	
 	E_POPUP_SEPARATOR,
 	
@@ -1468,8 +1460,6 @@ static EPopupMenu context_menu[] = {
 	{ N_("Mark as U_nread"),            NULL, GTK_SIGNAL_FUNC (mark_as_unseen),   NULL,  CAN_MARK_UNREAD },
 	{ N_("Mark as _Important"),         NULL, GTK_SIGNAL_FUNC (mark_as_important), NULL, CAN_MARK_IMPORTANT },
 	{ N_("Mark as Unim_portant"),       NULL, GTK_SIGNAL_FUNC (mark_as_unimportant), NULL, CAN_MARK_UNIMPORTANT },
-	{ N_("Mark as Needing Reply"),      NULL, GTK_SIGNAL_FUNC (mark_as_needing_reply), NULL, CAN_MARK_NEEDS_REPLY },
-	{ N_("Mark as Not Needing Reply"),  NULL, GTK_SIGNAL_FUNC (mark_as_not_needing_reply), NULL, CAN_MARK_DOESNT_NEED_REPLY },
 	
 	E_POPUP_SEPARATOR,
 	
@@ -1511,7 +1501,7 @@ context_menu_position_func (GtkMenu *menu, gint *x, gint *y,
 }
 
 /* handle context menu over message-list */
-static int
+static gint
 on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event, FolderBrowser *fb)
 {
 	extern CamelFolder *sent_folder;
@@ -1560,8 +1550,6 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 		gboolean have_unseen = FALSE;
 		gboolean have_important = FALSE;
 		gboolean have_unimportant = FALSE;
-		gboolean have_needs_reply = FALSE;
-		gboolean have_doesnt_need_reply = FALSE;
 		
 		for (i = 0; i < uids->len; i++) {
 			info = camel_folder_get_message_info (fb->folder, uids->pdata[i]);
@@ -1583,11 +1571,6 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 			else
 				have_unimportant = TRUE;
 			
-			if (info->flags & CAMEL_MESSAGE_NEEDS_REPLY)
-				have_needs_reply = TRUE;
-			else
-				have_doesnt_need_reply = TRUE;
-			
 			camel_folder_free_message_info (fb->folder, info);
 			
 			if (have_seen && have_unseen && have_deleted && have_undeleted)
@@ -1608,11 +1591,6 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 			enable_mask |= CAN_MARK_IMPORTANT;
 		if (!have_important)
 			enable_mask |= CAN_MARK_UNIMPORTANT;
-		
-		if (!have_needs_reply)
-			enable_mask |= CAN_MARK_DOESNT_NEED_REPLY;
-		if (!have_doesnt_need_reply)
-			enable_mask |= CAN_MARK_NEEDS_REPLY;
 		
 		/*
 		 * Hide items that wont get used.
@@ -1636,13 +1614,6 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 				hide_mask |= CAN_MARK_IMPORTANT;
 			else
 				hide_mask |= CAN_MARK_UNIMPORTANT;
-		}
-		
-		if (!(have_needs_reply && have_doesnt_need_reply)) {
-			if (have_needs_reply)
-				hide_mask |= CAN_MARK_NEEDS_REPLY;
-			else
-				hide_mask |= CAN_MARK_DOESNT_NEED_REPLY;
 		}
 	}
 	
@@ -1683,68 +1654,25 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 	return TRUE;
 }
 
-static int
-html_button_press_event (GtkWidget *widget, GdkEventButton *event, gpointer data)
-{
-	FolderBrowser *fb = data;
-	HTMLEngine *engine;
-	HTMLPoint *point;
-	ETreePath *path;
-	int row;
-	
-	if (event->type != GDK_BUTTON_PRESS || event->button != 3)
-		return FALSE;
-	
-	engine = GTK_HTML (widget)->engine;
-	point = html_engine_get_point_at (engine, event->x + engine->x_offset,
-					  event->y + engine->y_offset, FALSE);
-	
-	if (point) {
-		/* don't popup a menu if the mouse is hovering over a
-                   url or a source image because those situations are
-                   handled in mail-display.c's button_press_event
-                   callback */
-		const char *src, *url;
-		
-		url = html_object_get_url (point->object);
-		src = html_object_get_src (point->object);
-		
-		if (url || src) {
-			html_point_destroy (point);
-			return FALSE;
-		}
-		
-		html_point_destroy (point);
-	}	
-	
-	path = e_tree_get_cursor (fb->message_list->tree);
-	row = e_tree_row_of_node (fb->message_list->tree, path);
-	
-	on_right_click (fb->message_list->tree, row, path, 2,
-			(GdkEvent *) event, fb);
-	
-	return TRUE;
-}
-
-static int
+static gint
 on_key_press (GtkWidget *widget, GdkEventKey *key, gpointer data)
 {
 	FolderBrowser *fb = data;
 	ETreePath *path;
 	int row;
-	
+
 	if (key->state & GDK_CONTROL_MASK)
 		return FALSE;
-	
+
 	path = e_tree_get_cursor (fb->message_list->tree);
 	row = e_tree_row_of_node (fb->message_list->tree, path);
-	
+
 	switch (key->keyval) {
 	case GDK_Delete:
 	case GDK_KP_Delete:
 		delete_msg (NULL, fb);
 		return TRUE;
-		
+
 	case GDK_Menu:
 		on_right_click (fb->message_list->tree, row, path, 2,
 				(GdkEvent *)key, fb);
@@ -1753,7 +1681,7 @@ on_key_press (GtkWidget *widget, GdkEventKey *key, gpointer data)
 		toggle_as_important (NULL, fb, NULL);
 		return TRUE;
 	}
-	
+
 	return FALSE;
 }
 
@@ -2037,8 +1965,6 @@ my_folder_browser_init (GtkObject *object)
 	
 	gtk_signal_connect (GTK_OBJECT (fb->mail_display->html),
 			    "key_press_event", GTK_SIGNAL_FUNC (on_key_press), fb);
-	gtk_signal_connect (GTK_OBJECT (fb->mail_display->html),
-			    "button_press_event", GTK_SIGNAL_FUNC (html_button_press_event), fb);
 	
 	gtk_signal_connect (GTK_OBJECT (fb->message_list->tree),
 			    "key_press", GTK_SIGNAL_FUNC (etree_key), fb);

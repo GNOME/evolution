@@ -1,34 +1,3 @@
-2002-01-23  Ettore Perazzoli  <ettore@ximian.com>
-
-	* e-combo-button.c: Remove member `separator' from
-	`EComboButtonPrivate'.  New members `icon', `label'.
-	(init): There shall be no separator no more.  Init `icon' and
-	`label' to %NULL.
-	(e_combo_button_construct): Set no relief.
-	(e_combo_button_new): Don't get a @menu arg anymore.
-	(e_combo_button_construct): Likewise.
-	(e_combo_button_set_icon): New.
-	(e_combo_button_set_label): New.
-	(e_combo_button_set_menu): New.
-	(impl_clicked): New, overriding the "clicked" method for
-	GtkButton.
-	(class_init): Install.
-	(impl_button_release_event): Removed.
-	(class_init): No need to override ::release_event with this
-	anymore.
-	(impl_released): New, override for the GtkButton::released method.
-	(class_init): Install.
-
-2002-01-04  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* e-charset-picker.c: Added iso-8859-8 (Hebrew; Visual) to the
-	list of charsets in the menu. Fixes bug #15655.
-
-2001-12-20  Ettore Perazzoli  <ettore@ximian.com>
-
-	* e-combo-button.c: New.
-	* e-combo-button.h: New.
-
 2001-11-21  Not Zed  <NotZed@Ximian.com>
 
 	* e-filter-bar.c (menubar_activated): Mark the dialogue as already

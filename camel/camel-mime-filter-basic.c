@@ -2,7 +2,6 @@
  *  Copyright (C) 2000 Ximian Inc.
  *
  *  Authors: Michael Zucchi <notzed@ximian.com>
- *           Jeffrey Stedfast <fejj@ximian.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -22,7 +21,6 @@
 #include "camel-mime-filter-basic.h"
 
 #include "camel-mime-utils.h"
-#include <string.h>
 
 static void reset(CamelMimeFilter *mf);
 static void complete(CamelMimeFilter *mf, char *in, size_t len, 
@@ -80,7 +78,7 @@ static void
 reset(CamelMimeFilter *mf)
 {
 	CamelMimeFilterBasic *f = (CamelMimeFilterBasic *)mf;
-	
+
 	switch(f->type) {
 	case CAMEL_MIME_FILTER_BASIC_QP_ENC:
 		f->state = -1;
@@ -113,7 +111,8 @@ complete(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out,
 	case CAMEL_MIME_FILTER_BASIC_UU_ENC:
 		/* won't go to more than 2 * (x + 2) + 62 */
 		camel_mime_filter_set_size (mf, (len + 2) * 2 + 62, FALSE);
-		newlen = uuencode_close (in, len, mf->outbuf, f->uubuf, &f->state, &f->save);
+		newlen = uuencode_close (in, len, mf->outbuf, f->uubuf, &f->state,
+					 &f->save, &f->uulen);
 		g_assert (newlen <= (len + 2) * 2 + 62);
 		break;
 	case CAMEL_MIME_FILTER_BASIC_BASE64_DEC:
@@ -129,13 +128,9 @@ complete(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out,
 		g_assert(newlen <= len+2);
 		break;
 	case CAMEL_MIME_FILTER_BASIC_UU_DEC:
-		if ((f->state & CAMEL_UUDECODE_STATE_BEGIN) && !(f->state & CAMEL_UUDECODE_STATE_END)) {
-			/* "begin <mode> <filename>\n" has been found, so we can now start decoding */
-			camel_mime_filter_set_size (mf, len + 3, FALSE);
-			newlen = uudecode_step (in, len, mf->outbuf, &f->state, &f->save);
-		} else {
-			newlen = 0;
-		}
+		/* output can't possibly exceed the input size */
+		camel_mime_filter_set_size (mf, len, FALSE);
+		newlen = uudecode_step (in, len, mf->outbuf, &f->state, &f->save, &f->uulen);
 		break;
 	default:
 		g_warning("unknown type %d in CamelMimeFilterBasic", f->type);
@@ -176,9 +171,8 @@ filter(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out, s
 	case CAMEL_MIME_FILTER_BASIC_UU_ENC:
 		/* won't go to more than 2 * (x + 2) + 62 */
 		camel_mime_filter_set_size (mf, (len + 2) * 2 + 62, FALSE);
-		newlen = uuencode_step (in, len, mf->outbuf, f->uubuf, &f->state, &f->save);
+		newlen = uuencode_step (in, len, mf->outbuf, f->uubuf, &f->state, &f->save, &f->uulen);
 		g_assert (newlen <= (len + 2) * 2 + 62);
-		break;
 	case CAMEL_MIME_FILTER_BASIC_BASE64_DEC:
 		/* output can't possibly exceed the input size */
 		camel_mime_filter_set_size(mf, len+3, FALSE);
@@ -192,48 +186,9 @@ filter(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out, s
 		g_assert(newlen <= len + 2);
 		break;
 	case CAMEL_MIME_FILTER_BASIC_UU_DEC:
-		if (!(f->state & CAMEL_UUDECODE_STATE_BEGIN)) {
-			register char *inptr, *inend;
-			size_t left;
-			
-			inptr = in;
-			inend = inptr + len;
-			
-			while (inptr < inend) {
-				left = inend - inptr;
-				if (left < 6) {
-					if (!strncmp (inptr, "begin ", left))
-						camel_mime_filter_backup (mf, inptr, left);
-					break;
-				} else if (!strncmp (inptr, "begin ", 6)) {
-					for (in = inptr; inptr < inend && *inptr != '\n'; inptr++);
-					if (inptr < inend) {
-						inptr++;
-						f->state |= CAMEL_UUDECODE_STATE_BEGIN;
-						/* we can start uudecoding... */
-						in = inptr;
-						len = inend - in;
-					} else {
-						camel_mime_filter_backup (mf, in, left);
-					}
-					break;
-				}
-				
-				/* go to the next line */
-				for ( ; inptr < inend && *inptr != '\n'; inptr++);
-				
-				if (inptr < inend)
-					inptr++;
-			}
-		}
-		
-		if ((f->state & CAMEL_UUDECODE_STATE_BEGIN) && !(f->state & CAMEL_UUDECODE_STATE_END)) {
-			/* "begin <mode> <filename>\n" has been found, so we can now start decoding */
-			camel_mime_filter_set_size (mf, len + 3, FALSE);
-			newlen = uudecode_step (in, len, mf->outbuf, &f->state, &f->save);
-		} else {
-			newlen = 0;
-		}
+		/* output can't possibly exceed the input size */
+		camel_mime_filter_set_size (mf, len, FALSE);
+		newlen = uudecode_step (in, len, mf->outbuf, &f->state, &f->save, &f->uulen);
 		break;
 	default:
 		g_warning("unknown type %d in CamelMimeFilterBasic", f->type);

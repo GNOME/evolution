@@ -81,21 +81,19 @@ void resend_msg            (GtkWidget *widget, gpointer user_data);
 void search_msg            (GtkWidget *widget, gpointer user_data);
 void load_images           (GtkWidget *widget, gpointer user_data);
 
-void add_sender_to_addrbook    (BonoboUIComponent *uih, void *user_data, const char *path);
-void move_msg                  (BonoboUIComponent *uih, void *user_data, const char *path);
-void copy_msg                  (BonoboUIComponent *uih, void *user_data, const char *path);
-void select_all                (BonoboUIComponent *uih, void *user_data, const char *path);
-void select_thread             (BonoboUIComponent *uih, void *user_data, const char *path);
-void invert_selection          (BonoboUIComponent *uih, void *user_data, const char *path);
-void mark_as_seen              (BonoboUIComponent *uih, void *user_data, const char *path);
-void mark_all_as_seen          (BonoboUIComponent *uih, void *user_data, const char *path);
-void mark_as_unseen            (BonoboUIComponent *uih, void *user_data, const char *path);
-void mark_as_important         (BonoboUIComponent *uih, void *user_data, const char *path);
-void mark_as_unimportant       (BonoboUIComponent *uih, void *user_data, const char *path);
-void toggle_as_important       (BonoboUIComponent *uih, void *user_data, const char *path);
-void mark_as_needing_reply     (BonoboUIComponent *uih, void *user_data, const char *path);
-void mark_as_not_needing_reply (BonoboUIComponent *uih, void *user_data, const char *path);
-void toggle_need_reply         (BonoboUIComponent *uih, void *user_data, const char *path);
+void add_sender_to_addrbook (BonoboUIComponent *uih, void *user_data, const char *path);
+void move_msg              (BonoboUIComponent *uih, void *user_data, const char *path);
+void copy_msg              (BonoboUIComponent *uih, void *user_data, const char *path);
+void add_sender_to_addrbook(BonoboUIComponent *uih, void *user_data, const char *path);
+void select_all            (BonoboUIComponent *uih, void *user_data, const char *path);
+void select_thread         (BonoboUIComponent *uih, void *user_data, const char *path);
+void invert_selection      (BonoboUIComponent *uih, void *user_data, const char *path);
+void mark_as_seen          (BonoboUIComponent *uih, void *user_data, const char *path);
+void mark_all_as_seen      (BonoboUIComponent *uih, void *user_data, const char *path);
+void mark_as_unseen        (BonoboUIComponent *uih, void *user_data, const char *path);
+void mark_as_important     (BonoboUIComponent *uih, void *user_data, const char *path);
+void mark_as_unimportant   (BonoboUIComponent *uih, void *user_data, const char *path);
+void toggle_as_important   (BonoboUIComponent *uih, void *user_data, const char *path);
 
 void zoom_in               (BonoboUIComponent *uih, void *user_data, const char *path);
 void zoom_out              (BonoboUIComponent *uih, void *user_data, const char *path);
@@ -119,7 +117,6 @@ void mail_reply            (CamelFolder *folder, CamelMimeMessage *msg, const ch
 
 void composer_send_cb      (EMsgComposer *composer, gpointer data);
 void composer_postpone_cb  (EMsgComposer *composer, gpointer data);
-void composer_save_draft_cb (EMsgComposer *composer, int quit, gpointer data);
 
 void forward_messages	   (CamelFolder *folder, GPtrArray *uids, gboolean inline);
 
