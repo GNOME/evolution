@@ -1,3 +1,7 @@
+2000-05-15  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-util.c (e_free_string_list): New function.
+
 2000-05-14  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-util.c, e-util.h: Added e_strdup_strip which returns a copy of

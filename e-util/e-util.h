@@ -31,12 +31,14 @@ typedef enum {
   E_FOCUS_END
 } EFocus;
 
-int g_str_compare(const void *x, const void *y);
-int g_int_compare(const void *x, const void *y);
+int  g_str_compare  (const void *x, const void *y);
+int  g_int_compare  (const void *x, const void *y);
 
-char *e_strdup_strip(char *string);
+char *e_strdup_strip  (char *string);
 
-void e_free_object_list (GList *list);
-char *e_read_file(const char *filename);
+void  e_free_object_list  (GList *list);
+void  e_free_string_list  (GList *list);
+
+char *e_read_file  (const char *filename);
 
 #endif /* _E_UTIL_H_ */

@@ -74,6 +74,17 @@ e_free_object_list (GList *list)
 	g_list_free (list);
 }
 
+void
+e_free_string_list (GList *list)
+{
+	GList *p;
+
+	for (p = list; p != NULL; p = p->next)
+		g_free (p->data);
+
+	g_list_free (list);
+}
+
 #define BUFF_SIZE 1024
 
 char *
