@@ -64,6 +64,7 @@ static const char *text[] = {
 	"Miles Lane",
 	"Jason Leach",
 	"Matthew Loper",
+	"Michael MacDonald",
 	"Kjartan Maraas",
 	"Michael Meeks",
 	"Federico Mena",

@@ -1,3 +1,32 @@
+2001-12-17  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-about-box.c: Add Michael MacDonald.
+
+2001-12-17  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Fixes #17377, Evolution doesn't work on multi-depth displays.]
+
+	* main.c (main): Push GdkRGB visual and colormap.
+
+2001-12-17  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Fix #16693.  What happens there is that the user closed the
+	dialog before the async operation was completed, so when the
+	notification was received the shell crashed.]
+
+	* e-shell-folder-creation-dialog.c: New member
+	`creation_in_progress' in `DialogData'.
+	(e_shell_show_folder_creation_dialog): Init to %FALSE.
+	(async_create_cb): Set to %FALSE.  Also, if the
+	dialog_data->dialog is %NULL, free the dialog_data before
+	returning.
+	(dialog_clicked_cb): Set to %TRUE.
+	(dialog_destroy_cb): If a creation is in progress, just set the
+	widget pointers in the DialogData struct to %NULL instead of
+	freeing the whole struct.
+	(async_create_cb): Make the OK and Cancel buttons sensitive.
+	(dialog_clicked_cb): Make them insensitive here.
+
 2001-12-12  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Fix #17258, shell displays splash even if Evolution is already
