@@ -563,6 +563,7 @@ store_sync (CamelStore *store, CamelException *ex)
 		CamelException x;
 		int i;
 
+		camel_exception_init(&x);
 		folders = camel_object_bag_list(store->folders);
 		for (i=0;i<folders->len;i++) {
 			folder = folders->pdata[i];
