@@ -49,9 +49,13 @@ typedef struct {
 	char  *fragment;
 } CamelURL;
 
+#define CAMEL_URL_HIDE_PASSWORD	(1 << 0)
+#define CAMEL_URL_HIDE_PARAMS	(1 << 1)
+#define CAMEL_URL_HIDE_AUTH	(1 << 2)
+
 CamelURL *camel_url_new_with_base (CamelURL *base, const char *url_string);
 CamelURL *camel_url_new (const char *url_string, CamelException *ex);
-char *camel_url_to_string (CamelURL *url, gboolean show_password);
+char *camel_url_to_string (CamelURL *url, guint32 flags);
 void camel_url_free (CamelURL *url);
 
 char *camel_url_encode (char *part, gboolean escape_unsafe, char *escape_extra);

@@ -198,7 +198,6 @@ construct (CamelService *service, CamelSession *session,
 {
 	CamelImapStore *imap_store = CAMEL_IMAP_STORE (service);
 	CamelStore *store = CAMEL_STORE (service);
-	CamelURL *base_url;
 
 	CAMEL_SERVICE_CLASS (remote_store_class)->construct (service, session, provider, url, ex);
 	if (camel_exception_is_set (ex))
@@ -208,14 +207,9 @@ construct (CamelService *service, CamelSession *session,
 	if (camel_exception_is_set (ex)) 
 		return;
 
-	base_url = g_new0 (CamelURL, 1);
-	camel_url_set_protocol (base_url, service->url->protocol);
-	camel_url_set_user (base_url, service->url->user);
-	camel_url_set_host (base_url, service->url->host);
-	camel_url_set_port (base_url, service->url->port);
-	camel_url_set_path (base_url, "/");
-	imap_store->base_url = camel_url_to_string (base_url, FALSE);
-	camel_url_free (base_url);
+	imap_store->base_url = camel_url_to_string (service->url, (CAMEL_URL_HIDE_PASSWORD |
+								   CAMEL_URL_HIDE_PARAMS |
+								   CAMEL_URL_HIDE_AUTH));
 
 	imap_store->parameters = 0;
 	if (camel_url_get_param (url, "use_lsub"))
@@ -950,7 +944,7 @@ parse_list_response_as_folder_info (CamelImapStore *imap_store,
 	else
 		fi->name = g_strdup (dir);
 	if (!(flags & IMAP_LIST_FLAG_NOSELECT))
-		fi->url = g_strdup_printf ("%s%s", imap_store->base_url, dir);
+		fi->url = g_strdup_printf ("%s/%s", imap_store->base_url, dir);
 	if (!(flags & IMAP_LIST_FLAG_UNMARKED))
 		fi->unread_message_count = -1;
 
@@ -1086,7 +1080,7 @@ get_folders_offline (CamelImapStore *imap_store, GPtrArray *folders,
 			fi->name = g_strdup (fi->name + 1);
 		else
 			fi->name = g_strdup (fi->full_name);
-		fi->url = g_strdup_printf ("%s%s", imap_store->base_url,
+		fi->url = g_strdup_printf ("%s/%s", imap_store->base_url,
 					   fi->full_name);
 		fi->unread_message_count = -1;
 		folders->pdata[i++] = fi;
@@ -1182,7 +1176,7 @@ get_folder_info (CamelStore *store, const char *top, gboolean fast,
 		fi = g_new0 (CamelFolderInfo, 1);
 		fi->full_name = g_strdup ("INBOX");
 		fi->name = g_strdup ("INBOX");
-		fi->url = g_strdup_printf ("%sINBOX", imap_store->base_url);
+		fi->url = g_strdup_printf ("%s/INBOX", imap_store->base_url);
 		fi->unread_message_count = -1;
 
 		g_ptr_array_add (folders, fi);
@@ -1275,7 +1269,7 @@ subscribe_folder (CamelStore *store, const char *folder_name,
 		fi = g_new0 (CamelFolderInfo, 1);
 		fi->full_name = g_strdup (folder_name);
 		fi->name = g_strdup (name);
-		fi->url = g_strdup_printf ("%s%s", imap_store->base_url, folder_name);
+		fi->url = g_strdup_printf ("%s/%s", imap_store->base_url, folder_name);
 		fi->unread_message_count = -1;
 		
 		camel_object_trigger_event (CAMEL_OBJECT (store),
@@ -1320,7 +1314,7 @@ unsubscribe_folder (CamelStore *store, const char *folder_name,
 		fi = g_new0 (CamelFolderInfo, 1);
 		fi->full_name = g_strdup (folder_name);
 		fi->name = g_strdup (name);
-		fi->url = g_strdup_printf ("%s%s", imap_store->base_url, folder_name);
+		fi->url = g_strdup_printf ("%s/%s", imap_store->base_url, folder_name);
 		fi->unread_message_count = -1;
 		
 		camel_object_trigger_event (CAMEL_OBJECT (store),

@@ -292,12 +292,12 @@ camel_url_new (const char *url_string, CamelException *ex)
 /**
  * camel_url_to_string:
  * @url: a CamelURL
- * @show_password: whether or not to include the password in the output
+ * @flags: additional translation options.
  *
  * Return value: a string representing @url, which the caller must free.
  **/
 char *
-camel_url_to_string (CamelURL *url, gboolean show_passwd)
+camel_url_to_string (CamelURL *url, guint32 flags)
 {
 	GString *str;
 	char *enc, *return_result;
@@ -322,7 +322,7 @@ camel_url_to_string (CamelURL *url, gboolean show_passwd)
 			g_string_sprintfa (str, ";auth=%s", enc);
 			g_free (enc);
 		}
-		if (show_passwd && url->passwd) {
+		if (url->passwd && !(flags & CAMEL_URL_HIDE_PASSWORD)) {
 			enc = camel_url_encode (url->passwd, TRUE, "@/");
 			g_string_sprintfa (str, ":%s", enc);
 			g_free (enc);
@@ -342,7 +342,7 @@ camel_url_to_string (CamelURL *url, gboolean show_passwd)
 		g_string_sprintfa (str, "%s", enc);
 		g_free (enc);
 	}
-	if (url->params)
+	if (url->params && !(flags & CAMEL_URL_HIDE_PARAMS))
 		g_datalist_foreach (&url->params, output_param, str);
 	if (url->query) {
 		enc = camel_url_encode (url->query, FALSE, "#");

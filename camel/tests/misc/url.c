@@ -73,7 +73,7 @@ main (int argc, char **argv)
 	camel_test_pull ();
 
 	camel_test_push ("base URL unparsing");
-	url_string = camel_url_to_string (base_url, TRUE);
+	url_string = camel_url_to_string (base_url, 0);
 	if (strcmp (url_string, base) != 0) {
 		camel_test_fail ("URL <%s> unparses to <%s>\n",
 				 base, url_string);
@@ -90,7 +90,7 @@ main (int argc, char **argv)
 			continue;
 		}
 
-		url_string = camel_url_to_string (url, TRUE);
+		url_string = camel_url_to_string (url, 0);
 		if (strcmp (url_string, tests[i].result) != 0)
 			camel_test_fail ("got <%s>!", url_string);
 		g_free (url_string);

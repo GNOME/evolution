@@ -134,7 +134,7 @@ construct (CamelService *service, CamelSession *session,
 
 	if (CAMEL_PROVIDER_NEEDS (provider, CAMEL_URL_PART_USER) &&
 	    (url->user == NULL || url->user[0] == '\0')) {
-		url_string = camel_url_to_string (url, FALSE);
+		url_string = camel_url_to_string (url, CAMEL_URL_HIDE_PASSWORD);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_URL_INVALID,
 				      _("URL '%s' needs a username component"),
 				      url_string);
@@ -142,7 +142,7 @@ construct (CamelService *service, CamelSession *session,
 		return;
 	} else if (CAMEL_PROVIDER_NEEDS (provider, CAMEL_URL_PART_HOST) &&
 		   (url->host == NULL || url->host[0] == '\0')) {
-		url_string = camel_url_to_string (url, FALSE);
+		url_string = camel_url_to_string (url, CAMEL_URL_HIDE_PASSWORD);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_URL_INVALID,
 				      _("URL '%s' needs a host component"),
 				      url_string);
@@ -150,7 +150,7 @@ construct (CamelService *service, CamelSession *session,
 		return;
 	} else if (CAMEL_PROVIDER_NEEDS (provider, CAMEL_URL_PART_PATH) &&
 		   (url->path == NULL || url->path[0] == '\0')) {
-		url_string = camel_url_to_string (url, FALSE);
+		url_string = camel_url_to_string (url, CAMEL_URL_HIDE_PASSWORD);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_URL_INVALID,
 				      _("URL '%s' needs a path component"),
 				      url_string);

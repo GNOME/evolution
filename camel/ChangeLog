@@ -1,3 +1,19 @@
+2001-03-29  Dan Winship  <danw@ximian.com>
+
+	* camel-url.c (camel_url_to_string): change "gboolean show_passwd"
+	to "guint32 flags".
+
+	* tests/misc/url.c (main): Update calls to camel_url_to_string
+
+	* providers/imap/camel-imap-store.c (construct): Call
+	camel_url_to_string with flags to hide password, authtype, and
+	params to create the base_url.
+	(etc): Update for the fact that the base_url no longer has the "/"
+	at the end.
+
+	* camel-service.c (construct): Update calls to camel_url_to_string
+	(pass CAMEL_URL_HIDE_PASSWORD)
+
 2001-03-28  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-pgp-context.[c,h]: New class for PGP encrypting,
