@@ -332,9 +332,7 @@ e_table_memory_store_insert (ETableMemoryStore *etms, int row, void **store, gpo
 	int row_count;
 	int i;
 
-	e_table_memory_insert (E_TABLE_MEMORY (etms), row, data);
-
-	row_count = e_table_model_row_count (E_TABLE_MODEL (etms));
+	row_count = e_table_model_row_count (E_TABLE_MODEL (etms)) + 1;
 	if (row == -1)
 		row = row_count - 1;
 	etms->priv->store = g_realloc (etms->priv->store, etms->priv->col_count * row_count * sizeof (void *));
@@ -345,6 +343,8 @@ e_table_memory_store_insert (ETableMemoryStore *etms, int row, void **store, gpo
 	for (i = 0; i < etms->priv->col_count; i++) {
 		STORE_LOCATOR(etms, i, row) = duplicate_value(etms, i, store[i]);
 	}
+
+	e_table_memory_insert (E_TABLE_MEMORY (etms), row, data);
 }
 
 void
@@ -373,9 +373,7 @@ e_table_memory_store_insert_adopt (ETableMemoryStore *etms, int row, void **stor
 	int row_count;
 	int i;
 
-	e_table_memory_insert (E_TABLE_MEMORY (etms), row, data);
-
-	row_count = e_table_model_row_count (E_TABLE_MODEL (etms));
+	row_count = e_table_model_row_count (E_TABLE_MODEL (etms)) + 1;
 	if (row == -1)
 		row = row_count - 1;
 	etms->priv->store = g_realloc (etms->priv->store, etms->priv->col_count * row_count * sizeof (void *));
@@ -386,6 +384,8 @@ e_table_memory_store_insert_adopt (ETableMemoryStore *etms, int row, void **stor
 	for (i = 0; i < etms->priv->col_count; i++) {
 		STORE_LOCATOR(etms, i, row) = store[i];
 	}
+
+	e_table_memory_insert (E_TABLE_MEMORY (etms), row, data);
 }
 
 void
@@ -393,13 +393,13 @@ e_table_memory_store_remove (ETableMemoryStore *etms, int row)
 {
 	int row_count;
 
-	e_table_memory_remove (E_TABLE_MEMORY (etms), row);
-
-	row_count = e_table_model_row_count (E_TABLE_MODEL (etms));
+	row_count = e_table_model_row_count (E_TABLE_MODEL (etms)) - 1;
 	memmove (etms->priv->store + etms->priv->col_count * row,
 		 etms->priv->store + etms->priv->col_count * (row + 1),
 		 etms->priv->col_count * (row_count - row) * sizeof (void *));
 	etms->priv->store = g_realloc (etms->priv->store, etms->priv->col_count * row_count * sizeof (void *));
+
+	e_table_memory_remove (E_TABLE_MEMORY (etms), row);
 }
 
 void
