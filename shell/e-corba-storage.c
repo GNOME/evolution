@@ -51,9 +51,10 @@ struct _ECorbaStoragePrivate {
 	GNOME_Evolution_Storage storage_interface;
 
 	/* The Evolution::StorageListener interface we expose.  */
-
 	GNOME_Evolution_StorageListener storage_listener_interface;
 	StorageListenerServant *storage_listener_servant;
+
+	GList *pending_opens;
 };
 
 
@@ -274,6 +275,11 @@ impl_dispose (GObject *object)
 	}
 
 	CORBA_exception_free (&ev);
+
+	if (priv->pending_opens != NULL) {
+		g_warning ("destroying ECorbaStorage with pending async ops");
+		priv->pending_opens = NULL;
+	}
 
 	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
 }
@@ -511,32 +517,52 @@ async_open_cb (BonoboListener *listener, const char *event_name,
 	       const CORBA_any *any, CORBA_Environment *ev,
 	       gpointer user_data)
 {
-	struct async_open_closure *closure = user_data;
+	struct async_open_closure *orig_closure = user_data, *closure;
 	GNOME_Evolution_Storage_Result *corba_result;
+	ECorbaStoragePrivate *priv;
 	EStorageResult result;
+	GList *p;
 
 	corba_result = any->_value;
 	result = e_corba_storage_corba_result_to_storage_result (*corba_result);
-
-	(* closure->callback) (closure->storage, result, closure->path, closure->data);
-
 	bonobo_object_unref (BONOBO_OBJECT (listener));
-	g_free (closure->path);
-	g_free (closure);
+
+	priv = E_CORBA_STORAGE (orig_closure->storage)->priv;
+	p = priv->pending_opens;
+	while (p) {
+		closure = p->data;
+		if (!strcmp (closure->path, orig_closure->path)) {
+			(* closure->callback) (closure->storage, result,
+					       closure->path, closure->data);
+			if (closure != orig_closure) {
+				g_free (closure->path);
+				g_free (closure);
+			}
+			priv->pending_opens = g_list_remove (priv->pending_opens, p->data);
+			p = priv->pending_opens;
+		} else
+			p = p->next;
+	}
+
+	g_free (orig_closure->path);
+	g_free (orig_closure);
 }
 
 static gboolean
 async_open_folder_idle (gpointer data)
 {
-	struct async_open_closure *closure = data;
+	struct async_open_closure *closure = data, *old_closure;
 	EStorage *storage = closure->storage;
 	ECorbaStorage *corba_storage;
+	ECorbaStoragePrivate *priv;
 	BonoboListener *listener;
 	Bonobo_Listener corba_listener;
 	CORBA_Environment ev;
+	GList *p;
 
 	corba_storage = E_CORBA_STORAGE (storage);
-	if (corba_storage->priv == NULL) {
+	priv = corba_storage->priv;
+	if (priv == NULL) {
 		(* closure->callback) (storage, E_STORAGE_GENERICERROR,
 				       closure->path, closure->data);
 		g_free (closure->path);
@@ -544,12 +570,21 @@ async_open_folder_idle (gpointer data)
 		return FALSE;
 	}
 
+	for (p = priv->pending_opens; p; p = p->next) {
+		old_closure = p->data;
+		if (!strcmp (closure->path, old_closure->path)) {
+			priv->pending_opens = g_list_prepend (priv->pending_opens, closure);
+			return FALSE;
+		}
+	}
+
 	listener = bonobo_listener_new (async_open_cb, closure);
 	corba_listener = bonobo_object_corba_objref (BONOBO_OBJECT (listener));
 
 	CORBA_exception_init (&ev);
-	GNOME_Evolution_Storage_asyncOpenFolder (corba_storage->priv->storage_interface,
-						 closure->path, corba_listener, &ev);
+	GNOME_Evolution_Storage_asyncOpenFolder (priv->storage_interface,
+						 closure->path,
+						 corba_listener, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		(* closure->callback) (storage, E_STORAGE_GENERICERROR,
 				       closure->path, closure->data);
@@ -558,6 +593,8 @@ async_open_folder_idle (gpointer data)
 		g_free (closure);
 	}
 	CORBA_exception_free (&ev);
+
+	priv->pending_opens = g_list_prepend (priv->pending_opens, closure);
 	return FALSE;
 }
 

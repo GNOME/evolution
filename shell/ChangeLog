@@ -1,3 +1,11 @@
+2003-03-21  Dan Winship  <danw@ximian.com>
+
+	* e-corba-storage.c (async_open_folder_idle): If we get a second
+	request to open a folder we're already waiting for, don't send a
+	second CORBA request, just remember the additional request.
+	(async_open_cb): Call the callbacks for all pending requests for
+	this folder.
+
 2003-03-20  JP Rosevear  <jpr@ximian.com>
 
 	* e-shell-view-menu.c: remove unused command
