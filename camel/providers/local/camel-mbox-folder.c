@@ -60,7 +60,7 @@ static void mbox_set_message_user_tag(CamelFolder *folder, const char *uid, cons
 
 static void mbox_append_message(CamelFolder *folder, CamelMimeMessage * message, const CamelMessageInfo * info,	CamelException *ex);
 static CamelMimeMessage *mbox_get_message(CamelFolder *folder, const gchar * uid, CamelException *ex);
-static CamelLocalSummary *mbox_create_summary(const char *path, const char *folder, ibex *index);
+static CamelLocalSummary *mbox_create_summary(const char *path, const char *folder, CamelIndex *index);
 
 static void mbox_finalise(CamelObject * object);
 
@@ -134,7 +134,7 @@ camel_mbox_folder_new(CamelStore *parent_store, const char *full_name, guint32 f
 	return folder;
 }
 
-static CamelLocalSummary *mbox_create_summary(const char *path, const char *folder, ibex *index)
+static CamelLocalSummary *mbox_create_summary(const char *path, const char *folder, CamelIndex *index)
 {
 	return (CamelLocalSummary *)camel_mbox_summary_new(path, folder, index);
 }

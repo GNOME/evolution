@@ -22,14 +22,16 @@
 #include <config.h>
 #endif
 
+#include <sys/types.h>
 #include <sys/stat.h>
+#include <fcntl.h>
+
 #include <sys/uio.h>
 #include <unistd.h>
 #include <errno.h>
 #include <string.h>
 #include <stdlib.h>
 
-#include <sys/types.h>
 #include <dirent.h>
 
 #include <ctype.h>
@@ -118,7 +120,7 @@ camel_mh_summary_finalise(CamelObject *obj)
  * 
  * Return value: A new #CamelMhSummary object.
  **/
-CamelMhSummary	*camel_mh_summary_new	(const char *filename, const char *mhdir, ibex *index)
+CamelMhSummary	*camel_mh_summary_new	(const char *filename, const char *mhdir, CamelIndex *index)
 {
 	CamelMhSummary *o = (CamelMhSummary *)camel_object_new(camel_mh_summary_get_type ());
 
@@ -171,7 +173,7 @@ static int camel_mh_summary_add(CamelLocalSummary *cls, const char *name, int fo
 	mp = camel_mime_parser_new();
 	camel_mime_parser_scan_from(mp, FALSE);
 	camel_mime_parser_init_with_fd(mp, fd);
-	if (cls->index && (forceindex || !ibex_contains_name(cls->index, (char *)name))) {
+	if (cls->index && (forceindex || !camel_index_has_name(cls->index, name))) {
 		d(printf("forcing indexing of message content\n"));
 		camel_folder_summary_set_index((CamelFolderSummary *)mhs, cls->index);
 	} else {
@@ -191,7 +193,7 @@ remove_summary(char *key, CamelMessageInfo *info, CamelLocalSummary *cls)
 {
 	d(printf("removing message %s from summary\n", key));
 	if (cls->index)
-		ibex_unindex(cls->index, (char *)camel_message_info_uid(info));
+		camel_index_delete_name(cls->index, camel_message_info_uid(info));
 	camel_folder_summary_remove((CamelFolderSummary *)cls, info);
 	camel_folder_summary_info_free((CamelFolderSummary *)cls, info);
 }
@@ -239,7 +241,7 @@ mh_summary_check(CamelLocalSummary *cls, CamelFolderChangeInfo *changeinfo, Came
 		}
 		if (c==0) {
 			info = camel_folder_summary_uid((CamelFolderSummary *)cls, d->d_name);
-			if (info == NULL || (cls->index && (!ibex_contains_name(cls->index, d->d_name)))) {
+			if (info == NULL || (cls->index && (!camel_index_has_name(cls->index, d->d_name)))) {
 				/* need to add this file to the summary */
 				if (info != NULL) {
 					g_hash_table_remove(left, camel_message_info_uid(info));
@@ -368,7 +370,7 @@ mh_summary_sync(CamelLocalSummary *cls, gboolean expunge, CamelFolderChangeInfo 
 
 				/* FIXME: put this in folder_summary::remove()? */
 				if (cls->index)
-					ibex_unindex(cls->index, (char *)uid);
+					camel_index_delete_name(cls->index, (char *)uid);
 				
 				camel_folder_change_info_remove_uid(changes, uid);
 				camel_folder_summary_remove((CamelFolderSummary *)cls, info);

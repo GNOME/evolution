@@ -31,7 +31,7 @@ extern "C" {
 #include <time.h>
 #include <camel/camel-mime-parser.h>
 #include <camel/camel-object.h>
-#include <libibex/ibex.h>
+#include <camel/camel-index.h>
 
 #define CAMEL_FOLDER_SUMMARY(obj)         CAMEL_CHECK_CAST (obj, camel_folder_summary_get_type (), CamelFolderSummary)
 #define CAMEL_FOLDER_SUMMARY_CLASS(klass) CAMEL_CHECK_CLASS_CAST (klass, camel_folder_summary_get_type (), CamelFolderSummaryClass)
@@ -213,7 +213,7 @@ guint			 camel_folder_summary_get_type	(void);
 CamelFolderSummary      *camel_folder_summary_new	(void);
 
 void camel_folder_summary_set_filename(CamelFolderSummary *, const char *);
-void camel_folder_summary_set_index(CamelFolderSummary *, ibex *);
+void camel_folder_summary_set_index(CamelFolderSummary *, CamelIndex *);
 void camel_folder_summary_set_build_content(CamelFolderSummary *, gboolean state);
 
 guint32  camel_folder_summary_next_uid        (CamelFolderSummary *s);

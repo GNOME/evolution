@@ -24,7 +24,7 @@
 #include "camel-local-summary.h"
 #include <camel/camel-folder.h>
 #include <camel/camel-exception.h>
-#include <libibex/ibex.h>
+#include <camel/camel-index.h>
 
 #define CAMEL_MH_SUMMARY(obj)	CAMEL_CHECK_CAST (obj, camel_mh_summary_get_type (), CamelMhSummary)
 #define CAMEL_MH_SUMMARY_CLASS(klass)	CAMEL_CHECK_CLASS_CAST (klass, camel_mh_summary_get_type (), CamelMhSummaryClass)
@@ -47,7 +47,7 @@ struct _CamelMhSummaryClass {
 };
 
 CamelType	 camel_mh_summary_get_type	(void);
-CamelMhSummary	*camel_mh_summary_new	(const char *filename, const char *mhdir, ibex *index);
+CamelMhSummary	*camel_mh_summary_new	(const char *filename, const char *mhdir, CamelIndex *index);
 
 #endif /* ! _CAMEL_MH_SUMMARY_H */
 

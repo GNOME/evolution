@@ -38,6 +38,7 @@
 #include "camel-url.h"
 
 #include "camel-local-folder.h"
+#include <camel/camel-text-index.h>
 
 #define d(x)
 
@@ -321,11 +322,12 @@ rename_folder(CamelStore *store, const char *old, const char *new, CamelExceptio
 
 	CAMEL_STORE_LOCK(store, cache_lock);
 	folder = g_hash_table_lookup(store->folders, old);
-	if (folder) {
-		if (folder->index && ibex_move(folder->index, newibex) == -1)
+	if (folder && folder->index) {
+		if (folder->index && camel_index_rename(folder->index, newibex) == -1)
 			goto ibex_failed;
 	} else {
-		if (xrename(old, new, path, ".ibex", TRUE, ex))
+		/* TODO: camel_text_index_rename should find out if we have an active index itself? */
+		if (camel_text_index_rename(oldibex, newibex) == -1)
 			goto ibex_failed;
 	}
 
@@ -348,10 +350,9 @@ base_failed:
 summary_failed:
 	if (folder) {
 		if (folder->index)
-			ibex_move(folder->index, oldibex);
+			camel_index_rename(folder->index, oldibex);
 	} else
-		xrename(new, old, path, ".ibex", TRUE, ex);
-
+		camel_text_index_rename(newibex, oldibex);
 ibex_failed:
 	CAMEL_STORE_UNLOCK(store, cache_lock);
 	g_free(newibex);
@@ -379,7 +380,7 @@ delete_folder(CamelStore *store, const char *folder_name, CamelException *ex)
 	}
 	g_free(str);
 	str = g_strdup_printf("%s.ibex", name);
-	if (unlink(str) == -1 && errno != ENOENT) {
+	if (camel_text_index_remove(str) == -1 && errno != ENOENT) {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
 				     _("Could not delete folder index file `%s': %s"),
 				     str, strerror(errno));

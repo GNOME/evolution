@@ -24,13 +24,16 @@
 #include <config.h>
 #endif
 
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <errno.h>
+
 #include <string.h>
 #include <time.h>
 
 #include <glib.h>
 #include <gtk/gtk.h>
-
-#include <errno.h>
 
 #include "camel-filter-driver.h"
 #include "camel-filter-search.h"

@@ -29,7 +29,7 @@ extern "C" {
 
 #include <camel/camel-folder.h>
 #include <camel/camel-folder-search.h>
-#include <libibex/ibex.h>
+#include <camel/camel-index.h>
 #include "camel-spool-summary.h"
 #include "camel-lock.h"
 
@@ -69,7 +69,7 @@ typedef struct {
 	/* Virtual methods */	
 
 	/* summary factory, only used at init */
-	CamelSpoolSummary *(*create_summary)(const char *path, const char *folder, ibex *index);
+	CamelSpoolSummary *(*create_summary)(const char *path, const char *folder, CamelIndex *index);
 
 	/* Lock the folder for my operations */
 	int (*lock)(CamelSpoolFolder *, CamelLockType type, CamelException *ex);

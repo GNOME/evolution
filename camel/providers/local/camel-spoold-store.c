@@ -259,7 +259,7 @@ static int scan_dir(CamelStore *store, GHashTable *visited, char *root, const ch
 		uri = g_strdup_printf("spoold:%s;noselect=yes#%s", root, path);
 		tmp = strrchr(path, '/');
 		if (tmp == NULL)
-			tmp = path;
+			tmp = (char *)path;
 		else
 			tmp++;
 		fi = camel_folder_info_new(uri, path, tmp, -1);

@@ -23,7 +23,9 @@
 #include <config.h>
 #endif
 
+#include <sys/types.h>
 #include <sys/stat.h>
+#include <fcntl.h>
 #include <errno.h>
 #include <string.h>
 #include <unistd.h>

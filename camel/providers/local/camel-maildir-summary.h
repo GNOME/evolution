@@ -24,7 +24,7 @@
 #include "camel-local-summary.h"
 #include <camel/camel-folder.h>
 #include <camel/camel-exception.h>
-#include <libibex/ibex.h>
+#include <camel/camel-index.h>
 
 #define CAMEL_MAILDIR_SUMMARY(obj)	CAMEL_CHECK_CAST (obj, camel_maildir_summary_get_type (), CamelMaildirSummary)
 #define CAMEL_MAILDIR_SUMMARY_CLASS(klass)	CAMEL_CHECK_CLASS_CAST (klass, camel_maildir_summary_get_type (), CamelMaildirSummaryClass)
@@ -66,7 +66,7 @@ struct _CamelMaildirSummaryClass {
 };
 
 CamelType	 camel_maildir_summary_get_type	(void);
-CamelMaildirSummary	*camel_maildir_summary_new	(const char *filename, const char *maildirdir, ibex *index);
+CamelMaildirSummary	*camel_maildir_summary_new	(const char *filename, const char *maildirdir, CamelIndex *index);
 
 /* convert some info->flags to/from the messageinfo */
 char *camel_maildir_summary_info_to_name(const CamelMessageInfo *info);

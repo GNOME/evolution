@@ -156,7 +156,9 @@ struct _CamelFolderSummaryPrivate {
 	struct _CamelMimeFilterSave *filter_save;
 	struct _CamelMimeFilterHTML *filter_html;
 
-	struct ibex *index;
+	struct _CamelStreamFilter *filter_stream;
+
+	struct _CamelIndex *index;
 
 #ifdef ENABLE_THREADS
 	GMutex *summary_lock;	/* for the summary hashtable/array */

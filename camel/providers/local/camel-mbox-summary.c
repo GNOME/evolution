@@ -27,7 +27,9 @@
 #include "camel/camel-mime-message.h"
 #include "camel/camel-operation.h"
 
+#include <sys/types.h>
 #include <sys/stat.h>
+#include <fcntl.h>
 #include <sys/uio.h>
 #include <unistd.h>
 #include <errno.h>
@@ -136,7 +138,7 @@ camel_mbox_summary_finalise(CamelObject *obj)
  * Return value: A new CamelMboxSummary widget.
  **/
 CamelMboxSummary *
-camel_mbox_summary_new(const char *filename, const char *mbox_name, ibex *index)
+camel_mbox_summary_new(const char *filename, const char *mbox_name, CamelIndex *index)
 {
 	CamelMboxSummary *new = (CamelMboxSummary *)camel_object_new(camel_mbox_summary_get_type());
 
@@ -289,7 +291,7 @@ summary_rebuild(CamelMboxSummary *mbs, off_t offset, CamelException *ex)
 		off_t pc = camel_mime_parser_tell_start_from (mp) + 1;
 		
 		camel_operation_progress (NULL, (int) (((float) pc / size) * 100));
-		
+
 		info = camel_folder_summary_add_from_parser(s, mp);
 		if (info == NULL) {
 			camel_exception_setv(ex, 1, _("Fatal mail parser error near position %ld in folder %s"),
@@ -560,7 +562,7 @@ mbox_summary_sync_full(CamelLocalSummary *cls, gboolean expunge, CamelFolderChan
 			d(printf("Deleting %s\n", uid));
 
 			if (cls->index)
-				ibex_unindex(cls->index, (char *)uid);
+				camel_index_delete_name(cls->index, uid);
 
 			/* remove it from the change list */
 			camel_folder_change_info_remove_uid(changeinfo, uid);

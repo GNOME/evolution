@@ -4,7 +4,7 @@ SUBDIRS = providers tests
 
 libcamelincludedir = $(includedir)/camel
 
-sbin_PROGRAMS =	camel-lock-helper
+sbin_PROGRAMS =	camel-lock-helper camel-index-control
 
 lib_LTLIBRARIES = libcamel.la
 noinst_LTLIBRARIES = libcamel-static.la
@@ -20,6 +20,7 @@ INCLUDES = -I.. -I$(srcdir)/.. 			 	\
 libcamel_la_SOURCES = 				\
 	broken-date-parser.c			\
 	camel-address.c				\
+	camel-block-file.c			\
 	camel-cipher-context.c			\
 	camel-cms-context.c			\
 	camel-data-cache.c			\
@@ -39,6 +40,7 @@ libcamel_la_SOURCES = 				\
 	camel-folder.c				\
 	camel-html-parser.c			\
 	camel-http-stream.c			\
+	camel-index.c				\
 	camel-internet-address.c		\
 	camel-lock.c				\
 	camel-lock-client.c			\
@@ -64,6 +66,7 @@ libcamel_la_SOURCES = 				\
 	camel-multipart.c			\
 	camel-object.c				\
 	camel-operation.c			\
+	camel-partition-table.c			\
 	camel-pgp-context.c			\
 	camel-pgp-mime.c			\
 	camel-smime-context.c			\
@@ -92,6 +95,7 @@ libcamel_la_SOURCES = 				\
 	camel-stream-mem.c			\
 	camel-stream-null.c			\
 	camel-stream.c				\
+	camel-text-index.c			\
 	camel-tcp-stream-raw.c			\
 	camel-tcp-stream-ssl.c			\
 	camel-tcp-stream-openssl.c		\
@@ -111,6 +115,7 @@ libcamel_la_SOURCES = 				\
 libcamelinclude_HEADERS =			\
 	broken-date-parser.h			\
 	camel-address.h				\
+	camel-block-file.h			\
 	camel-charset-map.h			\
 	camel-cipher-context.h			\
 	camel-cms-context.h			\
@@ -131,6 +136,7 @@ libcamelinclude_HEADERS =			\
 	camel-folder-thread.h			\
 	camel-folder.h				\
 	camel-http-stream.h			\
+	camel-index.h				\
 	camel-internet-address.h		\
 	camel-lock.h				\
 	camel-lock-client.h			\
@@ -156,6 +162,7 @@ libcamelinclude_HEADERS =			\
 	camel-multipart.h			\
 	camel-object.h				\
 	camel-operation.h			\
+	camel-partition-table.h			\
 	camel-pgp-context.h			\
 	camel-pgp-mime.h			\
 	camel-smime-context.h			\
@@ -183,6 +190,7 @@ libcamelinclude_HEADERS =			\
 	camel-stream-mem.h			\
 	camel-stream-null.h			\
 	camel-stream.h				\
+	camel-text-index.h			\
 	camel-tcp-stream-raw.h			\
 	camel-tcp-stream-ssl.h			\
 	camel-tcp-stream.h			\
@@ -213,6 +221,14 @@ camel_lock_helper_SOURCES = 			\
 	camel-lock-helper.h			\
 	camel-lock.c				\
 	camel-lock.h
+
+camel_index_control_SOURCES =			\
+	camel-index-control.c
+
+camel_index_control_LDADD =			\
+	$(libcamel_la_LIBADD)			\
+	libcamel.la				\
+	$(EVOLUTION_MAIL_LIBS)
 
 install-exec-hook:
 	@if test -n "$(CAMEL_LOCK_HELPER_USER)"; then \

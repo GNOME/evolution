@@ -53,7 +53,7 @@ struct _CamelMboxSummaryClass {
 };
 
 guint		camel_mbox_summary_get_type	(void);
-CamelMboxSummary      *camel_mbox_summary_new	(const char *filename, const char *mbox_name, ibex *index);
+CamelMboxSummary      *camel_mbox_summary_new	(const char *filename, const char *mbox_name, CamelIndex *index);
 
 /* generate a From line from headers */
 char *camel_mbox_summary_build_from(struct _header_raw *header);

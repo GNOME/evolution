@@ -118,16 +118,20 @@ camel_local_summary_finalise(CamelObject *obj)
 {
 	CamelLocalSummary *mbs = CAMEL_LOCAL_SUMMARY(obj);
 
+	if (mbs->index)
+		camel_object_unref((CamelObject *)mbs->index);
 	g_free(mbs->folder_path);
 }
 
 void
-camel_local_summary_construct(CamelLocalSummary *new, const char *filename, const char *local_name, ibex *index)
+camel_local_summary_construct(CamelLocalSummary *new, const char *filename, const char *local_name, CamelIndex *index)
 {
 	camel_folder_summary_set_build_content(CAMEL_FOLDER_SUMMARY(new), FALSE);
 	camel_folder_summary_set_filename(CAMEL_FOLDER_SUMMARY(new), filename);
 	new->folder_path = g_strdup(local_name);
 	new->index = index;
+	if (index)
+		camel_object_ref((CamelObject *)index);
 }
 
 static int
@@ -368,7 +372,7 @@ local_summary_sync(CamelLocalSummary *cls, gboolean expunge, CamelFolderChangeIn
 		g_warning("Could not save summary for %s: %s", cls->folder_path, strerror(errno));
 	}
 
-	if (cls->index && ibex_save(cls->index) == -1)
+	if (cls->index && camel_index_sync(cls->index) == -1)
 		g_warning("Could not sync index for %s: %s", cls->folder_path, strerror(errno));
 
 	return ret;
@@ -566,7 +570,7 @@ message_info_new(CamelFolderSummary *s, struct _header_raw *h)
 		if (cls->index
 		    && (doindex
 			|| cls->index_force
-			|| !ibex_contains_name(cls->index, (char *)camel_message_info_uid(mi)))) {
+			|| !camel_index_has_name(cls->index, camel_message_info_uid(mi)))) {
 			d(printf("Am indexing message %s\n", camel_message_info_uid(mi)));
 			camel_folder_summary_set_index(s, cls->index);
 		} else {

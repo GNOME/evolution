@@ -24,7 +24,7 @@
 #include <camel/camel-folder-summary.h>
 #include <camel/camel-folder.h>
 #include <camel/camel-exception.h>
-#include <libibex/ibex.h>
+#include <camel/camel-index.h>
 
 #define CAMEL_SPOOL_SUMMARY(obj)         CAMEL_CHECK_CAST (obj, camel_spool_summary_get_type (), CamelSpoolSummary)
 #define CAMEL_SPOOL_SUMMARY_CLASS(klass) CAMEL_CHECK_CLASS_CAST (klass, camel_spool_summary_get_type (), CamelSpoolSummaryClass)
@@ -68,7 +68,7 @@ struct _CamelSpoolSummaryClass {
 };
 
 guint	camel_spool_summary_get_type	(void);
-void	camel_spool_summary_construct	(CamelSpoolSummary *new, const char *filename, const char *spool_name, ibex *index);
+void	camel_spool_summary_construct	(CamelSpoolSummary *new, const char *filename, const char *spool_name, CamelIndex *index);
 
 /* create the summary, in-memory only */
 CamelSpoolSummary *camel_spool_summary_new(const char *filename);

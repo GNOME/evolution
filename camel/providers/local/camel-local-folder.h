@@ -29,7 +29,7 @@ extern "C" {
 
 #include <camel/camel-folder.h>
 #include <camel/camel-folder-search.h>
-#include <libibex/ibex.h>
+#include <camel/camel-index.h>
 #include "camel-local-summary.h"
 #include "camel-lock.h"
 
@@ -54,7 +54,7 @@ typedef struct {
 	char *summary_path;	/* where the summary lives */
 	char *index_path;	/* where the index file lives */
 
-	ibex *index;		   /* index for this folder */
+	CamelIndex *index;	   /* index for this folder */
 	CamelFolderSearch *search; /* used to run searches, we just use the real thing (tm) */
 	CamelFolderChangeInfo *changes;	/* used to store changes to the folder during processing */
 } CamelLocalFolder;
@@ -65,7 +65,7 @@ typedef struct {
 	/* Virtual methods */	
 
 	/* summary factory, only used at init */
-	CamelLocalSummary *(*create_summary)(const char *path, const char *folder, ibex *index);
+	CamelLocalSummary *(*create_summary)(const char *path, const char *folder, CamelIndex *index);
 
 	/* Lock the folder for my operations */
 	int (*lock)(CamelLocalFolder *, CamelLockType type, CamelException *ex);

@@ -24,7 +24,7 @@
 #include <camel/camel-folder-summary.h>
 #include <camel/camel-folder.h>
 #include <camel/camel-exception.h>
-#include <libibex/ibex.h>
+#include <camel/camel-index.h>
 
 #define CAMEL_LOCAL_SUMMARY(obj)         CAMEL_CHECK_CAST (obj, camel_local_summary_get_type (), CamelLocalSummary)
 #define CAMEL_LOCAL_SUMMARY_CLASS(klass) CAMEL_CHECK_CLASS_CAST (klass, camel_local_summary_get_type (), CamelLocalSummaryClass)
@@ -46,7 +46,7 @@ struct _CamelLocalSummary {
 
 	char *folder_path;	/* name of matching folder */
 
-	ibex *index;
+	CamelIndex *index;
 	int index_force;	/* do we force index during creation? */
 };
 
@@ -63,7 +63,7 @@ struct _CamelLocalSummaryClass {
 };
 
 guint	camel_local_summary_get_type	(void);
-void	camel_local_summary_construct	(CamelLocalSummary *new, const char *filename, const char *local_name, ibex *index);
+void	camel_local_summary_construct	(CamelLocalSummary *new, const char *filename, const char *local_name, CamelIndex *index);
 
 /* load/check the summary */
 int camel_local_summary_load(CamelLocalSummary *cls, int forceindex, CamelException *ex);

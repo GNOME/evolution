@@ -20,6 +20,7 @@
 
 #include "camel-mime-filter-index.h"
 
+#include "camel-text-index.h"
 
 static void camel_mime_filter_index_class_init (CamelMimeFilterIndexClass *klass);
 static void camel_mime_filter_index_finalize   (CamelObject *o);
@@ -49,8 +50,9 @@ camel_mime_filter_index_finalize(CamelObject *o)
 {
 	CamelMimeFilterIndex *f = (CamelMimeFilterIndex *)o;
 
-	g_free(f->name);
-	f->index = NULL;	/* ibex's need refcounting? */
+	if (f->name)
+		camel_object_unref((CamelObject *)f->name);
+	camel_object_unref((CamelObject *)f->index);
 }
 
 static void
@@ -62,7 +64,8 @@ complete(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out,
 		goto donothing;
 	}
 
-	ibex_index_buffer(f->index, f->name, in, len, NULL);
+	camel_index_name_add_buffer(f->name, in, len);
+	camel_index_name_add_buffer(f->name, NULL, 0);
 
 donothing:
 	*out = in;
@@ -74,22 +77,12 @@ static void
 filter(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out, size_t *outlenptr, size_t *outprespace)
 {
 	CamelMimeFilterIndex *f = (CamelMimeFilterIndex *)mf;
-	int inleft = 0;
 
 	if (f->index == NULL || f->name==NULL) {
 		goto donothing;
 	}
 
-	ibex_index_buffer(f->index, f->name, in, len, &inleft);
-
-	if (inleft>0) {
-		camel_mime_filter_backup(mf, in+(len-inleft), inleft);
-	}
-
-	*out = in;
-	*outlenptr = len-inleft;
-	*outprespace = prespace;
-	return;
+	camel_index_name_add_buffer(f->name, in, len);
 
 donothing:
 	*out = in;
@@ -123,25 +116,29 @@ camel_mime_filter_index_new (void)
 	return new;
 }
 
-CamelMimeFilterIndex      *camel_mime_filter_index_new_ibex (ibex *index)
+CamelMimeFilterIndex      *camel_mime_filter_index_new_index (struct _CamelIndex *index)
 {
 	CamelMimeFilterIndex *new = camel_mime_filter_index_new();
 
 	if (new) {
 		new->index = index;
-		new->name = g_strdup("");
+		if (index)
+			camel_object_ref((CamelObject *)index);
 	}
 	return new;
 }
 
 /* Set the match name for any indexed words */
-void camel_mime_filter_index_set_name (CamelMimeFilterIndex *mf, char *name)
+void camel_mime_filter_index_set_name (CamelMimeFilterIndex *mf, struct _CamelIndexName *name)
 {
-	g_free(mf->name);
-	mf->name = g_strdup(name);
+	if (mf->name)
+		camel_object_unref((CamelObject *)mf->name);
+	mf->name = name;
+	if (name)
+		camel_object_ref((CamelObject *)name);
 }
 
-void camel_mime_filter_index_set_ibex (CamelMimeFilterIndex *mf, ibex *index)
+void camel_mime_filter_index_set_index (CamelMimeFilterIndex *mf, CamelIndex *index)
 {
 	if (mf->index) {
 		char *out;
@@ -149,7 +146,10 @@ void camel_mime_filter_index_set_ibex (CamelMimeFilterIndex *mf, ibex *index)
 
 		camel_mime_filter_complete((CamelMimeFilter *)mf, "", 0, 0, &out, &outlen, &outspace);
 	}
+
 	mf->index = index;
+	if (index)
+		camel_object_ref((CamelObject *)index);
 }
 
 

@@ -1,7 +1,137 @@
+2002-03-25  Not Zed  <NotZed@Ximian.com>
+
+	* camel-text-index.c (text_index_add_name): When we add a new
+	name, up all of the cache limits, because we're probably going to
+	be adding more.
+	(text_index_sync): Drop the cache limits back down again, we dont
+	need them when looking words up.
+
+	** MERGE camel_index branch.
+
+	* camel-text-index.[ch]: Added files i forgot to add (eep nearly
+	lost all this work!)
+
+	* camel-block-file.c (sync_nolock): Fix an infinite loop in syncing.
+
 2002-03-21  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-folder-summary.c (camel_message_info_new_from_header): Use
 	the date in the received header for the received_date.
+
+2002-03-22  Not Zed  <NotZed@Ximian.com>
+
+	* providers/local/camel-local-folder.c
+	(camel_local_folder_construct): Use the right option to remove the
+	index file and reset the index file on creation.
+	(camel_local_folder_construct): Remove any existing '.ibex' files
+	- these are the old format index files.
+
+	* camel-block-file.c (camel_block_file_rename): Lock io lock while
+	renaming.
+	(camel_key_file_rename): Lock around rename.
+	(block_file_validate_root): Implement sync flag checking.
+	(camel_block_file_touch_block): Turn off the sync flag if we're
+	touching any non-root block and write it to disk.  Shoudl this
+	fsync()?
+	(sync_nolock): sync the root block only if we need to.
+
+	* providers/local/camel-local-store.c (rename_folder): Re-enable
+	index rename code.  Not sure how race-free it is though.
+	(delete_folder): Delete the index file properly.
+
+	* camel-partition-table.c (camel_key_table_lookup): Initialise
+	output values to 0 before doing anything.
+	(camel_key_table_add): Do some range-checking on values.
+
+	* camel-text-index.c (text_index_compress): Changed to call sync here.
+	(text_index_compress_nolock): and not here - stops a recursive
+	sync call when sync performs a compress also.
+	(text_index_compress_nolock): Change to _nosync, since the locking
+	is irrelevent (recursive lock).  Fixed callers.
+	(text_index_add_name_to_word): If we get a failure with key table
+	ops, fail immediately.
+	(text_index_compress_nosync): Likewise.
+	(text_index_write_name): If the nameid is 0, do nothing.
+	(text_index_add_name): If we can't get a keyid, dont add it to the
+	partition table.
+	(camel_text_index_remove): Function to delete an index file.
+	(text_index_compress_nosync): Clean up temp files when done.
+
+	* camel-folder-search.c (match_messages_index): New function,
+	split from body_contains, matches a regex against all words in an
+	index.
+	(match_message_index): Similar to above but matches against an
+	individual message.
+	(search_body_contains): Changed to use above functions for
+	matching - substring matches should now work on indexed data.
+
+2002-03-21  Not Zed  <NotZed@Ximian.com>
+
+	* camel-index.c (camel_index_words/names): New virtual
+	methods/stubs to get a cursor of all words and names.
+
+	* camel-text-index.c (text_index_compress_nolock): Split from
+	text_index_compress, so we can call the compressor while locked
+	also, removed lock calls.
+	(text_index_compress): Changed to stub which calls
+	text_index_compress_nolock.
+	(camel_text_index_key_cursor_new): New object to iterate through
+	a key table.
+	(text_index_words, text_index_names): Implement virtual functions
+	for iterating through all words or names.
+
+	* camel-block-file.c: Turn off some debug.
+
+2002-03-20  Not Zed  <NotZed@Ximian.com>
+
+	** New body index implementation.
+
+	* camel-index*: Code for camel index, a new class to replace ibex.
+
+	* camel-block-file.[ch]: block-based and link based
+	filesystem-in-a-file classes.
+
+	* camel-partition-table.[ch]: An implementation of a partition
+	table (automatically extending on-disk hash-table using ideal
+	hash), and a key-table, a key<>name mapping table.  Used by
+	camelindex.
+
+	* providers/local/*, camel-folder-summary.[ch]: Changed to use
+	camel-index interface rather than ibex.
+
+2002-03-05  Not Zed  <NotZed@Ximian.com>
+
+	* providers/local/camel-maildir-summary.c (maildir_summary_check):
+	Do progress reporting of operations.
+	(maildir_summary_sync): Same here.
+
+2002-03-04  Not Zed  <NotZed@Ximian.com>
+
+	* providers/local/camel-spoold-store.c (scan_dir): Kill a warning
+	with a cast.
+
+	* providers/local/camel-*.c: Changed for ibex->camelindex.
+
+	* camel-folder-search.c (camel_folder_search_set_summary): Init
+	summary_hash to point to 'static' uid strings.
+	(search_body_contains): Use the static uid memory to return
+	results rather than the values from the index library.
+
+	* camel-folder-search.[ch]: Changed to use camelindex object.
+
+	* camel-folder-summary.c (summary_build_content_info_message):
+	Use a stream to index content, also filter html mail first.
+	(camel_folder_summary_info_new_from_message): Use a stream
+	filtered to index content.
+	(main): Removed the test main code.  Added headers for open call
+	(ibex must've had them before).
+
+	* camel-folder-summary.[ch]: Changed from ibex to CamelIndex.
+
+	* camel-mime-filter-index.c (camel_mime_filter_index_finalize):
+	Unref index.
+
+	* camel-mime-filter-index.[ch]: Changed from ibex to CamelIndex.
 
 2002-03-19  Jeffrey Stedfast  <fejj@ximian.com>
 

@@ -275,7 +275,14 @@ camel_folder_search_set_folder(CamelFolderSearch *search, CamelFolder *folder)
 void
 camel_folder_search_set_summary(CamelFolderSearch *search, GPtrArray *summary)
 {
+	int i;
+
 	search->summary = summary;
+	if (search->summary_hash)
+		g_hash_table_destroy(search->summary_hash);
+	search->summary_hash = g_hash_table_new(g_str_hash, g_str_equal);
+	for (i=0;i<summary->len;i++)
+		g_hash_table_insert(search->summary_hash, (char *)camel_message_info_uid(summary->pdata[i]), summary->pdata[i]);
 }
 
 /**
@@ -283,15 +290,19 @@ camel_folder_search_set_summary(CamelFolderSearch *search, GPtrArray *summary)
  * @search: 
  * @index: 
  * 
- * Set the index (ibex) representing the contents of all messages
+ * Set the index representing the contents of all messages
  * in this folder.  If this is not set, then the folder implementation
  * should sub-class the CamelFolderSearch and provide its own
  * body-contains function.
  **/
 void
-camel_folder_search_set_body_index(CamelFolderSearch *search, ibex *index)
+camel_folder_search_set_body_index(CamelFolderSearch *search, CamelIndex *index)
 {
+	if (search->body_index)
+		camel_object_unref((CamelObject *)search->body_index);
 	search->body_index = index;
+	if (index)
+		camel_object_ref((CamelObject *)index);
 }
 
 /**
@@ -728,12 +739,79 @@ match_message(CamelFolder *folder, const char *uid, regex_t *pattern, CamelExcep
 	return truth;
 }
 
+/* perform a regex match against words in an index */
+/* uids = hash table of messageinfo's by uid's */
+static GPtrArray *
+match_messages_index(CamelIndex *idx, regex_t *pattern, GHashTable *uids, CamelException *ex)
+{
+	GPtrArray *result = g_ptr_array_new();
+	GHashTable *ht = g_hash_table_new(g_str_hash, g_str_equal);
+	struct _glib_sux_donkeys lambdafoo;
+	CamelIndexCursor *wc, *nc;
+	const char *word, *name;
+	CamelMessageInfo *mi;
+			
+	wc = camel_index_words(idx);
+	if (wc) {
+		while ((word = camel_index_cursor_next(wc))) {
+			if (regexec(pattern, word, 0, NULL, 0) == 0) {
+				/* perf: could have the wc cursor return the name cursor */
+				nc = camel_index_find(idx, word);
+				if (nc) {
+					while ((name = camel_index_cursor_next(nc))) {
+						mi = g_hash_table_lookup(uids, name);
+						if (mi)
+							g_hash_table_insert(ht, (char *)camel_message_info_uid(mi), (void *)1);
+					}
+					camel_object_unref((CamelObject *)nc);
+				}
+			}
+		}
+		camel_object_unref((CamelObject *)wc);
+
+		lambdafoo.uids = result;
+		g_hash_table_foreach(ht, (GHFunc)g_lib_sux_htor, &lambdafoo);
+		g_hash_table_destroy(ht);
+	}
+
+	return result;
+}
+
+/* perform a regex match against an individual uid in an index */
+/* this would benefit greatly in practice if there was a hashtalbe of uid's to amtch against */
+static int
+match_message_index(CamelIndex *idx, const char *uid, regex_t *pattern, CamelException *ex)
+{
+	CamelIndexCursor *wc, *nc;
+	const char *word, *name;
+	int truth = FALSE;
+
+	wc = camel_index_words(idx);
+	if (wc) {
+		while (!truth && (word = camel_index_cursor_next(wc))) {
+			if (regexec(pattern, word, 0, NULL, 0) == 0) {
+				/* perf: could have the wc cursor return the name cursor */
+				nc = camel_index_find(idx, word);
+				if (nc) {
+					while (!truth && (name = camel_index_cursor_next(nc)))
+						truth = strcmp(name, uid) == 0;
+					camel_object_unref((CamelObject *)nc);
+				}
+			}
+		}
+		camel_object_unref((CamelObject *)wc);
+	}
+
+	return truth;
+}
+
 static ESExpResult *
 search_body_contains(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *search)
 {
 	ESExpResult *r;
-	int i, j;
+	int i;
 	regex_t pattern;
+	CamelException *ex = search->priv->ex;
 
 	if (search->current) {
 		int truth = FALSE;
@@ -741,19 +819,14 @@ search_body_contains(struct _ESExp *f, int argc, struct _ESExpResult **argv, Cam
 		if (argc == 1 && argv[0]->value.string[0] == 0 && search->folder) {
 			truth = TRUE;
 		} else if (search->body_index) {
-			for (i=0;i<argc && !truth;i++) {
-				if (argv[i]->type == ESEXP_RES_STRING) {
-					truth = ibex_find_name(search->body_index, (char *)camel_message_info_uid(search->current),
-							       argv[i]->value.string);
-				} else {
-					e_sexp_resultv_free(f, argc, argv);
-					e_sexp_fatal_error(f, _("Invalid type in body-contains, expecting string"));
-				}
+			if (camel_search_build_match_regex(&pattern, CAMEL_SEARCH_MATCH_ICASE, argc, argv, ex) == 0) {
+				truth = match_message_index(search->body_index, camel_message_info_uid(search->current), &pattern, ex);
+				regfree(&pattern);
 			}
 		} else if (search->folder) {
 			/* we do a 'slow' direct search */
-			if (camel_search_build_match_regex(&pattern, CAMEL_SEARCH_MATCH_ICASE, argc, argv, search->priv->ex) == 0) {
-				truth = match_message(search->folder, camel_message_info_uid(search->current), &pattern, search->priv->ex);
+			if (camel_search_build_match_regex(&pattern, CAMEL_SEARCH_MATCH_ICASE, argc, argv, ex) == 0) {
+				truth = match_message(search->folder, camel_message_info_uid(search->current), &pattern, ex);
 				regfree(&pattern);
 			}
 		} else {
@@ -772,42 +845,19 @@ search_body_contains(struct _ESExp *f, int argc, struct _ESExpResult **argv, Cam
 				g_ptr_array_add(r->value.ptrarray, (char *)camel_message_info_uid(info));
 			}
 		} else if (search->body_index) {
-			if (argc==1) {
-				/* common case */
-				r->value.ptrarray = ibex_find(search->body_index, argv[0]->value.string);
-			} else {
-				GHashTable *ht = g_hash_table_new(g_str_hash, g_str_equal);
-				GPtrArray *pa;
-				struct _glib_sux_donkeys lambdafoo;
-
-				/* this sux, perform an or operation on the result(s) of each word */
-				for (i=0;i<argc;i++) {
-					if (argv[i]->type == ESEXP_RES_STRING) {
-						pa = ibex_find(search->body_index, argv[i]->value.string);
-						for (j=0;j<pa->len;j++) {
-							g_hash_table_insert(ht, g_ptr_array_index(pa, j), (void *)1);
-						}
-						g_ptr_array_free(pa, FALSE);
-					} else {
-						e_sexp_result_free(f, r);
-						e_sexp_resultv_free(f, argc, argv);
-						e_sexp_fatal_error(f, _("Invalid type in body-contains, expecting string"));
-					}
-				}
-				lambdafoo.uids = g_ptr_array_new();
-				g_hash_table_foreach(ht, (GHFunc)g_lib_sux_htor, &lambdafoo);
-				r->value.ptrarray = lambdafoo.uids;
-				g_hash_table_destroy(ht);
+			if (camel_search_build_match_regex(&pattern, CAMEL_SEARCH_MATCH_ICASE, argc, argv, ex) == 0) {
+				r->value.ptrarray = match_messages_index(search->body_index, &pattern, search->summary_hash, ex);
+				regfree(&pattern);
 			}
 		} else if (search->folder) {
 			/* do a slow search */
 			r->value.ptrarray = g_ptr_array_new();
-			if (camel_search_build_match_regex(&pattern, CAMEL_SEARCH_MATCH_ICASE, argc, argv, search->priv->ex) == 0) {
+			if (camel_search_build_match_regex(&pattern, CAMEL_SEARCH_MATCH_ICASE, argc, argv, ex) == 0) {
 				if (search->summary) {
 					for (i=0;i<search->summary->len;i++) {
 						CamelMessageInfo *info = g_ptr_array_index(search->summary, i);
 
-						if (match_message(search->folder, camel_message_info_uid(info), &pattern, search->priv->ex))
+						if (match_message(search->folder, camel_message_info_uid(info), &pattern, ex))
 							g_ptr_array_add(r->value.ptrarray, (char *)camel_message_info_uid(info));
 					}
 				} /* else?  we could always get the summary from the folder, but then
