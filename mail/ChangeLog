@@ -1,7 +1,12 @@
+2000-11-06  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* folder-browser.c (on_right_click): Move filter stuff into a
+	submenu of the popup menu.
+
 2000-11-06	Jesse Pavel   <jpavel@helixcode.com>
 
-	* mail-display.c: used Camel to parse the full address before passing
-	the email address to my iTip control.
+	* mail-display.c: used Camel to parse the full address before
+	passing the email address to my iTip control.
 
 2000-11-06  Dan Winship  <danw@helixcode.com>
 
