@@ -4,8 +4,7 @@ INCLUDES = 					\
 	$(EVOLUTION_CALENDAR_CONDUIT_CFLAGS)
 
 # ToDo Conduit
-e_todo_conduitsdir=$(libdir)/gnome-pilot/conduits
-e_todo_conduits_LTLIBRARIES = libetodo_conduit.la
+privlib_LTLIBRARIES = libetodo_conduit.la
 
 libetodo_conduit_la_SOURCES = 	\
 	todo-conduit.c
@@ -17,7 +16,7 @@ libetodo_conduit_la_LIBADD = 						\
 	$(EVOLUTION_CALENDAR_CONDUIT_LIBS)
 
 e-todo-$(BASE_VERSION).conduit: e-todo.conduit.in
-	sed -e 's^\@prefix\@^$(prefix)^g' 				\
+	sed -e 's^\@privlibdir\@^$(privlibdir)^g' 			\
 	    -e 's^\@datadir\@^$(datadir)^g' 				\
 	    -e 's^\@BASE_VERSION\@^$(BASE_VERSION)^g' 			\
 	    $< > $@

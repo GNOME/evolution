@@ -1,3 +1,13 @@
+2003-12-01  JP Rosevear <jpr@ximian.com>
+
+	* conduits/todo/Makefile.am: install to privlibdir
+
+	* conduits/calendar/Makefile.am: ditto
+	
+	* conduits/todo/e-todo.conduit.in: subst in correct thing
+
+	* conduits/calendar/e-calendar.conduit.in: subst in correct thing
+
 2003-12-01  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/alarm-notify/alarm-notify.c (add_uri_to_load, remove_uri_to_load):
