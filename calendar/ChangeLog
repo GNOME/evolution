@@ -1,3 +1,8 @@
+2000-10-27  Jesse Pavel <jpavel@helixcode.com>
+
+	* gui/e-meeting-edit.c: fixed problems in which I allocated CORBA
+	strings of 0 length, but then didn't NULL terminate them.
+
 2000-10-27    <jpr@helixcode.com>
 
 	* conduits/calendar/calendar-conduit.c (check_for_slow_setting): 

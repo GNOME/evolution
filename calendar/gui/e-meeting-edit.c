@@ -560,6 +560,7 @@ send_button_clicked_cb (GtkWidget *widget, gpointer data)
 
 		recipient = &(to_list->_buffer[cntr]);
 		recipient->name = CORBA_string_alloc (0);  /* FIXME: we may want an actual name here. */
+		recipient->name[0] = '\0';
 		recipient->address = CORBA_string_alloc (len);
 		strcpy (recipient->address, cell_text);
 	}
@@ -584,6 +585,7 @@ send_button_clicked_cb (GtkWidget *widget, gpointer data)
 	content_type = CORBA_string_alloc (strlen (tempstr));
 	strcpy (content_type, tempstr);
 	filename = CORBA_string_alloc (0);
+	filename[0] = '\0';
 	sprintf (tempstr, "Calendar attachment");
 	description = CORBA_string_alloc (strlen (tempstr));
 	strcpy (description, tempstr);
