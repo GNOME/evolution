@@ -715,7 +715,6 @@ ethi_realize (GnomeCanvasItem *item)
 {
 	ETableHeaderItem *ethi = E_TABLE_HEADER_ITEM (item);
 	GdkWindow *window;
-	GdkColor c;
 	GtkTargetEntry  ethi_drop_types [] = {
 		{ TARGET_ETABLE_COL_TYPE, 0, TARGET_ETABLE_COL_HEADER },
 	};
@@ -725,10 +724,6 @@ ethi_realize (GnomeCanvasItem *item)
 		(*GNOME_CANVAS_ITEM_CLASS (ethi_parent_class)->realize)(item);
 
 	window = GTK_WIDGET (item->canvas)->window;
-
-	ethi->gc = gdk_gc_new (window);
-	gnome_canvas_get_color (item->canvas, "black", &c);
-	gdk_gc_set_foreground (ethi->gc, &c);
 
 	if (!ethi->font)
 		ethi_font_set (ethi, GTK_WIDGET (item->canvas)->style->font);
@@ -764,9 +759,6 @@ static void
 ethi_unrealize (GnomeCanvasItem *item)
 {
 	ETableHeaderItem *ethi = E_TABLE_HEADER_ITEM (item);
-
-	gdk_gc_unref (ethi->gc);
-	ethi->gc = NULL;
 
 	gtk_signal_disconnect (GTK_OBJECT (item->canvas), ethi->drag_motion_id);
 	gtk_signal_disconnect (GTK_OBJECT (item->canvas), ethi->drag_leave_id);
@@ -841,7 +833,7 @@ ethi_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width
 		e_table_header_draw_button (drawable, ecol,
 					    GTK_WIDGET (canvas)->style, ethi->font,
 					    GTK_WIDGET_STATE (canvas),
-					    GTK_WIDGET (canvas), ethi->gc,
+					    GTK_WIDGET (canvas), GTK_WIDGET (canvas)->style->fg_gc[GTK_STATE_NORMAL],
 					    x1 - x, -y,
 					    width, height,
 					    x2 - x1, ethi->height,
@@ -1033,7 +1025,7 @@ ethi_start_drag (ETableHeaderItem *ethi, GdkEvent *event)
 		pixmap, ecol,
 		widget->style, ethi->font,
 		GTK_WIDGET_STATE (widget),
-		widget, ethi->gc,
+		widget, widget->style->fg_gc[GTK_STATE_NORMAL],
 		0, 0,
 		col_width, ethi->height,
 		col_width, ethi->height,

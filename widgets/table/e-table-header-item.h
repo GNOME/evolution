@@ -21,7 +21,6 @@ typedef struct {
 	GnomeCanvasItem  parent;
 	ETableHeader    *eth;
 
-	GdkGC           *gc;
 	GdkCursor       *change_cursor;
 
 	short            height, width;
