@@ -260,10 +260,6 @@ struct icaltimetype icaltime_normalize(struct icaltimetype tt)
     stm.tm_isdst = -1; /* prevents mktime from changing hour based on
 			  daylight savings */
 
-    if(tt.is_utc)
-	stm.tm_sec -= icaltime_local_utc_offset();
-
-
     tut = mktime(&stm);
 
     stm = *(localtime(&tut));
