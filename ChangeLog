@@ -1,3 +1,7 @@
+2001-03-01  Christopher James Lahey  <clahey@ximian.com>
+
+	* Makefile.am (SUBDIRS), configure.in: Added views stuff.
+
 2001-03-01  Dan Winship  <danw@ximian.com>
 
 	* configure.in: Redo the Kerberos stuff again to deal with the

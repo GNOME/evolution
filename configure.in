@@ -833,6 +833,9 @@ default_user/local/Outbox/Makefile
 default_user/local/Sent/Makefile
 default_user/local/Tasks/Makefile
 default_user/local/Trash/Makefile
+views/Makefile
+views/mail/Makefile
+views/tasks/Makefile
 tools/Makefile
 doc/Makefile
 doc/C/Makefile

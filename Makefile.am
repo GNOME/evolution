@@ -19,9 +19,9 @@ EXTRA_DIST =			\
 	NEWS			\
 	$(appicon_DATA)		\
 	$(application_in_files)	\
-  	xml-i18n-merge.in	\
-  	xml-i18n-update.in	\
-  	xml-i18n-extract.in
+	xml-i18n-merge.in	\
+	xml-i18n-update.in	\
+	xml-i18n-extract.in
 
 SUBDIRS =			\
         intl                    \
@@ -44,5 +44,6 @@ SUBDIRS =			\
         art                     \
 	ui			\
         default_user            \
+	views			\
         tools                   \
         po
