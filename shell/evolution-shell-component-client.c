@@ -38,9 +38,6 @@
 
 #include "evolution-shell-component-client.h"
 
-static void
-free_ShellComponentListener_servant (PortableServer_Servant servant);
-
 
 char *evolution_debug_log;
 

@@ -1,5 +1,10 @@
 2001-06-27  Ettore Perazzoli  <ettore@ximian.com>
 
+	* evolution-shell-component-client.c: Remove redundant declaration
+	for `free_ShellComponentListener_servant()'.
+
+2001-06-27  Ettore Perazzoli  <ettore@ximian.com>
+
 	* evolution-shell-component.c (impl_handleExternalURI):
 	Implementation for the `::handleExternalURI' CORBA method; just
 	emit the `HANDLE_EXTERNAL_URI' signal.
