@@ -1,3 +1,8 @@
+2003-07-01  Dan Winship  <danw@ximian.com>
+
+	* configure.in: Check for gnome-icon-lookup.h (which could mean
+	either plain GNOME 2.2 or Sun GNOME 2.0)
+
 2003-06-30  Rodrigo Moya <rodrigo@ximian.com>
 
 	* configure.in:

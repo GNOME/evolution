@@ -358,7 +358,7 @@ AC_CACHE_CHECK([for db3 library name], ac_cv_db3_ldadd,
 	ac_cv_db3_ldadd=""
 
 	for name in db db3 db-3.1; do
-		LIBS="$LIBS_save $with_db3_libs/lib${name}.a"
+		LIBS="$LIBS_save $with_db3_libs/lib${name}.a -lpthread"
 		AC_TRY_LINK([
 			#ifdef HAVE_DB3_DB_H
 			#include <db3/db.h>
@@ -369,7 +369,7 @@ AC_CACHE_CHECK([for db3 library name], ac_cv_db3_ldadd,
 			DB *db;
 			db_create (&db, 0, 0);
 		], [
-			ac_cv_db3_ldadd="$with_db3_libs/lib${name}.a"
+			ac_cv_db3_ldadd="$with_db3_libs/lib${name}.a -lpthread"
 			break
 		])
 	done
@@ -1057,6 +1057,11 @@ FULL_GNOME_DEPS="libbonoboui-2.0 gnome-vfs-2.0 libgnomeui-2.0 libglade-2.0 libgn
 EVO_SET_COMPILE_FLAGS(GNOME_FULL, $FULL_GNOME_DEPS)
 AC_SUBST(GNOME_FULL_CFLAGS)
 AC_SUBST(GNOME_FULL_LIBS)
+
+CPPFLAGS_save="$CPPFLAGS"
+CPPFLAGS="$CPPFLAGS `$PKG_CONFIG --cflags-only-I libgnomeui-2.0`"
+AC_CHECK_HEADERS(libgnomeui/gnome-icon-lookup.h)
+CPPFLAGS="$CPPFLAGS_save"
 
 dnl --- Flags for the various libraries we build
 
