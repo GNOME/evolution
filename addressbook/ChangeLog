@@ -1,3 +1,8 @@
+2001-04-03  Christopher James Lahey  <clahey@ximian.com>
+
+	* gui/widgets/e-addressbook-model.c (addressbook_append_row):
+	Fixed this function.  We removed the col offset.
+
 2001-04-02  Iain Holmes  <iain@ximian.com>
 
 	* backend/ebook/evolution-gnomecard-importer.c (importer_init): Shut

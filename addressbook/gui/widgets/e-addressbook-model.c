@@ -8,11 +8,11 @@
  */
 
 #include <config.h>
-#include <gtk/gtksignal.h>
+#include "e-addressbook-model.h"
 #include <gnome-xml/tree.h>
 #include <gnome-xml/parser.h>
 #include <gnome-xml/xmlmemory.h>
-#include "e-addressbook-model.h"
+#include <gnome.h>
 
 #define PARENT_TYPE e_table_model_get_type()
 ETableModelClass *parent_class;
@@ -157,7 +157,7 @@ addressbook_append_row (ETableModel *etm, ETableModel *source, gint row)
 	for (col = 0; col < E_CARD_SIMPLE_FIELD_LAST - 1; col++) {
 		const void *val = e_table_model_value_at(source, col, row);
 		e_card_simple_set(simple,
-				  col + 1,
+				  col,
 				  val);
 	}
 	e_card_simple_sync_card(simple);
