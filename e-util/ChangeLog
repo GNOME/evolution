@@ -1,3 +1,12 @@
+2001-08-24  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* Makefile.am (libeutil_la_SOURCES): Added e-unicode-i18n.c and
+	e-unicode-i18n.h.
+
+	* e-unicode-i18n.[ch]: New files with two extra functions
+	(e_utf8_gettext, e_utf8_dgettext) and U_() macro.
+	Should be used instead of _() if we need UTF-8 string.
+
 2001-08-23  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* e-request.c (e_request_string): Modified to accept and return UTF-8
