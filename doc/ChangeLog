@@ -1,3 +1,44 @@
+2001-06-06  Aaron Weber  <aaron@ximian.com>
+
+	* C/apx-authors.sgml: Re-added translators that somehow got lost.
+
+	* C/usage-exec-summary.sgml: Added comment/note to myself about
+	FIXME stuff.
+
+	* C/usage-mainwindow.sgml: Revisions, especially to folder bar
+	section.  Commented out "Context-sensitive help" item, added
+	folder-tree right-click menus, redid menubar stuff.
+
+	* C/apx-gloss.sgml: Groupware, Forwarding entries revised.
+
+	* C/evolution.sgml: Added Ettore and Duncan to authors list.
+	
+2001-05-22  Aaron Weber  <aaron@ximian.com>
+
+	* C/evolution.sgml: Added evolution-faq as an entity.
+
+	* C/apx-authors.sgml: Added ettore and duncan to authors for the FAQ.
+
+	* C/evolution-faq.sgml: Put in <qandaset> form, made an entity
+	included in evolution.sgml. This will require changes to makefiles
+	and will break the current menu item for the FAQ.
+
+2001-05-18  Aaron Weber  <aaron@ximian.com>
+
+	* C/menuref.sgml: Added a lot of new content. Fixed old
+	content. Validated. Still need to smooth the relation of this
+	section with the preface.
+
+2001-05-16  Aaron Weber  <aaron@ximian.com>
+
+	* C/preface.sgml: Changed to include t-shirt offer for feedback.
+
+2001-05-15  Aaron Weber  <aaron@ximian.com>
+
+	* C/evolution.sgml: changed v. number.
+
+	* C/preface.sgml: changed version number.
+
 2001-05-03  Aaron Weber  <aaron@ximian.com>
 
 	* C/usage-mainwindow.sgml: Changed shortcut bar descriptions and menu descriptions.
