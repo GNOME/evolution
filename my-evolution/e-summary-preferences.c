@@ -568,9 +568,11 @@ fill_rdf_shown_clist (GtkCList *clist,
 
 	for (p = pd->summary->preferences->rdf_urls; p; p = p->next) {
 		char *text[1];
+		int row;
 
 		text[0] = (char *) find_name_for_url (pd, p->data);
-		gtk_clist_append (clist, text);
+		row = gtk_clist_append (clist, text);
+		gtk_clist_set_row_data (clist, row, p);
 	}
 }
 
@@ -723,25 +725,28 @@ rdf_add_clicked_cb (GtkButton *button,
 		    PropertyData *pd)
 {
 	struct _RDFInfo *info;
-	GList *p;
+	GList *p, *rows;
 	char *text[1];
 	int row;
 
-	row = GPOINTER_TO_INT (GTK_CLIST (pd->rdf->all)->selection->data);
-	info = gtk_clist_get_row_data (GTK_CLIST (pd->rdf->all), row);
-
-	text[0] = info->name;
-
-	for (p = pd->summary->preferences->rdf_urls; p; p = p->next) {
-		if (strcmp (p->data, info->url) == 0) {
-			/* Found it already */
-			return;
+	for (rows = GTK_CLIST (pd->rdf->all)->selection; rows; rows = rows->next) {
+		row = GPOINTER_TO_INT (rows->data);
+		info = gtk_clist_get_row_data (GTK_CLIST (pd->rdf->all), row);
+		
+		text[0] = info->name;
+		
+		for (p = pd->summary->preferences->rdf_urls; p; p = p->next) {
+			if (strcmp (p->data, info->url) == 0) {
+				/* Found it already */
+				return;
+			}
 		}
+		
+		pd->summary->preferences->rdf_urls = g_list_prepend (pd->summary->preferences->rdf_urls, g_strdup (info->url));
+		row = gtk_clist_prepend (GTK_CLIST (pd->rdf->shown), text);
+		gtk_clist_set_row_data (GTK_CLIST (pd->rdf->shown), row,
+					pd->summary->preferences->rdf_urls);
 	}
-
-	pd->summary->preferences->rdf_urls = g_list_prepend (pd->summary->preferences->rdf_urls, g_strdup (info->url));
-	gtk_clist_prepend (GTK_CLIST (pd->rdf->shown), text);
-
 	gnome_property_box_changed (pd->box);
 }
 
@@ -753,9 +758,9 @@ rdf_remove_clicked_cb (GtkButton *button,
 	int row;
 
 	row = GPOINTER_TO_INT (GTK_CLIST (pd->rdf->shown)->selection->data);
+	p = gtk_clist_get_row_data (GTK_CLIST (pd->rdf->shown), row);
 	gtk_clist_remove (GTK_CLIST (pd->rdf->shown), row);
-
-	p = g_list_nth (pd->summary->preferences->rdf_urls, row);
+	
 	pd->summary->preferences->rdf_urls = g_list_remove_link (pd->summary->preferences->rdf_urls, p);
 	g_free (p->data);
 	g_list_free (p);

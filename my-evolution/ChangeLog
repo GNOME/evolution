@@ -1,3 +1,12 @@
+2001-07-06  Iain Holmes  <iain@ximian.com>
+
+	* e-summary-preferences.c (fill_rdf_shown_list): Attach data
+	(rdf_add_clicked_cb): Allow multiple rows to be removed.
+	(rdf_remove_clicked_cb): Use the data.
+
+	* my-evolution.glade: Allow multiple selection in the RDF all clist.
+	Only allow single selection in the shown rdf list.
+
 2001-07-05  Iain Holmes  <iain@ximian.com>
 
 	* e-summary-preferences.c (rdf_new_url_clicked_cb): Change RDF to
