@@ -1,3 +1,8 @@
+2002-12-01  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (e_msg_composer_new_with_message): Make sure to
+	save References and In-Reply-To headers. Fixes bug #32932.
+
 2002-11-19  Radek Doulik  <rodo@ximian.com>
 
 	* e-msg-composer.c (e_msg_composer_get_sig_file_content): use
