@@ -1,3 +1,11 @@
+2002-06-14  Chris Toshok  <toshok@ximian.com>
+
+	* backend/pas/pas-backend-file.c (pas_backend_file_search): up the
+	max threshold to 3000 cards from 1000 cards.. seems to improve
+	performance a bit.  also remove the g_list_reverse since it
+	doesn't matter what order the cards arrive to the gui.
+	(pas_backend_file_changes): plug memory leaks.
+
 2002-06-14  Christopher James Lahey  <clahey@ximian.com>
 
 	* backend/ebook/e-card-compare.c (compare_email_addresses): Made

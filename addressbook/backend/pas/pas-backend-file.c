@@ -241,7 +241,7 @@ pas_backend_file_search (PASBackendFile  	      *bf,
 {
 	int     db_error = 0;
 	GList   *cards = NULL;
-	gint    card_count = 0, card_threshold = 20, card_threshold_max = 1000;
+	gint    card_count = 0, card_threshold = 20, card_threshold_max = 3000;
 	DB      *db = bf->priv->file_db;
 	DBC     *dbc;
 	DBT     id_dbt, vcard_dbt;
@@ -301,7 +301,6 @@ pas_backend_file_search (PASBackendFile  	      *bf,
 
 				/* If we've accumulated a number of checks, pass them off to the client. */
 				if (card_count >= card_threshold) {
-					cards = g_list_reverse (cards);
 					pas_book_view_notify_add (view->book_view, cards);
 					/* Clean up the handed-off data. */
 					g_list_foreach (cards, (GFunc)g_free, NULL);
@@ -419,12 +418,12 @@ pas_backend_file_changes (PASBackendFile  	      *bf,
 					break;
 				case E_DBHASH_STATUS_NOT_FOUND:
 					ctx->add_cards = g_list_append (ctx->add_cards, 
-									g_strdup(vcard_string));
+									vcard_string);
 					ctx->add_ids = g_list_append (ctx->add_ids, g_strdup(id));
 					break;
 				case E_DBHASH_STATUS_DIFFERENT:
 					ctx->mod_cards = g_list_append (ctx->mod_cards, 
-									g_strdup(vcard_string));
+									vcard_string);
 					ctx->mod_ids = g_list_append (ctx->mod_ids, g_strdup(id));
 					break;
 				}
@@ -699,6 +698,8 @@ pas_backend_file_process_modify_card (PASBackend *backend,
 			pas_book_view_notify_complete (view->book_view);
 
 			bonobo_object_release_unref(bonobo_object_corba_objref(BONOBO_OBJECT(view->book_view)), &ev);
+
+			CORBA_exception_free (&ev);
 		}
 
 		gtk_object_unref(GTK_OBJECT(iterator));
