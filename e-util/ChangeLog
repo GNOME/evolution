@@ -1,3 +1,12 @@
+2003-02-10  Ettore Perazzoli  <ettore@ximian.com>
+
+	* Makefile.am (libeutil_static_la_DEPENDENCIES): Make
+	libeutil-static.la depend on libeutil.la so that parallel
+	compilations work; building them at the same time confuses
+	libtool.
+	(e-util-marshal.h, e-util-marshal.c): Use different tmp files so
+	these rules can happen in parallel.
+
 2003-02-05  Dan Winship  <danw@ximian.com>
 
 	* Makefile.am (eutilincludedir, etc): define in terms of

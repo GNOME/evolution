@@ -87,14 +87,14 @@ libeutil_la_SOURCES =				\
 # GLib marshalling cruft
 
 e-util-marshal.h: e-util-marshal.list
-	( @GLIB_GENMARSHAL@ --prefix=e_util_marshal e-util-marshal.list --header > e-util-marshal.tmp \
-	&& mv e-util-marshal.tmp e-util-marshal.h ) \
-	|| ( rm -f e-util-marshal.tmp && exit 1 )
+	( @GLIB_GENMARSHAL@ --prefix=e_util_marshal e-util-marshal.list --header > e-util-marshal.h.tmp \
+	&& mv e-util-marshal.h.tmp e-util-marshal.h ) \
+	|| ( rm -f e-util-marshal.h.tmp && exit 1 )
 
 e-util-marshal.c: e-util-marshal.h
-	( @GLIB_GENMARSHAL@ --prefix=e_util_marshal e-util-marshal.list --body > e-util-marshal.tmp \
-	&& mv e-util-marshal.tmp e-util-marshal.c ) \
-	|| ( rm -f e-util-marshal.tmp && exit 1 )
+	( @GLIB_GENMARSHAL@ --prefix=e_util_marshal e-util-marshal.list --body > e-util-marshal.c.tmp \
+	&& mv e-util-marshal.c.tmp e-util-marshal.c ) \
+	|| ( rm -f e-util-marshal.c.tmp && exit 1 )
 
 MARSHAL_GENERATED = e-util-marshal.c e-util-marshal.h
 
@@ -108,6 +108,9 @@ libeutil_la_LIBADD = $(E_UTIL_LIBS)
 libeutil_static_la_SOURCES = $(libeutil_la_SOURCES)
 libeutil_static_la_LIBADD  = $(libeutil_la_LIBADD)
 libeutil_static_la_LDFLAGS = -all-static
+# Make sure libeutil.la and libeutil-static.la are not built in
+# parallel when using a parallel make; libtool can't handle that.
+libeutil_static_la_DEPENDENCIES = libeutil.la
 
 econdinclude_HEADERS =		\
 	e-pilot-map.h		\
