@@ -1,3 +1,7 @@
+2001-08-22  Ettore Perazzoli  <ettore@ximian.com>
+
+	* configure.in: Remove src/python/Makefile and src/test/Makefile.
+
 2001-08-16  Federico Mena Quintero  <federico@ximian.com>
 
 	* src/libical/icalvalue.c (icalmemory_strdup_and_dequote): Dequote
