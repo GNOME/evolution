@@ -591,26 +591,24 @@ AC_SUBST(KRB4_CFLAGS)
 AC_SUBST(KRB4_LDFLAGS)
 
 
-dnl ====================================
+dnl ===============================================================================
 dnl = security extension support (SSL and S/MIME)
 dnl =
-dnl = The following voodoo does detection of mozilla libraries (nspr and nss) needed by
-dnl = Camel (SSL) and Evolution (S/MIME).
+dnl = The following voodoo does detection of mozilla libraries (nspr and nss) 
+dnl = needed by Camel (SSL) and Evolution (S/MIME).
 dnl =
 dnl = The Evolution security extensions are only built if these libraries are found
-dnl ====================================
-with_nspr_includes=/usr/include/mozilla
-AC_ARG_WITH(nspr-includes, [  --with-nspr-includes=PREFIX     Location of Mozilla nspr4 libs.])
+dnl ===============================================================================
+AC_ARG_WITH(nspr-includes, [  --with-nspr-includes=PREFIX     Location of Mozilla nspr4 includes.],
+	with_nspr_includes="$withval", with_nspr_includes="/usr/include/mozilla")
 have_nspr_includes="no"
 if test "x${with_nspr_includes}" != "xno"; then
-	CFLAGS_save="$CFLAGS"
-	
-	AC_MSG_CHECKING(for Mozilla nspr4 includes in $with_nspr_includes/mozilla)
+	AC_MSG_CHECKING(for Mozilla nspr4 includes in $with_nspr_includes)
 	AC_MSG_RESULT("")
-	CFLAGS="$CFLAGS -I$with_nspr_includes"
-	AC_CHECK_HEADERS(prinit.h prio.h, [ moz_nspr_includes="yes" ])
-	CFLAGS="$CFLAGS_save"
 	
+	HEADERS="$with_nspr_includes/nspr.h $with_nspr_includes/prio.h"
+	AC_CHECK_FILES($HEADERS, [ moz_nspr_includes="yes" ])
+		
 	if test "x{$moz_nspr_includes}" != "xno"; then
 		have_nspr_includes="yes"
 		NSPR_CFLAGS="-I$with_nspr_includes"
@@ -620,8 +618,8 @@ else
 	AC_MSG_RESULT(no)
 fi
 
-with_nspr_libs=/usr/lib/mozilla
-AC_ARG_WITH(nspr-libs, [  --with-nspr-libs=PREFIX     Location of Mozilla nspr4 libs.])
+AC_ARG_WITH(nspr-libs, [  --with-nspr-libs=PREFIX     Location of Mozilla nspr4 libs.],
+	with_nspr_libs="$withval", with_nspr_libs="/usr/lib/mozilla")
 have_nspr_libs="no"
 if test "x${with_nspr_libs}" != "xno" -a "x${have_nspr_includes}" != "xno"; then
 	CFLAGS_save="$CFLAGS"
@@ -647,25 +645,47 @@ else
 	AC_MSG_RESULT(no)
 fi
 
-AC_ARG_WITH(nss, [  --with-nss=PREFIX     	Location of Mozilla nss3 libs/includes.])
+AC_ARG_WITH(nss-includes, [  --with-nss-includes=PREFIX     Location of Mozilla nss3 includes.])
+have_nss_includes="no"
+if test "x${with_nss_includes}" != "xno" -a "x${have_nspr_libs}" != "xno"; then
+	AC_MSG_CHECKING(for Mozilla nss3 includes in $with_nss_includes)
+	AC_MSG_RESULT("")
+	
+	include_path=$with_nss_includes
+	HEADERS="$with_nss_includes/nss.h $with_nss_includes/ssl.h $with_nss_includes/smime.h"
+	AC_CHECK_FILES($HEADERS, [ moz_nspr_includes="yes" ])
+	
+	if test "x{$moz_nss_includes}" != "xno"; then
+		have_nss_includes="yes"
+		NSS_CFLAGS="-I$with_nss_includes"
+	else
+		NSPR_CLFAGS=""
+		NSPR_LDFLAGS=""
+	fi
+else
+	AC_MSG_CHECKING(for Mozilla nss3 includes)
+	AC_MSG_RESULT(no)
+fi
+
+AC_ARG_WITH(nss-libs, [  --with-nss-libs=PREFIX     	Location of Mozilla nss3 libs/includes.])
 msg_nss="no"
-if test "x${with_nss}" != "xno" -a "x${have_nspr_libs}" != "xno"; then
+if test "x${with_nss_libs}" != "xno" -a "x${have_nss_includes}" != "xno"; then
 	LDFLAGS_save="$LDFLAGS"
 	
 	nsprlibs="-lnspr4"
 	nsslibs="-lnss3 -lnssckbi -lssl3 -lsmime3"
 	AC_CACHE_CHECK([for Mozilla nss libraries], moz_nss_libs,
 	[
-		LDFLAGS="$LDFLAGS -L$with_nss/lib $nsslibs"
+		LDFLAGS="$LDFLAGS -L$with_nss_libs $nsslibs"
 		AC_TRY_LINK_FUNC(NSS_Init, moz_nss_libs="yes", moz_nss_libs="no")
 		LDFLAGS="$LDFLAGS_save"
 	])
 	if test "$moz_nss_libs" != no; then
 		AC_DEFINE(HAVE_NSS)
 		msg_nss="yes"
-		NSS_CFLAGS="-I$with_nss/include"
-		NSS_LDFLAGS="-L$with_nss/lib $nsslibs"
+		NSS_LDFLAGS="-L$with_nss_libs $nsslibs"
 	else
+		NSS_CFAGS=""
 		NSPR_CFLAGS=""
 		NSPR_LDFLAGS=""
 	fi

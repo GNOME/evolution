@@ -165,6 +165,15 @@ make
 make install
 
 
+If you want support SSL (and someday S/MIME), you will also need libnspr4 and
+libnss3 which can be found at http://www.mozilla.org.
+
+Once you have libnspr4 and libnss3 (and their respective includes) installed,
+in your evolution source dir do:
+./autogen.sh --prefix=<evo-prefix> --with-nspr-includes=<nspr-includes-prefix>
+--with-nspr-libs=<nspr-libs-prefix> --with-nss-includes=<nss-includes-prefix>
+--with-nss-libs=<nss-libs-prefix>
+
 
 The layout of the source tree is:
 

@@ -1,3 +1,9 @@
+2001-03-16  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* README: Added directions on how to build with SSL support.
+
+	* configure.in: Updated the checks for NSS and NSPR
+
 2001-03-16  Jakub Steiner <jimmac@ximian.com>
 
 	* art/48_import.png: for the import druid
