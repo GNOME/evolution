@@ -503,7 +503,7 @@ alarm_page_fill_component (CompEditorPage *page, CalComponent *comp)
 		 */
 
 		alarm_copy = cal_component_alarm_clone (alarm);
-		cal_component_add_alarm (comp, alarm);
+		cal_component_add_alarm (comp, alarm_copy);
 		cal_component_alarm_free (alarm_copy);
 	}
 }

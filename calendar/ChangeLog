@@ -1,3 +1,9 @@
+2001-08-08  Federico Mena Quintero  <federico@ximian.com>
+
+	* gui/dialogs/alarm-page.c (alarm_page_fill_component): Duuuh, set
+	the alarm_copy on the component, not the original alarm.  Fixes
+	bug #5214.
+
 2001-08-08  JP Rosevear  <jpr@ximian.com>
 
 	* gui/dialogs/meeting-page.c (set_attendees): set the attendees of
