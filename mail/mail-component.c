@@ -59,6 +59,7 @@
 #include "mail-offline-handler.h"
 
 #include "e-activity-handler.h"
+#include "shell/e-user-creatable-items-handler.h"
 
 #include "composer/e-msg-composer.h"
 
@@ -381,6 +382,7 @@ view_control_activate_cb (BonoboControl *control, gboolean activate, EMFolderVie
 		g_return_if_fail (container != CORBA_OBJECT_NIL);
 		
 		em_folder_view_activate (view, uic, activate);
+		e_user_creatable_items_handler_activate(g_object_get_data((GObject *)view, "e-creatable-items-handler"), uic);
 	} else {
 		em_folder_view_activate (view, uic, activate);
 		bonobo_ui_component_unset_container (uic, NULL);
@@ -523,6 +525,9 @@ impl_createControls (PortableServer_Servant servant,
 	*corba_tree_control = CORBA_Object_duplicate (BONOBO_OBJREF (tree_control), ev);
 	*corba_view_control = CORBA_Object_duplicate (BONOBO_OBJREF (view_control), ev);
 	*corba_statusbar_control = CORBA_Object_duplicate (BONOBO_OBJREF (statusbar_control), ev);
+
+	g_object_set_data_full((GObject *)view_widget, "e-creatable-items-handler",
+			       e_user_creatable_items_handler_new("mail"), (GDestroyNotify)g_object_unref);
 	
 	g_signal_connect (view_control, "activate", G_CALLBACK (view_control_activate_cb), view_widget);
 	g_signal_connect (tree_widget, "folder-selected", G_CALLBACK (folder_selected_cb), view_widget);

@@ -1,3 +1,23 @@
+2004-04-13  Not Zed  <NotZed@Ximian.com>
+
+	* em-format-html.c (efh_format_headers): use %% for %%.
+
+	* em-folder-view.c (emfv_init, emfv_finalise, emfv_activate):
+	revert dans' creatable items handler patch, moved to
+	mail-component instead (which deals with the actual menu's).
+
+	* mail-component.c (impl_createControls): setup a user creatable
+	items handler on the view widget.
+	(view_control_activate_cb): activate the user creatable items
+	handler on the view widget.
+
+	* em-folder-view.c (emfv_init): add a comment about jeff's last
+	fix.
+
+	* em-utils.c (forward_non_attached): Set attachments from
+	forwardee before we set the body, otherwise images wont resolve
+	properly.  Related to #56566.
+
 2004-04-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-folder-view.c (emfv_init): Need to set the session on the

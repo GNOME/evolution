@@ -55,7 +55,6 @@
 #include <bonobo/bonobo-ui-util.h>
 
 #include "widgets/misc/e-charset-picker.h"
-#include "shell/e-user-creatable-items-handler.h"
 
 #include <e-util/e-dialog-utils.h>
 
@@ -118,8 +117,6 @@ struct _EMFolderViewPrivate {
 
 	GtkWidget *invisible;
 	char *selection_uri;
-
-	EUserCreatableItemsHandler *creatable_items_handler;
 };
 
 static GtkVBoxClass *emfv_parent;
@@ -163,6 +160,7 @@ emfv_init(GObject *o)
 	g_signal_connect(emfv->list->tree, "key_press", G_CALLBACK(emfv_list_key_press), emfv);
 
 	emfv->preview = (EMFormatHTMLDisplay *)em_format_html_display_new();
+	/* FIXME: set_session should NOT be called here.  Should it be a constructor attribute? */
 	em_format_set_session ((EMFormat *) emfv->preview, session);
 	g_signal_connect(emfv->preview, "link_clicked", G_CALLBACK(emfv_format_link_clicked), emfv);
 	g_signal_connect(emfv->preview, "popup_event", G_CALLBACK(emfv_format_popup_event), emfv);
@@ -177,8 +175,6 @@ emfv_init(GObject *o)
 	gtk_selection_add_target(p->invisible, GDK_SELECTION_PRIMARY, GDK_SELECTION_TYPE_STRING, 1);
 
 	emfv->async = mail_async_event_new();
-
-	p->creatable_items_handler = e_user_creatable_items_handler_new ("mail");
 
 	emfv_setting_setup(emfv);
 }
@@ -198,9 +194,6 @@ emfv_finalise(GObject *o)
 		camel_object_unref(emfv->folder);
 		g_free(emfv->folder_uri);
 	}
-
-	if (p->creatable_items_handler)
-		g_object_unref (p->creatable_items_handler);
 
 	g_slist_free(emfv->ui_files);
 	g_slist_free(emfv->enable_map);
@@ -1657,8 +1650,6 @@ emfv_activate(EMFolderView *emfv, BonoboUIComponent *uic, int act)
 		emfv_enable_menus(emfv);
 		if (emfv->statusbar_active)
 			bonobo_ui_component_set_translate (uic, "/", "<status><item name=\"main\"/></status>", NULL);
-
-		e_user_creatable_items_handler_activate (emfv->priv->creatable_items_handler, uic);
 	} else {
 		const BonoboUIVerb *v;
 

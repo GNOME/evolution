@@ -1631,7 +1631,7 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 	if (!efh->simple_headers)
 		camel_stream_printf(stream,
 				    "<font color=\"#%06x\">\n"
-				    "<table cellpadding=\"0\" width=\"100%\"><tr><td><table cellpadding=\"0\">\n",
+				    "<table cellpadding=\"0\" width=\"100%%\"><tr><td><table cellpadding=\"0\">\n",
 				    efh->text_colour & 0xffffff);
 
 	/* dump selected headers */
