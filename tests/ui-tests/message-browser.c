@@ -348,7 +348,7 @@ hydrate_persist_stream_from_gstring (Bonobo_PersistStream persist_stream,
 {
 	CORBA_Environment ev;
 	BonoboStream* mem_stream =
-		bonobo_stream_mem_create (gstr->str, gstr->len, TRUE);
+		bonobo_stream_mem_create (gstr->str, gstr->len, TRUE, FALSE);
         /*
 	 * If the component doesn't support
 	 * PersistStream, then we destroy the
@@ -491,7 +491,7 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, void *unused)
 	CORBA_Object_release (persist, &ev);
 	CORBA_exception_free (&ev);				
 
-	g_string_free (camel_stream_gstr, FALSE);
+	g_string_free (camel_stream_gstr, TRUE);
 }
 
 
