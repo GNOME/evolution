@@ -1780,6 +1780,9 @@ e_card_email_match_string (const ECard *card, const gchar *str)
 	g_return_val_if_fail (card && E_IS_CARD (card), FALSE);
 	g_return_val_if_fail (str != NULL, FALSE);
 
+	if (!card->email)
+		return FALSE;
+
 	iter = e_list_get_iterator (card->email);
 	for (e_iterator_reset (iter); e_iterator_is_valid (iter); e_iterator_next (iter)) {
 		if (e_card_email_match_single_string (e_iterator_get (iter), str))
@@ -1798,6 +1801,9 @@ e_card_email_find_number (const ECard *card, const gchar *email)
 
 	g_return_val_if_fail (E_IS_CARD (card), -1);
 	g_return_val_if_fail (email != NULL, -1);
+
+	if (!card->email)
+		return -1;
 
 	iter = e_list_get_iterator (card->email);
 	for (e_iterator_reset (iter); e_iterator_is_valid (iter); e_iterator_next (iter)) {

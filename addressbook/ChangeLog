@@ -1,3 +1,9 @@
+2002-10-15  Dan Winship  <danw@ximian.com>
+
+	* backend/ebook/e-card.c (e_card_email_match_string): Return right
+	away rather than crashing if card->email is NULL.
+	(e_card_email_find_number): Likewise.
+
 2002-10-10  Kjartan Maraas  <kmaraas@gnome.org>
 
 	[ Fix #7094, #7064, #7095, #31944, #31945 ]
