@@ -305,7 +305,7 @@ mail_session_init (void)
 	char *camel_dir, *key, *value;
 	void *iter;
 	
-	if (camel_init (evolution_dir) != 0)
+	if (camel_init (evolution_dir, TRUE) != 0)
 		exit (0);
 	
 	camel_dir = g_strdup_printf ("%s/mail", evolution_dir);
