@@ -132,30 +132,6 @@ get_folder_info (const gchar *uri)
 /* call with the folders locked */
 
 static gchar *
-make_folder_name (mail_folder_info *mfi)
-{
-	GString *work;
-	gchar *ret;
-
-	work = g_string_new (mfi->name);
-
-	/* the way the logic is now, an outbox folder simply doesn't have
-	 * its unread count displayed. Makes sense to me at the moment. */
-
-	if (mfi->flags & MAIL_FIF_FOLDER_VALID && mfi->folder == outbox_folder &&
-	    mfi->flags & MAIL_FIF_TOTAL_VALID && mfi->total) {
-			g_string_sprintfa (work, " (%d unsent)", mfi->total);
-	} else if (mfi->flags & MAIL_FIF_UNREAD_VALID && mfi->unread)
-		g_string_sprintfa (work, " (%d)", mfi->unread);
-
-	ret = work->str;
-	g_string_free (work, FALSE);
-	return ret;
-}
-
-/* call with the folders locked */
-
-static gchar *
 make_folder_status (mail_folder_info *mfi)
 {
 	gboolean set_one = FALSE;
@@ -197,7 +173,7 @@ static gboolean
 update_idle (gpointer user_data)
 {
 	mail_folder_info *mfi = (mail_folder_info *) user_data;
-	gchar *f_name, *f_status;
+	gchar *f_status;
 	gchar *uri, *path;
 	mfiui info;
 	mfium mode;
@@ -226,7 +202,6 @@ update_idle (gpointer user_data)
 
 	/* Get the display string */
 
-	f_name = make_folder_name (mfi);
 	f_status = make_folder_status (mfi);
 
 	/* Set the value */
@@ -306,9 +281,7 @@ update_idle (gpointer user_data)
 	/* Cleanup */
 
 	g_free (uri);
-	if (path)
-		g_free (path);
-	g_free (f_name);
+	g_free (path);
 	g_free (f_status);
 	return FALSE;
 }
@@ -685,6 +658,9 @@ mail_folder_cache_note_folderinfo (const gchar *uri, CamelFolderInfo *fi)
 	if (fi->unread_message_count != -1) {
 		mfi->unread = fi->unread_message_count;
 		mfi->flags |= MAIL_FIF_UNREAD_VALID;
+	}
+	else {
+		mfi->unread = 0;
 	}
 
 	if (!(mfi->flags & MAIL_FIF_NAME_VALID)) {

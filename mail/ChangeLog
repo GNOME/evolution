@@ -1,5 +1,11 @@
 2001-08-06  Jason Leach  <jleach@ximian.com>
 
+	* mail-folder-cache.c (make_folder_name): Removed this function,
+	it's not needed anymore.
+	(mail_folder_cache_note_folderinfo): Initialize mfi->unread to 0
+	always, so the shell won't get sent a random int for vtrash or
+	potentially other folders.
+
 	* message-list.c (message_list_select): Fix a minor glitch with
 	how it started a backwards wraparound at the 2nd to last message,
 	skipping the very last message.
