@@ -1,5 +1,17 @@
 2000-10-27  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* filtertypes.xml: Added header-starts-with, header-ends-with, and
+	header-exists menu items.
+
+	* filter-message-search.c (header_starts_with): New callback to
+	match the beginnings of headers.
+	(header_ends_with): New callback to match the ends of headers.
+	(header_exists): New callback to determine if a header exists
+	which is useful when filtering out all those pesky bug-buddy
+	emails!
+
+2000-10-27  Jeffrey Stedfast  <fejj@helixcode.com>
+
 	* filtertypes.xml: Add header-matches expressions ("is" / "is not").
 
 	* filter-message-search.c (header_matches): New callback to match

@@ -28,6 +28,31 @@
         (match-all (not (header-matches "From" ${sender})))
      </code>
     </option>
+
+    <option value="starts with">
+     <title>starts with</title>
+     <code>
+        (match-all (header-starts-with "From" ${sender}))
+     </code>
+    </option>
+    <option value="not starts with">
+     <title>does not start with</title>
+     <code>
+        (match-all (not (header-starts-with "From" ${sender})))
+     </code>
+    </option>
+    <option value="ends with">
+     <title>ends with</title>
+     <code>
+        (match-all (header-ends-with "From" ${sender}))
+     </code>
+    </option>
+    <option value="not ends with">
+     <title>does not end with</title>
+     <code>
+        (match-all (not (header-ends-with "From" ${sender})))
+     </code>
+    </option>
     <option value="matches regex">
      <title>matches regex</title>
      <code>
@@ -77,6 +102,36 @@
 	       (header-matches "Cc" ${recipient}))))
      </code>
     </option>
+    <option value="starts with">
+     <title>starts with</title>
+     <code>
+        (match-all (or (header-starts-with "To" ${recipient})
+	    	       (header-starts-with "Cc" ${recipient})))
+     </code>
+    </option>
+    <option value="not starts with">
+     <title>does not start with</title>
+     <code>
+        (match-all (not (or
+               (header-starts-with "To" ${recipient})
+	       (header-starts-with "Cc" ${recipient}))))
+     </code>
+    </option>
+    <option value="ends with">
+     <title>ends with</title>
+     <code>
+        (match-all (or (header-ends-with "To" ${recipient})
+	    	       (header-ends-with "Cc" ${recipient})))
+     </code>
+    </option>
+    <option value="not ends with">
+     <title>does not end with</title>
+     <code>
+        (match-all (not (or
+               (header-ends-with "To" ${recipient})
+	       (header-ends-with "Cc" ${recipient}))))
+     </code>
+    </option>
     <option value="matches regex">
      <title>matches regex</title>
      <code>
@@ -123,6 +178,30 @@
 	(match-all (not (header-matches "Subject" ${subject}))
      </code>
     </option>
+    <option value="starts with">
+     <title>starts with</title>
+     <code>
+	(match-all (header-starts-with "Subject" ${subject}))
+     </code>
+    </option>
+    <option value="not starts with">
+     <title>does not start with</title>
+     <code>
+	(match-all (not (header-starts-with "Subject" ${subject}))
+     </code>
+    </option>
+    <option value="ends with">
+     <title>ends with</title>
+     <code>
+	(match-all (header-ends-with "Subject" ${subject}))
+     </code>
+    </option>
+    <option value="not ends with">
+     <title>does not end with</title>
+     <code>
+	(match-all (not (header-ends-with "Subject" ${subject}))
+     </code>
+    </option>
     <option value="matches regex">
      <title>matches regex</title>
      <code>
@@ -165,6 +244,42 @@
      <title>is not</title>
      <code>
 	(match-all (not (header-matches ${header-field} ${word}))
+     </code>
+    </option>
+    <option value="starts with">
+     <title>starts with</title>
+     <code>
+	(match-all (header-starts-with ${header-field} ${word}))
+     </code>
+    </option>
+    <option value="not starts with">
+     <title>does not start with</title>
+     <code>
+	(match-all (not (header-starts-with ${header-field} ${word}))
+     </code>
+    </option>
+    <option value="ends with">
+     <title>ends with</title>
+     <code>
+	(match-all (header-ends-with ${header-field} ${word}))
+     </code>
+    </option>
+    <option value="not ends with">
+     <title>does not end with</title>
+     <code>
+	(match-all (not (header-ends-with ${header-field} ${word}))
+     </code>
+    </option>
+    <option value="exists">
+     <title>exists</title>
+     <code>
+	(match-all (header-exists ${header-field}))
+     </code>
+    </option>
+    <option value="not exists">
+     <title>does not exist</title>
+     <code>
+	(match-all (not (header-exists ${header-field}))
      </code>
     </option>
     <option value="matches regex">

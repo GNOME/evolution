@@ -36,6 +36,9 @@ typedef struct {
 /* ESExp callbacks */
 static ESExpResult *header_contains (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
 static ESExpResult *header_matches (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
+static ESExpResult *header_starts_with (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
+static ESExpResult *header_ends_with (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
+static ESExpResult *header_exists (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
 static ESExpResult *header_regex (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
 static ESExpResult *match_all (struct _ESExp *f, int argc, struct _ESExpTerm **argv, FilterMessageSearch *fms);
 static ESExpResult *body_contains (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
@@ -55,19 +58,22 @@ static struct {
 	int type;		/* set to 1 if a function can perform shortcut evaluation, or
 				   doesn't execute everything, 0 otherwise */
 } symbols[] = {
-	{ "match-all",         (ESExpFunc *) match_all,         0 },
-	{ "body-contains",     (ESExpFunc *) body_contains,     0 },
-	{ "body-regex",        (ESExpFunc *) body_regex,        0 },
-	{ "header-contains",   (ESExpFunc *) header_contains,   0 },
-	{ "header-matches",    (ESExpFunc *) header_matches,    0 },
-	{ "header-regex",      (ESExpFunc *) header_regex,      0 },
-	{ "user-tag",          (ESExpFunc *) user_tag,          0 },
-	{ "user-flag",         (ESExpFunc *) user_flag,         0 },
-	{ "get-sent-date",     (ESExpFunc *) get_sent_date,     0 },
-	{ "get-received-date", (ESExpFunc *) get_received_date, 0 },
-	{ "get-current-date",  (ESExpFunc *) get_current_date,  0 },
-	{ "get-score",         (ESExpFunc *) get_score,         0 },
-	{ "get-source",        (ESExpFunc *) get_source,        0 },
+	{ "match-all",          (ESExpFunc *) match_all,          0 },
+	{ "body-contains",      (ESExpFunc *) body_contains,      0 },
+	{ "body-regex",         (ESExpFunc *) body_regex,         0 },
+	{ "header-contains",    (ESExpFunc *) header_contains,    0 },
+	{ "header-matches",     (ESExpFunc *) header_matches,     0 },
+	{ "header-starts-with", (ESExpFunc *) header_starts_with, 0 },
+	{ "header-ends-with",   (ESExpFunc *) header_ends_with,   0 },
+	{ "header-exists",      (ESExpFunc *) header_exists,      0 },
+	{ "header-regex",       (ESExpFunc *) header_regex,       0 },
+	{ "user-tag",           (ESExpFunc *) user_tag,           0 },
+	{ "user-flag",          (ESExpFunc *) user_flag,          0 },
+	{ "get-sent-date",      (ESExpFunc *) get_sent_date,      0 },
+	{ "get-received-date",  (ESExpFunc *) get_received_date,  0 },
+	{ "get-current-date",   (ESExpFunc *) get_current_date,   0 },
+	{ "get-score",          (ESExpFunc *) get_score,          0 },
+	{ "get-source",         (ESExpFunc *) get_source,         0 },
 };
 
 static ESExpResult *
@@ -131,6 +137,118 @@ header_matches (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMe
 					matched = TRUE;
 			}
 		}
+	}
+	
+	r = e_sexp_result_new (ESEXP_RES_BOOL);
+	r->value.bool = matched;
+	
+	return r;
+}
+
+static ESExpResult *
+header_starts_with (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms)
+{
+	gboolean matched = FALSE;
+	ESExpResult *r;
+	
+	if (argc == 2) {
+		char *header = (argv[0])->value.string;
+		char *match = (argv[1])->value.string;
+		const char *contents;
+		
+		contents = camel_medium_get_header (CAMEL_MEDIUM (fms->message), header);
+		
+		if (contents) {
+			/* danw says to use search-engine style matching...
+			 * This means that if the search match string is
+			 * lowercase then compare case-insensitive else
+			 * compare case-sensitive. */
+			gboolean is_lowercase = TRUE;
+			char *c;
+			
+			for (c = match; *c; c++) {
+				if (isalpha (*c) && isupper (*c)) {
+					is_lowercase = FALSE;
+					break;
+				}
+			}
+			
+			if (is_lowercase) {
+				if (g_strncasecmp (contents, match, strlen (match)))
+					matched = TRUE;
+			} else {
+				if (strncmp (contents, match, strlen (match)))
+					matched = TRUE;
+			}
+		}
+	}
+	
+	r = e_sexp_result_new (ESEXP_RES_BOOL);
+	r->value.bool = matched;
+	
+	return r;
+}
+
+static ESExpResult *
+header_ends_with (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms)
+{
+	gboolean matched = FALSE;
+	ESExpResult *r;
+	
+	if (argc == 2) {
+		char *header = (argv[0])->value.string;
+		char *match = (argv[1])->value.string;
+		const char *contents;
+		
+		contents = camel_medium_get_header (CAMEL_MEDIUM (fms->message), header);
+		
+		if (contents && strlen (contents) >= strlen (match)) {
+			/* danw says to use search-engine style matching...
+			 * This means that if the search match string is
+			 * lowercase then compare case-insensitive else
+			 * compare case-sensitive. */
+			gboolean is_lowercase = TRUE;
+			char *c, *end;
+			
+			for (c = match; *c; c++) {
+				if (isalpha (*c) && isupper (*c)) {
+					is_lowercase = FALSE;
+					break;
+				}
+			}
+			
+			end = (char *) contents + strlen (contents) - strlen (match);
+			
+			if (is_lowercase) {
+				if (g_strcasecmp (end, match))
+					matched = TRUE;
+			} else {
+				if (strcmp (end, match))
+					matched = TRUE;
+			}
+		}
+	}
+	
+	r = e_sexp_result_new (ESEXP_RES_BOOL);
+	r->value.bool = matched;
+	
+	return r;
+}
+
+static ESExpResult *
+header_exists (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms)
+{
+	gboolean matched = FALSE;
+	ESExpResult *r;
+	
+	if (argc == 1) {
+		char *header = (argv[0])->value.string;
+		const char *contents;
+		
+		contents = camel_medium_get_header (CAMEL_MEDIUM (fms->message), header);
+		
+		if (contents)
+			matched = TRUE;
 	}
 	
 	r = e_sexp_result_new (ESEXP_RES_BOOL);
