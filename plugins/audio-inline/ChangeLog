@@ -1,3 +1,8 @@
+2004-11-26  JP Rosevear  <jpr@novell.com>
+
+	* audio-inline.c (org_gnome_audio_inline_add_button): get image
+	from icon factory directly
+
 2004-11-11  Radek Doulik  <rodo@ximian.com>
 
 	* org-gnome-audio-inline.eplug.in: fixed author and description

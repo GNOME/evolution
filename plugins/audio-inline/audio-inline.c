@@ -254,10 +254,7 @@ org_gnome_audio_inline_add_button (GtkWidget *box, char *icon_name, GCallback cb
 	GtkWidget *icon, *button;
 	GdkPixbuf *pixbuf;
 
-	pixbuf = e_icon_factory_get_icon (icon_name, E_ICON_SIZE_LARGE_TOOLBAR);
-	
-	icon = gtk_image_new_from_pixbuf (pixbuf);
-	g_object_unref (pixbuf);
+	icon = e_icon_factory_get_image (icon_name, E_ICON_SIZE_LARGE_TOOLBAR);
 	gtk_widget_show (icon);
 
 	button = gtk_button_new ();
