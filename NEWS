@@ -11,6 +11,10 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
              (Lorenzo Gil)
     #46130 - evolution fails to build with error undefined reference to
              `ORBIT_SERVANT_SET_CLASSINFO' (egallego@telefonica.net)
+    #29032 - "% finished" changes if status is touched (Hans)
+    #47863 - Evolution crash/hangs on deleting tasks folder (Jack Jia)
+    #47464 - Strange behavior after cutting meeting page's organizer
+             to blank (Harry Lu)
 
   * Mail
 
@@ -28,6 +32,14 @@ Other bugs fixed:
   * Calendar
 
     - Fixed session management in alarm daemon (Rodrigo)
+    - Statically link todo conduit with libwombat (Frederic)
+    - Dont compile calendar IDL into the GUI, it's already in cal-client (Dan)
+    - Ensure alarm daemon gets UTF-8 strings from gettext (Frederic)
+    - Added missing object finalization chaining (Hans)
+    - Removed nested main loops from iTip control, and make it work
+      asynchronously (Hans)
+    - Use Alt+O to open tasks/events (Andrew Wu)
+    - Fixed some mnemonics on event editor (Jack Jia)
 
   * Mail
 
