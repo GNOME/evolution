@@ -26,6 +26,7 @@
 #include <addressbook/gui/widgets/e-addressbook-model.h>
 #include <addressbook/gui/component/e-cardlist-model.h>
 #include <addressbook/backend/ebook/e-book.h>
+#include <addressbook/backend/ebook/e-card-simple.h>
 #include "e-select-names-table-model.h"
 #include <shell/evolution-shell-client.h>
 #include <addressbook/gui/component/addressbook-component.h>
@@ -92,7 +93,7 @@ e_select_names_class_init (ESelectNamesClass *klass)
 }
 
 #define SPEC "<ETableSpecification no-headers=\"true\" cursor-mode=\"line\"> \
-  <ETableColumn model_col= \"35\" _title=\"Name\"          expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
+  <ETableColumn model_col= \"%d\" _title=\"Name\"          expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
 	<ETableState>                   			       \
 		<column source=\"0\"/>     			       \
 	        <grouping> <leaf column=\"0\" ascending=\"true\"/> </grouping> \
@@ -171,6 +172,7 @@ e_addressbook_create_ebook_table(char *name, char *string1, char *string2, int n
 	GtkWidget *table;
 	char *filename;
 	char *uri;
+	char *spec;
 
 	model = e_addressbook_model_new();
 	gtk_object_set(GTK_OBJECT(model),
@@ -186,7 +188,9 @@ e_addressbook_create_ebook_table(char *name, char *string1, char *string2, int n
 
 	g_free(uri);
 	g_free(filename);
-	table = e_table_scrolled_new (model, NULL, SPEC, NULL);
+	spec = g_strdup_printf(SPEC, E_CARD_SIMPLE_FIELD_NAME_OR_ORG);
+	table = e_table_scrolled_new (model, NULL, spec, NULL);
+	g_free(spec);
 
 	gtk_object_set_data(GTK_OBJECT(table), "model", model);
 	return table;

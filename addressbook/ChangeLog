@@ -1,3 +1,14 @@
+2001-03-28  Christopher James Lahey  <clahey@ximian.com>
+
+	* gui/component/select-names/e-select-names-table-model.c
+	(fill_in_info): Use E_CARD_SIMPLE_FIELD_NAME_OR_ORG instead of
+	getting the NAME and then the ORG.  That way if we expand
+	NAME_OR_ORG, this will use it.
+
+	* gui/component/select-names/e-select-names.c
+	(e_addressbook_create_ebook_table, SPEC): Use the correct column
+	in the SPEC.
+
 2001-03-25  Jon Trowbridge  <trow@ximian.com>
 
 	* gui/component/select-names/e-select-names-completion.c

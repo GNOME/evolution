@@ -120,10 +120,7 @@ fill_in_info (ESelectNamesTableModel *model)
 
 			if (card) {
 				ECardSimple *simple = e_card_simple_new(card);
-				model->data[i].name =  e_card_simple_get(simple, E_CARD_SIMPLE_FIELD_FULL_NAME);
-				if ((model->data[i].name == 0) || *model->data[i].name == 0) {
-					model->data[i].name =  e_card_simple_get(simple, E_CARD_SIMPLE_FIELD_ORG);
-				}
+				model->data[i].name =  e_card_simple_get(simple, E_CARD_SIMPLE_FIELD_NAME_OR_ORG);
 				if (model->data[i].name == 0)
 					model->data[i].name = g_strdup("");
 				model->data[i].email = e_card_simple_get(simple, E_CARD_SIMPLE_FIELD_EMAIL);
