@@ -736,7 +736,7 @@ list_add_addresses (GList *list, const CamelInternetAddress *cia, const GSList *
 			while (l) {
 				const MailConfigAccount *acnt = l->data;
 				
-				if (!strcmp (acnt->id->address, addr)) {
+				if (!g_strcasecmp (acnt->id->address, addr)) {
 					notme = FALSE;
 					if (me && !*me)
 						*me = acnt;

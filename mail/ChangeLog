@@ -1,3 +1,8 @@
+2001-10-31  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (list_add_addresses): Don't use a
+	case-sensitive comparison.
+
 2001-10-31  Dan Winship  <danw@ximian.com>
 
 	* mail-format.c (try_inline_pgp_sig): Make this work again.
@@ -247,7 +252,8 @@
 	(rename_folders): Scan folderinfo's, if we can find ones renamed,
 	rename them, otherwise add them.
 
-	* component-factory.c (owner_unset_cb): Use a timeout not an idle handler.
+	* component-factory.c (owner_unset_cb): Use a timeout not an idle
+	handler.
 	(storage_xfer_folder): Implementation of xfer_folder signal
 	handler, so we can rename imap/vfolders/etc.
 
