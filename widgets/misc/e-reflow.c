@@ -609,11 +609,11 @@ e_reflow_set_property (GObject *object, guint prop_id, const GValue *value, GPar
 		connect_model (reflow, (EReflowModel *) g_value_get_object (value));
 		break;
 	case PROP_COLUMN_WIDTH:
-		if (reflow->column_width != g_value_get_int (value)) {
+		if (reflow->column_width != g_value_get_double (value)) {
 			GtkAdjustment *adjustment = gtk_layout_get_hadjustment(GTK_LAYOUT(item->canvas));
 			double old_width = reflow->column_width;
 
-			reflow->column_width = g_value_get_int (value);
+			reflow->column_width = g_value_get_double (value);
 			adjustment->step_increment = (reflow->column_width + E_REFLOW_FULL_GUTTER) / 2;
 			adjustment->page_increment = adjustment->page_size - adjustment->step_increment;
 			gtk_adjustment_changed(adjustment);
@@ -712,7 +712,7 @@ e_reflow_realize (GnomeCanvasItem *item)
 	for(i = 0; i < count; i++) {
 		if (reflow->items[i])
 			gnome_canvas_item_set(reflow->items[i],
-					      "width", (double) reflow->column_width,
+					      "width", reflow->column_width,
 					      NULL);
 	}
 
@@ -1325,7 +1325,7 @@ e_reflow_class_init (EReflowClass *klass)
 					 g_param_spec_double ("column_width",
 							      _( "Column width" ),
 							      _( "Column width" ),
-							      0.0, G_MAXDOUBLE, 0.0,
+							      0.0, G_MAXDOUBLE, 150.0,
 							      G_PARAM_READWRITE));
 
 	signals [SELECTION_EVENT] =
