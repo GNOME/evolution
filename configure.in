@@ -13,11 +13,12 @@ AC_SUBST(VERSION)
 
 AC_DEFUN(EVO_CHECK_LIB, [
 	dispname="$1"
-	dispvers="$2"
-	pkgname="$3"
+	pkgname="$2"
+	minvers="$3"
+	maxvers="$4"
 
-	AC_MSG_CHECKING(for $dispname >= $dispvers)
-	cmpvers=`echo $dispvers | awk -F. '{ print $[]1 * 1000000 + $[]2 * 10000 + $[]3 * 100 + $[]4;}'`
+	AC_MSG_CHECKING(for $dispname)
+
 	if gnome-config --libs $pkgname > /dev/null 2>&1; then
 		pkgvers=`gnome-config --modversion $pkgname | sed -e 's/^[[^0-9]]*//'`
 	else
@@ -26,10 +27,30 @@ AC_DEFUN(EVO_CHECK_LIB, [
 	AC_MSG_RESULT($pkgvers found)
 
 	pkgvers=`echo $pkgvers | awk -F. '{ print $[]1 * 1000000 + $[]2 * 10000 + $[]3 * 100 + $[]4;}'`
-	if test "$pkgvers" -lt $cmpvers; then
-	AC_MSG_ERROR([
+	cmpminvers=`echo $minvers | awk -F. '{ print $[]1 * 1000000 + $[]2 * 10000 + $[]3 * 100 + $[]4;}'`
+	cmpmaxvers=`echo $maxvers | awk -F. '{ print $[]1 * 1000000 + $[]2 * 10000 + $[]3 * 100 + $[]4;}'`
+	ok=yes
+	if test "$pkgvers" -lt $cmpminvers; then
+		ok=no
+	elif test -n "$maxvers" -a "$pkgvers" -ge $cmpmaxvers; then
+		ok=no
+	fi
+	if test $ok = no; then
+		case $maxvers in
+		"")
+			dispvers="$minvers or higher"
+			;;
+		$minvers)
+			dispvers="$minvers (exactly)"
+			;;
+		*)
+			dispvers="$minvers or higher, but less than $maxvers,"
+			;;
+		esac
+
+		AC_MSG_ERROR([
 ""
-"You need $dispname $dispvers or later to build Evolution"
+"You need $dispname $dispvers to build Evolution"
 "If you think you already have this installed, consult the README."])
 	fi
 ])
@@ -64,7 +85,7 @@ AM_ACLOCAL_INCLUDE(macros)
 GNOME_INIT()
 GNOME_COMPILE_WARNINGS
 GNOME_X_CHECKS
-EVO_CHECK_LIB(gnome-libs, 1.2.9, gnome)
+EVO_CHECK_LIB(gnome-libs, gnome, 1.2.9)
 
 ALL_LINGUAS="az ca da de el en_GB es fi fr ga gl hu it ja ko lt nl nn no pl pt pt_BR ru sk sl sv tr uk"
 AM_GNOME_GETTEXT
@@ -304,16 +325,16 @@ fi
 dnl ***************
 dnl GNOME Libraries
 dnl ***************
-EVO_CHECK_LIB(Bonobo, 0.37, bonobox)
-EVO_CHECK_LIB(OAF, 0.6.2, oaf)
-EVO_CHECK_LIB(libglade, 0.14, libglade)
-EVO_CHECK_LIB(gdk-pixbuf with GNOME canvas support, 0.9.0, gnomecanvaspixbuf)
-EVO_CHECK_LIB(GAL, 0.7.99.3, gal)
+EVO_CHECK_LIB(Bonobo, bonobox, 1.0.3)
+EVO_CHECK_LIB(OAF, oaf, 0.6.2)
+EVO_CHECK_LIB(libglade, libglade, 0.14)
+EVO_CHECK_LIB(gdk-pixbuf with GNOME canvas support, gnomecanvaspixbuf, 0.9.0)
+EVO_CHECK_LIB(GAL, gal, 0.7.99.3)
 dnl FIXME: really a post-0.9.3 version (as of April 25) is needed for
 dnl changes in Editor.idl (menesis)
-EVO_CHECK_LIB(GtkHTML, 0.9.3, gtkhtml)
-EVO_CHECK_LIB(GNOME-VFS, 0.4.2, vfs)
-EVO_CHECK_LIB(libxml, 1.8.10, xml)
+EVO_CHECK_LIB(GtkHTML, gtkhtml, 0.9.3)
+EVO_CHECK_LIB(GNOME-VFS, vfs, 1.0)
+EVO_CHECK_LIB(libxml, xml, 1.8.10, 2.0)
 
 
 
@@ -682,19 +703,23 @@ AC_ARG_WITH(openssl-libs, [  --with-openssl-libs=PREFIX     	Location of OpenSSL
 msg_openssl="no"
 if test "x${with_openssl_libs}" != "xno" -a "x${have_openssl_includes}" != "xno"; then
 	LDFLAGS_save="$LDFLAGS"
-	
+
+	case $with_openssl_libs in
+	""|-L*) ;;
+	*) $with_openssl_libs="-L$with_openssl_libs" ;;
+	esac
+
+	AC_CHECK_LIB(dl, dlopen, DL_LDFLAGS="-ldl", DL_LDFLAGS="")
 	AC_CACHE_CHECK([for OpenSSL libraries], openssl_libs,
 	[
-dnl How can we test to see if we need to link to libld for sure?? 
-dnl RedHat 6.2 seems to need to but Debian Woody doesn't
-		LDFLAGS="$LDFLAGS -L$with_openssl_libs -lssl -lcrypto -ldl"
+		LDFLAGS="$LDFLAGS $with_openssl_libs -lssl -lcrypto $DL_LDFLAGS"
 		AC_TRY_LINK_FUNC(SSL_read, openssl_libs="yes", openssl_libs="no")
 		LDFLAGS="$LDFLAGS_save"
 	])
 	if test "x${openssl_libs}" != "xno"; then
 		AC_DEFINE(HAVE_OPENSSL)
 		msg_openssl="yes"
-		OPENSSL_LDFLAGS="-L$with_openssl_libs -lssl -lcrypto -ldl"
+		OPENSSL_LDFLAGS="$with_openssl_libs -lssl -lcrypto $DL_LDFLAGS"
 	else
 		OPENSSL_CFLAGS=""
 		OPENSSL_LDFLAGS=""

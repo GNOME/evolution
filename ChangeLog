@@ -1,3 +1,13 @@
+2001-05-23  Dan Winship  <danw@ximian.com>
+
+	* README: Remove reference to verify-evolution-install.sh since it
+	doesn't work any more.
+
+	* configure.in (EVO_CHECK_LIB): allow this to take a max version
+	too, mostly so we can bound the allowable gal versions for
+	releases, but also to require libxml < 2.0.
+	(OpenSSL): Fixicate to work on NetBSD (OpenSSL in /usr, no libdl).
+
 2001-05-23  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* tools/killev: s/evolution-vcard-import/evolution-vcard-importer
