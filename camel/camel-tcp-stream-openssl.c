@@ -176,7 +176,8 @@ errlib_error_to_errno (int ret)
 	if (error == 0) {
 		if (ret == 0)
 			errno = EINVAL; /* unexpected EOF */
-		errno = 0;
+		else
+			errno = 0;
 	} else if (!errno) {
 		/* ok, we get the shaft now. */
 		errno = EINTR;
@@ -231,7 +232,7 @@ stream_read (CamelStream *stream, char *buffer, size_t n)
 				ssl_error_to_errno (ssl, nread);
 		} while (nread < 0 && (errno == EINTR || errno == EAGAIN || errno == EWOULDBLOCK));
 	} else {
-		int flags, fdmax;
+		int error, flags, fdmax;
 		fd_set rdset;
 		
 		flags = fcntl (tcp_stream_openssl->priv->sockfd, F_GETFL);
@@ -257,7 +258,9 @@ stream_read (CamelStream *stream, char *buffer, size_t n)
 			} while (nread < 0 && errno == EINTR);
 		} while (nread < 0 && (errno == EAGAIN || errno == EWOULDBLOCK));
 		
+		error = errno;
 		fcntl (tcp_stream_openssl->priv->sockfd, F_SETFL, flags);
+		errno = error;
 	}
 	
 	return nread;
@@ -290,7 +293,7 @@ stream_write (CamelStream *stream, const char *buffer, size_t n)
 		} while (w != -1 && written < n);
 	} else {
 		fd_set rdset, wrset;
-		int flags, fdmax;
+		int error, flags, fdmax;
 		
 		flags = fcntl (tcp_stream_openssl->priv->sockfd, F_GETFL);
 		fcntl (tcp_stream_openssl->priv->sockfd, F_SETFL, flags | O_NONBLOCK);
