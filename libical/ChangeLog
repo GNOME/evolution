@@ -1,3 +1,8 @@
+2001-02-27  Ettore Perazzoli  <ettore@ximian.com>
+
+	* src/libical/Makefile.am (ical.h): Depend on `$(BUILT_SOURCES)',
+	not `$(COMBINEDHEADERS)'.
+
 2001-02-09  JP Rosevear  <jpr@ximian.com>
 
 	* src/libical/Makefile.am: The built sources shouldn't be cleaned
