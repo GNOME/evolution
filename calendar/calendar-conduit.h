@@ -37,6 +37,7 @@ typedef struct _GCalConduitCfg GCalConduitCfg;
 struct _GCalConduitCfg {
 	gboolean open_secret;
 	guint32 pilotId;
+	GnomePilotConduitSyncType  sync_type;   /* only used by capplet */
 };
 #define GET_GCALCONFIG(c) ((GCalConduitCfg*)gtk_object_get_data(GTK_OBJECT(c),"gcalconduit_cfg"))
 

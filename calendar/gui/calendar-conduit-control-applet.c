@@ -32,42 +32,68 @@ GtkWidget *dialogWindow=NULL;
 gboolean activated,org_activation_state;
 GnomePilotConduitMgmt *conduit;
 
-static void doTrySettings(GtkWidget *widget, GCalConduitCfg *conduitCfg);
-static void doRevertSettings(GtkWidget *widget, GCalConduitCfg *conduitCfg);
-static void doSaveSettings(GtkWidget *widget, GCalConduitCfg *conduitCfg);
+static void doTrySettings(GtkWidget *widget, gpointer);
+static void doRevertSettings(GtkWidget *widget, gpointer);
+static void doSaveSettings(GtkWidget *widget, gpointer);
 
-static void readStateCfg(GtkWidget *w);
-static void setStateCfg(GtkWidget *w);
-
+static void readStateCfg(GtkWidget *w,GCalConduitCfg *cfg);
+static void setStateCfg(GtkWidget *w,GCalConduitCfg *cfg);
+void about_cb (GtkWidget *, gpointer);
 GCalConduitCfg *origState = NULL;
 GCalConduitCfg *curState = NULL;
 
 gint pilotId;
 CORBA_Environment ev;
 
-static void
-doTrySettings(GtkWidget *widget, GCalConduitCfg *conduitCfg)
+/* This array must be in the same order as enumerations
+   in GnomePilotConduitSyncType as they are used as index.
+   Custom type implies Disabled state.
+*/
+static gchar* sync_options[] ={ N_("Disabled"),
+				N_("Synchronize"),
+				N_("Copy From Pilot"),
+				N_("Copy To Pilot"),
+				N_("Merge From Pilot"),
+				N_("Merge To Pilot")};
+#define SYNC_OPTIONS_COUNT 6
+
+static void 
+setSettings(GCalConduitCfg* conduitCfg)
 {
-    readStateCfg(cfgStateWindow);
-    if(activated)
-      gpilotd_conduit_mgmt_enable(conduit,pilotId,GnomePilotConduitSyncTypeSynchronize);
-    else
-      gpilotd_conduit_mgmt_disable(conduit,pilotId);
+	if(conduitCfg->sync_type!=GnomePilotConduitSyncTypeCustom)
+		gpilotd_conduit_mgmt_enable(conduit,pilotId,conduitCfg->sync_type);
+	else
+		gpilotd_conduit_mgmt_disable(conduit,pilotId);
+
+	gcalconduit_save_configuration(conduitCfg);
 }
 
 static void
-doSaveSettings(GtkWidget *widget, GCalConduitCfg *conduitCfg)
+doTrySettings(GtkWidget *widget, gpointer whatever)
 {
-    doTrySettings(widget, conduitCfg);
-    gcalconduit_save_configuration(conduitCfg);
+	readStateCfg(cfgStateWindow,curState);
+	setSettings(curState);
 }
 
+static void
+doSaveSettings(GtkWidget *widget, gpointer whatever)
+{
+	doTrySettings(widget,whatever);
+}
 
 static void
-doRevertSettings(GtkWidget *widget, GCalConduitCfg *conduitCfg)
+doCancelSettings(GtkWidget *widget, gpointer whatever)
 {
-    activated = org_activation_state;
-    setStateCfg(cfgStateWindow);
+	setSettings(origState);
+}
+
+static void
+doRevertSettings(GtkWidget *widget, gpointer whatever)
+{
+	gcalconduit_destroy_configuration(curState);
+	curState = gcalconduit_dupe_configuration(origState);
+	setStateCfg(cfgStateWindow,curState);
+	setSettings(curState);
 }
 
 static void
@@ -113,11 +139,11 @@ void about_cb (GtkWidget *widget, gpointer data) {
   GtkWidget *about;
   const gchar *authors[] = {_("Eskil Heyn Olsen <deity@eskil.dk>"),NULL};
   
-  about = gnome_about_new(_("Gpilotd calendar conduit"), VERSION,
-			  _("(C) 1998 the Free Software Foundation"),
+  about = gnome_about_new(_("GnomeCalendar Conduit"), VERSION,
+			  _("(C) 1998"),
 			  authors,
 			  _("Configuration utility for the calendar conduit.\n"),
-			  _("gnome-unknown.xpm"));
+			  _("gnome-calendar-conduit.png"));
   gtk_widget_show (about);
   
   return;
@@ -128,40 +154,73 @@ static void toggled_cb(GtkWidget *widget, gpointer data) {
   capplet_widget_state_changed(CAPPLET_WIDGET(capplet), TRUE);
 }
 
+/* called by the sync_type GtkOptionMenu */
+static void
+sync_action_selection(GtkMenuShell *widget, gpointer unused) 
+{
+	if (!ignore_changes) {
+		capplet_widget_state_changed(CAPPLET_WIDGET (capplet), TRUE);
+	}
+}
+
+/* called by the sync_type GtkOptionMenu */
+static void
+activate_sync_type(GtkMenuItem *widget, gpointer data)
+{
+	curState->sync_type = GPOINTER_TO_INT(data);
+	gtk_widget_set_sensitive(cfgOptionsWindow,curState->sync_type!=GnomePilotConduitSyncTypeCustom);
+	if(!ignore_changes)
+		capplet_widget_state_changed(CAPPLET_WIDGET(capplet), TRUE);
+}
+
 static GtkWidget
 *createStateCfgWindow(void)
 {
-    GtkWidget *vbox, *table;
-    GtkWidget *entry, *label;
-    GtkWidget *button;
+	GtkWidget *vbox, *table;
+	GtkWidget *label, *button;
+	GtkWidget *optionMenu,*menuItem;
+	GtkMenu   *menu;
+	gint i;
+	
+	vbox = gtk_vbox_new(FALSE, GNOME_PAD);
 
-    vbox = gtk_vbox_new(FALSE, GNOME_PAD);
+	table =  gtk_hbox_new(FALSE, 0); 
+	gtk_box_pack_start(GTK_BOX(vbox), table, FALSE, FALSE, GNOME_PAD);
 
-    table = gtk_table_new(2, 2, FALSE);
-    gtk_table_set_row_spacings(GTK_TABLE(table), 4);
-    gtk_table_set_col_spacings(GTK_TABLE(table), 10);
-    gtk_box_pack_start(GTK_BOX(vbox), table, FALSE, FALSE, GNOME_PAD);
+	label = gtk_label_new(_("Synchronize Action"));
+	gtk_box_pack_start(GTK_BOX(table), label, FALSE, FALSE, GNOME_PAD);    
 
-    label = gtk_label_new(_("Enabled"));
-    gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, 1,2);
+	optionMenu=gtk_option_menu_new();
+	gtk_object_set_data(GTK_OBJECT(vbox), "conduit_state", optionMenu);
+	menu = GTK_MENU(gtk_menu_new());
 
-    button = gtk_check_button_new();
-    gtk_object_set_data(GTK_OBJECT(vbox), "conduit_on_off", button);
-    gtk_signal_connect(GTK_OBJECT(button), "toggled",
-		       GTK_SIGNAL_FUNC(toggled_cb),
-		       NULL);
-    gtk_table_attach_defaults(GTK_TABLE(table), button, 1, 2, 1,2);
+	for (i=0; i<SYNC_OPTIONS_COUNT;i++) {
+		sync_options[i]=_(sync_options[i]);
+		menuItem = gtk_menu_item_new_with_label(sync_options[i]);
+		gtk_widget_show(menuItem);
+		gtk_signal_connect(GTK_OBJECT(menuItem),"activate",
+				   GTK_SIGNAL_FUNC(activate_sync_type),
+				   GINT_TO_POINTER(i));
+		gtk_menu_append(menu,menuItem);
+	}
 
-    return vbox;
+	gtk_option_menu_set_menu(GTK_OPTION_MENU(optionMenu),GTK_WIDGET(menu));
+	gtk_signal_connect(GTK_OBJECT(menu), "selection-done",
+			   GTK_SIGNAL_FUNC(sync_action_selection),
+			   NULL);
+  
+	gtk_box_pack_start(GTK_BOX(table), optionMenu, FALSE, FALSE, 0);    
+	
+	return vbox;
 }
 
 static void
-setStateCfg(GtkWidget *cfg)
+setStateCfg(GtkWidget *w,GCalConduitCfg *cfg)
 {
     GtkWidget *button;
     gchar num[40];
-
-    button = gtk_object_get_data(GTK_OBJECT(cfg), "conduit_on_off");
+/*
+    button = gtk_object_get_data(GTK_OBJECT(w), "conduit_on_off");
 
     g_assert(button!=NULL);
 
@@ -169,15 +228,16 @@ setStateCfg(GtkWidget *cfg)
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button),activated);
     gtk_widget_set_sensitive(cfgOptionsWindow,GTK_TOGGLE_BUTTON(button)->active);
     ignore_changes = FALSE;
+*/
 }
 
 
 static void
-readStateCfg(GtkWidget *cfg)
+readStateCfg(GtkWidget *w,GCalConduitCfg *cfg)
 {
   GtkWidget *button;
 
-  button  = gtk_object_get_data(GTK_OBJECT(cfg), "conduit_on_off");
+  button  = gtk_object_get_data(GTK_OBJECT(w), "conduit_on_off");
   
   g_assert(button!=NULL);
 
@@ -187,44 +247,47 @@ readStateCfg(GtkWidget *cfg)
 static void
 pilot_capplet_setup(void)
 {
-    GtkWidget *frame, *table;
+	GtkWidget *frame, *table;
 
-    capplet = capplet_widget_new();
+	capplet = capplet_widget_new();
 
-    table = gtk_table_new(1, 2, FALSE);
-    gtk_container_border_width(GTK_CONTAINER(table), GNOME_PAD);
-    gtk_container_add(GTK_CONTAINER(capplet), table); 
+	table = gtk_table_new(1, 2, FALSE);
+	gtk_container_border_width(GTK_CONTAINER(table), GNOME_PAD);
+	gtk_container_add(GTK_CONTAINER(capplet), table); 
 
-    frame = gtk_frame_new(_("Conduit state"));
-    gtk_container_border_width(GTK_CONTAINER(frame), GNOME_PAD_SMALL);
-    gtk_table_attach_defaults(GTK_TABLE(table), frame, 0, 1, 0, 1);
-    cfgStateWindow = createStateCfgWindow();
-    gtk_container_add(GTK_CONTAINER(frame), cfgStateWindow);
+	frame = gtk_frame_new(_("Conduit state"));
+	gtk_container_border_width(GTK_CONTAINER(frame), GNOME_PAD_SMALL);
+	gtk_table_attach_defaults(GTK_TABLE(table), frame, 0, 1, 0, 1);
+	cfgStateWindow = createStateCfgWindow();
+	gtk_container_add(GTK_CONTAINER(frame), cfgStateWindow);
 
-    gtk_signal_connect(GTK_OBJECT(capplet), "try",
-			GTK_SIGNAL_FUNC(doTrySettings), NULL);
-    gtk_signal_connect(GTK_OBJECT(capplet), "revert",
-			GTK_SIGNAL_FUNC(doRevertSettings), NULL);
-    gtk_signal_connect(GTK_OBJECT(capplet), "ok",
-			GTK_SIGNAL_FUNC(doSaveSettings), curState);
-    gtk_signal_connect(GTK_OBJECT(capplet), "help",
-			GTK_SIGNAL_FUNC(about_cb), NULL);
+	gtk_signal_connect(GTK_OBJECT(capplet), "try",
+			   GTK_SIGNAL_FUNC(doTrySettings), NULL);
+	gtk_signal_connect(GTK_OBJECT(capplet), "revert",
+			   GTK_SIGNAL_FUNC(doRevertSettings), NULL);
+	gtk_signal_connect(GTK_OBJECT(capplet), "ok",
+			   GTK_SIGNAL_FUNC(doSaveSettings), NULL);
+	gtk_signal_connect(GTK_OBJECT(capplet), "cancel",
+			   GTK_SIGNAL_FUNC(doCancelSettings), NULL);
+	gtk_signal_connect(GTK_OBJECT(capplet), "help",
+			   GTK_SIGNAL_FUNC(about_cb), NULL);
 
 
-    setStateCfg(cfgStateWindow);
+	setStateCfg(cfgStateWindow,curState);
 
-    gtk_widget_show_all(capplet);
+	gtk_widget_show_all(capplet);
 }
 
-void run_error_dialog(gchar *mesg,...) {
-  char tmp[80];
-  va_list ap;
-
-  va_start(ap,mesg);
-  vsnprintf(tmp,79,mesg,ap);
-  dialogWindow = gnome_message_box_new(mesg,GNOME_MESSAGE_BOX_ERROR,GNOME_STOCK_BUTTON_OK,NULL);
-  gnome_dialog_run_and_close(GNOME_DIALOG(dialogWindow));
-  va_end(ap);
+static void 
+run_error_dialog(gchar *mesg,...) {
+	char tmp[80];
+	va_list ap;
+	
+	va_start(ap,mesg);
+	vsnprintf(tmp,79,mesg,ap);
+	dialogWindow = gnome_message_box_new(mesg,GNOME_MESSAGE_BOX_ERROR,GNOME_STOCK_BUTTON_OK,NULL);
+	gnome_dialog_run_and_close(GNOME_DIALOG(dialogWindow));
+	va_end(ap);
 }
 
 gint get_pilot_id_from_gpilotd() {

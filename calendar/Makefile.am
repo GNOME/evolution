@@ -114,7 +114,7 @@ LINK_FLAGS = \
 	../libversit/libversit.la
 
 calendar_pilot_sync_LDADD =	\
-	$(PISOCK_LIBS)		\
+	$(PISOCK_LIBDIR) $(PISOCK_LIBS)		\
 	$(LINK_FLAGS)
 
 if HAVE_GNOME_PILOT
@@ -139,7 +139,7 @@ libcalendar_conduit_la_LDFLAGS = \
 
 libcalendar_conduit_la_LIBADD = \
 	../libversit/libversit.la \
-	$(PISOCK_LIBS) \
+	$(PISOCK_LIBDIR) $(PISOCK_LIBS) \
 	$(GNOME_LIBDIR) \
 	$(GNOME_LIBS)
 
@@ -150,9 +150,8 @@ calendar_conduit_control_applet_LDADD = \
 	$(CAPPLET_LIBS) \
 	$(GNOME_LIBDIR) \
         $(GNOME_CAPPLET_LIBS) \
-        $(PISOCK_LIBS) \
+        $(PISOCK_LIBDIR) $(PISOCK_LIBS) \
         $(GNOMEUI_LIBS) \
-        $(PISOCK_LIBS) \
 	$(GNOME_PILOT_LIBS) \
         $(INTLLIBS) 
 
@@ -180,9 +179,8 @@ calendar_conduit_control_applet_LDADD = \
 #	$(CAPPLET_LIBS) \
 #	$(GNOME_LIBDIR) \
 #	$(GNOME_CAPPLET_LIBS) \
-#	$(PISOCK_LIBS) \
+#	$(PISOCK_LIBDIR) $(PISOCK_LIBS) \
 #	$(GNOMEUI_LIBS) \
-#	$(PISOCK_LIBS) \
 #	$(GNOME_PILOT_LIBS) \
 #	$(INTLLIBS) 
 endif
@@ -205,7 +203,11 @@ EXTRA_DIST = \
 	bell.xpm	\
 	recur.xpm	\
 	$(idl_DATA)	\
-	$(gnorba_DATA) 
+	$(gnorba_DATA)  \
+	gnome-calendar-conduit.png 
+
+appicondir = $(datadir)/pixmaps
+appicon_DATA = gnome-calendar-conduit.png
 
 Productivitydir = $(datadir)/gnome/apps/Applications
 

@@ -1,3 +1,23 @@
+1999-11-04  Eskil Olsen   <deity@eskil.dk>
+
+	* Makefile.am: Uses the PISOCK_LIBDIR, for people with odd install
+ 	dirs for their pilot-link. Also install a pretty icon for the
+ 	calendar-conduit.
+
+	* calendar-conduit-control-applet.c: Modfied the
+	try/revert/ok/cancel scheme to be more intuitive, also uses a
+	GtkOptionMenu for the possible sync methods.
+
+	* calendar-conduit-control-applet.desktop: use the nice icon...
+
+	* calendar-conduit.c: Ack, had to define debug_alarms and
+	alarm_default, otherwise they are undefined. Is gncal code messy
+	or is this considered a way of configuring the cal engine ?
+	Implemented delete_all syncabs methods.
+
+	* calendar-pilot-sync.c: also had to declare debug_alarms and
+ 	alarm_defaults, just as ugly.
+
 1999-11-02  Russell Steinthal  <rms39@columbia.edu>
 
 	* prop.c: Add new alarm page to properties box

@@ -37,8 +37,19 @@ struct pi_sockaddr addr;
 /* The Pilot DB identifier for DateBook */
 int db;
 
+/* If true, enable debug output for alarms */
+int debug_alarms = 0;
+
 /* True if you want to dump the flags bits from the records */
 int debug_attrs = 0;
+
+/* Default values for alarms */
+CalendarAlarm alarm_defaults[4] = {
+	{ ALARM_MAIL, 0, 15, ALARM_MINUTES },
+	{ ALARM_PROGRAM, 0, 15, ALARM_MINUTES },
+	{ ALARM_DISPLAY, 0, 15, ALARM_MINUTES },
+	{ ALARM_AUDIO, 0, 15, ALARM_MINUTES }
+};
 
 int only_desktop_to_pilot = 0;
 

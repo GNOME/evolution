@@ -30,6 +30,15 @@
 
 #include "calendar-conduit.h"
 
+int debug_alarms = 0; /* needed to satisfy some other part of gncal */
+/* Default values for alarms */ /* needed to satisfy some other part of gncal */
+CalendarAlarm alarm_defaults[4] = {
+	{ ALARM_MAIL, 0, 15, ALARM_MINUTES },
+	{ ALARM_PROGRAM, 0, 15, ALARM_MINUTES },
+	{ ALARM_DISPLAY, 0, 15, ALARM_MINUTES },
+	{ ALARM_AUDIO, 0, 15, ALARM_MINUTES }
+};
+
 GnomePilotConduit * conduit_get_gpilot_conduit (guint32);
 void conduit_destroy_gpilot_conduit (GnomePilotConduit*);
 void local_record_from_icalobject(GCalLocalRecord *local,iCalObject *obj); 
@@ -81,6 +90,7 @@ calendar_notify (time_t time, CalendarAlarm *which, void *data)
 
 static GList * 
 get_calendar_objects(GnomePilotConduitStandardAbs *conduit,
+		     gboolean *status,
 		     GCalConduitContext *ctxt) 
 {
 	GList *result;
@@ -96,21 +106,25 @@ get_calendar_objects(GnomePilotConduitStandardAbs *conduit,
 		INFO ("Object did not exist");
 		show_exception(&(ctxt->ev));
 		CORBA_exception_free(&(ctxt->ev)); 
+		if(status!=NULL) (*status) = FALSE;
 		return NULL;
 	} else if(ctxt->ev._major != CORBA_NO_EXCEPTION) {
 		WARN (_("Error while communicating with calendar server"));
 		show_exception(&(ctxt->ev));
 		CORBA_exception_free(&(ctxt->ev)); 
+		if(status!=NULL) (*status) = FALSE;
 		return NULL;
 	} 
 
+	if(status!=NULL) (*status) = TRUE;
 	if(uids->_length>0) {
 		int i;
 		for(i=0;i<uids->_length;i++) {
 			result = g_list_prepend(result,g_strdup(uids->_buffer[i]));
 		}
-	} else
+	} else {
 		INFO ("No entries found");
+	}
 	
 	CORBA_free(uids);
 
@@ -705,7 +719,7 @@ iterate (GnomePilotConduitStandardAbs *conduit,
 	if(*local==NULL) {
 		LOG ("beginning iteration");
 
-		events = get_calendar_objects(conduit,ctxt);
+		events = get_calendar_objects(conduit,NULL,ctxt);
 		hest = 0;
 		
 		if(events!=NULL) {
@@ -938,8 +952,32 @@ static gint
 delete_all (GnomePilotConduitStandardAbs *conduit,
 	    GCalConduitContext *ctxt)
 {
-	LOG ("entering delete_all");
+	GList *events,*it;
+	gboolean error;
 
+	events = get_calendar_objects(conduit,&error,ctxt);
+	
+	if (error == FALSE) return -1;
+	for (it=events;it;it = g_slist_next(it)) {
+		GNOME_Calendar_Repository_delete_object(ctxt->calendar,
+							it->data,
+							&(ctxt->ev));
+		if (ctxt->ev._major == CORBA_USER_EXCEPTION){
+			INFO ("Object did not exist");
+			show_exception(&(ctxt->ev));
+			CORBA_exception_free(&(ctxt->ev)); 
+		} else if(ctxt->ev._major != CORBA_NO_EXCEPTION) {
+			WARN (_("Error while communicating with calendar server"));
+			show_exception(&(ctxt->ev));
+			CORBA_exception_free(&(ctxt->ev)); 
+			/* destroy loop, free data */
+			for (it=events;it;it = g_slist_next(it)) g_free(it->data);
+			g_slist_free(events);
+			return -1;
+		} 
+		g_free(it->data);
+	}
+	g_slist_free(events);
         return -1;
 }
 
