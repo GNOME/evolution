@@ -28,6 +28,7 @@ libcamel_la_SOURCES = 				\
 	camel-data-wrapper.c			\
 	camel-digest-folder.c			\
 	camel-digest-store.c			\
+	camel-digest-summary.c			\
 	camel-disco-diary.c			\
 	camel-disco-folder.c			\
 	camel-disco-store.c			\
@@ -126,6 +127,7 @@ libcamelinclude_HEADERS =			\
 	camel-data-wrapper.h			\
 	camel-digest-folder.h			\
 	camel-digest-store.h			\
+	camel-digest-summary.h			\
 	camel-disco-diary.h			\
 	camel-disco-folder.h			\
 	camel-disco-store.h			\

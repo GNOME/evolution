@@ -1,5 +1,11 @@
 2002-06-20  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-digest-folder.c: Updated to support searching as well as
+	making it use CamelDigestSummary.
+
+	* camel-digest-summary.[c,h]: New class to handle the summary for
+	CamelDigestFolder.
+
 	* camel-tcp-stream-ssl.c (set_errno): PR_IO_TIMEOUT_ERROR should
 	map to ETIMEDOUT and not EAGAIN.
 	(stream_connect): Reset the PR_Poll() timeout back to 2 minutes as
