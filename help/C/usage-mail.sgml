@@ -85,14 +85,15 @@
 	message with the original, so you can follow the thread of a
 	conversation from one message to the next.
       </para>
-<figure>
+      <figure>
         <title>Threaded Mail View</title>
-<screenshot>
-<screeninfo>Threaded Mail View</screeninfo>
-<mediaobject><imageobject><imagedata  format="png" fileref="figures/mail-threaded" srccredit="Aaron Weber">
-</imageobject></mediaobject>
-</screenshot>
-</figure>
+	<screenshot>
+	  <screeninfo>Threaded Mail View</screeninfo>
+	  <mediaobject><imageobject>
+	      <imagedata  format="png" fileref="figures/mail-threaded" srccredit="Aaron Weber">
+	    </imageobject></mediaobject>
+	</screenshot>
+      </figure>
 
     </sect2>
     
@@ -691,12 +692,42 @@
            linkend="usage-contact-organize-group-list">.
         </para>
 
+	<tip id="reply-to-per-mail">
+	  <title>Setting Reply-to On a Per-Mail Basis</title>
+	  <para>
+	    <application>Evolution</application> has the ability to
+	    let you specify the Reply-To in an email. Using this, you
+	    can setup a special Reply-To for an email.  To do this:
+	    <orderedlist numeration="arabic">
+	      <listitem>
+                <para>
+		  Open a composer window
+			 </para>
+			 </listitem>
+			 <listitem>
+			 <para>
+			 Open the Reply-To field by selecting
+			 <menuchoice>
+			 <guimenu>View</guimenu>
+			 <guimenuitem>Reply To</guimenuitem>
+			 </menuchoice>
+			 </para>
+			 </listitem>
+			 <listitem>
+			 <para>
+			 Enter the address you wish to have be the
+			 Reply-To address in the new Reply-To field.
+			 </para>
+			 </listitem>
+			 </orderedlist>			 
+	  </para>
+	</tip>
         </sect3>
-
-        <sect3 id="usage-mail-getnsend-send-to">
-        <title>Choosing Recipients Quickly</title>
-        <para>
-	  If you have created address cards in the contact manager,
+			 
+			 <sect3 id="usage-mail-getnsend-send-to">
+	      <title>Choosing Recipients Quickly</title>
+	      <para>
+		If you have created address cards in the contact manager,
           you can also enter nicknames or other portions of address
           data, and <application>Evolution</application> will offer a
           drop down list of possible address completions from your

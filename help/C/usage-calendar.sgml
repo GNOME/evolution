@@ -416,7 +416,100 @@
       </para>
     </sect2>
  ########## END UNIMPLEMENTED FEATURESET ############ -->
-
+    <sect2 id="usage-calendar-freebusy">
+      <title>The Free/Busy View</title>
+      <para>
+	<application>Evolution</application> has a Free/Busy window so
+	that you can view people's schedules together to help you
+	schedule appointments.
+      </para>
+      <para>
+	To access the free/busy view:
+	<orderedlist numeration="arabic">
+	  <listitem>
+	    <para>
+	      Open or create an appointment in the
+	      <guilabel>Calendar</guilabel> window.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Click
+	      <menuchoice>
+		<guimenu>Actions</guimenu>
+		<guimenuitem>Schedule Meeting</guimenuitem>
+	      </menuchoice>
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Open the <guilabel>Scheduling</guilabel> tab.
+	    </para>
+	  </listitem>
+	</orderedlist>
+      </para>
+      <figure>
+        <title>Threaded Mail View</title>
+	<screenshot>
+	  <screeninfo>Threaded Mail View</screeninfo>
+	  <mediaobject><imageobject>
+	      <imagedata  format="png" fileref="figures/freebusy"
+	  srccredit="Kevin Breit">
+	    </imageobject></mediaobject>
+	</screenshot>
+      </figure>
+      <para>
+	<inlinemediaobject>
+	  <imageobject>
+	    <imagedata fileref="figures/full-1" format="png">
+	  </imageobject>
+	</inlinemediaobject>
+	<guilabel>Invitee List</guilabel>
+      </para>
+      <para>
+	The <guilabel>Invitee List</guilabel> lists off the people who
+	have been invited to the respective appointment.  It also
+	shows their RSVP status.
+      </para>
+      <para>
+	<inlinemediaobject>
+	  <imageobject>
+	    <imagedata fileref="figures/full-2" format="png">
+	  </imageobject>
+	</inlinemediaobject>
+	<guilabel>Schedule Grid</guilabel>
+      </para>
+      <para>
+	The <guilabel>Schedule Grid</guilabel> shows the invitee's
+	published Free/Busy information.  This is where you compare
+	people's schedules to find free time to schedule the
+	appointment.
+      </para>
+      <para>
+	<inlinemediaobject>
+	  <imageobject>
+	    <imagedata fileref="figures/full-3" format="png">
+	  </imageobject>
+	</inlinemediaobject>
+	<guilabel>Meeting Scheduler</guilabel>
+      </para>
+      <para>
+	The <guilabel>Meeting Scheduler</guilabel> allows you to
+	schedule the meeting in the <guilabel>Free/Busy</guilabel> window.
+      </para>
+      <sect3 id="usage-calendar-freebusy-scheduling">
+	<title>Scheduling an Appointment</title>
+	<para>
+	  To schedule an appointment, you'll first need people's
+	  free/busy information.  Once you have recieved people's
+	  schedule information, integrate it with your calendar. 
+	  <!-- Describe how to integrate -->
+	  In the <guilabel>Scheduling</guilabel> tab, you'll see the
+	  pending appointment time in white with bold black borders.
+	  You should also see the invitee's free/busy schedules. 
+	</para>
+      </sect3>
+    </sect2>
   </sect1>
 
   <sect1 id="usage-calendar-todo">
