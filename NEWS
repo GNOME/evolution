@@ -21,6 +21,13 @@ Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
     #20311 -- Make new windows opened through the right-click menu not
               show the shortcut bar and the folder bar by default.  (Ettore)
 
+Other fixes:
+
+  * Calendar
+
+    - Show more descriptive messages on opening errors (Rodrigo)
+    - Remove $filename.ics from remote URIs (Rodrigo)
+
 
 Evolution 1.0.2, 01-24-2002
 ---------------------------
