@@ -601,7 +601,7 @@ load_uri_auth_cb (EBook *book, EBookStatus status, gpointer closure)
 			return;
 		}
 		else {
-			e_passwords_forget_password (data->clean_uri);
+			e_passwords_forget_password ("Addressbook", data->clean_uri);
 			addressbook_authenticate (book, TRUE, data->source, load_uri_auth_cb, closure);
 			return;
 		}
@@ -629,7 +629,7 @@ addressbook_authenticate (EBook *book, gboolean previous_failure, AddressbookSou
 	if (semicolon)
 		*semicolon = '\0';
 
-	password = e_passwords_get_password (load_uri_data->clean_uri);
+	password = e_passwords_get_password ("Addressbook", load_uri_data->clean_uri);
 
 	if (!password) {
 		char *prompt;
@@ -651,7 +651,7 @@ addressbook_authenticate (EBook *book, gboolean previous_failure, AddressbookSou
 			prompt = g_strdup_printf (_("%sEnter password for %s (user %s)"),
 						  failed_auth, source->name, source->email_addr);
 		remember = source->remember_passwd;
-		pass_dup = e_passwords_ask_password (prompt, load_uri_data->clean_uri, prompt, TRUE,
+		pass_dup = e_passwords_ask_password (prompt, "Addressbook", load_uri_data->clean_uri, prompt, TRUE,
 						     E_PASSWORDS_REMEMBER_FOREVER, &remember,
 						     NULL);
 		if (remember != source->remember_passwd) {

@@ -1,5 +1,11 @@
 2002-12-09  Chris Toshok  <toshok@ximian.com>
 
+	* gui/component/addressbook.c (load_uri_auth_cb): pass
+	"Addressbook" to e_passwords*.
+	(addressbook_authenticate): same.
+
+2002-12-09  Chris Toshok  <toshok@ximian.com>
+
 	* gui/component/addressbook.c (search_cb): remove
 	PENDING_PORT_WORK.
 	(addressbook_search_activated): same.
