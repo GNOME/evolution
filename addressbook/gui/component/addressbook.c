@@ -950,9 +950,11 @@ set_prop (BonoboPropertyBag *bag,
 						       gtk_notebook_page_num (GTK_NOTEBOOK (view->notebook),
 									      uid_view));
 
-			/* change menus/toolbars to reflect the new view */
-			eab_view_setup_menus (EAB_VIEW (uid_view), bonobo_control_get_ui_component (view->control));
-			update_command_state (EAB_VIEW (uid_view), view);
+			/* change menus/toolbars to reflect the new view, assuming we are already displayed */
+			if (bonobo_ui_component_get_container (bonobo_control_get_ui_component (view->control)) != CORBA_OBJECT_NIL) {
+				eab_view_setup_menus (EAB_VIEW (uid_view), bonobo_control_get_ui_component (view->control));
+				update_command_state (EAB_VIEW (uid_view), view);
+			}
 		}
 		else {
 			g_warning ("Could not find source by UID '%s'!", uid);
