@@ -54,6 +54,9 @@ struct _EvolutionStoragePrivate {
 	/* The set of folders we have in this storage.  */
 	EFolderTree *folder_tree;
 
+	/* Mappings from URIs to folder tree paths.  */
+	GHashTable *uri_to_path;
+
 	/* The listener registered on this storage.  */
 	GList *corba_storage_listeners;
 };
@@ -271,6 +274,13 @@ impl_Storage_remove_listener (PortableServer_Servant servant,
 /* GtkObject methods.  */
 
 static void
+free_mapping (gpointer key, gpointer value, gpointer user_data)
+{
+	g_free (key);
+	g_free (value);
+}
+
+static void
 destroy (GtkObject *object)
 {
 	EvolutionStorage *storage;
@@ -286,6 +296,10 @@ destroy (GtkObject *object)
 	g_free (priv->toplevel_node_type);
 	if (priv->folder_tree != NULL)
 		e_folder_tree_destroy (priv->folder_tree);
+	if (priv->uri_to_path != NULL) {
+		g_hash_table_foreach (priv->uri_to_path, free_mapping, NULL);
+		g_hash_table_destroy (priv->uri_to_path);
+	}
 
 	CORBA_exception_init (&ev);
 
@@ -351,6 +365,7 @@ init (EvolutionStorage *storage)
 	priv->toplevel_node_uri       = NULL;
 	priv->toplevel_node_type      = NULL;
 	priv->folder_tree             = e_folder_tree_new (folder_destroy_notify, storage);
+	priv->uri_to_path                = g_hash_table_new (g_str_hash, g_str_equal);
 	priv->corba_storage_listeners = NULL;
 
 	storage->priv = priv;
@@ -544,6 +559,12 @@ evolution_storage_new_folder (EvolutionStorage *evolution_storage,
 	corba_folder->physical_uri = CORBA_string_dup (physical_uri);
 	corba_folder->highlighted  = highlighted;
 
+	if (! e_folder_tree_add (priv->folder_tree, path, corba_folder)) {
+		CORBA_free (corba_folder);
+		return EVOLUTION_STORAGE_ERROR_EXISTS;
+	}
+	g_hash_table_insert (priv->uri_to_path, g_strdup (physical_uri), g_strdup (path));
+
 	result = EVOLUTION_STORAGE_OK;
 
 	for (p = priv->corba_storage_listeners; p != NULL; p = p->next) {
@@ -566,11 +587,6 @@ evolution_storage_new_folder (EvolutionStorage *evolution_storage,
 	}
 
 	CORBA_exception_free (&ev);
-
-	if (result == EVOLUTION_STORAGE_OK) {
-		if (! e_folder_tree_add (priv->folder_tree, path, corba_folder))
-			result = EVOLUTION_STORAGE_ERROR_EXISTS;
-	}
 
 	return result;
 }
@@ -637,12 +653,35 @@ evolution_storage_update_folder (EvolutionStorage *evolution_storage,
 }
 
 EvolutionStorageResult
+evolution_storage_update_folder_by_uri (EvolutionStorage *evolution_storage,
+					const char *physical_uri,
+					const char *display_name,
+					gboolean highlighted)
+{
+	EvolutionStoragePrivate *priv;
+	char *path;
+
+	g_return_val_if_fail (evolution_storage != NULL,
+			      EVOLUTION_STORAGE_ERROR_INVALIDPARAMETER);
+	g_return_val_if_fail (EVOLUTION_IS_STORAGE (evolution_storage),
+			      EVOLUTION_STORAGE_ERROR_INVALIDPARAMETER);
+	g_return_val_if_fail (physical_uri != NULL, EVOLUTION_STORAGE_ERROR_INVALIDPARAMETER);
+
+	priv = evolution_storage->priv;
+
+	path = g_hash_table_lookup (priv->uri_to_path, physical_uri);
+	return evolution_storage_update_folder (evolution_storage, path, display_name, highlighted);
+}
+
+EvolutionStorageResult
 evolution_storage_removed_folder (EvolutionStorage *evolution_storage,
 				  const char *path)
 {
 	EvolutionStorageResult result;
 	EvolutionStoragePrivate *priv;
 	CORBA_Environment ev;
+	GNOME_Evolution_Folder *corba_folder;
+	gpointer key, value;
 	GList *p;
 
 	g_return_val_if_fail (evolution_storage != NULL,
@@ -656,6 +695,16 @@ evolution_storage_removed_folder (EvolutionStorage *evolution_storage,
 
 	if (priv->corba_storage_listeners == NULL)
 		return EVOLUTION_STORAGE_ERROR_NOTREGISTERED;
+
+	corba_folder = e_folder_tree_get_folder (priv->folder_tree, path);
+	if (corba_folder == NULL)
+		return EVOLUTION_STORAGE_ERROR_NOTFOUND;
+	if (g_hash_table_lookup_extended (priv->uri_to_path, corba_folder->physical_uri, &key, &value)) {
+		g_hash_table_remove (priv->uri_to_path, key);
+		g_free (key);
+		g_free (value);
+	}
+	e_folder_tree_remove (priv->folder_tree, path);
 
 	CORBA_exception_init (&ev);
 
@@ -681,11 +730,6 @@ evolution_storage_removed_folder (EvolutionStorage *evolution_storage,
 	}
 
 	CORBA_exception_free (&ev);
-
-	if (result == EVOLUTION_STORAGE_OK) {
-		if (! e_folder_tree_remove (priv->folder_tree, path))
-			result = EVOLUTION_STORAGE_ERROR_NOTFOUND;
-	}
 
 	return result;
 }

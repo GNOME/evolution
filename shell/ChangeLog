@@ -1,3 +1,10 @@
+2001-01-04  Dan Winship  <danw@helixcode.com>
+
+	* evolution-storage.c (evolution_storage_update_folder_by_uri):
+	New function to update a folder given its URI. Plus associated
+	changes to other functions to keep track of the path<->URI
+	mappings.
+
 2000-12-28  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* evolution-shell-client.c (user_select_folder): Make sure the
