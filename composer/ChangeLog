@@ -1,3 +1,9 @@
+2001-10-30  Dan Winship  <danw@ximian.com>
+
+	* e-msg-composer.c (build_message): Remove Content-Disposition in
+	the no_body case. (More kludging around Outlook iCalendar
+	brokenness.)
+
 2001-10-29  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-msg-composer.c (setup_ui): Put the charset encoding submenu in

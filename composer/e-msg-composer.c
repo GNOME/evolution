@@ -431,6 +431,7 @@ build_message (EMsgComposer *composer)
 			part = camel_multipart_get_part (multipart, 1);
 			current = camel_medium_get_content_object (CAMEL_MEDIUM (part));
 			copy_headers (CAMEL_MEDIUM (new), CAMEL_MEDIUM (part));
+			camel_medium_remove_header (CAMEL_MEDIUM (new), "Content-Disposition");
 			camel_object_ref (CAMEL_OBJECT (current));
 			camel_object_unref (CAMEL_OBJECT (multipart));
 		} else		
