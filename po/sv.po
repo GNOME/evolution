@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.1\n"
-"POT-Creation-Date: 2000-05-10 10:01+0200\n"
+"POT-Creation-Date: 2000-05-12 23:47+0200\n"
 "PO-Revision-Date: 2000-04-04 19:23+0200\n"
 "Last-Translator: Andreas Hyden <a.hyden@cyberpoint.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8-bit\n"
 
-#: composer/e-msg-composer-address-dialog.c:183 composer/e-msg-composer.c:462
+#: composer/e-msg-composer-address-dialog.c:183 composer/e-msg-composer.c:466
 msgid "Cut"
 msgstr "Klipp ut"
 
@@ -21,7 +21,7 @@ msgstr "Klipp ut"
 msgid "Cut selected item into clipboard"
 msgstr "Klipp ut markerat objekt till urklipp"
 
-#: composer/e-msg-composer-address-dialog.c:187 composer/e-msg-composer.c:463
+#: composer/e-msg-composer-address-dialog.c:187 composer/e-msg-composer.c:467
 msgid "Copy"
 msgstr "Kopiera"
 
@@ -30,7 +30,7 @@ msgid "Copy selected item into clipboard"
 msgstr "Kopiera markerat objekt till urklipp"
 
 #: composer/e-msg-composer-address-dialog.c:191
-#: composer/e-msg-composer-address-dialog.c:199 composer/e-msg-composer.c:464
+#: composer/e-msg-composer-address-dialog.c:199 composer/e-msg-composer.c:468
 msgid "Paste"
 msgstr "Klistra in"
 
@@ -131,150 +131,160 @@ msgstr "Ämne:"
 msgid "Enter the subject of the mail"
 msgstr "Ange brevets ämne"
 
-#: composer/e-msg-composer.c:420
+#: composer/e-msg-composer.c:424
 msgid "Save in _folder..."
 msgstr "Spara i _mapp..."
 
-#: composer/e-msg-composer.c:420
+#: composer/e-msg-composer.c:424
 msgid "Save the message in a specified folder"
 msgstr "Spara meddelandet i en viss mapp"
 
-#: composer/e-msg-composer.c:423 composer/e-msg-composer.c:460
-#: mail/folder-browser-factory.c:113
+#: composer/e-msg-composer.c:427 composer/e-msg-composer.c:464
+#: mail/folder-browser-factory.c:139
 msgid "Send"
 msgstr "Skicka"
 
-#: composer/e-msg-composer.c:423
+#: composer/e-msg-composer.c:427
 msgid "Send the message"
 msgstr "Skicka meddelandet"
 
-#: composer/e-msg-composer.c:431
+#: composer/e-msg-composer.c:435
 msgid "View _attachments"
 msgstr "Visa _bilagor"
 
-#: composer/e-msg-composer.c:431
+#: composer/e-msg-composer.c:435
 msgid "View/hide attachments"
 msgstr "Visa/göm bilagor"
 
-#: composer/e-msg-composer.c:460
+#: composer/e-msg-composer.c:464
 msgid "Send this message"
 msgstr "Skicka detta meddelandet"
 
-#: composer/e-msg-composer.c:462
+#: composer/e-msg-composer.c:466
 msgid "Cut selected region into the clipboard"
 msgstr "Klipp ut markerat område till urklipp"
 
-#: composer/e-msg-composer.c:463
+#: composer/e-msg-composer.c:467
 msgid "Copy selected region into the clipboard"
 msgstr "Kopiera markerat område till urklipp"
 
-#: composer/e-msg-composer.c:464
+#: composer/e-msg-composer.c:468
 msgid "Paste selected region into the clipboard"
 msgstr "Klistra in markerat område till urklipp"
 
-#: composer/e-msg-composer.c:465
+#: composer/e-msg-composer.c:469
 msgid "Undo"
 msgstr "Ångra"
 
-#: composer/e-msg-composer.c:465
+#: composer/e-msg-composer.c:469
 msgid "Undo last operation"
 msgstr "Ångra senaste ändringen"
 
-#: composer/e-msg-composer.c:467
+#: composer/e-msg-composer.c:471
 msgid "Attach"
 msgstr "Bifoga"
 
-#: composer/e-msg-composer.c:467
+#: composer/e-msg-composer.c:471
 msgid "Attach a file"
 msgstr "Bifoga en fil"
 
 #: mail/folder-browser-factory.c:85
 msgid ""
-"This is a development version of Evolution.\n"
-"Using the mail component on your mail files\n"
-"is extremely hazardous.\n"
+"Hi.  Thanks for taking the time to download this preview release of\n"
+"the Evolution groupware suite.\n"
 "\n"
-"Do not run this program on your real mail,\n"
-"do not give it access to your real mail server,\n"
-"and do not send mail to real people with it.\n"
+"The Evolution team has worked hard to make Evolution as robust,\n"
+"extensible, pretty, fast and well-suited to heavy internet users as\n"
+"possible.  And we're very tired.  But we're not done -- not yet.\n"
 "\n"
-"You have been warned\n"
+"As you explore Evolution, please understand that most of our work has\n"
+"been focused on the backend engine which drives the entire system and\n"
+"not on the user interface.  We are just cresting the hill now, though,\n"
+"and will be pouring most of our love and attention into the UI from\n"
+"here out.  But at least you know that you're not using demoware.\n"
+"\n"
+"So, time for the nerdy disclaimer.  Evolution will: crash, lose your\n"
+"mail, leave stray processes running, consume 100% CPU, race, lock,\n"
+"send HTML mail to random mailing lists, and embarass you in front of\n"
+"your friends and co-workers.  Use at your own risk.\n"
+"\n"
+"We hope that you enjoy the results of our hard work, and we eagerly\n"
+"await your contributions!\n"
 msgstr ""
-"Det här är en utvecklingsversion av Evolution.\n"
-"Att använda brevkomponenten till dina brevfiler\n"
-"är extremt riskfyllt.\n"
-"\n"
-"Kör inte det här programmet på din riktiga epost,\n"
-"ge den inte tillgång till din riktiga brevserver,\n"
-"och skicka inte brev till riktiga människor med den.\n"
-"\n"
-"Du har blivit varnad\n"
 
-#: mail/folder-browser-factory.c:112
+#: mail/folder-browser-factory.c:114
+msgid ""
+"Thanks\n"
+"The Evolution Team\n"
+msgstr ""
+"Tack\n"
+"Evolution-teamet\n"
+
+#: mail/folder-browser-factory.c:138
 msgid "Get mail"
 msgstr "Hämta post"
 
-#: mail/folder-browser-factory.c:112
+#: mail/folder-browser-factory.c:138
 msgid "Check for new mail"
 msgstr "Kolla efter ny post"
 
-#: mail/folder-browser-factory.c:113
+#: mail/folder-browser-factory.c:139
 msgid "Send a new message"
 msgstr "Skicka ett nytt meddelande"
 
-#: mail/folder-browser-factory.c:114
+#: mail/folder-browser-factory.c:140
 msgid "Find"
 msgstr "Hitta"
 
-#: mail/folder-browser-factory.c:114
+#: mail/folder-browser-factory.c:140
 msgid "Find messages"
 msgstr "Hitta meddelanden"
 
-#: mail/folder-browser-factory.c:118
+#: mail/folder-browser-factory.c:144
 msgid "Reply"
 msgstr "Svara"
 
-#: mail/folder-browser-factory.c:118
+#: mail/folder-browser-factory.c:144
 msgid "Reply to the sender of this message"
 msgstr "Svara till sändaren av det här meddelandet"
 
-#: mail/folder-browser-factory.c:119
+#: mail/folder-browser-factory.c:145
 msgid "Reply to All"
 msgstr "Svara till alla"
 
-#: mail/folder-browser-factory.c:119
+#: mail/folder-browser-factory.c:145
 msgid "Reply to all recipients of this message"
 msgstr "Svara till alla mottagare av det här meddelandet"
 
-#: mail/folder-browser-factory.c:121
+#: mail/folder-browser-factory.c:147
 msgid "Forward"
 msgstr "Skicka vidare"
 
-#: mail/folder-browser-factory.c:121
+#: mail/folder-browser-factory.c:147
 msgid "Forward this message"
 msgstr "Skicka detta meddelandet vidare"
 
-#: mail/folder-browser-factory.c:125
+#: mail/folder-browser-factory.c:151
 msgid "Print"
 msgstr "Skriv ut"
 
-#: mail/folder-browser-factory.c:125
+#: mail/folder-browser-factory.c:151
 msgid "Print the selected message"
 msgstr "Skriv ut markerat meddelande"
 
-#: mail/folder-browser-factory.c:127
+#: mail/folder-browser-factory.c:153
 msgid "Delete"
 msgstr "Ta bort"
 
-#: mail/folder-browser-factory.c:127
+#: mail/folder-browser-factory.c:153
 msgid "Delete this message"
 msgstr "Ta bort detta meddelandet"
 
-#: mail/folder-browser-factory.c:144
+#: mail/folder-browser-factory.c:170
 msgid "_Expunge"
 msgstr "Rad_era"
 
-#: mail/folder-browser-factory.c:267
+#: mail/folder-browser-factory.c:292
 msgid "We are sorry, Evolution's Folder Browser can not be initialized."
 msgstr "Tyvärr, Evolutions mappbläddrare kan inte initialiseras."
 
@@ -286,7 +296,7 @@ msgstr "URL:en som mappbläddraden kommer att visa"
 msgid "Whether a message preview should be shown"
 msgstr "Huruvida meddelanden ska förhandsgranskas"
 
-#: mail/mail-component.c:30 mail/main.c:54
+#: mail/main.c:54
 msgid "Mail Component: I could not initialize Bonobo"
 msgstr "Postkomponent: Jag kunde inte initialisera Bonobo"
 
@@ -330,104 +340,122 @@ msgstr "Bug-buddy hittades inte i din $PATH."
 msgid "Bug buddy could not be run."
 msgstr "Bug-buddy kunde inte köras."
 
-#: shell/e-shell-view-menu.c:111 shell/e-shell-view-menu.c:177
+#: shell/e-shell-view-menu.c:110
+msgid "Evolution"
+msgstr "Evolution"
+
+#: shell/e-shell-view-menu.c:112
+msgid "Copyright 1999, 2000 Helix Code, Inc."
+msgstr "Copyright 1999, 2000 Helix Code, Inc."
+
+#: shell/e-shell-view-menu.c:114
+msgid ""
+"Evolution is a suite of groupware applications\n"
+"for mail, calendaring, and contact management\n"
+"within the GNOME desktop environment."
+msgstr ""
+"Evolution är en svit av programvara\n"
+"för epost, kalender, och kontakt-hantering\n"
+"inom GNOME's skrivbordsmiljö."
+
+#: shell/e-shell-view-menu.c:163 shell/e-shell-view-menu.c:229
 msgid "_Folder"
 msgstr "_Mapp"
 
-#: shell/e-shell-view-menu.c:115
+#: shell/e-shell-view-menu.c:167
 msgid "Evolution _Bar Shortcut"
 msgstr "Evolution genvägsrad"
 
-#: shell/e-shell-view-menu.c:121
+#: shell/e-shell-view-menu.c:173
 msgid "_Mail message"
 msgstr "_Posta meddelande"
 
-#: shell/e-shell-view-menu.c:122 shell/e-shell-view-menu.c:125
+#: shell/e-shell-view-menu.c:174 shell/e-shell-view-menu.c:177
 msgid "Composes a new mail message"
 msgstr "Skriv ett nytt brev"
 
-#: shell/e-shell-view-menu.c:124
+#: shell/e-shell-view-menu.c:176
 msgid "_Appointment"
 msgstr "_Möte"
 
-#: shell/e-shell-view-menu.c:127
+#: shell/e-shell-view-menu.c:179
 msgid "Meeting Re_quest"
 msgstr "Begäran om möte"
 
-#: shell/e-shell-view-menu.c:130
+#: shell/e-shell-view-menu.c:182
 msgid "_Contact"
 msgstr "_Kontakt"
 
-#: shell/e-shell-view-menu.c:133
+#: shell/e-shell-view-menu.c:185
 msgid "_Task"
 msgstr "Uppgif_t"
 
-#: shell/e-shell-view-menu.c:136
+#: shell/e-shell-view-menu.c:188
 msgid "Task _Request"
 msgstr "Uppgiftsbegä_ran"
 
-#: shell/e-shell-view-menu.c:139
+#: shell/e-shell-view-menu.c:191
 msgid "_Journal Entry"
 msgstr "_Dagbokpost"
 
-#: shell/e-shell-view-menu.c:142
+#: shell/e-shell-view-menu.c:194
 msgid "_Note"
 msgstr "_Anteckning"
 
-#: shell/e-shell-view-menu.c:152
+#: shell/e-shell-view-menu.c:204
 msgid "_Selected Items"
 msgstr "_Markerade objekt"
 
-#: shell/e-shell-view-menu.c:160
+#: shell/e-shell-view-menu.c:212
 msgid "_New Folder"
 msgstr "_Ny mapp"
 
-#: shell/e-shell-view-menu.c:168
+#: shell/e-shell-view-menu.c:220
 msgid "_New"
 msgstr "_Ny"
 
-#: shell/e-shell-view-menu.c:169
+#: shell/e-shell-view-menu.c:221
 msgid "_Open"
 msgstr "_Öppna"
 
-#: shell/e-shell-view-menu.c:170
+#: shell/e-shell-view-menu.c:222
 msgid "Clos_e All Items"
 msgstr "Stäng _alla objekt"
 
-#: shell/e-shell-view-menu.c:170
+#: shell/e-shell-view-menu.c:222
 msgid "Closes all the open items"
 msgstr "Stänger alla öppna objekt"
 
-#: shell/e-shell-view-menu.c:191
+#: shell/e-shell-view-menu.c:243
 msgid "_Toggle Shortcut Bar"
 msgstr "_Växla genvägsrad"
 
-#: shell/e-shell-view-menu.c:192
+#: shell/e-shell-view-menu.c:244
 msgid "Toggles the shortcut bar"
 msgstr "Växlar genvägsraden"
 
-#: shell/e-shell-view-menu.c:194
+#: shell/e-shell-view-menu.c:246
 msgid "_Toggle Treeview"
 msgstr "_Växla trädvy"
 
-#: shell/e-shell-view-menu.c:195
+#: shell/e-shell-view-menu.c:247
 msgid "Toggles the tree view"
 msgstr "Växlar trädvyn"
 
-#: shell/e-shell-view-menu.c:209
+#: shell/e-shell-view-menu.c:262
 msgid "_Submit bug"
 msgstr "_Skicka felrapport"
 
-#: shell/e-shell-view-menu.c:210
+#: shell/e-shell-view-menu.c:263
 msgid "Submit bug-report via bug-buddy"
 msgstr "Skicka felrapport via bug-buddy"
 
 #. FIXME: add Favorites here
-#: shell/e-shell-view-menu.c:225
+#: shell/e-shell-view-menu.c:278
 msgid "_Tools"
 msgstr "_Verktyg"
 
-#: shell/e-shell-view-menu.c:226
+#: shell/e-shell-view-menu.c:279
 msgid "_Actions"
 msgstr "_Händelser"
 
@@ -443,6 +471,27 @@ msgstr "Kan inte initiera Bonobo-komponentsystemet"
 #: shell/main.c:126
 msgid "Cannot initialize the Evolution shell."
 msgstr "Kan inte initialisera Evolution-skalet"
+
+#~ msgid ""
+#~ "This is a development version of Evolution.\n"
+#~ "Using the mail component on your mail files\n"
+#~ "is extremely hazardous.\n"
+#~ "\n"
+#~ "Do not run this program on your real mail,\n"
+#~ "do not give it access to your real mail server,\n"
+#~ "and do not send mail to real people with it.\n"
+#~ "\n"
+#~ "You have been warned\n"
+#~ msgstr ""
+#~ "Det här är en utvecklingsversion av Evolution.\n"
+#~ "Att använda brevkomponenten till dina brevfiler\n"
+#~ "är extremt riskfyllt.\n"
+#~ "\n"
+#~ "Kör inte det här programmet på din riktiga epost,\n"
+#~ "ge den inte tillgång till din riktiga brevserver,\n"
+#~ "och skicka inte brev till riktiga människor med den.\n"
+#~ "\n"
+#~ "Du har blivit varnad\n"
 
 #~ msgid "_Mail"
 #~ msgstr "_Epost"
