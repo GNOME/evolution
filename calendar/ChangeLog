@@ -1,3 +1,9 @@
+2001-10-29  Federico Mena Quintero  <federico@ximian.com>
+
+	* gui/tasks-control.c (pixmaps): Fix the verb names for the
+	pixmaps in the Edit menu; they were out of synch with the XML
+	UI description.
+
 2001-10-29  Chris Toshok  <toshok@ximian.com>
 
 	* pcs/cal-factory.c (cal_factory_dump_active_backends): new

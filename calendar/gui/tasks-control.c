@@ -245,10 +245,10 @@ static BonoboUIVerb verbs [] = {
 
 static EPixmap pixmaps [] = {
 	E_PIXMAP ("/menu/File/New/NewFirstItem/NewTask",            "new_task-16.png"),
-	E_PIXMAP ("/menu/Edit/Cut",                                 "16_cut.png"),
-	E_PIXMAP ("/menu/Edit/Copy",                                "16_copy.png"),
-	E_PIXMAP ("/menu/Edit/Paste",                               "16_paste.png"),
-	E_PIXMAP ("/menu/Edit/Delete",                              "evolution-trash-mini.png"),
+	E_PIXMAP ("/menu/Edit/TasksCut",                            "16_cut.png"),
+	E_PIXMAP ("/menu/Edit/TasksCopy",                           "16_copy.png"),
+	E_PIXMAP ("/menu/Edit/TasksPaste",                          "16_paste.png"),
+	E_PIXMAP ("/menu/Edit/TasksDelete",                         "evolution-trash-mini.png"),
 	E_PIXMAP ("/menu/File/Print/Print",                         "print.xpm"),
 	E_PIXMAP ("/menu/File/Print/Print Preview",                 "print-preview.xpm"),
 	E_PIXMAP ("/menu/Tools/ComponentPlaceholder/TasksSettings", "configure_16_calendar.xpm"),
