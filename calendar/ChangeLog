@@ -1,3 +1,12 @@
+2003-06-26  Bolian Yin <bolian.yin@sun.com>
+
+	Fixes #45276
+
+	* gui/e-day-view.c (e_day_view_on_text_item_event): set focus to dayview
+	when editing is canceled.
+	* gui/e-week-view.c (e_week_view_on_text_item_event): set focus to weekview
+	when editing is canceled
+
 2003-06-25  Rodrigo Moya <rodrigo@ximian.com>
 
 	Fixes #44723

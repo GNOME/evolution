@@ -3108,6 +3108,8 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 		} else if (gdkevent->key.keyval == GDK_Escape) {
 			cancel_editing (week_view);
 			gtk_signal_emit_stop_by_name (GTK_OBJECT (item), "event");
+			/* focus should go to week view when stop editing */
+			gtk_widget_grab_focus (GTK_WIDGET (week_view));
 			return TRUE;
 		}
 		break;
