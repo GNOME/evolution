@@ -94,9 +94,9 @@ static int             construct_from_parser           (CamelMimePart *mime_part
 static void set_disposition (CamelMimePart *mime_part, const char *disposition);
 
 /* format output of headers */
-static int write_references(CamelStream *stream, struct _camel_header_raw *h);
+static ssize_t write_references(CamelStream *stream, struct _camel_header_raw *h);
 /*static int write_fold(CamelStream *stream, struct _camel_header_raw *h);*/
-static int write_raw(CamelStream *stream, struct _camel_header_raw *h);
+static ssize_t write_raw(CamelStream *stream, struct _camel_header_raw *h);
 
 
 /* loads in a hash table the set of header names we */
