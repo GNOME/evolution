@@ -1,3 +1,11 @@
+2000-04-25  Dan Winship  <danw@helixcode.com>
+
+	* Makefile.am: include -I$(datadir)/idl in orbit-idl arguments so
+	that you can have bonobo installed in the same prefix as
+	evolution, when that isn't the same prefix is gnome-libs, which a
+	lot of people seem to be doing.
+	(CLEANFILES): add EVOLUTION_CORBA_GENERATED
+	
 2000-04-24  Christopher James Lahey  <clahey@helixcode.com>
 
 	* idl/folder.idl: Made some functions syncronous that didn't need

@@ -16,6 +16,8 @@ EVOLUTION_CORBA_GENERATED = 	\
 	Evolution-skels.c	\
 	Evolution-stubs.c
 
+CLEANFILES = $(EVOLUTION_CORBA_GENERATED)
+
 evolution_SOURCES =		\
 	$(EVOLUTION_CORBA_GENERATED)	\
 	main.c			\
@@ -42,7 +44,7 @@ evolution_SOURCES =		\
 Evolution-impl.o: Evolution.h
 
 $(EVOLUTION_CORBA_GENERATED): Evolution.idl evolution-service-repository.idl
-	orbit-idl -I`$(GNOME_CONFIG) --datadir`/idl -I$(srcdir) $(srcdir)/Evolution.idl
+	$(ORBIT_IDL) -I$(datadir)/idl -I`$(GNOME_CONFIG) --datadir`/idl -I$(srcdir) $(srcdir)/Evolution.idl
 
 evolution_LDADD = 					\
 	../widgets/shortcut-bar/libshortcut-bar.a	\

@@ -36,7 +36,8 @@ correctly.)
 	bonobo - Evolution always tracks the latest CVS versions of
 	bonobo. Released versions will virtually always be too old.
 	*** Note that this must be installed with the same --prefix as
-	*** gnome-libs for the Makefiles to work properly.
+	*** either gnome-libs or evolution for the Makefiles to work
+	*** properly.
 
 	gdk-pixbuf - 0.7.0 (or later?)
 
