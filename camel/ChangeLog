@@ -1,3 +1,18 @@
+2000-06-28  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/mbox/camel-mbox-summary.c: General cleanup
+	(camel_mbox_summary_sync): Fixed a memory leak and added
+	CamelException handling.
+
+	* providers/mbox/camel-mbox-store.c (delete_folder): Fixed a 
+	memory leak
+
+	* providers/mbox/camel-mbox-folder.c (mbox_append_message): 
+	Default 'off_t seek' to -1 so as to make sure it's initialized
+	before it's used in the case of a bad stat() call.
+	(mbox_sync): Updated
+	(mbox_expunge): Updated
+
 2000-06-27  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/imap/camel-imap-store.c (imap_connect): Move the 

@@ -98,7 +98,7 @@ camel_mbox_store_get_toplevel_dir (CamelMboxStore *store)
 {
 	CamelURL *url = CAMEL_SERVICE (store)->url;
 
-	g_assert(url != NULL);
+	g_assert (url != NULL);
 	return url->path;
 }
 
@@ -132,8 +132,7 @@ get_folder (CamelStore *store, const char *folder_name, gboolean create,
 			return NULL;
 		}
 
-		fd = open (name, O_WRONLY | O_CREAT | O_APPEND,
-			   S_IRUSR | S_IWUSR);
+		fd = open (name, O_WRONLY | O_CREAT | O_APPEND, S_IRUSR | S_IWUSR);
 		g_free (name);
 		if (fd == -1) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
@@ -169,8 +168,11 @@ delete_folder (CamelStore *store, const char *folder_name, CamelException *ex)
 	name = g_strdup_printf ("%s%s", CAMEL_SERVICE (store)->url->path,
 				folder_name);
 	if (stat (name, &st) == -1) {
-		if (errno == ENOENT)
+		if (errno == ENOENT) {
+			/* file doesn't exist - it's kinda like deleting it ;-) */
+			g_free (name);
 			return;
+		}
 
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      "Could not delete folder `%s':\n%s",
@@ -178,12 +180,14 @@ delete_folder (CamelStore *store, const char *folder_name, CamelException *ex)
 		g_free (name);
 		return;
 	}
+	
 	if (!S_ISREG (st.st_mode)) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
 				      "`%s' is not a regular file.", name);
 		g_free (name);
 		return;
 	}
+	
 	if (st.st_size != 0) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_FOLDER_NON_EMPTY,
 				      "Folder `%s' is not empty. Not deleted.",
@@ -213,8 +217,7 @@ delete_folder (CamelStore *store, const char *folder_name, CamelException *ex)
 }
 
 static char *
-get_folder_name (CamelStore *store, const char *folder_name,
-		 CamelException *ex)
+get_folder_name (CamelStore *store, const char *folder_name, CamelException *ex)
 {
 	/* For now, we don't allow hieararchy. FIXME. */
 	if (strchr (folder_name + 1, '/')) {

@@ -24,6 +24,7 @@
 
 #include <gtk/gtk.h>
 #include <camel/camel-folder-summary.h>
+#include <camel/camel-exception.h>
 #include <libibex/ibex.h>
 
 #define CAMEL_MBOX_SUMMARY(obj)         GTK_CHECK_CAST (obj, camel_mbox_summary_get_type (), CamelMboxSummary)
@@ -72,6 +73,7 @@ int camel_mbox_summary_load(CamelMboxSummary *mbs, int forceindex);
 /* incremental update */
 int camel_mbox_summary_update(CamelMboxSummary *mbs, off_t offset);
 /* perform a folder sync or expunge, if needed */
-int camel_mbox_summary_sync (CamelMboxSummary *mbs, gboolean expunge);
+int camel_mbox_summary_sync (CamelMboxSummary *mbs, gboolean expunge, CamelException *ex);
 
 #endif /* ! _CAMEL_MBOX_SUMMARY_H */
+
