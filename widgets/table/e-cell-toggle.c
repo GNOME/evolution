@@ -233,16 +233,15 @@ static int
 etog_max_width (ECellView *ecell_view, int model_col, int view_col)
 {
 	ECellToggle *toggle = E_CELL_TOGGLE (ecell_view->ecell);
-	void *_value = e_table_model_value_at (ecell_view->e_table_model, model_col, 0);
-	int max_width = gdk_pixbuf_get_width (toggle->images[GPOINTER_TO_INT (_value)]);
+	int max_width = 0;
 	int number_of_rows;
 	int row;
 
 	number_of_rows = e_table_model_row_count (ecell_view->e_table_model);
-	for (row = 1; row < number_of_rows; row++) {
-		void *_value = e_table_model_value_at (ecell_view->e_table_model,
-						       model_col, row);
-		max_width = MAX (max_width, gdk_pixbuf_get_width (toggle->images[GPOINTER_TO_INT (_value)]));
+	for (row = 0; row < number_of_rows; row++) {
+		void *value = e_table_model_value_at (ecell_view->e_table_model,
+						      model_col, row);
+		max_width = MAX (max_width, gdk_pixbuf_get_width (toggle->images[GPOINTER_TO_INT (value)]));
 	}
 
 	return max_width;
