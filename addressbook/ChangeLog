@@ -1,3 +1,7 @@
+2001-08-16  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* backend/pas/evolutionperson.schema: Added a closing paren.
+
 2001-08-16  Jon Trowbridge  <trow@ximian.com>
 
 	* gui/component/select-names/e-select-names-completion.c
