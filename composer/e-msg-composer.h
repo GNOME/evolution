@@ -205,6 +205,7 @@ void                     e_msg_composer_ignore                           (EMsgCo
 void                     e_msg_composer_drop_editor_undo                 (EMsgComposer      *composer);
 
 gboolean                 e_msg_composer_request_close_all                (void);
+void			 e_msg_composer_check_autosave			 (GtkWindow *parent);
 
 #ifdef __cplusplus
 }

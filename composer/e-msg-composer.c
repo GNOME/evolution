@@ -1338,7 +1338,7 @@ autosave_is_owned (AutosaveManager *am, const char *file)
 }
 
 static void
-autosave_manager_query_load_orphans (AutosaveManager *am, EMsgComposer *composer)
+autosave_manager_query_load_orphans (AutosaveManager *am, GtkWindow *parent)
 {
 	DIR *dir;
 	struct dirent *d;
@@ -1376,7 +1376,7 @@ autosave_manager_query_load_orphans (AutosaveManager *am, EMsgComposer *composer
 	if (match != NULL) {
 		GtkWidget *dialog;
 
-		dialog = gtk_message_dialog_new(GTK_WINDOW(composer),
+		dialog = gtk_message_dialog_new(parent,
 						GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT,
 						GTK_MESSAGE_ERROR, GTK_BUTTONS_YES_NO,
 						_("Ximian Evolution has found unsaved files from a previous session.\n"
@@ -1477,7 +1477,7 @@ autosave_manager_register (AutosaveManager *am, EMsgComposer *composer)
 		if (am->ask) {
 			/* keep recursion out of our bedrooms. */
 			am->ask = FALSE;
-			autosave_manager_query_load_orphans (am, composer);
+			autosave_manager_query_load_orphans (am, (GtkWindow *)composer);
 			am->ask = TRUE;
 		}
 	}
@@ -2939,7 +2939,6 @@ e_msg_composer_new (void)
 	
 	return new;
 }
-
 
 /**
  * e_msg_composer_new_post:
@@ -4815,4 +4814,17 @@ e_msg_composer_request_close_all (void)
 		return TRUE;
 	else
 		return FALSE;
+}
+
+void
+e_msg_composer_check_autosave(GtkWindow *parent)
+{
+	if (am == NULL)
+		am = autosave_manager_new();
+
+	if (am->ask) {
+		am->ask = FALSE;
+		autosave_manager_query_load_orphans (am, parent);
+		am->ask = TRUE;
+	}
 }
