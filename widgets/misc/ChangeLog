@@ -1,3 +1,9 @@
+2003-09-30  Mike Kestner  <mkestner@ximian.com>
+
+	* e-cell-renderer-combo.* : new, treeview renderer for combo cells
+	* e-combo-cell-editable.* : new, GtkCellEditable for combo cells
+	* Makefile.am : build the new files
+
 2003-07-23  Dan Winship  <danw@ximian.com>
 
 	* Makefile.am: use EVO_MARSHAL_RULE

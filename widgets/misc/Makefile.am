@@ -20,8 +20,10 @@ widgetsinclude_HEADERS =			\
 	e-calendar-item.h			\
 	e-cell-date-edit.h			\
 	e-cell-percent.h			\
+	e-cell-renderer-combo.h			\
 	e-charset-picker.h			\
 	e-clipped-label.h			\
+	e-combo-cell-editable.h			\
 	e-config-page.h				\
 	e-combo-button.h			\
 	e-dateedit.h				\
@@ -38,8 +40,10 @@ libemiscwidgets_la_SOURCES =			\
 	e-calendar-item.c			\
 	e-cell-date-edit.c			\
 	e-cell-percent.c			\
+	e-cell-renderer-combo.c			\
 	e-charset-picker.c			\
 	e-clipped-label.c			\
+	e-combo-cell-editable.c			\
 	e-config-page.c				\
 	e-combo-button.c			\
 	e-dateedit.c				\
