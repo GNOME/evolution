@@ -8,6 +8,10 @@
 	calendar/gui/dialogs/e-timezone-dialog.glade
 	mail/mail-folder-cache.c
 
+2001-07-08  Hector Garcia Alvarez <hector@scouts-es.org>
+
+        * es.po: Updated Spanish translation.
+	
 2001-07-07  Christian Rose  <menthos@menthos.com>
 
 	* sv.po: Updated Swedish translation.
