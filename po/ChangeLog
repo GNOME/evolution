@@ -1,3 +1,7 @@
+2000-12-14  Christian Rose  <menthos@menthos.com>
+
+	* sv.po: Added Id tag to easier trace changes.
+
 2000-12-13  Valek Filippov  <frob@df.ru>
 
 	* ru.po: updated russian translation.

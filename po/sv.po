@@ -4,11 +4,13 @@
 # Richard Hult <rhult@codefactory.se>, 2000.
 # Christian Rose <menthos@menthos.com>, 2000.
 #
+# $Id: sv.po,v 1.47 2000/12/14 12:03:52 menthos Exp $
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
-"POT-Creation-Date: 2000-12-13 16:26-0600\n"
-"PO-Revision-Date: 2000-12-12 00:08+0100\n"
+"POT-Creation-Date: 2000-12-14 13:00+0100\n"
+"PO-Revision-Date: 2000-12-14 13:03+0100\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1253,13 +1255,13 @@ msgid "label26"
 msgstr "label26"
 
 #. String to use in 12-hour time format for times in the morning.
-#: calendar/cal-util/timeutil.c:98 calendar/gui/e-day-view.c:550
+#: calendar/cal-util/timeutil.c:98 calendar/gui/e-day-view.c:551
 #: calendar/gui/e-week-view.c:288 calendar/gui/print.c:605
 msgid "am"
 msgstr "fm"
 
 #. String to use in 12-hour time format for times in the afternoon.
-#: calendar/cal-util/timeutil.c:98 calendar/gui/e-day-view.c:553
+#: calendar/cal-util/timeutil.c:98 calendar/gui/e-day-view.c:554
 #: calendar/gui/e-week-view.c:291 calendar/gui/print.c:604
 msgid "pm"
 msgstr "em"
@@ -1348,7 +1350,7 @@ msgid "Save calendar"
 msgstr "Spara kalender"
 
 #. strftime format of a weekday and a date.
-#: calendar/gui/calendar-model.c:282
+#: calendar/gui/calendar-model.c:283
 #: widgets/meeting-time-sel/e-meeting-time-sel-item.c:467
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:2498
 msgid "%a %m/%d/%Y"
@@ -1356,57 +1358,57 @@ msgstr "%a %Y-%m-%d"
 
 #. strftime format of a weekday, a date and a time,
 #. in 24-hour format.
-#: calendar/gui/calendar-model.c:286 calendar/gui/calendar-model.c:736
+#: calendar/gui/calendar-model.c:287 calendar/gui/calendar-model.c:737
 msgid "%a %m/%d/%Y %H:%M:%S"
 msgstr "%a %Y-%m-%d %H.%M.%S"
 
 #. strftime format of a weekday, a date and a time,
 #. in 12-hour format.
-#: calendar/gui/calendar-model.c:290 calendar/gui/calendar-model.c:739
+#: calendar/gui/calendar-model.c:291 calendar/gui/calendar-model.c:740
 msgid "%a %m/%d/%Y %I:%M:%S %p"
 msgstr "%a %Y-%m-%d %I.%M.%S %p"
 
-#: calendar/gui/calendar-model.c:344 po/tmp/task-editor-dialog.glade.h:21
+#: calendar/gui/calendar-model.c:345 po/tmp/task-editor-dialog.glade.h:21
 msgid "Public"
 msgstr "Publikt"
 
-#: calendar/gui/calendar-model.c:347 po/tmp/task-editor-dialog.glade.h:20
+#: calendar/gui/calendar-model.c:348 po/tmp/task-editor-dialog.glade.h:20
 msgid "Private"
 msgstr "Privat"
 
-#: calendar/gui/calendar-model.c:350 po/tmp/task-editor-dialog.glade.h:11
+#: calendar/gui/calendar-model.c:351 po/tmp/task-editor-dialog.glade.h:11
 msgid "Confidential"
 msgstr "Konfidentiellt"
 
-#: calendar/gui/calendar-model.c:353 calendar/gui/calendar-model.c:521
+#: calendar/gui/calendar-model.c:354 calendar/gui/calendar-model.c:522
 msgid "Unknown"
 msgstr "Okänt"
 
-#: calendar/gui/calendar-model.c:441
+#: calendar/gui/calendar-model.c:442
 msgid "N"
 msgstr "N"
 
-#: calendar/gui/calendar-model.c:441
+#: calendar/gui/calendar-model.c:442
 msgid "S"
 msgstr "S"
 
-#: calendar/gui/calendar-model.c:443
+#: calendar/gui/calendar-model.c:444
 msgid "E"
 msgstr "Ö"
 
-#: calendar/gui/calendar-model.c:443
+#: calendar/gui/calendar-model.c:444
 msgid "W"
 msgstr "V"
 
-#: calendar/gui/calendar-model.c:515
+#: calendar/gui/calendar-model.c:516
 msgid "Transparent"
 msgstr "Genomskinlig"
 
-#: calendar/gui/calendar-model.c:518
+#: calendar/gui/calendar-model.c:519
 msgid "Opaque"
 msgstr "Ogenomskinlig"
 
-#: calendar/gui/calendar-model.c:744
+#: calendar/gui/calendar-model.c:745
 #, c-format
 msgid ""
 "The date must be entered in the format: \n"
@@ -1418,7 +1420,7 @@ msgstr ""
 "%s"
 
 #. strptime format for a date.
-#: calendar/gui/calendar-model.c:845 calendar/gui/calendar-model.c:893
+#: calendar/gui/calendar-model.c:846 calendar/gui/calendar-model.c:894
 #: widgets/meeting-time-sel/e-meeting-time-sel-item.c:471
 #: widgets/misc/e-dateedit.c:1274 widgets/misc/e-dateedit.c:1455
 msgid "%m/%d/%Y"
@@ -1426,27 +1428,27 @@ msgstr "%Y-%m-%d"
 
 #. strptime format for a time of day, in 12-hour format.
 #. If it is is not appropriate in the locale set to an empty string.
-#: calendar/gui/calendar-model.c:863
+#: calendar/gui/calendar-model.c:864
 msgid "%I:%M:%S %p%n"
 msgstr "%I.%M.%S %p%n"
 
 #. strptime format for a time of day, in 24-hour format.
-#: calendar/gui/calendar-model.c:866
+#: calendar/gui/calendar-model.c:867
 msgid "%H:%M:%S%n"
 msgstr "%H.%M.%S%n"
 
 #. strptime format for time of day, without seconds, 12-hour format.
 #. If it is is not appropriate in the locale set to an empty string.
-#: calendar/gui/calendar-model.c:870
+#: calendar/gui/calendar-model.c:871
 msgid "%I:%M %p%n"
 msgstr "%I.%M %p%n"
 
 #. strptime format for time of day, without seconds 24-hour format.
-#: calendar/gui/calendar-model.c:873
+#: calendar/gui/calendar-model.c:874
 msgid "%H:%M%n"
 msgstr "%H.%M%n"
 
-#: calendar/gui/calendar-model.c:993
+#: calendar/gui/calendar-model.c:994
 msgid ""
 "The geographical position must be entered in the format: \n"
 "\n"
@@ -1456,11 +1458,11 @@ msgstr ""
 "\n"
 "45.436845,125.862501"
 
-#: calendar/gui/calendar-model.c:1033
+#: calendar/gui/calendar-model.c:1034
 msgid "The percent value must be between 0 and 100, inclusive"
 msgstr "Procentvärdet måste vara mellan 0 och 100"
 
-#: calendar/gui/calendar-model.c:1073
+#: calendar/gui/calendar-model.c:1074
 msgid "The priority must be between 1 and 9, inclusive"
 msgstr "Prioriteten måste vara mellan 1 och 9"
 
@@ -1890,50 +1892,50 @@ msgstr "%02i minutdivisioner"
 
 #. strftime format %A = full weekday name, %d = day of month,
 #. %B = full month name. Don't use any other specifiers.
-#: calendar/gui/e-day-view-top-item.c:261 calendar/gui/e-day-view.c:1208
+#: calendar/gui/e-day-view-top-item.c:261 calendar/gui/e-day-view.c:1209
 #: calendar/gui/e-week-view-main-item.c:325
 msgid "%A %d %B"
 msgstr "%A %d %B"
 
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.
-#: calendar/gui/e-day-view-top-item.c:265 calendar/gui/e-day-view.c:1222
+#: calendar/gui/e-day-view-top-item.c:265 calendar/gui/e-day-view.c:1223
 #: calendar/gui/e-week-view-main-item.c:334
 msgid "%a %d %b"
 msgstr "%a %d %b"
 
 #. strftime format %d = day of month, %b = abbreviated month name.
 #. Don't use any other specifiers.
-#: calendar/gui/e-day-view-top-item.c:269 calendar/gui/e-day-view.c:1235
+#: calendar/gui/e-day-view-top-item.c:269 calendar/gui/e-day-view.c:1236
 #: calendar/gui/e-week-view-main-item.c:348
 msgid "%d %b"
 msgstr "%d %b"
 
-#: calendar/gui/e-day-view.c:2941 calendar/gui/e-day-view.c:2948
-#: calendar/gui/e-day-view.c:2957 calendar/gui/e-week-view.c:3165
-#: calendar/gui/e-week-view.c:3172 calendar/gui/e-week-view.c:3181
+#: calendar/gui/e-day-view.c:2944 calendar/gui/e-day-view.c:2951
+#: calendar/gui/e-day-view.c:2960 calendar/gui/e-week-view.c:3167
+#: calendar/gui/e-week-view.c:3174 calendar/gui/e-week-view.c:3183
 msgid "New appointment..."
 msgstr "Nytt möte..."
 
-#: calendar/gui/e-day-view.c:2945 calendar/gui/e-day-view.c:2952
-#: calendar/gui/e-week-view.c:3169 calendar/gui/e-week-view.c:3176
+#: calendar/gui/e-day-view.c:2948 calendar/gui/e-day-view.c:2955
+#: calendar/gui/e-week-view.c:3171 calendar/gui/e-week-view.c:3178
 msgid "Edit this appointment..."
 msgstr "Redigera detta möte..."
 
-#: calendar/gui/e-day-view.c:2946 calendar/gui/e-week-view.c:3170
+#: calendar/gui/e-day-view.c:2949 calendar/gui/e-week-view.c:3172
 #: po/tmp/evolution-event-editor.xml.h:20
 msgid "Delete this appointment"
 msgstr "Ta bort detta möte"
 
-#: calendar/gui/e-day-view.c:2953 calendar/gui/e-week-view.c:3177
+#: calendar/gui/e-day-view.c:2956 calendar/gui/e-week-view.c:3179
 msgid "Make this appointment movable"
 msgstr "Gör detta möte flyttbart"
 
-#: calendar/gui/e-day-view.c:2954 calendar/gui/e-week-view.c:3178
+#: calendar/gui/e-day-view.c:2957 calendar/gui/e-week-view.c:3180
 msgid "Delete this occurrence"
 msgstr "Ta bort denna förekomst"
 
-#: calendar/gui/e-day-view.c:2955 calendar/gui/e-week-view.c:3179
+#: calendar/gui/e-day-view.c:2958 calendar/gui/e-week-view.c:3181
 msgid "Delete all occurrences"
 msgstr "Ta bort alla förekomster"
 
