@@ -1,3 +1,8 @@
+2001-05-28  Dan Winship  <danw@ximian.com>
+
+	* mail-format.c (write_text_header): Fix a bug that could cause a
+	crash on messages with an empty subject. Oops.
+
 2001-05-27  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* message-list.c: Removed the etable spec string.

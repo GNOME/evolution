@@ -661,7 +661,7 @@ write_text_header (const char *name, const char *value, int flags, GtkHTML *html
 
 	mail_html_write (html, stream, "%s</td> </tr>", encoded);
 
-	if (value)
+	if (value && *value)
 		g_free (encoded);
 }
 
