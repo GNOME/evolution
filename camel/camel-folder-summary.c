@@ -961,7 +961,7 @@ static CamelMessageInfo *
 message_info_new(CamelFolderSummary *s, struct _header_raw *h)
 {
 	CamelMessageInfo *mi;
-	char *received;
+	const char *received;
 
 	mi = g_malloc0(s->message_info_size);
 
@@ -981,12 +981,8 @@ message_info_new(CamelFolderSummary *s, struct _header_raw *h)
 	/* if we have a references, use that, otherwise, see if we have an in-reply-to
 	   header, with parsable content, otherwise *shrug* */
 	mi->references = header_references_decode(header_raw_find(&h, "references", NULL));
-	if (mi->references == NULL) {
-		char *id;
-		id = header_msgid_decode(header_raw_find(&h, "in-reply-to", NULL));
-		if (id)
-			header_references_list_append_asis(&mi->references, id);
-	}
+	if (mi->references == NULL)
+		mi->references = header_references_decode(header_raw_find(&h, "in-reply-to", NULL));
 	return mi;
 }
 

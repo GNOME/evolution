@@ -80,7 +80,7 @@ camel_mime_message_class_init (CamelMimeMessageClass *camel_mime_message_class)
 	
 	parent_class = gtk_type_class (camel_mime_part_get_type ());
 
-	header_name_table = g_hash_table_new (g_str_hash, g_str_equal);
+	header_name_table = g_hash_table_new (g_strcase_hash, g_strcase_equal);
 	for (i=0;header_names[i];i++)
 		g_hash_table_insert (header_name_table, header_names[i], (gpointer)i+1);
 
