@@ -148,6 +148,8 @@ e_table_state_save_to_node      (ETableState *state,
 	else
 		node = xmlNewNode (NULL, "ETableState");
 
+	e_xml_set_string_prop_by_name(node, "state-version", "0");
+
 	for (i = 0; i < state->col_count; i++) {
 		int column = state->columns[i];
 		xmlNode *new_node;

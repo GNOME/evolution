@@ -887,7 +887,7 @@ draw_button (ETableHeaderItem *ethi, ETableCol *col,
 	if (col->pixbuf){
 		if ((gdk_pixbuf_get_width (col->pixbuf) + MIN_ARROW_SIZE + 4) > width)
 			return;
-	}	
+	}
 }
 
 static void

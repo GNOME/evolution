@@ -62,15 +62,62 @@ etfci_destroy (GtkObject *object){
 		(*GTK_OBJECT_CLASS (etfci_parent_class)->destroy) (object);
 }
 
+static double
+etfci_button_height (ETableFieldChooserItem *etfci, gint col)
+{
+	ETableCol *ecol = e_table_header_get_column (etfci->full_header, col);
+	double height;
+
+	if (etfci->font) {
+		height = etfci->font->ascent + etfci->font->descent + HEADER_PADDING + 1;
+	} else {
+		/* FIXME: Default??? */
+		height = 16;
+	}
+		
+	if (ecol->is_pixbuf) {
+		height = MAX (height, gdk_pixbuf_get_height (ecol->pixbuf) + HEADER_PADDING + 1);
+	}
+
+	if (height < MIN_ARROW_SIZE + 1 + HEADER_PADDING)
+		height = MIN_ARROW_SIZE + 1 + HEADER_PADDING;
+
+	return height;
+}
+
+static gint
+etfci_find_button (ETableFieldChooserItem *etfci, double loc)
+{
+	int i;
+	int count;
+	double height = 0;
+	
+	count = e_table_header_count(etfci->full_header);
+	for (i = 0; i < count; i++) {
+		height += etfci_button_height(etfci, i);
+		if (height > loc)
+			return i;
+	}
+	return MAX(0, count - 1);
+}
+
 static void
 etfci_reflow (GnomeCanvasItem *item, gint flags)
 {
 	ETableFieldChooserItem *etfci = E_TABLE_FIELD_CHOOSER_ITEM (item);
 	double old_height;
+	int i;
+	int count;
+	double height = 0;
 
 	old_height = etfci->height;
 
-	etfci->height = e_table_header_count (etfci->full_header) * etfci->button_height;
+	count = e_table_header_count(etfci->full_header);
+	for (i = 0; i < count; i++) {
+		height += etfci_button_height(etfci, i);
+	}
+
+	etfci->height = height;
 	
 	if (old_height != etfci->height)
 		e_canvas_item_request_parent_reflow(item);
@@ -126,8 +173,6 @@ etfci_font_load (ETableFieldChooserItem *etfci, char *font)
 		etfci->font = GTK_WIDGET(GNOME_CANVAS_ITEM(etfci)->canvas)->style->font;
 		gdk_font_ref(etfci->font);
 	}
-	
-	etfci->button_height = etfci->font->ascent + etfci->font->descent + HEADER_PADDING;
 }
 
 static void
@@ -303,16 +348,18 @@ etfci_unrealize (GnomeCanvasItem *item)
 }
 
 static void
-draw_button (ETableFieldChooserItem *etfci, ETableCol *col,
+draw_button (ETableFieldChooserItem *etfci, int col,
 	     GdkDrawable *drawable, GtkStyle *style,
 	     int x, int y, int width, int height)
 {
-	GdkRectangle clip;
 	int xtra;
 	GdkRectangle area;
+	ETableCol *ecol = e_table_header_get_column(etfci->full_header, col);
+	double button_height = etfci_button_height(etfci, col);
+	GdkRectangle clip;
 
 	GtkWidget *widget = GTK_WIDGET(GNOME_CANVAS_ITEM(etfci)->canvas);
-	
+
 	gdk_window_clear_area (drawable, x, y, width, height);
 
 	area.x = x;
@@ -328,35 +375,46 @@ draw_button (ETableFieldChooserItem *etfci, ETableCol *col,
 	clip.x = x + HEADER_PADDING / 2;
 	clip.y = y + HEADER_PADDING / 2;
 	clip.width = width - HEADER_PADDING;
-	clip.height = etfci->button_height;
-	
-	if (col->is_pixbuf){
-		xtra = (clip.width - gdk_pixbuf_get_width (col->pixbuf))/2;
+	clip.height = button_height - HEADER_PADDING;
+
+	if (ecol->is_pixbuf){
+		xtra = (clip.width - gdk_pixbuf_get_width (ecol->pixbuf))/2;
+		if (xtra < 0) 
+			xtra = 0;
 		
 		xtra += HEADER_PADDING / 2;
 
-		gdk_pixbuf_render_to_drawable_alpha (col->pixbuf, 
+		gdk_pixbuf_render_to_drawable_alpha (ecol->pixbuf, 
 						     drawable,
 						     0, 0, 
-						     x + xtra, y + (clip.height - gdk_pixbuf_get_height (col->pixbuf)) / 2,
-						     gdk_pixbuf_get_width (col->pixbuf), gdk_pixbuf_get_height(col->pixbuf),
+						     x + xtra, y + (clip.height - gdk_pixbuf_get_height (ecol->pixbuf)) / 2,
+						     gdk_pixbuf_get_width (ecol->pixbuf),
+						     gdk_pixbuf_get_height(ecol->pixbuf),
 						     GDK_PIXBUF_ALPHA_FULL, 128,
 						     GDK_RGB_DITHER_NORMAL,
 						     0, 0);
 	} else {
+		int y_xtra;
+		GdkGC *gc = style->text_gc[GTK_STATE_NORMAL];
+
+		gdk_gc_set_clip_rectangle (gc, &clip);
+
 		/* Center the thing */
-		xtra = (clip.width - gdk_string_measure (etfci->font, col->text))/2;
-		
+		xtra = (clip.width - gdk_string_measure (etfci->font, ecol->text))/2;
+
 		/* Skip over border */
 		if (xtra < 0)
 			xtra = 0;
 
 		xtra += HEADER_PADDING / 2;
-	
+
+		y_xtra = (button_height + etfci->font->ascent - etfci->font->descent) / 2;
+
 		gdk_draw_text (
 			       drawable, etfci->font,
-			       style->text_gc[GTK_STATE_NORMAL], x + xtra, y + etfci->button_height - etfci->font->descent - HEADER_PADDING / 2,
-			       col->text, strlen (col->text));
+			       gc, x + xtra, y + y_xtra,
+			       ecol->text, strlen (ecol->text));
+		gdk_gc_set_clip_rectangle (gc, NULL);
 	}
 }
 
@@ -371,9 +429,7 @@ etfci_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int widt
 
 	y1 = y2 = 0;
 	for (row = 0; row < rows; row++, y1 = y2){
-		ETableCol *ecol = e_table_header_get_column (etfci->full_header, row);
-
-		y2 += etfci->button_height;
+		y2 += etfci_button_height(etfci, row);
 		
 		if (y1 > (y + height))
 			break;
@@ -381,7 +437,7 @@ etfci_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int widt
 		if (y2 < y)
 			continue;
 		
-		draw_button (etfci, ecol, drawable,
+		draw_button (etfci, row, drawable,
 			     GTK_WIDGET (canvas)->style,
 			     - x, y1 - y, etfci->width, y2 - y1);
 	}
@@ -417,12 +473,13 @@ etfci_start_drag (ETableFieldChooserItem *etfci, GdkEvent *event, double x, doub
 	ETableCol *ecol;
 	GdkPixmap *pixmap;
 	int drag_col;
+	double button_height;
 
 	GtkTargetEntry  etfci_drag_types [] = {
 		{ TARGET_ETABLE_COL_TYPE, 0, TARGET_ETABLE_COL_HEADER },
 	};
 
-	drag_col = y / etfci->button_height;
+	drag_col = etfci_find_button(etfci, y);
 
 	if (drag_col < 0 || drag_col > e_table_header_count(etfci->full_header))
 		return;
@@ -437,16 +494,17 @@ etfci_start_drag (ETableFieldChooserItem *etfci, GdkEvent *event, double x, doub
 	g_free(etfci_drag_types[0].target);
 
 
-	pixmap = gdk_pixmap_new (widget->window, etfci->width, etfci->button_height, -1);
-	draw_button (etfci, ecol, pixmap,
+	button_height = etfci_button_height(etfci, drag_col);
+	pixmap = gdk_pixmap_new (widget->window, etfci->width, button_height, -1);
+	draw_button (etfci, drag_col, pixmap,
 		     widget->style,
-		     0, 0, etfci->width, etfci->button_height);
+		     0, 0, etfci->width, button_height);
 	gtk_drag_set_icon_pixmap        (context,
 					 gdk_window_get_colormap (widget->window),
 					 pixmap,
 					 NULL,
 					 etfci->width / 2,
-					 etfci->button_height / 2);
+					 button_height / 2);
 	gdk_pixmap_unref (pixmap);
 	etfci->maybe_drag = FALSE;
 }
@@ -526,7 +584,6 @@ etfci_init (GnomeCanvasItem *item)
 	etfci->full_header = NULL;
 	
 	etfci->height = etfci->width = 0;
-	etfci->button_height = 0;
 
 	etfci->font = NULL;
 

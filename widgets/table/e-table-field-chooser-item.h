@@ -17,7 +17,6 @@ typedef struct {
 	ETableHeader    *full_header;
 
 	double           height, width;
-	double           button_height;
 
 	GdkFont         *font;
 
