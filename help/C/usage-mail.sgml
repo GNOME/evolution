@@ -2161,7 +2161,7 @@ wwwkeys.pgp.net 32j38dk2</command>.  Substitute your key ID for
       </para>
       <para>
         If someone sends you their public key directly, save it as a
-        plain text file and enter the command <command>gpg
+        plain text file and enter the command <command>gpg --import
         filename</command>. This will add it to your keyring.
       </para>
     </sect2>
