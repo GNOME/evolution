@@ -178,9 +178,11 @@ camel_mbox_copy_file_chunk (gint fd_src,
 		} while (nb_read == -1 && errno == EINTR);
 		
 		if (nb_read == -1) {
-			camel_exception_set (ex, 
-					     CAMEL_EXCEPTION_FOLDER_INSUFFICIENT_PERMISSION,
-					     "could read from the mbox file");
+			camel_exception_setv (ex, 
+					      CAMEL_EXCEPTION_FOLDER_INSUFFICIENT_PERMISSION,
+					      "could not read from the mbox file\n"
+					      "Full error is : %s\n",
+					      strerror (errno));
 			return;
 		}
 
