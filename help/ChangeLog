@@ -1,5 +1,7 @@
 2001-09-03  Kevin Breit  <battery841@mediaone.net>
 
+	* C/usage-mail.sgml: Fixed brokenness
+
 	* C/usage-mainwindow.sgml: Added info on Exchange interaction
 
 2001-08-30  Aaron Weber  <aaron@ximian.com>

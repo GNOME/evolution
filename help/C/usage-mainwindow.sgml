@@ -138,13 +138,13 @@
 	  </listitem>
 	</itemizedlist>
       </para>
+      <tip id="exchange-info">
+	<title>Does Evolution Talk to Exchange?</title>
+	<para>
+	  <application>Evolution</application> will only work with the popular email server, Microsoft Exchange, if you have <application>Exchange</application> set to use standard protocols such as POP or IMAP.  Support for shared calendars is not supported at this time.
+	</para>
+      </tip> 
     </sect2>
-    <info id="exchange info">
-      <title>Does Evolution Talk to Exchange?</title>
-      <para>
-	<application>Evolution</application> will only work with the popular email server, Microsoft Exchange, if you have <application>Exchange</application> set to use standard protocols such as POP or IMAP.  Support for shared calendars is not supported at this time.
-      </para>
-    </info>
     <sect2 id="third-step">
       <title>Sending Email</title>
       <para>
