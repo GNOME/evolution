@@ -1,6 +1,19 @@
 2001-07-01  Ettore Perazzoli  <ettore@ximian.com>
 
-	* e-shortcuts.c (class_init): Install signal "rename_group".
+	* e-shortcuts-view.c: Added "Rename Group" command to the
+	right-click group menu item.
+	(rename_group_cb): New callback for the "Rename Group" command.
+
+	* e-shortcuts-view-model.c (shortcuts_rename_group_cb): New,
+	callback for the EShortcuts::rename_group signal.  It renames the
+	group by removing it and creating a new one which is the same;
+	this sucks, but there is no other way with the current shortcut
+	bar widget.
+	(e_shortcuts_view_model_construct): Connect it.
+
+	* e-shortcuts.c
+	(class_init): Install signal "rename_group".
+	(e_shortcuts_rename_group): New.
 
 	* e-shortcuts.h: New signal "rename_group".
 
