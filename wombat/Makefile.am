@@ -1,6 +1,4 @@
 INCLUDES =						\
-	$(EXTRA_GNOME_CFLAGS)				\
-	$(GNOME_INCLUDEDIR)				\
 	-DG_LOG_DOMAIN=\"wombat\"			\
 	-I$(top_srcdir)/e-util				\
 	-I$(top_srcdir)					\
@@ -8,6 +6,8 @@ INCLUDES =						\
 	-I$(top_builddir)/addressbook/backend		\
 	-I$(top_srcdir)/calendar			\
 	-I$(top_srcdir)/calendar/pcs			\
+	$(EXTRA_GNOME_CFLAGS)				\
+	$(GNOME_INCLUDEDIR)				\
 	-DEVOLUTION_VERSION=\""$(VERSION)"\"		\
 	-DEVOLUTION_LOCALEDIR=\""$(datadir)/locale"\"
 

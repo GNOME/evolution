@@ -1,3 +1,9 @@
+2000-05-13  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* Makefile.am (INCLUDES): GNOME includes should come last, so that
+	we are sure we pick our own includes instead of the installed
+	ones, if any.
+
 2000-05-10  Christopher James Lahey  <clahey@helixcode.com>
 
 	* Makefile.am: Added an include for the pcs directory.
