@@ -61,8 +61,9 @@ struct _TaskDetailsPagePrivate {
 
 /* Note that these two arrays must match. */
 static const int status_map[] = {
-	ICAL_STATUS_NEEDSACTION,
+	ICAL_STATUS_NONE,
 	ICAL_STATUS_INPROCESS,
+	ICAL_STATUS_NEEDSACTION,
 	ICAL_STATUS_COMPLETED,
 	ICAL_STATUS_CANCELLED,
 	-1
@@ -295,7 +296,7 @@ task_details_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 {
 	TaskDetailsPage *tdpage;
 	TaskDetailsPagePrivate *priv;
-	int *priority_value, *percent;
+	int *priority_value, *percent = NULL;
 	TaskEditorPriority priority;
 	icalproperty_status status;
 	const char *url;
@@ -313,7 +314,6 @@ task_details_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	cal_component_get_percent (comp, &percent);
 	if (percent) {
 		e_dialog_spin_set (priv->percent_complete, *percent);
-		cal_component_free_percent (percent);
 	} else {
 		/* FIXME: Could check if task is completed and set 100%. */
 		e_dialog_spin_set (priv->percent_complete, 0);
@@ -324,16 +324,18 @@ task_details_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	if (status == ICAL_STATUS_NONE) {
 		/* Try to use the percent value. */
 		if (percent) {
-			if (*percent == 0)
-				status = ICAL_STATUS_NEEDSACTION;
-			else if (*percent == 100)
+			if (*percent == 100)
 				status = ICAL_STATUS_COMPLETED;
-			else
+			else if (*percent > 0)
 				status = ICAL_STATUS_INPROCESS;
+			else
+				status = ICAL_STATUS_NONE;
 		} else
-			status = ICAL_STATUS_NEEDSACTION;
+			status = ICAL_STATUS_NONE;
 	}
 	e_dialog_option_menu_set (priv->status, status, status_map);
+
+	cal_component_free_percent (percent);
 
 	/* Completed Date. */
 	cal_component_get_completed (comp, &completed);
@@ -586,8 +588,11 @@ status_changed (GtkMenu	*menu, TaskDetailsPage *tdpage)
 	priv->updating = TRUE;
 
 	status = e_dialog_option_menu_get (priv->status, status_map);
-	if (status == ICAL_STATUS_NEEDSACTION) {
+	if (status == ICAL_STATUS_NONE) {
 		e_dialog_spin_set (priv->percent_complete, 0);
+		e_date_edit_set_time (E_DATE_EDIT (priv->completed_date), ctime);
+		complete_date_changed (tdpage, 0, FALSE);
+	} else if (status == ICAL_STATUS_NEEDSACTION) {
 		e_date_edit_set_time (E_DATE_EDIT (priv->completed_date), ctime);
 		complete_date_changed (tdpage, 0, FALSE);
 	} else if (status == ICAL_STATUS_INPROCESS) {
@@ -631,7 +636,7 @@ percent_complete_changed (GtkAdjustment	*adj, TaskDetailsPage *tdpage)
 		complete = FALSE;
 
 		if (percent == 0)
-			status = ICAL_STATUS_NEEDSACTION;
+			status = ICAL_STATUS_NONE;
 		else
 			status = ICAL_STATUS_INPROCESS;
 	}

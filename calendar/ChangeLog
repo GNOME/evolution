@@ -1,3 +1,15 @@
+2002-07-28  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/dialogs/task-details-page.c: fixed mapping of popdown menu
+	to ICAL_STATUS_ values.
+	(task_details_page_fill_widgets): when we can't set the status,
+	default to ICAL_STATUS_NONE, which maps to 'Not started'. Fixed
+	use of 'percent' variable, which was being used after being freed.
+	(percent_complete_changed): default to ICAL_STATUS_NONE (Not Started).
+
+	* gui/dialogs/task-details-page.glade: added 'Needs Action' to
+	popdown menu values.
+
 2002-07-26  Rodrigo Moya <rodrigo@ximian.com>
 
 	* cal-util/cal-util.[ch] (cal_util_add_timezones_from_component):

@@ -85,6 +85,7 @@
 	    <can_focus>True</can_focus>
 	    <items>Not Started
 In Progress
+Needs Action
 Completed
 Cancelled
 </items>
