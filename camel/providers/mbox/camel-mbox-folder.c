@@ -349,7 +349,6 @@ _set_name (CamelFolder *folder, const gchar *name, CamelException *ex)
 	const gchar *root_dir_path;
 	//gchar *full_name;
 	//const gchar *parent_full_name;
-	gchar separator;
 	
 	CAMEL_LOG_FULL_DEBUG ("Entering CamelMboxFolder::set_name\n");
 
@@ -361,17 +360,15 @@ _set_name (CamelFolder *folder, const gchar *name, CamelException *ex)
 	g_free (mbox_folder->folder_dir_path);
 	g_free (mbox_folder->index_file_path);
 
-	separator = camel_store_get_separator (folder->parent_store, ex);
 	root_dir_path = camel_mbox_store_get_toplevel_dir (CAMEL_MBOX_STORE(folder->parent_store));
 
 	CAMEL_LOG_FULL_DEBUG ("CamelMboxFolder::set_name full_name is %s\n", folder->full_name);
 	CAMEL_LOG_FULL_DEBUG ("CamelMboxFolder::set_name root_dir_path is %s\n", root_dir_path);
-	CAMEL_LOG_FULL_DEBUG ("CamelMboxFolder::separator is %c\n", separator);
 
-	mbox_folder->folder_file_path = g_strdup_printf ("%s%c%s", root_dir_path, separator, folder->full_name);
-	mbox_folder->summary_file_path = g_strdup_printf ("%s%c%s-ev-summary", root_dir_path, separator, folder->full_name);
-	mbox_folder->folder_dir_path = g_strdup_printf ("%s%c%s.sdb", root_dir_path, separator, folder->full_name);
-	mbox_folder->index_file_path = g_strdup_printf ("%s%c%s.ibex", root_dir_path, separator, folder->full_name);
+	mbox_folder->folder_file_path = g_strdup_printf ("%s/%s", root_dir_path, folder->full_name);
+	mbox_folder->summary_file_path = g_strdup_printf ("%s/%s-ev-summary", root_dir_path, folder->full_name);
+	mbox_folder->folder_dir_path = g_strdup_printf ("%s/%s.sdb", root_dir_path, folder->full_name);
+	mbox_folder->index_file_path = g_strdup_printf ("%s/%s.ibex", root_dir_path, folder->full_name);
 
 	CAMEL_LOG_FULL_DEBUG ("CamelMboxFolder::set_name mbox_folder->folder_file_path is %s\n", 
 			      mbox_folder->folder_file_path);

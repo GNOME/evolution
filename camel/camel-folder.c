@@ -38,9 +38,9 @@ static GtkObjectClass *parent_class=NULL;
 
 
 
-static void _init_with_store (CamelFolder *folder, 
-			      CamelStore *parent_store, 
-			      CamelException *ex);
+static void _init (CamelFolder *folder, CamelStore *parent_store,
+		   CamelFolder *parent_folder, const gchar *name,
+		   gchar separator, CamelException *ex);
 static void _finalize (GtkObject *object);
 
 
@@ -141,7 +141,7 @@ camel_folder_class_init (CamelFolderClass *camel_folder_class)
 	parent_class = gtk_type_class (gtk_object_get_type ());
 	
 	/* virtual method definition */
-	camel_folder_class->init_with_store = _init_with_store;
+	camel_folder_class->init = _init;
 	camel_folder_class->open = _open;
 #ifdef FOLDER_ASYNC_TEST
 	camel_folder_class->open_async = _open_async;
@@ -224,6 +224,8 @@ _finalize (GtkObject *object)
 
 	if (camel_folder->parent_store)
 		gtk_object_unref (GTK_OBJECT (camel_folder->parent_store));
+	if (camel_folder->parent_folder)
+		gtk_object_unref (GTK_OBJECT (camel_folder->parent_folder));
 
 	GTK_OBJECT_CLASS (parent_class)->finalize (object);
 	CAMEL_LOG_FULL_DEBUG ("Leaving CamelFolder::finalize\n");
@@ -231,16 +233,21 @@ _finalize (GtkObject *object)
 
 
 /**
- * _init_with_store: init the folder by setting its parent store.
+ * _init: init the folder
  * @folder: folder object to initialize
  * @parent_store: parent store object of the folder
+ * @parent_folder: parent folder of the folder (may be NULL)
+ * @name: (short) name of the folder
+ * @separator: separator between the parent folder name and this name
  * 
- * 
+ * Initalizes the folder by setting the parent store, parent folder,
+ * and name.
  **/
 static void 
-_init_with_store (CamelFolder *folder, CamelStore *parent_store, CamelException *ex)
+_init (CamelFolder *folder, CamelStore *parent_store,
+       CamelFolder *parent_folder, const gchar *name,
+       gchar separator, CamelException *ex)
 {
-	
 	g_assert (folder != NULL);
 	g_assert (parent_store != NULL);
 	g_assert (folder->parent_store == NULL);
@@ -248,10 +255,14 @@ _init_with_store (CamelFolder *folder, CamelStore *parent_store, CamelException 
 	folder->parent_store = parent_store;
 	gtk_object_ref (GTK_OBJECT (parent_store));
 	
+	folder->parent_folder = parent_folder;
+	if (parent_folder)
+		gtk_object_ref (GTK_OBJECT (parent_folder));
+
 	folder->open_mode = FOLDER_OPEN_UNKNOWN;
 	folder->open_state = FOLDER_CLOSE;
-	folder->name = NULL;
-	folder->full_name = NULL;
+	folder->separator = separator;
+	camel_folder_set_name (folder, name, ex);
 }
 
 
@@ -415,7 +426,6 @@ _set_name (CamelFolder *folder,
 	   const gchar *name, 
 	   CamelException *ex)
 {
-	gchar separator;
 	gchar *full_name;
 	const gchar *parent_full_name;
 	
@@ -435,18 +445,15 @@ _set_name (CamelFolder *folder,
 	CAMEL_LOG_FULL_DEBUG ("CamelFolder::set_name, folder name is %s\n",
 			      name);
 
-	separator = camel_store_get_separator (folder->parent_store, ex);
-	if (camel_exception_get_id (ex)) return;
-
 	if (folder->parent_folder) {
 		parent_full_name =
 			camel_folder_get_full_name (folder->parent_folder, ex);
 		if (camel_exception_get_id (ex)) return;
 		
 		full_name = g_strdup_printf ("%s%c%s", parent_full_name,
-					     separator, name);		
+					     folder->separator, name);
 	} else {
-		full_name = g_strdup_printf ("%c%s", separator, name);
+		full_name = g_strdup_printf ("%c%s", folder->separator, name);
 	}
 
 	CAMEL_LOG_FULL_DEBUG ("CamelFolder::set_name, folder full name "

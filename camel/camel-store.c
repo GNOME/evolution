@@ -37,7 +37,6 @@ static void _set_separator(CamelStore *store, gchar sep, CamelException *ex);
 static CamelFolder *_get_root_folder(CamelStore *store, CamelException *ex);
 static CamelFolder *_get_default_folder(CamelStore *store, CamelException *ex);
 static CamelFolder *_get_folder (CamelStore *store, const gchar *folder_name, CamelException *ex);
-static gchar _get_separator (CamelStore *store, CamelException *ex);
 
 static void
 camel_store_class_init (CamelStoreClass *camel_store_class)
@@ -46,8 +45,6 @@ camel_store_class_init (CamelStoreClass *camel_store_class)
 	parent_class = gtk_type_class (camel_service_get_type ());
 	
 	/* virtual method definition */
-	camel_store_class->set_separator = _set_separator;
-	camel_store_class->get_separator = _get_separator;
 	camel_store_class->get_folder = _get_folder;
 	camel_store_class->get_root_folder = _get_root_folder;
 	camel_store_class->get_default_folder = _get_default_folder;
@@ -82,52 +79,6 @@ camel_store_get_type (void)
 	
 	return camel_store_type;
 }
-
-
-
-
-/** 
- * camel_store_set_separator: set the character which separates this folder path from the folders names in a lower level of hierarchy.
- *
- * @store:
- * @sep:
- *
- **/
-static void
-_set_separator (CamelStore *store, gchar sep, CamelException *ex)
-{
-    store->separator = sep;
-}
-
-
-
-
-
-static gchar
-_get_separator (CamelStore *store, CamelException *ex)
-{
-	g_assert(store);
-	return store->separator;
-}
-
-
-
-/**
- * camel_store_get_separator: return the character which separates this folder path from the folders names in a lower level of hierarchy.
- * @store: store
- * 
- * 
- * 
- * Return value: the separator
- **/
-gchar
-camel_store_get_separator (CamelStore *store, CamelException *ex)
-{
-	return  CS_CLASS(store)->get_separator (store, ex);
-}
-
-
-
 
 
 

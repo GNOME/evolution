@@ -52,10 +52,8 @@ camel_mbox_store_class_init (CamelMboxStoreClass *camel_mbox_store_class)
 static void
 camel_mbox_store_init (gpointer object, gpointer klass)
 {
-	CamelStore *store = CAMEL_STORE (object);
 	CamelService *service = CAMEL_SERVICE (object);
 
-	store->separator = '/';
 	service->url_flags = CAMEL_SERVICE_URL_NEED_PATH;
 }
 
@@ -112,8 +110,12 @@ _get_folder (CamelStore *store, const gchar *folder_name, CamelException *ex)
 	new_mbox_folder =  gtk_type_new (CAMEL_MBOX_FOLDER_TYPE);
 	new_folder = CAMEL_FOLDER (new_mbox_folder);
 	
-	CF_CLASS (new_folder)->init_with_store (new_folder, store, ex);
-	CF_CLASS (new_folder)->set_name (new_folder, folder_name, ex);
+	/* XXX We shouldn't be passing NULL here, but it's equivalent to
+	 * what was there before, and there's no
+	 * CamelMboxFolder::get_subfolder yet anyway...
+	 */
+	CF_CLASS (new_folder)->init (new_folder, store, NULL,
+				     folder_name, '/', ex);
 	
 	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMboxStore::get_folder\n");
 

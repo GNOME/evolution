@@ -48,7 +48,6 @@ struct _CamelStore
 {
 	CamelService parent_object;	
 	
-	gchar separator;
 };
 
 
@@ -56,10 +55,6 @@ struct _CamelStore
 typedef struct {
 	CamelServiceClass parent_class;
 	
-	void                (*set_separator)        (CamelStore *store, gchar sep, 
-						     CamelException *ex);
-	gchar               (*get_separator)        (CamelStore *store, 
-						     CamelException *ex);
 	CamelFolder *       (*get_folder)           (CamelStore *store, 
 						     const gchar *folder_name, 
 						     CamelException *ex);
@@ -77,7 +72,6 @@ typedef struct {
 GtkType camel_store_get_type (void);
 
 CamelFolder *    camel_store_get_folder       (CamelStore *store, const gchar *folder_name, CamelException *ex);
-gchar            camel_store_get_separator    (CamelStore *store, CamelException *ex);
 
 #ifdef __cplusplus
 }

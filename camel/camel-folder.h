@@ -68,6 +68,7 @@ struct _CamelFolder
 	CamelFolderState open_state;
 	gchar *name;
 	gchar *full_name;
+	gchar separator;
 	CamelStore *parent_store;
 	CamelFolder *parent_folder;
 	GList *permanent_flags;
@@ -86,9 +87,9 @@ typedef struct {
 	GtkObjectClass parent_class;
 	
 	/* Virtual methods */	
-	void   (*init_with_store)  (CamelFolder *folder, 
-				    CamelStore *parent_store, 
-				    CamelException *ex);
+	void   (*init) (CamelFolder *folder, CamelStore *parent_store,
+			CamelFolder *parent_store, const gchar *name,
+			gchar separator, CamelException *ex);
 
 	void   (*open) (CamelFolder *folder, 
 			CamelFolderOpenMode mode, 
