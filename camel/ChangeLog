@@ -1,5 +1,9 @@
 2004-05-17  Jeffrey Stedfast  <fejj@novell.com>
 
+	* camel-folder-search.c (search_match_threads): Fixed a string type-o.
+
+	* camel-smime-context.c (sm_verify_cmsg): Fixed some spelling mistakes.
+
 	* camel-gpg-context.c (gpg_decrypt): If the encrypted block was
 	also signed, set the signature verification status on the Validity
 	structure as well.

@@ -621,10 +621,10 @@ sm_verify_cmsg(CamelCipherContext *context, NSSCMSMessage *cmsg, CamelStream *ex
 				/* ?? Should we check other usages? */
 				NSS_CMSSignedData_ImportCerts(sigd, p->certdb, certUsageEmailSigner, PR_TRUE);
 				if (NSS_CMSSignedData_VerifyCertsOnly(sigd, p->certdb, certUsageEmailSigner) != SECSuccess) {
-					g_string_printf(description, _("Certficate only message, cannot verify certificates"));
+					g_string_printf(description, _("Certificate only message, cannot verify certificates"));
 				} else {
 					status = NSSCMSVS_GoodSignature;
-					g_string_printf(description, _("Certficate only message, certificates imported and verified"));
+					g_string_printf(description, _("Certificate only message, certificates imported and verified"));
 				}
 			} else {
 				if (!NSS_CMSSignedData_HasDigests(sigd)) {
