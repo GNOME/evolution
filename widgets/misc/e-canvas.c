@@ -90,25 +90,25 @@ e_canvas_class_init (ECanvasClass *klass)
 	GnomeCanvasClass *canvas_class;
 	GtkWidgetClass *widget_class;
 
-	object_class = (GtkObjectClass*) klass;
-	canvas_class = (GnomeCanvasClass *) klass;
-	widget_class = (GtkWidgetClass *) klass;
+	object_class                       = (GtkObjectClass*) klass;
+	canvas_class                       = (GnomeCanvasClass *) klass;
+	widget_class                       = (GtkWidgetClass *) klass;
 
-	parent_class = gtk_type_class (gnome_canvas_get_type ());
+	parent_class                       = gtk_type_class (gnome_canvas_get_type ());
 
-	object_class->destroy = e_canvas_destroy;
+	object_class->destroy              = e_canvas_destroy;
 
-	widget_class->key_press_event = e_canvas_key;
-	widget_class->key_release_event = e_canvas_key;
-	widget_class->button_press_event = e_canvas_button;
+	widget_class->key_press_event      = e_canvas_key;
+	widget_class->key_release_event    = e_canvas_key;
+	widget_class->button_press_event   = e_canvas_button;
 	widget_class->button_release_event = e_canvas_button;
-	widget_class->focus_in_event = e_canvas_focus_in;
-	widget_class->focus_out_event = e_canvas_focus_out;
-	widget_class->style_set = e_canvas_style_set;
-	widget_class->realize = e_canvas_realize;
-	widget_class->unrealize = e_canvas_unrealize;
+	widget_class->focus_in_event       = e_canvas_focus_in;
+	widget_class->focus_out_event      = e_canvas_focus_out;
+	widget_class->style_set            = e_canvas_style_set;
+	widget_class->realize              = e_canvas_realize;
+	widget_class->unrealize            = e_canvas_unrealize;
 
-	klass->reflow = NULL;
+	klass->reflow                      = NULL;
 
 	e_canvas_signals [REFLOW] =
 		gtk_signal_new ("reflow",

@@ -1592,3 +1592,29 @@ e_strdup_append_strings (gchar *first_string, ...)
 
 	return buffer;
 }
+
+gchar **
+e_strdupv (const gchar **str_array)
+{
+	if (str_array) {
+		gint i;
+		gchar **retval;
+
+		i = 0;
+		while (str_array[i])
+			i++;
+          
+		retval = g_new (gchar*, i + 1);
+
+		i = 0;
+		while (str_array[i]) {
+			retval[i] = g_strdup (str_array[i]);
+			i++;
+		}
+		retval[i] = NULL;
+
+		return retval;
+	} else {
+		return NULL;
+	}
+}
