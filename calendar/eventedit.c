@@ -938,12 +938,10 @@ ee_rp_init_rule (EventEditor *ee)
 	GSList      *group;
 	int          i, page, day_period, week_period, month_period, year_period;
 	int          week_vector, default_day, def_pos, def_off;
-	time_t       now;
 	struct tm   *tm;
 
-	now = time (NULL);
-	tm = localtime (&now);
-
+	tm = localtime (&ee->ical->dtstart);
+	
 	f = gtk_frame_new (_("Recurrence rule"));
 
 	hbox = gtk_hbox_new (FALSE, 4);

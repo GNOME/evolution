@@ -1,5 +1,8 @@
 1998-05-25  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* eventedit.c (ee_rp_init_rule): Use the contents of
+	ee->ical->dtstart for computing the predefined values of the recurrence.
+
 	* gncal-full-day.c (gncal_full_day_unrealize): Fix the gc
 	destruction in the unrealization code and fix the pixmap unrefing.
 
