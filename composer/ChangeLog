@@ -1,3 +1,8 @@
+2004-10-08  JP Rosevear  <jpr@novell.com>
+
+	* mail-composer-errors.xml: remove acceleratoer from _Save Message
+	to not break string freeze
+
 2004-08-17  Michael Meeks  <michael@ximian.com>
 
 	* e-msg-composer.c (handle_mailto): handle 'attachment' as
