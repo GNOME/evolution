@@ -1,3 +1,18 @@
+2003-08-01 Harry Lu  <harry.lu@sun.com>
+
+	*Fix for bug #6951
+
+	* mail-display.c (launch_cb): Bypass the new added menu item.
+	(save_all_parts_cb): New function. Do the real save-all work.
+	(save_all_parts): New function. Get the directory to save to.
+	(save_all_cb): New function. The call-back function for the new 
+	added menu item.
+	(pixmap_press): Add the new menu item "Save All Attachment...".
+	(ptr_array_free_notify): A simple wrapper function to free the
+	pointer array.
+	(do_attachment_header): Save attachment pointer in an array for 
+	"Save All Attachment" use.
+
 2003-08-01  Yuedong Du  <yuedong.du@sun.com>
 
 	* message-browser.c: (on_key_press): close mail message window
