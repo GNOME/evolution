@@ -1,3 +1,7 @@
+2002-05-08  JP Rosevear  <jpr@ximian.com>
+
+	* Update the po files to cut down on dist time
+
 2002-05-06  Christopher James Lahey  <clahey@ximian.com>
 
 	* POTFILES.in: Replaced ldap-config.c with addressbook-config.c.
