@@ -1,14 +1,17 @@
 IDLS = $(top_srcdir)/addressbook/gui/component/select-names/Evolution-Addressbook-SelectNames.idl
 
-IDL_GENERATED =                 			\
-	Evolution-Addressbook-SelectNames.h		\
+IDL_GENERATED_H =                 			\
+	Evolution-Addressbook-SelectNames.h
+IDL_GENERATED_C =                 			\
 	Evolution-Addressbook-SelectNames-common.c	\
 	Evolution-Addressbook-SelectNames-skels.c	\
 	Evolution-Addressbook-SelectNames-stubs.c
+IDL_GENERATED = $(IDL_GENERATED_C) $(IDL_GENERATED_H)
 
-$(IDL_GENERATED): $(IDLS)
+$(IDL_GENERATED_H): $(IDLS)
 	$(ORBIT_IDL) -I $(srcdir) $(IDL_INCLUDES)   \
                 $(top_srcdir)/addressbook/gui/component/select-names/Evolution-Addressbook-SelectNames.idl
+$(IDL_GENERATED_C): $(IDL_GENERATED_H)
 
 BUILT_SOURCES = $(IDL_GENERATED)
 

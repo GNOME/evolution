@@ -5,29 +5,56 @@ IDLS =												   	\
 	$(top_srcdir)/calendar/idl/evolution-calendar.idl						\
 	$(top_srcdir)/addressbook/gui/component/select-names/Evolution-Addressbook-SelectNames.idl
 
-IDL_GENERATED =                 			\
-        Evolution-Composer.h              		\
+# Message composer IDL files
+
+COMPOSER_IDL_GENERATED_H = \
+        Evolution-Composer.h
+COMPOSER_IDL_GENERATED_C =             			\
         Evolution-Composer-common.c       		\
         Evolution-Composer-skels.c        		\
-        Evolution-Composer-stubs.c			\
-	Evolution-Addressbook-SelectNames.h		\
+        Evolution-Composer-stubs.c
+COMPOSER_IDL_GENERATED = $(COMPOSER_IDL_GENERATED_C) $(COMPOSER_IDL_GENERATED_H)
+
+$(COMPOSER_IDL_GENERATED_H): $(IDLS)
+	$(ORBIT_IDL) -I $(srcdir) $(IDL_INCLUDES)   \
+                $(srcdir)/../../composer/Evolution-Composer.idl
+$(COMPOSER_IDL_GENERATED_C): $(COMPOSER_IDL_GENERATED_H)
+
+
+# SelectNames IDL files
+
+SELECT_NAMES_IDL_GENERATED_H =              		\
+	Evolution-Addressbook-SelectNames.h
+SELECT_NAMES_IDL_GENERATED_C =                 		\
 	Evolution-Addressbook-SelectNames-common.c	\
 	Evolution-Addressbook-SelectNames-skels.c	\
-	Evolution-Addressbook-SelectNames-stubs.c	\
-	evolution-calendar.h				\
+	Evolution-Addressbook-SelectNames-stubs.c
+SELECT_NAMES_IDL_GENERATED = $(SELECT_NAMES_IDL_GENERATED_C) $(SELECT_NAMES_IDL_GENERATED_H)
+
+$(SELECT_NAMES_IDL_GENERATED_H): $(IDLS)
+	$(ORBIT_IDL) -I $(srcdir) $(IDL_INCLUDES)   \
+                $(top_srcdir)/addressbook/gui/component/select-names/Evolution-Addressbook-SelectNames.idl
+$(SELECT_NAMES_IDL_GENERATED_C): $(SELECT_NAMES_IDL_GENERATED_H)
+
+
+# Calendar IDL files
+
+CALENDAR_IDL_GENERATED_H =                 		\
+	evolution-calendar.h
+CALENDAR_IDL_GENERATED_C =                 		\
 	evolution-calendar-common.c			\
 	evolution-calendar-skels.c			\
 	evolution-calendar-stubs.c
+CALENDAR_IDL_GENERATED = $(CALENDAR_IDL_GENERATED_C) $(CALENDAR_IDL_GENERATED_H)
 
-$(IDL_GENERATED): $(IDLS)
-	$(ORBIT_IDL) -I $(srcdir) $(IDL_INCLUDES)   \
-                $(srcdir)/../../composer/Evolution-Composer.idl
+$(CALENDAR_IDL_GENERATED_H): $(IDLS)
 	$(ORBIT_IDL) -I $(srcdir) $(IDL_INCLUDES)   \
                 $(top_srcdir)/calendar/idl/evolution-calendar.idl
-	$(ORBIT_IDL) -I $(srcdir) $(IDL_INCLUDES)   \
-                $(top_srcdir)/addressbook/gui/component/select-names/Evolution-Addressbook-SelectNames.idl
+$(CALENDAR_IDL_GENERATED_C): $(CALENDAR_IDL_GENERATED_H)
 
-BUILT_SOURCES = $(IDL_GENERATED)
+
+IDL_GENERATED = $(COMPOSER_IDL_GENERATED) $(SELECT_NAMES_IDL_GENERATED) $(CALENDAR_IDL_GENERATED)
+
 
 SUBDIRS = alarm-notify dialogs
 
@@ -187,7 +214,9 @@ EXTRA_DIST =	 			\
 	$(etspec_DATA)			\
 	$(server_in_files)
 
+BUILT_SOURCES = $(IDL_GENERATED)
 CLEANFILES = $(BUILT_SOURCES)
+
 
 install-data-local:
 	$(mkinstalldirs) $(Conduitsdir)

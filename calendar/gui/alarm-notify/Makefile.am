@@ -1,15 +1,18 @@
-CORBA_GENERATED =				\
-	evolution-calendar.h			\
+CORBA_GENERATED_H =				\
+	evolution-calendar.h
+CORBA_GENERATED_C =				\
 	evolution-calendar-common.c		\
 	evolution-calendar-skels.c		\
 	evolution-calendar-stubs.c
+CORBA_GENERATED = $(CORBA_GENERATED_C) $(CORBA_GENERATED_H)
 
 idls = $(top_srcdir)/calendar/idl/evolution-calendar.idl
-
 idl_flags = $(IDL_INCLUDES) 
 
-$(CORBA_GENERATED): $(idls)
+$(CORBA_GENERATED_H): $(idls)
 	$(ORBIT_IDL) $(idl_flags) $(top_srcdir)/calendar/idl/evolution-calendar.idl
+$(CORBA_GENERATED_C): $(CORBA_GENERATED_H)
+
 
 privlibexec_PROGRAMS = evolution-alarm-notify
 
