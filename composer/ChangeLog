@@ -1,3 +1,8 @@
+2001-09-09  Maciej Stachowiak  <mjs@noisehavoc.org>
+
+	* Makefile.am: Add VFS_CFLAGS so things don't break when the
+	gnome-vfs headers move.
+
 2001-09-08  Jon Trowbridge  <trow@ximian.com>
 
 	* evolution-composer.c (corba_recipientlist_to_destv): Originally

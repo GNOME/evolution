@@ -59,6 +59,7 @@ INCLUDES =								\
 	$(BONOBO_CONF_CFLAGS)						\
 	$(GTKHTML_CFLAGS)						\
 	$(BONOBO_CONF_CFLAGS)						\
+	$(GNOME_VFS_CFLAGS)						\
 	-DEVOLUTION_DATADIR=\"$(datadir)\"				\
 	-DE_GLADEDIR=\"$(gladedir)\"					\
 	-DG_LOG_DOMAIN=\"composer\"
