@@ -163,7 +163,6 @@ static void handle_multipart_signed (EMsgComposer *composer, CamelMultipart *mul
 
 static void set_editor_signature (EMsgComposer *composer);
 
-
 
 static GByteArray *
 get_text (Bonobo_PersistStream persist, char *format)
@@ -1117,6 +1116,8 @@ struct _AutosaveManager {
 };
 
 static AutosaveManager *am = NULL;
+static void autosave_manager_start (AutosaveManager *am);
+static void autosave_manager_stop (AutosaveManager *am);
 
 static gboolean
 autosave_save_draft (EMsgComposer *composer)
@@ -1302,8 +1303,11 @@ autosave_run (gpointer data)
 	AutosaveManager *am = data;
 	
 	g_hash_table_foreach (am->table, (GHFunc)autosave_run_foreach_cb, am);
+
+	autosave_manager_stop (am);
+	autosave_manager_start (am);
 	
-	return TRUE;
+	return FALSE;
 }
 
 static gboolean

@@ -1,3 +1,8 @@
+2002-07-23  Radek Doulik  <rodo@ximian.com>
+
+	* e-msg-composer.c (autosave_run): restart automanager to avoid
+	multiple dialog apearing
+
 2002-07-23  Not Zed  <NotZed@Ximian.com>
 
 	* Applied patch below.
