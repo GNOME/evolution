@@ -57,7 +57,7 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih)
 {
 	Bonobo_UIHandler  remote_uih;
 	BonoboControl *toolbar_control;
-	GtkWidget *toolbar, *folder_browser;
+	GtkWidget *toolbar, *toolbar_frame, *folder_browser;
 
 	remote_uih = bonobo_control_get_remote_ui_handler (control);
 	bonobo_ui_handler_set_container (uih, remote_uih);		
@@ -97,10 +97,17 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih)
 
 	gtk_widget_show_all (toolbar);
 
-	toolbar_control = bonobo_control_new (toolbar);
+	toolbar_frame = gtk_frame_new (NULL);
+	gtk_frame_set_shadow_type (GTK_FRAME (toolbar_frame), GTK_SHADOW_OUT);
+	gtk_container_add (GTK_CONTAINER (toolbar_frame), toolbar);
+	gtk_widget_show (toolbar_frame);
+
+	gtk_widget_show_all (toolbar_frame);
+
+	toolbar_control = bonobo_control_new (toolbar_frame);
 	bonobo_ui_handler_dock_add (uih, "/Toolbar",
 				    bonobo_object_corba_objref (BONOBO_OBJECT (toolbar_control)),
-				    GNOME_DOCK_ITEM_BEH_EXCLUSIVE,
+				    GNOME_DOCK_ITEM_BEH_EXCLUSIVE | GNOME_DOCK_ITEM_BEH_NEVER_VERTICAL,
 				    GNOME_DOCK_TOP,
 				    1, 1, 0);
 }

@@ -540,7 +540,7 @@ calendar_control_activate (BonoboControl *control,
 			   GnomeCalendar *cal)
 {
 	Bonobo_UIHandler  remote_uih;
-	GtkWidget *toolbar;
+	GtkWidget *toolbar, *toolbar_frame;
 	GnomeUIBuilderData uibdata;
 	BonoboUIHandler *uih = bonobo_control_get_ui_handler (control);
 	gchar *page_name;
@@ -588,9 +588,16 @@ calendar_control_activate (BonoboControl *control,
 
 	gtk_widget_show_all (toolbar);
 
+	toolbar_frame = gtk_frame_new (NULL);
+	gtk_frame_set_shadow_type (GTK_FRAME (toolbar_frame), GTK_SHADOW_OUT);
+	gtk_container_add (GTK_CONTAINER (toolbar_frame), toolbar);
+	gtk_widget_show (toolbar_frame);
+
+	gtk_widget_show_all (toolbar_frame);
+
 	bonobo_ui_handler_dock_add (uih, "/Toolbar",
-				    bonobo_object_corba_objref (BONOBO_OBJECT (bonobo_control_new (toolbar))),
-				    GNOME_DOCK_ITEM_BEH_EXCLUSIVE,
+				    bonobo_object_corba_objref (BONOBO_OBJECT (bonobo_control_new (toolbar_frame))),
+				    GNOME_DOCK_ITEM_BEH_EXCLUSIVE | GNOME_DOCK_ITEM_BEH_NEVER_VERTICAL,
 				    GNOME_DOCK_TOP,
 				    1, 1, 0);
 
