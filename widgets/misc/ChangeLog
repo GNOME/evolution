@@ -1,3 +1,15 @@
+2002-09-24  Not Zed  <NotZed@Ximian.com>
+
+	* e-search-bar.c (clear_search): Clear search by setting text to
+	"" and search to first search.
+
+	* e-filter-bar.c (option_changed): Revert change of 2002-08-29
+	below, always do advanced search if we have the advanced id.
+	Handle clear elsewhere.
+	(menubar_activated): If we get the advanced menu, set the advanced
+	option menu, and let that handle it, rather than doing it
+	ourselves.  For #31060 & #29625.
+
 2002-09-22  Dan Winship  <danw@ximian.com>
 
 	* e-filter-bar.c: Fix some non-ANSI switch statements.

@@ -113,7 +113,7 @@ rule_advanced_clicked (GtkWidget *dialog, int button, void *data)
 {
 	EFilterBar *efb = data;
 	FilterRule *rule;
-	
+
 	switch (button) {
 	case 0:			/* 'ok' */
 	case 1:
@@ -178,7 +178,7 @@ static void
 menubar_activated (ESearchBar *esb, int id, void *data)
 {
 	EFilterBar *efb = (EFilterBar *)esb;
-	
+
 	switch (id) {
 	case E_FILTERBAR_EDIT_ID:
 		if (!efb->save_dialogue) {
@@ -231,7 +231,7 @@ menubar_activated (ESearchBar *esb, int id, void *data)
 		d(printf("Save menu\n"));
 		break;
 	case E_FILTERBAR_ADVANCED_ID:
-		do_advanced (esb);
+		e_search_bar_set_item_id (esb, E_FILTERBAR_ADVANCED_ID);
 		break;
 	default:
 		if (id >= efb->menu_base && id < efb->menu_base + efb->menu_rules->len) {
@@ -267,14 +267,7 @@ option_changed (ESearchBar *esb, void *data)
 	
 	switch (id) {
 	case E_FILTERBAR_ADVANCED_ID:
-		query = e_search_bar_get_text (esb);
-		if (query && *query)
-			do_advanced (esb);
-		else if (!efb->setquery) 
-			/* clearing advanced search, reset because search may 
-			 * have rules not dependent on query text */
-			e_search_bar_set_item_id (esb, 0);
-		g_free (query);
+		do_advanced(esb);
 		break;
 	default:
 		if (id >= efb->option_base && id < efb->option_base + efb->option_rules->len) {
