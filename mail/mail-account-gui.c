@@ -32,6 +32,7 @@
 #include <bonobo.h>
 #include <bonobo/bonobo-stream-memory.h>
 #include <gal/widgets/e-unicode.h>
+#include <gal/widgets/e-gui-utils.h>
 
 #include "shell/evolution-shell-client.h"
 #include "mail-account-gui.h"
@@ -1562,6 +1563,8 @@ gboolean
 mail_account_gui_save (MailAccountGui *gui)
 {
 	MailConfigAccount *account = gui->account;
+	const MailConfigAccount *old_account;
+	gchar *new_name;
 	gboolean old_enabled;
 	
 	if (!mail_account_gui_identity_complete (gui, NULL) ||
@@ -1570,8 +1573,22 @@ mail_account_gui_save (MailAccountGui *gui)
 	    !mail_account_gui_management_complete (gui, NULL))
 		return FALSE;
 	
+	/* this would happen at an inconvenient time in the druid,
+	 * but the druid performs its own check so this can't happen
+	 * here. */
+
+	new_name = e_utf8_gtk_entry_get_text (gui->account_name);
+	old_account = mail_config_get_account_by_name (new_name);
+
+	if (old_account != account) {
+		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+			  _("You may not create two accounts with the same name."));
+		return FALSE;
+	}
+
 	g_free (account->name);
-	account->name = e_utf8_gtk_entry_get_text (gui->account_name);
+	account->name = new_name;
+
 	if (gtk_toggle_button_get_active (gui->default_account))
 		mail_config_set_default_account (account);
 	

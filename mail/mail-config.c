@@ -1925,6 +1925,11 @@ impl_GNOME_Evolution_MailConfig_addAccount (PortableServer_Servant servant,
 	MailConfigService *mail_service;
 	MailConfigIdentity *mail_id;
 
+	if (mail_config_get_account_by_name (account->name)) {
+		/* FIXME: we need an exception. */
+		return;
+	}
+
 	mail_account = g_new0 (MailConfigAccount, 1);
 	mail_account->name = g_strdup (account->name);
 

@@ -252,6 +252,23 @@ Click &quot;Finish&quot; to save your settings.</text>
 	  <spacing>0</spacing>
 
 	  <widget>
+	    <class>GtkLabel</class>
+	    <name>label40</name>
+	    <label>Each account must have a different name.</label>
+	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
+	    <xalign>0.5</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>4</xpad>
+	    <ypad>0</ypad>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	  </widget>
+
+	  <widget>
 	    <class>GtkHBox</class>
 	    <name>hbox24</name>
 	    <border_width>3</border_width>

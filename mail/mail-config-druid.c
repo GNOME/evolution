@@ -355,6 +355,10 @@ management_check (MailConfigWizard *wizard)
 	text = gtk_entry_get_text (wizard->gui->account_name);
 	next_sensitive = text && *text;
 
+	/* no accounts with the same name */
+	if (next_sensitive && mail_config_get_account_by_name (text))
+		next_sensitive = FALSE;
+
 	evolution_wizard_set_buttons_sensitive (wizard->wizard, TRUE,
 						next_sensitive, TRUE, NULL);
 }
@@ -380,7 +384,6 @@ management_changed (GtkWidget *widget, gpointer data)
 	management_check (gui);
 }
 
-
 static MailConfigAccount *
 make_account (void)
 {
@@ -403,48 +406,14 @@ make_account (void)
 	return account;
 }
 
-static struct {
-	char *name;
-	GtkSignalFunc next_func;
-	GtkSignalFunc prepare_func;
-	GtkSignalFunc back_func;
-	GtkSignalFunc finish_func;
-} pages[] = {
-	{ "identity_page",
-	  GTK_SIGNAL_FUNC (identity_next),
-	  GTK_SIGNAL_FUNC (identity_prepare),
-	  GTK_SIGNAL_FUNC (NULL),
-	  GTK_SIGNAL_FUNC (NULL) },
-	{ "source_page",
-	  GTK_SIGNAL_FUNC (source_next),
-	  GTK_SIGNAL_FUNC (source_prepare),
-	  GTK_SIGNAL_FUNC (NULL),
-	  GTK_SIGNAL_FUNC (NULL) },
-	{ "extra_page",
-	  GTK_SIGNAL_FUNC (NULL),
-	  GTK_SIGNAL_FUNC (extra_prepare),
-	  GTK_SIGNAL_FUNC (NULL),
-	  GTK_SIGNAL_FUNC (NULL) },
-	{ "transport_page",
-	  GTK_SIGNAL_FUNC (transport_next),
-	  GTK_SIGNAL_FUNC (transport_prepare),
-	  GTK_SIGNAL_FUNC (transport_back),
-	  GTK_SIGNAL_FUNC (NULL) },
-	{ "management_page",
-	  GTK_SIGNAL_FUNC (NULL),
-	  GTK_SIGNAL_FUNC (management_prepare),
-	  GTK_SIGNAL_FUNC (NULL),
-	  GTK_SIGNAL_FUNC (NULL) },
-	{ "finish_page",
-	  GTK_SIGNAL_FUNC (NULL),
-	  GTK_SIGNAL_FUNC (NULL),
-	  GTK_SIGNAL_FUNC (NULL),
-	  GTK_SIGNAL_FUNC (druid_finish) },
-	{ NULL,
-	  GTK_SIGNAL_FUNC (NULL),
-	  GTK_SIGNAL_FUNC (NULL),
-	  GTK_SIGNAL_FUNC (NULL),
-	  GTK_SIGNAL_FUNC (NULL) }
+static const char *pages[] = { 
+	"identity_page",
+	"source_page",
+	"extra_page",
+	"transport_page",
+	"management_page",
+	"finish_page",
+	NULL
 };
 
 static int
@@ -611,11 +580,11 @@ construct (MailConfigDruid *druid)
 		g_hash_table_destroy (page_hash);
 	}
 	page_hash = g_hash_table_new (NULL, NULL);
-	for (i = 0; pages[i].name != NULL; i++) {
+	for (i = 0; pages[i] != NULL; i++) {
 		GtkWidget *page;
 		GnomeDruidPageStandard *dpage;
 
-		page = glade_xml_get_widget (druid->xml, pages[i].name);
+		page = glade_xml_get_widget (druid->xml, pages[i]);
 		/* Store pages */
 		g_hash_table_insert (page_hash, page, GINT_TO_POINTER (i));
 		page_list = g_list_append (page_list, page);
@@ -703,7 +672,6 @@ get_fn (EvolutionWizard *wizard,
 		gtk_signal_connect (GTK_OBJECT (gui->gui->source.path), 
 				    "changed", source_changed, gui);
 		gtk_signal_connect (GTK_OBJECT (gui->gui->transport.hostname),
-
 				    "changed", transport_changed, gui);
 		gtk_signal_connect (GTK_OBJECT (gui->gui->transport.username),
 				    "changed", transport_changed, gui);
@@ -837,12 +805,15 @@ wizard_finish_cb (EvolutionWizard *wizard,
 {
 	MailAccountGui *gui = w->gui;
 
-	/* Add the account to our list (do it first because future
+	/* Save the settings for that account */
+	if (mail_account_gui_save (gui) == FALSE)
+		/* problem. Um, how to keep the druid alive? */
+		return;
+
+	/* Add the account to our list (do it early because future
            steps might want to access config->accounts) */
 	mail_config_add_account (gui->account);
 
-	/* Save the settings for that account */
-	mail_account_gui_save (gui);
 	if (gui->account->source)
 		gui->account->source->enabled = TRUE;
 

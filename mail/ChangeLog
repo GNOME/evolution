@@ -1,5 +1,26 @@
 2001-08-22  Peter Williams  <peterw@ximian.com>
 
+	Prevent the user from creating two accounts with the same name.
+	
+	* mail-config.c (impl_GNOME_Evolution_MailConfig_addAccount): Abort
+	if the account has the same name as another account.
+
+	* mail-account-gui.c (mail_account_gui_save): Don't let the user
+	save if the account has the same name as another account.
+
+	* mail-config-druid.c (management_check): Disable the next button
+	if the account name is the same as a preexisting account.
+	(construct): The only part of 'pages' that was being used was the
+	name. 'wizard_pages' now has the callbacks, while 'pages' is just
+	an array of char *'s.
+	(wizard_finish_cb): Save the account first because that's the
+	right way, and try to honor mail_account_gui_save's return value.
+	
+	* mail-config.glade: Add a label noting that you're not allowed
+	to create two accounts with the same name.
+	
+2001-08-22  Peter Williams  <peterw@ximian.com>
+
 	* folder-browser-ui.c (fbui_sensitize_timeout): Check for NULL uic
 	here as well.
 	(fbui_sensitize_items): Up the timeout interval to 110 ms.
