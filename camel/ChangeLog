@@ -1,3 +1,10 @@
+2000-04-14  Dan Winship  <danw@helixcode.com>
+
+	* camel-formatter.[ch]: This didn't belong in Camel. Move to mail/
+
+	* Makefile.am, camel-types.h: remove references to
+	camel-formatter.
+
 2000-04-12  Matt Loper  <matt@helixcode.com>
 
 	* camel-folder-pt-proxy.c (_folder_open_cb): Print warning message
