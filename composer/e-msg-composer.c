@@ -589,51 +589,42 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 		}
 		
 		if (composer->pgp_sign) {
-			CamelMultipartSigned *mps;
-			CamelCipherContext *cipher;
-			
+			CamelMimePart *npart = camel_mime_part_new();
+
 			cipher = mail_crypto_get_pgp_cipher_context(hdrs->account);
-			mps = camel_multipart_signed_new ();
-			camel_multipart_signed_sign (mps, cipher, part, pgp_userid, CAMEL_CIPHER_HASH_SHA1, &ex);
-			camel_object_unref (cipher);
+			camel_cipher_sign(cipher, pgp_userid, CAMEL_CIPHER_HASH_SHA1, part, npart, &ex);
+			camel_object_unref(cipher);
 			
-			if (camel_exception_is_set (&ex)) {
-				camel_object_unref (mps);
+			if (camel_exception_is_set(&ex)) {
+				camel_object_unref(npart);
 				goto exception;
 			}
 
-			camel_object_unref (part);
-			part = camel_mime_part_new ();
-			camel_multipart_set_boundary (CAMEL_MULTIPART (mps), NULL);
-			camel_medium_set_content_object (CAMEL_MEDIUM (part), (CamelDataWrapper *) mps);
-			camel_object_unref (mps);
+			camel_object_unref(part);
+			part = npart;
 		}
 		
 		if (composer->pgp_encrypt) {
-			CamelMultipartEncrypted *mpe;
-			
+			CamelMimePart *npart = camel_mime_part_new();
+
 			/* check to see if we should encrypt to self, NB gets removed immediately after use */
 			if (hdrs->account && hdrs->account->pgp_encrypt_to_self && pgp_userid)
 				g_ptr_array_add (recipients, (char *)pgp_userid);
 
-			mpe = camel_multipart_encrypted_new ();
-			cipher = mail_crypto_get_pgp_cipher_context (hdrs->account);			
-			camel_multipart_encrypted_encrypt (mpe, part, cipher, pgp_userid, recipients, &ex);
+			cipher = mail_crypto_get_pgp_cipher_context (hdrs->account);
+			camel_cipher_encrypt(cipher, pgp_userid, recipients, part, npart, &ex);
 			camel_object_unref (cipher);
 
 			if (hdrs->account && hdrs->account->pgp_encrypt_to_self && pgp_userid)
 				g_ptr_array_set_size(recipients, recipients->len - 1);
 
 			if (camel_exception_is_set (&ex)) {
-				camel_object_unref (mpe);
+				camel_object_unref(npart);
 				goto exception;
 			}
 
 			camel_object_unref (part);
-			part = camel_mime_part_new ();
-			camel_multipart_set_boundary (CAMEL_MULTIPART (mpe), NULL);
-			camel_medium_set_content_object (CAMEL_MEDIUM (part), (CamelDataWrapper *) mpe);
-			camel_object_unref (mpe);
+			part = npart;
 		}
 
 		if (from)
@@ -668,63 +659,28 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 		}
 
 		if (composer->smime_sign) {
+			CamelMimePart *npart = camel_mime_part_new();
+
+			cipher = camel_smime_context_new(session);
+
 			/* if we're also encrypting, envelope-sign rather than clear-sign */
 			if (composer->smime_encrypt) {
-				CamelMimePart *spart;
-				CamelStream *filter, *mem;
-				CamelMimeFilter *canon_filter;
-
-				/* FIXME: this should be part of cipher::sign() api */
-				mem = camel_stream_mem_new();
-				filter = (CamelStream *)camel_stream_filter_new_with_stream(mem);
-	
-				canon_filter = camel_mime_filter_canon_new(CAMEL_MIME_FILTER_CANON_STRIP|CAMEL_MIME_FILTER_CANON_CRLF);
-				camel_stream_filter_add((CamelStreamFilter *)filter, (CamelMimeFilter *)canon_filter);
-				camel_object_unref(canon_filter);
-
-				camel_data_wrapper_write_to_stream((CamelDataWrapper *)part, (CamelStream *)filter);
-				camel_stream_flush(filter);
-				camel_object_unref(filter);
-				camel_stream_reset(mem);
-
-				cipher = camel_smime_context_new(session);
 				camel_smime_context_set_sign_mode((CamelSMIMEContext *)cipher, CAMEL_SMIME_SIGN_ENVELOPED);
 				camel_smime_context_set_encrypt_key((CamelSMIMEContext *)cipher, TRUE, hdrs->account->smime_encrypt_key);
-
-				spart = camel_mime_part_new();
-				camel_cipher_sign(cipher, hdrs->account->smime_sign_key, CAMEL_CIPHER_HASH_SHA1, mem, spart, &ex);
-				camel_object_unref(mem);
-				camel_object_unref(cipher);
-				if (camel_exception_is_set(&ex)) {
-					camel_object_unref(spart);
-					goto exception;
-				}
-				camel_object_unref(part);
-				part = spart;
-			} else {
-				CamelMultipartSigned *mps;
-
-				cipher = camel_smime_context_new(session);
-				if (hdrs->account && hdrs->account->smime_encrypt_key && *hdrs->account->smime_encrypt_key)
-					camel_smime_context_set_encrypt_key((CamelSMIMEContext *)cipher, TRUE, hdrs->account->smime_encrypt_key);
-
-				/* FIXME: this should probably be part of the cipher::sign() api */
-				mps = camel_multipart_signed_new();
-				camel_multipart_signed_sign(mps, cipher, part, hdrs->account->smime_sign_key, CAMEL_CIPHER_HASH_SHA1, &ex);
-				camel_object_unref(cipher);
-
-				if (camel_exception_is_set(&ex)) {
-					camel_object_unref(mps);
-					goto exception;
-				}
-
-				camel_object_unref(part);
-				part = camel_mime_part_new ();
-				camel_multipart_set_boundary (CAMEL_MULTIPART (mps), NULL);
-				camel_medium_set_content_object (CAMEL_MEDIUM (part), (CamelDataWrapper *) mps);
-			
-				camel_object_unref (mps);
+			} else if (hdrs->account && hdrs->account->smime_encrypt_key && *hdrs->account->smime_encrypt_key) {
+				camel_smime_context_set_encrypt_key((CamelSMIMEContext *)cipher, TRUE, hdrs->account->smime_encrypt_key);
 			}
+
+			camel_cipher_sign(cipher, hdrs->account->smime_sign_key, CAMEL_CIPHER_HASH_SHA1, part, npart, &ex);
+			camel_object_unref(cipher);
+			
+			if (camel_exception_is_set(&ex)) {
+				camel_object_unref(npart);
+				goto exception;
+			}
+
+			camel_object_unref(part);
+			part = npart;
 		}
 	
 		if (composer->smime_encrypt) {
