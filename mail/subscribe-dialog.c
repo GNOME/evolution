@@ -100,12 +100,19 @@
  *   + Mail Folder Cache doesn't complain
  * - No ETable wackiness
  *   + Verify columns cannot be DnD'd
- *   + No sorting, eg (?)
+ *   + Alphabetical order always
  * - UI cleanliness
  *   + Keybindings work
  *   + Some widget has focus by default
  *   + Escape / enter work
  *   + Close button works
+ */
+
+/* FIXME: we should disable/enable the subscribe/unsubscribe buttons as
+ * appropriate when only a single message is selected. We need a
+ * mechanism to learn when the selected folder's subscription status
+ * changes, so when the user double-clicks it (eg) the buttons can
+ * (de)sensitize appropriately. See Ximian bug #7673.
  */
 
 /*#define NEED_TOGGLE_SELECTION*/
