@@ -34,6 +34,8 @@
 #include <gtk/gtkprogressbar.h>
 #include <e-util/e-folder-map.h>
 
+/*#define SLOW_MIGRATION*/
+
 typedef struct {
 	/* this hash table maps old folder uris to new uids.  It's
 	   build in migrate_contact_folder and it's used in
@@ -45,14 +47,15 @@ typedef struct {
 	AddressbookComponent *component;
 
 	GtkWidget *window;
-	GtkLabel *label;
-	GtkProgressBar *progress;
+	GtkWidget *label;
+	GtkWidget *folder_label;
+	GtkWidget *progress;
 } MigrationContext;
 
 static void
-setup_progress_dialog (MigrationContext *context, const char *str)
+setup_progress_dialog (MigrationContext *context)
 {
-	GtkWidget *vbox, *hbox, *w;
+	GtkWidget *vbox, *hbox;
 
 	context->window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title (GTK_WINDOW (context->window), _("Migrating..."));
@@ -63,25 +66,24 @@ setup_progress_dialog (MigrationContext *context, const char *str)
 	gtk_widget_show (vbox);
 	gtk_container_add (GTK_CONTAINER (context->window), vbox);
 	
-	w = gtk_label_new (str);
-	gtk_label_set_line_wrap (GTK_LABEL (w), TRUE);
-	gtk_widget_show (w);
-	gtk_box_pack_start_defaults (GTK_BOX (vbox), w);
+	context->label = gtk_label_new ("");
+	gtk_label_set_line_wrap (GTK_LABEL (context->label), TRUE);
+	gtk_widget_show (context->label);
+	gtk_box_pack_start_defaults (GTK_BOX (vbox), context->label);
 	
 	hbox = gtk_hbox_new (FALSE, 6);
 	gtk_widget_show (hbox);
 	gtk_box_pack_start_defaults (GTK_BOX (vbox), hbox);
 	
-	context->label = GTK_LABEL (gtk_label_new (""));
-	gtk_widget_show (GTK_WIDGET (context->label));
-	gtk_box_pack_start_defaults (GTK_BOX (hbox), GTK_WIDGET (context->label));
+	context->folder_label = gtk_label_new ("");
+	gtk_widget_show (context->folder_label);
+	gtk_box_pack_start_defaults (GTK_BOX (hbox), context->folder_label);
 	
-	context->progress = GTK_PROGRESS_BAR (gtk_progress_bar_new ());
-	gtk_widget_show (GTK_WIDGET (context->progress));
-	gtk_box_pack_start_defaults (GTK_BOX (hbox), GTK_WIDGET (context->progress));
+	context->progress = gtk_progress_bar_new ();
+	gtk_widget_show (context->progress);
+	gtk_box_pack_start_defaults (GTK_BOX (hbox), context->progress);
 	
 	gtk_widget_show (context->window);
-
 }
 
 static void
@@ -91,18 +93,35 @@ dialog_close (MigrationContext *context)
 }
 
 static void
+dialog_set_label (MigrationContext *context, const char *str)
+{
+	gtk_label_set_text (GTK_LABEL (context->label), str);
+
+	while (gtk_events_pending ())
+		gtk_main_iteration ();
+
+#ifdef SLOW_MIGRATION
+	sleep (1);
+#endif
+}
+
+static void
 dialog_set_folder_name (MigrationContext *context, const char *folder_name)
 {
 	char *text;
 	
 	text = g_strdup_printf (_("Migrating `%s':"), folder_name);
-	gtk_label_set_text (context->label, text);
+	gtk_label_set_text (GTK_LABEL (context->folder_label), text);
 	g_free (text);
 	
-	gtk_progress_bar_set_fraction (context->progress, 0.0);
+	gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (context->progress), 0.0);
 	
 	while (gtk_events_pending ())
 		gtk_main_iteration ();
+
+#ifdef SLOW_MIGRATION
+	sleep (1);
+#endif
 }
 
 static void
@@ -112,11 +131,15 @@ dialog_set_progress (MigrationContext *context, double percent)
 	
 	snprintf (text, sizeof (text), "%d%%", (int) (percent * 100.0f));
 	
-	gtk_progress_bar_set_fraction (context->progress, percent);
-	gtk_progress_bar_set_text (context->progress, text);
+	gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (context->progress), percent);
+	gtk_progress_bar_set_text (GTK_PROGRESS_BAR (context->progress), text);
 	
 	while (gtk_events_pending ())
 		gtk_main_iteration ();
+
+#ifdef SLOW_MIGRATION
+	sleep (1);
+#endif
 }
 
 static gboolean
@@ -747,6 +770,8 @@ migrate_contact_lists_for_local_folders (MigrationContext *context, ESourceGroup
 		GList *l, *contacts;
 		int num_contacts, num_converted;
 
+		dialog_set_folder_name (context, e_source_peek_name (source));
+
 		book = e_book_new ();
 		if (!e_book_load_source (book, source, TRUE, NULL)) {
 			char *uri = e_source_get_uri (source);
@@ -791,7 +816,108 @@ migrate_contact_lists_for_local_folders (MigrationContext *context, ESourceGroup
 				if (!e_book_commit_contact (book,
 							    contact,
 							    &e))
-					g_warning ("contact add failed: `%s'", e->message);
+					g_warning ("contact commit failed: `%s'", e->message);
+			}
+
+			num_converted ++;
+
+			dialog_set_progress (context, (double)num_converted / num_contacts);
+		}
+
+		g_list_foreach (contacts, (GFunc)g_object_unref, NULL);
+		g_list_free (contacts);
+
+		g_object_unref (book);
+	}
+}
+
+static void
+migrate_company_phone_for_local_folders (MigrationContext *context, ESourceGroup *on_this_computer)
+{
+	GSList *sources, *s;
+
+	sources = e_source_group_peek_sources (on_this_computer);
+	for (s = sources; s; s = s->next) {
+		ESource *source = s->data;
+		EBook *book;
+		EBookQuery *query;
+		GList *l, *contacts;
+		int num_contacts, num_converted;
+
+		dialog_set_folder_name (context, e_source_peek_name (source));
+
+		book = e_book_new ();
+		if (!e_book_load_source (book, source, TRUE, NULL)) {
+			char *uri = e_source_get_uri (source);
+			g_warning ("failed to migrate company phone numbers for source %s", uri);
+			g_free (uri);
+			continue;
+		}
+
+		query = e_book_query_any_field_contains ("");
+
+		e_book_get_contacts (book, query, &contacts, NULL);
+
+		num_converted = 0;
+		num_contacts = g_list_length (contacts);
+		for (l = contacts; l; l = l->next) {
+			EContact *contact = l->data;
+			GError *e = NULL;
+			GList *attrs, *attr;
+			gboolean converted = FALSE;
+			int num_work_voice = 0;
+
+			attrs = e_vcard_get_attributes (E_VCARD (contact));
+			for (attr = attrs; attr;) {
+				EVCardAttribute *a = attr->data;
+				GList *next_attr = attr->next;
+
+				if (!strcmp ("TEL", e_vcard_attribute_get_name (a))) {
+					GList *params, *param;
+					gboolean found_voice = FALSE;
+					gboolean found_work = FALSE;
+
+					params = e_vcard_attribute_get_params (a);
+					for (param = params; param; param = param->next) {
+						EVCardAttributeParam *p = param->data;
+						if (!strcmp (EVC_TYPE, e_vcard_attribute_param_get_name (p))) {
+							GList *v = e_vcard_attribute_param_get_values (p);
+							if (v && v->data) {
+								if (!strcmp ("VOICE", v->data))
+									found_voice = TRUE;
+								else if (!strcmp ("WORK", v->data))
+									found_work = TRUE;
+							}
+						}
+
+						if (found_work && found_voice)
+							num_work_voice++;
+
+						if (num_work_voice == 3) {
+							GList *v = e_vcard_attribute_get_values (a);
+
+							if (v && v->data)
+								e_contact_set (contact, E_CONTACT_PHONE_COMPANY, v->data);
+
+							e_vcard_remove_attribute (E_VCARD (contact), a);
+
+							converted = TRUE;
+							break;
+						}
+					}
+				}
+
+				attr = next_attr;
+				
+				if (converted)
+					break;
+			}
+
+			if (converted) {
+				if (!e_book_commit_contact (book,
+							    contact,
+							    &e))
+					g_warning ("contact commit failed: `%s'", e->message);
 			}
 
 			num_converted ++;
@@ -840,6 +966,7 @@ addressbook_migrate (AddressbookComponent *component, int major, int minor, int 
 	ESourceGroup *on_ldap_servers;
 	ESource *personal_source;
 	MigrationContext *context = migration_context_new (component);
+	gboolean need_dialog = FALSE;
 
 	printf ("addressbook_migrate (%d.%d.%d)\n", major, minor, revision);
 
@@ -848,14 +975,24 @@ addressbook_migrate (AddressbookComponent *component, int major, int minor, int 
 	   groups/sources. */
 	create_groups (context, &on_this_computer, &on_ldap_servers, &personal_source);
 
+	/* figure out if we need the dialog displayed */
+	if (major == 1
+	    /* we only need the most recent upgrade point here.
+	       further decomposition will happen below. */
+	    && (minor < 5 || (minor == 5 && revision <= 8)))
+		need_dialog = TRUE;
+
+	if (need_dialog)
+		setup_progress_dialog (context);
+
 	if (major == 1) {
 		
 		if (minor < 5 || (minor == 5 && revision <= 2)) {
 			/* initialize our dialog */
-			setup_progress_dialog (context,
-					       _("The location and hierarchy of the Evolution contact "
-						 "folders has changed since Evolution 1.x.\n\nPlease be "
-						 "patient while Evolution migrates your folders..."));
+			dialog_set_label (context,
+					  _("The location and hierarchy of the Evolution contact "
+					    "folders has changed since Evolution 1.x.\n\nPlease be "
+					    "patient while Evolution migrates your folders..."));
 
 			if (on_this_computer)
 				migrate_local_folders (context, on_this_computer, personal_source);
@@ -863,21 +1000,29 @@ addressbook_migrate (AddressbookComponent *component, int major, int minor, int 
 				migrate_ldap_servers (context, on_ldap_servers);
 
 			migrate_completion_folders (context);
-
-			dialog_close (context);
 		}
 
-		if (minor <= 5 || (minor == 5 && revision <= 7)) {
-			setup_progress_dialog (context,
-					       _("The format of mailing list contacts has changed.\n\n"
-						 "Please be patient while Evolution migrates your "
-						 "folders..."));
+		if (minor < 5 || (minor == 5 && revision <= 7)) {
+			dialog_set_label (context,
+					  _("The format of mailing list contacts has changed.\n\n"
+					    "Please be patient while Evolution migrates your "
+					    "folders..."));
 
 			migrate_contact_lists_for_local_folders (context, on_this_computer);
+		}
 
-			dialog_close (context);
+		if (minor < 5 || (minor == 5 && revision <= 8)) {
+			dialog_set_label (context,
+					  _("The way evolutions stores some phone numbers has changed.\n\n"
+					    "Please be patient while Evolution migrates your "
+					    "folders..."));
+
+			migrate_company_phone_for_local_folders (context, on_this_computer);
 		}
 	}
+
+	if (need_dialog)
+		dialog_close (context);
 
 	if (on_this_computer)
 		g_object_unref (on_this_computer);

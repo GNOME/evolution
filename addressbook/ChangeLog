@@ -1,3 +1,21 @@
+2004-04-21  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component/addressbook-migrate.c (setup_progress_dialog):
+	store off the label as well as the folder name label, so we can
+	reuse the dialog and update the label.  Also, no longer take the
+	string to display here.
+	(dialog_set_label): new function.
+	(migrate_contact_lists_for_local_folders): call
+	dialog_set_folder_name here so we can see the folder being
+	migrated.
+	(migrate_company_phone_for_local_folders): new function for
+	updating the way we store company phone numbers.
+	(addressbook_migrate): split out the logic for setting up/tearing
+	down the dialog from the individual migration points so we can
+	reuse the same dialog and not have get destroyed/recreated for
+	each stage.  Also add a new migration point ( <= 1.5.8) for
+	migrating the company phone numbers.
+
 2004-04-21  Sivaiah Nallagatla   <snallagatla@novell.com>
 	
 	* gui/component/addressbook.c (remove_parameters_from_uri) : added 
