@@ -558,7 +558,7 @@
            charges: you can remain offline until you need to send
            mail, then connect and send all your mail at once.  Mail in
            the outbox is sent when you click
-           <guibutton>Send/Recieve</guibutton> in the main window.
+           <guibutton>Send/Receive</guibutton> in the main window.
         </para>
         <para>
            To learn more about how you can specify message queue and
@@ -1852,7 +1852,7 @@
 	  <title>Public Key?  Private Key?  What is the difference?</title>
 	  <para>
 	    GPG uses two keys: public and private.  You can give your
-	    public key to anyone you want to recieve
+	    public key to anyone you want to receive
 	    encrypted messages, or put it on a public key server so
 	    that people can look it up before contacting you.
 	    <emphasis>Never give your private key to anyone,
@@ -2083,7 +2083,7 @@ wwwkeys.pgp.net 32j38dk2</command>.  Substitute your key ID for
 	  <guimenuitem>Mail Settings</guimenuitem>
 	</menuchoice>
 	Once there, select the account with which you'd like to send
-	and recieve encrypted mail, and click the
+	and receive encrypted mail, and click the
 	<guibutton>Edit</guibutton> button.  In the
 	<guilabel>Security</guilabel> tab is a section labeled
 	<guilabel>Pretty Good Privacy</guilabel>.  Enter your key ID
@@ -2135,7 +2135,7 @@ wwwkeys.pgp.net 32j38dk2</command>.  Substitute your key ID for
 	</para>
       </sect2>
       <sect2 id="unencrypting">
-	<title>Unencrypting a Recieved Message</title>
+	<title>Unencrypting a Received Message</title>
 	<para>
 	  If you get an encrypted message, you will need to decrypt it
 	  before you read it. Remember, the sender has to have your
