@@ -1,3 +1,9 @@
+2001-10-01  Larry Ewing  <lewing@ximian.com>
+
+	* mail-identify.c (mail_identify_mime_part): if gnome-vfs returns
+	application/octet-stream with the magic check, use the filename
+	check instead since it at least has a chance of being useful.
+
 2001-09-28  Dan Winship  <danw@ximian.com>
 
 	* folder-browser-ui.c (fbui_sensitize_timeout): wrap a

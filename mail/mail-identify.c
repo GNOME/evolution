@@ -66,13 +66,21 @@ mail_identify_mime_part (CamelMimePart *part, MailDisplay *md)
 	if (!camel_data_wrapper_is_offline (data))
 		magic_type = identify_by_magic (data, md);
 
-	/* If GNOME-VFS doesn't recognize the data by magic, but it
-	 * contains English words, it will call it text/plain. If the
-	 * filename-based check came up with something different, use
-	 * that instead.
-	 */
-	if (magic_type && name_type && !strcmp (magic_type, "text/plain"))
-		return g_strdup (name_type);
+	if (magic_type && name_type) {
+		/* If GNOME-VFS doesn't recognize the data by magic, but it
+		 * contains English words, it will call it text/plain. If the
+		 * filename-based check came up with something different, use
+		 * that instead.
+		 */
+		if (!strcmp (magic_type, "text/plain"))
+			return g_strdup (name_type);
+
+		/* If if returns "application/octet-stream" try to
+		 * do better with the filename check.
+		 */
+		if (!strcmp (magic_type, "application/octet-stream"))
+			return g_strdup (name_type);
+	}
 
 	/* If the MIME part data was online, and the magic check
 	 * returned something, use that, since it's more reliable.
