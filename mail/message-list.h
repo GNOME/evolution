@@ -73,8 +73,8 @@ struct _MessageList {
 	int match_count;
 	GPtrArray *summary_search_cache; /* summary info cache for searches */
 
-	int selected_row;
-	const char *selected_uid;
+	int cursor_row, rows_selected;
+	const char *cursor_uid;
 
 	/* row-selection and seen-marking timers */
 	guint idle_id, seen_id;

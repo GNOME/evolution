@@ -52,7 +52,9 @@
 static BonoboObjectClass *message_list_parent_class;
 static POA_Evolution_MessageList__vepv evolution_message_list_vepv;
 
-static void on_cursor_change_cmd (ETable *table,  int row, gpointer user_data);
+static void on_cursor_change_cmd (ETable *table, int row, gpointer user_data);
+static void on_row_selection (ETable *table, int row, gboolean selected,
+			      gpointer user_data);
 static void select_row (ETable *table, gpointer user_data);
 static char *filter_date (const void *data);
 
@@ -127,12 +129,12 @@ mark_msg_seen (gpointer data)
 	MessageList *ml = data;
 	guint32 flags;
 
-	if (!ml->selected_uid)
+	if (!ml->cursor_uid)
 		return FALSE;
 
-	flags = camel_folder_get_message_flags (ml->folder, ml->selected_uid,
+	flags = camel_folder_get_message_flags (ml->folder, ml->cursor_uid,
 						NULL);
-	camel_folder_set_message_flags (ml->folder, ml->selected_uid,
+	camel_folder_set_message_flags (ml->folder, ml->cursor_uid,
 					CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN,
 					NULL);
 	return FALSE;
@@ -764,6 +766,9 @@ message_list_init (GtkObject *object)
 	gtk_signal_connect (GTK_OBJECT (message_list->etable), "cursor_change",
 			   GTK_SIGNAL_FUNC (on_cursor_change_cmd), message_list);
 
+	gtk_signal_connect (GTK_OBJECT (message_list->etable), "row_selection",
+			   GTK_SIGNAL_FUNC (on_row_selection), message_list);
+
 	gtk_widget_show (message_list->etable);
 	
 	gtk_object_ref (GTK_OBJECT (message_list->table_model));
@@ -952,6 +957,7 @@ message_list_set_search (MessageList *message_list, const char *search)
 	}
 
 	e_table_model_changed (message_list->table_model);
+	message_list->rows_selected = 0;
 	select_msg (message_list, 0);
 }
 
@@ -1011,8 +1017,6 @@ message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder)
 	gtk_object_ref (GTK_OBJECT (camel_folder));
 
 	folder_changed (camel_folder, 0, message_list);
-
-	select_msg (message_list, 0);
 }
 
 GtkWidget *
@@ -1028,7 +1032,7 @@ on_cursor_change_idle (gpointer data)
 {
 	MessageList *message_list = data;
 
-	select_msg (message_list, message_list->selected_row);
+	select_msg (message_list, message_list->cursor_row);
 
 	message_list->idle_id = 0;
 	return FALSE;
@@ -1048,11 +1052,23 @@ on_cursor_change_cmd (ETable *table,
 	if (!info)
 		return;
 
-	message_list->selected_row = row;
-	message_list->selected_uid = info->uid;
+	message_list->cursor_row = row;
+	message_list->cursor_uid = info->uid;
 	
 	if (!message_list->idle_id)
 		message_list->idle_id = g_idle_add_full (G_PRIORITY_LOW, on_cursor_change_idle, message_list, NULL);
+}
+
+static void
+on_row_selection (ETable *table, int row, gboolean selected,
+		  gpointer user_data)
+{
+	MessageList *message_list = user_data;
+
+	if (selected)
+		message_list->rows_selected++;
+	else
+		message_list->rows_selected--;
 }
 
 

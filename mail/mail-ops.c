@@ -570,7 +570,7 @@ reply (FolderBrowser *fb, gboolean to_all)
 	psd = g_new (struct post_send_data, 1);
 	psd->folder = fb->folder;
 	gtk_object_ref (GTK_OBJECT (psd->folder));
-	psd->uid = fb->message_list->selected_uid;
+	psd->uid = fb->message_list->cursor_uid;
 	psd->flags = CAMEL_MESSAGE_ANSWERED;
 
 	composer = mail_generate_reply (fb->mail_display->current_message, to_all);

@@ -1,3 +1,16 @@
+2000-06-30  Dan Winship  <danw@helixcode.com>
+
+	* message-list.c (on_row_selection): use the ETable row_selection
+	signal to track how many rows are selected. Eventually we will use
+	this info to disable toolbar buttons when you have too few/too
+	many messages selected, but the current toolbar widget doesn't
+	allow that.
+
+	* message-list.h, message-list.c, mail-ops.c: Change selected_row
+	and selected_uid fields of MessageList to cursor_row and
+	cursor_uid to be more correct according to the new ETable
+	interfaces.
+
 2000-06-30  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* component-factory.c: Eeek.  Fix typo: add missing star in the
