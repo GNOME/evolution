@@ -1,5 +1,10 @@
 2000-08-20  JP Rosevear  <jpr@helixcode.com>
 
+	* gui/e-week-view-event-item.c (e_week_view_event_item_draw_icons):
+	Use CalComponent instead of iCalObject.  #if some alarm stuff
+
+2000-08-20  JP Rosevear  <jpr@helixcode.com>
+
 	* gui/e-week-view.c (e_week_view_update_event): Use CalComponent
 	instead of iCalObject.  Work around not having a compare
 	dates routine for two CalComponents.

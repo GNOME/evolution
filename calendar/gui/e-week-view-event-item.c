@@ -487,7 +487,7 @@ e_week_view_event_item_draw_icons (EWeekViewEventItem *wveitem,
 	EWeekView *week_view;
 	EWeekViewEvent *event;
 	EWeekViewEventSpan *span;
-	iCalObject *ico;
+	CalComponent *comp;
 	GdkGC *gc;
 	gint num_icons = 0, icon_x_inc;
 	gboolean draw_reminder_icon = FALSE, draw_recurrence_icon = FALSE;
@@ -498,17 +498,20 @@ e_week_view_event_item_draw_icons (EWeekViewEventItem *wveitem,
 				wveitem->event_num);
 	span = &g_array_index (week_view->spans, EWeekViewEventSpan,
 			       event->spans_index + wveitem->span_num);
-	ico = event->ico;
+	comp = event->comp;
 
 	gc = week_view->main_gc;
 
+#if 0
 	if (ico->dalarm.enabled || ico->malarm.enabled
 	    || ico->palarm.enabled || ico->aalarm.enabled) {
 		draw_reminder_icon = TRUE;
 		num_icons++;
 	}
+#endif
 
-	if (ico->recur) {
+	if (cal_component_has_rdates (comp) 
+	    || cal_component_has_rrules (comp)) {
 		draw_recurrence_icon = TRUE;
 		num_icons++;
 	}
