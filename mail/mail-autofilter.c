@@ -133,7 +133,7 @@ rule_add_subject (RuleContext *context, FilterRule *rule, const char *text)
 	part = rule_context_create_part (context, "subject");
 	filter_rule_add_part ((FilterRule *)rule, part);
 	element = filter_part_find_element (part, "subject-type");
-	filter_option_set_current ((FilterOption *)element, "is");
+	filter_option_set_current ((FilterOption *)element, "contains");
 	element = filter_part_find_element (part, "subject");
 	filter_input_set_value ((FilterInput *)element, text);
 }
