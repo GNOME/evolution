@@ -84,36 +84,37 @@ kill_process (const char *proc_name, KillevComponent *comp)
 	return TRUE;
 };
 
+static const char *patterns[] = {
+	"%s", "%.16s", "lt-%s", "lt-%.13s"
+};
+static const int n_patterns = G_N_ELEMENTS (patterns);
+
 static gboolean
 kill_component (gpointer key, gpointer value, gpointer data)
 {
 	KillevComponent *comp = value;
-	char *exe_name;
+	char *base_name, *exe_name, *dash;
+	int i;
 
-	if (kill_process (comp->location, comp))
-		return TRUE;
-
-	exe_name = g_strdup_printf ("lt-%s", comp->location);
-	if (kill_process (exe_name, comp)) {
-		g_free (exe_name);
-		return TRUE;
-	}
-
-	if (strlen (exe_name) > 16) {
-		exe_name[16] = '\0';
+	base_name = g_strdup (comp->location);
+ try_again:
+	for (i = 0; i < n_patterns; i++) {
+		exe_name = g_strdup_printf (patterns[i], base_name);
 		if (kill_process (exe_name, comp)) {
-			g_free (exe_name); 
+			g_free (exe_name);
+			g_free (base_name);
 			return TRUE;
 		}
-	}
-	g_free (exe_name);
-
-	if (strlen (comp->location) > 16) {
-		exe_name = g_strndup (comp->location, 16);
-		kill_process (exe_name, comp);
 		g_free (exe_name);
 	}
 
+	dash = strrchr (base_name, '-');
+	if (dash && !strcmp (dash + 1, BASE_VERSION)) {
+		*dash = '\0';
+		goto try_again;
+	}
+
+	g_free (base_name);
 	return TRUE;
 }
 
