@@ -1,3 +1,17 @@
+2001-05-15  Chris Toshok  <toshok@ximian.com>
+
+	* gui/search/e-addressbook-search-dialog.c
+	(e_addressbook_search_dialog_init): initialize the model and
+	adapter.
+	(button_press): set on the model.
+	(e_addressbook_search_dialog_new): same.
+	(e_addressbook_search_dialog_set_arg): same.
+	(e_addressbook_search_dialog_destroy): unref the model and
+	adapter.
+
+	* gui/search/e-addressbook-search-dialog.h (struct
+	_EAddressbookSearchDialog): add our model and reflow adapter.
+
 2001-05-16  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/widgets/e-minicard-view.c: (e_minicard_view_destroy): Fixed

@@ -134,7 +134,7 @@ button_press (GtkWidget *widget, int button, EAddressbookSearchDialog *dialog)
 
 	if (button == 0) {
 		query = get_query(dialog);
-		gtk_object_set(GTK_OBJECT(dialog->view),
+		gtk_object_set(GTK_OBJECT(dialog->model),
 			       "query", query,
 			       NULL);
 		g_free(query);
@@ -163,7 +163,9 @@ e_addressbook_search_dialog_init (EAddressbookSearchDialog *view)
 	gtk_signal_connect(GTK_OBJECT(dialog), "clicked",
 			   GTK_SIGNAL_FUNC(button_press), view);
 
-	view->view = e_minicard_view_widget_new();
+	view->model = e_addressbook_model_new ();
+	view->adapter = E_ADDRESSBOOK_REFLOW_ADAPTER(e_addressbook_reflow_adapter_new (view->model));
+	view->view = e_minicard_view_widget_new(view->adapter);
 	gtk_widget_show(view->view);
 
 	view->scrolled_window = e_scroll_frame_new(NULL, NULL);
@@ -180,7 +182,7 @@ GtkWidget *
 e_addressbook_search_dialog_new (EBook *book)
 {
 	EAddressbookSearchDialog *view = gtk_type_new (e_addressbook_search_dialog_get_type ());
-	gtk_object_set(GTK_OBJECT(view->view),
+	gtk_object_set(GTK_OBJECT(view->model),
 		       "book", book,
 		       NULL);
 	return GTK_WIDGET(view);
@@ -195,7 +197,7 @@ e_addressbook_search_dialog_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 
 	switch (arg_id){
 	case ARG_BOOK:
-		gtk_object_set(GTK_OBJECT(emvw->view),
+		gtk_object_set(GTK_OBJECT(emvw->model),
 			       "book", GTK_VALUE_OBJECT (*arg),
 			       NULL);
 		break;
@@ -211,7 +213,7 @@ e_addressbook_search_dialog_get_arg (GtkObject *object, GtkArg *arg, guint arg_i
 
 	switch (arg_id) {
 	case ARG_BOOK:
-		gtk_object_get(GTK_OBJECT(emvw->view),
+		gtk_object_get(GTK_OBJECT(emvw->model),
 			       "book", &(GTK_VALUE_OBJECT (*arg)),
 			       NULL);
 		break;
@@ -228,6 +230,8 @@ e_addressbook_search_dialog_destroy (GtkObject *object)
 
 	view = E_ADDRESSBOOK_SEARCH_DIALOG (object);
 
+	gtk_object_unref((GtkObject *)view->model);
+	gtk_object_unref((GtkObject *)view->adapter);
 	gtk_object_unref((GtkObject *)view->context);
 	gtk_object_unref((GtkObject *)view->rule);
 

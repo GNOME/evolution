@@ -23,6 +23,8 @@
 
 #include <ebook/e-book.h>
 
+#include "addressbook/gui/widgets/e-addressbook-model.h"
+#include "addressbook/gui/widgets/e-addressbook-reflow-adapter.h"
 #include "filter/rule-context.h"
 #include "filter/filter-rule.h"
 
@@ -49,6 +51,9 @@ struct _EAddressbookSearchDialog
 
 	GtkWidget *search;
 	GtkWidget *view;
+
+	EAddressbookModel *model;
+	EAddressbookReflowAdapter *adapter;
 
 	RuleContext *context;
 	FilterRule *rule;
