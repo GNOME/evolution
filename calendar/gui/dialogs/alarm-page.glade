@@ -16,7 +16,7 @@
       <property name="border_width">4</property>
       <property name="visible">True</property>
       <property name="homogeneous">False</property>
-      <property name="spacing">4</property>
+      <property name="spacing">6</property>
 
       <child>
 	<widget class="GtkFrame" id="frame33">
@@ -32,8 +32,8 @@
 	      <property name="n_rows">2</property>
 	      <property name="n_columns">2</property>
 	      <property name="homogeneous">False</property>
-	      <property name="row_spacing">2</property>
-	      <property name="column_spacing">2</property>
+	      <property name="row_spacing">6</property>
+	      <property name="column_spacing">6</property>
 
 	      <child>
 		<widget class="GtkLabel" id="label62">
@@ -169,13 +169,13 @@
 	      <property name="border_width">4</property>
 	      <property name="visible">True</property>
 	      <property name="homogeneous">False</property>
-	      <property name="spacing">4</property>
+	      <property name="spacing">6</property>
 
 	      <child>
 		<widget class="GtkHBox" id="hbox54">
 		  <property name="visible">True</property>
 		  <property name="homogeneous">False</property>
-		  <property name="spacing">4</property>
+		  <property name="spacing">6</property>
 
 		  <child>
 		    <widget class="GtkOptionMenu" id="action">

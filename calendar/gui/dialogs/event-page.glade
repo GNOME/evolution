@@ -24,8 +24,8 @@
 	  <property name="n_rows">2</property>
 	  <property name="n_columns">2</property>
 	  <property name="homogeneous">False</property>
-	  <property name="row_spacing">4</property>
-	  <property name="column_spacing">4</property>
+	  <property name="row_spacing">6</property>
+	  <property name="column_spacing">6</property>
 
 	  <child>
 	    <widget class="GtkLabel" id="label56">
@@ -140,8 +140,8 @@
 	      <property name="n_rows">2</property>
 	      <property name="n_columns">4</property>
 	      <property name="homogeneous">False</property>
-	      <property name="row_spacing">4</property>
-	      <property name="column_spacing">4</property>
+	      <property name="row_spacing">6</property>
+	      <property name="column_spacing">6</property>
 
 	      <child>
 		<widget class="GtkLabel" id="label57">
@@ -362,7 +362,7 @@
 	<widget class="GtkHBox" id="hbox54">
 	  <property name="visible">True</property>
 	  <property name="homogeneous">False</property>
-	  <property name="spacing">4</property>
+	  <property name="spacing">6</property>
 
 	  <child>
 	    <widget class="GtkFrame" id="frame32">
@@ -376,7 +376,7 @@
 		  <property name="border_width">2</property>
 		  <property name="visible">True</property>
 		  <property name="homogeneous">False</property>
-		  <property name="spacing">4</property>
+		  <property name="spacing">6</property>
 
 		  <child>
 		    <widget class="GtkRadioButton" id="classification-public">
@@ -473,7 +473,7 @@
 		<widget class="GtkHBox" id="hbox55">
 		  <property name="visible">True</property>
 		  <property name="homogeneous">False</property>
-		  <property name="spacing">4</property>
+		  <property name="spacing">6</property>
 
 		  <child>
 		    <widget class="GtkRadioButton" id="show-time-as-free">
@@ -551,7 +551,7 @@
 	<widget class="GtkHBox" id="hbox53">
 	  <property name="visible">True</property>
 	  <property name="homogeneous">False</property>
-	  <property name="spacing">2</property>
+	  <property name="spacing">6</property>
 
 	  <child>
 	    <widget class="GtkButton" id="categories-button">

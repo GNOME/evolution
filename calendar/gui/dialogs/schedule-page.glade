@@ -1,23 +1,24 @@
 <?xml version="1.0" standalone="no"?> <!--*- mode: xml -*-->
-<!DOCTYPE glade-interface SYSTEM "http://glade.gnome.org/glade-2.0.dtd" >
+<!DOCTYPE glade-interface SYSTEM "http://glade.gnome.org/glade-2.0.dtd">
 
 <glade-interface>
-  <widget class="GtkWindow" id="schedule-toplevel">
-    <property name="visible">no</property>
-    <property name="title" translatable="yes">window1</property>
-    <property name="type">GTK_WINDOW_TOPLEVEL</property>
-    <property name="modal">no</property>
-    <property name="allow_shrink">no</property>
-    <property name="allow_grow">yes</property>
-    <property name="window-position">GTK_WIN_POS_NONE</property>
 
-    <child>
-      <widget class="GtkVBox" id="schedule-page">
-        <property name="border_width">4</property>
-        <property name="homogeneous">no</property>
-        <property name="spacing">4</property>
-        <property name="visible">yes</property>
-      </widget>
-    </child>
-  </widget>
+<widget class="GtkWindow" id="schedule-toplevel">
+  <property name="title" translatable="yes">window1</property>
+  <property name="type">GTK_WINDOW_TOPLEVEL</property>
+  <property name="window_position">GTK_WIN_POS_NONE</property>
+  <property name="modal">False</property>
+  <property name="resizable">True</property>
+  <property name="destroy_with_parent">False</property>
+
+  <child>
+    <widget class="GtkVBox" id="schedule-page">
+      <property name="border_width">4</property>
+      <property name="visible">True</property>
+      <property name="homogeneous">False</property>
+      <property name="spacing">6</property>
+    </widget>
+  </child>
+</widget>
+
 </glade-interface>

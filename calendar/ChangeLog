@@ -1,3 +1,20 @@
+2003-04-16  Rodrigo Moya <rodrigo@ximian.com>
+
+	Fixes #41129, #41215, #41221, #41256
+
+	* gui/alarm-notify/alarm-notify.glade:
+	* gui/dialogs/alarm-options.glade:
+	* gui/dialogs/alarm-page.glade:
+	* gui/dialogs/cal-prefs-dialog.glade:
+	* gui/dialogs/e-delegate-dialog.glade:
+	* gui/dialogs/meeting-page.glade:
+	* gui/dialogs/recurrence-page.glade:
+	* gui/dialogs/schedule-page.glade:
+	* gui/dialogs/task-details-dialog.glade:
+	* gui/dialogs/task-page.glade:
+	* gui/dialogs/event-page.glade: set spacing to 6 pixels
+	everywhere.
+
 2003-04-16  JP Rosevear  <jpr@ximian.com>
  
 	Fixes #41230

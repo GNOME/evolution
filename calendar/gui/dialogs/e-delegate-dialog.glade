@@ -60,7 +60,7 @@
 	<widget class="GtkHBox" id="delegate-hbox">
 	  <property name="visible">True</property>
 	  <property name="homogeneous">False</property>
-	  <property name="spacing">4</property>
+	  <property name="spacing">6</property>
 
 	  <child>
 	    <widget class="GtkLabel" id="label3">
