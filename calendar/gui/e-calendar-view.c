@@ -1255,6 +1255,77 @@ on_delete_appointment (GtkWidget *widget, gpointer user_data)
 }
 
 static void
+on_unrecur_appointment (GtkWidget *widget, gpointer user_data)
+{
+	ECalendarView *cal_view;
+	ECalendarViewEvent *event;
+	ECalComponent *comp, *new_comp;
+	ECalComponentDateTime date;
+	struct icaltimetype itt;
+	GList *selected;
+	char *new_uid;
+
+	cal_view = E_CALENDAR_VIEW (user_data);
+
+	selected = e_calendar_view_get_selected_events (cal_view);
+	if (!selected)
+		return;
+
+	event = (ECalendarViewEvent *) selected->data;
+
+	date.value = &itt;
+	date.tzid = NULL;
+
+	/* For the recurring object, we add an exception to get rid of the
+	   instance. */
+
+	comp = e_cal_component_new ();
+	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
+	cal_comp_util_add_exdate (comp, event->comp_data->instance_start, e_calendar_view_get_timezone (cal_view));
+	e_cal_component_commit_sequence (comp);
+
+	/* For the unrecurred instance we duplicate the original object,
+	   create a new uid for it, get rid of the recurrence rules, and set
+	   the start & end times to the instances times. */
+	new_comp = e_cal_component_new ();
+	e_cal_component_set_icalcomponent (new_comp, icalcomponent_new_clone (event->comp_data->icalcomp));
+	new_uid = e_cal_component_gen_uid ();
+	e_cal_component_set_uid (new_comp, new_uid);
+	g_free (new_uid);
+	e_cal_component_set_rdate_list (new_comp, NULL);
+	e_cal_component_set_rrule_list (new_comp, NULL);
+	e_cal_component_set_exdate_list (new_comp, NULL);
+	e_cal_component_set_exrule_list (new_comp, NULL);
+
+	date.value = &itt;
+	date.tzid = icaltimezone_get_tzid (e_calendar_view_get_timezone (cal_view));
+
+	*date.value = icaltime_from_timet_with_zone (event->comp_data->instance_start, FALSE,
+						     e_calendar_view_get_timezone (cal_view));
+	e_cal_component_set_dtstart (new_comp, &date);
+	*date.value = icaltime_from_timet_with_zone (event->comp_data->instance_end, FALSE,
+						     e_calendar_view_get_timezone (cal_view));
+	e_cal_component_set_dtend (new_comp, &date);
+	e_cal_component_commit_sequence (new_comp);
+
+	/* Now update both ECalComponents. Note that we do this last since at
+	 * present the updates happen synchronously so our event may disappear.
+	 */
+	if (!e_cal_modify_object (event->comp_data->client, e_cal_component_get_icalcomponent (comp), CALOBJ_MOD_THIS, NULL))
+		g_message ("e_day_view_on_unrecur_appointment(): Could not update the object!");
+
+	g_object_unref (comp);
+
+	if (!e_cal_create_object (event->comp_data->client, e_cal_component_get_icalcomponent (new_comp), &new_uid, NULL))
+		g_message ("e_day_view_on_unrecur_appointment(): Could not update the object!");
+	else
+		g_free (new_uid);
+
+	g_object_unref (new_comp);
+	g_list_free (selected);
+}
+
+static void
 on_delete_occurrence (GtkWidget *widget, gpointer user_data)
 {
 	ECalendarView *cal_view;
@@ -1378,6 +1449,7 @@ static EPopupMenu child_items [] = {
 	E_POPUP_SEPARATOR,
 
 	E_POPUP_ITEM (N_("_Delete"), GTK_SIGNAL_FUNC (on_delete_appointment), MASK_EDITABLE | MASK_SINGLE | MASK_EDITING),
+	E_POPUP_ITEM (N_("Make this Occurrence _Movable"), GTK_SIGNAL_FUNC (on_unrecur_appointment), MASK_EDITABLE | MASK_RECURRING | MASK_EDITING | MASK_INSTANCE),
 	E_POPUP_ITEM (N_("Delete this _Occurrence"), GTK_SIGNAL_FUNC (on_delete_occurrence), MASK_RECURRING | MASK_EDITING | MASK_EDITABLE),
 	E_POPUP_ITEM (N_("Delete _All Occurrences"), GTK_SIGNAL_FUNC (on_delete_appointment), MASK_RECURRING | MASK_EDITING | MASK_EDITABLE),
 

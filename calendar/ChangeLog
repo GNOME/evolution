@@ -1,31 +1,37 @@
-2004-08-06  JP Rosevear  <jpr@ximian.com>
- 
- 	Fixes #62452
- 	
- 	* gui/e-itip-control.c (find_my_address): take option to retrieve
- 	current status as well, actually look for the delegator in the
- 	list so we can retrieve status there as well
- 	(show_current_event): use find_my_address to get the status so we
- 	properly handle not finding the address in the list of attendees
- 	(show_current): pass extra param
- 	(ok_clicked_cb): ditto
+2004-08-09  Rodrigo Moya <rodrigo@novell.com>
+
+	* gui/e-calendar-view.c: re-added 'Make this occurrence movable' menu
+	item, gone by mistake.
+	(on_unrecur_appointment): new callback for the new menu item.
 
 2004-08-06  JP Rosevear  <jpr@ximian.com>
  
- 	Fixes #62021
+	Fixes #62452
  	
- 	* gui/dialogs/event-page.c (source_changed_cb): set the default
- 	timezone
+	* gui/e-itip-control.c (find_my_address): take option to retrieve
+	current status as well, actually look for the delegator in the
+	list so we can retrieve status there as well
+	(show_current_event): use find_my_address to get the status so we
+	properly handle not finding the address in the list of attendees
+	(show_current): pass extra param
+	(ok_clicked_cb): ditto
+
+2004-08-06  JP Rosevear  <jpr@ximian.com>
  
- 	* gui/e-itip-control.c (start_calendar_server): set the default
- 	timezone
+	Fixes #62021
+ 	
+	* gui/dialogs/event-page.c (source_changed_cb): set the default
+	timezone
  
- 	* gui/calendar-component.c (setup_create_ecal): set the default
- 	timezone, as the component view is not alive and hence has not set
- 	it
+	* gui/e-itip-control.c (start_calendar_server): set the default
+	timezone
  
+	* gui/calendar-component.c (setup_create_ecal): set the default
+	timezone, as the component view is not alive and hence has not set
+	it
+
 	* gui/tasks-component.c (setup_create_ecal): ditto
-	
+
 2004-08-05  Parthasarathi S A   <sparthasarathi@novell.com>
 
 	Fix for bug #61673.
