@@ -565,6 +565,7 @@ complete_sequence(EBookView *book_view, EBookViewStatus status, EContactPrintCon
 		e_contact_print_letter_tab(ctxt);
 	gnome_print_showpage(ctxt->pc);
 	gnome_print_context_close(ctxt->pc);
+	gnome_print_job_close(ctxt->master);
 	g_free(ctxt->character);
 	if (book_view)
 		g_object_unref(book_view);
@@ -923,6 +924,7 @@ e_contact_print_response(GtkWidget *dialog, gint response_id, gpointer data)
 			complete_sequence(NULL, E_BOOK_VIEW_STATUS_OK, ctxt);
 		}
 		gtk_widget_destroy (dialog);
+
 		break;
 	case GNOME_PRINT_DIALOG_RESPONSE_PREVIEW:
 		config = gnome_print_dialog_get_config (GNOME_PRINT_DIALOG(dialog));

@@ -1,5 +1,11 @@
 2004-05-20  Radek Doulik  <rodo@ximian.com>
 
+	* printing/e-contact-print.c (complete_sequence): finish pages
+	printing by gnome_print_job_close call before showing preview or
+	calling gnome_print_job_print
+
+	See #54482
+
 	* gui/widgets/e-addressbook-view.c (eab_view_print_preview): added
 	call to begin page, ref printable and sink it to avoid finalizing of
 	floating object
