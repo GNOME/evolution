@@ -413,7 +413,7 @@ local_record_from_ecard (EAddrLocalRecord *local, ECard *ecard, EAddrConduitCont
 		else if (!strcmp (phonelabel, "Mobile"))
 			phone_str = e_card_simple_get_const (simple, E_CARD_SIMPLE_FIELD_PHONE_MOBILE);
 		
-		if (phone_str) {
+		if (phone_str && *phone_str) {
 			local->addr->entry[phone] = e_pilot_utf8_to_pchar (phone_str);
 			local->addr->phoneLabel[phone - entryPhone1] = i;
 			phone++;
@@ -468,9 +468,9 @@ ecard_from_remote_record(EAddrConduitContext *ctxt,
 	ECardAddrLabel label;
 	char *txt;
 	char *stringparts[3];
-	int i;
+	ECardSimpleField last_business, last_home, last_fax;
 	ECardSimpleEmailId last_email;
-	ECardSimpleField last_business, last_home;
+	int i;
 
 	g_return_val_if_fail(remote!=NULL,NULL);
 	memset (&address, 0, sizeof (struct Address));
@@ -526,15 +526,21 @@ ecard_from_remote_record(EAddrConduitContext *ctxt,
 	free (delivery.code);
 	g_free (label.data);
 
-	last_email = E_CARD_SIMPLE_EMAIL_ID_EMAIL;
 	last_business = E_CARD_SIMPLE_FIELD_PHONE_BUSINESS;
 	last_home = E_CARD_SIMPLE_FIELD_PHONE_HOME;
+	last_fax = E_CARD_SIMPLE_FIELD_PHONE_BUSINESS_FAX;
+	last_email = E_CARD_SIMPLE_EMAIL_ID_EMAIL;
 
 	/* Phone numbers */
 	for (i = entryPhone1; i <= entryPhone5; i++) {
 		char *phonelabel = ctxt->ai.phoneLabels[address.phoneLabel[i - entryPhone1]];
 		char *phonenum = get_entry_text (address, i);
 
+		if (!strcmp (phonenum, "")) {
+			g_free (phonenum);
+			continue;
+		}
+		
 		if (!strcmp (phonelabel, "E-mail")) {
 			e_card_simple_set_email(simple, last_email, phonenum);
 
@@ -546,7 +552,6 @@ ecard_from_remote_record(EAddrConduitContext *ctxt,
 				last_email = E_CARD_SIMPLE_EMAIL_ID_EMAIL_3;
 				break;
 			default:
-				WARN ("ran out of email fields in ecard_from_remote_record!");
 			}
 		} else if (!strcmp (phonelabel, "Home")) {
 			e_card_simple_set(simple, last_home, phonenum);
@@ -556,7 +561,6 @@ ecard_from_remote_record(EAddrConduitContext *ctxt,
 				last_home = E_CARD_SIMPLE_FIELD_PHONE_HOME_2;
 				break;
 			default:
-				WARN ("ran out of home phone fields in ecard_from_remote_record!");
 			}
 		} else if (!strcmp (phonelabel, "Work")) {
 			e_card_simple_set(simple, last_business, phonenum);
@@ -566,11 +570,20 @@ ecard_from_remote_record(EAddrConduitContext *ctxt,
 				last_business = E_CARD_SIMPLE_FIELD_PHONE_BUSINESS_2;
 				break;
 			default:
-				WARN ("ran out of home phone fields in ecard_from_remote_record!");
 			}
-		} else if (!strcmp (phonelabel, "Fax"))
-			e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_PHONE_BUSINESS_FAX, phonenum);
-		else if (!strcmp (phonelabel, "Other"))
+		} else if (!strcmp (phonelabel, "Fax")) {
+			e_card_simple_set(simple, last_fax, phonenum);
+
+			switch (last_fax) {
+			case E_CARD_SIMPLE_FIELD_PHONE_BUSINESS_FAX:
+				last_fax = E_CARD_SIMPLE_FIELD_PHONE_HOME_FAX;
+				break;
+			case E_CARD_SIMPLE_FIELD_PHONE_HOME_FAX:
+				last_fax = E_CARD_SIMPLE_FIELD_PHONE_OTHER_FAX;
+				break;
+			default:
+			}
+		} else if (!strcmp (phonelabel, "Other"))
 			e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_PHONE_OTHER, phonenum);
 		else if (!strcmp (phonelabel, "Main"))
 			e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_PHONE_PRIMARY, phonenum);

@@ -1,3 +1,9 @@
+2001-10-16  JP Rosevear  <jpr@ximian.com>
+
+	* conduit/address-conduit.c (local_record_from_ecard): don't set
+	the phone info if it is blank
+	(ecard_from_remote_record): save up to 3 fax numbers
+
 2001-10-15  Chris Toshok  <toshok@ximian.com>
 
 	* backend/pas/pas-backend-ldap.c (pas_backend_ldap_add_client):
