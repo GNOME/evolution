@@ -56,6 +56,9 @@ struct _CompEditorPrivate {
 	/* Client to use */
 	ECal *client;
 
+	/* Source client (where comp lives currently) */
+	ECal *source_client;
+
 	/* Calendar object/uid we are editing; this is an internal copy */
 	ECalComponent *comp;
 
@@ -100,6 +103,7 @@ static void close_dialog (CompEditor *editor);
 static void page_changed_cb (GtkObject *obj, gpointer data);
 static void page_summary_changed_cb (GtkObject *obj, const char *summary, gpointer data);
 static void page_dates_changed_cb (GtkObject *obj, CompEditorPageDates *dates, gpointer data);
+static void page_client_changed_cb (GtkObject *obj, ECal *client, gpointer data);
 
 static void obj_updated_cb (ECal *client, const char *uid, gpointer data);
 static void obj_removed_cb (ECal *client, const char *uid, gpointer data);
@@ -268,6 +272,12 @@ comp_editor_finalize (GObject *object)
 		priv->client = NULL;
 	}
 	
+	if (priv->source_client) {
+		g_signal_handlers_disconnect_matched (priv->source_client, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, editor);
+		g_object_unref (priv->source_client);
+		priv->source_client = NULL;
+	}
+
 	/* We want to destroy the pages after the widgets get destroyed,
 	   since they have lots of signal handlers connected to the widgets
 	   with the pages as the data. */
@@ -296,6 +306,7 @@ save_comp (CompEditor *editor)
 	GList *l;
 	gboolean result;
 	GError *error = NULL;
+	const char *orig_uid;
 
 	priv = editor->priv;
 
@@ -322,6 +333,8 @@ save_comp (CompEditor *editor)
 
 	priv->updating = TRUE;
 
+	e_cal_component_get_uid (priv->comp, &orig_uid);
+
 	if (!cal_comp_is_on_server (priv->comp, priv->client)) {
 		result = e_cal_create_object (priv->client, e_cal_component_get_icalcomponent (priv->comp), NULL, &error);
 	} else {
@@ -343,6 +356,23 @@ save_comp (CompEditor *editor)
 
 		return FALSE;
 	} else {
+		if (priv->source_client &&
+		    !e_source_equal (e_cal_get_source (priv->client),
+				     e_cal_get_source (priv->source_client)) &&
+		    cal_comp_is_on_server (priv->comp, priv->source_client)) {
+			/* Comp found a new home. Remove it from old one. */
+			e_cal_remove_object (priv->source_client, orig_uid, NULL);
+
+			/* Let priv->source_client point to new home, so we can move it
+			 * again this session. */
+			g_signal_handlers_disconnect_matched (priv->source_client, G_SIGNAL_MATCH_DATA,
+							      0, 0, NULL, NULL, editor);
+			g_object_unref (priv->source_client);
+
+			priv->source_client = priv->client;
+			g_object_ref (priv->source_client);
+		}
+
 		priv->changed = FALSE;
 	}
 
@@ -654,6 +684,8 @@ comp_editor_append_page (CompEditor *editor,
 			    G_CALLBACK (page_summary_changed_cb), editor);
 	g_signal_connect(page, "dates_changed",
 			    G_CALLBACK (page_dates_changed_cb), editor);
+	g_signal_connect(page, "client_changed",
+			    G_CALLBACK (page_client_changed_cb), editor);
 
 	/* Listen for when the page is mapped/unmapped so we can
 	   install/uninstall the appropriate GtkAccelGroup. */
@@ -938,12 +970,19 @@ real_set_e_cal (CompEditor *editor, ECal *client)
 	}
 
 	if (priv->client) {
-		gtk_signal_disconnect_by_data (GTK_OBJECT (priv->client),
-					       editor);
+		g_signal_handlers_disconnect_matched (G_OBJECT (priv->client),
+						      G_SIGNAL_MATCH_DATA,
+						      0, 0, NULL, NULL,
+						      editor);
 		g_object_unref (priv->client);
 	}
 
 	priv->client = client;
+
+	if (!priv->source_client) {
+		priv->source_client = client;
+		g_object_ref (client);
+	}
 
 	/* Pass the client to any pages that need it. */
 	for (elem = priv->pages; elem; elem = elem->next)
@@ -1427,6 +1466,18 @@ page_dates_changed_cb (GtkObject *obj,
 			  _("Changes made to this item may be discarded if an update arrives"));
 		priv->warned = TRUE;
 	}
+}
+
+static void
+page_client_changed_cb (GtkObject *obj, ECal *client, gpointer data)
+{
+	CompEditor *editor = COMP_EDITOR (data);
+	CompEditorPrivate *priv;
+
+	priv = editor->priv;
+
+	priv->changed = TRUE;
+	comp_editor_set_e_cal (editor, client);
 }
 
 static void

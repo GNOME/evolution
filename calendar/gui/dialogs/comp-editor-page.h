@@ -46,7 +46,8 @@ typedef struct {
 typedef struct {
 	GtkObject object;
 
-	/* Some of the pages need the ECal to access timezone data. */
+	/* Some of the pages need the ECal to access timezone data. Also,
+	 * the event page needs to know it to fill the source option menu. */
 	ECal *client;
 
 	/* The GtkAccelGroup for the page. We install this when the page is
@@ -66,6 +67,7 @@ typedef struct {
 
 	void (* summary_changed) (CompEditorPage *page, const char *summary);
 	void (* dates_changed)   (CompEditorPage *page, const char *dates);
+	void (* client_changed)  (CompEditorPage *page, ECal *client);
 
 	/* Virtual methods */
 
@@ -99,6 +101,8 @@ void       comp_editor_page_notify_summary_changed (CompEditorPage      *page,
 						    const char          *summary);
 void       comp_editor_page_notify_dates_changed   (CompEditorPage      *page,
 						    CompEditorPageDates *dates);
+void       comp_editor_page_notify_client_changed  (CompEditorPage      *page,
+						    ECal                *client);
 void       comp_editor_page_display_validation_error (CompEditorPage      *page,
 						      const char          *msg,
 						      GtkWidget           *field);

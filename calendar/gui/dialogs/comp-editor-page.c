@@ -43,6 +43,7 @@ enum {
 	NEEDS_SEND,
 	SUMMARY_CHANGED,
 	DATES_CHANGED,
+	CLIENT_CHANGED,
 	LAST_SIGNAL
 };
 
@@ -130,6 +131,15 @@ comp_editor_page_class_init (CompEditorPageClass *class)
 			      NULL, NULL,
 			      g_cclosure_marshal_VOID__POINTER,
 			      G_TYPE_NONE, 1, G_TYPE_POINTER);
+
+	comp_editor_page_signals[CLIENT_CHANGED] =
+		g_signal_new ("client_changed",
+			      G_TYPE_FROM_CLASS (class),
+			      G_SIGNAL_RUN_FIRST,
+			      G_STRUCT_OFFSET (CompEditorPageClass, client_changed),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__OBJECT,
+			      G_TYPE_NONE, 1, G_TYPE_OBJECT);
 
 	class->changed = NULL;
 	class->summary_changed = NULL;
@@ -272,8 +282,11 @@ comp_editor_page_set_e_cal (CompEditorPage *page, ECal *client)
 	g_return_if_fail (page != NULL);
         g_return_if_fail (IS_COMP_EDITOR_PAGE (page));
 
+	if (client == page->client)
+		return;
+
 	if (page->client)
-		g_object_unref (client);
+		g_object_unref (page->client);
 
 	page->client = client;
 	if (page->client)
@@ -382,6 +395,25 @@ comp_editor_page_notify_dates_changed (CompEditorPage *page,
 	gtk_signal_emit (GTK_OBJECT (page),
 			 comp_editor_page_signals[DATES_CHANGED],
 			 dates);
+}
+
+/**
+ * comp_editor_page_notify_client_changed:
+ * @page: An editor page.
+ * 
+ * Makes an editor page emit the "client_changed" signal.  This is meant to be
+ * used only by page implementations.
+ **/
+void
+comp_editor_page_notify_client_changed (CompEditorPage *page,
+					ECal *client)
+{
+	g_return_if_fail (page != NULL);
+	g_return_if_fail (IS_COMP_EDITOR_PAGE (page));
+
+	gtk_signal_emit (GTK_OBJECT (page),
+			 comp_editor_page_signals[CLIENT_CHANGED],
+			 client);
 }
 
 /**

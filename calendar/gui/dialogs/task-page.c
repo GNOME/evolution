@@ -31,10 +31,12 @@
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtkspinbutton.h>
 #include <gtk/gtkoptionmenu.h>
+#include <gtk/gtkmessagedialog.h>
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
 #include <gal/widgets/e-categories.h>
 #include <widgets/misc/e-dateedit.h>
+#include "widgets/misc/e-source-option-menu.h"
 #include "e-util/e-dialog-widgets.h"
 #include "e-util/e-categories-config.h"
 #include "../e-timezone-entry.h"
@@ -67,6 +69,8 @@ struct _TaskPagePrivate {
 
 	GtkWidget *categories_btn;
 	GtkWidget *categories;
+
+	GtkWidget *source_selector;
 
 	gboolean updating;
 };
@@ -256,6 +260,7 @@ task_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	const char *categories;
 	icaltimezone *zone, *default_zone;
 	char *location;
+	ESource *source;
 
 	tpage = TASK_PAGE (page);
 	priv = tpage->priv;
@@ -399,6 +404,9 @@ task_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	e_cal_component_get_categories (comp, &categories);
 	e_dialog_editable_set (priv->categories, categories);
 
+	/* Source */
+	source = e_cal_get_source (page->client);
+	e_source_option_menu_select (E_SOURCE_OPTION_MENU (priv->source_selector), source);
 
 	priv->updating = FALSE;
 }
@@ -634,6 +642,8 @@ get_widgets (TaskPage *tpage)
 	priv->categories_btn = GW ("categories-button");
 	priv->categories = GW ("categories");
 
+	priv->source_selector = GW ("source");
+
 #undef GW
 
 	return (priv->summary
@@ -772,6 +782,40 @@ field_changed_cb (GtkWidget *widget, gpointer data)
 		comp_editor_page_notify_changed (COMP_EDITOR_PAGE (tpage));
 }
 
+static void
+source_changed_cb (GtkWidget *widget, ESource *source, gpointer data)
+{
+	TaskPage *epage;
+	TaskPagePrivate *priv;
+
+	epage = TASK_PAGE (data);
+	priv = epage->priv;
+
+	if (!priv->updating) {
+		ECal *client;
+
+		client = e_cal_new (source, CALOBJ_TYPE_TODO);
+		if (!client || !e_cal_open (client, FALSE, NULL)) {
+			GtkWidget *dialog;
+
+			if (client)
+				g_object_unref (client);
+
+			e_source_option_menu_select (E_SOURCE_OPTION_MENU (priv->source_selector),
+						     e_cal_get_source (COMP_EDITOR_PAGE (epage)->client));
+
+			dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
+							 GTK_MESSAGE_WARNING, GTK_BUTTONS_OK,
+							 _("Unable to open tasks in '%s'."),
+							 e_source_peek_name (source));
+			gtk_dialog_run (GTK_DIALOG (dialog));
+			gtk_widget_destroy (dialog);
+		} else {
+			comp_editor_page_notify_client_changed (COMP_EDITOR_PAGE (epage), client);
+		}
+	}
+}
+
 /* Hooks the widget signals */
 static gboolean
 init_widgets (TaskPage *tpage)
@@ -839,6 +883,9 @@ init_widgets (TaskPage *tpage)
 	g_signal_connect((priv->categories_btn), "clicked",
 			    G_CALLBACK (categories_clicked_cb), tpage);
 
+	/* Source selector */
+	g_signal_connect((priv->source_selector), "source_selected",
+			 G_CALLBACK (source_changed_cb), tpage);
 
 	/* Set the default timezone, so the timezone entry may be hidden. */
 	location = calendar_config_get_timezone ();
@@ -882,7 +929,7 @@ task_page_construct (TaskPage *tpage)
 	}
 
 	if (!init_widgets (tpage)) {
-		g_message ("event_page_construct(): " 
+		g_message ("task_page_construct(): " 
 			   "Could not initialize the widgets!");
 		return NULL;
 	}
@@ -923,4 +970,23 @@ task_page_create_date_edit (void)
 	e_date_edit_set_allow_no_date_set (E_DATE_EDIT (dedit), TRUE);
 
 	return dedit;
+}
+
+GtkWidget *task_page_create_source_option_menu (void);
+
+GtkWidget *
+task_page_create_source_option_menu (void)
+{
+	GtkWidget   *menu;
+	GConfClient *gconf_client;
+	ESourceList *source_list;
+
+	gconf_client = gconf_client_get_default ();
+	source_list = e_source_list_new_for_gconf (gconf_client, "/apps/evolution/tasks/sources");
+
+	menu = e_source_option_menu_new (source_list);
+	g_object_unref (source_list);
+
+	gtk_widget_show (menu);
+	return menu;
 }

@@ -1,3 +1,48 @@
+2003-12-17  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/dialogs/comp-editor.c: Add the concept of a source client, where
+	the object lives currently. The plain client is where it will be
+	stored.
+	(comp_editor_finalize): If we have a source client, disconnect from
+	and unref it.
+	(save_comp): Check if the object is being moved, and if so, remove it
+	from the source client, and make the target client the new source.
+	(comp_editor_append_page): Connect to client_changed signal.
+	(real_set_e_cal): Change an old gtk_signal_disconnect_by_data() to
+	the GLib equivalent, and don't cast ECal to GtkObject. If the source
+	client is not set, make it equivalent to the target client.
+	(page_client_changed_cb): Implement. Handles a client change.
+
+	* gui/dialogs/comp-editor-page.c (comp_editor_page_class_init): Add
+	a new signal, "client_changed", that notifies that the ECal client
+	was changed from one of the editor pages.
+	(comp_editor_page_set_e_cal): Fix two bugs in this function; if the
+	same client is set twice, its ref count could drop to 0. Additionally,
+	it was unreffing the new client instead of the old one.
+	(comp_editor_page_notify_client_changed): Implement.
+
+	* gui/dialogs/event-page.c (event_page_fill_widgets): Fill in the
+	source menu.
+	(get_widgets): Get the source menu.
+	(source_changed_cb): Implement. Try to open a client for the new
+	source, and if successful, notify of the change. Show a dialog on
+	failure, and revert to last selected source.
+	(init_widgets): Connect to source menu.
+	(event_page_create_source_option_menu): Implement Glade helper.
+
+	* gui/dialogs/task-page.c (task_page_fill_widgets): Fill in the source
+	menu.
+	(get_widgets): Get the source menu.
+	(source_changed_cb): Implement, similar to the event page, but for
+	tasks.
+	(init_widgets): Connect to source menu.
+	(task_page_construct): Fix a message booboo.
+	(task_page_create_source_option_menu): Implement Glade helper.
+
+	* gui/dialogs/event-page.glade: Add source menu widget.
+
+	* gui/dialogs/task-page.glade: Add source menu widget.
+
 2003-12-17  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/tasks-component.c (add_popup_menu_item):
