@@ -2098,7 +2098,18 @@ get_folder_info_online (CamelStore *store, const char *top,
 	}
 	
 	/* Assemble. */
-	tree = camel_folder_info_build (folders, name, imap_store->dir_sep, TRUE);
+
+	/* if building the folder tree, preserve the namespace at the top. Note the
+	 * ==, not strcmp. This makes it so that the subscribe dialog and the folder
+	 * tree have the same layout and prevents the subscribe dialog from building
+	 * infinitely large trees.
+	 */
+
+	if (name == imap_store->namespace)
+		tree = camel_folder_info_build (folders, "", imap_store->dir_sep, TRUE);
+	else
+		tree = camel_folder_info_build (folders, name, imap_store->dir_sep, TRUE);
+
 	if (flags & CAMEL_STORE_FOLDER_INFO_FAST) {
 		g_ptr_array_free (folders, TRUE);
 		return tree;
@@ -2165,6 +2176,15 @@ get_one_folder_offline (const char *physical_path, const char *path, gpointer da
 	CamelURL *url;
 
 	if (*path != '/')
+		return TRUE;
+
+	/* folder_info_build will insert parent nodes as necessary and mark
+	 * them as noselect, which is information we actually don't have at
+	 * the moment. So let it do the right thing by bailing out if it's
+	 * not a folder we're explicitly interested in.
+	 */
+
+	if (g_hash_table_lookup (imap_store->subscribed_folders, path + 1) == 0)
 		return TRUE;
 
 	fi = g_new0 (CamelFolderInfo, 1);
