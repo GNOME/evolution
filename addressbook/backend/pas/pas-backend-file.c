@@ -294,9 +294,8 @@ pas_backend_file_search (PASBackendFile  	      *bf,
 				/* check if the vcard matches the search sexp */
 				if ((!search_needed) || vcard_matches_search (view, vcard_string)) {
 					cards = g_list_prepend (cards, g_strdup (vcard_string));
+					card_count ++;
 				}
-
-				card_count ++;
 
 				/* If we've accumulated a number of checks, pass them off to the client. */
 				if (card_count >= card_threshold) {

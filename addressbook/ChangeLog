@@ -1,3 +1,9 @@
+2002-02-26  Chris Toshok  <toshok@ximian.com>
+
+	* backend/pas/pas-backend-file.c (pas_backend_file_search): move
+	card_count++ inside the if that checks to see if a card matches
+	(and adds the card to the list).
+
 2002-02-24  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/addressbook.c (addressbook_query_changed): only
