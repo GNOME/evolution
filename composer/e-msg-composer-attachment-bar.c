@@ -513,7 +513,7 @@ emcab_popup(EMsgComposerAttachmentBar *bar, GdkEventButton *event, int id)
 	e_popup_add_items((EPopup *)emp, menus, emcab_popups_free, bar);
 	t = em_popup_target_new_attachments(emp, attachments);
 	t->target.widget = (GtkWidget *)bar;
-	menu = e_popup_create_menu_once((EPopup *)emp, (EPopupTarget *)t, t->target.mask, t->target.mask);
+	menu = e_popup_create_menu_once((EPopup *)emp, (EPopupTarget *)t, 0);
 
 	if (event == NULL)
 		gtk_menu_popup(menu, NULL, NULL, emcab_popup_position, bar, 0, gtk_get_current_event_time());

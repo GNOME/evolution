@@ -1,3 +1,8 @@
+2004-10-06  Not Zed  <NotZed@Ximian.com>
+
+	* e-msg-composer.c (drag_data_received): 
+	* e-msg-composer-attachment-bar.c (emcab_popup): e-popup api changes.
+
 2004-10-01  JP Rosevear  <jpr@novell.com>
 
 	* e-msg-composer.c: uses GTKHTML_API_VERSION for the bonobo server

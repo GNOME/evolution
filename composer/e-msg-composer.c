@@ -2929,7 +2929,7 @@ drag_data_received (EMsgComposer *composer, GdkDragContext *context,
 			menus = g_slist_append(menus, &drop_popup_menu[i]);
 
 		e_popup_add_items((EPopup *)emp, menus, drop_popup_free, m);
-		menu = e_popup_create_menu_once((EPopup *)emp, NULL, 0, 0);
+		menu = e_popup_create_menu_once((EPopup *)emp, NULL, 0);
 		gtk_menu_popup(menu, NULL, NULL, NULL, NULL, 0, time);
 	} else {
 		drop_action(composer, context, context->action, selection, info, time);
