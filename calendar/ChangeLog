@@ -14,7 +14,7 @@
 	or VTODO with all the VTIMEZONEs it uses.
 
 	* gui/dialogs/comp-editor.c (save_as_ok): use above function so we
-	save the VTIMEZONE data with the VEVENT/VTODO. Fixes bug #????.
+	save the VTIMEZONE data with the VEVENT/VTODO. Fixes bug #8626.
 	Also made sure we output "METHOD:PUBLISH" since Outlook (2000) will
 	not import it otherwise.
 
