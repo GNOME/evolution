@@ -1,5 +1,10 @@
 2002-10-24  Chris Toshok  <toshok@ximian.com>
 
+       * backend/pas/Makefile.am: install evolutionperson.schema to
+       $(datadir)/evolution.
+
+2002-10-24  Chris Toshok  <toshok@ximian.com>
+
 	[ fixes #29144 ]
 	* gui/component/addressbook-config.c (edit_dialog_store_change):
 	use e_table_memory_storage_change instead of remove/insert, so the

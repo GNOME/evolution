@@ -36,6 +36,10 @@ if ENABLE_LDAP
 LDAP_BACKEND = libpasldap.a
 endif
 
+ldapschemadir = $(datadir)/evolution
+
+ldapschema_DATA= $(LDAP_SCHEMA)
+
 privlib_LIBRARIES = libpas.a
 noinst_LIBRARIES = libpasfile.a $(LDAP_BACKEND)
 
