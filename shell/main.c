@@ -40,7 +40,7 @@
 #include <gconf/gconf-client.h>
 
 #include <gtk/gtkalignment.h>
-#include <gtk/gtkbox.h>
+#include <gtk/gtkvbox.h>
 #include <gtk/gtkframe.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkmain.h>
