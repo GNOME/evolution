@@ -108,13 +108,16 @@ filter(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out, s
 				;
 
 		if (c == '\n' || !midline) {
-			linecount++;
-			node = alloca(sizeof(*node));
-			node->type = EOLN_NODE;
-			node->pointer = inptr - 1;
-			node->next = NULL;
-			tail->next = node;
-			tail = node;
+			/* if there isn't already a carriage-return before the line-feed, count it */
+			if (*(inptr-1) != '\r') {
+				linecount++;
+				node = alloca(sizeof(*node));
+				node->type = EOLN_NODE;
+				node->pointer = inptr - 1;
+				node->next = NULL;
+				tail->next = node;
+				tail = node;
+			}
 
 			left = inend - inptr;
 			if (left > 0) {
