@@ -151,7 +151,8 @@ validate (FilterElement *fe)
 		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_DESTROY_WITH_PARENT,
 						 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
 						 "%s", _("You must specify a folder."));
-		
+
+		gtk_dialog_set_has_separator ((GtkDialog *) dialog, FALSE);
 		gtk_dialog_run ((GtkDialog *) dialog);
 		gtk_widget_destroy (dialog);
 		

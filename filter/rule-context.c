@@ -682,6 +682,7 @@ new_rule_response(GtkWidget *dialog, int button, RuleContext *context)
 							 _("Rule name '%s' is not unique, choose another."),
 							 rule->name);
 
+			gtk_dialog_set_has_separator ((GtkDialog *) dialog, FALSE);
 			gtk_dialog_run ((GtkDialog *) dialog);
 			gtk_widget_destroy (dialog);
 
@@ -717,6 +718,7 @@ rule_context_add_rule_gui(RuleContext *rc, FilterRule *rule, const char *title, 
 			       GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 			       GTK_STOCK_OK, GTK_RESPONSE_OK,
 			       NULL);
+	gtk_dialog_set_has_separator (dialog, FALSE);
 	
 	gtk_window_set_title((GtkWindow *) dialog, title);
 	gtk_window_set_default_size((GtkWindow *) dialog, 600, 400);

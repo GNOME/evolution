@@ -163,13 +163,9 @@ rule_editor_new (RuleContext *rc, const char *source)
 {
 	RuleEditor *re = (RuleEditor *) g_object_new (RULE_TYPE_EDITOR, NULL);
 	GladeXML *gui;
-	GtkWidget *w;
 	
 	gui = glade_xml_new (FILTER_GLADEDIR "/filter.glade", "rule_editor", NULL);
 	rule_editor_construct (re, rc, gui, source);
-	
-        w = glade_xml_get_widget (gui, "rule_frame");
-	gtk_frame_set_label ((GtkFrame *) w, _("Rules"));
 	
 	g_object_unref (gui);
 	
@@ -243,6 +239,7 @@ add_editor_response (GtkWidget *dialog, int button, RuleEditor *re)
 							 _("Rule name '%s' is not unique, choose another."),
 							 re->edit->name);
 			
+			gtk_dialog_set_has_separator ((GtkDialog *) dialog, FALSE);
 			gtk_dialog_run ((GtkDialog *) dialog);
 			gtk_widget_destroy (dialog);
 			
@@ -289,6 +286,7 @@ rule_add (GtkWidget *widget, RuleEditor *re)
 				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 				GTK_STOCK_OK, GTK_RESPONSE_OK,
 				NULL);
+	gtk_dialog_set_has_separator ((GtkDialog *) re->dialog, FALSE);
 	
 	gtk_window_set_title ((GtkWindow *) re->dialog, _("Add Rule"));
 	gtk_window_set_default_size (GTK_WINDOW (re->dialog), 650, 400);
@@ -328,6 +326,7 @@ edit_editor_response (GtkWidget *dialog, int button, RuleEditor *re)
 							 _("Rule name '%s' is not unique, choose another."),
 							 re->edit->name);
 			
+			gtk_dialog_set_has_separator ((GtkDialog *) dialog, FALSE);
 			gtk_dialog_run ((GtkDialog *) dialog);
 			gtk_widget_destroy (dialog);
 			
@@ -371,6 +370,7 @@ rule_edit (GtkWidget *widget, RuleEditor *re)
 				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 				GTK_STOCK_OK, GTK_RESPONSE_OK,
 				NULL);
+	gtk_dialog_set_has_separator ((GtkDialog *) re->dialog, FALSE);
 	
 	gtk_window_set_title ((GtkWindow *) re->dialog, _("Edit Rule"));
 	gtk_window_set_default_size (GTK_WINDOW (re->dialog), 650, 400);
@@ -724,10 +724,9 @@ rule_editor_construct (RuleEditor *re, RuleContext *context, GladeXML *gui, cons
 	
 	gtk_window_set_resizable ((GtkWindow *) re, TRUE);
 	gtk_window_set_default_size ((GtkWindow *) re, 350, 400);
-	gtk_container_set_border_width ((GtkContainer *) re, 6);
-	
-        w = glade_xml_get_widget (gui, "rule_editor");
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (re)->vbox), w, TRUE, TRUE, 3);
+
+	gtk_widget_realize ((GtkWidget *) re);
+	gtk_container_set_border_width ((GtkContainer *) ((GtkDialog *) re)->action_area, 12);
 	
 	for (i = 0; i < BUTTON_LAST; i++) {
 		re->priv->buttons[i] = (GtkButton *) w = glade_xml_get_widget (gui, edit_buttons[i].name);
@@ -740,10 +739,14 @@ rule_editor_construct (RuleEditor *re, RuleContext *context, GladeXML *gui, cons
 	
 	g_signal_connect (re->list, "cursor-changed", G_CALLBACK (cursor_changed), re);
 	g_signal_connect (re->list, "row-activated", G_CALLBACK (double_click), re);
-	
+
+	w = glade_xml_get_widget (gui, "filter_label");
+	gtk_label_set_mnemonic_widget ((GtkLabel *) w, (GtkWidget *) re->list);
+
 	g_signal_connect (re, "response", G_CALLBACK (editor_response), re);
 	rule_editor_set_source (re, source);
-	
+
+	gtk_dialog_set_has_separator ((GtkDialog *) re, FALSE);
 	gtk_dialog_add_buttons ((GtkDialog *) re,
 				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 				GTK_STOCK_OK, GTK_RESPONSE_OK,

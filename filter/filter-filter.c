@@ -475,7 +475,7 @@ more_parts (GtkWidget *button, struct _rule_data *data)
 static GtkWidget *
 get_widget (FilterRule *fr, RuleContext *rc)
 {
-	GtkWidget *widget, *hbox, *add, *frame;
+	GtkWidget *widget, *hbox, *add, *label;
 	GtkWidget *parts, *inframe, *w;
 	GtkWidget *scrolledwindow;
 	GtkObject *hadj, *vadj;
@@ -488,10 +488,22 @@ get_widget (FilterRule *fr, RuleContext *rc)
         widget = FILTER_RULE_CLASS (parent_class)->get_widget (fr, rc);
 	
 	/* and now for the action area */
-	frame = gtk_frame_new (_("Then"));
-	inframe = gtk_vbox_new (FALSE, 3);
-	gtk_container_add (GTK_CONTAINER (frame), inframe);
-	gtk_container_set_border_width (GTK_CONTAINER (inframe), 6);
+	label = gtk_label_new (_("<b>Then</b>"));
+	gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
+	gtk_misc_set_alignment (GTK_MISC (label), 0, 0.5);
+	gtk_box_pack_start (GTK_BOX (widget), label, FALSE, FALSE, 0);
+	gtk_widget_show (label);
+
+	hbox = gtk_hbox_new (FALSE, 12);
+	gtk_box_pack_start (GTK_BOX (widget), hbox, FALSE, FALSE, 0);
+	gtk_widget_show (hbox);
+
+	label = gtk_label_new ("");
+	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+	gtk_widget_show (label);
+
+	inframe = gtk_vbox_new (FALSE, 6);
+	gtk_box_pack_start (GTK_BOX (hbox), inframe, TRUE, TRUE, 0);
 	
 	rows = g_list_length (ff->actions);
 	parts = gtk_table_new (rows, 2, FALSE);
@@ -526,13 +538,11 @@ get_widget (FilterRule *fr, RuleContext *rc)
 	
 	gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (scrolledwindow), parts);
 	
-	gtk_box_pack_start (GTK_BOX (inframe), scrolledwindow, TRUE, TRUE, 3);
+	gtk_box_pack_start (GTK_BOX (inframe), scrolledwindow, TRUE, TRUE, 0);
 	
 	/*gtk_box_pack_start (GTK_BOX (inframe), parts, FALSE, FALSE, 3);*/
 	
-	gtk_widget_show_all (frame);
-	
-	gtk_box_pack_start (GTK_BOX (widget), frame, TRUE, TRUE, 3);
+	gtk_widget_show_all (widget);
 	
 	return widget;
 }

@@ -214,6 +214,7 @@ validate (FilterRule *fr)
 						 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
 						 "%s", _("You must name this vfolder."));
 		
+		gtk_dialog_set_has_separator ((GtkDialog *) dialog, FALSE);
 		gtk_dialog_run ((GtkDialog *) dialog);
 		gtk_widget_destroy (dialog);
 		
@@ -228,6 +229,7 @@ validate (FilterRule *fr)
 						 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
 						 "%s", _("You need to to specify at least one folder as a source."));
 		
+		gtk_dialog_set_has_separator ((GtkDialog *) dialog, FALSE);
 		gtk_dialog_run ((GtkDialog *) dialog);
 		gtk_widget_destroy (dialog);
 		

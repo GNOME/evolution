@@ -108,10 +108,11 @@ filter_editor_new (FilterContext *fc, const char **source_names)
 	GtkWidget *w;
 	
 	gui = glade_xml_new (FILTER_GLADEDIR "/filter.glade", "rule_editor", NULL);
+
+        w = glade_xml_get_widget (gui, "rule_editor");
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (fe)->vbox), w, TRUE, TRUE, 0);
+
 	filter_editor_construct (fe, fc, gui, source_names);
-	
-	w = glade_xml_get_widget (gui, "rule_frame");
-	gtk_frame_set_label (GTK_FRAME (w), _("Filter Rules"));
 	
 	g_object_unref (gui);
 	

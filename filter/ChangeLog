@@ -1,3 +1,35 @@
+2004-04-15  Rodney Dawes  <dobey@ximian.com>
+
+	* filter-datespec.c (validate):
+	(button_clicked): Hide the separators on these dialogs
+	* filter-editor.c (filter_editor_new): Re-pack the rule_editor widget
+	in here, and get rid of the GtkFrame-related code
+	* filter-file.c (validate): Hide the separators on these dialogs
+	* filter-filter.c (get_widget): Get rid of the GtkFrame, and relayout
+	the widgets to be HIG-compliant
+	* filter-folder.c (validate): Hide the separator on this dialog
+	* filter-input.c (validate): Hide the separator on this dialog
+	* filter-part.c (main): Hide the separator on this dialog
+	* filter-rule.c (validate): Hide the separator on this dialog
+	(get_widget): Get rid of the GtkFrame, and relayout the widgets to be
+	HIG-compliant
+	* filter.glade: Make the widget layouts here be HIG-compliant
+	* rule-context.c (new_rule_response):
+	(rule_context_add_rule_gui): Hide the separators on these dialogs
+	* rule-editor.c (rule_editor_new): Get rid of the GtkFrame-related code
+	(add_editor_response): Hide the dialog separator here
+	(rule_add): Hide the dialog separator here
+	(edit_editor_response): Hide the dialog separator here
+	(rule_edit): Hide the dialog separator here
+	(rule_editor_construct): Remove the rule_editor repacking code
+	Set the dialog vbox's border width to 12
+	Set the mnemonic for the filter label here
+	Hide the dialog separator on the filter editor dialog
+	* vfolder-editor.c (vfolder_editor_new): Re-pack the appropriate
+	editor widget in here
+	Get rid of the GtkFrame-related code
+	* vfolder-rule.c (validate): Hide the dialog separators here
+
 2004-02-20  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* rule-editor.c (rule_delete): After setting the new selected

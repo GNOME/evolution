@@ -218,6 +218,7 @@ validate (FilterRule *fr)
 						 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
 						 "%s", _("You must name this filter."));
 		
+		gtk_dialog_set_has_separator ((GtkDialog *) dialog, FALSE);
 		gtk_dialog_run ((GtkDialog *) dialog);
 		gtk_widget_destroy (dialog);
 		
@@ -735,7 +736,7 @@ static GtkWidget *
 get_widget (FilterRule *fr, struct _RuleContext *f)
 {
 	GtkWidget *hbox, *vbox, *parts, *inframe;
-	GtkWidget *add, *frame, *label, *name, *w;
+	GtkWidget *add, *label, *name, *w;
 	GtkWidget *omenu, *menu, *item;
 	GtkWidget *scrolledwindow;
 	GtkObject *hadj, *vadj;
@@ -746,9 +747,9 @@ get_widget (FilterRule *fr, struct _RuleContext *f)
 	
 	/* this stuff should probably be a table, but the
 	   rule parts need to be a vbox */
-	vbox = gtk_vbox_new (FALSE, 3);
-	
-	label = gtk_label_new (_("Rule name: "));
+	vbox = gtk_vbox_new (FALSE, 6);
+
+	label = gtk_label_new (_("Rule name:"));
 	name = gtk_entry_new ();
 	
 	if (!fr->name) {
@@ -763,16 +764,34 @@ get_widget (FilterRule *fr, struct _RuleContext *f)
 	/* evil kludgy hack because gtk sucks */
 	g_signal_connect (name, "realize", G_CALLBACK (grab_focus), name);
 	
-	hbox = gtk_hbox_new (FALSE, 3);
+	hbox = gtk_hbox_new (FALSE, 12);
 	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (hbox), name, TRUE, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
 	g_signal_connect (name, "changed", G_CALLBACK (name_changed), fr);
-	
-	frame = gtk_frame_new (_("If"));
-	inframe = gtk_vbox_new (FALSE, 3);
-	gtk_container_add (GTK_CONTAINER (frame), inframe);
-	gtk_container_set_border_width (GTK_CONTAINER (inframe), 6);
+	gtk_widget_show (label);
+	gtk_widget_show (hbox);
+
+	hbox = gtk_hbox_new (FALSE, 12);
+	gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
+	gtk_widget_show (hbox);
+
+	label = gtk_label_new (_("<b>If</b>"));
+	gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
+	gtk_misc_set_alignment (GTK_MISC (label), 0, 0.5);
+	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+	gtk_widget_show (label);
+
+	hbox = gtk_hbox_new (FALSE, 12);
+	gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
+	gtk_widget_show (hbox);
+
+	label = gtk_label_new ("");
+	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+	gtk_widget_show (label);
+
+	inframe = gtk_vbox_new (FALSE, 6);
+	gtk_box_pack_start (GTK_BOX (hbox), inframe, TRUE, TRUE, 0);
 	
 	/* this is the parts table, it should probably be inside a scrolling list */
 	rows = g_list_length (fr->parts);
@@ -835,10 +854,6 @@ get_widget (FilterRule *fr, struct _RuleContext *f)
 	gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (scrolledwindow), parts);
 	
 	gtk_box_pack_start (GTK_BOX (inframe), scrolledwindow, TRUE, TRUE, 3);
-	
-	/*gtk_box_pack_start (GTK_BOX (inframe), parts, FALSE, FALSE, 3); */
-	
-	gtk_box_pack_start (GTK_BOX (vbox), frame, TRUE, TRUE, 0);
 	
 	gtk_widget_show_all (vbox);
 	

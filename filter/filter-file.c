@@ -165,6 +165,7 @@ validate (FilterElement *fe)
 						 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
 						 "%s", _("You must specify a file name."));
 		
+		gtk_dialog_set_has_separator ((GtkDialog *) dialog, FALSE);
 		gtk_dialog_run ((GtkDialog *) dialog);
 		gtk_widget_destroy (dialog);
 		
@@ -184,6 +185,7 @@ validate (FilterElement *fe)
 							 _("File '%s' does not exist or is not a regular file."),
 							 file->path);
 			
+			gtk_dialog_set_has_separator ((GtkDialog *) dialog, FALSE);
 			gtk_dialog_run ((GtkDialog *) dialog);
 			gtk_widget_destroy (dialog);
 			

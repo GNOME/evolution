@@ -528,6 +528,7 @@ int main(int argc, char **argv)
 	
 	dialog = gtk_dialog_new ();
 	gtk_dialog_add_buttons ((GtkDialog *) dialog, GTK_BUTTONS_OK, NULL);
+	gtk_dialog_set_has_separator ((GtkDialog *) dialog, FALSE);
 	gtk_window_set_title ((GtkWindow *) dialog, _("Test"));
 	gtk_window_set_policy ((GtkWindow *) dialog, FALSE, TRUE, FALSE);
 	gtk_box_pack_start ((GtkBox *) dialog->vbox, w, TRUE, TRUE, 0);

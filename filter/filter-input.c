@@ -193,6 +193,7 @@ validate (FilterElement *fe)
 							 _("Error in regular expression '%s':\n%s"),
 							 pattern, regmsg);
 			
+			gtk_dialog_set_has_separator ((GtkDialog *) dialog, FALSE);
 			gtk_dialog_run ((GtkDialog *) dialog);
 			gtk_widget_destroy (dialog);
 			g_free (regmsg);

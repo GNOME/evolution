@@ -175,6 +175,7 @@ validate (FilterElement *fe)
 						 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
 						 "%s", _("You must choose a date."));
 		
+		gtk_dialog_set_has_separator ((GtkDialog *) dialog, FALSE);
 		gtk_dialog_run ((GtkDialog *) dialog);
 		gtk_widget_destroy (dialog);
 	}
@@ -408,6 +409,7 @@ button_clicked (GtkButton *button, FilterDatespec *fds)
 				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 				GTK_STOCK_OK, GTK_RESPONSE_OK,
 				NULL);
+	gtk_dialog_set_has_separator (dialog, FALSE);
 	
 	p->notebook_type = glade_xml_get_widget (gui, "notebook_type");
 	p->option_type = glade_xml_get_widget (gui, "option_type");
