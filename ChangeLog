@@ -1,3 +1,8 @@
+2004-08-12  Jeffrey Stedfast  <fejj@novell.com>
+
+	* configure.in: Check for gtk+-2.4 in order to enable the use of
+	GtkFileChooser.
+
 2004-08-09  Ankit Patel <ankit@redhat.com>
 
 	* configure.in: Gujarati & Panjabi Languages added
@@ -15,8 +20,9 @@
 	* configure.in: Added 'he' (Hebrew) to ALL_LINGUAS.
 
 2004-07-21  Ray Strode  <rstrode@redhat.com>
-	* evolution/data/evolution.desktop.in.in: Add MimeType line to desktop file
-	new mime sytem.
+
+	* evolution/data/evolution.desktop.in.in: Add MimeType line to
+	desktop file new mime sytem.
 
 2004-07-19   JP Rosevear  <jpr@novell.com>
 

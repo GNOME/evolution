@@ -1007,6 +1007,14 @@ AC_DEFUN(EVO_SET_COMPILE_FLAGS, [
 	$1_LIBS="$EVOLUTION_LIBS $extra_libs"
 ])
 
+dnl enable USE_GTKFILECHOOSER if gtk version is > 2.4.0
+AC_ARG_ENABLE(file-chooser, [  --enable-file-chooser    Enable the usage of the GtkFileChooser in place of the GtkFileSelection dialog], enable_file_chooser="$enableval", enable_file_chooser="yes")
+if test "x$enable_file_chooser" = "xyes"; then
+  if pkg-config --atleast-version=2.4.0 gtk+-2.0; then
+    AC_DEFINE(USE_GTKFILECHOOSER,1,[Use new GtkFileChooser])
+  fi
+fi
+
 dnl --- Required version numbers
 
 GAL_REQUIRED=2.1.13
