@@ -129,6 +129,28 @@ alarm_notify_new (void)
 	return an;
 }
 
+static void
+cal_opened_cb (ECal *client, ECalendarStatus status, gpointer user_data)
+{
+	AlarmNotifyPrivate *priv;
+	AlarmNotify *an = ALARM_NOTIFY (user_data);
+
+	priv = an->priv;
+
+	if (status == E_CALENDAR_STATUS_OK)
+		alarm_queue_add_client (client);
+	else {
+		gpointer orig_key, orig_value;
+
+		if (g_hash_table_lookup_extended (priv->uri_client_hash, e_cal_get_uri (client), &orig_key, &orig_value)) {
+			g_hash_table_remove (priv->uri_client_hash, orig_key);
+			g_free (orig_key);
+		}
+
+		g_object_unref (client);
+	}
+}
+
 /**
  * alarm_notify_add_calendar:
  * @an: An alarm notification service.
@@ -159,11 +181,9 @@ alarm_notify_add_calendar (AlarmNotify *an, const char *str_uri, gboolean load_a
 	client = auth_new_cal_from_uri (str_uri, E_CAL_SOURCE_TYPE_EVENT);
 
 	if (client) {
-		if (e_cal_open (client, FALSE, NULL)) {
-			g_hash_table_insert (priv->uri_client_hash,
-					     g_strdup (str_uri), client);
-			alarm_queue_add_client (client);
-		}
+		g_hash_table_insert (priv->uri_client_hash, g_strdup (str_uri), client);
+		g_signal_connect (G_OBJECT (client), "cal_opened", G_CALLBACK (cal_opened_cb), an);
+		e_cal_open_async (client, FALSE);
 	}
 }
 

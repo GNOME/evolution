@@ -1,5 +1,10 @@
 2004-02-16  Rodrigo Moya <rodrigo@ximian.com>
 
+	* gui/alarm-notify/alarm-notify.c (alarm_notify_add_calendar): open the
+	calendars asynchonously.
+	(cal_opened_cb): callback for "cal_opened" signal. Add the calendars to
+	the alarm queue here.
+
 	* gui/alarm-notify/alarm-queue.c (query_objects_changed_cb): get alarms
 	since the last notification, only use current time when there is no
 	previous notification time.
