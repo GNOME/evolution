@@ -123,7 +123,7 @@ config_sort_info_update (ETableConfig *config)
 {
 	ETableSortInfo *info = config->state->sort_info;
 	GString *res;
-	int count, i;
+	int count, i, items = 0;
 
 	count = e_table_sort_info_sorting_get_count (info);
 	res = g_string_new ("");
@@ -140,6 +140,9 @@ config_sort_info_update (ETableConfig *config)
 					res,
 					col.ascending ?
 					_("(Ascending)") : _("(Descending)"));
+				items++;
+				if (items > 4)
+					g_string_append_c (res, '\n');
 				break;
 			}
 		}
@@ -157,7 +160,7 @@ config_group_info_update (ETableConfig *config)
 {
 	ETableSortInfo *info = config->state->sort_info;
 	GString *res;
-	int count, i;
+	int count, i, items = 0;
 
 	count = e_table_sort_info_grouping_get_count (info);
 	res = g_string_new ("");
@@ -174,6 +177,11 @@ config_group_info_update (ETableConfig *config)
 					res,
 					col.ascending ?
 					_("(Ascending)") : _("(Descending)"));
+
+				items++;
+				if (items > 4)
+					g_string_append_c (res, '\n');
+				break;
 			}
 		}
 	}
@@ -189,11 +197,16 @@ config_fields_info_update (ETableConfig *config)
 {
 	ETableColumnSpecification **column;
 	GString *res = g_string_new ("");
-
+	int items = 0;
+	
 	for (column = config->spec->columns; *column; *column++){
 		g_string_append (res, (*column)->title_);
 		if (column [1])
 			g_string_append (res, ", ");
+		items++;
+
+		if (items > 5)
+			g_string_append_c (res, '\n');
 	}
 
 	gtk_label_set_text (GTK_LABEL (config->fields_label), res->str);
