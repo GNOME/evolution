@@ -1,3 +1,3 @@
-SUBDIRS = C no
+SUBDIRS = C
 
 EXTRA_DIST = xmldocs.make

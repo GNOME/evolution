@@ -30,9 +30,9 @@ figs = \
 	figures/summary.png			\
 	figures/vfolder-createrule-fig.png
 figdir = figures
-docname = evolution
+docname = evolution-1.4
 lang = C
-omffile = evolution-C.omf
+omffile = evolution-1.4-C.omf
 entities =	\
 	apx-authors.xml		\
 	apx-bugs.xml		\
@@ -52,6 +52,7 @@ entities =	\
 	usage-mail.xml		\
 	usage-mainwindow.xml	\
 	usage-print.xml		\
-	usage-sync.xml		\
+	usage-sync.xml
+
 include $(top_srcdir)/help/xmldocs.make
 dist-hook: app-dist-hook

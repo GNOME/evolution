@@ -1,3 +1,15 @@
+2003-03-26  Ettore Perazzoli  <ettore@ximian.com>
+
+	* C/evolution-1.4-C.omf: Renamed from evolution-C.omf.
+	* C/evolution-1.4.xml: Renamed from evolution.xml.
+
+	* Makefile.am (SUBDIRS): Remove "no" for now.
+
+	* xmldocs.make: Updated to most recent version on GNOME CVS.
+
+	* C/Makefile.am (docname): Add version.
+	(omffile): Likewise.
+
 2003-03-19  Aaron Weber  <aaron@ximian.com>
 
 	* Makefile.am: s/sgml/xml/ (DOH)

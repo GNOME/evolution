@@ -46,7 +46,7 @@ EXTRA_DIST = $(xml_files) $(omffile)
 CLEANFILES = omf_timestamp
 
 # If the following file is in a subdir (like help/) you need to add that to the path
-include $(top_srcdir)/omf.make
+include $(top_srcdir)/help/omf.make
 
 all: omf
 
