@@ -717,7 +717,7 @@ emft_tree_row_expanded (GtkTreeView *treeview, GtkTreeIter *root, GtkTreePath *t
 	emft_update_model_expanded_state (priv, root, TRUE);
 	
 	if (!load) {
-		em_folder_tree_queue_save_state (emft);
+		emft_queue_save_state (emft);
 		return;
 	}
 	
@@ -1102,7 +1102,6 @@ emft_popup_delete_rec (CamelStore *store, CamelFolderInfo *fi, CamelException *e
 		
 		if (fi->child) {
 			emft_popup_delete_rec (store, fi->child, ex);
-			
 			if (camel_exception_is_set (ex))
 				return;
 		}
@@ -1113,8 +1112,10 @@ emft_popup_delete_rec (CamelStore *store, CamelFolderInfo *fi, CamelException *e
 		if (camel_store_supports_subscriptions (store))
 			camel_store_unsubscribe_folder (store, fi->full_name, NULL);
 		
-		folder = camel_store_get_folder (store, fi->full_name, 0, NULL);
-		if (folder) {
+		if (!(folder = camel_store_get_folder (store, fi->full_name, 0, ex)))
+			return;
+		
+		if (!CAMEL_IS_VEE_FOLDER (folder)) {
 			GPtrArray *uids = camel_folder_get_uids (folder);
 			int i;
 			

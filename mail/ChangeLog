@@ -2,6 +2,8 @@
 
 	* em-folder-tree.c: Shorten the namespace of some internal
 	functions to just emft.
+	(emft_popup_delete_rec): Don't delete the contents of a folder if
+	it is a vFolder. Fixes bug #52029.
 
 	* em-mailer-prefs.c (em_mailer_prefs_construct): Use newv() here
 	and pass an array of GTypes - makes it simpler to change the order
