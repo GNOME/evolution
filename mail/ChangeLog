@@ -1,3 +1,14 @@
+2004-04-06  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-mailer-prefs.c (em_mailer_prefs_construct): Changed to save
+	the settings in the signal callbacks.
+	(em_mailer_prefs_apply): Don't save the settings here.
+
+	* em-composer-prefs.c (em_composer_prefs_apply): Don't save the
+	settings here.
+	(em_composer_prefs_construct): Changed to save the settings in the
+	signal callbacks.
+
 2004-04-06  Not Zed  <NotZed@Ximian.com>
 
 	* em-folder-tree.c (emft_tree_row_expanded): ref the emfoldertree

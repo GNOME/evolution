@@ -11,11 +11,6 @@
   <property name="modal">False</property>
   <property name="resizable">True</property>
   <property name="destroy_with_parent">False</property>
-  <property name="decorated">True</property>
-  <property name="skip_taskbar_hint">False</property>
-  <property name="skip_pager_hint">False</property>
-  <property name="type_hint">GDK_WINDOW_TYPE_HINT_NORMAL</property>
-  <property name="gravity">GDK_GRAVITY_NORTH_WEST</property>
 
   <child>
     <widget class="GnomeDruid" id="druid">
@@ -163,11 +158,6 @@ Click &quot;Apply&quot; to save your settings.</property>
   <property name="modal">False</property>
   <property name="resizable">True</property>
   <property name="destroy_with_parent">False</property>
-  <property name="decorated">True</property>
-  <property name="skip_taskbar_hint">False</property>
-  <property name="skip_pager_hint">False</property>
-  <property name="type_hint">GDK_WINDOW_TYPE_HINT_NORMAL</property>
-  <property name="gravity">GDK_GRAVITY_NORTH_WEST</property>
 
   <child>
     <widget class="GtkNotebook" id="account_editor_notebook">
@@ -683,7 +673,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			      <property name="label" translatable="yes">Add Ne_w Signature...</property>
 			      <property name="use_underline">True</property>
 			      <property name="relief">GTK_RELIEF_NORMAL</property>
-			      <property name="focus_on_click">True</property>
 			      <signal name="clicked" handler="sigAddNewClicked"/>
 			    </widget>
 			    <packing>
@@ -803,7 +792,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			  <property name="label" translatable="yes">_Make this my default account</property>
 			  <property name="use_underline">True</property>
 			  <property name="relief">GTK_RELIEF_NORMAL</property>
-			  <property name="focus_on_click">True</property>
 			  <property name="active">False</property>
 			  <property name="inconsistent">False</property>
 			  <property name="draw_indicator">True</property>
@@ -1248,7 +1236,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 				  <property name="browse_dialog_title" translatable="yes">Mailbox location</property>
 				  <property name="directory_entry">False</property>
 				  <property name="modal">False</property>
-				  <property name="use_filechooser">False</property>
 
 				  <child internal-child="entry">
 				    <widget class="GtkEntry" id="source_path">
@@ -1410,7 +1397,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 				  <property name="label" translatable="yes"> Ch_eck for Supported Types </property>
 				  <property name="use_underline">True</property>
 				  <property name="relief">GTK_RELIEF_NORMAL</property>
-				  <property name="focus_on_click">True</property>
 				</widget>
 				<packing>
 				  <property name="padding">0</property>
@@ -1434,7 +1420,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			      <property name="label" translatable="yes">Re_member password</property>
 			      <property name="use_underline">True</property>
 			      <property name="relief">GTK_RELIEF_NORMAL</property>
-			      <property name="focus_on_click">True</property>
 			      <property name="active">False</property>
 			      <property name="inconsistent">False</property>
 			      <property name="draw_indicator">True</property>
@@ -1816,7 +1801,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			      <property name="label" translatable="yes">Automatically check for _new mail every</property>
 			      <property name="use_underline">True</property>
 			      <property name="relief">GTK_RELIEF_NORMAL</property>
-			      <property name="focus_on_click">True</property>
 			      <property name="active">False</property>
 			      <property name="inconsistent">False</property>
 			      <property name="draw_indicator">True</property>
@@ -2224,7 +2208,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 				  <property name="label" translatable="yes">Ser_ver requires authentication</property>
 				  <property name="use_underline">True</property>
 				  <property name="relief">GTK_RELIEF_NORMAL</property>
-				  <property name="focus_on_click">True</property>
 				  <property name="active">False</property>
 				  <property name="inconsistent">False</property>
 				  <property name="draw_indicator">True</property>
@@ -2462,7 +2445,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 					  <property name="label" translatable="yes">Ch_eck for Supported Types </property>
 					  <property name="use_underline">True</property>
 					  <property name="relief">GTK_RELIEF_NORMAL</property>
-					  <property name="focus_on_click">True</property>
 					</widget>
 					<packing>
 					  <property name="padding">0</property>
@@ -2505,7 +2487,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 				  <property name="label" translatable="yes">Remember _password</property>
 				  <property name="use_underline">True</property>
 				  <property name="relief">GTK_RELIEF_NORMAL</property>
-				  <property name="focus_on_click">True</property>
 				  <property name="active">False</property>
 				  <property name="inconsistent">False</property>
 				  <property name="draw_indicator">True</property>
@@ -2998,7 +2979,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 				      <property name="label">gtk-revert-to-saved</property>
 				      <property name="use_stock">True</property>
 				      <property name="relief">GTK_RELIEF_NORMAL</property>
-				      <property name="focus_on_click">True</property>
 				    </widget>
 				    <packing>
 				      <property name="padding">0</property>
@@ -3147,7 +3127,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 				  <property name="label" translatable="yes">Alway_s carbon-copy (cc) to:</property>
 				  <property name="use_underline">True</property>
 				  <property name="relief">GTK_RELIEF_NORMAL</property>
-				  <property name="focus_on_click">True</property>
 				  <property name="active">False</property>
 				  <property name="inconsistent">False</property>
 				  <property name="draw_indicator">True</property>
@@ -3263,7 +3242,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 				  <property name="label" translatable="yes">Always _blind carbon-copy (bcc) to:</property>
 				  <property name="use_underline">True</property>
 				  <property name="relief">GTK_RELIEF_NORMAL</property>
-				  <property name="focus_on_click">True</property>
 				  <property name="active">False</property>
 				  <property name="inconsistent">False</property>
 				  <property name="draw_indicator">True</property>
@@ -3557,7 +3535,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			      <property name="label" translatable="yes">Always _sign outgoing messages when using this account</property>
 			      <property name="use_underline">True</property>
 			      <property name="relief">GTK_RELIEF_NORMAL</property>
-			      <property name="focus_on_click">True</property>
 			      <property name="active">False</property>
 			      <property name="inconsistent">False</property>
 			      <property name="draw_indicator">True</property>
@@ -3576,7 +3553,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			      <property name="label" translatable="yes">Don't sign _meeting requests (for Outlook compatibility)</property>
 			      <property name="use_underline">True</property>
 			      <property name="relief">GTK_RELIEF_NORMAL</property>
-			      <property name="focus_on_click">True</property>
 			      <property name="active">False</property>
 			      <property name="inconsistent">False</property>
 			      <property name="draw_indicator">True</property>
@@ -3595,7 +3571,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			      <property name="label" translatable="yes">Al_ways encrypt to myself when sending encrypted mail</property>
 			      <property name="use_underline">True</property>
 			      <property name="relief">GTK_RELIEF_NORMAL</property>
-			      <property name="focus_on_click">True</property>
 			      <property name="active">True</property>
 			      <property name="inconsistent">False</property>
 			      <property name="draw_indicator">True</property>
@@ -3614,7 +3589,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			      <property name="label" translatable="yes">Always _trust keys in my keyring when encrypting</property>
 			      <property name="use_underline">True</property>
 			      <property name="relief">GTK_RELIEF_NORMAL</property>
-			      <property name="focus_on_click">True</property>
 			      <property name="active">False</property>
 			      <property name="inconsistent">False</property>
 			      <property name="draw_indicator">True</property>
@@ -3767,7 +3741,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			  <property name="label" translatable="yes">A_lso encrypt to self when sending encrypted mail</property>
 			  <property name="use_underline">True</property>
 			  <property name="relief">GTK_RELIEF_NORMAL</property>
-			  <property name="focus_on_click">True</property>
 			  <property name="active">False</property>
 			  <property name="inconsistent">False</property>
 			  <property name="draw_indicator">True</property>
@@ -3789,7 +3762,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			  <property name="label" translatable="yes">_Encrypt outgoing messages (by default)</property>
 			  <property name="use_underline">True</property>
 			  <property name="relief">GTK_RELIEF_NORMAL</property>
-			  <property name="focus_on_click">True</property>
 			  <property name="active">False</property>
 			  <property name="inconsistent">False</property>
 			  <property name="draw_indicator">True</property>
@@ -3811,7 +3783,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			  <property name="label" translatable="yes">_Digitally sign outgoing messages (by default)</property>
 			  <property name="use_underline">True</property>
 			  <property name="relief">GTK_RELIEF_NORMAL</property>
-			  <property name="focus_on_click">True</property>
 			  <property name="active">False</property>
 			  <property name="inconsistent">False</property>
 			  <property name="draw_indicator">True</property>
@@ -3902,7 +3873,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			      <property name="visible">True</property>
 			      <property name="can_focus">True</property>
 			      <property name="relief">GTK_RELIEF_NORMAL</property>
-			      <property name="focus_on_click">True</property>
 
 			      <child>
 				<widget class="GtkAlignment" id="alignment28">
@@ -3911,10 +3881,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 				  <property name="yalign">0.5</property>
 				  <property name="xscale">0</property>
 				  <property name="yscale">0</property>
-				  <property name="top_padding">0</property>
-				  <property name="bottom_padding">0</property>
-				  <property name="left_padding">0</property>
-				  <property name="right_padding">0</property>
 
 				  <child>
 				    <widget class="GtkHBox" id="hbox175">
@@ -3978,7 +3944,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			      <property name="label">gtk-clear</property>
 			      <property name="use_stock">True</property>
 			      <property name="relief">GTK_RELIEF_NORMAL</property>
-			      <property name="focus_on_click">True</property>
 			    </widget>
 			    <packing>
 			      <property name="padding">0</property>
@@ -4008,7 +3973,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			      <property name="visible">True</property>
 			      <property name="can_focus">True</property>
 			      <property name="relief">GTK_RELIEF_NORMAL</property>
-			      <property name="focus_on_click">True</property>
 
 			      <child>
 				<widget class="GtkAlignment" id="alignment29">
@@ -4017,10 +3981,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 				  <property name="yalign">0.5</property>
 				  <property name="xscale">0</property>
 				  <property name="yscale">0</property>
-				  <property name="top_padding">0</property>
-				  <property name="bottom_padding">0</property>
-				  <property name="left_padding">0</property>
-				  <property name="right_padding">0</property>
 
 				  <child>
 				    <widget class="GtkHBox" id="hbox176">
@@ -4084,7 +4044,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			      <property name="label">gtk-clear</property>
 			      <property name="use_stock">True</property>
 			      <property name="relief">GTK_RELIEF_NORMAL</property>
-			      <property name="focus_on_click">True</property>
 			    </widget>
 			    <packing>
 			      <property name="padding">0</property>
@@ -4159,11 +4118,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
   <property name="modal">False</property>
   <property name="resizable">True</property>
   <property name="destroy_with_parent">False</property>
-  <property name="decorated">True</property>
-  <property name="skip_taskbar_hint">False</property>
-  <property name="skip_pager_hint">False</property>
-  <property name="type_hint">GDK_WINDOW_TYPE_HINT_NORMAL</property>
-  <property name="gravity">GDK_GRAVITY_NORTH_WEST</property>
 
   <child>
     <widget class="GtkHBox" id="toplevel">
@@ -4206,7 +4160,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 		  <property name="label">gtk-add</property>
 		  <property name="use_stock">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
-		  <property name="focus_on_click">True</property>
 		</widget>
 	      </child>
 
@@ -4217,7 +4170,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 		  <property name="can_default">True</property>
 		  <property name="can_focus">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
-		  <property name="focus_on_click">True</property>
 
 		  <child>
 		    <widget class="GtkAlignment" id="alignment33">
@@ -4226,10 +4178,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 		      <property name="yalign">0.5</property>
 		      <property name="xscale">0</property>
 		      <property name="yscale">0</property>
-		      <property name="top_padding">0</property>
-		      <property name="bottom_padding">0</property>
-		      <property name="left_padding">0</property>
-		      <property name="right_padding">0</property>
 
 		      <child>
 			<widget class="GtkHBox" id="hbox224">
@@ -4290,7 +4238,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 		  <property name="label">gtk-remove</property>
 		  <property name="use_stock">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
-		  <property name="focus_on_click">True</property>
 		</widget>
 	      </child>
 	    </widget>
@@ -4316,7 +4263,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 		  <property name="label" translatable="yes">De_fault</property>
 		  <property name="use_underline">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
-		  <property name="focus_on_click">True</property>
 		</widget>
 	      </child>
 
@@ -4329,7 +4275,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 		  <property name="label" translatable="yes">E_nable</property>
 		  <property name="use_underline">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
-		  <property name="focus_on_click">True</property>
 		</widget>
 	      </child>
 	    </widget>
@@ -4357,11 +4302,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
   <property name="modal">False</property>
   <property name="resizable">True</property>
   <property name="destroy_with_parent">False</property>
-  <property name="decorated">True</property>
-  <property name="skip_taskbar_hint">False</property>
-  <property name="skip_pager_hint">False</property>
-  <property name="type_hint">GDK_WINDOW_TYPE_HINT_NORMAL</property>
-  <property name="gravity">GDK_GRAVITY_NORTH_WEST</property>
 
   <child>
     <widget class="GtkNotebook" id="toplevel">
@@ -4456,7 +4396,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			      <property name="label" translatable="yes">_Use the same fonts as other applications</property>
 			      <property name="use_underline">True</property>
 			      <property name="relief">GTK_RELIEF_NORMAL</property>
-			      <property name="focus_on_click">True</property>
 			      <property name="active">False</property>
 			      <property name="inconsistent">False</property>
 			      <property name="draw_indicator">True</property>
@@ -4490,7 +4429,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 				  <property name="yalign">0.5</property>
 				  <property name="xpad">0</property>
 				  <property name="ypad">0</property>
-				  <property name="mnemonic_widget">radFontVariable</property>
 				</widget>
 				<packing>
 				  <property name="left_attach">0</property>
@@ -4503,7 +4441,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			      </child>
 
 			      <child>
-				<widget class="GnomeFontPicker" id="radFontFixed">
+				<widget class="GnomeFontPicker" id="FontFixed">
 				  <property name="visible">True</property>
 				  <property name="can_focus">True</property>
 				  <property name="title" translatable="yes">Select HTML fixed width font</property>
@@ -4511,7 +4449,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 				  <property name="show_size">True</property>
 				  <property name="use_font_in_label">False</property>
 				  <property name="label_font_size">14</property>
-				  <property name="focus_on_click">True</property>
 				  <signal name="font_set" handler="changed"/>
 				</widget>
 				<packing>
@@ -4525,7 +4462,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			      </child>
 
 			      <child>
-				<widget class="GnomeFontPicker" id="radFontVariable">
+				<widget class="GnomeFontPicker" id="FontVariable">
 				  <property name="visible">True</property>
 				  <property name="can_focus">True</property>
 				  <property name="title" translatable="yes">Select HTML variable width font</property>
@@ -4533,7 +4470,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 				  <property name="show_size">True</property>
 				  <property name="use_font_in_label">False</property>
 				  <property name="label_font_size">14</property>
-				  <property name="focus_on_click">True</property>
 				  <signal name="font_set" handler="changed"/>
 				</widget>
 				<packing>
@@ -4559,7 +4495,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 				  <property name="yalign">0.5</property>
 				  <property name="xpad">0</property>
 				  <property name="ypad">0</property>
-				  <property name="mnemonic_widget">radFontFixed</property>
 				</widget>
 				<packing>
 				  <property name="left_attach">0</property>
@@ -4689,7 +4624,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 				  <property name="label" translatable="yes">_Mark messages as read after</property>
 				  <property name="use_underline">True</property>
 				  <property name="relief">GTK_RELIEF_NORMAL</property>
-				  <property name="focus_on_click">True</property>
 				  <property name="active">False</property>
 				  <property name="inconsistent">False</property>
 				  <property name="draw_indicator">True</property>
@@ -4761,7 +4695,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 				  <property name="label" translatable="yes">Highlight _quotations with</property>
 				  <property name="use_underline">True</property>
 				  <property name="relief">GTK_RELIEF_NORMAL</property>
-				  <property name="focus_on_click">True</property>
 				  <property name="active">True</property>
 				  <property name="inconsistent">False</property>
 				  <property name="draw_indicator">True</property>
@@ -4780,7 +4713,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 				  <property name="dither">True</property>
 				  <property name="use_alpha">False</property>
 				  <property name="title" translatable="yes">Pick a color</property>
-				  <property name="focus_on_click">True</property>
 				</widget>
 				<packing>
 				  <property name="padding">0</property>
@@ -4998,7 +4930,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 				  <property name="label" translatable="yes">Empty trash folders on e_xit</property>
 				  <property name="use_underline">True</property>
 				  <property name="relief">GTK_RELIEF_NORMAL</property>
-				  <property name="focus_on_click">True</property>
 				  <property name="active">False</property>
 				  <property name="inconsistent">False</property>
 				  <property name="draw_indicator">True</property>
@@ -5037,7 +4968,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			      <property name="label" translatable="yes">Confirm _when expunging a folder</property>
 			      <property name="use_underline">True</property>
 			      <property name="relief">GTK_RELIEF_NORMAL</property>
-			      <property name="focus_on_click">True</property>
 			      <property name="active">False</property>
 			      <property name="inconsistent">False</property>
 			      <property name="draw_indicator">True</property>
@@ -5154,7 +5084,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			      <property name="label" translatable="yes">_Do not notify me when new mail arrives</property>
 			      <property name="use_underline">True</property>
 			      <property name="relief">GTK_RELIEF_NORMAL</property>
-			      <property name="focus_on_click">True</property>
 			      <property name="active">True</property>
 			      <property name="inconsistent">False</property>
 			      <property name="draw_indicator">True</property>
@@ -5173,7 +5102,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			      <property name="label" translatable="yes">Beep w_hen new mail arrives</property>
 			      <property name="use_underline">True</property>
 			      <property name="relief">GTK_RELIEF_NORMAL</property>
-			      <property name="focus_on_click">True</property>
 			      <property name="active">False</property>
 			      <property name="inconsistent">False</property>
 			      <property name="draw_indicator">True</property>
@@ -5193,7 +5121,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			      <property name="label" translatable="yes">Play sound file when new mail arri_ves</property>
 			      <property name="use_underline">True</property>
 			      <property name="relief">GTK_RELIEF_NORMAL</property>
-			      <property name="focus_on_click">True</property>
 			      <property name="active">False</property>
 			      <property name="inconsistent">False</property>
 			      <property name="draw_indicator">True</property>
@@ -5241,7 +5168,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 				  <property name="browse_dialog_title" translatable="yes">Execute Command...</property>
 				  <property name="directory_entry">False</property>
 				  <property name="modal">False</property>
-				  <property name="use_filechooser">False</property>
 
 				  <child internal-child="entry">
 				    <widget class="GtkEntry" id="txtNotifyPlaySound">
@@ -5393,7 +5319,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 		      <property name="label" translatable="yes">_Show animated images</property>
 		      <property name="use_underline">True</property>
 		      <property name="relief">GTK_RELIEF_NORMAL</property>
-		      <property name="focus_on_click">True</property>
 		      <property name="active">False</property>
 		      <property name="inconsistent">False</property>
 		      <property name="draw_indicator">True</property>
@@ -5412,7 +5337,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 		      <property name="label" translatable="yes">_Prompt when sending HTML messages to contacts that don't want them</property>
 		      <property name="use_underline">True</property>
 		      <property name="relief">GTK_RELIEF_NORMAL</property>
-		      <property name="focus_on_click">True</property>
 		      <property name="active">False</property>
 		      <property name="inconsistent">False</property>
 		      <property name="draw_indicator">True</property>
@@ -5505,7 +5429,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			  <property name="label" translatable="yes">_Never load images from the Internet</property>
 			  <property name="use_underline">True</property>
 			  <property name="relief">GTK_RELIEF_NORMAL</property>
-			  <property name="focus_on_click">True</property>
 			  <property name="active">False</property>
 			  <property name="inconsistent">False</property>
 			  <property name="draw_indicator">True</property>
@@ -5524,7 +5447,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			  <property name="label" translatable="yes">_Load images if sender is in address book</property>
 			  <property name="use_underline">True</property>
 			  <property name="relief">GTK_RELIEF_NORMAL</property>
-			  <property name="focus_on_click">True</property>
 			  <property name="active">False</property>
 			  <property name="inconsistent">False</property>
 			  <property name="draw_indicator">True</property>
@@ -5544,7 +5466,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			  <property name="label" translatable="yes">_Always load images from the Internet</property>
 			  <property name="use_underline">True</property>
 			  <property name="relief">GTK_RELIEF_NORMAL</property>
-			  <property name="focus_on_click">True</property>
 			  <property name="active">False</property>
 			  <property name="inconsistent">False</property>
 			  <property name="draw_indicator">True</property>
@@ -5674,7 +5595,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 		      <property name="dither">True</property>
 		      <property name="use_alpha">False</property>
 		      <property name="title" translatable="yes">Pick a color</property>
-		      <property name="focus_on_click">True</property>
 		    </widget>
 		    <packing>
 		      <property name="left_attach">1</property>
@@ -5693,7 +5613,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 		      <property name="dither">True</property>
 		      <property name="use_alpha">False</property>
 		      <property name="title" translatable="yes">Pick a color</property>
-		      <property name="focus_on_click">True</property>
 		    </widget>
 		    <packing>
 		      <property name="left_attach">1</property>
@@ -5712,7 +5631,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 		      <property name="dither">True</property>
 		      <property name="use_alpha">False</property>
 		      <property name="title" translatable="yes">Pick a color</property>
-		      <property name="focus_on_click">True</property>
 		    </widget>
 		    <packing>
 		      <property name="left_attach">1</property>
@@ -5731,7 +5649,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 		      <property name="dither">True</property>
 		      <property name="use_alpha">False</property>
 		      <property name="title" translatable="yes">Pick a color</property>
-		      <property name="focus_on_click">True</property>
 		    </widget>
 		    <packing>
 		      <property name="left_attach">1</property>
@@ -5750,7 +5667,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 		      <property name="dither">True</property>
 		      <property name="use_alpha">False</property>
 		      <property name="title" translatable="yes">Pick a color</property>
-		      <property name="focus_on_click">True</property>
 		    </widget>
 		    <packing>
 		      <property name="left_attach">1</property>
@@ -5885,7 +5801,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			  <property name="label">gtk-revert-to-saved</property>
 			  <property name="use_stock">True</property>
 			  <property name="relief">GTK_RELIEF_NORMAL</property>
-			  <property name="focus_on_click">True</property>
 			</widget>
 			<packing>
 			  <property name="padding">0</property>
@@ -6072,7 +5987,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 		      <property name="label">gtk-add</property>
 		      <property name="use_stock">True</property>
 		      <property name="relief">GTK_RELIEF_NORMAL</property>
-		      <property name="focus_on_click">True</property>
 		    </widget>
 		    <packing>
 		      <property name="padding">0</property>
@@ -6088,7 +6002,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 		      <property name="label">gtk-remove</property>
 		      <property name="use_stock">True</property>
 		      <property name="relief">GTK_RELIEF_NORMAL</property>
-		      <property name="focus_on_click">True</property>
 		    </widget>
 		    <packing>
 		      <property name="padding">0</property>
@@ -6214,7 +6127,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			  <property name="label" translatable="yes">Check _Incoming Mail</property>
 			  <property name="use_underline">True</property>
 			  <property name="relief">GTK_RELIEF_NORMAL</property>
-			  <property name="focus_on_click">True</property>
 			  <property name="active">False</property>
 			  <property name="inconsistent">False</property>
 			  <property name="draw_indicator">True</property>
@@ -6323,7 +6235,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			      <property name="label" translatable="yes">_Local Tests Only</property>
 			      <property name="use_underline">True</property>
 			      <property name="relief">GTK_RELIEF_NORMAL</property>
-			      <property name="focus_on_click">True</property>
 			      <property name="active">False</property>
 			      <property name="inconsistent">False</property>
 			      <property name="draw_indicator">True</property>
@@ -6342,7 +6253,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			      <property name="label" translatable="yes">Use _Daemon</property>
 			      <property name="use_underline">True</property>
 			      <property name="relief">GTK_RELIEF_NORMAL</property>
-			      <property name="focus_on_click">True</property>
 			      <property name="active">False</property>
 			      <property name="inconsistent">False</property>
 			      <property name="draw_indicator">True</property>
@@ -6412,11 +6322,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
   <property name="modal">False</property>
   <property name="resizable">True</property>
   <property name="destroy_with_parent">False</property>
-  <property name="decorated">True</property>
-  <property name="skip_taskbar_hint">False</property>
-  <property name="skip_pager_hint">False</property>
-  <property name="type_hint">GDK_WINDOW_TYPE_HINT_NORMAL</property>
-  <property name="gravity">GDK_GRAVITY_NORTH_WEST</property>
 
   <child>
     <widget class="GtkNotebook" id="toplevel">
@@ -6511,7 +6416,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			      <property name="label" translatable="yes">Format messages in _HTML</property>
 			      <property name="use_underline">True</property>
 			      <property name="relief">GTK_RELIEF_NORMAL</property>
-			      <property name="focus_on_click">True</property>
 			      <property name="active">False</property>
 			      <property name="inconsistent">False</property>
 			      <property name="draw_indicator">True</property>
@@ -6530,7 +6434,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			      <property name="label" translatable="yes">Automatically _insert smiley images</property>
 			      <property name="use_underline">True</property>
 			      <property name="relief">GTK_RELIEF_NORMAL</property>
-			      <property name="focus_on_click">True</property>
 			      <property name="active">False</property>
 			      <property name="inconsistent">False</property>
 			      <property name="draw_indicator">True</property>
@@ -6582,10 +6485,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 				  <property name="yalign">0.5</property>
 				  <property name="xscale">0</property>
 				  <property name="yscale">1</property>
-				  <property name="top_padding">0</property>
-				  <property name="bottom_padding">0</property>
-				  <property name="left_padding">0</property>
-				  <property name="right_padding">0</property>
 
 				  <child>
 				    <widget class="GtkHBox" id="hboxReplyStyle">
@@ -6894,7 +6793,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			      <property name="label" translatable="yes">_Prompt when sending messages with an empty subject line</property>
 			      <property name="use_underline">True</property>
 			      <property name="relief">GTK_RELIEF_NORMAL</property>
-			      <property name="focus_on_click">True</property>
 			      <property name="active">False</property>
 			      <property name="inconsistent">False</property>
 			      <property name="draw_indicator">True</property>
@@ -6913,7 +6811,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			      <property name="label" translatable="yes">Pr_ompt when sending messages with only Bcc recipients defined</property>
 			      <property name="use_underline">True</property>
 			      <property name="relief">GTK_RELIEF_NORMAL</property>
-			      <property name="focus_on_click">True</property>
 			      <property name="active">False</property>
 			      <property name="inconsistent">False</property>
 			      <property name="draw_indicator">True</property>
@@ -7108,7 +7005,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			      <property name="label">gtk-add</property>
 			      <property name="use_stock">True</property>
 			      <property name="relief">GTK_RELIEF_NORMAL</property>
-			      <property name="focus_on_click">True</property>
 			    </widget>
 			  </child>
 
@@ -7118,7 +7014,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			      <property name="can_default">True</property>
 			      <property name="can_focus">True</property>
 			      <property name="relief">GTK_RELIEF_NORMAL</property>
-			      <property name="focus_on_click">True</property>
 			      <signal name="clicked" handler="cmdSignatureAddScriptClicked"/>
 
 			      <child>
@@ -7128,10 +7023,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 				  <property name="yalign">0.5</property>
 				  <property name="xscale">0</property>
 				  <property name="yscale">0</property>
-				  <property name="top_padding">0</property>
-				  <property name="bottom_padding">0</property>
-				  <property name="left_padding">0</property>
-				  <property name="right_padding">0</property>
 
 				  <child>
 				    <widget class="GtkHBox" id="hbox223">
@@ -7189,7 +7080,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			      <property name="can_default">True</property>
 			      <property name="can_focus">True</property>
 			      <property name="relief">GTK_RELIEF_NORMAL</property>
-			      <property name="focus_on_click">True</property>
 
 			      <child>
 				<widget class="GtkAlignment" id="alignment31">
@@ -7198,10 +7088,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 				  <property name="yalign">0.5</property>
 				  <property name="xscale">0</property>
 				  <property name="yscale">0</property>
-				  <property name="top_padding">0</property>
-				  <property name="bottom_padding">0</property>
-				  <property name="left_padding">0</property>
-				  <property name="right_padding">0</property>
 
 				  <child>
 				    <widget class="GtkHBox" id="hbox222">
@@ -7261,7 +7147,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			      <property name="label">gtk-remove</property>
 			      <property name="use_stock">True</property>
 			      <property name="relief">GTK_RELIEF_NORMAL</property>
-			      <property name="focus_on_click">True</property>
 			    </widget>
 			  </child>
 			</widget>
@@ -7558,8 +7443,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 					  <property name="rules_hint">False</property>
 					  <property name="reorderable">False</property>
 					  <property name="enable_search">True</property>
-					  <signal name="select_row" handler="spellLanguageSelectRow"/>
-					  <signal name="unselect_row" handler="spellLanguageUnselectRow"/>
 					</widget>
 				      </child>
 				    </widget>
@@ -7599,8 +7482,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 				  <property name="label" translatable="yes">_Enable</property>
 				  <property name="use_underline">True</property>
 				  <property name="relief">GTK_RELIEF_NORMAL</property>
-				  <property name="focus_on_click">True</property>
-				  <signal name="clicked" handler="spellLanguageEnable"/>
 				</widget>
 				<packing>
 				  <property name="padding">0</property>
@@ -7711,11 +7592,9 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			  <property name="label" translatable="yes">Check spelling while I _type</property>
 			  <property name="use_underline">True</property>
 			  <property name="relief">GTK_RELIEF_NORMAL</property>
-			  <property name="focus_on_click">True</property>
 			  <property name="active">False</property>
 			  <property name="inconsistent">False</property>
 			  <property name="draw_indicator">True</property>
-			  <signal name="toggled" handler="spellLiveToggled" last_modification_time="Tue, 30 Mar 2004 10:25:49 GMT"/>
 			</widget>
 			<packing>
 			  <property name="padding">0</property>
@@ -7759,8 +7638,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			      <property name="dither">True</property>
 			      <property name="use_alpha">False</property>
 			      <property name="title" translatable="yes">Pick a color</property>
-			      <property name="focus_on_click">True</property>
-			      <signal name="color_set" handler="spellColorSet"/>
 			    </widget>
 			    <packing>
 			      <property name="padding">0</property>
@@ -7832,11 +7709,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
   <property name="modal">False</property>
   <property name="resizable">True</property>
   <property name="destroy_with_parent">False</property>
-  <property name="decorated">True</property>
-  <property name="skip_taskbar_hint">False</property>
-  <property name="skip_pager_hint">False</property>
-  <property name="type_hint">GDK_WINDOW_TYPE_HINT_NORMAL</property>
-  <property name="gravity">GDK_GRAVITY_NORTH_WEST</property>
 
   <child>
     <widget class="GtkVBox" id="toplevel">
@@ -7970,7 +7842,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 		      <property name="show_size">True</property>
 		      <property name="use_font_in_label">False</property>
 		      <property name="label_font_size">14</property>
-		      <property name="focus_on_click">True</property>
 		      <signal name="font_set" handler="changed"/>
 		    </widget>
 		    <packing>
@@ -7992,7 +7863,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 		      <property name="show_size">True</property>
 		      <property name="use_font_in_label">False</property>
 		      <property name="label_font_size">14</property>
-		      <property name="focus_on_click">True</property>
 		      <signal name="font_set" handler="changed"/>
 		    </widget>
 		    <packing>
@@ -8036,11 +7906,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
   <property name="modal">False</property>
   <property name="resizable">True</property>
   <property name="destroy_with_parent">False</property>
-  <property name="decorated">True</property>
-  <property name="skip_taskbar_hint">False</property>
-  <property name="skip_pager_hint">False</property>
-  <property name="type_hint">GDK_WINDOW_TYPE_HINT_NORMAL</property>
-  <property name="gravity">GDK_GRAVITY_NORTH_WEST</property>
   <property name="has_separator">False</property>
 
   <child internal-child="vbox">
@@ -8060,7 +7925,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 	      <property name="can_default">True</property>
 	      <property name="can_focus">True</property>
 	      <property name="relief">GTK_RELIEF_NORMAL</property>
-	      <property name="focus_on_click">True</property>
 	      <property name="response_id">0</property>
 
 	      <child>
@@ -8070,10 +7934,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 		  <property name="yalign">0.5</property>
 		  <property name="xscale">0</property>
 		  <property name="yscale">0</property>
-		  <property name="top_padding">0</property>
-		  <property name="bottom_padding">0</property>
-		  <property name="left_padding">0</property>
-		  <property name="right_padding">0</property>
 
 		  <child>
 		    <widget class="GtkHBox" id="hbox221">
@@ -8133,7 +7993,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 	      <property name="label">gtk-cancel</property>
 	      <property name="use_stock">True</property>
 	      <property name="relief">GTK_RELIEF_NORMAL</property>
-	      <property name="focus_on_click">True</property>
 	      <property name="response_id">0</property>
 	    </widget>
 	  </child>
@@ -8299,7 +8158,6 @@ for display purposes only. </property>
 		      <property name="max_saved">10</property>
 		      <property name="directory_entry">False</property>
 		      <property name="modal">False</property>
-		      <property name="use_filechooser">False</property>
 
 		      <child internal-child="entry">
 			<widget class="GtkEntry" id="combo-entry2">

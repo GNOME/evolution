@@ -155,49 +155,6 @@ em_composer_prefs_destroy (GtkObject *obj)
 	GTK_OBJECT_CLASS (parent_class)->destroy (obj);
 }
 
-static void
-attach_style_info (GtkWidget *item, gpointer user_data)
-{
-	int *style = user_data;
-	
-	g_object_set_data ((GObject *) item, "style", GINT_TO_POINTER (*style));
-	
-	(*style)++;
-}
-
-static void
-toggle_button_toggled (GtkWidget *widget, gpointer user_data)
-{
-	EMComposerPrefs *prefs = (EMComposerPrefs *) user_data;
-	
-	if (prefs->control)
-		evolution_config_control_changed (prefs->control);
-}
-
-static void
-menu_changed (GtkWidget *widget, gpointer user_data)
-{
-	EMComposerPrefs *prefs = (EMComposerPrefs *) user_data;
-	
-	if (prefs->control)
-		evolution_config_control_changed (prefs->control);
-}
-
-static void
-option_menu_connect (GtkOptionMenu *omenu, gpointer user_data)
-{
-	GtkWidget *menu, *item;
-	GList *items;
-	
-	menu = gtk_option_menu_get_menu (omenu);
-	
-	items = GTK_MENU_SHELL (menu)->children;
-	while (items) {
-		item = items->data;
-		g_signal_connect (item, "activate", G_CALLBACK (menu_changed), user_data);
-		items = items->next;
-	}
-}
 
 static void
 sig_load_preview (EMComposerPrefs *prefs, ESignature *sig)
@@ -557,21 +514,32 @@ url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle)
 static void
 spell_set_ui (EMComposerPrefs *prefs)
 {
+	GHashTable *present;
 	GtkListStore *model;
 	GtkTreeIter iter;
-	GHashTable *present;
-	gboolean go;
+	GError *err = NULL;
 	char **strv = NULL;
+	guint r, g, b;
+	gboolean go;
+	char *lang;
 	int i;
 	
 	prefs->spell_active = FALSE;
 	
 	/* setup the language list */
+	if (!(lang = gconf_client_get_string (prefs->gconf, GNOME_SPELL_GCONF_DIR "/language", &err)) || err) {
+		g_free (lang);
+		g_error_free (err);
+		lang = g_strdup (e_iconv_locale_language ());
+	}
+	
 	present = g_hash_table_new (g_str_hash, g_str_equal);
-	if (prefs->language_str && (strv = g_strsplit (prefs->language_str, " ", 0))) {
+	if (lang && (strv = g_strsplit (lang, " ", 0))) {
 		for (i = 0; strv[i]; i++)
 			g_hash_table_insert (present, strv[i], strv[i]);
 	}
+	
+	g_free (lang);
 	
 	model = (GtkListStore *) gtk_tree_view_get_model (prefs->language);
 	for (go = gtk_tree_model_get_iter_first ((GtkTreeModel *) model, &iter); go;
@@ -586,157 +554,27 @@ spell_set_ui (EMComposerPrefs *prefs)
 	if (strv != NULL)
 		g_strfreev (strv);
 	
-	gnome_color_picker_set_i16 (GNOME_COLOR_PICKER (prefs->colour),
-				    prefs->spell_error_color.red,
-				    prefs->spell_error_color.green,
-				    prefs->spell_error_color.blue, 0xffff);
+	r = gconf_client_get_int (prefs->gconf, GNOME_SPELL_GCONF_DIR "/spell_error_color_red", NULL);
+	g = gconf_client_get_int (prefs->gconf, GNOME_SPELL_GCONF_DIR "/spell_error_color_green", NULL);
+	b = gconf_client_get_int (prefs->gconf, GNOME_SPELL_GCONF_DIR "/spell_error_color_blue", NULL);
+	
+	gnome_color_picker_set_i16 (GNOME_COLOR_PICKER (prefs->colour), r, g, b, 0xffff);
 	
 	prefs->spell_active = TRUE;
 }
 
-static gchar *
-spell_get_language_str (EMComposerPrefs *prefs)
-{
-	GString *str = g_string_new ("");
-	GtkListStore *model;
-	GtkTreeIter iter;
-	gboolean go;
-	char *rv;
-	
-	model = (GtkListStore *) gtk_tree_view_get_model (prefs->language);
-	for (go = gtk_tree_model_get_iter_first ((GtkTreeModel *) model, &iter);
-	     go;
-	     go = gtk_tree_model_iter_next ((GtkTreeModel *) model, &iter)) {
-		char *abbr;
-		gboolean state;
-		
-		gtk_tree_model_get ((GtkTreeModel *) model, &iter, 0, &state, 2, &abbr, -1);
-		if (state) {
-			if (str->len)
-				g_string_append_c (str, ' ');
-			g_string_append (str, abbr);
-		}
-	}
-	
-	rv = str->str;
-	g_string_free (str, FALSE);
-	
-	return rv;
-}
-
 static void
-spell_get_ui (EMComposerPrefs *prefs)
+spell_color_set (GtkWidget *widget, guint r, guint g, guint b, guint a, EMComposerPrefs *prefs)
 {
-	gnome_color_picker_get_i16 (GNOME_COLOR_PICKER (prefs->colour),
-				    &prefs->spell_error_color.red,
-				    &prefs->spell_error_color.green,
-				    &prefs->spell_error_color.blue, NULL);
-	g_free (prefs->language_str);
-	prefs->language_str = spell_get_language_str (prefs);
-}
-
-#define GET(t,x,prop,f,c) \
-        val = gconf_client_get_without_default (prefs->gconf, GNOME_SPELL_GCONF_DIR x, NULL); \
-        if (val) { f; prop = c (gconf_value_get_ ## t (val)); \
-        gconf_value_free (val); }
-
-static void
-spell_save_orig (EMComposerPrefs *prefs)
-{
-	g_free (prefs->language_str_orig);
-	prefs->language_str_orig = g_strdup (prefs->language_str ? prefs->language_str : "");
-	prefs->spell_error_color_orig = prefs->spell_error_color;
-}
-
-/* static void
-spell_load_orig (EMComposerPrefs *prefs)
-{
-	g_free (prefs->language_str);
-	prefs->language_str = g_strdup (prefs->language_str_orig);
-	prefs->spell_error_color = prefs->spell_error_color_orig;
-} */
-
-static void
-spell_load_values (EMComposerPrefs *prefs)
-{
-	GConfValue *val;
-	char *def_lang;
-	
-	def_lang = g_strdup (e_iconv_locale_language ());
-	g_free (prefs->language_str);
-	prefs->language_str = g_strdup (def_lang);
-	prefs->spell_error_color.red   = 0xffff;
-	prefs->spell_error_color.green = 0;
-	prefs->spell_error_color.blue  = 0;
- 	
- 	GET (int, "/spell_error_color_red",   prefs->spell_error_color.red, (void)0, (int));
- 	GET (int, "/spell_error_color_green", prefs->spell_error_color.green, (void)0, (int));
- 	GET (int, "/spell_error_color_blue",  prefs->spell_error_color.blue, (void)0, (int));
- 	GET (string, "/language", prefs->language_str, g_free (prefs->language_str), g_strdup);
- 	
- 	if (prefs->language_str == NULL)
-		prefs->language_str = g_strdup (def_lang);
-	
-	spell_save_orig (prefs);
-	
-	g_free (def_lang);
-}
-
-#define SET(t,x,prop) \
-        gconf_client_set_ ## t (prefs->gconf, GNOME_SPELL_GCONF_DIR x, prop, NULL);
-
-#define STR_EQUAL(str1, str2) ((str1 == NULL && str2 == NULL) || (str1 && str2 && !strcmp (str1, str2)))
-
-static void
-spell_save_values (EMComposerPrefs *prefs, gboolean force)
-{
-	if (force || !gdk_color_equal (&prefs->spell_error_color, &prefs->spell_error_color_orig)) {
-		SET (int, "/spell_error_color_red",   prefs->spell_error_color.red);
-		SET (int, "/spell_error_color_green", prefs->spell_error_color.green);
-		SET (int, "/spell_error_color_blue",  prefs->spell_error_color.blue);
-	}
-	
-	if (force || !STR_EQUAL (prefs->language_str, prefs->language_str_orig)) {
-		SET (string, "/language", prefs->language_str ? prefs->language_str : "");
-	}
-	
-	gconf_client_suggest_sync (prefs->gconf, NULL);
-}
-
-static void
-spell_apply (EMComposerPrefs *prefs)
-{
-	spell_get_ui (prefs);
-	spell_save_values (prefs, FALSE);
-}
-
-/* static void
-spell_revert (EMComposerPrefs *prefs)
-{
-	spell_load_orig (prefs);
-	spell_set_ui (prefs);
-	spell_save_values (prefs, TRUE);
-} */
-
-static void
-spell_changed (gpointer user_data)
-{
-	EMComposerPrefs *prefs = (EMComposerPrefs *) user_data;
-	
-	if (prefs->control)
-		evolution_config_control_changed (prefs->control);
-}
-
-static void
-spell_color_set (GtkWidget *widget, guint r, guint g, guint b, guint a, gpointer user_data)
-{
-	spell_changed (user_data);
+	gconf_client_set_int (prefs->gconf, GNOME_SPELL_GCONF_DIR "/spell_error_color_red", r, NULL);
+	gconf_client_set_int (prefs->gconf, GNOME_SPELL_GCONF_DIR "/spell_error_color_green", g, NULL);
+	gconf_client_set_int (prefs->gconf, GNOME_SPELL_GCONF_DIR "/spell_error_color_blue", b, NULL);
 }
 
 static void
 spell_live_toggled (GtkWidget *widget, gpointer user_data)
 {
-	spell_changed (user_data);
+	/* FIXME: what gconf key is this? */
 }
 
 static void
@@ -751,7 +589,44 @@ spell_language_selection_changed (GtkTreeSelection *selection, EMComposerPrefs *
 		gtk_button_set_label ((GtkButton *) prefs->spell_able_button, state ? _("Disable") : _("Enable"));
 		state = TRUE;
 	}
+	
 	gtk_widget_set_sensitive (prefs->spell_able_button, state);
+}
+
+static char *
+spell_get_language_str (EMComposerPrefs *prefs)
+{
+	GtkListStore *model;
+	GtkTreeIter iter;
+	GString *str;
+	char *rv;
+	
+	model = (GtkListStore *) gtk_tree_view_get_model (prefs->language);
+	if (!gtk_tree_model_get_iter_first ((GtkTreeModel *) model, &iter))
+		return NULL;
+	
+	str = g_string_new ("");
+	
+	do {
+		gboolean state;
+		char *abbr;
+		
+		gtk_tree_model_get ((GtkTreeModel *) model, &iter, 0, &state, 2, &abbr, -1);
+		
+		if (state) {
+			if (str->len)
+				g_string_append_c (str, ' ');
+			g_string_append (str, abbr);
+		}
+		
+		if (!gtk_tree_model_iter_next ((GtkTreeModel *) model, &iter))
+			break;
+	} while (1);
+	
+	rv = str->str;
+	g_string_free (str, FALSE);
+	
+	return rv;
 }
 
 static void
@@ -761,39 +636,50 @@ spell_language_enable (GtkWidget *widget, EMComposerPrefs *prefs)
 	GtkTreeModel *model;
 	GtkTreeSelection *selection;
 	gboolean state;
+	char *str;
 	
 	selection = gtk_tree_view_get_selection (prefs->language);
-	if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
-		gtk_tree_model_get (model, &iter, 0, &state, -1);
-		gtk_list_store_set ((GtkListStore *) model, &iter, 0, !state, -1);
-		gtk_button_set_label ((GtkButton *) prefs->spell_able_button, state ? _("Enable") : _("Disable"));
-		spell_changed (prefs);
-	}
+	if (!gtk_tree_selection_get_selected (selection, &model, &iter))
+		return;
+	
+	gtk_tree_model_get (model, &iter, 0, &state, -1);
+	gtk_list_store_set ((GtkListStore *) model, &iter, 0, !state, -1);
+	gtk_button_set_label ((GtkButton *) prefs->spell_able_button, state ? _("Enable") : _("Disable"));
+	
+	str = spell_get_language_str (prefs);
+	gconf_client_set_string (prefs->gconf, GNOME_SPELL_GCONF_DIR "/language", str ? str : "", NULL);
+	g_free (str);
 }
 
 static gboolean
-spell_language_button_press (GtkTreeView *tv, GdkEventButton *event, EMComposerPrefs *prefs)
+spell_language_button_press (GtkTreeView *treeview, GdkEventButton *event, EMComposerPrefs *prefs)
 {
-	GtkTreePath *path = NULL;
 	GtkTreeViewColumn *column = NULL;
-	gtk_tree_view_get_path_at_pos (tv, event->x, event->y, &path, &column, NULL, NULL);
-
+	GtkTreePath *path = NULL;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	gboolean enabled;
+	char *str;
+	
+	if (!(gtk_tree_view_get_path_at_pos (treeview, event->x, event->y, &path, &column, NULL, NULL)))
+		return FALSE;
+	
 	/* FIXME: This routine should just be a "toggled" event handler on the checkbox cell renderer which
 	   has "activatable" set. */
-
-	if (path != NULL && column != NULL && !strcmp (gtk_tree_view_column_get_title (column), _("Enabled"))) {
-		GtkTreeIter iter;
-		GtkTreeModel *model;
-		gboolean enabled;
-
-		model = gtk_tree_view_get_model (tv);
-		gtk_tree_model_get_iter (model, &iter, path);
-		gtk_tree_model_get (model, &iter, 0, &enabled, -1);
-		gtk_list_store_set ((GtkListStore *) model, &iter, 0, !enabled, -1);
-		gtk_button_set_label ((GtkButton *) prefs->spell_able_button, enabled ? _("Enable") : _("Disable"));
-		spell_changed (prefs);
-	}
-
+	
+	if (strcmp (gtk_tree_view_column_get_title (column), _("Enabled")) != 0)
+		return FALSE;
+	
+	model = gtk_tree_view_get_model (treeview);
+	gtk_tree_model_get_iter (model, &iter, path);
+	gtk_tree_model_get (model, &iter, 0, &enabled, -1);
+	gtk_list_store_set ((GtkListStore *) model, &iter, 0, !enabled, -1);
+	gtk_button_set_label ((GtkButton *) prefs->spell_able_button, enabled ? _("Enable") : _("Disable"));
+	
+	str = spell_get_language_str (prefs);
+	gconf_client_set_string (prefs->gconf, GNOME_SPELL_GCONF_DIR "/language", str ? str : "", NULL);
+	g_free (str);
+	
 	return FALSE;
 }
 
@@ -802,6 +688,7 @@ spell_setup (EMComposerPrefs *prefs)
 {
 	GtkListStore *model;
 	GtkTreeIter iter;
+	GtkWidget *widget;
 	int i;
 	
 	model = (GtkListStore *) gtk_tree_view_get_model (prefs->language);
@@ -816,12 +703,16 @@ spell_setup (EMComposerPrefs *prefs)
 		}
 	}
 	
-	spell_load_values (prefs);
 	spell_set_ui (prefs);
 	
-	glade_xml_signal_connect_data (prefs->gui, "spellColorSet", G_CALLBACK (spell_color_set), prefs);
-	glade_xml_signal_connect_data (prefs->gui, "spellLanguageEnable", GTK_SIGNAL_FUNC (spell_language_enable), prefs);
-	glade_xml_signal_connect_data (prefs->gui, "spellLiveToggled", G_CALLBACK (spell_live_toggled), prefs);
+	widget = glade_xml_get_widget (prefs->gui, "colorpickerSpellCheckColor");
+	g_signal_connect (widget, "color_set", G_CALLBACK (spell_color_set), prefs);
+	
+	widget = glade_xml_get_widget (prefs->gui, "buttonSpellCheckEnable");
+	g_signal_connect (widget, "clicked", G_CALLBACK (spell_language_enable), prefs);
+	
+	widget = glade_xml_get_widget (prefs->gui, "chkEnableSpellChecking");
+	g_signal_connect (widget, "toggled", G_CALLBACK (spell_live_toggled), prefs);
 	
 	g_signal_connect (prefs->language, "button_press_event", G_CALLBACK (spell_language_button_press), prefs);
 }
@@ -863,17 +754,82 @@ spell_setup_check_options (EMComposerPrefs *prefs)
 
 
 static void
-toggle_button_init (GtkToggleButton *toggle, GConfClient *gconf, const char *key, int not, GCallback toggled, void *user_data)
+attach_style_info (GtkWidget *item, gpointer user_data)
+{
+	int *style = user_data;
+	
+	g_object_set_data ((GObject *) item, "style", GINT_TO_POINTER (*style));
+	
+	(*style)++;
+}
+
+static void
+toggle_button_toggled (GtkToggleButton *toggle, EMComposerPrefs *prefs)
+{
+	const char *key;
+	
+	key = g_object_get_data ((GObject *) toggle, "key");
+	gconf_client_set_bool (prefs->gconf, key, gtk_toggle_button_get_active (toggle), NULL);
+}
+
+static void
+style_activate (GtkWidget *item, EMComposerPrefs *prefs)
+{
+	const char *key;
+	int style;
+	
+	key = g_object_get_data ((GObject *) item, "key");
+	style = GPOINTER_TO_INT (g_object_get_data ((GObject *) item, "style"));
+	
+	gconf_client_set_int (prefs->gconf, key, style, NULL);
+}
+
+static void
+charset_activate (GtkWidget *item, EMComposerPrefs *prefs)
+{
+	GtkWidget *menu;
+	char *string;
+	
+	menu = gtk_option_menu_get_menu (prefs->charset);
+	if (!(string = e_charset_picker_get_charset (menu)))
+		string = g_strdup (e_iconv_locale_charset ());
+	
+	gconf_client_set_string (prefs->gconf, "/apps/evolution/mail/composer/charset", string, NULL);
+	g_free (string);
+}
+
+static void
+option_menu_connect (EMComposerPrefs *prefs, GtkOptionMenu *omenu, GCallback callback, const char *key)
+{
+	GtkWidget *menu, *item;
+	GList *items;
+	
+	menu = gtk_option_menu_get_menu (omenu);
+	
+	items = GTK_MENU_SHELL (menu)->children;
+	while (items) {
+		item = items->data;
+		g_object_set_data ((GObject *) item, "key", (void *) key);
+		g_signal_connect (item, "activate", callback, prefs);
+		items = items->next;
+	}
+	
+	if (!gconf_client_key_is_writable (prefs->gconf, key, NULL))
+		gtk_widget_set_sensitive ((GtkWidget *) omenu, FALSE);
+}
+
+static void
+toggle_button_init (EMComposerPrefs *prefs, GtkToggleButton *toggle, int not, const char *key)
 {
 	gboolean bool;
 	
-	bool = gconf_client_get_bool (gconf, key, NULL);
+	bool = gconf_client_get_bool (prefs->gconf, key, NULL);
 	gtk_toggle_button_set_active (toggle, not ? !bool : bool);
 	
-	if (toggled)
-		g_signal_connect (toggle, "toggled", toggled, user_data);
+	g_object_set_data ((GObject *) toggle, "key", (void *) key);
+	g_signal_connect (toggle, "toggled", G_CALLBACK (toggle_button_toggled), prefs);
 	
-	if (!gconf_client_key_is_writable (gconf, key, NULL))
+	if (!gconf_client_key_is_writable (prefs->gconf, key, NULL))
 		gtk_widget_set_sensitive ((GtkWidget *) toggle, FALSE);
 }
 
@@ -907,37 +863,31 @@ em_composer_prefs_construct (EMComposerPrefs *prefs)
 	
 	/* Default Behavior */
 	prefs->send_html = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkSendHTML"));
-	toggle_button_init (prefs->send_html, prefs->gconf,
-			    "/apps/evolution/mail/composer/send_html",
-			    FALSE, G_CALLBACK (toggle_button_toggled), prefs);
+	toggle_button_init (prefs, prefs->send_html, FALSE,
+			    "/apps/evolution/mail/composer/send_html");
 	
 	prefs->prompt_empty_subject = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkPromptEmptySubject"));
-	toggle_button_init (prefs->prompt_empty_subject, prefs->gconf,
-			    "/apps/evolution/mail/prompts/empty_subject",
-			    FALSE, G_CALLBACK (toggle_button_toggled), prefs);
+	toggle_button_init (prefs, prefs->prompt_empty_subject, FALSE,
+			    "/apps/evolution/mail/prompts/empty_subject");
 	
 	prefs->prompt_bcc_only = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkPromptBccOnly"));
-	toggle_button_init (prefs->prompt_bcc_only, prefs->gconf,
-			    "/apps/evolution/mail/prompts/only_bcc",
-			    FALSE, G_CALLBACK (toggle_button_toggled), prefs);
+	toggle_button_init (prefs, prefs->prompt_bcc_only, FALSE,
+			    "/apps/evolution/mail/prompts/only_bcc");
 	
 	prefs->auto_smileys = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkAutoSmileys"));
-	toggle_button_init (prefs->auto_smileys, prefs->gconf,
-			    "/apps/evolution/mail/composer/magic_smileys",
-			    FALSE, G_CALLBACK (toggle_button_toggled), prefs);
+	toggle_button_init (prefs, prefs->auto_smileys, FALSE,
+			    "/apps/evolution/mail/composer/magic_smileys");
 	
 	prefs->spell_check = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkEnableSpellChecking"));
-	toggle_button_init (prefs->spell_check, prefs->gconf,
-			    "/apps/evolution/mail/composer/inline_spelling",
-			    FALSE, G_CALLBACK (toggle_button_toggled), prefs);
+	toggle_button_init (prefs, prefs->spell_check, FALSE,
+			    "/apps/evolution/mail/composer/inline_spelling");
 	
 	prefs->charset = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuCharset"));
 	buf = gconf_client_get_string (prefs->gconf, "/apps/evolution/mail/composer/charset", NULL);
 	menu = e_charset_picker_new (buf && *buf ? buf : e_iconv_locale_charset ());
 	gtk_option_menu_set_menu (prefs->charset, GTK_WIDGET (menu));
-	option_menu_connect (prefs->charset, prefs);
-	if (!gconf_client_key_is_writable (prefs->gconf, "/apps/evolution/mail/composer/charset", NULL))
-		gtk_widget_set_sensitive ((GtkWidget *) prefs->charset, FALSE);
+	option_menu_connect (prefs, prefs->charset, G_CALLBACK (charset_activate),
+			     "/apps/evolution/mail/composer/charset");
 	g_free (buf);
 	
 	/* Spell Checking: GNOME Spell part */
@@ -972,9 +922,8 @@ em_composer_prefs_construct (EMComposerPrefs *prefs)
 	style = 0;
 	gtk_container_foreach (GTK_CONTAINER (gtk_option_menu_get_menu (prefs->forward_style)),
 			       attach_style_info, &style);
-	option_menu_connect (prefs->forward_style, prefs);
-	if (!gconf_client_key_is_writable (prefs->gconf, "/apps/evolution/mail/format/forward_style", NULL))
-		gtk_widget_set_sensitive ((GtkWidget *) prefs->forward_style, FALSE);
+	option_menu_connect (prefs, prefs->forward_style, G_CALLBACK (style_activate),
+			     "/apps/evolution/mail/format/forward_style");
 	
 	prefs->reply_style = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuReplyStyle"));
 	style = gconf_client_get_int (prefs->gconf, "/apps/evolution/mail/format/reply_style", NULL);
@@ -982,9 +931,8 @@ em_composer_prefs_construct (EMComposerPrefs *prefs)
 	style = 0;
 	gtk_container_foreach (GTK_CONTAINER (gtk_option_menu_get_menu (prefs->reply_style)),
 			       attach_style_info, &style);
-	option_menu_connect (prefs->reply_style, prefs);
-	if (!gconf_client_key_is_writable (prefs->gconf, "/apps/evolution/mail/format/reply_style", NULL))
-		gtk_widget_set_sensitive ((GtkWidget *) prefs->reply_style, FALSE);
+	option_menu_connect (prefs, prefs->reply_style, G_CALLBACK (style_activate),
+			     "/apps/evolution/mail/format/reply_style");
 	
 	/* Signatures */
 	dialog = (GtkDialog *) gtk_dialog_new ();
@@ -1051,54 +999,5 @@ em_composer_prefs_new (void)
 void
 em_composer_prefs_apply (EMComposerPrefs *prefs)
 {
-	GtkWidget *menu, *item;
-	char *string;
-	int val;
-	
-	/* General tab */
-	
-	/* Default Behavior */
-	gconf_client_set_bool (prefs->gconf, "/apps/evolution/mail/composer/send_html",
-			       gtk_toggle_button_get_active (prefs->send_html), NULL);
-	
-	gconf_client_set_bool (prefs->gconf, "/apps/evolution/mail/prompts/empty_subject",
-			       gtk_toggle_button_get_active (prefs->prompt_empty_subject), NULL);
-	
-	gconf_client_set_bool (prefs->gconf, "/apps/evolution/mail/prompts/only_bcc",
-			       gtk_toggle_button_get_active (prefs->prompt_bcc_only), NULL);
-	
-	gconf_client_set_bool (prefs->gconf, "/apps/evolution/mail/composer/inline_spelling",
-			       gtk_toggle_button_get_active (prefs->spell_check), NULL);
-	
-	gconf_client_set_bool (prefs->gconf, "/apps/evolution/mail/composer/magic_smileys",
-			       gtk_toggle_button_get_active (prefs->auto_smileys), NULL);
-	
-	menu = gtk_option_menu_get_menu (prefs->charset);
-	if (!(string = e_charset_picker_get_charset (menu)))
-		string = g_strdup (e_iconv_locale_charset ());
-	
-	gconf_client_set_string (prefs->gconf, "/apps/evolution/mail/composer/charset", string, NULL);
-	g_free (string);
-	
-	/* Spell Checking */
-	spell_apply (prefs);
-	
-	/* Forwards and Replies */
-	menu = gtk_option_menu_get_menu (prefs->forward_style);
-	item = gtk_menu_get_active (GTK_MENU (menu));
-	val = GPOINTER_TO_INT (g_object_get_data ((GObject *) item, "style"));
-	gconf_client_set_int (prefs->gconf, "/apps/evolution/mail/format/forward_style", val, NULL);
-	
-	menu = gtk_option_menu_get_menu (prefs->reply_style);
-	item = gtk_menu_get_active (GTK_MENU (menu));
-	val = GPOINTER_TO_INT (g_object_get_data ((GObject *) item, "style"));
-	gconf_client_set_int (prefs->gconf, "/apps/evolution/mail/format/reply_style", val, NULL);
-	
-	/* Keyboard Shortcuts */
-	/* FIXME: implement me */
-	
-	/* Signatures */
-	/* FIXME: implement me */
-	
 	gconf_client_suggest_sync (prefs->gconf, NULL);
 }
