@@ -1,5 +1,8 @@
 2001-03-21  Dan Winship  <danw@ximian.com>
 
+	* mail-format.c (handle_multipart_related): Fix a bug in (illegal)
+	0-part messages
+
 	* mail-config-druid.c (incoming_check, incoming_type_changed,
 	transport_check, transport_type_changed): 
 	* mail-account-editor.c (transport_type_changed, source_check):
