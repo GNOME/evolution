@@ -494,7 +494,7 @@ open_client (CompEditorFactory *factory, const char *uristr)
 
 	priv = factory->priv;
 
-	client = e_cal_new (uristr, CALOBJ_TYPE_ANY);
+	client = e_cal_new_from_uri (uristr, CALOBJ_TYPE_ANY);
 	if (!client)
 		return NULL;
 

@@ -2032,7 +2032,7 @@ gnome_calendar_construct (GnomeCalendar *gcal)
 	/*
 	 * TaskPad Folder Client.
 	 */
-	priv->task_pad_client = e_cal_new ("", CALOBJ_TYPE_TODO); /* FIXME: use default tasks */
+	priv->task_pad_client = e_cal_new_from_uri ("", CALOBJ_TYPE_TODO); /* FIXME: use default tasks */
 	if (!priv->task_pad_client)
 		return NULL;
 
@@ -2161,7 +2161,7 @@ gnome_calendar_add_event_uri (GnomeCalendar *gcal, const char *str_uri)
 	if (client)
 		return TRUE;
 	
-	client = e_cal_new (str_uri, CALOBJ_TYPE_EVENT);
+	client = e_cal_new_from_uri (str_uri, CALOBJ_TYPE_EVENT);
 	g_hash_table_insert (priv->clients, g_strdup (str_uri), client);
 	priv->clients_list = g_list_prepend (priv->clients_list, client);
 	

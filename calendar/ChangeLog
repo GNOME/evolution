@@ -1,3 +1,29 @@
+2003-11-26  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/calendar-offline-handler.c (backend_go_offline): e_cal_new () ->
+	e_cal_new_from_uri ().
+	(backend_go_online): Ditto.
+	(calendar_offline_handler_init): Ditto.
+
+	* gui/comp-editor-factory.c (open_client): Ditto.
+
+	* gui/e-itip-control.c (start_calendar_server): Ditto.
+	(object_requested_cb): Ditto.
+
+	* gui/e-tasks.c (e_tasks_add_todo_uri): Ditto.
+
+	* gui/gnome-cal.c (gnome_calendar_construct): Ditto.
+	(gnome_calendar_add_event_uri): Ditto.
+
+	* gui/alarm-notify/alarm-notify.c (alarm_notify_add_calendar): Ditto.
+
+	* importers/icalendar-importer.c (load_file_fn): Ditto.
+	(vcal_load_file_fn): Ditto.
+	(gnome_calendar_import_data_fn): Ditto.
+
+	* gui/dialogs/copy-source-dialog.c (copy_source): Pass sources to
+	e_cal_new ().
+
 2003-11-24  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/dialogs/copy-source-dialog.c (copy_source): use the correct

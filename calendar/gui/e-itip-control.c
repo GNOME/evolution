@@ -135,7 +135,7 @@ start_calendar_server (EItipControl *itip, char *uri)
 	ECal *client;
 	GError *error = NULL;
 
-	client = e_cal_new (uri, CALOBJ_TYPE_EVENT);
+	client = e_cal_new_from_uri (uri, CALOBJ_TYPE_EVENT);
 
 	if (!e_cal_open (client, TRUE, &error)) {
 		g_warning (_("start_calendar_server(): %s"), error->message);
@@ -2209,11 +2209,11 @@ object_requested_cb (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 
 	switch (vtype) {
 	case E_CAL_COMPONENT_EVENT:
-		context->client = e_cal_new ("", CALOBJ_TYPE_EVENT);
+		context->client = e_cal_new_from_uri ("", CALOBJ_TYPE_EVENT);
 		success = start_default_server (itip, context->client, FALSE);
 		break;
 	case E_CAL_COMPONENT_TODO:
-		context->client = e_cal_new ("", CALOBJ_TYPE_TODO);
+		context->client = e_cal_new_from_uri ("", CALOBJ_TYPE_TODO);
 		success = start_default_server (itip, context->client, TRUE);
 		break;
 	default:

@@ -376,9 +376,9 @@ load_file_fn (EvolutionImporter *importer,
 
 			/* create ECal's */
 			if (!ici->client)
-				ici->client = e_cal_new (real_uri, CALOBJ_TYPE_EVENT);
+				ici->client = e_cal_new_from_uri (real_uri, CALOBJ_TYPE_EVENT);
 			if (!ici->tasks_client)
-				ici->tasks_client = e_cal_new ("", CALOBJ_TYPE_TODO); /* FIXME */
+				ici->tasks_client = e_cal_new_from_uri ("", CALOBJ_TYPE_TODO); /* FIXME */
 
 			if (e_cal_open (ici->client, TRUE, NULL)
 			    && e_cal_open (ici->tasks_client, FALSE, NULL)) {
@@ -528,9 +528,9 @@ vcal_load_file_fn (EvolutionImporter *importer,
 
 		/* create ECal's */
 		if (!ici->client)
-			ici->client = e_cal_new (real_uri, CALOBJ_TYPE_EVENT);
+			ici->client = e_cal_new_from_uri (real_uri, CALOBJ_TYPE_EVENT);
 		if (!ici->tasks_client)
-			ici->tasks_client = e_cal_new ("", CALOBJ_TYPE_TODO);
+			ici->tasks_client = e_cal_new_from_uri ("", CALOBJ_TYPE_TODO);
 
 		if (e_cal_open (ici->client, TRUE, NULL)
 		    && e_cal_open (ici->tasks_client, FALSE, NULL)) {
@@ -616,13 +616,13 @@ gnome_calendar_import_data_fn (EvolutionIntelligentImporter *ii,
 
 	/* Try to open the default calendar & tasks folders. */
 	if (ici->do_calendar) {
-		calendar_client = e_cal_new ("", CALOBJ_TYPE_EVENT); /* FIXME: use default folder */
+		calendar_client = e_cal_new_from_uri ("", CALOBJ_TYPE_EVENT); /* FIXME: use default folder */
 		if (!e_cal_open (calendar_client, FALSE, NULL))
 			goto out;
 	}
 
 	if (ici->do_tasks) {
-		tasks_client = e_cal_new ("", CALOBJ_TYPE_TODO); /* FIXME: use default folder */
+		tasks_client = e_cal_new_from_uri ("", CALOBJ_TYPE_TODO); /* FIXME: use default folder */
 		if (!e_cal_open (tasks_client, FALSE, NULL))
 			goto out;
 	}

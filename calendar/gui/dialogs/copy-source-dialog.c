@@ -63,9 +63,7 @@ copy_source (CopySourceDialogData *csdd)
 		return FALSE;
 
 	/* open the source */
-	uri = e_source_get_uri (csdd->orig_source);
-	source_client = e_cal_new (uri, csdd->obj_type);
-	g_free (uri);
+	source_client = e_cal_new (csdd->orig_source, csdd->obj_type);
 	if (!e_cal_open (source_client, TRUE, NULL)) {
 		g_object_unref (source_client);
 		g_warning (G_STRLOC ": Could not open source");
@@ -73,9 +71,7 @@ copy_source (CopySourceDialogData *csdd)
 	}
 
 	/* open the destination */
-	uri = e_source_get_uri (dest_source);
-	dest_client = e_cal_new (uri, csdd->obj_type);
-	g_free (uri);
+	dest_client = e_cal_new (dest_source, csdd->obj_type);
 	if (!e_cal_open (dest_client, FALSE, NULL)) {
 		g_object_unref (dest_client);
 		g_object_unref (source_client);
