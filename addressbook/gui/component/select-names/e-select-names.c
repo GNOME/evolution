@@ -520,12 +520,19 @@ e_select_names_hookup_shell_listeners (ESelectNames *e_select_names)
 	if (storage == CORBA_OBJECT_NIL) {
 		GtkWidget *oh_shit;
 
+#if 0
 		oh_shit = gnome_error_dialog (_("Evolution is unable to get the addressbook local storage.\n"
 						"This may have been caused by the evolution-addressbook component crashing.\n"
 						"To help us better understand and ultimately resolve this problem,\n"
 						"please send an e-mail to Jon Trowbridge <trow@ximian.com> with a\n"
 						"detailed description of the circumstances under which this error\n"
 						"occurred.  Thank you."));
+#endif
+
+		oh_shit = gnome_error_dialog (_("Evolution is unable to get the addressbook local storage.\n"
+						"Under normal circumstances, this should never happen.\n"
+						"You may need to exit and restart Evolution in order to\n"
+						"correct this problem."));
 		gtk_widget_show (oh_shit);
 		return;
 	}

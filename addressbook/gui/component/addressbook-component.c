@@ -54,7 +54,7 @@
 
 #define GNOME_EVOLUTION_ADDRESSBOOK_COMPONENT_ID "OAFIID:GNOME_Evolution_Addressbook_ShellComponent"
 
-EvolutionShellClient *global_shell_client;
+EvolutionShellClient *global_shell_client = NULL;
 
 EvolutionShellClient *
 addressbook_component_get_shell_client  (void)

@@ -1,3 +1,13 @@
+2001-10-28  Jon Trowbridge  <trow@ximian.com>
+
+	* gui/component/select-names/e-select-names.c
+	(e_select_names_hookup_shell_listeners): Change "this should never
+	happen" dialog to not give my name/e-mail.  Sorry translators.
+	But this really should never happen, thanks to my fix below.
+
+	* gui/component/addressbook-component.c: Initialize
+	global_shell_client to NULL. (Bug #6625)
+
 2001-10-27  Chris Toshok  <toshok@ximian.com>
 
 	[ bug #12979 ]
