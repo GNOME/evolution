@@ -157,17 +157,21 @@ camel_digest_folder_new (CamelMimeMessage *message)
 	if (!wrapper || !CAMEL_IS_MULTIPART (wrapper))
 		return NULL;
 	
-	if (!header_content_type_is (CAMEL_MIME_PART (message)->content_type, "multipart", "digest")) {
+	if (!header_content_type_is (CAMEL_MIME_PART (message)->content_type, "multipart", "*")) {
+		gboolean is_digest = FALSE;
 		int i, parts;
 		
 		/* Make sure we have a multipart of message/rfc822 attachments... */
 		parts = camel_multipart_get_number (CAMEL_MULTIPART (wrapper));
-		for (i = 0; i < parts; i++) {
+		for (i = 0; i < parts && !is_digest; i++) {
 			CamelMimePart *part = camel_multipart_get_part (CAMEL_MULTIPART (wrapper), i);
 			
-			if (!header_content_type_is (part->content_type, "message", "rfc822"))
-				return NULL;
+			if (header_content_type_is (part->content_type, "message", "rfc822"))
+				is_digest = TRUE;
 		}
+		
+		if (!is_digest)
+			return NULL;
 	}
 	
 	folder = CAMEL_FOLDER (camel_object_new (camel_digest_folder_get_type ()));
@@ -224,12 +228,16 @@ digest_get_uids (CamelFolder *folder)
 		CamelMimePart *part;
 		char *uid;
 		
-		uid = g_strdup_printf ("%d", i + 1);
-		
 		part = camel_multipart_get_part (CAMEL_MULTIPART (wrapper), i);
+		
+		if (!header_content_type_is (part->content_type, "message", "rfc822"))
+			continue;
+		
 		message = CAMEL_MIME_MESSAGE (part);
 		
 		info = camel_message_info_new_from_header (CAMEL_MIME_PART (message)->headers);
+		
+		uid = g_strdup_printf ("%d", i + 1);
 		camel_message_info_set_uid (info, uid);
 		
 		g_ptr_array_add (uids, uid);
@@ -294,6 +302,7 @@ digest_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 	int id;
 	
 	id = atoi (uid) - 1;
+	g_assert (id > 0);
 	
 	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (digest->priv->message));
 	part = camel_multipart_get_part (CAMEL_MULTIPART (wrapper), id);
