@@ -519,6 +519,44 @@ editor_closed_cb (GtkObject *editor, gpointer data)
 }
 
 static gboolean
+activiate_editor(GnomeCanvasItem *item)
+{
+	EMinicard *e_minicard;
+	e_minicard = E_MINICARD (item);
+        
+	if (e_minicard->editor) {
+		eab_editor_raise (e_minicard->editor);
+	}
+	else {
+		EBook *book = NULL;
+		if (E_IS_MINICARD_VIEW(item->parent)) {
+			g_object_get(item->parent, "book", &book, NULL);
+		}
+
+		if (book != NULL) {
+			if (e_contact_get (e_minicard->contact, E_CONTACT_IS_LIST)) {
+				EContactListEditor *editor = eab_show_contact_list_editor (book, e_minicard->contact,
+												FALSE, e_minicard->editable);
+				e_minicard->editor = G_OBJECT (editor);
+			}
+			else {
+				EContactEditor *editor = eab_show_contact_editor (book, e_minicard->contact,
+												FALSE, e_minicard->editable);
+				e_minicard->editor = G_OBJECT (editor);
+			}
+
+			g_object_ref (e_minicard->editor);
+			g_signal_connect (e_minicard->editor, "editor_closed",
+							G_CALLBACK (editor_closed_cb), e_minicard);
+
+			g_object_unref (book);
+		}
+	}
+
+	return TRUE;
+}
+
+static gboolean
 e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 {
 	EMinicard *e_minicard;
@@ -601,36 +639,63 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 		break;
 	case GDK_2BUTTON_PRESS:
 		if (event->button.button == 1 && E_IS_MINICARD_VIEW(item->parent)) {
-			if (e_minicard->editor) {
-				eab_editor_raise (e_minicard->editor);
-			} else {
-				EBook *book = NULL;
-				if (E_IS_MINICARD_VIEW(item->parent)) {
-					g_object_get(item->parent,
-						     "book", &book,
-						     NULL);
+			return activiate_editor(item);
+		}
+		break;
+	case GDK_KEY_PRESS:
+		if (event->key.keyval == GDK_Tab ||
+			event->key.keyval == GDK_KP_Tab ||
+			event->key.keyval == GDK_ISO_Left_Tab) {
+
+			EMinicardView *view = E_MINICARD_VIEW(item->parent);
+			EReflow *reflow = E_REFLOW(view);
+
+			if (reflow == NULL) {
+				return FALSE;
+			}
+
+			if (event->key.state & GDK_SHIFT_MASK) {
+				if (event->key.state & GDK_CONTROL_MASK) {
+					return FALSE;
 				}
+				else {
+					int row_count = e_selection_model_row_count(reflow->selection);
+					int model_index = e_selection_model_cursor_row (reflow->selection);
+					int view_index = e_sorter_model_to_sorted (reflow->selection->sorter, model_index);
 
-				if (book != NULL) {
-					if (e_contact_get (e_minicard->contact, E_CONTACT_IS_LIST)) {
-						EContactListEditor *editor = eab_show_contact_list_editor (book, e_minicard->contact,
-													   FALSE, e_minicard->editable);
-						e_minicard->editor = EAB_EDITOR (editor);
-					}
-					else {
-						EContactEditor *editor = eab_show_contact_editor (book, e_minicard->contact,
-												  FALSE, e_minicard->editable);
-						e_minicard->editor = EAB_EDITOR (editor);
-					}
-					g_object_ref (e_minicard->editor);
+					if (view_index == 0)
+						view_index = row_count-1;
+					else
+						view_index--;
 
-					g_signal_connect (e_minicard->editor, "editor_closed",
-							  G_CALLBACK (editor_closed_cb), e_minicard);
-
-					g_object_unref (book);
+					model_index = e_sorter_sorted_to_model (E_SORTER (reflow->sorter), view_index);
+					e_canvas_item_grab_focus(reflow->items[model_index], FALSE);
+					return TRUE;
 				}
 			}
-			return TRUE;
+			else {
+				if (event->key.state & GDK_CONTROL_MASK) {
+					return FALSE;
+				}
+				else {
+					int row_count = e_selection_model_row_count(reflow->selection);
+					int model_index = e_selection_model_cursor_row (reflow->selection);
+					int view_index = e_sorter_model_to_sorted (reflow->selection->sorter, model_index);
+
+					if (view_index == row_count-1)
+						view_index = 0;
+					else
+						view_index++;
+
+					model_index = e_sorter_sorted_to_model (E_SORTER (reflow->sorter), view_index);
+					e_canvas_item_grab_focus(reflow->items[model_index], FALSE);
+					return TRUE;
+				}
+			}
+		}
+		else if (event->key.keyval == GDK_Return ||
+				event->key.keyval == GDK_KP_Enter) {
+				return activiate_editor(item);
 		}
 		break;
 	default:
