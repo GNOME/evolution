@@ -1,3 +1,8 @@
+2001-10-17  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-filter-driver.c (do_copy): Add an optimization for when
+	destination folder is the same as the source folder.
+
 2001-10-17    <NotZed@Ximian.com>
 
 	* providers/imap/camel-imap-store.c (get_folder_info_online):
