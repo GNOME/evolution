@@ -39,6 +39,9 @@
 #include <libgnome/gnome-url.h>
 #include <libgnome/gnome-i18n.h>
 
+#include <libgnomevfs/gnome-vfs-mime-handlers.h>
+#include <libgnomevfs/gnome-vfs-mime-utils.h>
+
 #include <bonobo/bonobo-ui-component.h>
 
 
@@ -185,7 +188,11 @@ command_quick_reference (BonoboUIComponent *uih,
 {
 	char *quickref;
 	char *uri;
+	char *mimetype;
+	GnomeVFSMimeApplication *app;
+	GList * uri_list;
 	const GList *lang_list = gnome_i18n_get_language_list ("LC_MESSAGES");
+
 	for (; lang_list != NULL; lang_list = lang_list->next) {
 		const char *lang = lang_list->data;
 
@@ -198,7 +205,13 @@ command_quick_reference (BonoboUIComponent *uih,
 		quickref = g_build_filename (EVOLUTION_HELPDIR, "quickref", lang, "quickref.pdf", NULL);
 		if (g_file_test (quickref, G_FILE_TEST_EXISTS)) {
 			uri = g_strconcat ("file://", quickref, NULL);
-			gnome_url_show (uri, NULL);
+			mimetype = gnome_vfs_get_mime_type (uri);
+			app = gnome_vfs_mime_get_default_application (mimetype);
+			uri_list = g_list_append (NULL, uri);
+			gnome_vfs_mime_application_launch (app, uri_list);
+			g_list_free (uri_list);
+			gnome_vfs_mime_application_free (app);
+			g_free (mimetype);
 			g_free (quickref);
 			g_free (uri);
 			return;
