@@ -1,5 +1,22 @@
 2001-06-27  Ettore Perazzoli  <ettore@ximian.com>
 
+	* evolution-shell-component.c (impl_setOwner): Renamed from
+	`impl_ShellComponent_set_owner'.
+	(impl_unsetOwner): Renamed from `impl_ShellComponent_unset_owner'.
+	(impl_debug): Renamed from `impl_ShellComponent_debug'.
+	(impl_createView): Renamed from `impl_ShellComponent_create_view'.
+	(impl_createFolderAsync): Renamed from
+	`impl_ShellComponent_async_create_folder'.
+	(impl_removeFolderAsync): Renamed from
+	`impl_ShellComponent_async_remove_folder'.
+	(impl_xferFolderAsync): Renamed from
+	`impl_ShellComponent_async_xfer_folder'.
+	(impl_populateFolderContextMenu): Renamed from
+	`impl_ShellComponent_populate_folder_context_menu'.
+	(class_init): Updated accordingly.
+
+2001-06-27  Ettore Perazzoli  <ettore@ximian.com>
+
 	* evolution-test-component.c (factory_fn): Pass NULL as the
 	@external_uri_schemas arg to `evolution_shell_component_new'.
 

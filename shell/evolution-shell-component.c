@@ -209,10 +209,10 @@ impl_ShellComponent__get_external_uri_schemas (PortableServer_Servant servant,
 }
 
 static void
-impl_ShellComponent_set_owner (PortableServer_Servant servant,
-			       const GNOME_Evolution_Shell shell,
-			       const CORBA_char *evolution_homedir,
-			       CORBA_Environment *ev)
+impl_setOwner (PortableServer_Servant servant,
+	       const GNOME_Evolution_Shell shell,
+	       const CORBA_char *evolution_homedir,
+	       CORBA_Environment *ev)
 {
 	BonoboObject *bonobo_object;
 	EvolutionShellComponent *shell_component;
@@ -238,8 +238,8 @@ impl_ShellComponent_set_owner (PortableServer_Servant servant,
 }
 
 static void
-impl_ShellComponent_unset_owner (PortableServer_Servant servant,
-				 CORBA_Environment *ev)
+impl_unsetOwner (PortableServer_Servant servant,
+		 CORBA_Environment *ev)
 {
 	BonoboObject *bonobo_object;
 	EvolutionShellComponent *shell_component;
@@ -262,9 +262,9 @@ impl_ShellComponent_unset_owner (PortableServer_Servant servant,
 }
 
 static void
-impl_ShellComponent_debug (PortableServer_Servant servant,
-			   const CORBA_char *log_path,
-			   CORBA_Environment *ev)
+impl_debug (PortableServer_Servant servant,
+	    const CORBA_char *log_path,
+	    CORBA_Environment *ev)
 {
 	BonoboObject *bonobo_object;
 	EvolutionShellComponent *shell_component;
@@ -285,10 +285,10 @@ impl_ShellComponent_debug (PortableServer_Servant servant,
 }
 
 static Bonobo_Control
-impl_ShellComponent_create_view (PortableServer_Servant servant,
-				 const CORBA_char *physical_uri,
-				 const CORBA_char *type,
-				 CORBA_Environment *ev)
+impl_createView (PortableServer_Servant servant,
+		 const CORBA_char *physical_uri,
+		 const CORBA_char *type,
+		 CORBA_Environment *ev)
 {
 	BonoboObject *bonobo_object;
 	EvolutionShellComponent *shell_component;
@@ -328,11 +328,11 @@ impl_ShellComponent_create_view (PortableServer_Servant servant,
 }
 
 static void
-impl_ShellComponent_async_create_folder (PortableServer_Servant servant,
-					 const GNOME_Evolution_ShellComponentListener listener,
-					 const CORBA_char *physical_uri,
-					 const CORBA_char *type,
-					 CORBA_Environment *ev)
+impl_createFolderAsync (PortableServer_Servant servant,
+			const GNOME_Evolution_ShellComponentListener listener,
+			const CORBA_char *physical_uri,
+			const CORBA_char *type,
+			CORBA_Environment *ev)
 {
 	BonoboObject *bonobo_object;
 	EvolutionShellComponent *shell_component;
@@ -353,10 +353,10 @@ impl_ShellComponent_async_create_folder (PortableServer_Servant servant,
 }
 
 static void
-impl_ShellComponent_async_remove_folder (PortableServer_Servant servant,
-					 const GNOME_Evolution_ShellComponentListener listener,
-					 const CORBA_char *physical_uri,
-					 CORBA_Environment *ev)
+impl_removeFolderAsync (PortableServer_Servant servant,
+			const GNOME_Evolution_ShellComponentListener listener,
+			const CORBA_char *physical_uri,
+			CORBA_Environment *ev)
 {
 	BonoboObject *bonobo_object;
 	EvolutionShellComponent *shell_component;
@@ -377,12 +377,12 @@ impl_ShellComponent_async_remove_folder (PortableServer_Servant servant,
 }
 
 static void
-impl_ShellComponent_async_xfer_folder (PortableServer_Servant servant,
-				       const GNOME_Evolution_ShellComponentListener listener,
-				       const CORBA_char *source_physical_uri,
-				       const CORBA_char *destination_physical_uri,
-				       const CORBA_boolean remove_source,
-				       CORBA_Environment *ev)
+impl_xferFolderAsync (PortableServer_Servant servant,
+		      const GNOME_Evolution_ShellComponentListener listener,
+		      const CORBA_char *source_physical_uri,
+		      const CORBA_char *destination_physical_uri,
+		      const CORBA_boolean remove_source,
+		      CORBA_Environment *ev)
 {
 	BonoboObject *bonobo_object;
 	EvolutionShellComponent *shell_component;
@@ -408,11 +408,11 @@ impl_ShellComponent_async_xfer_folder (PortableServer_Servant servant,
 }
 
 static void
-impl_ShellComponent_populate_folder_context_menu (PortableServer_Servant servant,
-						  const Bonobo_UIContainer corba_uih,
-						  const CORBA_char *physical_uri,
-						  const CORBA_char *type,
-						  CORBA_Environment *ev)
+impl_populateFolderContextMenu (PortableServer_Servant servant,
+				const Bonobo_UIContainer corba_uih,
+				const CORBA_char *physical_uri,
+				const CORBA_char *type,
+				CORBA_Environment *ev)
 {
 	BonoboObject *bonobo_object;
 	EvolutionShellComponent *shell_component;
@@ -530,14 +530,14 @@ class_init (EvolutionShellComponentClass *klass)
 
 	epv->_get_supported_types      = impl_ShellComponent__get_supported_types;
 	epv->_get_external_uri_schemas = impl_ShellComponent__get_external_uri_schemas;
-	epv->setOwner                  = impl_ShellComponent_set_owner;
-	epv->unsetOwner                = impl_ShellComponent_unset_owner;
-	epv->debug                     = impl_ShellComponent_debug;
-	epv->createView                = impl_ShellComponent_create_view;
-	epv->createFolderAsync         = impl_ShellComponent_async_create_folder;
-	epv->removeFolderAsync         = impl_ShellComponent_async_remove_folder;
-	epv->xferFolderAsync           = impl_ShellComponent_async_xfer_folder;
-	epv->populateFolderContextMenu = impl_ShellComponent_populate_folder_context_menu;
+	epv->setOwner                  = impl_setOwner; 
+	epv->unsetOwner                = impl_unsetOwner; 
+	epv->debug                     = impl_debug; 
+	epv->createView                = impl_createView; 
+	epv->createFolderAsync         = impl_createFolderAsync; 
+	epv->removeFolderAsync         = impl_removeFolderAsync; 
+	epv->xferFolderAsync           = impl_xferFolderAsync; 
+	epv->populateFolderContextMenu = impl_populateFolderContextMenu; 
 }
 
 static void
