@@ -1,6 +1,12 @@
-2000-09-22  Michael Meeks  <michael@helixcode.com>
+2000-10-02  Jesse Pavel   <jpavel@helixcode.com>
 
-	* gui/calendar-commands.c (calendar_control_activate): upd.
+	* gui/e-meeting-edit.c: added support for the ROLE and RSVP parameters
+	in both the GUI and underlying iCal.
+
+2000-09-29  Jesse Pavel   <jpavel@helixcode.com>
+
+	* gui/e-meeting-edit.c: added support for organizers in the meeting
+	scheduler.
 
 2000-09-29  Jesse Pavel   <jpavel@helixcode.com>
 
