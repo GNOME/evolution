@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.4.5\n"
-"POT-Creation-Date: 2003-10-20 16:29-0400\n"
-"PO-Revision-Date: 2003-10-20 16:59-0400\n"
+"POT-Creation-Date: 2003-12-05 16:39-0500\n"
+"PO-Revision-Date: 2003-12-05 16:40-0500\n"
 "Last-Translator: Gustavo Maciel Dias Vieira <gdvieira@zaz.com.br>\n"
 "Language-Team: Brazilian Portuguese <gnome-l10n-br@listas.cipsga.org.br>\n"
 "MIME-Version: 1.0\n"
@@ -449,7 +449,7 @@ msgid "Could not initialize Bonobo"
 msgstr "Não foi possível iniciar Bonobo"
 
 #: addressbook/backend/pas/pas-backend-file.c:464
-#: addressbook/backend/pas/pas-backend-ldap.c:3050
+#: addressbook/backend/pas/pas-backend-ldap.c:3051
 msgid "Searching..."
 msgstr "Buscando..."
 
@@ -482,11 +482,11 @@ msgstr "Removendo cartão do servidor LDAP..."
 msgid "Modifying card from LDAP server..."
 msgstr "Modificando cartão do servidor LDAP..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:2961
+#: addressbook/backend/pas/pas-backend-ldap.c:2962
 msgid "Receiving LDAP search results..."
 msgstr "Recebendo resultados da busca LDAP..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:3070
+#: addressbook/backend/pas/pas-backend-ldap.c:3071
 msgid "Error performing search"
 msgstr "Erro ao executar busca"
 
@@ -3831,7 +3831,7 @@ msgstr "Pasta pública contendo compromissos e eventos"
 
 #: calendar/gui/calendar-component.c:80 calendar/gui/e-tasks.c:738
 #: calendar/gui/print.c:1789 calendar/gui/tasks-control.c:487
-#: calendar/importers/icalendar-importer.c:644
+#: calendar/importers/icalendar-importer.c:655
 #: importers/netscape-importer.c:1875 mail/importers/netscape-importer.c:1845
 #: my-evolution/e-summary-tasks.c:329 my-evolution/e-summary-tasks.c:338
 #: shell/e-local-storage.c:183 shell/e-shortcuts.c:1086
@@ -3971,8 +3971,8 @@ msgstr ""
 #. An empty string is the same as 'None'.
 #: calendar/gui/calendar-model.c:1176 calendar/gui/dialogs/meeting-page.c:330
 #: calendar/gui/dialogs/meeting-page.glade.h:2 composer/e-msg-composer.c:2084
-#: mail/folder-browser.c:1776 mail/mail-account-gui.c:1260
-#: mail/mail-account-gui.c:1692 mail/mail-accounts.c:442
+#: mail/folder-browser.c:1776 mail/mail-account-gui.c:1261
+#: mail/mail-account-gui.c:1693 mail/mail-accounts.c:442
 #: mail/mail-config.glade.h:76
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:194
 #: widgets/misc/e-cell-date-edit.c:257 widgets/misc/e-dateedit.c:442
@@ -4111,6 +4111,10 @@ msgstr "horas"
 #: calendar/gui/dialogs/alarm-options.glade.h:14 filter/filter.glade.h:19
 msgid "minutes"
 msgstr "minutos"
+
+#: calendar/gui/dialogs/alarm-page.c:796
+msgid "Action/Trigger"
+msgstr "Ação/gatilho"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:1
 #: calendar/gui/dialogs/recurrence-page.glade.h:2
@@ -4923,9 +4927,13 @@ msgstr "dia"
 msgid "on the"
 msgstr "no"
 
-#: calendar/gui/dialogs/recurrence-page.c:1357
+#: calendar/gui/dialogs/recurrence-page.c:1358
 msgid "occurrences"
 msgstr "ocorrências"
+
+#: calendar/gui/dialogs/recurrence-page.c:2325
+msgid "Date/Time"
+msgstr "Data/hora"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:1
 msgid "A_dd"
@@ -5606,8 +5614,8 @@ msgstr "Recusado"
 #: calendar/gui/e-itip-control.c:1062 calendar/gui/e-itip-control.c:1270
 #: calendar/gui/e-meeting-model.c:222 calendar/gui/e-meeting-model.c:257
 #: calendar/gui/e-meeting-model.c:322 calendar/gui/e-meeting-model.c:759
-#: calendar/gui/e-meeting-model.c:775 camel/camel-gpg-context.c:1574
-#: camel/camel-gpg-context.c:1625 camel/camel-tcp-stream-openssl.c:634
+#: calendar/gui/e-meeting-model.c:775 camel/camel-gpg-context.c:1589
+#: camel/camel-gpg-context.c:1640 camel/camel-tcp-stream-openssl.c:634
 #: camel/providers/smtp/camel-smtp-transport.c:173
 #: camel/providers/smtp/camel-smtp-transport.c:228 mail/folder-browser.c:347
 #: mail/mail-display.c:943 widgets/misc/e-charset-picker.c:60
@@ -6403,7 +6411,7 @@ msgid "Contacts: "
 msgstr "Contatos: "
 
 #: calendar/gui/print.c:2518 calendar/gui/print.c:2604
-#: calendar/gui/tasks-control.c:564 mail/mail-callbacks.c:2948
+#: calendar/gui/tasks-control.c:564 mail/mail-callbacks.c:2952
 #: my-evolution/e-summary.c:649
 msgid "Print Preview"
 msgstr "Visualizar impressão"
@@ -6465,15 +6473,15 @@ msgstr "Arquivos iCalendar (.ics)"
 msgid "vCalendar files (.vcf)"
 msgstr "Arquivos vCalendar (.vcf)"
 
-#: calendar/importers/icalendar-importer.c:403
+#: calendar/importers/icalendar-importer.c:414
 msgid "Reminder!!"
 msgstr "Lembrete!!"
 
-#: calendar/importers/icalendar-importer.c:637
+#: calendar/importers/icalendar-importer.c:648
 msgid "Calendar Events"
 msgstr "Eventos de agenda"
 
-#: calendar/importers/icalendar-importer.c:662
+#: calendar/importers/icalendar-importer.c:673
 msgid ""
 "Evolution has found Gnome Calendar files.\n"
 "Would you like to import them into Evolution?"
@@ -6481,7 +6489,7 @@ msgstr ""
 "O Evolution encontrou arquivos da Agenda Gnome.\n"
 "Você gostaria de importá-los para o Evolution?"
 
-#: calendar/importers/icalendar-importer.c:669
+#: calendar/importers/icalendar-importer.c:680
 msgid "Gnome Calendar"
 msgstr "Agenda Gnome"
 
@@ -8332,7 +8340,7 @@ msgstr "Movendo mensagens"
 msgid "Copying messages"
 msgstr "Copiando mensagens"
 
-#: camel/camel-gpg-context.c:762
+#: camel/camel-gpg-context.c:769
 #, c-format
 msgid ""
 "Unexpected GnuPG status message encountered:\n"
@@ -8343,15 +8351,15 @@ msgstr ""
 "\n"
 "%s"
 
-#: camel/camel-gpg-context.c:777
+#: camel/camel-gpg-context.c:783
 msgid "Failed to parse gpg userid hint."
 msgstr "Falhou a análise da dica de id de usuário do gpg."
 
-#: camel/camel-gpg-context.c:802
+#: camel/camel-gpg-context.c:808
 msgid "Failed to parse gpg passphrase request."
 msgstr "Falhou a análise da requisição de frase-senha do gpg."
 
-#: camel/camel-gpg-context.c:810
+#: camel/camel-gpg-context.c:816
 #, c-format
 msgid ""
 "You need a passphrase to unlock the key for\n"
@@ -8360,31 +8368,31 @@ msgstr ""
 "Você precisa de uma frase-senha para destravar a chave\n"
 "para o usuário: \"%s\""
 
-#: camel/camel-gpg-context.c:821 camel/camel-gpg-context.c:1297
-#: camel/camel-gpg-context.c:1403 camel/camel-gpg-context.c:1473
-#: camel/camel-gpg-context.c:1529 mail/mail-send-recv.c:574
+#: camel/camel-gpg-context.c:836 camel/camel-gpg-context.c:1312
+#: camel/camel-gpg-context.c:1418 camel/camel-gpg-context.c:1488
+#: camel/camel-gpg-context.c:1544 mail/mail-send-recv.c:574
 msgid "Cancelled."
 msgstr "Cancelada."
 
-#: camel/camel-gpg-context.c:839
+#: camel/camel-gpg-context.c:854
 msgid "Failed to unlock secret key: 3 bad passphrases given."
 msgstr ""
 "Falhou o destravamento da chave secreta: fornecidas 3 frases-senha inválidas."
 
-#: camel/camel-gpg-context.c:845
+#: camel/camel-gpg-context.c:860
 #, c-format
 msgid "Unexpected response from GnuPG: %s"
 msgstr "Resposta inesperada do GnuPG: %s"
 
-#: camel/camel-gpg-context.c:857
+#: camel/camel-gpg-context.c:872
 msgid "No data provided"
 msgstr "Não foram fornecidos dados"
 
-#: camel/camel-gpg-context.c:895
+#: camel/camel-gpg-context.c:910
 msgid "Failed to encrypt: No valid recipients specified."
 msgstr "Falhou a cifragem: Não foram especificados destinatários válidos."
 
-#: camel/camel-gpg-context.c:1172
+#: camel/camel-gpg-context.c:1187
 #, c-format
 msgid ""
 "Failed to GPG %s: %s\n"
@@ -8395,25 +8403,25 @@ msgstr ""
 "\n"
 "%s"
 
-#: camel/camel-gpg-context.c:1177
+#: camel/camel-gpg-context.c:1192
 #, c-format
 msgid "Failed to GPG %s: %s\n"
 msgstr "Falhou a execução de GPG %s: %s\n"
 
-#: camel/camel-gpg-context.c:1288 camel/camel-gpg-context.c:1573
-#: camel/camel-gpg-context.c:1624
+#: camel/camel-gpg-context.c:1303 camel/camel-gpg-context.c:1588
+#: camel/camel-gpg-context.c:1639
 #, c-format
 msgid "Failed to execute gpg: %s"
 msgstr "Falhou a execução do gpg: %s"
 
-#: camel/camel-gpg-context.c:1318 camel/camel-gpg-context.c:1395
-#: camel/camel-gpg-context.c:1464 camel/camel-gpg-context.c:1494
-#: camel/camel-gpg-context.c:1520 camel/camel-gpg-context.c:1550
-#: camel/camel-gpg-context.c:1595 camel/camel-gpg-context.c:1646
+#: camel/camel-gpg-context.c:1333 camel/camel-gpg-context.c:1410
+#: camel/camel-gpg-context.c:1479 camel/camel-gpg-context.c:1509
+#: camel/camel-gpg-context.c:1535 camel/camel-gpg-context.c:1565
+#: camel/camel-gpg-context.c:1610 camel/camel-gpg-context.c:1661
 msgid "Failed to execute gpg."
 msgstr "Falhou a execução do gpg."
 
-#: camel/camel-gpg-context.c:1380
+#: camel/camel-gpg-context.c:1395
 #, c-format
 msgid "Cannot verify message signature: could not create temp file: %s"
 msgstr ""
@@ -9373,7 +9381,7 @@ msgid "IMAP server %s does not support requested authentication type %s"
 msgstr "O servidor IMAP %s não suporta o tipo de autenticação pedido %s"
 
 #: camel/providers/imap/camel-imap-store.c:1085
-#: camel/providers/smtp/camel-smtp-transport.c:486
+#: camel/providers/smtp/camel-smtp-transport.c:477
 #, c-format
 msgid "No support for authentication type %s"
 msgstr "Sem suporte para o tipo de autenticação %s"
@@ -10258,36 +10266,36 @@ msgstr "Autenticação exigida"
 msgid "Welcome response error"
 msgstr "Erro na resposta de boas vindas"
 
-#: camel/providers/smtp/camel-smtp-transport.c:343
-#: camel/providers/smtp/camel-smtp-transport.c:382
+#: camel/providers/smtp/camel-smtp-transport.c:334
+#: camel/providers/smtp/camel-smtp-transport.c:373
 #, c-format
 msgid "Failed to connect to SMTP server %s in secure mode: %s"
 msgstr "Falhou a conexão ao servidor SMTP %s em modo seguro: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:344
+#: camel/providers/smtp/camel-smtp-transport.c:335
 msgid "server does not appear to support SSL"
 msgstr "servidor não aparenta suportar SSL"
 
-#: camel/providers/smtp/camel-smtp-transport.c:358
+#: camel/providers/smtp/camel-smtp-transport.c:349
 #, c-format
 msgid "STARTTLS request timed out: %s"
 msgstr "Tempo excedido no pedido STARTTLS: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:373
+#: camel/providers/smtp/camel-smtp-transport.c:364
 msgid "STARTTLS response error"
 msgstr "Erro na resposta de STARTTLS"
 
-#: camel/providers/smtp/camel-smtp-transport.c:476
+#: camel/providers/smtp/camel-smtp-transport.c:467
 #, c-format
 msgid "SMTP server %s does not support requested authentication type %s."
 msgstr "O servidor SMTP %s não suporta o mecanismo de autenticação pedido %s."
 
-#: camel/providers/smtp/camel-smtp-transport.c:514
+#: camel/providers/smtp/camel-smtp-transport.c:505
 #, c-format
 msgid "%sPlease enter the SMTP password for %s@%s"
 msgstr "%sPor favor entre a senha SMTP para %s@%s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:533
+#: camel/providers/smtp/camel-smtp-transport.c:524
 #, c-format
 msgid ""
 "Unable to authenticate to SMTP server.\n"
@@ -10298,87 +10306,87 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: camel/providers/smtp/camel-smtp-transport.c:666
+#: camel/providers/smtp/camel-smtp-transport.c:657
 #, c-format
 msgid "SMTP server %s"
 msgstr "Servidor SMTP %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:668
+#: camel/providers/smtp/camel-smtp-transport.c:659
 #, c-format
 msgid "SMTP mail delivery via %s"
 msgstr "Entrega de correio SMTP via %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:686
+#: camel/providers/smtp/camel-smtp-transport.c:677
 msgid "Cannot send message: sender address not valid."
 msgstr "Não é possível enviar mensagem: endereço do remetente não é válido."
 
-#: camel/providers/smtp/camel-smtp-transport.c:691 mail/mail-ops.c:637
+#: camel/providers/smtp/camel-smtp-transport.c:682 mail/mail-ops.c:637
 msgid "Sending message"
 msgstr "Enviando mensagem"
 
-#: camel/providers/smtp/camel-smtp-transport.c:706
+#: camel/providers/smtp/camel-smtp-transport.c:697
 msgid "Cannot send message: no recipients defined."
 msgstr "Não é possível enviar mensagem: não foram definidos destinatários."
 
-#: camel/providers/smtp/camel-smtp-transport.c:715
+#: camel/providers/smtp/camel-smtp-transport.c:706
 msgid "Cannot send message: one or more invalid recipients"
 msgstr "Não é possível enviar mensagem: um ou mais destinatários inválidos"
 
-#: camel/providers/smtp/camel-smtp-transport.c:880
+#: camel/providers/smtp/camel-smtp-transport.c:871
 msgid "SMTP Greeting"
 msgstr "Saudação SMTP"
 
-#: camel/providers/smtp/camel-smtp-transport.c:929
+#: camel/providers/smtp/camel-smtp-transport.c:920
 #, c-format
 msgid "HELO request timed out: %s"
 msgstr "Tempo excedido no pedido HELO: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:951
+#: camel/providers/smtp/camel-smtp-transport.c:942
 msgid "HELO response error"
 msgstr "Erro na resposta de HELO"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1017
+#: camel/providers/smtp/camel-smtp-transport.c:1008
 msgid "SMTP Authentication"
 msgstr "Autenticação SMTP"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1023
+#: camel/providers/smtp/camel-smtp-transport.c:1014
 msgid "Error creating SASL authentication object."
 msgstr "Erro ao criar objeto de autenticação SASL."
 
-#: camel/providers/smtp/camel-smtp-transport.c:1040
-#: camel/providers/smtp/camel-smtp-transport.c:1052
+#: camel/providers/smtp/camel-smtp-transport.c:1031
+#: camel/providers/smtp/camel-smtp-transport.c:1043
 #, c-format
 msgid "AUTH request timed out: %s"
 msgstr "Tempo excedido no pedido AUTH: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1061
+#: camel/providers/smtp/camel-smtp-transport.c:1052
 msgid "AUTH request failed."
 msgstr "Falhou o pedido AUTH."
 
-#: camel/providers/smtp/camel-smtp-transport.c:1122
+#: camel/providers/smtp/camel-smtp-transport.c:1113
 msgid "Bad authentication response from server.\n"
 msgstr "Resposta de autenticação inválida do servidor.\n"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1147
+#: camel/providers/smtp/camel-smtp-transport.c:1138
 #, c-format
 msgid "MAIL FROM request timed out: %s: mail not sent"
 msgstr "Tempo excedido no pedido MAIL FROM: %s: a mensagem não foi enviada"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1167
+#: camel/providers/smtp/camel-smtp-transport.c:1158
 msgid "MAIL FROM response error"
 msgstr "Erro na resposta de MAIL FROM"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1191
+#: camel/providers/smtp/camel-smtp-transport.c:1182
 #, c-format
 msgid "RCPT TO request timed out: %s: mail not sent"
 msgstr "Tempo excedido no pedido RCPT TO: %s: a mensagem não foi enviada"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1213
+#: camel/providers/smtp/camel-smtp-transport.c:1204
 #, c-format
 msgid "RCPT TO <%s> failed"
 msgstr "Falhou RCPT TO <%s>"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1252
+#: camel/providers/smtp/camel-smtp-transport.c:1243
 #, c-format
 msgid "DATA request timed out: %s: mail not sent"
 msgstr "Tempo excedido no pedido DATA: %s: a mensagem não foi enviada"
@@ -10386,37 +10394,37 @@ msgstr "Tempo excedido no pedido DATA: %s: a mensagem não foi enviada"
 #. we should have gotten instructions on how to use the DATA command:
 #. * 354 Enter mail, end with "." on a line by itself
 #.
-#: camel/providers/smtp/camel-smtp-transport.c:1272
+#: camel/providers/smtp/camel-smtp-transport.c:1263
 msgid "DATA response error"
 msgstr "Erro na resposta de DATA"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1313
-#: camel/providers/smtp/camel-smtp-transport.c:1336
+#: camel/providers/smtp/camel-smtp-transport.c:1304
+#: camel/providers/smtp/camel-smtp-transport.c:1327
 #, c-format
 msgid "DATA send timed out: message termination: %s: mail not sent"
 msgstr ""
 "Tempo excedido no envio de DATA: terminação de mensagem: %s: a mensagem não "
 "foi enviada"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1356
+#: camel/providers/smtp/camel-smtp-transport.c:1347
 msgid "DATA termination response error"
 msgstr "Erro na resposta de terminação de DATA"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1379
+#: camel/providers/smtp/camel-smtp-transport.c:1370
 #, c-format
 msgid "RSET request timed out: %s"
 msgstr "Tempo excedido no pedido RSET: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1399
+#: camel/providers/smtp/camel-smtp-transport.c:1390
 msgid "RSET response error"
 msgstr "Erro na resposta de RSET"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1422
+#: camel/providers/smtp/camel-smtp-transport.c:1413
 #, c-format
 msgid "QUIT request timed out: %s"
 msgstr "Tempo excedido no pedido QUIT: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1442
+#: camel/providers/smtp/camel-smtp-transport.c:1433
 msgid "QUIT response error"
 msgstr "Erro na resposta de QUIT"
 
@@ -10659,7 +10667,7 @@ msgstr "Abrir arquivo"
 msgid "Signature:"
 msgstr "Assinatura:"
 
-#: composer/e-msg-composer.c:2085 mail/mail-account-gui.c:1261
+#: composer/e-msg-composer.c:2085 mail/mail-account-gui.c:1262
 msgid "Autogenerated"
 msgstr "Auto-gerado"
 
@@ -11091,7 +11099,7 @@ msgid "You must specify a folder."
 msgstr "Você deve especificar uma pasta."
 
 #: filter/filter-folder.c:243 filter/vfolder-rule.c:438
-#: mail/mail-account-gui.c:1510 mail/mail-account-gui.c:1524
+#: mail/mail-account-gui.c:1511 mail/mail-account-gui.c:1525
 msgid "Select Folder"
 msgstr "Selecionar pasta"
 
@@ -11459,7 +11467,7 @@ msgstr "retorna menor que"
 msgid "Score"
 msgstr "Pontuação"
 
-#: filter/libfilter-i18n.h:50 mail/mail-callbacks.c:1820
+#: filter/libfilter-i18n.h:50 mail/mail-callbacks.c:1824
 msgid "Sender"
 msgstr "Remetente"
 
@@ -12110,7 +12118,7 @@ msgid "You have not filled in all of the required information."
 msgstr "Você não preencheu toda a informação exigida."
 
 #. give our dialog an OK button and title
-#: mail/mail-account-editor.c:146
+#: mail/mail-account-editor.c:155
 msgid "Evolution Account Editor"
 msgstr "Editor de contas do Evolution"
 
@@ -12126,7 +12134,7 @@ msgstr "Nome do _usuário:"
 msgid "_Path:"
 msgstr "_Caminho:"
 
-#: mail/mail-account-gui.c:1886
+#: mail/mail-account-gui.c:1887
 msgid "You may not create two accounts with the same name."
 msgstr "Você não pode criar duas contas com o mesmo nome."
 
@@ -12299,7 +12307,7 @@ msgstr ""
 msgid "You must specify recipients in order to send this message."
 msgstr "Você deve especificar destinatários para poder enviar esta mensagem."
 
-#: mail/mail-callbacks.c:724
+#: mail/mail-callbacks.c:728
 msgid ""
 "Unable to open the drafts folder for this account.\n"
 "Would you like to use the default drafts folder?"
@@ -12307,28 +12315,28 @@ msgstr ""
 "Não é possível abrir a pasta de rascunhos para esta conta.\n"
 "Você gostaria de usar a pasta de rascunhos padrão?"
 
-#: mail/mail-callbacks.c:1189
+#: mail/mail-callbacks.c:1193
 msgid "an unknown sender"
 msgstr "um remetente desconhecido"
 
-#: mail/mail-callbacks.c:1193
+#: mail/mail-callbacks.c:1197
 msgid "On %a, %Y-%m-%d at %H:%M, %%s wrote:"
 msgstr "Em %a, %Y-%m-%d às %H:%M, %%s escreveu:"
 
-#: mail/mail-callbacks.c:1700 mail/message-browser.c:132
+#: mail/mail-callbacks.c:1704 mail/message-browser.c:132
 msgid "Move message(s) to"
 msgstr "Mover mensagem(ns) para"
 
-#: mail/mail-callbacks.c:1702 mail/message-browser.c:134
+#: mail/mail-callbacks.c:1706 mail/message-browser.c:134
 msgid "Copy message(s) to"
 msgstr "Copiar mensagem(ns) para"
 
-#: mail/mail-callbacks.c:2344
+#: mail/mail-callbacks.c:2348
 #, c-format
 msgid "Are you sure you want to edit all %d messages?"
 msgstr "Tem certeza que deseja editar todas as %d mensagens?"
 
-#: mail/mail-callbacks.c:2360
+#: mail/mail-callbacks.c:2364
 msgid ""
 "You may only edit messages saved\n"
 "in the Drafts folder."
@@ -12336,7 +12344,7 @@ msgstr ""
 "Você pode apenas editar mensagens salvas\n"
 "na pasta Rascunho."
 
-#: mail/mail-callbacks.c:2393
+#: mail/mail-callbacks.c:2397
 msgid ""
 "You may only resend messages\n"
 "in the Sent folder."
@@ -12344,16 +12352,16 @@ msgstr ""
 "Você pode apenas reenviar mensagens\n"
 "na pasta Enviada."
 
-#: mail/mail-callbacks.c:2403
+#: mail/mail-callbacks.c:2407
 #, c-format
 msgid "Are you sure you want to resend all %d messages?"
 msgstr "Você tem certeza que deseja reenviar todas as %d mensagens?"
 
-#: mail/mail-callbacks.c:2424
+#: mail/mail-callbacks.c:2428
 msgid "No Message Selected"
 msgstr "Não existe mensagem selecionada"
 
-#: mail/mail-callbacks.c:2465
+#: mail/mail-callbacks.c:2469
 #, c-format
 msgid ""
 "Cannot save to `%s'\n"
@@ -12362,7 +12370,7 @@ msgstr ""
 "Não é possível salvar para `%s'\n"
 " %s"
 
-#: mail/mail-callbacks.c:2470
+#: mail/mail-callbacks.c:2474
 #, c-format
 msgid ""
 "`%s' already exists.\n"
@@ -12371,15 +12379,15 @@ msgstr ""
 "`%s' já existe.\n"
 "Sobrescrevê-lo?"
 
-#: mail/mail-callbacks.c:2511
+#: mail/mail-callbacks.c:2515
 msgid "Save Message As..."
 msgstr "Salvar mensagem como..."
 
-#: mail/mail-callbacks.c:2513
+#: mail/mail-callbacks.c:2517
 msgid "Save Messages As..."
 msgstr "Salvar mensagens como..."
 
-#: mail/mail-callbacks.c:2686
+#: mail/mail-callbacks.c:2690
 msgid ""
 "This operation will permanently erase all messages marked as\n"
 "deleted. If you continue, you will not be able to recover these messages.\n"
@@ -12392,7 +12400,7 @@ msgstr ""
 "\n"
 "Apagar estas mensagens mesmo assim?"
 
-#: mail/mail-callbacks.c:2781
+#: mail/mail-callbacks.c:2785
 #, c-format
 msgid ""
 "Error loading filter information:\n"
@@ -12401,24 +12409,24 @@ msgstr ""
 "Erro ao carregar informação do filtro:\n"
 "%s"
 
-#: mail/mail-callbacks.c:2789
+#: mail/mail-callbacks.c:2793
 msgid "Filters"
 msgstr "Filtros"
 
-#: mail/mail-callbacks.c:2830
+#: mail/mail-callbacks.c:2834
 #, c-format
 msgid "Page %d of %d"
 msgstr "Página %d de %d"
 
-#: mail/mail-callbacks.c:2886
+#: mail/mail-callbacks.c:2890
 msgid "Print Message"
 msgstr "Imprimir mensagem"
 
-#: mail/mail-callbacks.c:2954
+#: mail/mail-callbacks.c:2958
 msgid "Printing of message failed"
 msgstr "Falhou a impressão da mensagem"
 
-#: mail/mail-callbacks.c:3149
+#: mail/mail-callbacks.c:3153
 #, c-format
 msgid "Are you sure you want to open all %d messages in separate windows?"
 msgstr ""
@@ -25555,7 +25563,9 @@ msgid ""
 "\n"
 "Do you want to quit using the Assistant now?"
 msgstr ""
-"Se você sair do Assistente de configuração do Evolution agora, toda a informação que você forneceu será esquecida. Você precisará executar este assistente novamente antes de usar o Evolution.\n"
+"Se você sair do Assistente de configuração do Evolution agora, toda a "
+"informação que você forneceu será esquecida. Você precisará executar este "
+"assistente novamente antes de usar o Evolution.\n"
 "\n"
 "Você deseja sair do assistente agora?"
 
@@ -27997,7 +28007,7 @@ msgstr "_Buscar"
 msgid "_Find Now"
 msgstr "_Localizar agora"
 
-#: widgets/misc/e-search-bar.c:538
+#: widgets/misc/e-search-bar.c:538 widgets/misc/e-search-bar.c:928
 msgid "_Clear"
 msgstr "_Limpar"
 
@@ -28013,13 +28023,9 @@ msgstr "ID do sub-item"
 msgid "Text"
 msgstr "Texto"
 
-#: widgets/misc/e-search-bar.c:928
-msgid "Clear"
-msgstr "Limpar"
-
 #: widgets/misc/e-search-bar.c:930
-msgid "Find Now"
-msgstr "Localizar agora"
+msgid "Find _Now"
+msgstr "Localizar a_gora"
 
 #: wombat/GNOME_Evolution_WombatLDAP.server.in.in.h:1
 msgid "Evolution Addressbook local/LDAP backend"
