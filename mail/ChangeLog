@@ -1,3 +1,14 @@
+2003-01-13  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* folder-browser.c (folder_browser_copy): Correctly create the
+	clipboard buffer by using a nul to delimit the uri and the list of
+	uids.
+
+2003-01-09  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* component-factory.c (storage_remove_folder): Fixed a situation
+	in which we could notify the shell listener twice.
+
 2003-01-16  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-config-druid.c (get_fn): Connect to the toggled event on

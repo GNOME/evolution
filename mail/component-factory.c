@@ -1261,8 +1261,11 @@ storage_remove_folder (EvolutionStorage *storage,
 	root = camel_store_get_folder_info (store, name, CAMEL_STORE_FOLDER_INFO_FAST |
 					    CAMEL_STORE_FOLDER_INFO_RECURSIVE, &ex);
 	camel_url_free (url);
-	if (!root || camel_exception_is_set (&ex))
-		goto exception;
+	if (!root || camel_exception_is_set (&ex)) {
+		notify_listener_exception (listener, &ex);
+		camel_exception_clear (&ex);
+		return;
+	}
 	
 	/* walk the tree until we find the particular child folder we want to delete */
 	fi = root;
@@ -1272,22 +1275,20 @@ storage_remove_folder (EvolutionStorage *storage,
 		fi = fi->child;
 	}
 	
-	if (fi != NULL) {
-		storage_remove_folder_recursive (storage, store, fi, &ex);
-		if (camel_exception_is_set (&ex))
-			goto exception;
-	} else {
+	if (!fi) {
+		camel_store_free_folder_info (store, root);
 		notify_listener (listener, GNOME_Evolution_Storage_INVALID_URI);
+		return;
 	}
 	
-	camel_store_free_folder_info (store, root);
+	storage_remove_folder_recursive (storage, store, fi, &ex);
+	if (camel_exception_is_set (&ex)) {
+		notify_listener_exception (listener, &ex);
+		camel_exception_clear (&ex);
+	} else {
+		notify_listener (listener, GNOME_Evolution_Storage_OK);
+	}
 	
-	notify_listener (listener, GNOME_Evolution_Storage_OK);
-	return;
-	
-exception:
-	notify_listener_exception(listener, &ex);
-	camel_exception_clear (&ex);
 	camel_store_free_folder_info (store, root);
 }
 
