@@ -957,7 +957,7 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 	urls = g_datalist_get_data (md->data, "part_urls");
 	if (!urls)
 		return FALSE;
-
+	
 	if (!strncmp (eb->classid, "popup:", 6) && eb->type) {
 		part = g_hash_table_lookup (urls, eb->classid + 6);
 		if (!CAMEL_IS_MIME_PART (part))

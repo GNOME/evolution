@@ -1,3 +1,8 @@
+2002-01-03  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (composer_get_message): Add an Organization
+	header.
+
 2002-01-02  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c (list_add_addresses): Simplified. Also no
