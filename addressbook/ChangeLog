@@ -1,3 +1,11 @@
+2004-02-19  Hans Petter Jansson  <hpj@ximian.com>
+
+	Fixes #45308 and duplicates.
+
+	* gui/widgets/e-addressbook-model.c (eab_model_set_property): Store
+	the IDs of book signals connected to, so we can disconnect from them
+	later.
+
 2004-02-18  Hao Sheng  <hao.sheng@sun.com>
 
 	[ fixes bug #52765 ]
