@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.0.5\n"
 "POT-Creation-Date: 2003-04-02 13:07+0300\n"
-"PO-Revision-Date: 2003-04-02 07:58--500\n"
+"PO-Revision-Date: 2003-04-02 10:18--500\n"
 "Last-Translator: Yuriy Syrota <yuri@renome.rovno.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1502,7 +1502,7 @@ msgstr "Антіґуа і Барбуда"
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:145
 #: my-evolution/Locations.h:120
 msgid "Argentina"
-msgstr "Арґентіна"
+msgstr "Аргентина"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:146
 msgid "Armenia"
@@ -6655,7 +6655,7 @@ msgstr "Африка/Аккра"
 
 #: calendar/zones.h:9
 msgid "Africa/Addis_Ababa"
-msgstr "Африка/Аддіс-Абеба"
+msgstr "Африка/Аддис-Абеба"
 
 #: calendar/zones.h:10
 msgid "Africa/Algiers"
@@ -16344,7 +16344,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:642
 msgid "Edinburgh"
-msgstr ""
+msgstr "Единбург"
 
 #: my-evolution/Locations.h:643
 msgid "Edmonton"
@@ -22340,7 +22340,7 @@ msgstr "Сімферополь"
 
 #: my-evolution/Locations.h:2184
 msgid "Syracuse"
-msgstr "Сіракузи"
+msgstr "Сиракузи"
 
 #: my-evolution/Locations.h:2185
 msgid "Szczecin"
