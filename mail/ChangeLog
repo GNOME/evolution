@@ -1,3 +1,7 @@
+2003-03-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-signature-editor.c: Various small fixes leading up to a real fix.
+
 2003-03-11  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-accounts.c (account_add_clicked): Use

@@ -71,36 +71,32 @@ destroy_editor (ESignatureEditor *editor)
 static void
 menu_file_save_error (BonoboUIComponent *uic, CORBA_Environment *ev)
 {
-	const char *err;
+	char *err;
 	
 	/* errno is set if the rename() fails in menu_file_save_cb */
 	
-	err = ev->_major != CORBA_NO_EXCEPTION ? bonobo_exception_get_text (ev) : g_strerror (errno);
+	err = ev->_major != CORBA_NO_EXCEPTION ? bonobo_exception_get_text (ev) : g_strdup (g_strerror (errno));
 	
-	e_notice (GTK_WINDOW (uic), GTK_MESSAGE_ERROR,
-		  _("Could not save signature file: %s"), err);
-	
+	e_notice (NULL, GTK_MESSAGE_ERROR, _("Could not save signature file: %s"), err);
 	g_warning ("Exception while saving signature: %s", err);
+	
+	g_free (err);
 }
 
 static void
-menu_file_save_cb (BonoboUIComponent *uic,
-		   void *data,
-		   const char *path)
+menu_file_save_cb (BonoboUIComponent *uic, void *user_data, const char *path)
 {
-	ESignatureEditor *editor;
+	ESignatureEditor *editor = user_data;
 	CORBA_Environment ev;
 	char *filename, *base;
 	char *dirname;
-	
-	editor = E_SIGNATURE_EDITOR (data);
 	
 	d(printf ("editor->sig->filename = %s\n", editor->sig->filename));
 	dirname = g_path_get_dirname (editor->sig->filename);
 	d(printf ("dirname = %s\n", dirname));
 	base = g_path_get_basename (editor->sig->filename);
 	d(printf ("basename = %s\n", base));
-	filename = g_strdup_printf ("%s/.#%s", dirname, base);
+	filename = g_strdup_printf ("%s/.%s~", dirname, base);
 	d(printf ("filename = %s\n", filename));
 	g_free (dirname);
 	g_free (base);
@@ -119,24 +115,30 @@ menu_file_save_cb (BonoboUIComponent *uic,
 		char *uri;
 		
 		uri = g_strdup_printf ("file://%s", filename);
-		stream = bonobo_get_object (uri, "IDL:Bonobo/Stream:1.0", NULL);
+		stream = bonobo_get_object (uri, "IDL:Bonobo/Stream:1.0", &ev);
 		g_free (uri);
 		
-		/* FIXME: truncate? */
+		if (ev._major != CORBA_NO_EXCEPTION)
+			goto exception;
 		
+		/* FIXME: truncate? */
 		pstream_iface = Bonobo_Unknown_queryInterface
 			(bonobo_widget_get_objref (BONOBO_WIDGET (editor->control)),
-			 "IDL:Bonobo/PersistStream:1.0", NULL);
+			 "IDL:Bonobo/PersistStream:1.0", &ev);
+		
+		if (ev._major != CORBA_NO_EXCEPTION)
+			goto exception;
 		
 		Bonobo_PersistStream_save (pstream_iface, stream, "text/plain", &ev);
 		
 		bonobo_object_release_unref (stream, NULL);
 	}
 	
-	if (ev._major != CORBA_NO_EXCEPTION || rename (filename, editor->sig->filename) == -1) {
-		menu_file_save_error (uic, &ev);
-		unlink (filename);
-	}
+	if (ev._major != CORBA_NO_EXCEPTION)
+		goto exception;
+	
+	if (rename (filename, editor->sig->filename) == -1)
+		goto exception;
 	
 	g_free (filename);
 	
@@ -150,6 +152,15 @@ menu_file_save_cb (BonoboUIComponent *uic,
 		mail_config_signature_set_html (editor->sig, editor->html);
 		mail_config_signature_emit_event (MAIL_CONFIG_SIG_EVENT_CONTENT_CHANGED, editor->sig);
 	}
+	
+	return;
+	
+ exception:
+	
+	menu_file_save_error (uic, &ev);
+	CORBA_exception_free (&ev);
+	unlink (filename);
+	g_free (filename);
 }
 
 static void
@@ -251,8 +262,8 @@ load_signature (ESignatureEditor *editor)
 	if (editor->html) {
 		Bonobo_PersistFile pfile_iface;
 		
-		pfile_iface = Bonobo_Unknown_queryInterface(bonobo_widget_get_objref (BONOBO_WIDGET (editor->control)),
-							    "IDL:Bonobo/PersistFile:1.0", NULL);
+		pfile_iface = Bonobo_Unknown_queryInterface (bonobo_widget_get_objref (BONOBO_WIDGET (editor->control)),
+							     "IDL:Bonobo/PersistFile:1.0", NULL);
 		CORBA_exception_init (&ev);
 		Bonobo_PersistFile_load (pfile_iface, editor->sig->filename, &ev);
 		CORBA_exception_free (&ev);
@@ -316,7 +327,7 @@ format_html_cb (BonoboUIComponent           *component,
 
 {
 	ESignatureEditor *editor = (ESignatureEditor *) data;
-
+	
 	if (type != Bonobo_UIComponent_STATE_CHANGED)
 		return;
 	
