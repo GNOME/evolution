@@ -1,3 +1,11 @@
+2004-06-23  Rodney Dawes  <dobey@novell.com>
+
+	* gui/component/select-names/select-names.glade:
+	Move the search bar to the top and add a label _Search so that the
+	entry has a mnemonic for keyboard accessibility
+
+	Fixes #52914 and #58448
+
 2004-06-22  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/contact-editor/contact-editor.glade: Name the labels.
