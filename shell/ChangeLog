@@ -1,5 +1,9 @@
 2001-10-26  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-about-box.c (timeout_callback): Draw one more line.
+
+2001-10-26  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-view-menu.c (command_about_box): Set the GtkWindow
 	policy so that @allow_shrink, @allow_grow and @auto_shrink are all
 	%FALSE.

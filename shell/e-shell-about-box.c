@@ -136,7 +136,7 @@ timeout_callback (void *data)
 			 0, 0,
 			 TEXT_X_OFFSET, TEXT_Y_OFFSET, TEXT_WIDTH, TEXT_HEIGHT);
 
-	for (i = 0; i < TEXT_HEIGHT / line_height + 2; i ++) {
+	for (i = 0; i < TEXT_HEIGHT / line_height + 3; i ++) {
 		const char *line;
 		int x;
 
