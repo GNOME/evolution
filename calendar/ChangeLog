@@ -1,4 +1,8 @@
 2004-11-29  Chenthill Palanisamy  <pchenthill@novell.com>
+	* calendar-errors.xml.h: committng this file. Missed to
+	commit this one.
+
+2004-11-29  Chenthill Palanisamy  <pchenthill@novell.com>
 	
 	* gui/dialogs/comp-editor.c (response_cb): Moved the call
 	for the warning dialog (send_component_prompt_subject) after 

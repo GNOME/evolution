@@ -120,3 +120,13 @@ char *s = N_("This calendar will be removed permanently.");
 char *s = N_("Delete task list '{0}'?");
 /* calendar:prompt-delete-task-list secondary */
 char *s = N_("This task list will be removed permanently.");
+/* calendar:prompt-send-no-subject-calendar primary */
+char *s = N_("Are you sure you want to send the appointment without a summary?");
+/* calendar:prompt-send-no-subject-calendar secondary */
+char *s = N_("Adding a meaningful Summary to your appointment will give your recipients an idea of what your appointment is about.");
+char *s = N_("_Send");
+/* calendar:prompt-send-no-subject-task primary */
+char *s = N_("Are you sure you want to send the task without a summary?");
+/* calendar:prompt-send-no-subject-task secondary */
+char *s = N_("Adding a meaningful Summary to your task will give your recipients an idea of what your appointment is about.");
+char *s = N_("_Send");
