@@ -63,7 +63,7 @@ struct _EItipControlPrivate {
 	CalClient *event_client;
 	GPtrArray *task_clients;
 	CalClient *task_client;
-	
+
 	char *vcalendar;
 	CalComponent *comp;
 	icalcomponent *main_comp;
@@ -187,43 +187,13 @@ error:
 	return NULL;
 }
 
-static CalClient *
-start_default_server (EItipControl *itip, gboolean tasks)
+static gboolean
+start_default_server_async (EItipControl *itip, CalClient *client, gboolean tasks)
 {
-	CalClient *client;
-	gboolean success = FALSE;
-
-	client = cal_client_new ();
-
-	g_signal_connect (client, "cal_opened", G_CALLBACK (start_calendar_server_cb), &success);
-
-	if (tasks) {
-		if (!cal_client_open_default_tasks (client, FALSE))
-			goto error;
-	} else {
-		if (!cal_client_open_default_calendar (client, FALSE))
-			goto error;
-	}
-	
-	/* run a sub event loop to turn cal-client's async load
-	   notification into a synchronous call */
-	if (!itip->priv->destroyed) {
-		gtk_signal_connect (GTK_OBJECT (itip), "destroy",
-				    gtk_main_quit, NULL);
-
-		gtk_main ();
-		
-		gtk_signal_disconnect_by_func (GTK_OBJECT (itip),
-					       gtk_main_quit, NULL);
-	}
-	
-	if (success)
-		return client;
-
- error:
-	g_object_unref (client);
-	
-	return NULL;
+	if (tasks)
+		return cal_client_open_default_tasks (client, FALSE);
+	else
+		return cal_client_open_default_calendar (client, FALSE);
 }
 
 static GPtrArray *
@@ -2209,16 +2179,34 @@ url_requested_cb (GtkHTML *html, const gchar *url, GtkHTMLStream *handle, gpoint
 	g_free (path);
 }
 
-static gboolean
-object_requested_cb (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data) 
+typedef struct
 {
-	EItipControl *itip = E_ITIP_CONTROL (data);
+	EItipControl    *itip;
+	GtkHTMLEmbedded *eb;
+	CalClient       *client;
+}
+ObjectRequestContext;
+
+static void
+default_server_started_cb (CalClient *client, CalClientOpenStatus status, gpointer data)
+{
+	ObjectRequestContext *context = data;
 	EItipControlPrivate *priv;
 	GtkWidget *button;
 	CalComponentVType vtype;
-	
-	priv = itip->priv;	
 
+	priv = context->itip->priv;	
+
+	if (status != CAL_CLIENT_OPEN_SUCCESS ||
+	    context->itip->priv->destroyed    ||
+	    context->itip->priv->html == NULL) {
+		g_object_unref (context->client);
+		g_object_unref (context->itip);
+		g_free (context);
+		return;
+	}
+
+	priv->event_client = client;
 	vtype = cal_component_get_vtype (priv->comp);
 
 	switch (vtype) {
@@ -2227,23 +2215,64 @@ object_requested_cb (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 			global_shell_client, _("Select Calendar Folder"),
 			calendar_config_default_calendar_folder (), 
 			calendar_types);
-		priv->event_client = start_default_server (itip, FALSE);
 		break;
 	case CAL_COMPONENT_TODO:
 		button = evolution_folder_selector_button_new (
 			global_shell_client, _("Select Tasks Folder"),
 			calendar_config_default_tasks_folder (), 
 			tasks_types);
-		priv->task_client = start_default_server (itip, TRUE);
 		break;
 	default:
 		button = NULL;
 	}
 
-	g_signal_connect (button, "selected", G_CALLBACK (button_selected_cb), itip);
+	g_signal_connect (button, "selected", G_CALLBACK (button_selected_cb), context->itip);
 	
-	gtk_container_add (GTK_CONTAINER (eb), button);
+	gtk_container_add (GTK_CONTAINER (context->eb), button);
 	gtk_widget_show (button);
+
+	g_object_unref (context->itip);
+	g_free (context);
+	return;
+}
+
+static gboolean
+object_requested_cb (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data) 
+{
+	EItipControl *itip = E_ITIP_CONTROL (data);
+	ObjectRequestContext *context;
+	EItipControlPrivate *priv;
+	CalComponentVType vtype;
+	gboolean success;
+
+	priv = itip->priv;	
+	vtype = cal_component_get_vtype (priv->comp);
+
+	context = g_new0 (ObjectRequestContext, 1);
+	context->itip   = itip;
+	context->eb     = eb;
+	context->client = cal_client_new ();
+
+	g_object_ref (itip);
+	g_signal_connect (context->client, "cal_opened",
+			  G_CALLBACK (default_server_started_cb), context);
+
+	switch (vtype) {
+	case CAL_COMPONENT_EVENT:
+		success = start_default_server_async (itip, context->client, FALSE);
+		break;
+	case CAL_COMPONENT_TODO:
+		success = start_default_server_async (itip, context->client, TRUE);
+		break;
+	default:
+		success = FALSE;
+	}
+
+	if (!success) {
+		g_object_unref (itip);
+		g_object_unref (context->client);
+		g_free (context);
+	}
 
 	return TRUE;
 }
