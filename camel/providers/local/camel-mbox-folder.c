@@ -336,7 +336,7 @@ retry:
 		return NULL;
 	}
 
-	/* no frompos, its an error in the library (and we can't do anything with it */
+	/* no frompos, its an error in the library (and we can't do anything with it) */
 	g_assert(info->frompos != -1);
 	
 	/* we use an fd instead of a normal stream here - the reason is subtle, camel_mime_part will cache

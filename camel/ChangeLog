@@ -1,3 +1,13 @@
+2002-06-14  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-multipart-signed.c: Updated to use ctx->sign_protocol
+	rather than ctx->protocol.
+
+	* camel-cipher-context.h: Add an ecnryption protocol member.
+
+	* camel-pgp-context.c (camel_pgp_context_init): Set the encryption
+	protocol.
+
 2002-06-11  Not Zed  <NotZed@Ximian.com>
 
 	* camel-vtrash-folder.c (camel_vtrash_folder_class_init): Our

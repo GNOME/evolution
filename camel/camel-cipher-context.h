@@ -51,11 +51,12 @@ typedef struct _CamelCipherContext {
 	CamelObject parent_object;
 	
 	struct _CamelCipherContextPrivate *priv;
-
-	const char *protocol;		/* this MUST be set by implementors */
 	
 	CamelSession *session;
 	
+	/* these MUST be set by implementors */
+	const char *sign_protocol;
+	const char *encrypt_protocol;
 } CamelCipherContext;
 
 typedef struct _CamelCipherContextClass {

@@ -580,7 +580,7 @@ camel_multipart_signed_sign(CamelMultipartSigned *mps, CamelCipherContext *conte
 	char *type;
 
 	/* this needs to be set */
-	g_return_val_if_fail(context->protocol != NULL, -1);
+	g_return_val_if_fail(context->sign_protocol != NULL, -1);
 
 	prepare_sign(content);
 
@@ -613,8 +613,8 @@ camel_multipart_signed_sign(CamelMultipartSigned *mps, CamelCipherContext *conte
 	/* create the signature wrapper object */
 	signature = camel_mime_part_new();
 	dw = camel_data_wrapper_new();
-	type = alloca(strlen(context->protocol) + 32);
-	sprintf(type, "%s; name=signature.asc", context->protocol);
+	type = alloca(strlen(context->sign_protocol) + 32);
+	sprintf(type, "%s; name=signature.asc", context->sign_protocol);
 	camel_data_wrapper_set_mime_type(dw, type);
 	camel_stream_reset(sigstream);
 	camel_data_wrapper_construct_from_stream(dw, sigstream);
@@ -626,7 +626,7 @@ camel_multipart_signed_sign(CamelMultipartSigned *mps, CamelCipherContext *conte
 	/* setup our mime type and boundary */
 	mime_type = header_content_type_new("multipart", "signed");
 	header_content_type_set_param(mime_type, "micalg", camel_cipher_hash_to_id(context, hash));
-	header_content_type_set_param(mime_type, "protocol", context->protocol);
+	header_content_type_set_param(mime_type, "protocol", context->sign_protocol);
 	camel_data_wrapper_set_mime_type_field(CAMEL_DATA_WRAPPER (mps), mime_type);
 	header_content_type_unref(mime_type);
 	camel_multipart_set_boundary((CamelMultipart *)mps, NULL);
