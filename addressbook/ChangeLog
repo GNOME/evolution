@@ -1,3 +1,14 @@
+2001-10-26  JP Rosevear  <jpr@ximian.com>
+
+	* conduit/e-address.conduit.in: remove the merges as valid sync
+	types
+
+	* conduit/address-conduit.c (pre_sync): write out only the touched
+	records if we are doing copies
+
+	* conduit/address-conduit-config.h
+	(addrconduit_load_configuration): get the sync type
+
 2001-10-26  Jon Trowbridge  <trow@ximian.com>
 
 	* gui/component/e-address-popup.c (e_address_popup_destroy):
@@ -19,7 +30,7 @@
 	EditorCloseStruct.
 
 2001-10-26  JP Rosevear  <jpr@ximian.com>
-
+	
 	* conduit/address-conduit.c (check_for_slow_setting): make debug
 	info more accurate
 	

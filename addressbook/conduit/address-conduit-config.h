@@ -43,6 +43,8 @@ struct _EAddrConduitCfg {
 static void 
 addrconduit_load_configuration (EAddrConduitCfg **c, guint32 pilot_id) 
 {
+	GnomePilotConduitManagement *management;
+	GnomePilotConduitConfig *config;
 	gchar prefix[256];
 	g_snprintf (prefix, 255, "/gnome-pilot.d/e-address-conduit/Pilot_%u/",
 		    pilot_id);
@@ -50,14 +52,20 @@ addrconduit_load_configuration (EAddrConduitCfg **c, guint32 pilot_id)
 	*c = g_new0 (EAddrConduitCfg,1);
 	g_assert (*c != NULL);
 
+	(*c)->pilot_id = pilot_id;
+	management = gnome_pilot_conduit_management_new ("EAddress", GNOME_PILOT_CONDUIT_MGMT_NAME);
+	config = gnome_pilot_conduit_config_new (management, pilot_id);
+	if (!gnome_pilot_conduit_config_is_enabled (config, &(*c)->sync_type))
+		(*c)->sync_type = GnomePilotConduitSyncTypeNotSet;
+	gtk_object_unref (GTK_OBJECT (config));
+	gtk_object_unref (GTK_OBJECT (management));
+
+	/* Custom settings */
 	gnome_config_push_prefix (prefix);
+
 	(*c)->open_secret = gnome_config_get_bool ("open_secret=FALSE");
 
-        /* set in capplets main */
-	(*c)->sync_type = GnomePilotConduitSyncTypeCustom; 
 	gnome_config_pop_prefix ();
-	
-	(*c)->pilot_id = pilot_id;
 }
 #endif
 
