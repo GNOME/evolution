@@ -702,12 +702,12 @@ camel_imapp_engine_command_find (CamelIMAPPEngine *imap, const char *name)
 
 	/* first, try active */
 	ic = (CamelIMAPPCommand *)imap->active.head;
-	in = ic->next;
+	in = ic->msg.ln.next;
 	while (in) {
 		if (strcmp(ic->name, name) == 0)
 			return ic;
 		ic = in;
-		in = in->next;
+		in = in->msg.ln.next;
 	}
 
 	return NULL;
@@ -723,12 +723,12 @@ camel_imapp_engine_command_find_tag(CamelIMAPPEngine *imap, unsigned int tag)
 		return ic;
 
 	ic = (CamelIMAPPCommand *)imap->active.head;
-	in = ic->next;
+	in = ic->msg.ln.next;
 	while (in) {
 		if (ic->tag == tag)
 			return ic;
 		ic = in;
-		in = in->next;
+		in = in->msg.ln.next;
 	}
 
 	return NULL;
@@ -1000,6 +1000,10 @@ imap_engine_command_addv(CamelIMAPPEngine *imap, CamelIMAPPCommand *ic, const ch
 static void *
 cie_worker(void *data)
 {
+	CamelIMAPPCommand *ic = data;
+	CamelIMAPPEngine *imap;
+	CamelIMAPPCommandPart *cp;
+
 	/* FIXME: remove select stuff */
 
 	/* see if we need to pre-queue a select command to select the right folder first */
