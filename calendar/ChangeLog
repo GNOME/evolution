@@ -1,3 +1,17 @@
+2003-04-11  Dan Winship  <danw@ximian.com>
+
+	* gui/dialogs/task-page.glade: Remove the "Contacts" button and
+	entry from here too. Supposed to have been part of #35926
+
+	* gui/dialogs/task-page.c: Remove all code pertaining to the
+	contacts button
+
+	* gui/dialogs/comp-editor-util.c: 
+	* gui/dialogs/comp-editor-util.h: Likewise
+
+	* gui/dialogs/Makefile.am (IDL_GENERATED, etc): Remove
+	select-names stuff, which is no longe rused.
+
 2003-04-11  Rodrigo Moya <rodrigo@ximian.com>
 
 	* cal-util/cal-util.h: added missing capabilities.

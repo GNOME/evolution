@@ -66,18 +66,10 @@ struct _TaskPagePrivate {
 	GtkWidget *classification_private;
 	GtkWidget *classification_confidential;
 
-	GtkWidget *contacts_btn;	
-	GtkWidget *contacts_box;
-
 	GtkWidget *categories_btn;
 	GtkWidget *categories;
 
 	gboolean updating;
-
-	/* The Corba component for selecting contacts, and the entry field
-	   which we place in the dialog. */
-	GNOME_Evolution_Addressbook_SelectNames corba_select_names;
-	GtkWidget *contacts_entry;
 };
 
 static const int classification_map[] = {
@@ -159,15 +151,10 @@ task_page_init (TaskPage *tpage)
 	priv->classification_public = NULL;
 	priv->classification_private = NULL;
 	priv->classification_confidential = NULL;
-	priv->contacts_btn = NULL;
-	priv->contacts_box = NULL;
 	priv->categories_btn = NULL;
 	priv->categories = NULL;
 
 	priv->updating = FALSE;
-
-	priv->corba_select_names = CORBA_OBJECT_NIL;
-	priv->contacts_entry = NULL;
 }
 
 /* Destroy handler for the task page */
@@ -182,14 +169,6 @@ task_page_finalize (GObject *object)
 
 	tpage = TASK_PAGE (object);
 	priv = tpage->priv;
-
-	if (priv->corba_select_names != CORBA_OBJECT_NIL) {
-		CORBA_Environment ev;
-
-		CORBA_exception_init (&ev);
-		bonobo_object_release_unref (priv->corba_select_names, &ev);
-		CORBA_exception_free (&ev);
-	}
 
 	if (priv->main)
 		gtk_widget_unref (priv->main);
@@ -263,23 +242,6 @@ static CalComponentClassification
 classification_get (GtkWidget *widget)
 {
 	return e_dialog_radio_get (widget, classification_map);
-}
-
-static void
-contacts_changed_cb (BonoboListener    *listener,
-		     const char        *event_name,
-		     const CORBA_any   *arg,
-		     CORBA_Environment *ev,
-		     gpointer           data)
-{
-	TaskPage *tpage;
-	TaskPagePrivate *priv;
-	
-	tpage = TASK_PAGE (data);
-	priv = tpage->priv;
-	
-	if (!priv->updating)
-		comp_editor_page_notify_changed (COMP_EDITOR_PAGE (tpage));
 }
 
 /* fill_widgets handler for the task page */
@@ -444,18 +406,6 @@ task_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	e_dialog_editable_set (priv->categories, categories);
 
 
-	/* Contacts */
-	comp_editor_contacts_to_widget (priv->contacts_entry, comp);
-
-	/* We connect the contacts changed signal here, as we have to be a bit
-	   more careful with it due to the use or Corba. The priv->updating
-	   flag won't work as we won't get the changed event immediately.
-	   FIXME: Unfortunately this doesn't work either. We never get the
-	   changed event now. */
-	comp_editor_connect_contacts_changed (priv->contacts_entry,
-					      contacts_changed_cb, tpage);
-
-
 	priv->updating = FALSE;
 }
 
@@ -593,9 +543,6 @@ task_page_fill_component (CompEditorPage *page, CalComponent *comp)
 	if (str)
 		g_free (str);
 
-	/* Contacts */
-	comp_editor_contacts_to_component (priv->contacts_entry, comp);
-
 	return TRUE;
 }
 
@@ -671,9 +618,6 @@ get_widgets (TaskPage *tpage)
 	priv->classification_private = GW ("classification-private");
 	priv->classification_confidential = GW ("classification-confidential");
 
-	priv->contacts_btn = GW ("contacts-button");
-	priv->contacts_box = GW ("contacts-box");
-
 	priv->categories_btn = GW ("categories-button");
 	priv->categories = GW ("categories");
 
@@ -688,8 +632,6 @@ get_widgets (TaskPage *tpage)
 		&& priv->classification_private
 		&& priv->classification_confidential
 		&& priv->description
-		&& priv->contacts_btn
-		&& priv->contacts_box
 		&& priv->categories_btn
 		&& priv->categories);
 }
@@ -786,27 +728,6 @@ date_changed_cb (EDateEdit *dedit, gpointer data)
 					       &dates);
 }
 
-/* Callback used when the contacts button is clicked; we must bring up the
- * contact list dialog.
- */
-static void
-contacts_clicked_cb (GtkWidget *button, gpointer data)
-{
-	TaskPage *tpage;
-	TaskPagePrivate *priv;
-
-	tpage = TASK_PAGE (data);
-	priv = tpage->priv;
-
-	comp_editor_show_contacts_dialog (priv->corba_select_names);
-
-	/* FIXME: Currently we aren't getting the changed event from the
-	   SelectNames component correctly, so we aren't saving the event
-	   if just the contacts are changed. To work around that, we assume
-	   that if the contacts button is clicked it is changed. */
-	comp_editor_page_notify_changed (COMP_EDITOR_PAGE (tpage));
-}
-
 /* Callback used when the categories button is clicked; we must bring up the
  * category list dialog.
  */
@@ -901,26 +822,10 @@ init_widgets (TaskPage *tpage)
 	g_signal_connect((priv->categories), "changed",
 			    G_CALLBACK (field_changed_cb), tpage);
 
-	/* Contacts button */
-	g_signal_connect((priv->contacts_btn), "clicked",
-			    G_CALLBACK (contacts_clicked_cb), tpage);
-
 	/* Categories button */
 	g_signal_connect((priv->categories_btn), "clicked",
 			    G_CALLBACK (categories_clicked_cb), tpage);
 
-
-	/* Create the contacts entry, a corba control from the address book. */
-	priv->corba_select_names = comp_editor_create_contacts_component ();
-	if (priv->corba_select_names == CORBA_OBJECT_NIL)
-		return FALSE;
-
-	priv->contacts_entry = comp_editor_create_contacts_control (priv->corba_select_names);
-	if (priv->contacts_entry == NULL)
-		return FALSE;
-
-	gtk_container_add (GTK_CONTAINER (priv->contacts_box),
-			   priv->contacts_entry);
 
 	/* Set the default timezone, so the timezone entry may be hidden. */
 	location = calendar_config_get_timezone ();

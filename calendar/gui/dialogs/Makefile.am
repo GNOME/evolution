@@ -1,16 +1,3 @@
-IDLS = $(top_srcdir)/addressbook/gui/component/select-names/Evolution-Addressbook-SelectNames.idl
-
-IDL_GENERATED_H =                 			\
-	Evolution-Addressbook-SelectNames.h
-IDL_GENERATED = $(IDL_GENERATED_H)
-
-$(IDL_GENERATED_H): $(IDLS)
-	$(ORBIT_IDL) -I $(srcdir) $(IDL_INCLUDES)	\
-		--nostubs --noskels --nocommon		\
-                $(top_srcdir)/addressbook/gui/component/select-names/Evolution-Addressbook-SelectNames.idl
-
-BUILT_SOURCES = $(IDL_GENERATED)
-
 INCLUDES = 								\
 	-DG_LOG_DOMAIN=\"calendar-gui\"					\
 	-I$(top_srcdir)							\
@@ -33,7 +20,6 @@ INCLUDES = 								\
 noinst_LTLIBRARIES = libcal-dialogs.la
 
 libcal_dialogs_la_SOURCES =	\
-	$(IDL_GENERATED)	\
 	alarm-options.c		\
 	alarm-options.h		\
 	alarm-page.c		\
