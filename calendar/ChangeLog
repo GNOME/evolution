@@ -1,5 +1,13 @@
 2003-03-17  Hans Petter Jansson  <hpj@ximian.com>
 
+	Fixes #39757
+
+	* gui/dialogs/alarm-page.c (sensitize_buttons): Somehow this code
+	reverted to thinking it was dealing with a GtkCList, when in reality
+	it's a GtkTreeView. Fix that, so the buttons are sensitized correctly.
+
+2003-03-17  Hans Petter Jansson  <hpj@ximian.com>
+
 	Fixes #39736
 
 	* gui/e-day-view.c: Reduce the size of the large-digits font so it's

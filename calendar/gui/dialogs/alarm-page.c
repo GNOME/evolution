@@ -313,15 +313,19 @@ sensitize_buttons (AlarmPage *apage)
 {
 	AlarmPagePrivate *priv;
 	CalClient *client;
-	GtkCList *clist;
-	
-	priv = apage->priv;
-	
-	client = COMP_EDITOR_PAGE (apage)->client;
-	clist = GTK_CLIST (priv->list);
+	GtkTreeSelection *selection;
+	GtkTreeIter iter;
+	gboolean have_selected;
 
-	gtk_widget_set_sensitive (priv->add, cal_client_get_one_alarm_only (client) && clist->rows > 0 ? FALSE : TRUE);
-	gtk_widget_set_sensitive (priv->delete, clist->rows > 0 ? TRUE : FALSE);
+	priv = apage->priv;
+
+	client = COMP_EDITOR_PAGE (apage)->client;
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->list));
+	have_selected = gtk_tree_selection_get_selected (selection, NULL, &iter);
+
+	gtk_widget_set_sensitive (priv->add,
+				  cal_client_get_one_alarm_only (client) && have_selected ? FALSE : TRUE);
+	gtk_widget_set_sensitive (priv->delete, have_selected);
 }
 
 /* Appends an alarm to the list */
