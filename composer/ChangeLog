@@ -1,5 +1,7 @@
 2004-05-25  Not Zed  <NotZed@Ximian.com>
 
+	* e-msg-composer.c (pixcache[]): use e-icon-factory sizes.
+
 	* e-msg-composer-attachment-bar.c (update): if we have a cached
 	icon, use it, don't just ignore it!  #58831.
 

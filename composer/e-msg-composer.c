@@ -1960,13 +1960,13 @@ static BonoboUIVerb verbs [] = {
 };
 
 static EPixmap pixcache [] = {
-	E_PIXMAP ("/Toolbar/FileAttach", "stock_attach", 24),
-	E_PIXMAP ("/Toolbar/FileSend", "stock_mail-send", 24),
+	E_PIXMAP ("/Toolbar/FileAttach", "stock_attach", E_ICON_SIZE_LARGE_TOOLBAR),
+	E_PIXMAP ("/Toolbar/FileSend", "stock_mail-send", E_ICON_SIZE_LARGE_TOOLBAR),
 	
-/*	E_PIXMAP ("/menu/Insert/FileAttach", "stock_attach", 24), */
-	E_PIXMAP ("/commands/FileSend", "stock_mail-send", 16),
-	E_PIXMAP ("/commands/FileSave", "stock_save", 16),
-	E_PIXMAP ("/commands/FileSaveAs", "stock_save_as", 16),
+/*	E_PIXMAP ("/menu/Insert/FileAttach", "stock_attach", E_ICON_SIZE_LARGE_TOOLBAR), */
+	E_PIXMAP ("/commands/FileSend", "stock_mail-send", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/FileSave", "stock_save", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/FileSaveAs", "stock_save_as", E_ICON_SIZE_MENU),
 	
 	E_PIXMAP_END
 };
