@@ -47,8 +47,6 @@
 
 #define FOCUSED_BORDER 2
 
-#define DO_TOOLTIPS 1
-
 #define d(x)
 
 #if d(!)0
