@@ -3,3 +3,11 @@ Makefile
 configure
 config.status
 Makefile.in
+config.h.in
+aclocal.m4
+stamp-h.in
+config.h
+config.cache
+stamp-h
+libtool
+
