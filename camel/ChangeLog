@@ -1,5 +1,9 @@
 2001-09-04  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-remote-store.c (remote_disconnect): Too late to sync the
+	folders here... if this is gonna happen at all it should be done
+	in the provider.
+
 	* camel-service.c (camel_service_finalize): Do a clean disconnect.
 
 2001-08-30  Jeffrey Stedfast  <fejj@ximian.com>
