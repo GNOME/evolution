@@ -139,6 +139,10 @@ char *mail_config_folder_to_cachename (CamelFolder *folder, const char *prefix);
 
 gboolean  mail_config_check_service (const char *url, CamelProviderType type, GList **authtypes);
 
+
+
+void evolution_mail_config_factory_init (void);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

@@ -36,6 +36,8 @@
 #include <glade/glade.h>
 
 #include <bonobo/bonobo-object.h>
+#include <bonobo/bonobo-generic-factory.h>
+#include <bonobo/bonobo-running-context.h>
 
 #include <gal/util/e-util.h>
 #include <e-util/e-html-utils.h>
@@ -239,7 +241,7 @@ config_read (void)
 		MailConfigIdentity *id;
 		MailConfigService *source;
 		MailConfigService *transport;
-		gchar *path;
+		gchar *path, *val;
 		
 		account = g_new0 (MailConfigAccount, 1);
 		path = g_strdup_printf ("account_name_%d", i);
@@ -252,18 +254,37 @@ config_read (void)
 		g_free (path);
 		
 		path = g_strdup_printf ("account_drafts_folder_name_%d", i);
-		account->drafts_folder_name = gnome_config_get_string (path);
+		val = gnome_config_get_string (path);
 		g_free (path);
+		if (val && *val)
+			account->drafts_folder_name = val;
+		else
+			g_free (val);
+		
 		path = g_strdup_printf ("account_drafts_folder_uri_%d", i);
-		account->drafts_folder_uri = gnome_config_get_string (path);
+		val = gnome_config_get_string (path);
 		g_free (path);
+		if (val && *val)
+			account->drafts_folder_uri = val;
+		else
+			g_free (val);
+		
 		path = g_strdup_printf ("account_sent_folder_name_%d", i);
-		account->sent_folder_name = gnome_config_get_string (path);
+		val = gnome_config_get_string (path);
 		g_free (path);
+		if (val && *val)
+			account->sent_folder_name = val;
+		else
+			g_free (val);
+		
 		path = g_strdup_printf ("account_sent_folder_uri_%d", i);
-		account->sent_folder_uri = gnome_config_get_string (path);
+		val = gnome_config_get_string (path);
 		g_free (path);
-
+		if (val && *val)
+			account->sent_folder_uri = val;
+		else
+			g_free (val);
+		
 		/* get the identity info */
 		id = g_new0 (MailConfigIdentity, 1);		
 		path = g_strdup_printf ("identity_name_%d", i);
@@ -282,14 +303,12 @@ config_read (void)
 		/* get the source */
 		source = g_new0 (MailConfigService, 1);
 		path = g_strdup_printf ("source_url_%d", i);
-		source->url = gnome_config_get_string (path);
+		val = gnome_config_get_string (path);
 		g_free (path);
-		
-		if (!*source->url) {
-			/* no source associated with this account */
-			g_free (source->url);
-			source->url = NULL;
-		}
+		if (val && *val)
+			source->url = val;
+		else
+			g_free (val);
 		
 		path = g_strdup_printf ("source_keep_on_server_%d", i);
 		source->keep_on_server = gnome_config_get_bool (path);
@@ -316,18 +335,16 @@ config_read (void)
 		/* get the transport */
 		transport = g_new0 (MailConfigService, 1);
 		path = g_strdup_printf ("transport_url_%d", i);
-		transport->url = gnome_config_get_string (path);
+		val = gnome_config_get_string (path);
 		g_free (path);
+		if (val && *val)
+			transport->url = val;
+		else
+			g_free (val);
 		
 		path = g_strdup_printf ("transport_save_passwd_%d", i);
 		transport->save_passwd = gnome_config_get_bool (path);
 		g_free (path);
-		
-		if (!*transport->url) {
-			/* no transport associated with this account */
-			g_free (transport->url);
-			transport->url = NULL;
-		}
 		
 		account->id = id;
 		account->source = source;
@@ -1234,7 +1251,7 @@ BONOBO_X_TYPE_FUNC_FULL (EvolutionMailConfig,
 			 evolution_mail_config);
 
 static BonoboObject *
-evolution_mail_config_factory_fn (BonoboObject *factory,
+evolution_mail_config_factory_fn (BonoboGenericFactory *factory,
 				  void *closure)
 {
 	EvolutionMailConfig *config;
@@ -1247,8 +1264,8 @@ evolution_mail_config_factory_fn (BonoboObject *factory,
 void
 evolution_mail_config_factory_init (void)
 {
-	BonoboObject *factory;
-
+	BonoboGenericFactory *factory;
+	
 	g_warning ("Starting mail config");
 	factory = bonobo_generic_factory_new (MAIL_CONFIG_IID, 
 					      evolution_mail_config_factory_fn,

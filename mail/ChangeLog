@@ -1,3 +1,10 @@
+2001-05-10  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-config.c: Fix some compiler warnings by including the
+	correct bonobo headers and by using the correct bonobo types.
+	(config_read): Some fixes so that we can never have an empty
+	string as a URL.
+
 2001-05-10  Dan Winship  <danw@ximian.com>
 
 	* folder-browser.c (on_key_press): Don't advance to the next
