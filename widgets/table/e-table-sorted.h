@@ -1,9 +1,12 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 #ifndef _E_TABLE_SORTED_H_
 #define _E_TABLE_SORTED_H_
 
 #include <gtk/gtkobject.h>
 #include <gal/e-table/e-table-model.h>
 #include <gal/e-table/e-table-subset.h>
+#include <gal/e-table/e-table-sort-info.h>
+#include <gal/e-table/e-table-header.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -18,8 +21,15 @@ extern "C" {
 typedef struct {
 	ETableSubset base;
 
-	short         sort_col;
-	GCompareFunc  compare;
+	ETableSortInfo *sort_info;
+	
+	ETableHeader *full_header;
+
+	int              sort_info_changed_id;
+	int              sort_idle_id;
+	int		 insert_idle_id;
+	int		 insert_count;
+
 } ETableSorted;
 
 typedef struct {
@@ -27,8 +37,7 @@ typedef struct {
 } ETableSortedClass;
 
 GtkType      e_table_sorted_get_type (void);
-ETableModel *e_table_sorted_new      (ETableModel *etm, int col, GCompareFunc compare);
-void         e_table_sorted_resort   (ETableSorted *ets, int col, GCompareFunc compare);
+ETableModel *e_table_sorted_new      (ETableModel *etm, ETableHeader *header, ETableSortInfo *sort_info);
 
 #ifdef __cplusplus
 }

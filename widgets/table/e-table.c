@@ -118,13 +118,9 @@ static gint e_table_drag_source_event_cb (GtkWidget      *widget,
 
 static gint et_focus (GtkContainer *container, GtkDirectionType direction);
 
-
 static void
-et_destroy (GtkObject *object)
+et_disconnect_model (ETable *et)
 {
-	ETable *et = E_TABLE (object);
-
-
 	gtk_signal_disconnect (GTK_OBJECT (et->model),
 			       et->table_model_change_id);
 	gtk_signal_disconnect (GTK_OBJECT (et->model),
@@ -135,6 +131,21 @@ et_destroy (GtkObject *object)
 			       et->table_row_inserted_id);
 	gtk_signal_disconnect (GTK_OBJECT (et->model),
 			       et->table_row_deleted_id);
+
+	et->table_model_change_id = 0;
+	et->table_row_change_id = 0;
+	et->table_cell_change_id = 0;
+	et->table_row_inserted_id = 0;
+	et->table_row_deleted_id = 0;
+}
+
+static void
+et_destroy (GtkObject *object)
+{
+	ETable *et = E_TABLE (object);
+
+	et_disconnect_model (et);
+
 	if (et->group_info_change_id)
 		gtk_signal_disconnect (GTK_OBJECT (et->sort_info),
 				       et->group_info_change_id);
@@ -255,9 +266,12 @@ header_canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc, ETable *e_
 static void
 sort_info_changed (ETableSortInfo *info, ETable *et)
 {
-	et->need_rebuild = TRUE;
-	if (!et->rebuild_idle_id)
-		et->rebuild_idle_id = g_idle_add_full (20, changed_idle, et, NULL);
+	gboolean will_be_grouped = e_table_sort_info_grouping_get_count(info) > 0;
+	if (et->is_grouped || will_be_grouped) {
+		et->need_rebuild = TRUE;
+		if (!et->rebuild_idle_id)
+			et->rebuild_idle_id = g_idle_add_full (20, changed_idle, et, NULL);
+	}
 }
 
 static void
@@ -466,58 +480,6 @@ group_key_press (ETableGroup *etg, int row, int col, GdkEvent *event, ETable *et
 	return return_val;
 }
 
-static gboolean
-changed_idle (gpointer data)
-{
-	ETable *et = E_TABLE (data);
-
-	if (et->need_rebuild) {
-		gtk_object_destroy (GTK_OBJECT (et->group));
-		et->group = e_table_group_new (GNOME_CANVAS_GROUP (et->canvas_vbox),
-					       et->full_header,
-					       et->header,
-					       et->model,
-					       et->sort_info,
-					       0);
-		e_canvas_vbox_add_item(E_CANVAS_VBOX(et->canvas_vbox), GNOME_CANVAS_ITEM(et->group));
-		gnome_canvas_item_set(GNOME_CANVAS_ITEM(et->group),
-				      "drawgrid", et->draw_grid,
-				      "drawfocus", et->draw_focus,
-				      "cursor_mode", et->cursor_mode,
-				      "length_threshold", et->length_threshold,
-				      "table_selection_model", et->selection,
-				      NULL);
-		gtk_signal_connect (GTK_OBJECT (et->group), "cursor_change",
-				    GTK_SIGNAL_FUNC (group_cursor_change), et);
-		gtk_signal_connect (GTK_OBJECT (et->group), "cursor_activated",
-				    GTK_SIGNAL_FUNC (group_cursor_activated), et);
-		gtk_signal_connect (GTK_OBJECT (et->group), "double_click",
-				    GTK_SIGNAL_FUNC (group_double_click), et);
-		gtk_signal_connect (GTK_OBJECT (et->group), "right_click",
-				    GTK_SIGNAL_FUNC (group_right_click), et);
-		gtk_signal_connect (GTK_OBJECT (et->group), "click",
-				    GTK_SIGNAL_FUNC (group_click), et);
-		gtk_signal_connect (GTK_OBJECT (et->group), "key_press",
-				    GTK_SIGNAL_FUNC (group_key_press), et);
-		e_table_fill_table (et, et->model);
-
-		gtk_object_set (GTK_OBJECT (et->canvas_vbox),
-				"width", (double) GTK_WIDGET (et->table_canvas)->allocation.width,
-				NULL);
-
-		if (GTK_WIDGET_REALIZED(et->table_canvas))
-			table_canvas_size_allocate (GTK_WIDGET(et->table_canvas), &GTK_WIDGET(et->table_canvas)->allocation, et);
-	}
-
-	et->need_rebuild = 0;
-	et->rebuild_idle_id = 0;
-
-	if (et->horizontal_scrolling)
-		e_table_header_update_horizontal(et->header);
-
-	return FALSE;
-}
-
 static void
 et_table_model_changed (ETableModel *model, ETable *et)
 {
@@ -568,6 +530,92 @@ et_table_row_deleted (ETableModel *table_model, int row, ETable *et)
 		if (et->horizontal_scrolling)
 			e_table_header_update_horizontal(et->header);
 	}
+}
+
+static void
+et_build_groups (ETable *et)
+{
+	gboolean was_grouped = et->is_grouped;
+
+	et->is_grouped = e_table_sort_info_grouping_get_count(et->sort_info) > 0;
+
+	et->group = e_table_group_new (GNOME_CANVAS_GROUP (et->canvas_vbox),
+				       et->full_header,
+				       et->header,
+				       et->model,
+				       et->sort_info,
+				       0);
+	e_canvas_vbox_add_item(E_CANVAS_VBOX(et->canvas_vbox), GNOME_CANVAS_ITEM(et->group));
+	gnome_canvas_item_set(GNOME_CANVAS_ITEM(et->group),
+			      "drawgrid", et->draw_grid,
+			      "drawfocus", et->draw_focus,
+			      "cursor_mode", et->cursor_mode,
+			      "length_threshold", et->length_threshold,
+			      "table_selection_model", et->selection,
+			      NULL);
+
+	gtk_signal_connect (GTK_OBJECT (et->group), "cursor_change",
+			    GTK_SIGNAL_FUNC (group_cursor_change), et);
+	gtk_signal_connect (GTK_OBJECT (et->group), "cursor_activated",
+			    GTK_SIGNAL_FUNC (group_cursor_activated), et);
+	gtk_signal_connect (GTK_OBJECT (et->group), "double_click",
+			    GTK_SIGNAL_FUNC (group_double_click), et);
+	gtk_signal_connect (GTK_OBJECT (et->group), "right_click",
+			    GTK_SIGNAL_FUNC (group_right_click), et);
+	gtk_signal_connect (GTK_OBJECT (et->group), "click",
+			    GTK_SIGNAL_FUNC (group_click), et);
+	gtk_signal_connect (GTK_OBJECT (et->group), "key_press",
+			    GTK_SIGNAL_FUNC (group_key_press), et);
+
+
+	if (!(et->is_grouped) && was_grouped)
+		et_disconnect_model (et);
+
+	if (et->is_grouped && (!was_grouped)) {
+		et->table_model_change_id = gtk_signal_connect (GTK_OBJECT (et->model), "model_changed",
+								GTK_SIGNAL_FUNC (et_table_model_changed), et);
+
+		et->table_row_change_id = gtk_signal_connect (GTK_OBJECT (et->model), "model_row_changed",
+							      GTK_SIGNAL_FUNC (et_table_row_changed), et);
+
+		et->table_cell_change_id = gtk_signal_connect (GTK_OBJECT (et->model), "model_cell_changed",
+							       GTK_SIGNAL_FUNC (et_table_cell_changed), et);
+
+		et->table_row_inserted_id = gtk_signal_connect (GTK_OBJECT (et->model), "model_row_inserted",
+								GTK_SIGNAL_FUNC (et_table_row_inserted), et);
+
+		et->table_row_deleted_id = gtk_signal_connect (GTK_OBJECT (et->model), "model_row_deleted",
+							       GTK_SIGNAL_FUNC (et_table_row_deleted), et);
+
+	}
+
+	if (et->is_grouped)
+		e_table_fill_table (et, et->model);
+}
+
+static gboolean
+changed_idle (gpointer data)
+{
+	ETable *et = E_TABLE (data);
+
+	if (et->need_rebuild) {
+		gtk_object_destroy (GTK_OBJECT (et->group));
+		et_build_groups(et);
+		gtk_object_set (GTK_OBJECT (et->canvas_vbox),
+				"width", (double) GTK_WIDGET (et->table_canvas)->allocation.width,
+				NULL);
+
+		if (GTK_WIDGET_REALIZED(et->table_canvas))
+			table_canvas_size_allocate (GTK_WIDGET(et->table_canvas), &GTK_WIDGET(et->table_canvas)->allocation, et);
+	}
+
+	et->need_rebuild = 0;
+	et->rebuild_idle_id = 0;
+
+	if (et->horizontal_scrolling)
+		e_table_header_update_horizontal(et->header);
+
+	return FALSE;
 }
 
 static void
@@ -676,54 +724,7 @@ e_table_setup_table (ETable *e_table, ETableHeader *full_header, ETableHeader *h
 			GTK_SIGNAL_FUNC(click_to_add_cursor_change), e_table);
 	}
 
-	e_table->group = e_table_group_new (
-		GNOME_CANVAS_GROUP (e_table->canvas_vbox),
-		full_header, header,
-		model, e_table->sort_info, 0);
-	e_canvas_vbox_add_item(E_CANVAS_VBOX(e_table->canvas_vbox), GNOME_CANVAS_ITEM(e_table->group));
-
-	gnome_canvas_item_set(
-		GNOME_CANVAS_ITEM(e_table->group),
-		"drawgrid", e_table->draw_grid,
-		"drawfocus", e_table->draw_focus,
-		"cursor_mode", e_table->cursor_mode,
-		"length_threshold", e_table->length_threshold,
-		"table_selection_model", e_table->selection,
-		NULL);
-
-	gtk_signal_connect (GTK_OBJECT (e_table->group), "cursor_change",
-			    GTK_SIGNAL_FUNC(group_cursor_change), e_table);
-	gtk_signal_connect (GTK_OBJECT (e_table->group), "cursor_activated",
-			    GTK_SIGNAL_FUNC(group_cursor_activated), e_table);
-	gtk_signal_connect (GTK_OBJECT (e_table->group), "double_click",
-			    GTK_SIGNAL_FUNC(group_double_click), e_table);
-	gtk_signal_connect (GTK_OBJECT (e_table->group), "right_click",
-			    GTK_SIGNAL_FUNC(group_right_click), e_table);
-	gtk_signal_connect (GTK_OBJECT (e_table->group), "click",
-			    GTK_SIGNAL_FUNC(group_click), e_table);
-	gtk_signal_connect (GTK_OBJECT (e_table->group), "key_press",
-			    GTK_SIGNAL_FUNC(group_key_press), e_table);
-
-	e_table->table_model_change_id = gtk_signal_connect (
-		GTK_OBJECT (model), "model_changed",
-		GTK_SIGNAL_FUNC (et_table_model_changed), e_table);
-
-	e_table->table_row_change_id = gtk_signal_connect (
-		GTK_OBJECT (model), "model_row_changed",
-		GTK_SIGNAL_FUNC (et_table_row_changed), e_table);
-
-	e_table->table_cell_change_id = gtk_signal_connect (
-		GTK_OBJECT (model), "model_cell_changed",
-		GTK_SIGNAL_FUNC (et_table_cell_changed), e_table);
-
-	e_table->table_row_inserted_id = gtk_signal_connect (
-		GTK_OBJECT (model), "model_row_inserted",
-		GTK_SIGNAL_FUNC (et_table_row_inserted), e_table);
-
-	e_table->table_row_deleted_id = gtk_signal_connect (
-		GTK_OBJECT (model), "model_row_deleted",
-		GTK_SIGNAL_FUNC (et_table_row_deleted), e_table);
-
+	et_build_groups(e_table);
 }
 
 static void
@@ -1806,6 +1807,19 @@ e_table_compute_location (ETable *table, GtkWidget *widget,
 	y += GTK_LAYOUT(table->table_canvas)->vadjustment->value;
 	e_table_group_compute_location(table->group, &x, &y, row, col);
 }
+
+#if 0
+void
+e_table_get_position (ETable *table, GtkWidget *widget,
+		      int *x, int *y, int row, int col)
+{
+	if (!(x || y))
+		return;
+	e_table_group_get_position(table->group, x, y, &row, &col);
+	*x -= GTK_LAYOUT(table->table_canvas)->hadjustment->value;
+	*y -= GTK_LAYOUT(table->table_canvas)->vadjustment->value;
+}
+#endif
 
 static void
 et_drag_begin (GtkWidget *widget,

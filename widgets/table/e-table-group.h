@@ -56,6 +56,7 @@ typedef struct {
 
 	/* Virtual functions. */
 	void        (*add)                   (ETableGroup *etg, gint row);
+	void        (*add_array)             (ETableGroup *etg, const int *array, int count);
 	void        (*add_all)               (ETableGroup *etg);
 	gboolean    (*remove)                (ETableGroup *etg, gint row);
 	gint        (*row_count)             (ETableGroup *etg);
@@ -66,12 +67,16 @@ typedef struct {
 	gint        (*get_focus_column)      (ETableGroup *etg);
 	EPrintable *(*get_printable)         (ETableGroup *etg);
 	void        (*compute_location)      (ETableGroup *etg, int *x, int *y, int *row, int *col);
+	void        (*get_position)          (ETableGroup *etg, int *x, int *y, int *row, int *col);
 
 } ETableGroupClass;
 
 /* Virtual functions */
 void          e_table_group_add               (ETableGroup       *etg,
 					       gint               row);
+void          e_table_group_add_array         (ETableGroup       *etg,
+					       const int         *array,
+					       int                count);
 void          e_table_group_add_all           (ETableGroup       *etg);
 gboolean      e_table_group_remove            (ETableGroup       *etg,
 					       gint               row);
@@ -94,7 +99,11 @@ void          e_table_group_compute_location  (ETableGroup       *etg,
 					       int               *y,
 					       int               *row,
 					       int               *col);
-
+void          e_table_group_get_position      (ETableGroup       *etg,
+					       int               *x,
+					       int               *y,
+					       int               *row,
+					       int               *col);
 ETableGroup  *e_table_group_new               (GnomeCanvasGroup  *parent,
 					       ETableHeader      *full_header,
 					       ETableHeader      *header,

@@ -42,6 +42,27 @@ etssv_add       (ETableSubsetVariable *etssv,
 }
 
 static void
+etssv_add_array (ETableSubsetVariable *etssv,
+		 const gint           *array,
+		 gint                  count)
+{
+	ETableModel *etm = E_TABLE_MODEL(etssv);
+	ETableSubset *etss = E_TABLE_SUBSET(etssv);
+	int i;
+
+	e_table_model_pre_change(etm);
+	
+	if (etss->n_map + count > etssv->n_vals_allocated){
+		etssv->n_vals_allocated += MAX(INCREMENT_AMOUNT, count);
+		etss->map_table = g_realloc (etss->map_table, etssv->n_vals_allocated * sizeof(int));
+	}
+	for (i = 0; i < count; i++)
+		etss->map_table[etss->n_map++] = array[i];
+
+	e_table_model_changed (etm);
+}
+
+static void
 etssv_add_all   (ETableSubsetVariable *etssv)
 {
 	ETableModel *etm = E_TABLE_MODEL(etssv);
@@ -90,6 +111,7 @@ etssv_class_init (GtkObjectClass *object_class)
 	etssv_parent_class = gtk_type_class (PARENT_TYPE);
 
 	klass->add     = etssv_add;
+	klass->add_array = etssv_add_array;
 	klass->add_all = etssv_add_all;
 	klass->remove  = etssv_remove;
 }
@@ -129,6 +151,18 @@ e_table_subset_variable_add       (ETableSubsetVariable *etssv,
 
 	if (ETSSV_CLASS(etssv)->add)
 		ETSSV_CLASS (etssv)->add (etssv, row);
+}
+
+void
+e_table_subset_variable_add_array   (ETableSubsetVariable *etssv,
+				     const gint           *array,
+				     gint                  count)
+{
+	g_return_if_fail (etssv != NULL);
+	g_return_if_fail (E_IS_TABLE_SUBSET_VARIABLE(etssv));
+
+	if (ETSSV_CLASS(etssv)->add_array)
+		ETSSV_CLASS (etssv)->add_array (etssv, array, count);
 }
 
 void

@@ -387,33 +387,13 @@ child_key_press (ETableGroup *etg, int row, int col, GdkEvent *event,
 	return e_table_group_key_press (E_TABLE_GROUP (etgc), row, col, event);
 }
 
-static void
-etgc_add (ETableGroup *etg, gint row)
+static ETableGroupContainerChildNode *
+create_child_node (ETableGroupContainer *etgc, void *val)
 {
-	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER (etg);
-	void *val = e_table_model_value_at (etg->model, etgc->ecol->col_idx, row);
-	GCompareFunc comp = etgc->ecol->compare;
-	GList *list = etgc->children;
 	ETableGroup *child;
 	ETableGroupContainerChildNode *child_node;
-	int i = 0;
+	ETableGroup *etg = E_TABLE_GROUP(etgc);
 
-	for (; list; list = g_list_next (list), i++){
-		int comp_val;
-
-		child_node = list->data;
-		comp_val = (*comp)(child_node->key, val);
-		if (comp_val == 0) {
-			child = child_node->child;
-			child_node->count ++;
-			e_table_group_add (child, row);
-			compute_text (etgc, child_node);
-			return;
-		}
-		if ((comp_val > 0 && etgc->ascending) ||
-		    (comp_val < 0 && (!etgc->ascending)))
-			break;
-	}
 	child_node = g_new (ETableGroupContainerChildNode, 1);
 	child_node->rect = gnome_canvas_item_new (GNOME_CANVAS_GROUP (etgc),
 						  gnome_canvas_rect_get_type (),
@@ -453,6 +433,40 @@ etgc_add (ETableGroup *etg, gint row)
 	child_node->child = child;
 	child_node->key = e_table_model_duplicate_value (etg->model, etgc->ecol->col_idx, val);
 	child_node->string = e_table_model_value_to_string (etg->model, etgc->ecol->col_idx, val);
+	child_node->count = 0;
+
+	return child_node;
+}
+
+static void
+etgc_add (ETableGroup *etg, gint row)
+{
+	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER (etg);
+	void *val = e_table_model_value_at (etg->model, etgc->ecol->col_idx, row);
+	GCompareFunc comp = etgc->ecol->compare;
+	GList *list = etgc->children;
+	ETableGroup *child;
+	ETableGroupContainerChildNode *child_node;
+	int i = 0;
+
+	for (; list; list = g_list_next (list), i++){
+		int comp_val;
+
+		child_node = list->data;
+		comp_val = (*comp)(child_node->key, val);
+		if (comp_val == 0) {
+			child = child_node->child;
+			child_node->count ++;
+			e_table_group_add (child, row);
+			compute_text (etgc, child_node);
+			return;
+		}
+		if ((comp_val > 0 && etgc->ascending) ||
+		    (comp_val < 0 && (!etgc->ascending)))
+			break;
+	}
+	child_node = create_child_node (etgc, val);
+	child = child_node->child;
 	child_node->count = 1;
 	e_table_group_add (child, row);
 
@@ -466,12 +480,66 @@ etgc_add (ETableGroup *etg, gint row)
 }
 
 static void
+etgc_add_array (ETableGroup *etg, const int *array, int count)
+{
+	int i;
+	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER (etg);
+	void *lastval = 0;
+	int laststart = 0;
+	GCompareFunc comp = etgc->ecol->compare;
+	ETableGroupContainerChildNode *child_node;
+	ETableGroup *child;
+
+	if (count <= 0)
+		return;
+
+	e_table_group_container_list_free (etgc);
+	etgc->children = NULL;
+
+	lastval = e_table_model_value_at (etg->model, etgc->ecol->col_idx, array[0]);
+
+	for (i = 1; i < count; i++) {
+		void *val = e_table_model_value_at (etg->model, etgc->ecol->col_idx, array[i]);
+		int comp_val;
+
+		comp_val = (*comp)(lastval, val);
+		if (comp_val != 0) {
+			child_node = create_child_node(etgc, lastval);
+			child = child_node->child;
+
+			e_table_group_add_array(child, array + laststart, i - laststart);
+			child_node->count = i - laststart;
+
+			etgc->children = g_list_append (etgc->children, child_node);
+			compute_text (etgc, child_node);
+			laststart = i;
+			lastval = val;
+		}
+	}
+
+	child_node = create_child_node(etgc, lastval);
+	child = child_node->child;
+
+	e_table_group_add_array(child, array + laststart, i - laststart);
+	child_node->count = i - laststart;
+
+	etgc->children = g_list_append (etgc->children, child_node);
+	compute_text (etgc, child_node);
+
+	e_canvas_item_request_reflow (GNOME_CANVAS_ITEM (etgc));
+}
+
+static void
 etgc_add_all (ETableGroup *etg)
 {
-	int rows = e_table_model_row_count(etg->model);
-	int i;
-	for (i = 0; i < rows; i++)
-		etgc_add(etg, i);
+	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER (etg);
+	ETableSorter *sorter = etgc->table_selection_model->sorter;
+	int *array;
+	int count;
+
+	e_table_sorter_get_sorted_to_model_array(sorter, &array, &count);
+
+	etgc_add_array(etg, array, count);
 }
 
 static gboolean
@@ -726,6 +794,7 @@ etgc_class_init (GtkObjectClass *object_class)
 	etgc_parent_class = gtk_type_class (PARENT_TYPE);
 
 	e_group_class->add = etgc_add;
+	e_group_class->add_array = etgc_add_array;
 	e_group_class->add_all = etgc_add_all;
 	e_group_class->remove = etgc_remove;
 	e_group_class->increment  = etgc_increment;

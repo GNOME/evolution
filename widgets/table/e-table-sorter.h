@@ -39,13 +39,24 @@ typedef struct {
 	GtkObjectClass parent_class;
 } ETableSorterClass;
 
-GtkType       e_table_sorter_get_type (void);
-ETableSorter *e_table_sorter_new      (ETableModel *etm, ETableHeader *full_header, ETableSortInfo *sort_info);
+GtkType       e_table_sorter_get_type                   (void);
+ETableSorter *e_table_sorter_new                        (ETableModel     *etm,
+							 ETableHeader    *full_header,
+							 ETableSortInfo  *sort_info);
 
-gint          e_table_sorter_model_to_sorted (ETableSorter *sorter, int row);
-gint          e_table_sorter_sorted_to_model (ETableSorter *sorter, int row);
+gint          e_table_sorter_model_to_sorted            (ETableSorter    *sorter,
+							 int              row);
+gint          e_table_sorter_sorted_to_model            (ETableSorter    *sorter,
+							 int              row);
 
-gboolean      e_table_sorter_needs_sorting   (ETableSorter *sorter);
+void          e_table_sorter_get_model_to_sorted_array  (ETableSorter    *sorter,
+							 int            **array,
+							 int             *count);
+void          e_table_sorter_get_sorted_to_model_array  (ETableSorter    *sorter,
+							 int            **array,
+							 int             *count);
+
+gboolean      e_table_sorter_needs_sorting              (ETableSorter    *sorter);
 
 END_GNOME_DECLS
 

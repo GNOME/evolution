@@ -524,3 +524,29 @@ e_table_sorter_sorted_to_model (ETableSorter *sorter, int row)
 	else
 		return row;
 }
+
+void
+e_table_sorter_get_model_to_sorted_array (ETableSorter *sorter, int **array, int *count)
+{
+	if (array || count) {
+		ets_backsort(sorter);
+
+		if (array)
+			*array = sorter->backsorted;
+		if (count)
+			*count = e_table_model_row_count(sorter->source);
+	}
+}
+
+void
+e_table_sorter_get_sorted_to_model_array (ETableSorter *sorter, int **array, int *count)
+{
+	if (array || count) {
+		ets_sort(sorter);
+
+		if (array)
+			*array = sorter->sorted;
+		if (count)
+			*count = e_table_model_row_count(sorter->source);
+	}
+}

@@ -4,7 +4,7 @@
 
 #include <libgnomeui/gnome-canvas.h>
 #include <gal/e-table/e-table-group.h>
-#include <gal/e-table/e-table-sorted-variable.h>
+#include <gal/e-table/e-table-subset.h>
 #include <gal/e-table/e-table-item.h>
 
 BEGIN_GNOME_DECLS
@@ -27,9 +27,10 @@ typedef struct {
 	gdouble width;
 	gdouble minimum_width;
 
-	ETableSubsetVariable *subset;
-
 	int length_threshold;
+
+	ETableSubset *ets;
+	guint is_grouped : 1;
 
 	guint draw_grid : 1;
 	guint draw_focus : 1;

@@ -135,6 +135,27 @@ e_table_group_add (ETableGroup *etg,
 }
 
 /** 
+ * e_table_group_add_array
+ * @etg: The %ETableGroup to add to
+ * @array: The array to add.
+ * @count: The number of times to add
+ *
+ * This routine adds all the rows in the array to this set of rows.
+ * It assumes that the array is already sorted properly.
+ */
+void
+e_table_group_add_array (ETableGroup *etg,
+			 const int *array,
+			 int count)
+{
+	g_return_if_fail (etg != NULL);
+	g_return_if_fail (E_IS_TABLE_GROUP (etg));
+
+	if (ETG_CLASS (etg)->add_array)
+		ETG_CLASS (etg)->add_array (etg, array, count);
+}
+
+/** 
  * e_table_group_add_all
  * @etg: The %ETableGroup to add to
  *
@@ -346,6 +367,30 @@ e_table_group_compute_location (ETableGroup *etg, int *x, int *y, int *row, int 
 }
 
 /** 
+ * e_table_group_get_position
+ * @eti: %ETableGroup to look in.
+ * @x: A pointer to the location to store the found x location in.
+ * @y: A pointer to the location to store the found y location in.
+ * @row: A pointer to the row number to find.
+ * @col: A pointer to the col number to find.
+ *
+ * This routine finds the view cell (row, col) in the %ETableGroup.
+ * If that location is in the %ETableGroup *x and *y are set to the
+ * upper left hand corner of the cell found.  If that location is not
+ * in the %ETableGroup, the number of rows in the %ETableGroup is
+ * removed from the value row points to.
+ */
+void
+e_table_group_get_position (ETableGroup *etg, int *x, int *y, int *row, int *col)
+{
+	g_return_if_fail (etg != NULL);
+	g_return_if_fail (E_IS_TABLE_GROUP (etg));
+
+	if (ETG_CLASS (etg)->get_position)
+		ETG_CLASS (etg)->get_position (etg, x, y, row, col);
+}
+
+/** 
  * e_table_group_cursor_change
  * @eti: %ETableGroup to emit the signal on
  * @row: The new cursor row (model row)
@@ -537,6 +582,7 @@ etg_class_init (GtkObjectClass *object_class)
 	klass->key_press = NULL;
 	
 	klass->add = NULL;
+	klass->add_array = NULL;
 	klass->add_all = NULL;
 	klass->remove = NULL;
 	klass->row_count  = NULL;
@@ -546,6 +592,7 @@ etg_class_init (GtkObjectClass *object_class)
 	klass->get_focus = etg_get_focus;
 	klass->get_printable = NULL;
 	klass->compute_location = NULL;
+	klass->get_position = NULL;
 
 	etg_parent_class = gtk_type_class (PARENT_TYPE);
 
