@@ -142,8 +142,7 @@ module Evolution {
 		   through the listener (through OK or CANCEL) whether the
 		   shell can quit safely.  (This is meant to be used for
 		   confirmations before quitting.)  */
-		oneway void requestQuit (in ShellComponentListener listener)
-			raises (Busy);
+		oneway void requestQuit (in ShellComponentListener listener);
 	};
 
 	interface ShellComponentListener {

@@ -107,6 +107,11 @@ struct _EStorageSetViewPrivate {
 	GNOME_Evolution_ShellComponentDnd_Data *drag_corba_data;
 
 	GHashTable *checkboxes;
+
+	/* Callback to determine whether the row should have a checkbox or
+	   not, when show_checkboxes is TRUE.  */
+	EStorageSetViewHasCheckBoxFunc has_checkbox_func;
+	void *has_checkbox_func_data;
 };
 
 
@@ -1155,6 +1160,25 @@ etree_get_node_by_id (ETreeModel *etm,
 static gboolean
 has_checkbox (EStorageSetView *storage_set_view, ETreePath tree_path)
 {
+	EStorageSetViewPrivate *priv;
+	const char *folder_path;
+
+	priv = storage_set_view->priv;
+
+	folder_path = e_tree_memory_node_get_data (E_TREE_MEMORY(storage_set_view->priv->etree_model),
+						   tree_path);
+	g_assert (folder_path != NULL);
+
+	if (strchr (folder_path + 1, '/') == NULL) {
+		/* If it's a toplevel, never allow checking it.  */
+		return FALSE;
+	}
+
+	if (priv->has_checkbox_func)
+		return (* priv->has_checkbox_func) (priv->storage_set,
+						    folder_path,
+						    priv->has_checkbox_func_data);
+
 	return TRUE;
 }
 
@@ -1636,6 +1660,9 @@ init (EStorageSetView *storage_set_view)
 
 	priv->checkboxes                  = NULL;
 
+	priv->has_checkbox_func           = NULL;
+	priv->has_checkbox_func_data      = NULL;
+
 	storage_set_view->priv = priv;
 }
 
@@ -1990,7 +2017,9 @@ e_storage_set_view_get_show_folders (EStorageSetView *storage_set_view)
 
 void
 e_storage_set_view_set_show_checkboxes (EStorageSetView *storage_set_view,
-					gboolean show)
+					gboolean show,
+					EStorageSetViewHasCheckBoxFunc has_checkbox_func,
+					void *func_data)
 {
 	EStorageSetViewPrivate *priv;
 
@@ -2010,6 +2039,9 @@ e_storage_set_view_set_show_checkboxes (EStorageSetView *storage_set_view,
 		e_tree_load_state (E_TREE (storage_set_view), EVOLUTION_ETSPECDIR "/e-storage-set-view-checkboxes.etstate");
 	else
 		e_tree_load_state (E_TREE (storage_set_view), EVOLUTION_ETSPECDIR "/e-storage-set-view-no-checkboxes.etstate");
+
+	priv->has_checkbox_func = has_checkbox_func;
+	priv->has_checkbox_func_data = func_data;
 }
 
 gboolean

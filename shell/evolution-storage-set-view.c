@@ -252,7 +252,8 @@ impl_StorageSetView__set_showCheckboxes (PortableServer_Servant servant,
 	storage_set_view = EVOLUTION_STORAGE_SET_VIEW (bonobo_object);
 	priv = storage_set_view->priv;
 
-	e_storage_set_view_set_show_checkboxes (E_STORAGE_SET_VIEW (priv->storage_set_view_widget), value);
+	e_storage_set_view_set_show_checkboxes (E_STORAGE_SET_VIEW (priv->storage_set_view_widget),
+						value, NULL, NULL);
 }
 
 static CORBA_boolean

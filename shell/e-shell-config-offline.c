@@ -167,7 +167,8 @@ e_shell_config_offline_create_control (EShell *shell)
 	page_data->shell = shell;
 
 	page_data->storage_set_view = e_storage_set_new_view (e_shell_get_storage_set (shell), NULL);
-        e_storage_set_view_set_show_checkboxes (E_STORAGE_SET_VIEW (page_data->storage_set_view), TRUE);
+        e_storage_set_view_set_show_checkboxes (E_STORAGE_SET_VIEW (page_data->storage_set_view), TRUE,
+						NULL, NULL);
 	gtk_widget_show (page_data->storage_set_view);
 
 	init_storage_set_view_status_from_config (E_STORAGE_SET_VIEW (page_data->storage_set_view), shell);

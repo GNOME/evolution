@@ -1,3 +1,25 @@
+2002-05-20  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-config-offline.c
+	(e_shell_config_offline_create_control): Pass NULL for
+	@has_checkbox_func and @has_checkbox_func_data.
+
+	* evolution-storage-set-view.c
+	(impl_StorageSetView__set_showCheckboxes): Pass NULL for
+	@has_checkbox_func and @has_checkbox_func_data.
+
+	* e-storage-set-view.c: New member has_checkbox_func and
+	has_checkbox_func_data in EStorageSetViewPrivate.
+	(init): Init to NULL.
+	(e_storage_set_view_set_show_checkboxes): New args
+	@has_checkbox_func and @func_data.
+	(has_checkbox): Always return FALSE for the toplevels.  For the
+	other ones return TRUE unless ->has_checkbox_func is not-NULL; in
+	which case, we use that function to determine whether the folder
+	is actually checkable.
+
+	* Evolution-ShellComponent.idl (requestQuit): Remove exception.
+
 2002-05-16  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell.c (view_delete_event_cb): Ask e_shell_prepare_for_quit()
