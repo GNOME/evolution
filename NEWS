@@ -5,6 +5,8 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
 
   * Addressbook
 
+    #40901 - HIG-ify the LDAP server editor dialog's button
+             layout. (Toshok)
     #40841 - Ctrl-v was being used for both "Save As VCard" and
              "Paste" (Toshok)
     #40715 - Merge email address dialog non functional when adding
@@ -30,7 +32,6 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
     #34651 - Searches with 8bit ascii char. not working in Select
              Contacts (Toshok)
     #34085 - drag+drop not finalizing (Toshok)
-
     #32113 - Problem with UTF8 and contact list (Toshok)
     #31786 - LDAP config dialog not properly internationalized
              (Toshok)
@@ -143,6 +144,7 @@ Other bugs:
 
   * Addressbook
 
+    - HIG'ify the e-address-popup's buttons layout. (Toshok)
     - Add input method support to the minicard view. (Toshok)
     - Make the minicard view listen for style changes. (Toshok)
     - Fix the select names component to be more friendly to non-shlib
