@@ -1,3 +1,13 @@
+2002-12-09  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component/addressbook.c (search_cb): remove
+	PENDING_PORT_WORK.
+	(addressbook_search_activated): same.
+	(addressbook_query_changed): same.
+
+	* gui/component/Makefile.am (libevolution_addressbook_la_LIBADD):
+	add libfilter.la back in.
+
 2002-12-09  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/widgets/e-minicard-control.c: #define MINICARD_CONTROL_ID.
