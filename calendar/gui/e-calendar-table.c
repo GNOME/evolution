@@ -204,8 +204,6 @@ task_compare_cb (gconstpointer a, gconstpointer b)
 	int *prio_a, *prio_b;
 	int retval;
 
-	g_print ("In task_compare_cb\n");
-
 	ca = CAL_COMPONENT (a);
 	cb = CAL_COMPONENT (b);
 
@@ -894,7 +892,6 @@ e_calendar_table_on_double_click (ETable *table,
 				  GdkEvent *event,
 				  ECalendarTable *cal_table)
 {
-	g_print ("In e_calendar_table_on_double_click\n");
 	open_task_by_row (cal_table, row);
 }
 

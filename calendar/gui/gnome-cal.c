@@ -590,8 +590,6 @@ search_bar_category_changed_cb (CalSearchBar *cal_search, const char *category, 
 static void
 view_selection_changed_cb (GtkWidget *view, GnomeCalendar *gcal)
 {
-	g_print ("In view_selection_changed_cb\n");
-
 	gtk_signal_emit (GTK_OBJECT (gcal),
 			 gnome_calendar_signals[SELECTION_CHANGED]);
 }
@@ -2094,8 +2092,6 @@ gnome_calendar_new_task		(GnomeCalendar *gcal)
 	TaskEditor *tedit;
 	CalComponent *comp;
 
-	g_print ("In gnome_calendar_new_task\n");
-
 	g_return_if_fail (gcal != NULL);
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
 
@@ -2262,7 +2258,6 @@ gnome_calendar_update_date_navigator (GnomeCalendar *gcal)
 	end_date = start_date;
 	g_date_add_days (&end_date, days_shown - 1);
 
-	g_print ("Updating date navigator selection\n");
 	e_calendar_item_set_selection (priv->date_navigator->calitem,
 				       &start_date, &end_date);
 }
@@ -2355,7 +2350,6 @@ static void
 gnome_calendar_on_date_navigator_date_range_changed (ECalendarItem *calitem,
 						     GnomeCalendar *gcal)
 {
-	g_print ("In gnome_calendar_on_date_navigator_date_range_changed\n");
 	update_query (gcal);
 }
 

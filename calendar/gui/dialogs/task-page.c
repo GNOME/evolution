@@ -754,7 +754,6 @@ contacts_clicked_cb (GtkWidget *button, gpointer data)
 	tpage = TASK_PAGE (data);
 	priv = tpage->priv;
 
-	g_print ("In contacts_clicked_cb\n");
 	comp_editor_show_contacts_dialog (priv->corba_select_names);
 
 	/* FIXME: Currently we aren't getting the changed event from the

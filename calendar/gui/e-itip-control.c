@@ -438,17 +438,22 @@ write_label_piece (time_t t, char *buffer, int size, const char *stext, const ch
 {
 	struct tm *tmp_tm;
 	int len;
+	char time_buf[64], *time_utf8;
 
 	/* FIXME: Convert to an appropriate timezone. */
 	tmp_tm = localtime (&t);
 	if (stext != NULL)
 		strcat (buffer, stext);
 
-	len = strlen (buffer);
 	e_time_format_date_and_time (tmp_tm,
 				     calendar_config_get_24_hour_format (),
 				     FALSE, FALSE,
-				     &buffer[len], size - len);
+				     time_buf, sizeof (time_buf));
+
+	time_utf8 = e_utf8_from_locale_string (time_buf);
+	strcat (buffer, time_utf8);
+	g_free (time_utf8);
+
 	if (etext != NULL)
 		strcat (buffer, etext);
 }

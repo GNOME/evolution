@@ -836,8 +836,6 @@ on_timezone_set			(GnomeDialog	*dialog,
 
 	e_timezone_dialog_get_timezone (etd, &display_name);
 
-	g_print ("Location: %s\n", display_name ? display_name : "");
-
 	if (display_name && display_name[0]) {
 		calendar_config_set_timezone (display_name);
 

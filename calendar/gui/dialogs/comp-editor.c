@@ -1133,7 +1133,7 @@ print_cmd (GtkWidget *widget, gpointer data)
 	CalComponent *comp;
 	
 	comp = comp_editor_get_current_comp (editor);
-	print_comp (comp, FALSE);
+	print_comp (comp, editor->priv->client, FALSE);
 	gtk_object_unref (GTK_OBJECT (comp));
 }
 
@@ -1144,7 +1144,7 @@ print_preview_cmd (GtkWidget *widget, gpointer data)
 	CalComponent *comp;
 	
 	comp = comp_editor_get_current_comp (editor);
-	print_comp (comp, TRUE);
+	print_comp (comp, editor->priv->client, TRUE);
 	gtk_object_unref (GTK_OBJECT (comp));
 }
 

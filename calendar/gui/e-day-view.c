@@ -3000,7 +3000,9 @@ e_day_view_on_main_canvas_button_press (GtkWidget *widget,
 	gint event_x, event_y, scroll_x, scroll_y, row, day, event_num;
 	EDayViewPosition pos;
 
+#if 0
 	g_print ("In e_day_view_on_main_canvas_button_press\n");
+#endif
 
 	/* Handle scroll wheel events */
 	if (event->button == 4) {
@@ -3864,7 +3866,9 @@ e_day_view_on_main_canvas_button_release (GtkWidget *widget,
 					  GdkEventButton *event,
 					  EDayView *day_view)
 {
+#if 0
 	g_print ("In e_day_view_on_main_canvas_button_release\n");
+#endif
 
 	if (day_view->selection_is_being_dragged) {
 		gdk_pointer_ungrab (event->time);
@@ -5538,7 +5542,9 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 		}
 		break;
 	case GDK_2BUTTON_PRESS:
+#if 0
 		g_print ("Item got double-click\n");
+#endif
 		break;
 
 	case GDK_BUTTON_PRESS:

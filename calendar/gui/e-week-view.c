@@ -2091,7 +2091,7 @@ e_week_view_on_button_press (GtkWidget *widget,
 {
 	gint x, y, day;
 
-#if 1
+#if 0
 	g_print ("In e_week_view_on_button_press\n");
 	if (event->type == GDK_2BUTTON_PRESS)
 		g_print (" is a double-click\n");
@@ -2126,8 +2126,6 @@ e_week_view_on_button_press (GtkWidget *widget,
 
 	if (event->button == 1 && event->type == GDK_2BUTTON_PRESS) {
 		time_t dtstart, dtend;
-
-		g_print ("  got double-click\n");
 
 		dtstart = week_view->day_starts[day];
 		dtend = week_view->day_starts[day + 1];

@@ -218,11 +218,16 @@ task_editor_edit_comp (CompEditor *editor, CalComponent *comp)
 	
 	cal_component_get_attendee_list (comp, &attendees);
 	if (attendees == NULL) {
-		comp_editor_remove_page (editor, COMP_EDITOR_PAGE (priv->meet_page));
+		if (priv->meeting_shown)
+			comp_editor_remove_page (editor, COMP_EDITOR_PAGE (priv->meet_page));
 		priv->meeting_shown = FALSE;
-		set_menu_sens (te);
 	} else {
 		GSList *l;
+
+		if (!priv->meeting_shown)
+			comp_editor_append_page (COMP_EDITOR (te),
+						 COMP_EDITOR_PAGE (priv->meet_page),
+						 _("Assignment"));
 
 		for (l = attendees; l != NULL; l = l->next) {
 			CalComponentAttendee *ca = l->data;

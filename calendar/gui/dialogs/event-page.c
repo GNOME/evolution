@@ -445,7 +445,9 @@ contacts_changed_cb (BonoboListener    *listener,
 	epage = EVENT_PAGE (data);
 	priv = epage->priv;
 	
+#if 0
 	g_print ("In contacts_changed_cb\n");
+#endif
 
 	if (!priv->updating)
 		comp_editor_page_notify_changed (COMP_EDITOR_PAGE (epage));
@@ -1171,7 +1173,6 @@ contacts_clicked_cb (GtkWidget *button, gpointer data)
 	epage = EVENT_PAGE (data);
 	priv = epage->priv;
 
-	g_print ("In contacts_clicked_cb\n");
 	comp_editor_show_contacts_dialog (priv->corba_select_names);
 
 	/* FIXME: Currently we aren't getting the changed event from the

@@ -2023,9 +2023,11 @@ e_meeting_time_selector_recalc_date_format (EMeetingTimeSelector *mts)
 	   %B = full month name, %d = month day, %Y = full year. */
 	g_date_strftime (buffer, sizeof (buffer), _("%A, %B %d, %Y"), &date);
 
+#if 0
 	g_print ("longest_month: %i longest_weekday: %i date: %s\n",
 		 longest_month, longest_weekday, buffer);
-	
+#endif
+
 	if (gdk_string_width (font, buffer) < max_date_width) {
 		mts->date_format = E_MEETING_TIME_SELECTOR_DATE_FULL;
 		return;
@@ -2051,9 +2053,11 @@ e_meeting_time_selector_recalc_date_format (EMeetingTimeSelector *mts)
 	   %m = month number, %d = month day, %Y = full year. */
 	g_date_strftime (buffer, sizeof (buffer), _("%a %m/%d/%Y"), &date);
 
+#if 0
 	g_print ("longest_month: %i longest_weekday: %i date: %s\n",
 		 longest_month, longest_weekday, buffer);
-	
+#endif
+
 	if (gdk_string_width (font, buffer) < max_date_width)
 		mts->date_format = E_MEETING_TIME_SELECTOR_DATE_ABBREVIATED_DAY;
 	else

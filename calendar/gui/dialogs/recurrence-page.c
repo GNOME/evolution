@@ -831,7 +831,9 @@ fill_component (RecurrencePage *rpage, CalComponent *comp)
 		*cdt->value = *dt->value;
 		cdt->tzid = g_strdup (dt->tzid);
 
+#if 0
 		g_print ("Adding exception is_date: %i\n", cdt->value->is_date);
+#endif
 
 		list = g_slist_prepend (list, cdt);
 	}

@@ -110,7 +110,7 @@
 #define MAX_YEAR	2037
 
 /* Define this for some debugging output. */
-#if 1
+#if 0
 #define CAL_OBJ_DEBUG	1
 #endif
 

@@ -1,3 +1,27 @@
+2001-10-26  Damon Chaplin  <damon@ximian.com>
+
+	* gui/e-itip-control.c (write_label_piece): convert the formatted
+	date to UTF-8.
+
+	* cal-util/cal-recur.c (CAL_OBJ_DEBUG): turn off debug functions.
+
+	* gui/dialogs/comp-editor-util.c (parse_contact_string): handle UTF8
+	correctly. Bug #4450. Good enough for 1.0.
+
+	* gui/e-week-view-event-item.c (e_week_view_draw_time): set the gc
+	color before drawing. Should fix bug #11469.
+
+	* gui/dialogs/task-editor.c (task_editor_edit_comp): show or hide the
+	meeting page as appropriate. Note this may be called more than once,
+	if the task gets updated somewhere else and the user clicks 'Update
+	the object'. Hopefully fixes bug #12930.
+
+	* gui/print.c (print_comp_item): printed more fields and made a little
+	prettier. Fixes bug #9352.
+	(print_date_label): used the correct timezones for each date field.
+
+	* *.c: removed several debug messages.
+
 2001-10-26  JP Rosevear  <jpr@ximian.com>
 
 	* conduits/calendar/calendar-conduit.c (check_for_slow_setting):

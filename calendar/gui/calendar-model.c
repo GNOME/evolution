@@ -1160,8 +1160,6 @@ set_transparency (CalComponent *comp, const char *value)
 static void
 set_url (CalComponent *comp, const char *value)
 {
-	g_print ("In calendar model set_url\n");
-
 	if (string_is_empty (value)) {
 		cal_component_set_url (comp, NULL);
 		return;
@@ -1190,8 +1188,6 @@ set_status (CalComponent *comp, const char *value)
 {
 	icalproperty_status status;
 	int percent;
-
-	g_print ("In calendar model set_status: %s\n", value);
 
 	/* An empty string is the same as 'None'. */
 	if (!value[0] || !g_strcasecmp (value, _("None")))
@@ -1248,7 +1244,7 @@ calendar_model_set_value_at (ETableModel *etm, int col, int row, const void *val
 	comp = g_array_index (priv->objects, CalComponent *, row);
 	g_assert (comp != NULL);
 
-#if 1
+#if 0
 	g_print ("In calendar_model_set_value_at: %i\n", col);
 #endif
 

@@ -2093,33 +2093,65 @@ write_label_piece (time_t t, char *buffer, int size, char *stext, char *etext)
 		strcat (buffer, etext);
 }
 
+static icaltimezone*
+get_zone_from_tzid (CalClient *client, const char *tzid)
+{
+	icaltimezone *zone;
+
+	/* Note that the timezones may not be on the server, so we try to get
+	   the builtin timezone with the TZID first. */
+	zone = icaltimezone_get_builtin_timezone_from_tzid (tzid);
+	if (!zone) {
+		CalClientGetStatus status;
+
+		status = cal_client_get_timezone (client, tzid, &zone);
+		/* FIXME: Handle error better. */
+		if (status != CAL_CLIENT_GET_SUCCESS)
+			g_warning ("Couldn't get timezone from server: %s",
+				   tzid ? tzid : "");
+	}
+
+	return zone;
+}
+
 static void
-print_date_label (GnomePrintContext *pc, CalComponent *comp,
+print_date_label (GnomePrintContext *pc, CalComponent *comp, CalClient *client,
 		  double left, double right, double top, double bottom)
 {
-	icaltimezone *zone = get_timezone ();
+	icaltimezone *start_zone, *end_zone, *due_zone, *completed_zone;
 	CalComponentDateTime datetime;
 	time_t start = 0, end = 0, complete = 0, due = 0;
 	static char buffer[1024], *utf_text;
 
 	cal_component_get_dtstart (comp, &datetime);
-	if (datetime.value)
-		start = icaltime_as_timet_with_zone (*datetime.value, zone);
+	if (datetime.value) {
+		start_zone = get_zone_from_tzid (client, datetime.tzid);
+		start = icaltime_as_timet_with_zone (*datetime.value,
+						     start_zone);
+	}
 	cal_component_free_datetime (&datetime);
 
 	cal_component_get_dtend (comp, &datetime);
-	if (datetime.value)
-		end = icaltime_as_timet_with_zone (*datetime.value, zone);
+	if (datetime.value) {
+		end_zone = get_zone_from_tzid (client, datetime.tzid);
+		end = icaltime_as_timet_with_zone (*datetime.value,
+						   end_zone);
+	}
 	cal_component_free_datetime (&datetime);
 
 	cal_component_get_due (comp, &datetime);
-	if (datetime.value)
-		due = icaltime_as_timet_with_zone (*datetime.value, zone);
+	if (datetime.value) {
+		due_zone = get_zone_from_tzid (client, datetime.tzid);
+		due = icaltime_as_timet_with_zone (*datetime.value,
+						   due_zone);
+	}
 	cal_component_free_datetime (&datetime);
 
 	cal_component_get_completed (comp, &datetime.value);
 	if (datetime.value) {
-		complete = icaltime_as_timet_with_zone (*datetime.value, zone);
+		completed_zone = icaltimezone_get_utc_timezone ();
+		complete = icaltime_as_timet_with_zone (*datetime.value,
+							completed_zone);
 		cal_component_free_icaltimetype (datetime.value);
 	}
 
@@ -2152,46 +2184,179 @@ print_date_label (GnomePrintContext *pc, CalComponent *comp,
 }
 
 static void
-print_comp_item (GnomePrintContext *pc, CalComponent *comp,
+print_comp_item (GnomePrintContext *pc, CalComponent *comp, CalClient *client,
 		 double left, double right, double top, double bottom)
 {
 	GnomeFont *font;
 	CalComponentVType vtype;
 	CalComponentText text;
 	GSList *desc, *l;
+	const char *title, *categories;
+	char *categories_string;
+	GSList *contact_list, *elem;
+	gint header_size;
 
 	vtype = cal_component_get_vtype (comp);
 
-	switch (vtype) {
-	case CAL_COMPONENT_EVENT:
-	case CAL_COMPONENT_TODO:
-		/* Summary */
-		font = gnome_font_new_closest ("Times", GNOME_FONT_BOLD, FALSE,
-					       18);
-		cal_component_get_summary (comp, &text);
-		top = bound_text (pc, font, text.value, left, right,
-				  top - 3, bottom, 0);
-		gtk_object_unref (GTK_OBJECT (font));
+	/* We should only be asked to print VEVENTs or VTODOs. */
+	if (vtype == CAL_COMPONENT_EVENT)
+		title = U_("Appointment");
+	else if (vtype == CAL_COMPONENT_TODO)
+		title = U_("Task");
+	else
+		return;
 
-		/* Date information */
-		print_date_label (pc, comp, left, right, top-3, top - 15);
-		top -= 30;
+	/* Print the title in a box at the top of the page. */
+	font = gnome_font_new_closest ("Times", GNOME_FONT_BOLD, FALSE, 18);
+	header_size = 50;
+	print_border (pc, left, right, top, top - header_size,
+		      1.0, 0.9);
+	print_text (pc, font, title, ALIGN_CENTER, left, right,
+		    top - header_size * 0.1, top - header_size);
+	gtk_object_unref (GTK_OBJECT (font));
 
-		/* Description */
-		font = gnome_font_new_closest ("Times", GNOME_FONT_BOOK, FALSE, 12);
-		cal_component_get_description_list (comp, &desc);
-		for (l = desc; l != NULL; l = l->next) {
-			CalComponentText *text = l->data;
+	top -= header_size + 10;
 
-			if (text->value != NULL)
-				top = bound_text (pc, font, text->value, left, right, top-3, bottom, 0);
+	/* Summary */
+	font = gnome_font_new_closest ("Times", GNOME_FONT_BOLD, FALSE, 18);
+	cal_component_get_summary (comp, &text);
+	top = bound_text (pc, font, text.value, left, right,
+			  top - 3, bottom, 0);
+	gtk_object_unref (GTK_OBJECT (font));
+
+	/* Date information */
+	print_date_label (pc, comp, client, left, right, top-3, top - 15);
+	top -= 20;
+
+	font = gnome_font_new_closest ("Times", GNOME_FONT_BOOK, FALSE, 12);
+
+	/* For a VTODO we print the Status, Priority, % Complete and URL. */
+	if (vtype == CAL_COMPONENT_TODO) {
+		icalproperty_status status;
+		const char *status_string = NULL;
+		int *percent;
+		int *priority;
+		const char *url;
+
+		/* Status */
+		cal_component_get_status (comp, &status);
+		if (status != ICAL_STATUS_NONE) {
+			switch (status) {
+			case ICAL_STATUS_NEEDSACTION:
+				status_string = U_("Not Started");
+				break;
+			case ICAL_STATUS_INPROCESS:
+				status_string = U_("In Progress");
+				break;
+			case ICAL_STATUS_COMPLETED:
+				status_string = U_("Completed");
+				break;
+			case ICAL_STATUS_CANCELLED:
+				status_string = U_("Cancelled");
+				break;
+			default:
+				break;
+			}
+
+			if (status_string) {
+				char *text = g_strdup_printf (U_("Status: %s"),
+							      status_string);
+				top = bound_text (pc, font, text,
+						  left, right, top, bottom, 0);
+				top += gnome_font_get_size (font) - 6;
+				g_free (text);
+			}
 		}
-		cal_component_free_text_list (desc);
-		gtk_object_unref (GTK_OBJECT (font));
 
-		break;
-	default:
+		/* Priority */
+		cal_component_get_priority (comp, &priority);
+		if (priority && *priority >= 0) {
+			char *priority_string, *priority_utf8, *text;
+
+			priority_string = cal_util_priority_to_string (*priority);
+			cal_component_free_priority (priority);
+
+			priority_utf8 = e_utf8_from_locale_string (priority_string);
+			text = g_strdup_printf (U_("Priority: %s"),
+						priority_utf8);
+			top = bound_text (pc, font, text,
+					  left, right, top, bottom, 0);
+			top += gnome_font_get_size (font) - 6;
+			g_free (text);
+			g_free (priority_utf8);
+		}
+
+		/* Percent Complete */
+		cal_component_get_percent (comp, &percent);
+		if (percent) {
+			char *percent_string;
+
+			percent_string = g_strdup_printf (U_("Percent Complete: %i"), *percent);
+			cal_component_free_percent (percent);
+
+			top = bound_text (pc, font, percent_string,
+					  left, right, top, bottom, 0);
+			top += gnome_font_get_size (font) - 6;
+		}
+
+
+		/* URL */
+		cal_component_get_url (comp, &url);
+		if (url && url[0]) {
+			char *url_string = g_strdup_printf (U_("URL: %s"),
+							    url);
+
+			top = bound_text (pc, font, url_string,
+					  left, right, top, bottom, 0);
+			top += gnome_font_get_size (font) - 6;
+
+			g_free (url_string);
+		}
 	}
+
+	/* Categories */
+	cal_component_get_categories (comp, &categories);
+	if (categories && categories[0]) {
+		categories_string = g_strdup_printf (U_("Categories: %s"),
+						     categories);
+		top = bound_text (pc, font, categories_string,
+				  left, right, top, bottom, 0);
+		top += gnome_font_get_size (font) - 6;
+		g_free (categories_string);
+	}
+
+	/* Contacts */
+	cal_component_get_contact_list (comp, &contact_list);
+	if (contact_list) {
+		GString *contacts = g_string_new (U_("Contacts: "));
+		for (elem = contact_list; elem; elem = elem->next) {
+			CalComponentText *t = elem->data;
+			/* Put a comma between contacts. */
+			if (elem != contact_list)
+				g_string_append (contacts, ", ");
+			g_string_append (contacts, t->value);
+		}
+		cal_component_free_text_list (contact_list);
+
+		top = bound_text (pc, font, contacts->str,
+				  left, right, top, bottom, 0);
+		top += gnome_font_get_size (font) - 6;
+
+		g_string_free (contacts, TRUE);
+	}
+
+	top -= 16;
+
+	/* Description */
+	cal_component_get_description_list (comp, &desc);
+	for (l = desc; l != NULL; l = l->next) {
+		CalComponentText *text = l->data;
+
+		if (text->value != NULL)
+			top = bound_text (pc, font, text->value, left, right, top-3, bottom, 0);
+	}
+	cal_component_free_text_list (desc);
+	gtk_object_unref (GTK_OBJECT (font));
 
 	gnome_print_showpage (pc);
 }
@@ -2320,7 +2485,7 @@ print_calendar (GnomeCalendar *gcal, gboolean preview, time_t date,
 
 
 void
-print_comp (CalComponent *comp, gboolean preview)
+print_comp (CalComponent *comp, CalClient *client, gboolean preview)
 {
 	GnomePrinter *printer;
 	GnomePrintMaster *gpm;
@@ -2393,7 +2558,7 @@ print_comp (CalComponent *comp, gboolean preview)
 		- gnome_paper_tmargin (paper_info);
 	b = gnome_paper_bmargin (paper_info);
 
-	print_comp_item (pc, comp, l, r, t, b);
+	print_comp_item (pc, comp, client, l, r, t, b);
 
 	gnome_print_master_close (gpm);
 

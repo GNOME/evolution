@@ -32,6 +32,7 @@
 #include <liboaf/liboaf.h>
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-widget.h>
+#include <gal/unicode/gunicode.h>
 #include <e-destination.h>
 #include <e-util/e-time-utils.h>
 #include <cal-util/timeutil.h>
@@ -359,8 +360,7 @@ comp_editor_show_contacts_dialog (GNOME_Evolution_Addressbook_SelectNames corba_
 
 
 /* A simple 'name <email>' parser. Input should be UTF8.
-   FIXME: Should probably use camel functions or something.
-   Also note that this is broken wrt UTF8 - can't use strchr etc. */
+   FIXME: Should probably use camel functions or something. */
 static void
 parse_contact_string (const char *value, char **name, char **email)
 {
@@ -372,8 +372,8 @@ parse_contact_string (const char *value, char **name, char **email)
 		return;
 	}
 
-	lbracket = strchr (value, '<');
-	rbracket = strchr (value, '>');
+	lbracket = g_utf8_strchr (value, '<');
+	rbracket = g_utf8_strchr (value, '>');
 
 	if (!lbracket || !rbracket || rbracket < lbracket) {
 		*name = g_strdup (value);
@@ -381,9 +381,9 @@ parse_contact_string (const char *value, char **name, char **email)
 		return;
 	}
 
-	name_end = lbracket - 1;
-	while (name_end > value && isspace (*name_end))
-		name_end--;
+	name_end = g_utf8_prev_char (lbracket);
+	while (name_end > value && g_unichar_isspace (g_utf8_get_char (name_end)))
+		name_end = g_utf8_prev_char (name_end);
 
 	tmp_name = g_malloc (name_end - value + 2);
 	strncpy (tmp_name, value, name_end - value + 1);
@@ -395,8 +395,10 @@ parse_contact_string (const char *value, char **name, char **email)
 	tmp_email[rbracket - lbracket - 1] = '\0';
 	*email = tmp_email;
 
+#if 0
 	g_print ("Parsed: %s\n  Name:'%s'\nEmail:'%s'\n",
 		 value, *name, *email);
+#endif
 }
 
 
@@ -431,7 +433,9 @@ comp_editor_contacts_to_widget (GtkWidget *contacts_entry,
 	g_ptr_array_add (dest_array, NULL);
 
 	contacts_string = e_destination_exportv ((EDestination**) dest_array->pdata);
+#if 0
 	g_print ("Destinations: %s\n", contacts_string ? contacts_string : "");
+#endif
 
 	bonobo_widget_set_property (BONOBO_WIDGET (contacts_entry),
 				    "destinations", contacts_string, NULL);
@@ -460,7 +464,9 @@ comp_editor_contacts_to_component (GtkWidget *contacts_entry,
 
 	bonobo_widget_get_property (BONOBO_WIDGET (contacts_entry),
 				    "destinations", &contacts_string, NULL);
+#if 0
 	g_print ("Contacts string: %s\n", contacts_string ? contacts_string : "");
+#endif
 
 	contact_destv = e_destination_importv (contacts_string);
 	if (contact_destv) {
@@ -472,16 +478,18 @@ comp_editor_contacts_to_component (GtkWidget *contacts_entry,
 			t->altrep = NULL;
 
 			/* If both name and email are given, use the standard
-			   'name <email>' form, otherwise use just the name
+			   '"name" <email>' form, otherwise use just the name
 			   or the email address.
 			   FIXME: I'm not sure this is correct syntax etc. */
 			if (name && name[0] && email && email[0])
-				t->value = g_strdup_printf ("%s <%s>",
+				t->value = g_strdup_printf ("\"%s\" <%s>",
 							    name, email);
 			else if (name && name[0])
-				t->value = g_strdup (name);
+				t->value = g_strdup_printf ("\"%s\"",
+							    name);
 			else
-				t->value = g_strdup (email);
+				t->value = g_strdup_printf ("<%s>",
+							    email);
 
 			contact_list = g_slist_prepend (contact_list, t);
 
