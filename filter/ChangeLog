@@ -1,3 +1,8 @@
+2004-05-26  Rodney Dawes  <dobey@novell.com>
+
+	* libfilter-i18n.h: Removed from CVS
+	Generated files don't belong in CVS
+
 2004-05-19  JP Rosevear  <jpr@novell.com>
 
 	* Makefile.am: don't dist the error .h file
