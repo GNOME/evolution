@@ -206,7 +206,7 @@
 	      <term>Adding vCards to Address Book</term>
 	      <listitem>
 		<para>
-		  If you receive a vCard attachment and click
+		  If you receive a VCard attachment and click
 		  <guibutton>Save in Address Book</guibutton>, it will
 		  be saved to your <application>Exchange</application>address book.
 		</para>
@@ -373,7 +373,7 @@ There are, however, some features which are not available:
 		  </listitem>
 		    <listitem>
 		    <para>
-                      If you wish, select the box labelled
+                      If you wish, select the box labeled
                       <guilabel>Use secure connection
                       (SSL)</guilabel>, to take advantage of a more
                       secure connection method. This may allow you to
@@ -385,7 +385,7 @@ There are, however, some features which are not available:
 		    <para>
                        If you would like
                        <application>Evolution</application> to
-                       remember your password, check the box labelled
+                       remember your password, check the box labeled
                        <guilabel>Remember this password</guilabel>.
                      </para>
 		  </listitem>
@@ -427,7 +427,7 @@ There are, however, some features which are not available:
 		    <para>
                      Active Directory: If you would like to use the
     			   Global Address List (GAL), check the box
-    			   labelled <guilabel>Create a Global Address
+    			   labeled <guilabel>Create a Global Address
     			   List folder</guilabel> and enter the name
     			   of the directory server.  To avoid strain
     			   on the server, the maximum number of
@@ -575,8 +575,8 @@ There are, however, some features which are not available:
 			 <para>
 			   If you would like to use the Global Address
 			   List (GAL) maintained on your Exchange server,
-			   click the tab labelled <guilabel>Receiving
-			   Options</guilabel> and check the box labelled
+			   click the tab labeled <guilabel>Receiving
+			   Options</guilabel> and check the box labeled
 			   <guilabel>Create a Global Address List
 			   folder</guilabel>.  The GAL is maintained by
 			   your system administrator and you cannot add,
@@ -629,7 +629,7 @@ There are, however, some features which are not available:
       server, not on your desktop computer.  This means that you can
       access it from multiple locations. It also means that your
       Microsoft <application>Exchange</application>account information
-      is in a seperate folder tree from the <guilabel>Local</guilabel>
+      is in a separate folder tree from the <guilabel>Local</guilabel>
       tree in your folder bar. You'll see it below the local tree,
       with the name you gave the account. If you have multiple
       accounts, you will have multiple folder trees.

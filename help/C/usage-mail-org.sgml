@@ -749,7 +749,7 @@
              </para></listitem>
 
              <listitem><para>
-               Set the first part of your search critera to look in a <guilabel>Specific header</guilabel>.
+               Set the first part of your search criteria to look in a <guilabel>Specific header</guilabel>.
              </para></listitem>
 
              <listitem><para>
@@ -929,7 +929,7 @@
     <example id="usage-mail-organize-vFolders-ex">
       <title>Using Folders, Searches, and vFolders</title>
       <para>
-	To organize his mailbox, Jim sets up a virtual volder for emails from
+	To organize his mailbox, Jim sets up a virtual folder for emails from
 	his friend and co-worker Anna.  He has another one for messages that
 	have ximian.com in the address and <application>Ximian Evolution</application> in the subject line, so he
 	can keep a record of what people from work send him about
