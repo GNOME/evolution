@@ -49,6 +49,7 @@
 #include <bonobo/bonobo-stream-memory.h>
 #include <bonobo/bonobo-widget.h>
 #include <bonobo/bonobo-socket.h>
+
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gdk-pixbuf/gdk-pixbuf-loader.h>
 #include <gal/util/e-util.h>
@@ -1964,7 +1965,8 @@ mail_display_set_message (MailDisplay *md, CamelMedium *medium, CamelFolder *fol
 	/* For the moment, we deal only with CamelMimeMessage, but in
 	 * the future, we should be able to deal with any medium.
 	 */
-	if (medium && !CAMEL_IS_MIME_MESSAGE (medium))
+	if (md->destroyed
+	    || (medium && !CAMEL_IS_MIME_MESSAGE (medium)))
 		return;
 	
 	/* Clean up from previous message. */
@@ -2076,6 +2078,7 @@ mail_display_destroy (GtkObject *object)
 		g_object_unref (mail_display->html);
 		mail_display->html = NULL;
 	}
+
 	
 	if (mail_display->current_message) {
 		camel_object_unref (mail_display->current_message);

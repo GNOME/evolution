@@ -1,3 +1,10 @@
+2003-05-20  Not Zed  <notzed@lostzed.mmc.com.au>
+
+	** See bug #43234
+	
+	* mail-display.c (mail_display_set_message): if we've been
+	destroyed, noop.
+
 2003-05-16  Dan Winship  <danw@ximian.com>
 
 	* mail-ops.c (mail_empty_trash): New async "empty trash" op.
