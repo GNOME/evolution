@@ -20,8 +20,8 @@
 struct _status_stack {
 	guint32 flags;
 	char *msg;
-	int pc;			/* last pc reported */
-	int stamp;		/* last stamp reported */
+	int pc;				/* last pc reported */
+	unsigned int stamp;		/* last stamp reported */
 };
 
 struct _CamelOperation {
@@ -538,7 +538,7 @@ void camel_operation_progress(CamelOperation *cc, int pc)
 	now = stamp();
 	if (cc->status_update != now) {
 		if (s->flags & CAMEL_OPERATION_TRANSIENT) {
-			if (s->stamp/8 < now/8) {
+			if (s->stamp/16 < now/16) {
 				s->stamp = now;
 				cc->status(cc, s->msg, pc, cc->status_data);
 				cc->status_update = now;
@@ -581,7 +581,7 @@ void camel_operation_progress_count(CamelOperation *cc, int sofar)
 	now = stamp();
 	if (cc->status_update != now) {
 		if (s->flags & CAMEL_OPERATION_TRANSIENT) {
-			if (s->stamp/8 < now/8) {
+			if (s->stamp/16 < now/16) {
 				s->stamp = now;
 				cc->status(cc, s->msg, sofar, cc->status_data);
 				cc->status_update = now;
@@ -639,7 +639,7 @@ void camel_operation_end(CamelOperation *cc)
 			while (l) {
 				p = l->data;
 				if (p->flags & CAMEL_OPERATION_TRANSIENT) {
-					if (p->stamp/8 < now/8) {
+					if (p->stamp/16 < now/16) {
 						cc->status(cc, p->msg, p->pc, cc->status_data);
 						cc->lastreport = p;
 						break;

@@ -1,3 +1,12 @@
+2001-03-31  Not Zed  <NotZed@Ximian.com>
+
+	* camel-operation.c (struct _status_stack): change stamp to
+	unsigned to avoid overflow.
+	(camel_operation_end): 
+	(camel_operation_progress_count): 
+	(camel_operation_progress): Double the delay before transient
+	events start showing their own progress.
+
 2001-03-30  Not Zed  <NotZed@Ximian.com>
 
 	* providers/pop3/camel-pop3-folder.c (pop3_get_message): Change
