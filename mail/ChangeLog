@@ -1,6 +1,8 @@
 2003-12-10  Larry Ewing  <lewing@ximian.com>
 
 	* em-format-html.c: add text/x-patch as a plain type.
+	(efh_text_enriched): add table around the enriched part so it
+	matches html and text modes.
 
 2003-12-10  Jeffrey Stedfast  <fejj@ximian.com>
 

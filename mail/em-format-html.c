@@ -759,11 +759,19 @@ efh_text_enriched(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, E
 	camel_stream_filter_add(filtered_stream, enriched);
 	camel_object_unref(enriched);
 
-	camel_stream_write_string(stream, EFH_TABLE_OPEN "<tr><td><tt>\n");	
+	camel_stream_printf (stream,
+			     "<table bgcolor=\"#%06x\" cellspacing=0 cellpadding=1 width=100%%><tr><td>\n"
+			     "<table bgcolor=\"#%06x\" cellspacing=0 cellpadding=0 width=100%%><tr><td>\n"
+			     "<table cellspacing=0 cellpadding=10><td><tr>\n",
+			     efh->frame_colour & 0xffffff, efh->content_colour & 0xffffff);
+
 	em_format_format_text((EMFormat *)efh, (CamelStream *)filtered_stream, dw);
 	
-	camel_stream_write_string(stream, "</tt></td></tr></table>\n");
 	camel_object_unref(filtered_stream);
+	camel_stream_write_string(stream,
+				  "</td></tr></table>\n"
+				  "</td></tr></table>\n"
+				  "</td></tr></table>\n");
 }
 
 static void
