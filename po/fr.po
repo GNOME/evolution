@@ -1,7 +1,9 @@
 # French translation of evolution.
-# Copyright (C) 2000-2003 Free Software Foundation, Inc.
+# Copyright (C) 2000-2004 Free Software Foundation, Inc.
+# This file is distributed under the same license as the evolution package.
+#
 # Vincent Renardias <vincent@debian.org>, 2000.
-# maintainer: Christophe Merlet (RedFox) <redfox@redfoxcenter.org>, 2000-2003.
+# maintainer: Christophe Merlet (RedFox) <redfox@redfoxcenter.org>, 2000-2004.
 # Jean-Noël Guiheneuf <jean-noel.guiheneuf@wanadoo.fr>, 2001.
 # Frédéric Riss <frederic.riss@laposte.net>, 2001-2002.
 # Joaquim Fellmann <joaquim@altern.org>, 2002.
@@ -11,15 +13,15 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution 1.4.4\n"
-"POT-Creation-Date: 2004-02-19 16:14-0500\n"
-"PO-Revision-Date: 2003-09-06 15:00+0200\n"
-"Last-Translator: Brigitte Le Grand <brigitte.le.grand@sun.com>\n"
+"Project-Id-Version: evolution 1.4.6\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2004-07-04 17:27+0200\n"
+"PO-Revision-Date: 2004-07-04 17:15+0200\n"
+"Last-Translator: Christophe Merlet (RedFox) <redfox@redfoxcenter.org>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Report-Msgid-Bugs-To: \n"
 
 #: addressbook/backend/ebook/GNOME_Evolution_Addressbook_LDIF_Importer.server.in.in.h:1
 msgid "Evolution LDIF importer"
@@ -1296,7 +1298,7 @@ msgid "Remove All"
 msgstr "Tout supprimer"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:211
-#: addressbook/gui/component/select-names/e-select-names.c:694
+#: addressbook/gui/component/select-names/e-select-names.c:700
 #: composer/e-msg-composer-attachment-bar.c:464
 msgid "Remove"
 msgstr "Supprimer"
@@ -1327,7 +1329,7 @@ msgstr "Source"
 msgid "Select Contacts from Addressbook"
 msgstr "Sélectionnez les contacts dans le carnet d'adresses"
 
-#: addressbook/gui/component/select-names/e-select-names.c:650
+#: addressbook/gui/component/select-names/e-select-names.c:655
 msgid "Find contact in"
 msgstr "Rechercher un contact dans"
 
@@ -3725,16 +3727,16 @@ msgstr "Durée du report (minutes)"
 msgid "_Edit appointment"
 msgstr "_Éditer le rendez-vous"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:770
+#: calendar/gui/alarm-notify/alarm-queue.c:766
 msgid "No description available."
 msgstr "Aucune description disponible."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:843
-#: calendar/gui/alarm-notify/alarm-queue.c:867 widgets/misc/e-messagebox.c:161
+#: calendar/gui/alarm-notify/alarm-queue.c:839
+#: calendar/gui/alarm-notify/alarm-queue.c:863 widgets/misc/e-messagebox.c:161
 msgid "Warning"
 msgstr "Avertissement"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:847
+#: calendar/gui/alarm-notify/alarm-queue.c:843
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -3747,7 +3749,7 @@ msgstr ""
 "un courrier. Evolution affichera une fenêtre\n"
 "d'avertissement classique à la place."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:873
+#: calendar/gui/alarm-notify/alarm-queue.c:869
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -3764,7 +3766,7 @@ msgstr ""
 "\n"
 "Voulez-vous vraiment lancer ce programme ?"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:887
+#: calendar/gui/alarm-notify/alarm-queue.c:883
 msgid "Do not ask me about this program again."
 msgstr "Ne plus me demander à propos de ce programme."
 
@@ -3798,6 +3800,10 @@ msgstr "%A %d %B %Y"
 
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.
+#. strftime format %a = abbreviated weekday name,
+#. %d = day of month, %b = abbreviated month name.
+#. You can change the order but don't change the
+#. specifiers or add anything.
 #: calendar/gui/calendar-commands.c:422 calendar/gui/e-day-view-top-item.c:265
 #: calendar/gui/e-day-view.c:1440 calendar/gui/e-week-view-main-item.c:325
 msgid "%a %d %b"
@@ -3987,6 +3993,11 @@ msgstr ""
 "45.436845,125.862501"
 
 #. An empty string is the same as 'None'.
+#. add a "None" option to the stores menu
+#. Put the "None" and "UTC" entries at the top of the combo's list.
+#. When "None" is selected we want the field to be cleared.
+#. Note that we don't show this here, since by default a 'None' date
+#. is not permitted.
 #: calendar/gui/calendar-model.c:1176 calendar/gui/dialogs/meeting-page.c:330
 #: calendar/gui/dialogs/meeting-page.glade.h:2 composer/e-msg-composer.c:2084
 #: mail/folder-browser.c:1776 mail/mail-account-gui.c:1261
@@ -4116,7 +4127,7 @@ msgstr "jours"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:11
 msgid "dialog1"
-msgstr "boîte de dialogue 1"
+msgstr "dialog1"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:12
 msgid "extra times every"
@@ -4132,7 +4143,7 @@ msgstr "minutes"
 
 #: calendar/gui/dialogs/alarm-page.c:796
 msgid "Action/Trigger"
-msgstr ""
+msgstr "Action/Déclencheur"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:1
 #: calendar/gui/dialogs/recurrence-page.glade.h:2
@@ -4966,9 +4977,8 @@ msgid "occurrences"
 msgstr "occurrences"
 
 #: calendar/gui/dialogs/recurrence-page.c:2325
-#, fuzzy
 msgid "Date/Time"
-msgstr "Date/Heure :"
+msgstr "Date/Heure"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:1
 msgid "A_dd"
@@ -5392,12 +5402,20 @@ msgid "Task sort"
 msgstr "Tri par tâche"
 
 #. strftime format of a weekday, a date and a time, 24-hour.
+#. strptime format of a weekday, a date and a time,
+#. in 24-hour format.
+#. strftime format of a weekday, a date and a
+#. time, in 24-hour format.
 #: calendar/gui/e-cell-date-edit-text.c:118 e-util/e-time-utils.c:180
 #: e-util/e-time-utils.c:393
 msgid "%a %m/%d/%Y %H:%M:%S"
 msgstr "%a %d/%m/%Y %H:%M:%S"
 
 #. strftime format of a weekday, a date and a time, 12-hour.
+#. strptime format of a weekday, a date and a time,
+#. in 12-hour format.
+#. strftime format of a weekday, a date and a
+#. time, in 12-hour format.
 #: calendar/gui/e-cell-date-edit-text.c:121 e-util/e-time-utils.c:175
 #: e-util/e-time-utils.c:402
 msgid "%a %m/%d/%Y %I:%M:%S %p"
@@ -5421,6 +5439,10 @@ msgstr "%02i divisions par minute"
 
 #. strftime format %A = full weekday name, %d = day of month,
 #. %B = full month name. Don't use any other specifiers.
+#. strftime format %A = full weekday name, %d = day of
+#. month, %B = full month name. You can change the
+#. order but don't change the specifiers or add
+#. anything.
 #: calendar/gui/e-day-view-top-item.c:261 calendar/gui/e-day-view.c:1423
 #: calendar/gui/e-week-view-main-item.c:316 calendar/gui/print.c:1531
 msgid "%A %d %B"
@@ -5428,6 +5450,9 @@ msgstr "%A %d %B"
 
 #. strftime format %d = day of month, %b = abbreviated month name.
 #. Don't use any other specifiers.
+#. strftime format %d = day of month, %b = abbreviated
+#. month name. You can change the order but don't
+#. change the specifiers or add anything.
 #: calendar/gui/e-day-view-top-item.c:269 calendar/gui/e-day-view.c:1456
 #: calendar/gui/e-week-view-main-item.c:339
 msgid "%d %b"
@@ -5611,7 +5636,6 @@ msgstr "Erreur iCalendar"
 msgid "An unknown person"
 msgstr "Une personne inconnue"
 
-#. Describe what the user can do
 #: calendar/gui/e-itip-control.c:1005
 msgid ""
 "<br> Please review the following information, and then select an action from "
@@ -6085,6 +6109,10 @@ msgstr "%A %d %B %Y"
 
 #. This is a strftime() format string %a = abbreviated weekday
 #. name, %m = month number, %d = month day, %Y = full year.
+#. This is a strftime() format string %a = abbreviated weekday name,
+#. %m = month number, %d = month day, %Y = full year.
+#. strptime format of a weekday and a date.
+#. strftime format of a weekday and a date.
 #: calendar/gui/e-meeting-time-sel-item.c:462
 #: calendar/gui/e-meeting-time-sel.c:2131 e-util/e-time-utils.c:203
 #: e-util/e-time-utils.c:296 e-util/e-time-utils.c:384
@@ -6093,6 +6121,10 @@ msgstr "%a %d/%m/%Y"
 
 #. This is a strftime() format string %m = month number,
 #. %d = month day, %Y = full year.
+#. strptime format of a weekday and a date.
+#. This is the preferred date format for the locale.
+#. This is a strftime() format for a short date. %m = month,
+#. %d = day of month, %Y = year (all digits).
 #: calendar/gui/e-meeting-time-sel-item.c:466 e-util/e-time-utils.c:238
 #: e-util/e-time-utils.c:299 widgets/misc/e-dateedit.c:1594
 msgid "%m/%d/%Y"
@@ -10981,12 +11013,16 @@ msgstr "Synchroniser les catégories"
 
 #. strptime format of a weekday, a date and a time,
 #. in 12-hour format, without seconds.
+#. strftime format of a weekday, a date and a
+#. time, in 12-hour format, without seconds.
 #: e-util/e-time-utils.c:185 e-util/e-time-utils.c:398
 msgid "%a %m/%d/%Y %I:%M %p"
 msgstr "%a %d/%m/%Y %I:%M:%p"
 
 #. strptime format of a weekday, a date and a time,
 #. in 24-hour format, without seconds.
+#. strftime format of a weekday, a date and a
+#. time, in 24-hour format, without seconds.
 #: e-util/e-time-utils.c:190 e-util/e-time-utils.c:389
 msgid "%a %m/%d/%Y %H:%M"
 msgstr "%a %d/%m/%Y %H:%M"
@@ -11038,23 +11074,31 @@ msgid "%m/%d/%Y %H"
 msgstr "%d/%m/%Y %H"
 
 #. strptime format for a time of day, in 12-hour format.
+#. strftime format of a time in 12-hour format.
 #: e-util/e-time-utils.c:339 e-util/e-time-utils.c:438
 msgid "%I:%M:%S %p"
 msgstr "%I:%M:%S %p"
 
 #. strptime format for a time of day, in 24-hour format.
+#. strftime format of a time in 24-hour format.
 #: e-util/e-time-utils.c:343 e-util/e-time-utils.c:430
 msgid "%H:%M:%S"
 msgstr "%H:%M:%S"
 
 #. strptime format for time of day, without seconds,
 #. in 12-hour format.
+#. strftime format of a time in 12-hour format,
+#. without seconds.
+#. This is a strftime() format. %I = hour (1-12), %M = minute, %p = am/pm string.
 #: e-util/e-time-utils.c:348 e-util/e-time-utils.c:435
 #: widgets/misc/e-dateedit.c:1404 widgets/misc/e-dateedit.c:1629
 msgid "%I:%M %p"
 msgstr "%I:%M %p"
 
 #. strptime format for time of day, without seconds 24-hour format.
+#. strftime format of a time in 24-hour format,
+#. without seconds.
+#. This is a strftime() format. %H = hour (0-23), %M = minute.
 #: e-util/e-time-utils.c:352 e-util/e-time-utils.c:427
 #: widgets/misc/e-dateedit.c:1401 widgets/misc/e-dateedit.c:1626
 msgid "%H:%M"
@@ -12342,7 +12386,6 @@ msgstr ""
 "d'acheminement du courrier\n"
 "avant de pouvoir composer un message."
 
-#. FIXME: this wording sucks
 #: mail/mail-callbacks.c:255
 msgid ""
 "You are sending an HTML-formatted message. Please make sure that\n"
@@ -13320,7 +13363,7 @@ msgstr "De"
 
 #: mail/mail-format.c:923
 msgid "Reply-To"
-msgstr "Répondre à :"
+msgstr "Répondre à"
 
 #: mail/mail-format.c:928 mail/message-list.etspec.h:14
 msgid "To"
@@ -23895,7 +23938,7 @@ msgstr "Aucune tâche"
 
 #: my-evolution/e-summary-tasks.c:364
 msgid "blue"
-msgstr ""
+msgstr "bleu"
 
 #: my-evolution/e-summary-tasks.c:364
 msgid "(No Description)"
@@ -25659,11 +25702,15 @@ msgid ""
 "\n"
 "Do you want to quit using the Assistant now?"
 msgstr ""
+"Si vous quittez l'assistant de configuration d'Evolution maintenant, toutes "
+"les informations que vous avez saisies seront perdues. Vous aurez besoin de "
+"relacer de nouveau cet assistant avant d'utiliser Evolution.\n"
+"\n"
+"Voulez-vous quitter l'assistant maintenant ?"
 
 #: shell/e-shell-startup-wizard.c:782
-#, fuzzy
 msgid "Quit Assistant"
-msgstr "Adjoint"
+msgstr "Quitter l'assistant"
 
 #: shell/e-shell-user-creatable-items-handler.c:587
 #: shell/e-shell-user-creatable-items-handler.c:643
@@ -26273,9 +26320,8 @@ msgstr "Evolution"
 msgid "Evolution is now exiting ..."
 msgstr "Fermeture d'Evolution..."
 
-#. Preview/Alpha/Beta version warning message
 #: shell/main.c:274
-#, no-c-format
+#, c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
 "of the Ximian Evolution groupware suite.\n"
@@ -26301,7 +26347,7 @@ msgstr ""
 "terminées ou ne fonctionne pas correctement.\n"
 "\n"
 "Si vous voulez une version stable d'Evolution, nous vous recommandons\n"
-"de désinstaller cette version et d'installer la version ûs à la place.\n"
+"de désinstaller cette version et d'installer la version %s à la place.\n"
 "\n"
 "Si vous trouvez des anomalies veuillez nous les rapporter à\n"
 "bugzilla.ximian.com. Ce produit est fournit sans aucune garantie et\n"
@@ -27043,9 +27089,8 @@ msgid "Display the previous unread message"
 msgstr "Afficher le message non lu précédent"
 
 #: ui/evolution-mail-message.xml.h:28
-#, fuzzy
 msgid "F_orward As..."
-msgstr "Faire _suivre"
+msgstr "Faire _suivre en tant que..."
 
 #: ui/evolution-mail-message.xml.h:29
 msgid "Filter on Mailing _List..."
@@ -28115,9 +28160,8 @@ msgid "Text"
 msgstr "Texte"
 
 #: widgets/misc/e-search-bar.c:930
-#, fuzzy
 msgid "Find _Now"
-msgstr "Rechercher maintenant"
+msgstr "Rechercher _maintenant"
 
 #: wombat/GNOME_Evolution_WombatLDAP.server.in.in.h:1
 msgid "Evolution Addressbook local/LDAP backend"
@@ -28131,1596 +28175,3 @@ msgstr "Moteur de traitement du fichier local du calendrier d'Evolution"
 #: wombat/GNOME_Evolution_WombatNOLDAP.server.in.in.h:1
 msgid "Evolution Addressbook local file backend"
 msgstr "Moteur de traitement du fichier local du carnet d'adresses d'Evolution"
-
-#~ msgid "Host lookup failed: cannot create thread: %s"
-#~ msgstr ""
-#~ "Échec de la résolution de l'hôte : impossible de créer de thread : %s"
-
-#~ msgid "Host lookup failed: %s: host not found"
-#~ msgstr "Échec de la résolution de l'hôte : %s : hôte non trouvé"
-
-#~ msgid "Host lookup failed: %s: unknown reason"
-#~ msgstr "Échec de la résolution de l'hôte : %s : raison inconnue"
-
-#~ msgid "_Forward Message"
-#~ msgstr "Faire _suivre le message"
-
-#~ msgid "Clear"
-#~ msgstr "Effacer"
-
-#~ msgid "Hey you, dunce. You need an account to send mail doncha know."
-#~ msgstr "Vous devez créer un compte afin de pouvoir envoyer du courrier."
-
-#~ msgid "However, the message was successfully sent."
-#~ msgstr "Toutefois, le message a été correctement envoyé."
-
-#~ msgid "Save As..."
-#~ msgstr "Enregistrer sous..."
-
-#~ msgid ""
-#~ "ping_timeout_callback: could not determine if the CORBA object is nil or "
-#~ "not"
-#~ msgstr ""
-#~ "ping_timeout_callback : impossible de déterminé si l'objet CORBA est nil "
-#~ "ou non."
-
-#~ msgid "Automatically _detect links"
-#~ msgstr "_Détecter automatiquement les liens"
-
-#~ msgid "Emacs"
-#~ msgstr "Emacs"
-
-#~ msgid "Microsoft"
-#~ msgstr "Microsoft"
-
-#~ msgid "Shortcuts _type:"
-#~ msgstr "_Type de raccourcis :"
-
-#~ msgid "XEmacs"
-#~ msgstr "XEmacs"
-
-#~ msgid "Search"
-#~ msgstr "Rechercher"
-
-#~ msgid "Email Address:"
-#~ msgstr "Adresse électronique :"
-
-#~ msgid "Check Full Name"
-#~ msgstr "Vérifier le nom complet"
-
-#~ msgid "Add Anyway"
-#~ msgstr "Ajouter de toute façon"
-
-#~ msgid "Change Anyway"
-#~ msgstr "Changer de toute façon"
-
-#~ msgid "Configure the fonts used by Evolution here"
-#~ msgstr "Configurez ici les polices utilisées par Evolution."
-
-#~ msgid "Evolution Mail font configuration control"
-#~ msgstr "Composant de configuration des polices de la messagerie d'Evolution"
-
-#~ msgid "Font Preferences"
-#~ msgstr "Préférences des polices"
-
-#~ msgid "Add a news feed"
-#~ msgstr "Ajouter une source de nouvelles"
-
-#~ msgid "Enter the URL of the news feed you wish to add"
-#~ msgstr "Saisissez l'URL de la source de nouvelles à ajouter."
-
-#~ msgid "Add n_ews feed"
-#~ msgstr "Ajouter une source de _nouvelles"
-
-#~ msgid "Delete news feed"
-#~ msgstr "Supprimer la source de nouvelles"
-
-#~ msgid "_Mail"
-#~ msgstr "_Courrier"
-
-#~ msgid "_Weather"
-#~ msgstr "_Météo"
-
-#~ msgid "De_lete"
-#~ msgstr "_Supprimer"
-
-#~ msgid "Check Address"
-#~ msgstr "Vérifier l'adresse"
-
-#~ msgid "_Meeting"
-#~ msgstr "Ré_union"
-
-#~ msgid "_every"
-#~ msgstr "_toutes les"
-
-#~ msgid "_Clear Flag"
-#~ msgstr "Effa_cer le marqueur"
-
-#~ msgid "S_elect server:"
-#~ msgstr "Sél_ectionnez un serveur :"
-
-#~ msgid "Add"
-#~ msgstr "Ajouter"
-
-#~ msgid "_Signature editor"
-#~ msgstr "Éditeur de _signature"
-
-#~ msgid "Create _New Folder..."
-#~ msgstr "_Créer un nouveau dossier..."
-
-#~ msgid "_Contacts..."
-#~ msgstr "_Contacts..."
-
-#~ msgid "1234"
-#~ msgstr "1234"
-
-#~ msgid "380"
-#~ msgstr "380"
-
-#~ msgid "666"
-#~ msgstr "666"
-
-#~ msgid "<- _Remove"
-#~ msgstr "<- Supp_rimer"
-
-#~ msgid "<< Fewer Options"
-#~ msgstr "<< Moins d'options"
-
-#~ msgid "Associated LDAP Attribute"
-#~ msgstr "Attribut LDAP associé"
-
-#~ msgid "Attribute"
-#~ msgstr "Attribut"
-
-#~ msgid "Corresponding Evolution Attribute"
-#~ msgstr "Attribut d'Evolution correspondant"
-
-#~ msgid "DN Customization"
-#~ msgstr "Personnalisation du DN"
-
-#~ msgid "Evolution Attribute"
-#~ msgstr "Attribut d'Evolution"
-
-#~ msgid "LDAP Attribute"
-#~ msgstr "Attribut LDAP"
-
-#~ msgid "Mappings"
-#~ msgstr "Mappages"
-
-#~ msgid "R_estore Defaults"
-#~ msgstr "R_estaurer les valeurs par défaut"
-
-#~ msgid "Re_store Defaults"
-#~ msgstr "Re_staurer les valeurs par défaut"
-
-#~ msgid "Select"
-#~ msgstr "Sélectionner"
-
-#~ msgid ""
-#~ "Selecting this option will let you change Evolution's default settings "
-#~ "for LDAP\n"
-#~ "searches, and for creating and editting contacts. "
-#~ msgstr ""
-#~ "Sélectionner cette option vous permettra de changer les paramètres "
-#~ "Evolution\n"
-#~ "par défaut pour les recherches LDAP ainsi que pour créer et éditer des "
-#~ "contacts."
-
-#~ msgid ""
-#~ "To add an attribute to the DN, select it from the list and click the "
-#~ "\"Add Attribute\" button.\n"
-#~ "Any values that you add to the DN will become required values for any new "
-#~ "contacts\n"
-#~ "that you add to the directory on the LDAP server. "
-#~ msgstr ""
-#~ "Pour ajouter un attribut au DN sélectionnez-le à partir de la liste et "
-#~ "cliquez sur le bouton\n"
-#~ "« Ajouter un attribut ». Chaque valeur que vous ajoutez au DN deviendra "
-#~ "une valeur\n"
-#~ "requise pour tout nouveau contact que vous ajouterez à l'annuaire sur le "
-#~ "serveur LDAP."
-
-#~ msgid "_Add ->"
-#~ msgstr "_Ajouter ->"
-
-#~ msgid "_Add Mapping"
-#~ msgstr "Ajouter un mappage"
-
-#~ msgid "_Add to DN"
-#~ msgstr "_Ajouter au DN"
-
-#~ msgid "_Always"
-#~ msgstr "_Toujours"
-
-#~ msgid "_Delete Mapping"
-#~ msgstr "_Supprimer le mappage"
-
-#~ msgid "_Distinguished Name (DN):"
-#~ msgstr "Nom _Distinctif (DN) :"
-
-#~ msgid "_Don't use SSL/TLS"
-#~ msgstr "Ne _pas utiliser SSL/TLS"
-
-#~ msgid "_Edit Mapping"
-#~ msgstr "Éditer le mappage"
-
-#~ msgid "_Evolution attribute:"
-#~ msgstr "Attribut d'Evolution :"
-
-#~ msgid "_If necessary "
-#~ msgstr "S_i nécessaire"
-
-#~ msgid "_LDAP attribute:"
-#~ msgstr "Attribut _LDAP :"
-
-#~ msgid "_LDAP attributes:"
-#~ msgstr "Attributs _LDAP :"
-
-#~ msgid "_More Options >>"
-#~ msgstr "_Plus d'options >>"
-
-#~ msgid "_Restore Defaults"
-#~ msgstr "_Restaurer les valeurs par défaut"
-
-#~ msgid "account-druid"
-#~ msgstr "Druide de compte"
-
-#~ msgid "account-editor"
-#~ msgstr "Éditeur de compte"
-
-#~ msgid "Edit Contact List"
-#~ msgstr "Éditer la liste de contacts"
-
-#~ msgid "Unnamed Contact List"
-#~ msgstr "Liste de contacts sans nom"
-
-#~ msgid "(%d not shown)"
-#~ msgstr "(%d masqués)"
-
-#~ msgid "C_ontacts..."
-#~ msgstr "C_ontacts..."
-
-#~ msgid "Phone Types"
-#~ msgstr "Types de téléphone"
-
-#~ msgid ""
-#~ "Evolution does not yet support email notification for reminders.  You "
-#~ "will not be able to edit the options for this reminder."
-#~ msgstr ""
-#~ "Evolution ne supporte pas encore la notification des rappels par courrier "
-#~ "électronique. Vous ne pourrez pas éditer les options pour ce rappel."
-
-#~ msgid "st"
-#~ msgstr "er"
-
-#~ msgid "nd"
-#~ msgstr "ème"
-
-#~ msgid "rd"
-#~ msgstr "ème"
-
-#~ msgid "th"
-#~ msgstr "ième"
-
-#~ msgid "Could not initialize GNOME"
-#~ msgstr "Impossible d'initialiser GNOME."
-
-#~ msgid "Could not activate Bonobo"
-#~ msgstr "Impossible d'activer Bonobo."
-
-#~ msgid "Could not create the component editor factory"
-#~ msgstr "Impossible de créer l'usine à éditeurs de composants."
-
-#~ msgid ""
-#~ "Could not create the tasks view.  Please check your ORBit and OAF setup."
-#~ msgstr ""
-#~ "Impossible de créer la vue des tâches. Veuillez vérifier la configuration "
-#~ "d'ORBit et d'OAF."
-
-#~ msgid ""
-#~ "Evolution has taken the tasks that were in your calendar folder and "
-#~ "automatically migrated them to the new tasks folder."
-#~ msgstr ""
-#~ "Evolution a automatiquement déplacé les tâches de votre dossier "
-#~ "calendrier vers le nouveau dossier de tâches."
-
-#~ msgid ""
-#~ "Evolution has tried to take the tasks that were in your calendar folder "
-#~ "and migrate them to the new tasks folder.\n"
-#~ "Some of the tasks could not be migrated, so this process may be attempted "
-#~ "again in the future."
-#~ msgstr ""
-#~ "Evolution a déplacé les tâches de votre dossier calendrier vers le "
-#~ "nouveau dossier de tâches.\n"
-#~ "Toutes les tâches n'ont cependant pas pu être déplacées ; une nouvelle "
-#~ "tentative aura lieu."
-
-#~ msgid ""
-#~ "Could not open `%s'; no items from the calendar folder will be migrated "
-#~ "to the tasks folder."
-#~ msgstr ""
-#~ "Impossible d'ouvrir « %s » ; aucun élément du dossier calendrier n'a pu "
-#~ "être déplacé dans le dossier des tâches."
-
-#~ msgid ""
-#~ "The method required to load `%s' is not supported; no items from the "
-#~ "calendar folder will be migrated to the tasks folder."
-#~ msgstr ""
-#~ "La méthode demandée pour charger « %s » n'est pas supportée ; aucun "
-#~ "élément du dossier calendrier ne sera déplacé vers le dossier des tâches."
-
-#~ msgid "Can't get storage list from registry: %s"
-#~ msgstr ""
-#~ "Impossible d'obtenir la liste de stockages de la base de registres : %s."
-
-#~ msgid ""
-#~ "Could not create composer window, because you have not yet\n"
-#~ "configured any identities in the mail component."
-#~ msgstr ""
-#~ "Impossible de créer une fenêtre de composition : vous n'avez\n"
-#~ "pas configuré d'identité dans le composant de messagerie."
-
-#~ msgid "Cannot initialize the Evolution composer."
-#~ msgstr "Impossible d'initialiser le composeur d'Evolution."
-
-#~ msgid "minute"
-#~ msgstr "minute"
-
-#~ msgid "hour"
-#~ msgstr "heure"
-
-#~ msgid "week"
-#~ msgstr "semaine"
-
-#~ msgid "year"
-#~ msgstr "an"
-
-#~ msgid "Rule(s)"
-#~ msgstr "Règles"
-
-#~ msgid "Folder(s)"
-#~ msgstr "Dossiers"
-
-#~ msgid "Configuration control for the Evolution Display Fonts."
-#~ msgstr ""
-#~ "Composant de configuration pour les polices d'affichage d'Evolution."
-
-#~ msgid "Configuration control for the Evolution Mail Accounts."
-#~ msgstr ""
-#~ "Composant de configuration pour les comptes de messagerie d'Evolution."
-
-#~ msgid "Configuration control for the Evolution Mailer."
-#~ msgstr "Composant de configuration pour la messagerie d'Evolution."
-
-#~ msgid "Configuration control for the Evolution Message Composer."
-#~ msgstr "Composant de configuration pour le composeur d'Evolution."
-
-#~ msgid "Evolution component for handling mail."
-#~ msgstr "Composant Evolution pour le traitement du courrier."
-
-#~ msgid "Evolution mail folder factory component."
-#~ msgstr "Composant de fabrique de dossiers de courrier d'Evolution."
-
-#~ msgid "Factory for the Evolution composer."
-#~ msgstr "Fabrique pour le composeur d'Evolution."
-
-#~ msgid "Factory for the Mail Summary component."
-#~ msgstr "Fabrique pour le composant de résumé de messagerie."
-
-#~ msgid "Cannot initialize the Evolution mail component."
-#~ msgstr "Impossible d'initialiser le composant de messagerie d'Evolution."
-
-#~ msgid "Cannot initialize Evolution's mail config component."
-#~ msgstr ""
-#~ "Impossible d'initialiser le composant de configuration de messagerie "
-#~ "d'Evolution."
-
-#~ msgid "Cannot initialize Evolution's folder info component."
-#~ msgstr ""
-#~ "Impossible d'initialiser le composant d'information des dossiers "
-#~ "d'Evolution"
-
-#~ msgid "Factory to import mbox into Evolution"
-#~ msgstr "Fabrique pour l'importation mbox dans Evolution."
-
-#~ msgid "Imports mbox files into Evolution"
-#~ msgstr "Importe les fichiers mbox dans Evolution."
-
-#~ msgid "Factory to import Outlook Express 4 mails into Evolution"
-#~ msgstr "Fabrique pour importer le courrier Outlook Express 4 dans Evolution"
-
-#~ msgid "Imports Outlook Express 4 files into Evolution"
-#~ msgstr "Importe les fichiers Outlook Express 4 dans Evolution."
-
-#~ msgid "Really delete account?"
-#~ msgstr "Supprimer le compte ?"
-
-#~ msgid "Go to next folder with unread messages?"
-#~ msgstr "Aller au dossier suivant contenant des messages non lus ?"
-
-#~ msgid ""
-#~ "There are no more new messages in this folder.\n"
-#~ "Would you like to go to the next folder?"
-#~ msgstr ""
-#~ "Il n'y a plus de nouveau messages dans ce dossier.\n"
-#~ "Voulez-vous aller au dossier suivant ?"
-
-#~ msgid ""
-#~ "Please specify signature filename\n"
-#~ "in Advanced section of signature settings."
-#~ msgstr ""
-#~ "Veuillez spécifier un fichier de signature\n"
-#~ "dans la section avancée du paramétrage\n"
-#~ "des signatures."
-
-#~ msgid "Account %d"
-#~ msgstr "Compte %d"
-
-#~ msgid "Spell Checking Language"
-#~ msgstr "Langue pour la correction orthographique"
-
-#~ msgid "_Variable-width:"
-#~ msgstr "Largeur-variable :"
-
-#~ msgid "All folders"
-#~ msgstr "Tous les dossiers"
-
-#~ msgid "Apri file"
-#~ msgstr "Apri file"
-
-#~ msgid "Display Options"
-#~ msgstr "Options d'affichage"
-
-#~ msgid "Folders whose names begin with:"
-#~ msgstr "Dossiers dont les noms commencent par :"
-
-#~ msgid "Salve file"
-#~ msgstr "Salve file"
-
-#~ msgid "Marquette"
-#~ msgstr "Marquette"
-
-#~ msgid "Configuration control for Evolution folder settings."
-#~ msgstr "Composant de configuration pour les paramètres dossier d'Evolution."
-
-#~ msgid "Evolution installation"
-#~ msgstr "Installation d'Evolution"
-
-#~ msgid ""
-#~ "This new version of Evolution needs to install additional files\n"
-#~ "into your personal Evolution directory"
-#~ msgstr ""
-#~ "Cette nouvelle version d'Evolution a besoin d'installer des fichiers "
-#~ "supplémentaires dans votre répertoire personnel d'Evolution."
-
-#~ msgid "Please click \"OK\" to install the files, or \"Cancel\" to exit."
-#~ msgstr ""
-#~ "Veuillez cliquez sur « Valider » pour installer les fichiers, ou "
-#~ "« Annuler » pour quitter."
-
-#~ msgid ""
-#~ "Evolution could not create directory\n"
-#~ "%s:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Evolution n'a pas pu créer le répertoire\n"
-#~ "%s : \n"
-#~ "%s"
-
-#~ msgid ""
-#~ "Directory %s\n"
-#~ "does not have the right permissions. Please make it\n"
-#~ "readable and executable and restart Evolution."
-#~ msgstr ""
-#~ "Le répertoire %s\n"
-#~ "n'a pas les permissions requises. Veuillez lui attribuer\n"
-#~ "les droits de lecture et d'exécution, puis relancer Evolution."
-
-#~ msgid ""
-#~ "File %s\n"
-#~ "should be removed to allow Evolution to work correctly.\n"
-#~ "Please remove this file and restart Evolution."
-#~ msgstr ""
-#~ "Le fichier %s\n"
-#~ "devrait être supprimer pour permettre à Evolution de \n"
-#~ "fonctionner correctement. Veuillez le supprimer et \n"
-#~ "relancer Evolution."
-
-#~ msgid ""
-#~ "Evolution has detected an old\n"
-#~ "Executive-Summary directory.\n"
-#~ "This needs to be removed before\n"
-#~ "Evolution will run.\n"
-#~ "Do you want me to remove this directory?"
-#~ msgstr ""
-#~ "Evolution a détecté un vieux\n"
-#~ "répertoire Executive-Summary.\n"
-#~ "Il doit être supprimé avant\n"
-#~ "l'exécution d'Evolution.\n"
-#~ "Voulez-vous supprimer ce répertoire ?"
-
-#~ msgid ""
-#~ "Could not start the Evolution Mailer Assistant interface\n"
-#~ "(%s)"
-#~ msgstr ""
-#~ "Impossible de lancer l'interface de l'assistant de\n"
-#~ "messagerie (%s)."
-
-#~ msgid "Could not start the Evolution Mailer Assistant interface\n"
-#~ msgstr "Impossible de lancer l'interface de l'assistant de messagerie.\n"
-
-#~ msgid "Folder name cannot contain slashes."
-#~ msgstr "Le nom du dossier n'accepte pas la barre oblique."
-
-#~ msgid "Bug buddy was not found in your $PATH."
-#~ msgstr "Bug buddy n'a pas été trouvé dans votre $PATH."
-
-#~ msgid "Don't remove"
-#~ msgstr "Ne pas supprimer"
-
-#~ msgid "Host"
-#~ msgstr "Hôte :"
-
-#~ msgid "Output File"
-#~ msgstr "Fichier de sortie"
-
-#~ msgid "Pilot Con_duit Settings..."
-#~ msgstr "Paramétrage de la conduite du Pilot..."
-
-#~ msgid "Set up Pilot conduit configuration"
-#~ msgstr "Configuration de la conduite du Pilot"
-
-#~ msgid "Factory to import LDIF files into Evolution."
-#~ msgstr "Fabrique pour importer des fichiers LDIF dans Evolution."
-
-#~ msgid "Imports LDIF files into Evolution."
-#~ msgstr "Importe les fichiers LDIF dans Evolution."
-
-#~ msgid "Factory to import VCard files into Evolution."
-#~ msgstr "Fabrique pour importer des fichiers VCard dans Evolution."
-
-#~ msgid "Imports VCard files into Evolution."
-#~ msgstr "Importe les fichiers VCard dans Evolution"
-
-#~ msgid "A Bonobo control for an address popup."
-#~ msgstr "Un composant Bonobo pour des popup d'adresses."
-
-#~ msgid "A Bonobo control for displaying an address."
-#~ msgstr "Un contrôle Bonobo pour afficher une adresse."
-
-#~ msgid "A sample Bonobo control which displays an addressbook."
-#~ msgstr "Un contrôle Bonobo qui affiche un carnet d'adresses."
-
-#~ msgid "Configuration control for the Evolution Addressbook Storages."
-#~ msgstr ""
-#~ "Composant de configuration pour les stockages du carnet d'adresse "
-#~ "d'Evolution."
-
-#~ msgid "Control that displays an Evolution addressbook minicard."
-#~ msgstr "Contrôle qui affiche une Minicard du carnet d'adresses."
-
-#~ msgid "Evolution component for handling contacts."
-#~ msgstr "Composant pour le traitement des contacts."
-
-#~ msgid "Factory for the Addressbook Minicard control"
-#~ msgstr "Fabrique pour le composant Minicard du carnet d'adresses"
-
-#~ msgid "Factory for the Addressbook's address displayer"
-#~ msgstr "Fabrique pour l'afficheur des adresses du carnet"
-
-#~ msgid ""
-#~ "Factory for the configuration controls for the Evolution Addressbook."
-#~ msgstr ""
-#~ "Fabrique pour le composant de configuration du carnet d'adresses "
-#~ "d'Evolution."
-
-#~ msgid "Factory for the sample Addressbook control"
-#~ msgstr "Fabrique pour le composant de l'exemple Carnet d'adresses"
-
-#~ msgid "Factory for the Addressbook's name selection interface"
-#~ msgstr "Fabrique pour l'interface de sélection de nom du carnet d'adresses"
-
-#~ msgid "Delete Contact?"
-#~ msgstr "Supprimer le contact ?"
-
-#~ msgid "Display Cards?"
-#~ msgstr "Afficher les cartes ?"
-
-#~ msgid "Display Cards"
-#~ msgstr "Afficher les cartes"
-
-#~ msgid "A Bonobo control which displays a task list."
-#~ msgstr "Un contrôle Bonobo qui affiche une liste de tâches."
-
-#~ msgid "A sample Bonobo control which displays an calendar."
-#~ msgstr "Un contrôle Bonobo qui affiche un calendrier."
-
-#~ msgid "Configuration control for the Evolution Calendar."
-#~ msgstr "Composant de configuration pour le calendrier d'Evolution"
-
-#~ msgid "Evolution component for handling the calendar."
-#~ msgstr "Composant pour le traitement du calendrier."
-
-#~ msgid "Factory for the Evolution Tasks control"
-#~ msgstr "Fabrique pour le composant de tâches d'Evolution"
-
-#~ msgid "Factory for the calendar iTip view control"
-#~ msgstr "Fabrique pour le composant de la vue iTip du calendrier"
-
-#~ msgid "Factory for the sample Calendar control"
-#~ msgstr "Fabrique pour le composant de l'exemple Calendrier"
-
-#~ msgid "Factory to centralize calendar component editor dialogs"
-#~ msgstr "Fabrique pour centraliser les éditeurs de composants du calendrier"
-
-#~ msgid "Factory to create a component editor factory"
-#~ msgstr "Fabrique pour créer une fabrique d'éditeurs de composant"
-
-#~ msgid "Alarm notification service"
-#~ msgstr "Service de notification d'alarme"
-
-#~ msgid "Print Calendar"
-#~ msgstr "Imprimer le calendrier"
-
-#~ msgid "Factory to import iCalendar files into Evolution"
-#~ msgstr "Fabrique pour importer des fichiers iCalendar dans Evolution"
-
-#~ msgid "Imports iCalendar files into Evolution"
-#~ msgstr "Importe les fichiers iCalendar dans Evolution."
-
-#~ msgid "Imports vCalendar files into Evolution"
-#~ msgstr "Importe les fichiers vCalendar dans Evolution."
-
-#~ msgid "Warning!"
-#~ msgstr "Avertissement !"
-
-#~ msgid "Add action"
-#~ msgstr "Ajouter une action"
-
-#~ msgid "Add criterion"
-#~ msgstr "Ajouter un critère"
-
-#~ msgid "Warning: Unsent Messages"
-#~ msgstr "Avertissement : messages non envoyés"
-
-#~ msgid "US-Letter"
-#~ msgstr "US-Letter"
-
-#~ msgid "Add Signature"
-#~ msgstr "Ajouter une signature"
-
-#~ msgid "Configuration control for the Evolution Summary."
-#~ msgstr "Composant de configuration pour le résumé d'Evolution."
-
-#~ msgid "Factory for the Evolution Summary component."
-#~ msgstr "Fabrique pour le composant Résumé d'Evolution."
-
-#~ msgid "Executive summary component could not initialize Bonobo.\n"
-#~ msgstr "Le composant Résumé n'a pas pu initialiser Bonobo.\n"
-
-#~ msgid "New..."
-#~ msgstr "Nouveau..."
-
-#~ msgid "Cannot initialize the Bonobo component system."
-#~ msgstr "Impossible d'initialiser le composant Bonobo."
-
-#~ msgid "The Personal Addressbook Server"
-#~ msgstr "Le serveur de carnet d'adresses personnel"
-
-#~ msgid "The Personal Calendar Server; calendar factory"
-#~ msgstr "Le serveur de calendrier personnel ; fabrique de calendrier"
-
-#~ msgid "setup_vfs(): could not initialize GNOME-VFS"
-#~ msgstr "setup_vfs() : Impossible d'initialiser GNOME-VFS."
-
-#~ msgid "init_corba(): could not initialize GNOME"
-#~ msgstr "init_corba() : impossible d'initialiser GNOME."
-
-#~ msgid "init_bonobo(): could not initialize Bonobo"
-#~ msgstr "init_bonobo() : impossible d'initialiser Bonobo."
-
-#~ msgid "_Configure..."
-#~ msgstr "_Configurer..."
-
-#~ msgid "_Configure Pilot..."
-#~ msgstr "_Configurer le Pilot..."
-
-#~ msgid "en"
-#~ msgstr "en"
-
-#~ msgid " "
-#~ msgstr " "
-
-#~ msgid "Select PGP program"
-#~ msgstr "Sélectionner un programme PGP"
-
-#~ msgid "Signature #1"
-#~ msgstr "Signature #1"
-
-#~ msgid "Signature #2"
-#~ msgstr "Signature #2"
-
-#~ msgid "_PGP binary path:"
-#~ msgstr "Chemin binaire _PGP"
-
-#~ msgid "Copy selected messages"
-#~ msgstr "Copier les messages sélectionnés"
-
-#~ msgid "&lt;- _Remove"
-#~ msgstr "&lt;- _Supprimer"
-
-#~ msgid "_Add -&gt;"
-#~ msgstr "_Ajouter -&gt;"
-
-#~ msgid "Scanning for new messages"
-#~ msgstr "Recherche de nouveaux messages"
-
-#~ msgid "The folder %s no longer exists"
-#~ msgstr "Le dossier %s n'existe plus."
-
-#~ msgid "1 byte"
-#~ msgstr "1 octet"
-
-#~ msgid "%u bytes"
-#~ msgstr "%u octets"
-
-#~ msgid ""
-#~ "You forgot to choose a folder.\n"
-#~ "Please go back and specify a valid folder to deliver mail to."
-#~ msgstr ""
-#~ "Vous avez oublié de choisir un dossier.\n"
-#~ "Revenez en arrière et spécifiez un dossier valide pour\n"
-#~ "la distribution du courrier."
-
-#~ msgid "%s may not be reconfigured because it is not a local folder"
-#~ msgstr ""
-#~ "%s ne peut être reconfiguré car il ne s'agit pas d'un dossier local."
-
-#~ msgid "Type the name by which you would like to refer to this signature."
-#~ msgstr "Saisissez un nom devant faire référence à cette signature."
-
-#~ msgid ""
-#~ "Importing %s\n"
-#~ "Importer not ready.\n"
-#~ "Waiting 5 seconds to retry."
-#~ msgstr ""
-#~ "Importation de %s\n"
-#~ "L'assistant d'importation n'est pas prêt.\n"
-#~ "Attente de 5 secondes avant nouvel essai."
-
-#~ msgid "_Preferences..."
-#~ msgstr "Préférences..."
-
-#~ msgid "Could not parse query string"
-#~ msgstr "Impossible d'analyser la chaîne de recherche."
-
-#~ msgid "Email is"
-#~ msgstr "Adresse est"
-
-#~ msgid "This page can be used to configure Calendar and Task preferences"
-#~ msgstr ""
-#~ "Cette page permet de configurer les préférences du calendrier et des "
-#~ "tâches."
-
-#~ msgid "Could not create the alarm notify service"
-#~ msgstr "Impossible de créer le service de notification d'alarme."
-
-#~ msgid "Set as default"
-#~ msgstr "Définir par défaut"
-
-#~ msgid "This Page can be used to configure the Fonts"
-#~ msgstr "Cette page permet de configurer les polices."
-
-#~ msgid "This page can be used to configure E-Mail Accounts"
-#~ msgstr "Cette page permet de configurer les comptes de messagerie."
-
-#~ msgid "This page can be used to configure Mailer preferences"
-#~ msgstr "Cette page permet de configurer les préférences de la messagerie."
-
-#~ msgid "This page can be used to configure the Composer"
-#~ msgstr "Cette page permet de configurer le composeur."
-
-#~ msgid "Signature hint"
-#~ msgstr "Indication de signature"
-
-#~ msgid "Hide signature hint"
-#~ msgstr "Masquer l'indication de signature"
-
-#~ msgid ""
-#~ "This page can be used to customize the appearance of the Summary page."
-#~ msgstr "Cette page permet de personnaliser l'apparence du Résumé."
-
-#~ msgid "This page can be used to configure various folder settings"
-#~ msgstr "Cette page permet de configurer divers paramètres de dossier."
-
-#~ msgid "Error in search expression."
-#~ msgstr "Erreur dans l'expression de recherche."
-
-#~ msgid "Restarting search."
-#~ msgstr "Redémarrage de la recherche."
-
-#~ msgid "Meeting begins: <b>"
-#~ msgstr "La réunion commence : <b>"
-
-#~ msgid "Task begins: <b>"
-#~ msgstr "La tâche commence : <b>"
-
-#~ msgid "Free/Busy info begins: <b>"
-#~ msgstr "L'information Libre/Occupé commence : <b>"
-
-#~ msgid "Begins: <b>"
-#~ msgstr "Commence : <b>"
-
-#~ msgid "Meeting ends: <b>"
-#~ msgstr "La réunion se termine : <b>"
-
-#~ msgid "Free/Busy info ends: <b>"
-#~ msgstr "L'information Libre/Occupé se termine : <b>"
-
-#~ msgid "Task Completed: <b>"
-#~ msgstr "Tâche achevée : <b>"
-
-#~ msgid "Task Due: <b>"
-#~ msgstr "Échéance de la tâche : <b>"
-
-#~ msgid "Non-Participants"
-#~ msgstr "Non participants"
-
-#~ msgid " _Refresh List "
-#~ msgstr "_Rafraîchir la liste "
-
-#~ msgid "Show _folders from server:"
-#~ msgstr "Afficher les _dossiers du serveur :"
-
-#~ msgid ""
-#~ "Evolution is unable to get the addressbook local storage.\n"
-#~ "This may have been caused by the evolution-addressbook component "
-#~ "crashing.\n"
-#~ "To help us better understand and ultimately resolve this problem,\n"
-#~ "please send an e-mail to Jon Trowbridge <trow@ximian.com> with a\n"
-#~ "detailed description of the circumstances under which this error\n"
-#~ "occurred.  Thank you."
-#~ msgstr ""
-#~ "Evolution ne peut pas accéder au stockage local du carnet d'adresses.\n"
-#~ "Ceci peut être dû à un blocage du composant evolution-addressbook.\n"
-#~ "Pour nous aider à comprendre et corriger ce problème, veuillez envoyer\n"
-#~ "un courrier à Jon Trowbridge <trow@ximian.com> avec une description "
-#~ "détaillée\n"
-#~ "des circonstances sous lesquelles cette erreur est survenue. \n"
-#~ "Merci."
-
-#~ msgid ""
-#~ "Evolution is unable to get the addressbook local storage.\n"
-#~ "Under normal circumstances, this should never happen.\n"
-#~ "You may need to exit and restart Evolution in order to\n"
-#~ "correct this problem."
-#~ msgstr ""
-#~ "Evolution ne peut pas accéder au stockage local du carnet\n"
-#~ "d'adresses. Cela ne devrait jamais arriver en temps normal.\n"
-#~ "Vous devrez peut-être redémarrer Evolution pour résoudre ce\n"
-#~ "problème."
-
-#~ msgid "_Browse..."
-#~ msgstr "_Parcourir..."
-
-#~ msgid "The meeting status has changed. Send an updated version?"
-#~ msgstr "L'étatt de la réunion a changé. Envoyer une version corrigée ?"
-
-#~ msgid "_Delete this Appointment"
-#~ msgstr "_Supprimer ce rendez-vous"
-
-#~ msgid ""
-#~ "Issuer: %s\n"
-#~ "Subject: %s"
-#~ msgstr ""
-#~ "Émetteur : %s\n"
-#~ "Sujet : %s"
-
-#~ msgid "SASL Protocol error"
-#~ msgstr "Erreur de protocole SASL"
-
-#~ msgid "I/O Error: %s"
-#~ msgstr "Erreur d'E/S : %s"
-
-#~ msgid "Welcome response error: %s: possibly non-fatal"
-#~ msgstr "Erreur du message de bienvenue : %s : sûrement non fatal"
-
-#~ msgid "HELO request timed out: %s: non-fatal"
-#~ msgstr "Requête HELO dépassée : %s non fatal"
-
-#~ msgid "HELO response error: %s: non-fatal"
-#~ msgstr "Erreur réponse HELO : %s non fatal"
-
-#~ msgid "QUIT request timed out: %s: non-fatal"
-#~ msgstr "Requête QUIT dépassée : %s / non fatal"
-
-#~ msgid "Insert File"
-#~ msgstr "Insérer un fichier"
-
-#~ msgid "You have chosen an invalid date."
-#~ msgstr "Vous avez choisi une date invalide."
-
-#~ msgid ""
-#~ "The message's date will be compared against\n"
-#~ "whatever the time is when the filter is run\n"
-#~ "or vfolder is opened."
-#~ msgstr ""
-#~ "La date du message sera comparée, peu\n"
-#~ "importe l'heure de lancement du filtre\n"
-#~ "ou d'ouverture du dossier virtuel."
-
-#~ msgid "Command"
-#~ msgstr "Commande"
-
-#~ msgid "Are you sure you want to delete this news account?"
-#~ msgstr "Êtes-vous sûr de vouloir supprimer ce compte de nouvelles ?"
-
-#~ msgid "You must configure an account before you can send this email."
-#~ msgstr ""
-#~ "Vous devez configurer un compte avant de pouvoir envoyer ce message."
-
-#~ msgid "NNTP Server:"
-#~ msgstr "Serveur NNTP :"
-
-#~ msgid "News Servers"
-#~ msgstr "Serveurs de nouvelles"
-
-#~ msgid "Source Information"
-#~ msgstr "Informations de source"
-
-#~ msgid "newswindow1"
-#~ msgstr "newswindow1"
-
-#~ msgid "Save to Disk..."
-#~ msgstr "Enregistrer sur le disque..."
-
-#~ msgid "View messages..."
-#~ msgstr "Afficher les messages..."
-
-#~ msgid "Executing shell command: %s"
-#~ msgstr "Exécution de la commande shell : %s"
-
-#~ msgid "Evolution - Create new folder"
-#~ msgstr "Evolution - Créez un nouveau dossier"
-
-#~ msgid ""
-#~ "The type of the selected folder is not valid for\n"
-#~ "the requested operation."
-#~ msgstr ""
-#~ "Le type du dossier sélectionné n'est pas valide pour\n"
-#~ "l'opération demandée."
-
-#~ msgid "You may only import to local folders"
-#~ msgstr "Vous ne pouvez importer que vers des dossiers locaux."
-
-#~ msgid "_Contact List"
-#~ msgstr "Liste de contacts"
-
-#~ msgid "Inline Text _File..."
-#~ msgstr "Insérer un _fichier texte..."
-
-#~ msgid "Insert a file as text into the message"
-#~ msgstr "Insère un fichier comme texte dans le message."
-
-#~ msgid "Insert text file..."
-#~ msgstr "Insérer un fichier texte..."
-
-#~ msgid "Send _Later"
-#~ msgstr "Envoyer plus _tard"
-
-#~ msgid "Send _later"
-#~ msgstr "Envoyer plus _tard"
-
-#~ msgid "Send the message later"
-#~ msgstr "Envoyer le message plus tard"
-
-#~ msgid "_Pilot Settings..."
-#~ msgstr "Paramétrage du Pilot..."
-
-#~ msgid "Addressbook Settings"
-#~ msgstr "Paramètres du carnet d'adresses"
-
-#~ msgid "Configuration control for the Evolution Addressbook."
-#~ msgstr "Composant de configuration pour le carnet d'adresse d'Evolution."
-
-#~ msgid "This page can be used to configure Addressbook Settings"
-#~ msgstr ""
-#~ "Cette page permet de configurer les paramètres du carnet d'adresses."
-
-#~ msgid "Factory for the Calendar Summary component."
-#~ msgstr "Fabrique pour le composant Résumé du calendrier."
-
-#~ msgid "Sta_rt of day:"
-#~ msgstr "_Début de la journée :"
-
-#~ msgid "_End of day:"
-#~ msgstr "_Fin de la journée :"
-
-#~ msgid "_Other Organizer"
-#~ msgstr "_Autre organizer"
-
-#~ msgid "Clearsigning is not supported by this cipher"
-#~ msgstr "La signature en clair n'est pas supportée par ce message chiffré."
-
-#~ msgid "Please enter your %s passphrase for %s"
-#~ msgstr "Veuillez saisir votre phrase de passe %s pour %s."
-
-#~ msgid "Please enter your %s passphrase"
-#~ msgstr "Veuillez saisir votre phrase de passe pour %s."
-
-#~ msgid "Cannot sign this message: no plaintext to sign"
-#~ msgstr "Impossible de signer ce message : aucune partie plaintext à signer."
-
-#~ msgid "Cannot sign this message: no password provided"
-#~ msgstr "Impossible de signer ce message : aucun mot de passe fourni."
-
-#~ msgid "Cannot sign this message: couldn't create pipe to GPG/PGP: %s"
-#~ msgstr ""
-#~ "Impossible de signer ce message : impossible de créer le tube vers GPG/"
-#~ "PGP : %s."
-
-#~ msgid "Cannot sign this message: no plaintext to clearsign"
-#~ msgstr "Impossible de signer ce message : aucune partie plaintext à signer."
-
-#~ msgid "Cannot verify this message: no plaintext to verify"
-#~ msgstr ""
-#~ "Impossible de vérifier ce message : aucune partie plaintext à vérifier."
-
-#~ msgid "Cannot verify this message: couldn't create pipe to GPG/PGP: %s"
-#~ msgstr ""
-#~ "Impossible de vérifier ce message : impossible de créer le tube vers GPG/"
-#~ "PGP : %s."
-
-#~ msgid "Cannot encrypt this message: no plaintext to encrypt"
-#~ msgstr ""
-#~ "Impossible de chiffrer ce message : aucune partie plaintext à chiffrer."
-
-#~ msgid "Cannot encrypt this message: no password provided"
-#~ msgstr "Impossible de chiffrer ce message : aucun mot de passe fourni."
-
-#~ msgid "Cannot encrypt this message: couldn't create pipe to GPG/PGP: %s"
-#~ msgstr ""
-#~ "Impossible de chiffrer ce message : impossible de créer le tube vers GPG/"
-#~ "PGP : %s."
-
-#~ msgid "Cannot decrypt this message: no ciphertext to decrypt"
-#~ msgstr ""
-#~ "Impossible de décoder ce message : aucune partie cyphertext à décoder."
-
-#~ msgid "Cannot decrypt this message: no password provided"
-#~ msgstr "Impossible de décoder ce message : aucun mot de passe spécifié."
-
-#~ msgid "Cannot decrypt this message: couldn't create pipe to GPG/PGP: %s"
-#~ msgstr ""
-#~ "Impossible de décoder ce message : impossible de créer le tube vers GPG/"
-#~ "PGP : %s."
-
-#~ msgid "%s server %s"
-#~ msgstr "%s serveur %s"
-
-#~ msgid "(unknown host)"
-#~ msgstr "(Hôte inconnu)"
-
-#~ msgid "Directory tree of mbox files"
-#~ msgstr "Arborescence de répertoires des fichiers mbox"
-
-#~ msgid ""
-#~ "For accessing mail storedin an external tree of mbox files.\n"
-#~ "This will allow you to directly access pine and elm folders.\n"
-#~ "NOTE: This provider is still experimental so ensure you backup any mail "
-#~ "folders first."
-#~ msgstr ""
-#~ "Pour l'accès au courrier stocké dans une arborescence de \n"
-#~ "fichiers mbox externe. Cela vous permet d'accéder directement \n"
-#~ "à des dossiers Pine ou elm.\n"
-#~ "NOTE : Ce fournisseur est expérimental, donc assurez-vous de \n"
-#~ "sauvegarder tous les courriers de ces répertoires avant tout."
-
-#~ msgid "Cannot append message to spool file: %s: %s"
-#~ msgstr "Impossible d'ajouter le message au fichier spool : %s : %s"
-
-#~ msgid "Could not file: %s: %s"
-#~ msgstr "Impossible d'ouvrir le fichier : %s : %s"
-
-#~ msgid "Store `%s' does not exist or is not a directory"
-#~ msgstr "Le stockage « %s » n'existe pas ou n'est pas un répertoire."
-
-#~ msgid "Mail tree %s"
-#~ msgstr "Arbre de courrier %s"
-
-#~ msgid "Random"
-#~ msgstr "Aléatoire"
-
-#~ msgid "Cannot execute signature script"
-#~ msgstr "Impossible d'exécuter le script de signature."
-
-#~ msgid " Edit "
-#~ msgstr "Éditer"
-
-#~ msgid "Advanced Options"
-#~ msgstr "Options avancées"
-
-#~ msgid "E_nable advanced options"
-#~ msgstr "A_ctiver les options avancées"
-
-#~ msgid "Randomized"
-#~ msgstr "Aléatoire"
-
-#~ msgid "Same as text"
-#~ msgstr "Même chose en texte"
-
-#~ msgid "Select a signature script"
-#~ msgstr "Sélectionnez un script de signature."
-
-#~ msgid "Use _HTML for this signature"
-#~ msgstr "Utiliser _HTML pour cette signature"
-
-#~ msgid "_Enable spell checking"
-#~ msgstr "_Activer la correction orthographique"
-
-#~ msgid "_HTML Signature:"
-#~ msgstr "Signature _HTML :"
-
-#~ msgid "_Random"
-#~ msgstr "_Aléatoire"
-
-#~ msgid "Could not create a PGP encryption context."
-#~ msgstr "Impossible de créer un contexte de chiffrement PGP."
-
-#~ msgid "Could not create a PGP decryption context."
-#~ msgstr "Impossible de créer un contexte de décodage PGP."
-
-#~ msgid "Evolution does not recognize this type of signed message."
-#~ msgstr "Evolution ne reconnaît pas ce type de message signé."
-
-#~ msgid "Signature name:"
-#~ msgstr "Nom de signature :"
-
-#~ msgid "Riga"
-#~ msgstr "Riga"
-
-#~ msgid "Are you sure you want to remove the \"%s\" folder?"
-#~ msgstr "Êtes-vous sûr de vouloir supprimer le dossier « %s » ?"
-
-#~ msgid "_Advanced Search..."
-#~ msgstr "Recherche _avancée..."
-
-#~ msgid "Could not query for schema information"
-#~ msgstr "Impossible de demander des informations de schéma."
-
-#~ msgid "No such message: %s"
-#~ msgstr "Aucun message correspondant : %s"
-
-#~ msgid "You cannot copy messages from this trash folder."
-#~ msgstr "Impossible de copier des messages de ce dossier corbeille."
-
-#~ msgid ""
-#~ "Could not get inbox for new mail store:\n"
-#~ "%s\n"
-#~ "No shortcut will be created."
-#~ msgstr ""
-#~ "Impossible de récupérer la boîte de réception pour le nouveau stockage de "
-#~ "courrier :\n"
-#~ "%s\n"
-#~ "Création de raccourci impossible."
-
-#~ msgid "Afrikaans"
-#~ msgstr "Afrikaans"
-
-#~ msgid "Arabic"
-#~ msgstr "Arabe"
-
-#~ msgid "Dari"
-#~ msgstr "Dari"
-
-#~ msgid "Hulu"
-#~ msgstr "Hulu"
-
-#~ msgid "_Language:"
-#~ msgstr "_Langue :"
-
-#~ msgid "Moving"
-#~ msgstr "Déplacement"
-
-#~ msgid "Copying"
-#~ msgstr "Copie"
-
-#~ msgid "A_uthenticate with server using:"
-#~ msgstr "A_uthentification sur le serveur en utilisant :"
-
-#~ msgid "Add Addressbook"
-#~ msgstr "Ajouter un carnet d'adresses"
-
-#~ msgid "Advanced"
-#~ msgstr "Avancée"
-
-#~ msgid "Base"
-#~ msgstr "Base"
-
-#~ msgid "Check this if the server requires you to authenticate."
-#~ msgstr "Cochez ici si le serveur nécessite une authentification."
-
-#~ msgid ""
-#~ "Evolution will use this Distinquished Name (DN) to authenticate you with "
-#~ "the server"
-#~ msgstr ""
-#~ "Evolution utilisera ce Nom Distinctif (DN) pour vous authentifier sur le "
-#~ "serveur."
-
-#~ msgid "The information below is required in order to add an addressbook.  "
-#~ msgstr ""
-#~ "Les renseignements ci-dessous sont requis pour ajouter un carnet "
-#~ "d'adresses."
-
-#~ msgid "This information is not required for most ldap servers. "
-#~ msgstr "Ces renseignements ne sont requis par la plupart des serveurs LDAP."
-
-#~ msgid ""
-#~ "This information is used by your ldap server to specify which nodes are "
-#~ "used in a search. Contact your server administrator for more information."
-#~ msgstr ""
-#~ "Ces renseignements sont utilisés par votre serveur LDAP pour préciser les "
-#~ "noeuds utilisés dans une recherche. Contactez votre administrateur de "
-#~ "serveur pour plus de renseignements."
-
-#~ msgid ""
-#~ "This is the base node for all your searches on the ldap server. Contact "
-#~ "your server administrator for more information."
-#~ msgstr ""
-#~ "Noeud de base pour toutes vos recherches sur le serveur LDAP. Contactez "
-#~ "votre administrateur de serveur pour plus d'informations."
-
-#~ msgid "This is the name of the server where your addressbook is located."
-#~ msgstr "Nom du serveur où votre carnet d'adresses se trouve."
-
-#~ msgid "This is the port that your ldap server uses."
-#~ msgstr "Port utilisé par votre serveur LDAP."
-
-#~ msgid "_Account name:"
-#~ msgstr "Nom du _Compte"
-
-#~ msgid "C_ontaining:"
-#~ msgstr "C_ontenant :"
-
-#~ msgid "Show contacts matching the following criteria:"
-#~ msgstr "Afficher les contacts correspondant aux critères suivants :"
-
-#~ msgid "Create new appointments with a default _reminder"
-#~ msgstr "Créer de nouveaux rendez-vous avec un _rappel par défaut"
-
-#~ msgid "First day of wee_k:"
-#~ msgstr "_Premier jour de la semaine :"
-
-#~ msgid "_Other"
-#~ msgstr "_Autre"
-
-#~ msgid "%s: Inbox"
-#~ msgstr "%s : Boîte de réception"
-
-#~ msgid "Always _encrypt to myself when sending encrypted mail"
-#~ msgstr ""
-#~ "Toujours chiffrer pour moi-même lors de l'envoi de courrier chiffré."
-
-#~ msgid "E_mail address:"
-#~ msgstr "_Adresse électronique :"
-
-#~ msgid "Ed_it..."
-#~ msgstr "Éd_iter..."
-
-#~ msgid "Edi_t..."
-#~ msgstr "Édi_ter..."
-
-#~ msgid "Forwards and Replies"
-#~ msgstr "Transferts et réponses"
-
-#~ msgid "Keyboard Shortcuts"
-#~ msgstr "Raccourcis clavier"
-
-#~ msgid "Misspelled color:"
-#~ msgstr "Couleur de correction :"
-
-#~ msgid "N_ew..."
-#~ msgstr "_Nouveau..."
-
-#~ msgid "Ne_w..."
-#~ msgstr "Nou_veau..."
-
-#~ msgid "Shortcut"
-#~ msgstr "Raccourci"
-
-#~ msgid "_Organization:"
-#~ msgstr "_Organisation :"
-
-#~ msgid "_Reply-To:"
-#~ msgstr "_Répondre à :"
-
-#~ msgid "_Send messages in HTML format by default"
-#~ msgstr "_Envoyer par défaut le courrier au format HTML"
-
-#~ msgid "_Server type:"
-#~ msgstr "Type de _serveur :"
-
-#~ msgid "Baltic (IS0-8859-13)"
-#~ msgstr "Balte (IS0-8859-13)"
-
-#~ msgid "                        "
-#~ msgstr "                        "
-
-#~ msgid " color"
-#~ msgstr "Couleur"
-
-#~ msgid "&lt;&lt; S_imple"
-#~ msgstr "&lt;&lt; S_imple"
-
-#~ msgid "/home/rodo/cvs/evolution/mail/"
-#~ msgstr "/home/rodo/cvs/evolution/mail/"
-
-#~ msgid "Ad_vanced &gt;&gt;"
-#~ msgstr "A_vancée &gt;&gt;"
-
-#~ msgid "Composer"
-#~ msgstr "Composeur"
-
-#~ msgid "Confirm when Expunging a folder"
-#~ msgstr "Confirmer avant le nettoyage du dossier"
-
-#~ msgid "Default Forward style is:"
-#~ msgstr "Style de transfert par défaut :"
-
-#~ msgid "Default character encoding:"
-#~ msgstr "Codage des caractères par défaut"
-
-#~ msgid "Delete selected signature"
-#~ msgstr "Supprimer les signatures sélectionnées"
-
-#~ msgid "Display"
-#~ msgstr "Affichage"
-
-#~ msgid "Edit signature content in editor"
-#~ msgstr "Éditer le contenu de la signature dans l'éditeur"
-
-#~ msgid "File containing signature"
-#~ msgstr "Fichier contenant la signature"
-
-#~ msgid "Hide advanced settings"
-#~ msgstr "Masquer les paramètres avancés"
-
-#~ msgid "If selected signature will be included in random signature list"
-#~ msgstr ""
-#~ "Si sélectionné : la signature sera incluse dans la liste de signatures "
-#~ "aléatoires."
-
-#~ msgid "In HTML mail"
-#~ msgstr "Entrée courrier HTML"
-
-#~ msgid "Include in _random signatures list"
-#~ msgstr "Inclure dans la liste des signatures aléatoires"
-
-#~ msgid "List of signatures"
-#~ msgstr "Liste de signatures"
-
-#~ msgid "Name of selected signature"
-#~ msgstr "Nom de la signature sélectionnée"
-
-#~ msgid "News"
-#~ msgstr "Nouvelles"
-
-#~ msgid "Prompt when sending messages with an _empty subject"
-#~ msgstr "Avertissement lors de l'envoi d'un message _sans sujet"
-
-#~ msgid "Script which is run before signature loading from specified filename"
-#~ msgstr ""
-#~ "Script lancé avant le chargement de la signature du fichier spécifié"
-
-#~ msgid "Select Filter Log file..."
-#~ msgstr "Sélectionner un fichier de journal pour les filtres..."
-
-#~ msgid "Select PGP binary"
-#~ msgstr "Sélectionner un binaire PGP"
-
-#~ msgid "Show advanced settings"
-#~ msgstr "Afficher les paramètres avancées"
-
-#~ msgid "Sources"
-#~ msgstr "Sources"
-
-#~ msgid "_Edit..."
-#~ msgstr "É_diter..."
-
-#~ msgid "_Filename"
-#~ msgstr "Nom du _fichier"
-
-#~ msgid "_Highlight citations with"
-#~ msgstr "Mettre les citations en _surbrillance"
-
-#~ msgid "_Log filter actions to:"
-#~ msgstr "Enregistrer les actions des _filtres dans :"
-
-#~ msgid "_Mark messages as Read after"
-#~ msgstr "_Marquer les messages comme lus après"
-
-#~ msgid "_Name"
-#~ msgstr "_Nom"
-
-#~ msgid "_Send mail in HTML format by default."
-#~ msgstr "Envoyer par défaut le courrier au format HTML"
-
-#~ msgid "placeholder"
-#~ msgstr "substituant"
-
-#~ msgid "seconds."
-#~ msgstr "secondes."
-
-#~ msgid "Evolution component for the executive summary."
-#~ msgstr "Composant d'Evolution pour le résumé"
-
-#~ msgid "Factory for the Evolution executive summary component."
-#~ msgstr "Fabrique pour le composant Résumé d'Evolution."
-
-#~ msgid "Cannot initialize Evolution's Executive Summary component."
-#~ msgstr "Impossible d'nitialiser le composant Résumé d'Evolution."
-
-#~ msgid ""
-#~ "You can select a different HTML page for the background of the Executive "
-#~ "Summary.\n"
-#~ "\n"
-#~ "Just leave it blank for the default"
-#~ msgstr ""
-#~ "Vous pouvez sélectionner une page HTML différente pour l'arrière-plan du "
-#~ "résumé.\n"
-#~ "\n"
-#~ "Ne rien préciser pour la page par défaut."
-
-#~ msgid "Open %s with the default GNOME application"
-#~ msgstr "Ouvrir %s avec l'application GNOME par défaut"
-
-#~ msgid "Open %s with the default GNOME web browser"
-#~ msgstr "Ouvrir %s avec le navigateur GNOME par défaut"
-
-#~ msgid "Send an email to %s"
-#~ msgstr "Envoyer un courrier électronique à %s"
-
-#~ msgid "Run %s"
-#~ msgstr "Lancer %s"
-
-#~ msgid "Close %s"
-#~ msgstr "Fermer %s"
-
-#~ msgid "Move %s to the left"
-#~ msgstr "Déplacer %s vers la gauche"
-
-#~ msgid "Move %s to the right"
-#~ msgstr "Déplacer %s vers la droite"
-
-#~ msgid "Move %s into the previous row"
-#~ msgstr "Déplacer %s sur la ligne précédente"
-
-#~ msgid "Move %s into the next row"
-#~ msgstr "Déplacer %s sur la ligne suivante"
-
-#~ msgid "Configure %s"
-#~ msgstr "Configurer %s"
-
-#~ msgid "page"
-#~ msgstr "page"
-
-#~ msgid ""
-#~ "Cannot open the HTML file:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Impossible d'ouvrir le fichier HTML :\n"
-#~ "%s"
-
-#~ msgid ""
-#~ "Error reading data:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Erreur de lecture des données :\n"
-#~ "%s"
-
-#~ msgid "File does not have a place for the services.\n"
-#~ msgstr "Le fichier ne possède pas d'emplacement pour les services.\n"
-
-#~ msgid ""
-#~ "Executive summary component could not initialize Bonobo.\n"
-#~ "If there was a warning message about the RootPOA, it probably means\n"
-#~ "you compiled Bonobo against GOAD instead of OAF."
-#~ msgstr ""
-#~ "Le composant Résumé n'a pas pu initialiser Bonobo.\n"
-#~ "Si vous recevez un message d'avertissement traitant de RootPOA, cela \n"
-#~ "signifie certainement que vous avez lier Bonobo à GOAD au lieu de OAF."
-
-#~ msgid "Factory for the RDF summary."
-#~ msgstr "Fabrique pour résumé RDF."
-
-#~ msgid "RDF Summary"
-#~ msgstr "Résumé RDF"
-
-#~ msgid "Factory for the test bonobo component."
-#~ msgstr "Fabrique pour le composant de test Bonobo"
-
-#~ msgid "Factory for the test component."
-#~ msgstr "Fabrique pour le composant de test"
-
-#~ msgid "Test bonobo service"
-#~ msgstr "Service Bonobo de test"
-
-#~ msgid "Test service"
-#~ msgstr "Service de test"
-
-#~ msgid "Update automatically"
-#~ msgstr "Mettre à jour automatiquement"
-
-#~ msgid "Update now"
-#~ msgstr "Mettre à jour maintenant"
-
-#~ msgid "Update every "
-#~ msgstr "Mettre à jour tout les "
-
-#~ msgid "Incomplete message written on pipe!"
-#~ msgstr "Message incomplet écrit dans le tube !"
-
-#~ msgid "Mail Summary"
-#~ msgstr "Résumé du courrier"
-
-#~ msgid "Factory for the Notes control"
-#~ msgstr "Fabrique pour le composant Notes"
-
-#~ msgid "Error hashing password."
-#~ msgstr "Erreur lors du hachage du mot de passe."
-
-#~ msgid "Invalid password."
-#~ msgstr "Mot de passe invalide."
-
-#~ msgid "Could not sign: certificate not found for \"%s\"."
-#~ msgstr "Impossible de signer : certificat non trouvé pour « %s »."
-
-#~ msgid "Could not clearsign: certificate not found for \"%s\"."
-#~ msgstr "Impossible de signer en clair : certificat non trouvé pour « %s »."
-
-#~ msgid "Could not encrypt: failed to create enveloped data."
-#~ msgstr ""
-#~ "Impossible de chiffrer : erreur lors de la création de l'information "
-#~ "enveloppée."
-
-#~ msgid "Could not encrypt: failed to create encryption context."
-#~ msgstr ""
-#~ "Impossible de chiffrer : erreur de création du contexte de chiffrement."
-
-#~ msgid "Could not encrypt data: invalid user key: \"%s\"."
-#~ msgstr ""
-#~ "Impossible de chiffrer les données : clé d'utilisateur invalide : « %s »."
-
-#~ msgid "Could not encrypt: encoding failed."
-#~ msgstr "Impossible de chiffrer : erreur de codage."
-
-#~ msgid "Please enter the NNTP password for %s@%s"
-#~ msgstr "Veuillez saisir le mot de passe NNTP pour %s@%s."
-
-#~ msgid "Server rejected username"
-#~ msgstr "Le serveur a rejeté le nom d'utilisateur."
-
-#~ msgid "Server rejected username/password"
-#~ msgstr "Le serveur a rejeté le nom d'utilisateur/mot de passe."
-
-#~ msgid "Internal error: uid in invalid format: %s"
-#~ msgstr "Erreur interne : format d'uid invalide : %s"
-
-#~ msgid "Could not get group list from server."
-#~ msgstr "Impossible d'obtenir la liste des groupes à partir du serveur."
-
-#~ msgid "Unable to load grouplist file for %s: %s"
-#~ msgstr "Impossible de charger la liste des groupes pour %s : %s"
-
-#~ msgid "Unable to save grouplist file for %s: %s"
-#~ msgstr ""
-#~ "Impossible d'enregistrer le fichier de la liste des groupes pour %s : %s"
-
-#~ msgid "Enter folder URI"
-#~ msgstr "Saisissez l'URI du dossier"
-
-#~ msgid "Dump"
-#~ msgstr "Afficher"
-
-#~ msgid "Confirm Overwrite"
-#~ msgstr "Confirmer l'écrasement"
