@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-02-11 14:32+0900\n"
-"PO-Revision-Date: 2004-02-11 14:48+0900\n"
+"POT-Creation-Date: 2004-02-11 16:21+0900\n"
+"PO-Revision-Date: 2004-02-11 16:19+0900\n"
 "Last-Translator: Takeshi AIHANA <aihana@gnome.gr.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
@@ -3740,7 +3740,7 @@ msgstr "日"
 
 #: calendar/gui/calendar-commands.c:431
 msgid "%A %d %B %Y"
-msgstr "%Y年 %B%e日 %A"
+msgstr "%Y年 %B %e日 %A"
 
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.
@@ -3761,7 +3761,7 @@ msgstr "%Y/%m/%d (%a)"
 #: calendar/gui/calendar-commands.c:460 calendar/gui/calendar-commands.c:466
 #: calendar/gui/calendar-commands.c:472 calendar/gui/calendar-commands.c:474
 msgid "%d %B %Y"
-msgstr "%Y年 %B%e日"
+msgstr "%Y年 %B %e日"
 
 #. strftime format %d = day of month, %B = full
 #. month name. You can change the order but don't
@@ -6309,7 +6309,7 @@ msgstr "進行中"
 #: calendar/gui/e-meeting-time-sel-item.c:452
 #: calendar/gui/e-meeting-time-sel.c:2060
 msgid "%A, %B %d, %Y"
-msgstr "%Y年 %B%e日 %A"
+msgstr "%Y年 %B %e日 %A"
 
 #. This is a strftime() format string %a = abbreviated weekday
 #. name, %m = month number, %d = month day, %Y = full year.
@@ -6791,11 +6791,11 @@ msgstr "土"
 #. Day
 #: calendar/gui/print.c:1915
 msgid "Selected day (%a %b %d %Y)"
-msgstr "日の指定 (%Y年 %m月 %d日 %a)"
+msgstr "日の指定 (%Y年 %B %e日 %a)"
 
 #: calendar/gui/print.c:1940 calendar/gui/print.c:1944
 msgid "%a %b %d"
-msgstr "%B%e日 (%a)"
+msgstr "%B %e日 (%a)"
 
 #: calendar/gui/print.c:1941
 msgid "%a %d %Y"
@@ -6814,7 +6814,7 @@ msgstr "週の指定 (%s - %s)"
 #. Month
 #: calendar/gui/print.c:1960
 msgid "Selected month (%b %Y)"
-msgstr "月の指定 (%Y年%b)"
+msgstr "月の指定 (%Y年 %B)"
 
 #. Year
 #: calendar/gui/print.c:1967
@@ -15043,11 +15043,11 @@ msgstr "%p %l時%M分 (%a)"
 
 #: mail/message-list.c:1298
 msgid "%b %d %l:%M %p"
-msgstr "%m月 %d日 %p %l時%M分"
+msgstr "%B %e日 %p %l時%M分"
 
 #: mail/message-list.c:1300
 msgid "%b %d %Y"
-msgstr "%Y年 %m月 %d日"
+msgstr "%Y年 %B %e日"
 
 #: mail/message-list.c:3115
 msgid "Generating message list"
