@@ -1,3 +1,10 @@
+2001-07-10  Peter Williams  <peterw@ximian.com>
+
+	* vfoldertypes.xml: Put a match-all around the not-body-contains
+	to make it work per-message.
+
+	* filtertypes.xml: Same.
+
 2001-07-05  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* filter-rule.c (get_widget): Set the focus on the title of the
