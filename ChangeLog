@@ -1,3 +1,11 @@
+2000-09-19  Dan Winship  <danw@helixcode.com>
+
+	* configure.in: alter the krb4 check a bit to deal with configure
+	cache suckage. (If you do AC_CHECK_LIB with the same library and
+	function name but different LDFLAGS, it will still use the result
+	of the previous check. So use a different function the second
+	time.)
+
 2000-09-18  Dan Winship  <danw@helixcode.com>
 
 	* README: add gal as a dependency

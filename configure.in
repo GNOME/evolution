@@ -446,7 +446,7 @@ if test x${with_krb4:=no} != xno; then
 		KRB4_CFLAGS="$CFLAGS"
 		KRB4_LDFLAGS="$LDFLAGS -lkrb"
 	],[
-		AC_CHECK_LIB(krb, krb_mk_req,
+		AC_CHECK_LIB(krb, krb_rd_req,
 		[
 			AC_DEFINE(HAVE_KRB4)
 			KRB4_CFLAGS="$CFLAGS"
