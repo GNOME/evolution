@@ -128,66 +128,80 @@ make_folder_search_widget (GtkSignalFunc start_search_func,
 static gboolean
 folder_info_subscribed (SubscribeDialog *sc, CamelFolderInfo *info)
 {
-	char *path;
-	gboolean retval;
+	return camel_store_folder_subscribed (sc->store, info->full_name);
+}
 
-	path = g_strdup_printf ("/%s", info->full_name);
+/* Given a CamelFolderInfo, construct the corresponding
+ * EvolutionStorage path to it.
+ */
+static char *
+storage_tree_path (CamelFolderInfo *info)
+{
+	int len;
+	CamelFolderInfo *i;
+	char *path, *p;
 
-	retval = camel_store_folder_subscribed (sc->store, path);
-	
-	g_free (path);
+	for (len = 0, i = info; i; i = i->parent)
+		len += strlen (i->name) + 1;
 
-	return retval;
+	/* We do this backwards because that's the way the pointers point. */
+	path = g_malloc (len + 1);
+	p = path + len;
+	*p = '\0';
+	for (i = info; i; i = i->parent) {
+		len = strlen (i->name);
+		p -= len;
+		memcpy (p, i->name, len);
+		*--p = '/';
+	}
+
+	return path;
 }
 
 static void
 subscribe_folder_info (SubscribeDialog *sc, CamelFolderInfo *info)
 {
 	char *path;
-	CamelException *ex;
+	CamelException ex;
 
 	/* folders without urls cannot be subscribed to */
 	if (info->url == NULL)
 		return;
 
-	ex = camel_exception_new ();
-	path = g_strdup_printf ("/%s", info->full_name);
+	camel_exception_init (&ex);
+	camel_store_subscribe_folder (sc->store, info->full_name, &ex);
 
-	camel_store_subscribe_folder (sc->store, path, ex);
-
-	if (!camel_exception_is_set (ex)) {
+	if (!camel_exception_is_set (&ex)) {
+		path = storage_tree_path (info);
 		evolution_storage_new_folder (sc->storage,
 					      path,
 					      info->name, "mail",
 					      info->url,
 					      _("(No description)") /* XXX */);
-	}
-
-	camel_exception_free (ex);
-	g_free (path);
+		g_free (path);
+	} else
+		camel_exception_clear (&ex);
 }
 
 static void
 unsubscribe_folder_info (SubscribeDialog *sc, CamelFolderInfo *info)
 {
 	char *path;
-	CamelException *ex;
+	CamelException ex;
 
 	/* folders without urls cannot be subscribed to */
 	if (info->url == NULL)
 		return;
 
-	ex = camel_exception_new ();
-	path = g_strdup_printf ("/%s", info->full_name);
+	camel_exception_init (&ex);
+	camel_store_unsubscribe_folder (sc->store, info->full_name, &ex);
 
-	camel_store_unsubscribe_folder (sc->store, path, ex);
-
-	if (!camel_exception_is_set (ex)) {
+	if (!camel_exception_is_set (&ex)) {
+		path = storage_tree_path (info);
 		evolution_storage_removed_folder (sc->storage, path);
-	}
-
-	camel_exception_free (ex);
-	g_free (path);
+		g_free (path);
+	} else
+		camel_exception_clear (&ex);
 }
 
 static void
@@ -401,7 +415,7 @@ folder_etree_value_at (ETreeModel *etree, ETreePath *path, int col, void *model_
 		else if (!folder_info_subscribed(dialog, info))
 			return 0; /* XXX unchecked */
 		else
-			return 1; /* checked */
+			return GUINT_TO_POINTER (1); /* checked */
 	}
 }
 
