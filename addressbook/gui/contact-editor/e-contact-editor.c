@@ -1650,6 +1650,21 @@ fill_in_address_textview (EContactEditor *editor, gint record, EContactAddress *
 }
 
 static void
+fill_in_address_label_textview (EContactEditor *editor, gint record, const gchar *label)
+{
+	gchar         *textview_name;
+	GtkWidget     *textview;
+	GtkTextBuffer *text_buffer;
+
+	textview_name = g_strdup_printf ("textview-%s-address", address_name [record]);
+	textview = glade_xml_get_widget (editor->gui, textview_name);
+	g_free (textview_name);
+
+	text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview));
+	gtk_text_buffer_set_text (text_buffer, label ? label : "", -1);
+}
+
+static void
 fill_in_address_field (EContactEditor *editor, gint record, const gchar *widget_field_name,
 		       const gchar *string)
 {
@@ -1667,19 +1682,32 @@ static void
 fill_in_address_record (EContactEditor *editor, gint record)
 {
 	EContactAddress *address;
+	gchar           *address_label;
 
 	address = e_contact_get (editor->contact, addresses [record]);
-	if (!address)
-		return;
+	address_label = e_contact_get (editor->contact, address_labels [record]);
 
-	fill_in_address_textview (editor, record, address);
-	fill_in_address_field (editor, record, "city", address->locality);
-	fill_in_address_field (editor, record, "state", address->region);
-	fill_in_address_field (editor, record, "zip", address->code);
-	fill_in_address_field (editor, record, "country", address->country);
-	fill_in_address_field (editor, record, "pobox", address->po);
+	if (address &&
+	    (!STRING_IS_EMPTY (address->street)   ||
+	     !STRING_IS_EMPTY (address->ext)      ||
+	     !STRING_IS_EMPTY (address->locality) ||
+	     !STRING_IS_EMPTY (address->region)   ||
+	     !STRING_IS_EMPTY (address->code)     ||
+	     !STRING_IS_EMPTY (address->po)       ||
+	     !STRING_IS_EMPTY (address->country))) {
+		fill_in_address_textview (editor, record, address);
+		fill_in_address_field (editor, record, "city", address->locality);
+		fill_in_address_field (editor, record, "state", address->region);
+		fill_in_address_field (editor, record, "zip", address->code);
+		fill_in_address_field (editor, record, "country", address->country);
+		fill_in_address_field (editor, record, "pobox", address->po);
+	} else if (!STRING_IS_EMPTY (address_label)) {
+		fill_in_address_label_textview (editor, record, address_label);
+	}
 
-	g_boxed_free (e_contact_address_get_type (), address);
+	g_free (address_label);
+	if (address)
+		g_boxed_free (e_contact_address_get_type (), address);
 }
 
 static void

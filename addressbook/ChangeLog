@@ -1,3 +1,12 @@
+2004-08-20  Hans Petter Jansson  <hpj@ximian.com>
+
+	Fixes bug #62715.
+
+	* gui/contact-editor/e-contact-editor.c
+	(fill_in_address_label_textview): Implement.
+	(fill_in_address_field): If structured address information is not
+	available, try putting the "label" blob in the free-form field.
+
 2004-08-19  Hans Petter Jansson  <hpj@ximian.com>
 
 	Makes the contact image selector use GtkFileChooser if available.
