@@ -52,6 +52,8 @@
 #include "mail-crypto.h"
 
 
+#define STANDARD_ISSUE_TABLE_OPEN "<table cellspacing=0 cellpadding=10 width=\"100%\">"
+
 static ssize_t mail_format_data_wrapper_write_to_stream (CamelDataWrapper *wrapper,
 							 MailDisplay *mail_display,
 							 CamelStream *stream);
@@ -189,12 +191,12 @@ mail_format_raw_message (CamelMimeMessage *mime_message, MailDisplay *md,
 	camel_stream_filter_add (filtered_stream, html_filter);
 	camel_object_unref (html_filter);
 	
-	camel_stream_write ((CamelStream *) stream, "<tt>", 4);
+	camel_stream_write_string ((CamelStream *) stream, STANDARD_ISSUE_TABLE_OPEN "<tr><td><tt>");
 	
 	mail_format_data_wrapper_write_to_stream (wrapper, md, (CamelStream *) filtered_stream);
 	camel_object_unref (filtered_stream);
 	
-	camel_stream_write ((CamelStream *) stream, "</tt>", 5);
+	camel_stream_write_string ((CamelStream *) stream, "</tt></td></tr></table>");
 }
 
 static const char *
@@ -1166,8 +1168,8 @@ mail_format_get_data_wrapper_text (CamelDataWrapper *wrapper, MailDisplay *mail_
 static void
 write_hr (MailDisplayStream *stream)
 {
-	camel_stream_write_string ((CamelStream *) stream, "<table cellspacing=0 cellpadding=10 "
-				   "width=\"100%\"><tr><td width=\"100%\"><hr noshadow size=1>"
+	camel_stream_write_string ((CamelStream *) stream, STANDARD_ISSUE_TABLE_OPEN
+				   "<tr><td width=\"100%\"><hr noshadow size=1>"
 				   "</td></tr></table>\n");
 }
 
@@ -1199,19 +1201,20 @@ handle_text_plain (CamelMimePart *part, const char *mime_type,
 	type = camel_mime_part_get_content_type (part);
 	format = header_content_type_param (type, "format");
 	if (format && !strcasecmp (format, "flowed"))
-		flags |= 0 /*CAMEL_MIME_FILTER_TOHTML_FORMAT_FLOWED*/;
+		flags |= CAMEL_MIME_FILTER_TOHTML_FORMAT_FLOWED;
 	
 	html_filter = camel_mime_filter_tohtml_new (flags, colour);
 	filtered_stream = camel_stream_filter_new_with_stream ((CamelStream *) stream);
 	camel_stream_filter_add (filtered_stream, html_filter);
 	camel_object_unref (html_filter);
 	
-	camel_stream_write ((CamelStream *) stream, "<tt>\n", 5);
+	camel_stream_write_string ((CamelStream *) stream, STANDARD_ISSUE_TABLE_OPEN "<tr><td><tt>\n");
 	
 	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));
 	mail_format_data_wrapper_write_to_stream (wrapper, md, (CamelStream *) filtered_stream);
 	
-	camel_stream_write ((CamelStream *) stream, "</tt>\n", 6);
+	camel_stream_write_string ((CamelStream *) stream, "</tt></td></tr></table>\n");
+	
 	camel_object_unref (filtered_stream);
 	
 	return TRUE;

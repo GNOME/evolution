@@ -1,5 +1,15 @@
 2002-12-16  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-format.c #define a STANDARD_ISSUE_TABLE_OPEN string used
+	for wrapping textual message parts to keep them being fully-left
+	justified.
+	(mail_format_raw_message): Wrap the content with a table so that
+	text isn't fully left-justified.
+	(write_hr): Use it here too.
+	(handle_text_plain): And finally here.
+
+2002-12-16  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* mail-display.c (mail_error_printf): Use camel_text_to_html()
 	instead of e_text_to_html().
 	(mail_text_write): Write the content directly to gtkhtml through
