@@ -1,3 +1,7 @@
+2000-02-16  Dan Winship  <danw@helixcode.com>
+
+	* Makefile.am: automakify
+
 2000-02-16  NotZed  <NotZed@HelixCode.com>
 
 	* find.[ch] (ibex_find_name): Finds if a word is indexed under a

@@ -112,7 +112,9 @@ dnl ******************************
 AC_MSG_CHECKING(For libunicode)
 if unicode-config --libs > /dev/null 2>&1; then 
     UNICODE_LIBS=`unicode-config --libs`
+    UNICODE_CFLAGS=`unicode-config --cflags`
     AC_SUBST(UNICODE_LIBS)
+    AC_SUBST(UNICODE_CFLAGS)
     AC_MSG_RESULT(found)
 else
     AC_MSG_ERROR(libunicode not found)
@@ -135,6 +137,13 @@ else
 	THREADS_LIBS=""
 	THREADS_CFLAGS=""
 fi
+
+GLIB_CFLAGS="`glib-config --cflags`"
+GLIB_LIBS="`glib-config --libs`"
+
+AC_SUBST(GLIB_CFLAGS)
+AC_SUBST(GLIB_LIBS)
+
 
 EXTRA_GNOME_LIBS="`gnome-config --libs gnomeui libglade gdk_pixbuf gnomecanvaspixbuf ` $THREADS_LIBS `unicode-config --libs`"
 EXTRA_GNOME_CFLAGS="`gnome-config --cflags gnomeui libglade gdk_pixbuf gnomecanvaspixbuf ` $THREADS_CFLAGS `unicode-config --cflags`"
@@ -194,6 +203,7 @@ intl/Makefile
 po/Makefile.in
 e-util/Makefile
 doc/Makefile
+libibex/Makefile
 camel/Makefile
 camel/providers/Makefile
 camel/providers/MH/Makefile
