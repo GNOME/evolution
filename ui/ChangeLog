@@ -1,3 +1,7 @@
+2001-01-10  Miguel de Icaza  <miguel@helixcode.com>
+
+	* evolution.xml: Remove fixme from NewMailMessage.
+
 2001-01-11  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* evolution-message-composer.xml: Added SaveDraft bonobo menu verb
