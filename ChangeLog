@@ -1,5 +1,13 @@
 2003-12-01  Rodney Dawes  <dobey@ximian.com>
 
+	* data/Makefile.am: Install evolution.desktop as
+	evolution-$(BASE_VERSION).desktop
+	* data/evolution.desktop.in: Remove generated file
+	* data/evolution.desktop.in.in: Add (Unstable) to name
+	Fix comment to be more correct and have correct capitalization
+
+2003-12-01  Rodney Dawes  <dobey@ximian.com>
+
 	* tools/killev.c: Use BASE_VERSION for repo_ids and OAFIIDs,
 	Update gnome-spell repo_id to correct version,
 	Update gtkhtml editor OAFIID to GtkHTML 3.1
