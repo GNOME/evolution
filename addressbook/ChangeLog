@@ -1,3 +1,8 @@
+2002-09-30  Dan Winship  <danw@ximian.com>
+
+	* backend/ebook/e-card.c (e_card_list_send): update for
+	Composer_setHeaders change.
+
 2002-09-27  Chris Toshok  <toshok@ximian.com>
 
 	[ fixes #27521 ]

@@ -2650,7 +2650,7 @@ e_card_list_send (GList *cards, ECardDisposition disposition)
 
 		subject = CORBA_string_dup ("");
 
-		GNOME_Evolution_Composer_setHeaders (composer_server, to_list, cc_list, bcc_list, subject, &ev);
+		GNOME_Evolution_Composer_setHeaders (composer_server, "", to_list, cc_list, bcc_list, subject, &ev);
 		if (ev._major != CORBA_NO_EXCEPTION) {
 			g_printerr ("gui/e-meeting-edit.c: I couldn't set the composer headers via CORBA! Aagh.\n");
 			CORBA_exception_free (&ev);
@@ -2762,7 +2762,7 @@ e_card_list_send (GList *cards, ECardDisposition disposition)
 			g_free (tempstr);
 		}
 		
-		GNOME_Evolution_Composer_setHeaders (composer_server, to_list, cc_list, bcc_list, subject, &ev);
+		GNOME_Evolution_Composer_setHeaders (composer_server, "", to_list, cc_list, bcc_list, subject, &ev);
 
 		CORBA_free (to_list);
 		CORBA_free (cc_list);
