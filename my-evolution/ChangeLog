@@ -1,3 +1,7 @@
+2001-10-06  Carlos Perelló Marín <carlos@gnome-db.org>
+
+	* e-summary-preferences.c: Added HispaLinux
+
 2001-10-05  Iain Holmes  <iain@ximian.com>
 
 	* e-summary-rdf.c (e_summary_rdf_reconfigure): Set the RDF list to
