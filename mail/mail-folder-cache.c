@@ -185,6 +185,7 @@ real_folder_changed(CamelFolder *folder, void *event_data, void *data)
 	struct _folder_info *mfi = data;
 
 	update_1folder(mfi, NULL);
+	camel_object_unref((CamelObject *)folder);
 }
 
 static void
@@ -197,6 +198,7 @@ folder_changed(CamelObject *o, gpointer event_data, gpointer user_data)
 
 	d(printf("Fodler changed!\n"));
 	/* hopefully our mfi isn't lost while this is executing ... */
+	camel_object_ref((CamelObject *)o);
 	mail_proxy_event((CamelObjectEventHookFunc)real_folder_changed, o, NULL, mfi);
 }
 
