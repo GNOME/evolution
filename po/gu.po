@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: evolution.gnome-2-8.gu\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-10-14 04:19+0200\n"
-"PO-Revision-Date: 2004-10-14 09:46+0530\n"
+"PO-Revision-Date: 2004-10-25 20:13+0530\n"
 "Last-Translator: Ankit Patel <ankit@redhat.com>\n"
 "Language-Team: Gujarati\n"
 "MIME-Version: 1.0\n"
@@ -212,7 +212,7 @@ msgstr ""
 #. addressbook:save-error primary
 #: addressbook/addressbook-errors.xml.h:47
 msgid "Unable to save contact(s)."
-msgstr "સંપર્ક(ો) સંગ્રહ કરવામાં અસમર્થ."
+msgstr "સંપર્કો સંગ્રહ કરવામાં અસમર્થ."
 
 #. addressbook:save-error secondary
 #: addressbook/addressbook-errors.xml.h:49
@@ -249,7 +249,7 @@ msgstr "આપોઆપ સંપૂર્ણ"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:2
 msgid "C_ontacts"
-msgstr "સંપર્કો(_o)"
+msgstr "સંપર્કો (_o)"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:3
 msgid "Certificates"
@@ -304,7 +304,7 @@ msgstr "નવો સંપર્ક"
 
 #: addressbook/gui/component/addressbook-component.c:94
 msgid "_Contact"
-msgstr "સંપર્ક(_C)"
+msgstr "સંપર્ક (_C)"
 
 #: addressbook/gui/component/addressbook-component.c:95
 msgid "Create a new contact"
@@ -391,7 +391,7 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
-"ઈવોલ્યુશન સંપર્્ફોક ફોલ્ડરોનું માળખું અને જગ ઈવોલ્યુશન ૧.x આવ્યું ત્યારથી બદલાઈ ગયું છે.\n"
+"ઈવોલ્યુશન સંપર્ક ફોલ્ડરોનું સ્થાન અને વંશ ઈવોલ્યુશન ૧.x આવ્યું ત્યારથી બદલાઈ ગયું છે.\n"
 "\n"
 "જ્યારે ઈવોલ્યુશન તમારા ફોલ્ડરોનું રુપાંતર કરે ત્યારે મહેરબાની કરીને શાંતિ દાખવો..."
 
@@ -641,7 +641,7 @@ msgid ""
 "TLS.  This means that your connection will be insecure, and that you will be "
 "vulnerable to security exploits. "
 msgstr ""
-"આ વિકલ્પને પસંદ કરવો અેટલે તમારુ સર્વર SSL કે TLS ને આધાર આપતું નથી. એનો અર્થ અે થાય કે "
+"આ વિકલ્પને પસંદ કરવો એટલે તમારુ સર્વર SSL કે TLS ને આધાર આપતું નથી. એનો અર્થ એ થાય કે "
 "તમારુ જોડાણ અસુરક્ષિત છે અને જે તમારા સુરક્ષા માટેના સુયોજનો દૂર કરે છે. "
 
 #: addressbook/gui/component/ldap-config.glade.h:31
@@ -658,7 +658,7 @@ msgid ""
 "searches will begin. If you leave this blank, the search will begin at the "
 "root of the directory tree."
 msgstr ""
-"જ્યાં તમારી શોધો શરુ થાય ત્યાં પ્રવેશ માટે શોધનો આધાર અે અલગ તારવેલ નામ (DN) છે. જો તમે "
+"જ્યાં તમારી શોધો શરુ થાય ત્યાં પ્રવેશ માટે શોધનો આધાર એ અલગ તારવેલ નામ (DN) છે. જો તમે "
 "આને ખાલી છોડી દો તો શોધ રુટ ડિરેક્ટરીથી શરુ કરશે."
 
 #: addressbook/gui/component/ldap-config.glade.h:34
@@ -812,7 +812,7 @@ msgstr "સંપર્કોમાં ઉમેરો"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:348
 msgid "Unnamed Contact"
-msgstr "નામ વગરનાે સંપર્ક"
+msgstr "નામ વગરનો સંપર્ક"
 
 #: addressbook/gui/component/select-names/e-select-names-section.etspec.h:1
 #: addressbook/gui/component/select-names/e-select-names.etspec.h:1
@@ -1072,7 +1072,7 @@ msgstr "ફેરફાર કરી શકાય તેવું"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:136
 msgid "United States"
-msgstr "United States"
+msgstr "અમેરિકા"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:137
 msgid "Afghanistan"
@@ -1108,7 +1108,7 @@ msgstr "એન્ટર્કટિકા"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:145
 msgid "Antigua And Barbuda"
-msgstr "એન્ટીગ્યુઆ અને બર્બ્યુડાુડા"
+msgstr "એન્ટીગ્યુઆ અને બર્બ્યુડા"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:146
 msgid "Argentina"
@@ -1644,7 +1644,7 @@ msgstr "માઈક્રોનેશિયા"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:279
 msgid "Moldova, Republic Of"
-msgstr "માેલડોવા, નું સ્વતંત્ર"
+msgstr "મોલડોવા, નું સ્વતંત્ર"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:280
 msgid "Monaco"
@@ -1812,7 +1812,7 @@ msgstr "સંત વિન્સન્ટ અને ગ્રેના ડા�
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:321
 msgid "Samoa"
-msgstr "સમાેઆ"
+msgstr "સમોઆ"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:322
 msgid "San Marino"
@@ -2350,7 +2350,7 @@ msgstr "એ નવી યાદી છે"
 #: calendar/gui/e-meeting-list-view.c:60
 #: calendar/gui/e-meeting-list-view.c:457
 msgid "Required Participants"
-msgstr "ી ભાગ લેનાર જરુરી છેાઓ"
+msgstr "ભાગ લેનારાઓ જરુરી છે"
 
 #: addressbook/gui/merging/eab-contact-commit-duplicate-detected.glade.h:1
 msgid "Changed Contact:"
@@ -2443,7 +2443,7 @@ msgstr "વર્ગ છે"
 #: addressbook/gui/widgets/e-addressbook-view.c:170
 #: calendar/gui/cal-search-bar.c:49
 msgid "Any field contains"
-msgstr "કોઈ ક્ષેત્ર સમાવે છેે"
+msgstr "કોઈ ક્ષેત્ર સમાવે છે"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:171
 #: addressbook/gui/widgets/e-addressbook-view.c:176
@@ -3287,7 +3287,7 @@ msgstr "સમાવો:"
 
 #: addressbook/printing/e-contact-print.glade.h:18
 msgid "Landscape"
-msgstr "સૃષ્ટિસૌંદર્ય"
+msgstr "આડુ"
 
 #: addressbook/printing/e-contact-print.glade.h:19
 msgid "Left:"
@@ -3763,7 +3763,7 @@ msgstr "પાયલોટનો કેલેન્ડર કાર્યક્�
 
 #: calendar/conduits/todo/todo-conduit.c:234
 msgid "Default Priority:"
-msgstr "મૂળભુ પ્રાધાન્ય:"
+msgstr "મૂળભુત પ્રાધાન્ય:"
 
 #: calendar/conduits/todo/todo-conduit.c:959
 #: calendar/conduits/todo/todo-conduit.c:962
@@ -3848,7 +3848,7 @@ msgstr "એલાર્મ ચાલુ છે %s"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:1
 msgid "Snooze _time (minutes):"
-msgstr "પુનરાવર્તન સમય (_t) (મિનિટો):"
+msgstr "પુનરાવર્તન સમય (મિનિટો) (_t):"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:2
 msgid "_Edit appointment"
@@ -3869,7 +3869,7 @@ msgstr "રદ"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:897
 msgid "Dismiss All"
-msgstr "બધુ રદ"
+msgstr "બધું રદ કરો"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:962
 msgid "No description available."
@@ -3964,7 +3964,7 @@ msgstr "મંત્રણાઓ માટેનો મૂળભુત ટાઈ
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:7
 msgid "Hour the workday ends on"
-msgstr "કામ કરવાનો દિવસ અંત થાય ત્યારનોીના કાકો"
+msgstr "કામ કરવાનો દિવસ અંત થાય ત્યારનો કલાક"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:8
 msgid "Hour the workday starts on"
@@ -3988,7 +3988,7 @@ msgstr "કામ કરવાનો દિવસ શરુ થાય ત્ય�
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:13
 msgid "Number of units for default reminder"
-msgstr "મૂળભુત રીમાઈન્ડર માટે એકમોની સંખ્યા"
+msgstr "મૂળભુત યાદ અપાવનાર માટે એકમોની સંખ્યા"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:14
 msgid "Number of units for determining when to hide tasks"
@@ -4032,7 +4032,7 @@ msgstr "ક્યારે બાબતો સંતાડવી તે નક�
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:24
 msgid "Units of default reminder"
-msgstr "મૂળભુત રીમાઈન્ડરના એકમો"
+msgstr "મૂળભુત યાદ અપાવનારના એકમો"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:25
 msgid "Weekday the week starts on"
@@ -4188,7 +4188,7 @@ msgstr "ઘટનાઓ અને મંત્રણાઓ બનાવવા �
 
 #: calendar/gui/calendar-component.c:953
 msgid "There is no calendar available for creating events and meetings"
-msgstr "ત્યાં ઘટનાઓ અને મંત્રણાઓ બનાવવા ામટે કોઈ કેલેન્ડર ઉપ્લબ્ધ નથી"
+msgstr "ત્યાં ઘટનાઓ અને મંત્રણાઓ બનાવવા માટે કોઈ કેલેન્ડર ઉપ્લબ્ધ નથી"
 
 #: calendar/gui/calendar-component.c:1251
 msgid "New appointment"
@@ -4369,7 +4369,7 @@ msgstr "પહેલા"
 #: calendar/gui/dialogs/alarm-dialog.glade.h:20
 #: calendar/gui/dialogs/recurrence-page.glade.h:7
 msgid "day(s)"
-msgstr "દિવસ(ો)"
+msgstr "દિવસો"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:22
 msgid "end of appointment"
@@ -4381,7 +4381,7 @@ msgstr "દરેક માટે વધારાનો સમય"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:24
 msgid "hour(s)"
-msgstr "કલાક(ો)"
+msgstr "કલાકો"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:25
 #: calendar/gui/dialogs/calendar-setup.glade.h:13 filter/filter.glade.h:14
@@ -4390,7 +4390,7 @@ msgstr "કલાકો"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:26
 msgid "minute(s)"
-msgstr "મિનિટ(ો)"
+msgstr "મિનિટો"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:28
 msgid "start of appointment"
@@ -4546,7 +4546,7 @@ msgstr "શનિવાર"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:26
 msgid "Sh_ow a reminder"
-msgstr "રીમાઈન્ડર બતાવો (_o)"
+msgstr "યાદ અપાવનાર બતાવો (_o)"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:27
 msgid "Show week _numbers in date navigator"
@@ -4602,11 +4602,11 @@ msgstr "કામ કરવાના દિવસો:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:38
 msgid "_12 hour (AM/PM)"
-msgstr "_12 કલાક (AM/PM)"
+msgstr "_૧૨ કલાક (AM/PM)"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:39
 msgid "_24 hour"
-msgstr "_24 કલાક"
+msgstr "_૨૪ કલાક"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:40
 msgid "_Add URL"
@@ -6473,7 +6473,7 @@ msgstr "તારીખ-અંત"
 
 #: calendar/gui/e-itip-control.glade.h:13
 msgid "date-start"
-msgstr "તારીખ-ેશરુ"
+msgstr "તારીખે-શરુ"
 
 #: calendar/gui/e-meeting-list-view.c:59
 msgid "Chair Persons"
@@ -7226,7 +7226,7 @@ msgstr "આફ્રિકા/અકારા"
 
 #: calendar/zones.h:9
 msgid "Africa/Addis_Ababa"
-msgstr "આફ્રિકા/અાદિસ અબાબા (_A)"
+msgstr "આફ્રિકા/આદિસ અબાબા (_A)"
 
 #: calendar/zones.h:10
 msgid "Africa/Algiers"
@@ -7302,7 +7302,7 @@ msgstr "આફ્રિકા/ઈઆઈઆઉન"
 
 #: calendar/zones.h:28
 msgid "Africa/Freetown"
-msgstr "Africa/ફ્રીટાઉન"
+msgstr "આફ્રિકા/ફ્રીટાઉન"
 
 #: calendar/zones.h:29
 msgid "Africa/Gaborone"
@@ -7854,7 +7854,7 @@ msgstr "અમેરિકા/સંત થોમસ (_T)"
 
 #: calendar/zones.h:166
 msgid "America/St_Vincent"
-msgstr "અમેરિકા/ સંત વિન્સન્ટ (_V)"
+msgstr "અમેરિકા/સંત વિન્સન્ટ (_V)"
 
 #: calendar/zones.h:167
 msgid "America/Swift_Current"
@@ -7906,7 +7906,7 @@ msgstr "એન્ટાર્કટીકા/કેસે"
 
 #: calendar/zones.h:179
 msgid "Antarctica/Davis"
-msgstr "એન્ટાર્કટીકાિકા/ડેવિસ"
+msgstr "એન્ટાર્કટીકા/ડેવિસ"
 
 #: calendar/zones.h:180
 msgid "Antarctica/DumontDUrville"
@@ -8830,7 +8830,7 @@ msgstr "ફોલ્ડર '%s' ને ઓફલાઈન માટે તૈય
 
 #: camel/camel-disco-store.c:404
 msgid "You must be working online to complete this operation"
-msgstr "આ પ્રક્રિયા પૂર્ણ કરવા માટે તમારે ઓનલાઈન કામ કરવું જ પડશેે"
+msgstr "આ પ્રક્રિયા પૂર્ણ કરવા માટે તમારે ઓનલાઈન કામ કરવું જ પડશે"
 
 #: camel/camel-filter-driver.c:669 camel/camel-filter-search.c:513
 #: camel/camel-process.c:48
@@ -9304,7 +9304,7 @@ msgstr "DIGEST-MD5"
 msgid ""
 "This option will connect to the server using a secure DIGEST-MD5 password, "
 "if the server supports it."
-msgstr "આ વિકલ્પ સર્વર સાથે સુરક્ષિત DIGEST-MD5 પાસવર્ડથી જોડાશે, જો સર્વરતેને આધાર આપતુ હોય તો."
+msgstr "આ વિકલ્પ સર્વર સાથે સુરક્ષિત DIGEST-MD5 પાસવર્ડથી જોડાશે, જો સર્વર તેને આધાર આપતુ હોય તો."
 
 #: camel/camel-sasl-digest-md5.c:813
 msgid "Server challenge too long (>2048 octets)\n"
@@ -9343,7 +9343,7 @@ msgid ""
 "The specified mechanism is not supported by the provided credential, or is "
 "unrecognized by the implementation."
 msgstr ""
-"પૂરા પાડેલ ક્રેડેન્શીયલ દ્વારા સ્પષ્ટ કરેલ મિકેનિઝમ આધારભૂત નથી, અથવાસુધારા દ્વારા ઓળખાયેલ "
+"પૂરા પાડેલ ક્રેડેન્શીયલ દ્વારા સ્પષ્ટ કરેલ મિકેનિઝમ આધારભૂત નથી, અથવા સુધારા દ્વારા ઓળખાયેલ "
 "નથી."
 
 #: camel/camel-sasl-gssapi.c:157
@@ -9450,7 +9450,7 @@ msgstr "PLAIN"
 
 #: camel/camel-sasl-popb4smtp.c:36
 msgid "POP before SMTP"
-msgstr "SMTP પહેલા ંPOP"
+msgstr "SMTP પહેલા POP"
 
 #: camel/camel-sasl-popb4smtp.c:38
 msgid "This option will authorise a POP connection before attempting SMTP"
@@ -9645,7 +9645,7 @@ msgstr "કોઈ સહી કરેલ માહિતી સહીમાં �
 
 #: camel/camel-smime-context.c:576
 msgid "Digests missing from enveloped data"
-msgstr "આવરેલ ેલ માહિતીમાંસારની જાણકારી ખોવાયેલ છેથી "
+msgstr "આવરેલ માહિતીમાં સારની જાણકારી ખોવાયેલ છે"
 
 #: camel/camel-smime-context.c:589 camel/camel-smime-context.c:599
 msgid "Cannot calculate digests"
@@ -10269,7 +10269,7 @@ msgstr "નામની જગ્યાઓ"
 
 #: camel/providers/imap/camel-imap-provider.c:64
 msgid "Apply filters to new messages in INBOX on this server"
-msgstr "આ સર્વર પર નવા સંદેશાઓ INBOX માં ગાળી શકતા નથી."
+msgstr "આ સર્વર પર નવા સંદેશાઓ INBOX માં ગાળી શકતા નથી"
 
 #: camel/providers/imap/camel-imap-provider.c:76
 msgid "IMAP"
@@ -10680,7 +10680,7 @@ msgstr "MH-બંધારણ મેઈલ ડિરેક્ટરીઓ"
 
 #: camel/providers/local/camel-local-provider.c:50
 msgid "For storing local mail in MH-like mail directories."
-msgstr "MH-જેવી મેઈલ ડિરેક્ટરીઓમાં સ્થાનિક મેઈલ સંગ્રહવા માટે"
+msgstr "MH-જેવી મેઈલ ડિરેક્ટરીઓમાં સ્થાનિક મેઈલ સંગ્રહવા માટે."
 
 #: camel/providers/local/camel-local-provider.c:65
 msgid "Local delivery"
@@ -11413,7 +11413,7 @@ msgstr "સર્વર પર સંદેશાઓ છોડી દો"
 #: camel/providers/pop3/camel-pop3-provider.c:43
 #, c-format
 msgid "Delete after %s day(s)"
-msgstr "%s દિવસ(ો) પછી કાઢી નાંખો"
+msgstr "%s દિવસો પછી કાઢી નાંખો"
 
 #: camel/providers/pop3/camel-pop3-provider.c:46
 msgid "Disable support for all POP3 extensions"
@@ -11432,7 +11432,7 @@ msgid ""
 "This option will connect to the POP server using a plaintext password. This "
 "is the only option supported by many POP servers."
 msgstr ""
-"આ વિકલ્પ POP સર્વર સાથે સાદા લખાણવાળા પાસવર્ડથી જોડાશે. આ માત્ર અેક જ વિકલ્પ છે જે ઘણા "
+"આ વિકલ્પ POP સર્વર સાથે સાદા લખાણવાળા પાસવર્ડથી જોડાશે. આ માત્ર એક જ વિકલ્પ છે જે ઘણા "
 "POP સર્વરો માટે આધારભૂત છે."
 
 #: camel/providers/pop3/camel-pop3-provider.c:83
@@ -11521,13 +11521,13 @@ msgstr "આવું કોઈ ફોલ્ડર `%s' નથી."
 #: camel/providers/sendmail/camel-sendmail-provider.c:36
 #: mail/mail-config.glade.h:132
 msgid "Sendmail"
-msgstr "મેઈલમોકલો"
+msgstr "Sendmail"
 
 #: camel/providers/sendmail/camel-sendmail-provider.c:38
 msgid ""
 "For delivering mail by passing it to the \"sendmail\" program on the local "
 "system."
-msgstr "મેઈલ મોકલવા માટે તેને સ્થાનિક સિસ્ટમ પર \"મેઈલમોકલો\" કાર્યક્રમ દ્વારા પસાર કરીને."
+msgstr "મેઈલ મોકલવા માટે તેને સ્થાનિક સિસ્ટમ પર \"Sendmail\" કાર્યક્રમ દ્વારા પસાર કરીને."
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:113
 msgid "Could not parse recipient list"
@@ -11536,12 +11536,12 @@ msgstr "મેળવનારની યાદી પદચ્છેદ કરી
 #: camel/providers/sendmail/camel-sendmail-transport.c:144
 #, c-format
 msgid "Could not create pipe to sendmail: %s: mail not sent"
-msgstr "મેઈલમોકલોને pipe બનાવી શક્યા નહિં: %s: મેઈલ મોકલાયો નહિં"
+msgstr "Sendmail ને pipe બનાવી શક્યા નહિં: %s: મેઈલ મોકલાયો નહિં"
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:165
 #, c-format
 msgid "Could not fork sendmail: %s: mail not sent"
-msgstr "મેઈલમોકલોન fork કરી શક્યા નહિં: %s: મેઈલ મોકલાયો નથી"
+msgstr "Sendmail ને fork કરી શક્યા નહિં: %s: મેઈલ મોકલાયો નથી"
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:205
 #, c-format
@@ -11551,7 +11551,7 @@ msgstr "સંદેશો મોકલી શક્યા નહિં: %s"
 #: camel/providers/sendmail/camel-sendmail-transport.c:233
 #, c-format
 msgid "sendmail exited with signal %s: mail not sent."
-msgstr "મેઈલમોકલો સંકેત %s થી ઉત્તેજિત થઈ ગયો: મેઈલ મોકલાયો નથી."
+msgstr "Sendmail સંકેત %s થી ઉત્તેજિત થઈ ગયો: મેઈલ મોકલાયો નથી."
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:240
 #, c-format
@@ -11561,15 +11561,15 @@ msgstr "%s ચલાવી શક્યા નથી: મેઈલ મોકલ�
 #: camel/providers/sendmail/camel-sendmail-transport.c:245
 #, c-format
 msgid "sendmail exited with status %d: mail not sent."
-msgstr "મેઈલમોકલો સ્થિતિ %d થી ઉત્તેજિત થઈ ગયો છે: મેઈલ મોકલાયો નથી."
+msgstr "sendmail સ્થિતિ %d થી ઉત્તેજિત થઈ ગયો છે: મેઈલ મોકલાયો નથી."
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:259
 msgid "sendmail"
-msgstr "મેઈલમોકલો"
+msgstr "sendmail"
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:261
 msgid "Mail delivery via the sendmail program"
-msgstr "મેઈલ મેળવવાનું મેઈલમોકલો કાર્યક્રમ દ્વારા"
+msgstr "મેઈલ મેળવવાનું sendmail કાર્યક્રમ દ્વારા"
 
 #: camel/providers/smtp/camel-smtp-provider.c:37 mail/mail-config.glade.h:122
 msgid "SMTP"
@@ -14669,7 +14669,7 @@ msgid ""
 "name for this account in the space below. This name will be used for display "
 "purposes only."
 msgstr ""
-"તમે મોટે ભાગે મેઈલ રુપરેખાંકન પ્રક્રિયા કરી દીધી છે. ઓળખ,આવતા મેઈલ સર્વર અને જતા મેઈલની "
+"તમે મોટે ભાગે મેઈલ રુપરેખાંકન પ્રક્રિયા કરી દીધી છે. ઓળખ, આવતા મેઈલ સર્વર અને જતા મેઈલની "
 "પરિવહન પદ્ધતિ કે જે તમને પૂરી પાડવામાં આવેલ છે તે ઈવોલ્યુશન મેઈલ ખાતુ બનાવવા માટે ભેગી થયેલ "
 "છે. મહેરબાની કરીને આ ખાતા માટેની નીચેની જગ્યામાં નામ દાખલ કરો. આ નામ માત્ર પ્રદર્શનના "
 "હેતુ માટે જ વપરાશે."
@@ -15211,7 +15211,7 @@ msgstr "હંમેશા ઈન્ટરનેટમાંથી ચિત્�
 
 #: mail/mail-config.glade.h:160
 msgid "_Digitally sign outgoing messages (by default)"
-msgstr "ડિજીટલ રીતે જતા સંદેશાઓને સહી કરો (_D) (મૂળભુત રીતે)"
+msgstr "ડિજીટલ રીતે જતા સંદેશાઓને સહી કરો (મૂળભુત રીતે) (_D)"
 
 #: mail/mail-config.glade.h:161
 msgid "_Do not notify me when new mail arrives"
@@ -15223,7 +15223,7 @@ msgstr "સક્રિય કરો (_E)"
 
 #: mail/mail-config.glade.h:164
 msgid "_Encrypt outgoing messages (by default)"
-msgstr "જતા સંદેશાઓ એનક્રિપ્ટ કરો (_E) (મૂળભુત રીતે)"
+msgstr "જતા સંદેશાઓ એનક્રિપ્ટ કરો (મૂળભુત રીતે) (_E)"
 
 #: mail/mail-config.glade.h:165
 msgid "_Forward style:"
@@ -15267,7 +15267,7 @@ msgstr "એનિમેટ થયેલ ચિત્રો બતાવો (_S)"
 
 #: mail/mail-config.glade.h:179
 msgid "_Use Secure Connection (SSL):"
-msgstr "સુરક્ષિત જોડાણ વાપરો (_U) (SSL):"
+msgstr "સુરક્ષિત જોડાણ વાપરો (SSL) (_U):"
 
 #: mail/mail-config.glade.h:180
 msgid "_Use the same fonts as other applications"
@@ -15475,7 +15475,7 @@ msgstr ""
 "સંપર્ક યાદી કે જે તમે મોકલી રહ્યા છો તે મેળવનારોની યાદી છુપાવો એ રીતે રુપરેખાંકિત થયેલ છે.\n"
 "\n"
 "ઘણી સિસ્ટમો જાતે જ સંદેશાને પ્રતિ હેડર ઉમેરી દે છે જે સંદેશાઓને માત્ર ખબર પડ્યા વિના આને પણ "
-"હેડર હોય. જો આ હેડર ઉમેરાશે, તો તે તમારા સંદેશા મેળવનરા બધાનેે યાદીત કરે છે. આની અવગણના "
+"હેડર હોય. જો આ હેડર ઉમેરાશે, તો તે તમારા સંદેશા મેળવનરા બધાને યાદીત કરે છે. આની અવગણના "
 "કરવા માટે, તમારે ઓછામાં ઓછું એક પ્રતિ અથવા આને પણ હેડર દાખલ કરી દેવું જોઈએ. "
 
 #. mail:ask-send-only-bcc secondary
@@ -15487,7 +15487,7 @@ msgid ""
 "recipient."
 msgstr ""
 "ઘણી સિસ્ટમો જાતે જ સંદેશાને પ્રતિ હેડર ઉમેરી દે છે જે સંદેશાઓને માત્ર ખબર પડ્યા વિના આને પણ "
-"હેડર હોય. જો આ હેડર ઉમેરાશે, તો તે તમારા સંદેશા મેળવનરા બધાનેે યાદીત કરે છે. આની અવગણના "
+"હેડર હોય. જો આ હેડર ઉમેરાશે, તો તે તમારા સંદેશા મેળવનરા બધાને યાદીત કરે છે. આની અવગણના "
 "કરવા માટે, તમારે ઓછામાં ઓછું એક પ્રતિ અથવા આને પણ હેડર દાખલ કરી દેવું જોઈએ."
 
 #. mail:send-no-recipients primary
@@ -17097,7 +17097,7 @@ msgid ""
 "indicated here"
 msgstr ""
 "તમે પ્રમાણપત્રના સ્તાધિકાર કે જે તમને પ્રમાણપત્ર અદા કરે તેનો વિશ્વાસ કરો એટેલે, ત્યાર પછી "
-"તમે આ પ્રમાણપત્રની સત્તાધિકર પર વિશ્વાસ કરો જ્યાં સુધી તે સૂચવાયેલ નહિં હોય"
+"તમે આ પ્રમાણપત્રની સત્તાધિકાર પર વિશ્વાસ કરો જ્યાં સુધી તે સૂચવાયેલ નહિં હોય"
 
 #: smime/gui/cert-trust-dialog.c:149
 msgid ""
@@ -17106,7 +17106,7 @@ msgid ""
 "unless otherwise indicated here"
 msgstr ""
 "તમે પ્રમાણપત્રના સ્તાધિકાર કે જે તમને પ્રમાણપત્ર અદા કરે તેનો વિશ્વાસ નહિં કરો એટેલે, ત્યાર "
-"પછી તમે આ પ્રમાણપત્રની સત્તાધિકર પર વિશ્વાસ કરો નહિં જ્યાં સુધી તે સૂચવાયેલ નહિં હોય"
+"પછી તમે આ પ્રમાણપત્રની સત્તાધિકાર પર વિશ્વાસ કરો નહિં જ્યાં સુધી તે સૂચવાયેલ નહિં હોય"
 
 #: smime/gui/certificate-manager.c:134 smime/gui/certificate-manager.c:142
 #: smime/gui/certificate-manager.c:375 smime/gui/certificate-manager.c:383
@@ -18252,7 +18252,7 @@ msgstr "લખાણ માપ ઘટાડો"
 
 #: ui/evolution-mail-message.xml.h:25
 msgid "Display the next important message"
-msgstr "પછીનો મહત્વનો સંદેસો પ્રદર્શિત કરો"
+msgstr "પછીનો મહત્વનો સંદેશો પ્રદર્શિત કરો"
 
 #: ui/evolution-mail-message.xml.h:26
 msgid "Display the next message"
@@ -18673,7 +18673,7 @@ msgstr "મેઈલને HTML બંધારણમાં મોકલો"
 
 #: ui/evolution-message-composer.xml.h:26
 msgid "Send this message"
-msgstr "આ સંંદેશાને મોકલો"
+msgstr "આ સંદેશાને મોકલો"
 
 #: ui/evolution-message-composer.xml.h:27
 msgid "Show / hide attachments"
