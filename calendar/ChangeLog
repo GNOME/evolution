@@ -1,3 +1,8 @@
+2004-02-04  Kidd Wang  <kidd.wang@sun.com>
+
+	* gui/dialogs/alarm-page.glade: change the access key for adding a
+	reminder from Alt+a to Alt+d to avoid conflict with the menuitem.
+
 2004-02-04 Yong Sun <Yong.Sun@sun.com>
 
 	* gui/print.c: Fix a bug in evolution/calendar/gui/print.c:
