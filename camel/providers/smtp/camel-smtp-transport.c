@@ -653,6 +653,11 @@ smtp_data (CamelSmtpTransport *transport, CamelMedium *message, gboolean has_8bi
 				      _("DATA send timed out: message termination: "
 					"%s: mail not sent"),
 				      g_strerror (errno));
+		
+		camel_stream_filter_remove (filtered_stream, lwid);
+		camel_stream_filter_remove (filtered_stream, crlfid);
+		camel_object_unref (CAMEL_OBJECT (filtered_stream));
+		
 		return FALSE;
 	}
 	

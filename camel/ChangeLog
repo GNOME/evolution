@@ -1,3 +1,9 @@
+2000-12-05  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/smtp/camel-smtp-transport.c (smtp_data): If the data
+	wrapper fails to be written to the stream, unref it and the
+	filters before returning.
+
 2000-12-05  Dan Winship  <danw@helixcode.com>
 
 	* providers/imap/camel-imap-folder.c (imap_get_message): use
