@@ -54,6 +54,9 @@ static void handle_multipart_related     (CamelMimePart *part,
 static void handle_multipart_alternative (CamelMimePart *part,
 					  CamelMimeMessage *root,
 					  GtkBox *box);
+static void handle_multipart_appledouble (CamelMimePart *part,
+					  CamelMimeMessage *root,
+					  GtkBox *box);
 static void handle_audio                 (CamelMimePart *part,
 					  CamelMimeMessage *root,
 					  GtkBox *box);
@@ -174,6 +177,11 @@ setup_function_table (void)
 			     handle_text_enriched);
 	g_hash_table_insert (mime_function_table, "text/html",
 			     handle_text_html);
+	/* RFC 2046 says unrecognized text subtypes can be treated
+	 * as text/plain (as long as you recognize the character set).
+	 */
+	g_hash_table_insert (mime_function_table, "text",
+			     handle_text_plain);
 
 	g_hash_table_insert (mime_function_table, "image",
 			     handle_image);
@@ -190,6 +198,8 @@ setup_function_table (void)
 			     handle_multipart_related);
 	g_hash_table_insert (mime_function_table, "multipart/mixed",
 			     handle_multipart_mixed);
+	g_hash_table_insert (mime_function_table, "multipart/appledouble",
+			     handle_multipart_appledouble);
 	/* RFC 2046 says unrecognized multipart subtypes should be
 	 * treated like multipart/mixed.
 	 */
@@ -871,10 +881,24 @@ handle_multipart_alternative (CamelMimePart *part, CamelMimeMessage *root,
 		handle_unknown_type (part, root, box);
 }
 
-void
-stream_destroy_notify (gpointer data)
+/* RFC 1740 */
+static void
+handle_multipart_appledouble (CamelMimePart *part, CamelMimeMessage *root,
+			      GtkBox *box)
 {
-	camel_stream_close (data);
+	CamelDataWrapper *wrapper =
+		camel_medium_get_content_object (CAMEL_MEDIUM (part));
+	CamelMultipart *multipart;
+
+	g_return_if_fail (CAMEL_IS_MULTIPART (wrapper));
+	multipart = CAMEL_MULTIPART (wrapper);
+
+	/* The first part is application/applefile and is not useful
+	 * to us. The second part _may_ be displayable data. Most
+	 * likely it's application/octet-stream though.
+	 */
+	part = CAMEL_MIME_PART (camel_multipart_get_part (multipart, 1));
+	call_handler_function (part, root, box);
 }
 
 static void

@@ -3,6 +3,13 @@
 	* mail-format.c (reply_body): Fix some bugs that crept into reply
 	generation. This needs a lot more work to deal correctly with
 	complicated bodies.
+	(setup_function_table): pass unknown text subtypes to
+	handle_text_plain.
+	(handle_multipart_appledouble): new handler. Just ignores the
+	first (application/applefile) part and tries to display the
+	second part. Since the second part is usually
+	application/octet-stream, this doesn't work very well still
+	usually.
 
 	* mail-display.c, mail-format.c: Redo large chunks of this. The
 	mail display now consists of a vbox in a scrolled window, in which
