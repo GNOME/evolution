@@ -976,7 +976,7 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
 		CamelException *ex;
 
 		ex = camel_exception_new ();
-		camel_imap_folder_changed (folder, ex);
+		camel_imap_folder_changed (folder, recent, ex);
 		camel_exception_free (ex);
 	}
 	

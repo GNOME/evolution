@@ -359,9 +359,11 @@ imap_expunge (CamelFolder *folder, CamelException *ex)
 	
 	g_free (result);
 
+	/* FIXME: maybe remove the appropriate messages from the summary
+	   so we don't need to refetch the entire summary? */
 	imap_summary_free (imap_folder->summary);
 
-	camel_imap_folder_changed (folder, ex);
+	camel_imap_folder_changed (folder, -1, ex);
 }
 
 static gint
@@ -516,7 +518,7 @@ imap_append_message (CamelFolder *folder, CamelMimeMessage *message, guint32 fla
 	g_free (result);
 	g_free (folder_path);
 
-	camel_imap_folder_changed (folder, ex);
+	camel_imap_folder_changed (folder, 1, ex);
 }
 
 static void
@@ -552,7 +554,7 @@ imap_copy_message_to (CamelFolder *source, const char *uid, CamelFolder *destina
 	g_free (result);
 	g_free (folder_path);
 
-	camel_imap_folder_changed (destination, ex);
+	camel_imap_folder_changed (destination, 1, ex);
 }
 
 /* FIXME: Duplication of code! */
@@ -601,7 +603,7 @@ imap_move_message_to (CamelFolder *source, const char *uid, CamelFolder *destina
 
 	imap_set_message_flags (source, uid, CAMEL_MESSAGE_DELETED, ~(info->flags));
 
-	camel_imap_folder_changed (destination, ex);
+	camel_imap_folder_changed (destination, 1, ex);
 }
 
 static GPtrArray *
@@ -986,6 +988,9 @@ imap_get_summary_internal (CamelFolder *folder, CamelException *ex)
 	
 	num = imap_get_message_count_internal (folder, ex);
 
+	/* sync any previously set/changed message flags */
+	imap_sync (folder, FALSE, ex);
+
 	switch (num) {
 	case 0:
 		/* clean up any previous summary data */
@@ -1172,72 +1177,21 @@ imap_get_summary (CamelFolder *folder)
 	return imap_folder->summary;
 }
 
-/* get a single message info, by uid */
-static const CamelMessageInfo *
-imap_get_message_info (CamelFolder *folder, const char *uid)
+/* get a single message info from the server */
+static CamelMessageInfo *
+imap_get_message_info_internal (CamelFolder *folder, guint id)
 {
-	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
 	CamelMessageInfo *info = NULL;
 	struct _header_raw *h, *tail = NULL;
 	const char *received;
-	char *result, *muid, *flags, *header, *q;
+	char *result, *uid, *flags, *header, *q;
 	int j, status;
 
-	g_return_val_if_fail (*uid != '\0', NULL);
-
-	if (imap_folder->summary) {
-		int max, i;
-
-		/* FIXME: use a hash table like the mbox provider does */
-		max = imap_folder->summary->len;
-		for (i = 0; i < max; i++) {
-			info = g_ptr_array_index (imap_folder->summary, i);
-			if (!strcmp (info->uid, uid))
-				return info;
-		}
-	}
-
-	return NULL;
-#if 0
-	/* lets first check to see if we have the message info cached */
-	if (imap_folder->summary) {
-		int max, i;
-
-		max = imap_folder->summary->len;
-		for (i = 0; i < max; i++) {
-			info = g_ptr_array_index (imap_folder->summary, i);
-			if (!strcmp (info->uid, uid))
-				return info;
-		}
-	} else {
-		/* If the summary doesn't exist, lets create it from scratch */
-		CamelException *ex;
-		int max, i;
-
-		ex = camel_exception_new ();
-		
-		if (!imap_get_summary_internal (folder, ex)) {
-			camel_exception_free (ex);
-			return NULL;
-		}
-		camel_exception_free (ex);
-
-		max = imap_folder->summary->len;
-		for (i = 0; i < max; i++) {
-			info = g_ptr_array_index (imap_folder->summary, i);
-			if (!strcmp (info->uid, uid))
-				return info;
-		}
-
-		/* if it ain't here now, it ain't *gonna* be here */
-		return NULL;
-	}
-	
 	/* we don't have a cached copy, so fetch it */
 	status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), folder,
-					      &result, "UID FETCH %s (UID FLAGS BODY[HEADER.FIELDS "
+					      &result, "FETCH %d (UID FLAGS BODY[HEADER.FIELDS "
 					      "(SUBJECT FROM TO CC DATE MESSAGE-ID "
-					      "REFERENCES IN-REPLY-TO)])", uid);
+					      "REFERENCES IN-REPLY-TO)])", id);
 
 	if (status != CAMEL_IMAP_OK) {
 		g_free (result);
@@ -1245,26 +1199,18 @@ imap_get_message_info (CamelFolder *folder, const char *uid)
 	}
 	
 	/* lets grab the UID... */
-	if (!(muid = e_strstrcase (result, "(UID "))) {
-		d(fprintf (stderr, "Cannot get a uid for %s\n\n%s\n\n", uid, result));
+	if (!(uid = e_strstrcase (result, "(UID "))) {
+		d(fprintf (stderr, "Cannot get a uid for %d\n\n%s\n\n", id, result));
 		g_free (result);
 		return NULL;
 	}
 		
-	for (muid += 5; *muid && (*muid < '0' || *muid > '9'); muid++); /* advance to <uid> */
-	for (q = muid; *q && *q >= '0' && *q <= '9'; q++);              /* find the end of the <uid> */
-	muid = g_strndup (muid, (gint)(q - muid));
-
-	/* make sure the UIDs are identical */
-	if (strcmp (muid, uid)) {
-		d(fprintf (stderr, "UIDs are not identical %s != %s\n", uid, muid));
-		g_free (result);
-		g_free (muid);
-		return NULL;
-	}
+	for (uid += 5; *uid && (*uid < '0' || *uid > '9'); uid++); /* advance to <uid> */
+	for (q = uid; *q && *q >= '0' && *q <= '9'; q++); /* find the end of the <uid> */
+	uid = g_strndup (uid, (gint)(q - uid));
 
 	info = g_malloc0 (sizeof (CamelMessageInfo));
-	info->uid = muid;
+	info->uid = uid;
 	d(fprintf (stderr, "*** info->uid = %s\n", info->uid));
 	
 	/* now lets grab the FLAGS */
@@ -1356,17 +1302,32 @@ imap_get_message_info (CamelFolder *folder, const char *uid)
 	}
 
 	g_free (result);
-
-	/* since we didn't have it cached, lets add it to our cache */
-	if (imap_folder->summary) {
-		g_ptr_array_add (imap_folder->summary, info);
-	} else {
-		imap_folder->summary = g_ptr_array_new ();
-		g_ptr_array_add (imap_folder->summary, info);
-	}
 	
 	return info;
-#endif
+}
+
+/* get a single message info, by uid */
+static const CamelMessageInfo *
+imap_get_message_info (CamelFolder *folder, const char *uid)
+{
+	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
+	CamelMessageInfo *info = NULL;
+
+	g_return_val_if_fail (*uid != '\0', NULL);
+
+	if (imap_folder->summary) {
+		int max, i;
+
+		/* FIXME: use a hash table like the mbox provider does */
+		max = imap_folder->summary->len;
+		for (i = 0; i < max; i++) {
+			info = g_ptr_array_index (imap_folder->summary, i);
+			if (!strcmp (info->uid, uid))
+				return info;
+		}
+	}
+
+	return NULL;
 }
 
 static GPtrArray *
@@ -1438,9 +1399,34 @@ imap_set_message_user_flag (CamelFolder *folder, const char *uid, const char *na
 }
 
 void
-camel_imap_folder_changed (CamelFolder *folder, CamelException *ex)
+camel_imap_folder_changed (CamelFolder *folder, gint recent, CamelException *ex)
 {
-	imap_get_summary_internal (folder, ex);
+	d(fprintf (stderr, "camel_imap_folder_changed: recent = %d\n", recent));
+	
+	if (recent > 0) {
+		CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
+		CamelMessageInfo *info;
+		gint i, last;
+
+		if (!imap_folder->summary)
+			imap_folder->summary = g_ptr_array_new ();
+
+		last = imap_folder->summary->len + 1;
+
+		for (i = last; i < last + recent; i++) {
+			info = imap_get_message_info_internal (folder, i);
+			if (info) {
+				g_ptr_array_add (imap_folder->summary, info);
+			} else {
+				/* our hack failed so now we need to do it the old fashioned way */
+				imap_get_summary_internal (folder, ex);
+				break;
+			}
+		}
+	} else {
+		/* We either expunged messages or something... */
+		imap_get_summary_internal (folder, ex);
+	}
 	
 	gtk_signal_emit_by_name (GTK_OBJECT (folder), "folder_changed", 0);
 }
