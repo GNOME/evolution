@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-01-08 12:35+0800\n"
+"POT-Creation-Date: 2005-01-09 00:42+0800\n"
 "PO-Revision-Date: 2004-12-24 17:54+0800\n"
 "Last-Translator: Funda Wang <fundawang@linux.net.cn>\n"
 "Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
@@ -166,7 +166,7 @@ msgstr "%Y年%-m月%-d日%A"
 #. You can change the order but don't change the
 #. specifiers or add anything.
 #: a11y/calendar/ea-gnome-calendar.c:190 calendar/gui/calendar-component.c:522
-#: calendar/gui/e-day-view.c:1508 calendar/gui/e-day-view-top-item.c:708
+#: calendar/gui/e-day-view.c:1511 calendar/gui/e-day-view-top-item.c:719
 #: calendar/gui/e-week-view-main-item.c:321
 msgid "%a %d %b"
 msgstr "%-m月%-d日%A"
@@ -190,7 +190,7 @@ msgstr "%Y年%-m月%-d日"
 #. month name. You can change the order but don't
 #. change the specifiers or add anything.
 #: a11y/calendar/ea-gnome-calendar.c:220 calendar/gui/calendar-component.c:548
-#: calendar/gui/e-day-view.c:1524 calendar/gui/e-day-view-top-item.c:712
+#: calendar/gui/e-day-view.c:1527 calendar/gui/e-day-view-top-item.c:723
 #: calendar/gui/e-week-view-main-item.c:335
 msgid "%d %b"
 msgstr "%B%-d日"
@@ -4976,57 +4976,73 @@ msgstr "%s  您已经做出了修改。放弃这些修改并更新编辑器吗�
 msgid "%s  You have made no changes, update the editor?"
 msgstr "%s  您还没有进行修改，更新编辑器吗？"
 
-#: calendar/gui/dialogs/comp-editor.c:257
+#: calendar/gui/dialogs/comp-editor.c:279
 msgid "Could not update object"
 msgstr "无法更新对象"
 
-#: calendar/gui/dialogs/comp-editor.c:899
-#: calendar/gui/dialogs/comp-editor.c:942
+#: calendar/gui/dialogs/comp-editor.c:417 composer/e-msg-composer.c:2315
+#, c-format
+msgid "<b>%d</b> File Attached"
+msgid_plural "<b>%d</b> Files Attached"
+msgstr[0] "附加了 <b>%d</b> 个文件"
+
+#: calendar/gui/dialogs/comp-editor.c:470 composer/e-msg-composer.c:2344
+msgid "Hide _Attachment Bar (drop attachments here)"
+msgstr "隐藏附件栏(将附件拖至此处)(_A)"
+
+#: calendar/gui/dialogs/comp-editor.c:473
+#: calendar/gui/dialogs/comp-editor.c:517 composer/e-msg-composer.c:2347
+#: composer/e-msg-composer.c:3468
+msgid "Show _Attachment Bar (drop attachments here)"
+msgstr "显示附件栏(将附件拖至此处)(_A)"
+
+#: calendar/gui/dialogs/comp-editor.c:1046
+#: calendar/gui/dialogs/comp-editor.c:1089
 msgid "Edit Appointment"
 msgstr "编辑约会"
 
-#: calendar/gui/dialogs/comp-editor.c:905
-#: calendar/gui/dialogs/comp-editor.c:948
+#: calendar/gui/dialogs/comp-editor.c:1052
+#: calendar/gui/dialogs/comp-editor.c:1095
 #, c-format
 msgid "Meeting - %s"
 msgstr "会议 - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:907
-#: calendar/gui/dialogs/comp-editor.c:950
+#: calendar/gui/dialogs/comp-editor.c:1054
+#: calendar/gui/dialogs/comp-editor.c:1097
 #, c-format
 msgid "Appointment - %s"
 msgstr "约会 - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:911
-#: calendar/gui/dialogs/comp-editor.c:954
+#: calendar/gui/dialogs/comp-editor.c:1058
+#: calendar/gui/dialogs/comp-editor.c:1101
 #, c-format
 msgid "Assigned Task - %s"
 msgstr "指派的任务 - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:913
-#: calendar/gui/dialogs/comp-editor.c:956
+#: calendar/gui/dialogs/comp-editor.c:1060
+#: calendar/gui/dialogs/comp-editor.c:1103
 #, c-format
 msgid "Task - %s"
 msgstr "任务 - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:916
-#: calendar/gui/dialogs/comp-editor.c:959
+#: calendar/gui/dialogs/comp-editor.c:1063
+#: calendar/gui/dialogs/comp-editor.c:1106
 #, c-format
 msgid "Journal entry - %s"
 msgstr "日志条目 - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:927
-#: calendar/gui/dialogs/comp-editor.c:969
+#: calendar/gui/dialogs/comp-editor.c:1074
+#: calendar/gui/dialogs/comp-editor.c:1116
 msgid "No summary"
 msgstr "没有概要"
 
-#: calendar/gui/dialogs/comp-editor.c:1335
-#: calendar/gui/dialogs/comp-editor.c:1368
-#: calendar/gui/dialogs/comp-editor.c:1392
+#: calendar/gui/dialogs/comp-editor.c:1551
+#: calendar/gui/dialogs/comp-editor.c:1584
+#: calendar/gui/dialogs/comp-editor.c:1608
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr "如果更新到达的话，对此项目的更改将被丢弃"
 
-#: calendar/gui/dialogs/comp-editor.c:1416
+#: calendar/gui/dialogs/comp-editor.c:1632
 msgid "Unable to use current version!"
 msgstr "无法使用当前版本！"
 
@@ -5129,13 +5145,13 @@ msgstr "再现"
 
 #: calendar/gui/dialogs/event-editor.c:159
 #: calendar/gui/dialogs/event-editor.c:231
-#: calendar/gui/dialogs/event-editor.c:375
+#: calendar/gui/dialogs/event-editor.c:376
 msgid "Scheduling"
 msgstr "调度"
 
 #: calendar/gui/dialogs/event-editor.c:166
 #: calendar/gui/dialogs/event-editor.c:234
-#: calendar/gui/dialogs/event-editor.c:378
+#: calendar/gui/dialogs/event-editor.c:379
 msgid "Invitations"
 msgstr "邀请"
 
@@ -5665,7 +5681,7 @@ msgstr "任务"
 
 #: calendar/gui/dialogs/task-editor.c:156
 #: calendar/gui/dialogs/task-editor.c:218
-#: calendar/gui/dialogs/task-editor.c:356
+#: calendar/gui/dialogs/task-editor.c:357
 msgid "Assignment"
 msgstr "指派"
 
@@ -6236,7 +6252,7 @@ msgstr "下午"
 #. month, %B = full month name. You can change the
 #. order but don't change the specifiers or add
 #. anything.
-#: calendar/gui/e-day-view.c:1491 calendar/gui/e-day-view-top-item.c:704
+#: calendar/gui/e-day-view.c:1494 calendar/gui/e-day-view-top-item.c:715
 #: calendar/gui/e-week-view-main-item.c:312 calendar/gui/print.c:1517
 msgid "%A %d %B"
 msgstr "%B%d日%A"
@@ -6343,18 +6359,18 @@ msgstr "<br> 请查看下列信息，并从下面的菜单中选择一个动作�
 
 #: calendar/gui/e-itip-control.c:1137 calendar/gui/e-meeting-list-view.c:175
 #: calendar/gui/e-meeting-store.c:188 calendar/gui/e-meeting-store.c:211
-#: calendar/gui/itip-utils.c:421 plugins/itip-formatter/itip-formatter.c:1159
+#: calendar/gui/itip-utils.c:422 plugins/itip-formatter/itip-formatter.c:1159
 msgid "Accepted"
 msgstr "接受"
 
-#: calendar/gui/e-itip-control.c:1141 calendar/gui/itip-utils.c:424
+#: calendar/gui/e-itip-control.c:1141 calendar/gui/itip-utils.c:425
 #: plugins/itip-formatter/itip-formatter.c:1162
 msgid "Tentatively Accepted"
 msgstr "暂时接受"
 
 #: calendar/gui/e-itip-control.c:1145 calendar/gui/e-meeting-list-view.c:176
 #: calendar/gui/e-meeting-store.c:190 calendar/gui/e-meeting-store.c:213
-#: calendar/gui/itip-utils.c:427 calendar/gui/itip-utils.c:453
+#: calendar/gui/itip-utils.c:428 calendar/gui/itip-utils.c:454
 #: plugins/itip-formatter/itip-formatter.c:1165
 msgid "Declined"
 msgstr "拒绝"
@@ -6620,7 +6636,7 @@ msgstr "更新应答者状态"
 msgid "Send Latest Information"
 msgstr "发送最新的信息"
 
-#: calendar/gui/e-itip-control.c:2375 calendar/gui/itip-utils.c:441
+#: calendar/gui/e-itip-control.c:2375 calendar/gui/itip-utils.c:442
 #: mail/mail-send-recv.c:408 mail/mail-send-recv.c:460
 #: ui/evolution-mail-global.xml.h:1
 msgid "Cancel"
@@ -7011,57 +7027,57 @@ msgstr "九月"
 msgid "_Select Today"
 msgstr "选择今天(_S)"
 
-#: calendar/gui/itip-utils.c:270 calendar/gui/itip-utils.c:318
-#: calendar/gui/itip-utils.c:350
+#: calendar/gui/itip-utils.c:271 calendar/gui/itip-utils.c:319
+#: calendar/gui/itip-utils.c:351
 msgid "An organizer must be set."
 msgstr "必须设定组织者。"
 
-#: calendar/gui/itip-utils.c:305
+#: calendar/gui/itip-utils.c:306
 msgid "At least one attendee is necessary"
 msgstr "至少需要一个参加者"
 
-#: calendar/gui/itip-utils.c:393 calendar/gui/itip-utils.c:502
+#: calendar/gui/itip-utils.c:394 calendar/gui/itip-utils.c:503
 msgid "Event information"
 msgstr "事件信息"
 
-#: calendar/gui/itip-utils.c:395 calendar/gui/itip-utils.c:504
+#: calendar/gui/itip-utils.c:396 calendar/gui/itip-utils.c:505
 msgid "Task information"
 msgstr "任务信息"
 
-#: calendar/gui/itip-utils.c:397 calendar/gui/itip-utils.c:506
+#: calendar/gui/itip-utils.c:398 calendar/gui/itip-utils.c:507
 msgid "Journal information"
 msgstr "日志信息"
 
-#: calendar/gui/itip-utils.c:399 calendar/gui/itip-utils.c:524
+#: calendar/gui/itip-utils.c:400 calendar/gui/itip-utils.c:525
 msgid "Free/Busy information"
 msgstr "忙闲信息"
 
-#: calendar/gui/itip-utils.c:401
+#: calendar/gui/itip-utils.c:402
 msgid "Calendar information"
 msgstr "日历信息"
 
-#: calendar/gui/itip-utils.c:437
+#: calendar/gui/itip-utils.c:438
 msgid "Updated"
 msgstr "更新"
 
-#: calendar/gui/itip-utils.c:445
+#: calendar/gui/itip-utils.c:446
 msgid "Refresh"
 msgstr "刷新"
 
-#: calendar/gui/itip-utils.c:449
+#: calendar/gui/itip-utils.c:450
 msgid "Counter-proposal"
 msgstr "投票表决"
 
-#: calendar/gui/itip-utils.c:520
+#: calendar/gui/itip-utils.c:521
 #, c-format
 msgid "Free/Busy information (%s to %s)"
 msgstr "忙闲信息 (%s 到 %s)"
 
-#: calendar/gui/itip-utils.c:530
+#: calendar/gui/itip-utils.c:531
 msgid "iCalendar information"
 msgstr "iCalendar 信息"
 
-#: calendar/gui/itip-utils.c:672
+#: calendar/gui/itip-utils.c:673
 msgid "You must be an attendee of the event."
 msgstr "您必须是事件的参与者。"
 
@@ -12261,20 +12277,6 @@ msgstr "自动生成的"
 #: composer/e-msg-composer.c:2105
 msgid "Si_gnature:"
 msgstr "签名(_G)："
-
-#: composer/e-msg-composer.c:2315
-#, c-format
-msgid "<b>%d</b> File Attached"
-msgid_plural "<b>%d</b> Files Attached"
-msgstr[0] "附加了 <b>%d</b> 个文件"
-
-#: composer/e-msg-composer.c:2344
-msgid "Hide _Attachment Bar (drop attachments here)"
-msgstr "隐藏附件栏(将附件拖至此处)(_A)"
-
-#: composer/e-msg-composer.c:2347 composer/e-msg-composer.c:3468
-msgid "Show _Attachment Bar (drop attachments here)"
-msgstr "显示附件栏(将附件拖至此处)(_A)"
 
 #: composer/e-msg-composer.c:2364 composer/e-msg-composer.c:3357
 #: composer/e-msg-composer.c:3358
