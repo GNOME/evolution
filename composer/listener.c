@@ -235,7 +235,7 @@ impl_event (PortableServer_Servant _servant,
 		ba = g_byte_array_new ();
 		cstream = camel_stream_mem_new_with_byte_array (ba);
 		wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));
-		camel_data_wrapper_write_to_stream (wrapper, cstream);
+		camel_data_wrapper_decode_to_stream (wrapper, cstream);
 
 		bonobo_stream_client_write (e->stream, ba->data, ba->len, ev);
 

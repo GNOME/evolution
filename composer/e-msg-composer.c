@@ -85,9 +85,8 @@
 #include <camel/camel-stream-filter.h>
 #include <camel/camel-mime-filter-charset.h>
 
-#include "mail/mail-callbacks.h"
+#include "mail/em-utils.h"
 #include "mail/mail-crypto.h"
-#include "mail/mail-format.h"
 #include "mail/mail-tools.h"
 #include "mail/mail-ops.h"
 #include "mail/mail-mt.h"
@@ -1352,10 +1351,10 @@ autosave_load_draft (const char *filename)
 		autosave_save_draft (composer);
 		
 		g_signal_connect (GTK_OBJECT (composer), "send",
-				  G_CALLBACK (composer_send_cb), NULL);
+				  G_CALLBACK (em_utils_composer_send_cb), NULL);
 		
 		g_signal_connect (GTK_OBJECT (composer), "save-draft",
-				  G_CALLBACK (composer_save_draft_cb), NULL);
+				  G_CALLBACK (em_utils_composer_save_draft_cb), NULL);
 		
 		gtk_widget_show (GTK_WIDGET (composer));
 	}
@@ -2407,7 +2406,7 @@ static void
 composer_finalise (GObject *object)
 {
 	EMsgComposer *composer;
-	
+
 	composer = E_MSG_COMPOSER (object);
 	
 	if (composer->extra_hdr_names) {
@@ -2454,7 +2453,7 @@ destroy (GtkObject *object)
 {
 	EMsgComposer *composer;
 	CORBA_Environment ev;
-	
+
 	composer = E_MSG_COMPOSER (object);
 	
 	CORBA_exception_init (&ev);
@@ -3342,10 +3341,7 @@ handle_multipart_signed (EMsgComposer *composer, CamelMultipart *multipart, int 
 			handle_multipart (composer, multipart, depth);
 		}
 	} else if (header_content_type_is (content_type, "text", "*")) {
-		char *text;
-		
-		if ((text = mail_get_message_body (content, FALSE, FALSE)))
-			e_msg_composer_set_pending_body (composer, text);
+		e_msg_composer_set_pending_body(composer, em_utils_part_to_html(mime_part));
 	} else {
 		e_msg_composer_attach (composer, mime_part);
 	}
@@ -3399,10 +3395,7 @@ handle_multipart_encrypted (EMsgComposer *composer, CamelMultipart *multipart, i
 			handle_multipart (composer, multipart, depth);
 		}
 	} else if (header_content_type_is (content_type, "text", "*")) {
-		char *text;
-		
-		if ((text = mail_get_message_body (content, FALSE, FALSE)))
-			e_msg_composer_set_pending_body (composer, text);
+		e_msg_composer_set_pending_body(composer, em_utils_part_to_html(mime_part));
 	} else {
 		e_msg_composer_attach (composer, mime_part);
 	}
@@ -3457,14 +3450,8 @@ handle_multipart_alternative (EMsgComposer *composer, CamelMultipart *multipart,
 		}
 	}
 	
-	if (text_part) {
-		CamelDataWrapper *contents;
-		char *text;
-		
-		contents = camel_medium_get_content_object (CAMEL_MEDIUM (text_part));
-		if ((text = mail_get_message_body (contents, FALSE, FALSE)))
-			e_msg_composer_set_pending_body (composer, text);
-	}
+	if (text_part)
+		e_msg_composer_set_pending_body(composer, em_utils_part_to_html(text_part));
 }
 
 static void
@@ -3502,12 +3489,7 @@ handle_multipart (EMsgComposer *composer, CamelMultipart *multipart, int depth)
 			}
 		} else if (depth == 0 && i == 0) {
 			/* Since the first part is not multipart/alternative, then this must be the body */
-			char *text;
-			
-			text = mail_get_message_body (content, FALSE, FALSE);
-			
-			if (text)
-				e_msg_composer_set_pending_body (composer, text);
+			e_msg_composer_set_pending_body(composer, em_utils_part_to_html(mime_part));
 		} else if (camel_mime_part_get_content_id (mime_part) ||
 			   camel_mime_part_get_content_location (mime_part)) {
 			/* special in-line attachment */
@@ -3775,15 +3757,7 @@ e_msg_composer_new_with_message (CamelMimeMessage *message)
 			handle_multipart (new, multipart, 0);
 		}
 	} else {
-		/* We either have a text/plain or a text/html part */
-		CamelDataWrapper *contents;
-		char *text;
-		
-		contents = camel_medium_get_content_object (CAMEL_MEDIUM (message));
-		text = mail_get_message_body (contents, FALSE, FALSE);
-		
-		if (text)
-			e_msg_composer_set_pending_body (new, text);
+		e_msg_composer_set_pending_body(new, em_utils_part_to_html((CamelMimePart *)message));
 	}
 	
 	/* We wait until now to set the body text because we need to ensure that

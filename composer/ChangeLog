@@ -1,3 +1,7 @@
+2003-09-17  Not Zed  <NotZed@Ximian.com>
+
+	** Merge in mail-refactor-2-branch
+
 2003-09-15  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-msg-composer-hdrs.c (header_new_recipient): Make the entry
@@ -20,6 +24,21 @@
 	(composer_entry_focus_in_event_cb): Load
 	evolution-composer-entries.xml here for the non-control entries' UI.
 	(composer_entry_focus_out_event_cb): Remove the menu items.
+
+2003-09-10  Not Zed  <NotZed@Ximian.com>
+
+	* listener.c (impl_event): We want to use decode to stream for
+	attachment parts.
+
+2003-09-08  Not Zed  <NotZed@Ximian.com>
+
+	* e-msg-composer.c (autosave_load_draft): ugh, direct linking to
+	evolution-mail suckage.  Should these callbacks just be handled
+	internally?
+	(handle_multipart_encrypted, handle_multipart_signed)
+	(handle_multipart_alternative, handle_multipart)
+	(e_msg_composer_new_with_message): Use new em_utils stuff for
+	message formatting.
 
 2003-08-22  Antonio Xu  <antonio.xu@sun.com>
 
