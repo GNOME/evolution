@@ -1,8 +1,17 @@
 <glossary id="apx-gloss">
+  
+  <title>Glossary</title>
+  
+  <glossentry id="assistant">
+    <glossterm>Assistant:</glossterm>
+    <glossdef>
+      <para>
+	See druid
+      </para>
+    </glossdef>
+  </glossentry>
 
- <title>Glossary</title>
-
- <glossentry id="attachment">
+  <glossentry id="attachment">
   <glossterm>Attachment:</glossterm>
   <glossdef>
    <para>
@@ -16,7 +25,7 @@
   <glossterm>Automatic Indexing:</glossterm>
   <glossdef>
    <para>
-     Pre-sorting procedure that allows
+     Pre-fetching procedure that allows
      <application>Evolution</application> to refer to data quickly.
      It enables faster searches and decreases memory usage for
      data displays.
@@ -50,7 +59,7 @@
   <glossterm>Conduit:</glossterm>
   <glossdef>
    <para>
-     A synchronization conduit is a small application which controls
+     A small application which controls
      the transfer of data between a handheld device and a desktop
      computer.
    </para>
@@ -115,8 +124,8 @@
      and denoted by <filename>/</filename>.
      The rest of the "branches" spread downwards from the root.  Don't
      confuse the root directory with the root
-     account, or root's home directory,
-     <filename>/home/root</filename>.b
+     account, or root's home directory, normally
+     <filename>/root</filename>.
    </para>
   </glossdef>
  </glossentry>
@@ -126,7 +135,7 @@
   <glossdef>
    <para>
     Within <application>Evolution</application>, a filter is a method
-    of sorting mail automatically.  You can create filters to perform
+    of sorting mail automatically when it's downloaded.  You can create filters to perform
     one or more actions on a message that meets any (or all) of a wide
     range of criteria.
    </para>
@@ -150,7 +159,7 @@
     Groupware is a term describing an application which helps groups
     of people work together.  Typically, a groupware application will
     have several productivity features built into one program,
-    including email, calendar, and addressbook tools.
+    including: email, calendar, and addressbook tools.
    </para>
   </glossdef>
  </glossentry>
@@ -172,7 +181,7 @@
   <glossdef>
    <para>
     Hot-keys are keyboard combinations used to do actions on a
-    computer instead of using the mouse to do the same action.
+    computer instead of using the mouse.
     Hot-keys can speed up computer usage.
    </para>
   </glossdef>
@@ -194,8 +203,7 @@
   <glossdef>
    <para>
     Depending upon whom you ask, IMAP stands for the Internet Mail
-    Access Protocol, or the Interim Mail Access Protocol.  Whatever it
-    stands for, it allows access to email which is typically (although
+    Access Protocol, or the Interim Mail Access Protocol.  It allows access to email which is typically (although
     not always) stored remotely on a server rather than on a local
     hard disk.  Often contrasted with <glossterm>POP:</glossterm>.
     This will not be on the test.
@@ -226,17 +234,17 @@
    </glossdef>
   </glossentry>
 
- <glossentry id="mail-client">
-  <glossterm>Mail Client:</glossterm>
-  <glossdef>
-   <para>
-    A mail client is the application with which a person reads and
-    sends e-mail.  Its counterparts are the various types of mail
-    servers, which handle user authentication and direct messages from
-    sender to recipient.
-   </para>
-  </glossdef>
- </glossentry>
+  <glossentry id="mail-client">
+    <glossterm>Mail Client:</glossterm>
+    <glossdef>
+      <para>
+	A mail client is the application with which a person reads and
+	sends e-mail.  Its counterparts are the various types of mail
+	servers, which handle user authentication and direct messages from
+	sender to recipient.
+      </para>
+    </glossdef>
+  </glossentry>
 
 
  <glossentry id="minicard">
@@ -254,7 +262,7 @@
   <glossdef>
    <para>
     <application>Nautilus</application> is the next generation file
-    manager for <acronym>GNOME</acronym> being written by Eazel.
+    manager for <acronym>GNOME</acronym>.
    </para>
   </glossdef>
  </glossentry>
@@ -303,12 +311,13 @@
    <para>
       A regular expression, or "regex", is a way of describing a
       string of text using metacharacters or wild-card symbols.  For
-      example, the statement <userinput>fly.*so[a|u]p</userinput> means
+      example, the statement <userinput>fly.*so[au]p</userinput> means
       "any phrase beginning with 'fly' and ending in 'soup' or
       'soap'".  If you searched for that expression, you'd find both
       "fly in my soup" and "fly in my soap."  There's not room here to
       go into depth, but if you want, have a look at the documentation
-      for the <command>grep</command> command.
+      for the <command>grep</command> command by opening a command
+      line and typing in <command>man grep</command>.
    </para>
   </glossdef>
  </glossentry>
@@ -319,42 +328,66 @@
    <para>
     A program written in an interpreted (rather than compiled)
     language.  Often used as a synonym for "macro," to denote a series
-    of pre-recorded commands or actions within an application.
+    of pre-recorded commands or actions within an application.  Often
+    times,  accomplish repetitive and tedious tasks, to save the
+    user time.
    </para>
   </glossdef>
  </glossentry>
 
- <glossentry id="sendmail">
-  <glossterm>Sendmail:</glossterm>
-  <glossdef>
-   <para>
-      As its name implies, <application>sendmail</application> is a
-      program which sends mail.  <application>Evolution</application>
-      can use it instead of <glossterm>SMTP:</glossterm>; some people
-      prefer it because it offers more flexibility, but is more
-      difficult to set up.
-   </para>
-  </glossdef>
- </glossentry>
+  <glossentry id="search-base">
+    <glossterm>Search Base:</glossterm>
+    <glossdef>
+      <para>
+	LDAP can break contact lists into many groups.  The Search
+	Base tells LDAP the top group to use.  How much of the Search
+	Base that is searched is set by the <glossterm
+	linkend="search-scope">Search Scope</glossterm> option.
+      </para>
+    </glossdef>
+  </glossentry>
 
+  <glossentry id="search-scope">
+    <glossterm>Search Scope:</glossterm>
+    <glossdef>
+      <para>
+	Search Scope states how much of the <glossterm
+	linkend="search-base">Search Base</glossterm> to search.
+      </para>
+    </glossdef>
+  </glossentry>
+  
+  <glossentry id="sendmail">
+    <glossterm>Sendmail:</glossterm>
+    <glossdef>
+      <para>
+	As its name implies, <application>sendmail</application> is a
+	program which sends mail.  <application>Evolution</application>
+	can use it instead of <glossterm>SMTP:</glossterm>; some people
+	prefer it because it offers more flexibility, but is more
+	difficult to set up.
+      </para>
+    </glossdef>
+  </glossentry>
+  
 
- <glossentry id="shortcut-bar">
-  <glossterm>Shortcut Bar:</glossterm>
-  <glossdef>
-   <para>
-     A portion of <application>Evolution</application> which offers
-     users fast access to the most frequently used portions of the
-     application.
-   </para>
-  </glossdef>
- </glossentry>
-
+  <glossentry id="shortcut-bar">
+    <glossterm>Shortcut Bar:</glossterm>
+    <glossdef>
+      <para>
+	A portion of <application>Evolution</application> which offers
+	users fast access to the most frequently used portions of the
+	application.
+      </para>
+    </glossdef>
+  </glossentry>
+  
   <glossentry id="signature">
    <glossterm>Signature:</glossterm>
    <glossdef>
     <para>
      In email terms, a signature is a piece of text placed at the end
-     of every email sent, like a hand-written signature at the bottom
+     of every email sent, similar to a hand-written signature at the bottom
      of a written letter.  A signature can be anything from a favorite
      quotation to a link to a web page; courtesy dictates that it be
      fewer than four lines long.
@@ -372,17 +405,17 @@
     </para>
    </glossdef>
   </glossentry> 
-
- <glossentry id="tooltip">
-  <glossterm>Tool-Tip:</glossterm>
-  <glossdef>
-   <para>
-      A small box of explanatory text which appears when the mouse
-      pointer is held motionless over a button or other interface
-      element.
-   </para>
-  </glossdef>
- </glossentry>
+  
+  <glossentry id="tooltip">
+    <glossterm>Tool-Tip:</glossterm>
+    <glossdef>
+      <para>
+	A small box of explanatory text which appears when the mouse
+	pointer is held motionless over a button or other interface
+	element.
+      </para>
+    </glossdef>
+  </glossentry>
 
  <glossentry id="virus">
   <glossterm>Virus:</glossterm>
@@ -397,18 +430,18 @@
   </glossdef>
  </glossentry>
 
- <glossentry id="vcard">
-  <glossterm>vCard:</glossterm>
-  <glossdef>
-   <para>
-    A file format for the exchange of contact information. When you
-    get an address card attached to an email, it's probably in vCard
-    format.  Not to be confused with <glossterm
-    linkend="vfolder">vFolder:</glossterm>.
-   </para>
-  </glossdef>
- </glossentry>
-
+  <glossentry id="vcard">
+    <glossterm>vCard:</glossterm>
+    <glossdef>
+      <para>
+	A file format for the exchange of contact information. When you
+	get an address card attached to an email, it's probably in vCard
+	format.  Not to be confused with <glossterm
+	linkend="vfolder">vFolder:</glossterm>.
+      </para>
+    </glossdef>
+  </glossentry>
+  
  <glossentry id="vfolder">
   <glossterm>vFolder:</glossterm>
   <glossdef>

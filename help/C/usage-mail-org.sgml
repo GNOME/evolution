@@ -12,13 +12,15 @@
   <sect1 id="importing-mail-and-settings">
     <title>Importing Your Old Email and Settings</title>
     <para>
-      <application>Evolution</application> allows you to import old email and data so that you don't need to worry about losing your old information.
+      <application>Evolution</application> allows you to import old
+      email and data so that you don't need to worry about losing your
+      old information.
     </para>
     <sect2 id="importing-mail">
       <title>Importing Email</title>
       <para>
-        <application>Ximian Evolution</application> can import the following types of
-        files:
+        <application>Ximian Evolution</application> can import the
+        following types of files:
         <variablelist>
           <varlistentry>
             <term>VCard (.vcf, gcrd):</term>
@@ -37,7 +39,9 @@
 	    <listitem>
 	      <para>
 		A format for storing calendar files.  iCalendar is used by 
-		PalmOS based handhelds, Ximian <application>Evolution</application>, and Microsoft <application>Outlook</application>.
+		PalmOS based handhelds, Ximian
+                <application>Evolution</application>, and Microsoft
+		<application>Outlook</application>.
 	      </para>
 	    </listitem>
 	  </varlistentry>
@@ -98,7 +102,10 @@
     <sect2 id="importing-preferences">
       <title>Importing Preferences</title>
       <para>
-        <application>Evolution</application> can import all your old mail, contacts, and other information from other applications, making your transition to <application>Evolution</application> even easier.
+        <application>Evolution</application> can import all your old
+        mail, contacts, and other information from other applications,
+        making your transition to <application>Evolution</application>
+        easy.
       </para>
       <para>
         To import your old information:
@@ -120,7 +127,10 @@
           </listitem>
           <listitem>
             <para>
-              The left-most column shows the application which your information will be imported from.  You then select checkboxes on each component to import different properties of each application.
+              The left-most column shows the application which your
+              information will be imported from.  You then select
+              checkboxes on each component to import different
+              properties of each application.
             </para>
           </listitem>
           <listitem>
@@ -136,68 +146,68 @@
         </orderedlist>
       </para>
 
-<para>
-    <note>
-      <title>Microsoft Outlook and Outlook Express Users</title>
       <para>
-	Microsoft Outlook, and versions of Outlook Express after
-	version 4, use proprietary formats that <application>Ximian
-	Evolution</application> cannot read or import.  For contacts,
-	you may have to email them to yourself and import them that
-	way.  For email, there is a simpler workaround:
-	<orderedlist numeration="arabic">
-
-	<listitem>
-	<para>
-	  While using Windows, import the files into Mozilla Mail (or
-	  another mailer, such as Netscape or Eudora, that uses the
-	  standard mbox format).
-        </para>
-        </listitem>
+	<note>
+	  <title>Microsoft Outlook and Outlook Express Users</title>
+	  <para>
+	    Microsoft Outlook, and versions of Outlook Express after
+	    version 4, use proprietary formats that <application>Ximian
+	      Evolution</application> cannot read or import.  For contacts,
+	    you may have to email them to yourself and import them that
+	    way.  For email, there is a simpler workaround:
+	    <orderedlist numeration="arabic">
+	      
+	      <listitem>
+		<para>
+		  While using Windows, import the files into Mozilla Mail (or
+		  another mailer, such as Netscape or Eudora, that uses the
+		  standard mbox format).
+		</para>
+	      </listitem>
+	      
+	      <listitem>
+		<para>
+		  Copy the files to the system or partition you use for
+		  <application>Ximian Evolution</application>.  
+		</para>
+	      </listitem>
+	      
+	      <listitem>
+		<para>
+		  Use the <application>Ximian Evolution</application> import
+		  tool to import the files.  There's more information about
+		  why this works, and how, at the Ximian support website.
+		</para>
+	      </listitem>
+	    </orderedlist>
+	  </para>
+	</note>     
 	
-	<listitem>
-	<para>
-          Copy the files to the system or partition you use for
-          <application>Ximian Evolution</application>.  
-         </para>
-        </listitem>
-
-	<listitem>
-	<para>
-	  Use the <application>Ximian Evolution</application> import
-          tool to import the files.  There's more information about
-          why this works, and how, at the Ximian support website.
+	<note>
+	  <title>Netscape Users</title>
+	  <para>
+	    Before importing mail from Netscape, make sure you select
+	    <menuchoice><guimenu>File</guimenu><guimenuitem>Compact All
+		Folders</guimenuitem></menuchoice>. If you don't,
+	    <application>Ximian Evolution</application> will import and undelete
+	    the messages in your Trash folders.
+	  </para>
+	</note>     
+	
       </para>
-        </listitem>
-     </orderedlist>
-    </para>
-    </note>     
-
-    <note>
-      <title>Netscape Users</title>
-      <para>
-	Before importing mail from Netscape, make sure you select
-	<menuchoice><guimenu>File</guimenu><guimenuitem>Compact All
-	Folders</guimenuitem></menuchoice>. If you don't,
-	<application>Ximian Evolution</application> will import and undelete
-	the messages in your Trash folders.
-      </para>
-    </note>     
-
-    </para>
-
+      
     </sect2>
   </sect1>
   <sect1 id="usage-mail-organize-columns">
-      <title>Sorting Mail with Column Headers</title>
-      <para>
-         By default, the message list has columns with the following
-         headings: an envelope icon indicating whether you have read
-         or replied to a message, an exclamation point indicating priority, and the
-         <guilabel>From</guilabel>, <guilabel>Subject</guilabel>, and
-         <guilabel>Date</guilabel> fields. You can change their order
-         and remove them by dragging and dropping them.  
-
+    <title>Sorting Mail with Column Headers</title>
+    <para>
+      By default, the message list has columns with the following
+      headings: an envelope icon indicating whether you have read
+      or replied to a message, an exclamation point indicating priority, and the
+      <guilabel>From</guilabel>, <guilabel>Subject</guilabel>, and
+      <guilabel>Date</guilabel> fields. You can change their order
+      and remove them by dragging and dropping them.  
+      
       To add columns:
       <orderedlist numeration="arabic">
 	<listitem>
@@ -246,13 +256,17 @@
 	    </para></listitem>
 	  </varlistentry>
 	  
-	  <varlistentry>
-	    <term><guimenuitem>Remove this
-		Column</guimenuitem>:</term> <listitem><para> Remove
-		this column from the display. You can also remove
-		columns by dragging the header off the list and
-		letting it drop.  </para></listitem>
-	  </varlistentry>
+	<varlistentry>
+	  <term><guimenuitem>Remove this
+	      Column</guimenuitem>:</term> 
+	  <listitem>
+	    <para>
+	      Remove this column from the display. You can also remove
+	      columns by dragging the header off the list and
+	      letting it drop.  
+	    </para>
+	  </listitem>
+	</varlistentry>
 	  
 	  <varlistentry>
 	    <term><guimenuitem>Field
@@ -273,7 +287,7 @@
       <para>
 	<application>Ximian Evolution</application> keeps mail, as well as
 	address cards and calendars, in folders.  You start out with a
-	few, like <guilabel>Inbox</guilabel>,
+	few mail folders, such as <guilabel>Inbox</guilabel>,
 	<guilabel>Outbox</guilabel>, and <guilabel>Drafts</guilabel>,
 	but you can create as many as you like.  Create new folders by
 	selecting <guisubmenu>New</guisubmenu> and then
@@ -295,81 +309,95 @@
 	<interface>filter assistant</interface>, you can have mail
 	filed automatically.
       </para>
+
+      <warning id="imap-subfolders">
+        <title>Subfolders in IMAP</title>
+        <para>
+          The INBOX folder on most IMAP servers cannot contain both
+          subfolders and messages. When you create additional folders
+          on your IMAP mail server, branch them from the root of the
+          IMAP account's folder, tree, not from INBOX. If you create
+          subfolders in your INBOX folder, you will lose the ability
+          to read messages that exist in your INBOX until you move the
+          folders out of the way.
+        </para>
+      </warning>
+
   </sect1>    
 
   <sect1 id="usage-mail-organize-search">
-      <title>Searching for Messages</title>
-      <para>
-	Most mail clients can search through your messages for you,
-	but <application>Ximian Evolution</application> does it faster. You
-	can search through just the message subjects, just the message
-	body, or both body and subject.
-      </para>
-      <para>
-	To start searching, enter a word or phrase in the text area
-	right below the toolbar, and choose a search type:
-	<variablelist>
-	  <varlistentry>
-	    <term><guilabel>Body or subject contains</guilabel>:</term>
+    <title>Searching for Messages</title>
+    <para>
+      Most mail clients can search through your messages for you,
+      but <application>Ximian Evolution</application> does it faster. You
+      can search through just the message subjects, just the message
+      body, or both body and subject.
+    </para>
+    <para>
+      To start searching, enter a word or phrase in the text area
+      right below the toolbar, and choose a search type:
+      <variablelist>
+	<varlistentry>
+	  <term><guilabel>Body or subject contains</guilabel>:</term>
 	  <listitem>
-	      <para>
-	        This will search message subjects and the messages
-	        themselves for the word or phrase you've entered in
-	        the search field.
-   	      </para>
-	    </listitem>
-	  </varlistentry>
-	  <varlistentry>
-	    <term> <guilabel>Body contains</guilabel>:</term>
-	    <listitem>
-	      <para>
-	        This will search only in message text, not the subject
-	        lines.
-	      </para>
-	    </listitem>
-	  </varlistentry>
-	  <varlistentry>
-	    <term><guilabel>Subject contains:</guilabel></term>
-	    <listitem>
-	      <para>
-	        This will show you messages where the search text is
-	        in the subject line.  It will not search in the
-	        message body.
-	      </para>
-	    </listitem>
-	  </varlistentry>
-	  <varlistentry>
-	    <term><guilabel>Body does not contain:</guilabel></term>
-	    <listitem>
-	      <para>
-	        This finds every email message that does not have the
-	        search text in the message body.  It will still show
-	        messages that have the search text in the subject
-	        line, if it is not also in the body.
-	      </para>
-	    </listitem>
-	  </varlistentry>
-	  <varlistentry>
-	    <term><guilabel>Subject does not contain:</guilabel></term>
-	    <listitem>
-	      <para>
-	        This finds every mail whose subject does not contain
-	        the search text.
-	      </para>
-	    </listitem>
-	  </varlistentry>
-	</variablelist>
-
-        When you've entered your search phrase, press
-        <keycap>Enter</keycap>.  <application>Ximian Evolution</application>
-        will show your search results in the message list.
-      </para>
-
-      <para>
-         If you think you'll want to return to a search again, you can
-         save it as a virtual folder by selecting <guilabel>Store
-         Search as vFolder</guilabel>.
-      </para>
+	    <para>
+	      This will search message subjects and the messages
+	      themselves for the word or phrase you've entered in
+	      the search field.
+	    </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term> <guilabel>Body contains</guilabel>:</term>
+	  <listitem>
+	    <para>
+	      This will search only in message text, not the subject
+	      lines.
+	    </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><guilabel>Subject contains:</guilabel></term>
+	  <listitem>
+	    <para>
+	      This will show you messages where the search text is
+	      in the subject line.  It will not search in the
+	      message body.
+	    </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><guilabel>Body does not contain:</guilabel></term>
+	  <listitem>
+	    <para>
+	      This finds every email message that does not have the
+	      search text in the message body.  It will still show
+	      messages that have the search text in the subject
+	      line, if it is not also in the body.
+	    </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><guilabel>Subject does not contain:</guilabel></term>
+	  <listitem>
+	    <para>
+	      This finds every mail whose subject does not contain
+	      the search text.
+	    </para>
+	  </listitem>
+	</varlistentry>
+      </variablelist>
+      
+      When you've entered your search phrase, press
+      <keycap>Enter</keycap>.  <application>Ximian Evolution</application>
+      will show your search results in the message list.
+    </para>
+    
+    <para>
+      If you think you'll want to return to a search again, you can
+      save it as a virtual folder by selecting <guilabel>Store
+	Search as vFolder</guilabel>.
+    </para>
 
       <para>
          When you're done with the search, go back to seeing all your
@@ -814,8 +842,15 @@
 	Folders.  That's why <application>Ximian
 	Evolution</application> includes an Unmatched vFolder.  The
 	Unmatched vFolder displays messages that are not matched by
-	other rules. If you have no vFolders, the Unmatched folder
-	will contain all of your mail.
+	other rules.
+      </para>
+      <para>
+        If you use remote email storage like IMAP or Microsoft
+        Exchange, and have created vFolders to search through them,
+        the Unmatched vFolder will follow your lead, and search the
+        remote folders as well. If you do not create any vFolders that
+        search in remote mail stores, the Unmatched vFolder will not
+        search in them either.
       </para>
     </note>
 
@@ -994,27 +1029,29 @@
 		  </para>
 		</listitem>
 	      </itemizedlist>
-	
-         </para>
-     </listitem>
-   </orderedlist>
-</para>
-<para>
-Remote folders are considered active if you are connected to the
-server; you must be connected to your mail server for the vFolder to
-include any messages from that source.
-</para>
-<para>
+	      
+	    </para>
+	  </listitem>
+	</orderedlist>
+      </para>
+      <para>
+	Remote folders are considered active if you are connected to the
+	server; you must be connected to your mail server for the vFolder to
+	include any messages from that source.
+      </para>
+      <para>
       <figure id="usage-mail-vfolder-fig-createrule">
 	<title>Selecting a vFolder Rule</title>
 	<screenshot>
 	  <screeninfo>Creating a vFolder Rule</screeninfo>
-	  <mediaobject><imageobject><imagedata
-	  fileref="figures/vfolder-createrule-fig" format="png"
-	  srccredit="Aaron Weber">
-	  </imageobject></mediaobject>
-	</screenshot>
-      </figure>
+	    <mediaobject>
+	      <imageobject>
+		<imagedata fileref="figures/vfolder-createrule-fig" format="PNG"
+			   srccredit="Aaron Weber">
+	      </imageobject>
+	    </mediaobject>
+	  </screenshot>
+	</figure>
       </para>
     </sect2>
   </sect1>

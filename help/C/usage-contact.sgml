@@ -20,8 +20,8 @@
        The toolbar for the addressbook is quite simple.
        <itemizedlist>
 	<listitem><para>
-           Click <guibutton>New Contact</guibutton> to create a new card, or double-click 
-           in a blank space in the contact list. 
+	  Click <guibutton>New Contact</guibutton> to create a new card, or double-click 
+	  in a blank space in the contact list. 
 	</para></listitem>
 
 	<listitem><para>
@@ -503,21 +503,20 @@
   <sect1 id="usage-contact-sharing">
     <title>Sharing your Cards</title>
     <para>
-       If you keep your cards on a network using an <glossterm
-       linkend="ldap">LDAP</glossterm> server, you can share access to
-       them, browse other peoples addressbooks, or maintain a shared set of
-       contact information for your company or your department.  This
-       is the sort of feature you'll want to use if your company has a
-       list of vendors and clients that needs constant updating.  If
-       you share calendars as well as addressbooks, people can avoid
-       duplicating work and keep up to date on developments within
-       their workgroup or across the entire company.
+      The <glossterm linkend="ldap">LDAP</glossterm> protocol was
+      created to let users share contact information over a network.
+      LDAP allows for users to browse other people's addressbooks, or
+      maintain a shared set of contact information for a company or
+      department.  This feature comes in handy if you are in a group
+      where there are lots of people using the same contacts.  Such an
+      example would be the sales department of a company with their
+      client list.
     </para>
 
      <example id="usage-contact-sharing-ex">
 	<title>Sharing Address Cards and Calendar Data</title>
 	  <para>
-	    Ray wants to schedule a meeting with Company X, so he
+	    Rich wants to schedule a meeting with Company X, so he
 	    checks the network for the Company X address card so he
 	    knows whom to call there.  Since his company also shares
 	    calendars, he then learns that his co-worker Deanna has
@@ -527,6 +526,7 @@
 	    scheduling an extra meeting with Company X. 
 	 </para>
       </example>
+
     <para>
        Of course, you don't want to share all of your cards&mdash; why
        overload the network with a list of babysitters or tell
@@ -537,24 +537,25 @@
     <para>
        To learn how to add a remote directory to your available
        contact folders, see <xref linkend="config-prefs-contact">.
-       Once you have a connection, the network contacts folder or
+       Once you have a LDAP connection, the network contacts folder or
        folders will appear inside the <guilabel>External
        Directories</guilabel> folder in the folder bar.  It will work
        exactly like a local folder of cards, with the following
        exceptions:
        <itemizedlist>
-
+	  
           <listitem>
-	  <para>
+	    <para>
               Network folders are only available when you are
               connected to the network.  If you use a laptop or have a
               modem connection, you may wish to copy or cache the
-              network directory.  You do this by dragging and dropping your desired contacts into the local contacts list.
-	  </para>
+              network directory.  You do this by dragging and dropping
+              your desired contacts into the local contacts list.
+	    </para>
 	  </listitem>
-
+	  
           <listitem>
-	  <para>
+	    <para>
               To prevent excess network traffic,
               <application>Evolution</application> will not normally
               load the contents of LDAP folders immediately upon
@@ -562,32 +563,40 @@
               All</guilabel> before LDAP folder cards will be loaded
               from the network. You can change this behavior in the
               <interface>Contact Preferences</interface> window.
-          </para>
+	    </para>
 	  </listitem>
 	  <listitem>
-	  <para>
+	    <para>
               Your ability to view, change, add, and delete contacts
               depends on the settings of the LDAP server. 
-          </para>
+	    </para>
 	  </listitem>
-       </itemizedlist>
-     </para>
+	</itemizedlist>
+    </para>
+    <sect2 id="usage-contact-sharing-setup">
+      <title>Configuring Evolution to use LDAP</title>
+      <para>
+	For information about setting up
+	<application>Evolution</application> to use LDAP, please refer
+	to <xref linkend="config-prefs-contact-ldap-add" />
+      </para>
+    </sect2>
   </sect1>
 
-    <sect1 id="contact-automation-basic">
-      <title>Send me a Card: Adding New Cards Quickly</title>
-      <para>
-	As noted before, when you get information about a person in
-	the mail or in a calendar entry, you can add it to an address
-	card.  To do so, right click on any email address or email
-	message, and select <guimenuitem>Add Address
-	Card</guimenuitem> from the menu that appears.  Of course,
-	<application> Evolution</application> can also add cards from a
-	hand-held device during HotSync operation.  For more
-	information about that, see <xref linkend="usage-sync">.
-      </para>
-    </sect1>
-
+  <sect1 id="contact-automation-basic">
+    <title>Send me a Card: Adding New Cards Quickly</title>
+    <para>
+      As noted before, when you get information about a person in
+      the mail or in a calendar entry, you can add it to an address
+      card.  To do so, right click on any email address or email
+      message, and select <guimenuitem>Add Address
+	Card</guimenuitem> from the menu that appears.
+      <application> Evolution</application> can also add cards from a
+      hand-held device during HotSync operation.  For more
+      information about that, see <xref linkend="usage-sync">.
+    </para>
+  </sect1>
+  
 <!-- Unimplemented features:
       <para>
          You can also use the addressbook to print postal addresses
@@ -603,7 +612,6 @@
   will map the address for you online.
   </para>
   -->
-    
-    
-
 </chapter> 
+
+

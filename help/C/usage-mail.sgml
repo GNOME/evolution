@@ -85,14 +85,15 @@
 	message with the original, so you can follow the thread of a
 	conversation from one message to the next.
       </para>
-<figure>
+      <figure>
         <title>Threaded Mail View</title>
-<screenshot>
-<screeninfo>Threaded Mail View</screeninfo>
-<mediaobject><imageobject><imagedata  format="png" fileref="figures/mail-threaded" srccredit="Aaron Weber">
-</imageobject></mediaobject>
-</screenshot>
-</figure>
+	<screenshot>
+	  <screeninfo>Threaded Mail View</screeninfo>
+	  <mediaobject><imageobject>
+	      <imagedata  format="png" fileref="figures/mail-threaded" srccredit="Aaron Weber">
+	    </imageobject></mediaobject>
+	</screenshot>
+      </figure>
 
     </sect2>
     
@@ -691,12 +692,42 @@
            linkend="usage-contact-organize-group-list">.
         </para>
 
+	<tip id="reply-to-per-mail">
+	  <title>Setting Reply-to On a Per-Mail Basis</title>
+	  <para>
+	    <application>Evolution</application> has the ability to
+	    let you specify the Reply-To in an email. Using this, you
+	    can setup a special Reply-To for an email.  To do this:
+	    <orderedlist numeration="arabic">
+	      <listitem>
+                <para>
+		  Open a composer window
+			 </para>
+			 </listitem>
+			 <listitem>
+			 <para>
+			 Open the Reply-To field by selecting
+			 <menuchoice>
+			 <guimenu>View</guimenu>
+			 <guimenuitem>Reply To</guimenuitem>
+			 </menuchoice>
+			 </para>
+			 </listitem>
+			 <listitem>
+			 <para>
+			 Enter the address you wish to have be the
+			 Reply-To address in the new Reply-To field.
+			 </para>
+			 </listitem>
+			 </orderedlist>			 
+	  </para>
+	</tip>
         </sect3>
-
-        <sect3 id="usage-mail-getnsend-send-to">
-        <title>Choosing Recipients Quickly</title>
-        <para>
-	  If you have created address cards in the contact manager,
+			 
+			 <sect3 id="usage-mail-getnsend-send-to">
+	      <title>Choosing Recipients Quickly</title>
+	      <para>
+		If you have created address cards in the contact manager,
           you can also enter nicknames or other portions of address
           data, and <application>Evolution</application> will offer a
           drop down list of possible address completions from your
@@ -939,8 +970,18 @@
                   of bullet points for the highly
                   organized.
                 </para>
-              </listitem>
-           </varlistentry>
+	      <tip>
+		<title>Using Bullets to Make Your Email More
+		Attractive</title>
+		<para>
+		  Often times, people use asterisks instead of real bullets.
+		  Not only do asterisks look nicer, but
+		  <application>Evolution</application> will word wrap for you,
+		  which makes your text looks nicer.
+		</para>
+	      </tip>
+	    </listitem>
+	  </varlistentry>
 	  <varlistentry>
 	    <term>Text style:</term>
 	    <listitem>
@@ -1135,10 +1176,10 @@
 
 		  <listitem>
 		    <para>
-		    Choose the alignment and style.  For the plain
-		    line, you can choose the thickness of the line,
-		    and whether it will be shaded, or solid.  For the
-		    other types, you can only choose alignment.
+		      Choose the alignment and style.  For the plain
+		      line, you can choose the thickness of the line,
+		      and whether it will be shaded, or solid.  For the
+		      other types, you can only choose alignment.
 		    </para>
 		  </listitem>
 
@@ -1335,7 +1376,7 @@
 	    </listitem>
 	    <listitem>
 	      <para>
-	      Set the size and alignment of the HTML template.
+		Set the size and alignment of the HTML template.
 	      </para>
 	    </listitem>
 
@@ -1347,8 +1388,8 @@
 	    </listitem>
 	    <listitem>
 	      <para>
-		Once you have inserted the template, click on the text
-		in the template, and enter the text you want to use.
+		Click on the text in the template, and enter the text
+		you want to use.
               </para>
 	      <para>
 		If you have selected an image frame template,
@@ -1558,7 +1599,105 @@
 	  </listitem>
 	</itemizedlist>
       </para>
-      <para> Happy mailing! </para>
+    </sect2>
+    <sect2 id="fancy-mail">
+      <title>Making Your Email More Fancy</title>
+      <para>
+	<application>Evolution</application> can do a lot with email
+	by utilizing the HTML features.  Making an email functional
+	and visually attractive can be challenging.  The following
+	section provides tips to make your mail functional, while
+	being more visually attractive than ever.
+      </para>
+      <sect3 id="sections-bolded-title">
+	<title>Sections Outlined in Bold</title>
+	<para>
+	  Indented sections are a great way to categorize and group
+	  your thoughts together.  Below is an example of indented
+	  text with headings to help separate your thoughts into the
+	  proper sections:
+	  <figure>
+	    <title>Indented Text with Headlines</title>
+	    <screenshot>
+	      <screeninfo></screeninfo>
+	      <graphic  format="png" fileref="figures/outline" srccredit="Kevin Breit">
+	    </screenshot>
+	  </figure>
+	</para>
+	<para>
+	  Notice how professional the email looks, but it gets the content across well.  Each section is broken up in its own subsection.  The title is bolded, while the text which follows is indented one time.
+	</para>
+	<para>
+	Making your headlines a larger size instead of bold can help
+	as well.  Header size 4 is often the best alternative for
+	bold.  You can change your text to size 4 by selecting it and
+	pressing Ctrl+4.  You can set your text to regular size later
+	by hitting Ctrl+0.
+	</para>
+      </sect3>
+      <sect3 id="bulleted-lists">
+	<title>Bulleted Lists</title>
+	<para>
+	  Often times, people use asterisks instead of real bullets.
+	  Not only do asterisks look nicer, but
+	  <application>Evolution</application> will word wrap for you,
+	  which makes your text looks nicer.
+	</para>
+      </sect3>
+      <sect3 id="inline-images">
+	<title>Images In Your Email</title>
+	<para>
+	  Images can help people to understand your point.  You should
+	  also consider using the HTML Picture Frame Template in
+	  <application>Evolution</application>, as it looks good and
+	  has captions below it.
+	</para>
+	<para>
+	  If you do choose to use images, try to keep them narrow.  If
+	  your images are wider than 400 pixels, the image may not fit
+	  in the whole email window, making it hard for your reader to
+	  read the email and view the image.  Instead, you should
+	  consider using a thumbnail and creating a link on the image
+	  which opens a browser with the full image.
+	  <figure>
+	    <title>Images in an email</title>
+	    <screenshot>
+	      <screeninfo></screeninfo>
+	      <graphic  format="png" fileref="small_desktop" srccredit="Kevin Breit">
+	    </screenshot>
+	  </figure>
+	</para>
+      </sect3>
+      <sect3 id="color-suggestions">
+	<title>Coloring Your Text</title>
+	<para>
+	  Colors can help bring words or sentences out for emphasis.  You
+	  should choose your colors carefully though, as the wrong color
+	  can be distracting.  Some good colors to use would be:
+	  <itemizedlist>
+	    <listitem>
+	      <para>
+		Light brown
+	      </para>
+	    </listitem>
+	    <listitem>
+	      <para>
+		Dull purple
+	      </para>
+	    </listitem>
+	    <listitem>
+	      <para>
+		Dark red
+	      </para>
+	    </listitem>
+	  </itemizedlist>
+	  <!-- Include a screenshot -->
+	  Notice how these colors are similar saturation <!-- Confirm I am using the right word -->
+	</para>
+	<para>
+	  Happy mailing!
+	</para>
+      </sect3>
     </sect2>
   </sect1>
   <sect1 id="rsvp-stuff">

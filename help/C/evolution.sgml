@@ -7,6 +7,7 @@
 <!ENTITY USAGE-MAIL-ORG SYSTEM "usage-mail-org.sgml">
 <!ENTITY USAGE-CONTACT SYSTEM "usage-contact.sgml">
 <!ENTITY USAGE-CALENDAR SYSTEM "usage-calendar.sgml">
+<!ENTITY USAGE-EXCHANGE SYSTEM "usage-exchange.sgml">
 <!ENTITY USAGE-SYNC SYSTEM "usage-sync.sgml">
 <!ENTITY USAGE-PRINT SYSTEM "usage-print.sgml">
 <!ENTITY CONFIG-PREFS SYSTEM "config-prefs.sgml">
@@ -21,10 +22,7 @@
 
 
 <!-- Almost every chapter is an entity.  Files, Chapter id's, and
-entity names correspond.  APX is for appendix. Note that there is no
-entity for apx-notes.sgml, which is still included in the file
-set. Reinstate the entity if and when the Notes feature is
-implemented. -->
+entity names correspond.  APX is for appendix.  -->
 
 <book id="index">
   <bookinfo>
@@ -36,7 +34,7 @@ implemented. -->
       <author><firstname>Duncan</firstname><surname>Mak</surname></author>
     </authorgroup>
     <copyright>
-      <year>2001</year>
+      <year>2000-2002</year>
       <holder>Ximian, Inc.</holder>
     </copyright>
     
@@ -66,7 +64,8 @@ implemented. -->
     </legalnotice>
 
    <releaseinfo>
-      This is version 1.0 of the Ximian Evolution manual.
+      This is version 1.0 of the Ximian Evolution manual. It describes
+      version 1.0 of the Ximian Evolution groupware suite.
    </releaseinfo>
 
   </bookinfo>
@@ -92,7 +91,7 @@ implemented. -->
     &USAGE-MAIL-ORG;
     &USAGE-CONTACT;
     &USAGE-CALENDAR;
-<!--   &USAGE-NOTES; -->
+    &USAGE-EXCHANGE;
     &USAGE-SYNC; 
     &USAGE-PRINT;
   </part>
@@ -119,20 +118,9 @@ implemented. -->
     &CONFIG-SYNC;
   </part>
 
-<!--  &FAQ; Just link to the webpage -->
   &MENUREF;
   &APX-GLOSS;
   &APX-BUGS;
   &APX-AUTHORS; 
 
 </book>
-
-
-
-
-
-
-
-
-
-

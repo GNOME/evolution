@@ -26,8 +26,8 @@
 	    <term><guilabel>Accounts</guilabel></term>
 	    <listitem>
 	      <para>
-		This allows you to create and alter one or more identities for your
-		email.
+		This allows you to create and alter one or more
+		identities for your email.
 	      </para>
 	    </listitem>
 	  </varlistentry>
@@ -63,9 +63,9 @@
 
       <!-- ==============Figure===================== -->
       <figure id="config-prefs-mail-fig">
-	<title>Mail Preferences Dialog</title>
+	<title>Account Editor Window</title>
 	<screenshot>
-	  <screeninfo>Setting mail preferences</screeninfo>
+	  <screeninfo>Account Editor Window</screeninfo>
 	  <mediaobject><imageobject><imagedata fileref="figures/config-mail" format="png" srccredit="Aaron Weber">
 	    </imageobject></mediaobject>
 	</screenshot>
@@ -125,13 +125,14 @@
 	    <para>
              Here, select the way you will be getting mail: you may
              download mail from a server (<glossterm
-             linkend="pop">POP</glossterm> or <glossterm
-             linkend="imap">IMAP</glossterm>) or access it from files
-             on your local system.  If you use a server, it may permit
-             or require you to use a Secure Socket Layer (SSL)
-             connection.  To turn SSL connections on, just click the
-             <guibutton>Use Secure Connection (SSL)</guibutton>
-             button.
+             linkend="pop">POP</glossterm>), read and keep it on the
+             server (Microsoft Exchange or <glossterm
+             linkend="imap">IMAP</glossterm>), or read it from files
+             that already exist on your desktop computer.  If you use
+             a server, it may permit or require you to use a Secure
+             Socket Layer (SSL) connection.  To turn SSL connections
+             on, just click the <guibutton>Use Secure Connection
+             (SSL)</guibutton> button.
 
 <note id="config-arbitrary-port">
 <title>Specifying Port Numbers</title>
@@ -155,11 +156,130 @@ smtp.omniport.com:143
            <listitem>
 	    <para>
               Here, decide whether you'd like to check for mail
-              automatically, and set other options related to the
-              behavior of your server.  If you use POP mail, you can
-              decide whether to leave mail on the server, and if you
-              use IMAP, you can set folder subscription options here.
+              automatically and how often. 
+
+              <variablelist>
+                <varlistentry>
+                   <term>If you chose POP:</term>
+                   <listitem>
+                     <para>
+                   <itemizedlist>
+			  <listitem>
+			    <para>Checking for new mail: If you would
+	                     like <application>Evolution</application>
+	                     to check for new mail automatically,
+	                     check the box and select a frequency in
+	                     minutes.
+                           </para>
+			  </listitem>
+
+			  <listitem>
+			    <para>
+                             Message Storage: If you'd like to store
+	                      copies of your mail on the server, check
+	                      this option.
+                           </para>
+			  </listitem>
+			</itemizedlist>
+                      </para>
+		    </listitem>
+                  </varlistentry> 
+
+                <varlistentry>
+                   <term>If you chose Microsoft Exchange:</term>
+                   <listitem>
+                     <para>
+
+	    <itemizedlist> <listitem>
+		<para>Checking for new mail: If you would like
+		<application>Evolution</application> to check for new mail
+		automatically, check the box and select a frequency in
+		minutes.
+		</para>
+	      </listitem>
+
+	      <listitem>
+		<para>Exchange Server: If your active directory user name
+		is different from your Exchange mail user name, check this
+		box and enter your mail username here.
+		</para>
+	      </listitem>
+
+	      <listitem>
+		<para>Create a Global Address List folder: If you would
+		like to have a seperate folder for the Active Directory's
+		Global Address List, leave this box checked. </para>
+	      </listitem>
+
+	      <listitem>
+		<para>
+		  Active Directory Server Name: In most organizations,
+    		  the Active Directory server will be different from
+    		  the Exchange mail server.  If so, check the box and
+    		  enter the Active Directory server name here.
+		</para>
+	      </listitem>
+
+	      <listitem>
+		<para>Limit number of Responses: Select a maximum number
+		of results for an address search. A maximum number of
+		results limits the load on your system and on your network.
+		  </para>
+	      </listitem>
+	    </itemizedlist>                       
+                     </para>
+                   </listitem>
+                  </varlistentry> 
+
+                <varlistentry>
+                   <term>If you chose IMAP:</term>
+                   <listitem>
+                     <para>
+                      
+         <itemizedlist>
+	  <listitem>
+	    <para>Checking for new mail: If you would like
+	    <application>Evolution</application> to check for new mail
+	    automatically, check the box and select a frequency in
+	    minutes.  
             </para>
+	  </listitem>
+
+	  <listitem>
+	    <para>If you want <application>Evolution</application>
+	    to check for new messages in <emphasis>all</emphasis> your
+	    IMAP folders, make sure the <guilabel>Check for new
+	    messages in all folders</guilabel> box is selected.</para>
+	  </listitem>
+
+	  <listitem>
+	    <para>Show only subscribed folders: Check this box if you
+	    have more folders in your IMAP view than you want to
+	    read.</para>
+	  </listitem>
+
+	  <listitem>
+	    <para>
+              Override server-supplied namespace: If you like, enter a
+              specific directory where your server stores mail for
+              you.  Typical values are "mail" and "Mail."  For more
+              information about how to use IMAP mail, see <xref
+              linkend="usage-mail-subscriptions">.</para>
+	  </listitem>
+
+	  <listitem>
+	    <para>Apply filters to new messages in INBOX on this
+	    server: If you'd like your filters to work on this account
+	    as well as on locally downloaded mail, check this box.</para>
+	  </listitem>
+	</itemizedlist>
+                     </para>
+                   </listitem>
+                  </varlistentry> 
+
+             
+                  </variablelist>  
+     </para>
 	  </listitem>
 	  </varlistentry>
 	  <varlistentry> 
@@ -168,7 +288,9 @@ smtp.omniport.com:143
 	    <para>
               In this section, you will choose and configure a method
               for sending mail.  You may choose <glossterm
-              linkend="smtp">SMTP</glossterm> or <glossterm
+              linkend="smtp">SMTP</glossterm>, Microsoft Exchange (if
+              you have purchased the Ximian Connector for Microsoft
+              Exchange) or <glossterm
               linkend="sendmail">sendmail</glossterm>.
              </para>
 	  </listitem>
@@ -189,7 +311,9 @@ smtp.omniport.com:143
 	    <para>
               In this section, you will set the security options for
               this account. Enter your PGP Key ID and decide how
-              frequently to encrypt and sign your messages.
+              frequently to encrypt and sign your messages. You can
+              learn more about PGP and encryption in <xref
+              linkend="encryption">.
             </para>
 	  </listitem>
 	  </varlistentry>
@@ -627,19 +751,19 @@ smtp.omniport.com:143
     </sect2>
    </sect1>
 
-   <sect1 id="config-prefs-contact">
-      <title>Managing the Addressbook</title>
-	<para>
-          The addressbook does not have a large list of configuration
-          settings, but those that are there can be found in the
-          <guimenu>Tools</guimenu> menu.
-        </para>
+  <sect1 id="config-prefs-contact">
+    <title>Managing the Addressbook</title>
+    <para>
+      The addressbook does not have a large list of configuration
+      settings, but those that are there can be found in the
+      <guimenu>Tools</guimenu> menu.
+    </para>
       
-        <sect2 id="config-prefs-contact-ldap-add">
-           <title>Adding Directory Servers</title>
-           <para>
-              To add a new LDAP server to your available contact
-              folders:
+    <sect2 id="config-prefs-contact-ldap-add">
+      <title>Adding Directory Servers</title>
+      <para>
+	To add a new <glossterm linkend="ldap">LDAP</glossterm> server
+	to your available contact folders:
 	<orderedlist numeration="arabic">
 	  <listitem>
 	    <para>
@@ -648,22 +772,25 @@ smtp.omniport.com:143
 		<guimenu>Tools</guimenu>
 		<guimenuitem>Addressbook Sources</guimenuitem>
 	      </menuchoice>
+	      from the menu.
 	    </para>
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Click <guibutton>Add</guibutton>.
+	      Click the <guibutton>Add</guibutton> button on the right
+	      side.
 	    </para>
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Enter the server information.
+	      Enter the server information:
 	      <variablelist>
 		<varlistentry>
 		  <term>Account name</term>
 		  <listitem>
 		    <para>
-		      The name that you see on the screen.  This could be anything you wish.
+		      The name that you see on the screen.  This could
+		      be anything you wish.
 		    </para>
 		  </listitem>
 		</varlistentry>
@@ -679,7 +806,9 @@ smtp.omniport.com:143
 		  <term>My server requires authentication</term>
 		  <listitem>
 		    <para>
-		      Select this if the server needs a password to access the addressbook.
+		      Select this if the server requires
+		      <application>Evolution</application> to provide
+		      a server in order to access the LDAP contacts.
 		    </para>
 		  </listitem>
 		</varlistentry>
@@ -687,23 +816,58 @@ smtp.omniport.com:143
 		  <term>Port</term>
 		  <listitem>
 		    <para>
-		      The internet port to connect to in order to access the database.  This is normally 389.
+		      The internet port
+		      <application>Evolution</application> connects to
+		      in order to access the LDAP database.  This is
+		      normally 389.
 		    </para>
 		  </listitem>
 		</varlistentry>
 		<varlistentry>
-		  <term>Search base</term>
+		  <term><glossterm linkend="search-base">Search base</glossterm></term>
 		  <listitem>
 		    <para>
-		      The base node to use for all your searches.  Contact your administrator for information about setting this up.
+		      The base entry to use for all your searches.
+		      Contact your administrator for information about
+		      the correct settings.
 		    </para>
 		  </listitem>
 		</varlistentry>
 		<varlistentry>
-		  <term>Search scope</term>
+		  <term><glossterm linkend="search-scope">Search scope</glossterm></term>
 		  <listitem>
 		    <para>
-How broad the search is in the directory.
+		      How broad the search is in the directory.  The
+		      following options are available:
+		      <variablelist>
+			<varlistentry>
+			  <term>Base</term>
+			  <listitem>
+			    <para>
+			      Searches just the Search Base.  Most of the time,
+			      not very useful.
+			    </para>
+			  </listitem>
+			</varlistentry>
+			<varlistentry>
+			  <term>One</term>
+			  <listitem>
+			    <para>
+			      Searches the Search Base and one entry
+			      below it.
+			    </para>
+			  </listitem>
+			</varlistentry>
+			<varlistentry>
+			  <term>Sub</term>
+			  <listitem>
+			    <para>
+			      Searches the Search Base and all entries
+			      below it.
+			    </para>
+			  </listitem>
+			</varlistentry>
+		      </variablelist>
 		    </para>
 		  </listitem>
 		</varlistentry>
@@ -717,10 +881,27 @@ How broad the search is in the directory.
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Click <guibutton>OK</guibutton> to permanenty make changes or <guibutton>Apply</guibutton> to temporarily set the changes.
+	      Click <guibutton>OK</guibutton> to permanenty make
+	      changes or <guibutton>Apply</guibutton> to temporarily
+	      set the changes.
 	    </para>
 	  </listitem>
 	</orderedlist>
+<!-- I gotta finish this example -->
+	<example id="ldap-config-example">
+	  <title>LDAP Configuration</title>
+	  <para>
+	    Rich works at a large chip manufacturer.  He needs to
+	    access the company's LDAP server.  Their LDAP address is
+	    wemakechips.com.
+	  </para>
+	  <para>
+	    His Account Name would be: We Make Chips Employees
+	  </para>
+	  <para>
+	    His Server Name would be: ldap.wemakechips.com
+	  </para>
+	</example>
       </para>
     </sect2>
   </sect1>

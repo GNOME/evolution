@@ -1,41 +1,12 @@
   <appendix id="authors">
     <title>Authors</title>
      <para>
-      <application>Evolution</application> was written by:
-<simplelist>
-     <member>Seth Alves: <email>alves@ximian.com</email></member>
-     <member>Anders Carlsson: <email>andersca@gnu.org</email></member>
-     <member>Damon Chaplin: <email>damon@ximian.com</email></member>
-     <member>Clifford R. Conover: <email>rusty@zootweb.com</email></member>
-     <member>Anna Dirks: <email>anna@ximian.com</email></member>
-     <member>Miguel De Icaza: <email>miguel@ximian.com</email></member>
-     <member>Radek Doulik: <email>rodo@ximian.com</email></member>
-     <member>Arturo Espinoza: <email>arturo@nucleu.unam.mx</email></member>
-     <member>Larry Ewing: <email>lewing@ximian.com</email></member>
-     <member>Nat Friedman: <email>nat@ximian.com</email></member>
-     <member>Bertrand Guiheneuf: <email>bertrand@ximian.com</email></member>
-     <member>Iain Holmes: <email>iain@ximian.com</email></member>
-     <member>Tuomas Kuosmanen: <email>tigert@gimp.org</email></member>
-     <member>Christopher J. Lahey: <email>clahey@ximian.com</email></member>
-     <member>Jason Leach: <email>jleach@usa.net</email></member>
-     <member>Matthew Loper: <email>matt@loper.org</email></member>
-     <member>Federico Mena: <email>federico@ximian.com</email></member>
-     <member>Rodrigo Moya: <email>rodrigo@ximian.com</email></member>
-     <member>Eskil Heyn Olsen: <email>deity@eski.dk</email></member>
-     <member>Federico Mena: <email>federico@ximian.com</email></member>
-     <member>Jesse Pavel: <email>jpavel@ximian.com</email></member>
-     <member>Ettore Perazzoli: <email>ettore@ximian.com</email></member>
-     <member>Jeffrey Stedfast: <email>jeff@ximian.com</email></member>
-     <member>Jakyb Steiner: <email>rodo@ximian.com</email></member> 
-     <member>Russell Steinthal: <email>rms39@columbia.edu</email></member>     
-     <member>Peter Teichman: <email>peter@ximian.com</email></member>     
-     <member>Chris Toshok: <email>toshok@ximian.com</email></member>
-     <member>Peter Williams: <email>peter@newton.cx</email></member>
-     <member>Dan Winship: <email>danw@ximian.com</email></member>
-     <member>Michael Zucchi: <email>notzed@ximian.com</email></member>
-</simplelist>
-and numerous other dedicated GNOME programmers. 
-</para>
+      <application>Evolution</application> was written by the Ximian
+      Evolution team and numerous other dedicated GNOME programmers.
+      You can see their names by selecting <menuchoice>
+      <guimenu>Help</guimenu> <guimenuitem>About</guimenuitem>
+      </menuchoice> from any Evolution window.
+     </para>
     <para>
       The <application>Evolution</application> code owes a great debt
        to the <application>GNOME-pim</application> and
@@ -66,7 +37,7 @@ and numerous other dedicated GNOME programmers.
     <para>
       This manual was written by Aaron Weber
       (<email>aaron@ximian.com</email>), Kevin Breit
-      (<email>battery841@mypad.com</email>) Duncan Mak
+      (<email>mrproper@ximian.com</email>) Duncan Mak
       (<email>duncan@ximian.com</email>) and Ettore Perazzoli
       (<email>ettore@ximian.com</email>) with the help of the
       application programmers and the GNOME Documentation Project.
