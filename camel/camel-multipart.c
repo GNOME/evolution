@@ -362,7 +362,7 @@ set_boundary (CamelMultipart *multipart, gchar *boundary)
 		strcpy (bbuf, "=-");
 		p = bbuf + 2;
 		state = save = 0;
-		p += base64_encode_step (digest, 16, p, &state, &save);
+		p += base64_encode_step (digest, 16, FALSE, p, &state, &save);
 		*p = '\0';
 
 		boundary = bbuf;

@@ -99,7 +99,7 @@ complete(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out,
 	case CAMEL_MIME_FILTER_BASIC_BASE64_ENC:
 		/* wont go to more than 2x size (overly conservative) */
 		camel_mime_filter_set_size(mf, len*2, FALSE);
-		newlen = base64_encode_close(in, len, mf->outbuf, &f->state, &f->save);
+		newlen = base64_encode_close(in, len, TRUE, mf->outbuf, &f->state, &f->save);
 		break;
 	case CAMEL_MIME_FILTER_BASIC_QP_ENC:
 		/* *4 is definetly more than needed ... */
@@ -143,7 +143,7 @@ filter(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out, s
 	case CAMEL_MIME_FILTER_BASIC_BASE64_ENC:
 		/* wont go to more than 2x size (overly conservative) */
 		camel_mime_filter_set_size(mf, len*2, FALSE);
-		newlen = base64_encode_step(in, len, mf->outbuf, &f->state, &f->save);
+		newlen = base64_encode_step(in, len, TRUE, mf->outbuf, &f->state, &f->save);
 		break;
 	case CAMEL_MIME_FILTER_BASIC_QP_ENC:
 		/* *4 is overly conservative, but will do */

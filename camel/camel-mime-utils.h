@@ -167,8 +167,8 @@ void header_mime_decode(const char *in, int *maj, int *min);
 /* do incremental base64/quoted-printable (de/en)coding */
 int base64_decode_step(unsigned char *in, int len, unsigned char *out, int *state, unsigned int *save);
 
-int base64_encode_step(unsigned char *in, int len, unsigned char *out, int *state, int *save);
-int base64_encode_close(unsigned char *in, int inlen, unsigned char *out, int *state, int *save);
+int base64_encode_step(unsigned char *in, int len, gboolean break_lines, unsigned char *out, int *state, int *save);
+int base64_encode_close(unsigned char *in, int inlen, gboolean break_lines, unsigned char *out, int *state, int *save);
 
 int uudecode_step (unsigned char *in, int len, unsigned char *out, int *state, guint32 *save, char *uulen);
 

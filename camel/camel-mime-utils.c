@@ -273,13 +273,13 @@ int main(int argc, char **argv)
 /* call this when finished encoding everything, to
    flush off the last little bit */
 int
-base64_encode_close(unsigned char *in, int inlen, unsigned char *out, int *state, int *save)
+base64_encode_close(unsigned char *in, int inlen, gboolean break_lines, unsigned char *out, int *state, int *save)
 {
 	int c1, c2;
 	unsigned char *outptr = out;
 
 	if (inlen>0)
-		outptr += base64_encode_step(in, inlen, outptr, state, save);
+		outptr += base64_encode_step(in, inlen, break_lines, outptr, state, save);
 
 	c1 = ((char *)save)[1];
 	c2 = ((char *)save)[2];
@@ -297,7 +297,8 @@ base64_encode_close(unsigned char *in, int inlen, unsigned char *out, int *state
 		outptr += 4;
 		break;
 	}
-	*outptr++ = '\n';
+	if (break_lines)
+		*outptr++ = '\n';
 
 	*save = 0;
 	*state = 0;
@@ -311,7 +312,7 @@ base64_encode_close(unsigned char *in, int inlen, unsigned char *out, int *state
   0 on first invocation).
 */
 int
-base64_encode_step(unsigned char *in, int len, unsigned char *out, int *state, int *save)
+base64_encode_step(unsigned char *in, int len, gboolean break_lines, unsigned char *out, int *state, int *save)
 {
 	register unsigned char *inptr, *outptr;
 
@@ -348,7 +349,7 @@ base64_encode_step(unsigned char *in, int len, unsigned char *out, int *state, i
 			*outptr++ = base64_alphabet [ ( (c2 &0x0f) << 2 ) | (c3 >> 6) ];
 			*outptr++ = base64_alphabet [ c3 & 0x3f ];
 			/* this is a bit ugly ... */
-			if ((++already)>=19) {
+			if (break_lines && (++already)>=19) {
 				*outptr++='\n';
 				already = 0;
 			}
