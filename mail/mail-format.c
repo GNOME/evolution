@@ -738,7 +738,7 @@ write_headers (CamelMimeMessage *message, MailDisplay *md)
 			 "<table bgcolor=\"#000000\" width=\"100%%\" "
 			 "cellspacing=0 cellpadding=1><tr><td>"
 			 "<table bgcolor=\"#EEEEEE\" width=\"100%%\" cellpadding=0 cellspacing=0>"
-			 "<tr><td><table>\n");
+			 "<tr><td><table>");
 	
 	write_address(md, camel_mime_message_get_from(message),
 		      _("From:"), WRITE_BOLD);

@@ -45,6 +45,8 @@ evolution_mail_SOURCES =		\
 	$(EVOLUTION_MAIL_CORBA_GENERATED)	\
 	component-factory.c		\
 	component-factory.h		\
+	e-searching-tokenizer.c		\
+	e-searching-tokenizer.h		\
 	folder-browser.c		\
 	folder-browser.h		\
 	folder-browser-factory.c	\

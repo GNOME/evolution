@@ -30,9 +30,11 @@
 #endif
 
 #include "mail-search.h"
+#include "e-searching-tokenizer.h"
 
 #include <gal/widgets/e-unicode.h>
 #include <gtkhtml/gtkhtml-search.h>
+#include <gtkhtml/htmlengine.h>
 
 static GtkObjectClass *parent_class;
 
@@ -40,6 +42,11 @@ static void
 mail_search_destroy (GtkObject *obj)
 {
 	MailSearch *ms = MAIL_SEARCH (obj);
+
+	gtk_signal_disconnect (GTK_OBJECT (ms->mail->html->engine->ht),
+			       ms->match_handler);
+	gtk_signal_disconnect (GTK_OBJECT (ms->mail->html->engine->ht),
+			       ms->begin_handler);
 
 	g_free (ms->last_search);
 	gtk_object_unref (GTK_OBJECT (ms->mail));
@@ -83,6 +90,22 @@ mail_search_get_type (void)
 }
 
 /*
+ *  Convenience
+ */
+
+static ESearchingTokenizer *
+mail_search_tokenizer (MailSearch *ms)
+{
+	return E_SEARCHING_TOKENIZER (ms->mail->html->engine->ht);
+}
+
+static void
+mail_search_redisplay_message (MailSearch *ms)
+{
+	mail_display_redisplay (ms->mail, FALSE);
+}
+
+/*
  *  Construct Objects
  */
 
@@ -90,6 +113,11 @@ static void
 toggled_case_cb (GtkToggleButton *b, MailSearch *ms)
 {
 	ms->case_sensitive = gtk_toggle_button_get_active (b);
+
+	e_searching_tokenizer_set_case_sensitivity (mail_search_tokenizer (ms),
+						    ms->case_sensitive);
+	mail_search_redisplay_message (ms);
+	
 }
 
 static void
@@ -101,11 +129,14 @@ toggled_fwd_cb (GtkToggleButton *b, MailSearch *ms)
 static void
 dialog_clicked_cb (GtkWidget *w, gint button_number, MailSearch *ms)
 {
+	ESearchingTokenizer *st = mail_search_tokenizer (ms);
+	
 	if (button_number == 0) {        /* "Search" */
 
 		char *search_text, *tmp;
-		
+	
 		tmp = gtk_editable_get_chars (GTK_EDITABLE (ms->entry), 0, -1);
+
 		g_strstrip (tmp);
 		search_text = e_utf8_from_gtk_string ((GtkWidget *) ms->entry, tmp);
 		g_free (tmp);
@@ -120,10 +151,13 @@ dialog_clicked_cb (GtkWidget *w, gint button_number, MailSearch *ms)
 				}
 
 			} else {
-				
+
 				g_free (ms->last_search);
 				ms->last_search = NULL;
-				
+
+				e_searching_tokenizer_set_search_string (st, search_text);
+				mail_search_redisplay_message (ms);
+
 				if (gtk_html_engine_search (ms->mail->html, search_text,
 							    ms->case_sensitive, ms->search_forward,
 							    FALSE)) {
@@ -132,15 +166,32 @@ dialog_clicked_cb (GtkWidget *w, gint button_number, MailSearch *ms)
 			}
 		}
 
+	
 		g_free (search_text);
 
 	} else if (button_number == 1) { /* "Close"  */
+
+		e_searching_tokenizer_set_search_string (st, NULL);
+		mail_search_redisplay_message (ms);
 
 		gtk_widget_destroy (w);
 
 	}
 }
 
+static void
+begin_cb (ESearchingTokenizer *st, gchar *foo, MailSearch *ms)
+{
+	gtk_label_set_text (GTK_LABEL (ms->count_label), "0");
+}
+
+static void
+match_cb (ESearchingTokenizer *st, MailSearch *ms)
+{
+	gchar buf[16];
+	g_snprintf (buf, 16, "%d", e_searching_tokenizer_match_count (st));
+	gtk_label_set_text (GTK_LABEL (ms->count_label), buf);
+}
 
 void
 mail_search_construct (MailSearch *ms, MailDisplay *mail)
@@ -150,8 +201,10 @@ mail_search_construct (MailSearch *ms, MailDisplay *mail)
 				   NULL };
 	gchar *title = NULL;
 	GtkWidget *top_hbox;
+	GtkWidget *mid_hbox;
 	GtkWidget *bot_hbox;
 	GtkWidget *entry;
+	GtkWidget *count_label;
 	GtkWidget *case_check;
 	GtkWidget *fwd_check;
 
@@ -174,17 +227,28 @@ mail_search_construct (MailSearch *ms, MailDisplay *mail)
 	ms->search_forward = TRUE;
 	ms->case_sensitive = FALSE;
 
+	ms->begin_handler = gtk_signal_connect (GTK_OBJECT (ms->mail->html->engine->ht),
+						"begin",
+						GTK_SIGNAL_FUNC (begin_cb),
+						ms);
+	ms->match_handler = gtk_signal_connect (GTK_OBJECT (ms->mail->html->engine->ht),
+						"match",
+						GTK_SIGNAL_FUNC (match_cb),
+						ms);
 
 	/* Construct the dialog contents. */
 	
 	top_hbox = gtk_hbox_new (FALSE, 0);
+	mid_hbox = gtk_hbox_new (FALSE, 0);
 	bot_hbox = gtk_hbox_new (FALSE, 0);
 
-	entry      = gtk_entry_new ();
-	case_check = gtk_check_button_new_with_label (_("Case Sensitive"));
-	fwd_check  = gtk_check_button_new_with_label (_("Search Forward"));
+	entry       = gtk_entry_new ();
+	count_label = gtk_label_new ("0");
+	case_check  = gtk_check_button_new_with_label (_("Case Sensitive"));
+	fwd_check   = gtk_check_button_new_with_label (_("Search Forward"));
 
-	ms->entry = entry;
+	ms->entry       = entry;
+	ms->count_label = count_label;
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (fwd_check),  ms->search_forward);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (case_check), ms->case_sensitive);
@@ -192,13 +256,18 @@ mail_search_construct (MailSearch *ms, MailDisplay *mail)
 	gtk_box_pack_start (GTK_BOX (top_hbox), gtk_label_new (_("Find:")), FALSE, FALSE, 3);
 	gtk_box_pack_start (GTK_BOX (top_hbox), entry, TRUE, TRUE, 0);
 
+	gtk_box_pack_start (GTK_BOX (mid_hbox), gtk_label_new (_("Matches:")), FALSE, FALSE, 3);
+	gtk_box_pack_start (GTK_BOX (mid_hbox), count_label, FALSE, FALSE, 0);
+
 	gtk_box_pack_start (GTK_BOX (bot_hbox), case_check, FALSE, FALSE, 4);
 	gtk_box_pack_start (GTK_BOX (bot_hbox), fwd_check,  FALSE, FALSE, 4);
 
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (ms)->vbox), top_hbox, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (ms)->vbox), mid_hbox, TRUE, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (ms)->vbox), bot_hbox, TRUE, TRUE, 0);
 
 	gtk_widget_show_all (top_hbox);
+	gtk_widget_show_all (mid_hbox);
 	gtk_widget_show_all (bot_hbox);
 
 

@@ -1,5 +1,20 @@
 2001-05-10  Jon Trowbridge  <trow@ximian.com>
 
+	* folder-browser.c (folder_browser_config_search): Use the
+	ESearchingTokenizer to highlight search matches for folder-level
+	searches.  Still mildly broken, but it works for the simple cases.
+
+	* mail-display.c (mail_display_new): Use our ESearchingTokenizer
+	for the mail display GtkHTML widget.
+
+	* mail-search.c (dialog_clicked_cb): Use the ESearchingTokenizer to
+	highlight search matches.
+	(mail_search_construct): Add a match count to the search dialog.
+
+	* e-searching-tokenizer.c
+	(e_searching_tokenizer_set_search_string): Added.  A custom HTML
+	tokenizer that does highlighting of search strings.
+
 	* mail-config.c: No, we don't want to include
 	bonobo-running-context.h... just bonobo-context.h.
 

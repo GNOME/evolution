@@ -51,10 +51,13 @@ struct _MailSearch {
 	MailDisplay *mail;
 
 	GtkWidget *entry;
+	GtkWidget *count_label;
 
 	gboolean search_forward, case_sensitive;
-
 	gchar *last_search;
+
+	guint begin_handler;
+	guint match_handler;
 };
 
 struct _MailSearchClass {

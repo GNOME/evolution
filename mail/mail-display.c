@@ -35,6 +35,7 @@
 #include <gtkhtml/htmlinterval.h> /* XXX */
 
 #include <e-util/e-html-utils.h>
+#include <e-util/e-searching-tokenizer.h>
 
 #include "mail-display.h"
 #include "mail-config.h"
@@ -1418,6 +1419,8 @@ mail_display_new (void)
 	gtk_widget_show (GTK_WIDGET (scroll));
 
 	html = gtk_html_new ();
+	html_engine_set_tokenizer (GTK_HTML (html)->engine, e_searching_tokenizer_new ());
+
 	gtk_html_set_default_content_type (GTK_HTML (html),
 					   "text/html; charset=utf-8");
 

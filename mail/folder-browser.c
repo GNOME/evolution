@@ -22,6 +22,8 @@
 #include <gal/widgets/e-popup-menu.h>
 #include <gal/widgets/e-unicode.h>
 
+#include <gtkhtml/htmlengine.h>
+
 #include "filter/vfolder-rule.h"
 #include "filter/vfolder-context.h"
 #include "filter/filter-option.h"
@@ -30,6 +32,7 @@
 #include "mail-search-dialogue.h"
 #include "e-util/e-sexp.h"
 #include "folder-browser.h"
+#include "e-searching-tokenizer.h"
 #include "mail.h"
 #include "mail-callbacks.h"
 #include "mail-tools.h"
@@ -293,8 +296,14 @@ folder_browser_search_menu_activated (ESearchBar *esb, int id, FolderBrowser *fb
 
 static void folder_browser_config_search(EFilterBar *efb, FilterRule *rule, int id, const char *query, void *data)
 {
+	FolderBrowser *fb = FOLDER_BROWSER (data);
+	ESearchingTokenizer *st;
 	GList *partl;
 
+	st = E_SEARCHING_TOKENIZER (fb->mail_display->html->engine->ht); 
+
+	e_searching_tokenizer_set_search_string (st, NULL);
+	
 	/* we scan the parts of a rule, and set all the types we know about to the query string */
 	partl = rule->parts;
 	while (partl) {
@@ -308,6 +317,7 @@ static void folder_browser_config_search(EFilterBar *efb, FilterRule *rule, int 
 			FilterInput *input = (FilterInput *)filter_part_find_element(part, "word");
 			if (input)
 				filter_input_set_value(input, query);
+			e_searching_tokenizer_set_search_string (st, query);
 		} else if(!strcmp(part->name, "sender")) {
 			FilterInput *input = (FilterInput *)filter_part_find_element(part, "sender");
 			if (input)
@@ -317,6 +327,8 @@ static void folder_browser_config_search(EFilterBar *efb, FilterRule *rule, int 
 		partl = partl->next;
 	}
 	printf("configuring search for search string '%s', rule is '%s'\n", query, rule->name);
+
+	mail_display_redisplay (fb->mail_display, FALSE);
 }
 
 static void
