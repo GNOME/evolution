@@ -21,12 +21,9 @@
  * USA
  */
 
-
 #include <config.h>
 
-#include <sys/types.h>
 #include <dirent.h>
-#include <sys/stat.h>
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -45,9 +42,14 @@
 #include "camel-url.h"
 #include "string-utils.h"
 
+#include <gal/util/e-util.h>
+
 #define NNTP_PORT 119
 
 #define DUMP_EXTENSIONS
+
+/* define if you want the subscribe ui to show folders in tree form */
+/* #define INFO_AS_TREE */
 
 static CamelRemoteStoreClass *remote_store_class = NULL;
 
@@ -337,33 +339,139 @@ nntp_store_get_folder (CamelStore *store, const gchar *folder_name,
 	return camel_nntp_folder_new (store, folder_name, ex);
 }
 
-static CamelFolderInfo *
-build_folder_info_from_grouplist (CamelNNTPStore *nntp_store)
+#ifdef INFO_AS_TREE
+static void
+build_folder_info (CamelNNTPStore *nntp_store, CamelFolderInfo **root,
+		   CamelFolderInfo *parent, CamelNNTPGroupListEntry *entry,
+		   char *prefix, char *suffix,
+		   GHashTable *name_to_info)
 {
 	CamelURL *url = CAMEL_SERVICE (nntp_store)->url;
-	CamelFolderInfo *groups = NULL, *last = NULL, *fi;
+	char *dot;
+	if ((dot = strchr (suffix, '.'))) {
+		/* it's an internal node, figure out the next node in
+                   the chain */
+		CamelFolderInfo *node;
+		char *node_name, *node_full_name;
+
+		node_name = g_malloc0 (dot - suffix + 1);
+		strncpy (node_name, suffix, dot - suffix);
+		node_full_name = g_strdup_printf ("%s.%s", prefix, node_name);
+
+		node = g_hash_table_lookup (name_to_info, node_full_name);
+		if (!node) {
+			/* we need to add one */
+			node = g_new0 (CamelFolderInfo, 1);
+			node->name = g_strdup (node_name);
+			node->full_name = g_strdup (node_full_name);
+			node->url = NULL;
+			node->message_count = -1;
+			node->unread_message_count = -1;
+
+			if (parent) {
+				if (parent->child) {
+					node->sibling = parent->child;
+					parent->child = node;
+				}
+				else {
+					parent->child = node;
+				}
+			}
+			else {
+				if (*root) {
+					*root = node;
+				}
+				else {
+					node->sibling = *root;
+					*root = node;
+				}
+			}
+
+			g_hash_table_insert (name_to_info, node_full_name, node);
+		}
+
+		build_folder_info (nntp_store, root, node, entry, node_full_name, dot + 1, name_to_info);
+	}
+	else {
+		/* it's a leaf node, make the CamelFolderInfo and
+                   append it to @parent's list of children. */
+		CamelFolderInfo *new_group;
+
+		new_group = g_new0 (CamelFolderInfo, 1);
+		new_group->name = g_strdup (entry->group_name);
+		new_group->full_name = g_strdup (entry->group_name);
+		new_group->url = g_strdup_printf ("nntp://%s%s%s/%s",
+						  url->user ? url->user : "",
+						  url->user ? "@" : "",
+						  url->host, (char *)entry->group_name);
+
+		new_group->message_count = entry->high - entry->low;
+		new_group->unread_message_count = (new_group->message_count - 
+						   camel_nntp_newsrc_get_num_articles_read (nntp_store->newsrc, entry->group_name));
+
+		if (parent) {
+			if (parent->child) {
+				new_group->sibling = parent->child;
+				parent->child = new_group;
+			}
+			else {
+				parent->child = new_group;
+			}
+		}
+		else {
+			if (*root) {
+				*root = new_group;
+			}
+			else {
+				new_group->sibling = *root;
+				*root = new_group;
+			}
+		}
+	}
+}
+#endif
+
+static CamelFolderInfo *
+build_folder_info_from_grouplist (CamelNNTPStore *nntp_store, const char *top)
+{
 	GList *g;
+	CamelFolderInfo *groups = NULL;
+#ifdef INFO_AS_TREE
+	GHashTable *hash = g_hash_table_new (g_str_hash, g_str_equal);
+#else
+	CamelFolderInfo *last = NULL, *fi;
+	CamelURL *url = CAMEL_SERVICE (nntp_store)->url;
+#endif
 
 	for (g = nntp_store->group_list->group_list; g; g = g_list_next (g)) {
 		CamelNNTPGroupListEntry *entry = g->data;
 
-		fi = g_new0 (CamelFolderInfo, 1);
-		fi->name = g_strdup (entry->group_name);
-		fi->full_name = g_strdup (entry->group_name);
-		fi->url = g_strdup_printf ("nntp://%s%s%s/%s",
-					   url->user ? url->user : "",
-					   url->user ? "@" : "",
-					   url->host, (char *)entry->group_name);
+		if (!top || !strncmp (top, entry->group_name, strlen (top))) {
+#ifdef INFO_AS_TREE
+			build_folder_info (nntp_store, &groups, NULL, entry,
+					   "", entry->group_name, hash);
+#else
 
-		fi->message_count = entry->high - entry->low;
-		fi->unread_message_count = (fi->message_count - 
-					    camel_nntp_newsrc_get_num_articles_read (nntp_store->newsrc, entry->group_name));
+			fi = g_new0 (CamelFolderInfo, 1);
+			fi->name = g_strdup (entry->group_name);
+			fi->full_name = g_strdup (entry->group_name);
+			fi->url = g_strdup_printf ("nntp://%s%s%s/%s",
+						   url->user ? url->user : "",
+						   url->user ? "@" : "",
+						   url->host, (char *)entry->group_name);
 
-		if (last)
-			last->sibling = fi;
-		else
-			groups = fi;
-		last = fi;
+			fi->message_count = entry->high - entry->low;
+			fi->unread_message_count = (fi->message_count - 
+						    camel_nntp_newsrc_get_num_articles_read (
+							     nntp_store->newsrc, entry->group_name));
+
+			if (last)
+				last->sibling = fi;
+			else
+				groups = fi;
+			last = fi;
+#endif
+		}
 	}
 
 	return groups;
@@ -394,17 +502,16 @@ nntp_store_get_folder_info (CamelStore *store, const char *top,
 		return NULL;
 	}
 
-	if (top == NULL && !subscribed_only) {
+	if (!subscribed_only) {
 		if (!nntp_store->group_list)
 			nntp_store->group_list = camel_nntp_grouplist_fetch (nntp_store, ex);
 		if (camel_exception_is_set (ex)) {
 			return NULL;
 		}
 		else {
-			fi = build_folder_info_from_grouplist (nntp_store);
+			fi = build_folder_info_from_grouplist (nntp_store, top);
 			return fi;
 		}
-
 	}
 
 	if (top == NULL) {
@@ -752,26 +859,16 @@ static gboolean
 ensure_news_dir_exists (CamelNNTPStore *store)
 {
 	gchar *dir = camel_nntp_store_get_toplevel_dir (store);
-	struct stat sb;
-	int rv;
 
-	rv = stat (dir, &sb);
-	if (-1 == rv && errno != ENOENT) {
+	if (access (dir, F_OK) == 0) {
+		g_free (dir);
+		return TRUE;
+	}
+
+	if (e_mkdir_hier (dir, S_IRWXU) == -1) {
 		g_free (dir);
 		return FALSE;
 	}
 
-	if (S_ISDIR (sb.st_mode)) {
-		g_free (dir);
-		return TRUE;
-	}
-	else {
-		rv = mkdir (dir, 0777);
-		g_free (dir);
-
-		if (-1 == rv)
-			return FALSE;
-		else
-			return TRUE;
-	}
+	return TRUE;
 }

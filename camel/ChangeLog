@@ -1,3 +1,14 @@
+2000-10-20  Chris Toshok  <toshok@helixcode.com>
+
+	* providers/nntp/camel-nntp-store.c (build_folder_info): add
+	function to build a tree from the nntp group names (using '.' as a
+	heirarchy separator.)  #ifdefed INFO_AS_TREE only.
+	(build_folder_info_from_grouplist): if INFO_AS_TREE is selected,
+	call build_folder_info instead of appending a new CamelFolderInfo
+	to our list.
+	(ensure_news_dir_exists): use e_mkdir_hier instead of failing if a
+	parent directory (~/evolution/news generally) isn't there.
+
 2000-10-19  Chris Toshok  <toshok@helixcode.com>
 
 	* camel-folder-search.c: #include <sys/types.h> before <regex.h>
