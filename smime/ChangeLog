@@ -1,3 +1,11 @@
+2003-11-30  Larry Ewing  <lewing@ximian.com>
+
+	* lib/e-pkcs12.c (nickname_collision): make sure declarations
+	precede logic for older compilers.
+
+	* gui/Makefile.am (INCLUDES): don't define GTK_DISABLE_DEPRECATED
+	it breakes on gtk-2.3 with gtk_option_menu_get_history.
+
 2003-11-26  Chris Toshok  <toshok@ximian.com>
 
 	* gui/certificate-viewer.[ch]: mostly implement a viewer for

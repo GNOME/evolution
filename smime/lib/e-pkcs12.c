@@ -374,12 +374,12 @@ static SECItem * PR_CALLBACK
 nickname_collision(SECItem *oldNick, PRBool *cancel, void *wincx)
 {
 	/* nsNSSShutDownPreventionLock locker; */
-	*cancel = PR_FALSE;
 	int count = 1;
 	char *nickname = NULL;
 	char *default_nickname = _("Imported Certificate");
 	SECItem *new_nick;
 
+	*cancel = PR_FALSE;
 	printf ("nickname_collision\n");
 
 	/* The user is trying to import a PKCS#12 file that doesn't have the
