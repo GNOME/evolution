@@ -187,16 +187,23 @@ popdown_transient_folder_bar (EShellView *shell_view)
 	e_shell_folder_title_bar_set_toggle_state (E_SHELL_FOLDER_TITLE_BAR (priv->view_title_bar), FALSE);
 }
 
-static void
+static int
 storage_set_view_box_button_release_event_cb (GtkWidget *widget,
 					      GdkEventButton *button_event,
 					      void *data)
 {
 	EShellView *shell_view;
+	EShellViewPrivate *priv;
 
 	shell_view = E_SHELL_VIEW (data);
+	priv = shell_view->priv;
+
+	if (button_event->window == E_PANED (priv->view_hpaned)->handle)
+		return FALSE;
 
 	popdown_transient_folder_bar (shell_view);
+
+	return TRUE;
 }
 
 static void
@@ -281,7 +288,7 @@ pop_up_folder_bar (EShellView *shell_view)
 
 	/* We need to show the storage set view box and do a pointer grab to catch the
            mouse clicks.  But until the box is shown, we cannot grab.  So we connect to
-           the "map" signa; `storage_set_view_box_map_cb' will do the grab.  */
+           the "map" signal; `storage_set_view_box_map_cb()' will do the grab.  */
 
 	gtk_signal_connect (GTK_OBJECT (priv->storage_set_view_box), "map",
 			    GTK_SIGNAL_FUNC (storage_set_view_box_map_cb), shell_view);
