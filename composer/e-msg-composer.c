@@ -175,7 +175,8 @@ best_charset (GByteArray *buf, CamelMimePartEncodingType *encoding)
 {
 	const char *charset;
 
-	if (best_encoding (buf, "US-ASCII") == CAMEL_MIME_PART_ENCODING_7BIT)
+	*encoding = best_encoding (buf, "US-ASCII");
+	if (*encoding == CAMEL_MIME_PART_ENCODING_7BIT)
 		return NULL;
 
 	charset = mail_config_get_default_charset ();
