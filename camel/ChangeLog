@@ -1,3 +1,10 @@
+2000-12-09  Not Zed  <NotZed@HelixCode.com>
+
+	* camel-mime-message.c (camel_mime_message_set_date): Change the
+	sign of the default date offset when none is supplied.
+	(camel_mime_message_set_date): Also do dst if its dst (forward 1
+	hour).  Fixes #928 + some.
+
 2000-12-06  Not Zed  <NotZed@HelixCode.com>
 
 	* tests/lib/camel-test.h (check): Change line no format so that
