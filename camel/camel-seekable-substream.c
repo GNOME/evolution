@@ -168,11 +168,11 @@ _set_bounds (CamelSeekableSubstream *seekable_substream, guint32 inf_bound, gint
 	/* go to the first position */
 	camel_seekable_stream_seek (seekable_substream->parent_stream, inf_bound, SEEK_SET);
 
-	seekable_substream->cur_pos = inf_bound;
+	seekable_substream->cur_pos = 0;
 	
 	CAMEL_LOG_FULL_DEBUG ("In CamelSeekableSubstream::_set_bounds, "
-			      "setting inf bound to %u, "
-			      "sup bound to %ld, current postion to %u from %u\n", 
+			      "setting inf bound to %lu, "
+			      "sup bound to %lld, current position to %lu from %lu\n", 
 			      seekable_substream->inf_bound, seekable_substream->sup_bound,
 			      seekable_substream->cur_pos, inf_bound);
 	

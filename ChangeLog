@@ -1,3 +1,21 @@
+2000-02-15  bertrand  <bertrand@helixcode.com>
+
+	* camel/camel-multipart.c (_localize_part): 
+	this routine replaces the _read_part routine
+	and does not store the part in a buffer. 
+	(_set_input_stream): use the set_input_stream
+	instead of the construct_from_stream.
+	each bodypart is given an input stream. 
+
+	* camel/camel-mime-part-utils.c: 
+	include the data-wrapper-repository header. 
+	(camel_mime_part_construct_content_from_stream): 
+	use the set_input_stream instead of the 
+	construct_from_stream method. 
+
+	* camel/camel-seekable-substream.c (_set_bounds): 
+	cur position is set to 0 not to inf_bound.
+
 2000-02-14  Miguel de Icaza  <miguel@gnu.org>
 
 	* camel/providers/mbox/Makefile.am (libcamelmbox_la_LIBADD): Add

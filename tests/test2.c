@@ -29,14 +29,15 @@ main (int argc, char**argv)
 		printf ("You must create the file mail.test before running this test\n");
 		exit(2);
 	}
+
+
+	camel_debug_level = CAMEL_LOG_LEVEL_FULL_DEBUG;
 	
 	camel_data_wrapper_set_input_stream ( CAMEL_DATA_WRAPPER (message), input_stream);
 
-#if 0
-	camel_data_wrapper_construct_from_stream ( CAMEL_DATA_WRAPPER (message), input_stream);
-
-	camel_debug_level = CAMEL_LOG_LEVEL_FULL_DEBUG;
 	camel_medium_get_content_object (CAMEL_MEDIUM (message));
+
+#if 0
 	camel_stream_close (input_stream);
 	gtk_object_unref (GTK_OBJECT (input_stream));
 

@@ -605,12 +605,9 @@ _get_content_object (CamelMedium *medium)
 	CamelStream *stream;
 
 	CAMEL_LOG_FULL_DEBUG ("CamelMimePart::get_content_object entering\n");
-	/* 
-	 * test if there is not pending content stored in the 
-	 * temporary buffer
-	 */
+
 	if (!medium->content ) {
-		stream = camel_data_wrapper_get_input_stream (CAMEL_DATA_WRAPPER (medium)); 
+		stream = mime_part->content_input_stream; 
 		
 		camel_mime_part_construct_content_from_stream (mime_part, stream);
 		
@@ -795,7 +792,7 @@ _parse_header_pair (CamelMimePart *mime_part, gchar *header_name, gchar *header_
 
 
 
-#if 0
+
 static void
 _construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 {
@@ -810,7 +807,6 @@ _construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 
 }
 
-#endif
 
 
 

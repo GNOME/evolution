@@ -30,8 +30,16 @@
 #include "camel-log.h"
 #include "gmime-utils.h"
 #include "camel-simple-data-wrapper.h"
-
+#include "data-wrapper-repository.h" 
+ 
 #include "camel-mime-part-utils.h"
+
+
+
+/* declare this function because it is public
+   but it must not be called except here */
+void        camel_mime_part_set_content_type              (CamelMimePart *mime_part, 
+							   gchar *content_type);
 
 
 void
@@ -86,6 +94,8 @@ camel_mime_part_construct_content_from_stream (CamelMimePart *mime_part,
 			      "parsing content\n");
 
 	content_type = camel_mime_part_get_content_type (mime_part);
+	/* here we should have a mime type */
+	g_assert (content_type);
 	if (content_type)
 		mime_type = gmime_content_field_get_mime_type (content_type);
 
@@ -114,11 +124,17 @@ camel_mime_part_construct_content_from_stream (CamelMimePart *mime_part,
 
 	g_free (mime_type);
 
+	/* 
+	 * create the content object data wrapper with the type 
+	 * returned by the data wrapper repository 
+	 */
 	content_object = CAMEL_DATA_WRAPPER (gtk_type_new (content_object_type));
 	camel_data_wrapper_set_mime_type_field (content_object, 
 						camel_mime_part_get_content_type (mime_part));
 	camel_medium_set_content_object ( CAMEL_MEDIUM (mime_part), content_object);
-	camel_data_wrapper_construct_from_stream (content_object, stream);
+
+	/* set the input stream for the content object */
+	camel_data_wrapper_set_input_stream (content_object, stream);
 
 	/* 
 	 * the object is referenced in the set_content_object method, 
@@ -127,10 +143,10 @@ camel_mime_part_construct_content_from_stream (CamelMimePart *mime_part,
 	gtk_object_unref (GTK_OBJECT (content_object));
 	
 	
-	CAMEL_LOG_FULL_DEBUG ("CamelMimePartUtils::construct_from_stream "
+	CAMEL_LOG_FULL_DEBUG ("CamelMimePartUtils::construct_content_from_stream "
 			      "content parsed\n");
 		
-	CAMEL_LOG_FULL_DEBUG ("CamelMimePartUtils:: Leaving _construct_from_stream\n");
+	CAMEL_LOG_FULL_DEBUG ("CamelMimePartUtils:: Leaving _construct_content_from_stream\n");
 }
 
 
