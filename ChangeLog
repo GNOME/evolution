@@ -1,3 +1,9 @@
+2001-01-11  Dan Winship  <danw@helixcode.com>
+
+	* art/priority-high.xpm: Add a white outline around the "!" so it
+	still shows up clearly in selected rows when your theme selection
+	color is reddish. (Problem pointed out by Federico.)
+
 2001-01-11  Federico Mena Quintero  <federico@helixcode.com>
 
 	* configure.in: At the end of the configure process, report
