@@ -1,5 +1,10 @@
 2000-04-24  Dan Winship  <danw@helixcode.com>
 
+	* providers/mbox/camel-mbox-folder.c (_get_message_by_uid): ref
+	(and sink) the message stream if we're going to unref it later.
+	Otherwise it could get destroyed while there are still substreams
+	attached to it. This needs a cleaner solution.
+
 	* camel.h: remove data-wrapper-repository.h include(s)
 
 2000-04-24  NotZed  <NotZed@HelixCode.com>

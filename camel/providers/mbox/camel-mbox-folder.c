@@ -855,6 +855,8 @@ _get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *ex)
 								   CAMEL_STREAM_FS_READ,
 								   ((CamelMboxMessageContentInfo *)info->info.content)->pos,
 								   ((CamelMboxMessageContentInfo *)info->info.content)->endpos);
+	gtk_object_ref((GtkObject *)message_stream);
+	gtk_object_sink((GtkObject *)message_stream);
 	message = camel_mime_message_new();
 	camel_data_wrapper_construct_from_stream((CamelDataWrapper *)message, message_stream);
 	gtk_object_unref((GtkObject *)message_stream);
