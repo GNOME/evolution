@@ -949,6 +949,8 @@ command_state_changed (EContactListEditor *editor)
 
 	/* FIXME set the ok button to ok */
 	gtk_widget_set_sensitive (editor->ok_button, valid);
+	gtk_widget_set_sensitive (editor->source_menu, editor->is_new_list);
+	gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "source-label"), editor->is_new_list);
 }
 
 static void

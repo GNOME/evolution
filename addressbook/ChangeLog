@@ -1,3 +1,8 @@
+2004-07-02  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/contact-list-editor/e-contact-list-editor.c
+	(command_state_changed): Set the source option menu sensitivity here.
+
 2004-06-30  Chris Toshok  <toshok@ximian.com>
 
 	* gui/contact-editor/e-contact-editor.c
