@@ -607,6 +607,7 @@ folder_browser_ui_add_global (FolderBrowser *fb)
 	BonoboUIComponent *uic = fb->uicomp;
 	gboolean show_preview;
 	GConfClient *gconf;
+	int paned_size;
 	
 	if (fb->sensitise_state) {
 		g_hash_table_destroy (fb->sensitise_state);
@@ -616,6 +617,14 @@ folder_browser_ui_add_global (FolderBrowser *fb)
 	ui_add (fb, "global", global_verbs, global_pixcache);
 	
 	gconf = gconf_client_get_default ();
+	
+	/* (Pre)view pane size (do this first because it affects the
+           preview settings - see folder_browser_set_message_preview()
+           internals for details) */
+	paned_size = gconf_client_get_int (gconf, "/apps/evolution/mail/display/paned_size", NULL);
+	g_signal_handler_block (fb->vpaned, fb->paned_resize_id);
+	gtk_paned_set_position (GTK_PANED (fb->vpaned), paned_size);
+	g_signal_handler_unblock (fb->vpaned, fb->paned_resize_id);
 	
 	/* (Pre)view toggle */
 	show_preview = gconf_client_get_bool (gconf, "/apps/evolution/mail/display/show_preview", NULL);

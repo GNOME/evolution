@@ -197,26 +197,6 @@ folder_browser_destroy (GtkObject *object)
 		folder_browser->view_menus = NULL;
 	}
 	
-	if (folder_browser->paned_size_notify_id != 0) {
-		gconf_client_notify_remove (gconf, folder_browser->paned_size_notify_id);
-		folder_browser->paned_size_notify_id = 0;
-	}
-	
-	if (folder_browser->show_preview_notify_id != 0) {
-		gconf_client_notify_remove (gconf, folder_browser->show_preview_notify_id);
-		folder_browser->show_preview_notify_id = 0;
-	}
-	
-	if (folder_browser->hide_deleted_notify_id != 0) {
-		gconf_client_notify_remove (gconf, folder_browser->hide_deleted_notify_id);
-		folder_browser->hide_deleted_notify_id = 0;
-	}
-	
-	if (folder_browser->message_style_notify_id != 0) {
-		gconf_client_notify_remove (gconf, folder_browser->message_style_notify_id);
-		folder_browser->message_style_notify_id = 0;
-	}
-	
 	/* wait for all outstanding async events against us */
 	mail_async_event_destroy (folder_browser->async_event);
 
@@ -2370,62 +2350,6 @@ fb_resize_cb (GtkWidget *w, GdkEventButton *e, FolderBrowser *fb)
 }
 
 static void
-paned_size_changed (GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer user_data)
-{
-	FolderBrowser *fb = user_data;
-	int paned_size;
-	
-	g_signal_handler_block (fb->vpaned, fb->paned_resize_id);
-	
-	paned_size = gconf_client_get_int (client, "/apps/evolution/mail/display/paned_size", NULL);
-	gtk_paned_set_position (GTK_PANED (fb->vpaned), paned_size);
-	
-	g_signal_handler_unblock (fb->vpaned, fb->paned_resize_id);
-}
-
-static void
-show_preview_changed (GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer user_data)
-{
-	FolderBrowser *fb = user_data;
-	gboolean show_preview;
-	
-	if (fb->uicomp) {
-		show_preview = gconf_client_get_bool (client, "/apps/evolution/mail/display/show_preview", NULL);
-		bonobo_ui_component_set_prop (fb->uicomp, "/commands/ViewPreview", "state",
-					      show_preview ? "1" : "0", NULL);
-	}
-}
-
-static void
-hide_deleted_changed (GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer user_data)
-{
-	FolderBrowser *fb = user_data;
-	gboolean hide_deleted;
-	
-	if (fb->uicomp) {
-		hide_deleted = !gconf_client_get_bool (client, "/apps/evolution/mail/display/show_deleted", NULL);
-		bonobo_ui_component_set_prop (fb->uicomp, "/commands/HideDeleted", "state",
-					      hide_deleted ? "1" : "0", NULL);
-	}
-}
-
-static void
-message_style_changed (GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer user_data)
-{
-	extern char *message_display_styles[];
-	FolderBrowser *fb = user_data;
-	const char *uipath;
-	int style;
-	
-	if (fb->uicomp) {
-		style = gconf_client_get_int (client, "/apps/evolution/mail/display/message_style", NULL);
-		style = style >= 0 && style < MAIL_CONFIG_DISPLAY_MAX ? style : 0;
-		uipath = message_display_styles[style];
-		bonobo_ui_component_set_prop (fb->uicomp, uipath, "state", "1", NULL);
-	}
-}
-
-static void
 folder_browser_gui_init (FolderBrowser *fb)
 {
 	extern RuleContext *search_context;
@@ -2480,35 +2404,6 @@ folder_browser_gui_init (FolderBrowser *fb)
 						G_CALLBACK (fb_resize_cb), fb);
 
 	gconf = gconf_client_get_default ();
-	
-	/* hide deleted */
-	gconf_client_add_dir (gconf, "/apps/evolution/mail/display/show_deleted",
-			      GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
-	
-	fb->hide_deleted_notify_id = gconf_client_notify_add (gconf, "/apps/evolution/mail/display/show_deleted",
-							      hide_deleted_changed, fb, NULL, NULL);
-	
-	/* show preview-pane */
-	gconf_client_add_dir (gconf, "/apps/evolution/mail/display/show_preview",
-			      GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
-	
-	fb->show_preview_notify_id = gconf_client_notify_add (gconf, "/apps/evolution/mail/display/show_preview",
-							      show_preview_changed, fb, NULL, NULL);
-	
-	/* message display style */
-	gconf_client_add_dir (gconf, "/apps/evolution/mail/display/message_style",
-			      GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
-	
-	fb->message_style_notify_id = gconf_client_notify_add (gconf, "/apps/evolution/mail/display/message_style",
-							       message_style_changed, fb, NULL, NULL);
-	
-	/* paned size */
-	gconf_client_add_dir (gconf, "/apps/evolution/mail/display/paned_size",
-			      GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
-	
-	fb->paned_size_notify_id = gconf_client_notify_add (gconf, "/apps/evolution/mail/display/paned_size",
-							    paned_size_changed, fb, NULL, NULL);
-	
 	paned_size = gconf_client_get_int (gconf, "/apps/evolution/mail/display/paned_size", NULL);
 	gtk_paned_add2 (GTK_PANED (fb->vpaned), GTK_WIDGET (fb->mail_display));
 	gtk_paned_set_position (GTK_PANED (fb->vpaned), paned_size);

@@ -1,3 +1,16 @@
+2003-01-24  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* folder-browser-ui.c (folder_browser_ui_add_global): Set the
+	paned_size here.
+
+	* folder-browser.c (folder_browser_gui_init): Don't bother
+	connecting to the hide-deleted, message-display-style, paned-size,
+	nor show-preview gconf notifications anymore, since we can just
+	set them when the view becomes active again in
+	folder-browser-ui.c. Cuts down on extra overhead.
+	(folder_browser_destroy): No need to disconnect from those
+	notifications anymore either.
+
 2003-01-24  Ettore Perazzoli  <ettore@ximian.com>
 
 	* Makefile.am (iconsdir): Remove, this is now defined in
