@@ -179,17 +179,16 @@ write_data_to_file (CamelMimePart *part, const char *name, gboolean unique)
 	
 	fd = open (name, O_WRONLY | O_CREAT | O_EXCL, 0666);
 	if (fd == -1 && errno == EEXIST && !unique) {
-		GtkWidget *dlg;
+		GtkWidget *dialog;
 		int button;
 		
-		dlg = gtk_message_dialog_new (NULL, 0, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
-					      _("File `%s' already exists.\nOverwrite it?"),
-					      name);
+		dialog = gtk_message_dialog_new (NULL, 0, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
+						 _("File `%s' already exists.\nOverwrite it?"),
+						 name);
 		
-		g_object_set (dlg, "title", _("Overwrite file?"), "allow_grow", TRUE, NULL);
-		button = gtk_dialog_run ((GtkDialog *) dlg);
-		gtk_widget_destroy (dlg);
-		g_object_unref (dlg);
+		g_object_set (dialog, "title", _("Overwrite file?"), "allow_grow", TRUE, NULL);
+		button = gtk_dialog_run ((GtkDialog *) dialog);
+		gtk_widget_destroy (dialog);
 		
 		if (button != GTK_RESPONSE_YES)
 			return FALSE;
@@ -372,29 +371,31 @@ launch_cb (GtkWidget *widget, gpointer user_data)
 	tmpdir = e_mkdtemp ("evolution.XXXXXX");
 	
 	if (!tmpdir) {
-		GtkDialog *dialogue;
-
-		dialogue = (GtkDialog *)gtk_message_dialog_new(NULL, 0, GTK_MESSAGE_ERROR, GTK_RESPONSE_CLOSE,
-							       _("Could not create temporary directory: %s"),
-							       g_strerror (errno));
+		GtkWidget *dialog;
+		
+		dialog = gtk_message_dialog_new (NULL, 0, GTK_MESSAGE_ERROR, GTK_RESPONSE_CLOSE,
+						 _("Could not create temporary directory: %s"),
+						 g_strerror (errno));
+		
 		/* FIXME: this should be async */
-		gtk_dialog_run(dialogue);
-		gtk_widget_destroy((GtkWidget *)dialogue);
+		gtk_dialog_run ((GtkDialog *) dialog);
+		gtk_widget_destroy (dialog);
 		return;
 	}
 	
 	filename = make_safe_filename (tmpdir, part);
 	
 	if (!write_data_to_file (part, filename, TRUE)) {
-		GtkDialog *dialogue;
-
-		dialogue = (GtkDialog *)gtk_message_dialog_new(NULL, 0, GTK_MESSAGE_ERROR, GTK_RESPONSE_CLOSE,
-							       _("Could not create temporary file '%s': %s"),
-							       filename, g_strerror (errno));
+		GtkWidget *dialog;
+		
+		dialog = gtk_message_dialog_new (NULL, 0, GTK_MESSAGE_ERROR, GTK_RESPONSE_CLOSE,
+						 _("Could not create temporary file '%s': %s"),
+						 filename, g_strerror (errno));
+		
 		/* FIXME: this should be async */
-		gtk_dialog_run(dialogue);
-		gtk_widget_destroy((GtkWidget *)dialogue);
-		g_free(filename);
+		gtk_dialog_run ((GtkDialog *) dialog);
+		gtk_widget_destroy (dialog);
+		g_free (filename);
 		return;
 	}
 	
@@ -879,14 +880,15 @@ drag_data_get_cb (GtkWidget *widget,
 		
 		tmpdir = e_mkdtemp ("drag-n-drop-XXXXXX");
 		if (!tmpdir) {
-			GtkDialog *dialogue;
-
-			dialogue = (GtkDialog *)gtk_message_dialog_new(NULL, 0, GTK_MESSAGE_ERROR, GTK_RESPONSE_CLOSE,
-								       _("Could not create temporary directory: %s"),
-								       g_strerror (errno));
+			GtkWidget *dialog;
+			
+			dialog = gtk_message_dialog_new (NULL, 0, GTK_MESSAGE_ERROR, GTK_RESPONSE_CLOSE,
+							 _("Could not create temporary directory: %s"),
+							 g_strerror (errno));
+			
 			/* FIXME: this should be async */
-			gtk_dialog_run(dialogue);
-			gtk_widget_destroy((GtkWidget *)dialogue);
+			gtk_dialog_run ((GtkDialog *) dialog);
+			gtk_widget_destroy (dialog);
 		}
 		
 		filename = camel_mime_part_get_filename (part);

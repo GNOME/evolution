@@ -79,32 +79,32 @@
    if again is != NULL, a checkbox "dont show this again" will appear, and the result stored in *again
 */
 static gboolean
-e_question(GtkWindow *parent, int def, gboolean *again, const char *fmt, ...)
+e_question (GtkWindow *parent, int def, gboolean *again, const char *fmt, ...)
 {
 	GtkWidget *mbox, *check = NULL;
 	va_list ap;
 	int button;
 	char *str;
-
-	va_start(ap, fmt);
-	str = g_strdup_vprintf(fmt, ap);
-	va_end(ap);
-	mbox = gtk_message_dialog_new(parent, GTK_DIALOG_DESTROY_WITH_PARENT,
-				      GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
-				      "%s", str);
-	g_free(str);
-	gtk_dialog_set_default_response ((GtkDialog *)mbox, def);
+	
+	va_start (ap, fmt);
+	str = g_strdup_vprintf (fmt, ap);
+	va_end (ap);
+	mbox = gtk_message_dialog_new (parent, GTK_DIALOG_DESTROY_WITH_PARENT,
+				       GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
+				       "%s", str);
+	g_free (str);
+	gtk_dialog_set_default_response ((GtkDialog *) mbox, def);
 	if (again) {
 		check = gtk_check_button_new_with_label (_("Don't show this message again."));
-		gtk_box_pack_start((GtkBox *)((GtkDialog *)mbox)->vbox, check, TRUE, TRUE, 10);
-		gtk_widget_show(check);
+		gtk_box_pack_start ((GtkBox *)((GtkDialog *) mbox)->vbox, check, TRUE, TRUE, 10);
+		gtk_widget_show (check);
 	}
-
-	button = gtk_dialog_run((GtkDialog *)mbox);
+	
+	button = gtk_dialog_run ((GtkDialog *) mbox);
 	if (again)
 		*again = !gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check));
-	gtk_widget_destroy(mbox);
-
+	gtk_widget_destroy (mbox);
+	
 	return button == GTK_RESPONSE_YES;
 }
 
@@ -2255,9 +2255,9 @@ are_you_sure (const char *msg, GPtrArray *uids, FolderBrowser *fb)
 	dialog = gtk_message_dialog_new (FB_WINDOW (fb), GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT,
 					 GTK_MESSAGE_QUESTION, GTK_BUTTONS_OK_CANCEL,
 					 msg, uids->len);
-	button = gtk_dialog_run((GtkDialog *)dialog);
-	gtk_widget_destroy(dialog);
-
+	button = gtk_dialog_run ((GtkDialog *) dialog);
+	gtk_widget_destroy (dialog);
+	
 	if (button != GTK_RESPONSE_OK) {
 		for (i = 0; i < uids->len; i++)
 			g_free (uids->pdata[i]);
@@ -2358,9 +2358,9 @@ search_msg (GtkWidget *widget, gpointer user_data)
 	if (fb->mail_display->current_message == NULL) {
 		GtkWidget *dialog;
 		
-		dialog = gtk_message_dialog_new(FB_WINDOW(fb), GTK_DIALOG_DESTROY_WITH_PARENT,
-						GTK_MESSAGE_WARNING, GTK_BUTTONS_CLOSE,
-						_("No Message Selected"));
+		dialog = gtk_message_dialog_new (FB_WINDOW(fb), GTK_DIALOG_DESTROY_WITH_PARENT,
+						 GTK_MESSAGE_WARNING, GTK_BUTTONS_CLOSE,
+						 _("No Message Selected"));
 		g_signal_connect_swapped (dialog, "response", G_CALLBACK (gtk_widget_destroy), dialog);
 		gtk_widget_show (dialog);
 		return;
@@ -2827,12 +2827,12 @@ filter_edit (BonoboUIComponent *uih, void *user_data, const char *path)
 	}
 	
 	filter_editor = (GtkWidget *)filter_editor_new (fc, filter_source_names);
-	/* maybe this needs destroy func? */
-	gtk_window_set_transient_for((GtkWindow *)filter_editor, FB_WINDOW(fb));
+	/* FIXME: maybe this needs destroy func? */
+	gtk_window_set_transient_for ((GtkWindow *) filter_editor, FB_WINDOW (fb));
 	gtk_window_set_title (GTK_WINDOW (filter_editor), _("Filters"));
-	gtk_dialog_add_button((GtkDialog *)filter_editor, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
-	g_object_set_data_full(G_OBJECT(filter_editor), "context", fc, (GtkDestroyNotify)g_object_unref);
-	g_signal_connect(filter_editor, "response", G_CALLBACK(filter_editor_response), fb);
+	gtk_dialog_add_button ((GtkDialog *) filter_editor, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
+	g_object_set_data_full ((GObject *) filter_editor, "context", fc, (GtkDestroyNotify) g_object_unref);
+	g_signal_connect (filter_editor, "response", G_CALLBACK (filter_editor_response), fb);
 	gtk_widget_show (GTK_WIDGET (filter_editor));
 }
 
@@ -2869,13 +2869,13 @@ footer_print_cb (GtkHTML *html, GnomePrintContext *print_context,
 		 double x, double y, double width, double height, gpointer user_data)
 {
 	struct footer_info *info = (struct footer_info *) user_data;
-
+	
 	if (info->local_font) {
-		gchar *text = g_strdup_printf (_("Page %d of %d"), info->page_num, info->pages);
+		char *text = g_strdup_printf (_("Page %d of %d"), info->page_num, info->pages);
 		/*gdouble tw = gnome_font_get_width_string (info->local_font, text);*/
 		/* FIXME: work out how to measure this */
-		gdouble tw = strlen(text) * 8;
-
+		gdouble tw = strlen (text) * 8;
+		
 		gnome_print_gsave       (print_context);
 		gnome_print_newpath     (print_context);
 		gnome_print_setrgbcolor (print_context, .0, .0, .0);
@@ -2883,7 +2883,7 @@ footer_print_cb (GtkHTML *html, GnomePrintContext *print_context,
 		gnome_print_setfont     (print_context, info->local_font);
 		gnome_print_show        (print_context, text);
 		gnome_print_grestore    (print_context);
-
+		
 		g_free (text);
 		info->page_num++;
 	}
@@ -2901,15 +2901,16 @@ static struct footer_info *
 footer_info_new (GtkHTML *html, GnomePrintContext *pc, gdouble *line)
 {
 	struct footer_info *info;
-
+	
 	info = g_new (struct footer_info, 1);
 	info->local_font = gnome_font_find_closest ("Helvetica", 10.0);
-	if (info->local_font) {
+	
+	if (info->local_font)
 		*line = gnome_font_get_ascender (info->local_font) + gnome_font_get_descender (info->local_font);
-	}
+	
 	info->page_num = 1;
 	info->pages = gtk_html_print_get_pages_num (html, pc, 0.0, *line);
-
+	
 	return info;
 }
 
@@ -2919,35 +2920,34 @@ do_mail_print (FolderBrowser *fb, gboolean preview)
 	GtkHTML *html;
 	GnomePrintContext *print_context;
 	GnomePrintMaster *print_master;
-	GnomePrintDialog *dialog;
 	GnomePrintConfig *config = NULL;
+	GtkDialog *dialog;
 	gdouble line = 0.0;
 	struct footer_info *info;
-
+	
 	if (!preview) {
-		dialog = GNOME_PRINT_DIALOG (gnome_print_dialog_new (_("Print Message"),
-								     GNOME_PRINT_DIALOG_COPIES));
-		gtk_dialog_set_default_response((GtkDialog *)dialog, GNOME_PRINT_DIALOG_RESPONSE_PRINT);
-		gtk_window_set_transient_for((GtkWindow *)dialog, (GtkWindow *)fb);
+		dialog = (GtkDialog *) gnome_print_dialog_new (_("Print Message"), GNOME_PRINT_DIALOG_COPIES);
+		gtk_dialog_set_default_response (dialog, GNOME_PRINT_DIALOG_RESPONSE_PRINT);
+		gtk_window_set_transient_for ((GtkWindow *) dialog, (GtkWindow *) fb);
 		
-		switch(gtk_dialog_run((GtkDialog *)dialog)) {
+		switch (gtk_dialog_run (dialog)) {
 		case GNOME_PRINT_DIALOG_RESPONSE_PRINT:
-			break;	
+			break;
 		case GNOME_PRINT_DIALOG_RESPONSE_PREVIEW:
 			preview = TRUE;
 			break;
 		default:
-			gtk_widget_destroy((GtkWidget *)dialog);
+			gtk_widget_destroy ((GtkWidget *) dialog);
 			return;
 		}
 		
-		config = gnome_print_dialog_get_config(dialog);
-		gtk_widget_destroy((GtkWidget *)dialog);
+		config = gnome_print_dialog_get_config ((GnomePrintDialog *) dialog);
+		gtk_widget_destroy ((GtkWidget *)dialog);
 	}
 	
 	if (config) {
-		print_master = gnome_print_master_new_from_config(config);
-		gnome_print_config_unref(config);
+		print_master = gnome_print_master_new_from_config (config);
+		gnome_print_config_unref (config);
 	} else
 		print_master = gnome_print_master_new ();
 	
@@ -2978,14 +2978,14 @@ do_mail_print (FolderBrowser *fb, gboolean preview)
 	
 	if (preview){
 		GtkWidget *preview;
-
-		preview = gnome_print_master_preview_new(print_master, _("Print Preview"));
-		gtk_widget_show(preview);
+		
+		preview = gnome_print_master_preview_new (print_master, _("Print Preview"));
+		gtk_widget_show (preview);
 	} else {
 		int result = gnome_print_master_print (print_master);
 		
 		if (result == -1)
-			e_notice(FB_WINDOW(fb), GTK_MESSAGE_ERROR, _("Printing of message failed"));
+			e_notice (FB_WINDOW (fb), GTK_MESSAGE_ERROR, _("Printing of message failed"));
 	}
 	
 	/* FIXME: We are leaking the GtkHTML object */
@@ -3019,7 +3019,7 @@ done_message_selected (CamelFolder *folder, const char *uid, CamelMimeMessage *m
 	g_free (fb->loaded_uid);
 	fb->loaded_uid = fb->loading_uid;
 	fb->loading_uid = NULL;
-
+	
 	if (msg)
 		do_mail_print (fb, preview);
 }

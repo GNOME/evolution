@@ -758,22 +758,22 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	
 	/* FIXME: should we ref this? */
 	global_shell_client = shell_client;
-	g_object_weak_ref(G_OBJECT(shell_client), (GWeakNotify)shell_client_destroy, NULL);
+	g_object_weak_ref ((GObject *) shell_client, (GWeakNotify) shell_client_destroy, NULL);
 	
 	evolution_dir = g_strdup (evolution_homedir);
 	mail_session_init ();
-
+	
 	async_event = mail_async_event_new();
 
 	storages_hash = g_hash_table_new (NULL, NULL);
 	
-	corba_shell = evolution_shell_client_corba_objref(shell_client);
-
+	corba_shell = evolution_shell_client_corba_objref (shell_client);
+	
 	for (i = 0; i < sizeof (standard_folders) / sizeof (standard_folders[0]); i++)
 		*standard_folders[i].uri = g_strdup_printf ("file://%s/local/%s", evolution_dir, standard_folders[i].name);
 	
 	vfolder_load_storage(corba_shell);
-
+	
 	accounts = mail_config_get_accounts ();
 	mail_load_storages (corba_shell, accounts);
 	
@@ -786,7 +786,7 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	}
 	
 	mail_autoreceive_setup ();
-
+	
 	{
 		/* setup the global quick-search context */
 		char *user = g_strdup_printf ("%s/searches.xml", evolution_dir);
@@ -809,14 +809,14 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	
 	if (mail_config_is_corrupt ()) {
 		GtkWidget *dialog;
-
-		dialog = gtk_message_dialog_new(NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_WARNING, GTK_BUTTONS_CLOSE,
-						_("Some of your mail settings seem corrupt, "
-						 "please check that everything is in order."));
-		g_signal_connect(dialog, "response", G_CALLBACK(warning_response), NULL);
+		
+		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_WARNING, GTK_BUTTONS_CLOSE,
+						 _("Some of your mail settings seem corrupt, "
+						   "please check that everything is in order."));
+		g_signal_connect (dialog, "response", G_CALLBACK (warning_response), NULL);
 		gtk_widget_show (dialog);
 	}
-
+	
 	/* Everything should be ready now */
 	evolution_folder_info_notify_ready ();
 }
@@ -975,11 +975,11 @@ send_receive_cb (EvolutionShellComponent *shell_component,
 	if (!account || !account->transport) {
 		GtkWidget *dialog;
 		
-		dialog = gtk_message_dialog_new(NULL, 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
-						_("You have not set a mail transport method"));
-		gtk_dialog_run((GtkDialog *)dialog);
-		gtk_widget_destroy(dialog);
-
+		dialog = gtk_message_dialog_new (NULL, 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
+						 _("You have not set a mail transport method"));
+		gtk_dialog_run ((GtkDialog *) dialog);
+		gtk_widget_destroy (dialog);
+		
 		return;
 	}
 	

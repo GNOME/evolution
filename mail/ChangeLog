@@ -1,3 +1,18 @@
+2002-12-13  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-session.c: Get rid of unneeded CamelObject casts.
+	(user_message_response): Don't unref the dialog object after we've
+	destroyed it.
+
+	* mail-display.c (write_data_to_file): Don't unref the dialog
+	object after we've destroyed it.
+
+	* mail-callbacks.c: Same here.
+
+	* component-factory.c: Here too.
+
+	* message-tag-editor.c: Added MESSAGE_TAG_EDITOR_GET_CLASS macros.
+
 2002-12-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-accounts.c (mail_accounts_tab_construct): Setup
