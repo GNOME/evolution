@@ -503,7 +503,7 @@ camel_url_decode (char *part)
 
 	s = d = (unsigned char *)part;
 	do {
-		if (*s == '%' && s[1] && s[2]) {
+		if (*s == '%' && isxdigit(s[1]) && isxdigit(s[2])) {
 			*d++ = (XDIGIT (s[1]) << 4) + XDIGIT (s[2]);
 			s += 2;
 		} else

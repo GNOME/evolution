@@ -440,12 +440,10 @@ local_setv(CamelObject *object, CamelException *ex, CamelArgV *args)
 			/* FIXME: implement */
 			/* TODO: When turning on (off?) the index, we want to launch a task for it,
 			   and make sure we dont have multiple tasks doing the same job */
-			printf("setting folder indexing %s\n", arg->ca_int?"on":"off");
 			if (arg->ca_int)
 				((CamelLocalFolder *)object)->flags |= CAMEL_STORE_FOLDER_BODY_INDEX;
 			else
 				((CamelLocalFolder *)object)->flags &= ~CAMEL_STORE_FOLDER_BODY_INDEX;
-			printf("setv:'%s' flags %08x\n", ((CamelFolder *)object)->full_name, ((CamelLocalFolder *)object)->flags);
 			break;
 		default:
 			continue;

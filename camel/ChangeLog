@@ -1,3 +1,25 @@
+2003-12-09  Not Zed  <NotZed@Ximian.com>
+
+	* providers/smtp/camel-smtp-transport.c (smtp_send_to): encode the
+	address before sending it out, rather than using the raw/utf8
+	version.
+
+	* camel-internet-address.c
+	(camel_internet_address_encode_address): check for quoting the
+	local part of the address before outputting it.
+	(cia_encode_addrspec): quote local part if need be.
+	(camel_internet_address_encode_address): make folding optional
+	based on whether inlen is null or not.
+
+	* camel-mime-utils.[ch]: rename is_* to camel_mime_is_* and export
+	the type functions.
+
+2003-12-08  Not Zed  <NotZed@Ximian.com>
+
+	* providers/imap/camel-imap-utils.c (imap_atom_specials): add } to
+	the atom specials list.  This isn't correct, but some busted
+	servers expect it.  Bug #50728.
+
 2003-12-08  Jeffrey Stedfast  <fejj@ximian.com>
 
 	Fixes bug #51881
@@ -51,6 +73,14 @@
 	the url uses the fragment or not for the path.
 
 2003-12-02  Not Zed  <NotZed@Ximian.com>
+
+	* providers/local/camel-local-folder.c (local_setv): remove some
+	debug printfs.
+
+	** See bug #51576.
+
+	* camel-url.c (camel_url_decode): robustify url decoding for bad
+	input, addresses a crash.
 
 	** See bug #51478.
 

@@ -239,6 +239,33 @@ size_t camel_quoted_decode_close (unsigned char *in, size_t len, unsigned char *
 char *camel_base64_encode_simple (const char *data, size_t len);
 size_t camel_base64_decode_simple (char *data, size_t len);
 
+/* camel ctype type functions for rfc822/rfc2047/other, which are non-locale specific */
+enum {
+	CAMEL_MIME_IS_CTRL		= 1<<0,
+	CAMEL_MIME_IS_LWSP		= 1<<1,
+	CAMEL_MIME_IS_TSPECIAL	= 1<<2,
+	CAMEL_MIME_IS_SPECIAL	= 1<<3,
+	CAMEL_MIME_IS_SPACE	= 1<<4,
+	CAMEL_MIME_IS_DSPECIAL	= 1<<5,
+	CAMEL_MIME_IS_QPSAFE	= 1<<6,
+	CAMEL_MIME_IS_ESAFE	= 1<<7,	/* encoded word safe */
+	CAMEL_MIME_IS_PSAFE	= 1<<8,	/* encoded word in phrase safe */
+};
+
+extern unsigned short camel_mime_special_table[256];
+
+#define camel_mime_is_ctrl(x) ((camel_mime_special_table[(unsigned char)(x)] & CAMEL_MIME_IS_CTRL) != 0)
+#define camel_mime_is_lwsp(x) ((camel_mime_special_table[(unsigned char)(x)] & CAMEL_MIME_IS_LWSP) != 0)
+#define camel_mime_is_tspecial(x) ((camel_mime_special_table[(unsigned char)(x)] & CAMEL_MIME_IS_TSPECIAL) != 0)
+#define camel_mime_is_type(x, t) ((camel_mime_special_table[(unsigned char)(x)] & (t)) != 0)
+#define camel_mime_is_ttoken(x) ((camel_mime_special_table[(unsigned char)(x)] & (CAMEL_MIME_IS_TSPECIAL|CAMEL_MIME_IS_LWSP|CAMEL_MIME_IS_CTRL)) == 0)
+#define camel_mime_is_atom(x) ((camel_mime_special_table[(unsigned char)(x)] & (CAMEL_MIME_IS_SPECIAL|CAMEL_MIME_IS_SPACE|CAMEL_MIME_IS_CTRL)) == 0)
+#define camel_mime_is_dtext(x) ((camel_mime_special_table[(unsigned char)(x)] & CAMEL_MIME_IS_DSPECIAL) == 0)
+#define camel_mime_is_fieldname(x) ((camel_mime_special_table[(unsigned char)(x)] & (CAMEL_MIME_IS_CTRL|CAMEL_MIME_IS_SPACE)) == 0)
+#define camel_mime_is_qpsafe(x) ((camel_mime_special_table[(unsigned char)(x)] & CAMEL_MIME_IS_QPSAFE) != 0)
+#define camel_mime_is_especial(x) ((camel_mime_special_table[(unsigned char)(x)] & CAMEL_MIME_IS_ESPECIAL) != 0)
+#define camel_mime_is_psafe(x) ((camel_mime_special_table[(unsigned char)(x)] & CAMEL_MIME_IS_PSAFE) != 0)
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

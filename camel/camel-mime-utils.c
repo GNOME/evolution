@@ -83,33 +83,8 @@ static unsigned char tohex[16] = {
 	'8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
 };
 
-static unsigned short camel_mime_special_table[256];
+unsigned short camel_mime_special_table[256];
 static unsigned char camel_mime_base64_rank[256];
-
-/* Flags bits set in the mime_special table, use the is_*() mactos to access them normally */
-enum {
-	IS_CTRL		= 1<<0,
-	IS_LWSP		= 1<<1,
-	IS_TSPECIAL	= 1<<2,
-	IS_SPECIAL	= 1<<3,
-	IS_SPACE	= 1<<4,
-	IS_DSPECIAL	= 1<<5,
-	IS_QPSAFE	= 1<<6,
-	IS_ESAFE	= 1<<7,	/* encoded word safe */
-	IS_PSAFE	= 1<<8,	/* encoded word in phrase safe */
-};
-
-#define is_ctrl(x) ((camel_mime_special_table[(unsigned char)(x)] & IS_CTRL) != 0)
-#define is_lwsp(x) ((camel_mime_special_table[(unsigned char)(x)] & IS_LWSP) != 0)
-#define is_tspecial(x) ((camel_mime_special_table[(unsigned char)(x)] & IS_TSPECIAL) != 0)
-#define is_type(x, t) ((camel_mime_special_table[(unsigned char)(x)] & (t)) != 0)
-#define is_ttoken(x) ((camel_mime_special_table[(unsigned char)(x)] & (IS_TSPECIAL|IS_LWSP|IS_CTRL)) == 0)
-#define is_atom(x) ((camel_mime_special_table[(unsigned char)(x)] & (IS_SPECIAL|IS_SPACE|IS_CTRL)) == 0)
-#define is_dtext(x) ((camel_mime_special_table[(unsigned char)(x)] & IS_DSPECIAL) == 0)
-#define is_fieldname(x) ((camel_mime_special_table[(unsigned char)(x)] & (IS_CTRL|IS_SPACE)) == 0)
-#define is_qpsafe(x) ((camel_mime_special_table[(unsigned char)(x)] & IS_QPSAFE) != 0)
-#define is_especial(x) ((camel_mime_special_table[(unsigned char)(x)] & IS_ESPECIAL) != 0)
-#define is_psafe(x) ((camel_mime_special_table[(unsigned char)(x)] & IS_PSAFE) != 0)
 
 /* Used by table initialisation code for special characters */
 #define CHARS_LWSP " \t\n\r"
@@ -170,20 +145,20 @@ header_decode_init(void)
 	for (i=0;i<256;i++) {
 		camel_mime_special_table[i] = 0;
 		if (i<32)
-			camel_mime_special_table[i] |= IS_CTRL;
+			camel_mime_special_table[i] |= CAMEL_MIME_IS_CTRL;
 		if ((i>=32 && i<=60) || (i>=62 && i<=126) || i==9)
-			camel_mime_special_table[i] |= (IS_QPSAFE|IS_ESAFE);
+			camel_mime_special_table[i] |= (CAMEL_MIME_IS_QPSAFE|CAMEL_MIME_IS_ESAFE);
 		if ((i>='0' && i<='9') || (i>='a' && i<='z') || (i>='A' && i<= 'Z'))
-			camel_mime_special_table[i] |= IS_PSAFE;
+			camel_mime_special_table[i] |= CAMEL_MIME_IS_PSAFE;
 	}
-	camel_mime_special_table[127] |= IS_CTRL;
-	camel_mime_special_table[' '] |= IS_SPACE;
-	header_init_bits(IS_LWSP, 0, 0, CHARS_LWSP);
-	header_init_bits(IS_TSPECIAL, IS_CTRL, 0, CHARS_TSPECIAL);
-	header_init_bits(IS_SPECIAL, 0, 0, CHARS_SPECIAL);
-	header_init_bits(IS_DSPECIAL, 0, FALSE, CHARS_DSPECIAL);
-	header_remove_bits(IS_ESAFE, CHARS_ESPECIAL);
-	header_init_bits(IS_PSAFE, 0, 0, CHARS_PSPECIAL);
+	camel_mime_special_table[127] |= CAMEL_MIME_IS_CTRL;
+	camel_mime_special_table[' '] |= CAMEL_MIME_IS_SPACE;
+	header_init_bits(CAMEL_MIME_IS_LWSP, 0, 0, CHARS_LWSP);
+	header_init_bits(CAMEL_MIME_IS_TSPECIAL, CAMEL_MIME_IS_CTRL, 0, CHARS_TSPECIAL);
+	header_init_bits(CAMEL_MIME_IS_SPECIAL, 0, 0, CHARS_SPECIAL);
+	header_init_bits(CAMEL_MIME_IS_DSPECIAL, 0, FALSE, CHARS_DSPECIAL);
+	header_remove_bits(CAMEL_MIME_IS_ESAFE, CHARS_ESPECIAL);
+	header_init_bits(CAMEL_MIME_IS_PSAFE, 0, 0, CHARS_PSPECIAL);
 }
 
 static void
@@ -669,7 +644,7 @@ camel_quoted_decode_close(unsigned char *in, size_t len, unsigned char *out, int
 	if (last != -1) {
 		/* space/tab must be encoded if it's the last character on
 		   the line */
-		if (is_qpsafe(last) && last!=' ' && last!=9) {
+		if (camel_mime_is_qpsafe(last) && last!=' ' && last!=9) {
 			*outptr++ = last;
 		} else {
 			*outptr++ = '=';
@@ -717,7 +692,7 @@ camel_quoted_encode_step (unsigned char *in, size_t len, unsigned char *out, int
 			last = -1;
 		} else {
 			if (last != -1) {
-				if (is_qpsafe(last)) {
+				if (camel_mime_is_qpsafe(last)) {
 					*outptr++ = last;
 					sofar++;
 				} else {
@@ -728,7 +703,7 @@ camel_quoted_encode_step (unsigned char *in, size_t len, unsigned char *out, int
 				}
 			}
 			
-			if (is_qpsafe(c)) {
+			if (camel_mime_is_qpsafe(c)) {
 				if (sofar > 74) {
 					*outptr++ = '=';
 					*outptr++ = '\n';
@@ -947,8 +922,8 @@ header_decode_lwsp(const char **in)
 
 	d2(printf("is ws: '%s'\n", *in));
 
-	while (is_lwsp(*inptr) || (*inptr =='(' && *inptr != '\0')) {
-		while (is_lwsp(*inptr) && inptr != '\0') {
+	while (camel_mime_is_lwsp(*inptr) || (*inptr =='(' && *inptr != '\0')) {
+		while (camel_mime_is_lwsp(*inptr) && inptr != '\0') {
 			d2(printf("(%c)", *inptr));
 			inptr++;
 		}
@@ -1156,7 +1131,7 @@ header_decode_text (const char *in, size_t inlen, const char *default_charset)
 
 	while (inptr < inend) {
 		start = inptr;
-		while (inptr < inend && is_lwsp(*inptr))
+		while (inptr < inend && camel_mime_is_lwsp(*inptr))
 			inptr++;
 
 		if (inptr == inend) {
@@ -1169,7 +1144,7 @@ header_decode_text (const char *in, size_t inlen, const char *default_charset)
 		}
 
 		start = inptr;
-		while (inptr < inend && !is_lwsp(*inptr))
+		while (inptr < inend && !camel_mime_is_lwsp(*inptr))
 			inptr++;
 
 		dword = rfc2047_decode_word(start, inptr-start);
@@ -1372,7 +1347,7 @@ camel_header_encode_string (const unsigned char *in)
 				if (last_was_encoded)
 					g_string_append_c (out, ' ');
 				
-				rfc2047_encode_word (out, start, inptr - start, "ISO-8859-1", IS_ESAFE);
+				rfc2047_encode_word (out, start, inptr - start, "ISO-8859-1", CAMEL_MIME_IS_ESAFE);
 				last_was_encoded = TRUE;
 				break;
 			case 2:
@@ -1380,7 +1355,7 @@ camel_header_encode_string (const unsigned char *in)
 					g_string_append_c (out, ' ');
 				
 				rfc2047_encode_word (out, start, inptr - start,
-						     camel_charset_best (start, inptr - start), IS_ESAFE);
+						     camel_charset_best (start, inptr - start), CAMEL_MIME_IS_ESAFE);
 				last_was_encoded = TRUE;
 				break;
 			}
@@ -1419,14 +1394,14 @@ camel_header_encode_string (const unsigned char *in)
 			if (last_was_encoded)
 				g_string_append_c (out, ' ');
 			
-			rfc2047_encode_word (out, start, inptr - start, "ISO-8859-1", IS_ESAFE);
+			rfc2047_encode_word (out, start, inptr - start, "ISO-8859-1", CAMEL_MIME_IS_ESAFE);
 			break;
 		case 2:
 			if (last_was_encoded)
 				g_string_append_c (out, ' ');
 			
 			rfc2047_encode_word (out, start, inptr - start,
-					     camel_charset_best (start, inptr - start - 1), IS_ESAFE);
+					     camel_charset_best (start, inptr - start - 1), CAMEL_MIME_IS_ESAFE);
 			break;
 		}
 	}
@@ -1532,7 +1507,7 @@ header_encode_phrase_get_words (const unsigned char *in)
 		} else {
 			count++;
 			if (c < 128) {
-				if (!is_atom (c))
+				if (!camel_mime_is_atom (c))
 					type = MAX (type, WORD_QSTRING);
 			} else if (c > 127 && c < 256) {
 				type = WORD_2047;
@@ -1666,10 +1641,10 @@ camel_header_encode_phrase (const unsigned char *in)
 			}
 			
 			if (word->encoding == 1)
-				rfc2047_encode_word (out, start, len, "ISO-8859-1", IS_PSAFE);
+				rfc2047_encode_word (out, start, len, "ISO-8859-1", CAMEL_MIME_IS_PSAFE);
 			else
 				rfc2047_encode_word (out, start, len,
-						     camel_charset_best (start, len), IS_PSAFE);
+						     camel_charset_best (start, len), CAMEL_MIME_IS_PSAFE);
 			break;
 		}
 		
@@ -1700,7 +1675,7 @@ decode_token (const char **in)
 	
 	header_decode_lwsp (&inptr);
 	start = inptr;
-	while (is_ttoken (*inptr))
+	while (camel_mime_is_ttoken (*inptr))
 		inptr++;
 	if (inptr > start) {
 		*in = inptr;
@@ -1765,7 +1740,7 @@ header_decode_atom(const char **in)
 
 	header_decode_lwsp(&inptr);
 	start = inptr;
-	while (is_atom(*inptr))
+	while (camel_mime_is_atom(*inptr))
 		inptr++;
 	*in = inptr;
 	if (inptr > start)
@@ -1798,7 +1773,7 @@ header_decode_value(const char **in)
 	if (*inptr == '"') {
 		d(printf("decoding quoted string\n"));
 		return header_decode_quoted_string(in);
-	} else if (is_ttoken(*inptr)) {
+	} else if (camel_mime_is_ttoken(*inptr)) {
 		d(printf("decoding token\n"));
 		/* this may not have the right specials for all params? */
 		return decode_token(in);
@@ -1920,7 +1895,7 @@ decode_param_token (const char **in)
 	
 	header_decode_lwsp (&inptr);
 	start = inptr;
-	while (is_ttoken (*inptr) && *inptr != '*')
+	while (camel_mime_is_ttoken (*inptr) && *inptr != '*')
 		inptr++;
 	if (inptr > start) {
 		*in = inptr;
@@ -1931,34 +1906,34 @@ decode_param_token (const char **in)
 }
 
 static gboolean
-header_decode_rfc2184_param (const char **in, char **paramp, gboolean *value_is_encoded, int *part)
+header_decode_rfc2184_param (const char **in, char **paramp, gboolean *value_camel_mime_is_encoded, int *part)
 {
-	gboolean is_rfc2184 = FALSE;
+	gboolean camel_mime_is_rfc2184 = FALSE;
 	const char *inptr = *in;
 	char *param;
 	
-	*value_is_encoded = FALSE;
+	*value_camel_mime_is_encoded = FALSE;
 	*part = -1;
 	
 	param = decode_param_token (&inptr);
 	header_decode_lwsp (&inptr);
 	
 	if (*inptr == '*') {
-		is_rfc2184 = TRUE;
+		camel_mime_is_rfc2184 = TRUE;
 		inptr++;
 		header_decode_lwsp (&inptr);
 		if (*inptr == '=') {
 			/* form := param*=value */
-			if (value_is_encoded)
-				*value_is_encoded = TRUE;
+			if (value_camel_mime_is_encoded)
+				*value_camel_mime_is_encoded = TRUE;
 		} else {
 			/* form := param*#=value or param*#*=value */
 			*part = camel_header_decode_int (&inptr);
 			header_decode_lwsp (&inptr);
 			if (*inptr == '*') {
 				/* form := param*#*=value */
-				if (value_is_encoded)
-					*value_is_encoded = TRUE;
+				if (value_camel_mime_is_encoded)
+					*value_camel_mime_is_encoded = TRUE;
 				inptr++;
 				header_decode_lwsp (&inptr);
 			}
@@ -1971,28 +1946,28 @@ header_decode_rfc2184_param (const char **in, char **paramp, gboolean *value_is_
 	if (param)
 		*in = inptr;
 	
-	return is_rfc2184;
+	return camel_mime_is_rfc2184;
 }
 
 static int
-header_decode_param (const char **in, char **paramp, char **valuep, int *is_rfc2184_param, int *rfc2184_part)
+header_decode_param (const char **in, char **paramp, char **valuep, int *camel_mime_is_rfc2184_param, int *rfc2184_part)
 {
-	gboolean is_rfc2184_encoded = FALSE;
-	gboolean is_rfc2184 = FALSE;
+	gboolean camel_mime_is_rfc2184_encoded = FALSE;
+	gboolean camel_mime_is_rfc2184 = FALSE;
 	const char *inptr = *in;
 	char *param = NULL;
 	char *value = NULL;
 	
-	*is_rfc2184_param = FALSE;
+	*camel_mime_is_rfc2184_param = FALSE;
 	*rfc2184_part = -1;
 	
-	is_rfc2184 = header_decode_rfc2184_param (&inptr, &param, &is_rfc2184_encoded, rfc2184_part);
+	camel_mime_is_rfc2184 = header_decode_rfc2184_param (&inptr, &param, &camel_mime_is_rfc2184_encoded, rfc2184_part);
 	
 	if (*inptr == '=') {
 		inptr++;
 		value = header_decode_value (&inptr);
 		
-		if (value && is_rfc2184) {
+		if (value && camel_mime_is_rfc2184) {
 			/* We have ourselves an rfc2184 parameter */
 			
 			if (*rfc2184_part == -1) {
@@ -2011,7 +1986,7 @@ header_decode_param (const char **in, char **paramp, char **valuep, int *is_rfc2
 				/* Since we are expecting to find the rest of
 				 * this paramter value later, let our caller know.
 				 */
-				*is_rfc2184_param = TRUE;
+				*camel_mime_is_rfc2184_param = TRUE;
 			}
 		} else if (value && !strncmp (value, "=?", 2)) {
 			/* We have a broken param value that is rfc2047 encoded.
@@ -2234,7 +2209,7 @@ header_decode_domain(const char **in)
 			inptr++;
 			header_decode_lwsp(&inptr);
 			start = inptr;
-			while (is_dtext(*inptr)) {
+			while (camel_mime_is_dtext(*inptr)) {
 				domain = g_string_append_c(domain, *inptr);
 				inptr++;
 			}
@@ -2943,7 +2918,7 @@ header_decode_param_list (const char **in)
 	const char *inptr = *in;
 	struct _camel_header_param *head = NULL, *tail = NULL;
 	gboolean last_was_rfc2184 = FALSE;
-	gboolean is_rfc2184 = FALSE;
+	gboolean camel_mime_is_rfc2184 = FALSE;
 	
 	header_decode_lwsp (&inptr);
 	
@@ -2954,10 +2929,10 @@ header_decode_param_list (const char **in)
 		
 		inptr++;
 		/* invalid format? */
-		if (header_decode_param (&inptr, &name, &value, &is_rfc2184, &rfc2184_part) != 0)
+		if (header_decode_param (&inptr, &name, &value, &camel_mime_is_rfc2184, &rfc2184_part) != 0)
 			break;
 		
-		if (is_rfc2184 && tail && !strcasecmp (name, tail->name)) {
+		if (camel_mime_is_rfc2184 && tail && !strcasecmp (name, tail->name)) {
 			/* rfc2184 allows a parameter to be broken into multiple parts
 			 * and it looks like we've found one. Append this value to the
 			 * last value.
@@ -2998,7 +2973,7 @@ header_decode_param_list (const char **in)
 			tail = param;
 		}
 		
-		last_was_rfc2184 = is_rfc2184;
+		last_was_rfc2184 = camel_mime_is_rfc2184;
 		
 		header_decode_lwsp (&inptr);
 	}
@@ -3127,7 +3102,7 @@ header_encode_param (const unsigned char *in, gboolean *encoded)
 		
 		if (c > 127) {
 			g_string_append_printf (out, "%%%c%c", tohex[(c >> 4) & 0xf], tohex[c & 0xf]);
-		} else if (is_lwsp (c) || !(camel_mime_special_table[c] & IS_ESAFE)) {
+		} else if (camel_mime_is_lwsp (c) || !(camel_mime_special_table[c] & CAMEL_MIME_IS_ESAFE)) {
 			g_string_append_printf (out, "%%%c%c", tohex[(c >> 4) & 0xf], tohex[c & 0xf]);
 		} else {
 			g_string_append_c (out, c);
@@ -3170,7 +3145,7 @@ camel_header_param_list_format_append (GString *out, struct _camel_header_param 
 			char *ch;
 			
 			for (ch = value; *ch; ch++) {
-				if (is_tspecial (*ch) || is_lwsp (*ch))
+				if (camel_mime_is_tspecial (*ch) || camel_mime_is_lwsp (*ch))
 					break;
 			}
 			
@@ -3648,7 +3623,7 @@ camel_header_location_decode(const char *in)
 	if (*in == '"')
 		return header_decode_quoted_string(&in);
 	else {
-		for (p = in; *p && !is_lwsp(*p); p++)
+		for (p = in; *p && !camel_mime_is_lwsp(*p); p++)
 			;
 		return g_strndup(in, p - in);
 	}
@@ -3683,10 +3658,10 @@ camel_header_raw_append_parse(struct _camel_header_raw **list, const char *heade
 	char *name;
 
 	in = header;
-	while (is_fieldname(*in) || *in==':')
+	while (camel_mime_is_fieldname(*in) || *in==':')
 		in++;
 	fieldlen = in-header-1;
-	while (is_lwsp(*in))
+	while (camel_mime_is_lwsp(*in))
 		in++;
 	if (fieldlen == 0 || header[fieldlen] != ':') {
 		printf("Invalid header line: '%s'\n", header);
@@ -4324,10 +4299,10 @@ camel_header_unfold(const char *in)
 	o = out;
 	while ((c = *inptr++)) {
 		if (c == '\n') {
-			if (is_lwsp(*inptr)) {
+			if (camel_mime_is_lwsp(*inptr)) {
 				do {
 					inptr++;
-				} while (is_lwsp(*inptr));
+				} while (camel_mime_is_lwsp(*inptr));
 				*o++ = ' ';
 			} else {
 				*o++ = c;

@@ -399,6 +399,43 @@ camel_internet_address_find_address(CamelInternetAddress *a, const char *address
 	return -1;
 }
 
+static void
+cia_encode_addrspec(GString *out, const char *addr)
+{
+	const char *at, *p;
+
+	at = strchr(addr, '@');
+	if (at == NULL)
+		goto append;
+
+	p = addr;
+	while (p < at) {
+		char c = *p++;
+
+		/* strictly by rfc, we should split local parts on dots.
+		   however i think 2822 changes this, and not many clients grok it, so
+		   just quote the whole local part if need be */
+		if (!(camel_mime_is_atom(c) || c=='.')) {
+			g_string_append_c(out, '"');
+
+			p = addr;
+			while (p < at) {
+				c = *p++;
+				if (c == '"' || c == '\\')
+					g_string_append_c(out, '\\');
+				g_string_append_c(out, c);
+			}
+			g_string_append_c(out, '"');
+			g_string_append(out, p);
+
+			return;
+		}
+	}
+
+append:
+	g_string_append(out, addr);
+}
+
 /**
  * camel_internet_address_encode_address:
  * @len: The encoded length so far, of this line
@@ -406,7 +443,8 @@ camel_internet_address_find_address(CamelInternetAddress *a, const char *address
  * @addr: 
  * 
  * Encode a single address ready for internet usage.  Header folding
- * as per rfc 822 is also performed, based on the length in len.
+ * as per rfc 822 is also performed, based on the length *@inlen.  If @inlen
+ * is NULL, then no folding will occur.
  * 
  * Return value: The encoded address.
  **/
@@ -414,14 +452,17 @@ char *
 camel_internet_address_encode_address(int *inlen, const char *real, const char *addr)
 {
 	char *name = camel_header_encode_phrase(real);
-	char *ret = NULL, *addra = NULL;
-	int len = *inlen;
+	char *ret = NULL;
+	int len = 0;
 	GString *out = g_string_new("");
 
 	g_assert(addr);
 
+	if (inlen != NULL)
+		len = *inlen;
+
 	if (name && name[0]) {
-		if (strlen(name) + len > CAMEL_FOLD_SIZE) {
+		if (inlen != NULL && (strlen(name) + len) > CAMEL_FOLD_SIZE) {
 			char *folded = camel_header_address_fold(name, len);
 			char *last;
 			g_string_append(out, folded);
@@ -435,32 +476,32 @@ camel_internet_address_encode_address(int *inlen, const char *real, const char *
 			g_string_append(out, name);
 			len += strlen(name);
 		}
-		addr = addra = g_strdup_printf(" <%s>", addr);
 	}
 
 	/* NOTE: Strictly speaking, we could and should split the
 	 * internal address up if we need to, on atom or specials
 	 * boundaries - however, to aid interoperability with mailers
 	 * that will probably not handle this case, we will just move
-	 * the whole address to its own line */
-	if (strlen(addr) + len > CAMEL_FOLD_SIZE) {
+	 * the whole address to its own line. */
+	if (inlen != NULL && (strlen(addr) + len) > CAMEL_FOLD_SIZE) {
 		g_string_append(out, "\n\t");
-		g_string_append(out, addr);
-		len = strlen(addr)+1;
-	} else {
-		g_string_append(out, addr);
-		len += strlen(addr);
+		len = 1;
 	}
 
-	*inlen = len;
-#if 0
+	len -= out->len;
+
 	if (name && name[0])
-		ret = g_strdup_printf("%s <%s>", name, addr);
-	else
-		ret = g_strdup_printf("%s", addr);
-#endif
+		g_string_append_printf(out, " <");
+	cia_encode_addrspec(out, addr);
+	if (name && name[0])
+		g_string_append_printf(out, ">");
+
+	len += out->len;
+	
+	if (inlen != NULL)
+		*inlen = len;
+
 	g_free(name);
-	g_free(addra);
 	
 	ret = out->str;
 	g_string_free(out, FALSE);

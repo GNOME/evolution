@@ -710,17 +710,22 @@ smtp_send_to (CamelTransport *transport, CamelMimeMessage *message,
 	
 	cia = CAMEL_INTERNET_ADDRESS (recipients);
 	for (i = 0; i < len; i++) {
+		char *enc;
+
 		if (!camel_internet_address_get (cia, i, NULL, &addr)) {
 			camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
 					     _("Cannot send message: one or more invalid recipients"));
 			camel_operation_end (NULL);
 			return FALSE;
 		}
-		
-		if (!smtp_rcpt (smtp_transport, addr, ex)) {
+
+		enc = camel_internet_address_encode_address(NULL, NULL, addr);
+		if (!smtp_rcpt (smtp_transport, enc, ex)) {
+			g_free(enc);
 			camel_operation_end (NULL);
 			return FALSE;
 		}
+		g_free(enc);
 	}
 	
 	if (!smtp_data (smtp_transport, message, ex)) {
