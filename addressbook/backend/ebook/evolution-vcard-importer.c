@@ -56,7 +56,7 @@ ebook_create (VCardImporter *gci)
 	if (!gci->book) {
 		printf ("%s: %s(): Couldn't create EBook, bailing.\n",
 			__FILE__,
-			__FUNCTION__);
+			G_GNUC_FUNCTION);
 		return;
 	}
 

@@ -41,7 +41,7 @@ get_cursor_cb (EBook *book, EBookStatus status, ECardCursor *cursor, gpointer cl
 
 	/* we just added a card, so the length should be >1 */
 	printf ("\n%s: %s(): Number of cards is %ld\n",
-		__FILE__, __FUNCTION__, length);
+		__FILE__, G_GNUC_FUNCTION, length);
 	if (length < 1)
 		printf ("*** Why isn't this above zero?? ***\n\n");
 	
@@ -132,7 +132,7 @@ ebook_create (gpointer data)
 	if (!book) {
 		printf ("%s: %s(): Couldn't create EBook, bailing.\n",
 			__FILE__,
-			__FUNCTION__);
+			G_GNUC_FUNCTION);
 		return FALSE;
 	}
 	

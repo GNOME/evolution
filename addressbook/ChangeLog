@@ -1,3 +1,18 @@
+2003-03-06  Ettore Perazzoli  <ettore@ximian.com>
+
+	* backend/ebook/load-pine-addressbook.c (ebook_create): Likewise.
+	* backend/ebook/load-gnomecard-addressbook.c (ebook_create): Likewise.
+	* backend/ebook/evolution-vcard-importer.c (ebook_create): Likewise.
+	* backend/ebook/evolution-ldif-importer.c (ebook_create): Likewise.
+	* backend/ebook/test-client.c (get_cursor_cb): Likewise.
+	(ebook_create): Likewise.
+	* gui/widgets/e-minicard.c (e_minicard_set_property): Likewise.
+	(card_modified_cb): Likewise.
+	(e_minicard_event): Likewise.
+	* gui/widgets/gal-view-minicard.c (column_width_changed): Likewise.
+	* gui/widgets/test-minicard-view.c (ebook_create): Likewise.
+	* gui/widgets/gal-view-treeview.c (column_width_changed): Likewise.
+
 2003-03-05  Not Zed  <NotZed@Ximian.com>
 
 	* gui/component/addressbook-component.c (bonobo_main_quit_cb):

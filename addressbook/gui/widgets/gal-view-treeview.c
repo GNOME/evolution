@@ -182,7 +182,7 @@ gal_view_treeview_get_type        (void)
 static void
 column_width_changed (ETable *table, double width, GalViewMinicard *view)
 {
-	d(g_print("%s: Old width = %f, New width = %f\n", __FUNCTION__, view->column_width, width));
+	d(g_print("%s: Old width = %f, New width = %f\n", G_GNUC_FUNCTION, view->column_width, width));
 	if (view->column_width != width) {
 		view->column_width = width;
 		gal_view_changed(GAL_VIEW(view));

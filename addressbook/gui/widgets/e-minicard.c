@@ -326,7 +326,7 @@ e_minicard_set_property  (GObject *object, guint prop_id, const GValue *value, G
 				      NULL);
 		break;
 	case PROP_HAS_CURSOR:
-		d(g_print("%s: PROP_HAS_CURSOR\n", __FUNCTION__));
+		d(g_print("%s: PROP_HAS_CURSOR\n", G_GNUC_FUNCTION));
 		if (e_minicard->has_cursor != g_value_get_boolean (value))
 			set_has_cursor (e_minicard, g_value_get_boolean (value));
 		break;
@@ -510,7 +510,7 @@ e_minicard_unrealize (GnomeCanvasItem *item)
 static void
 card_modified_cb (EBook* book, EBookStatus status, gpointer user_data)
 {
-	d(g_print ("%s: %s(): a card was modified\n", __FILE__, __FUNCTION__));
+	d(g_print ("%s: %s(): a card was modified\n", __FILE__, G_GNUC_FUNCTION));
 	if (status != E_BOOK_STATUS_SUCCESS)
 		e_addressbook_error_dialog (_("Error modifying card"), status);
 }
@@ -537,7 +537,7 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 	case GDK_FOCUS_CHANGE:
 		{
 			GdkEventFocus *focus_event = (GdkEventFocus *) event;
-			d(g_print("%s: GDK_FOCUS_CHANGE: %s\n", __FUNCTION__, focus_event->in?"in":"out"));
+			d(g_print("%s: GDK_FOCUS_CHANGE: %s\n", G_GNUC_FUNCTION, focus_event->in?"in":"out"));
 			if (focus_event->in) {
 				/* Chris: When EMinicard gets the cursor, if it doesn't have the focus, it should take it.  */
 				e_minicard->has_focus = TRUE;
