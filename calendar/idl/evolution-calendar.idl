@@ -263,12 +263,12 @@ module Calendar {
 
 	/* Listener for changes in a query of a calendar */
 	interface QueryListener : Bonobo::Unknown {
-		/* Called when a component is added or changed.  If
+		/* Called when components are added or changed.  If
 		 * query_in_progress is true, then the initial query results are
 		 * being populated and the other arguments indicate the
 		 * percentage of completion Otherwise, the percent value is
 		 * unspecified.  */
-		void notifyObjUpdated (in CalObjUID uid, 
+		void notifyObjUpdated (in CalObjUIDSeq uids, 
 				       in boolean query_in_progress, 
 				       in long n_scanned,
 				       in long total);

@@ -983,9 +983,17 @@ add_component (Query *query, const char *uid, gboolean query_in_progress, int n_
 
 	CORBA_exception_init (&ev);
 	for (l = priv->listeners; l != NULL; l = l->next) {
+		GNOME_Evolution_Calendar_CalObjUIDSeq *corba_uids;
+
+		corba_uids = GNOME_Evolution_Calendar_CalObjUIDSeq__alloc ();
+		CORBA_sequence_set_release (corba_uids, TRUE);
+		corba_uids->_buffer = CORBA_sequence_GNOME_Evolution_Calendar_CalObjUID_allocbuf (1);
+		corba_uids->_length = 1;
+		corba_uids->_buffer[0] = CORBA_string_dup (uid);
+
 		GNOME_Evolution_Calendar_QueryListener_notifyObjUpdated (
 			l->data,
-			(char *) uid,
+			corba_uids,
 			query_in_progress,
 			n_scanned,
 			total,
@@ -994,6 +1002,8 @@ add_component (Query *query, const char *uid, gboolean query_in_progress, int n_
 		if (BONOBO_EX (&ev))
 			g_message ("add_component(): Could not notify the listener of an "
 				   "updated component");
+
+		CORBA_free (corba_uids);
 	}
 
 	CORBA_exception_free (&ev);
@@ -1425,26 +1435,12 @@ listener_died_cb (EComponentListener *cl, gpointer data)
 }
 
 static void
-notify_uid_cb (gpointer key, gpointer value, gpointer data)
+add_uid_cb (gpointer key, gpointer value, gpointer data)
 {
-	CORBA_Environment ev;
 	char *uid = (char *) key;
-	StartCachedQueryInfo *info = (StartCachedQueryInfo *) data;
+	GList **uidlist = (GList **) data;
 
-	CORBA_exception_init (&ev);
-	GNOME_Evolution_Calendar_QueryListener_notifyObjUpdated (
-		info->ql,
-		uid,
-		FALSE,
-		g_hash_table_size (info->query->priv->uids),
-		g_hash_table_size (info->query->priv->uids),
-		&ev);
-
-	if (BONOBO_EX (&ev))
-		g_message ("notify_uid_cb(): Could not notify the listener of an "
-			   "updated component");
-
-	CORBA_exception_free (&ev);
+	*uidlist = g_list_append (*uidlist, uid);
 }
 
 /* Idle handler for starting a cached query */
@@ -1497,9 +1493,42 @@ start_cached_query_cb (gpointer data)
 		cached_queries = g_list_remove (cached_queries, info->query);
 		bonobo_object_unref (BONOBO_OBJECT (info->query));
 	} else if (priv->state == QUERY_DONE) {
-		/* if the query is done, then we just notify the listener */
-		g_hash_table_foreach (priv->uids, (GHFunc) notify_uid_cb, info);
+		int len;
+		GList *uid_list = NULL, *l;
 
+		/* if the query is done, then we just notify the listener of all the
+		 * UIDS we've got so far, all at once */
+		g_hash_table_foreach (priv->uids, (GHFunc) add_uid_cb, &uid_list);
+
+		len = g_list_length (uid_list);
+		if (len > 0) {
+			int n;
+			GNOME_Evolution_Calendar_CalObjUIDSeq *corba_uids;
+
+			corba_uids = GNOME_Evolution_Calendar_CalObjUIDSeq__alloc ();
+			CORBA_sequence_set_release (corba_uids, TRUE);
+			corba_uids->_buffer = CORBA_sequence_GNOME_Evolution_Calendar_CalObjUID_allocbuf (len);
+			corba_uids->_length = len;
+
+			for (l = uid_list, n = 0; l != NULL; l = l->next, n++)
+				corba_uids->_buffer[n] = CORBA_string_dup ((CORBA_char *) l->data);
+
+			GNOME_Evolution_Calendar_QueryListener_notifyObjUpdated (
+				info->ql,
+				corba_uids,
+				TRUE,
+				len,
+				len, &ev);
+
+			if (BONOBO_EX (&ev))
+				g_message ("start_cached_query_cb(): Could not notify the listener of all "
+					   "cached components");
+
+			CORBA_free (corba_uids);
+			g_list_free (uid_list);
+		}
+
+		/* setup private data and notify listener that the query ended */
 		priv->listeners = g_list_append (priv->listeners, info->ql);
 
 		cl = e_component_listener_new (info->ql, 0);

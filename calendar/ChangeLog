@@ -1,3 +1,21 @@
+2002-09-26  Rodrigo Moya <rodrigo@ximian.com>
+
+	Should fix once for all #24210
+
+	* idl/evolution-calendar.idl: changed the notifyObjUpdated method
+	of the QueryListener interface accept a list of UIDs.
+
+	* cal-client/query-listener.[ch] (impl_notifyObjUpdated): likewise for
+	the QueryListener class.
+
+	* cal-client/cal-query.c (obj_updated_cb): changed to adapt the
+	multiple-id's received in the QueryListener class' signal to the
+	one-by-one update notification of the public CalQuery class, thus
+	keeping the changes needed for this minimal.
+
+	* pcs/query.c (add_component, start_cached_query_cb): changed to
+	send sequences of UIDs.
+
 2002-09-25  Dan Winship  <danw@ximian.com>
 
 	* gui/component-factory.c (folder_types): Add "calendar/public"

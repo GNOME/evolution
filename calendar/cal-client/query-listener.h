@@ -53,7 +53,7 @@ typedef struct {
 /* Notification functions */
 
 typedef void (* QueryListenerObjUpdatedFn) (QueryListener *ql,
-					    const GNOME_Evolution_Calendar_CalObjUID uid,
+					    const GNOME_Evolution_Calendar_CalObjUIDSeq *uids,
 					    CORBA_boolean query_in_progress,
 					    CORBA_long n_scanned,
 					    CORBA_long total,
