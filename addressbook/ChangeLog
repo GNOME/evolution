@@ -1,5 +1,10 @@
 2002-11-18  Chris Toshok  <toshok@ximian.com>
 
+	* gui/component/select-names/e-select-names.c
+	(e_select_names_init): show the custom table.
+
+2002-11-18  Chris Toshok  <toshok@ximian.com>
+
 	* gui/widgets/gal-view-minicard.c (gal_view_minicard_attach):
 	remove the cast to (int) - column_width is a double.
 

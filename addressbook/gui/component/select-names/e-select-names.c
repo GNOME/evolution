@@ -504,6 +504,7 @@ e_select_names_init (ESelectNames *e_select_names)
 	e_select_names->model = g_object_get_data(G_OBJECT(e_select_names->table), "model");
 	e_select_names->adapter = g_object_get_data(G_OBJECT(e_select_names->table), "adapter");
 	e_select_names->without = g_object_get_data(G_OBJECT(e_select_names->table), "without");
+	gtk_widget_show (GTK_WIDGET (e_select_names->table));
 
 	e_select_names->status_message = glade_xml_get_widget (gui, "status-message");
 	if (e_select_names->status_message && !GTK_IS_LABEL (e_select_names->status_message))
