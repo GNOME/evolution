@@ -641,7 +641,8 @@ e_week_view_event_item_draw_icons (EWeekViewEventItem *wveitem,
 
 		if (icon_x + E_WEEK_VIEW_ICON_WIDTH <= x2) {
 			gdk_gc_set_clip_origin (gc, icon_x, icon_y);
-			gdk_gc_set_clip_mask (gc, mask);
+			if (mask != NULL)
+				gdk_gc_set_clip_mask (gc, mask);
 			gdk_draw_pixmap (drawable, gc,
 					 pixmap,
 					 0, 0, icon_x, icon_y,

@@ -594,7 +594,8 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 
 		if (icon_x <= max_icon_x) {
 			gdk_gc_set_clip_origin (gc, icon_x, icon_y);
-			gdk_gc_set_clip_mask (gc, mask);
+			if (mask != NULL)
+				gdk_gc_set_clip_mask (gc, mask);
 			gdk_draw_pixmap (drawable, gc,
 					 pixmap,
 					 0, 0, icon_x, icon_y,

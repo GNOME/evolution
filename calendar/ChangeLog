@@ -1,3 +1,12 @@
+2001-08-08  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-week-view-event-item.c (e_week_view_event_item_draw_icons):
+	don't use a NULL mask in the call to gdk_gc_set_clip_mask
+
+	* gui/e-day-view-top-item.c (e_day_view_top_item_draw_long_event): ditto
+
+	* gui/e-day-view-main-item.c (e_day_view_main_item_draw_day_event): ditto
+
 2001-08-08  JP Rosevear  <jpr@ximian.com>
 
 	* conduits/calendar/calendar-conduit-config.h: fix pre-processor
