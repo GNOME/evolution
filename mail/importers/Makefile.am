@@ -40,6 +40,8 @@ libevolution_netscape_importer_la_SOURCES =	\
 	$(MAIL_GENERATED)		\
 	netscape-importer.c
 
+libevolution_netscape_importer_la_LDFLAGS = -avoid-version -module
+
 libevolution_netscape_importer_la_LIBADD =			\
 	$(top_builddir)/shell/importer/libevolution-importer.la \
 	$(top_builddir)/camel/libcamel.la			\
@@ -51,6 +53,8 @@ libevolution_netscape_importer_la_LIBADD =			\
 libevolution_elm_importer_la_SOURCES =	\
 	elm-importer.c
 
+libevolution_elm_importer_la_LDFLAGS = -avoid-version -module
+
 libevolution_elm_importer_la_LIBADD =				\
 	$(top_builddir)/shell/importer/libevolution-importer.la \
 	$(top_builddir)/e-util/libeutil.la			\
@@ -58,6 +62,8 @@ libevolution_elm_importer_la_LIBADD =				\
 
 libevolution_pine_importer_la_SOURCES =	\
 	pine-importer.c
+
+libevolution_pine_importer_la_LDFLAGS = -avoid-version -module
 
 libevolution_pine_importer_la_LIBADD =				\
 	$(top_builddir)/shell/importer/libevolution-importer.la \

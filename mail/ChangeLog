@@ -1,3 +1,7 @@
+2003-02-10  Rodney Dawes  <dobey@ximian.com>
+
+	* importers/Makefile.am: Add LDFLAGS to ported libs
+	
 2003-02-10  Larry Ewing  <lewing@ximian.com>
 
 	* mail-display.c (save_url): look in the http cache for images
