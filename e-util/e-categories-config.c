@@ -86,6 +86,8 @@ e_categories_config_open_dialog_for_entry (GtkEntry *entry)
 	
 	text = gtk_entry_get_text (GTK_ENTRY (entry));
 	dialog = GTK_DIALOG (e_categories_dialog_new (text));
+
+	gtk_window_set_transient_for (GTK_WINDOW (dialog), gtk_widget_get_toplevel (GTK_WIDGET (entry)));
 		
 	/* run the dialog */
 	result = gtk_dialog_run (dialog);
