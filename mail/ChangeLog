@@ -1,3 +1,7 @@
+2004-04-30  Not Zed  <NotZed@Ximian.com>
+
+	* em-utils.c (emu_can_save): fix the overwrite? question.  #57822.
+
 2004-04-29  Not Zed  <NotZed@Ximian.com>
 
 	* mail-errors.xml.in: change all the session-message-* things to

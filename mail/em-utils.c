@@ -1430,7 +1430,7 @@ emu_can_save(GtkWindow *parent, const char *path)
 			return FALSE;
 		}
 		
-		return e_error_run(parent, "mail:ask-save-path-overwrite", path, NULL) == GTK_RESPONSE_OK;
+		return e_error_run(parent, E_ERROR_ASK_FILE_EXISTS_OVERWRITE, path, NULL) == GTK_RESPONSE_OK;
 	}
 	
 	return TRUE;
