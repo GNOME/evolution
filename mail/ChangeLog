@@ -1,3 +1,12 @@
+2001-11-16  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* message-list.c (message_list_hide_clear): Save hide state.
+	(message_list_hide_uids): Save hide state.
+	(message_list_hide_add): Save hide state.
+
+	* mail-format.c (format_mime_part): Make sure the mime-type is
+	non-NULL before passing it off to mail_lookup_handler().
+
 2001-11-14  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* mail-autofilter.c (rule_match_recipients, rule_from_message,

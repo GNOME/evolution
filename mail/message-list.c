@@ -2173,6 +2173,8 @@ message_list_hide_add (MessageList *ml, const char *expr, unsigned int lower, un
 	MESSAGE_LIST_UNLOCK (ml, hide_lock);
 	
 	mail_regen_list (ml, ml->search, expr, NULL);
+	
+	hide_save_state (ml);
 }
 
 /* hide specific uid's */
@@ -2181,7 +2183,7 @@ message_list_hide_uids (MessageList *ml, GPtrArray *uids)
 {
 	int i;
 	char *uid;
-
+	
 	/* first see if we need to do any work, if so, then do it all at once */
 	for (i = 0; i < uids->len; i++) {
 		if (g_hash_table_lookup (ml->uid_nodemap, uids->pdata[i])) {
@@ -2204,6 +2206,8 @@ message_list_hide_uids (MessageList *ml, GPtrArray *uids)
 			break;
 		}
 	}
+	
+	hide_save_state (ml);
 }
 
 /* no longer hide any messages */
@@ -2222,6 +2226,8 @@ message_list_hide_clear (MessageList *ml)
 	MESSAGE_LIST_UNLOCK (ml, hide_lock);
 	
 	mail_regen_list (ml, ml->search, NULL, NULL);
+	
+	hide_save_state (ml);
 }
 
 #define HIDE_STATE_VERSION (1)
