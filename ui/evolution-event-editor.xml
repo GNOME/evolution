@@ -291,7 +291,7 @@
 
 	<separator/>
 
-	<menuitem name="ActionScheduleMeeting" verb="" _label="FIXME: Schedule _Meeting"/>
+	<menuitem name="ActionScheduleMeeting" verb="" _label="Schedule _Meeting"/>
 
 	<separator/>
 
