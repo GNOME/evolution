@@ -295,7 +295,7 @@ void camel_operation_register(CamelOperation *cc)
 		cc->id = id;
 		g_hash_table_insert(operation_active, (void *)id, cc);
 	} else {
-		g_warning("Re-registering thread %d for cancellation as thread %d", cc->id, id);
+		g_warning("Re-registering thread %lu for cancellation as thread %lu", cc->id, id);
 	}
 
 	d(printf("registering thread %ld for cancellation\n", id));
@@ -329,7 +329,7 @@ void camel_operation_unregister(CamelOperation *cc)
 	if (cc) {
 		if (cc->id != (~0)) {
 			g_hash_table_remove(operation_active, (void *)cc->id);
-			cc->id == ~0;
+			cc->id = ~0;
 		} else {
 			g_warning("Unregistering an operation that was already unregistered");
 		}
