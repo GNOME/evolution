@@ -55,6 +55,8 @@
 #include "mail-vfolder.h"
 #include "mail-autofilter.h"
 
+#define d(x)
+
 char *default_drafts_folder_uri;
 CamelFolder *drafts_folder = NULL;
 char *default_sent_folder_uri;
@@ -324,7 +326,7 @@ xfer_folder (EvolutionShellComponent *shell_component,
 	GPtrArray *uids;
 	CamelURL *src, *dst;
 
-	printf("Renaming folder '%s' to dest '%s' type '%s'\n", source_physical_uri, destination_physical_uri, type);
+	d(printf("Renaming folder '%s' to dest '%s' type '%s'\n", source_physical_uri, destination_physical_uri, type));
 
 	CORBA_exception_init (&ev);
 
@@ -687,11 +689,11 @@ unref_standard_folders (void)
 			*standard_folders[i].folder = NULL;
 			
 			if (CAMEL_OBJECT (folder)->ref_count == 1)
-				printf ("About to finalise folder %s\n", folder->full_name);
+				d(printf ("About to finalise folder %s\n", folder->full_name));
 			else
-				printf ("Folder %s still has %d extra ref%s on it\n", folder->full_name,
-					CAMEL_OBJECT (folder)->ref_count - 1,
-					CAMEL_OBJECT (folder)->ref_count - 1 == 1 ? "" : "s");
+				d(printf ("Folder %s still has %d extra ref%s on it\n", folder->full_name,
+					  CAMEL_OBJECT (folder)->ref_count - 1,
+					  CAMEL_OBJECT (folder)->ref_count - 1 == 1 ? "" : "s"));
 			
 			camel_object_unref (CAMEL_OBJECT (folder));
 		}
@@ -1160,7 +1162,7 @@ storage_xfer_folder (EvolutionStorage *storage,
 	char *src, *dst;
 	char *p, c, sep;
 
-	printf("Transfer folder on store source = '%s' dest = '%s'\n", source_path, destination_path);
+	d(printf("Transfer folder on store source = '%s' dest = '%s'\n", source_path, destination_path));
 
 	/* Remap the 'path' to the camel friendly name based on the store dir separator */
 	sep = store->dir_sep;
@@ -1180,21 +1182,21 @@ storage_xfer_folder (EvolutionStorage *storage,
 
 	camel_exception_init (&ex);
 	if (remove_source) {
-		printf("trying to rename\n");
+		d(printf("trying to rename\n"));
 		camel_store_rename_folder(store, src, dst, &ex);
+		if (camel_exception_is_set(&ex))
+			notify_listener (listener, GNOME_Evolution_Storage_GENERIC_ERROR);
+		else
+			notify_listener (listener, GNOME_Evolution_Storage_OK);
 	} else {
-		printf("No remove, can't rename\n");
-		camel_exception_setv(&ex, 1, "Can copy folders");
+		d(printf("No remove, can't rename\n"));
+		/* FIXME: Implement folder 'copy' for remote stores */
+		/* This exception never goes anywhere, so it doesn't need translating or using */
+		notify_listener (listener, GNOME_Evolution_Storage_UNSUPPORTED_OPERATION);
 	}
 
 	g_free(src);
 	g_free(dst);
-
-	if (camel_exception_is_set(&ex)) {
-		notify_listener (listener, GNOME_Evolution_Storage_INVALID_URI);
-	} else {
-		notify_listener (listener, GNOME_Evolution_Storage_OK);
-	}
 
 	camel_exception_clear (&ex);
 }

@@ -936,29 +936,29 @@ mail_session_enable_interaction (gboolean enable)
 		struct _pass_msg *pm;
 		struct _user_message_msg *um;
 
-		printf("Gone non-interactive, checking for outstanding interactive tasks\n");
+		d(printf("Gone non-interactive, checking for outstanding interactive tasks\n"));
 
 		/* clear out pending password requests */
 		while ((pm = (struct _pass_msg *)e_dlist_remhead(&password_list))) {
-			printf("Flushing password request : %s\n", pm->prompt);
+			d(printf("Flushing password request : %s\n", pm->prompt));
 			e_msgport_reply((EMsg *)pm);
 		}
 
 		/* destroy the current */
 		if (password_dialogue) {
-			printf("Destroying password dialogue\n");
+			d(printf("Destroying password dialogue\n"));
 			gtk_object_destroy((GtkObject *)password_dialogue);
 		}
 
 		/* same for pending user messages */
 		while ((um = (struct _user_message_msg *)e_dlist_remhead(&message_list))) {
-			printf("Flusing message request: %s\n", um->prompt);
+			d(printf("Flusing message request: %s\n", um->prompt));
 			e_msgport_reply((EMsg *)um);
 		}
 
 		/* and the current */
 		if (message_dialogue) {
-			printf("Destroying message dialogue\n");
+			d(printf("Destroying message dialogue\n"));
 			gtk_object_destroy((GtkObject *)message_dialogue);
 		}
 	}

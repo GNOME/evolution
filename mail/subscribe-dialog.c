@@ -53,7 +53,7 @@
 #include "art/empty.xpm"
 #include "art/mark.xpm"
 
-#define d(x) x
+#define d(x) 
 
 /* Things to test.
  * - Feature
@@ -829,7 +829,7 @@ fe_done_subscribing (const char *full_name, const char *name, gboolean subscribe
 {
 	ftree_op_data *closure = (ftree_op_data *) user_data;
 
-	if (success) {
+	if (success && closure->handle != -1) {
 		char *path;
 
 		path = fe_node_to_shell_path (closure->data);
@@ -850,7 +850,9 @@ fe_done_subscribing (const char *full_name, const char *name, gboolean subscribe
 		e_tree_model_node_data_changed (E_TREE_MODEL (closure->ftree), closure->path);
 	}
 
-	g_hash_table_remove (closure->ftree->subscribe_ops, closure->path);
+	if (closure->handle != -1)
+		g_hash_table_remove (closure->ftree->subscribe_ops, closure->path);
+
 	g_free (closure);
 }
 
@@ -864,10 +866,9 @@ fe_cancel_op_foreach (gpointer key, gpointer value, gpointer user_data)
 
 	if (closure->handle != -1)
 		mail_msg_cancel (closure->handle);
-	else
-		printf ("aaagh, annoying race condition in fe_cancel_op_foreach.\n");
 
-	g_free (value);
+	closure->handle = -1;
+
 	return TRUE;
 }
 
@@ -1135,7 +1136,7 @@ static void
 store_data_async_get_store (StoreData *sd, StoreDataStoreFunc func, gpointer user_data)
 {
 	if (sd->request_id) {
-		printf ("Already loading store, nooping\n");
+		d(printf ("Already loading store, nooping\n"));
 		return;
 	}
 	

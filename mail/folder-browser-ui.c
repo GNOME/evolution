@@ -315,7 +315,7 @@ folder_browser_ui_add_message (FolderBrowser *fb)
 	
 	/* Resend Message */
 	if (fb->folder && !folder_browser_is_sent (fb)) 
-		fbui_sensitise_item(fb, "MessageResent", FALSE);
+		fbui_sensitise_item(fb, "MessageResend", FALSE);
 	
 	/* sensitivity of message-specific commands */
 	prev_state = fb->selection_state;

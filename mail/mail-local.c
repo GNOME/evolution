@@ -490,7 +490,7 @@ mlf_set_folder(MailLocalFolder *mlf, guint32 flags, CamelException *ex)
 
 	/* mlf->real_folder = camel_store_get_folder(mlf->real_store, mlf->meta->name, flags, ex); */
 	mbox = g_strdup_printf("%s/%s", mlf->real_path, mlf->meta->name);
-	printf("Opening mbox on real path: %s\n", mbox);
+	d(printf("Opening mbox on real path: %s\n", mbox));
 	mlf->real_folder = camel_store_get_folder(mlf->real_store, mbox, flags, ex);
 	g_free(mbox);
 	if (mlf->real_folder == NULL)
@@ -984,7 +984,7 @@ static void mail_local_store_add_folder(MailLocalStore *mls, const char *uri, co
 	CamelFolderInfo *info = NULL;
 	CamelURL *url;
 
-	(printf("Shell adding folder: '%s' path = '%s'\n", uri, path));
+	d(printf("Shell adding folder: '%s' path = '%s'\n", uri, path));
 
 	url = camel_url_new(uri, NULL);
 	if (url == NULL) {
@@ -1041,7 +1041,7 @@ static void mail_local_store_remove_folder(MailLocalStore *mls, const char *path
 {
 	struct _search_info data = { path, NULL };
 
-	printf("shell removing folder? '%s'\n", path);
+	d(printf("shell removing folder? '%s'\n", path));
 
 	/* we're keyed on uri, not path, so have to search for it manually */
 

@@ -475,7 +475,7 @@ mail_vfolder_rename_uri(CamelStore *store, const char *from, const char *to)
 	if (changed) {
 		char *user;
 
-		printf("Vfolders updated from renamed folder\n");
+		d(printf("Vfolders updated from renamed folder\n"));
 		user = g_strdup_printf("%s/vfolders.xml", evolution_dir);
 		rule_context_save((RuleContext *)context, user);
 		g_free(user);
@@ -550,7 +550,7 @@ rule_changed(FilterRule *rule, CamelFolder *folder)
 					else
 						sources_uri = g_list_append(sources_uri, g_strdup(l->data));
 				} else {
-					printf("  -> No such folder?\n");
+					d(printf("  -> No such folder?\n"));
 				}
 				l = l->next;
 			}

@@ -50,7 +50,8 @@
 #include "mail-mt.h"
 #include "mail-folder-cache.h"
 
-#define d(x) x
+#define w(x)
+#define d(x) 
 
 /* used for both just filtering a folder + uid's, and for filtering a whole folder */
 /* used both for fetching mail, and for filtering mail */
@@ -1106,8 +1107,8 @@ get_folderinfo_got (struct _mail_msg *mm)
 		char *url;
 		
 		url = camel_service_get_url (CAMEL_SERVICE (m->store));
-		g_warning ("Error getting folder info from store at %s: %s",
-			   url, camel_exception_get_description (&mm->ex));
+		w(g_warning ("Error getting folder info from store at %s: %s",
+			     url, camel_exception_get_description (&mm->ex)));
 		g_free (url);
 	}
 	

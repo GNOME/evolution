@@ -47,6 +47,7 @@
 #include "mail-vfolder.h"
 #include "mail-autofilter.h"
 
+#define w(x)
 #define d(x) 
 
 /* note that many things are effectively serialised by having them run in
@@ -113,6 +114,7 @@ static int update_id = -1;
 
 /* hack for people who LIKE to have unsent count */
 static int count_sent = FALSE;
+static int count_trash = FALSE;
 
 static void
 free_update(struct _folder_update *up)
@@ -162,7 +164,7 @@ real_flush_updates(void *o, void *event_data, void *data)
 			/* Its really a rename, but we have no way of telling the shell that, so remove it */
 			if (up->oldpath) {
 				if (storage != NULL) {
-					printf("Removing old folder (rename?) '%s'\n", up->oldpath);
+					d(printf("Removing old folder (rename?) '%s'\n", up->oldpath));
 					evolution_storage_removed_folder(storage, up->oldpath);
 				}
 				/* ELSE? Shell supposed to handle the local snot case */
@@ -170,7 +172,7 @@ real_flush_updates(void *o, void *event_data, void *data)
 
 			/* We can tell the vfolder code though */
 			if (up->olduri && up->add) {
-				printf("renaming folder '%s' to '%s'\n", up->olduri, up->uri);
+				d(printf("renaming folder '%s' to '%s'\n", up->olduri, up->uri));
 				mail_vfolder_rename_uri(up->store, up->olduri, up->uri);
 				mail_filter_rename_uri(up->store, up->olduri, up->uri);
 			}
@@ -288,7 +290,9 @@ update_1folder(struct _folder_info *mfi, CamelFolderInfo *info)
 
 	folder = mfi->folder;
 	if (folder) {
-		if (CAMEL_IS_VTRASH_FOLDER (folder) || folder == outbox_folder || (count_sent && folder == sent_folder)) {
+		if ((count_trash && CAMEL_IS_VTRASH_FOLDER (folder))
+		    || folder == outbox_folder
+		    || (count_sent && folder == sent_folder)) {
 			unread = camel_folder_get_message_count(folder);
 		} else {
 			if (info)
@@ -432,7 +436,7 @@ void mail_note_folder(CamelFolder *folder)
 
 	mfi = g_hash_table_lookup(si->folders, folder->full_name);
 	if (mfi == NULL) {
-		g_warning("Adding a folder `%s' that I dont know about yet?", folder->full_name);
+		w(g_warning("Adding a folder `%s' that I dont know about yet?", folder->full_name));
 		UNLOCK(info_lock);
 		return;
 	}
@@ -674,7 +678,7 @@ mail_note_store_remove(CamelStore *store)
 
 		ud = (struct _update_data *)si->folderinfo_updates.head;
 		while (ud->next) {
-			(printf("Cancelling outstanding folderinfo update %d\n", ud->id));
+			d(printf("Cancelling outstanding folderinfo update %d\n", ud->id));
 			mail_msg_cancel(ud->id);
 			ud = ud->next;
 		}
@@ -735,6 +739,7 @@ mail_note_store(CamelStore *store, EvolutionStorage *storage, GNOME_Evolution_St
 	if (stores == NULL) {
 		stores = g_hash_table_new(NULL, NULL);
 		count_sent = getenv("EVOLUTION_COUNT_SENT") != NULL;
+		count_trash = getenv("EVOLUTION_COUNT_TRASH") != NULL;
 	}
 
 	si = g_hash_table_lookup(stores, store);

@@ -1766,7 +1766,7 @@ build_flat_diff(MessageList *ml, CamelFolderChangeInfo *changes)
 	gettimeofday(&start, NULL);
 #endif
 
-	printf("updating changes to display\n");
+	d(printf("updating changes to display\n"));
 
 	/* remove individual nodes? */
 	d(printf("Removing messages from view:\n"));
@@ -1977,9 +1977,12 @@ on_cursor_activated_idle (gpointer data)
 	gint selected = e_selection_model_selected_count (esm);
 	
 	if (selected == 1 && message_list->cursor_uid) {
-		printf ("emitting cursor changed signal, for uid %s\n", message_list->cursor_uid);
+		d(printf ("emitting cursor changed signal, for uid %s\n", message_list->cursor_uid));
 		gtk_signal_emit (GTK_OBJECT (message_list),
 				 message_list_signals[MESSAGE_SELECTED], message_list->cursor_uid);
+	} else {
+		gtk_signal_emit (GTK_OBJECT (message_list),
+				 message_list_signals[MESSAGE_SELECTED], NULL);
 	}
 		
 	message_list->idle_id = 0;

@@ -1,3 +1,31 @@
+2001-10-30    <NotZed@Ximian.com>
+
+	* subscribe-dialog.c (fe_cancel_op_foreach): Argh!!! Dont free the
+	async op data here, the async op is still running and will access
+	it!  Just try to cancel it and mark it as cancelled (id == -1)
+	(fe_done_subscribing): Only remove outselves from the hash table
+	if we're not cancelled.  The handle should always be set here,
+	since this code runs in the gui thread.
+
+	* message-list.c (on_cursor_activated_idle): If nothing
+	selected/cursor not activated, then select no message.
+
+	* mail-folder-cache.c (update_1folder): Make the trash count
+	optional on EVOLUTION_COUNT_TRASH, becuase some lusers are just
+	too stupid to understand what its for.
+
+	* component-factory.c (storage_xfer_folder): Return slightly
+	better error codes for copying folders, since its not implemented
+	yet.
+
+	* mail-vfolder.c, mail-local.c, mail-folder-cache.c,
+	message-list.c component-factory.c, mail-ops.c,
+	subscribe-dialog.c, mail-session.c: d() out some debug printfs,
+	w() out some warnings.
+
+	* folder-browser-ui.c (folder_browser_ui_add_message): Fix typo,
+	Resent->Resend.
+
 2001-10-29  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-ops.c (transfer_messages_transfer): Don't warn the user if
