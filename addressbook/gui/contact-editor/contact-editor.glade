@@ -5,7 +5,7 @@
 
 <widget class="GtkDialog" id="contact editor">
   <property name="visible">True</property>
-  <property name="title" translatable="yes">dialog1</property>
+  <property name="title" translatable="yes">Contact Editor</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
   <property name="modal">False</property>
@@ -52,6 +52,7 @@
 	    <widget class="GtkButton" id="button-ok">
 	      <property name="visible">True</property>
 	      <property name="can_default">True</property>
+	      <property name="has_default">True</property>
 	      <property name="can_focus">True</property>
 	      <property name="label">gtk-ok</property>
 	      <property name="use_stock">True</property>

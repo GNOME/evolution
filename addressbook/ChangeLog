@@ -1,5 +1,22 @@
 2004-04-22  Hans Petter Jansson  <hpj@ximian.com>
 
+	* gui/contact-editor/contact-editor.glade: Correct the dialog's title.
+
+	* gui/contact-editor/e-contact-editor.c (init_email_record_location):
+	Connect to entry's activate signal.
+	(init_phone_record_type): Ditto.
+	(init_im_record_location): Ditto.
+	(init_address_field): Ditto.
+	(set_entry_changed_signal_field): Remove unnecessary checks.
+	(set_urlentry_changed_signal_field): Ditto.
+	(set_entry_changed_signals): Ditto.
+	(set_entry_activate_signal_field): Implement.
+	(set_urlentry_activate_signal_field): Implement.
+	(set_entry_activate_signals): Implement.
+	(e_contact_editor_init): Call set_entry_activate_signals ().
+
+2004-04-22  Hans Petter Jansson  <hpj@ximian.com>
+
 	* gui/contact-editor/e-contact-editor.c (e_contact_editor_class_init):
 	Override the save_contact function.
 	(e_contact_editor_save_contact): Implement.
