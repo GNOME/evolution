@@ -1,3 +1,9 @@
+2002-04-04  Ettore Perazzoli  <ettore@ximian.com>
+
+	* Makefile.am (wombat_LDADD): Put DB3_LDADD and LDAP_LIBS on the
+	top so the PAS backend uses the right version of DB3 and always
+	links to LDAP.
+
 2002-03-19  Dan Winship  <danw@ximian.com>
 
 	* Makefile.am (wombat_LDADD): s/libversit.la/libversit.a/

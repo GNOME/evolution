@@ -25,6 +25,8 @@ wombat_SOURCES = 			\
 
 wombat_LDADD =								\
 	$(top_builddir)/addressbook/backend/pas/libpas.a		\
+	$(DB3_LDADD)							\
+	$(LDAP_LIBS)							\
 	$(top_builddir)/addressbook/backend/ebook/libebook.la		\
 	$(top_builddir)/camel/libcamel.la				\
 	$(top_builddir)/libibex/libibex.la				\
@@ -35,9 +37,7 @@ wombat_LDADD =								\
 	$(top_builddir)/libversit/libversit.a				\
 	$(top_builddir)/e-util/libedb3util.la				\
 	$(top_builddir)/e-util/libeutil.la				\
-	$(top_builddir)/libwombat/libwombat.la				\
-	$(WOMBAT_LIBS)							\
-	$(DB3_LDADD)
+	$(top_builddir)/libwombat/libwombat.la
 
 oafdir = $(datadir)/oaf
 
