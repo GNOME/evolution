@@ -1,5 +1,9 @@
 2001-10-17    <NotZed@Ximian.com>
 
+	* providers/local/camel-maildir-folder.c
+	(camel_maildir_folder_new): Use '.' as the inbox name for filter
+	new messages test.
+
 	* camel-store.c (camel_folder_info_clone): New function to clone a
 	folderinfo tree.
 

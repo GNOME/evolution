@@ -112,7 +112,7 @@ camel_maildir_folder_new(CamelStore *parent_store, const char *full_name, guint3
 	folder = (CamelFolder *)camel_object_new(CAMEL_MAILDIR_FOLDER_TYPE);
 
 	if (parent_store->flags & CAMEL_STORE_FILTER_INBOX
-	    && strcmp(full_name, "") == 0)
+	    && strcmp(full_name, ".") == 0)
 		folder->folder_flags |= CAMEL_FOLDER_FILTER_RECENT;
 
 	folder = (CamelFolder *)camel_local_folder_construct((CamelLocalFolder *)folder,
