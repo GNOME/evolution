@@ -16,6 +16,15 @@ Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
 
     #22047 -- Crash after closing the start-up wizard.  (Ettore)
 
+  * Mailer
+
+    #22363 -- Problems resyncing IMAP folders when going Online.
+    #18929 -- If we get multiple Content-Type header values, change 
+              subsequent headers to X-Invalid-Content-Type so it doesn't 
+              wreck processing.
+    #21716 -- Fixes to decoding illegally rfc2047 encoded words.
+    
+
 Other fixes
 
   * Calendar
@@ -24,6 +33,12 @@ Other fixes
     - Added getQuery method to CalBackend to allow custom queries for
       each calendar backend (Rodrigo)
 
+  * Mailer
+
+    - Fixed Daylight-Savings-Time calculations on systems that use 
+      tm.tm_gmtoff rather than 'timezone' (affects BSD systems).
+    - Fixed the annoying EINPROGRESS error dialogs when connecting 
+      to IMAP/SMTP/POP via SSL.
 
 Evolution 1.0.3, 19-03-2002
 ---------------------------
