@@ -972,6 +972,6 @@ filter_rule_find_list (GList * l, const char *name, const char *source)
 #ifdef FOR_TRANSLATIONS_ONLY
 
 static char *list[] = {
-  N_("incoming"), N_("outgoing")
+  N_("Incoming"), N_("Outgoing")
 };
 #endif
