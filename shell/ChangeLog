@@ -1,3 +1,22 @@
+2002-02-20  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Fix #20311, new window from Shortcuts should not show the folder
+	bar and the shortcut bar.  Also do the same for right-click on the
+	folder bar.]
+
+	* e-shell-view-menu.c (command_open_folder_in_new_window): Don't
+	show the folder bar and the shortcut bar in the new window.
+
+	* e-shell-view.c (activate_shortcut_cb): Don't show the folder bar
+	and the shortcut bar in the new window.
+
+	* e-shell.c (e_shell_create_view): Don't flush the GTK events
+	here.
+
+2002-02-20  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-about-box.c: Add Hans Petter.
+
 2002-01-23  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Patch by Michael Meeks <michael@ximian.com>.]

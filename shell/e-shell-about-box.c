@@ -74,6 +74,7 @@ static const char *text[] = {
 	"Gediminas Paulauskas",
 	"Jesse Pavel",
 	"Ettore Perazzoli",
+	"Hans Petter",
 	"JP Rosevear",
 	"Jeffrey Stedfast",
         "Jakub Steiner",

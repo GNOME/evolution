@@ -1253,8 +1253,6 @@ e_shell_create_view (EShell *shell,
 	view = create_view (shell, uri, template_view);
 
 	gtk_widget_show (GTK_WIDGET (view));
-	while (gtk_events_pending ())
-		gtk_main_iteration ();
 
 	set_interactive (shell, TRUE);
 

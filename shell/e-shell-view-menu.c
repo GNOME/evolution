@@ -313,6 +313,9 @@ command_open_folder_in_new_window (BonoboUIComponent *uih,
 	uri = g_strconcat (E_SHELL_URI_PREFIX, get_path_for_folder_op (shell_view), NULL);
 	new_view = e_shell_create_view (shell, uri, shell_view);
 	g_free (uri);
+
+	e_shell_view_show_shortcut_bar (new_view, FALSE);
+	e_shell_view_show_folder_bar (new_view, FALSE);
 }
 
 
