@@ -1,3 +1,9 @@
+2003-05-21  Radek Doulik  <rodo@ximian.com>
+
+	* mail-signature-editor.c (menu_file_save_cb): set signature html
+	flag even if it's newly signature, we don't set it in
+	format_html_cb as sig could be "live" (when it's not new one)
+
 2003-05-20  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-importer.c: Updated copyright years.

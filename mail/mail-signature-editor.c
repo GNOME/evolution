@@ -177,14 +177,14 @@ menu_file_save_cb (BonoboUIComponent *uic, void *user_data, const char *path)
 	
 	g_free (filename);
 	
+	mail_config_signature_set_html (editor->sig, editor->html);
+
 	/* if the signature isn't already saved in the config, save it there now... */
 	if (editor->is_new) {
 		mail_config_signature_add (editor->sig);
 		editor->is_new = FALSE;
-	} else {
-		mail_config_signature_set_html (editor->sig, editor->html);
+	} else
 		mail_config_signature_emit_event (MAIL_CONFIG_SIG_EVENT_CONTENT_CHANGED, editor->sig);
-	}
 	
 	return;
 	
