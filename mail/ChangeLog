@@ -1,3 +1,8 @@
+2002-04-10  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (confirm_expunge): Set the 'No' button as the
+	default.
+
 2002-04-10  Dan Winship  <danw@ximian.com>
 
 	* mail-config.c (config_read, mail_config_write,

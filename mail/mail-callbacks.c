@@ -2614,6 +2614,9 @@ confirm_expunge (FolderBrowser *fb)
 	gtk_widget_show (checkbox);
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), checkbox, TRUE, TRUE, 4);
 	
+	/* Set the 'No' button as the default */
+	gnome_dialog_set_default (GNOME_DIALOG (dialog), 1);
+	
 	button = gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
 	
 	if (button == 0 && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbox)))
