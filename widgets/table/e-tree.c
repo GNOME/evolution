@@ -3155,7 +3155,7 @@ e_tree_class_init (ETreeClass *class)
 			      G_TYPE_POINTER,
 			      G_TYPE_INT,
 			      GDK_TYPE_DRAG_CONTEXT,
-			      GTK_TYPE_SELECTION_DATA,
+			      GTK_TYPE_SELECTION_DATA | G_SIGNAL_TYPE_STATIC_SCOPE,
 			      G_TYPE_UINT,
 			      G_TYPE_UINT);
 	et_signals[TREE_DRAG_DATA_DELETE] =
