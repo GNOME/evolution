@@ -1,0 +1,66 @@
+#
+# Tlacuache personal calendar server
+#
+
+bin_PROGRAMS = tlacuache
+
+CORBA_GENERATED =				\
+	evolution-calendar.h			\
+	evolution-calendar-common.c		\
+	evolution-calendar-skels.c		\
+	evolution-calendar-stubs.c
+
+idls =						\
+	$(srcdir)/../idl/evolution-calendar.idl
+
+idl_flags = `$(GNOME_CONFIG) --cflags idl`
+
+$(CORBA_GENERATED): $(idls)
+	$(ORBIT_IDL) $(idl_flags) $(srcdir)/../idl/evolution-calendar.idl
+
+tlacuache_INCLUDES =					\
+        -DGNOMELOCALEDIR=\""$(datadir)/locale"\"        \
+	-I$(srcdir) -I$(top_srcdir) 			\
+	-I. 						\
+	-I.. 						\
+	-I$(top_builddir)				\
+        -I$(includedir)                                 \
+        $(GNOME_INCLUDEDIR)
+
+tlacuache_SOURCES =		\
+	$(CORBA_GENERATED)	\
+	alarm.c			\
+	alarm.h			\
+	cal.c			\
+	cal.h			\
+	cal-backend.c		\
+	cal-backend.h		\
+	cal-common.h		\
+	cal-factory.c		\
+	cal-factory.h		\
+	cal-util.c		\
+	cal-util.h		\
+	calobj.c		\
+	calobj.h		\
+	icalendar.c		\
+	icalendar.h		\
+	job.c			\
+	job.h			\
+	timeutil.c		\
+	timeutil.h		\
+	tlacuache.c
+
+ICAL_LINK_FLAGS = $(top_builddir)/libical/src/libical/libical.la
+
+tlacuache_LDADD =			\
+	$(BONOBO_VFS_GNOME_LIBS)	\
+	../libversit/libversit.la	\
+	$(ICAL_LINK_FLAGS)
+
+gnorbadir = $(sysconfdir)/CORBA/servers
+
+gnorba_DATA =			\
+	tlacuache.gnorba
+
+EXTRA_DIST =			\
+	$(gnorba_DATA)
