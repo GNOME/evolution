@@ -114,10 +114,6 @@
 
 #define d(x) x
 
-
-#define DEFAULT_WIDTH 600
-#define DEFAULT_HEIGHT 500
-
 enum {
 	SEND,
 	SAVE_DRAFT,
@@ -3025,6 +3021,22 @@ composer_settings_update (GConfClient *gconf, guint cnxn_id, GConfEntry *entry, 
 				   NULL);
 }
 
+static void
+e_msg_composer_unmap (GtkWidget *widget, gpointer data)
+{
+	EMsgComposer *composer = E_MSG_COMPOSER (widget);
+	GConfClient *gconf;
+	int width, height;
+
+	gtk_window_get_size (GTK_WINDOW (composer), &width, &height);
+	printf ("composer width: %d height: %d\n", width, height);
+
+	gconf = gconf_client_get_default ();
+	gconf_client_set_int (gconf, "/apps/evolution/mail/composer/width", width, NULL);
+	gconf_client_set_int (gconf, "/apps/evolution/mail/composer/height", height, NULL);
+	g_object_unref (gconf);
+}
+
 static EMsgComposer *
 create_composer (int visible_mask)
 {
@@ -3048,9 +3060,7 @@ create_composer (int visible_mask)
 	g_signal_connect (composer, "destroy",
 			  G_CALLBACK (msg_composer_destroy_notify),
 			  NULL);
-	
-	gtk_window_set_default_size (GTK_WINDOW (composer),
-				     DEFAULT_WIDTH, DEFAULT_HEIGHT);
+
 	gnome_window_icon_set_from_file (GTK_WINDOW (composer), EVOLUTION_IMAGESDIR
 					 "/compose-message.png");
 
@@ -3121,6 +3131,10 @@ create_composer (int visible_mask)
 	gconf_client_add_dir (gconf, "/apps/evolution/mail/composer", GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
 	composer->notify_id = gconf_client_notify_add (gconf, "/apps/evolution/mail/composer",
 						       composer_settings_update, composer, NULL, NULL);
+	gtk_window_set_default_size (GTK_WINDOW (composer),
+				     gconf_client_get_int (gconf, "/apps/evolution/mail/composer/width", NULL),
+				     gconf_client_get_int (gconf, "/apps/evolution/mail/composer/height", NULL));
+	g_signal_connect (composer, "unrealize", G_CALLBACK (e_msg_composer_unmap), NULL);
 	g_object_unref (gconf);
 	
 	editor_server = bonobo_widget_get_objref (BONOBO_WIDGET (composer->editor));
