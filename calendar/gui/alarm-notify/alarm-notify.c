@@ -57,8 +57,8 @@ static BonoboObjectClass *parent_class;
 
 BONOBO_TYPE_FUNC_FULL(AlarmNotify, GNOME_Evolution_Calendar_AlarmNotify, BONOBO_TYPE_OBJECT, alarm_notify)
 
-     /* Class initialization function for the alarm notify service */
-     static void
+/* Class initialization function for the alarm notify service */
+static void
 alarm_notify_class_init (AlarmNotifyClass *klass)
 {
 	GObjectClass *object_class;
@@ -261,7 +261,9 @@ alarm_notify_finalize (GObject *object)
 		g_hash_table_foreach (priv->uri_client_hash[i], dequeue_client, NULL);
 		g_hash_table_destroy (priv->uri_client_hash[i]);
 	}
-	
+
+	alarm_queue_done ();
+
 	g_mutex_free (priv->mutex);
 	g_free (priv);
 

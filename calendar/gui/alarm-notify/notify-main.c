@@ -158,11 +158,10 @@ main (int argc, char **argv)
 	bonobo_object_unref (BONOBO_OBJECT (factory));
 	factory = NULL;
 
-	alarm_queue_done ();
-	alarm_done ();
-
 	if (alarm_notify_service)
 		bonobo_object_unref (BONOBO_OBJECT (alarm_notify_service));
+
+	alarm_done ();
 
 	e_passwords_shutdown ();
 	gnome_sound_shutdown ();

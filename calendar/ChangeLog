@@ -1,3 +1,12 @@
+2005-02-28  Rodrigo Moya <rodrigo@novell.com>
+
+	Fixes #72928
+
+	* gui/alarm-notify/notify-main.c (main): don't call alarm_queue_done...
+
+	* gui/alarm-notify/alarm-notify.c (alarm_notify_finalize): ...do it at
+	the same level than alarm_queue_init.
+
 2005-02-28  JP Rosevear  <jpr@novell.com>
 
 	* gui/gnome-cal.c (gnome_calendar_goto_today): revert fix for
