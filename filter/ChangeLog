@@ -1,3 +1,13 @@
+2003-10-22  Ettore Perazzoli  <ettore@ximian.com>
+
+	* filter.glade: Remove Viewports around the treeviews, since they
+	already have a scrolled window around them and the viewports cause
+	a double bevel to appear.
+
+	* rule-editor.c (rule_editor_treeview_new): Make the scrolled
+	window have a GTK_SHADOW_IN shadow.
+	* vfolder-rule.c (vfolder_editor_sourcelist_new): Likewise
+
 2003-10-10  Not Zed  <NotZed@Ximian.com>
 
 	* filter-folder.c (folder_selected): change for
