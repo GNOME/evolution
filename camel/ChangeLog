@@ -1,3 +1,14 @@
+2002-04-26  Not Zed  <NotZed@Ximian.com>
+
+	* camel-block-file.c (block_file_validate_root): Remove the
+	excessive \n's, after printfs.
+
+	* camel-text-index.c (text_index_compress_nosync): @!#$@#$!@$#!.
+	Since the rename op was fixed, this broke compression's rename,
+	resulting in the index 'vanishing' after every compress
+	(i.e. after every reindex).  Fix this code to account for the
+	fixed rename operation.
+
 2002-04-25  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/smtp/camel-smtp-transport.c (smtp_rcpt): Don't put a

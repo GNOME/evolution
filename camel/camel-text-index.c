@@ -372,12 +372,21 @@ text_index_compress_nosync(CamelIndex *idx)
 	camel_key_t *records, newrecords[256];
 	struct _CamelTextIndexRoot *rb;
 
-	newpath = alloca(strlen(idx->path)+5);
-	tmp_name(idx->path, newpath);
-	savepath = alloca(strlen(idx->path)+2);
-	sprintf(savepath, "%s~", idx->path);
-	oldpath = alloca(strlen(idx->path)+1);
+	i = strlen(idx->path)+16;
+	oldpath = alloca(i);
+	newpath = alloca(i);
+	savepath = alloca(i);
+
 	strcpy(oldpath, idx->path);
+	oldpath[strlen(oldpath)-strlen(".index")] = 0;
+
+	tmp_name(oldpath, newpath);
+	sprintf(savepath, "%s~", oldpath);
+
+	d(printf("Old index: %s\n", idx->path));
+	d(printf("Old path: %s\n", oldpath));
+	d(printf("New: %s\n", newpath));
+	d(printf("Save: %s\n", savepath));
 
 	newidx = camel_text_index_new(newpath, O_RDWR|O_CREAT);
 	if (newidx == NULL)
@@ -504,8 +513,9 @@ fail:
 
 	/* clean up temp files always */
 	camel_text_index_remove(newpath);
+
+	sprintf(savepath, "%s~.index", oldpath);
 	unlink(savepath);
-	newpath = alloca(strlen(savepath)+6);
 	sprintf(newpath, "%s.data", savepath);
 	unlink(newpath);
 
@@ -1519,7 +1529,7 @@ camel_text_index_name_new(CamelTextIndex *idx, const char *name, camel_key_t nam
 
 	cin->index = (CamelIndex *)idx;
 	camel_object_ref((CamelObject *)idx);
-	cin->name = g_strdup(name);
+	cin->name = e_mempool_strdup(p->pool, name);
 	p->nameid = nameid;
 
 	return idn;
