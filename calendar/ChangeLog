@@ -1,3 +1,21 @@
+2003-03-06  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/alarm-notify/alarm-notify-dialog.[ch]
+	(alarm_notify_dialog_disable_buttons): new function.
+	(alarm_notify_dialog): made it return a pointer to the dialog structure.
+
+	* gui/alarm-notify/alarm-queue.c (remove_alarms, remove_comp): splitted
+	alarm removal out of remove_comp.
+	(obj_updated_cb): remove the component only when needed. In normal
+	updates, just update the internal structure.
+	(edit_component): don't get a CompQueuedAlarms as argument, since it
+	might be removed.
+	(on_dialog_obj_updated_cb, on_dialog_obj_removed_cb): callbacks for
+	modifications during dialog display.
+	(notify_dialog_cb): disconnect from "obj_*ed" signals and call
+	edit_component with the new set of arguments.
+	(display_notification): added more data to the closure structure.
+
 2003-03-05  Rodrigo Moya <rodrigo@ximian.com>
 
 	Fixes #31382

@@ -423,21 +423,10 @@ lookup_comp_queued_alarms (ClientAlarms *ca, const char *uid)
 	return g_hash_table_lookup (ca->uid_alarms_hash, uid);
 }
 
-/* Removes a component an its alarms */
 static void
-remove_comp (ClientAlarms *ca, const char *uid)
+remove_alarms (CompQueuedAlarms *cqa)
 {
-	CompQueuedAlarms *cqa;
 	GSList *l;
-
-	cqa = lookup_comp_queued_alarms (ca, uid);
-	if (!cqa)
-		return;
-
-	/* If a component is present, then it means we must have alarms queued
-	 * for it.
-	 */
-	g_assert (cqa->queued_alarms != NULL);
 
 	for (l = cqa->queued_alarms; l;) {
 		QueuedAlarm *qa;
@@ -453,6 +442,25 @@ remove_comp (ClientAlarms *ca, const char *uid)
 		alarm_remove (qa->alarm_id);
 		remove_queued_alarm (cqa, qa->alarm_id);
 	}
+
+}
+
+/* Removes a component an its alarms */
+static void
+remove_comp (ClientAlarms *ca, const char *uid)
+{
+	CompQueuedAlarms *cqa;
+
+	cqa = lookup_comp_queued_alarms (ca, uid);
+	if (!cqa)
+		return;
+
+	/* If a component is present, then it means we must have alarms queued
+	 * for it.
+	 */
+	g_assert (cqa->queued_alarms != NULL);
+
+	remove_alarms (cqa);
 
 	/* The list should be empty now, and thus the queued component alarms
 	 * structure should have been freed and removed from the hash table.
@@ -471,10 +479,9 @@ obj_updated_cb (CalClient *client, const char *uid, gpointer data)
 	CalComponentAlarms *alarms;
 	gboolean found;
 	icaltimezone *zone;
+	CompQueuedAlarms *cqa;
 
 	ca = data;
-
-	remove_comp (ca, uid);
 
 	now = time (NULL);
 
@@ -484,10 +491,50 @@ obj_updated_cb (CalClient *client, const char *uid, gpointer data)
 
 	found = cal_client_get_alarms_for_object (ca->client, uid, now, day_end, &alarms);
 
-	if (!found)
+	if (!found) {
+		remove_comp (ca, uid);
 		return;
+	}
 
-	add_component_alarms (ca, alarms);
+	cqa = lookup_comp_queued_alarms (ca, uid);
+	if (!cqa)
+		add_component_alarms (ca, alarms);
+	else {
+		GSList *l;
+
+		/* if already in the list, just update it */
+		remove_alarms (cqa);
+		cqa->alarms = alarms;
+		cqa->queued_alarms = NULL;
+
+		/* add the new alarms */
+		for (l = cqa->alarms->alarms; l; l = l->next) {
+			CalAlarmInstance *instance;
+			gpointer alarm_id;
+			QueuedAlarm *qa;
+
+			instance = l->data;
+
+			alarm_id = alarm_add (instance->trigger, alarm_trigger_cb, cqa, NULL);
+			if (!alarm_id) {
+				g_message ("obj_updated_cb(): Could not schedule a trigger for "
+					   "%ld, discarding...", (long) instance->trigger);
+				continue;
+			}
+
+			qa = g_new (QueuedAlarm, 1);
+			qa->alarm_id = alarm_id;
+			qa->instance = instance;
+			qa->snooze = FALSE;
+
+			cqa->queued_alarms = g_slist_prepend (cqa->queued_alarms, qa);
+		}
+
+		if (cqa->queued_alarms == NULL)
+			remove_comp (ca, uid);
+		else
+			cqa->queued_alarms = g_slist_reverse (cqa->queued_alarms);
+	}
 }
 
 /* Called when a calendar component is removed; we must delete its corresponding
@@ -550,18 +597,16 @@ create_snooze (CompQueuedAlarms *cqa, gpointer alarm_id, int snooze_mins)
 
 /* Launches a component editor for a component */
 static void
-edit_component (CompQueuedAlarms *cqa)
+edit_component (CalClient *client, CalComponent *comp)
 {
-	CalComponent *comp;
 	const char *uid;
 	const char *uri;
 	CORBA_Environment ev;
 	GNOME_Evolution_Calendar_CompEditorFactory factory;
 
-	comp = cqa->alarms->comp;
 	cal_component_get_uid (comp, &uid);
 
-	uri = cal_client_get_uri (cqa->parent_client->client);
+	uri = cal_client_get_uri (client);
 
 	/* Get the factory */
 
@@ -599,7 +644,29 @@ edit_component (CompQueuedAlarms *cqa)
 struct notify_dialog_closure {
 	CompQueuedAlarms *cqa;
 	gpointer alarm_id;
+	CalClient *client;
+	CalComponent *comp;
+	gpointer dialog;
 };
+
+static void
+on_dialog_obj_updated_cb (CalClient *client, const char *uid, gpointer data)
+{
+	struct notify_dialog_closure *c = data;
+}
+
+static void
+on_dialog_obj_removed_cb (CalClient *client, const char *uid, gpointer data)
+{
+	const char *our_uid;
+	struct notify_dialog_closure *c = data;
+
+	cal_component_get_uid (c->comp, &our_uid);
+	g_return_if_fail (our_uid && *our_uid);
+
+	if (!strcmp (uid, our_uid))
+		alarm_notify_dialog_disable_buttons (c->dialog);
+}
 
 /* Callback used from the alarm notify dialog */
 static void
@@ -609,13 +676,18 @@ notify_dialog_cb (AlarmNotifyResult result, int snooze_mins, gpointer data)
 
 	c = data;
 
+	g_signal_handlers_disconnect_matched (c->client, G_SIGNAL_MATCH_FUNC,
+					      0, 0, NULL, on_dialog_obj_updated_cb, NULL);
+	g_signal_handlers_disconnect_matched (c->client, G_SIGNAL_MATCH_FUNC,
+					      0, 0, NULL, on_dialog_obj_removed_cb, NULL);
+
 	switch (result) {
 	case ALARM_NOTIFY_SNOOZE:
 		create_snooze (c->cqa, c->alarm_id, snooze_mins);
 		break;
 
 	case ALARM_NOTIFY_EDIT:
-		edit_component (c->cqa);
+		edit_component (c->client, c->comp);
 		break;
 
 	case ALARM_NOTIFY_CLOSE:
@@ -627,6 +699,7 @@ notify_dialog_cb (AlarmNotifyResult result, int snooze_mins, gpointer data)
 	}
 
 	remove_queued_alarm (c->cqa, c->alarm_id);
+	g_object_unref (c->comp);
 	g_free (c);
 }
 
@@ -683,12 +756,20 @@ display_notification (time_t trigger, CompQueuedAlarms *cqa,
 	c = g_new (struct notify_dialog_closure, 1);
 	c->cqa = cqa;
 	c->alarm_id = alarm_id;
+	c->comp = cal_component_clone (comp);
+	c->client = c->cqa->parent_client->client;
 
-	if (!alarm_notify_dialog (trigger,
-				  qa->instance->occur_start, qa->instance->occur_end,
-				  vtype, message,
-				  notify_dialog_cb, c))
+	if (!(c->dialog = alarm_notify_dialog (trigger,
+					       qa->instance->occur_start, qa->instance->occur_end,
+					       vtype, message,
+					       notify_dialog_cb, c)))
 		g_message ("display_notification(): Could not create the alarm notify dialog");
+	else {
+		g_signal_connect (c->client, "obj_updated",
+				  G_CALLBACK (on_dialog_obj_updated_cb), c);
+		g_signal_connect (c->client, "obj_removed",
+				  G_CALLBACK (on_dialog_obj_removed_cb), c);
+	}
 }
 
 /* Performs notification of an audio alarm */

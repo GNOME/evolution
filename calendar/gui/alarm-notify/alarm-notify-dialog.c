@@ -309,9 +309,9 @@ write_html_heading (GtkHTMLStream *stream, const char *message,
  * Runs the alarm notification dialog.  The specified @func will be used to
  * notify the client about result of the actions in the dialog.
  *
- * Return value: TRUE on success, FALSE if the dialog could not be created.
+ * Return value: a pointer to the dialog structure if successful or NULL if an error occurs.
  **/
-gboolean
+gpointer
 alarm_notify_dialog (time_t trigger, time_t occur_start, time_t occur_end,
 		     CalComponentVType vtype, const char *message,
 		     AlarmNotifyFunc func, gpointer func_data)
@@ -321,12 +321,12 @@ alarm_notify_dialog (time_t trigger, time_t occur_start, time_t occur_end,
 	icaltimezone *current_zone;
 	char *buf, *title;
 
-	g_return_val_if_fail (trigger != -1, FALSE);
+	g_return_val_if_fail (trigger != -1, NULL);
 
 	/* Only VEVENTs or VTODOs can have alarms */
-	g_return_val_if_fail (vtype == CAL_COMPONENT_EVENT || vtype == CAL_COMPONENT_TODO, FALSE);
-	g_return_val_if_fail (message != NULL, FALSE);
-	g_return_val_if_fail (func != NULL, FALSE);
+	g_return_val_if_fail (vtype == CAL_COMPONENT_EVENT || vtype == CAL_COMPONENT_TODO, NULL);
+	g_return_val_if_fail (message != NULL, NULL);
+	g_return_val_if_fail (func != NULL, NULL);
 
 	an = g_new0 (AlarmNotify, 1);
 
@@ -337,7 +337,7 @@ alarm_notify_dialog (time_t trigger, time_t occur_start, time_t occur_end,
 	if (!an->xml) {
 		g_message ("alarm_notify_dialog(): Could not load the Glade XML file!");
 		g_free (an);
-		return FALSE;
+		return NULL;
 	}
 
 	an->dialog = glade_xml_get_widget (an->xml, "alarm-notify");
@@ -354,10 +354,10 @@ alarm_notify_dialog (time_t trigger, time_t occur_start, time_t occur_end,
 		g_message ("alarm_notify_dialog(): Could not find all widgets in Glade file!");
 		g_object_unref (an->xml);
 		g_free (an);
-		return FALSE;
+		return NULL;
 	}
 
-	g_signal_connect (an->dialog, "destroy",
+	g_signal_connect (G_OBJECT (an->dialog), "destroy",
 			  G_CALLBACK (dialog_destroy_cb),
 			  an);
 
@@ -407,6 +407,14 @@ alarm_notify_dialog (time_t trigger, time_t occur_start, time_t occur_end,
 #endif
 
 	gtk_widget_show (an->dialog);
-	return TRUE;
+	return an;
 }
 
+void
+alarm_notify_dialog_disable_buttons (gpointer dialog)
+{
+	AlarmNotify *an = dialog;
+
+	gtk_widget_set_sensitive (an->snooze, FALSE);
+	gtk_widget_set_sensitive (an->edit, FALSE);
+}
