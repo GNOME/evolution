@@ -174,6 +174,7 @@ add_model(ETableSelectionModel *etsm, ETableModel *model)
 		etsm->model_rows_deleted_id = gtk_signal_connect(GTK_OBJECT(model), "model_rows_deleted",
 								 GTK_SIGNAL_FUNC(model_rows_deleted), etsm);
 	}
+	e_selection_model_array_confirm_row_count(E_SELECTION_MODEL_ARRAY(etsm));
 }
 
 inline static void
@@ -292,5 +293,8 @@ etsm_get_row_count (ESelectionModelArray *esma)
 {
 	ETableSelectionModel *etsm = E_TABLE_SELECTION_MODEL(esma);
 
-	return e_table_model_row_count (etsm->model);
+	if (etsm->model)
+		return e_table_model_row_count (etsm->model);
+	else
+		return 0;
 }
