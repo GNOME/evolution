@@ -135,7 +135,7 @@ ibex_find_all (ibex *ib, GPtrArray *words)
 	else if (words->len == 1)
 		return ibex_find (ib, g_ptr_array_index (words, 0));
 
-	work = g_tree_new (strcmp);
+	work = g_tree_new ((GCompareFunc) strcmp);
 	for (i = 0; i < words->len; i++) {
 		word = g_ptr_array_index (words, i);
 		wrefs = g_hash_table_lookup (ib->words, word);
@@ -182,17 +182,17 @@ ibex_dump_foo(char *key, GPtrArray *refs, void *data)
 {
 	int i;
 
-	printf("%s: ", key);
+	g_print("%s: ", key);
 	for (i=0;i<refs->len;i++) {
 		ibex_file *ibf = g_ptr_array_index (refs, i);
-		printf("%c%s", ibf->index==-1?'-':' ', ibf->name);
+		g_print("%c%s", ibf->index==-1?'-':' ', ibf->name);
 	}
-	printf("\n");
+	g_print("\n");
 }
 
 /* debug function to dump the tree, in key order */
 void
 ibex_dump_all (ibex *ib)
 {
-	g_hash_table_foreach(ib->words, ibex_dump_foo, 0);
+	g_hash_table_foreach(ib->words, (GHFunc) ibex_dump_foo, 0);
 }

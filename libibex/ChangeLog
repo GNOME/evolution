@@ -1,5 +1,9 @@
 2000-05-11  NotZed  <NotZed@HelixCode.com>
 
+	* file.c, find.c: Fixed some warnings.
+
+2000-05-11  NotZed  <NotZed@HelixCode.com>
+
 	* index.c (ibex_unindex): Make sure we mark the ibex as dirty.
 
 2000-05-07  NotZed  <NotZed@HelixCode.com>

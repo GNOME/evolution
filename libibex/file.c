@@ -121,7 +121,7 @@ ibex_open (char *file, int flags, int mode)
 	ib = g_malloc (sizeof (ibex));
 	ib->dirty = FALSE;
 	ib->path = g_strdup (file);
-	ib->files = g_tree_new (strcmp);
+	ib->files = g_tree_new ((GCompareFunc) strcmp);
 	ib->words = g_hash_table_new (g_str_hash, g_str_equal);
 	ib->oldfiles = g_ptr_array_new ();
 
@@ -324,7 +324,7 @@ ibex_write (ibex *ib)
 		goto lose;
 
 	iwd.lastname = NULL;
-	wtree = g_tree_new (strcmp);
+	wtree = g_tree_new ((GCompareFunc) strcmp);
 	g_hash_table_foreach (ib->words, store_word, wtree);
 	write_number (iwd.f, g_tree_nnodes(wtree));
 	if (ferror (iwd.f))
