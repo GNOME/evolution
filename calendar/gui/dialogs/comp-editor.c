@@ -592,6 +592,7 @@ save_comp (CompEditor *editor)
 	GError *error = NULL;
 	GHashTable *timezones;
 	const char *orig_uid;
+	icalcomponent *icalcomp;
 
 	priv = editor->priv;
 
@@ -644,14 +645,36 @@ save_comp (CompEditor *editor)
 	
 	e_cal_component_set_attachment_list (priv->comp,
 			cal_attachment_bar_get_attachment_list ((CalAttachmentBar *) priv->attachment_bar)); 
-
+	icalcomp = e_cal_component_get_icalcomponent (priv->comp);
 	/* send the component to the server */
 	if (!cal_comp_is_on_server (priv->comp, priv->client)) {
-		result = e_cal_create_object (priv->client, e_cal_component_get_icalcomponent (priv->comp), NULL, &error);
+		result = e_cal_create_object (priv->client, icalcomp, NULL, &error);
 	} else {
-		result = e_cal_modify_object (priv->client, e_cal_component_get_icalcomponent (priv->comp), priv->mod, &error);
+		result = e_cal_modify_object (priv->client, icalcomp, priv->mod, &error);
 	}
 
+	/* If the delay delivery is set, the items will not be created in the server immediately,
+	   so we need not show them in the view. They will appear as soon as the server creates
+	   it after the delay period */
+	if (result && e_cal_component_has_attendees (priv->comp)) {
+		gboolean delay_set = FALSE;
+		icalproperty *icalprop;
+		icalprop = icalcomponent_get_first_property (icalcomp, ICAL_X_PROPERTY);
+		while (icalprop) {
+			const char *x_name;
+
+			x_name = icalproperty_get_x_name (icalprop);
+			if (!strcmp (x_name, "X-EVOLUTION-OPTIONS-DELAY")) {
+				delay_set = TRUE;
+				break;
+			}
+
+			icalprop = icalcomponent_get_next_property (icalcomp, ICAL_X_PROPERTY);
+		}
+		if (delay_set)
+			return TRUE;
+	}
+	
 	if (!result) {
 		GtkWidget *dlg;
 		char *msg;

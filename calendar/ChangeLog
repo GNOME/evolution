@@ -1,3 +1,11 @@
+2005-02-28  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #72958
+	* gui/dialogs/comp-editor.c: (save_comp): If the backend
+	returns success, if the delay delivery is set, do not
+	show them in the view, since it will not be created in the 
+	server.
+	
 2005-02-25  Sivaiah Nallagatla <snallagatla@novell.com>
 
 	* gui/calendar-component.c (ensure_sources) :
