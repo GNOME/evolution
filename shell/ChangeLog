@@ -1,5 +1,9 @@
 2001-06-23  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-view.c: Get rid of some `#if 0'ed code.
+
+2001-06-23  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-view.c (corba_interface_set_message_cb): Replaced with
 	an empty stub, as the "set_message" method is going to be
 	deprecated.

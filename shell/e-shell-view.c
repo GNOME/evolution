@@ -1010,74 +1010,6 @@ init (EShellView *shell_view)
 }
 
 
-#if 0
-/* Progress bar handling.  */
-
-#define PROGRESS_BAR_TIMEOUT 80
-
-static int
-progress_bar_timeout_cb (void *data)
-{
-	EShellView *shell_view;
-	EShellViewPrivate *priv;
-	GtkWidget *progress_bar;
-
-	shell_view = E_SHELL_VIEW (data);
-	priv = shell_view->priv;
-	progress_bar = priv->progress_bar;
-
-	priv->progress_bar_value = ! priv->progress_bar_value;
-	gtk_progress_set_value (GTK_PROGRESS (progress_bar), priv->progress_bar_value);
-
-	return TRUE;
-}
-
-static void
-start_progress_bar (EShellView *shell_view)
-{
-	EShellViewPrivate *priv;
-	GtkProgress *progress;
-
-	priv = shell_view->priv;
-
-	progress = GTK_PROGRESS (priv->progress_bar);
-
-	if (!GTK_WIDGET_REALIZED (progress))
-	    return;
-	    
-	if (priv->progress_bar_timeout_id != 0)
-		return;
-	
-	priv->progress_bar_timeout_id = gtk_timeout_add (PROGRESS_BAR_TIMEOUT, progress_bar_timeout_cb, shell_view);
-	
-	gtk_progress_set_activity_mode (progress, TRUE);
-	gtk_progress_set_value (progress, priv->progress_bar_value);
-}
-
-static void
-stop_progress_bar (EShellView *shell_view)
-{
-	EShellViewPrivate *priv;
-	GtkWidget *progress_bar;
-
-	priv = shell_view->priv;
-	progress_bar = priv->progress_bar;
-
-	if (priv->progress_bar_timeout_id != 0) {
-		gtk_timeout_remove (priv->progress_bar_timeout_id);
-		priv->progress_bar_timeout_id = 0;
-	}
-
-	if (!GTK_WIDGET_REALIZED (progress_bar))
-		return;
-
-	gtk_progress_set_activity_mode (GTK_PROGRESS (progress_bar), FALSE);
-	gtk_progress_set_value (GTK_PROGRESS (progress_bar), 0);
-}
-
-#endif
-
-
 /* EvolutionShellView interface callbacks.  */
 
 static void
