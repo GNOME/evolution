@@ -131,7 +131,9 @@ e_clipped_label_init (EClippedLabel *label)
  * Creates a new #EClippedLabel with the given text.
  **/
 GtkWidget *
-e_clipped_label_new (const gchar *text)
+e_clipped_label_new (const gchar *text,
+		     PangoWeight font_weight,
+		     gfloat font_size)
 {
 	GtkWidget *label;
 	EClippedLabel *clipped;
@@ -139,6 +141,9 @@ e_clipped_label_new (const gchar *text)
 	label = GTK_WIDGET (gtk_type_new (e_clipped_label_get_type ()));
 
 	clipped = E_CLIPPED_LABEL (label);
+
+	clipped->font_size = font_size;
+	clipped->font_weight = font_weight;
 
 	build_layout (clipped, e_clipped_label_ellipsis);
 	pango_layout_get_pixel_size (clipped->layout, &clipped->ellipsis_width, NULL);
@@ -153,26 +158,19 @@ static void
 build_layout (EClippedLabel *label, const char *text)
 {
 	if (!label->layout) {
+		GtkStyle *style = gtk_widget_get_style (GTK_WIDGET (label));
+		PangoFontDescription *desc = pango_font_description_copy (style->font_desc);
+
 		label->layout = gtk_widget_create_pango_layout (GTK_WIDGET (label), text);
-#ifdef FROB_FONT_DESC
-		{
-			/* this makes the font used a little bigger than the
-			   default style for this widget, as well as makes it
-			   bold...  */
-			GtkStyle *style = gtk_widget_get_style (GTK_WIDGET (label));
-			PangoFontDescription *desc = pango_font_description_copy (style->font_desc);
-			pango_font_description_set_size (desc,
-							 pango_font_description_get_size (desc) * 1.2);
+
+		pango_font_description_set_size (desc, pango_font_description_get_size (desc) * label->font_size);
 		
-			pango_font_description_set_weight (desc, PANGO_WEIGHT_BOLD);
-			pango_layout_set_font_description (layout, desc);
-			pango_font_description_free (desc);
-		}
-#endif
+		pango_font_description_set_weight (desc, label->font_weight);
+		pango_layout_set_font_description (label->layout, desc);
+		pango_font_description_free (desc);
 	}
-	else {
-		pango_layout_set_text (label->layout, text, -1);
-	}
+
+	pango_layout_set_text (label->layout, text, -1);
 }
 
 static void
@@ -180,7 +178,6 @@ e_clipped_label_size_request (GtkWidget      *widget,
 			      GtkRequisition *requisition)
 {
 	EClippedLabel *label;
-	GdkFont *font;
 	int height;
 	int width;
 
@@ -217,8 +214,7 @@ e_clipped_label_expose (GtkWidget      *widget,
 {
 	EClippedLabel *label;
 	GtkMisc *misc;
-	gint x, y;
-	gchar *tmp_str, tmp_ch;
+	gint x;
 	PangoRectangle rect;
 
 	g_return_val_if_fail (E_IS_CLIPPED_LABEL (widget), FALSE);
@@ -335,8 +331,6 @@ void
 e_clipped_label_set_text (EClippedLabel *label,
 			  const gchar *text)
 {
-	gint len;
-
 	g_return_if_fail (E_IS_CLIPPED_LABEL (label));
 
 	if (label->label != text || !label->label || !text
@@ -363,7 +357,7 @@ e_clipped_label_set_text (EClippedLabel *label,
 static void
 e_clipped_label_recalc_chars_displayed (EClippedLabel *label)
 {
-	gint max_width, width, ch, last_width, ellipsis_width;
+	gint max_width, width;
 	GSList *lines;
 	PangoLayoutLine *line;
 	int index;
@@ -426,4 +420,3 @@ e_clipped_label_recalc_chars_displayed (EClippedLabel *label)
 
 	label->ellipsis_x = width;
 }
-

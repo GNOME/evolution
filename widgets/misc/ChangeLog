@@ -1,3 +1,20 @@
+2003-01-23  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-title-bar.c (e_title_bar_construct): Make the label bold using
+	the new args to e_clipped_label_new().
+
+	* e-clipped-label.c (build_layout): Honor ->font_size and ->layout
+	in the newly created PangoLayout.
+	(e_clipped_label_new): New args font_weight, font_size.
+	(e_clipped_label_size_request): Removed unused variables.
+	(e_clipped_label_expose): Likewise.
+	(e_clipped_label_expose): Likewise.
+	(e_clipped_label_set_text): Likewise.
+	(e_clipped_label_recalc_chars_displayed): Likewise.
+
+	* e-clipped-label.h (struct _EClippedLabel): Add font_size, layout
+	members.
+
 2003-01-22  Ettore Perazzoli  <ettore@ximian.com>
 
 	* Makefile.am (widgetsincludedir): Version using $(BASE_VERSION).

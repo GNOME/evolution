@@ -51,6 +51,11 @@ struct _EClippedLabel
 
 	gchar *label;
 
+	/* Font size multiplication factor; 1.0 means "default GTK font
+	   size"  */
+	gfloat font_size;
+	PangoWeight font_weight;
+
 	/* Our PangoLayout */
 	PangoLayout *layout;
 
@@ -81,13 +86,14 @@ struct _EClippedLabelClass
 };
 
 
-GtkType	   e_clipped_label_get_type	(void);
-GtkWidget* e_clipped_label_new		(const gchar	*text);
+GtkType    e_clipped_label_get_type  (void);
+GtkWidget *e_clipped_label_new       (const gchar   *text,
+				      PangoWeight    font_weight,
+				      gfloat         font_size);
 
-gchar*	   e_clipped_label_get_text	(EClippedLabel	*label);
-void	   e_clipped_label_set_text	(EClippedLabel	*label,
-					 const gchar	*text);
-
+gchar     *e_clipped_label_get_text  (EClippedLabel *label);
+void       e_clipped_label_set_text  (EClippedLabel *label,
+				      const gchar   *text);
 
 #ifdef __cplusplus
 }

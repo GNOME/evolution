@@ -305,7 +305,7 @@ e_title_bar_construct (ETitleBar *title_bar,
 
 	priv = title_bar->priv;
 
-	priv->label = e_clipped_label_new (title);
+	priv->label = e_clipped_label_new (title, PANGO_WEIGHT_BOLD, 1.0);
 	gtk_misc_set_alignment (GTK_MISC (priv->label), 0.0, 0.5);
 	gtk_misc_set_padding (GTK_MISC (priv->label), 2, 0);
 	gtk_widget_show (priv->label);
