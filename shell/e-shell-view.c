@@ -2347,11 +2347,17 @@ e_shell_view_save_settings (EShellView *shell_view,
 	g_free (key);
 
 	key = g_strconcat (prefix, "HPanedPosition", NULL);
-	bonobo_config_set_long (db, key, priv->hpaned_position, NULL);
+	if (GTK_WIDGET_VISIBLE (priv->shortcut_frame))
+		bonobo_config_set_long (db, key, E_PANED (priv->hpaned)->child1_size, NULL); 
+	else
+		bonobo_config_set_long (db, key, priv->hpaned_position, NULL);
 	g_free (key);
 
 	key = g_strconcat (prefix, "ViewHPanedPosition", NULL);
-	bonobo_config_set_long (db, key, priv->view_hpaned_position, NULL);
+	if (GTK_WIDGET_VISIBLE (priv->storage_set_view_box))
+		bonobo_config_set_long (db, key, E_PANED (priv->view_hpaned)->child1_size, NULL); 
+	else
+		bonobo_config_set_long (db, key, priv->view_hpaned_position, NULL);
 	g_free (key);
 
 	key = g_strconcat (prefix, "DisplayedURI", NULL);
