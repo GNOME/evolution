@@ -1,3 +1,9 @@
+2001-01-19  Dan Winship  <danw@ximian.com>
+
+	* subscribe-dialog.c (recursive_add_folder): New function to add a
+	folder and any parents of it that don't yet exist. Fixes bugzilla
+	#1028.
+
 2001-01-19  Not Zed  <NotZed@Ximian.com>
 
 	* mail-send-recv.c: New swanky send/recieve thingy, well it so far

@@ -332,6 +332,31 @@ do_subscribe_folder (gpointer in_data, gpointer op_data, CamelException *ex)
 }
 
 static void
+recursive_add_folder (EvolutionStorage *storage, const char *path,
+		      const char *name, const char *url)
+{
+	char *parent, *pname, *p;
+
+	p = strrchr (path, '/');
+	if (p && p != path) {
+		parent = g_strndup (path, p - path);
+		if (!evolution_storage_folder_exists (storage, parent)) {
+			p = strrchr (parent, '/');
+			if (p)
+				pname = g_strdup (p + 1);
+			else
+				pname = g_strdup ("");
+			recursive_add_folder (storage, parent, pname, "");
+			g_free (pname);
+		}
+		g_free (parent);
+	}
+
+	evolution_storage_new_folder (storage, path, name, "mail", url,
+				      _("(No description)"), FALSE);
+}
+
+static void
 cleanup_subscribe_folder (gpointer in_data, gpointer op_data,
 			  CamelException *ex)
 {
@@ -340,12 +365,9 @@ cleanup_subscribe_folder (gpointer in_data, gpointer op_data,
 	
 	if (!camel_exception_is_set (ex)) {
 		if (input->subscribe)
-			evolution_storage_new_folder (input->sc->storage,
-						      data->path,
-						      data->name, "mail",
-						      data->url,
-						      _("(No description)") /* XXX */,
-						      FALSE);
+			recursive_add_folder (input->sc->storage,
+					      data->path, data->name,
+					      data->url);
 		else
 			evolution_storage_removed_folder (input->sc->storage, data->path);
 	}
