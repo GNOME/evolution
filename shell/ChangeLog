@@ -1,3 +1,17 @@
+2001-01-15  Iain Holmes  <iain@ximian.com>
+
+	* importer/importer.c (import_druid_cancel): Just destroy the wizard.
+	All other freeing code is moved into import_druid_destroy.
+	(show_import_wizard): Connect the destroy signal to import_druid_destroy.
+	(start_import): Connect to the destroy signal of the dialog and the
+	clicked as well.
+	(dialog_destroy_cb): Stop the import after the current item has finished.
+	(dialog_clicked_cb): Stop the import.
+	(import_cb): Only process the next item if the dialog hasn't been stopped.
+	Destroy the dialog if it hasn't been destroyed already.
+
+	* e-splash.c (e_splash_construct): Set the window title to Evolution.
+
 2001-01-13  Jason Leach  <jasonleach@usa.net>
 
 	(Fix bug #934: Add Right-click item to hide the shortcut bar)
