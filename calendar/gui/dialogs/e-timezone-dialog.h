@@ -23,7 +23,7 @@
 #define __E_TIMEZONE_DIALOG_H__
 
 #include <libgnome/gnome-defs.h>
-#include <gtk/gtkobject.h>
+#include <gtk/gtkwidget.h>
 
 
 

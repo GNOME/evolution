@@ -449,7 +449,9 @@ calendar_control_activate (BonoboControl *control,
 
 	bonobo_ui_component_thaw (uic, NULL);
 
-	gnome_calendar_check_timezone_set (gcal);
+	/* Show the dialog for setting the timezone if the user hasn't chosen
+	   a default timezone already. */
+	calendar_config_check_timezone_set ();
 }
 
 void

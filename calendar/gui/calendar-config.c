@@ -30,7 +30,11 @@
 #include <config.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-config.h>
+#include <libgnomeui/gnome-dialog.h>
+#include "dialogs/e-timezone-dialog.h"
 #include "component-factory.h"
+#include "calendar-commands.h"
+#include "e-tasks.h"
 #include "calendar-config.h"
 
 
@@ -60,6 +64,12 @@ static CalendarConfig *config = NULL;
 
 static void config_read			(void);
 
+static void on_timezone_set		(GnomeDialog	*dialog,
+					 int		 button,
+					 ETimezoneDialog *etd);
+static gboolean on_timezone_dialog_delete_event	(GnomeDialog	*dialog,
+						 GdkEvent	*event,
+						 ETimezoneDialog *etd);
 
 void
 calendar_config_init			(void)
@@ -560,3 +570,68 @@ calendar_config_configure_e_calendar_table	(ECalendarTable	*cal_table)
 
 	calendar_config_configure_e_cell_date_edit (cal_table->dates_cell);
 }
+
+
+
+void
+calendar_config_check_timezone_set ()
+{
+	ETimezoneDialog *timezone_dialog;
+	GtkWidget *dialog;
+	GList *elem;
+	char *zone;
+
+	zone = calendar_config_get_timezone ();
+	if (zone && zone[0])
+		return;
+
+	/* Show timezone dialog. */
+	timezone_dialog = e_timezone_dialog_new ();
+	dialog = e_timezone_dialog_get_toplevel (timezone_dialog);
+
+	/* Hide the cancel button, which is the 2nd button. */
+	elem = g_list_nth (GNOME_DIALOG (dialog)->buttons, 1);
+	gtk_widget_hide (elem->data);
+
+	gtk_signal_connect (GTK_OBJECT (dialog), "clicked",
+			    GTK_SIGNAL_FUNC (on_timezone_set),
+			    timezone_dialog);
+	gtk_signal_connect (GTK_OBJECT (dialog), "delete-event",
+			    GTK_SIGNAL_FUNC (on_timezone_dialog_delete_event),
+			    timezone_dialog);
+
+	gtk_widget_show (dialog);
+}
+
+
+static void
+on_timezone_set			(GnomeDialog	*dialog,
+				 int		 button,
+				 ETimezoneDialog *etd)
+{
+	char *zone;
+
+	zone = e_timezone_dialog_get_timezone (etd);
+
+	if (zone && zone[0]) {
+		calendar_config_set_timezone (zone);
+
+		calendar_config_write ();
+		update_all_config_settings ();
+		e_tasks_update_all_config_settings ();
+	}
+
+	gtk_object_unref (GTK_OBJECT (etd));
+}
+
+
+static gboolean
+on_timezone_dialog_delete_event	(GnomeDialog	*dialog,
+				 GdkEvent	*event,
+				 ETimezoneDialog *etd)
+{
+	gtk_object_unref (GTK_OBJECT (etd));
+	return TRUE;
+}
+
+

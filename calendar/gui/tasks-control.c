@@ -263,6 +263,10 @@ tasks_control_activate (BonoboControl *control, ETasks *tasks)
 	sensitize_commands (tasks, control, n_selected);
 
 	bonobo_ui_component_thaw (uic, NULL);
+
+	/* Show the dialog for setting the timezone if the user hasn't chosen
+	   a default timezone already. */
+	calendar_config_check_timezone_set ();
 }
 
 

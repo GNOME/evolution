@@ -1,5 +1,16 @@
 2001-06-20  Damon Chaplin  <damon@ximian.com>
 
+	* gui/calendar-config.[hc]:
+	* gui/gnome-cal.[hc]: 
+	* gui/tasks-control.c (tasks_control_activate): 
+	* gui/calendar-commands.c (calendar_control_activate): moved the
+	function to check for a default timezone to calendar-config.c, and
+	also used it in the tasks control.
+
+	* gui/dialogs/e-timezone-dialog.h: #include <gtk/gtkwidget.h> fix.
+
+2001-06-20  Damon Chaplin  <damon@ximian.com>
+
 	* gui/calendar-commands.c (calendar_control_activate): 
 	* gui/gnome-cal.[hc]: added code to show the timezone dialog if the
 	user hasn't set a default timezone yet.

@@ -131,4 +131,8 @@ void	  calendar_config_configure_e_date_edit		(EDateEdit	*dedit);
 void	  calendar_config_configure_e_calendar_table	(ECalendarTable	*cal_table);
 void	  calendar_config_configure_e_cell_date_edit	(ECellDateEdit	*ecde);
 
+/* Shows the timezone dialog if the user hasn't set a default timezone. */
+void	  calendar_config_check_timezone_set	(void);
+
+
 #endif /* _CALENDAR_CONFIG_H_ */

@@ -43,7 +43,6 @@
 #include "widgets/misc/e-filter-bar.h"
 #include "dialogs/alarm-notify-dialog.h"
 #include "dialogs/event-editor.h"
-#include "dialogs/e-timezone-dialog.h"
 #include "e-calendar-table.h"
 #include "e-day-view.h"
 #include "e-week-view.h"
@@ -1921,63 +1920,3 @@ gnome_calendar_update_view_buttons (GnomeCalendar *gcal)
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), TRUE);
 	gtk_signal_handler_unblock_by_data (GTK_OBJECT (button), gcal);
 }
-
-
-static void
-on_timezone_set (GnomeDialog *dialog, int button, ETimezoneDialog *etd)
-{
-	char *zone;
-
-	zone = e_timezone_dialog_get_timezone (etd);
-
-	if (zone && zone[0]) {
-		calendar_config_set_timezone (zone);
-
-		calendar_config_write ();
-		update_all_config_settings ();
-		e_tasks_update_all_config_settings ();
-	}
-
-	gtk_object_unref (GTK_OBJECT (etd));
-}
-
-
-static gboolean
-on_timezone_dialog_delete_event (GnomeDialog *dialog, GdkEvent *event,
-				 ETimezoneDialog *etd)
-{
-	gtk_object_unref (GTK_OBJECT (etd));
-	return TRUE;
-}
-
-
-void
-gnome_calendar_check_timezone_set (GnomeCalendar *gcal)
-{
-	ETimezoneDialog *timezone_dialog;
-	GtkWidget *dialog;
-	GList *elem;
-	char *zone;
-
-	zone = calendar_config_get_timezone ();
-	if (zone && zone[0])
-		return;
-
-	/* Show timezone dialog. */
-	timezone_dialog = e_timezone_dialog_new ();
-	dialog = e_timezone_dialog_get_toplevel (timezone_dialog);
-
-	/* Hide the cancel button, which is the 2nd button. */
-	elem = g_list_nth (GNOME_DIALOG (dialog)->buttons, 1);
-	gtk_widget_hide (elem->data);
-
-	gtk_signal_connect (GTK_OBJECT (dialog), "clicked",
-			    GTK_SIGNAL_FUNC (on_timezone_set),
-			    timezone_dialog);
-	gtk_signal_connect (GTK_OBJECT (dialog), "delete-event",
-			    GTK_SIGNAL_FUNC (on_timezone_dialog_delete_event),
-			    timezone_dialog);
-
-	gtk_widget_show (dialog);
-}
-
