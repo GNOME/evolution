@@ -1,5 +1,9 @@
 2001-01-16  Jason Leach  <jasonleach@usa.net>
 
+	* subscribe-dialog.c: removed unecessary #inlcude "e-title-bar.h"
+
+2001-01-16  Jason Leach  <jasonleach@usa.net>
+
 	* openpgp-utils.c (pgp_get_passphrase): Fix a string causing
 	translation problems.  Bug #1147.
 

@@ -19,6 +19,8 @@ libemiscwidgets_a_SOURCES = 	\
 	e-clipped-label.h	\
 	e-dateedit.c		\
 	e-dateedit.h		\
+	e-search-bar.c		\
+	e-search-bar.h		\
 	e-title-bar.c		\
 	e-title-bar.h
 

@@ -22,7 +22,7 @@
 #include "addressbook/gui/search/e-addressbook-search-dialog.h"
 
 #include "addressbook/gui/widgets/e-addressbook-view.h"
-#include "filter/e-search-bar.h"
+#include <widgets/misc/e-search-bar.h>
 
 #include <select-names/e-select-names.h>
 #include <select-names/e-select-names-manager.h>

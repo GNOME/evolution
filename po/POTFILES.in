@@ -100,7 +100,6 @@ composer/e-msg-composer-attachment.glade
 composer/e-msg-composer-hdrs.c
 composer/e-msg-composer.c
 composer/evolution-composer.c
-filter/e-search-bar.c
 filter/filter-datespec.c
 filter/filter-editor.c
 filter/filter-filter.c
@@ -168,4 +167,5 @@ widgets/misc/e-calendar-item.c
 widgets/misc/e-calendar.c
 widgets/misc/e-clipped-label.c
 widgets/misc/e-dateedit.c
+widgets/misc/e-search-bar.c
 widgets/shortcut-bar/e-group-bar.c

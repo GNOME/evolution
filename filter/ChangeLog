@@ -1,3 +1,8 @@
+2001-01-16  Jason Leach  <jasonleach@usa.net>
+
+	* e-search-bar.[ch]: Moved ESearchBar to $(toplevel)/widgets/misc,
+	a more appropriate home.  Bug #1060.
+
 2001-01-13  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* filter-driver.c (do_copy): Moved p->copied to the inner part of

@@ -25,7 +25,6 @@
 #include <gnome.h>
 #include "subscribe-dialog.h"
 #include "e-util/e-html-utils.h"
-#include "e-title-bar.h"
 #include <gtkhtml/gtkhtml.h>
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-unicode.h>

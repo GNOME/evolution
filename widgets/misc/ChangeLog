@@ -1,3 +1,7 @@
+2001-01-16  Jason Leach  <jasonleach@usa.net>
+
+	* e-search-bar.[ch]: Moved here from $(toplevel)/filter.
+
 2000-12-22  JP Rosevear  <jpr@helixcode.com>
 
 	* e-calendar-item.h: add prototypes
