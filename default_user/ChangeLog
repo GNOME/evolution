@@ -1,3 +1,8 @@
+2001-10-11  Chris Toshok  <toshok@ximian.com>
+
+	* Makefile.am (install-data-hook): make the private dir so it gets
+	created in ~/evolution.
+
 2001-10-03  Ettore Perazzoli  <ettore@ximian.com>
 
 	* local/Inbox/mbox: Oops, remove stray ">".

@@ -6,6 +6,7 @@ default_DATA = addressbook-sources.xml searches.xml
 EXTRA_DIST = $(default_DATA)
 
 install-data-hook:
+	-mkdir $(defaultdir)/private
 if ENABLE_NNTP
 	-mkdir $(defaultdir)/news
 	-mkdir $(defaultdir)/config
