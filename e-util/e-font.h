@@ -45,30 +45,19 @@ gint e_font_descent (EFont * font);
  * NB! UTF-8 text widths are given in chars, not bytes
  */
 
-void e_font_draw_utf8_text (GdkDrawable *drawable, EFont *font, EFontStyle style, GdkGC *gc, gint x, gint y, gchar *text, gint numchars);
-int e_font_utf8_text_width (EFont *font, EFontStyle style, char *text, int numchars);
+void e_font_draw_utf8_text (GdkDrawable *drawable,
+			    EFont *font, EFontStyle style,
+			    GdkGC *gc,
+			    gint x, gint y,
+			    gchar *text,
+			    gint numbytes);
 
-#if 0
-void e_font_draw_ucs2_text (GdkDrawable *drawable, EFont *font, GdkGC *gc, gint x, gint y, short *text, gint length);
+int e_font_utf8_text_width (EFont *font, EFontStyle style,
+			    char *text,
+			    int numbytes);
 
-gboolean e_ucs2_isspace (short ch);
-
-unsigned short *e_ucs2_from_utf8 (const gchar *text);
-unsigned short *e_ucs2_from_utf8_sized (const gchar *text, gint length);
-
-unsigned char *e_utf8_from_ucs2_sized (const short *text, int length);
-
-int e_font_ucs2_text_width (EFont *font, short *text, int length);
-
-int e_ucs2_strlen (const short *text);
-
-short * e_ucs2_strncpy (short *dst, short *src, int length);
-short * e_ucs2_strcpy (short *dst, short *src);
-
-short * e_ucs2_strdup (const short *string);
-
-gint e_ucs2_strcmp (const short *a, const short *b);
-#endif
+int e_font_utf8_char_width (EFont *font, EFontStyle style,
+			    char *text);
 
 END_GNOME_DECLS
 

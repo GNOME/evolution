@@ -1,3 +1,8 @@
+2000-08-21  Lauris Kaplinski  <lauris@helixcode.com>
+
+	* e-font.h:
+	* e-font.c: Changed UTF-8 syntax from char-based to byte-based
+	
 2000-08-21  Peter Williams  <peterw@helixcode.com>
 
 	* e-html-utils.c (e_text_to_html): Fix a booboo in the tab

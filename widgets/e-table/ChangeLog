@@ -1,3 +1,7 @@
+2000-08-21  Lauris Kaplinski  <lauris@helixcode.com>
+
+	* e-cell-text.c: Changed UTF-8 syntax from char based to byte based
+	
 2000-08-21  Chris Toshok  <toshok@helixcode.com>
 
 	* e-tree-example-1.c (remove_node): we can remove nodes with

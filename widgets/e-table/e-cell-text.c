@@ -46,11 +46,10 @@
 /* This defines a line of text */
 struct line {
 	char *text;	/* Line's text UTF-8, it is a pointer into the text->text string */
-	int length;	/* Line's length in characters */
+	int length;	/* Line's length in BYTES */
 	int width;	/* Line's width in pixels */
-	int ellipsis_length;  /* Length before adding ellipsis */
+	int ellipsis_length;  /* Length before adding ellipsis in BYTES */
 };
-
 
 /* Object argument IDs */
 enum {
@@ -132,7 +131,7 @@ typedef struct {
 typedef struct _CurrentCell{
 	ECellTextView *text_view;
 	int            width;
-	char       *text;
+	char          *text;
 	int            model_col, view_col, row;
 	ECellTextLineBreaks *breaks;
 } CurrentCell;
@@ -153,8 +152,8 @@ struct _CellEdit {
                                            to the other offsets. */
 
 	/* This needs to be reworked a bit once we get line wrapping. */
-	int selection_start;            /* Start of selection - IN CHARS */
-	int selection_end;              /* End of selection - IN CHARS */
+	int selection_start;            /* Start of selection - IN BYTES */
+	int selection_end;              /* End of selection - IN BYTES */
 	gboolean select_by_word;        /* Current selection is by word */
 
 	/* This section is for drag scrolling and blinking cursor. */
@@ -176,9 +175,9 @@ struct _CellEdit {
 	GtkWidget *invisible;           /* For selection handling */
 	gboolean has_selection;         /* TRUE if we have the selection */
 	gchar *primary_selection;       /* Primary selection text */
-	gint primary_length;            /* Primary selection text length */
+	gint primary_length;            /* Primary selection text length in BYTES */
 	gchar *clipboard_selection;     /* Clipboard selection text */
-	gint clipboard_length;          /* Clipboard selection text length*/
+	gint clipboard_length;          /* Clipboard selection text length in BYTES */
 
 	guint pointer_in : 1;
 	guint default_cursor_shown : 1;
@@ -438,7 +437,7 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	GdkRectangle sel_rect;
 	GdkGC *fg_gc;
 	EFont *font = text_view->font;
-	const int height = e_font_ascent (text_view->font) + e_font_descent (text_view->font);
+	const int height = e_font_height (text_view->font);
 	CellEdit *edit = text_view->edit;
 	gboolean edit_display = FALSE;
 	ECellTextLineBreaks *linebreaks;
@@ -451,7 +450,6 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 		style = E_FONT_BOLD;
 
 	if (edit){
-		
 		if ((edit->cell.view_col == view_col) && (edit->cell.row == row)) {
 			edit_display = TRUE;
 			fg_gc = canvas->style->fg_gc[edit->has_selection ? GTK_STATE_SELECTED : GTK_STATE_ACTIVE];
@@ -473,7 +471,6 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	gdk_gc_set_clip_rectangle (fg_gc, &rect);
 	clip_rect = &rect;
 
-	
 	if (selected){
 		background = &canvas->style->bg [GTK_STATE_SELECTED];
 		foreground = &canvas->style->text [GTK_STATE_SELECTED];
@@ -534,9 +531,9 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 			xpos = get_line_xpos (cell, lines);
 			xpos -= edit->xofs_edit;
 
-			/* All values are IN CHARS */
+			/* start_char, end_char, sel_start and sel_end are IN BYTES */
 
-			start_char = unicode_index_to_offset (cell->text, lines->text - cell->text);
+			start_char = lines->text - cell->text;
 			end_char = start_char + lines->length;
 
 			sel_start = edit->selection_start;
@@ -556,7 +553,7 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 				sel_rect.x = xpos + x1 + e_font_utf8_text_width (font, style, lines->text, sel_start - start_char);
 				sel_rect.y = ypos + y1 - e_font_ascent (font);
 				sel_rect.width = e_font_utf8_text_width (font, style,
-									 lines->text + unicode_offset_to_index (lines->text, sel_start - start_char),
+									 lines->text + sel_start - start_char,
 									 sel_end - sel_start);
 				sel_rect.height = height;
 				gtk_paint_flat_box (canvas->style,
@@ -577,12 +574,12 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 				e_font_draw_utf8_text (drawable, font, style, fg_gc,
 						       xpos + x1 + e_font_utf8_text_width (font, style, lines->text, sel_start - start_char),
 						       ypos + y1,
-						       lines->text + unicode_offset_to_index (lines->text, sel_start - start_char),
+						       lines->text + sel_start - start_char,
 						       sel_end - sel_start);
 				e_font_draw_utf8_text (drawable, font, style, text_view->gc,
 						       xpos + x1 + e_font_utf8_text_width (font, style, lines->text, sel_end - start_char),
 						       ypos + y1,
-						       lines->text + unicode_offset_to_index (lines->text, sel_end - start_char),
+						       lines->text + sel_end - start_char,
 						       end_char - sel_end);
 #if 0 /* Do Bold in EFont directly */
 				/* Draw 1,0 moved image, to simulate bold font */
@@ -672,7 +669,7 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 					       xpos + x1 + lines->width - text_view->ellipsis_width,
 					       ypos + y1,
 					       ect->ellipsis ? ect->ellipsis : "...",
-					       ect->ellipsis ? unicode_strlen (ect->ellipsis, -1) : 3);
+					       ect->ellipsis ? strlen (ect->ellipsis) : 3);
 #if 0
 				if (bold) {
 					e_font_draw_ucs2_text (drawable,
@@ -865,7 +862,7 @@ ect_edit_select_all (ECellTextView *text_view)
 	g_assert (text_view->edit);
 	
 	text_view->edit->selection_start = 0;
-	text_view->edit->selection_end = unicode_strlen (text_view->edit->cell.text, -1);
+	text_view->edit->selection_end = strlen (text_view->edit->cell.text);
 }
 
 /*
@@ -1090,7 +1087,7 @@ ect_height (ECellView *ecell_view, int model_col, int view_col, int row)
 		gint value;
 
 		string = (*ect->filter)(e_table_model_value_at (ecell_view->e_table_model, model_col, row));
-		value = (e_font_ascent (font) + e_font_descent (font)) * number_of_lines(string) + TEXT_PAD;
+		value = e_font_height (font) * number_of_lines(string) + TEXT_PAD;
 
 		g_free(string);
 
@@ -1101,7 +1098,7 @@ ect_height (ECellView *ecell_view, int model_col, int view_col, int row)
 
 		string = e_table_model_value_at (ecell_view->e_table_model, model_col, row);
 
-		value = (e_font_ascent (font) + e_font_descent (font)) * number_of_lines (string) + TEXT_PAD;
+		value = e_font_height (font) * number_of_lines (string) + TEXT_PAD;
 
 		return value;
 	}
@@ -1203,7 +1200,7 @@ ect_print (ECellView *ecell_view, GnomePrintContext *context,
 	   int model_col, int view_col, int row,
 	   double width, double height)
 {
-	GnomeFont *font = gnome_font_new("Helvetica", 12);
+	GnomeFont *font = gnome_font_new ("Helvetica", 12);
 	char *string;
 	ECellText *ect = E_CELL_TEXT(ecell_view->ecell);
 	if (ect->filter) {
@@ -1421,12 +1418,13 @@ get_line_ypos (CurrentCell *cell, struct line *line)
 	font = text_view->font;
 
 	y = text_view->yofs + ect->y;
-	y += (line - lines) * (e_font_ascent (font) + e_font_descent (font));
+	y += (line - lines) * e_font_height (font);
 
 	return y;
 }
 
 /* fixme: Handle Font attributes */
+/* position is in BYTES */
 
 static void
 _get_xy_from_position (CurrentCell *cell, gint position, gint *xp, gint *yp)
@@ -1449,16 +1447,16 @@ _get_xy_from_position (CurrentCell *cell, gint position, gint *xp, gint *yp)
 		x = get_line_xpos (cell, lines);
 		y = get_line_ypos (cell, lines);
 		for (j = 0, lines = linebreaks->lines; j < linebreaks->num_lines; lines++, j++) {
-			if (lines->text > cell->text + unicode_offset_to_index (cell->text, position))
+			if (lines->text > cell->text + position)
 				break;
-			y += e_font_ascent (font) + e_font_descent (font);
+			y += e_font_height (font);
 		}
 		lines --;
 		y -= e_font_descent (font);
 		
 		x += e_font_utf8_text_width (font, E_FONT_PLAIN,
 					     lines->text,
-					     position - unicode_index_to_offset (cell->text, lines->text - cell->text));
+					     position - (lines->text - cell->text));
 		if ((CellEdit *) cell == cell->text_view->edit){
 			x -= ((CellEdit *)cell)->xofs_edit;
 			y -= ((CellEdit *)cell)->yofs_edit;
@@ -1500,7 +1498,7 @@ _get_position_from_xy (CurrentCell *cell, gint x, gint y)
 	ypos = get_line_ypos (cell, linebreaks->lines);
 	j = 0;
 	while (y > ypos) {
-		ypos += e_font_ascent (font) + e_font_descent (font);
+		ypos += e_font_height (font);
 		j ++;
 	}
 	j--;
@@ -1513,10 +1511,10 @@ _get_position_from_xy (CurrentCell *cell, gint x, gint y)
 	lines += j;
 	xpos = get_line_xpos (cell, lines);
 
-	for (i = 0, p = lines->text; i < lines->length; i++, p = unicode_next_utf8 (p)) {
+	for (p = lines->text; p < lines->text + lines->length; p = unicode_next_utf8 (p)) {
 		gint charwidth;
 
-		charwidth = e_font_utf8_text_width (font, E_FONT_PLAIN, p, 1);
+		charwidth = e_font_utf8_char_width (font, E_FONT_PLAIN, p);
 
 		xpos += charwidth / 2;
 		if (xpos > x) {
@@ -1525,7 +1523,7 @@ _get_position_from_xy (CurrentCell *cell, gint x, gint y)
 		xpos += (charwidth + 1) / 2;
 	}
 	
-	return_val = lines->text + i - cell->text;
+	return_val = p - cell->text;
 
 	unref_lines (cell);
 
@@ -1605,7 +1603,6 @@ _blink_scroll_timeout (gpointer data)
 static int
 _get_position (ECellTextView *text_view, ETextEventProcessorCommand *command)
 {
-	int i;
 	int length;
 	int x, y;
 	CellEdit *edit = text_view->edit;
@@ -1630,73 +1627,100 @@ _get_position (ECellTextView *text_view, ETextEventProcessorCommand *command)
 		/* fixme: this probably confuses TEP */
 
 	case E_TEP_END_OF_BUFFER:
-		return unicode_strlen (cell->text, -1);
+		return strlen (cell->text);
 
 	case E_TEP_START_OF_LINE:
-		for (i = edit->selection_end - 2, p = cell->text + unicode_offset_to_index (cell->text, i);
-		     i > 0;
-		     i--, p = unicode_previous_utf8 (cell->text, p))
-		     	unicode_get_utf8 (p, &unival);
-			if (unival == '\n') {
-				i++;
-				break;
-			}
-		return i;
+
+		if (edit->selection_end < 1) return 0;
+
+		p = unicode_previous_utf8 (cell->text, cell->text + edit->selection_end);
+
+		if (p == cell->text) return 0;
+
+		p = unicode_previous_utf8 (cell->text, p);
+
+		while (p && p > cell->text) {
+			if (*p == '\n') return p - cell->text + 1;
+			p = unicode_previous_utf8 (cell->text, p);
+		}
+
+		return 0;
+
 	case E_TEP_END_OF_LINE:
-		length = unicode_strlen (cell->text, -1);
+
+		length = strlen (cell->text);
 		if (edit->selection_end >= length) return length;
-		for (i = edit->selection_end + 1, p = cell->text + unicode_offset_to_index (cell->text, i);
-		     i < length;
-		     i++, p = unicode_next_utf8 (p))
-		     	unicode_get_utf8 (p, &unival);
-			if (unival == '\n') {
-				break;
-			}
-		return i;
+
+		p = unicode_next_utf8 (cell->text + edit->selection_end);
+
+		while (*p) {
+			if (*p == '\n') return p - cell->text;
+			p = unicode_next_utf8 (p);
+		}
+
+		return p - cell->text;
 
 	case E_TEP_FORWARD_CHARACTER:
-		length = unicode_strlen (cell->text, -1);
-		i = edit->selection_end + 1;
-		if (i > length)
-			i = length;
-		return i;
+
+		length = strlen (cell->text);
+		if (edit->selection_end >= length) return length;
+
+		p = unicode_next_utf8 (cell->text + edit->selection_end);
+
+		return p - cell->text;
+
 	case E_TEP_BACKWARD_CHARACTER:
-		i = edit->selection_end - 1;
-		if (i < 0)
-			i = 0;
-		return i;
+
+		if (edit->selection_end < 1) return 0;
+
+		p = unicode_previous_utf8 (cell->text, cell->text + edit->selection_end);
+
+		if (p == NULL) return 0;
+
+		return p - cell->text;
 
 	case E_TEP_FORWARD_WORD:
-		length = unicode_strlen (cell->text, -1);
+
+		length = strlen (cell->text);
 		if (edit->selection_end >= length) return length;
-		for (i = edit->selection_end + 1, p = cell->text + unicode_offset_to_index (cell->text, i);
-		     i < length;
-		     i++, p = unicode_next_utf8 (p))
-		     	unicode_get_utf8 (p, &unival);
-			if (unicode_isspace (unival)) { /* fixme: */
-				break;
-			}
-		return i;
+
+		p = unicode_next_utf8 (cell->text + edit->selection_end);
+
+		while (*p) {
+			unicode_get_utf8 (p, &unival);
+			if (unicode_isspace (unival)) return p - cell->text;
+			p = unicode_next_utf8 (p);
+		}
+
+		return p - cell->text;
+
 	case E_TEP_BACKWARD_WORD:
-		for (i = edit->selection_end - 2, p = cell->text + unicode_offset_to_index (cell->text, i);
-		     i > 0;
-		     i--, p = unicode_previous_utf8 (cell->text, p))
-		     	unicode_get_utf8 (p, &unival);
-			if (unicode_isspace (unival)) { /* fixme: */
-				i++;
-				break;
+
+		if (edit->selection_end < 1) return 0;
+
+		p = unicode_previous_utf8 (cell->text, cell->text + edit->selection_end);
+
+		if (p == cell->text) return 0;
+
+		p = unicode_previous_utf8 (cell->text, p);
+
+		while (p && p > cell->text) {
+			unicode_get_utf8 (p, &unival);
+			if (unicode_isspace (unival)) {
+				return (unicode_next_utf8 (p) - cell->text);
 			}
-		if (i < 0)
-			i = 0;
-		return i;
+			p = unicode_previous_utf8 (cell->text, p);
+		}
+
+		return 0;
 
 	case E_TEP_FORWARD_LINE:
 		_get_xy_from_position (cell, edit->selection_end, &x, &y);
-		y += e_font_ascent (font) + e_font_descent (font);
+		y += e_font_height (font);
 		return _get_position_from_xy (cell, x, y);
 	case E_TEP_BACKWARD_LINE:
 		_get_xy_from_position (cell, edit->selection_end, &x, &y);
-		y -= e_font_ascent (font) + e_font_descent (font);
+		y -= e_font_height (font);
 		return _get_position_from_xy (cell, x, y);
 
 	case E_TEP_FORWARD_PARAGRAPH:
@@ -1728,8 +1752,8 @@ _delete_selection (ECellTextView *text_view)
 		edit->selection_end ^= edit->selection_start;
 	}
 
-	sp = cell->text + unicode_offset_to_index (cell->text, edit->selection_start);
-	ep = cell->text + unicode_offset_to_index (cell->text, edit->selection_end);
+	sp = cell->text + edit->selection_start;
+	ep = cell->text + edit->selection_end;
 	length = strlen (ep) + 1;
 
 	memmove (sp, ep, length);
@@ -1738,31 +1762,22 @@ _delete_selection (ECellTextView *text_view)
 }
 
 /* fixme: */
-/* NB! We expect value to be length IN CHARS */
+/* NB! We expect value to be length IN BYTES */
 
 static void
 _insert (ECellTextView *text_view, char *string, int value)
 {
 	CellEdit *edit = text_view->edit;
 	CurrentCell *cell = CURRENT_CELL(edit);
-	gint bytes, preselbytes, postselbytes, insbytes;
-	gchar *preselptr, *postselptr, *temp;
+	char *temp;
 
 	if (value <= 0) return;
 
-	bytes = strlen (cell->text);
-	preselptr = cell->text + unicode_offset_to_index (cell->text, edit->selection_start);
-	preselbytes = preselptr - cell->text;
-	postselptr = cell->text + unicode_offset_to_index (cell->text, edit->selection_end);
-	postselbytes = bytes - (postselptr - cell->text);
+	temp = g_new (gchar, strlen (cell->text) + value + 1);
 
-	insbytes = string + unicode_offset_to_index (string, value) - string;
-
-	temp = g_new (gchar, bytes + insbytes + 1);
-
-	strncpy (temp, cell->text, preselbytes);
-	strncpy (temp + preselbytes, string, insbytes);
-	strcpy (temp + preselbytes + insbytes, preselptr);
+	strncpy (temp, cell->text, edit->selection_start);
+	strncpy (temp + edit->selection_start, string, value);
+	strcpy (temp + edit->selection_start + value, cell->text + edit->selection_end);
 
 	g_free (cell->text);
 
@@ -1802,7 +1817,7 @@ e_cell_text_view_command (ETextEventProcessor *tep, ETextEventProcessorCommand *
 		sel_end = MAX(edit->selection_start, edit->selection_end);
 		if (sel_start != sel_end) {
 			e_cell_text_view_supply_selection (edit, command->time, GDK_SELECTION_PRIMARY,
-							   cell->text + unicode_offset_to_index (cell->text, sel_start),
+							   cell->text + sel_start,
 							   sel_end - sel_start);
 		} else if (edit->timer) {
 			g_timer_reset (edit->timer);
@@ -1837,7 +1852,7 @@ e_cell_text_view_command (ETextEventProcessor *tep, ETextEventProcessorCommand *
 		sel_end = MAX(edit->selection_start, edit->selection_end);
 		if (sel_start != sel_end) {
 			e_cell_text_view_supply_selection (edit, command->time, clipboard_atom,
-							   cell->text + unicode_offset_to_index (cell->text, sel_start),
+							   cell->text + sel_start,
 							   sel_end - sel_start);
 		}
 		if (edit->timer) {
@@ -1888,14 +1903,14 @@ e_cell_text_view_command (ETextEventProcessor *tep, ETextEventProcessorCommand *
 		linebreaks = cell->breaks;
 	
 		for (lines = linebreaks->lines, i = 0; i < linebreaks->num_lines ; i++, lines ++) {
-			if (unicode_index_to_offset (cell->text, lines->text - cell->text) > edit->selection_end) {
+			if ((lines->text - cell->text) > edit->selection_end) {
 				break;
 			}
 		}
 		lines --;
 		x = e_font_utf8_text_width (font, E_FONT_PLAIN,
 					    lines->text,
-					    edit->selection_end - unicode_index_to_offset (cell->text, lines->text - cell->text));
+					    edit->selection_end - (lines->text - cell->text));
 		
 
 		if (x < edit->xofs_edit) {
@@ -2025,23 +2040,20 @@ static void e_cell_text_view_supply_selection (CellEdit *edit, guint time, GdkAt
 {
 	gboolean successful;
 	GtkWidget *invisible;
-	gint bytes;
 
 	invisible = e_cell_text_view_get_invisible (edit);
-
-	bytes = unicode_offset_to_index (data, length);
 
 	if (selection == GDK_SELECTION_PRIMARY){
 		if (edit->primary_selection) {
 			g_free (edit->primary_selection);
 		}
-		edit->primary_selection = g_strndup (data, bytes);
+		edit->primary_selection = g_strndup (data, length);
 		edit->primary_length = length;
 	} else if (selection == clipboard_atom) {
 		if (edit->clipboard_selection) {
 			g_free (edit->clipboard_selection);
 		}
-		edit->clipboard_selection = g_strndup (data, bytes);
+		edit->clipboard_selection = g_strndup (data, length);
 		edit->clipboard_length = length;
 	}
 
@@ -2083,14 +2095,11 @@ number_of_lines (char *text)
 {
 	int num_lines = 0;
 	gchar *p;
-	int unival;
 
 	if (!text) return 0;
 
 	for (p = text; *p; p = unicode_next_utf8 (p)) {
-		unicode_get_utf8 (p, &unival);
-		if (unival == '\n')
-			num_lines++;
+		if (*p == '\n') num_lines++;
 	}
 	
 	num_lines++;
@@ -2103,8 +2112,7 @@ split_into_lines (CurrentCell *cell)
 {
 	char *p;
 	struct line *lines;
-	int len;
-	int unival;
+	gint len;
 
 	char *text = cell->text;
 	ECellTextLineBreaks *linebreaks = cell->breaks;
@@ -2137,9 +2145,8 @@ split_into_lines (CurrentCell *cell)
 	len = 0;
 	for (p = text; *p; p = unicode_next_utf8 (p)) {
 		if (len == 0) lines->text = p;
-		unicode_get_utf8 (p, &unival);
-		if (unival == '\n') {
-			lines->length = len;
+		if (*p == '\n') {
+			lines->length = p - lines->text;
 			lines++;
 			len = 0;
 		} else
@@ -2148,8 +2155,8 @@ split_into_lines (CurrentCell *cell)
 	
 	if (len == 0)
 		lines->text = p;
-	lines->length = len;
-	
+	lines->length = p - lines->text;
+
 	calc_line_widths (cell);
 }
 
@@ -2178,7 +2185,7 @@ calc_ellipsis (ECellTextView *text_view)
 		text_view->ellipsis_width = 
 			e_font_utf8_text_width (font, E_FONT_PLAIN,
 					ect->ellipsis ? ect->ellipsis : "...",
-					ect->ellipsis ? unicode_strlen (ect->ellipsis, -1) : 3);
+					ect->ellipsis ? strlen (ect->ellipsis) : 3);
 }
 
 /* Calculates the line widths (in pixels) of the text's splitted lines */

@@ -61,44 +61,65 @@ e_font_descent (EFont * font)
 }
 
 void
-e_font_draw_utf8_text (GdkDrawable *drawable, EFont *font, EFontStyle style, GdkGC *gc, gint x, gint y, gchar *text, gint length)
+e_font_draw_utf8_text (GdkDrawable *drawable, EFont *font, EFontStyle style, GdkGC *gc, gint x, gint y, gchar *text, gint numbytes)
 {
-	guchar *iso_text;
+	guchar *iso;
 	gchar *p;
-	gint uni, i;
+	gint uni, len;
 
-	iso_text = alloca (length);
+	g_return_if_fail (drawable != NULL);
+	g_return_if_fail (font != NULL);
+	g_return_if_fail (gc != NULL);
+	g_return_if_fail (text != NULL);
 
-	for (p = text, i = 0; i < length; i++, p = unicode_next_utf8 (p)) {
+	if (numbytes < 1) return;
+
+	iso = alloca (numbytes);
+
+	for (len = 0, p = text; p != NULL && p < (text + numbytes); len++, p = unicode_next_utf8 (p)) {
 		unicode_get_utf8 (p, &uni);
 		if ((uni < ' ') || (uni > 255)) uni = ' ';
-		iso_text[i] = uni;
+		iso[len] = uni;
 	}
 
-	gdk_draw_text (drawable, &font->font, gc, x, y, iso_text, length);
+	gdk_draw_text (drawable, &font->font, gc, x, y, iso, len);
 
 	if (style & E_FONT_BOLD)
-		gdk_draw_text (drawable, &font->font, gc, x + 1, y, iso_text, length);
+		gdk_draw_text (drawable, &font->font, gc, x + 1, y, iso, len);
 }
 
 gint
-e_font_utf8_text_width (EFont *font, EFontStyle style, char *text, int length)
+e_font_utf8_text_width (EFont *font, EFontStyle style, char *text, int numbytes)
 {
-	guchar *iso_text;
+	guchar *iso;
 	gchar *p;
-	gint uni, i;
+	gint uni, len;
 
-	iso_text = alloca (length);
+	iso = alloca (numbytes);
 
-	for (p = text, i = 0; i < length; i++, p = unicode_next_utf8 (p)) {
+	for (len = 0, p = text; p != NULL && p < (text + numbytes); len++, p = unicode_next_utf8 (p)) {
 		unicode_get_utf8 (p, &uni);
 		if ((uni < ' ') || (uni > 255)) uni = ' ';
-		iso_text[i] = uni;
+		iso[len] = uni;
 	}
 
-	return gdk_text_width (&font->font, iso_text, length);
+	return gdk_text_width (&font->font, iso, len);
 }
 
+gint
+e_font_utf8_char_width (EFont *font, EFontStyle style, char *text)
+{
+	unicode_char_t uni;
+	guchar iso;
+
+	if (!unicode_get_utf8 (text, &uni)) return 0;
+
+	if ((uni < ' ') || (uni > 255)) uni = ' ';
+
+	iso = uni;
+
+	return gdk_text_width (&font->font, &iso, 1);
+}
 
 
 
