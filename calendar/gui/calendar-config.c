@@ -427,7 +427,7 @@ calendar_config_get_default_uri (void)
 		return config->default_uri;
 
 	if (!default_uri)
-		default_uri = g_strdup_printf ("%/evolution/local/Calendar/calendar.ics",
+		default_uri = g_strdup_printf ("%s/evolution/local/Calendar/calendar.ics",
 					       g_get_home_dir ());
 
 	return default_uri;
@@ -454,7 +454,7 @@ calendar_config_get_default_tasks_uri (void)
 		return config->default_tasks_uri;
 
 	if (!default_tasks_uri)
-		default_tasks_uri = g_strdup_printf ("%/evolution/local/Tasks/tasks.ics",
+		default_tasks_uri = g_strdup_printf ("%s/evolution/local/Tasks/tasks.ics",
 						     g_get_home_dir ());
 
 	return default_tasks_uri;
