@@ -332,6 +332,26 @@ e_table_memory_store_insert (ETableMemoryStore *etms, int row, void **store, gpo
 }
 
 void
+e_table_memory_store_insert_list (ETableMemoryStore *etms, int row, gpointer data, ...)
+{
+	void **store;
+	va_list args;
+	int i;
+
+	store = g_new (void *, etms->priv->col_count + 1);
+
+	va_start (args, data);
+	for (i = 0; i < etms->priv->col_count; i++) {
+		store[i] = va_arg (args, void *);
+	}
+	va_end (args);
+
+	e_table_memory_store_insert (etms, row, store, data);
+
+	g_free (store);
+}
+
+void
 e_table_memory_store_insert_adopt (ETableMemoryStore *etms, int row, void **store, gpointer data)
 {
 	int row_count;

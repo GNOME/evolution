@@ -97,6 +97,10 @@ void         e_table_memory_store_insert          (ETableMemoryStore            
 						   int                           row,
 						   void                        **store,
 						   gpointer                      data);
+void         e_table_memory_store_insert_list     (ETableMemoryStore            *etms,
+						   int                           row,
+						   gpointer                      data,
+						   ...);
 void         e_table_memory_store_insert_adopt    (ETableMemoryStore            *etms,
 						   int                           row,
 						   void                        **store,
