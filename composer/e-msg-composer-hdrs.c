@@ -37,6 +37,7 @@
 #include "e-msg-composer-address-entry.h"
 #include "e-msg-composer-hdrs.h"
 #include "widgets/e-text/e-entry.h"
+#include "e-util/e-unicode.h"
 
 #include "mail/mail-config.h"
 
@@ -176,7 +177,7 @@ create_dropdown_entry (EMsgComposerHdrs *hdrs,
 		camel_internet_address_add (ciaddr, id->name, id->address);
 		val = camel_address_encode (CAMEL_ADDRESS (ciaddr));
 		
-		gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (combo)->entry), val);
+		e_utf8_gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (combo)->entry), val);
 		g_free (val);
 	}
 	
@@ -564,7 +565,7 @@ e_msg_composer_hdrs_set_from (EMsgComposerHdrs *hdrs,
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
 
 	entry = GTK_ENTRY (GTK_COMBO (hdrs->priv->from_entry)->entry);
-	gtk_entry_set_text (entry, from);
+	e_utf8_gtk_entry_set_text (entry, from);
 }
 
 void
@@ -610,14 +611,16 @@ e_msg_composer_hdrs_set_subject (EMsgComposerHdrs *hdrs,
 		       NULL);
 }
 
-
+/*
+ * Hmmm... this introduces possible memory leak, but syntax suggest allocated string
+ */
 char *
 e_msg_composer_hdrs_get_from (EMsgComposerHdrs *hdrs)
 {
 	g_return_val_if_fail (hdrs != NULL, NULL);
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
 	
-	return gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (hdrs->priv->from_entry)->entry));
+	return e_utf8_gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (hdrs->priv->from_entry)->entry));
 }
 
 /* FIXME this is currently unused and broken.  */

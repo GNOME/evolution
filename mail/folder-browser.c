@@ -12,6 +12,7 @@
 #include <gnome.h>
 #include "e-util/e-util.h"
 #include "e-util/e-sexp.h"
+#include "e-util/e-unicode.h"
 #include "folder-browser.h"
 #include "mail.h"
 #include "mail-tools.h"
@@ -154,9 +155,10 @@ search_set(FolderBrowser *fb)
 	int index;
 	char *text;
 
-	text = gtk_entry_get_text((GtkEntry *)fb->search_entry);
+	text = e_utf8_gtk_entry_get_text((GtkEntry *)fb->search_entry);
 
 	if (text == NULL || text[0] == 0) {
+		if (text) g_free (text);
 		mail_do_regenerate_messagelist (fb->message_list, NULL);
 		return;
 	}
@@ -179,6 +181,8 @@ search_set(FolderBrowser *fb)
 	}
 	mail_do_regenerate_messagelist (fb->message_list, out->str);
 	g_string_free(out, TRUE);
+
+	g_free (text);
 }
 
 static void
@@ -199,7 +203,7 @@ create_option_menu (char **menu_list, int item, void *data)
 	while (*menu_list){
 		GtkWidget *entry;
 
-		entry = gtk_menu_item_new_with_label (*menu_list);
+		entry = e_utf8_gtk_menu_item_new_with_label (*menu_list);
 		gtk_widget_show (entry);
 		gtk_object_set_data((GtkObject *)entry, "search_option", (void *)i);
 		gtk_menu_append (GTK_MENU (menu), entry);
@@ -233,9 +237,10 @@ search_save(GtkWidget *w, FolderBrowser *fb)
 	VfolderRule *rule;
 	FilterPart *part;
 
-	text = gtk_entry_get_text((GtkEntry *)fb->search_entry);
+	text = e_utf8_gtk_entry_get_text((GtkEntry *)fb->search_entry);
 
 	if (text == NULL || text[0] == 0) {
+		if (text) g_free (text);
 		return;
 	}
 
@@ -285,6 +290,8 @@ search_save(GtkWidget *w, FolderBrowser *fb)
 	}
 
 	vfolder_gui_add_rule(rule);
+
+	g_free (text);
 }
 
 void

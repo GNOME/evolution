@@ -1,3 +1,11 @@
+2000-08-24  Lauris Kaplinski  <lauris@helixcode.com>
+
+	* filter-folder.c: Use e_utf8 wrappers
+
+	* filter-input.c: Use e_utf8 wrappers
+
+	* filter-rule.c: Use e_utf8 wrappers
+	
 2000-08-23  Dan Winship  <danw@helixcode.com>
 
 	* filter-datespec.c (cal_day_selected): Set seltime.tm_isdst to

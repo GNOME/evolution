@@ -22,6 +22,8 @@
 #include <gnome.h>
 #include <gnome-xml/xmlmemory.h>
 
+#include <e-util/e-unicode.h>
+
 #include "filter-rule.h"
 #include "filter-context.h"
 
@@ -454,7 +456,7 @@ static void
 name_changed(GtkEntry *entry, FilterRule *fr)
 {
 	g_free(fr->name);
-	fr->name = g_strdup(gtk_entry_get_text(entry));
+	fr->name = e_utf8_gtk_entry_get_text(entry);
 }
 
 GtkWidget	*filter_rule_get_widget	(FilterRule *fr, struct _RuleContext *f)
@@ -482,7 +484,7 @@ static GtkWidget *get_widget(FilterRule *fr, struct _RuleContext *f)
 	label = (GtkLabel *)gtk_label_new("Name");
 	name = (GtkEntry *)gtk_entry_new();
 	if (fr->name)
-		gtk_entry_set_text(name, fr->name);
+		e_utf8_gtk_entry_set_text(name, fr->name);
 	hbox = (GtkHBox *)gtk_hbox_new(FALSE, 3);
 	gtk_box_pack_start((GtkBox *)hbox, (GtkWidget *)label, FALSE, FALSE, 0);
 	gtk_box_pack_start((GtkBox *)hbox, (GtkWidget *)name, TRUE, TRUE, 0);

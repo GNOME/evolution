@@ -29,5 +29,7 @@ void e_utf8_gtk_entry_set_text (GtkEntry *entry, const gchar *text);
 
 gchar *e_utf8_gtk_editable_get_chars (GtkEditable *editable, gint start, gint end);
 
+GtkWidget *e_utf8_gtk_menu_item_new_with_label (const gchar *label);
+
 #endif
 

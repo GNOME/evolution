@@ -21,6 +21,8 @@
 #include <gtk/gtk.h>
 #include <gnome.h>
 
+#include <e-util/e-unicode.h>
+
 #include "filter-input.h"
 #include "e-util/e-sexp.h"
 
@@ -216,7 +218,7 @@ static void entry_changed(GtkEntry *entry, FilterElement *fe)
 	FilterInput *fi = (FilterInput *)fe;
 	GList *l;
 
-	new = gtk_entry_get_text(entry);
+	new = e_utf8_gtk_entry_get_text(entry);
 
 	/* NOTE: entry only supports a single value ... */
 	l = fi->values;
@@ -226,7 +228,7 @@ static void entry_changed(GtkEntry *entry, FilterElement *fe)
 	}
 	g_list_free(fi->values);
 
-	fi->values = g_list_append(NULL, g_strdup(new));
+	fi->values = g_list_append(NULL, new);
 }
 
 static GtkWidget *get_widget(FilterElement *fe)
@@ -236,7 +238,7 @@ static GtkWidget *get_widget(FilterElement *fe)
 
 	entry = (GtkEntry *)gtk_entry_new();
 	if (fi->values && fi->values->data) {
-		gtk_entry_set_text(entry, fi->values->data);
+		e_utf8_gtk_entry_set_text(entry, fi->values->data);
 	}
 	gtk_signal_connect((GtkObject *)entry, "changed", entry_changed, fe);
 	return (GtkWidget *)entry;

@@ -1,3 +1,8 @@
+2000-08-24  Lauris Kaplinski  <lauris@helixcode.com>
+
+	* e-unicode.h:
+	* e-unicode.c (e_utf8_gtk_menu_item_new_with_label): New wrapper
+
 2000-08-23  Lauris Kaplinski  <lauris@helixcode.com>
 
 	* e-unicode.h:

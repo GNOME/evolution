@@ -1230,18 +1230,18 @@ summary_build_content_info(CamelFolderSummary *s, CamelMimeParser *mp)
 			charset = header_content_type_param(ct, "charset");
 			if (charset!=NULL
 			    && !(strcasecmp(charset, "us-ascii")==0
-				 || strcasecmp(charset, "iso-8859-1")==0)) {
-				d(printf(" Adding conversion filter from %s to iso-8859-1\n", charset));
+				 || strcasecmp(charset, "utf-8")==0)) {
+				d(printf(" Adding conversion filter from %s to UTF-8\n", charset));
 				mfc = g_hash_table_lookup(p->filter_charset, charset);
 				if (mfc == NULL) {
-					mfc = camel_mime_filter_charset_new_convert(charset, "iso-8859-1");
+					mfc = camel_mime_filter_charset_new_convert(charset, "UTF-8");
 					if (mfc)
 						g_hash_table_insert(p->filter_charset, g_strdup(charset), mfc);
 				}
 				if (mfc) {
 					chr_id = camel_mime_parser_filter_add(mp, (CamelMimeFilter *)mfc);
 				} else {
-					g_warning("Cannot convert '%s' to 'iso-8859-1', message index may be corrupt", charset);
+					g_warning("Cannot convert '%s' to 'UTF-8', message index may be corrupt", charset);
 				}
 			}
 

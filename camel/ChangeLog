@@ -1,3 +1,11 @@
+2000-08-24  Lauris Kaplinski  <lauris@helixcode.com>
+
+	* camel-folder-summary.c (summary_build_content_info):
+	Use UTF-8 as default
+	* camel-mime-part-utils.c (simple_data_wrapper_construct_from_parser):
+	Use UTF-8 as default
+	* camel-mime-utils.c (rfc2047_decode_word): Use UTF-8
+	
 2000-08-17  Not Zed  <NotZed@HelixCode.com>
 
 	* providers/mh/camel-mh-folder.c (mh_finalize): And here too.

@@ -199,3 +199,20 @@ e_utf8_gtk_entry_set_text (GtkEntry *entry, const gchar *text)
 	if (s) g_free (s);
 }
 
+GtkWidget *
+e_utf8_gtk_menu_item_new_with_label (const gchar *label)
+{
+	GtkWidget *w;
+	gchar *s;
+
+	if (!label) return NULL;
+
+	s = e_utf8_to_gtk_string (NULL, label);
+	w = gtk_menu_item_new_with_label (s);
+
+	if (s) g_free (s);
+
+	return w;
+}
+
+

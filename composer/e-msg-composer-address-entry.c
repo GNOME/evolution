@@ -26,7 +26,7 @@
    cooler.  */
 
 #include <gnome.h>
-
+#include <e-util/e-unicode.h>
 #include "e-msg-composer-address-entry.h"
 
 
@@ -98,17 +98,19 @@ GList *
 e_msg_composer_address_entry_get_addresses (EMsgComposerAddressEntry *entry)
 {
 	GList *list;
-	const gchar *s;
 	const gchar *p, *oldp;
+	gchar *s;
 	gboolean in_quotes;
 
-	s = gtk_entry_get_text (GTK_ENTRY (entry));
+	s = e_utf8_gtk_entry_get_text (GTK_ENTRY (entry));
 
 	in_quotes = FALSE;
 	list = NULL;
 
 	p = s;
 	oldp = s;
+
+	/* This should work with UTF-8, although it uses simple pointer increment */
 
 	while (1) {
 		if (*p == '"') {
@@ -137,6 +139,8 @@ e_msg_composer_address_entry_get_addresses (EMsgComposerAddressEntry *entry)
 			p++;
 		}
 	}
+
+	g_free (s);
 
 	return g_list_reverse (list);
 }
@@ -170,6 +174,10 @@ e_msg_composer_address_entry_set_list (EMsgComposerAddressEntry *entry,
 		g_string_append (string, p->data);
 	}
 
-	gtk_entry_set_text (GTK_ENTRY (entry), string->str);
+	e_utf8_gtk_entry_set_text (GTK_ENTRY (entry), string->str);
 	g_string_free (string, TRUE);
 }
+
+
+
+

@@ -31,6 +31,7 @@
 
 #include <gnome.h>
 #include <camel/camel.h>
+#include <e-util/e-unicode.h>
 
 #include "e-msg-composer-attachment.h"
 
@@ -234,19 +235,26 @@ destroy_dialog_data (DialogData *data)
 	g_free (data);
 }
 
+/*
+ * fixme: I am converting EVERYTHING to/from UTF-8, although mime types
+ * are in ASCII. This is not strictly necessary, but we want to be
+ * consistent and possibly check for errors somewhere.
+ */
+
 static void
 update_mime_type (DialogData *data)
 {
 	const gchar *mime_type;
-	const gchar *file_name;
+	gchar *file_name;
 
 	if (!data->attachment->guessed_type)
 		return;
 
-	file_name = gtk_entry_get_text (data->file_name_entry);
+	file_name = e_utf8_gtk_entry_get_text (data->file_name_entry);
 	mime_type = get_mime_type (file_name);
+	g_free (file_name);
 
-	gtk_entry_set_text (data->mime_type_entry, mime_type);
+	e_utf8_gtk_entry_set_text (data->mime_type_entry, mime_type);
 }
 
 static void
@@ -259,7 +267,7 @@ set_entry (GladeXML *xml,
 	entry = GTK_ENTRY (glade_xml_get_widget (xml, widget_name));
 	if (entry == NULL)
 		g_warning ("Entry for `%s' not found.", widget_name);
-	gtk_entry_set_text (entry, value ? value : "");
+	e_utf8_gtk_entry_set_text (entry, value ? value : "");
 }
 
 static void
@@ -299,21 +307,25 @@ ok_cb (GtkWidget *widget,
 {
 	DialogData *dialog_data;
 	EMsgComposerAttachment *attachment;
+	gchar *str;
 
 	dialog_data = (DialogData *) data;
 	attachment = dialog_data->attachment;
 
-	camel_mime_part_set_filename (attachment->body, gtk_entry_get_text
-				      (dialog_data->file_name_entry));
+	str = e_utf8_gtk_entry_get_text (dialog_data->file_name_entry);
+	camel_mime_part_set_filename (attachment->body, str);
+	g_free (str);
 
-	camel_mime_part_set_description (attachment->body, gtk_entry_get_text
-					 (dialog_data->description_entry));
+	str = e_utf8_gtk_entry_get_text (dialog_data->description_entry);
+	camel_mime_part_set_description (attachment->body, str);
+	g_free (str);
 
-	camel_mime_part_set_content_type (attachment->body, gtk_entry_get_text
-					  (dialog_data->mime_type_entry));
+	str = e_utf8_gtk_entry_get_text (dialog_data->mime_type_entry);
+	camel_mime_part_set_content_type (attachment->body, str);
+
 	camel_data_wrapper_set_mime_type (
-		camel_medium_get_content_object (CAMEL_MEDIUM (attachment->body)),
-		gtk_entry_get_text (dialog_data->mime_type_entry));
+		camel_medium_get_content_object (CAMEL_MEDIUM (attachment->body)), str);
+	g_free (str);
 
 	changed (attachment);
 	close_cb (widget, data);
@@ -397,3 +409,14 @@ e_msg_composer_attachment_edit (EMsgComposerAttachment *attachment,
 	connect_widget (editor_gui, "file_name_entry", "focus_out_event",
 			file_name_focus_out_cb, dialog_data);
 }
+
+
+
+
+
+
+
+
+
+
+

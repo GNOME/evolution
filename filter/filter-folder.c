@@ -23,6 +23,8 @@
 
 #define SHELL
 
+#include <e-util/e-unicode.h>
+
 #include "filter-folder.h"
 #ifdef SHELL
 #include "shell/evolution-shell-client.h"
@@ -207,7 +209,7 @@ static void button_clicked(GtkButton *button, FilterFolder *ff)
 					     NULL);
 	entry = (GtkEntry *)gtk_entry_new();
 	if (ff->uri) {
-		gtk_entry_set_text(entry, ff->uri);
+		e_utf8_gtk_entry_set_text(entry, ff->uri);
 	}
 	gtk_box_pack_start((GtkBox *)gd->vbox, (GtkWidget *)entry, TRUE, TRUE, 3);
 	gtk_widget_show((GtkWidget *)entry);
@@ -215,8 +217,8 @@ static void button_clicked(GtkButton *button, FilterFolder *ff)
 	case 0:
 		g_free(ff->uri);
 		g_free(ff->name);
-		uri = gtk_entry_get_text(entry);
-		ff->uri = g_strdup(uri);
+		uri = e_utf8_gtk_entry_get_text(entry);
+		ff->uri = uri;
 		str = strstr(uri, "//");
 		if (str)
 			str = strchr(str+2, '/');

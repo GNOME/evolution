@@ -33,6 +33,7 @@
 #include <glade/glade.h>
 
 #include "e-util/e-html-utils.h"
+#include "e-util/e-unicode.h"
 #include "mail.h"
 #include "mail-threads.h"
 #include "mail-config.h"
@@ -375,8 +376,8 @@ identity_page_changed (GtkWidget *widget, MailDialogIdentityPage *page)
 {
 	gchar *name, *addr;
 	
-	name = gtk_editable_get_chars (GTK_EDITABLE (page->name), 0, -1);
-	addr = gtk_editable_get_chars (GTK_EDITABLE (page->address), 0, -1);
+	name = e_utf8_gtk_editable_get_chars (GTK_EDITABLE (page->name), 0, -1);
+	addr = e_utf8_gtk_editable_get_chars (GTK_EDITABLE (page->address), 0, -1);
 	
 	if (addr && *addr && name && *name && page->donecb)
 		page->donecb (page, page->donedata);
@@ -392,11 +393,10 @@ identity_page_extract (MailDialogIdentityPage *page)
 {
 	MailConfigIdentity *id = g_new0 (MailConfigIdentity, 1);
 
-	id->name = gtk_editable_get_chars (GTK_EDITABLE (page->name), 0, -1);
-	id->address = 
-		gtk_editable_get_chars (GTK_EDITABLE (page->address), 0, -1);
-	id->org = gtk_editable_get_chars (GTK_EDITABLE (page->org), 0, -1);
-	id->sig = gtk_editable_get_chars (GTK_EDITABLE (page->sig), 0, -1);
+	id->name = e_utf8_gtk_editable_get_chars (GTK_EDITABLE (page->name), 0, -1);
+	id->address = e_utf8_gtk_editable_get_chars (GTK_EDITABLE (page->address), 0, -1);
+	id->org = e_utf8_gtk_editable_get_chars (GTK_EDITABLE (page->org), 0, -1);
+	id->sig = e_utf8_gtk_editable_get_chars (GTK_EDITABLE (page->sig), 0, -1);
 
 	return id;
 }
@@ -463,7 +463,7 @@ identity_page_new (const MailConfigIdentity *id)
 		else
 			name = g_strdup (user);
 
-		gtk_entry_set_text (GTK_ENTRY (page->name), name);
+		e_utf8_gtk_entry_set_text (GTK_ENTRY (page->name), name);
 		g_free (name);
 	}
 
@@ -474,7 +474,7 @@ identity_page_new (const MailConfigIdentity *id)
 
 	page->address = gtk_entry_new ();
 	if (id && id->address)
-		gtk_entry_set_text (GTK_ENTRY (page->address), id->address);
+		e_utf8_gtk_entry_set_text (GTK_ENTRY (page->address), id->address);
 	gtk_table_attach (GTK_TABLE (table), page->address, 1, 2, 1, 2,
 			  GTK_EXPAND | GTK_FILL, 0, 0, 0);
 
@@ -489,7 +489,7 @@ identity_page_new (const MailConfigIdentity *id)
 
 	page->org = gtk_entry_new ();
 	if (id && id->org)
-		gtk_entry_set_text (GTK_ENTRY (page->org), id->org);
+		e_utf8_gtk_entry_set_text (GTK_ENTRY (page->org), id->org);
 	gtk_table_attach (GTK_TABLE (table), page->org, 1, 2, 3, 4,
 			  GTK_EXPAND | GTK_FILL, 0, 0, 0);
 
@@ -501,7 +501,7 @@ identity_page_new (const MailConfigIdentity *id)
 	fentry = gnome_file_entry_new (NULL, _("Signature File"));
 	page->sig = gnome_file_entry_gtk_entry (GNOME_FILE_ENTRY (fentry));
 	if (id && id->sig) {
-		gtk_entry_set_text (GTK_ENTRY (page->sig), id->sig);
+		e_utf8_gtk_entry_set_text (GTK_ENTRY (page->sig), id->sig);
 	} else {
 		gchar *default_sig;
 		
@@ -509,7 +509,7 @@ identity_page_new (const MailConfigIdentity *id)
 					   G_DIR_SEPARATOR_S,
 					   ".signature", NULL);
 		if (g_file_exists (default_sig))
-			gtk_entry_set_text (GTK_ENTRY (page->sig), default_sig);
+			e_utf8_gtk_entry_set_text (GTK_ENTRY (page->sig), default_sig);
 		g_free (default_sig);
 	}
 	
@@ -585,12 +585,12 @@ service_page_get_url (MailDialogServicePage *page)
 	url->protocol = g_strdup (spitem->protocol);
 
 	if (spitem->user)
-		url->user = gtk_editable_get_chars (GTK_EDITABLE (spitem->user), 0, -1);
+		url->user = e_utf8_gtk_editable_get_chars (GTK_EDITABLE (spitem->user), 0, -1);
 	if (spitem->host)
-		url->host = gtk_editable_get_chars (GTK_EDITABLE (spitem->host), 0, -1);
+		url->host = e_utf8_gtk_editable_get_chars (GTK_EDITABLE (spitem->host), 0, -1);
 	if (spitem->path) {
 		gchar *path;
-		path = gtk_editable_get_chars (GTK_EDITABLE (spitem->path),
+		path = e_utf8_gtk_editable_get_chars (GTK_EDITABLE (spitem->path),
 					       0, -1);
 		url->path = g_strdup_printf ("%s%s", url->host ? "/" : "", 
 					     path);
@@ -642,18 +642,18 @@ service_page_set_url (MailDialogServicePage *page, MailConfigService *service)
 				     spitem->pnum);
 	
 	if (spitem->user && url && url->user)
-		gtk_entry_set_text (GTK_ENTRY (spitem->user), url->user);
+		e_utf8_gtk_entry_set_text (GTK_ENTRY (spitem->user), url->user);
 
 	if (spitem->host && url && url->host)
-		gtk_entry_set_text (GTK_ENTRY (spitem->host), url->host);
+		e_utf8_gtk_entry_set_text (GTK_ENTRY (spitem->host), url->host);
 	
 	if (spitem->path && url && url->path) {
 		if (url->host && *url->path)
-			gtk_entry_set_text (GTK_ENTRY (spitem->path),
-					    url->path + 1);
+			e_utf8_gtk_entry_set_text (GTK_ENTRY (spitem->path),
+						   url->path + 1);
 		else
-			gtk_entry_set_text (GTK_ENTRY (spitem->path), 
-					    url->path);
+			e_utf8_gtk_entry_set_text (GTK_ENTRY (spitem->path), 
+						   url->path);
 	}
 
 	/* Set the auth menu */
@@ -709,7 +709,7 @@ service_page_item_auth_fill (MailDialogServicePage *page,
 	for (; authtypes; authtypes = authtypes->next) {
 		authtype = authtypes->data;
 
-		item = gtk_menu_item_new_with_label (_(authtype->name));
+		item = e_utf8_gtk_menu_item_new_with_label (_(authtype->name));
 		if (!firstitem)
 			firstitem = item;
 		spitem->auth_items = g_list_append (spitem->auth_items, item);
@@ -772,7 +772,7 @@ service_page_item_changed (GtkWidget *item, MailDialogServicePage *page)
 	}
 	
 	if (spitem->host && spitem->hostneed) {
-		data = gtk_editable_get_chars (GTK_EDITABLE (spitem->host), 0, -1);
+		data = e_utf8_gtk_editable_get_chars (GTK_EDITABLE (spitem->host), 0, -1);
 		if (!data || !*data)
 			complete = FALSE;
 		g_free (data);
@@ -780,7 +780,7 @@ service_page_item_changed (GtkWidget *item, MailDialogServicePage *page)
 
 	if (complete) {
 		if (spitem->user && spitem->userneed) {
-			data = gtk_editable_get_chars (GTK_EDITABLE (spitem->user), 0, -1);
+			data = e_utf8_gtk_editable_get_chars (GTK_EDITABLE (spitem->user), 0, -1);
 			if (!data || !*data)
 				complete = FALSE;
 			g_free (data);
@@ -789,7 +789,7 @@ service_page_item_changed (GtkWidget *item, MailDialogServicePage *page)
 
 	if (complete) {
 		if (spitem->path && spitem->pathneed) {
-			data = gtk_editable_get_chars (GTK_EDITABLE (spitem->path), 0, -1);
+			data = e_utf8_gtk_editable_get_chars (GTK_EDITABLE (spitem->path), 0, -1);
 			if (!data || !*data)
 				complete = FALSE;
 			g_free (data);
@@ -1064,7 +1064,7 @@ service_page_new (const char *label_text, GSList *services)
 		gtk_notebook_append_page (GTK_NOTEBOOK (page->notebook), 
 					  spitem->vbox, NULL);
 
-		spitem->item = gtk_menu_item_new_with_label (_(mcs->provider->name));
+		spitem->item = e_utf8_gtk_menu_item_new_with_label (_(mcs->provider->name));
 		if (!first_item)
 			first_item = spitem->item;
 

@@ -880,7 +880,7 @@ rfc2047_decode_word(const char *in, int len)
 			outbuf = outbase;
 
 			/* TODO: Should this cache iconv converters? */
-			ic = unicode_iconv_open("iso-8859-1", encname);
+			ic = unicode_iconv_open("UTF-8", encname);
 			if (ic != (unicode_iconv_t)-1) {
 				ret = unicode_iconv(ic, (const char **)&inbuf, &inlen, &outbuf, &outlen);
 				unicode_iconv_close(ic);
