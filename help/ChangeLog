@@ -1,10 +1,18 @@
+2001-07-12  Aaron Weber  <aaron@ximian.com>
+
+	* C/evolution-faq.sgml: 
+
+2001-07-12  Aaron Weber  <aaron@ximian.com>
+
+	* C/evolution-faq.sgml: Added "get bt for component-only crash" qandaentry.
+
 2001-07-10  Peter Williams  <peterw@ximian.com>
 
 	* */Makefile.am (dist-hook): Clean up make dist.
 
 2001-07-11  Aaron Weber  <aaron@ximian.com>
 
-	* C/evolution.sgml: validation on usage-mainwindow and usage-contact.
+	* C/evolution.sgml: validation on usage-mainwindow and usage-contact.	
 
 2001-07-11  Kevin Breit  <battery841@mediaone.net>
 

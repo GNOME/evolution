@@ -1,6 +1,5 @@
-<!--
 <!DOCTYPE appendix PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN">
--->
+
 <appendix id="evolution-faq">
   <title>Frequently Asked Questions About Ximian Evolution</title>
     	<para>
@@ -312,7 +311,7 @@
 
   <!-- Section: Getting and compiling -->
 
-  <sect1 id="get-and-compile">
+  <sect1 id="faq-get-and-compile">
     <title>
       Getting and Compiling Evolution
     </title>
@@ -908,9 +907,69 @@ bt
            </para>
         </answer>
       </qandaentry>
+      <qandaentry>
+	<question>
+	  <para>
+             A component of evolution crashed, but since the rest of
+             evolution stayed up, I couldn't use bug-buddy to get a
+             stack trace. How can I use gdb to get a stack trace of
+             the component?
+           </para>
+	</question>
+	<answer>
+	  <para>
+             To trace a failing component (in this example, evolution-mail):
+             <orderedlist numeration="arabic">
+	      <listitem>
+		<para>
+                  Open two terminals.
+                </para>
+	      </listitem>
+	      <listitem>
+		<para>
+                   In one, type <command>gdb evolution-mail</command>
+                   .  Replace "evolution-mail" with the name of the
+                   component that is crashing: evolution-addresbook,
+                   evolution-calendar, etc.)
+                 </para>
+	      </listitem>
+	      <listitem>
+		<para>
+                  Once gdb starts, type <userinput>r</userinput> and
+                  hit enter. Give it a few seconds, to make sure it
+                  starts up completely.
+                </para>
+	      </listitem>
+	      <listitem>
+		<para>
+                   In the second terminal, type
+                   <command>evolution</command>. Do whatever you did
+                   to cause the crash in the component you used in
+                   step two.
+                </para>
+	      </listitem>  
+	      <listitem>
+		<para>
+                   When the crash occurs, type 'bt' in the first
+                   terminal. 
+                </para>
+	      </listitem>
+	      
+	      <listitem>
+		<para>
+                   Cut and paste the output into your bug report.
+                </para>
+	      </listitem>
+	    </orderedlist>
+           </para>
+	</answer>
+      </qandaentry>
     </qandaset>
   </sect1>
   </appendix>
 
 <!-- Local Variables: --> <!-- indent-tabs-mode:nil --> <!-- End: -->
+
+
+
 
