@@ -1,5 +1,11 @@
 2000-09-14  Michael Meeks  <michael@helixcode.com>
 
+	* e-shell-view.c (e_shell_view_construct): prune cruft.
+	(shell_view_interface_unset_message_cb),
+	(shell_view_interface_set_message_cb): impl.
+
+2000-09-14  Michael Meeks  <michael@helixcode.com>
+
 	* e-shell-view-menu.c (e_shell_view_menu_setup): re-order to suit and
 	add freeze / thaw, update paths to toggles, remove warnings
 

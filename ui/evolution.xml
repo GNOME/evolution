@@ -104,4 +104,9 @@
 	</menu>
 
 	<toolbar name="Toolbar" relief="none"/>
+
+	<status>
+		<item name="main"/>
+		<control name="Progress"/>
+	</status>
 </Root>

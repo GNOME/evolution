@@ -742,62 +742,76 @@ stop_progress_bar (EShellView *shell_view)
 
 /* EvolutionShellView interface callbacks.  */
 
+/*
+ * MOVEME: into Bonobo.
+ */
+static void
+bonobo_ui_container_set_status (Bonobo_UIContainer  container,
+				const char         *text,
+				CORBA_Environment  *opt_ev)
+{
+	char *str;
+
+	g_return_if_fail (text != NULL);
+	g_return_if_fail (container != CORBA_OBJECT_NIL);
+
+	str = g_strdup_printf ("<item name=\"main\">%s</item>", text);
+
+	bonobo_ui_component_set (NULL, container, "/status", str, opt_ev);
+}
+
 static void
 shell_view_interface_set_message_cb (EvolutionShellView *shell_view,
 				     const char *message,
 				     gboolean busy,
 				     void *data)
 {
-#if 0
-	GnomeApp *app;
-	GnomeAppBar *app_bar;
+	char *status;
+	EShellView *view;
 
-#warning FIXME: I broke it
-	app = GNOME_APP (data);
-	app_bar = GNOME_APPBAR (app->statusbar);
+	view = E_SHELL_VIEW (data);
 
-	gtk_progress_set_value (GTK_PROGRESS (app_bar->progress), 1.0);
+	g_return_if_fail (view != NULL);
 
-	if (message != NULL) {
+	if (message) {
 		const char *newline;
-
+		
 		newline = strchr (message, '\n');
-		if (newline == NULL) {
-			gnome_appbar_set_status (app_bar, message);
-		} else {
-			char *message_until_newline;
 
-			message_until_newline = g_strndup (message, newline - message);
-			gnome_appbar_set_status (app_bar, message_until_newline);
-			g_free (message_until_newline);
-		}
-	} else {
-		gnome_appbar_set_status (app_bar, "");
-	}
+		if (!newline)
+			status = g_strdup (message);
+		else
+			status = g_strndup (message, newline - message);
+	} else
+		status = g_strdup ("");
+
+	bonobo_ui_container_set_status (
+		bonobo_ui_compat_get_container (view->priv->uih),
+		status, NULL);
+
+	g_free (status);
 
 	if (busy)
 		start_progress_bar (E_SHELL_VIEW (data));
 	else
 		stop_progress_bar (E_SHELL_VIEW (data));
-#endif
 }
 
 static void
 shell_view_interface_unset_message_cb (EvolutionShellView *shell_view,
 				       void *data)
 {
-#if 0
-	GnomeApp *app;
-	GnomeAppBar *app_bar;
+	EShellView *view;
 
-#warning FIXME: I broke it
-	app = GNOME_APP (data);
-	app_bar = GNOME_APPBAR (app->statusbar);
+	view = E_SHELL_VIEW (data);
 
-	gnome_appbar_set_status (app_bar, "");
+	g_return_if_fail (view != NULL);
+
+	bonobo_ui_container_set_status (
+		bonobo_ui_compat_get_container (view->priv->uih),
+		"", NULL);
 
 	stop_progress_bar (E_SHELL_VIEW (data));
-#endif
 }
 
 
@@ -806,7 +820,6 @@ e_shell_view_construct (EShellView *shell_view,
 			EShell     *shell)
 {
 	EShellViewPrivate *priv;
-	Bonobo_UIContainer container;
 	EShellView *view;
 	GtkObject *window;
 
