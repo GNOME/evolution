@@ -1017,8 +1017,35 @@
 		Lets you link some text to a website.  Use this tool to put hyperlinks in your HTML
                   messages.  If you don't want special link text, you can just enter the address
                   directly, and <application>Evolution</application>
-                  will recognize it as a link.
+                  will recognize it as a link.  To add a link:
+		<orderedlist numeration="arabic">
+		  <listitem>
+		    <para>
+		      Select the text you wish to link from.
+		    </para>
+		  </listitem>
+		  <listitem>
+		    <para>
+		      Right click on the text and click on <guibutton>Link</guibutton>.
+		    </para>
+		  </listitem>
+		  <listitem>
+		    <para>
+		      Put the URL you want to use in the <guilabel>URL</guilabel> field.
+		    </para>
+		  </listitem>
+		  <listitem>
+		    <para>
+		      Click <guibutton>OK</guibutton>.
+		    </para>
+		  </listitem>
+		</orderedlist>
 	      </para>
+	      <note>
+		<para>
+		  If you're typing a webpage address to be automatically formatted, keep in mind that a space terminates the link.
+		</para>
+	      </note>
 	    </listitem>
 	  </varlistentry>
 	  <varlistentry>
