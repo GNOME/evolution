@@ -1,3 +1,25 @@
+2001-06-19  Damon Chaplin  <damon@ximian.com>
+
+	* pcs/cal.c: 
+	* idl/evolution-calendar.idl: 
+	* cal-client/cal-client.[hc]: removed stuff to get builtin timezone
+	info from the server.
+
+2001-06-19  Damon Chaplin  <damon@ximian.com>
+
+	* gui/dialogs/cal-prefs-dialog.c: added a 'Time zone' setting. Also
+	rearranged a little, adding a new 'General' page, since we had too
+	many settings on the 'Calendar' page.
+
+	* gui/e-timezone-entry.[hc]: 
+	* gui/dialogs/e-timezone-dialog.[hc]: 
+	* gui/dialogs/comp-editor.c: 
+	* gui/dialogs/comp-editor-page.[hc]: 
+	* gui/dialogs/event-page.c: 
+	* gui/dialogs/task-details-page.c: 
+	* gui/dialogs/task-page.c: removed CalClient stuff. The timezone dialog
+	now uses the timezone data directly from the client's libical library.
+
 2001-06-19  JP Rosevear  <jpr@ximian.com>
 
 	* gui/dialogs/task-editor.c (task_editor_init): add ui

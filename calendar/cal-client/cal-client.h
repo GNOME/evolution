@@ -65,14 +65,6 @@ typedef enum {
 	CAL_CLIENT_LOAD_LOADED
 } CalClientLoadState;
 
-/* A timezone name and its coordinates in the world. */
-typedef struct _CalTimezoneInfo CalTimezoneInfo;
-struct _CalTimezoneInfo {
-	char	*location;
-	double	 latitude;
-	double	 longitude;
-};
-
 struct _CalClient {
 	GtkObject object;
 
@@ -132,8 +124,6 @@ gboolean cal_client_update_object (CalClient *client, CalComponent *comp);
 gboolean cal_client_remove_object (CalClient *client, const char *uid);
 
 CalQuery *cal_client_get_query (CalClient *client, const char *sexp);
-
-GArray *cal_client_get_builtin_timezone_info (CalClient *client);
 
 
 

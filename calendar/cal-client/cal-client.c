@@ -50,11 +50,6 @@ struct _CalClientPrivate {
 
 	/* The calendar client interface object we are contacting */
 	GNOME_Evolution_Calendar_Cal cal;
-
-	/* An array of CalTimezone structs containing information on builtin
-	   timezones. We cache this so we only request it once from the
-	   server. */
-	GArray *timezone_info;
 };
 
 
@@ -70,8 +65,6 @@ enum {
 static void cal_client_class_init (CalClientClass *class);
 static void cal_client_init (CalClient *client);
 static void cal_client_destroy (GtkObject *object);
-
-static void cal_client_free_builtin_timezone_info (GArray	*zones);
 
 static guint cal_client_signals[LAST_SIGNAL];
 
@@ -162,7 +155,6 @@ cal_client_init (CalClient *client)
 	priv->load_state = CAL_CLIENT_LOAD_NOT_LOADED;
 	priv->uri = NULL;
 	priv->factory = CORBA_OBJECT_NIL;
-	priv->timezone_info = NULL;
 }
 
 /* Gets rid of the factory that a client knows about */
@@ -275,11 +267,6 @@ cal_client_destroy (GtkObject *object)
 	if (priv->uri) {
 		g_free (priv->uri);
 		priv->uri = NULL;
-	}
-
-	if (priv->timezone_info) {
-		cal_client_free_builtin_timezone_info (priv->timezone_info);
-		priv->timezone_info = NULL;
 	}
 
 	g_free (priv);
@@ -1517,95 +1504,6 @@ cal_client_remove_object (CalClient *client, const char *uid)
  out:
 	CORBA_exception_free (&ev);
 	return retval;
-}
-
-/* Builds a list of CalComponentAlarms structures */
-static GArray *
-build_timezone_info_array (GNOME_Evolution_Calendar_CalTimezoneInfoSeq *seq)
-{
-	GArray *zones;
-	CalTimezoneInfo zone;
-	int i;
-
-	zones = g_array_new (FALSE, FALSE, sizeof (CalTimezoneInfo));
-
-	for (i = 0; i < seq->_length; i++) {
-		GNOME_Evolution_Calendar_CalTimezoneInfo *tzinfo;
-
-		tzinfo = seq->_buffer + i;
-
-		zone.location = g_strdup (tzinfo->location);
-		zone.latitude = tzinfo->latitude;
-		zone.longitude = tzinfo->longitude;
-
-		g_array_append_val (zones, zone);
-	}
-
-	return zones;
-}
-
-/**
- * cal_client_get_builtin_timezone_info:
- * @client: A calendar client.
- *
- * Returns information on the builtin timezones, i.e. their names and
- * locations. This is so we can use the map to select a timezone.
- *
- * Return value: An array of #CalTimezoneInfo structures. The caller should not
- * change or free this array. The CalClient will free it when it is destroyed.
- **/
-GArray *
-cal_client_get_builtin_timezone_info (CalClient *client)
-{
-	CalClientPrivate *priv;
-	CORBA_Environment ev;
-	GNOME_Evolution_Calendar_CalTimezoneInfoSeq *seq;
-
-	g_return_val_if_fail (client != NULL, NULL);
-	g_return_val_if_fail (IS_CAL_CLIENT (client), NULL);
-
-	priv = client->priv;
-
-	/* If we have already got this data from the server just return it. */
-	if (priv->timezone_info)
-		return priv->timezone_info;
-
-	CORBA_exception_init (&ev);
-
-	seq = GNOME_Evolution_Calendar_Cal_getBuiltinTimezoneInfo (priv->cal,
-								   &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_message ("cal_client_get_builtin_timezone_info(): could not get the builtin timezone info");
-		CORBA_exception_free (&ev);
-		return NULL;
-	}
-	CORBA_exception_free (&ev);
-
-	priv->timezone_info = build_timezone_info_array (seq);
-	CORBA_free (seq);
-
-	return priv->timezone_info;
-}
-
-/**
- * cal_client_free_builtin_timezone_info:
- * @zones: An array of timezone info returned from
- * cal_client_get_builtin_timezone_info().
- *
- * Frees the builtin timezone information structures.
- **/
-static void
-cal_client_free_builtin_timezone_info (GArray	*zones)
-{
-	CalTimezoneInfo *zone;
-	int i;
-
-	for (i = 0; i < zones->len; i++) {
-		zone = &g_array_index (zones, CalTimezoneInfo, i);
-		g_free (zone->location);
-	}
-
-	g_array_free (zones, TRUE);
 }
 
 /**
