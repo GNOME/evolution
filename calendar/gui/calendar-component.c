@@ -921,6 +921,8 @@ setup_create_ecal (CalendarComponent *calendar_component, CalendarComponentView 
 	}
 		
 	if (priv->create_ecal) {
+		icaltimezone *zone;
+
 		if (!e_cal_open (priv->create_ecal, FALSE, NULL)) {
 			GtkWidget *dialog;
 			
@@ -933,6 +935,10 @@ setup_create_ecal (CalendarComponent *calendar_component, CalendarComponentView 
 
 			return NULL;
 		}
+
+		zone = calendar_config_get_icaltimezone ();
+		e_cal_set_default_timezone (priv->create_ecal, zone, NULL);
+
 	} else {
 		GtkWidget *dialog;
 			
@@ -983,6 +989,7 @@ create_new_event (CalendarComponent *calendar_component, CalendarComponentView *
 
 		editor = event_editor_new (ecal);
 		comp = cal_comp_event_new_with_current_time (ecal, is_allday);
+		e_cal_component_commit_sequence (comp);
 
 		comp_editor_edit_comp (COMP_EDITOR (editor), comp);
 		if (is_meeting)

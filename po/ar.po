@@ -11,14 +11,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2004-08-02 15:35-0400\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2004-08-06 13:56-0400\n"
 "PO-Revision-Date: 2004-06-20 13:25+0200\n"
 "Last-Translator: Abdulaziz Al-Arfaj <alarfaj0@yahoo.com>\n"
 "Language-Team: Arabic <support@arabeyes.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Report-Msgid-Bugs-To: \n"
 
 #: a11y/addressbook/ea-addressbook-view.c:94
 #: a11y/addressbook/ea-addressbook-view.c:103
@@ -127,6 +127,17 @@ msgid "Could not remove addressbook."
 msgstr "لم يمكن تحميل دفتر العناوين"
 
 #. addressbook:remove-addressbook secondary
+#. addressbook:generic-error primary
+#. addressbook:load-error secondary
+#. addressbook:search-error secondary
+#. mail:session-message-info secondary
+#. mail:session-message-info-cancel secondary
+#. mail:session-message-warning secondary
+#. mail:session-message-warning-cancel secondary
+#. mail:session-message-error secondary
+#. mail:session-message-error-cancel secondary
+#. mail:ask-session-password secondary
+#. mail:filter-load-error secondary
 #: addressbook/addressbook-errors.xml.h:22
 #: addressbook/addressbook-errors.xml.h:26
 #: addressbook/addressbook-errors.xml.h:34
@@ -144,6 +155,8 @@ msgid "Category editor not available."
 msgstr "محرّر الفئات غير متوفّر."
 
 #. addressbook:generic-error secondary
+#. mail-composer:no-attach secondary
+#. mail:no-save-path secondary
 #: addressbook/addressbook-errors.xml.h:28
 #: composer/mail-composer-errors.xml.h:4 mail/mail-errors.xml.h:92
 msgid "{1}"
@@ -354,6 +367,7 @@ msgid "Migrating `%s':"
 msgstr "جاري تنزيح `%s':"
 
 #. create the local source group
+#. On This Computer is always first and VFolders is always last
 #: addressbook/gui/component/addressbook-migrate.c:493
 #: calendar/gui/migration.c:450 calendar/gui/migration.c:532
 #: mail/em-folder-tree-model.c:196 mail/em-folder-tree-model.c:198
@@ -362,6 +376,9 @@ msgid "On This Computer"
 msgstr "على هذا الحاسوب"
 
 #. Create the default Person addressbook
+#. Create the default Person calendar
+#. Create the default Person task list
+#. orange
 #: addressbook/gui/component/addressbook-migrate.c:501
 #: addressbook/gui/contact-editor/contact-editor.glade.h:34
 #: calendar/gui/migration.c:458 calendar/gui/migration.c:540
@@ -3299,17 +3316,17 @@ msgstr "مشهد البطاقة"
 msgid "GTK Tree View"
 msgstr "مشهد شجرة GTK"
 
-#: addressbook/gui/widgets/test-reflow.c:106
+#: addressbook/gui/widgets/test-reflow.c:119
 msgid "Reflow Test"
 msgstr "إختبار الجزْر"
 
-#: addressbook/gui/widgets/test-reflow.c:107
+#: addressbook/gui/widgets/test-reflow.c:120
 #: addressbook/printing/test-contact-print-style-editor.c:54
 #: addressbook/printing/test-print.c:53
 msgid "Copyright (C) 2000, Ximian, Inc."
 msgstr "جمسع الحقوق محفوظة (C) 2000، شركة زيميان."
 
-#: addressbook/gui/widgets/test-reflow.c:109
+#: addressbook/gui/widgets/test-reflow.c:122
 msgid "This should test the reflow canvas item"
 msgstr ""
 
@@ -3623,6 +3640,7 @@ msgid "Unnamed List"
 msgstr "قائمة غير مسمّاة"
 
 #. calendar:prompt-cancel-meeting primary
+#. calendar:prompt-cancel-task primary
 #: calendar/calendar-errors.xml.h:2 calendar/calendar-errors.xml.h:12
 msgid "Would you like to send all the participants a cancellation notice?"
 msgstr ""
@@ -3674,6 +3692,8 @@ msgid "Are you sure you want to delete this task?"
 msgstr "هل تريد فعلاً حذف %d من المهام؟"
 
 #. calendar:prompt-delete-task secondary
+#. calendar:prompt-delete-named-task secondary
+#. calendar:prompt-delete-task secondary
 #: calendar/calendar-errors.xml.h:20 calendar/calendar-errors.xml.h:42
 #: calendar/calendar-errors.xml.h:46
 msgid "All information on this task will be deleted and can not be restored."
@@ -3712,6 +3732,7 @@ msgid "Are you sure you want to delete the appointment titled '{0}'?"
 msgstr "هل تريد فعلاً حذف الموعد `%s'؟"
 
 #. calendar:prompt-delete-titled-appointment secondary
+#. calendar:prompt-delete-appointment secondary
 #: calendar/calendar-errors.xml.h:34 calendar/calendar-errors.xml.h:38
 msgid ""
 "All information on this appointment will be deleted and can not be restored."
@@ -3736,6 +3757,7 @@ msgid "Are you sure you want to delete the journal entry '{0}'?"
 msgstr "هل تريد فعلاً حذف خانة السّجل هذه `%s'؟"
 
 #. calendar:prompt-delete-named-journal secondary
+#. calendar:prompt-delete-journal secondary
 #: calendar/calendar-errors.xml.h:50 calendar/calendar-errors.xml.h:54
 msgid ""
 "All information in this journal will be deleted and can not be restored."
@@ -3925,7 +3947,7 @@ msgid "Calendar and Tasks"
 msgstr "الرُّزنامة و المهام"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:4
-#: calendar/gui/calendar-component.c:1072
+#: calendar/gui/calendar-component.c:1079
 msgid "Calendars"
 msgstr "الرزنامات"
 
@@ -3959,7 +3981,7 @@ msgstr "مكوّن مهام إيفُليوشِن"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:12
 #: calendar/gui/e-tasks.c:1198 calendar/gui/print.c:1819
-#: calendar/gui/tasks-component.c:419 calendar/gui/tasks-component.c:884
+#: calendar/gui/tasks-component.c:419 calendar/gui/tasks-component.c:889
 #: calendar/gui/tasks-control.c:405 calendar/importers/icalendar-importer.c:83
 #: calendar/importers/icalendar-importer.c:709
 msgid "Tasks"
@@ -4010,24 +4032,24 @@ msgstr "_تحرير الموعد"
 msgid "_Snooze"
 msgstr "غ_فوة"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:881
+#: calendar/gui/alarm-notify/alarm-queue.c:882
 #: ui/evolution-message-composer.xml.h:10
 msgid "Open"
 msgstr "فتح"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:883
+#: calendar/gui/alarm-notify/alarm-queue.c:884
 msgid "Dismiss"
 msgstr ""
 
-#: calendar/gui/alarm-notify/alarm-queue.c:885
+#: calendar/gui/alarm-notify/alarm-queue.c:886
 msgid "Dismiss All"
 msgstr ""
 
-#: calendar/gui/alarm-notify/alarm-queue.c:949
+#: calendar/gui/alarm-notify/alarm-queue.c:951
 msgid "No description available."
 msgstr "لا وجود لوصف."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:969
+#: calendar/gui/alarm-notify/alarm-queue.c:971
 #, c-format
 msgid ""
 "Alarm on %s\n"
@@ -4040,12 +4062,12 @@ msgstr ""
 "بدءا من %s\n"
 "انتهاءا عند %s"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1069
-#: calendar/gui/alarm-notify/alarm-queue.c:1093
+#: calendar/gui/alarm-notify/alarm-queue.c:1071
+#: calendar/gui/alarm-notify/alarm-queue.c:1095
 msgid "Warning"
 msgstr "تحذير"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1073
+#: calendar/gui/alarm-notify/alarm-queue.c:1075
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -4057,7 +4079,7 @@ msgstr ""
 "عُدّة لإرسال بريد إلكتروني. سيعرض\n"
 "إيفُليوشِن صندوق حوار مذكّرة عادي عوضا عن ذلك."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1099
+#: calendar/gui/alarm-notify/alarm-queue.c:1101
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -4074,7 +4096,7 @@ msgstr ""
 "\n"
 "هل تريد فعلاً تشغيل هذا البرنامج؟"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1113
+#: calendar/gui/alarm-notify/alarm-queue.c:1115
 msgid "Do not ask me about this program again."
 msgstr "لا تسألني عن هذا البرنامج ثانيةً."
 
@@ -4272,6 +4294,10 @@ msgstr "%A %d %B %Y"
 
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.
+#. strftime format %a = abbreviated weekday name,
+#. %d = day of month, %b = abbreviated month name.
+#. You can change the order but don't change the
+#. specifiers or add anything.
 #: calendar/gui/calendar-commands.c:435 calendar/gui/calendar-component.c:519
 #: calendar/gui/e-day-view-top-item.c:714 calendar/gui/e-day-view.c:1588
 #: calendar/gui/e-week-view-main-item.c:329
@@ -4319,6 +4345,9 @@ msgstr "%d %B %Y"
 
 #. strftime format %d = day of month, %b = abbreviated month name.
 #. Don't use any other specifiers.
+#. strftime format %d = day of month, %b = abbreviated
+#. month name. You can change the order but don't
+#. change the specifiers or add anything.
 #: calendar/gui/calendar-component.c:545
 #: calendar/gui/e-day-view-top-item.c:718 calendar/gui/e-day-view.c:1604
 #: calendar/gui/e-week-view-main-item.c:343
@@ -4330,63 +4359,63 @@ msgstr "%d·%b"
 msgid "Failed upgrading calendars."
 msgstr "جاري تحميل الرُّزنامة..."
 
-#: calendar/gui/calendar-component.c:929
+#: calendar/gui/calendar-component.c:931
 #, c-format
 msgid "Unable to open the calendar '%s' for creating events and meetings"
 msgstr "لم يمكن فتح الرُّزنامة '%s' لإنشاء الأحداث و الإجتماعات"
 
-#: calendar/gui/calendar-component.c:941
+#: calendar/gui/calendar-component.c:947
 msgid "There is no calendar available for creating events and meetings"
 msgstr "لا توجد رُزنامة متوفّرة لإنشاء الأحداث و الإجتماعات"
 
-#: calendar/gui/calendar-component.c:1238
+#: calendar/gui/calendar-component.c:1245
 msgid "New appointment"
 msgstr "موعد جديد"
 
-#: calendar/gui/calendar-component.c:1239
+#: calendar/gui/calendar-component.c:1246
 msgid "_Appointment"
 msgstr "_موعد"
 
-#: calendar/gui/calendar-component.c:1240
+#: calendar/gui/calendar-component.c:1247
 msgid "Create a new appointment"
 msgstr "إنشاء موعد جديد"
 
-#: calendar/gui/calendar-component.c:1246
+#: calendar/gui/calendar-component.c:1253
 msgid "New meeting"
 msgstr "إجتماع جديد"
 
-#: calendar/gui/calendar-component.c:1247
+#: calendar/gui/calendar-component.c:1254
 msgid "M_eeting"
 msgstr "إ_جتماع"
 
-#: calendar/gui/calendar-component.c:1248
+#: calendar/gui/calendar-component.c:1255
 msgid "Create a new meeting request"
 msgstr "إنشاء طلب إجتماع جديد"
 
-#: calendar/gui/calendar-component.c:1254
+#: calendar/gui/calendar-component.c:1261
 msgid "New all day appointment"
 msgstr "موعد جديد يستغرق يوماً بكامله"
 
-#: calendar/gui/calendar-component.c:1255
+#: calendar/gui/calendar-component.c:1262
 #, fuzzy
 msgid "All Day A_ppointment"
 msgstr "موعد _يستغرق يوماً بكامله"
 
-#: calendar/gui/calendar-component.c:1256
+#: calendar/gui/calendar-component.c:1263
 msgid "Create a new all-day appointment"
 msgstr "إنشاء موعد جديد يستغرق يوماً بكامله"
 
-#: calendar/gui/calendar-component.c:1262
+#: calendar/gui/calendar-component.c:1269
 #, fuzzy
 msgid "New calendar"
 msgstr "رُزنامة جديدة"
 
-#: calendar/gui/calendar-component.c:1263
+#: calendar/gui/calendar-component.c:1270
 #, fuzzy
 msgid "Cale_ndar"
 msgstr "الرُّزنامة"
 
-#: calendar/gui/calendar-component.c:1264
+#: calendar/gui/calendar-component.c:1271
 msgid "Create a new calendar"
 msgstr "إنشاء رزنامة جديدة"
 
@@ -4677,7 +4706,7 @@ msgstr "طلب متوفّر/مشغول"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:19
 #: calendar/gui/dialogs/recurrence-page.c:1038
-#: calendar/gui/e-itip-control.c:556
+#: calendar/gui/e-itip-control.c:581
 msgid "Friday"
 msgstr "الجمعة"
 
@@ -4691,7 +4720,7 @@ msgstr "دقائق"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:23
 #: calendar/gui/dialogs/recurrence-page.c:1034
-#: calendar/gui/e-itip-control.c:552
+#: calendar/gui/e-itip-control.c:577
 msgid "Monday"
 msgstr "الإثنين"
 
@@ -4701,7 +4730,7 @@ msgstr "الأ_حد"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:25
 #: calendar/gui/dialogs/recurrence-page.c:1039
-#: calendar/gui/e-itip-control.c:557
+#: calendar/gui/e-itip-control.c:582
 msgid "Saturday"
 msgstr "السّبت"
 
@@ -4715,7 +4744,7 @@ msgstr "إظهار أر_قام الأسابيع في متصفّح التّوار
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:28
 #: calendar/gui/dialogs/recurrence-page.c:1040
-#: calendar/gui/e-itip-control.c:551
+#: calendar/gui/e-itip-control.c:576
 msgid "Sunday"
 msgstr "الأحد"
 
@@ -4729,7 +4758,7 @@ msgstr "ال_خميس"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:31
 #: calendar/gui/dialogs/recurrence-page.c:1037
-#: calendar/gui/e-itip-control.c:555
+#: calendar/gui/e-itip-control.c:580
 msgid "Thursday"
 msgstr "الخميس"
 
@@ -4743,7 +4772,7 @@ msgstr "صيغة الوقت:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:34
 #: calendar/gui/dialogs/recurrence-page.c:1035
-#: calendar/gui/e-itip-control.c:553
+#: calendar/gui/e-itip-control.c:578
 msgid "Tuesday"
 msgstr "الثّلاثاء"
 
@@ -4753,7 +4782,7 @@ msgstr "يبدأ الأ_سبوع:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:36
 #: calendar/gui/dialogs/recurrence-page.c:1036
-#: calendar/gui/e-itip-control.c:554
+#: calendar/gui/e-itip-control.c:579
 msgid "Wednesday"
 msgstr "الأربعاء"
 
@@ -5150,21 +5179,21 @@ msgstr "زمن الإنتهاء خاطئ"
 msgid "Unable to open the calendar '%s'."
 msgstr "لم يمكن فتح الرُّزنامة '%s' لإنشاء الأحداث و الإجتماعات"
 
-#: calendar/gui/dialogs/event-page.c:1799
+#: calendar/gui/dialogs/event-page.c:1804
 #, fuzzy, c-format
 msgid "%d day before appointment"
 msgid_plural "%d days before appointment"
 msgstr[0] "قبل كل موعد"
 msgstr[1] "قبل كل موعد"
 
-#: calendar/gui/dialogs/event-page.c:1807
+#: calendar/gui/dialogs/event-page.c:1812
 #, fuzzy, c-format
 msgid "%d hour before appointment"
 msgid_plural "%d hours before appointment"
 msgstr[0] "نهاية الموعد"
 msgstr[1] "نهاية الموعد"
 
-#: calendar/gui/dialogs/event-page.c:1815
+#: calendar/gui/dialogs/event-page.c:1820
 #, fuzzy, c-format
 msgid "%d minute before appointement"
 msgid_plural "%d minutes before appointment"
@@ -5280,9 +5309,14 @@ msgid "_Start time:"
 msgstr "زمن ال_بدء"
 
 #. an empty string is the same as 'None'
+#. add a "None" option to the stores menu
+#. Put the "None" and "UTC" entries at the top of the combo's list.
+#. When "None" is selected we want the field to be cleared.
+#. Note that we don't show this here, since by default a 'None' date
+#. is not permitted.
 #: calendar/gui/dialogs/meeting-page.c:316
 #: calendar/gui/dialogs/meeting-page.glade.h:5
-#: calendar/gui/e-cal-model-tasks.c:647 calendar/gui/e-itip-control.c:928
+#: calendar/gui/e-cal-model-tasks.c:647 calendar/gui/e-itip-control.c:953
 #: composer/e-msg-composer.c:2097 filter/filter-rule.c:877
 #: mail/em-account-prefs.c:427 mail/em-folder-view.c:933
 #: mail/mail-account-gui.c:1571 mail/mail-account-gui.c:1967
@@ -5351,7 +5385,7 @@ msgid "Member"
 msgstr "عضو"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:8
-#: calendar/gui/e-itip-control.c:1060 calendar/gui/e-meeting-list-view.c:241
+#: calendar/gui/e-itip-control.c:1085 calendar/gui/e-meeting-list-view.c:241
 #: calendar/gui/e-meeting-time-sel.etspec.h:8
 msgid "RSVP"
 msgstr "تأكيد الحضور"
@@ -5587,7 +5621,7 @@ msgstr ""
 #: calendar/gui/dialogs/task-details-page.glade.h:4
 #: calendar/gui/e-cal-component-preview.c:230
 #: calendar/gui/e-cal-model-tasks.c:350 calendar/gui/e-cal-model-tasks.c:653
-#: calendar/gui/e-calendar-table.c:472 calendar/gui/e-itip-control.c:720
+#: calendar/gui/e-calendar-table.c:472 calendar/gui/e-itip-control.c:745
 #: calendar/gui/e-meeting-store.c:187 calendar/gui/e-meeting-store.c:210
 #: calendar/gui/print.c:2346
 msgid "Completed"
@@ -5838,7 +5872,7 @@ msgid "Untitled"
 msgstr "بدون عنوان"
 
 #: calendar/gui/e-cal-component-preview.c:187
-#: calendar/gui/e-itip-control.c:932 calendar/gui/e-itip-control.glade.h:11
+#: calendar/gui/e-itip-control.c:957 calendar/gui/e-itip-control.glade.h:11
 msgid "Summary:"
 msgstr "الملخّص:"
 
@@ -5853,7 +5887,7 @@ msgstr "تاريخ الإستحقاق:"
 
 #. write status
 #: calendar/gui/e-cal-component-preview.c:223
-#: calendar/gui/e-itip-control.c:956
+#: calendar/gui/e-itip-control.c:981
 msgid "Status:"
 msgstr "الحالة:"
 
@@ -5862,7 +5896,7 @@ msgid "Priority:"
 msgstr "الأولويّة:"
 
 #: calendar/gui/e-cal-component-preview.c:268
-#: calendar/gui/e-itip-control.c:988 calendar/gui/e-itip-control.glade.h:6
+#: calendar/gui/e-itip-control.c:1013 calendar/gui/e-itip-control.glade.h:6
 #: composer/e-msg-composer-attachment.glade.h:3 mail/mail-config.glade.h:71
 msgid "Description:"
 msgstr "الوصف:"
@@ -5933,7 +5967,7 @@ msgstr "لا"
 
 #. This is the default filename used for temporary file creation
 #: calendar/gui/e-cal-model.c:357 calendar/gui/e-cal-model.c:360
-#: calendar/gui/e-itip-control.c:973 calendar/gui/e-itip-control.c:1187
+#: calendar/gui/e-itip-control.c:998 calendar/gui/e-itip-control.c:1212
 #: calendar/gui/e-meeting-list-view.c:122
 #: calendar/gui/e-meeting-list-view.c:136 calendar/gui/e-meeting-store.c:115
 #: calendar/gui/e-meeting-store.c:150 calendar/gui/e-meeting-store.c:215
@@ -6214,12 +6248,20 @@ msgid "_Settings..."
 msgstr "الإ_عدادات..."
 
 #. strftime format of a weekday, a date and a time, 24-hour.
+#. strptime format of a weekday, a date and a time,
+#. in 24-hour format.
+#. strftime format of a weekday, a date and a
+#. time, in 24-hour format.
 #: calendar/gui/e-cell-date-edit-text.c:117 e-util/e-time-utils.c:180
 #: e-util/e-time-utils.c:393
 msgid "%a %m/%d/%Y %H:%M:%S"
 msgstr "%a %m/%d/%Y %H:%M:%S"
 
 #. strftime format of a weekday, a date and a time, 12-hour.
+#. strptime format of a weekday, a date and a time,
+#. in 12-hour format.
+#. strftime format of a weekday, a date and a
+#. time, in 12-hour format.
 #: calendar/gui/e-cell-date-edit-text.c:120 e-util/e-time-utils.c:175
 #: e-util/e-time-utils.c:402
 msgid "%a %m/%d/%Y %I:%M:%S %p"
@@ -6243,6 +6285,10 @@ msgstr "أقسام بـ %02i دقيقة"
 
 #. strftime format %A = full weekday name, %d = day of month,
 #. %B = full month name. Don't use any other specifiers.
+#. strftime format %A = full weekday name, %d = day of
+#. month, %B = full month name. You can change the
+#. order but don't change the specifiers or add
+#. anything.
 #: calendar/gui/e-day-view-top-item.c:710 calendar/gui/e-day-view.c:1571
 #: calendar/gui/e-week-view-main-item.c:320 calendar/gui/print.c:1514
 msgid "%A %d %B"
@@ -6260,395 +6306,395 @@ msgstr "ص"
 msgid "pm"
 msgstr "م"
 
-#: calendar/gui/e-itip-control.c:585
+#: calendar/gui/e-itip-control.c:610
 msgid "Yes. (Complex Recurrence)"
 msgstr "نعم (تكرار مركّب)"
 
-#: calendar/gui/e-itip-control.c:596
+#: calendar/gui/e-itip-control.c:621
 #, fuzzy, c-format
 msgid "Every day"
 msgid_plural "Every %d days"
 msgstr[0] "كل يوم"
 msgstr[1] "كل يوم"
 
-#: calendar/gui/e-itip-control.c:601
+#: calendar/gui/e-itip-control.c:626
 #, fuzzy, c-format
 msgid "Every week"
 msgid_plural "Every %d weeks"
 msgstr[0] "كل أسبوع"
 msgstr[1] "كل أسبوع"
 
-#: calendar/gui/e-itip-control.c:603
+#: calendar/gui/e-itip-control.c:628
 #, fuzzy, c-format
 msgid "Every week on "
 msgid_plural "Every %d weeks on "
 msgstr[0] "أسبوعيّاً يوم"
 msgstr[1] "أسبوعيّاً يوم"
 
-#: calendar/gui/e-itip-control.c:611
+#: calendar/gui/e-itip-control.c:636
 msgid " and "
 msgstr " و "
 
-#: calendar/gui/e-itip-control.c:618
+#: calendar/gui/e-itip-control.c:643
 #, c-format
 msgid "The %s day of "
 msgstr "اليوم %s من "
 
-#: calendar/gui/e-itip-control.c:631
+#: calendar/gui/e-itip-control.c:656
 #, c-format
 msgid "The %s %s of "
 msgstr "ال %s %s من "
 
-#: calendar/gui/e-itip-control.c:638
+#: calendar/gui/e-itip-control.c:663
 #, fuzzy, c-format
 msgid "every month"
 msgid_plural "every %d months"
 msgstr[0] "كل شهر"
 msgstr[1] "كل شهر"
 
-#: calendar/gui/e-itip-control.c:642
+#: calendar/gui/e-itip-control.c:667
 #, fuzzy, c-format
 msgid "Every year"
 msgid_plural "Every %d years"
 msgstr[0] "كل سنة"
 msgstr[1] "كل سنة"
 
-#: calendar/gui/e-itip-control.c:653
+#: calendar/gui/e-itip-control.c:678
 #, fuzzy, c-format
 msgid "a total of %d time"
 msgid_plural " a total of %d times"
 msgstr[0] "إجمالي %d مرّات"
 msgstr[1] "إجمالي %d مرّات"
 
-#: calendar/gui/e-itip-control.c:662
+#: calendar/gui/e-itip-control.c:687
 msgid ", ending on "
 msgstr "، إنتهاءً عند"
 
-#: calendar/gui/e-itip-control.c:686
+#: calendar/gui/e-itip-control.c:711
 #, fuzzy
 msgid "Starts"
 msgstr "الحالة"
 
-#: calendar/gui/e-itip-control.c:699
+#: calendar/gui/e-itip-control.c:724
 msgid "Ends"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:733
+#: calendar/gui/e-itip-control.c:758
 #, fuzzy
 msgid "Due"
 msgstr "مُستحق "
 
-#: calendar/gui/e-itip-control.c:773 calendar/gui/e-itip-control.c:830
+#: calendar/gui/e-itip-control.c:798 calendar/gui/e-itip-control.c:855
 msgid "iCalendar Information"
 msgstr "معلومات آي-كلَندر"
 
 #. Title
-#: calendar/gui/e-itip-control.c:790
+#: calendar/gui/e-itip-control.c:815
 msgid "iCalendar Error"
 msgstr "خطأ آي-كلَندر"
 
-#: calendar/gui/e-itip-control.c:862 calendar/gui/e-itip-control.c:878
-#: calendar/gui/e-itip-control.c:889 calendar/gui/e-itip-control.c:906
+#: calendar/gui/e-itip-control.c:887 calendar/gui/e-itip-control.c:903
+#: calendar/gui/e-itip-control.c:914 calendar/gui/e-itip-control.c:931
 msgid "An unknown person"
 msgstr "شخص مجهول"
 
 #. Describe what the user can do
-#: calendar/gui/e-itip-control.c:913
+#: calendar/gui/e-itip-control.c:938
 msgid ""
 "<br> Please review the following information, and then select an action from "
 "the menu below."
 msgstr "<br> الرجاء مراجعة المعلومات التّالية ثم إختيار إجراءً من القائمة أدناه."
 
-#: calendar/gui/e-itip-control.c:942
+#: calendar/gui/e-itip-control.c:967
 msgid "Location:"
 msgstr "الموقع:"
 
-#: calendar/gui/e-itip-control.c:961 calendar/gui/e-meeting-list-view.c:158
+#: calendar/gui/e-itip-control.c:986 calendar/gui/e-meeting-list-view.c:158
 #: calendar/gui/e-meeting-store.c:179 calendar/gui/e-meeting-store.c:202
 #: calendar/gui/itip-utils.c:422
 msgid "Accepted"
 msgstr "مقبول"
 
-#: calendar/gui/e-itip-control.c:965 calendar/gui/itip-utils.c:425
+#: calendar/gui/e-itip-control.c:990 calendar/gui/itip-utils.c:425
 msgid "Tentatively Accepted"
 msgstr "مقبول مبدئيّاً"
 
-#: calendar/gui/e-itip-control.c:969 calendar/gui/e-meeting-list-view.c:159
+#: calendar/gui/e-itip-control.c:994 calendar/gui/e-meeting-list-view.c:159
 #: calendar/gui/e-meeting-store.c:181 calendar/gui/e-meeting-store.c:204
 #: calendar/gui/itip-utils.c:428 calendar/gui/itip-utils.c:454
 msgid "Declined"
 msgstr "مرفوض"
 
-#: calendar/gui/e-itip-control.c:1028 calendar/gui/e-itip-control.c:1056
-#: calendar/gui/e-itip-control.c:1082 calendar/gui/e-itip-control.c:1095
-#: calendar/gui/e-itip-control.c:1108 calendar/gui/e-itip-control.c:1133
+#: calendar/gui/e-itip-control.c:1053 calendar/gui/e-itip-control.c:1081
+#: calendar/gui/e-itip-control.c:1107 calendar/gui/e-itip-control.c:1120
+#: calendar/gui/e-itip-control.c:1133 calendar/gui/e-itip-control.c:1158
 msgid "Choose an action:"
 msgstr "إختيار إجراءً:"
 
-#: calendar/gui/e-itip-control.c:1029
+#: calendar/gui/e-itip-control.c:1054
 msgid "Update"
 msgstr "تحديث"
 
-#: calendar/gui/e-itip-control.c:1030 calendar/gui/e-itip-control.c:1061
-#: calendar/gui/e-itip-control.c:1084 calendar/gui/e-itip-control.c:1097
-#: calendar/gui/e-itip-control.c:1110 calendar/gui/e-itip-control.c:1135
+#: calendar/gui/e-itip-control.c:1055 calendar/gui/e-itip-control.c:1086
+#: calendar/gui/e-itip-control.c:1109 calendar/gui/e-itip-control.c:1122
+#: calendar/gui/e-itip-control.c:1135 calendar/gui/e-itip-control.c:1160
 #: shell/e-shell.c:1210 widgets/misc/e-cell-date-edit.c:265
 msgid "OK"
 msgstr "موافق"
 
-#: calendar/gui/e-itip-control.c:1057
+#: calendar/gui/e-itip-control.c:1082
 msgid "Accept"
 msgstr "تقبّل"
 
-#: calendar/gui/e-itip-control.c:1058
+#: calendar/gui/e-itip-control.c:1083
 msgid "Tentatively accept"
 msgstr "تقبّل مبدئيّاً"
 
-#: calendar/gui/e-itip-control.c:1059
+#: calendar/gui/e-itip-control.c:1084
 msgid "Decline"
 msgstr "رفض"
 
-#: calendar/gui/e-itip-control.c:1083
+#: calendar/gui/e-itip-control.c:1108
 msgid "Send Free/Busy Information"
 msgstr "إرسال معلومات متوفّر/مشغول"
 
-#: calendar/gui/e-itip-control.c:1096
+#: calendar/gui/e-itip-control.c:1121
 msgid "Update respondent status"
 msgstr "تحديث حالة المستجيب"
 
-#: calendar/gui/e-itip-control.c:1109
+#: calendar/gui/e-itip-control.c:1134
 msgid "Send Latest Information"
 msgstr "إرسال آخر المعلومات"
 
-#: calendar/gui/e-itip-control.c:1119
+#: calendar/gui/e-itip-control.c:1144
 msgid ""
 "The meeting has been cancelled, however it could not be found in your "
 "calendars"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1121
+#: calendar/gui/e-itip-control.c:1146
 msgid ""
 "The task has been cancelled, however it could not be found in your task lists"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1134 calendar/gui/itip-utils.c:442
+#: calendar/gui/e-itip-control.c:1159 calendar/gui/itip-utils.c:442
 #: mail/mail-send-recv.c:410 mail/mail-send-recv.c:464
 #: ui/evolution-mail-global.xml.h:1
 msgid "Cancel"
 msgstr "إلغاء"
 
-#: calendar/gui/e-itip-control.c:1210
+#: calendar/gui/e-itip-control.c:1235
 #, c-format
 msgid "<b>%s</b> has published meeting information."
 msgstr "نشر <b>%s</b> معلومات الإجتماع."
 
-#: calendar/gui/e-itip-control.c:1211
+#: calendar/gui/e-itip-control.c:1236
 msgid "Meeting Information"
 msgstr "معلومات الإجتماع"
 
-#: calendar/gui/e-itip-control.c:1216
+#: calendar/gui/e-itip-control.c:1241
 #, c-format
 msgid "<b>%s</b> requests the presence of %s at a meeting."
 msgstr "يطلب <b>%s</b>·حضور %s عند إجتماع."
 
-#: calendar/gui/e-itip-control.c:1218
+#: calendar/gui/e-itip-control.c:1243
 #, c-format
 msgid "<b>%s</b> requests your presence at a meeting."
 msgstr "يطلب <b>%s</b> حضورك إلى إجتماع."
 
-#: calendar/gui/e-itip-control.c:1219
+#: calendar/gui/e-itip-control.c:1244
 msgid "Meeting Proposal"
 msgstr "إقتراح إجتماع"
 
-#: calendar/gui/e-itip-control.c:1253
+#: calendar/gui/e-itip-control.c:1265
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing meeting."
 msgstr "يود <b>%s</b> إضافته إلى إجتماع موجود."
 
-#: calendar/gui/e-itip-control.c:1254
+#: calendar/gui/e-itip-control.c:1266
 msgid "Meeting Update"
 msgstr "تحديث إجتماع"
 
-#: calendar/gui/e-itip-control.c:1258
+#: calendar/gui/e-itip-control.c:1270
 #, c-format
 msgid "<b>%s</b> wishes to receive the latest meeting information."
 msgstr "يود <b>%s</b> إستلام آخر معلومات الإجتماع."
 
-#: calendar/gui/e-itip-control.c:1259
+#: calendar/gui/e-itip-control.c:1271
 msgid "Meeting Update Request"
 msgstr "طلب تحديث إجتماع"
 
-#: calendar/gui/e-itip-control.c:1266
+#: calendar/gui/e-itip-control.c:1278
 #, c-format
 msgid "<b>%s</b> has replied to a meeting request."
 msgstr "ردّ <b>%s</b> على طلب إجتماع."
 
-#: calendar/gui/e-itip-control.c:1267
+#: calendar/gui/e-itip-control.c:1279
 msgid "Meeting Reply"
 msgstr "رد اجتماع"
 
-#: calendar/gui/e-itip-control.c:1274
+#: calendar/gui/e-itip-control.c:1286
 #, c-format
 msgid "<b>%s</b> has cancelled a meeting."
 msgstr "ألغى <b>%s</b>· إجتماعاً."
 
-#: calendar/gui/e-itip-control.c:1275
+#: calendar/gui/e-itip-control.c:1287
 msgid "Meeting Cancellation"
 msgstr "إلغاء إجتماع"
 
-#: calendar/gui/e-itip-control.c:1282 calendar/gui/e-itip-control.c:1350
-#: calendar/gui/e-itip-control.c:1385
+#: calendar/gui/e-itip-control.c:1294 calendar/gui/e-itip-control.c:1362
+#: calendar/gui/e-itip-control.c:1397
 #, c-format
 msgid "<b>%s</b> has sent an unintelligible message."
 msgstr "أرسل <b>%s</b> رسالة غير مفهومة."
 
-#: calendar/gui/e-itip-control.c:1283
+#: calendar/gui/e-itip-control.c:1295
 msgid "Bad Meeting Message"
 msgstr "رسالة إجتماع رديئة"
 
-#: calendar/gui/e-itip-control.c:1308
+#: calendar/gui/e-itip-control.c:1320
 #, c-format
 msgid "<b>%s</b> has published task information."
 msgstr "نشر <b>%s</b> معلومات مَهمّة."
 
-#: calendar/gui/e-itip-control.c:1309
+#: calendar/gui/e-itip-control.c:1321
 msgid "Task Information"
 msgstr "معلومات المهمّة"
 
-#: calendar/gui/e-itip-control.c:1314
+#: calendar/gui/e-itip-control.c:1326
 #, c-format
 msgid "<b>%s</b> requests %s to perform a task."
 msgstr "يطلب <b>%s</b> من %s أن يؤدّي مهمّة."
 
-#: calendar/gui/e-itip-control.c:1316
+#: calendar/gui/e-itip-control.c:1328
 #, c-format
 msgid "<b>%s</b> requests you perform a task."
 msgstr "يطلب <b>%s</b> منك أن تؤدّي مهمّة."
 
-#: calendar/gui/e-itip-control.c:1317
+#: calendar/gui/e-itip-control.c:1329
 msgid "Task Proposal"
 msgstr "إقتراح مهمّة"
 
-#: calendar/gui/e-itip-control.c:1321
+#: calendar/gui/e-itip-control.c:1333
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing task."
 msgstr "يود·<b>%s</b> أن يضيف إلى مهمّة."
 
-#: calendar/gui/e-itip-control.c:1322
+#: calendar/gui/e-itip-control.c:1334
 msgid "Task Update"
 msgstr "تحديث المهمّة"
 
-#: calendar/gui/e-itip-control.c:1326
+#: calendar/gui/e-itip-control.c:1338
 #, c-format
 msgid "<b>%s</b> wishes to receive the latest task information."
 msgstr "يود <b>%s</b> أن يستلم آخر معلومات المهمّة."
 
-#: calendar/gui/e-itip-control.c:1327
+#: calendar/gui/e-itip-control.c:1339
 msgid "Task Update Request"
 msgstr "طلب تحديث المهمّة"
 
-#: calendar/gui/e-itip-control.c:1334
+#: calendar/gui/e-itip-control.c:1346
 #, c-format
 msgid "<b>%s</b> has replied to a task assignment."
 msgstr "ردّ على <b>%s</b> تكليفٍ بمهمّة."
 
-#: calendar/gui/e-itip-control.c:1335
+#: calendar/gui/e-itip-control.c:1347
 msgid "Task Reply"
 msgstr "رد مهمّة"
 
-#: calendar/gui/e-itip-control.c:1342
+#: calendar/gui/e-itip-control.c:1354
 #, c-format
 msgid "<b>%s</b> has cancelled a task."
 msgstr "ألغى <b>%s</b> مهمّة."
 
-#: calendar/gui/e-itip-control.c:1343
+#: calendar/gui/e-itip-control.c:1355
 msgid "Task Cancellation"
 msgstr "إلغاء مهمّة"
 
-#: calendar/gui/e-itip-control.c:1351
+#: calendar/gui/e-itip-control.c:1363
 msgid "Bad Task Message"
 msgstr "رسالة مهمّة رديئة"
 
-#: calendar/gui/e-itip-control.c:1370
+#: calendar/gui/e-itip-control.c:1382
 #, c-format
 msgid "<b>%s</b> has published free/busy information."
 msgstr "نشر <b>%s</b> معلومات متوفّر/مشغول."
 
-#: calendar/gui/e-itip-control.c:1371
+#: calendar/gui/e-itip-control.c:1383
 msgid "Free/Busy Information"
 msgstr "معلومات متوفّر/مشغول"
 
-#: calendar/gui/e-itip-control.c:1375
+#: calendar/gui/e-itip-control.c:1387
 #, c-format
 msgid "<b>%s</b> requests your free/busy information."
 msgstr "يطلب <b>%s</b>·معلومات متوفّر/مشغول الخاصّة بك."
 
-#: calendar/gui/e-itip-control.c:1376
+#: calendar/gui/e-itip-control.c:1388
 msgid "Free/Busy Request"
 msgstr "طلب متوفّر/مشغول"
 
-#: calendar/gui/e-itip-control.c:1380
+#: calendar/gui/e-itip-control.c:1392
 #, c-format
 msgid "<b>%s</b> has replied to a free/busy request."
 msgstr "ردّ <b>%s</b>·على طلب متوفّر/مشغول."
 
-#: calendar/gui/e-itip-control.c:1381
+#: calendar/gui/e-itip-control.c:1393
 msgid "Free/Busy Reply"
 msgstr "رد متفرّغ/مشغول"
 
-#: calendar/gui/e-itip-control.c:1386
+#: calendar/gui/e-itip-control.c:1398
 msgid "Bad Free/Busy Message"
 msgstr "رسالة متوفّر/مشغول رديئة"
 
-#: calendar/gui/e-itip-control.c:1461
+#: calendar/gui/e-itip-control.c:1473
 msgid "The message does not appear to be properly formed"
 msgstr "لا تبدو الرّسالة مبنيّة بشكل صحيح"
 
-#: calendar/gui/e-itip-control.c:1520
+#: calendar/gui/e-itip-control.c:1532
 msgid "The message contains only unsupported requests."
 msgstr "هذه الرّسالة تحتوي فقط طلبات غير مدعومة."
 
-#: calendar/gui/e-itip-control.c:1551
+#: calendar/gui/e-itip-control.c:1563
 msgid "The attachment does not contain a valid calendar message"
 msgstr "لا يحتوي هذا الملحق على رسالة رُزنامة صحيحة"
 
-#: calendar/gui/e-itip-control.c:1583
+#: calendar/gui/e-itip-control.c:1595
 msgid "The attachment has no viewable calendar items"
 msgstr "الملحق لا يحتوي أيّة عناصر رُزنامة قابلة للعرض"
 
-#: calendar/gui/e-itip-control.c:1817
+#: calendar/gui/e-itip-control.c:1829
 msgid "Update complete\n"
 msgstr "تمَّ التّحديث\n"
 
-#: calendar/gui/e-itip-control.c:1845
+#: calendar/gui/e-itip-control.c:1857
 msgid "Object is invalid and cannot be updated\n"
 msgstr "الكائن غير صالح و لا يمكن تحديثه\n"
 
-#: calendar/gui/e-itip-control.c:1855
+#: calendar/gui/e-itip-control.c:1867
 msgid "This response is not from a current attendee.  Add as an attendee?"
 msgstr "هذه الإستجابه ليست من حاضرٍٍ حالي.  هل يضاف كحاضر؟"
 
-#: calendar/gui/e-itip-control.c:1867
+#: calendar/gui/e-itip-control.c:1879
 msgid "Attendee status could not be updated because of an invalid status!\n"
 msgstr "حالة الحاضر لم يمكن تحديثها بسبب حالة غير صالحة!\n"
 
-#: calendar/gui/e-itip-control.c:1884
+#: calendar/gui/e-itip-control.c:1896
 msgid "Attendee status updated\n"
 msgstr "تم تحديث حالة الحاضر\n"
 
-#: calendar/gui/e-itip-control.c:1887
+#: calendar/gui/e-itip-control.c:1899
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr "لا يمكن تحديث حالة الحاضر لأنّ العنصر لم يعد موجوداً"
 
-#: calendar/gui/e-itip-control.c:1914
+#: calendar/gui/e-itip-control.c:1926
 msgid "Removal Complete"
 msgstr "تمَّ الحذف"
 
-#: calendar/gui/e-itip-control.c:1937 calendar/gui/e-itip-control.c:1985
+#: calendar/gui/e-itip-control.c:1949 calendar/gui/e-itip-control.c:1997
 msgid "Item sent!\n"
 msgstr "تم إرسال العنصر!\n"
 
-#: calendar/gui/e-itip-control.c:1939 calendar/gui/e-itip-control.c:1989
+#: calendar/gui/e-itip-control.c:1951 calendar/gui/e-itip-control.c:2001
 msgid "The item could not be sent!\n"
 msgstr "لم يمكن إرسال العنصر!\n"
 
@@ -6769,6 +6815,10 @@ msgstr "%A, %B %d, %Y"
 
 #. This is a strftime() format string %a = abbreviated weekday
 #. name, %m = month number, %d = month day, %Y = full year.
+#. This is a strftime() format string %a = abbreviated weekday name,
+#. %m = month number, %d = month day, %Y = full year.
+#. strptime format of a weekday and a date.
+#. strftime format of a weekday and a date.
 #: calendar/gui/e-meeting-time-sel-item.c:456
 #: calendar/gui/e-meeting-time-sel.c:2102 e-util/e-time-utils.c:203
 #: e-util/e-time-utils.c:296 e-util/e-time-utils.c:384
@@ -6777,6 +6827,10 @@ msgstr "%a %m/%d/%Y"
 
 #. This is a strftime() format string %m = month number,
 #. %d = month day, %Y = full year.
+#. strptime format of a weekday and a date.
+#. This is the preferred date format for the locale.
+#. This is a strftime() format for a short date. %m = month,
+#. %d = day of month, %Y = year (all digits).
 #: calendar/gui/e-meeting-time-sel-item.c:460 e-util/e-time-utils.c:238
 #: e-util/e-time-utils.c:299 widgets/misc/e-dateedit.c:1604
 msgid "%m/%d/%Y"
@@ -7318,53 +7372,53 @@ msgstr[1] "مُنتقى"
 msgid "Failed upgrading tasks."
 msgstr ""
 
-#: calendar/gui/tasks-component.c:756
+#: calendar/gui/tasks-component.c:758
 #, c-format
 msgid "Unable to open the task list '%s' for creating events and meetings"
 msgstr "لم يمكن فتح قائمة المهام '%s' لإنشاء الأحداث و الإجتماعات"
 
-#: calendar/gui/tasks-component.c:768
+#: calendar/gui/tasks-component.c:773
 msgid "There is no calendar available for creating tasks"
 msgstr "لا تتوفّر رُزنامة لإنشاء المهام"
 
-#: calendar/gui/tasks-component.c:1042
+#: calendar/gui/tasks-component.c:1047
 msgid "New task"
 msgstr "مهمّة جديدة"
 
-#: calendar/gui/tasks-component.c:1043
+#: calendar/gui/tasks-component.c:1048
 msgid "_Task"
 msgstr "_مهمّة"
 
-#: calendar/gui/tasks-component.c:1044
+#: calendar/gui/tasks-component.c:1049
 msgid "Create a new task"
 msgstr "إنشاء مهمّةً جديدة"
 
-#: calendar/gui/tasks-component.c:1050
+#: calendar/gui/tasks-component.c:1055
 #, fuzzy
 msgid "New assigned task"
 msgstr "تعيين مهمّة"
 
-#: calendar/gui/tasks-component.c:1051
+#: calendar/gui/tasks-component.c:1056
 #, fuzzy
 msgid "Assigne_d Task"
 msgstr "تعيين مهمّة"
 
-#: calendar/gui/tasks-component.c:1052
+#: calendar/gui/tasks-component.c:1057
 #, fuzzy
 msgid "Create a new assigned task"
 msgstr "إنشاء مهمّةً جديدة"
 
-#: calendar/gui/tasks-component.c:1058
+#: calendar/gui/tasks-component.c:1063
 #, fuzzy
 msgid "New task list"
 msgstr "قائمة مهام جديدة"
 
-#: calendar/gui/tasks-component.c:1059
+#: calendar/gui/tasks-component.c:1064
 #, fuzzy
 msgid "Task l_ist"
 msgstr "قائمة المهام"
 
-#: calendar/gui/tasks-component.c:1060
+#: calendar/gui/tasks-component.c:1065
 #, fuzzy
 msgid "Create a new task list"
 msgstr "إنشاء مهمّةً جديدة"
@@ -12406,6 +12460,11 @@ msgid "Could not retrieve messages to attach from {0}."
 msgstr "لا يمكن جلب الرّسالة من المحرّر"
 
 #. mail-composer:attach-nomessages secondary
+#. mail-composer:no-sig-file secondary
+#. mail:no-create-tmp-path secondary
+#. mail:no-delete-folder secondary
+#. system:no-save-file secondary
+#. system:no-load-file secondary
 #: composer/mail-composer-errors.xml.h:14
 #: composer/mail-composer-errors.xml.h:42 mail/mail-errors.xml.h:100
 #: mail/mail-errors.xml.h:112 widgets/misc/e-system-errors.xml.h:11
@@ -12506,6 +12565,7 @@ msgid "You need to configure an account before you can compose mail."
 msgstr "يجب أن تُعدّ حساباً قبل أن تتمكّن من كتابة البريد."
 
 #. mail-composer:no-address-control primary
+#. mail-composer:no-editor-control primary
 #: composer/mail-composer-errors.xml.h:48
 #: composer/mail-composer-errors.xml.h:52
 #, fuzzy
@@ -12675,12 +12735,16 @@ msgstr "تذكر كلمة السّر هذه لمذكر الجلسة"
 
 #. strptime format of a weekday, a date and a time,
 #. in 12-hour format, without seconds.
+#. strftime format of a weekday, a date and a
+#. time, in 12-hour format, without seconds.
 #: e-util/e-time-utils.c:185 e-util/e-time-utils.c:398
 msgid "%a %m/%d/%Y %I:%M %p"
 msgstr "%a %m/%d/%Y %I:%M %p"
 
 #. strptime format of a weekday, a date and a time,
 #. in 24-hour format, without seconds.
+#. strftime format of a weekday, a date and a
+#. time, in 24-hour format, without seconds.
 #: e-util/e-time-utils.c:190 e-util/e-time-utils.c:389
 msgid "%a %m/%d/%Y %H:%M"
 msgstr "%a %m/%d/%Y %H:%M"
@@ -12732,23 +12796,31 @@ msgid "%m/%d/%Y %H"
 msgstr "%m/%d/%Y %H"
 
 #. strptime format for a time of day, in 12-hour format.
+#. strftime format of a time in 12-hour format.
 #: e-util/e-time-utils.c:339 e-util/e-time-utils.c:438
 msgid "%I:%M:%S %p"
 msgstr "%I:%M:%S %p"
 
 #. strptime format for a time of day, in 24-hour format.
+#. strftime format of a time in 24-hour format.
 #: e-util/e-time-utils.c:343 e-util/e-time-utils.c:430
 msgid "%H:%M:%S"
 msgstr "%H:%M:%S"
 
 #. strptime format for time of day, without seconds,
 #. in 12-hour format.
+#. strftime format of a time in 12-hour format,
+#. without seconds.
+#. This is a strftime() format. %I = hour (1-12), %M = minute, %p = am/pm string.
 #: e-util/e-time-utils.c:348 e-util/e-time-utils.c:435
 #: widgets/misc/e-dateedit.c:1414 widgets/misc/e-dateedit.c:1639
 msgid "%I:%M %p"
 msgstr "%I:%M %p"
 
 #. strptime format for time of day, without seconds 24-hour format.
+#. strftime format of a time in 24-hour format,
+#. without seconds.
+#. This is a strftime() format. %H = hour (0-23), %M = minute.
 #: e-util/e-time-utils.c:352 e-util/e-time-utils.c:427
 #: widgets/misc/e-dateedit.c:1411 widgets/misc/e-dateedit.c:1636
 msgid "%H:%M"
@@ -12843,6 +12915,7 @@ msgid "Missing file name."
 msgstr "إ_سم مميّز:"
 
 #. filter:no-file secondary
+#. filter:bad-file secondary
 #: filter/filter-errors.xml.h:8 filter/filter-errors.xml.h:12
 msgid "You must specify a file name."
 msgstr "يجب تحديد اسم ملف."
@@ -12867,6 +12940,7 @@ msgid "Could not compile regular expression \"{1}\"."
 msgstr ""
 
 #. filter:no-name primary
+#. mail:no-name-vfolder primary
 #: filter/filter-errors.xml.h:18 mail/mail-errors.xml.h:214
 #, fuzzy
 msgid "Missing name."
@@ -15819,6 +15893,7 @@ msgid ""
 msgstr ""
 
 #. mail:ask-send-only-bcc-contact primary
+#. mail:ask-send-only-bcc primary
 #: mail/mail-errors.xml.h:22 mail/mail-errors.xml.h:29
 #, fuzzy
 msgid "Are you sure you want to send a message with only BCC recipients?"
@@ -15887,6 +15962,7 @@ msgid ""
 msgstr "إزالة جميع الرّسائل المحذوفة من هذا المجلّد نهائيّاً"
 
 #. mail:ask-expunge secondary
+#. mail:ask-empty-trash secondary
 #: mail/mail-errors.xml.h:45 mail/mail-errors.xml.h:50
 msgid "If you continue, you will not be able to recover these messages."
 msgstr ""
@@ -15980,6 +16056,8 @@ msgid "Cannot save to directory \"{0}\"."
 msgstr "لا يمكن فتح الملف"
 
 #. mail:no-create-path primary
+#. mail:no-write-path-exists primary
+#. mail:no-write-path-notfile primary
 #: mail/mail-errors.xml.h:94 mail/mail-errors.xml.h:102
 #: mail/mail-errors.xml.h:106
 #, fuzzy
@@ -16025,6 +16103,7 @@ msgid "Cannot delete system folder \"{0}\"."
 msgstr "لا يمكن فتح الملف"
 
 #. mail:no-delete-spethal-folder secondary
+#. mail:no-rename-spethal-folder secondary
 #: mail/mail-errors.xml.h:116 mail/mail-errors.xml.h:120
 msgid ""
 "System folders are required for Ximian Evolution to function correctly and "
@@ -16057,12 +16136,14 @@ msgid ""
 msgstr ""
 
 #. mail:no-rename-folder-exists primary
+#. mail:no-rename-folder primary
 #: mail/mail-errors.xml.h:128 mail/mail-errors.xml.h:132
 #, fuzzy
 msgid "Cannot rename \"{0}\" to \"{1}\"."
 msgstr "لا يمكن فتح الملف"
 
 #. mail:no-rename-folder-exists secondary
+#. mail:vfolder-notunique secondary
 #: mail/mail-errors.xml.h:130 mail/mail-errors.xml.h:192
 #, fuzzy
 msgid "A folder named \"{1}\" already exists. Please use a different name."
@@ -16074,24 +16155,28 @@ msgid "Because \"{2}\"."
 msgstr ""
 
 #. mail:no-move-folder-nostore primary
+#. mail:no-move-folder-to-nostore primary
 #: mail/mail-errors.xml.h:136 mail/mail-errors.xml.h:140
 #, fuzzy
 msgid "Cannot move folder \"{0}\" to \"{1}\"."
 msgstr "لا يمكن فتح الملف"
 
 #. mail:no-move-folder-nostore secondary
+#. mail:no-copy-folder-nostore secondary
 #: mail/mail-errors.xml.h:138 mail/mail-errors.xml.h:146
 #, fuzzy
 msgid "Cannot open source \"{2}\"."
 msgstr "لا يمكن فتح الملف"
 
 #. mail:no-move-folder-to-nostore secondary
+#. mail:no-copy-folder-to-nostore secondary
 #: mail/mail-errors.xml.h:142 mail/mail-errors.xml.h:150
 #, fuzzy
 msgid "Cannot open target \"{2}\"."
 msgstr "لا يمكن فتح الملف"
 
 #. mail:no-copy-folder-nostore primary
+#. mail:no-copy-folder-to-nostore primary
 #: mail/mail-errors.xml.h:144 mail/mail-errors.xml.h:148
 #, fuzzy
 msgid "Cannot copy folder \"{0}\" to \"{1}\"."
@@ -16110,6 +16195,7 @@ msgid "Cannot open source \"{1}\""
 msgstr "لا يمكن فتح الملف"
 
 #. mail:account-incomplete primary
+#. mail:account-notunique primary
 #: mail/mail-errors.xml.h:156 mail/mail-errors.xml.h:160
 #, fuzzy
 msgid "Cannot save changes to account."
@@ -17335,6 +17421,7 @@ msgid "Continue"
 msgstr "جاري الإتّصال"
 
 #. shell:upgrade-remove-1-4 title
+#. shell:upgrade-remove-1-4 primary
 #: shell/shell-errors.xml.h:17 shell/shell-errors.xml.h:19
 msgid "Delete old data from version {0}?"
 msgstr ""
@@ -17352,16 +17439,21 @@ msgstr ""
 
 #: shell/shell-errors.xml.h:25
 #, fuzzy
-msgid "Keep"
-msgstr "صافرة"
+msgid "_Remind Me Later"
+msgstr "علامة تذكير"
+
+#: shell/shell-errors.xml.h:26
+msgid "_Keep Data"
+msgstr ""
 
 #. shell:upgrade-remove-1-4-confirm title
-#: shell/shell-errors.xml.h:27 shell/shell-errors.xml.h:29
+#. shell:upgrade-remove-1-4-confirm primary
+#: shell/shell-errors.xml.h:28 shell/shell-errors.xml.h:30
 msgid "Really delete old data?"
 msgstr ""
 
 #. shell:upgrade-remove-1-4-confirm secondary
-#: shell/shell-errors.xml.h:31
+#: shell/shell-errors.xml.h:32
 msgid ""
 "The entire contents of the \"evolution\" directory is about to be be "
 "permanently removed.\n"
@@ -17375,19 +17467,21 @@ msgid ""
 msgstr ""
 
 #. shell:noshell title
-#: shell/shell-errors.xml.h:38 shell/shell-errors.xml.h:46
+#. shell:noshell-reason title
+#: shell/shell-errors.xml.h:39 shell/shell-errors.xml.h:47
 #, fuzzy
 msgid "Cannot start Evolution"
 msgstr "لم يمكن تشغيل نادل وُمْبَت"
 
 #. shell:noshell primary
-#: shell/shell-errors.xml.h:40 shell/shell-errors.xml.h:48
+#. shell:noshell-reason primary
+#: shell/shell-errors.xml.h:41 shell/shell-errors.xml.h:49
 #, fuzzy
 msgid "Evolution can not start."
 msgstr "مساعد حسابات إيفُليوشِن"
 
 #. shell:noshell secondary
-#: shell/shell-errors.xml.h:42
+#: shell/shell-errors.xml.h:43
 msgid ""
 "Your system configuration does not match your Evolution configuration.\n"
 "\n"
@@ -17395,7 +17489,7 @@ msgid ""
 msgstr ""
 
 #. shell:noshell-reason secondary
-#: shell/shell-errors.xml.h:50
+#: shell/shell-errors.xml.h:51
 msgid ""
 "Your system configuration does not match your Evolution configuration:\n"
 "\n"
@@ -19744,6 +19838,10 @@ msgid "%s (%d%% complete)"
 msgstr "%s (%d%% تام)"
 
 #, fuzzy
+#~ msgid "Keep"
+#~ msgstr "صافرة"
+
+#, fuzzy
 #~ msgid "New Contacts Group"
 #~ msgstr "مراسَل جديد"
 
@@ -20235,9 +20333,6 @@ msgstr "%s (%d%% تام)"
 
 #~ msgid "Are you sure want to delete this untitled journal entry?"
 #~ msgstr "هل تريد فعلاً حذف خانة السّجل الغير مسمّاة هذه؟"
-
-#~ msgid "Reminder"
-#~ msgstr "علامة تذكير"
 
 #~ msgid "B_usy"
 #~ msgstr "_مشغول"

@@ -182,6 +182,7 @@ queue_alarm (AlarmRecord *ar)
  * @trigger: Time at which alarm will trigger.
  * @alarm_fn: Callback for trigger.
  * @data: Closure data for callback.
+ * @destroy_notify_fn: destroy notification callback.
  *
  * Adds an alarm to trigger at the specified time.  The @alarm_fn will be called
  * with the provided data and the alarm will be removed from the trigger list.

@@ -86,7 +86,7 @@ icon_free (Icon *icon)
 }
 
 static Icon *
-load_icon (const char *icon_name, int size, int scale)
+load_icon (const char *icon_key, const char *icon_name, int size, int scale)
 {
 	GdkPixbuf *pixbuf, *unscaled = NULL;
 	char *filename = NULL;
@@ -153,7 +153,7 @@ load_icon (const char *icon_name, int size, int scale)
 		pixbuf = NULL;
 	}
 	
-	return icon_new (icon_name, pixbuf);
+	return icon_new (icon_key, pixbuf);
 }
 
 
@@ -173,6 +173,17 @@ pixel_size_to_icon_size (int pixel_size)
 	return icon_size;
 }
 
+static gboolean
+icon_foreach_remove (gpointer key, gpointer value, gpointer user_data)
+{
+	icon_free (value);
+}
+
+static void
+icon_theme_changed_cb (GnomeIconTheme *object, gpointer user_data)
+{
+	g_hash_table_foreach_remove (name_to_icon, (GHRFunc) icon_foreach_remove, NULL);
+}
 
 /**
  * e_icon_factory_init:
@@ -187,18 +198,17 @@ e_icon_factory_init (void)
 	
 	icon_theme = gnome_icon_theme_new ();
 	name_to_icon = g_hash_table_new (g_str_hash, g_str_equal);
+	g_signal_connect (G_OBJECT (icon_theme), "changed", icon_theme_changed_cb, NULL);
 	
 	broken16_pixbuf = gdk_pixbuf_new_from_xpm_data ((const char **) broken_image_16_xpm);
 	broken24_pixbuf = gdk_pixbuf_new_from_xpm_data ((const char **) broken_image_24_xpm);
 }
-
 
 static void
 icon_foreach_free (gpointer key, gpointer value, gpointer user_data)
 {
 	icon_free (value);
 }
-
 
 /**
  * e_icon_factory_shutdown:
@@ -293,7 +303,7 @@ e_icon_factory_get_icon (const char *icon_name, int icon_size)
 	pthread_mutex_lock (&lock);
 	
 	if (!(icon = g_hash_table_lookup (name_to_icon, icon_key))) {
-		if (!(icon = load_icon (icon_name, size, TRUE))) {
+		if (!(icon = load_icon (icon_key, icon_name, size, TRUE))) {
 			g_warning ("Icon not found -- %s", icon_name);
 			
 			/* Create an empty icon so that we don't keep spitting
@@ -350,7 +360,7 @@ e_icon_factory_get_icon_list (const char *icon_name)
 		sprintf (icon_key, "%dx%d/%s", size, size, icon_name);
 		
 		if (!(icon = g_hash_table_lookup (name_to_icon, icon_key))) {
-			if ((icon = load_icon (icon_name, size, FALSE)))
+			if ((icon = load_icon (icon_key, icon_name, size, FALSE)))
 				g_hash_table_insert (name_to_icon, icon->name, icon);
 		}
 		
