@@ -1,3 +1,10 @@
+2000-05-04  Chris Toshok  <toshok@helixcode.com>
+
+	* e-table-sorted-variable.c (etsv_sort): use rows here instead of
+	E_TABLE_SUBSET(etsv)->n_map, since the table can be populated by
+	the gtk_main_iteration above.  otherwise the vals_closure may not
+	be fully populated.
+
 2000-05-04  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-table-group-container.c, e-table-group-leaf.c,

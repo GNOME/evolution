@@ -274,7 +274,7 @@ etsv_sort(ETableSortedVariable *etsv)
 		ascending_closure[j] = column.ascending;
 	}
 	printf("allocated\n");
-	qsort(E_TABLE_SUBSET(etsv)->map_table, E_TABLE_SUBSET(etsv)->n_map, sizeof(int), qsort_callback);
+	qsort(E_TABLE_SUBSET(etsv)->map_table, rows, sizeof(int), qsort_callback);
 	printf ("sorted\n");
 	g_free(vals_closure);
 	g_free(ascending_closure);
