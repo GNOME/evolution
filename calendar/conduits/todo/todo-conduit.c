@@ -1,4 +1,26 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/* Evolution calendar - ToDo Conduit
+ *
+ * Copyright (C) 1998 Free Software Foundation
+ * Copyright (C) 2000 Helix Code, Inc.
+ *
+ * Authors: Eskil Heyn Olsen <deity@eskil.dk> 
+ *          JP Rosevear <jpr@helixcode.com>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ */
 
 #include <config.h>
 #include <sys/stat.h>
@@ -355,7 +377,7 @@ find_record_in_repository(GnomePilotConduitStandardAbs *conduit,
 	char *uid = NULL;
 	EToDoLocalRecord *loc;
 	CalClientGetStatus status;
-	CalComponent *obj;
+	CalComponent *comp;
   
 	g_return_val_if_fail(conduit!=NULL,NULL);
 	g_return_val_if_fail(remote!=NULL,NULL);
@@ -368,12 +390,12 @@ find_record_in_repository(GnomePilotConduitStandardAbs *conduit,
 	status = cal_client_get_uid_by_pilot_id (ctxt->client, remote->ID, &uid);
 
 	if (status == CAL_CLIENT_GET_SUCCESS) {
-		status = cal_client_get_object (ctxt->client, uid, &obj);
+		status = cal_client_get_object (ctxt->client, uid, &comp);
 		if (status == CAL_CLIENT_GET_SUCCESS) {
-			LOG ("found %s\n", cal_component_get_as_string (obj));
+			LOG ("found %s\n", cal_component_get_as_string (comp));
 			loc = g_new0(EToDoLocalRecord,1);
 			/* memory allocated in new_from_string is freed in free_match */
-			local_record_from_compobject (loc, obj);
+			local_record_from_compobject (loc, comp);
 			return loc;
 		}
 		LOG ("Pilot ID found, but comp for uid %s was not\n", uid);
@@ -620,8 +642,6 @@ pre_sync (GnomePilotConduit *c,
 
 	gtk_object_set_data (GTK_OBJECT(c), "dbinfo", dbi);
   
-	/* load_records(c); */
-
 	buf = (unsigned char*)g_malloc (0xffff);
 	l = dlp_ReadAppBlock (dbi->pilot_socket, dbi->db_handle, 0,
 			      (unsigned char *)buf, 0xffff);

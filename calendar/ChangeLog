@@ -1,3 +1,36 @@
+2000-09-14  JP Rosevear  <jpr@helixcode.com>
+
+	* Add headers with GPL notice and credit copyright to those appropriate
+
+	* conduits/todo/todo-conduit-control-applet.c (doHelp): Update name,
+	authors, copyright for about dialog.
+	(activate_sync_type): Tidy
+
+	* conduits/todo/Makefile.am: Rename binaries and libs to e-todo*
+	to avoid conflicts.
+
+	* conduits/todo/e-todo.conduit.in: Reflect binary/lib name changes
+
+	* conduits/todo/e-todo-conduit-control-applet.desktop: ditto
+
+	* conduits/todo/todo.conduit.in: Removed
+
+	* conduits/todo/todo-conduit-control-applet.desktop: Removed
+
+	* conduits/todo/todo-conduit-config.h (todoconduit_load_configuration):
+	The config file will now be called e-todo-conduit
+	(todoconduit_save_configuration): ditto
+
+	* conduits/todo/todo-conduit.c: Some renaming to keep consistent.
+	(pre_sync): Remove commented out function that does not exist.
+
+	* conduits/todo/todo-conduit-control-applet.c: ditto 
+
+	* conduits/todo/todo-conduit-config.h: ditto 
+
+	* conduits/todo/todo-conduit.h: ditto
+
+
 2000-09-07  Michael Meeks  <michael@helixcode.com>
 
 	* gui/calendar-commands.c: Re-write most UI handler code.

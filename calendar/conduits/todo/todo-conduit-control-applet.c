@@ -1,7 +1,26 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* Control applet ("capplet") for the gnome-pilot todo conduit,             */
-/* based on                                                                 */
-/* gpilotd control applet ('capplet') for use with the GNOME control center */
+/* Evolution calendar - ToDo Conduit Capplet
+ *
+ * Copyright (C) 1998 Free Software Foundation
+ * Copyright (C) 2000 Helix Code, Inc.
+ *
+ * Authors: Eskil Heyn Olsen <deity@eskil.dk> 
+ *          JP Rosevear <jpr@helixcode.com>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ */
 
 #include <pwd.h>
 #include <sys/types.h>
@@ -29,15 +48,15 @@ GtkWidget *dialogWindow=NULL;
 gboolean activated,org_activation_state;
 GnomePilotConduitManagement *conduit;
 GnomePilotConduitConfig *conduit_config;
-ToDoConduitCfg *origState = NULL;
-ToDoConduitCfg *curState = NULL;
+EToDoConduitCfg *origState = NULL;
+EToDoConduitCfg *curState = NULL;
 
-static void doTrySettings(GtkWidget *widget, ToDoConduitCfg *c);
-static void doRevertSettings(GtkWidget *widget, ToDoConduitCfg *c);
-static void doSaveSettings(GtkWidget *widget, ToDoConduitCfg *c);
+static void doTrySettings(GtkWidget *widget, EToDoConduitCfg *c);
+static void doRevertSettings(GtkWidget *widget, EToDoConduitCfg *c);
+static void doSaveSettings(GtkWidget *widget, EToDoConduitCfg *c);
 
-static void readStateCfg (GtkWidget *w, ToDoConduitCfg *c);
-static void setStateCfg (GtkWidget *w, ToDoConduitCfg *c);
+static void readStateCfg (GtkWidget *w, EToDoConduitCfg *c);
+static void setStateCfg (GtkWidget *w, EToDoConduitCfg *c);
 
 gint pilotId;
 static GnomePilotClient *gpc;
@@ -57,7 +76,7 @@ static gchar* sync_options[] ={ N_("Disabled"),
 #define SYNC_OPTIONS_COUNT 6
 
 static void
-doTrySettings (GtkWidget *widget, ToDoConduitCfg *c)
+doTrySettings (GtkWidget *widget, EToDoConduitCfg *c)
 {
 	if (c->sync_type != GnomePilotConduitSyncTypeCustom)
 		gnome_pilot_conduit_config_enable_with_first_sync (conduit_config,
@@ -71,7 +90,7 @@ doTrySettings (GtkWidget *widget, ToDoConduitCfg *c)
 }
 
 static void
-doRevertSettings (GtkWidget *widget, ToDoConduitCfg *c)
+doRevertSettings (GtkWidget *widget, EToDoConduitCfg *c)
 {
 	activated = org_activation_state;
 	*c = *origState;
@@ -80,7 +99,7 @@ doRevertSettings (GtkWidget *widget, ToDoConduitCfg *c)
 }
 
 static void
-doSaveSettings (GtkWidget *widget, ToDoConduitCfg *c)
+doSaveSettings (GtkWidget *widget, EToDoConduitCfg *c)
 {
 	*origState = *c;
 	doTrySettings (widget, c);
@@ -91,13 +110,18 @@ static void
 doHelp (GtkWidget *widget, gpointer data) 
 {
 	GtkWidget *about;
-	const gchar *authors[] = {_("Eskil Heyn Olsen <deity@eskil.dk>"),NULL};
+	const gchar *authors[] = {
+		_("JP Rosevear <jpr@helixcode.com>"),
+		"", _("Original Author:"), 
+		_("Eskil Heyn Olsen <deity@eskil.dk>"), 
+		NULL};
   
-	about = gnome_about_new (_("Gpilotd todo conduit"), VERSION,
-				 _("(C) 1998 the Free Software Foundation"),
-				 authors,
-				 _("Configuration utility for the todo conduit.\n"),
-				 _("gnome-unknown.xpm"));
+	about = gnome_about_new (
+		_("Evolution ToDo Conduit"), VERSION,
+		_("(C) 1998-2000 the Free Software Foundation and Helix Code"),
+		authors,
+		_("Configuration utility for the evolution todo conduit.\n"),
+		_("gnome-unknown.xpm"));
 	gtk_widget_show (about);
   
 	return;
@@ -106,16 +130,16 @@ doHelp (GtkWidget *widget, gpointer data)
 
 /* called by the sync_type GtkOptionMenu */
 static void
-activate_sync_type(GtkMenuItem *widget, gpointer data)
+activate_sync_type (GtkMenuItem *widget, gpointer data)
 {
-	curState->sync_type = GPOINTER_TO_INT(data);
-	if(!ignore_changes)
-		capplet_widget_state_changed(CAPPLET_WIDGET(capplet), TRUE);
+	curState->sync_type = GPOINTER_TO_INT (data);
+	if (!ignore_changes)
+		capplet_widget_state_changed (CAPPLET_WIDGET (capplet), TRUE);
 }
 
 
-static GtkWidget
-*createStateCfgWindow(void)
+static GtkWidget * 
+createStateCfgWindow(void)
 {
 	GtkWidget *vbox, *table;
 	GtkWidget *label;
@@ -153,7 +177,7 @@ static GtkWidget
 
 
 static void
-setStateCfg (GtkWidget *w, ToDoConduitCfg *c)
+setStateCfg (GtkWidget *w, EToDoConduitCfg *c)
 {
 	GtkOptionMenu *optionMenu;
 	GtkMenu *menu;
@@ -171,7 +195,7 @@ setStateCfg (GtkWidget *w, ToDoConduitCfg *c)
 
 
 static void
-readStateCfg (GtkWidget *w, ToDoConduitCfg *c)
+readStateCfg (GtkWidget *w, EToDoConduitCfg *c)
 {
 }
 
@@ -291,7 +315,7 @@ main (int argc, char *argv[])
 
 	
 	/* Put all code to set things up in here */
-	conduit = gnome_pilot_conduit_management_new ("todo_conduit", GNOME_PILOT_CONDUIT_MGMT_ID);
+	conduit = gnome_pilot_conduit_management_new ("e_todo_conduit", GNOME_PILOT_CONDUIT_MGMT_ID);
 	if (conduit == NULL) 
 		return -1;
 

@@ -7,11 +7,11 @@ INCLUDES = 					\
 	$(GNOME_PILOT_CFLAGS)
 
 # ToDo Capplet
-bin_PROGRAMS = todo-conduit-control-applet
+bin_PROGRAMS = e-todo-conduit-control-applet
 
-todo_conduit_control_applet_SOURCES = todo-conduit-control-applet.c
+e_todo_conduit_control_applet_SOURCES = todo-conduit-control-applet.c
 
-todo_conduit_control_applet_LDADD = \
+e_todo_conduit_control_applet_LDADD = \
 		$(CAPPLET_LIBS)  \
 		$(GNOME_LIBDIR) \
 		$(GNOME_PILOT_LIBS) \
@@ -25,15 +25,15 @@ todo_conduit_control_applet_LDADD = \
 
 
 # ToDo Conduit
-todo_conduitsdir=$(libdir)/gnome-pilot/conduits
-todo_conduits_LTLIBRARIES = libtodo_conduit.la
+e_todo_conduitsdir=$(libdir)/gnome-pilot/conduits
+e_todo_conduits_LTLIBRARIES = libetodo_conduit.la
 
-libtodo_conduit_la_SOURCES = todo-conduit.c
+libetodo_conduit_la_SOURCES = todo-conduit.c
 
-libtodo_conduit_la_LDFLAGS = \
+libetodo_conduit_la_LDFLAGS = \
 	-rpath $(libdir)
 
-libtodo_conduit_la_LIBADD = 					\
+libetodo_conduit_la_LIBADD = 					\
 	$(top_builddir)/calendar/cal-client/libcal-client-static.la	\
 	$(top_builddir)/calendar/cal-util/libcal-util-static.la		\
 	$(top_builddir)/libversit/libversit.la				\
@@ -43,24 +43,24 @@ libtodo_conduit_la_LIBADD = 					\
 	$(GNOME_LIBDIR) 						\
 	$(GNOME_LIBS)
 
-todo.conduit: todo.conduit.in Makefile
-	sed -e 's^\@prefix\@^$(prefix)^g' < $(srcdir)/todo.conduit.in > todo.conduit.tmp \
-	&& mv todo.conduit.tmp todo.conduit
+e-todo.conduit: e-todo.conduit.in Makefile
+	sed -e 's^\@prefix\@^$(prefix)^g' < $(srcdir)/e-todo.conduit.in > e-todo.conduit.tmp \
+	&& mv e-todo.conduit.tmp e-todo.conduit
 
 
 ccenterdir = $(datadir)/control-center
 ccenterPalmPilotdir = $(ccenterdir)/Peripherals
 ccenterConduitsdir = $(ccenterPalmPilotdir)/Conduits
-ccenterConduits_DATA = todo-conduit-control-applet.desktop 
+ccenterConduits_DATA = e-todo-conduit-control-applet.desktop 
 
 panelConduitsdir = $(datadir)/gnome/apps/Settings/Peripherals/Conduits
 panelConduits_DATA = $(ccenterConduits_DATA)
 
 Conduitdir = $(datadir)/gnome-pilot/conduits/
-Conduit_DATA = todo.conduit
+Conduit_DATA = e-todo.conduit
 
 EXTRA_DIST = \
-	todo.conduit.in \
+	e-todo.conduit.in \
         $(ccenterConduits_DATA)
 
 install-data-local:
