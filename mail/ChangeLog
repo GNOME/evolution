@@ -1,3 +1,21 @@
+2001-08-24  Peter Williams  <peterw@ximian.com>
+
+	* mail-config.c (add_shortcut_entry): Instead of using the length
+	of the shortcuts list as the index for the shortcut, use -1, which
+	means "last".
+
+	* mail-config-druid.c (druid_finish): Remove the account adding
+	stuff since that happens in wizard_finish now.
+
+	* mail-config.c (add_new_storage): New function. Add a
+	MailConfigAccount to the shell as a storage.
+	(maybe_add_shortcut): Renamed to new_source_created.
+	(new_source_created): Call add_new_storage here.
+
+	* component-factory.c (mail_remove_storage_by_uri): Don't warn
+	if the storage isn't remote... no point in making the caller
+	do extra work.
+
 2001-08-24  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-config.c (mail_config_set_thread_list): Don't let the uri

@@ -1106,8 +1106,11 @@ mail_remove_storage_by_uri (const char *uri)
 			mail_remove_storage (CAMEL_STORE (store));
 			camel_object_unref (CAMEL_OBJECT (store));
 		}
-	} else
-		g_warning ("%s is not a remote storage.", uri);
+	} else {
+		/* why make the caller redundantly check this? */
+		/*g_warning ("%s is not a remote storage.", uri);*/
+	}
+
 	camel_exception_clear (&ex);
 }
 

@@ -185,14 +185,6 @@ static void
 druid_finish (GnomeDruidPage *page, gpointer arg1, gpointer user_data)
 {
 	MailConfigDruid *druid = user_data;
-	MailConfigAccount *account;
-	GSList *mini;
-
-	/* Load up this new account */
-	account = gtk_object_get_data (GTK_OBJECT (account_wizard), "account-data");
-	mini = g_slist_prepend (NULL, account);
-	mail_load_storages (druid->shell, mini, TRUE);
-	g_slist_free (mini);
 
 	gtk_object_set_data (GTK_OBJECT (account_wizard), "account-data", NULL);
 	gtk_widget_destroy (GTK_WIDGET (druid));

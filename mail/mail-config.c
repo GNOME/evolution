@@ -1531,7 +1531,7 @@ add_shortcut_entry (const char *name, const char *uri, const char *type)
 		
 		GNOME_Evolution_Shortcuts_add (shortcuts_interface,
 					       group_num,
-					       the_group->shortcuts._length,
+					       -1, /* "end of list" */
 					       the_shortcut,
 					       &ev);
 		
@@ -1549,7 +1549,17 @@ add_shortcut_entry (const char *name, const char *uri, const char *type)
 }
 
 static void
-maybe_add_shortcut (MailConfigAccount *account)
+add_new_storage (const char *url, const char *name)
+{
+	extern EvolutionShellClient *global_shell_client;
+	GNOME_Evolution_Shell corba_shell;
+
+	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (global_shell_client));
+	mail_load_storage_by_uri (corba_shell, url, name);
+}
+
+static void
+new_source_created (MailConfigAccount *account)
 {
 	CamelProvider *prov;
 	gchar *name;
@@ -1577,6 +1587,10 @@ maybe_add_shortcut (MailConfigAccount *account)
 	add_shortcut_entry (name, url, "mail");
 	g_free (name);
 	g_free (url);
+
+	/* while we're here, add the storage to the folder tree */
+
+	add_new_storage (account->source->url, account->name);
 }
 
 void
@@ -1585,7 +1599,7 @@ mail_config_add_account (MailConfigAccount *account)
 	config->accounts = g_slist_append (config->accounts, account);
 
 	if (account->source && account->source->url)
-		maybe_add_shortcut (account);
+		new_source_created (account);
 }
 
 static void
