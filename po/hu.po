@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution VERSION\n"
-"POT-Creation-Date: 2000-07-23 23:29+0200\n"
+"POT-Creation-Date: 2000-07-28 16:43+0200\n"
 "PO-Revision-Date: 2000-05-19 19:06+0100\n"
 "Last-Translator: Szabolcs BAN <shooby@gnome.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
@@ -36,68 +36,68 @@ msgid "Available Categories:"
 msgstr "Meglévõ mezõk"
 
 #: addressbook/contact-editor/e-contact-editor.c:643
-#: calendar/gui/event-editor.c:1118
+#: calendar/gui/event-editor.c:1168
 msgid "FIXME: _Appointment"
 msgstr "FIXME: _Idõpont"
 
 #: addressbook/contact-editor/e-contact-editor.c:644
-#: calendar/gui/event-editor.c:1119
+#: calendar/gui/event-editor.c:1169
 msgid "FIXME: Meeting Re_quest"
 msgstr "FIXME: Találkozó _felhívás"
 
 #: addressbook/contact-editor/e-contact-editor.c:646
-#: calendar/gui/event-editor.c:1121
+#: calendar/gui/event-editor.c:1171
 msgid "FIXME: _Mail Message"
 msgstr "FIXME: _Levél"
 
 #: addressbook/contact-editor/e-contact-editor.c:647
-#: calendar/gui/event-editor.c:1122
+#: calendar/gui/event-editor.c:1172
 msgid "FIXME: _Contact"
 msgstr "FIXME: _Címjegyzék"
 
 #: addressbook/contact-editor/e-contact-editor.c:648
-#: calendar/gui/event-editor.c:1123
+#: calendar/gui/event-editor.c:1173
 msgid "FIXME: _Task"
 msgstr "FIXME: _Feladat"
 
 #: addressbook/contact-editor/e-contact-editor.c:649
-#: calendar/gui/event-editor.c:1124
+#: calendar/gui/event-editor.c:1174
 msgid "FIXME: Task _Request"
 msgstr "FIXME: Feladat f_elhívás"
 
 #: addressbook/contact-editor/e-contact-editor.c:650
-#: calendar/gui/event-editor.c:1125
+#: calendar/gui/event-editor.c:1175
 msgid "FIXME: _Journal Entry"
 msgstr "FIXME: _Napló bejegyzés"
 
 #: addressbook/contact-editor/e-contact-editor.c:651
-#: calendar/gui/event-editor.c:1126
+#: calendar/gui/event-editor.c:1176
 msgid "FIXME: _Note"
 msgstr "FIXME: _Feljegyzés"
 
 #: addressbook/contact-editor/e-contact-editor.c:653
 #: addressbook/contact-editor/e-contact-editor.c:758
-#: calendar/gui/event-editor.c:1128 calendar/gui/event-editor.c:1235
+#: calendar/gui/event-editor.c:1178 calendar/gui/event-editor.c:1285
 msgid "FIXME: Ch_oose Form..."
 msgstr "FIXME: Válassz f_ormát..."
 
 #: addressbook/contact-editor/e-contact-editor.c:658
-#: calendar/gui/event-editor.c:1133
+#: calendar/gui/event-editor.c:1183
 msgid "FIXME: _Memo Style"
 msgstr "FIXME: _Memo stílus"
 
 #: addressbook/contact-editor/e-contact-editor.c:660
-#: calendar/gui/event-editor.c:1135
+#: calendar/gui/event-editor.c:1185
 msgid "FIXME: Define Print _Styles..."
 msgstr "FIXME: Nyomtatási stílusok definiálása..."
 
 #: addressbook/contact-editor/e-contact-editor.c:667
-#: calendar/gui/event-editor.c:1142
+#: calendar/gui/event-editor.c:1192
 msgid "FIXME: S_end"
 msgstr "FIXME: _Elküld"
 
 #: addressbook/contact-editor/e-contact-editor.c:671
-#: calendar/gui/event-editor.c:1146
+#: calendar/gui/event-editor.c:1196
 msgid "FIXME: Save Attac_hments..."
 msgstr "FIXME: Csatolások me_ntése..."
 
@@ -107,149 +107,149 @@ msgid "_Delete"
 msgstr "_Töröl"
 
 #: addressbook/contact-editor/e-contact-editor.c:674
-#: calendar/gui/event-editor.c:1149
+#: calendar/gui/event-editor.c:1199
 msgid "FIXME: _Move to Folder..."
 msgstr "FIXME: _Mappába mozgat..."
 
 #: addressbook/contact-editor/e-contact-editor.c:675
-#: calendar/gui/event-editor.c:1150
+#: calendar/gui/event-editor.c:1200
 msgid "FIXME: Cop_y to Folder..."
 msgstr "FIXME: Mappába máso_l..."
 
 #: addressbook/contact-editor/e-contact-editor.c:677
-#: calendar/gui/event-editor.c:1152
+#: calendar/gui/event-editor.c:1202
 msgid "Page Set_up"
 msgstr "Oldal _beállítás:"
 
 #: addressbook/contact-editor/e-contact-editor.c:678
-#: calendar/gui/event-editor.c:1153
+#: calendar/gui/event-editor.c:1203
 msgid "FIXME: Print Pre_view"
 msgstr "FIXME: Nyomtatás né_zet"
 
 #: addressbook/contact-editor/e-contact-editor.c:699
-#: calendar/gui/event-editor.c:1174
+#: calendar/gui/event-editor.c:1224
 msgid "FIXME: Paste _Special..."
 msgstr "FIXME: _Speciális beillesztés"
 
 #: addressbook/contact-editor/e-contact-editor.c:704
-#: calendar/gui/event-editor.c:1179
+#: calendar/gui/event-editor.c:1229
 msgid "FIXME: Mark as U_nread"
 msgstr "FIXME: Ne_m olvasottnak jelöl"
 
 #: addressbook/contact-editor/e-contact-editor.c:708
-#: calendar/gui/event-editor.c:1183
+#: calendar/gui/event-editor.c:1233
 msgid "_Object"
 msgstr "_Objektum"
 
 #: addressbook/contact-editor/e-contact-editor.c:713
 #: addressbook/contact-editor/e-contact-editor.c:720
-#: calendar/gui/event-editor.c:1188 calendar/gui/event-editor.c:1195
+#: calendar/gui/event-editor.c:1238 calendar/gui/event-editor.c:1245
 msgid "FIXME: _Item"
 msgstr "FIXME: _Elem"
 
 #: addressbook/contact-editor/e-contact-editor.c:714
 #: addressbook/contact-editor/e-contact-editor.c:721
-#: calendar/gui/event-editor.c:1189 calendar/gui/event-editor.c:1196
+#: calendar/gui/event-editor.c:1239 calendar/gui/event-editor.c:1246
 msgid "FIXME: _Unread Item"
 msgstr "FIXME: _Nem olvasott elem"
 
 #: addressbook/contact-editor/e-contact-editor.c:715
-#: calendar/gui/event-editor.c:1190
+#: calendar/gui/event-editor.c:1240
 msgid "FIXME: Fi_rst Item in Folder"
 msgstr "FIXME: Elsõ e_lem a mappában"
 
 #: addressbook/contact-editor/e-contact-editor.c:722
-#: calendar/gui/event-editor.c:1197
+#: calendar/gui/event-editor.c:1247
 msgid "FIXME: _Last Item in Folder"
 msgstr "FIXME: _Utolsó elem a mappában"
 
 #: addressbook/contact-editor/e-contact-editor.c:727
-#: calendar/gui/event-editor.c:1202
+#: calendar/gui/event-editor.c:1252
 msgid "FIXME: _Standard"
 msgstr "FIXME: Á_ltalános"
 
 #: addressbook/contact-editor/e-contact-editor.c:729
-#: calendar/gui/event-editor.c:1204
+#: calendar/gui/event-editor.c:1254
 msgid "FIXME: __Formatting"
 msgstr "FIXME: __Formázás"
 
 #: addressbook/contact-editor/e-contact-editor.c:732
-#: calendar/gui/event-editor.c:1207
+#: calendar/gui/event-editor.c:1257
 msgid "FIXME: _Customize..."
 msgstr "FIXME: _Beállít..."
 
 #: addressbook/contact-editor/e-contact-editor.c:737
-#: calendar/gui/event-editor.c:1212
+#: calendar/gui/event-editor.c:1262
 msgid "Pre_vious"
 msgstr "E_lõzõ"
 
 #: addressbook/contact-editor/e-contact-editor.c:738
-#: calendar/gui/event-editor.c:1213
+#: calendar/gui/event-editor.c:1263
 msgid "Ne_xt"
 msgstr "Kö_vetkezõ"
 
 #: addressbook/contact-editor/e-contact-editor.c:740
-#: calendar/gui/event-editor.c:1217
+#: calendar/gui/event-editor.c:1267
 msgid "_Toolbars"
 msgstr "_Eszközök"
 
 #: addressbook/contact-editor/e-contact-editor.c:745
-#: calendar/gui/event-editor.c:1222
+#: calendar/gui/event-editor.c:1272
 msgid "FIXME: _File..."
 msgstr "FIXME: _Fájl..."
 
 #: addressbook/contact-editor/e-contact-editor.c:746
-#: calendar/gui/event-editor.c:1223
+#: calendar/gui/event-editor.c:1273
 msgid "FIXME: It_em..."
 msgstr "FIXME: Elem..."
 
 #: addressbook/contact-editor/e-contact-editor.c:747
-#: calendar/gui/event-editor.c:1224
+#: calendar/gui/event-editor.c:1274
 msgid "FIXME: _Object..."
 msgstr "FIXME: _Objektum..."
 
 #: addressbook/contact-editor/e-contact-editor.c:752
-#: calendar/gui/event-editor.c:1229
+#: calendar/gui/event-editor.c:1279
 msgid "FIXME: _Font..."
 msgstr "FIXME: _Betûtípus..."
 
 #: addressbook/contact-editor/e-contact-editor.c:753
-#: calendar/gui/event-editor.c:1230
+#: calendar/gui/event-editor.c:1280
 msgid "FIXME: _Paragraph..."
 msgstr "FIXME: B_ekezdés..."
 
 #: addressbook/contact-editor/e-contact-editor.c:760
-#: calendar/gui/event-editor.c:1237
+#: calendar/gui/event-editor.c:1287
 msgid "FIXME: Desi_gn This Form"
 msgstr "FIXME: Aktuális kérdõív _tervezése"
 
 #: addressbook/contact-editor/e-contact-editor.c:761
-#: calendar/gui/event-editor.c:1238
+#: calendar/gui/event-editor.c:1288
 msgid "FIXME: D_esign a Form..."
 msgstr "FIXME: Kérdõív t_ervezése"
 
 #: addressbook/contact-editor/e-contact-editor.c:763
-#: calendar/gui/event-editor.c:1240
+#: calendar/gui/event-editor.c:1290
 msgid "FIXME: Publish _Form..."
 msgstr "FIXME: Kérdõív _publikálása"
 
 #: addressbook/contact-editor/e-contact-editor.c:764
-#: calendar/gui/event-editor.c:1241
+#: calendar/gui/event-editor.c:1291
 msgid "FIXME: Pu_blish Form As..."
 msgstr "FIXME: Kérdõív publikálása _mint..."
 
 #: addressbook/contact-editor/e-contact-editor.c:766
-#: calendar/gui/event-editor.c:1243
+#: calendar/gui/event-editor.c:1293
 msgid "FIXME: Script _Debugger"
 msgstr "FIXME: Szkript _hibakeresõ"
 
 #: addressbook/contact-editor/e-contact-editor.c:771
-#: calendar/gui/event-editor.c:1248
+#: calendar/gui/event-editor.c:1298
 msgid "FIXME: _Spelling..."
 msgstr "FIXME: _Helyesírás..."
 
 #: addressbook/contact-editor/e-contact-editor.c:773
-#: calendar/gui/event-editor.c:1253
+#: calendar/gui/event-editor.c:1303
 msgid "_Forms"
 msgstr "_Kérdõívek"
 
@@ -291,7 +291,7 @@ msgstr "FIXME: _Zászló folytatáshoz..."
 
 #: addressbook/contact-editor/e-contact-editor.c:789
 msgid "FIXME: _Display Map of Address"
-msgstr ""
+msgstr "FIXME: _Térkép vagy cím megjelenítése"
 
 #: addressbook/contact-editor/e-contact-editor.c:790
 msgid "FIXME: _Open Web Page"
@@ -302,28 +302,27 @@ msgid "FIXME: Forward as _vCard"
 msgstr "FIXME: _vCard-ként továbbküld"
 
 #: addressbook/contact-editor/e-contact-editor.c:793
-#: calendar/gui/event-editor.c:1266
+#: calendar/gui/event-editor.c:1316
 msgid "FIXME: For_ward"
 msgstr "FIXME: _Továbbít"
 
 #: addressbook/contact-editor/e-contact-editor.c:805
-#: calendar/gui/event-editor.c:1279
+#: calendar/gui/event-editor.c:1329
 msgid "_Insert"
 msgstr "_Beilleszt"
 
 #: addressbook/contact-editor/e-contact-editor.c:806
-#: calendar/gui/event-editor.c:1280
+#: calendar/gui/event-editor.c:1330
 msgid "F_ormat"
 msgstr "F_ormátum"
 
-#. FIXME: add Favorites here
 #: addressbook/contact-editor/e-contact-editor.c:807
-#: calendar/gui/event-editor.c:1281 shell/e-shell-view-menu.c:493
+#: calendar/gui/event-editor.c:1331 shell/e-shell-view-menu.c:515
 msgid "_Tools"
 msgstr "_Eszközök"
 
 #: addressbook/contact-editor/e-contact-editor.c:808
-#: calendar/gui/event-editor.c:1282
+#: calendar/gui/event-editor.c:1332
 msgid "Actio_ns"
 msgstr "_Mûveletek"
 
@@ -332,7 +331,7 @@ msgid "Save and Close"
 msgstr "Ment és bezár"
 
 #: addressbook/contact-editor/e-contact-editor.c:840
-#: calendar/gui/event-editor.c:1321
+#: calendar/gui/event-editor.c:1371
 msgid "Save the appointment and close the dialog box"
 msgstr "A találkozó mentése és a párbeszédablak bezárása"
 
@@ -342,59 +341,59 @@ msgid "Print..."
 msgstr "Nyomtat..."
 
 #: addressbook/contact-editor/e-contact-editor.c:845
-#: calendar/gui/event-editor.c:1326
+#: calendar/gui/event-editor.c:1376
 msgid "Print this item"
 msgstr "Az elem nyomtatása"
 
 #: addressbook/contact-editor/e-contact-editor.c:848
-#: calendar/gui/event-editor.c:1327
+#: calendar/gui/event-editor.c:1377
 msgid "FIXME: Insert File..."
 msgstr "FIXME: Fájl beillesztése..."
 
 #: addressbook/contact-editor/e-contact-editor.c:849
-#: calendar/gui/event-editor.c:1328
+#: calendar/gui/event-editor.c:1378
 msgid "Insert a file as an attachment"
 msgstr "Fájl beillesztése csatolásként"
 
 #. Delete
 #: addressbook/contact-editor/e-contact-editor.c:852
-#: addressbook/gui/component/addressbook.c:426 calendar/gui/gncal-todo.c:499
-#: mail/folder-browser-factory.c:45
+#: addressbook/gui/component/addressbook.c:426 calendar/gui/gncal-todo.c:508
+#: mail/folder-browser-factory.c:39
 msgid "Delete"
 msgstr "Töröl"
 
 #: addressbook/contact-editor/e-contact-editor.c:853
-#: calendar/gui/event-editor.c:1337 calendar/gui/gncal-todo.c:327
+#: calendar/gui/event-editor.c:1387 calendar/gui/gncal-todo.c:336
 msgid "Delete this item"
 msgstr "Az elem törlése"
 
 #: addressbook/contact-editor/e-contact-editor.c:856
-#: calendar/gui/event-editor.c:1339
+#: calendar/gui/event-editor.c:1389
 msgid "FIXME: Previous"
 msgstr "FIXME: Elõzõ"
 
 #: addressbook/contact-editor/e-contact-editor.c:857
-#: calendar/gui/event-editor.c:1340
+#: calendar/gui/event-editor.c:1390
 msgid "Go to the previous item"
 msgstr "Az elõzõ elemre ugrás"
 
 #: addressbook/contact-editor/e-contact-editor.c:859
-#: calendar/gui/event-editor.c:1341
+#: calendar/gui/event-editor.c:1391
 msgid "FIXME: Next"
 msgstr "FIXME: Következõ"
 
 #: addressbook/contact-editor/e-contact-editor.c:860
-#: calendar/gui/event-editor.c:1342
+#: calendar/gui/event-editor.c:1392
 msgid "Go to the next item"
 msgstr "Következõ elemre ugrás"
 
 #: addressbook/contact-editor/e-contact-editor.c:862
-#: calendar/gui/event-editor.c:1343
+#: calendar/gui/event-editor.c:1393
 msgid "FIXME: Help"
 msgstr "FIXME: Súgó"
 
 #: addressbook/contact-editor/e-contact-editor.c:863
-#: calendar/gui/event-editor.c:1344
+#: calendar/gui/event-editor.c:1394
 msgid "See online help"
 msgstr "Az online súgó"
 
@@ -697,7 +696,7 @@ msgstr "Névjegy keresése"
 
 #: addressbook/gui/component/addressbook.c:425
 #: addressbook/gui/component/addressbook.c:492
-#: calendar/gui/calendar-commands.c:548 mail/folder-browser-factory.c:43
+#: calendar/gui/calendar-commands.c:548 mail/folder-browser-factory.c:37
 msgid "Print"
 msgstr "Nyomtat"
 
@@ -1171,8 +1170,8 @@ msgstr "Naptár megnyitása"
 msgid "Save calendar"
 msgstr "Naptár mentése"
 
-#: calendar/gui/calendar-commands.c:522 calendar/gui/gncal-todo.c:713
-#: calendar/gui/gncal-todo.c:717
+#: calendar/gui/calendar-commands.c:522 calendar/gui/gncal-todo.c:722
+#: calendar/gui/gncal-todo.c:726
 msgid "Day"
 msgstr "Nap"
 
@@ -1188,7 +1187,7 @@ msgstr "5 nap"
 msgid "Show the working week"
 msgstr "A munkahetet mutasd"
 
-#: calendar/gui/calendar-commands.c:528 calendar/gui/gncal-todo.c:712
+#: calendar/gui/calendar-commands.c:528 calendar/gui/gncal-todo.c:721
 msgid "Week"
 msgstr "Hét"
 
@@ -1326,7 +1325,7 @@ msgstr "Találkozó figyelmeztetés: %A %b %d %Y %H:%M"
 msgid "Close"
 msgstr "Bezár"
 
-#: calendar/gui/dialogs/alarm-notify.glade.h:8 calendar/gui/gnome-cal.c:1056
+#: calendar/gui/dialogs/alarm-notify.glade.h:8 calendar/gui/gnome-cal.c:1070
 msgid "Snooze"
 msgstr "Szundi"
 
@@ -1370,99 +1369,99 @@ msgstr "A megjelenés törlése"
 msgid "Delete all occurrences"
 msgstr "Az összes megjelenés törlése"
 
-#: calendar/gui/event-editor.c:289
+#: calendar/gui/event-editor.c:291
 msgid "Edit Appointment"
 msgstr "Megbeszélés szerkesztése"
 
-#: calendar/gui/event-editor.c:294
+#: calendar/gui/event-editor.c:296
 msgid "No summary"
 msgstr "Nincs összegzés"
 
-#: calendar/gui/event-editor.c:298
+#: calendar/gui/event-editor.c:300
 #, c-format
 msgid "Appointment - %s"
 msgstr "Idõpont - %s"
 
-#: calendar/gui/event-editor.c:301
+#: calendar/gui/event-editor.c:303
 #, c-format
 msgid "Task - %s"
 msgstr "Feladat - %s"
 
-#: calendar/gui/event-editor.c:304
+#: calendar/gui/event-editor.c:306
 #, c-format
 msgid "Journal entry - %s"
 msgstr "Napló bejegyzés - %s"
 
 #. Owner, summary
-#: calendar/gui/event-editor.c:594 calendar/gui/event-editor.c:688
+#: calendar/gui/event-editor.c:622 calendar/gui/event-editor.c:718
 msgid "?"
 msgstr "?"
 
-#: calendar/gui/event-editor.c:1148
+#: calendar/gui/event-editor.c:1198
 msgid "FIXME: _Delete"
 msgstr "FIXME: _Töröl"
 
-#: calendar/gui/event-editor.c:1215
+#: calendar/gui/event-editor.c:1265
 msgid "FIXME: Ca_lendar..."
 msgstr "FIXME: Nap_tár..."
 
-#: calendar/gui/event-editor.c:1250
+#: calendar/gui/event-editor.c:1300
 msgid "FIXME: Chec_k Names"
 msgstr "FIXME: Nevek _ellenõrzése"
 
-#: calendar/gui/event-editor.c:1251
+#: calendar/gui/event-editor.c:1301
 msgid "FIXME: Address _Book..."
 msgstr "FIXME: _Címjegyzék..."
 
-#: calendar/gui/event-editor.c:1258
+#: calendar/gui/event-editor.c:1308
 msgid "FIXME: _New Appointment"
 msgstr "FIXME: Új _megbeszélés"
 
-#: calendar/gui/event-editor.c:1260
+#: calendar/gui/event-editor.c:1310
 msgid "FIXME: Rec_urrence..."
 msgstr "FIXME: Ismétlõ_dés..."
 
-#: calendar/gui/event-editor.c:1262
+#: calendar/gui/event-editor.c:1312
 msgid "FIXME: Invite _Attendees..."
 msgstr "FIXME: Hallgatók meghívása..."
 
-#: calendar/gui/event-editor.c:1263
+#: calendar/gui/event-editor.c:1313
 msgid "FIXME: C_ancel Invitation..."
 msgstr "FIXME: Meghívás törlése..."
 
-#: calendar/gui/event-editor.c:1265
+#: calendar/gui/event-editor.c:1315
 msgid "FIXME: Forward as v_Calendar"
 msgstr "FIXME: v_Calendar-ként továbbítás"
 
-#: calendar/gui/event-editor.c:1320
+#: calendar/gui/event-editor.c:1370
 msgid "FIXME: Save and Close"
 msgstr "FIXME: Ment és bezár"
 
-#: calendar/gui/event-editor.c:1325
+#: calendar/gui/event-editor.c:1375
 msgid "FIXME: Print..."
 msgstr "FIXME: Nyomtat..."
 
-#: calendar/gui/event-editor.c:1330
+#: calendar/gui/event-editor.c:1380
 msgid "FIXME: Recurrence..."
 msgstr "FIXME: Ismétlõdés..."
 
-#: calendar/gui/event-editor.c:1331
+#: calendar/gui/event-editor.c:1381
 msgid "Configure recurrence rules"
 msgstr "Ismétlõdési szabályok beállítása"
 
-#: calendar/gui/event-editor.c:1333
+#: calendar/gui/event-editor.c:1383
 msgid "FIXME: Invite Attendees..."
 msgstr "FIXME: Hallgatók meghívása..."
 
-#: calendar/gui/event-editor.c:1334
+#: calendar/gui/event-editor.c:1384
 msgid "Invite attendees to a meeting"
 msgstr "Megbeszélésre hallgatók meghívása"
 
-#: calendar/gui/event-editor.c:1336
+#: calendar/gui/event-editor.c:1386
 msgid "FIXME: Delete"
 msgstr "FIXME: Töröl"
 
-#: calendar/gui/event-editor.c:1745
+#: calendar/gui/event-editor.c:1828
 msgid "%a %b %d %Y"
 msgstr "%a %b %d %Y"
 
@@ -1679,110 +1678,110 @@ msgstr "tizenkettedik"
 msgid "ago"
 msgstr "óta"
 
-#: calendar/gui/gncal-todo.c:137
+#: calendar/gui/gncal-todo.c:140
 msgid "Create to-do item"
 msgstr "Tennivaló készítése"
 
-#: calendar/gui/gncal-todo.c:137
+#: calendar/gui/gncal-todo.c:140
 msgid "Edit to-do item"
 msgstr "Tennivaló szerkesztése"
 
-#: calendar/gui/gncal-todo.c:171
+#: calendar/gui/gncal-todo.c:176
 msgid "Summary:"
 msgstr "Összegzés:"
 
-#: calendar/gui/gncal-todo.c:181
+#: calendar/gui/gncal-todo.c:186
 msgid "Due Date:"
 msgstr "Lejárat:"
 
-#: calendar/gui/gncal-todo.c:190
+#: calendar/gui/gncal-todo.c:195
 msgid "Priority:"
 msgstr "Prioritás:"
 
-#: calendar/gui/gncal-todo.c:207
+#: calendar/gui/gncal-todo.c:212
 msgid "Item Comments:"
 msgstr "Megjegyzések:"
 
-#: calendar/gui/gncal-todo.c:325
+#: calendar/gui/gncal-todo.c:334
 msgid "Add to-do item..."
 msgstr "Tennivaló hozzáadása..."
 
-#: calendar/gui/gncal-todo.c:326
+#: calendar/gui/gncal-todo.c:335
 msgid "Edit this item..."
 msgstr "Elem szerkesztése..."
 
-#: calendar/gui/gncal-todo.c:425
+#: calendar/gui/gncal-todo.c:434
 msgid "Summary"
 msgstr "Összegzés"
 
-#: calendar/gui/gncal-todo.c:426 calendar/gui/prop.c:604
+#: calendar/gui/gncal-todo.c:435 calendar/gui/prop.c:604
 msgid "Due Date"
 msgstr "Lejárat"
 
-#: calendar/gui/gncal-todo.c:427 calendar/gui/prop.c:605
-#: mail/message-list.c:474
+#: calendar/gui/gncal-todo.c:436 calendar/gui/prop.c:605
+#: mail/message-list.c:470
 msgid "Priority"
 msgstr "Prioritás"
 
-#: calendar/gui/gncal-todo.c:428
+#: calendar/gui/gncal-todo.c:437
 msgid "Time Left"
 msgstr "Hátra van"
 
 #. Label
-#: calendar/gui/gncal-todo.c:440
+#: calendar/gui/gncal-todo.c:449
 msgid "To-do list"
 msgstr "Lejárat"
 
 #. Add
-#: calendar/gui/gncal-todo.c:479
+#: calendar/gui/gncal-todo.c:488
 #: composer/e-msg-composer-address-dialog.glade.h:13
 msgid "Add..."
 msgstr "Hozzáad..."
 
 #. Edit
-#: calendar/gui/gncal-todo.c:488
+#: calendar/gui/gncal-todo.c:497
 msgid "Edit..."
 msgstr "Szerkeszt..."
 
-#: calendar/gui/gncal-todo.c:712
+#: calendar/gui/gncal-todo.c:721
 msgid "Weeks"
 msgstr "Hetek"
 
-#: calendar/gui/gncal-todo.c:713 calendar/gui/gncal-todo.c:717
+#: calendar/gui/gncal-todo.c:722 calendar/gui/gncal-todo.c:726
 msgid "Days"
 msgstr "Napok"
 
-#: calendar/gui/gncal-todo.c:718 calendar/gui/gncal-todo.c:722
+#: calendar/gui/gncal-todo.c:727 calendar/gui/gncal-todo.c:731
 msgid "Hours"
 msgstr "Órák"
 
-#: calendar/gui/gncal-todo.c:718 calendar/gui/gncal-todo.c:722
+#: calendar/gui/gncal-todo.c:727 calendar/gui/gncal-todo.c:731
 msgid "Hour"
 msgstr "Óra"
 
-#: calendar/gui/gncal-todo.c:723 calendar/gui/gncal-todo.c:727
+#: calendar/gui/gncal-todo.c:732 calendar/gui/gncal-todo.c:736
 msgid "Minutes"
 msgstr "Percek"
 
-#: calendar/gui/gncal-todo.c:723 calendar/gui/gncal-todo.c:727
+#: calendar/gui/gncal-todo.c:732 calendar/gui/gncal-todo.c:736
 msgid "Minute"
 msgstr "Perc"
 
-#: calendar/gui/gncal-todo.c:728 calendar/gui/gncal-todo.c:732
+#: calendar/gui/gncal-todo.c:737 calendar/gui/gncal-todo.c:741
 msgid "Seconds"
 msgstr "Másodpercek"
 
-#: calendar/gui/gncal-todo.c:728 calendar/gui/gncal-todo.c:732
+#: calendar/gui/gncal-todo.c:737 calendar/gui/gncal-todo.c:741
 msgid "Second"
 msgstr "Másodperc"
 
-#: calendar/gui/gnome-cal.c:453 calendar/gui/gnome-cal.c:1064
-#: calendar/gui/gnome-cal.c:1120
+#: calendar/gui/gnome-cal.c:461 calendar/gui/gnome-cal.c:1078
+#: calendar/gui/gnome-cal.c:1134
 msgid "Reminder of your appointment at "
 msgstr "A találkozód figyelmeztetõ üzenete:"
 
 #. Idea: we need Snooze option :-)
-#: calendar/gui/gnome-cal.c:1069 calendar/gui/gnome-cal.c:1124
+#: calendar/gui/gnome-cal.c:1083 calendar/gui/gnome-cal.c:1138
 msgid "Ok"
 msgstr "Ok"
 
@@ -2167,7 +2166,7 @@ msgstr "Szundi engedése"
 msgid "Defaults"
 msgstr "Alapértelmezett"
 
-#: composer/e-msg-composer-address-dialog.c:183 composer/e-msg-composer.c:945
+#: composer/e-msg-composer-address-dialog.c:183
 msgid "Cut"
 msgstr "Kivág"
 
@@ -2175,7 +2174,7 @@ msgstr "Kivág"
 msgid "Cut selected item into clipboard"
 msgstr "Kivágja a kiválasztott elemet a vágólapra"
 
-#: composer/e-msg-composer-address-dialog.c:187 composer/e-msg-composer.c:946
+#: composer/e-msg-composer-address-dialog.c:187
 msgid "Copy"
 msgstr "Másol"
 
@@ -2184,7 +2183,7 @@ msgid "Copy selected item into clipboard"
 msgstr "Másolja a kiválasztott elemet a vágólapra"
 
 #: composer/e-msg-composer-address-dialog.c:191
-#: composer/e-msg-composer-address-dialog.c:199 composer/e-msg-composer.c:947
+#: composer/e-msg-composer-address-dialog.c:199
 msgid "Paste"
 msgstr "Beilleszt"
 
@@ -2347,45 +2346,45 @@ msgstr "Téma:"
 msgid "Enter the subject of the mail"
 msgstr "Írd be a levél címét (subject)"
 
-#: composer/e-msg-composer.c:463
+#: composer/e-msg-composer.c:447
 msgid "Save as..."
 msgstr "Ment mint..."
 
-#: composer/e-msg-composer.c:474
+#: composer/e-msg-composer.c:458
 #, c-format
 msgid "Error saving file: %s"
 msgstr "Fájl mentési hiba: %s"
 
-#: composer/e-msg-composer.c:494
+#: composer/e-msg-composer.c:478
 #, c-format
 msgid "Error loading file: %s"
 msgstr "Fájl betöltési hiba: %s"
 
-#: composer/e-msg-composer.c:513
+#: composer/e-msg-composer.c:497
 msgid "Discard this message?"
 msgstr "Az üzenet figyelmen kívül hagyása?"
 
-#: composer/e-msg-composer.c:561
+#: composer/e-msg-composer.c:514
 msgid "Open file"
 msgstr "Fájl megnyitás"
 
-#: composer/e-msg-composer.c:676
+#: composer/e-msg-composer.c:626
 msgid "That file does not exist."
 msgstr "A fájl nem létezik."
 
-#: composer/e-msg-composer.c:686
+#: composer/e-msg-composer.c:636
 msgid "That is not a regular file."
 msgstr "Nem sima fájl."
 
-#: composer/e-msg-composer.c:696
+#: composer/e-msg-composer.c:646
 msgid "That file exists but is not readable."
 msgstr "Az a fájl létezik, de nem olvasható."
 
-#: composer/e-msg-composer.c:707
+#: composer/e-msg-composer.c:656
 msgid "That file appeared accesible but open(2) failed."
 msgstr "A fájl elérhetõnek látszik, de open(2) hiba történt."
 
-#: composer/e-msg-composer.c:729
+#: composer/e-msg-composer.c:678
 msgid ""
 "The file is very large (more than 100K).\n"
 "Are you sure you wish to insert it?"
@@ -2393,75 +2392,116 @@ msgstr ""
 "A fájl túl nagy (100K fölötti).\n"
 "Tényleg be szeretnéd szúrni?"
 
-#: composer/e-msg-composer.c:748
+#: composer/e-msg-composer.c:699
 msgid "An error occurred while reading the file."
 msgstr "Hiba történt megnyitás közben."
 
-#: composer/e-msg-composer.c:888
+#: composer/e-msg-composer.c:795 shell/e-shell-view-menu.c:438
+msgid "_File"
+msgstr "_Fájl"
+
+#: composer/e-msg-composer.c:801
+msgid "_Open..."
+msgstr "_Megnyit..."
+
+#: composer/e-msg-composer.c:802
+msgid "Load a previously saved message"
+msgstr "Elõzõleg mentett üzenet betöltése"
+
+#: composer/e-msg-composer.c:810
+msgid "_Save..."
+msgstr "_Ment..."
+
+#: composer/e-msg-composer.c:811
+msgid "Save message"
+msgstr "Levél mentése"
+
+#: composer/e-msg-composer.c:819
+msgid "_Save as..."
+msgstr "_Ment mint..."
+
+#: composer/e-msg-composer.c:820
+msgid "Save message with a different name"
+msgstr "A levél elmentése másik néven"
+
+#: composer/e-msg-composer.c:828
 msgid "Save in _folder..."
 msgstr "Mentsd _mappába"
 
-#: composer/e-msg-composer.c:888
+#: composer/e-msg-composer.c:829
 msgid "Save the message in a specified folder"
 msgstr "A levél elmentése másik mappába"
 
-#: composer/e-msg-composer.c:891
-msgid "_Insert Text File"
-msgstr "_Szövegfájl beillesztése"
+#: composer/e-msg-composer.c:838
+msgid "_Insert text file... (FIXME)"
+msgstr "_Szövegfájl beillesztése (FIXME)"
 
-#: composer/e-msg-composer.c:891
+#: composer/e-msg-composer.c:839
 msgid "Insert a file as text into the message"
 msgstr "Fájl beillesztése szövegként"
 
-#: composer/e-msg-composer.c:894 composer/e-msg-composer.c:942
-msgid "Send"
-msgstr "Elküld"
+#: composer/e-msg-composer.c:848
+msgid "_Send"
+msgstr "_Elküld"
 
-#: composer/e-msg-composer.c:894
+#: composer/e-msg-composer.c:849
 msgid "Send the message"
 msgstr "Levél elküldése"
 
-#: composer/e-msg-composer.c:906
-msgid "View _attachments"
+#: composer/e-msg-composer.c:859
+msgid "_Close..."
+msgstr "_Bezár..."
+
+#: composer/e-msg-composer.c:860
+msgid "Quit the message composer"
+msgstr "Kilépés a levélszerkesztõbõl"
+
+#: composer/e-msg-composer.c:873 shell/e-shell-view-menu.c:480
+msgid "_Edit"
+msgstr "_Szerkeszt"
+
+#: composer/e-msg-composer.c:884
+msgid "_Format"
+msgstr "_Formátum"
+
+#: composer/e-msg-composer.c:890
+msgid "HTML"
+msgstr "HTML"
+
+#: composer/e-msg-composer.c:891
+msgid "Send the mail in HTML format"
+msgstr "A levelet HTML formátumban küldd"
+
+#: composer/e-msg-composer.c:904 shell/e-shell-view-menu.c:387
+#: shell/e-shell-view-menu.c:491
+msgid "_View"
+msgstr "_Nézet"
+
+#: composer/e-msg-composer.c:910
+msgid "Show _attachments"
 msgstr "Csatolások _nézete"
 
-#: composer/e-msg-composer.c:907
-msgid "View/hide attachments"
-msgstr "Csatolások megtekintése"
+#: composer/e-msg-composer.c:911
+msgid "Show/hide attachments"
+msgstr "Csatolások megjelenítése/elrejtése"
 
-#: composer/e-msg-composer.c:942
+#: composer/e-msg-composer.c:944
+msgid "Send"
+msgstr "Elküld"
+
+#: composer/e-msg-composer.c:945
 msgid "Send this message"
 msgstr "Küldd el a levelet"
 
-#: composer/e-msg-composer.c:945
-msgid "Cut selected region into the clipboard"
-msgstr "Vágd ki a kiválasztott részt a vágólapra"
-
-#: composer/e-msg-composer.c:946
-msgid "Copy selected region into the clipboard"
-msgstr "Másold ki a kiválasztott részt a vágólapra"
-
-#: composer/e-msg-composer.c:947
-msgid "Paste selected region into the clipboard"
-msgstr "Másold be a kiválasztott részt a vágólapról"
-
-#: composer/e-msg-composer.c:948
-msgid "Undo"
-msgstr "Visszavon"
-
-#: composer/e-msg-composer.c:948
-msgid "Undo last operation"
-msgstr "Az utolsó mûvelet visszavonása"
-
-#: composer/e-msg-composer.c:951
+#: composer/e-msg-composer.c:954
 msgid "Attach"
 msgstr "Csatolás"
 
-#: composer/e-msg-composer.c:951
+#: composer/e-msg-composer.c:955
 msgid "Attach a file"
 msgstr "Fájl csatolása"
 
-#: composer/e-msg-composer.c:1127
+#: composer/e-msg-composer.c:1142
 msgid "Compose a message"
 msgstr "Levél írása"
 
@@ -2497,87 +2537,87 @@ msgstr ""
 "<h2>Szûrõ szabály készítése</h2><p>Válassz egyet az alapszabályok közül, "
 "majd folytasd a további beállításokhoz.</p>"
 
-#: mail/component-factory.c:197
+#: mail/component-factory.c:193
 msgid "Cannot initialize Evolution's mail component."
 msgstr "Nem tudom az Evolúció levelezõ komponensét elindítani."
 
-#: mail/folder-browser-factory.c:29
+#: mail/folder-browser-factory.c:23
 msgid "Get mail"
 msgstr "Levél letöltése"
 
-#: mail/folder-browser-factory.c:29
+#: mail/folder-browser-factory.c:23
 msgid "Check for new mail"
 msgstr "Új levél jött-e?"
 
-#: mail/folder-browser-factory.c:30
+#: mail/folder-browser-factory.c:24
 msgid "Compose"
 msgstr "Szerkesztés"
 
-#: mail/folder-browser-factory.c:30
+#: mail/folder-browser-factory.c:24
 msgid "Compose a new message"
 msgstr "Egy új levelet készít"
 
-#: mail/folder-browser-factory.c:34
+#: mail/folder-browser-factory.c:28
 msgid "Reply"
 msgstr "Válasz"
 
-#: mail/folder-browser-factory.c:34
+#: mail/folder-browser-factory.c:28
 msgid "Reply to the sender of this message"
 msgstr "Válasz küldése a feladónak erre a levélre"
 
-#: mail/folder-browser-factory.c:35
+#: mail/folder-browser-factory.c:29
 msgid "Reply to All"
 msgstr "Válasz mindenkinek"
 
-#: mail/folder-browser-factory.c:35
+#: mail/folder-browser-factory.c:29
 msgid "Reply to all recipients of this message"
 msgstr "Válasz a feladónak és az összes címzettnek"
 
-#: mail/folder-browser-factory.c:37
+#: mail/folder-browser-factory.c:31
 msgid "Forward"
 msgstr "Továbbít"
 
-#: mail/folder-browser-factory.c:37
+#: mail/folder-browser-factory.c:31
 msgid "Forward this message"
 msgstr "A levél továbbítása"
 
-#: mail/folder-browser-factory.c:41
-msgid "Refile"
-msgstr ""
+#: mail/folder-browser-factory.c:35
+msgid "Move"
+msgstr "Mozgat"
 
-#: mail/folder-browser-factory.c:41
+#: mail/folder-browser-factory.c:35
 msgid "Move message to a new folder"
 msgstr "Levél mozgatása más mappába"
 
-#: mail/folder-browser-factory.c:43
+#: mail/folder-browser-factory.c:37
 msgid "Print the selected message"
 msgstr "A levél nyomtatása"
 
-#: mail/folder-browser-factory.c:45
+#: mail/folder-browser-factory.c:39
 msgid "Delete this message"
 msgstr "A levél törlése"
 
-#: mail/folder-browser-factory.c:65
+#: mail/folder-browser-factory.c:59
 msgid "_Threaded Message List"
 msgstr "_Témaszerinti levéllista"
 
-#: mail/folder-browser-factory.c:77
+#: mail/folder-browser-factory.c:71
 msgid "_Expunge"
 msgstr "_Tisztít"
 
-#: mail/folder-browser-factory.c:83
+#: mail/folder-browser-factory.c:77
 msgid "_Filter Druid ..."
 msgstr "_Szûrõ mágus ..."
 
-#: mail/folder-browser-factory.c:89
+#: mail/folder-browser-factory.c:83
 msgid "_Virtual Folder Druid ..."
 msgstr "_Virtuális mappa mágus ..."
 
-#: mail/folder-browser-factory.c:95
+#: mail/folder-browser-factory.c:89
 msgid "_Mail Configuration ..."
 msgstr "_Levelezési beállítások ... "
 
-#: mail/folder-browser-factory.c:101
+#: mail/folder-browser-factory.c:95
 msgid "Forget _Passwords"
 msgstr "_Jelszó elfelejtése"
 
@@ -2611,31 +2651,31 @@ msgstr "Aláírás fájl:"
 msgid "Signature File"
 msgstr "Aláírás fájl"
 
-#: mail/mail-config.c:718 mail/mail-config.c:812 mail/mail-config.c:1621
+#: mail/mail-config.c:734 mail/mail-config.c:828 mail/mail-config.c:1641
 msgid "Server:"
 msgstr "Szerver:"
 
-#: mail/mail-config.c:725
+#: mail/mail-config.c:741
 msgid "Username:"
 msgstr "Felhasználó:"
 
-#: mail/mail-config.c:732
+#: mail/mail-config.c:748
 msgid "Path:"
 msgstr "Útvonal:"
 
-#: mail/mail-config.c:739 mail/mail-config.c:819
+#: mail/mail-config.c:755 mail/mail-config.c:835
 msgid "Authentication:"
 msgstr "Authentikáció:"
 
-#: mail/mail-config.c:751 mail/mail-config.c:831
+#: mail/mail-config.c:767 mail/mail-config.c:847
 msgid "Detect supported types..."
 msgstr "Támogatott típusok érzékelése..."
 
-#: mail/mail-config.c:777 mail/mail-config.c:853
+#: mail/mail-config.c:793 mail/mail-config.c:869
 msgid "Test these values before continuing"
 msgstr "Az értékek ellenõrzése folytatás elõtt"
 
-#: mail/mail-config.c:960
+#: mail/mail-config.c:980
 msgid ""
 "Select the kind of mail server you have, and enter the relevant information "
 "about it.\n"
@@ -2649,66 +2689,66 @@ msgstr ""
 "Ha a szerver authentikációt igényel, a 'Támogatott típusok keresése...' "
 "gombra kattints az információk megadása után."
 
-#: mail/mail-config.c:978
+#: mail/mail-config.c:998
 msgid "Select the method you would like to use to deliver your mail."
 msgstr "Válassz egy módot, hogy szeretnéd a leveled kézbesítését."
 
-#: mail/mail-config.c:1163 mail/mail-config.c:1242
+#: mail/mail-config.c:1183 mail/mail-config.c:1262
 msgid "Mail Configuration"
 msgstr "Levelezés beállítása"
 
 #. Identity page
-#: mail/mail-config.c:1180
+#: mail/mail-config.c:1200
 msgid "Identity"
-msgstr ""
+msgstr "Azonosító"
 
 #. Source page
-#: mail/mail-config.c:1199
+#: mail/mail-config.c:1219
 msgid "Mail Source"
-msgstr ""
+msgstr "Levél forrás"
 
 #. Transport page
-#: mail/mail-config.c:1220
+#: mail/mail-config.c:1240
 msgid "Mail Transport"
-msgstr ""
+msgstr "Levél küldés"
 
-#: mail/mail-config.c:1343
+#: mail/mail-config.c:1363
 msgid "Edit Identity"
-msgstr ""
+msgstr "Azonosító szerkesztése"
 
-#: mail/mail-config.c:1345
+#: mail/mail-config.c:1365
 msgid "Add Identity"
-msgstr ""
+msgstr "Azonosító hozzáadása"
 
-#: mail/mail-config.c:1488
+#: mail/mail-config.c:1508
 msgid "Edit Source"
-msgstr ""
+msgstr "Forrás szerkesztése"
 
-#: mail/mail-config.c:1490
+#: mail/mail-config.c:1510
 msgid "Add Source"
-msgstr ""
+msgstr "Forrás hozzáadása"
 
 #. "\n\n"
 #. "If the server requires authentication, you can click the "
 #. "\"Detect supported types...\" button after entering "
 #. "the other information."
-#: mail/mail-config.c:1600
+#: mail/mail-config.c:1620
 msgid "Enter the hostname of the News Server you have."
 msgstr "Írd be a hírcsoport szervered nevét."
 
-#: mail/mail-config.c:1656
+#: mail/mail-config.c:1676
 msgid "Edit News Server"
 msgstr "Hírcsoport-szerver szerkeszése"
 
-#: mail/mail-config.c:1658
+#: mail/mail-config.c:1678
 msgid "Add News Server"
 msgstr "Hírcsoport-szerver hozzáadása"
 
-#: mail/mail-ops.c:374
+#: mail/mail-ops.c:367
 msgid "Fetching mail"
 msgstr "Levelek letöltése"
 
-#: mail/mail-ops.c:386
+#: mail/mail-ops.c:379
 msgid ""
 "This message has no subject.\n"
 "Really send?"
@@ -2716,9 +2756,9 @@ msgstr ""
 "Nincs tárgya a levélnek.\n"
 "Tényleg elküldjem?"
 
-#: mail/mail-ops.c:743
-msgid "Refile message(s) to"
-msgstr ""
+#: mail/mail-ops.c:767
+msgid "Move message(s) to"
+msgstr "Levél(levelek) mozgatása más mappába"
 
 #: mail/mail-threads.c:483
 msgid "Currently pending operations:"
@@ -2730,11 +2770,11 @@ msgstr "Nem teljes üzenet lett a csõbe írva!"
 
 #: mail/mail-threads.c:623
 msgid "Error reading commands from dispatching thread."
-msgstr ""
+msgstr "Parancsok olvasásánál hiba történt egy feladó threadtõl."
 
 #: mail/mail-threads.c:712
 msgid "Corrupted message from dispatching thread?"
-msgstr ""
+msgstr "Hibás üzenet az feladó threadtõl?"
 
 #: mail/mail-threads.c:814
 msgid "Could not create dialog box."
@@ -2744,35 +2784,31 @@ msgstr "Nem tudom a dialógust elkészíteni."
 msgid "User cancelled query."
 msgstr "A lekérdezést megszakítottad."
 
-#: mail/main.c:62
-msgid "Mail Component: I could not initialize Bonobo"
-msgstr "Levél komponens: Nem tudom a bonobo-t elindítani"
-
-#: mail/message-list.c:460
+#: mail/message-list.c:456
 msgid "Online Status"
-msgstr ""
+msgstr "Online státusz"
 
-#: mail/message-list.c:488
+#: mail/message-list.c:484
 msgid "From"
 msgstr "Feladó"
 
-#: mail/message-list.c:495
+#: mail/message-list.c:491
 msgid "Subject"
 msgstr "Téma"
 
-#: mail/message-list.c:502
+#: mail/message-list.c:498
 msgid "Date"
 msgstr "Dátum"
 
-#: mail/message-list.c:509
+#: mail/message-list.c:505
 msgid "Received"
 msgstr "Kézbesítve"
 
-#: mail/message-list.c:516
+#: mail/message-list.c:512
 msgid "To"
 msgstr "Címzett"
 
-#: mail/message-list.c:523
+#: mail/message-list.c:519
 msgid "Size"
 msgstr "Méret"
 
@@ -2861,24 +2897,24 @@ msgstr "(Névtelen)"
 #. you might have to call gnome_dialog_run() on the
 #. * dialog returned here, I don't remember...
 #.
-#: shell/e-shell-view-menu.c:110
+#: shell/e-shell-view-menu.c:113
 msgid "Bug buddy was not found in your $PATH."
 msgstr "Bug buddy nem található a $PATH-odban."
 
 #. same as above
-#: shell/e-shell-view-menu.c:116
+#: shell/e-shell-view-menu.c:119
 msgid "Bug buddy could not be run."
 msgstr "A Bug buddy-t nem tudom futtatni."
 
-#: shell/e-shell-view-menu.c:159
+#: shell/e-shell-view-menu.c:164
 msgid "Evolution"
 msgstr "Evolúció"
 
-#: shell/e-shell-view-menu.c:161
+#: shell/e-shell-view-menu.c:166
 msgid "Copyright 1999, 2000 Helix Code, Inc."
 msgstr "Copyright 1999, 2000 Helix Code, Inc."
 
-#: shell/e-shell-view-menu.c:163
+#: shell/e-shell-view-menu.c:168
 msgid ""
 "Evolution is a suite of groupware applications\n"
 "for mail, calendaring, and contact management\n"
@@ -2888,136 +2924,136 @@ msgstr ""
 "levelezéshez, naptár és címjegyzék funkciókkal\n"
 "a GNOME grafikus környezethez."
 
-#: shell/e-shell-view-menu.c:317
+#: shell/e-shell-view-menu.c:324
 msgid "Go to folder..."
 msgstr "Mappába menj..."
 
 #: shell/e-shell-view-menu.c:381
-msgid "View"
-msgstr "Nézet"
-
-#: shell/e-shell-view-menu.c:385
-msgid "_Folder"
-msgstr "_Mappa"
-
-#: shell/e-shell-view-menu.c:389
-msgid "Evolution _Bar Shortcut"
-msgstr "Evolúció _Indítósáv"
-
-#: shell/e-shell-view-menu.c:395
-msgid "_Mail message (FIXME)"
-msgstr "_Levél (FIXME)"
-
-#: shell/e-shell-view-menu.c:396 shell/e-shell-view-menu.c:399
-msgid "Composes a new mail message"
-msgstr "Egy új levelet készít"
-
-#: shell/e-shell-view-menu.c:398
-msgid "_Appointment (FIXME)"
-msgstr "_Idõpont (FIXME)"
-
-#: shell/e-shell-view-menu.c:401
-msgid "_Contact (FIXME)"
-msgstr "_Címjegyzék (FIXME)"
-
-#: shell/e-shell-view-menu.c:404
-msgid "_Task (FIXME)"
-msgstr "_Munka (FIXME)"
-
-#: shell/e-shell-view-menu.c:407
-msgid "Task _Request (FIXME)"
-msgstr "Feladat f_elhívás (FIXME)"
-
-#: shell/e-shell-view-menu.c:410
-msgid "_Journal Entry (FIXME)"
-msgstr "_Napló bejegyzés (FIXME)"
-
-#: shell/e-shell-view-menu.c:418
 msgid "_New"
 msgstr "Ú_j"
 
-#: shell/e-shell-view-menu.c:422
+#: shell/e-shell-view-menu.c:393
+msgid "_Folder"
+msgstr "_Mappa"
+
+#: shell/e-shell-view-menu.c:399
+msgid "Evolution bar _shortcut"
+msgstr "Evolúció indítósáv _ikon"
+
+#: shell/e-shell-view-menu.c:408
+msgid "_Mail message (FIXME)"
+msgstr "_Levél (FIXME)"
+
+#: shell/e-shell-view-menu.c:414
+msgid "_Appointment (FIXME)"
+msgstr "_Idõpont (FIXME)"
+
+#: shell/e-shell-view-menu.c:420
+msgid "_Contact (FIXME)"
+msgstr "_Címjegyzék (FIXME)"
+
+#: shell/e-shell-view-menu.c:426
+msgid "_Task (FIXME)"
+msgstr "_Munka (FIXME)"
+
+#: shell/e-shell-view-menu.c:448
 msgid "_Go to folder..."
 msgstr "Menj a ...  _mappába"
 
-#: shell/e-shell-view-menu.c:422
+#: shell/e-shell-view-menu.c:449
 msgid "Display a different folder"
 msgstr "Egy másik mappa mutatása"
 
-#: shell/e-shell-view-menu.c:424
+#: shell/e-shell-view-menu.c:456
 msgid "_Create new folder..."
 msgstr "Új m_appa készítése..."
 
-#: shell/e-shell-view-menu.c:424
+#: shell/e-shell-view-menu.c:457 shell/e-shell-view-menu.c:467
 msgid "Create a new folder"
 msgstr "Új mappa készítése"
 
-#: shell/e-shell-view-menu.c:439
+#: shell/e-shell-view-menu.c:466
+msgid "E_xit..."
+msgstr "K_ilép..."
+
+#: shell/e-shell-view-menu.c:497
 msgid "Show _shortcut bar"
 msgstr "Oldal_sáv mutatása"
 
-#: shell/e-shell-view-menu.c:440
+#: shell/e-shell-view-menu.c:498
 msgid "Show the shortcut bar"
 msgstr "Az oldalsáv mutatása"
 
-#: shell/e-shell-view-menu.c:442
+#: shell/e-shell-view-menu.c:503
 msgid "Show _folder bar"
 msgstr "Mapp_asáv mutatása"
 
-#: shell/e-shell-view-menu.c:443
+#: shell/e-shell-view-menu.c:504
 msgid "Show the folder bar"
 msgstr "A mappákat tartalmazó sáv mutatása"
 
-#: shell/e-shell-view-menu.c:460
-msgid "Help _Index"
+#: shell/e-shell-view-menu.c:526
+msgid "_Actions"
+msgstr "_Mûveletek"
+
+#: shell/e-shell-view-menu.c:537
+msgid "_Help"
+msgstr "_Súgó"
+
+#: shell/e-shell-view-menu.c:543
+msgid "Help _index"
 msgstr "Súgó _tartalomjegyzék"
 
-#: shell/e-shell-view-menu.c:463
-msgid "Getting _Started"
+#: shell/e-shell-view-menu.c:550
+msgid "Getting _started"
 msgstr "_Induláshoz"
 
-#: shell/e-shell-view-menu.c:466
-msgid "Using the _Mailer"
+#: shell/e-shell-view-menu.c:557
+msgid "Using the _mailer"
 msgstr "A _levelezõ használata"
 
-#: shell/e-shell-view-menu.c:469
-msgid "Using the _Calendar"
+#: shell/e-shell-view-menu.c:564
+msgid "Using the _calendar"
 msgstr "A _naptár használata"
 
-#: shell/e-shell-view-menu.c:472
-msgid "Using the Cont_act Manager"
+#: shell/e-shell-view-menu.c:571
+msgid "Using the c_ontact manager"
 msgstr "A _címjegyzék használata"
 
-#: shell/e-shell-view-menu.c:477
+#: shell/e-shell-view-menu.c:581
 msgid "_Submit bug report"
 msgstr "_Hibajelentés küldése"
 
-#: shell/e-shell-view-menu.c:478
-msgid "Submit bug-report via bug-buddy"
+#: shell/e-shell-view-menu.c:582
+msgid "Submit bug report using Bug Buddy"
 msgstr "Hibajelentés feladása bug-buddy-val"
 
-#: shell/e-shell-view-menu.c:494
-msgid "_Actions"
-msgstr "_Mûveletek"
+#: shell/e-shell-view-menu.c:591
+msgid "_About Evolution..."
+msgstr "_Evolúció névjegy"
+
+#: shell/e-shell-view-menu.c:592
+msgid "Show information about Evolution"
+msgstr "Információk megjelenítése az Evolúcióval kapcsolatban"
 
 #: shell/e-shell-view.c:114
 msgid "(No folder displayed)"
 msgstr "(Nincs mappa mutatva)"
 
-#: shell/e-shell-view.c:339
+#: shell/e-shell-view.c:342
 msgid "Folders"
 msgstr "Mappák"
 
-#: shell/e-shell-view.c:731
+#: shell/e-shell-view.c:734
 msgid "None"
 msgstr "Semmi"
 
-#: shell/e-shell-view.c:735
+#: shell/e-shell-view.c:738
 #, c-format
 msgid "Evolution - %s"
 msgstr "Evolúció - %s"
 
-#: shell/e-shell.c:299
+#: shell/e-shell.c:293
 #, c-format
 msgid "Cannot set up local storage -- %s"
 msgstr "Nem tudom beállítani a helyi tárterületet -- %s"
@@ -3106,7 +3142,7 @@ msgstr "A megadott típus nem támogatott ebben a tárolóban."
 msgid "Unknown error"
 msgstr "Nem ismert hiba"
 
-#: shell/main.c:100
+#: shell/main.c:66
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
 "of the Evolution groupware suite.\n"
@@ -3147,7 +3183,7 @@ msgstr ""
 "Azért reméljük, élvezni fogod a kemény munkánk eredményét, és várjuk\n"
 "hozzájárulásod! \n"
 
-#: shell/main.c:127
+#: shell/main.c:93
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
@@ -3155,15 +3191,15 @@ msgstr ""
 "Köszönettel\n"
 "Az Evolúció Csapat\n"
 
-#: shell/main.c:158
+#: shell/main.c:128
 msgid "Cannot initialize the Evolution shell."
 msgstr "Nem tudom elindítani az Evolúció shell-t."
 
-#: shell/main.c:195
+#: shell/main.c:166
 msgid "Cannot initialize the configuration system."
 msgstr "Nem tudom a konfigurációs rendszert elindítani."
 
-#: shell/main.c:201
+#: shell/main.c:172
 msgid "Cannot initialize the Bonobo component system."
 msgstr "Nem tudom elindítani a Bonobo komponens rendszert."
 
@@ -3240,7 +3276,7 @@ msgstr "<< Töröl"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:386
 msgid "Tentative"
-msgstr ""
+msgstr "Kísérleti"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:387
 msgid "Busy"
@@ -3280,7 +3316,7 @@ msgstr "_<<"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:508
 msgid "_Autopick"
-msgstr ""
+msgstr "_Automatikus kiszedés"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:522
 msgid ">_>"
@@ -3322,6 +3358,33 @@ msgstr "..."
 #, c-format
 msgid "Group %i"
 msgstr "Csoportosítás"
+
+#~ msgid "Cut selected region into the clipboard"
+#~ msgstr "Vágd ki a kiválasztott részt a vágólapra"
+
+#~ msgid "Copy selected region into the clipboard"
+#~ msgstr "Másold ki a kiválasztott részt a vágólapra"
+
+#~ msgid "Paste selected region into the clipboard"
+#~ msgstr "Másold be a kiválasztott részt a vágólapról"
+
+#~ msgid "Undo"
+#~ msgstr "Visszavon"
+
+#~ msgid "Undo last operation"
+#~ msgstr "Az utolsó mûvelet visszavonása"
+
+#~ msgid "Mail Component: I could not initialize Bonobo"
+#~ msgstr "Levél komponens: Nem tudom a bonobo-t elindítani"
+
+#~ msgid "Composes a new mail message"
+#~ msgstr "Egy új levelet készít"
+
+#~ msgid "Task _Request (FIXME)"
+#~ msgstr "Feladat f_elhívás (FIXME)"
+
+#~ msgid "_Journal Entry (FIXME)"
+#~ msgstr "_Napló bejegyzés (FIXME)"
 
 #~ msgid "Specifies the port on which the Pilot is"
 #~ msgstr "A pilot portja"
