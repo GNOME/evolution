@@ -32,7 +32,6 @@ SUBDIRS = 			\
         shell                   \
 	camel			\
 	filter			\
-	libwombat		\
 	addressbook		\
 	calendar		\
 	my-evolution		\

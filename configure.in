@@ -1362,7 +1362,6 @@ widgets/e-timezone-dialog/Makefile
 widgets/menus/Makefile
 widgets/misc/Makefile
 wombat/Makefile
-libwombat/Makefile
 calendar/Makefile
 calendar/importers/Makefile
 calendar/idl/Makefile
