@@ -28,6 +28,8 @@
 #include <config.h>
 #endif
 
+#include "e-folder-type-repository.h"
+
 #include "e-storage.h"
 
 #ifdef __cplusplus
@@ -67,18 +69,27 @@ struct _EStorageSetClass {
 };
 
 
-GtkType      e_storage_set_get_type   (void);
-void         e_storage_set_construct  (EStorageSet *storage_set);
-EStorageSet *e_storage_set_new        (void);
+GtkType      e_storage_set_get_type          (void);
+void         e_storage_set_construct         (EStorageSet           *storage_set,
+					      EFolderTypeRepository *folder_type_repository);
+EStorageSet *e_storage_set_new               (EFolderTypeRepository *folder_type_repository);
 
-GList    *e_storage_set_get_storage_list  (EStorageSet *storage_set);
-EStorage *e_storage_set_get_storage       (EStorageSet *storage_set, const char *name);
-	
-void   e_storage_set_add_storage       (EStorageSet *storage_set, EStorage *storage);
-void   e_storage_set_remove_storage    (EStorageSet *storage_set, EStorage *storage);
+GList       *e_storage_set_get_storage_list  (EStorageSet           *storage_set);
+EStorage    *e_storage_set_get_storage       (EStorageSet           *storage_set,
+					      const char            *name);
+void         e_storage_set_add_storage       (EStorageSet           *storage_set,
+					      EStorage              *storage);
+void         e_storage_set_remove_storage    (EStorageSet           *storage_set,
+					      EStorage              *storage);
 
-EStorage *e_storage_get_storage     (EStorageSet *storage_set, const char *storage_name);
-EFolder  *e_storage_set_get_folder  (EStorageSet *storage_set, const char *path);
+EStorage    *e_storage_set_get_storage       (EStorageSet           *storage_set,
+					      const char            *storage_name);
+EFolder     *e_storage_set_get_folder        (EStorageSet           *storage_set,
+					      const char            *path);
+
+GtkWidget   *e_storage_set_new_view          (EStorageSet           *storage_set);
+
+EFolderTypeRepository *e_storage_set_get_folder_type_repository (EStorageSet *storage_set);
 
 #ifdef __cplusplus
 }

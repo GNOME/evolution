@@ -33,6 +33,7 @@
 
 #include "e-util/e-util.h"
 
+#include "e-storage-set-view.h"
 #include "e-storage-set.h"
 
 
@@ -50,6 +51,8 @@ static guint signals[LAST_SIGNAL] = { 0 };
 
 struct _EStorageSetPrivate {
 	GList *storages;
+
+	EFolderTypeRepository *folder_type_repository;
 };
 
 
@@ -65,6 +68,8 @@ destroy (GtkObject *object)
 	priv = storage_set->priv;
 
 	e_free_object_list (priv->storages);
+
+	gtk_object_unref (GTK_OBJECT (priv->folder_type_repository));
 
 	g_free (priv);
 
@@ -111,28 +116,33 @@ init (EStorageSet *storage_set)
 	priv = g_new (EStorageSetPrivate, 1);
 
 	priv->storages = NULL;
+	priv->folder_type_repository = NULL;
 
 	storage_set->priv = priv;
 }
 
 
 void
-e_storage_set_construct (EStorageSet *storage_set)
+e_storage_set_construct (EStorageSet *storage_set,
+			 EFolderTypeRepository *folder_type_repository)
 {
 	g_return_if_fail (storage_set != NULL);
 	g_return_if_fail (E_IS_STORAGE_SET (storage_set));
 
 	GTK_OBJECT_UNSET_FLAGS (storage_set, GTK_FLOATING);
+
+	gtk_object_ref (GTK_OBJECT (folder_type_repository));
+	storage_set->priv->folder_type_repository = folder_type_repository;
 }
 
 EStorageSet *
-e_storage_set_new (void)
+e_storage_set_new (EFolderTypeRepository *folder_type_repository)
 {
 	EStorageSet *new;
 
 	new = gtk_type_new (e_storage_set_get_type ());
 
-	e_storage_set_construct (new);
+	e_storage_set_construct (new, folder_type_repository);
 
 	return new;
 }
@@ -260,6 +270,30 @@ e_storage_set_get_folder (EStorageSet *storage_set,
 		return NULL;
 
 	return e_storage_get_folder (storage, first_separator);
+}
+
+
+GtkWidget *
+e_storage_set_new_view (EStorageSet *storage_set)
+{
+	GtkWidget *storage_set_view;
+
+	g_return_val_if_fail (storage_set != NULL, NULL);
+	g_return_val_if_fail (E_IS_STORAGE_SET (storage_set), NULL);
+
+	storage_set_view = e_storage_set_view_new (storage_set);
+
+	return storage_set_view;
+}
+
+
+EFolderTypeRepository *
+e_storage_set_get_folder_type_repository (EStorageSet *storage_set)
+{
+	g_return_val_if_fail (storage_set != NULL, NULL);
+	g_return_val_if_fail (E_IS_STORAGE_SET (storage_set), NULL);
+
+	return storage_set->priv->folder_type_repository;
 }
 
 

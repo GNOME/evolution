@@ -77,16 +77,16 @@ setup_storages (EShell *shell)
 	local_storage_path = g_concat_dir_and_file (priv->local_directory,
 						    LOCAL_STORAGE_DIRECTORY);
 	local_storage = e_local_storage_open (local_storage_path);
-
 	if (local_storage == NULL) {
 		g_warning (_("Cannot set up local storage -- %s"), local_storage_path);
 		g_free (local_storage_path);
 		return FALSE;
 	}
-
 	g_free (local_storage_path);
 
-	priv->storage_set = e_storage_set_new ();
+	g_assert (shell->priv->folder_type_repository);
+
+	priv->storage_set = e_storage_set_new (shell->priv->folder_type_repository);
 	e_storage_set_add_storage (priv->storage_set, local_storage);
 
 	return TRUE;
@@ -207,11 +207,12 @@ e_shell_construct (EShell *shell,
 
 	priv->local_directory = g_strdup (local_directory);
 
+	priv->folder_type_repository = e_folder_type_repository_new ();
+
 	if (! setup_storages (shell))
 		return;
 
-	priv->folder_type_repository = e_folder_type_repository_new ();
-	priv->shortcuts              = e_shortcuts_new (priv->storage_set, priv->folder_type_repository);
+	priv->shortcuts = e_shortcuts_new (priv->storage_set, priv->folder_type_repository);
 
 	shortcut_path = g_concat_dir_and_file (local_directory, "shortcuts.xml");
 

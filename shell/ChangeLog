@@ -1,3 +1,58 @@
+2000-05-14  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-shell.c
+	(setup_storages): Pass the pointer to the folder type repository.
+	(e_shell_construct): Initialize the folder type repository before
+	everything else.
+
+	* e-storage-set.c: New member `folder_type_repository' in
+	`EStorageSetPrivate'.
+	(init): Initialize it to NULL.
+	(destroy): Unref it.
+	(e_storage_set_construct): New arg @folder_type_repository.
+	Initialize the corresponding member in the private struct through
+	it.
+	(e_storage_set_new): New arg @folder_type_repository.
+	(e_storage_set_get_folder_type_repository): New function.
+
+	* e-shortcuts.c (icon_callback): Just use [the new version of]
+	`e_folder_type_repository_get_icon_for_type()' instead of loading
+	the image manually.
+
+	* e-folder-type-repository.c: New member `icon_pixbuf' in
+	`FolderType'.
+	(folder_type_new): Load the pixbuf.
+	(folder_type_free): Unref the pixbuf.
+	(e_folder_type_repository_get_icon_name_for_type): Renamed from
+	`e_folder_type_repository_get_icon_for_type'.
+	(e_folder_type_repository_get_icon_for_type): New function, now
+	returning a `GdkPixbuf *'.
+
+	* e-shortcuts.c
+	(icon_callback): Use `e_shell_get_icon_name()'.
+
+	* e-shell-view.c: New member `storage_set_view' in
+	`EShellViewPrivate'.
+	(init): Initialize it to NULL.
+	(e_shell_view_construct): Create an EStorageSetView for the
+	shell's EStorageSet and put it into a scrolled window.  Also, put
+	the scrolled window into the EShellView with some
+	[temporary] GtkPaned action.  Store the pointer to the
+	EStorageSetView to `priv->storage_set_view'.
+	(set_icon): Get an EShellView and an EFolder instead of an
+	EShellView and a URI.  Also, don't leak.
+	(update_for_current_uir): New helper function.  Call `set_icon'.
+	(show_error): Call it.
+	(folder_selected_cb): New function.
+	(setup_widgets): Connect it to the "folder_selected" signal of the
+	storage set view.
+
+	* e-storage-set-view.c: New file.
+	* e-storage-set-view.h: New file.
+
+	* e-shell-utils.c: New file.
+	* e-shell-utils.h: New file.
+
 2000-05-10  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-shell-view-menu.c: Added an about box.

@@ -32,14 +32,15 @@
 #include <bonobo.h>
 #include <libgnomeui/gnome-window-icon.h>
 
+#include "e-shell-utils.h"
 #include "e-shell.h"
 #include "e-shortcuts-view.h"
+#include "e-storage-set-view.h"
 #include "e-util/e-util.h"
 
 #include "e-shell-view.h"
 #include "e-shell-view-menu.h"
 
-
 
 #define PARENT_TYPE gnome_app_get_type () /* Losing GnomeApp does not define GNOME_TYPE_APP.  */
 static GnomeAppClass *parent_class = NULL;
@@ -57,6 +58,7 @@ struct _EShellViewPrivate {
 	/* The widgetry.  */
 	GtkWidget *hpaned;
 	GtkWidget *shortcut_bar;
+	GtkWidget *storage_set_view;
 	GtkWidget *contents;
 	GtkWidget *notebook;
 
@@ -64,7 +66,12 @@ struct _EShellViewPrivate {
 	GHashTable *uri_to_control;
 };
 
+/* FIXME this should probably go somewhere else.  */
+#define EVOLUTION_URI_PREFIX     "evolution:"
+#define EVOLUTION_URI_PREFIX_LEN 10
+
 #define DEFAULT_SHORTCUT_BAR_WIDTH 100
+#define DEFAULT_TREE_WIDTH         100
 
 #define DEFAULT_WIDTH 600
 #define DEFAULT_HEIGHT 600
@@ -117,6 +124,7 @@ bonobo_widget_is_dead (BonoboWidget *bw)
 }
 
 
+/* Callback called when an icon on the shortcut bar gets clicked.  */
 static void
 activate_shortcut_cb (EShortcutsView *shortcut_view,
 		      EShortcuts *shortcuts,
@@ -130,39 +138,85 @@ activate_shortcut_cb (EShortcutsView *shortcut_view,
 	e_shell_view_display_uri (shell_view, uri);
 }
 
+/* Callback called when a folder on the tree view gets clicked.  */
+static void
+folder_selected_cb (EStorageSetView *storage_set_view,
+		    const char *path,
+		    gpointer data)
+{
+	EShellView *shell_view;
+	char *uri;
+
+	shell_view = E_SHELL_VIEW (data);
+
+	uri = g_strconcat (EVOLUTION_URI_PREFIX, path, NULL);
+	e_shell_view_display_uri (shell_view, uri);
+	g_free (uri);
+}
+
+
 static void
 setup_widgets (EShellView *shell_view)
 {
 	EShellViewPrivate *priv;
+	GtkWidget *storage_set_view_scrolled_window;
+	GtkWidget *left_paned;
 
 	priv = shell_view->priv;
-
-	priv->hpaned = gtk_hpaned_new ();
-	gnome_app_set_contents (GNOME_APP (shell_view), priv->hpaned);
 
 	/* The shortcut bar.  */
 
 	priv->shortcut_bar = e_shortcuts_new_view (e_shell_get_shortcuts (priv->shell));
-	gtk_paned_add1 (GTK_PANED (priv->hpaned), priv->shortcut_bar);
-	gtk_paned_set_position (GTK_PANED (priv->hpaned), DEFAULT_SHORTCUT_BAR_WIDTH);
 	gtk_signal_connect (GTK_OBJECT (priv->shortcut_bar), "activate_shortcut",
 			    GTK_SIGNAL_FUNC (activate_shortcut_cb), shell_view);
+
+	/* The storage set view.  */
+
+	priv->storage_set_view = e_storage_set_view_new (e_shell_get_storage_set (priv->shell));
+	gtk_signal_connect (GTK_OBJECT (priv->storage_set_view), "folder_selected",
+			    GTK_SIGNAL_FUNC (folder_selected_cb), shell_view);
+
+	storage_set_view_scrolled_window = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (storage_set_view_scrolled_window),
+					GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+
+	gtk_container_add (GTK_CONTAINER (storage_set_view_scrolled_window),
+			   priv->storage_set_view);
+
+	left_paned = gtk_hpaned_new ();
+	gtk_paned_set_position (GTK_PANED (left_paned), DEFAULT_SHORTCUT_BAR_WIDTH);
+	gtk_paned_add1 (GTK_PANED (left_paned), priv->shortcut_bar);
+	gtk_paned_add2 (GTK_PANED (left_paned), storage_set_view_scrolled_window);
 
 	/* The tabless notebook which we used to contain the views.  */
 
 	priv->notebook = gtk_notebook_new ();
 	gtk_notebook_set_show_border (GTK_NOTEBOOK (priv->notebook), FALSE);
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (priv->notebook), FALSE);
-	gtk_paned_add2 (GTK_PANED (priv->hpaned), priv->notebook);
 
 	/* Page for "No URL displayed" message.  */
 
 	gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook), create_label_for_empty_page (), NULL);
 
+	/* Put things into a paned and the paned into the GnomeApp.  */
+
+	priv->hpaned = gtk_hpaned_new ();
+	gtk_paned_set_position (GTK_PANED (priv->hpaned), DEFAULT_SHORTCUT_BAR_WIDTH + DEFAULT_TREE_WIDTH);
+
+	gtk_paned_add1 (GTK_PANED (priv->hpaned), left_paned);
+	gtk_paned_add2 (GTK_PANED (priv->hpaned), priv->notebook);
+
+	gnome_app_set_contents (GNOME_APP (shell_view), priv->hpaned);
+
 	/* Show stuff.  */
 
 	gtk_widget_show (priv->shortcut_bar);
 	gtk_widget_show (priv->notebook);
+	gtk_widget_show (priv->hpaned);
+	gtk_widget_show (priv->storage_set_view);
+
+	gtk_widget_show (storage_set_view_scrolled_window);
+	gtk_widget_show (left_paned);
 
 	/* FIXME: Session management and stuff?  */
 	gtk_window_set_default_size (GTK_WINDOW (shell_view), DEFAULT_WIDTH, DEFAULT_HEIGHT);
@@ -232,13 +286,14 @@ init (EShellView *shell_view)
 
 	priv = g_new (EShellViewPrivate, 1);
 
-	priv->shell        = NULL;
-	priv->uih          = NULL;
-	priv->uri          = NULL;
-	priv->hpaned       = NULL;
-	priv->shortcut_bar = NULL;
-	priv->contents     = NULL;
-	priv->notebook     = NULL;
+	priv->shell            = NULL;
+	priv->uih              = NULL;
+	priv->uri              = NULL;
+	priv->hpaned           = NULL;
+	priv->shortcut_bar     = NULL;
+	priv->storage_set_view = NULL;
+	priv->contents         = NULL;
+	priv->notebook         = NULL;
 
 	priv->uri_to_control = g_hash_table_new (g_str_hash, g_str_equal);
 
@@ -283,9 +338,103 @@ e_shell_view_new (EShell *shell)
 }
 
 
-/* This displays the specified page, doing the appropriate Bonobo
-   activation/deactivation magic to make sure things work nicely.
-   FIXME: Crappy way to solve the issue.  */
+static const char *
+get_storage_set_path_from_uri (const char *uri)
+{
+	const char *colon;
+
+	if (g_path_is_absolute (uri))
+		return NULL;
+
+	colon = strchr (uri, ':');
+	if (colon == NULL || colon == uri || colon[1] == '\0')
+		return NULL;
+
+	if (! g_path_is_absolute (colon + 1))
+		return NULL;
+
+	if (g_strncasecmp (uri, EVOLUTION_URI_PREFIX, colon - uri) != 0)
+		return NULL;
+
+	return colon + 1;
+}
+
+static void
+set_icon (EShellView *shell_view,
+	  EFolder *folder)
+{
+	EShellViewPrivate *priv;
+	const char *type;
+	const char *icon_name;
+	char *icon_path;
+
+	priv = shell_view->priv;
+
+	type = e_folder_get_type_string (folder);
+	if (type == NULL) {
+		icon_path = NULL;
+	} else {
+		EFolderTypeRepository *folder_type_repository;
+
+		folder_type_repository = e_shell_get_folder_type_repository (priv->shell);
+		icon_name = e_folder_type_repository_get_icon_name_for_type (folder_type_repository,
+									     type);
+		if (icon_name == NULL)
+			icon_path = NULL;
+		else
+			icon_path = e_shell_get_icon_path (icon_name);
+	}
+
+	if (icon_path == NULL) {
+		gnome_window_icon_set_from_default (GTK_WINDOW (shell_view));
+	} else {
+		gnome_window_icon_set_from_file (GTK_WINDOW (shell_view), icon_path);
+		g_free (icon_path);
+	}
+}
+
+static void
+update_for_current_uri (EShellView *shell_view)
+{
+	EShellViewPrivate *priv;
+	EFolder *folder;
+	const char *folder_name;
+	const char *path;
+	char *window_title;
+
+	priv = shell_view->priv;
+
+	path = get_storage_set_path_from_uri (priv->uri);
+
+	if (path == NULL)
+		folder = NULL;
+	else
+		folder = e_storage_set_get_folder (e_shell_get_storage_set (priv->shell),
+						   path);
+
+	if (folder == NULL)
+		folder_name = _("None");
+	else
+		folder_name = e_folder_get_name (folder);
+
+	window_title = g_strdup_printf (_("Evolution - %s"), folder_name);
+	gtk_window_set_title (GTK_WINDOW (shell_view), window_title);
+	g_free (window_title);
+
+	set_icon (shell_view, folder);
+
+	gtk_signal_handler_block_by_func (GTK_OBJECT (priv->storage_set_view),
+					  GTK_SIGNAL_FUNC (folder_selected_cb),
+					  shell_view);
+	e_storage_set_view_set_current_folder (E_STORAGE_SET_VIEW (priv->storage_set_view),
+					       path);
+	gtk_signal_handler_unblock_by_func (GTK_OBJECT (priv->storage_set_view),
+					    GTK_SIGNAL_FUNC (folder_selected_cb),
+					    shell_view);
+}
+
+/* This displays the specified page, doing the appropriate Bonobo activation/deactivation
+   magic to make sure things work nicely.  FIXME: Crappy way to solve the issue.  */
 static void
 set_current_notebook_page (EShellView *shell_view,
 			   int page_num)
@@ -398,72 +547,6 @@ get_control_for_uri (EShellView *shell_view,
 	return control;
 }
 
-static const char *
-get_storage_set_path_from_uri (const char *uri)
-{
-	const char *colon;
-
-	if (g_path_is_absolute (uri))
-		return NULL;
-
-	colon = strchr (uri, ':');
-	if (colon == NULL || colon == uri || colon[1] == '\0')
-		return NULL;
-
-	if (! g_path_is_absolute (colon + 1))
-		return NULL;
-
-	if (g_strncasecmp (uri, "evolution", colon - uri) != 0)
-		return NULL;
-
-	return colon + 1;
-}
-
-static void
-set_icon (EShellView *shell_view,
-	  const char *uri)
-{
-	EShellViewPrivate *priv;
-	EStorageSet *storage_set;
-	EFolderTypeRepository *folder_type_repository;
-	EFolder *folder;
-	const char *type;
-	const char *icon_name;
-	char *icon_path;
-
-	priv = shell_view->priv;
-
-	storage_set = e_shell_get_storage_set (priv->shell);
-	folder_type_repository = e_shell_get_folder_type_repository (priv->shell);
-
-	folder = e_storage_set_get_folder (storage_set,
-					   get_storage_set_path_from_uri (uri));
-
-	if (folder == NULL)
-		return;
-
-	type = e_folder_get_type_string (folder);
-	if (type == NULL)
-		return;
-
-	icon_name = e_folder_type_repository_get_icon_for_type (folder_type_repository, type);
-	if (icon_name == NULL)
-		return;
-
-	if (g_path_is_absolute (icon_name))
-		icon_path = g_strdup (icon_name);
-	else {
-		icon_path = gnome_pixmap_file (icon_name);
-		if (icon_path == NULL)
-			icon_path = g_concat_dir_and_file (EVOLUTION_IMAGES, icon_name);
-	}
-
-	if (icon_path == NULL)
-		return;
-
-	gnome_window_icon_set_from_file (GTK_WINDOW(shell_view), icon_path);
-}
-
 static gboolean
 show_existing_view (EShellView *shell_view,
 		    const char *uri,
@@ -503,7 +586,6 @@ show_existing_view (EShellView *shell_view,
 	}
 
 	set_current_notebook_page (shell_view, notebook_page);
-	set_icon(shell_view, uri);
 
 	return TRUE;
 }
@@ -531,7 +613,6 @@ create_new_view_for_uri (EShellView *shell_view,
 	page_num = gtk_notebook_page_num (GTK_NOTEBOOK (priv->notebook), control);
 	g_assert (page_num != -1);
 	set_current_notebook_page (shell_view, page_num);
-	set_icon(shell_view, uri);
 
 	g_hash_table_insert (priv->uri_to_control, g_strdup (uri), control);
 
@@ -544,6 +625,7 @@ e_shell_view_display_uri (EShellView *shell_view,
 {
 	EShellViewPrivate *priv;
 	GtkWidget *control;
+	gboolean retval;
 
 	g_return_val_if_fail (shell_view != NULL, FALSE);
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), FALSE);
@@ -562,13 +644,14 @@ e_shell_view_display_uri (EShellView *shell_view,
 			priv->uri = NULL;
 		}
 
-		return TRUE;
+		retval = TRUE;
+		goto end;
 	}
 
 	g_free (priv->uri);
 	priv->uri = g_strdup (uri);
 
-	if (strncmp (uri, "evolution:", 10) != 0) {
+	if (strncmp (uri, EVOLUTION_URI_PREFIX, EVOLUTION_URI_PREFIX_LEN) != 0) {
 		show_error (shell_view, uri);
 		return FALSE;
 	}
@@ -577,15 +660,21 @@ e_shell_view_display_uri (EShellView *shell_view,
 	if (control != NULL) {
 		g_assert (GTK_IS_WIDGET (control));
 		show_existing_view (shell_view, uri, control);
-		return TRUE;
+		retval = TRUE;
+		goto end;
 	}
 
 	if (! create_new_view_for_uri (shell_view, uri)) {
 		show_error (shell_view, uri);
-		return FALSE;
+		retval = FALSE;
+		goto end;
 	}
 
-	return TRUE;
+	retval = TRUE;
+
+ end:
+	update_for_current_uri (shell_view);
+	return retval;
 }
 
 

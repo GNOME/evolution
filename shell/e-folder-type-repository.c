@@ -1,7 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 /* e-folder-type-repository.c
  *
-
  * Copyright (C) 2000  Helix Code, Inc.
  *
  * This program is free software; you can redistribute it and/or
@@ -31,6 +30,8 @@
 
 #include "e-util/e-util.h"
 
+#include "e-shell-utils.h"
+
 #include "e-folder-type-repository.h"
 
 
@@ -40,6 +41,7 @@ static GtkObjectClass *parent_class = NULL;
 struct _FolderType {
 	char *name;
 	char *icon_name;
+	GdkPixbuf *icon_pixbuf;
 	char *control_id;
 };
 typedef struct _FolderType FolderType;
@@ -70,12 +72,19 @@ folder_type_new (const char *name,
 		 const char *control_id)
 {
 	FolderType *new;
+	char *icon_path;
 
 	new = g_new (FolderType, 1);
 
 	new->name       = g_strdup (name);
 	new->icon_name  = g_strdup (icon_name);
 	new->control_id = g_strdup (control_id);
+
+	icon_path = e_shell_get_icon_path (icon_name);
+	if (icon_path == NULL)
+		new->icon_pixbuf = NULL;
+	else
+		new->icon_pixbuf = gdk_pixbuf_new_from_file (icon_path);
 
 	return new;
 }
@@ -86,6 +95,9 @@ folder_type_free (FolderType *folder_type)
 	g_free (folder_type->name);
 	g_free (folder_type->icon_name);
 	g_free (folder_type->control_id);
+
+	if (folder_type->icon_pixbuf != NULL)
+		gdk_pixbuf_unref (folder_type->icon_pixbuf);
 
 	g_free (folder_type);
 }
@@ -209,6 +221,20 @@ e_folder_type_repository_new (void)
 
 
 const char *
+e_folder_type_repository_get_icon_name_for_type (EFolderTypeRepository *folder_type_repository,
+						 const char *type_name)
+{
+	const FolderType *folder_type;
+
+	g_return_val_if_fail (folder_type_repository != NULL, NULL);
+	g_return_val_if_fail (E_IS_FOLDER_TYPE_REPOSITORY (folder_type_repository), NULL);
+	g_return_val_if_fail (type_name != NULL, NULL);
+
+	folder_type = get_folder_type (folder_type_repository, type_name);
+	return folder_type->icon_name;
+}
+
+GdkPixbuf *
 e_folder_type_repository_get_icon_for_type (EFolderTypeRepository *folder_type_repository,
 					    const char *type_name)
 {
@@ -219,7 +245,7 @@ e_folder_type_repository_get_icon_for_type (EFolderTypeRepository *folder_type_r
 	g_return_val_if_fail (type_name != NULL, NULL);
 
 	folder_type = get_folder_type (folder_type_repository, type_name);
-	return folder_type->icon_name;
+	return folder_type->icon_pixbuf;
 }
 
 const char *

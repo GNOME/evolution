@@ -311,8 +311,6 @@ icon_callback (EShortcutBar *shortcut_bar,
 	EFolder *folder;
 	GdkPixbuf *pixbuf;
 	const char *type;
-	const char *icon_name;
-	char *icon_path;
 
 	shortcuts = E_SHORTCUTS (data);
 
@@ -329,26 +327,9 @@ icon_callback (EShortcutBar *shortcut_bar,
 	if (type == NULL)
 		return NULL;
 
-	icon_name = e_folder_type_repository_get_icon_for_type (folder_type_repository, type);
-	if (icon_name == NULL)
-		return NULL;
-
-	if (g_path_is_absolute (icon_name))
-		icon_path = g_strdup (icon_name);
-	else {
-		icon_path = gnome_pixmap_file (icon_name);
-		if (icon_path == NULL)
-			icon_path = g_concat_dir_and_file (EVOLUTION_IMAGES, icon_name);
-	}
-
-	if (icon_path == NULL)
-		return NULL;
-
-	/* FIXME this sucks sucks sucks sucks.  We need some caching.  Probably
-	   it's better if EFolderTypeRepository returns a GdkPixbuf directly.  */
-	pixbuf = gdk_pixbuf_new_from_file (icon_path);
-
-	g_free (icon_path);
+	pixbuf = e_folder_type_repository_get_icon_for_type (folder_type_repository, type);
+	if (pixbuf != NULL)
+		gdk_pixbuf_ref (pixbuf);
 
 	return pixbuf;
 }

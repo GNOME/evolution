@@ -32,6 +32,8 @@ evolution_SOURCES = 			\
 	e-local-storage.h		\
 	e-setup.c			\
 	e-setup.h			\
+	e-shell-utils.c			\
+	e-shell-utils.h			\
 	e-shell-view-menu.c		\
 	e-shell-view-menu.h		\
 	e-shell-view.c			\
@@ -42,6 +44,8 @@ evolution_SOURCES = 			\
 	e-shortcuts-view.h		\
 	e-shortcuts.c			\
 	e-shortcuts.h			\
+	e-storage-set-view.c		\
+	e-storage-set-view.h		\
 	e-storage-set.c			\
 	e-storage-set.h			\
 	e-storage-watcher.c		\

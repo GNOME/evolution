@@ -29,6 +29,7 @@
 #endif
 
 #include <gtk/gtkobject.h>
+#include <gdk-pixbuf/gdk-pixbuf.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -61,7 +62,9 @@ GtkType                e_folder_type_repository_get_type   (void);
 void                   e_folder_type_repository_construct  (EFolderTypeRepository *folder_type_repository);
 EFolderTypeRepository *e_folder_type_repository_new        (void);
 
-const char *e_folder_type_repository_get_icon_for_type        (EFolderTypeRepository *folder_type_repository,
+GdkPixbuf  *e_folder_type_repository_get_icon_for_type        (EFolderTypeRepository *folder_type_repository,
+							       const char            *type_name);
+const char *e_folder_type_repository_get_icon_name_for_type   (EFolderTypeRepository *folder_type_repository,
 							       const char            *type_name);
 const char *e_folder_type_repository_get_control_id_for_type  (EFolderTypeRepository *folder_type_repository,
 							       const char            *type_name);
