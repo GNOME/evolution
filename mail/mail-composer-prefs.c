@@ -203,6 +203,7 @@ mail_composer_prefs_construct (MailComposerPrefs *prefs)
 	option_menu_connect (prefs->charset, prefs);
 	
 	/* Spell Checking */
+	/* FIXME: do stuff with these */
 	prefs->spell_check = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkEnableSpellChecking"));
 	prefs->colour = GNOME_COLOR_PICKER (glade_xml_get_widget (gui, "colorpickerSpellCheckColor"));
 	prefs->language = GTK_COMBO (glade_xml_get_widget (gui, "cmboSpellCheckLanguage"));

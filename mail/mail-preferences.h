@@ -92,6 +92,13 @@ struct _MailPreferences {
 	
 	/* Security tab */
 	GnomeFileEntry *pgp_path;
+	
+	/* Labels and Colours tab */
+	struct {
+		GtkEntry *name;
+		GnomeColorPicker *color;
+	} labels[5];
+	GtkButton *restore_labels;
 };
 
 struct _MailPreferencesClass {

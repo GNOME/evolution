@@ -27,6 +27,8 @@
 
 #include "mail-preferences.h"
 
+#include <gal/widgets/e-unicode.h>
+#include <gal/util/e-unicode-i18n.h>
 #include <gtkhtml/gtkhtml-properties.h>
 #include "widgets/misc/e-charset-picker.h"
 
@@ -148,6 +150,18 @@ color_set (GtkWidget *widget, guint r, guint g, guint b, guint a, gpointer user_
 }
 
 static void
+restore_labels_clicked (GtkWidget *widget, gpointer user_data)
+{
+	MailPreferences *prefs = (MailPreferences *) user_data;
+	int i;
+	
+	for (i = 0; i < 5; i++) {
+		e_utf8_gtk_entry_set_text (prefs->labels[i].name, U_(label_defaults[i].name));
+		colorpicker_set_color (prefs->labels[i].color, label_defaults[i].color);
+	}
+}
+
+static void
 menu_changed (GtkWidget *widget, gpointer user_data)
 {
 	MailPreferences *prefs = (MailPreferences *) user_data;
@@ -179,6 +193,7 @@ mail_preferences_construct (MailPreferences *prefs)
 	GtkWidget *toplevel, *menu;
 	const char *text;
 	GladeXML *gui;
+	int i;
 	
 	gui = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config.glade", "preferences_tab");
 	prefs->gui = gui;
@@ -273,7 +288,7 @@ mail_preferences_construct (MailPreferences *prefs)
 	gtk_signal_connect (GTK_OBJECT (prefs->images_always), "toggled",
 			    toggle_button_toggled, prefs);
 	
-	/* ... */
+	/* Some GtkHTML settings */
 	/* FIXME: use the gtkhtml interfaces for these settings when lewing gets around to adding them */
 	prefs->show_animated = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkShowAnimatedImages"));
 	gtk_toggle_button_set_active (prefs->show_animated,
@@ -286,6 +301,7 @@ mail_preferences_construct (MailPreferences *prefs)
 				      gconf_client_get_bool (prefs->gconf, GTK_HTML_GCONF_DIR "/magic_links", NULL));
 	gtk_signal_connect (GTK_OBJECT (prefs->autodetect_links), "toggled",
 			    toggle_button_toggled, prefs);
+	
 	
 	prefs->prompt_unwanted_html = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkPromptWantHTML"));
 	gtk_toggle_button_set_active (prefs->prompt_unwanted_html, mail_config_get_confirm_unwanted_html ());
@@ -302,7 +318,28 @@ mail_preferences_construct (MailPreferences *prefs)
 	gtk_signal_connect (GTK_OBJECT (gnome_file_entry_gtk_entry (prefs->pgp_path)), "changed",
 			    entry_changed, prefs);
 	
-	/* FIXME: what about a label colour tab? */
+	/* Labels and Colours tab */
+	for (i = 0; i < 5; i++) {
+		char *widget_name;
+		
+		widget_name = g_strdup_printf ("txtLabel%d", i);
+		prefs->labels[i].name = GTK_ENTRY (glade_xml_get_widget (gui, widget_name));
+		g_free (widget_name);
+		text = mail_config_get_label_name (i);
+		e_utf8_gtk_entry_set_text (prefs->labels[i].name, text ? text : "");
+		gtk_signal_connect (GTK_OBJECT (prefs->labels[i].name), "changed",
+				    entry_changed, prefs);
+		
+		widget_name = g_strdup_printf ("colorLabel%d", i);
+		prefs->labels[i].color = GNOME_COLOR_PICKER (glade_xml_get_widget (gui, widget_name));
+		g_free (widget_name);
+		colorpicker_set_color (prefs->labels[i].color, mail_config_get_label_color (i));
+		gtk_signal_connect (GTK_OBJECT (prefs->labels[i].color), "color_set",
+				    color_set, prefs);
+	}
+	prefs->restore_labels = GTK_BUTTON (glade_xml_get_widget (gui, "cmdRestoreLabels"));
+	gtk_signal_connect (GTK_OBJECT (prefs->restore_labels), "clicked",
+			    restore_labels_clicked, prefs);
 }
 
 
@@ -325,7 +362,7 @@ mail_preferences_apply (MailPreferences *prefs)
 	CamelPgpType type;
 	char *string;
 	guint32 rgb;
-	int val;
+	int i, val;
 	
 	/* General tab */
 	
@@ -387,4 +424,16 @@ mail_preferences_apply (MailPreferences *prefs)
 	type = string && *string ? mail_config_pgp_type_detect_from_path (string) : CAMEL_PGP_TYPE_NONE;
 	mail_config_set_pgp_path (string && *string ? string : NULL);
 	mail_config_set_pgp_type (type);
+	
+	/* Labels and Colours */
+	for (i = 0; i < 5; i++) {
+		/* save the label... */
+		string = e_utf8_gtk_entry_get_text (prefs->labels[i].name);
+		mail_config_set_label_name (i, string);
+		g_free (string);
+		
+		/* save the colour... */
+		rgb = colorpicker_get_color (prefs->labels[i].color);
+		mail_config_set_label_color (i, rgb);
+	}
 }
