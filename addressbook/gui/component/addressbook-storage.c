@@ -510,6 +510,8 @@ addressbook_storage_clear_sources ()
 	g_list_foreach (sources, (GFunc)addressbook_source_foreach, NULL);
 	g_list_free (sources);
 	sources = NULL;
+
+	save_source_data (storage_path);
 }
 
 AddressbookSource *

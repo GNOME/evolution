@@ -1,3 +1,8 @@
+2001-04-22  Christopher James Lahey  <clahey@ximian.com>
+
+	* gui/component/addressbook-storage.c
+	(addressbook_storage_clear_sources): Added save_source_data here.
+
 2001-04-21  Jon Trowbridge  <trow@ximian.com>
 
 	* contact-editor/e-contact-quick-add.c (clicked_cb): Properly
