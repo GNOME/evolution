@@ -84,6 +84,7 @@ e_select_names_text_model_new (ESelectNamesModel *source)
 	gtk_object_set(GTK_OBJECT(model),
 		       "source", source,
 		       NULL);
+	e_select_names_text_model_model_changed (source, E_SELECT_NAMES_TEXT_MODEL(model));
 	return model;
 }
 

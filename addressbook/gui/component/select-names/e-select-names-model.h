@@ -53,6 +53,7 @@ struct _ESelectNamesModelClass {
 };
 
 ESelectNamesModel *e_select_names_model_new               (void);
+ESelectNamesModel *e_select_names_model_duplicate         (ESelectNamesModel *old);
 
 /* These lengths are allowed to go over objects and act just like the text model does. */
 void               e_select_names_model_insert            (ESelectNamesModel *model,

@@ -169,18 +169,6 @@ set_current_selection(ETable *table, int row, ESelectNames *names)
 }
 
 static void
-e_select_names_clicked(ESelectNames *dialog, gint button, ESelectNames *data)
-{
-	switch(button) {
-	case 0:
-		break;
-	case 1:
-		break;
-	}
-	gnome_dialog_close(GNOME_DIALOG(dialog));
-}
-
-static void
 e_select_names_init (ESelectNames *e_select_names)
 {
 	GladeXML *gui;
@@ -205,9 +193,6 @@ e_select_names_init (ESelectNames *e_select_names)
 				    GNOME_STOCK_BUTTON_OK,
 				    GNOME_STOCK_BUTTON_CANCEL,
 				    NULL);
-
-	gtk_signal_connect(GTK_OBJECT(e_select_names), "clicked",
-			   GTK_SIGNAL_FUNC(e_select_names_clicked), e_select_names);
 
 	e_select_names->table = E_TABLE(glade_xml_get_widget(gui, "table-source"));
 	e_select_names->model = gtk_object_get_data(GTK_OBJECT(e_select_names->table), "model");
@@ -341,11 +326,12 @@ e_select_names_add_section(ESelectNames *e_select_names, char *name, char *id, E
 	child = g_new(ESelectNamesChild, 1);
 
 	child->names = e_select_names;
+	child->title = g_strdup(_(name));
 
 	e_select_names->child_count++;
 
 	alignment = gtk_alignment_new(0, 0, 1, 0);
-	label = g_strdup_printf("%s ->", _(name));
+	label = g_strdup_printf("%s ->", child->title);
 	button = gtk_button_new_with_label(label);
 	g_free(label);
 	gtk_container_add(GTK_CONTAINER(alignment), button);
@@ -386,6 +372,8 @@ e_select_names_add_section(ESelectNames *e_select_names, char *name, char *id, E
 			 e_select_names->child_count + 1,
 			 GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND,
 			 0, 0);
+
+	g_hash_table_insert(e_select_names->children, g_strdup(id), child);
 }
 
 static void *
@@ -421,4 +409,17 @@ e_select_names_get_section(ESelectNames *e_select_names, char *id)
 		gtk_object_unref(GTK_OBJECT(card));
 	}
 	return list;
+}
+
+ESelectNamesModel *
+e_select_names_get_source(ESelectNames *e_select_names,
+			  char *id)
+{
+	ESelectNamesChild *child = g_hash_table_lookup(e_select_names->children, id);
+	if (child) {
+		if (child->source)
+			gtk_object_ref(GTK_OBJECT(child->source));
+		return child->source;
+	} else
+		return NULL;
 }

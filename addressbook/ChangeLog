@@ -1,3 +1,26 @@
+2000-07-09  Christopher James Lahey  <clahey@helixcode.com>
+
+	* gui/component/addressbook.c: Removed unused do_nothing_cb
+	function.
+
+	* gui/component/select-names/e-select-names-manager.c,
+	gui/component/select-names/e-select-names-manager.h: Made the OK
+	and Cancel buttons in the ESelectNames dialog we create work
+	properly.
+	
+	* gui/component/select-names/e-select-names-model.c,
+	gui/component/select-names/e-select-names-model.h: Added
+	e_select_names_model_duplicate.
+
+	* gui/component/select-names/e-select-names-text-model.c: Made the
+	text be set correctly if there's already data in the source when
+	the text model is created.
+
+	* gui/component/select-names/e-select-names.c,
+	gui/component/select-names/e-select-names.h: Removed handling of
+	the buttons (the user of this dialog will have to handle them.)
+	Added e_select_names_get_source.  Fixed some typos.
+
 2000-07-09  Not Zed  <NotZed@HelixCode.com>
 
 	* gui/component/addressbook.c: Link the toolbar print button to

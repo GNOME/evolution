@@ -27,6 +27,7 @@ struct _ESelectNamesManager {
 	GtkObject object;
 	
 	EList *sections;
+	EList *entries;
 };
 
 struct _ESelectNamesManagerClass {

@@ -46,7 +46,6 @@ extern "C" {
 #define E_IS_SELECT_NAMES(obj)		(GTK_CHECK_TYPE ((obj), E_SELECT_NAMES_TYPE))
 #define E_IS_SELECT_NAMES_CLASS(klass)	(GTK_CHECK_CLASS_TYPE ((obj), E_SELECT_NAMES_TYPE))
 
-
 typedef struct _ESelectNames       ESelectNames;
 typedef struct _ESelectNamesClass  ESelectNamesClass;
 
@@ -70,15 +69,18 @@ struct _ESelectNamesClass
 };
 
 
-GtkWidget *e_select_names_new         (void);
-GtkType    e_select_names_get_type    (void);
-void       e_select_names_add_section (ESelectNames *e_select_names,
-				       char         *name,
-				       char         *id,
-				       ESelectNamesModel *source);
+GtkWidget *e_select_names_new          (void);
+GtkType    e_select_names_get_type     (void);
+
+void       e_select_names_add_section  (ESelectNames *e_select_names,
+				       	char         *name,
+				       	char         *id,
+				       	ESelectNamesModel *source);
+ESelectNamesModel *e_select_names_get_source   (ESelectNames *e_select_names,
+						char *id);
 /* Returns a ref counted list of addresses. */
-EList     *e_select_names_get_section (ESelectNames *e_select_names,
-				       char         *id);
+EList     *e_select_names_get_section  (ESelectNames *e_select_names,
+				       	char         *id);
 
 #ifdef __cplusplus
 }

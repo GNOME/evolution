@@ -81,6 +81,22 @@ e_select_names_model_new (void)
 	return model;
 }
 
+/**
+ * e_select_names_model_new:
+ * @VCard: a string in vCard format
+ *
+ * Returns: a new #ESelectNamesModel that wraps the @VCard.
+ */
+ESelectNamesModel *
+e_select_names_model_duplicate (ESelectNamesModel *old)
+{
+	ESelectNamesModel *model = E_SELECT_NAMES_MODEL(gtk_type_new(e_select_names_model_get_type()));
+	model->data = e_list_duplicate(old->data);
+	model->id = g_strdup(old->id);
+	model->title = g_strdup(old->title);
+	return model;
+}
+
 static void
 e_select_names_model_class_init (ESelectNamesModelClass *klass)
 {

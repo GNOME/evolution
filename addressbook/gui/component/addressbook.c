@@ -90,12 +90,6 @@ control_deactivate (BonoboControl *control, BonoboUIHandler *uih)
 }
 
 static void
-do_nothing_cb (BonoboUIHandler *uih, void *user_data, const char *path)
-{
-	g_print ("Yow! I am called back!\n");
-}
-
-static void
 card_added_cb (EBook* book, EBookStatus status, const char *id,
 	    gpointer user_data)
 {
