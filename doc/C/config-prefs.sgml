@@ -257,8 +257,9 @@
           <para>
             Click <guibutton>Add</guibutton> to add a news server; you
             will be prompted for its name.  Enter the name, click
-            <guibutton>OK</guibutton>
-
+            <guibutton>OK</guibutton>, and you're done. (FIXME, this needs work).
+          </para>
+     </sect2>
 
      <sect2 id="config-prefs-mail-other">
 	<title>Other Mail Preferences</title>

@@ -1,6 +1,6 @@
-
+<!--
 <!DOCTYPE Chapter PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN">
-
+-->
 
 <chapter id="usage-mail"> 
   <title>Evolution Mail</title>
@@ -119,7 +119,7 @@
              <term><guimenuitem>Forward Message</guimenuitem> </term>
              <listitem><para> 
                Send the message on to another person.
-               See <xref linkend="usage-mail-getnsent-fwd"> for
+               See <xref linkend="usage-mail-getnsend-fwd"> for
                information about how to use the Forward feature.
              </para></listitem>
            </varlistentry>
@@ -493,8 +493,8 @@ with quoted materials and the relevant replies interspersed-->
 	    get very angry if you send them HTML mail, which is why
 	    <application>Evolution</application> sends plain text
 	    unless you explicitly ask for HTML.  To send HTML mail,
-	    you will need to select <guilabel>Send Messages as
-	    HTML</guilabel> in the mail settings dialog box.  See
+	    you will need to select <menuchoice> <guimenuitem>
+	    HTML</guimenuitem></menuchoice> in the mail settings dialog box.  See
 	    <xref linkend="config-prefs-mail-other"> for more information.
           </para>
 	  <para>
@@ -659,7 +659,7 @@ possibly never will be due to security evil. -->
 	</sect3>
 -->
 
-      <sect3 id="usage-getnsend-fwd">
+      <sect3 id="usage-mail-getnsend-fwd">
 	<title>Forwarding Mail</title>      
 	<para>
 	  The post office forwards your mail for you when you change

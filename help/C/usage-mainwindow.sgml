@@ -1,7 +1,6 @@
-
+<!--
  <!DOCTYPE Chapter PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN">
-
-
+-->
 <chapter id="usage-mainwindow">
 
   <title>The Main Window: Evolution Basics</title>
@@ -364,7 +363,7 @@
           Configuration</guimenuitem> and the <guimenuitem>vFolder
           Editor</guimenuitem>.  For the
           <interface>Calendar</interface> and the <interface>Contact
-          Manager</interface> </para></listitem>, they'll be different.
+          Manager</interface> </para></listitem>
         </varlistentry>
 
         <varlistentry>
