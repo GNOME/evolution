@@ -1,3 +1,8 @@
+2001-08-19  Chris Toshok  <toshok@ximian.com>
+
+	* evolution-shell-component.c (impl__get_supported_types): fill
+	the corba sequence for the accepted_dnd_types.
+
 2001-08-20  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-view.c (setup_storage_set_subwindow): Don't show the
