@@ -103,6 +103,11 @@ struct _ESExp {
 	/* private stuff */
 	jmp_buf failenv;
 	char *error;
+
+	/* TODO: may also need a pool allocator for term strings, so we dont lose them
+	   in error conditions? */
+	struct _EMemChunk *term_chunks;
+	struct _EMemChunk *result_chunks;
 };
 
 struct _ESExpClass {
@@ -133,8 +138,8 @@ int		e_sexp_parse		(ESExp *f);
 ESExpResult    *e_sexp_eval		(ESExp *f);
 
 ESExpResult    *e_sexp_term_eval	(struct _ESExp *f, struct _ESExpTerm *t);
-ESExpResult    *e_sexp_result_new	(int type);
-void		e_sexp_result_free	(struct _ESExpResult *t);
+ESExpResult    *e_sexp_result_new	(struct _ESExp *f, int type);
+void		e_sexp_result_free	(struct _ESExp *f, struct _ESExpResult *t);
 
 /* used in normal functions if they have to abort, to free their arguments */
 void		e_sexp_resultv_free	(struct _ESExp *f, int argc, struct _ESExpResult **argv);

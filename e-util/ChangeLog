@@ -1,5 +1,7 @@
 2001-01-24  Not Zed  <NotZed@Ximian.com>
 
+	* e-sexp.h (ESExp): Add chunk allocators.
+
 	* e-sexp.c: Removed some redundant debug printfs.
 	(e_sexp_term_eval): Dont allocate result till we have it. so we
 	can have a fatal error, and not leak it.
@@ -7,6 +9,16 @@
 	(term_eval_sub): Same.
 	(parse_new_term): Renamed to parse_term_new for consistency.
 	Fixed callers.
+	(e_sexp_result_new): Add the esexp as an argument.  Ouch, lots of
+	code to change for this.  Allocate blocks from an ememchunk.
+	Fixed all callers.
+	(e_sexp_result_free): Same as above, free blocks from the
+	ememchunk.  Fixed all callers.
+	(parse_term_new): 
+	(parse_term_free): Similarly, add the esexp to the argument, and
+	alloc/free from memchunks.  Fixed all local callers.
+	(e_sexp_init): Setup the memory chunk allocators.
+	(e_sexp_finalise): Destroy memchunk allocators.
 
 2001-01-23  Not Zed  <NotZed@Ximian.com>
 
