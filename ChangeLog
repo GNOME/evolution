@@ -1,5 +1,9 @@
 2000-02-28  Chris Lahey  <clahey@umich.edu>
 
+	* widgets/e-text/e-text.c: Compilation error.
+
+2000-02-28  Chris Lahey  <clahey@umich.edu>
+
 	* widgets/e-text/e-text.c, widgets/e-text/e-text.h: Updated these
 	to use the canvas ::update system properly.
 

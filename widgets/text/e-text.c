@@ -738,8 +738,6 @@ split_into_lines (EText *text)
 	if (len == 0)
 		lines->text = p;
 	lines->length = strlen(lines->text);
-
-	calc_line_widths (text);
 }
 
 /* Convenience function to set the text's GC's foreground color */
@@ -1149,6 +1147,7 @@ e_text_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int fla
 	}
 	if ( text->needs_redraw ) {
 		gnome_canvas_request_redraw (item->canvas, item->x1, item->y1, item->x2, item->y2);
+		text->needs_redraw = 0;
 	}
 }
 
@@ -1914,10 +1913,10 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 				}
 			}
 			if ( text->line_wrap )
-				split_into_lines (text);
+				text->needs_split_into_lines = 1;
 			else
-				calc_line_widths (text);
-			recalc_bounds (text);
+				text->needs_calc_line_widths = 1;
+			gnome_canvas_item_request_update (GNOME_CANVAS_ITEM(text));
 		}
 		return_val = 0;
 		break;
@@ -2183,8 +2182,8 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 			text->selection_end = _get_position(text, command);
 		}
 		_delete_selection(text);
-		split_into_lines (text);
-		recalc_bounds (text);
+		text->needs_split_into_lines = 1;
+		gnome_canvas_item_request_update (GNOME_CANVAS_ITEM(text));
 		if (text->timer) {
 			g_timer_reset(text->timer);
 		}
@@ -2195,8 +2194,8 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 			_delete_selection(text);
 		}
 		_insert(text, command->string, command->value);
-		split_into_lines (text);
-		recalc_bounds (text);
+		text->needs_split_into_lines = 1;
+		gnome_canvas_item_request_update (GNOME_CANVAS_ITEM(text));
 		if (text->timer) {
 			g_timer_reset(text->timer);
 		}
