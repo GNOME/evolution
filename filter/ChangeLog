@@ -1,3 +1,10 @@
+2000-10-23  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* filter-editor.c: Remove the "demand" source from the list.
+
+	* filter.glade: Remove the "On Demand" option and replace it with
+	an "Outgoing" option.
+
 2000-10-23  Christopher James Lahey  <clahey@helixcode.com>
 
 	* filter-editor.c, filter-filter.c, filter-folder.c,
