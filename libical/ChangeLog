@@ -1,3 +1,9 @@
+2001-07-25  JP Rosevear  <jpr@ximian.com>
+
+	* src/libical/icalparameter.c (icalparameter_as_ical_string): if
+	the property contains ':' or ';' put the value in quotes so it
+	parses correctly
+
 2001-07-23  JP Rosevear  <jpr@ximian.com>
 
 	* src/libical/icalparser.c: pass extra param to

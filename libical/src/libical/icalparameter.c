@@ -245,7 +245,17 @@ icalparameter_as_ical_string (icalparameter* parameter)
     icalmemory_append_string(&buf, &buf_ptr, &buf_size, "=");
 
     if(impl->string !=0){
+        int qm = 0;
+
+	/* Encapsulate the property in quotes if necessary */
+	if (strchr (impl->string, ';') != 0 || strchr (impl->string, ':') != 0) {
+		icalmemory_append_char (&buf, &buf_ptr, &buf_size, '"');
+		qm = 1;
+	}
         icalmemory_append_string(&buf, &buf_ptr, &buf_size, impl->string); 
+	if (qm == 1) {
+		icalmemory_append_char (&buf, &buf_ptr, &buf_size, '"');
+	}
     } else if (impl->data != 0){
         const char* str = icalparameter_enum_to_string(impl->data);
         icalmemory_append_string(&buf, &buf_ptr, &buf_size, str); 
