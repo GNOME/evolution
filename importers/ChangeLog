@@ -1,3 +1,8 @@
+2001-09-25  Iain Holmes  <iain@ximian.com>
+
+	* netscape-importer.c (netscape_import_accounts): Handle the case when 
+	the transport is set to nothing.
+
 2001-09-14  Iain Holmes  <iain@ximian.com>
 
 	* pine-importer.c (import_addressfile): Rewrite.

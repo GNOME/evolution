@@ -409,6 +409,13 @@ netscape_import_accounts (NetscapeImporter *importer)
 		transport.save_passwd = FALSE;
 		transport.enabled = TRUE;
 		g_free (url);
+	} else {
+		transport.url = CORBA_string_dup ("");
+		transport.keep_on_server = FALSE;
+		transport.auto_check = FALSE;
+		transport.auto_check_time = 0;
+		transport.save_passwd = FALSE;
+		transport.enabled = FALSE;
 	}
 
 	/* Create account */
