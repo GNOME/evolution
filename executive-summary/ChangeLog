@@ -1,3 +1,8 @@
+2001-05-02  Gediminas Paulauskas <menesis@delfi.lt>
+
+	* component/e-summary.c: set default content type of html to
+	"text/html; charset=utf-8".
+
 2001-04-25  Dan Winship  <danw@ximian.com>
 
 	* idl/Makefile.am (INCLUDES): Remove this section, which doesn't
