@@ -1,3 +1,8 @@
+2001-09-12  JP Rosevear  <jpr@ximian.com>
+
+	* evolution-composer.c (corba_recipientlist_to_destv): null
+	terminate the destination vector
+
 2001-09-10  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* evolution-composer.c (init): Don't call new_with_sig_file, it no

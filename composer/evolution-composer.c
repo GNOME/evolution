@@ -66,6 +66,7 @@ corba_recipientlist_to_destv (const GNOME_Evolution_Composer_RecipientList *cl)
 		e_destination_set_email (destv[i], recip->address);
 		
 	}
+	destv[cl->_length] = NULL;
 
 	return destv;
 }
