@@ -32,7 +32,6 @@
 
 #include "Executive-Summary.h"
 #include "executive-summary-component.h"
-#include "executive-summary-client.h"
 
 static void executive_summary_component_destroy (GtkObject *object);
 static void executive_summary_component_init (ExecutiveSummaryComponent *component);

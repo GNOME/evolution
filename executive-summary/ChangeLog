@@ -1,5 +1,10 @@
 2000-12-07  Dave Camp  <dave@helixcode.com>
 
+	* evolution-services/evolution-summary-component.c: Don't include 
+	executive-summary-client.h.
+
+2000-12-07  Dave Camp  <dave@helixcode.com>
+
 	* idl/Makefile.am (IDLS): Include HtmlView.idl
 	
 2000-11-29  Dan Winship  <danw@helixcode.com>
