@@ -1,5 +1,9 @@
 2004-09-16  JP Rosevear  <jpr@novell.com>
 
+	* configure.in: use AC_DEFINE properly
+	
+2004-09-16  JP Rosevear  <jpr@novell.com>
+
 	* configure.in: bump EDS and gal requirements
 
 2004-09-16  JP Rosevear  <jpr@novell.com>
