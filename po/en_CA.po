@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-03-26 01:57-0500\n"
-"PO-Revision-Date: 2005-03-26 19:18-0400\n"
+"POT-Creation-Date: 2005-03-30 14:01-0500\n"
+"PO-Revision-Date: 2005-03-30 19:18-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: Canadian English <adamw@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -564,7 +564,7 @@ msgstr "On This Computer"
 #: ../calendar/gui/calendar-component.c:216 ../calendar/gui/migration.c:467
 #: ../calendar/gui/migration.c:560 ../calendar/gui/tasks-component.c:196
 #: ../filter/filter-label.c:123 ../mail/em-migrate.c:1043
-#: ../mail/mail-config.c:78 ../mail/mail-config.glade.h:101
+#: ../mail/mail-config.c:78 ../mail/mail-config.glade.h:103
 msgid "Personal"
 msgstr "Personal"
 
@@ -628,7 +628,7 @@ msgstr "Copy book content locally for offline operation"
 #: ../calendar/gui/dialogs/calendar-setup.c:361
 #: ../calendar/gui/dialogs/calendar-setup.c:372
 #: ../mail/em-folder-properties.c:215 ../mail/mail-config.glade.h:84
-#: ../smime/gui/smime-ui.glade.h:27
+#: ../smime/gui/smime-ui.glade.h:28
 msgid "General"
 msgstr "General"
 
@@ -647,7 +647,7 @@ msgstr "Authentication"
 
 #: ../addressbook/gui/component/addressbook-config.c:914
 #: ../addressbook/gui/component/ldap-config.glade.h:18
-#: ../mail/mail-dialogs.glade.h:8 ../smime/gui/smime-ui.glade.h:19
+#: ../mail/mail-dialogs.glade.h:8 ../smime/gui/smime-ui.glade.h:20
 msgid "Details"
 msgstr "Details"
 
@@ -1062,7 +1062,7 @@ msgstr "_Log in method:"
 #: ../addressbook/gui/component/ldap-config.glade.h:47
 #: ../calendar/gui/dialogs/calendar-setup.c:243
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:8
-#: ../mail/mail-config.glade.h:160
+#: ../mail/mail-config.glade.h:163
 msgid "_Name:"
 msgstr "_Name:"
 
@@ -1194,7 +1194,7 @@ msgstr "Telephone"
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:235
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:199
 #: ../filter/filter-label.c:122 ../mail/em-migrate.c:1042
-#: ../mail/mail-config.c:77 ../mail/mail-config.glade.h:148
+#: ../mail/mail-config.c:77 ../mail/mail-config.glade.h:151
 msgid "Work"
 msgstr "Work"
 
@@ -4224,9 +4224,9 @@ msgid "Start time:"
 msgstr "Start time:"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:7
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:50
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:51
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:6
-#: ../filter/filter.glade.h:11 ../mail/mail-config.glade.h:153
+#: ../filter/filter.glade.h:11 ../mail/mail-config.glade.h:156
 #: ../ui/evolution-addressbook.xml.h:34 ../ui/evolution-calendar.xml.h:41
 #: ../ui/evolution-composer-entries.xml.h:8 ../ui/evolution-mail-list.xml.h:24
 #: ../ui/evolution-mail-messagedisplay.xml.h:6
@@ -4291,12 +4291,12 @@ msgstr ""
 "Starting at %s\n"
 "Ending at %s"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1099
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1123
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1100
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1124
 msgid "Warning"
 msgstr "Warning"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1103
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1104
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -4308,7 +4308,7 @@ msgstr ""
 "configured to send an email.  Evolution will display\n"
 "a normal reminder dialogue box instead."
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1129
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1130
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -4325,7 +4325,7 @@ msgstr ""
 "\n"
 "Are you sure you want to run this program?"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1143
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1144
 msgid "Do not ask me about this program again."
 msgstr "Do not ask me about this program again."
 
@@ -5168,144 +5168,148 @@ msgid "Monday"
 msgstr "Monday"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:29
+msgid "Publishing Table"
+msgstr "Publishing Table"
+
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:30
 msgid "S_un"
 msgstr "S_un"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:30
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:31
 #: ../calendar/gui/dialogs/recurrence-page.c:1045
 #: ../calendar/gui/e-itip-control.c:733
 msgid "Saturday"
 msgstr "Saturday"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:31
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:32
 msgid "Sh_ow a reminder"
 msgstr "Sh_ow a reminder"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:32
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:33
 msgid "Show week _numbers in date navigator"
 msgstr "Show week _numbers in date navigator"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:33
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:34
 #: ../calendar/gui/dialogs/recurrence-page.c:1046
 #: ../calendar/gui/e-itip-control.c:727
 msgid "Sunday"
 msgstr "Sunday"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:34
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:35
 msgid "T_asks due today:"
 msgstr "T_asks due today:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:35
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:36
 msgid "T_hu"
 msgstr "T_hu"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:36
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:37
 msgid "Template:"
 msgstr "Template:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:37
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:38
 #: ../calendar/gui/dialogs/recurrence-page.c:1043
 #: ../calendar/gui/e-itip-control.c:731
 msgid "Thursday"
 msgstr "Thursday"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:38
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:39
 msgid "Time _zone:"
 msgstr "Time _zone:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:39
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:40
 msgid "Time format:"
 msgstr "Time format:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:40
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:41
 #: ../calendar/gui/dialogs/recurrence-page.c:1041
 #: ../calendar/gui/e-itip-control.c:729
 msgid "Tuesday"
 msgstr "Tuesday"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:41
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:42
 msgid "W_eek starts:"
 msgstr "W_eek starts:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:42
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:43
 #: ../calendar/gui/dialogs/recurrence-page.c:1042
 #: ../calendar/gui/e-itip-control.c:730
 msgid "Wednesday"
 msgstr "Wednesday"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:43
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:44
 msgid "Work days:"
 msgstr "Work days:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:44
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:45
 msgid "_12 hour (AM/PM)"
 msgstr "_12 hour (AM/PM)"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:45
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:46
 msgid "_24 hour"
 msgstr "_24 hour"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:46
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:47
 msgid "_Add URL"
 msgstr "_Add URL"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:47
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:48
 msgid "_Ask for confirmation when deleting items"
 msgstr "_Ask for confirmation when deleting items"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:48
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:49
 msgid "_Compress weekends in month view"
 msgstr "_Compress weekends in month view"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:49
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:50
 msgid "_Day begins:"
 msgstr "_Day begins:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:51
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:52
 msgid "_Fri"
 msgstr "_Fri"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:52
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:53
 msgid "_Hide completed tasks after"
 msgstr "_Hide completed tasks after"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:53
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:54
 msgid "_Mon"
 msgstr "_Mon"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:54
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:55
 msgid "_Overdue tasks:"
 msgstr "_Overdue tasks:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:55
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:56
 msgid "_Sat"
 msgstr "_Sat"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:56
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:57
 msgid "_Show appointment end times in week and month views"
 msgstr "_Show appointment end times in week and month views"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:57
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:58
 msgid "_Time divisions:"
 msgstr "_Time divisions:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:58
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:59
 msgid "_Tue"
 msgstr "_Tue"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:59
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:60
 msgid "_Wed"
 msgstr "_Wed"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:60
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:61
 msgid "before every appointment"
 msgstr "before every appointment"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:61
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:62
 msgid "option menu to choose reminder units"
 msgstr "option menu to choose reminder units"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:62
+#: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:63
 msgid "option menu to choose time units"
 msgstr "option menu to choose time units"
 
@@ -5339,7 +5343,7 @@ msgid "Add Task List"
 msgstr "Add Task List"
 
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:5
-#: ../mail/mail-config.glade.h:102
+#: ../mail/mail-config.glade.h:104
 msgid "Pick a color"
 msgstr "Pick a colour"
 
@@ -10142,13 +10146,13 @@ msgstr "Important"
 
 #. forest green
 #: ../filter/filter-label.c:124 ../mail/em-migrate.c:1044
-#: ../mail/mail-config.c:79 ../mail/mail-config.glade.h:140
+#: ../mail/mail-config.c:79 ../mail/mail-config.glade.h:143
 msgid "To Do"
 msgstr "To Do"
 
 #. blue
 #: ../filter/filter-label.c:125 ../mail/em-migrate.c:1045
-#: ../mail/mail-config.c:80 ../mail/mail-config.glade.h:93
+#: ../mail/mail-config.c:80 ../mail/mail-config.glade.h:94
 msgid "Later"
 msgstr "Later"
 
@@ -10248,7 +10252,7 @@ msgstr "ago"
 msgid "months"
 msgstr "months"
 
-#: ../filter/filter.glade.h:18 ../mail/mail-config.glade.h:172
+#: ../filter/filter.glade.h:18 ../mail/mail-config.glade.h:175
 msgid "seconds"
 msgstr "seconds"
 
@@ -10331,7 +10335,7 @@ msgid "Mail Accounts"
 msgstr "Mail Accounts"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:13
-#: ../mail/mail-config.glade.h:95
+#: ../mail/mail-config.glade.h:97
 msgid "Mail Preferences"
 msgstr "Mail Preferences"
 
@@ -10366,7 +10370,7 @@ msgstr "Select Folder"
 msgid "Identity"
 msgstr "Identity"
 
-#: ../mail/em-account-editor.c:1697 ../mail/mail-config.glade.h:114
+#: ../mail/em-account-editor.c:1697 ../mail/mail-config.glade.h:116
 msgid "Receiving Email"
 msgstr "Receiving Email"
 
@@ -10374,7 +10378,7 @@ msgstr "Receiving Email"
 msgid "Automatically check for _new mail every"
 msgstr "Automatically check for _new mail every"
 
-#: ../mail/em-account-editor.c:2042 ../mail/mail-config.glade.h:124
+#: ../mail/em-account-editor.c:2042 ../mail/mail-config.glade.h:126
 msgid "Sending Email"
 msgstr "Sending Email"
 
@@ -10382,7 +10386,7 @@ msgstr "Sending Email"
 msgid "Defaults"
 msgstr "Defaults"
 
-#: ../mail/em-account-editor.c:2145 ../mail/mail-config.glade.h:119
+#: ../mail/em-account-editor.c:2145 ../mail/mail-config.glade.h:121
 msgid "Security"
 msgstr "Security"
 
@@ -10415,6 +10419,10 @@ msgstr "Account name"
 #: ../mail/em-account-prefs.c:484
 msgid "Protocol"
 msgstr "Protocol"
+
+#: ../mail/em-account-prefs.c:489
+msgid "Mail Accounts Table"
+msgstr "Mail Accounts Table"
 
 #: ../mail/em-composer-prefs.c:306 ../mail/em-composer-prefs.c:429
 #: ../mail/mail-config.c:935
@@ -11135,7 +11143,7 @@ msgstr ""
 "very difficult for an outsider to view the content of this message in a "
 "practical amount of time."
 
-#: ../mail/em-format-html-display.c:793 ../smime/gui/smime-ui.glade.h:47
+#: ../mail/em-format-html-display.c:793 ../smime/gui/smime-ui.glade.h:48
 msgid "_View Certificate"
 msgstr "_View Certificate"
 
@@ -12566,19 +12574,27 @@ msgstr "I_nclude remote tests"
 msgid "Inline"
 msgstr "Inline"
 
-#: ../mail/mail-config.glade.h:94
+#: ../mail/mail-config.glade.h:93
+msgid "Languages Table"
+msgstr "Languages Table"
+
+#: ../mail/mail-config.glade.h:95
 msgid "Mail Configuration"
 msgstr "Mail Configuration"
 
 #: ../mail/mail-config.glade.h:96
+msgid "Mail Headers Table"
+msgstr "Mail Headers Table"
+
+#: ../mail/mail-config.glade.h:98
 msgid "Mailbox location"
 msgstr "Mailbox location"
 
-#: ../mail/mail-config.glade.h:97
+#: ../mail/mail-config.glade.h:99
 msgid "Message Composer"
 msgstr "Message Composer"
 
-#: ../mail/mail-config.glade.h:98
+#: ../mail/mail-config.glade.h:100
 msgid ""
 "Note: you will not be prompted for a password until you connect for the "
 "first time"
@@ -12586,35 +12602,35 @@ msgstr ""
 "Note: you will not be prompted for a password until you connect for the "
 "first time"
 
-#: ../mail/mail-config.glade.h:99
+#: ../mail/mail-config.glade.h:101
 msgid "Or_ganization:"
 msgstr "Or_ganization:"
 
-#: ../mail/mail-config.glade.h:100
+#: ../mail/mail-config.glade.h:102
 msgid "PGP/GPG _Key ID:"
 msgstr "PGP/GPG _Key ID:"
 
-#: ../mail/mail-config.glade.h:103
+#: ../mail/mail-config.glade.h:105
 msgid "Play sound file when new mail arri_ves"
 msgstr "Play sound file when new mail arri_ves"
 
-#: ../mail/mail-config.glade.h:104
-msgid ""
-"Please enter a descriptive name for this account in the space below.\n"
-"This name will be used for display purposes only."
-msgstr ""
-"Please enter a descriptive name for this account in the space below.\n"
-"This name will be used for display purposes only."
-
 #: ../mail/mail-config.glade.h:106
 msgid ""
+"Please enter a descriptive name for this account in the space below.\n"
+"This name will be used for display purposes only."
+msgstr ""
+"Please enter a descriptive name for this account in the space below.\n"
+"This name will be used for display purposes only."
+
+#: ../mail/mail-config.glade.h:108
+msgid ""
 "Please enter information about the way you will send mail. If you are not "
 "sure, ask your system administrator or Internet Service Provider."
 msgstr ""
 "Please enter information about the way you will send mail. If you are not "
 "sure, ask your system administrator or Internet Service Provider."
 
-#: ../mail/mail-config.glade.h:107
+#: ../mail/mail-config.glade.h:109
 msgid ""
 "Please enter your name and email address below. The \"optional\" fields "
 "below do not need to be filled in, unless you wish to include this "
@@ -12624,107 +12640,111 @@ msgstr ""
 "below do not need to be filled in, unless you wish to include this "
 "information in email you send."
 
-#: ../mail/mail-config.glade.h:108
+#: ../mail/mail-config.glade.h:110
 msgid "Please select among the following options"
 msgstr "Please select among the following options"
 
-#: ../mail/mail-config.glade.h:109
+#: ../mail/mail-config.glade.h:111
 msgid "Pr_ompt when sending messages with only Bcc recipients defined"
 msgstr "Pr_ompt when sending messages with only Bcc recipients defined"
 
-#: ../mail/mail-config.glade.h:110
+#: ../mail/mail-config.glade.h:112
 msgid "Quote original message"
 msgstr "Quote original message"
 
-#: ../mail/mail-config.glade.h:111
+#: ../mail/mail-config.glade.h:113
 msgid "Quoted"
 msgstr "Quoted"
 
-#: ../mail/mail-config.glade.h:112
+#: ../mail/mail-config.glade.h:114
 msgid "Re_member password"
 msgstr "Re_member password"
 
-#: ../mail/mail-config.glade.h:113
+#: ../mail/mail-config.glade.h:115
 msgid "Re_ply-To:"
 msgstr "Re_ply-To:"
 
-#: ../mail/mail-config.glade.h:115
+#: ../mail/mail-config.glade.h:117
 msgid "Remember _password"
 msgstr "Remember _password"
 
-#: ../mail/mail-config.glade.h:116
+#: ../mail/mail-config.glade.h:118
 msgid "S_elect..."
 msgstr "S_elect..."
 
-#: ../mail/mail-config.glade.h:117
+#: ../mail/mail-config.glade.h:119
 msgid "S_tandard Font:"
 msgstr "S_tandard Font:"
 
-#: ../mail/mail-config.glade.h:118
+#: ../mail/mail-config.glade.h:120
 msgid "Se_lect..."
 msgstr "Se_lect..."
 
-#: ../mail/mail-config.glade.h:120
+#: ../mail/mail-config.glade.h:122
 msgid "Select HTML fixed width font"
 msgstr "Select HTML fixed width font"
 
-#: ../mail/mail-config.glade.h:121
+#: ../mail/mail-config.glade.h:123
 msgid "Select HTML fixed width font for printing"
 msgstr "Select HTML fixed width font for printing"
 
-#: ../mail/mail-config.glade.h:122
+#: ../mail/mail-config.glade.h:124
 msgid "Select HTML variable width font"
 msgstr "Select HTML variable width font"
 
-#: ../mail/mail-config.glade.h:123
+#: ../mail/mail-config.glade.h:125
 msgid "Select HTML variable width font for printing"
 msgstr "Select HTML variable width font for printing"
 
-#: ../mail/mail-config.glade.h:125
+#: ../mail/mail-config.glade.h:127
 msgid "Sending Mail"
 msgstr "Sending Mail"
 
-#: ../mail/mail-config.glade.h:126
+#: ../mail/mail-config.glade.h:128
 msgid "Sent _Messages Folder:"
 msgstr "Sent _Messages Folder:"
 
-#: ../mail/mail-config.glade.h:127
+#: ../mail/mail-config.glade.h:129
 msgid "Ser_ver requires authentication"
 msgstr "Ser_ver requires authentication"
 
-#: ../mail/mail-config.glade.h:128
+#: ../mail/mail-config.glade.h:130
 msgid "Server _Type: "
 msgstr "Server _Type: "
 
-#: ../mail/mail-config.glade.h:129
+#: ../mail/mail-config.glade.h:131
 msgid "Sig_ning certificate:"
 msgstr "Sig_ning certificate:"
 
-#: ../mail/mail-config.glade.h:130
+#: ../mail/mail-config.glade.h:132
 msgid "Signat_ure:"
 msgstr "Signat_ure:"
 
-#: ../mail/mail-config.glade.h:131
+#: ../mail/mail-config.glade.h:133
 msgid "Signatures"
 msgstr "Signatures"
 
-#: ../mail/mail-config.glade.h:132
+#: ../mail/mail-config.glade.h:134
+msgid "Signatures Table"
+msgstr "Signatures Table"
+
+#: ../mail/mail-config.glade.h:135
 msgid "Specify _filename:"
 msgstr "Specify _filename:"
 
-#: ../mail/mail-config.glade.h:133
+#: ../mail/mail-config.glade.h:136
 msgid "Spell Checking"
 msgstr "Spell Checking"
 
-#: ../mail/mail-config.glade.h:134
+#: ../mail/mail-config.glade.h:137
 msgid "T_erminal Font:"
 msgstr "T_erminal Font:"
 
-#: ../mail/mail-config.glade.h:135
+#: ../mail/mail-config.glade.h:138
 msgid "T_ype: "
 msgstr "T_ype: "
 
-#: ../mail/mail-config.glade.h:136
+#: ../mail/mail-config.glade.h:139
 msgid ""
 "The list of languages here reflects only the languages for which you have a "
 "dictionary installed."
@@ -12732,7 +12752,7 @@ msgstr ""
 "The list of languages here reflects only the languages for which you have a "
 "dictionary installed."
 
-#: ../mail/mail-config.glade.h:137
+#: ../mail/mail-config.glade.h:140
 msgid ""
 "The output of this script will be used as your\n"
 "signature. The name you specify will be used\n"
@@ -12742,7 +12762,7 @@ msgstr ""
 "signature. The name you specify will be used\n"
 "for display purposes only. "
 
-#: ../mail/mail-config.glade.h:141
+#: ../mail/mail-config.glade.h:144
 msgid ""
 "Type the name by which you would like to refer to this account.\n"
 "For example: \"Work\" or \"Personal\""
@@ -12750,15 +12770,15 @@ msgstr ""
 "Type the name by which you would like to refer to this account.\n"
 "For example: \"Work\" or \"Personal\""
 
-#: ../mail/mail-config.glade.h:143
+#: ../mail/mail-config.glade.h:146
 msgid "User_name:"
 msgstr "User_name:"
 
-#: ../mail/mail-config.glade.h:144
+#: ../mail/mail-config.glade.h:147
 msgid "V_ariable-width:"
 msgstr "V_ariable-width:"
 
-#: ../mail/mail-config.glade.h:145
+#: ../mail/mail-config.glade.h:148
 msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
@@ -12768,87 +12788,87 @@ msgstr ""
 "\n"
 "Click \"Forward\" to begin. "
 
-#: ../mail/mail-config.glade.h:149
+#: ../mail/mail-config.glade.h:152
 msgid "_Add Signature"
 msgstr "_Add Signature"
 
-#: ../mail/mail-config.glade.h:150
+#: ../mail/mail-config.glade.h:153
 msgid "_Always load images from the Internet"
 msgstr "_Always load images from the Internet"
 
-#: ../mail/mail-config.glade.h:151
+#: ../mail/mail-config.glade.h:154
 msgid "_Do not notify me when new mail arrives"
 msgstr "_Do not notify me when new mail arrives"
 
-#: ../mail/mail-config.glade.h:152
+#: ../mail/mail-config.glade.h:155
 msgid "_Don't sign meeting requests (for Outlook compatibility)"
 msgstr "_Don't sign meeting requests (for Outlook compatibility)"
 
-#: ../mail/mail-config.glade.h:154
+#: ../mail/mail-config.glade.h:157
 msgid "_Forward style:"
 msgstr "_Forward style:"
 
-#: ../mail/mail-config.glade.h:155
+#: ../mail/mail-config.glade.h:158
 msgid "_Full Name:"
 msgstr "_Full Name:"
 
-#: ../mail/mail-config.glade.h:156
+#: ../mail/mail-config.glade.h:159
 msgid "_Host:"
 msgstr "_Host:"
 
-#: ../mail/mail-config.glade.h:157
+#: ../mail/mail-config.glade.h:160
 msgid "_Load images if sender is in address book"
 msgstr "_Load images if sender is in address book"
 
-#: ../mail/mail-config.glade.h:158
+#: ../mail/mail-config.glade.h:161
 msgid "_Make this my default account"
 msgstr "_Make this my default account"
 
-#: ../mail/mail-config.glade.h:159
+#: ../mail/mail-config.glade.h:162
 msgid "_Mark messages as read after"
 msgstr "_Mark messages as read after"
 
-#: ../mail/mail-config.glade.h:161
+#: ../mail/mail-config.glade.h:164
 msgid "_Never load images from the Internet"
 msgstr "_Never load images from the Internet"
 
-#: ../mail/mail-config.glade.h:162
+#: ../mail/mail-config.glade.h:165
 msgid "_Path:"
 msgstr "_Path:"
 
-#: ../mail/mail-config.glade.h:163
+#: ../mail/mail-config.glade.h:166
 msgid "_Prompt when sending HTML messages to contacts that don't want them"
 msgstr "_Prompt when sending HTML messages to contacts that don't want them"
 
-#: ../mail/mail-config.glade.h:164
+#: ../mail/mail-config.glade.h:167
 msgid "_Prompt when sending messages with an empty subject line"
 msgstr "_Prompt when sending messages with an empty subject line"
 
-#: ../mail/mail-config.glade.h:165
+#: ../mail/mail-config.glade.h:168
 msgid "_Reply style:"
 msgstr "_Reply style:"
 
-#: ../mail/mail-config.glade.h:166
+#: ../mail/mail-config.glade.h:169
 msgid "_Script:"
 msgstr "_Script:"
 
-#: ../mail/mail-config.glade.h:167
+#: ../mail/mail-config.glade.h:170
 msgid "_Show animated images"
 msgstr "_Show animated images"
 
-#: ../mail/mail-config.glade.h:168
+#: ../mail/mail-config.glade.h:171
 msgid "_Use Secure Connection:"
 msgstr "_Use Secure Connection:"
 
-#: ../mail/mail-config.glade.h:169
+#: ../mail/mail-config.glade.h:172
 msgid "_Use the same fonts as other applications"
 msgstr "_Use the same fonts as other applications"
 
-#: ../mail/mail-config.glade.h:170
+#: ../mail/mail-config.glade.h:173
 msgid "color"
 msgstr "colour"
 
-#: ../mail/mail-config.glade.h:171
+#: ../mail/mail-config.glade.h:174
 msgid "description"
 msgstr "description"
 
@@ -14336,6 +14356,10 @@ msgstr "<span weight=\"bold\">Conflict Search</span>"
 msgid "Select the calendars to search for meeting conflicts"
 msgstr "Select the calendars to search for meeting conflicts"
 
+#: ../plugins/itip-formatter/itip-formatter.c:1735
+msgid "Conflict Search Table"
+msgstr "Conflict Search Table"
+
 #. strftime format of a weekday and a date.
 #: ../plugins/itip-formatter/itip-view.c:175 ../ui/evolution-calendar.xml.h:34
 #: ../widgets/misc/e-cell-date-edit.c:240 ../widgets/misc/e-dateedit.c:450
@@ -15459,7 +15483,7 @@ msgstr ""
 msgid "Importers"
 msgstr "Importers"
 
-#: ../shell/importer/intelligent.c:195 ../smime/gui/smime-ui.glade.h:28
+#: ../shell/importer/intelligent.c:195 ../smime/gui/smime-ui.glade.h:29
 msgid "Import"
 msgstr "Import"
 
@@ -15755,7 +15779,7 @@ msgstr "Certificate Name"
 msgid "Purposes"
 msgstr "Purposes"
 
-#: ../smime/gui/certificate-manager.c:283 ../smime/gui/smime-ui.glade.h:36
+#: ../smime/gui/certificate-manager.c:283 ../smime/gui/smime-ui.glade.h:37
 #: ../smime/lib/e-cert.c:569
 msgid "Serial Number"
 msgstr "Serial Number"
@@ -15879,112 +15903,116 @@ msgid "Certificate details"
 msgstr "Certificate details"
 
 #: ../smime/gui/smime-ui.glade.h:17
+msgid "Certificates Table"
+msgstr "Certificates Table"
+
+#: ../smime/gui/smime-ui.glade.h:18
 msgid "Common Name (CN)"
 msgstr "Common Name (CN)"
 
-#: ../smime/gui/smime-ui.glade.h:18
+#: ../smime/gui/smime-ui.glade.h:19
 msgid "Contact Certificates"
 msgstr "Contact Certificates"
 
-#: ../smime/gui/smime-ui.glade.h:20
+#: ../smime/gui/smime-ui.glade.h:21
 msgid "Do not trust the authenticity of this certificate"
 msgstr "Do not trust the authenticity of this certificate"
 
-#: ../smime/gui/smime-ui.glade.h:21
+#: ../smime/gui/smime-ui.glade.h:22
 msgid "Dummy window only"
 msgstr "Dummy window only"
 
-#: ../smime/gui/smime-ui.glade.h:22
+#: ../smime/gui/smime-ui.glade.h:23
 msgid "Edit"
 msgstr "Edit"
 
-#: ../smime/gui/smime-ui.glade.h:23
+#: ../smime/gui/smime-ui.glade.h:24
 msgid "Email Certificate Trust Settings"
 msgstr "Email Certificate Trust Settings"
 
-#: ../smime/gui/smime-ui.glade.h:24
+#: ../smime/gui/smime-ui.glade.h:25
 msgid "Email Recipient Certificate"
 msgstr "Email Recipient Certificate"
 
-#: ../smime/gui/smime-ui.glade.h:25
+#: ../smime/gui/smime-ui.glade.h:26
 msgid "Email Signer Certificate"
 msgstr "Email Signer Certificate"
 
-#: ../smime/gui/smime-ui.glade.h:26
+#: ../smime/gui/smime-ui.glade.h:27
 msgid "Expires On"
 msgstr "Expires On"
 
-#: ../smime/gui/smime-ui.glade.h:29
+#: ../smime/gui/smime-ui.glade.h:30
 msgid "Issued On"
 msgstr "Issued On"
 
-#: ../smime/gui/smime-ui.glade.h:30
+#: ../smime/gui/smime-ui.glade.h:31
 msgid "MD5 Fingerprint"
 msgstr "MD5 Fingerprint"
 
-#: ../smime/gui/smime-ui.glade.h:31
+#: ../smime/gui/smime-ui.glade.h:32
 msgid "Organization (O)"
 msgstr "Organization (O)"
 
-#: ../smime/gui/smime-ui.glade.h:32
+#: ../smime/gui/smime-ui.glade.h:33
 msgid "Organizational Unit (OU)"
 msgstr "Organizational Unit (OU)"
 
-#: ../smime/gui/smime-ui.glade.h:33
+#: ../smime/gui/smime-ui.glade.h:34
 msgid "SHA1 Fingerprint"
 msgstr "SHA1 Fingerprint"
 
-#: ../smime/gui/smime-ui.glade.h:34 ../smime/lib/e-cert.c:818
+#: ../smime/gui/smime-ui.glade.h:35 ../smime/lib/e-cert.c:818
 msgid "SSL Client Certificate"
 msgstr "SSL Client Certificate"
 
-#: ../smime/gui/smime-ui.glade.h:35 ../smime/lib/e-cert.c:822
+#: ../smime/gui/smime-ui.glade.h:36 ../smime/lib/e-cert.c:822
 msgid "SSL Server Certificate"
 msgstr "SSL Server Certificate"
 
-#: ../smime/gui/smime-ui.glade.h:37
+#: ../smime/gui/smime-ui.glade.h:38
 msgid "Trust the authenticity of this certificate"
 msgstr "Trust the authenticity of this certificate"
 
-#: ../smime/gui/smime-ui.glade.h:38
+#: ../smime/gui/smime-ui.glade.h:39
 msgid "Trust this CA to identify email users."
 msgstr "Trust this CA to identify email users."
 
-#: ../smime/gui/smime-ui.glade.h:39
+#: ../smime/gui/smime-ui.glade.h:40
 msgid "Trust this CA to identify software developers."
 msgstr "Trust this CA to identify software developers."
 
-#: ../smime/gui/smime-ui.glade.h:40
+#: ../smime/gui/smime-ui.glade.h:41
 msgid "Trust this CA to identify web sites."
 msgstr "Trust this CA to identify web sites."
 
-#: ../smime/gui/smime-ui.glade.h:41
+#: ../smime/gui/smime-ui.glade.h:42
 msgid "View"
 msgstr "View"
 
-#: ../smime/gui/smime-ui.glade.h:42
+#: ../smime/gui/smime-ui.glade.h:43
 msgid "You have certificates from these organizations that identify you:"
 msgstr "You have certificates from these organizations that identify you:"
 
-#: ../smime/gui/smime-ui.glade.h:43
+#: ../smime/gui/smime-ui.glade.h:44
 msgid ""
 "You have certificates on file that identify these certificate authorities:"
 msgstr ""
 "You have certificates on file that identify these certificate authorities:"
 
-#: ../smime/gui/smime-ui.glade.h:44
+#: ../smime/gui/smime-ui.glade.h:45
 msgid "You have certificates on file that identify these people:"
 msgstr "You have certificates on file that identify these people:"
 
-#: ../smime/gui/smime-ui.glade.h:45
+#: ../smime/gui/smime-ui.glade.h:46
 msgid "Your Certificates"
 msgstr "Your Certificates"
 
-#: ../smime/gui/smime-ui.glade.h:46
+#: ../smime/gui/smime-ui.glade.h:47
 msgid "_Edit CA Trust"
 msgstr "_Edit CA Trust"
 
-#: ../smime/gui/smime-ui.glade.h:48
+#: ../smime/gui/smime-ui.glade.h:49
 msgid "dialog1"
 msgstr "dialogue1"
 
