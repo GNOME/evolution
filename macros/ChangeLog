@@ -1,3 +1,8 @@
+2001-11-28  Sebastian Rittau  <srittau@jroger.in-berlin.de>
+
+	* gnome-pilot.m4 (PILOT_LINK_HOOK):
+	Fixed a typo: inlude -> include
+
 2001-10-24  jacob berkman  <jacob@ximian.com>
 
 	* aclocal-include.m4 (AM_ACLOCAL_INCLUDE): do a test that is not

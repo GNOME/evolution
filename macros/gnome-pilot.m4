@@ -39,7 +39,7 @@ AC_DEFUN([PILOT_LINK_HOOK],[
 	    AC_CHECK_HEADER(pi-version.h, [incdir="/usr/include"], [
 	    AC_CHECK_HEADER(libpisock/pi-version.h, [PISOCK_CFLAGS="-I/usr/include/libpisock"
 	                                             piversion_include="libpisock/pi-version.h"
-						     incdir="/usr/inlude/libpisock"
+						     incdir="/usr/include/libpisock"
                                                     ], [
 	    AC_CHECK_HEADER($prefix/include/pi-version.h, [PISOCK_CFLAGS="-I$prefix/include/libpisock"
 	                                                   piversion_include="$prefix/include/pi-version.h"
