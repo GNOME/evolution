@@ -1,3 +1,9 @@
+2001-12-19  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-accounts.c (construct): Oops, no wonder the exec command
+	thing never stuck around... I wasn't getting the right widget from
+	libglade.
+
 2001-12-18  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-ops.c (filter_folder_free): Argh, don't notify about new

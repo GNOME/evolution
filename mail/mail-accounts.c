@@ -996,7 +996,7 @@ construct (MailAccountsDialog *dialog)
 	gtk_signal_connect (GTK_OBJECT (dialog->notify_exec), "toggled",
 			    GTK_SIGNAL_FUNC (notify_radio_toggled), dialog);
 	
-	dialog->command_line = GNOME_FILE_ENTRY (glade_xml_get_widget (gui, "fileNotifyCommandLine"));
+	dialog->command_line = GNOME_FILE_ENTRY (glade_xml_get_widget (gui, "fileNotifyExecCommandLine"));
 	gtk_entry_set_text (GTK_ENTRY (gnome_file_entry_gtk_entry (dialog->command_line)),
 			    mail_config_get_new_mail_notify_command ());
 	gtk_signal_connect (GTK_OBJECT (dialog->command_line), "changed",

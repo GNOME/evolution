@@ -3219,8 +3219,9 @@ Quoted
 
 	    <widget>
 	      <class>GnomeFileEntry</class>
-	      <name>fileNotifyExecCommand</name>
+	      <name>fileNotifyExecCommandLine</name>
 	      <max_saved>10</max_saved>
+	      <title>Execute Command...</title>
 	      <directory>False</directory>
 	      <modal>False</modal>
 	      <child>
