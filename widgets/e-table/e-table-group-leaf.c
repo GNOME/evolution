@@ -104,6 +104,15 @@ etgl_double_click (GtkObject *object, gint row, ETableGroupLeaf *etgl)
 		e_table_group_double_click (E_TABLE_GROUP(etgl), E_TABLE_SUBSET(etgl->subset)->map_table[row]);
 }
 
+static gint
+etgl_key_press (GtkObject *object, gint row, gint col, GdkEvent *event, ETableGroupLeaf *etgl)
+{
+	if (row < E_TABLE_SUBSET(etgl->subset)->n_map)
+		return e_table_group_key_press (E_TABLE_GROUP(etgl), E_TABLE_SUBSET(etgl->subset)->map_table[row], col, event);
+	else
+		return 0;
+}
+
 static void
 etgl_reflow (GnomeCanvasItem *item, gint flags)
 {
@@ -142,6 +151,8 @@ etgl_realize (GnomeCanvasItem *item)
 			    GTK_SIGNAL_FUNC(etgl_cursor_change), etgl);
 	gtk_signal_connect (GTK_OBJECT(etgl->item), "double_click",
 			    GTK_SIGNAL_FUNC(etgl_double_click), etgl);
+	gtk_signal_connect (GTK_OBJECT(etgl->item), "key_press",
+			    GTK_SIGNAL_FUNC(etgl_key_press), etgl);
 	e_canvas_item_request_reflow(item);
 }
 

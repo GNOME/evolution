@@ -62,6 +62,7 @@ typedef struct {
 	void        (*row_selection)      (ETable *et, int row, gboolean selected);
 	void        (*cursor_change)      (ETable *et, int row);
 	void        (*double_click)       (ETable *et, int row);
+	gint        (*key_press)          (ETable *et, int row, int col, GdkEvent *event);
 } ETableClass;
 
 GtkType    e_table_get_type   		    (void);

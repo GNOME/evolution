@@ -20,6 +20,7 @@
 #include "e-cell.h"
 #include "e-util/e-canvas.h"
 #include "e-util/e-canvas-utils.h"
+#include "e-util/e-util.h"
 
 #define PARENT_OBJECT_TYPE gnome_canvas_item_get_type ()
 
@@ -31,6 +32,7 @@ enum {
 	ROW_SELECTION,
 	CURSOR_CHANGE,
 	DOUBLE_CLICK,
+	KEY_PRESS,
 	LAST_SIGNAL
 };
 
@@ -1324,11 +1326,15 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 
 				if (!(e->key.keyval >= 0x20 && e->key.keyval <= 0xff))
 					return_val = FALSE;
+				ecol = e_table_header_get_column (eti->header, eti->cursor_col);
+				ecell_view = eti->cell_views [eti->cursor_col];
+				e_cell_event (ecell_view, e, ecol->col_idx, eti->cursor_col, eti->cursor_row);
+
+			} else {
+				gtk_signal_emit (GTK_OBJECT (eti), eti_signals [KEY_PRESS],
+						 eti->cursor_row, eti->cursor_col, e, &return_val);
 			}
 
-			ecol = e_table_header_get_column (eti->header, eti->cursor_col);
-			ecell_view = eti->cell_views [eti->cursor_col];
-			e_cell_event (ecell_view, e, ecol->col_idx, eti->cursor_col, eti->cursor_row);
 		}
 		break;
 		
@@ -1388,6 +1394,7 @@ eti_class_init (GtkObjectClass *object_class)
 	eti_class->row_selection = eti_row_selection;
 	eti_class->cursor_change = NULL;
 	eti_class->double_click  = NULL;
+	eti_class->key_press     = NULL;
 
 	gtk_object_add_arg_type ("ETableItem::ETableHeader", GTK_TYPE_OBJECT,
 				 GTK_ARG_WRITABLE, ARG_TABLE_HEADER);
@@ -1436,6 +1443,14 @@ eti_class_init (GtkObjectClass *object_class)
 				GTK_SIGNAL_OFFSET (ETableItemClass, double_click),
 				gtk_marshal_NONE__INT,
 				GTK_TYPE_NONE, 1, GTK_TYPE_INT);
+
+	eti_signals [KEY_PRESS] =
+		gtk_signal_new ("key_press",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (ETableItemClass, key_press),
+				e_marshal_INT__INT_INT_POINTER,
+				GTK_TYPE_INT, 3, GTK_TYPE_INT, GTK_TYPE_INT, GTK_TYPE_POINTER);
 
 	gtk_object_class_add_signals (object_class, eti_signals, LAST_SIGNAL);
 
