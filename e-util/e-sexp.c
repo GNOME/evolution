@@ -267,9 +267,11 @@ term_eval_and(struct _ESExp *f, int argc, struct _ESExpTerm **argv, void *data)
 			a1 = (char **)r1->value.ptrarray->pdata;
 			l1 = r1->value.ptrarray->len;
 			for (j=0;j<l1;j++) {
+			        gpointer ptr;
 				int n;
-				n = (int)g_hash_table_lookup(ht, a1[j]);
-				g_hash_table_insert(ht, a1[j], (void *)n+1);
+				ptr = g_hash_table_lookup(ht, a1[j]);
+				n = GPOINTER_TO_INT(ptr);
+				g_hash_table_insert(ht, a1[j], GINT_TO_POINTER(n+1));
 			}
 		} else if (r1->type == ESEXP_RES_BOOL) {
 			bool = bool && r1->value.bool;
