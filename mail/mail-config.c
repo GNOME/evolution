@@ -811,7 +811,7 @@ create_transport (struct service_type *st)
 	if (service_flags & CAMEL_SERVICE_URL_ALLOW_HOST) {
 		add_row (table, row, _("Server:"), "server_entry",
 			 (service_flags & CAMEL_SERVICE_URL_NEED_HOST) ==
-			 CAMEL_SERVICE_NEED_HOST);
+			 CAMEL_SERVICE_URL_NEED_HOST);
 		row++;
 	}
 
