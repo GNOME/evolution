@@ -102,6 +102,13 @@ char *e_plugin_xml_content_domain(xmlNodePtr node, const char *domain);
 typedef struct _EPluginLib EPluginLib;
 typedef struct _EPluginLibClass EPluginLibClass;
 
+/* The callback signature used for epluginlib methods */
+typedef void *(EPluginLibFunc)(EPluginLib *ep, void *data);
+/* The setup method, this will be called when the plugin is
+ * initialised.  In the future it may also be called when the plugin
+ * is disabled. */
+typedef int (EPluginLibEnableFunc)(EPluginLib *ep, int enable);
+
 /**
  * struct _EPluginLib - 
  * 
@@ -112,6 +119,9 @@ typedef struct _EPluginLibClass EPluginLibClass;
  * This is a concrete EPlugin class.  It loads and invokes dynamically
  * loaded libraries using GModule.  The shared object isn't loaded
  * until the first callback is invoked.
+ *
+ * When the plugin is loaded, and if it exists, "e_plugin_lib_enable"
+ * will be invoked to initialise the 
  **/
 struct _EPluginLib {
 	EPlugin plugin;

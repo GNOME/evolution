@@ -624,6 +624,7 @@ e_plugin_xml_content_domain(xmlNodePtr node, const char *domain)
 /* ********************************************************************** */
 static void *epl_parent_class;
 
+/* this looks weird, but it saves a lot of typing */
 #define epl ((EPluginLib *)ep)
 
 /* TODO:
@@ -640,12 +641,29 @@ static void *epl_parent_class;
 static void *
 epl_invoke(EPlugin *ep, const char *name, void *data)
 {
-	void *(*cb)(EPlugin *ep, void *data);
+	EPluginLibFunc cb;
 
-	if (epl->module == NULL
-	    && (epl->module = g_module_open(epl->location, 0)) == NULL) {
-		g_warning("can't load plugin '%s'", g_module_error());
+	if (!ep->enabled) {
+		g_warning("trying to invoke '%s' on disabled plugin '%s'", name, ep->id);
 		return NULL;
+	}
+
+	if (epl->module == NULL) {
+		EPluginLibEnableFunc enable;
+		
+		if ((epl->module = g_module_open(epl->location, 0)) == NULL) {
+			g_warning("can't load plugin '%s'", g_module_error());
+			return NULL;
+		}
+
+		if (g_module_symbol(epl->module, "e_plugin_lib_enable", (void *)&enable)) {
+			if (enable(epl, TRUE) != 0) {
+				ep->enabled = FALSE;
+				g_module_close(epl->module);
+				epl->module = NULL;
+				return NULL;
+			}
+		}
 	}
 
 	if (!g_module_symbol(epl->module, name, (void *)&cb)) {
@@ -653,7 +671,7 @@ epl_invoke(EPlugin *ep, const char *name, void *data)
 		return NULL;
 	}
 
-	return cb(ep, data);
+	return cb(epl, data);
 }
 
 static int
