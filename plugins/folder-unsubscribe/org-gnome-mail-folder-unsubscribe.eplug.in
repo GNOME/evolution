@@ -5,7 +5,7 @@
    description="Extends wonders"
    location="@PLUGINDIR@/liborg-gnome-mail-folder-unsubscribe.so">
     <hook class="org.gnome.evolution.mail.popup:1.0">
-      <menu id="org.gnome.mail.storageset.popup.select" target="folder">
+      <menu id="org.gnome.evolution.mail.foldertree.popup" target="folder">
         <item type="item" path="20.emc.03" label="_Unsubscribe"
          activate="org_gnome_mail_folder_unsubscribe"
          enable="delete" visible="delete"/>
