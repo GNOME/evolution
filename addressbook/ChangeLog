@@ -1,3 +1,10 @@
+2004-01-06  Rodney Dawes  <dobey@ximian.com>
+
+	* gui/contact-editor/e-contact-editor-address.c: Apply
+	patch from Roozbeh Pournader to update countries list
+
+	Fixes #48151
+
 2004-01-06  JP Rosevear <jpr@ximian.com>
 
 	* gui/component/select-names/e-select-names-popup.c
