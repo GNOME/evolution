@@ -650,9 +650,14 @@ calendar_control_activate (BonoboControl *control,
 
 	gtk_widget_show_all (toolbar_frame);
 
+	behavior = GNOME_DOCK_ITEM_BEH_EXCLUSIVE |
+		   GNOME_DOCK_ITEM_BEH_NEVER_VERTICAL;
+	if (!gnome_preferences_get_toolbar_detachable ())
+		behavior |= GNOME_DOCK_ITEM_BEH_LOCKED;
+
 	bonobo_ui_handler_dock_add (uih, "/Toolbar",
 				    bonobo_object_corba_objref (BONOBO_OBJECT (bonobo_control_new (toolbar_frame))),
-				    GNOME_DOCK_ITEM_BEH_EXCLUSIVE | GNOME_DOCK_ITEM_BEH_NEVER_VERTICAL,
+				    behavior,
 				    GNOME_DOCK_TOP,
 				    1, 1, 0);
 

@@ -481,6 +481,7 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih,
 	Bonobo_UIHandler  remote_uih;
 	GtkWidget *toolbar, *toolbar_frame;
 	BonoboControl *toolbar_control;
+	GnomeDockItemBehavior behavior;
 	GtkWidget *hbox = gtk_hbox_new (FALSE, 0);
 	GtkWidget *quick_search_widget;
 
@@ -550,11 +551,15 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih,
 
 	gtk_widget_show_all (toolbar_frame);
 
+	behavior = GNOME_DOCK_ITEM_BEH_EXCLUSIVE;
+	if (!gnome_preferences_get_toolbar_detachable ())
+		behavior |= GNOME_DOCK_ITEM_BEH_LOCKED;
+
 	toolbar_control = bonobo_control_new (toolbar_frame);
 	bonobo_ui_handler_dock_add (
 		uih, "/Toolbar",
 		bonobo_object_corba_objref (BONOBO_OBJECT (toolbar_control)),
-		GNOME_DOCK_ITEM_BEH_EXCLUSIVE,
+		behavior,
 		GNOME_DOCK_TOP,
 		1, 1, 0);
 }

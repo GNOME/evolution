@@ -1,3 +1,8 @@
+2000-08-09  Cody Russell  <bratsche@gnome.org>
+
+	* folder-browser-factory.c, mail-view.c: Make the toolbars
+	honor the user's gnomecc settings for detachable toolbars.
+
 2000-08-09  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-ops.c (composer_send_cb): Get the from address set in the

@@ -89,6 +89,7 @@ mail_view_create (FolderBrowser *folder_browser)
 	GtkWidget *toolbar;
 	GtkWidget *mail_display;
 	char *subject;
+	GnomeDockItemBehavior behavior;
 
 	msg = folder_browser->mail_display->current_message;
 	subject = (char *) camel_mime_message_get_subject (msg);
@@ -102,8 +103,16 @@ mail_view_create (FolderBrowser *folder_browser)
 	gnome_app_fill_toolbar_with_data (GTK_TOOLBAR (toolbar),
 					  mail_view_toolbar,
 					  NULL, folder_browser);
-	
-	gnome_app_set_toolbar (GNOME_APP (window), GTK_TOOLBAR (toolbar));
+
+	behavior = GNOME_DOCK_ITEM_BEH_NORMAL;
+	if (!gnome_preferences_get_toolbar_detachable ())
+		behavior |= GNOME_DOCK_ITEM_BEH_LOCKED;
+
+	gnome_app_add_toolbar (GNOME_APP (window),
+			       GTK_TOOLBAR (toolbar),
+			       GNOME_APP_TOOLBAR_NAME,
+			       behavior,
+			       GNOME_DOCK_TOP, 1, 0, 0);
 	
 	gnome_app_create_menus (GNOME_APP (window), mail_view_menubar);
 	

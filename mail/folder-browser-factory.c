@@ -48,6 +48,7 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih,
 {
 	Bonobo_UIHandler  remote_uih;
 	BonoboControl *toolbar_control;
+	GnomeDockItemBehavior behavior;
 	GtkWidget *toolbar, *toolbar_frame, *folder_browser;
 	char *toolbar_name = g_strdup_printf ("/Toolbar%d", fb->serial);
 
@@ -140,6 +141,11 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih,
 
 	gtk_widget_show_all (toolbar);
 
+	behavior = GNOME_DOCK_ITEM_BEH_EXCLUSIVE |
+                    GNOME_DOCK_ITEM_BEH_NEVER_VERTICAL;
+	if (!gnome_preferences_get_toolbar_detachable ())
+		behavior |= GNOME_DOCK_ITEM_BEH_LOCKED;
+
 	toolbar_frame = gtk_frame_new (NULL);
 	gtk_frame_set_shadow_type (GTK_FRAME (toolbar_frame), GTK_SHADOW_OUT);
 	gtk_container_add (GTK_CONTAINER (toolbar_frame), toolbar);
@@ -150,7 +156,7 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih,
 	toolbar_control = bonobo_control_new (toolbar_frame);
 	bonobo_ui_handler_dock_add (uih, toolbar_name,
 				    bonobo_object_corba_objref (BONOBO_OBJECT (toolbar_control)),
-				    GNOME_DOCK_ITEM_BEH_EXCLUSIVE | GNOME_DOCK_ITEM_BEH_NEVER_VERTICAL,
+				    behavior,
 				    GNOME_DOCK_TOP,
 				    1, 1, 0);
 	g_free (toolbar_name);

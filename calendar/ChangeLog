@@ -1,3 +1,7 @@
+2000-08-09  Cody Russell  <bratsche@gnome.org>
+	* gui/calendar-commands.c: Make the toolbar honor the user's
+	gnomecc settings for detachable toolbars.
+
 2000-08-09  Federico Mena Quintero  <federico@helixcode.com>
 
 	* gui/alarm.c (pop_alarm): Oops, subtract the new alarm's trigger
