@@ -407,10 +407,9 @@ edit_im_clicked(GtkWidget *widget, EContactEditor *editor)
 			     NULL);
 
 		if (service == old_service &&
-		    (location == old_location ||
-		     (location != NULL && old_location == NULL) ||
-		     (location == NULL && old_location != NULL) ||
-		     !strcmp(old_location, location)) &&
+		    ((!location && !old_location) ||
+		     (location && old_location &&
+		      !strcmp(old_location, location))) &&
 		    !strcmp(screenname, old_screenname)) {
 
 			gtk_widget_destroy(GTK_WIDGET(dialog));
@@ -426,7 +425,8 @@ edit_im_clicked(GtkWidget *widget, EContactEditor *editor)
 			
 			if (!found
 			    && !strcmp(e_vcard_attribute_get_value (attr), old_screenname)
-			    && e_vcard_attribute_has_type (attr, old_location)) {
+			    && ((old_location && e_vcard_attribute_has_type (attr, old_location))
+				|| (!old_location && !e_vcard_attribute_has_type (attr, "HOME") && !e_vcard_attribute_has_type (attr, "WORK")))) {
 				e_vcard_attribute_free (attr);
 				found = TRUE;
 			}

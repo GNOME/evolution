@@ -1,5 +1,10 @@
 2004-02-26  Chris Toshok  <toshok@ximian.com>
 
+	* gui/contact-editor/e-contact-editor.c (edit_im_clicked): fix
+	checks for locations.
+
+2004-02-26  Chris Toshok  <toshok@ximian.com>
+
 	* gui/contact-editor/im.glade: set the location label/option menu
 	to visible.
 
