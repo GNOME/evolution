@@ -451,7 +451,7 @@ news_add_destroyed (GtkWidget *widget, gpointer data)
 	dialog->news = mail_config_get_news ();
 	load_news (dialog);
 
-	mail_load_storage_by_uri(dialog->shell, account->source->url, account->name);
+	mail_load_storage_by_uri(dialog->shell, service->url, NULL);
 	
 	dialog->news = mail_config_get_news ();
 	load_news (dialog);
