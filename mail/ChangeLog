@@ -8,6 +8,10 @@
 
 2003-01-10  Not Zed  <NotZed@Ximian.com>
 
+	* mail-config.glade: Remove info.png from a couple of images, the
+	image is set via code at runtime.  Removes some annoying runtime
+	warnings.
+
 	* mail-send-recv.c (dialogue_response): dont unref the dialogue.
 	(dialog_destroy_cb): null out the send_recv_dialogue after destroy.
 	(build_dialogue): show the stop button
