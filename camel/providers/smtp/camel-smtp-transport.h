@@ -43,13 +43,7 @@ extern "C" {
 #define CAMEL_SMTP_TRANSPORT_ENHANCEDSTATUSCODES    (1 << 2)
 #define CAMEL_SMTP_TRANSPORT_STARTTLS               (1 << 3)
 
-#define CAMEL_SMTP_TRANSPORT_USE_SSL_ALWAYS         (1 << 4)
-#define CAMEL_SMTP_TRANSPORT_USE_SSL_WHEN_POSSIBLE  (1 << 5)
-
-#define CAMEL_SMTP_TRANSPORT_USE_SSL                (CAMEL_SMTP_TRANSPORT_USE_SSL_ALWAYS | \
-						     CAMEL_SMTP_TRANSPORT_USE_SSL_WHEN_POSSIBLE)
-
-#define CAMEL_SMTP_TRANSPORT_AUTH_EQUAL             (1 << 6)  /* set if we are using authtypes from a broken AUTH= */
+#define CAMEL_SMTP_TRANSPORT_AUTH_EQUAL             (1 << 4)  /* set if we are using authtypes from a broken AUTH= */
 
 typedef struct {
 	CamelTransport parent_object;
