@@ -190,7 +190,8 @@ get_header_table_from_stream (CamelStream *stream)
 					
 				default:
 					if (!crlf) header_line = g_string_append_c (header_line, next_char);
-					else end_of_header_line = TRUE;
+					
+else end_of_header_line = TRUE;
 				}
 			} else {
 				end_of_file=TRUE;
