@@ -1,3 +1,8 @@
+2002-10-25  Dan Winship  <danw@ximian.com>
+
+	* gui/widgets/e-addressbook-model.c (addressbook_destroy):
+	Disconnect from the book's backend_died signal.
+
 2002-10-24  Chris Toshok  <toshok@ximian.com>
 
        * backend/pas/Makefile.am: install evolutionperson.schema to

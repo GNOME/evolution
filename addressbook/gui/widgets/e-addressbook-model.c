@@ -119,8 +119,12 @@ addressbook_destroy(GtkObject *object)
 		if (model->writable_status_id)
 			gtk_signal_disconnect(GTK_OBJECT (model->book),
 					      model->writable_status_id);
-
 		model->writable_status_id = 0;
+
+		if (model->backend_died_id)
+			gtk_signal_disconnect(GTK_OBJECT (model->book),
+					      model->backend_died_id);
+		model->backend_died_id = 0;
 
 		gtk_object_unref(GTK_OBJECT(model->book));
 		model->book = NULL;
