@@ -1,3 +1,7 @@
+2001-07-03  Aaron Weber  <aaron@ximian.com>
+
+	* main.c (development_warning): Revised to make it less scary.
+
 2001-07-03  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Fix a problem with not being able to save a newly created

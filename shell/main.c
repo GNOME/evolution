@@ -86,20 +86,16 @@ development_warning (void)
 		NULL);
 	label = gtk_label_new (
 		/* xgettext:no-c-format */
-		_("Hi.  Thanks for taking the time to download this PREVIEW RELEASE\n"
+		_("Hi.  Thanks for taking the time to download this preview release\n"
 		  "of the Evolution groupware suite.\n"
 		  "\n"
 		  "Evolution is not yet complete. It's getting close, but there are\n"
-		  "places where features are either missing or only half working. If\n"
-		  "you can't figure out how to do something, it's probably because\n"
-		  "there's no way to do it yet! :-)\n"
+		  "places where features are either missing or only half working. \n"
 		  "\n"
-		  "We hope Evolution will be usable for you, but we still feel the\n"
-		  "need to warn you that it may: crash, lose your mail, leave stray\n"
-		  "processes running, consume 100% of your CPU, send non-\n"
-		  "compliant commands to your servers, and generally embarass you\n"
-		  "in front of your friends and co-workers. Use only as directed.\n"
-		  "\n"
+		  "If you find bugs, please report them to us at bugzilla.ximian.com.\n"
+                  "This product comes with no warranty and is not intended for\n"
+		  "individuals prone to violent fits of anger.\n"
+                  "\n"
 		  "We hope that you enjoy the results of our hard work, and we\n"
 		  "eagerly await your contributions!\n"
 		  ));
