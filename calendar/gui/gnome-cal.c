@@ -1998,7 +1998,7 @@ gnome_calendar_open (GnomeCalendar *gcal, const char *str_uri)
 	g_free (message);
 
 	if (!cal_client_open_calendar (priv->client, real_uri, FALSE)) {
-		g_message ("gnome_calendar_open(): Could not issue the request");
+		g_message ("gnome_calendar_open(): Could not issue the request to open the calendar folder");
 		g_free (real_uri);
 		e_uri_free (uri);
 		e_week_view_set_status_message (E_WEEK_VIEW (priv->week_view), NULL);
@@ -2041,7 +2041,7 @@ gnome_calendar_open (GnomeCalendar *gcal, const char *str_uri)
 	e_uri_free (uri);
 
 	if (!success) {
-		g_message ("gnome_calendar_open(): Could not issue the request");
+		g_message ("gnome_calendar_open(): Could not issue the request to open the tasks folder");
 		calendar_model_set_status_message (
 			e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo)), NULL);
 		return FALSE;
