@@ -20,14 +20,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
-"POT-Creation-Date: 2004-07-02 14:48-0400\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2004-07-07 15:32+0200\n"
 "PO-Revision-Date: 2004-04-03 14:20:47+0100\n"
 "Last-Translator: Daniel van Eeden <daniel_e@dds.nl>\n"
 "Language-Team: Dutch <nl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Report-Msgid-Bugs-To: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: a11y/addressbook/ea-addressbook-view.c:94
@@ -66,9 +66,8 @@ msgstr "evolution minikaart"
 
 #. addressbook:ldap-init primary
 #: addressbook/addressbook-errors.xml.h:2
-#, fuzzy
 msgid "This addressbook could not be opened."
-msgstr "Cursor kon niet worden geladen\n"
+msgstr "Dit adresboek kon niet worden geopend."
 
 #. addressbook:ldap-init secondary
 #: addressbook/addressbook-errors.xml.h:4
@@ -76,12 +75,13 @@ msgid ""
 "This addressbook server might unreachable or the server name may be "
 "misspelled or your network connection could be down."
 msgstr ""
+"Deze adresboek-server kan onbereikbaar zijn of de dserver naam kan \n"
+"verkeerd gespeld zijn of de netwerk verbinding kan verbroken zijn."
 
 #. addressbook:ldap-auth primary
 #: addressbook/addressbook-errors.xml.h:6
-#, fuzzy
 msgid "Failed to authenticate with LDAP server."
-msgstr "Fout bij het aanmelden bij de LDAP server"
+msgstr "Fout bij authenticatie met de LDAP server."
 
 #. addressbook:ldap-auth secondary
 #: addressbook/addressbook-errors.xml.h:8
@@ -90,12 +90,14 @@ msgid ""
 "a supported login method. Remember that many passwords are case sensitive; "
 "your caps lock might be on."
 msgstr ""
+"Controleer of uw wachtwoord correct gespeld is en dat u een ondersteunde\n"
+"inlog methode gebruikt. Onthoudt dat wachtwoorden hoofdlettergevoelig zijn; uw \n"
+"caps-lock kan aan staan.\""
 
 #. addressbook:ldap-search-base primary
 #: addressbook/addressbook-errors.xml.h:10
-#, fuzzy
 msgid "This addressbook server does not have any suggested search bases."
-msgstr "De server antwoordde zonder ondersteunde zoekbasis"
+msgstr "Deze adresboek server heeft geen suggestie voor een zoek basis."
 
 #. addressbook:ldap-search-base secondary
 #: addressbook/addressbook-errors.xml.h:12
@@ -104,32 +106,42 @@ msgid ""
 "this functionality or it may be misconfigured. Ask your administrator for "
 "supported search bases."
 msgstr ""
+"Deze LDAP server gebruikt een oudere versie van LDAP, welke geen ondersteuning\n"
+"heeft voor deze functionaliteit of verkeerd is geconfigureerd. Vraag uw\n"
+"systeembeheerder voor een ondersteunde zoek basis."
 
 #. addressbook:ldap-v3-schema primary
 #: addressbook/addressbook-errors.xml.h:14
-#, fuzzy
 msgid "This server does not support LDAPv3 schema information."
-msgstr "Deze server ondersteunt geen LDAPv3 schema informatie"
+msgstr "Deze server ondersteunt geen LDAPv3 schema informatie."
 
 #. addressbook:ldap-get-schema primary
 #: addressbook/addressbook-errors.xml.h:16
-#, fuzzy
 msgid "Could not get schema information for LDAP server."
-msgstr "Kon het artikel %s niet van de NNTP server verkrijgen"
+msgstr "Kan geen schema informatie verkrijgen voor de LDAP server."
 
 #. addressbook:ldap-invalid-schema primary
 #: addressbook/addressbook-errors.xml.h:18
-#, fuzzy
 msgid "LDAP server did not respond with valid schema information."
-msgstr "Het antwoord van de server bevatte geen geldige schema informatie"
+msgstr "Het antwoord van de LDAP server bevatte geen geldige schema informatie."
 
 #. addressbook:remove-addressbook primary
 #: addressbook/addressbook-errors.xml.h:20
-#, fuzzy
 msgid "Could not remove addressbook."
-msgstr "Kon adresboek niet laden"
+msgstr "Kan het adresboek niet verwijderen."
 
 #. addressbook:remove-addressbook secondary
+#. addressbook:generic-error primary
+#. addressbook:load-error secondary
+#. addressbook:search-error secondary
+#. mail:session-message-info secondary
+#. mail:session-message-info-cancel secondary
+#. mail:session-message-warning secondary
+#. mail:session-message-warning-cancel secondary
+#. mail:session-message-error secondary
+#. mail:session-message-error-cancel secondary
+#. mail:ask-session-password secondary
+#. mail:filter-load-error secondary
 #: addressbook/addressbook-errors.xml.h:22
 #: addressbook/addressbook-errors.xml.h:26
 #: addressbook/addressbook-errors.xml.h:34
@@ -139,7 +151,7 @@ msgstr "Kon adresboek niet laden"
 #: mail/mail-errors.xml.h:80 mail/mail-errors.xml.h:84
 #: mail/mail-errors.xml.h:88
 msgid "{0}"
-msgstr ""
+msgstr "{0}"
 
 #. addressbook:edit-categories primary
 #: addressbook/addressbook-errors.xml.h:24
@@ -147,32 +159,30 @@ msgid "Category editor not available."
 msgstr "Categoriebewerker niet beschikbaar."
 
 #. addressbook:generic-error secondary
+#. mail-composer:no-attach secondary
+#. mail:no-save-path secondary
 #: addressbook/addressbook-errors.xml.h:28
 #: composer/mail-composer-errors.xml.h:4 mail/mail-errors.xml.h:92
 msgid "{1}"
-msgstr ""
+msgstr "{1}"
 
 #. addressbook:load-error title
 #: addressbook/addressbook-errors.xml.h:30
-#, fuzzy
 msgid "Unable to open addressbook"
-msgstr "Opslaan in het adresboek"
+msgstr "Openen van adresboek is onmogelijk"
 
 #. addressbook:load-error primary
 #: addressbook/addressbook-errors.xml.h:32
-#, fuzzy
 msgid "Error loading addressbook."
-msgstr "Fout bij laden standaard adresboek."
+msgstr "Fout bij laden adresboek."
 
 #. addressbook:search-error primary
 #: addressbook/addressbook-errors.xml.h:36
-#, fuzzy
 msgid "Unable to perform search."
 msgstr "Fout bij het zoeken"
 
 #. addressbook:prompt-save primary
 #: addressbook/addressbook-errors.xml.h:40
-#, fuzzy
 msgid "Would you like to save your changes?"
 msgstr "Wilt u de wijzingen opslaan?"
 
@@ -182,6 +192,8 @@ msgid ""
 "You have made modifications to this contact. Do you want to save these "
 "changes?"
 msgstr ""
+"U heeft wijzigingen aangebracht in dit contact. Wilt u deze veranderingen\n"
+"opslaan?"
 
 #: addressbook/addressbook-errors.xml.h:43
 #: addressbook/gui/contact-editor/e-contact-editor.c:2803
@@ -201,6 +213,9 @@ msgid ""
 "You are attempting to move a contact from one addressbook to another but it "
 "cannot be removed from the source. Do you want to save a copy instead?"
 msgstr ""
+"U probeerd een contact te verplaatsen van het ene adresboek naar een ander\n"
+"maar het kan niet verwijderd worden uit de bron. Wilt u in plaats van verplaatsen\n"
+"een kopie bewaren?"
 
 #. addressbook:save-error primary
 #: addressbook/addressbook-errors.xml.h:49
@@ -224,7 +239,7 @@ msgstr "Evolution adresboek adresweergave"
 #: addressbook/addressbook-errors.xml.h:55
 msgid ""
 "Your contacts for {0} will not be available until Evolution is restarted."
-msgstr ""
+msgstr "Uw contacten voor {0} zullen niet beschikbaar zijn totdat Evolution herstart is."
 
 #: addressbook/conduit/address-conduit.c:275
 msgid "Default Sync Address:"
@@ -242,7 +257,7 @@ msgstr "Kon de adresgegevens niet uit de pilot lezen"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:1
 msgid "*Control*F2"
-msgstr ""
+msgstr "Control*F2"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:2
 msgid "Autocompletion"
@@ -346,7 +361,7 @@ msgstr "Maakt een nieuwe snelkoppelingsgroep aan"
 
 #: addressbook/gui/component/addressbook-component.c:184
 msgid "Failed upgrading Addressbook settings or folders."
-msgstr ""
+msgstr "Het opwaarderen van adresboek instellingen of mappen is mislukt"
 
 # Of: bezig met overzetten
 #: addressbook/gui/component/addressbook-migrate.c:68
@@ -361,6 +376,7 @@ msgid "Migrating `%s':"
 msgstr "`%s' wordt overgezet:"
 
 #. create the local source group
+#. On This Computer is always first and VFolders is always last
 #: addressbook/gui/component/addressbook-migrate.c:489
 #: calendar/gui/migration.c:446 calendar/gui/migration.c:528
 #: mail/em-folder-tree-model.c:196 mail/em-folder-tree-model.c:198
@@ -369,6 +385,9 @@ msgid "On This Computer"
 msgstr "Op deze computer"
 
 #. Create the default Person addressbook
+#. Create the default Person calendar
+#. Create the default Person task list
+#. orange
 #: addressbook/gui/component/addressbook-migrate.c:497
 #: addressbook/gui/contact-editor/contact-editor.glade.h:34
 #: calendar/gui/migration.c:454 calendar/gui/migration.c:536
@@ -522,7 +541,7 @@ msgstr "*"
 
 #: addressbook/gui/component/ldap-config.glade.h:2
 msgid "1"
-msgstr ""
+msgstr "1"
 
 #: addressbook/gui/component/ldap-config.glade.h:3
 msgid "3268"
@@ -534,7 +553,7 @@ msgstr "389"
 
 #: addressbook/gui/component/ldap-config.glade.h:5
 msgid "5"
-msgstr ""
+msgstr "5"
 
 #: addressbook/gui/component/ldap-config.glade.h:6
 msgid "636"
@@ -638,7 +657,7 @@ msgstr "Nooit"
 
 #: addressbook/gui/component/ldap-config.glade.h:26
 msgid "Only locations within starting point"
-msgstr ""
+msgstr "Enkel lokaties binne het begin punt"
 
 #: addressbook/gui/component/ldap-config.glade.h:27
 #, fuzzy
@@ -696,7 +715,7 @@ msgstr ""
 
 #: addressbook/gui/component/ldap-config.glade.h:34
 msgid "Starting point and locations within it"
-msgstr ""
+msgstr "Begin punt en lokaties daarbinnen"
 
 #: addressbook/gui/component/ldap-config.glade.h:35
 msgid "Supported Search Bases"
@@ -1129,7 +1148,7 @@ msgstr "_Titel:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:40
 msgid "Video Chat:"
-msgstr ""
+msgstr "Video Chat:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:41
 #, fuzzy
@@ -2270,13 +2289,13 @@ msgstr "Ongeldig doel"
 msgid ""
 "The contact cannot be saved to the selected address book. Do you want to "
 "discard changes?"
-msgstr ""
+msgstr "Het contact kan niet opgeslagen worden in het geselecteerde adresboek. Wilt u de veranderingen verwerpen?"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:2822
 msgid ""
 "You are moving the contact from one address book to another, but it cannot "
 "be removed from the source. Do you want to save a copy instead?"
-msgstr ""
+msgstr "U verplaatst een contact van het ene adresboek naar een ander, maar het kan niet verwijderd worden van de bron. Wilt u inplaats van verplaatsen een kopie opslaan?"
 
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:280
 msgid "Contact Quick-Add"
@@ -2434,7 +2453,7 @@ msgstr "\n"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:4
 msgid "Add an email to the List"
-msgstr ""
+msgstr "Voeg een email toe aan de lijst"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:5
 #, fuzzy
@@ -3006,7 +3025,7 @@ msgstr "Succes"
 #. E_BOOK_ERROR_BUSY
 #: addressbook/gui/widgets/eab-gui-util.c:51
 msgid "Backend busy"
-msgstr ""
+msgstr "Backend is bezig"
 
 #. E_BOOK_ERROR_REPOSITORY_OFFLINE
 #: addressbook/gui/widgets/eab-gui-util.c:52
@@ -3316,17 +3335,17 @@ msgstr "Kaartweergave"
 msgid "GTK Tree View"
 msgstr "GTK boomweergave"
 
-#: addressbook/gui/widgets/test-reflow.c:106
+#: addressbook/gui/widgets/test-reflow.c:119
 msgid "Reflow Test"
 msgstr "Terugvloei test"
 
-#: addressbook/gui/widgets/test-reflow.c:107
+#: addressbook/gui/widgets/test-reflow.c:120
 #: addressbook/printing/test-contact-print-style-editor.c:54
 #: addressbook/printing/test-print.c:53
 msgid "Copyright (C) 2000, Ximian, Inc."
 msgstr "Copyright (C) 2000, Ximian, Inc."
 
-#: addressbook/gui/widgets/test-reflow.c:109
+#: addressbook/gui/widgets/test-reflow.c:122
 msgid "This should test the reflow canvas item"
 msgstr "Dit zou het terugvloei canvas item moeten testen"
 
@@ -3639,16 +3658,17 @@ msgid "Unnamed List"
 msgstr "Lijst van onbenoemden"
 
 #. calendar:prompt-cancel-meeting primary
+#. calendar:prompt-cancel-task primary
 #: calendar/calendar-errors.xml.h:2 calendar/calendar-errors.xml.h:12
 msgid "Would you like to send all the participants a cancellation notice?"
-msgstr ""
+msgstr "Wilt u alle deelnemers een bericht van aflassing sturen?"
 
 #. calendar:prompt-cancel-meeting secondary
 #: calendar/calendar-errors.xml.h:4
 msgid ""
 "If you don't send a cancellation notice, the other participants may not know "
 "the meeting is canceled."
-msgstr ""
+msgstr "Als u geen aflassings bericht verstuurd kan het zijn dat de ander deelnermers niet op de hoogte zijn van de aflassing van de bijeenkomst."
 
 #: calendar/calendar-errors.xml.h:5 calendar/calendar-errors.xml.h:15
 #: calendar/calendar-errors.xml.h:25 calendar/calendar-errors.xml.h:79
@@ -3674,14 +3694,14 @@ msgstr "Weet u zeker dat u deze vergadering wilt annuleren en verwijderen?"
 #: calendar/calendar-errors.xml.h:10
 msgid ""
 "All information on this meeting will be deleted and can not be restored."
-msgstr ""
+msgstr "Alle informatie over deze bijeenkomst zal verwijderd worden en kan niet hersteld worden."
 
 #. calendar:prompt-cancel-task secondary
 #: calendar/calendar-errors.xml.h:14
 msgid ""
 "If you don't send a cancellation notice, the other participants may not know "
 "the task has been deleted."
-msgstr ""
+msgstr "Als u geen aflassing bericht stuurt dan kan het zo zijn dat de andere deelnemers niet op de hoogte zijn van de aflassing van de taak."
 
 #. calendar:prompt-delete-task primary
 #: calendar/calendar-errors.xml.h:18 calendar/calendar-errors.xml.h:44
@@ -3690,10 +3710,12 @@ msgid "Are you sure you want to delete this task?"
 msgstr "Weet u zeker dat u %d taak wilt verwijderen?"
 
 #. calendar:prompt-delete-task secondary
+#. calendar:prompt-delete-named-task secondary
+#. calendar:prompt-delete-task secondary
 #: calendar/calendar-errors.xml.h:20 calendar/calendar-errors.xml.h:42
 #: calendar/calendar-errors.xml.h:46
 msgid "All information on this task will be deleted and can not be restored."
-msgstr ""
+msgstr "Alle informatie over deze taak zal worden verwijderd en kan niet hersteld worden."
 
 #. calendar:prompt-cancel-journal primary
 #: calendar/calendar-errors.xml.h:22
@@ -3706,7 +3728,7 @@ msgstr "Weet u zeker dat u dit dagboek item wilt annuleren en verwijderen?"
 msgid ""
 "If you don't send a cancellation notice, the other participants may not know "
 "the journal has been deleted."
-msgstr ""
+msgstr "Als u geen aflassings bericht verstuurd kan het zo zijn dat de andere deelnemers er niet van op de hoogt zijn dat dit journaal verwijderd is."
 
 #. calendar:prompt-delete-journal primary
 #: calendar/calendar-errors.xml.h:28 calendar/calendar-errors.xml.h:52
@@ -3719,7 +3741,7 @@ msgstr "Weet u zeker dat u %d dagboek ingang wilt verwijderen?"
 msgid ""
 "All information on this journal entry will be deleted and can not be "
 "restored."
-msgstr ""
+msgstr "Alle informatie over dit journaal item zullen worden verwijderd en kunnen niet hersteld worden."
 
 #. calendar:prompt-delete-titled-appointment primary
 #: calendar/calendar-errors.xml.h:32
@@ -3728,10 +3750,11 @@ msgid "Are you sure you want to delete the appointment titled '{0}'?"
 msgstr "Weet u zeker dat u afspraak `%s' wilt verwijderen?"
 
 #. calendar:prompt-delete-titled-appointment secondary
+#. calendar:prompt-delete-appointment secondary
 #: calendar/calendar-errors.xml.h:34 calendar/calendar-errors.xml.h:38
 msgid ""
 "All information on this appointment will be deleted and can not be restored."
-msgstr ""
+msgstr "Alle informatie over deze afspraak zullen worden verwijderd en kunnen niet hersteld worden."
 
 #. calendar:prompt-delete-appointment primary
 #: calendar/calendar-errors.xml.h:36
@@ -3752,10 +3775,11 @@ msgid "Are you sure you want to delete the journal entry '{0}'?"
 msgstr "Weet u zeker dat u dagboek entry `%s' wilt verwijderen?"
 
 #. calendar:prompt-delete-named-journal secondary
+#. calendar:prompt-delete-journal secondary
 #: calendar/calendar-errors.xml.h:50 calendar/calendar-errors.xml.h:54
 msgid ""
 "All information in this journal will be deleted and can not be restored."
-msgstr ""
+msgstr "Alle informatie in dit journaal zal verwijderd worden en kan niet hersteld worden."
 
 #. calendar:prompt-delete-appointments primary
 #: calendar/calendar-errors.xml.h:56
@@ -3768,7 +3792,7 @@ msgstr "Weet u zeker dat u afspraak `%s' wilt verwijderen?"
 msgid ""
 "All information on these appointments will be deleted and can not be "
 "restored."
-msgstr ""
+msgstr "Alle informatie over deze afspraken zal worden verwijderd en kan niet hersteld worden."
 
 #. calendar:prompt-delete-tasks primary
 #: calendar/calendar-errors.xml.h:60
@@ -3779,7 +3803,7 @@ msgstr "Weet u zeker dat u de taak `%s' wilt verwijderen?"
 #. calendar:prompt-delete-tasks secondary
 #: calendar/calendar-errors.xml.h:62
 msgid "All information on these tasks will be deleted and can not be restored."
-msgstr ""
+msgstr "Alle informatie over deze taken zal worden verwijderd en kan niet hersteld worden."
 
 #. calendar:prompt-delete-journals primary
 #: calendar/calendar-errors.xml.h:64
@@ -3792,7 +3816,7 @@ msgstr "Weet u zeker dat u dagboek entry `%s' wilt verwijderen?"
 msgid ""
 "All information in these journal entries will be deleted and can not be "
 "restored."
-msgstr ""
+msgstr "Alle informatie over deze jounaal items zal worden verwijderd en kan niet worden hersteld."
 
 #. calendar:prompt-save-appointment title
 #: calendar/calendar-errors.xml.h:68
@@ -3826,13 +3850,13 @@ msgstr "Lake Charles"
 #. calendar:prompt-meeting-invite primary
 #: calendar/calendar-errors.xml.h:76
 msgid "Would you like to send meeting invitations to participants?"
-msgstr ""
+msgstr "Wilt u uitnodigingen sturen voor de bijeenkomst naar alle deelnemers?"
 
 #. calendar:prompt-meeting-invite secondary
 #: calendar/calendar-errors.xml.h:78
 msgid ""
 "Email invitations will be sent to all participants and allow them to RSVP."
-msgstr ""
+msgstr "Email uitnodigingen worden verstuurd naar alle deelnemers en verzoek hen tot antwoord."
 
 #: calendar/calendar-errors.xml.h:80 calendar/calendar-errors.xml.h:86
 #: calendar/calendar-errors.xml.h:92 calendar/calendar-errors.xml.h:98
@@ -3843,48 +3867,48 @@ msgstr "Verzenden"
 #. calendar:prompt-send-updated-meeting-info primary
 #: calendar/calendar-errors.xml.h:82
 msgid "Would you like to send updated meeting information to participants?"
-msgstr ""
+msgstr "Wilt u alle deelnemers de vernieuwde informatie over de bijeenkomst sturen?"
 
 #. calendar:prompt-send-updated-meeting-info secondary
 #: calendar/calendar-errors.xml.h:84
 msgid ""
 "Sending updated information allows other participants to keep their "
 "calendars up to date."
-msgstr ""
+msgstr "Het versturen van vernieuwde informatie zorgt ervoor dat de andere deelnemers hun agenda up to date kunnen houden."
 
 #. calendar:prompt-send-task primary
 #: calendar/calendar-errors.xml.h:88
 msgid "Would you like to send this task to participants?"
-msgstr ""
+msgstr "Wilt u deze taak versturen naar de deelnamers.?"
 
 #. calendar:prompt-send-task secondary
 #: calendar/calendar-errors.xml.h:90
 msgid ""
 "Email invitations will be sent to all participants and allow them to accept "
 "this task."
-msgstr ""
+msgstr "Email uitnodigingen zullen verstuurd worden naar alle deelnemers en zij kunnen deze ook accepteren."
 
 #. calendar:prompt-send-updated-task-info primary
 #: calendar/calendar-errors.xml.h:94
 msgid "Would you like to send updated task information to participants?"
-msgstr ""
+msgstr "Wilt u de vernieuwde taak informatie versturen naar de deelnemers?"
 
 #. calendar:prompt-send-updated-task-info secondary
 #: calendar/calendar-errors.xml.h:96
 msgid ""
 "Sending updated information allows other participants to keep their task "
 "lists up to date."
-msgstr ""
+msgstr "Het versturen van vernieuwde informatie zorgt ervoor dat de deelnemers hun takenlijkst up to date kunnen houden."
 
 #. calendar:tasks-crashed primary
 #: calendar/calendar-errors.xml.h:100
 msgid "The Evolution tasks have quit unexpectedly."
-msgstr ""
+msgstr "De Evolution taken zijn ploseling afgebroken."
 
 #. calendar:tasks-crashed secondary
 #: calendar/calendar-errors.xml.h:102
 msgid "Your tasks will not be available until Evolution is restarted."
-msgstr ""
+msgstr "Uw taken zullen niet beschikbaar zijn totdat Evolution opnieuw gestart is."
 
 #. calendar:calendar-crashed primary
 #: calendar/calendar-errors.xml.h:104
@@ -3895,7 +3919,7 @@ msgstr "Evolution kalender backend voor lokale bestanden"
 #. calendar:calendar-crashed secondary
 #: calendar/calendar-errors.xml.h:106
 msgid "Your calendars will not be available until Evolution is restarted."
-msgstr ""
+msgstr "Uw agenda's zullen niet beschikbaar zijn totdat Evolution opnieuw gestart is."
 
 #: calendar/common/authentication.c:44 calendar/gui/e-pub-utils.c:301
 #: smime/gui/component.c:48
@@ -3930,11 +3954,11 @@ msgstr "Kon actielijstgegevens niet uit de pilot lezen"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:1
 msgid "*Control*F3"
-msgstr ""
+msgstr "Control*F3"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:2
 msgid "*Control*F4"
-msgstr ""
+msgstr "Control*F4"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:3
 msgid "Calendar and Tasks"
@@ -4209,7 +4233,7 @@ msgstr "Weekdag waarmee de week begint"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:26
 msgid "Whether or not to use the notification tray for display alarms"
-msgstr ""
+msgstr "Gebruik het notificatie systeemvak voor het weergeven van waarschuwingen"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:27
 msgid "Whether to ask for confirmation on appointment deletion"
@@ -4257,7 +4281,7 @@ msgstr "Niet passend"
 
 #: calendar/gui/calendar-commands.c:117 calendar/gui/calendar-component.c:552
 #: calendar/gui/dialogs/select-source-dialog.c:108
-#: calendar/gui/gnome-cal.c:1827
+#: calendar/gui/gnome-cal.c:1826
 #: camel/providers/groupwise/camel-gw-listener.c:311
 #: camel/providers/groupwise/camel-gw-listener.c:334
 msgid "Calendar"
@@ -4288,6 +4312,10 @@ msgstr "%A %d %B %Y"
 
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.
+#. strftime format %a = abbreviated weekday name,
+#. %d = day of month, %b = abbreviated month name.
+#. You can change the order but don't change the
+#. specifiers or add anything.
 #: calendar/gui/calendar-commands.c:435 calendar/gui/calendar-component.c:507
 #: calendar/gui/e-day-view-top-item.c:694 calendar/gui/e-day-view.c:1588
 #: calendar/gui/e-week-view-main-item.c:329
@@ -4461,7 +4489,7 @@ msgstr "Stel een nieuw bericht op"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:7
 msgid "Custom alarm sound"
-msgstr ""
+msgstr "Aangepast alarm geluid"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:8
 #, fuzzy
@@ -4475,7 +4503,7 @@ msgstr "Speel een geluid af"
 #: calendar/gui/dialogs/alarm-dialog.glade.h:10
 #: calendar/gui/e-alarm-list.c:448
 msgid "Pop up an alert"
-msgstr ""
+msgstr "Geef een waarschuwing"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:11
 #: calendar/gui/e-alarm-list.c:456
@@ -5262,7 +5290,7 @@ msgstr "Sa_menvatting:"
 
 #: calendar/gui/dialogs/event-page.glade.h:18
 msgid "This appointment has customized alarms"
-msgstr ""
+msgstr "Deze afspraak heeft een aangepast alarm"
 
 #: calendar/gui/dialogs/event-page.glade.h:19
 #, fuzzy
@@ -5285,6 +5313,11 @@ msgid "_Start time:"
 msgstr "_Begintijd:"
 
 #. an empty string is the same as 'None'
+#. add a "None" option to the stores menu
+#. Put the "None" and "UTC" entries at the top of the combo's list.
+#. When "None" is selected we want the field to be cleared.
+#. Note that we don't show this here, since by default a 'None' date
+#. is not permitted.
 #: calendar/gui/dialogs/meeting-page.c:313
 #: calendar/gui/dialogs/meeting-page.glade.h:6
 #: calendar/gui/e-cal-model-tasks.c:647 calendar/gui/e-itip-control.c:928
@@ -6216,12 +6249,20 @@ msgid "_Settings..."
 msgstr "_Instellingen..."
 
 #. strftime format of a weekday, a date and a time, 24-hour.
+#. strptime format of a weekday, a date and a time,
+#. in 24-hour format.
+#. strftime format of a weekday, a date and a
+#. time, in 24-hour format.
 #: calendar/gui/e-cell-date-edit-text.c:117 e-util/e-time-utils.c:180
 #: e-util/e-time-utils.c:393
 msgid "%a %m/%d/%Y %H:%M:%S"
 msgstr "%a %d-%m-%Y %H:%M:%S"
 
 #. strftime format of a weekday, a date and a time, 12-hour.
+#. strptime format of a weekday, a date and a time,
+#. in 12-hour format.
+#. strftime format of a weekday, a date and a
+#. time, in 12-hour format.
 #: calendar/gui/e-cell-date-edit-text.c:120 e-util/e-time-utils.c:175
 #: e-util/e-time-utils.c:402
 msgid "%a %m/%d/%Y %I:%M:%S %p"
@@ -6245,6 +6286,10 @@ msgstr "%02i minuten delingen"
 
 #. strftime format %A = full weekday name, %d = day of month,
 #. %B = full month name. Don't use any other specifiers.
+#. strftime format %A = full weekday name, %d = day of
+#. month, %B = full month name. You can change the
+#. order but don't change the specifiers or add
+#. anything.
 #: calendar/gui/e-day-view-top-item.c:690 calendar/gui/e-day-view.c:1571
 #: calendar/gui/e-week-view-main-item.c:320 calendar/gui/print.c:1514
 msgid "%A %d %B"
@@ -6252,6 +6297,9 @@ msgstr "%A %d %B"
 
 #. strftime format %d = day of month, %b = abbreviated month name.
 #. Don't use any other specifiers.
+#. strftime format %d = day of month, %b = abbreviated
+#. month name. You can change the order but don't
+#. change the specifiers or add anything.
 #: calendar/gui/e-day-view-top-item.c:698 calendar/gui/e-day-view.c:1604
 #: calendar/gui/e-week-view-main-item.c:343
 msgid "%d %b"
@@ -6778,6 +6826,10 @@ msgstr "%A, %d %B, %Y"
 
 #. This is a strftime() format string %a = abbreviated weekday
 #. name, %m = month number, %d = month day, %Y = full year.
+#. This is a strftime() format string %a = abbreviated weekday name,
+#. %m = month number, %d = month day, %Y = full year.
+#. strptime format of a weekday and a date.
+#. strftime format of a weekday and a date.
 #: calendar/gui/e-meeting-time-sel-item.c:456
 #: calendar/gui/e-meeting-time-sel.c:2086 e-util/e-time-utils.c:203
 #: e-util/e-time-utils.c:296 e-util/e-time-utils.c:384
@@ -6786,6 +6838,10 @@ msgstr "%a %d-%m-%Y"
 
 #. This is a strftime() format string %m = month number,
 #. %d = month day, %Y = full year.
+#. strptime format of a weekday and a date.
+#. This is the preferred date format for the locale.
+#. This is a strftime() format for a short date. %m = month,
+#. %d = day of month, %Y = year (all digits).
 #: calendar/gui/e-meeting-time-sel-item.c:460 e-util/e-time-utils.c:238
 #: e-util/e-time-utils.c:299 widgets/misc/e-dateedit.c:1604
 msgid "%m/%d/%Y"
@@ -7056,7 +7112,7 @@ msgstr "Op het web"
 #. FIXME: set proper domain/code
 #: calendar/gui/migration.c:708 calendar/gui/migration.c:860
 msgid "Unable to migrate old settings from evolution/config.xmldb"
-msgstr ""
+msgstr "Het migreren van de oude instellingen van evolution/config.xmldb is mislukt"
 
 #. FIXME: domain/code
 #: calendar/gui/migration.c:737
@@ -9145,11 +9201,11 @@ msgstr "(past-allen) vereist enkelvoudig booleaans resultaat"
 
 #: camel/camel-folder-search.c:755
 msgid "(match-threads) not allowed inside match-all"
-msgstr ""
+msgstr "(match-threads) niet toegestaan binnen match-all"
 
 #: camel/camel-folder-search.c:758 camel/camel-folder-search.c:762
 msgid "(match-threads) requires a match type string"
-msgstr ""
+msgstr "(match-threads) vereist een tekenreeks type"
 
 #: camel/camel-folder-search.c:784
 #, fuzzy
@@ -9196,7 +9252,7 @@ msgstr "Veranderen troep status"
 
 #: camel/camel-folder.c:1682
 msgid "Learning non-junk"
-msgstr ""
+msgstr "Leren geen-troep"
 
 #: camel/camel-folder.c:1701
 msgid "Filtering new message(s)"
@@ -9784,7 +9840,7 @@ msgstr "Kan bericht niet opnemen"
 
 #: camel/camel-smime-context.c:272
 msgid "Cannot create CMS signedData"
-msgstr ""
+msgstr "Kan geen CMS ondertekende data aanmaken"
 
 #: camel/camel-smime-context.c:278
 #, fuzzy
@@ -9798,15 +9854,15 @@ msgstr "Kan bestand %s niet bijvoegen: %s"
 
 #: camel/camel-smime-context.c:291
 msgid "Cannot create CMS SignerInfo"
-msgstr ""
+msgstr "Kna geen CMS ontertekenaars info aanmaken"
 
 #: camel/camel-smime-context.c:297
 msgid "Cannot find cert chain"
-msgstr ""
+msgstr "Kan cert ketting niet vinden"
 
 #: camel/camel-smime-context.c:303
 msgid "Cannot add CMS SigningTime"
-msgstr ""
+msgstr "Kan CMS ontertekeninstijd niet toevoegen"
 
 #: camel/camel-smime-context.c:325 camel/camel-smime-context.c:337
 #, fuzzy, c-format
@@ -9815,11 +9871,11 @@ msgstr "Het versleutelingscertificaat voor \"%s\" bestaat niet."
 
 #: camel/camel-smime-context.c:344
 msgid "Cannot add SMIMEEncKeyPrefs attribute"
-msgstr ""
+msgstr "Kan SMIMEEncKeyPrefs attribuut niet toevoegen"
 
 #: camel/camel-smime-context.c:349
 msgid "Cannot add MS SMIMEEncKeyPrefs attribute"
-msgstr ""
+msgstr "Kan MS SMIMEEncKeyPrefs attribuut niet toevoegen"
 
 #: camel/camel-smime-context.c:354
 #, fuzzy
@@ -9828,7 +9884,7 @@ msgstr "Encry_ptie certificaat:"
 
 #: camel/camel-smime-context.c:360
 msgid "Cannot add CMS SignerInfo"
-msgstr ""
+msgstr "Kan CMS ontertekenaars info niet toevoegen"
 
 #: camel/camel-smime-context.c:430 camel/camel-smime-context.c:877
 #, fuzzy
@@ -9912,12 +9968,13 @@ msgid "Certificate import failed"
 msgstr "Certificaatondertekening-fout"
 
 #: camel/camel-smime-context.c:628
+#, fuzzy
 msgid "Certificate only message, cannot verify certificates"
-msgstr ""
+msgstr "Bericht met enke een certificaat, kan certificaten niet verifieeren"
 
 #: camel/camel-smime-context.c:631
 msgid "Certificate only message, certificates imported and verified"
-msgstr ""
+msgstr "Bericht met enkel certificaat, certificaten geimporteerd en geverifieerd"
 
 #: camel/camel-smime-context.c:635
 #, fuzzy
@@ -9976,7 +10033,7 @@ msgstr "Kan bericht niet opnemen"
 
 #: camel/camel-smime-context.c:863
 msgid "Cannot add CMS RecipientInfo"
-msgstr ""
+msgstr "Kan geen CMS ontvangersinfo toevoegen"
 
 #: camel/camel-smime-context.c:888
 #, fuzzy
@@ -9986,11 +10043,11 @@ msgstr "Kon de gebruikersnaam niet naar de server versturen"
 #: camel/camel-smime-context.c:974
 #, c-format
 msgid "Decoder failed, error %d"
-msgstr ""
+msgstr "Decoderen mislukt, error %d"
 
 #: camel/camel-smime-context.c:981
 msgid "S/MIME Decrypt: No encrypted content found"
-msgstr ""
+msgstr "S/MIME Decrypten: Geen versleutelde inhoud gevonden"
 
 #: camel/camel-smime-context.c:1008
 #, fuzzy
@@ -9999,7 +10056,7 @@ msgstr "Opdracht niet geïmplementeerd"
 
 #: camel/camel-smime-context.c:1016
 msgid "export keys: unimplemented"
-msgstr ""
+msgstr "exporteer sleutels: niet geimplementeerd"
 
 #: camel/camel-store.c:213
 msgid "Cannot get folder: Invalid operation on this store"
@@ -10452,18 +10509,18 @@ msgstr "Ophalen van samenvattingsinformatie van nieuwe berichten"
 #: camel/providers/imap/camel-imap-folder.c:2463
 #, c-format
 msgid "Incomplete server response: no information provided for message %d"
-msgstr ""
+msgstr "Het antwoord van de server is niet compleet: geen informatie ontvangen voor bericht %d"
 
 #: camel/providers/imap/camel-imap-folder.c:2471
 #, c-format
 msgid "Incomplete server response: no UID provided for message %d"
-msgstr ""
+msgstr "Het antwoord van de server is niet compleet: geen UID voor bericht %d"
 
 #: camel/providers/imap/camel-imap-folder.c:2484
 #, c-format
 msgid ""
 "Unexpected server response: Identical UIDs provided for messages %d and %d"
-msgstr ""
+msgstr "Onverwacht server antwoord: Identieke UIDs voor bericht %d en %d "
 
 #: camel/providers/imap/camel-imap-folder.c:2660
 msgid "Could not find message body in FETCH response."
@@ -12386,12 +12443,12 @@ msgstr "Voeg een bestand bij het bericht"
 #. mail-composer:attach-notfile primary
 #: composer/mail-composer-errors.xml.h:6
 msgid "The file `{0}' is not a regular file and cannot be sent in a message."
-msgstr ""
+msgstr "Het bestand `{0}' is niet een regulier bestand en kan niet verstuurd worden in een bericht"
 
 #. mail-composer:attach-directory primary
 #: composer/mail-composer-errors.xml.h:8
 msgid "Directories can not be attached to Messages."
-msgstr ""
+msgstr "Mappen kunnen niet worden toegevoegd aan berichten."
 
 #. mail-composer:attach-directory secondary
 #: composer/mail-composer-errors.xml.h:10
@@ -12407,6 +12464,11 @@ msgid "Could not retrieve messages to attach from {0}."
 msgstr "Kon de pijp niet maken: %s"
 
 #. mail-composer:attach-nomessages secondary
+#. mail-composer:no-sig-file secondary
+#. mail:no-create-tmp-path secondary
+#. mail:no-delete-folder secondary
+#. system:no-save-file secondary
+#. system:no-load-file secondary
 #: composer/mail-composer-errors.xml.h:14
 #: composer/mail-composer-errors.xml.h:42 mail/mail-errors.xml.h:100
 #: mail/mail-errors.xml.h:112 widgets/misc/e-system-errors.xml.h:11
@@ -12509,6 +12571,7 @@ msgid "You need to configure an account before you can compose mail."
 msgstr "U dient een account in te stellen voordat u post kunt versturen."
 
 #. mail-composer:no-address-control primary
+#. mail-composer:no-editor-control primary
 #: composer/mail-composer-errors.xml.h:48
 #: composer/mail-composer-errors.xml.h:52
 #, fuzzy
@@ -12690,12 +12753,16 @@ msgstr "Categorieën Actualiseren:"
 
 #. strptime format of a weekday, a date and a time,
 #. in 12-hour format, without seconds.
+#. strftime format of a weekday, a date and a
+#. time, in 12-hour format, without seconds.
 #: e-util/e-time-utils.c:185 e-util/e-time-utils.c:398
 msgid "%a %m/%d/%Y %I:%M %p"
 msgstr "%a %m/%d/%Y %I:%M %p"
 
 #. strptime format of a weekday, a date and a time,
 #. in 24-hour format, without seconds.
+#. strftime format of a weekday, a date and a
+#. time, in 24-hour format, without seconds.
 #: e-util/e-time-utils.c:190 e-util/e-time-utils.c:389
 msgid "%a %m/%d/%Y %H:%M"
 msgstr "%a %d-%m-%Y %H:%M:%S"
@@ -12747,23 +12814,31 @@ msgid "%m/%d/%Y %H"
 msgstr "%m/%d/%Y %H"
 
 #. strptime format for a time of day, in 12-hour format.
+#. strftime format of a time in 12-hour format.
 #: e-util/e-time-utils.c:339 e-util/e-time-utils.c:438
 msgid "%I:%M:%S %p"
 msgstr "%I:%M:%S %p%n"
 
 #. strptime format for a time of day, in 24-hour format.
+#. strftime format of a time in 24-hour format.
 #: e-util/e-time-utils.c:343 e-util/e-time-utils.c:430
 msgid "%H:%M:%S"
 msgstr "%H:%M:%S%n"
 
 #. strptime format for time of day, without seconds,
 #. in 12-hour format.
+#. strftime format of a time in 12-hour format,
+#. without seconds.
+#. This is a strftime() format. %I = hour (1-12), %M = minute, %p = am/pm string.
 #: e-util/e-time-utils.c:348 e-util/e-time-utils.c:435
 #: widgets/misc/e-dateedit.c:1414 widgets/misc/e-dateedit.c:1639
 msgid "%I:%M %p"
 msgstr "%I:%M %p"
 
 #. strptime format for time of day, without seconds 24-hour format.
+#. strftime format of a time in 24-hour format,
+#. without seconds.
+#. This is a strftime() format. %H = hour (0-23), %M = minute.
 #: e-util/e-time-utils.c:352 e-util/e-time-utils.c:427
 #: widgets/misc/e-dateedit.c:1411 widgets/misc/e-dateedit.c:1636
 msgid "%H:%M"
@@ -12858,6 +12933,7 @@ msgid "Missing file name."
 msgstr "Unieke _naam:"
 
 #. filter:no-file secondary
+#. filter:bad-file secondary
 #: filter/filter-errors.xml.h:8 filter/filter-errors.xml.h:12
 msgid "You must specify a file name."
 msgstr "U dient een bestandsnaam te geven."
@@ -12882,6 +12958,7 @@ msgid "Could not compile regular expression \"{1}\"."
 msgstr ""
 
 #. filter:no-name primary
+#. mail:no-name-vfolder primary
 #: filter/filter-errors.xml.h:18 mail/mail-errors.xml.h:214
 #, fuzzy
 msgid "Missing name."
@@ -15862,6 +15939,7 @@ msgid ""
 msgstr ""
 
 #. mail:ask-send-only-bcc-contact primary
+#. mail:ask-send-only-bcc primary
 #: mail/mail-errors.xml.h:22 mail/mail-errors.xml.h:29
 #, fuzzy
 msgid "Are you sure you want to send a message with only BCC recipients?"
@@ -15931,6 +16009,7 @@ msgstr ""
 "Weet u zeker dat alle %d berichten in een appart scherm wilt weergeven?"
 
 #. mail:ask-expunge secondary
+#. mail:ask-empty-trash secondary
 #: mail/mail-errors.xml.h:45 mail/mail-errors.xml.h:50
 msgid "If you continue, you will not be able to recover these messages."
 msgstr ""
@@ -16026,6 +16105,8 @@ msgid "Cannot save to directory \"{0}\"."
 msgstr "Kan directory `%s' niet maken: %s."
 
 #. mail:no-create-path primary
+#. mail:no-write-path-exists primary
+#. mail:no-write-path-notfile primary
 #: mail/mail-errors.xml.h:94 mail/mail-errors.xml.h:102
 #: mail/mail-errors.xml.h:106
 #, fuzzy
@@ -16076,6 +16157,7 @@ msgid "Cannot delete system folder \"{0}\"."
 msgstr "Kan lokale map %s niet verwijderen."
 
 #. mail:no-delete-spethal-folder secondary
+#. mail:no-rename-spethal-folder secondary
 #: mail/mail-errors.xml.h:116 mail/mail-errors.xml.h:120
 msgid ""
 "System folders are required for Ximian Evolution to function correctly and "
@@ -16108,12 +16190,14 @@ msgid ""
 msgstr ""
 
 #. mail:no-rename-folder-exists primary
+#. mail:no-rename-folder primary
 #: mail/mail-errors.xml.h:128 mail/mail-errors.xml.h:132
 #, fuzzy
 msgid "Cannot rename \"{0}\" to \"{1}\"."
 msgstr "Kan map niet verplaatsen: %s"
 
 #. mail:no-rename-folder-exists secondary
+#. mail:vfolder-notunique secondary
 #: mail/mail-errors.xml.h:130 mail/mail-errors.xml.h:192
 #, fuzzy
 msgid "A folder named \"{1}\" already exists. Please use a different name."
@@ -16125,24 +16209,28 @@ msgid "Because \"{2}\"."
 msgstr ""
 
 #. mail:no-move-folder-nostore primary
+#. mail:no-move-folder-to-nostore primary
 #: mail/mail-errors.xml.h:136 mail/mail-errors.xml.h:140
 #, fuzzy
 msgid "Cannot move folder \"{0}\" to \"{1}\"."
 msgstr "Kan map niet verplaatsen: %s"
 
 #. mail:no-move-folder-nostore secondary
+#. mail:no-copy-folder-nostore secondary
 #: mail/mail-errors.xml.h:138 mail/mail-errors.xml.h:146
 #, fuzzy
 msgid "Cannot open source \"{2}\"."
 msgstr "Kan bron niet openen"
 
 #. mail:no-move-folder-to-nostore secondary
+#. mail:no-copy-folder-to-nostore secondary
 #: mail/mail-errors.xml.h:142 mail/mail-errors.xml.h:150
 #, fuzzy
 msgid "Cannot open target \"{2}\"."
 msgstr "Kan bericht niet opnemen"
 
 #. mail:no-copy-folder-nostore primary
+#. mail:no-copy-folder-to-nostore primary
 #: mail/mail-errors.xml.h:144 mail/mail-errors.xml.h:148
 #, fuzzy
 msgid "Cannot copy folder \"{0}\" to \"{1}\"."
@@ -16161,6 +16249,7 @@ msgid "Cannot open source \"{1}\""
 msgstr "Kan bron niet openen"
 
 #. mail:account-incomplete primary
+#. mail:account-notunique primary
 #: mail/mail-errors.xml.h:156 mail/mail-errors.xml.h:160
 #, fuzzy
 msgid "Cannot save changes to account."
@@ -16815,7 +16904,7 @@ msgstr "Geadresseerden bevatten"
 
 #: mail/searchtypes.xml.h:6
 msgid "Sender contains"
-msgstr "Verzender bevat"
+msgstr "Afzender bevat"
 
 #: mail/searchtypes.xml.h:7
 msgid "Subject contains"
@@ -17428,12 +17517,14 @@ msgid "Continue"
 msgstr "Constantine"
 
 #. shell:noshell title
+#. shell:noshell-reason title
 #: shell/shell-errors.xml.h:17 shell/shell-errors.xml.h:25
 #, fuzzy
 msgid "Cannot start Evolution"
 msgstr "Kan geen toegang verkrijgen tot de Evolution shell."
 
 #. shell:noshell primary
+#. shell:noshell-reason primary
 #: shell/shell-errors.xml.h:19 shell/shell-errors.xml.h:27
 #, fuzzy
 msgid "Evolution can not start."
