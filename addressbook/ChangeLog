@@ -1,5 +1,19 @@
 2001-05-31  Chris Toshok  <toshok@ximian.com>
 
+	* gui/component/select-names/e-select-names.h (struct
+	_ESelectNames): add the EAddressbookModel* and change the
+	ETableModel's name to "adapter".
+
+	* gui/component/select-names/e-select-names.c (set_book),
+	(addressbook_model_set_uri): these two things take an
+	EAddressbookModel* instead of an ETableModel now.
+	(e_addressbook_create_ebook_table): don't case the
+	EAddressbookModel* to ETableModel*, create an EAddressbookTableAdapter
+	on the EAddressbookModel instead.
+	(e_select_names_init): set e_select_names->adapter.
+
+2001-05-31  Chris Toshok  <toshok@ximian.com>
+
 	* gui/widgets/e-addressbook-model.c (remove_card): decrement
 	data_count before emitting the card_removed signal, and break
 	after we've removed the matching card.

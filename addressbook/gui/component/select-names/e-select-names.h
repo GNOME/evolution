@@ -30,6 +30,8 @@
 #include <gal/e-table/e-table.h>
 #include <gal/e-table/e-table-scrolled.h>
 
+#include <addressbook/gui/widgets/e-addressbook-model.h>
+
 #include "e-select-names-model.h"
 #include "e-util/e-list.h"
 #include "shell/evolution-storage-listener.h"
@@ -66,7 +68,8 @@ struct _ESelectNames
 	GHashTable *children; /* Of type char * to ESelectNamesChild */
 	int child_count;
 	ETableScrolled *table;
-	ETableModel *model;
+	ETableModel *adapter;
+	EAddressbookModel *model;
 	int currently_selected;
 	EvolutionStorageListener *listener;
 	GHashTable *folders;

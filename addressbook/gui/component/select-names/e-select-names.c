@@ -29,6 +29,7 @@
 #include <gal/widgets/e-font.h>
 
 #include <addressbook/gui/widgets/e-addressbook-model.h>
+#include <addressbook/gui/widgets/e-addressbook-table-adapter.h>
 #include <addressbook/gui/component/e-cardlist-model.h>
 #include <addressbook/backend/ebook/e-book.h>
 #include <addressbook/gui/component/addressbook-component.h>
@@ -117,7 +118,7 @@ e_select_names_class_init (ESelectNamesClass *klass)
 GtkWidget *e_addressbook_create_ebook_table(char *name, char *string1, char *string2, int num1, int num2);
 
 static void
-set_book(EBook *book, EBookStatus status, ETableModel *model)
+set_book(EBook *book, EBookStatus status, EAddressbookModel *model)
 {
 	gtk_object_set(GTK_OBJECT(model),
 		       "book", book,
@@ -126,7 +127,7 @@ set_book(EBook *book, EBookStatus status, ETableModel *model)
 }
 
 static void
-addressbook_model_set_uri(ETableModel *model, char *uri)
+addressbook_model_set_uri(EAddressbookModel *model, char *uri)
 {
 	EBook *book;
 	book = e_book_new();
@@ -173,18 +174,15 @@ add_address(ETable *table, int row, int col, GdkEvent *event, ESelectNames *name
 GtkWidget *
 e_addressbook_create_ebook_table(char *name, char *string1, char *string2, int num1, int num2)
 {
-	ETableModel *model;
+	ETableModel *adapter;
+	EAddressbookModel *model;
 	GtkWidget *table;
 	char *filename;
 	char *uri;
 	char *spec;
 
-	model = E_TABLE_MODEL (e_addressbook_model_new());
-	gtk_object_set(GTK_OBJECT(model),
-		       "editable", FALSE,
-		       "query", "(contains \"email\" \"\")",
-		       NULL);
-
+	model = e_addressbook_model_new ();
+	adapter = E_TABLE_MODEL (e_addressbook_table_adapter_new(model));
 
 	filename = gnome_util_prepend_user_home("evolution/local/Contacts/addressbook.db");
 	uri = g_strdup_printf("file://%s", filename);
@@ -193,11 +191,19 @@ e_addressbook_create_ebook_table(char *name, char *string1, char *string2, int n
 
 	g_free(uri);
 	g_free(filename);
+
+	gtk_object_set(GTK_OBJECT(model),
+		       "editable", FALSE,
+		       "query", "(contains \"email\" \"\")",
+		       NULL);
+
 	spec = g_strdup_printf(SPEC, E_CARD_SIMPLE_FIELD_NAME_OR_ORG);
-	table = e_table_scrolled_new (model, NULL, spec, NULL);
+	table = e_table_scrolled_new (adapter, NULL, spec, NULL);
 	g_free(spec);
 
+	gtk_object_set_data(GTK_OBJECT(table), "adapter", adapter);
 	gtk_object_set_data(GTK_OBJECT(table), "model", model);
+
 	return table;
 }
 
@@ -407,6 +413,7 @@ e_select_names_init (ESelectNames *e_select_names)
 
 	e_select_names->table = E_TABLE_SCROLLED(glade_xml_get_widget(gui, "table-source"));
 	e_select_names->model = gtk_object_get_data(GTK_OBJECT(e_select_names->table), "model");
+	e_select_names->adapter = gtk_object_get_data(GTK_OBJECT(e_select_names->table), "adapter");
 
 	e_select_names->currently_selected = -1;
 
