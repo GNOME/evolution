@@ -1,4 +1,8 @@
-2004-01-13 Sivaiah Nallagatla <snallagatla@novell.com>
+2004-01-13  Rodrigo Moya <rodrigo@ximian.com>
+
+	* providers/groupwise/camel-groupwise-provider.c: missing renaming.
+
+2004-01-13  Sivaiah Nallagatla <snallagatla@novell.com>
 	
 	* providers/groupwise/camel-gw-listener.[ch] : renamed groupwise-config-listener.[ch] 
 	to these file names and also changed code to use CamelURL insted of EUri

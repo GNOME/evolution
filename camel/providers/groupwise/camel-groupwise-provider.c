@@ -36,7 +36,7 @@
 #include "camel-smtp-transport.h"
 #include "camel-url.h"
 #include "camel-sasl.h"
-#include "groupwise-config-listener.h"
+#include "camel-gw-listener.h"
 
 static void add_hash (guint *hash, char *s);
 static guint groupwise_url_hash (gconstpointer key);
@@ -44,7 +44,7 @@ static gint check_equal (char *s1, char *s2);
 static gint groupwise_url_equal (gconstpointer a, gconstpointer b);
 static void free_groupwise_listener ( void );
 
-static GroupwiseConfigListener *config_listener = NULL;
+static CamelGwListener *config_listener = NULL;
 
 CamelProviderConfEntry groupwise_conf_entries[] = {
 	/* override the labels/defaults of the standard settings */
