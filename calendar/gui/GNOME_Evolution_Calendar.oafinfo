@@ -58,6 +58,8 @@
 	<oaf_attribute name="description" type="string"
 	               value="Evolution component for handling the calendar."/>
 
+	<oaf_attribute name="evolution:shell-component-icon" type="string"
+		       value="evolution-calendar.png"/>
 </oaf_server>
 
 <oaf_server iid="OAFIID:evolution-executive-summary-component-factory:evolution-calendar:6b45a890-fbc0-4f20-97d8-b8e344c059af"

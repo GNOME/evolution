@@ -1,4 +1,9 @@
-2000-10-12  Jesse Pavel		<jpavel@helixcode.com>
+2000-10-14  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* gui/evolution-calendar.oafinfo: Added an
+	"evolution:shell-component-icon" attribute.
+
+2000-10-12  Jesse Pavel <jpavel@helixcode.com>
 
 	* gui/e-itip-control.{c,glade}: Made the control much more
 	relavent to the function at hand.
