@@ -241,6 +241,16 @@ goto_dialog (GnomeCalendar *gcal)
 	gtk_window_set_transient_for (GTK_WINDOW (dlg->dialog),
 				      GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (gcal))));
 
+	/* set initial selection to current day */
+
+	dlg->ecal->calitem->selection_set = TRUE;
+	dlg->ecal->calitem->selection_start_month_offset = 0;
+	dlg->ecal->calitem->selection_start_day = tt.day;
+	dlg->ecal->calitem->selection_end_month_offset = 0;
+	dlg->ecal->calitem->selection_end_day = tt.day;
+
+	gnome_canvas_item_grab_focus (GNOME_CANVAS_ITEM (dlg->ecal->calitem));
+
 	b = gtk_dialog_run (GTK_DIALOG (dlg->dialog));
 	gtk_widget_destroy (dlg->dialog);
 

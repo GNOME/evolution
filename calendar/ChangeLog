@@ -1,3 +1,9 @@
+2003-11-11  Bolian Yin <bolian.yin@sun.com>
+                                                                                
+        Fixes #50808
+                                                                                
+        * gui/goto.c (goto_dialog): set initial selection to current day.
+                                                                                
 2003-11-11  JP Rosevear <jpr@ximian.com>
 
 	* gui/calendar-offline-handler.c (backend_cal_opened_offline): use
