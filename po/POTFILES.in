@@ -322,6 +322,7 @@ shell/e-storage-set-view.c
 shell/e-storage-set-view.etspec
 shell/e-storage.c
 shell/e-task-widget.c
+shell/evolution-folder-selector-button.c
 shell/evolution-shell-component-utils.c
 shell/evolution-shell-component.c
 shell/evolution-test-component.c
