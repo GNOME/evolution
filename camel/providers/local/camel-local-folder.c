@@ -216,7 +216,7 @@ camel_local_folder_construct(CamelLocalFolder *lf, CamelStore *parent_store, con
 	   the old-format 'ibex' files that might be lying around */
 	unlink(lf->index_path);
 
-#if 1
+#if 0
 	forceindex = FALSE;
 #else
 	/* if we have no/invalid index file, force it */

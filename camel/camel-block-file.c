@@ -98,7 +98,7 @@ block_file_validate_root(CamelBlockFile *bs)
 
 	fstat(bs->fd, &st);
 
-	(printf("Validate root:\n"));
+	(printf("Validate root: '%s'\n", bs->path));
 	(printf("version: %.8s (%.8s)\n", bs->root->version, bs->version));
 	(printf("block size: %d (%d)%s\n", br->block_size, bs->block_size,
 		br->block_size != bs->block_size ? " BAD":" OK"));
@@ -693,8 +693,8 @@ sync_nolock(CamelBlockFile *bs)
 			work = TRUE;
 			if (sync_block_nolock(bs, bl) == -1)
 				return -1;
-			bl = bn;
 		}
+		bl = bn;
 		bn = bn->next;
 	}
 

@@ -18,12 +18,25 @@
 
 2002-04-03  Not Zed  <NotZed@Ximian.com>
 
+	* providers/local/camel-local-folder.c
+	(camel_local_folder_construct): Turn indexing back on, fingers
+	crossed ...
+
+	* camel-block-file.c (sync_nolock): #!@$@$#@~#$
+	DF@#$!Q@$#!@$#!#%.  Well it helps if we're iterating a list to
+	iterate the node pointer ...
+
 	* camel-text-index.c (text_index_sync): Sync the key tables
 	explcitly.
+	(text_index_sync): Debug out frag info.
+	(camel_text_index_dump): Added a (rather large, but optional) raw
+	dumping mode for debugging purposes.
 
 	* camel-partition-table.c (camel_key_table_finalise): Sync root
 	block when done.
 	(camel_key_table_sync): New function, sync key table (root) explicitly.
+	(camel_partition_table_sync): Method to explicitly sync the
+	partition table.
 
 2002-04-02  Not Zed  <NotZed@Ximian.com>
 

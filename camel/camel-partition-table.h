@@ -84,6 +84,7 @@ struct _CamelPartitionTableClass {
 CamelType camel_partition_table_get_type(void);
 
 CamelPartitionTable *camel_partition_table_new(struct _CamelBlockFile *bs, camel_block_t root);
+int camel_partition_table_sync(CamelPartitionTable *cpi);
 int camel_partition_table_add(CamelPartitionTable *cpi, const char *key, camel_key_t keyid);
 camel_key_t camel_partition_table_lookup(CamelPartitionTable *cpi, const char *key);
 void camel_partition_table_remove(CamelPartitionTable *cpi, const char *key);

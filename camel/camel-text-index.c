@@ -302,15 +302,17 @@ text_index_sync(CamelIndex *idx)
 	}	
 
 	if (camel_key_table_sync(p->word_index) == -1
-	    || camel_key_table_sync(p->name_index) == -1)
+	    || camel_key_table_sync(p->name_index) == -1
+	    || camel_partition_table_sync(p->word_hash) == -1
+	    || camel_partition_table_sync(p->name_hash) == -1)
 		ret = -1;
 
 	/* only do the frag/compress check if we did some new writes on this index */
 	if (ret == 0 && work) {
 		wfrag = rb->words ? (((rb->keys - rb->words) * 100)/ rb->words) : 0;
 		nfrag = rb->names ? ((rb->deleted * 100) / rb->names) : 0;
-		printf("wfrag = %d, nfrag = %d\n", wfrag, nfrag);
-		printf("  words = %d, keys = %d\n", rb->words, rb->keys);
+		d(printf("wfrag = %d, nfrag = %d\n", wfrag, nfrag));
+		d(printf("  words = %d, keys = %d\n", rb->words, rb->keys));
 		if (wfrag > 30 || nfrag > 20)
 			ret = text_index_compress_nosync(idx);
 	}
@@ -973,11 +975,186 @@ camel_text_index_info(CamelTextIndex *idx)
 	}
 }
 
+/* #define DUMP_RAW */
+
+#ifdef DUMP_RAW
+enum { KEY_ROOT = 1, KEY_DATA = 2, PARTITION_MAP = 4, PARTITION_DATA = 8 };
+
+static void
+add_type(GHashTable *map, camel_block_t id, int type)
+{
+	camel_block_t old;
+
+	old = g_hash_table_lookup(map, id);
+	if (old == type)
+		return;
+
+	if (old != 0 && old != type)
+		g_warning("block %x redefined as type %d, already type %d\n", id, type, old);
+	g_hash_table_insert(map, id, type|old);
+}
+
+static void
+add_partition(GHashTable *map, CamelBlockFile *blocks, camel_block_t id)
+{
+	CamelBlock *bl;
+	CamelPartitionMapBlock *pm;
+	int i;
+
+	while (id) {
+		add_type(map, id, PARTITION_MAP);
+		bl = camel_block_file_get_block(blocks, id);
+		if (bl == NULL) {
+			g_warning("couldn't get parition: %x\n", id);
+			return;
+		}
+
+		pm = (CamelPartitionMapBlock *)&bl->data;
+		if (pm->used > sizeof(pm->partition)/sizeof(pm->partition[0])) {
+			g_warning("Partition block %x invalid\n", id);
+			camel_block_file_unref_block(blocks, bl);
+			return;
+		}
+
+		for (i=0;i<pm->used;i++)
+			add_type(map, pm->partition[i].blockid, PARTITION_DATA);
+
+		id = pm->next;
+		camel_block_file_unref_block(blocks, bl);
+	}
+}
+
+static void
+add_keys(GHashTable *map, CamelBlockFile *blocks, camel_block_t id)
+{
+	CamelBlock *rbl, *bl;
+	CamelKeyRootBlock *root;
+	CamelKeyBlock *kb;
+
+	add_type(map, id, KEY_ROOT);
+	rbl = camel_block_file_get_block(blocks, id);
+	if (rbl == NULL) {
+		g_warning("couldn't get key root: %x\n", id);
+		return;
+	}
+	root = (CamelKeyRootBlock *)&rbl->data;
+	id = root->first;
+
+	while (id) {
+		add_type(map, id, KEY_DATA);
+		bl = camel_block_file_get_block(blocks, id);
+		if (bl == NULL) {
+			g_warning("couldn't get key: %x\n", id);
+			break;
+		}
+
+		kb = (CamelKeyBlock *)&bl->data;
+		id = kb->next;
+		camel_block_file_unref_block(blocks, bl);
+	}
+
+	camel_block_file_unref_block(blocks, rbl);
+}
+
+static void
+dump_raw(GHashTable *map, char *path)
+{
+	char buf[1024];
+	char line[256];
+	char *p, c, *e, *a, *o;
+	int v, n, len, i, type;
+	char hex[16] = "0123456789ABCDEF";
+	int fd;
+	camel_block_t id, total;
+
+	fd = open(path, O_RDONLY);
+	if (fd == -1)
+		return;
+
+	total = 0;
+	while ((len = read(fd, buf, 1024)) == 1024) {
+		id = total;
+
+
+
+		type = g_hash_table_lookup(map, id);
+		switch(type) {
+		case 0:
+			printf(" - unknown -\n");
+			break;
+		default:
+			printf(" - invalid -\n");
+			break;
+		case KEY_ROOT: {
+			CamelKeyRootBlock *r = (CamelKeyRootBlock *)buf;
+			printf("Key root:\n");
+			printf("First: %08x     Last: %08x     Free: %08x\n", r->first, r->last, r->free);
+		} break;
+		case KEY_DATA: {
+			CamelKeyBlock *k = (CamelKeyBlock *)buf;
+			printf("Key data:\n");
+			printf("Next: %08x      Used: %u\n", k->next, k->used);
+			for (i=0;i<k->used;i++) {
+				if (i == 0)
+					len = sizeof(k->u.keydata);
+				else
+					len = k->u.keys[i-1].offset;
+				len -= k->u.keys[i].offset;
+				printf("[%03d]: %08x %5d %06x %3d '%.*s'\n", i,
+				       k->u.keys[i].data, k->u.keys[i].offset, k->u.keys[i].flags,
+				       len, len, k->u.keydata+k->u.keys[i].offset);
+			}
+		} break;
+		case PARTITION_MAP: {
+			CamelPartitionMapBlock *m = (CamelPartitionMapBlock *)buf;
+			printf("Partition map\n");
+			printf("Next: %08x      Used: %u\n", m->next, m->used);
+			for (i=0;i<m->used;i++) {
+				printf("[%03d]: %08x -> %08x\n", i, m->partition[i].hashid, m->partition[i].blockid);
+			}
+		} break;
+		case PARTITION_DATA: {
+			CamelPartitionKeyBlock *k = (CamelPartitionKeyBlock *)buf;
+			printf("Partition data\n");
+			printf("Used: %u\n", k->used);
+		} break;
+		}
+
+
+		printf("--raw--\n");
+
+		len = 1024;
+		p = buf;
+		do {
+			sprintf(line, "%08x:                                                                      ", total);
+			total += 16;
+			o = line+10;
+			a = o+16*2+2;
+			i = 0;
+			while (len && i<16) {
+				c = *p++;
+				*a++ = isprint(c)?c:'.';
+				*o++ = hex[(c>>4)&0x0f];
+				*o++ = hex[c&0x0f];
+				i++;
+				if (i==8)
+					*o++ = ' ';
+				len--;
+			}
+			*a = 0;
+			printf("%s\n", line);
+		} while (len);
+		printf("\n");
+	}
+}
+#endif
+
 /* Debug */
 void
 camel_text_index_dump(CamelTextIndex *idx)
 {
 	struct _CamelTextIndexPrivate *p = CTI_PRIVATE(idx);
+#ifndef DUMP_RAW
 	camel_key_t keyid;
 	char *word;
 	const char *name;
@@ -1013,6 +1190,22 @@ camel_text_index_dump(CamelTextIndex *idx)
 		camel_object_unref((CamelObject *)idc);
 		g_free(word);
 	}
+#else
+	/* a more low-level dump routine */
+	GHashTable *block_type = g_hash_table_new(NULL, NULL);
+	camel_block_t id;
+	struct stat st;
+	int type;
+
+	add_keys(block_type, p->blocks, p->word_index->rootid);
+	add_keys(block_type, p->blocks, p->name_index->rootid);
+
+	add_partition(block_type, p->blocks, p->word_hash->rootid);
+	add_partition(block_type, p->blocks, p->name_hash->rootid);
+
+	dump_raw(block_type, p->blocks->path);
+	g_hash_table_destroy(block_type);
+#endif
 }
 
 /* more debug stuff */

@@ -90,11 +90,11 @@ camel_partition_table_finalise(CamelPartitionTable *cpi)
 	p = cpi->priv;
 
 	if (cpi->blocks) {
-		camel_block_file_sync(cpi->blocks);
 		while ((bl = (CamelBlock *)e_dlist_remhead(&cpi->partition))) {
 			camel_block_file_sync_block(cpi->blocks, bl);
 			camel_block_file_unref_block(cpi->blocks, bl);
 		}
+		camel_block_file_sync(cpi->blocks);
 
 		camel_object_unref((CamelObject *)cpi->blocks);
 	}
@@ -254,6 +254,35 @@ CamelPartitionTable *camel_partition_table_new(struct _CamelBlockFile *bs, camel
 fail:
 	camel_object_unref((CamelObject *)cpi);
 	return NULL;
+}
+
+/* sync our blocks, the caller must still sync the blockfile itself */
+int
+camel_partition_table_sync(CamelPartitionTable *cpi)
+{
+	CamelBlock *bl, *bn;
+	struct _CamelPartitionTablePrivate *p;
+	int ret = 0;
+
+	CAMEL_PARTITION_TABLE_LOCK(cpi, lock);
+
+	p = cpi->priv;
+
+	if (cpi->blocks) {
+		bl = (CamelBlock *)cpi->partition.head;
+		bn = bl->next;
+		while (bn) {
+			ret = camel_block_file_sync_block(cpi->blocks, bl);
+			if (ret == -1)
+				goto fail;
+			bl = bn;
+			bn = bn->next;
+		}
+	}
+fail:
+	CAMEL_PARTITION_TABLE_UNLOCK(cpi, lock);
+
+	return ret;
 }
 
 camel_key_t camel_partition_table_lookup(CamelPartitionTable *cpi, const char *key)
@@ -721,8 +750,8 @@ camel_key_table_add(CamelKeyTable *ki, const char *key, camel_block_t data, unsi
 	if (kblast->used > 0) {
 		/*left = &kblast->u.keydata[kblast->u.keys[kblast->used-1].offset] - (char *)(&kblast->u.keys[kblast->used+1]);*/
 		left = kblast->u.keys[kblast->used-1].offset - sizeof(kblast->u.keys[0])*(kblast->used+1);
-		d(printf("used = %d (%d), filled = %d, left = %d  len = %d?\n",
-			 kblast->used, kblast->used * sizeof(kblast->u.keys[0]),
+		d(printf("key '%s' used = %d (%d), filled = %d, left = %d  len = %d?\n",
+			 key, kblast->used, kblast->used * sizeof(kblast->u.keys[0]),
 			 sizeof(kblast->u.keydata) - kblast->u.keys[kblast->used-1].offset,
 			 left, len));
 		if (left < len) {
@@ -734,7 +763,7 @@ camel_key_table_add(CamelKeyTable *ki, const char *key, camel_block_t data, unsi
 			kbnext = (CamelKeyBlock *)&next->data;
 			kblast->next = next->id;
 			ki->root->last = next->id;
-			k(printf("adding new block, first = %u, last = %u\n", ki->root->first, ki->root->last));
+			d(printf("adding new block, first = %u, last = %u\n", ki->root->first, ki->root->last));
 			camel_block_file_touch_block(ki->blocks, ki->root_block);
 			camel_block_file_touch_block(ki->blocks, last);
 			camel_block_file_unref_block(ki->blocks, last);
