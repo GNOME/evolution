@@ -1423,9 +1423,9 @@ camel_mbox_summary_expunge(CamelMboxSummary *s)
 			if (info->info.flags & CAMEL_MESSAGE_DELETED) {
 				printf("Deleting message: %s\n", info->info.uid);
 				camel_mbox_summary_copy_block(fd, fdout, last_write, last_start-last_write);
+				offset += (content->endpos - last_start);
 				last_write = content->endpos;
 				last_start = last_write;
-				offset += (content->endpos - content->pos);
 
 				/* remove this message from the index */
 				if (s->index) {

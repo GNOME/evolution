@@ -1,3 +1,9 @@
+2000-05-02  NotZed  <NotZed@HelixCode.com>
+
+	* providers/mbox/camel-mbox-summary.c
+	(camel_mbox_summary_expunge): Fix the offset for the summary when
+	an item is expunged to take account of the From line.
+
 2000-05-01  NotZed  <NotZed@HelixCode.com>
 
 	* providers/mbox/camel-mbox-folder.h (CamelMboxFolder): Removed
