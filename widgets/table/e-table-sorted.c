@@ -234,7 +234,7 @@ ets_proxy_model_rows_deleted (ETableSubset *etss, ETableModel *source, int row, 
 	
 	for (j = 0; j < count; j++) {
 		for (i = 0; i < etss->n_map; i++){
-			if (etss->map_table[i] == row) {
+			if (etss->map_table[i] == row + j) {
 				e_table_model_pre_change (etm);
 				memmove (etss->map_table + i, etss->map_table + i + 1, (etss->n_map - i - 1) * sizeof(int));
 				etss->n_map --;
