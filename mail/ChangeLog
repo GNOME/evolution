@@ -1,3 +1,7 @@
+2001-10-05  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-mt.c (pass_got): Fix a merge-conflict leftover.
+
 2001-10-05    <NotZed@Ximian.com>
 
 	* folder-browser.c: reformatted the menu tables so they're a bit
