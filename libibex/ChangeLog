@@ -1,3 +1,8 @@
+2000-10-30  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* hash.c: #include <stdlib.h> to remove warning.
+	* wordindex.c: #include <stdlib.h> and <string.h>.
+	
 2000-10-26  Not Zed  <NotZed@HelixCode.com>
 
 	* block.c (ibex_block_cache_open): Use IBEX_VERSION rather than
