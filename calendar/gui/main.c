@@ -101,7 +101,14 @@ const guint MAX_SNOOZE_SECS = 3600;
 gboolean enable_snooze = 0;
 guint snooze_secs = 60;
 
-extern CalendarAlarm alarm_defaults[4];
+/*extern CalendarAlarm alarm_defaults[4];*/
+CalendarAlarm alarm_defaults[4] = {
+        { ALARM_MAIL, 0, 15, ALARM_MINUTES },
+        { ALARM_PROGRAM, 0, 15, ALARM_MINUTES },
+        { ALARM_DISPLAY, 0, 15, ALARM_MINUTES },
+        { ALARM_AUDIO, 0, 15, ALARM_MINUTES }
+};
+
 
 static void
 init_username (void)

@@ -1,3 +1,10 @@
+2000-03-30  Seth Alves  <alves@hungry.com>
+
+	* Makefile.am (SUBDIRS): readded the gui directory
+
+	* gui/main.c: temporarily added alarm_defaults back in,
+	since the calendar doesn't link without it
+
 2000-03-29  Matt Loper  <matt@helixcode.com>
 
 	* Makefile.am: remove the gui directory, which doesn't compile.
