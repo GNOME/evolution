@@ -1135,7 +1135,6 @@ duration_callback (iCalObject *ico, time_t start, time_t end, void *closure)
 	int *count = closure;
 	struct tm *tm;
 
-	print_time_t (start);
 	tm = localtime (&start);
 
 	(*count)++;

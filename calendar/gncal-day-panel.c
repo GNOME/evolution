@@ -96,7 +96,7 @@ gncal_day_panel_new (GnomeCalendar *calendar, time_t start_of_day)
 	w = gtk_label_new ("");
 	dpanel->date_label = GTK_LABEL (w);
 	gtk_table_attach (GTK_TABLE (dpanel), w,
-			  1, 2, 0, 1,
+			  0, 1, 0, 1,
 			  GTK_FILL | GTK_SHRINK,
 			  GTK_FILL | GTK_SHRINK,
 			  0, 0);
@@ -110,7 +110,7 @@ gncal_day_panel_new (GnomeCalendar *calendar, time_t start_of_day)
 					GTK_POLICY_AUTOMATIC,
 					GTK_POLICY_AUTOMATIC);
 	gtk_table_attach (GTK_TABLE (dpanel), w,
-			  1, 2, 1, 3,
+			  0, 1, 1, 3,
 			  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
 			  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
 			  0, 0);
@@ -140,7 +140,7 @@ gncal_day_panel_new (GnomeCalendar *calendar, time_t start_of_day)
 						      (GtkSignalFunc) calendar_day_selected,
 						      dpanel);
 	gtk_table_attach (GTK_TABLE (dpanel), w,
-			  0, 1, 1, 2,
+			  1, 2, 1, 2,
 			  GTK_FILL | GTK_SHRINK,
 			  GTK_FILL | GTK_SHRINK,
 			  0, 0);
@@ -151,7 +151,7 @@ gncal_day_panel_new (GnomeCalendar *calendar, time_t start_of_day)
 	w = gtk_button_new_with_label ("TODO");
 	dpanel->todo_list = w;
 	gtk_table_attach (GTK_TABLE (dpanel), w,
-			  0, 1, 2, 3,
+			  1, 2, 2, 3,
 			  GTK_FILL | GTK_SHRINK,
 			  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
 			  0, 0);

@@ -110,6 +110,12 @@ calendar_add_object (Calendar *cal, iCalObject *obj)
 		g_assert_not_reached ();
 	}
 
+	if (!obj->uid){
+		char buffer [80];
+
+		snprintf (buffer, sizeof (buffer), "GnomeCalendar-%ld\n", time (NULL));
+	}
+	
 	cal->modified = TRUE;
 
 	/* FIXME: do we have to set the last_mod field in the object? */

@@ -229,7 +229,6 @@ event_editor_setup_time_frame (EventEditor *ee)
 		ee->ical->dtend   = time_add_minutes (ee->ical->dtstart, 30);
 	}
 	ee->start_time = start_time = gnome_date_edit_new (ee->ical->dtstart, TRUE);
-	print_time_t (ee->ical->dtstart);
 	gnome_date_edit_set_popup_range ((GnomeDateEdit *) start_time, day_begin, day_end);
 	gtk_signal_connect (GTK_OBJECT (start_time), "date_changed",
 			    GTK_SIGNAL_FUNC (check_dates), ee);

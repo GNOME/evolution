@@ -29,7 +29,7 @@ gncal_week_view_get_type (void)
 			(GtkArgGetFunc) NULL
 		};
 
-		week_view_type = gtk_type_unique (gtk_table_get_type (), &week_view_info);
+		week_view_type = gtk_type_unique (gtk_vbox_get_type (), &week_view_info);
 	}
 
 	return week_view_type;
@@ -93,30 +93,33 @@ GtkWidget *
 gncal_week_view_new (GnomeCalendar *calendar, time_t start_of_week)
 {
 	GncalWeekView *wview;
+	GtkWidget *table;
 	int i;
 
 	g_return_val_if_fail (calendar != NULL, NULL);
 
 	wview = gtk_type_new (gncal_week_view_get_type ());
 
-	gtk_table_set_homogeneous (GTK_TABLE (wview), TRUE);
-
+	table = gtk_table_new (0, 0, 0);
+	gtk_table_set_homogeneous (GTK_TABLE (table), TRUE);
+	wview->label = gtk_label_new ("");
+	gtk_box_pack_start (GTK_BOX (wview), wview->label, 0, 0, 0);
+	gtk_box_pack_start (GTK_BOX (wview), table, 1, 1, 0);
 	wview->calendar = calendar;
-
 	for (i = 0; i < 7; i++) {
 		wview->days[i] = GNCAL_DAY_VIEW (gncal_day_view_new (calendar, 0, 0));
 		gtk_signal_connect (GTK_OBJECT (wview->days [i]), "button_press_event",
 				    GTK_SIGNAL_FUNC(double_click_on_weekday), wview);
 		
 		if (i < 5)
-			gtk_table_attach (GTK_TABLE (wview), GTK_WIDGET (wview->days[i]),
+			gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (wview->days[i]),
 					  i, i + 1,
 					  0, 1,
 					  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
 					  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
 					  0, 0);
 		else
-			gtk_table_attach (GTK_TABLE (wview), GTK_WIDGET (wview->days[i]),
+			gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (wview->days[i]),
 					  i - 2, i - 1,
 					  1, 2,
 					  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
@@ -135,7 +138,7 @@ gncal_week_view_new (GnomeCalendar *calendar, time_t start_of_week)
 	
 	gtk_calendar_display_options (wview->gtk_calendar,
 				      GTK_CALENDAR_SHOW_HEADING | GTK_CALENDAR_SHOW_DAY_NAMES);
-	gtk_table_attach (GTK_TABLE (wview), GTK_WIDGET (wview->gtk_calendar),
+	gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (wview->gtk_calendar),
 			  0, 3,
 			  1, 2,
 			  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
@@ -172,7 +175,7 @@ gncal_week_view_update (GncalWeekView *wview, iCalObject *ico, int flags)
 void
 gncal_week_view_set (GncalWeekView *wview, time_t start_of_week)
 {
-	struct tm tm;
+	struct tm tm, start;
 	time_t day_start, day_end;
 	int i;
 
@@ -192,7 +195,8 @@ gncal_week_view_set (GncalWeekView *wview, time_t start_of_week)
 	tm.tm_sec  = 0;
 
 	day_start = mktime (&tm);
-
+	start = tm;
+	
 	/* Calendar */
 
 	gtk_calendar_select_month (wview->gtk_calendar, tm.tm_mon, tm.tm_year + 1900);
@@ -207,6 +211,20 @@ gncal_week_view_set (GncalWeekView *wview, time_t start_of_week)
 
 		day_start = day_end;
 	}
-
+	
 	update (wview, FALSE, NULL, 0);
+
+	/* The label */
+	{
+		char buf [80];
+		int len;
+		
+		strftime (buf, sizeof (buf), "%A %d %Y - ", &start);
+		len = strlen (buf);
+		
+		strftime (buf + len, sizeof (buf) - len, "%A %d %Y", &tm);
+		gtk_label_set (GTK_LABEL (wview->label), buf);
+		
+	}
 }
+

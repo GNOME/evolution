@@ -27,7 +27,7 @@ typedef struct _GncalWeekView GncalWeekView;
 typedef struct _GncalWeekViewClass GncalWeekViewClass;
 
 struct _GncalWeekView {
-	GtkTable table;
+	GtkVBox      box;
 
 	GnomeCalendar *calendar;	/* the calendar we are associated to */
 
@@ -35,10 +35,11 @@ struct _GncalWeekView {
 
 	GncalDayView *days[7];		/* the day view widgets */
 	GtkCalendar  *gtk_calendar;     /* At least for now; see the FIXME comments in the .c file */
+	GtkWidget    *label;
 };
 
 struct _GncalWeekViewClass {
-	GtkTableClass parent_class;
+	GtkVBoxClass parent_class;
 };
 
 
