@@ -1,3 +1,9 @@
+2003-08-18  Gilbert Fang  <gilbert.fang@sun.com>
+
+        * addressbook/gui/widgets/e-addressbook-util.c
+        (e_addressbook_send_card_list): use memcpy to assign
+        CORBA_char_sequence instead of strcpy. (#46706)
+
 2003-08-12  Rodrigo Moya <rodrigo@ximian.com>
 
 	* backend/ebook/e-book.c (e_book_dispose): unref the

@@ -534,7 +534,7 @@ e_addressbook_send_card_list (GList *cards, EAddressbookDisposition disposition)
 		attach_data = GNOME_Evolution_Composer_AttachmentData__alloc();
 		attach_data->_maximum = attach_data->_length = strlen (tempstr);
 		attach_data->_buffer = CORBA_sequence_CORBA_char_allocbuf (attach_data->_length);
-		strcpy (attach_data->_buffer, tempstr);
+		memcpy(attach_data->_buffer, tempstr, attach_data->_length);
 		g_free (tempstr);
 
 		GNOME_Evolution_Composer_attachData (composer_server, 
