@@ -167,6 +167,16 @@ CalClient *client
 CalClient *client
 </FUNCTION>
 <FUNCTION>
+<NAME>cal_client_is_read_only</NAME>
+<RETURNS>gboolean  </RETURNS>
+CalClient *client
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_client_get_email_address</NAME>
+<RETURNS>const char  *</RETURNS>
+CalClient *client
+</FUNCTION>
+<FUNCTION>
 <NAME>cal_client_set_mode</NAME>
 <RETURNS>gboolean  </RETURNS>
 CalClient *client, CalMode mode
@@ -352,7 +362,7 @@ typedef struct {
 <NAME>QueryListenerObjUpdatedFn</NAME>
 <RETURNS>void </RETURNS>
 QueryListener *ql,
-					    const GNOME_Evolution_Calendar_CalObjUID uid,
+					    const GNOME_Evolution_Calendar_CalObjUIDSeq *uids,
 					    CORBA_boolean query_in_progress,
 					    CORBA_long n_scanned,
 					    CORBA_long total,

@@ -3,12 +3,34 @@ Evolution 1.1.2, 2002-10-07
 
 Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
 
+  * Addressbook
+
+    #17336 -- Evolution mixes up First and Last names sometimes.
+              (Toshok)
+    #27521 -- Crash: exiting from evolution after adding to address
+              book.  (Toshok)
+    #28165 -- Contacts crashed when selecting offline IMAP folders.
+              (Toshok)
+    #28392 -- Crash when adding a new contact.  (Toshok)
+    #30208 -- LDAP authentication issues.  (Toshok)
+    #30481 -- Select contacts dialog not using default contact folder.
+              (Toshok)
+    #30483 -- LDAP folders do not work as an autocompletion folder.
+              (Toshok)
+    #31321 -- Missing VERSION property in exported vCards.  (Toshok)
+    #31434 -- Only sends email to first three addresses on contact
+              list.  (Toshok)
+    #29171 -- Crash after selecting other user's folder for Offline.
+              (Toshok)
+    #30250 -- Addressbook crashes or hangs after selecting LDAP
+              folder.  (Toshok)
+
   * Calendar
 
-    #14111 -- Gives 'are you sure you want to' prompt when no such
-              action has occurred.
+    #14111 -- Gives "are you sure you want to" prompt when no such
+              action has occurred.  (JP)
     #15710 -- Automatically-created reminder always says "Untitled
-              Appointment".
+              Appointment".  (Rodrigo)
     #15892 -- Running out of disk space can cause loss of calender
               entries and tasks.  (Rodrigo)
     #18162 -- Double-click on calendar week/month view shouldn't do
@@ -25,6 +47,8 @@ Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
     #30290 -- Importer Not Ready when importing .ics Ical file.
               (Rodrigo)
     #30381 -- Calendar recurrences "off-by-one".  (JP)
+    #31774 -- Reselecting options for remider crashes calendar.
+              (Rodrigo)
 
   * Conduits
 
@@ -150,14 +174,15 @@ Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
 
 Other fixes:
 
+  * Addressbook
+
+    - Fixed some memory leaks.  (Toshok)
+
   * Calendar
 
     - Do not allow empty attendee addresses for meetings.  (JP)
-
     - Better alarm daemon activation.  (Rodrigo)
-
     - Notification of calendar query errors.  (Rodrigo)
-
     - Added status messages for all operations.  (Rodrigo)
 
   * Conduits
@@ -168,17 +193,12 @@ Other fixes:
 
     - Some strings that were not translated properly before now are.
       (Kjartan Maraas)
-
     - Sensitivity problem when using the folder selector.  (Toshok)
-
     - Changed the way shared folders work with Connector.  (Dan)
-
     - Allow accessing local folders even if some folders with
       unknown/corrupted metadata type are found in ~/evolution/local.
       (Ettore)
-
-    - Importer dialog now has history support.  (Rodrigo)
-
+    - Importer dialog browse entry now has history dropdown.  (Rodrigo)
     - We no longer allow selecting a folder of a non-allowed type with
       a double-click in the folder selection dialog.  (Dan)
 

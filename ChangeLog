@@ -1,3 +1,7 @@
+2002-10-07  Ettore Perazzoli  <ettore@ximian.com>
+
+	* configure.in: 1.1.2.  Update deps for GAL and GtkHTML.
+
 2002-09-27  gettextize  <bug-gnu-gettext@gnu.org>
 
 	* Makefile.am (SUBDIRS): Add m4.

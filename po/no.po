@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.0\n"
-"POT-Creation-Date: 2002-10-05 10:12+0200\n"
+"POT-Creation-Date: 2002-10-07 17:25-0400\n"
 "PO-Revision-Date: 2002-10-05 11:00+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian <no@li.org>\n"
@@ -3075,7 +3075,7 @@ msgstr "Kopier"
 msgid "Paste"
 msgstr "Lim inn"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:927 filter/libfilter-i18n.h:11
+#: addressbook/gui/widgets/e-addressbook-view.c:927 filter/libfilter-i18n.h:10
 #: mail/mail-accounts.c:227 shell/e-shell-folder-commands.c:411
 #: ui/evolution-addressbook.xml.h:8 ui/evolution-comp-editor.xml.h:4
 #: ui/evolution-contact-editor.xml.h:2
@@ -3487,11 +3487,11 @@ msgstr "Utsett-tid (minutter)"
 msgid "_Edit appointment"
 msgstr "R_ediger avtale"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:676
+#: calendar/gui/alarm-notify/alarm-queue.c:680
 msgid "No description available."
 msgstr "Ingen beskrivelse tilgjengelig."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:736
+#: calendar/gui/alarm-notify/alarm-queue.c:741
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -3503,13 +3503,13 @@ msgstr ""
 "å sende e-post. Evolution vil vise en vanlig dialog\n"
 "for påminnelse i stedet."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:754
+#: calendar/gui/alarm-notify/alarm-queue.c:759
 #: calendar/gui/tasks-control.c:454 mail/mail-callbacks.c:2897
 #: widgets/misc/e-messagebox.c:159
 msgid "Warning"
 msgstr "Advarsel"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:759
+#: calendar/gui/alarm-notify/alarm-queue.c:764
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -3526,7 +3526,7 @@ msgstr ""
 "\n"
 "Er du sikker på at du ønsker å kjøre dette programmet?"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:773
+#: calendar/gui/alarm-notify/alarm-queue.c:778
 msgid "Do not ask me about this program again."
 msgstr "Ikke spør meg om dette programmet igjen."
 
@@ -3725,7 +3725,7 @@ msgstr "Offentlig kalender"
 msgid "Public folder containing appointments and events"
 msgstr "Offentlig mappe som inneholder avtaler og hendelser"
 
-#: calendar/gui/component-factory.c:81 calendar/gui/e-tasks.c:703
+#: calendar/gui/component-factory.c:81 calendar/gui/e-tasks.c:722
 #: calendar/gui/print.c:1777 calendar/gui/tasks-control.c:508
 #: calendar/importers/icalendar-importer.c:704
 #: importers/netscape-importer.c:1875 my-evolution/e-summary-tasks.c:311
@@ -3835,7 +3835,9 @@ msgstr "Gjentagelse av alarm"
 msgid ""
 "Evolution does not yet support email notification for reminders.  You will "
 "not be able to edit the options for this reminder."
-msgstr "Evolution støtter ikke e-postmelding for påminnelser ennå. Du vil ikke kunne redigere alternativene for denne påminnelsen."
+msgstr ""
+"Evolution støtter ikke e-postmelding for påminnelser ennå. Du vil ikke kunne "
+"redigere alternativene for denne påminnelsen."
 
 #: calendar/gui/dialogs/alarm-options.glade.h:3
 msgid "Message to Display"
@@ -4608,7 +4610,7 @@ msgstr "Rolle"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:10
 #: calendar/gui/e-calendar-table.etspec.h:15
-#: calendar/gui/e-meeting-time-sel.etspec.h:10 filter/libfilter-i18n.h:59
+#: calendar/gui/e-meeting-time-sel.etspec.h:10 filter/libfilter-i18n.h:37
 #: mail/message-list.etspec.h:12
 msgid "Status"
 msgstr "Status"
@@ -5714,36 +5716,43 @@ msgstr "Tid for møtets _start:"
 msgid "Meeting _end time:"
 msgstr "Tid for møtets slutt:"
 
-#: calendar/gui/e-tasks.c:352 calendar/gui/gnome-cal.c:1987
-#: calendar/gui/gnome-cal.c:1998
+#: calendar/gui/e-tasks.c:355 calendar/gui/gnome-cal.c:2007
+#: calendar/gui/gnome-cal.c:2018
 #, c-format
 msgid "Opening tasks at %s"
 msgstr "Åpner oppgaver på %s"
 
-#: calendar/gui/e-tasks.c:378 calendar/gui/tasks-control.c:196
+#: calendar/gui/e-tasks.c:381 calendar/gui/tasks-control.c:196
 #, c-format
 msgid "Could not load the tasks in `%s'"
 msgstr "Kunne ikke laste oppgavene i «%s»"
 
-#: calendar/gui/e-tasks.c:390
+#: calendar/gui/e-tasks.c:393
 #, c-format
 msgid "The method required to load `%s' is not supported"
 msgstr "Metoden som er nødvendig for å laste «%s» er ikke støttet"
 
-#: calendar/gui/e-tasks.c:401 calendar/gui/gnome-cal.c:1546
+#: calendar/gui/e-tasks.c:404 calendar/gui/gnome-cal.c:1546
 #, c-format
 msgid "You don't have permission to open the folder in `%s'"
 msgstr "Du har ikke rettigheter til å åpne mappen i «%s»"
 
-#: calendar/gui/e-tasks.c:521
+#: calendar/gui/e-tasks.c:469 calendar/gui/gnome-cal.c:1744
+#, fuzzy, c-format
+msgid ""
+"Error on %s:\n"
+" %s"
+msgstr "Feil ved lagring av «%s»: %s"
+
+#: calendar/gui/e-tasks.c:540
 msgid "Completing tasks..."
 msgstr "Fullfører oppgaver..."
 
-#: calendar/gui/e-tasks.c:544
+#: calendar/gui/e-tasks.c:563
 msgid "Deleting selected objects..."
 msgstr "Sletter valgte objekter..."
 
-#: calendar/gui/e-tasks.c:637
+#: calendar/gui/e-tasks.c:656
 msgid "Expunging"
 msgstr "Tømmer"
 
@@ -5767,7 +5776,7 @@ msgstr "Metoden som er nødvendig for å åpne «%s» er ikke støttet"
 msgid "Adding alarms for %s"
 msgstr "Legger til alarmer for %s"
 
-#: calendar/gui/gnome-cal.c:1745
+#: calendar/gui/gnome-cal.c:1761
 #, c-format
 msgid ""
 "The calendar backend for\n"
@@ -5775,7 +5784,7 @@ msgid ""
 " has crashed. You will have to restart Evolution in order to use it again"
 msgstr ""
 
-#: calendar/gui/gnome-cal.c:1750
+#: calendar/gui/gnome-cal.c:1766
 #, c-format
 msgid ""
 "The task backend for\n"
@@ -5783,12 +5792,12 @@ msgid ""
 " has crashed. You will have to restart Evolution in order to use it again"
 msgstr ""
 
-#: calendar/gui/gnome-cal.c:1970
+#: calendar/gui/gnome-cal.c:1990
 #, c-format
 msgid "Opening calendar at %s"
 msgstr "Åpner kalender på %s"
 
-#: calendar/gui/gnome-cal.c:2009
+#: calendar/gui/gnome-cal.c:2029
 msgid "Opening default tasks folder"
 msgstr "Åpner forvalgt oppgavemappe"
 
@@ -8596,7 +8605,9 @@ msgstr "Kan ikke dekryptere sertifikatets signatur"
 
 #: camel/camel-tcp-stream-openssl.c:572
 msgid "Unable to decrypt Certificate Revocation List signature"
-msgstr "Kan ikke dekryptere signaturen for listen over sertifikater som er trukket tilbake"
+msgstr ""
+"Kan ikke dekryptere signaturen for listen over sertifikater som er trukket "
+"tilbake"
 
 #: camel/camel-tcp-stream-openssl.c:574
 msgid "Unable to decode issuer's public key"
@@ -8608,7 +8619,8 @@ msgstr "Feil med sertifikatsignatur"
 
 #: camel/camel-tcp-stream-openssl.c:578
 msgid "Certificate Revocation List signature failure"
-msgstr "Feil ved signaturen til listen over sertifikater som er trukket tilbake"
+msgstr ""
+"Feil ved signaturen til listen over sertifikater som er trukket tilbake"
 
 #: camel/camel-tcp-stream-openssl.c:580
 msgid "Certificate not yet valid"
@@ -8987,7 +8999,7 @@ msgstr "Tilkobling avbrutt"
 
 #: camel/providers/imap/camel-imap-store.c:587
 #: camel/providers/nntp/camel-nntp-store.c:133
-#: camel/providers/smtp/camel-smtp-transport.c:276
+#: camel/providers/smtp/camel-smtp-transport.c:272
 #, c-format
 msgid "Could not connect to %s (port %d): %s"
 msgstr "Kunne ikke koble til %s (port %d): %s"
@@ -9014,7 +9026,7 @@ msgid "IMAP server %s does not support requested authentication type %s"
 msgstr "IMAP-tjener %s støtter ikke etterspurt autentiseringstype %s"
 
 #: camel/providers/imap/camel-imap-store.c:1097
-#: camel/providers/smtp/camel-smtp-transport.c:479
+#: camel/providers/smtp/camel-smtp-transport.c:482
 #, c-format
 msgid "No support for authentication type %s"
 msgstr "Ingen støtte for autentiseringstype %s"
@@ -9025,7 +9037,7 @@ msgid "%sPlease enter the IMAP password for %s@%s"
 msgstr "%sVennligst skriv inn IMAP-passord for %s@%s"
 
 #: camel/providers/imap/camel-imap-store.c:1136
-#: camel/providers/smtp/camel-smtp-transport.c:520
+#: camel/providers/smtp/camel-smtp-transport.c:523
 msgid "You didn't enter a password."
 msgstr "Du skrev ikke inn et passord."
 
@@ -9891,40 +9903,40 @@ msgstr "Midlertidig autentiseringsfeil"
 msgid "Authentication required"
 msgstr "Autentisering kreves"
 
-#: camel/providers/smtp/camel-smtp-transport.c:299
+#: camel/providers/smtp/camel-smtp-transport.c:295
 msgid "Welcome response error"
 msgstr "Feil i velkommen-svar"
 
-#: camel/providers/smtp/camel-smtp-transport.c:343
-#: camel/providers/smtp/camel-smtp-transport.c:385
+#: camel/providers/smtp/camel-smtp-transport.c:339
+#: camel/providers/smtp/camel-smtp-transport.c:378
 #, c-format
 msgid "Failed to connect to SMTP server %s in secure mode: %s"
 msgstr "Kunne ikke koble til SMTP-tjener %s i sikker modus: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:344
+#: camel/providers/smtp/camel-smtp-transport.c:340
 msgid "server does not appear to support SSL"
 msgstr "tjeneren ser ikke ut til å støtte SSL"
 
-#: camel/providers/smtp/camel-smtp-transport.c:358
+#: camel/providers/smtp/camel-smtp-transport.c:354
 #, c-format
 msgid "STARTTLS request timed out: %s"
 msgstr "Tidsavbrudd for STARTTLS-forespørsel: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:373
+#: camel/providers/smtp/camel-smtp-transport.c:369
 msgid "STARTTLS response error"
 msgstr "Feil i STARTTLS-svar"
 
-#: camel/providers/smtp/camel-smtp-transport.c:469
+#: camel/providers/smtp/camel-smtp-transport.c:472
 #, c-format
 msgid "SMTP server %s does not support requested authentication type %s."
 msgstr "SMTP-tjener %s støtter ikke etterspurt autentiseringstype %s."
 
-#: camel/providers/smtp/camel-smtp-transport.c:507
+#: camel/providers/smtp/camel-smtp-transport.c:510
 #, c-format
 msgid "%sPlease enter the SMTP password for %s@%s"
 msgstr "%sVennligst skriv inn SMTP-passord for %s@%s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:528
+#: camel/providers/smtp/camel-smtp-transport.c:531
 #, c-format
 msgid ""
 "Unable to authenticate to SMTP server.\n"
@@ -9935,87 +9947,87 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: camel/providers/smtp/camel-smtp-transport.c:661
+#: camel/providers/smtp/camel-smtp-transport.c:664
 #, c-format
 msgid "SMTP server %s"
 msgstr "SMTP-tjener %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:663
+#: camel/providers/smtp/camel-smtp-transport.c:666
 #, c-format
 msgid "SMTP mail delivery via %s"
 msgstr "SMTP e-postlevering via %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:681
+#: camel/providers/smtp/camel-smtp-transport.c:684
 msgid "Cannot send message: sender address not valid."
 msgstr "Kan ikke sende melding: senderadresse ikke gyldig."
 
-#: camel/providers/smtp/camel-smtp-transport.c:686 mail/mail-ops.c:622
+#: camel/providers/smtp/camel-smtp-transport.c:689 mail/mail-ops.c:622
 msgid "Sending message"
 msgstr "Sender melding"
 
-#: camel/providers/smtp/camel-smtp-transport.c:700
+#: camel/providers/smtp/camel-smtp-transport.c:703
 msgid "Cannot send message: no recipients defined."
 msgstr "Kan ikke sende melding: ingen mottakere definert."
 
-#: camel/providers/smtp/camel-smtp-transport.c:710
+#: camel/providers/smtp/camel-smtp-transport.c:713
 msgid "Cannot send message: one or more invalid recipients"
 msgstr "Kan ikke sende melding: en eller flere ugyldige mottakere"
 
-#: camel/providers/smtp/camel-smtp-transport.c:866
+#: camel/providers/smtp/camel-smtp-transport.c:881
 msgid "SMTP Greeting"
 msgstr "SMTP-velkomst"
 
-#: camel/providers/smtp/camel-smtp-transport.c:912
+#: camel/providers/smtp/camel-smtp-transport.c:927
 #, c-format
 msgid "HELO request timed out: %s"
 msgstr "Tidsavbrudd for HELO-forespørsel: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:934
+#: camel/providers/smtp/camel-smtp-transport.c:949
 msgid "HELO response error"
 msgstr "Feil i HELO-svar"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1000
+#: camel/providers/smtp/camel-smtp-transport.c:1015
 msgid "SMTP Authentication"
 msgstr "SMTP-autentisering"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1006
+#: camel/providers/smtp/camel-smtp-transport.c:1021
 msgid "Error creating SASL authentication object."
 msgstr "Feil under oppretting av SASL-autentiseringsobjekt."
 
-#: camel/providers/smtp/camel-smtp-transport.c:1023
-#: camel/providers/smtp/camel-smtp-transport.c:1035
+#: camel/providers/smtp/camel-smtp-transport.c:1038
+#: camel/providers/smtp/camel-smtp-transport.c:1050
 #, c-format
 msgid "AUTH request timed out: %s"
 msgstr "Tidsavbrudd for AUTH-forespørsel: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1044
+#: camel/providers/smtp/camel-smtp-transport.c:1059
 msgid "AUTH request failed."
 msgstr "AUTH-forespørsel feilet."
 
-#: camel/providers/smtp/camel-smtp-transport.c:1105
+#: camel/providers/smtp/camel-smtp-transport.c:1120
 msgid "Bad authentication response from server.\n"
 msgstr "Ugyldig svar på autentisering fra tjener.\n"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1130
+#: camel/providers/smtp/camel-smtp-transport.c:1145
 #, c-format
 msgid "MAIL FROM request timed out: %s: mail not sent"
 msgstr "Tidsavbrudd for «MAIL FROM»-forespørsel: %s: melding ikke sendt"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1150
+#: camel/providers/smtp/camel-smtp-transport.c:1165
 msgid "MAIL FROM response error"
 msgstr "Feil i «MAIL FROM»-svar"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1174
+#: camel/providers/smtp/camel-smtp-transport.c:1189
 #, c-format
 msgid "RCPT TO request timed out: %s: mail not sent"
 msgstr "Tidsavbrudd for «RCPT TO»-forespørsel: %s: melding ikke sendt"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1196
+#: camel/providers/smtp/camel-smtp-transport.c:1211
 #, c-format
 msgid "RCPT TO <%s> failed"
 msgstr "RCPT TO <%s> feilet"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1238
+#: camel/providers/smtp/camel-smtp-transport.c:1253
 #, c-format
 msgid "DATA request timed out: %s: mail not sent"
 msgstr "Tidsavbrudd for DATA-forespørsel: %s: melding ikke sendt."
@@ -10023,36 +10035,36 @@ msgstr "Tidsavbrudd for DATA-forespørsel: %s: melding ikke sendt."
 #. we should have gotten instructions on how to use the DATA command:
 #. * 354 Enter mail, end with "." on a line by itself
 #.
-#: camel/providers/smtp/camel-smtp-transport.c:1258
+#: camel/providers/smtp/camel-smtp-transport.c:1273
 msgid "DATA response error"
 msgstr "Feil i DATA-svar"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1298
-#: camel/providers/smtp/camel-smtp-transport.c:1321
+#: camel/providers/smtp/camel-smtp-transport.c:1313
+#: camel/providers/smtp/camel-smtp-transport.c:1336
 #, c-format
 msgid "DATA send timed out: message termination: %s: mail not sent"
 msgstr ""
 "Tidsavbrudd for DATA-send: meldingsterminering: %s: melding ikke sendt."
 
-#: camel/providers/smtp/camel-smtp-transport.c:1341
+#: camel/providers/smtp/camel-smtp-transport.c:1356
 msgid "DATA termination response error"
 msgstr "Feil i DATA-termineringssvar"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1364
+#: camel/providers/smtp/camel-smtp-transport.c:1379
 #, c-format
 msgid "RSET request timed out: %s"
 msgstr "Tidsavbrudd for RSET-forespørsel: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1384
+#: camel/providers/smtp/camel-smtp-transport.c:1399
 msgid "RSET response error"
 msgstr "Feil i RSET-svar"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1407
+#: camel/providers/smtp/camel-smtp-transport.c:1422
 #, c-format
 msgid "QUIT request timed out: %s"
 msgstr "Tidsavbrudd for QUIT-forespørsel: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1427
+#: camel/providers/smtp/camel-smtp-transport.c:1442
 msgid "QUIT response error"
 msgstr "Feil i QUIT-svar"
 
@@ -10391,7 +10403,7 @@ msgstr "Emne inneholder"
 msgid "Subject does not contain"
 msgstr "Emne inneholder ikke"
 
-#: e-util/e-dialog-utils.c:241 mail/mail-callbacks.c:2536
+#: e-util/e-dialog-utils.c:237 mail/mail-callbacks.c:2536
 #: mail/mail-display.c:192
 msgid ""
 "A file by that name already exists.\n"
@@ -10610,7 +10622,7 @@ msgstr ""
 "Feil i regulært uttrykk «%s»:\n"
 "%s"
 
-#: filter/filter-label.c:136 filter/libfilter-i18n.h:26 mail/mail-config.c:76
+#: filter/filter-label.c:136 filter/libfilter-i18n.h:17 mail/mail-config.c:76
 #: mail/mail-config.glade.h:63
 msgid "Important"
 msgstr "Viktig"
@@ -10787,218 +10799,218 @@ msgid "Beep"
 msgstr "Pip"
 
 #: filter/libfilter-i18n.h:7
-msgid "contains"
-msgstr "inneholder"
-
-#: filter/libfilter-i18n.h:8
 msgid "Copy to Folder"
 msgstr "Kopier til mappe"
 
-#: filter/libfilter-i18n.h:9
+#: filter/libfilter-i18n.h:8
 msgid "Date received"
 msgstr "Dato mottatt"
 
-#: filter/libfilter-i18n.h:10
+#: filter/libfilter-i18n.h:9
 msgid "Date sent"
 msgstr "Dato sendt"
 
-#: filter/libfilter-i18n.h:12
+#: filter/libfilter-i18n.h:11
 msgid "Deleted"
 msgstr "Slettet"
 
-#: filter/libfilter-i18n.h:13
-msgid "does not contain"
-msgstr "inneholder ikke"
-
-#: filter/libfilter-i18n.h:14
-msgid "does not end with"
-msgstr "slutter ikke med"
-
-#: filter/libfilter-i18n.h:15
-msgid "does not exist"
-msgstr "eksisterer ikke"
-
-#: filter/libfilter-i18n.h:16
-msgid "does not return"
-msgstr "returnerer ikke"
-
-#: filter/libfilter-i18n.h:17
-msgid "does not sound like"
-msgstr "ligner ikke"
-
-#: filter/libfilter-i18n.h:18
-msgid "does not start with"
-msgstr "starter ikke med"
-
-#: filter/libfilter-i18n.h:19
+#: filter/libfilter-i18n.h:12
 msgid "Do Not Exist"
 msgstr "Eksisterer ikke"
 
-#: filter/libfilter-i18n.h:20
+#: filter/libfilter-i18n.h:13
 msgid "Draft"
 msgstr "Skisse"
 
-#: filter/libfilter-i18n.h:21
-msgid "ends with"
-msgstr "slutter med"
-
-#: filter/libfilter-i18n.h:22
+#: filter/libfilter-i18n.h:14
 msgid "Exist"
 msgstr "Eksisterer"
 
-#: filter/libfilter-i18n.h:23
-msgid "exists"
-msgstr "eksisterer"
-
-#: filter/libfilter-i18n.h:24
+#: filter/libfilter-i18n.h:15
 msgid "Expression"
 msgstr "Uttrykk"
 
-#: filter/libfilter-i18n.h:25
+#: filter/libfilter-i18n.h:16
 msgid "Follow Up"
 msgstr "Følg opp"
 
-#: filter/libfilter-i18n.h:27
-msgid "is"
-msgstr "er"
-
-#: filter/libfilter-i18n.h:28
-msgid "is after"
-msgstr "er etter"
-
-#: filter/libfilter-i18n.h:29
-msgid "is before"
-msgstr "er før"
-
-#: filter/libfilter-i18n.h:30
-msgid "is Flagged"
-msgstr "er merket"
-
-#: filter/libfilter-i18n.h:31
-msgid "is greater than"
-msgstr "er større enn"
-
-#: filter/libfilter-i18n.h:32
-msgid "is less than"
-msgstr "er mindre enn"
-
-#: filter/libfilter-i18n.h:33
-msgid "is not"
-msgstr "er ikke"
-
-#: filter/libfilter-i18n.h:34
-msgid "is not Flagged"
-msgstr "er ikke merket"
-
-#: filter/libfilter-i18n.h:35 mail/folder-browser.c:1757
+#: filter/libfilter-i18n.h:18 mail/folder-browser.c:1757
 msgid "Label"
 msgstr "Etikett"
 
-#: filter/libfilter-i18n.h:36
+#: filter/libfilter-i18n.h:19
 msgid "Mailing list"
 msgstr "E-postliste"
 
-#: filter/libfilter-i18n.h:37
+#: filter/libfilter-i18n.h:20
 msgid "Message Body"
 msgstr "Meldingskropp"
 
-#: filter/libfilter-i18n.h:38
+#: filter/libfilter-i18n.h:21
 msgid "Message Header"
 msgstr "Meldingshode"
 
-#: filter/libfilter-i18n.h:39
+#: filter/libfilter-i18n.h:22
 msgid "Move to Folder"
 msgstr "Flytt til mappe"
 
-#: filter/libfilter-i18n.h:40
+#: filter/libfilter-i18n.h:23
 msgid "Pipe Message to Shell Command"
 msgstr "Kjør melding gjennom en skall-kommando"
 
-#: filter/libfilter-i18n.h:41
+#: filter/libfilter-i18n.h:24
 msgid "Play Sound"
 msgstr "Spill lyd"
 
-#: filter/libfilter-i18n.h:42 mail/message-tag-followup.c:60
+#: filter/libfilter-i18n.h:25 mail/message-tag-followup.c:60
 msgid "Read"
 msgstr "Les"
 
-#: filter/libfilter-i18n.h:43
+#: filter/libfilter-i18n.h:26
 msgid "Recipients"
 msgstr "Mottakere"
 
-#: filter/libfilter-i18n.h:44
+#: filter/libfilter-i18n.h:27
 msgid "Regex Match"
 msgstr "Treff på vanlig uttrykk"
 
-#: filter/libfilter-i18n.h:45
+#: filter/libfilter-i18n.h:28
 msgid "Replied to"
 msgstr "Svart til"
 
-#: filter/libfilter-i18n.h:46
-msgid "returns"
-msgstr "returnerer"
-
-#: filter/libfilter-i18n.h:47
-msgid "returns greater than"
-msgstr "returnerer større enn"
-
-#: filter/libfilter-i18n.h:48
-msgid "returns less than"
-msgstr "returnerer mindre enn"
-
-#: filter/libfilter-i18n.h:49
+#: filter/libfilter-i18n.h:29
 msgid "Run Once"
 msgstr "Kjør en gang"
 
-#: filter/libfilter-i18n.h:50 filter/score-rule.c:204 filter/score-rule.c:206
+#: filter/libfilter-i18n.h:30 filter/score-rule.c:204 filter/score-rule.c:206
 #: mail/message-list.etspec.h:10
 msgid "Score"
 msgstr "Gi poeng"
 
-#: filter/libfilter-i18n.h:51 mail/mail-callbacks.c:1830
+#: filter/libfilter-i18n.h:31 mail/mail-callbacks.c:1830
 msgid "Sender"
 msgstr "Avsender"
 
-#: filter/libfilter-i18n.h:52
+#: filter/libfilter-i18n.h:32
 msgid "Set Status"
 msgstr "Sett status"
 
-#: filter/libfilter-i18n.h:53
+#: filter/libfilter-i18n.h:33
 msgid "Shell Command"
 msgstr "Skall-kommando"
 
-#: filter/libfilter-i18n.h:54
+#: filter/libfilter-i18n.h:34
 msgid "Size (kB)"
 msgstr "Størrelse (kB)"
 
-#: filter/libfilter-i18n.h:55
-msgid "sounds like"
-msgstr "lyder som"
-
-#: filter/libfilter-i18n.h:56
+#: filter/libfilter-i18n.h:35
 msgid "Source Account"
 msgstr "Kildekonto"
 
-#: filter/libfilter-i18n.h:57
+#: filter/libfilter-i18n.h:36
 msgid "Specific header"
 msgstr "Spesifikk header"
 
-#: filter/libfilter-i18n.h:58
-msgid "starts with"
-msgstr "starter med"
-
-#: filter/libfilter-i18n.h:60
+#: filter/libfilter-i18n.h:38
 msgid "Stop Processing"
 msgstr "Stopp behandling"
 
-#: filter/libfilter-i18n.h:61 mail/mail-format.c:932
+#: filter/libfilter-i18n.h:39 mail/mail-format.c:932
 #: mail/message-list.etspec.h:13 mail/message-tags.glade.h:4
 msgid "Subject"
 msgstr "Emne"
 
-#: filter/libfilter-i18n.h:62
+#: filter/libfilter-i18n.h:40
 msgid "Unset Status"
 msgstr "Nullstill status"
+
+#: filter/libfilter-i18n.h:41
+msgid "contains"
+msgstr "inneholder"
+
+#: filter/libfilter-i18n.h:42
+msgid "does not contain"
+msgstr "inneholder ikke"
+
+#: filter/libfilter-i18n.h:43
+msgid "does not end with"
+msgstr "slutter ikke med"
+
+#: filter/libfilter-i18n.h:44
+msgid "does not exist"
+msgstr "eksisterer ikke"
+
+#: filter/libfilter-i18n.h:45
+msgid "does not return"
+msgstr "returnerer ikke"
+
+#: filter/libfilter-i18n.h:46
+msgid "does not sound like"
+msgstr "ligner ikke"
+
+#: filter/libfilter-i18n.h:47
+msgid "does not start with"
+msgstr "starter ikke med"
+
+#: filter/libfilter-i18n.h:48
+msgid "ends with"
+msgstr "slutter med"
+
+#: filter/libfilter-i18n.h:49
+msgid "exists"
+msgstr "eksisterer"
+
+#: filter/libfilter-i18n.h:50
+msgid "is Flagged"
+msgstr "er merket"
+
+#: filter/libfilter-i18n.h:51
+msgid "is after"
+msgstr "er etter"
+
+#: filter/libfilter-i18n.h:52
+msgid "is before"
+msgstr "er før"
+
+#: filter/libfilter-i18n.h:53
+msgid "is greater than"
+msgstr "er større enn"
+
+#: filter/libfilter-i18n.h:54
+msgid "is less than"
+msgstr "er mindre enn"
+
+#: filter/libfilter-i18n.h:55
+msgid "is not Flagged"
+msgstr "er ikke merket"
+
+#: filter/libfilter-i18n.h:56
+msgid "is not"
+msgstr "er ikke"
+
+#: filter/libfilter-i18n.h:57
+msgid "is"
+msgstr "er"
+
+#: filter/libfilter-i18n.h:58
+msgid "returns greater than"
+msgstr "returnerer større enn"
+
+#: filter/libfilter-i18n.h:59
+msgid "returns less than"
+msgstr "returnerer mindre enn"
+
+#: filter/libfilter-i18n.h:60
+msgid "returns"
+msgstr "returnerer"
+
+#: filter/libfilter-i18n.h:61
+msgid "sounds like"
+msgstr "lyder som"
+
+#: filter/libfilter-i18n.h:62
+msgid "starts with"
+msgstr "starter med"
 
 #: filter/rule-editor.c:180
 msgid "Rules"
@@ -24965,20 +24977,7 @@ msgstr ""
 msgid "Please select the information that you would like to import:"
 msgstr "Vennligst velg informasjon du ønsker å importere:"
 
-#. Importer isn't ready yet.
-#. Wait 5 seconds and try again.
-#: shell/e-shell-importer.c:243
-#, c-format
-msgid ""
-"Importing %s\n"
-"Importer not ready.\n"
-"Waiting 5 seconds to retry."
-msgstr ""
-"Importerer %s\n"
-"Importerer ikke klar.\n"
-"Venter 5 sekunder før nytt forsøk."
-
-#: shell/e-shell-importer.c:263 shell/e-shell-importer.c:294
+#: shell/e-shell-importer.c:252 shell/e-shell-importer.c:283
 #, c-format
 msgid ""
 "Importing %s\n"
@@ -24987,21 +24986,21 @@ msgstr ""
 "Importerer %s\n"
 "Importerer oppføring %d."
 
-#: shell/e-shell-importer.c:366
+#: shell/e-shell-importer.c:355
 msgid "Select importer"
 msgstr "Velg importerer"
 
-#: shell/e-shell-importer.c:497
+#: shell/e-shell-importer.c:487
 #, c-format
 msgid "File %s does not exist"
 msgstr "Filen %s eksisterer ikke"
 
-#: shell/e-shell-importer.c:498 shell/e-shell-importer.c:515
-#: shell/e-shell-importer.c:565
+#: shell/e-shell-importer.c:488 shell/e-shell-importer.c:505
+#: shell/e-shell-importer.c:555
 msgid "Evolution Error"
 msgstr "Evolution feil"
 
-#: shell/e-shell-importer.c:514
+#: shell/e-shell-importer.c:504
 #, c-format
 msgid ""
 "There is no importer that is able to handle\n"
@@ -25010,11 +25009,11 @@ msgstr ""
 "Ingen importerer som kan håndtere\n"
 "%s"
 
-#: shell/e-shell-importer.c:524
+#: shell/e-shell-importer.c:514
 msgid "Importing"
 msgstr "Importerer"
 
-#: shell/e-shell-importer.c:532
+#: shell/e-shell-importer.c:522
 #, c-format
 msgid ""
 "Importing %s.\n"
@@ -25023,17 +25022,17 @@ msgstr ""
 "Importerer %s.\n"
 "Starter %s"
 
-#: shell/e-shell-importer.c:545
+#: shell/e-shell-importer.c:535
 #, c-format
 msgid "Error starting %s"
 msgstr "Feil under start av %s"
 
-#: shell/e-shell-importer.c:564
+#: shell/e-shell-importer.c:554
 #, c-format
 msgid "Error loading %s"
 msgstr "Feil under lasting av %s"
 
-#: shell/e-shell-importer.c:581
+#: shell/e-shell-importer.c:571
 #, c-format
 msgid ""
 "Importing %s\n"
@@ -25042,31 +25041,31 @@ msgstr ""
 "Importerer %s\n"
 "Importerer oppføring 1."
 
-#: shell/e-shell-importer.c:635
+#: shell/e-shell-importer.c:625
 msgid "Automatic"
 msgstr "Automatisk"
 
-#: shell/e-shell-importer.c:686
+#: shell/e-shell-importer.c:676
 msgid "Filename:"
 msgstr "Filnavn:"
 
-#: shell/e-shell-importer.c:691
+#: shell/e-shell-importer.c:681
 msgid "Select a file"
 msgstr "Velg en fil"
 
-#: shell/e-shell-importer.c:701
+#: shell/e-shell-importer.c:691
 msgid "File type:"
 msgstr "Filtype:"
 
-#: shell/e-shell-importer.c:726
+#: shell/e-shell-importer.c:716
 msgid "Import data and settings from older programs"
 msgstr "Importer data og innstillinger fra andre programmer"
 
-#: shell/e-shell-importer.c:730
+#: shell/e-shell-importer.c:720
 msgid "Import a single file"
 msgstr "Importer en enkelt fil"
 
-#: shell/e-shell-importer.c:795 shell/e-shell-startup-wizard.c:638
+#: shell/e-shell-importer.c:785 shell/e-shell-startup-wizard.c:638
 msgid ""
 "Please wait...\n"
 "Scanning for existing setups"
@@ -25074,24 +25073,24 @@ msgstr ""
 "Vennligst vent...\n"
 "Søker etter eksisterende oppsett"
 
-#: shell/e-shell-importer.c:798 shell/e-shell-startup-wizard.c:641
+#: shell/e-shell-importer.c:788 shell/e-shell-startup-wizard.c:641
 msgid "Starting Intelligent Importers"
 msgstr "Starter intelligent import"
 
-#: shell/e-shell-importer.c:922 shell/e-shell-startup-wizard.c:764
+#: shell/e-shell-importer.c:912 shell/e-shell-startup-wizard.c:764
 #, c-format
 msgid "From %s:"
 msgstr "Fra %s:"
 
-#: shell/e-shell-importer.c:1090
+#: shell/e-shell-importer.c:1080
 msgid "Select folder"
 msgstr "Velg mappe"
 
-#: shell/e-shell-importer.c:1091
+#: shell/e-shell-importer.c:1081
 msgid "Select a destination folder for importing this data"
 msgstr "Velg en målmappe for å importere data"
 
-#: shell/e-shell-importer.c:1203 shell/importer/intelligent.c:193
+#: shell/e-shell-importer.c:1193 shell/importer/intelligent.c:193
 msgid "Import"
 msgstr "Importer"
 
@@ -27544,6 +27543,15 @@ msgstr "init_corba(): kunne ikke initiere GNOME"
 #: wombat/wombat.c:224
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): kunne ikke initiere Bonobo"
+
+#~ msgid ""
+#~ "Importing %s\n"
+#~ "Importer not ready.\n"
+#~ "Waiting 5 seconds to retry."
+#~ msgstr ""
+#~ "Importerer %s\n"
+#~ "Importerer ikke klar.\n"
+#~ "Venter 5 sekunder før nytt forsøk."
 
 #~ msgid "Scanning for new messages"
 #~ msgstr "Søker etter nye meldinger"
