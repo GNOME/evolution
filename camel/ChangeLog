@@ -1,3 +1,9 @@
+2004-04-11  Sivaiah Nallagatla <snallagatla@novell.com>
+
+	* providers/groupwise/camel-gw-listener.c 
+	(add_addressbook_sources) (modify_addressbook_sources) : add
+	bookname to uri 
+
 2004-04-09  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap/camel-imap-provider.c: Fix capitalisation of the

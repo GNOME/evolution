@@ -353,16 +353,15 @@ add_addressbook_sources (EAccount *account)
 	soap_port = camel_url_get_param (url, "soap_port");
 	if (!soap_port)
 		soap_port = "7181";
-	relative_uri =  g_strdup_printf ("%s:%s/soap", url->host, soap_port);
+	relative_uri =  g_strdup_printf ("%s:%s/soap?Frequent Contacts", url->host, soap_port);
 	list = e_source_list_new_for_gconf (gconf_client_get_default (), "/apps/evolution/addressbook/sources" );
 	group = e_source_group_new (account->name, "groupwise://");
 	e_source_list_add_group (list, group, -1);
 	source = e_source_new ("Frequent Contacts", relative_uri);
-	e_source_set_property (source, "auth", "ldap/simple-binddn");
-        e_source_set_property(source, "binddn", url->user);
+	e_source_set_property (source, "auth", "Password");
+        e_source_set_property(source, "user", url->user);
 	e_source_group_add_source (group, source, -1);
-	e_source_list_sync (list, NULL);
-	
+
 	g_object_unref (source);
 	g_object_unref (group);
 	g_object_unref (list);
@@ -391,7 +390,7 @@ modify_addressbook_sources ( EAccount *account, const char *old_account_name)
 	soap_port = camel_url_get_param (url, "soap_port");
 	if (!soap_port)
 		soap_port = "7181";
-	relative_uri =  g_strdup_printf ("%s:%s/soap", url->host, soap_port);
+	relative_uri =  g_strdup_printf ("%s:%s/soap?Frequent Contacts", url->host, soap_port);
 
 	found_group = FALSE;
 	for ( ; groups != NULL &&  !found_group; groups = g_slist_next (groups)) {
