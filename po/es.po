@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-08-19 22:08+0200\n"
-"PO-Revision-Date: 2004-08-22 15:59+0200\n"
+"PO-Revision-Date: 2004-08-24 23:10+0200\n"
 "Last-Translator: Francisco Javier F. Serrador <serrador@cvs.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -214,7 +214,7 @@ msgstr ""
 #. addressbook:save-error primary
 #: addressbook/addressbook-errors.xml.h:49
 msgid "Unable to save contact(s)."
-msgstr "No se pudo guardar el contacto"
+msgstr "No se pudo guardar el (los) contacto(s)."
 
 #. addressbook:save-error secondary
 #: addressbook/addressbook-errors.xml.h:51
@@ -6909,13 +6909,13 @@ msgstr "No es posible migrar la configuración antigua desde evolution/config.xm
 #: calendar/gui/migration.c:741
 #, c-format
 msgid "Unable to migrate calendar `%s'"
-msgstr "No se pudo migrar el calendario «%s»."
+msgstr "No se pudo migrar el calendario «%s»"
 
 #. FIXME: domain/code
 #: calendar/gui/migration.c:893
 #, c-format
 msgid "Unable to migrate tasks `%s'"
-msgstr "No es posible migrar las tareas en «%s»."
+msgstr "No es posible migrar las tareas en «%s»"
 
 #: calendar/gui/print.c:489
 msgid "1st"
@@ -9636,7 +9636,7 @@ msgstr "Introduzca su frase de paso para %s"
 #: camel/camel-smime-context.c:261
 #, c-format
 msgid "Cannot find certificate for '%s'"
-msgstr "No se puede encontrar el certificado para «%s»."
+msgstr "No se puede encontrar el certificado para «%s»"
 
 #: camel/camel-smime-context.c:267
 msgid "Cannot create CMS message"
@@ -10542,7 +10542,7 @@ msgstr "Respuesta inesperada del servidor IMAP4 %s: %s"
 #: camel/providers/imap4/camel-imap4-engine.c:230
 #, c-format
 msgid "Unexpected greeting from IMAP server %s."
-msgstr "Anuncio de bienvenida inesperado del servidor IMAP: %s"
+msgstr "Anuncio de bienvenida inesperado del servidor IMAP: %s."
 
 #: camel/providers/imap4/camel-imap4-engine.c:414
 #, c-format
@@ -10636,7 +10636,7 @@ msgstr "IMAPv4rev1 "
 
 #: camel/providers/imap4/camel-imap4-provider.c:55
 msgid "For reading and storing mail on IMAPv4rev1 servers. EXPERIMENTAL !!"
-msgstr "Para leer y almacenar correo en los servidores IMAPv4rev. EXPERIMENTAL"
+msgstr "Para leer y almacenar correo en los servidores IMAPv4rev. ¡¡EXPERIMENTAL!!"
 
 #: camel/providers/imap4/camel-imap4-provider.c:72
 msgid "This option will connect to the IMAPv4rev1 server using a plaintext password."
@@ -10749,7 +10749,7 @@ msgstr "No pudo desuscribirse de la carpeta «%s»: Comando erróneo"
 #: camel/providers/imap4/camel-imap4-utils.c:250
 #, c-format
 msgid "Unexpected token in response from IMAP server %s: "
-msgstr "Etiqueta inesperada en la respuesta del servidor IMAP %s:"
+msgstr "Etiqueta inesperada en la respuesta del servidor IMAP %s: "
 
 #: camel/providers/imap4/camel-imap4-utils.c:273
 msgid "No data"
@@ -12383,7 +12383,7 @@ msgid ""
 "\n"
 "Would you like to change your status to \"In the Office\"? "
 msgstr ""
-"<b>Actualmente, su estado es «Fuera de la oficina» </b>\n"
+"<b>Actualmente, su estado es «Fuera de la oficina» .</b>\n"
 "\n"
 "¿Quiere cambiar su estado a «En la oficina»?"
 
@@ -13255,7 +13255,7 @@ msgstr "Propiedades de la carpeta"
 msgid "Total message:"
 msgid_plural "Total messages:"
 msgstr[0] "Mensaje en total:"
-msgstr[1] "Mensajes en total"
+msgstr[1] "Mensajes en total:"
 
 #: mail/em-folder-properties.c:173
 msgid "Unread message:"
@@ -15893,7 +15893,7 @@ msgstr "No se puede mover la carpeta «{0}» a «{1}»."
 #. mail:no-copy-folder-nostore secondary
 #: mail/mail-errors.xml.h:138 mail/mail-errors.xml.h:146
 msgid "Cannot open source \"{2}\"."
-msgstr "No se pudo abrir el origen «{2}»"
+msgstr "No se pudo abrir el origen «{2}»."
 
 #. mail:no-move-folder-to-nostore secondary
 #. mail:no-copy-folder-to-nostore secondary
@@ -15960,7 +15960,7 @@ msgstr "No se pudo guardar el archivo de firma."
 #. mail:no-save-signature secondary
 #: mail/mail-errors.xml.h:173
 msgid "Because \"{0}\"."
-msgstr "Porque «{0}»"
+msgstr "Porque «{0}»."
 
 #. mail:signature-notscript primary
 #: mail/mail-errors.xml.h:175
@@ -17223,13 +17223,13 @@ msgstr ""
 #. shell:noshell-reason title
 #: shell/shell-errors.xml.h:39 shell/shell-errors.xml.h:47
 msgid "Cannot start Evolution"
-msgstr "No se pudo iniciar Evolution."
+msgstr "No se pudo iniciar Evolution"
 
 #. shell:noshell primary
 #. shell:noshell-reason primary
 #: shell/shell-errors.xml.h:41 shell/shell-errors.xml.h:49
 msgid "Evolution can not start."
-msgstr "Evolution no pudo iniciar."
+msgstr "Evolution no se pudo iniciar."
 
 #. shell:noshell secondary
 #: shell/shell-errors.xml.h:43
