@@ -107,6 +107,13 @@ add_timeout (ETableSearch *ets)
 static void
 e_table_search_destroy (GtkObject *object)
 {
+	ETableSearch *ets = (ETableSearch *) object;
+	
+	/* FIXME: do we need to unregister the timeout? bad things
+           might happen if a timeout is still active. */
+	g_free (ets->priv->search_string);
+	g_free (ets->priv);
+	
 	if (e_table_search_parent_class->destroy)
 		(*e_table_search_parent_class->destroy)(object);
 }

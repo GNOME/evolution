@@ -2347,6 +2347,8 @@ e_tree_drag_source_unset (ETree *tree)
 	site = tree->priv->site;
 
 	if (site) {
+		if (site->target_list)
+			gtk_target_list_unref (site->target_list);
 		g_free (site);
 		tree->priv->site = NULL;
 	}
