@@ -74,7 +74,7 @@ summary_libs =				 				\
 	$(top_builddir)/libwombat/libwombat.la				\
 	$(EVOLUTION_EXECUTIVE_SUMMARY_LIBS)
 
-componentdir = $(prefix)/evolution/components
+componentdir = $(COMPONENT_DIR)
 component_LTLIBRARIES = libevolution-executive-summary.la
 libevolution_executive_summary_la_SOURCES = $(summary_sources)
 libevolution_executive_summary_la_LIBADD = $(summary_libs)
