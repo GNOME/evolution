@@ -1,3 +1,9 @@
+2004-09-20  Tony Tsui <ttsui9@gmail.com>
+
+	Fixes #66174
+
+	* gui/dialogs/meeting-page.c (existing_attendee): fixed memory leak.
+
 2004-09-10   Hannah & Fazlu <hannah_lins@yahoo.co.in>
 
 	Fixes bug #65051
