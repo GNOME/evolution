@@ -27,6 +27,7 @@
 #include <gtk/gtkobject.h>
 #include <libgnome/gnome-defs.h>
 #include <bonobo.h>
+#include <cal-client/cal-client.h>
 
 BEGIN_GNOME_DECLS
 

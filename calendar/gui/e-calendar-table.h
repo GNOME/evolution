@@ -53,16 +53,30 @@ typedef enum
 typedef struct _ECalendarTable       ECalendarTable;
 typedef struct _ECalendarTableClass  ECalendarTableClass;
 
+
+typedef gboolean (*ECalendarTableFilterFunc)	(ECalendarTable *cal_table,
+						 CalComponent   *comp,
+						 gpointer	 data);
+
 struct _ECalendarTable
 {
 	GtkTable table;
 
+	/* This is the underlying model which contains all the tasks/events. */
 	CalendarModel *model;
+
+	/* This is the model that we use when filtering the tasks/events. */
+	ETableModel *subset_model;
 	
 	GtkWidget *etable;
 	
 	/* Colors for drawing. */
 	GdkColor colors[E_CALENDAR_TABLE_COLOR_LAST];
+
+	/* Data for filtering the Tasks. */
+	ECalendarTableFilterFunc filter_func;
+	gpointer filter_data;
+	GDestroyNotify filter_data_destroy;
 };
 
 struct _ECalendarTableClass
@@ -84,6 +98,15 @@ void	   e_calendar_table_load_state		(ECalendarTable *cal_table,
 						 gchar		*filename);
 void	   e_calendar_table_save_state		(ECalendarTable *cal_table,
 						 gchar		*filename);
+
+void	   e_calendar_table_set_filter_func	(ECalendarTable *cal_table,
+						 ECalendarTableFilterFunc filter_func,
+						 gpointer	 filter_data,
+						 GDestroyNotify  filter_data_destroy);
+gboolean   e_calendar_table_filter_by_category  (ECalendarTable *cal_table,
+						 CalComponent	*comp,
+						 gpointer	 filter_data);
+
 
 #ifdef __cplusplus
 }

@@ -401,6 +401,7 @@ Cancelled
 	    <items>High
 Normal
 Low
+Undefined
 </items>
 	    <initial_choice>0</initial_choice>
 	    <child>
@@ -484,6 +485,7 @@ Confidential
 	    <class>GtkButton</class>
 	    <name>contacts-button</name>
 	    <can_focus>True</can_focus>
+	    <relief>GTK_RELIEF_NORMAL</relief>
 	    <child>
 	      <padding>0</padding>
 	      <expand>False</expand>
@@ -522,6 +524,7 @@ Confidential
 	    <class>GtkButton</class>
 	    <name>categories-button</name>
 	    <can_focus>True</can_focus>
+	    <relief>GTK_RELIEF_NORMAL</relief>
 	    <child>
 	      <padding>0</padding>
 	      <expand>False</expand>

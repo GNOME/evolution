@@ -2478,6 +2478,7 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 					       "editable", TRUE,
 					       "text", text.value ? text.value : "",
 					       "use_ellipsis", TRUE,
+					       "fill_color_rgba", GNOME_CANVAS_COLOR(0, 0, 0),
 					       NULL);
 		gtk_signal_connect (GTK_OBJECT (span->text_item), "event",
 				    GTK_SIGNAL_FUNC (e_week_view_on_text_item_event),

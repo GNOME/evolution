@@ -219,7 +219,8 @@ tasks_control_new_task_cmd		(BonoboUIComponent	*uic,
 					 gpointer		 data,
 					 const char		*path)
 {
-  g_print ("Create new task\n");
+	ETasks *tasks = data;
 
+	e_tasks_new_task (tasks);
 }
 

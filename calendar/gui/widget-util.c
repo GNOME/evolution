@@ -47,11 +47,8 @@ date_edit_new (gboolean show_date, gboolean show_time)
 
 	e_date_edit_set_show_date (dedit, show_date);
 	e_date_edit_set_show_time (dedit, show_time);
-	e_date_edit_set_time_popup_range (dedit,
-					  calendar_config_get_day_start_hour (),
-					  calendar_config_get_day_end_hour ());
-	e_date_edit_set_week_start_day (dedit, (calendar_config_get_week_start_day () + 6) % 7);
-	e_date_edit_set_show_week_numbers (dedit, calendar_config_get_dnav_show_week_no ());
+
+	calendar_config_configure_e_date_edit (dedit);
 
 	return GTK_WIDGET (dedit);
 }

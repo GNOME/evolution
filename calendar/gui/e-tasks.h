@@ -65,7 +65,9 @@ gboolean   e_tasks_open			(ETasks		*tasks,
 					 char		*file,
 					 ETasksOpenMode	 gcom);
 
-CalClient *e_tasks_get_cal_client	(ETasks *tasks);
+CalClient *e_tasks_get_cal_client	(ETasks		*tasks);
+
+void	   e_tasks_new_task		(ETasks		*tasks);
 
 
 #endif /* _E_TASKS_H_ */

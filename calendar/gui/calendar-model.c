@@ -23,12 +23,6 @@
 
 
 #include <config.h>
-#include <math.h>
-#include <ctype.h>
-#include <gnome.h>
-#include <cal-util/timeutil.h>
-#include "calendar-model.h"
-#include "calendar-commands.h"
 
 /* We need this for strptime. */
 #define _XOPEN_SOURCE 500
@@ -37,6 +31,14 @@
 #include <sys/time.h>
 #undef _XOPEN_SOURCE
 #undef __USE_XOPEN
+
+#include <math.h>
+#include <ctype.h>
+#include <gnome.h>
+#include <cal-util/timeutil.h>
+#include "calendar-model.h"
+#include "calendar-commands.h"
+
 
 
 
@@ -59,7 +61,23 @@ struct _CalendarModelPrivate {
 
 	/* HACK: so that ETable can do its stupid append_row() thing */
 	guint appending_row : 1;
+
+	/* The default category to use when creating new tasks, e.g. when the
+	   filter is set to a certain category we use that category when
+	   creating a new task. */
+	gchar *default_category;
+
+	/* A balanced tree of the categories used by all the tasks/events. */
+	GTree *categories;
 };
+
+enum {
+	CATEGORIES_CHANGED,
+
+	LAST_SIGNAL
+};
+
+static gint calendar_model_signals [LAST_SIGNAL] = { 0 };
 
 
 
@@ -85,6 +103,9 @@ static int remove_object (CalendarModel *model, const char *uid);
 static void ensure_task_complete (CalComponent *comp,
 				  time_t completed_date);
 static void ensure_task_not_complete (CalComponent *comp);
+static void calendar_model_collect_all_categories (CalendarModel *model);
+static gboolean calendar_model_collect_categories	(CalendarModel	*model,
+							 CalComponent	*comp);
 
 static ETableModelClass *parent_class;
 
@@ -134,6 +155,17 @@ calendar_model_class_init (CalendarModelClass *class)
 
 	parent_class = gtk_type_class (E_TABLE_MODEL_TYPE);
 
+	calendar_model_signals [CATEGORIES_CHANGED] =
+		gtk_signal_new ("categories-changed",
+				GTK_RUN_LAST, object_class->type,
+				GTK_SIGNAL_OFFSET (CalendarModelClass,
+						   categories_changed),
+				gtk_signal_default_marshaller,
+				GTK_TYPE_NONE, 0);
+	
+	gtk_object_class_add_signals (object_class, calendar_model_signals,
+				      LAST_SIGNAL);
+
 	object_class->destroy = calendar_model_destroy;
 
 	etm_class->column_count = calendar_model_column_count;
@@ -149,6 +181,8 @@ calendar_model_class_init (CalendarModelClass *class)
 #if 0
 	etm_class->value_to_string = calendar_model_value_to_string;
 #endif
+
+	class->categories_changed = NULL;
 }
 
 /* Object initialization function for the calendar table model */
@@ -163,6 +197,8 @@ calendar_model_init (CalendarModel *model)
 	priv->objects = g_array_new (FALSE, TRUE, sizeof (CalComponent *));
 	priv->uid_index_hash = g_hash_table_new (g_str_hash, g_str_equal);
 	priv->use_24_hour_format = TRUE;
+
+	priv->categories = g_tree_new ((GCompareFunc)strcmp);
 }
 
 /* Called from g_hash_table_foreach_remove(), frees a stored UID->index
@@ -231,6 +267,14 @@ calendar_model_destroy (GtkObject *object)
 
 	g_array_free (priv->objects, TRUE);
 	priv->objects = NULL;
+
+	g_free (priv->default_category);
+
+	/* We only need to free the first argument, the key, so g_free will do.
+	 */
+	g_tree_traverse (priv->categories, (GTraverseFunc) g_free,
+			 G_PRE_ORDER, NULL);
+	g_tree_destroy (priv->categories);
 
 	/* Free the private structure */
 
@@ -307,7 +351,7 @@ get_categories (CalComponent *comp)
 
 	cal_component_get_categories (comp, &categories);
 
-	return g_strdup (categories);
+	return categories ? (char*) categories : "";
 }
 
 /* Returns a string based on the CLASSIFICATION property of a calendar component */
@@ -336,7 +380,7 @@ get_classification (CalComponent *comp)
 
 	default:
 		g_assert_not_reached ();
-		return NULL;
+		return "";
 	}
 }
 
@@ -1142,6 +1186,10 @@ calendar_model_set_value_at (ETableModel *etm, int col, int row, const void *val
 	switch (col) {
 	case CAL_COMPONENT_FIELD_CATEGORIES:
 		set_categories (comp, value);
+		if (calendar_model_collect_categories (model, comp)) {
+			gtk_signal_emit (GTK_OBJECT (model),
+					 calendar_model_signals [CATEGORIES_CHANGED]);
+		}
 		break;
 
 	/* FIXME: CLASSIFICATION requires an option menu cell renderer */
@@ -1313,11 +1361,7 @@ calendar_model_duplicate_value (ETableModel *etm, int col, const void *value)
 
 	switch (col) {
 	case CAL_COMPONENT_FIELD_CATEGORIES:
-		return dup_string (value);
-
 	case CAL_COMPONENT_FIELD_CLASSIFICATION:
-		return (void *) value;
-
 	case CAL_COMPONENT_FIELD_COMPLETED:
 	case CAL_COMPONENT_FIELD_DTEND:
 	case CAL_COMPONENT_FIELD_DTSTART:
@@ -1326,11 +1370,7 @@ calendar_model_duplicate_value (ETableModel *etm, int col, const void *value)
 	case CAL_COMPONENT_FIELD_PERCENT:
 	case CAL_COMPONENT_FIELD_PRIORITY:
 	case CAL_COMPONENT_FIELD_SUMMARY:
-		return dup_string (value);
-
 	case CAL_COMPONENT_FIELD_TRANSPARENCY:
-		return (void *) value;
-
 	case CAL_COMPONENT_FIELD_URL:
 		return dup_string (value);
 
@@ -1402,15 +1442,17 @@ init_string (void)
 static void *
 calendar_model_initialize_value (ETableModel *etm, int col)
 {
+	CalendarModel *model;
+
 	g_return_val_if_fail (col >= 0 && col < CAL_COMPONENT_FIELD_NUM_FIELDS, NULL);
+
+	model = CALENDAR_MODEL (etm);
 
 	switch (col) {
 	case CAL_COMPONENT_FIELD_CATEGORIES:
-		return init_string ();
+		return g_strdup (model->priv->default_category ? model->priv->default_category : "");
 
 	case CAL_COMPONENT_FIELD_CLASSIFICATION:
-		return NULL;
-
 	case CAL_COMPONENT_FIELD_COMPLETED:
 	case CAL_COMPONENT_FIELD_DTEND:
 	case CAL_COMPONENT_FIELD_DTSTART:
@@ -1419,11 +1461,7 @@ calendar_model_initialize_value (ETableModel *etm, int col)
 	case CAL_COMPONENT_FIELD_PERCENT:
 	case CAL_COMPONENT_FIELD_PRIORITY:
 	case CAL_COMPONENT_FIELD_SUMMARY:
-		return init_string ();
-
 	case CAL_COMPONENT_FIELD_TRANSPARENCY:
-		return NULL;
-
 	case CAL_COMPONENT_FIELD_URL:
 		return init_string ();
 
@@ -1506,8 +1544,10 @@ cal_loaded_cb (CalClient *client,
 
 	e_table_model_pre_change (E_TABLE_MODEL (model));
 
-	if (status == CAL_CLIENT_LOAD_SUCCESS)
+	if (status == CAL_CLIENT_LOAD_SUCCESS) {
 		load_objects (model);
+		calendar_model_collect_all_categories (model);
+	}
 
 	e_table_model_changed (E_TABLE_MODEL (model));
 }
@@ -1980,3 +2020,79 @@ calendar_model_set_use_24_hour_format (CalendarModel *model,
 	}
 }
 
+
+void
+calendar_model_set_default_category	(CalendarModel	*model,
+					 gchar		*default_category)
+{
+	g_return_if_fail (IS_CALENDAR_MODEL (model));
+
+	g_free (model->priv->default_category);
+	model->priv->default_category = g_strdup (default_category);
+}
+
+
+static void
+calendar_model_collect_all_categories	(CalendarModel	*model)
+{
+	CalendarModelPrivate *priv;
+	CalComponent *comp;
+	int i;
+
+	priv = model->priv;
+
+	/* Destroy the current tree and start from scratch. */
+	g_tree_traverse (priv->categories, (GTraverseFunc) g_free,
+			 G_PRE_ORDER, NULL);
+	g_tree_destroy (priv->categories);
+
+	priv->categories = g_tree_new ((GCompareFunc)strcmp);
+
+	for (i = 0; i < priv->objects->len; i++) {
+		comp = g_array_index (priv->objects, CalComponent *, i);
+		calendar_model_collect_categories (model, comp);
+	}
+
+	gtk_signal_emit (GTK_OBJECT (model),
+			 calendar_model_signals [CATEGORIES_CHANGED]);
+}
+
+
+static gboolean
+calendar_model_collect_categories	(CalendarModel	*model,
+					 CalComponent	*comp)
+{
+	CalendarModelPrivate *priv;
+	GSList *categories_list, *elem;
+	gboolean changed = FALSE;
+
+	priv = model->priv;
+
+	cal_component_get_categories_list (comp, &categories_list);
+
+	for (elem = categories_list; elem; elem = elem->next) {
+		if (!g_tree_lookup (priv->categories, elem->data)) {
+			/* We store a '1' as the data, just so we can use
+			   g_tree_lookup() on it. Note that we don't free
+			   the string since it is now part of the tree. */
+			g_tree_insert (priv->categories, elem->data,
+				       GINT_TO_POINTER (1));
+			changed = TRUE;
+		} else {
+			g_free (elem->data);
+		}
+	}
+
+	g_slist_free (categories_list);
+
+	return changed;
+}
+
+
+GTree*
+calendar_model_get_categories		(CalendarModel	*model)
+{
+	g_return_val_if_fail (IS_CALENDAR_MODEL (model), NULL);
+
+	return model->priv->categories;
+}

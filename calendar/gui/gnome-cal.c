@@ -51,6 +51,11 @@ typedef enum {
 
 /* Private part of the GnomeCalendar structure */
 struct _GnomeCalendarPrivate {
+
+	/*
+	 * The Calendar Folder.
+	 */
+
 	/* The calendar client object we monitor */
 	CalClient   *client;
 
@@ -59,6 +64,21 @@ struct _GnomeCalendarPrivate {
 
 	/* URI being loaded, NULL if we are not being loaded */
 	char *loading_uri;
+
+	/*
+	 * The TaskPad Folder.
+	 */
+
+	/* The calendar client object we monitor */
+	CalClient   *task_pad_client;
+
+	/* Loading state; we can be loading or creating a calendar */
+	LoadState task_pad_load_state;
+
+	/* URI being loaded, NULL if we are not being loaded */
+	char *task_pad_loading_uri;
+
+
 
 	/* Mapping of component UIDs to event editors */
 	GHashTable  *object_editor_hash;
@@ -289,6 +309,7 @@ gnome_calendar_init (GnomeCalendar *gcal)
 	gcal->priv = priv;
 
 	priv->load_state = LOAD_STATE_NOT_LOADED;
+	priv->task_pad_load_state = LOAD_STATE_NOT_LOADED;
 
 	priv->object_editor_hash = g_hash_table_new (g_str_hash, g_str_equal);
 
@@ -330,16 +351,28 @@ gnome_calendar_destroy (GtkObject *object)
 	g_free (filename);
 
 	priv->load_state = LOAD_STATE_NOT_LOADED;
+	priv->task_pad_load_state = LOAD_STATE_NOT_LOADED;
 
 	if (priv->loading_uri) {
 		g_free (priv->loading_uri);
 		priv->loading_uri = NULL;
 	}
 
+	if (priv->task_pad_loading_uri) {
+		g_free (priv->task_pad_loading_uri);
+		priv->task_pad_loading_uri = NULL;
+	}
+
 	if (priv->client) {
 		alarm_notify_remove_client (priv->client);
 		gtk_object_unref (GTK_OBJECT (priv->client));
 		priv->client = NULL;
+	}
+
+	if (priv->task_pad_client) {
+		alarm_notify_remove_client (priv->task_pad_client);
+		gtk_object_unref (GTK_OBJECT (priv->task_pad_client));
+		priv->task_pad_client = NULL;
 	}
 
 	priv->in_destroy = TRUE;
@@ -673,7 +706,7 @@ load_error (GnomeCalendar *gcal, const char *uri)
 {
 	char *msg;
 
-	msg = g_strdup_printf (_("Could not load the calendar in `%s'"), uri);
+	msg = g_strdup_printf (_("Could not load the folder in `%s'"), uri);
 	gnome_error_dialog_parented (msg, GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (gcal))));
 	g_free (msg);
 }
@@ -684,7 +717,7 @@ create_error (GnomeCalendar *gcal, const char *uri)
 {
 	char *msg;
 
-	msg = g_strdup_printf (_("Could not create a calendar in `%s'"), uri);
+	msg = g_strdup_printf (_("Could not create a folder in `%s'"), uri);
 	gnome_error_dialog_parented (msg, GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (gcal))));
 	g_free (msg);
 }
@@ -706,27 +739,43 @@ cal_loaded_cb (CalClient *client, CalClientLoadStatus status, gpointer data)
 {
 	GnomeCalendar *gcal;
 	GnomeCalendarPrivate *priv;
-	gboolean free_uri;
+	gboolean free_uri, is_calendar = FALSE;
+	LoadState *load_state;
+	char **loading_uri;
 
 	gcal = GNOME_CALENDAR (data);
 	priv = gcal->priv;
 
-	g_assert (priv->load_state != LOAD_STATE_NOT_LOADED && priv->load_state != LOAD_STATE_LOADED);
-	g_assert (priv->loading_uri != NULL);
+	if (client == priv->client) {
+		is_calendar = TRUE;
+		load_state = &priv->load_state;
+		loading_uri = &priv->loading_uri;
+	} else if (client == priv->task_pad_client) {
+		load_state = &priv->task_pad_load_state;
+		loading_uri = &priv->task_pad_loading_uri;
+	} else {
+		g_assert_not_reached ();
+		return;
+	}
+
+	g_assert (*load_state != LOAD_STATE_NOT_LOADED
+		  && *load_state != LOAD_STATE_LOADED);
+	g_assert (*loading_uri != NULL);
 
 	free_uri = TRUE;
 
-	switch (priv->load_state) {
+	switch (*load_state) {
 	case LOAD_STATE_WAIT_LOAD:
 		if (status == CAL_CLIENT_LOAD_SUCCESS) {
-			priv->load_state = LOAD_STATE_LOADED;
-			initial_load (gcal);
+			*load_state = LOAD_STATE_LOADED;
+			if (is_calendar)
+				initial_load (gcal);
 		} else if (status == CAL_CLIENT_LOAD_ERROR) {
-			priv->load_state = LOAD_STATE_NOT_LOADED;
-			load_error (gcal, priv->loading_uri);
+			*load_state = LOAD_STATE_NOT_LOADED;
+			load_error (gcal, *loading_uri);
 		} else if (status == CAL_CLIENT_LOAD_METHOD_NOT_SUPPORTED) {
-			priv->load_state = LOAD_STATE_NOT_LOADED;
-			method_error (gcal, priv->loading_uri);
+			*load_state = LOAD_STATE_NOT_LOADED;
+			method_error (gcal, *loading_uri);
 		} else
 			g_assert_not_reached ();
 
@@ -734,20 +783,22 @@ cal_loaded_cb (CalClient *client, CalClientLoadStatus status, gpointer data)
 
 	case LOAD_STATE_WAIT_LOAD_BEFORE_CREATE:
 		if (status == CAL_CLIENT_LOAD_SUCCESS) {
-			priv->load_state = LOAD_STATE_LOADED;
-			initial_load (gcal);
+			*load_state = LOAD_STATE_LOADED;
+			if (is_calendar)
+				initial_load (gcal);
 		} else if (status == CAL_CLIENT_LOAD_ERROR) {
-			priv->load_state = LOAD_STATE_WAIT_CREATE;
+			*load_state = LOAD_STATE_WAIT_CREATE;
 			free_uri = FALSE;
 
-			if (!cal_client_create_calendar (priv->client, priv->loading_uri)) {
-				priv->load_state = LOAD_STATE_NOT_LOADED;
+			if (!cal_client_create_calendar (client,
+							 *loading_uri)) {
+				*load_state = LOAD_STATE_NOT_LOADED;
 				free_uri = TRUE;
 				g_message ("cal_loaded_cb(): Could not issue the create request");
 			}
 		} else if (status == CAL_CLIENT_LOAD_METHOD_NOT_SUPPORTED) {
-			priv->load_state = LOAD_STATE_NOT_LOADED;
-			method_error (gcal, priv->loading_uri);
+			*load_state = LOAD_STATE_NOT_LOADED;
+			method_error (gcal, *loading_uri);
 		} else
 			g_assert_not_reached ();
 
@@ -755,26 +806,28 @@ cal_loaded_cb (CalClient *client, CalClientLoadStatus status, gpointer data)
 
 	case LOAD_STATE_WAIT_CREATE:
 		if (status == CAL_CLIENT_LOAD_SUCCESS) {
-			priv->load_state = LOAD_STATE_LOADED;
-			initial_load (gcal);
+			*load_state = LOAD_STATE_LOADED;
+			if (is_calendar)
+				initial_load (gcal);
 		} else if (status == CAL_CLIENT_LOAD_ERROR) {
-			priv->load_state = LOAD_STATE_NOT_LOADED;
-			create_error (gcal, priv->loading_uri);
+			*load_state = LOAD_STATE_NOT_LOADED;
+			create_error (gcal, *loading_uri);
 		} else if (status == CAL_CLIENT_LOAD_IN_USE) {
 			/* Someone created the URI while we were issuing the
 			 * create request, so we just try to reload.
 			 */
-			priv->load_state = LOAD_STATE_WAIT_LOAD;
+			*load_state = LOAD_STATE_WAIT_LOAD;
 			free_uri = FALSE;
 
-			if (!cal_client_load_calendar (priv->client, priv->loading_uri)) {
-				priv->load_state = LOAD_STATE_NOT_LOADED;
+			if (!cal_client_load_calendar (client,
+						       *loading_uri)) {
+				*load_state = LOAD_STATE_NOT_LOADED;
 				free_uri = TRUE;
 				g_message ("cal_loaded_cb(): Could not issue the load request");
 			}
 		} else if (status == CAL_CLIENT_LOAD_METHOD_NOT_SUPPORTED) {
-			priv->load_state = LOAD_STATE_NOT_LOADED;
-			method_error (gcal, priv->loading_uri);
+			*load_state = LOAD_STATE_NOT_LOADED;
+			method_error (gcal, *loading_uri);
 		} else
 			g_assert_not_reached ();
 
@@ -785,8 +838,8 @@ cal_loaded_cb (CalClient *client, CalClientLoadStatus status, gpointer data)
 	}
 
 	if (free_uri) {
-		g_free (priv->loading_uri);
-		priv->loading_uri = NULL;
+		g_free (*loading_uri);
+		*loading_uri = NULL;
 	}
 }
 
@@ -816,7 +869,6 @@ obj_removed_cb (CalClient *client, const char *uid, gpointer data)
 	tag_calendar_by_client (priv->date_navigator, priv->client);
 }
 
-
 GtkWidget *
 gnome_calendar_construct (GnomeCalendar *gcal)
 {
@@ -829,6 +881,9 @@ gnome_calendar_construct (GnomeCalendar *gcal)
 
 	priv = gcal->priv;
 
+	/*
+	 * Calendar Folder Client.
+	 */
 	priv->client = cal_client_new ();
 	if (!priv->client)
 		return NULL;
@@ -842,13 +897,32 @@ gnome_calendar_construct (GnomeCalendar *gcal)
 
 	alarm_notify_add_client (priv->client);
 
-	e_calendar_table_set_cal_client (E_CALENDAR_TABLE (priv->todo), priv->client);
+	e_day_view_set_cal_client (E_DAY_VIEW (priv->day_view),
+				   priv->client);
+	e_day_view_set_cal_client (E_DAY_VIEW (priv->work_week_view),
+				   priv->client);
+	e_week_view_set_cal_client (E_WEEK_VIEW (priv->week_view),
+				    priv->client);
+	e_week_view_set_cal_client (E_WEEK_VIEW (priv->month_view),
+				    priv->client);
 
-	e_day_view_set_cal_client (E_DAY_VIEW (priv->day_view), priv->client);
-	e_day_view_set_cal_client (E_DAY_VIEW (priv->work_week_view), priv->client);
-	e_week_view_set_cal_client (E_WEEK_VIEW (priv->week_view), priv->client);
-	e_week_view_set_cal_client (E_WEEK_VIEW (priv->month_view), priv->client);
+	/*
+	 * TaskPad Folder Client.
+	 */
+	priv->task_pad_client = cal_client_new ();
+	if (!priv->task_pad_client)
+		return NULL;
 
+	gtk_signal_connect (GTK_OBJECT (priv->task_pad_client), "cal_loaded",
+			    GTK_SIGNAL_FUNC (cal_loaded_cb), gcal);
+
+	alarm_notify_add_client (priv->task_pad_client);
+
+	e_calendar_table_set_cal_client (E_CALENDAR_TABLE (priv->todo),
+					 priv->task_pad_client);
+
+
+	/* Get the default view to show. */
 	view = calendar_config_get_default_view ();
 	switch (view) {
 	case 1:
@@ -911,6 +985,7 @@ gboolean
 gnome_calendar_open (GnomeCalendar *gcal, char *file, GnomeCalendarOpenMode gcom)
 {
 	GnomeCalendarPrivate *priv;
+	LoadState initial_load_state;
 
 	g_return_val_if_fail (gcal != NULL, FALSE);
 	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), FALSE);
@@ -918,8 +993,10 @@ gnome_calendar_open (GnomeCalendar *gcal, char *file, GnomeCalendarOpenMode gcom
 
 	priv = gcal->priv;
 	g_return_val_if_fail (priv->load_state == LOAD_STATE_NOT_LOADED, FALSE);
+	g_return_val_if_fail (priv->task_pad_load_state == LOAD_STATE_NOT_LOADED, FALSE);
 
 	g_assert (priv->loading_uri == NULL);
+	g_assert (priv->task_pad_loading_uri == NULL);
 
 	priv->loading_uri = g_strdup (file);
 
@@ -932,10 +1009,28 @@ gnome_calendar_open (GnomeCalendar *gcal, char *file, GnomeCalendarOpenMode gcom
 		return FALSE;
 	}
 
+	initial_load_state = priv->load_state;
+
 	if (!cal_client_load_calendar (priv->client, file)) {
 		priv->load_state = LOAD_STATE_NOT_LOADED;
 		g_free (priv->loading_uri);
 		priv->loading_uri = NULL;
+
+		g_message ("gnome_calendar_open(): Could not issue the request");
+		return FALSE;
+	}
+
+	/* Open the appropriate Tasks folder to show in the TaskPad.
+	   Currently we just show the folder named "Tasks", but it will be
+	   a per-calendar option in future. */
+	priv->task_pad_loading_uri = g_strdup_printf ("%s/local/Tasks/tasks.ics", evolution_dir);
+	priv->task_pad_load_state = initial_load_state;
+
+	if (!cal_client_load_calendar (priv->task_pad_client,
+				       priv->task_pad_loading_uri)) {
+		priv->task_pad_load_state = LOAD_STATE_NOT_LOADED;
+		g_free (priv->task_pad_loading_uri);
+		priv->task_pad_loading_uri = NULL;
 
 		g_message ("gnome_calendar_open(): Could not issue the request");
 		return FALSE;

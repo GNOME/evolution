@@ -1,3 +1,40 @@
+2001-01-14  Damon Chaplin  <damon@helixcode.com>
+
+	* gui/dialogs/task-editor.[hc]: moved #include
+	<cal-client/cal-client.h> to the .h file.
+
+	* gui/e-tasks.c: load & save the Tasks folders' ETable layout.
+	Added an option menu to filter tasks by category.
+
+	* gui/gnome-cal.c: use the "Tasks" folder for the TaskPad.
+	(We may make the actual tasks folder shown a per-calendar option.)
+
+	* gui/tasks-control.c (tasks_control_new_task_cmd): added support for
+	the New Task icon on the toolbar.
+
+	* gui/e-calendar-table.[hc]: we now use an ETableSubsetVariable model
+	to filter the tasks by a category. And tidied up a little.
+
+	* gui/calendar-model.[hc]: added way to get all the categories used by
+	the tasks, so we can show an option menu of them. Also a signal which
+	is emitted when they are changed.
+	Also allows a default category to be set, which is used to initialize
+	the 'click-to-add' row.
+	Also made sure the initialize_value()/get_value() functions don't
+	return NULL since that can cause a SEGV.
+
+	* gui/e-week-view.c: 
+	* gui/e-day-view.c: set the "fill_color_rgba" arg of the EText items
+	to black since it doesn't seem to set up a default color properly.
+	Hopefully this fixes the bug on Solaris where the items appear with
+	strange colors.
+
+	* gui/widget-util.c (date_edit_new): use the calendar_config function
+	to set most of the options. It wasn't setting the 12/24 hour option
+	before.
+
+	* gui/dialogs/task-editor-dialog.glade: added "Undefined" priority.
+
 2001-01-12  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* gui/component-factory.c (factory_fn): Pass NULL as the

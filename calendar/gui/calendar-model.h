@@ -51,6 +51,8 @@ struct _CalendarModel {
 
 struct _CalendarModelClass {
 	ETableModelClass parent_class;
+
+	void (* categories_changed) (CalendarModel *model);
 };
 
 GtkType		calendar_model_get_type		  (void);
@@ -72,6 +74,12 @@ CalComponent*	calendar_model_get_component	  (CalendarModel   *model,
 gboolean	calendar_model_get_use_24_hour_format (CalendarModel *model);
 void		calendar_model_set_use_24_hour_format (CalendarModel *model,
 						       gboolean	      use_24_hour_format);
+
+GTree*		calendar_model_get_categories	  (CalendarModel   *model);
+
+void		calendar_model_set_default_category (CalendarModel	*model,
+						     gchar		*default_category);
+
 
 
 

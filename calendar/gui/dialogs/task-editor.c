@@ -36,7 +36,6 @@
 #include <e-util/e-dialog-widgets.h>
 #include <widgets/misc/e-dateedit.h>
 #include <cal-util/timeutil.h>
-#include <cal-client/cal-client.h>
 #include "task-editor.h"
 #include "../calendar-config.h"
 #include "../widget-util.h"

@@ -49,34 +49,45 @@
 #include "check-filled.xpm"
 
 
-static void e_calendar_table_class_init (ECalendarTableClass *class);
-static void e_calendar_table_init (ECalendarTable *cal_table);
-static void e_calendar_table_destroy (GtkObject *object);
+static void e_calendar_table_class_init		(ECalendarTableClass *class);
+static void e_calendar_table_init		(ECalendarTable	*cal_table);
+static void e_calendar_table_destroy		(GtkObject	*object);
 
-static void e_calendar_table_on_double_click (ETable *table,
-					      gint row,
-					      gint col,
-					      GdkEvent *event,
-					      ECalendarTable *cal_table);
-static gint e_calendar_table_on_right_click (ETable *table,
-					     gint row,
-					     gint col,
-					     GdkEventButton *event,
-					     ECalendarTable *cal_table);
-static void e_calendar_table_on_open_task (GtkWidget *menuitem,
-					   gpointer	  data);
-static void e_calendar_table_on_mark_task_complete (GtkWidget *menuitem,
-						    gpointer   data);
-static void e_calendar_table_on_delete_task (GtkWidget *menuitem,
-					     gpointer   data);
-static gint e_calendar_table_on_key_press (ETable *table,
-					   gint row,
-					   gint col,
-					   GdkEventKey *event,
-					   ECalendarTable *cal_table);
+static void e_calendar_table_on_double_click	(ETable		*table,
+						 gint		 row,
+						 gint		 col,
+						 GdkEvent	*event,
+						 ECalendarTable *cal_table);
+static gint e_calendar_table_on_right_click	(ETable		*table,
+						 gint		 row,
+						 gint		 col,
+						 GdkEventButton *event,
+						 ECalendarTable *cal_table);
+static void e_calendar_table_on_open_task	(GtkWidget	*menuitem,
+						 gpointer	 data);
+static void e_calendar_table_on_mark_task_complete (GtkWidget	*menuitem,
+						    gpointer	 data);
+static void e_calendar_table_on_delete_task	(GtkWidget	*menuitem,
+						 gpointer	 data);
+static gint e_calendar_table_on_key_press	(ETable		*table,
+						 gint		 row,
+						 gint		 col,
+						 GdkEventKey	*event,
+						 ECalendarTable *cal_table);
 
-static void e_calendar_table_open_task (ECalendarTable *cal_table,
-					gint row);
+static void e_calendar_table_open_task		(ECalendarTable *cal_table,
+						 gint		 row);
+
+static void e_calendar_table_apply_filter	(ECalendarTable	*cal_table);
+static void e_calendar_table_on_model_changed	(ETableModel	*model,
+						 ECalendarTable	*cal_table);
+static void e_calendar_table_on_row_inserted	(ETableModel	*model,
+						 gint		 row,
+						 ECalendarTable	*cal_table);
+static void e_calendar_table_on_row_deleted	(ETableModel	*model,
+						 gint		 row,
+						 ECalendarTable	*cal_table);
+
 
 /* The icons to represent the task. */
 #define E_CALENDAR_MODEL_NUM_ICONS	4
@@ -155,61 +166,61 @@ static char *list [] = {
 };
 #endif
 
-#define E_CALENDAR_TABLE_SPEC							\
-	"<ETableSpecification click-to-add=\"true\" "				\
-	" _click-to-add-message=\"Click to add a task\" "			\
-	" draw-grid=\"true\">"							\
-        "  <ETableColumn model_col= \"0\" _title=\"Categories\" "		\
-	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "		\
-	"   cell=\"string\"   compare=\"string\"/>"				\
-        "  <ETableColumn model_col= \"1\" _title=\"Classification\" "		\
-	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "		\
-	"   cell=\"string\"   compare=\"string\"/>"				\
-        "  <ETableColumn model_col= \"2\" _title=\"Completion Date\" "		\
-	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "		\
-	"   cell=\"string\"   compare=\"string\"/>"				\
-        "  <ETableColumn model_col= \"3\" _title=\"End Date\" "			\
-	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "		\
-	"   cell=\"string\"   compare=\"string\"/>"				\
-        "  <ETableColumn model_col= \"4\" _title=\"Start Date\" "		\
-	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "		\
-	"   cell=\"string\"   compare=\"string\"/>"				\
-        "  <ETableColumn model_col= \"5\" _title=\"Due Date\" "			\
-	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "		\
-	"   cell=\"string\"   compare=\"string\"/>"				\
-        "  <ETableColumn model_col= \"6\" _title=\"Geographical Position\" "	\
-	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "		\
-	"   cell=\"string\"   compare=\"string\"/>"				\
-        "  <ETableColumn model_col= \"7\" _title=\"Percent complete\" "		\
-	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "		\
-	"   cell=\"string\"   compare=\"string\"/>"				\
-        "  <ETableColumn model_col= \"8\" _title=\"Priority\" "			\
-	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "		\
-	"   cell=\"string\"   compare=\"string\"/>"				\
-        "  <ETableColumn model_col= \"9\" _title=\"Summary\" "			\
-	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "		\
-	"   cell=\"summary\"  compare=\"string\"/>"				\
-        "  <ETableColumn model_col=\"10\" _title=\"Transparency\" "		\
-	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "		\
-	"   cell=\"string\"   compare=\"string\"/>"				\
-        "  <ETableColumn model_col=\"11\" _title=\"URL\" "			\
-	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "		\
-	"   cell=\"string\"   compare=\"string\"/>"				\
-        "  <ETableColumn model_col=\"12\" _title=\"Alarms\" "			\
-	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "		\
-	"   cell=\"string\"   compare=\"string\"/>"				\
-        "  <ETableColumn model_col=\"13\" pixbuf=\"icon\" "			\
-	"   expansion=\"1.0\" minimum_width=\"16\" resizable=\"false\" "	\
-	"   cell=\"icon\"     compare=\"integer\"/>"				\
-        "  <ETableColumn model_col=\"14\" pixbuf=\"complete\" "			\
-	"   expansion=\"1.0\" minimum_width=\"16\" resizable=\"false\" "	\
-	"   cell=\"checkbox\" compare=\"integer\"/>"				\
-	"  <ETableState>"							\
-	"    <column source=\"13\"/>"						\
-	"    <column source=\"14\"/>"						\
-	"    <column source= \"9\"/>"						\
-	"    <grouping></grouping>"						\
-	"  </ETableState>"							\
+#define E_CALENDAR_TABLE_SPEC						\
+	"<ETableSpecification click-to-add=\"true\" "			\
+	" _click-to-add-message=\"Click here to add a task\" "		\
+	" draw-grid=\"true\">"						\
+        "  <ETableColumn model_col= \"0\" _title=\"Categories\" "	\
+	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "	\
+	"   cell=\"calstring\"   compare=\"string\"/>"			\
+        "  <ETableColumn model_col= \"1\" _title=\"Classification\" "	\
+	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "	\
+	"   cell=\"calstring\"   compare=\"string\"/>"			\
+        "  <ETableColumn model_col= \"2\" _title=\"Completion Date\" "	\
+	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "	\
+	"   cell=\"calstring\"   compare=\"string\"/>"			\
+        "  <ETableColumn model_col= \"3\" _title=\"End Date\" "		\
+	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "	\
+	"   cell=\"calstring\"   compare=\"string\"/>"			\
+        "  <ETableColumn model_col= \"4\" _title=\"Start Date\" "	\
+	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "	\
+	"   cell=\"calstring\"   compare=\"string\"/>"			\
+        "  <ETableColumn model_col= \"5\" _title=\"Due Date\" "		\
+	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "	\
+	"   cell=\"calstring\"   compare=\"string\"/>"			\
+        "  <ETableColumn model_col= \"6\" _title=\"Geographical Position\" " \
+	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "	\
+	"   cell=\"calstring\"   compare=\"string\"/>"			\
+        "  <ETableColumn model_col= \"7\" _title=\"% Complete\" "	\
+	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "	\
+	"   cell=\"calstring\"   compare=\"string\"/>"			\
+        "  <ETableColumn model_col= \"8\" _title=\"Priority\" "		\
+	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "	\
+	"   cell=\"calstring\"   compare=\"string\"/>"			\
+        "  <ETableColumn model_col= \"9\" _title=\"Summary\" "		\
+	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "	\
+	"   cell=\"calstring\"  compare=\"string\"/>"			\
+        "  <ETableColumn model_col=\"10\" _title=\"Transparency\" "	\
+	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "	\
+	"   cell=\"calstring\"   compare=\"string\"/>"			\
+        "  <ETableColumn model_col=\"11\" _title=\"URL\" "		\
+	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "	\
+	"   cell=\"calstring\"   compare=\"string\"/>"			\
+        "  <ETableColumn model_col=\"12\" _title=\"Alarms\" "		\
+	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "	\
+	"   cell=\"calstring\"   compare=\"string\"/>"			\
+        "  <ETableColumn model_col=\"13\" pixbuf=\"icon\" "		\
+	"   expansion=\"1.0\" minimum_width=\"16\" resizable=\"false\" "\
+	"   cell=\"icon\"     compare=\"integer\"/>"			\
+        "  <ETableColumn model_col=\"14\" pixbuf=\"complete\" "		\
+	"   expansion=\"1.0\" minimum_width=\"16\" resizable=\"false\" "\
+	"   cell=\"checkbox\" compare=\"integer\"/>"			\
+	"  <ETableState>"						\
+	"    <column source=\"13\"/>"					\
+	"    <column source=\"14\"/>"					\
+	"    <column source= \"9\"/>"					\
+	"    <grouping></grouping>"					\
+	"  </ETableState>"						\
 	"</ETableSpecification>"
 
 static void
@@ -217,7 +228,6 @@ e_calendar_table_init (ECalendarTable *cal_table)
 {
 	GtkWidget *table;
 	ETable *e_table;
-	ETableModel *model;
 	ECell *cell;
 	ETableExtras *extras;
 	gint i;
@@ -243,7 +253,17 @@ e_calendar_table_init (ECalendarTable *cal_table)
 	/* Create the model */
 
 	cal_table->model = calendar_model_new ();
-	model = E_TABLE_MODEL (cal_table->model);
+	cal_table->subset_model = e_table_subset_variable_new (E_TABLE_MODEL (cal_table->model));
+
+	gtk_signal_connect (GTK_OBJECT (cal_table->model), "model_changed",
+			    GTK_SIGNAL_FUNC (e_calendar_table_on_model_changed),
+			    cal_table);
+	gtk_signal_connect (GTK_OBJECT (cal_table->model), "model_row_inserted",
+			    GTK_SIGNAL_FUNC (e_calendar_table_on_row_inserted),
+			    cal_table);
+	gtk_signal_connect (GTK_OBJECT (cal_table->model), "model_row_deleted",
+			    GTK_SIGNAL_FUNC (e_calendar_table_on_row_deleted),
+			    cal_table);
 
 	/* Create the header columns */
 
@@ -255,7 +275,7 @@ e_calendar_table_init (ECalendarTable *cal_table)
 			"bold_column", CAL_COMPONENT_FIELD_OVERDUE,
 			"color_column", CAL_COMPONENT_FIELD_COLOR,
 			NULL);
-	e_table_extras_add_cell(extras, "summary", cell);
+	e_table_extras_add_cell (extras, "calstring", cell);
 
 	/* Create pixmaps */
 
@@ -275,8 +295,8 @@ e_calendar_table_init (ECalendarTable *cal_table)
 
 	/* Create the table */
 
-	table = e_table_scrolled_new (model, extras, E_CALENDAR_TABLE_SPEC,
-				      NULL);
+	table = e_table_scrolled_new (cal_table->subset_model, extras,
+				      E_CALENDAR_TABLE_SPEC, NULL);
 	gtk_object_unref (GTK_OBJECT (extras));
 
 	cal_table->etable = table;
@@ -345,6 +365,8 @@ e_calendar_table_on_double_click (ETable *table,
 				  GdkEvent *event,
 				  ECalendarTable *cal_table)
 {
+	g_print ("In e_calendar_table_on_double_click\n");
+
 	e_calendar_table_open_task (cal_table, row);
 }
 
@@ -500,9 +522,135 @@ void
 e_calendar_table_save_state (ECalendarTable	*cal_table,
 			     gchar		*filename)
 {
-
 	g_return_if_fail (E_IS_CALENDAR_TABLE (cal_table));
 
 	e_table_save_state (e_table_scrolled_get_table(E_TABLE_SCROLLED (cal_table->etable)),
 			    filename);
+}
+
+
+void
+e_calendar_table_set_filter_func	(ECalendarTable *cal_table,
+					 ECalendarTableFilterFunc filter_func,
+					 gpointer	 filter_data,
+					 GDestroyNotify  filter_data_destroy)
+{
+	g_return_if_fail (E_IS_CALENDAR_TABLE (cal_table));
+
+	if (cal_table->filter_func == filter_func
+	    && cal_table->filter_data == filter_data
+	    && cal_table->filter_data_destroy == filter_data_destroy)
+		return;
+
+	if (cal_table->filter_data_destroy)
+		(*cal_table->filter_data_destroy) (cal_table->filter_data);
+
+	cal_table->filter_func = filter_func;
+	cal_table->filter_data = filter_data;
+	cal_table->filter_data_destroy = filter_data_destroy;
+
+	e_calendar_table_apply_filter (cal_table);
+}
+
+
+static void
+e_calendar_table_apply_filter		(ECalendarTable	*cal_table)
+{
+	ETableSubsetVariable *etssv;
+	CalComponent *comp;
+	gint rows, row;
+
+	etssv = E_TABLE_SUBSET_VARIABLE (cal_table->subset_model);
+
+	/* Make sure that any edits get saved first. */
+	e_table_model_pre_change (cal_table->subset_model);
+
+	/* FIXME: A hack to remove all the existing rows quickly. */
+	E_TABLE_SUBSET (cal_table->subset_model)->n_map = 0;
+
+	if (cal_table->filter_func == NULL) {
+		e_table_subset_variable_add_all (etssv);
+	} else {
+		rows = e_table_model_row_count (E_TABLE_MODEL (cal_table->model));
+		for (row = 0; row < rows; row++) {
+			comp = calendar_model_get_component (cal_table->model,
+							     row);
+
+			if ((*cal_table->filter_func) (cal_table, comp,
+						       cal_table->filter_data))
+				e_table_subset_variable_add (etssv, row);
+		}
+	}
+
+	e_table_model_changed (cal_table->subset_model);
+}
+
+
+gboolean
+e_calendar_table_filter_by_category  (ECalendarTable	*cal_table,
+				      CalComponent	*comp,
+				      gpointer		 filter_data)
+{
+	GSList *categories_list, *elem;
+	gboolean retval = FALSE;
+
+	cal_component_get_categories_list (comp, &categories_list);
+
+	for (elem = categories_list; elem; elem = elem->next) {
+		if (retval == FALSE
+		    && !strcmp ((char*) elem->data, (char*) filter_data))
+			retval = TRUE;
+		g_free (elem->data);
+	}
+
+	g_slist_free (categories_list);
+
+	return retval;
+}
+
+
+static void
+e_calendar_table_on_model_changed	(ETableModel	*model,
+					 ECalendarTable	*cal_table)
+{
+	e_calendar_table_apply_filter (cal_table);
+}
+
+
+static void
+e_calendar_table_on_row_inserted	(ETableModel	*model,
+					 gint		 row,
+					 ECalendarTable	*cal_table)
+{
+	ETableSubsetVariable *etssv;
+	CalComponent *comp;
+	gboolean add_row = FALSE;
+
+	etssv = E_TABLE_SUBSET_VARIABLE (cal_table->subset_model);
+
+	if (cal_table->filter_func == NULL) {
+		add_row = TRUE;
+	} else {
+		comp = calendar_model_get_component (cal_table->model, row);
+
+		if ((*cal_table->filter_func) (cal_table, comp,
+					       cal_table->filter_data))
+			add_row = TRUE;
+	}
+
+	if (add_row) {
+		e_table_subset_variable_increment (etssv, row, 1);
+		e_table_subset_variable_add (etssv, row);
+	}
+}
+
+
+static void
+e_calendar_table_on_row_deleted		(ETableModel	*model,
+					 gint		 row,
+					 ECalendarTable	*cal_table)
+{
+	/* We just reapply the filter since we aren't too bothered about
+	   being efficient. It doesn't happen often. */
+	e_calendar_table_apply_filter (cal_table);
 }
