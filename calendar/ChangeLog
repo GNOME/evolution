@@ -1,5 +1,11 @@
 2005-03-21  JP Rosevear  <jpr@novell.com> 
  
+ 	* gui/gnome-cal.c (default_client_cal_opened_cb): if its busy, try
+ 	again
+ 	(client_cal_opened_cb): ditto
+  
+2005-03-21  JP Rosevear  <jpr@novell.com> 
+ 
  	* gui/e-day-view.c (e_day_view_on_main_canvas_drag_data_received):
  	abort sequence
  	(e_day_view_on_top_canvas_motion): prevent drag of recurring events

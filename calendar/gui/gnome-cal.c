@@ -2199,6 +2199,7 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 	case E_CALENDAR_STATUS_OK:
 		break;
 	case E_CALENDAR_STATUS_BUSY:
+		e_cal_open_async (ecal, FALSE);
 		return;
 	case E_CALENDAR_STATUS_INVALID_SERVER_VERSION:
 		e_error_run (NULL, "calendar:server-version", NULL);
@@ -2289,6 +2290,7 @@ default_client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar 
 	case E_CALENDAR_STATUS_OK:
 		break;
 	case E_CALENDAR_STATUS_BUSY:
+		e_cal_open_async (ecal, FALSE);
 		return;
 	case E_CALENDAR_STATUS_INVALID_SERVER_VERSION :
 		e_error_run (NULL, "calendar:server-version", NULL);
