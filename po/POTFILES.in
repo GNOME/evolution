@@ -201,7 +201,6 @@ camel/providers/imap/camel-imap-folder.c
 camel/providers/imap/camel-imap-message-cache.c
 camel/providers/imap/camel-imap-provider.c
 camel/providers/imap/camel-imap-store.c
-camel/providers/imap4/camel-imap-command.c
 camel/providers/imap4/camel-imap-engine.c
 camel/providers/imap4/camel-imap-store.c
 camel/providers/imap4/camel-imap-utils.c
