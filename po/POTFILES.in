@@ -119,6 +119,7 @@ camel/camel-sasl-digest-md5.c
 camel/camel-sasl-kerberos4.c
 camel/camel-sasl-login.c
 camel/camel-sasl-plain.c
+camel/camel-sasl-popb4smtp.c
 camel/camel-search-private.c
 camel/camel-service.c
 camel/camel-session.c
@@ -202,6 +203,7 @@ mail/component-factory.c
 mail/folder-browser-factory.c
 mail/folder-browser-ui.c
 mail/folder-browser.c
+mail/folder-info.c
 mail/importers/GNOME_Evolution_Mail_Mbox_Importer.oaf.in
 mail/importers/GNOME_Evolution_Mail_Outlook_Importer.oaf.in
 mail/local-config.glade
@@ -232,6 +234,7 @@ mail/message-browser.c
 mail/message-list.c
 mail/message-list.etspec
 mail/subscribe-dialog.c
+mail/subscribe-dialog.etspec
 my-evolution/GNOME_Evolution_Summary.oaf.in
 my-evolution/component-factory.c
 my-evolution/e-summary-calendar.c
@@ -262,6 +265,7 @@ shell/e-shortcuts.c
 shell/e-storage-set-view.c
 shell/e-storage-set-view.etspec
 shell/e-storage.c
+shell/e-summary-storage.c
 shell/e-task-widget.c
 shell/glade/e-active-connection-dialog.glade
 shell/glade/e-shell-folder-creation-dialog.glade
