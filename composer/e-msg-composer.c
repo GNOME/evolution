@@ -107,6 +107,7 @@ get_editor_text (BonoboWidget *editor)
 {
 	Bonobo_PersistStream persist;
 	BonoboStream *stream;
+	BonoboStreamMem *stream_mem;
 	CORBA_Environment ev;
 	char *text;
 
@@ -130,7 +131,10 @@ get_editor_text (BonoboWidget *editor)
 	Bonobo_Unknown_unref (persist, &ev);
 	CORBA_exception_free (&ev);
 
-	text = g_strdup (bonobo_stream_mem_get_buffer (BONOBO_STREAM_MEM (stream)));
+	stream_mem = BONOBO_STREAM_MEM (stream);
+	text = g_malloc (stream_mem->pos + 1);
+	memcpy (text, stream_mem->buffer, stream_mem->pos);
+	text[stream_mem->pos] = 0;
 	bonobo_object_unref (BONOBO_OBJECT(stream));
 	return text;
 }
