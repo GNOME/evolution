@@ -142,7 +142,7 @@ child_unmap (GncalFullDay *fullday, Child *child)
 }
 
 static void
-child_move_text (Child *child)
+child_set_text_pos (Child *child)
 {
 	GtkAllocation allocation;
 
@@ -188,7 +188,7 @@ child_realize (GncalFullDay *fullday, Child *child)
 
 	gtk_widget_set_parent_window (child->widget, child->window);
 
-	child_move_text (child);
+	child_set_text_pos (child);
 }
 
 static void
@@ -241,11 +241,34 @@ child_draw (GncalFullDay *fullday, Child *child, GdkRectangle *area, int draw_ch
 }
 
 static void
-child_set_beam_cursor (GtkWidget *widget, gpointer data)
+child_realized_setup (GtkWidget *widget, gpointer data)
 {
-	GncalFullDay *fullday = data;
+	Child *child;
+	GncalFullDay *fullday;
+
+	child = data;
+	fullday = GNCAL_FULL_DAY (widget->parent);
 
 	gdk_window_set_cursor (widget->window, fullday->beam_cursor);
+
+	gtk_text_insert (GTK_TEXT (widget), NULL, NULL, NULL,
+			 child->ico->summary,
+			 strlen (child->ico->summary));
+}
+
+static gint
+child_focus_out (GtkWidget *widget, GdkEventFocus *event, gpointer data)
+{
+	Child *child;
+
+	child = data;
+
+	if (child->ico->summary)
+		g_free (child->ico->summary);
+
+	child->ico->summary = gtk_editable_get_chars (GTK_EDITABLE (widget), 0, -1);
+
+	return FALSE;
 }
 
 static Child *
@@ -274,11 +297,19 @@ child_new (GncalFullDay *fullday, iCalObject *ico)
 	child->lower_row = lower_row - f_lower_row;
 	child->rows_used = rows_used;
 
-	/* Finish setup */
+	/* We set the i-beam cursor and the initial summary text upon realization */
 
 	gtk_signal_connect (GTK_OBJECT (child->widget), "realize",
-			    (GtkSignalFunc) child_set_beam_cursor,
-			    fullday);
+			    (GtkSignalFunc) child_realized_setup,
+			    child);
+
+	/* Update the iCalObject summary when the text widget loses focus */
+
+	gtk_signal_connect (GTK_OBJECT (child->widget), "focus_out_event",
+			    (GtkSignalFunc) child_focus_out,
+			    child);
+
+	/* Finish setup */
 
 	gtk_text_set_editable (GTK_TEXT (child->widget), TRUE);
 	gtk_text_set_word_wrap (GTK_TEXT (child->widget), TRUE);
@@ -306,7 +337,7 @@ child_set_pos (GncalFullDay *fullday, Child *child, int x, int y, int width, int
 	if (!GTK_WIDGET_REALIZED (fullday))
 		return;
 
-	child_move_text (child);
+	child_set_text_pos (child);
 	gdk_window_move_resize (child->window, x, y, width, height);
 }
 
@@ -763,7 +794,7 @@ draw_xor_rect (GncalFullDay *fullday)
 				    di->child->x + i,
 				    di->new_y + i,
 				    di->child->width - 2 * i - 1,
-				    di->new_height - 2 * i - 1);
+				    di->new_height - 2 * i - 2);
 
 	gdk_gc_set_function (widget->style->white_gc, GDK_COPY);
 	gdk_gc_set_subwindow (widget->style->white_gc, GDK_CLIP_BY_CHILDREN);
@@ -867,6 +898,40 @@ recompute_motion (GncalFullDay *fullday, int y)
 	}
 }
 
+static void
+update_from_drag_info (GncalFullDay *fullday)
+{
+	struct drag_info *di;
+	GtkWidget *widget;
+	struct tm tm;
+	int f_rows;
+	int row_height;
+	int start_row, used_rows;
+
+	di = fullday->drag_info;
+
+	widget = GTK_WIDGET (fullday);
+
+	get_tm_range (fullday, fullday->lower, fullday->upper, &tm, NULL, NULL, &f_rows);
+
+	row_height = (widget->allocation.height - 2 * widget->style->klass->ythickness) / f_rows;
+
+	start_row = (di->new_y - widget->style->klass->ythickness) / row_height;
+	used_rows = di->new_height / row_height;
+
+	tm.tm_min += fullday->interval * start_row;
+	di->child->ico->dtstart = mktime (&tm);
+
+	tm.tm_min += fullday->interval * used_rows;
+	di->child->ico->dtend = mktime (&tm);
+
+	/* FIXME: notify calendar of change */
+
+	/* FIXME: re-layout or let notification do it? */
+
+	layout_children (fullday);
+}
+
 static gint
 gncal_full_day_button_release (GtkWidget *widget, GdkEventButton *event)
 {
@@ -891,7 +956,7 @@ gncal_full_day_button_release (GtkWidget *widget, GdkEventButton *event)
 	recompute_motion (fullday, y);
 	gdk_pointer_ungrab (event->time);
 
-	/* FIXME: update child, notify, etc. */
+	update_from_drag_info (fullday);
 
 	di->child = NULL;
 
