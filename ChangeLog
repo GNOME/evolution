@@ -1,3 +1,8 @@
+2004-04-21 Sivaiah Nallagatla <snallagatla@novell.com>
+
+	* configure.in : added libegroupwise dependency to CAMEL 
+	 compile flags 
+
 2004-04-19  Rodney Dawes  <dobey@ximian.com>
 
 	* configure.in: Require gnome-icon-theme >= 1.2.0
