@@ -1,3 +1,8 @@
+2000-08-13  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail-crypto.c (mail_crypto_openpgp_encrypt): Added support for
+	encrypting via PGP 5.0
+
 2000-08-13  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* mail-ops.c (cleanup_create_folder): Release the listener object

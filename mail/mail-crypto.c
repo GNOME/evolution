@@ -465,20 +465,36 @@ mail_crypto_openpgp_encrypt (const char *plaintext,
 		sprintf (passwd_fd, "%d", passwd_fds[0]);
 		argv[i++] = passwd_fd;
 	}
-#elif defined(PGP5_PATH) /* FIXME: from here down needs to be modified to work correctly */
+#elif defined(PGP5_PATH)
 	path = PGP5_PATH;
 	
+	recipient_list = g_ptr_array_new ();
+	for (r = 0; r < recipients->len; r++) {
+		char *buf, *recipient;
+		
+		recipient = recipients->pdata[i];
+		buf = g_strdup_printf ("-r %s", recipient);
+		g_ptr_array_add (recipient_list, buf);
+	}
+	
 	argv[i++] = "pgpe";
+	
+	for (r = 0; r < recipient_list->len; r++)
+		argv[i++] = recipient_list->pdata[r];
+	
 	argv[i++] = "-f";
 	argv[i++] = "-z";
 	argv[i++] = "-a";
+	argv[i++] = "-o";
+	argv[i++] = "-";        /* output to stdout */
 	
-	if (sign)
+	if (sign) {
 		argv[i++] = "-s";
 	
-	sprintf (passwd_fd, "PGPPASSFD=%d", passwd_fds[0]);
-	putenv (passwd_fd);
-#else
+		sprintf (passwd_fd, "PGPPASSFD=%d", passwd_fds[0]);
+		putenv (passwd_fd);
+	}
+#else /* We still gotta get pgp 2.6.3 workin here ;-) */
 	path = PGP_PATH;
 	
 	argv[i++] = "pgp";
