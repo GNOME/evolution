@@ -1,5 +1,13 @@
 2001-01-13  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-account-editor.c (source_auth_init): If the preferred
+	authmech isn't found, default to the first one in the list.
+	(transport_construct_authmenu): This function already did the
+	above but I made it simpler.
+	(apply_changes): A number of cleanups.
+
+2001-01-13  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* mail-config-druid.c (druid_finish): Fixed mail_load_storages to
 	make a mini GSList of the account, not the account->source. Oops.
 

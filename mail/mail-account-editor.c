@@ -107,8 +107,9 @@ static gboolean
 apply_changes (MailAccountEditor *editor)
 {
 	MailConfigAccount *account;
-	char *host, *pport, *auth;
-	CamelURL *url;
+	char *host, *pport, *str;
+	CamelURL *source_url, *transport_url;
+	gboolean retval = TRUE;
 	int port;
 	
 	account = (MailConfigAccount *) editor->account;
@@ -142,19 +143,21 @@ apply_changes (MailAccountEditor *editor)
 	}
 	
 	/* source */
-	url = camel_url_new (account->source->url, NULL);
+	source_url = camel_url_new (account->source->url, NULL);
 	
-	g_free (url->user);
-	url->user = g_strdup (gtk_entry_get_text (editor->source_user));
+	g_free (source_url->user);
+	str = gtk_entry_get_text (editor->source_user);
+	source_url->user = str && *str ? g_strdup (str) : NULL;
 	
-	g_free (url->passwd);
-	url->passwd = g_strdup (gtk_entry_get_text (editor->source_passwd));
+	g_free (source_url->passwd);
+	str = gtk_entry_get_text (editor->source_passwd);
+	source_url->passwd = str && *str ? g_strdup (str) : NULL;
 	
-	g_free (url->authmech);
-	auth = gtk_object_get_data (GTK_OBJECT (editor), "source_authmech");
-	url->authmech = auth && *auth ? g_strdup (auth) : NULL;
+	g_free (source_url->authmech);
+	str = gtk_object_get_data (GTK_OBJECT (editor), "source_authmech");
+	source_url->authmech = str && *str ? g_strdup (str) : NULL;
 	
-	g_free (url->host);
+	g_free (source_url->host);
         host = g_strdup (gtk_entry_get_text (editor->source_host));
 	if (host && (pport = strchr (host, ':'))) {
 		*pport = '\0';
@@ -162,11 +165,12 @@ apply_changes (MailAccountEditor *editor)
 	} else {
 		port = 0;
 	}
-	url->host = host;
-	url->port = port;
+	source_url->host = host;
+	source_url->port = port;
 	
-	g_free (url->path);
-	url->path = g_strdup (gtk_entry_get_text (editor->source_path));
+	g_free (source_url->path);
+	str = gtk_entry_get_text (editor->source_path);
+	source_url->path = str && *str ? g_strdup (str) : NULL;
 	
 	account->source->save_passwd = GTK_TOGGLE_BUTTON (editor->save_passwd)->active;
 	account->source->keep_on_server = GTK_TOGGLE_BUTTON (editor->keep_on_server)->active;
@@ -174,29 +178,13 @@ apply_changes (MailAccountEditor *editor)
 	if (editor->source_ssl)
 		account->source->use_ssl = GTK_TOGGLE_BUTTON (editor->source_ssl)->active;
 	
-	/* check to make sure the source works */
-	if (!mail_config_check_service (url, CAMEL_PROVIDER_STORE, NULL)) {
-		camel_url_free (url);
-		return FALSE;
-	}
-	
-	g_free (account->source->url);
-	account->source->url = camel_url_to_string (url, FALSE);
-	
-	if (account->source->save_passwd) {
-		mail_session_set_password (account->source->url, url->passwd);
-		mail_session_remember_password (account->source->url);
-	}
-	
-	camel_url_free (url);
-	
 	/* transport */
-	url = g_new0 (CamelURL, 1);
+	transport_url = g_new0 (CamelURL, 1);
 	
-	url->protocol = g_strdup (editor->transport->protocol);
+	transport_url->protocol = g_strdup (editor->transport->protocol);
 	
-	auth = gtk_object_get_data (GTK_OBJECT (editor), "transport_authmech");
-	url->authmech = auth && *auth ? g_strdup (auth) : NULL;
+	str = gtk_object_get_data (GTK_OBJECT (editor), "transport_authmech");
+	transport_url->authmech = str && *str ? g_strdup (str) : NULL;
 	
         host = g_strdup (gtk_entry_get_text (editor->transport_host));
 	if (host && (pport = strchr (host, ':'))) {
@@ -205,26 +193,51 @@ apply_changes (MailAccountEditor *editor)
 	} else {
 		port = 0;
 	}
-	url->host = host;
-	url->port = port;
+	transport_url->host = host;
+	transport_url->port = port;
 	
 	if (editor->transport_ssl)
 		account->transport->use_ssl = GTK_TOGGLE_BUTTON (editor->transport_ssl)->active;
 	
-	/* check to make sure the transport works */
-	if (!mail_config_check_service (url, CAMEL_PROVIDER_TRANSPORT, NULL)) {
-		camel_url_free (url);
-		return FALSE;
+	/*
+	 * The logic behind the following code: Now that we have our
+	 * source and transport urls, lets check to see if they are
+	 * valid. If they *are* valid, then we set them otherwise we
+	 * don't. After we check both servers, save any changes we may
+	 * have. In essence, only servers that pass the check get saved.
+	 * If either of the tests fail, we return FALSE.
+	 */
+	
+	/* check to make sure the source works */
+	if (!mail_config_check_service (source_url, CAMEL_PROVIDER_STORE, NULL)) {
+		/* set the new source url */
+		g_free (account->source->url);
+		account->source->url = camel_url_to_string (source_url, FALSE);
+		
+		/* save the password if we were requested to do so */
+		if (account->source->save_passwd && source_url->passwd) {
+			mail_session_set_password (account->source->url, source_url->passwd);
+			mail_session_remember_password (account->source->url);
+		}
+	} else {
+		retval = FALSE;
 	}
+	camel_url_free (source_url);
 	
-	/* now that we know this url works, set it */
-	g_free (account->transport->url);
-	account->transport->url = camel_url_to_string (url, FALSE);
-	camel_url_free (url);
+	/* check to make sure the transport works */
+	if (mail_config_check_service (transport_url, CAMEL_PROVIDER_TRANSPORT, NULL)) {	
+		/* set the new transport url */
+		g_free (account->transport->url);
+		account->transport->url = camel_url_to_string (transport_url, FALSE);
+	} else {
+		retval = FALSE;
+	}
+	camel_url_free (transport_url);
 	
+	/* save any changes we may have */
 	mail_config_write ();
 	
-	return TRUE;
+	return retval;
 }
 
 static void
@@ -310,7 +323,7 @@ source_auth_init (MailAccountEditor *editor, CamelURL *url)
 			
 			gtk_widget_show (item);
 			
-			if (url->authmech && !g_strcasecmp (authtype->authproto, url->authmech)) {
+			if (!authmech || (url->authmech && !g_strcasecmp (authtype->authproto, url->authmech))) {
 				authmech = item;
 				history = i;
 			}
@@ -342,11 +355,11 @@ transport_auth_type_changed (GtkWidget *widget, gpointer user_data)
 static void
 transport_construct_authmenu (MailAccountEditor *editor, CamelURL *url)
 {
-	GtkWidget *first = NULL, *preferred = NULL;
+	GtkWidget *authmech = NULL;
 	GtkWidget *menu, *item;
 	CamelServiceAuthType *authtype;
 	GList *authtypes = NULL;
-	guint i = 0, fhist = 0, phist = 0;
+	guint i = 0, history = 0;
 	
 	menu = gtk_menu_new ();
 	gtk_option_menu_remove_menu (editor->transport_auth);
@@ -376,14 +389,9 @@ transport_construct_authmenu (MailAccountEditor *editor, CamelURL *url)
 			
 			gtk_widget_show (item);
 			
-			if (!first) {
-				first = item;
-				fhist = i;
-			}
-			
-			if (url->authmech && !g_strcasecmp (authtype->authproto, url->authmech)) {
-				preferred = item;
-				phist = i;
+			if (!authmech || (url->authmech && !g_strcasecmp (authtype->authproto, url->authmech))) {
+				authmech = item;
+				history = i;
 			}
 			
 			l = l->next;
@@ -393,12 +401,9 @@ transport_construct_authmenu (MailAccountEditor *editor, CamelURL *url)
 	
 	gtk_option_menu_set_menu (editor->transport_auth, menu);
 	
-	if (preferred) {
-		gtk_signal_emit_by_name (GTK_OBJECT (preferred), "activate", editor);
-		gtk_option_menu_set_history (editor->transport_auth, phist);
-	} else if (first) {
-		gtk_signal_emit_by_name (GTK_OBJECT (first), "activate", editor);
-		gtk_option_menu_set_history (editor->transport_auth, phist);
+	if (authmech) {
+		gtk_signal_emit_by_name (GTK_OBJECT (authmech), "activate", editor);
+		gtk_option_menu_set_history (editor->transport_auth, history);
 	}
 }
 
