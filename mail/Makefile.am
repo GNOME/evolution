@@ -1,7 +1,7 @@
 SUBDIRS = importers
 
-#libexec_PROGRAMS =				\
-#	evolution-mail
+libexec_PROGRAMS =				\
+	evolution-mbox-upgrade
 
 importerdir = $(privlibdir)/evolution-mail-importers
 
@@ -163,6 +163,12 @@ libevolution_mail_la_LIBADD =					\
 
 libevolution_mail_la_LDFLAGS =				\
 	-avoid-version -module
+
+evolution_mbox_upgrade_SOURCES = evolution-mbox-upgrade.c
+evolution_mbox_upgrade_LDADD = 				\
+	$(top_builddir)/camel/libcamel.la 		\
+	$(top_builddir)/e-util/libeutil.la 		\
+	$(EVOLUTION_MAIL_LIBS)
 
 server_in_files = GNOME_Evolution_Mail.server.in.in
 

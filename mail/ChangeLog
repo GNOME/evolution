@@ -1,3 +1,8 @@
+2003-09-17  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* evolution-mbox-upgrade.c: New source file to migrate from the
+	old mbox structure to the new mbox structure.
+
 2003-08-22  Not Zed  <NotZed@Ximian.com>
 
 	* mail-format.c (write_date): translate the local time format.
