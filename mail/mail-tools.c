@@ -227,11 +227,60 @@ mail_tool_generate_forward_subject (CamelMimeMessage *msg)
 	return fwd_subj;
 }
 
+XEvolution *
+mail_tool_remove_xevolution_headers (CamelMimeMessage *message)
+{
+	XEvolution *xev;
+	
+	xev = g_new (XEvolution, 1);
+	xev->flags = g_strdup (camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution"));
+	xev->source = g_strdup (camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Source"));
+	xev->transport = g_strdup (camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Transport"));
+	xev->account = g_strdup (camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Account"));
+	xev->fcc = g_strdup (camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Fcc"));
+	
+	/* rip off the X-Evolution* headers */
+	camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution");
+	camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution-Source");
+	camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution-Transport");
+	camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution-Account");
+	camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution-Fcc");
+	
+	return xev;
+}
+
+void
+mail_tool_restore_xevolution_headers (CamelMimeMessage *message, XEvolution *xev)
+{
+	if (xev->flags)
+		camel_medium_set_header (CAMEL_MEDIUM (message), "X-Evolution", xev->flags);
+	if (xev->source)
+		camel_medium_set_header (CAMEL_MEDIUM (message), "X-Evolution-Source", xev->source);
+	if (xev->transport)
+		camel_medium_set_header (CAMEL_MEDIUM (message), "X-Evolution-Transport", xev->transport);
+	if (xev->account)
+		camel_medium_set_header (CAMEL_MEDIUM (message), "X-Evolution-Account", xev->account);
+	if (xev->fcc)
+		camel_medium_set_header (CAMEL_MEDIUM (message), "X-Evolution-Fcc", xev->fcc);
+}
+
+void
+mail_tool_destroy_xevolution (XEvolution *xev)
+{
+	g_free (xev->flags);
+	g_free (xev->source);
+	g_free (xev->transport);
+	g_free (xev->account);
+	g_free (xev->fcc);
+	g_free (xev);
+}
+
 CamelMimePart *
 mail_tool_make_message_attachment (CamelMimeMessage *message)
 {
 	CamelMimePart *part;
 	const char *subject;
+	XEvolution *xev;
 	char *desc;
 	
 	subject = camel_mime_message_get_subject (message);
@@ -244,6 +293,10 @@ mail_tool_make_message_attachment (CamelMimeMessage *message)
 	} else {
 		desc = e_utf8_from_locale_string (_("Forwarded message"));
 	}
+	
+	/* rip off the X-Evolution headers */
+	xev = mail_tool_remove_xevolution_headers (message);
+	mail_tool_destroy_xevolution (xev);
 	
 	part = camel_mime_part_new ();
 	camel_mime_part_set_disposition (part, "inline");
@@ -432,11 +485,17 @@ mail_tool_forward_message (CamelMimeMessage *message)
 {
 	CamelDataWrapper *contents;
 	gboolean want_plain, is_html;
+	XEvolution *xev;
 	gchar *text;
+	
+	xev = mail_tool_remove_xevolution_headers (message);
 	
 	want_plain = !mail_config_get_send_html ();
 	contents = camel_medium_get_content_object (CAMEL_MEDIUM (message));
 	text = mail_get_message_body (contents, want_plain, &is_html);
+	
+	mail_tool_restore_xevolution_headers (message, xev);
+	mail_tool_destroy_xevolution (xev);
 	
 	/* Set the quoted reply text. */
 	if (text) {

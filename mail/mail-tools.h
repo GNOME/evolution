@@ -28,6 +28,14 @@
 #include <camel/camel.h>
 #include <camel/camel-filter-driver.h> /*eek*/
 
+typedef struct xevolution {
+	char *flags;
+	char *source;
+	char *transport;
+	char *account;
+	char *fcc;
+} XEvolution;
+
 /* Get a CamelFolder from a root url and a foldername (uses the global session)*/
 CamelFolder *
 mail_tool_get_folder_from_urlname (const gchar *url, const gchar *name,
@@ -57,6 +65,10 @@ mail_tool_do_movemail (const gchar *source_url, CamelException *ex);
  * source is emptied and synced. */
 void
 mail_tool_move_folder_contents (CamelFolder *source, CamelFolder *dest, gboolean use_cache, CamelException *ex);
+
+XEvolution *mail_tool_remove_xevolution_headers (CamelMimeMessage *message);
+void mail_tool_restore_xevolution_headers (CamelMimeMessage *message, XEvolution *xev);
+void mail_tool_destroy_exevolution (XEvolution *xev);
 
 /* Generates the subject for a message forwarding @msg */
 gchar *

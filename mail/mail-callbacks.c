@@ -1003,7 +1003,7 @@ void
 forward (GtkWidget *widget, gpointer user_data)
 {
 	MailConfigForwardStyle style = mail_config_get_default_forward_style ();
-
+	
 	if (style == MAIL_CONFIG_FORWARD_ATTACHED)
 		forward_attached (widget, user_data);
 	else

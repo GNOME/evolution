@@ -1,3 +1,16 @@
+2001-08-27  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-tools.c (mail_tool_make_message_attachment): Remove
+	X-Evolution* headers.
+	(mail_tool_remove_xevolution_headers): New function to convenience
+	removing the X-Evolution headers.
+	(mail_tool_restore_xevolution_headers): New convenience function
+	to restore the X-Evolution headers.
+	(mail_tool_destroy_xevolution): New function to cleanup the
+	structure.
+	(mail_tool_forward_message): Remove and restore the X-Evolution
+	headers here too.
+
 2001-08-26  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-send-recv.c (receive_update_got_store): If the store is not
