@@ -2,7 +2,9 @@
 
 	* providers/imap/camel-imap-folder.c (get_content): Try to use the
 	original boundary so luis will stop bugging me about "data
-	corruption".
+	corruption". Also preserve other params in the multipart
+	content-type by dumping it to a string and setting it on the mime
+	part.
 
 2001-12-14  Jeffrey Stedfast  <fejj@ximian.com>
 
