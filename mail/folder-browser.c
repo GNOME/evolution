@@ -331,6 +331,7 @@ folder_browser_search_menu_activated (ESearchBar *esb, int id, FolderBrowser *fb
 {
 	switch (id) {
 	case ESB_SHOW_ALL:
+		gtk_entry_set_text (GTK_ENTRY (esb->entry), "");
 		message_list_set_search (fb->message_list, NULL);
 		break;
 	case ESB_ADVANCED:
