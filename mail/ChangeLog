@@ -1,5 +1,9 @@
 2001-03-30  Dan Winship  <danw@ximian.com>
 
+	* mail-config.c (check_service_check): Register for cancellation.
+	(mail_config_check_service): Pop up a modal dialog with a message
+	and a "Cancel" button for the duration of the check.
+
 	* component-factory.c (debug_cb): If the EvolutionShellComponent
 	emits a "debug" signal, turn on camel_verbose_debug.
 
