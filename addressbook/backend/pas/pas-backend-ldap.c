@@ -448,12 +448,14 @@ get_ldap_library_info ()
 			   info.ldapai_vendor_version % 1000);
 
 		g_message ("extensions present:");
+		/* yuck.  we have to free these? */
 		for (i = 0; info.ldapai_extensions[i]; i++) {
 			char *extension = info.ldapai_extensions[i];
 			g_message (extension);
-			/* yuck.  we have to free this? */
 			ldap_memfree (extension);
 		}
+		ldap_memfree (info.ldapai_extensions);
+		ldap_memfree (info.ldapai_vendor_name);
 	}
 
 	ldap_unbind_ext_s (ldap, NULL, NULL);

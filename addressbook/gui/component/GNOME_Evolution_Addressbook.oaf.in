@@ -131,7 +131,7 @@
 
 </oaf_server>
 
-<oaf_server iid="OAFIID:GNOME_Evolution_Addressbook_ConfigControlFactory"
+<oaf_server iid="OAFIID:GNOME_Evolution_LDAPStorage_ConfigControlFactory"
             type="exe"
             location="evolution-addressbook">
 
@@ -144,9 +144,9 @@
 
 </oaf_server>
 
-<oaf_server iid="OAFIID:GNOME_Evolution_Addresbook_ConfigControl"
+<oaf_server iid="OAFIID:GNOME_Evolution_LDAPStorage_ConfigControl"
             type="factory"
-	    location="OAFIID:GNOME_Evolution_Addressbook_ConfigControlFactory">
+	    location="OAFIID:GNOME_Evolution_LDAPStorage_ConfigControlFactory">
 
 	<oaf_attribute name="repo_ids" type="stringv">
 		<item value="IDL:GNOME/Evolution/ConfigControl:1.0"/>
@@ -161,11 +161,6 @@
 	<oaf_attribute name="evolution:config_item:icon_name" type="string"
 		       value="evolution-contacts.png"/>
     
-	<oaf_attribute name="evolution:config_item:type" type="stringv">
-		<item value="contacts"/>
-		<item value="ldap-contacts"/>
-	</oaf_attribute>
-
 	<oaf_attribute name="evolution:config_item:priority" type="string" value="-6"/>
     
 	<oaf_attribute name="description" type="string"

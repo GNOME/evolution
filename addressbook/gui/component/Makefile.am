@@ -27,8 +27,6 @@ bin_PROGRAMS =	\
 evolution_addressbook_SOURCES = 	\
 	addressbook-component.c		\
 	addressbook-component.h		\
-	addressbook-config.c		\
-	addressbook-config.h		\
 	addressbook-factory.c		\
 	addressbook-storage.c		\
 	addressbook-storage.h		\
@@ -39,7 +37,9 @@ evolution_addressbook_SOURCES = 	\
 	e-address-widget.h		\
 	e-address-widget.c		\
 	e-address-popup.h		\
-	e-address-popup.c
+	e-address-popup.c		\
+	ldap-config.c			\
+	ldap-config.h
 
 evolution_addressbook_LDADD =								\
 	select-names/libeselectnames.la							\
@@ -59,7 +59,7 @@ evolution_addressbook_LDADD =								\
 	$(top_builddir)/filter/libfilter.la						\
 	$(top_builddir)/e-util/libeutil.la						\
 	$(top_builddir)/widgets/menus/libmenus.la					\
-	$(EVOLUTION_ADDRESSBOOK_LIBS)
+	$(EVOLUTION_ADDRESSBOOK_LIBS) $(LDAP_LIBS)
 
 evolution_addressbook_LDFLAGS = `gnome-config --libs gdk_pixbuf` -export-dynamic
 
@@ -70,14 +70,14 @@ oaf_in_files = GNOME_Evolution_Addressbook.oaf.in
 oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)
 
 gladedir   = $(datadir)/evolution/glade
-glade_DATA = addressbook-config.glade
+glade_DATA = ldap-config.glade
 
 iconsdir = $(datadir)/images/evolution
 
-EXTRA_DIST = 				\
-	$(glade_DATA)			\
-	$(oaf_DATA)			\
-	addressbook-config.glade	\
+extra_dist = 				\
+	$(glade_data)			\
+	$(oaf_data)			\
+	ldap-config.glade	\
 	$(oaf_in_files)
 
 if ENABLE_PURIFY

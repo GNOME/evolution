@@ -20,15 +20,14 @@
  * Author: Chris Toshok
  */
 
-#ifndef __ADDRESSBOOK_CONFIG_H__
-#define __ADDRESSBOOK_CONFIG_H__
+#ifndef __LDAP_CONFIG_H__
+#define __LDAP_CONFIG_H__
 
 #include "addressbook-storage.h"
 
-void  addressbook_config             (GNOME_Evolution_Shell  shell);
-void  addressbook_create_new_source  (const char            *new_source,
+void  ldap_config_create_new_source  (const char            *new_source,
 				      GtkWidget             *parent);
 
-gboolean  addressbook_config_register_factory  (GNOME_Evolution_Shell shell);
+gboolean  ldap_config_register_factory  (GNOME_Evolution_Shell shell);
 
-#endif /* __ADDRESSBOOK_CONFIG_H__ */
+#endif /* __LDAP_CONFIG_H__ */

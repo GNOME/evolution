@@ -32,7 +32,7 @@
 #include "evolution-activity-client.h"
 #include "e-contact-editor.h"
 #include "e-contact-save-as.h"
-#include "addressbook-config.h"
+#include "ldap-config.h"
 #include "addressbook.h"
 #include "addressbook-component.h"
 #include "addressbook/gui/search/e-addressbook-search-dialog.h"
@@ -519,7 +519,7 @@ book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 
 		source = addressbook_storage_get_source_by_uri (view->uri);
 
-		if (source && source->type == ADDRESSBOOK_SOURCE_LDAP) {
+		if (source) {
 #if HAVE_LDAP
 			label = gtk_label_new (
 					       _("We were unable to open this addressbook.  This either\n"
@@ -629,7 +629,6 @@ load_uri_cb (EBook *book, EBookStatus status, gpointer closure)
 		/* check if the addressbook needs authentication */
 
 		if (source &&
-		    source->type == ADDRESSBOOK_SOURCE_LDAP &&
 		    source->auth != ADDRESSBOOK_LDAP_AUTH_NONE) {
 			const char *password;
 			char *pass_dup = NULL;

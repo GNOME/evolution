@@ -1,3 +1,40 @@
+2002-04-18  Chris Toshok  <toshok@ximian.com>
+
+	* backend/pas/pas-backend-ldap.c (get_ldap_library_info): fix
+	memory leaks.
+
+	* gui/component/GNOME_Evolution_Addressbook.oaf.in: remove the
+	Addressbook_ConfigControl stuff to LDAP_ConfigControl.
+
+	* gui/component/Makefile.am (evolution_addressbook_SOURCES):
+	remove addressbook-config.* and add ldap-config.*
+	(glade_DATA): same.
+	(evolution_addressbook_LDADD): add LDAP_LIBS.
+
+	* gui/component/addressbook-component.c (owner_set_cb):
+	addressbook_config_register_factory =>
+	ldap_config_register_factory.
+
+	* gui/component/addressbook.c (book_open_cb): remove source->type
+	check - they're always LDAP.
+	(load_uri_cb): same.
+
+	* gui/component/addressbook-storage.c (ldap_unparse_ssl): new
+	function.
+	(ldap_parse_ssl): new function.
+	(addressbook_storage_init_source_uri): use a more flexible scheme
+	to build up the uri's, and add in the ssl parameter.
+	(load_source_data): fill in source->ssl, and remove source->type
+	assignment.
+	(addressbook_source_copy): copy source->ssl, and remove
+	source->type copy.
+	(create_ldap_folder): addressbook_create_new_source =>
+	ldap_config_create_new_source.
+
+	* gui/component/addressbook-storage.h: remove
+	AddressbookSourceType (it was always LDAP), and add
+	AddressbookLDAPSSLType.
+
 2002-04-18  Dan Winship  <danw@ximian.com>
 
 	* backend/ebook/e-book-util.c (e_book_load_default_book): Append

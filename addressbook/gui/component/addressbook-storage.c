@@ -65,7 +65,7 @@
 
 #include "evolution-shell-component.h"
 
-#include "addressbook-config.h"
+#include "ldap-config.h"
 
 #define ADDRESSBOOK_SOURCES_XML "addressbook-sources.xml"
 
@@ -151,7 +151,7 @@ create_ldap_folder (EvolutionStorage *storage, const Bonobo_Listener listener,
 		notify_listener (listener, GNOME_Evolution_Storage_INVALID_URI);
 		return;
 	}
-	addressbook_create_new_source (path + 1, NULL);
+	ldap_config_create_new_source (path + 1, NULL);
 
 	notify_listener (listener, GNOME_Evolution_Storage_OK);
 }
@@ -322,6 +322,38 @@ ldap_parse_scope (const char *scope)
 }
 #endif
 
+static char *
+ldap_unparse_ssl (AddressbookLDAPSSLType ssl_type)
+{
+	switch (ssl_type) {
+	case ADDRESSBOOK_LDAP_SSL_NEVER:
+		return "never";
+	case ADDRESSBOOK_LDAP_SSL_WHENEVER_POSSIBLE:
+		return "whenever_possible";
+	case ADDRESSBOOK_LDAP_SSL_ALWAYS:
+		return "always";
+	default:
+		g_assert(0);
+		return "";
+	}
+}
+
+#ifdef HAVE_LDAP
+static AddressbookLDAPSSLType
+ldap_parse_ssl (const char *ssl)
+{
+	if (!ssl)
+		return ADDRESSBOOK_LDAP_SSL_WHENEVER_POSSIBLE; /* XXX good default? */
+
+	if (!strcmp (ssl, "always"))
+		return ADDRESSBOOK_LDAP_SSL_ALWAYS;
+	else if (!strcmp (ssl, "never"))
+		return ADDRESSBOOK_LDAP_SSL_NEVER;
+	else
+		return ADDRESSBOOK_LDAP_SSL_WHENEVER_POSSIBLE;
+}
+#endif
+
 const char*
 addressbook_storage_auth_type_to_string (AddressbookLDAPAuthType auth_type)
 {
@@ -331,18 +363,27 @@ addressbook_storage_auth_type_to_string (AddressbookLDAPAuthType auth_type)
 void
 addressbook_storage_init_source_uri (AddressbookSource *source)
 {
+	GString *str;
+
 	if (source->uri)
 		g_free (source->uri);
 
+	str = g_string_new ("ldap://");
+
+	g_string_sprintfa (str, "%s:%s/%s?"/*trigraph prevention*/"?%s",
+			   source->host, source->port, source->rootdn, ldap_unparse_scope (source->scope));
+
 	if (source->limit != 100)
-		source->uri = g_strdup_printf  ("ldap://%s:%s/%s?"/*trigraph prevention*/ "?%s;limit=%d",
-						source->host, source->port,
-						source->rootdn, ldap_unparse_scope(source->scope),
-						source->limit);
-	else 
-		source->uri = g_strdup_printf  ("ldap://%s:%s/%s?"/*trigraph prevention*/ "?%s",
-						source->host, source->port,
-						source->rootdn, ldap_unparse_scope(source->scope));
+		g_string_sprintfa (str, ";limit=%d", source->limit);
+
+	if (source->ssl != ADDRESSBOOK_LDAP_SSL_WHENEVER_POSSIBLE)
+		g_string_sprintfa (str, ";ssl=%s", ldap_unparse_ssl (source->ssl));
+
+	/* XXX need to do timeout info */
+
+	source->uri = str->str;
+
+	g_string_free (str, FALSE);
 }
 
 #ifdef HAVE_LDAP
@@ -395,12 +436,12 @@ load_source_data (const char *file_path)
 		source = g_new0 (AddressbookSource, 1);
 
 		if (!strcmp (child->name, "contactserver")) {
-			source->type        = ADDRESSBOOK_SOURCE_LDAP;
 			source->port   = get_string_value (child, "port");
 			source->host   = get_string_value (child, "host");
 			source->rootdn = get_string_value (child, "rootdn");
 			source->scope  = ldap_parse_scope (get_string_value (child, "scope"));
 			source->auth   = ldap_parse_auth (get_string_value (child, "authmethod"));
+			source->ssl    = ldap_parse_ssl (get_string_value (child, "ssl"));
 			source->email_addr = get_string_value (child, "emailaddr");
 			source->binddn = get_string_value (child, "binddn");
 			source->limit  = get_integer_value (child, "limit", 100);
@@ -645,7 +686,6 @@ addressbook_source_copy (const AddressbookSource *source)
 	copy = g_new0 (AddressbookSource, 1);
 	copy->name = g_strdup (source->name);
 	copy->description = g_strdup (source->description);
-	copy->type = source->type;
 	copy->uri = g_strdup (source->uri);
 
 	copy->host = g_strdup (source->host);
@@ -653,6 +693,7 @@ addressbook_source_copy (const AddressbookSource *source)
 	copy->rootdn = g_strdup (source->rootdn);
 	copy->scope = source->scope;
 	copy->auth = source->auth;
+	copy->ssl = source->ssl;
 	copy->email_addr = g_strdup (source->email_addr);
 	copy->binddn = g_strdup (source->binddn);
 	copy->remember_passwd = source->remember_passwd;
