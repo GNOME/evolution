@@ -1,3 +1,19 @@
+2005-02-19  Sivaiah Nallagatla <snallagatla@novell.com>
+
+	* gui/calendar-component.c (ensure_sources) :
+	Make sure all the default source groups and sources
+	are present by adding missing ones. Also update the
+	base uri of "On This Computer" group to take care 
+	of change in user home dir.
+	(calendar_component_init) : call ensure_sources 
+
+	* gui/tasks-component.c (ensure_sources)
+	(tasks_component_init) : ditto
+
+	Takes care of #67411 & #67724 for
+	calendar and tasks components. 
+
+
 2005-02-18  Rodrigo Moya <rodrigo@novell.com>
 
 	* gui/alarm-notify/alarm-notify.c (cal_opened_cb): if opening

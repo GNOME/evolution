@@ -62,6 +62,10 @@
 #define CREATE_MEETING_ID      "meeting"
 #define CREATE_ALLDAY_EVENT_ID "allday-event"
 #define CREATE_CALENDAR_ID      "calendar"
+#define WEB_BASE_URI "webcal://"
+#define CONTACTS_BASE_URI "contacts://"
+#define WEATHER_BASE_URI "weather://"
+#define PERSONAL_RELATIVE_URI "system"
 
 enum DndTargetType {
 	DND_TARGET_TYPE_CALENDAR_LIST,
@@ -120,6 +124,142 @@ struct _CalendarComponentPrivate {
 
 /* FIXME This should be gnome cal likely */
 extern ECompEditorRegistry *comp_editor_registry;
+
+static void
+ensure_sources (CalendarComponent *component)
+{
+	GSList *groups;
+	ESourceList *source_list;
+	ESourceGroup *group;
+	ESourceGroup *on_this_computer;
+	ESourceGroup *on_the_web;
+	ESourceGroup *contacts;
+	ESourceGroup *weather;
+	ESource *personal_source;
+	ESource *birthdays_source;
+	char *base_uri, *base_uri_proto;
+
+	on_this_computer = NULL;
+	on_the_web = NULL;
+	contacts = NULL;
+	weather = NULL;
+	personal_source = NULL;
+	birthdays_source = NULL;
+
+	if (!e_cal_get_sources (&source_list, E_CAL_SOURCE_TYPE_EVENT, NULL)) {
+		g_warning ("Could not get calendar source list from GConf!");
+		return;
+	}
+
+	base_uri = g_build_filename (calendar_component_peek_base_directory (component),
+				     "calendar", "local",
+				     NULL);
+
+	base_uri_proto = g_strconcat ("file://", base_uri, NULL);
+
+	groups = e_source_list_peek_groups (source_list);
+	if (groups) {
+		/* groups are already there, we need to search for things... */
+		GSList *g;
+
+		for (g = groups; g; g = g->next) {
+
+			group = E_SOURCE_GROUP (g->data);
+
+			/* compare only file:// part. If user home dir name changes we do not want to create 
+			   one more group  */
+
+			if (!on_this_computer && !strncmp (base_uri_proto, e_source_group_peek_base_uri (group), 7))
+				on_this_computer = group;
+			else if (!on_the_web && !strcmp (WEB_BASE_URI, e_source_group_peek_base_uri (group)))
+				on_the_web = group;
+			else if (!contacts && !strcmp (CONTACTS_BASE_URI, e_source_group_peek_base_uri (group)))
+				contacts = group;
+			else if (!weather && !strcmp (WEATHER_BASE_URI, e_source_group_peek_base_uri (group)))
+				weather = group;
+		}
+	}
+
+	if (on_this_computer) {
+		/* make sure "Personal" shows up as a source under
+		   this group */
+		GSList *sources = e_source_group_peek_sources (on_this_computer);
+		GSList *s;
+		for (s = sources; s; s = s->next) {
+			ESource *source = E_SOURCE (s->data);
+			if (!strcmp (PERSONAL_RELATIVE_URI, e_source_peek_relative_uri (source))) {
+				personal_source = source;
+				break;
+			}
+		}
+		/* Make sure we have the correct base uri. This can change when user's
+		   homedir name changes */
+		if (strcmp (base_uri_proto, e_source_group_peek_base_uri (on_this_computer))) {
+		    e_source_group_set_base_uri (on_this_computer, base_uri_proto);
+		  
+		    /* *sigh* . We shouldn't  need this sync call here as set_base_uri
+		       call results in synching to gconf, but that happens in idle loop
+		       and too late to prevent user seeing "Can not Open ... because of invalid uri" error.*/
+		    e_source_list_sync (source_list,NULL); 
+		}
+	}
+	else {
+		/* create the local source group */
+		group = e_source_group_new (_("On This Computer"), base_uri_proto);
+		e_source_list_add_group (source_list, group, -1);
+
+		on_this_computer = group;
+	}
+
+	if (!personal_source) {
+		/* Create the default Person addressbook */
+		personal_source = e_source_new (_("Personal"), PERSONAL_RELATIVE_URI);
+		e_source_group_add_source (on_this_computer, personal_source, -1);
+
+	}
+
+	if (!on_the_web) {
+		/* Create the On the web source group */
+		group = e_source_group_new (_("On The Web"), WEB_BASE_URI);
+		e_source_list_add_group (source_list, group, -1);
+
+		on_the_web = group;
+	}
+	if (contacts) {
+		GSList *sources = e_source_group_peek_sources (contacts);
+		if (sources) 
+			birthdays_source = E_SOURCE (sources->data); /* There is only one source under Contacts Group*/
+	}
+	else  {
+		/* Create the contacts group */
+		group = e_source_group_new (_("Contacts"), CONTACTS_BASE_URI);
+		e_source_list_add_group (source_list, group, -1);
+		contacts = group;
+	}
+	
+	if (!birthdays_source) {
+		birthdays_source = e_source_new (_("Birthdays & Anniversaries"), "/");
+		e_source_group_add_source (contacts, birthdays_source, -1);
+	}
+		
+	if (!weather) {
+		/* Create the weather group */
+		group = e_source_group_new (_("Weather"), WEATHER_BASE_URI);
+		e_source_list_add_group (source_list, group, -1);
+		weather = group;
+	}
+		
+	component->priv->source_list = source_list;
+
+	if (personal_source)
+		g_object_unref (personal_source);
+	if (birthdays_source)
+		g_object_unref (birthdays_source);
+			
+	g_free (base_uri_proto);
+	g_free (base_uri);
+}
+
 
 /* Utility functions.  */
 
@@ -1466,19 +1606,14 @@ calendar_component_init (CalendarComponent *component)
 	 * calendar_component_peek_gconf_client().  */
 	priv->gconf_client = gconf_client_get_default ();
 
-	
-	if (!e_cal_get_sources (&priv->source_list, E_CAL_SOURCE_TYPE_EVENT, NULL))
-		;
-	
-	if (!e_cal_get_sources (&priv->task_source_list, E_CAL_SOURCE_TYPE_TODO, NULL))
-		;
-
 	not = calendar_config_add_notification_primary_calendar (config_primary_selection_changed_cb, 
 								 component);
 	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
 
-
 	component->priv = priv;
+	ensure_sources (component);
+	if (!e_cal_get_sources (&priv->task_source_list, E_CAL_SOURCE_TYPE_TODO, NULL))
+		;
 }
 
 
