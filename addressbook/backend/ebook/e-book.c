@@ -531,7 +531,6 @@ void
 e_book_unload_uri (EBook *book)
 {
 	CORBA_Environment ev;
-	EBookListenerResponse *resp;
 
 	g_return_if_fail (book != NULL);
 	g_return_if_fail (E_IS_BOOK (book));
@@ -559,8 +558,7 @@ e_book_unload_uri (EBook *book)
 
 	CORBA_exception_free (&ev);
 
-	while ((resp = e_book_listener_pop_response (book->priv->listener)))
-		g_free (resp);
+	e_book_listener_stop (book->priv->listener);
 	bonobo_object_unref (BONOBO_OBJECT (book->priv->listener));
 
 	book->priv->listener   = NULL;

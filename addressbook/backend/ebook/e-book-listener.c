@@ -28,11 +28,18 @@ POA_GNOME_Evolution_Addressbook_BookListener__vepv  e_book_listener_vepv;
 struct _EBookListenerPrivate {
 	GList *response_queue;
 	gint   idle_id;
+
+	guint stopped : 1;
 };
 
 static gboolean
 e_book_listener_check_queue (EBookListener *listener)
 {
+	if (listener->priv->stopped) {
+		listener->priv->idle_id = 0;
+		return FALSE;
+	}
+
 	if (listener->priv->response_queue != NULL) {
 		gtk_signal_emit (GTK_OBJECT (listener),
 				 e_book_listener_signals [RESPONSES_QUEUED]);
@@ -77,6 +84,9 @@ e_book_listener_queue_generic_response (EBookListener          *listener,
 {
 	EBookListenerResponse *resp;
 
+	if (listener->priv->stopped)
+		return;
+
 	resp = g_new0 (EBookListenerResponse, 1);
 
 	resp->op     = op;
@@ -91,6 +101,9 @@ e_book_listener_queue_open_response (EBookListener  *listener,
 				     GNOME_Evolution_Addressbook_Book  book)
 {
 	EBookListenerResponse *resp;
+
+	if (listener->priv->stopped)
+		return;
 
 	resp = g_new0 (EBookListenerResponse, 1);
 
@@ -107,6 +120,9 @@ e_book_listener_queue_open_progress (EBookListener *listener,
 				     short          percent)
 {
 	EBookListenerResponse *resp;
+
+	if (listener->priv->stopped)
+		return;
 
 	resp = g_new0 (EBookListenerResponse, 1);
 
@@ -125,6 +141,9 @@ e_book_listener_queue_create_card_response (EBookListener *listener,
 {
 	EBookListenerResponse *resp;
 
+	if (listener->priv->stopped)
+		return;
+
 	resp = g_new0 (EBookListenerResponse, 1);
 
 	resp->op     = CreateCardResponse;
@@ -141,6 +160,9 @@ e_book_listener_queue_get_cursor_response (EBookListener        *listener,
 {
 	EBookListenerResponse *resp;
 	
+	if (listener->priv->stopped)
+		return;
+
 	resp = g_new0 (EBookListenerResponse, 1);
 
 	resp->op     = GetCursorResponse;
@@ -157,6 +179,9 @@ e_book_listener_queue_get_view_response (EBookListener        *listener,
 {
 	EBookListenerResponse *resp;
 	
+	if (listener->priv->stopped)
+		return;
+
 	resp = g_new0 (EBookListenerResponse, 1);
 
 	resp->op        = GetBookViewResponse;
@@ -173,6 +198,9 @@ e_book_listener_queue_get_changes_response (EBookListener        *listener,
 {
 	EBookListenerResponse *resp;
 	
+	if (listener->priv->stopped)
+		return;
+
 	resp = g_new0 (EBookListenerResponse, 1);
 
 	resp->op        = GetChangesResponse;
@@ -188,6 +216,9 @@ e_book_listener_queue_link_status (EBookListener *listener,
 {
 	EBookListenerResponse *resp;
 
+	if (listener->priv->stopped)
+		return;
+
 	resp = g_new0 (EBookListenerResponse, 1);
 
 	resp->op        = LinkStatusEvent;
@@ -202,6 +233,9 @@ e_book_listener_queue_writable_status (EBookListener *listener,
 {
 	EBookListenerResponse *resp;
 
+	if (listener->priv->stopped)
+		return;
+
 	resp = g_new0 (EBookListenerResponse, 1);
 
 	resp->op        = WritableStatusEvent;
@@ -215,6 +249,9 @@ e_book_listener_queue_authentication_response (EBookListener *listener,
 					       EBookStatus    status)
 {
 	EBookListenerResponse *resp;
+
+	if (listener->priv->stopped)
+		return;
 
 	resp = g_new0 (EBookListenerResponse, 1);
 
@@ -231,6 +268,9 @@ e_book_listener_queue_get_supported_fields_response (EBookListener *listener,
 {
 	EBookListenerResponse *resp;
 	int i;
+
+	if (listener->priv->stopped)
+		return;
 
 	resp = g_new0 (EBookListenerResponse, 1);
 
@@ -571,11 +611,13 @@ e_book_listener_init (EBookListener *listener)
 	listener->priv = g_new0 (EBookListenerPrivate, 1);
 }
 
-static void
-e_book_listener_destroy (GtkObject *object)
+void
+e_book_listener_stop (EBookListener *listener)
 {
-	EBookListener     *listener = E_BOOK_LISTENER (object);
-	GList             *l;
+	GList *l;
+
+	if (listener->priv->stopped)
+		return;
 
 	for (l = listener->priv->response_queue; l != NULL; l = l->next) {
 		EBookListenerResponse *resp = l->data;
@@ -634,10 +676,23 @@ e_book_listener_destroy (GtkObject *object)
 		g_free (resp);
 	}
 	g_list_free (listener->priv->response_queue);
+	listener->priv->response_queue = NULL;
 
-	if (listener->priv->idle_id)
+	if (listener->priv->idle_id) {
 		g_source_remove (listener->priv->idle_id);
+		listener->priv->idle_id = 0;
+		bonobo_object_unref (BONOBO_OBJECT (listener));
+	}
 
+	listener->priv->stopped = TRUE;
+}
+
+static void
+e_book_listener_destroy (GtkObject *object)
+{
+	EBookListener     *listener = E_BOOK_LISTENER (object);
+
+	e_book_listener_stop (listener);
 	g_free (listener->priv);
 	
 	GTK_OBJECT_CLASS (e_book_listener_parent_class)->destroy (object);

@@ -1,3 +1,24 @@
+2001-07-23  Dan Winship  <danw@ximian.com>
+
+	Re-fix for my 07-18 not-quite-fix.
+
+	* backend/ebook/e-book-listener.c: Add a "stopped" flag like
+	EBookViewListener.
+	(e_book_listener_check_queue): Don't emit signals if the listener
+	is stopped.
+	(e_book_listener_queue_generic_response, etc): Don't queue
+	responses if the listener is stopped.
+	(e_book_listener_stop): Flush the queue and stop queue/emitting
+	further responses.
+
+	* backend/ebook/e-book.c (e_book_unload_uri): Revert the previous
+	change and call e_book_listener_stop() instead.
+
+	* backend/ebook/e-book-view-listener.c
+	(e_book_view_listener_stop): When removing an idle handler, unref
+	the listener as well, since e_book_view_listener_queue_response
+	will have ref'ed it.
+
 2001-07-22  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/component/addressbook-component.c (remove_folder): Add a

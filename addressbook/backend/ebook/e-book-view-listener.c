@@ -367,6 +367,7 @@ e_book_view_listener_stop (EBookViewListener *listener)
 	if (listener->priv->idle_id) {
 		g_source_remove(listener->priv->idle_id);
 		listener->priv->idle_id = 0;
+		bonobo_object_unref (BONOBO_OBJECT (listener));
 	}
 
 	for (l = listener->priv->response_queue; l != NULL; l = l->next) {
