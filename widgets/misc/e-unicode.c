@@ -221,7 +221,8 @@ e_utf8_from_gtk_string_sized (GtkWidget *widget, const gchar *string, gint bytes
 		xfs = GDK_FONT_XFONT (widget->style->font);
 		if (widget->style->font->type == GDK_FONT_FONTSET || ((xfs->min_byte1 != 0) || (xfs->max_byte1 != 0))) {
 			gint i;
-			guchar * ib, * ob, * new;
+			const guchar *ib;
+			guchar * ob, * new;
 			/* iso-10646 */
 			ib = string;
 			new = ob = g_new (unsigned char, bytes * 6 + 1);
@@ -476,7 +477,7 @@ e_utf8_xml1_decode (const gchar *text)
 {
 	const guchar *c;
 	guchar *u, *d;
-	int len, s, e;
+	int len, s;
 
 	g_return_val_if_fail (text != NULL, NULL);
 
