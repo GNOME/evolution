@@ -1,3 +1,14 @@
+2004-08-24  Jeffrey Stedfast  <fejj@novell.com>
+
+	Fix for bug #63177
+
+	* em-folder-tree.c (emft_drop_async_drop): Check full_name == NULL
+	rather than full_name[0] since store's have NULL full_names, not
+	empty string (like they used to).
+	(emft_drop_folder): Same.
+	(tree_drag_data_received): Don't abort the drop if the user
+	dropped on a store, this is allowed (depending on the store).
+
 2004-08-25  Not Zed  <NotZed@Ximian.com>
 
 	* mail-component.c (store_info_new): only open the trash or junk

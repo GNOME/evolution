@@ -857,7 +857,7 @@ emft_drop_folder(struct _DragDataReceivedAsync *m)
 		return;
 	
 	/* handles dropping to the root properly */
-	if (m->full_name[0])
+	if (m->full_name)
 		new_name = g_strdup_printf("%s/%s", m->full_name, src->name);
 	else
 		new_name = g_strdup(src->name);
@@ -923,7 +923,7 @@ emft_drop_async_drop (struct _mail_msg *mm)
 	if (m->info == DND_DROP_TYPE_FOLDER) {
 		/* copy or move (aka rename) a folder */
 		emft_drop_folder(m);
-	} else if (m->full_name[0] == 0) {
+	} else if (m->full_name == NULL) {
 		camel_exception_set (&mm->ex, CAMEL_EXCEPTION_SYSTEM,
 				     _("Cannot drop message(s) into toplevel store"));
 	} else if ((folder = camel_store_get_folder (m->store, m->full_name, 0, &mm->ex))) {
@@ -1030,6 +1030,7 @@ tree_drag_data_received(GtkWidget *widget, GdkDragContext *context, int x, int y
 	GtkTreeViewDropPosition pos;
 	GtkTreePath *dest_path;
 	struct _DragDataReceivedAsync *m;
+	gboolean is_store;
 	CamelStore *store;
 	GtkTreeIter iter;
 	char *full_name;
@@ -1051,11 +1052,11 @@ tree_drag_data_received(GtkWidget *widget, GdkDragContext *context, int x, int y
 	
 	gtk_tree_model_get((GtkTreeModel *)priv->model, &iter,
 			   COL_POINTER_CAMEL_STORE, &store,
+			   COL_BOOL_IS_STORE, &is_store,
 			   COL_STRING_FULL_NAME, &full_name, -1);
 	
 	/* make sure user isn't try to drop on a placeholder row */
-	/* FIXME: must allow drop of folders onto a store */
-	if (full_name == NULL) {
+	if (full_name == NULL && !is_store) {
 		gtk_drag_finish (context, FALSE, FALSE, GDK_CURRENT_TIME);
 		return;
 	}
