@@ -1,3 +1,9 @@
+2000-04-08  Dan Winship  <danw@helixcode.com>
+
+	* providers/smtp/camel-smtp-transport.c: #include <sys/param.h>
+	for MAXHOSTNAMELEN. (This is a stopgap: some of the uses of
+	MAXHOSTNAMELEN are wrong anyway...)
+
 2000-04-07  Jeffrey Stedfast  <fejj@stampede.org>
 
 	* providers/smtp/camel-smtp-transport.c: fixes to numerous bugs;
