@@ -1,5 +1,11 @@
 2002-02-20  Anna Marie Dirks  <anna@ximian.com>
 
+	* message-tag-editor.c (message_tag_editor_init): Gave the editor 
+	window a title and an icon.
+
+	
+2002-02-20  Anna Marie Dirks  <anna@ximian.com>
+
 	* message-tags.glade: Changed the policy for table2 so that it 
 	does not expand/fill. This was necessary to allow the message list 
 	as much growing room as possible. (And besides, there's no reason for
