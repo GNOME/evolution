@@ -238,6 +238,7 @@ mail/message-list.c
 mail/message-list.etspec
 mail/subscribe-dialog.c
 mail/subscribe-dialog.etspec
+mail/subscribe-dialog.glade
 my-evolution/GNOME_Evolution_Summary.oaf.in
 my-evolution/component-factory.c
 my-evolution/e-summary-calendar.c

@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-applets 1.4.1\n"
-"POT-Creation-Date: 2001-08-11 20:14+0200\n"
-"PO-Revision-Date: 2001-08-11 20:14+0200\n"
+"POT-Creation-Date: 2001-08-11 23:56+0200\n"
+"PO-Revision-Date: 2001-08-11 23:59+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian <no@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2845,16 +2845,14 @@ msgstr "Rom"
 #: calendar/gui/dialogs/meeting-page.c:628
 #: calendar/gui/dialogs/meeting-page.c:1263
 msgid "Chair"
-msgstr "Stol"
+msgstr "Styremedlem"
 
 #: calendar/gui/dialogs/meeting-page.c:613
 #: calendar/gui/dialogs/meeting-page.c:630
 #: calendar/gui/dialogs/meeting-page.c:1181
 #: calendar/gui/dialogs/meeting-page.c:1264
 msgid "Required Participant"
-msgstr ""
-"Obligatorisk\n"
-"deltaker"
+msgstr "Obligatorisk deltaker"
 
 #: calendar/gui/dialogs/meeting-page.c:615
 #: calendar/gui/dialogs/meeting-page.c:632
@@ -4973,13 +4971,13 @@ msgstr "MAppen `%s' er ikke tom. Ikke slettet."
 #. it should try and merge the summary info's.  This is a bit tricky.
 #: camel/providers/local/camel-mbox-summary.c:249
 #: camel/providers/local/camel-spool-summary.c:379
-msgid "Summarising folder"
+msgid "Summarizing folder"
 msgstr "Lager sammendrag for mappe"
 
 #: camel/providers/local/camel-mbox-summary.c:254
 #: camel/providers/local/camel-spool-summary.c:384
 #, c-format
-msgid "Could not open folder: %s: summarising from position %ld: %s"
+msgid "Could not open folder: %s: summarizing from position %ld: %s"
 msgstr "Kunne ikke åpne mappe: %s: lager sammendrag fra posisjon %ld: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:296
@@ -4989,9 +4987,8 @@ msgid "Fatal mail parser error near position %ld in folder %s"
 msgstr "Fatal feil i lesing av postboksen nær posisjon %ld i mappe %s"
 
 #: camel/providers/local/camel-mbox-summary.c:371
-#: camel/providers/local/camel-spool-summary.c:498
 #, c-format
-msgid "Cannot summarise folder: %s: %s"
+msgid "Cannot summarize folder: %s: %s"
 msgstr "Kan ikke lage sammendrag for mappe: %s: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:502
@@ -5003,10 +5000,8 @@ msgstr "Synkroniserer mappe"
 
 #: camel/providers/local/camel-mbox-summary.c:507
 #: camel/providers/local/camel-mbox-summary.c:708
-#: camel/providers/local/camel-spool-summary.c:649
-#: camel/providers/local/camel-spool-summary.c:936
 #, c-format
-msgid "Could not open folder to summarise: %s: %s"
+msgid "Could not open folder to summarize: %s: %s"
 msgstr "Kan ikke åpne mappe for å lage sammendrag: %s: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:524
@@ -5108,6 +5103,17 @@ msgstr "Spool-mapper kan ikke være gis nytt navn"
 #: camel/providers/local/camel-spool-store.c:230
 msgid "Spool folders cannot be deleted"
 msgstr "Spoolmapper kan ikke være slettes"
+
+#: camel/providers/local/camel-spool-summary.c:498
+#, c-format
+msgid "Cannot summarise folder: %s: %s"
+msgstr "Kan ikke lage sammendrag for mappe: %s: %s"
+
+#: camel/providers/local/camel-spool-summary.c:649
+#: camel/providers/local/camel-spool-summary.c:936
+#, c-format
+msgid "Could not open folder to summarise: %s: %s"
+msgstr "Kan ikke åpne mappe for å lage sammendrag: %s: %s"
 
 #: camel/providers/local/camel-spool-summary.c:784
 #: camel/providers/local/camel-spool-summary.c:793
@@ -6609,9 +6615,8 @@ msgid "Filter on _Mailing List"
 msgstr "Filtrer på e-_postliste"
 
 #: mail/folder-browser.c:1280
-#, fuzzy
 msgid "R_esend..."
-msgstr "Send på nytt"
+msgstr "S_end på nytt..."
 
 #: mail/folder-browser.c:1282 ui/evolution-mail-message.xml.h:96
 #: ui/evolution-tasks.xml.h:18
@@ -8045,9 +8050,37 @@ msgstr "Ingen tjener er valgt"
 msgid "Please select a server."
 msgstr "Vennligst velg en tjener."
 
-#: mail/subscribe-dialog.c:1508
+#: mail/subscribe-dialog.c:1508 mail/subscribe-dialog.glade.h:5
 msgid "Manage Subscriptions"
 msgstr "Håndter abonnement"
+
+#: mail/subscribe-dialog.glade.h:1
+msgid " _Refresh List "
+msgstr "Oppdate_r listen "
+
+#: mail/subscribe-dialog.glade.h:2
+msgid "All folders"
+msgstr "Alle mapper"
+
+#: mail/subscribe-dialog.glade.h:3
+msgid "Display options"
+msgstr "Alternativer for visning"
+
+#: mail/subscribe-dialog.glade.h:4
+msgid "Folders whose names begin with:"
+msgstr "Vis mapper med navn som begynner på:"
+
+#: mail/subscribe-dialog.glade.h:6
+msgid "Show _folders from server: "
+msgstr "Vis _mapper fra tjener: "
+
+#: mail/subscribe-dialog.glade.h:7
+msgid "_Subscribe"
+msgstr "_Abonner"
+
+#: mail/subscribe-dialog.glade.h:8
+msgid "_Unsubscribe"
+msgstr "_Fjern abonnement"
 
 #: my-evolution/GNOME_Evolution_Summary.oaf.in.h:1
 msgid "Evolution component for the executive summary."
@@ -11650,11 +11683,11 @@ msgstr "Alle _mennesker og en ressurs"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:571
 msgid "_Required People"
-msgstr "_Nødvendige mennesker"
+msgstr "_Obligatoriske mennesker"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:584
 msgid "Required People and _One Resource"
-msgstr "Nødvendige mennesker _og en ressurs"
+msgstr "Obligatoriske mennesker _og en ressurs"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:607
 msgid "Meeting _start time:"
@@ -15709,9 +15742,6 @@ msgstr "init_bonobo(): kunne ikke initialisere Bonobo"
 #~ msgid "Reply address:"
 #~ msgstr "Svaradresse:"
 
-#~ msgid "Required"
-#~ msgstr "Nødvendige"
-
 #~ msgid "Transport"
 #~ msgstr "Transport"
 
@@ -16019,9 +16049,6 @@ msgstr "init_bonobo(): kunne ikke initialisere Bonobo"
 
 #~ msgid "Unsubscribe from folder \"%s\""
 #~ msgstr "Slett abonnement på mappe \"%s\""
-
-#~ msgid "Display folders whose name contain:"
-#~ msgstr "Vis mapper som inneholder:"
 
 #~ msgid "Query"
 #~ msgstr "Spør"
