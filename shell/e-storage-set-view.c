@@ -1386,7 +1386,7 @@ etree_icon_at (ETreeModel *etree,
 	path = (char*)e_tree_memory_node_get_data (E_TREE_MEMORY(etree), tree_path);
 
 	/* Storages, My Evolution is the only special case for now */
-	if (depth == 1 && !strcmp (path, "/My Evolution")) { /* Storages */
+	if (depth == 1 && !strcmp (path, "/summary")) { /* Storages */
 		
 		folder_type_registry = e_storage_set_get_folder_type_registry (storage_set);
 		

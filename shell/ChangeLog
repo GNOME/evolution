@@ -1,3 +1,8 @@
+2001-08-08  Jason Leach  <jleach@ximian.com>
+
+	* e-storage-set-view.c (etree_icon_at): Set the icon for the
+	folder tree correctly.
+
 2001-08-08  Ettore Perazzoli  <ettore@ximian.com>
 
 	* evolution-shell-component.c
