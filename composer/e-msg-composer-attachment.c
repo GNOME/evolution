@@ -157,6 +157,7 @@ e_msg_composer_attachment_new (const gchar *file_name,
 	struct stat statbuf;
 	gchar *mime_type;
 	char *content_id;
+	char *filename;
 	
 	g_return_val_if_fail (file_name != NULL, NULL);
 	
@@ -183,12 +184,15 @@ e_msg_composer_attachment_new (const gchar *file_name,
 	part = camel_mime_part_new ();
 	camel_medium_set_content_object (CAMEL_MEDIUM (part), wrapper);
 	camel_object_unref (CAMEL_OBJECT (wrapper));
-
+	
 	camel_mime_part_set_disposition (part, disposition);
 	if (strchr (file_name, '/'))
-		camel_mime_part_set_filename (part, strrchr (file_name, '/') + 1);
+		filename = e_utf8_from_locale_string (strrchr (file_name, '/') + 1);
 	else
-		camel_mime_part_set_filename (part, file_name);
+		filename = e_utf8_from_locale_string (file_name);
+	
+	camel_mime_part_set_filename (part, filename);
+	g_free (filename);
 	
 	/* set the Content-Id */
 	content_id = header_msgid_generate ();

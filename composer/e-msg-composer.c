@@ -709,12 +709,12 @@ static void
 prepare_engine (EMsgComposer *composer)
 {
 	CORBA_Environment ev;
-
+	
 	g_assert (composer);
 	g_assert (E_IS_MSG_COMPOSER (composer));
-
+	
 	/* printf ("prepare_engine\n"); */
-
+	
 	CORBA_exception_init (&ev);
 	composer->editor_engine = (GNOME_GtkHTML_Editor_Engine) bonobo_object_client_query_interface
 		(bonobo_widget_get_server (BONOBO_WIDGET (composer->editor)), "IDL:GNOME/GtkHTML/Editor/Engine:1.0", &ev);
@@ -740,10 +740,10 @@ get_signature_html (EMsgComposer *composer)
 {
 	gboolean format_html = FALSE;
 	gchar *text, *html = NULL, *sig_file = NULL;
-
+	
 	if (E_MSG_COMPOSER_HDRS (composer->hdrs)->account->id) {
 		MailConfigIdentity *id;
-
+		
 		id = E_MSG_COMPOSER_HDRS (composer->hdrs)->account->id;
 		if (composer->send_html) {
 			if  (id->has_html_signature) {
@@ -754,10 +754,10 @@ get_signature_html (EMsgComposer *composer)
 		} else
 			sig_file = id->signature;
 	}
-
+	
 	if (!sig_file)
 		return NULL;
-
+	
 	text = e_msg_composer_get_sig_file_content (sig_file, format_html);
 	if (text) {
 		html = g_strdup_printf ("<!--+GtkHTML:<DATA class=\"ClueFlow\" key=\"signature\" value=\"1\">-->"
@@ -771,7 +771,7 @@ get_signature_html (EMsgComposer *composer)
 		g_free (text);
 		text = html;
 	}
-
+	
 	return text;
 }
 
@@ -782,7 +782,7 @@ set_editor_text (EMsgComposer *composer, const char *text)
 	BonoboStream *stream;
 	BonoboWidget *editor;
 	CORBA_Environment ev;
-
+	
 	editor = BONOBO_WIDGET (composer->editor);
 	
 	CORBA_exception_init (&ev);
@@ -998,7 +998,7 @@ save_draft (EMsgComposer *composer, int quitok)
 		folder = drafts_folder;
 	
 	msg = e_msg_composer_get_message_draft (composer);
-
+	
 	info = g_new0 (CamelMessageInfo, 1);
 	info->flags = CAMEL_MESSAGE_DRAFT | CAMEL_MESSAGE_SEEN;
 	
@@ -2219,7 +2219,8 @@ e_msg_composer_construct (EMsgComposer *composer)
 	
 	gtk_window_set_default_size (GTK_WINDOW (composer),
 				     DEFAULT_WIDTH, DEFAULT_HEIGHT);
-	gnome_window_icon_set_from_file (GTK_WINDOW (composer), EVOLUTION_DATADIR "/images/evolution/compose-message.png");
+	gnome_window_icon_set_from_file (GTK_WINDOW (composer), EVOLUTION_DATADIR
+					 "/images/evolution/compose-message.png");
 	bonobo_window_construct (BONOBO_WINDOW (composer), "e-msg-composer",
 				 _("Compose a message"));
 	
@@ -2360,8 +2361,6 @@ e_msg_composer_new_with_sig_file ()
 		e_msg_composer_set_send_html (new, mail_config_get_send_html ());
 		set_editor_text (new, "");
 	}
-
-	/* printf ("e_msg_composer_new_with_sig_file %p\n", new); */
 	
 	return new;
 }
