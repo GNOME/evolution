@@ -56,6 +56,8 @@ void     string_trim            (gchar *string, const gchar *chars,
 
 gchar   *string_prefix (const gchar *s, const gchar *suffix, gboolean *suffix_found);
 
+void    string_unquote (gchar *string);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

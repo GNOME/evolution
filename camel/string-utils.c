@@ -174,3 +174,17 @@ string_prefix (const gchar *s, const gchar *suffix, gboolean *suffix_found)
 
 	return result_string;
 }
+
+void
+string_unquote (gchar *string)
+{
+	/* if the string is quoted, unquote it */
+
+	g_return_if_fail (string != NULL);
+
+	if (*string == '"' && *(string + strlen (string) - 1) == '"') {
+		*(string + strlen (string) - 1) = '\0';
+		if (*string)
+			memmove (string, string+1, strlen (string));
+	}
+}

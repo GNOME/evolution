@@ -1,3 +1,12 @@
+2000-07-14  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* string-utils.c (string_unquote): New convenience function
+	to unquote a string if it's encapsulated by "'s
+	
+	* providers/imap/camel-imap-folder.c:
+	* providers/imap/camel-imap-store.c: Made the necessary changes
+	to stop using hard coded directory separators.
+
 2000-07-13  Dan Winship  <danw@helixcode.com>
 
 	* providers/mbox/camel-mbox-summary.c (camel_mbox_summary_load):

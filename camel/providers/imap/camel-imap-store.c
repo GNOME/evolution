@@ -104,6 +104,7 @@ camel_imap_store_init (gpointer object, gpointer klass)
 			      CAMEL_SERVICE_URL_ALLOW_PATH);
 
 	store->folders = g_hash_table_new (g_str_hash, g_str_equal);
+	CAMEL_IMAP_STORE (store)->dir_sep = NULL;
 }
 
 GtkType
@@ -225,6 +226,39 @@ get_name (CamelService *service, gboolean brief)
 }
 
 static gboolean
+parse_list_response (gchar *buf, gchar **sep)
+{
+	gchar *ptr, *eptr;
+
+	*sep = NULL;
+
+	if (strncasecmp (buf, "* LIST", 6))
+		return FALSE;
+
+	ptr = strstr (buf + 6, "(");
+	if (!ptr)
+		return FALSE;
+	
+	ptr++;
+	eptr = strstr (ptr, ")");
+	if (!eptr)
+		return FALSE;
+
+	ptr = strstr (eptr, "\"");
+	if (!ptr)
+		return FALSE;
+
+	ptr++;
+	eptr = strstr (ptr, "\"");
+	if (!eptr)
+		return FALSE;
+
+	*sep = g_strndup (ptr, (gint)(eptr - ptr));
+
+	return TRUE;
+}
+
+static gboolean
 imap_connect (CamelService *service, CamelException *ex)
 {
 	CamelImapStore *store = CAMEL_IMAP_STORE (service);
@@ -262,9 +296,10 @@ imap_connect (CamelService *service, CamelException *ex)
 	}
 
 	store->ostream = camel_stream_fs_new_with_fd (fd);
-	store->istream = camel_stream_buffer_new (store->ostream,
-						  CAMEL_STREAM_BUFFER_READ);
+	store->istream = camel_stream_buffer_new (store->ostream, CAMEL_STREAM_BUFFER_READ);
 	store->command = 0;
+	g_free (store->dir_sep);
+	store->dir_sep = g_strdup ("/");  /* default dir sep */
 	
 	/* Read the greeting, if any. */
 	buf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (store->istream));
@@ -327,6 +362,7 @@ imap_connect (CamelService *service, CamelException *ex)
 	status = camel_imap_command_extended (store, NULL, &result, "CAPABILITY");
 	
 	if (status != CAMEL_IMAP_OK) {
+		/* Non-fatal error, but we should still warn the user... */
 		CamelService *service = CAMEL_SERVICE (store);
 		
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
@@ -345,6 +381,34 @@ imap_connect (CamelService *service, CamelException *ex)
 
 	d(fprintf (stderr, "IMAP provider does%shave SEARCH support\n", store->has_search_capability ? " " : "n't "));
 
+	/* FIXME: We now need to find out which directory separator this daemon uses */
+	status = camel_imap_command_extended (store, NULL, &result, "LIST \"\" \"\"");
+	
+	if (status != CAMEL_IMAP_OK) {
+		/* Again, this is non-fatal */
+		CamelService *service = CAMEL_SERVICE (store);
+		
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+				      "Could not get directory separator on IMAP server %s: %s.",
+				      service->url->host, 
+				      status != CAMEL_IMAP_FAIL && result ? result :
+				      "Unknown error");
+	} else {
+		if (!strncasecmp (result, "* LIST", 6)) {
+			char *sep;
+
+			if (parse_list_response (result, &sep)) {
+				if (*sep) {
+					g_free (store->dir_sep);
+					store->dir_sep = g_strdup (sep);
+				}
+
+				g_free (sep);
+			}
+		}
+	}
+
+	/* parent class conect initialization */
 	service_class->connect (service, ex);
 	
 	return TRUE;
@@ -365,6 +429,8 @@ imap_disconnect (CamelService *service, CamelException *ex)
 	gtk_object_unref (GTK_OBJECT (store->istream));
 	store->ostream = NULL;
 	store->istream = NULL;
+	g_free (store->dir_sep);
+	store->dir_sep = NULL;
 
 	return TRUE;
 }
@@ -383,11 +449,13 @@ imap_folder_exists (CamelFolder *folder)
 {
 	CamelStore *store = CAMEL_STORE (folder->parent_store);
 	CamelURL *url = CAMEL_SERVICE (store)->url;
-	gchar *result, *folder_path;
+	gchar *result, *folder_path, *dir_sep;
 	gint status;
 
+	dir_sep = CAMEL_IMAP_STORE (folder->parent_store)->dir_sep;
+	
 	if (url && url->path && *(url->path + 1) && strcmp (folder->full_name, "INBOX"))
-		folder_path = g_strdup_printf ("%s/%s", url->path + 1, folder->full_name);
+		folder_path = g_strdup_printf ("%s%s%s", url->path + 1, dir_sep, folder->full_name);
 	else
 		folder_path = g_strdup (folder->full_name);
 
@@ -411,7 +479,7 @@ imap_create (CamelFolder *folder, CamelException *ex)
 {
 	CamelStore *store = CAMEL_STORE (folder->parent_store);
 	CamelURL *url = CAMEL_SERVICE (store)->url;
-	gchar *result, *folder_path;
+	gchar *result, *folder_path, *dir_sep;
 	gint status;
 
 	g_return_val_if_fail (folder != NULL, FALSE);
@@ -429,8 +497,10 @@ imap_create (CamelFolder *folder, CamelException *ex)
 		return TRUE;
 	
         /* create the directory for the subfolder */
+	dir_sep = CAMEL_IMAP_STORE (folder->parent_store)->dir_sep;
+	
 	if (url && url->path && *(url->path + 1) && strcmp (folder->full_name, "INBOX"))
-		folder_path = g_strdup_printf ("%s/%s", url->path + 1, folder->full_name);
+		folder_path = g_strdup_printf ("%s%s%s", url->path + 1, dir_sep, folder->full_name);
 	else
 		folder_path = g_strdup (folder->full_name);
 	
@@ -536,11 +606,12 @@ camel_imap_command (CamelImapStore *store, CamelFolder *folder, char **ret, char
 
 	if (folder && store->current_folder != folder && strncmp (fmt, "CREATE", 5)) {
 		/* We need to select the correct mailbox first */
-		char *r, *folder_path;
+		char *r, *folder_path, *dir_sep;
 		int s;
 
+		dir_sep = store->dir_sep;
 		if (url && url->path && *(url->path + 1) && strcmp (folder->full_name, "INBOX"))
-			folder_path = g_strdup_printf ("%s/%s", url->path + 1, folder->full_name);
+			folder_path = g_strdup_printf ("%s%s%s", url->path + 1, dir_sep, folder->full_name);
 		else
 			folder_path = g_strdup (folder->full_name);
 		
@@ -640,11 +711,13 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
 	if (folder && store->current_folder != folder && strncmp (fmt, "SELECT", 6) &&
 	    strncmp (fmt, "CREATE", 6)) {
 		/* We need to select the correct mailbox first */
-		char *r, *folder_path;
+		char *r, *folder_path, *dir_sep;
 		int s;
 
+		dir_sep = store->dir_sep;
+		
 		if (url && url->path && *(url->path + 1) && strcmp (folder->full_name, "INBOX"))
-			folder_path = g_strdup_printf ("%s/%s", url->path + 1, folder->full_name);
+			folder_path = g_strdup_printf ("%s%s%s", url->path + 1, dir_sep, folder->full_name);
 		else
 			folder_path = g_strdup (folder->full_name);
 		

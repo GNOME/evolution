@@ -50,6 +50,8 @@ typedef struct {
 	guint32 command;
 
 	gboolean has_search_capability;
+
+	gchar *dir_sep;
 } CamelImapStore;
 
 
@@ -81,5 +83,3 @@ const gchar *camel_imap_store_get_toplevel_dir (CamelImapStore *store);
 #endif /* __cplusplus */
 
 #endif /* CAMEL_IMAP_STORE_H */
-
-
