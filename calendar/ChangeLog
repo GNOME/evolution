@@ -1,3 +1,19 @@
+2003-01-22  JP Rosevear  <jpr@ximian.com>
+
+	* gui/itip-control-factory.c (set_data_idle_cb): idle call back to
+	set control data
+	(pstream_load): set the data in an idle callback to avoid deadlock
+	(get_prop): handle view_only
+	(set_prop): ditto
+	(itip_control_factory): add view_only
+
+	* gui/e-itip-control.h: add protos
+
+	* gui/e-itip-control.c (write_html): only write out the options if
+	we aren't in view_only mode
+	(e_itip_control_set_view_only): accessor
+	(e_itip_control_get_view_only): ditto
+
 2003-01-20  JP Rosevear  <jpr@ximian.com>
 
 	Fixes #36909
