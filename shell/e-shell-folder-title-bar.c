@@ -172,6 +172,7 @@ setup_style (EShellFolderTitleBar *folder_title_bar)
 
 /* Button signals.  */
 
+#if 0
 static void
 title_button_clicked_cb (GtkButton *button,
 			 void *data)
@@ -182,6 +183,7 @@ title_button_clicked_cb (GtkButton *button,
 
 	gtk_signal_emit (GTK_OBJECT (folder_title_bar), signals[TITLE_CLICKED]);
 }
+#endif
 
 
 /* GTkWidget methods. */

@@ -1,3 +1,8 @@
+2000-07-10  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-shell-folder-title-bar.c (title_button_clicked_cb):
+	Temporarily `#if 0'ed out.
+
 2000-07-10  Dan Winship  <danw@helixcode.com>
 
 	* e-shell.c (impl_Shell_user_select_folder): Translate a
