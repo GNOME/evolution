@@ -1,5 +1,19 @@
 2002-09-26  Not Zed  <NotZed@Ximian.com>
 
+	* providers/local/camel-spool-store.c (get_folder): Implement
+	FOLDER_CREATE flag.
+	(scan_dir): Dont free name on exception, its alloca'd.
+	(scan_dir): If we start scanning from a file, just add that
+	directly.
+	(scan_dir): Allow empty files to also show up in folder list, as
+	well as files starting with "From ".
+
+	* providers/local/camel-spool-folder.c (camel_spool_folder_new):
+	Check folder != NULL before writing to it.
+
+	* providers/local/camel-local-store.c (create_folder): Handle a
+	parent of NULL for creating top-level dirs.  Part of #31186.
+	
 	* providers/imap/camel-imap-store.c
 	(parse_list_response_as_folder_info): Store the folder flags in
 	the store summary.

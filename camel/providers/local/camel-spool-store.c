@@ -23,7 +23,9 @@
 #include <config.h>
 #endif
 
+#include <sys/types.h>
 #include <sys/stat.h>
+#include <fcntl.h>
 #include <errno.h>
 #include <string.h>
 #include <unistd.h>
@@ -134,20 +136,51 @@ construct (CamelService *service, CamelSession *session, CamelProvider *provider
 static CamelFolder *
 get_folder(CamelStore * store, const char *folder_name, guint32 flags, CamelException * ex)
 {
-	CamelFolder *folder;
+	CamelFolder *folder = NULL;
+	int fd;
+	struct stat st;
+	char *name;
 
 	d(printf("opening folder %s on path %s\n", folder_name, path));
 
 	/* we only support an 'INBOX' in mbox mode */
-	if (((CamelSpoolStore *)store)->type == CAMEL_SPOOL_STORE_MBOX
-	    && strcmp(folder_name, "INBOX") != 0) {
-		camel_exception_setv(ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
-				     _("Folder `%s/%s' does not exist."),
-				     ((CamelService *)store)->url->path, folder_name);
-		return NULL;
+	if (((CamelSpoolStore *)store)->type == CAMEL_SPOOL_STORE_MBOX) {
+		if (strcmp(folder_name, "INBOX") != 0) {
+			camel_exception_setv(ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
+					     _("Folder `%s/%s' does not exist."),
+					     ((CamelService *)store)->url->path, folder_name);
+		} else {
+			folder = camel_spool_folder_new(store, folder_name, flags, ex);
+		}
+	} else {
+		name = g_strdup_printf("%s%s", CAMEL_LOCAL_STORE(store)->toplevel_dir, folder_name);
+		if (stat(name, &st) == -1) {
+			if (errno != ENOENT) {
+				camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
+						     _("Could not open folder `%s':\n%s"),
+						     folder_name, strerror(errno));
+			} else if ((flags & CAMEL_STORE_FOLDER_CREATE) == 0) {
+				camel_exception_setv(ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
+						     _("Folder `%s' does not exist."), folder_name);
+			} else {
+				fd = open(name, O_CREAT, 0600);
+				if (fd == -1) {
+					camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
+							     _("Could not create folder `%s':\n%s"),
+							     folder_name, strerror(errno));
+				} else {
+					close(fd);
+					folder = camel_spool_folder_new(store, folder_name, flags, ex);
+				}
+			}
+		} else if (!S_ISREG(st.st_mode)) {
+			camel_exception_setv(ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
+					     _("`%s' is not a mailbox file."), name);
+		} else {
+			folder = camel_spool_folder_new(store, folder_name, flags, ex);
+		}
+		g_free(name);
 	}
-
-	folder = camel_spool_folder_new(store, folder_name, flags, ex);
 
 	return folder;
 }
@@ -246,12 +279,40 @@ static int scan_dir(CamelStore *store, GHashTable *visited, char *root, const ch
 	} else
 		name = root;
 
+	if (stat(name, &st) == -1) {
+		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
+				     _("Could not scan folder `%s': %s"),
+				     name, strerror(errno));
+	} else if (S_ISREG(st.st_mode)) {
+		/* incase we start scanning from a file.  messy duplication :-/ */
+		if (path) {
+			CAMEL_STORE_LOCK(store, cache_lock);
+			folder = g_hash_table_lookup(store->folders, path);
+			if (folder)
+				unread = camel_folder_get_unread_message_count(folder);
+			else
+				unread = -1;
+			CAMEL_STORE_UNLOCK(store, cache_lock);
+			tmp = strrchr(path, '/');
+			if (tmp)
+				tmp++;
+			else
+				tmp = (char *)path;
+			uri = g_strdup_printf("%s:%s#%s", ((CamelService *)store)->url->protocol, root, path);
+			fi = camel_folder_info_new(uri, path, tmp, unread);
+			fi->parent = parent;
+			fi->sibling = *fip;
+			*fip = fi;
+			g_free(uri);
+		}
+		return 0;
+	}
+
 	dir = opendir(name);
 	if (dir == NULL) {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
 				     _("Could not scan folder `%s': %s"),
-				     root, strerror(errno));
-		g_free(name);
+				     name, strerror(errno));
 		return -1;
 	}
 
@@ -298,8 +359,9 @@ static int scan_dir(CamelStore *store, GHashTable *visited, char *root, const ch
 				if (folder == NULL) {
 					fp = fopen(tmp, "r");
 					if (fp != NULL) {
-						if (fgets(from, sizeof(from), fp) != NULL
-						    && strncmp(from, "From ", 5) == 0) {
+						if (st.st_size == 0
+						    || (fgets(from, sizeof(from), fp) != NULL
+							&& strncmp(from, "From ", 5) == 0)) {
 							folder = (CamelFolder *)1;
 							/* TODO: if slow mode selected, we could look up unread counts here -
 							   but its pretty expensive */

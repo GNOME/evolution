@@ -122,9 +122,10 @@ camel_spool_folder_new(CamelStore *parent_store, const char *full_name, guint32 
 	flags &= CAMEL_STORE_FOLDER_BODY_INDEX;
 
 	folder = (CamelFolder *)camel_local_folder_construct((CamelLocalFolder *)folder, parent_store, full_name, flags, ex);
-
-	if (camel_url_get_param(((CamelService *)parent_store)->url, "xstatus"))
-		camel_mbox_summary_xstatus((CamelMboxSummary *)folder->summary, TRUE);
+	if (folder) {
+		if (camel_url_get_param(((CamelService *)parent_store)->url, "xstatus"))
+			camel_mbox_summary_xstatus((CamelMboxSummary *)folder->summary, TRUE);
+	}
 
 	return folder;
 }

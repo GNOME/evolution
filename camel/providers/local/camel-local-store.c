@@ -222,15 +222,16 @@ create_folder(CamelStore *store, const char *parent_name, const char *folder_nam
 
 	/* This is a pretty hacky version of create folder, but should basically work */
 
-	/* FIXME: The strings here are funny because of string freeze */
-
 	if (path[0] != '/') {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
 				     _("Store root %s is not an absolute path"), path);
 		return NULL;
 	}
 
-	name = g_strdup_printf("%s/%s/%s", path, parent_name, folder_name);
+	if (parent_name)
+		name = g_strdup_printf("%s/%s/%s", path, parent_name, folder_name);
+	else
+		name = g_strdup_printf("%s/%s", path, folder_name);
 
 	if (stat(name, &st) == 0 || errno != ENOENT) {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
@@ -241,7 +242,10 @@ create_folder(CamelStore *store, const char *parent_name, const char *folder_nam
 
 	g_free(name);
 
-	name = g_strdup_printf("%s/%s", parent_name, folder_name);
+	if (parent_name)
+		name = g_strdup_printf("%s/%s", parent_name, folder_name);
+	else
+		name = g_strdup_printf("%s", folder_name);
 
 	folder = ((CamelStoreClass *)((CamelObject *)store)->klass)->get_folder(store, name, CAMEL_STORE_FOLDER_CREATE, ex);
 	if (folder) {
