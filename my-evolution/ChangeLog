@@ -1,5 +1,9 @@
 2001-08-15  Iain Holmes  <iain@ximian.com>
 
+	* e-summary.c (e_summary_draw): Use the US format for dates (Yeeech)
+
+2001-08-15  Iain Holmes  <iain@ximian.com>
+
 	* e-summary.c: s/My Evolution/Summary/
 
 	* e-summary-preferences.c: s/My Evolution/Summary/

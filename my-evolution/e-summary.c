@@ -142,7 +142,7 @@ e_summary_draw (ESummary *summary)
 
 	string = g_string_new (HTML_1);
 	t = time (NULL);
-	strftime (date, 255, _("%A, %d %B %Y"), localtime (&t));
+	strftime (date, 255, _("%A, %B %e %Y"), localtime (&t));
 
 	date_utf = e_utf8_from_locale_string (date);
 	html = g_strdup_printf (HTML_2, date_utf);
