@@ -1,3 +1,14 @@
+2005-03-03  Rodney Dawes  <dobey@novell.com>
+
+	* itip-view.c (itip_view_init): Set the spacing for ourself to 12
+	to be HIG compliant as we are a GtkHBox derivative
+	Align the icon at 0.5 in the X direction to be HIG compliant
+	Set the spacing between table rows/columns to be HIG compliant
+	Fix the spacing/padding for all the boxes and packing calls to be
+	HIG compliant
+
+	Fixes #41235
+	
 2005-02-02  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	reviewed by Harish Krishnaswamy <kharish@novell.com>

@@ -817,35 +817,37 @@ itip_view_init (ItipView *view)
 
 	priv->mode = ITIP_VIEW_MODE_NONE;
 	
+	gtk_box_set_spacing (GTK_BOX (view), 12);
+
 	/* The meeting icon */
 	icon = e_icon_factory_get_image (MEETING_ICON, E_ICON_SIZE_LARGE_TOOLBAR);
-	gtk_misc_set_alignment (GTK_MISC (icon), 0, 0);
+	gtk_misc_set_alignment (GTK_MISC (icon), 0.5, 0);
 	gtk_widget_show (icon);
 
-	gtk_box_pack_start (GTK_BOX (view), icon, FALSE, FALSE, 6);
+	gtk_box_pack_start (GTK_BOX (view), icon, FALSE, FALSE, 0);
 
 	/* The RHS */
-	vbox = gtk_vbox_new (FALSE, 0);
+	vbox = gtk_vbox_new (FALSE, 12);
 	gtk_widget_show (vbox);
-	gtk_box_pack_start (GTK_BOX (view), vbox, FALSE, FALSE, 6);
+	gtk_box_pack_start (GTK_BOX (view), vbox, FALSE, FALSE, 0);
 
 	/* The first section listing the sender */
 	/* FIXME What to do if the send and organizer do not match */
 	priv->sender_label = gtk_label_new (NULL);
 	gtk_misc_set_alignment (GTK_MISC (priv->sender_label), 0, 0.5);
 	gtk_widget_show (priv->sender_label);
-	gtk_box_pack_start (GTK_BOX (vbox), priv->sender_label, FALSE, FALSE, 6);
+	gtk_box_pack_start (GTK_BOX (vbox), priv->sender_label, FALSE, FALSE, 0);
 
 	separator = gtk_hseparator_new ();
 	gtk_widget_show (separator);
-	gtk_box_pack_start (GTK_BOX (vbox), separator, FALSE, FALSE, 6);
+	gtk_box_pack_start (GTK_BOX (vbox), separator, FALSE, FALSE, 0);
 
 	/* A table with information on the meeting and any extra info/warnings */
-	table = gtk_table_new (6, 2, FALSE);
+	table = gtk_table_new (4, 2, FALSE);
 	gtk_table_set_row_spacings (GTK_TABLE (table), 6);
 	gtk_table_set_col_spacings (GTK_TABLE (table), 6);
 	gtk_widget_show (table);
-	gtk_box_pack_start (GTK_BOX (vbox), table, FALSE, FALSE, 6);
+	gtk_box_pack_start (GTK_BOX (vbox), table, FALSE, FALSE, 0);
 
 	/* Summary */
 	priv->summary_label = gtk_label_new (NULL);
@@ -895,64 +897,64 @@ itip_view_init (ItipView *view)
 	gtk_table_attach (GTK_TABLE (table), priv->comment_label, 1, 2, 5, 6, GTK_FILL, 0, 0, 0);
 
 	/* Upper Info items */
-	priv->upper_info_box = gtk_vbox_new (FALSE, 0);
+	priv->upper_info_box = gtk_vbox_new (FALSE, 12);
 	gtk_widget_show (priv->upper_info_box);
-	gtk_box_pack_start (GTK_BOX (vbox), priv->upper_info_box, FALSE, FALSE, 6);
+	gtk_box_pack_start (GTK_BOX (vbox), priv->upper_info_box, FALSE, FALSE, 0);
 
 	/* Description */
 	priv->description_label = gtk_label_new (NULL);
 	gtk_label_set_line_wrap (GTK_LABEL (priv->description_label), TRUE);
 	gtk_misc_set_alignment (GTK_MISC (priv->description_label), 0, 0.5);
-//	gtk_box_pack_start (GTK_BOX (vbox), priv->description_label, FALSE, FALSE, 6);
+//	gtk_box_pack_start (GTK_BOX (vbox), priv->description_label, FALSE, FALSE, 0);
 
 	separator = gtk_hseparator_new ();
 	gtk_widget_show (separator);
-	gtk_box_pack_start (GTK_BOX (vbox), separator, FALSE, FALSE, 6);
+	gtk_box_pack_start (GTK_BOX (vbox), separator, FALSE, FALSE, 0);
 
 	/* Lower Info items */
-	priv->lower_info_box = gtk_vbox_new (FALSE, 0);
+	priv->lower_info_box = gtk_vbox_new (FALSE, 12);
 	gtk_widget_show (priv->lower_info_box);
-	gtk_box_pack_start (GTK_BOX (vbox), priv->lower_info_box, FALSE, FALSE, 6);
+	gtk_box_pack_start (GTK_BOX (vbox), priv->lower_info_box, FALSE, FALSE, 0);
 
 	/* Selector area */
-	priv->selector_box = gtk_hbox_new (FALSE, 0);
+	priv->selector_box = gtk_hbox_new (FALSE, 12);
 	gtk_widget_show (priv->selector_box);
 	gtk_box_pack_start (GTK_BOX (vbox), priv->selector_box, FALSE, FALSE, 0);
 	
 	/* RSVP area */
-	priv->rsvp_box = gtk_vbox_new (FALSE, 0);
+	priv->rsvp_box = gtk_vbox_new (FALSE, 12);
 	gtk_box_pack_start (GTK_BOX (vbox), priv->rsvp_box, FALSE, FALSE, 0);
 
 	priv->rsvp_check = gtk_check_button_new_with_mnemonic ("Send _reply to sender");
 	gtk_widget_show (priv->rsvp_check);
-	gtk_box_pack_start (GTK_BOX (priv->rsvp_box), priv->rsvp_check, FALSE, FALSE, 6);
+	gtk_box_pack_start (GTK_BOX (priv->rsvp_box), priv->rsvp_check, FALSE, FALSE, 0);
 
 	g_signal_connect (priv->rsvp_check, "toggled", G_CALLBACK (rsvp_toggled_cb), view);
 
-	hbox = gtk_hbox_new (FALSE, 0);
+	hbox = gtk_hbox_new (FALSE, 12);
 	gtk_widget_show (hbox);
-	gtk_box_pack_start (GTK_BOX (priv->rsvp_box), hbox, FALSE, FALSE, 12);
+	gtk_box_pack_start (GTK_BOX (priv->rsvp_box), hbox, FALSE, FALSE, 0);
 
 	label = gtk_label_new (NULL);
 	gtk_widget_show (label);
-	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 12);
+	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
 
 	priv->rsvp_comment_header = gtk_label_new (_("Comment:"));
 	gtk_widget_set_sensitive (priv->rsvp_comment_header, FALSE);
 	gtk_widget_show (priv->rsvp_comment_header);
-	gtk_box_pack_start (GTK_BOX (hbox), priv->rsvp_comment_header, FALSE, FALSE, 6);
+	gtk_box_pack_start (GTK_BOX (hbox), priv->rsvp_comment_header, FALSE, FALSE, 0);
 	
 	priv->rsvp_comment_entry = gtk_entry_new ();
 	gtk_widget_set_sensitive (priv->rsvp_comment_entry, FALSE);
 	gtk_widget_show (priv->rsvp_comment_entry);
-	gtk_box_pack_start (GTK_BOX (hbox), priv->rsvp_comment_entry, FALSE, TRUE, 6);
+	gtk_box_pack_start (GTK_BOX (hbox), priv->rsvp_comment_entry, FALSE, TRUE, 0);
 
 	/* The buttons for actions */
 	priv->button_box = gtk_hbutton_box_new ();
 	gtk_button_box_set_layout (GTK_BUTTON_BOX (priv->button_box), GTK_BUTTONBOX_END);
 	gtk_box_set_spacing (GTK_BOX (priv->button_box), 12);
 	gtk_widget_show (priv->button_box);
-	gtk_box_pack_start (GTK_BOX (vbox), priv->button_box, FALSE, FALSE, 6);
+	gtk_box_pack_start (GTK_BOX (vbox), priv->button_box, FALSE, FALSE, 0);
 
 	priv->buttons_sensitive = TRUE;
 }
