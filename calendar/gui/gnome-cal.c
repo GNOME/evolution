@@ -2909,10 +2909,9 @@ gnome_calendar_purge (GnomeCalendar *gcal, time_t older_than)
 	for (l = priv->clients_list[E_CAL_SOURCE_TYPE_EVENT]; l != NULL; l = l->next) {
 		ECal *client = l->data;
 		GList *objects, *m;
-		gboolean read_only = TRUE;
+		gboolean read_only;
 		
-		e_cal_is_read_only (client, &read_only, NULL);
-		if (!read_only)
+		if (!e_cal_is_read_only (client, &read_only, NULL) || read_only)
 			continue;
 		
 		if (!e_cal_get_object_list (client, sexp, &objects, NULL)) {
@@ -2922,22 +2921,19 @@ gnome_calendar_purge (GnomeCalendar *gcal, time_t older_than)
 		}
 		
 		for (m = objects; m; m = m->next) {
-			ECalComponent *comp;
 			gboolean remove = TRUE;
 
-			comp = e_cal_component_new ();
-			e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (m->data));
-			
+			/* FIXME write occur-before and occur-after
+			 * sexp funcs so we don't have to use the max
+			 * int */
 			e_cal_generate_instances_for_object (client, m->data,
-							     older_than, -1,
+							     older_than, G_MAXINT32,
 							     (ECalRecurInstanceFn) check_instance_cb,
 							     &remove);
 
 			/* FIXME Better error handling */
 			if (remove)
 				e_cal_remove_object (client, icalcomponent_get_uid (m->data), NULL);
-			
-			g_object_unref (comp);
 		}
 	}
 

@@ -1,5 +1,10 @@
 2004-06-04  JP Rosevear  <jpr@novell.com>
 
+	* gui/gnome-cal.c (gnome_calendar_purge): make purging actually
+	work
+
+2004-06-04  JP Rosevear  <jpr@novell.com>
+
 	* gui/dialogs/task-page.c (task_page_fill_widgets): guard
 	against the text value being NULL
 
