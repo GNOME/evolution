@@ -44,7 +44,6 @@ etst_destroy (GtkObject *object)
 {
 	ETableState *etst = E_TABLE_STATE (object);
 
-	gtk_object_unref (GTK_OBJECT (etst->sort_info));
 	if (etst->columns) {
 		g_free (etst->columns);
 		etst->columns = NULL;
