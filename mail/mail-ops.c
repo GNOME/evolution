@@ -915,13 +915,24 @@ transfer_messages_transfer (struct _mail_msg *mm)
 		if (m->delete) {
 			int i;
 			
+			/* Just mark all the messages as deleted */
 			for (i = 0; i < m->uids->len; i++)
 				camel_folder_delete_message (m->source, m->uids->pdata[i]);
 		} else {
 			/* no-op - can't copy messages to*/
 		}
-	} else
-		(func) (m->source, m->uids, dest, &mm->ex);
+	} else {
+		if (dest == m->source) {
+			int i;
+			
+			/* Undelete the messages if they are marked as deleted */
+			for (i = 0; i < m->uids->len; i++)
+				camel_folder_set_message_flags (m->source, uids->pdata[i],
+								CAMEL_MESSAGE_DELETED, 0)
+		} else {
+			(func) (m->source, m->uids, dest, &mm->ex);
+		}
+	}
 	
 	camel_folder_thaw (m->source);
 	camel_folder_thaw (dest);

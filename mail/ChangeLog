@@ -1,8 +1,14 @@
+2001-07-23  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-ops.c (transfer_messages_transfer): If the source and
+	destination folders are the same, just mark the uids as undeleted
+	(in case they were marked as deleted before).
+
 2001-07-23  Jon Trowbridge  <trow@ximian.com>
 
 	* mail-search.c (begin_cb): Carefully check for NULL everywhere,
-	and do the right thing if the message we are currently looking
-	at gets expunged. (Bug #4870)
+	and do the right thing if the message we are currently looking at
+	gets expunged. (Bug #4870)
 
 2001-07-23  Jason Leach  <jleach@ximian.com>
 
