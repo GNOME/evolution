@@ -1,3 +1,10 @@
+2000-01-26  bertrand  <bertrand@helixcode.com>
+
+	* widgets/shortcut-bar/e-icon-bar.c (e_icon_bar_recalc_item_positions): 
+	don't set the x_set and y_set 
+	arguments as don't exist in gdk-pixbuf 
+	anymore. 
+
 2000-01-25  Mathieu Lacage <mathieu@advogato.org>
 
 	* .cvsignore s: cvs shutup. 

@@ -397,11 +397,9 @@ e_icon_bar_recalc_item_positions (EIconBar *icon_bar)
 
 		gnome_canvas_item_set (item->image,
 				       "GnomeCanvasPixbuf::x", (gdouble)icon_bar->icon_x,
-				       "GnomeCanvasPixbuf::x_set", TRUE,
 				       "GnomeCanvasPixbuf::y", (gdouble)item->icon_y,
 				       "GnomeCanvasPixbuf::width", (gdouble)icon_bar->icon_w,
 				       "GnomeCanvasPixbuf::width_set", TRUE,
-				       "GnomeCanvasPixbuf::y_set", TRUE,
 				       "GnomeCanvasPixbuf::height", (gdouble)icon_bar->icon_h,
 				       "GnomeCanvasPixbuf::height_set", TRUE,
 				       NULL);
