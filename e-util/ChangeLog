@@ -1,5 +1,10 @@
 2003-11-14  JP Rosevear <jpr@ximian.com>
 
+	* Makefile.am: don't build the e-source stuff anymore, its in
+	e-d-s now
+
+2003-11-14  JP Rosevear <jpr@ximian.com>
+
 	* test-source-list.c (on_idle_do_stuff): we only need the uid to
 	remove and peek at stuff
 
