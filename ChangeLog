@@ -1,3 +1,7 @@
+2004-10-13  JP Rosevear  <jpr@novell.com>
+
+	* configure.in: pull in libedataserverui as appropriate
+
 2004-10-01  Jeffrey Stedfast  <fejj@novell.com>
 
 	* configure.in (localedir): Enable imap4 plugin by default. We
