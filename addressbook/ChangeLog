@@ -1,3 +1,8 @@
+2002-04-06  JP Rosevear  <jpr@ximian.com>
+
+	* gui/component/GNOME_Evolution_Addressbook.oaf.in: add
+	config_item:type
+
 2002-04-04  JP Rosevear  <jpr@ximian.com>
 
 	* conduit/Makefile.am: link to the static libversit

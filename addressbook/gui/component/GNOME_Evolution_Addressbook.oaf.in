@@ -161,6 +161,11 @@
 	<oaf_attribute name="evolution:config_item:icon_name" type="string"
 		       value="evolution-contacts.png"/>
     
+	<oaf_attribute name="evolution:config_item:type" type="stringv">
+		<item value="contacts"/>
+		<item value="ldap-contacts"/>
+	</oaf_attribute>
+
 	<oaf_attribute name="evolution:config_item:priority" type="string" value="-6"/>
     
 	<oaf_attribute name="description" type="string"
