@@ -1,3 +1,21 @@
+2002-10-18  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-filter-driver.c (camel_filter_driver_filter_folder):
+	Canonicalise the source_uri to not have a path. Fixes bug #32268.
+
+2002-10-17  Jeffrey Stedfast  <fejj@ximian.com>
+
+	Possible fix for bug #32270
+
+	* providers/pop3/camel-pop3-store.c (try_sasl): If we get an I/O
+	error, we should not be setting the CANT_AUTH exception but should
+	instead be setting the SYSTEM exception. Also check for EINTR
+	which signifies a USER_CANCEL exception.
+	(pop3_try_authenticate): If the auth mechanism isn't supported,
+	don't set the CANT_AUTH exception since then we will loop and try
+	again with the same data which will just cause an infinite loop.
+	(pop3_connect): Simplified a bit.
+
 2002-10-17  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-tcp-stream-ssl.c (camel_certdb_nss_cert_set): If
@@ -28,11 +46,10 @@
 
 2002-10-03  Not Zed  <NotZed@Ximian.com>
 
-	* camel-folder.c
-	(filter_filter): Do the filtering ourselves.  This is so a problem
-	like a missing uid (which can happen legitemitely) doesn't
-	prematurely abort filtering.  Stop on all other errors.  See
-	#31667.
+	* camel-folder.c (filter_filter): Do the filtering ourselves.
+	This is so a problem like a missing uid (which can happen
+	legitemitely) doesn't prematurely abort filtering.  Stop on all
+	other errors.  See #31667.
 
 2002-10-16  Jeffrey Stedfast  <fejj@ximian.com>
 

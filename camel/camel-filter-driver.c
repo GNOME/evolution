@@ -1036,7 +1036,6 @@ camel_filter_driver_filter_folder (CamelFilterDriver *driver, CamelFolder *folde
 	gboolean freeuids = FALSE;
 	CamelMessageInfo *info;
 	char *source_url, *service_url;
-	const char *folder_name;
 	int status = 0;
 	CamelURL *url;
 	int i;
@@ -1044,18 +1043,6 @@ camel_filter_driver_filter_folder (CamelFilterDriver *driver, CamelFolder *folde
 	service_url = camel_service_get_url (CAMEL_SERVICE (camel_folder_get_parent_store (folder)));
 	url = camel_url_new (service_url, NULL);
 	g_free (service_url);
-	
-	folder_name = camel_folder_get_full_name (folder);
-	
-	if (folder_name && *folder_name != '/') {
-		char *path;
-		
-		path = g_strdup_printf ("/%s", folder_name);
-		camel_url_set_path (url, path);
-		g_free (path);
-	} else {
-		camel_url_set_path (url, folder_name);
-	}
 	
 	source_url = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
 	camel_url_free (url);
