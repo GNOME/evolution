@@ -405,7 +405,7 @@ generate_html (gpointer data)
 			if (calendar->wants24hr == TRUE) {
 				strftime (start_str, sizeof start_str, _("%k:%M %d %B"), &start_tm);
 			} else {
-				strftime (start_str, sizeof start_str, _("%l:%M%P %d %B"), &start_tm);
+				strftime (start_str, sizeof start_str, _("%l:%M%p %d %B"), &start_tm);
 			}
 
 			if (cal_component_has_alarms (event->comp)) {

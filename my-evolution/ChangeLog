@@ -1,3 +1,10 @@
+2003-08-19  Harry Lu  <harry.lu@sun.com>
+
+	** For bug #47461.
+	
+	* e-summary-calendar.c (generate_html): Change "%P" to "%p" so
+	that strftime() can work under solaris.
+
 2003-08-12  Jack Jia  <jack.jia@sun.com>
 
 	[Fixed bug #47563]
