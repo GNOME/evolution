@@ -207,12 +207,15 @@ druid_finish (GnomeDruidPage *page, gpointer arg1, gpointer user_data)
 	if (str) {
 		/* cache the password and rewrite the url without the password part */
 		url = camel_url_new (str, NULL);
+		g_free (str);
 		source->url = camel_url_to_string (url, FALSE);
 		if (source->save_passwd && url->passwd) {
 			mail_session_set_password (source->url, url->passwd);
 			mail_session_remember_password (source->url);
 		}
 		camel_url_free (url);
+	} else {
+		source->url = NULL;
 	}
 	
 	/* construct the transport */

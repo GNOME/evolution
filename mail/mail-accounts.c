@@ -105,11 +105,17 @@ load_accounts (MailAccountsDialog *dialog)
 		
 		account = node->data;
 		
-		url = camel_url_new (account->source->url, NULL);
+		if (account->source->url)
+			url = camel_url_new (account->source->url, NULL);
+		else
+			url = NULL;
+		
 		text[0] = g_strdup (account->name);
-		text[1] = g_strdup_printf ("%s%s", url->protocol,
-					   account->default_account ? " (default)" : "");
-		camel_url_free (url);
+		text[1] = g_strdup_printf ("%s%s", url && url->protocol ? url->protocol : _("None"),
+					   account->default_account ? _(" (default)") : "");
+		
+		if (url)
+			camel_url_free (url);
 		
 		gtk_clist_append (dialog->mail_accounts, text);
 		g_free (text[0]);

@@ -645,7 +645,11 @@ construct (MailAccountEditor *editor, const MailConfigAccount *account)
 	gtk_entry_set_text (GTK_ENTRY (entry), account->id->signature);
 	
 	/* Servers */
-	url = camel_url_new (account->source->url, NULL);
+	if (account->source->url)
+		url = camel_url_new (account->source->url, NULL);
+	else
+		url = NULL;
+	
 	editor->source_type = glade_xml_get_widget (gui, "txtSourceType");
 	if (GTK_IS_LABEL (editor->source_type))
 		gtk_label_set_text (GTK_LABEL (editor->source_type), url ? url->protocol : _("None"));
@@ -675,10 +679,15 @@ construct (MailAccountEditor *editor, const MailConfigAccount *account)
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (editor->keep_on_server), account->source->keep_on_server);
 	source_check (editor, url);
 	source_auth_init (editor, url);
-	camel_url_free (url);
+	if (url)
+		camel_url_free (url);
 	
 	/* Transport */
-	url = camel_url_new (account->transport->url, NULL);
+	if (account->transport->url)
+		url = camel_url_new (account->transport->url, NULL);
+	else
+		url = NULL;
+	
 	editor->transport_type = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuTransportType"));
 	editor->transport_host = GTK_ENTRY (glade_xml_get_widget (gui, "txtTransportHost"));
 	gtk_entry_set_text (editor->transport_host, url && url->host ? url->host : "");
@@ -693,7 +702,8 @@ construct (MailAccountEditor *editor, const MailConfigAccount *account)
 	if (editor->transport_ssl)
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (editor->transport_ssl), account->transport->use_ssl);
 	transport_type_init (editor, url);
-	camel_url_free (url);
+	if (url)
+		camel_url_free (url);
 	
 	editor->account = account;
 }

@@ -1,5 +1,13 @@
 2001-01-17  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-account-editor.c (construct): Handle NULL source and, while
+	we're at it, transport URLs. Apparently camel_url_new() and/or
+	camel-url_free() don't handle NULL input well.
+
+	* mail-accounts.c (load_accounts): Handle NULL source URLs.
+
+2001-01-17  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* mail-account-editor.c (construct): Oops. "url && url->host"
 	doesn't do much without the '?' and ':' ;-)
 
