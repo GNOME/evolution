@@ -1,3 +1,7 @@
+2000-06-07  Anders Carlsson  <andersca@gnu.org>
+
+	* notes/*: Add preliminary yellow sticky notes.
+
 2000-06-05	Mathieu Lacage	<mathieu@gnome.org>
 
 	* addressbook/contact-editor/Makefile.am: make it 
