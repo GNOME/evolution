@@ -107,6 +107,9 @@ etgc_dispose (GObject *object)
 {
 	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER (object);
 
+	if (etgc->children)
+		e_table_group_container_list_free (etgc);
+
 	if (etgc->font)
 		gdk_font_unref (etgc->font);
 	etgc->font = NULL;
@@ -126,8 +129,6 @@ etgc_dispose (GObject *object)
 	if (etgc->rect)
 		gtk_object_destroy (GTK_OBJECT(etgc->rect));
 	etgc->rect = NULL;
-
-	e_table_group_container_list_free (etgc);
 
 	G_OBJECT_CLASS (etgc_parent_class)->dispose (object);
 }
@@ -432,7 +433,6 @@ create_child_node (ETableGroupContainer *etgc, void *val)
 						  NULL);
 	child_node->text = gnome_canvas_item_new (GNOME_CANVAS_GROUP (etgc),
 						  e_text_get_type (),
-						  "font_gdk", etgc->font,
 						  "anchor", GTK_ANCHOR_SW,
 						  "fill_color", "black",
 						  "draw_background", FALSE,
