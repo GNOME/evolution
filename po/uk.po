@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.1\n"
-"POT-Creation-Date: 2000-10-25 13:14+0300\n"
+"POT-Creation-Date: 2000-11-01 11:50+0200\n"
 "PO-Revision-Date: 2000-04-04 15:25+0200\n"
 "Last-Translator: Yuri Syrota <rasta@renome.rovno.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -249,11 +249,11 @@ msgstr "Первинний"
 
 #: addressbook/contact-editor/e-contact-editor.c:1234
 msgid "Radio"
-msgstr ""
+msgstr "Рад╕о"
 
 #: addressbook/contact-editor/e-contact-editor.c:1235
 msgid "Telex"
-msgstr ""
+msgstr "Телекс"
 
 #: addressbook/contact-editor/e-contact-editor.c:1236
 msgid "TTY/TDD"
@@ -338,7 +338,7 @@ msgstr "Адреса стор╕нки WWW:"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:17
 msgid "Wants to receive _HTML mail"
-msgstr ""
+msgstr "Хоче отримувати листи в HTML"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:18
 msgid "_Business"
@@ -350,7 +350,7 @@ msgstr "Домашня"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:20
 msgid "Business _Fax"
-msgstr ""
+msgstr "Робочий факс:"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:21
 msgid "_Mobile"
@@ -861,7 +861,7 @@ msgstr "Тип:"
 #: addressbook/printing/e-contact-print.glade.h:43
 #: calendar/gui/event-editor-dialog.glade.h:80
 msgid "label26"
-msgstr ""
+msgstr "label26"
 
 #: addressbook/printing/e-contact-print.glade.h:32
 #: addressbook/printing/e-contact-print.glade.h:44
@@ -1837,15 +1837,15 @@ msgstr ""
 
 #: calendar/gui/event-editor-dialog.glade.h:78
 msgid "Every"
-msgstr ""
+msgstr "Кожен"
 
 #: calendar/gui/event-editor-dialog.glade.h:79
 msgid "month(s)"
-msgstr ""
+msgstr "м╕сяць"
 
 #: calendar/gui/event-editor-dialog.glade.h:82
 msgid "year(s)"
-msgstr ""
+msgstr "р╕к"
 
 #: calendar/gui/event-editor-dialog.glade.h:83
 msgid "label27"
@@ -1876,7 +1876,7 @@ msgstr ""
 #: calendar/gui/event-editor-dialog.glade.h:89
 #, fuzzy
 msgid "Exceptions"
-msgstr "Параметри"
+msgstr "Виключення"
 
 #: calendar/gui/event-editor-dialog.glade.h:91
 #, fuzzy
@@ -2384,7 +2384,7 @@ msgstr "24-годинний"
 #. Weeks start on
 #: calendar/gui/prop.c:352
 msgid "Weeks start on"
-msgstr "Почиток тижня"
+msgstr "Початок тижня"
 
 #. Day range
 #: calendar/gui/prop.c:364
@@ -2515,9 +2515,9 @@ msgid "Failed to store mail in temp file %s: %s"
 msgstr ""
 
 #: camel/camel-movemail.c:301
-#, fuzzy, c-format
+#, c-format
 msgid "Could not create pipe: %s"
-msgstr "Створити новий календар"
+msgstr "Не вдалося створити канал: %s"
 
 #: camel/camel-movemail.c:313
 #, fuzzy, c-format
@@ -2530,19 +2530,18 @@ msgid "Movemail program failed: %s"
 msgstr ""
 
 #: camel/camel-movemail.c:352
-#, fuzzy
 msgid "(Unknown error)"
-msgstr "Нев╕дома помилка"
+msgstr "(Нев╕дома помилка)"
 
 #: camel/camel-provider.c:133
 #, c-format
 msgid "Could not load %s: %s"
-msgstr ""
+msgstr "Не вдалося завантажити %s: %s"
 
 #: camel/camel-provider.c:141
 #, c-format
 msgid "Could not load %s: No initialization code in module."
-msgstr ""
+msgstr "Не вдалося завантажити %s: нема╓ ╕н╕ц╕ал╕зац╕╖ в модул╕."
 
 #: camel/camel-remote-store.c:185
 #, fuzzy, c-format
@@ -2561,7 +2560,7 @@ msgstr ""
 
 #: camel/camel-remote-store.c:231 camel/providers/imap/camel-imap-store.c:168
 msgid "(unknown host)"
-msgstr ""
+msgstr "(нев╕домий хост)"
 
 #: camel/camel-service.c:119
 #, c-format
@@ -2594,31 +2593,33 @@ msgid "No provider available for protocol `%s'"
 msgstr ""
 
 #: camel/camel-session.c:358
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Could not create directory %s:\n"
 "%s"
-msgstr "Створити новий календар"
+msgstr ""
+"Не вдалося створити каталог %s:\n"
+"%s"
 
 #: camel/camel-url.c:77
 #, c-format
 msgid "URL string `%s' contains no protocol"
-msgstr ""
+msgstr "Рядок URL \"%s\" не м╕стить назви протоколу"
 
 #: camel/camel-url.c:92
 #, c-format
 msgid "URL string `%s' contains an invalid protocol"
-msgstr ""
+msgstr "Рядок URL \"%s\" не м╕стить нев╕рну назву протоколу"
 
 #: camel/camel-url.c:153
 #, c-format
 msgid "Port number in URL `%s' is non-numeric"
-msgstr ""
+msgstr "Номер порта в URL \"%s\" не числовий"
 
 #: camel/providers/imap/camel-imap-command.c:220
 #, c-format
 msgid "Unexpected response from IMAP server: %s"
-msgstr ""
+msgstr "Неоч╕кувана в╕дпов╕дь в╕д сервера IMAP: %s"
 
 #: camel/providers/imap/camel-imap-command.c:228
 #, c-format
@@ -2702,9 +2703,9 @@ msgid "Cannot append message to mbox file: %s"
 msgstr ""
 
 #: camel/providers/mbox/camel-mbox-folder.c:489
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot get message: %s"
-msgstr "Переслати це пов╕домлення"
+msgstr "Не вдалося отримати пов╕домлення: %s"
 
 #: camel/providers/mbox/camel-mbox-provider.c:34
 msgid "UNIX mbox-format mail files"
@@ -2851,18 +2852,22 @@ msgid "For storing local mail in MH-like mail directories"
 msgstr ""
 
 #: camel/providers/mh/camel-mh-store.c:115
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Could not open folder `%s':\n"
 "%s"
-msgstr "Створити новий календар"
+msgstr ""
+"Не вдалося в╕дкрити теку \"%s\":\n"
+"%s"
 
 #: camel/providers/mh/camel-mh-store.c:130
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Could not create folder `%s':\n"
 "%s"
-msgstr "Створити новий календар"
+msgstr ""
+"Не вдалося створити теку \"%s\":\n"
+"%s"
 
 #: camel/providers/mh/camel-mh-store.c:139
 #, c-format
@@ -2871,15 +2876,15 @@ msgstr "\"%s\" не ╓ каталогом."
 
 #: camel/providers/mh/camel-mh-store.c:158
 #: camel/providers/mh/camel-mh-store.c:171
-#, fuzzy, c-format
+#, c-format
 msgid "Could not delete folder `%s': %s"
-msgstr "Створити новий календар"
+msgstr "Не вдалося стерти теку \"%s\": %s"
 
 #: camel/providers/mh/camel-mh-store.c:189
 #: camel/providers/mh/camel-mh-store.c:193
-#, fuzzy, c-format
+#, c-format
 msgid "Could not rename folder `%s': %s"
-msgstr "Створити новий календар"
+msgstr "Не вдалося перейменувати теку \"%s\": %s"
 
 #: camel/providers/mh/camel-mh-store.c:197
 #, c-format
@@ -3233,6 +3238,8 @@ msgid ""
 "Could not open signature file %s:\n"
 "%s"
 msgstr ""
+"Не вдалося в╕дкрити файл п╕дпису %s:\n"
+"%s"
 
 #: composer/e-msg-composer.c:407
 msgid "Save as..."
@@ -3249,14 +3256,12 @@ msgid "Error loading file: %s"
 msgstr "Помилка завантаження файлу: %s"
 
 #: composer/e-msg-composer.c:460
-#, fuzzy
 msgid "Saving changes to message..."
-msgstr "В╕д╕слати пов╕домлення"
+msgstr "Зберегти зм╕ни в пов╕домленн╕..."
 
 #: composer/e-msg-composer.c:462
-#, fuzzy
 msgid "Save changes to message..."
-msgstr "В╕д╕слати пов╕домлення"
+msgstr "Зберегти зм╕ни в пов╕домленн╕..."
 
 #: composer/e-msg-composer.c:503
 #, c-format
@@ -3302,7 +3307,7 @@ msgstr ""
 
 #: composer/e-msg-composer.c:774
 msgid "An error occurred while reading the file."
-msgstr ""
+msgstr "Сталася помилка п╕д час зчитування файлу."
 
 #: composer/e-msg-composer.c:1136
 #, fuzzy
@@ -3387,7 +3392,7 @@ msgstr ""
 
 #: filter/filter-datespec.c:661
 msgid "<click here to select a date>"
-msgstr ""
+msgstr "<клацн╕ть тут для вибору дати>"
 
 #: filter/filter-editor.c:159 mail/mail-autofilter.c:287
 #: mail/mail-autofilter.c:336
@@ -3437,16 +3442,15 @@ msgstr ""
 
 #: filter/filter-folder.c:254
 msgid "<click here to select a folder>"
-msgstr ""
+msgstr "<клацн╕ть тут для вибору теки>"
 
 #: filter/filter-part.c:420
 msgid "Test"
-msgstr ""
+msgstr "Тест"
 
 #: filter/filter-rule.c:509
-#, fuzzy
 msgid "Rule name: "
-msgstr "Назва файлу:"
+msgstr "Назва правила: "
 
 #: filter/filter-rule.c:513
 msgid "Untitled"
@@ -3575,9 +3579,8 @@ msgid "Stop Processing"
 msgstr ""
 
 #: filter/libfilter-i18n.h:20
-#, fuzzy
 msgid "Subject"
-msgstr "Тема:"
+msgstr "Тема"
 
 #: filter/libfilter-i18n.h:21
 #, fuzzy
@@ -3633,7 +3636,7 @@ msgstr ""
 
 #: filter/score-editor.c:127
 msgid "Add Rule"
-msgstr ""
+msgstr "Додати правило"
 
 #: filter/score-editor.c:166
 msgid "Edit Score Rule"
@@ -3683,19 +3686,19 @@ msgstr ""
 
 #: mail/folder-browser.c:138
 msgid "Body contains"
-msgstr ""
+msgstr "Т╕ло м╕стить"
 
 #: mail/folder-browser.c:139
 msgid "Subject contains"
-msgstr ""
+msgstr "Тема м╕стить"
 
 #: mail/folder-browser.c:140
 msgid "Body does not contain"
-msgstr ""
+msgstr "Т╕ло не м╕стить"
 
 #: mail/folder-browser.c:141
 msgid "Subject does not contain"
-msgstr ""
+msgstr "Тема не м╕стить"
 
 #: mail/folder-browser.c:142
 msgid "Custom search"
@@ -4248,14 +4251,12 @@ msgid "Copy messages from \"%s\" into \"%s\""
 msgstr ""
 
 #: mail/mail-ops.c:945
-#, fuzzy
 msgid "Moving"
-msgstr "Моб╕льний"
+msgstr "Перенесення"
 
 #: mail/mail-ops.c:948
-#, fuzzy
 msgid "Copying"
-msgstr "Скоп╕ювати"
+msgstr "Коп╕ювання"
 
 #: mail/mail-ops.c:968
 #, c-format
@@ -4280,7 +4281,7 @@ msgstr "Зберегти пов╕домлення у вказан╕й тец╕"
 #: mail/mail-ops.c:1201
 #, c-format
 msgid "Scanning folders in \"%s\""
-msgstr ""
+msgstr "Сканування тек в \"%s\""
 
 #: mail/mail-ops.c:1204
 #, c-format
@@ -4288,9 +4289,8 @@ msgid "Scan folders in \"%s\""
 msgstr ""
 
 #: mail/mail-ops.c:1275 mail/subscribe-dialog.c:163
-#, fuzzy
 msgid "(No description)"
-msgstr "Опис:"
+msgstr "(Нема╓ опису)"
 
 #: mail/mail-ops.c:1335
 #, c-format
@@ -4460,7 +4460,7 @@ msgstr ""
 #: mail/mail-tools.c:264
 #, c-format
 msgid "Examining %s"
-msgstr ""
+msgstr "Перев╕рка %s"
 
 #: mail/mail-tools.c:294
 #, c-format
@@ -4517,14 +4517,12 @@ msgid ""
 msgstr ""
 
 #: mail/mail-vfolder.c:147
-#, fuzzy
 msgid "VFolders"
-msgstr "Теки"
+msgstr "В╕ртуальн╕ теки"
 
 #: mail/mail-vfolder.c:292
-#, fuzzy
 msgid "New VFolder"
-msgstr "Вибрати назви"
+msgstr "Нова в╕ртуальна тека"
 
 #. GNOMEUIINFO_ITEM_STOCK (N_("Save"), N_("Save this message"),
 #. save_msg, GNOME_STOCK_PIXMAP_SAVE),
@@ -4579,37 +4577,31 @@ msgstr ""
 
 #: mail/message-list.c:1562
 msgid "Open in New Window"
-msgstr ""
+msgstr "В╕дкрити у новому в╕кн╕"
 
 #: mail/message-list.c:1563
-#, fuzzy
 msgid "Edit Message"
-msgstr "В╕д╕слати пов╕домлення"
+msgstr "Виправити пов╕домлення"
 
 #: mail/message-list.c:1566
-#, fuzzy
 msgid "Reply to Sender"
-msgstr "В╕дпов╕сти вс╕м"
+msgstr "В╕дпов╕сти в╕дправнику"
 
 #: mail/message-list.c:1568
-#, fuzzy
 msgid "Forward Message"
-msgstr "Переслати це пов╕домлення"
+msgstr "Переслати пов╕домлення"
 
 #: mail/message-list.c:1570
-#, fuzzy
 msgid "Delete Message"
-msgstr "Стерти це пов╕домлення"
+msgstr "Стерти пов╕домлення"
 
 #: mail/message-list.c:1571
-#, fuzzy
 msgid "Move Message"
-msgstr "В╕д╕слати пов╕домлення"
+msgstr "Перенести пов╕домлення"
 
 #: mail/message-list.c:1572
-#, fuzzy
 msgid "Copy Message"
-msgstr "П╕дготувати нове поштове пов╕домлення"
+msgstr "Скоп╕ювати пов╕домлення"
 
 #: mail/message-list.c:1574
 msgid "VFolder on Subject"
@@ -5263,18 +5255,16 @@ msgid "Previews the message to be printed"
 msgstr "В╕д╕слати пов╕домлення"
 
 #: ui/evolution-mail.h:15 ui/evolution-subscribe.h:12
-#, fuzzy
 msgid "Select _All"
-msgstr "Вибрати назви"
+msgstr "Вибрати все"
 
 #: ui/evolution-mail.h:16
 msgid "_Invert Selection"
-msgstr ""
+msgstr "╤нвертувати виб╕р"
 
 #: ui/evolution-mail.h:17
-#, fuzzy
 msgid "Mail _Filters..."
-msgstr "Файл..."
+msgstr "Поштов╕ ф╕льтри..."
 
 #: ui/evolution-mail.h:18
 msgid "_Virtual Folder Editor..."
