@@ -1,3 +1,12 @@
+2003-02-05  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (e_msg_composer_new_from_url): Split out the
+	mailto handling code from here so we can use it in the drag-n-drop
+	code too.
+	(drag_data_received): If we find a mailto: url in the
+	text/uri-list drop, pass that off to handle_mailto() so it can
+	fill in the fields for us.
+
 2003-02-03  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer-attachment.c: Just use

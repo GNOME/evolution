@@ -41,8 +41,7 @@
 #include <config.h>
 #endif
 
-#include <errno.h>
-#include <ctype.h>
+#include <string.h>
 #include <stdlib.h>
 #include <dirent.h>
 #include <sys/time.h>
@@ -50,6 +49,8 @@
 #include <sys/stat.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#include <errno.h>
+#include <ctype.h>
 
 #include <glib/gunicode.h>
 
@@ -142,6 +143,8 @@ static GSList *all_composers = NULL;
 /* local prototypes */
 static GList *add_recipients   (GList *list, const char *recips, gboolean decode);
 
+static void handle_mailto (EMsgComposer *composer, const char *mailto);
+
 static void message_rfc822_dnd (EMsgComposer *composer, CamelStream *stream);
 
 /* used by e_msg_composer_add_message_attachments() */
@@ -181,7 +184,7 @@ get_text (Bonobo_PersistStream persist, char *format)
 	stream_mem = BONOBO_STREAM_MEM (stream);
 	text = g_byte_array_new ();
 	g_byte_array_append (text, stream_mem->buffer, stream_mem->pos);
-	bonobo_object_unref (BONOBO_OBJECT(stream));
+	bonobo_object_unref (BONOBO_OBJECT (stream));
 	
 	return text;
 }
@@ -2458,7 +2461,7 @@ drag_data_received (EMsgComposer *composer, GdkDragContext *context,
 		    int x, int y, GtkSelectionData *selection,
 		    guint info, guint time)
 {
-	char *tmp, *filename, **filenames;
+	char *tmp, *str, *filename, **urls;
 	CamelMimePart *mime_part;
 	CamelStream *stream;
 	CamelURL *url;
@@ -2478,26 +2481,31 @@ drag_data_received (EMsgComposer *composer, GdkDragContext *context,
 	case DND_TYPE_TEXT_URI_LIST:
 		d(printf ("dropping a text/uri-list\n"));
 		tmp = g_strndup (selection->data, selection->length);
-		filenames = g_strsplit (tmp, "\n", 0);
+		urls = g_strsplit (tmp, "\n", 0);
 		g_free (tmp);
 		
-		for (i = 0; filenames[i] != NULL; i++) {
-			filename = g_strstrip (filenames[i]);
+		for (i = 0; urls[i] != NULL; i++) {
+			str = g_strstrip (urls[i]);
 			
-			url = camel_url_new (filename, NULL);
-			g_free (filename);
-			filename = url->path;
-			url->path = NULL;
-			camel_url_free (url);
-			
-			e_msg_composer_attachment_bar_attach
-				(E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar),
-				 filename);
-			
-			g_free (filename);
+			if (!strncasecmp (str, "mailto:", 7)) {
+				handle_mailto (composer, str);
+				g_free (str);
+			} else {
+				url = camel_url_new (str, NULL);
+				g_free (str);
+				filename = url->path;
+				url->path = NULL;
+				camel_url_free (url);
+				
+				e_msg_composer_attachment_bar_attach
+					(E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar),
+					 filename);
+				
+				g_free (filename);
+			}
 		}
 		
-		g_free (filenames);
+		g_free (urls);
 		break;
 	case DND_TYPE_TEXT_VCARD:
 		d(printf ("dropping a text/x-vcard\n"));
@@ -3642,17 +3650,9 @@ add_recipients (GList *list, const char *recips, gboolean decode)
 	return list;
 }
 
-/**
- * e_msg_composer_new_from_url:
- * @url: a mailto URL
- *
- * Create a new message composer widget, and fill in fields as
- * defined by the provided URL.
- **/
-EMsgComposer *
-e_msg_composer_new_from_url (const char *url_in)
+static void
+handle_mailto (EMsgComposer *composer, const char *mailto)
 {
-	EMsgComposer *composer;
 	EMsgComposerHdrs *hdrs;
 	GList *to = NULL, *cc = NULL, *bcc = NULL;
 	EDestination **tov, **ccv, **bccv;
@@ -3662,14 +3662,8 @@ e_msg_composer_new_from_url (const char *url_in)
 	char *content;
 	int len, clen;
 	
-	g_return_val_if_fail (strncasecmp (url_in, "mailto:", 7) == 0, NULL);
-	
-	composer = e_msg_composer_new ();
-	if (!composer)
-		return NULL;
-	
 	/* Parse recipients (everything after ':' until '?' or eos). */
-	p = url_in + 7;
+	p = mailto + 7;
 	len = strcspn (p, "?");
 	if (len) {
 		content = g_strndup (p, len);
@@ -3777,6 +3771,27 @@ e_msg_composer_new_from_url (const char *url_in)
 		set_editor_text (composer, htmlbody);
 		g_free (htmlbody);
 	}
+}
+
+/**
+ * e_msg_composer_new_from_url:
+ * @url: a mailto URL
+ *
+ * Create a new message composer widget, and fill in fields as
+ * defined by the provided URL.
+ **/
+EMsgComposer *
+e_msg_composer_new_from_url (const char *url)
+{
+	EMsgComposer *composer;
+	
+	g_return_val_if_fail (strncasecmp (url, "mailto:", 7) == 0, NULL);
+	
+	composer = e_msg_composer_new ();
+	if (!composer)
+		return NULL;
+	
+	handle_mailto (composer, url);
 	
 	return composer;
 }
