@@ -1,5 +1,9 @@
 2001-08-19  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-summary-storage.c (e_summary_storage_new): Change type of
+	toplevel node from "Summary" to "summary".  [All the other folder
+	types use lowercase names.]
+
 	* e-shortcuts.c (load_shortcuts): Also use the display name for
 	the storage.
 

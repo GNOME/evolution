@@ -116,7 +116,7 @@ e_summary_storage_new (void)
 
 	storage = gtk_type_new (e_summary_storage_get_type ());
 
-	e_storage_construct (storage, "/", "Summary");
+	e_storage_construct (storage, "/", "summary");
 
 	return storage;
 }

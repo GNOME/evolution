@@ -1041,6 +1041,7 @@ e_shortcuts_add_default_group (EShortcuts *shortcuts)
 
 	/* FIXME: Inbox shortcut should point to something else for
            people who won't care about using /Local Folders/Inbox */
+	e_shortcuts_add_shortcut (shortcuts, 0, -1, "evolution:/summary", _("Summary"), 0, "summary");
 	e_shortcuts_add_shortcut (shortcuts, 0, -1, "evolution:/local/Inbox", _("Inbox"), 0, "mail");
 	e_shortcuts_add_shortcut (shortcuts, 0, -1, "evolution:/local/Calendar", _("Calendar"), 0, "calendar");
 	e_shortcuts_add_shortcut (shortcuts, 0, -1, "evolution:/local/Tasks", _("Tasks"), 0, "tasks");
