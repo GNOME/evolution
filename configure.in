@@ -677,7 +677,7 @@ int main (int argc, char **argv)
 	size_t utf8_real_len = strlen (utf8);
 	char *pstring;	
 
-	if (convert_ToPilotChar ("UTF8", utf8, utf8_real_len, &pstring) == -1)
+	if (convert_ToPilotChar ("UTF-8", utf8, utf8_real_len, &pstring) == -1)
 	        exit (1);
 
 	exit (0);

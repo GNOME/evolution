@@ -36,7 +36,7 @@ e_pilot_utf8_to_pchar (const char *string)
 	if (!string)
 		return NULL;
 	
-	res = convert_ToPilotChar ("UTF8", string, strlen (string), &pstring);
+	res = convert_ToPilotChar ("UTF-8", string, strlen (string), &pstring);
 
 	if (res != 0)
 		pstring = strdup (string);
@@ -53,7 +53,7 @@ e_pilot_utf8_from_pchar (const char *string)
 	if (!string)
 		return NULL;
 	
-	res = convert_FromPilotChar ("UTF8", string, strlen (string), &ustring);
+	res = convert_FromPilotChar ("UTF-8", string, strlen (string), &ustring);
 	
 	if (res != 0)
 		ustring = strdup (string);

@@ -1,3 +1,7 @@
+2001-12-10  JP Rosevear  <jpr@ximian.com>
+ 
+ 	* configure.in: use UTF-8 as the char set when testing pilot link
+ 
 2001-12-11  Ettore Perazzoli  <ettore@ximian.com>
 
 	* data/evolution.desktop.in (_Name): "Ximian Evolution", not
