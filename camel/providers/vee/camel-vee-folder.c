@@ -2,6 +2,7 @@
  *  Copyright (C) 2000 Helix Code Inc.
  *
  *  Authors: Michael Zucchi <notzed@helixcode.com>
+ *           Jeffrey Stedfast <fejj@helixcode.com>
  *
  *  This program is free software; you can redistribute it and/or 
  *  modify it under the terms of the GNU General Public License as 
@@ -49,6 +50,7 @@ GPtrArray *vee_get_summary (CamelFolder *folder, CamelException *ex);
 void vee_free_summary (CamelFolder *folder, GPtrArray *array);
 
 static gint vee_get_message_count (CamelFolder *folder, CamelException *ex);
+static gint vee_get_unread_message_count (CamelFolder *folder, CamelException *ex);
 static CamelMimeMessage *vee_get_message (CamelFolder *folder, const gchar *uid, CamelException *ex);
 
 static const CamelMessageInfo *vee_get_message_info (CamelFolder *folder, const char *uid);
@@ -118,6 +120,7 @@ camel_vee_folder_class_init (CamelVeeFolderClass *klass)
 	folder_class->get_message_info = vee_get_message_info;
 
 	folder_class->get_message_count = vee_get_message_count;
+	folder_class->get_unread_message_count = vee_get_unread_message_count;
 	folder_class->search_by_expression = vee_search_by_expression;
 
 	folder_class->get_message_flags = vee_get_message_flags;
@@ -290,6 +293,27 @@ static gint vee_get_message_count (CamelFolder *folder, CamelException *ex)
 	CamelVeeFolder *vf = (CamelVeeFolder *)folder;
 
 	return vf->messages->len;
+}
+
+static gint
+vee_get_unread_message_count (CamelFolder *folder, CamelException *ex)
+{
+	CamelVeeFolder *vee_folder = CAMEL_VEE_FOLDER (folder);
+	CamelMessageInfo *info;
+	GPtrArray *infolist;
+	gint i, count = 0;
+
+	g_return_val_if_fail (folder != NULL, -1);
+
+	infolist = vee_folder->messages;
+	
+	for (i = 0; i < infolist->len; i++) {
+		info = (CamelMessageInfo *) g_ptr_array_index (infolist, i);
+		if (!(info->flags & CAMEL_MESSAGE_SEEN))
+			count++;
+	}
+	
+	return count;
 }
 
 static gboolean

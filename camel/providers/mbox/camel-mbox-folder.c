@@ -4,6 +4,7 @@
 /* 
  * Authors: Bertrand Guiheneuf <bertrand@helixcode.com> 
  *          Michael Zucchi <notzed@helixcode.com>
+ *          Jeffrey Stedfast <fejj@helixcode.com>
  *
  * Copyright (C) 1999, 2000 Helix Code Inc.
  *
@@ -63,6 +64,7 @@ static void mbox_init (CamelFolder *folder, CamelStore *parent_store,
 
 static void mbox_sync (CamelFolder *folder, gboolean expunge, CamelException *ex);
 static gint mbox_get_message_count (CamelFolder *folder, CamelException *ex);
+static gint mbox_get_unread_message_count (CamelFolder *folder, CamelException *ex);
 static void mbox_append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException *ex);
 static GPtrArray *mbox_get_uids (CamelFolder *folder, CamelException *ex);
 static GPtrArray *mbox_get_subfolder_names (CamelFolder *folder, CamelException *ex);
@@ -100,6 +102,7 @@ camel_mbox_folder_class_init (CamelMboxFolderClass *camel_mbox_folder_class)
 	camel_folder_class->init = mbox_init;
 	camel_folder_class->sync = mbox_sync;
 	camel_folder_class->get_message_count = mbox_get_message_count;
+	camel_folder_class->get_unread_message_count = mbox_get_unread_message_count;
 	camel_folder_class->append_message = mbox_append_message;
 	camel_folder_class->get_uids = mbox_get_uids;
 	camel_folder_class->get_subfolder_names = mbox_get_subfolder_names;
@@ -267,6 +270,31 @@ mbox_get_message_count (CamelFolder *folder, CamelException *ex)
 	g_assert (mbox_folder->summary);
 	
 	return camel_folder_summary_count (CAMEL_FOLDER_SUMMARY (mbox_folder->summary));
+}
+
+static gint
+mbox_get_unread_message_count (CamelFolder *folder, CamelException *ex)
+{
+	CamelMboxFolder *mbox_folder = CAMEL_MBOX_FOLDER (folder);
+	CamelMessageInfo *info;
+	GPtrArray *infolist;
+	gint i, max, count = 0;
+
+	g_return_val_if_fail (folder != NULL, -1);
+
+	max = camel_folder_summary_count (CAMEL_FOLDER_SUMMARY (mbox_folder->summary));
+	if (max == -1)
+		return -1;
+
+	infolist = mbox_get_summary (folder, ex);
+	
+	for (i = 0; i < infolist->len; i++) {
+		info = (CamelMessageInfo *) g_ptr_array_index (infolist, i);
+		if (!(info->flags & CAMEL_MESSAGE_SEEN))
+			count++;
+	}
+	
+	return count;
 }
 
 /* FIXME: this may need some tweaking for performance? */

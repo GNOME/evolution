@@ -89,6 +89,7 @@ static CamelStore *get_parent_store   (CamelFolder *folder,
 
 static gint get_message_count (CamelFolder *folder, CamelException *ex);
 
+static gint get_unread_message_count (CamelFolder *folder, CamelException *ex);
 
 static void expunge             (CamelFolder *folder,
 				 CamelException *ex);
@@ -164,6 +165,7 @@ camel_folder_class_init (CamelFolderClass *camel_folder_class)
 	camel_folder_class->free_subfolder_names = free_uids;
 	camel_folder_class->expunge = expunge;
 	camel_folder_class->get_message_count = get_message_count;
+	camel_folder_class->get_unread_message_count = get_unread_message_count;
 	camel_folder_class->append_message = append_message;
 	camel_folder_class->get_permanent_flags = get_permanent_flags;
 	camel_folder_class->get_message_flags = get_message_flags;
@@ -587,6 +589,29 @@ get_message_count (CamelFolder *folder, CamelException *ex)
  **/
 gint
 camel_folder_get_message_count (CamelFolder *folder, CamelException *ex)
+{
+	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), -1);
+
+	return CF_CLASS (folder)->get_message_count (folder, ex);
+}
+
+static gint
+get_unread_message_count (CamelFolder *folder, CamelException *ex)
+{
+	g_warning ("CamelFolder::get_unread_message_count not implemented "
+		   "for `%s'", gtk_type_name (GTK_OBJECT_TYPE (folder)));
+	return -1;
+}
+
+/**
+ * camel_folder_unread_get_message_count:
+ * @folder: A CamelFolder object
+ * @ex: a CamelException
+ *
+ * Return value: the number of unread messages in the folder, or -1 if unknown.
+ **/
+gint
+camel_folder_get_unread_message_count (CamelFolder *folder, CamelException *ex)
 {
 	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), -1);
 

@@ -106,6 +106,9 @@ typedef struct {
 	gint   (*get_message_count)   (CamelFolder *folder, 
 				       CamelException *ex);
 
+	gint   (*get_unread_message_count) (CamelFolder *folder, 
+					    CamelException *ex);
+
 	void (*append_message)  (CamelFolder *folder, 
 				 CamelMimeMessage *message, 
 				 CamelException *ex);
@@ -254,6 +257,9 @@ gboolean           camel_folder_has_summary_capability (CamelFolder *folder);
 
 gint               camel_folder_get_message_count     (CamelFolder *folder, 
 						       CamelException *ex);
+
+gint               camel_folder_get_unread_message_count (CamelFolder *folder, 
+							  CamelException *ex);
 
 GPtrArray *        camel_folder_get_summary           (CamelFolder *folder, 
 						       CamelException *ex);

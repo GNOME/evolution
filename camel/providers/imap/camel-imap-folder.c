@@ -63,6 +63,7 @@ static void imap_init (CamelFolder *folder, CamelStore *parent_store,
 
 static void imap_sync (CamelFolder *folder, gboolean expunge, CamelException *ex);
 static gint imap_get_message_count (CamelFolder *folder, CamelException *ex);
+static gint imap_get_unread_message_count (CamelFolder *folder, CamelException *ex);
 static void imap_append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException *ex);
 static void imap_copy_message_to (CamelFolder *source, const char *uid, CamelFolder *destination, CamelException *ex);
 static void imap_move_message_to (CamelFolder *source, const char *uid, CamelFolder *destination, CamelException *ex);
@@ -111,6 +112,7 @@ camel_imap_folder_class_init (CamelImapFolderClass *camel_imap_folder_class)
 	camel_folder_class->get_subfolder_names = imap_get_subfolder_names;
 
 	camel_folder_class->get_message_count = imap_get_message_count;
+	camel_folder_class->get_unread_message_count = imap_get_unread_message_count;
 	camel_folder_class->get_message = imap_get_message;
 	camel_folder_class->append_message = imap_append_message;
 	camel_folder_class->delete_message = imap_delete_message;
@@ -444,6 +446,33 @@ imap_get_message_count (CamelFolder *folder, CamelException *ex)
 	g_free (result);
 
 	return imap_folder->count;
+}
+
+static gint
+imap_get_unread_message_count (CamelFolder *folder, CamelException *ex)
+{
+	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
+	CamelMessageInfo *info;
+	GPtrArray *infolist;
+	gint i, count = 0;
+
+	g_return_val_if_fail (folder != NULL, -1);
+
+	/* If we don't have a message count, return */
+	if (imap_folder->count == -1)
+		return -1;
+
+	infolist = imap_get_summary (folder, ex);
+	
+	for (i = 0; i < infolist->len; i++) {
+		info = (CamelMessageInfo *) g_ptr_array_index (infolist, i);
+		if (!(info->flags & CAMEL_MESSAGE_SEEN))
+			count++;
+	}
+
+	imap_free_summary (folder, infolist);
+
+	return count;
 }
 
 static void
