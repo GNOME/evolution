@@ -805,7 +805,7 @@ clear_tree (MessageList *ml)
 	if (ml->tree_root)
 		e_tree_model_node_remove (etm, ml->tree_root);
 	ml->tree_root =
-		e_tree_model_node_insert (etm, NULL, 0, ml);
+		e_tree_model_node_insert (etm, NULL, 0, NULL);
 	e_tree_model_node_set_expanded (etm, ml->tree_root, TRUE);
 }
 
