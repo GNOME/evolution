@@ -211,7 +211,7 @@ best_encoding (GByteArray *buf, const char *charset)
 	do {
 		out = outbuf;
 		outlen = sizeof (outbuf);
-		status = e_iconv (cd, &in, &inlen, &out, &outlen);
+		status = e_iconv (cd, (const char **) &in, &inlen, &out, &outlen);
 		for (ch = out - 1; ch >= outbuf; ch--) {
 			if ((unsigned char)*ch > 127)
 				count++;
@@ -3564,8 +3564,8 @@ e_msg_composer_new_with_message (CamelMimeMessage *message)
 	}
 	
 	if (postto == NULL) {
-		auto_cc = g_hash_table_new (g_strcase_hash, g_strcase_equal);
-		auto_bcc = g_hash_table_new (g_strcase_hash, g_strcase_equal);
+		auto_cc = g_hash_table_new (camel_strcase_hash, camel_strcase_equal);
+		auto_bcc = g_hash_table_new (camel_strcase_hash, camel_strcase_equal);
 		
 		if (account) {
 			CamelInternetAddress *iaddr;
