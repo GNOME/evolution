@@ -1,5 +1,8 @@
 1998-04-20  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
+	* gncal-full-day.c (gncal_full_day_key_press): Now any printable
+	keystroke (not just Return) will activate the selected range.
+
 	* gncal-full-day.c (paint_back): Made it use the new paint_row
 	function instead of painting everything directly.  We calculate
 	areas in a smarter way so there is even less flicker than before,

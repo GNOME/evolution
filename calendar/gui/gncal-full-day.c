@@ -1031,7 +1031,7 @@ paint_row (GncalFullDay *fullday, int row, struct paint_info *p)
 		text_gc  = p->widget->style->fg_gc[GTK_STATE_SELECTED];
 	} else if ((row < begin_row) || (row >= end_row)) {
 		left_gc  = p->widget->style->bg_gc[GTK_STATE_NORMAL];
-		right_gc = left_gc;
+		right_gc = p->widget->style->bg_gc[GTK_STATE_ACTIVE];
 		text_gc  = p->widget->style->fg_gc[GTK_STATE_NORMAL];
 	} else {
 		left_gc  = p->widget->style->bg_gc[GTK_STATE_NORMAL];
@@ -1810,6 +1810,8 @@ gncal_full_day_key_press (GtkWidget *widget, GdkEventKey *event)
 {
 	GncalFullDay *fullday;
 	struct drag_info *di;
+	GList *children;
+	Child *child;
 
 	g_return_val_if_fail (widget != NULL, FALSE);
 	g_return_val_if_fail (GNCAL_IS_FULL_DAY (widget), FALSE);
@@ -1823,8 +1825,29 @@ gncal_full_day_key_press (GtkWidget *widget, GdkEventKey *event)
 		return FALSE;
 
 	if (event->keyval == GDK_Return) {
-		gtk_signal_emit (GTK_OBJECT (fullday), fullday_signals [RANGE_ACTIVATED]);
+		gtk_signal_emit (GTK_OBJECT (fullday), fullday_signals[RANGE_ACTIVATED]);
 		return TRUE;
+	}
+
+	if (event->length > 0) {
+		/* This means some printable key was pressed */
+
+		gtk_signal_emit (GTK_OBJECT (fullday), fullday_signals[RANGE_ACTIVATED]);
+
+		/* This is sort of a hack.  We find the focused child, if it exists, and
+		 * we re-send the keystroke to it.
+		 */
+
+		for (children = fullday->children; children; children = children->next) {
+			child = children->data;
+
+			if (GTK_WIDGET_HAS_FOCUS (child->widget)) {
+				event->window = GTK_TEXT (child->widget)->text_area;
+				gtk_widget_event (widget, (GdkEvent *) event);
+				return TRUE;
+			}
+		}
+		
 	}
 
 	return FALSE;
