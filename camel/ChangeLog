@@ -1,3 +1,13 @@
+2003-11-14  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/local/camel-mbox-store.c (get_folder_info): Handle ""
+	as a request for a full dirscan as well (not just NULL). Makes it
+	consistant with other stores.
+	(scan_dir): Set the fi->flags appropriately.
+
+	* providers/local/camel-mbox-folder.c
+	(camel_mbox_folder_get_full_path): Removed temporary hack.
+
 2003-11-14  Not Zed  <NotZed@Ximian.com>
 
 	* camel-mime-parser.c (SCAN_BUF): oops, put the mempool stuff

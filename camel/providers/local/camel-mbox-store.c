@@ -580,8 +580,11 @@ scan_dir (CamelStore *store, GHashTable *visited, CamelFolderInfo *parent, const
 			g_free (short_name);
 			g_free (full_name);
 			
-			if (!S_ISDIR (st.st_mode)) {
+			if (S_ISDIR (st.st_mode)) {
+				fi->flags = (fi->flags & ~CAMEL_FOLDER_NOINFERIORS) | CAMEL_FOLDER_CHILDREN;
+			} else {
 				fi->unread_message_count = unread;
+				fi->flags &= ~CAMEL_FOLDER_NOSELECT;
 				if ((ext = strchr (fi->url, ';')) && !strncmp (ext, ";noselect=yes", 13))
 					memmove (ext, ext + 13, strlen (ext + 13) + 1);
 			}
@@ -596,6 +599,11 @@ scan_dir (CamelStore *store, GHashTable *visited, CamelFolderInfo *parent, const
 			fi->full_name = full_name;
 			fi->path = g_strdup_printf ("/%s", full_name);
 			fi->unread_message_count = unread;
+			
+			if (S_ISDIR (st.st_mode))
+				fi->flags = CAMEL_FOLDER_NOSELECT;
+			else
+				fi->flags = CAMEL_FOLDER_NOINFERIORS;
 			
 			if (tail == NULL)
 				folders = fi;
@@ -617,7 +625,8 @@ scan_dir (CamelStore *store, GHashTable *visited, CamelFolderInfo *parent, const
 				
 				g_hash_table_insert (visited, inew, inew);
 				
-				fi->child = scan_dir (store, visited, fi, path, fi->full_name, flags, ex);
+				if ((fi->child = scan_dir (store, visited, fi, path, fi->full_name, flags, ex)))
+					fi->flags |= CAMEL_FOLDER_CHILDREN;
 			}
 		}
 		
@@ -643,9 +652,10 @@ get_folder_info (CamelStore *store, const char *top, guint32 flags, CamelExcepti
 	struct stat st;
 	int unread = -1;
 	
-	path = mbox_folder_name_to_path (store, top ? top : "");
+	top = top ? top : "";
+	path = mbox_folder_name_to_path (store, top);
 	
-	if (top == NULL) {
+	if (*top == '\0') {
 		/* requesting root dir scan */
 		if (stat (path, &st) == -1 || !S_ISDIR (st.st_mode)) {
 			g_free (path);
