@@ -353,6 +353,7 @@ refresh_folder_info (gpointer key, gpointer value, gpointer data)
 {
 	CamelFolder *folder = CAMEL_FOLDER (value);
 
+	CAMEL_IMAP_FOLDER (folder)->need_rescan = TRUE;
 	CAMEL_FOLDER_CLASS (CAMEL_OBJECT_GET_CLASS(folder))->refresh_info(folder, data);
 }
 

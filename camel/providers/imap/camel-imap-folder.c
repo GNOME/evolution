@@ -136,6 +136,8 @@ camel_imap_folder_init (gpointer object, gpointer klass)
 	imap_folder->priv->search_lock = e_mutex_new(E_MUTEX_SIMPLE);
 	imap_folder->priv->cache_lock = e_mutex_new(E_MUTEX_REC);
 #endif
+
+	imap_folder->need_rescan = TRUE;
 }
 
 CamelType
@@ -251,17 +253,15 @@ camel_imap_folder_selected (CamelFolder *folder, CamelImapResponse *response,
 		imap_summary->validity = validity;
 		camel_folder_summary_clear (folder->summary);
 		camel_imap_message_cache_clear (imap_folder->cache);
+		imap_folder->need_rescan = FALSE;
 		camel_imap_folder_changed (folder, exists, NULL, ex);
 		return;
 	}
 
 	/* If we've lost messages, we have to rescan everything */
-	if (exists < count) {
-		imap_rescan (folder, exists, ex);
-		return;
-	}
-
-	if (count != 0) {
+	if (exists < count)
+		imap_folder->need_rescan = TRUE;
+	else if (count != 0 && !imap_folder->need_rescan) {
 		CamelImapStore *store = CAMEL_IMAP_STORE (folder->parent_store);
 
 		/* Similarly, if the UID of the highest message we
@@ -298,14 +298,18 @@ camel_imap_folder_selected (CamelFolder *folder, CamelImapResponse *response,
 		info = camel_folder_summary_index (folder->summary, count - 1);
 		val = strtoul (camel_message_info_uid (info), NULL, 10);
 		camel_folder_summary_info_free (folder->summary, info);
-		if (uid == 0 || uid != val) {
-			imap_rescan (folder, exists, ex);
-			return;
-		}
+		if (uid == 0 || uid != val)
+			imap_folder->need_rescan = TRUE;
 	}
 
-	/* OK. So now we know that no messages have been expunged. Whew.
-	 * Now see if messages have been added.
+	/* Now rescan if we need to */
+	if (imap_folder->need_rescan) {
+		imap_rescan (folder, exists, ex);
+		return;
+	}
+
+	/* If we don't need to rescan completely, but new messages
+	 * have been added, find out about them.
 	 */
 	if (exists > count)
 		camel_imap_folder_changed (folder, exists, NULL, ex);
@@ -333,12 +337,32 @@ imap_finalize (CamelObject *object)
 static void
 imap_refresh_info (CamelFolder *folder, CamelException *ex)
 {
-	if (camel_disco_store_status (CAMEL_DISCO_STORE (folder->parent_store)) == CAMEL_DISCO_STORE_OFFLINE)
+	CamelImapStore *imap_store = CAMEL_IMAP_STORE (folder->parent_store);
+	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
+	CamelImapResponse *response;
+
+	if (camel_disco_store_status (CAMEL_DISCO_STORE (imap_store)) == CAMEL_DISCO_STORE_OFFLINE)
 		return;
 
-	CAMEL_IMAP_STORE_LOCK (folder->parent_store, command_lock);
-	imap_rescan (folder, camel_folder_summary_count (folder->summary), ex);
-	CAMEL_IMAP_STORE_UNLOCK (folder->parent_store, command_lock);
+	/* If the folder isn't selected, select it (which will force
+	 * a rescan if one is needed.
+	 */
+	if (imap_store->current_folder != folder) {
+		response = camel_imap_command (imap_store, folder, ex, NULL);
+		camel_imap_response_free (imap_store, response);
+		return;
+	}
+
+	/* Otherwise, if we need a rescan, do it, and if not, just do
+	 * a NOOP to give the server a chance to tell us about new
+	 * messages.
+	 */
+	if (imap_folder->need_rescan)
+		imap_rescan (folder, camel_folder_summary_count (folder->summary), ex);
+	else {
+		response = camel_imap_command (imap_store, folder, ex, "NOOP");
+		camel_imap_response_free (imap_store, response);
+	}
 }
 
 /* Called with the store's command_lock locked */
@@ -360,6 +384,7 @@ imap_rescan (CamelFolder *folder, int exists, CamelException *ex)
 	GData *fetch_data;
 
 	CAMEL_IMAP_STORE_ASSERT_LOCKED (store, command_lock);
+	imap_folder->need_rescan = FALSE;
 
 	camel_operation_start(NULL, _("Scanning IMAP folder"));
 
@@ -574,14 +599,6 @@ imap_sync_online (CamelFolder *folder, CamelException *ex)
 			return;
 		}
 	}
-
-	if (!response) {
-		/* We didn't sync anything... Do a noop so the server
-		 * gets a chance to tell us any news it has.
-		 */
-		response = camel_imap_command (store, folder, ex, "NOOP");
-		camel_imap_response_free (store, response);
-	}		
 
 	/* Save the summary */
 	imap_sync_offline (folder, ex);

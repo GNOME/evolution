@@ -1,3 +1,26 @@
+2001-05-26  Dan Winship  <danw@ximian.com>
+
+	* providers/imap/camel-imap-folder.c: Add a "need_rescan" flag
+	saying if we want to rescan the entire folder for flag changes
+	next time it's selected.
+	(camel_imap_folder_init): Set need_rescan TRUE.
+	(camel_imap_folder_selected): If need_rescan is TRUE, call
+	imap_rescan.
+	(imap_refresh_info): Only do a full rescan if need_rescan is TRUE.
+	Otherwise just do a NOOP, making this a MUCH more lightweight
+	operation. Also, don't call imap_rescan directly if the folder
+	isn't selected, since that could end up causing the folder to be
+	scanned *twice* (imap_rescan -> camel_imap_command ->
+	camel_imap_folder_selected -> imap_rescan).
+	(imap_rescan): Set need_rescan FALSE.
+	(imap_sync_online): Don't NOOP if no changes were pushed: the
+	caller will call refresh_info if it wants to poll for changes.
+	Fixes evolution-mail doing lots of unnecessary extra work at
+	quit time.
+
+	* providers/imap/camel-imap-store.c (refresh_folder_info): Set
+	need_rescan on each folder before calling refresh_info.
+
 2001-05-25  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/smtp/camel-smtp-transport.c (smtp_auth): Oops. Use a
