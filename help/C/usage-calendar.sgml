@@ -490,7 +490,7 @@
 	<guimenu>File</guimenu> <guisubmenu>New</guisubmenu>
 	<guimenuitem>Folder</guimenuitem>
       </menuchoice>.
-       You'll need to tell the <guilabel>New Folder</guibutton> dialog that the new folder should be of the calendar type.  You can place the calendar in any calendar folder and access it
+       You'll need to tell the <guilabel>New Folder</guilabel> dialog that the new folder should be of the calendar type.  You can place the calendar in any calendar folder and access it
        from the folder view.  Alarms, configuration, and display for
        each calendar are separate from each other.
     </para>
