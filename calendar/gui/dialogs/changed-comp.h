@@ -1,9 +1,8 @@
-/* Evolution calendar - Print support
+/* Evolution calendar - Changed calendar component dialog
  *
- * Copyright (C) 2000 Helix Code, Inc.
+ * Copyright (C) 2001 Ximian, Inc.
  *
- * Authors: Michael Zucchi <notzed@helixcode.com>
- *          Federico Mena-Quintero <federico@helixcode.com>
+ * Author: JP Rosevear <jpr@ximian.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,25 +19,12 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef PRINT_H
-#define PRINT_H
+#ifndef CHANGED_COMP_H
+#define CHANGED_COMP_H
 
-#include "gnome-cal.h"
+#include <glib.h>
+#include <cal-util/cal-component.h>
 
-
-
-typedef enum {
-	PRINT_VIEW_DAY,
-	PRINT_VIEW_WEEK,
-	PRINT_VIEW_MONTH,
-	PRINT_VIEW_YEAR
-} PrintView;
-
-void print_calendar (GnomeCalendar *gcal, gboolean preview, time_t at, PrintView default_view);
-void print_comp (CalComponent *comp, gboolean preview);
-
-void print_setup (void);
-
-
+gboolean changed_component_dialog (CalComponent *comp, gboolean deleted, gboolean changed);
 
 #endif

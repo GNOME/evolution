@@ -1,3 +1,27 @@
+2001-06-20  JP Rosevear  <jpr@ximian.com>
+
+	* gui/dialogs/comp-editor.c (print_cmd): print menu command
+	(print_preview_cmd): ditto for print preview
+	(print_setup_cmd): ditto for print setup
+	(comp_editor_set_cal_client): listen for updated and removed
+	signals
+	(obj_updated_cb): if the item changes else where, query the user
+	for the course of action
+	(obj_removed_cb): ditto for removal
+
+	* gui/print.c (print_setup): rudimentary page setup support
+	(print_comp): rudimentary individual event/task printing support
+
+	* gui/print.h: new protos
+
+	* gui/dialogs/changed-comp.[hc]: dialog to query the user about
+	what to do when a item is changed elsewhere
+
+	* gui/dialogs/Makefile.am: build new files
+
+	* gui/dialogs/send-comp.c (send_component_dialog): remove useless
+	assignment
+	
 2001-06-20  Rodrigo Moya <rodrigo@ximian.com>
 
 	* idl/evolution-calendar.idl: added getFreeBusy method

@@ -33,6 +33,8 @@
 #include <libgnome/gnome-paper.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-uidefs.h>
+#include <libgnomeui/gnome-paper-selector.h>
+#include <libgnomeui/gnome-stock.h>
 #include <libgnomeprint/gnome-print.h>
 #include <libgnomeprint/gnome-print-copies.h>
 #include <libgnomeprint/gnome-print-master.h>
@@ -171,6 +173,7 @@ struct einfo
 	int count;
 };
 
+static const GnomePaper *paper_info = NULL;
 
 /* Returns the number of leap years since year 1 up to (but not including) the specified year */
 static int
@@ -2182,9 +2185,132 @@ print_year_view (GnomePrintContext *pc, GnomeCalendar *gcal, time_t date,
 	print_text_size (pc, 24, buf, ALIGN_CENTER,
 			 left+3, right, top-3, top - 27);
 
-	gnome_print_showpage(pc);
+	gnome_print_showpage (pc);
 }
 
+static void
+write_label_piece (time_t t, char *buffer, int size, char *stext, char *etext)
+{
+	struct tm *tmp_tm;
+	int len;
+	
+	tmp_tm = localtime (&t);
+	if (stext != NULL)
+		strcat (buffer, stext);
+
+	len = strlen (buffer);
+	e_time_format_date_and_time (tmp_tm,
+				     calendar_config_get_24_hour_format (), 
+				     FALSE, FALSE,
+				     &buffer[len], size - len);
+	if (etext != NULL)
+		strcat (buffer, etext);
+}
+
+static void
+print_date_label (GnomePrintContext *pc, CalComponent *comp,
+		  double left, double right, double top, double bottom)
+{
+	CalComponentDateTime datetime;
+	time_t start = 0, end = 0, complete = 0, due = 0;
+	static char buffer[1024];
+
+	cal_component_get_dtstart (comp, &datetime);
+	if (datetime.value)
+		start = icaltime_as_timet (*datetime.value);
+	cal_component_get_dtend (comp, &datetime);
+	if (datetime.value)
+		end = icaltime_as_timet (*datetime.value);
+	cal_component_get_due (comp, &datetime);
+	if (datetime.value)
+		due = icaltime_as_timet (*datetime.value);
+	cal_component_get_completed (comp, &datetime.value);
+	if (datetime.value)
+		complete = icaltime_as_timet (*datetime.value);
+
+	buffer[0] = '\0';
+
+	if (start > 0)
+		write_label_piece (start, buffer, 1024, NULL, NULL);
+
+	if (end > 0 && start > 0)
+		write_label_piece (end, buffer, 1024, _(" to "), NULL);
+
+	if (complete > 0) {
+		if (start > 0)
+			write_label_piece (complete, buffer, 1024, _(" (Completed "), ")");
+		else
+			write_label_piece (complete, buffer, 1024, _("Completed "), NULL);
+	}
+	
+	if (due > 0 && complete == 0) {
+		if (start > 0)
+			write_label_piece (due, buffer, 1024, _(" (Due "), ")");
+		else
+			write_label_piece (due, buffer, 1024, _("Due "), NULL);
+	}
+
+	print_text_size (pc, 12, buffer, ALIGN_LEFT,
+			 left, right, top, top - 15);
+}
+
+static void
+print_event (GnomePrintContext *pc, CalComponent *comp,
+	     double left, double right, double top, double bottom)
+{
+	CalComponentText text;
+	GSList *desc, *l;
+	
+	/* Summary */
+	cal_component_get_summary (comp, &text);
+	print_text_size (pc, 18, text.value, ALIGN_LEFT,
+			 left+3, right, top-3, top - 21);
+	top -= 21;
+	
+	/* Date information */
+	print_date_label (pc, comp, left+3, right, top-3, top - 15);
+	top -= 15;
+
+	/* Description */
+	cal_component_get_description_list (comp, &desc);
+	for (l = desc; l != NULL; l = l->next) {
+		CalComponentText *text = l->data;
+		
+	}
+	cal_component_free_text_list (desc);
+}
+
+static void
+print_task (GnomePrintContext *pc, CalComponent *comp,
+	    double left, double right, double top, double bottom)
+{
+	CalComponentText text;
+
+	cal_component_get_summary (comp, &text);
+	print_text_size (pc, 24, text.value, ALIGN_CENTER,
+			 left+3, right, top-3, top - 27);
+}
+
+static void
+print_comp_item (GnomePrintContext *pc, CalComponent *comp,
+		 double left, double right, double top, double bottom)
+{
+	CalComponentVType vtype;
+	
+	vtype = cal_component_get_vtype (comp);
+	switch (vtype) {
+	case CAL_COMPONENT_EVENT:
+		print_event (pc, comp, left, right, top, bottom);
+		break;
+		
+	case CAL_COMPONENT_TODO:
+		print_task (pc, comp, left, right, top, bottom);
+		break;
+	default:
+	}
+
+	gnome_print_showpage (pc);
+}
 
 void
 print_calendar (GnomeCalendar *gcal, gboolean preview, time_t date,
@@ -2194,7 +2320,6 @@ print_calendar (GnomeCalendar *gcal, gboolean preview, time_t date,
 	GnomePrintMaster *gpm;
 	GnomePrintContext *pc;
 	int copies, collate;
-	const GnomePaper *paper_info;
 	double l, r, t, b;
 
 	g_return_if_fail (gcal != NULL);
@@ -2252,7 +2377,8 @@ print_calendar (GnomeCalendar *gcal, gboolean preview, time_t date,
 
 	gpm = gnome_print_master_new ();
 
-	paper_info = gnome_paper_with_name (gnome_paper_name_default ());
+	if (paper_info == NULL)
+		paper_info = gnome_paper_with_name (gnome_paper_name_default ());
 	gnome_print_master_set_paper (gpm, paper_info);
 
 	if (printer)
@@ -2303,4 +2429,122 @@ print_calendar (GnomeCalendar *gcal, gboolean preview, time_t date,
 	}
 
 	gtk_object_unref (GTK_OBJECT (gpm));
+}
+
+
+void
+print_comp (CalComponent *comp, gboolean preview)
+{
+	GnomePrinter *printer;
+	GnomePrintMaster *gpm;
+	GnomePrintContext *pc;
+	int copies, collate;
+	double l, r, t, b;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+
+	printer = NULL;
+	copies = 1;
+	collate = FALSE;
+
+	if (!preview) {
+		GtkWidget *gpd;
+
+		gpd = gnome_print_dialog_new (_("Print Item"), 
+					      GNOME_PRINT_DIALOG_COPIES);
+
+		gnome_dialog_set_default (GNOME_DIALOG (gpd),
+					  GNOME_PRINT_PRINT);
+
+		/* Run dialog */
+
+		switch (gnome_dialog_run (GNOME_DIALOG (gpd))) {
+		case GNOME_PRINT_PRINT:
+			break;
+
+		case GNOME_PRINT_PREVIEW:
+			preview = TRUE;
+			break;
+
+		case -1:
+			return;
+
+		default:
+			gnome_dialog_close (GNOME_DIALOG (gpd));
+			return;
+		}
+
+		e_dialog_get_values (gpd);
+
+		gnome_print_dialog_get_copies (GNOME_PRINT_DIALOG (gpd),
+					       &copies, &collate);
+		printer = gnome_print_dialog_get_printer (GNOME_PRINT_DIALOG (gpd));
+
+		gnome_dialog_close (GNOME_DIALOG (gpd));
+	}
+
+	/* FIXME: allow configuration of paper size */
+
+	gpm = gnome_print_master_new ();
+
+	if (paper_info == NULL)
+		paper_info = gnome_paper_with_name (gnome_paper_name_default ());
+	gnome_print_master_set_paper (gpm, paper_info);
+
+	if (printer)
+		gnome_print_master_set_printer (gpm, printer);
+
+	gnome_print_master_set_copies (gpm, copies, collate);
+
+	pc = gnome_print_master_get_context (gpm);
+
+	l = gnome_paper_lmargin (paper_info);
+	r = gnome_paper_pswidth (paper_info)
+		- gnome_paper_rmargin (paper_info);
+	t = gnome_paper_psheight (paper_info)
+		- gnome_paper_tmargin (paper_info);
+	b = gnome_paper_bmargin (paper_info);
+
+	print_comp_item (pc, comp, l, r, t, b);
+
+	gnome_print_master_close (gpm);
+
+	if (preview) {
+		GnomePrintMasterPreview *gpmp;
+
+		gpmp = gnome_print_master_preview_new (gpm,
+						       _("Print Preview"));
+		gtk_widget_show (GTK_WIDGET (gpmp));
+	} else {
+		gnome_print_master_print (gpm);
+	}
+
+	gtk_object_unref (GTK_OBJECT (gpm));
+}
+
+void
+print_setup (void)
+{
+	GtkWidget *dlg, *ps;
+	gint btn;
+	
+	ps = gnome_paper_selector_new ();
+	gtk_widget_show (ps);
+	
+	dlg = gnome_dialog_new (_("Print Setup"), 
+				GNOME_STOCK_BUTTON_OK, 
+				GNOME_STOCK_BUTTON_CANCEL, 
+				NULL);
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dlg)->vbox), ps, TRUE, TRUE, 2);
+
+	btn = gnome_dialog_run (GNOME_DIALOG (dlg));
+	if (btn == 0) {
+		gchar *name;
+		
+		name  = gnome_paper_selector_get_name (GNOME_PAPER_SELECTOR (ps));
+		paper_info = gnome_paper_with_name (name);
+	}
+	
+	gnome_dialog_close (GNOME_DIALOG (dlg));
 }

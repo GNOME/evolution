@@ -33,9 +33,13 @@
 #include <bonobo/bonobo-ui-container.h>
 #include <bonobo/bonobo-ui-util.h>
 #include <gal/widgets/e-unicode.h>
+#include <libgnomeui/gnome-dialog.h>
+#include <libgnomeui/gnome-dialog-util.h>
+#include "../print.h"
 #include "save-comp.h"
 #include "delete-comp.h"
 #include "send-comp.h"
+#include "changed-comp.h"
 #include "comp-editor.h"
 
 
@@ -62,6 +66,7 @@ struct _CompEditorPrivate {
 	
 	gboolean changed;
 	gboolean needs_send;
+	gboolean updating;
 };
 
 
@@ -80,9 +85,15 @@ static void page_needs_send_cb (GtkWidget *widget, gpointer data);
 static void page_summary_changed_cb (GtkWidget *widget, const char *summary, gpointer data);
 static void page_dates_changed_cb (GtkWidget *widget, CompEditorPageDates *dates, gpointer data);
 
+static void obj_updated_cb (CalClient *client, const char *uid, gpointer data);
+static void obj_removed_cb (CalClient *client, const char *uid, gpointer data);
+
 static void save_close_cmd (GtkWidget *widget, gpointer data);
 static void save_as_cmd (GtkWidget *widget, gpointer data);
 static void delete_cmd (GtkWidget *widget, gpointer data);
+static void print_cmd (GtkWidget *widget, gpointer data);
+static void print_preview_cmd (GtkWidget *widget, gpointer data);
+static void print_setup_cmd (GtkWidget *widget, gpointer data);
 static void close_cmd (GtkWidget *widget, gpointer data);
 
 static void save_clicked_cb (GtkWidget *widget, gpointer data);
@@ -94,6 +105,9 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("FileSaveAndClose", save_close_cmd), 
 	BONOBO_UI_UNSAFE_VERB ("FileSaveAs", save_as_cmd),
 	BONOBO_UI_UNSAFE_VERB ("FileDelete", delete_cmd), 
+	BONOBO_UI_UNSAFE_VERB ("FilePrint", print_cmd),
+	BONOBO_UI_UNSAFE_VERB ("FilePrintPreview", print_preview_cmd),
+	BONOBO_UI_UNSAFE_VERB ("FilePrintSetup", print_setup_cmd),
 	BONOBO_UI_UNSAFE_VERB ("FileClose", close_cmd), 
 	
 	BONOBO_UI_VERB_END
@@ -233,9 +247,11 @@ comp_editor_destroy (GtkObject *object)
 		priv->window = NULL;
 	}
 
+	gtk_signal_disconnect_by_data (GTK_OBJECT (priv->client), editor);
+	
 	g_free (priv);
 	editor->priv = NULL;
-
+	
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
@@ -382,6 +398,12 @@ comp_editor_set_cal_client (CompEditor *editor, CalClient *client)
 	}
 
 	priv->client = client;
+
+	gtk_signal_connect (GTK_OBJECT (priv->client), "obj_updated",
+			    GTK_SIGNAL_FUNC (obj_updated_cb), editor);
+
+	gtk_signal_connect (GTK_OBJECT (priv->client), "obj_removed",
+			    GTK_SIGNAL_FUNC (obj_removed_cb), editor);
 }
 
 /**
@@ -653,10 +675,14 @@ save_comp (CompEditor *editor)
 		itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, priv->comp);
 	}
 	
+	priv->updating = TRUE;
+
 	if (!cal_client_update_object (priv->client, priv->comp))
 		g_message ("save_comp (): Could not update the object!");
 	else
 		priv->changed = FALSE;
+
+	priv->updating = FALSE;
 }
 
 static void
@@ -668,7 +694,9 @@ delete_comp (CompEditor *editor)
 	priv = editor->priv;
 
 	cal_component_get_uid (priv->comp, &uid);
+	priv->updating = TRUE;
 	cal_client_remove_object (priv->client, uid);
+	priv->updating = FALSE;
 	close_dialog (editor);
 }
 
@@ -838,6 +866,39 @@ delete_cmd (GtkWidget *widget, gpointer data)
 }
 
 static void
+print_cmd (GtkWidget *widget, gpointer data)
+{
+	CompEditor *editor = COMP_EDITOR (data);
+	CalComponent *comp;
+	
+	comp = comp_editor_get_current_comp (editor);
+	print_comp (comp, FALSE);
+	gtk_object_unref (GTK_OBJECT (comp));
+}
+
+static void
+print_preview_cmd (GtkWidget *widget, gpointer data)
+{
+	CompEditor *editor = COMP_EDITOR (data);
+	CalComponent *comp;
+	
+	comp = comp_editor_get_current_comp (editor);
+	print_comp (comp, TRUE);
+	gtk_object_unref (GTK_OBJECT (comp));
+}
+
+static void
+print_setup_cmd (GtkWidget *widget, gpointer data)
+{
+	CompEditor *editor = COMP_EDITOR (data);
+	CompEditorPrivate *priv;
+
+	priv = editor->priv;
+
+	print_setup ();
+}
+
+static void
 close_cmd (GtkWidget *widget, gpointer data)
 {
 	CompEditor *editor = COMP_EDITOR (data);
@@ -923,6 +984,52 @@ page_dates_changed_cb (GtkWidget *widget,
 		comp_editor_page_set_dates (l->data, dates);
 
 	priv->changed = TRUE;
+}
+
+static void
+obj_updated_cb (CalClient *client, const char *uid, gpointer data)
+{
+	CompEditor *editor = COMP_EDITOR (data);
+	CompEditorPrivate *priv;
+	CalComponent *comp = NULL;
+	CalClientGetStatus status;
+	const char *edit_uid;
+
+	priv = editor->priv;
+
+	cal_component_get_uid (priv->comp, &edit_uid);
+
+	if (!strcmp (uid, edit_uid) && !priv->updating) {
+		if (changed_component_dialog (priv->comp, FALSE, priv->changed)) {
+			status = cal_client_get_object (priv->client, uid, &comp);
+			if (status == CAL_CLIENT_GET_SUCCESS) {
+				comp_editor_edit_comp (editor, comp);
+				gtk_object_unref (GTK_OBJECT (comp));
+			} else {
+				GtkWidget *dlg;
+				
+				dlg = gnome_error_dialog (_("Unable to obtain current version!"));
+				gnome_dialog_run_and_close (GNOME_DIALOG (dlg));
+			}
+		}
+	}	
+}
+
+static void
+obj_removed_cb (CalClient *client, const char *uid, gpointer data)
+{
+	CompEditor *editor = COMP_EDITOR (data);
+	CompEditorPrivate *priv;
+	const char *edit_uid;
+	
+	priv = editor->priv;
+
+	cal_component_get_uid (priv->comp, &edit_uid);
+	
+	if (!strcmp (uid, edit_uid) && !priv->updating) {
+		if (changed_component_dialog (priv->comp, TRUE, priv->changed))
+			close_dialog (editor);
+	}
 }
 
 static gint

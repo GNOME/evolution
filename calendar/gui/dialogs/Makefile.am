@@ -26,6 +26,8 @@ libcal_dialogs_a_SOURCES =	\
 	cal-prefs-dialog.h	\
 	cancel-comp.c		\
 	cancel-comp.h		\
+	changed-comp.c		\
+	changed-comp.h		\
 	comp-editor.c		\
 	comp-editor.h		\
 	comp-editor-page.c	\

@@ -49,8 +49,6 @@ send_component_dialog (CalComponent *comp)
 	CalComponentVType vtype;
 	char *str;
 
-	str = _("The meeting status has changed. Send an updated version?");
-
 	vtype = cal_component_get_vtype (comp);
 
 	switch (vtype) {
