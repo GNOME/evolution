@@ -1,7 +1,34 @@
-1.0 Release Candidate, 2001-10-30
----------------------------------
+Version 0.99.0 (1.0 Release Candidate 1), 2001-11-05
+----------------------------------------------------
 
 Shell:
+
+  - Fixed problems with icons not showing up in the druids.  (Ettore,
+    Anna)
+
+  - Fixed some dnd brokenness.  (Ettore)
+
+  - Fixed some random crashes and made the shell more robust in case
+    of activation problems or components crashing.  (Ettore)
+
+  - Implemented a newer, prettier about box.  (Ettore)
+
+  - Made sure the quit message always gets displayed.  (Ettore)
+
+  - Made sure the shell doesn't allow for folder names with slashes.
+    (Ettore)
+
+  - Made the folder selection and folder creation dialogs play better
+    with the WM for out-of-proc components.  (Ettore)
+
+  - Make sure components don't display dialogs before the shell
+    windows are displayed.  (Ettore)
+
+  - Fixed some problems with copying/transferring/renaming folders.
+    (Ettore)
+
+  - Made the pop-up folder bar have the expected size when popped up.
+    (Ettore)
 
 Mailer:
 
@@ -25,10 +52,6 @@ Mailer:
   - Fixed numerous crash on startup/exit/while doing nothing/switching
     folder/components, many races and other architectural errors.
     (Michael, Jeff)
-
-  - Broke the build.  Fixed the build.  Broke the mailer so much it
-    wouldn't start, fixed the mailer so it would start, broke it again
-    .... (Michael)
 
   - Bunch of vFolder fixes and feature completion. (Michael)
 
@@ -75,6 +98,17 @@ Mailer:
     always return 0 suggesting that the signature was valid even when
     it wasn't).  (Jeff)
 
+  - "Whitespace-only" recipients are now ignored, rather than being
+    flagged as invalid. (Trow)
+
+  - Fixed bugs related to message searching: memory leak, i18n problems,
+    etc. (Trow)
+
+  - We no longer leave stray windows lying around after doing the
+    "Add Sender to Addressbook" operation. (Trow)
+
+  - Bcc: headers are now shown when viewing drafts, sent mail. (Trow)
+
   - Lots and lots and lots of other little and not so little things.
     (Michael, Jeff, Dan, Trow)
 
@@ -111,6 +145,31 @@ Addressbook:
   - Add a config setting (/Addressbook/default_book_uri) to specify where
     vcards and email addresses from mail messages are stored as contacts.
     (Toshok)
+
+  - Fixed problem that arose in an earlier beta where some contacts
+    couldn't be modified or deleted from local addressbook.
+    (Chris Toshok)
+
+  - LDIF Importer.  (Chris Toshok, Michael M. Morrison)
+
+  - Fixed Memory Leaks.  (Trow)
+
+  - Always show the correct message about the number of contacts on the
+    message bar.  (Trow)
+
+  - Fixed printing of contacts.  (Trow)
+
+  - Fixed the incredibly annoying bug which caused completed
+    (underlined) contacts to spontaneously revert when edited.
+    (Trow)
+
+  - Better event handling in minicard view.  (Chris Lahey)
+
+  - Fixed Bold font in select names dialog.  (Chris Lahey)
+
+  - Show error dialog if saving a contact to a file fails.  (Chris Lahey)
+
+  - Handle carriage returns in any contact field properly.  (Chris Lahey)
 
 Summary:
 
@@ -176,6 +235,19 @@ Calendar:
 
   - New iCalendar importer.  (Rodrigo)
 
+  - Fixed problems introduced in Beta 6 due to the changes in the URI
+    management functions.  (Rodrigo)
+
+  - Prettier alarm notification dialog.  (Larry)
+
+  - Session management for the alarm daemon.  (Federico)
+
+  - Added activity bars for long calendar operations.  (Rodrigo)
+
+  - Added iCal file importer.  (Rodrigo)
+
+  - Show error dialogs on calendar failures.  (Rodrigo)
+
 Conduits:
 
   - Addressbook phone numbers now preserved if they can't all be
@@ -191,72 +263,6 @@ Conduits:
   - Use new timezone stuff everywhere (JP, Damon)
 
   - Translate task priorities better (JP)
-
-Version 0.17 (Beta 7), 2001-10-15
----------------------------------
-
-Shell:
-
-
-Mailer:
-
-  - "Whitespace-only" recipients are now ignored, rather than being
-    flagged as invalid. (Trow)
-
-  - Fixed bugs related to message searching: memory leak, i18n problems,
-    etc. (Trow)
-
-  - We no longer leave stray windows lying around after doing the
-    "Add Sender to Addressbook" operation. (Trow)
-
-  - Bcc: headers are now shown when viewing drafts, sent mail. (Trow)
-
-
-Addressbook:
-
-  - General bug fixes (Iain, Trow, JP, Chris Toshok, Chris Lahey, Dan
-    Winship)
-
-  - Fixed problem that arose in an earlier beta where some contacts
-    couldn't be modified or deleted from local addressbook (Chris
-    Toshok)
-
-  - LDIF Importer (Chris Toshok, Michael M. Morrison)
-
-  - Fixed Memory Leaks (Trow)
-
-  - Always show the correct message about the number of contacts on the
-    message bar. (Trow)
-
-  - Fixed printing of contacts. (Trow)
-
-  - Fixed the incredibly annoying bug which caused completed (underlined)
-    contacts to spontaneously revert when edited.  (Trow)
-
-  - Better event handling in minicard view.  (Chris Lahey)
-
-  - Fixed Bold font in select names dialog.  (Chris Lahey)
-
-  - Show error dialog if saving a contact to a file fails.  (Chris Lahey)
-
-  - Handle carriage returns in any contact field properly.  (Chris Lahey)
-
-Calendar:
-
-  - Compilation fixes.  (Rodrigo)
-
-  - Fixed problems introduced in Beta 6 due to the changes in the URI
-    management functions.  (Rodrigo)
-
-  - Prettier alarm notification dialog.  (Larry)
-
-  - Session management for the alarm daemon.  (Federico)
-
-  - Added activity bars for long calendar operations (Rodrigo)
-
-  - Added iCal file importer (Rodrigo)
-
-  - Show error dialogs on calendar failures (Rodrigo)
 
 
 Version 0.16 (Beta 6), 2001-10-10

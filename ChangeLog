@@ -1,3 +1,7 @@
+2001-11-05  Ettore Perazzoli  <ettore@ximian.com>
+
+	* NEWS: Updated.
+
 2001-10-31  Ettore Perazzoli  <ettore@ximian.com>
 
 	* data/evolution.desktop.in (Icon): evolution.png instead of
