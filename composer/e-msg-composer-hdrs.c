@@ -67,6 +67,7 @@ static GtkTableClass *parent_class = NULL;
 
 enum {
 	SHOW_ADDRESS_DIALOG,
+	SUBJECT_CHANGED,
 	LAST_SIGNAL
 };
 
@@ -228,8 +229,17 @@ create_addressbook_entry (EMsgComposerHdrs *hdrs,
 static void
 entry_changed (GtkWidget *entry, EMsgComposerHdrs *hdrs)
 {
-	/* Set the has_changed var to TRUE */
+	gchar *tmp;
+	gchar *subject;
+
+	/* Mark the headers as changed */
 	hdrs->has_changed = TRUE;
+
+	tmp = e_msg_composer_hdrs_get_subject (hdrs);
+	subject = e_utf8_to_gtk_string (GTK_WIDGET (entry), tmp);
+
+	gtk_signal_emit (GTK_OBJECT (hdrs), signals[SUBJECT_CHANGED], subject);
+	g_free (tmp);
 }
 
 static GtkWidget *
@@ -248,7 +258,7 @@ add_header (EMsgComposerHdrs *hdrs,
 	
 	if (type == HEADER_ADDRBOOK) {
 		label = gtk_button_new_with_label (name);
-		GTK_OBJECT_UNSET_FLAGS(label, GTK_CAN_FOCUS);
+		GTK_OBJECT_UNSET_FLAGS (label, GTK_CAN_FOCUS);
 		gtk_signal_connect (GTK_OBJECT (label), "clicked",
 				    GTK_SIGNAL_FUNC (address_button_clicked_cb),
 				    hdrs);
@@ -274,13 +284,14 @@ add_header (EMsgComposerHdrs *hdrs,
 	case HEADER_OPTIONMENU:
 		entry = create_optionmenu (hdrs, name);
 		break;
+	case HEADER_ENTRYBOX:
 	default:
 		entry = e_entry_new ();
-		gtk_object_set(GTK_OBJECT(entry),
-			       "editable", TRUE,
-			       "use_ellipsis", TRUE,
-			       "allow_newlines", FALSE,
-			       NULL);
+		gtk_object_set (GTK_OBJECT(entry),
+				"editable", TRUE,
+				"use_ellipsis", TRUE,
+				"allow_newlines", FALSE,
+				NULL);
 		gtk_signal_connect (GTK_OBJECT (entry), "changed",
 				    GTK_SIGNAL_FUNC (entry_changed), hdrs);
 	}
@@ -396,6 +407,16 @@ class_init (EMsgComposerHdrsClass *class)
 						   show_address_dialog),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
+
+	signals[SUBJECT_CHANGED] =
+		gtk_signal_new ("subject_changed",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (EMsgComposerHdrsClass,
+						   subject_changed),
+				gtk_marshal_NONE__STRING,
+				GTK_TYPE_NONE,
+				1, GTK_TYPE_STRING);
 
 	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 }

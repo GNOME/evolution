@@ -1142,6 +1142,23 @@ attachment_bar_changed_cb (EMsgComposerAttachmentBar *bar,
 		e_msg_composer_show_attachments (composer, FALSE);
 }
 
+static void
+subject_changed_cb (EMsgComposerHdrs *hdrs,
+		    gchar *subject,
+		    void *data)
+{
+	EMsgComposer *composer;
+
+	composer = E_MSG_COMPOSER (data);
+
+	if (strlen (subject))
+		gtk_window_set_title (GTK_WINDOW (composer), subject);
+	else
+		gtk_window_set_title (GTK_WINDOW (composer),
+				      _("Compose a message"));
+	g_free (subject);
+}
+
 
 /* GtkObject methods.  */
 
@@ -1373,6 +1390,8 @@ e_msg_composer_construct (EMsgComposer *composer)
 	
 	composer->hdrs = e_msg_composer_hdrs_new ();
 	gtk_box_pack_start (GTK_BOX (vbox), composer->hdrs, FALSE, FALSE, 0);
+	gtk_signal_connect (GTK_OBJECT (composer->hdrs), "subject_changed",
+			    GTK_SIGNAL_FUNC (subject_changed_cb), composer);
 	gtk_widget_show (composer->hdrs);
 	
 	/* Editor component.  */
@@ -1418,7 +1437,7 @@ e_msg_composer_construct (EMsgComposer *composer)
 	gtk_widget_show (vbox);
 	
 	e_msg_composer_show_attachments (composer, FALSE);
-	
+
 	/* Set focus on the `To:' field.
 	
 	   gtk_widget_grab_focus (e_msg_composer_hdrs_get_to_entry (E_MSG_COMPOSER_HDRS (composer->hdrs)));

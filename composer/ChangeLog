@@ -1,3 +1,18 @@
+2001-01-17  Jason Leach  <jasonleach@usa.net>
+
+	(Bug #1192: Set the Composer window title to something useful)
+	
+	* e-msg-composer.c (e_msg_composer_construct): Connect up the new
+	signal here.
+	(subject_changed_cb): Set the composer window title to the subject
+	as it's changed, or if it goes blank make it the default "Compose
+	a message".
+
+	* e-msg-composer-hdrs.c (class_init): Create a new signal
+	"subject_changed".
+	(entry_changed): Emit the signal here when the subject entry is
+	changed.
+	
 2001-01-17  Iain Holmes  <iain@ximian.com>
 
 	* e-msg-composer-attachment.c (e_msg_composer_attachment_edit):
