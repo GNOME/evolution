@@ -78,9 +78,9 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 
 static void
 owner_unset_cb (EvolutionShellComponent *shell_component,
-	      Evolution_Shell shell_interface)
-	      EvolutionShellClient shell_client,
-	      void *data)
+		Evolution_Shell shell_interface,
+		EvolutionShellClient shell_client,
+		void *data)
 {
 	owner_count --;
 	if (owner_count <= 0)
