@@ -87,6 +87,12 @@ configure_mail (FolderBrowser *fb)
 			GNOME_STOCK_BUTTON_YES,
 			GNOME_STOCK_BUTTON_NO, NULL);
 
+		/*
+		 * Focus YES
+		 */
+		gnome_dialog_set_default (GNOME_DIALOG (dialog), 0);
+		gtk_widget_grab_focus (GTK_WIDGET (GNOME_DIALOG (dialog)->buttons->data));
+		
 		gnome_dialog_set_parent (
 			GNOME_DIALOG (dialog),
 			GTK_WINDOW (gtk_widget_get_ancestor (

@@ -1103,7 +1103,7 @@ save_header_state(MessageList *ml)
 }
 
 #ifdef JUST_FOR_TRANSLATORS
-static char list [] = {
+static char *list [] = {
 	N_("Status"), N_("Flagged"), N_("Score"), N_("Attachment"),
 	N_("From"),   N_("Subject"), N_("Date"),  N_("Received"),
 	N_("To"),     N_("Size")
