@@ -1,3 +1,7 @@
+2001-08-01  Damon Chaplin  <damon@ximian.com>
+
+	* cal-client/cal-client.c: removed debugging messages.
+
 2001-08-01  Federico Mena Quintero  <federico@ximian.com>
 
 	The calendar search bar widget now includes a drop-down menu of
