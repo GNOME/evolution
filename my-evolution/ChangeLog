@@ -1,5 +1,10 @@
 2002-06-26  Iain <iain@ximian.com>
 
+	* e-summary-rdf.c (layer_find_url): If w == NULL return. Fixes crash
+	if RDF has no link tags.
+
+2002-06-26  Iain <iain@ximian.com>
+
 	* Locations: Fix a typo and remove Latvia, cos I couldn't find the
 	correct code for it.
 

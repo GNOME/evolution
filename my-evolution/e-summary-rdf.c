@@ -129,6 +129,10 @@ layer_find_url (xmlNodePtr node,
 	}
 	
 	wb = w = g_malloc (3 * strlen (p));
+
+	if (w == NULL) {
+		return fail;
+	}
 	
 	if (*r == ' ') r++;	/* Fix UF bug */
 
