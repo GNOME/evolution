@@ -478,11 +478,11 @@ ibex_block_cache_open(const char *name, int flags, int mode)
 
 	ibex_block_read_root(block_cache);
 	if (block_cache->root.roof == 0
-	    || memcmp(block_cache->root.version, "ibx5", 4)
+	    || memcmp(block_cache->root.version, IBEX_VERSION, 4)
 	    || ((block_cache->root.flags & IBEX_ROOT_SYNCF) == 0)) {
 		(printf("Initialising superblock\n"));
 		/* reset root data */
-		memcpy(block_cache->root.version, "ibx5", 4);
+		memcpy(block_cache->root.version, IBEX_VERSION, 4);
 		block_cache->root.roof = 1024;
 		block_cache->root.free = 0;
 		block_cache->root.words = 0;

@@ -45,6 +45,7 @@ typedef guint32 hashid_t;
 struct _HASHCursor {
 	struct _IBEXCursor cursor;
 
+	hashid_t key;
 	hashid_t block;
 	unsigned int index;
 	unsigned int size;
@@ -97,8 +98,8 @@ struct _hashkey {
 };
 
 struct _hashblock {
-	/*blockid_t next;*/		/* all key blocks linked together? */
-	guint32 used;		/* elements used */
+	unsigned int next:32-BLOCK_BITS;	/* next block, linked list of all key blocks: block number */
+	unsigned int used:BLOCK_BITS;		/* number of elements used */
 	union {
 		struct _hashkey keys[(BLOCK_SIZE-4)/sizeof(struct _hashkey)];
 		char keydata[BLOCK_SIZE-4];
@@ -114,6 +115,7 @@ struct _hashblock {
 struct _hashroot {
 	hashid_t free;		/* free list */
 	guint32 size;		/* how big the hash table is */
+	hashid_t keys;		/* linked list of blocks */
 	hashid_t table[(BLOCK_SIZE-8)/sizeof(hashid_t)]; /* pointers to blocks of pointers */
 };
 
@@ -325,6 +327,26 @@ hash_find(struct _IBEXIndex *index, const char *key, int keylen)
 	}
 	return 0;
 }
+
+static int
+hash_info(struct _hashblock *bucket, int index)
+{
+	char *start, *end;
+
+	g_assert(index < bucket->used);
+
+	start = &bucket->hb_keydata[bucket->hb_keys[index].keyoffset];
+	if (index == 0) {
+		end = &bucket->hb_keydata[sizeof(bucket->hb_keydata)/sizeof(bucket->hb_keydata[0])];
+	} else {
+		end = &bucket->hb_keydata[bucket->hb_keys[index-1].keyoffset];
+	}
+
+	return end-start;
+}
+
+
+/* TODO: get rid of hash_compress/remove and just have one a-la the disktail code */
 
 /* compresses the bucket 'bucket', removing data
    at index 'index' */
@@ -637,6 +659,10 @@ hash_insert(struct _IBEXIndex *index, const char *key, int keylen)
 	bucket->hb_keys[1].next = hashroot->free;
 	hashroot->free = HASH_KEY(keybucket, 1);
 
+	/* link new block into keys list */
+	bucket->next = block_number(hashroot->keys);
+	hashroot->keys = keybucket;
+
 	ibex_block_dirty((struct _block *)hashroot);
 	ibex_block_dirty((struct _block *)table);
 	ibex_block_dirty((struct _block *)bucket);
@@ -657,12 +683,13 @@ hash_cursor_create(struct _IBEXIndex *idx)
 	idc = g_malloc(sizeof(*idc));
 	idc->cursor.klass = &ibex_hash_cursor_class;
 	idc->cursor.index = idx;
-	idc->block = 0;
+	idc->key = 0;
 	idc->index = 0;
 
 	hashroot = (struct _hashroot *)ibex_block_read(idx->blocks, idx->root);
 	idc->size = hashroot->size;
-
+	idc->block = hashroot->keys;
+	
 	return &idc->cursor;
 }
 
@@ -676,32 +703,24 @@ static guint32
 hash_cursor_next(struct _IBEXCursor *idc)
 {
 	struct _HASHCursor *hc = (struct _HASHCursor *)idc;
-	struct _hashroot *hashroot;
 	struct _hashblock *bucket;
-	struct _hashtableblock *table;
 
-	/* get the next bucket chain */
-	if (hc->block != 0) {
-		int ind;
-
-		bucket = (struct _hashblock *)ibex_block_read(idc->index->blocks, HASH_BLOCK(hc->block));
-		ind = HASH_INDEX(hc->block);
-
-		g_assert(ind < bucket->used);
-
-		hc->block = bucket->hb_keys[ind].next;
-	}
-
-	if (hc->block == 0) {
-		hashroot = (struct _hashroot *)ibex_block_read(idc->index->blocks, idc->index->root);
-		while (hc->block == 0 && hc->index < hc->size) {
-			table = (struct _hashtableblock *)
-				ibex_block_read(idc->index->blocks,
-						hashroot->table[hc->index / (BLOCK_SIZE/sizeof(blockid_t))]);
-			hc->block = table->buckets[hc->index % (BLOCK_SIZE/sizeof(blockid_t))];
-
+	while (hc->block != 0) {
+		bucket = (struct _hashblock *)ibex_block_read(idc->index->blocks, hc->block);
+		while (hc->index < bucket->used) {
+			if (hash_info(bucket, hc->index) > 0) {
+				hc->key = HASH_KEY(hc->block, hc->index);
+				hc->index++;
+				if (hc->index == bucket->used) {
+					hc->index = 0;
+					hc->block = block_location(bucket->next);
+				}
+				return hc->key;
+			}
 			hc->index++;
 		}
+		hc->index = 0;
+		hc->block = block_location(bucket->next);
 	}
 
 	return hc->block;
@@ -738,6 +757,8 @@ ibex_hash_dump_rec(struct _IBEXIndex *index, int *words, int *wordslen)
 	struct _hashroot *hashroot;
 	blockid_t hashtable;
 	hashid_t hashbucket;
+	extern void ibex_diskarray_dump(struct _memcache *blocks, blockid_t head, blockid_t tail);
+
 
 	printf("Walking hash tree:\n");
 	hashroot = (struct _hashroot *)ibex_block_read(index->blocks, index->root);

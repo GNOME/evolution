@@ -1,3 +1,20 @@
+2000-10-26  Not Zed  <NotZed@HelixCode.com>
+
+	* block.c (ibex_block_cache_open): Use IBEX_VERSION rather than
+	hardcoded version string.
+
+	* ibex_internal.h (IBEX_VERSION): Bumped version again.  This time
+	I did change the index format.
+
+	* hash.c (struct _hashroot): Add a linked list of keys to the table.
+	(struct _hashblock): Added a next pointer as a block number.
+	(hash_insert): Link new key blocks into the key block list.
+	(struct _HASHCursor): Renamed block to key and added a block item.
+	(hash_cursor_next): Changed to go through the linked list of all
+	hash items rather than through each hash chain separately.  >>
+	faster.
+	(ibex_hash_dump_rec): Remove a warning.
+
 2000-10-25    <jpr@helixcode.com>
 
 	* ibex_block.c: No longer include <db.h>
