@@ -37,8 +37,9 @@ struct calendar_tag_closure {
 
 /* Clears all the tags in a calendar and fills a closure structure with the
  * necessary information for iterating over occurrences.
+ * Returns FALSE if the calendar has no dates shown.
  */
-static void
+static gboolean
 prepare_tag (ECalendar *ecal, struct calendar_tag_closure *c)
 {
 	gint start_year, start_month, start_day;
@@ -47,9 +48,11 @@ prepare_tag (ECalendar *ecal, struct calendar_tag_closure *c)
 
 	e_calendar_item_clear_marks (ecal->calitem);
 
-	e_calendar_item_get_date_range	(ecal->calitem,
-					 &start_year, &start_month, &start_day,
-					 &end_year, &end_month, &end_day);
+	if (!e_calendar_item_get_date_range (ecal->calitem,
+					     &start_year, &start_month,
+					     &start_day,
+					     &end_year, &end_month, &end_day))
+	    return FALSE;
 
 	start_tm.tm_year = start_year - 1900;
 	start_tm.tm_mon = start_month;
@@ -70,6 +73,8 @@ prepare_tag (ECalendar *ecal, struct calendar_tag_closure *c)
 	c->calitem = ecal->calitem;
 	c->start_time = mktime (&start_tm);
 	c->end_time = mktime (&end_tm);
+
+	return TRUE;
 }
 
 /* Marks the specified range in an ECalendar; called from cal_client_generate_instances() */
@@ -124,7 +129,8 @@ tag_calendar_by_client (ECalendar *ecal, CalClient *client)
 	if (cal_client_get_load_state (client) != CAL_CLIENT_LOAD_LOADED)
 		return;
 
-	prepare_tag (ecal, &c);
+	if (!prepare_tag (ecal, &c))
+		return;
 
 #if 0
 	g_print ("DateNavigator generating instances\n");
@@ -156,7 +162,9 @@ tag_calendar_by_comp (ECalendar *ecal, CalComponent *comp)
 	if (!GTK_WIDGET_VISIBLE (ecal))
 		return;
 
-	prepare_tag (ecal, &c);
+	if (!prepare_tag (ecal, &c))
+		return;
+
 #if 0
 	g_print ("DateNavigator generating instances\n");
 #endif

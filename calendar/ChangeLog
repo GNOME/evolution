@@ -1,3 +1,8 @@
+2001-01-25  Damon Chaplin  <damon@ximian.com>
+
+	* gui/tag-calendar.c: don't tag the calendar if no dates are shown.
+	(e_calendar_item_get_date_range() now returns FALSE in this case.)
+
 2001-01-23  Damon Chaplin  <damon@helixcode.com>
 
 	* gui/calendar-model.c (ensure_task_complete): make sure the status
