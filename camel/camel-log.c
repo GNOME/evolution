@@ -24,12 +24,15 @@
 #include "camel-log.h"
 
 int camel_debug_level = 10;
-FILE *camel_log_file_descriptor = stderr;
+FILE *camel_log_file_descriptor = NULL;
 
 void
 camel_log(CamelLogLevel level, const gchar *format, ... )
 {
 	va_list args;
+	if (camel_log_file_descriptor == NULL)
+		camel_log_file_descriptor = stderr;
+
 	if (level<=camel_debug_level)
 		{
 			va_start(args, format);

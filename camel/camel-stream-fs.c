@@ -111,7 +111,7 @@ camel_stream_fs_new_with_name (GString *name, CamelStreamFsMode mode)
 	if ( (mode & CAMEL_STREAM_FS_READ) && !(mode & CAMEL_STREAM_FS_WRITE) )
 		if (v == -1) return NULL;
 
-	fd = open (name->str, flags);
+	fd = open (name->str, flags, 0600);
 	if (fd==-1) {
 		CAMEL_LOG (FULL_DEBUG, "CamelStreamFs::new_with_name can not obtain fd for file \"%s\"\n", name->str);
 		CAMEL_LOG (FULL_DEBUG, "  Full error text is : %s\n", strerror(errno));

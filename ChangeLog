@@ -1,3 +1,18 @@
+1999-06-24  bertrand  <Bertrand.Guiheneuf@inria.fr>
+
+	* camel/camel-mime-message.c (_write_one_recipient_to_stream): 
+	includes gmime-utils header. 
+	patch from Ulrich Drepper <drepper at cygnus.com>
+	set separator string in write_header_with_glist_to_stream()
+	
+	* camel/camel-log.c (camel_log): 
+	patch from Ulrich Drepper <drepper at cygnus.com>
+	Do not use stderr in initialization of logfile descriptor.
+	
+	* camel/camel-stream-fs.c (camel_stream_fs_new_with_name): 
+	patch from Ulrich Drepper <drepper at cygnus.com>
+	initialize mode field in open(). 
+
 1999-06-22  bertrand  <Bertrand.Guiheneuf@inria.fr>
 
 	* camel/camel-data-wrapper.c (_get_content_type): 

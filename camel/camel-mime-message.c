@@ -27,6 +27,7 @@
 #include "gmime-content-field.h"
 #include "gstring-util.h"
 #include "camel-log.h"
+#include "gmime-utils.h"
 
 typedef enum {
 	HEADER_UNKNOWN,
@@ -527,7 +528,7 @@ _write_one_recipient_to_stream (gpointer key, gpointer value, gpointer user_data
 	//	GString *current;
 	CamelStream *stream = (CamelStream *)user_data;
 	if ( (recipient_type) && (recipient_type->str) )
-	     write_header_with_glist_to_stream (stream, recipient_type->str, recipients);
+	     write_header_with_glist_to_stream (stream, recipient_type->str, recipients, ", ");
 }
 
 static void
