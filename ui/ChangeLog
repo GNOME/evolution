@@ -1,3 +1,7 @@
+2001-05-21  Chris Toshok  <toshok@ximian.com>
+
+	* evolution-addressbook.xml: remove ViewAsTable menu item.
+
 2001-05-21  Federico Mena Quintero  <federico@ximian.com>
 
 	* evolution-tasks.xml: Added a Delete button on the toolbar.

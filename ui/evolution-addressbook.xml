@@ -48,9 +48,6 @@
 
 		<submenu name="View">
 
-			<menuitem name="AsTable" verb="ViewAsTable" _label="As _Table"
-		        />
-
 		</submenu>
 
 		<submenu name="Settings">
@@ -78,10 +75,6 @@
 		pixtype="pixbuf" priority="1"/>
 
 		<separator/>
-
-		<toolitem name="Find" _label="Find"
-		_tip="Find a contact" verb="ContactFind"
-		pixtype="pixbuf"/>
 
 		<toolitem name="Print" _label="Print"
 		verb="ContactsPrint"/>
