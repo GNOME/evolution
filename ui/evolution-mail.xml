@@ -124,25 +124,29 @@
 
         <menuitem/>
 
-        <menuitem name="MessageVFolderSubj" verb=""
-        _label="_VFolder on Subject"/>
+        <submenu name="MessageCreateRuleFromMessage" _label="Create Rule From Message">
 
-        <menuitem name="MessageVFolderSndr" verb=""
-        _label="VFolder on Se_nder"/>
+          <menuitem name="MessageVFolderSubj" verb=""
+          _label="_VFolder on Subject"/>
 
-        <menuitem name="MessageVFolderRecip" verb=""
-        _label="VFolder on _Recipients"/>
+          <menuitem name="MessageVFolderSndr" verb=""
+          _label="VFolder on Se_nder"/>
 
-        <menuitem/>
+          <menuitem name="MessageVFolderRecip" verb=""
+          _label="VFolder on _Recipients"/>
 
-        <menuitem name="MessageFilterSubj" verb=""
-        _label="_Filter on Subject"/>
+          <menuitem/>
 
-        <menuitem name="MessageFilterSndr" verb=""
-        _label="Fi_lter on Sender"/>
+          <menuitem name="MessageFilterSubj" verb=""
+          _label="_Filter on Subject"/>
 
-        <menuitem name="MessageFilterRecip" verb=""
-        _label="Filter on Rec_ipients"/>
+          <menuitem name="MessageFilterSndr" verb=""
+          _label="Fi_lter on Sender"/>
+
+          <menuitem name="MessageFilterRecip" verb=""
+          _label="Filter on Rec_ipients"/>
+
+        </submenu>
 
       </submenu>
       
