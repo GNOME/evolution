@@ -1152,18 +1152,6 @@ itip_publish_comp (ECal *client, gchar *uri, gchar *username,
 	/* Publish the component */
 	session = soup_session_async_new ();
 
-	/* add username and password to the uri */	
-	if (strlen (password) == 0) {
-		prompt = g_strdup_printf (_("Enter the password for %s"), uri);
-		password = e_passwords_ask_password (_("Enter password"), 
-						     "Calendar", NULL, 
-						     prompt, TRUE, 
-						   E_PASSWORDS_DO_NOT_REMEMBER,
-						     &remember, NULL);
-
-		g_free (prompt);
-	}
-
 	real_uri = soup_uri_new (uri);
 	if (!real_uri) {
 		g_warning (G_STRLOC ": Invalid URL: %s", uri);

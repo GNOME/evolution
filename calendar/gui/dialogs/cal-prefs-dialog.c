@@ -641,6 +641,7 @@ cal_prefs_dialog_url_add_clicked (GtkWidget *button, DialogData *dialog_data)
 					   -1);
 			
 			url_list_changed (dialog_data);
+			show_fb_config (dialog_data);
 			
 			if (!GTK_WIDGET_SENSITIVE ((GtkWidget *) dialog_data->url_remove)) {
 				selection = gtk_tree_view_get_selection ((GtkTreeView *) dialog_data->url_list);
@@ -686,6 +687,7 @@ cal_prefs_dialog_url_edit_clicked (GtkWidget *button, DialogData *dialog_data)
 					   -1);
 			
 			url_list_changed (dialog_data);
+			show_fb_config (dialog_data);
 			
 			if (!GTK_WIDGET_SENSITIVE ((GtkWidget *) dialog_data->url_remove)) {
 				selection = gtk_tree_view_get_selection ((GtkTreeView *) dialog_data->url_list);
@@ -757,8 +759,8 @@ cal_prefs_dialog_url_remove_clicked (GtkWidget *button, DialogData *dialog_data)
 			gtk_widget_set_sensitive (GTK_WIDGET (dialog_data->url_enable), FALSE);
 		}
 		g_free (url);
-		
 		url_list_changed (dialog_data);
+		show_fb_config (dialog_data);
 	}
 }
 
@@ -776,6 +778,9 @@ cal_prefs_dialog_url_enable_clicked (GtkWidget *button, DialogData *dialog_data)
 				    URL_LIST_FREE_BUSY_URL_COLUMN, &url, 
 				    -1);
 		url->enabled = !url->enabled;
+		
+		gtk_tree_selection_select_iter (selection, &iter);
+		
 		gtk_list_store_set ((GtkListStore *) model, &iter, 
 				    URL_LIST_ENABLED_COLUMN, url->enabled, 
 				    -1);
@@ -784,6 +789,7 @@ cal_prefs_dialog_url_enable_clicked (GtkWidget *button, DialogData *dialog_data)
 				      url->enabled ? _("Disable") : _("Enable"));
 		
 		url_list_changed (dialog_data);
+		show_fb_config (dialog_data);
 	}
 }
  
@@ -817,6 +823,7 @@ cal_prefs_dialog_url_list_enable_toggled (GtkCellRendererToggle *renderer,
 					      url->enabled ? _("Disable") : _("Enable"));
 		
 		url_list_changed (dialog_data);
+		show_fb_config (dialog_data);
 	}
 
 	gtk_tree_path_free (path);
@@ -863,7 +870,7 @@ cal_prefs_dialog_url_list_change (GtkTreeSelection *selection,
 static void
 show_fb_config (DialogData *dialog_data)
 {
-	GSList *url_config_list;
+	GSList *url_config_list = NULL;
 	GtkListStore *model;
 	GtkTreeIter iter;
 	
@@ -872,6 +879,27 @@ show_fb_config (DialogData *dialog_data)
 	
 	/* restore urls from gconf */
 	url_config_list = calendar_config_get_free_busy();
+
+	if (!url_config_list) {
+		/* list is empty-disable edit, remove, and enable buttons */
+		gtk_widget_set_sensitive (GTK_WIDGET (dialog_data->url_edit), 
+					 FALSE);
+
+		gtk_widget_set_sensitive (GTK_WIDGET (dialog_data->url_remove), 
+					 FALSE);
+
+		gtk_widget_set_sensitive (GTK_WIDGET (dialog_data->url_enable), 
+					 FALSE);
+	}	else {
+		gtk_widget_set_sensitive (GTK_WIDGET (dialog_data->url_edit), 
+					 TRUE);
+
+		gtk_widget_set_sensitive (GTK_WIDGET (dialog_data->url_remove), 
+					 TRUE);
+
+		gtk_widget_set_sensitive (GTK_WIDGET (dialog_data->url_enable), 
+					 TRUE);
+	}
 	
 	while (url_config_list) {
 		gchar *xml = (gchar *)url_config_list->data;
@@ -896,17 +924,6 @@ show_fb_config (DialogData *dialog_data)
 
 	g_slist_foreach (url_config_list, (GFunc) g_free, NULL);
 	g_slist_free (url_config_list);
-	if (!gtk_tree_model_get_iter_first ((GtkTreeModel *) model, &iter)) {
-		/* list is empty-disable edit, remove, and enable buttons */
-		gtk_widget_set_sensitive (GTK_WIDGET (dialog_data->url_edit), 
-					 FALSE);
-
-		gtk_widget_set_sensitive (GTK_WIDGET (dialog_data->url_remove), 
-					 FALSE);
-
-		gtk_widget_set_sensitive (GTK_WIDGET (dialog_data->url_enable), 
-					 FALSE);
-	}
 }
 
 /* Shows the current task list settings in the dialog */

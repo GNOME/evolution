@@ -27,6 +27,8 @@
 #include <libedataserver/e-source.h>
 #include <libedataserver/e-source-list.h>
 #include <libecal/e-cal-time-util.h>
+#include <libgnome/gnome-i18n.h>
+#include "e-util/e-passwords.h"
 #include "calendar-config.h"
 #include "common/authentication.h"
 #include "itip-utils.h"
@@ -38,7 +40,7 @@ e_pub_uri_from_xml (EPublishUri *uri, const gchar *xml)
 	xmlDocPtr doc;
 	xmlNodePtr root, p;
 	xmlChar *location, *enabled, *frequency;
-	xmlChar *username, *password, *publish_time;
+	xmlChar *username, *publish_time;
 	GSList *l = NULL;
 	
 	uri->location = NULL;
@@ -56,7 +58,6 @@ e_pub_uri_from_xml (EPublishUri *uri, const gchar *xml)
 	enabled = xmlGetProp (root, "enabled");
 	frequency = xmlGetProp (root, "frequency");
 	username = xmlGetProp (root, "username");
-	password = xmlGetProp (root, "password");
 	publish_time = xmlGetProp (root, "publish_time");
 	
 	if (location != NULL)
@@ -67,11 +68,11 @@ e_pub_uri_from_xml (EPublishUri *uri, const gchar *xml)
 		uri->publish_freq = atoi (frequency);
 	if (username != NULL)
 		uri->username = g_strdup (username);
-	if (password != NULL)
-		uri->password = g_strdup (password);
 	if (publish_time != NULL)
 		uri->last_pub_time = g_strdup (publish_time);
 	
+	uri->password = g_strdup ("");
+
 	for (p = root->children; p != NULL; p = p->next) {
 		xmlChar *uid = xmlGetProp (p, "uid");
 
@@ -108,7 +109,6 @@ e_pub_uri_to_xml (EPublishUri *uri)
 	xmlSetProp (root, "enabled", enabled);
 	xmlSetProp (root, "frequency", frequency);
 	xmlSetProp (root, "username", uri->username);
-	xmlSetProp (root, "password", uri->password);
 	xmlSetProp (root, "publish_time", uri->last_pub_time);
 	
 	for (cals = uri->calendars; cals != NULL; cals = cals->next) {
@@ -176,19 +176,21 @@ is_publish_time (EPublishUri *uri) {
 static gboolean
 just_published (gchar *last_pub_time) {
 	icaltimezone *utc;
-	struct icaltimetype pubtime_itt, adjust_itt;
+	struct icaltimetype current_itt, adjust_itt;
 	
 	if (strlen (last_pub_time) != 0) {
 		utc = icaltimezone_get_utc_timezone ();
-		pubtime_itt  = icaltime_from_string (last_pub_time);
-		adjust_itt = icaltime_current_time_with_zone (utc);
+		adjust_itt = icaltime_from_string (last_pub_time);
+		current_itt = icaltime_current_time_with_zone (utc);
 		icaltime_adjust (&adjust_itt, 0, 0, 0, 3);
-		if (icaltime_compare_date_only (pubtime_itt, adjust_itt) < 0)
+		if (icaltime_compare (adjust_itt, current_itt) < 0)
 			return TRUE;
+		else
+			return FALSE;
 	}
 
 	
-	return FALSE;
+	return TRUE;
 }
 
 void
@@ -215,13 +217,17 @@ e_pub_publish (gboolean publish) {
 		ECalComponent *clone = NULL;
 		gboolean cloned = FALSE;
 		ECal *client = NULL;
-		gchar *xml = (gchar *)uri_config_list->data;
+		char *prompt;
+		gboolean remember = FALSE;
+		gchar *password;
+
+		gchar *xml = (gchar *)l->data;
 		
 		uri = g_new0 (EPublishUri, 1);		
 		e_pub_uri_from_xml (uri, xml);
 		
 		/* kludge to safeguard against loop from gconf update */
-		if (just_published (uri->last_pub_time))
+		if (!just_published (uri->last_pub_time))
 			return;
 		
 		/* TODO: make sure we're online */
@@ -256,8 +262,8 @@ e_pub_publish (gboolean publish) {
 	
 				source_uid = g_strdup (p->data);
 				source =  e_source_list_peek_source_by_uid (source_list, source_uid);
-	
-				client = auth_new_cal_from_uri (e_source_get_uri (source), E_CAL_SOURCE_TYPE_EVENT);
+				if (source)
+					client = auth_new_cal_from_uri (e_source_get_uri (source), E_CAL_SOURCE_TYPE_EVENT);
 
 				if (!client) {
 					g_warning (G_STRLOC ": Could not publish Free/Busy: Calendar backend no longer exists");
@@ -285,12 +291,32 @@ e_pub_publish (gboolean publish) {
 			
 				g_free (source_uid);
 			}
+
+			/* add password to the uri */
+			password = e_passwords_get_password ("Calendar", 
+							     (gchar *)uri->location);
 			
+			if (!password) {
+				prompt = g_strdup_printf (_("Enter the password for %s"), (gchar *)uri->location);
+				password = e_passwords_ask_password (_("Enter password"), 
+							     "Calendar", (gchar *)uri->location, 
+							     prompt, TRUE, 
+							   E_PASSWORDS_REMEMBER_FOREVER,
+							     &remember, NULL);
+
+				g_free (prompt);
+					
+				if (!password) {
+					g_slist_free (p);
+					continue;
+				}
+			}
+		
 			if (cloned && clone)
 				published = itip_publish_comp ((ECal *) client,
 						       uri->location,
 						       uri->username, 
-						       uri->password, &clone);
+						       password, &clone);
 			
 			g_slist_free (p);
 		}

@@ -34,6 +34,7 @@
 #include "cal-prefs-dialog.h"
 #include "url-editor-dialog.h"
 
+#include "e-util/e-passwords.h"
 #include <gtk/gtk.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtkoptionmenu.h>
@@ -82,7 +83,8 @@ url_editor_dialog_new (DialogData *dialog_data, EPublishUri *uri)
 	url_dlg_data->url_data = uri;
 	
 	init_widgets (url_dlg_data);
-	if (uri->location && uri->username && uri->password) {
+	
+	if (uri->location && uri->username) {
 		if (strlen(uri->location) != 0) {
 			gtk_entry_set_text (url_dlg_data->url_entry, 
 					    uri->location);
@@ -91,6 +93,11 @@ url_editor_dialog_new (DialogData *dialog_data, EPublishUri *uri)
 			gtk_entry_set_text (url_dlg_data->username_entry, 
 					    uri->username);
 		}
+	}
+	
+	uri->password = e_passwords_get_password ("Calendar", url_dlg_data->url_data->location);
+	
+	if (uri->password) {
 		if (strlen(uri->password) != 0) {
 			gtk_entry_set_text (url_dlg_data->password_entry, 
 					    uri->password);
@@ -99,25 +106,26 @@ url_editor_dialog_new (DialogData *dialog_data, EPublishUri *uri)
 		} else {
 			e_dialog_toggle_set (url_dlg_data->remember_pw, FALSE);
 		}
-		
-		switch (uri->publish_freq) {
-			case URI_PUBLISH_DAILY:
-				e_dialog_radio_set (url_dlg_data->daily, 
-						    URI_PUBLISH_DAILY, 
-						    pub_frequency_type_map);
-				break;
-			case URI_PUBLISH_WEEKLY:
-				e_dialog_radio_set (url_dlg_data->daily, 
-						    URI_PUBLISH_WEEKLY, 
-						    pub_frequency_type_map);
-				break;
-			case URI_PUBLISH_USER:
-			default:
-				e_dialog_radio_set (url_dlg_data->daily, 
-						    URI_PUBLISH_USER, 
-						    pub_frequency_type_map);
-		}
 	}
+	
+	switch (uri->publish_freq) {
+		case URI_PUBLISH_DAILY:
+			e_dialog_radio_set (url_dlg_data->daily, 
+						URI_PUBLISH_DAILY, 
+						pub_frequency_type_map);
+			break;
+		case URI_PUBLISH_WEEKLY:
+			e_dialog_radio_set (url_dlg_data->daily, 
+						URI_PUBLISH_WEEKLY, 
+						pub_frequency_type_map);
+			break;
+		case URI_PUBLISH_USER:
+		default:
+			e_dialog_radio_set (url_dlg_data->daily, 
+						URI_PUBLISH_USER, 
+						pub_frequency_type_map);
+	}
+
 	dialog_data->url_editor=TRUE; 
 	dialog_data->url_editor_dlg = (GtkWidget *) url_dlg_data;
 	gtk_widget_set_sensitive ((GtkWidget *) url_dlg_data->ok, FALSE);
@@ -128,8 +136,13 @@ url_editor_dialog_new (DialogData *dialog_data, EPublishUri *uri)
 		if ((GtkEntry *) url_dlg_data->url_entry) {
 			url_editor_dialog_fb_url_activated (url_dlg_data->url_entry, url_dlg_data);
 			url_dlg_data->url_data->username = g_strdup (gtk_entry_get_text ((GtkEntry *) url_dlg_data->username_entry));
-			if (e_dialog_toggle_get (url_dlg_data->remember_pw))
-				url_dlg_data->url_data->password = g_strdup (gtk_entry_get_text ((GtkEntry *) url_dlg_data->password_entry));
+			url_dlg_data->url_data->password = g_strdup (gtk_entry_get_text ((GtkEntry *) url_dlg_data->password_entry));
+			if (e_dialog_toggle_get (url_dlg_data->remember_pw)) {
+				e_passwords_add_password (url_dlg_data->url_data->location, url_dlg_data->url_data->password);
+				e_passwords_remember_password ("Calendar", url_dlg_data->url_data->location);				
+			} else {
+				e_passwords_forget_password ("Calendar", url_dlg_data->url_data->location);
+			}
 		}
 	}
 	

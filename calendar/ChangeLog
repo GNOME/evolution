@@ -1,3 +1,17 @@
+2004-04-09  Gary Ekker  <gekker@novell.com>
+
+	* gui/dialogs/url-editor-dialog.c: Fixed to use e-passwords.
+
+	* gui/dialogs/cal-prefs-dialog.c: Fixed crash and bugs created by 
+	changes made for instant apply.
+
+	* gui/itip-utils.c: Fixed to use e-passwords.
+
+	* gui/e-pub-utils.c: Fixed to use e-passwords.
+	(just_published): Fixed error in logic.
+	(e_pub_publish): Fixed crash if ESource is NULL.
+	
+
 2004-04-09  Chris Toshok  <toshok@ximian.com>
 
 	* gui/dialogs/e-delegate-dialog.c (e_delegate_dialog_construct):
