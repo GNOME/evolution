@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution evolution-1-4-branch\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-08-25 02:18+0900\n"
-"PO-Revision-Date: 2003-08-25 02:12+0900\n"
+"POT-Creation-Date: 2003-09-13 16:56+0900\n"
+"PO-Revision-Date: 2003-09-13 16:53+0900\n"
 "Last-Translator: Takeshi AIHANA <aihana@gnome.gr.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
@@ -305,7 +305,7 @@ msgstr "カレンダの URI"
 #: addressbook/backend/ebook/e-card-simple.c:99
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:16
 msgid "Free-busy URL"
-msgstr "予定の URL"
+msgstr "予定の有無の URL"
 
 #: addressbook/backend/ebook/e-card-simple.c:99
 msgid "FBUrl"
@@ -394,13 +394,13 @@ msgstr "組織"
 msgid "Role"
 msgstr "役割"
 
-#: addressbook/backend/ebook/e-card.c:1436 mail/mail-format.c:963
+#: addressbook/backend/ebook/e-card.c:1436 mail/mail-format.c:966
 msgid "Mailer"
 msgstr "メール・クライアント"
 
 #: addressbook/backend/ebook/e-card.c:1450
 msgid "Free/Busy URL"
-msgstr "予定の URL(_R):"
+msgstr "予定の有無の URL(_R):"
 
 #: addressbook/backend/ebook/e-card.c:1457
 msgid "ICS Calendar"
@@ -612,7 +612,7 @@ msgstr "新しい連絡先一覧を作成します"
 
 #: addressbook/gui/component/addressbook-config.c:206
 msgid "Failed to connect to LDAP server"
-msgstr "LDAP サーバへ接続することができませんでした"
+msgstr "LDAP サーバへ接続できませんでした"
 
 #: addressbook/gui/component/addressbook-config.c:231
 msgid "Failed to authenticate with LDAP server"
@@ -620,7 +620,7 @@ msgstr "LDAP サーバを使った認証に失敗しました"
 
 #: addressbook/gui/component/addressbook-config.c:259
 msgid "Could not perform query on Root DSE"
-msgstr "ルート DSE に問い合わせすることができませんでした"
+msgstr "ルート DSE に問い合わせできませんでした"
 
 #: addressbook/gui/component/addressbook-config.c:682
 msgid "The server responded with no supported search bases"
@@ -742,10 +742,10 @@ msgid ""
 "Please make your search more specific or raise the result limit in\n"
 "the directory server preferences for this addressbook."
 msgstr ""
-"検索結果を返す側のサーバと表示する側の Evolution の両方で、\n"
-"この問い合わせに一致する複数のカードが見つかりました。\n"
+"検索結果を返す側のサーバか表示する側の Evolution のどちらかを越えて、\n"
+"複数のカードがこの問い合わせに一致しました。\n"
 "更にキーワードを指定して絞り込み検索するか、このアドレス帳の\n"
-"ディレクトリ・サーバの設定で検索結果の制限を行って下さい。"
+"ディレクトリ・サーバの設定で検索結果の制限を上げて下さい。"
 
 #: addressbook/gui/component/addressbook.c:961
 msgid ""
@@ -757,7 +757,7 @@ msgstr ""
 "この検索にかかった所要時間が、サーバの制限時間または\n"
 "このアドレス帳に対して設定した制限時間を越えました。\n"
 "更にキーワードを指定して絞り込み検索するか、このアドレス帳の\n"
-"ディレクトリ・サーバの設定で検索結果の制限を行って下さい。"
+"ディレクトリ・サーバの設定で検索結果の制限を上げて下さい。"
 
 #: addressbook/gui/component/addressbook.c:967
 msgid "The backend for this addressbook was unable to parse this query."
@@ -979,7 +979,7 @@ msgstr ""
 
 #: addressbook/gui/component/ldap-config.glade.h:32
 msgid "One"
-msgstr "サブエントリ"
+msgstr "レベル１"
 
 #: addressbook/gui/component/ldap-config.glade.h:33
 msgid "S_earch scope: "
@@ -1043,7 +1043,7 @@ msgid ""
 "searches, and for creating and editing contacts. "
 msgstr ""
 "このオプションを有効にすると、Evolution の LDAP 検索や\n"
-"連絡先の生成・編集の設定の初期値を変更できます。"
+"連絡先の生成や編集の初期値を変更できます。"
 
 #: addressbook/gui/component/ldap-config.glade.h:47
 msgid ""
@@ -1069,7 +1069,7 @@ msgstr "ステップ４: ディスプレイ名"
 
 #: addressbook/gui/component/ldap-config.glade.h:52
 msgid "Sub"
-msgstr "サブ"
+msgstr "サブ・ディレクトリ"
 
 #: addressbook/gui/component/ldap-config.glade.h:53
 msgid "Supported Search Bases"
@@ -1445,7 +1445,7 @@ msgstr "カテゴリ(_C)..."
 #: addressbook/gui/contact-editor/contact-editor.glade.h:28
 #: calendar/gui/dialogs/meeting-page.c:717 calendar/gui/e-calendar-table.c:977
 #: calendar/gui/e-day-view.c:3755 calendar/gui/e-week-view.c:3741
-#: mail/folder-browser.c:1812 ui/evolution-addressbook.xml.h:32
+#: mail/folder-browser.c:1814 ui/evolution-addressbook.xml.h:32
 #: ui/evolution-calendar.xml.h:30 ui/evolution-comp-editor.xml.h:17
 #: ui/evolution-mail-message.xml.h:97 ui/evolution-tasks.xml.h:17
 #: ui/evolution.xml.h:45
@@ -2624,7 +2624,7 @@ msgid ""
 "%s already exists\n"
 "Do you want to overwrite it?"
 msgstr ""
-"既に %s は存在しています。\n"
+"既に %s があります。\n"
 "上書きしてもよろしいですか？"
 
 #: addressbook/gui/contact-editor/e-contact-save-as.c:212
@@ -2783,8 +2783,8 @@ msgid ""
 "The name or email address of this contact already exists\n"
 "in this folder.  Would you like to add it anyway?"
 msgstr ""
-"この連絡先の名前あるいは E-メールアドレスは\n"
-"既にこのフォルダに存在しています。追加してもよろしいですか？"
+"この連絡先の名前あるいは E-メールアドレスが\n"
+"既にこのフォルダにあります。追加してもよろしいですか？"
 
 #: addressbook/gui/merging/e-card-merging-book-commit-duplicate-detected.glade.h:1
 msgid "Changed Contact:"
@@ -2799,8 +2799,8 @@ msgid ""
 "The changed email or name of this contact already\n"
 "exists in this folder.  Would you like to add it anyway?"
 msgstr ""
-"変更したこの連絡先の名前あるいは E-メールアドレスは\n"
-"既にこのフォルダに存在しています。追加してもよろしいですか？"
+"変更したこの連絡先の名前あるいは E-メールアドレスが\n"
+"既にこのフォルダにあります。追加してもよろしいですか？"
 
 #. FIXME: get the toplevel window...
 #: addressbook/gui/search/e-addressbook-search-dialog.c:117
@@ -2882,8 +2882,8 @@ msgstr "プロトコルがサポートされていません"
 #: calendar/gui/calendar-model.c:759 calendar/gui/calendar-model.c:1184
 #: calendar/gui/dialogs/task-details-page.glade.h:3
 #: calendar/gui/e-calendar-table.c:477 calendar/gui/print.c:2307
-#: camel/camel-service.c:745 camel/camel-service.c:786
-#: camel/camel-service.c:876 camel/camel-service.c:919
+#: camel/camel-service.c:747 camel/camel-service.c:788
+#: camel/camel-service.c:878 camel/camel-service.c:921
 #: camel/providers/pop3/camel-pop3-store.c:443
 #: camel/providers/pop3/camel-pop3-store.c:520
 msgid "Cancelled"
@@ -2903,7 +2903,7 @@ msgstr "TLS は無効です"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:47
 msgid "Addressbook does not exist"
-msgstr "アドレス帳が存在しません"
+msgstr "アドレス帳がありません"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:48
 msgid "Other error"
@@ -3442,7 +3442,7 @@ msgstr "フォント(_F)..."
 
 #: calendar/cal-util/cal-component.c:1218
 msgid "Untitled appointment"
-msgstr "タイトルなしの約束"
+msgstr "タイトルなしの予定"
 
 #: calendar/cal-util/cal-recur.c:3985 calendar/gui/print.c:477
 msgid "1st"
@@ -3693,7 +3693,7 @@ msgstr "アラーム停止時間 (分)"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:4
 msgid "_Edit appointment"
-msgstr "約束の編集(_E)"
+msgstr "予定の編集(_E)"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:770
 msgid "No description available."
@@ -3711,10 +3711,10 @@ msgid ""
 "configured to send an email.  Evolution will display\n"
 "a normal reminder dialog box instead."
 msgstr ""
-"Evolution のカレンダーでは E-メール通知式の催促状は\n"
-"未だサポートしていませんが、この催促状は E-メール送信\n"
+"Evolution のカレンダでは E-メール通知式のリマインダは\n"
+"未だサポートしていませんが、このリマインダは E-メール送信\n"
 "の設定がされていました。その代わりに Evolution は\n"
-"通常の催促状ダイアログを表示します。"
+"通常のリマインダ・ダイアログを表示します。"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:873
 #, c-format
@@ -3726,8 +3726,8 @@ msgid ""
 "\n"
 "Are you sure you want to run this program?"
 msgstr ""
-"Evolution カレンダーの催促状が呼び出されました。\n"
-"この催促状は以下のプログラムを起動するように設定されています。\n"
+"Evolution カレンダのリマインダが呼び出されました。\n"
+"このリマインダは次のプログラムを起動するように設定されています。\n"
 "\n"
 "        %s\n"
 "\n"
@@ -3806,7 +3806,7 @@ msgstr "カレンダ"
 
 #: calendar/gui/calendar-component.c:71
 msgid "Folder containing appointments and events"
-msgstr "フォルダに約束とイベントがあります"
+msgstr "フォルダに予定とイベントがあります"
 
 #: calendar/gui/calendar-component.c:75
 msgid "Public Calendar"
@@ -3814,7 +3814,7 @@ msgstr "公開するカレンダ"
 
 #: calendar/gui/calendar-component.c:76
 msgid "Public folder containing appointments and events"
-msgstr "公開フォルダに約束とイベントがあります"
+msgstr "公開フォルダに予定とイベントがあります"
 
 #: calendar/gui/calendar-component.c:80 calendar/gui/e-tasks.c:738
 #: calendar/gui/print.c:1789 calendar/gui/tasks-control.c:487
@@ -3839,15 +3839,15 @@ msgstr "公開フォルダに ToDo アイテムがあります"
 
 #: calendar/gui/calendar-component.c:732
 msgid "New appointment"
-msgstr "新規の約束"
+msgstr "新規の予定"
 
 #: calendar/gui/calendar-component.c:732
 msgid "_Appointment"
-msgstr "約束(_A)"
+msgstr "予定(_A)"
 
 #: calendar/gui/calendar-component.c:733
 msgid "Create a new appointment"
-msgstr "新しい約束を作成します"
+msgstr "新しい予定を作成します"
 
 #: calendar/gui/calendar-component.c:737
 msgid "New meeting"
@@ -3875,15 +3875,15 @@ msgstr "新しいタスクを作成します"
 
 #: calendar/gui/calendar-component.c:747
 msgid "New All Day Appointment"
-msgstr "新しい全日の約束"
+msgstr "新しい終日の予定"
 
 #: calendar/gui/calendar-component.c:747
 msgid "All _Day Appointment"
-msgstr "全日の約束(_D)"
+msgstr "終日の予定(_D)"
 
 #: calendar/gui/calendar-component.c:748
 msgid "Create a new all-day appointment"
-msgstr "新しい全日の約束を作成します"
+msgstr "新しい終日の予定を作成します"
 
 #: calendar/gui/calendar-model.c:405 calendar/gui/calendar-model.c:964
 #: calendar/gui/e-calendar-table.c:380
@@ -3958,12 +3958,12 @@ msgstr ""
 #. An empty string is the same as 'None'.
 #: calendar/gui/calendar-model.c:1176 calendar/gui/dialogs/meeting-page.c:330
 #: calendar/gui/dialogs/meeting-page.glade.h:2 composer/e-msg-composer.c:2067
-#: mail/folder-browser.c:1774 mail/mail-account-gui.c:1260
+#: mail/folder-browser.c:1776 mail/mail-account-gui.c:1260
 #: mail/mail-account-gui.c:1692 mail/mail-accounts.c:442
 #: mail/mail-config.glade.h:76
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:194
 #: widgets/misc/e-cell-date-edit.c:257 widgets/misc/e-dateedit.c:442
-#: widgets/misc/e-dateedit.c:1458 widgets/misc/e-dateedit.c:1573
+#: widgets/misc/e-dateedit.c:1470 widgets/misc/e-dateedit.c:1585
 msgid "None"
 msgstr "なし"
 
@@ -4119,7 +4119,7 @@ msgstr "音楽を再生する"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:5
 msgid "Reminders"
-msgstr "催促状"
+msgstr "リマインダ"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:6 calendar/gui/e-alarm-list.c:473
 msgid "Run a program"
@@ -4154,7 +4154,7 @@ msgstr "日"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:13
 msgid "end of appointment"
-msgstr "約束を終了した時"
+msgstr "予定を終了した時"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:14
 msgid "hour(s)"
@@ -4166,7 +4166,7 @@ msgstr "分"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:16
 msgid "start of appointment"
-msgstr "約束を開始した時"
+msgstr "予定を開始した時"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:1
 msgid "05 minutes"
@@ -4244,7 +4244,7 @@ msgstr "土曜日"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:18
 msgid "Sh_ow a reminder"
-msgstr "催促状を表示する(_O)  "
+msgstr "リマインダを表示する(_O)  "
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:19
 msgid "Show week _numbers in date navigator"
@@ -4362,7 +4362,7 @@ msgstr "土(_S)"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:45
 msgid "_Show appointment end times in week and month views"
-msgstr "週間と月間ビューの中に約束の期日を表示する(_S)"
+msgstr "週間と月間ビューの中に予定の期日を表示する(_S)"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:46
 msgid "_Time divisions:"
@@ -4378,7 +4378,7 @@ msgstr "水(_W)"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:49
 msgid "before every appointment"
-msgstr "前に催促状を送付する"
+msgstr "前にリマインダを送付する"
 
 #: calendar/gui/dialogs/cancel-comp.c:58
 msgid ""
@@ -4499,13 +4499,13 @@ msgstr "オブジェクトを更新できませんでした"
 #: calendar/gui/dialogs/comp-editor.c:793
 #: calendar/gui/dialogs/comp-editor.c:830
 msgid "Edit Appointment"
-msgstr "約束の編集"
+msgstr "予定の編集"
 
 #: calendar/gui/dialogs/comp-editor.c:798
 #: calendar/gui/dialogs/comp-editor.c:835
 #, c-format
 msgid "Appointment - %s"
-msgstr "約束 - %s"
+msgstr "予定 - %s"
 
 #: calendar/gui/dialogs/comp-editor.c:801
 #: calendar/gui/dialogs/comp-editor.c:838
@@ -4543,11 +4543,11 @@ msgstr "現在のバージョンを取得できません！"
 #: calendar/gui/dialogs/delete-comp.c:96
 #, c-format
 msgid "Are you sure you want to delete the appointment `%s'?"
-msgstr "本当に約束 '%s' を削除してもよろしいですか？"
+msgstr "本当に予定 '%s' を削除してもよろしいですか？"
 
 #: calendar/gui/dialogs/delete-comp.c:99
 msgid "Are you sure you want to delete this untitled appointment?"
-msgstr "本当にタイトルなしの約束を削除してもよろしいですか？"
+msgstr "本当にタイトルなしの予定を削除してもよろしいですか？"
 
 #: calendar/gui/dialogs/delete-comp.c:105
 #, c-format
@@ -4570,7 +4570,7 @@ msgstr "本当にタイトルなしの仕訳記入を削除してもよろしい
 #: calendar/gui/dialogs/delete-comp.c:132
 #, c-format
 msgid "Are you sure you want to delete %d appointments?"
-msgstr "本当に %d 個の約束を削除してもよろしいですか？"
+msgstr "本当に %d 個の予定を削除してもよろしいですか？"
 
 #: calendar/gui/dialogs/delete-comp.c:137
 #, c-format
@@ -4644,11 +4644,11 @@ msgstr "委任先の入力"
 
 #: calendar/gui/dialogs/event-editor.c:199 calendar/gui/print.c:2253
 msgid "Appointment"
-msgstr "約束"
+msgstr "予定"
 
 #: calendar/gui/dialogs/event-editor.c:206
 msgid "Reminder"
-msgstr "催促状"
+msgstr "リマインダ"
 
 #: calendar/gui/dialogs/event-editor.c:213
 msgid "Recurrence"
@@ -4684,7 +4684,7 @@ msgstr "終了時刻が間違っています"
 
 #: calendar/gui/dialogs/event-page.glade.h:2
 msgid "A_ll day event"
-msgstr "全日のイベントにする(_L)"
+msgstr "終日のイベントにする(_L)"
 
 #: calendar/gui/dialogs/event-page.glade.h:3
 msgid "B_usy"
@@ -4805,7 +4805,7 @@ msgstr "メンバー"
 #: calendar/gui/e-itip-control.c:1149
 #: calendar/gui/e-meeting-time-sel.etspec.h:8
 msgid "RSVP"
-msgstr "RSVP"
+msgstr "返信の有無"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:10
 #: calendar/gui/e-calendar-table.etspec.h:15
@@ -4839,7 +4839,7 @@ msgstr "繰り返しのタスクを修正中です。何を修正しますか？
 #: calendar/gui/dialogs/recur-comp.c:58
 msgid ""
 "You are modifying a recurring journal entry, what would you like to modify?"
-msgstr "ジャーナル・エントリを修正中です。何を修正しますか？"
+msgstr "繰り返しのエントリを修正中です。何を修正しますか？"
 
 #: calendar/gui/dialogs/recur-comp.c:72
 msgid "This Instance Only"
@@ -4855,7 +4855,7 @@ msgstr "全てのインスタンス"
 
 #: calendar/gui/dialogs/recurrence-page.c:535
 msgid "This appointment contains recurrences that Evolution cannot edit."
-msgstr "この約束には Evolution が編集できない繰り返しがあります。"
+msgstr "この予定には Evolution が編集できない繰り返しがあります。"
 
 #: calendar/gui/dialogs/recurrence-page.c:809
 msgid "Recurrence date is invalid"
@@ -4947,11 +4947,11 @@ msgstr "間"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:16
 msgid "forever"
-msgstr "ずっと"
+msgstr "以降"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:17
 msgid "month(s)"
-msgstr "月(間)"
+msgstr "月"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:18
 msgid "until"
@@ -4959,11 +4959,11 @@ msgstr "まで"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:19
 msgid "week(s)"
-msgstr "週(間)"
+msgstr "週"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:20
 msgid "year(s)"
-msgstr "年(間)"
+msgstr "年"
 
 #: calendar/gui/dialogs/save-comp.c:54
 msgid ""
@@ -5121,32 +5121,32 @@ msgstr "実行するアクションが不明です"
 #: calendar/gui/e-alarm-list.c:491
 #, c-format
 msgid "%s %s before the start of the appointment"
-msgstr "%s は約束が開始する前に %s"
+msgstr "%s は予定が開始する前に %s"
 
 #: calendar/gui/e-alarm-list.c:494
 #, c-format
 msgid "%s %s after the start of the appointment"
-msgstr "%s は約束が開始した後に %s"
+msgstr "%s は予定が開始した後に %s"
 
 #: calendar/gui/e-alarm-list.c:499
 #, c-format
 msgid "%s at the start of the appointment"
-msgstr "約束が開始した時点に %s"
+msgstr "予定が開始した時点に %s"
 
 #: calendar/gui/e-alarm-list.c:508
 #, c-format
 msgid "%s %s before the end of the appointment"
-msgstr "%s は約束が終了する前に %s"
+msgstr "%s は予定が終了する前に %s"
 
 #: calendar/gui/e-alarm-list.c:511
 #, c-format
 msgid "%s %s after the end of the appointment"
-msgstr "%s は約束が終了した後に %s"
+msgstr "%s は予定が終了した後に %s"
 
 #: calendar/gui/e-alarm-list.c:516
 #, c-format
 msgid "%s at the end of the appointment"
-msgstr "約束が終了した時点で %s"
+msgstr "予定が終了した時点で %s"
 
 #: calendar/gui/e-alarm-list.c:540
 #, c-format
@@ -5208,14 +5208,14 @@ msgid "Deleting selected objects"
 msgstr "指定したオブジェクトを削除します"
 
 #: calendar/gui/e-calendar-table.c:958 calendar/gui/e-day-view.c:3737
-#: calendar/gui/e-week-view.c:3723 mail/folder-browser.c:1785
+#: calendar/gui/e-week-view.c:3723 mail/folder-browser.c:1787
 #: shell/e-shortcuts-view.c:422 ui/evolution-addressbook.xml.h:36
 msgid "_Open"
 msgstr "開く(_O)"
 
 #: calendar/gui/e-calendar-table.c:959
 msgid "_Save as..."
-msgstr "別名で保存(S)..."
+msgstr "別名で保存(_S)..."
 
 #: calendar/gui/e-calendar-table.c:960 calendar/gui/e-day-view.c:3739
 #: calendar/gui/e-week-view.c:3698 calendar/gui/e-week-view.c:3725
@@ -5282,7 +5282,7 @@ msgid "Alarms"
 msgstr "アラーム"
 
 #: calendar/gui/e-calendar-table.etspec.h:7 camel/camel-filter-driver.c:1156
-#: camel/camel-filter-driver.c:1251
+#: camel/camel-filter-driver.c:1251 mail/mail-send-recv.c:584
 msgid "Complete"
 msgstr "完了しました"
 
@@ -5376,11 +5376,11 @@ msgstr "午後"
 
 #: calendar/gui/e-day-view.c:3694
 msgid "New _Appointment"
-msgstr "新しい約束(_A)"
+msgstr "新しい予定(_A)"
 
 #: calendar/gui/e-day-view.c:3696 calendar/gui/e-week-view.c:3692
 msgid "New All Day _Event"
-msgstr "新しい全日のイベント(_E)"
+msgstr "新しい終日のイベント(_E)"
 
 #: calendar/gui/e-day-view.c:3698 calendar/gui/e-week-view.c:3693
 msgid "New Meeting"
@@ -5406,7 +5406,7 @@ msgstr "指定日へ移動(_G)..."
 #: calendar/gui/e-day-view.c:3724 calendar/gui/e-week-view.c:3713
 #: ui/evolution-calendar.xml.h:34
 msgid "_Publish Free/Busy Information"
-msgstr "予定の公開(_P)"
+msgstr "予定の有無の公開(_P)"
 
 #: calendar/gui/e-day-view.c:3729 calendar/gui/e-week-view.c:3717
 #: ui/evolution.xml.h:60
@@ -5414,7 +5414,7 @@ msgid "_Settings..."
 msgstr "設定(_S)..."
 
 #: calendar/gui/e-day-view.c:3738 calendar/gui/e-week-view.c:3724
-#: mail/folder-browser.c:1787 ui/evolution-mail-message.xml.h:112
+#: mail/folder-browser.c:1789 ui/evolution-mail-message.xml.h:112
 msgid "_Save As..."
 msgstr "別名で保存(_S)..."
 
@@ -5516,7 +5516,7 @@ msgstr "<b>開始日:</b> "
 
 #: calendar/gui/e-itip-control.c:803
 msgid "<b>Ends:</b> "
-msgstr "終了日:<b> "
+msgstr "<b>終了日:<b> "
 
 #: calendar/gui/e-itip-control.c:823
 msgid "<b>Completed:</b> "
@@ -5584,7 +5584,7 @@ msgstr "辞退済"
 #: camel/camel-gpg-context.c:1625 camel/camel-tcp-stream-openssl.c:634
 #: camel/providers/smtp/camel-smtp-transport.c:173
 #: camel/providers/smtp/camel-smtp-transport.c:228 mail/folder-browser.c:347
-#: mail/mail-display.c:932 widgets/misc/e-charset-picker.c:60
+#: mail/mail-display.c:936 widgets/misc/e-charset-picker.c:60
 msgid "Unknown"
 msgstr "未知"
 
@@ -5619,7 +5619,7 @@ msgstr "辞退"
 
 #: calendar/gui/e-itip-control.c:1172
 msgid "Send Free/Busy Information"
-msgstr "予定の送信"
+msgstr "予定の有無の送信"
 
 #: calendar/gui/e-itip-control.c:1185
 msgid "Update respondent status"
@@ -5630,7 +5630,7 @@ msgid "Send Latest Information"
 msgstr "最新情報の送信"
 
 #: calendar/gui/e-itip-control.c:1211 calendar/gui/itip-utils.c:439
-#: mail/mail-send-recv.c:387 mail/mail-send-recv.c:444
+#: mail/mail-send-recv.c:389 mail/mail-send-recv.c:446
 #: shell/evolution-shell-component.c:1185 ui/evolution-mail-global.xml.h:1
 msgid "Cancel"
 msgstr "キャンセル"
@@ -5774,7 +5774,7 @@ msgstr "<b>%s</b> さんが予定を公開しました。"
 
 #: calendar/gui/e-itip-control.c:1422
 msgid "Free/Busy Information"
-msgstr "予定の情報"
+msgstr "予定の有無"
 
 #: calendar/gui/e-itip-control.c:1426
 #, c-format
@@ -5783,20 +5783,20 @@ msgstr "<b>%s</b> さんが予定を要求してきました。"
 
 #: calendar/gui/e-itip-control.c:1427
 msgid "Free/Busy Request"
-msgstr "予定の要求"
+msgstr "予定の有無の要求"
 
 #: calendar/gui/e-itip-control.c:1431
 #, c-format
 msgid "<b>%s</b> has replied to a free/busy request."
-msgstr "<b>%s</s> さんは予定の要求に対して返信してきました。"
+msgstr "予定の有無の要求に対して <b>%s</s> さんが返信してきました。"
 
 #: calendar/gui/e-itip-control.c:1432
 msgid "Free/Busy Reply"
-msgstr "予定の返信"
+msgstr "予定の有無の返信"
 
 #: calendar/gui/e-itip-control.c:1437
 msgid "Bad Free/Busy Message"
-msgstr "予定のメッセージが間違っています"
+msgstr "予定の有無のメッセージが間違っています"
 
 #: calendar/gui/e-itip-control.c:1513
 msgid "The message does not appear to be properly formed"
@@ -5860,7 +5860,7 @@ msgstr "出席状況が更新されました\n"
 
 #: calendar/gui/e-itip-control.c:1986
 msgid "Attendee status could not be updated!\n"
-msgstr "出席状況を更新することができませんでした！\n"
+msgstr "出席状況を更新できませんでした！\n"
 
 #: calendar/gui/e-itip-control.c:2023
 msgid "Removal Complete"
@@ -6012,7 +6012,7 @@ msgstr "%Y/%m/%d (%a)"
 #. This is a strftime() format string %m = month number,
 #. %d = month day, %Y = full year.
 #: calendar/gui/e-meeting-time-sel-item.c:466 e-util/e-time-utils.c:238
-#: e-util/e-time-utils.c:299 widgets/misc/e-dateedit.c:1582
+#: e-util/e-time-utils.c:299 widgets/misc/e-dateedit.c:1594
 msgid "%m/%d/%Y"
 msgstr "%Y/%m/%d"
 
@@ -6038,7 +6038,7 @@ msgstr "縮小して表示(_Z)"
 
 #: calendar/gui/e-meeting-time-sel.c:489
 msgid "_Update Free/Busy"
-msgstr "予定の更新(_U)"
+msgstr "予定の有無の更新(_U)"
 
 #: calendar/gui/e-meeting-time-sel.c:504
 msgid "_<<"
@@ -6120,12 +6120,12 @@ msgstr "抹消"
 
 #: calendar/gui/e-week-view.c:3691
 msgid "New _Appointment..."
-msgstr "新しい約束(_A)..."
+msgstr "新しい予定(_A)..."
 
 #: calendar/gui/gnome-cal.c:1671
 #, c-format
 msgid "Could not open the folder in `%s'"
-msgstr "`%s' のフォルダを開くことが出来ませんでした"
+msgstr "`%s' のフォルダを開けませんでした"
 
 #: calendar/gui/gnome-cal.c:1685
 #, c-format
@@ -6247,7 +6247,7 @@ msgstr "ジャーナル情報"
 
 #: calendar/gui/itip-utils.c:397 calendar/gui/itip-utils.c:522
 msgid "Free/Busy information"
-msgstr "予定情報"
+msgstr "予定の有無"
 
 #: calendar/gui/itip-utils.c:399
 msgid "Calendar information"
@@ -6268,7 +6268,7 @@ msgstr "カウンタープロポーザル"
 #: calendar/gui/itip-utils.c:518
 #, c-format
 msgid "Free/Busy information (%s to %s)"
-msgstr "予定情報 (%s から %s)"
+msgstr "予定の有無 (%s から %s)"
 
 #: calendar/gui/itip-utils.c:528
 msgid "iCalendar information"
@@ -6436,7 +6436,7 @@ msgstr "vCalendar ファイル (.vcf)"
 
 #: calendar/importers/icalendar-importer.c:403
 msgid "Reminder!!"
-msgstr "催促状です！！"
+msgstr "リマインダです！！"
 
 #: calendar/importers/icalendar-importer.c:637
 msgid "Calendar Events"
@@ -8270,11 +8270,11 @@ msgstr ""
 "正規表現での検索を実行中にエラー: %s:\n"
 "%s"
 
-#: camel/camel-folder-search.c:575 camel/camel-folder-search.c:603
+#: camel/camel-folder-search.c:569 camel/camel-folder-search.c:598
 msgid "(match-all) requires a single bool result"
 msgstr "(match-all) は一つの論理結果を必要とします。"
 
-#: camel/camel-folder-search.c:655
+#: camel/camel-folder-search.c:650
 #, c-format
 msgid "Performing query on unknown header: %s"
 msgstr "未知のヘッダでクエリを実行しています: %s"
@@ -8332,7 +8332,7 @@ msgstr ""
 
 #: camel/camel-gpg-context.c:821 camel/camel-gpg-context.c:1297
 #: camel/camel-gpg-context.c:1403 camel/camel-gpg-context.c:1473
-#: camel/camel-gpg-context.c:1529 mail/mail-send-recv.c:577
+#: camel/camel-gpg-context.c:1529 mail/mail-send-recv.c:580
 msgid "Cancelled."
 msgstr "キャンセルしました"
 
@@ -8418,7 +8418,7 @@ msgstr "%s のロック・ファイルを作成できませんでした: %s"
 #, c-format
 msgid "Timed out trying to get lock file on %s. Try again later."
 msgstr ""
-"%s のロック・ファイルを取得中にタイムアウトしました. 後でやり直してください"
+"%s のロック・ファイルを取得中にタイムアウトしました。後でやり直して下さい。"
 
 #: camel/camel-lock.c:209
 #, c-format
@@ -8760,55 +8760,55 @@ msgstr "POP でないソースを利用して SMTP 認証の前に POP"
 msgid "Regular expression compilation failed: %s: %s"
 msgstr "正規表現の編集に失敗: %s: %s"
 
-#: camel/camel-service.c:282
+#: camel/camel-service.c:284
 #, c-format
 msgid "URL '%s' needs a username component"
 msgstr "URL '%s' はユーザ名コンポーネントが必要です"
 
-#: camel/camel-service.c:290
+#: camel/camel-service.c:292
 #, c-format
 msgid "URL '%s' needs a host component"
 msgstr "URL '%s' はホスト・コンポーネントが必要です"
 
-#: camel/camel-service.c:298
+#: camel/camel-service.c:300
 #, c-format
 msgid "URL '%s' needs a path component"
 msgstr "URL '%s' はパス・コンポーネントが必要です"
 
-#: camel/camel-service.c:750
+#: camel/camel-service.c:752
 #, c-format
 msgid "Resolving: %s"
 msgstr "解決中: %s"
 
-#: camel/camel-service.c:784 camel/camel-service.c:917
+#: camel/camel-service.c:786 camel/camel-service.c:919
 #, c-format
 msgid "Failure in name lookup: %s"
 msgstr "名前の検索に失敗しました: %s"
 
-#: camel/camel-service.c:805 camel/camel-service.c:938
+#: camel/camel-service.c:807 camel/camel-service.c:940
 #, c-format
 msgid "Host lookup failed: cannot create thread: %s"
 msgstr "ホストの検索に失敗しました: スレッドが生成できません: %s"
 
-#: camel/camel-service.c:819
+#: camel/camel-service.c:821
 #, c-format
 msgid "Host lookup failed: %s: host not found"
 msgstr "ホストの検索に失敗しました: %s: ホストは見つかりません"
 
-#: camel/camel-service.c:822
+#: camel/camel-service.c:824
 #, c-format
 msgid "Host lookup failed: %s: unknown reason"
 msgstr "ホストの検索に失敗しました: %s: 原因は不明です"
 
-#: camel/camel-service.c:881
+#: camel/camel-service.c:883
 msgid "Resolving address"
 msgstr "アドレスの解決中"
 
-#: camel/camel-service.c:954
+#: camel/camel-service.c:956
 msgid "Host lookup failed: host not found"
 msgstr "ホストの検索に失敗しました: ホストは見つかりません"
 
-#: camel/camel-service.c:957
+#: camel/camel-service.c:959
 msgid "Host lookup failed: unknown reason"
 msgstr "ホストの検索に失敗しました: 原因は不明です"
 
@@ -8831,7 +8831,7 @@ msgid ""
 "Could not create directory %s:\n"
 "%s"
 msgstr ""
-"ディレクトリ %s を作成できませんでした:\n"
+"フォルダ %s を作成できませんでした:\n"
 "%s"
 
 #: camel/camel-smime-context.c:171
@@ -8846,18 +8846,18 @@ msgstr "証明書にサインするニックネームを示して下さい。"
 #: camel/camel-smime-context.c:207
 #, c-format
 msgid "The signature certificate for \"%s\" does not exist."
-msgstr "\"%s\" の署名証明書が存在しません"
+msgstr "\"%s\" の署名証明書がありません。"
 
 #: camel/camel-smime-context.c:247
 #, c-format
 msgid "The encryption certificate for \"%s\" does not exist."
-msgstr "\"%s\" の暗号化証明書が存在しません"
+msgstr "\"%s\" の暗号化証明書がありません。"
 
 #: camel/camel-smime-context.c:417 camel/camel-smime-context.c:428
 #: camel/camel-smime-context.c:534 camel/camel-smime-context.c:544
 #, c-format
 msgid "Failed to find certificate for \"%s\"."
-msgstr "\"%s\" の証明書の発見に失敗しました"
+msgstr "\"%s\" の証明書の発見に失敗しました。"
 
 #: camel/camel-smime-context.c:554
 msgid "Failed to find a common bulk algorithm."
@@ -8865,11 +8865,11 @@ msgstr "共有 bulk アルゴリズムの検索に失敗しました。"
 
 #: camel/camel-smime-context.c:808
 msgid "Failed to decode message."
-msgstr "メッセージのデコードに失敗しました"
+msgstr "メッセージのデコードに失敗しました。"
 
 #: camel/camel-smime-context.c:853
 msgid "Failed to verify certificates."
-msgstr "認証の証明に失敗しました"
+msgstr "認証の証明に失敗しました。"
 
 #: camel/camel-store.c:215
 msgid "Cannot get folder: Invalid operation on this store"
@@ -9176,12 +9176,12 @@ msgstr "IMAP サーバから予期しない OK 応答がありました: %s"
 #: camel/providers/imap/camel-imap-folder.c:222
 #, c-format
 msgid "Could not create directory %s: %s"
-msgstr "ディレクトリ %s を作成出来ませんでした: %s"
+msgstr "フォルダ %s を作成できませんでした: %s"
 
 #: camel/providers/imap/camel-imap-folder.c:241
 #, c-format
 msgid "Could not load summary for %s"
-msgstr "%s のサマリーをロード出来ませんでした"
+msgstr "%s のサマリをロードできませんでした"
 
 #: camel/providers/imap/camel-imap-folder.c:307
 msgid "Folder was destroyed and recreated on server."
@@ -9195,7 +9195,7 @@ msgstr "変更メッセージの解析中"
 #: camel/providers/imap/camel-imap-folder.c:1885
 #, c-format
 msgid "Unable to retrieve message: %s"
-msgstr "メッセージを取得することができません: %s"
+msgstr "メッセージを取得できません: %s"
 
 #: camel/providers/imap/camel-imap-folder.c:1922
 #: camel/providers/local/camel-maildir-folder.c:212
@@ -9237,7 +9237,7 @@ msgstr "FETCH 応答にメッセージ本体がありませんでした。"
 #: camel/providers/imap/camel-imap-message-cache.c:155
 #, c-format
 msgid "Could not open cache directory: %s"
-msgstr "キャッシュ・ディレクトリを開けませんでした: %s"
+msgstr "キャッシュ・フォルダを開けませんでした: %s"
 
 #: camel/providers/imap/camel-imap-message-cache.c:252
 #: camel/providers/imap/camel-imap-message-cache.c:309
@@ -9418,12 +9418,12 @@ msgstr "フォルダ '.folder' のサマリファイル (exmh) 使用する"
 
 #: camel/providers/local/camel-local-provider.c:49
 msgid "MH-format mail directories"
-msgstr "MH 形式のメールディレクトリ"
+msgstr "MH 形式のメール・フォルダ"
 
 #: camel/providers/local/camel-local-provider.c:50
 msgid "For storing local mail in MH-like mail directories."
 msgstr ""
-"ローカルメールを MH 形式のメールディレクトリの中に保存するためのものです。"
+"ローカル・メールを MH 形式のメール・フォルダの中に保存するためのものです。"
 
 #: camel/providers/local/camel-local-provider.c:65
 msgid "Local delivery"
@@ -9434,7 +9434,7 @@ msgid ""
 "For retrieving (moving) local mail from standard mbox formated spools into "
 "folders managed by Evolution."
 msgstr ""
-"ローカルメールを標準 mbox 型式スプールから Evolution が管理するフォルダに受"
+"ローカル・メールを標準 mbox 型式スプールから Evolution が管理するフォルダに受"
 "信 (移動) するためのものです。"
 
 #: camel/providers/local/camel-local-provider.c:77
@@ -9444,11 +9444,11 @@ msgstr "INBOX 内の新規メッセージへフィルタを適用します"
 
 #: camel/providers/local/camel-local-provider.c:83
 msgid "Maildir-format mail directories"
-msgstr "Maildir 形式のメールディレクトリ"
+msgstr "Maildir 形式のメール・フォルダ"
 
 #: camel/providers/local/camel-local-provider.c:84
 msgid "For storing local mail in maildir directories."
-msgstr "ローカルメールを Maiildir 形式のディレクトリに保存するためのものです。"
+msgstr "ローカル・メールを Maildir 形式のフォルダに保存するためのものです。"
 
 #: camel/providers/local/camel-local-provider.c:95
 msgid "Store status headers in Elm/Pine/Mutt format"
@@ -9456,28 +9456,28 @@ msgstr "Elm/Pine/Mutt 書式にステータス・ヘッダを格納する"
 
 #: camel/providers/local/camel-local-provider.c:101
 msgid "Standard Unix mbox spool or directory"
-msgstr "標準的な UNIX の mbox 形式のスプールまたはディレクトリ"
+msgstr "標準的な UNIX の mbox 形式のスプールまたはフォルダ"
 
 #: camel/providers/local/camel-local-provider.c:102
 msgid ""
 "For reading and storing local mail in external standard mbox spool files.\n"
 "May also be used to read a tree of Elm, Pine, or Mutt style folders."
 msgstr ""
-"外部の標準 mbox 形式のスプール・ファイルにあるローカルメールを読み込みんだり"
-"格納するためのものです。Elm, Pine, Mutt 形式のフォルダの読み込みにも使用しま"
-"す。"
+"外部の標準 mbox 形式のスプール・ファイルにあるローカル・メールを読み込みんだ"
+"り格納するためのものです。Elm, Pine, Mutt 形式のフォルダの読み込みにも使用し"
+"ます。"
 
 #: camel/providers/local/camel-local-store.c:139
 #: camel/providers/local/camel-local-store.c:228
 #: camel/providers/local/camel-spool-store.c:116
 #, c-format
 msgid "Store root %s is not an absolute path"
-msgstr "保存されたルート %s は絶対パスではありません"
+msgstr "保存したルート %s は絶対パスではありません"
 
 #: camel/providers/local/camel-local-store.c:146
 #, c-format
 msgid "Store root %s is not a regular directory"
-msgstr "保存されたルート %s は通常のディレクトリではありません"
+msgstr "保存したルート %s は通常のフォルダではありません"
 
 #: camel/providers/local/camel-local-store.c:155
 #: camel/providers/local/camel-local-store.c:171
@@ -9493,12 +9493,12 @@ msgstr "ローカルへの保存は inbox を持てません"
 #: camel/providers/local/camel-local-store.c:199
 #, c-format
 msgid "Local mail file %s"
-msgstr "ローカルメールファイル %s"
+msgstr "ローカル・メールのファイル %s"
 
 #: camel/providers/local/camel-local-store.c:308 mail/mail-local.c:909
 #, c-format
 msgid "Could not rename folder %s to %s: %s"
-msgstr "フォルダを %s から %s へ名前変更することができませんでした: %s"
+msgstr "フォルダを %s から %s へ名前変更できませんでした: %s"
 
 #: camel/providers/local/camel-local-store.c:365
 #, c-format
@@ -9555,7 +9555,7 @@ msgstr ""
 #: camel/providers/local/camel-spool-store.c:167
 #, c-format
 msgid "Folder `%s' does not exist."
-msgstr "フォルダ '%s' は存在しません。"
+msgstr "フォルダ '%s' がありません。"
 
 #: camel/providers/local/camel-maildir-store.c:117
 #: camel/providers/local/camel-mh-store.c:216
@@ -9571,7 +9571,7 @@ msgstr ""
 #: camel/providers/local/camel-maildir-store.c:132
 #, c-format
 msgid "`%s' is not a maildir directory."
-msgstr "'%s' は maildir 形式のディレクトリではありません"
+msgstr "'%s' は maildir 形式のフォルダではありません"
 
 #: camel/providers/local/camel-maildir-store.c:167
 #: camel/providers/local/camel-maildir-store.c:205
@@ -9582,7 +9582,7 @@ msgstr "フォルダ '%s' を削除できませんでした: %s"
 
 #: camel/providers/local/camel-maildir-store.c:169
 msgid "not a maildir directory"
-msgstr "maildir 形式のディレクトリではありません"
+msgstr "maildir 形式のフォルダではありません"
 
 #: camel/providers/local/camel-maildir-store.c:335
 #: camel/providers/local/camel-spool-store.c:286
@@ -9595,7 +9595,7 @@ msgstr "フォルダ '%s' をスキャンできませんでした: %s"
 #: camel/providers/local/camel-maildir-summary.c:548
 #, c-format
 msgid "Cannot open maildir directory path: %s: %s"
-msgstr "maildir ディレクトリパスを開けませんでした: %s: %s"
+msgstr "maildir フォルダのパスを開けませんでした: %s: %s"
 
 #: camel/providers/local/camel-maildir-summary.c:541
 msgid "Checking folder consistency"
@@ -9776,12 +9776,12 @@ msgstr "MH 形式フォルダへメッセージを追加できません: %s: %s"
 #: camel/providers/local/camel-mh-store.c:229
 #, c-format
 msgid "`%s' is not a directory."
-msgstr "'%s' はディレクトリではありません"
+msgstr "'%s' はフォルダではありません"
 
 #: camel/providers/local/camel-mh-summary.c:244
 #, c-format
 msgid "Cannot open MH directory path: %s: %s"
-msgstr "MH ディレクトリ・パスを開けません: %s: %s"
+msgstr "MH フォルダのパスを開けません: %s: %s"
 
 #: camel/providers/local/camel-spool-store.c:122
 #, c-format
@@ -9791,12 +9791,12 @@ msgstr "スプール '%s' フォルダが開けません: %s"
 #: camel/providers/local/camel-spool-store.c:134
 #, c-format
 msgid "Spool `%s' is not a regular file or directory"
-msgstr "スプール '%s' は通常のファイル/ディレクトリではありません"
+msgstr "スプール '%s' は通常のファイル/フォルダではありません"
 
 #: camel/providers/local/camel-spool-store.c:153
 #, c-format
 msgid "Folder `%s/%s' does not exist."
-msgstr "フォルダ '%s/%s' は存在しません。"
+msgstr "フォルダ '%s/%s' がありません。"
 
 #: camel/providers/local/camel-spool-store.c:180
 #, c-format
@@ -10675,11 +10675,11 @@ msgid ""
 msgstr ""
 "<b>(コンポーザに編集できないテキスト形式のメッセージが含まれています。)<b>"
 
-#: data/evolution.desktop.in.h:1
+#: data/evolution.desktop.in.in.h:1
 msgid "The Evolution groupware suite"
 msgstr "Evolution グループウェアスイート"
 
-#: data/evolution.desktop.in.h:2
+#: data/evolution.desktop.in.in.h:2
 msgid "Ximian Evolution"
 msgstr "Ximian Evolution"
 
@@ -10799,8 +10799,8 @@ msgid ""
 msgstr ""
 "<small>このページでは、あなたが送信したメールを相手が読んだ時の開封通知を介し"
 "て通知してもらいたい場合に選択し、\n"
-"誰かがあなたからの受領を要求した際に Evolution で処理することを指定することが"
-"できます。</small>"
+"誰かがあなたからの受領を要求した際に Evolution で処理することを指定できます。"
+"</small>"
 
 #: designs/read_receipts/read.glade.h:6
 msgid "Always send back a read reciept"
@@ -10838,7 +10838,7 @@ msgid ""
 "A file by that name already exists.\n"
 "Overwrite it?"
 msgstr ""
-"その名前のファイルは既に存在します。\n"
+"既にその名前のファイルがあります。\n"
 "上書きしますか？"
 
 #: e-util/e-dialog-utils.c:249 mail/mail-display.c:199
@@ -10932,13 +10932,13 @@ msgstr "%H時%M分%S秒"
 #. strptime format for time of day, without seconds,
 #. in 12-hour format.
 #: e-util/e-time-utils.c:348 e-util/e-time-utils.c:435
-#: widgets/misc/e-dateedit.c:1404 widgets/misc/e-dateedit.c:1617
+#: widgets/misc/e-dateedit.c:1404 widgets/misc/e-dateedit.c:1629
 msgid "%I:%M %p"
 msgstr "%p %I時%M分"
 
 #. strptime format for time of day, without seconds 24-hour format.
 #: e-util/e-time-utils.c:352 e-util/e-time-utils.c:427
-#: widgets/misc/e-dateedit.c:1401 widgets/misc/e-dateedit.c:1614
+#: widgets/misc/e-dateedit.c:1401 widgets/misc/e-dateedit.c:1626
 msgid "%H:%M"
 msgstr "%H時%M分"
 
@@ -11072,31 +11072,31 @@ msgstr ""
 "%s"
 
 #: filter/filter-label.c:121 filter/libfilter-i18n.h:26 mail/mail-config.c:65
-#: mail/mail-config.glade.h:62 shell/e-config-upgrade.c:1411
+#: mail/mail-config.glade.h:62 shell/e-config-upgrade.c:1454
 msgid "Important"
 msgstr "重要"
 
 #. red
 #: filter/filter-label.c:122 mail/mail-config.c:66
-#: mail/mail-config.glade.h:129 shell/e-config-upgrade.c:1412
+#: mail/mail-config.glade.h:129 shell/e-config-upgrade.c:1455
 msgid "Work"
 msgstr "仕事"
 
 #. orange
 #: filter/filter-label.c:123 mail/mail-config.c:67 mail/mail-config.glade.h:84
-#: shell/e-config-upgrade.c:1413
+#: shell/e-config-upgrade.c:1456
 msgid "Personal"
 msgstr "プライベート"
 
 #. forest green
 #: filter/filter-label.c:124 mail/mail-config.c:68
-#: mail/mail-config.glade.h:120 shell/e-config-upgrade.c:1414
+#: mail/mail-config.glade.h:120 shell/e-config-upgrade.c:1457
 msgid "To Do"
 msgstr "ToDo"
 
 #. blue
 #: filter/filter-label.c:125 mail/mail-config.c:69 mail/mail-config.glade.h:66
-#: shell/e-config-upgrade.c:1415
+#: shell/e-config-upgrade.c:1458
 msgid "Later"
 msgstr "保留"
 
@@ -11291,7 +11291,7 @@ msgstr "が次のもので終らない"
 
 #: filter/libfilter-i18n.h:15
 msgid "does not exist"
-msgstr "が存在しない"
+msgstr "がない"
 
 #: filter/libfilter-i18n.h:16
 msgid "does not return"
@@ -11307,7 +11307,7 @@ msgstr "が次のもので始まらない"
 
 #: filter/libfilter-i18n.h:19
 msgid "Do Not Exist"
-msgstr "が存在しない"
+msgstr "がない"
 
 #: filter/libfilter-i18n.h:20
 msgid "Draft"
@@ -11319,11 +11319,11 @@ msgstr "が次のもので終わる"
 
 #: filter/libfilter-i18n.h:22
 msgid "Exist"
-msgstr "が存在する"
+msgstr "がある"
 
 #: filter/libfilter-i18n.h:23
 msgid "exists"
-msgstr "が存在する"
+msgstr "がある"
 
 #: filter/libfilter-i18n.h:24
 msgid "Expression"
@@ -11365,7 +11365,7 @@ msgstr "が次のものではない"
 msgid "is not Flagged"
 msgstr "にフラグがない"
 
-#: filter/libfilter-i18n.h:35 mail/folder-browser.c:1822
+#: filter/libfilter-i18n.h:35 mail/folder-browser.c:1824
 msgid "Label"
 msgstr "ラベル"
 
@@ -11462,7 +11462,7 @@ msgstr "が次のもので始まる"
 msgid "Stop Processing"
 msgstr "処理停止"
 
-#: filter/libfilter-i18n.h:60 mail/mail-format.c:934
+#: filter/libfilter-i18n.h:60 mail/mail-format.c:937
 #: mail/message-list.etspec.h:13 mail/message-tag-followup.c:305
 msgid "Subject"
 msgstr "件名"
@@ -11590,7 +11590,7 @@ msgstr ""
 "メールの優先度を基にしており、Evolution ではこの優先度を\n"
 "使用しません。その代わり、Evolution では -3 から 3 までの\n"
 "数値のスコア制度を提供します。このスコアをメールに割り当てて\n"
-"この数値に従ってフィルタリングすることが可能です。\n"
+"この数値に従ってフィルタリングが可能です。\n"
 "\n"
 "対応策として、\"優先度つきフィルタ\" と呼ばれるフィルタの一種が\n"
 "追加されました。これは Netscape のメール優先度を Evolution の\n"
@@ -11640,7 +11640,7 @@ msgstr "メール・フィルタのスキャン中"
 #: importers/netscape-importer.c:2038 importers/pine-importer.c:570
 #: mail/importers/netscape-importer.c:2006 mail/importers/pine-importer.c:520
 msgid "Scanning directory"
-msgstr "ディレクトリのスキャン中"
+msgstr "フォルダのスキャン中"
 
 #: importers/netscape-importer.c:2047 mail/importers/netscape-importer.c:2015
 #: shell/e-shell-startup-wizard.c:556
@@ -11823,10 +11823,10 @@ msgstr "\"%s\" のプロパティ"
 msgid "Properties"
 msgstr "プロパティ"
 
-#: mail/folder-browser.c:329 mail/mail-display.c:393 mail/mail-display.c:921
+#: mail/folder-browser.c:329 mail/mail-display.c:397 mail/mail-display.c:925
 #, c-format
 msgid "Could not create temporary directory: %s"
-msgstr "作業ディレクトリを作成できませんでした: %s"
+msgstr "作業フォルダを作成できませんでした: %s"
 
 #: mail/folder-browser.c:804
 #, c-format
@@ -11868,129 +11868,129 @@ msgstr "送信済 %d 通"
 msgid "%d total"
 msgstr "合計 %d 通"
 
-#: mail/folder-browser.c:1204
+#: mail/folder-browser.c:1206
 msgid "Create _Virtual Folder From Search..."
 msgstr "検索結果から仮想フォルダの作成(_V)..."
 
-#: mail/folder-browser.c:1758
+#: mail/folder-browser.c:1760
 msgid "VFolder on _Subject"
 msgstr "件名の仮想フォルダ(_S)"
 
-#: mail/folder-browser.c:1759
+#: mail/folder-browser.c:1761
 msgid "VFolder on Se_nder"
 msgstr "差出人の仮想フォルダ(_N)"
 
-#: mail/folder-browser.c:1760
+#: mail/folder-browser.c:1762
 msgid "VFolder on _Recipients"
 msgstr "宛先の仮想フォルダ(_R)"
 
-#: mail/folder-browser.c:1761
+#: mail/folder-browser.c:1763
 msgid "VFolder on Mailing _List"
 msgstr "メーリング・リストの仮想フォルダ(_L)"
 
-#: mail/folder-browser.c:1765
+#: mail/folder-browser.c:1767
 msgid "Filter on Sub_ject"
 msgstr "件名のフィルタ(_J)"
 
-#: mail/folder-browser.c:1766
+#: mail/folder-browser.c:1768
 msgid "Filter on Sen_der"
 msgstr "差出人のフィルタ(_D)"
 
-#: mail/folder-browser.c:1767
+#: mail/folder-browser.c:1769
 msgid "Filter on Re_cipients"
 msgstr "宛先のフィルタ(_C)"
 
-#: mail/folder-browser.c:1768 mail/folder-browser.c:2092
+#: mail/folder-browser.c:1770 mail/folder-browser.c:2094
 msgid "Filter on _Mailing List"
 msgstr "メーリング・リストのフィルタ(_M)"
 
-#: mail/folder-browser.c:1786
+#: mail/folder-browser.c:1788
 msgid "_Edit as New Message..."
 msgstr "新規のメッセージとして編集(_E)..."
 
-#: mail/folder-browser.c:1788
+#: mail/folder-browser.c:1790
 msgid "_Print"
 msgstr "印刷(_P)"
 
-#: mail/folder-browser.c:1792 ui/evolution-mail-message.xml.h:110
+#: mail/folder-browser.c:1794 ui/evolution-mail-message.xml.h:110
 msgid "_Reply to Sender"
 msgstr "差出人へ返信(_R)"
 
-#: mail/folder-browser.c:1793 ui/evolution-mail-message.xml.h:75
+#: mail/folder-browser.c:1795 ui/evolution-mail-message.xml.h:75
 msgid "Reply to _List"
 msgstr "メーリング・リストへ返信(_L)"
 
-#: mail/folder-browser.c:1794 ui/evolution-mail-message.xml.h:74
+#: mail/folder-browser.c:1796 ui/evolution-mail-message.xml.h:74
 msgid "Reply to _All"
 msgstr "全員へ返信(_A)"
 
-#: mail/folder-browser.c:1795
+#: mail/folder-browser.c:1797
 msgid "_Forward"
 msgstr "転送(_F)"
 
-#: mail/folder-browser.c:1799
+#: mail/folder-browser.c:1801
 msgid "Follo_w Up..."
 msgstr "フォロー・アップ(_W)..."
 
-#: mail/folder-browser.c:1800
+#: mail/folder-browser.c:1802
 msgid "Fla_g Completed"
 msgstr "完了フラグの付与(_G)"
 
-#: mail/folder-browser.c:1801
+#: mail/folder-browser.c:1803
 msgid "Cl_ear Flag"
 msgstr "フラグの解除(_E)"
 
 #. separator here?
-#: mail/folder-browser.c:1805 ui/evolution-mail-message.xml.h:43
+#: mail/folder-browser.c:1807 ui/evolution-mail-message.xml.h:43
 msgid "Mar_k as Read"
 msgstr "既読としてマーク(_K)"
 
-#: mail/folder-browser.c:1806
+#: mail/folder-browser.c:1808
 msgid "Mark as _Unread"
 msgstr "未読としてマーク(_U)"
 
-#: mail/folder-browser.c:1807
+#: mail/folder-browser.c:1809
 msgid "Mark as _Important"
 msgstr "重要としてマーク(_I)"
 
-#: mail/folder-browser.c:1808
+#: mail/folder-browser.c:1810
 msgid "_Mark as Unimportant"
 msgstr "重要でないとしてマーク(_M)"
 
-#: mail/folder-browser.c:1813
+#: mail/folder-browser.c:1815
 msgid "U_ndelete"
 msgstr "削除の取り消し(_N)"
 
-#: mail/folder-browser.c:1817
+#: mail/folder-browser.c:1819
 msgid "Mo_ve to Folder..."
 msgstr "フォルダへ移動(_V)..."
 
-#: mail/folder-browser.c:1818 ui/evolution-addressbook.xml.h:31
+#: mail/folder-browser.c:1820 ui/evolution-addressbook.xml.h:31
 msgid "_Copy to Folder..."
 msgstr "フォルダへコピー(_C)..."
 
-#: mail/folder-browser.c:1826
+#: mail/folder-browser.c:1828
 msgid "Add Sender to Address_book"
 msgstr "差出人をアドレス帳に追加"
 
-#: mail/folder-browser.c:1830
+#: mail/folder-browser.c:1832
 msgid "Appl_y Filters"
 msgstr "フィルタの適用(_Y)"
 
-#: mail/folder-browser.c:1834
+#: mail/folder-browser.c:1836
 msgid "Crea_te Rule From Message"
 msgstr "メッセージからルールの作成(_T)"
 
-#: mail/folder-browser.c:2093
+#: mail/folder-browser.c:2095
 msgid "VFolder on M_ailing List"
 msgstr "メーリング・リストの仮想フォルダ(_A)"
 
-#: mail/folder-browser.c:2095
+#: mail/folder-browser.c:2097
 #, c-format
 msgid "Filter on _Mailing List (%s)"
 msgstr "メーリング・リストのフィルタ(%s) (_M)"
 
-#: mail/folder-browser.c:2096
+#: mail/folder-browser.c:2098
 #, c-format
 msgid "VFolder on M_ailing List (%s)"
 msgstr "メーリング・リストの仮想フォルダ (%s)(_A)"
@@ -12086,7 +12086,7 @@ msgstr "ユーザ名:"
 msgid "_Path:"
 msgstr "パス(_P):"
 
-#: mail/mail-account-gui.c:1887
+#: mail/mail-account-gui.c:1886
 msgid "You may not create two accounts with the same name."
 msgstr "同じ名前のアカウントを二つ作れません。"
 
@@ -12326,7 +12326,7 @@ msgid ""
 "`%s' already exists.\n"
 "Overwrite it?"
 msgstr ""
-"既に %s は存在しています。\n"
+"既に %s があります。\n"
 "上書きしてもよろしいですか？"
 
 #: mail/mail-callbacks.c:2511
@@ -13068,73 +13068,73 @@ msgid ""
 "File `%s' already exists.\n"
 "Overwrite it?"
 msgstr ""
-"既にファイル '%s' は既に存在します。\n"
+"既にファイル '%s' があります。\n"
 "上書きしますか？"
 
-#: mail/mail-display.c:335
+#: mail/mail-display.c:339
 msgid "Save Attachment"
 msgstr "添付の保存"
 
-#: mail/mail-display.c:408
+#: mail/mail-display.c:412
 #, c-format
 msgid "Could not create temporary file '%s': %s"
 msgstr "作業ファイル '%s' を作成できませんでした: %s"
 
-#: mail/mail-display.c:480
+#: mail/mail-display.c:484
 msgid "Save Attachment..."
 msgstr "添付の保存..."
 
-#: mail/mail-display.c:481
+#: mail/mail-display.c:485
 msgid "View Inline"
 msgstr "インライン表示"
 
-#: mail/mail-display.c:482
+#: mail/mail-display.c:486
 #, c-format
 msgid "Open in %s..."
-msgstr "%s に開く..."
+msgstr "%s で開く..."
 
-#: mail/mail-display.c:542
+#: mail/mail-display.c:546
 #, c-format
 msgid "View Inline (via %s)"
 msgstr "インライン表示 (%s経由)"
 
-#: mail/mail-display.c:546
+#: mail/mail-display.c:550
 msgid "Hide"
 msgstr "隠す"
 
-#: mail/mail-display.c:566
+#: mail/mail-display.c:570
 msgid "External Viewer"
 msgstr "外部ビューア"
 
-#: mail/mail-display.c:1352
+#: mail/mail-display.c:1356
 msgid "Downloading images"
 msgstr "画像のダウンロード中"
 
-#: mail/mail-display.c:1529
+#: mail/mail-display.c:1533
 msgid "Loading message content"
 msgstr "メッセージの内容を読み込み中"
 
-#: mail/mail-display.c:1871
+#: mail/mail-display.c:1875
 msgid "Overdue:"
 msgstr "期限切れ:"
 
-#: mail/mail-display.c:1875
+#: mail/mail-display.c:1879
 msgid "by %B %d, %Y, %l:%M %p"
 msgstr "%m月 %d日 %p %l時%M分"
 
-#: mail/mail-display.c:2239
+#: mail/mail-display.c:2236
 msgid "Open Link in Browser"
 msgstr "ブラウザでリンクを開く"
 
-#: mail/mail-display.c:2240
+#: mail/mail-display.c:2237
 msgid "Copy Link Location"
 msgstr "リンクの場所のコピー"
 
-#: mail/mail-display.c:2242
+#: mail/mail-display.c:2239
 msgid "Save Link as (FIXME)"
 msgstr "リンクに名前を付けて保存 (FIXME)"
 
-#: mail/mail-display.c:2244
+#: mail/mail-display.c:2241
 msgid "Save Image as..."
 msgstr "画像に名前を付けて保存..."
 
@@ -13143,90 +13143,90 @@ msgstr "画像に名前を付けて保存..."
 msgid "Pinging %s"
 msgstr "%s の ping 中"
 
-#: mail/mail-format.c:665
+#: mail/mail-format.c:668
 #, c-format
 msgid "%s attachment"
 msgstr "%s の添付"
 
-#: mail/mail-format.c:707 mail/mail-format.c:1370 mail/mail-format.c:1439
-#: mail/mail-format.c:1559 mail/mail-format.c:1683 mail/mail-format.c:1708
+#: mail/mail-format.c:710 mail/mail-format.c:1528 mail/mail-format.c:1597
+#: mail/mail-format.c:1717 mail/mail-format.c:1841 mail/mail-format.c:1866
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "MIME メッセージを解析できませんでした。ソースを表示します。"
 
-#: mail/mail-format.c:785 mail/message-list.etspec.h:2
+#: mail/mail-format.c:788 mail/message-list.etspec.h:2
 msgid "Date"
 msgstr "日付"
 
-#: mail/mail-format.c:871
+#: mail/mail-format.c:874
 msgid "Bad Address"
 msgstr "おかしなアドレス"
 
-#: mail/mail-format.c:912 mail/message-list.etspec.h:7
+#: mail/mail-format.c:915 mail/message-list.etspec.h:7
 #: mail/message-tag-followup.c:301
 msgid "From"
 msgstr "差出人"
 
-#: mail/mail-format.c:916
+#: mail/mail-format.c:919
 msgid "Reply-To"
 msgstr "返信先"
 
-#: mail/mail-format.c:921 mail/message-list.etspec.h:14
+#: mail/mail-format.c:924 mail/message-list.etspec.h:14
 msgid "To"
 msgstr "宛先"
 
-#: mail/mail-format.c:926
+#: mail/mail-format.c:929
 msgid "Cc"
 msgstr "Cc"
 
-#: mail/mail-format.c:931
+#: mail/mail-format.c:934
 msgid "Bcc"
 msgstr "Bcc"
 
-#: mail/mail-format.c:1482
+#: mail/mail-format.c:1640
 msgid ""
 "This message is digitally signed. Click the lock icon for more information."
 msgstr ""
 "このメッセージには電子署名が付与されています。鍵アイコンをクリックして詳細を"
 "確認して下さい。"
 
-#: mail/mail-format.c:1510
+#: mail/mail-format.c:1668
 msgid "Could not create a PGP verfication context"
 msgstr "PGP 検証コンテキストを生成できませんでした"
 
-#: mail/mail-format.c:1518
+#: mail/mail-format.c:1676
 msgid "This message is digitally signed and has been found to be authentic."
 msgstr "このメッセージには電子署名が付与されており、認証を確認しました。"
 
-#: mail/mail-format.c:1525
+#: mail/mail-format.c:1683
 msgid "This message is digitally signed but can not be proven to be authentic."
 msgstr "このメッセージには電子署名が付与されていますが、認証を確認できません。"
 
-#: mail/mail-format.c:1789
+#: mail/mail-format.c:1947
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "FTP サイト (%s) を指しています"
 
-#: mail/mail-format.c:1800
+#: mail/mail-format.c:1958
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "ローカル・ファイル (%s) はサイト \"%s\" に正しくリンクしています"
 
-#: mail/mail-format.c:1803
+#: mail/mail-format.c:1961
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "ローカル・ファイル (%s) にリンクしています"
 
-#: mail/mail-format.c:1830
+#: mail/mail-format.c:1988
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "リモート・データ (%s) にリンクしています"
 
-#: mail/mail-format.c:1836
+#: mail/mail-format.c:1994
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "不明な外部データ (\"%s\" タイプ) にリンクしています"
 
-#: mail/mail-format.c:1838
+#: mail/mail-format.c:1996
 msgid "Malformed external-body part."
 msgstr "おかしな external-body 部分です。"
 
@@ -13344,7 +13344,7 @@ msgstr "メッセージ %d / %d 通を送信中"
 msgid "Failed on message %d of %d"
 msgstr "メッセージ %d / %d 通は失敗しました"
 
-#: mail/mail-ops.c:774 mail/mail-send-recv.c:581
+#: mail/mail-ops.c:774
 msgid "Complete."
 msgstr "完了しました"
 
@@ -13502,38 +13502,38 @@ msgstr "検索:"
 msgid "Matches:"
 msgstr "一致:"
 
-#: mail/mail-send-recv.c:146
+#: mail/mail-send-recv.c:147
 msgid "Cancelling..."
 msgstr "キャンセル中..."
 
-#: mail/mail-send-recv.c:254
+#: mail/mail-send-recv.c:255
 #, c-format
 msgid "Server: %s, Type: %s"
 msgstr "サーバ: %s  種別: %s"
 
-#: mail/mail-send-recv.c:256
+#: mail/mail-send-recv.c:257
 #, c-format
 msgid "Path: %s, Type: %s"
 msgstr "パス: %s  種類: %s"
 
-#: mail/mail-send-recv.c:258
+#: mail/mail-send-recv.c:259
 #, c-format
 msgid "Type: %s"
 msgstr "種別: %s"
 
-#: mail/mail-send-recv.c:306
+#: mail/mail-send-recv.c:308
 msgid "Send & Receive Mail"
 msgstr "メールの送信/受信"
 
-#: mail/mail-send-recv.c:307
+#: mail/mail-send-recv.c:309
 msgid "Cancel _All"
 msgstr "全てキャンセル(_A)"
 
-#: mail/mail-send-recv.c:389
+#: mail/mail-send-recv.c:391
 msgid "Updating..."
 msgstr "更新中..."
 
-#: mail/mail-send-recv.c:390 mail/mail-send-recv.c:446
+#: mail/mail-send-recv.c:391 mail/mail-send-recv.c:448
 msgid "Waiting..."
 msgstr "待機中..."
 
@@ -13922,7 +13922,7 @@ msgstr "アブダビ"
 
 #: my-evolution/Locations.h:9
 msgid "Abu Dhabi - Bateen"
-msgstr "アブダビ - バティーン"
+msgstr "アブダビ・バティーン"
 
 #: my-evolution/Locations.h:10
 msgid "Acajutla"
@@ -14010,7 +14010,7 @@ msgstr "アジャクシオ/カンポ・デル・オロ"
 
 #: my-evolution/Locations.h:31
 msgid "Akeno Ab"
-msgstr "アケノ Ab"
+msgstr "明野基地"
 
 #: my-evolution/Locations.h:32
 msgid "Akita Airport"
@@ -14226,7 +14226,7 @@ msgstr "アンカレッジ"
 
 #: my-evolution/Locations.h:87
 msgid "Anchorage - Elmendorf AFB"
-msgstr "アンカレッジ - エルメンドルフ AFB"
+msgstr "アンカレッジ・エルメンドルフ空軍基地"
 
 #: my-evolution/Locations.h:88
 msgid "Ancona"
@@ -14250,7 +14250,7 @@ msgstr "アンドラヴィダ"
 
 #: my-evolution/Locations.h:93
 msgid "Andrews AFB"
-msgstr "アンドリュー AFB"
+msgstr "アンドリュース空軍基地"
 
 #: my-evolution/Locations.h:94
 msgid "Angleton"
@@ -14338,15 +14338,15 @@ msgstr "アラド"
 
 #: my-evolution/Locations.h:115
 msgid "Arar"
-msgstr "アララ"
+msgstr "アラール"
 
 #: my-evolution/Locations.h:116
 msgid "Araxos"
-msgstr "Araxos"
+msgstr "アラクソス"
 
 #: my-evolution/Locations.h:117
 msgid "Arcata"
-msgstr "アーケータ"
+msgstr "アルカタ"
 
 #: my-evolution/Locations.h:118
 msgid "Ardmore"
@@ -14366,11 +14366,11 @@ msgstr "アリゾナ"
 
 #: my-evolution/Locations.h:123
 msgid "Arkansas"
-msgstr "アルカンザス"
+msgstr "アーカンソー"
 
 #: my-evolution/Locations.h:124
 msgid "Arkhangelsk"
-msgstr "Arkhangelsk"
+msgstr "アルハンゲルスク"
 
 #: my-evolution/Locations.h:125
 msgid "Arlington"
@@ -14382,7 +14382,7 @@ msgstr "アルティガス"
 
 #: my-evolution/Locations.h:127
 msgid "Asahikawa Ab"
-msgstr "旭川 Ab"
+msgstr "旭川基地"
 
 #: my-evolution/Locations.h:128
 msgid "Asahikawa Airport"
@@ -14402,7 +14402,7 @@ msgstr "アシュフィールド"
 
 #: my-evolution/Locations.h:132
 msgid "Ashiya Ab"
-msgstr "アシヤ Ab"
+msgstr "芦屋基地"
 
 #: my-evolution/Locations.h:133
 msgid "Ashland"
@@ -14470,7 +14470,7 @@ msgstr "オークランド"
 
 #: my-evolution/Locations.h:149
 msgid "Augsburg"
-msgstr "Augsburg"
+msgstr "アウグスブルク"
 
 #: my-evolution/Locations.h:150
 msgid "Augusta"
@@ -14494,7 +14494,7 @@ msgstr "アバロン"
 
 #: my-evolution/Locations.h:157
 msgid "Aviano"
-msgstr "アビアノ"
+msgstr "アヴィアーノ"
 
 #: my-evolution/Locations.h:158
 msgid "Ayacucho"
@@ -14502,11 +14502,11 @@ msgstr "アヤクチョ"
 
 #: my-evolution/Locations.h:159
 msgid "Bage"
-msgstr "バジェ"
+msgstr "バージュ"
 
 #: my-evolution/Locations.h:160
 msgid "Bagotville"
-msgstr "Bagotville"
+msgstr "バゴットヴイル"
 
 #: my-evolution/Locations.h:162
 msgid "Bahia Blanca"
@@ -14526,7 +14526,7 @@ msgstr "`ベーカーズフィールド"
 
 #: my-evolution/Locations.h:167
 msgid "Bale-Mulhouse"
-msgstr "Bale-Mulhouse"
+msgstr "バーゼルミュルーズ"
 
 #: my-evolution/Locations.h:168
 msgid "Balikesir"
@@ -14554,19 +14554,19 @@ msgstr "バナック"
 
 #: my-evolution/Locations.h:174
 msgid "Bandarabbass"
-msgstr "Bandarabbass"
+msgstr "バンダレアッバース"
 
 #: my-evolution/Locations.h:175
 msgid "Bangor"
-msgstr "Bangor"
+msgstr "バンガー"
 
 #: my-evolution/Locations.h:176
 msgid "Baracoa"
-msgstr "Baracoa"
+msgstr "バラコア"
 
 #: my-evolution/Locations.h:177
 msgid "Barbers Point"
-msgstr "Barbers Point"
+msgstr "バーバーズポイント"
 
 #: my-evolution/Locations.h:178
 msgid "Barcelona"
@@ -14586,7 +14586,7 @@ msgstr "バリ"
 
 #: my-evolution/Locations.h:182
 msgid "Bariloche"
-msgstr "Bariloche"
+msgstr "バリローチェ"
 
 #: my-evolution/Locations.h:183
 msgid "Barinas"
@@ -14594,27 +14594,27 @@ msgstr "ベリナス"
 
 #: my-evolution/Locations.h:184
 msgid "Barking Sand"
-msgstr "Barking Sand"
+msgstr "バーキングサンド"
 
 #: my-evolution/Locations.h:185
 msgid "Barksdale"
-msgstr "Barksdale"
+msgstr "バークスデール"
 
 #: my-evolution/Locations.h:186
 msgid "Barnaul"
-msgstr "Barnaul"
+msgstr "バルナウル"
 
 #: my-evolution/Locations.h:187
 msgid "Barquisimeto"
-msgstr "Barquisimeto"
+msgstr "バルキシメト"
 
 #: my-evolution/Locations.h:188
 msgid "Barranquilla/Ernestocortissoz"
-msgstr "Barranquilla/Ernestocortissoz"
+msgstr "バランキージャ/Ernestocortissoz"
 
 #: my-evolution/Locations.h:189
 msgid "Barrow"
-msgstr "Barrow"
+msgstr "バロウ"
 
 #: my-evolution/Locations.h:190
 msgid "Barter Island"
@@ -14622,19 +14622,19 @@ msgstr "バーター諸島"
 
 #: my-evolution/Locations.h:191
 msgid "Bartlesville"
-msgstr "Bartlesville"
+msgstr "バートルスヴィル"
 
 #: my-evolution/Locations.h:192
 msgid "Bartow"
-msgstr "Bartow"
+msgstr "バルトー"
 
 #: my-evolution/Locations.h:193
 msgid "Bastia"
-msgstr "Bastia"
+msgstr "バスティア"
 
 #: my-evolution/Locations.h:194
 msgid "Batesville"
-msgstr "Batesville"
+msgstr "ベイツビル"
 
 #: my-evolution/Locations.h:195
 msgid "Batman"
@@ -14654,19 +14654,19 @@ msgstr "バトル・マウンテン"
 
 #: my-evolution/Locations.h:199
 msgid "Bauru"
-msgstr "Bauru"
+msgstr "バウル"
 
 #: my-evolution/Locations.h:200
 msgid "Bayamo"
-msgstr "Bayamo"
+msgstr "バヤモ"
 
 #: my-evolution/Locations.h:201
 msgid "Bayreuth"
-msgstr "Bayreuth"
+msgstr "バトロイト"
 
 #: my-evolution/Locations.h:202
 msgid "Beatrice"
-msgstr "Beatrice"
+msgstr "ベアトリス"
 
 #: my-evolution/Locations.h:203
 msgid "Beaufort"
@@ -14706,19 +14706,19 @@ msgstr "ベイルート"
 
 #: my-evolution/Locations.h:212
 msgid "Beja"
-msgstr "Beja"
+msgstr "ベージャ"
 
 #: my-evolution/Locations.h:213
 msgid "Belem"
-msgstr "ベーレム"
+msgstr "ベレン"
 
 #: my-evolution/Locations.h:214
 msgid "Belfast/Aldergrove"
-msgstr "ベルファウスト/Aldergrove"
+msgstr "ベルファウスト/アルデルグローブ"
 
 #: my-evolution/Locations.h:215
 msgid "Belfast/Harbour"
-msgstr "ベルファウスト/Harbour"
+msgstr "ベルファウスト/ハーバー"
 
 #: my-evolution/Locations.h:217
 msgid "Belgorod"
@@ -14726,43 +14726,43 @@ msgstr "ベルゴロド"
 
 #: my-evolution/Locations.h:219
 msgid "Belleville"
-msgstr "Belleville"
+msgstr "ベルヴィル"
 
 #: my-evolution/Locations.h:220
 msgid "Bellingham"
-msgstr "Bellingham"
+msgstr "ベリングラハム"
 
 #: my-evolution/Locations.h:221
 msgid "Belmar-Farmingdale"
-msgstr "Belmar-Farmingdale"
+msgstr "ベルマーファーミングデール"
 
 #: my-evolution/Locations.h:222
 msgid "Belo Horizonte"
-msgstr "Belo Horizonte"
+msgstr "ベロオリゾンテ"
 
 #: my-evolution/Locations.h:223
 msgid "Belo Horizonte Apt"
-msgstr "Belo Horizonte Apt"
+msgstr "ベロオリゾンテ Apt"
 
 #: my-evolution/Locations.h:224
 msgid "Bemidji"
-msgstr "Bemidji"
+msgstr "ベミジ"
 
 #: my-evolution/Locations.h:225
 msgid "Benbecula"
-msgstr "Benbecula"
+msgstr "ベンベキュラ"
 
 #: my-evolution/Locations.h:226
 msgid "Benina"
-msgstr "Benina"
+msgstr "ベニーナ"
 
 #: my-evolution/Locations.h:227
 msgid "Benton Harbor"
-msgstr "ベンソン・ハーバー"
+msgstr "ベントン・ハーバー"
 
 #: my-evolution/Locations.h:228
 msgid "Bentonville"
-msgstr "Bentonville"
+msgstr "ベントンビル"
 
 #: my-evolution/Locations.h:229
 msgid "Beograd"
@@ -14770,19 +14770,19 @@ msgstr "ベオグラード"
 
 #: my-evolution/Locations.h:230
 msgid "Bergamo"
-msgstr "Bergamo"
+msgstr "ベルガモ"
 
 #: my-evolution/Locations.h:231
 msgid "Bergen"
-msgstr "Bergen"
+msgstr "ベルゲン"
 
 #: my-evolution/Locations.h:232
 msgid "Bergstrom AFB"
-msgstr "Bergstrom AFB"
+msgstr "ベルグストロム空軍基地"
 
 #: my-evolution/Locations.h:233
 msgid "Berlevag"
-msgstr "Berlevag"
+msgstr "ベルレヴォーグ"
 
 #: my-evolution/Locations.h:234
 msgid "Berlin"
@@ -14790,15 +14790,15 @@ msgstr "ベルリン"
 
 #: my-evolution/Locations.h:235
 msgid "Berlin-Tegel"
-msgstr "ベルリン-Tegel"
+msgstr "ベルリン・チーゲル"
 
 #: my-evolution/Locations.h:236
 msgid "Berlin-Tempelhof"
-msgstr "ベルリン-Tempelhof"
+msgstr "ベルリン・テンペルホフ"
 
 #: my-evolution/Locations.h:237
 msgid "Bern"
-msgstr "Bern"
+msgstr "ベルン"
 
 #: my-evolution/Locations.h:238
 msgid "Bethel"
@@ -14810,15 +14810,15 @@ msgstr "ベツレヘム空港"
 
 #: my-evolution/Locations.h:240
 msgid "Bettles"
-msgstr "Bettles"
+msgstr "ベテル"
 
 #: my-evolution/Locations.h:241
 msgid "Beverly"
-msgstr "Beverly"
+msgstr "ビバリー"
 
 #: my-evolution/Locations.h:242
 msgid "Biarritz-Bayonne"
-msgstr "Biarritz-Bayonne"
+msgstr "ビアリッツ・バイヨンヌ"
 
 #: my-evolution/Locations.h:243
 msgid "Bicycle Lake"
@@ -14826,11 +14826,11 @@ msgstr "バイスクル・レイク"
 
 #: my-evolution/Locations.h:244
 msgid "Biggin Hill"
-msgstr "Biggin Hill"
+msgstr "ビギンヒル"
 
 #: my-evolution/Locations.h:245
 msgid "Big Piney"
-msgstr "Big Piney"
+msgstr "ビッグ・ピニー"
 
 #: my-evolution/Locations.h:246
 msgid "Big River Lake"
@@ -14838,31 +14838,31 @@ msgstr "ビッグ・リバー・レイク"
 
 #: my-evolution/Locations.h:247
 msgid "Bilbao"
-msgstr "Bilbao"
+msgstr "ビルバオ"
 
 #: my-evolution/Locations.h:248
 msgid "Billings"
-msgstr "Billings"
+msgstr "ビリングス"
 
 #: my-evolution/Locations.h:249
 msgid "Billund"
-msgstr "Billund"
+msgstr "ビルン"
 
 #: my-evolution/Locations.h:250
 msgid "Binghamton"
-msgstr "Binghamton"
+msgstr "ビィングハントン"
 
 #: my-evolution/Locations.h:251
 msgid "Birmingham"
-msgstr "Birmingham"
+msgstr "バーミンガム"
 
 #: my-evolution/Locations.h:252
 msgid "Bisha"
-msgstr "Bisha"
+msgstr "ビーシャ"
 
 #: my-evolution/Locations.h:253
 msgid "Bishop"
-msgstr "Bishop"
+msgstr "ビショップ"
 
 #: my-evolution/Locations.h:254
 msgid "Bismark"
@@ -14874,11 +14874,11 @@ msgstr "ブラックプール"
 
 #: my-evolution/Locations.h:256
 msgid "Blagoveschensk"
-msgstr "Blagoveschensk"
+msgstr "ブラゴベシチェンスク"
 
 #: my-evolution/Locations.h:257
 msgid "Blanding"
-msgstr "Blanding"
+msgstr "ブランディング"
 
 #: my-evolution/Locations.h:258
 msgid "Block Island"
@@ -14886,11 +14886,11 @@ msgstr "ブロック諸島"
 
 #: my-evolution/Locations.h:259
 msgid "Bloemfontein J. B. M. Hertzog "
-msgstr "Bloemfontein J. B. M. Hertzog "
+msgstr "ブルームフォンテーン J. B. M. Hertzog "
 
 #: my-evolution/Locations.h:260
 msgid "Bloomington"
-msgstr "Bloomington"
+msgstr "ブルーミントン"
 
 #: my-evolution/Locations.h:261
 msgid "Blue Canyon"
@@ -14906,11 +14906,11 @@ msgstr "ブルーフィールド"
 
 #: my-evolution/Locations.h:264
 msgid "Blythe"
-msgstr "Blythe"
+msgstr "ブライス"
 
 #: my-evolution/Locations.h:265
 msgid "Boa Vista"
-msgstr "Boa Vista"
+msgstr "ボアビスタ"
 
 #: my-evolution/Locations.h:266
 msgid "Bocas del Toro"
@@ -14930,7 +14930,7 @@ msgstr "ボイシー"
 
 #: my-evolution/Locations.h:271
 msgid "Bologna"
-msgstr "Bologna"
+msgstr "ボローニャ"
 
 #: my-evolution/Locations.h:272
 msgid "Bolzano"
@@ -14942,15 +14942,15 @@ msgstr "ボンベイ/サンタクルーズ"
 
 #: my-evolution/Locations.h:274
 msgid "Boone"
-msgstr "Boone"
+msgstr "ブーン"
 
 #: my-evolution/Locations.h:275
 msgid "Bordeaux"
-msgstr "Bordeaux"
+msgstr "ボルドー"
 
 #: my-evolution/Locations.h:276
 msgid "Borger"
-msgstr "Borger"
+msgstr "ボーガー"
 
 #: my-evolution/Locations.h:277
 msgid "Bornholm"
@@ -14958,11 +14958,11 @@ msgstr "ボーンホルム"
 
 #: my-evolution/Locations.h:278
 msgid "Boscombe Down"
-msgstr "Boscombe Down"
+msgstr "ボスコンブ・ダウン"
 
 #: my-evolution/Locations.h:279
 msgid "Bosnia-Herzegovina"
-msgstr "ボスニアヘルツェゴビナ"
+msgstr "ボスニア・ヘルツェゴビナ"
 
 #: my-evolution/Locations.h:280
 msgid "Boston"
@@ -14970,15 +14970,15 @@ msgstr "ボストン"
 
 #: my-evolution/Locations.h:281
 msgid "Boulmer"
-msgstr "Boulmer"
+msgstr "ボルマー"
 
 #: my-evolution/Locations.h:282
 msgid "Bourges"
-msgstr "Bourges"
+msgstr "ブールジュ"
 
 #: my-evolution/Locations.h:283
 msgid "Bournemouth"
-msgstr "Bournemouth"
+msgstr "ボーンマス"
 
 #: my-evolution/Locations.h:284
 msgid "Bowling Green"
@@ -14986,7 +14986,7 @@ msgstr "ボーリング・グリーン"
 
 #: my-evolution/Locations.h:285
 msgid "Bozeman"
-msgstr "Bozeman"
+msgstr "ボーズマン"
 
 #: my-evolution/Locations.h:286
 msgid "Bradford"
@@ -15610,7 +15610,7 @@ msgstr "新千歳空港"
 
 #: my-evolution/Locations.h:446
 msgid "Chitose ASDF"
-msgstr "千歳空港 (航空自衛隊)"
+msgstr "千歳基地"
 
 #: my-evolution/Locations.h:447
 msgid "Chofu Airport"
@@ -16894,7 +16894,7 @@ msgstr "Fujairah"
 
 #: my-evolution/Locations.h:782
 msgid "Fuji Ab"
-msgstr "富士 Ab"
+msgstr "富士基地"
 
 #: my-evolution/Locations.h:783
 msgid "Fukue Airport"
@@ -17018,7 +17018,7 @@ msgstr "Ghedi"
 
 #: my-evolution/Locations.h:816
 msgid "Gifu Ab"
-msgstr "岐阜 Ab"
+msgstr "岐阜基地"
 
 #: my-evolution/Locations.h:817
 msgid "Gila Bend"
@@ -17274,7 +17274,7 @@ msgstr "八丈島空港"
 
 #: my-evolution/Locations.h:882
 msgid "Hachinohe Ab"
-msgstr "八戸空港"
+msgstr "八戸基地"
 
 #: my-evolution/Locations.h:883
 msgid "Hafr Al-Batin"
@@ -17307,7 +17307,7 @@ msgstr "ハリファックス"
 
 #: my-evolution/Locations.h:891
 msgid "Hamamatsu Ab"
-msgstr "浜松 Ab"
+msgstr "浜松基地"
 
 #: my-evolution/Locations.h:892
 msgid "Hamburg"
@@ -17499,7 +17499,7 @@ msgstr "Hoffman"
 
 #: my-evolution/Locations.h:939
 msgid "Hofu Ab"
-msgstr "Hofu Ab"
+msgstr "防府基地"
 
 #: my-evolution/Locations.h:940
 msgid "Hohenems"
@@ -17619,7 +17619,7 @@ msgstr "Hutchinson"
 
 #: my-evolution/Locations.h:972
 msgid "Hyakuri Ab"
-msgstr "Hyakuri Ab"
+msgstr "百里基地"
 
 #: my-evolution/Locations.h:973
 msgid "Hyannis"
@@ -17759,7 +17759,7 @@ msgstr "アイアンウッド"
 
 #: my-evolution/Locations.h:1010
 msgid "Iruma Ab"
-msgstr "入間 Ab"
+msgstr "入間基地"
 
 #: my-evolution/Locations.h:1011
 msgid "Islamabad"
@@ -17919,7 +17919,7 @@ msgstr "Juneau"
 
 #: my-evolution/Locations.h:1054
 msgid "Kadena Ab"
-msgstr "嘉手納 Ab"
+msgstr "嘉手納基地"
 
 #: my-evolution/Locations.h:1055
 msgid "Kagoshima Airport"
@@ -17963,7 +17963,7 @@ msgstr "Kangshan"
 
 #: my-evolution/Locations.h:1065
 msgid "Kanoya Ab"
-msgstr "狩野 Ab"
+msgstr "狩野基地"
 
 #: my-evolution/Locations.h:1066
 msgid "Kansai International Airport"
@@ -17999,11 +17999,11 @@ msgstr "Kassel-Calden"
 
 #: my-evolution/Locations.h:1074
 msgid "Kasumigaura Ab"
-msgstr "霞ヶ浦 Ab"
+msgstr "霞ヶ浦基地"
 
 #: my-evolution/Locations.h:1075
 msgid "Kasuminome Ab"
-msgstr "霞の目 Ab"
+msgstr "霞の目基地"
 
 #: my-evolution/Locations.h:1076
 msgid "Katowice"
@@ -18143,7 +18143,7 @@ msgstr "Kiruna"
 
 #: my-evolution/Locations.h:1110
 msgid "Kisarazu Ab"
-msgstr "木更 Ab"
+msgstr "木更津基地"
 
 #: my-evolution/Locations.h:1111
 msgid "Kishineu"
@@ -18219,19 +18219,19 @@ msgstr "Koln/Bonn"
 
 #: my-evolution/Locations.h:1129
 msgid "Komatsu Ab"
-msgstr "Komatsu Ab"
+msgstr "小松基地"
 
 #: my-evolution/Locations.h:1130
 msgid "Komatsujima Ab"
-msgstr "Komatsujima Ab"
+msgstr "小松島基地"
 
 #: my-evolution/Locations.h:1131
 msgid "Konya"
-msgstr "Konya"
+msgstr "鹿屋"
 
 #: my-evolution/Locations.h:1132
 msgid "Korea, Democratic People's Republic of"
-msgstr "Korea, Democratic People's Republic of"
+msgstr "大韓民国"
 
 #: my-evolution/Locations.h:1133
 msgid "Korea, Republic of"
@@ -18239,11 +18239,11 @@ msgstr "大韓民国"
 
 #: my-evolution/Locations.h:1134
 msgid "Kos"
-msgstr "Kos"
+msgstr "コス島"
 
 #: my-evolution/Locations.h:1135
 msgid "Kotzebue"
-msgstr "Kotzebue"
+msgstr "コツェビュー"
 
 #: my-evolution/Locations.h:1136
 msgid "Kozani"
@@ -18399,7 +18399,7 @@ msgstr "Langebaanweg"
 
 #: my-evolution/Locations.h:1175
 msgid "Langley AFB"
-msgstr "ラングレー AFB"
+msgstr "ラングレー空軍基地"
 
 #: my-evolution/Locations.h:1176
 msgid "Lannion"
@@ -18887,7 +18887,7 @@ msgstr "マンチェスター"
 
 #: my-evolution/Locations.h:1302
 msgid "Mangilsan Ab"
-msgstr "Mangilsan Ab"
+msgstr "Mangilsan 基地"
 
 #: my-evolution/Locations.h:1303
 msgid "Manhattan"
@@ -19023,7 +19023,7 @@ msgstr "Marysville"
 
 #: my-evolution/Locations.h:1336
 msgid "Marysville-Beale AFB"
-msgstr "Marysville-Beale AFB"
+msgstr "メリーズビルビール空軍基地"
 
 #: my-evolution/Locations.h:1337
 msgid "Mashhad"
@@ -19055,11 +19055,11 @@ msgstr "松本空港"
 
 #: my-evolution/Locations.h:1344
 msgid "Matsushima Ab"
-msgstr "松島空港"
+msgstr "松島基地"
 
 #: my-evolution/Locations.h:1345
 msgid "Matsuyama Airport"
-msgstr "松山空港c"
+msgstr "松山空港"
 
 #: my-evolution/Locations.h:1346
 msgid "Mattoon"
@@ -19207,7 +19207,7 @@ msgstr "Mesa-Falcon Field"
 
 #: my-evolution/Locations.h:1382
 msgid "Metabaru Ab"
-msgstr "Metabaru Ab"
+msgstr "Metabaru 基地"
 
 #: my-evolution/Locations.h:1383
 msgid "Metz-Frescaty"
@@ -19251,7 +19251,7 @@ msgstr "ミッドランド"
 
 #: my-evolution/Locations.h:1394
 msgid "Miho Ab"
-msgstr "美保 Ab"
+msgstr "美保基地"
 
 #: my-evolution/Locations.h:1395
 msgid "Milano/Linate"
@@ -19335,11 +19335,11 @@ msgstr "Minot"
 
 #: my-evolution/Locations.h:1415
 msgid "Minot AFB"
-msgstr "Minot AFB"
+msgstr "Minot 空軍基地"
 
 #: my-evolution/Locations.h:1416
 msgid "Misawa Ab"
-msgstr "三沢 Ab"
+msgstr "三沢基地"
 
 #: my-evolution/Locations.h:1417
 msgid "Mississippi"
@@ -20087,7 +20087,7 @@ msgstr "オグデン"
 
 #: my-evolution/Locations.h:1609
 msgid "Ogden-Hill AFB"
-msgstr "オグデン・ヒル AFB"
+msgstr "オグデン・ヒル空軍基地"
 
 #: my-evolution/Locations.h:1610
 msgid "Ogdensburg"
@@ -20171,7 +20171,7 @@ msgstr "Omak"
 
 #: my-evolution/Locations.h:1631
 msgid "Ominato Ab"
-msgstr "Ominato Ab"
+msgstr "大湊基地"
 
 #: my-evolution/Locations.h:1632
 msgid "Omsk"
@@ -20243,7 +20243,7 @@ msgstr "大阪国際空港"
 
 #: my-evolution/Locations.h:1649
 msgid "Osan Ab"
-msgstr "Osan Ab"
+msgstr "オサン基地"
 
 #: my-evolution/Locations.h:1650
 msgid "Oscoda"
@@ -20299,7 +20299,7 @@ msgstr "Ozark"
 
 #: my-evolution/Locations.h:1663
 msgid "Ozuki Ab"
-msgstr "Ozuki Ab"
+msgstr "小月基地"
 
 #: my-evolution/Locations.h:1664
 msgid "Paderborn-Haxterberg"
@@ -21007,7 +21007,7 @@ msgstr "ラピッド・シティ"
 
 #: my-evolution/Locations.h:1849
 msgid "Rapid City-Ellsworth AFB"
-msgstr "ラピッド・シティ・エルスワース AFB"
+msgstr "ラピッド・シティ・エルスワース空軍基地"
 
 #: my-evolution/Locations.h:1850
 msgid "Ras Al Khaimah"
@@ -21427,7 +21427,7 @@ msgstr "サーモン"
 
 #: my-evolution/Locations.h:1955
 msgid "Salmon (2)"
-msgstr "サーモン (２)"
+msgstr "サーモン (2)"
 
 #: my-evolution/Locations.h:1956
 msgid "Salta"
@@ -21699,7 +21699,7 @@ msgstr "サンパウロ"
 
 #: my-evolution/Locations.h:2023
 msgid "Sapporo Ab"
-msgstr "札幌 Ab"
+msgstr "札幌基地"
 
 #: my-evolution/Locations.h:2024
 msgid "Sarajevo"
@@ -21807,7 +21807,7 @@ msgstr "仙台空港"
 
 #: my-evolution/Locations.h:2051
 msgid "Seoul E Ab"
-msgstr "ソウル E Ab"
+msgstr "ソウル E 基地"
 
 #: my-evolution/Locations.h:2052
 msgid "Seoul/Kimp'O International Airport"
@@ -21895,7 +21895,7 @@ msgstr "Sherman-Denison"
 
 #: my-evolution/Locations.h:2073
 msgid "Shimofusa Ab"
-msgstr "下総 Ab"
+msgstr "下総基地"
 
 #: my-evolution/Locations.h:2074
 msgid "Shingle Point"
@@ -21911,7 +21911,7 @@ msgstr "Shishmaref"
 
 #: my-evolution/Locations.h:2077
 msgid "Shizuhama Ab"
-msgstr "清水浜 Ab"
+msgstr "清水浜基地"
 
 #: my-evolution/Locations.h:2078
 msgid "Shoreham"
@@ -22331,7 +22331,7 @@ msgstr "Tabuk"
 
 #: my-evolution/Locations.h:2190
 msgid "Tachikawa Ab"
-msgstr "立川 Ab"
+msgstr "立川基地"
 
 #: my-evolution/Locations.h:2191
 msgid "Tacna"
@@ -22419,23 +22419,23 @@ msgstr "Tamanrasset/Aguenna"
 
 #: my-evolution/Locations.h:2213
 msgid "Tampa"
-msgstr "Tampa"
+msgstr "タンパ"
 
 #: my-evolution/Locations.h:2214
 msgid "Tampa-Macdill AFB"
-msgstr "Tampa-Macdill AFB"
+msgstr "タンパ・マックディル空軍基地"
 
 #: my-evolution/Locations.h:2215
 msgid "Tampere"
-msgstr "Tampere"
+msgstr "タンペレ"
 
 #: my-evolution/Locations.h:2216
 msgid "Tampico"
-msgstr "Tampico"
+msgstr "タンピコ"
 
 #: my-evolution/Locations.h:2217
 msgid "Tanana"
-msgstr "Tanana"
+msgstr "タナノー"
 
 #: my-evolution/Locations.h:2218
 msgid "Tanegashima Airport"
@@ -22443,95 +22443,95 @@ msgstr "種子島空港"
 
 #: my-evolution/Locations.h:2219
 msgid "Taos"
-msgstr "Taos"
+msgstr "タオス"
 
 #: my-evolution/Locations.h:2220
 msgid "Taoyuan"
-msgstr "Taoyuan"
+msgstr "桃園"
 
 #: my-evolution/Locations.h:2221
 msgid "Tapachula"
-msgstr "Tapachula"
+msgstr "タパチュラ"
 
 #: my-evolution/Locations.h:2222
 msgid "Taranto"
-msgstr "Taranto"
+msgstr "タラント"
 
 #: my-evolution/Locations.h:2223
 msgid "Tarbes"
-msgstr "Tarbes"
+msgstr "タルブ"
 
 #: my-evolution/Locations.h:2224
 msgid "Tarija"
-msgstr "Tarija"
+msgstr "タリハ"
 
 #: my-evolution/Locations.h:2225
 msgid "Tarvisio"
-msgstr "Tarvisio"
+msgstr "タルヴィジオ"
 
 #: my-evolution/Locations.h:2226
 msgid "Tatalina"
-msgstr "Tatalina"
+msgstr "タタリーナ"
 
 #: my-evolution/Locations.h:2227
 msgid "Tateyama Ab"
-msgstr "館山 Ab"
+msgstr "館山基地"
 
 #: my-evolution/Locations.h:2228
 msgid "Taunton"
-msgstr "Taunton"
+msgstr "トーントン"
 
 #: my-evolution/Locations.h:2229
 msgid "Tebessa"
-msgstr "Tebessa"
+msgstr "テベサ"
 
 #: my-evolution/Locations.h:2230
 msgid "Tees-Side"
-msgstr "Tees-Side"
+msgstr "チーズ・サイド"
 
 #: my-evolution/Locations.h:2231
 msgid "Tegucigalpa"
-msgstr "Tegucigalpa"
+msgstr "テグシガルパ"
 
 #: my-evolution/Locations.h:2232
 msgid "Tehran-Mehrabad"
-msgstr "Tehran-Mehrabad"
+msgstr "テヘラン・メヘラバード"
 
 #: my-evolution/Locations.h:2233
 msgid "Tela"
-msgstr "Tela"
+msgstr "テラ"
 
 #: my-evolution/Locations.h:2234
 msgid "Temple"
-msgstr "Temple"
+msgstr "テンプル"
 
 #: my-evolution/Locations.h:2235
 msgid "Tennessee"
-msgstr "Tennessee"
+msgstr "テネシー"
 
 #: my-evolution/Locations.h:2236
 msgid "Tepic"
-msgstr "Tepic"
+msgstr "テピク"
 
 #: my-evolution/Locations.h:2237
 msgid "Teresina"
-msgstr "Teresina"
+msgstr "テレジナ"
 
 #: my-evolution/Locations.h:2238
 msgid "Terre Haute"
-msgstr "Terre Haute"
+msgstr "テレホート"
 
 #: my-evolution/Locations.h:2239
 msgid "Terrell"
-msgstr "Terrell"
+msgstr "テレル"
 
 #: my-evolution/Locations.h:2240
 msgid "Teterboro"
-msgstr "Teterboro"
+msgstr "タテルボロ"
 
 #: my-evolution/Locations.h:2241
 msgid "Texarkana"
-msgstr "Texarkana"
+msgstr "テクサーカナ"
 
 #: my-evolution/Locations.h:2242
 msgid "Texas"
@@ -22539,15 +22539,15 @@ msgstr "テキサス"
 
 #: my-evolution/Locations.h:2243
 msgid "The Dalles"
-msgstr "The Dalles"
+msgstr "ザダルズ"
 
 #: my-evolution/Locations.h:2244
 msgid "Thessaloniki"
-msgstr "Thessaloniki"
+msgstr "セサロニキ"
 
 #: my-evolution/Locations.h:2245
 msgid "Thief River Falls"
-msgstr "Thief River Falls"
+msgstr "シーフリバーフォールズ"
 
 #: my-evolution/Locations.h:2246
 msgid "Thiruvananthapuram"
@@ -22555,11 +22555,11 @@ msgstr "Thiruvananthapuram"
 
 #: my-evolution/Locations.h:2247
 msgid "Thisted"
-msgstr "Thisted"
+msgstr "ティステズ"
 
 #: my-evolution/Locations.h:2248
 msgid "Thompson Falls"
-msgstr "Thompson Falls"
+msgstr "トンプソンフォールズ"
 
 #: my-evolution/Locations.h:2249
 msgid "Thumrait"
@@ -22567,31 +22567,31 @@ msgstr "Thumrait"
 
 #: my-evolution/Locations.h:2250
 msgid "Tianjin"
-msgstr "Tianjin"
+msgstr "天津"
 
 #: my-evolution/Locations.h:2251
 msgid "Tijuana"
-msgstr "Tijuana"
+msgstr "ティフアナ"
 
 #: my-evolution/Locations.h:2252
 msgid "Timisoara"
-msgstr "Timisoara"
+msgstr "ティミショアラ"
 
 #: my-evolution/Locations.h:2253
 msgid "Tin City"
-msgstr "Tin City"
+msgstr "ティンシティー"
 
 #: my-evolution/Locations.h:2254
 msgid "Tirana"
-msgstr "Tirana"
+msgstr "ティラナ"
 
 #: my-evolution/Locations.h:2255
 msgid "Tiree"
-msgstr "Tiree"
+msgstr "タイリー"
 
 #: my-evolution/Locations.h:2256
 msgid "Tirgu Mures"
-msgstr "Tirgu Mures"
+msgstr "チルグムレシ"
 
 #: my-evolution/Locations.h:2257
 msgid "Tiruchchirapalli"
@@ -22599,31 +22599,31 @@ msgstr "Tiruchchirapalli"
 
 #: my-evolution/Locations.h:2258
 msgid "Titusville"
-msgstr "Titusville"
+msgstr "タイタスビル"
 
 #: my-evolution/Locations.h:2259
 msgid "Tivat"
-msgstr "Tivat"
+msgstr "チヴァト"
 
 #: my-evolution/Locations.h:2260
 msgid "Tlemcen Zenata"
-msgstr "Tlemcen Zenata"
+msgstr "トレムセン・ゼンタ"
 
 #: my-evolution/Locations.h:2261
 msgid "Tobias Bolanos"
-msgstr "Tobias Bolanos"
+msgstr "トビアスボラノス"
 
 #: my-evolution/Locations.h:2262
 msgid "Tocumen"
-msgstr "Tocumen"
+msgstr "トクメン"
 
 #: my-evolution/Locations.h:2263
 msgid "Togiak Village"
-msgstr "Togiak Village"
+msgstr "Togiakヴィレッジ"
 
 #: my-evolution/Locations.h:2264
 msgid "Tokachi GSDF"
-msgstr "十勝 GSDF"
+msgstr "十勝演習場"
 
 #: my-evolution/Locations.h:2265
 msgid "Tokunoshima Island"
@@ -22631,7 +22631,7 @@ msgstr "徳之島"
 
 #: my-evolution/Locations.h:2266
 msgid "Tokushima Ab"
-msgstr "徳島 Ab"
+msgstr "徳島基地"
 
 #: my-evolution/Locations.h:2267
 msgid "Tokyo Heliport"
@@ -22647,31 +22647,31 @@ msgstr "東京新国際空港 (成田)"
 
 #: my-evolution/Locations.h:2270
 msgid "Toledo"
-msgstr "Toledo"
+msgstr "トリード"
 
 #: my-evolution/Locations.h:2271
 msgid "Toluca"
-msgstr "Toluca"
+msgstr "トルカ"
 
 #: my-evolution/Locations.h:2272
 msgid "Tonopah"
-msgstr "Tonopah"
+msgstr "トノパー"
 
 #: my-evolution/Locations.h:2273
 msgid "Topeka"
-msgstr "Topeka"
+msgstr "トピーカ"
 
 #: my-evolution/Locations.h:2274
 msgid "Topeka-Forbes Field"
-msgstr "Topeka-Forbes Field"
+msgstr "トピーカ-フォーブズフィールド"
 
 #: my-evolution/Locations.h:2275
 msgid "Torino/Bric Della Croce"
-msgstr "Torino/Bric Della Croce"
+msgstr "トリノ/Bricデラクローチェ"
 
 #: my-evolution/Locations.h:2276
 msgid "Torino/Caselle"
-msgstr "Torino/Caselle"
+msgstr "トリノ/カゼッレ"
 
 #: my-evolution/Locations.h:2277
 msgid "Toronto"
@@ -22679,15 +22679,15 @@ msgstr "トロント"
 
 #: my-evolution/Locations.h:2278
 msgid "Torp"
-msgstr "Torp"
+msgstr "トルプ"
 
 #: my-evolution/Locations.h:2279
 msgid "Torrance"
-msgstr "Torrance"
+msgstr "トランス"
 
 #: my-evolution/Locations.h:2280
 msgid "Torreon"
-msgstr "Torreon"
+msgstr "トレオン"
 
 #: my-evolution/Locations.h:2281
 msgid "Tottori Airport"
@@ -22695,23 +22695,23 @@ msgstr "鳥取空港"
 
 #: my-evolution/Locations.h:2282
 msgid "Toulouse"
-msgstr "Toulouse"
+msgstr "ツールーズ"
 
 #: my-evolution/Locations.h:2283
 msgid "Toul-Rosieres"
-msgstr "Toul-Rosieres"
+msgstr "ール-ロジェール"
 
 #: my-evolution/Locations.h:2284
 msgid "Tours-St-Symphorien"
-msgstr "Tours-St-Symphorien"
+msgstr "ツール-サン-サンフォリアン"
 
 #: my-evolution/Locations.h:2285
 msgid "Toussus-Le Noble"
-msgstr "Toussus-Le Noble"
+msgstr "Toussus-ルノーブル"
 
 #: my-evolution/Locations.h:2286
 msgid "Townsville"
-msgstr "Townsville"
+msgstr "タウンズビル"
 
 #: my-evolution/Locations.h:2287
 msgid "Toyama Airport"
@@ -22719,75 +22719,75 @@ msgstr "富山空港"
 
 #: my-evolution/Locations.h:2288
 msgid "Trabzon"
-msgstr "Trabzon"
+msgstr "トラブゾン"
 
 #: my-evolution/Locations.h:2289
 msgid "Trapani"
-msgstr "Trapani"
+msgstr "トラパニ"
 
 #: my-evolution/Locations.h:2290
 msgid "Traverse City"
-msgstr "Traverse City"
+msgstr "トラバースシティー"
 
 #: my-evolution/Locations.h:2291
 msgid "Trelew"
-msgstr "Trelew"
+msgstr "トレリュー"
 
 #: my-evolution/Locations.h:2292
 msgid "Trenton"
-msgstr "Trenton"
+msgstr "トレントン"
 
 #: my-evolution/Locations.h:2293
 msgid "Trevico"
-msgstr "Trevico"
+msgstr "トレビコ"
 
 #: my-evolution/Locations.h:2294
 msgid "Treviso/Istrana"
-msgstr "Treviso/Istrana"
+msgstr "トレビゾ/イストラナ"
 
 #: my-evolution/Locations.h:2295
 msgid "Treviso/S.Angelo"
-msgstr "Treviso/S.Angelo"
+msgstr "トレビゾ/S.アンジェロ"
 
 #: my-evolution/Locations.h:2296
 msgid "Trieste"
-msgstr "Trieste"
+msgstr "トリエステ"
 
 #: my-evolution/Locations.h:2297
 msgid "Trinidad"
-msgstr "Trinidad"
+msgstr "トリニダード"
 
 #: my-evolution/Locations.h:2298
 msgid "Tripoli"
-msgstr "Tripoli"
+msgstr "トリポリ"
 
 #: my-evolution/Locations.h:2299
 msgid "Tromso/Langnes"
-msgstr "Tromso/Langnes"
+msgstr "トロムセ/ラングネス"
 
 #: my-evolution/Locations.h:2300
 msgid "Trondheim/Vaernes"
-msgstr "Trondheim/Vaernes"
+msgstr "トロンヘイム/ヴァーネス"
 
 #: my-evolution/Locations.h:2301
 msgid "Troutdale"
-msgstr "Troutdale"
+msgstr "トラウトデール"
 
 #: my-evolution/Locations.h:2302
 msgid "Troyes/Barberey"
-msgstr "Troyes/Barberey"
+msgstr "トロア/バーバーリ"
 
 #: my-evolution/Locations.h:2303
 msgid "Truckee"
-msgstr "Truckee"
+msgstr "トラッキー"
 
 #: my-evolution/Locations.h:2304
 msgid "Truth or Consequences"
-msgstr "Truth or Consequences"
+msgstr "ツルースまたはコンシーケンス"
 
 #: my-evolution/Locations.h:2305
 msgid "Tsuiki Ab"
-msgstr "立木 Ab"
+msgstr "築城基地"
 
 #: my-evolution/Locations.h:2306
 msgid "Tsushima Airport"
@@ -22795,119 +22795,119 @@ msgstr "対馬空港"
 
 #: my-evolution/Locations.h:2307
 msgid "Tucson"
-msgstr "Tucson"
+msgstr "トゥーソン"
 
 #: my-evolution/Locations.h:2308
 msgid "Tucson-Davis AFB"
-msgstr "Tucson-Davis AFB"
+msgstr "トゥーソン・デービス空軍基地"
 
 #: my-evolution/Locations.h:2309
 msgid "Tucuman"
-msgstr "Tucuman"
+msgstr "トゥクマン"
 
 #: my-evolution/Locations.h:2310
 msgid "Tucumcari"
-msgstr "Tucumcari"
+msgstr "トゥーカムカリ"
 
 #: my-evolution/Locations.h:2311
 msgid "Tucurui"
-msgstr "Tucurui"
+msgstr "ツクルイ"
 
 #: my-evolution/Locations.h:2312
 msgid "Tulancingo"
-msgstr "Tulancingo"
+msgstr "トゥランシンゴ"
 
 #: my-evolution/Locations.h:2313
 msgid "Tulcea"
-msgstr "Tulcea"
+msgstr "トゥルチヤ"
 
 #: my-evolution/Locations.h:2314
 msgid "Tulsa"
-msgstr "Tulsa"
+msgstr "タルサ"
 
 #: my-evolution/Locations.h:2315
 msgid "Tupelo"
-msgstr "Tupelo"
+msgstr "テューペロ"
 
 #: my-evolution/Locations.h:2316
 msgid "Turaif"
-msgstr "Turaif"
+msgstr "トライフ"
 
 #: my-evolution/Locations.h:2317
 msgid "Turin"
-msgstr "Turin"
+msgstr "チュリン"
 
 #: my-evolution/Locations.h:2319
 msgid "Turku"
-msgstr "Turku"
+msgstr "トゥルク"
 
 #: my-evolution/Locations.h:2320
 msgid "Tuscaloosa"
-msgstr "Tuscaloosa"
+msgstr "タスカルーサ"
 
 #: my-evolution/Locations.h:2321
 msgid "Tuxtla Gutierrez"
-msgstr "Tuxtla Gutierrez"
+msgstr "トゥストラグティエレス"
 
 #: my-evolution/Locations.h:2322
 msgid "Twenthe"
-msgstr "Twenthe"
+msgstr "ツウェンス"
 
 #: my-evolution/Locations.h:2323
 msgid "Twentynine Palms"
-msgstr "Twentynine Palms"
+msgstr "29パームス"
 
 #: my-evolution/Locations.h:2324
 msgid "Twin Falls"
-msgstr "Twin Falls"
+msgstr "トウィンフォールズ"
 
 #: my-evolution/Locations.h:2325
 msgid "Tyler"
-msgstr "Tyler"
+msgstr "タイラー"
 
 #: my-evolution/Locations.h:2326
 msgid "Tyndall AFB"
-msgstr "Tyndall AFB"
+msgstr "ティンダル空軍基地"
 
 #: my-evolution/Locations.h:2327
 msgid "Tyumen"
-msgstr "Tyumen"
+msgstr "チュメン"
 
 #: my-evolution/Locations.h:2328
 msgid "Uberaba"
-msgstr "Uberaba"
+msgstr "ウベラバ"
 
 #: my-evolution/Locations.h:2329
 msgid "Ufa"
-msgstr "Ufa"
+msgstr "ウファ"
 
 #: my-evolution/Locations.h:2330
 msgid "Ukiah"
-msgstr "Ukiah"
+msgstr "ユカイア"
 
 #: my-evolution/Locations.h:2332
 msgid "Ulan-Ude"
-msgstr "Ulan-Ude"
+msgstr "ウランウデ"
 
 #: my-evolution/Locations.h:2333
 msgid "Ulsan"
-msgstr "Ulsan"
+msgstr "ウルサン"
 
 #: my-evolution/Locations.h:2334
 msgid "Ulyanovsk"
-msgstr "Ulyanovsk"
+msgstr "ウリヤノブスク"
 
 #: my-evolution/Locations.h:2335
 msgid "Umea"
-msgstr "Umea"
+msgstr "ウーメオ"
 
 #: my-evolution/Locations.h:2336
 msgid "Umiat"
-msgstr "Umiat"
+msgstr "ウミアト"
 
 #: my-evolution/Locations.h:2337
 msgid "Unalakleet"
-msgstr "Unalakleet"
+msgstr "ウナラックリート"
 
 #: my-evolution/Locations.h:2338
 msgid "United Arab Emirates "
@@ -22915,23 +22915,23 @@ msgstr "アラブ首長国連邦"
 
 #: my-evolution/Locations.h:2341
 msgid "Unst"
-msgstr "Unst"
+msgstr "アンスト島"
 
 #: my-evolution/Locations.h:2342
 msgid "Upington"
-msgstr "Upington"
+msgstr "アピントン"
 
 #: my-evolution/Locations.h:2343
 msgid "Uruapan"
-msgstr "Uruapan"
+msgstr "ウルアパン"
 
 #: my-evolution/Locations.h:2344
 msgid "Uruguaiana"
-msgstr "Uruguaiana"
+msgstr "ウルグアイアナ"
 
 #: my-evolution/Locations.h:2346
 msgid "Urumqi"
-msgstr "Urumqi"
+msgstr "鳥魯木斉"
 
 #: my-evolution/Locations.h:2347
 msgid "Utah"
@@ -22939,131 +22939,131 @@ msgstr "ユタ"
 
 #: my-evolution/Locations.h:2348
 msgid "Utica"
-msgstr "Utica"
+msgstr "ウチカ"
 
 #: my-evolution/Locations.h:2349
 msgid "Utrecht/Soesterberg"
-msgstr "Utrecht/Soesterberg"
+msgstr "ユトレヒト/ソエスタバーグ"
 
 #: my-evolution/Locations.h:2350
 msgid "Utsunomiya Ab"
-msgstr "Utsunomiya Ab"
+msgstr "宇都宮基地"
 
 #: my-evolution/Locations.h:2351
 msgid "Uzhgorod"
-msgstr "Uzhgorod"
+msgstr "ウジゴロド"
 
 #: my-evolution/Locations.h:2352
 msgid "Vadso"
-msgstr "Vadso"
+msgstr "バーツェ"
 
 #: my-evolution/Locations.h:2353
 msgid "Vaerlose"
-msgstr "Vaerlose"
+msgstr "バエルローズ"
 
 #: my-evolution/Locations.h:2354
 msgid "Vagar"
-msgstr "Vagar"
+msgstr "バガル"
 
 #: my-evolution/Locations.h:2355
 msgid "Valdez 2"
-msgstr "Valdez 2"
+msgstr "バルディーズ 2"
 
 #: my-evolution/Locations.h:2356
 msgid "Valdosta"
-msgstr "Valdosta"
+msgstr "バルドスタ"
 
 #: my-evolution/Locations.h:2357
 msgid "Valdosta-Moody AFB"
-msgstr "Valdosta-Moody AFB"
+msgstr "バルドスタ・ムーディ空軍基地"
 
 #: my-evolution/Locations.h:2358
 msgid "Valencia"
-msgstr "Valencia"
+msgstr "バレンシア"
 
 #: my-evolution/Locations.h:2359
 msgid "Valentine"
-msgstr "Valentine"
+msgstr "バレンタイン"
 
 #: my-evolution/Locations.h:2360
 msgid "Valera*"
-msgstr "Valera*"
+msgstr "バレラ*"
 
 #: my-evolution/Locations.h:2361
 msgid "Valkenburg"
-msgstr "Valkenburg"
+msgstr "ファルケンブルグ"
 
 #: my-evolution/Locations.h:2362
 msgid "Valley"
-msgstr "Valley"
+msgstr "バリー"
 
 #: my-evolution/Locations.h:2363
 msgid "Valparaiso"
-msgstr "Valparaiso"
+msgstr "バルパライソ"
 
 #: my-evolution/Locations.h:2364
 msgid "Valparaiso-Eglin AFB"
-msgstr "Valparaiso-Eglin AFB"
+msgstr "バルパライソ・イグリン空軍基地"
 
 #: my-evolution/Locations.h:2365
 msgid "Van"
-msgstr "Van"
+msgstr "バン"
 
 #: my-evolution/Locations.h:2366
 msgid "Vancouver"
-msgstr "Vancouver"
+msgstr "バンクーバー"
 
 #: my-evolution/Locations.h:2367
 msgid "Vandel"
-msgstr "Vandel"
+msgstr "バンデル"
 
 #: my-evolution/Locations.h:2368
 msgid "Vandenberg AFB"
-msgstr "Vandenberg AFB"
+msgstr "バンデンバーグ空軍基地"
 
 #: my-evolution/Locations.h:2369
 msgid "Vandenberg Range"
-msgstr "Vandenberg Range"
+msgstr "バンデンバーグ射撃場"
 
 #: my-evolution/Locations.h:2370
 msgid "Van Nuys"
-msgstr "Van Nuys"
+msgstr "バンナイズ"
 
 #: my-evolution/Locations.h:2371
 msgid "Varadero"
-msgstr "Varadero"
+msgstr "バラデロ"
 
 #: my-evolution/Locations.h:2372
 msgid "Varanasi/Babatpur"
-msgstr "Varanasi/Babatpur"
+msgstr "バラナシ/ババトプール"
 
 #: my-evolution/Locations.h:2373
 msgid "Varna"
-msgstr "Varna"
+msgstr "バルナ"
 
 #: my-evolution/Locations.h:2374
 msgid "Vasteras"
-msgstr "Vasteras"
+msgstr "ベステロス"
 
 #: my-evolution/Locations.h:2375
 msgid "Vaxjo"
-msgstr "Vaxjo"
+msgstr "ベクショー"
 
 #: my-evolution/Locations.h:2376
 msgid "Venezia"
-msgstr "Venezia"
+msgstr "ベネチア"
 
 #: my-evolution/Locations.h:2378
 msgid "Venice"
-msgstr "Venice"
+msgstr "ベニス"
 
 #: my-evolution/Locations.h:2379
 msgid "Veracruz"
-msgstr "Veracruz"
+msgstr "ベラクルス"
 
 #: my-evolution/Locations.h:2380
 msgid "Vermillion"
-msgstr "Vermillion"
+msgstr "バーミリオン"
 
 #: my-evolution/Locations.h:2381
 msgid "Vermont"
@@ -23071,27 +23071,27 @@ msgstr "バーモント"
 
 #: my-evolution/Locations.h:2382
 msgid "Vernal"
-msgstr "Vernal"
+msgstr "バーナル"
 
 #: my-evolution/Locations.h:2383
 msgid "Vero Beach"
-msgstr "Vero Beach"
+msgstr "ベロビーチ"
 
 #: my-evolution/Locations.h:2384
 msgid "Vicenza"
-msgstr "Vicenza"
+msgstr "ビチェンツァ"
 
 #: my-evolution/Locations.h:2385
 msgid "Vichy-Charmeil"
-msgstr "Vichy-Charmeil"
+msgstr "ビッキーカルメイル"
 
 #: my-evolution/Locations.h:2386
 msgid "Vichy-Rolla"
-msgstr "Vichy-Rolla"
+msgstr "ビッキーローラ"
 
 #: my-evolution/Locations.h:2387
 msgid "Vicksburg"
-msgstr "Vicksburg"
+msgstr "ビックスバーグ"
 
 #: my-evolution/Locations.h:2388
 msgid "Victoria"
@@ -23099,119 +23099,119 @@ msgstr "ビクトリア"
 
 #: my-evolution/Locations.h:2390
 msgid "Vigo"
-msgstr "Vigo"
+msgstr "ビゴ"
 
 #: my-evolution/Locations.h:2391
 msgid "Vilhena"
-msgstr "Vilhena"
+msgstr "ビルヘナ"
 
 #: my-evolution/Locations.h:2392
 msgid "Villacoublay"
-msgstr "Villacoublay"
+msgstr "ビラクブレー"
 
 #: my-evolution/Locations.h:2393
 msgid "Villafranca"
-msgstr "Villafranca"
+msgstr "ビジャフランカ"
 
 #: my-evolution/Locations.h:2394
 msgid "Villahermosa"
-msgstr "Villahermosa"
+msgstr "ビジャエルモッサ"
 
 #: my-evolution/Locations.h:2395
 msgid "Villamontes"
-msgstr "Villamontes"
+msgstr "ビジャモンテ"
 
 #: my-evolution/Locations.h:2396
 msgid "Villa Reynolds"
-msgstr "Villa Reynolds"
+msgstr "ビラ・レイノルド"
 
 #: my-evolution/Locations.h:2397
 msgid "Vilnius"
-msgstr "Vilnius"
+msgstr "ビリニュス"
 
 #: my-evolution/Locations.h:2398
 msgid "Virginia"
-msgstr "Virginia"
+msgstr "バージニア"
 
 #: my-evolution/Locations.h:2399
 msgid "Virginia Beach"
-msgstr "Virginia Beach"
+msgstr "バージニアビーチ"
 
 #: my-evolution/Locations.h:2400
 msgid "Virginia Tech Airport"
-msgstr "Virginia Tech Airport"
+msgstr "バージニアテック空港"
 
 #: my-evolution/Locations.h:2401
 msgid "Viru-Viru"
-msgstr "Viru-Viru"
+msgstr "ビルビル"
 
 #: my-evolution/Locations.h:2402
 msgid "Visalia"
-msgstr "Visalia"
+msgstr "バイセリア"
 
 #: my-evolution/Locations.h:2403
 msgid "Visby"
-msgstr "Visby"
+msgstr "ビスビー"
 
 #: my-evolution/Locations.h:2404
 msgid "Viterbo"
-msgstr "Viterbo"
+msgstr "ビテルボ"
 
 #: my-evolution/Locations.h:2405
 msgid "Vitoria"
-msgstr "Vitoria"
+msgstr "ビトリア"
 
 #: my-evolution/Locations.h:2406
 msgid "Vladikavkaz"
-msgstr "Vladikavkaz"
+msgstr "ウラジカフカス"
 
 #: my-evolution/Locations.h:2407
 msgid "Vladivostok"
-msgstr "Vladivostok"
+msgstr "ウラジオストク"
 
 #: my-evolution/Locations.h:2408
 msgid "Vlieland"
-msgstr "Vlieland"
+msgstr "フリーラント島"
 
 #: my-evolution/Locations.h:2409
 msgid "Vojens/Skrydstrup"
-msgstr "Vojens/Skrydstrup"
+msgstr "ボジーン/スカリドスロップ"
 
 #: my-evolution/Locations.h:2410
 msgid "Volgograd"
-msgstr "Volgograd"
+msgstr "ボルゴグラード"
 
 #: my-evolution/Locations.h:2411
 msgid "Volkel"
-msgstr "Volkel"
+msgstr "フェルケル"
 
 #: my-evolution/Locations.h:2412
 msgid "Volk Field"
-msgstr "Volk Field"
+msgstr "ボーク・フィールド"
 
 #: my-evolution/Locations.h:2413
 msgid "Voronezh"
-msgstr "Voronezh"
+msgstr "ボロネジ"
 
 #: my-evolution/Locations.h:2414
 msgid "Voslau"
-msgstr "Voslau"
+msgstr "ボスロ"
 
 #: my-evolution/Locations.h:2415
 msgid "Waco"
-msgstr "Waco"
+msgstr "ウェーコ"
 
 #: my-evolution/Locations.h:2416
 msgid "Wadi Al Dawasser Airport"
-msgstr "Wadi Al Dawasser Airport"
+msgstr "ワーディ・アル・ダワーセル空港"
 
 #: my-evolution/Locations.h:2417
 msgid "Wainwright"
-msgstr "Wainwright"
+msgstr "ウェーンライト"
 
 #: my-evolution/Locations.h:2418
 msgid "Wakefield"
-msgstr "Wakefield"
+msgstr "ウェークフィールド"
 
 #: my-evolution/Locations.h:2419
 msgid "Wakkanai Airport"
@@ -23219,75 +23219,75 @@ msgstr "稚内空港"
 
 #: my-evolution/Locations.h:2420
 msgid "Walla Walla"
-msgstr "Walla Walla"
+msgstr "ワラワラ"
 
 #: my-evolution/Locations.h:2421
 msgid "Wallops Island"
-msgstr "Wallops Island"
+msgstr "ワロップス島"
 
 #: my-evolution/Locations.h:2422
 msgid "Walnut Ridge"
-msgstr "Walnut Ridge"
+msgstr "ウォルナット・リッジ"
 
 #: my-evolution/Locations.h:2423
 msgid "Warner Robins"
-msgstr "Warner Robins"
+msgstr "ウォーナーロビンズ"
 
 #: my-evolution/Locations.h:2424
 msgid "Warroad"
-msgstr "Warroad"
+msgstr "ワーロード"
 
 #: my-evolution/Locations.h:2425
 msgid "Warszawa"
-msgstr "Warszawa"
+msgstr "ワルシャワ"
 
 #: my-evolution/Locations.h:2426
 msgid "Washington"
-msgstr "Washington"
+msgstr "ワシントン"
 
 #: my-evolution/Locations.h:2427
 msgid "Washington/Dulles"
-msgstr "Washington/Dulles"
+msgstr "ワシントン/ダレス"
 
 #: my-evolution/Locations.h:2428
 msgid "Waterbury"
-msgstr "Waterbury"
+msgstr "ウォーターベリー"
 
 #: my-evolution/Locations.h:2429
 msgid "Waterloo"
-msgstr "Waterloo"
+msgstr "ウォータールー"
 
 #: my-evolution/Locations.h:2430
 msgid "Watertown"
-msgstr "Watertown"
+msgstr "ウォータータウン"
 
 #: my-evolution/Locations.h:2431
 msgid "Waterville"
-msgstr "Waterville"
+msgstr "ウォータービル"
 
 #: my-evolution/Locations.h:2432
 msgid "Waukesha"
-msgstr "Waukesha"
+msgstr "ウォーキシャ"
 
 #: my-evolution/Locations.h:2433
 msgid "Wausau"
-msgstr "Wausau"
+msgstr "ウォーソー"
 
 #: my-evolution/Locations.h:2434
 msgid "Waycross"
-msgstr "Waycross"
+msgstr "ウェイクロス"
 
 #: my-evolution/Locations.h:2435
 msgid "Waynesboro"
-msgstr "Waynesboro"
+msgstr "ウェインズボロ"
 
 #: my-evolution/Locations.h:2436
 msgid "Webster City"
-msgstr "Webster City"
+msgstr "ウェブスター・シティ"
 
 #: my-evolution/Locations.h:2437
 msgid "Wejh"
-msgstr "Wejh"
+msgstr "ウェジ"
 
 #: my-evolution/Locations.h:2438
 msgid "Wellington"
@@ -23295,239 +23295,239 @@ msgstr "ウェリントン"
 
 #: my-evolution/Locations.h:2439
 msgid "Wenatchee"
-msgstr "Wenatchee"
+msgstr "ウェナチー"
 
 #: my-evolution/Locations.h:2440
 msgid "Wendover"
-msgstr "Wendover"
+msgstr "ウェンドーバー"
 
 #: my-evolution/Locations.h:2441
 msgid "West Atlanta"
-msgstr "West Atlanta"
+msgstr "ウェストアトランタ"
 
 #: my-evolution/Locations.h:2442
 msgid "West Burke"
-msgstr "West Burke"
+msgstr "ウェストバーク"
 
 #: my-evolution/Locations.h:2443
 msgid "Westerland"
-msgstr "Westerland"
+msgstr "ウェスターランド"
 
 #: my-evolution/Locations.h:2444
 msgid "Westfield"
-msgstr "Westfield"
+msgstr "ウェストフィールド"
 
 #: my-evolution/Locations.h:2445
 msgid "Westhampton"
-msgstr "Westhampton"
+msgstr "ウェストハンプトン"
 
 #: my-evolution/Locations.h:2446
 msgid "West Palm Beach"
-msgstr "West Palm Beach"
+msgstr "ウェストパームビーチ"
 
 #: my-evolution/Locations.h:2447
 msgid "West Virginia"
-msgstr "West Virginia"
+msgstr "ウェストバージニア"
 
 #: my-evolution/Locations.h:2448
 msgid "West Yellowstone"
-msgstr "West Yellowstone"
+msgstr "ウェストイエローストーン"
 
 #: my-evolution/Locations.h:2449
 msgid "West Yellowstone (2)"
-msgstr "West Yellowstone (2)"
+msgstr "ウェストイエローストーン (2)"
 
 #: my-evolution/Locations.h:2450
 msgid "Wheeling"
-msgstr "Wheeling"
+msgstr "ウィーリング"
 
 #: my-evolution/Locations.h:2451
 msgid "Whidbey Island"
-msgstr "Whidbey Island"
+msgstr "ホイッドビー島"
 
 #: my-evolution/Locations.h:2452
 msgid "Whitefield"
-msgstr "Whitefield"
+msgstr "ホワイトフィールド"
 
 #: my-evolution/Locations.h:2453
 msgid "White Plains"
-msgstr "White Plains"
+msgstr "ホワイトプレーンズ"
 
 #: my-evolution/Locations.h:2454
 msgid "White Sulphur"
-msgstr "White Sulphur"
+msgstr "ホワイトサルファー"
 
 #: my-evolution/Locations.h:2455
 msgid "Whittier"
-msgstr "Whittier"
+msgstr "ホイッティア"
 
 #: my-evolution/Locations.h:2456
 msgid "Wichita"
-msgstr "Wichita"
+msgstr "ウィチタ"
 
 #: my-evolution/Locations.h:2457
 msgid "Wichita Falls"
-msgstr "Wichita Falls"
+msgstr "ウィチタ・フォールズ"
 
 #: my-evolution/Locations.h:2458
 msgid "Wichita-Jabara"
-msgstr "Wichita-Jabara"
+msgstr "ウィチタ・ヤベラ"
 
 #: my-evolution/Locations.h:2459
 msgid "Wichita-McConnell AFB"
-msgstr "Wichita-McConnell AFB"
+msgstr "ウィチタ・マッコーネル空軍基地"
 
 #: my-evolution/Locations.h:2460
 msgid "Wick"
-msgstr "Wick"
+msgstr "ウィック"
 
 #: my-evolution/Locations.h:2461
 msgid "Wien"
-msgstr "Wien"
+msgstr "ウィーン"
 
 #: my-evolution/Locations.h:2462
 msgid "Wildwood"
-msgstr "Wildwood"
+msgstr "ワイルドウッド"
 
 #: my-evolution/Locations.h:2463
 msgid "Wilkes - Barre"
-msgstr "Wilkes - Barre"
+msgstr "ウィルクスバレ"
 
 #: my-evolution/Locations.h:2464
 msgid "Williams Field"
-msgstr "Williams Field"
+msgstr "ウィリアムズフィールド"
 
 #: my-evolution/Locations.h:2465
 msgid "Williamsport"
-msgstr "Williamsport"
+msgstr "ウィリアムズポート"
 
 #: my-evolution/Locations.h:2466
 msgid "Williston"
-msgstr "Williston"
+msgstr "ウィリストン"
 
 #: my-evolution/Locations.h:2467
 msgid "Willoughby"
-msgstr "Willoughby"
+msgstr "ウィロビー"
 
 #: my-evolution/Locations.h:2468
 msgid "Willow Airport"
-msgstr "Willow Airport"
+msgstr "ウィロー空港"
 
 #: my-evolution/Locations.h:2469
 msgid "Wilmington"
-msgstr "Wilmington"
+msgstr "ウィルミントン"
 
 #: my-evolution/Locations.h:2470
 msgid "Winchester"
-msgstr "Winchester"
+msgstr "ウィンチェスター"
 
 #: my-evolution/Locations.h:2471
 msgid "Windsor"
-msgstr "Windsor"
+msgstr "ウィンザー"
 
 #: my-evolution/Locations.h:2472
 msgid "Windsor Locks"
-msgstr "Windsor Locks"
+msgstr "ウィンザーロックス"
 
 #: my-evolution/Locations.h:2473
 msgid "Wink"
-msgstr "Wink"
+msgstr "ウィンク"
 
 #: my-evolution/Locations.h:2474
 msgid "Winnemucca"
-msgstr "Winnemucca"
+msgstr "ウィネマッカ"
 
 #: my-evolution/Locations.h:2475
 msgid "Winnipeg"
-msgstr "Winnipeg"
+msgstr "ウィニペグ"
 
 #: my-evolution/Locations.h:2476
 msgid "Winslow"
-msgstr "Winslow"
+msgstr "ウィンズロー"
 
 #: my-evolution/Locations.h:2477
 msgid "Winston-Salem"
-msgstr "Winston-Salem"
+msgstr "ウィンストン・セーレム"
 
 #: my-evolution/Locations.h:2478
 msgid "Winter Haven"
-msgstr "Winter Haven"
+msgstr "ウィンターヘイブン"
 
 #: my-evolution/Locations.h:2479
 msgid "Winter Park"
-msgstr "Winter Park"
+msgstr "ウィンター・パーク"
 
 #: my-evolution/Locations.h:2480
 msgid "Wiscasset"
-msgstr "Wiscasset"
+msgstr "ウィスカセット"
 
 #: my-evolution/Locations.h:2481
 msgid "Wisconsin"
-msgstr "Wisconsin"
+msgstr "ウィスコンシン"
 
 #: my-evolution/Locations.h:2482
 msgid "Wisconsin Rapids"
-msgstr "Wisconsin Rapids"
+msgstr "ウィスコンシンラピッズ"
 
 #: my-evolution/Locations.h:2483
 msgid "Wise"
-msgstr "Wise"
+msgstr "ワイズ"
 
 #: my-evolution/Locations.h:2484
 msgid "Woensdrecht"
-msgstr "Woensdrecht"
+msgstr "ウォーエンスダレヒト"
 
 #: my-evolution/Locations.h:2485
 msgid "Wolf Point"
-msgstr "Wolf Point"
+msgstr "ウルフポイント"
 
 #: my-evolution/Locations.h:2486
 msgid "Woong Cheon"
-msgstr "Woong Cheon"
+msgstr "雄千"
 
 #: my-evolution/Locations.h:2487
 msgid "Wooster"
-msgstr "Wooster"
+msgstr "ウースター"
 
 #: my-evolution/Locations.h:2488
 msgid "Worcester"
-msgstr "Worcester"
+msgstr "ウースターシャー"
 
 #: my-evolution/Locations.h:2489
 msgid "Worland"
-msgstr "Worland"
+msgstr "ワーランド"
 
 #: my-evolution/Locations.h:2490
 msgid "Worthington"
-msgstr "Worthington"
+msgstr "ワージントン"
 
 #: my-evolution/Locations.h:2491
 msgid "Wrangell"
-msgstr "Wrangell"
+msgstr "ランゲル"
 
 #: my-evolution/Locations.h:2492
 msgid "Wrightstown / Mcguire AFB"
-msgstr "Wrightstown / Mcguire AFB"
+msgstr "ライトストーン/マクガイア空軍基地"
 
 #: my-evolution/Locations.h:2493
 msgid "Wuchia Observatory"
-msgstr "Wuchia Observatory"
+msgstr "ウーチア観測所"
 
 #: my-evolution/Locations.h:2494
 msgid "Wyoming"
-msgstr "Wyoming"
+msgstr "ワイオミング"
 
 #: my-evolution/Locations.h:2495
 msgid "Xiamen"
-msgstr "Xiamen"
+msgstr "シアメン"
 
 #: my-evolution/Locations.h:2496
 msgid "Yacuiba"
-msgstr "Yacuiba"
+msgstr "ヤクイバ"
 
 #: my-evolution/Locations.h:2497
 msgid "Yakima"
-msgstr "Yakima"
+msgstr "ヤキマ"
 
 #: my-evolution/Locations.h:2498
 msgid "Yakushima"
@@ -23535,11 +23535,11 @@ msgstr "屋久島"
 
 #: my-evolution/Locations.h:2499
 msgid "Yakutat"
-msgstr "Yakutat"
+msgstr "ヤクタット"
 
 #: my-evolution/Locations.h:2500
 msgid "Yakutsk"
-msgstr "Yakutsk"
+msgstr "ヤクーツク"
 
 #: my-evolution/Locations.h:2501
 msgid "Yamagata Airport"
@@ -23551,7 +23551,7 @@ msgstr "山口・宇部空港"
 
 #: my-evolution/Locations.h:2503
 msgid "Yankton"
-msgstr "Yankton"
+msgstr "ヤンクトン"
 
 #: my-evolution/Locations.h:2504
 msgid "Yao Airport"
@@ -23559,27 +23559,27 @@ msgstr "八尾空港"
 
 #: my-evolution/Locations.h:2505
 msgid "Yechon Ab"
-msgstr "Yechon Ab"
+msgstr "イェチョン基地"
 
 #: my-evolution/Locations.h:2506
 msgid "Yekaterinburg"
-msgstr "Yekaterinburg"
+msgstr "エカテリンブルグ"
 
 #: my-evolution/Locations.h:2507
 msgid "Yellowknife"
-msgstr "Yellowknife"
+msgstr "イエローナイフ"
 
 #: my-evolution/Locations.h:2508
 msgid "Yellowstone"
-msgstr "Yellowstone"
+msgstr "イエローストーン"
 
 #: my-evolution/Locations.h:2510
 msgid "Yenbo"
-msgstr "Yenbo"
+msgstr "エンボ"
 
 #: my-evolution/Locations.h:2511
 msgid "Yeoju Range"
-msgstr "Yeoju Range"
+msgstr "驪州射撃場"
 
 #: my-evolution/Locations.h:2512
 msgid "Yeonpyeungdo"
@@ -23587,7 +23587,7 @@ msgstr "Yeonpyeungdo"
 
 #: my-evolution/Locations.h:2513
 msgid "Yeovilton"
-msgstr "Yeovilton"
+msgstr "ヨービルトン"
 
 #: my-evolution/Locations.h:2514
 msgid "Yokosuka Fwf"
@@ -23595,31 +23595,31 @@ msgstr "横須賀 Fwf"
 
 #: my-evolution/Locations.h:2515
 msgid "Yokota Ab"
-msgstr "横田 Ab"
+msgstr "横田基地"
 
 #: my-evolution/Locations.h:2516
 msgid "Yongsan/H-208 Hp"
-msgstr "Yongsan/H-208 Hp"
+msgstr "ヨンサン/H-208 Hp"
 
 #: my-evolution/Locations.h:2517
 msgid "Yoro"
-msgstr "Yoro"
+msgstr "ヨロ"
 
 #: my-evolution/Locations.h:2518
 msgid "Yosu"
-msgstr "Yosu"
+msgstr "ヨス"
 
 #: my-evolution/Locations.h:2519
 msgid "Youngstown"
-msgstr "ヨークタウン"
+msgstr "ヤングズタウン"
 
 #: my-evolution/Locations.h:2520
 msgid "Ypsilanti"
-msgstr "Ypsilanti"
+msgstr "イプシランティ"
 
 #: my-evolution/Locations.h:2522
 msgid "Yukon"
-msgstr "Yukon"
+msgstr "ユーコン"
 
 #: my-evolution/Locations.h:2523
 msgid "Yuma MCAS"
@@ -23627,47 +23627,47 @@ msgstr "由真 MCAS"
 
 #: my-evolution/Locations.h:2524
 msgid "Yurimaguas"
-msgstr "Yurimaguas"
+msgstr "ユリマグアス"
 
 #: my-evolution/Locations.h:2525
 msgid "Yuzhno-Sakhalinsk"
-msgstr "Yuzhno-Sakhalinsk"
+msgstr "ユズノサハリスク"
 
 #: my-evolution/Locations.h:2526
 msgid "Zacatecas"
-msgstr "Zacatecas"
+msgstr "サカテカス"
 
 #: my-evolution/Locations.h:2527
 msgid "Zadar"
-msgstr "Zadar"
+msgstr "ザダール"
 
 #: my-evolution/Locations.h:2528
 msgid "Zagreb"
-msgstr "Zagreb"
+msgstr "ザグレブ"
 
 #: my-evolution/Locations.h:2529
 msgid "Zakinthos"
-msgstr "Zakinthos"
+msgstr "ザキントス"
 
 #: my-evolution/Locations.h:2530
 msgid "Zama Airfield"
-msgstr "Zama Airfield"
+msgstr "座間飛行場"
 
 #: my-evolution/Locations.h:2531
 msgid "Zanesville"
-msgstr "Zanesville"
+msgstr "ゼーンズビル"
 
 #: my-evolution/Locations.h:2532
 msgid "Zaragoza"
-msgstr "Zaragoza"
+msgstr "サラゴサ"
 
 #: my-evolution/Locations.h:2533
 msgid "Zell Am See"
-msgstr "Zell Am See"
+msgstr "ツェル・アム・ゼー"
 
 #: my-evolution/Locations.h:2534
 msgid "Zuni Pueblo"
-msgstr "Zuni Pueblo"
+msgstr "ズニプエブロ"
 
 #: my-evolution/Locations.h:2535
 msgid "Zurich"
@@ -23679,11 +23679,11 @@ msgstr "Evolution サマリを格納するフォルダ"
 
 #: my-evolution/e-summary-calendar.c:381
 msgid "Appointments"
-msgstr "約束"
+msgstr "予定"
 
 #: my-evolution/e-summary-calendar.c:389
 msgid "No appointments."
-msgstr "約束はありません。"
+msgstr "予定はありません。"
 
 #: my-evolution/e-summary-calendar.c:406
 msgid "%k:%M %d %B"
@@ -23736,6 +23736,10 @@ msgstr "表示するエントリ"
 #: my-evolution/e-summary-tasks.c:330
 msgid "No tasks"
 msgstr "タスクはありません"
+
+#: my-evolution/e-summary-tasks.c:364
+msgid "blue"
+msgstr "青"
 
 #: my-evolution/e-summary-tasks.c:364
 msgid "(No Description)"
@@ -25105,7 +25109,7 @@ msgid ""
 "%s\n"
 "Error: %s"
 msgstr ""
-"ディレクトリ %s を作成できません\n"
+"フォルダ %s を作成できません\n"
 "\n"
 "エラー: %s"
 
@@ -25125,9 +25129,9 @@ msgid ""
 "Please move it in order to allow installation\n"
 "of the Evolution user files."
 msgstr ""
-"ファイル '%s' はディレクトリではありません\n"
-"Evolution ユーザファイルのインストールを\n"
-"許容するために移動して下さい"
+"ファイル '%s' はフォルダではありません。\n"
+"Evolution ユーザ・ファイルを\n"
+"インストールできるよう移動して下さい。"
 
 #: shell/e-setup.c:253
 #, c-format
@@ -25136,9 +25140,9 @@ msgid ""
 "Evolution directory.  Please move it in order\n"
 "to allow installation of the Evolution user files."
 msgstr ""
-"ディレクトリ '%s' は存在してますが，Evolution\n"
-"ディレクトリではありません．Evolution ユーザ\n"
-"ファイルのインストールを許容するために移動して下さい"
+"既にフォルダ '%s' がありますが、Evolution の\n"
+"フォルダではありません。Evolution ユーザ・ファイルを\n"
+"インストールできるよう移動して下さい。"
 
 #: shell/e-shell-about-box.c:45
 msgid "Brought to you by"
@@ -25176,11 +25180,11 @@ msgstr "フォルダを移動できません: %s"
 
 #: shell/e-shell-folder-commands.c:188
 msgid "Cannot move a folder over itself."
-msgstr "フォルダ自身に移動することは出来ません。"
+msgstr "フォルダ自身に移動できません。"
 
 #: shell/e-shell-folder-commands.c:190
 msgid "Cannot copy a folder over itself."
-msgstr "フォルダ自身にコピーすることは出来ません。"
+msgstr "フォルダ自身にコピーできません。"
 
 #: shell/e-shell-folder-commands.c:204
 msgid "Cannot move a folder into one of its descendants."
@@ -25210,7 +25214,7 @@ msgid ""
 "Cannot delete folder:\n"
 "%s"
 msgstr ""
-"フォルダを削除することが出来ません:\n"
+"フォルダを削除できません:\n"
 "%s"
 
 #: shell/e-shell-folder-commands.c:405
@@ -25250,7 +25254,7 @@ msgstr "指定されたフォルダ名は正しくありません: %s"
 #: shell/e-shell-folder-commands.c:554
 #, c-format
 msgid "A folder named \"%s\" already exists. Please use a different name."
-msgstr "既にフォルダ名 \"%s\" は存在しています。別の名前を使用して下さい。"
+msgstr "既にフォルダ名 \"%s\" があります。別の名前を使用して下さい。"
 
 #: shell/e-shell-folder-commands.c:584
 msgid "Selected folder does not belong to another user"
@@ -25271,7 +25275,7 @@ msgid ""
 "Cannot create the specified folder:\n"
 "%s"
 msgstr ""
-"指定されたフォルダを作成することが出来ません:\n"
+"指定されたフォルダを作成できません:\n"
 "%s"
 
 #: shell/e-shell-folder-creation-dialog.c:318
@@ -25331,7 +25335,7 @@ msgstr "インポーターの選択"
 #: shell/e-shell-importer.c:464
 #, c-format
 msgid "File %s does not exist"
-msgstr "ファイル %s は存在しません"
+msgstr "ファイル %s がありません"
 
 #: shell/e-shell-importer.c:465 shell/e-shell-importer.c:482
 #: shell/e-shell-importer.c:524
@@ -25344,7 +25348,7 @@ msgid ""
 "There is no importer that is able to handle\n"
 "%s"
 msgstr ""
-"扱うことが出来るインポートがありません\n"
+"扱うことが可能なインポータがありません\n"
 "%s"
 
 #: shell/e-shell-importer.c:490
@@ -25426,7 +25430,7 @@ msgstr "フォルダを選択"
 
 #: shell/e-shell-importer.c:1062
 msgid "Select a destination folder for importing this data"
-msgstr "このデータをインポートする送り先のフォルダを選択してください"
+msgstr "このデータをインポートする送り先のフォルダを選択して下さい"
 
 #: shell/e-shell-importer.c:1192 shell/importer/intelligent.c:191
 msgid "Import"
@@ -25457,7 +25461,7 @@ msgstr "\"%s\" の同期中 (%d / %d) ..."
 
 #: shell/e-shell-settings-dialog.c:346
 msgid "Evolution Settings"
-msgstr "Evolution 設定"
+msgstr "Evolution の設定"
 
 #. It would be nice to insensitivize the OK button appropriately
 #. instead of doing this, but unfortunately we can't do this for the
@@ -25582,8 +25586,8 @@ msgstr "(なし)"
 msgid ""
 "Ximian Evolution is currently online.  Click on this button to work offline."
 msgstr ""
-"現在 Ximian Evolution はオンラインです。オフラインにする場合はこのボタンをク"
-"リックして下さい。"
+"現在 Ximian Evolution はオンラインです (オフラインにする場合はこのボタンをク"
+"リックして下さい)"
 
 #: shell/e-shell-view.c:2090
 msgid "Ximian Evolution is in the process of going offline."
@@ -25593,8 +25597,8 @@ msgstr "Ximian Evolution はオフラインで処理します。"
 msgid ""
 "Ximian Evolution is currently offline.  Click on this button to work online."
 msgstr ""
-"現在 Ximian Evolution はオフラインです。オンラインにする場合はこのボタンをク"
-"リックして下さい。"
+"現在 Ximian Evolution はオフラインです (オンラインにする場合はこのボタンをク"
+"リックして下さい)"
 
 #: shell/e-shell.c:175
 #, c-format
@@ -25610,7 +25614,7 @@ msgstr ""
 #: shell/e-shell.c:741
 #, c-format
 msgid "Cannot set up local storage -- %s"
-msgstr "局部記憶装置のセットアップが出来ません -- %s"
+msgstr "ローカルの記憶装置をセットアップできません -- %s"
 
 #: shell/e-shell.c:1804
 #, c-format
@@ -25772,7 +25776,7 @@ msgstr "エラーはありません"
 
 #: shell/e-storage.c:570
 msgid "A folder with the same name already exists"
-msgstr "同じ名前のフォルダが既に存在しています"
+msgstr "既に同じ名前のフォルダがあります"
 
 #: shell/e-storage.c:572
 msgid "The specified folder type is not valid"
@@ -25915,7 +25919,7 @@ msgstr "内部エラー"
 
 #: shell/evolution-shell-component.c:1209
 msgid "Exists"
-msgstr "が存在する"
+msgstr "がある"
 
 #: shell/evolution-shell-component.c:1211
 msgid "Invalid URI"
@@ -26122,17 +26126,17 @@ msgstr ""
 "\n"
 "この Ximian Evolution のバージョンはまだ完成していません。完成はまもなくです"
 "が、\n"
-"いくつかの機能は未完成あるいは正常に動作しないのどちらかです。\n"
+"いくつかの機能は未完成あるいは正常に動作しないかのどちらかです。\n"
 "\n"
-"Evolution の安定版を使いたいとお思いなら、私たちはあなたに\n"
+"Evolution の安定版を使いたいとお思いなら、\n"
 "このバージョンをアンインストールして、代わりにバージョン %s を\n"
-"インストールすることを強くお勧めます。\n"
+"インストールすることを私たちは強くお勧めます。\n"
 "\n"
-"バグを発見した場合は、bugzilla.ximian.com を使って報告して下さい。\n"
+"バグを発見した場合は、bugzilla.ximian.com で報告して下さい。\n"
 "この製品は無保証であり、いかなる個人的な怒りにも対応できません。\n"
 "\n"
-"私たちの激務の結果を楽しんでくれることを願い、そして\n"
-"あなたの貢献を熱心に待っています！\n"
+"私たちの激務の結果に満足してくれることを願い、\n"
+"そしてあなたの貢献を熱心に待っています！\n"
 
 #: shell/main.c:298
 msgid ""
@@ -26361,7 +26365,7 @@ msgstr "全てのイベントを削除します"
 
 #: ui/evolution-calendar.xml.h:6
 msgid "Delete the appointment"
-msgstr "約束を削除します"
+msgstr "予定を削除します"
 
 #: ui/evolution-calendar.xml.h:7
 msgid "Delete this Occurrence"
@@ -26409,7 +26413,7 @@ msgstr "このカレンダを印刷します"
 
 #: ui/evolution-calendar.xml.h:21
 msgid "Publish Free/Busy information for this calendar"
-msgstr "このカレンダに対する予定あり/なし情報を公開します"
+msgstr "このカレンダの予定の有無を公開します"
 
 #: ui/evolution-calendar.xml.h:22
 msgid "Show one day"
@@ -26651,7 +26655,7 @@ msgstr "サーバ上のフォルダの購読を開始または解除します"
 
 #: ui/evolution-mail-global.xml.h:16
 msgid "Virtual Folder _Editor..."
-msgstr "仮想フォルダエディタ(_E)..."
+msgstr "仮想フォルダの編集(_E)..."
 
 #: ui/evolution-mail-global.xml.h:18
 msgid "_Filters..."
@@ -27027,8 +27031,8 @@ msgid "Reset the text to its original size"
 msgstr "文字のサイズを初期サイズに戻します"
 
 #: ui/evolution-mail-message.xml.h:77
-msgid "S_earch Message..."
-msgstr "メッセージの検索(_E)..."
+msgid "S_earch in Message..."
+msgstr "メッセージから検索(_S)..."
 
 #: ui/evolution-mail-message.xml.h:78
 msgid "S_maller"
@@ -27528,7 +27532,7 @@ msgstr "パイロットの設定(_L)..."
 
 #: ui/evolution.xml.h:26
 msgid "Remove a folder added with \"Open Other User's Folder\""
-msgstr "\"他のユーザのフォルダを開く\"で追加したフォルダを削除します"
+msgstr "\"他のユーザのフォルダを開く\" で追加したフォルダを削除します"
 
 #: ui/evolution.xml.h:27
 msgid "Send / Receive"
@@ -27766,7 +27770,7 @@ msgstr "表示の定義..."
 #. week, 'M' for 'Monday', 'T' for Tuesday etc.
 #: widgets/misc/e-calendar-item.c:427
 msgid "MTWTFSS"
-msgstr "MTWTFSS"
+msgstr "月火水木金土日"
 
 #. This is a strftime() format. %B = Month name, %Y = Year.
 #: widgets/misc/e-calendar-item.c:1127
