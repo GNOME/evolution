@@ -1,3 +1,12 @@
+2004-01-25  Rodney Dawes  <dobey@ximian.com>
+
+	* em-folder-selector.c (em_folder_selector_create_new): Cast the
+	name entry to a GtkWidget to avoid a compiler warning
+	* em-folder-tree.c (emft_popup_new_folder): Grab focus on the name
+	entry when we show the dialog (#53089)
+
+	Fixes #53089
+
 2004-01-23  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-folder-tree-model.c (em_folder_tree_model_get_type): Removed

@@ -1306,6 +1306,7 @@ emft_popup_new_folder (GtkWidget *item, EMFolderTree *emft)
 	em_folder_selector_set_selected ((EMFolderSelector *) dialog, emft->priv->selected_uri);
 	g_signal_connect (dialog, "response", G_CALLBACK (emft_popup_new_folder_response), emft);
 	gtk_widget_show (dialog);
+	gtk_widget_grab_focus ((GtkWidget *) ((EMFolderSelector *)dialog)->name_entry);
 }
 
 static void
