@@ -1,5 +1,9 @@
 2004-05-27  Rodney Dawes  <dobey@novell.com>
 
+	* Makefile.am (EXTRA_DIST): Add $(error_i18n) for "make dist"
+
+2004-05-27  Rodney Dawes  <dobey@novell.com>
+
 	* Makefile.am (EXTRA_DIST): Don't dist $(error_i18n) as it requires
 	e-error-tool to be built
 

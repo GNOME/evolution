@@ -84,6 +84,7 @@ libcomposer_la_SOURCES = 			\
 
 EXTRA_DIST =					\
 	$(error_DATA)				\
+	$(error_i18n)				\
 	$(glade_DATA)				\
 	$(IDLS)					\
 	ChangeLog.pre-1-4

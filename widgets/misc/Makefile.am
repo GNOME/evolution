@@ -182,6 +182,7 @@ CLEANFILES    = $(BUILT_SOURCES)
 
 EXTRA_DIST =			\
 	$(error_DATA)		\
+	$(error_i18n)		\
 	e-util-marshal.list	\
 	ChangeLog.pre-1-4
 

@@ -1,3 +1,7 @@
+2004-05-27  Rodney Dawes  <dobey@novell.com>
+
+	* Makefile.am (dist-hook): Require e-error-tool
+
 2004-05-19  Jeffrey Stedfast  <fejj@novell.com>
 
 	* e-icon-factory.c: Lots of re-working action. We no longer load a

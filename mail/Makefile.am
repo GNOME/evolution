@@ -203,6 +203,7 @@ EXTRA_DIST = 				\
 	em-marshal.list			\
 	$(SPELL_IDL)			\
 	$(error_DATA)			\
+	$(error_i18n)			\
 	$(glade_DATA)			\
 	$(schema_DATA)			\
 	$(server_in_files)		\

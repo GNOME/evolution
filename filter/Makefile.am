@@ -71,6 +71,7 @@ libfilter_la_DEPENDENCIES = libfilter-i18n.h
 EXTRA_DIST =					\
 	$(glade_DATA)				\
 	$(error_DATA)				\
+	$(error_i18n)				\
 	ChangeLog.pre-1-4			\
 	filter-marshal.list			\
 	filtertypes.xml				\

@@ -259,6 +259,7 @@ EXTRA_DIST = 					\
 	$(server_in_files)			\
 	GNOME_Evolution_Test.server.in.in	\
 	$(error_DATA)				\
+	$(error_i18n)				\
 	$(etspec_DATA)				\
 	$(schema_DATA)				\
 	$(icons)				\

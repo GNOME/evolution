@@ -131,5 +131,5 @@ EXTRA_DIST =				\
 BUILT_SOURCES = $(MARSHAL_GENERATED)
 CLEANFILES    = $(BUILT_SOURCES)
 
-dist-hook:
+dist-hook: e-error-tool
 	cd $(distdir); rm -f $(BUILT_SOURCES)
