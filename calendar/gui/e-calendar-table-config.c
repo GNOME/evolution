@@ -32,13 +32,13 @@ struct _ECalendarTableConfigPrivate {
 	GList *notifications;
 };
 
-static GObjectClass *parent_class = NULL;
-
 /* Property IDs */
 enum props {
 	PROP_0,
 	PROP_TABLE
 };
+
+G_DEFINE_TYPE (ECalendarTableConfig, e_calendar_table_config, G_TYPE_OBJECT);
 
 static void
 e_calendar_table_config_set_property (GObject *object, guint property_id, const GValue *value, GParamSpec *pspec)
@@ -88,8 +88,8 @@ e_calendar_table_config_dispose (GObject *object)
 
 	e_calendar_table_config_set_table (table_config, NULL);
 	
-	if (G_OBJECT_CLASS (parent_class)->dispose)
-		G_OBJECT_CLASS (parent_class)->dispose (object);
+	if (G_OBJECT_CLASS (e_calendar_table_config_parent_class)->dispose)
+		G_OBJECT_CLASS (e_calendar_table_config_parent_class)->dispose (object);
 }
 
 static void
@@ -102,8 +102,8 @@ e_calendar_table_config_finalize (GObject *object)
 
 	g_free (priv);
 	
-	if (G_OBJECT_CLASS (parent_class)->finalize)
-		G_OBJECT_CLASS (parent_class)->finalize (object);
+	if (G_OBJECT_CLASS (e_calendar_table_config_parent_class)->finalize)
+		G_OBJECT_CLASS (e_calendar_table_config_parent_class)->finalize (object);
 }
 
 static void
@@ -112,8 +112,6 @@ e_calendar_table_config_class_init (ECalendarTableConfigClass *klass)
 	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 	GParamSpec *spec;
 	
-	parent_class = g_type_class_peek_parent (klass);
-
 	/* Method override */
 	gobject_class->set_property = e_calendar_table_config_set_property;
 	gobject_class->get_property = e_calendar_table_config_get_property;
@@ -126,14 +124,11 @@ e_calendar_table_config_class_init (ECalendarTableConfigClass *klass)
 }
 
 static void
-e_calendar_table_config_init (ECalendarTableConfig *table_config, ECalendarTableConfigClass *klass)
+e_calendar_table_config_init (ECalendarTableConfig *table_config)
 {
 	table_config->priv = g_new0 (ECalendarTableConfigPrivate, 1);
 
 }
-
-E_MAKE_TYPE (e_calendar_table_config, "ECalendarTableConfig", ECalendarTableConfig, e_calendar_table_config_class_init,
-	     e_calendar_table_config_init, G_TYPE_OBJECT);
 
 ECalendarTableConfig *
 e_calendar_table_config_new (ECalendarTable *table)

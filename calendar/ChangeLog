@@ -1,5 +1,23 @@
 2004-10-14  JP Rosevear  <jpr@novell.com>
 
+	* gui/e-cal-list-view-config.c: convert to G_DEFINE_TYPE
+
+	* gui/e-cal-list-view.c: ditto
+
+	* gui/e-cal-model-calendar.c: ditto
+
+	* gui/e-cal-model-tasks.c: ditto
+
+	* gui/e-cal-model.c: ditto
+
+	* gui/e-calendar-table-config.c: ditto
+
+	* gui/e-calendar-table.c: ditto
+
+	* gui/e-calendar-view.c: ditto
+
+2004-10-14  JP Rosevear  <jpr@novell.com>
+	
 	* gui/calendar-view.c: convert to G_DEFINE_TYPE
 
 	* gui/calendar-view-factory.c: ditto

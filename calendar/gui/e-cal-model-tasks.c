@@ -1,7 +1,6 @@
 /* Evolution calendar - Data model for ETable
  *
- * Copyright (C) 2000 Ximian, Inc.
- * Copyright (C) 2000 Ximian, Inc.
+ * Copyright (C) 2004 Ximian, Inc.
  *
  * Authors: Rodrigo Moya <rodrigo@ximian.com>
  *
@@ -19,12 +18,14 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
+
 #include <math.h>
 #include <string.h>
 #include <gtk/gtkmessagedialog.h>
 #include <libgnome/gnome-i18n.h>
-#include <gal/util/e-util.h>
 #include "calendar-config.h"
 #include "e-cal-model-tasks.h"
 #include "e-cell-date-edit-text.h"
@@ -33,9 +34,7 @@
 struct _ECalModelTasksPrivate {
 };
 
-static void ecmt_class_init (ECalModelTasksClass *klass);
-static void ecmt_init (ECalModelTasks *model, ECalModelTasksClass *klass);
-static void ecmt_finalize (GObject *object);
+static void e_cal_model_tasks_finalize (GObject *object);
 
 static int ecmt_column_count (ETableModel *etm);
 static void *ecmt_value_at (ETableModel *etm, int col, int row);
@@ -51,21 +50,16 @@ static const char *ecmt_get_color_for_component (ECalModel *model, ECalModelComp
 static void ecmt_fill_component_from_model (ECalModel *model, ECalModelComponent *comp_data,
 					    ETableModel *source_model, gint row);
 
-static GObjectClass *parent_class = NULL;
-
-E_MAKE_TYPE (e_cal_model_tasks, "ECalModelTasks", ECalModelTasks, ecmt_class_init,
-	     ecmt_init, E_TYPE_CAL_MODEL);
+G_DEFINE_TYPE (ECalModelTasks, e_cal_model_tasks, E_TYPE_CAL_MODEL);
 
 static void
-ecmt_class_init (ECalModelTasksClass *klass)
+e_cal_model_tasks_class_init (ECalModelTasksClass *klass)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 	ETableModelClass *etm_class = E_TABLE_MODEL_CLASS (klass);
 	ECalModelClass *model_class = E_CAL_MODEL_CLASS (klass);
 
-	parent_class = g_type_class_peek_parent (klass);
-
-	object_class->finalize = ecmt_finalize;
+	object_class->finalize = e_cal_model_tasks_finalize;
 
 	etm_class->column_count = ecmt_column_count;
 	etm_class->value_at = ecmt_value_at;
@@ -82,7 +76,7 @@ ecmt_class_init (ECalModelTasksClass *klass)
 }
 
 static void
-ecmt_init (ECalModelTasks *model, ECalModelTasksClass *klass)
+e_cal_model_tasks_init (ECalModelTasks *model)
 {
 	ECalModelTasksPrivate *priv;
 
@@ -93,7 +87,7 @@ ecmt_init (ECalModelTasks *model, ECalModelTasksClass *klass)
 }
 
 static void
-ecmt_finalize (GObject *object)
+e_cal_model_tasks_finalize (GObject *object)
 {
 	ECalModelTasksPrivate *priv;
 	ECalModelTasks *model = (ECalModelTasks *) object;
@@ -106,8 +100,8 @@ ecmt_finalize (GObject *object)
 		model->priv = NULL;
 	}
 
-	if (parent_class->finalize)
-		parent_class->finalize (object);
+	if (G_OBJECT_CLASS (e_cal_model_tasks_parent_class)->finalize)
+		G_OBJECT_CLASS (e_cal_model_tasks_parent_class)->finalize (object);
 }
 
 /* ETableModel methods */
@@ -472,7 +466,7 @@ ecmt_value_at (ETableModel *etm, int col, int row)
 	g_return_val_if_fail (row >= 0 && row < e_table_model_row_count (etm), NULL);
 
 	if (col < E_CAL_MODEL_FIELD_LAST)
-		return E_TABLE_MODEL_CLASS (parent_class)->value_at (etm, col, row);
+		return E_TABLE_MODEL_CLASS (e_cal_model_tasks_parent_class)->value_at (etm, col, row);
 
 	comp_data = e_cal_model_get_component_at (E_CAL_MODEL (model), row);
 	if (!comp_data)
@@ -789,7 +783,7 @@ ecmt_set_value_at (ETableModel *etm, int col, int row, const void *value)
 	g_return_if_fail (row >= 0 && row < e_table_model_row_count (etm));
 
 	if (col < E_CAL_MODEL_FIELD_LAST) {
-		E_TABLE_MODEL_CLASS (parent_class)->set_value_at (etm, col, row, value);
+		E_TABLE_MODEL_CLASS (e_cal_model_tasks_parent_class)->set_value_at (etm, col, row, value);
 		return;
 	}
 
@@ -846,7 +840,7 @@ ecmt_is_cell_editable (ETableModel *etm, int col, int row)
 	g_return_val_if_fail (row >= -1 || (row >= 0 && row < e_table_model_row_count (etm)), FALSE);
 
 	if (col < E_CAL_MODEL_FIELD_LAST)
-		return E_TABLE_MODEL_CLASS (parent_class)->is_cell_editable (etm, col, row);
+		return E_TABLE_MODEL_CLASS (e_cal_model_tasks_parent_class)->is_cell_editable (etm, col, row);
 
 	switch (col) {
 	case E_CAL_MODEL_TASKS_FIELD_COMPLETED :
@@ -869,7 +863,7 @@ ecmt_duplicate_value (ETableModel *etm, int col, const void *value)
 	g_return_val_if_fail (col >= 0 && col < E_CAL_MODEL_TASKS_FIELD_LAST, NULL);
 
 	if (col < E_CAL_MODEL_FIELD_LAST)
-		return E_TABLE_MODEL_CLASS (parent_class)->duplicate_value (etm, col, value);
+		return E_TABLE_MODEL_CLASS (e_cal_model_tasks_parent_class)->duplicate_value (etm, col, value);
 
 	switch (col) {
 	case E_CAL_MODEL_TASKS_FIELD_GEO :
@@ -905,7 +899,7 @@ ecmt_free_value (ETableModel *etm, int col, void *value)
 	g_return_if_fail (col >= 0 && col < E_CAL_MODEL_TASKS_FIELD_LAST);
 	
 	if (col < E_CAL_MODEL_FIELD_LAST) {
-		E_TABLE_MODEL_CLASS (parent_class)->free_value (etm, col, value);
+		E_TABLE_MODEL_CLASS (e_cal_model_tasks_parent_class)->free_value (etm, col, value);
 		return;
 	}
 
@@ -935,7 +929,7 @@ ecmt_initialize_value (ETableModel *etm, int col)
 	g_return_val_if_fail (col >= 0 && col < E_CAL_MODEL_TASKS_FIELD_LAST, NULL);
 
 	if (col < E_CAL_MODEL_FIELD_LAST)
-		return E_TABLE_MODEL_CLASS (parent_class)->initialize_value (etm, col);
+		return E_TABLE_MODEL_CLASS (e_cal_model_tasks_parent_class)->initialize_value (etm, col);
 
 	switch (col) {
 	case E_CAL_MODEL_TASKS_FIELD_GEO :
@@ -967,7 +961,7 @@ ecmt_value_is_empty (ETableModel *etm, int col, const void *value)
 	priv = model->priv;
 
 	if (col < E_CAL_MODEL_FIELD_LAST)
-		return E_TABLE_MODEL_CLASS (parent_class)->value_is_empty (etm, col, value);
+		return E_TABLE_MODEL_CLASS (e_cal_model_tasks_parent_class)->value_is_empty (etm, col, value);
 
 	switch (col) {
 	case E_CAL_MODEL_TASKS_FIELD_GEO :
@@ -997,7 +991,7 @@ ecmt_value_to_string (ETableModel *etm, int col, const void *value)
 	g_return_val_if_fail (col >= 0 && col < E_CAL_MODEL_TASKS_FIELD_LAST, g_strdup (""));
 
 	if (col < E_CAL_MODEL_FIELD_LAST)
-		return E_TABLE_MODEL_CLASS (parent_class)->value_to_string (etm, col, value);
+		return E_TABLE_MODEL_CLASS (e_cal_model_tasks_parent_class)->value_to_string (etm, col, value);
 
 	switch (col) {
 	case E_CAL_MODEL_TASKS_FIELD_GEO :
@@ -1040,7 +1034,7 @@ ecmt_get_color_for_component (ECalModel *model, ECalModelComponent *comp_data)
 		break;
 	}
 
-	return E_CAL_MODEL_CLASS (parent_class)->get_color_for_component (model, comp_data);
+	return E_CAL_MODEL_CLASS (e_cal_model_tasks_parent_class)->get_color_for_component (model, comp_data);
 }
 
 static void

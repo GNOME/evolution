@@ -25,7 +25,9 @@
  * ECalListView - display calendar events in an ETable.
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
 
 #include "e-cal-list-view.h"
 #include "ea-calendar.h"
@@ -41,7 +43,6 @@
 #include <gtk/gtkvscrollbar.h>
 #include <gtk/gtkwindow.h>
 #include <gal/widgets/e-gui-utils.h>
-#include <gal/util/e-util.h>
 #include <gal/e-table/e-table-memory-store.h>
 #include <gal/e-table/e-cell-checkbox.h>
 #include <gal/e-table/e-cell-toggle.h>
@@ -70,8 +71,6 @@
 #include "goto.h"
 #include "misc.h"
 
-static void      e_cal_list_view_class_init             (ECalListViewClass *class);
-static void      e_cal_list_view_init                   (ECalListView *cal_list_view);
 static void      e_cal_list_view_destroy                (GtkObject *object);
 
 static GList    *e_cal_list_view_get_selected_events    (ECalendarView *cal_view);
@@ -88,10 +87,7 @@ static gboolean  e_cal_list_view_on_table_double_click   (GtkWidget *table, gint
 static gboolean  e_cal_list_view_on_table_right_click   (GtkWidget *table, gint row, gint col,
 							 GdkEvent *event, gpointer data);
 
-static GtkTableClass *parent_class;  /* Should be ECalendarViewClass? */
-
-E_MAKE_TYPE (e_cal_list_view, "ECalListView", ECalListView, e_cal_list_view_class_init,
-	     e_cal_list_view_init, e_calendar_view_get_type ());
+G_DEFINE_TYPE (ECalListView, e_cal_list_view, E_TYPE_CALENDAR_VIEW);
 
 static void
 e_cal_list_view_class_init (ECalListViewClass *class)
@@ -100,7 +96,6 @@ e_cal_list_view_class_init (ECalListViewClass *class)
 	GtkWidgetClass *widget_class;
 	ECalendarViewClass *view_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	object_class = (GtkObjectClass *) class;
 	widget_class = (GtkWidgetClass *) class;
 	view_class = (ECalendarViewClass *) class;
@@ -361,7 +356,7 @@ e_cal_list_view_destroy (GtkObject *object)
 		cal_list_view->table_scrolled = NULL;
 	}
 
-	GTK_OBJECT_CLASS (parent_class)->destroy (object);
+	GTK_OBJECT_CLASS (e_cal_list_view_parent_class)->destroy (object);
 }
 
 static void

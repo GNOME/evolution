@@ -21,7 +21,10 @@
  * USA
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
+
 #include <string.h>
 #include <time.h>
 #include <gtk/gtkimage.h>
@@ -29,7 +32,6 @@
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtkbindings.h>
 #include <libgnome/gnome-i18n.h>
-#include <gal/util/e-util.h>
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-icon-factory.h>
 #include "e-calendar-marshal.h"
@@ -77,13 +79,10 @@ struct _ECalendarViewPrivate {
 	char *default_category;
 };
 
-static void e_calendar_view_class_init (ECalendarViewClass *klass);
-static void e_calendar_view_init (ECalendarView *cal_view, ECalendarViewClass *klass);
 static void e_calendar_view_get_property (GObject *object, guint property_id, GValue *value, GParamSpec *pspec);
 static void e_calendar_view_set_property (GObject *object, guint property_id, const GValue *value, GParamSpec *pspec);
 static void e_calendar_view_destroy (GtkObject *object);
 
-static GObjectClass *parent_class = NULL;
 static GdkAtom clipboard_atom = GDK_NONE;
 extern ECompEditorRegistry *comp_editor_registry;
 
@@ -107,6 +106,8 @@ enum {
 };
 
 static guint e_calendar_view_signals[LAST_SIGNAL] = { 0 };
+
+G_DEFINE_TYPE (ECalendarView, e_calendar_view, GTK_TYPE_TABLE);
 
 static void
 e_calendar_view_set_property (GObject *object, guint property_id, const GValue *value, GParamSpec *pspec)
@@ -153,8 +154,6 @@ e_calendar_view_class_init (ECalendarViewClass *klass)
 	GtkObjectClass *object_class = GTK_OBJECT_CLASS (klass);
 
 	GtkBindingSet *binding_set;
-
-	parent_class = g_type_class_peek_parent (klass);
 
 	/* Method override */
 	gobject_class->set_property = e_calendar_view_set_property;
@@ -381,7 +380,7 @@ e_calendar_view_add_event (ECalendarView *cal_view, ECal *client, time_t dtstart
 }
 
 static void
-e_calendar_view_init (ECalendarView *cal_view, ECalendarViewClass *klass)
+e_calendar_view_init (ECalendarView *cal_view)
 {
 	cal_view->priv = g_new0 (ECalendarViewPrivate, 1);
 
@@ -413,12 +412,9 @@ e_calendar_view_destroy (GtkObject *object)
 		cal_view->priv = NULL;
 	}
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		GTK_OBJECT_CLASS (parent_class)->destroy (object);
+	if (GTK_OBJECT_CLASS (e_calendar_view_parent_class)->destroy)
+		GTK_OBJECT_CLASS (e_calendar_view_parent_class)->destroy (object);
 }
-
-E_MAKE_TYPE (e_calendar_view, "ECalendarView", ECalendarView, e_calendar_view_class_init,
-	     e_calendar_view_init, GTK_TYPE_TABLE);
 
 GnomeCalendar *
 e_calendar_view_get_calendar (ECalendarView *cal_view)

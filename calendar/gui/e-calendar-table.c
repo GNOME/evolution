@@ -27,7 +27,10 @@
  * Used for calendar events and tasks.
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
+
 #include <sys/stat.h>
 #include <unistd.h>
 #include <gnome.h>
@@ -103,11 +106,9 @@ static const char* icon_names[E_CALENDAR_MODEL_NUM_ICONS] = {
 };
 static GdkPixbuf* icon_pixbufs[E_CALENDAR_MODEL_NUM_ICONS] = { 0 };
 
-static GtkTableClass *parent_class;
 static GdkAtom clipboard_atom = GDK_NONE;
 
-E_MAKE_TYPE (e_calendar_table, "ECalendarTable", ECalendarTable, e_calendar_table_class_init,
-	     e_calendar_table_init, GTK_TYPE_TABLE);
+G_DEFINE_TYPE (ECalendarTable, e_calendar_table, GTK_TYPE_TABLE);
 
 static void
 e_calendar_table_class_init (ECalendarTableClass *class)
@@ -115,7 +116,6 @@ e_calendar_table_class_init (ECalendarTableClass *class)
 	GtkObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	object_class = (GtkObjectClass *) class;
 	widget_class = (GtkWidgetClass *) class;
 
@@ -559,7 +559,7 @@ e_calendar_table_destroy (GtkObject *object)
 		cal_table->model = NULL;
 	}
 
-	GTK_OBJECT_CLASS (parent_class)->destroy (object);
+	GTK_OBJECT_CLASS (e_calendar_table_parent_class)->destroy (object);
 }
 
 /**
