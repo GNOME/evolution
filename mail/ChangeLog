@@ -1,5 +1,8 @@
 2001-10-17  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-ops.c (mail_send_message): No longer need to copy the
+	description now that camel-exceptions have been fixed.
+
 	* subscribe-dialog.h (subscribe_dialog_show): Helper macro.
 
 	* subscribe-dialog.c (subscribe_dialog_run_and_close): Removed.
