@@ -1,5 +1,9 @@
 2002-07-12  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-multipart.c (camel_multipart_class_init): Updated to not
+	use camel_type_get_global_classfuncs() since this is just a cast
+	macro now.
+
 	* providers/imap/camel-imap-folder.c (get_content): Handle
 	multipart/encrypted parts too.
 

@@ -80,7 +80,7 @@ camel_multipart_class_init (CamelMultipartClass *camel_multipart_class)
 	CamelDataWrapperClass *camel_data_wrapper_class =
 		CAMEL_DATA_WRAPPER_CLASS (camel_multipart_class);
 
-	parent_class = CAMEL_DATA_WRAPPER_CLASS (camel_type_get_global_classfuncs (camel_data_wrapper_get_type ()));
+	parent_class = (CamelDataWrapperClass *) camel_data_wrapper_get_type ();
 
 	/* virtual method definition */
 	camel_multipart_class->add_part = add_part;
