@@ -1,5 +1,15 @@
 2002-07-31  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shortcuts-view.c (create_default_shortcuts_cb): New, implement
+	a right-click -> "Add Default Shortcuts" menu item.
+	(rename_group_cb): Remove double casts.  *lol*
+
+	* e-shortcuts.c (e_shortcuts_add_default_shortcuts): New.
+	(e_shortcuts_add_default_group): Use
+	e_shortcuts_add_default_shortcuts().
+
+2002-07-31  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-user-creatable-items-handler.c (ensure_menu_items):
 	Don't sort the menu_items here.
 	(create_menu_xml): Instead, sort here, and only sort the

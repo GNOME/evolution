@@ -1043,6 +1043,33 @@ e_shortcuts_update_shortcut (EShortcuts *shortcuts,
 
 
 void
+e_shortcuts_add_default_shortcuts (EShortcuts *shortcuts,
+				   int group_num)
+{
+	char *utf;
+
+	utf = e_utf8_from_locale_string (_("Summary"));
+	e_shortcuts_add_shortcut (shortcuts, 0, -1, E_SUMMARY_URI, utf, 0, "summary", NULL);
+	g_free (utf);
+
+	utf = e_utf8_from_locale_string (_("Inbox"));
+	e_shortcuts_add_shortcut (shortcuts, 0, -1, "default:mail", utf, 0, "mail", "inbox");
+	g_free (utf);
+
+	utf = e_utf8_from_locale_string (_("Calendar"));
+	e_shortcuts_add_shortcut (shortcuts, 0, -1, "default:calendar", utf, 0, "calendar", NULL);
+	g_free (utf);
+
+	utf = e_utf8_from_locale_string (_("Tasks"));
+	e_shortcuts_add_shortcut (shortcuts, 0, -1, "default:tasks", utf, 0, "tasks", NULL);
+	g_free (utf);
+
+	utf = e_utf8_from_locale_string (_("Contacts"));
+	e_shortcuts_add_shortcut (shortcuts, 0, -1, "default:contacts", utf, 0, "contacts", NULL);
+	g_free (utf);
+}
+
+void
 e_shortcuts_add_default_group (EShortcuts *shortcuts)
 {
 	char *utf;
@@ -1054,25 +1081,7 @@ e_shortcuts_add_default_group (EShortcuts *shortcuts)
 	e_shortcuts_add_group (shortcuts, -1, utf);
 	g_free (utf);
 
-	utf = e_utf8_from_locale_string (_("Summary"));
-	e_shortcuts_add_shortcut (shortcuts, 0, -1, E_SUMMARY_URI, utf, 0, "summary", NULL);
-	g_free (utf);
-
-	utf = e_utf8_from_locale_string (_("Inbox"));
-	e_shortcuts_add_shortcut (shortcuts, 0, -1, E_LOCAL_INBOX_URI, utf, 0, "mail", "inbox");
-	g_free (utf);
-
-	utf = e_utf8_from_locale_string (_("Calendar"));
-	e_shortcuts_add_shortcut (shortcuts, 0, -1, E_LOCAL_CALENDAR_URI, utf, 0, "calendar", NULL);
-	g_free (utf);
-
-	utf = e_utf8_from_locale_string (_("Tasks"));
-	e_shortcuts_add_shortcut (shortcuts, 0, -1, E_LOCAL_TASKS_URI, utf, 0, "tasks", NULL);
-	g_free (utf);
-
-	utf = e_utf8_from_locale_string (_("Contacts"));
-	e_shortcuts_add_shortcut (shortcuts, 0, -1, E_LOCAL_CONTACTS_URI, utf, 0, "contacts", NULL);
-	g_free (utf);
+	e_shortcuts_add_default_shortcuts (shortcuts, -1);
 }
 
 void

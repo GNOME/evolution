@@ -215,13 +215,26 @@ rename_group_cb (GtkWidget *widget,
 	/* Remember the group and flip back to it.  FIXME: This is a workaround
 	   to an actual ShortcutBar bug.  */
 
-	group = e_group_bar_get_current_group_num (E_GROUP_BAR (E_SHORTCUT_BAR (shortcuts_view)));
+	group = e_group_bar_get_current_group_num (E_GROUP_BAR (shortcuts_view));
 	original_view_type = e_shortcut_bar_get_view_type (E_SHORTCUT_BAR (menu_data->shortcuts_view), group);
 	e_shortcuts_rename_group (shortcuts, menu_data->group_num, new_name);
 
 	g_free (new_name);
-	e_group_bar_set_current_group_num (E_GROUP_BAR (E_SHORTCUT_BAR (shortcuts_view)), group, FALSE);
+	e_group_bar_set_current_group_num (E_GROUP_BAR (shortcuts_view), group, FALSE);
 	e_shortcut_bar_set_view_type (E_SHORTCUT_BAR (menu_data->shortcuts_view), group, original_view_type);
+}
+
+static void
+create_default_shortcuts_cb (GtkWidget *widget,
+			     void *data)
+{
+	RightClickMenuData *menu_data;
+	EShortcutsView *shortcuts_view;
+
+	menu_data = (RightClickMenuData *) data;
+	shortcuts_view = menu_data->shortcuts_view;
+	e_shortcuts_add_default_shortcuts (shortcuts_view->priv->shortcuts,
+					   e_group_bar_get_current_group_num (E_GROUP_BAR (shortcuts_view)));
 }
 
 static GnomeUIInfo icon_size_radio_group_uiinfo[] = {
@@ -254,6 +267,12 @@ static GnomeUIInfo right_click_menu_uiinfo[] = {
 
 	{ GNOME_APP_UI_ITEM, N_("_Hide the Shortcut Bar"), 
 	  N_("Hide the shortcut bar"), hide_shortcut_bar_cb, NULL,
+	  NULL, 0, 0, 0, 0 },
+
+	GNOMEUIINFO_SEPARATOR,
+
+	{ GNOME_APP_UI_ITEM, N_("Create _Default Shortcuts"), 
+	  N_("Create Default Shortcuts"), create_default_shortcuts_cb, NULL,
 	  NULL, 0, 0, 0, 0 },
 
 	GNOMEUIINFO_END
