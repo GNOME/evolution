@@ -32,6 +32,9 @@
 #include "e-shell-constants.h"
 
 #include "e-shell-view-menu.h"
+#include "importer/importer.h"
+
+#include <liboaf/liboaf.h>
 #include <bonobo.h>
 
 
@@ -402,6 +405,7 @@ BonoboUIVerb new_verbs [] = {
 };
 
 BonoboUIVerb file_verbs [] = {
+	BONOBO_UI_VERB ("FileImporter", show_import_wizard),
 	BONOBO_UI_VERB ("FileGoToFolder", command_goto_folder),
 	BONOBO_UI_VERB ("FileCreateFolder", command_create_folder),
 	BONOBO_UI_VERB ("FileExit", command_quit),
