@@ -1133,6 +1133,14 @@ EVO_SET_COMPILE_FLAGS(EVOLUTION_TEST, libgnome-2.0 libgnomeui-2.0 libbonobo-2.0 
 AC_SUBST(EVOLUTION_TEST_CFLAGS)
 AC_SUBST(EVOLUTION_TEST_LIBS)
 
+BASE_VERSION=`echo $VERSION | awk -F. '{print $1 "." $2;}'`
+AC_SUBST(BASE_VERSION)
+AC_DEFINE_UNQUOTED(BASE_VERSION, "$BASE_VERSION", [Base version (Major.Minor)])
+
+UPGRADE_REVISION=6
+AC_SUBST(UPGRADE_REVISION)
+AC_DEFINE_UNQUOTED(UPGRADE_REVISION, "$UPGRADE_REVISION", [The number of times we've upgraded since the BASE_VERSION release])
+
 dnl *******************
 dnl Special directories
 dnl *******************
@@ -1140,10 +1148,6 @@ dnl *******************
 dnl --- If you add something here, consider whether or not you also
 dnl --- need to add it to one or more .pc.in files (for Connector,
 dnl --- etc)
-
-BASE_VERSION=`echo $VERSION | awk -F. '{print $1 "." $2;}'`
-AC_SUBST(BASE_VERSION)
-AC_DEFINE_UNQUOTED(BASE_VERSION, "$BASE_VERSION", [Base version (Major.Minor)])
 
 privlibdir='${libdir}'/evolution/$BASE_VERSION
 AC_SUBST(privlibdir)
@@ -1202,7 +1206,7 @@ dnl ************************
 
 INTERFACE_VERSION="$BASE_VERSION"
 AC_SUBST(INTERFACE_VERSION)
-AC_DEFINE_UNQUOTED(INTERFACE_VERSION, "INTERFACE_VERSION", [IDL interface version (Major.Minor)])
+AC_DEFINE_UNQUOTED(INTERFACE_VERSION, "$INTERFACE_VERSION", [IDL interface version (Major.Minor)])
 
 EVO_SERVER_RULE=$srcdir/server.mk
 AC_SUBST_FILE(EVO_SERVER_RULE)
