@@ -86,6 +86,9 @@ static ECharset charsets[] = {
 	{ "ISO-8859-4", E_CHARSET_BALTIC, NULL },
 	{ "ISO-8859-2", E_CHARSET_CENTRAL_EUROPEAN, NULL },
 	{ "Big5", E_CHARSET_CHINESE, N_("Traditional") },
+	{ "BIG5HKSCS", E_CHARSET_CHINESE, N_("Traditional") },
+	{ "EUC-TW", E_CHARSET_CHINESE, N_("Traditional") },
+	{ "GB18030", E_CHARSET_CHINESE, N_("Simplified") },
 	{ "GB-2312", E_CHARSET_CHINESE, N_("Simplified") },
 	{ "HZ", E_CHARSET_CHINESE, N_("Simplified") },
 	{ "ISO-2022-CN", E_CHARSET_CHINESE, NULL },
@@ -123,40 +126,20 @@ activate (GtkWidget *item, gpointer menu)
 static GtkWidget *
 add_charset (GtkWidget *menu, ECharset *charset, gboolean free_name)
 {
-	char *charset_name, *label, *u;
 	GtkWidget *item;
-	
-	/* escape _'s in the charset name so that it doesn't become an underline in a GtkLabel */
-	if ((u = strchr (charset->name, '_'))) {
-		int extra = 1;
-		char *s, *d;
-		
-		while ((u = strchr (u + 1, '_')))
-			extra++;
-		
-		d = charset_name = g_alloca (strlen (charset->name) + extra + 1);
-		s = charset->name;
-		while (*s != '\0') {
-			if (*s == '_')
-				*d++ = '_';
-			*d++ = *s++;
-		}
-		*d = '\0';
-	} else {
-		charset_name = charset->name;
-	}
+	char *label;
 	
 	if (charset->subclass) {
 		label = g_strdup_printf ("%s, %s (%s)",
 					 _(classnames[charset->class]),
 					 _(charset->subclass),
-					 charset_name);
+					 charset->name);
 	} else if (charset->class) {
 		label = g_strdup_printf ("%s (%s)",
 					 _(classnames[charset->class]),
-					 charset_name);
+					 charset->name);
 	} else {
-		label = g_strdup (charset_name);
+		label = g_strdup (charset->name);
 	}
 	
 	item = gtk_menu_item_new_with_label (label);
@@ -172,7 +155,7 @@ add_charset (GtkWidget *menu, ECharset *charset, gboolean free_name)
 }
 
 static gboolean
-add_other_charset (GtkWidget *menu, GtkWidget *other, char *new_charset) 
+add_other_charset (GtkWidget *menu, GtkWidget *other, const char *new_charset) 
 {
 	ECharset charset = { NULL, E_CHARSET_UNKNOWN, NULL };
 	GtkWidget *item;
@@ -192,7 +175,7 @@ add_other_charset (GtkWidget *menu, GtkWidget *other, char *new_charset)
 	gtk_container_remove (GTK_CONTAINER (menu), other);
 	
 	/* Create new menu item */
-	charset.name = new_charset;
+	charset.name = g_strdup (new_charset);
 	item = add_charset (menu, &charset, TRUE);
 	
 	/* And re-add "Other..." */
@@ -246,7 +229,7 @@ activate_other (GtkWidget *item, gpointer menu)
 		gtk_entry_set_text (GTK_ENTRY (entry), old_charset);
 	g_signal_connect (entry, "activate",
 			  G_CALLBACK (activate_entry), dialog);
-			  
+	
 	gtk_container_set_border_width (GTK_CONTAINER (dialog->vbox), 6);
 	gtk_box_pack_start (GTK_BOX (dialog->vbox), label, FALSE, FALSE, 6);
 	gtk_box_pack_start (GTK_BOX (dialog->vbox), entry, FALSE, FALSE, 6);
@@ -493,10 +476,12 @@ e_charset_picker_bonobo_ui_populate (BonoboUIComponent *uic, const char *path,
 						 _(classnames[charsets[i].class]),
 						 _(charsets[i].subclass),
 						 charset_name);
-		} else {
+		} else if (charsets[i].class) {
 			label = g_strdup_printf ("%s (%s)",
 						 _(classnames[charsets[i].class]),
 						 charset_name);
+		} else {
+			label = g_strdup (charset_name);
 		}
 		
 		encoded_label = bonobo_ui_util_encode_str (label);
@@ -543,7 +528,7 @@ e_charset_picker_bonobo_ui_populate (BonoboUIComponent *uic, const char *path,
 			charset_name = (char *) default_charset;
 		}
 		
-		label = g_strdup_printf ("%s (%s)", _("Unknown"), charset_name);
+		label = g_strdup (charset_name);
 		encoded_label = bonobo_ui_util_encode_str (label);
 		g_free (label);
 		
