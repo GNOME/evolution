@@ -660,7 +660,7 @@ get_card_list (CardAndBook *card_and_book)
 static void
 save_as (GtkWidget *widget, CardAndBook *card_and_book)
 {
-	e_contact_save_as(_("Save as VCard"), card_and_book->card);
+	e_contact_save_as(_("Save as VCard"), card_and_book->card, NULL);
 	card_and_book_free(card_and_book);
 }
 
@@ -1394,7 +1394,7 @@ e_addressbook_view_save_as (EAddressbookView *view)
 {
 	GList *list = get_selected_cards (view);
 	if (list)
-		e_contact_list_save_as (_("Save as VCard"), list);
+		e_contact_list_save_as (_("Save as VCard"), list, NULL);
 	g_list_free (list);
 }
 

@@ -136,7 +136,7 @@ save_as (GtkWidget *widget, ModelAndSelection *mns)
 
 	list = get_card_list (mns);
 	if (list)
-		e_contact_list_save_as (_("Save as VCard"), list);
+		e_contact_list_save_as (_("Save as VCard"), list, NULL);
 	g_list_free (list);
 	model_and_selection_free (mns);
 }
