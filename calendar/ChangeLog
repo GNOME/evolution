@@ -13,6 +13,13 @@
 
 2003-05-19  JP Rosevear  <jpr@ximian.com>
 
+	* gui/gnome-cal.c (gnome_calendar_destroy): remove the query time
+	out if its still alive
+	(update_query_timeout): update the query and clear the time out
+	(client_cal_opened_cb): add the query update timeout
+
+2003-05-19  JP Rosevear  <jpr@ximian.com>
+	
 	Fixes #43103
 	
 	* gui/e-day-view.c (e_day_view_init): connect normally instead of

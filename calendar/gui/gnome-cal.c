@@ -109,7 +109,8 @@ struct _GnomeCalendarPrivate {
 	/* Calendar query for the date navigator */
 	CalQuery    *dn_query;
 	char        *sexp;
-
+	guint        query_timeout;
+	
 	/* This is the view currently shown. We use it to keep track of the
 	   positions of the panes. range_selected is TRUE if a range of dates
 	   was selected in the date navigator to show the view. */
@@ -940,6 +941,11 @@ gnome_calendar_destroy (GtkObject *object)
 			priv->sexp = NULL;
 		}
 
+		if (priv->query_timeout) {
+			g_source_remove (priv->query_timeout);
+			priv->query_timeout = 0;
+		}
+	
 		if (priv->client) {
 			g_signal_handlers_disconnect_matched (priv->client, G_SIGNAL_MATCH_DATA,
 							      0, 0, NULL, NULL, gcal);
@@ -1507,6 +1513,21 @@ permission_error (GnomeCalendar *gcal, const char *uri)
 }
 
 /* Callback from the calendar client when a calendar is loaded */
+static gboolean
+update_query_timeout (gpointer data)
+{
+	GnomeCalendar *gcal = data;
+	GnomeCalendarPrivate *priv;
+
+	gcal = GNOME_CALENDAR (data);
+	priv = gcal->priv;
+
+	update_query (gcal);
+	priv->query_timeout = 0;
+
+	return FALSE;
+}
+
 static void
 client_cal_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer data)
 {
@@ -1522,7 +1543,7 @@ client_cal_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer da
 	case CAL_CLIENT_OPEN_SUCCESS:
 		/* If this is the main CalClient, update the Date Navigator. */
 		if (client == priv->client) {
-			update_query (gcal);
+			priv->query_timeout = g_timeout_add (100, update_query_timeout, gcal);
 		}
 
 		/* Set the client's default timezone, if we have one. */
