@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.gu\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-08-17 11:10+0200\n"
-"PO-Revision-Date: 2004-08-17 17:11+0530\n"
+"POT-Creation-Date: 2004-08-18 11:10+0200\n"
+"PO-Revision-Date: 2004-08-23 17:09+0530\n"
 "Last-Translator: Ankit Patel <ankit@redhat.com>\n"
 "Language-Team: Gujarati\n"
 "MIME-Version: 1.0\n"
@@ -18,6 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.3.1\n"
 "Plural-Forms: Plural-Forms: nplurals=2; plural=(n!=1);\n\n"
+"\n"
 "\n"
 "\n"
 "\n"
@@ -606,7 +607,7 @@ msgstr "એક"
 
 #: addressbook/gui/component/ldap-config.glade.h:27
 msgid "Search _base:"
-msgstr "શોધનો આધાર: (_b)"
+msgstr "શોધનો આધાર (_b):"
 
 #: addressbook/gui/component/ldap-config.glade.h:28
 msgid ""
@@ -634,7 +635,7 @@ msgid ""
 "vulnerable to security exploits. "
 msgstr ""
 "આ વિકલ્પને પસંદ કરવો અેટલે તમારુ સર્વર SSL કે TLS ને આધાર આપતું નથી. એનો અર્થ અે થાય કે "
-"તમારુ જોડાણ અસુરક્ષિત છે અને જે તમારા સુરક્ષા માટેના સુયોજનો દૂર કરે છે."
+"તમારુ જોડાણ અસુરક્ષિત છે અને જે તમારા સુરક્ષા માટેના સુયોજનો દૂર કરે છે. "
 
 #: addressbook/gui/component/ldap-config.glade.h:31
 msgid "Sub"
@@ -693,7 +694,7 @@ msgid ""
 "list. It is for display purposes only. "
 msgstr ""
 "આ એ સર્વરનું નામ છે કે જે તમારા ઈવોલ્યુશન ફોલ્ડરની યાદીમાં દેખાશે. એ માત્ર પ્રદર્શન કરવા "
-"માટે જ છે."
+"માટે જ છે. "
 
 #: addressbook/gui/component/ldap-config.glade.h:39
 msgid ""
@@ -724,7 +725,7 @@ msgstr "સરનામાપોથી ઉમેરો (_A)"
 
 #: addressbook/gui/component/ldap-config.glade.h:44
 msgid "_Download limit:"
-msgstr "ડાઉનલોડની મર્યાદા: (_D)"
+msgstr "ડાઉનલોડની મર્યાદા (_D):"
 
 #: addressbook/gui/component/ldap-config.glade.h:45
 msgid "_Find Possible Search Bases"
@@ -732,32 +733,32 @@ msgstr "શક્ય શોધના આધારો શોધો (_F)"
 
 #: addressbook/gui/component/ldap-config.glade.h:46
 msgid "_Log in method:"
-msgstr "પ્રવેશ માટેની રીત: (_L)"
+msgstr "પ્રવેશ માટેની રીત (_L):"
 
 #: addressbook/gui/component/ldap-config.glade.h:47
 #: calendar/gui/dialogs/calendar-setup.glade.h:8 mail/mail-config.glade.h:171
 msgid "_Name:"
-msgstr "નામ: (_N)"
+msgstr "નામ (_N):"
 
 #: addressbook/gui/component/ldap-config.glade.h:48
 msgid "_Port:"
-msgstr "પોર્ટ: (_P)"
+msgstr "પોર્ટ (_P):"
 
 #: addressbook/gui/component/ldap-config.glade.h:49
 msgid "_Search scope:"
-msgstr "શોધની હદ: (_S)"
+msgstr "શોધની હદ (_S):"
 
 #: addressbook/gui/component/ldap-config.glade.h:50
 msgid "_Server:"
-msgstr "સર્વર: (_S)"
+msgstr "સર્વર (_S):"
 
 #: addressbook/gui/component/ldap-config.glade.h:51
 msgid "_Timeout:"
-msgstr "સમય સમાપ્ત: (_T)"
+msgstr "સમય સમાપ્ત (_T):"
 
 #: addressbook/gui/component/ldap-config.glade.h:52
 msgid "_Use secure connection:"
-msgstr "સુરક્ષિત જોડાણ વાપરો: (_U)"
+msgstr "સુરક્ષિત જોડાણ વાપરો (_U):"
 
 #: addressbook/gui/component/ldap-config.glade.h:53
 msgid "cards"
@@ -833,11 +834,11 @@ msgstr "<b>સંપર્કો બતાવો</b>"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:4
 msgid "Address _Book:"
-msgstr "સરનામા પોથી: (_B)"
+msgstr "સરનામા પોથી (_B):"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:5
 msgid "C_ategory:"
-msgstr "વર્ગ: (_a)"
+msgstr "વર્ગ (_a):"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:7
 msgid "_Find"
@@ -845,7 +846,7 @@ msgstr "શોધો (_F)"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:8
 msgid "_Search:"
-msgstr "શોધો: (_S)"
+msgstr "શોધો (_S):"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:2
 msgid "<b>Email</b>"
@@ -944,7 +945,7 @@ msgstr "મુક્ત/વ્યસ્ત:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:24
 msgid "Full _Name..."
-msgstr "પૂરુ નામ... (_N)"
+msgstr "પૂરુ નામ (_N)..."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:25
 msgid "Home Page:"
@@ -965,7 +966,7 @@ msgstr "વ્યવસ્થાપક:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:29
 msgid "Ni_ckname:"
-msgstr "લાડકુ નામ: (_c)"
+msgstr "લાડકુ નામ (_c):"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:30
 msgid "Notes:"
@@ -1035,12 +1036,12 @@ msgstr "વર્ગો (_C)"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:46
 msgid "_File under:"
-msgstr "ની નીચે ફાઈલ: (_F)"
+msgstr "ની નીચે ફાઈલ (_F):"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:47
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:12
 msgid "_Where:"
-msgstr "ક્યાં: (_W)"
+msgstr "ક્યાં (_W):"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:96
 #: addressbook/gui/widgets/eab-contact-display.c:352
@@ -2145,11 +2146,11 @@ msgstr "સંપૂર્ણ ફેરફાર કરો (_E)"
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:301
 #: mail/mail-config.glade.h:166
 msgid "_Full Name:"
-msgstr "પુરૂ નામ: (_F)"
+msgstr "પુરૂ નામ (_F):"
 
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:307
 msgid "E-_mail:"
-msgstr "ઈ-મેઈલ: (_m)"
+msgstr "ઈ-મેઈલ (_m):"
 
 #: addressbook/gui/contact-editor/eab-editor.c:319
 msgid ""
@@ -2169,15 +2170,15 @@ msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:2
 msgid "Address _2:"
-msgstr "સરનામુ ૨: (_2)"
+msgstr "સરનામુ _૨:"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:3
 msgid "Ci_ty:"
-msgstr "શહેર: (_t)"
+msgstr "શહેર (_t):"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:4
 msgid "Countr_y:"
-msgstr "દેશ: (_y)"
+msgstr "દેશ (_y):"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:5
 msgid "Full Address"
@@ -2185,7 +2186,7 @@ msgstr "પૂરુ સરનામુ"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:6
 msgid "_Address:"
-msgstr "સરનામુ: (_A)"
+msgstr "સરનામુ (_A):"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:7
 msgid "_PO Box:"
@@ -2193,7 +2194,7 @@ msgstr "_PO બોક્સ:"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:8
 msgid "_State/Province:"
-msgstr "રાજ્ય/પ્રોવિન્સ: (_S)"
+msgstr "રાજ્ય/પ્રોવિન્સ (_S):"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:9
 msgid "_ZIP Code:"
@@ -2250,23 +2251,23 @@ msgstr "Sr."
 
 #: addressbook/gui/contact-editor/fullname.glade.h:14
 msgid "_First:"
-msgstr "પહેલુ: (_F)"
+msgstr "પહેલુ (_F):"
 
 #: addressbook/gui/contact-editor/fullname.glade.h:15
 msgid "_Last:"
-msgstr "છેલ્લુ: (_L)"
+msgstr "છેલ્લુ (_L):"
 
 #: addressbook/gui/contact-editor/fullname.glade.h:16
 msgid "_Middle:"
-msgstr "વચ્ચેનું: (_M)"
+msgstr "વચ્ચેનું (_M):"
 
 #: addressbook/gui/contact-editor/fullname.glade.h:17
 msgid "_Suffix:"
-msgstr "પ્રત્યય: (_S)"
+msgstr "પ્રત્યય (_S):"
 
 #: addressbook/gui/contact-editor/fullname.glade.h:18
 msgid "_Title:"
-msgstr "શીર્ષક: (_T)"
+msgstr "શીર્ષક (_T):"
 
 #: addressbook/gui/contact-editor/im.glade.h:2
 msgid "Add IM Account"
@@ -2274,7 +2275,7 @@ msgstr "IM ખાતુ ઉમેરો"
 
 #: addressbook/gui/contact-editor/im.glade.h:3
 msgid "_Account name:"
-msgstr "ખાતાનું નામ: (_A)"
+msgstr "ખાતાનું નામ (_A):"
 
 #: addressbook/gui/contact-editor/im.glade.h:4
 msgid "_IM Service:"
@@ -2282,7 +2283,7 @@ msgstr "_IM સેવા:"
 
 #: addressbook/gui/contact-editor/im.glade.h:5
 msgid "_Location:"
-msgstr "જગ્યા: (_L)"
+msgstr "જગ્યા (_L):"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:1
 msgid "\n"
@@ -2315,11 +2316,11 @@ msgstr "આ યાદીને મેઈલ મોકલતી વખતે સ�
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:10
 msgid "_List name:"
-msgstr "યાદીનું નામ: (_L)"
+msgstr "યાદીનું નામ (_L):"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:11
 msgid "_Type an email address or drag a contact into the list below:"
-msgstr "નીચેની યાદીમાંથી સંપર્ક ખેંચી લો અથવા ઈ-મેઈલ સરનામુ લખો: (_T)"
+msgstr "નીચેની યાદીમાંથી સંપર્ક ખેંચી લો અથવા ઈ-મેઈલ સરનામુ લખો (_T):"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:13
 #: smime/gui/smime-ui.glade.h:48
@@ -2394,7 +2395,7 @@ msgstr "ઉન્નત શોધ"
 
 #: addressbook/gui/widgets/e-addressbook-model.c:148
 msgid "No contacts"
-msgstr "સંપર્કો નથી."
+msgstr "સંપર્કો નથી"
 
 #: addressbook/gui/widgets/e-addressbook-model.c:151
 #, c-format
@@ -2997,7 +2998,7 @@ msgstr ""
 
 #: addressbook/gui/widgets/eab-gui-util.c:142
 msgid "The backend for this addressbook was unable to parse this query."
-msgstr "આ સરનામાપોથી માટેનો પાશ્વ ભાગ આ પ્રશ્નનું પદચ્છેદન કરવા માટે અસમર્થ છે"
+msgstr "આ સરનામાપોથી માટેનો પાશ્વ ભાગ આ પ્રશ્નનું પદચ્છેદન કરવા માટે અસમર્થ છે."
 
 #: addressbook/gui/widgets/eab-gui-util.c:145
 msgid "The backend for this addressbook refused to perform this query."
@@ -3142,8 +3143,8 @@ msgstr "ઈ-મેઈલ સરનામુ ભેગુ કરો"
 #, c-format
 msgid "and one other contact."
 msgid_plural "and %d other contacts."
-msgstr[0] "અને બીજો સંપર્ક."
-msgstr[1] "અને બીજા %d સંપર્કો"
+msgstr[0] "અને એક બીજો સંપર્ક."
+msgstr[1] "અને બીજા %d સંપર્કો."
 
 #: addressbook/gui/widgets/eab-vcard-control.c:223
 #: addressbook/gui/widgets/eab-vcard-control.c:272
@@ -3731,7 +3732,7 @@ msgstr "જ્યાં સુધી ઈવોલ્યુશન ફરીથી
 #. calendar:calendar-crashed primary
 #: calendar/calendar-errors.xml.h:112
 msgid "The Evolution calendar has quit unexpectedly."
-msgstr "ઈવોલ્યુશન કેલેન્ડરમાંથી અનિચ્છનિય રીતે બહાર નીકળી ગયા"
+msgstr "ઈવોલ્યુશન કેલેન્ડરમાંથી અનિચ્છનિય રીતે બહાર નીકળી ગયા."
 
 #. calendar:calendar-crashed secondary
 #: calendar/calendar-errors.xml.h:114
@@ -3752,7 +3753,7 @@ msgstr "ઘણા બધા દિવસોની બાબતો છુટી �
 #: calendar/conduits/todo/todo-conduit.c:879
 #: calendar/conduits/todo/todo-conduit.c:880
 msgid "Could not start evolution-data-server"
-msgstr "ઈવોલ્યુશન-ડેટા-સર્વર ચાલુ કરી શકાયુ નહિં."
+msgstr "ઈવોલ્યુશન-માહિતી-સર્વર ચાલુ કરી શકાયુ નહિં"
 
 #: calendar/conduits/calendar/calendar-conduit.c:1465
 #: calendar/conduits/calendar/calendar-conduit.c:1468
@@ -4738,7 +4739,7 @@ msgstr "અઠવાડિયાઓ"
 
 #: calendar/gui/dialogs/changed-comp.c:60
 msgid "This event has been deleted."
-msgstr "આ બાબત કાઢી નંખાયેલ છે"
+msgstr "આ બાબત કાઢી નંખાયેલ છે."
 
 #: calendar/gui/dialogs/changed-comp.c:64
 msgid "This task has been deleted."
@@ -6972,31 +6973,31 @@ msgstr "એકત્રીસમુ"
 
 #: calendar/gui/print.c:570
 msgid "Su"
-msgstr "Su"
+msgstr "રવિ"
 
 #: calendar/gui/print.c:570
 msgid "Mo"
-msgstr "Mo"
+msgstr "સોમ"
 
 #: calendar/gui/print.c:570
 msgid "Tu"
-msgstr "Tu"
+msgstr "મંગળ"
 
 #: calendar/gui/print.c:570
 msgid "We"
-msgstr "We"
+msgstr "બુધ"
 
 #: calendar/gui/print.c:571
 msgid "Th"
-msgstr "Th"
+msgstr "ગુરુ"
 
 #: calendar/gui/print.c:571
 msgid "Fr"
-msgstr "Fr"
+msgstr "શુક્ર"
 
 #: calendar/gui/print.c:571
 msgid "Sa"
-msgstr "Sa"
+msgstr "શનિ"
 
 #. Day
 #: calendar/gui/print.c:1914
@@ -13126,7 +13127,7 @@ msgstr[1] "નહિં વાંચેલ સંદેશાઓ:"
 
 #: mail/em-folder-selection-button.c:120
 msgid "<click here to select a folder>"
-msgstr "<ફોલ્ડર પસંદ કરવા માટે અંહિ ક્લિક કરો>"
+msgstr "&lt;ફોલ્ડર પસંદ કરવા માટે અંહિ ક્લિક કરો&gt;"
 
 #: mail/em-folder-selector.c:166
 msgid "Create New Folder"
@@ -13540,7 +13541,7 @@ msgstr "માન્ય સહી પરંતુ મોકલનારને �
 
 #: mail/em-format-html.c:848
 msgid "Malformed external-body part."
-msgstr "બાહ્ય ભાગનો કદરુપો ભાગ"
+msgstr "બાહ્ય ભાગનો કદરુપો ભાગ."
 
 #: mail/em-format-html.c:878
 #, c-format
@@ -13934,7 +13935,7 @@ msgid ""
 "in GNOME's mime-type database may be used for displaying content."
 msgstr ""
 "જો ત્યાં કોઈ આંતરિક દર્શક કોઈ ચોક્કસ પ્રકારના mime કે જે ઈવોલ્યુશનની અંદર હોય, અને કોઈ "
-"પ્રકારના mime"
+"પ્રકારના mime."
 
 #: mail/evolution-mail.schemas.in.in.h:28
 msgid "Last time empty trash was run"
@@ -14126,7 +14127,7 @@ msgstr "કાઢી નંખાયેલ સંદેશાઓ સંદેશ
 
 #: mail/evolution-mail.schemas.in.in.h:70
 msgid "Show deleted messages in the message-list"
-msgstr "કાઢી નંખાયેલ સંદેશાઓ સંદેશા યાદીમાં બતાવો."
+msgstr "કાઢી નંખાયેલ સંદેશાઓ સંદેશા યાદીમાં બતાવો"
 
 #: mail/evolution-mail.schemas.in.in.h:71
 msgid "Show the \"Preview\" pane"
@@ -14179,9 +14180,9 @@ msgid ""
 "header enabled&gt; - set enabled if the header is to be displayed in the "
 "mail view."
 msgstr ""
-"કી XML સંરચનાઓની કસ્ટમ હેડરો સ્પષ્ટ કરતી યાદી સમાવતી હોવી જોઈએ,,અને શું તેઓ પ્રદર્શિત "
-"થશેd. XMLસંરચનાનું બંધારણs &lt હેડર સક્રિય;d&gt હોય છે; -સક્રિય સુયોજિત કરો જો હેડર એ "
-"મેઈલ દેખાવમાં પ્રદર્શિત થાય.."
+"કી XML સંરચનાઓની કસ્ટમ હેડરો સ્પષ્ટ કરતી યાદી સમાવતી હોવી જોઈએ, અને શું તેઓ પ્રદર્શિત "
+"થશે. XML સંરચનાનું બંધારણ &lt;હેડર સક્રિય&gt; હોય છે - સક્રિય સુયોજિત કરો જો હેડર એ "
+"મેઈલ દેખાવમાં પ્રદર્શિત થાય."
 
 #: mail/evolution-mail.schemas.in.in.h:83
 msgid "Thread the message list."
@@ -15364,7 +15365,7 @@ msgstr "લાઈસન્સની મંજૂરી માટે આને �
 
 #: mail/mail-dialogs.glade.h:26 mail/message-tags.glade.h:6
 msgid "_Due By:"
-msgstr "દ્વારા છેલ્લે: (_D)"
+msgstr "દ્વારા છેલ્લે (_D):"
 
 #: mail/mail-dialogs.glade.h:27 mail/message-tags.glade.h:7
 msgid "_Flag:"
@@ -16294,7 +16295,7 @@ msgstr "%b %d %l:%M %p"
 msgid "%b %d %Y"
 msgstr "%b %d %Y"
 
-#: mail/message-list.c:3376
+#: mail/message-list.c:3380
 msgid "Generating message list"
 msgstr "સંદેશા યાદી બનાવી રહ્યા છીએ"
 
@@ -16408,7 +16409,7 @@ msgstr "ઈવોલ્યુશન ચકાસણી ભાગ"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:1
 msgid "480"
-msgstr "480"
+msgstr "૪૮૦"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:2
 msgid "Default width of the folder bar pane"
@@ -16681,7 +16682,7 @@ msgstr "બગ બડ્ડી ચલાવી શકાયું નહિં."
 
 #: shell/e-shell-window-commands.c:323
 msgid "Groupware Suite"
-msgstr "ગ્રુપવેર સ્યુટ."
+msgstr "ગ્રુપવેર સ્યુટ"
 
 #: shell/e-shell-window-commands.c:563
 msgid "_Work Online"
@@ -16797,7 +16798,7 @@ msgstr "નવી ચકાસણી વસ્તુ બનાવો"
 
 #: shell/importer/import.glade.h:1
 msgid "Click \"Import\" to begin importing the file into Evolution. "
-msgstr "ઈવોલ્યુશનમાં ફાઈલ આયાત કરવા માટે \"આયાત કરો\" બટન પર ક્લિક કરો."
+msgstr "ઈવોલ્યુશનમાં ફાઈલ આયાત કરવા માટે \"આયાત કરો\" બટન પર ક્લિક કરો. "
 
 #: shell/importer/import.glade.h:2
 msgid "Evolution Import Assistant"
@@ -17072,7 +17073,7 @@ msgstr ""
 "તમારી સિસ્ટમનું રુપરેખાંકન તમારા ઈવોલ્યુશનના રુપરેખાંકન સાથે બંધબેસતું નથી.\n"
 "{0}\n"
 "\n"
-"વિગતો માટે મદદ પર ક્લિક કરો"
+"વિગતો માટે મદદ પર ક્લિક કરો."
 
 #: smime/gui/ca-trust-dialog.c:91
 #, c-format
@@ -17175,7 +17176,7 @@ msgstr "પ્રમાણપત્ર પસંદ કરો"
 
 #: smime/gui/smime-ui.glade.h:1
 msgid "<Not Part of Certificate>"
-msgstr "<પ્રમાણપત્રનો ભાગ નથી>"
+msgstr "&lt;પ્રમાણપત્રનો ભાગ નથી&gt;"
 
 #: smime/gui/smime-ui.glade.h:2
 msgid "<b>Certificate Fields</b>"
