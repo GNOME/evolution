@@ -1,5 +1,14 @@
 2004-04-09  Chris Toshok  <toshok@ximian.com>
 
+	* gui/component/addressbook-component.c
+	(selector_tree_drag_motion): pass GDK_CURRENT_TIME instead of a
+	function pointer to "time" to gdk_drag_status.  not sure if this
+	is right, but it's definitely more right than it was :)
+	(impl_createControls): create the info label and add it to the
+	sidebar control.  it's not hooked up yet.
+
+2004-04-09  Chris Toshok  <toshok@ximian.com>
+
 	* importers/evolution-ldif-importer.c (resolve_list_card): use the
 	new e_destination_export_to_vcard_attribute call to build up the
 	attributes.

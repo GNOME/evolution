@@ -37,7 +37,8 @@
 #include "addressbook/util/eab-book-util.h"
 
 
-#include "e-task-bar.h"
+#include "widgets/misc/e-task-bar.h"
+#include "widgets/misc/e-info-label.h"
 
 #include <string.h>
 #include <bonobo/bonobo-i18n.h>
@@ -48,6 +49,7 @@
 #include <gtk/gtklabel.h>	/* FIXME */
 #include <gtk/gtkmessagedialog.h>
 #include <gtk/gtkstock.h>
+#include <gtk/gtkvbox.h>
 #include <gconf/gconf-client.h>
 #include <gal/util/e-util.h>
 
@@ -389,7 +391,7 @@ selector_tree_drag_motion (GtkWidget *widget,
 	if (data)
 		g_object_unref (data);
       
-	gdk_drag_status (context, action, time);
+	gdk_drag_status (context, action, GDK_CURRENT_TIME);
 	return TRUE;
 }
 
@@ -476,7 +478,7 @@ impl_createControls (PortableServer_Servant servant,
 		     CORBA_Environment *ev)
 {
 	AddressbookComponent *addressbook_component = ADDRESSBOOK_COMPONENT (bonobo_object_from_servant (servant));
-	GtkWidget *selector;
+	GtkWidget *selector, *vbox, *info;
 	GtkWidget *selector_scrolled_window;
 	GtkWidget *statusbar_widget;
 	BonoboControl *sidebar_control;
@@ -510,9 +512,25 @@ impl_createControls (PortableServer_Servant servant,
 	gtk_container_add (GTK_CONTAINER (selector_scrolled_window), selector);
 	gtk_widget_show (selector_scrolled_window);
 
-	sidebar_control = bonobo_control_new (selector_scrolled_window);
+	statusbar_widget = e_task_bar_new ();
+	gtk_widget_show (statusbar_widget);
 
+	e_activity_handler_attach_task_bar (addressbook_component->priv->activity_handler,
+					    E_TASK_BAR (statusbar_widget));
+
+	info = e_info_label_new("evolution-contacts-mini.png");
+	e_info_label_set_info((EInfoLabel *)info, _("Contacts"), "");
+	gtk_widget_show (info);
+
+	vbox = gtk_vbox_new(FALSE, 0);
+	gtk_box_pack_start(GTK_BOX (vbox), info, FALSE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX (vbox), selector_scrolled_window, TRUE, TRUE, 0);
+	gtk_widget_show (vbox);
+
+	sidebar_control = bonobo_control_new (vbox);
+	statusbar_control = bonobo_control_new (statusbar_widget);
 	view_control = addressbook_new_control ();
+
 	g_signal_connect_object (selector, "primary_selection_changed",
 				 G_CALLBACK (primary_source_selection_changed_callback),
 				 G_OBJECT (view_control), 0);
@@ -522,13 +540,6 @@ impl_createControls (PortableServer_Servant servant,
 
 	load_primary_selection (addressbook_component);
 	load_uri_for_selection (E_SOURCE_SELECTOR (selector), view_control);
-
-	statusbar_widget = e_task_bar_new ();
-	gtk_widget_show (statusbar_widget);
-	statusbar_control = bonobo_control_new (statusbar_widget);
-
-	e_activity_handler_attach_task_bar (addressbook_component->priv->activity_handler,
-					    E_TASK_BAR (statusbar_widget));
 
 	*corba_sidebar_control = CORBA_Object_duplicate (BONOBO_OBJREF (sidebar_control), ev);
 	*corba_view_control = CORBA_Object_duplicate (BONOBO_OBJREF (view_control), ev);
