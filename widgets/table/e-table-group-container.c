@@ -30,6 +30,7 @@
 #include "e-table-group-leaf.h"
 #include "e-table-item.h"
 #include "gal/util/e-util.h"
+#include "gal/util/e-unicode-i18n.h"
 #include "gal/widgets/e-canvas.h"
 #include "gal/widgets/e-canvas-utils.h"
 #include "gal/widgets/e-unicode.h"
@@ -346,14 +347,14 @@ compute_text (ETableGroupContainer *etgc, ETableGroupContainerChildNode *child_n
 
 	if (etgc->ecol->text) {
 		text = g_strdup_printf ((child_node->count == 1)
-					? _("%s : %s (%d item)")
-					: _("%s : %s (%d items)"),
+					? U_("%s : %s (%d item)")
+					: U_("%s : %s (%d items)"),
 					etgc->ecol->text, child_node->string,
 					(gint) child_node->count);
 	} else {
 		text = g_strdup_printf ((child_node->count == 1)
-					? _("%s (%d item)")
-					: _("%s (%d items)"),
+					? U_("%s (%d item)")
+					: U_("%s (%d items)"),
 					child_node->string,
 					(gint) child_node->count);
 	}
