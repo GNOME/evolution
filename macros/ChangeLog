@@ -1,3 +1,10 @@
+1998-02-26  Raja R Harinath  <harinath@cs.umn.edu>
+
+	* gnome-x-checks.m4 (CPPFLAGS): Put $X_CFLAGS here, not in
+	$CFLAGS. 
+	(GNOME_HAVE_SM): New var.  `true' if we have libSM, `false'
+	otherwise. 
+
 1998-02-19  Raja R Harinath  <harinath@cs.umn.edu>
 
 	* gnome.m4: Remove `GNOME_CHECK_GNOME'.
