@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.8\n"
-"POT-Creation-Date: 2000-12-19 20:45+0100\n"
-"PO-Revision-Date: 2000-12-19 20:46+01:00\n"
+"POT-Creation-Date: 2000-12-22 13:52+0100\n"
+"PO-Revision-Date: 2000-12-22 13:52+01:00\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian <no@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -304,10 +304,10 @@ msgstr ""
 #: addressbook/backend/ebook/load-pine-addressbook.c:17
 #: addressbook/backend/ebook/test-client-list.c:18
 #: addressbook/backend/ebook/test-client.c:29
-#: addressbook/conduit/address-conduit.c:991
+#: addressbook/conduit/address-conduit.c:1083
 #: addressbook/gui/component/addressbook-factory.c:38
-#: calendar/conduits/calendar/calendar-conduit.c:1136
-#: calendar/conduits/todo/todo-conduit.c:945 calendar/gui/main.c:53
+#: calendar/conduits/calendar/calendar-conduit.c:1151
+#: calendar/conduits/todo/todo-conduit.c:966 calendar/gui/main.c:53
 msgid "Could not initialize Bonobo"
 msgstr "Kunne ikke initialisere Bonobo"
 
@@ -430,28 +430,28 @@ msgstr ""
 "En feil oppsto under forsøk på å hente\n"
 "pilot-listen fra gnome-pilot daemonen"
 
-#: addressbook/conduit/address-conduit.c:197
+#: addressbook/conduit/address-conduit.c:195
 msgid "Cursor could not be loaded\n"
 msgstr "Markøren kunne ikke lokaliseres\n"
 
-#: addressbook/conduit/address-conduit.c:210
+#: addressbook/conduit/address-conduit.c:208
 msgid "EBook not loaded\n"
 msgstr "EBook ikke lastet\n"
 
-#: addressbook/conduit/address-conduit.c:583
-#: calendar/conduits/calendar/calendar-conduit.c:715
-#: calendar/conduits/todo/todo-conduit.c:523
+#: addressbook/conduit/address-conduit.c:646
+#: calendar/conduits/calendar/calendar-conduit.c:730
+#: calendar/conduits/todo/todo-conduit.c:545
 msgid "Could not start wombat server"
 msgstr "Kunne ikke starte wombat tjener"
 
-#: addressbook/conduit/address-conduit.c:584
-#: calendar/conduits/calendar/calendar-conduit.c:716
-#: calendar/conduits/todo/todo-conduit.c:524
+#: addressbook/conduit/address-conduit.c:647
+#: calendar/conduits/calendar/calendar-conduit.c:731
+#: calendar/conduits/todo/todo-conduit.c:546
 msgid "Could not start wombat"
 msgstr "Kunne ikke starte wombat"
 
-#: addressbook/conduit/address-conduit.c:616
-#: addressbook/conduit/address-conduit.c:619
+#: addressbook/conduit/address-conduit.c:679
+#: addressbook/conduit/address-conduit.c:682
 msgid "Could not read pilot's Address application block"
 msgstr "Kunne ikke lese pilotens adresseapplikasjonsblokk"
 
@@ -1259,13 +1259,13 @@ msgstr "Evolution kalender-komponent"
 msgid "Configuration utility for the evolution calendar conduit.\n"
 msgstr "Konfigurasjonsverktøy for evolutions kalender-komponent.\n"
 
-#: calendar/conduits/calendar/calendar-conduit.c:671
-#: calendar/conduits/todo/todo-conduit.c:479
+#: calendar/conduits/calendar/calendar-conduit.c:686
+#: calendar/conduits/todo/todo-conduit.c:501
 msgid "Error while communicating with calendar server"
 msgstr "Feil under kommunikasjon med kalendertjeneren"
 
-#: calendar/conduits/calendar/calendar-conduit.c:770
-#: calendar/conduits/calendar/calendar-conduit.c:773
+#: calendar/conduits/calendar/calendar-conduit.c:785
+#: calendar/conduits/calendar/calendar-conduit.c:788
 msgid "Could not read pilot's Calendar application block"
 msgstr "Kunne ikke lese pilotens kalender-applikasjonsblokk"
 
@@ -1277,8 +1277,8 @@ msgstr "Evolution oppgaveliste-komponent"
 msgid "Configuration utility for the evolution todo conduit.\n"
 msgstr "Konfigurasjonsverktøy for evolutions oppgavelistekomponent.\n"
 
-#: calendar/conduits/todo/todo-conduit.c:578
-#: calendar/conduits/todo/todo-conduit.c:581
+#: calendar/conduits/todo/todo-conduit.c:600
+#: calendar/conduits/todo/todo-conduit.c:603
 msgid "Could not read pilot's ToDo application block"
 msgstr "Kunne ikke lese pilotens applikasjonsblokk for oppgaveliste"
 
@@ -2613,12 +2613,12 @@ msgstr "Svar fra IMAP-tjener inneholdt ikke %s-informasjon"
 msgid "Unexpected OK response from IMAP server: %s"
 msgstr "Uventet svar 'OK' fra IMAP-tjener: %s"
 
-#: camel/providers/imap/camel-imap-folder.c:217
+#: camel/providers/imap/camel-imap-folder.c:220
 #, c-format
 msgid "Could not load summary for %s"
 msgstr "Kunne ikke laste sammendrag for %s"
 
-#: camel/providers/imap/camel-imap-folder.c:568
+#: camel/providers/imap/camel-imap-folder.c:579
 msgid "Could not find message body in FETCH response."
 msgstr "Kunne ikke finne meldingskropp i FETCH-svar."
 
@@ -3353,7 +3353,7 @@ msgid "%.1fG"
 msgstr "%.1fG"
 
 #. This is a filename. Translators take note.
-#: composer/e-msg-composer-attachment-bar.c:331 mail/mail-display.c:149
+#: composer/e-msg-composer-attachment-bar.c:331 mail/mail-display.c:150
 msgid "attachment"
 msgstr "vedlegg"
 
@@ -3729,35 +3729,35 @@ msgstr "Feil under utførelse av søk etter vanlig uttrykk i meldingshode: %s"
 msgid "Test"
 msgstr "Test"
 
-#: filter/filter-rule.c:520
+#: filter/filter-rule.c:522
 msgid "Rule name: "
 msgstr "Regelnavn: "
 
-#: filter/filter-rule.c:524
+#: filter/filter-rule.c:526
 msgid "Untitled"
 msgstr "Uten navn"
 
-#: filter/filter-rule.c:540
+#: filter/filter-rule.c:542
 msgid "If"
 msgstr "Hvis"
 
-#: filter/filter-rule.c:557
+#: filter/filter-rule.c:559
 msgid "Execute actions"
 msgstr "Utfør handlinger"
 
-#: filter/filter-rule.c:561
+#: filter/filter-rule.c:563
 msgid "if all criteria are met"
 msgstr "hvis alle kriterier er møtt"
 
-#: filter/filter-rule.c:566
+#: filter/filter-rule.c:568
 msgid "if any criteria are met"
 msgstr "hvis et kriterie er møtt"
 
-#: filter/filter-rule.c:577
+#: filter/filter-rule.c:579
 msgid "Add criterion"
 msgstr "Legg til kriterie"
 
-#: filter/filter-rule.c:583
+#: filter/filter-rule.c:585
 msgid "Remove criterion"
 msgstr "Fjern kriterie"
 
@@ -3995,11 +3995,11 @@ msgstr "Legg til regel for VFolder"
 msgid "Edit VFolder Rule"
 msgstr "Redigér VFolder regel"
 
-#: mail/component-factory.c:227
+#: mail/component-factory.c:229
 msgid "Cannot initialize Evolution's mail component."
 msgstr "Kan ikke initiere Evolutions e-postkomponent."
 
-#: mail/component-factory.c:266
+#: mail/component-factory.c:268
 msgid "Cannot register storage with shell"
 msgstr "Kan ikke registrere lagring i skallet"
 
@@ -4250,11 +4250,11 @@ msgstr ""
 "Du kan kun redigere meldinger lagret\n"
 "i Skisser-katalogen."
 
-#: mail/mail-callbacks.c:699 mail/mail-display.c:73
+#: mail/mail-callbacks.c:699 mail/mail-display.c:74
 msgid "Overwrite file?"
 msgstr "Overskriv fil?"
 
-#: mail/mail-callbacks.c:703 mail/mail-display.c:77
+#: mail/mail-callbacks.c:703 mail/mail-display.c:78
 msgid ""
 "A file by that name already exists.\n"
 "Overwrite it?"
@@ -4541,7 +4541,7 @@ msgstr "Ingen GPG/PGP-program tilgjengelig."
 msgid "Couldn't create temp file: %s"
 msgstr "Kunne ikke opprette midlertidig fil: %s"
 
-#: mail/mail-display.c:92
+#: mail/mail-display.c:93
 #, c-format
 msgid ""
 "Could not open file %s:\n"
@@ -4550,43 +4550,43 @@ msgstr ""
 "Kan ikke åpne fil %s:\n"
 "%s"
 
-#: mail/mail-display.c:125
+#: mail/mail-display.c:126
 #, c-format
 msgid "Could not write data: %s"
 msgstr "Kan ikke skrive data: %s"
 
-#: mail/mail-display.c:223
+#: mail/mail-display.c:224
 msgid "Save Attachment"
 msgstr "Lagre vedlegg"
 
-#: mail/mail-display.c:263
+#: mail/mail-display.c:264
 #, c-format
 msgid "Could not create temporary directory: %s"
 msgstr "Kunne ikke opprette midlertidig katalog: %s"
 
-#: mail/mail-display.c:305
+#: mail/mail-display.c:306
 msgid "Save to Disk..."
 msgstr "Lagre til disk..."
 
-#: mail/mail-display.c:307
+#: mail/mail-display.c:308
 #, c-format
 msgid "Open in %s..."
 msgstr "Åpne i %s..."
 
-#: mail/mail-display.c:309
+#: mail/mail-display.c:310
 msgid "View Inline"
 msgstr "Vis \"inline\""
 
-#: mail/mail-display.c:333
+#: mail/mail-display.c:334
 msgid "External Viewer"
 msgstr "Ekstern visning"
 
-#: mail/mail-display.c:356
+#: mail/mail-display.c:357
 #, c-format
 msgid "View Inline (via %s)"
 msgstr "Vis \"inline\" (via %s)"
 
-#: mail/mail-display.c:360
+#: mail/mail-display.c:361
 msgid "Hide"
 msgstr "Skjul"
 
@@ -4979,7 +4979,7 @@ msgstr "Lagrer melding %d av %d (uid \"%s\")"
 msgid "Cancel"
 msgstr "Avbryt"
 
-#: mail/mail-summary.c:105 mail/mail-threads.c:729
+#: mail/mail-summary.c:110 mail/mail-threads.c:729
 msgid "Incomplete message written on pipe!"
 msgstr "Uferdig melding skrevet på rør!"
 
@@ -5078,11 +5078,11 @@ msgstr ""
 "Kan ikk åpne lokasjon `%s':\n"
 "%s"
 
-#: mail/mail-vfolder.c:147
+#: mail/mail-vfolder.c:149
 msgid "VFolders"
 msgstr "VMapper"
 
-#: mail/mail-vfolder.c:296
+#: mail/mail-vfolder.c:298
 msgid "New VFolder"
 msgstr "Ny VFolder"
 
@@ -5712,8 +5712,8 @@ msgid "_Print this calendar"
 msgstr "S_kriv ut denne kalenderen"
 
 #: po/tmp/evolution-calendar.xml.h:35
-msgid "_Save Calendar As"
-msgstr "Lagre kalender _som"
+msgid "_Save As..."
+msgstr "Lagre _som..."
 
 #: po/tmp/evolution-contact-editor.xml.h:7
 msgid "Delete this item"
@@ -6776,6 +6776,9 @@ msgstr "%I:%M %p"
 #, c-format
 msgid "Group %i"
 msgstr "Gruppe %i"
+
+#~ msgid "_Save Calendar As"
+#~ msgstr "Lagre kalender _som"
 
 #~ msgid "january"
 #~ msgstr "januar"
