@@ -88,13 +88,13 @@ simple_data_wrapper_construct_from_parser(CamelDataWrapper *dw, CamelMimeParser 
 		const char *charset = header_content_type_param(ct, "charset");
 		if (charset!=NULL
 		    && !(strcasecmp(charset, "us-ascii")==0
-			 || strcasecmp(charset, "utf-8")==0)) {
-			d(printf("Adding conversion filter from %s to utf-8\n", charset));
-			fch = (CamelMimeFilter *)camel_mime_filter_charset_new_convert(charset, "utf-8");
+			 || strcasecmp(charset, "iso-8859-1")==0)) {
+			d(printf("Adding conversion filter from %s to iso-8859-1\n", charset));
+			fch = (CamelMimeFilter *)camel_mime_filter_charset_new_convert(charset, "iso-8859-1");
 			if (fch) {
 				chrid = camel_mime_parser_filter_add(mp, (CamelMimeFilter *)fch);
 			} else {
-				g_warning("Cannot convert '%s' to 'utf-8', message display may be corrupt", charset);
+				g_warning("Cannot convert '%s' to 'iso-8859-1', message display may be corrupt", charset);
 			}
 		}
 
