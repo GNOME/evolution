@@ -269,14 +269,18 @@ display_doc (RDF *r)
 	GString *html;
 
 	html = g_string_new ("<dl><dt><img src=\"ico-rdf.png\" align=\"middle\" "
-			     "width=\"48\" height=\"48\"><b>");
+			     "width=\"48\" height=\"48\">");
 
 	if (r->cache == NULL) {
-		char *tmp_utf;
+		char *tmp_utf, *str;
 
-		tmp_utf = e_utf8_from_locale_string (_("There was an error downloading news feed"));
+		str = g_strdup_printf ("<b>%s:</b><br>%s", _("Error downloading RDF"),
+				       r->uri);
+		tmp_utf = e_utf8_from_locale_string (str);
+		g_free (str);
+
 		g_string_append (html, tmp_utf);
-		g_string_append (html, "</b></dt>");
+		g_string_append (html, "</dt>");
 		g_free (tmp_utf);
 	} else {
 		tree_walk (r->cache->root, r, html);
@@ -354,10 +358,15 @@ read_callback (GnomeVFSAsyncHandle *handle,
 	       RDF *r)
 {
 	if (result != GNOME_VFS_OK && result != GNOME_VFS_ERROR_EOF) {
+		char *str;
 		if (r->html) {
 			g_free (r->html);
 		}
-		r->html = e_utf8_from_locale_string (_("<b>Error downloading RDF</b>"));
+
+		str = g_strdup_printf ("<b>%s:</b><br>%s", _("Error downloading RDF"),
+				       r->uri);
+		r->html = e_utf8_from_locale_string (str);
+		g_free (str);
 
 		e_summary_draw (r->summary);
 		r->handle = NULL;
@@ -383,7 +392,12 @@ open_callback (GnomeVFSAsyncHandle *handle,
 	       RDF *r)
 {
 	if (result != GNOME_VFS_OK) {
-		r->html = e_utf8_from_locale_string (_("<b>Error downloading RDF</b>"));
+		char *str;
+
+		str = g_strdup_printf ("<b>%s:</b><br>%s", _("Error downloading RDF"),
+				       r->uri);
+		r->html = e_utf8_from_locale_string (str);
+		g_free (str);
 
 		display_doc (r);
 		return;
