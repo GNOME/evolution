@@ -21,6 +21,7 @@
 #ifndef _CAMEL_ADDRESS_H
 #define _CAMEL_ADDRESS_H
 
+#include <glib.h>
 #include <camel/camel-object.h>
 
 #define CAMEL_ADDRESS(obj)         CAMEL_CHECK_CAST (obj, camel_address_get_type (), CamelAddress)

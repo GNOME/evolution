@@ -30,13 +30,14 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus }*/
 
-#include <camel/camel-stream.h>
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <netinet/tcp.h>
 #include <netdb.h>
 #include <unistd.h>
+
+#include <camel/camel-stream.h>
 
 #define CAMEL_TCP_STREAM_TYPE     (camel_tcp_stream_get_type ())
 #define CAMEL_TCP_STREAM(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_TCP_STREAM_TYPE, CamelTcpStream))

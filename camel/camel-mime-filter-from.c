@@ -20,8 +20,8 @@
  *  USA
  */
 
-#include "camel-mime-filter-from.h"
 #include <string.h>
+#include "camel-mime-filter-from.h"
 
 #define d(x)
 

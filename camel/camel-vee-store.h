@@ -22,6 +22,7 @@
 #ifndef _CAMEL_VEE_STORE_H
 #define _CAMEL_VEE_STORE_H
 
+#include <glib.h>
 #include <camel/camel-store.h>
 
 #define CAMEL_VEE_STORE(obj)         CAMEL_CHECK_CAST (obj, camel_vee_store_get_type (), CamelVeeStore)

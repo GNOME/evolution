@@ -305,7 +305,7 @@ nntp_store_query_auth_types (CamelService *service, gboolean connect, CamelExcep
 	GList *prev;
 	
 	g_warning ("nntp::query_auth_types: not implemented. Defaulting.");
-	prev = CAMEL_SERVICE_CLASS (remote_store_class)->query_auth_types (service, connect, ex);
+	prev = CAMEL_SERVICE_CLASS (remote_store_class)->query_auth_types (service, ex);
 	return g_list_prepend (prev, &password_authtype);
 }
 

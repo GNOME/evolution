@@ -23,9 +23,10 @@
  * USA
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
-#include "camel-stream-fs.h"
-#include "camel-session.h"
+#endif
+
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -34,6 +35,8 @@
 #include <string.h>
 
 #include "camel-operation.h"
+#include "camel-stream-fs.h"
+#include "camel-session.h"
 
 static CamelSeekableStreamClass *parent_class = NULL;
 

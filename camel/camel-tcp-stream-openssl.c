@@ -20,12 +20,11 @@
  *
  */
 
-
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
 
 #ifdef HAVE_OPENSSL
-#include "camel-tcp-stream-openssl.h"
-#include "camel-operation.h"
 #include <openssl/openssl.h>
 #include <sys/time.h>
 #include <sys/types.h>
@@ -34,6 +33,8 @@
 #include <fcntl.h>
 #include <errno.h>
 #include <string.h>
+#include "camel-tcp-stream-openssl.h"
+#include "camel-operation.h"
 
 static CamelTcpStreamClass *parent_class = NULL;
 

@@ -24,6 +24,11 @@
 
 /* (from glibc headers:
    POSIX says that <sys/types.h> must be included (by the caller) before <regex.h>.  */
+
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <sys/types.h>
 #include <regex.h>
 #include <string.h>

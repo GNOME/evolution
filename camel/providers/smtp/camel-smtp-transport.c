@@ -22,7 +22,9 @@
  * USA
  */
 
-#include "config.h"
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
 #include <sys/param.h>
 #include <sys/types.h>
@@ -331,8 +333,8 @@ smtp_connect (CamelService *service, CamelException *ex)
 		
 		if (!transport->is_esmtp || !g_hash_table_lookup (transport->authtypes, service->url->authmech)) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
-					      "SMTP server %s does not support requested "
-					      "authentication type %s", service->url->host,
+					      _("SMTP server %s does not support requested "
+					      "authentication type %s"), service->url->host,
 					      service->url->authmech);
 			camel_service_disconnect (service, TRUE, NULL);
 			return FALSE;
@@ -341,7 +343,7 @@ smtp_connect (CamelService *service, CamelException *ex)
 		authtype = camel_sasl_authtype (service->url->authmech);
 		if (!authtype) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
-					      "No support for authentication type %s",
+					      _("No support for authentication type %s"),
 					      service->url->authmech);
 			camel_service_disconnect (service, TRUE, NULL);
 			return FALSE;

@@ -23,7 +23,11 @@
  * USA
  */
 
-#include "config.h"
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
+#include <string.h>
 #include "camel-nntp-store.h"
 #include "camel-provider.h"
 #include "camel-session.h"
@@ -47,9 +51,7 @@ static CamelProvider news_provider = {
 	CAMEL_URL_NEED_HOST | CAMEL_URL_ALLOW_USER |
 	CAMEL_URL_ALLOW_PASSWORD | CAMEL_URL_ALLOW_AUTH,
 
-	{ 0, 0 },
-
-	NULL
+	/* ... */
 };
 
 void

@@ -22,10 +22,10 @@
 #ifndef _CAMEL_FOLDER_SUMMARY_H
 #define _CAMEL_FOLDER_SUMMARY_H
 
-#include <camel/camel-object.h>
 #include <stdio.h>
 #include <time.h>
 #include <camel/camel-mime-parser.h>
+#include <camel/camel-object.h>
 #include <libibex/ibex.h>
 
 #define CAMEL_FOLDER_SUMMARY(obj)         CAMEL_CHECK_CAST (obj, camel_folder_summary_get_type (), CamelFolderSummary)

@@ -34,8 +34,8 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus }*/
 
-#include <camel/camel-seekable-stream.h>
 #include <stdio.h>
+#include <camel/camel-seekable-stream.h>
 
 #define CAMEL_STREAM_BUFFER_TYPE     (camel_stream_buffer_get_type ())
 #define CAMEL_STREAM_BUFFER(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_STREAM_BUFFER_TYPE, CamelStreamBuffer))

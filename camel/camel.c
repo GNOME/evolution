@@ -23,8 +23,10 @@
  * USA
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
-#include "camel.h"
+#endif
+
 #include <unicode.h>
 #ifdef HAVE_NSS
 #include <nspr.h>
@@ -32,6 +34,8 @@
 #include "nss.h"      /* Don't use <> here or it will include the system nss.h instead */
 #include <ssl.h>
 #endif /* HAVE_NSS */
+
+#include "camel.h"
 
 gboolean camel_verbose_debug = FALSE;
 

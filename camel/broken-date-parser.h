@@ -20,16 +20,7 @@
  *
  */
 
-#include <config.h>
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
 #include <glib.h>
-#include <time.h>
-
-#include <ctype.h>
 
 /* prototypes for functions dealing with broken date formats */
 

@@ -22,7 +22,12 @@
  * USA
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
+
+#include <errno.h>
+#include <string.h>
 
 #include "camel-imap-folder.h"
 #include "camel-imap-wrapper.h"
@@ -33,9 +38,6 @@
 #include "camel-mime-filter-crlf.h"
 #include "camel-mime-filter-charset.h"
 #include "camel-mime-part.h"
-
-#include <errno.h>
-#include <string.h>
 
 static CamelDataWrapperClass *parent_class = NULL;
 

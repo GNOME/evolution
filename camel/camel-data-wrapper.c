@@ -22,13 +22,17 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
  * USA
  */
+
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
+
+#include <errno.h>
+
 #include "camel-data-wrapper.h"
 #include "camel-mime-utils.h"
 #include "camel-stream.h"
 #include "camel-exception.h"
-
-#include <errno.h>
 
 #define d(x)
 

@@ -24,11 +24,12 @@
  * USA
  */
 
-
-
+#ifdef HAVE_CONFIG_H
 #include <config.h>
-#include "gstring-util.h"
+#endif
+
 #include <string.h>
+#include "gstring-util.h"
 
 /**
  * g_string_equals : test if two string are equal

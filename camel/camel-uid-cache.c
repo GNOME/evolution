@@ -23,14 +23,17 @@
  * USA
  */
 
-#include "config.h"
-#include "camel-uid-cache.h"
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
 #include <errno.h>
 #include <fcntl.h>
 #include <string.h>
 #include <sys/stat.h>
 #include <unistd.h>
+
+#include "camel-uid-cache.h"
 
 static void free_uid (gpointer key, gpointer value, gpointer data);
 static void maybe_write_uid (gpointer key, gpointer value, gpointer data);

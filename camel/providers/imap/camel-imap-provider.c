@@ -22,8 +22,11 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
-#include "config.h"
+#include <string.h>
 #include "camel-imap-store.h"
 #include "camel-provider.h"
 #include "camel-session.h"

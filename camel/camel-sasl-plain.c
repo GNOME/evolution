@@ -20,10 +20,13 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
+
+#include <string.h>
 #include "camel-sasl-plain.h"
 #include "camel-service.h"
-#include <string.h>
 
 CamelServiceAuthType camel_sasl_plain_authtype = {
 	N_("Password"),

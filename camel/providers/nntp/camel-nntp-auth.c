@@ -21,7 +21,11 @@
  * USA
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
+#include <string.h>
 #include <camel-nntp-auth.h>
 #include <camel-nntp-store.h>
 #include <camel-nntp-resp-codes.h>

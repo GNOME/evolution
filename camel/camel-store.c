@@ -24,16 +24,17 @@
  * USA
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
+
 #include <string.h>
 
 #include "camel-session.h"
-
 #include "camel-store.h"
 #include "camel-folder.h"
 #include "camel-vtrash-folder.h"
 #include "camel-exception.h"
-
 #include "camel-private.h"
 
 static CamelServiceClass *parent_class = NULL;

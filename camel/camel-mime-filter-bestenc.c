@@ -18,9 +18,9 @@
  *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#include "camel-mime-filter-bestenc.h"
-
 #include <string.h>
+
+#include "camel-mime-filter-bestenc.h"
 
 static void camel_mime_filter_bestenc_class_init (CamelMimeFilterBestencClass *klass);
 static void camel_mime_filter_bestenc_init       (CamelMimeFilter *obj);

@@ -23,7 +23,9 @@
  * USA
  */
 
-#include "config.h"
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -177,7 +179,7 @@ get_folder (CamelStore *store, const char *folder_name,
 	if (!lf) {
 		camel_object_unref (CAMEL_OBJECT (rf));
 		camel_exception_setv (ex, camel_exception_get_id (ex),
-				      "Could not create cache folder:\n%s",
+				      _("Could not create cache folder:\n%s"),
 				      camel_exception_get_description (ex));
 		return NULL;
 	}

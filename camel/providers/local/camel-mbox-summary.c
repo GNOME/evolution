@@ -20,6 +20,10 @@
  *  USA
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "camel-mbox-summary.h"
 #include "camel/camel-mime-message.h"
 #include "camel/camel-operation.h"

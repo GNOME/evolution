@@ -20,6 +20,9 @@
  *
  */
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "broken-date-parser.h"
 
 /* prototypes for functions dealing with broken date formats */

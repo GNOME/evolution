@@ -28,9 +28,9 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus }*/
 
-#include <camel/camel-sasl.h>
 #include <sys/types.h>
 #include <netdb.h>
+#include <camel/camel-sasl.h>
 
 #define CAMEL_SASL_KERBEROS4_TYPE     (camel_sasl_kerberos4_get_type ())
 #define CAMEL_SASL_KERBEROS4(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_SASL_KERBEROS4_TYPE, CamelSaslKerberos4))

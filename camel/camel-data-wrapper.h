@@ -34,6 +34,7 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus }*/
 
+#include <glib.h>
 #include <camel/camel-object.h>
 
 #define CAMEL_DATA_WRAPPER_TYPE     (camel_data_wrapper_get_type ())

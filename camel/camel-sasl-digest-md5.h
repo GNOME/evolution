@@ -28,9 +28,9 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus }*/
 
-#include <camel/camel-sasl.h>
 #include <sys/types.h>
 #include <netdb.h>
+#include <camel/camel-sasl.h>
 
 #define CAMEL_SASL_DIGEST_MD5_TYPE     (camel_sasl_digest_md5_get_type ())
 #define CAMEL_SASL_DIGEST_MD5(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_SASL_DIGEST_MD5_TYPE, CamelSaslDigestMd5))

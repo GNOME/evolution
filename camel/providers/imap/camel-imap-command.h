@@ -33,8 +33,8 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus }*/
 
-#include "camel-imap-types.h"
 #include <glib.h>
+#include "camel-imap-types.h"
 
 struct _CamelImapResponse {
 	CamelFolder *folder;

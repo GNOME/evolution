@@ -23,7 +23,10 @@
  * USA
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
+
 #include "camel-stream-null.h"
 
 static CamelObjectClass *parent_class = NULL;

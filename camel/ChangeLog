@@ -1,3 +1,129 @@
+2001-03-29  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* broken-date-parser.c: #include <stdio.h>, <stdlib.h> and <string.h>
+	* broken-date-parser.h: Remove all includes but <glib.h>
+	* camel-address.h: Added #include <glib.h>
+	* camel-data-wrapper.c: Move system includes to the top.
+	* camel-data-wrapper.h: #include <glib.h>
+	* camel-exception.c: #ifdef HAVE_CONFIG_H
+	* camel-exception.h: Remove #include <glib.h>
+	* camel-filter-driver.c: #ifdef HAVE_CONFIG_H and move system
+	headers to top. Mark strings in camel_exception_set*() for i18n.
+	* camel-filter-driver.h: #include <glib.h>
+	* camel-filter-search.c: #ifdef HAVE_CONFIG_H
+	* camel-folder-search.c: #include <config.h>
+	* camel-folder-search.h: Header shuffling
+	* camel-folder-summary.h: Same here
+	* camel-folder-thread.c: #ifdef HAVE_CONFIG_H
+	* camel-folder.c: Here too.
+	* camel-folder.h: #include <glib.h>
+	* camel-internet-address.c: Move system headers up
+	* camel-lock.c: #ifdef HAVE_CONFIG_H
+	* camel-medium.c: Same here
+	* camel-mime-filter-bestenc.c: Move system headers up
+	* camel-mime-filter-from.c: Same here
+	* camel-mime-filter-linewrap.c: And here
+	* camel-mime-filter.c: #include <string.h> to fix warnings from new gcc
+	* camel-mime-filter.h: System headers moved up
+	* camel-mime-message.c: Here too. #ifdef HAVE_CONFIG_H added
+	* camel-mime-part-utils.c: #ifdef HAVE_CONFIG_H added
+	* camel-mime-part.c: Here too, and shuffle headers
+	* camel-mime-utils.c: #ifdef HAVE_CONFIG_H. Remove const from two
+	variables to remove warning.
+	* camel-mime-utils.h: Shuffle headers
+	* camel-movemail.c: #ifdef HAVE_CONFIG_H. Mark string in camel_exception_set
+	* camel-multipart.c: #ifdef HAVE_CONFIG_H. Added includes to remove
+	warnings from new gcc
+	* camel-object.c: #ifdef HAVE_CONFIG_H
+	* camel-object.h: Shuffle headers
+	* camel-operation.c: #ifdef HAVE_CONFIG_H
+	* camel-provider.c: #ifdef HAVE_CONFIG_H. Shuffle headers. Mark a string
+	* camel-remote-store.c: #ifdef HAVE_CONFIG_H
+	* camel-sasl-anonymous.c: #ifdef HAVE_CONFIG_H. #include <string.h>
+	* camel-sasl-cram-md5.c: #ifdef HAVE_CONFIG_H. #include <string.h> and
+	<stdio.h> to remove warnings.
+	* camel-sasl-digest-md5.c: #ifdef HAVE_CONFIG_H. shuffle headers
+	* camel-sasl-digest-md5.h: Shuffle headers.
+	* camel-sasl-kerberos4.c: #ifdef HAVE_CONFIG_H. Shuffle headers.
+	* camel-sasl-kerberos4.h: Shuffle headers.
+	* camel-sasl-plain.c: #ifdef HAVE_CONFIG_H. Shuffle
+	* camel-sasl.c: #ifdef HAVE_CONFIG_H. #include <string.h>
+	* camel-search-private.c: #include <config.h>
+	* camel-seekable-stream.c: #ifdef HAVE_CONFIG_H
+	* camel-seekable-stream.h: Shuffle
+	* camel-seekable-substream.c: #ifdef HAVE_CONFIG_H
+	* camel-service.c: Same
+	* camel-service.h: Shuffle
+	* camel-session.c: #ifdef HAVE_CONFIG_H
+	* camel-store.c: Same
+	* camel-stream-buffer.c: Here too
+	* camel-stream-buffer.h: Shuffle
+	* camel-stream-filter.c: #include <string.h>
+	* camel-stream-fs.c: #ifdef HAVE_CONFIG_H
+	* camel-stream-fs.h: Shuffle headers
+	* camel-stream-mem.c: Same as above
+	* camel-stream-mem.h: Here too
+	* camel-stream-null.c: #ifdef HAVE_CONFIG_H
+	* camel-stream.c: Here too
+	* camel-stream.h: Shuffle
+	* camel-tcp-stream-openssl.c: #ifdef HAVE_CONFIG_H
+	* camel-tcp-stream-raw.c: Same here. and move local includes down
+	* camel-tcp-stream-ssl.c: Same as above
+	* camel-tcp-stream.c: #ifdef HAVE_CONFIG_H
+	* camel-tcp-stream.h: move local include down
+	* camel-transport.c: #ifdef HAVE_CONFIG_H
+	* camel-transport.h: #include <glib.h>
+	* camel-uid-cache.c: #ifdef HAVE_CONFIG_H. Shuffle headers
+	* camel-uid-cache.h: Shuffle
+	* camel-url.c: #ifdef HAVE_CONFIG_H
+	* camel-vee-folder.c: #ifdef HAVE_CONFIG_H. Shuffle headers
+	* camel-vee-folder.h: #include <glib.h>
+	* camel-vee-store.h: Same here
+	* camel.c: #ifdef HAVE_CONFIG_H
+	* gstring-util.c: Here too
+	* hash-table-utils.c: Remove #include <glib.h>
+	* hash-table-utils.h: #include it here instead.
+	* string-utils.c: #ifdef HAVE_CONFIG_H
+	* providers/cache/camel-cache-map.c: #ifdef HAVE_CONFIG_H, shuffle
+	headers and mark strings in camel_exception_set*()
+	* providers/cache/camel-cache-provider.c: #ifdef HAVE_CONFIG_H
+	* providers/cache/camel-cache-store.c: Same here, and mark a string.
+	* providers/imap/camel-imap-command.c: #ifdef HAVE_CONFIG_H
+	* providers/imap/camel-imap-command.h: Shuffle header
+	* providers/imap/camel-imap-folder.c: #ifdef HAVE_CONFIG_H
+	* providers/imap/camel-imap-message-cache.c: #ifdef HAVE_CONFIG_H
+	* providers/imap/camel-imap-provider.c: #ifdef HAVE_CONFIG_H and
+	#include <string.h>
+	* providers/imap/camel-imap-search.c: #ifdef HAVE_CONFIG_H
+	* providers/imap/camel-imap-store.c: #ifdef HAVE_CONFIG_H and mark
+	a string.
+	* providers/imap/camel-imap-summary.c: Shuffle headers
+	* providers/imap/camel-imap-wrapper.c: #ifdef HAVE_CONFIG_H. Shuffle
+	* providers/local/camel-local-folder.c: #ifdef HAVE_CONFIG_H
+	* providers/local/camel-local-provider.c: #ifdef HAVE_CONFIG_H
+	* providers/local/camel-local-store.c: Same here
+	* providers/local/camel-local-summary.c: Here too, shuffle, mark a string
+	* providers/local/camel-maildir-folder.c: #ifdef HAVE_CONFIG_H
+	* providers/local/camel-maildir-store.c: Same
+	* providers/local/camel-maildir-summary.c: Here too
+	* providers/local/camel-mbox-summary.c: And here
+	* providers/local/camel-mbox-store.c: And here
+	* providers/local/camel-mbox-summary.c: #include <config.h>
+	* providers/local/camel-mh-folder.c: #ifdef HAVE_CONFIG_H
+	* providers/local/camel-mh-store.c: same
+	* providers/local/camel-mh-summary.c: #ifdef HAVE_CONFIG_H, shuffle headers
+	and mark a string for translation.
+	* providers/nntp/camel-nntp-auth.c: #include <config.h>
+	* providers/nntp/camel-nntp-store.c: Remove superfluous arg to 
+	CAMEL_SERVICE_CLASS to make it compile
+	* providers/pop3/camel-pop3-provider.c: #ifdef HAVE_CONFIG_H
+	* providers/pop3/camel-pop3-store.c: Same here
+	* providers/sendmail/camel-sendmail-provider.c: Here too
+	* providers/sendmail/camel-sendmail-transport.c: Here too
+	* providers/smtp/camel-smtp-provider.c: Same
+	* providers/smtp/camel-smtp-transport.c: #ifdef HAVE_CONFIG_H, mark
+	strings for translations.
+	
 2001-03-29  Dan Winship  <danw@ximian.com>
 
 	* camel-url.c (camel_url_to_string): change "gboolean show_passwd"

@@ -23,7 +23,10 @@
  * USA
  */
 
-#include "config.h"
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "camel-cache-store.h"
 #include "camel-provider.h"
 #include "camel-session.h"

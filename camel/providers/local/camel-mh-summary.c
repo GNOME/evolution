@@ -18,8 +18,9 @@
  *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#include "camel-mh-summary.h"
-#include <camel/camel-mime-message.h>
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
 #include <sys/stat.h>
 #include <sys/uio.h>
@@ -32,6 +33,9 @@
 #include <dirent.h>
 
 #include <ctype.h>
+
+#include "camel-mh-summary.h"
+#include <camel/camel-mime-message.h>
 
 #define d(x) /*(printf("%s(%d): ", __FILE__, __LINE__),(x))*/
 
@@ -211,7 +215,7 @@ mh_summary_check(CamelLocalSummary *cls, CamelFolderChangeInfo *changeinfo, Came
 	   no longer exist */
 	dir = opendir(cls->folder_path);
 	if (dir == NULL) {
-		camel_exception_setv(ex, 1, "Cannot open MH directory path: %s: %s", cls->folder_path, strerror(errno));
+		camel_exception_setv(ex, 1, _("Cannot open MH directory path: %s: %s"), cls->folder_path, strerror(errno));
 		return -1;
 	}
 

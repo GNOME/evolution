@@ -21,10 +21,11 @@
 
 /* dont touch this file without my permission - Michael */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
 
 #include <stdio.h>
-
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/param.h>  /* for MAXHOSTNAMELEN */
@@ -40,13 +41,13 @@
 #include <unicode.h>
 #include <iconv.h>
 
-#include <glib.h>
 #include <time.h>
 
 #include <ctype.h>
 #include <errno.h>
-
 #include <regex.h>
+
+#include <glib.h>
 
 #include "camel-mime-utils.h"
 #include "camel-charset-map.h"
@@ -902,7 +903,7 @@ rfc2047_decode_word(const char *in, int len)
 {
 	const char *inptr = in+2;
 	const char *inend = in+len-2;
-	const char *inbuf;
+	char *inbuf;
 	char *encname;
 	int tmplen;
 	int ret;
@@ -1145,7 +1146,7 @@ rfc2047_encode_word(GString *outstring, const char *in, int len, const char *typ
 	iconv_t ic = (iconv_t *)-1;
 	char *buffer, *out, *ascii;
 	size_t inlen, outlen, enclen, bufflen;
-	const char *inptr, *p;
+	char *inptr, *p;
 	int first = 1;
 
 	d(printf("Converting [%d] '%.*s' to %s\n", len, len, in, type));

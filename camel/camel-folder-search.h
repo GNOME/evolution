@@ -22,11 +22,11 @@
 #ifndef _CAMEL_FOLDER_SEARCH_H
 #define _CAMEL_FOLDER_SEARCH_H
 
-#include <camel/camel-object.h>
-#include <e-util/e-sexp.h>
 #include <gal/util/e-util.h>
+#include <e-util/e-sexp.h>
 #include <libibex/ibex.h>
 #include <camel/camel-folder.h>
+#include <camel/camel-object.h>
 
 #define CAMEL_FOLDER_SEARCH_TYPE         (camel_folder_search_get_type ())
 #define CAMEL_FOLDER_SEARCH(obj)         CAMEL_CHECK_CAST (obj, camel_folder_search_get_type (), CamelFolderSearch)

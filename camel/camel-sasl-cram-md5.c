@@ -20,13 +20,16 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
+
+#include <stdio.h>
+#include <string.h>
 #include "camel-sasl-cram-md5.h"
 #include "camel-mime-utils.h"
 #include "camel-service.h"
 #include <e-util/md5-utils.h>
-#include <stdio.h>
-#include <string.h>
 
 CamelServiceAuthType camel_sasl_cram_md5_authtype = {
 	N_("CRAM-MD5"),

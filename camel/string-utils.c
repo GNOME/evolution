@@ -24,7 +24,10 @@
  * USA
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
+
 #include "string-utils.h"
 #include "string.h"
 

@@ -23,8 +23,9 @@
  * USA
  */
 
-#include "camel-cache-map.h"
-#include <camel/camel-exception.h>
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
 #include <errno.h>
 #include <fcntl.h>
@@ -32,6 +33,9 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <unistd.h>
+
+#include "camel-cache-map.h"
+#include <camel/camel-exception.h>
 
 /**
  * camel_cache_map_new:
@@ -192,7 +196,7 @@ camel_cache_map_write (CamelCacheMap *map, const char *file,
 	if (fd == -1) {
 		g_free (tmpfile);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      "Could not create cache map file: %s",
+				      _("Could not create cache map file: %s"),
 				      g_strerror (errno));
 		return;
 	}
@@ -202,7 +206,7 @@ camel_cache_map_write (CamelCacheMap *map, const char *file,
 	if (close (fd) == -1 ||
 	    rename (tmpfile, file) == -1) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      "Could not save cache map file: %s",
+				      _("Could not save cache map file: %s"),
 				      g_strerror (errno));
 		unlink (tmpfile);
 	}
@@ -231,7 +235,7 @@ camel_cache_map_read (CamelCacheMap *map, const char *file, CamelException *ex)
 	f = fopen (file, "r");
 	if (!f) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      "Could not open cache map file: %s",
+				      _("Could not open cache map file: %s"),
 				      g_strerror (errno));
 		return;
 	}
@@ -242,7 +246,7 @@ camel_cache_map_read (CamelCacheMap *map, const char *file, CamelException *ex)
 			q = strchr (buf, '\n');
 		if (!p || !q) {
 			camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
-					     "Bad cache file.");
+					     _("Bad cache file."));
 			return;
 		}
 		*p++ = *q = '\0';

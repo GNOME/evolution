@@ -20,7 +20,9 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
 
 #ifdef HAVE_KRB4
 
@@ -30,9 +32,9 @@
  */
 #undef _
 
+#include <string.h>
 #include "camel-sasl-kerberos4.h"
 #include "camel-service.h"
-#include <string.h>
 
 CamelServiceAuthType camel_sasl_kerberos4_authtype = {
 	N_("Kerberos 4"),

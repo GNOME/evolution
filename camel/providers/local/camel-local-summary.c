@@ -20,17 +20,20 @@
  *  USA
  */
 
-#include "camel-local-summary.h"
-#include <camel/camel-mime-message.h>
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
 #include <ctype.h>
-
 #include <sys/stat.h>
 #include <sys/uio.h>
 #include <unistd.h>
 #include <errno.h>
 #include <string.h>
 #include <stdlib.h>
+
+#include "camel-local-summary.h"
+#include <camel/camel-mime-message.h>
 
 #define io(x)
 #define d(x) /*(printf("%s(%d): ", __FILE__, __LINE__),(x))*/
@@ -398,7 +401,7 @@ local_summary_add(CamelLocalSummary *cls, CamelMimeMessage *msg, const CamelMess
 		camel_folder_change_info_add_uid(ci, camel_message_info_uid(mi));
 	} else {
 		d(printf("Failed!\n"));
-		camel_exception_set(ex, 1, "Unable to add message to summary: unknown reason");
+		camel_exception_set(ex, 1, _("Unable to add message to summary: unknown reason"));
 	}
 	return mi;
 }

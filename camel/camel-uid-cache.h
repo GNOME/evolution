@@ -31,8 +31,8 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus */
 
-#include <glib.h>
 #include <stdio.h>
+#include <glib.h>
 
 typedef struct {
 	int fd, level;

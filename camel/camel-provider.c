@@ -29,10 +29,9 @@
 
 /* FIXME: Shouldn't we add a version number to providers ? */
 
-#include "config.h"
-#include "camel-provider.h"
-#include "camel-exception.h"
-#include "hash-table-utils.h"
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
 #include <dirent.h>
 #include <errno.h>
@@ -40,6 +39,10 @@
 #include <string.h>
 
 #include <gmodule.h>
+
+#include "camel-provider.h"
+#include "camel-exception.h"
+#include "hash-table-utils.h"
 
 /**
  * camel_provider_init:
@@ -125,8 +128,8 @@ camel_provider_load (CamelSession *session, const char *path, CamelException *ex
 
 	if (!g_module_supported ()) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      "Could not load %s: Module loading "
-				      "not supported on this system.",
+				      _("Could not load %s: Module loading "
+				      "not supported on this system."),
 				      path);
 		return;
 	}

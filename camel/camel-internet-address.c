@@ -18,11 +18,11 @@
  *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#include "camel-mime-utils.h"
-#include "camel-internet-address.h"
-
 #include <stdio.h>
 #include <string.h>
+
+#include "camel-mime-utils.h"
+#include "camel-internet-address.h"
 
 #define d(x) 
 

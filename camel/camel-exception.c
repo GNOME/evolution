@@ -24,7 +24,11 @@
  * USA
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
+
+#include <glib.h>
 #include "camel-exception.h"
 
 /* i dont know why gthread_mutex stuff even exists, this is easier */

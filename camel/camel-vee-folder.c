@@ -20,7 +20,11 @@
  *  USA
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
+
+#include <string.h>
 
 #include "camel-exception.h"
 #include "camel-vee-folder.h"
@@ -37,8 +41,6 @@
 #ifdef DOESTRV
 #include "e-util/e-memory.h"
 #endif
-
-#include <string.h>
 
 #define d(x)
 

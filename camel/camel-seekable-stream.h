@@ -33,9 +33,9 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus }*/
 
-#include <camel/camel-stream.h>
 #include <sys/types.h>
 #include <unistd.h>
+#include <camel/camel-stream.h>
 
 #define CAMEL_SEEKABLE_STREAM_TYPE     (camel_seekable_stream_get_type ())
 #define CAMEL_SEEKABLE_STREAM(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_SEEKABLE_STREAM_TYPE, CamelSeekableStream))

@@ -20,10 +20,10 @@
  *
  */
 
-
+#ifdef HAVE_CONFIG_H
 #include <config.h>
-#include "camel-tcp-stream-raw.h"
-#include "camel-operation.h"
+#endif
+
 #include <sys/time.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -31,6 +31,8 @@
 #include <fcntl.h>
 #include <errno.h>
 #include <string.h>
+#include "camel-tcp-stream-raw.h"
+#include "camel-operation.h"
 
 static CamelTcpStreamClass *parent_class = NULL;
 

@@ -23,6 +23,7 @@
 #ifndef _CAMEL_FILTER_DRIVER_H
 #define _CAMEL_FILTER_DRIVER_H
 
+#include <glib.h>
 #include <camel/camel-object.h>
 #include <camel/camel-session.h>
 #include <camel/camel-folder.h>

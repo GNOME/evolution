@@ -20,7 +20,9 @@
  * USA
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
 
 #include <stdlib.h>
 #include <sys/types.h>
@@ -147,7 +149,7 @@ static int mbox_lock(CamelLocalFolder *lf, CamelLockType type, CamelException *e
 
 	mf->lockfd = open(lf->folder_path, O_RDWR, 0);
 	if (mf->lockfd == -1) {
-		camel_exception_setv(ex, 1, "Cannot create folder lock on %s: %s", lf->folder_path, strerror(errno));
+		camel_exception_setv(ex, 1, _("Cannot create folder lock on %s: %s"), lf->folder_path, strerror(errno));
 		return -1;
 	}
 

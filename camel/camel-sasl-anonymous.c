@@ -20,7 +20,11 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
+
+#include <string.h>
 #include "camel-sasl-anonymous.h"
 #include "camel-internet-address.h"
 #include <string.h>

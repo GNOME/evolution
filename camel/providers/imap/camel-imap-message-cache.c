@@ -23,7 +23,9 @@
  * USA
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
 
 #include <ctype.h>
 #include <dirent.h>

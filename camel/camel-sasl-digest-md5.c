@@ -20,16 +20,19 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
-#include "camel-sasl-digest-md5.h"
-#include "camel-mime-utils.h"
-#include <e-util/md5-utils.h>
+#endif
+
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
 #include <unistd.h>
-
 #include <iconv.h>
+#include "camel-sasl-digest-md5.h"
+#include "camel-mime-utils.h"
+#include <e-util/md5-utils.h>
+
 
 #define d(x)
 

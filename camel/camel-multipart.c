@@ -28,15 +28,19 @@
  * USA
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
+
+#include <string.h> /* strlen() */
+#include <unistd.h> /* for getpid */
+#include <time.h>   /* for time */
+
 #include "camel-stream-mem.h"
 #include "camel-multipart.h"
 #include "camel-mime-part.h"
 #include "camel-exception.h"
 #include "md5-utils.h"
-
-#include <unistd.h> /* for getpid */
-#include <time.h>   /* for time */
 
 #define d(x)
 

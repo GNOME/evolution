@@ -22,15 +22,18 @@
 
 /* TODO: This could probably be made a camel object, but it isn't really required */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
+
 #include <sys/types.h>
 #include <unistd.h>
 #include <errno.h>
 #include <string.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-#include <glib.h>
 #include <ctype.h>
+#include <glib.h>
 
 #include "camel-folder-thread.h"
 #include "e-util/e-memory.h"

@@ -32,10 +32,10 @@ extern "C" {
 #endif				/* __cplusplus } */
 
 #include <stdlib.h>		/* size_t */
-#include <camel/camel-types.h>
 #include <glib.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
+#include <camel/camel-types.h>
 
 #ifdef G_DISABLE_CHECKS
 #define CAMEL_CHECK_CAST( obj, ctype, ptype )         ((ptype *) obj)

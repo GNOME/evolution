@@ -23,8 +23,8 @@
 #ifndef _CAMEL_MIME_FILTER_H
 #define _CAMEL_MIME_FILTER_H
 
-#include <camel/camel-object.h>
 #include <sys/types.h>
+#include <camel/camel-object.h>
 
 #define CAMEL_MIME_FILTER_TYPE         (camel_mime_filter_get_type ())
 #define CAMEL_MIME_FILTER(obj)         CAMEL_CHECK_CAST (obj, camel_mime_filter_get_type (), CamelMimeFilter)

@@ -20,9 +20,12 @@
  * USA
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <stdio.h>
 
-#include "config.h"
 #include "camel-provider.h"
 #include "camel-session.h"
 #include "camel-url.h"

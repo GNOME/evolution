@@ -22,6 +22,7 @@
 #ifndef _CAMEL_VEE_FOLDER_H
 #define _CAMEL_VEE_FOLDER_H
 
+#include <glib.h>
 #include <camel/camel-folder.h>
 
 #define CAMEL_VEE_FOLDER(obj)         CAMEL_CHECK_CAST (obj, camel_vee_folder_get_type (), CamelVeeFolder)

@@ -33,12 +33,12 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus }*/
 
-#include <camel/camel-seekable-stream.h>
-
 /* for open flags */
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+
+#include <camel/camel-seekable-stream.h>
 
 #define CAMEL_STREAM_FS_TYPE     (camel_stream_fs_get_type ())
 #define CAMEL_STREAM_FS(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_STREAM_FS_TYPE, CamelStreamFs))

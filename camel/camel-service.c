@@ -23,14 +23,17 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
  * USA
  */
+
+#ifdef HAVE_CONFIG_H
 #include <config.h>
-#include "camel-service.h"
-#include "camel-session.h"
-#include "camel-exception.h"
+#endif
 
 #include <ctype.h>
 #include <stdlib.h>
 
+#include "camel-service.h"
+#include "camel-session.h"
+#include "camel-exception.h"
 #include "camel-private.h"
 
 static CamelObjectClass *parent_class = NULL;

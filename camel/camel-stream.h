@@ -33,9 +33,9 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus }*/
 
-#include <camel/camel-object.h>
 #include <stdarg.h>
 #include <unistd.h>
+#include <camel/camel-object.h>
 
 #define CAMEL_STREAM_TYPE     (camel_stream_get_type ())
 #define CAMEL_STREAM(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_STREAM_TYPE, CamelStream))

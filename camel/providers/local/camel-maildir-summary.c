@@ -18,8 +18,9 @@
  *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#include "camel-maildir-summary.h"
-#include <camel/camel-mime-message.h>
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
 #include <sys/stat.h>
 #include <sys/uio.h>
@@ -32,6 +33,9 @@
 #include <dirent.h>
 
 #include <ctype.h>
+
+#include "camel-maildir-summary.h"
+#include <camel/camel-mime-message.h>
 
 #include "camel-private.h"
 #include "e-util/e-memory.h"
@@ -398,7 +402,7 @@ static int maildir_summary_load(CamelLocalSummary *cls, int forceindex, CamelExc
 
 	dir = opendir(cur);
 	if (dir == NULL) {
-		camel_exception_setv(ex, 1, "Cannot open maildir directory path: %s: %s", cls->folder_path, strerror(errno));
+		camel_exception_setv(ex, 1, _("Cannot open maildir directory path: %s: %s"), cls->folder_path, strerror(errno));
 		g_free(cur);
 		return -1;
 	}
@@ -519,7 +523,7 @@ maildir_summary_check(CamelLocalSummary *cls, CamelFolderChangeInfo *changes, Ca
 	   no longer exist */
 	dir = opendir(cur);
 	if (dir == NULL) {
-		camel_exception_setv(ex, 1, "Cannot open maildir directory path: %s: %s", cls->folder_path, strerror(errno));
+		camel_exception_setv(ex, 1, _("Cannot open maildir directory path: %s: %s"), cls->folder_path, strerror(errno));
 		g_free(cur);
 		g_free(new);
 		return -1;

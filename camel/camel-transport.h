@@ -34,6 +34,7 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus }*/
 
+#include <glib.h>
 #include <camel/camel-service.h>
 
 #define CAMEL_TRANSPORT_TYPE     (camel_transport_get_type ())

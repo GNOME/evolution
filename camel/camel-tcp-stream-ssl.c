@@ -20,12 +20,11 @@
  *
  */
 
-
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
 
 #ifdef HAVE_NSS
-#include "camel-tcp-stream-ssl.h"
-#include "camel-session.h"
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -39,6 +38,9 @@
 #include <prerr.h>
 #include "nss.h"    /* Don't use <> here or it will include the system nss.h instead */
 #include <ssl.h>
+
+#include "camel-tcp-stream-ssl.h"
+#include "camel-session.h"
 
 static CamelTcpStreamClass *parent_class = NULL;
 

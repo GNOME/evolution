@@ -22,8 +22,9 @@
  *
  */
 
-
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -854,7 +855,7 @@ get_folder (CamelStore *store, const char *folder_name, guint32 flags,
 
 	if (!selectable) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
-				      "%s is not a selectable folder",
+				      _("%s is not a selectable folder"),
 				      folder_name);
 		g_free (short_name);
 		return NULL;

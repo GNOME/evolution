@@ -98,7 +98,7 @@ camel_nntp_get_grouplist_from_file (CamelNNTPStore *store, CamelException *ex)
 	}
 
 	/* read the time */
-	if (!fgets (buf, 300, fp)) {
+	if (!fgets (buf, sizeof (buf), fp)) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
 				      _("Unable to load grouplist file for %s: %s"),
 				      CAMEL_SERVICE(store)->url->host,
@@ -113,7 +113,7 @@ camel_nntp_get_grouplist_from_file (CamelNNTPStore *store, CamelException *ex)
 	sscanf (buf, "%lu", &time);
 	list->time = time;
 
-	while (fgets (buf, 300, fp)) {
+	while (fgets (buf, sizeof (buf), fp)) {
 		CamelNNTPGroupListEntry *entry = g_new (CamelNNTPGroupListEntry, 1);
 		char **split_line = g_strsplit (buf, " ", 4);
 

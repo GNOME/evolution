@@ -32,6 +32,7 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus }*/
 
+#include <glib.h>
 #include <camel/camel-object.h>
 #include <camel/camel-folder-summary.h>
 

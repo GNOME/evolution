@@ -23,10 +23,13 @@
  * USA
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
+
 #include <string.h>
-#include "camel-folder.h"
-#include "camel-exception.h"
+#include <camel/camel-folder.h>
+#include <camel/camel-exception.h>
 #include "camel-store.h"
 #include "camel-mime-message.h"
 #include "string-utils.h"

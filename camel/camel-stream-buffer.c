@@ -22,13 +22,16 @@
  * USA
  */
 
-
+#ifdef HAVE_CONFIG_H
 #include <config.h>
-#include "camel-stream-buffer.h"
+#endif
+
+#include <string.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <errno.h>
+#include "camel-stream-buffer.h"
 
 static CamelStreamClass *parent_class = NULL;
 

@@ -22,15 +22,15 @@
  *  USA
  */
 
-#include "camel-imap-summary.h"
-#include <camel/camel-mime-message.h>
-
 #include <sys/stat.h>
 #include <sys/uio.h>
 #include <unistd.h>
 #include <errno.h>
 #include <string.h>
 #include <stdlib.h>
+
+#include "camel-imap-summary.h"
+#include <camel/camel-mime-message.h>
 
 #define CAMEL_IMAP_SUMMARY_VERSION (0x300)
 

@@ -22,8 +22,8 @@
 #ifndef _CAMEL_MIME_UTILS_H
 #define _CAMEL_MIME_UTILS_H
 
-#include <glib.h>
 #include <time.h>
+#include <glib.h>
 
 /* maximum size of a line from header_fold() */
 #define CAMEL_FOLD_SIZE (77)

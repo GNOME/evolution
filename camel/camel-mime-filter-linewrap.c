@@ -19,8 +19,8 @@
  *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#include "camel-mime-filter-linewrap.h"
 #include <ctype.h>
+#include "camel-mime-filter-linewrap.h"
 
 static void filter (CamelMimeFilter *f, char *in, size_t len, size_t prespace,
 		    char **out, size_t *outlen, size_t *outprespace);

@@ -23,21 +23,24 @@
  * USA
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
+
 #include <string.h>
-#include "camel-mime-part.h"
 #include <stdio.h>
-#include "string-utils.h"
-#include "hash-table-utils.h"
-#include "camel-mime-part-utils.h"
 #include <ctype.h>
+#include "hash-table-utils.h"
 #include "camel-mime-parser.h"
 #include "camel-stream-mem.h"
 #include "camel-stream-filter.h"
 #include "camel-mime-filter-basic.h"
 #include "camel-mime-filter-crlf.h"
 #include "camel-mime-filter-charset.h"
+#include "camel-mime-part.h"
+#include "camel-mime-part-utils.h"
 #include "camel-exception.h"
+#include "string-utils.h"
 
 #define d(x) /*(printf("%s(%d): ", __FILE__, __LINE__),(x))*/
 

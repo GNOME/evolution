@@ -24,7 +24,12 @@
  * USA
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
+
+#include <stdio.h>
+#include <string.h>
 
 #include "camel-mime-message.h"
 #include "camel-multipart.h"
@@ -36,9 +41,6 @@
 #include "camel-stream-null.h"
 #include "camel-mime-filter-charset.h"
 #include "camel-mime-filter-bestenc.h"
-
-#include <stdio.h>
-#include <string.h>
 
 #define d(x)
 

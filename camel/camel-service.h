@@ -34,10 +34,10 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus }*/
 
+#include <netdb.h>
 #include <camel/camel-object.h>
 #include <camel/camel-url.h>
 #include <camel/camel-provider.h>
-#include <netdb.h>
 
 #define CAMEL_SERVICE_TYPE     (camel_service_get_type ())
 #define CAMEL_SERVICE(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_SERVICE_TYPE, CamelService))
