@@ -1939,23 +1939,29 @@ static void
 tag_editor_ok (GtkWidget *button, gpointer user_data)
 {
 	struct _tag_editor_data *data = user_data;
-	const char *name, *value;
+	CamelFolder *folder;
+	CamelTag *tags, *t;
+	GPtrArray *uids;
 	int i;
 	
 	if (FOLDER_BROWSER_IS_DESTROYED (data->fb))
 		goto done;
 	
-	name = message_tag_editor_get_name (data->editor);
-	if (!name)
+	tags = message_tag_editor_get_tag_list (data->editor);
+	if (tags == NULL)
 		goto done;
 	
-	value = message_tag_editor_get_value (data->editor);
+	folder = data->fb->folder;
+	uids = data->uids;
 	
-	camel_folder_freeze (data->fb->folder);
-	for (i = 0; i < data->uids->len; i++) {
-		camel_folder_set_message_user_tag (data->fb->folder, data->uids->pdata[i], name, value);
+	camel_folder_freeze (folder);
+	for (i = 0; i < uids->len; i++) {
+		for (t = tags; t; t = t->next)
+			camel_folder_set_message_user_tag (folder, uids->pdata[i], t->name, t->value);
 	}
-	camel_folder_thaw (data->fb->folder);
+	camel_folder_thaw (folder);
+	
+	camel_tag_list_free (&tags);
 	
  done:
 	gtk_widget_destroy (GTK_WIDGET (data->editor));
@@ -2017,11 +2023,14 @@ flag_for_followup (BonoboUIComponent *uih, void *user_data, const char *path)
 	
 	/* special-case... */
 	if (uids->len == 1) {
-		const char *tag_value;
+		CamelMessageInfo *info;
 		
-		tag_value = camel_folder_get_message_user_tag (fb->folder, uids->pdata[0], "follow-up");
-		if (tag_value)
-			message_tag_editor_set_value (MESSAGE_TAG_EDITOR (editor), tag_value);
+		info = camel_folder_get_message_info (fb->folder, uids->pdata[0]);
+		if (info) {
+			if (info->user_tags)
+				message_tag_editor_set_tag_list (MESSAGE_TAG_EDITOR (editor), info->user_tags);
+			camel_folder_free_message_info (fb->folder, info);
+		}
 	}
 	
 	gtk_signal_connect (GTK_OBJECT (editor), "destroy",
@@ -2035,7 +2044,7 @@ flag_followup_completed (BonoboUIComponent *uih, void *user_data, const char *pa
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
 	GPtrArray *uids;
-	time_t now;
+	char *now;
 	int i;
 	
 	if (FOLDER_BROWSER_IS_DESTROYED (fb))
@@ -2044,28 +2053,21 @@ flag_followup_completed (BonoboUIComponent *uih, void *user_data, const char *pa
 	uids = g_ptr_array_new ();
 	message_list_foreach (fb->message_list, enumerate_msg, uids);
 	
-	now = time (NULL);
+	now = header_format_date (time (NULL), 0);
 	
 	camel_folder_freeze (fb->folder);
 	for (i = 0; i < uids->len; i++) {
-		struct _FollowUpTag *tag;
-		const char *tag_value;
-		char *value;
+		const char *tag;
 		
-		tag_value = camel_folder_get_message_user_tag (fb->folder, uids->pdata[i], "follow-up");
-		if (!tag_value)
+		tag = camel_folder_get_message_user_tag (fb->folder, uids->pdata[i], "follow-up");
+		if (tag == NULL || *tag == '\0')
 			continue;
 		
-		tag = message_tag_followup_decode (tag_value);
-		tag->completed = now;
-		
-		value = message_tag_followup_encode (tag);
-		g_free (tag);
-		
-		camel_folder_set_message_user_tag (fb->folder, uids->pdata[i], "follow-up", value);
-		g_free (value);
+		camel_folder_set_message_user_tag (fb->folder, uids->pdata[i], "completed-on", now);
 	}
 	camel_folder_thaw (fb->folder);
+	
+	g_free (now);
 	
 	g_ptr_array_free (uids, TRUE);
 }
@@ -2085,7 +2087,9 @@ flag_followup_clear (BonoboUIComponent *uih, void *user_data, const char *path)
 	
 	camel_folder_freeze (fb->folder);
 	for (i = 0; i < uids->len; i++) {
-		camel_folder_set_message_user_tag (fb->folder, uids->pdata[i], "follow-up", NULL);
+		camel_folder_set_message_user_tag (fb->folder, uids->pdata[i], "follow-up", "");
+		camel_folder_set_message_user_tag (fb->folder, uids->pdata[i], "due-by", "");
+		camel_folder_set_message_user_tag (fb->folder, uids->pdata[i], "completed-on", "");
 	}
 	camel_folder_thaw (fb->folder);
 	
@@ -2761,7 +2765,7 @@ expunge_folder (BonoboUIComponent *uih, void *user_data, const char *path)
 			info = camel_folder_get_message_info (fb->folder, fb->loaded_uid);
 			
 			if (!info || info->flags & CAMEL_MESSAGE_DELETED)
-				mail_display_set_message (fb->mail_display, NULL, NULL);
+				mail_display_set_message (fb->mail_display, NULL, NULL, NULL);
 		}
 		
 		fb->expunging = fb->folder;
@@ -3024,13 +3028,14 @@ done_message_selected (CamelFolder *folder, const char *uid, CamelMimeMessage *m
 	struct blarg_this_sucks *blarg = data;
 	FolderBrowser *fb = blarg->fb;
 	gboolean preview = blarg->preview;
-	const char *followup;
+	CamelMessageInfo *info;
 	
 	g_free (blarg);
 	
-	followup = camel_folder_get_message_user_tag (folder, uid, "follow-up");
-	
-	mail_display_set_message (fb->mail_display, (CamelMedium *) msg, followup);
+	info = camel_folder_get_message_info (fb->folder, uid);
+	mail_display_set_message (fb->mail_display, (CamelMedium *) msg, fb->folder, info);
+	if (info)
+		camel_folder_free_message_info (fb->folder, info);
 	
 	g_free (fb->loaded_uid);
 	fb->loaded_uid = fb->loading_uid;
@@ -3063,7 +3068,7 @@ do_mail_fetch_and_print (FolderBrowser *fb, gboolean preview)
 				fb->loading_uid = g_strdup (fb->new_uid);
 				mail_get_message (fb->folder, fb->loading_uid, done_message_selected, blarg, mail_thread_new);
 			} else {
-				mail_display_set_message (fb->mail_display, NULL, NULL);
+				mail_display_set_message (fb->mail_display, NULL, NULL, NULL);
 				g_free (blarg);
 			}
 		}

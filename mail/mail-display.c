@@ -65,7 +65,6 @@
 #include "e-searching-tokenizer.h"
 #include "folder-browser-factory.h"
 #include "mail-stream-gtkhtml.h"
-#include "message-tag-followup.h"
 #include "folder-browser.h"
 #include "mail-display.h"
 #include "mail-config.h"
@@ -1673,9 +1672,8 @@ mail_error_printf (GtkHTML *html, GtkHTMLStream *stream,
 void
 mail_display_render (MailDisplay *md, GtkHTML *html, gboolean reset_scroll)
 {
+	const char *flag, *completed;
 	GtkHTMLStream *stream;
-	char bgcolor[7], fontcolor[7];
-	GtkStyle *style = NULL;
 	
 	g_return_if_fail (IS_MAIL_DISPLAY (md));
 	g_return_if_fail (GTK_IS_HTML (html));
@@ -1692,11 +1690,16 @@ mail_display_render (MailDisplay *md, GtkHTML *html, gboolean reset_scroll)
 			 "<head>\n<meta name=\"generator\" content=\"Evolution Mail Component\">\n</head>\n");
 	mail_html_write (html, stream, "<body marginwidth=0 marginheight=0>\n");
 	
-	if (md->followup) {
-		const char *overdue;
-		char due_date[100];
+	flag = md->info ? camel_tag_get (&md->info->user_tags, "follow-up") : NULL;
+	completed = md->info ? camel_tag_get (&md->info->user_tags, "completed-on") : NULL;
+	if ((flag && *flag) && !(completed && *completed)) {
+		const char *due_by, *overdue = "";
+		char bgcolor[7], fontcolor[7];
+		time_t target_date, now;
+		GtkStyle *style = NULL;
+		char due_date[256];
 		struct tm due;
-		time_t now;
+		int offset;
 		
 		/* my favorite thing to do... muck around with colors so we respect people's stupid themes. */
 		style = gtk_widget_get_style (GTK_WIDGET (html));
@@ -1730,26 +1733,28 @@ mail_display_render (MailDisplay *md, GtkHTML *html, gboolean reset_scroll)
 			strcpy (fontcolor, "000000");
 		}
 		
-		now = time (NULL);
-		if (now >= md->followup->target_date)
-			overdue = U_("Overdue:");
-		else
-			overdue = "";
-		
-		/* copy the due date into 'now' because localtime_r destroys the time_t value */
-		now = md->followup->target_date;
-		localtime_r (&now, &due);
-		
-		e_strftime (due_date, 100, "%B %d, %Y, %l:%M %P", &due);
+		due_by = camel_tag_get (&md->info->user_tags, "due-by");
+		if (due_by && *due_by) {
+			target_date = header_decode_date (due_by, &offset);
+			now = time (NULL);
+			if (now >= target_date)
+				overdue = U_("Overdue:");
+			
+			localtime_r (&target_date, &due);
+			
+			e_strftime (due_date, sizeof (due_date), _("by %B %d, %Y, %l:%M %P"), &due);
+		} else {
+			snprintf (due_date, sizeof (due_date), "%s", _("at your earliest convenience"));
+		}
 		
 		gtk_html_stream_printf (stream, "<font color=\"#%s\">"
 					"<table cellspacing=1 cellpadding=1 bgcolor=\"#000000\"><tr><td>"
 					"<table cellspacing=0 bgcolor=\"#%s\" cellpadding=2 cellspacing=2>"
 					"<tr><td align=\"left\" width=20><img src=\"%s\" align=\"middle\"></td>"
-					"<td>%s%s%s%s by %s</td></table></td></tr></table></font>", fontcolor, bgcolor,
+					"<td>%s%s%s%s %s</td></table></td></tr></table></font>", fontcolor, bgcolor,
 					mail_display_get_url_for_icon (md, EVOLUTION_IMAGES "/flag-for-followup-16.png"),
 					overdue ? "<b>" : "", overdue, overdue ? "</b>&nbsp;" : "",
-					message_tag_followup_i18n_name (md->followup->type), due_date);
+					flag, due_date);
 	}
 	
 	if (md->current_message) {
@@ -1790,13 +1795,14 @@ mail_display_redisplay (MailDisplay *md, gboolean reset_scroll)
  * mail_display_set_message:
  * @mail_display: the mail display object
  * @medium: the input camel medium, or %NULL
- * @followup: followup value
+ * @folder: CamelFolder
+ * @info: message info
  *
  * Makes the mail_display object show the contents of the medium
  * param.
  **/
 void 
-mail_display_set_message (MailDisplay *md, CamelMedium *medium, const char *followup)
+mail_display_set_message (MailDisplay *md, CamelMedium *medium, CamelFolder *folder, CamelMessageInfo *info)
 {
 	/* For the moment, we deal only with CamelMimeMessage, but in
 	 * the future, we should be able to deal with any medium.
@@ -1806,12 +1812,10 @@ mail_display_set_message (MailDisplay *md, CamelMedium *medium, const char *foll
 	
 	/* Clean up from previous message. */
 	if (md->current_message) {
-		fetch_cancel(md);
+		fetch_cancel (md);
 		camel_object_unref (CAMEL_OBJECT (md->current_message));
 		g_datalist_clear (md->data);
 	}
-	
-	g_free (md->followup);
 	
 	if (medium) {
 		camel_object_ref (medium);
@@ -1819,7 +1823,20 @@ mail_display_set_message (MailDisplay *md, CamelMedium *medium, const char *foll
 	} else
 		md->current_message = NULL;
 	
-	md->followup = followup ? message_tag_followup_decode (followup) : NULL;
+	if (md->folder && md->info) {
+		camel_folder_free_message_info (md->folder, md->info);
+		camel_object_unref (md->folder);
+	}
+	
+	if (folder && info) {
+		md->info = info;
+		md->folder = folder;
+		camel_object_ref (folder);
+		camel_folder_ref_message_info (folder, info);
+	} else {
+		md->info = NULL;
+		md->folder = NULL;
+	}
 	
 	g_datalist_init (md->data);
 	mail_display_redisplay (md, TRUE);
@@ -1871,8 +1888,9 @@ mail_display_init (GtkObject *object)
 	mail_display->idle_id           = 0;
 	mail_display->selection         = NULL;
 	mail_display->charset           = NULL;
-	mail_display->followup          = NULL;
 	mail_display->current_message   = NULL;
+	mail_display->folder            = NULL;
+	mail_display->info              = NULL;
 	mail_display->data              = NULL;
 	
 	mail_display->invisible         = gtk_invisible_new ();
@@ -1901,7 +1919,12 @@ mail_display_destroy (GtkObject *object)
 	
 	g_free (mail_display->charset);
 	g_free (mail_display->selection);
-	g_free (mail_display->followup);
+	
+	if (mail_display->folder) {
+		if (mail_display->info)
+			camel_folder_free_message_info (mail_display->folder, mail_display->info);
+		camel_object_unref (mail_display->folder);
+	}
 	
 	g_free (mail_display->data);
 	mail_display->data = NULL;

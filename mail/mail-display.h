@@ -12,6 +12,7 @@
 #include <camel/camel-stream.h>
 #include <camel/camel-mime-message.h>
 #include <camel/camel-medium.h>
+#include <camel/camel-folder.h>
 
 #include "mail-types.h"
 #include "mail-config.h" /*display_style*/
@@ -26,7 +27,7 @@ struct _MailDisplay {
 	GtkVBox parent;
 	
 	struct _MailDisplayPrivate *priv;
-
+	
 	EScrollFrame *scroll;
 	GtkHTML *html;
 	/* GtkHTMLStream *stream; */
@@ -38,15 +39,16 @@ struct _MailDisplay {
 	
 	char *selection;
 	
-	struct _FollowUpTag *followup;
 	CamelMimeMessage *current_message;
+	CamelMessageInfo *info;
+	CamelFolder *folder;
 	GData **data;
 	
 	/* stack of Content-Location URLs used for combining with a
            relative URL Content-Location on a leaf part in order to
            construct the full URL */
 	struct _location_url_stack *urls;
-
+	
 	GHashTable *related;	/* related parts not displayed yet */
 	
 	/* Sigh.  This shouldn't be needed.  I haven't figured out why it is
@@ -85,7 +87,8 @@ void           mail_display_stream_write_when_loaded (MailDisplay *md,
 
 void           mail_display_set_message (MailDisplay *mail_display, 
 					 CamelMedium *medium,
-					 const char *followup);
+					 CamelFolder *folder,
+					 CamelMessageInfo *info);
 
 void           mail_display_set_charset (MailDisplay *mail_display,
 					 const char *charset);

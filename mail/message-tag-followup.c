@@ -44,30 +44,29 @@ static void message_tag_followup_class_init (MessageTagFollowUpClass *class);
 static void message_tag_followup_init (MessageTagFollowUp *followup);
 static void message_tag_followup_finalise (GtkObject *obj);
 
-static const char *tag_get_name  (MessageTagEditor *editor);
-static const char *tag_get_value (MessageTagEditor *editor);
-static void tag_set_value (MessageTagEditor *editor, const char *value);
+static CamelTag *get_tag_list (MessageTagEditor *editor);
+static void set_tag_list (MessageTagEditor *editor, CamelTag *tags);
 
 
-static struct {
-	const char *i18n_name;
-	const char *name;
-	int value;
-} available_flags[] = {
-	{ N_("Call"),                  "call",           FOLLOWUP_FLAG_CALL },
-	{ N_("Do Not Forward"),        "do-not-forward", FOLLOWUP_FLAG_DO_NOT_FORWARD },
-	{ N_("Follow-Up"),             "follow-up",      FOLLOWUP_FLAG_FOLLOWUP },
-	{ N_("For Your Information"),  "fyi",            FOLLOWUP_FLAG_FYI },
-	{ N_("Forward"),               "forward",        FOLLOWUP_FLAG_FORWARD },
-	{ N_("No Response Necessary"), "no-response",    FOLLOWUP_FLAG_NO_RESPONSE_NECESSARY },
-	{ N_("Read"),                  "read",           FOLLOWUP_FLAG_READ },
-	{ N_("Reply"),                 "reply",          FOLLOWUP_FLAG_REPLY },
-	{ N_("Reply to All"),          "reply-all",      FOLLOWUP_FLAG_REPLY_ALL },
-	{ N_("Review"),                "review",         FOLLOWUP_FLAG_REVIEW },
-	{ N_("None"),                  NULL,             FOLLOWUP_FLAG_NONE }
+#define DEFAULT_FLAG  2  /* Follow-Up */
+static char *available_flags[] = {
+	N_("Call"),
+	N_("Do Not Forward"),
+	N_("Follow-Up"),
+	N_("For Your Information"),
+	N_("Forward"),
+	N_("No Response Necessary"),
+	N_("Read"),
+	N_("Reply"),
+	N_("Reply to All"),
+	N_("Review"),
 };
 
-static MessageTagEditorClass *parent_class;
+static int num_available_flags = sizeof (available_flags) / sizeof (available_flags[0]);
+
+
+static MessageTagEditorClass *parent_class = NULL;
+
 
 GtkType
 message_tag_followup_get_type (void)
@@ -103,26 +102,18 @@ message_tag_followup_class_init (MessageTagFollowUpClass *klass)
 	
 	object_class->finalize = message_tag_followup_finalise;
 	
-	editor_class->get_name = tag_get_name;
-	editor_class->get_value = tag_get_value;
-	editor_class->set_value = tag_set_value;
+	editor_class->get_tag_list = get_tag_list;
+	editor_class->set_tag_list = set_tag_list;
 }
 
 static void
 message_tag_followup_init (MessageTagFollowUp *editor)
 {
-	editor->tag = g_new (struct _FollowUpTag, 1);
-	editor->tag->type = FOLLOWUP_FLAG_NONE;
-	editor->tag->target_date = time (NULL);
-	editor->tag->completed = 0;
-	
-	editor->value = NULL;
-	
-	editor->type = NULL;
-	editor->none = NULL;
+	editor->combo = NULL;
 	editor->target_date = NULL;
 	editor->completed = NULL;
 	editor->clear = NULL;
+	editor->completed_date = 0;
 }
 
 
@@ -131,119 +122,71 @@ message_tag_followup_finalise (GtkObject *obj)
 {
 	MessageTagFollowUp *editor = (MessageTagFollowUp *) obj;
 	
-	g_free (editor->tag);
-	g_free (editor->value);
+	editor->completed_date = 0;
 	
         ((GtkObjectClass *)(parent_class))->finalize (obj);
 }
 
 
-static const char *
-tag_get_name (MessageTagEditor *editor)
-{
-	return "follow-up";
-}
-
-static const char *
-tag_get_value (MessageTagEditor *editor)
+static CamelTag *
+get_tag_list (MessageTagEditor *editor)
 {
 	MessageTagFollowUp *followup = (MessageTagFollowUp *) editor;
+	CamelTag *tags = NULL;
+	time_t date;
+	char *text;
 	
-	g_free (followup->value);
-	followup->value = message_tag_followup_encode (followup->tag);
+	text = e_utf8_gtk_entry_get_text (GTK_ENTRY (followup->combo->entry));
+	camel_tag_set (&tags, "follow-up", text);
+	g_free (text);
 	
-	return followup->value;
-}
-
-static void
-set_widget_values (MessageTagFollowUp *followup)
-{
-	time_t completed;
-	
-	gtk_option_menu_set_history (followup->type, followup->tag->type);
-	
-	e_date_edit_set_time (followup->target_date, followup->tag->target_date);
-	
-	completed = followup->tag->completed;
-	gtk_toggle_button_set_active (followup->completed, completed ? TRUE : FALSE);
-	if (completed)
-		followup->tag->completed = completed;
-}
-
-static void
-tag_set_value (MessageTagEditor *editor, const char *value)
-{
-	MessageTagFollowUp *followup = (MessageTagFollowUp *) editor;
-	
-	g_free (followup->tag);
-	followup->tag = message_tag_followup_decode (value);
-	
-	set_widget_values (followup);
-}
-
-
-struct _FollowUpTag *
-message_tag_followup_decode (const char *value)
-{
-	struct _FollowUpTag *tag;
-	const char *inptr;
-	int len, i;
-	
-	tag = g_new (struct _FollowUpTag, 1);
-	
-	inptr = strchr (value, ':');
-	if (!inptr)
-		inptr = value + strlen (value);
-	
-	len = inptr - value;
-	
-	for (i = 0; i < FOLLOWUP_FLAG_NONE; i++) {
-		if (!strncmp (value, available_flags[i].name, len))
-			break;
-	}
-	
-	tag->type = i;
-	
-	if (*inptr == ':') {
-		inptr++;
-		tag->target_date = strtoul (inptr, (char **) &inptr, 16);
-		if (*inptr == ':') {
-			inptr++;
-			tag->completed = strtoul (inptr, (char **) &inptr, 16);
-		} else
-			tag->completed = 0;
+	date = e_date_edit_get_time (followup->target_date);
+	if (date != (time_t) -1) {
+		text = header_format_date (date, 0);
+		camel_tag_set (&tags, "due-by", text);
+		g_free (text);
 	} else {
-		tag->target_date = time (NULL);
-		tag->completed = 0;
+		camel_tag_set (&tags, "due-by", "");
 	}
 	
-	return tag;
+	if (gtk_toggle_button_get_active (followup->completed)) {
+		text = header_format_date (followup->completed_date, 0);
+		camel_tag_set (&tags, "completed-on", text);
+		g_free (text);
+	} else {
+		camel_tag_set (&tags, "completed-on", "");
+	}
+	
+	return tags;
 }
 
-
-char *
-message_tag_followup_encode (struct _FollowUpTag *tag)
+static void
+set_tag_list (MessageTagEditor *editor, CamelTag *tags)
 {
-	g_return_val_if_fail (tag != NULL, NULL);
+	MessageTagFollowUp *followup = (MessageTagFollowUp *) editor;
+	const char *text;
+	time_t date;
 	
-	if (tag->type == FOLLOWUP_FLAG_NONE)
-		return NULL;
+	text = camel_tag_get (&tags, "follow-up");
+	if (text)
+		e_utf8_gtk_entry_set_text (GTK_ENTRY (followup->combo->entry), text);
 	
-	return g_strdup_printf ("%s:%lx:%lx", available_flags[tag->type].name,
-				(unsigned long) tag->target_date,
-				(unsigned long) tag->completed);
-}
-
-
-const char *
-message_tag_followup_i18n_name (int type)
-{
-	g_return_val_if_fail (type >= 0 && type <= FOLLOWUP_FLAG_NONE, NULL);
+	text = camel_tag_get (&tags, "due-by");
+	if (text && *text) {
+		date = header_decode_date (text, NULL);
+		e_date_edit_set_time (followup->target_date, date);
+	} else {
+		e_date_edit_set_time (followup->target_date, (time_t) -1);
+	}
 	
-	if (type != FOLLOWUP_FLAG_NONE)
-		return U_(available_flags[type].i18n_name);
-	else
-		return NULL;
+	text = camel_tag_get (&tags, "completed-on");
+	if (text && *text) {
+		date = header_decode_date (text, NULL);
+		if (date != (time_t) 0) {
+			gtk_toggle_button_set_active (followup->completed, TRUE);
+			followup->completed_date = date;
+		}
+	}
 }
 
 static void
@@ -251,11 +194,9 @@ clear_clicked (GtkButton *button, gpointer user_data)
 {
 	MessageTagFollowUp *followup = user_data;
 	
-	gtk_widget_show (followup->none);
-	gtk_option_menu_set_history (followup->type, FOLLOWUP_FLAG_NONE);
-	gtk_signal_emit_by_name (GTK_OBJECT (followup->none), "activate", followup);
+	gtk_list_select_item (GTK_LIST (followup->combo->list), DEFAULT_FLAG);
 	
-	e_date_edit_set_time (followup->target_date, time (NULL));
+	e_date_edit_set_time (followup->target_date, (time_t) -1);
 	gtk_toggle_button_set_active (followup->completed, FALSE);
 }
 
@@ -265,28 +206,9 @@ completed_toggled (GtkToggleButton *button, gpointer user_data)
 	MessageTagFollowUp *followup = user_data;
 	
 	if (gtk_toggle_button_get_active (followup->completed))
-		followup->tag->completed = time (NULL);
+		followup->completed_date = time (NULL);
 	else
-		followup->tag->completed = 0;
-}
-
-static void
-type_changed (GtkWidget *item, gpointer user_data)
-{
-	MessageTagFollowUp *followup = user_data;
-	
-	followup->tag->type = GPOINTER_TO_INT (gtk_object_get_data (GTK_OBJECT (item), "value"));
-	
-	if (item != followup->none)
-		gtk_widget_hide (followup->none);
-}
-
-static void
-target_date_changed (EDateEdit *widget, gpointer user_data)
-{
-	MessageTagFollowUp *followup = user_data;
-	
-	followup->tag->target_date = e_date_edit_get_time (widget);
+		followup->completed_date = 0;
 }
 
 GtkWidget *target_date_new (const char *s1, const char *s2, int i1, int i2);
@@ -302,7 +224,7 @@ target_date_new (const char *s1, const char *s2, int i1, int i2)
 	e_date_edit_set_week_start_day (E_DATE_EDIT (widget), 6);
 	/* FIXME: make this locale dependant?? */
 	e_date_edit_set_use_24_hour_format (E_DATE_EDIT (widget), FALSE);
-	e_date_edit_set_allow_no_date_set (E_DATE_EDIT (widget), FALSE);
+	e_date_edit_set_allow_no_date_set (E_DATE_EDIT (widget), TRUE);
 	e_date_edit_set_time_popup_range (E_DATE_EDIT (widget), 0, 24);
 	
 	return widget;
@@ -312,7 +234,8 @@ static void
 construct (MessageTagEditor *editor)
 {
 	MessageTagFollowUp *followup = (MessageTagFollowUp *) editor;
-	GtkWidget *widget, *menu, *item;
+	GtkWidget *widget;
+	GList *strings;
 	GladeXML *gui;
 	int i;
 	
@@ -331,27 +254,16 @@ construct (MessageTagEditor *editor)
 	
 	followup->message_list = GTK_CLIST (glade_xml_get_widget (gui, "message_list"));
 	
-	followup->type = GTK_OPTION_MENU (glade_xml_get_widget (gui, "followup_type"));
-	gtk_option_menu_remove_menu (followup->type);
-	menu = gtk_menu_new ();
-	for (i = 0; i <= FOLLOWUP_FLAG_NONE; i++) {
-		item = gtk_menu_item_new_with_label (_(available_flags[i].i18n_name));
-		gtk_object_set_data (GTK_OBJECT (item), "value",
-				     GINT_TO_POINTER (available_flags[i].value));
-		gtk_signal_connect (GTK_OBJECT (item), "activate",
-				    type_changed, followup);
-		gtk_menu_append (GTK_MENU (menu), item);
-		gtk_widget_show (item);
-	}
-	followup->none = item;
-	gtk_option_menu_set_menu (followup->type, menu);
-	gtk_signal_emit_by_name (GTK_OBJECT (item), "activate", followup);
-	gtk_option_menu_set_history (followup->type, FOLLOWUP_FLAG_NONE);
+	followup->combo = GTK_COMBO (glade_xml_get_widget (gui, "combo"));
+	gtk_combo_set_case_sensitive (followup->combo, FALSE);
+	strings = NULL;
+	for (i = 0; i < num_available_flags; i++)
+		strings = g_list_append (strings, (char *) _(available_flags[i]));
+	gtk_combo_set_popdown_strings (followup->combo, strings);
+	g_list_free (strings);
 	
 	followup->target_date = E_DATE_EDIT (glade_xml_get_widget (gui, "target_date"));
-	e_date_edit_set_time (followup->target_date, time (NULL));
-	gtk_signal_connect (GTK_OBJECT (followup->target_date), "changed",
-			    target_date_changed, followup);
+	e_date_edit_set_time (followup->target_date, (time_t) -1);
 	
 	followup->completed = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "completed"));
 	gtk_signal_connect (GTK_OBJECT (followup->completed), "toggled",

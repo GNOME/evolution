@@ -46,8 +46,6 @@
 #include "mail-ops.h"
 #include "Mail.h"
 
-#include "message-tag-followup.h"
-
 #include "art/mail-new.xpm"
 #include "art/mail-read.xpm"
 #include "art/mail-replied.xpm"
@@ -910,42 +908,25 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
 		const char *tag;
 		
 		tag = camel_tag_get ((CamelTag **) &msg_info->user_tags, "follow-up");
-		if (tag)
+		if (tag && *tag)
 			return GINT_TO_POINTER (TRUE);
 		else
 			return GINT_TO_POINTER (FALSE);
 	}
 	case COL_FOLLOWUP_DUE_BY: {
-		struct _FollowUpTag *tag;
-		const char *tag_value;
+		const char *tag;
 		time_t due_by;
 		
-		tag_value = camel_tag_get ((CamelTag **) &msg_info->user_tags, "follow-up");
-		if (tag_value) {
-			tag = message_tag_followup_decode (tag_value);
-			due_by = tag->target_date;
-			g_free (tag);
+		tag = camel_tag_get ((CamelTag **) &msg_info->user_tags, "due-by");
+		if (tag && *tag) {
+			due_by = header_decode_date (tag, NULL);
 			return GINT_TO_POINTER (due_by);
 		} else {
 			return GINT_TO_POINTER (0);
 		}
 	}
-	case COL_FOLLOWUP_FLAG: {
-		struct _FollowUpTag *tag;
-		const char *tag_value;
-		int flag_type;
-		
-		tag_value = camel_tag_get ((CamelTag **) &msg_info->user_tags, "follow-up");
-		if (tag_value) {
-			tag = message_tag_followup_decode (tag_value);
-			flag_type = tag ? tag->type : FOLLOWUP_FLAG_NONE;
-			g_free (tag);
-			
-			return (void *) message_tag_followup_i18n_name (flag_type);
-		} else {
-			return NULL;
-		}
-	}
+	case COL_FOLLOWUP_FLAG:
+		return (void *) camel_tag_get ((CamelTag **) &msg_info->user_tags, "follow-up");
 	case COL_ATTACHMENT:
 		return GINT_TO_POINTER ((msg_info->flags & CAMEL_MESSAGE_ATTACHMENTS) != 0);
 	case COL_FROM:
@@ -980,32 +961,32 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
 		return GINT_TO_POINTER (!(msg_info->flags & CAMEL_MESSAGE_SEEN));
 	}
 	case COL_COLOUR: {
-		const char *colour, *followup, *label;
+		const char *colour, *due_by, *completed, *label;
 		
-		/* Priority: colour tag; label tag; important flag; follow-up tag */
+		/* Priority: colour tag; label tag; important flag; due-by tag */
 		
 		colour = camel_tag_get ((CamelTag **) &msg_info->user_tags, "colour");
-		followup = camel_tag_get ((CamelTag **) &msg_info->user_tags, "follow-up");
+		due_by = camel_tag_get ((CamelTag **) &msg_info->user_tags, "due-by");
+		completed = camel_tag_get ((CamelTag **) &msg_info->user_tags, "completed-on");
 		label = camel_tag_get ((CamelTag **) &msg_info->user_tags, "label");
 		if (colour == NULL) {
 			if (label != NULL) {
-				colour = mail_config_get_label_color_string (filter_label_index(label));
+				colour = mail_config_get_label_color_string (filter_label_index (label));
 			} else if (msg_info->flags & CAMEL_MESSAGE_FLAGGED) {
 				/* FIXME: extract from the xpm somehow. */
 				colour = "#A7453E";
-			} else if (followup != NULL) {
-				struct _FollowUpTag *tag;
+			} else if ((due_by && *due_by) && !(completed && *completed)) {
 				time_t now = time (NULL);
+				time_t target_date;
 				
-				tag = message_tag_followup_decode (followup);
-				if (tag && now >= tag->target_date) {
+				target_date = header_decode_date (due_by, NULL);
+				if (now >= target_date) {
 					/* FIXME: extract from the xpm somehow. */
 					colour = "#A7453E";
 				}
-				g_free (tag);
 			}
 		}
-		return (void *)colour;
+		return (void *) colour;
 	}
 	case COL_LOCATION: {
 		CamelFolder *folder;

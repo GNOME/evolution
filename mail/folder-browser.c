@@ -65,7 +65,6 @@
 #include "mail-mt.h"
 #include "mail-folder-cache.h"
 #include "folder-browser-ui.h"
-#include "message-tag-followup.h"
 
 #include "mail-local.h"
 #include "mail-config.h"
@@ -1074,7 +1073,7 @@ folder_browser_set_message_preview (FolderBrowser *folder_browser, gboolean show
 	} else {
 		e_paned_set_position (E_PANED (folder_browser->vpaned), 10000);
 		gtk_widget_hide (GTK_WIDGET (folder_browser->mail_display));
-		mail_display_set_message (folder_browser->mail_display, NULL, NULL);
+		mail_display_set_message (folder_browser->mail_display, NULL, NULL, NULL);
 		folder_browser_ui_message_loaded(folder_browser);
 	}
 }
@@ -1803,19 +1802,6 @@ context_menu_position_func (GtkMenu *menu, gint *x, gint *y,
 	*y += ty + th / 2;
 }
 
-static gboolean
-followup_tag_complete (const char *tag_value)
-{
-	struct _FollowUpTag *tag;
-	gboolean ret;
-	
-	tag = message_tag_followup_decode (tag_value);
-	ret = tag->completed != (time_t) 0 ? TRUE : FALSE;
-	g_free (tag);
-	
-	return ret;
-}
-
 static void
 setup_popup_icons (void)
 {
@@ -1935,9 +1921,11 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 			else
 				have_unimportant = TRUE;
 			
-			if ((tag = camel_tag_get (&info->user_tags, "follow-up"))) {
+			tag = camel_tag_get (&info->user_tags, "follow-up");
+			if (tag && *tag) {
 				have_flag_for_followup = TRUE;
-				if (followup_tag_complete (tag))
+				tag = camel_tag_get (&info->user_tags, "completed-on");
+				if (tag && *tag)
 					have_flag_completed = TRUE;
 				else
 					have_flag_incomplete = TRUE;
@@ -2343,15 +2331,16 @@ static void
 done_message_selected (CamelFolder *folder, const char *uid, CamelMimeMessage *msg, void *data)
 {
 	FolderBrowser *fb = data;
+	CamelMessageInfo *info;
 	int timeout = mail_config_get_mark_as_seen_timeout ();
-	const char *followup;
 	
 	if (folder != fb->folder || fb->mail_display == NULL)
 		return;
 	
-	followup = camel_folder_get_message_user_tag (folder, uid, "follow-up");
-	
-	mail_display_set_message (fb->mail_display, (CamelMedium *) msg, followup);
+	info = camel_folder_get_message_info (fb->folder, uid);
+	mail_display_set_message (fb->mail_display, (CamelMedium *) msg, fb->folder, info);
+	if (info)
+		camel_folder_free_message_info (fb->folder, info);
 	
 	/* FIXME: should this signal be emitted here?? */
 	gtk_signal_emit (GTK_OBJECT (fb), folder_browser_signals [MESSAGE_LOADED], uid);
@@ -2401,7 +2390,7 @@ do_message_selected (FolderBrowser *fb)
 			fb->loading_uid = g_strdup (fb->new_uid);
 			mail_get_message (fb->folder, fb->loading_uid, done_message_selected, fb, mail_thread_new);
 		} else {
-			mail_display_set_message (fb->mail_display, NULL, NULL);
+			mail_display_set_message (fb->mail_display, NULL, NULL, NULL);
 		}
 	}
 	

@@ -51,10 +51,8 @@ struct _MessageTagEditorClass {
 	GnomeDialogClass parent_class;
 	
 	/* virtual methods */
-	const char * (*get_name)  (MessageTagEditor *editor);
-	
-	const char * (*get_value) (MessageTagEditor *editor);
-	void         (*set_value) (MessageTagEditor *editor, const char *value);
+	CamelTag * (*get_tag_list) (MessageTagEditor *editor);
+	void       (*set_tag_list) (MessageTagEditor *editor, CamelTag *tags);
 	
 	/* signals */
 };
@@ -63,9 +61,8 @@ struct _MessageTagEditorClass {
 GtkType message_tag_editor_get_type (void);
 
 /* methods */
-const char *message_tag_editor_get_name  (MessageTagEditor *editor);
-const char *message_tag_editor_get_value (MessageTagEditor *editor);
-void        message_tag_editor_set_value (MessageTagEditor *editor, const char *value);
+CamelTag *message_tag_editor_get_tag_list (MessageTagEditor *editor);
+void      message_tag_editor_set_tag_list (MessageTagEditor *editor, CamelTag *tags);
 
 #ifdef __cplusplus
 }

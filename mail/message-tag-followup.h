@@ -36,29 +36,10 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus */
 
-#define MESSAGE_TAG_FOLLOWUP(obj)	  GTK_CHECK_CAST (obj, message_tag_followup_get_type (), MessageTagFollowUp)
-#define MESSAGE_TAG_FOLLOWUP_CLASS(klass) GTK_CHECK_CLASS_CAST (klass, message_tag_followup_get_type (), MessageTagFollowUpClass)
-#define IS_MESSAGE_TAG_FOLLOWUP(obj)      GTK_CHECK_TYPE (obj, message_tag_followup_get_type ())
-
-enum {
-	FOLLOWUP_FLAG_CALL,
-	FOLLOWUP_FLAG_DO_NOT_FORWARD,
-	FOLLOWUP_FLAG_FOLLOWUP,
-	FOLLOWUP_FLAG_FYI,
-	FOLLOWUP_FLAG_FORWARD,
-	FOLLOWUP_FLAG_NO_RESPONSE_NECESSARY,
-	FOLLOWUP_FLAG_READ,
-	FOLLOWUP_FLAG_REPLY,
-	FOLLOWUP_FLAG_REPLY_ALL,
-	FOLLOWUP_FLAG_REVIEW,
-	FOLLOWUP_FLAG_NONE
-};
-
-struct _FollowUpTag {
-	int type;
-	time_t target_date;
-	time_t completed;
-};
+#define MESSAGE_TAG_FOLLOWUP_TYPE         (message_tag_followup_get_type ())
+#define MESSAGE_TAG_FOLLOWUP(obj)	  (GTK_CHECK_CAST (obj, MESSAGE_TAG_FOLLOWUP_TYPE, MessageTagFollowUp))
+#define MESSAGE_TAG_FOLLOWUP_CLASS(klass) (GTK_CHECK_CLASS_CAST (klass, MESSAGE_TAG_FOLLOWUP_TYPE, MessageTagFollowUpClass))
+#define IS_MESSAGE_TAG_FOLLOWUP(obj)      (GTK_CHECK_TYPE (obj, MESSAGE_TAG_FOLLOWUP_TYPE))
 
 typedef struct _MessageTagFollowUp MessageTagFollowUp;
 typedef struct _MessageTagFollowUpClass MessageTagFollowUpClass;
@@ -66,17 +47,15 @@ typedef struct _MessageTagFollowUpClass MessageTagFollowUpClass;
 struct _MessageTagFollowUp {
 	MessageTagEditor parent;
 	
-	struct _FollowUpTag *tag;
-	char *value;
-	
 	GtkCList *message_list;
 	
-	GtkOptionMenu *type;
-	GtkWidget *none;
+	GtkCombo *combo;
 	
 	EDateEdit *target_date;
 	GtkToggleButton *completed;
 	GtkButton *clear;
+	
+	time_t completed_date;
 };
 
 struct _MessageTagFollowUpClass {
@@ -88,11 +67,6 @@ struct _MessageTagFollowUpClass {
 
 
 GtkType message_tag_followup_get_type (void);
-
-/* utility functions */
-struct _FollowUpTag *message_tag_followup_decode (const char *tag_value);
-char *message_tag_followup_encode (struct _FollowUpTag *followup);
-const char *message_tag_followup_i18n_name (int type);
 
 MessageTagEditor *message_tag_followup_new (void);
 

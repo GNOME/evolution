@@ -34,11 +34,12 @@ static void message_tag_editor_class_init (MessageTagEditorClass *class);
 static void message_tag_editor_init (MessageTagEditor *editor);
 static void message_tag_editor_finalise (GtkObject *obj);
 
-static const char *tag_get_name  (MessageTagEditor *editor);
-static const char *tag_get_value (MessageTagEditor *editor);
-static void tag_set_value (MessageTagEditor *editor, const char *value);
+static CamelTag *get_tag_list (MessageTagEditor *editor);
+static void set_tag_list (MessageTagEditor *editor, CamelTag *value);
 
-static GnomeDialogClass *parent_class;
+
+static GnomeDialogClass *parent_class = NULL;
+
 
 GtkType
 message_tag_editor_get_type (void)
@@ -72,9 +73,8 @@ message_tag_editor_class_init (MessageTagEditorClass *klass)
 	
 	object_class->finalize = message_tag_editor_finalise;
 	
-	klass->get_name = tag_get_name;
-	klass->get_value = tag_get_value;
-	klass->set_value = tag_set_value;
+	klass->get_tag_list = get_tag_list;
+	klass->set_tag_list = set_tag_list;
 }
 
 static void
@@ -99,49 +99,33 @@ message_tag_editor_finalise (GtkObject *obj)
         ((GtkObjectClass *)(parent_class))->finalize (obj);
 }
 
-
-static const char *
-tag_get_name  (MessageTagEditor *editor)
+static CamelTag *
+get_tag_list (MessageTagEditor *editor)
 {
 	return NULL;
 }
 
-const char *
-message_tag_editor_get_name (MessageTagEditor *editor)
+CamelTag *
+message_tag_editor_get_tag_list (MessageTagEditor *editor)
 {
 	g_return_val_if_fail (IS_MESSAGE_TAG_EDITOR (editor), NULL);
 	
-	return ((MessageTagEditorClass *)((GtkObject *) editor)->klass)->get_name (editor);
-}
-
-
-static const char *
-tag_get_value (MessageTagEditor *editor)
-{
-	return NULL;
-}
-
-const char *
-message_tag_editor_get_value (MessageTagEditor *editor)
-{
-	g_return_val_if_fail (IS_MESSAGE_TAG_EDITOR (editor), NULL);
-	
-	return ((MessageTagEditorClass *)((GtkObject *) editor)->klass)->get_value (editor);
+	return ((MessageTagEditorClass *)((GtkObject *) editor)->klass)->get_tag_list (editor);
 }
 
 
 static void
-tag_set_value (MessageTagEditor *editor, const char *value)
+set_tag_list (MessageTagEditor *editor, CamelTag *tags)
 {
 	/* no-op */
 	;
 }
 
 void
-message_tag_editor_set_value (MessageTagEditor *editor, const char *value)
+message_tag_editor_set_tag_list (MessageTagEditor *editor, CamelTag *tags)
 {
 	g_return_if_fail (IS_MESSAGE_TAG_EDITOR (editor));
-	g_return_if_fail (value != NULL);
+	g_return_if_fail (tags != NULL);
 	
-	((MessageTagEditorClass *)((GtkObject *) editor)->klass)->set_value (editor, value);
+	((MessageTagEditorClass *)((GtkObject *) editor)->klass)->set_tag_list (editor, tags);
 }
