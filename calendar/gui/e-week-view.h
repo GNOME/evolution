@@ -342,7 +342,6 @@ struct _EWeekView
 
 	/* The event that the context menu is for. */
 	gint popup_event_num;
-	EPopupMenu *view_menu;
 
 	/* The last mouse position when dragging, in the entire canvas. */
 	gint drag_event_x;

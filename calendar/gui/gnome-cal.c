@@ -2953,6 +2953,30 @@ gnome_calendar_delete_selected_occurrence (GnomeCalendar *gcal)
 	}
 }
 
+void
+gnome_calendar_unrecur_selection (GnomeCalendar *gcal)
+{
+	GnomeCalendarPrivate *priv;
+	FocusLocation location;
+	GtkWidget *view;
+
+	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
+
+	priv = gcal->priv;
+
+	location = get_focus_location (gcal);
+
+	if (location == FOCUS_CALENDAR) {
+
+		view = gnome_calendar_get_current_view_widget (gcal);
+
+		if (E_IS_DAY_VIEW (view))
+			e_day_view_unrecur_appointment (E_DAY_VIEW (view));
+		else
+			e_week_view_unrecur_appointment (E_WEEK_VIEW (view));
+	}
+}
+
 typedef struct {
 	gboolean remove;
 	GnomeCalendar *gcal;

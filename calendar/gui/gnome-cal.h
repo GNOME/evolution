@@ -184,6 +184,7 @@ void       gnome_calendar_paste_clipboard       (GnomeCalendar  *gcal);
 
 void       gnome_calendar_delete_selection	(GnomeCalendar  *gcal);
 void       gnome_calendar_delete_selected_occurrence (GnomeCalendar *gcal);
+void       gnome_calendar_unrecur_selection     (GnomeCalendar *gcal);
 void       gnome_calendar_purge                 (GnomeCalendar  *gcal,
 						 time_t older_than);
 

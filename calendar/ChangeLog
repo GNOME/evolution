@@ -1,3 +1,38 @@
+2003-07-23  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-cal-view.[ch]: moved the duplicated popup menu code here.
+	(e_cal_view_create_popup_menu): new function to create the popup
+	menu for all views.
+	(on_new_appointment, on_new_event, on_new_meeting, on_new_task,
+	 on_goto_today, on_goto_date, on_edit_appointment, on_print,
+	 on_save_as, on_print_event, on_meeting, on_forward, on_publish,
+	 on_settings, on_delete_appointment, on_cut, on_copy, on_paste,
+	 on_unrecur_appointment): callbacks for the popup menu items.
+
+	* gui/e-week-view.c (e_week_view_on_new_appointment,
+	  e_week_view_new_appointment, e_week_view_on_new_event,
+	  e_week_view_on_new_meeting, e_week_view_on_new_task,
+	  e_week_view_on_goto_today, e_week_view_on_goto_date,
+	  e_week_view_on_edit_appointment, e_week_view_on_print,
+	  e_week_view_on_save_as, e_week_view_on_print_event,
+	  e_week_view_on_meeting, e_week_view_on_forward,
+	  e_week_view_on_publish, e_week_view_on_settings,
+	  e_week_view_on_delete_appointment,
+	  e_week_view_delete_event_internal, e_week_view_on_cut,
+	  e_week_view_on_copy, e_week_view_on_paste):
+	* gui/e-day-view.c (e_day_view_on_new_appointment,
+	  e_day_view_on_new_event, e_day_view_on_new_meeting,
+	  e_day_view_on_new_task, e_day_view_on_goto_today,
+	  e_day_view_on_goto_date, e_day_view_on_edit_appointment,
+	  e_day_view_on_print, e_day_view_on_save_as,
+	  e_day_view_on_print_event, e_day_view_on_meeting,
+	  e_day_view_on_forward, e_day_view_on_publish,
+	  e_day_view_on_settings, e_day_view_on_delete_appointment,
+	  e_day_view_delete_event_internal, e_day_view_on_cut,
+	  e_day_view_on_copy, e_day_view_on_paste): removed duplicated code.
+
+	* gui/gnome-cal.[ch] (gnome_calendar_unrecur_selection): new function.
+
 2003-07-23  Dan Winship  <danw@ximian.com>
 
 	* gui/alarm-notify/alarm-queue.c (on_dialog_obj_updated_cb): Fix

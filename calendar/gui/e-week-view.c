@@ -180,44 +180,6 @@ static gboolean e_week_view_do_key_press (GtkWidget *widget,
 					  GdkEventKey *event);
 static gboolean e_week_view_popup_menu (GtkWidget *widget);
 
-static void e_week_view_on_new_appointment (GtkWidget *widget,
-					    gpointer data);
-static void e_week_view_on_new_event       (GtkWidget *widget,
-					   gpointer data);
-static void e_week_view_on_new_meeting (GtkWidget *widget,
-					gpointer data);
-static void e_week_view_on_new_task (GtkWidget *widget,
-				     gpointer data);
-static void e_week_view_on_goto_today      (GtkWidget *widget,
-					   gpointer data);
-static void e_week_view_on_goto_date       (GtkWidget *widget,
-					   gpointer data);
-static void e_week_view_on_edit_appointment (GtkWidget *widget,
-					     gpointer data);
-static void e_week_view_on_save_as (GtkWidget *widget,
-				    gpointer data);
-static void e_week_view_on_print (GtkWidget *widget,
-				  gpointer data);
-static void e_week_view_on_print_event (GtkWidget *widget,
-					gpointer data);
-static void e_week_view_on_meeting (GtkWidget *widget,
-				    gpointer data);
-static void e_week_view_on_forward (GtkWidget *widget,
-				    gpointer data);
-static void e_week_view_on_publish (GtkWidget *widget,
-				    gpointer data);
-static void e_week_view_on_settings (GtkWidget *widget,
-				     gpointer data);
-static void e_week_view_on_delete_occurrence (GtkWidget *widget,
-					      gpointer data);
-static void e_week_view_on_delete_appointment (GtkWidget *widget,
-					       gpointer data);
-static void e_week_view_on_cut (GtkWidget *widget, gpointer data);
-static void e_week_view_on_copy (GtkWidget *widget, gpointer data);
-static void e_week_view_on_paste (GtkWidget *widget, gpointer data);
-static void e_week_view_on_unrecur_appointment (GtkWidget *widget,
-						gpointer data);
-
 static gboolean e_week_view_update_event_cb (EWeekView *week_view,
 					     gint event_num,
 					     gpointer data);
@@ -1274,35 +1236,6 @@ e_week_view_draw_shadow (EWeekView *week_view)
 	gdk_draw_line (window, dark_gc, x1, y1, x2, y1);
 	gdk_draw_line (window, light_gc, x2, y1, x2, y2);
 	gdk_draw_line (window, light_gc, x1, y2, x2, y2);
-}
-
-static void
-e_week_view_new_appointment (EWeekView *week_view, gboolean meeting)
-{
-	time_t dtstart, dtend;
-	struct icaltimetype itt;
-	gboolean all_day = FALSE;
-	
-	/* Edit a new event. If only one day is selected we set the time to
-	   the first 1/2-hour of the working day. */
-	if (week_view->selection_start_day == week_view->selection_end_day) {
-		dtstart = week_view->day_starts[week_view->selection_start_day];
-		itt = icaltime_from_timet_with_zone (dtstart, FALSE,
-						     week_view->zone);
-		itt.hour = calendar_config_get_day_start_hour ();
-		itt.minute = calendar_config_get_day_start_minute ();
-		dtstart = icaltime_as_timet_with_zone (itt, week_view->zone);
-
-		icaltime_adjust (&itt, 0, 0, 30, 0);
-		dtend = icaltime_as_timet_with_zone (itt, week_view->zone);
-	} else {
-		dtstart = week_view->day_starts[week_view->selection_start_day];
-		dtend = week_view->day_starts[week_view->selection_end_day + 1];
-		all_day = TRUE;
-	}
-
-	gnome_calendar_new_appointment_for (e_cal_view_get_calendar (E_CAL_VIEW (week_view)),
-					    dtstart, dtend, all_day, meeting);
 }
 
 /**
@@ -3453,176 +3386,17 @@ e_week_view_key_press (GtkWidget *widget, GdkEventKey *event)
 	return handled;
 }
 
-enum {
-	/*
-	 * This is used to "flag" events that can not be editted
-	 */
-	MASK_EDITABLE = 1,
-
-	/*
-	 * To disable recurring actions to be displayed
-	 */
-	MASK_RECURRING = 2,
-
-	/*
-	 * To disable actions for non-recurring items to be displayed
-	 */
-	MASK_SINGLE   = 4,
-
-	/*
-	 * This is used to when an event is currently being edited
-	 * in another window and we want to disable the event
-	 * from being edited twice
-	 */
-	MASK_EDITING  = 8,
-
-	/*
-	 * This is used to when an event is already a meeting and
-	 * we want to disable the schedule meeting command
-	 */
-	MASK_MEETING  = 16,
-
-	/*
-	 * To disable cut and copy for meetings the user is not the
-	 * organizer of
-	 */
-	MASK_MEETING_ORGANIZER = 32,
-
-	/*
-	 * To disable things not valid for instances
-	 */
-	MASK_INSTANCE = 64
-};
-
-static EPopupMenu main_items [] = {
-	E_POPUP_ITEM (N_("New _Appointment..."), GTK_SIGNAL_FUNC (e_week_view_on_new_appointment), MASK_EDITABLE),
-	E_POPUP_ITEM (N_("New All Day _Event"), GTK_SIGNAL_FUNC (e_week_view_on_new_event), MASK_EDITABLE),
-	E_POPUP_ITEM (N_("New Meeting"), GTK_SIGNAL_FUNC (e_week_view_on_new_meeting), MASK_EDITABLE),
-	E_POPUP_ITEM (N_("New Task"), GTK_SIGNAL_FUNC (e_week_view_on_new_task), MASK_EDITABLE),
-
-	E_POPUP_SEPARATOR,
-
-	E_POPUP_ITEM (N_("_Print..."), GTK_SIGNAL_FUNC (e_week_view_on_print), 0),
-
-	E_POPUP_SEPARATOR,
-
-	E_POPUP_ITEM (N_("_Paste"), GTK_SIGNAL_FUNC (e_week_view_on_paste), MASK_EDITABLE),
-
-	E_POPUP_SEPARATOR,
-
-	E_POPUP_SUBMENU (N_("Current View"), NULL, 0),
-	
-	E_POPUP_ITEM (N_("Go to _Today"), GTK_SIGNAL_FUNC (e_week_view_on_goto_today), 0),
-	E_POPUP_ITEM (N_("_Go to Date..."), GTK_SIGNAL_FUNC (e_week_view_on_goto_date), 0),
-
-	E_POPUP_SEPARATOR,
-
-	E_POPUP_ITEM (N_("_Publish Free/Busy Information"), GTK_SIGNAL_FUNC (e_week_view_on_publish), 0),
-
-	E_POPUP_SEPARATOR,
-
-	E_POPUP_ITEM (N_("_Settings..."), GTK_SIGNAL_FUNC (e_week_view_on_settings), 0),
-
-	E_POPUP_TERMINATOR
-};
-
-static EPopupMenu child_items [] = {
-	E_POPUP_ITEM (N_("_Open"), GTK_SIGNAL_FUNC (e_week_view_on_edit_appointment), MASK_EDITING),
-	E_POPUP_ITEM (N_("_Save As..."), GTK_SIGNAL_FUNC (e_week_view_on_save_as), MASK_EDITING),
-	E_POPUP_ITEM (N_("_Print..."), GTK_SIGNAL_FUNC (e_week_view_on_print_event), MASK_EDITING),
-
-	/* Only show this separator if one of the above is shown. */
-	E_POPUP_SEPARATOR,
-
-	E_POPUP_ITEM (N_("C_ut"), GTK_SIGNAL_FUNC (e_week_view_on_cut), MASK_EDITING | MASK_EDITABLE | MASK_MEETING_ORGANIZER),
-	E_POPUP_ITEM (N_("_Copy"), GTK_SIGNAL_FUNC (e_week_view_on_copy), MASK_EDITING | MASK_MEETING_ORGANIZER),
-	E_POPUP_ITEM (N_("_Paste"), GTK_SIGNAL_FUNC (e_week_view_on_paste), MASK_EDITABLE),
-
-	E_POPUP_SEPARATOR,
-
-	E_POPUP_ITEM (N_("_Schedule Meeting..."), GTK_SIGNAL_FUNC (e_week_view_on_meeting), MASK_EDITABLE | MASK_EDITING | MASK_MEETING),
-	E_POPUP_ITEM (N_("_Forward as iCalendar..."), GTK_SIGNAL_FUNC (e_week_view_on_forward), MASK_EDITING),
-
-	E_POPUP_SEPARATOR,
-
-	E_POPUP_ITEM (N_("_Delete"), GTK_SIGNAL_FUNC (e_week_view_on_delete_appointment), MASK_EDITABLE | MASK_SINGLE | MASK_EDITING),
-	E_POPUP_ITEM (N_("Make this Occurrence _Movable"), GTK_SIGNAL_FUNC (e_week_view_on_unrecur_appointment), MASK_RECURRING | MASK_EDITING | MASK_EDITABLE | MASK_INSTANCE),
-	E_POPUP_ITEM (N_("Delete this _Occurrence"), GTK_SIGNAL_FUNC (e_week_view_on_delete_occurrence), MASK_RECURRING | MASK_EDITING | MASK_EDITABLE),
-	E_POPUP_ITEM (N_("Delete _All Occurrences"), GTK_SIGNAL_FUNC (e_week_view_on_delete_appointment), MASK_RECURRING | MASK_EDITING | MASK_EDITABLE),
-
-	E_POPUP_TERMINATOR
-};
-
-static void
-free_view_popup (GtkWidget *widget, gpointer data)
-{
-	EWeekView *week_view = E_WEEK_VIEW (data);
-
-	if (week_view->view_menu == NULL)
-		return;
-	
-	gnome_calendar_discard_view_popup (e_cal_view_get_calendar (E_CAL_VIEW (week_view)),
-					   week_view->view_menu);
-	week_view->view_menu = NULL;
-}
-
 void
 e_week_view_show_popup_menu (EWeekView	     *week_view,
 			     GdkEventButton  *bevent,
 			     gint	      event_num)
 {
 	EWeekViewEvent *event;
-	int have_selection;
-	gboolean being_edited;
-	guint32 disable_mask = 0, hide_mask = 0;
-	EPopupMenu *context_menu;
 	GtkMenu *popup;
 	
-	have_selection = GTK_WIDGET_HAS_FOCUS (week_view)
-		&& week_view->selection_start_day != -1;
-
-	/*
-	 * This used to be set only if the event wasn't being edited
-	 * in the event editor, but we can't check that at present.
-	 * We could possibly set up another method of checking it.
-	 */
-	being_edited = FALSE;
-
-	if (event_num == -1) {
-		week_view->view_menu = gnome_calendar_setup_view_popup (e_cal_view_get_calendar (E_CAL_VIEW (week_view)));
-		main_items[9].submenu = week_view->view_menu;
-		context_menu = main_items;
-	} else {
-		context_menu = child_items;
-		event = &g_array_index (week_view->events,
-					EWeekViewEvent, event_num);
-
-		if (cal_component_has_recurrences (event->comp))
-			hide_mask |= MASK_SINGLE;
-		else
-			hide_mask |= MASK_RECURRING;
-
-		if (cal_component_is_instance (event->comp))
-			hide_mask |= MASK_INSTANCE;
-
-		if (cal_component_has_organizer (event->comp)) {
-			disable_mask |= MASK_MEETING;
-
-			if (!itip_organizer_is_user (event->comp,
-						     e_cal_view_get_cal_client (E_CAL_VIEW (week_view))))
-				disable_mask |= MASK_MEETING_ORGANIZER;
-		}
-	}
-
-	if (cal_client_is_read_only (e_cal_view_get_cal_client (E_CAL_VIEW (week_view))))
-		disable_mask |= MASK_EDITABLE;
-
-	if (being_edited)
-		disable_mask |= MASK_EDITING;
 	week_view->popup_event_num = event_num;
 
-	popup = e_popup_menu_create (context_menu, disable_mask, hide_mask, week_view);
-	g_signal_connect (popup, "selection-done", G_CALLBACK (free_view_popup), week_view);
+	popup = e_cal_view_create_popup_menu (E_CAL_VIEW (week_view));
 	e_popup_menu (popup, (GdkEvent *) bevent);
 }
 
@@ -3635,305 +3409,20 @@ e_week_view_popup_menu (GtkWidget *widget)
 	return TRUE;
 }
 
-static void
-e_week_view_on_new_appointment (GtkWidget *widget, gpointer data)
-{
-	EWeekView *week_view = E_WEEK_VIEW (data);
-
-	e_week_view_new_appointment (week_view, FALSE);
-}
-
-
-static void
-e_week_view_on_new_event (GtkWidget *widget, gpointer data)
-{
-	EWeekView *week_view = E_WEEK_VIEW (data);
-	time_t dtstart, dtend;
-
-	dtstart = week_view->day_starts[week_view->selection_start_day];
-	dtend = week_view->day_starts[week_view->selection_end_day + 1];
-	gnome_calendar_new_appointment_for (
-		e_cal_view_get_calendar (E_CAL_VIEW (week_view)), dtstart, dtend, TRUE, FALSE);
-}
-
-static void
-e_week_view_on_new_meeting (GtkWidget *widget, gpointer data)
-{
-	EWeekView *week_view = E_WEEK_VIEW (data);
-
-	e_week_view_new_appointment (week_view, TRUE);
-}
-
-static void
-e_week_view_on_new_task (GtkWidget *widget, gpointer data)
-{
-	EWeekView *week_view = E_WEEK_VIEW (data);
-
-	gnome_calendar_new_task (e_cal_view_get_calendar (E_CAL_VIEW (week_view)));
-}
-
-static void
-e_week_view_on_goto_date (GtkWidget *widget, gpointer data)
-{
-	EWeekView *week_view = E_WEEK_VIEW (data);
-
-	goto_dialog (e_cal_view_get_calendar (E_CAL_VIEW (week_view)));
-}
-
-static void
-e_week_view_on_goto_today (GtkWidget *widget, gpointer data)
-{
-	EWeekView *week_view = E_WEEK_VIEW (data);
-
-	calendar_goto_today (e_cal_view_get_calendar (E_CAL_VIEW (week_view)));
-}
-
-static void
-e_week_view_on_edit_appointment (GtkWidget *widget, gpointer data)
-{
-	EWeekView *week_view;
-	EWeekViewEvent *event;
-	GnomeCalendar *calendar;
-
-	week_view = E_WEEK_VIEW (data);
-
-	if (week_view->popup_event_num == -1)
-		return;
-
-	event = &g_array_index (week_view->events, EWeekViewEvent,
-				week_view->popup_event_num);
-
-	calendar = e_cal_view_get_calendar (E_CAL_VIEW (week_view));
-	if (calendar)
-		gnome_calendar_edit_object (calendar, event->comp, FALSE);
-	else
-		g_warning ("Calendar not set");
-}
-
-static void
-e_week_view_on_print (GtkWidget *widget, gpointer data)
-{
-	EWeekView *week_view;
-	time_t start;
-	GnomeCalendarViewType view_type;
-	PrintView print_view;
-
-	week_view = E_WEEK_VIEW (data);
-
-	gnome_calendar_get_current_time_range (e_cal_view_get_calendar (E_CAL_VIEW (week_view)), &start, NULL);
-	view_type = gnome_calendar_get_view (e_cal_view_get_calendar (E_CAL_VIEW (week_view)));
-
-	switch (view_type) {
-	case GNOME_CAL_WEEK_VIEW:
-		print_view = PRINT_VIEW_WEEK;
-		break;
-
-	case GNOME_CAL_MONTH_VIEW:
-		print_view = PRINT_VIEW_MONTH;
-		break;
-
-	default:
-		g_assert_not_reached ();
-		return;
-	}
-
-	print_calendar (e_cal_view_get_calendar (E_CAL_VIEW (week_view)), FALSE, start, print_view);
-}
-
-static void
-e_week_view_on_save_as (GtkWidget *widget, gpointer data)
-{
-	EWeekView *week_view;
-	EWeekViewEvent *event;
-	char *filename;
-	char *ical_string;
-	FILE *file;
-
-	week_view = E_WEEK_VIEW (data);
-
-	if (week_view->popup_event_num == -1)
-		return;
-
-	event = &g_array_index (week_view->events, EWeekViewEvent,
-				week_view->popup_event_num);
-	
-	filename = e_file_dialog_save (_("Save as..."));
-	if (filename == NULL)
-		return;
-	
-	ical_string = cal_client_get_component_as_string (e_cal_view_get_cal_client (E_CAL_VIEW (week_view)),
-							  event->comp);
-	if (ical_string == NULL) {
-		g_warning ("Couldn't convert item to a string");
-		return;
-	}
-	
-	file = fopen (filename, "w");
-	if (file == NULL) {
-		g_warning ("Couldn't save item");
-		return;
-	}
-	
-	fprintf (file, ical_string);
-	g_free (ical_string);
-	fclose (file);
-}
-
-static void
-e_week_view_on_print_event (GtkWidget *widget, gpointer data)
-{
-	EWeekView *week_view;
-	EWeekViewEvent *event;
-
-	week_view = E_WEEK_VIEW (data);
-
-	if (week_view->popup_event_num == -1)
-		return;
-
-	event = &g_array_index (week_view->events, EWeekViewEvent,
-				week_view->popup_event_num);
-
-	print_comp (event->comp, e_cal_view_get_cal_client (E_CAL_VIEW (week_view)), FALSE);
-}
-
-static void
-e_week_view_on_meeting (GtkWidget *widget, gpointer data)
-{
-	EWeekView *week_view;
-	EWeekViewEvent *event;
-	GnomeCalendar *calendar;
-
-	week_view = E_WEEK_VIEW (data);
-
-	if (week_view->popup_event_num == -1)
-		return;
-
-	event = &g_array_index (week_view->events, EWeekViewEvent,
-				week_view->popup_event_num);
-
-	calendar = e_cal_view_get_calendar (E_CAL_VIEW (week_view));
-	if (calendar)
-		gnome_calendar_edit_object (calendar, event->comp, TRUE);
-	else
-		g_warning ("Calendar not set");
-}
-
-static void
-e_week_view_on_forward (GtkWidget *widget, gpointer data)
-{
-	EWeekView *week_view;
-	EWeekViewEvent *event;
-
-	week_view = E_WEEK_VIEW (data);
-
-	if (week_view->popup_event_num == -1)
-		return;
-
-	event = &g_array_index (week_view->events, EWeekViewEvent,
-				week_view->popup_event_num);
-
-	itip_send_comp (CAL_COMPONENT_METHOD_PUBLISH, event->comp, 
-			e_cal_view_get_cal_client (E_CAL_VIEW (week_view)), NULL);
-}
-
-static void
-e_week_view_on_publish (GtkWidget *widget, gpointer data)
-{
-	EWeekView *week_view;
-	icaltimezone *utc;
-	time_t start = time (NULL), end;
-	GList *comp_list;
-
-	week_view = E_WEEK_VIEW (data);
-
-	utc = icaltimezone_get_utc_timezone ();
-	start = time_day_begin_with_zone (start, utc);
-	end = time_add_week_with_zone (start, 6, utc);
-
-	comp_list = cal_client_get_free_busy (e_cal_view_get_cal_client (E_CAL_VIEW (week_view)), NULL,
-					      start, end);
-	if (comp_list) {
-		GList *l;
-
-		for (l = comp_list; l; l = l->next) {
-			CalComponent *comp = CAL_COMPONENT (l->data);
-			itip_send_comp (CAL_COMPONENT_METHOD_PUBLISH, comp, 
-					e_cal_view_get_cal_client (E_CAL_VIEW (week_view)), NULL);
-
-			g_object_unref (comp);
-		}
-
- 		g_list_free (comp_list);
-	}
-}
-
-static void
-e_week_view_on_settings (GtkWidget *widget, gpointer data)
-{
-	EWeekView *week_view;
-
-	week_view = E_WEEK_VIEW (data);
-
-	control_util_show_settings (e_cal_view_get_calendar (E_CAL_VIEW (week_view)));
-}
-
-static void
-e_week_view_delete_event_internal (EWeekView *week_view, gint event_num)
-{
-	CalComponentVType vtype;
-	EWeekViewEvent *event;
-
-	event = &g_array_index (week_view->events, EWeekViewEvent,
-				event_num);
-
-	vtype = cal_component_get_vtype (event->comp);
-
-	if (delete_component_dialog (event->comp, FALSE, 1, vtype,
-				     GTK_WIDGET (week_view))) {
-		const char *uid;
-
-		if (itip_organizer_is_user (event->comp,
-					    e_cal_view_get_cal_client (E_CAL_VIEW (week_view))) 
-		    && cancel_component_dialog ((GtkWindow *) gtk_widget_get_toplevel (week_view),
-						e_cal_view_get_cal_client (E_CAL_VIEW (week_view)),
-						event->comp, TRUE))
-			itip_send_comp (CAL_COMPONENT_METHOD_CANCEL, event->comp,
-					e_cal_view_get_cal_client (E_CAL_VIEW (week_view)), NULL);
-
-		cal_component_get_uid (event->comp, &uid);
-
-		delete_error_dialog (
-			cal_client_remove_object (e_cal_view_get_cal_client (E_CAL_VIEW (week_view)),
-						  uid), CAL_COMPONENT_EVENT);
-	}
-}
-
-
-static void
-e_week_view_on_delete_appointment (GtkWidget *widget, gpointer data)
-{
-	EWeekView *week_view;
-
-	week_view = E_WEEK_VIEW (data);
-
-	if (week_view->popup_event_num == -1)
-		return;
-
-	e_week_view_delete_event_internal (week_view,
-					   week_view->popup_event_num);
-}
-
-
 void
 e_week_view_delete_event		(EWeekView       *week_view)
 {
+	EWeekViewEvent *event;
+
 	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
 
 	if (week_view->editing_event_num == -1)
 		return;
 
-	e_week_view_delete_event_internal (week_view,
-					   week_view->editing_event_num);
+	event = &g_array_index (week_view->events, EWeekViewEvent, week_view->editing_event_num);
+	if (!event)
+		return;
+	e_cal_view_delete_event_internal (week_view, event->comp);
 }
 
 
@@ -3970,19 +3459,6 @@ e_week_view_delete_occurrence_internal (EWeekView *week_view, gint event_num)
 	g_object_unref (comp);
 }
 
-static void
-e_week_view_on_delete_occurrence (GtkWidget *widget, gpointer data)
-{
-	EWeekView *week_view;
-
-	week_view = E_WEEK_VIEW (data);
-
-	if (week_view->popup_event_num == -1)
-		return;
-
-	e_week_view_delete_occurrence_internal (week_view, week_view->popup_event_num);
-}
-
 void
 e_week_view_delete_occurrence (EWeekView *week_view)
 {
@@ -3994,40 +3470,13 @@ e_week_view_delete_occurrence (EWeekView *week_view)
 	e_week_view_delete_occurrence_internal (week_view, week_view->editing_event_num);
 }
 
-static void
-e_week_view_on_cut (GtkWidget *widget, gpointer data)
+void
+e_week_view_unrecur_appointment (EWeekView *week_view)
 {
-	EWeekView *week_view = E_WEEK_VIEW (data);
-
-	e_cal_view_cut_clipboard (E_CAL_VIEW (week_view));
-}
-
-static void
-e_week_view_on_copy (GtkWidget *widget, gpointer data)
-{
-	EWeekView *week_view = E_WEEK_VIEW (data);
-
-	e_cal_view_copy_clipboard (E_CAL_VIEW (week_view));
-}
-
-static void
-e_week_view_on_paste (GtkWidget *widget, gpointer data)
-{
-	EWeekView *week_view = E_WEEK_VIEW (data);
-
-	e_cal_view_paste_clipboard (E_CAL_VIEW (week_view));
-}
-
-static void
-e_week_view_on_unrecur_appointment (GtkWidget *widget, gpointer data)
-{
-	EWeekView *week_view;
 	EWeekViewEvent *event;
 	CalComponent *comp, *new_comp;
 	CalComponentDateTime date;
 	struct icaltimetype itt;
-
-	week_view = E_WEEK_VIEW (data);
 
 	if (week_view->popup_event_num == -1)
 		return;

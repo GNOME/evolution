@@ -407,7 +407,6 @@ struct _EDayView
 	/* The event for which a popup menu is being displayed, as above. */
 	gint popup_event_day;
 	gint popup_event_num;
-	EPopupMenu *view_menu;
 	
 	/* The currently selected region. If selection_start_day is -1 there is
 	   no current selection. If start_row or end_row is -1 then the

@@ -26,13 +26,20 @@
 #include <gtk/gtkinvisible.h>
 #include <libgnome/gnome-i18n.h>
 #include <gal/util/e-util.h>
+#include "e-util/e-dialog-utils.h"
+#include "cal-util/timeutil.h"
 #include "evolution-activity-client.h"
+#include "calendar-commands.h"
 #include "calendar-config.h"
 #include "e-cal-view.h"
 #include "itip-utils.h"
-#include "dialogs/cancel-comp.h"
+#include "dialogs/delete-comp.h"
 #include "dialogs/delete-error.h"
 #include "dialogs/send-comp.h"
+#include "dialogs/cancel-comp.h"
+#include "dialogs/recur-comp.h"
+#include "print.h"
+#include "goto.h"
 
 /* Used for the status bar messages */
 #define EVOLUTION_CALENDAR_PROGRESS_IMAGE "evolution-calendar-mini.png"
@@ -54,6 +61,9 @@ struct _ECalViewPrivate {
 	/* the invisible widget to manage the clipboard selections */
 	GtkWidget *invisible;
 	gchar *clipboard_selection;
+
+	/* The popup menu */
+	EPopupMenu *view_menu;
 };
 
 static void e_cal_view_class_init (ECalViewClass *klass);
@@ -75,6 +85,7 @@ static void
 e_cal_view_class_init (ECalViewClass *klass)
 {
 	GtkObjectClass *object_class = GTK_OBJECT_CLASS (klass);
+	GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
 	parent_class = g_type_class_peek_parent (klass);
 
@@ -461,12 +472,14 @@ e_cal_view_set_selected_time_range (ECalView *cal_view, time_t start_time, time_
 gboolean
 e_cal_view_get_visible_time_range (ECalView *cal_view, time_t *start_time, time_t *end_time)
 {
-	g_return_if_fail (E_IS_CAL_VIEW (cal_view));
+	g_return_val_if_fail (E_IS_CAL_VIEW (cal_view), FALSE);
 
 	if (E_CAL_VIEW_CLASS (G_OBJECT_GET_CLASS (cal_view))->get_visible_time_range) {
-		E_CAL_VIEW_CLASS (G_OBJECT_GET_CLASS (cal_view))->get_visible_time_range (
+		return E_CAL_VIEW_CLASS (G_OBJECT_GET_CLASS (cal_view))->get_visible_time_range (
 			cal_view, start_time, end_time);
 	}
+
+	return FALSE;
 }
 
 void
@@ -559,4 +572,467 @@ e_cal_view_paste_clipboard (ECalView *cal_view)
 			       clipboard_atom,
 			       GDK_SELECTION_TYPE_STRING,
 			       GDK_CURRENT_TIME);
+}
+
+static void
+on_new_appointment (GtkWidget *widget, gpointer user_data)
+{
+	time_t dtstart, dtend;
+	ECalView *cal_view = (ECalView *) user_data;
+
+	e_cal_view_get_selected_time_range (cal_view, &dtstart, &dtend);
+	gnome_calendar_new_appointment_for (cal_view->priv->calendar, dtstart, dtend, FALSE, FALSE);
+}
+
+static void
+on_new_event (GtkWidget *widget, gpointer user_data)
+{
+	time_t dtstart, dtend;
+	ECalView *cal_view = (ECalView *) user_data;
+
+	e_cal_view_get_selected_time_range (cal_view, &dtstart, &dtend);
+	gnome_calendar_new_appointment_for (cal_view->priv->calendar, dtstart, dtend, TRUE, FALSE);
+}
+
+static void
+on_new_meeting (GtkWidget *widget, gpointer user_data)
+{
+	time_t dtstart, dtend;
+	ECalView *cal_view = (ECalView *) user_data;
+
+	e_cal_view_get_selected_time_range (cal_view, &dtstart, &dtend);
+	gnome_calendar_new_appointment_for (cal_view->priv->calendar, dtstart, dtend, FALSE, TRUE);
+}
+
+static void
+on_new_task (GtkWidget *widget, gpointer user_data)
+{
+	ECalView *cal_view = (ECalView *) user_data;
+	gnome_calendar_new_task (cal_view->priv->calendar);
+}
+
+static void
+on_goto_date (GtkWidget *widget, gpointer user_data)
+{
+	ECalView *cal_view = E_CAL_VIEW (user_data);
+
+	goto_dialog (cal_view->priv->calendar);
+}
+
+static void
+on_goto_today (GtkWidget *widget, gpointer user_data)
+{
+	ECalView *cal_view = E_CAL_VIEW (user_data);
+
+	calendar_goto_today (cal_view->priv->calendar);
+}
+
+static void
+on_edit_appointment (GtkWidget *widget, gpointer user_data)
+{
+	GList *selected;
+	ECalView *cal_view = E_CAL_VIEW (user_data);
+
+	selected = e_cal_view_get_selected_events (cal_view);
+	if (selected) {
+		gnome_calendar_edit_object (cal_view->priv->calendar, CAL_COMPONENT (selected->data), FALSE);
+
+		g_list_free (selected);
+	}
+}
+
+static void
+on_print (GtkWidget *widget, gpointer user_data)
+{
+	ECalView *cal_view;
+	time_t start;
+	GnomeCalendarViewType view_type;
+	PrintView print_view;
+
+	cal_view = E_CAL_VIEW (user_data);
+
+	gnome_calendar_get_current_time_range (cal_view->priv->calendar, &start, NULL);
+	view_type = gnome_calendar_get_view (cal_view->priv->calendar);
+
+	switch (view_type) {
+	case GNOME_CAL_WEEK_VIEW:
+		print_view = PRINT_VIEW_WEEK;
+		break;
+
+	case GNOME_CAL_MONTH_VIEW:
+		print_view = PRINT_VIEW_MONTH;
+		break;
+
+	default:
+		g_assert_not_reached ();
+		return;
+	}
+
+	print_calendar (cal_view->priv->calendar, FALSE, start, print_view);
+}
+
+static void
+on_save_as (GtkWidget *widget, gpointer user_data)
+{
+	ECalView *cal_view;
+	GList *selected;
+	char *filename;
+	char *ical_string;
+	FILE *file;
+
+	cal_view = E_CAL_VIEW (user_data);
+
+	selected = e_cal_view_get_selected_events (cal_view);
+	if (!selected)
+		return;
+
+	filename = e_file_dialog_save (_("Save as..."));
+	if (filename == NULL)
+		return;
+	
+	ical_string = cal_client_get_component_as_string (cal_view->priv->client,
+							  CAL_COMPONENT (selected->data));
+	if (ical_string == NULL) {
+		g_warning ("Couldn't convert item to a string");
+		return;
+	}
+	
+	file = fopen (filename, "w");
+	if (file == NULL) {
+		g_warning ("Couldn't save item");
+		return;
+	}
+	
+	fprintf (file, ical_string);
+	g_free (ical_string);
+	fclose (file);
+
+	g_list_free (selected);
+}
+
+static void
+on_print_event (GtkWidget *widget, gpointer user_data)
+{
+	ECalView *cal_view;
+	GList *selected;
+
+	cal_view = E_CAL_VIEW (user_data);
+	selected = e_cal_view_get_selected_events (cal_view);
+	if (!selected)
+		return;
+
+	print_comp (CAL_COMPONENT (selected->data), cal_view->priv->client, FALSE);
+}
+
+static void
+on_meeting (GtkWidget *widget, gpointer user_data)
+{
+	GList *selected;
+	ECalView *cal_view = E_CAL_VIEW (user_data);
+
+	selected = e_cal_view_get_selected_events (cal_view);
+	if (selected) {
+		gnome_calendar_edit_object (cal_view->priv->calendar, CAL_COMPONENT (selected->data), TRUE);
+
+		g_list_free (selected);
+	}
+}
+
+static void
+on_forward (GtkWidget *widget, gpointer user_data)
+{
+	GList *selected;
+	ECalView *cal_view = E_CAL_VIEW (user_data);
+
+	selected = e_cal_view_get_selected_events (cal_view);
+	if (selected) {
+		itip_send_comp (CAL_COMPONENT_METHOD_PUBLISH, CAL_COMPONENT (selected->data),
+				cal_view->priv->client, NULL);
+
+		g_list_free (selected);
+	}
+}
+
+static void
+on_publish (GtkWidget *widget, gpointer user_data)
+{
+	ECalView *cal_view;
+	icaltimezone *utc;
+	time_t start = time (NULL), end;
+	GList *comp_list;
+
+	cal_view = E_CAL_VIEW (user_data);
+
+	utc = icaltimezone_get_utc_timezone ();
+	start = time_day_begin_with_zone (start, utc);
+	end = time_add_week_with_zone (start, 6, utc);
+
+	comp_list = cal_client_get_free_busy (cal_view->priv->client, NULL, start, end);
+	if (comp_list) {
+		GList *l;
+
+		for (l = comp_list; l; l = l->next) {
+			CalComponent *comp = CAL_COMPONENT (l->data);
+			itip_send_comp (CAL_COMPONENT_METHOD_PUBLISH, comp, cal_view->priv->client, NULL);
+
+			g_object_unref (comp);
+		}
+
+ 		g_list_free (comp_list);
+	}
+}
+
+static void
+on_settings (GtkWidget *widget, gpointer user_data)
+{
+	ECalView *cal_view;
+
+	cal_view = E_CAL_VIEW (user_data);
+	control_util_show_settings (cal_view->priv->calendar);
+}
+
+void
+e_cal_view_delete_event_internal (ECalView *cal_view, CalComponent *comp)
+{
+	CalComponentVType vtype;
+
+	vtype = cal_component_get_vtype (comp);
+
+	if (delete_component_dialog (comp, FALSE, 1, vtype, GTK_WIDGET (cal_view))) {
+		const char *uid;
+
+		if (itip_organizer_is_user (comp, cal_view->priv->client) 
+		    && cancel_component_dialog ((GtkWindow *) gtk_widget_get_toplevel (cal_view),
+						cal_view->priv->client,
+						comp, TRUE))
+			itip_send_comp (CAL_COMPONENT_METHOD_CANCEL, comp,
+					cal_view->priv->client, NULL);
+
+		cal_component_get_uid (comp, &uid);
+
+		delete_error_dialog (
+			cal_client_remove_object (cal_view->priv->client, uid), CAL_COMPONENT_EVENT);
+	}
+}
+
+
+static void
+on_delete_appointment (GtkWidget *widget, gpointer user_data)
+{
+	ECalView *cal_view;
+	GList *selected;
+
+	cal_view = E_CAL_VIEW (user_data);
+
+	selected = e_cal_view_get_selected_events (cal_view);
+	if (selected) {
+		e_cal_view_delete_event_internal (cal_view, CAL_COMPONENT (selected->data));
+		g_list_free (selected);
+	}
+}
+
+static void
+on_delete_occurrence (GtkWidget *widget, gpointer user_data)
+{
+	ECalView *cal_view;
+
+	cal_view = E_CAL_VIEW (user_data);
+	gnome_calendar_delete_selected_occurrence (cal_view->priv->calendar);
+}
+
+static void
+on_cut (GtkWidget *widget, gpointer user_data)
+{
+	ECalView *cal_view = E_CAL_VIEW (user_data);
+
+	e_cal_view_cut_clipboard (cal_view);
+}
+
+static void
+on_copy (GtkWidget *widget, gpointer user_data)
+{
+	ECalView *cal_view = E_CAL_VIEW (user_data);
+
+	e_cal_view_copy_clipboard (cal_view);
+}
+
+static void
+on_paste (GtkWidget *widget, gpointer user_data)
+{
+	ECalView *cal_view = E_CAL_VIEW (user_data);
+
+	e_cal_view_paste_clipboard (cal_view);
+}
+
+static void
+on_unrecur_appointment (GtkWidget *widget, gpointer user_data)
+{
+	ECalView *cal_view = E_CAL_VIEW (user_data);
+
+	gnome_calendar_unrecur_selection (cal_view->priv->calendar);
+}
+
+enum {
+	/*
+	 * This is used to "flag" events that can not be editted
+	 */
+	MASK_EDITABLE = 1,
+
+	/*
+	 * To disable recurring actions to be displayed
+	 */
+	MASK_RECURRING = 2,
+
+	/*
+	 * To disable actions for non-recurring items to be displayed
+	 */
+	MASK_SINGLE   = 4,
+
+	/*
+	 * This is used to when an event is currently being edited
+	 * in another window and we want to disable the event
+	 * from being edited twice
+	 */
+	MASK_EDITING  = 8,
+
+	/*
+	 * This is used to when an event is already a meeting and
+	 * we want to disable the schedule meeting command
+	 */
+	MASK_MEETING  = 16,
+
+	/*
+	 * To disable cut and copy for meetings the user is not the
+	 * organizer of
+	 */
+	MASK_MEETING_ORGANIZER = 32,
+
+	/*
+	 * To disable things not valid for instances
+	 */
+	MASK_INSTANCE = 64
+};
+
+static EPopupMenu main_items [] = {
+	E_POPUP_ITEM (N_("New _Appointment..."), GTK_SIGNAL_FUNC (on_new_appointment), MASK_EDITABLE),
+	E_POPUP_ITEM (N_("New All Day _Event"), GTK_SIGNAL_FUNC (on_new_event), MASK_EDITABLE),
+	E_POPUP_ITEM (N_("New Meeting"), GTK_SIGNAL_FUNC (on_new_meeting), MASK_EDITABLE),
+	E_POPUP_ITEM (N_("New Task"), GTK_SIGNAL_FUNC (on_new_task), MASK_EDITABLE),
+
+	E_POPUP_SEPARATOR,
+
+	E_POPUP_ITEM (N_("_Print..."), GTK_SIGNAL_FUNC (on_print), 0),
+
+	E_POPUP_SEPARATOR,
+
+	E_POPUP_ITEM (N_("_Paste"), GTK_SIGNAL_FUNC (on_paste), MASK_EDITABLE),
+
+	E_POPUP_SEPARATOR,
+
+	E_POPUP_SUBMENU (N_("Current View"), NULL, 0),
+	
+	E_POPUP_ITEM (N_("Go to _Today"), GTK_SIGNAL_FUNC (on_goto_today), 0),
+	E_POPUP_ITEM (N_("_Go to Date..."), GTK_SIGNAL_FUNC (on_goto_date), 0),
+
+	E_POPUP_SEPARATOR,
+
+	E_POPUP_ITEM (N_("_Publish Free/Busy Information"), GTK_SIGNAL_FUNC (on_publish), 0),
+
+	E_POPUP_SEPARATOR,
+
+	E_POPUP_ITEM (N_("_Settings..."), GTK_SIGNAL_FUNC (on_settings), 0),
+
+	E_POPUP_TERMINATOR
+};
+
+static EPopupMenu child_items [] = {
+	E_POPUP_ITEM (N_("_Open"), GTK_SIGNAL_FUNC (on_edit_appointment), MASK_EDITING),
+	E_POPUP_ITEM (N_("_Save As..."), GTK_SIGNAL_FUNC (on_save_as), MASK_EDITING),
+	E_POPUP_ITEM (N_("_Print..."), GTK_SIGNAL_FUNC (on_print_event), MASK_EDITING),
+
+	/* Only show this separator if one of the above is shown. */
+	E_POPUP_SEPARATOR,
+
+	E_POPUP_ITEM (N_("C_ut"), GTK_SIGNAL_FUNC (on_cut), MASK_EDITING | MASK_EDITABLE | MASK_MEETING_ORGANIZER),
+	E_POPUP_ITEM (N_("_Copy"), GTK_SIGNAL_FUNC (on_copy), MASK_EDITING | MASK_MEETING_ORGANIZER),
+	E_POPUP_ITEM (N_("_Paste"), GTK_SIGNAL_FUNC (on_paste), MASK_EDITABLE),
+
+	E_POPUP_SEPARATOR,
+
+	E_POPUP_ITEM (N_("_Schedule Meeting..."), GTK_SIGNAL_FUNC (on_meeting), MASK_EDITABLE | MASK_EDITING | MASK_MEETING),
+	E_POPUP_ITEM (N_("_Forward as iCalendar..."), GTK_SIGNAL_FUNC (on_forward), MASK_EDITING),
+
+	E_POPUP_SEPARATOR,
+
+	E_POPUP_ITEM (N_("_Delete"), GTK_SIGNAL_FUNC (on_delete_appointment), MASK_EDITABLE | MASK_SINGLE | MASK_EDITING),
+	E_POPUP_ITEM (N_("Make this Occurrence _Movable"), GTK_SIGNAL_FUNC (on_unrecur_appointment), MASK_RECURRING | MASK_EDITING | MASK_EDITABLE | MASK_INSTANCE),
+	E_POPUP_ITEM (N_("Delete this _Occurrence"), GTK_SIGNAL_FUNC (on_delete_occurrence), MASK_RECURRING | MASK_EDITING | MASK_EDITABLE),
+	E_POPUP_ITEM (N_("Delete _All Occurrences"), GTK_SIGNAL_FUNC (on_delete_appointment), MASK_RECURRING | MASK_EDITING | MASK_EDITABLE),
+
+	E_POPUP_TERMINATOR
+};
+
+static void
+free_view_popup (GtkWidget *widget, gpointer data)
+{
+	ECalView *cal_view = E_CAL_VIEW (data);
+
+	if (cal_view->priv->view_menu == NULL)
+		return;
+	
+	gnome_calendar_discard_view_popup (cal_view->priv->calendar, cal_view->priv->view_menu);
+	cal_view->priv->view_menu = NULL;
+}
+
+GtkMenu *
+e_cal_view_create_popup_menu (ECalView *cal_view)
+{
+	gboolean being_edited, have_selection;
+	GList *selected;
+	EPopupMenu *context_menu;
+	guint32 disable_mask = 0, hide_mask = 0;
+	GtkMenu *popup;
+
+	g_return_val_if_fail (E_IS_CAL_VIEW (cal_view), NULL);
+
+	/* get the selection */
+	being_edited = FALSE;
+	selected = e_cal_view_get_selected_events (cal_view);
+
+	have_selection = GTK_WIDGET_HAS_FOCUS (cal_view) && selected != NULL;
+
+	if (selected == NULL) {
+		cal_view->priv->view_menu = gnome_calendar_setup_view_popup (cal_view->priv->calendar);
+		main_items[9].submenu = cal_view->priv->view_menu;
+		context_menu = main_items;
+	} else {
+		context_menu = child_items;
+
+		if (cal_component_has_recurrences (CAL_COMPONENT (selected->data)))
+			hide_mask |= MASK_SINGLE;
+		else
+			hide_mask |= MASK_RECURRING;
+
+		if (cal_component_is_instance (CAL_COMPONENT (selected->data)))
+			hide_mask |= MASK_INSTANCE;
+
+		if (cal_component_has_organizer (CAL_COMPONENT (selected->data))) {
+			disable_mask |= MASK_MEETING;
+
+			if (!itip_organizer_is_user (CAL_COMPONENT (selected->data),
+						     cal_view->priv->client))
+				disable_mask |= MASK_MEETING_ORGANIZER;
+		}
+	}
+
+	if (cal_client_is_read_only (cal_view->priv->client))
+		disable_mask |= MASK_EDITABLE;
+
+	if (being_edited)
+		disable_mask |= MASK_EDITING;
+
+	popup = e_popup_menu_create (context_menu, disable_mask, hide_mask, cal_view);
+	g_signal_connect (popup, "selection-done", G_CALLBACK (free_view_popup), cal_view);
+
+	return popup;
 }

@@ -80,6 +80,9 @@ void           e_cal_view_update_query (ECalView *cal_view);
 void           e_cal_view_cut_clipboard (ECalView *cal_view);
 void           e_cal_view_copy_clipboard (ECalView *cal_view);
 void           e_cal_view_paste_clipboard (ECalView *cal_view);
+void           e_cal_view_delete_event_internal (ECalView *cal_view, CalComponent *comp);
+
+GtkMenu       *e_cal_view_create_popup_menu (ECalView *cal_view);
 
 G_END_DECLS
 
