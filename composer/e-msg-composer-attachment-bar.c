@@ -148,7 +148,7 @@ add_common (EMsgComposerAttachmentBar *bar,
 	
 	update (bar);
 	
-	g_signal_emit (bar, 0, signals[CHANGED]);
+	g_signal_emit (bar, signals[CHANGED], 0);
 }
 
 static void
@@ -194,7 +194,7 @@ remove_attachment (EMsgComposerAttachmentBar *bar,
 	
 	g_object_unref(attachment);
 	
-	g_signal_emit (GTK_OBJECT (bar), 0, signals[CHANGED]);
+	g_signal_emit (bar, signals[CHANGED], 0);
 }
 
 
@@ -664,6 +664,8 @@ init (EMsgComposerAttachmentBar *bar)
 #warning "FIXME: check icon_hight calculation with pango_font"
 	icon_height = icon_size + pango_font_description_get_size(GTK_WIDGET (bar)->style->font_desc)*2;
 	icon_size += 24;
+
+	printf("set size %d,%d\n", icon_size*4, icon_height);
 	
 	gtk_widget_set_size_request (GTK_WIDGET (bar), icon_size * 4, icon_height);
 }

@@ -2,6 +2,7 @@
 /*
  *  Authors: Ettore Perazzoli <ettore@ximian.com>
  *           Jeffrey Stedfast <fejj@ximian.com>
+ *	     Michael Zucchi <notzed@ximian.com>
  *
  *  Copyright 2002 Ximian, Inc. (www.ximian.com)
  *
@@ -31,213 +32,55 @@
 #include <gtk/gtkfilesel.h>
 #include <gtk/gtkmain.h>
 #include <gtk/gtksignal.h>
-#include <gal/widgets/e-file-selection.h>
 
 #include <libgnomeui/gnome-uidefs.h>
 #include <libgnomeui/gnome-window-icon.h>
 
 #include "e-msg-composer-select-file.h"
 
-
-typedef struct _FileSelectionInfo {
-	GtkWidget *widget;
-	GtkToggleButton *inline_checkbox;
-	gboolean multiple;
-	GPtrArray *selected_files;
-} FileSelectionInfo;
-
-static void
-confirm (FileSelectionInfo *info)
+static GtkFileSelection *
+run_selector(EMsgComposer *composer, const char *title, int multi, gboolean *showinline_p)
 {
-	char **file_list;
-	int i;
-
-	file_list = e_file_selection_get_filenames (E_FILE_SELECTION (info->widget));
-	
-	if (!info->selected_files)
-		info->selected_files = g_ptr_array_new ();
-
-	for (i = 0; file_list[i]; i++)
-		g_ptr_array_add (info->selected_files, file_list[i]);
-
-	g_free (file_list);
-	
-	gtk_widget_hide (info->widget);
-	
-	gtk_main_quit ();
-}
-
-static void
-cancel (FileSelectionInfo *info)
-{
-	g_assert (info->selected_files == NULL);
-	
-	gtk_widget_hide (info->widget);
-	
-	gtk_main_quit ();
-}
-
-
-/* Callbacks.  */
-
-static void
-ok_clicked_cb (GtkWidget *widget, void *data)
-{
-	FileSelectionInfo *info;
-	
-	info = (FileSelectionInfo *) data;
-	confirm (info);
-}
-
-static void
-cancel_clicked_cb (GtkWidget *widget, void *data)
-{
-	FileSelectionInfo *info;
-	
-	info = (FileSelectionInfo *) data;
-	cancel (info);
-}
-
-static int
-delete_event_cb (GtkWidget *widget, GdkEventAny *event, void *data)
-{
-	FileSelectionInfo *info;
-	
-	info = (FileSelectionInfo *) data;
-	cancel (info);
-	
-	return TRUE;
-}
-
-static void
-composer_hide_cb (GtkWidget *widget, gpointer user_data)
-{
-	FileSelectionInfo *info;
-	
-	info = (FileSelectionInfo *) user_data;
-	if (GTK_WIDGET_VISIBLE (info->widget))
-		cancel (info);
-}
-
-/* Setup.  */
-
-static FileSelectionInfo *
-create_file_selection (EMsgComposer *composer, gboolean multiple)
-{
-	FileSelectionInfo *info;
-	GtkWidget *widget;
-	GtkWidget *ok_button;
-	GtkWidget *cancel_button;
-	GtkWidget *inline_checkbox;
-	GtkWidget *box;
+	GtkFileSelection *selection;
+	GtkWidget *showinline = NULL;
+	GPtrArray *list = NULL;
 	char *path;
-	
-	info = g_new (FileSelectionInfo, 1);
-	
-	widget = e_file_selection_new (NULL);
-	gtk_window_set_wmclass (GTK_WINDOW (widget), "fileselection", 
-				"Evolution:composer");
-	gnome_window_icon_set_from_file (GTK_WINDOW (widget), EVOLUTION_DATADIR
-					 "/images/evolution/compose-message.png");
-	
-	path = g_strdup_printf ("%s/", g_get_home_dir ());
-	gtk_file_selection_set_filename (GTK_FILE_SELECTION (widget), path);
-	g_free (path);
-	
-	gtk_object_set (GTK_OBJECT (widget), "multiple", multiple, NULL);
-	
-	ok_button     = GTK_FILE_SELECTION (widget)->ok_button;
-	cancel_button = GTK_FILE_SELECTION (widget)->cancel_button;
-	
-	g_signal_connect((ok_button),
-			    "clicked", G_CALLBACK (ok_clicked_cb), info);
-	g_signal_connect((cancel_button),
-			    "clicked", G_CALLBACK (cancel_clicked_cb), info);
-	g_signal_connect((widget), "delete_event",
-			    G_CALLBACK (delete_event_cb), info);
-	
-	g_signal_connect((composer), "hide",
-			    G_CALLBACK (composer_hide_cb), info);
-	
-	inline_checkbox = gtk_check_button_new_with_label (_("Suggest automatic display of attachment"));
-	box = gtk_widget_get_ancestor (GTK_FILE_SELECTION (widget)->selection_entry, GTK_TYPE_BOX);
-	gtk_box_pack_end (GTK_BOX (box), inline_checkbox, FALSE, FALSE, 4);
-	
-	info->widget          = widget;
-	info->multiple        = multiple;
-	info->selected_files  = NULL;
-	info->inline_checkbox = GTK_TOGGLE_BUTTON (inline_checkbox);
-	
-	return info;
-}
 
-static void
-file_selection_info_destroy_notify (void *data)
-{
-	FileSelectionInfo *info;
-	int i;
-	
-	info = (FileSelectionInfo *) data;
-	
-	if (info->widget != NULL)
-		gtk_widget_destroy (GTK_WIDGET (info->widget));
-	
-	if (info->selected_files) {
-		for (i = 0; i < info->selected_files->len; i++)
-			g_free (info->selected_files->pdata[i]);
-		
-		g_ptr_array_free (info->selected_files, TRUE);
-	}
-	
-	g_free (info);
-}
+	selection = (GtkFileSelection *)gtk_file_selection_new(title);
+	gtk_window_set_transient_for((GtkWindow *)selection, (GtkWindow *)composer);
+	gtk_window_set_wmclass((GtkWindow *)selection, "fileselection", "Evolution:composer");
+	gtk_window_set_modal((GtkWindow *)selection, TRUE);
+	gnome_window_icon_set_from_file((GtkWindow *)selection, EVOLUTION_DATADIR "/images/evolution/compose-message.png");
+	gtk_file_selection_set_select_multiple((GtkFileSelection *)selection, multi);
 
+	/* restore last path used */
+	path = g_object_get_data((GObject *)composer, "attach_path");
+	if (path == NULL) {
+		path = g_strdup_printf("%s/", g_get_home_dir());
+		gtk_file_selection_set_filename(selection, path);
+		g_free(path);
+	} else {
+		gtk_file_selection_set_filename(selection, path);
+	}
 
-static GPtrArray *
-select_file_internal (EMsgComposer *composer,
-		      const char *title,
-		      gboolean multiple,
-		      gboolean *inline_p)
-{
-	FileSelectionInfo *info;
-	GPtrArray *files;
-	
-	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), NULL);
-	
-	info = gtk_object_get_data (GTK_OBJECT (composer),
-				    "e-msg-composer-file-selection-info");
-	
-	if (info == NULL) {
-		info = create_file_selection (composer, multiple);
-		gtk_object_set_data_full (GTK_OBJECT (composer),
-					  "e-msg-composer-file-selection-info", info,
-					  file_selection_info_destroy_notify);
-		gtk_window_set_modal((GtkWindow *)info->widget, TRUE);
+	if (showinline_p) {
+		showinline = gtk_check_button_new_with_label (_("Suggest automatic display of attachment"));
+		gtk_widget_show (showinline);
+		gtk_box_pack_end (GTK_BOX (selection->main_vbox), showinline, FALSE, FALSE, 4);
 	}
-	
-	if (GTK_WIDGET_VISIBLE (info->widget))
-		return NULL;		/* Busy!  */
-	
-	gtk_window_set_title (GTK_WINDOW (info->widget), title);
-	if (inline_p)
-		gtk_widget_show (GTK_WIDGET (info->inline_checkbox));
-	else
-		gtk_widget_hide (GTK_WIDGET (info->inline_checkbox));
-	gtk_widget_show (info->widget);
-	
-	GDK_THREADS_ENTER();
-	gtk_main ();
-	GDK_THREADS_LEAVE();
-	
-	files = info->selected_files;
-	info->selected_files = NULL;
-	
-	if (inline_p) {
-		*inline_p = gtk_toggle_button_get_active (info->inline_checkbox);
-		gtk_toggle_button_set_active (info->inline_checkbox, FALSE);
+
+	if (gtk_dialog_run((GtkDialog *)selection) == GTK_RESPONSE_OK) {
+		if (showinline_p)
+			*showinline_p = gtk_toggle_button_get_active((GtkToggleButton *)showinline);
+		path = g_path_get_dirname(gtk_file_selection_get_filename(selection));
+		g_object_set_data_full((GObject *)composer, "attach_path", g_strdup_printf("%s/", path), g_free);
+		g_free(path);
+	} else {
+		gtk_widget_destroy((GtkWidget *)selection);
+		selection = NULL;
 	}
-	
-	return files;
+
+	return selection;
 }
 
 /**
@@ -252,24 +95,40 @@ select_file_internal (EMsgComposer *composer,
  * cancelled.
  **/
 char *
-e_msg_composer_select_file (EMsgComposer *composer,
-			    const char *title)
+e_msg_composer_select_file (EMsgComposer *composer, const char *title)
 {
-	GPtrArray *files;
-	char *filename = NULL;
-	
-	files = select_file_internal (composer, title, FALSE, NULL);
-	if (files) {
-		filename = files->pdata[0];
-		g_ptr_array_free (files, FALSE);
+	GtkFileSelection *selection;
+	char *name = NULL;
+
+	selection = run_selector(composer, _("Attach file(s)"), TRUE, NULL);
+	if (selection) {
+		name = g_strdup(gtk_file_selection_get_filename(selection));
+		gtk_widget_destroy((GtkWidget *)selection);
 	}
-	
-	return filename;
+
+	return name;
 }
 
 GPtrArray *
-e_msg_composer_select_file_attachments (EMsgComposer *composer,
-					gboolean *inline_p)
+e_msg_composer_select_file_attachments (EMsgComposer *composer, gboolean *showinline_p)
 {
-	return select_file_internal (composer, _("Attach a file"), TRUE, inline_p);
+	GtkFileSelection *selection;
+	GPtrArray *list = NULL;
+	char **files;
+	int i;
+
+	selection = run_selector(composer, _("Attach file(s)"), TRUE, showinline_p);
+	if (selection) {
+
+		list = g_ptr_array_new();
+		files = gtk_file_selection_get_selections(selection);
+		for (i=0;files[i];i++)
+			g_ptr_array_add(list, g_strdup(files[i]));
+
+		g_strfreev(files);
+		gtk_widget_destroy((GtkWidget *)selection);
+	}
+
+	return list;
 }
+

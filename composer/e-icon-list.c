@@ -530,6 +530,7 @@ emit_select (Eil *eil, int sel, int i, GdkEvent *event)
 {
 	g_signal_emit (eil,
 		       eil_signals[sel ? SELECT_ICON : UNSELECT_ICON],
+		       0,
 		       i,
 		       event);
 }
@@ -941,7 +942,7 @@ text_changed (GnomeCanvasItem *item, Icon *icon)
 
 	idx = eil_icon_to_index (eil, icon);
 	g_signal_emit (GTK_OBJECT (eil),
-		       eil_signals[TEXT_CHANGED],
+		       eil_signals[TEXT_CHANGED], 0,
 		       idx, gnome_icon_text_item_get_text (icon->text),
 		       &accept);
 
@@ -1012,10 +1013,6 @@ icon_new_from_pixbuf (EIconList *eil, GdkPixbuf *im,
 		gnome_icon_text_item_get_type (),
 		NULL));
 
-	gnome_canvas_item_set (GNOME_CANVAS_ITEM (icon->text),
-			       "use_broken_event_handling", FALSE,
-			       NULL);
-	
 	/* FIXME: Use GTK+ font.  */
 	gnome_icon_text_item_configure (icon->text,
 					0, 0, priv->icon_width, 
@@ -1980,12 +1977,6 @@ eil_init (Eil *eil)
 
 	eil->_priv->selection_mode = GTK_SELECTION_SINGLE;
 	eil->_priv->dirty = TRUE;
-
-#if 0
-	/* FIXME: This needs to be moved into a constructor because of gtklayout changes? */
-	gnome_canvas_set_scroll_region (GNOME_CANVAS (eil), 0.0, 0.0, 1000000.0, 1000000.0);
-	gnome_canvas_scroll_to (GNOME_CANVAS (eil), 0, 0);
-#endif
 }
 
 /**
@@ -2049,7 +2040,6 @@ e_icon_list_set_icon_width (EIconList *eil, int w)
 	eil_scrollbar_adjust (eil);
 }
 
-
 /**
  * e_icon_list_construct:
  * @eil: An icon list.
@@ -2071,8 +2061,10 @@ e_icon_list_construct (EIconList *eil, guint icon_width, int flags)
 	e_icon_list_set_icon_width (eil, icon_width);
 	priv->is_editable = (flags & E_ICON_LIST_IS_EDITABLE) != 0;
 	priv->static_text = (flags & E_ICON_LIST_STATIC_TEXT) != 0;
-}
 
+	gnome_canvas_set_scroll_region (GNOME_CANVAS (eil), 0.0, 0.0, 1000000.0, 1000000.0);
+	gnome_canvas_scroll_to (GNOME_CANVAS (eil), 0, 0);
+}
 
 /**
  * e_icon_list_new: [constructor]

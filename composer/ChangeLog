@@ -1,4 +1,19 @@
+2002-11-22  Not Zed  <NotZed@Ximian.com>
+
+	* e-msg-composer-select-file.c: rewrote most of this.  Just use
+	gtkfileselection directly, no e-file-selector, much
+	smaller/simpler.
+
 2002-11-21  Not Zed  <NotZed@Ximian.com>
+
+	* e-msg-composer-attachment-bar.c (remove_attachment): fix
+	g_signal_emit params, detail in wrong spot.
+	(add_common): Same.
+
+	* e-icon-list.c (icon_new_from_pixbuf): remove the
+	'use_broken_event_handling' set.
+	(emit_select): Add detail to signal emit.
+	(text_changed): Same.
 
 	* e-msg-composer.c (subject_changed_cb): Duh!  dont free subject &
 	simplify logic a little.
