@@ -1,3 +1,7 @@
+2001-10-23  Tuomas Kuosmanen  <tigert@ximian.com>
+
+	* evolution-icon.png: New icon that scales better.
+
 2001-10-22  Jakub Steiner <jimmac@ximian.com>
 
 	* about-box.png: update the layout a bit
