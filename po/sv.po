@@ -6,9 +6,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution 0.5\n"
-"POT-Creation-Date: 2000-09-29 22:55+0200\n"
-"PO-Revision-Date: 2000-09-29 23:00+0200\n"
+"Project-Id-Version: evolution 0.5.1\n"
+"POT-Creation-Date: 2000-10-01 11:22+0200\n"
+"PO-Revision-Date: 2000-10-01 11:38+0200\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -741,7 +741,7 @@ msgid "z"
 msgstr "z"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:417
-#: addressbook/gui/widgets/e-minicard.c:334
+#: addressbook/gui/widgets/e-minicard.c:337
 msgid "Save as VCard"
 msgstr "Spara som VCard"
 
@@ -1112,50 +1112,68 @@ msgstr "År"
 msgid "Show 1 year"
 msgstr "Visa 1 år"
 
-#: calendar/gui/calendar-model.c:330
+#. strftime format of a weekday and a date.
+#: calendar/gui/calendar-model.c:282
+#: widgets/meeting-time-sel/e-meeting-time-sel.c:2495
+msgid "%a %m/%d/%Y"
+msgstr "%a %Y-%m-%d"
+
+#. strftime format of a weekday, a date and a time,
+#. in 24-hour format.
+#: calendar/gui/calendar-model.c:286 calendar/gui/calendar-model.c:740
+msgid "%a %m/%d/%Y %H:%M:%S"
+msgstr "%a %Y-%m-%d %H:%M:%S"
+
+#. strftime format of a weekday, a date and a time,
+#. in 12-hour format.
+#: calendar/gui/calendar-model.c:290 calendar/gui/calendar-model.c:743
+msgid "%a %m/%d/%Y %I:%M:%S %p"
+msgstr "%a %Y-%m-%d %I:%M:%S %p"
+
+#: calendar/gui/calendar-model.c:344
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:23
 msgid "Public"
 msgstr "Publikt"
 
-#: calendar/gui/calendar-model.c:333
+#: calendar/gui/calendar-model.c:347
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:24
 msgid "Private"
 msgstr "Privat"
 
-#: calendar/gui/calendar-model.c:336
+#: calendar/gui/calendar-model.c:350
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:25
 msgid "Confidential"
 msgstr "Konfidentiellt"
 
-#: calendar/gui/calendar-model.c:339 calendar/gui/calendar-model.c:506
+#: calendar/gui/calendar-model.c:353 calendar/gui/calendar-model.c:521
 msgid "Unknown"
 msgstr "Okänt"
 
-#: calendar/gui/calendar-model.c:426
+#: calendar/gui/calendar-model.c:441
 msgid "N"
 msgstr "N"
 
-#: calendar/gui/calendar-model.c:426
+#: calendar/gui/calendar-model.c:441
 msgid "S"
 msgstr "S"
 
-#: calendar/gui/calendar-model.c:428
+#: calendar/gui/calendar-model.c:443
 msgid "E"
 msgstr "Ö"
 
-#: calendar/gui/calendar-model.c:428
+#: calendar/gui/calendar-model.c:443
 msgid "W"
 msgstr "V"
 
-#: calendar/gui/calendar-model.c:500
+#: calendar/gui/calendar-model.c:515
 msgid "Transparent"
 msgstr "Genomskinlig"
 
-#: calendar/gui/calendar-model.c:503
+#: calendar/gui/calendar-model.c:518
 msgid "Opaque"
 msgstr "Ogenomskinlig"
 
-#: calendar/gui/calendar-model.c:727
+#: calendar/gui/calendar-model.c:748
 #, c-format
 msgid ""
 "The date must be entered in the format: \n"
@@ -1166,7 +1184,36 @@ msgstr ""
 "\n"
 "%s"
 
-#: calendar/gui/calendar-model.c:901
+#. strptime format for a date.
+#: calendar/gui/calendar-model.c:849 calendar/gui/calendar-model.c:897
+#: widgets/misc/e-dateedit.c:475 widgets/misc/e-dateedit.c:507
+#: widgets/misc/e-dateedit.c:664 widgets/misc/e-dateedit.c:720
+msgid "%m/%d/%Y"
+msgstr "%Y-%m-%d"
+
+#. strptime format for a time of day, in 12-hour format.
+#. If it is is not appropriate in the locale set to an empty string.
+#: calendar/gui/calendar-model.c:867
+msgid "%I:%M:%S %p%n"
+msgstr "%I:%M:%S %p%n"
+
+#. strptime format for a time of day, in 24-hour format.
+#: calendar/gui/calendar-model.c:870
+msgid "%H:%M:%S%n"
+msgstr "%H:%M:%S%n"
+
+#. strptime format for time of day, without seconds, 12-hour format.
+#. If it is is not appropriate in the locale set to an empty string.
+#: calendar/gui/calendar-model.c:874
+msgid "%I:%M %p%n"
+msgstr "%I:%M %p%n"
+
+#. strptime format for time of day, without seconds 24-hour format.
+#: calendar/gui/calendar-model.c:877
+msgid "%H:%M%n"
+msgstr "%H:%M%n"
+
+#: calendar/gui/calendar-model.c:997
 msgid ""
 "The geographical position must be entered in the format: \n"
 "\n"
@@ -1176,11 +1223,11 @@ msgstr ""
 "\n"
 "45.436845,125.862501"
 
-#: calendar/gui/calendar-model.c:941
+#: calendar/gui/calendar-model.c:1037
 msgid "The percent value must be between 0 and 100, inclusive"
 msgstr "Procentvärdet måste vara mellan 0 och 100"
 
-#: calendar/gui/calendar-model.c:981
+#: calendar/gui/calendar-model.c:1077
 msgid "The priority must be between 1 and 9, inclusive"
 msgstr "Prioriteten måste vara mellan 1 och 9"
 
@@ -1622,8 +1669,8 @@ msgstr "K_lassifikation:"
 
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:22
 #: calendar/gui/event-editor-dialog.glade.h:42 shell/e-shell-view.c:979
-#: widgets/misc/e-dateedit.c:332 widgets/misc/e-dateedit.c:702
-#: widgets/misc/e-dateedit.c:1021
+#: widgets/misc/e-dateedit.c:332 widgets/misc/e-dateedit.c:704
+#: widgets/misc/e-dateedit.c:1027
 msgid "None"
 msgstr "Ingen"
 
@@ -1722,31 +1769,49 @@ msgstr "Ta bort uppgiften"
 msgid "%02i minute divisions"
 msgstr "%02i minutdivisioner"
 
-#: calendar/gui/e-day-view.c:2508 calendar/gui/e-day-view.c:2515
-#: calendar/gui/e-day-view.c:2524 calendar/gui/e-week-view.c:2958
+#. strftime format %A = full weekday name, %d = day of month,
+#. %B = full month name. Don't use any other specifiers.
+#: calendar/gui/e-day-view.c:1173
+msgid "%A %d %B"
+msgstr "%A %d %B"
+
+#. strftime format %a = abbreviated weekday name, %d = day of month,
+#. %b = abbreviated month name. Don't use any other specifiers.
+#: calendar/gui/e-day-view.c:1187
+msgid "%a %d %b"
+msgstr "%a %d %b"
+
+#. strftime format %d = day of month, %b = abbreviated month name.
+#. Don't use any other specifiers.
+#: calendar/gui/e-day-view.c:1200
+msgid "%d %b"
+msgstr "%d %b"
+
+#: calendar/gui/e-day-view.c:2594 calendar/gui/e-day-view.c:2601
+#: calendar/gui/e-day-view.c:2610 calendar/gui/e-week-view.c:2958
 #: calendar/gui/e-week-view.c:2965 calendar/gui/e-week-view.c:2974
 msgid "New appointment..."
 msgstr "Nytt möte..."
 
-#: calendar/gui/e-day-view.c:2512 calendar/gui/e-day-view.c:2519
+#: calendar/gui/e-day-view.c:2598 calendar/gui/e-day-view.c:2605
 #: calendar/gui/e-week-view.c:2962 calendar/gui/e-week-view.c:2969
 msgid "Edit this appointment..."
 msgstr "Redigera detta möte..."
 
-#: calendar/gui/e-day-view.c:2513 calendar/gui/e-week-view.c:2963
+#: calendar/gui/e-day-view.c:2599 calendar/gui/e-week-view.c:2963
 #: calendar/gui/event-editor.c:1365
 msgid "Delete this appointment"
 msgstr "Ta bort detta möte"
 
-#: calendar/gui/e-day-view.c:2520 calendar/gui/e-week-view.c:2970
+#: calendar/gui/e-day-view.c:2606 calendar/gui/e-week-view.c:2970
 msgid "Make this appointment movable"
 msgstr "Gör detta möte flyttbart"
 
-#: calendar/gui/e-day-view.c:2521 calendar/gui/e-week-view.c:2971
+#: calendar/gui/e-day-view.c:2607 calendar/gui/e-week-view.c:2971
 msgid "Delete this occurrence"
 msgstr "Ta bort denna förekomst"
 
-#: calendar/gui/e-day-view.c:2522 calendar/gui/e-week-view.c:2972
+#: calendar/gui/e-day-view.c:2608 calendar/gui/e-week-view.c:2972
 msgid "Delete all occurrences"
 msgstr "Ta bort alla förekomster"
 
@@ -2548,7 +2613,7 @@ msgstr "Aktuellt år (%Y)"
 msgid "Print Calendar"
 msgstr "Skriv ut kalender"
 
-#: calendar/gui/print.c:1321
+#: calendar/gui/print.c:1321 mail/mail-callbacks.c:785
 msgid "Print Preview"
 msgstr "Förhandsgranskning"
 
@@ -2765,48 +2830,48 @@ msgstr "label7"
 msgid "label8"
 msgstr "label8"
 
-#: composer/e-msg-composer-attachment-bar.c:77
+#: composer/e-msg-composer-attachment-bar.c:82
 msgid "1 byte"
 msgstr "1 byte"
 
-#: composer/e-msg-composer-attachment-bar.c:79
+#: composer/e-msg-composer-attachment-bar.c:84
 #, c-format
 msgid "%u bytes"
 msgstr "%u byte"
 
-#: composer/e-msg-composer-attachment-bar.c:86
+#: composer/e-msg-composer-attachment-bar.c:91
 #, c-format
 msgid "%.1fK"
 msgstr "%.1fK"
 
-#: composer/e-msg-composer-attachment-bar.c:90
+#: composer/e-msg-composer-attachment-bar.c:95
 #, c-format
 msgid "%.1fM"
 msgstr "%.1fM"
 
-#: composer/e-msg-composer-attachment-bar.c:94
+#: composer/e-msg-composer-attachment-bar.c:99
 #, c-format
 msgid "%.1fG"
 msgstr "%.1fG"
 
-#: composer/e-msg-composer-attachment-bar.c:303
+#: composer/e-msg-composer-attachment-bar.c:396
 msgid "Add attachment"
 msgstr "Lägg till bilaga"
 
-#: composer/e-msg-composer-attachment-bar.c:366 shell/e-shortcuts-view.c:237
+#: composer/e-msg-composer-attachment-bar.c:459 shell/e-shortcuts-view.c:237
 #: shell/e-shortcuts-view.c:354
 msgid "Remove"
 msgstr "Ta bort"
 
-#: composer/e-msg-composer-attachment-bar.c:367
+#: composer/e-msg-composer-attachment-bar.c:460
 msgid "Remove selected items from the attachment list"
 msgstr "Ta bort markerade objekt från bifogningslistan"
 
-#: composer/e-msg-composer-attachment-bar.c:398
+#: composer/e-msg-composer-attachment-bar.c:491
 msgid "Add attachment..."
 msgstr "Lägg till bilaga..."
 
-#: composer/e-msg-composer-attachment-bar.c:399
+#: composer/e-msg-composer-attachment-bar.c:492
 msgid "Attach a file to the message"
 msgstr "Bifoga en fil till meddelandet"
 
@@ -3051,11 +3116,11 @@ msgstr "Bifoga"
 msgid "Attach a file"
 msgstr "Bifoga en fil"
 
-#: composer/e-msg-composer.c:1269
+#: composer/e-msg-composer.c:1306
 msgid "Compose a message"
 msgstr "Skriv ett meddelande"
 
-#: composer/e-msg-composer.c:1340
+#: composer/e-msg-composer.c:1383
 msgid "Could not create composer window."
 msgstr "Kunde inte skapa fönster för meddelanderedigering."
 
@@ -3251,7 +3316,7 @@ msgstr "Lägg till filterregel"
 msgid "%s mailing list"
 msgstr "Sändlistan %s"
 
-#: mail/mail-callbacks.c:71
+#: mail/mail-callbacks.c:72
 msgid ""
 "You have not configured the mail client.\n"
 "You need to do this before you can send,\n"
@@ -3263,7 +3328,7 @@ msgstr ""
 "ta emot eller skriva nya brev.\n"
 "Vill du konfigurera det nu?"
 
-#: mail/mail-callbacks.c:111
+#: mail/mail-callbacks.c:112
 msgid ""
 "You need to configure an identity\n"
 "before you can compose mail."
@@ -3271,7 +3336,7 @@ msgstr ""
 "Du måste konfigurera en identititet\n"
 "innan du kan skriva brev."
 
-#: mail/mail-callbacks.c:125
+#: mail/mail-callbacks.c:126
 msgid ""
 "You need to configure a mail transport\n"
 "before you can compose mail."
@@ -3279,7 +3344,7 @@ msgstr ""
 "Du måste konfigurera en e-posttransport\n"
 "innan du kan skriva brev."
 
-#: mail/mail-callbacks.c:240
+#: mail/mail-callbacks.c:241
 msgid ""
 "This message has no subject.\n"
 "Really send?"
@@ -3287,15 +3352,15 @@ msgstr ""
 "Detta meddelande har ingen ämnesrad.\n"
 "Vill du verkligen skicka?"
 
-#: mail/mail-callbacks.c:503
+#: mail/mail-callbacks.c:504
 msgid "Move message(s) to"
 msgstr "Flytta meddelande(n) till"
 
-#: mail/mail-callbacks.c:505
+#: mail/mail-callbacks.c:506
 msgid "Copy message(s) to"
 msgstr "Kopiera meddelande(n) till"
 
-#: mail/mail-callbacks.c:606
+#: mail/mail-callbacks.c:607
 msgid ""
 "You may only edit messages saved\n"
 "in the Drafts folder."
@@ -3303,7 +3368,7 @@ msgstr ""
 "Du kan bara redigera meddelanden\n"
 "som du sparat i mappen Drafts."
 
-#: mail/mail-callbacks.c:697
+#: mail/mail-callbacks.c:698
 #, c-format
 msgid ""
 "Error loading filter information:\n"
@@ -3311,6 +3376,14 @@ msgid ""
 msgstr ""
 "Fel vid läsning av filterinformation:\n"
 "%s"
+
+#: mail/mail-callbacks.c:745 mail/message-list.c:1644
+msgid "Print Message"
+msgstr "Skriv ut meddelande"
+
+#: mail/mail-callbacks.c:792
+msgid "Printing of message failed"
+msgstr "Utskrift av meddelande misslyckades"
 
 #: mail/mail-config-gui.c:435
 msgid ""
@@ -3548,11 +3621,11 @@ msgstr "Kunde inte skapa rör till GPG/PGP: %s"
 msgid "No GPG/PGP program available."
 msgstr "Inget GPG/PGP-program finns tillgängligt."
 
-#: mail/mail-display.c:54
+#: mail/mail-display.c:58
 msgid "Overwrite file?"
 msgstr "Skriv över fil?"
 
-#: mail/mail-display.c:58
+#: mail/mail-display.c:62
 msgid ""
 "A file by that name already exists.\n"
 "Overwrite it?"
@@ -3560,29 +3633,29 @@ msgstr ""
 "Det finns redan en fil med det namnet.\n"
 "Ska den skrivas över?"
 
-#: mail/mail-display.c:260
+#: mail/mail-display.c:264
 msgid "Save to Disk..."
 msgstr "Spara till disk..."
 
-#: mail/mail-display.c:262
+#: mail/mail-display.c:266
 #, c-format
 msgid "Open in %s..."
 msgstr "Öppna i %s..."
 
-#: mail/mail-display.c:264
+#: mail/mail-display.c:268
 msgid "View Inline"
 msgstr "Visa inuti"
 
-#: mail/mail-display.c:285
+#: mail/mail-display.c:289
 msgid "External Viewer"
 msgstr "Externt visningsprogram"
 
-#: mail/mail-display.c:308
+#: mail/mail-display.c:312
 #, c-format
 msgid "View Inline (via %s)"
 msgstr "Visa inuti (med %s)"
 
-#: mail/mail-display.c:312
+#: mail/mail-display.c:316
 msgid "Hide"
 msgstr "Göm"
 
@@ -4021,10 +4094,6 @@ msgstr "Öppna i nytt fönster"
 msgid "Edit Message"
 msgstr "Redigera meddelande"
 
-#: mail/message-list.c:1644
-msgid "Print Message"
-msgstr "Skriv ut meddelande"
-
 #: mail/message-list.c:1646
 msgid "Reply to Sender"
 msgstr "Svara till avsändaren"
@@ -4109,7 +4178,7 @@ msgid ""
 "`%s'."
 msgstr ""
 "Kan inte kopiera filer till\n"
-"'%s'."
+"\"%s\"."
 
 #: shell/e-setup.c:88
 msgid "Evolution files successfully installed."
@@ -4476,6 +4545,12 @@ msgstr "Mötets slu_ttid:"
 msgid "All Attendees"
 msgstr "Alla närvarande"
 
+#. This is a strftime() format string %A = full weekday name,
+#. %B = full month name, %d = month day, %Y = full year.
+#: widgets/meeting-time-sel/e-meeting-time-sel.c:2468
+msgid "%A, %B %d, %Y"
+msgstr "%A %d %B %Y"
+
 #. Translators: These are the first characters of each day of the
 #. week, 'M' for 'Monday', 'T' for Tuesday etc.
 #: widgets/misc/e-calendar-item.c:415
@@ -4499,70 +4574,19 @@ msgstr "Nu"
 msgid "Today"
 msgstr "Idag"
 
-#. This is a strftime() format for a short date. %m = month, %d = day
-#. of month, %Y = year (all digits).
-#: widgets/misc/e-dateedit.c:475 widgets/misc/e-dateedit.c:507
-#: widgets/misc/e-dateedit.c:662 widgets/misc/e-dateedit.c:718
-msgid "%m/%d/%Y"
-msgstr "%Y-%m-%d"
+#. This is a strptime() format. %H = hour (0-23), %M = minute.
+#: widgets/misc/e-dateedit.c:636 widgets/misc/e-dateedit.c:726
+#: widgets/misc/e-dateedit.c:983
+msgid "%H:%M"
+msgstr "%H:%M"
+
+#. This is a strptime() format. %I = hour (1-12), %M = minute, %p = am/pm string.
+#: widgets/misc/e-dateedit.c:639 widgets/misc/e-dateedit.c:729
+#: widgets/misc/e-dateedit.c:986
+msgid "%I:%M %p"
+msgstr "%I:%M %p"
 
 #: widgets/shortcut-bar/e-group-bar.c:632
 #, c-format
 msgid "Group %i"
 msgstr "Grupp %i"
-
-#~ msgid "FIXME: Invite _Attendees..."
-#~ msgstr "FIXME: Bjud in delt_agare..."
-
-#~ msgid "FIXME: C_ancel Invitation..."
-#~ msgstr "FIXME: _Avbryt inbjudning..."
-
-#~ msgid ""
-#~ "Not Started\n"
-#~ "In Progress\n"
-#~ "Completed\n"
-#~ "Cancelled\n"
-#~ msgstr ""
-#~ "Inte startat\n"
-#~ "Håller på\n"
-#~ "Färdig\n"
-#~ "Avbruten\n"
-
-#~ msgid ""
-#~ "High\n"
-#~ "Normal\n"
-#~ "Low\n"
-#~ msgstr ""
-#~ "Hög\n"
-#~ "Normal\n"
-#~ "Låg\n"
-
-#~ msgid ""
-#~ "None\n"
-#~ "Public\n"
-#~ "Private\n"
-#~ "Confidential\n"
-#~ msgstr ""
-#~ "Ingen\n"
-#~ "Publikt\n"
-#~ "Privat\n"
-#~ "Konfidentiellt\n"
-
-#~ msgid "_Save as..."
-#~ msgstr "_Spara som..."
-
-#~ msgid "You have no remote mail source configured to fetch mail from."
-#~ msgstr ""
-#~ "Du har inte konfigurerat någon fjärrepostkälla som e-post kan hämtas ifrån."
-
-#~ msgid "Bad folder passed to fetch_mail"
-#~ msgstr "Felaktig mapp skickades till \"fetch_mail\""
-
-#~ msgid "Bad filter context specified"
-#~ msgstr "Felaktigt filtersammanhang angivet"
-
-#~ msgid "Bad input source defined for filtering"
-#~ msgstr "Felaktig indatakälla angiven för filtrering"
-
-#~ msgid "Bad default destination folder"
-#~ msgstr "Felaktig standardmålmapp"
