@@ -339,8 +339,8 @@ build_items (ESearchBar *esb, ESearchBarItem *items, int type, int *start, GPtrA
 	
 	/* always add on the advanced menu */
 	if (type == 1) {
-		ESearchBarItem advanced_item = E_FILTERBAR_ADVANCED;
-		g_array_append_vals (menu, &advanced_item, 1);
+		ESearchBarItem items[2] = { E_FILTERBAR_SEPARATOR, E_FILTERBAR_ADVANCED };
+		g_array_append_vals (menu, &items, 2);
 	}
 	
 	item.id = -1;

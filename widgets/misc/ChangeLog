@@ -1,5 +1,13 @@
 2002-05-20  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-filter-bar.c (build_items): Prepend the advanced menu with a
+	separator.
+
+	* e-filter-bar.h: Add E_FILTERBAR_SEPARATOR.  Rename the "Advanced
+	Search..." menu item into "Advanced...".
+
+2002-05-20  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-search-bar.c (activate_by_subitems): Strip underscores from
 	the menu item labels.
 
