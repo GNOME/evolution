@@ -390,6 +390,7 @@ camel_imap_message_cache_get (CamelImapMessageCache *cache, const char *uid,
 	key = strrchr (path, '/') + 1;
 	stream = g_hash_table_lookup (cache->parts, key);
 	if (stream) {
+		camel_stream_reset (CAMEL_STREAM (stream));
 		camel_object_ref (CAMEL_OBJECT (stream));
 		return stream;
 	}

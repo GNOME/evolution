@@ -1,3 +1,12 @@
+2001-10-26  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap/camel-imap-message-cache.c
+	(camel_imap_message_cache_get): Lets try putting a
+	camel_stream_reset() here. Logic being that the stream may have
+	been read from since it was cached and thus our caller may try
+	reading from it and get no data from it since it is already at the
+	EOS. This may fix bug #12943.
+
 2001-10-25    <NotZed@Ximian.com>
 
 	* camel-search-private.c (utf8_get): Remove the stupid warning
