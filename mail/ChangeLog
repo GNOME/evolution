@@ -1,3 +1,11 @@
+2004-08-30  Jeffrey Stedfast  <fejj@novell.com>
+
+	* em-folder-tree.c (emft_popup_delete_folder): Set the store and
+	full_name info on the dialog.
+	(emft_popup_delete_response): Use the requisite data stored on the
+	dialog object rather than examining the selection again. Fixes bug
+	#62665.
+
 2004-08-30  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #64377.
