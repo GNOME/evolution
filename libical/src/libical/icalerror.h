@@ -65,33 +65,17 @@ void icalerror_crash_here(void);
 #endif 
 
 /* Check & abort if check fails */
-#ifdef ICAL_ERRORS_ARE_FATAL
-#define icalerror_check_arg(test,arg) icalerror_stop_here();assert(test) 
-#else
-#define icalerror_check_arg(test,arg)
-#endif
-/* Check & return void if check fails*/
+#define icalerror_check_arg(test,arg) if(!(test)) { icalerror_set_errno(ICAL_BADARG_ERROR); }
 
-#ifdef ICAL_ERRORS_ARE_FATAL
-#define icalerror_check_arg_rv(test,arg) icalerror_stop_here();assert(test);
-#else 
+/* Check & return void if check fails*/
 #define icalerror_check_arg_rv(test,arg) if(!(test)) { icalerror_set_errno(ICAL_BADARG_ERROR); return; }
-#endif
 
 /* Check & return 0 if check fails*/
-#ifdef ICAL_ERRORS_ARE_FATAL
-#define icalerror_check_arg_rz(test,arg) icalerror_stop_here();assert(test); 
-#else
 #define icalerror_check_arg_rz(test,arg) if(!(test)) {icalerror_set_errno(ICAL_BADARG_ERROR); return 0;}
-#endif
-
 
 /* Check & return an error if check fails*/
-#ifdef ICAL_ERRORS_ARE_FATAL
-#define icalerror_check_arg_re(test,arg,error) icalerror_stop_here();assert(test); 
-#else
 #define icalerror_check_arg_re(test,arg,error) if(!(test)) {icalerror_stop_here(); return error;}
-#endif
+
 
 
 /* Warning messages */
@@ -139,6 +123,17 @@ extern int icalerror_errors_are_fatal;
 
 void icalerror_clear_errno(void);
 void icalerror_set_errno(icalerrorenum);
+
+/* Make an individual error fatal or non-fatal. */
+typedef enum icalerrorstate { 
+    ICAL_ERROR_FATAL,     /* Not fata */
+    ICAL_ERROR_NONFATAL,  /* Fatal */
+    ICAL_ERROR_DEFAULT,   /* Use the value of icalerror_errors_are_fatal*/
+    ICAL_ERROR_UNKNOWN    /* Asked state for an unknown error type */
+} icalerrorstate ;
+
+void icalerror_set_error_state( icalerrorenum error, icalerrorstate);
+icalerrorstate icalerror_get_error_state( icalerrorenum error);
 
 char* icalerror_strerror(icalerrorenum e);
 

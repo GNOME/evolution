@@ -1,3 +1,7 @@
+#ifndef ICAL_VERSION_H
+#define ICAL_VERSION_H
 
 #define ICAL_PACKAGE "libical"
-#define ICAL_VERSION "0.19"
+#define ICAL_VERSION "0.22c"
+
+#endif

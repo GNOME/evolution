@@ -89,7 +89,7 @@ INCLUDES =  	-I$(top_builddir)		-I$(top_srcdir)/src		-I$(top_builddir)/src		-I$(
 
 libical_la_LDFLAGS = -version-info 0:0:0
 
-libical_la_SOURCES =  	icalcomponent.c			icalcomponent.h			icalenums.c			icalenums.h			icalerror.c			icalerror.h			icallexer.l			icalmemory.c			icalmemory.h			icalmime.c			icalmime.h			icalparameter.c			icalparameter.h			icalparser.c			icalparser.h			icalproperty.c			icalproperty.h			icalrecur.c			icalrecur.h			icalrestriction.c		icalrestriction.h		icaltime.c			icaltime.h			icaltypes.c			icaltypes.h			icalvalue.c			icalvalue.h			icalyacc.h			icalyacc.y			pvl.c				pvl.h				sspm.c				sspm.h				vsnprintf.c
+libical_la_SOURCES =  	icalcomponent.c			icalcomponent.h			icalenums.c			icalenums.h			icalerror.c			icalerror.h			icallexer.l			icalmemory.c			icalmemory.h			icalmime.c			icalmime.h			icalparameter.c			icalparameter.h			icalparser.c			icalparser.h			icalproperty.c			icalproperty.h			icalrecur.c			icalrecur.h			icalrestriction.c		icalrestriction.h		icaltime.c			icaltime.h			icaltypes.c			icaltypes.h			icalvalue.c			icalvalue.h			icalyacc.h			icalyacc.y			pvl.c				pvl.h				sspm.c				sspm.h				vsnprintf.c			icallangbind.h			icallangbind.c
 
 
 libicalincludedir = $(includedir)
@@ -98,7 +98,7 @@ libicalinclude_HEADERS = ical.h
 
 # ORDERING OF HEADERS IS SIGNIFICANT. Don't change this ordering. It
 # is required to make the combined header ical.h properly
-COMBINEDHEADERS =  	$(top_builddir)/src/libical/icalversion.h		$(top_srcdir)/src/libical/icaltime.h			$(top_srcdir)/src/libical/icalenums.h			$(top_srcdir)/src/libical/icaltypes.h			$(top_srcdir)/src/libical/icalrecur.h			$(top_srcdir)/src/libical/icalvalue.h			$(top_srcdir)/src/libical/icalparameter.h		$(top_srcdir)/src/libical/icalproperty.h		$(top_srcdir)/src/libical/pvl.h				$(top_srcdir)/src/libical/icalcomponent.h		$(top_srcdir)/src/libical/icalparser.h			$(top_srcdir)/src/libical/icalmemory.h			$(top_srcdir)/src/libical/icalerror.h			$(top_srcdir)/src/libical/icalrestriction.h		$(top_srcdir)/src/libical/sspm.h			$(top_srcdir)/src/libical/icalmime.h 
+COMBINEDHEADERS =  	$(top_builddir)/src/libical/icalversion.h		$(top_srcdir)/src/libical/icaltime.h			$(top_srcdir)/src/libical/icalenums.h			$(top_srcdir)/src/libical/icaltypes.h			$(top_srcdir)/src/libical/icalrecur.h			$(top_srcdir)/src/libical/icalvalue.h			$(top_srcdir)/src/libical/icalparameter.h		$(top_srcdir)/src/libical/icalproperty.h		$(top_srcdir)/src/libical/pvl.h				$(top_srcdir)/src/libical/icalcomponent.h		$(top_srcdir)/src/libical/icalparser.h			$(top_srcdir)/src/libical/icalmemory.h			$(top_srcdir)/src/libical/icalerror.h			$(top_srcdir)/src/libical/icalrestriction.h		$(top_srcdir)/src/libical/sspm.h			$(top_srcdir)/src/libical/icalmime.h 			$(top_srcdir)/src/libical/icallangbind.h
 
 
 BUILT_SOURCES =  	icalparameter.c			icalparameter.h			icalproperty.c			icalproperty.h			icalrestriction.c		icalvalue.c			icalvalue.h
@@ -142,7 +142,8 @@ libical_la_LIBADD =
 libical_la_OBJECTS =  icalcomponent.lo icalenums.lo icalerror.lo \
 icallexer.lo icalmemory.lo icalmime.lo icalparameter.lo icalparser.lo \
 icalproperty.lo icalrecur.lo icalrestriction.lo icaltime.lo \
-icaltypes.lo icalvalue.lo icalyacc.lo pvl.lo sspm.lo vsnprintf.lo
+icaltypes.lo icalvalue.lo icalyacc.lo pvl.lo sspm.lo vsnprintf.lo \
+icallangbind.lo
 LEXLIB = @LEXLIB@
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -315,6 +316,7 @@ icalcomponent.lo icalcomponent.o : icalcomponent.c ../../config.h \
 	icalerror.h icalmemory.h
 icalenums.lo icalenums.o : icalenums.c ../../config.h icalenums.h
 icalerror.lo icalerror.o : icalerror.c ../../config.h icalerror.h
+icallangbind.lo icallangbind.o : icallangbind.c ical.h ../../config.h
 icallexer.lo icallexer.o : icallexer.c icalparser.h icalenums.h \
 	icaltypes.h icaltime.h icalcomponent.h icalproperty.h \
 	icalparameter.h icalvalue.h icalrecur.h pvl.h icalmemory.h \
