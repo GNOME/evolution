@@ -1,5 +1,8 @@
 2000-08-14  Peter Williams  <peterw@helixcode.com>
 
+	* mail-threads.c (show_error): Fix the error dialogs.
+	(read_msg): Re-enable them.
+
 	* mail-ops.c (do_scan_subfolders): Silence a compile warning.
 
 2000-08-13  Jeffrey Stedfast  <fejj@helixcode.com>

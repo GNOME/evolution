@@ -716,7 +716,7 @@ read_msg (GIOChannel * source, GIOCondition condition, gpointer userdata)
 
 	case ERROR:
 		DEBUG (("*** Message -- ERROR\n"));
-		/* show_error (msg); */
+		show_error (msg);
 		break;
 
 		/* Don't fall through; dispatch_func does the FINISHED
@@ -806,9 +806,14 @@ show_error (com_msg_t * msg)
 
 	/* Show the dialog. */
 
-	GDK_THREADS_ENTER ();
+	/* Do not GDK_THREADS_ENTER; we're inside the read_msg
+	 * handler which takes care of this for us. Oh, if
+	 * only GDK_THREADS_ENTER were recursive...
+	 */
+
+	/*GDK_THREADS_ENTER ();*/
 	gnome_dialog_run_and_close (GNOME_DIALOG (err_dialog));
-	GDK_THREADS_LEAVE ();
+	/*GDK_THREADS_LEAVE ();*/
 
 	/* Allow the other thread to proceed */
 
