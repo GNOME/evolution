@@ -26,6 +26,8 @@
 #include "camel-pop3-folder.h"
 #include "camel-pop3-store.h"
 #include "camel-exception.h"
+#include "camel-stream-mem.h"
+#include "camel-mime-message.h"
 
 #include <stdlib.h>
 
@@ -118,6 +120,8 @@ get_message_by_number (CamelFolder *folder, gint number, CamelException *ex)
 {
 	int status;
 	char *result, *body;
+	CamelStream *msgstream;
+	CamelMimeMessage *msg;
 
 	status = camel_pop3_command (CAMEL_POP3_STORE (folder->parent_store),
 				     &result, "RETR %d", number);
@@ -133,8 +137,22 @@ get_message_by_number (CamelFolder *folder, gint number, CamelException *ex)
 	}
 	g_free (result);
 
-	/* XXX finish this */
-	return NULL;
+	body = camel_pop3_command_get_additional_data (CAMEL_POP3_STORE (folder->parent_store));
+	if (!body) {
+		CamelService *service = CAMEL_SERVICE (folder->parent_store);
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+				      "Could not retrieve message from POP "
+				      "server %s.", service->url->host);
+		return NULL;
+	}
+
+	msgstream = camel_stream_mem_new_with_buffer (body, strlen (body),
+						      CAMEL_STREAM_MEM_READ);
+	msg = camel_mime_message_new_with_session (camel_service_get_session (CAMEL_SERVICE (folder->parent_store)));
+	camel_data_wrapper_set_input_stream (CAMEL_DATA_WRAPPER (msg),
+					     msgstream);
+
+	return msg;
 }
 
 

@@ -39,15 +39,16 @@
 #include "camel-pop3-folder.h"
 #include "camel-stream-buffer.h"
 #include "camel-stream-fs.h"
+#include "camel-session.h"
 #include "camel-exception.h"
 #include "md5-utils.h"
 #include "url-util.h"
 
-
+static CamelServiceClass *service_class = NULL;
 
 static gboolean pop3_connect (CamelService *service, CamelException *ex);
 static GList *query_auth_types (CamelService *service);
-void free_auth_types (CamelService *service, GList *authtypes);
+static void free_auth_types (CamelService *service, GList *authtypes);
 
 static CamelFolder *get_folder (CamelStore *store, const gchar *folder_name, 
 				CamelException *ex);
@@ -61,6 +62,8 @@ camel_pop3_store_class_init (CamelPop3StoreClass *camel_pop3_store_class)
 	CamelStoreClass *camel_store_class =
 		CAMEL_STORE_CLASS (camel_pop3_store_class);
 	
+	service_class = gtk_type_class (camel_service_get_type ());
+
 	/* virtual method overload */
 	camel_service_class->connect = pop3_connect;
 	camel_service_class->query_auth_types = query_auth_types;
@@ -142,7 +145,7 @@ pop3_connect (CamelService *service, CamelException *ex)
 	char *buf, *apoptime, *pass;
 	CamelPop3Store *store = CAMEL_POP3_STORE (service);
 
-	if (!CAMEL_SERVICE_CLASS (service)->connect (service, ex))
+	if (!service_class->connect (service, ex))
 		return FALSE;
 
 	h = gethostbyname (service->url->host);
@@ -161,8 +164,25 @@ pop3_connect (CamelService *service, CamelException *ex)
 		return FALSE;
 	}
 
+	pass = g_strdup (service->url->passwd);
+	if (!pass) {
+		char *prompt = g_strdup_printf ("Please enter the POP3 password for %s@%s",
+						service->url->user, h->h_name);
+		pass = camel_session_query_authenticator (camel_service_get_session (service),
+							  prompt, TRUE,
+							  service, "password",
+							  ex);
+		g_free (prompt);
+		if (!pass)
+			return FALSE;
+	}
+
 	sin.sin_family = h->h_addrtype;
-	sin.sin_port = htons (atoi (service->url->port)); /* XXX */
+	/* XXX this is all bad */
+	if (service->url->port && *service->url->port)
+		sin.sin_port = htons (atoi (service->url->port));
+	else
+		sin.sin_port = htons (110);
 	memcpy (&sin.sin_addr, h->h_addr, sizeof (sin.sin_addr));
 
 	fd = socket (h->h_addrtype, SOCK_STREAM, 0);
@@ -174,15 +194,20 @@ pop3_connect (CamelService *service, CamelException *ex)
 				      strerror(errno));
 		if (fd > -1)
 			close (fd);
+		g_free (pass);
 		return FALSE;
 	}
 
-	store->stream = CAMEL_STREAM_BUFFER (camel_stream_buffer_new (camel_stream_fs_new_with_fd (fd), CAMEL_STREAM_BUFFER_READ));
+	store->ostream = camel_stream_fs_new_with_fd (fd);
+	store->istream = camel_stream_buffer_new (store->ostream,
+						  CAMEL_STREAM_BUFFER_READ);
 
 	/* Read the greeting, note APOP timestamp, if any. */
-	buf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (store->stream));
-	if (!buf)
+	buf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (store->istream));
+	if (!buf) {
+		g_free (pass);
 		return -1;
+	}
 	apoptime = strchr (buf, '<');
 	if (apoptime) {
 		int len = strcspn (apoptime, ">");
@@ -209,7 +234,6 @@ pop3_connect (CamelService *service, CamelException *ex)
 		status = camel_pop3_command(store, NULL, "APOP %s %s",
 					    service->url->user, md5asc);
 	}
-	g_free(buf);
 
 	if (status != CAMEL_POP3_OK ) {
 		status = camel_pop3_command(store, NULL, "USER %s",
@@ -227,6 +251,7 @@ pop3_connect (CamelService *service, CamelException *ex)
 		return FALSE;
 	}
 
+	g_free (pass);
 	return TRUE;
 }
 
@@ -245,7 +270,6 @@ static CamelFolder *get_folder (CamelStore *store, const gchar *folder_name,
 int
 camel_pop3_command (CamelPop3Store *store, char **ret, char *fmt, ...)
 {
-	CamelStreamBuffer *stream = store->stream;
 	char *cmdbuf, *respbuf;
 	va_list ap;
 	int status;
@@ -255,12 +279,12 @@ camel_pop3_command (CamelPop3Store *store, char **ret, char *fmt, ...)
 	va_end (ap);
 
 	/* Send the command */
-	camel_stream_write (CAMEL_STREAM (stream), cmdbuf, strlen (cmdbuf));
+	camel_stream_write (store->ostream, cmdbuf, strlen (cmdbuf));
 	g_free (cmdbuf);
-	camel_stream_write (CAMEL_STREAM (stream), "\r\n", 2);
+	camel_stream_write (store->ostream, "\r\n", 2);
 
 	/* Read the response */
-	respbuf = camel_stream_buffer_read_line (stream);
+	respbuf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (store->istream));
 	if (!strncmp (respbuf, "+OK", 3))
 		status = CAMEL_POP3_OK;
 	else if (!strncmp (respbuf, "-ERR", 4))
@@ -284,7 +308,7 @@ camel_pop3_command (CamelPop3Store *store, char **ret, char *fmt, ...)
 char *
 camel_pop3_command_get_additional_data (CamelPop3Store *store)
 {
-	CamelStreamBuffer *stream = store->stream;
+	CamelStreamBuffer *stream = CAMEL_STREAM_BUFFER (store->istream);
 	GPtrArray *data;
 	char *buf;
 	int i, status = CAMEL_POP3_OK;
@@ -305,12 +329,16 @@ camel_pop3_command_get_additional_data (CamelPop3Store *store)
 	}
 
 	if (status == CAMEL_POP3_OK) {
+		/* The empty string is so that we end up with a "\n"
+		 * at the end of the string.
+		 */
+		g_ptr_array_add (data, "");
 		g_ptr_array_add (data, NULL);
 		buf = g_strjoinv ("\n", (char **)data->pdata);
 	} else
 		buf = NULL;
 
-	for (i = 0; i < data->len; i++)
+	for (i = 0; i < data->len - 1; i++)
 		g_free (data->pdata[i]);
 	g_ptr_array_free (data, TRUE);
 

@@ -1,3 +1,13 @@
+2000-03-27  Dan Winship  <danw@helixcode.com>
+
+	* providers/Makefile.am (SUBDIRS): Add pop3.
+
+	* providers/pop3/camel-pop3-store.c: keep separate input and
+	output streams so the output doesn't end up being buffered.
+
+	* providers/pop3/camel-pop3-folder.c (get_message_by_number):
+	finish implementing this.
+
 2000-03-27  Michael Meeks  <michael@helixcode.com>
 
 	* camel-mime-part.c (my_set_disposition): fix so less broken.

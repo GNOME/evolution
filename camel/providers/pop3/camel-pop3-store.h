@@ -46,7 +46,7 @@ extern "C" {
 typedef struct {
 	CamelStore parent_object;
 
-	CamelStreamBuffer *stream;
+	CamelStream *istream, *ostream;
 	
 } CamelPop3Store;
 
