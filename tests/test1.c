@@ -62,9 +62,9 @@ main (int argc, char**argv)
 	camel_mime_message_add_recipient (message, CAMEL_RECIPIENT_TYPE_TO, 
 					  g_strdup ("mc@alseve.fr"));
 	camel_mime_message_add_recipient (message, CAMEL_RECIPIENT_TYPE_TO, 
-					  g_strdup ("richard.lengagne@aful.org"));
+					  g_strdup ("richard.lengagne@inria.fr"));
 	camel_mime_message_add_recipient (message, CAMEL_RECIPIENT_TYPE_CC, 
-					  g_strdup ("Francois.fleuret@aful.org"));
+					  g_strdup ("Francois.fleuret@inria.fr"));
 	camel_mime_message_add_recipient (message, CAMEL_RECIPIENT_TYPE_CC, 
 					  g_strdup ("maury@justmagic.com"));
  	camel_mime_message_add_recipient (message, CAMEL_RECIPIENT_TYPE_BCC, 

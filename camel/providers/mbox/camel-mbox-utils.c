@@ -32,7 +32,7 @@
  *  ...
  *
  *
- * The evolution line ha10s the following format :
+ * The evolution line has the following format :
  *
  *   X-Evolution:XXXXX-X
  *               \___/ \/
@@ -160,17 +160,16 @@ camel_mbox_xev_write_header_content (gchar header_content[6],
 
 
 
-static void 
-copy_file_chunk (gint fd_src,
-		 gint fd_dest, 
-		 glong nb_bytes, 
-		 CamelException *ex)
+void 
+camel_mbox_copy_file_chunk (gint fd_src,
+			    gint fd_dest, 
+			    glong nb_bytes, 
+			    CamelException *ex)
 {
 	gchar buffer [1000];
 	glong nb_to_read;
 	glong nb_read, v;
 	
-	printf ("Write %ld bytes\n", nb_bytes);
 	nb_to_read = nb_bytes;
 	while (nb_to_read > 0) {
 		
@@ -261,7 +260,7 @@ camel_mbox_write_xev (gchar *mbox_file_name,
 			cur_pos = cur_msg_info->message_position 
 				+ cur_msg_info->end_of_headers_offset;
 			
-			copy_file_chunk (fd1, fd2, bytes_to_copy, ex);
+			camel_mbox_copy_file_chunk (fd1, fd2, bytes_to_copy, ex);
 			if (camel_exception_get_id (ex)) {
 				close (fd1);
 				close (fd2);
@@ -285,7 +284,7 @@ camel_mbox_write_xev (gchar *mbox_file_name,
 	
 	
 	bytes_to_copy = end_of_last_message - cur_pos;
-		copy_file_chunk (fd1, fd2, bytes_to_copy, ex);
+		camel_mbox_copy_file_chunk (fd1, fd2, bytes_to_copy, ex);
 
 
 	/* close the original file as well as the 

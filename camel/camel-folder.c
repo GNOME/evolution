@@ -200,7 +200,6 @@ static void
 _finalize (GtkObject *object)
 {
 	CamelFolder *camel_folder = CAMEL_FOLDER (object);
-	GList *message_node;
 
 	CAMEL_LOG_FULL_DEBUG ("Entering CamelFolder::finalize\n");
 

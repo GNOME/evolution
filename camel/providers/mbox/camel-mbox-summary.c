@@ -238,7 +238,7 @@ camel_mbox_check_summary_sync (gchar *summary_filename,
 	lseek (fd, sizeof (guint), SEEK_SET);
 	
 	/* read the md5 signature stored in the summary file */
-	read (fd, summary_md5, + sizeof (guchar) * 16);
+	read (fd, summary_md5, sizeof (guchar) * 16);
 	close (fd);
 	/* ** FIXME : check for exception in all these operations */
 	

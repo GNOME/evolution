@@ -56,6 +56,12 @@ camel_mbox_write_xev (gchar *mbox_file_name,
 GArray *
 parsed_information_to_mbox_summary (GArray *parsed_information);
 
+void 
+camel_mbox_copy_file_chunk (gint fd_src,
+			    gint fd_dest, 
+			    glong nb_bytes, 
+			    CamelException *ex);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

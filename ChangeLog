@@ -1,3 +1,9 @@
+2000-01-22  bertrand  <bertrand@helixcode.com>
+
+	* camel/providers/mbox/camel-mbox-folder.c (_append_message): 
+	implemented. A lot of fixes too. Works now. 
+	
+
 2000-01-21  bertrand  <bertrand@helixcode.com>
 
 	* tests/test10.c:
