@@ -79,18 +79,6 @@
 	    <name>file1_menu</name>
 
 	    <widget>
-	      <class>GtkPixmapMenuItem</class>
-	      <name>new_store</name>
-	      <signal>
-		<name>activate</name>
-		<handler>on_new_store_activate</handler>
-		<last_modification_time>Tue, 10 Aug 1999 10:29:12 GMT</last_modification_time>
-	      </signal>
-	      <stock_item>GNOMEUIINFO_MENU_NEW_ITEM</stock_item>
-	      <label>_New store</label>
-	    </widget>
-
-	    <widget>
 	      <class>GtkMenuItem</class>
 	      <name>separator1</name>
 	      <right_justify>False</right_justify>
@@ -105,6 +93,85 @@
 		<last_modification_time>Tue, 10 Aug 1999 12:06:35 GMT</last_modification_time>
 	      </signal>
 	      <stock_item>GNOMEUIINFO_MENU_EXIT_ITEM</stock_item>
+	    </widget>
+	  </widget>
+	</widget>
+
+	<widget>
+	  <class>GtkMenuItem</class>
+	  <name>store2</name>
+	  <label>_Store</label>
+	  <right_justify>False</right_justify>
+
+	  <widget>
+	    <class>GtkMenu</class>
+	    <name>store2_menu</name>
+
+	    <widget>
+	      <class>GtkPixmapMenuItem</class>
+	      <name>new_store</name>
+	      <signal>
+		<name>activate</name>
+		<handler>on_new_store_activate</handler>
+		<last_modification_time>Tue, 10 Aug 1999 10:29:12 GMT</last_modification_time>
+	      </signal>
+	      <stock_item>GNOMEUIINFO_MENU_NEW_ITEM</stock_item>
+	      <label>_New store</label>
+	    </widget>
+	  </widget>
+	</widget>
+
+	<widget>
+	  <class>GtkMenuItem</class>
+	  <name>folder1</name>
+	  <signal>
+	    <name>activate</name>
+	    <handler>on_folder1_activate</handler>
+	    <last_modification_time>Sat, 14 Aug 1999 17:23:25 GMT</last_modification_time>
+	  </signal>
+	  <label>Folder</label>
+	  <right_justify>False</right_justify>
+
+	  <widget>
+	    <class>GtkMenu</class>
+	    <name>folder1_menu</name>
+
+	    <widget>
+	      <class>GtkPixmapMenuItem</class>
+	      <name>expunge</name>
+	      <signal>
+		<name>activate</name>
+		<handler>on_expunge_activate</handler>
+		<last_modification_time>Sat, 14 Aug 1999 16:36:03 GMT</last_modification_time>
+	      </signal>
+	      <label>_Expunge</label>
+	      <right_justify>False</right_justify>
+	      <stock_icon>GNOME_STOCK_MENU_CONVERT</stock_icon>
+	    </widget>
+	  </widget>
+	</widget>
+
+	<widget>
+	  <class>GtkMenuItem</class>
+	  <name>message_menu</name>
+	  <label>_Message</label>
+	  <right_justify>False</right_justify>
+
+	  <widget>
+	    <class>GtkMenu</class>
+	    <name>message_menu_menu</name>
+
+	    <widget>
+	      <class>GtkPixmapMenuItem</class>
+	      <name>message_delete</name>
+	      <signal>
+		<name>activate</name>
+		<handler>on_message_delete_activate</handler>
+		<last_modification_time>Sat, 14 Aug 1999 14:54:04 GMT</last_modification_time>
+	      </signal>
+	      <label>_Delete</label>
+	      <right_justify>False</right_justify>
+	      <stock_icon>GNOME_STOCK_MENU_TRASH</stock_icon>
 	    </widget>
 	  </widget>
 	</widget>
@@ -337,9 +404,6 @@
       <widget>
 	<class>GtkLabel</class>
 	<name>new_store_label</name>
-	<style>
-	  <style_font>-adobe-helvetica-bold-r-normal-*-*-140-*-*-p-*-iso8859-1</style_font>
-	</style>
 	<label>Enter complete store URL</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>

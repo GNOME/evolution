@@ -779,19 +779,28 @@ _get_message (CamelFolder *folder, gint number)
 	GList *message_node;
 	
 	message_node = folder->message_list;
-	
+	CAMEL_LOG_FULL_DEBUG ("CamelFolder::get_message Looking for message nummber %d\n", number);
 	/* look in folder message list if the 
 	 * if the message has not already been retreived */
 	while ((!new_message) && message_node) {
 		a_message = CAMEL_MIME_MESSAGE (message_node->data);
-		CAMEL_LOG_FULL_DEBUG ("CamelFolder::get_message Current message number is %d\n", a_message->message_number);
-		if (a_message && (a_message->message_number == number)) {
-			CAMEL_LOG_FULL_DEBUG ("CamelFolder::get_message message %d already retreived once: returning %pOK\n", 
-					      number, a_message);
-			new_message = a_message;
+		
+		if (a_message) {
+			CAMEL_LOG_FULL_DEBUG ("CamelFolder::get_message "
+					      "found message number %d in the active list\n",
+					      a_message->message_number);
+			if (a_message->message_number == number) {
+				CAMEL_LOG_FULL_DEBUG ("CamelFolder::get_message message "
+						      "%d already retreived once: returning %pOK\n", 
+						      number, a_message);
+				new_message = a_message;
+			} 
+		} else {
+			CAMEL_LOG_WARNING ("CamelFolder::get_message "
+					   " problem in the active list, a message was NULL\n");
 		}
 		message_node = message_node->next;
-
+		
 		CAMEL_LOG_FULL_DEBUG ("CamelFolder::get_message message node = %p\n", message_node);
 	}
 	return new_message;
@@ -818,7 +827,9 @@ camel_folder_get_message (CamelFolder *folder, gint number)
 
 	/* now put the new message in the list of messages got from
 	 * this folder. If people show concerns about this code being
-	 * here, we will let the providers do it by themself */
+	 * here, we will let the providers do it by themself 
+	 * Update: I am actually concern. This will go into util routines
+	 * and providers will have to do the job themself :) */
 	if (!new_message) return NULL;
 	/* if the message has not been already put in 
 	 * this folder message list, put it in */

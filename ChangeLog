@@ -1,3 +1,24 @@
+1999-08-14  bertrand  <Bertrand.Guiheneuf@aful.org>
+
+	* tests/ui-tests/store_listing.c (delete_selected_messages): 
+	(expunge_selected_folders): 
+	Implemented deletion/expunge mechanism. 
+
+	* camel/camel-folder.c (_get_message): 
+	Added some debug info.
+
+	* camel/providers/MH/camel-mh-folder.c (_expunge): 
+	implemented and tested.
+
+	* camel/camel-mime-message.c (_set_flag): 
+	changed the old braindead implementation.
+	boolean are inserted in the flag hash 
+	table casted as gpointers.
+	
+
+	* camel/camel-mime-message.c: indentation fix
+	
+
 1999-08-13  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* camel/camel-folder.c (_get_message): default implementation

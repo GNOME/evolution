@@ -75,8 +75,8 @@ struct _CamelMimeMessage
 	guint message_number; /* set by folder object when retrieving message */
 	CamelFolder *folder;
 	CamelSession *session;
-	
-} ;
+
+};
 
 
 

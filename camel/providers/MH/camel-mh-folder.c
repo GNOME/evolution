@@ -52,6 +52,7 @@ static GList *_list_subfolders (CamelFolder *folder);
 static CamelMimeMessage *_get_message (CamelFolder *folder, gint number);
 static gint _get_message_count (CamelFolder *folder);
 static gint _append_message (CamelFolder *folder, CamelMimeMessage *message);
+static GList *_expunge (CamelFolder *folder);
 
 
 static void
@@ -72,6 +73,7 @@ camel_mh_folder_class_init (CamelMhFolderClass *camel_mh_folder_class)
 	camel_folder_class->get_message = _get_message;
 	camel_folder_class->get_message_count = _get_message_count;
 	camel_folder_class->append_message = _append_message;
+	camel_folder_class->expunge = _expunge;
 	
 }
 
@@ -156,7 +158,8 @@ _set_name (CamelFolder *folder, const gchar *name)
 
 	mh_folder->directory_path = g_strdup_printf ("%s%c%s", root_dir_path, separator, folder->full_name);
 
-	CAMEL_LOG_FULL_DEBUG ("CamelMhFolder::set_name mh_folder->directory_path is %s\n", mh_folder->directory_path);
+	CAMEL_LOG_FULL_DEBUG ("CamelMhFolder::set_name mh_folder->directory_path is %s\n", 
+			      mh_folder->directory_path);
 	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMhFolder::set_name\n");
 }
 
@@ -286,7 +289,8 @@ _delete_messages (CamelFolder *folder)
 			unlink_error = unlink(entry_name);
 
 			if (unlink_error == -1) {
-				CAMEL_LOG_WARNING ("CamelMhFolder::delete_messages Error when deleting file %s\n", entry_name);
+				CAMEL_LOG_WARNING ("CamelMhFolder::delete_messages Error when deleting file %s\n", 
+						   entry_name);
 				CAMEL_LOG_FULL_DEBUG ( "  Full error text is : %s\n", strerror(errno));
 			}
 		}
@@ -303,7 +307,7 @@ _delete_messages (CamelFolder *folder)
 
 
 static GList *
-_list_subfolders(CamelFolder *folder)
+_list_subfolders (CamelFolder *folder)
 {
 	GList *subfolder_name_list = NULL;
 
@@ -393,6 +397,13 @@ _message_name_compare (gconstpointer a, gconstpointer b)
 	return (atoi (m1) - atoi (m2));
 }
 
+static void
+_filename_free (gpointer data)
+{
+	g_free ((gchar *)data);
+}
+
+
 /* slow routine, may be optimixed, or we should use
    caches if users complain */
 static CamelMimeMessage *
@@ -424,7 +435,8 @@ _get_message (CamelFolder *folder, gint number)
 	while (dir_entry != NULL) {
 		/* tests if the entry correspond to a message file */
 		if (_is_a_message_file (dir_entry->d_name, directory_path)) 
-			message_list = g_list_insert_sorted (message_list, g_strdup (dir_entry->d_name), _message_name_compare);
+			message_list = g_list_insert_sorted (message_list, g_strdup (dir_entry->d_name), 
+							     _message_name_compare);
 		/* read next entry */
 		dir_entry = readdir (dir_handle);
 	}		
@@ -435,18 +447,22 @@ _get_message (CamelFolder *folder, gint number)
 	message_name = g_list_nth_data (message_list, number);
 	
 	if (message_name != NULL) {
-		CAMEL_LOG_FULL_DEBUG  ("CanelMhFolder::get_message message number = %d, name = %s\n", number, message_name);
+		CAMEL_LOG_FULL_DEBUG  ("CanelMhFolder::get_message message number = %d, name = %s\n", 
+				       number, message_name);
 		message_file_name = g_strdup_printf ("%s/%s", directory_path, message_name);
 		input_stream = camel_stream_fs_new_with_name (message_file_name, CAMEL_STREAM_FS_READ);
-		g_free (message_file_name);
+		
 		if (input_stream != NULL) {
 #warning use session field here
 			message = camel_mime_message_new_with_session ( (CamelSession *)NULL);
 			camel_data_wrapper_construct_from_stream ( CAMEL_DATA_WRAPPER (message), input_stream);
 			gtk_object_unref (GTK_OBJECT (input_stream));
 			message->message_number = number;
+			gtk_object_set_data_full (GTK_OBJECT (message), "fullpath", 
+						  g_strdup (message_file_name), _filename_free);
 #warning Set flags and all this stuff here
 		}
+		g_free (message_file_name);
 	} else 
 		CAMEL_LOG_FULL_DEBUG  ("CanelMhFolder::get_message message number = %d, not found\n", number);
 	string_list_free (message_list);
@@ -486,6 +502,7 @@ _get_message_count (CamelFolder *folder)
 	}
 
 	closedir (dir_handle);
+	CAMEL_LOG_FULL_DEBUG ("CamelMhFolder::get_message_count found %d messages\n", message_count);
 	return message_count;
 }
 
@@ -534,14 +551,16 @@ _append_message (CamelFolder *folder, CamelMimeMessage *message)
 
 	new_message_number = last_max_message_number + 1;
 	new_message_filename = g_strdup_printf ("%s/%d", directory_path, new_message_number);
-	CAMEL_LOG_FULL_DEBUG ("CamelMhFolder::append_message new message path is %s\n", new_message_filename);
+	CAMEL_LOG_FULL_DEBUG ("CamelMhFolder::append_message new message path is %s\n", 
+			      new_message_filename);
 
 	output_stream = camel_stream_fs_new_with_name (new_message_filename, CAMEL_STREAM_FS_WRITE);
 	if (output_stream != NULL) {
 		camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), output_stream);
 		camel_stream_close (output_stream);
 	} else {
-		CAMEL_LOG_WARNING ("CamelMhFolder::append_message could not open %s for writing\n", new_message_filename);
+		CAMEL_LOG_WARNING ("CamelMhFolder::append_message could not open %s for writing\n", 
+				   new_message_filename);
 		CAMEL_LOG_FULL_DEBUG ("  Full error text is : %s\n", strerror(errno));
 		error = TRUE;
 	}
@@ -550,4 +569,89 @@ _append_message (CamelFolder *folder, CamelMimeMessage *message)
 	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMhFolder::append_message\n");
 	if (error) return -1;
 	else return new_message_number;
+}
+
+
+
+gint
+camel_mime_message_number_cmp (gconstpointer a, gconstpointer b)
+{
+	CamelMimeMessage *m_a = CAMEL_MIME_MESSAGE (a);
+	CamelMimeMessage *m_b = CAMEL_MIME_MESSAGE (b);
+
+	return (m_a->message_number - (m_b->message_number));
+}
+
+
+static GList *
+_expunge (CamelFolder *folder)
+{
+	/* For the moment, we look in the folder active message
+	 * list. I did not make my mind for the moment, should 
+	 * the gtk_object->destroy signal be used to expunge
+	 * freed messages objects marked DELETED ? 
+	 */
+	GList *expunged_list = NULL;
+	CamelMimeMessage *message;
+	GList *message_node;
+	GList *next_message_node;
+	gchar *fullpath;
+	gint unlink_error;
+	guint nb_expunged = 0;
+
+	CAMEL_LOG_FULL_DEBUG ("Entering CamelFolder::expunge\n");
+	
+	/* sort message list by ascending message number */
+	if (folder->message_list)
+		folder->message_list = g_list_sort (folder->message_list, camel_mime_message_number_cmp);
+
+	message_node = folder->message_list;
+
+	/* look in folder message list which messages
+	 * need to be expunged  */
+	while ( message_node) {
+		message = CAMEL_MIME_MESSAGE (message_node->data);
+
+		/* we may free message_node so get the next node now */
+		next_message_node = message_node->next;
+
+		if (message) {
+			CAMEL_LOG_FULL_DEBUG ("CamelMhFolder::expunge, examining message %d\n", message->message_number);
+			if (camel_mime_message_get_flag (message, "DELETED")) {
+				/* expunge the message */
+				fullpath = gtk_object_get_data (GTK_OBJECT (message), "fullpath");
+				CAMEL_LOG_FULL_DEBUG ("CamelMhFolder::expunge, message fullpath is %s\n", 
+						      fullpath);
+				unlink_error = unlink(fullpath);
+				if (unlink_error != -1) {
+					expunged_list = g_list_append (expunged_list, message);
+					message->expunged = TRUE;
+					/* remove the message from active message list */
+					g_list_remove_link (folder->message_list, message_node);
+					g_list_free_1 (message_node);
+					nb_expunged++;
+				} else {
+					CAMEL_LOG_WARNING ("CamelMhFolder:: could not unlink %s (message %d)\n", 
+							   fullpath, message->message_number);
+					CAMEL_LOG_FULL_DEBUG ("  Full error text is : %s\n", strerror(errno));
+				}
+				
+			} else {
+				/* readjust message number */
+				CAMEL_LOG_FULL_DEBUG ("CamelMhFolder:: Readjusting message number %d", 
+						      message->message_number);
+				message->message_number -= nb_expunged;
+				CAMEL_LOG_FULL_DEBUG (" to %d\n", message->message_number);
+			}
+		}
+		else {
+			CAMEL_LOG_WARNING ("CamelMhFolder::expunge warning message_node contains no message\n");
+			
+		}
+		message_node = next_message_node;
+		CAMEL_LOG_FULL_DEBUG ("CamelFolder::expunge, examined message node %p\n", message_node);
+	}
+
+	CAMEL_LOG_FULL_DEBUG ("Leaving CamelFolder::expunge\n");
+	return expunged_list;
 }

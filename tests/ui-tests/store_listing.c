@@ -157,8 +157,64 @@ add_mail_store (const gchar *store_url)
 	
 }
 
+static void 
+delete_selected_messages ()
+{
+	GtkWidget *message_clist;
+	gint current_row;
+	GList *selected;
+	gint selected_row;
 
-/* ----- */
+	CamelMimeMessage *message;
+	message_clist = glade_xml_get_widget (xml, "message-clist");
+	selected = GTK_CLIST (message_clist)->selection;
+	while (selected) {
+		selected_row = GPOINTER_TO_INT (selected->data);
+		message = CAMEL_MIME_MESSAGE (gtk_clist_get_row_data (GTK_CLIST (message_clist), selected_row));
+		camel_mime_message_set_flag (message, "DELETED", TRUE);
+		selected = selected->next;
+	}
+
+}
+
+
+static void 
+expunge_selected_folders ()
+{
+	GtkWidget *mailbox_and_store_tree;
+	CamelFolder *folder;
+	GtkCTreeNode* selected_node;
+	GList *selected;
+	const gchar *folder_name;
+
+	mailbox_and_store_tree = glade_xml_get_widget (xml, "store-and-mailbox-tree");
+	
+	selected = GTK_CLIST (mailbox_and_store_tree)->selection;
+	while (selected) {
+		
+		selected_node= GTK_CTREE_NODE (selected->data);
+		folder = CAMEL_FOLDER (gtk_ctree_node_get_row_data (GTK_CTREE (mailbox_and_store_tree), 
+								    selected_node));
+		if (folder && IS_CAMEL_FOLDER (folder)) {
+			folder_name = camel_folder_get_name (folder);
+			printf ("folder to expunge : %s\n", folder_name);
+			camel_folder_expunge (folder);
+			/* reshowing the folder this way is uggly
+			   but allows to check the message are
+			   correctly renoved and the cache works correctly */
+			show_folder_messages (folder);
+			
+		} else {
+			printf ("A selected node is a store\n");
+		}
+		
+		selected = selected->next;
+	}
+
+	
+}
+
+/* ----- libglade callbacks */
 void
 on_exit_activate (GtkWidget *widget, void *data)
 {
@@ -202,8 +258,22 @@ on_new_store_activate (GtkWidget *widget, void *data)
 }
 
 
+void
+on_expunge_activate (GtkWidget *widget, void *data)
+{
+	expunge_selected_folders ();
+}
 
 
+void 
+on_message_delete_activate (GtkWidget *widget, void *data)
+{
+	delete_selected_messages();
+}
+
+
+
+/* ----- init */
 int
 main(int argc, char *argv[])
 {
