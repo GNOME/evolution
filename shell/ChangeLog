@@ -1,3 +1,9 @@
+2001-05-23  Chris Toshok  <toshok@ximian.com>
+
+	* evolution-shell-component.h
+	(EVOLUTION_SHELL_COMPONENT_POPUP_PLACEHOLDER): track change to the
+	path to the ComponentPlaceholder.
+
 2001-05-20  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-view.c: New static members `offline_pixmap',
