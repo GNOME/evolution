@@ -1,5 +1,15 @@
 2003-02-26  Hans Petter Jansson  <hpj@ximian.com>
 
+	Fixes Ximian #37895.
+
+	* gui/e-day-view.c (e_day_view_destroy): g_object_unref () ->
+	pango_font_description_free ().
+	(e_day_view_style_set): Ditto.
+
+	* gui/e-week-view.c (e_week_view_destroy): Ditto.
+
+2003-02-26  Hans Petter Jansson  <hpj@ximian.com>
+
 	Fixes Ximian #38306.
 
 	* gui/e-itip-control.c (clean_up): Do nothing if the private structure

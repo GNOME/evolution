@@ -492,7 +492,7 @@ e_week_view_destroy (GtkObject *object)
 	}
 
 	if (week_view->small_font_desc) {
-		g_object_unref (week_view->small_font_desc);
+		pango_font_description_free (week_view->small_font_desc);
 		week_view->small_font_desc = NULL;
 	}
 

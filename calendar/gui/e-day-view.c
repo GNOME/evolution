@@ -909,7 +909,7 @@ e_day_view_destroy (GtkObject *object)
 	}
 
 	if (day_view->large_font_desc) {
-		g_object_unref (day_view->large_font_desc);
+		pango_font_description_free (day_view->large_font_desc);
 		day_view->large_font_desc = NULL;
 	}
 
@@ -1120,7 +1120,7 @@ e_day_view_style_set (GtkWidget *widget,
 
 	/* Create the large font. */
 	if (day_view->large_font_desc != NULL) 
-		g_object_unref (day_view->large_font_desc);
+		pango_font_description_free (day_view->large_font_desc);
 
 	day_view->large_font_desc =
 		pango_font_description_copy (gtk_widget_get_style (widget)->font_desc);
