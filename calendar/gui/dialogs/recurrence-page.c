@@ -304,6 +304,11 @@ recurrence_page_destroy (GtkObject *object)
 		priv->xml = NULL;
 	}
 
+	if (priv->comp) {
+		gtk_object_unref (GTK_OBJECT (priv->comp));
+		priv->comp = NULL;
+	}
+
 	g_free (priv);
 	rpage->priv = NULL;
 
