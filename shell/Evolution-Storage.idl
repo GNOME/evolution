@@ -16,6 +16,7 @@ module Evolution {
 		string description;
 		string display_name;
 		string physical_uri;
+		boolean highlighted;
 	};
 
 	interface Storage;
@@ -44,6 +45,10 @@ module Evolution {
 
 		void new_folder (in string path, in Folder folder)
 			raises (Exists);
+
+		void update_folder (in string path, in string display_name,
+				    in boolean highlighted)
+			raises (NotFound);
 
 		void removed_folder (in string path)
 			raises (NotFound);

@@ -58,12 +58,15 @@ struct _EvolutionStorageListenerClass {
 	GtkObjectClass parent_class;
 
 	/* Signals.  */
-	void (* destroyed)	(EvolutionStorageListener *storage_listener);
-	void (* new_folder)	(EvolutionStorageListener *storage_listener,
-				 const char *path,
-				 const Evolution_Folder *folder);
-	void (* removed_folder)	(EvolutionStorageListener *storage_listener,
-				 const char *path);
+	void (* destroyed)       (EvolutionStorageListener *storage_listener);
+	void (* new_folder)      (EvolutionStorageListener *storage_listener,
+				  const char *path,
+				  const Evolution_Folder *folder);
+	void (* update_folder)   (EvolutionStorageListener *storage_listener,
+				  const char *path,
+				  const char *display_name);
+	void (* removed_folder)  (EvolutionStorageListener *storage_listener,
+				  const char *path);
 };
 
 

@@ -1,3 +1,36 @@
+2000-11-01  Dan Winship  <danw@helixcode.com>
+
+	* Evolution-Storage.idl: Add "highligted" field to Folder. Add
+	update_folder method to StorageListener to change display_name and
+	highlight status.
+
+	* e-folder.c: Add "highlighted" to EFolder to match the
+	Evolution::Folder type.
+	(e_folder_get_highlighted, e_folder_set_highlighted): Added
+
+	* evolution-storage-listener.c
+	(impl_Evolution_StorageListener_update_folder, etc):
+	* e-storage.c (e_storage_updated_folder, etc):
+	* e-corba-storage.c (impl_StorageListener_update_folder, etc):
+	Implement update_folder.
+
+	* e-storage-set.c (storage_updated_folder_cb, etc): Re-emit
+	updated_folder signals received from EStorage.
+
+	* e-storage-set-view.c (various): Add another model column to the
+	ETable and set it up as a bold_column based on
+	e_folder_get_highligted.
+	(updated_folder_cb, etc): Listen to EStorageSet update_folder
+	signal and emit ETree node_changed signals.
+
+	* evolution-storage.c (evolution_storage_update_folder): Client
+	function to update a folder's display_name and highlighted status.
+
+	* Evolution-LocalStorage.idl:
+	* evolution-local-storage.c: 
+	* e-local-storage.c: Change set_display_name to update_folder to
+	match Evolution::StorageListener
+
 2000-10-25    <jpr@helixcode.com>
 
 	* e-shortcuts-view-model.c (load_group_into_model): Set folder to NULL to

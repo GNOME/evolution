@@ -64,6 +64,7 @@ struct _EStorageSetClass {
 	void (* removed_storage) (EStorageSet *storage_set, EStorage *storage);
 	/* FIXME?  Inconsistency between storage and folders.  */
 	void (* new_folder)     (EStorageSet *storage_set, const char *path);
+	void (* updated_folder) (EStorageSet *storage_set, const char *path);
 	void (* removed_folder) (EStorageSet *storage_set, const char *path);
 };
 

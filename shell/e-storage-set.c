@@ -59,6 +59,7 @@ enum {
 	NEW_STORAGE,
 	REMOVED_STORAGE,
 	NEW_FOLDER,
+	UPDATED_FOLDER,
 	REMOVED_FOLDER,
 	LAST_SIGNAL
 };
@@ -132,6 +133,21 @@ storage_new_folder_cb (EStorage *storage,
 
 	full_path = make_full_path (storage, path);
 	gtk_signal_emit (GTK_OBJECT (storage_set), signals[NEW_FOLDER], full_path);
+	g_free (full_path);
+}
+
+static void
+storage_updated_folder_cb (EStorage *storage,
+			   const char *path,
+			   void *data)
+{
+	EStorageSet *storage_set;
+	char *full_path;
+
+	storage_set = E_STORAGE_SET (data);
+
+	full_path = make_full_path (storage, path);
+	gtk_signal_emit (GTK_OBJECT (storage_set), signals[UPDATED_FOLDER], full_path);
 	g_free (full_path);
 }
 
@@ -242,6 +258,14 @@ class_init (EStorageSetClass *klass)
 				gtk_marshal_NONE__STRING,
 				GTK_TYPE_NONE, 1,
 				GTK_TYPE_STRING);
+	signals[UPDATED_FOLDER] = 
+		gtk_signal_new ("updated_folder",
+				GTK_RUN_FIRST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (EStorageSetClass, updated_folder),
+				gtk_marshal_NONE__STRING,
+				GTK_TYPE_NONE, 1,
+				GTK_TYPE_STRING);
 	signals[REMOVED_FOLDER] = 
 		gtk_signal_new ("removed_folder",
 				GTK_RUN_FIRST,
@@ -347,6 +371,8 @@ e_storage_set_add_storage (EStorageSet *storage_set,
 
 	gtk_signal_connect (GTK_OBJECT (storage), "new_folder",
 			    GTK_SIGNAL_FUNC (storage_new_folder_cb), storage_set);
+	gtk_signal_connect (GTK_OBJECT (storage), "updated_folder",
+			    GTK_SIGNAL_FUNC (storage_updated_folder_cb), storage_set);
 	gtk_signal_connect (GTK_OBJECT (storage), "removed_folder",
 			    GTK_SIGNAL_FUNC (storage_removed_folder_cb), storage_set);
 

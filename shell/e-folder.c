@@ -41,6 +41,7 @@ struct _EFolderPrivate {
 	char *type;
 	char *description;
 	char *physical_uri;
+	gboolean highlighted;
 };
 
 #define EF_CLASS(obj) \
@@ -145,6 +146,7 @@ init (EFolder *folder)
 	priv->name         = NULL;
 	priv->description  = NULL;
 	priv->physical_uri = NULL;
+	priv->highlighted  = FALSE;
 
 	folder->priv = priv;
 }
@@ -218,6 +220,24 @@ e_folder_get_description (EFolder *folder)
 	return folder->priv->description;
 }
 
+const char *
+e_folder_get_physical_uri (EFolder *folder)
+{
+	g_return_val_if_fail (folder != NULL, NULL);
+	g_return_val_if_fail (E_IS_FOLDER (folder), NULL);
+
+	return folder->priv->physical_uri;
+}
+
+gboolean
+e_folder_get_highlighted (EFolder *folder)
+{
+	g_return_val_if_fail (folder != NULL, FALSE);
+	g_return_val_if_fail (E_IS_FOLDER (folder), FALSE);
+
+	return folder->priv->highlighted;
+}
+
 
 void
 e_folder_set_name (EFolder *folder,
@@ -275,14 +295,16 @@ e_folder_set_physical_uri (EFolder *folder,
 	gtk_signal_emit (GTK_OBJECT (folder), signals[CHANGED]);
 }
 
-
-const char *
-e_folder_get_physical_uri (EFolder *folder)
+void
+e_folder_set_highlighted (EFolder *folder,
+			  gboolean highlighted)
 {
-	g_return_val_if_fail (folder != NULL, NULL);
-	g_return_val_if_fail (E_IS_FOLDER (folder), NULL);
+	g_return_if_fail (folder != NULL);
+	g_return_if_fail (E_IS_FOLDER (folder));
 
-	return folder->priv->physical_uri;
+	folder->priv->highlighted = highlighted;
+
+	gtk_signal_emit (GTK_OBJECT (folder), signals[CHANGED]);
 }
 
 

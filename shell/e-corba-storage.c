@@ -125,6 +125,35 @@ impl_StorageListener_new_folder (PortableServer_Servant servant,
 }
 
 static void
+impl_StorageListener_update_folder (PortableServer_Servant servant,
+				    const CORBA_char *path,
+				    const CORBA_char *display_name,
+				    CORBA_boolean highlighted,
+				    CORBA_Environment *ev)
+{
+	StorageListenerServant *storage_listener_servant;
+	EStorage *storage;
+	EFolder *e_folder;
+
+	storage_listener_servant = (StorageListenerServant *) servant;
+	storage = storage_listener_servant->storage;
+
+	e_folder = e_storage_get_folder (storage, path);
+	if (e_folder == NULL) {
+		CORBA_exception_set (ev,
+				     CORBA_USER_EXCEPTION,
+				     ex_Evolution_StorageListener_NotFound,
+				     NULL);
+		return;
+	}
+
+	e_folder_set_name (e_folder, display_name);
+	e_folder_set_highlighted (e_folder, highlighted);
+
+	e_storage_updated_folder (storage, path);
+}
+
+static void
 impl_StorageListener_removed_folder (PortableServer_Servant servant,
 				     const CORBA_char *path,
 				     CORBA_Environment *ev)
@@ -254,6 +283,7 @@ corba_class_init (void)
 
 	epv = g_new0 (POA_Evolution_StorageListener__epv, 1);
 	epv->new_folder     = impl_StorageListener_new_folder;
+	epv->update_folder  = impl_StorageListener_update_folder;
 	epv->removed_folder = impl_StorageListener_removed_folder;
 
 	vepv = &storage_listener_vepv;

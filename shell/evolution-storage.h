@@ -90,6 +90,10 @@ EvolutionStorageResult      evolution_storage_new_folder         (EvolutionStora
 								  const char                *type,
 								  const char                *physical_uri,
 								  const char                *description);
+EvolutionStorageResult      evolution_storage_update_folder      (EvolutionStorage          *evolution_storage,
+								  const char                *path,
+								  const char                *display_name,
+								  gboolean                   highlighted);
 EvolutionStorageResult      evolution_storage_removed_folder     (EvolutionStorage          *evolution_storage,
 								  const char                *path);
 

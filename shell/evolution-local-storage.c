@@ -41,7 +41,7 @@ struct _EvolutionLocalStoragePrivate {
 
 
 enum {
-	SET_DISPLAY_NAME,
+	UPDATE_FOLDER,
 	LAST_SIGNAL
 };
 
@@ -53,10 +53,11 @@ static guint signals[LAST_SIGNAL] = { 0 };
 static POA_Evolution_LocalStorage__vepv LocalStorage_vepv;
 
 static void
-impl_Evolution_LocalStorage_set_display_name (PortableServer_Servant servant,
-					      const CORBA_char *path,
-					      const CORBA_char *display_name,
-					      CORBA_Environment *ev)
+impl_Evolution_LocalStorage_update_folder (PortableServer_Servant servant,
+					   const CORBA_char *path,
+					   const CORBA_char *display_name,
+					   CORBA_boolean highlighted,
+					   CORBA_Environment *ev)
 {
 	BonoboObject *bonobo_object;
 	EvolutionLocalStorage *local_storage;
@@ -64,7 +65,7 @@ impl_Evolution_LocalStorage_set_display_name (PortableServer_Servant servant,
 	bonobo_object = bonobo_object_from_servant (servant);
 	local_storage = EVOLUTION_LOCAL_STORAGE (bonobo_object);
 
-	gtk_signal_emit (GTK_OBJECT (local_storage), signals[SET_DISPLAY_NAME], path, display_name);
+	gtk_signal_emit (GTK_OBJECT (local_storage), signals[UPDATE_FOLDER], path, display_name, highlighted);
 }
 
 static POA_Evolution_LocalStorage *
@@ -135,15 +136,16 @@ class_init (EvolutionLocalStorageClass *klass)
 
 	parent_class = gtk_type_class (PARENT_TYPE);
 
-	signals[SET_DISPLAY_NAME] = gtk_signal_new ("set_display_name",
-						    GTK_RUN_FIRST,
-						    object_class->type,
-						    GTK_SIGNAL_OFFSET (EvolutionLocalStorageClass,
-								       set_display_name),
-						    gtk_marshal_NONE__POINTER_POINTER,
-						    GTK_TYPE_NONE, 2,
-						    GTK_TYPE_STRING,
-						    GTK_TYPE_STRING);
+	signals[UPDATE_FOLDER] = gtk_signal_new ("update_folder",
+						 GTK_RUN_FIRST,
+						 object_class->type,
+						 GTK_SIGNAL_OFFSET (EvolutionLocalStorageClass,
+								    update_folder),
+						 e_marshal_NONE__POINTER_POINTER_INT,
+						 GTK_TYPE_NONE, 3,
+						 GTK_TYPE_STRING,
+						 GTK_TYPE_STRING,
+						 GTK_TYPE_BOOL);
 
 	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 
@@ -167,7 +169,7 @@ evolution_local_storage_get_epv (void)
 	POA_Evolution_LocalStorage__epv *epv;
 
 	epv = g_new0 (POA_Evolution_LocalStorage__epv, 1);
-	epv->set_display_name = impl_Evolution_LocalStorage_set_display_name;
+	epv->update_folder = impl_Evolution_LocalStorage_update_folder;
 
 	return epv;
 }

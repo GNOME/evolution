@@ -545,6 +545,67 @@ evolution_storage_new_folder (EvolutionStorage *evolution_storage,
 }
 
 EvolutionStorageResult
+evolution_storage_update_folder (EvolutionStorage *evolution_storage,
+				 const char *path, const char *display_name,
+				 gboolean highlighted)
+{
+	EvolutionStorageResult result;
+	EvolutionStoragePrivate *priv;
+	CORBA_Environment ev;
+	GList *p;
+	Evolution_Folder *corba_folder;
+
+	g_return_val_if_fail (evolution_storage != NULL,
+			      EVOLUTION_STORAGE_ERROR_INVALIDPARAMETER);
+	g_return_val_if_fail (EVOLUTION_IS_STORAGE (evolution_storage),
+			      EVOLUTION_STORAGE_ERROR_INVALIDPARAMETER);
+	g_return_val_if_fail (path != NULL, EVOLUTION_STORAGE_ERROR_INVALIDPARAMETER);
+	g_return_val_if_fail (g_path_is_absolute (path), EVOLUTION_STORAGE_ERROR_INVALIDPARAMETER);
+
+	priv = evolution_storage->priv;
+
+	if (priv->corba_storage_listeners == NULL)
+		return EVOLUTION_STORAGE_ERROR_NOTREGISTERED;
+
+	CORBA_exception_init (&ev);
+
+	result = EVOLUTION_STORAGE_OK;
+
+	for (p = priv->corba_storage_listeners; p != NULL; p = p->next) {
+		Evolution_StorageListener listener;
+
+		listener = p->data;
+		Evolution_StorageListener_update_folder (listener, path, display_name, highlighted, &ev);
+
+		if (ev._major != CORBA_NO_EXCEPTION)
+			continue;
+
+		if (ev._major != CORBA_USER_EXCEPTION)
+			result = EVOLUTION_STORAGE_ERROR_CORBA;
+		else if (strcmp (CORBA_exception_id (&ev), ex_Evolution_StorageListener_NotFound) == 0)
+			result = EVOLUTION_STORAGE_ERROR_NOTFOUND;
+		else
+			result = EVOLUTION_STORAGE_ERROR_GENERIC;
+
+		break;
+	}
+
+	CORBA_exception_free (&ev);
+
+	if (result == EVOLUTION_STORAGE_OK) {
+		corba_folder = e_folder_tree_get_folder (priv->folder_tree, path);
+		if (corba_folder != NULL) {
+			CORBA_free (corba_folder->display_name);
+			corba_folder->display_name = CORBA_string_dup (display_name);
+			corba_folder->highlighted = highlighted;
+		} else
+			result = EVOLUTION_STORAGE_ERROR_NOTFOUND;
+	}
+
+	return result;
+}
+
+EvolutionStorageResult
 evolution_storage_removed_folder (EvolutionStorage *evolution_storage,
 				  const char *path)
 {

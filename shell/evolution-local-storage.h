@@ -57,9 +57,10 @@ struct _EvolutionLocalStorage {
 struct _EvolutionLocalStorageClass {
 	EvolutionStorageClass parent_class;
 
-	void (* set_display_name) (EvolutionLocalStorage *local_storage,
-				   const char *path,
-				   const char *display_name);
+	void (* update_folder) (EvolutionLocalStorage *local_storage,
+				const char *path,
+				const char *display_name,
+				gboolean highlighted);
 };
 
 

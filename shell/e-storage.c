@@ -49,6 +49,7 @@ struct _EStoragePrivate {
 
 enum {
 	NEW_FOLDER,
+	UPDATED_FOLDER,
 	REMOVED_FOLDER,
 	LAST_SIGNAL
 };
@@ -171,6 +172,14 @@ class_init (EStorageClass *class)
 				GTK_RUN_FIRST,
 				object_class->type,
 				GTK_SIGNAL_OFFSET (EStorageClass, new_folder),
+				gtk_marshal_NONE__STRING,
+				GTK_TYPE_NONE, 1,
+				GTK_TYPE_STRING);
+	signals[UPDATED_FOLDER] =
+		gtk_signal_new ("updated_folder",
+				GTK_RUN_FIRST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (EStorageClass, updated_folder),
 				gtk_marshal_NONE__STRING,
 				GTK_TYPE_NONE, 1,
 				GTK_TYPE_STRING);
@@ -432,6 +441,27 @@ e_storage_new_folder (EStorage *storage,
 		return FALSE;
 
 	gtk_signal_emit (GTK_OBJECT (storage), signals[NEW_FOLDER], path);
+
+	return TRUE;
+}
+
+gboolean
+e_storage_updated_folder (EStorage *storage,
+			  const char *path)
+{
+	EStoragePrivate *priv;
+
+	g_return_val_if_fail (storage != NULL, FALSE);
+	g_return_val_if_fail (E_IS_STORAGE (storage), FALSE);
+	g_return_val_if_fail (path != NULL, FALSE);
+	g_return_val_if_fail (g_path_is_absolute (path), FALSE);
+
+	priv = storage->priv;
+
+	if (e_folder_tree_get_folder (priv->folder_tree, path) == NULL)
+		return FALSE;
+
+	gtk_signal_emit (GTK_OBJECT (storage), signals[UPDATED_FOLDER], path);
 
 	return TRUE;
 }

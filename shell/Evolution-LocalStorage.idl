@@ -13,14 +13,17 @@
 module Evolution {
 	interface LocalStorage : Evolution::Storage {
 		/**
-		 * set_display_name:
+		 * update_folder:
 		 * @path: Path of a folder within the storage.
-		 * @display: Name to be displayed in the tree view for this folder
+		 * @display_name: Name to be displayed in the tree view for
+		 * this folder
+		 * @highlighted: Whether or not to highlight the name.
 		 *
 		 * Set the name to display for the folder at the specified
 		 * @path.
 		 */
-		void set_display_name (in string path,
-				       in string display_name);
+		void update_folder (in string path,
+				    in string display_name,
+				    in boolean highlighted);
 	};
 };

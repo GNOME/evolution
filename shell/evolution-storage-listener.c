@@ -45,6 +45,7 @@ struct _EvolutionStorageListenerPrivate {
 enum {
   DESTROYED,
   NEW_FOLDER,
+  UPDATE_FOLDER,
   REMOVED_FOLDER,
   LAST_SIGNAL
 };
@@ -90,6 +91,23 @@ impl_Evolution_StorageListener_new_folder (PortableServer_Servant servant,
 	priv = listener->priv;
 
 	gtk_signal_emit (GTK_OBJECT (listener), signals[NEW_FOLDER], path, folder);
+}
+
+static void
+impl_Evolution_StorageListener_update_folder (PortableServer_Servant servant,
+					      const CORBA_char *path,
+					      const CORBA_char *display_name,
+					      CORBA_boolean highlighted,
+					      CORBA_Environment *ev)
+{
+	EvolutionStorageListener *listener;
+	EvolutionStorageListenerPrivate *priv;
+
+	listener = gtk_object_from_servant (servant);
+	priv = listener->priv;
+
+	gtk_signal_emit (GTK_OBJECT (listener), signals[UPDATE_FOLDER], path,
+			 display_name, highlighted);
 }
 
 static void
@@ -207,6 +225,7 @@ corba_class_init (void)
 	epv = g_new0 (POA_Evolution_StorageListener__epv, 1);
 	epv->destroyed      = impl_Evolution_StorageListener_destroyed;
 	epv->new_folder     = impl_Evolution_StorageListener_new_folder;
+	epv->update_folder  = impl_Evolution_StorageListener_update_folder;
 	epv->removed_folder = impl_Evolution_StorageListener_removed_folder;
 
 	vepv = & my_Evolution_StorageListener_vepv;
@@ -239,6 +258,16 @@ class_init (EvolutionStorageListenerClass *klass)
 						  GTK_TYPE_NONE, 2,
 						  GTK_TYPE_STRING,
 						  GTK_TYPE_POINTER);
+
+	signals[UPDATE_FOLDER]  = gtk_signal_new ("new_folder",
+						  GTK_RUN_FIRST,
+						  object_class->type,
+						  GTK_SIGNAL_OFFSET (EvolutionStorageListenerClass, update_folder),
+						  e_marshal_NONE__POINTER_POINTER_INT,
+						  GTK_TYPE_NONE, 3,
+						  GTK_TYPE_STRING,
+						  GTK_TYPE_STRING,
+						  GTK_TYPE_BOOL);
 
 	signals[REMOVED_FOLDER] = gtk_signal_new ("removed_folder",
 						  GTK_RUN_FIRST,
