@@ -557,23 +557,18 @@ smtp.omniport.com:143
   </sect1>
 
     <sect1 id="config-prefs-cal">
-       <title>Configuring the Calendar</title>
+       <title>Calendar and Task List Settings</title>
        <para>
-          To set your calendar preferences, select
-          <menuchoice><guimenu>Settings</guimenu>
-          <guimenuitem>Calendar
-          Settings</guimenuitem></menuchoice> from the Calendar
-          view.  This will open up the
-          <interface>Preferences</interface> window.  It contains four
-          tabs: <guilabel>General</guilabel>, <guilabel>Display</guilabel>, <guilabel>Task List</guilabel>, and <guilabel>Other</guilabel>.  The <interface>calendar
-          preferences window</interface> is illustrated in <xref
+          The calendar configuration tool has two tabs
+          <guilabel>General</guilabel> and
+          <guilabel>Display</guilabel>, and is illustrated in <xref
           linkend="config-prefs-cal-fig">.
 
       <!-- ==============Figure===================== -->
       <figure id="config-prefs-cal-fig">
 	<title>Calendar Preferences Dialog</title>
 	<screenshot>
-	  <screeninfo>If this worked on my job as well as my calendar...</screeninfo>
+	  <screeninfo>Calendar Configuration</screeninfo>
 	  <mediaobject><imageobject><imagedata fileref="figures/config-cal" format="png" srccredit="Aaron Weber">
 	    </imageobject></mediaobject>
 	</screenshot>
@@ -581,10 +576,8 @@ smtp.omniport.com:143
       <!-- ==============End of Figure================-->
         </para>
 
-    <sect2 id="config-prefs-cal-general">
-      <title>Calendar's General Settings</title>
       <para>
-        The <guilabel>Time display</guilabel> tab lets you set the
+        The <guilabel>General</guilabel> tab lets you set the
         following:
         <variablelist>
 	  <varlistentry>
@@ -658,9 +651,7 @@ smtp.omniport.com:143
 	  </varlistentry>
 	</variablelist>
        </para>
-    </sect2>
-    <sect2 id="config-prefs-cal-display">
-      <title>Display</title>
+
       <para>
 	The <interface>Display</interface> section lets you choose how
 	your appointments and tasks will appear in your calendar.
@@ -728,14 +719,16 @@ smtp.omniport.com:143
 	  </varlistentry>
 	</variablelist>
       </para>
-    </sect2>
   </sect1>
   <sect1 id="config-prefs-contact">
     <title>Managing the Addressbook</title>
     <para>
-      The addressbook does not have a large list of configuration
-      settings, but those that are there can be found in the
-      <guimenu>Tools</guimenu> menu.
+        Addressbook settings are limited to the usage and
+        configuration of directory servers (LDAP and
+        Exchange). Contact folders for the mailer's autocompletion
+        feature are set in the Folders tool above, and all other
+        addressbook controls are available in the addressbook window
+        itself.
     </para>
       
     <sect2 id="config-prefs-contact-ldap-add">
