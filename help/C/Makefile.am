@@ -7,8 +7,9 @@ figs = \
 	figures/exchange-identity.png		\
 	figures/exchange-receive-options.png	\
 	figures/exchange-receive.png		\
-	figures/filter-assist-fig.png		\
+	figures/exchange-delegation.png		\
 	figures/filter-new-fig.png		\
+	figures/folder-bar.png			\
 	figures/full-1.png			\
 	figures/full-2.png			\
 	figures/full-3.png			\
@@ -16,18 +17,15 @@ figs = \
 	figures/full-5.png			\
 	figures/full-6.png			\
 	figures/full-7.png			\
-	figures/mail-composer.png		\
 	figures/mail-druid-pic.png		\
 	figures/mail-inbox.png			\
 	figures/mail-threaded.png		\
 	figures/mainwindow-pic.png		\
 	figures/newmsg.png			\
-	figures/outline.png			\
 	figures/print-dest.png			\
 	figures/print-preview.png		\
 	figures/replymsg.png			\
 	figures/schedule.png			\
-	figures/small_desktop.png		\
 	figures/summary.png			\
 	figures/vfolder-createrule-fig.png
 figdir = figures
