@@ -1566,7 +1566,7 @@ static char *sync_folder_desc(struct _mail_msg *mm, int done)
 {
 	struct _sync_folder_msg *m = (struct _sync_folder_msg *)mm;
 
-	return g_strdup_printf (_("Synchronizing \'%s\'"), 
+	return g_strdup_printf (_("Storing folder \'%s\'"), 
 			       camel_folder_get_full_name (m->folder));
 }
 
