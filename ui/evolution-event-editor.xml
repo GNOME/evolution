@@ -28,7 +28,7 @@
 
 	         <menuitem name="ActionCancelMeeting" verb=""/>
 
-                 <separator/>
+                 <separator f=""/>
 
 	         <menuitem name="ActionForward" verb=""/>
 

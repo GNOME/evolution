@@ -38,7 +38,7 @@
 		    _label="_Appointment..." pixtype="pixbuf"/>
 	  <menuitem name="NewTask" verb="CalendarNewTask"
 		    _label="_Task..." pixtype="pixbuf"/>
-	  <separator/>
+	  <separator f="" name="ecal"/>
 	</placeholder>
 
       </submenu>
@@ -66,7 +66,7 @@
       <placeholder name="ViewBegin">
 	<menuitem name="Today" verb="CalendarToday" _label="Go to _Today"/>
 	<menuitem name="Goto" verb="CalendarGoto" _label="Go to _Date" pixtype="pixbuf"/>
-	<separator/>
+	<separator f="" name="ecal"/>
       </placeholder>
 
      </submenu>
@@ -74,7 +74,7 @@
     <submenu name="Tools">
       <placeholder name="ComponentPlaceholder">
 	<menuitem name="CalendarSettings" verb="" _label="_Calendar Settings..." pixtype="pixbuf"/>
-	<separator/>
+	<separator f="" name="ecal"/>
       </placeholder>
     </submenu>
 
@@ -86,7 +86,7 @@
 
 	<menuitem name="NewTask" verb="CalendarNewTask" _label="Create a New _Task" pixtype="pixbuf"/>
 
-	<separator/>
+	<separator f="" name="ecal"/>
 
 	<menuitem name="PublishFreeBusy" verb="" _label="_Publish Free/Busy Information"/>
       </submenu>
@@ -101,22 +101,22 @@
     <toolitem name="NewTask" verb="CalendarNewTask" _label="New Task"
 	      priority="1" pixtype="pixbuf"/>
 
-    <separator/>
+    <separator f="" name="ecal1"/>
 
     <toolitem name="Print" verb="CalendarPrint" pixtype = "pixbuf"/>
     <toolitem name="Delete" verb="" pixtype="pixbuf"/>
 
-    <separator/>
+    <separator f="" name="ecal2"/>
 
     <toolitem name="Prev" verb="CalendarPrev" pixtype="pixbuf"/>
     <toolitem name="Today" verb="CalendarToday"/>
     <toolitem name="Next" verb="CalendarNext" pixtype="pixbuf"/>
 
-    <separator/>
+    <separator f="" name="ecal3"/>
 
     <toolitem name="Goto" verb="CalendarGoto" _label="Go To" priority="1" pixtype="pixbuf"/>
 
-    <separator/>
+    <separator f="" name="ecal4"/>
 
     <toolitem name="DayView" verb="ShowDayView" _label="Day" priority="1" pixtype="pixbuf"/>
     <toolitem name="WorkWeekView" verb="ShowWorkWeekView" _label="Work Week" priority="1" pixtype="pixbuf"/>

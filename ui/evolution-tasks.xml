@@ -41,7 +41,7 @@ accel="Delete" sensitive="0"/>
 		    		<menuitem name="TasksSettings"
 					  _label="Tasks Settings..."
 					  verb="" pixtype="pixbuf"/>
-				<separator/>
+				<separator f=""/>
 		        </placeholder>
 		</submenu>
 	</menu>
@@ -50,7 +50,7 @@ accel="Delete" sensitive="0"/>
 		<toolitem name="New" _label="New Task" verb="TasksNewTask"
 		priority="1" pixtype="pixbuf"/>
 
-	  	<separator/>
+	  	<separator f=""/>
 
 		<toolitem name="Cut" _label="Cut" verb="TasksCut"
 		pixtype="pixbuf"/>
@@ -59,7 +59,7 @@ accel="Delete" sensitive="0"/>
 		<toolitem name="Paste" _label="Paste" verb="TasksPaste"
 		pixtype="pixbuf"/>
 
-	  	<separator/>
+	  	<separator f=""/>
 
 		<toolitem name="Delete" verb="TasksDelete" pixtype="pixbuf"/>
 

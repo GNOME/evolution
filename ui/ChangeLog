@@ -1,3 +1,10 @@
+2002-01-15  Michael Meeks  <michael@ximian.com>
+
+	* *.xml: for all separators, add a unique (per xml file) name
+	to each separator, so we don't get them conflicting across
+	merges and messing with the order; then give them a dummy attr
+	f="" to stop them being transparent, hmm.
+
 2001-12-03  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* evolution-mail-message.xml: Add an "Add Sender to Address Book"
