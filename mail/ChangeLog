@@ -62,7 +62,6 @@
 	Should fix #11981.
 
 2001-10-09  Jeffrey Stedfast  <fejj@ximian.com>
->>>>>>> 1.1813
 
 	* folder-browser.c (done_message_selected): Make sure the
 	mail-display is non-NULL.
