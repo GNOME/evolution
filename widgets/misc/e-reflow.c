@@ -394,22 +394,19 @@ set_empty(EReflow *reflow)
 	if (reflow->count == 0) {
 		if (reflow->empty_text) {
 			if (reflow->empty_message) {
-				char *empty_message = e_utf8_to_gtk_string (GTK_WIDGET (GNOME_CANVAS_ITEM (reflow)->canvas), reflow->empty_message);
 				gnome_canvas_item_set(reflow->empty_text,
 						      "width", reflow->minimum_width,
-						      "text", empty_message,
+						      "text", reflow->empty_message,
 						      NULL);
 				e_canvas_item_move_absolute(reflow->empty_text,
 							    reflow->minimum_width / 2,
 							    0);
-				g_free (empty_message);
 			} else {
 				gtk_object_destroy(GTK_OBJECT(reflow->empty_text));
 				reflow->empty_text = NULL;
 			}
 		} else {
 			if (reflow->empty_message) {
-				char *empty_message = e_utf8_to_gtk_string (GTK_WIDGET (GNOME_CANVAS_ITEM (reflow)->canvas), reflow->empty_message);
 				reflow->empty_text =
 					gnome_canvas_item_new(GNOME_CANVAS_GROUP(reflow),
 							      e_text_get_type(),
@@ -420,10 +417,9 @@ set_empty(EReflow *reflow)
 							      "font_gdk", GTK_WIDGET(GNOME_CANVAS_ITEM(reflow)->canvas)->style->font,
 							      "fill_color", "black",
 							      "justification", GTK_JUSTIFY_CENTER,
-							      "text", empty_message,
+							      "text", reflow->empty_message,
 							      "draw_background", FALSE,
 							      NULL);
-				g_free (empty_message);
 				e_canvas_item_move_absolute(reflow->empty_text,
 							    reflow->minimum_width / 2,
 							    0);
