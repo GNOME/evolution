@@ -433,6 +433,11 @@ e_summary_rdf_update (ESummary *summary)
 {
 	GList *r;
 
+	if (summary->rdf->online == FALSE) {
+		g_warning ("%s: Repolling but offline", __FUNCTION__);
+		return TRUE;
+	}
+
 	for (r = summary->rdf->rdfs; r; r = r->next) {
 		RDF *rdf = r->data;
 
@@ -604,6 +609,7 @@ e_summary_rdf_init (ESummary *summary)
 	connection->callback_closure = NULL;
 
 	rdf->connection = connection;
+	rdf->online = TRUE;
 	e_summary_add_online_connection (summary, connection);
 
 	e_summary_add_protocol_listener (summary, "rdf", e_summary_rdf_protocol, rdf);

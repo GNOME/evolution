@@ -364,10 +364,15 @@ open_callback (GnomeVFSAsyncHandle *handle,
 			      (GnomeVFSAsyncReadCallback) read_callback, w);
 }
 
-static void
+static gboolean
 e_summary_weather_update (ESummary *summary)
 {
 	GList *w;
+
+	if (summary->weather->online == FALSE) {
+		g_warning ("%s: Repolling but offline", __FUNCTION__);
+		return TRUE;
+	}
 
 	summary->weather->errorshown = FALSE;
 	for (w = summary->weather->weathers; w; w = w->next) {
@@ -380,6 +385,8 @@ e_summary_weather_update (ESummary *summary)
 				      (GnomeVFSAsyncOpenCallback) open_callback, weather);
 		g_free (uri);
 	}
+
+	return TRUE;
 }
 
 static void

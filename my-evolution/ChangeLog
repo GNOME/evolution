@@ -1,5 +1,12 @@
 2001-10-10  Iain Holmes  <iain@ximian.com>
 
+	* e-summary-weather.c (e_summary_weather_update): Return a value.
+	Only repoll if the summary is online.
+
+	* e-summary-rdf.c (e_summary_rdf_update): Only poll if online
+
+2001-10-10  Iain Holmes  <iain@ximian.com>
+
 	* my-evolution.glade: Set the minimum length of time for updates to 
 	5 minutes.
 
