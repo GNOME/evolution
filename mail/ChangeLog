@@ -1,5 +1,7 @@
 2004-04-01  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* em-migrate.c (cp_r): Report progress. "Fixes" bug #56355.
+
 	* mail-account-gui.c (signature_changed): Set the updated
 	sig->name on the menu item.
 

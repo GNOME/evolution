@@ -1356,10 +1356,12 @@ cp_r (const char *src, const char *dest)
 		if (stat (srcpath->str, &st) == -1)
 			continue;
 		
-		if (S_ISDIR (st.st_mode))
+		if (S_ISDIR (st.st_mode)) {
 			cp_r (srcpath->str, destpath->str);
-		else
-			cp (srcpath->str, destpath->str, FALSE);
+		} else {
+			em_migrate_set_folder_name (srcpath->str);
+			cp (srcpath->str, destpath->str, TRUE);
+		}
 	}
 	
 	closedir (dir);
