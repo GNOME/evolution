@@ -1663,6 +1663,7 @@ eti_selection (GnomeCanvasItem *item, int flags, gpointer data)
 		eti_request_region_show (eti, col, view_row, col, view_row);
 	}
 	if ((cursored) && (flags & E_CANVAS_ITEM_SELECTION_CURSOR) == 0) {
+		e_table_item_leave_edit(eti);
 		eti->cursor_row = -1;
 		eti->cursor_col = -1;
 	}

@@ -1076,6 +1076,18 @@ ethi_popup_sort_descending(GtkWidget *widget, EthiHeaderInfo *info)
 }
 
 static void
+ethi_popup_unsort(GtkWidget *widget, EthiHeaderInfo *info)
+{
+	int length;
+	int i;
+	int found = FALSE;
+	ETableHeaderItem *ethi = info->ethi;
+
+	e_table_sort_info_grouping_truncate(ethi->sort_info, 0);
+	e_table_sort_info_sorting_truncate(ethi->sort_info, 0);
+}
+
+static void
 ethi_popup_group_field(GtkWidget *widget, EthiHeaderInfo *info)
 {
 	ETableCol *col;
@@ -1137,6 +1149,7 @@ ethi_popup_customize_view(GtkWidget *widget, EthiHeaderInfo *info)
 static EPopupMenu ethi_context_menu [] = {
 	{ "Sort Ascending",            NULL, GTK_SIGNAL_FUNC(ethi_popup_sort_ascending),  0},
 	{ "Sort Descending",           NULL, GTK_SIGNAL_FUNC(ethi_popup_sort_descending), 0},
+	{ "Unsort",                    NULL, GTK_SIGNAL_FUNC(ethi_popup_unsort),          0},
 	{ "",                          NULL, GTK_SIGNAL_FUNC(NULL),                       0},
 	{ "Group By This Field",       NULL, GTK_SIGNAL_FUNC(ethi_popup_group_field),     0},
 	{ "Group By Box",              NULL, GTK_SIGNAL_FUNC(ethi_popup_group_box),       1},
