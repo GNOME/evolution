@@ -979,7 +979,7 @@ pas_backend_ldap_remove_client (PASBackend             *backend,
 
 	/* Find the book in the list of clients */
 
-	for (l = bl->priv->clients, l; l = l->next) {
+	for (l = bl->priv->clients; l; l = l->next) {
 		lbook = PAS_BOOK (l->data);
 
 		if (lbook == book)

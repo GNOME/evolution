@@ -1,3 +1,8 @@
+2000-05-01  Larry Ewing  <lewing@helixcode.com>
+
+	* backend/pas/pas-backend-ldap.c (pas_backend_ldap_remove_client):
+	fix a typo in the for loop.
+
 2000-05-01  Michael Meeks  <michael@helixcode.com>
 
 	* backend/pas/pas-book-factory.c: include gtk.
