@@ -267,6 +267,7 @@ plugins/groupwise-account-setup/camel-gw-listener.c
 plugins/groupwise-send-options/org-gnome-compose-send-options.xml
 plugins/itip-formatter/itip-formatter.c
 plugins/itip-formatter/itip-view.c
+plugins/itip-formatter/org-gnome-itip-formatter-errors.xml.h
 plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h
 plugins/new-mail-notify/new-mail-notify.c
 plugins/plugin-manager/org-gnome-plugin-manager.xml
@@ -280,6 +281,7 @@ plugins/save-calendar/rdf-format.c
 plugins/save-calendar/save-calendar.c
 plugins/send-options/send-options.c
 plugins/shared-folder/install-shared.c
+plugins/shared-folder/org-gnome-shared-folder-errors.xml.h
 plugins/shared-folder/properties.glade
 plugins/shared-folder/share-folder-common.c
 plugins/subject-thread/subject-thread.c

@@ -1,3 +1,9 @@
+2005-01-28  JP Rosevear  <jpr@novell.com>
+
+	Fixes #71930
+	
+	* POTFILES.in: add missing e-error files
+
 2005-01-28  Christian Rose  <menthos@menthos.com>
 
 	* sv.po: Updated Swedish translation.
