@@ -1,3 +1,8 @@
+2001-02-12  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* Makefile.am: xml-i18n-tools setup.
+	* GNOME_Evolution_Mail.oaf.in: Mark strings for translation.
+	
 2001-02-11  Dan Winship  <danw@ximian.com>
 
 	* mail-callbacks.[ch]: Re-add non-static forward_messages.

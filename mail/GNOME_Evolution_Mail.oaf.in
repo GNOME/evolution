@@ -9,7 +9,7 @@
 	</oaf_attribute>
 
 	<oaf_attribute name="description" type="string"
-                       value="Evolution mail folder factory component."/>
+                       _value="Evolution mail folder factory component."/>
 </oaf_server>
 
 <oaf_server iid="OAFIID:GNOME_Evolution_Mail_Control"
@@ -22,7 +22,7 @@
 	</oaf_attribute>
 
 	<oaf_attribute name="description" type="string"
-                       value="Evolution mail folder display component."/>
+                       _value="Evolution mail folder display component."/>
 </oaf_server>
 
 <oaf_server iid="OAFIID:GNOME_Evolution_Mail_ShellComponentFactory"
@@ -34,7 +34,7 @@
 	</oaf_attribute>
 
 	<oaf_attribute name="description" type="string"
-	               value="Factory for the Evolution mail component."/>
+	               _value="Factory for the Evolution mail component."/>
 
 </oaf_server>
 
@@ -47,7 +47,7 @@
 	</oaf_attribute>
 
 	<oaf_attribute name="description" type="string"
-	               value="Evolution component for handling mail."/>
+	               _value="Evolution component for handling mail."/>
 
 	<oaf_attribute name="evolution:shell-component-icon" type="string"
 		       value="evolution-inbox.png"/>
@@ -62,7 +62,7 @@
 	</oaf_attribute>
 
 	<oaf_attribute name="description" type="string"
-		       value="Factory for the Mail Summary component."/>
+		       _value="Factory for the Mail Summary component."/>
 </oaf_server>
 
 <oaf_server iid="OAFIID:GNOME_Evolution_Mail_ExecutiveSummaryComponent"
@@ -74,7 +74,7 @@
 	</oaf_attribute>
 
 	<oaf_attribute name="description" type="string"
-		       value="Evolution mail executive summary component."/>
+		       _value="Evolution mail executive summary component."/>
 </oaf_server>
 
 <oaf_server iid="OAFIID:GNOME_Evolution_Mail_ComposerFactory"
@@ -86,7 +86,7 @@
 	</oaf_attribute>
 
 	<oaf_attribute name="description" type="string"
-		       value="Factory for the Evolution composer."/>
+		       _value="Factory for the Evolution composer."/>
 </oaf_server>
 
 <oaf_server iid="OAFIID:GNOME_Evolution_Mail_Composer"
@@ -99,7 +99,7 @@
 	</oaf_attribute>
 
 	<oaf_attribute name="description" type="string"
-		       value="Evolution mail composer."/>
+		       _value="Evolution mail composer."/>
 </oaf_server>
 
 <oaf_server iid="OAFIID:GNOME_Evolution_Mail_Outlook_ImporterFactory"
@@ -111,7 +111,7 @@
 	</oaf_attribute>
 
 	<oaf_attribute name="description" type="string"
-		       value="Factory to import Outlook Express 4 mails into Evolution"/>
+		       _value="Factory to import Outlook Express 4 mails into Evolution"/>
 </oaf_server>
 
 <oaf_server iid="OAFIID:GNOME_Evolution_Mail_Outlook_Importer"
@@ -125,7 +125,7 @@
 	<oaf_attribute name="evolution:menu-name" type="string"
 		       value="Outlook Express 4 (.mbx)"/>
 	<oaf_attribute name="description" type="string"
-		       value="Imports Outlook Express 4 files into Evolution"/>
+		       _value="Imports Outlook Express 4 files into Evolution"/>
 </oaf_server>
 
 <oaf_server iid="OAFIID:GNOME_Evolution_Mail_Mbox_ImporterFactory"
@@ -137,7 +137,7 @@
 	</oaf_attribute>
 
 	<oaf_attribute name="description" type="string"
-		       value="Factory to import mbox into Evolution"/>
+		       _value="Factory to import mbox into Evolution"/>
 </oaf_server>
 
 <oaf_server iid="OAFIID:GNOME_Evolution_Mail_Mbox_Importer"
@@ -151,7 +151,7 @@
 	<oaf_attribute name="evolution:menu-name" type="string"
 		       value="MBox (mbox)"/>
 	<oaf_attribute name="description" type="string"
-		       value="Imports mbox files into Evolution"/>
+		       _value="Imports mbox files into Evolution"/>
 </oaf_server>
 
 </oaf_info>
