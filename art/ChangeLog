@@ -1,3 +1,8 @@
+2001-07-03  Tuomas Kuosmanen  <tigert@ximian.com>
+
+	* cut.png, copy.png, paste.png: icons for cut/copy/paste to fit
+	the general style.
+
 2001-07-01  Jakub Steiner <jimmac@ximian.com>
 
 	* print.xpm, print-preview.xpm: nat didn't like the jaggy
