@@ -2023,6 +2023,7 @@ gnome_calendar_construct (GnomeCalendar *gcal)
 {
 	GnomeCalendarPrivate *priv;
 	GnomeCalendarViewType view_type;
+	char *uid;
 
 	g_return_val_if_fail (gcal != NULL, NULL);
 	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), NULL);
@@ -2032,18 +2033,37 @@ gnome_calendar_construct (GnomeCalendar *gcal)
 	/*
 	 * TaskPad Folder Client.
 	 */
-	priv->task_pad_client = auth_new_cal_from_uri ("", E_CAL_SOURCE_TYPE_TODO); /* FIXME: use default tasks */
-	if (!priv->task_pad_client)
-		return NULL;
+	uid = calendar_config_get_primary_tasks ();
+	if (uid) {
+		ESourceList *source_list;
+		GConfClient *conf_client;
 
-	g_signal_connect (priv->task_pad_client, "cal_opened",
-			  G_CALLBACK (client_cal_opened_cb), gcal);	
-	g_signal_connect (priv->task_pad_client, "backend_error",
-			  G_CALLBACK (backend_error_cb), gcal);
-	g_signal_connect (priv->task_pad_client, "categories_changed",
-			  G_CALLBACK (client_categories_changed_cb), gcal);
-	g_signal_connect (priv->task_pad_client, "backend_died",
-			  G_CALLBACK (backend_died_cb), gcal);
+		conf_client = gconf_client_get_default ();
+		source_list = e_source_list_new_for_gconf (conf_client, "/apps/evolution/tasks/sources");
+
+		priv->task_pad_client = auth_new_cal_from_source (
+			e_source_list_peek_source_by_uid (source_list, uid), E_CAL_SOURCE_TYPE_TODO);
+
+		g_object_unref (conf_client);
+		g_object_unref (source_list);
+
+		if (!priv->task_pad_client)
+			return NULL;
+
+		g_signal_connect (priv->task_pad_client, "cal_opened",
+				  G_CALLBACK (client_cal_opened_cb), gcal);	
+		g_signal_connect (priv->task_pad_client, "backend_error",
+				  G_CALLBACK (backend_error_cb), gcal);
+		g_signal_connect (priv->task_pad_client, "categories_changed",
+				  G_CALLBACK (client_categories_changed_cb), gcal);
+		g_signal_connect (priv->task_pad_client, "backend_died",
+				  G_CALLBACK (backend_died_cb), gcal);
+
+		g_free (uid);
+
+		if (!e_cal_open (priv->task_pad_client, TRUE, NULL))
+			return NULL;
+	}
 
 	/* Get the default view to show. */
 	view_type = calendar_config_get_default_view ();

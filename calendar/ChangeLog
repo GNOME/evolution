@@ -1,5 +1,9 @@
 2004-01-05  Rodrigo Moya <rodrigo@ximian.com>
 
+	* gui/gnome-cal.c (gnome_calendar_construct): display the tasks'
+	primary selection in the task list, and actually open the tasks
+	folder.
+
 	* gui/e-tasks.c (e_tasks_set_default_uri): use the ECalModel to
 	get the client for a given URI.
 
