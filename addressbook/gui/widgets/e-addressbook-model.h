@@ -55,21 +55,24 @@ struct _EAddressbookModelClass {
 };
 
 
-GtkType            e_addressbook_model_get_type (void);
-EAddressbookModel *e_addressbook_model_new (void);
+GtkType            e_addressbook_model_get_type                  (void);
+EAddressbookModel *e_addressbook_model_new                       (void);
 
 /* Returns object with ref count of 1. */
-ECard *e_addressbook_model_get_card  (EAddressbookModel *model,
-				      int                row);
-EBook *e_addressbook_model_get_ebook (EAddressbookModel *model);
+ECard             *e_addressbook_model_get_card                  (EAddressbookModel *model,
+								  int                row);
+const ECard       *e_addressbook_model_peek_card                 (EAddressbookModel *model,
+								  int                row);
+EBook             *e_addressbook_model_get_ebook                 (EAddressbookModel *model);
 
-void     e_addressbook_model_stop      (EAddressbookModel *model);
-gboolean e_addressbook_model_can_stop (EAddressbookModel *model);
+void               e_addressbook_model_stop                      (EAddressbookModel *model);
+gboolean           e_addressbook_model_can_stop                  (EAddressbookModel *model);
 
-void e_addressbook_model_force_folder_bar_message (EAddressbookModel *model);
+void               e_addressbook_model_force_folder_bar_message  (EAddressbookModel *model);
 
-int          e_addressbook_model_card_count (EAddressbookModel *model);
-ECard       *e_addressbook_model_card_at    (EAddressbookModel *model, int index);
-gboolean     e_addressbook_model_editable   (EAddressbookModel *model);
+int                e_addressbook_model_card_count                (EAddressbookModel *model);
+ECard             *e_addressbook_model_card_at                   (EAddressbookModel *model,
+								  int                index);
+gboolean           e_addressbook_model_editable                  (EAddressbookModel *model);
 
 #endif /* _E_ADDRESSBOOK_MODEL_H_ */

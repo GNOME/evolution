@@ -444,6 +444,16 @@ e_addressbook_model_get_card(EAddressbookModel *model,
 	return NULL;
 }
 
+const ECard *
+e_addressbook_model_peek_card(EAddressbookModel *model,
+			      int                row)
+{
+	if (model->data && 0 <= row && row < model->data_count) {
+		return model->data[row];
+	}
+	return NULL;
+}
+
 static void
 e_addressbook_model_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 {

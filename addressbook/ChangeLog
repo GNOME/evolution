@@ -1,5 +1,20 @@
 2002-04-30  Christopher James Lahey  <clahey@ximian.com>
 
+	* gui/widgets/e-addressbook-model.c,
+	gui/widgets/e-addressbook-model.h
+	(e_addressbook_model_peek_card): Added this function so that there
+	would be less duplication of cards during run time when
+	duplication is unnecessary.
+
+	* gui/widgets/e-addressbook-view.c: Cleaned up get_card_list and a
+	number of associated functions to be much more uniform and
+	simpler.
+	(get_has_email_address): Don't show the "Send Message to Contact"
+	menu item if there are no email addresses in the listed contacts.
+	Fixes bug #1298.
+
+2002-04-30  Christopher James Lahey  <clahey@ximian.com>
+
 	* backend/ebook/e-card.c (e_card_list_send): Changed this to set a
 	subject when sending a contact.  This makes the signature be set
 	properly also.

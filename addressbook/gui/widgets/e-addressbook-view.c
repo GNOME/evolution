@@ -576,6 +576,15 @@ e_addressbook_view_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	}
 }
 
+static ESelectionModel*
+get_selection_model (EAddressbookView *view)
+{
+	if (view->view_type == E_ADDRESSBOOK_VIEW_MINICARD)
+		return e_minicard_view_widget_get_selection_model (E_MINICARD_VIEW_WIDGET(view->object));
+	else
+		return e_table_get_selection_model (e_table_scrolled_get_table (E_TABLE_SCROLLED(view->widget)));
+}
+
 /* Popup menu stuff */
 typedef struct {
 	EAddressbookView *view;
@@ -583,33 +592,31 @@ typedef struct {
 	gpointer closure;
 } CardAndBook;
 
+static ESelectionModel*
+card_and_book_get_selection_model (CardAndBook *card_and_book)
+{
+	return get_selection_model (card_and_book->view);
+}
+
 static void
 card_and_book_free (CardAndBook *card_and_book)
 {
 	EAddressbookView *view = card_and_book->view;
+	ESelectionModel *selection;
 
 	if (card_and_book->submenu)
-		gal_view_instance_free_popup_menu (card_and_book->view->view_instance,
+		gal_view_instance_free_popup_menu (view->view_instance,
 						   card_and_book->submenu);
 
-	if (E_IS_TABLE_SCROLLED (view->widget)) {
-		ETable *table = e_table_scrolled_get_table (E_TABLE_SCROLLED (view->widget));
-
-		e_table_right_click_up (table);
-	} else if (E_IS_MINICARD_VIEW_WIDGET (view->object)) {
-		EMinicardViewWidget *minicard_view_widget =
-			E_MINICARD_VIEW_WIDGET (view->object);
-		ESelectionModel *selection =
-			e_minicard_view_widget_get_selection_model (minicard_view_widget);
-
+	selection = card_and_book_get_selection_model (card_and_book);
+	if (selection)
 		e_selection_model_right_click_up(selection);
-	}
 
-	gtk_object_unref(GTK_OBJECT(card_and_book->view));
+	gtk_object_unref(GTK_OBJECT(view));
 }
 
 static void
-table_get_card_list_1(gint model_row,
+get_card_list_1(gint model_row,
 		      gpointer closure)
 {
 	CardAndBook *card_and_book;
@@ -629,26 +636,59 @@ static GList *
 get_card_list (CardAndBook *card_and_book)
 {
 	GList *list = NULL;
-	EAddressbookView *view = card_and_book->view;
+	ESelectionModel *selection;
 
-	if (E_IS_TABLE_SCROLLED (view->widget)) {
-		ETable *table;
-		ETableScrolled *scrolled = E_TABLE_SCROLLED (view->widget);
-		table = e_table_scrolled_get_table (scrolled);
+	selection = card_and_book_get_selection_model (card_and_book);
+
+	if (selection) {
 		card_and_book->closure = &list;
-		e_table_selected_row_foreach(table,
-					     table_get_card_list_1,
-					     card_and_book);
-	} else if (E_IS_MINICARD_VIEW_WIDGET (view->object)) {
-		EMinicardViewWidget *view_widget = 
-			E_MINICARD_VIEW_WIDGET (view->object);
-		EMinicardView *view =
-			e_minicard_view_widget_get_view (view_widget);
-
-		list = e_minicard_view_get_card_list (view);
+		e_selection_model_foreach (selection, get_card_list_1, card_and_book);
 	}
 
 	return list;
+}
+
+static void
+has_email_address_1(gint model_row,
+			  gpointer closure)
+{
+	CardAndBook *card_and_book;
+	gboolean *has_email;
+	EAddressbookView *view;
+	const ECard *card;
+	EList *email;
+
+	card_and_book = closure;
+	has_email = card_and_book->closure;
+	view = card_and_book->view;
+
+	if (*has_email)
+		return;
+
+	card = e_addressbook_model_peek_card(view->model, model_row);
+
+	gtk_object_get (GTK_OBJECT (card),
+			"email", &email,
+			NULL);
+
+	if (e_list_length (email) > 0)
+		*has_email = TRUE;
+}
+
+static gboolean
+get_has_email_address (CardAndBook *card_and_book)
+{
+	ESelectionModel *selection;
+	gboolean has_email = FALSE;
+
+	selection = card_and_book_get_selection_model (card_and_book);
+
+	if (selection) {
+		card_and_book->closure = &has_email;
+		e_selection_model_foreach (selection, has_email_address_1, card_and_book);
+	}
+
+	return has_email;
 }
 
 static void
@@ -676,6 +716,7 @@ send_to (GtkWidget *widget, CardAndBook *card_and_book)
 
 {
 	GList *cards = get_card_list (card_and_book);
+
 	if (cards) {
 		e_card_list_send(cards, E_CARD_DISPOSITION_AS_TO);
 		e_free_object_list(cards);
@@ -819,6 +860,7 @@ sources (GtkWidget *widget, CardAndBook *card_and_book)
 
 #define POPUP_READONLY_MASK 0x1
 #define POPUP_NOSELECTION_MASK 0x2
+#define POPUP_NOEMAIL_MASK 0x4
 
 static void
 do_popup_menu(EAddressbookView *view, GdkEvent *event)
@@ -826,7 +868,8 @@ do_popup_menu(EAddressbookView *view, GdkEvent *event)
 	CardAndBook *card_and_book;
 	GtkMenu *popup;
 	EPopupMenu *submenu = NULL;
-	gboolean selection;
+	ESelectionModel *selection_model;
+	gboolean selection = FALSE;
 
 	EPopupMenu menu[] = {
 		E_POPUP_ITEM (N_("New Contact..."), GTK_SIGNAL_FUNC(new_card), POPUP_READONLY_MASK),
@@ -844,7 +887,7 @@ do_popup_menu(EAddressbookView *view, GdkEvent *event)
 		E_POPUP_SEPARATOR,
 		E_POPUP_ITEM (N_("Save as VCard"), GTK_SIGNAL_FUNC(save_as), POPUP_NOSELECTION_MASK),
 		E_POPUP_ITEM (N_("Forward Contact"), GTK_SIGNAL_FUNC(send_as), POPUP_NOSELECTION_MASK),
-		E_POPUP_ITEM (N_("Send Message to Contact"), GTK_SIGNAL_FUNC(send_to), POPUP_NOSELECTION_MASK),
+		E_POPUP_ITEM (N_("Send Message to Contact"), GTK_SIGNAL_FUNC(send_to), POPUP_NOSELECTION_MASK | POPUP_NOEMAIL_MASK),
 		E_POPUP_ITEM (N_("Print"), GTK_SIGNAL_FUNC(print), POPUP_NOSELECTION_MASK),
 #if 0 /* Envelope printing is disabled for Evolution 1.0. */
 		E_POPUP_ITEM (N_("Print Envelope"), GTK_SIGNAL_FUNC(print_envelope), POPUP_NOSELECTION_MASK),
@@ -865,25 +908,21 @@ do_popup_menu(EAddressbookView *view, GdkEvent *event)
 		E_POPUP_TERMINATOR
 	};
 
-	if (E_IS_TABLE_SCROLLED(view->widget)) {
-		selection = e_table_selected_count(e_table_scrolled_get_table (E_TABLE_SCROLLED (view->widget))) > 0;
-	} else if (E_IS_MINICARD_VIEW_WIDGET (view->object)) {
-		EMinicardViewWidget *minicard_view_widget = E_MINICARD_VIEW_WIDGET (view->object);
-		ESelectionModel *selection_model = e_minicard_view_widget_get_selection_model (minicard_view_widget);
-		selection = e_selection_model_selected_count(selection_model) > 0;
-	} else {
-		selection = FALSE;
-	}
 	card_and_book = g_new(CardAndBook, 1);
 	card_and_book->view = view;
 	card_and_book->submenu = submenu;
 
 	gtk_object_ref(GTK_OBJECT(card_and_book->view));
 
+	selection_model = card_and_book_get_selection_model (card_and_book);
+	if (selection_model)
+		selection = e_selection_model_selected_count (selection_model) > 0;
+
 	popup = e_popup_menu_create (menu,
 				     0,
 				     (e_addressbook_model_editable (view->model) ? 0 : POPUP_READONLY_MASK) +
-				     (selection ? 0 : POPUP_NOSELECTION_MASK),
+				     (selection ? 0 : POPUP_NOSELECTION_MASK) +
+				     (get_has_email_address (card_and_book) ? 0 : POPUP_NOEMAIL_MASK),
 				     card_and_book);
 
 	gtk_signal_connect (GTK_OBJECT (popup), "selection-done",
@@ -1484,15 +1523,6 @@ e_addressbook_view_discard_menus (EAddressbookView *view)
 	}
 
 	view->uic = NULL;
-}
-
-static ESelectionModel*
-get_selection_model (EAddressbookView *view)
-{
-	if (view->view_type == E_ADDRESSBOOK_VIEW_MINICARD)
-		return e_minicard_view_widget_get_selection_model (E_MINICARD_VIEW_WIDGET(view->object));
-	else
-		return E_SELECTION_MODEL(E_TABLE_SCROLLED(view->widget)->table->selection);
 }
 
 void
