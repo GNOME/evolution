@@ -29,6 +29,8 @@
 #include "camel-stream-fs.h"
 #include "camel-stream-mem.h"
 
+#include "camel-operation.h"
+
 #include "camel-charset-map.h"
 
 #include <stdio.h>
@@ -288,7 +290,7 @@ crypto_exec_with_passwd (const char *path, char *argv[], const char *input, int 
 	gboolean eof_seen, diag_eof_seen, passwd_eof_seen, input_eof_seen;
 	size_t passwd_remaining, passwd_incr, input_remaining, input_incr;
 	size_t size, alloc_size, diag_size, diag_alloc_size;
-	int select_result, read_len, write_len;
+	int select_result, read_len, write_len, cancel_fd;
 	int ip_fds[2], op_fds[2], diag_fds[2];
 	const char *passwd_next, *input_next;
 	char *buf = NULL, *diag_buf = NULL;
@@ -297,6 +299,10 @@ crypto_exec_with_passwd (const char *path, char *argv[], const char *input, int 
 	size_t tmp_len;
 	pid_t child;
 	
+	if (camel_operation_cancel_check (NULL)) {
+		errno = EINTR;
+		return -1;
+	}
 	
 	if ((pipe (ip_fds) < 0 ) ||
 	    (pipe (op_fds) < 0 ) ||
@@ -373,21 +379,43 @@ crypto_exec_with_passwd (const char *path, char *argv[], const char *input, int 
 		input_incr = 1024;
 	input_eof_seen = FALSE;
 	
+	cancel_fd = camel_operation_cancel_fd (NULL);
+	
 	while (!(eof_seen && diag_eof_seen)) {
+		int max = 0;
+		
 		FD_ZERO (&fdset);
-		if (!eof_seen)
+		if (!eof_seen) {
 			FD_SET (op_fds[0], &fdset);
-		if (!diag_eof_seen)
+			max = op_fds[0];
+		}
+		if (!diag_eof_seen) {
 			FD_SET (diag_fds[0], &fdset);
+			max = MAX (max, diag_fds[0]);
+		}
+		if (cancel_fd != -1) {
+			FD_SET (cancel_fd, &fdset);
+			max = MAX (max, cancel_fd);
+		}
 		
 		FD_ZERO (&write_fdset);
-		if (!passwd_eof_seen)
+		if (!passwd_eof_seen) {
 			FD_SET (passwd_fds[1], &write_fdset);
-		if (!input_eof_seen)
+			max = MAX (max, passwd_fds[1]);
+		}
+		if (!input_eof_seen) {
 			FD_SET (ip_fds[1], &write_fdset);
+			max = MAX (max, ip_fds[1]);
+		}
 		
-		select_result = select (FD_SETSIZE, &fdset, &write_fdset,
+		select_result = select (max + 1, &fdset, &write_fdset,
 					NULL, &timeout);
+		
+		if (FD_ISSET (cancel_fd, &fdset)) {
+			/* user-cancelled */
+			break;
+		}
+		
 		if (select_result < 0) {
 			if (errno == EINTR)
 				continue;

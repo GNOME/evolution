@@ -1,5 +1,8 @@
 2001-10-18  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-pgp-context.c (crypto_exec_with_passwd): Make
+	user-cancellable.
+
 	* providers/local/camel-local-provider.c: String cleanup for bug
 	#6640.
 
