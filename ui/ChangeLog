@@ -1,3 +1,7 @@
+2001-06-23  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution.xml: Get rid of the status bar.
+
 2001-06-22  JP Rosevear  <jpr@ximian.com>
 
 	* evolution-task-editor.xml: new commands
