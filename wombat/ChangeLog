@@ -1,3 +1,8 @@
+2002-08-01  Chris Toshok  <toshok@ximian.com>
+
+	* wombat.c (last_calendar_gone_cb): remove the annoying fprintf
+	about Queueing termination, since we never actually terminate.
+
 2002-07-25  Chris Toshok  <toshok@ximian.com>
 
 	* wombat.c (main): add a silly "up and running" message.
