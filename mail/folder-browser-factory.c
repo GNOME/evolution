@@ -33,6 +33,9 @@
 /* The FolderBrowser BonoboControls we have.  */
 static EList *control_list = NULL;
 
+/* this is temporary, remove later -Z */
+void mail_receive(void);
+
 /*
  * Add with 'folder_browser'
  */
@@ -97,6 +100,9 @@ BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("MailPrevious", previous_msg),
 	BONOBO_UI_UNSAFE_VERB ("MailNext", next_msg),
 	
+	/* This is just very temporary - !Z */
+	BONOBO_UI_UNSAFE_VERB ("MailGetNew", mail_receive),
+
 	BONOBO_UI_VERB_END
 };
 

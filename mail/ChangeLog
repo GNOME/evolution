@@ -1,3 +1,9 @@
+2001-01-19  Not Zed  <NotZed@Ximian.com>
+
+	* mail-send-recv.c: New swanky send/recieve thingy, well it so far
+	only receives (pop/mbox).  Ignore all the warnings for now, and
+	the ugly 'button' to run it.
+
 2001-01-18  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* folder-browser-factory.c: Added the next/previous toolbar
