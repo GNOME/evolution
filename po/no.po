@@ -1,12 +1,12 @@
-# Norwegian translation of gnome-applets (bokmål dialect).
+# Norwegian translation of evolution (bokmål dialect).
 # Copyright (C) 1998-2001 Free Software Foundation, Inc.
 # Kjartan Maraas <kmaraas@gnome.org>, 1998-2001.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gnome-applets 1.4.1\n"
+"Project-Id-Version: evolution 1.0\n"
 "POT-Creation-Date: 2001-11-20 22:37+0100\n"
-"PO-Revision-Date: 2001-11-15 00:41+0100\n"
+"PO-Revision-Date: 2001-11-21 00:27+0100\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian <no@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -282,7 +282,7 @@ msgstr "CALUri"
 #: addressbook/backend/ebook/e-card-simple.c:99
 #: addressbook/gui/widgets/e-addressbook-view.c:887
 msgid "Free-busy URL"
-msgstr "Fri-ledig URL"
+msgstr "Ledig-/opptatt-URL"
 
 #: addressbook/backend/ebook/e-card-simple.c:99
 msgid "FBUrl"
@@ -621,7 +621,7 @@ msgstr "VCard for %s"
 #: tools/evolution-addressbook-export.c:60
 #: tools/evolution-addressbook-import.c:86
 msgid "Could not initialize Bonobo"
-msgstr "Kunne ikke initialisere Bonobo"
+msgstr "Kunne ikke initiere Bonobo"
 
 #: addressbook/backend/pas/pas-backend-file.c:259
 #: addressbook/backend/pas/pas-backend-ldap.c:2215
@@ -643,7 +643,7 @@ msgstr "Kobler til LDAP-tjener..."
 
 #: addressbook/backend/pas/pas-backend-ldap.c:485
 msgid "Unable to connect to LDAP server."
-msgstr "Kunne ikke koble til IMAP-tjener."
+msgstr "Kunne ikke koble til LDAP-tjener."
 
 #: addressbook/backend/pas/pas-backend-ldap.c:501
 msgid "Waiting for connection to LDAP server..."
@@ -743,7 +743,7 @@ msgstr "Kontakter"
 
 #: addressbook/gui/component/addressbook-component.c:71
 msgid "Folder containing contact information"
-msgstr "Mappe some inneholder kontaktinformasjon"
+msgstr "Mappe som inneholder kontaktinformasjon"
 
 #: addressbook/gui/component/addressbook-component.c:73
 msgid "LDAP Server"
@@ -751,7 +751,7 @@ msgstr "LDAP-tjener"
 
 #: addressbook/gui/component/addressbook-component.c:73
 msgid "LDAP server containing contact information"
-msgstr "LDAP-tjener some inneholder kontaktinformasjon"
+msgstr "LDAP-tjener sømme inneholder kontaktinformasjon"
 
 #: addressbook/gui/component/addressbook-component.c:526
 #: ui/evolution-addressbook.xml.h:11
@@ -843,14 +843,14 @@ msgstr "Informasjonen under kreves for å legge til en adressebok."
 
 #: addressbook/gui/component/addressbook-config.glade.h:17
 msgid "This information is not required for most ldap servers. "
-msgstr "Denne informasjonen kreves ikke for de fleste ldap-tjenere."
+msgstr "Denne informasjonen kreves ikke for de fleste LDAP-tjenere."
 
 #: addressbook/gui/component/addressbook-config.glade.h:18
 msgid ""
 "This information is used by your ldap server to specify which nodes are used "
 "in a search. Contact your server administrator for more information."
 msgstr ""
-"Denne informasjonen brukes av din ldap-tjener for å spesifisere hvilke noder "
+"Denne informasjonen brukes av din LDAP-tjener for å spesifisere hvilke noder "
 "som brukes i et søk. Kontakt din administrator for mer informasjon."
 
 #: addressbook/gui/component/addressbook-config.glade.h:19
@@ -858,7 +858,7 @@ msgid ""
 "This is the base node for all your searches on the ldap server. Contact your "
 "server administrator for more information."
 msgstr ""
-"Dette er basisnoden for alle dine søk på ldap-tjeneren. Kontakt din "
+"Dette er basisnoden for alle dine søk på LDAP-tjeneren. Kontakt din "
 "administrator for mer informasjon."
 
 #: addressbook/gui/component/addressbook-config.glade.h:20
@@ -867,14 +867,14 @@ msgstr "Dette er navnet på tjeneren hvor din adressebok er lokalisert."
 
 #: addressbook/gui/component/addressbook-config.glade.h:21
 msgid "This is the port that your ldap server uses."
-msgstr "Dette er porten som din ldap-tjener bruker."
+msgstr "Dette er porten som din LDAP-tjener bruker."
 
 #: addressbook/gui/component/addressbook-config.glade.h:22
 msgid ""
 "This name will be used to identify your account. It is for display purposes "
 "only."
 msgstr ""
-"Dette navnet vil brukes til å indentifisere din konto. Det brukes kun for "
+"Dette navnet vil brukes til å identifisere din konto. Det brukes kun for "
 "visning på skjermen."
 
 #: addressbook/gui/component/addressbook-config.glade.h:23
@@ -1235,7 +1235,7 @@ msgstr "_Adresse..."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:21
 msgid "_Assistant's name:"
-msgstr "Assistents navn"
+msgstr "Assistentens navn"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:22
 msgid "_Birthday:"
@@ -1298,7 +1298,7 @@ msgstr "_Yrke:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:35
 msgid "_Public Calendar URL:"
-msgstr "_Offentlig kalender URL:"
+msgstr "_Offentlig kalender-URL:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:36
 msgid "_Spouse:"
@@ -2737,11 +2737,11 @@ msgstr "Kortvisning"
 
 #: addressbook/printing/e-contact-print.glade.h:1
 msgid "10 pt. Tahoma"
-msgstr "10 pt. Tahoma"
+msgstr "10 pkt. Tahoma"
 
 #: addressbook/printing/e-contact-print.glade.h:2
 msgid "8 pt. Tahoma"
-msgstr "8 pt. Tahoma"
+msgstr "8 pot. Tahoma"
 
 #: addressbook/printing/e-contact-print.glade.h:3
 msgid "Blank forms at end:"
@@ -4210,7 +4210,7 @@ msgstr "Fullført dato:"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:11
 msgid "Progress"
-msgstr "Fremgang"
+msgstr "Fremdrift"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:12
 #: my-evolution/e-summary-preferences.c:965
@@ -4713,7 +4713,7 @@ msgstr "<b>%s</b> har avlyst en oppgave."
 
 #: calendar/gui/e-itip-control.c:943
 msgid "Task Cancellation"
-msgstr "Avlysing av oppgave"
+msgstr "Avlysning av oppgave"
 
 #: calendar/gui/e-itip-control.c:948
 msgid "Bad Task Message"
@@ -4805,7 +4805,7 @@ msgstr "Oppføringen kunne ikke sendes!\n"
 
 #: calendar/gui/e-itip-control.c:1566
 msgid "Unable to find any of your identities in the attendees list!\n"
-msgstr "Kunne ikke finne noen av dine indentiteter i deltakerlisten!\n"
+msgstr "Kunne ikke finne noen av dine identiteter i deltakerlisten!\n"
 
 #: calendar/gui/e-itip-control.glade.h:2
 #, no-c-format
@@ -4981,7 +4981,7 @@ msgstr "Vis _zoomet ut"
 
 #: calendar/gui/e-meeting-time-sel.c:513
 msgid "_Update Free/Busy"
-msgstr "_Oppdater fri/ledig"
+msgstr "_Oppdater ledig/opptatt"
 
 #: calendar/gui/e-meeting-time-sel.c:531
 msgid "_<<"
@@ -5561,11 +5561,11 @@ msgid ""
 msgstr ""
 "Kunne ikke åpne «%s»:\n"
 "%s\n"
-"Endringer i denne mappen vil ikke resynkroniseres."
+"Endringer i denne mappen vil ikke re-synkroniseres."
 
 #: camel/camel-disco-diary.c:277
 msgid "Resynchronizing with server"
-msgstr "Resynkroniserer med tjener"
+msgstr "Re-synkroniserer med tjener"
 
 #: camel/camel-disco-store.c:343
 msgid "You must be working online to complete this operation"
@@ -5894,7 +5894,7 @@ msgstr "(ukjent vert)"
 #: camel/providers/imap/camel-imap-command.c:228
 #: camel/providers/imap/camel-imap-command.c:401
 msgid "Operation cancelled"
-msgstr "Opreasjon avbrutt"
+msgstr "Operasjon avbrutt"
 
 #: camel/camel-remote-store.c:484
 #, c-format
@@ -5983,7 +5983,7 @@ msgstr "Svar fra tjener inneholdt ikke autorisasjonsdata\n"
 
 #: camel/camel-sasl-digest-md5.c:865
 msgid "Server response contained incomplete authorization data\n"
-msgstr "Svar fra tjener inneholdt ukomplette autorisasjonsdata\n"
+msgstr "Svar fra tjener inneholdt ufullstendige autorisasjonsdata\n"
 
 #: camel/camel-sasl-digest-md5.c:875
 msgid "Server response does not match\n"
@@ -6592,7 +6592,7 @@ msgstr "Kan ikke åpne postboks: %s: %s\n"
 
 #: camel/providers/local/camel-mbox-folder.c:265
 msgid "Mail append cancelled"
-msgstr "Opreasjon for å legge til e-post avbrutt"
+msgstr "Operasjon for å legge til e-post avbrutt"
 
 #: camel/providers/local/camel-mbox-folder.c:268
 #, c-format
@@ -6660,7 +6660,7 @@ msgstr ""
 #: camel/providers/local/camel-mbox-store.c:152
 #, c-format
 msgid "Folder `%s' is not empty. Not deleted."
-msgstr "MAppen «%s» er ikke tom. Ikke slettet."
+msgstr "Mappen «%s» er ikke tom. Ikke slettet."
 
 #. FIXME: If there is a failure, it shouldn't clear the summary and restart,
 #. it should try and merge the summary info's.  This is a bit tricky.
@@ -7617,7 +7617,7 @@ msgstr ""
 
 #: composer/evolution-composer.c:382
 msgid "Cannot initialize Evolution's composer."
-msgstr "Kan ikke initiere Evolutions composer."
+msgstr "Kan ikke initiere Evolutions redigeringskomponent."
 
 #: data/evolution.desktop.in.h:1 shell/main.c:83
 msgid "Evolution"
@@ -8002,7 +8002,7 @@ msgstr "med alle aktive eksterne mapper"
 
 #: filter/filter.glade.h:14
 msgid "with all local and active remote folders"
-msgstr "med alle lokaleog aktive eksterne mapper"
+msgstr "med alle lokale og aktive eksterne mapper"
 
 #: filter/filter.glade.h:15
 msgid "with all local folders"
@@ -8155,7 +8155,7 @@ msgstr "Svart til"
 #: filter/libfilter-i18n.h:41 filter/score-rule.c:204 filter/score-rule.c:206
 #: mail/message-list.etspec.h:5
 msgid "Score"
-msgstr "Poenggi"
+msgstr "Gi poeng"
 
 #: filter/libfilter-i18n.h:42 mail/mail-callbacks.c:1404
 msgid "Sender"
@@ -8807,7 +8807,7 @@ msgid ""
 "addresses, this message will contain only Bcc recipients."
 msgstr ""
 "Siden kontaktlisten du sender til er konfigurert til å skjule listens "
-"adresser vil denne meldingen kunn inneholde Bcc mottakere."
+"adresser vil denne meldingen kun inneholde Bcc mottakere."
 
 #: mail/mail-callbacks.c:370
 msgid "This message contains only Bcc recipients."
@@ -8980,8 +8980,8 @@ msgid ""
 "This name will be used for display purposes only."
 msgstr ""
 "Du er nesten ferdig med konfigurasjonsprosessen. Verdiene for identitet, "
-"inkommende e-post-tjener og\n"
-"metoode for utgående e-post-transport du har oppgitt vil grupperes sammen "
+"innkommende e-post-tjener og\n"
+"metode for utgående e-post-transport du har oppgitt vil grupperes sammen "
 "til en \n"
 "Evolution e-post-konto. Vennligst oppgi et navn for denne kontoen i feltet "
 "under. Dette navnet blir kun brukt for visning på skjermen."
@@ -9210,7 +9210,7 @@ msgstr "Pretty Good Privacy"
 
 #: mail/mail-config.glade.h:55
 msgid "Prompt when sending HTML messages to contacts that don't want them"
-msgstr "Spør ved sending av HTML-meldinger til kontakter som ikke øsker dem"
+msgstr "Spør ved sending av HTML-meldinger til kontakter som ikke ønsker dem"
 
 #: mail/mail-config.glade.h:56
 msgid "Prompt when sending messages with an _empty subject"
@@ -9787,7 +9787,7 @@ msgstr "Lagrer mappe «%s»"
 
 #: mail/mail-ops.c:1523
 msgid "Refreshing folder"
-msgstr "Oppfrisker mappe"
+msgstr "Oppdaterer mappe"
 
 #: mail/mail-ops.c:1559
 msgid "Expunging folder"
@@ -9958,7 +9958,7 @@ msgstr "Videresendt melding"
 #: mail/mail-vfolder.c:85
 #, c-format
 msgid "Setting up vfolder: %s"
-msgstr "Setter opp vmappe: %s"
+msgstr "Setter opp VFolder: %s"
 
 #: mail/mail-vfolder.c:203
 #, c-format
@@ -9980,7 +9980,7 @@ msgstr ""
 
 #: mail/mail-vfolder.c:728
 msgid "VFolders"
-msgstr "VMapper"
+msgstr "VFoldere"
 
 #: mail/mail-vfolder.c:824
 msgid "Edit VFolder"
@@ -10254,7 +10254,7 @@ msgstr "Feil under utskrift av sammendrag"
 
 #: my-evolution/main.c:66
 msgid "Executive summary component could not initialize Bonobo.\n"
-msgstr "Executive summary komponent kunne ikke initialisere Bonobo.\n"
+msgstr "Executive summary komponent kunne ikke initiere Bonobo.\n"
 
 #: my-evolution/metar.c:29
 msgid "°F"
@@ -10701,7 +10701,7 @@ msgstr "Lett hagl"
 
 #: my-evolution/metar.c:220
 msgid "Moderate hail"
-msgstr "Moderal hagl"
+msgstr "Moderat hagl"
 
 #: my-evolution/metar.c:221
 msgid "Heavy hail"
@@ -11561,7 +11561,7 @@ msgstr "Vis detaljer"
 
 #: shell/e-activity-handler.c:202
 msgid "Cancel Operation"
-msgstr "Alys operasjon"
+msgstr "Avlys operasjon"
 
 #: shell/e-local-storage.c:174 shell/e-shortcuts.c:1052
 msgid "Inbox"
@@ -11624,7 +11624,7 @@ msgid ""
 "of the Evolution user files."
 msgstr ""
 "Filen «%s» er ikke en katalog.\n"
-"Venligst flytt denne for å tillate installasjon\n"
+"Vennligst flytt denne for å tillate installasjon\n"
 "av Evolution's brukerfiler."
 
 #: shell/e-setup.c:295
@@ -11649,7 +11649,7 @@ msgid ""
 "to allow installation of the Evolution user files."
 msgstr ""
 "Katalogen «%s» eksisterer men er ikke.\n"
-"Evolution-katalogen. Venligst flytt den for å \n"
+"Evolution-katalogen. Vennligst flytt den for å \n"
 "tillate installasjon av Evolution's brukerfiler."
 
 #: shell/e-shell-about-box.c:40
@@ -12429,7 +12429,7 @@ msgstr "Klikk «Importer» for å starte import av filen til Evolution."
 
 #: shell/importer/import.glade.h:2
 msgid "Evolution Import Assistant"
-msgstr "Importveringsassistent for Evolution"
+msgstr "Importeringsassistent for Evolution"
 
 #: shell/importer/import.glade.h:3
 msgid "Evolution Importer Assistant"
@@ -12500,12 +12500,12 @@ msgstr "Send feilsøkingsutskrift for alle komponentene til en fil."
 
 #: shell/main.c:332
 msgid "Cannot initialize the Bonobo component system."
-msgstr "Kunne ikke initialisere Bonobo komponentsystemet."
+msgstr "Kunne ikke initiere Bonobo komponentsystemet."
 
 #: tools/evolution-addressbook-export.c:36
 #: tools/evolution-addressbook-import.c:46
 msgid "Error loading default addressbook."
-msgstr "Feil under lasting av standard adressbok."
+msgstr "Feil under lasting av standard adressebok."
 
 #: tools/evolution-addressbook-export.c:46
 msgid "Output File"
@@ -12867,7 +12867,7 @@ msgstr "Send _melding til liste..."
 
 #: ui/evolution-event-editor.xml.h:1
 msgid "Cancel Mee_ting"
-msgstr "Alys mø_te"
+msgstr "Avlys mø_te"
 
 #: ui/evolution-event-editor.xml.h:2
 msgid "Cancel the meeting for this item"
@@ -12959,7 +12959,7 @@ msgstr "Vis vindu for forhåndsvisning av melding"
 
 #: ui/evolution-mail-global.xml.h:16
 msgid "Subscribe or unsubscribe to folders on remote servers"
-msgstr "Abboner eller fjern abonnement på mapper på eksterne tjenere"
+msgstr "Abonner eller fjern abonnement på mapper på eksterne tjenere"
 
 #: ui/evolution-mail-global.xml.h:17
 msgid "Virtual Folder _Editor..."
@@ -13679,7 +13679,7 @@ msgstr "Les mappelisten på nytt"
 
 #: ui/evolution-subscribe.xml.h:5
 msgid "Remove folder from your list of subscribed folders"
-msgstr "Fjern mappe fra din liste over abbonerte mapper"
+msgstr "Fjern mappe fra din liste over abonnerte mapper"
 
 #: ui/evolution-subscribe.xml.h:7
 msgid "Subscribe"
@@ -13907,7 +13907,7 @@ msgstr "_Snarveilinje"
 
 #: ui/my-evolution.xml.h:1
 msgid "Change the settings for the summary"
-msgstr "Endre innstilingene for sammendrag"
+msgstr "Endre innstillingene for sammendrag"
 
 #: ui/my-evolution.xml.h:4
 msgid "Print summary"
@@ -14161,7 +14161,7 @@ msgstr "init_corba(): kunne ikke initiere GNOME"
 
 #: wombat/wombat.c:225
 msgid "init_bonobo(): could not initialize Bonobo"
-msgstr "init_bonobo(): kunne ikke initialisere Bonobo"
+msgstr "init_bonobo(): kunne ikke initiere Bonobo"
 
 #~ msgid "I couldn't remove the item from your calendar file!\n"
 #~ msgstr "Kunne ikke fjerne oppføringen fra din kalenderfil!\n"
@@ -14924,9 +14924,6 @@ msgstr "init_bonobo(): kunne ikke initialisere Bonobo"
 #~ msgid "VIP"
 #~ msgstr "VIP"
 
-#~ msgid "Store search as vFolder"
-#~ msgstr "Lagre søk som vMappe"
-
 #~ msgid "_Contact Group"
 #~ msgstr "_Kontaktgruppe"
 
@@ -15467,487 +15464,6 @@ msgstr "init_bonobo(): kunne ikke initialisere Bonobo"
 
 #~ msgid "(C) 2000"
 #~ msgstr "© 2000"
-
-#~ msgid ""
-#~ "Released under the GNU general public license.\n"
-#~ "Basic digital clock with date in a tooltip. Optional 12/24 time display. "
-#~ "Mail blinking can be for any unread mail, or only briefly when new mail "
-#~ "arrives."
-#~ msgstr ""
-#~ "Utgitt under GNU general public license.\n"
-#~ "Enkel digital klokke med dato i verktøystips. Valgfri 12/24-timers "
-#~ "visning. Blinking for post kan være for enhver ulest melding, eller bare "
-#~ "kort når ny post ankommer."
-
-#~ msgid "%a, %b %d"
-#~ msgstr "%a, %b %d"
-
-#~ msgid " (GMT)"
-#~ msgstr " (GMT)"
-
-#~ msgid " (GMT %+d)"
-#~ msgstr " (GMT %+d)"
-
-#~ msgid "None (default)"
-#~ msgstr "Ingen (forvalgt)"
-
-#~ msgid "Themes:"
-#~ msgstr "Tema:"
-
-#~ msgid "ClockMail Settings"
-#~ msgstr "Innstillinger for Clockmail"
-
-#~ msgid "Clock"
-#~ msgstr "Klokke"
-
-#~ msgid "Display time relative to GMT (Greenwich Mean Time):"
-#~ msgstr "Vis tiden i forhold til GMT (Greenwich Mean Time):"
-
-#~ msgid "Mail file:"
-#~ msgstr "Postfil:"
-
-#~ msgid "When new mail is received run:"
-#~ msgstr "Når ny post mottas, kjør:"
-
-#~ msgid "Always blink when any mail is waiting."
-#~ msgstr "Alltid blink når post venter."
-
-#~ msgid "Number of messages to consider mailbox full:"
-#~ msgstr "Antall meldinger før postboksen anses for å være full:"
-
-#~ msgid "When clicked, run:"
-#~ msgstr "Når klikket på, kjør:"
-
-#~ msgid "Theme file (directory):"
-#~ msgstr "Temafil (katalog):"
-
-#~ msgid "Theme"
-#~ msgstr "Tema"
-
-#~ msgid "CPU/Mem Usage Applet"
-#~ msgstr "CPU-/minnebruk applet"
-
-#~ msgid "(c) 1997 the Free Software Foundation"
-#~ msgstr "(c) 1997 the Free Software Foundation"
-
-#~ msgid ""
-#~ "The CPU/Mem usage applet displays your system resources with 3 colorful "
-#~ "stacked bar graphs (processor, memory, swap)"
-#~ msgstr ""
-#~ "CPU-/minnebruk appleten viser ressursene på ditt system med tre "
-#~ "fargefulle søylediagrammer (prosessor, minne, swap)"
-
-#~ msgid "File Systems"
-#~ msgstr "Filsystemer"
-
-#~ msgid "File System Changed!\n"
-#~ msgstr "Filsystemet er endret!\n"
-
-#~ msgid "Disk Usage Applet"
-#~ msgstr "Diskbruk applet"
-
-#~ msgid ""
-#~ "Released under the GNU general public license.\n"
-#~ "Monitors the amount of space in use and available on your disk drives."
-#~ msgstr ""
-#~ "Utgitt under GNU general public license.\n"
-#~ "Overvåker plassbruk og ledig plass på dine harddisker."
-
-#~ msgid "Browse..."
-#~ msgstr "Se på..."
-
-#~ msgid "Update..."
-#~ msgstr "Oppdater..."
-
-#~ msgid "Used Diskspace:"
-#~ msgstr "Brukt diskplass:"
-
-#~ msgid "Text:"
-#~ msgstr "Tekst:"
-
-#~ msgid "Free Diskspace:"
-#~ msgstr "Ledig diskplass:"
-
-#~ msgid "Background:"
-#~ msgstr "Bakgrunn:"
-
-#~ msgid "Automatically pick best applet size"
-#~ msgstr "Automatisk valg av beste størrelse for applet"
-
-#~ msgid "Update Frequency (seconds):"
-#~ msgstr "Oppdateringsfrekvens (i sekunder):"
-
-#~ msgid "Font:"
-#~ msgstr "Skrifttype:"
-
-#~ msgid "Diskusage Settings"
-#~ msgstr "Innstillinger for diskbruk"
-
-#~ msgid "Drive Mount Applet"
-#~ msgstr "Diskmonteringsapplet"
-
-#~ msgid ""
-#~ "Released under the GNU general public license.\n"
-#~ "Mounts and Unmounts drives."
-#~ msgstr ""
-#~ "Utgitt under GNU general public license.\n"
-#~ "Monterer og avmonterer disker."
-
-#~ msgid " mounted"
-#~ msgstr " montert"
-
-#~ msgid " not mounted"
-#~ msgstr " ikke montert"
-
-#~ msgid "Eject"
-#~ msgstr "Løs ut"
-
-#~ msgid "Drive Mount Applet Properties"
-#~ msgstr "Egenskaper for diskmonteringsapplet"
-
-#~ msgid "Mount point:"
-#~ msgstr "Monteringspunkt:"
-
-#~ msgid "Icon:"
-#~ msgstr "Ikon:"
-
-#~ msgid "Floppy"
-#~ msgstr "Diskett"
-
-#~ msgid "Cdrom"
-#~ msgstr "Cdrom"
-
-#~ msgid "Zip Drive"
-#~ msgstr "Zip-disk"
-
-#~ msgid "Hard Disk"
-#~ msgstr "Harddisk"
-
-#~ msgid "Jaz Drive"
-#~ msgstr "Jaz-disk"
-
-#~ msgid "Select icon for mounted"
-#~ msgstr "Velg ikon for montert"
-
-#~ msgid "Custom icon for mounted:"
-#~ msgstr "Egendefinert ikon for montert:"
-
-#~ msgid "Select icon for unmounted"
-#~ msgstr "Velg ikon for ikke montert"
-
-#~ msgid "Custom icon for not mounted:"
-#~ msgstr "Egendefinert ikon for ikke montert:"
-
-#~ msgid "Scale size to panel"
-#~ msgstr "Skaler til panelets størrelse"
-
-#~ msgid "Eject on unmount"
-#~ msgstr "Utløs ved avmontering"
-
-#~ msgid "Use automount friendly status test"
-#~ msgstr "Bruk automount-vennlig statustest"
-
-#~ msgid ""
-#~ "You win!\n"
-#~ "Moves"
-#~ msgstr ""
-#~ "Du vinner!\n"
-#~ "Trekk"
-
-#~ msgid "Fifteen sliding pieces"
-#~ msgstr "Femten skliende stykker"
-
-#~ msgid "Copyright (C) The Free Software Foundation"
-#~ msgstr "Copyright (C) The Free Software Foundation"
-
-#~ msgid ""
-#~ "Sam Lloyd's all-time favorite game, now for your delight in the Gnome "
-#~ "Panel. Guaranteed to be a productivity buster."
-#~ msgstr ""
-#~ "Sam Lloyds favorittspill, nå til alles begeistring tilgjengelig i Panelet."
-#~ "Garantert ødeleggende for produktiviteten."
-
-#~ msgid "Can't create fifteen applet!"
-#~ msgstr "Kan ikke opprette femten appleten!"
-
-#~ msgid "Scramble pieces"
-#~ msgstr "Bland stykkene"
-
-#~ msgid "Dave Camp <campd@oit.edu>"
-#~ msgstr "Dave Camp <campd@oit.edu>"
-
-#~ msgid "gEyes"
-#~ msgstr "gEyes"
-
-#~ msgid "Copyright (C) 1999 Dave Camp"
-#~ msgstr "Copyright (C) 1999 Dave Camp"
-
-#~ msgid "A goofy little xeyes clone for the GNOME panel."
-#~ msgstr "En goofy liten xeyes klone for GNOME panelet."
-
-#~ msgid "Theme Name"
-#~ msgstr "Navn på tema"
-
-#~ msgid "gEyes Settings"
-#~ msgstr "Innstillinger for gEyes"
-
-#~ msgid "Themes"
-#~ msgstr "Tema"
-
-#~ msgid "keymap_%d/name=US 105 key keyboard (with windows keys)"
-#~ msgstr "keymap_%d/navn=US 105 tasters tastatur (med windows taster)"
-
-#~ msgid "keymap_%d/label=us"
-#~ msgstr "keymap_%d/etikett=us"
-
-#~ msgid "keymap_%d/country=United States"
-#~ msgstr "keymap_%d/land=Forente stater"
-
-#~ msgid "keymap_%d/lang=English"
-#~ msgstr "keymap_%d/språk=Engelsk"
-
-#~ msgid "keymap_%d/flag=us.png"
-#~ msgstr "keymap_%d=/flagg=us.png"
-
-#~ msgid "keymap_%d/command=gkb_xmmap us"
-#~ msgstr "keymap_%d/kommando=gkb_xmmap us"
-
-#~ msgid "keymap_%d/name=Hungarian 105 keys latin2"
-#~ msgstr "keymap_%d/navn=Ungarsk 105 taster latin2"
-
-#~ msgid "keymap_%d/label=hu"
-#~ msgstr "keymap_%d/etikett=hu"
-
-#~ msgid "keymap_%d/country=Hungary"
-#~ msgstr "keymap_%d/land=Ungarn"
-
-#~ msgid "keymap_%d/lang=Hungarian"
-#~ msgstr "keymap_%d/språk=Ungarsk"
-
-#~ msgid "keymap_%d/flag=hu.png"
-#~ msgstr "keymap_%d/flagg=hu.png"
-
-#~ msgid "keymap_%d/command=gkb_xmmap hu"
-#~ msgstr "keymap_%d/kommando=gkb_xmmap hu"
-
-#~ msgid "GKB"
-#~ msgstr "GKB"
-
-#~ msgid "Szabolcs BAN <shooby@gnome.hu>"
-#~ msgstr "Szabolcs BAN <shooby@gnome.hu>"
-
-#~ msgid "Chema Celorio <chema@celorio.com>"
-#~ msgstr "Chema Celorio <chema@celorio.com>"
-
-#~ msgid "The GNOME KeyBoard Switcher Applet"
-#~ msgstr "GNOME tastatur-applet"
-
-#~ msgid "(C) 1998-2000 Free Software Foundation"
-#~ msgstr "© 1998-2000 Free Software Foundation"
-
-#~ msgid ""
-#~ "This applet switches between keyboard maps. It uses setxkbmap, or "
-#~ "xmodmap.\n"
-#~ "Mail me your flag, please (60x40 size), I will put it to CVS.\n"
-#~ "So long, and thanks for all the fish.\n"
-#~ "Thanks for Balazs Nagy (Kevin) <julian7@kva.hu> for his help and Emese "
-#~ "Kovacs <emese@eik.bme.hu> for her solidarity."
-#~ msgstr ""
-#~ "Denne appleten bytter mellom forskjellige tastaturkart. Den bruker "
-#~ "setxkbmap eller xmodmap. Send meg flagget ditt er du snill (60x40 "
-#~ "størrelse), så skal jeg legge det inn i CVS. Ha det og takk for all "
-#~ "fisken.\n"
-#~ "Takk til Balazs Nagy (Kevin) <julian7@kva.hu> for hjelpen og Emese Kovacs "
-#~ "<emese@eik.bme.hu> for hennes solidaritet."
-
-#~ msgid "GKB Home Page (http://projects.gnome.hu/gkb)"
-#~ msgstr "GKB hjemmeside (http://projects.gnome.hu/gkb)"
-
-#~ msgid "Disabled"
-#~ msgstr "Inaktiv"
-
-#~ msgid "Press a key..."
-#~ msgstr "Trykk en tast..."
-
-#~ msgid "Big"
-#~ msgstr "Stor"
-
-#~ msgid "Flag"
-#~ msgstr "Flagg"
-
-#~ msgid "Label"
-#~ msgstr "Etikett"
-
-#~ msgid "Flag and Label"
-#~ msgstr "Flagg og etikett"
-
-#~ msgid "Appearance "
-#~ msgstr "Utseende "
-
-#~ msgid "Applet size "
-#~ msgstr "Applet-størrelse "
-
-#~ msgid "Hotkey for switching between layouts"
-#~ msgstr "Hurtigtast for bytte mellom plasseringer"
-
-#~ msgid "Grab hotkey"
-#~ msgstr "Hent hurtigtast"
-
-#~ msgid "GKB Properties"
-#~ msgstr "Egenskaper for GKB"
-
-#~ msgid "Select layout"
-#~ msgstr "Velg plassering"
-
-#~ msgid "Up"
-#~ msgstr "Opp"
-
-#~ msgid "Down"
-#~ msgstr "Ned"
-
-#~ msgid "Great Britain"
-#~ msgstr "Storbritania"
-
-#~ msgid "Basque"
-#~ msgstr "Baskisk"
-
-#~ msgid "Dutch"
-#~ msgstr "Belgisk"
-
-#~ msgid "English"
-#~ msgstr "Engelsk"
-
-#~ msgid "Georgian"
-#~ msgstr "Georgisk"
-
-#~ msgid "Hungarian"
-#~ msgstr "Ungarsk"
-
-#~ msgid "Polish"
-#~ msgstr "Polsk"
-
-#~ msgid "Portuguese"
-#~ msgstr "Portugisisk"
-
-#~ msgid "Russian"
-#~ msgstr "Russisk"
-
-#~ msgid "Slovenian"
-#~ msgstr "Slovensk"
-
-#~ msgid "Swedish"
-#~ msgstr "Svensk"
-
-#~ msgid "Thai"
-#~ msgstr "Thai"
-
-#~ msgid "Wallon"
-#~ msgstr "Wallon"
-
-#~ msgid "Yugoslavian"
-#~ msgstr "Serbisk"
-
-#~ msgid "105"
-#~ msgstr "105"
-
-#~ msgid "101"
-#~ msgstr "101"
-
-#~ msgid "102"
-#~ msgstr "102"
-
-#~ msgid "450"
-#~ msgstr "450"
-
-#~ msgid "84"
-#~ msgstr "84"
-
-#~ msgid "mklinux"
-#~ msgstr "mklinux"
-
-#~ msgid "type5"
-#~ msgstr "type5"
-
-#~ msgid "iso-8859-1"
-#~ msgstr "iso-8859-1"
-
-#~ msgid "iso-8859-2"
-#~ msgstr "iso-8859-2"
-
-#~ msgid "iso-8859-9"
-#~ msgstr "iso-8859-9"
-
-#~ msgid "am-armscii8"
-#~ msgstr "am-armscii8"
-
-#~ msgid "be-latin1"
-#~ msgstr "be-latin1"
-
-#~ msgid "cp1251"
-#~ msgstr "cp1251"
-
-#~ msgid "georgian-academy"
-#~ msgstr "georgian-academy"
-
-#~ msgid "koi8-r"
-#~ msgstr "koi8-r"
-
-#~ msgid "tis620"
-#~ msgstr "tis620"
-
-#~ msgid "ix86"
-#~ msgstr "ix86"
-
-#~ msgid "sun"
-#~ msgstr "sun"
-
-#~ msgid "mac"
-#~ msgstr "mac"
-
-#~ msgid "sgi"
-#~ msgstr "sgi"
-
-#~ msgid "dec"
-#~ msgstr "dec"
-
-#~ msgid "ibm"
-#~ msgstr "ibm"
-
-#~ msgid "Edit keymap"
-#~ msgstr "Rediger tastaturkart"
-
-#~ msgid "Country"
-#~ msgstr "Land"
-
-#~ msgid ""
-#~ "Flag\n"
-#~ "Pixmap"
-#~ msgstr ""
-#~ "Flagg\n"
-#~ "Bilde"
-
-#~ msgid "Architecture"
-#~ msgstr "Arkitektur"
-
-#~ msgid "Codepage"
-#~ msgstr "Codepage"
-
-#~ msgid "Command"
-#~ msgstr "Kommando"
-
-#~ msgid ""
-#~ "Where command can be:\n"
-#~ "* xmodmap /full/path/xmodmap.hu\n"
-#~ "* gkb__xmmap hu\n"
-#~ "* setxkbmap hu"
-#~ msgstr ""
-#~ "Hvor kommando kan være:\n"
-#~ "* xmodmap /full/sti/xmodmap.hu\n"
-#~ "* gkb__xmmap hu\n"
-#~ "* setxkbmap hu"
-
-#~ msgid "The keymap switching command returned with error!"
-#~ msgstr "Kommando for bytting av tastaturkart returnerte med feil!"
 
 #~ msgid "Raise Note"
 #~ msgstr "Hev notis"
@@ -16580,511 +16096,6 @@ msgstr "init_bonobo(): kunne ikke initialisere Bonobo"
 
 #~ msgid "No title"
 #~ msgstr "Ingen tittel"
-
-#~ msgid "No url"
-#~ msgstr "Ingen url"
-
-#~ msgid "Sound Monitor Applet"
-#~ msgstr "Lydmonitor applet"
-
-#~ msgid "(C) 2000 John Ellis"
-#~ msgstr "© 2000 John Ellis"
-
-#~ msgid ""
-#~ "Sound monitor interface to Esound\n"
-#~ "\n"
-#~ "Released under the GNU general public license."
-#~ msgstr ""
-#~ "Lydmonitor-grensesnitt for Esound\n"
-#~ "\n"
-#~ "Utgitt under GNU general public license."
-
-#~ msgid "Place Esound in standby"
-#~ msgstr "Sett Esound i ventemodus"
-
-#~ msgid "Resume Esound"
-#~ msgstr "Start Esound igjen"
-
-#~ msgid "Start Esound"
-#~ msgstr "Start Esound"
-
-#~ msgid "Manager..."
-#~ msgstr "Håndterer..."
-
-#~ msgid "Volume"
-#~ msgstr "Volum"
-
-#~ msgid "Balance"
-#~ msgstr "Balanse"
-
-#~ msgid "Peak indicator"
-#~ msgstr "Utslagsindikator"
-
-#~ msgid "active"
-#~ msgstr "aktiv"
-
-#~ msgid "smooth"
-#~ msgstr "myk"
-
-#~ msgid "Peak indicator falloff speed"
-#~ msgstr "Tid før indikatoren går tilbake"
-
-#~ msgid "Scope (scale 1:X, where X = ? )"
-#~ msgstr "Område (skala 1:X, hvor X = ? )"
-
-#~ msgid "Connect points in scope"
-#~ msgstr "Forbindelsespunkter i området"
-
-#~ msgid "Screen refresh (frames per second)"
-#~ msgstr "Skjermoppfriskning (rammer per sekund)"
-
-#~ msgid "ESD host to monitor:"
-#~ msgstr "ESD-vert som skal overvåkes:"
-
-#~ msgid "Monitor sound input (only use if sound card is FULL DUPLEX)"
-#~ msgstr "Overvåk inndata (bruk kun hvis lydkortet er FULL DUPLEX)"
-
-#~ msgid "Tick-a-Stat event log"
-#~ msgstr "Tick-a-Stat hendelseslogg"
-
-#~ msgid "%Y%m%d-%H-%M-%S"
-#~ msgstr "%Y%m%d-%H-%M-%S"
-
-#~ msgid "%m-%d-%Y %H:%M:%S"
-#~ msgstr "%m-%d-%Y %H:%M:%S"
-
-#~ msgid "Tick-a-Stat"
-#~ msgstr "Tick-a-Stat"
-
-#~ msgid "(C) 1999 John Ellis"
-#~ msgstr "(C) 1999 John Ellis"
-
-#~ msgid "unable to create user directory: %s\n"
-#~ msgstr "kunne ikke opprette brukerkatalog: %s\n"
-
-#~ msgid "The unique information and status ticker."
-#~ msgstr "Den unike informasjons- og status-teleksen."
-
-#~ msgid "Event log..."
-#~ msgstr "Hendelseslogg..."
-
-#~ msgid "Core dump information (Tick-a-Stat)"
-#~ msgstr "Kjernedump informasjon (Tick-a-Stat)"
-
-#~ msgid "Core dump module (Tick-A-Stat)"
-#~ msgstr "Kjernedump modul (Tick-a-Stat)"
-
-#~ msgid ""
-#~ "The core dump module is\n"
-#~ "processing a core file..."
-#~ msgstr ""
-#~ "Kjernedump modulen\n"
-#~ "prosesserer en kjernefil..."
-
-#~ msgid "Core Dump Module"
-#~ msgstr "Kjernedump modul"
-
-#~ msgid "Enable this module"
-#~ msgstr "Aktiver denne modulen"
-
-#~ msgid "Show backtrace dialog on new core files"
-#~ msgstr "Vis loggdialog for nye kjernefiler"
-
-#~ msgid "Path to monitor:"
-#~ msgstr "Sti til monitor:"
-
-#~ msgid "Core dump catcher"
-#~ msgstr "Kjernedump modul"
-
-#~ msgid "Load Average information (Tick-a-Stat)"
-#~ msgstr "Informasjon om snittbelastning (Tick-a-Stat)"
-
-#~ msgid "The Load average is very high."
-#~ msgstr "Snittbelastningen er meget høy."
-
-#~ msgid "Load average is at a critical point, help me!"
-#~ msgstr "Snittbelastningen er ved et kritisk punkt, hjelp meg!"
-
-#~ msgid "Load Average Module"
-#~ msgstr "Snittbelastningsmodul"
-
-#~ msgid "Seconds"
-#~ msgstr "Sekunder"
-
-#~ msgid "Warning options"
-#~ msgstr "Alternativer for advarsler"
-
-#~ msgid "Show pop-up dialog for this event"
-#~ msgstr "Vis en dialog for denne hendelsen"
-
-#~ msgid "Load average threshhold:"
-#~ msgstr "Terskel for snittbelastning:"
-
-#~ msgid "Text to display:"
-#~ msgstr "Tekst som skal vises:"
-
-#~ msgid "Load average monitor"
-#~ msgstr "Snittbelastningsmodul"
-
-#~ msgid ""
-#~ "This module monitors the system load average,\n"
-#~ " and displays warning when it rises above certain points."
-#~ msgstr ""
-#~ "Denne modulen overvåker snittbelastningen for systemet,\n"
-#~ " og viser en advarsel når den overstiger et gitt punkt."
-
-#~ msgid "Tick-a-Stat script encountered an error:\n"
-#~ msgstr "Tick-a-Stat skriptet fant en feil:\n"
-
-#~ msgid "Update interval"
-#~ msgstr "Oppdateringsintervall"
-
-#~ msgid "D"
-#~ msgstr "D"
-
-#~ msgid "T"
-#~ msgstr "T"
-
-#~ msgid "News and Information Module"
-#~ msgstr "Nyhets- og informasjonsmodul"
-
-#~ msgid "Line (s):"
-#~ msgstr "Linje(r):"
-
-#~ msgid "Update (m):"
-#~ msgstr "Oppdater (m):"
-
-#~ msgid "body"
-#~ msgstr "kropp"
-
-#~ msgid "date"
-#~ msgstr "dato"
-
-#~ msgid "Show:"
-#~ msgstr "Vis:"
-
-#~ msgid "News and information ticker"
-#~ msgstr "Nyhets- og informasjonsmodul"
-
-#~ msgid "This module can display news and other information."
-#~ msgstr "Denne modulen kan vise nyheter og annen informasjon."
-
-#~ msgid "File tail view file (Tick-a-Stat)"
-#~ msgstr "Vis slutten av en fil med tail (Tick-a-Stat)"
-
-#~ msgid "File tail information (Tick-a-Stat)"
-#~ msgstr "Vis informasjon om slutten på en fil (Tick-a-Stat)"
-
-#~ msgid "File tail for "
-#~ msgstr "Filslutt for "
-
-#~ msgid "File Tail Module"
-#~ msgstr "Filslutt modul"
-
-#~ msgid "Path to tail:"
-#~ msgstr "Sti til tail:"
-
-#~ msgid "Choose a file to tail"
-#~ msgstr "Velg en fil å kjøre tail på"
-
-#~ msgid "Show pop up dialog for new lines."
-#~ msgstr "Vis en dialog for nye linjer."
-
-#~ msgid "File tailer"
-#~ msgstr "Filfølger"
-
-#~ msgid ""
-#~ "This module monitors a file for appended text,\n"
-#~ " and prints it. Useful for log files."
-#~ msgstr ""
-#~ "Denne modulen overvåker en file for tillagt tekst,\n"
-#~ "og skriver den til skjermen. Nyttig for loggfiler."
-
-#~ msgid "Test Module"
-#~ msgstr "Testmodul"
-
-#~ msgid "This is the test module's description line."
-#~ msgstr "Dette er testmodulens beskrivelseslinje."
-
-#~ msgid "Modules"
-#~ msgstr "Moduler"
-
-#~ msgid "Event Log"
-#~ msgstr "Hendelseslogg"
-
-#~ msgid "Enable logging of events"
-#~ msgstr "Slå på logging av hendelser"
-
-#~ msgid "Log path:"
-#~ msgstr "Sti til logg:"
-
-#~ msgid "Choose a log file"
-#~ msgstr "Velg en loggfil"
-
-#~ msgid "Use all room on panel"
-#~ msgstr "Bruk all plassen på panelet"
-
-#~ msgid "Use panel size hint"
-#~ msgstr "Bruk panelhint for størrelse"
-
-#~ msgid "The Web Browser Controller"
-#~ msgstr "Kontroll av WWW-leser"
-
-#~ msgid "(C) 2000 the Free Software Foundation"
-#~ msgstr "© 2000 the Free Software Foundation"
-
-#~ msgid ""
-#~ "An applet to launch URLs in a web browser, search using various web sites "
-#~ "and have a ton of fun!"
-#~ msgstr ""
-#~ "En applet som skal åpne URLer i en nettleser, søk gjennom forskjellige "
-#~ "nettsteder og ha mengder er moro."
-
-#~ msgid " GO "
-#~ msgstr " GO "
-
-#~ msgid " Clear "
-#~ msgstr " Tøm "
-
-#~ msgid "Launch new window"
-#~ msgstr "Åpne nytt vindu"
-
-#~ msgid "Where Am I?"
-#~ msgstr "Hvor er jeg?"
-
-#~ msgid "Copyright 1999 John Kodis"
-#~ msgstr "Copyright 1999 John Kodis"
-
-#~ msgid ""
-#~ "A cursor position reporting applet.\n"
-#~ "= Clicking mouse button 1 grabs the cursor.\n"
-#~ "= Dragging with mouse button 1 held down shows the size of the region."
-#~ msgstr ""
-#~ "En applet som rapporterer markørposisjon.\n"
-#~ "= Klikk musknapp 1 for å fange markøren.\n"
-#~ "= Dra med musknapp 1 holdt nede for å vise størrelsen på regionen."
-
-#~ msgid "whereami_applet"
-#~ msgstr "hvorerjeg_applet"
-
-#~ msgid "CD Player"
-#~ msgstr "CD-spiller"
-
-#~ msgid "GNOME weather monitor applet"
-#~ msgstr "GNOME værmonitor applet"
-
-#~ msgid "Info and status ticker"
-#~ msgstr "Info- og status-teleks"
-
-#~ msgid "Clipboard"
-#~ msgstr "Utklippstavle"
-
-#~ msgid "Copy multiple selections into a persistant clipboard"
-#~ msgstr "Kopier flere utvalg til en varig utklippstavle"
-
-#~ msgid "AfterStep Clock"
-#~ msgstr "AfterStep klokke"
-
-#~ msgid "Just another clock"
-#~ msgstr "Bare enda en klokke"
-
-#~ msgid "Drive Mount"
-#~ msgstr "Diskmontering"
-
-#~ msgid "Mounts and unmount drives"
-#~ msgstr "Monterer og avmonterer disker"
-
-#~ msgid "CPU/MEM usage"
-#~ msgstr "CPU-/minnebruk"
-
-#~ msgid "CPU/MEM usage meter"
-#~ msgstr "CPU-/minnebruk måler"
-
-#~ msgid "Battery Charge Monitor"
-#~ msgstr "Overvåking av batterilading"
-
-#~ msgid "An analog clock similar to that in CDE panel"
-#~ msgstr "En analog klokke lik den som finnes i CDE-panelet"
-
-#~ msgid "Another Clock"
-#~ msgstr "Enda en klokke"
-
-#~ msgid "GKB Keyboard Switcher"
-#~ msgstr "GKB tastaturvelger"
-
-#~ msgid "GKB, the Gnome Keyboard Layout Switcher Applet"
-#~ msgstr "GKB, GNOME applet for valg av tastaturutforming"
-
-#~ msgid "Clock and Mailcheck"
-#~ msgstr "Klokke- og postsjekk"
-
-#~ msgid "Displays new mail and time"
-#~ msgstr "Viser ny e-post og klokke"
-
-#~ msgid "Show last news from slashdot.org"
-#~ msgstr "Viser siste nytt fra slashdot.org"
-
-#~ msgid "NetLoad"
-#~ msgstr "Nettlast"
-
-#~ msgid "Network Activity Meter"
-#~ msgstr "Måling av nettverksaktivitet"
-
-#~ msgid "MemLoad"
-#~ msgstr "Minnelast"
-
-#~ msgid "Memory Load Meter"
-#~ msgstr "Minnelast måler"
-
-#~ msgid "Swap Load Meter"
-#~ msgstr "Swaplast måler"
-
-#~ msgid "CPU Load Meter"
-#~ msgstr "CPU-last måler"
-
-#~ msgid "CPULoad"
-#~ msgstr "CPU-last"
-
-#~ msgid "Mini-Commander"
-#~ msgstr "Mini-kommander"
-
-#~ msgid "Shows Cursor Position"
-#~ msgstr "Viser markørposisjon"
-
-#~ msgid "Modem Lights"
-#~ msgstr "Modemlys"
-
-#~ msgid "Fifteen"
-#~ msgstr "Femten"
-
-#~ msgid "Fifteen cells game"
-#~ msgstr "Spillet femten celler"
-
-#~ msgid "character picker"
-#~ msgstr "tegnvelger"
-
-#~ msgid "Sound Monitor"
-#~ msgstr "Lydmonitor"
-
-#~ msgid "Sound Monitor for Esound"
-#~ msgstr "Lydmonitor for Esound"
-
-#~ msgid "WebControl"
-#~ msgstr "WWW-kontroll"
-
-#~ msgid "Audio Mixer"
-#~ msgstr "Lydmikser"
-
-#~ msgid "Mixer"
-#~ msgstr "Mikser"
-
-#~ msgid "An applet that watches your mouse."
-#~ msgstr "En applet som overvåker din mus."
-
-#~ msgid "QuickLaunch"
-#~ msgstr "Hurtigstart"
-
-#~ msgid "Small Launchers "
-#~ msgstr "Små oppstartere"
-
-#~ msgid "Mouse movements counter"
-#~ msgstr "Teller for musbevegelse"
-
-#~ msgid "Screen Shooter is a screenshot grabber"
-#~ msgstr "Skjermdumper er et program for å ta skjermdump"
-
-#~ msgid "ScreenShooter"
-#~ msgstr "Skjermdumper"
-
-#~ msgid "Disk Usage"
-#~ msgstr "Diskbruk"
-
-#~ msgid "Disk usage meter"
-#~ msgstr "Diskbruk måler"
-
-#~ msgid "Game of Life"
-#~ msgstr "Livets spill"
-
-#~ msgid "The Game of Life (to waste your time)"
-#~ msgstr "Livets spill (for å kaste bort din tid)"
-
-#~ msgid "GNOME Stock Ticker"
-#~ msgstr "GNOME aksjeovervåker"
-
-#~ msgid "GNOME Stock Ticker Panel Applet"
-#~ msgstr "GNOME applet for aksjeovervåking"
-
-#~ msgid "Displays the time whith in binary representation"
-#~ msgstr "Viser tiden som binær representasjon"
-
-#~ msgid "JBC Binary Clock"
-#~ msgstr "JBC binærklokke"
-
-#~ msgid "ESounD Persistent Volume Daemon version %s\n"
-#~ msgstr "ESounD Persistent Volume Daemon version %s\n"
-
-#~ msgid "options:\n"
-#~ msgstr "alternativer:\n"
-
-#~ msgid "  -n, --noX     Allow to run with X server\n"
-#~ msgstr "  -n, --noX     tillat kjøring med X-tjener\n"
-
-#~ msgid "Configure Browser"
-#~ msgstr "Konfigurer nettleser"
-
-#~ msgid "Browser Name:"
-#~ msgstr "Navn på nettleser:"
-
-#~ msgid "Browser Command:"
-#~ msgstr "Kommando for nettleser:"
-
-#~ msgid "New Window Option:"
-#~ msgstr "Nytt vindu alternativ:"
-
-#~ msgid "No New Window Option:"
-#~ msgstr "Uten nytt vindu alterantiv:"
-
-#~ msgid "WebControl Properties"
-#~ msgstr "Egenskaper for WWW-kontroll"
-
-#~ msgid "URL bar width:"
-#~ msgstr "URL søylebredde:"
-
-#~ msgid "Display GO Button"
-#~ msgstr "Vis GÅ-knappen"
-
-#~ msgid " URL Activation "
-#~ msgstr "URL-aktivering"
-
-#~ msgid "Use default MIME handler"
-#~ msgstr "Bruk standard MIME-håndterer"
-
-#~ msgid "Use custom browser:"
-#~ msgstr "Bruk egendefinert leser:"
-
-#~ msgid " URL History "
-#~ msgstr "URL-historikk"
-
-#~ msgid "Size of URL history: "
-#~ msgstr "Størrelse på historikken for URLer:"
-
-#~ msgid "all entries in URL history"
-#~ msgstr "alle oppføringer i URL-historikken"
-
-#~ msgid "Update enabled"
-#~ msgstr "Oppdatering aktiv"
-
-#~ msgid "(sec)"
-#~ msgstr "(sek)"
-
-#~ msgid "Component successfully updated."
-#~ msgstr "Oppdatering av komponent fullført."
-
-#~ msgid "I couldn't open your calendar file!\n"
-#~ msgstr "Kunne ikke åpne din kalenderfil!\n"
-
-#~ msgid "I couldn't load your calendar file!\n"
-#~ msgstr "Kunne ikke laste din kalenderfil!\n"
 
 #~ msgid "This is a reply from someone who was uninvited!"
 #~ msgstr "Dette er et svar fra noen som ikke er invitert!"
