@@ -297,6 +297,7 @@ impl_dispose (GObject *object)
 				   "Error unreffing the ::Activity interface -- %s\n",
 				   BONOBO_EX_REPOID (&ev));
 		CORBA_Object_release (priv->activity_interface, &ev);
+		priv->activity_interface = CORBA_OBJECT_NIL;
 	}
 
 	if (priv->shortcuts_interface != CORBA_OBJECT_NIL) {
@@ -383,6 +384,7 @@ evolution_shell_client_construct (EvolutionShellClient *shell_client,
 				  GNOME_Evolution_Shell corba_shell)
 {
 	EvolutionShellClientPrivate *priv;
+	CORBA_Environment ev;
 
 	g_return_if_fail (shell_client != NULL);
 	g_return_if_fail (EVOLUTION_IS_SHELL_CLIENT (shell_client));
@@ -391,9 +393,11 @@ evolution_shell_client_construct (EvolutionShellClient *shell_client,
 	priv = shell_client->priv;
 	g_return_if_fail (priv->activity_interface == CORBA_OBJECT_NIL);
 
-	/* (Notice that we don't ref or duplicate, since this is what the old
-	   BonoboObject did.)  */
 	priv->corba_objref = corba_shell;
+
+	CORBA_exception_init (&ev);
+	Bonobo_Unknown_ref (priv->corba_objref, &ev);
+	CORBA_exception_free (&ev);
 
 	priv->activity_interface = query_shell_interface (shell_client, "IDL:GNOME/Evolution/Activity:1.0");
 	priv->shortcuts_interface = query_shell_interface (shell_client, "IDL:GNOME/Evolution/Shortcuts:1.0");

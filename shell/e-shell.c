@@ -979,8 +979,6 @@ notify_no_views_left_idle_cb (void *data)
 
 	set_interactive (shell, FALSE);
 
-	bonobo_object_ref (BONOBO_OBJECT (shell));
-
 	g_signal_emit (shell, signals [NO_VIEWS_LEFT], 0);
 
 	bonobo_object_unref (BONOBO_OBJECT (shell));
@@ -1002,13 +1000,15 @@ view_weak_notify (void *data,
 	/* If this is our last view, save settings now because in the callback
 	   for no_views_left shell->priv->views will be NULL and settings won't
 	   be saved because of that.  */
-	if (num_views - 1 == 0)
+	if (num_views == 1)
 		e_shell_save_settings (shell);
 
 	shell->priv->views = g_list_remove (shell->priv->views, where_the_object_was);
 
-	if (shell->priv->views == NULL)
+	if (shell->priv->views == NULL) {
+		bonobo_object_ref (BONOBO_OBJECT (shell));
 		g_idle_add (notify_no_views_left_idle_cb, shell);
+	}
 }
 
 static EShellView *

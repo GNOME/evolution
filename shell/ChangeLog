@@ -1,3 +1,13 @@
+2003-01-09  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution-shell-client.c (impl_dispose): Properly reset
+	activity_interface to NULL.
+	(evolution_shell_client_construct): Ref the shell object here.
+
+	* e-shell.c (view_weak_notify): Ref the shell since it's being
+	passed to notify_no_views_left_idle_cb as the data.
+	(notify_no_views_left_idle_cb): Only unref the shell here.
+
 2003-01-08  Not Zed  <NotZed@Ximian.com>
 
 	* e-shell-settings-dialog.c (set_dialog_size): dont unref the

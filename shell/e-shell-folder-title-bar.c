@@ -379,6 +379,7 @@ title_button_toggled_cb (GtkToggleButton *title_button,
 	EShellFolderTitleBar *folder_title_bar;
 
 	folder_title_bar = E_SHELL_FOLDER_TITLE_BAR (data);
+
 	g_signal_emit (folder_title_bar, signals[TITLE_TOGGLED], 0,
 		       gtk_toggle_button_get_active (title_button));
 }
