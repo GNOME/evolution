@@ -44,7 +44,6 @@ struct _EMinicardViewWidget
 {
 	ECanvas parent;
 
-	GnomeCanvasItem *rect;
 	GnomeCanvasItem *emv;
 
 	EAddressbookReflowAdapter *adapter;

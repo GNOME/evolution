@@ -468,7 +468,8 @@ display_view(GalViewInstance *instance,
 		gal_view_etable_attach_table (GAL_VIEW_ETABLE(view), e_table_scrolled_get_table(E_TABLE_SCROLLED(address_view->widget)));
 	} else if (GAL_IS_VIEW_MINICARD(view)) {
 		change_view_type (address_view, E_ADDRESSBOOK_VIEW_MINICARD);
-		gal_view_minicard_attach (GAL_VIEW_MINICARD(view), E_MINICARD_VIEW (E_MINICARD_VIEW_WIDGET (address_view->object)->emv));
+		if (address_view->object && E_MINICARD_VIEW_WIDGET (address_view->object)->emv)
+			gal_view_minicard_attach (GAL_VIEW_MINICARD(view), E_MINICARD_VIEW (E_MINICARD_VIEW_WIDGET (address_view->object)->emv));
 	}
 	address_view->current_view = view;
 }
@@ -998,6 +999,20 @@ delete (GtkWidget *widget, CardAndBook *card_and_book)
 	card_and_book_free(card_and_book);
 }
 
+static void
+copy_to_folder (GtkWidget *widget, CardAndBook *card_and_book)
+{
+	e_addressbook_view_copy_to_folder (card_and_book->view);
+	card_and_book_free (card_and_book);
+}
+
+static void
+move_to_folder (GtkWidget *widget, CardAndBook *card_and_book)
+{
+	e_addressbook_view_move_to_folder (card_and_book->view);
+	card_and_book_free (card_and_book);
+}
+
 #define POPUP_READONLY_MASK 0x1
 static gint
 table_right_click(ETableScrolled *table, gint row, gint col, GdkEvent *event, EAddressbookView *view)
@@ -1014,11 +1029,17 @@ table_right_click(ETableScrolled *table, gint row, gint col, GdkEvent *event, EA
 #if 0 /* Envelope printing is disabled for Evolution 1.0. */
 			{N_("Print Envelope"), NULL, GTK_SIGNAL_FUNC(print_envelope), NULL, 0},
 #endif
+			E_POPUP_SEPARATOR,
+
+			{N_("Copy to folder..."), NULL, GTK_SIGNAL_FUNC(copy_to_folder), NULL, 0}, 
+			{N_("Move to folder..."), NULL, GTK_SIGNAL_FUNC(move_to_folder), NULL, POPUP_READONLY_MASK},
+			E_POPUP_SEPARATOR,
+
 			{N_("Cut"), NULL, GTK_SIGNAL_FUNC (cut), NULL, POPUP_READONLY_MASK},
 			{N_("Copy"), NULL, GTK_SIGNAL_FUNC (copy), NULL, 0},
 			{N_("Paste"), NULL, GTK_SIGNAL_FUNC (paste), NULL, POPUP_READONLY_MASK},
 			{N_("Delete"), NULL, GTK_SIGNAL_FUNC(delete), NULL, POPUP_READONLY_MASK},
-			{NULL, NULL, NULL, NULL, 0}
+			E_POPUP_TERMINATOR
 		};
 
 		card_and_book = g_new(CardAndBook, 1);
@@ -1303,14 +1324,16 @@ e_addressbook_view_discard_menus (EAddressbookView *view)
 	g_return_if_fail (E_IS_ADDRESSBOOK_VIEW (view));
 	g_return_if_fail (view->view_instance);
 
+	if (view->view_menus) {
+		gal_view_menus_unmerge (view->view_menus, NULL);
+
+		gtk_object_unref (GTK_OBJECT (view->view_menus));
+		view->view_menus = NULL;
+	}
+
 	if (view->view_instance) {
 		gtk_object_unref (GTK_OBJECT (view->view_instance));
 		view->view_instance = NULL;
-	}
-
-	if (view->view_menus) {
-		gtk_object_unref (GTK_OBJECT (view->view_menus));
-		view->view_menus = NULL;
 	}
 
 	view->uic = NULL;
@@ -1699,6 +1722,35 @@ e_addressbook_view_stop(EAddressbookView *view)
 		e_addressbook_model_stop (view->model);
 }
 
+static void
+view_transfer_cards (EAddressbookView *view, gboolean delete_from_source)
+{
+	EBook *book;
+	GList *cards;
+	GtkWindow *parent_window;
+
+	gtk_object_get(GTK_OBJECT(view->model), 
+		       "book", &book,
+		       NULL);
+	cards = get_selected_cards (view);
+	parent_window = GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (view)));
+
+	e_addressbook_transfer_cards (book, cards, delete_from_source, parent_window);
+}
+
+void
+e_addressbook_view_copy_to_folder (EAddressbookView *view)
+{
+	view_transfer_cards (view, FALSE);
+}
+
+void
+e_addressbook_view_move_to_folder (EAddressbookView *view)
+{
+	view_transfer_cards (view, TRUE);
+}
+
+
 static gboolean
 e_addressbook_view_selection_nonempty (EAddressbookView  *view)
 {
@@ -1783,3 +1835,14 @@ e_addressbook_view_can_stop (EAddressbookView  *view)
 	return view ? e_addressbook_model_can_stop (view->model) : FALSE;
 }
 
+gboolean
+e_addressbook_view_can_copy_to_folder (EAddressbookView *view)
+{
+	return view ? e_addressbook_view_selection_nonempty (view) : FALSE;
+}
+
+gboolean
+e_addressbook_view_can_move_to_folder (EAddressbookView *view)
+{
+	return view ? e_addressbook_view_selection_nonempty (view) && e_addressbook_model_editable (view->model) : FALSE;
+}

@@ -9,9 +9,6 @@
 
 Bonobo_ConfigDatabase addressbook_config_database (CORBA_Environment *ev);
 
-/* expand file:///foo/foo/ to file:///foo/foo/addressbook.db */
-char *         addressbook_expand_uri           (const char *uri);
-
 /* use this instead of e_book_load_uri everywhere where you want the
    authentication to be handled for you. */
 gboolean       addressbook_load_uri             (EBook *book, const char *uri, EBookCallback cb, gpointer closure);

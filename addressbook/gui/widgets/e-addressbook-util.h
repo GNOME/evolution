@@ -43,6 +43,10 @@ EContactListEditor *e_addressbook_show_contact_list_editor  (EBook       *book,
 void                e_addressbook_show_multiple_cards       (EBook       *book,
 							     GList       *list,
 							     gboolean     editable);
+void                e_addressbook_transfer_cards            (EBook       *source,
+							     GList       *cards, /* adopted */
+							     gboolean     delete_from_source,
+							     GtkWindow   *parent_window);
 
 #ifdef __cplusplus
 }

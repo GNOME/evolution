@@ -95,7 +95,8 @@ text_height (GnomeCanvas *canvas, const gchar *text)
 
 typedef struct {
 	EAddressbookReflowAdapter *adapter;
-	ESelectionModel *selection;
+	ESelectionModel           *selection;
+	GtkWidget                 *widget;
 } ModelAndSelection;
 
 static void
@@ -104,6 +105,8 @@ model_and_selection_free (ModelAndSelection *mns)
 	gtk_object_unref(GTK_OBJECT(mns->adapter));
 	e_selection_model_right_click_up(mns->selection);
 	gtk_object_unref(GTK_OBJECT(mns->selection));
+	if (mns->widget)
+		gtk_object_unref(GTK_OBJECT(mns->widget));
 	g_free(mns);
 }
 
@@ -269,6 +272,37 @@ open_card (GtkWidget *widget, ModelAndSelection *mns)
 	model_and_selection_free (mns);
 }
 
+static void
+transfer_cards (ModelAndSelection *mns, gboolean delete_from_source)
+{
+	EBook *book;
+	GList *cards;
+	GtkWindow *parent_window;
+
+	book = e_addressbook_model_get_ebook(mns->adapter->priv->model);
+	cards = get_card_list (mns);
+	if (mns->widget)
+		parent_window = GTK_WINDOW (gtk_widget_get_toplevel (mns->widget));
+	else
+		parent_window = NULL;
+
+	e_addressbook_transfer_cards (book, cards, delete_from_source, parent_window);
+
+	model_and_selection_free (mns);
+}
+
+static void
+copy_to_folder (GtkWidget *widget, ModelAndSelection *mns)
+{
+	transfer_cards (mns, FALSE);
+}
+
+static void
+move_to_folder (GtkWidget *widget, ModelAndSelection *mns)
+{
+	transfer_cards (mns, TRUE);
+}
+
 #define POPUP_READONLY_MASK 0x01
 gint
 e_addressbook_reflow_adapter_right_click (EAddressbookReflowAdapter *adapter, GdkEvent *event, ESelectionModel *selection)
@@ -283,6 +317,12 @@ e_addressbook_reflow_adapter_right_click (EAddressbookReflowAdapter *adapter, Gd
 #if 0 /* Envelope printing is disabled for Evolution 1.0. */
 			      {N_("Print Envelope"), NULL, GTK_SIGNAL_FUNC(print_envelope), NULL, 0},
 #endif
+			      E_POPUP_SEPARATOR,
+
+			      {N_("Copy to folder..."), NULL, GTK_SIGNAL_FUNC(copy_to_folder), NULL, 0}, 
+			      {N_("Move to folder..."), NULL, GTK_SIGNAL_FUNC(move_to_folder), NULL, POPUP_READONLY_MASK},
+			      E_POPUP_SEPARATOR,
+
 			      {N_("Cut"), NULL, GTK_SIGNAL_FUNC (cut), NULL, POPUP_READONLY_MASK},
 			      {N_("Copy"), NULL, GTK_SIGNAL_FUNC (copy), NULL, 0},
 			      {N_("Paste"), NULL, GTK_SIGNAL_FUNC (paste), NULL, POPUP_READONLY_MASK},
@@ -291,8 +331,11 @@ e_addressbook_reflow_adapter_right_click (EAddressbookReflowAdapter *adapter, Gd
 
 	mns->adapter = adapter;
 	mns->selection = selection;
+	mns->widget = gtk_get_event_widget (event);
 	gtk_object_ref(GTK_OBJECT(mns->adapter));
 	gtk_object_ref(GTK_OBJECT(mns->selection));
+	if (mns->widget)
+		gtk_object_ref(GTK_OBJECT(mns->widget));
 	e_popup_menu_run (menu, event, e_addressbook_model_editable(priv->model) ? 0 : POPUP_READONLY_MASK, 0, mns);
 	return TRUE;
 }

@@ -218,6 +218,22 @@ send_contact_to_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 }
 
 static void
+copy_contact_to_cb (BonoboUIComponent *uih, void *user_data, const char *path)
+{
+	AddressbookView *view = (AddressbookView *) user_data;
+	if (view->view)
+		e_addressbook_view_copy_to_folder (view->view);
+}
+
+static void
+move_contact_to_cb (BonoboUIComponent *uih, void *user_data, const char *path)
+{
+	AddressbookView *view = (AddressbookView *) user_data;
+	if (view->view)
+		e_addressbook_view_move_to_folder (view->view);
+}
+
+static void
 forget_passwords_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	e_passwords_forget_passwords();
@@ -234,7 +250,7 @@ update_command_state (EAddressbookView *eav, AddressbookView *view)
 	addressbook_view_ref (view);
 
 	uic = bonobo_control_get_ui_component (view->control);
-	
+
 	if (bonobo_ui_component_get_container (uic) != CORBA_OBJECT_NIL) {
 
 		/* New Contact */
@@ -246,7 +262,7 @@ update_command_state (EAddressbookView *eav, AddressbookView *view)
 					      "/commands/ContactNewList",
 					      "sensitive",
 					      e_addressbook_view_can_create (view->view) ? "1" : "0", NULL);
-		
+
 		bonobo_ui_component_set_prop (uic,
 					      "/commands/ContactsSaveAsVCard",
 					      "sensitive",
@@ -255,25 +271,25 @@ update_command_state (EAddressbookView *eav, AddressbookView *view)
 					      "/commands/ContactsView",
 					      "sensitive",
 					      e_addressbook_view_can_view (view->view) ? "1" : "0", NULL);
-		
+
 		/* Print Contact */
 		bonobo_ui_component_set_prop (uic,
 					      "/commands/ContactsPrint",
 					      "sensitive",
 					      e_addressbook_view_can_print (view->view) ? "1" : "0", NULL);
-		
+
 		/* Print Contact */
 		bonobo_ui_component_set_prop (uic,
 					      "/commands/ContactsPrintPreview",
 					      "sensitive",
 					      e_addressbook_view_can_print (view->view) ? "1" : "0", NULL);
-		
+
 		/* Delete Contact */
 		bonobo_ui_component_set_prop (uic,
 					      "/commands/ContactDelete",
 					      "sensitive",
 					      e_addressbook_view_can_delete (view->view) ? "1" : "0", NULL);
-		
+
 		bonobo_ui_component_set_prop (uic,
 					      "/commands/ContactsCut",
 					      "sensitive",
@@ -290,24 +306,31 @@ update_command_state (EAddressbookView *eav, AddressbookView *view)
 					      "/commands/ContactsSelectAll",
 					      "sensitive",
 					      e_addressbook_view_can_select_all (view->view) ? "1" : "0", NULL);
-		
+
 		bonobo_ui_component_set_prop (uic,
 					      "/commands/ContactsSendContactToOther",
 					      "sensitive",
 					      e_addressbook_view_can_send (view->view) ? "1" : "0", NULL);
-		
+
 		bonobo_ui_component_set_prop (uic,
 					      "/commands/ContactsSendMessageToContact",
 					      "sensitive",
 					      e_addressbook_view_can_send_to (view->view) ? "1" : "0", NULL);
-		
-		
+
+		bonobo_ui_component_set_prop (uic,
+					      "/commands/ContactsMoveToFolder",
+					      "sensitive",
+					      e_addressbook_view_can_move_to_folder (view->view) ? "1" : "0", NULL);
+		bonobo_ui_component_set_prop (uic,
+					      "/commands/ContactsCopyToFolder",
+					      "sensitive",
+					      e_addressbook_view_can_copy_to_folder (view->view) ? "1" : "0", NULL);
+
 		/* Stop */
 		bonobo_ui_component_set_prop (uic,
 					      "/commands/ContactStop",
 					      "sensitive",
 					      e_addressbook_view_can_stop (view->view) ? "1" : "0", NULL);
-		
 	}
 
 	addressbook_view_unref (view);
@@ -340,6 +363,8 @@ static BonoboUIVerb verbs [] = {
 
 	BONOBO_UI_UNSAFE_VERB ("ContactsSendContactToOther", send_contact_cb),
 	BONOBO_UI_UNSAFE_VERB ("ContactsSendMessageToContact", send_contact_to_cb),
+	BONOBO_UI_UNSAFE_VERB ("ContactsMoveToFolder", move_contact_to_cb),
+	BONOBO_UI_UNSAFE_VERB ("ContactsCopyToFolder", copy_contact_to_cb),
 	BONOBO_UI_UNSAFE_VERB ("ContactsForgetPasswords", forget_passwords_cb),
 
 	BONOBO_UI_VERB_END
@@ -430,8 +455,9 @@ addressbook_view_unref (AddressbookView *view)
 {
 	g_assert (view->refs > 0);
 	--view->refs;
-	if (view->refs == 0)
+	if (view->refs == 0) {
 		g_free (view);
+	}
 }
 
 static ECategoriesMasterList *
@@ -577,32 +603,6 @@ get_prop (BonoboPropertyBag *bag,
 	default:
 		g_warning ("Unhandled arg %d\n", arg_id);
 	}
-}
-
-char *
-addressbook_expand_uri (const char *uri)
-{
-	char *new_uri;
-
-	if (!strncmp (uri, "file:", 5)) {
-		if (strlen (uri + 7) > 3
-		    && !strcmp (uri + strlen(uri) - 3, ".db")) {
-			/* it's a .db file */
-			new_uri = g_strdup (uri);
-		}
-		else {
-			char *file_name;
-			/* we assume it's a dir and glom addressbook.db onto the end. */
-			file_name = g_concat_dir_and_file(uri + 7, "addressbook.db");
-			new_uri = g_strdup_printf("file://%s", file_name);
-			g_free(file_name);
-		}
-	}
-	else {
-		new_uri = g_strdup (uri);
-	}
-
-	return new_uri;
 }
 
 typedef struct {
@@ -804,7 +804,7 @@ set_prop (BonoboPropertyBag *bag,
 
 		view->uri = g_strdup(BONOBO_ARG_GET_STRING (arg));
 		
-		uri_data = addressbook_expand_uri (view->uri);
+		uri_data = e_book_expand_uri (view->uri);
 
 		if (! addressbook_load_uri (book, uri_data, book_open_cb, view))
 			printf ("error calling load_uri!\n");

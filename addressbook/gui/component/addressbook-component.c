@@ -489,7 +489,7 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *fol
 
 	card_list = e_card_load_cards_from_string_with_default_charset (data->bytes._buffer, "ISO-8859-1");
 
-	expanded_uri = addressbook_expand_uri (physical_uri);
+	expanded_uri = e_book_expand_uri (physical_uri);
 
 	book = e_book_new ();
 	addressbook_load_uri (book, expanded_uri,

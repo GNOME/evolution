@@ -20,11 +20,13 @@
  */
 
 #include <config.h>
+#include "e-addressbook-util.h"
 
 #include <gnome.h>
 
-#include "e-addressbook-util.h"
 #include "e-card-merging.h"
+#include <shell/evolution-shell-client.h>
+#include <addressbook/backend/ebook/e-book-util.h>
 
 void
 e_addressbook_error_dialog (const gchar *msg, EBookStatus status)
@@ -221,4 +223,161 @@ e_addressbook_show_multiple_cards (EBook *book,
 			view_cards (book, list, editable);
 		}
 	}
+}
+
+
+
+typedef struct CardCopyProcess_ CardCopyProcess;
+
+typedef void (*CardCopyDone) (CardCopyProcess *process);
+
+struct CardCopyProcess_ {
+	int count;
+	GList *cards;
+	EBook *source;
+	EBook *destination;
+	CardCopyDone done_cb;
+};
+
+static void
+card_deleted_cb (EBook* book, EBookStatus status, gpointer user_data)
+{
+	if (status != E_BOOK_STATUS_SUCCESS) {
+		e_addressbook_error_dialog (_("Error removing card"), status);
+	}
+}
+
+static void
+do_delete (gpointer data, gpointer user_data)
+{
+	EBook *book = user_data;
+	ECard *card = data;
+
+	e_book_remove_card(book, card, card_deleted_cb, NULL);
+}
+
+static void
+delete_cards (CardCopyProcess *process)
+{
+	g_list_foreach (process->cards,
+			do_delete,
+			process->source);
+}
+
+static void
+process_unref (CardCopyProcess *process)
+{
+	process->count --;
+	if (process->count == 0) {
+		if (process->done_cb) {
+			process->done_cb (process);
+		}
+		e_free_object_list(process->cards);
+		gtk_object_unref (GTK_OBJECT (process->source));
+		gtk_object_unref (GTK_OBJECT (process->destination));
+		g_free (process);
+	}
+}
+
+static void
+card_added_cb (EBook* book, EBookStatus status, const char *id, gpointer user_data)
+{
+	CardCopyProcess *process = user_data;
+
+	if (status != E_BOOK_STATUS_SUCCESS) {
+		e_addressbook_error_dialog (_("Error adding card"), status);
+	} else {
+		process_unref (process);
+	}
+}
+
+static void
+do_copy (gpointer data, gpointer user_data)
+{
+	EBook *book;
+	ECard *card;
+	CardCopyProcess *process;
+
+	process = user_data;
+	card = data;
+
+	book = process->destination;
+
+	process->count ++;
+	e_book_add_card(book, card, card_added_cb, process);
+}
+
+static void
+got_book_cb (EBook *book, gpointer closure)
+{
+	CardCopyProcess *process;
+	process = closure;
+	if (book) {
+		process->destination = book;
+		gtk_object_ref (GTK_OBJECT (book));
+		g_list_foreach (process->cards,
+				do_copy,
+				process);
+	}
+	process_unref (process);
+}
+
+void
+e_addressbook_transfer_cards (EBook *source, GList *cards /* adopted */, gboolean delete_from_source, GtkWindow *parent_window)
+{
+	const char *allowed_types[] = { "contacts", NULL };
+	extern EvolutionShellClient *global_shell_client;
+	char *uri, *physical, *path, *desc;
+	static char *last = NULL;
+	CardCopyProcess *process;
+
+	if (cards == NULL)
+		return;
+
+	if (last == NULL)
+		last = g_strdup ("");
+
+	if (cards->next == NULL) {
+		if (delete_from_source)
+			desc = _("Move card to");
+		else
+			desc = _("Copy card to");
+	} else {
+		if (delete_from_source)
+			desc = _("Move cards to");
+		else
+			desc = _("Copy cards to");
+	}
+
+	uri = NULL;
+	physical = NULL;
+	evolution_shell_client_user_select_folder (global_shell_client,
+						   parent_window,
+						   desc, last,
+						   allowed_types, &uri, &physical);
+	if (!uri)
+		return;
+
+	path = strchr (uri, '/');
+	if (path && strcmp (last, path) != 0) {
+		g_free (last);
+		last = g_strdup_printf ("evolution:%s", path);
+	}
+	g_free (uri);
+
+	process = g_new (CardCopyProcess, 1);
+	process->count = 1;
+	process->source = source;
+	gtk_object_ref (GTK_OBJECT (source));
+	process->cards = cards;
+	process->destination = NULL;
+
+	if (delete_from_source)
+		process->done_cb = delete_cards;
+	else
+		process->done_cb = NULL;
+
+	e_book_use_address_book_by_uri (physical, got_book_cb, process);
+
+	g_free(physical);
 }
