@@ -278,9 +278,9 @@ load_signature (ESignatureEditor *editor)
 	if (editor->html) {
 		Bonobo_PersistFile pfile_iface;
 		
-		pfile_iface = Bonobo_Unknown_queryInterface (bonobo_widget_get_objref (BONOBO_WIDGET (editor->control)),
-							     "IDL:Bonobo/PersistFile:1.0", NULL);
 		CORBA_exception_init (&ev);
+		pfile_iface = Bonobo_Unknown_queryInterface (bonobo_widget_get_objref (BONOBO_WIDGET (editor->control)),
+							     "IDL:Bonobo/PersistFile:1.0", &ev);
 		Bonobo_PersistFile_load (pfile_iface, editor->sig->filename, &ev);
 		CORBA_exception_free (&ev);
 	} else {
@@ -292,10 +292,10 @@ load_signature (ESignatureEditor *editor)
 		html = g_strdup_printf ("<PRE>\n%s", data);
 		g_free (data);
 		
+		CORBA_exception_init (&ev);
 		pstream_iface = Bonobo_Unknown_queryInterface
 			(bonobo_widget_get_objref (BONOBO_WIDGET (editor->control)),
-			 "IDL:Bonobo/PersistStream:1.0", NULL);
-		CORBA_exception_init (&ev);
+			 "IDL:Bonobo/PersistStream:1.0",&ev);
 		stream = bonobo_stream_mem_create (html, strlen (html), TRUE, FALSE);
 		
 		if (stream == NULL) {
@@ -395,8 +395,8 @@ mail_signature_editor (ESignature *sig, GtkWindow *parent, gboolean is_new)
 	}
 	
 	editor->engine = (GNOME_GtkHTML_Editor_Engine) Bonobo_Unknown_queryInterface
-		(bonobo_widget_get_objref (BONOBO_WIDGET (editor->control)), "IDL:GNOME/GtkHTML/Editor/Engine:1.0", NULL);
-	
+		(bonobo_widget_get_objref (BONOBO_WIDGET (editor->control)), "IDL:GNOME/GtkHTML/Editor/Engine:1.0", &ev);
+	CORBA_exception_free(&ev);
 	load_signature (editor);
 	
 	bonobo_ui_component_set_prop (component, "/commands/FormatHtml", "state", editor->html ? "1" : "0", NULL);

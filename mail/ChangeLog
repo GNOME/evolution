@@ -1,3 +1,9 @@
+2004-06-01  Not Zed  <NotZed@Ximian.com>
+
+	* mail-signature-editor.c (load_signature): ugh, unlike camel
+	exceptions, you can't pass NULL to CORBA calls.
+	(mail_signature_editor): ditto.  See bug #58815.
+
 2004-05-28  Jeffrey Stedfast  <fejj@novell.com>
 
 	* em-folder-tree.c (d): Disable debug here too - all this code has
