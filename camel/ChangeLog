@@ -1,3 +1,7 @@
+2000-11-27  Not Zed  <NotZed@HelixCode.com>
+
+	* providers/Makefile.am: Removed mh, mbox, added local, to the default.
+
 2000-11-24  Not Zed  <NotZed@HelixCode.com>
 
 	* tests/data/getaddr.pl: little util to scan mailboxes for any and
