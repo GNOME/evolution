@@ -172,7 +172,7 @@ support_format_fn (EvolutionImporter *importer,
 		return check_file_is_vcard (filename);
 	}
 	for (i = 0; supported_extensions[i] != NULL; i++) {
-		if (g_ascii_strcmp (supported_extensions[i], ext) == 0)
+		if (g_ascii_strcasecmp (supported_extensions[i], ext) == 0)
 			return check_file_is_vcard (filename);
 	}
 
