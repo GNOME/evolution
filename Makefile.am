@@ -39,7 +39,6 @@ SUBDIRS =			\
         wombat                  \
         art                     \
 	ui			\
-	cmdline			\
         default_user            \
         tools                   \
         po
