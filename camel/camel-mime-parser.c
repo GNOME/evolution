@@ -784,7 +784,10 @@ camel_mime_parser_read(CamelMimeParser *m, const char **databuffer, int len)
 	if (len == 0)
 		return 0;
 
+	d(printf("parser::read() reading %d bytes\n", len));
+
 	there = MIN(s->inend - s->inptr, len);
+	d(printf("parser::read() there = %d bytes\n", there));
 	if (there > 0) {
 		*databuffer = s->inptr;
 		s->inptr += there;
@@ -795,6 +798,8 @@ camel_mime_parser_read(CamelMimeParser *m, const char **databuffer, int len)
 		return -1;
 
 	there = MIN(s->inend - s->inptr, len);
+	d(printf("parser::read() had to re-read, now there = %d bytes\n", there));
+
 	*databuffer = s->inptr;
 	s->inptr += there;
 

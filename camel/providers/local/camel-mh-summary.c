@@ -297,23 +297,32 @@ mh_summary_sync_message(CamelLocalSummary *cls, CamelMessageInfo *info, CamelExc
 	camel_mime_parser_init_with_fd(mp, fd);
 	if (camel_mime_parser_step(mp, 0, 0) != HSCAN_EOF) {
 		xev = camel_mime_parser_header(mp, "X-Evolution", &xevoffset);
+		d(printf("xev = '%s'\n", xev));
 		xevnew = camel_local_summary_encode_x_evolution(cls, info);
 		if (xev == NULL
 		    || camel_local_summary_decode_x_evolution(cls, xev, NULL) == -1
-		    || strlen(xev)+1 != strlen(xevnew)) {
+		    || strlen(xev)-1 != strlen(xevnew)) {
+
+			d(printf("camel local summary_decode_xev = %d\n", camel_local_summary_decode_x_evolution(cls, xev, NULL)));
 
 			/* need to write a new copy/unlink old */
 			tmpname = g_strdup_printf("%s/.tmp.%d.%s", cls->folder_path, getpid(), info->uid);
+			d(printf("old xev was %d %s new xev is %d %s\n", strlen(xev), xev, strlen(xevnew), xevnew));
+			d(printf("creating new message %s\n", tmpname));
 			outfd = open(tmpname, O_CREAT|O_WRONLY|O_TRUNC, 0600);
 			if (outfd != -1) {
 				outlen = 0;
-				if ( (len = camel_local_summary_write_headers(outfd, camel_mime_parser_headers_raw(mp), xevnew)) == 0) {
+				len = camel_local_summary_write_headers(outfd, camel_mime_parser_headers_raw(mp), xevnew);
+				if (len != -1) {
 					while (outlen != -1 && (len = camel_mime_parser_read(mp, &buffer, 10240)) > 0) {
+						d(printf("camel mime parser read, read %d bytes: %.*s\n", len, len, buffer));
 						do {
-							outlen = write(fd, buffer, len);
+							outlen = write(outfd, buffer, len);
 						} while (outlen == -1 && errno == EINTR);
 					}
 				}
+
+				d(printf("len = %d outlen = %d, renaming/finishing\n", len, outlen));
 				if (close(outfd) == -1
 				    || len == -1
 				    || outlen == -1
@@ -326,6 +335,7 @@ mh_summary_sync_message(CamelLocalSummary *cls, CamelMessageInfo *info, CamelExc
 			}
 			g_free(tmpname);
 		} else {
+			d(printf("stamping in updated X-EV at %d\n", (int)xevoffset));
 			/* else, we can just update the flags field */
 			lseek(fd, xevoffset+strlen("X-Evolution: "), SEEK_SET);
 			do {

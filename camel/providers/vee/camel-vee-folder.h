@@ -24,6 +24,9 @@
 
 #include <camel/camel-folder.h>
 
+/* try the dynamic update version */
+#define DYNAMIC
+
 #define CAMEL_VEE_FOLDER(obj)         CAMEL_CHECK_CAST (obj, camel_vee_folder_get_type (), CamelVeeFolder)
 #define CAMEL_VEE_FOLDER_CLASS(klass) CAMEL_CHECK_CLASS_CAST (klass, camel_vee_folder_get_type (), CamelVeeFolderClass)
 #define IS_CAMEL_VEE_FOLDER(obj)      CAMEL_CHECK_TYPE (obj, camel_vee_folder_get_type ())
@@ -43,6 +46,10 @@ struct _CamelVeeFolder {
 	/* FIXME: Move this to a summary object??? */
 	GPtrArray *messages; /* message info's */
 	GHashTable *messages_uid;
+	CamelFolderChangeInfo *changes;
+#ifdef DYNAMIC
+	CamelFolderSearch *search;
+#endif
 };
 
 struct _CamelVeeFolderClass {

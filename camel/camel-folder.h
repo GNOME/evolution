@@ -49,6 +49,7 @@ struct _CamelFolderChangeInfo {
 	GPtrArray *uid_changed;
 
 	GHashTable *uid_source;	/* used to create unique lists */
+	struct _EMemPool *uid_pool;	/* pool used to store copies of uid strings */
 };
 
 struct _CamelFolder

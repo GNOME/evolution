@@ -35,7 +35,7 @@
 #include "camel-mime-filter-charset.h"
 #include "camel-mime-filter-crlf.h"
 
-#define d(x)
+#define d(x) /*(printf("%s(%d): ", __FILE__, __LINE__),(x))*/
 
 /* simple data wrapper */
 static void
@@ -114,6 +114,7 @@ simple_data_wrapper_construct_from_parser(CamelDataWrapper *dw, CamelMimeParser 
 		start = camel_mime_parser_tell(mp) + seekable_source->bound_start;
 	}
 	while ( camel_mime_parser_step(mp, &buf, &len) != HSCAN_BODY_END ) {
+		d(printf("appending o/p data: %.*s\n", len, buf));
 		if (buffer) {
 			if (buffer->len > 20480 && seekable_source) {
 				/* is this a 'big' message?  Yes?  We dont want to convert it all then.*/

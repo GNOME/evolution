@@ -46,6 +46,7 @@ struct _CamelFolderSearch {
 	CamelFolder *folder;	/* folder for current search */
 	GPtrArray *summary;	/* summary array for current search */
 	CamelMessageInfo *current; /* current message info, when searching one by one */
+	CamelMessageInfo *match1; /* message info, when searching a single message only */
 	CamelMimeMessage *current_message; /* cache of current message, if required */
 	ibex *body_index;
 };
@@ -95,6 +96,8 @@ void camel_folder_search_set_folder(CamelFolderSearch *search, CamelFolder *fold
 void camel_folder_search_set_summary(CamelFolderSearch *search, GPtrArray *summary);
 void camel_folder_search_set_body_index(CamelFolderSearch *search, ibex *index);
 GPtrArray *camel_folder_search_execute_expression(CamelFolderSearch *search, const char *expr, CamelException *ex);
+gboolean camel_folder_search_match_expression(CamelFolderSearch *search, const char *expr,
+					      const CamelMessageInfo *info, CamelException *ex);
 void camel_folder_search_free_result(CamelFolderSearch *search, GPtrArray *);
 
 #endif /* ! _CAMEL_FOLDER_SEARCH_H */

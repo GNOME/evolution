@@ -1,5 +1,80 @@
 2000-11-21  Not Zed  <NotZed@HelixCode.com>
 
+	* providers/local/camel-mh-summary.c (mh_summary_sync_message):
+	Shite, -1 on error, >=0 on success.  So i've just been truncating
+	all the messages I touched, good one zed.
+	(mh_summary_sync_message): Sigh, and write to the right damn fd as
+	well.
+	(mh_summary_sync_message): Argh, and we need to compare the length
+	of the old xev -1 to the new xev, to check if we can optimise it.
+
+	* camel-folder.c (camel_folder_change_info_new): Init the pool.
+	(camel_folder_change_info_add_source): Allocate string in the
+	pool.
+	(camel_folder_change_info_add_source_list): 
+	(camel_folder_change_info_add_update): No longer free the key, as
+	it cannot be yet.
+	(change_info_add_uid): Add a new arg, copy, telling it whether to
+	copy the uid argument or not, and copy using mempool_strdup.
+	(change_info_cat): Tell add_uid to copy the string.
+	(camel_folder_change_info_add_update): Call add_uid directly.
+	(change_info_remove): Call add_uid directly, with no copy, and
+	dont free the key.
+	(change_info_free_update): No longer required since we dont malloc
+	the keys.
+	(camel_folder_change_info_add_uid): Fix for add_uid change.
+	(camel_folder_change_info_remove_uid): 
+	(camel_folder_change_info_change_uid): 
+	(change_info_clear): No longer needed, just set the size to 0 on
+	the array directly.
+	(camel_folder_change_info_clear): Empty the arrays directly, and
+	flush the mempool too, and also clear uid_source, incase anyone
+	was silly enough to call us in the wrong order.
+	(camel_folder_change_info_free): Dont bother clearing the array's
+	contents, just free the pool and throw away all the indexes.
+
+	* camel-folder.h: Added a mempool to CamelFolderChangeInfo to
+	store the uid's we get.
+
+	* camel-folder-search.c (search_match_all): If we are only
+	matching a single info, just use that/do the search.
+	(camel_folder_search_match_expression): New function.  Matches a
+	single message info against an expression.
+	(camel_folder_search_init): Init a hash table used to map the
+	returned gptrarrays' to mempools.
+	(camel_folder_search_execute_expression): Store all of the string
+	data in a mempool, slightly faster, less wasted space (usually),.
+	(camel_folder_search_free_result): Check for the mempool that
+	stores the data for the list, and free that if we have it,
+	otherwise assume we need to use g_free() (which should only happen
+	if the list is empty at the moment).
+	: commented out the debugging prints.  Got sick of 'executing
+	header search' crap.
+
+	* providers/vee/camel-vee-folder.c (camel_vee_folder_init): Init
+	changes.
+	(camel_vee_folder_finalise): Free changes.
+	(vfolder_add_match): Simple helper to add a new matching info
+	record.
+	(camel_vee_folder_add_folder): Only trigger a changed event if we
+	have changes.
+	(vfolder_change_match): New function, changes our local vfolder
+	info to match the source.
+	(vfolder_add_match): Add a new info to the vfolder list.
+	(vfolder_remove_match): Remove a no-longer matching info from the
+	vfolder summary.
+	(message_changed): check if the message still matches, and
+	remove/etc as required.
+	(camel_vee_folder_finalise, init): init/free search object.
+	(vee_folder_build_folder): Build the changes to the folder into
+	the changes data, as we go.
+	(folder_changed): If the folder gave us an explicit list of
+	changes, then process each one separately (unless there's a lot
+	added/changed).
+
+	* providers/vee/camel-vee-folder.h: Added a changes field to the
+	folder.
+
 	* Makefile.am (libcamel_la_SOURCES): Added
 	camel-folder-thread.[ch].
 

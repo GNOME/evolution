@@ -40,7 +40,7 @@
 #include "camel-mime-filter-charset.h"
 #include "camel-exception.h"
 
-#define d(x)
+#define d(x) /*(printf("%s(%d): ", __FILE__, __LINE__),(x))*/
 
 typedef enum {
 	HEADER_UNKNOWN,

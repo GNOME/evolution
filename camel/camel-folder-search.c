@@ -39,11 +39,13 @@
 #include "camel-mime-message.h"
 #include "gmime-content-field.h"
 #include "camel-stream-mem.h"
+#include "e-util/e-memory.h"
 
-#define d(x) x
-#define r(x) x
+#define d(x)
+#define r(x)
 
 struct _CamelFolderSearchPrivate {
+	GHashTable *mempool_hash;
 };
 
 #define _PRIVATE(o) (((CamelFolderSearch *)(o))->priv)
@@ -88,16 +90,39 @@ camel_folder_search_init (CamelFolderSearch *obj)
 	p = _PRIVATE(obj) = g_malloc0(sizeof(*p));
 
 	obj->sexp = e_sexp_new();
+
+	/* use a hash of mempools to associate the returned uid lists with
+	   the backing mempool.  yes pretty weird, but i didn't want to change
+	   the api just yet */
+
+	p->mempool_hash = g_hash_table_new(0, 0);
+}
+
+static void
+free_mempool(void *key, void *value, void *data)
+{
+	GPtrArray *uids = key;
+	EMemPool *pool = value;
+
+	g_warning("Search closed with outstanding result unfreed: %p", uids);
+
+	g_ptr_array_free(uids, TRUE);
+	e_mempool_destroy(pool);
 }
 
 static void
 camel_folder_search_finalize (CamelObject *obj)
 {
 	CamelFolderSearch *search = (CamelFolderSearch *)obj;
+	struct _CamelFolderSearchPrivate *p = _PRIVATE(obj);
+
 	if (search->sexp)
 		camel_object_unref((CamelObject *)search->sexp);
 
 	g_free(search->last_search);
+	g_hash_table_foreach(p->mempool_hash, free_mempool, obj);
+	g_hash_table_destroy(p->mempool_hash);
+	g_free(p);
 }
 
 CamelType
@@ -266,6 +291,8 @@ camel_folder_search_execute_expression(CamelFolderSearch *search, const char *ex
 	GPtrArray *matches = g_ptr_array_new ();
 	int i;
 	GHashTable *results;
+	EMemPool *pool;
+	struct _CamelFolderSearchPrivate *p = _PRIVATE(search);
 
 	/* only re-parse if the search has changed */
 	if (search->last_search == NULL
@@ -281,6 +308,11 @@ camel_folder_search_execute_expression(CamelFolderSearch *search, const char *ex
 	if (r
 	    && r->type == ESEXP_RES_ARRAY_PTR) {
 		d(printf("got result ...\n"));
+		/* we use a mempool to store the strings, packed in tight as possible, and freed together */
+		/* because the strings are often short (like <8 bytes long), we would be wasting appx 50%
+		   of memory just storing the size tag that malloc assigns us and alignment padding, so this
+		   gets around that (and is faster to allocate and free as a bonus) */
+		pool = e_mempool_new(512, 256, E_MEMPOOL_ALIGN_BYTE);
 		if (search->summary) {
 			/* reorder result in summary order */
 			results = g_hash_table_new(g_str_hash, g_str_equal);
@@ -291,17 +323,25 @@ camel_folder_search_execute_expression(CamelFolderSearch *search, const char *ex
 			for (i=0;i<search->summary->len;i++) {
 				CamelMessageInfo *info = g_ptr_array_index(search->summary, i);
 				if (g_hash_table_lookup(results, info->uid)) {
-					g_ptr_array_add(matches, g_strdup(info->uid));
+					char *s = e_mempool_alloc(pool, strlen(info->uid) + 1);
+					strcpy(s, info->uid);
+					g_ptr_array_add(matches, s);
 				}
 			}
 			g_hash_table_destroy(results);
 		} else {
 			for (i=0;i<r->value.ptrarray->len;i++) {
+				char *s = e_mempool_alloc(pool, strlen(g_ptr_array_index(r->value.ptrarray, i)) + 1);
 				d(printf("adding match: %s\n", (char *)g_ptr_array_index(r->value.ptrarray, i)));
-				g_ptr_array_add(matches, g_strdup(g_ptr_array_index(r->value.ptrarray, i)));
+				strcpy(s, g_ptr_array_index(r->value.ptrarray, i));
+				g_ptr_array_add(matches, s);
 			}
 		}
 		e_sexp_result_free(r);
+		/* instead of putting the mempool_hash in the structure, we keep the api clean by
+		   putting a reference to it in a hashtable.  Lets us do some debugging and catch
+		   unfree'd results as well. */
+		g_hash_table_insert(p->mempool_hash, matches, pool);
 	} else {
 		printf("no result!\n");
 	}
@@ -314,12 +354,52 @@ camel_folder_search_execute_expression(CamelFolderSearch *search, const char *ex
 	return matches;
 }
 
+/**
+ * camel_folder_search_match_expression:
+ * @search: 
+ * @expr: 
+ * @info: 
+ * @ex: 
+ * 
+ * Returns #TRUE if the expression matches the specific message info @info.
+ * Note that the folder and index may need to be set for body searches to
+ * operate as well.
+ * 
+ * Return value: 
+ **/
+gboolean
+camel_folder_search_match_expression(CamelFolderSearch *search, const char *expr, const CamelMessageInfo *info, CamelException *ex)
+{
+	GPtrArray *uids;
+	int ret = FALSE;
+
+	search->match1 = (CamelMessageInfo *)info;
+
+	uids = camel_folder_search_execute_expression(search, expr, ex);
+	if (uids) {
+		if (uids->len == 1)
+			ret = TRUE;
+		camel_folder_search_free_result(search, uids);
+	}
+	search->match1 = NULL;
+
+	return ret;
+}
+
 void camel_folder_search_free_result(CamelFolderSearch *search, GPtrArray *result)
 {
 	int i;
+	struct _CamelFolderSearchPrivate *p = _PRIVATE(search);
+	EMemPool *pool;
 
-	for (i=0;i<result->len;i++)
-		g_free(g_ptr_array_index(result, i));
+	pool = g_hash_table_lookup(p->mempool_hash, result);
+	if (pool) {
+		e_mempool_destroy(pool);
+		g_hash_table_remove(p->mempool_hash, result);
+	} else {
+		for (i=0;i<result->len;i++)
+			g_free(g_ptr_array_index(result, i));
+	}
 	g_ptr_array_free(result, TRUE);
 }
 
@@ -351,6 +431,27 @@ search_match_all(struct _ESExp *f, int argc, struct _ESExpTerm **argv, CamelFold
 	}
 	r = e_sexp_result_new(ESEXP_RES_ARRAY_PTR);
 	r->value.ptrarray = g_ptr_array_new();
+
+	/* we are only matching a single message? */
+	if (search->match1) {
+		search->current = search->match1;
+
+		if (argc>0) {
+			r1 = e_sexp_term_eval(f, argv[0]);
+			if (r1->type == ESEXP_RES_BOOL) {
+				if (r1->value.bool)
+					g_ptr_array_add(r->value.ptrarray, search->current->uid);
+			} else {
+				g_warning("invalid syntax, matches require a single bool result");
+			}
+			e_sexp_result_free(r1);
+		} else {
+			g_ptr_array_add(r->value.ptrarray, search->current->uid);
+		}
+		search->current = NULL;
+
+		return r;
+	}
 
 	if (search->summary == NULL) {
 		/* TODO: make it work - e.g. use the folder and so forth for a slower search */
