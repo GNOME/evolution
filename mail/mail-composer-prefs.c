@@ -745,7 +745,8 @@ mail_composer_prefs_construct (MailComposerPrefs *prefs)
 	GtkWidget *toplevel, *widget, *menu;
 	GladeXML *gui;
 	int style;
-	char *names[][2] = {{"live_spell_check", "chkEnableSpellChecking"},
+	char *names[][4] = {{"live_spell_check", "chkEnableSpellChecking"},
+			    {"magic_smileys_check", "chkAutoSmileys"},
 			    {"gtk_html_prop_keymap_option", "omenuShortcutsType"},
 			    {NULL, NULL}};
 
@@ -771,6 +772,10 @@ mail_composer_prefs_construct (MailComposerPrefs *prefs)
 	gtk_signal_connect (GTK_OBJECT (prefs->send_html), "toggled",
 			    toggle_button_toggled, prefs);
 	
+	prefs->auto_smileys = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkAutoSmileys"));
+	gtk_signal_connect (GTK_OBJECT (prefs->auto_smileys), "toggled",
+			    toggle_button_toggled, prefs);
+
 	prefs->prompt_empty_subject = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkPromptEmptySubject"));
 	gtk_toggle_button_set_active (prefs->prompt_empty_subject, mail_config_get_prompt_empty_subject ());
 	gtk_signal_connect (GTK_OBJECT (prefs->prompt_empty_subject), "toggled",

@@ -67,6 +67,7 @@ struct _MailComposerPrefs {
 	
 	/* Default Behavior */
 	GtkToggleButton *send_html;
+	GtkToggleButton *auto_smileys;
 	GtkToggleButton *prompt_empty_subject;
 	GtkToggleButton *prompt_bcc_only;
 	GtkOptionMenu *charset;
