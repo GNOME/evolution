@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution VERSION\n"
 "POT-Creation-Date: 2000-11-08 16:33+0100\n"
-"PO-Revision-Date: 2000-11-08 17:43+0100\n"
-"Last-Translator: Szabolcs Ban <shooby@gnome.hu>\n"
+"PO-Revision-Date: 2000-11-08 19:50+0100\n"
+"Last-Translator: Szabolcs BAN <shooby@gnome.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=8859-2\n"
@@ -143,7 +143,7 @@ msgstr "\nMegjegyzés:"
 
 #: addressbook/backend/ebook/e-card.c:3211
 msgid "\nUnique String: "
-msgstr ""
+msgstr "\nEgyedi szöveg:"
 
 #: addressbook/backend/ebook/e-card.c:3214
 msgid "\nPublic Key: "
@@ -266,11 +266,11 @@ msgstr "Nincs a gnome-pilot daemonra kapcsolódva"
 #: calendar/conduits/calendar/calendar-conduit-control-applet.c:291
 #: calendar/conduits/todo/todo-conduit-control-applet.c:290
 msgid "An error occured when trying to fetch\npilot list from the gnome-pilot daemon"
-msgstr ""
+msgstr "Hiba lépett fel a pilotok listájának\na gnome-pilot daemontól való lekérésekor "
 
 #: addressbook/conduit/address-conduit.c:193
 msgid "Cursor could not be loaded\n"
-msgstr ""
+msgstr "A kurzort nem tudom betölteni\n"
 
 #: addressbook/conduit/address-conduit.c:206
 msgid "EBook not loaded\n"
@@ -280,7 +280,7 @@ msgstr "Az EBook nincs betöltve\n"
 #: calendar/conduits/calendar/calendar-conduit.c:651
 #: calendar/conduits/todo/todo-conduit.c:524
 msgid "Could not start wombat server"
-msgstr ""
+msgstr "Nem tudom elindítani a wombat szervert"
 
 #: addressbook/conduit/address-conduit.c:491
 #: calendar/conduits/calendar/calendar-conduit.c:652
@@ -291,7 +291,7 @@ msgstr "Nem tudom a wombat-ot elindítani"
 #: addressbook/conduit/address-conduit.c:517
 #: addressbook/conduit/address-conduit.c:520
 msgid "Could not read pilot's Address application block"
-msgstr ""
+msgstr "Nem tudom a pilot Address application blokkját olvasni"
 
 #: addressbook/contact-editor/categories-strings.h:7
 msgid "categories"
@@ -655,7 +655,7 @@ msgstr "Haladó..."
 
 #: addressbook/gui/component/addressbook.c:533
 msgid "Any field contains"
-msgstr ""
+msgstr "Bármely mezõ tartalmazza"
 
 #: addressbook/gui/component/addressbook.c:534
 msgid "Name contains"
@@ -704,7 +704,7 @@ msgstr "Keresés..."
 
 #: addressbook/gui/component/select-names/select-names.glade.h:9
 msgid "Select name from List:"
-msgstr ""
+msgstr "Válassz egy nevet a listából:"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:10
 msgid "Message Recipients"
@@ -1033,17 +1033,17 @@ msgstr "Evolúció naptár csatorna"
 
 #: calendar/conduits/calendar/calendar-conduit-control-applet.c:130
 msgid "Configuration utility for the evolution calendar conduit.\n"
-msgstr ""
+msgstr "Az Evolúció naptár csatorna beállító eszköze.\n"
 
 #: calendar/conduits/calendar/calendar-conduit.c:607
 #: calendar/conduits/todo/todo-conduit.c:480
 msgid "Error while communicating with calendar server"
-msgstr ""
+msgstr "Hibás kommunikáció a naptár szerverrel"
 
 #: calendar/conduits/calendar/calendar-conduit.c:706
 #: calendar/conduits/calendar/calendar-conduit.c:709
 msgid "Could not read pilot's Calendar application block"
-msgstr ""
+msgstr "Nem tudom a pilot Calendar application blokkját olvasni"
 
 #: calendar/conduits/todo/todo-conduit-control-applet.c:127
 msgid "Evolution ToDo Conduit"
@@ -1051,12 +1051,12 @@ msgstr "Evolúció tennivaló csatorna"
 
 #: calendar/conduits/todo/todo-conduit-control-applet.c:130
 msgid "Configuration utility for the evolution todo conduit.\n"
-msgstr ""
+msgstr "Az Evolúció tennivaló csatorna beállító eszköze.\n"
 
 #: calendar/conduits/todo/todo-conduit.c:579
 #: calendar/conduits/todo/todo-conduit.c:582
 msgid "Could not read pilot's ToDo application block"
-msgstr ""
+msgstr "Nem tudom a pilot Calendar ToDo blokkját olvasni"
 
 #: calendar/gui/calendar-commands.c:60
 msgid "Outline:"
@@ -1206,14 +1206,12 @@ msgid "The geographical position must be entered in the format: \n\n45.436845,12
 msgstr "A földrajzi pozíció megadása a következõ formátumban lehetséges: \n\n45.436845,125.862501"
 
 #: calendar/gui/calendar-model.c:1023
-#, fuzzy
 msgid "The percent value must be between 0 and 100, inclusive"
-msgstr "A százalékos érték 0 és 100 között lehet csak"
+msgstr "A százalékos érték 0 és 100 között lehet, bezárólag"
 
 #: calendar/gui/calendar-model.c:1063
-#, fuzzy
 msgid "The priority must be between 1 and 9, inclusive"
-msgstr "A prioritás 0 és 10 között lehet"
+msgstr "A prioritás 1 és 9 között lehet, bezárólag"
 
 #: calendar/gui/control-factory.c:126
 msgid "The URI that the calendar will display"
@@ -1249,9 +1247,8 @@ msgid "Snooze time (minutes)"
 msgstr "Szundi idõ (percek)"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:7
-#, fuzzy
 msgid "Calendar Preferences"
-msgstr "Beállítások"
+msgstr "Naptár beállítások"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:8
 msgid "Work week"
@@ -1294,7 +1291,7 @@ msgstr "Va"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
 msgid "First day of week:"
-msgstr ""
+msgstr "A hét elsõ napja:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
 #: calendar/gui/event-editor.c:368
@@ -1342,27 +1339,24 @@ msgid "End of day:"
 msgstr "Nap vége:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:26
-#, fuzzy
 msgid "Display options"
-msgstr "_Megjelenít"
+msgstr "Megjelenítési beállítások"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:27
-#, fuzzy
 msgid "Time divisions:"
-msgstr "%02i perces osztás"
+msgstr "Idõosztások:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:28
 msgid "Time format:"
 msgstr "Idõ formátum:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:29
-#, fuzzy
 msgid "Show appointment end times"
-msgstr "Idõpont - %s"
+msgstr "Mutasd az események végpontját"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:30
 msgid "Compress weekends"
-msgstr ""
+msgstr "A hétvégék összenyomása"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:31
 msgid "12 hour (am/pm)"
@@ -1394,7 +1388,7 @@ msgstr "05 perc"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:38
 msgid "Date navigator options"
-msgstr ""
+msgstr "Dátum navigátor beállítások"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:39
 msgid "Show week numbers"
@@ -1429,18 +1423,16 @@ msgid "Highlight"
 msgstr "Kiemelés"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:46
-#, fuzzy
 msgid "Overdue Items"
-msgstr "Lejárt elemek kivilágítása"
+msgstr "Lejárt elemek"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:47
-#, fuzzy
 msgid "Items Due Today"
-msgstr "A ma lejáró elemek kivilágítása"
+msgstr "A ma lejáró elemek"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:48
 msgid "Items Not Yet Due"
-msgstr ""
+msgstr "Még nem lejárt elemek"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:49
 #: calendar/gui/prop.c:528
@@ -1451,19 +1443,19 @@ msgstr "Színek"
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:51
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:52
 msgid "Pick a color"
-msgstr ""
+msgstr "Válassz egy színt"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:53
 msgid "Items Not Yet Due:"
-msgstr ""
+msgstr "Még nem lejárt elemek:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:54
 msgid "Items Due Today:"
-msgstr ""
+msgstr "A ma lejáró elemek:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:55
 msgid "Overdue Items:"
-msgstr ""
+msgstr "Lejárt elemek:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:56
 msgid "TaskPad"
@@ -1475,32 +1467,28 @@ msgid "Defaults"
 msgstr "Alapértelmezett"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:58
-#, fuzzy
 msgid "Remind me of all appointments"
-msgstr "A találkozód figyelmeztetõ üzenete:"
+msgstr "Minden találkozóra figyelmeztess"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:59
 msgid "minutes before they occur."
-msgstr ""
+msgstr "perc bekövetkezésükig."
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:60
-#, fuzzy
 msgid "Visual Alarms"
-msgstr "Ébresztõk"
+msgstr "Vizuális figyelmeztetés"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:61
 msgid "Beep when alarm windows appear."
-msgstr ""
+msgstr "Sípolj a figyelmeztetõ ablak megjelenésekor."
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:62
-#, fuzzy
 msgid "Audio Alarms"
-msgstr "Ébresztõk"
+msgstr "Hang figyelmeztetés"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:63
-#, fuzzy
 msgid "Alarms timeout after"
-msgstr "Hang ébreszés idõzítése"
+msgstr ""
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:64
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:66
@@ -1573,7 +1561,7 @@ msgstr "Nem indult még el"
 
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:14
 msgid "In Progress"
-msgstr ""
+msgstr "Folyamatban"
 
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:15
 msgid "Completed"
@@ -1729,7 +1717,7 @@ msgstr "Megbeszélés szerkesztése"
 
 #: calendar/gui/event-editor.c:346
 msgid "on"
-msgstr ""
+msgstr "ekkor:"
 
 #: calendar/gui/event-editor.c:367
 #: calendar/gui/getdate.y:424
@@ -1738,18 +1726,16 @@ msgid "day"
 msgstr "nap"
 
 #: calendar/gui/event-editor.c:417
-#, fuzzy
 msgid "on the"
-msgstr "Hónap"
+msgstr "ezen:"
 
 #: calendar/gui/event-editor.c:424
 msgid "th"
 msgstr "."
 
 #: calendar/gui/event-editor.c:547
-#, fuzzy
 msgid "ocurrences"
-msgstr "megjelenés"
+msgstr "elõfordulások"
 
 #: calendar/gui/event-editor.c:2481
 #: calendar/gui/print.c:1085
@@ -1855,29 +1841,24 @@ msgid "Appointment Basics"
 msgstr "Megbeszélések:"
 
 #: calendar/gui/event-editor-dialog.glade.h:39
-#, fuzzy
 msgid "_Starting date:"
 msgstr "Ke_zdési dátum:"
 
 #: calendar/gui/event-editor-dialog.glade.h:40
-#, fuzzy
 msgid "Recurrence Rule"
 msgstr "Ismétlõdési szabály"
 
 #: calendar/gui/event-editor-dialog.glade.h:41
-#, fuzzy
 msgid "No recurrence"
-msgstr "Ismétlõdés"
+msgstr "Nincs ismétlõdés"
 
 #: calendar/gui/event-editor-dialog.glade.h:42
-#, fuzzy
 msgid "Simple recurrence"
-msgstr "Ismétlõdés"
+msgstr "Egyszerû ismétlõdés"
 
 #: calendar/gui/event-editor-dialog.glade.h:43
-#, fuzzy
 msgid "Custom recurrence"
-msgstr "Ismétlõdés"
+msgstr "Megadott ismétlõdés"
 
 #: calendar/gui/event-editor-dialog.glade.h:44
 msgid "Every"
@@ -1901,11 +1882,11 @@ msgstr "évben"
 
 #: calendar/gui/event-editor-dialog.glade.h:49
 msgid "for"
-msgstr ""
+msgstr "ezért:"
 
 #: calendar/gui/event-editor-dialog.glade.h:50
 msgid "until"
-msgstr ""
+msgstr "amíg"
 
 #: calendar/gui/event-editor-dialog.glade.h:51
 msgid "forever"
@@ -2889,7 +2870,7 @@ msgstr "Nem tudom a dialógust elkészíteni."
 #: camel/providers/mh/camel-mh-store.c:136
 #, c-format
 msgid "`%s' is not a directory."
-msgstr ""
+msgstr "'%s' nem könyvtár."
 
 #: camel/providers/mh/camel-mh-store.c:155
 #: camel/providers/mh/camel-mh-store.c:168
@@ -2915,7 +2896,7 @@ msgstr ""
 #: camel/providers/mh/camel-mh-store.c:214
 #, c-format
 msgid "Local mail directory %s"
-msgstr ""
+msgstr "%s helyi levélkönyvtár"
 
 #: camel/providers/nntp/camel-nntp-auth.c:41
 #, c-format
@@ -2970,7 +2951,7 @@ msgstr ""
 #: camel/providers/nntp/camel-nntp-store.c:288
 #, c-format
 msgid "USENET News via %s"
-msgstr ""
+msgstr "USENET News %s-rõl"
 
 #: camel/providers/nntp/camel-nntp-store.c:295
 msgid "This option will authenticate with the NNTP server using a plaintext password."
@@ -3094,9 +3075,8 @@ msgid "sendmail exited with status %d: mail not sent."
 msgstr ""
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:220
-#, fuzzy
 msgid "sendmail"
-msgstr "Letöltés"
+msgstr "sendmail"
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:222
 msgid "Mail delivery via the sendmail program"
@@ -3108,7 +3088,7 @@ msgstr ""
 
 #: camel/providers/vee/camel-vee-provider.c:30
 msgid "Virtual folder email provider"
-msgstr ""
+msgstr "Virtuális mappa email szolgáltató"
 
 #: camel/providers/vee/camel-vee-provider.c:32
 msgid "For reading mail as a query of another set of folders"
@@ -3140,9 +3120,8 @@ msgstr "%.1fG"
 
 #: composer/e-msg-composer-attachment-bar.c:301
 #: mail/mail-display.c:117
-#, fuzzy
 msgid "attachment"
-msgstr "Csatolás hozzáadása"
+msgstr "csatolás"
 
 #: composer/e-msg-composer-attachment-bar.c:397
 msgid "Attach a file"
@@ -3408,9 +3387,8 @@ msgid "Add action"
 msgstr "Mûvelet hozzáadása"
 
 #: filter/filter-filter.c:420
-#, fuzzy
 msgid "Remove action"
-msgstr "Törlés"
+msgstr ""
 
 #: filter/filter-folder.c:143
 msgid "Oops, you forgot to choose a folder.\nPlease go back and specify a valid folder to deliver mail to."
@@ -3747,19 +3725,19 @@ msgstr "A téma nem tartalmaz"
 
 #: mail/folder-browser.c:451
 msgid "VFolder on Subject"
-msgstr ""
+msgstr "VMappa a témára"
 
 #: mail/folder-browser.c:452
 msgid "VFolder on Sender"
-msgstr ""
+msgstr "VMappa a feladóra"
 
 #: mail/folder-browser.c:453
 msgid "VFolder on Recipients"
-msgstr ""
+msgstr "VMappa a címzettekre"
 
 #: mail/folder-browser.c:455
 msgid "Filter on Subject"
-msgstr ""
+msgstr "Szûrõ a témára"
 
 #: mail/folder-browser.c:456
 msgid "Filter on Sender"
@@ -3767,12 +3745,12 @@ msgstr "Szûrõ a feladón"
 
 #: mail/folder-browser.c:457
 msgid "Filter on Recipients"
-msgstr ""
+msgstr "Szûrõ a címzettekre"
 
 #: mail/folder-browser.c:458
 #: mail/folder-browser.c:541
 msgid "Filter on Mailing List"
-msgstr ""
+msgstr "Szûrõ a levelezési listára"
 
 #: mail/folder-browser.c:462
 msgid "Open"
@@ -3799,14 +3777,12 @@ msgid "Forward"
 msgstr "Továbbít"
 
 #: mail/folder-browser.c:471
-#, fuzzy
 msgid "Mark as Read"
-msgstr "FIXME: Ne_m olvasottnak jelöl"
+msgstr "Jelölés olvasottnak"
 
 #: mail/folder-browser.c:472
-#, fuzzy
 msgid "Mark as Unread"
-msgstr "FIXME: Ne_m olvasottnak jelöl"
+msgstr "Jelölés nem olvasottnak"
 
 #: mail/folder-browser.c:474
 msgid "Move to Folder..."
@@ -3826,12 +3802,12 @@ msgstr "Szûrõk alkalmazása"
 
 #: mail/folder-browser.c:483
 msgid "Create Rule From Message"
-msgstr ""
+msgstr "A levélbõl gyárts szabályt"
 
 #: mail/folder-browser.c:543
 #, c-format
 msgid "Filter on Mailing List (%s)"
-msgstr ""
+msgstr "Szûrõ a levelezõ listára (%s)"
 
 #: mail/mail-autofilter.c:71
 #, c-format
@@ -3878,7 +3854,7 @@ msgstr ""
 
 #: mail/mail-callbacks.c:222
 msgid "You have no Outbox configured"
-msgstr ""
+msgstr "Nincs kimenõ mappád beállítva"
 
 #: mail/mail-callbacks.c:246
 msgid "This message has no subject.\nReally send?"
@@ -3959,7 +3935,7 @@ msgstr "Authentikáció:"
 
 #: mail/mail-config-gui.c:940
 msgid "Detect supported types..."
-msgstr ""
+msgstr "Támogatott típusok detektálása..."
 
 #: mail/mail-config-gui.c:967
 #, fuzzy
@@ -3968,12 +3944,11 @@ msgstr "Kilépés a levélszerkesztõbõl"
 
 #: mail/mail-config-gui.c:979
 msgid "Test Settings"
-msgstr ""
+msgstr "Beállítások tesztelése"
 
 #: mail/mail-config-gui.c:1106
-#, fuzzy
 msgid "Mail source type:"
-msgstr "Levél forrás"
+msgstr "Levél forrás típusa:"
 
 #: mail/mail-config-gui.c:1111
 #: mail/mail-config-gui.c:1159
@@ -4025,7 +4000,7 @@ msgstr "Hírcsoport-szerverek"
 #: mail/mail-config-gui.c:2232
 #, c-format
 msgid "Testing \"%s\""
-msgstr ""
+msgstr "'%s' tesztelése"
 
 #: mail/mail-config-gui.c:2234
 #, c-format
@@ -4207,9 +4182,9 @@ msgid "Hide"
 msgstr "Rejtés"
 
 #: mail/mail-format.c:478
-#, fuzzy, c-format
+#, c-format
 msgid "%s attachment"
-msgstr "Csatolás hozzáadása"
+msgstr "%s csatolás"
 
 #: mail/mail-format.c:601
 msgid "Reply-To:"
@@ -4328,18 +4303,18 @@ msgid "Filter email on demand"
 msgstr ""
 
 #: mail/mail-ops.c:500
-#, fuzzy, c-format
+#, c-format
 msgid "Sending \"%s\""
-msgstr "Fejlécek"
+msgstr "'%s' küldés alatt"
 
 #: mail/mail-ops.c:505
 msgid "Sending a message without a subject"
 msgstr ""
 
 #: mail/mail-ops.c:508
-#, fuzzy, c-format
+#, c-format
 msgid "Send \"%s\""
-msgstr "Másodpercek"
+msgstr "'%s' küldése"
 
 #: mail/mail-ops.c:511
 #, fuzzy
@@ -4396,14 +4371,12 @@ msgid "Copy messages from \"%s\" into \"%s\""
 msgstr ""
 
 #: mail/mail-ops.c:1001
-#, fuzzy
 msgid "Moving"
-msgstr "Hé"
+msgstr "Mozgatás alatt"
 
 #: mail/mail-ops.c:1004
-#, fuzzy
 msgid "Copying"
-msgstr "Másol"
+msgstr "Másolás alatt"
 
 #: mail/mail-ops.c:1024
 #, c-format
@@ -4544,12 +4517,12 @@ msgstr ""
 #: mail/mail-ops.c:2146
 #, c-format
 msgid "Loading %s Folder"
-msgstr ""
+msgstr "%s mappa töltõdik"
 
 #: mail/mail-ops.c:2148
 #, c-format
 msgid "Load %s Folder"
-msgstr ""
+msgstr "%s mappa betöltése"
 
 #: mail/mail-ops.c:2215
 #, c-format
@@ -4636,23 +4609,22 @@ msgid "Saving changes to %s"
 msgstr ""
 
 #: mail/mail-tools.c:367
-#, fuzzy, c-format
+#, c-format
 msgid "[%s] (forwarded message)"
-msgstr "A levél továbbítása"
+msgstr "[%s] (forwarded message)"
 
 #: mail/mail-tools.c:377
 msgid "Fwd: (no subject)"
-msgstr ""
+msgstr "Fwd: (no subject)"
 
 #: mail/mail-tools.c:416
-#, fuzzy, c-format
+#, c-format
 msgid "Forwarded message - %s"
-msgstr "A levél továbbítása"
+msgstr "Forwarded message - %s"
 
 #: mail/mail-tools.c:418
-#, fuzzy
 msgid "Forwarded message (no subject)"
-msgstr "A levél továbbítása"
+msgstr "Forwarded message (no subject)"
 
 #: mail/mail-tools.c:521
 #, c-format
@@ -4704,14 +4676,12 @@ msgid "Rebuild message view"
 msgstr ""
 
 #: mail/message-thread.c:583
-#, fuzzy
 msgid "Threading message list"
-msgstr "_Témaszerinti levéllista"
+msgstr "Levél lista rendezése téma szerint"
 
 #: mail/message-thread.c:585
-#, fuzzy
 msgid "Thread message list"
-msgstr "_Témaszerinti levéllista"
+msgstr "Témaszerinti levél lista"
 
 #: mail/subscribe-dialog.c:139
 msgid "Display folders starting with:"
@@ -4887,7 +4857,6 @@ msgid "Don't remove"
 msgstr ""
 
 #: shell/e-shortcuts-view.c:250
-#, fuzzy
 msgid "_Small Icons"
 msgstr "_Kis ikonok"
 
@@ -4896,7 +4865,6 @@ msgid "Show the shortcuts as small icons"
 msgstr "Kis ikonok mutatása az elemeken"
 
 #: shell/e-shortcuts-view.c:253
-#, fuzzy
 msgid "_Large Icons"
 msgstr "_Nagy ikonok"
 
@@ -4905,9 +4873,8 @@ msgid "Show the shortcuts as large icons"
 msgstr "Nagy ikonok mutatása az elemeken"
 
 #: shell/e-shortcuts-view.c:265
-#, fuzzy
 msgid "_New Group..."
-msgstr "Új..."
+msgstr "Ú_j csoport..."
 
 #: shell/e-shortcuts-view.c:266
 #, fuzzy
