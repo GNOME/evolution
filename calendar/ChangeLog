@@ -1,3 +1,22 @@
+2003-02-20  JP Rosevear  <jpr@ximian.com>
+
+	* gui/e-itip-control.c (class_init): override finalize, not
+	destroy
+	(start_calendar_server): take itip as a param and gtk_main_quit if
+	it gets destroyed while we are waiting for the cal client to load
+	(start_default_server): ditto
+	(get_servers): take itip as a param and don't load if we've been
+	destroyed, check for an except when retrieving the folder list
+	(init): ref the html control
+	(finalize): clean up, unref html control
+	(write_html): if the html widget has been destroyed, don't write
+	anything out
+	(show_current_todo): pass extra param
+	(show_current): ref/unref the itip control to avoid finalization while
+	we are working, pass extra param
+	(button_selected_cb): pass extra param
+	(object_requested_cb): ditto
+
 2003-02-18  JP Rosevear  <jpr@ximian.com>
 
 	Fixes #38218
