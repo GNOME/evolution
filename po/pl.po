@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-08-17 08:39+0200\n"
+"POT-Creation-Date: 2004-08-20 16:55+0200\n"
 "PO-Revision-Date: 2004-01-28 14:18+0100\n"
 "Last-Translator: GNOME PL Team <translators@gnome.pl>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
@@ -265,7 +265,7 @@ msgstr "Konfiguracja automatycznego uzupełniania"
 
 #. Create the contacts group
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:6
-#: addressbook/gui/component/addressbook-view.c:1104
+#: addressbook/gui/component/addressbook-view.c:1142
 #: calendar/gui/migration.c:377
 msgid "Contacts"
 msgstr "Kontakty"
@@ -327,7 +327,7 @@ msgid "Create a new contact list"
 msgstr "Tworzy nową listę kontaktów"
 
 #: addressbook/gui/component/addressbook-component.c:109
-#: addressbook/gui/component/addressbook-view.c:773
+#: addressbook/gui/component/addressbook-view.c:811
 msgid "New Address Book"
 msgstr "Nowa książka adresowa"
 
@@ -431,13 +431,13 @@ msgstr ""
 "Zachowaj cierpliwość podczas gdy Evolution będzie migrował dane "
 "synchronizacji Pilota..."
 
-#: addressbook/gui/component/addressbook-view.c:671
+#: addressbook/gui/component/addressbook-view.c:711
 #, c-format
 msgid "Address book '%s' will be removed. Are you sure you want to continue?"
 msgstr ""
 "Książka adresowa \"%s\" zostanie usunięta. Czy na pewno chcesz kontynuować?"
 
-#: addressbook/gui/component/addressbook-view.c:774
+#: addressbook/gui/component/addressbook-view.c:812
 #: addressbook/gui/widgets/e-addressbook-view.c:1124
 #: calendar/gui/calendar-component.c:430 calendar/gui/tasks-component.c:376
 #: mail/em-filter-i18n.h:11 ui/evolution-addressbook.xml.h:8
@@ -448,7 +448,7 @@ msgstr ""
 msgid "Delete"
 msgstr "Usuń"
 
-#: addressbook/gui/component/addressbook-view.c:775
+#: addressbook/gui/component/addressbook-view.c:813
 #: calendar/gui/calendar-component.c:431 calendar/gui/tasks-component.c:378
 msgid "Properties..."
 msgstr "Właściwości..."
@@ -13474,7 +13474,7 @@ msgstr "Zmiana nazwy folderu \"%s\" na:"
 
 #: mail/em-folder-tree.c:2528
 msgid "Rename Folder"
-msgstr "Zmień nazwę folderu"
+msgstr "Zmiana nazwy folderu"
 
 #: mail/em-folder-tree.c:2603 ui/evolution-addressbook.xml.h:44
 #: ui/evolution-mail-global.xml.h:18 ui/evolution-mail-messagedisplay.xml.h:8
@@ -16612,7 +16612,7 @@ msgstr "%d %b %k:%M"
 msgid "%b %d %Y"
 msgstr "%d %b %Y"
 
-#: mail/message-list.c:3376
+#: mail/message-list.c:3380
 msgid "Generating message list"
 msgstr "Aktualizowanie zestawienia listów"
 
