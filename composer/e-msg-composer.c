@@ -719,13 +719,6 @@ prepare_engine (EMsgComposer *composer)
 	CORBA_exception_free (&ev);
 }
 
-static const gchar *
-get_sig_file (EMsgComposer *composer)
-{
-
-	return NULL;
-}
-
 static gchar *
 get_signature_html (EMsgComposer *composer)
 {
@@ -2541,7 +2534,7 @@ e_msg_composer_show_attachments (EMsgComposer *composer,
 {
 	g_return_if_fail (composer != NULL);
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
-	
+
 	show_attachments (composer, show);
 }
 

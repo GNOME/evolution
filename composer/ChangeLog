@@ -1,6 +1,18 @@
 2001-06-28  Radek Doulik  <rodo@ximian.com>
 
+	* e-msg-composer.c: removed obsolete e_msg_composer_get_sig_file
+
+	* e-msg-composer.h: removed sig_file field from EMsgComposer
+
 	* e-msg-composer.c (e_msg_composer_get_sig_file_content): exported
+	(get_file_content): make it const safe
+	(e_msg_composer_get_sig_file_content): refactored, don't try to be
+	clever about signature filename, as it's exact now
+	(get_signature_html): use has_html_signature flag
+	(e_msg_composer_show_sig_file): renamed from
+	e_msg_composer_set_sig_file, removed sig_file parameter as it's
+	obsolete now
+	(e_msg_composer_new_with_sig_file): removed obsolete parameters
 
 2001-06-27  Larry Ewing  <lewing@ximian.com>
 
