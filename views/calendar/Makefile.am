@@ -1,4 +1,4 @@
-defaultcalendardir = $(datadir)/evolution/views/calendar
+defaultcalendardir = $(datadir)/evolution-$(BASE_VERSION)/views/calendar
 
 defaultcalendar_DATA = galview.xml
 
