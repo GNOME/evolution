@@ -1,23 +1,18 @@
  <chapter id="usage-exchange">
     <title>The Ximian Connector for Microsoft Exchange</title>
-    <para>
-    The Ximian Connector for Microsoft Exchange allows Ximian
+    <para>The Ximian Connector for Microsoft Exchange allows Ximian
     Evolution clients to access accounts on Microsoft Exchange 2000
     servers. It is available through Ximian Red Carpet in its own
-    channel, but cannot be used without a license file.  The license
-    file may be purchased from the Ximian online store at <ulink
-    url="http://store.ximian.com">store.ximian.com</ulink>. Unlike the
-    regular Ximian Evolution client, the Ximian Connector for
-    Microsoft Exchange is proprietary software and source code is not
-    available.
-    </para>
+    channel. Like Ximian Evolution, it is free software and licensed under the
+    GPL.
+  </para>
    
   <warning id="licensing">
     <title>Requirements</title>
     <para>
-      Ximian Connector works only with Exchange 2000, and requires
+      Ximian Connector works only with Exchange 2000 and later, and requires
       that Outlook Web Access be enabled. Each user will need a
-      valid Microsoft Exchange 2000 server account, including license.
+      valid Microsoft Exchange server account, including license.
   </para>
   </warning>
 
@@ -195,20 +190,7 @@ There are, however, some features which are not available:
        the Connector by downloading the individual packages from
        ftp.ximian.com if you wish.
    </para>
-   <para>
-       Once you have installed the software, you will also need to
-       install a license file.  The license file is the verification
-       that you have paid for a license to use the Ximian
-       Connector. You can get the license file from the the Ximian
-       online store at <ulink
-       url="http://store.ximian.com">store.ximian.com</ulink>.  You
-       will need a browser with strong (128-bit or greater) encryption
-       to access the store. When you purchase a Ximian Connector
-       license, the store will mail you the license file with
-       instructions for installation. Once installed, the license file
-       unlocks the Ximian Connector functionality and you may connect
-       to an Exchange server.
-    </para>
+ 
  </sect1>
 
   <sect1 id="exchange-configure">
@@ -266,30 +248,13 @@ There are, however, some features which are not available:
         the standard account tool described in <xref
         linkend="config-client" /> below.
       </para>
-      <para>
-        The simple assistant works in the following cases:
-        <itemizedlist>
-          <listitem>
-            <para>
-              If you receive your license key in Ximian Evolution, the
-              simple assistant will start when you click the
-              license file attachment and choose <guilabel>Open in
-            Ximian Connector</guilabel>.
-          </para>
-        </listitem>
-
-        <listitem>
-          <para>
-            If you have no accounts configured, and your system
-            administrator has preinstalled a license key file,            
+	<para>
+            If you have no accounts configured, 
             the simple assistant will start when you start Ximian
             Evolution. It asks only for the name of your Outlook
             Web Access server, and your username and password. Ximian
             Connector will determine the remaining information on its own.
           </para>
-        </listitem>
-      </itemizedlist>
-    </para>
       <para>
         If the simple account tool does not run automatically, create
         an account as described below.
@@ -314,29 +279,6 @@ There are, however, some features which are not available:
           sure about any of the information you need, just ask your
           system administrator.
         </para>
-
-     <note id="license-file-issues">
-       <title>Installing the License File</title>
-       <para>
-         Your purchase email will contain instructions for installing
-         the license file: it may be opened with Ximian Evolution and
-         installed automatically that way, or placed in the
-         <systemitem>evolution</systemitem> directory in your home
-         directory.
-       </para>
-       <para>
-         Be aware that the <systemitem>evolution</systemitem> directory in
-         your home directory won't exist if you haven't already run 
-         Ximian Evolution. If you have not
-         done so already, start Ximian
-         Evolution and configure an account as described
-         below.  Then, quit the application and place the
-         <systemitem>connector-key.txt</systemitem> file in your
-         <systemitem>evolution</systemitem> directory. When you start
-         Evolution again, the license will
-         be verified and Ximian Connector will work properly.
-       </para>
-     </note>
 
 
 	<variablelist>

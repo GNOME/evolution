@@ -179,7 +179,7 @@
 		<listitem>
 		  <para>
 		    Microsoft Exchange: Available only if you have
-		    purchased the Ximian Connector for Microsoft
+		    installed the Ximian Connector for Microsoft
 		    Exchange, this will allow you to connect to a
 		    Microsoft Exchange 2000 or 2003 server, which
                     stores email, calendar, and contact information on
@@ -297,7 +297,7 @@
       <tip id="exchange-info">
 	<title>Use Ximian Evolution with Microsoft Exchange</title>
          <para>
-	   If you have purchased Ximian Connector for Microsoft
+	   If you have installed Ximian Connector for Microsoft
 	   Exchange, you can access Microsoft Exchange 2000 servers
 	   natively.  If you do not have the Connector, or if you use
 	   an older version of Microsoft Exchange, talk to your system
@@ -474,13 +474,11 @@
 		</listitem>
 
 		<listitem>
-		  <para>
-		    Microsoft Exchange: Sends mail through a Microsoft
+		  <para>Microsoft Exchange: Sends mail through a Microsoft
 		    Exchange server using the Microsoft Exchange 2000
 		    protocol. Available only if you have are using the
-		    Ximian Connector for Microsoft Exchange. You must
-		    have a valid license key purchased from <ulink
-		    url="http://store.ximian.com">store.ximian.com</ulink>.
+		    Ximian Connector for Microsoft Exchange, which is installed
+		    separately.
 		  </para>
 		</listitem>
 
