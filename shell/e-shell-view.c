@@ -69,6 +69,12 @@
 
 static BonoboWindowClass *parent_class = NULL;
 
+struct _View {
+	char *uri;
+	GtkWidget *control;
+};
+typedef struct _View View;
+
 struct _EShellViewPrivate {
 	/* The shell.  */
 	EShell *shell;
@@ -122,7 +128,7 @@ struct _EShellViewPrivate {
 	GtkWidget *folder_bar_popup;
 
 	/* The views we have already open.  */
-	GHashTable *uri_to_control;
+	GHashTable *uri_to_view;
 
 	/* Position of the handles in the paneds, to be restored when we show elements
            after hiding them.  */
@@ -172,6 +178,29 @@ static const char *get_storage_set_path_from_uri  (const char *uri);
 
 /* Boo.  */
 static void new_folder_cb (EStorageSet *storage_set, const char *path, void *data);
+
+
+/* View handling.  */
+
+static View *
+view_new (const char *uri,
+	  GtkWidget *control)
+{
+	View *new;
+
+	new = g_new (View, 1);
+	new->uri     = g_strdup (uri);
+	new->control = control;
+
+	return new;
+}
+
+static void
+view_destroy (View *view)
+{
+	g_free (view->uri);
+	g_free (view);
+}
 
 
 /* Utility functions.  */
@@ -961,16 +990,17 @@ setup_widgets (EShellView *shell_view)
 /* GtkObject methods.  */
 
 static void
-hash_forall_destroy_control (void *name,
-			     void *value,
-			     void *data)
+hash_forall_destroy_view (void *name,
+			  void *value,
+			  void *data)
 {
-	BonoboWidget *bonobo_widget;
+	View *view;
 
-	bonobo_widget = BONOBO_WIDGET (value);
-	gtk_widget_destroy (GTK_WIDGET (bonobo_widget));
+	view = (View *) value;
 
-	g_free (name);
+	gtk_widget_destroy (view->control);
+
+	view_destroy (view);
 }
 
 static void
@@ -1001,8 +1031,8 @@ destroy (GtkObject *object)
 		gtk_signal_disconnect (GTK_OBJECT (socket_widget), destroy_connection_id);
 	}
 
-	g_hash_table_foreach (priv->uri_to_control, hash_forall_destroy_control, NULL);
-	g_hash_table_destroy (priv->uri_to_control);
+	g_hash_table_foreach (priv->uri_to_view, hash_forall_destroy_view, NULL);
+	g_hash_table_destroy (priv->uri_to_view);
 
 	bonobo_object_unref (BONOBO_OBJECT (priv->ui_component));
 
@@ -1097,7 +1127,7 @@ init (EShellView *shell_view)
 	priv->hpaned_position         = 0;
 	priv->view_hpaned_position    = 0;
 
-	priv->uri_to_control          = g_hash_table_new (g_str_hash, g_str_equal);
+	priv->uri_to_view             = g_hash_table_new (g_str_hash, g_str_equal);
 
 	priv->sockets		      = NULL;
 
@@ -1432,6 +1462,9 @@ update_for_current_uri (EShellView *shell_view)
 
 	path = get_storage_set_path_from_uri (priv->uri);
 
+	title = NULL;
+	type = NULL;
+
 	if (path == NULL) {
 		folder = NULL;
 	} else {
@@ -1444,10 +1477,7 @@ update_for_current_uri (EShellView *shell_view)
 			EStorage *storage;
 
 			storage = e_storage_set_get_storage (e_shell_get_storage_set (priv->shell), path + 1);
-			if (storage == NULL) {
-				title = NULL;
-				type = NULL;
-			} else {
+			if (storage != NULL) {
 				title = e_storage_get_display_name (storage);
 				type = e_storage_get_toplevel_node_type (storage);
 			}
@@ -1628,7 +1658,7 @@ socket_destroy_cb (GtkWidget *socket_widget, gpointer data)
 	EShellView *shell_view;
 	EShellViewPrivate *priv;
 	EFolder *folder;
-	GtkWidget *control;
+	View *view;
 	const char *uri;
 	gboolean viewing_closed_uri;
 	char *copy_of_uri;
@@ -1644,8 +1674,9 @@ socket_destroy_cb (GtkWidget *socket_widget, gpointer data)
 	/* Strdup here as the string will be freed when the socket is destroyed. */
  	copy_of_uri = g_strdup (uri);
 
-	control = g_hash_table_lookup (priv->uri_to_control, uri);
-	if (control == NULL) {
+	view = g_hash_table_lookup (priv->uri_to_view, uri);
+
+	if (view == NULL) {
 		g_warning ("What?! Destroyed socket for non-existing URI?  -- %s", uri);
 		g_free (copy_of_uri);
 		return;
@@ -1653,8 +1684,10 @@ socket_destroy_cb (GtkWidget *socket_widget, gpointer data)
 
 	priv->sockets = g_list_remove (priv->sockets, socket_widget);
 
-	gtk_widget_destroy (control);
-	g_hash_table_remove (priv->uri_to_control, uri);
+	gtk_widget_destroy (view->control);
+
+	view_destroy (view);
+	g_hash_table_remove (priv->uri_to_view, uri);
 
 	path = get_storage_set_path_from_uri (uri);
 	folder = e_storage_set_get_folder (e_shell_get_storage_set (priv->shell), path);
@@ -1739,9 +1772,9 @@ get_type_for_folder (EShellView *shell_view,
 }
 
 /* Create a new view for @uri with @control.  It assumes a view for @uri does not exist yet.  */
-static GtkWidget *
-get_control_for_uri (EShellView *shell_view,
-		     const char *uri)
+static View *
+get_view_for_uri (EShellView *shell_view,
+		  const char *uri)
 {
 	EShellViewPrivate *priv;
 	CORBA_Environment ev;
@@ -1815,43 +1848,44 @@ get_control_for_uri (EShellView *shell_view,
 
 	setup_corba_interface (shell_view, control);
 
-	return control;
+	return view_new (uri, control);
 }
 
 static gboolean
 show_existing_view (EShellView *shell_view,
 		    const char *uri,
-		    GtkWidget *control)
+		    View *view)
 {
 	EShellViewPrivate *priv;
 	int notebook_page;
 
 	priv = shell_view->priv;
 
-	notebook_page = gtk_notebook_page_num (GTK_NOTEBOOK (priv->notebook), control);
+	notebook_page = gtk_notebook_page_num (GTK_NOTEBOOK (priv->notebook), view->control);
 	g_assert (notebook_page != -1);
 
 	/* A BonoboWidget can be a "zombie" in the sense that its actual
 	   control is dead; if it's zombie, we have to recreate it.  */
-	if (bonobo_widget_is_dead (BONOBO_WIDGET (control))) {
+	if (bonobo_widget_is_dead (BONOBO_WIDGET (view->control))) {
 		GtkWidget *parent;
 
-		parent = control->parent;
+		parent = view->control->parent;
 
 		/* Out with the old.  */
-		gtk_container_remove (GTK_CONTAINER (parent), control);
-		g_hash_table_remove (priv->uri_to_control, uri);
+		gtk_container_remove (GTK_CONTAINER (parent), view->control);
+		view_destroy (view);
+		g_hash_table_remove (priv->uri_to_view, uri);
 
 		/* In with the new.  */
-		control = get_control_for_uri (shell_view, uri);
-		if (control == NULL)
+		view = get_view_for_uri (shell_view, uri);
+		if (view == NULL)
 			return FALSE;
 
-		gtk_container_add (GTK_CONTAINER (parent), control);
-		g_hash_table_insert (priv->uri_to_control, g_strdup (uri), control);
+		gtk_container_add (GTK_CONTAINER (parent), view->control);
+		g_hash_table_insert (priv->uri_to_view, g_strdup (uri), view);
 
 		/* Show.  */
-		gtk_widget_show (control);
+		gtk_widget_show (view->control);
 	}
 
 	g_free (priv->uri);
@@ -1866,28 +1900,28 @@ static gboolean
 create_new_view_for_uri (EShellView *shell_view,
 			 const char *uri)
 {
-	GtkWidget *control;
+	View *view;
 	EShellViewPrivate *priv;
 	int page_num;
 
 	priv = shell_view->priv;
 
-	control = get_control_for_uri (shell_view, uri);
-	if (control == NULL)
+	view = get_view_for_uri (shell_view, uri);
+	if (view == NULL)
 		return FALSE;
 
 	g_free (priv->uri);
 	priv->uri = g_strdup (uri);
 
-	gtk_widget_show (control);
+	gtk_widget_show (view->control);
 
-	gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook), control, NULL);
+	gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook), view->control, NULL);
 
-	page_num = gtk_notebook_page_num (GTK_NOTEBOOK (priv->notebook), control);
+	page_num = gtk_notebook_page_num (GTK_NOTEBOOK (priv->notebook), view->control);
 	g_assert (page_num != -1);
 	set_current_notebook_page (shell_view, page_num);
 
-	g_hash_table_insert (priv->uri_to_control, g_strdup (uri), control);
+	g_hash_table_insert (priv->uri_to_view, g_strdup (uri), view);
 
 	return TRUE;
 }
@@ -1897,7 +1931,7 @@ e_shell_view_display_uri (EShellView *shell_view,
 			  const char *uri)
 {
 	EShellViewPrivate *priv;
-	GtkWidget *control;
+	View *view;
 	gboolean retval;
 
 	g_return_val_if_fail (shell_view != NULL, FALSE);
@@ -1925,11 +1959,10 @@ e_shell_view_display_uri (EShellView *shell_view,
 		goto end;
 	}
 
-	control = g_hash_table_lookup (priv->uri_to_control, uri);
-	if (control != NULL) {
-		g_assert (GTK_IS_WIDGET (control));
-		show_existing_view (shell_view, uri, control);
-	} else if (!create_new_view_for_uri (shell_view, uri)) {
+	view = g_hash_table_lookup (priv->uri_to_view, uri);
+	if (view != NULL) {
+		show_existing_view (shell_view, uri, view);
+	} else if (! create_new_view_for_uri (shell_view, uri)) {
 		cleanup_delayed_selection (shell_view);
 		priv->delayed_selection = g_strdup (uri);
 		gtk_signal_connect_after (GTK_OBJECT (e_shell_get_storage_set (priv->shell)), "new_folder",
@@ -1961,7 +1994,7 @@ e_shell_view_remove_control_for_uri (EShellView *shell_view,
 				     const char *uri)
 {
 	EShellViewPrivate *priv;
-	GtkWidget *control;
+	View *view;
 	GtkWidget *socket;
 	int page_num;
 
@@ -1971,26 +2004,26 @@ e_shell_view_remove_control_for_uri (EShellView *shell_view,
 	priv = shell_view->priv;
 
 	/* Get the control, remove it from our hash of controls */
-	control = g_hash_table_lookup (priv->uri_to_control, uri);
-	if (control != NULL)
-		g_hash_table_remove (priv->uri_to_control, uri);
-	else
+	view = g_hash_table_lookup (priv->uri_to_view, uri);
+	if (view != NULL) {
+		view_destroy (view);
+		g_hash_table_remove (priv->uri_to_view, uri);
+	} else {
 		return FALSE;
+	}
 
 	/* Get the socket, remove it from our list of sockets */
-	socket = find_socket (GTK_CONTAINER (control));
+	socket = find_socket (GTK_CONTAINER (view->control));
 	priv->sockets = g_list_remove (priv->sockets, socket);
 
 	/* Remove the notebook page */
-	page_num = gtk_notebook_page_num (GTK_NOTEBOOK (priv->notebook),
-					  control);
-	gtk_notebook_remove_page (GTK_NOTEBOOK (priv->notebook),
-				  page_num);
+	page_num = gtk_notebook_page_num (GTK_NOTEBOOK (priv->notebook), view->control);
+	gtk_notebook_remove_page (GTK_NOTEBOOK (priv->notebook), page_num);
 
 	/* Destroy things, socket first because otherwise shell will
            think the control crashed */
 	gtk_widget_destroy (socket);
-	gtk_widget_destroy (control);
+	gtk_widget_destroy (view->control);
 
 	return TRUE;
 }

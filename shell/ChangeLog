@@ -1,5 +1,23 @@
 2001-08-24  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-view.c: New struct `View'.  Replace `uri_to_control' in
+	`EShellViewPrivate' with `uri_to_view'.
+	(view_new): New.
+	(hash_forall_destroy_view): New, replacing
+	`hash_forall_destroy_control'.
+	(destroy): Updated to match the uri_to_control -> uri_to_view
+	changes.
+	(socket_destroy_cb): Likewise.
+	(get_view_for_uri): Renamed from `get_control_for_uri'.  Return a
+	View instead of a GtkWidget.
+	(show_existing_view): Updated to use `get_view_from_uri', get a
+	@view instead of a @control.
+	(e_shell_view_display_uri): Updated to use `uri_to_view' instead
+	of `uri_to_control'.
+	(e_shell_view_remove_control_for_uri): Likewise.
+
+2001-08-24  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-view.c (update_folder_title_bar): Changed to get a
 	@title and a @type.
 	(update_for_current_uri): Updated accordingly.
