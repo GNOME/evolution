@@ -1,3 +1,11 @@
+2002-01-18  Christopher James Lahey  <clahey@ximian.com>
+
+	* gui/contact-editor/e-contact-editor-address.c
+	(fill_in_countries), gui/contact-editor/fulladdr.glade: Sort
+	country list.  Country list moves from fulladdr.glade to
+	e-contact-editor-address.c, but only a few country names have
+	actually changed.  Fixes Ximian bug #16545.
+
 2001-12-20  Zbigniew Chyla  <cyba@gnome.pl>
 
 	Fixes #17725
