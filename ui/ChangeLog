@@ -1,3 +1,7 @@
+2001-10-20  Larry Ewing  <lewing@ximian.com>
+
+	* evolution-mail-message.xml: add text size menu.
+
 2001-10-01  Radek Doulik  <rodo@ximian.com>
 
 	* evolution-message-composer.xml: removed hidden Debug submenu,
