@@ -1,5 +1,9 @@
 2000-10-19  Dan Winship  <danw@helixcode.com>
 
+	* providers/imap/camel-imap-utils.c (imap_parse_list_response):
+	Fix a bug with "INBOX" (or anything else with NIL hierarchy
+	separator) as the namespace.
+
 	* providers/imap/camel-imap-folder.c (imap_refresh_info): Emit
 	message_changed and folder_changed as appropriate.
 
