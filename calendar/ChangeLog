@@ -1,3 +1,16 @@
+2001-02-28  Federico Mena Quintero  <federico@ximian.com>
+
+	* gui/event-editor.c (recurrence_exception_select_row_cb): New
+	function to set the EDateEdit's value when a row is selected in
+	the exception date list.  Fixes bug #1638.
+	(append_exception): Set the value as well. Block/unblock signals
+	from the clist as appropriate.  Gotta love non-model/view widgets.
+	(recurrence_exception_delete_cb): Be more paranoid about the
+	contents of the list row's data.
+	(recur_to_comp_object): Likewise.
+	(fill_exception_widgets): Select the first row after we are done
+	appending the exception dates.
+
 2001-02-26  Federico Mena Quintero  <federico@ximian.com>
 
 	* gui/alarm-notify/Makefile.am (libalarm_a_SOURCES): Create a

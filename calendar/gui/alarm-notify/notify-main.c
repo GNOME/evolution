@@ -55,7 +55,6 @@ alarm_notify_factory_fn (BonoboGenericFactory *factory, void *data)
 int
 main (int argc, char **argv)
 {
-	
 	bindtextdomain (PACKAGE, EVOLUTION_LOCALEDIR);
 	textdomain (PACKAGE);
 

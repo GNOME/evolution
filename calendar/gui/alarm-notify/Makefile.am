@@ -11,7 +11,7 @@ idl_flags = `$(GNOME_CONFIG) --cflags idl` -I $(datadir)/idl
 $(CORBA_GENERATED): $(idls)
 	$(ORBIT_IDL) $(idl_flags) $(top_srcdir)/calendar/idl/evolution-calendar.idl
 
-bin_PROGRAMS = evolution-alarm-notify
+bin_PROGRAMS = evolution-alarm-notify evolution-alarm-client
 
 noinst_LIBRARIES = libalarm.a
 
@@ -42,14 +42,23 @@ evolution_alarm_notify_SOURCES =	\
 	alarm-queue.h			\
 	notify-main.c
 
-evolution_alarm_notify_LDADD =								\
-	libalarm.a									\
-	$(top_builddir)/calendar/cal-client/libcal-client.la				\
-	$(top_builddir)/calendar/cal-util/libcal-util.la				\
-	$(top_builddir)/libical/src/libical/libical.la					\
-	$(BONOBO_VFS_GNOME_LIBS)							\
-	$(EXTRA_GNOME_LIBS)								\
+evolution_alarm_notify_LDADD =					\
+	libalarm.a						\
+	$(top_builddir)/calendar/cal-client/libcal-client.la	\
+	$(top_builddir)/calendar/cal-util/libcal-util.la	\
+	$(top_builddir)/libical/src/libical/libical.la		\
+	$(BONOBO_VFS_GNOME_LIBS)				\
+	$(EXTRA_GNOME_LIBS)					\
 	$(INTLLIBS)
+
+evolution_alarm_client_SOURCES =	\
+	client-main.c			\
+	$(CORBA_GENERATED)
+
+evolution_alarm_client_LDADD =		\
+	 $(BONOBO_VFS_GNOME_LIBS)	\
+	 $(EXTRA_GNOME_LIBS)		\
+	 $(INTLLIBS)
 
 oafdir = $(datadir)/oaf
 oaf_in_files = \

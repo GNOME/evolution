@@ -231,6 +231,8 @@ static void reminder_delete_cb (GtkWidget *widget, EventEditor *ee);
 static void recurrence_exception_add_cb (GtkWidget *widget, EventEditor *ee);
 static void recurrence_exception_modify_cb (GtkWidget *widget, EventEditor *ee);
 static void recurrence_exception_delete_cb (GtkWidget *widget, EventEditor *ee);
+static void recurrence_exception_select_row_cb (GtkCList *clist, gint row, gint col, GdkEvent *event,
+						gpointer data);
 static void field_changed		(GtkWidget	*widget,
 					 EventEditor	*ee);
 static void event_editor_set_changed	(EventEditor	*ee,
@@ -1223,6 +1225,10 @@ init_widgets (EventEditor *ee)
 	gtk_signal_connect (GTK_OBJECT (priv->recurrence_exception_delete), "clicked",
 			    GTK_SIGNAL_FUNC (recurrence_exception_delete_cb), ee);
 
+	/* Selections in the exceptions list */
+
+	gtk_signal_connect (GTK_OBJECT (priv->recurrence_exception_list), "select_row",
+			    GTK_SIGNAL_FUNC (recurrence_exception_select_row_cb), ee);
 
 	/*
 	 * Connect the default signal handler to use to make sure the "changed"
@@ -1243,9 +1249,6 @@ init_widgets (EventEditor *ee)
 	gtk_signal_connect (GTK_OBJECT (priv->classification_confidential),
 			    "toggled",
 			    GTK_SIGNAL_FUNC (field_changed), ee);
-
-
-	/* Recurrence Page. */
 }
 
 static const int classification_map[] = {
@@ -1447,6 +1450,7 @@ fill_exception_widgets (EventEditor *ee)
 {
 	EventEditorPrivate *priv;
 	GSList *list, *l;
+	gboolean added;
 
 	priv = ee->priv;
 	g_assert (priv->comp != NULL);
@@ -1455,9 +1459,13 @@ fill_exception_widgets (EventEditor *ee)
 
 	cal_component_get_exdate_list (priv->comp, &list);
 
+	added = FALSE;
+
 	for (l = list; l; l = l->next) {
 		CalComponentDateTime *cdt;
 		time_t ext;
+
+		added = TRUE;
 
 		cdt = l->data;
 		ext = icaltime_as_timet (*cdt->value);
@@ -1465,6 +1473,9 @@ fill_exception_widgets (EventEditor *ee)
 	}
 
 	cal_component_free_exdate_list (list);
+
+	if (added)
+		gtk_clist_select_row (GTK_CLIST (priv->recurrence_exception_list), 0, 0);
 }
 
 /* Computes a weekday mask for the start day of a calendar component, for use in
@@ -2315,6 +2326,7 @@ recur_to_comp_object (EventEditor *ee, CalComponent *comp)
 		cdt->tzid = NULL;
 
 		tim = gtk_clist_get_row_data (exception_list, i);
+		g_assert (tim != NULL);
 		*cdt->value = icaltime_from_timet (*tim, FALSE);
 
 		list = g_slist_prepend (list, cdt);
@@ -3119,11 +3131,17 @@ append_exception (EventEditor *ee, time_t t)
 
 	clist = GTK_CLIST (priv->recurrence_exception_list);
 
+	gtk_signal_handler_block_by_data (GTK_OBJECT (clist), ee);
+
 	c[0] = get_exception_string (t);
 	i = e_utf8_gtk_clist_append (clist, c);
 
 	gtk_clist_set_row_data (clist, i, tt);
+
 	gtk_clist_select_row (clist, i, 0);
+	gtk_signal_handler_unblock_by_data (GTK_OBJECT (clist), ee);
+
+	e_date_edit_set_time (E_DATE_EDIT (priv->recurrence_exception_date), t);
 
 	gtk_widget_set_sensitive (priv->recurrence_exception_modify, TRUE);
 	gtk_widget_set_sensitive (priv->recurrence_exception_delete, TRUE);
@@ -3179,6 +3197,7 @@ recurrence_exception_delete_cb (GtkWidget *widget, EventEditor *ee)
 	EventEditorPrivate *priv;
 	GtkCList *clist;
 	int sel;
+	time_t *t;
 
 	priv = ee->priv;
 
@@ -3190,7 +3209,9 @@ recurrence_exception_delete_cb (GtkWidget *widget, EventEditor *ee)
 
 	sel = GPOINTER_TO_INT (clist->selection->data);
 
-	g_free (gtk_clist_get_row_data (clist, sel)); /* free the time_t stored there */
+	t = gtk_clist_get_row_data (clist, sel);
+	g_assert (t != NULL);
+	g_free (t);
 
 	gtk_clist_remove (clist, sel);
 	if (sel >= clist->rows)
@@ -3206,6 +3227,25 @@ recurrence_exception_delete_cb (GtkWidget *widget, EventEditor *ee)
 	preview_recur (ee);
 }
 
+/* Callback used when a row is selected in the list of exception dates.  We must
+ * update the date/time widgets to reflect the exception's value.
+ */
+static void
+recurrence_exception_select_row_cb (GtkCList *clist, gint row, gint col, GdkEvent *event,
+				    gpointer data)
+{
+	EventEditor *ee;
+	EventEditorPrivate *priv;
+	time_t *t;
+
+	ee = EVENT_EDITOR (data);
+	priv = ee->priv;
+
+	t = gtk_clist_get_row_data (clist, row);
+	g_assert (t != NULL);
+
+	e_date_edit_set_time (E_DATE_EDIT (priv->recurrence_exception_date), *t);
+}
 
 GtkWidget *
 make_date_edit (void)
