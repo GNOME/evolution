@@ -1,5 +1,10 @@
 2001-07-20  Peter Williams  <peterw@ximian.com>
 
+	* component-factory.c (storage_remove_folder): Don't let the user
+	remove vtrash folders.
+
+2001-07-20  Peter Williams  <peterw@ximian.com>
+
 	* mail-mt.c (mail_msgport_replied): Fix DanW's fix. Pass the right
 	arguments to mail_msg_destroy.
 

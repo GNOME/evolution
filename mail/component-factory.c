@@ -781,6 +781,9 @@ storage_remove_folder (EvolutionStorage *storage,
 	g_warning ("storage_remove_folder: path=\"%s\"; uri=\"%s\"", path, physical_uri);
 	
 	if (*physical_uri) {
+		if (strncmp (physical_uri, "vtrash:", 7) == 0)
+			return EVOLUTION_STORAGE_ERROR_INVALID_URI;
+
 		url = camel_url_new (physical_uri, NULL);
 		if (!url)
 			return EVOLUTION_STORAGE_ERROR_INVALID_URI;
