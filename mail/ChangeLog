@@ -1,3 +1,7 @@
+2001-08-10  Peter Williams  <peterw@ximian.com>
+
+	* mail-config-druid.c (druid_finish): Whoa, fatal typo. Sorry.
+
 2001-08-13  Jason Leach  <jleach@ximian.com>
 
 	* mail-local.c (init_trash): Tell folder cache the path for our

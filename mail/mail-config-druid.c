@@ -188,7 +188,7 @@ druid_finish (GnomeDruidPage *page, gpointer arg1, gpointer user_data)
 	mail_config_write ();
 
 	/* Load up this new account */
-	mail_load_storages (druid->shell, gui->account->source->url, gui->account->name);
+	mail_load_storage_by_uri (druid->shell, gui->account->source->url, gui->account->name);
 	
 	gtk_widget_destroy (GTK_WIDGET (druid));
 }
