@@ -29,6 +29,7 @@
 #include "ea-calendar-helpers.h"
 #include "calendar-commands.h"
 #include <gal/e-text/e-text.h>
+#include <libgnome/gnome-i18n.h>
 
 static void ea_week_view_class_init (EaWeekViewClass *klass);
 
@@ -142,19 +143,22 @@ ea_week_view_get_name (AtkObject *accessible)
 	n_events = atk_object_get_n_accessible_children (accessible);
 	/* the child main item is always there */
 	--n_events;
-	if (n_events > 0)
+	if (n_events = 1)
 		g_snprintf (buffer, sizeof (buffer),
-			    ", %d events", n_events);
+			    _(", %d event"), n_events);
+        if (n_events > 1)
+                g_snprintf (buffer, sizeof (buffer),
+                            _(", %d events"), n_events);
 
 	view_type = gnome_calendar_get_view (gcal);
 
 	if (view_type == GNOME_CAL_MONTH_VIEW)
-		accessible->name = g_strconcat ("month view :",
+		accessible->name = g_strconcat (_("month view :"),
 						label_text, buffer,
 						NULL);
 
 	else
-		accessible->name = g_strconcat ("week view :",
+		accessible->name = g_strconcat (_("week view :"),
 						label_text, buffer,
 						NULL);
 	return accessible->name;
@@ -181,9 +185,9 @@ ea_week_view_get_description (AtkObject *accessible)
 		view_type = gnome_calendar_get_view (gcal);
 
 		if (view_type == GNOME_CAL_MONTH_VIEW)
-			return "calendar view for a month";
+			return _("calendar view for a month");
 		else
-			return "calendar view for one or more weeks";
+			return _("calendar view for one or more weeks");
 	}
 }
 

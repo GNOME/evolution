@@ -28,6 +28,7 @@
 #include "ea-day-view.h"
 #include "ea-week-view.h"
 #include <gal/e-text/e-text.h>
+#include <libgnome/gnome-i18n.h>
 
 static void ea_cal_view_event_class_init (EaCalViewEventClass *klass);
 
@@ -41,6 +42,12 @@ static void atk_component_interface_init (AtkComponentIface *iface);
 static void ea_cal_view_get_extents (AtkComponent *component,
 				     gint *x, gint *y, gint *width, gint *height,
 				     AtkCoordType coord_type);
+/* action interface */
+static void atk_action_interface_init (AtkActionIface *iface);
+static gboolean ea_cal_view_event_do_action (AtkAction *action, gint i);
+static gint ea_cal_view_event_get_n_actions (AtkAction *action);
+static G_CONST_RETURN gchar* ea_cal_view_event_action_get_name (AtkAction *action, gint i);
+
 
 #ifdef ACC_DEBUG
 static gint n_ea_cal_view_event_created = 0, n_ea_cal_view_event_destroyed = 0;
@@ -78,6 +85,13 @@ ea_cal_view_event_get_type (void)
 			NULL
 		};
 
+                static const GInterfaceInfo atk_action_info = {
+                        (GInterfaceInitFunc) atk_action_interface_init,
+                        (GInterfaceFinalizeFunc) NULL,
+                        NULL
+                };
+
+
 		/*
 		 * Figure out the size of the class and instance
 		 * we are run-time deriving from (atk object for E_TEXT, in this case)
@@ -96,6 +110,10 @@ ea_cal_view_event_get_type (void)
 					       "EaCalViewEvent", &tinfo, 0);
 		g_type_add_interface_static (type, ATK_TYPE_COMPONENT,
 					     &atk_component_info);
+                g_type_add_interface_static (type, ATK_TYPE_ACTION,
+                                             &atk_action_info);
+
+                
 	}
 
 	return type;
@@ -214,30 +232,30 @@ ea_cal_view_event_get_name (AtkObject *accessible)
 	if (event && event->comp_data) {
 		if (e_cal_util_component_has_alarms (event->comp_data->icalcomp)) {
 			tmp_name = new_name;
-			new_name = g_strconcat (new_name, "alarm ", NULL);
+			new_name = g_strconcat (new_name, _("alarm "), NULL);
 			g_free (tmp_name);
 		}
 
 		if (e_cal_util_component_has_recurrences (event->comp_data->icalcomp)) {
 			tmp_name = new_name;
-			new_name = g_strconcat (new_name, "recurrence ", NULL);
+			new_name = g_strconcat (new_name, _("recurrence "), NULL);
 			g_free (tmp_name);
 		}
 
 		if (event->different_timezone) {
 			tmp_name = new_name;
-			new_name = g_strconcat (new_name, "time-zone ", NULL);
+			new_name = g_strconcat (new_name, _("time-zone "), NULL);
 			g_free (tmp_name);
 		}
 
 		if (e_cal_util_component_has_organizer (event->comp_data->icalcomp)) {
 			tmp_name = new_name;
-			new_name = g_strconcat (new_name, "meeting ", NULL);
+			new_name = g_strconcat (new_name, _("meeting "), NULL);
 			g_free (tmp_name);
 		}
 	}
 	tmp_name = new_name;
-	new_name = g_strconcat (new_name, "event. Summary is ", NULL);
+	new_name = g_strconcat (new_name, _("event. Summary is "), NULL);
 	g_free (tmp_name);
 
 	summary = icalcomponent_get_summary (event->comp_data->icalcomp);
@@ -248,7 +266,7 @@ ea_cal_view_event_get_name (AtkObject *accessible)
 	}
 	else {
 		tmp_name = new_name;
-		new_name = g_strconcat (new_name, "empty", NULL);
+		new_name = g_strconcat (new_name, _("empty"), NULL);
 		g_free (tmp_name);
 	}
 
@@ -267,7 +285,7 @@ ea_cal_view_event_get_description (AtkObject *accessible)
 	if (accessible->description)
 		return accessible->description;
 
-	return "calendar view event";
+	return _("calendar view event");
 }
 
 static AtkObject *
@@ -480,3 +498,51 @@ ea_cal_view_get_extents (AtkComponent   *component,
 	printf ("Event Bounds (%d, %d, %d, %d)\n", *x, *y, *width, *height);
 #endif
 }
+
+#define CAL_VIEW_EVENT_ACTION_NUM 1
+
+static const char * action_name [CAL_VIEW_EVENT_ACTION_NUM] = {
+        N_("Grab Focus")
+};
+
+static void
+atk_action_interface_init (AtkActionIface *iface)
+{
+        g_return_if_fail (iface != NULL);
+
+        iface->do_action = ea_cal_view_event_do_action;
+        iface->get_n_actions = ea_cal_view_event_get_n_actions;
+        iface->get_name = ea_cal_view_event_action_get_name;
+}
+
+static gboolean
+ea_cal_view_event_do_action (AtkAction *action, gint i)
+{
+        AtkGObjectAccessible *atk_gobj;
+        AtkComponent *atk_comp;
+
+        atk_gobj = ATK_GOBJECT_ACCESSIBLE (action);
+
+        if (i == 0) {
+                atk_comp = (AtkComponent *)atk_gobj;
+                return atk_component_grab_focus (atk_comp);
+        }
+
+        return FALSE;
+
+}
+
+static gint
+ea_cal_view_event_get_n_actions (AtkAction *action)
+{
+        return CAL_VIEW_EVENT_ACTION_NUM;
+}
+
+static G_CONST_RETURN gchar*
+ea_cal_view_event_action_get_name (AtkAction *action, gint i)
+{
+        if (i >= 0 && i < CAL_VIEW_EVENT_ACTION_NUM)
+                return action_name [i];
+        return NULL;
+}
+

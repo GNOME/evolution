@@ -30,6 +30,7 @@
 #include "calendar-commands.h"
 #include "goto.h"
 #include <glib/gstrfuncs.h>
+#include <libgnome/gnome-i18n.h>
 
 static void ea_cal_view_class_init (EaCalViewClass *klass);
 
@@ -302,11 +303,11 @@ ea_cal_view_dates_change_cb (GnomeCalendar *gcal, gpointer data)
 #define CAL_VIEW_ACTION_NUM 5
 
 static const char * action_name [CAL_VIEW_ACTION_NUM] = {
-	"New Appointment",
-	"New All Day Event",
-	"New Meeting",
-	"Go to Today",
-	"Go to Date"
+	N_("New Appointment"),
+	N_("New All Day Event"),
+	N_("New Meeting"),
+	N_("Go to Today"),
+	N_("Go to Date")
 };
 
 static void

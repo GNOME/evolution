@@ -28,6 +28,7 @@
 #include "ea-week-view.h"
 #include "ea-week-view-cell.h"
 #include "ea-cell-table.h"
+#include <libgnome/gnome-i18n.h>
 
 /* EaWeekViewMainItem */
 static void ea_week_view_main_item_class_init (EaWeekViewMainItemClass *klass);
@@ -242,6 +243,7 @@ ea_week_view_main_item_new (GObject *obj)
 					       NULL));
 
 	atk_object_initialize (accessible, obj);
+        accessible->role = ATK_ROLE_TABLE;
 
 #ifdef ACC_DEBUG
 	++n_ea_week_view_main_item_created;
@@ -296,7 +298,7 @@ ea_week_view_main_item_get_name (AtkObject *accessible)
 static G_CONST_RETURN gchar*
 ea_week_view_main_item_get_description (AtkObject *accessible)
 {
-	return "a table to view and select the current time range";
+	return _("a table to view and select the current time range");
 }
 
 static gint
@@ -445,11 +447,14 @@ ea_week_view_main_item_time_change_cb (EWeekView *week_view, gpointer data)
 		state_set = atk_object_ref_state_set (item_cell);
 		atk_state_set_add_state (state_set, ATK_STATE_FOCUSED);
 		g_object_unref (state_set);
-	}
-	g_signal_emit_by_name (ea_main_item,
+
+	        g_signal_emit_by_name (ea_main_item,
 			       "active-descendant-changed",
 			       item_cell);
-	g_signal_emit_by_name (data, "selection_changed");
+        	g_signal_emit_by_name (data, "selection_changed");
+                atk_focus_tracker_notify (item_cell);
+                g_object_unref (item_cell);
+	}
 }
 
 /* helpers */

@@ -28,6 +28,7 @@
 #include "ea-week-view.h"
 #include "e-week-view.h"
 #include <libgnomecanvas/gnome-canvas.h>
+#include <libgnome/gnome-i18n.h>
 
 static void ea_jump_button_class_init (EaJumpButtonClass *klass);
 
@@ -145,7 +146,7 @@ ea_jump_button_get_name (AtkObject *accessible)
 
 	if (accessible->name)
 		return accessible->name;
-	return "Jump";
+	return _("Jump button");
 }
 
 static G_CONST_RETURN gchar*
@@ -154,7 +155,7 @@ ea_jump_button_get_description (AtkObject *accessible)
 	if (accessible->description)
 		return accessible->description;
 
-	return "Click here, you can find more events.";
+	return _("Click here, you can find more events.");
 }
 
 static void

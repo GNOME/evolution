@@ -28,6 +28,8 @@
 #include <string.h>
 #include <libgnomecanvas/gnome-canvas.h>
 #include <glib/gdate.h>
+#include <gal/util/e-util.h>
+#include <libgnome/gnome-i18n.h>
 #include "ea-calendar-item.h"
 #include "ea-calendar-cell.h"
 #include "ea-cell-table.h"
@@ -42,6 +44,7 @@ static G_CONST_RETURN gchar* ea_calendar_item_get_name (AtkObject *accessible);
 static G_CONST_RETURN gchar* ea_calendar_item_get_description (AtkObject *accessible);
 static gint ea_calendar_item_get_n_children (AtkObject *accessible);
 static AtkObject *ea_calendar_item_ref_child (AtkObject *accessible, gint index);
+static AtkStateSet* ea_calendar_item_ref_state_set (AtkObject *accessible);
 
 /* atk table interface */
 static void atk_table_interface_init (AtkTableIface *iface);
@@ -201,6 +204,7 @@ ea_calendar_item_class_init (EaCalendarItemClass *klass)
 
 	class->get_name = ea_calendar_item_get_name;
 	class->get_description = ea_calendar_item_get_description;
+        class->ref_state_set = ea_calendar_item_ref_state_set;
 
 	class->get_n_children = ea_calendar_item_get_n_children;
 	class->ref_child = ea_calendar_item_ref_child;
@@ -264,6 +268,10 @@ ea_calendar_item_get_name (AtkObject *accessible)
 	gint start_year, start_month, start_day;
 	gint end_year, end_month, end_day;
 	static gchar new_name[256] = "";
+        gchar buffer_start[128] = "";
+        gchar buffer_end[128] = "";
+        struct tm day_start = { 0 };
+        struct tm day_end = { 0 };
 
 	g_return_val_if_fail (EA_IS_CALENDAR_ITEM (accessible), NULL);
 
@@ -276,13 +284,26 @@ ea_calendar_item_get_name (AtkObject *accessible)
 	calitem = E_CALENDAR_ITEM (g_obj);
 	if (e_calendar_item_get_date_range (calitem,
 					    &start_year, &start_month, &start_day,
-					    &end_year, &end_month, &end_day)) {
-		++start_month;
-		++end_month;
-		sprintf (new_name, "calendar (from %d-%d-%d to %d-%d-%d)",
-			 start_year, start_month, start_day,
-			 end_year, end_month, end_day);
-	}
+                                            &end_year, &end_month, &end_day)) {
+
+                day_start.tm_year = start_year - 1900;
+                day_start.tm_mon = start_month;
+                day_start.tm_mday = start_day;
+                day_start.tm_isdst = -1;
+                e_utf8_strftime (buffer_start, sizeof (buffer_start), _(" %d %B %Y"), &day_start);
+
+                day_end.tm_year = end_year - 1900;
+                day_end.tm_mon = end_month;
+                day_end.tm_mday = end_day;
+                day_end.tm_isdst = -1;
+                e_utf8_strftime (buffer_end, sizeof (buffer_end), _(" %d %B %Y"), &day_end);
+
+                strcat (new_name, _("calendar (from "));
+                strcat (new_name, buffer_start);
+                strcat (new_name, _(" to "));
+                strcat (new_name, buffer_end);
+                strcat (new_name, _(")"));
+        }
 
 #if 0
 	if (e_calendar_item_get_selection (calitem, &select_start, &select_end)) {
@@ -313,7 +334,24 @@ ea_calendar_item_get_description (AtkObject *accessible)
 	if (accessible->description)
 		return accessible->description;
 
-	return "evolution calendar item";
+	return _("evolution calendar item");
+}
+
+static AtkStateSet*
+ea_calendar_item_ref_state_set (AtkObject *accessible)
+{
+        AtkStateSet *state_set;
+        GObject *g_obj;
+
+        state_set = ATK_OBJECT_CLASS (parent_class)->ref_state_set (accessible);
+        g_obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE(accessible));
+        if (!g_obj)
+                return state_set;
+
+        atk_state_set_add_state (state_set, ATK_STATE_ENABLED);
+        atk_state_set_add_state (state_set, ATK_STATE_SENSITIVE);
+        
+        return state_set;
 }
 
 static gint
@@ -1039,9 +1077,9 @@ ea_calendar_item_destory_cell_data (EaCalendarItem *ea_calitem)
 	cell_data = g_object_get_data (G_OBJECT(ea_calitem),
 				       "ea-calendar-cell-table");
 	if (cell_data) {
-		ea_cell_table_destroy (cell_data);
 		g_object_set_data (G_OBJECT(ea_calitem),
 				   "ea-calendar-cell-table", NULL);
+		ea_cell_table_destroy (cell_data);
 	}
 }
 

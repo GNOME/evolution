@@ -1,3 +1,62 @@
+2004-09-23  Li Yuan  <li.yuan@sun.com>
+
+	* calendar/ea-cal-view-event.c: (ea_cal_view_event_get_type),
+	(ea_cal_view_event_get_name), (ea_cal_view_event_get_description):
+	Make accessibility name and description translatable.
+	(atk_action_interface_init), (ea_cal_view_event_do_action),
+	(ea_cal_view_event_get_n_actions),
+	(ea_cal_view_event_action_get_name):
+	Add action interface to ea-cal-view-event so that it can be 
+	UI grabbed by GOK.
+	* calendar/ea-cal-view.c:
+	Make accessibility name and description translatable.
+	* calendar/ea-day-view-cell.c: (ea_day_view_cell_new):
+	Change atk role of ea-day-view-cell from ATK_ROLE_TABLE_CELL 
+	to ATK_ROLE_UNKNOWN so that it can be UI grabbed by GOK.
+	(atk_component_interface_init), (component_interface_grab_focus):
+	Add a component interface function : grab_focus.
+	When grab focus, present the Evolution GUI to the front.
+	* calendar/ea-day-view-main-item.c:
+	(ea_day_view_main_item_get_description):
+	Make accessibility name and description translatable.
+	(ea_day_view_main_item_time_change_cb):
+	Notify the item_cell is selected.
+	* calendar/ea-day-view.c: (ea_day_view_get_name),
+	(ea_day_view_get_description):
+	Make accessibility name and description translatable.
+	* calendar/ea-gnome-calendar.c: (ea_gnome_calendar_get_name),
+	(ea_gnome_calendar_get_description), (ea_gnome_calendar_ref_child):
+	Make accessibility name and description translatable.
+	* calendar/ea-jump-button.c: (ea_jump_button_get_name),
+	(ea_jump_button_get_description):
+	Make accessibility name and description translatable.
+	* calendar/ea-week-view-cell.c: (ea_week_view_cell_get_name),
+	(atk_component_interface_init), (component_interface_get_extents),
+	(component_interface_grab_focus):
+	Add a component interface function : grab_focus.
+       	Add support for different week start days.
+	When grab focus, present the Evolutioon GUI to the front.
+	* calendar/ea-week-view-main-item.c: (ea_week_view_main_item_new):
+	Set the atk role to ATK_ROLE_TABLE.
+	(ea_week_view_main_item_get_description):
+	Make accessibility name and description translatable.
+	(ea_week_view_main_item_time_change_cb):
+	Notify the item_cell is selected.
+	* calendar/ea-week-view.c: (ea_week_view_get_name),
+	(ea_week_view_get_description):
+	Make accessibility name and description translatable.
+	* widgets/ea-calendar-cell.c: (ea_calendar_cell_new):
+	Change atk role of ea-calendar-cell from ATK_ROLE_TABLE_CELL 
+	to ATK_ROLE_UNKNOWN so that it can be UI grabbed by GOK.
+	* widgets/ea-calendar-item.c: (ea_calendar_item_class_init),
+	(ea_calendar_item_get_name), (ea_calendar_item_get_description):
+	Make accessibility name and description translatable.
+	(ea_calendar_item_ref_state_set),:
+	Implement ref_state_set so that ea-calendar-item can be UI 
+	grabbed by GOK.
+	(ea_calendar_item_destory_cell_data):
+	Fix a crash here.
+
 2004-04-29  Rodney Dawes  <dobey@ximian.com>
 
 	* calendar/Makefile.am (INCLUDES): Add $(top_srcdir)/widgets/misc

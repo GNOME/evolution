@@ -29,6 +29,7 @@
 #include "ea-calendar-helpers.h"
 #include "calendar-commands.h"
 #include <glib/gstrfuncs.h>
+#include <libgnome/gnome-i18n.h>
 
 static void ea_day_view_class_init (EaDayViewClass *klass);
 
@@ -141,16 +142,19 @@ ea_day_view_get_name (AtkObject *accessible)
 	n_events = atk_object_get_n_accessible_children (accessible);
 	/* the child main item is always there */
 	--n_events;
-	if (n_events > 0)
+	if (n_events = 1)
 		g_snprintf (buffer, sizeof (buffer),
-			    ", %d events", n_events);
+			    _(", %d event"), n_events);
+        if (n_events > 1)
+                g_snprintf (buffer, sizeof (buffer),
+                            _(", %d events"), n_events);
 	view_type = gnome_calendar_get_view (gcal);
 	if (view_type == GNOME_CAL_WORK_WEEK_VIEW)
-		accessible->name = g_strconcat ("work week view :",
+		accessible->name = g_strconcat (_("work week view :"),
 						label_text, buffer,
 						NULL);
 	else
-		accessible->name = g_strconcat ("day view :",
+		accessible->name = g_strconcat (_("day view :"),
 						label_text, buffer,
 						NULL);
 	return accessible->name;
@@ -177,9 +181,9 @@ ea_day_view_get_description (AtkObject *accessible)
 		view_type = gnome_calendar_get_view (gcal);
 
 		if (view_type == GNOME_CAL_WORK_WEEK_VIEW)
-			return "calendar view for a work week";
+			return _("calendar view for a work week");
 		else
-			return "calendar view for one or more days";
+			return _("calendar view for one or more days");
 	}
 }
 

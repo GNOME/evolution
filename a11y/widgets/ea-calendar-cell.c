@@ -172,7 +172,7 @@ ea_calendar_cell_new (GObject *obj)
 	object = g_object_new (EA_TYPE_CALENDAR_CELL, NULL);
 	atk_object = ATK_OBJECT (object);
 	atk_object_initialize (atk_object, obj);
-	atk_object->role = ATK_ROLE_TABLE_CELL;
+	atk_object->role = ATK_ROLE_UNKNOWN;
 
 #ifdef ACC_DEBUG
 	++n_ea_calendar_cell_created;

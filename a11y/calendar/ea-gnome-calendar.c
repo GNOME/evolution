@@ -26,6 +26,7 @@
 #include "ea-gnome-calendar.h"
 #include "calendar-commands.h"
 #include <gtk/gtknotebook.h>
+#include <libgnome/gnome-i18n.h>
 
 static void ea_gnome_calendar_class_init (EaGnomeCalendarClass *klass);
 
@@ -139,7 +140,7 @@ ea_gnome_calendar_get_name (AtkObject *accessible)
 {
 	if (accessible->name)
 		return accessible->name;
-	return "Gnome Calendar";
+	return _("Gnome Calendar");
 }
 
 static G_CONST_RETURN gchar*
@@ -147,7 +148,7 @@ ea_gnome_calendar_get_description (AtkObject *accessible)
 {
 	if (accessible->description)
 		return accessible->description;
-	return "Gnome Calendar";
+	return _("Gnome Calendar");
 }
 
 static gint
@@ -182,8 +183,8 @@ ea_gnome_calendar_ref_child (AtkObject *obj, gint i)
 		childWidget = gnome_calendar_get_search_bar_widget (calendarWidget);
 		child = gtk_widget_get_accessible (childWidget);
 		atk_object_set_parent (child, obj);
-		atk_object_set_name (child, "search bar");
-		atk_object_set_description (child, "evolution calendar search bar");
+		atk_object_set_name (child, _("search bar"));
+		atk_object_set_description (child, _("evolution calendar search bar"));
 		break;
 	case 1:
 		/* for the day/week view */
