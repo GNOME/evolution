@@ -14,6 +14,7 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
     #45910 - Application crash when assigning tasks (Jack Jia, Rodrigo)
     #45767 - Evolution 1.4.1 building failed with Forte on Solaris8 (Antonio Xu)
     #46075 - same date can be added repeatedly in Exceptions date list (Harry Lu)
+    #41676 - Can create "Run a program" reminder" without entering a program (Rodrigo)
 
 
 Evolution 1.4.3, 2003-07-08
