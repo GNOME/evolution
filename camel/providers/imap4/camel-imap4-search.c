@@ -1,6 +1,7 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  *  Authors: Jeffrey Stedfast <fejj@novell.com>
+ *           Michael Zucchi <notzed@ximian.com>
  *
  *  Copyright 2004 Novell, Inc. (www.novell.com)
  *
