@@ -1,3 +1,7 @@
+2000-09-12  Dan Winship  <danw@helixcode.com>
+
+	* configure.in: s/Sentbox/Sent/
+
 2000-09-12  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* art/Makefile.am (buttonsdir): Install the new button icons into
