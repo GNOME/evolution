@@ -1235,65 +1235,6 @@ emf_message_rfc822(EMFormat *emf, CamelStream *stream, CamelMimePart *part, cons
 	em_format_format_message(emf, stream, (CamelMedium *)dw);
 }
 
-static void
-emf_application_xpkcs7mime(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info)
-{
-	CamelCipherContext *context;
-	CamelException *ex;
-	extern CamelSession *session;
-	CamelMimePart *opart;
-	CamelCipherValidity *valid;
-
-	ex = camel_exception_new();
-
-	context = camel_smime_context_new(session);
-
-	opart = camel_mime_part_new();
-	valid = camel_cipher_decrypt(context, part, opart, ex);
-	if (valid == NULL) {
-		em_format_format_error(emf, stream, ex->desc?ex->desc:_("Could not parse S/MIME message: Unknown error"));
-		em_format_part_as(emf, stream, part, NULL);
-	} else {
-		switch (valid->encrypt.status) {
-		case CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE:
-			em_format_format_error(emf, stream, "No encryption?");
-			break;
-		case CAMEL_CIPHER_VALIDITY_ENCRYPT_WEAK:
-		case CAMEL_CIPHER_VALIDITY_ENCRYPT_ENCRYPTED:
-		case CAMEL_CIPHER_VALIDITY_ENCRYPT_STRONG:
-			em_format_format_error(emf, stream, valid->encrypt.description);
-			break;
-		}
-
-		em_format_part(emf, stream, opart);
-
-		/* TODO: this is temporary */
-		switch (valid->sign.status) {
-		case CAMEL_CIPHER_VALIDITY_SIGN_NONE:
-			em_format_format_error(emf, stream, "No signature?");
-			break;
-		case CAMEL_CIPHER_VALIDITY_SIGN_GOOD:
-			em_format_format_error(emf, stream, "Good signature");
-			em_format_format_error(emf, stream, valid->sign.description);
-			break;
-		case CAMEL_CIPHER_VALIDITY_SIGN_BAD:
-			em_format_format_error(emf, stream, "Bad signature");
-			em_format_format_error(emf, stream, valid->sign.description);
-			break;
-		case CAMEL_CIPHER_VALIDITY_SIGN_UNKNOWN:
-			em_format_format_error(emf, stream, "Unknown signature");
-			em_format_format_error(emf, stream, valid->sign.description);
-			break;
-		}
-
-		camel_cipher_validity_free(valid);
-	}
-
-	camel_object_unref(opart);
-	camel_object_unref(context);
-	camel_exception_free(ex);
-}
-
 static EMFormatHandler type_builtin_table[] = {
 	{ "multipart/alternative", emf_multipart_alternative },
 	{ "multipart/appledouble", emf_multipart_appledouble },
@@ -1305,9 +1246,6 @@ static EMFormatHandler type_builtin_table[] = {
 	{ "message/rfc822", emf_message_rfc822 },
 	{ "message/news", emf_message_rfc822 },
 	{ "message/*", emf_message_rfc822 },
-
-	/* TODO: This should be done via a plugin? */
-	{ "application/x-pkcs7-mime",(EMFormatFunc)emf_application_xpkcs7mime },
 };
 
 static void

@@ -79,6 +79,7 @@ typedef gboolean (*EMFormatHTMLPObjectFunc)(EMFormatHTML *md, struct _GtkHTMLEmb
 struct _EMFormatHTMLPObject {
 	struct _EMFormatHTMLPObject *next, *prev;
 
+	void (*free)(struct _EMFormatHTMLPObject *);
 	struct _EMFormatHTML *format;
 
 	char *classid;
@@ -104,6 +105,8 @@ struct _EMFormatHTML {
 	struct _GtkHTML *html;
 
 	EDList pending_object_list;
+
+	struct _CamelCipherValidity *enveloped_validity;
 
 	GSList *headers;
 
@@ -139,8 +142,8 @@ void em_format_html_format_headers(EMFormatHTML *efh, struct _CamelStream *strea
 struct _CamelMimePart *em_format_html_file_part(EMFormatHTML *efh, const char *mime_type, const char *path, const char *name);
 
 /* for implementers */
-const char *em_format_html_add_pobject(EMFormatHTML *efh, const char *classid, EMFormatHTMLPObjectFunc func, struct _CamelMimePart *part);
-EMFormatHTMLPObject * em_format_html_find_pobject(EMFormatHTML *emf, const char *classid);
+EMFormatHTMLPObject *em_format_html_add_pobject(EMFormatHTML *efh, size_t size, const char *classid, struct _CamelMimePart *part, EMFormatHTMLPObjectFunc func);
+EMFormatHTMLPObject *em_format_html_find_pobject(EMFormatHTML *emf, const char *classid);
 EMFormatHTMLPObject *em_format_html_find_pobject_func(EMFormatHTML *emf, struct _CamelMimePart *part, EMFormatHTMLPObjectFunc func);
 void em_format_html_remove_pobject(EMFormatHTML *emf, EMFormatHTMLPObject *pobject);
 void em_format_html_clear_pobject(EMFormatHTML *emf);

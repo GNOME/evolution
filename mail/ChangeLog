@@ -1,4 +1,20 @@
+2003-11-12  Not Zed  <NotZed@Ximian.com>
+
+	* mail-account-gui.c (smime_sign_key_select)
+	(smime_encrypt_key_select, smime_encrypt_key_selected)
+	(smime_sign_key_selected): implement the key selector popup using
+	e-cert-selector.
+
 2003-11-11  Not Zed  <NotZed@Ximian.com>
+
+	* em-format-html.c (efh_application_xpkcs7mime): output icons of the status.
+	(em_format_html_add_pobject): Changed to take a size specificier,
+	return the pobject, and re-ordered args to be more consistent with
+	puri stuff.
+	(em_format_html_remove_pobject): handle the free callback if set.
+
+	* em-format.c (emf_application_xpkcs7mime): moved this to
+	em-format-html since it needs to do icon stuff.
 
 	* mail-security.glade: new glade file for security related stuff.
 

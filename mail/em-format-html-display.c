@@ -564,6 +564,196 @@ efhd_complete(EMFormat *emf)
 
 /* ********************************************************************** */
 
+static const struct {
+	const char *icon, *description;
+} smime_sign_table[4] = {
+	{ NULL, N_("This message is not signed.  There is no guarantee the sender of the message is authentic.") },
+	{ "pgp-signature-ok.png", N_("This message is signed and is valid, the sender of this message is very likely who they claim to be.") },
+	{ "pgp-signature-bad.png", N_("The signature of this message cannot be verified, it may have been altered in transit.") },
+	{ "pgp-signature-nokey.png", N_("This message is signed with a valid signature, but the sender of the message cannot be verified.") },
+};
+
+static const struct {
+	const char *icon, *description;
+} smime_encrypt_table[4] = {
+	{ NULL, N_("This message is not encrypted.  It's content may be viewed in transit across The Internet.") },
+	{ "pgp-signature-ok.png", N_("This message is encrypted, but with a weak encryption algorithm.  It would be difficult, but not impossible for an outsider to view the content of this message in a practical amount of time.") },
+	{ "pgp-signature-ok.png", N_("This message is encrypted.  It would be difficult for an outsider to view the content of this message.") },
+	{ "pgp-signature-ok.png", N_("This message is encrypted, with a strong encryption algorithm.  It would be very difficult for an outsider to view the content of this message in a practical amount of time.") },
+};
+
+struct _smime_pobject {
+	EMFormatHTMLPObject object;
+
+	int signature;
+	CamelCipherValidity *valid;
+	GtkWidget *widget;
+};
+
+static void
+efhd_xpkcs7mime_free(EMFormatHTMLPObject *o)
+{
+	struct _smime_pobject *po = (struct _smime_pobject *)o;
+
+	if (po->widget)
+		gtk_widget_destroy(po->widget);
+	camel_cipher_validity_free(po->valid);
+}
+
+static void
+efhd_xpkcs7mime_info_response(GtkWidget *w, guint button, struct _smime_pobject *po)
+{
+	gtk_widget_destroy(w);
+	po->widget = NULL;
+}
+
+static void
+efhd_xpkcs7mime_validity_clicked(GtkWidget *button, EMFormatHTMLPObject *pobject)
+{
+	struct _smime_pobject *po = (struct _smime_pobject *)pobject;
+	GladeXML *xml;
+	GtkWidget *vbox, *w;
+
+	printf("validity clicked\n");
+
+	if (po->widget)
+		/* FIXME: window raise? */
+		return;
+
+	xml = glade_xml_new(EVOLUTION_GLADEDIR "/mail-security.glade", "message_security_dialog", NULL);
+	po->widget = glade_xml_get_widget(xml, "message_security_dialog");
+
+	vbox = glade_xml_get_widget(xml, "signature_vbox");
+	w = gtk_label_new(_(smime_sign_table[po->valid->sign.status].description));
+	gtk_label_set_line_wrap((GtkLabel *)w, TRUE);
+	gtk_box_pack_start((GtkBox *)vbox, w, TRUE, TRUE, 6);
+	if (po->valid->sign.description) {
+		w = gtk_label_new(po->valid->sign.description);
+		gtk_label_set_line_wrap((GtkLabel *)w, TRUE);
+		gtk_box_pack_start((GtkBox *)vbox, w, TRUE, TRUE, 6);
+	}
+	gtk_widget_show_all(vbox);
+
+	vbox = glade_xml_get_widget(xml, "encryption_vbox");
+	w = gtk_label_new(_(smime_encrypt_table[po->valid->encrypt.status].description));
+	gtk_label_set_line_wrap((GtkLabel *)w, TRUE);
+	gtk_box_pack_start((GtkBox *)vbox, w, TRUE, TRUE, 6);
+	if (po->valid->encrypt.description) {
+		w = gtk_label_new(po->valid->encrypt.description);
+		gtk_label_set_line_wrap((GtkLabel *)w, TRUE);
+		gtk_box_pack_start((GtkBox *)vbox, w, TRUE, TRUE, 6);
+	}
+	gtk_widget_show_all(vbox);
+
+	g_object_unref(xml);
+
+	g_signal_connect(po->widget, "response", G_CALLBACK(efhd_xpkcs7mime_info_response), po);
+	gtk_widget_show(po->widget);
+}
+
+static gboolean
+efhd_xpkcs7mime_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobject)
+{
+	GtkWidget *icon, *button;
+	GdkPixbuf *pixbuf;
+	struct _smime_pobject *po = (struct _smime_pobject *)pobject;
+	char *file;
+	const char *name;
+
+	if (po->signature)
+		name = smime_sign_table[po->valid->sign.status].icon;
+	else
+		name = smime_encrypt_table[po->valid->encrypt.status].icon;
+
+	file = g_build_filename(EVOLUTION_ICONSDIR, name, NULL);
+	pixbuf = gdk_pixbuf_new_from_file(file, NULL);
+	g_free(file);
+	if (pixbuf == NULL)
+		return FALSE;
+
+	/* wtf isn't this just scaled on disk? */
+	icon = gtk_image_new_from_pixbuf(gdk_pixbuf_scale_simple(pixbuf, 24, 24, GDK_INTERP_BILINEAR));
+	g_object_unref(pixbuf);
+	gtk_widget_show(icon);
+
+	button = gtk_button_new();
+	g_signal_connect(button, "clicked", G_CALLBACK(efhd_xpkcs7mime_validity_clicked), pobject);
+
+	gtk_container_add((GtkContainer *)button, icon);
+	gtk_widget_show(button);
+	gtk_container_add((GtkContainer *)eb, button);
+
+	return TRUE;
+}
+
+static void
+efhd_application_xpkcs7mime(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info)
+{
+	CamelCipherContext *context;
+	CamelException *ex;
+	extern CamelSession *session;
+	CamelMimePart *opart;
+	CamelCipherValidity *valid;
+
+	ex = camel_exception_new();
+
+	context = camel_smime_context_new(session);
+
+	opart = camel_mime_part_new();
+	valid = camel_cipher_decrypt(context, part, opart, ex);
+	if (valid == NULL) {
+		em_format_format_error(emf, stream, ex->desc?ex->desc:_("Could not parse S/MIME message: Unknown error"));
+		em_format_part_as(emf, stream, part, NULL);
+	} else {
+		CamelCipherValidity *save = ((EMFormatHTML *)emf)->enveloped_validity;
+
+		if (save != NULL)
+			camel_cipher_validity_envelope(valid, save);
+
+		((EMFormatHTML *)emf)->enveloped_validity = valid;
+		em_format_part(emf, stream, opart);
+		((EMFormatHTML *)emf)->enveloped_validity = save;
+
+		if (save != NULL
+		    && (valid->encrypt.status != CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE
+			|| valid->sign.status != CAMEL_CIPHER_VALIDITY_SIGN_NONE)) {
+			char *classid;
+			struct _smime_pobject *pobj;
+
+			camel_stream_printf(stream, "<table border=1 width=\"100%%\" cellpadding=3 cellspacing=0><tr>");
+
+			if (valid->sign.status != CAMEL_CIPHER_VALIDITY_SIGN_NONE) {
+				classid = g_strdup_printf("smime:///em-format-html/%p/icon/signed", part);
+				pobj = (struct _smime_pobject *)em_format_html_add_pobject((EMFormatHTML *)emf, sizeof(*pobj), classid, part, efhd_xpkcs7mime_button);
+				pobj->valid = camel_cipher_validity_clone(valid);
+				pobj->signature = TRUE;
+				pobj->object.free = efhd_xpkcs7mime_free;
+				camel_stream_printf(stream, "<td valign=top><object classid=\"%s\"></object><br>%s</td>", classid, valid->sign.description);
+				g_free(classid);
+			}
+
+			if (valid->encrypt.status != CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE) {
+				classid = g_strdup_printf("smime:///em-format-html/%p/icon/encrypted", part);
+				pobj = (struct _smime_pobject *)em_format_html_add_pobject((EMFormatHTML *)emf, sizeof(*pobj), classid, part, efhd_xpkcs7mime_button);
+				pobj->valid = camel_cipher_validity_clone(valid);
+				pobj->object.free = efhd_xpkcs7mime_free;
+				camel_stream_printf(stream, "<td valign=top><object classid=\"%s\"></object><br>%s</td>", classid, valid->encrypt.description);
+				g_free(classid);
+			}
+
+			camel_stream_printf(stream, "</tr></table>");
+		}
+
+		camel_cipher_validity_free(valid);
+	}
+
+	camel_object_unref(opart);
+	camel_object_unref(context);
+	camel_exception_free(ex);
+}
+
+/* ********************************************************************** */
+
 static void
 efhd_signature_check(GtkWidget *w, EMFormatHTMLPObject *pobject)
 {
@@ -637,7 +827,7 @@ efhd_multipart_signed (EMFormat *emf, CamelStream *stream, CamelMimePart *part, 
 				    classid,
 				    _("This message is digitally signed. Click the lock icon for more information."));
 
-		em_format_html_add_pobject((EMFormatHTML *)emf, classid, efhd_signature_button, part);
+		em_format_html_add_pobject((EMFormatHTML *)emf, sizeof(EMFormatHTMLPObject), classid, part, efhd_signature_button);
 		g_free(classid);
 	}
 }
@@ -645,6 +835,7 @@ efhd_multipart_signed (EMFormat *emf, CamelStream *stream, CamelMimePart *part, 
 /* ********************************************************************** */
 
 static EMFormatHandler type_builtin_table[] = {
+	{ "application/x-pkcs7-mime", (EMFormatFunc)efhd_application_xpkcs7mime },
 	{ "multipart/signed", (EMFormatFunc)efhd_multipart_signed },
 };
 
@@ -1116,7 +1307,7 @@ efhd_format_attachment(EMFormat *emf, CamelStream *stream, CamelMimePart *part, 
 
 	classid = g_strdup_printf("attachment-%p", part);
 	info = (struct _attach_puri *)em_format_add_puri(emf, sizeof(*info), classid, part, efhd_attachment_frame);
-	em_format_html_add_pobject((EMFormatHTML *)emf, classid, efhd_attachment_button, part);
+	em_format_html_add_pobject((EMFormatHTML *)emf, sizeof(EMFormatHTMLPObject), classid, part, efhd_attachment_button);
 	info->handle = handle;
 	info->shown = em_format_is_inline(emf, info->puri.part) && handle != NULL;
 
@@ -1151,7 +1342,7 @@ efhd_format_attachment(EMFormat *emf, CamelStream *stream, CamelMimePart *part, 
 		g_free(classid); /* messy */
 
 		classid = g_strdup_printf("bonobo-unknown:///em-formath-html-display/%p/%d", part, partid++);
-		em_format_html_add_pobject((EMFormatHTML *)emf, classid, efhd_bonobo_object, part);
+		em_format_html_add_pobject((EMFormatHTML *)emf, sizeof(EMFormatHTMLPObject), classid, part, efhd_bonobo_object);
 		camel_stream_printf(stream, "<object classid=\"%s\" type=\"%s\">\n", classid, mime_type);
 	}
 

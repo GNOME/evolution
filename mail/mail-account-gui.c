@@ -50,6 +50,9 @@
 
 #include "e-storage.h"
 
+#if defined (HAVE_NSS)
+#include "smime/gui/e-cert-selector.h"
+#endif
 
 #define d(x)
 
@@ -1432,9 +1435,26 @@ smime_changed(MailAccountGui *gui)
 }
 
 static void
-smime_sign_key_select(GtkWidget *w, MailAccountGui *gui)
+smime_sign_key_selected(GtkWidget *dialog, const char *key, MailAccountGui *gui)
 {
-	smime_changed(gui);
+	if (key != NULL) {
+		gtk_entry_set_text(gui->smime_sign_key, key);
+		smime_changed(gui);
+	}
+
+	gtk_widget_destroy(dialog);
+}
+
+static void
+smime_sign_key_select(GtkWidget *button, MailAccountGui *gui)
+{
+	GtkWidget *w;
+
+	w = e_cert_selector_new(E_CERT_SELECTOR_SIGNER, gtk_entry_get_text(gui->smime_sign_key));
+	gtk_window_set_modal((GtkWindow *)w, TRUE);
+	gtk_window_set_transient_for((GtkWindow *)w, (GtkWindow *)gui->dialog);
+	g_signal_connect(w, "selected", G_CALLBACK(smime_sign_key_selected), gui);
+	gtk_widget_show(w);
 }
 
 static void
@@ -1445,9 +1465,26 @@ smime_sign_key_clear(GtkWidget *w, MailAccountGui *gui)
 }
 
 static void
-smime_encrypt_key_select(GtkWidget *w, MailAccountGui *gui)
+smime_encrypt_key_selected(GtkWidget *dialog, const char *key, MailAccountGui *gui)
 {
-	smime_changed(gui);
+	if (key != NULL) {
+		gtk_entry_set_text(gui->smime_encrypt_key, key);
+		smime_changed(gui);
+	}
+
+	gtk_widget_destroy(dialog);
+}
+
+static void
+smime_encrypt_key_select(GtkWidget *button, MailAccountGui *gui)
+{
+	GtkWidget *w;
+
+	w = e_cert_selector_new(E_CERT_SELECTOR_SIGNER, gtk_entry_get_text(gui->smime_encrypt_key));
+	gtk_window_set_modal((GtkWindow *)w, TRUE);
+	gtk_window_set_transient_for((GtkWindow *)w, (GtkWindow *)gui->dialog);
+	g_signal_connect(w, "selected", G_CALLBACK(smime_encrypt_key_selected), gui);
+	gtk_widget_show(w);
 }
 
 static void

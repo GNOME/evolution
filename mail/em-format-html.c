@@ -314,13 +314,14 @@ em_format_html_file_part(EMFormatHTML *efh, const char *mime_type, const char *p
 
 /* all this api is a pain in the bum ... */
 
-/* should it have a user-data field? */
-const char *
-em_format_html_add_pobject(EMFormatHTML *efh, const char *classid, EMFormatHTMLPObjectFunc func, CamelMimePart *part)
+EMFormatHTMLPObject *
+em_format_html_add_pobject(EMFormatHTML *efh, size_t size, const char *classid, CamelMimePart *part, EMFormatHTMLPObjectFunc func)
 {
 	EMFormatHTMLPObject *pobj;
 
-	pobj = g_malloc(sizeof(*pobj));
+	g_assert(size >= sizeof(EMFormatHTMLPObject));
+
+	pobj = g_malloc(size);
 	if (classid) {
 		pobj->classid = g_strdup(classid);
 	} else {
@@ -335,7 +336,7 @@ em_format_html_add_pobject(EMFormatHTML *efh, const char *classid, EMFormatHTMLP
 
 	e_dlist_addtail(&efh->pending_object_list, (EDListNode *)pobj);
 
-	return pobj->classid;
+	return pobj;
 }
 
 EMFormatHTMLPObject *
@@ -372,6 +373,8 @@ void
 em_format_html_remove_pobject(EMFormatHTML *emf, EMFormatHTMLPObject *pobject)
 {
 	e_dlist_remove((EDListNode *)pobject);
+	if (pobject->free)
+		pobject->free(pobject);
 	g_free(pobject->classid);
 	g_free(pobject);
 }
@@ -550,6 +553,98 @@ efh_object_requested(GtkHTML *html, GtkHTMLEmbedded *eb, EMFormatHTML *efh)
 /* ********************************************************************** */
 #include "em-inline-filter.h"
 #include <camel/camel-stream-null.h>
+
+static const struct {
+	const char *icon;
+} smime_sign_table[4] = {
+	{ NULL },
+	{ "pgp-signature-ok.png" },
+	{ "pgp-signature-bad.png" },
+	{ "pgp-signature-nokey.png" },
+};
+
+static const struct {
+	const char *icon;
+} smime_encrypt_table[4] = {
+	{ NULL },
+	{ "pgp-signature-ok.png" },
+	{ "pgp-signature-ok.png" },
+	{ "pgp-signature-ok.png" },
+};
+
+static void
+efh_application_xpkcs7mime(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info)
+{
+	CamelCipherContext *context;
+	CamelException *ex;
+	extern CamelSession *session;
+	CamelMimePart *opart;
+	CamelCipherValidity *valid;
+
+	ex = camel_exception_new();
+
+	context = camel_smime_context_new(session);
+
+	opart = camel_mime_part_new();
+	valid = camel_cipher_decrypt(context, part, opart, ex);
+	if (valid == NULL) {
+		em_format_format_error(emf, stream, ex->desc?ex->desc:_("Could not parse S/MIME message: Unknown error"));
+		em_format_part_as(emf, stream, part, NULL);
+	} else {
+		CamelCipherValidity *save = ((EMFormatHTML *)emf)->enveloped_validity;
+
+		if (save != NULL)
+			camel_cipher_validity_envelope(valid, save);
+
+		((EMFormatHTML *)emf)->enveloped_validity = valid;
+		em_format_part(emf, stream, opart);
+		((EMFormatHTML *)emf)->enveloped_validity = save;
+
+		if (save != NULL
+		    && (valid->encrypt.status != CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE
+			|| valid->sign.status != CAMEL_CIPHER_VALIDITY_SIGN_NONE)) {
+			char *classid;
+			CamelMimePart *iconpart;
+			EMFormatPURI *iconpuri;
+
+			camel_stream_printf(stream, "<table border=1 width=\"100%%\" cellpadding=3 cellspacing=0><tr>");
+
+			if (valid->sign.status != CAMEL_CIPHER_VALIDITY_SIGN_NONE) {
+				classid = g_strdup_printf("smime:///em-format-html/%p/icon/signed", part);
+				iconpart = em_format_html_file_part((EMFormatHTML *)emf, "image/png",
+								    EVOLUTION_ICONSDIR, smime_sign_table[valid->sign.status].icon);
+				if (iconpart) {
+					iconpuri = em_format_add_puri(emf, sizeof(*iconpuri), classid, iconpart, efh_write_image);
+					camel_object_unref(iconpart);
+				}
+
+				camel_stream_printf(stream, "<td valign=top><img src=\"%s\"><br>%s</td>", classid, valid->sign.description);
+				g_free(classid);
+			}
+
+			if (valid->encrypt.status != CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE) {
+				classid = g_strdup_printf("smime:///em-format-html/%p/icon/encrypted", part);
+				iconpart = em_format_html_file_part((EMFormatHTML *)emf, "image/png",
+								    EVOLUTION_ICONSDIR, smime_encrypt_table[valid->encrypt.status].icon);
+				if (iconpart) {
+					iconpuri = em_format_add_puri(emf, sizeof(*iconpuri), classid, iconpart, efh_write_image);
+					camel_object_unref(iconpart);
+				}
+
+				camel_stream_printf(stream, "<td valign=top><img src=\"%s\"><br>%s</td>", classid, valid->encrypt.description);
+				g_free(classid);
+			}
+
+			camel_stream_printf(stream, "</tr></table>");
+		}
+
+		camel_cipher_validity_free(valid);
+	}
+
+	camel_object_unref(opart);
+	camel_object_unref(context);
+	camel_exception_free(ex);
+}
 
 static void
 efh_text_plain(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFormatHandler *info)
@@ -921,7 +1016,7 @@ em_format_html_multipart_signed_sign(EMFormat *emf, CamelStream *stream, CamelMi
 
 	mps = (CamelMultipartSigned *)camel_medium_get_content_object((CamelMedium *)part);
 
-	/* FIXME: This sequence is also copied in em-format-html.c */
+	/* FIXME: This sequence is also copied in em-format.c */
 
 	camel_exception_init(&ex);
 	if (emf->session == NULL) {
@@ -1017,6 +1112,8 @@ efh_image(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFormatH
 }
 
 static EMFormatHandler type_builtin_table[] = {
+	{ "application/x-pkcs7-mime", (EMFormatFunc)efh_application_xpkcs7mime },
+
 	{ "image/gif", (EMFormatFunc)efh_image },
 	{ "image/jpeg", (EMFormatFunc)efh_image },
 	{ "image/png", (EMFormatFunc)efh_image },
@@ -1484,6 +1581,9 @@ em_format_html_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMediu
 static void efh_format_message(EMFormat *emf, CamelStream *stream, CamelMedium *part)
 {
 #define efh ((EMFormatHTML *)emf)
+	CamelCipherValidity *save = efh->enveloped_validity;
+
+	efh->enveloped_validity = NULL;
 
 	if (!efh->hide_headers)
 		em_format_html_format_headers(efh, stream, part);
@@ -1495,6 +1595,8 @@ static void efh_format_message(EMFormat *emf, CamelStream *stream, CamelMedium *
 
 	if (emf->message != part)
 		camel_stream_printf(stream, "</blockquote>");
+
+	efh->enveloped_validity = save;
 #undef efh
 }
 
@@ -1527,7 +1629,7 @@ efh_format_attachment(EMFormat *emf, CamelStream *stream, CamelMimePart *part, c
 
 	/* this could probably be cleaned up ... */
 	camel_stream_write_string(stream,
-				  "<table cellspacing=0 cellpadding=0><tr><td>"
+				  "<table border=1 cellspacing=0 cellpadding=0><tr><td>"
 				  "<table width=10 cellspacing=0 cellpadding=0>"
 				  "<tr><td></td></tr></table></td>"
 				  "<td><table width=3 cellspacing=0 cellpadding=0>"
