@@ -2783,7 +2783,7 @@ drag_data_received (EMsgComposer *composer, GdkDragContext *context,
 	case DND_TYPE_TEXT_VCARD:
 	case DND_TYPE_TEXT_CALENDAR:
 		content_type = gdk_atom_name (selection->type);
-		printf ("dropping a %s\n", content_type);
+		d(printf ("dropping a %s\n", content_type));
 		
 		mime_part = camel_mime_part_new ();
 		camel_mime_part_set_content (mime_part, selection->data,
