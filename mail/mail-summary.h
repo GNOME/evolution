@@ -26,8 +26,7 @@
 
 #include <evolution-services/executive-summary-component-view.h>
 
-void create_summary_view (ExecutiveSummaryComponent *component,
-			  ExecutiveSummaryComponentView *view,
-			  void *closure);
+BonoboObject *create_summary_view (ExecutiveSummaryComponentFactory *factory,
+				   void *closure);
 
 #endif
