@@ -21,6 +21,8 @@
      _tip="Send queued items and retrieve new items"
      pixtype="pixbuf"/>
 
+    <cmd name="Settings" pixtype="pixbuf"/>
+
     <cmd name="ToggleOffline" _type="Toggle"
 	 _label="_Work Offline"
 	 _tip="Toggle whether we are working offline."/>
@@ -165,7 +167,7 @@
     </submenu>
 
     <submenu name="Tools" _label="_Tools">
-      <menuitem name="Settings" verb="" _label="_Settings..." _tip="Change Evolution's settings"/>
+      <menuitem name="Settings" verb="" _label="_Settings..." _tip="Change Evolution's settings" pixtype="pixbuf"/>
       <separator/>
       <placeholder name="ComponentPlaceholder"/>
       <menuitem name="PilotSettings" verb="" _label="Pi_lot Settings..." _tip="Set up Pilot configuration"/>
