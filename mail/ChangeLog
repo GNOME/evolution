@@ -1,3 +1,10 @@
+2001-10-12  Iain Holmes  <iain@ximian.com>
+
+	* importers/evolution-mbox-importer.c (load_file_fn): Don't ever create
+	the folder here. Wait until the shell has created it. Otherwise we get
+	loads of race conditions where the mailer can create a subfolder before
+	the shell has registered the parent.
+
 2001-10-12  Chris Toshok  <toshok@ximian.com>
 
 	* main.c (main): call e_passwords_init and e_passwords_shutdown.

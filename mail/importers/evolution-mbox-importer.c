@@ -205,7 +205,6 @@ folder_created_cb (BonoboListener *listener,
 
 	ex = camel_exception_new ();
 	importer->folder = mail_tool_uri_to_folder (fullpath, CAMEL_STORE_FOLDER_CREATE, ex);
-	
 	if (camel_exception_is_set (ex)) {
 		g_warning ("Error opening %s", fullpath);
 		camel_exception_free (ex);
@@ -213,6 +212,9 @@ folder_created_cb (BonoboListener *listener,
 		g_free (fullpath);
 		return;
 	}
+
+	camel_importer_freeze (importer->folder);
+	importer->frozen = TRUE;
 
 	g_free (fullpath);
 	bonobo_object_unref (BONOBO_OBJECT (listener));
@@ -291,7 +293,8 @@ load_file_fn (EvolutionImporter *eimporter,
 			mail_importer_create_folder (parent, name, NULL, listener);
 			camel_exception_free (ex);
 			ex = camel_exception_new ();
-			importer->folder = mail_tool_uri_to_folder (fullpath, CAMEL_STORE_FOLDER_CREATE, ex);
+			importer->folder = NULL;
+			g_print ("No folder yet\n");
 			delayed = TRUE;
 			g_free (parent);
 		}
