@@ -1534,6 +1534,30 @@ fill_ending_date (RecurrencePage *rpage, struct icalrecurrencetype *r)
 		} else {
 			/* Ending date */
 
+			if (!r->until.is_date) {
+				CalClient *client = COMP_EDITOR_PAGE (rpage)->client;
+				CalComponentDateTime dt;
+				icaltimezone *from_zone, *to_zone;
+			
+				cal_component_get_dtstart (priv->comp, &dt);
+
+				if (dt.value->is_date)
+					to_zone = icaltimezone_get_builtin_timezone (calendar_config_get_timezone ());
+				else if (dt.tzid == NULL)
+					to_zone = icaltimezone_get_utc_timezone ();
+				else
+					cal_client_get_timezone (client, dt.tzid, &to_zone);
+				from_zone = icaltimezone_get_utc_timezone ();
+
+				icaltimezone_convert_time (&r->until, from_zone, to_zone);
+
+				r->until.hour = 0;
+				r->until.minute = 0;
+				r->until.second = 0;
+				r->until.is_date = TRUE;
+				r->until.is_utc = FALSE;
+			}
+
 			priv->ending_date_tt = r->until;
 			e_dialog_option_menu_set (priv->ending_menu,
 						  ENDING_UNTIL,

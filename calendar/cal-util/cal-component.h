@@ -296,6 +296,7 @@ void cal_component_set_rrule_list (CalComponent *comp, GSList *recur_list);
 gboolean cal_component_has_rrules (CalComponent *comp);
 
 gboolean cal_component_has_recurrences (CalComponent *comp);
+gboolean cal_component_has_simple_recurrence (CalComponent *comp);
 
 void cal_component_get_sequence (CalComponent *comp, int **sequence);
 void cal_component_set_sequence (CalComponent *comp, int *sequence);

@@ -818,7 +818,7 @@ comp_minimal (CalComponent *comp, gboolean attendee)
 }
 
 static CalComponent *
-comp_compliant (CalComponentItipMethod method, CalComponent *comp)
+comp_compliant (CalComponentItipMethod method, CalComponent *comp, CalClient *client, icalcomponent *zones)
 {
 	CalComponent *clone, *temp_clone;
 	struct icaltimetype itt;
@@ -828,6 +828,51 @@ comp_compliant (CalComponentItipMethod method, CalComponent *comp)
 					     icaltimezone_get_utc_timezone ());
 	cal_component_set_dtstamp (clone, &itt);
 
+	/* Make UNTIL date a datetime in a simple recurrence */
+	if (cal_component_has_recurrences (clone)
+	    && cal_component_has_simple_recurrence (clone)) {
+		GSList *rrule_list;
+		struct icalrecurrencetype *r;
+		
+		cal_component_get_rrule_list (clone, &rrule_list);
+		r = rrule_list->data;
+
+		if (!icaltime_is_null_time (r->until) && r->until.is_date) {
+			CalComponentDateTime dt;
+			icaltimezone *from_zone = NULL, *to_zone;
+			
+			cal_component_get_dtstart (clone, &dt);
+
+			if (dt.value->is_date) {
+				from_zone = icaltimezone_get_builtin_timezone (calendar_config_get_timezone ());
+			} else if (dt.tzid == NULL) {
+				from_zone = icaltimezone_get_utc_timezone ();
+			} else {
+				if (zones != NULL)
+					from_zone = icalcomponent_get_timezone (zones, dt.tzid);
+				if (from_zone == NULL)
+					from_zone = icaltimezone_get_builtin_timezone_from_tzid (dt.tzid);
+				if (from_zone == NULL && client != NULL)
+					cal_client_get_timezone (client, dt.tzid, &from_zone);
+			}
+			
+			to_zone = icaltimezone_get_utc_timezone ();
+
+			r->until.hour = dt.value->hour;
+			r->until.minute = dt.value->minute;
+			r->until.second = dt.value->second;
+			r->until.is_date = FALSE;
+			
+			icaltimezone_convert_time (&r->until, from_zone, to_zone);
+			r->until.is_utc = TRUE;
+
+			cal_component_set_rrule_list (clone, rrule_list);
+			cal_component_abort_sequence (clone);
+		}
+
+		cal_component_free_recur_list (rrule_list);
+	}
+	
 	/* We delete incoming alarms anyhow, and this helps with outlook */
 	cal_component_remove_all_alarms (clone);
 
@@ -904,7 +949,7 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *send_comp,
 	}
 	
 	/* Tidy up the comp */
-	comp = comp_compliant (method, send_comp);
+	comp = comp_compliant (method, send_comp, client, zones);
 	if (comp == NULL)
 		goto cleanup;
 

@@ -3422,6 +3422,179 @@ cal_component_has_recurrences (CalComponent *comp)
 	return cal_component_has_rdates (comp) || cal_component_has_rrules (comp);
 }
 
+/* Counts the elements in the by_xxx fields of an icalrecurrencetype */
+static int
+count_by_xxx (short *field, int max_elements)
+{
+	int i;
+
+	for (i = 0; i < max_elements; i++)
+		if (field[i] == ICAL_RECURRENCE_ARRAY_MAX)
+			break;
+
+	return i;
+}
+
+gboolean
+cal_component_has_simple_recurrence (CalComponent *comp)
+{
+	GSList *rrule_list;
+	struct icalrecurrencetype *r;
+	int n_by_second, n_by_minute, n_by_hour;
+	int n_by_day, n_by_month_day, n_by_year_day;
+	int n_by_week_no, n_by_month, n_by_set_pos;
+	int len, i;
+	gboolean simple = FALSE;
+
+	if (!cal_component_has_recurrences (comp))
+		return TRUE;
+	
+	cal_component_get_rrule_list (comp, &rrule_list);
+	len = g_slist_length (rrule_list);
+	if (len > 1
+	    || cal_component_has_rdates (comp)
+	    || cal_component_has_exrules (comp))
+		goto cleanup;
+
+	/* Down to one rule, so test that one */
+	r = rrule_list->data;
+
+	/* Any funky frequency? */
+	if (r->freq == ICAL_SECONDLY_RECURRENCE
+	    || r->freq == ICAL_MINUTELY_RECURRENCE
+	    || r->freq == ICAL_HOURLY_RECURRENCE)
+		goto cleanup;
+
+	/* Any funky BY_* */
+#define N_HAS_BY(field) (count_by_xxx (field, sizeof (field) / sizeof (field[0])))
+
+	n_by_second = N_HAS_BY (r->by_second);
+	n_by_minute = N_HAS_BY (r->by_minute);
+	n_by_hour = N_HAS_BY (r->by_hour);
+	n_by_day = N_HAS_BY (r->by_day);
+	n_by_month_day = N_HAS_BY (r->by_month_day);
+	n_by_year_day = N_HAS_BY (r->by_year_day);
+	n_by_week_no = N_HAS_BY (r->by_week_no);
+	n_by_month = N_HAS_BY (r->by_month);
+	n_by_set_pos = N_HAS_BY (r->by_set_pos);
+
+	if (n_by_second != 0
+	    || n_by_minute != 0
+	    || n_by_hour != 0)
+		goto cleanup;	
+
+	switch (r->freq) {
+	case ICAL_DAILY_RECURRENCE:
+		if (n_by_day != 0
+		    || n_by_month_day != 0
+		    || n_by_year_day != 0
+		    || n_by_week_no != 0
+		    || n_by_month != 0
+		    || n_by_set_pos != 0)
+			goto cleanup;
+
+		simple = TRUE;
+		break;
+
+	case ICAL_WEEKLY_RECURRENCE:
+		if (n_by_month_day != 0
+		    || n_by_year_day != 0
+		    || n_by_week_no != 0
+		    || n_by_month != 0
+		    || n_by_set_pos != 0)
+			goto cleanup;
+
+		for (i = 0; i < 8 && r->by_day[i] != ICAL_RECURRENCE_ARRAY_MAX; i++) {
+			int pos;
+			pos = icalrecurrencetype_day_position (r->by_day[i]);
+
+			if (pos != 0)
+				goto cleanup;
+		}
+		
+		simple = TRUE;
+		break;
+
+	case ICAL_MONTHLY_RECURRENCE:
+		if (n_by_year_day != 0
+		    || n_by_week_no != 0
+		    || n_by_month != 0
+		    || n_by_set_pos > 1)
+			goto cleanup;
+
+		if (n_by_month_day == 1) {
+			int nth;
+
+			if (n_by_set_pos != 0)
+				goto cleanup;
+
+			nth = r->by_month_day[0];
+			if (nth < 1 && nth != -1)
+				goto cleanup;
+			
+			simple = TRUE;
+			
+		} else if (n_by_day == 1) {
+			enum icalrecurrencetype_weekday weekday;
+			int pos;
+
+			/* Outlook 2000 uses BYDAY=TU;BYSETPOS=2, and will not
+			   accept BYDAY=2TU. So we now use the same as Outlook
+			   by default. */
+
+			weekday = icalrecurrencetype_day_day_of_week (r->by_day[0]);
+			pos = icalrecurrencetype_day_position (r->by_day[0]);
+
+			if (pos == 0) {
+				if (n_by_set_pos != 1)
+					goto cleanup;
+				pos = r->by_set_pos[0];
+			} else if (pos < 0) {
+				goto cleanup;
+			}
+
+			switch (weekday) {
+			case ICAL_MONDAY_WEEKDAY:
+			case ICAL_TUESDAY_WEEKDAY:
+			case ICAL_WEDNESDAY_WEEKDAY:
+			case ICAL_THURSDAY_WEEKDAY:
+			case ICAL_FRIDAY_WEEKDAY:
+			case ICAL_SATURDAY_WEEKDAY:
+			case ICAL_SUNDAY_WEEKDAY:
+				break;
+
+			default:
+				goto cleanup;
+			}
+		} else {
+			goto cleanup;
+		}
+		
+		simple = TRUE;
+		break;
+
+	case ICAL_YEARLY_RECURRENCE:
+		if (n_by_day != 0
+		    || n_by_month_day != 0
+		    || n_by_year_day != 0
+		    || n_by_week_no != 0
+		    || n_by_month != 0
+		    || n_by_set_pos != 0)
+			goto cleanup;
+		
+		simple = TRUE;
+		break;
+
+	default:
+		goto cleanup;
+	}
+
+ cleanup:
+	cal_component_free_recur_list (rrule_list);
+
+	return simple;
+}
+
 /**
  * cal_component_get_sequence:
  * @comp: A calendar component object.
