@@ -1,3 +1,11 @@
+2000-07-09  Tuomas Kuosmanen  <tigert@gimp.org>
+
+	* art/evolution-contacts.png: updated so it has better contrast
+	against the background.
+
+	* art/evolution-contacts-small.png: Fits the style of the new contacts
+	icon, this is a sigle card.
+
 2000-07-09  Christopher James Lahey  <clahey@helixcode.com>
 
 	* widgets/e-text/e-text-model.c (e_text_model_real_get_text):
