@@ -562,7 +562,6 @@ cal_recur_generate_instances (CalComponent		*comp,
 	cal_component_free_period_list (rdates);
 	cal_component_free_recur_list (exrules);
 	cal_component_free_exdate_list (exdates);
-	
 
  out:
 	cal_component_free_datetime (&dtstart);

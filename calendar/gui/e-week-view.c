@@ -2990,8 +2990,7 @@ e_week_view_show_popup_menu (EWeekView	     *week_view,
 		   We could possibly set up another method of checking it. */
 		not_being_edited = TRUE;
 
-		if (cal_component_has_rrules (event->comp)
-		    || cal_component_has_rdates (event->comp)) {
+		if (cal_component_has_recurrences (event->comp)) {
 			num_items = 6;
 			context_menu = &recur_child_items[0];
 			context_menu[0].sensitive = not_being_edited;

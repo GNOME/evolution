@@ -571,8 +571,7 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 	}
 #endif
 
-	if (cal_component_has_rrules (comp)
-	    || cal_component_has_rdates (comp)) {
+	if (cal_component_has_recurrences (comp)) {
 		draw_recurrence_icon = TRUE;
 		num_icons++;
 	}

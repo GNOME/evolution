@@ -536,13 +536,6 @@ get_has_alarms (CalComponent *comp)
 	return retval;
 }
 
-/* Returns whether the component has any recurrences defined for it */
-static gboolean
-get_has_recurrences (CalComponent *comp)
-{
-	return cal_component_has_rdates (comp) || cal_component_has_rrules (comp);
-}
-
 /* Returns whether the completion date has been set on a component */
 static gboolean
 get_is_complete (CalComponent *comp)
@@ -674,7 +667,7 @@ calendar_model_value_at (ETableModel *etm, int col, int row)
 	case CAL_COMPONENT_FIELD_ICON:
 		/* FIXME: Also support 'Assigned to me' & 'Assigned to someone
 		   else'. */
-		if (get_has_recurrences (comp))
+		if (cal_component_has_recurrences (comp))
 			return GINT_TO_POINTER (1);
 		else
 			return GINT_TO_POINTER (0);
@@ -683,7 +676,7 @@ calendar_model_value_at (ETableModel *etm, int col, int row)
 		return GINT_TO_POINTER (get_is_complete (comp));
 
 	case CAL_COMPONENT_FIELD_RECURRING:
-		return GINT_TO_POINTER (get_has_recurrences (comp));
+		return GINT_TO_POINTER (cal_component_has_recurrences (comp));
 
 	case CAL_COMPONENT_FIELD_OVERDUE:
 		return GINT_TO_POINTER (get_is_overdue (comp));

@@ -2277,8 +2277,7 @@ e_day_view_on_long_event_click (EDayView *day_view,
 	    && E_TEXT (event->canvas_item)->editing)
 		return;
 
-	if (!(cal_component_has_rrules (event->comp)
-	      && cal_component_has_rdates (event->comp))
+	if (!(cal_component_has_recurrences (event->comp))
 	    && (pos == E_DAY_VIEW_POS_LEFT_EDGE
 		|| pos == E_DAY_VIEW_POS_RIGHT_EDGE)) {
 		if (!e_day_view_find_long_event_days (day_view, event,
@@ -2350,8 +2349,7 @@ e_day_view_on_event_click (EDayView *day_view,
 	    && E_TEXT (event->canvas_item)->editing)
 		return;
 
-	if (!(cal_component_has_rrules (event->comp)
-	      && cal_component_has_rdates (event->comp))
+	if (!(cal_component_has_recurrences (event->comp))
 	    && (pos == E_DAY_VIEW_POS_TOP_EDGE
 		|| pos == E_DAY_VIEW_POS_BOTTOM_EDGE)) {
 		/* Grab the keyboard focus, so the event being edited is saved
@@ -2546,8 +2544,7 @@ e_day_view_on_event_right_click (EDayView *day_view,
 		   We could possibly set up another method of checking it. */
 		not_being_edited = TRUE;
 
-		if (cal_component_has_rrules (event->comp)
-		    || cal_component_has_rdates (event->comp)) {
+		if (cal_component_has_recurrences (event->comp)) {
 			items = 6;
 			context_menu = &recur_child_items[0];
 			context_menu[0].sensitive = not_being_edited;
@@ -2862,10 +2859,11 @@ e_day_view_on_top_canvas_motion (GtkWidget *widget,
 		event = &g_array_index (day_view->long_events, EDayViewEvent,
 					day_view->pressed_event_num);
 
-		if (!(cal_component_has_rdates (event->comp)
-		      && cal_component_has_rrules (event->comp))
-		    && (abs (canvas_x - day_view->drag_event_x) > E_DAY_VIEW_DRAG_START_OFFSET
-			|| abs (canvas_y - day_view->drag_event_y) > E_DAY_VIEW_DRAG_START_OFFSET)) {
+		if (!(cal_component_has_recurrences (event->comp))
+		    && (abs (canvas_x - day_view->drag_event_x) 
+			> E_DAY_VIEW_DRAG_START_OFFSET
+			|| abs (canvas_y - day_view->drag_event_y) 
+			> E_DAY_VIEW_DRAG_START_OFFSET)) {
 			day_view->drag_event_day = day_view->pressed_event_day;
 			day_view->drag_event_num = day_view->pressed_event_num;
 			day_view->pressed_event_day = -1;
@@ -2889,9 +2887,7 @@ e_day_view_on_top_canvas_motion (GtkWidget *widget,
 		cursor = day_view->normal_cursor;
 
 		/* Recurring events can't be resized. */
-		if (event &&
-		    !(cal_component_has_rrules (event->comp)
-		      && cal_component_has_rdates (event->comp))) {
+		if (event && !cal_component_has_recurrences (event->comp)) {
 			switch (pos) {
 			case E_DAY_VIEW_POS_LEFT_EDGE:
 			case E_DAY_VIEW_POS_RIGHT_EDGE:
@@ -2969,10 +2965,11 @@ e_day_view_on_main_canvas_motion (GtkWidget *widget,
 
 		event = &g_array_index (day_view->events[day_view->pressed_event_day], EDayViewEvent, day_view->pressed_event_num);
 
-		if (!(cal_component_has_rrules (event->comp)
-		      && cal_component_has_rdates (event->comp))
-		    && (abs (canvas_x - day_view->drag_event_x) > E_DAY_VIEW_DRAG_START_OFFSET
-			|| abs (canvas_y - day_view->drag_event_y) > E_DAY_VIEW_DRAG_START_OFFSET)) {
+		if (!cal_component_has_recurrences (event->comp)
+		    && (abs (canvas_x - day_view->drag_event_x) 
+			> E_DAY_VIEW_DRAG_START_OFFSET
+			|| abs (canvas_y - day_view->drag_event_y) 
+			> E_DAY_VIEW_DRAG_START_OFFSET)) {
 			day_view->drag_event_day = day_view->pressed_event_day;
 			day_view->drag_event_num = day_view->pressed_event_num;
 			day_view->pressed_event_day = -1;
@@ -2996,9 +2993,7 @@ e_day_view_on_main_canvas_motion (GtkWidget *widget,
 		cursor = day_view->normal_cursor;
 
 		/* Recurring events can't be resized. */
-		if (event &&
-		    !(cal_component_has_rrules (event->comp)
-		      && cal_component_has_rdates (event->comp))) {
+		if (event && !cal_component_has_recurrences (event->comp)) {
 			switch (pos) {
 			case E_DAY_VIEW_POS_LEFT_EDGE:
 				cursor = day_view->move_cursor;
@@ -4078,8 +4073,7 @@ e_day_view_reshape_day_event (EDayView *day_view,
 			    || ico->palarm.enabled || ico->aalarm.enabled)
 				num_icons++;
 #endif
-			if (cal_component_has_rrules (comp)
-			    || cal_component_has_rdates (comp))
+			if (cal_component_has_recurrences (comp))
 				num_icons++;
 		}
 

@@ -1,5 +1,31 @@
 2000-09-06  JP Rosevear  <jpr@helixcode.com>
 
+	* gui/e-day-view-main-item.c (e_day_view_main_item_draw_day_event): 
+	Use new cal_component_has_recurrences convenience function
+	
+	* gui/e-week-view.c (e_week_view_show_popup_menu): ditto
+
+	* gui/e-week-view-event-item.c (e_week_view_event_item_draw_icons): 
+	ditto
+
+	* gui/calendar-model.c (calendar_model_value_at): ditto
+	(calendar_model_value_at): ditto
+
+	* gui/e-day-view.c (e_day_view_on_event_click): ditto
+	(e_day_view_on_event_right_click): ditto
+	(e_day_view_on_top_canvas_motion): ditto
+	(e_day_view_on_top_canvas_motion): ditto
+	(e_day_view_on_main_canvas_motion): ditto
+	(e_day_view_on_main_canvas_motion): ditto
+	(e_day_view_reshape_day_event): ditto
+
+	* gui/e-day-view-top-item.c (e_day_view_top_item_draw_long_event): 
+	ditto
+
+	* gui/e-day-view.c (e_day_view_on_long_event_click): ditto
+
+2000-09-06  JP Rosevear  <jpr@helixcode.com>
+
 	* cal-util/cal-recur.c (cal_recur_generate_instances): Use
 	new convenience functions and only get the recurrence
 	stuff if needed.  Free the recurrence stuff if used.

@@ -430,8 +430,7 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 	icon_x = text_x - icon_x_inc - x;
 	icon_y = item_y + 1 + E_DAY_VIEW_ICON_Y_PAD - y;
 
-	if (cal_component_has_rrules (comp)
-	    || cal_component_has_rdates (comp)) {
+	if (cal_component_has_recurrences (comp)) {
 		gdk_gc_set_clip_origin (gc, icon_x, icon_y);
 		gdk_gc_set_clip_mask (gc, day_view->recurrence_mask);
 		gdk_draw_pixmap (drawable, gc,
