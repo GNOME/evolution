@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-08-06 23:00+0200\n"
+"POT-Creation-Date: 2003-08-07 16:53+0200\n"
 "PO-Revision-Date: 2003-05-04 16:42+0100\n"
 "Last-Translator: GNOME PL Team <translators@gnome.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
@@ -17513,46 +17513,44 @@ msgstr ""
 
 #: my-evolution/Locations.h:881
 msgid "Hachijojima Airport"
-msgstr ""
+msgstr "Hachijojima Port Lotniczy"
 
 #: my-evolution/Locations.h:882
 msgid "Hachinohe Ab"
-msgstr ""
+msgstr "Hachinohe Ab"
 
 #: my-evolution/Locations.h:883
 msgid "Hafr Al-Batin"
-msgstr ""
+msgstr "Hafr Al-Batin"
 
 #: my-evolution/Locations.h:884
 msgid "Hagerstown"
-msgstr ""
+msgstr "Hagerstown"
 
 #. HAIL
 #: my-evolution/Locations.h:885 my-evolution/metar.c:218
-#, fuzzy
 msgid "Hail"
-msgstr "Poczta"
+msgstr "Hail"
 
 #: my-evolution/Locations.h:886
 msgid "Hailey-Sun Valley"
-msgstr ""
+msgstr "Hailey-Sun Valley"
 
 #: my-evolution/Locations.h:887
-#, fuzzy
 msgid "Haines"
-msgstr "Nagłówki"
+msgstr "Haines"
 
 #: my-evolution/Locations.h:889
 msgid "Hakodate Airport"
-msgstr ""
+msgstr "Hakodate Port Lotniczy"
 
 #: my-evolution/Locations.h:890
 msgid "Halifax"
-msgstr ""
+msgstr "Halifax"
 
 #: my-evolution/Locations.h:891
 msgid "Hamamatsu Ab"
-msgstr ""
+msgstr "Hamamatsu Ab"
 
 #: my-evolution/Locations.h:892
 msgid "Hamburg"
@@ -17560,7 +17558,7 @@ msgstr "Hamburg"
 
 #: my-evolution/Locations.h:893
 msgid "Hamburg-Finkenwerder"
-msgstr ""
+msgstr "Hamburg-Finkenwerder"
 
 #: my-evolution/Locations.h:894
 msgid "Hamilton"
@@ -17568,7 +17566,7 @@ msgstr "Hamilton"
 
 #: my-evolution/Locations.h:895
 msgid "Hammerfest"
-msgstr ""
+msgstr "Hammerfest"
 
 #: my-evolution/Locations.h:896
 msgid "Hampton"
@@ -17576,19 +17574,19 @@ msgstr "Hamton"
 
 #: my-evolution/Locations.h:897
 msgid "Hanamaki Airport"
-msgstr ""
+msgstr "Hanamaki Port Lotniczy"
 
 #: my-evolution/Locations.h:898
 msgid "Hancock"
-msgstr ""
+msgstr "Hancock"
 
 #: my-evolution/Locations.h:899
 msgid "Hangzhou"
-msgstr ""
+msgstr "Hangzhou"
 
 #: my-evolution/Locations.h:900
 msgid "Hanksville"
-msgstr ""
+msgstr "Hanksville"
 
 #: my-evolution/Locations.h:901
 msgid "Hannover"
@@ -17600,50 +17598,47 @@ msgstr "Ha Noi"
 
 #: my-evolution/Locations.h:903
 msgid "Harbor Beach"
-msgstr ""
+msgstr "Harbor Beach"
 
 #: my-evolution/Locations.h:904
-#, fuzzy
 msgid "Harlingen"
-msgstr "Ostrzeżenie"
+msgstr "Harlingen"
 
 #: my-evolution/Locations.h:905
 msgid "Harlowton"
-msgstr ""
+msgstr "Harlowton"
 
 #: my-evolution/Locations.h:906
 msgid "Harrisburg"
-msgstr ""
+msgstr "Harrisburg"
 
 #: my-evolution/Locations.h:907
 msgid "Harrison"
-msgstr ""
+msgstr "Harrison"
 
 #: my-evolution/Locations.h:908
 msgid "Harstad/Narvik/Evenes"
-msgstr ""
+msgstr "Harstad/Narvik/Evenes"
 
 #: my-evolution/Locations.h:909
 msgid "Hartford"
-msgstr ""
+msgstr "Hartford"
 
 #: my-evolution/Locations.h:910
 msgid "Hassi-Messaoud"
-msgstr ""
+msgstr "Hassi-Messaoud"
 
 #: my-evolution/Locations.h:911
-#, fuzzy
 msgid "Hastings"
-msgstr "Nagłówki"
+msgstr "Hastings"
 
 #: my-evolution/Locations.h:912
 msgid "Haugesund"
-msgstr ""
+msgstr "Haugesund"
 
 #: my-evolution/Locations.h:913
-#, fuzzy
 msgid "Havre"
-msgstr "Zapisz"
+msgstr "Havre"
 
 #: my-evolution/Locations.h:914
 msgid "Hawaii"
@@ -17651,29 +17646,27 @@ msgstr "Hawaje"
 
 #: my-evolution/Locations.h:915
 msgid "Hawthorne"
-msgstr ""
+msgstr "Hawthorne"
 
 #: my-evolution/Locations.h:916
-#, fuzzy
 msgid "Hayden"
-msgstr "Główka"
+msgstr "Hayden"
 
 #: my-evolution/Locations.h:917
 msgid "Hayes River"
-msgstr ""
+msgstr "Hayes River"
 
 #: my-evolution/Locations.h:918
-#, fuzzy
 msgid "Hays"
-msgstr "dni"
+msgstr "Hays"
 
 #: my-evolution/Locations.h:919
 msgid "Hayward"
-msgstr ""
+msgstr "Hayward"
 
 #: my-evolution/Locations.h:920
 msgid "Healy River"
-msgstr ""
+msgstr "Healy River"
 
 #: my-evolution/Locations.h:921
 msgid "Helena"
@@ -17684,104 +17677,96 @@ msgid "Helsinki"
 msgstr "Helsinki"
 
 #: my-evolution/Locations.h:923
-#, fuzzy
 msgid "Henderson"
-msgstr "Nadawca"
+msgstr "Henderson"
 
 #: my-evolution/Locations.h:924
 msgid "Hengchun"
-msgstr ""
+msgstr "Hengchun"
 
 #: my-evolution/Locations.h:925
 msgid "Hermosillo"
-msgstr ""
+msgstr "Hermosillo"
 
 #: my-evolution/Locations.h:926
 msgid "Hibbing"
-msgstr ""
+msgstr "Hibbing"
 
 #: my-evolution/Locations.h:927
 msgid "Hickory"
-msgstr ""
+msgstr "Hickory"
 
 #: my-evolution/Locations.h:928
 msgid "Hill City"
-msgstr ""
+msgstr "Hill City"
 
 #: my-evolution/Locations.h:929
-#, fuzzy
 msgid "Hillsboro"
-msgstr "Burza gradowa"
+msgstr "Hillsboro"
 
 #: my-evolution/Locations.h:930
-#, fuzzy
 msgid "Hilo"
-msgstr "Burza gradowa"
+msgstr "Hilo"
 
 #: my-evolution/Locations.h:931
 msgid "Hinesville"
-msgstr ""
+msgstr "Hinesville"
 
 #: my-evolution/Locations.h:932
 msgid "Hiroshima Airport"
-msgstr ""
+msgstr "Hiroshima Port Lotniczy"
 
 #: my-evolution/Locations.h:933
 msgid "Hobart"
 msgstr "Hobart"
 
 #: my-evolution/Locations.h:934
-#, fuzzy
 msgid "Hobbs"
-msgstr "Godzin"
+msgstr "Hobbs"
 
 #: my-evolution/Locations.h:935
 msgid "Ho Chi Minh"
-msgstr ""
+msgstr "Ho Chi Minh"
 
 #: my-evolution/Locations.h:936
 msgid "Hodeidah"
-msgstr ""
+msgstr "Hodeidah"
 
 #: my-evolution/Locations.h:937
 msgid "Hof"
-msgstr ""
+msgstr "Hof"
 
 #: my-evolution/Locations.h:938
 msgid "Hoffman"
-msgstr ""
+msgstr "Hoffman"
 
 #: my-evolution/Locations.h:939
 msgid "Hofu Ab"
-msgstr ""
+msgstr "Hofu Ab"
 
 #: my-evolution/Locations.h:940
 msgid "Hohenems"
-msgstr ""
+msgstr "Hohenems"
 
 #: my-evolution/Locations.h:941
-#, fuzzy
 msgid "Holguin"
-msgstr "Logowanie"
+msgstr "Holguin"
 
 #: my-evolution/Locations.h:942
-#, fuzzy
 msgid "Homer"
-msgstr "Dom"
+msgstr "Homer"
 
 #: my-evolution/Locations.h:943
-#, fuzzy
 msgid "Homestead AFB"
-msgstr "Zakończone"
+msgstr "Homestead AFB"
 
 #: my-evolution/Locations.h:944
-#, fuzzy
 msgid "Hondo"
-msgstr "Tornado"
+msgstr "Hondo"
 
 #: my-evolution/Locations.h:947
 msgid "Honningsvag"
-msgstr ""
+msgstr "Honningsvag"
 
 #: my-evolution/Locations.h:948
 msgid "Honolulu"
@@ -17789,180 +17774,167 @@ msgstr "Honolulu"
 
 #: my-evolution/Locations.h:949
 msgid "Hoonah"
-msgstr ""
+msgstr "Hoonah"
 
 #: my-evolution/Locations.h:950
 msgid "Hoquiam"
-msgstr ""
+msgstr "Hoquiam"
 
 #: my-evolution/Locations.h:951
 msgid "Hot Springs"
-msgstr ""
+msgstr "Hot Springs"
 
 #: my-evolution/Locations.h:952
 msgid "Houghton Lake"
-msgstr ""
+msgstr "Houghton Lake"
 
 #: my-evolution/Locations.h:953
-#, fuzzy
 msgid "Houlton"
-msgstr "wychodzące"
+msgstr "Houlton"
 
 #: my-evolution/Locations.h:954
-#, fuzzy
 msgid "Houma"
-msgstr "Dom"
+msgstr "Houma"
 
 #: my-evolution/Locations.h:955
 msgid "Houston-Bush"
-msgstr ""
+msgstr "Houston-Bush"
 
 #: my-evolution/Locations.h:956
 msgid "Houston-Clover"
-msgstr ""
+msgstr "Houston-Clover"
 
 #: my-evolution/Locations.h:957
 msgid "Houston-Ellington Field"
-msgstr ""
+msgstr "Houston-Ellington Field"
 
 #: my-evolution/Locations.h:958
 msgid "Houston-Hobby"
-msgstr ""
+msgstr "Houston-Hobby"
 
 #: my-evolution/Locations.h:959
 msgid "Houston-Hooks"
-msgstr ""
+msgstr "Houston-Hooks"
 
 #: my-evolution/Locations.h:960
 msgid "Howard AFB"
-msgstr ""
+msgstr "Howard AFB"
 
 #: my-evolution/Locations.h:961
 msgid "Hsinchu"
-msgstr ""
+msgstr "Hsinchu"
 
 #: my-evolution/Locations.h:962
 msgid "Huanuco"
-msgstr ""
+msgstr "Huanuco"
 
 #: my-evolution/Locations.h:963
 msgid "Huehuetenango"
-msgstr ""
+msgstr "Huehuetenango"
 
 #: my-evolution/Locations.h:964
-#, fuzzy
 msgid "Hulien"
-msgstr "Ukryj"
+msgstr "Hulien"
 
 #: my-evolution/Locations.h:965
 msgid "Humberside"
-msgstr ""
+msgstr "Humberside"
 
 #: my-evolution/Locations.h:967
 msgid "Huntington"
-msgstr ""
+msgstr "Huntington"
 
 #: my-evolution/Locations.h:968
-#, fuzzy
 msgid "Huntsville"
-msgstr "aż do"
+msgstr "Huntsville"
 
 #: my-evolution/Locations.h:969
 msgid "Hurlburt"
-msgstr ""
+msgstr "Hutlburt"
 
 #: my-evolution/Locations.h:970
-#, fuzzy
 msgid "Huron"
-msgstr "Godzin"
+msgstr "Huron"
 
 #: my-evolution/Locations.h:971
 msgid "Hutchinson"
-msgstr ""
+msgstr "Hutchinson"
 
 #: my-evolution/Locations.h:972
 msgid "Hyakuri Ab"
-msgstr ""
+msgstr "Hyakuri Ab"
 
 #: my-evolution/Locations.h:973
 msgid "Hyannis"
-msgstr ""
+msgstr "Hyannis"
 
 #: my-evolution/Locations.h:974
 msgid "Hyderabad"
-msgstr ""
+msgstr "Hyderabad"
 
 #: my-evolution/Locations.h:975
 msgid "Hyeres-Le Palyvestre"
-msgstr ""
+msgstr "Hyers-Le Palyvestre"
 
 #: my-evolution/Locations.h:976
-#, fuzzy
 msgid "Iasi"
-msgstr "Proste"
+msgstr "Iasi"
 
 #: my-evolution/Locations.h:977
-#, fuzzy
 msgid "Ibiza"
-msgstr "Indie"
+msgstr "Ibiza"
 
 #: my-evolution/Locations.h:979
 msgid "Ichikawa"
-msgstr ""
+msgstr "Ichikawa"
 
 #: my-evolution/Locations.h:980
-#, fuzzy
 msgid "Idaho"
-msgstr "Indie"
+msgstr "Idaho"
 
 #: my-evolution/Locations.h:981
 msgid "Idaho Falls"
-msgstr ""
+msgstr "Idaho Falls"
 
 #: my-evolution/Locations.h:982
 msgid "Iguazu"
-msgstr ""
+msgstr "Iguazu"
 
 #: my-evolution/Locations.h:983
 msgid "Iki Airport"
-msgstr ""
+msgstr "Iki Port Lotniczy"
 
 #: my-evolution/Locations.h:984
-#, fuzzy
 msgid "Ilan"
-msgstr "Islandia"
+msgstr "Ilan"
 
 #: my-evolution/Locations.h:985
-#, fuzzy
 msgid "Iliamna"
-msgstr "Treść listu"
+msgstr "Iliamna"
 
 #: my-evolution/Locations.h:986
 msgid "Illinois"
-msgstr ""
+msgstr "Illinois"
 
 #: my-evolution/Locations.h:987
-#, fuzzy
 msgid "Imperial"
-msgstr "Kwiecień"
+msgstr "Imperial"
 
 #: my-evolution/Locations.h:988
 msgid "Imperial (2)"
-msgstr ""
+msgstr "Imperial (2)"
 
 #: my-evolution/Locations.h:989
 msgid "Imperial Beach"
-msgstr ""
+msgstr "Imperial Beach"
 
 #: my-evolution/Locations.h:990
-#, fuzzy
 msgid "In Amenas"
-msgstr "Armenia"
+msgstr "In Amenas"
 
 #: my-evolution/Locations.h:992
-#, fuzzy
 msgid "Indiana"
-msgstr "Indie"
+msgstr "Indiana"
 
 #: my-evolution/Locations.h:993
 msgid "Indianapolis"
@@ -17970,29 +17942,27 @@ msgstr "Indianapolis"
 
 #: my-evolution/Locations.h:994
 msgid "Indian Springs"
-msgstr ""
+msgstr "Indian Springs"
 
 #: my-evolution/Locations.h:995
 msgid "Innsbruck"
 msgstr "Insbruck"
 
 #: my-evolution/Locations.h:996
-#, fuzzy
 msgid "International Falls"
-msgstr "Uwierzytelnienie nie powiodło się"
+msgstr "International Falls"
 
 #: my-evolution/Locations.h:997
 msgid "Intracoastal"
-msgstr ""
+msgstr "Intracoastal"
 
 #: my-evolution/Locations.h:998
-#, fuzzy
 msgid "Inverness"
-msgstr "W trakcie"
+msgstr "Inverness"
 
 #: my-evolution/Locations.h:999
 msgid "Inyokern"
-msgstr ""
+msgstr "Inyokern"
 
 #: my-evolution/Locations.h:1000
 msgid "Iowa"
@@ -18000,42 +17970,39 @@ msgstr "Iowa"
 
 #: my-evolution/Locations.h:1001
 msgid "Iowa City"
-msgstr ""
+msgstr "Iowa City"
 
 #: my-evolution/Locations.h:1002
 msgid "Iqaluit"
-msgstr ""
+msgstr "Iqaluit"
 
 #: my-evolution/Locations.h:1003
 msgid "Iquique/Diego Arac"
-msgstr ""
+msgstr "Iquique/Diego Arac"
 
 #: my-evolution/Locations.h:1004
 msgid "Iquitos"
-msgstr ""
+msgstr "Iquitos"
 
 #: my-evolution/Locations.h:1005
-#, fuzzy
 msgid "Iraklion"
-msgstr "Informacje"
+msgstr "Iraklion"
 
 #: my-evolution/Locations.h:1006
-#, fuzzy
 msgid "Iran, Islamic Republic of"
-msgstr "Republika Korei"
+msgstr "Islamska Republika Iranu"
 
 #: my-evolution/Locations.h:1008
-#, fuzzy
 msgid "Iron Mountain"
-msgstr "Komentarz zawiera"
+msgstr "Iron Mountain"
 
 #: my-evolution/Locations.h:1009
 msgid "Ironwood"
-msgstr ""
+msgstr "Ironwood"
 
 #: my-evolution/Locations.h:1010
 msgid "Iruma Ab"
-msgstr ""
+msgstr "Iruma Ab"
 
 #: my-evolution/Locations.h:1011
 msgid "Islamabad"
@@ -18043,11 +18010,11 @@ msgstr "Islamabad"
 
 #: my-evolution/Locations.h:1012
 msgid "Isle of Man"
-msgstr ""
+msgstr "Isle of Man"
 
 #: my-evolution/Locations.h:1013
 msgid "Islip"
-msgstr ""
+msgstr "Islip"
 
 #: my-evolution/Locations.h:1014
 msgid "Istanbul"
@@ -18055,7 +18022,7 @@ msgstr "Istambuł"
 
 #: my-evolution/Locations.h:1015
 msgid "Itaituba"
-msgstr ""
+msgstr "Itaituba"
 
 #: my-evolution/Locations.h:1017
 msgid "Ithaca"
@@ -18063,36 +18030,35 @@ msgstr "Itaka"
 
 #: my-evolution/Locations.h:1018
 msgid "Ivano-Frankivsk"
-msgstr ""
+msgstr "Iwano-Frankiwsk"
 
 #: my-evolution/Locations.h:1019
 msgid "Iwakuni MCAS"
-msgstr ""
+msgstr "Iwakuni MCAS"
 
 #: my-evolution/Locations.h:1020
 msgid "Iwojima"
-msgstr ""
+msgstr "Iwojima"
 
 #: my-evolution/Locations.h:1021
 msgid "Ixtapa"
-msgstr ""
+msgstr "Ixtapa"
 
 #: my-evolution/Locations.h:1022
 msgid "Izmir/Adnan Menderes"
-msgstr ""
+msgstr "Izmir/Adnan Menderes"
 
 #: my-evolution/Locations.h:1023
 msgid "Izmir/Cigli"
-msgstr ""
+msgstr "Izmir/Cigli"
 
 #: my-evolution/Locations.h:1024
 msgid "Izmit"
-msgstr ""
+msgstr "Izmit"
 
 #: my-evolution/Locations.h:1025
-#, fuzzy
 msgid "Izumo Airport"
-msgstr "Import"
+msgstr "Izumo Port Lotniczy"
 
 #: my-evolution/Locations.h:1026
 msgid "Jackson"
