@@ -1,3 +1,25 @@
+2000-08-16  JP Rosevear  <jpr@helixcode.com>
+
+	Rework gnome-cal.c - alarms are a tad broken ATM so this
+	will need more cleaning later.
+	
+	* gui/gnome-cal.c (snooze): Use CalComponent instead of
+	iCalObject
+	(edit): ditto
+	(audio_notification): ditto
+	(display_notification_cb): Use CalComponent member of 
+	alarm_notify_closure rather than iCalObject
+	(display_notification): ditto
+	(trigger_alarm_cb): ditto.  Use CalComponent alarm types
+	(gnome_calendar_tag_calendar_cb): New 
+	cal_client_generate_instances callback to 
+	mark_gtk_calendar_day's
+	(gnome_calendar_tag_calendar): Use above callback
+	(save_ical_object_cb): Use CalComponent instead of
+	iCalObject
+	(gnome_calendar_edit_object): ditto
+	(gnome_calendar_new_appointment): ditto
+
 2000-08-15  JP Rosevear  <jpr@helixcode.com>
 
 	* gui/mark.c (mark_month_item_cb): Callback used to mark every

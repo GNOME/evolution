@@ -531,12 +531,12 @@ program_notification (char *command, int close_standard)
 
 /* Queues a snooze alarm */
 static void
-snooze (GnomeCalendar *gcal, iCalObject *ico, time_t occur, int snooze_mins, gboolean audio)
+snooze (GnomeCalendar *gcal, CalComponent *comp, time_t occur, int snooze_mins, gboolean audio)
 {
 	time_t now, trigger;
 	struct tm tm;
 	CalAlarmInstance ai;
-
+	
 	now = time (NULL);
 	tm = *localtime (&now);
 	tm.tm_min += snooze_mins;
@@ -547,8 +547,10 @@ snooze (GnomeCalendar *gcal, iCalObject *ico, time_t occur, int snooze_mins, gbo
 		return;
 	}
 
-	ai.uid = ico->uid;
+#if 0
+	cal_component_get_uid (comp, &ai.uid);
 	ai.type = audio ? ALARM_AUDIO : ALARM_DISPLAY;
+#endif
 	ai.trigger = trigger;
 	ai.occur = occur;
 
@@ -557,14 +559,14 @@ snooze (GnomeCalendar *gcal, iCalObject *ico, time_t occur, int snooze_mins, gbo
 
 /* Edits an appointment from the alarm notification dialog */
 static void
-edit (GnomeCalendar *gcal, iCalObject *ico)
+edit (GnomeCalendar *gcal, CalComponent *comp)
 {
-	gnome_calendar_edit_object (gcal, ico);
+	gnome_calendar_edit_object (gcal, comp);
 }
 
 struct alarm_notify_closure {
 	GnomeCalendar *gcal;
-	iCalObject *ico;
+	CalComponent *comp;
 	time_t occur;
 };
 
@@ -581,46 +583,46 @@ display_notification_cb (AlarmNotifyResult result, int snooze_mins, gpointer dat
 		break;
 
 	case ALARM_NOTIFY_SNOOZE:
-		snooze (c->gcal, c->ico, c->occur, snooze_mins, FALSE);
+		snooze (c->gcal, c->comp, c->occur, snooze_mins, FALSE);
 		break;
 
 	case ALARM_NOTIFY_EDIT:
-		edit (c->gcal, c->ico);
+		edit (c->gcal, c->comp);
 		break;
 
 	default:
 		g_assert_not_reached ();
 	}
 
-	ical_object_unref (c->ico);
+	gtk_object_unref (GTK_OBJECT (c->comp));
 	g_free (c);
 }
 
 /* Present a display notification of an alarm trigger */
 static void
-display_notification (time_t trigger, time_t occur, iCalObject *ico, GnomeCalendar *gcal)
+display_notification (time_t trigger, time_t occur, CalComponent *comp, GnomeCalendar *gcal)
 {
 	gboolean result;
 	struct alarm_notify_closure *c;
 
-	ical_object_ref (ico);
+	gtk_object_ref (GTK_OBJECT (comp));
 
 	c = g_new (struct alarm_notify_closure, 1);
 	c->gcal = gcal;
-	c->ico = ico;
+	c->comp = comp;
 	c->occur = occur;
 
-	result = alarm_notify_dialog (trigger, occur, ico, display_notification_cb, c);
+	result = alarm_notify_dialog (trigger, occur, comp, display_notification_cb, c);
 	if (!result) {
 		g_message ("display_notification(): could not display the alarm notification dialog");
 		g_free (c);
-		ical_object_unref (ico);
+		gtk_object_unref (GTK_OBJECT (comp));
 	}
 }
 
 /* Present an audible notification of an alarm trigger */
 static void
-audio_notification (time_t trigger, time_t occur, iCalObject *ico, GnomeCalendar *gcal)
+audio_notification (time_t trigger, time_t occur, CalComponent *comp, GnomeCalendar *gcal)
 {
 	g_message ("AUDIO NOTIFICATION!");
 	/* FIXME */
@@ -629,7 +631,7 @@ audio_notification (time_t trigger, time_t occur, iCalObject *ico, GnomeCalendar
 struct trigger_alarm_closure {
 	GnomeCalendar *gcal;
 	char *uid;
-	enum AlarmType type;
+	CalComponentAlarmAction type;
 	time_t occur;
 };
 
@@ -638,16 +640,17 @@ static void
 trigger_alarm_cb (gpointer alarm_id, time_t trigger, gpointer data)
 {
 	struct trigger_alarm_closure *c;
-	iCalObject *ico;
+	CalComponent *comp;
 	CalClientGetStatus status;
+	const char *uid;
 	ObjectAlarms *oa;
-	GList *l;
+   	GList *l;
 
 	c = data;
 
 	/* Fetch the object */
 
-	status = cal_client_get_object (c->gcal->client, c->uid, &ico);
+	status = cal_client_get_object (c->gcal->client, c->uid, &comp);
 
 	switch (status) {
 	case CAL_CLIENT_GET_SUCCESS:
@@ -659,35 +662,46 @@ trigger_alarm_cb (gpointer alarm_id, time_t trigger, gpointer data)
 		return;
 	}
 
-	g_assert (ico != NULL);
+	g_assert (comp != NULL);
 
 	/* Present notification */
 
 	switch (c->type) {
-	case ALARM_MAIL:
+	case CAL_COMPONENT_ALARM_EMAIL:
+#if 0
 		g_assert (ico->malarm.enabled);
 		mail_notification (ico->malarm.data, ico->summary, c->occur);
+#endif
 		break;
 
-	case ALARM_PROGRAM:
+	case CAL_COMPONENT_ALARM_PROCEDURE:
+#if 0
 		g_assert (ico->palarm.enabled);
 		program_notification (ico->palarm.data, FALSE);
+#endif
 		break;
 
-	case ALARM_DISPLAY:
+	case CAL_COMPONENT_ALARM_DISPLAY:
+#if 0
 		g_assert (ico->dalarm.enabled);
-		display_notification (trigger, c->occur, ico, c->gcal);
+#endif
+		display_notification (trigger, c->occur, comp, c->gcal);
 		break;
 
-	case ALARM_AUDIO:
+	case CAL_COMPONENT_ALARM_AUDIO:
+#if 0
 		g_assert (ico->aalarm.enabled);
-		audio_notification (trigger, c->occur, ico, c->gcal);
+#endif
+		audio_notification (trigger, c->occur, comp, c->gcal);
+		break;
+
+	default:
 		break;
 	}
 
 	/* Remove the alarm from the hash table */
-
-	oa = g_hash_table_lookup (c->gcal->alarms, ico->uid);
+	cal_component_get_uid (comp, &uid);
+	oa = g_hash_table_lookup (c->gcal->alarms, uid);
 	g_assert (oa != NULL);
 
 	l = g_list_find (oa->alarm_ids, alarm_id);
@@ -697,12 +711,12 @@ trigger_alarm_cb (gpointer alarm_id, time_t trigger, gpointer data)
 	g_list_free_1 (l);
 
 	if (!oa->alarm_ids) {
-		g_hash_table_remove (c->gcal->alarms, ico->uid);
+		g_hash_table_remove (c->gcal->alarms, uid);
 		g_free (oa->uid);
 		g_free (oa);
 	}
-
-	ical_object_unref (ico);
+	
+	gtk_object_unref (GTK_OBJECT (comp));
 }
 
 /* Frees a struct trigger_alarm_closure */
@@ -727,7 +741,9 @@ setup_alarm (GnomeCalendar *cal, CalAlarmInstance *ai)
 	c = g_new (struct trigger_alarm_closure, 1);
 	c->gcal = cal;
 	c->uid = g_strdup (ai->uid);
+#if 0
 	c->type = ai->type;
+#endif
 	c->occur = ai->occur;
 
 	alarm = alarm_add (ai->trigger, trigger_alarm_cb, c, free_trigger_alarm_closure);
@@ -1178,11 +1194,34 @@ mark_gtk_calendar_day (GtkCalendar *calendar, time_t start, time_t end)
  * Tags the dates with appointments in a GtkCalendar based on the
  * GnomeCalendar contents
  */
+struct calendar_tag_closure
+{
+	GtkCalendar *gtk_cal;
+	time_t month_begin;
+	time_t month_end;
+};
+
+static gboolean
+gnome_calendar_tag_calendar_cb (CalComponent *comp, time_t istart, time_t iend, gpointer data)
+{
+	struct calendar_tag_closure *c = data;
+
+	start = MAX (istart, c->month_begin);
+	end = MIN (iend, c->month_end);
+	
+	if (start > end)
+		return TRUE;
+	
+	/* Clip the occurrence's start and end times to the month's limits */
+	mark_gtk_calendar_day (c->gtk_cal, start, end);
+	
+	return TRUE;
+}
+
 void
 gnome_calendar_tag_calendar (GnomeCalendar *cal, GtkCalendar *gtk_cal)
 {
-	time_t month_begin, month_end;
-	GList *cois, *l;
+	struct calendar_tag_closure c;
 
 	g_return_if_fail (cal != NULL);
 	g_return_if_fail (GNOME_IS_CALENDAR (cal));
@@ -1193,14 +1232,16 @@ gnome_calendar_tag_calendar (GnomeCalendar *cal, GtkCalendar *gtk_cal)
 	if (!GTK_WIDGET_VISIBLE (cal->gtk_calendar))
 		return;
 
-	month_begin = time_from_day (gtk_cal->year, gtk_cal->month, 1);
-	if (month_begin == -1) {
+	c.gtk_cal = gtk_cal;
+	
+	c.month_begin = time_from_day (gtk_cal->year, gtk_cal->month, 1);
+	if (c.month_begin == -1) {
 		g_message ("gnome_calendar_tag_calendar(): Generated invalid month begin!");
 		return;
 	}
 
-	month_end = time_month_end (month_begin);
-	if (month_end == -1) {
+	c.month_end = time_month_end (c.month_begin);
+	if (c.month_end == -1) {
 		g_message ("gnome_calendar_tag_calendar(): Generated invalid month end!");
 		return;
 	}
@@ -1208,24 +1249,9 @@ gnome_calendar_tag_calendar (GnomeCalendar *cal, GtkCalendar *gtk_cal)
 	gtk_calendar_freeze (gtk_cal);
 	gtk_calendar_clear_marks (gtk_cal);
 
-	cois = cal_client_get_events_in_range (cal->client, month_begin,
-					       month_end);
-
-	for (l = cois; l; l = l->next) {
-		CalObjInstance *coi = l->data;
-		time_t start, end;
-
-		start = MAX (coi->start, month_begin);
-		end = MIN (coi->end, month_end);
-
-		if (start > end)
-			continue;
-
-		/* Clip the occurrence's start and end times to the month's limits */
-		mark_gtk_calendar_day (gtk_cal, start, end);
-	}
-
-	cal_obj_instance_list_free (cois);
+	cal_client_generate_instances (cal->client, CALOBJ_TYPE_EVENT, 
+				       c.month_begin, c.month_end,
+				       gnome_calendar_tag_calendar_cb, &c);
 
 	gtk_calendar_thaw (gtk_cal);
 }
@@ -1314,26 +1340,28 @@ editor_closed_cb (EventEditor *ee, gpointer data)
 
 /* Callback used when an event editor requests that an object be saved */
 static void
-save_ical_object_cb (EventEditor *ee, iCalObject *ico, gpointer data)
+save_ical_object_cb (EventEditor *ee, CalComponent *comp, gpointer data)
 {
 	GnomeCalendar *gcal;
 
 	gcal = GNOME_CALENDAR (data);
-	if (!cal_client_update_object (gcal->client, ico))
+	if (!cal_client_update_object (gcal->client, comp))
 		g_message ("save_ical_object_cb(): Could not update the object!");
 }
 
 void
-gnome_calendar_edit_object (GnomeCalendar *gcal, iCalObject *ico)
+gnome_calendar_edit_object (GnomeCalendar *gcal, CalComponent *comp)
 {
 	EventEditor *ee;
-
+	const char *uid;
+	
 	g_return_if_fail (gcal != NULL);
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
-	g_return_if_fail (ico != NULL);
-	g_return_if_fail (ico->uid != NULL);
+	g_return_if_fail (comp != NULL);
 
-	ee = g_hash_table_lookup (gcal->object_editor_hash, ico->uid);
+	cal_component_get_uid (comp, &uid);
+
+	ee = g_hash_table_lookup (gcal->object_editor_hash, uid);
 	if (!ee) {
 		ee = event_editor_new ();
 		if (!ee) {
@@ -1345,7 +1373,7 @@ gnome_calendar_edit_object (GnomeCalendar *gcal, iCalObject *ico)
 		 * objects?  We would need to know about it as well.
 		 */
 
-		g_hash_table_insert (gcal->object_editor_hash, g_strdup (ico->uid), ee);
+		g_hash_table_insert (gcal->object_editor_hash, g_strdup (uid), ee);
 		gtk_signal_connect (GTK_OBJECT (ee), "ical_object_released",
 				    GTK_SIGNAL_FUNC (ical_object_released_cb), gcal);
 
@@ -1355,7 +1383,7 @@ gnome_calendar_edit_object (GnomeCalendar *gcal, iCalObject *ico)
 		gtk_signal_connect (GTK_OBJECT (ee), "save_ical_object",
 				    GTK_SIGNAL_FUNC (save_ical_object_cb), gcal);
 
-		event_editor_set_ical_object (EVENT_EDITOR (ee), ico);
+		event_editor_set_ical_object (EVENT_EDITOR (ee), comp);
 	}
 
 	event_editor_focus (ee);
@@ -1380,17 +1408,17 @@ gnome_calendar_new_appointment (GnomeCalendar *gcal)
 	g_return_if_fail (gcal != NULL);
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
 
-	gnome_calendar_get_current_time_range (gcal, dtstart, dtend);
+	gnome_calendar_get_current_time_range (gcal, &dtstart, &dtend);
 	dt.value = &itt;
 	dt.tzid = NULL;
 
 	comp = cal_component_new ();
 	cal_component_set_new_vtype (comp, CAL_COMPONENT_EVENT);
 
-	itt = icaltimetype_from_timet (dtstart);
+	itt = icaltimetype_from_timet (dtstart, 0);
 	cal_component_set_dtstart (comp, &dt);
 
-	itt = icaltimetype_from_timet (dtend);
+	itt = icaltimetype_from_timet (dtend, 0);
 	cal_component_set_dtend (comp, &dt);
 
 	gnome_calendar_edit_object (gcal, comp);

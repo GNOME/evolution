@@ -42,6 +42,8 @@ glade_DATA = 					\
 glade_messages = event-editor-dialog.glade.h
 
 evolution_calendar_SOURCES =			\
+	gnome-cal.c				\
+	gnome-cal.h				\
 	alarm.c					\
 	alarm.h					\
 	calendar-commands.c			\
@@ -77,8 +79,6 @@ evolution_calendar_SOURCES =			\
 	gncal-todo.h				\
 	gnome-month-item.c			\
 	gnome-month-item.h			\
-	gnome-cal.c				\
-	gnome-cal.h				\
 	goto.c					\
 	main.c					\
 	mark.c					\
