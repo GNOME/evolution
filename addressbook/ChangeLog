@@ -1,5 +1,16 @@
 2004-04-21  Hans Petter Jansson  <hpj@ximian.com>
 
+	* gui/contact-editor/e-contact-editor.h (EContactEditor): Remove
+	unused fields.
+
+	* gui/contact-editor/e-contact-editor.c (emails): Remove.
+	(e_contact_editor_init): Don't init unused fields.
+	(e_contact_editor_dispose): Don't free/clear unused fields.
+	(enable_writable_fields): Don't use email_choice anymore. Enable
+	checkbutton-htmlmail only once.
+
+2004-04-21  Hans Petter Jansson  <hpj@ximian.com>
+
 	* gui/contact-editor/contact-editor.glade: Make the phone type
 	selectors be option menus.
 

@@ -68,25 +68,9 @@ struct _EContactEditor
 	
 	GladeXML *gui;
 	GtkWidget *app;
-	GnomeUIInfo *email_info;
-	GnomeUIInfo *phone_info;
-	GnomeUIInfo *address_info;
-	GtkWidget *email_popup;
-	GtkWidget *phone_popup;
-	GtkWidget *address_popup;
-	GList *email_list;
-	GList *phone_list;
-	GList *address_list;
 
 	EContactName *name;
 	char *company;
-
-	GtkListStore *im_model;
-
-	EContactField email_choice;
-	EContactField phone_choice[4];
-	EContactField address_choice;
-	EContactField address_mailing;
 
 	/* Whether we are editing a new contact or an existing one */
 	guint is_new_contact : 1;

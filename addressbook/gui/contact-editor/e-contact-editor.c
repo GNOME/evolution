@@ -147,12 +147,6 @@ phones [] = {
 	{ E_CONTACT_PHONE_TTYTDD,       EVC_X_TTYTDD,    NULL    }
 };
 
-static EContactField emails[] = {
-	E_CONTACT_EMAIL_1,
-	E_CONTACT_EMAIL_2,
-	E_CONTACT_EMAIL_3
-};
-
 static EContactField addresses[] = {
 	E_CONTACT_ADDRESS_WORK,
 	E_CONTACT_ADDRESS_HOME,
@@ -1716,26 +1710,9 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 	GtkWidget *wants_html;
 	char *icon_path;
 
-	e_contact_editor->email_info = NULL;
-	e_contact_editor->phone_info = NULL;
-	e_contact_editor->address_info = NULL;
-	e_contact_editor->email_popup = NULL;
-	e_contact_editor->phone_popup = NULL;
-	e_contact_editor->address_popup = NULL;
-	e_contact_editor->email_list = NULL;
-	e_contact_editor->phone_list = NULL;
-	e_contact_editor->address_list = NULL;
 	e_contact_editor->name = e_contact_name_new();
 	e_contact_editor->company = g_strdup("");
 	
-	e_contact_editor->email_choice = 0;
-	e_contact_editor->phone_choice[0] = 1; /* E_CONTACT_PHONE_BUSINESS */
-	e_contact_editor->phone_choice[1] = 7; /* E_CONTACT_PHONE_HOME */
-	e_contact_editor->phone_choice[2] = 3; /* E_CONTACT_PHONE_BUSINESS_FAX */
-	e_contact_editor->phone_choice[3] = 11; /* E_CONTACT_PHONE_MOBILE */
-	e_contact_editor->address_choice = 0;
-	e_contact_editor->address_mailing = -1;
-
 	e_contact_editor->contact = NULL;
 	e_contact_editor->changed = FALSE;
 	e_contact_editor->image_set = FALSE;
@@ -1808,47 +1785,6 @@ e_contact_editor_dispose (GObject *object)
 	if (e_contact_editor->writable_fields) {
 		g_object_unref(e_contact_editor->writable_fields);
 		e_contact_editor->writable_fields = NULL;
-	}
-	if (e_contact_editor->email_list) {
-		g_list_foreach(e_contact_editor->email_list, (GFunc) g_free, NULL);
-		g_list_free(e_contact_editor->email_list);
-		e_contact_editor->email_list = NULL;
-	}
-	if (e_contact_editor->email_info) {
-		g_free(e_contact_editor->email_info);
-		e_contact_editor->email_info = NULL;
-	}
-	if (e_contact_editor->email_popup) {
-		g_object_unref(e_contact_editor->email_popup);
-		e_contact_editor->email_popup = NULL;
-	}
-	
-	if (e_contact_editor->phone_list) {
-		g_list_foreach(e_contact_editor->phone_list, (GFunc) g_free, NULL);
-		g_list_free(e_contact_editor->phone_list);
-		e_contact_editor->phone_list = NULL;
-	}
-	if (e_contact_editor->phone_info) {
-		g_free(e_contact_editor->phone_info);
-		e_contact_editor->phone_info = NULL;
-	}
-	if (e_contact_editor->phone_popup) {
-		g_object_unref(e_contact_editor->phone_popup);
-		e_contact_editor->phone_popup = NULL;
-	}
-	
-	if (e_contact_editor->address_list) {
-		g_list_foreach(e_contact_editor->address_list, (GFunc) g_free, NULL);
-		g_list_free(e_contact_editor->address_list);
-		e_contact_editor->address_list = NULL;
-	}
-	if (e_contact_editor->address_info) {
-		g_free(e_contact_editor->address_info);
-		e_contact_editor->address_info = NULL;
-	}
-	if (e_contact_editor->address_popup) {
-		g_object_unref(e_contact_editor->address_popup);
-		e_contact_editor->address_popup = NULL;
 	}
 	
 	if (e_contact_editor->contact) {
@@ -2324,15 +2260,9 @@ enable_writable_fields(EContactEditor *editor)
 				editor->address_editable [i] = TRUE;
 			}
 		}
-
-		/* ugh - this is needed to make sure we don't have a
-                   disabled label next to a drop down when the item in
-                   the menu (the one reflected in the label) is
-                   enabled. */
-		if (!strcmp (field, e_contact_field_name (emails[editor->email_choice]))) {
-			enable_widget (glade_xml_get_widget (editor->gui, "checkbutton-htmlmail"), editor->target_editable);
-		}
 	}
+
+	enable_widget (glade_xml_get_widget (editor->gui, "checkbutton-htmlmail"), editor->target_editable);
 
 	/* handle the label next to the dropdown widgets */
 
