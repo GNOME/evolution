@@ -181,7 +181,7 @@
     <option value="not contains">
      <title>does not contain</title>
      <code>
-	(match-all (not (body-contains ${word})))
+	(not (body-contains ${word}))
      </code>
     </option>
    </input>
