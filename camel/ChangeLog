@@ -1,3 +1,7 @@
+2004-01-05  JP Rosevear <jpr@ximian.com>
+
+	* camel-utf8.c: include sys/types.h for freebsd
+
 2004-01-05  Rodrigo Moya <rodrigo@ximian.com>
 
 	* providers/groupwise/camel-groupwise-provider.c (groupwise_url_hash,
