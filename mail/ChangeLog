@@ -1,5 +1,12 @@
 2001-09-21    <NotZed@Ximian.com>
 
+	* mail-local.c (mail_local_store_add_folder): Use url path as
+	full_name, not shell path.
+	(mail_local_folder_construct): Remove path argument, and use the
+	full_name instead.
+	(mls_get_folder): Dont lookup folderinfo in cache.  Like duh the
+	shell hasn't told me its there yet, smaaaart.
+
 	* mail-folder-cache.c (mail_note_store): Take a new argument
 	'done' that can callback when complete.  Fixed callers
 	appropriately.
