@@ -47,7 +47,6 @@
 #include "art/mail-new.xpm"
 #include "art/mail-read.xpm"
 #include "art/mail-replied.xpm"
-#include "art/mail-need-reply.xpm"
 #include "art/attachment.xpm"
 #include "art/priority-high.xpm"
 #include "art/empty.xpm"
@@ -151,7 +150,6 @@ static struct {
 	{ score_high_xpm,       NULL },
 	{ score_higher_xpm,     NULL },
 	{ score_highest_xpm,    NULL },
-	{ mail_need_reply_xpm,  NULL },
 	{ NULL,			NULL }
 };
 
@@ -951,7 +949,6 @@ message_list_create_extras (void)
 	e_table_extras_add_pixbuf(extras, "score", states_pixmaps [13].pixbuf);
 	e_table_extras_add_pixbuf(extras, "attachment", states_pixmaps [6].pixbuf);
 	e_table_extras_add_pixbuf(extras, "flagged", states_pixmaps [7].pixbuf);
-	e_table_extras_add_pixbuf(extras, "needsreply", states_pixmaps [15].pixbuf);
 	
 	e_table_extras_add_compare(extras, "address_compare", address_compare);
 	e_table_extras_add_compare(extras, "subject_compare", subject_compare);
@@ -968,9 +965,6 @@ message_list_create_extras (void)
 	
 	images [1] = states_pixmaps [7].pixbuf;
 	e_table_extras_add_cell(extras, "render_flagged", e_cell_toggle_new (0, 2, images));
-
-	images [1] = states_pixmaps [15].pixbuf;
-	e_table_extras_add_cell(extras, "render_needs_reply", e_cell_toggle_new (0, 2, images));
 
 	for (i = 0; i < 7; i++)
 		images[i] = states_pixmaps [i + 7].pixbuf;
