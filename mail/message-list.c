@@ -806,6 +806,10 @@ ml_tree_value_at (ETreeModel *etm, ETreePath *path, int col, void *model_data)
 	uid = id_uid(uid);
 
 	msg_info = camel_folder_get_message_info (message_list->folder, uid);
+	if (msg_info == NULL) {
+		g_warning("Invalid node encountered: %s", uid);
+		goto fake;
+	}
 
 	switch (col){
 	case COL_MESSAGE_STATUS: {

@@ -20,6 +20,10 @@
 #define d(x) 
 
 static void set_view_data(const char *current_message, int busy);
+static void set_stop(int sensitive);
+
+static void mail_enable_stop(void);
+static void mail_disable_stop(void);
 
 #define MAIL_MT_LOCK(x) pthread_mutex_lock(&x)
 #define MAIL_MT_UNLOCK(x) pthread_mutex_unlock(&x)
@@ -213,8 +217,11 @@ mail_msg_received(EThread *e, EMsg *msg, void *data)
 		g_free(text);
 	}
 
-	if (m->ops->receive_msg)
+	if (m->ops->receive_msg) {
+		mail_enable_stop();
 		m->ops->receive_msg(m);
+		mail_disable_stop();
+	}
 }
 
 static void mail_msg_cleanup(void)
@@ -579,6 +586,48 @@ int mail_proxy_event(CamelObjectEventHookFunc func, CamelObject *o, void *event_
 	}
 }
 
+/* ********************************************************************** */
+/* locked via status_lock */
+static int busy_state;
+
+static void do_set_busy(struct _mail_msg *mm)
+{
+	set_stop(busy_state > 0);
+}
+
+struct _mail_msg_op set_busy_op = {
+	NULL,
+	do_set_busy,
+	NULL,
+	NULL,
+};
+
+static void mail_enable_stop(void)
+{
+	struct _mail_msg *m;
+
+	MAIL_MT_LOCK(status_lock);
+	busy_state++;
+	if (busy_state == 1) {
+		m = mail_msg_new(&set_busy_op, NULL, sizeof(*m));
+		e_msgport_put(mail_gui_port, (EMsg *)m);
+	}
+	MAIL_MT_UNLOCK(status_lock);
+}
+
+static void mail_disable_stop(void)
+{
+	struct _mail_msg *m;
+
+	MAIL_MT_LOCK(status_lock);
+	busy_state--;
+	if (busy_state == 0) {
+		m = mail_msg_new(&set_busy_op, NULL, sizeof(*m));
+		e_msgport_put(mail_gui_port, (EMsg *)m);
+	}
+	MAIL_MT_UNLOCK(status_lock);
+}
+
 /* ******************** */
 
 /* FIXME FIXME FIXME This is a totally evil hack.  */
@@ -652,4 +701,28 @@ set_view_data(const char *current_message, int busy)
 		break;
 	}
 	gtk_object_unref(GTK_OBJECT(it));
+}
+
+static void
+set_stop(int sensitive)
+{
+	EList *controls;
+	EIterator *it;
+	static int last = FALSE;
+
+	if (last == sensitive)
+		return;
+
+	controls = folder_browser_factory_get_control_list ();
+	for (it = e_list_get_iterator (controls); e_iterator_is_valid (it); e_iterator_next (it)) {
+		BonoboControl *control;
+		BonoboUIComponent *uic;
+
+		control = BONOBO_CONTROL (e_iterator_get (it));
+		uic = bonobo_control_get_ui_component (control);
+
+		bonobo_ui_component_set_prop(uic, "/commands/MailStop", "sensitive", sensitive?"1":"0", NULL);
+	}
+	gtk_object_unref(GTK_OBJECT(it));
+	last = sensitive;
 }

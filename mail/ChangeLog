@@ -1,3 +1,15 @@
+2001-02-22  Not Zed  <NotZed@Ximian.com>
+
+	* mail-local.c (local_storage_new_folder_cb): started hack for
+	progress reporting, which is currently to the console.
+
+	* mail-mt.c (set_stop): Set the stop button sensitivity.
+	(mail_msg_received): enable/disable stop button while we're
+	processing stuff in another thread.
+
+	* message-list.c (ml_tree_value_at): If our uid entry vanishes
+	before w'ere ready, then make a fake.
+
 2001-02-21  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-crypto.c (pgp_mime_part_verify): Changed to use
