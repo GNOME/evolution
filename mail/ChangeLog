@@ -1,3 +1,18 @@
+2001-06-01  Federico Mena Quintero  <federico@ximian.com>
+
+	* folder-browser.h (FolderBrowser): Added fields for the
+	GalViewMenus and GalViewCollection, since we need to keep them
+	around while the component is active.
+
+	* folder-browser-factory.c (folder_browser_setup_view_menus): Plug
+	leaks; unref the spec and factory.  Set the view collection and
+	the view menus on the FolderBrowser object.
+	(folder_browser_discard_view_menus): New function.
+	(control_deactivate): Discard the menus.
+
+	* folder-browser.c (folder_browser_destroy): Destroy the view
+	collection and the view menus.
+
 2001-06-01  Ettore Perazzoli  <ettore@ximian.com>
 
 	* Makefile.am (evolution_mail_LDADD): Add `$(DB3_LDADD)'.

@@ -108,6 +108,16 @@ folder_browser_destroy (GtkObject *object)
 	
 	CORBA_exception_free (&ev);
 	
+	if (folder_browser->view_collection) {
+		gtk_object_unref (GTK_OBJECT (folder_browser->view_collection));
+		folder_browser->view_collection = NULL;
+	}
+
+	if (folder_browser->view_menus) {
+		gtk_object_unref (GTK_OBJECT (folder_browser->view_menus));
+		folder_browser->view_menus = NULL;
+	}
+
 	folder_browser_parent_class->destroy (object);
 }
 
@@ -1151,6 +1161,9 @@ static void
 my_folder_browser_init (GtkObject *object)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (object);
+
+	fb->view_collection = NULL;
+	fb->view_menus = NULL;
 
 	/*
 	 * Setup parent class fields.

@@ -151,18 +151,18 @@ static void
 folder_browser_setup_view_menus (FolderBrowser *fb,
 				 BonoboUIComponent *uic)
 {
-	GalViewCollection *collection;
-	GalViewMenus *views;
 	GalViewFactory *factory;
 	ETableSpecification *spec;
 	char *local_dir;
 
-	collection = gal_view_collection_new();
-	/* FIXME: Memory leak. */
+	g_assert (fb->view_collection == NULL);
+	g_assert (fb->view_menus == NULL);
+
+	fb->view_collection = gal_view_collection_new();
+
 	local_dir = gnome_util_prepend_user_home ("/evolution/views/mail/");
-	
 	gal_view_collection_set_storage_directories(
-		collection,
+		fb->view_collection,
 		EVOLUTION_DATADIR "/evolution/views/mail/",
 		local_dir);
 	g_free (local_dir);
@@ -170,19 +170,31 @@ folder_browser_setup_view_menus (FolderBrowser *fb,
 	spec = e_table_specification_new();
 	e_table_specification_load_from_file(spec, EVOLUTION_ETSPECDIR "/message-list.etspec");
 
-	factory = gal_view_factory_etable_new(spec);
-	gal_view_collection_add_factory(collection, factory);
-	gtk_object_sink(GTK_OBJECT(factory));
+	factory = gal_view_factory_etable_new (spec);
+	gtk_object_unref (GTK_OBJECT (spec));
+	gal_view_collection_add_factory (fb->view_collection, factory);
+	gtk_object_unref (GTK_OBJECT (factory));
 
-	gal_view_collection_load(collection);
+	gal_view_collection_load(fb->view_collection);
 
-	views = gal_view_menus_new(collection);
-	gal_view_menus_apply(views, uic, NULL); /* This function probably needs to sink the views object. */
-	gtk_signal_connect(GTK_OBJECT(collection), "display_view",
+	fb->view_menus = gal_view_menus_new(fb->view_collection);
+	gal_view_menus_apply(fb->view_menus, uic, NULL);
+	gtk_signal_connect(GTK_OBJECT(fb->view_collection), "display_view",
 			   display_view, fb);
-	/*	gtk_object_sink(GTK_OBJECT(views)); */
+}
 
-	gtk_object_sink(GTK_OBJECT(collection));
+/* Gets rid of the view collection and view menus objects */
+static void
+folder_browser_discard_view_menus (FolderBrowser *fb)
+{
+	g_assert (fb->view_collection != NULL);
+	g_assert (fb->view_menus != NULL);
+
+	gtk_object_unref (GTK_OBJECT (fb->view_collection));
+	fb->view_collection = NULL;
+
+	gtk_object_unref (GTK_OBJECT (fb->view_menus));
+	fb->view_menus = NULL;
 }
 
 static void
@@ -293,6 +305,8 @@ control_deactivate (BonoboControl     *control,
 
 	if (fb->folder)
 		mail_sync_folder (fb->folder, NULL, NULL);
+
+	folder_browser_discard_view_menus (fb);
 }
 
 static void

@@ -9,6 +9,7 @@
 #include <bonobo/bonobo-property-bag.h>
 #include <bonobo/bonobo-ui-component.h>
 #include <widgets/misc/e-filter-bar.h>
+#include "widgets/menus/gal-view-menus.h"
 #include "filter/filter-rule.h"
 #include "filter/filter-context.h" /*eek*/
 #include "message-list.h"
@@ -58,6 +59,10 @@ struct  _FolderBrowser {
 	FilterRule  *search_full; /* if we have a full search active */
 
 	gboolean     preview_shown;
+
+	/* View collection and the menu handler object */
+	GalViewCollection *view_collection;
+	GalViewMenus *view_menus;
 };
 
 
