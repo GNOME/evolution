@@ -313,7 +313,7 @@ importer_cb (EvolutionImporterListener *listener,
 
 	if (result == EVOLUTION_IMPORTER_NOT_READY ||
 	    result == EVOLUTION_IMPORTER_BUSY) {
-		gtk_timeout_add (5000, importer_timeout_fn, data);
+		gtk_timeout_add (1000, importer_timeout_fn, data);
 		return;
 	}
 
@@ -380,10 +380,6 @@ pine_import_file (PineImporter *importer,
 		return FALSE;
 	}
 
-	if (folder == TRUE) {
-		return FALSE;
-	}
-	
 	importer->listener = evolution_importer_listener_new (importer_cb,
 							      importer);
 	objref = bonobo_object_corba_objref (BONOBO_OBJECT (importer->listener));
@@ -405,16 +401,6 @@ pine_can_import (EvolutionIntelligentImporter *ii,
 	char *maildir, *addrfile;
 	gboolean mail;
 	gboolean md_exists, addr_exists;
-
-	/* Already imported */
-
-	mail = bonobo_config_get_boolean_with_default (importer->db,
-                "/Importer/Pine/mail-imported", FALSE, NULL);
-
-	if (mail)
-		return FALSE;
-
-	importer->do_mail = !mail;
 
 	maildir = gnome_util_prepend_user_home ("mail");
 	md_exists = g_file_exists (maildir);
@@ -444,23 +430,6 @@ import_next (PineImporter *importer)
 		data = importer->dir_list->data;
 
 		folder = g_concat_dir_and_file (data->parent, data->foldername);
-#if 0
-		while (pine_import_file (importer, data->path, folder, data->folder) == FALSE) {
-			g_free (folder);
-			g_free (data->parent);
-			g_free (data->path);
-			g_free (data->foldername);
-			g_free (data);
-			importer->dir_list = importer->dir_list->next;
-
-			if (importer->dir_list == NULL) {
-				break;
-			}
-
-			data = importer->dir_list->data;
-			folder = g_concat_dir_and_file (data->parent, data->foldername);
-		}
-#endif
 		pine_import_file (importer, data->path, folder, data->folder);
 		g_free (folder);
 		g_free (data->parent);

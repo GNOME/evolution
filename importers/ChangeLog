@@ -1,3 +1,12 @@
+2001-10-29  Iain Holmes  <iain@ximian.com>
+
+	* pine-importer.c (pine_can_import): Remove the checks to see if we've
+	run before.
+	(pine_import_file): Remove the return if folder.
+
+	* netscape-importer.c (netscape_can_import): Remove the checks to see if
+	we've run before.
+
 2001-09-25  Iain Holmes  <iain@ximian.com>
 
 	* netscape-importer.c (netscape_import_accounts): Handle the case when 

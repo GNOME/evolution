@@ -595,21 +595,6 @@ netscape_can_import (EvolutionIntelligentImporter *ii,
 	NetscapeImporter *importer = closure;
 	gboolean mail, settings;
 
-	mail = bonobo_config_get_boolean_with_default (importer->db,
-                "/Importer/Netscape/mail-imported", FALSE, NULL);
-	settings = bonobo_config_get_boolean_with_default (importer->db,
-                "/Importer/Netscape/settings-imported", FALSE, NULL);
-
-	if (settings && mail)
-		return FALSE;
-
-	importer->do_mail = !mail;
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (importer->mail), 
-				      importer->do_mail);
-	importer->do_settings = !settings;
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (importer->settings),
-				      importer->do_settings);
-
 	if (user_prefs == NULL) {
 		netscape_init_prefs ();
 	}
