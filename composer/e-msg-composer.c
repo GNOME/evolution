@@ -500,7 +500,7 @@ build_message (EMsgComposer *composer)
 			CamelMultipartSigned *mps;
 			CamelCipherContext *cipher;
 			
-			cipher = camel_gpg_context_new (session, mail_config_get_pgp_path ());
+			cipher = mail_crypto_get_pgp_cipher_context (hdrs->account);
 			if (cipher == NULL) {
 				camel_exception_setv (&ex, CAMEL_EXCEPTION_SYSTEM,
 						      _("Could not create a PGP signature context"));
