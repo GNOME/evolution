@@ -311,7 +311,6 @@ shell/GNOME_Evolution_Shell.server.in.in
 shell/apps_evolution_shell.schemas.in.in
 shell/e-component-registry.c
 shell/e-config-upgrade.c
-shell/e-setup.c
 shell/e-shell-about-box.c
 shell/e-shell-config-autocompletion.c
 shell/e-shell-config-default-folders.c
