@@ -1,3 +1,9 @@
+2004-07-26  Jeffrey Stedfast  <fejj@novell.com>
+
+	* camel-charset-map.c (camel_charset_best_mask): Changed the logic
+	slightly to only match certain charsets if the locale matches
+	(Macedonians don't want to use koi8-r for example).
+
 2004-07-27  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #61841.
@@ -23,9 +29,9 @@
 	Fixes #61454
 
 	* providers/groupwise/camel-groupwise-provider.c
-	(camel_provider_module_init): do not set
-	transport object for groupwise provider. We want user to
-	use SMTP itself instead of "Novell Groupwise"
+	(camel_provider_module_init): do not set transport object for
+	groupwise provider. We want user to use SMTP itself instead of
+	"Novell Groupwise"
 
 2004-07-26  Jeffrey Stedfast  <fejj@novell.com>
 

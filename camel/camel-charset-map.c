@@ -261,12 +261,19 @@ camel_charset_step (CamelCharset *c, const char *in, int len)
 static const char *
 camel_charset_best_mask(unsigned int mask)
 {
+	const char *locale_lang, *lang;
 	int i;
-
-	for (i=0;i<sizeof(camel_charinfo)/sizeof(camel_charinfo[0]);i++) {
-		if (camel_charinfo[i].bit & mask)
-			return camel_charinfo[i].name;
+	
+	locale_lang = e_iconv_locale_language ();
+	for (i = 0; i < G_N_ELEMENTS (camel_charinfo); i++) {
+		if (camel_charinfo[i].bit & mask) {
+			lang = e_iconv_charset_language (camel_charinfo[i].name);
+			
+			if (!lang || (locale_lang && !strncmp (locale_lang, lang, 2)))
+				return camel_charinfo[i].name;
+		}
 	}
+	
 	return "UTF-8";
 }
 
