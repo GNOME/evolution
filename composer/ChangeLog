@@ -4,6 +4,10 @@
 	CamelMultipartEncrypted class to do our encryption work for us. We
 	also need to always get the user's userid before encrypting since
 	pgp/gpg need that.
+	(e_msg_composer_new_with_message): Handle multipart/signed and
+	multipart/encrypted parts by adding the (decrypted) content and
+	setting the composer to pgp sign/encrypt the message when the user
+	re-sends it.
 
 2002-06-25  Jeffrey Stedfast  <fejj@ximian.com>
 

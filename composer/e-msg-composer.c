@@ -157,9 +157,10 @@ static void add_attachments_from_multipart (EMsgComposer *composer, CamelMultipa
 					    gboolean just_inlines, int depth);
 
 /* used by e_msg_composer_new_with_message() */
-static void handle_multipart_alternative (EMsgComposer *composer, CamelMultipart *multipart, int depth);
-
 static void handle_multipart (EMsgComposer *composer, CamelMultipart *multipart, int depth);
+static void handle_multipart_alternative (EMsgComposer *composer, CamelMultipart *multipart, int depth);
+static void handle_multipart_encrypted (EMsgComposer *composer, CamelMultipart *multipart, int depth);
+static void handle_multipart_signed (EMsgComposer *composer, CamelMultipart *multipart, int depth);
 
 static void set_editor_signature (EMsgComposer *composer);
 
@@ -3011,6 +3012,115 @@ e_msg_composer_add_message_attachments (EMsgComposer *composer, CamelMimeMessage
 
 
 static void
+handle_multipart_signed (EMsgComposer *composer, CamelMultipart *multipart, int depth)
+{
+	CamelContentType *content_type;
+	CamelDataWrapper *content;
+	CamelMimePart *mime_part;
+	
+	/* FIXME: make sure this isn't an s/mime signed part?? */
+	e_msg_composer_set_pgp_sign (composer, TRUE);
+	
+	mime_part = camel_multipart_get_part (multipart, CAMEL_MULTIPART_SIGNED_CONTENT);
+	content_type = camel_mime_part_get_content_type (mime_part);
+	
+	content = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
+	
+	if (CAMEL_IS_MULTIPART (content)) {
+		multipart = CAMEL_MULTIPART (content);
+		
+		/* Note: depth is preserved here because we're not
+                   counting multipart/signed as a multipart, instead
+                   we want to treat the content part as our mime part
+                   here. */
+		
+		if (CAMEL_IS_MULTIPART_SIGNED (content)) {
+			/* handle the signed content and configure the composer to sign outgoing messages */
+			handle_multipart_signed (composer, multipart, depth);
+		} else if (CAMEL_IS_MULTIPART_ENCRYPTED (content)) {
+			/* decrypt the encrypted content and configure the composer to encrypt outgoing messages */
+			handle_multipart_encrypted (composer, multipart, depth);
+		} else if (header_content_type_is (content_type, "multipart", "alternative")) {
+			/* this contains the text/plain and text/html versions of the message body */
+			handle_multipart_alternative (composer, multipart, depth);
+		} else {
+			/* there must be attachments... */
+			handle_multipart (composer, multipart, depth);
+		}
+	} else if (header_content_type_is (content_type, "text", "*")) {
+		char *text;
+		
+		text = mail_get_message_body (content, FALSE, FALSE);
+		
+		if (text)
+			e_msg_composer_set_pending_body (composer, text);
+	} else {
+		e_msg_composer_attach (composer, mime_part);
+	}
+}
+
+static void
+handle_multipart_encrypted (EMsgComposer *composer, CamelMultipart *multipart, int depth)
+{
+	CamelMultipartEncrypted *mpe = (CamelMultipartEncrypted *) multipart;
+	CamelContentType *content_type;
+	CamelCipherContext *cipher;
+	CamelDataWrapper *content;
+	CamelMimePart *mime_part;
+	CamelException ex;
+	
+	/* FIXME: make sure this is a PGP/MIME encrypted part?? */
+	e_msg_composer_set_pgp_encrypt (composer, TRUE);
+	
+	camel_exception_init (&ex);
+	cipher = mail_crypto_get_pgp_cipher_context (NULL);
+	mime_part = camel_multipart_encrypted_decrypt (mpe, cipher, &ex);
+	camel_object_unref (cipher);
+	camel_exception_clear (&ex);
+	
+	if (!mime_part)
+		return;
+	
+	content_type = camel_mime_part_get_content_type (mime_part);
+	
+	content = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
+	
+	if (CAMEL_IS_MULTIPART (content)) {
+		multipart = CAMEL_MULTIPART (content);
+		
+		/* Note: depth is preserved here because we're not
+                   counting multipart/encrypted as a multipart, instead
+                   we want to treat the content part as our mime part
+                   here. */
+		
+		if (CAMEL_IS_MULTIPART_SIGNED (content)) {
+			/* handle the signed content and configure the composer to sign outgoing messages */
+			handle_multipart_signed (composer, multipart, depth);
+		} else if (CAMEL_IS_MULTIPART_ENCRYPTED (content)) {
+			/* decrypt the encrypted content and configure the composer to encrypt outgoing messages */
+			handle_multipart_encrypted (composer, multipart, depth);
+		} else if (header_content_type_is (content_type, "multipart", "alternative")) {
+			/* this contains the text/plain and text/html versions of the message body */
+			handle_multipart_alternative (composer, multipart, depth);
+		} else {
+			/* there must be attachments... */
+			handle_multipart (composer, multipart, depth);
+		}
+	} else if (header_content_type_is (content_type, "text", "*")) {
+		char *text;
+		
+		text = mail_get_message_body (content, FALSE, FALSE);
+		
+		if (text)
+			e_msg_composer_set_pending_body (composer, text);
+	} else {
+		e_msg_composer_attach (composer, mime_part);
+	}
+	
+	camel_object_unref (mime_part);
+}
+
+static void
 handle_multipart_alternative (EMsgComposer *composer, CamelMultipart *multipart, int depth)
 {
 	/* Find the text/html part and set the composer body to it's contents */
@@ -3021,21 +3131,26 @@ handle_multipart_alternative (EMsgComposer *composer, CamelMultipart *multipart,
 	
 	for (i = 0; i < nparts; i++) {
 		CamelContentType *content_type;
+		CamelDataWrapper *content;
 		CamelMimePart *mime_part;
 		
 		mime_part = camel_multipart_get_part (multipart, i);
 		content_type = camel_mime_part_get_content_type (mime_part);
+		content = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
 		
-		if (header_content_type_is (content_type, "multipart", "*")) {
-			/* another layer of multipartness... */
-			CamelDataWrapper *wrapper;
-			CamelMultipart *mpart;
+		if (CAMEL_IS_MULTIPART (content)) {
+			multipart = CAMEL_MULTIPART (content);
 			
-			wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
-			mpart = CAMEL_MULTIPART (wrapper);
-			
-			/* depth doesn't matter so long as we don't pass 0 */
-			handle_multipart (composer, mpart, depth + 1);
+			if (CAMEL_IS_MULTIPART_SIGNED (content)) {
+				/* handle the signed content and configure the composer to sign outgoing messages */
+				handle_multipart_signed (composer, multipart, depth + 1);
+			} else if (CAMEL_IS_MULTIPART_ENCRYPTED (content)) {
+				/* decrypt the encrypted content and configure the composer to encrypt outgoing messages */
+				handle_multipart_encrypted (composer, multipart, depth + 1);
+			} else {
+				/* depth doesn't matter so long as we don't pass 0 */
+				handle_multipart (composer, multipart, depth + 1);
+			}
 		} else if (header_content_type_is (content_type, "text", "html")) {
 			/* text/html is preferable, so once we find it we're done... */
 			text_part = mime_part;
@@ -3071,36 +3186,33 @@ handle_multipart (EMsgComposer *composer, CamelMultipart *multipart, int depth)
 	
 	for (i = 0; i < nparts; i++) {
 		CamelContentType *content_type;
+		CamelDataWrapper *content;
 		CamelMimePart *mime_part;
 		
 		mime_part = camel_multipart_get_part (multipart, i);
 		content_type = camel_mime_part_get_content_type (mime_part);
+		content = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
 		
-		if (header_content_type_is (content_type, "multipart", "alternative")) {
-			/* this structure contains the body */
-			CamelDataWrapper *wrapper;
-			CamelMultipart *mpart;
+		if (CAMEL_IS_MULTIPART (content)) {
+			multipart = CAMEL_MULTIPART (content);
 			
-			wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
-			mpart = CAMEL_MULTIPART (wrapper);
-			
-			handle_multipart_alternative (composer, mpart, depth + 1);
-		} else if (header_content_type_is (content_type, "multipart", "*")) {
-			/* another layer of multipartness... */
-			CamelDataWrapper *wrapper;
-			CamelMultipart *mpart;
-			
-			wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
-			mpart = CAMEL_MULTIPART (wrapper);
-			
-			handle_multipart (composer, mpart, depth + 1);
+			if (CAMEL_IS_MULTIPART_SIGNED (content)) {
+				/* handle the signed content and configure the composer to sign outgoing messages */
+				handle_multipart_signed (composer, multipart, depth + 1);
+			} else if (CAMEL_IS_MULTIPART_ENCRYPTED (content)) {
+				/* decrypt the encrypted content and configure the composer to encrypt outgoing messages */
+				handle_multipart_encrypted (composer, multipart, depth + 1);
+			} else if (header_content_type_is (content_type, "multipart", "alternative")) {
+				handle_multipart_alternative (composer, multipart, depth + 1);
+			} else {
+				/* depth doesn't matter so long as we don't pass 0 */
+				handle_multipart (composer, multipart, depth + 1);
+			}
 		} else if (depth == 0 && i == 0) {
 			/* Since the first part is not multipart/alternative, then this must be the body */
-			CamelDataWrapper *contents;
 			char *text;
 			
-			contents = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
-			text = mail_get_message_body (contents, FALSE, FALSE);
+			text = mail_get_message_body (content, FALSE, FALSE);
 			
 			if (text)
 				e_msg_composer_set_pending_body (composer, text);
@@ -3135,6 +3247,7 @@ e_msg_composer_new_with_message (CamelMimeMessage *message)
 	const char *format, *subject, *account_name;
 	CamelContentType *content_type;
 	struct _header_raw *headers;
+	CamelDataWrapper *content;
 	EMsgComposer *new;
 	XEvolution *xev;
 	guint len, i;
@@ -3238,25 +3351,26 @@ e_msg_composer_new_with_message (CamelMimeMessage *message)
 	}
 	
 	/* Restore the attachments and body text */
-	content_type = camel_mime_part_get_content_type (CAMEL_MIME_PART (message));
-	if (header_content_type_is (content_type, "multipart", "alternative")) {
-		/* this contains the text/plain and text/html versions of the message body */
-		CamelDataWrapper *wrapper;
+	content = camel_medium_get_content_object (CAMEL_MEDIUM (message));
+	if (CAMEL_IS_MULTIPART (content)) {
 		CamelMultipart *multipart;
 		
-		wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (CAMEL_MIME_PART (message)));
-		multipart = CAMEL_MULTIPART (wrapper);
+		multipart = CAMEL_MULTIPART (content);
+		content_type = camel_mime_part_get_content_type (CAMEL_MIME_PART (message));
 		
-		handle_multipart_alternative (new, multipart, 0);
-	} else if (header_content_type_is (content_type, "multipart", "*")) {
-		/* there must be attachments... */
-		CamelDataWrapper *wrapper;
-		CamelMultipart *multipart;
-		
-		wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (CAMEL_MIME_PART (message)));
-		multipart = CAMEL_MULTIPART (wrapper);
-		
-		handle_multipart (new, multipart, 0);
+		if (CAMEL_IS_MULTIPART_SIGNED (content)) {
+			/* handle the signed content and configure the composer to sign outgoing messages */
+			handle_multipart_signed (new, multipart, 0);
+		} else if (CAMEL_IS_MULTIPART_ENCRYPTED (content)) {
+			/* decrypt the encrypted content and configure the composer to encrypt outgoing messages */
+			handle_multipart_encrypted (new, multipart, 0);
+		} else if (header_content_type_is (content_type, "multipart", "alternative")) {
+			/* this contains the text/plain and text/html versions of the message body */
+			handle_multipart_alternative (new, multipart, 0);
+		} else {
+			/* there must be attachments... */
+			handle_multipart (new, multipart, 0);
+		}
 	} else {
 		/* We either have a text/plain or a text/html part */
 		CamelDataWrapper *contents;
