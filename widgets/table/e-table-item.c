@@ -2428,13 +2428,13 @@ e_table_item_calculate_print_widths (ETableHeader *eth, gdouble width)
 	expansion = 0;
 	for (i = 0; i < eth->col_count; i++) {
 		extra -= eth->columns[i]->min_width * scale;
-		if (eth->columns[i]->resizeable && eth->columns[i]->expansion > 0)
+		if (eth->columns[i]->resizable && eth->columns[i]->expansion > 0)
 			last_resizable = i;
-		expansion += eth->columns[i]->resizeable ? eth->columns[i]->expansion : 0;
+		expansion += eth->columns[i]->resizable ? eth->columns[i]->expansion : 0;
 		widths[i] = eth->columns[i]->min_width * scale;
 	}
 	for (i = 0; i <= last_resizable; i++) {
-		widths[i] += extra * (eth->columns[i]->resizeable ? eth->columns[i]->expansion : 0)/expansion;
+		widths[i] += extra * (eth->columns[i]->resizable ? eth->columns[i]->expansion : 0)/expansion;
 	}
 
 	return widths;

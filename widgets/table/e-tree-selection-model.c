@@ -142,7 +142,7 @@ etsm_row_of_node(ETreeSelectionModel *etsm, ETreePath path)
 	if (path)
 		return e_tree_table_adapter_row_of_node(etsm->priv->etta, path);
 	else
-		return 0;
+		return -1;
 }
 
 static int
@@ -389,8 +389,12 @@ etsm_sorted_pre_change (ETreeModel *etm, ETreeSelectionModel *etsm)
 static void
 etsm_sorted_node_changed (ETreeModel *etm, ETreePath node, ETreeSelectionModel *etsm)
 {
+	int cursor_row = etsm_cursor_row_real (etsm);
 	e_selection_model_selection_changed(E_SELECTION_MODEL(etsm));
-	e_selection_model_cursor_changed(E_SELECTION_MODEL(etsm), etsm_cursor_row_real(etsm), etsm->priv->cursor_col);
+	if (cursor_row != -1)
+		e_selection_model_cursor_changed(E_SELECTION_MODEL(etsm), cursor_row, etsm->priv->cursor_col);
+	else
+		e_selection_model_cursor_changed(E_SELECTION_MODEL(etsm), -1, -1);
 }
 
 static void

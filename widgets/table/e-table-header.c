@@ -619,7 +619,7 @@ eth_set_size (ETableHeader *eth, int idx, int size)
 	g_return_if_fail (idx < eth->col_count);
 	
 	/* If this column is not resizable, don't do anything. */
-	if (!eth->columns[idx]->resizeable)
+	if (!eth->columns[idx]->resizable)
 		return;
 
 	expansion = 0;
@@ -642,7 +642,7 @@ eth_set_size (ETableHeader *eth, int idx, int size)
 	 */
 	for (; i < eth->col_count; i++) {
 		min_width += eth->columns[i]->min_width + eth->width_extras;
-		if (eth->columns[i]->resizeable) {
+		if (eth->columns[i]->resizable) {
 			expansion += eth->columns[i]->expansion;
 			expandable_count ++;
 		}
@@ -703,7 +703,7 @@ eth_set_size (ETableHeader *eth, int idx, int size)
 	 */
 	if (old_expansion == 0) {
 		for (i = idx + 1; i < eth->col_count; i++) {
-			if (eth->columns[idx]->resizeable) {
+			if (eth->columns[idx]->resizable) {
 				/* expandable_count != 0 by (1) */
 				eth->columns[i]->expansion = expansion / expandable_count;
 			}
@@ -714,7 +714,7 @@ eth_set_size (ETableHeader *eth, int idx, int size)
 	/* Remove from total_extra the amount used for this column. */
 	total_extra -= size - (eth->columns[idx]->min_width + eth->width_extras);
 	for (i = idx + 1; i < eth->col_count; i++) {
-		if (eth->columns[idx]->resizeable) {
+		if (eth->columns[idx]->resizable) {
 			/* old_expansion != 0 by (2) */
 			eth->columns[i]->expansion *= expansion / old_expansion;
 		}
@@ -769,9 +769,9 @@ eth_calc_widths (ETableHeader *eth)
 	expansion = 0;
 	for (i = 0; i < eth->col_count; i++) {
 		extra -= eth->columns[i]->min_width + eth->width_extras;
-		if (eth->columns[i]->resizeable && eth->columns[i]->expansion > 0)
+		if (eth->columns[i]->resizable && eth->columns[i]->expansion > 0)
 			last_resizable = i;
-		expansion += eth->columns[i]->resizeable ? eth->columns[i]->expansion : 0;
+		expansion += eth->columns[i]->resizable ? eth->columns[i]->expansion : 0;
 		eth->columns[i]->width = eth->columns[i]->min_width + eth->width_extras;
 	}
 	if (eth->sort_info)
@@ -779,7 +779,7 @@ eth_calc_widths (ETableHeader *eth)
 	if (expansion == 0 || extra <= 0)
 		return;
 	for (i = 0; i < last_resizable; i++) {
-		next_position += extra * (eth->columns[i]->resizeable ? eth->columns[i]->expansion : 0)/expansion;
+		next_position += extra * (eth->columns[i]->resizable ? eth->columns[i]->expansion : 0)/expansion;
 		eth->columns[i]->width += next_position - last_position;
 		last_position = next_position;
 	}

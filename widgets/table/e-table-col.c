@@ -140,7 +140,7 @@ e_table_col_new (int col_idx, const char *text, double expansion, int min_width,
 	etc->compare = compare;
 
 	etc->selected = 0;
-	etc->resizeable = resizable;
+	etc->resizable = resizable;
 
 	gtk_object_ref (GTK_OBJECT(etc->ecell));
 
@@ -198,7 +198,7 @@ e_table_col_new_with_pixbuf (int col_idx, const char *text, GdkPixbuf *pixbuf, d
 	etc->compare = compare;
 
 	etc->selected = 0;
-	etc->resizeable = resizable;
+	etc->resizable = resizable;
 
 	gtk_object_ref (GTK_OBJECT(etc->ecell));
 	gdk_pixbuf_ref (etc->pixbuf);

@@ -889,7 +889,7 @@ set_cursor (ETableHeaderItem *ethi, int pos)
 {
 	int col;
 	GtkWidget *canvas = GTK_WIDGET (GNOME_CANVAS_ITEM (ethi)->canvas);
-	gboolean resizeable = FALSE;
+	gboolean resizable = FALSE;
 		
 	/* We might be invoked before we are realized */
 	if (!canvas->window)
@@ -900,7 +900,7 @@ set_cursor (ETableHeaderItem *ethi, int pos)
 		ETableCol *ecol = e_table_header_get_column (ethi->eth, col);
 
 		/* Last column is not resizable */
-		if (ecol->resizeable && col != last_col) {
+		if (ecol->resizable && col != last_col) {
 			int c = col + 1;
 
 			/* Column is not resizable if all columns after it
@@ -909,15 +909,15 @@ set_cursor (ETableHeaderItem *ethi, int pos)
 				ETableCol *ecol2;
 
 				ecol2 = e_table_header_get_column (ethi->eth, c);
-				if (ecol2->resizeable) {
-					resizeable = TRUE;
+				if (ecol2->resizable) {
+					resizable = TRUE;
 					break;
 				}
 			}
 		}
 	}
 	
-	if (resizeable)
+	if (resizable)
 		e_cursor_set (canvas->window, E_CURSOR_SIZE_X);
 	else
 		gdk_window_set_cursor (canvas->window, NULL);
@@ -1429,7 +1429,7 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 				 */
 			ecol = e_table_header_get_column (ethi->eth, col);
 			
-			if (!ecol->resizeable)
+			if (!ecol->resizable)
 				break;
 			ethi->resize_col = col;
 			ethi->resize_start_pos = start - ecol->width;
