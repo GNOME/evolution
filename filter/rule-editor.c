@@ -737,6 +737,10 @@ rule_editor_construct (RuleEditor *re, RuleContext *context, GladeXML *gui, cons
 					GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
 					GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
 					NULL);
-	} else
-		gtk_dialog_add_buttons ((GtkDialog *) re, GTK_STOCK_OK, GTK_RESPONSE_ACCEPT, NULL);
+	} else {
+		gtk_dialog_add_buttons ((GtkDialog *) re,
+					GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
+					NULL);
+	}
 }
