@@ -1,3 +1,12 @@
+2002-09-03  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* folder-browser.c (mark_as_seen_cb):
+	(mark_as_unseen_cb):
+	(mark_as_important_cb):
+	(mark_as_unimportant_cb): New callback functions that wrap the
+	mail-callbacks versions of mark_as_<whatever>. Thanks to Owen
+	Taylor for this fix.
+
 2002-09-04  Not Zed  <NotZed@Ximian.com>
 
 	* component-factory.c (storage_xfer_folder): Dont translate / to

@@ -1643,6 +1643,29 @@ label_closures_free (GPtrArray *closures)
 	g_ptr_array_free (closures, TRUE);
 }
 
+static void
+mark_as_seen_cb (GtkWidget *widget, void *user_data)
+{
+	mark_as_seen (NULL, user_data, NULL);
+}
+
+static void
+mark_as_unseen_cb (GtkWidget *widget, void *user_data)
+{
+	mark_as_unseen (NULL, user_data, NULL);
+}
+
+static void
+mark_as_important_cb (GtkWidget *widget, void *user_data)
+{
+	mark_as_important (NULL, user_data, NULL);
+}
+
+static void
+mark_as_unimportant_cb (GtkWidget *widget, void *user_data)
+{
+	mark_as_unimportant (NULL, user_data, NULL);
+}
 
 enum {
 	SELECTION_SET              = 1<<1,
@@ -1711,10 +1734,10 @@ static EPopupMenu context_menu[] = {
 	
 	/* separator here? */
 	
-	E_POPUP_ITEM (N_("Mar_k as Read"),            GTK_SIGNAL_FUNC (mark_as_seen),        CAN_MARK_READ),
-	E_POPUP_ITEM (N_("Mark as _Unread"),          GTK_SIGNAL_FUNC (mark_as_unseen),      CAN_MARK_UNREAD),
-	E_POPUP_ITEM (N_("Mark as _Important"),       GTK_SIGNAL_FUNC (mark_as_important),   CAN_MARK_IMPORTANT),
-	E_POPUP_ITEM (N_("_Mark as Unimportant"),     GTK_SIGNAL_FUNC (mark_as_unimportant), CAN_MARK_UNIMPORTANT),
+	E_POPUP_ITEM (N_("Mar_k as Read"),            GTK_SIGNAL_FUNC (mark_as_seen_cb),        CAN_MARK_READ),
+	E_POPUP_ITEM (N_("Mark as _Unread"),          GTK_SIGNAL_FUNC (mark_as_unseen_cb),      CAN_MARK_UNREAD),
+	E_POPUP_ITEM (N_("Mark as _Important"),       GTK_SIGNAL_FUNC (mark_as_important_cb),   CAN_MARK_IMPORTANT),
+	E_POPUP_ITEM (N_("_Mark as Unimportant"),     GTK_SIGNAL_FUNC (mark_as_unimportant_cb), CAN_MARK_UNIMPORTANT),
 	
 	E_POPUP_SEPARATOR,
 	
