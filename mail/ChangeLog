@@ -1,3 +1,9 @@
+2002-04-30  Dan Winship  <danw@ximian.com>
+
+	* mail-callbacks.c (delete_msg): If the folder's permanent_flags
+	don't include CAMEL_MESSAGE_DELETED, don't do anything. (In
+	particular, don't move the cursor.)
+
 2002-04-29  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* message-tag-followup.c (message_tag_followup_append_message):

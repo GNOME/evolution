@@ -2324,6 +2324,8 @@ delete_msg (GtkWidget *button, gpointer user_data)
 	
 	if (FOLDER_BROWSER_IS_DESTROYED (fb))
 		return;
+	if (!(fb->folder->permanent_flags & CAMEL_MESSAGE_DELETED))
+		return;
 	
 	deleted = flag_messages (fb, CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_SEEN,
 				 CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_SEEN);
