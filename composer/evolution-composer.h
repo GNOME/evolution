@@ -60,7 +60,8 @@ void               evolution_composer_construct    (EvolutionComposer *,
 						    Evolution_Composer);
 EvolutionComposer *evolution_composer_new          (void);
 
-void               evolution_composer_factory_init (void);
+void               evolution_composer_factory_init (void (*send) (EMsgComposer *, gpointer),
+						    void (*postpone) (EMsgComposer *, gpointer));
 
 #ifdef __cplusplus
 }

@@ -33,6 +33,9 @@
 #define PARENT_TYPE BONOBO_OBJECT_TYPE
 static BonoboObjectClass *parent_class = NULL;
 
+static void (*send_cb) (EMsgComposer *, gpointer);
+static void (*postpone_cb) (EMsgComposer *, gpointer);
+
 /* CORBA interface implementation.  */
 
 static POA_Evolution_Composer__vepv Composer_vepv;
@@ -237,6 +240,10 @@ static void
 init (EvolutionComposer *composer)
 {
 	composer->composer = e_msg_composer_new ();
+	gtk_signal_connect (GTK_OBJECT (composer->composer), "send",
+			    GTK_SIGNAL_FUNC (send_cb), NULL);
+	gtk_signal_connect (GTK_OBJECT (composer->composer), "postpone",
+			    GTK_SIGNAL_FUNC (postpone_cb), NULL);
 }
 
 
@@ -291,7 +298,8 @@ factory_fn (BonoboGenericFactory *factory, void *closure)
 }
 
 void
-evolution_composer_factory_init (void)
+evolution_composer_factory_init (void (*send) (EMsgComposer *, gpointer),
+				 void (*postpone) (EMsgComposer *, gpointer))
 {
 	if (bonobo_generic_factory_new (COMPOSER_FACTORY_ID,
 					factory_fn, NULL) == NULL) {
@@ -299,4 +307,7 @@ evolution_composer_factory_init (void)
 			  _("Cannot initialize Evolution's composer."));
 		exit (1);
 	}
+
+	send_cb = send;
+	postpone_cb = postpone;
 }
