@@ -10,7 +10,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#ifdef HAVE_ALLOCA_H
 #include <alloca.h>
+#endif
 #include <stdio.h>
 #include <libgnomeui/gnome-canvas.h>
 #include <gtk/gtksignal.h>
