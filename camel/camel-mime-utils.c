@@ -2682,7 +2682,7 @@ header_decode_date(const char *in, int *saveoffset)
 		g_free(monthname);
 	}
 	year = header_decode_int(&inptr);
-	if (year < 69) {
+	if (year < 69 || (year >= 100 && year < 1900)) {
 		tm.tm_year = 100 + year;
 	} else if (year < 100) {
 		tm.tm_year = year;
