@@ -54,6 +54,11 @@
 		<cmd name="ContactsSendMessageToContact" _label="Send message to contact"
 		 _tip="Send a mess to the selected contacts."/>
 
+		<cmd name="ContactsCopyToFolder" _label="Copy to Folder..."
+		 _tip="Copy Contact(s) to Another Folder..."/>
+
+		<cmd name="ContactsMoveToFolder" _label="Move to Folder..."
+		 _tip="Move Contact(s) to Another Folder..."/>
 	</commands>
 
 	<menu>
@@ -112,6 +117,8 @@
       		</placeholder>
 
 		<submenu name="View">
+		        <menuitem name="BonoboUIDump"
+		        verb="BonoboUIDump" _label="Dump"/>
 		</submenu>
 
 		<placeholder name="ComponentActionsPlaceholder">
@@ -121,7 +128,9 @@
 			     _label="_Forward Contact..." verb=""/>
 
 			    <menuitem name="ContactsSendMessageToContact"
-			     _label="Send _Message to Contact..." verb=""/>
+			     _label="_Send Message to Contact..." verb=""/>
+			    <menuitem name="ContactsCopyToFolder" _label="_Copy to Folder..." verb=""/>
+			    <menuitem name="ContactsMoveToFolder" _label="_Move to Folder..." verb=""/>
 	                </submenu>
 		</placeholder>
 

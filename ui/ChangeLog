@@ -1,3 +1,8 @@
+2002-02-13  Christopher James Lahey  <clahey@ximian.com>
+
+	* evolution-addressbook.xml: Added Copy to Folder and Move to
+	Folder in the Actions menu here.
+
 2002-02-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* evolution-mail-message.xml: Added pixbufs to MarkAsImportant,
