@@ -27,6 +27,8 @@
 		<item value="text/x-vcard"/>
 	</oaf_attribute>
 
+	<oaf_attribute name="name" type="string"
+		       value="Evolution Addressbook minicard viewer"/>
 	<oaf_attribute name="description" type="string"
 	               value="Factory for the Evolution addressbook minicard control."/>
 
