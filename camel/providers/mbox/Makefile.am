@@ -21,20 +21,16 @@ INCLUDES = -I.. \
 
 libcamelmbox_la_SOURCES = 			\
 	camel-mbox-folder.c			\
-	camel-mbox-parser.c			\
 	camel-mbox-provider.c			\
 	camel-mbox-store.c			\
 	camel-mbox-search.c			\
-	camel-mbox-summary.c			\
-	camel-mbox-utils.c
+	camel-mbox-summary.c
 
 libcamelmboxinclude_HEADERS =			\
 	camel-mbox-folder.h			\
-	camel-mbox-parser.h			\
 	camel-mbox-store.h			\
 	camel-mbox-search.h			\
-	camel-mbox-summary.h			\
-	camel-mbox-utils.h
+	camel-mbox-summary.h
 
 libcamelmbox_la_LDFLAGS = -version-info 0:0:0 -rpath $(libdir) 
 

@@ -40,8 +40,6 @@
 #include "string-utils.h"
 #include "camel-stream-fs.h"
 #include "camel-mbox-summary.h"
-#include "camel-mbox-parser.h"
-#include "camel-mbox-utils.h"
 #include "gmime-utils.h"
 #include "camel-mbox-search.h"
 #include "camel-data-wrapper.h"
