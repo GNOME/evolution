@@ -1097,7 +1097,7 @@ icalcomponent_begin_component(icalcomponent* component,icalcomponent_kind kind)
 
     icalerror_check_arg_re( (component!=0),"component",icalcompiter_null);
 
-    for( i = pvl_head(impl->components); i != 0; i = pvl_next(itr.iter)) {
+    for( i = pvl_head(impl->components); i != 0; i = pvl_next(i)) {
 	
 	icalcomponent *c =  (icalcomponent*) pvl_data(i);
 	
