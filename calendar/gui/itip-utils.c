@@ -1016,6 +1016,11 @@ itip_send_comp (ECalComponentItipMethod method, ECalComponent *send_comp,
 	if (top_level != NULL)
 		icalcomponent_free (top_level);
 
+	if (users) {
+		g_list_foreach (users, (GFunc) g_free, NULL);
+		g_list_free (users);
+	}
+	
 	if (to_list != NULL)
 		CORBA_free (to_list);
 	if (cc_list != NULL)
