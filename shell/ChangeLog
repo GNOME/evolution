@@ -1,3 +1,8 @@
+2003-01-10  Not Zed  <NotZed@Ximian.com>
+
+	* evolution-config-control.c (impl_apply): remove cast to
+	GTK_OBJECT, it isn't, nor needed.
+
 2003-01-09  Chris Toshok  <toshok@ximian.com>
 
 	* e-shell-settings-dialog.c (set_dialog_size): use

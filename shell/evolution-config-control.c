@@ -103,7 +103,7 @@ impl_apply (PortableServer_Servant servant,
 	config_control = EVOLUTION_CONFIG_CONTROL (bonobo_object_from_servant (servant));
 	priv = config_control->priv;
 
-	g_signal_emit (GTK_OBJECT (config_control), signals[APPLY], 0);
+	g_signal_emit (config_control, signals[APPLY], 0);
 
 	priv->changed = FALSE;
 }
