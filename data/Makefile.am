@@ -16,4 +16,6 @@ kdedesktopdir = $(KDE_APPLNK_DIR)/Applications
 kdedesktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
 endif
 
-EXTRA_DIST = $(desktop_in_files) $(keys_in_files) $(mime_DATA)
+man_MANS = evolution.1
+
+EXTRA_DIST = $(desktop_in_files) $(keys_in_files) $(mime_DATA) $(man_MANS)

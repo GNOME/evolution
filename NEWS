@@ -13,11 +13,15 @@ Mailer:
   #14678 -- Timestamp on outgoing mail incorrect on FreeBSD
   #14770 -- Appending messages to other IMAP folder can cause INBOX to
 	    stop updating
+  #14838 -- Saving passwords doesn't work
   #16924 -- Crash on a particular spam message
 
 Shell:
-  #7827 -- Switching desktops leaves the folder bar popped up
+  #7827  -- Switching desktops leaves the folder bar popped up
   #16507 -- Right Click -> View does nothing
+
+Misc:
+  #16358 -- Evolution doesn't have a man page
 
 
 Evolution 1.0, 2001-11-14
