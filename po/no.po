@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.0\n"
-"POT-Creation-Date: 2002-10-26 12:16+0200\n"
+"POT-Creation-Date: 2002-10-28 16:49-0500\n"
 "PO-Revision-Date: 2002-10-26 12:31+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian <no@li.org>\n"
@@ -324,11 +324,11 @@ msgstr "%x"
 msgid "Unnamed List"
 msgstr "Liste uten navn"
 
-#: addressbook/backend/ebook/e-card.c:2687
+#: addressbook/backend/ebook/e-card.c:2683
 msgid "Multiple VCards"
 msgstr "Flere VCard"
 
-#: addressbook/backend/ebook/e-card.c:2695
+#: addressbook/backend/ebook/e-card.c:2691
 #, c-format
 msgid "VCard for %s"
 msgstr "VCard for %s"
@@ -1030,7 +1030,9 @@ msgstr ""
 msgid ""
 "Specifying a display name is the last required step in configuring an LDAP "
 "server."
-msgstr "Spesifisering av visningsnavn er det siste steget i konfigurasjon av en LDAP-tjener."
+msgstr ""
+"Spesifisering av visningsnavn er det siste steget i konfigurasjon av en LDAP-"
+"tjener."
 
 #: addressbook/gui/component/ldap-config.glade.h:69
 msgid "Step 1: Server Information"
@@ -1063,8 +1065,10 @@ msgid ""
 "information. Please ask your system administrator if you are unsure of this "
 "information."
 msgstr ""
-"Det første steget ved konfigurasjon av en LDAP-tjener er å oppgi navn og påloggingsinformasjon\n"
-"Vennligst spør din systemadministrator hvis du ikke er sikker på hva dette er."
+"Det første steget ved konfigurasjon av en LDAP-tjener er å oppgi navn og "
+"påloggingsinformasjon\n"
+"Vennligst spør din systemadministrator hvis du ikke er sikker på hva dette "
+"er."
 
 #: addressbook/gui/component/ldap-config.glade.h:77
 msgid ""
@@ -1074,8 +1078,10 @@ msgid ""
 "if you\n"
 "need to change these options."
 msgstr ""
-"Alternativene på denne siden kontrollerer antall oppføringer som skal tas med i dine\n"
-"søk, og hvor lang tid et søk skal ta. Spør din systemadministrator hvis du trenger\n"
+"Alternativene på denne siden kontrollerer antall oppføringer som skal tas "
+"med i dine\n"
+"søk, og hvor lang tid et søk skal ta. Spør din systemadministrator hvis du "
+"trenger\n"
 "å endre disse alternativene."
 
 #: addressbook/gui/component/ldap-config.glade.h:80
@@ -1085,7 +1091,8 @@ msgid ""
 "begin. If you leave this blank, the search will begin at the root of the "
 "directory tree."
 msgstr ""
-"Søkebasen er det distingverte navnet (DN) for oppføringen der dine søk vil starte.\n"
+"Søkebasen er det distingverte navnet (DN) for oppføringen der dine søk vil "
+"starte.\n"
 "Hvis du lar denne stå tom vil søk starte ved roten av katalogtreet."
 
 #: addressbook/gui/component/ldap-config.glade.h:82
@@ -1097,7 +1104,8 @@ msgid ""
 "A search scope of \"one\" will only include the entries one level beneath "
 "your base."
 msgstr ""
-"Søkeområdet definerer hvor dypt du ønsker at søket skal gå ned i katalogtreet.\n"
+"Søkeområdet definerer hvor dypt du ønsker at søket skal gå ned i "
+"katalogtreet.\n"
 "Et søkeområde som «sub» vil ta med alle oppføringer under din søkebase.\n"
 "Et søkeområde som «one» vil kun ta med oppføringer ett nivå under basen."
 
@@ -2842,20 +2850,20 @@ msgstr "Avansert søk"
 msgid "Search"
 msgstr "Søk"
 
-#: addressbook/gui/widgets/e-addressbook-model.c:142
+#: addressbook/gui/widgets/e-addressbook-model.c:146
 msgid "No cards"
 msgstr "Ingen kort"
 
-#: addressbook/gui/widgets/e-addressbook-model.c:145
+#: addressbook/gui/widgets/e-addressbook-model.c:149
 msgid "1 card"
 msgstr "1 kort"
 
-#: addressbook/gui/widgets/e-addressbook-model.c:148
+#: addressbook/gui/widgets/e-addressbook-model.c:152
 #, c-format
 msgid "%d cards"
 msgstr "%d kort"
 
-#: addressbook/gui/widgets/e-addressbook-model.c:404
+#: addressbook/gui/widgets/e-addressbook-model.c:408
 msgid "Error getting book view"
 msgstr "Feil under henting av bokvisning"
 
@@ -8187,9 +8195,9 @@ msgstr ""
 "Du trenger et passord for å låse opp nøkkelen for\n"
 "bruker «%s»"
 
-#: camel/camel-gpg-context.c:753 camel/camel-gpg-context.c:1211
-#: camel/camel-gpg-context.c:1318 camel/camel-gpg-context.c:1393
-#: camel/camel-gpg-context.c:1450 mail/mail-send-recv.c:540
+#: camel/camel-gpg-context.c:753 camel/camel-gpg-context.c:1206
+#: camel/camel-gpg-context.c:1313 camel/camel-gpg-context.c:1388
+#: camel/camel-gpg-context.c:1445 mail/mail-send-recv.c:540
 msgid "Cancelled."
 msgstr "Avbrutt"
 
@@ -8206,11 +8214,11 @@ msgstr "Uventet svar fra GnuPG: %s"
 msgid "No data provided"
 msgstr "Ingen data gitt"
 
-#: camel/camel-gpg-context.c:832
+#: camel/camel-gpg-context.c:830
 msgid "Failed to encrypt: No valid recipients specified."
 msgstr "Kan ikke kryptere: Ingen gyldige mottakere spesifisert."
 
-#: camel/camel-gpg-context.c:1087
+#: camel/camel-gpg-context.c:1082
 #, c-format
 msgid ""
 "Failed to GPG %s message: %s\n"
@@ -8221,23 +8229,23 @@ msgstr ""
 "\n"
 "%.*s"
 
-#: camel/camel-gpg-context.c:1093
+#: camel/camel-gpg-context.c:1088
 #, c-format
 msgid "Failed to GPG %s message: %s\n"
 msgstr "Feil ved GPG-%s av melding %s\n"
 
-#: camel/camel-gpg-context.c:1202
+#: camel/camel-gpg-context.c:1197
 #, c-format
 msgid "Failed to execute gpg: %s"
 msgstr "Feil ved kjøring av gpg: %s"
 
-#: camel/camel-gpg-context.c:1232 camel/camel-gpg-context.c:1310
-#: camel/camel-gpg-context.c:1384 camel/camel-gpg-context.c:1414
-#: camel/camel-gpg-context.c:1441 camel/camel-gpg-context.c:1471
+#: camel/camel-gpg-context.c:1227 camel/camel-gpg-context.c:1305
+#: camel/camel-gpg-context.c:1379 camel/camel-gpg-context.c:1409
+#: camel/camel-gpg-context.c:1436 camel/camel-gpg-context.c:1466
 msgid "Failed to execute gpg."
 msgstr "Feil ved kjøring av gpg."
 
-#: camel/camel-gpg-context.c:1295
+#: camel/camel-gpg-context.c:1290
 #, c-format
 msgid "Cannot verify message signature: could not create temp file: %s"
 msgstr ""
@@ -10501,7 +10509,7 @@ msgstr "Emne inneholder"
 msgid "Subject does not contain"
 msgstr "Emne inneholder ikke"
 
-#: e-util/e-dialog-utils.c:241 mail/mail-callbacks.c:2537
+#: e-util/e-dialog-utils.c:237 mail/mail-callbacks.c:2537
 #: mail/mail-display.c:192
 msgid ""
 "A file by that name already exists.\n"
@@ -11097,7 +11105,7 @@ msgstr "starter med"
 msgid "Stop Processing"
 msgstr "Stopp behandling"
 
-#: filter/libfilter-i18n.h:60 mail/mail-format.c:938
+#: filter/libfilter-i18n.h:60 mail/mail-format.c:935
 #: mail/message-list.etspec.h:13 mail/message-tags.glade.h:4
 msgid "Subject"
 msgstr "Emne"
@@ -12348,7 +12356,8 @@ msgstr "Melding om ny e-post"
 msgid ""
 "Note: you will not be prompted for a password until you connect for the "
 "first time"
-msgstr "Merk: du vil ikke bli spurt etter et passord før du kobler til første gang"
+msgstr ""
+"Merk: du vil ikke bli spurt etter et passord før du kobler til første gang"
 
 #: mail/mail-config.glade.h:79
 msgid "On Screen fonts"
@@ -12750,31 +12759,31 @@ msgstr "Ekstern visning"
 msgid "Downloading images"
 msgstr "Laster ned bilder"
 
-#: mail/mail-display.c:1494
+#: mail/mail-display.c:1496
 msgid "Loading message content"
 msgstr "Laster meldingsinnhold"
 
-#: mail/mail-display.c:1781
+#: mail/mail-display.c:1783
 msgid "Overdue:"
 msgstr "Utgått:"
 
-#: mail/mail-display.c:1785
+#: mail/mail-display.c:1787
 msgid "by %B %d, %Y, %l:%M %P"
 msgstr "ved %B %d, %Y, %l:%M %P"
 
-#: mail/mail-display.c:2112
+#: mail/mail-display.c:2114
 msgid "Open Link in Browser"
 msgstr "Åpne lenke i nettleser"
 
-#: mail/mail-display.c:2113
+#: mail/mail-display.c:2115
 msgid "Copy Link Location"
 msgstr "Kopier lokasjon for lenke"
 
-#: mail/mail-display.c:2115
+#: mail/mail-display.c:2117
 msgid "Save Link as (FIXME)"
 msgstr "Lagre lenke som"
 
-#: mail/mail-display.c:2117
+#: mail/mail-display.c:2119
 msgid "Save Image as..."
 msgstr "Lagre bilde som..."
 
@@ -12788,87 +12797,88 @@ msgstr "Pinger %s"
 msgid "%s attachment"
 msgstr "%s-vedlegg"
 
-#: mail/mail-format.c:702
+#: mail/mail-format.c:701 mail/mail-format.c:1730 mail/mail-format.c:1805
+#: mail/mail-format.c:1925 mail/mail-format.c:2050 mail/mail-format.c:2075
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "Kunne ikke lese MIME-melding. Viser ren meldingstekst."
 
-#: mail/mail-format.c:786 mail/message-list.etspec.h:2
+#: mail/mail-format.c:783 mail/message-list.etspec.h:2
 msgid "Date"
 msgstr "Dato"
 
-#: mail/mail-format.c:873
+#: mail/mail-format.c:870
 msgid "Bad Address"
 msgstr "Ugyldig e-post-adresse:"
 
-#: mail/mail-format.c:916 mail/message-list.etspec.h:7
+#: mail/mail-format.c:913 mail/message-list.etspec.h:7
 #: mail/message-tags.glade.h:3
 msgid "From"
 msgstr "Fra"
 
-#: mail/mail-format.c:920
+#: mail/mail-format.c:917
 msgid "Reply-To"
 msgstr "Svar-til"
 
-#: mail/mail-format.c:925 mail/message-list.etspec.h:14
+#: mail/mail-format.c:922 mail/message-list.etspec.h:14
 msgid "To"
 msgstr "Til"
 
-#: mail/mail-format.c:930
+#: mail/mail-format.c:927
 msgid "Cc"
 msgstr "Cc"
 
-#: mail/mail-format.c:935
+#: mail/mail-format.c:932
 msgid "Bcc"
 msgstr "Bcc"
 
-#: mail/mail-format.c:966
+#: mail/mail-format.c:963
 msgid "Mailer"
 msgstr "Postprogram"
 
-#: mail/mail-format.c:1840
+#: mail/mail-format.c:1848
 msgid ""
 "This message is digitally signed. Click the lock icon for more information."
 msgstr ""
 "Denne meldingen er digitalt signert. Klikk låsikonet for mer informasjon."
 
-#: mail/mail-format.c:1867
+#: mail/mail-format.c:1875
 msgid "Could not create a PGP verfication context"
 msgstr "Kunne ikke opprette PGP verifiseringskontekst"
 
-#: mail/mail-format.c:1876
+#: mail/mail-format.c:1884
 msgid "This message is digitally signed and has been found to be authentic."
 msgstr "Denne meldingen er digitalt signert og er funnet autentisk."
 
-#: mail/mail-format.c:1884
+#: mail/mail-format.c:1892
 msgid "This message is digitally signed but can not be proven to be authentic."
 msgstr "Denne meldingen er digitalt signert, men kan ikke finnes autentisk."
 
-#: mail/mail-format.c:2134
+#: mail/mail-format.c:2157
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "Peker til FTP-tjener (%s)"
 
-#: mail/mail-format.c:2148
+#: mail/mail-format.c:2171
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "Peker til lokal fil (%s) gyldig på nettsted «%s»"
 
-#: mail/mail-format.c:2153
+#: mail/mail-format.c:2176
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "Peker til lokal fil (%s)"
 
-#: mail/mail-format.c:2182
+#: mail/mail-format.c:2205
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "Peker til eksterne data (%s)"
 
-#: mail/mail-format.c:2190
+#: mail/mail-format.c:2213
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Peker til ukjente eksterne data («%s»-type)"
 
-#: mail/mail-format.c:2195
+#: mail/mail-format.c:2218
 msgid "Malformed external-body part."
 msgstr "Feilutformet del for ekstern kropp."
 
@@ -13087,7 +13097,7 @@ msgstr "Kobler fra %s"
 msgid "Reconnecting to %s"
 msgstr "Kobler til %s på nytt"
 
-#: mail/mail-search-dialogue.c:113 widgets/misc/e-search-bar.c:513
+#: mail/mail-search-dialogue.c:113 widgets/misc/e-search-bar.c:515
 msgid "_Search"
 msgstr "_Søk"
 
@@ -25289,15 +25299,15 @@ msgstr "Opprett en ny snarvei"
 msgid "Select the folder you want the shortcut to point to:"
 msgstr "Velg mappen du ønsker snarveien skal peke til:"
 
-#: shell/e-shell-view-menu.c:786
+#: shell/e-shell-view-menu.c:788
 msgid "_Work Online"
 msgstr "Ar_beid tilkoblet"
 
-#: shell/e-shell-view-menu.c:799 ui/evolution.xml.h:67
+#: shell/e-shell-view-menu.c:801 ui/evolution.xml.h:67
 msgid "_Work Offline"
 msgstr "Ar_beid frakoblet"
 
-#: shell/e-shell-view-menu.c:812 ui/evolution.xml.h:42
+#: shell/e-shell-view-menu.c:814 ui/evolution.xml.h:42
 msgid "Work Offline"
 msgstr "Arbeid frakoblet"
 
@@ -27588,19 +27598,19 @@ msgstr "Melding"
 msgid "Don't show this message again."
 msgstr "Ikke vis denne meldingen igjen."
 
-#: widgets/misc/e-search-bar.c:519
+#: widgets/misc/e-search-bar.c:521
 msgid "_Find Now"
 msgstr "_Finn nå "
 
-#: widgets/misc/e-search-bar.c:520
+#: widgets/misc/e-search-bar.c:522
 msgid "_Clear"
 msgstr "_Tøm"
 
-#: widgets/misc/e-search-bar.c:893
+#: widgets/misc/e-search-bar.c:895
 msgid "Clear"
 msgstr "Tøm"
 
-#: widgets/misc/e-search-bar.c:895
+#: widgets/misc/e-search-bar.c:897
 msgid "Find Now"
 msgstr "Finn nå "
 

@@ -520,6 +520,11 @@ CalComponent *comp
 CalComponent *comp
 </FUNCTION>
 <FUNCTION>
+<NAME>cal_component_has_simple_recurrence</NAME>
+<RETURNS>gboolean  </RETURNS>
+CalComponent *comp
+</FUNCTION>
+<FUNCTION>
 <NAME>cal_component_get_sequence</NAME>
 <RETURNS>void  </RETURNS>
 CalComponent *comp, int **sequence

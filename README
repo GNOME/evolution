@@ -143,9 +143,9 @@ and -devel packages for each library.
 
  - bonobo-conf - 1.0.16 or later 
 
- - gal (GNOME Application Library) - 0.20 or later 
+ - gal (GNOME Application Library) - 0.21 or later 
 
- - gtkhtml - 1.1.2 or later 
+ - gtkhtml - 1.1.5 or later 
 
  - SOUP - 0.7.x 
 

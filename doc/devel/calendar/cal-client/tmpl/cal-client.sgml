@@ -321,6 +321,14 @@ sgml-parent-document: ("../../../evolution-devel-guide.sgml" "book" "refsect2" "
 End:
 -->
 
+<!-- ##### SIGNAL CalClient::backend-error ##### -->
+<para>
+
+</para>
+
+@calclient: the object which received the signal.
+@arg1: 
+
 <!-- ##### SIGNAL CalClient::categories-changed ##### -->
 <para>
 

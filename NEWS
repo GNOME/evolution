@@ -80,10 +80,6 @@ Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
     #31616 -- Appointments and tasks not listed.  (Ettore)
     #31639 -- Crash when changing preferences.  (Ettore)
 
-  * GtkHTML
-
-    Lots and lots of bug fixes.
-
 Other fixes:
 
   * Addressbook
