@@ -663,6 +663,8 @@ edit_msg (GtkWidget *widget, gpointer user_data)
 	mail_do_edit_messages (fb->folder, uids, (GtkSignalFunc) composer_send_cb);
 }
 
+/* FIXME: now that we have an undelete_msg, we should make this only
+   set the deleted flag? */
 void
 delete_msg (GtkWidget *button, gpointer user_data)
 {
@@ -672,7 +674,7 @@ delete_msg (GtkWidget *button, gpointer user_data)
 	
 	uids = g_ptr_array_new ();
 	message_list_foreach (ml, enumerate_msg, uids);
-
+	
 	/*
 	 * Toggling a flag is an "instantaneous" operation, so if
 	 * we're only doing one, just do it and return, rather than
@@ -694,6 +696,38 @@ delete_msg (GtkWidget *button, gpointer user_data)
 		mail_do_flag_messages (ml->folder, uids, TRUE,
 				       CAMEL_MESSAGE_DELETED,
 				       CAMEL_MESSAGE_DELETED);
+	}
+}
+
+void
+undelete_msg (GtkWidget *button, gpointer user_data)
+{
+	FolderBrowser *fb = user_data;
+	MessageList *ml = fb->message_list;
+	GPtrArray *uids;
+	
+	uids = g_ptr_array_new ();
+	message_list_foreach (ml, enumerate_msg, uids);
+	
+	/*
+	 * Toggling a flag is an "instantaneous" operation, so if
+	 * we're only doing one, just do it and return, rather than
+	 * queueing it for the other thread. This makes the "Delete"
+	 * key work correctly (move to the next message) again.
+	 * - Dan
+	 */
+	if (uids->len == 1) {
+		char *uid = uids->pdata[0];
+		
+		mail_tool_camel_lock_up ();
+		camel_folder_set_message_flags (ml->folder, uid,
+						CAMEL_MESSAGE_DELETED,
+						0);
+		mail_tool_camel_lock_down ();
+	} else {
+		mail_do_flag_messages (ml->folder, uids, TRUE,
+				       CAMEL_MESSAGE_DELETED,
+				       0);
 	}
 }
 

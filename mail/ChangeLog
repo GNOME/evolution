@@ -1,3 +1,13 @@
+2000-11-05  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* folder-browser.c (on_right_click): Added an "Undelete" option to
+	the right-click menu and also set a mask so it was only selectable
+	if the message is marked as deleted. Also set a mask for "Mark as
+	Read" and "Mark as Unread".
+
+	* mail-callbacks.c (undelete_msg): New callback to undelete
+	messages.
+
 2000-11-03  Dan Winship  <danw@helixcode.com>
 
 	* message-list.c (cleanup_regenerate_messagelist): don't free the

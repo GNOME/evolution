@@ -473,43 +473,50 @@ static gint
 on_right_click (ETableScrolled *table, gint row, gint col, GdkEvent *event, FolderBrowser *fb)
 {
 	extern CamelFolder *drafts_folder;
+	const CamelMessageInfo *info;
 	int enable_mask = 0;
-	EPopupMenu menu[] = {
-		{ _("Open in New Window"),      NULL, GTK_SIGNAL_FUNC (view_msg),          0 },
-		{ _("Edit Message"),            NULL, GTK_SIGNAL_FUNC (edit_msg),          1 },
-		{ _("Print Message"),           NULL, GTK_SIGNAL_FUNC (print_msg),         0 },
-		{ "",                           NULL, GTK_SIGNAL_FUNC (NULL),              0 },
-		{ _("Reply to Sender"),         NULL, GTK_SIGNAL_FUNC (reply_to_sender),   0 },
-		{ _("Reply to All"),            NULL, GTK_SIGNAL_FUNC (reply_to_all),      0 },
-		{ _("Forward Message"),         NULL, GTK_SIGNAL_FUNC (forward_msg),       0 },
-		{ "",                           NULL, GTK_SIGNAL_FUNC (NULL),              0 },
-		{ _("Mark as Read"),            NULL, GTK_SIGNAL_FUNC (mark_as_seen),      0 },
-		{ _("Mark as Unread"),          NULL, GTK_SIGNAL_FUNC (mark_as_unseen),    0 },
-		{ _("Delete Message"),          NULL, GTK_SIGNAL_FUNC (delete_msg),        0 },
-		{ _("Move Message"),            NULL, GTK_SIGNAL_FUNC (move_msg),          0 },
-		{ _("Copy Message"),            NULL, GTK_SIGNAL_FUNC (copy_msg),          0 },
-		{ _("Apply Filters"),           NULL, GTK_SIGNAL_FUNC (apply_filters),     0 },
-		{ "",                           NULL, GTK_SIGNAL_FUNC (NULL),              0 },
-		{ _("VFolder on Subject"),      NULL, GTK_SIGNAL_FUNC (vfolder_subject),   2 },
-		{ _("VFolder on Sender"),       NULL, GTK_SIGNAL_FUNC (vfolder_sender),    2 },
-		{ _("VFolder on Recipients"),   NULL, GTK_SIGNAL_FUNC (vfolder_recipient), 2 },
-		{ "",                           NULL, GTK_SIGNAL_FUNC (NULL),              0 },
-		{ _("Filter on Subject"),       NULL, GTK_SIGNAL_FUNC (filter_subject),    2 },
-		{ _("Filter on Sender"),        NULL, GTK_SIGNAL_FUNC (filter_sender),     2 },
-		{ _("Filter on Recipients"),    NULL, GTK_SIGNAL_FUNC (filter_recipient),  2 },
-		{ _("Filter on Mailing List"),  NULL, GTK_SIGNAL_FUNC (filter_mlist),      6 },
-		{ NULL,                         NULL, NULL,                                0 }
-	};
 	int last_item;
 	char *mailing_list_name;
-
+	EPopupMenu menu[] = {
+		{ _("Open"),                       NULL, GTK_SIGNAL_FUNC (view_msg),          0 },
+		{ _("Edit"),                       NULL, GTK_SIGNAL_FUNC (edit_msg),          1 },
+		{ _("Print"),                      NULL, GTK_SIGNAL_FUNC (print_msg),         0 },
+		{ "",                              NULL, GTK_SIGNAL_FUNC (NULL),              0 },
+		{ _("Reply to Sender"),            NULL, GTK_SIGNAL_FUNC (reply_to_sender),   0 },
+		{ _("Reply to All"),               NULL, GTK_SIGNAL_FUNC (reply_to_all),      0 },
+		{ _("Forward"),                    NULL, GTK_SIGNAL_FUNC (forward_msg),       0 },
+		/*{ _("Forward as Attachment"),      NULL, GTK_SIGNAL_FUNC (forward_msg),       0 },*/
+		{ "",                              NULL, GTK_SIGNAL_FUNC (NULL),              0 },
+		{ _("Mark as Read"),               NULL, GTK_SIGNAL_FUNC (mark_as_seen),      4 },
+		{ _("Mark as Unread"),             NULL, GTK_SIGNAL_FUNC (mark_as_unseen),    8 },
+		{ "",                              NULL, GTK_SIGNAL_FUNC (NULL),              0 },
+		{ _("Move to Folder..."),          NULL, GTK_SIGNAL_FUNC (move_msg),          0 },
+		{ _("Copy to Folder..."),          NULL, GTK_SIGNAL_FUNC (copy_msg),          0 },
+		{ _("Delete"),                     NULL, GTK_SIGNAL_FUNC (delete_msg),       16 },
+		{ _("Undelete"),                   NULL, GTK_SIGNAL_FUNC (undelete_msg),     32 },
+		{ "",                              NULL, GTK_SIGNAL_FUNC (NULL),              0 },
+		/*{ _("Add Sender to Address Book"), NULL, GTK_SIGNAL_FUNC (addrbook_sender),   0 },
+		  { "",                              NULL, GTK_SIGNAL_FUNC (NULL),              0 },*/
+		{ _("Apply Filters"),              NULL, GTK_SIGNAL_FUNC (apply_filters),     0 },
+		{ "",                              NULL, GTK_SIGNAL_FUNC (NULL),              0 },
+		{ _("VFolder on Subject"),         NULL, GTK_SIGNAL_FUNC (vfolder_subject),   2 },
+		{ _("VFolder on Sender"),          NULL, GTK_SIGNAL_FUNC (vfolder_sender),    2 },
+		{ _("VFolder on Recipients"),      NULL, GTK_SIGNAL_FUNC (vfolder_recipient), 2 },
+		{ "",                              NULL, GTK_SIGNAL_FUNC (NULL),              0 },
+		{ _("Filter on Subject"),          NULL, GTK_SIGNAL_FUNC (filter_subject),    2 },
+		{ _("Filter on Sender"),           NULL, GTK_SIGNAL_FUNC (filter_sender),     2 },
+		{ _("Filter on Recipients"),       NULL, GTK_SIGNAL_FUNC (filter_recipient),  2 },
+		{ _("Filter on Mailing List"),     NULL, GTK_SIGNAL_FUNC (filter_mlist),     66 },
+		{ NULL,                            NULL, NULL,                                0 }
+	};
+	
 	/* Evil Hack.  */
-
+	
 	last_item = (sizeof (menu) / sizeof (*menu)) - 2;
-
+	
 	if (fb->folder != drafts_folder)
 		enable_mask |= 1;
-
+	
 	if (fb->mail_display->current_message == NULL) {
 		enable_mask |= 2;
 		mailing_list_name = NULL;
@@ -517,17 +524,30 @@ on_right_click (ETableScrolled *table, gint row, gint col, GdkEvent *event, Fold
 		mailing_list_name = mail_mlist_magic_detect_list (fb->mail_display->current_message,
 								  NULL, NULL);
 	}
-
-	if (mailing_list_name == NULL) {
+	
+	/* FIXME: the following 2 should really account for when multiple messages are selected. */
+	info = camel_folder_get_message_info (fb->folder, fb->message_list->cursor_uid);
+	if (info->flags & CAMEL_MESSAGE_SEEN)
 		enable_mask |= 4;
+	else
+		enable_mask |= 8;
+	
+	if (info->flags & CAMEL_MESSAGE_DELETED)
+		enable_mask |= 16;
+	else
+		enable_mask |= 32;
+	
+	
+	if (mailing_list_name == NULL) {
+		enable_mask |= 64;
 		menu[last_item].name = g_strdup (_("Filter on Mailing List"));
 	} else {
 		menu[last_item].name = g_strdup_printf (_("Filter on Mailing List (%s)"),
 							mailing_list_name);
 	}
-
+	
 	e_popup_menu_run (menu, (GdkEventButton *)event, enable_mask, 0, fb);
-
+	
 	g_free (menu[last_item].name);
 	
 	return TRUE;
