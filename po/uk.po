@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.0.5\n"
 "POT-Creation-Date: 2003-02-24 15:49+0200\n"
-"PO-Revision-Date: 2003-02-24 06:23--500\n"
+"PO-Revision-Date: 2003-02-24 09:26--500\n"
 "Last-Translator: Yuriy Syrota <yuri@renome.rovno.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -530,7 +530,7 @@ msgstr "Не вдалось запустити Wombat"
 #: addressbook/conduit/address-conduit.c:1385
 #: addressbook/conduit/address-conduit.c:1388
 msgid "Could not read pilot's Address application block"
-msgstr "Неможливо прочитати блок програми адрес з Пілота"
+msgstr "Не вдалося зчитати блок програми адрес з \"Пілота\""
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:1
 msgid "A Bonobo control for an address popup."
@@ -3113,7 +3113,7 @@ msgstr "Джерела адресних книг..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:881
 msgid "Pilot Settings..."
-msgstr "Установки пілота..."
+msgstr "Установки \"Пілота\"..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:885
 #: ui/evolution-addressbook.xml.h:10
@@ -3751,7 +3751,7 @@ msgstr "Помилка під час спілкування з календар�
 #: calendar/conduits/calendar/calendar-conduit.c:1361
 #: calendar/conduits/calendar/calendar-conduit.c:1364
 msgid "Could not read pilot's Calendar application block"
-msgstr "Не вдалося зчитати програмний блок календаря з Пілота"
+msgstr "Не вдалося зчитати програмний блок календаря з \"Пілота\""
 
 #: calendar/conduits/todo/todo-conduit.c:204
 #, fuzzy
@@ -3761,7 +3761,7 @@ msgstr "Пріоритет:"
 #: calendar/conduits/todo/todo-conduit.c:939
 #: calendar/conduits/todo/todo-conduit.c:942
 msgid "Could not read pilot's ToDo application block"
-msgstr "Неможливо зчитати програмний блок завдань Пілота"
+msgstr "Неможливо зчитати програмний блок завдань \"Пілота\""
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:1
 msgid "A Bonobo control which displays a task list."
@@ -26004,7 +26004,7 @@ msgstr "\".\" і \"..\" є зарезервованими назвами тек.
 
 #: shell/e-shell-view-menu.c:89
 msgid "The GNOME Pilot tools do not appear to be installed on this system."
-msgstr "Здається, програму GNOME Pilot не встановлено на цій системі"
+msgstr "Здається, програму GNOME Pilot не встановлено у цій системі"
 
 #: shell/e-shell-view-menu.c:97
 #, c-format
@@ -28140,9 +28140,8 @@ msgid "_Shortcut Bar"
 msgstr "Панель ярликів"
 
 #: ui/evolution.xml.h:64
-#, fuzzy
 msgid "_Shortcut..."
-msgstr "Ярлик"
+msgstr "_Ярлик..."
 
 #: ui/my-evolution.xml.h:3
 msgid "Print summary"
@@ -28221,9 +28220,8 @@ msgid "With _Category"
 msgstr "З категорією"
 
 #: views/tasks/galview.xml.h:2
-#, fuzzy
 msgid "_Tasks"
-msgstr "Завдання"
+msgstr "_Завдання"
 
 #. Check for UTC.
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:201
@@ -28390,21 +28388,18 @@ msgstr "Зберегти пошук"
 
 #: widgets/misc/e-filter-bar.h:91
 #: widgets/misc/e-filter-bar.h:98
-#, fuzzy
 msgid "_Save Search..."
-msgstr "Зберегти пошук"
+msgstr "З_берегти пошук"
 
 #: widgets/misc/e-filter-bar.h:92
 #: widgets/misc/e-filter-bar.h:99
-#, fuzzy
 msgid "_Edit Saved Searches..."
-msgstr "Додати до збережених результатів пошуку"
+msgstr "Ви_правити збережені результати пошуку..."
 
 #: widgets/misc/e-filter-bar.h:93
 #: widgets/misc/e-filter-bar.h:100
-#, fuzzy
 msgid "_Advanced..."
-msgstr "Додатково..."
+msgstr "_Додатково..."
 
 #: widgets/misc/e-messagebox.c:154
 msgid "Information"
@@ -28423,9 +28418,8 @@ msgid "Message"
 msgstr "Повідомлення"
 
 #: widgets/misc/e-search-bar.c:521
-#, fuzzy
 msgid "_Find Now"
-msgstr "Знайти зараз"
+msgstr "З_найти зараз"
 
 #: widgets/misc/e-search-bar.c:522
 msgid "_Clear"
