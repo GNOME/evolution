@@ -140,6 +140,8 @@ impl_ShellComponent_set_owner (PortableServer_Servant servant,
 
 	priv->owner_client = evolution_shell_client_new (shell);
 
+	g_print ("%s -- %p\n", __FUNCTION__, shell);
+
 	gtk_signal_emit (GTK_OBJECT (shell_component), signals[OWNER_SET], priv->owner_client);
 }
 
@@ -155,13 +157,14 @@ impl_ShellComponent_unset_owner (PortableServer_Servant servant,
 	shell_component = EVOLUTION_SHELL_COMPONENT (bonobo_object);
 	priv = shell_component->priv;
 
-	if (priv->owner_client == CORBA_OBJECT_NIL) {
+	if (priv->owner_client == NULL) {
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
 				     ex_Evolution_ShellComponent_NotOwned, NULL);
 		return;
 	}
 
 	bonobo_object_unref (BONOBO_OBJECT (priv->owner_client));
+	priv->owner_client = NULL;
 
 	gtk_signal_emit (GTK_OBJECT (shell_component), signals[OWNER_UNSET]);
 }

@@ -28,7 +28,7 @@
 #include <config.h>
 #endif
 
-#include <bonobo/bonobo-object.h>
+#include <bonobo/bonobo-object-client.h>
 
 #include "Evolution.h"
 
@@ -49,13 +49,13 @@ typedef struct _EvolutionShellClientPrivate EvolutionShellClientPrivate;
 typedef struct _EvolutionShellClientClass   EvolutionShellClientClass;
 
 struct _EvolutionShellClient {
-	BonoboObject parent;
+	BonoboObjectClient parent;
 
 	EvolutionShellClientPrivate *priv;
 };
 
 struct _EvolutionShellClientClass {
-	BonoboObjectClass parent_class;
+	BonoboObjectClientClass parent_class;
 };
 
 

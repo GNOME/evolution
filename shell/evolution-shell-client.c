@@ -36,8 +36,8 @@ struct _EvolutionShellClientPrivate {
 	int dummy;
 };
 
-#define PARENT_TYPE bonobo_object_get_type ()
-static BonoboObjectClass *parent_class = NULL;
+#define PARENT_TYPE bonobo_object_client_get_type ()
+static BonoboObjectClientClass *parent_class = NULL;
 
 
 /* Easy-to-use wrapper for Evolution::user_select_folder.  */
@@ -103,7 +103,7 @@ create_folder_selection_listener_interface (char **result,
 	if (! FolderSelectionListener_vtables_initialized)
 		init_FolderSelectionListener_vtables ();
 
-	servant = g_new (FolderSelectionListenerServant, 1);
+	servant = g_new0 (FolderSelectionListenerServant, 1);
 	servant->servant.vepv        = &FolderSelectionListener_vepv;
 	servant->main_loop           = main_loop;
 	servant->uri_return          = uri_return;
@@ -156,6 +156,8 @@ user_select_folder (EvolutionShellClient *shell_client,
 	CORBA_exception_init (&ev);
 
 	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));
+
+	g_print ("%s -- %p\n", __FUNCTION__, corba_shell);
 
 	Evolution_Shell_user_select_folder (corba_shell, listener_interface,
 					    title, default_folder, &ev);

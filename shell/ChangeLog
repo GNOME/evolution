@@ -1,5 +1,10 @@
 2000-06-30  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* evolution-shell-component.c (impl_ShellComponent_unset_owner):
+	NULL the owner_client.
+
+2000-06-30  Ettore Perazzoli  <ettore@helixcode.com>
+
 	* evolution-shell-client.h
 	(evolution_shell_client_user_select_folder): Add prototype.
 
