@@ -1,3 +1,32 @@
+2002-03-05  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-tcp-stream-openssl.c (camel_tcp_stream_openssl_new_raw):
+	Start the ssl stream off in non-ssl mode (useful for STARTTLS).
+	(camel_tcp_stream_openssl_enable_ssl): New function to toggle an
+	ssl stream into ssl mode.
+	(open_ssl_connection): Close the sockfd on fail so our caller
+	doesn't have to - this also allows us to save the original errno.
+	(stream_connect): If we want ssl mode, do our ssl stuff.
+	(camel_tcp_stream_openssl_class_init): Init some SSL stuff here
+	instead of in open_ssl_connection since these only ever need to be
+	called once.
+	(stream_read): Only use SSL_read if we are in ssl mode.
+	(stream_write): Only use SSL_write if we are in ssl mode.
+
+	* providers/smtp/camel-smtp-transport.c (smtp_helo): Check for the
+	STARTTLS extension.
+	(connect_to_server): Try to use STARTTLS whenever possible rather
+	than the old way of doing things.
+	(connect_to_server_wrapper): Wrapper around connect_to_server() to
+	first try STARTTLS and then attempt normal SSL mode if we can't
+	connect via STARTTLS.
+
+	* camel-tcp-stream-ssl.c (camel_tcp_stream_ssl_enable_ssl): New
+	function to toggle an ssl stream into ssl mode.
+	(camel_tcp_stream_ssl_new_raw): Start the ssl stream off in
+	non-ssl mode (useful for STARTTLS).
+	(stream_connect): Only connect in SSL mode if required.
+
 2002-03-01  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-vtrash-folder.h: 

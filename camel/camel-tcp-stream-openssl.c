@@ -60,12 +60,15 @@ static int stream_getsockopt (CamelTcpStream *stream, CamelSockOptData *data);
 static int stream_setsockopt (CamelTcpStream *stream, const CamelSockOptData *data);
 static gpointer stream_get_socket (CamelTcpStream *stream);
 
+static SSL *open_ssl_connection (CamelService *service, int sockfd, CamelTcpStreamOpenSSL *openssl);
+
 struct _CamelTcpStreamOpenSSLPrivate {
 	int sockfd;
 	SSL *ssl;
 	
 	CamelService *service;
 	char *expected_host;
+	gboolean ssl_mode;
 };
 
 static void
@@ -88,6 +91,10 @@ camel_tcp_stream_openssl_class_init (CamelTcpStreamOpenSSLClass *camel_tcp_strea
 	camel_tcp_stream_class->getsockopt = stream_getsockopt;
 	camel_tcp_stream_class->setsockopt = stream_setsockopt;
 	camel_tcp_stream_class->get_socket = stream_get_socket;
+	
+	/* init OpenSSL stuff */
+	SSLeay_add_ssl_algorithms ();
+	SSL_load_error_strings ();
 }
 
 static void
@@ -152,7 +159,7 @@ camel_tcp_stream_openssl_get_type (void)
  * user, a CamelService is needed. @expected_host is needed as a
  * protection against an MITM attack.
  *
- * Return value: a tcp stream
+ * Return value: a ssl stream (in ssl mode)
  **/
 CamelStream *
 camel_tcp_stream_openssl_new (CamelService *service, const char *expected_host)
@@ -163,9 +170,37 @@ camel_tcp_stream_openssl_new (CamelService *service, const char *expected_host)
 	
 	stream->priv->service = service;
 	stream->priv->expected_host = g_strdup (expected_host);
+	stream->priv->ssl_mode = TRUE;
 	
 	return CAMEL_STREAM (stream);
 }
+
+
+/**
+ * camel_tcp_stream_openssl_new_raw:
+ * @service: camel service
+ * @expected_host: host that the stream is expecting to connect with.
+ *
+ * Since the SSL certificate authenticator may need to prompt the
+ * user, a CamelService is needed. @expected_host is needed as a
+ * protection against an MITM attack.
+ *
+ * Return value: a ssl-capable stream (in non ssl mode)
+ **/
+CamelStream *
+camel_tcp_stream_openssl_new_raw (CamelService *service, const char *expected_host)
+{
+	CamelTcpStreamOpenSSL *stream;
+	
+	stream = CAMEL_TCP_STREAM_OPENSSL (camel_object_new (camel_tcp_stream_openssl_get_type ()));
+	
+	stream->priv->service = service;
+	stream->priv->expected_host = g_strdup (expected_host);
+	stream->priv->ssl_mode = FALSE;
+	
+	return CAMEL_STREAM (stream);
+}
+
 
 static int
 ssl_errno (SSL *ssl, int ret)
@@ -193,11 +228,41 @@ ssl_errno (SSL *ssl, int ret)
 	}
 }
 
+
+/**
+ * camel_tcp_stream_openssl_enable_ssl:
+ * @stream: ssl stream
+ *
+ * Toggles an ssl-capable stream into ssl mode (if it isn't already).
+ *
+ * Returns 0 on success or -1 on fail.
+ **/
+int
+camel_tcp_stream_openssl_enable_ssl (CamelTcpStreamOpenSSL *stream)
+{
+	SSL *ssl;
+	
+	g_return_val_if_fail (CAMEL_IS_TCP_STREAM_OPENSSL (ssl), -1);
+	
+	if (stream->priv->sockfd && !stream->priv->ssl_mode) {
+		ssl = open_ssl_connection (stream->priv->service, stream->priv->sockfd, stream);
+		if (ssl == NULL)
+			return -1;
+		
+		ssl->priv->ssl = ssl;
+	}
+	
+	ssl->priv->ssl_mode = TRUE;
+	
+	return 0;
+}
+
+
 static ssize_t
 stream_read (CamelStream *stream, char *buffer, size_t n)
 {
-	CamelTcpStreamOpenSSL *tcp_stream_openssl = CAMEL_TCP_STREAM_OPENSSL (stream);
-	SSL *ssl = tcp_stream_openssl->priv->ssl;
+	CamelTcpStreamOpenSSL *openssl = CAMEL_TCP_STREAM_OPENSSL (stream);
+	SSL *ssl = openssl->priv->ssl;
 	ssize_t nread;
 	int cancel_fd;
 	
@@ -209,40 +274,48 @@ stream_read (CamelStream *stream, char *buffer, size_t n)
 	cancel_fd = camel_operation_cancel_fd (NULL);
 	if (cancel_fd == -1) {
 		do {
-			nread = SSL_read (ssl, buffer, n);
-			if (nread < 0)
-				errno = ssl_errno (ssl, nread);
-		} while (nread < 0 && (errno == EINTR || errno == EAGAIN));
+			if (ssl) {
+				nread = SSL_read (ssl, buffer, n);
+				if (nread < 0)
+					errno = ssl_errno (ssl, nread);
+			} else {
+				nread = read (openssl->priv->sockfd, buffer, n);
+			}
+		} while (nread < 0 && (errno == EINTR || errno == EAGAIN || errno == EWOULDBLOCK));
 	} else {
 		int error, flags, fdmax;
 		fd_set rdset;
 		
-		flags = fcntl (tcp_stream_openssl->priv->sockfd, F_GETFL);
-		fcntl (tcp_stream_openssl->priv->sockfd, F_SETFL, flags | O_NONBLOCK);
+		flags = fcntl (openssl->priv->sockfd, F_GETFL);
+		fcntl (openssl->priv->sockfd, F_SETFL, flags | O_NONBLOCK);
 		
-		fdmax = MAX (tcp_stream_openssl->priv->sockfd, cancel_fd) + 1;
+		fdmax = MAX (openssl->priv->sockfd, cancel_fd) + 1;
 		
 		do {
 			FD_ZERO (&rdset);
-			FD_SET (tcp_stream_openssl->priv->sockfd, &rdset);
+			FD_SET (openssl->priv->sockfd, &rdset);
 			FD_SET (cancel_fd, &rdset);
 			
 			select (fdmax, &rdset, 0, 0, NULL);
 			if (FD_ISSET (cancel_fd, &rdset)) {
-				fcntl (tcp_stream_openssl->priv->sockfd, F_SETFL, flags);
+				fcntl (openssl->priv->sockfd, F_SETFL, flags);
 				errno = EINTR;
 				return -1;
 			}
 			
 			do {
-				nread = SSL_read (ssl, buffer, n);
-				if (nread < 0)
-					errno = ssl_errno (ssl, nread);
+				if (ssl) {
+					nread = SSL_read (ssl, buffer, n);
+					if (nread < 0)
+						errno = ssl_errno (ssl, nread);
+				} else {
+					nread = read (openssl->priv->sockfd, buffer, n);
+				}
 			} while (nread < 0 && errno == EINTR);
-		} while (nread < 0 && errno == EAGAIN);
+		} while (nread < 0 && (errno == EAGAIN || errno == EWOULDBLOCK));
 		
 		error = errno;
-		fcntl (tcp_stream_openssl->priv->sockfd, F_SETFL, flags);
+		fcntl (openssl->priv->sockfd, F_SETFL, flags);
 		errno = error;
 	}
 	
@@ -252,8 +325,8 @@ stream_read (CamelStream *stream, char *buffer, size_t n)
 static ssize_t
 stream_write (CamelStream *stream, const char *buffer, size_t n)
 {
-	CamelTcpStreamOpenSSL *tcp_stream_openssl = CAMEL_TCP_STREAM_OPENSSL (stream);
-	SSL *ssl = tcp_stream_openssl->priv->ssl;
+	CamelTcpStreamOpenSSL *openssl = CAMEL_TCP_STREAM_OPENSSL (stream);
+	SSL *ssl = openssl->priv->ssl;
 	ssize_t w, written = 0;
 	int cancel_fd;
 	
@@ -266,10 +339,14 @@ stream_write (CamelStream *stream, const char *buffer, size_t n)
 	if (cancel_fd == -1) {
 		do {
 			do {
-				w = SSL_write (ssl, buffer + written, n - written);
-				if (w < 0)
-					errno = ssl_errno (ssl, w);
-			} while (w < 0 && (errno == EINTR || errno == EAGAIN));
+				if (ssl) {
+					w = SSL_write (ssl, buffer + written, n - written);
+					if (w < 0)
+						errno = ssl_errno (ssl, w);
+				} else {
+					w = write (openssl->priv->sockfd, buffer + written, n - written);
+				}
+			} while (w < 0 && (errno == EINTR || errno == EAGAIN || errno == EWOULDBLOCK));
 			
 			if (w > 0)
 				written += w;
@@ -296,13 +373,17 @@ stream_write (CamelStream *stream, const char *buffer, size_t n)
 			}
 			
 			do {
-				w = SSL_write (ssl, buffer + written, n - written);
-				if (w < 0)
-					errno = ssl_errno (ssl, w);
+				if (ssl) {
+					w = SSL_write (ssl, buffer + written, n - written);
+					if (w < 0)
+						errno = ssl_errno (ssl, w);
+				} else {
+					w = write (openssl->priv->sockfd, buffer + written, n - written);
+				}
 			} while (w < 0 && errno == EINTR);
 			
 			if (w < 0) {
-				if (errno == EAGAIN) {
+				if (errno == EAGAIN || errno == EWOULDBLOCK) {
 					w = 0;
 				} else {
 					error = errno;
@@ -542,9 +623,6 @@ open_ssl_connection (CamelService *service, int sockfd, CamelTcpStreamOpenSSL *o
 	SSL *ssl = NULL;
 	int n;
 	
-	SSLeay_add_ssl_algorithms();
-	SSL_load_error_strings();
-	
 	/* SSLv23_client_method will negotiate with SSL v2, v3, or TLS v1 */
 	ssl_ctx = SSL_CTX_new (SSLv23_client_method ());
 	g_return_val_if_fail (ssl_ctx != NULL, NULL);
@@ -557,7 +635,7 @@ open_ssl_connection (CamelService *service, int sockfd, CamelTcpStreamOpenSSL *o
 	
 	n = SSL_connect (ssl);
 	if (n != 1) {
-		errno = ssl_errno (ssl, n);
+		int errnosave = ssl_errno (ssl, n);
 		
 		SSL_shutdown (ssl);
 		
@@ -566,6 +644,10 @@ open_ssl_connection (CamelService *service, int sockfd, CamelTcpStreamOpenSSL *o
 		
 		SSL_free (ssl);
 		ssl = NULL;
+		
+		close (sockfd);
+		
+		errno = errnosave;
 	}
 	
 	return ssl;
@@ -575,7 +657,7 @@ static int
 stream_connect (CamelTcpStream *stream, struct hostent *host, int port)
 {
 	CamelTcpStreamOpenSSL *openssl = CAMEL_TCP_STREAM_OPENSSL (stream);
-	SSL *ssl;
+	SSL *ssl = NULL;
 	int fd;
 	
 	g_return_val_if_fail (host != NULL, -1);
@@ -584,9 +666,11 @@ stream_connect (CamelTcpStream *stream, struct hostent *host, int port)
 	if (fd == -1)
 		return -1;
 	
-	ssl = open_ssl_connection (openssl->priv->service, fd, openssl);
-	if (!ssl)
-		return -1;
+	if (openssl->priv->ssl_mode) {
+		ssl = open_ssl_connection (openssl->priv->service, fd, openssl);
+		if (!ssl)
+			return -1;
+	}
 	
 	openssl->priv->sockfd = fd;
 	openssl->priv->ssl = ssl;

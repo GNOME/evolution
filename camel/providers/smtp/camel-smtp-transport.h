@@ -47,11 +47,16 @@ extern "C" {
 #define CAMEL_IS_SMTP_TRANSPORT(o)    (CAMEL_CHECK_TYPE((o), CAMEL_SMTP_TRANSPORT_TYPE))
 
 
-#define CAMEL_SMTP_TRANSPORT_IS_ESMTP            (1 << 0)
-#define CAMEL_SMTP_TRANSPORT_8BITMIME            (1 << 1)
-#define CAMEL_SMTP_TRANSPORT_ENHANCEDSTATUSCODES (1 << 2)
+#define CAMEL_SMTP_TRANSPORT_IS_ESMTP               (1 << 0)
+#define CAMEL_SMTP_TRANSPORT_8BITMIME               (1 << 1)
+#define CAMEL_SMTP_TRANSPORT_ENHANCEDSTATUSCODES    (1 << 2)
+#define CAMEL_SMTP_TRANSPORT_STARTTLS               (1 << 3)
 
-#define CAMEL_SMTP_TRANSPORT_USE_SSL             (1 << 3)
+#define CAMEL_SMTP_TRANSPORT_USE_SSL_ALWAYS         (1 << 4)
+#define CAMEL_SMTP_TRANSPORT_USE_SSL_WHEN_POSSIBLE  (1 << 5)
+
+#define CAMEL_SMTP_TRANSPORT_USE_SSL                (CAMEL_SMTP_TRANSPORT_USE_SSL_ALWAYS | \
+						     CAMEL_SMTP_TRANSPORT_USE_SSL_WHEN_POSSIBLE)
 
 typedef struct {
 	CamelTransport parent_object;

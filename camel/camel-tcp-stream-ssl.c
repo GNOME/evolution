@@ -60,6 +60,8 @@ static ssize_t stream_write (CamelStream *stream, const char *buffer, size_t n);
 static int stream_flush  (CamelStream *stream);
 static int stream_close  (CamelStream *stream);
 
+static PRFileDesc *enable_ssl (CamelTcpStreamSSL *ssl, PRFileDesc *fd);
+
 static int stream_connect    (CamelTcpStream *stream, struct hostent *host, int port);
 static int stream_getsockopt (CamelTcpStream *stream, CamelSockOptData *data);
 static int stream_setsockopt (CamelTcpStream *stream, const CamelSockOptData *data);
@@ -70,6 +72,7 @@ struct _CamelTcpStreamSSLPrivate {
 	
 	CamelService *service;
 	char *expected_host;
+	gboolean ssl_mode;
 };
 
 static void
@@ -135,6 +138,7 @@ camel_tcp_stream_ssl_get_type (void)
 	return type;
 }
 
+
 /**
  * camel_tcp_stream_ssl_new:
  * @service: camel service
@@ -144,7 +148,7 @@ camel_tcp_stream_ssl_get_type (void)
  * user, a CamelService is needed. @expected_host is needed as a
  * protection against an MITM attack.
  *
- * Return value: a tcp stream
+ * Return value: a ssl stream (in ssl mode)
  **/
 CamelStream *
 camel_tcp_stream_ssl_new (CamelService *service, const char *expected_host)
@@ -155,9 +159,37 @@ camel_tcp_stream_ssl_new (CamelService *service, const char *expected_host)
 	
 	stream->priv->service = service;
 	stream->priv->expected_host = g_strdup (expected_host);
+	stream->priv->ssl_mode = TRUE;
 	
 	return CAMEL_STREAM (stream);
 }
+
+
+/**
+ * camel_tcp_stream_ssl_new_raw:
+ * @service: camel service
+ * @expected_host: host that the stream is expected to connect with.
+ *
+ * Since the SSL certificate authenticator may need to prompt the
+ * user, a CamelService is needed. @expected_host is needed as a
+ * protection against an MITM attack.
+ *
+ * Return value: a ssl-capable stream (in non ssl mode)
+ **/
+CamelStream *
+camel_tcp_stream_ssl_new_raw (CamelService *service, const char *expected_host)
+{
+	CamelTcpStreamSSL *stream;
+	
+	stream = CAMEL_TCP_STREAM_SSL (camel_object_new (camel_tcp_stream_ssl_get_type ()));
+	
+	stream->priv->service = service;
+	stream->priv->expected_host = g_strdup (expected_host);
+	stream->priv->ssl_mode = FALSE;
+	
+	return CAMEL_STREAM (stream);
+}
+
 
 static void
 set_errno (int code)
@@ -180,6 +212,45 @@ set_errno (int code)
 		break;
 	}
 }
+
+
+/**
+ * camel_tcp_stream_ssl_enable_ssl:
+ * @ssl: ssl stream
+ *
+ * Toggles an ssl-capable stream into ssl mode (if it isn't already).
+ *
+ * Returns 0 on success or -1 on fail.
+ **/
+int
+camel_tcp_stream_ssl_enable_ssl (CamelTcpStreamSSL *ssl)
+{
+	PRFileDesc *fd;
+	
+	g_return_val_if_fail (CAMEL_IS_TCP_STREAM_SSL (ssl), -1);
+	
+	if (ssl->priv->sockfd && !ssl->priv->ssl_mode) {
+		fd = enable_ssl (ssl, NULL);
+		if (fd == NULL) {
+			int errnosave;
+			
+			set_errno (PR_GetError ());
+			errnosave = errno;
+			errno = errnosave;
+			
+			return -1;
+		}
+		
+		SSL_ResetHandshake (fd, FALSE);
+		
+		ssl->priv->sockfd = fd;
+	}
+	
+	ssl->priv->ssl_mode = TRUE;
+	
+	return 0;
+}
+
 
 static ssize_t
 stream_read (CamelStream *stream, char *buffer, size_t n)
@@ -486,13 +557,34 @@ ssl_bad_cert (void *data, PRFileDesc *sockfd)
 	return SECFailure;
 }
 
+static PRFileDesc *
+enable_ssl (CamelTcpStreamSSL *ssl, PRFileDesc *fd)
+{
+	PRFileDesc *ssl_fd;
+	
+	ssl_fd = SSL_ImportFD (NULL, fd ? fd : ssl->priv->sockfd);
+	if (!ssl_fd)
+		return NULL;
+	
+	SSL_OptionSet (ssl_fd, SSL_SECURITY, PR_TRUE);
+	SSL_SetURL (ssl_fd, ssl->priv->expected_host);
+	
+	/*SSL_GetClientAuthDataHook (sslSocket, ssl_get_client_auth, (void *) certNickname);*/
+	/*SSL_AuthCertificateHook (ssl_fd, ssl_auth_cert, (void *) CERT_GetDefaultCertDB ());*/
+	SSL_BadCertHook (ssl_fd, ssl_bad_cert, ssl);
+	
+	ssl->priv->ssl_mode = TRUE;
+	
+	return ssl_fd;
+}
+
 static int
 stream_connect (CamelTcpStream *stream, struct hostent *host, int port)
 {
 	CamelTcpStreamSSL *ssl = CAMEL_TCP_STREAM_SSL (stream);
 	PRIntervalTime timeout = PR_INTERVAL_MIN;
 	PRNetAddr netaddr;
-	PRFileDesc *fd, *ssl_fd;
+	PRFileDesc *fd;
 	
 	g_return_val_if_fail (host != NULL, -1);
 	
@@ -505,30 +597,42 @@ stream_connect (CamelTcpStream *stream, struct hostent *host, int port)
 	}
 	
 	fd = PR_OpenTCPSocket (host->h_addrtype);
-	ssl_fd = SSL_ImportFD (NULL, fd);
+	if (fd == NULL) {
+		set_errno (PR_GetError ());
+		return -1;
+	}
 	
-	SSL_OptionSet (ssl_fd, SSL_SECURITY, PR_TRUE);
-	SSL_SetURL (ssl_fd, ssl->priv->expected_host);
-	
-	if (ssl_fd == NULL || PR_Connect (ssl_fd, &netaddr, timeout) == PR_FAILURE) {
-		if (ssl_fd != NULL) {
+	if (ssl->priv->ssl_mode) {
+		PRFileDesc *ssl_fd;
+		
+		ssl_fd = enable_ssl (ssl, fd);
+		if (ssl_fd == NULL) {
 			int errnosave;
 			
 			set_errno (PR_GetError ());
 			errnosave = errno;
-			PR_Close (ssl_fd);
+			PR_Close (fd);
 			errno = errnosave;
-		} else
-			errno = EINVAL;
+			
+			return -1;
+		}
+		
+		fd = ssl_fd;
+	}
+	
+	if (PR_Connect (fd, &netaddr, timeout) == PR_FAILURE) {
+		int errnosave;
+		
+		set_errno (PR_GetError ());
+		errnosave = errno;
+		PR_Close (fd);
+		ssl->priv->sockfd = NULL;
+		errno = errnosave;
 		
 		return -1;
 	}
 	
-	/*SSL_GetClientAuthDataHook (sslSocket, ssl_get_client_auth, (void *) certNickname);*/
-	/*SSL_AuthCertificateHook (ssl_fd, ssl_auth_cert, (void *) CERT_GetDefaultCertDB ());*/
-	SSL_BadCertHook (ssl_fd, ssl_bad_cert, ssl);
-	
-	ssl->priv->sockfd = ssl_fd;
+	ssl->priv->sockfd = fd;
 	
 	return 0;
 }
