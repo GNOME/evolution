@@ -93,7 +93,7 @@ ensure_inited (void)
 }
 
 GConfClient *
-config_data_get_listener (void)
+config_data_get_conf_client (void)
 {
 	ensure_inited ();
 	return conf_client;
