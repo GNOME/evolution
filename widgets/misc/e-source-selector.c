@@ -475,17 +475,20 @@ cell_toggled_callback (GtkCellRendererToggle *renderer,
 		gtk_tree_path_free (path);
 	} else {
 		source = E_SOURCE (data);
-		if (source_is_selected (selector, source))
-			unselect_source (selector, source);
-		else
-			select_source (selector, source);
-		
-		selector->priv->toggled_last = TRUE;
-		
-		gtk_tree_model_row_changed (model, path, &iter);
-		g_signal_emit (selector, signals[SELECTION_CHANGED], 0);
-		
-		gtk_tree_path_free (path);
+
+		if (e_source_selector_peek_primary_selection (selector) != source) {
+			if (source_is_selected (selector, source))
+				unselect_source (selector, source);
+			else
+				select_source (selector, source);
+			
+			selector->priv->toggled_last = TRUE;
+			
+			gtk_tree_model_row_changed (model, path, &iter);
+			g_signal_emit (selector, signals[SELECTION_CHANGED], 0);
+			
+			gtk_tree_path_free (path);
+		}
 	}
 	
 	g_object_unref (data);	
