@@ -20,6 +20,18 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
     #46075 - same date can be added repeatedly in Exceptions date list (Harry Lu)
     #41676 - Can create "Run a program" reminder" without entering a program (Rodrigo)
 
+  * Mail
+
+    #46018 - cannot paste cut/copied mail into empty folder  
+             (antonio.xu@sun.com)
+    #46398 - Crash when dragging files to message list  (Federico)
+    #46013 - Can't focus on to/cc button in composer  (maxx.cao@sun.com)
+    #45826 - shift+f10 should activate popup menu when focus on attachment  
+             (maxx.cao@sun.com)
+    #46346 - Wrong default for startup dialog about restoring autosaved items  
+             (michel@daenzer.net)
+    #42573 - IMAP APPEND buggy  (tss@iki.fi)
+
 
 Evolution 1.4.3, 2003-07-08
 ---------------------------
