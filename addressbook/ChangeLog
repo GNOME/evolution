@@ -1,3 +1,10 @@
+2001-10-10  Jon Trowbridge  <trow@ximian.com>
+
+	* gui/component/select-names/e-select-names-manager.c
+	(e_select_names_manager_destroy): If our select names dialog is
+	still around, destroy it.  Otherwise, the dialog will hang around
+	after our composer goes away.
+
 2001-10-06  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/addressbook-config.glade: add an Email Address
