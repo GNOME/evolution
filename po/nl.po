@@ -18,14 +18,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution.evolution-1-4-branch.nl\n"
-"POT-Creation-Date: 2003-09-15 14:36-0400\n"
-"PO-Revision-Date: 2003-09-14 14:51+0200\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2003-09-26 11:33+0200\n"
+"PO-Revision-Date: 2003-09-26 21:11+0200\n"
 "Last-Translator: Vincent van Adrighem <V.vanAdrighem@dirck.mine.nu>\n"
 "Language-Team: Dutch <nl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Report-Msgid-Bugs-To: \n"
+"Content-Transfer-Encoding: 8bit"
 
 #: addressbook/backend/ebook/GNOME_Evolution_Addressbook_LDIF_Importer.server.in.in.h:1
 msgid "Evolution LDIF importer"
@@ -570,7 +570,7 @@ msgid "Evolution Addressbook folder viewer"
 msgstr "Evolution adresboek mapweergave"
 
 #: addressbook/gui/component/addressbook-component.c:76
-#: addressbook/gui/component/addressbook-component.c:625
+#: addressbook/gui/component/addressbook-component.c:628
 #: importers/netscape-importer.c:1874 mail/importers/netscape-importer.c:1844
 #: shell/e-local-storage.c:178 shell/e-shortcuts.c:1087
 msgid "Contacts"
@@ -596,27 +596,27 @@ msgstr "Publiekelijk adresboek"
 msgid "Public folder containing contact information"
 msgstr "Map met contactinformatie die publiekelijk toegankelijk is"
 
-#: addressbook/gui/component/addressbook-component.c:579
+#: addressbook/gui/component/addressbook-component.c:582
 msgid "New Contact"
 msgstr "Nieuw contact"
 
-#: addressbook/gui/component/addressbook-component.c:579
+#: addressbook/gui/component/addressbook-component.c:582
 msgid "_Contact"
 msgstr "C_ontact"
 
-#: addressbook/gui/component/addressbook-component.c:580
+#: addressbook/gui/component/addressbook-component.c:583
 msgid "Create a new contact"
 msgstr "Nieuw contact maken"
 
-#: addressbook/gui/component/addressbook-component.c:583
+#: addressbook/gui/component/addressbook-component.c:586
 msgid "New Contact List"
 msgstr "Nieuwe contactenlijst"
 
-#: addressbook/gui/component/addressbook-component.c:583
+#: addressbook/gui/component/addressbook-component.c:586
 msgid "Contact _List"
 msgstr "Contacten _lijst"
 
-#: addressbook/gui/component/addressbook-component.c:584
+#: addressbook/gui/component/addressbook-component.c:587
 msgid "Create a new contact list"
 msgstr "Maak een nieuwe contactenlijst"
 
@@ -1281,7 +1281,7 @@ msgstr "Alle verwijderen"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:211
 #: addressbook/gui/component/select-names/e-select-names.c:694
-#: composer/e-msg-composer-attachment-bar.c:450
+#: composer/e-msg-composer-attachment-bar.c:464
 msgid "Remove"
 msgstr "Verwijderen"
 
@@ -3076,7 +3076,7 @@ msgstr "Kopiëren"
 msgid "Paste"
 msgstr "Plakken"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:915 filter/libfilter-i18n.h:10
+#: addressbook/gui/widgets/e-addressbook-view.c:915 filter/libfilter-i18n.h:11
 #: mail/mail-accounts.c:234 ui/evolution-addressbook.xml.h:8
 #: ui/evolution-comp-editor.xml.h:4 ui/evolution-contact-editor.xml.h:2
 #: ui/evolution-contact-list-editor.xml.h:2 ui/evolution-mail-message.xml.h:20
@@ -4830,7 +4830,7 @@ msgstr "RSVP"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:10
 #: calendar/gui/e-calendar-table.etspec.h:15
-#: calendar/gui/e-meeting-time-sel.etspec.h:10 filter/libfilter-i18n.h:36
+#: calendar/gui/e-meeting-time-sel.etspec.h:10 filter/libfilter-i18n.h:58
 #: mail/message-list.etspec.h:12
 msgid "Status"
 msgstr "Status"
@@ -5309,7 +5309,7 @@ msgid "Alarms"
 msgstr "Alarmen"
 
 #: calendar/gui/e-calendar-table.etspec.h:7 camel/camel-filter-driver.c:1156
-#: camel/camel-filter-driver.c:1251 mail/mail-send-recv.c:584
+#: camel/camel-filter-driver.c:1251 mail/mail-send-recv.c:578
 msgid "Complete"
 msgstr "Voltooid"
 
@@ -5657,8 +5657,9 @@ msgid "Send Latest Information"
 msgstr "Verstuur Laatste Informatie"
 
 #: calendar/gui/e-itip-control.c:1211 calendar/gui/itip-utils.c:439
-#: mail/mail-send-recv.c:389 mail/mail-send-recv.c:446
-#: shell/evolution-shell-component.c:1185 ui/evolution-mail-global.xml.h:1
+#: mail/mail-send-recv.c:388 mail/mail-send-recv.c:440
+#: shell/e-shell-startup-wizard.c:781 shell/evolution-shell-component.c:1185
+#: ui/evolution-mail-global.xml.h:1
 msgid "Cancel"
 msgstr "Annuleren"
 
@@ -8362,7 +8363,7 @@ msgstr ""
 
 #: camel/camel-gpg-context.c:821 camel/camel-gpg-context.c:1297
 #: camel/camel-gpg-context.c:1403 camel/camel-gpg-context.c:1473
-#: camel/camel-gpg-context.c:1529 mail/mail-send-recv.c:580
+#: camel/camel-gpg-context.c:1529 mail/mail-send-recv.c:574
 msgid "Cancelled."
 msgstr "Geannuleerd."
 
@@ -9959,9 +9960,9 @@ msgid "Retrieving POP summary"
 msgstr "POP-samenvatting aan het ophalen"
 
 #: camel/providers/pop3/camel-pop3-folder.c:262
-#: camel/providers/pop3/camel-pop3-folder.c:429
-#: camel/providers/pop3/camel-pop3-folder.c:490
-#: camel/providers/pop3/camel-pop3-folder.c:508
+#: camel/providers/pop3/camel-pop3-folder.c:430
+#: camel/providers/pop3/camel-pop3-folder.c:491
+#: camel/providers/pop3/camel-pop3-folder.c:509
 msgid "User cancelled"
 msgstr "Gebruiker geannuleerd"
 
@@ -9974,27 +9975,27 @@ msgstr "Kan POP-samenvatting niet verkrijgen: %s"
 msgid "Expunging deleted messages"
 msgstr "Bezit met schrappen van verwijderde berichten"
 
-#: camel/providers/pop3/camel-pop3-folder.c:403
+#: camel/providers/pop3/camel-pop3-folder.c:404
 #, c-format
 msgid "No message with uid %s"
 msgstr "Geen bericht met uid %s"
 
 #. Sigh, most of the crap in this function is so that the cancel button
 #. returns the proper exception code.  Sigh.
-#: camel/providers/pop3/camel-pop3-folder.c:410
+#: camel/providers/pop3/camel-pop3-folder.c:411
 #, c-format
 msgid "Retrieving POP message %d"
 msgstr "Ophalen van POP-bericht %d"
 
-#: camel/providers/pop3/camel-pop3-folder.c:432
-#: camel/providers/pop3/camel-pop3-folder.c:493
-#: camel/providers/pop3/camel-pop3-folder.c:500
-#: camel/providers/pop3/camel-pop3-folder.c:511
+#: camel/providers/pop3/camel-pop3-folder.c:433
+#: camel/providers/pop3/camel-pop3-folder.c:494
+#: camel/providers/pop3/camel-pop3-folder.c:501
+#: camel/providers/pop3/camel-pop3-folder.c:512
 #, c-format
 msgid "Cannot get message %s: %s"
 msgstr "Kan bericht: %s niet verkrijgen: %s"
 
-#: camel/providers/pop3/camel-pop3-folder.c:500
+#: camel/providers/pop3/camel-pop3-folder.c:501
 msgid "Unknown reason"
 msgstr "Onbekende reden"
 
@@ -10450,19 +10451,19 @@ msgid "%.0fG"
 msgstr "%.0fG"
 
 #. This is a filename. Translators take note.
-#: composer/e-msg-composer-attachment-bar.c:313 mail/mail-display.c:226
+#: composer/e-msg-composer-attachment-bar.c:320 mail/mail-display.c:226
 msgid "attachment"
 msgstr "bijlage"
 
-#: composer/e-msg-composer-attachment-bar.c:451
+#: composer/e-msg-composer-attachment-bar.c:465
 msgid "Remove selected items from the attachment list"
 msgstr "Verwijder het geselecteerde bestand uit de lijst van bijlages"
 
-#: composer/e-msg-composer-attachment-bar.c:481
+#: composer/e-msg-composer-attachment-bar.c:495
 msgid "Add attachment..."
 msgstr "Bestand bijvoegen..."
 
-#: composer/e-msg-composer-attachment-bar.c:482
+#: composer/e-msg-composer-attachment-bar.c:496
 msgid "Attach a file to the message"
 msgstr "Voeg een bestand bij het bericht"
 
@@ -11122,7 +11123,7 @@ msgstr ""
 "Fout in reguliere expressie '%s':\n"
 "%s"
 
-#: filter/filter-label.c:121 filter/libfilter-i18n.h:17 mail/mail-config.c:65
+#: filter/filter-label.c:121 filter/libfilter-i18n.h:26 mail/mail-config.c:65
 #: mail/mail-config.glade.h:62 shell/e-config-upgrade.c:1454
 msgid "Important"
 msgstr "Belangrijk"
@@ -11313,214 +11314,214 @@ msgid "Beep"
 msgstr "Piep"
 
 #: filter/libfilter-i18n.h:7
+msgid "contains"
+msgstr "bevat"
+
+#: filter/libfilter-i18n.h:8
 msgid "Copy to Folder"
 msgstr "Naar map kopiëren"
 
-#: filter/libfilter-i18n.h:8
+#: filter/libfilter-i18n.h:9
 msgid "Date received"
 msgstr "Ontvangstdatum"
 
-#: filter/libfilter-i18n.h:9
+#: filter/libfilter-i18n.h:10
 msgid "Date sent"
 msgstr "Verzendingsdatum"
 
-#: filter/libfilter-i18n.h:11
+#: filter/libfilter-i18n.h:12
 msgid "Deleted"
 msgstr "Verwijderd"
 
-#: filter/libfilter-i18n.h:12
+#: filter/libfilter-i18n.h:13
+msgid "does not contain"
+msgstr "bevat niet"
+
+#: filter/libfilter-i18n.h:14
+msgid "does not end with"
+msgstr "eindigt niet op"
+
+#: filter/libfilter-i18n.h:15
+msgid "does not exist"
+msgstr "bestaat niet"
+
+#: filter/libfilter-i18n.h:16
+msgid "does not return"
+msgstr "komt niet terug"
+
+#: filter/libfilter-i18n.h:17
+msgid "does not sound like"
+msgstr "klinkt niet als"
+
+#: filter/libfilter-i18n.h:18
+msgid "does not start with"
+msgstr "begint niet met"
+
+#: filter/libfilter-i18n.h:19
 msgid "Do Not Exist"
 msgstr "bestaat niet"
 
-#: filter/libfilter-i18n.h:13
+#: filter/libfilter-i18n.h:20
 msgid "Draft"
 msgstr "Klad"
 
-#: filter/libfilter-i18n.h:14
+#: filter/libfilter-i18n.h:21
+msgid "ends with"
+msgstr "eindigt met"
+
+#: filter/libfilter-i18n.h:22
 msgid "Exist"
 msgstr "Bestaat"
 
-#: filter/libfilter-i18n.h:15
+#: filter/libfilter-i18n.h:23
+msgid "exists"
+msgstr "bestaat"
+
+#: filter/libfilter-i18n.h:24
 msgid "Expression"
 msgstr "Expressie"
 
-#: filter/libfilter-i18n.h:16
+#: filter/libfilter-i18n.h:25
 msgid "Follow Up"
 msgstr "Antwoord"
 
-#: filter/libfilter-i18n.h:18 mail/folder-browser.c:1824
+#: filter/libfilter-i18n.h:27
+msgid "is"
+msgstr "is"
+
+#: filter/libfilter-i18n.h:28
+msgid "is after"
+msgstr "is na"
+
+#: filter/libfilter-i18n.h:29
+msgid "is before"
+msgstr "is voor"
+
+#: filter/libfilter-i18n.h:30
+msgid "is Flagged"
+msgstr "is gemarkeerd"
+
+#: filter/libfilter-i18n.h:31
+msgid "is greater than"
+msgstr "is groter dan"
+
+#: filter/libfilter-i18n.h:32
+msgid "is less than"
+msgstr "is kleiner dan"
+
+#: filter/libfilter-i18n.h:33
+msgid "is not"
+msgstr "is niet"
+
+#: filter/libfilter-i18n.h:34
+msgid "is not Flagged"
+msgstr "Is niet gemarkeerd"
+
+#: filter/libfilter-i18n.h:35 mail/folder-browser.c:1824
 msgid "Label"
 msgstr "Label"
 
-#: filter/libfilter-i18n.h:19
+#: filter/libfilter-i18n.h:36
 msgid "Mailing list"
 msgstr "Mailinglijst"
 
-#: filter/libfilter-i18n.h:20
+#: filter/libfilter-i18n.h:37
 msgid "Message Body"
 msgstr "Berichtinhoud"
 
-#: filter/libfilter-i18n.h:21
+#: filter/libfilter-i18n.h:38
 msgid "Message Header"
 msgstr "Berichtkop"
 
-#: filter/libfilter-i18n.h:22
+#: filter/libfilter-i18n.h:39
 msgid "Move to Folder"
 msgstr "Naar map verplaatsen"
 
-#: filter/libfilter-i18n.h:23
+#: filter/libfilter-i18n.h:40
 msgid "Pipe Message to Shell Command"
 msgstr "Bericht doorvoeren naar shellopdracht"
 
-#: filter/libfilter-i18n.h:24
+#: filter/libfilter-i18n.h:41
 msgid "Play Sound"
 msgstr "Geluid afspelen"
 
-#: filter/libfilter-i18n.h:25 mail/message-tag-followup.c:68
+#: filter/libfilter-i18n.h:42 mail/message-tag-followup.c:68
 msgid "Read"
 msgstr "Gelezen"
 
-#: filter/libfilter-i18n.h:26
+#: filter/libfilter-i18n.h:43
 msgid "Recipients"
 msgstr "Geadresseerden"
 
-#: filter/libfilter-i18n.h:27
+#: filter/libfilter-i18n.h:44
 msgid "Regex Match"
 msgstr "Overeenkomende regex"
 
-#: filter/libfilter-i18n.h:28
+#: filter/libfilter-i18n.h:45
 msgid "Replied to"
 msgstr "Beantwoord aan"
 
-#: filter/libfilter-i18n.h:29 filter/score-rule.c:184 filter/score-rule.c:186
+#: filter/libfilter-i18n.h:46
+msgid "returns"
+msgstr "komt terug"
+
+#: filter/libfilter-i18n.h:47
+msgid "returns greater than"
+msgstr "geeft groter dan"
+
+#: filter/libfilter-i18n.h:48
+msgid "returns less than"
+msgstr "geeft kleiner dan"
+
+#: filter/libfilter-i18n.h:49 filter/score-rule.c:184 filter/score-rule.c:186
 #: mail/message-list.etspec.h:10
 msgid "Score"
 msgstr "Score"
 
-#: filter/libfilter-i18n.h:30 mail/mail-callbacks.c:1820
+#: filter/libfilter-i18n.h:50 mail/mail-callbacks.c:1820
 msgid "Sender"
 msgstr "Afzender"
 
-#: filter/libfilter-i18n.h:31
+#: filter/libfilter-i18n.h:51
 msgid "Set Status"
 msgstr "Stel Status in"
 
-#: filter/libfilter-i18n.h:32
+#: filter/libfilter-i18n.h:52
 msgid "Shell Command"
 msgstr "Shellopdracht"
 
-#: filter/libfilter-i18n.h:33
+#: filter/libfilter-i18n.h:53
 msgid "Size (kB)"
 msgstr "Grootte (kB)"
 
-#: filter/libfilter-i18n.h:34
+#: filter/libfilter-i18n.h:54
+msgid "sounds like"
+msgstr "klinkt als"
+
+#: filter/libfilter-i18n.h:55
 msgid "Source Account"
 msgstr "Source-Account"
 
-#: filter/libfilter-i18n.h:35
+#: filter/libfilter-i18n.h:56
 msgid "Specific header"
 msgstr "Specifieke kop"
 
-#: filter/libfilter-i18n.h:37
+#: filter/libfilter-i18n.h:57
+msgid "starts with"
+msgstr "begint met"
+
+#: filter/libfilter-i18n.h:59
 msgid "Stop Processing"
 msgstr "Stop met Verwerken"
 
-#: filter/libfilter-i18n.h:38 mail/mail-format.c:937
+#: filter/libfilter-i18n.h:60 mail/mail-format.c:937
 #: mail/message-list.etspec.h:13 mail/message-tag-followup.c:305
 msgid "Subject"
 msgstr "Onderwerp"
 
-#: filter/libfilter-i18n.h:39
+#: filter/libfilter-i18n.h:61
 msgid "Unset Status"
 msgstr "Status herstellen"
-
-#: filter/libfilter-i18n.h:40
-msgid "contains"
-msgstr "bevat"
-
-#: filter/libfilter-i18n.h:41
-msgid "does not contain"
-msgstr "bevat niet"
-
-#: filter/libfilter-i18n.h:42
-msgid "does not end with"
-msgstr "eindigt niet op"
-
-#: filter/libfilter-i18n.h:43
-msgid "does not exist"
-msgstr "bestaat niet"
-
-#: filter/libfilter-i18n.h:44
-msgid "does not return"
-msgstr "komt niet terug"
-
-#: filter/libfilter-i18n.h:45
-msgid "does not sound like"
-msgstr "klinkt niet als"
-
-#: filter/libfilter-i18n.h:46
-msgid "does not start with"
-msgstr "begint niet met"
-
-#: filter/libfilter-i18n.h:47
-msgid "ends with"
-msgstr "eindigt met"
-
-#: filter/libfilter-i18n.h:48
-msgid "exists"
-msgstr "bestaat"
-
-#: filter/libfilter-i18n.h:49
-msgid "is Flagged"
-msgstr "is gemarkeerd"
-
-#: filter/libfilter-i18n.h:50
-msgid "is after"
-msgstr "is na"
-
-#: filter/libfilter-i18n.h:51
-msgid "is before"
-msgstr "is voor"
-
-#: filter/libfilter-i18n.h:52
-msgid "is greater than"
-msgstr "is groter dan"
-
-#: filter/libfilter-i18n.h:53
-msgid "is less than"
-msgstr "is kleiner dan"
-
-#: filter/libfilter-i18n.h:54
-msgid "is not Flagged"
-msgstr "Is niet gemarkeerd"
-
-#: filter/libfilter-i18n.h:55
-msgid "is not"
-msgstr "is niet"
-
-#: filter/libfilter-i18n.h:56
-msgid "is"
-msgstr "is"
-
-#: filter/libfilter-i18n.h:57
-msgid "returns greater than"
-msgstr "geeft groter dan"
-
-#: filter/libfilter-i18n.h:58
-msgid "returns less than"
-msgstr "geeft kleiner dan"
-
-#: filter/libfilter-i18n.h:59
-msgid "returns"
-msgstr "komt terug"
-
-#: filter/libfilter-i18n.h:60
-msgid "sounds like"
-msgstr "klinkt als"
-
-#: filter/libfilter-i18n.h:61
-msgid "starts with"
-msgstr "begint met"
 
 #: filter/rule-context.c:664 filter/rule-editor.c:241 filter/rule-editor.c:326
 #: mail/mail-vfolder.c:917
@@ -11732,7 +11733,7 @@ msgstr "Pine"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:1
 msgid "Composer Preferences"
-msgstr "Bericht opstellen - Voorkeuren"
+msgstr "Bericht opstellen"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:2
 msgid ""
@@ -13189,31 +13190,31 @@ msgstr "Afbeeldingen worden gedownload"
 msgid "Loading message content"
 msgstr "Laden van berichtinhoud"
 
-#: mail/mail-display.c:1875
+#: mail/mail-display.c:1880
 msgid "Overdue:"
 msgstr "Te laat:"
 
-#: mail/mail-display.c:1879
+#: mail/mail-display.c:1884
 msgid "by %B %d, %Y, %l:%M %p"
 msgstr "op %B %d, %Y, %l:%M %p"
 
-#: mail/mail-display.c:2236
+#: mail/mail-display.c:2241
 msgid "Open Link in Browser"
 msgstr "Verwijzing in browser openen"
 
-#: mail/mail-display.c:2237
+#: mail/mail-display.c:2242
 msgid "Copy Link Location"
 msgstr "Verwijzing kopiëren"
 
-#: mail/mail-display.c:2239
+#: mail/mail-display.c:2244
 msgid "Save Link as (FIXME)"
 msgstr "Verwijzing opslaan als (FIXME)"
 
-#: mail/mail-display.c:2241
+#: mail/mail-display.c:2246
 msgid "Save Image as..."
 msgstr "Afbeelding opslaan als..."
 
-#: mail/mail-folder-cache.c:745
+#: mail/mail-folder-cache.c:746
 #, c-format
 msgid "Pinging %s"
 msgstr "Controleren of %s actief is"
@@ -13608,11 +13609,11 @@ msgstr "E-mail versturen & ontvangen"
 msgid "Cancel _All"
 msgstr "_Alles annuleren"
 
-#: mail/mail-send-recv.c:391
+#: mail/mail-send-recv.c:390
 msgid "Updating..."
 msgstr "Aan het Actualiseren ..."
 
-#: mail/mail-send-recv.c:391 mail/mail-send-recv.c:448
+#: mail/mail-send-recv.c:390 mail/mail-send-recv.c:442
 msgid "Waiting..."
 msgstr "Aan het Wachten ..."
 
@@ -25579,6 +25580,20 @@ msgstr "Kon de gedeelde map niet openen: %s."
 #: shell/e-shell-shared-folder-picker-dialog.c:535
 msgid "Cannot find the specified shared folder."
 msgstr "Kan de gegeven gedeelde map niet vinden."
+
+#: shell/e-shell-startup-wizard.c:771
+msgid ""
+"If you quit the Evolution Setup Assistant now, all of the information that "
+"you have entered will be forgotten. You will need to run this assistant "
+"again before using Evolution.\n"
+"\n"
+"Do you want to quit using the Assistant now?"
+msgstr ""
+
+#: shell/e-shell-startup-wizard.c:782
+#, fuzzy
+msgid "Quit Assistant"
+msgstr "Assistent"
 
 #: shell/e-shell-user-creatable-items-handler.c:587
 #: shell/e-shell-user-creatable-items-handler.c:643
