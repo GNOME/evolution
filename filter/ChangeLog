@@ -1,3 +1,9 @@
+2001-02-23  Not Zed  <NotZed@Ximian.com>
+
+	* filtertypes.xml: Added mailing list matching rules.
+
+	* vfoldertypes.xml: Added mailing list rules.
+
 2001-02-11  Gediminas Paulauskas <menesis@delfi.lt>
 
 	* filter.glade.h: removed.

@@ -7,6 +7,7 @@ char *s = N_("Date sent");
 char *s = N_("Delete");
 char *s = N_("Expression");
 char *s = N_("Forward to Address");
+char *s = N_("Mailing list");
 char *s = N_("Message Body");
 char *s = N_("Message Header");
 char *s = N_("Message was received");
