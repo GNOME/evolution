@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-03-30 14:01-0500\n"
-"PO-Revision-Date: 2005-03-30 19:18-0400\n"
+"POT-Creation-Date: 2005-03-31 16:38-0500\n"
+"PO-Revision-Date: 2005-03-31 19:18-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: Canadian English <adamw@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -95,7 +95,7 @@ msgstr "New Appointment"
 msgid "New All Day Event"
 msgstr "New All Day Event"
 
-#: ../a11y/calendar/ea-cal-view.c:308 ../calendar/gui/e-calendar-view.c:1374
+#: ../a11y/calendar/ea-cal-view.c:308 ../calendar/gui/e-calendar-view.c:1376
 msgid "New Meeting"
 msgstr "New Meeting"
 
@@ -5458,7 +5458,7 @@ msgstr[1] "%d attached messages"
 
 #: ../calendar/gui/dialogs/comp-editor.c:412
 #: ../calendar/gui/e-calendar-table.c:1164
-#: ../calendar/gui/e-calendar-view.c:1404 ../composer/e-msg-composer.c:2906
+#: ../calendar/gui/e-calendar-view.c:1406 ../composer/e-msg-composer.c:2906
 #: ../mail/em-folder-tree.c:1047 ../mail/em-folder-view.c:980
 #: ../mail/message-list.c:1707 ../ui/evolution-addressbook.xml.h:31
 #: ../ui/evolution-calendar.xml.h:39 ../ui/evolution-composer-entries.xml.h:7
@@ -6522,12 +6522,12 @@ msgid "Updating objects"
 msgstr "Updating objects"
 
 #: ../calendar/gui/e-calendar-table.c:1014
-#: ../calendar/gui/e-calendar-view.c:1064 ../composer/e-msg-composer.c:1241
+#: ../calendar/gui/e-calendar-view.c:1066 ../composer/e-msg-composer.c:1241
 msgid "Save as..."
 msgstr "Save as..."
 
 #: ../calendar/gui/e-calendar-table.c:1156
-#: ../calendar/gui/e-calendar-view.c:1397 ../ui/evolution-addressbook.xml.h:37
+#: ../calendar/gui/e-calendar-view.c:1399 ../ui/evolution-addressbook.xml.h:37
 msgid "_Open"
 msgstr "_Open"
 
@@ -6536,28 +6536,28 @@ msgid "Open _Web Page"
 msgstr "Open _Web Page"
 
 #: ../calendar/gui/e-calendar-table.c:1158
-#: ../calendar/gui/e-calendar-view.c:1398 ../mail/em-folder-view.c:990
+#: ../calendar/gui/e-calendar-view.c:1400 ../mail/em-folder-view.c:990
 #: ../mail/em-popup.c:494 ../ui/evolution-mail-message.xml.h:124
 msgid "_Save As..."
 msgstr "_Save As..."
 
 #: ../calendar/gui/e-calendar-table.c:1159
-#: ../calendar/gui/e-calendar-view.c:1378
-#: ../calendar/gui/e-calendar-view.c:1399 ../ui/evolution-addressbook.xml.h:40
+#: ../calendar/gui/e-calendar-view.c:1380
+#: ../calendar/gui/e-calendar-view.c:1401 ../ui/evolution-addressbook.xml.h:40
 #: ../ui/evolution-calendar.xml.h:44 ../ui/evolution-mail-message.xml.h:121
 #: ../ui/evolution-tasks.xml.h:25
 msgid "_Print..."
 msgstr "_Print..."
 
 #: ../calendar/gui/e-calendar-table.c:1163
-#: ../calendar/gui/e-calendar-view.c:1403 ../ui/evolution-addressbook.xml.h:1
+#: ../calendar/gui/e-calendar-view.c:1405 ../ui/evolution-addressbook.xml.h:1
 #: ../ui/evolution-calendar.xml.h:1 ../ui/evolution-tasks.xml.h:1
 msgid "C_ut"
 msgstr "C_ut"
 
 #: ../calendar/gui/e-calendar-table.c:1165
-#: ../calendar/gui/e-calendar-view.c:1381
-#: ../calendar/gui/e-calendar-view.c:1405 ../ui/evolution-addressbook.xml.h:38
+#: ../calendar/gui/e-calendar-view.c:1383
+#: ../calendar/gui/e-calendar-view.c:1407 ../ui/evolution-addressbook.xml.h:38
 #: ../ui/evolution-calendar.xml.h:43 ../ui/evolution-composer-entries.xml.h:9
 #: ../ui/evolution-mail-message.xml.h:119 ../ui/evolution-tasks.xml.h:24
 msgid "_Paste"
@@ -6581,7 +6581,7 @@ msgstr "_Mark Selected Tasks as Complete"
 
 #. FIXME: need to disable for undeletable folders
 #: ../calendar/gui/e-calendar-table.c:1176
-#: ../calendar/gui/e-calendar-view.c:1416 ../mail/em-folder-tree.c:2815
+#: ../calendar/gui/e-calendar-view.c:1418 ../mail/em-folder-tree.c:2815
 #: ../mail/em-folder-view.c:994 ../ui/evolution-addressbook.xml.h:33
 #: ../ui/evolution-calendar.xml.h:40 ../ui/evolution-mail-message.xml.h:108
 #: ../ui/evolution-tasks.xml.h:21
@@ -6626,69 +6626,69 @@ msgstr "Start date"
 msgid "Task sort"
 msgstr "Task sort"
 
-#: ../calendar/gui/e-calendar-view.c:1185
+#: ../calendar/gui/e-calendar-view.c:1187
 msgid "Moving items"
 msgstr "Moving items"
 
-#: ../calendar/gui/e-calendar-view.c:1187
+#: ../calendar/gui/e-calendar-view.c:1189
 msgid "Copying items"
 msgstr "Copying items"
 
-#: ../calendar/gui/e-calendar-view.c:1372
+#: ../calendar/gui/e-calendar-view.c:1374
 msgid "New _Appointment..."
 msgstr "New _Appointment..."
 
-#: ../calendar/gui/e-calendar-view.c:1373
+#: ../calendar/gui/e-calendar-view.c:1375
 msgid "New All Day _Event"
 msgstr "New All Day _Event"
 
-#: ../calendar/gui/e-calendar-view.c:1375
+#: ../calendar/gui/e-calendar-view.c:1377
 msgid "New Task"
 msgstr "New Task"
 
 #. FIXME: hook in this somehow
-#: ../calendar/gui/e-calendar-view.c:1385
+#: ../calendar/gui/e-calendar-view.c:1387
 msgid "Current View"
 msgstr "Current View"
 
-#: ../calendar/gui/e-calendar-view.c:1387 ../ui/evolution-calendar.xml.h:26
+#: ../calendar/gui/e-calendar-view.c:1389 ../ui/evolution-calendar.xml.h:26
 msgid "Select _Today"
 msgstr "Select _Today"
 
-#: ../calendar/gui/e-calendar-view.c:1388
+#: ../calendar/gui/e-calendar-view.c:1390
 msgid "_Select Date..."
 msgstr "_Select Date..."
 
 #. TODO: Why is this in a context menu when it applies globally?
-#: ../calendar/gui/e-calendar-view.c:1393 ../ui/evolution-calendar.xml.h:45
+#: ../calendar/gui/e-calendar-view.c:1395 ../ui/evolution-calendar.xml.h:45
 msgid "_Publish Free/Busy Information"
 msgstr "_Publish Free/Busy Information"
 
-#: ../calendar/gui/e-calendar-view.c:1409
+#: ../calendar/gui/e-calendar-view.c:1411
 msgid "Cop_y to Calendar..."
 msgstr "Cop_y to Calendar..."
 
-#: ../calendar/gui/e-calendar-view.c:1410
+#: ../calendar/gui/e-calendar-view.c:1412
 msgid "Mo_ve to Calendar..."
 msgstr "Mo_ve to Calendar..."
 
-#: ../calendar/gui/e-calendar-view.c:1411
+#: ../calendar/gui/e-calendar-view.c:1413
 msgid "_Schedule Meeting..."
 msgstr "_Schedule Meeting..."
 
-#: ../calendar/gui/e-calendar-view.c:1412
+#: ../calendar/gui/e-calendar-view.c:1414
 msgid "_Forward as iCalendar..."
 msgstr "_Forward as iCalendar..."
 
-#: ../calendar/gui/e-calendar-view.c:1417
+#: ../calendar/gui/e-calendar-view.c:1419
 msgid "Make this Occurrence _Movable"
 msgstr "Make this Occurrence _Movable"
 
-#: ../calendar/gui/e-calendar-view.c:1418
+#: ../calendar/gui/e-calendar-view.c:1420
 msgid "Delete this _Occurrence"
 msgstr "Delete this _Occurrence"
 
-#: ../calendar/gui/e-calendar-view.c:1419
+#: ../calendar/gui/e-calendar-view.c:1421
 msgid "Delete _All Occurrences"
 msgstr "Delete _All Occurrences"
 
@@ -10756,7 +10756,7 @@ msgstr "Create New Folder"
 
 #: ../mail/em-folder-selector.c:166 ../mail/em-folder-tree.c:2528
 #: ../mail/mail-component.c:770 ../plugins/shared-folder/install-shared.c:144
-#: ../plugins/shared-folder/share-folder-common.c:345
+#: ../plugins/shared-folder/share-folder-common.c:353
 msgid "Specify where to create the folder:"
 msgstr "Specify where to create the folder:"
 
@@ -10857,14 +10857,14 @@ msgid "C_opy"
 msgstr "C_opy"
 
 #: ../mail/em-folder-tree.c:2339
-#: ../plugins/shared-folder/share-folder-common.c:138
+#: ../plugins/shared-folder/share-folder-common.c:140
 #, c-format
 msgid "Creating folder `%s'"
 msgstr "Creating folder `%s'"
 
 #: ../mail/em-folder-tree.c:2528 ../mail/mail-component.c:770
 #: ../plugins/shared-folder/install-shared.c:144
-#: ../plugins/shared-folder/share-folder-common.c:345
+#: ../plugins/shared-folder/share-folder-common.c:353
 msgid "Create folder"
 msgstr "Create folder"
 
@@ -14956,15 +14956,20 @@ msgstr "_Shared With ..."
 msgid "_Sharing"
 msgstr "_Sharing"
 
-#: ../plugins/shared-folder/share-folder-common.c:315
+#. e_error_run (NULL,  _("Cannot create GroupWise folders in offline mode."), NULL, NULL);
+#: ../plugins/shared-folder/share-folder-common.c:220
+msgid "Cannot Create shared folder in offline mode."
+msgstr "Cannot create shared folder in offline mode."
+
+#: ../plugins/shared-folder/share-folder-common.c:323
 msgid "Users"
 msgstr "Users"
 
-#: ../plugins/shared-folder/share-folder-common.c:316
+#: ../plugins/shared-folder/share-folder-common.c:324
 msgid "Enter the users and set permissions"
 msgstr "Enter the users and set permissions"
 
-#: ../plugins/shared-folder/share-folder-common.c:403
+#: ../plugins/shared-folder/share-folder-common.c:411
 msgid "Sharing"
 msgstr "Sharing"
 
@@ -16017,7 +16022,7 @@ msgid "dialog1"
 msgstr "dialogue1"
 
 #. XXX we shouldn't be popping up dialogs in this code.
-#: ../smime/lib/e-cert-db.c:612
+#: ../smime/lib/e-cert-db.c:642
 msgid "Certificate already exists"
 msgstr "Certificate already exists"
 
