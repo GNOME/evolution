@@ -109,13 +109,13 @@ update_sensitivity (ESearchBar *search_bar)
 	if (text != NULL && text[0] != '\0') {
 		if (search_bar->ui_component != NULL)
 			bonobo_ui_component_set_prop (search_bar->ui_component,
-						      "/commands/ESearchBar:SearchNow",
+						      "/commands/ESearchBar:FindNow",
 						      "sensitive", "1", NULL);
 		gtk_widget_set_sensitive (search_bar->activate_button, TRUE);
 	} else {
 		if (search_bar->ui_component != NULL)
 			bonobo_ui_component_set_prop (search_bar->ui_component,
-						      "/commands/ESearchBar:SearchNow",
+						      "/commands/ESearchBar:FindNow",
 						      "sensitive", "0", NULL);
 		gtk_widget_set_sensitive (search_bar->activate_button, FALSE);
 	}
@@ -161,7 +161,7 @@ setup_standard_verbs (ESearchBar *search_bar)
 {
 	bonobo_ui_component_add_verb (search_bar->ui_component, "ESearchBar:Clear",
 				      clear_verb_cb, search_bar);
-	bonobo_ui_component_add_verb (search_bar->ui_component, "ESearchBar:SearchNow",
+	bonobo_ui_component_add_verb (search_bar->ui_component, "ESearchBar:FindNow",
 				      search_now_verb_cb, search_bar);
 
 	/* Make sure the entries are created with the correct sensitivity.  */
@@ -426,7 +426,7 @@ update_bonobo_menus (ESearchBar *esb)
 
 	xml = g_string_new ("<placeholder name=\"SearchBar\">");
 
-	append_xml_menu_item (xml, "SearchNow", _("Search Now"), "ESearchBar:SearchNow", "*Control*b");
+	append_xml_menu_item (xml, "FindNow", _("Find Now"), "ESearchBar:FindNow", "*Control*b");
 	append_xml_menu_item (xml, "Clear", _("Clear"), "ESearchBar:Clear", "*Control**Shift*b");
 
 	for (p = esb->menu_items; p != NULL; p = p->next) {

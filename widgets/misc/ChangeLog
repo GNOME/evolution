@@ -1,5 +1,13 @@
 2002-03-18  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-search-bar.c (update_bonobo_menus): Rename the "Search Now"
+	menu entry to "Find Now".  Rename the corresponding verb to
+	"ESearchBar:FindNow".
+	(update_sensitivity): Updated accordingly.
+	(setup_standard_verbs): Likewise.
+
+2002-03-18  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-search-bar.c (update_sensitivity): New halper function to
 	update the sensitivity of the commands.
 	(entry_changed_cb): New callback to make the activate_button and
