@@ -188,7 +188,9 @@ foreach $param  (keys %params){
 
      $charorenum = "    icalerror_check_arg_rz( (param!=0), \"param\");\n    return ($type)((struct icalparameter_impl*)param)->string;";
     
-     $set_code = "((struct icalparameter_impl*)param)->string = icalmemory_strdup(v);";
+     $set_code = "if (((struct icalparameter_impl*)param)->string != 0)\n" .
+                 "      free((void *) ((struct icalparameter_impl*)param)->string);\n" .
+                 "   ((struct icalparameter_impl*)param)->string = icalmemory_strdup(v);";
 
      $pointer_check = "icalerror_check_arg_rz( (v!=0),\"v\");"; 
      $pointer_check_v = "icalerror_check_arg_rv( (v!=0),\"v\");"; 

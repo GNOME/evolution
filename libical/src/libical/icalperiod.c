@@ -137,8 +137,9 @@ const char* icalperiodtype_as_ical_string(struct icalperiodtype p)
 
     icalmemory_append_string(&buf, &buf_ptr, &buf_size, end); 
     
-
-    return buf;
+    buf_ptr = icalmemory_tmp_copy (buf);
+    icalmemory_free_buffer (buf);
+    return buf_ptr;
 }
 
 
