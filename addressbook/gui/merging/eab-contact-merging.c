@@ -113,7 +113,7 @@ match_query_callback (EContact *contact, EContact *match, EABContactMatchType ty
 		if (lookup->op == E_CONTACT_MERGING_ADD)
 			ui = glade_xml_new (EVOLUTION_GLADEDIR "/eab-contact-duplicate-detected.glade", NULL, NULL);
 		else if (lookup->op == E_CONTACT_MERGING_COMMIT)
-			ui = glade_xml_new (EVOLUTION_GLADEDIR "/eab-contact-merging-commit-duplicate-detected.glade", NULL, NULL);
+			ui = glade_xml_new (EVOLUTION_GLADEDIR "/eab-contact-commit-duplicate-detected.glade", NULL, NULL);
 		else {
 			doit (lookup);
 			return;
