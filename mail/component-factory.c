@@ -27,8 +27,6 @@
 #include <bonobo/bonobo-generic-factory.h>
 #include <gal/widgets/e-gui-utils.h>
 
-#include <string.h>
-
 #include "camel.h"
 
 #include "Evolution.h"
@@ -149,7 +147,7 @@ create_view (EvolutionShellComponent *shell_component,
 	BonoboControl *control;
 	
 	shell_client = evolution_shell_component_get_owner (shell_component);
-	corba_shell = evolution_shell_client_corba_objref(shell_client);
+	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));
 	
 	if (type_is_mail (folder_type)) {
 		const char *noselect;
@@ -157,14 +155,14 @@ create_view (EvolutionShellComponent *shell_component,
 		
 		url = camel_url_new (physical_uri, NULL);
 		noselect = url ? camel_url_get_param (url, "noselect") : NULL;
-		if (noselect && !strcasecmp (noselect, "yes"))
+		if (noselect && !g_strcasecmp (noselect, "yes"))
 			control = create_noselect_control ();
 		else
 			control = folder_browser_factory_new_control (physical_uri,
 								      corba_shell);
 		camel_url_free (url);
 	} else if (type_is_vtrash (folder_type)) {
-		if (!strncasecmp (physical_uri, "file:", 5))
+		if (!g_strncasecmp (physical_uri, "file:", 5))
 			control = folder_browser_factory_new_control ("vtrash:file:/", corba_shell);
 		else
 			control = folder_browser_factory_new_control (physical_uri, corba_shell);
@@ -343,7 +341,7 @@ xfer_folder (EvolutionShellComponent *shell_component,
 	if (remove && strcmp(src->protocol, dst->protocol) == 0) {
 		char *sname, *dname;
 		CamelStore *store;
-		
+
 		if (src->fragment)
 			sname = src->fragment;
 		else {
@@ -352,7 +350,7 @@ xfer_folder (EvolutionShellComponent *shell_component,
 			else
 				sname = "";
 		}
-		
+
 		if (dst->fragment)
 			dname = dst->fragment;
 		else {
@@ -361,11 +359,11 @@ xfer_folder (EvolutionShellComponent *shell_component,
 			else
 				dname = "";
 		}
-		
+
 		store = camel_session_get_store(session, source_physical_uri, &ex);
 		if (store != NULL)
 			camel_store_rename_folder(store, sname, dname, &ex);
-		
+
 		if (camel_exception_is_set(&ex))
 			GNOME_Evolution_ShellComponentListener_notifyResult (listener, GNOME_Evolution_ShellComponentListener_INVALID_URI, &ev);
 		else {
@@ -377,7 +375,7 @@ xfer_folder (EvolutionShellComponent *shell_component,
 		camel_object_unref((CamelObject *)store);
 	} else {
 		source = mail_tool_uri_to_folder (source_physical_uri, 0, &ex);
-		
+	
 		if (source) {
 			xfer_folder_data *xfd;
 			
@@ -385,17 +383,17 @@ xfer_folder (EvolutionShellComponent *shell_component,
 			xfd->remove_source = remove_source;
 			xfd->source_uri = g_strdup (source_physical_uri);
 			xfd->listener = CORBA_Object_duplicate (listener, &ev);
-			
+		
 			uids = camel_folder_get_uids (source);
 			mail_transfer_messages (source, uids, remove_source, destination_physical_uri, CAMEL_STORE_FOLDER_CREATE, xfer_folder_done, xfd);
 			camel_object_unref (CAMEL_OBJECT (source));
 		} else
 			GNOME_Evolution_ShellComponentListener_notifyResult (listener, GNOME_Evolution_ShellComponentListener_INVALID_URI, &ev);
 	}
-	
+
 	CORBA_exception_free (&ev);
 	camel_exception_clear (&ex);
-	
+
 	camel_url_free(src);
 	camel_url_free(dst);
 }
@@ -404,12 +402,13 @@ static void
 configure_folder_popup(BonoboUIComponent *component, void *user_data, const char *cname)
 {
 	char *uri = user_data;
-	
+
+
 	if (strncmp(uri, "vfolder:", 8) == 0)
 		vfolder_edit_rule(uri);
 	else {
 		FolderBrowser *fb = folder_browser_factory_get_browser(uri);
-		
+
 		if (fb)
 			configure_folder(component, fb, cname);
 		else
@@ -433,16 +432,14 @@ populate_folder_context_menu (EvolutionShellComponent *shell_component,
 
 	if (!type_is_mail (type))
 		return;
-	
+
 	/* FIXME: handle other types */
-	
+
 	/* the unmatched test is a bit of a hack but it works */
 	if ((strncmp(physical_uri, "vfolder:", 8) == 0
 	     && strstr(physical_uri, "#" CAMEL_UNMATCHED_NAME) == NULL)
 	    || strncmp(physical_uri, "file:", 5) == 0) {
-		bonobo_ui_component_add_verb_full(uic, "ChangeFolderPropertiesPopUp",
-						  g_cclosure_new(G_CALLBACK(configure_folder_popup),
-								 g_strdup(physical_uri), (GClosureNotify)g_free));
+		bonobo_ui_component_add_verb_full(uic, "ChangeFolderPropertiesPopUp", configure_folder_popup, g_strdup(physical_uri), g_free);
 		bonobo_ui_component_set_translate (uic, EVOLUTION_SHELL_COMPONENT_POPUP_PLACEHOLDER,  popup_xml, NULL);
 	}
 }
@@ -456,9 +453,9 @@ unpopulate_folder_context_menu (EvolutionShellComponent *shell_component,
 {
 	if (!type_is_mail (type))
 		return;
-	
+
 	/* FIXME: handle other types */
-	
+
 	/* the unmatched test is a bit of a hack but it works */
 	if ((strncmp(physical_uri, "vfolder:", 8) == 0
 	     && strstr(physical_uri, "#" CAMEL_UNMATCHED_NAME) == NULL)
@@ -496,7 +493,7 @@ destination_folder_handle_motion (EvolutionShellComponentDndDestinationFolder *f
 	url = camel_url_new (physical_uri, NULL);
 	noselect = url ? camel_url_get_param (url, "noselect") : NULL;
 	
-	if (noselect && !strcasecmp (noselect, "yes"))
+	if (noselect && !g_strcasecmp (noselect, "yes"))
 		/* uh, no way to say "illegal" */
 		*suggested_action_return = GNOME_Evolution_ShellComponentDnd_ACTION_DEFAULT;
 	else
@@ -526,7 +523,7 @@ message_rfc822_dnd (CamelFolder *dest, CamelStream *stream, CamelException *ex)
 		
 		msg = camel_mime_message_new ();
 		if (camel_mime_part_construct_from_parser (CAMEL_MIME_PART (msg), mp) == -1) {
-			camel_object_unref (msg);
+			camel_object_unref (CAMEL_OBJECT (msg));
 			handled = FALSE;
 			break;
 		}
@@ -534,7 +531,7 @@ message_rfc822_dnd (CamelFolder *dest, CamelStream *stream, CamelException *ex)
 		/* append the message to the folder... */
 		info = g_new0 (CamelMessageInfo, 1);
 		camel_folder_append_message (dest, msg, info, NULL, ex);
-		camel_object_unref (msg);
+		camel_object_unref (CAMEL_OBJECT (msg));
 		
 		if (camel_exception_is_set (ex)) {
 			handled = FALSE;
@@ -545,7 +542,7 @@ message_rfc822_dnd (CamelFolder *dest, CamelStream *stream, CamelException *ex)
 		camel_mime_parser_step (mp, 0, 0);
 	}
 	
-	camel_object_unref (mp);
+	camel_object_unref (CAMEL_OBJECT (mp));
 	
 	return handled;
 }
@@ -578,7 +575,7 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *des
 	
 	uri = camel_url_new (physical_uri, NULL);
 	noselect = uri ? camel_url_get_param (uri, "noselect") : NULL;
-	if (noselect && !strcasecmp (noselect, "yes")) {
+	if (noselect && !g_strcasecmp (noselect, "yes")) {
 		camel_url_free (uri);
 		return FALSE;
 	}
@@ -630,8 +627,8 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *des
 			
 			stream = camel_stream_fs_new_with_fd (fd);
 			retval = message_rfc822_dnd (folder, stream, &ex);
-			camel_object_unref (stream);
-			camel_object_unref (folder);
+			camel_object_unref (CAMEL_OBJECT (stream));
+			camel_object_unref (CAMEL_OBJECT (folder));
 			
 			if (action == GNOME_Evolution_ShellComponentDnd_ACTION_MOVE && retval)
 				unlink (url);
@@ -654,8 +651,8 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *des
 		camel_stream_reset (stream);
 		
 		retval = message_rfc822_dnd (folder, stream, &ex);
-		camel_object_unref (stream);
-		camel_object_unref (folder);
+		camel_object_unref (CAMEL_OBJECT (stream));
+		camel_object_unref (CAMEL_OBJECT (folder));
 		break;
 	case ACCEPTED_DND_TYPE_X_EVOLUTION_MESSAGE:
 		folder = mail_tools_x_evolution_message_parse (data->bytes._buffer,
@@ -669,7 +666,7 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *des
 					action == GNOME_Evolution_ShellComponentDnd_ACTION_MOVE,
 					physical_uri, 0, NULL, NULL);
 		
-		camel_object_unref (folder);
+		camel_object_unref (CAMEL_OBJECT (folder));
 		break;
 	default:
 		break;
@@ -741,7 +738,7 @@ shell_client_destroy (GtkObject *object)
 }
 
 static void
-warning_response (GtkWidget *dialog, int button, gpointer user_data)
+warning_clicked (GtkWidget *dialog, gpointer user_data)
 {
 	gtk_widget_destroy (dialog);
 }
@@ -758,7 +755,8 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	
 	/* FIXME: should we ref this? */
 	global_shell_client = shell_client;
-	g_object_weak_ref(G_OBJECT(shell_client), (GWeakNotify)shell_client_destroy, NULL);
+	gtk_signal_connect (GTK_OBJECT (shell_client), "destroy",
+			    shell_client_destroy, NULL);
 	
 	evolution_dir = g_strdup (evolution_homedir);
 	mail_session_init ();
@@ -767,7 +765,7 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 
 	storages_hash = g_hash_table_new (NULL, NULL);
 	
-	corba_shell = evolution_shell_client_corba_objref(shell_client);
+	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));
 
 	for (i = 0; i < sizeof (standard_folders) / sizeof (standard_folders[0]); i++)
 		*standard_folders[i].uri = g_strdup_printf ("file://%s/local/%s", evolution_dir, standard_folders[i].name);
@@ -793,8 +791,8 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 		char *system = g_strdup (EVOLUTION_DATADIR "/evolution/vfoldertypes.xml");
 		
 		search_context = rule_context_new ();
-		g_object_set_data_full(G_OBJECT(search_context), "user", user, g_free);
-		g_object_set_data_full(G_OBJECT(search_context), "system", system, g_free);
+		gtk_object_set_data_full (GTK_OBJECT (search_context), "user", user, g_free);
+		gtk_object_set_data_full (GTK_OBJECT (search_context), "system", system, g_free);
 		
 		rule_context_add_part_set (search_context, "partset", filter_part_get_type (),
 					   rule_context_add_part, rule_context_next_part);
@@ -809,11 +807,11 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	
 	if (mail_config_is_corrupt ()) {
 		GtkWidget *dialog;
-
-		dialog = gtk_message_dialog_new(NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_WARNING, GTK_BUTTONS_CLOSE,
-						_("Some of your mail settings seem corrupt, "
+		
+		dialog = gnome_warning_dialog (_("Some of your mail settings seem corrupt, "
 						 "please check that everything is in order."));
-		g_signal_connect(dialog, "response", G_CALLBACK(warning_response), NULL);
+		gtk_signal_connect (GTK_OBJECT (dialog), "clicked", warning_clicked, NULL);
+		gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
 		gtk_widget_show (dialog);
 	}
 
@@ -913,7 +911,7 @@ idle_quit (gpointer user_data)
 	if (e_list_length (folder_browser_factory_get_control_list ()))
 		return TRUE;
 
-	bonobo_main_quit ();
+	gtk_main_quit ();
 
 	return FALSE;
 }	
@@ -923,16 +921,16 @@ static void owner_unset_cb (EvolutionShellComponent *shell_component, gpointer u
 /* Table for signal handler setup/cleanup */
 static struct {
 	char *sig;
-	GCallback func;
+	GtkSignalFunc func;
 	int hand;
 } shell_component_handlers[] = {
-	{ "owner_set", G_CALLBACK(owner_set_cb), },
-	{ "owner_unset", G_CALLBACK(owner_unset_cb), },
-	{ "debug", G_CALLBACK(debug_cb), },
-	{ "interactive", G_CALLBACK(interactive_cb) },
-	{ "destroy", G_CALLBACK(owner_unset_cb), },
-	{ "handle_external_uri", G_CALLBACK(handle_external_uri_cb), },
-	{ "user_create_new_item", G_CALLBACK(user_create_new_item_cb) }
+	{ "owner_set", owner_set_cb, },
+	{ "owner_unset", owner_unset_cb, },
+	{ "debug", debug_cb, },
+	{ "interactive", interactive_cb },
+	{ "destroy", owner_unset_cb, },
+	{ "handle_external_uri", handle_external_uri_cb, },
+	{ "user_create_new_item", user_create_new_item_cb }
 };
 
 static void
@@ -941,7 +939,7 @@ owner_unset_cb (EvolutionShellComponent *shell_component, gpointer user_data)
 	int i;
 	
 	for (i=0;i<sizeof(shell_component_handlers)/sizeof(shell_component_handlers[0]);i++)
-		g_signal_handler_disconnect((GtkObject *)shell_component, shell_component_handlers[i].hand);
+		gtk_signal_disconnect((GtkObject *)shell_component, shell_component_handlers[i].hand);
 	
 	if (mail_config_get_empty_trash_on_exit ())
 		empty_trash (NULL, NULL, NULL);
@@ -952,7 +950,7 @@ owner_unset_cb (EvolutionShellComponent *shell_component, gpointer user_data)
 	global_shell_client = NULL;
 	mail_session_set_interactive (FALSE);
 	
-	g_object_unref((search_context));
+	gtk_object_unref (GTK_OBJECT (search_context));
 	search_context = NULL;
 	
 	g_timeout_add(100, idle_quit, NULL);
@@ -975,10 +973,9 @@ send_receive_cb (EvolutionShellComponent *shell_component,
 	if (!account || !account->transport) {
 		GtkWidget *dialog;
 		
-		dialog = gtk_message_dialog_new(NULL, 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
-						_("You have not set a mail transport method"));
-		gtk_dialog_run((GtkDialog *)dialog);
-		gtk_widget_destroy(dialog);
+		dialog = gnome_error_dialog (_("You have not set a mail transport method"));
+		gnome_dialog_set_close (GNOME_DIALOG (dialog), TRUE);
+		gtk_widget_show (dialog);
 
 		return;
 	}
@@ -991,21 +988,25 @@ request_quit (EvolutionShellComponent *shell_component,
 	      void *closure)
 {
 	GtkWidget *dialog;
-	int resp;
-
+	
 	if (!e_msg_composer_request_close_all ())
 		return FALSE;
 	
 	if (!outbox_folder || !camel_folder_get_message_count (outbox_folder))
 		return TRUE;
-
-	dialog = gtk_message_dialog_new(NULL, 0, GTK_MESSAGE_INFO, GTK_BUTTONS_YES_NO,
-					_("You have unsent messages, do you wish to quit anyway?"));
-	gtk_dialog_set_default_response((GtkDialog *)dialog, GTK_RESPONSE_NO);
-	resp = gtk_dialog_run((GtkDialog *)dialog);
-	gtk_widget_destroy(dialog);
-
-	return resp == GTK_RESPONSE_YES;
+	
+	dialog = gnome_message_box_new (_("You have unsent messages, do you wish to quit anyway?"),
+					GNOME_MESSAGE_BOX_QUESTION,
+					GNOME_STOCK_BUTTON_YES,      /* Quit */
+					GNOME_STOCK_BUTTON_NO,       /* Don't quit */
+					NULL);
+	
+	gtk_window_set_title (GTK_WINDOW (dialog), _("Warning: Unsent Messages"));
+	gnome_dialog_set_default (GNOME_DIALOG (dialog), 1);
+	if (gnome_dialog_run_and_close (GNOME_DIALOG (dialog)) == 0)
+		return TRUE;
+	
+	return FALSE;
 }
 
 static BonoboObject *
@@ -1028,8 +1029,8 @@ create_component (void)
 							 request_quit,
 							 NULL);
 
-	g_signal_connect((shell_component), "send_receive",
-			    G_CALLBACK (send_receive_cb), NULL);
+	gtk_signal_connect (GTK_OBJECT (shell_component), "send_receive",
+			    GTK_SIGNAL_FUNC (send_receive_cb), NULL);
 	
 	destination_interface = evolution_shell_component_dnd_destination_folder_new (destination_folder_handle_motion,
 										      destination_folder_handle_drop,
@@ -1040,26 +1041,26 @@ create_component (void)
 	
 	evolution_mail_config_wizard_init ();
 
-	icon = gdk_pixbuf_new_from_file (EVOLUTION_ICONSDIR "/new-message.xpm", NULL);
+	icon = gdk_pixbuf_new_from_file (EVOLUTION_ICONSDIR "/new-message.xpm");
 	evolution_shell_component_add_user_creatable_item (shell_component, "message",
 							   _("New Mail Message"), _("_Mail Message"),
 							   _("Compose a new mail message"),
 							   "mail", 'm',
 							   icon);
 	if (icon != NULL)
-		g_object_unref (icon);
+		gdk_pixbuf_unref (icon);
 
-	icon = gdk_pixbuf_new_from_file (EVOLUTION_ICONSDIR "/post-message-16.png", NULL);
+	icon = gdk_pixbuf_new_from_file (EVOLUTION_ICONSDIR "/post-message-16.png");
 	evolution_shell_component_add_user_creatable_item (shell_component, "post",
 							   _("New Message Post"), _("_Post Message"),
 							   _("Post a new mail message"),
 							   "mail/public", 'p',
 							   icon);
 	if (icon != NULL)
-		g_object_unref (icon);
+		gdk_pixbuf_unref (icon);
 
 	for (i=0;i<sizeof(shell_component_handlers)/sizeof(shell_component_handlers[0]);i++) {
-		shell_component_handlers[i].hand = g_signal_connect((shell_component),
+		shell_component_handlers[i].hand = gtk_signal_connect(GTK_OBJECT(shell_component),
 								      shell_component_handlers[i].sig,
 								      shell_component_handlers[i].func, NULL);
 	}
@@ -1077,24 +1078,24 @@ component_factory_init (void)
 	int result;
 
 	shell_component = create_component ();
-	result = bonobo_activation_active_server_register (COMPONENT_ID, bonobo_object_corba_objref (shell_component));
-	if (result == Bonobo_ACTIVATION_REG_ERROR) {
-		e_notice (NULL, GTK_MESSAGE_ERROR,
+	result = oaf_active_server_register (COMPONENT_ID, bonobo_object_corba_objref (shell_component));
+	if (result == OAF_REG_ERROR) {
+		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
 			  _("Cannot initialize the Evolution mail component."));
 		exit (1);
-	} else if (result == Bonobo_ACTIVATION_REG_ALREADY_ACTIVE) {
+	} else if (result == OAF_REG_ALREADY_ACTIVE) {
 		g_warning ("evolution-mail is already running");
 		exit (1);
 	}
 
 	if (evolution_mail_config_factory_init () == FALSE) {
-		e_notice (NULL, GTK_MESSAGE_ERROR,
+		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
 			  _("Cannot initialize Evolution's mail config component."));
 		exit (1);
 	}
 
 	if (evolution_folder_info_factory_init () == FALSE) {
-		e_notice (NULL, GTK_MESSAGE_ERROR,
+		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
 			  _("Cannot initialize Evolution's folder info component."));
 		exit (1);
 	}
@@ -1357,10 +1358,10 @@ add_storage (const char *name, const char *uri, CamelService *store,
 	EvolutionStorageResult res;
 	
 	storage = evolution_storage_new (name, FALSE);
-	g_signal_connect(storage, "open_folder", G_CALLBACK(storage_connect), store);
-	g_signal_connect(storage, "create_folder", G_CALLBACK(storage_create_folder), store);
-	g_signal_connect(storage, "remove_folder", G_CALLBACK(storage_remove_folder), store);
-	g_signal_connect(storage, "xfer_folder", G_CALLBACK(storage_xfer_folder), store);
+	gtk_signal_connect (GTK_OBJECT (storage), "open_folder", storage_connect, store);
+	gtk_signal_connect (GTK_OBJECT (storage), "create_folder", storage_create_folder, store);
+	gtk_signal_connect (GTK_OBJECT (storage), "remove_folder", storage_remove_folder, store);
+	gtk_signal_connect ((GtkObject *)storage, "xfer_folder", storage_xfer_folder, store);
 	
 	res = evolution_storage_register_on_shell (storage, corba_shell);
 	
@@ -1393,7 +1394,7 @@ mail_add_storage (CamelStore *store, const char *name, const char *uri)
 	g_return_if_fail (CAMEL_IS_STORE (store));
 	
 	shell_client = evolution_shell_component_get_owner (shell_component);
-	shell = evolution_shell_client_corba_objref (shell_client);
+	shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));
 	
 	camel_exception_init (&ex);
 	
@@ -1552,7 +1553,7 @@ mail_remove_storage (CamelStore *store)
 	mail_note_store_remove(store);
 	
 	shell_client = evolution_shell_component_get_owner (shell_component);
-	corba_shell = evolution_shell_client_corba_objref(shell_client);
+	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));
 	
 	evolution_storage_deregister_on_shell (storage, corba_shell);
 	

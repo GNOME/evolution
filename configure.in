@@ -1,10 +1,5 @@
 # Process this file with autoconf to produce a configure script.
-AC_PREREQ(2.52)
-
-AC_INIT(Evolution, 1.3.0.99, http://bugzilla.ximian.com/enter_bug.cgi?product=Evolution)
-AC_CONFIG_SRCDIR(README)
-AM_INIT_AUTOMAKE(AC_PACKAGE_NAME, AC_PACKAGE_VERSION)
-
+AC_INIT(camel)
 AM_CONFIG_HEADER(config.h)
 
 if test -f libversit/CVS/Repository; then
@@ -22,8 +17,40 @@ if test -f libversit/CVS/Repository; then
 	esac
 fi
 
+EVOLUTION_MAJOR_VERSION=1
+EVOLUTION_MINOR_VERSION=2
+EVOLUTION_MICRO_VERSION=0
+EVOLUTION_NANO_VERSION=99
+VERSION=$EVOLUTION_MAJOR_VERSION.$EVOLUTION_MINOR_VERSION.$EVOLUTION_MICRO_VERSION.$EVOLUTION_NANO_VERSION
+PACKAGE=evolution
+
+AM_INIT_AUTOMAKE($PACKAGE, $VERSION)
+AC_SUBST(VERSION)
+
 AC_CANONICAL_HOST
-AC_DEFINE_UNQUOTED(VERSION_COMMENT, "(Preview Release)")
+
+AC_DEFINE_UNQUOTED(VERSION_COMMENT, "")
+
+SCROLLKEEPER_REQUIRED=0.1.4
+AC_SUBST(SCROLLKEEPER_REQUIRED)
+
+dnl Check for scrollkeeper
+AC_PATH_PROG(SCROLLKEEPER_CONFIG, scrollkeeper-config,no)
+if test x$SCROLLKEEPER_CONFIG = xno; then
+  AC_MSG_ERROR(Couldn't find scrollkeeper-config -- please install the scrollkeeper package)
+fi
+SCROLLKEEPER_LOCALSTATE_DIR=`scrollkeeper-config --pkglocalstatedir`
+AC_SUBST(SCROLLKEEPER_LOCALSTATE_DIR)
+
+dnl  Test whether jw is installed
+AC_PATH_PROG(JW,jw,no)
+if test x$JW = xno; then
+  HAVE_JW="no"
+else
+  HAVE_JW="yes"
+fi
+AM_CONDITIONAL(HAVE_JW, test "x$HAVE_JW" = "xyes")
+AC_SUBST(HAVE_JW)
 
 dnl Initialize maintainer mode
 AM_MAINTAINER_MODE
@@ -44,24 +71,17 @@ AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_MAKE_SET
 
-dnl  Test whether jw is installed
-AC_PATH_PROG(JW,jw,no)
-if test x$JW = xno; then
-  HAVE_JW="no"
-else
-  HAVE_JW="yes"
-fi
-AM_CONDITIONAL(HAVE_JW, test "x$HAVE_JW" = "xyes")
-AC_SUBST(HAVE_JW)
-
-dnl I18N stuff
-AC_PROG_INTLTOOL
-AM_GLIB_GNU_GETTEXT
+dnl Initialize xml-i18n-tools
+AM_PROG_XML_I18N_TOOLS
 
 dnl Initialize libtool
 AM_PROG_LIBTOOL
 
-dnl alloca()
+AM_ACLOCAL_INCLUDE(macros)
+GNOME_INIT()
+GNOME_COMPILE_WARNINGS
+GNOME_X_CHECKS
+EVO_CHECK_LIB(gnome-libs, gnome, 1.2.9)
 AC_CHECK_HEADERS(alloca.h)
 
 dnl check for socklen_t (in Unix98)
@@ -77,16 +97,8 @@ AC_DEFINE(socklen_t,size_t)], [
 AC_MSG_RESULT(int)
 AC_DEFINE(socklen_t,int)])])
 
-dnl
-dnl Gettext
-dnl
-
 ALL_LINGUAS="az bg ca cs da de el en_AU en_GB es et eu fi fr ga gl hu it ja ko lt lv nl nn no pl pt pt_BR ro ru sk sl sv tr uk vi zh_CN zh_TW"
-
-GETTEXT_PACKAGE=evolution-1.4
-AC_SUBST(GETTEXT_PACKAGE)
-AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE")
-
+AM_GNOME_GETTEXT
 localedir='$(prefix)/$(DATADIRNAME)/locale'
 AC_SUBST(localedir)
 
@@ -459,32 +471,32 @@ else
 fi
 AM_CONDITIONAL(ENABLE_NNTP, test x$enable_nntp = xyes)
 
-
 dnl **************************************************
 dnl * Posix thread support
 dnl **************************************************
 
-dnl GLIB_CONFIG=${GLIB_CONFIG-glib-config}
-dnl GNOME_PTHREAD_CHECK
+dnl Hah! Threads are no longer an option
+dnl AC_ARG_WITH(threads, [  --with-threads          Include thread support],[
+dnl FIXME: support more thread types, pth at least
 
-dnl if test "x$PTHREAD_LIB" = "x" ; then
-dnl 	AC_MSG_ERROR([POSIX threads are currently required for Evolution])
-dnl fi
+GLIB_CONFIG=${GLIB_CONFIG-glib-config}
+GNOME_PTHREAD_CHECK
+
+if test "x$PTHREAD_LIB" = "x" ; then
+	AC_MSG_ERROR([POSIX threads are currently required for Evolution])
+fi
 
 dnl
 dnl Notice that this is a hack, and we wont be able to use this forever, but
 dnl at least for some time
 dnl
 
-EVO_PTHREAD_CHECK
-
-THREADS_LIBS="$PTHREAD_LIB"
-THREADS_CFLAGS="$PTHREAD_CFLAGS"
+THREADS_LIBS="$PTHREAD_LIB `$GLIB_CONFIG --libs gthread`"
+THREADS_CFLAGS="`$GLIB_CONFIG --cflags gthread`"
 
 AC_SUBST(THREADS_LIBS)
 AC_SUBST(THREADS_CFLAGS)
 AC_DEFINE(ENABLE_THREADS)
-
 
 dnl **************************************************
 dnl * File locking
@@ -513,7 +525,6 @@ else
   fi
 fi
 
-
 dnl **************************************************
 dnl * sendmail operation
 dnl **************************************************
@@ -531,7 +542,6 @@ if test "x$with_broken_spool" = "xyes"; then
 fi
 
 AC_MSG_RESULT($with_broken_spool)
-
 
 dnl ***************************************************************
 dnl Whether to build shlib components (instead of out-of-proc ones)
@@ -557,25 +567,29 @@ AC_SUBST(OAF_SHLIB_TYPE)
 AC_SUBST(OAF_SHLIB_PREFIX)
 AC_SUBST(OAF_SHLIB_SUFFIX)
 
+dnl ***************
+dnl GNOME Libraries
+dnl ***************
+EVO_CHECK_LIB(Bonobo, bonobox, 1.0.3)
+EVO_CHECK_LIB(OAF, oaf, 0.6.10)
+EVO_CHECK_LIB(libglade, libglade, 0.14)
+EVO_CHECK_LIB(gdk-pixbuf with GNOME canvas support, gnomecanvaspixbuf, 0.18.0)
+EVO_CHECK_LIB(GNOME-VFS, vfs, 1.0.5)
+EVO_CHECK_LIB(libxml, xml, 1.8.17, 2.0)
+EVO_CHECK_LIB(bonobo-conf, bonobo_conf, 0.11)
 
-dnl *********
-dnl Libraries
-dnl *********
-
-dnl EVO_CHECK_LIB(GAL, gal, 0.21)
-PKG_CHECK_MODULES(GTKHTML, libgtkhtml-3.0)
+EVO_CHECK_LIB(GAL, gal, 0.21)
+PKG_CHECK_MODULES(GTKHTML, gtkhtml-1.1 >= 1.1.4)
 AC_SUBST(GTKHTML_CFLAGS)
 AC_SUBST(GTKHTML_LIBS)
-GTKHTML_DATADIR=`$PKG_CONFIG --variable gtkhtml_datadir libgtkhtml-3.0`
+GTKHTML_DATADIR=`$PKG_CONFIG --variable gtkhtml_datadir gtkhtml-1.1`
 AC_SUBST(GTKHTML_DATADIR)
+EVO_CHECK_LIB(Libsoup, soup, 0.7)
 
-dnl PKG_CHECK_MODULES(SOUP, soup-2.0)
-dnl (from the libsoup module in GNOME CVS)
-
-dnl AM_PATH_GCONF(1.0,,,gconf gconf-gtk)
-dnl if test "x$GCONF_CFLAGS" = "x" ; then
-dnl	AC_MSG_ERROR(Evolution requires GConf to be installed)
-dnl fi
+AM_PATH_GCONF(1.0,,,gconf gconf-gtk)
+if test "x$GCONF_CFLAGS" = "x" ; then
+	AC_MSG_ERROR(Evolution requires GConf to be installed)
+fi
 
 dnl ******************************
 dnl Pilot checking
@@ -933,11 +947,29 @@ AC_MSG_RESULT([$DTAPPINTEGRATE])
 AC_SUBST(DTAPPINTEGRATE)
 AM_CONDITIONAL(HAVE_DTAPPINTEGRATE, test "x$DTAPPINTEGRATE" != "xno")
 
+dnl *****************
+dnl killall or pkill?
+dnl *****************
+
+AC_MSG_CHECKING(for command to kill processes)
+
+if test `uname -s` = "SunOS" ; then
+	KILL_PROCESS_CMD="pkill";
+else
+	KILL_PROCESS_CMD="killall";
+fi
+
+KILL_PROCESS_CMD=`which $KILL_PROCESS_CMD`
+if test -z "$KILL_PROCESS_CMD" ; then
+	AC_MSG_RESULT(none)
+else
+	AC_MSG_RESULT($KILL_PROCESS_CMD)
+	AC_DEFINE_UNQUOTED(KILL_PROCESS_CMD, "$KILL_PROCESS_CMD")
+fi
+
 dnl ****************************************************
 dnl GNOME_PREFIX is is needed by shell/evolution-nognome
 dnl ****************************************************
-dnl
-dnl FIXME this doesn't work with GNOME 2.
 
 GNOME_PREFIX="`gnome-config --prefix`"
 AC_SUBST(GNOME_PREFIX)
@@ -1015,107 +1047,95 @@ dnl *************************
 dnl CFLAGS and LIBS and stuff
 dnl *************************
 
-AM_PATH_ORBIT2
-
-AC_MSG_CHECKING(for CORBA include paths)
-IDL_INCLUDES="-I "`pkg-config --variable=idldir libbonobo-2.0`" -I "`pkg-config --variable=idldir bonobo-activation-2.0`
-AC_MSG_RESULT($IDL_INCLUDES)
-AC_SUBST(IDL_INCLUDES)
-
-AM_PATH_GLIB_2_0
-
-COMPONENT_DIR=$prefix/lib/evolution/components
-AC_SUBST(COMPONENT_DIR)
-
 dnl Utility macro to set compiler flags for a specific lib.
 AC_DEFUN(EVO_SET_COMPILE_FLAGS, [
 	deps="$2"
 	extra_cflags="$3"
 	extra_libs="$4"
-	PKG_CHECK_MODULES(foo, $deps)
-	$1_CFLAGS="$foo_CFLAGS \$(WERROR) $extra_cflags"
-	$1_LIBS="$foo_LIBS $extra_libs"
+	$1_CFLAGS="\$(WERROR) `gnome-config --cflags $deps` $extra_cflags"
+	$1_LIBS="`gnome-config --libs $deps` $extra_libs"
 ])
 
 dnl --- Flags to get all the GNOME stuff
 
-dnl --- We require at least this version of GAL.
-GAL_VERSION=0.0.9.99
+FULL_GNOME_DEPS="bonobo_conf bonobox_print gal gdk_pixbuf gnomecanvaspixbuf gnomeui libglade oaf vfs"
 
-FULL_GNOME_DEPS="libbonoboui-2.0 gnome-vfs-2.0 libgnomeui-2.0 libglade-2.0 libgnomecanvas-2.0 libxml-2.0 gconf-2.0 gal-2.0 >= $GAL_VERSION"
-
-EVO_SET_COMPILE_FLAGS(GNOME_FULL, $FULL_GNOME_DEPS)
+EVO_SET_COMPILE_FLAGS(GNOME_FULL, $FULL_GNOME_DEPS, ${GTKHTML_CFLAGS}, ${GTKHTML_LIBS})
 AC_SUBST(GNOME_FULL_CFLAGS)
 AC_SUBST(GNOME_FULL_LIBS)
 
 dnl --- Flags for the various libraries we build
 
-EVO_SET_COMPILE_FLAGS(CAMEL, glib-2.0 gal-2.0 >= $GAL_VERSION,
+EVO_SET_COMPILE_FLAGS(CAMEL, gal xml,
 		      $THREADS_CFLAGS $KRB4_CFLAGS $NSS_CFLAGS $NSPR_CFLAGS $OPENSSL_CFLAGS,
 	              $THREADS_LIBS $KRB4_LDFLAGS $NSS_LDFLAGS $NSPR_LDFLAGS $OPENSSL_LDFLAGS)
 AC_SUBST(CAMEL_CFLAGS)
 AC_SUBST(CAMEL_LIBS)
 
-EVO_SET_COMPILE_FLAGS(E_NAME, libgnomeui-2.0 libbonoboui-2.0 gal-2.0 >= $GAL_VERSION)
+EVO_SET_COMPILE_FLAGS(E_NAME, bonobox gal oaf)
 AC_SUBST(E_NAME_CFLAGS)
 AC_SUBST(E_NAME_LIBS)
 
-EVO_SET_COMPILE_FLAGS(E_UTIL, gconf-2.0 libxml-2.0 libbonoboui-2.0 libglade-2.0 gal-2.0 >= $GAL_VERSION libgnomeui-2.0 libgnome-2.0 libgnomecanvas-2.0 soup-2.0, $THREADS_CFLAGS $NSPR_CFLAGS, $THREADS_LIBS $NSPR_LDFLAGS)
+EVO_SET_COMPILE_FLAGS(E_UTIL, bonobox gal oaf libglade bonobo_conf soup,
+		      $GCONF_CFLAGS $THREADS_CFLAGS $NSPR_CFLAGS,
+		      $GCONF_LIBS $THREADS_LIBS $NSPR_LDFLAGS)
 AC_SUBST(E_UTIL_CFLAGS)
 AC_SUBST(E_UTIL_LIBS)
 
-dnl 
-dnl EVO_SET_COMPILE_FLAGS(E_WIDGETS, bonobo_conf bonobox_print gdk_pixbuf gnomecanvaspixbuf gnomeui libglade oaf vfs)
-dnl AC_SUBST(E_WIDGETS_CFLAGS)
-dnl AC_SUBST(E_WIDGETS_LIBS)
-dnl 
-EVO_SET_COMPILE_FLAGS(IMPORTERS, gconf-2.0 libglade-2.0 libbonoboui-2.0 libgnomeui-2.0)
+EVO_SET_COMPILE_FLAGS(E_WIDGETS, bonobo_conf bonobox_print gdk_pixbuf gnomecanvaspixbuf gnomeui libglade oaf vfs)
+AC_SUBST(E_WIDGETS_CFLAGS)
+AC_SUBST(E_WIDGETS_LIBS)
+
+EVO_SET_COMPILE_FLAGS(IMPORTERS, bonobo_conf bonobox_print gdk_pixbuf gnomecanvaspixbuf gnomeui libglade oaf vfs)
 AC_SUBST(IMPORTERS_CFLAGS)
 AC_SUBST(IMPORTERS_LIBS)
-dnl 
+
 dnl libibex is now deprecated
 dnl EVO_SET_COMPILE_FLAGS(LIBIBEX, bonobo_conf bonobox_print gal gdk_pixbuf gnomecanvaspixbuf gnomeui libglade oaf vfs,
 dnl 		      $THREADS_CFLAGS, $THREADS_LIBS)
 dnl AC_SUBST(LIBIBEX_CFLAGS)
 dnl AC_SUBST(LIBIBEX_LIBS)
 
-EVO_SET_COMPILE_FLAGS(LIBFILTER, libgnome-2.0 libgnomeui-2.0 libglade-2.0 libxml-2.0 gconf-2.0 gal-2.0 >= $GAL_VERSION)
+EVO_SET_COMPILE_FLAGS(LIBFILTER, bonobo gal gdk_pixbuf gnomecanvaspixbuf gnomeui libglade)
 AC_SUBST(LIBFILTER_CFLAGS)
 AC_SUBST(LIBFILTER_LIBS)
 
 dnl --- evolution (shell) flags
 
-EVO_SET_COMPILE_FLAGS(SHELL, libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 gal-2.0 >= $GAL_VERSION libglade-2.0 gnome-vfs-2.0 libgtkhtml-3.0)
+EVO_SET_COMPILE_FLAGS(SHELL, bonobo_conf bonobox_print gal gdk_pixbuf gnomecanvaspixbuf gnomeui libglade oaf vfs, ${GTKHTML_CFLAGS}, ${GTKHTML_LIBS})
 AC_SUBST(SHELL_CFLAGS)
 AC_SUBST(SHELL_LIBS)
 
 dnl --- evolution-addressbook flags
 
-EVOLUTION_ADDRESSBOOK_DEPS="gconf-2.0 libbonoboui-2.0 libglade-2.0 gal-2.0 >= $GAL_VERSION libgnomeui-2.0 libgnome-2.0 libgnomecanvas-2.0 gnome-vfs-2.0 libgnomeprintui-2.0"
+EVOLUTION_ADDRESSBOOK_DEPS="bonobo_conf bonobox_print gal gdk_pixbuf gnomecanvaspixbuf gnomeui libglade oaf vfs"
 
-EVO_SET_COMPILE_FLAGS(EVOLUTION_ADDRESSBOOK, $EVOLUTION_ADDRESSBOOK_DEPS)
+EVO_SET_COMPILE_FLAGS(EVOLUTION_ADDRESSBOOK, $EVOLUTION_ADDRESSBOOK_DEPS, ${GTKHTML_CFLAGS}, ${GTKHTML_LIBS})
 AC_SUBST(EVOLUTION_ADDRESSBOOK_CFLAGS)
 AC_SUBST(EVOLUTION_ADDRESSBOOK_LIBS)
 
-dnl EVO_SET_COMPILE_FLAGS(EVOLUTION_ADDRESSBOOK_CONDUIT, gpilot $EVOLUTION_ADDRESSBOOK_DEPS, $PISOCK_CFLAGS)
-dnl AC_SUBST(EVOLUTION_ADDRESSBOOK_CONDUIT_CFLAGS)
-dnl AC_SUBST(EVOLUTION_ADDRESSBOOK_CONDUIT_LIBS)
+EVO_SET_COMPILE_FLAGS(EVOLUTION_ADDRESSBOOK_CONDUIT, gpilot $EVOLUTION_ADDRESSBOOK_DEPS, $PISOCK_CFLAGS)
+AC_SUBST(EVOLUTION_ADDRESSBOOK_CONDUIT_CFLAGS)
+AC_SUBST(EVOLUTION_ADDRESSBOOK_CONDUIT_LIBS)
 
 dnl -- evolution-executive-summary flags
 
-EVO_SET_COMPILE_FLAGS(EVOLUTION_EXECUTIVE_SUMMARY, libbonoboui-2.0 libbonoboui-2.0 gal-2.0 >= $GAL_VERSION libgnomeui-2.0 libglade-2.0 libgnomeprint-2.0 libgnomeprintui-2.0 soup-2.0 libgtkhtml-3.0)
+EVO_SET_COMPILE_FLAGS(EVOLUTION_EXECUTIVE_SUMMARY,
+                      bonobo_conf bonobox bonobox_print gal gdk_pixbuf gnomecanvaspixbuf gnomeui libglade oaf soup vfs, ${GTKHTML_CFLAGS}, ${GTKHTML_LIBS})
 AC_SUBST(EVOLUTION_EXECUTIVE_SUMMARY_CFLAGS)
 AC_SUBST(EVOLUTION_EXECUTIVE_SUMMARY_LIBS)
 
 dnl --- evolution-calendar flags
 
-EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR, libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 gal-2.0 >= $GAL_VERSION libglade-2.0 gnome-vfs-2.0 libgnomeprint-2.0 libgnomeprintui-2.0 libgtkhtml-3.0, ${GTKHTML_CFLAGS}, ${GTKHTML_LIBS})
+EVOLUTION_CALENDAR_DEPS="bonobo_conf bonobox bonobox_print gal gdk_pixbuf gnomecanvaspixbuf gnomeui libglade oaf vfs"
+
+EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR, $EVOLUTION_CALENDAR_DEPS, ${GTKHTML_CFLAGS}, ${GTKHTML_LIBS})
 AC_SUBST(EVOLUTION_CALENDAR_CFLAGS)
 AC_SUBST(EVOLUTION_CALENDAR_LIBS)
 
-dnl EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR_CONDUIT, gpilot $EVOLUTION_CALENDAR_DEPS, $PISOCK_CFLAGS)
-dnl AC_SUBST(EVOLUTION_CALENDAR_CONDUIT_CFLAGS)
-dnl AC_SUBST(EVOLUTION_CALENDAR_CONDUIT_LIBS)
+EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR_CONDUIT, gpilot $EVOLUTION_CALENDAR_DEPS, $PISOCK_CFLAGS)
+AC_SUBST(EVOLUTION_CALENDAR_CONDUIT_CFLAGS)
+AC_SUBST(EVOLUTION_CALENDAR_CONDUIT_LIBS)
 
 dnl --- evolution-mail flags
 
@@ -1129,13 +1149,13 @@ AC_SUBST(privlibdir)
 camel_providerdir="$privlibdir/camel-providers"
 AC_SUBST(camel_providerdir)
 
-EVO_SET_COMPILE_FLAGS(EVOLUTION_MAIL, libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 gal-2.0 >= $GAL_VERSION libglade-2.0 soup-2.0 libgnomeprint-2.0 libgtkhtml-3.0 libxml-2.0 bonobo-activation-2.0 gthread-2.0 gconf-2.0)
+EVO_SET_COMPILE_FLAGS(EVOLUTION_MAIL, $FULL_GNOME_DEPS soup, $GCONF_CFLAGS $THREADS_CFLAGS ${GTKHTML_CFLAGS}, $GCONF_LIBS $THREADS_LIBS ${GTKHTML_LIBS})
 AC_SUBST(EVOLUTION_MAIL_CFLAGS)
 AC_SUBST(EVOLUTION_MAIL_LIBS)
 
 dnl -- wombat flags
 
-EVO_SET_COMPILE_FLAGS(WOMBAT, libgnome-2.0, $LDAP_CFLAGS, $LDAP_LIBS)
+EVO_SET_COMPILE_FLAGS(WOMBAT, $FULL_GNOME_DEPS, $LDAP_CFLAGS, $LDAP_LIBS)
 AC_SUBST(WOMBAT_CFLAGS)
 AC_SUBST(WOMBAT_LIBS)
 
@@ -1182,12 +1202,6 @@ if test x$enable_gtk_doc = xauto ; then
 fi
 
 AM_CONDITIONAL(ENABLE_GTK_DOC, test x$enable_gtk_doc = xyes)
-
-dnl ***********
-dnl GConf stuff
-dnl ***********
-AC_PATH_PROG(GCONFTOOL, gconftool-2, no)
-AM_GCONF_SOURCE_2
 
 dnl ******************
 dnl Sub-version number
@@ -1245,9 +1259,14 @@ AC_CONFIG_SUBDIRS(libical)
 EVOLUTION_DIR=`(cd $srcdir; pwd)`
 AC_SUBST(EVOLUTION_DIR)
 
-AC_OUTPUT([ po/Makefile.in
+AC_OUTPUT([
 Makefile
 addressbook/Makefile
+addressbook/backend/Makefile
+addressbook/backend/ebook/Makefile
+addressbook/backend/idl/Makefile
+addressbook/backend/pas/Makefile
+addressbook/conduit/Makefile
 addressbook/gui/Makefile
 addressbook/gui/component/Makefile
 addressbook/gui/component/select-names/Makefile
@@ -1256,12 +1275,20 @@ addressbook/gui/contact-list-editor/Makefile
 addressbook/gui/merging/Makefile
 addressbook/gui/search/Makefile
 addressbook/gui/widgets/Makefile
-addressbook/backend/Makefile
-addressbook/backend/ebook/Makefile
-addressbook/backend/pas/Makefile
-addressbook/backend/idl/Makefile
 addressbook/printing/Makefile
 art/Makefile
+calendar/Makefile
+calendar/cal-client/Makefile
+calendar/cal-util/Makefile
+calendar/conduits/Makefile
+calendar/conduits/calendar/Makefile
+calendar/conduits/todo/Makefile
+calendar/gui/Makefile
+calendar/gui/alarm-notify/Makefile
+calendar/gui/dialogs/Makefile
+calendar/idl/Makefile
+calendar/importers/Makefile
+calendar/pcs/Makefile
 camel/Makefile
 camel/providers/Makefile
 camel/providers/imap/Makefile
@@ -1278,6 +1305,7 @@ camel/tests/mime-filter/Makefile
 camel/tests/misc/Makefile
 camel/tests/smime/Makefile
 camel/tests/stream/Makefile
+composer/Makefile
 data/Makefile
 data/cde_app_root/Makefile
 data/cde_app_root/dt/Makefile
@@ -1300,15 +1328,33 @@ default_user/local/Outbox/Makefile
 default_user/local/Sent/Makefile
 default_user/local/Tasks/Makefile
 default_user/local/Trash/Makefile
+doc/Makefile
+doc/devel/Makefile
+doc/devel/calendar/Makefile
+doc/devel/calendar/cal-client/Makefile
+doc/devel/calendar/cal-util/Makefile
 e-util/Makefile
 e-util/ename/Makefile
 filter/Makefile
+help/Makefile
+help/C/Makefile
+help/no/Makefile
+importers/Makefile
+intl/Makefile
 libversit/Makefile
+libwombat/Makefile
+macros/Makefile
+mail/Makefile
+mail/importers/Makefile
+my-evolution/Makefile
+omf-install/Makefile
+po/Makefile.in
 shell/Makefile
 shell/evolution-nognome
 shell/glade/Makefile
 shell/importer/Makefile
-my-evolution/Makefile
+sounds/Makefile
+tools/Makefile
 ui/Makefile
 views/Makefile
 views/addressbook/Makefile
@@ -1320,19 +1366,8 @@ widgets/e-timezone-dialog/Makefile
 widgets/menus/Makefile
 widgets/misc/Makefile
 wombat/Makefile
-libwombat/Makefile
-calendar/Makefile
-calendar/idl/Makefile
-calendar/cal-util/Makefile
-calendar/cal-client/Makefile
-calendar/pcs/Makefile
-calendar/gui/Makefile
-calendar/gui/alarm-notify/Makefile
-calendar/gui/dialogs/Makefile
-calendar/importers/Makefile
-composer/Makefile
-mail/Makefile
-mail/importers/Makefile
+
+my-evolution/GNOME_Evolution_Summary.oaf.in
 ])
 
 if test "x$with_sub_version" != "x"; then

@@ -6,7 +6,8 @@ bin_SCRIPTS =				\
 
 bin_PROGRAMS =				\
 	evolution-addressbook-import	\
-	evolution-addressbook-export
+	evolution-addressbook-export	\
+	evolution-launch-composer
 
 noinst_PROGRAMS = evolution-addressbook-abuse
 
@@ -21,8 +22,41 @@ INCLUDES =						\
 	-I$(top_builddir)/addressbook/backend		\
 	$(GNOME_FULL_CFLAGS)
 
+CORBA_SOURCE =				\
+        Evolution-Composer.h            \
+        Evolution-Composer-common.c     \
+        Evolution-Composer-skels.c      \
+        Evolution-Composer-stubs.c
+
+idls =								\
+	$(top_srcdir)/composer/Evolution-Composer.idl
+
+idl_flags = `$(GNOME_CONFIG) --cflags idl` -I $(datadir)/idl
+
+$(CORBA_SOURCE): $(idls)
+	$(ORBIT_IDL) -I $(srcdir) $(idls) $(idl_flags)
+
+BUILT_SOURCES = $(CORBA_SOURCE)
+
+dist-hook:
+	cd $(distdir); rm -f $(BUILT_SOURCES)
+
 EXTRA_DIST = $(bin_SCRIPTS) verify-evolution-install.sh \
 	evolution-addressbook-clean.in
+
+evolution_launch_composer_SOURCES =			\
+	$(CORBA_SOURCE)					\
+	evolution-launch-composer.c
+
+evolution_launch_composer_LDADD =				\
+	$(GNOME_FULL_LIBS)					\
+	$(top_builddir)/addressbook/backend/ebook/libebook.la	\
+	$(top_builddir)/camel/libcamel.la			\
+	$(top_builddir)/e-util/ename/libename.la		\
+	$(top_builddir)/libversit/libversit.a			\
+	$(top_builddir)/e-util/libeutil.la			\
+	$(top_builddir)/widgets/menus/libmenus.la
+
 
 evolution_addressbook_import_LDADD =				\
 	$(GNOME_FULL_LIBS)					\
@@ -39,7 +73,7 @@ evolution_addressbook_export_LDADD =					\
 evolution_addressbook_abuse_LDADD =					\
 	$(evolution_addressbook_import_LDADD)
 
-CLEANFILES = evolution-addressbook-clean
+CLEANFILES = evolution-addressbook-clean $(BUILT_SOURCES)
 
 
 evolution-addressbook-clean: evolution-addressbook-clean.in Makefile

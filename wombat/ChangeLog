@@ -1,57 +1,15 @@
-2002-11-16  Chris Toshok  <toshok@ximian.com>
+2002-11-26  Ettore Perazzoli  <ettore@ximian.com>
 
-	* GNOME_Evolution_WombatLDAP.server.in.in: remove the moniker
-	cruft.
+	* wombat-moniker.c (wombat_lookup_interface_check): New function
+	to return a WombatInterfaceCheck object.
+	(wombat_moniker_resolve): Use it to return the interface check
+	object when requested to.
 
-	* GNOME_Evolution_WombatNOLDAP.server.in.in: same.
-	
-2002-11-15  Ettore Perazzoli  <ettore@ximian.com>
+	* wombat-interface-check.c: New.
+	* wombat-interface-check.h: New.
 
-	* Makefile.am: Added rule to create
-	GNOME_Evolution_Wombat.server.in from
-	GNOME_Evolution_Wombat.server.in.in, substituting @LIBEXECDIR@.
-	Also install wombat in $libexecdir instead of $bindir.
+	* Evolution-Wombat.idl: New interface WombatInterfaceCheck.
 
-	* GNOME_Evolution_WombatNOLDAP.server.in.in: Renamed from
-	GNOME_Evolution_WombatNOLDAP.server.in.  Changed the location from
-	"wombat" to "@LIBEXECDIR@/wombat".
-
-	* GNOME_Evolution_WombatLDAP.server.in.in: Renamed from
-	GNOME_Evolution_WombatLDAP.server.in.  Changed the location from
-	"wombat" to "@LIBEXECDIR@/wombat".
-
-2002-11-07  Rodrigo Moya <rodrigo@ximian.com>
-
-	* wombat.c: re-enabled calendar parts.
-
-2002-11-06  Chris Toshok  <toshok@ximian.com>
-
-	* Makefile.am (wombat_LDADD): remove libcamel.la from the link for
-	the time being.
-
-	* wombat.c: ifdef out (#ifdef PENDING_PORT_WORK) the calendar
-	stuff, since it doesn't link at the moment - undefined symbols in
-	pcs.  Also, include gtk.h so the gtk_* in the calendar portions
-	will still work.
-
-2002-11-05  Chris Toshok  <toshok@ximian.com>
-
-	* Makefile.am: change over from .oaf files to .server files and
-	remove the moniker stuff from the build.
-
-	* wombat.c: port over to gnome2, and nuke all the config moniker
-	stuff.
-
-	* wombat-moniker.[ch]: remove
-
-	* wombat-private-moniker.[ch]: remove
-
-	* GNOME_Evolution_WombatLDAP.server.in: rename the oaf.in file to this.
-	
-	* GNOME_Evolution_WombatNOLDAP.server.in: rename the oaf.in file to this.
-
-	* .cvsignore: s/oaf/server
-	
 2002-08-01  Chris Toshok  <toshok@ximian.com>
 
 	* wombat.c (last_calendar_gone_cb): remove the annoying fprintf

@@ -1,10 +1,8 @@
-2002-12-04  Jeffrey Stedfast  <fejj@ximian.com>
+2002-12-03  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap/camel-imap-store-summary.c
 	(camel_imap_store_summary_add_from_full): Properly handle the case
 	where the namespace is "". Fixes bug #34975
-
-2002-12-03  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* broken-date-parser.c (get_tzone): Fixed to not get false
 	positives when the token is shorter than the actual timezone
@@ -13,6 +11,12 @@
 	token is a special char (such as a '-') that is also used as a
 	token delimiter.
 
+2002-11-22  Not Zed  <NotZed@Ximian.com>
+
+	* camel-operation.c (camel_operation_cancel_prfd): Implement, gets
+	a nspr pr filedesc to poll/wait on
+	(struct _CamelOperation): include a pr filedesc.
+
 2002-11-21  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-tcp-stream-ssl.c (stream_read): Use the new
@@ -20,29 +24,11 @@
 	so we can poll on it for cancellation stuff.
 	(stream_write): Same.
 
-2002-11-22  Not Zed  <NotZed@Ximian.com>
-
-	* camel-operation.c (camel_operation_cancel_prfd): Implement, gets
-	a nspr pr filedesc to poll/wait on
-	(struct _CamelOperation): include a pr filedesc.
-
-2002-11-21  Not Zed  <NotZed@Ximian.com>
-
-	* providers/imap/camel-imap-store-summary.c
-	(camel_imap_store_summary_namespace_find_path): If we have a
-	namespace of "", then always match any path.
-	(camel_imap_store_summary_namespace_find_full): Same, for full
-	names. Should address #33309 & friends.
-
 2002-11-19  Radek Doulik  <rodo@ximian.com>
 
 	* camel-mime-filter-tohtml.c (html_convert): added
 	CAMEL_MIME_FILTER_TOHTML_PRESERVE_8BIT flag
 
-2002-11-18  Rodney Dawes  <dobey@ximian.com>
-
-	* tests/*/Makefile.am: Removed $(GNOME_LIBDIR) and $(GNOMEUI_LIBS)
-	
 2002-11-15  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap/camel-imap-store.c (imap_connect_online): If the
@@ -50,255 +36,6 @@
 	it obviously won't show up in a LSUB INBOX.*). If either INBOX is
 	not returned in the response or if the folder flags contain
 	\NoSelect, subscribe to INBOX and then try LSUB again.
-
-2002-11-11  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* camel-mime-filter-tohtml.c (html_convert): Rewritten. Much much
-	much cleaner implementation now, though uses malloc/free more
-	often than I'd like.
-
-2002-11-11  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* providers/imap/camel-imap-folder.c (get_message_simple): Use
-	g_strerror when setting an exception string (we need it to be in
-	UTF-8).
-
-	* providers/pop3/camel-pop3-store.c (pop3_try_authenticate): Use
-	g_strerror when setting an exception string (we need it to be in
-	UTF-8).
-
-	* providers/pop3/camel-pop3-folder.c (pop3_refresh_info): Use
-	g_strerror when setting an exception string (we need it to be in
-	UTF-8).
-	(pop3_get_message): Same.
-
-	* providers/local/camel-spool-summary.c (spool_summary_sync_full):
-	Use g_strerror when setting an exception string (we need it to be
-	in UTF-8).
-	(spool_summary_check): Here too.
-
-	* providers/local/camel-spool-store.c (construct): Use g_strerror
-	when setting an exception string (we need it to be in UTF-8).
-	(get_folder): Same.
-	(scan_dir): Here too.
-
-	* providers/local/camel-spool-folder.c (spool_lock): Use
-	g_strerror when setting an exception string (we need it to be in
-	UTF-8).
-
-	* providers/local/camel-mh-summary.c (mh_summary_check): Use
-	g_strerror when setting an exception string (we need it to be in
-	UTF-8).
-
-	* providers/local/camel-mh-store.c (delete_folder): Use g_strerror
-	when setting an exception string (we need it to be in UTF-8).
-
-	* providers/local/camel-mbox-summary.c (summary_update): Use
-	g_strerror when setting an exception string (we need it to be in
-	UTF-8).
-	(mbox_summary_sync_full): Here too.
-	(mbox_summary_sync_quick): Same.
-	(mbox_summary_sync): Also here.
-	(camel_mbox_summary_sync_mbox): Again here.
-
-	* providers/local/camel-mbox-folder.c (mbox_lock): Use g_strerror
-	when setting an exception string (we need it to be in UTF-8).
-	(mbox_append_message): Same.
-	(mbox_get_message): Here too.
-
-	* providers/local/camel-maildir-summary.c (maildir_summary_load):
-	Use g_strerror when setting an exception string (we need it to be
-	in UTF-8).
-	(maildir_summary_check): Same.
-
-	* providers/local/camel-maildir-store.c (get_folder): Use
-	g_strerror when setting an exception string (we need it to be in
-	UTF-8).
-	(delete_folder): Same.
-	(delete_folder): Here too.
-
-	* providers/local/camel-local-summary.c (local_summary_sync): Use
-	g_strerror when setting an exception string (we need it to be in
-	UTF-8).
-
-	* providers/local/camel-local-store.c (get_folder): Use g_strerror
-	when setting an exception string (we need it to be in UTF-8).
-	(create_folder): Same.
-	(xrename): Here too.
-	(rename_folder): And here.
-	(delete_folder): Also here.
-
-	* camel-provider.c (camel_provider_init): For debugging printfs,
-	we want to use normal strerror (we want locale charset, not
-	UTF-8).
-
-	* camel-movemail.c (camel_movemail): Use g_strerror when setting
-	an exception string (we need it to be in UTF-8).
-	(movemail_external): Same.
-	(camel_movemail_copy_file): Here too.
-	(camel_movemail_solaris): Also here.
-
-	* camel-mime-utils.c (rfc2047_decode_word): For debugging printfs,
-	we want to use normal strerror (we want locale charset, not
-	UTF-8).
-	(header_encode_param): Same.
-
-	* camel-mime-part-utils.c (convert_buffer): For debugging printfs,
-	we want to use normal strerror (we want locale charset, not
-	UTF-8).
-
-	* camel-lock-client.c (camel_lock_helper_init): Use g_strerror
-	when setting an exception string (we need it to be in UTF-8).
-
-	* camel-data-cache.c (camel_data_cache_remove): Use g_strerror
-	when setting an exception string (we need it to be in UTF-8).
-
-	* camel-tcp-stream-raw.c (flaky_tcp_write): For debugging printfs,
-	we want to use normal strerror (we want locale charset, not
-	UTF-8).
-	(flaky_tcp_read): Same.
-
-	* camel-gpg-context.c (gpg_ctx_op_step): For debugging printfs, we
-	want to use normal strerror (we want locale charset, not UTF-8).
-
-	* camel-service.c (camel_gethostbyname): Use g_strerror when
-	setting an exception string (we need it to be in UTF-8).
-
-	* camel-lock.c (camel_lock_dot): Use g_strerror when setting an
-	exception string (we need it to be in UTF-8).
-	(camel_lock_fcntl): Same.
-
-2002-11-07  Not Zed  <NotZed@Ximian.com>
-
-	* camel-mime-part.c (camel_mime_part_set_content_type): constify
-	the content_type.
-
-2002-11-07  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* camel-i18n.h: Added.
-
-	* camel-object.h: #include camel-i18n.h instead of gnome-i18n.h
-
-	* camel-lock.c: Same.
-
-2002-11-07  Rodrigo Moya <rodrigo@ximian.com>
-
-	* camel-object.h: removed gnome-defs.h, it does not exist.
-
-2002-11-05  Not Zed  <NotZed@Ximian.com>
-
-	* Makefile.am (camel_lock_helper_LDADD): Created temporary link
-	list, we need to link with something for gettext.
-
-	* camel.h: Remove gstring-util.h and hash-table-utils.h.
-
-	* camel-text-index.c: 
-	(text_index_normalise): Changed for g_utf8_strdown api change.
-
-	* camel-search-private.c:
-	* camel-mime-utils.c:
-	* camel-mime-part-utils.c:
-	* camel-html-parser.c:
-	* camel-charset-map.c: Include glib/gunicode.h from glib instead
-	of gal.
-
-	* camel-filter-driver.c: Remove include of gtk/gtk.h, should never
-	have been there.
-
-2002-11-01  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* camel-mime-utils.c (g_string_append_len): Removed. Glib2 has
-	this function.
-
-	* providers/local/camel-local-store.c (delete_folder): Use
-	g_path_get_basename instead of g_strdup (g_basename (filename)).
-
-	* camel-uid-cache.c (camel_uid_cache_new): Use g_path_get_dirname
-	since g_dirname has been deprecated.
-
-2002-10-31  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* camel-gpg-context.c (camel_gpg_context_class_init): Set the
-	virtual method pointers to the import/export methods.
-	(camel_gpg_context_init): Set the key_protocol string.
-	(gpg_hash_to_id): Handle 2 more hash types.
-	(gpg_id_to_hash): Same.
-	(gpg_ctx_op_step): Slight fixes to support import/export.
-	(gpg_ctx_parse_status): Fix to hack around the fact that importing
-	keys doesn't write to stdout.
-	(gpg_import_keys): Implemented.
-	(gpg_export_keys): Implemented.
-
-	* camel-cipher-context.c (camel_cipher_context_class_init): Hook
-	up default virtual methods for import/export.
-	(camel_cipher_import_keys): Implemented.
-	(camel_cipher_export_keys): Implemented.
-
-2002-10-31  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* Makefile.am: Removed hash-table-utils.[c,h] from the build.
-
-	* hash-table-utils.[c,h]: Removed.
-
-	* string-util.c: Imported g_strcase[hash,equal] into here so we
-	can remove hash-table-utils.[c,h].
-
-	* camel-medium.c: Removed #include "hash-table-utils.h"
-
-	* camel-mime-message.c: Same here.
-
-	* camel-mime-part.c: And here.
-
-	* camel-session.c: Here too.
-
-	* providers/imap/camel-imap-store-summary.c: #include
-	string-utils.h instead of hash-table-utils.h
-
-	* camel-charset-map.c: Same.
-
-	* camel-folder-summary.c: Here too.
-
-	* camel-provider.c: Again here.
-
-	* camel-store-summary.c: And again...
-
-2002-10-31  Jeffrey Stedfast  <fejj@ximian.com>
-
-	Remove a ton of useless snot.
-
-	* Makefile.am: Remove gstring-util.[c,h] from the build.
-
-	* gstring-util.[c,h]: Removed.
-
-	* string-utils.c (string_equal_for_glist): Removed.
-	(string_split): Removed.
-	(string_trim): Removed.
-	(string_prefix): Removed.
-	(string_unquote): Removed.
-	(strip): Removed.
-
-	* hash-table-utils.c (g_hash_table_generic_free): Removed.
-
-	g_str[n]casecmp functions are deprecated in glib2.
-
-	* string-utils.c (strstrcase): Use strncasecmp instead of
-	g_strncasecmp.
-
-	* hash-table-utils.c (g_strcase_equal): Use strcasecmp
-	instead of g_strcasecmp.
-
-	* camel-smime-utils.c (camel_smime_is_smime_v3_signed): Same.
-	(camel_smime_is_smime_v3_encrypted): Here too.
-
-	* camel-sasl-digest-md5.c (decode_data_type): And here.
-	(parse_server_challenge): Again here.
-
-	* camel-pgp-mime.c (camel_pgp_mime_is_rfc2015_signed): Same.
-	(camel_pgp_mime_is_rfc2015_encrypted): Same
-
-	* camel-mime-part-utils.c (check_html_charset): Here too.
-
-	* camel-folder-summary.c (camel_system_flag): Same.
 
 2002-10-25  Jeffrey Stedfast  <fejj@ximian.com>
 

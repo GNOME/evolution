@@ -1,5 +1,100 @@
-Evolution 1.1.3, 2002-??-??
+Evolution 1.2.1, ????-??-??
 ---------------------------
+
+Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
+
+  * Addressbook
+
+    #16870 -- Fix CR/LF check for empty lines in LDIF importer.  (Sean Gao)
+    #25540 -- Fix sensitivity issues in the contact editor.  (Toshok)
+    #28945 -- Contact lists saved as invalid vCards.  (Toshok)
+    #31763 -- Find button missing from Select Contacts from Addressbook
+              dialog.  (Toshok)
+    #32352 -- The LDAP backend should be much more robust in the face of more
+              restrictive ACL's.  (Toshok)
+    #33097 -- Fix crash when changing autocomplete folder list.  Also
+              fixes #30323, #33930, and #33332.  (Toshok)
+    #34254 -- fix case sensitive nature of vCard importer.  (Sean Gao)
+
+  * Calendar
+
+    #30993 -- Meeting request for recurring meeting should describe
+              the recurrence.  (Dan)
+
+  * Mail
+
+    #32932 -- Reopening  a Draft loses References/In-Reply-To headers.
+              (Jeff)
+    #33309 -- Errror while 'Scanning folders in "IMAP server
+              exchange.xxx.xxx"' (Michael)
+    #33933 -- Sorting by subject does not result in expected order  (Jeff)
+    #34975 -- Unable to see Inbox on SunOne IMAP server.  (Jeff)
+    #34882 -- Forwarded messages use the wrong account.  (Jeff)
+    #34315 -- Files silently lost when doing Drag and Drop.  (Jeff)
+    #34327 -- Dragging doesn't work for non-inline attachments. (Harry Lu)
+    #34975 -- Unable to view Inbox on SunOne IMAP server  (Jeff)
+
+Other fixes:
+
+  * Addressbook
+
+    - Fix scope problem where scopes would be saved as "base" and
+      "one" instead of "one" and "sub" repectively.  (Toshok)
+    - Fixed a possible (and very probable) crash involving the
+      minicard view.  (Toshok)
+    - Fixed a crash in the file backend.  (Toshok)
+
+  * Calendar
+
+    - Fixed a bunch of memory leaks related to email meeting
+      scheduling.  (Hans)
+
+    - Make the libical grammar files work with newer versions of
+      Bison.
+
+  * Mail
+
+    - Make the stop button work better when using SSL connections.
+      (Michael)
+
+  * Shell
+
+    - Kill old wombat processes to avoid problems for users who
+      upgrade.  (Ettore)
+
+    - Fixed some localization problems.  (Dan)
+
+    - Fixed the leaks in the settings dialog.  (Ettore)
+
+  * Other
+
+    - Fixed compliance of the .omf files with the OMF 1.0 DTD.
+      (Frederic Crozat)
+
+New features:
+
+  - evolution-launch-composer command-line tool to open up the
+    composer with attachments.  (Chris Lahey, Federico)
+
+
+  * Mailer
+
+    - Fixed SSL streams to have cancellable reads and writes.
+    - Auto-subscribe the user to his/her IMAP INBOX
+
+Evolution 1.2.0, 2002-11-06
+---------------------------
+
+Changes since 1.1.90:
+
+  - Made the default width of the mail filter editing dialog larger.
+    (Dan)
+
+  - Removed the development warning at startup.  (Ettore)
+
+
+Evolution 1.1.90, 2002-10-28
+----------------------------
 
 Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
 

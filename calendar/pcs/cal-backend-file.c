@@ -21,7 +21,7 @@
  */
 
 #include <config.h>
-#include <string.h>
+#include <gtk/gtksignal.h>
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-moniker-util.h>
 #include <libgnomevfs/gnome-vfs.h>
@@ -74,7 +74,7 @@ struct _CalBackendFilePrivate {
 	GHashTable *removed_categories;
 
 	/* Config database handle for free/busy organizer information */
-	EConfigListener *config_listener;
+	Bonobo_ConfigDatabase db;
 	
 	/* Idle handler for saving the calendar when it is dirty */
 	guint idle_id;
@@ -87,9 +87,8 @@ struct _CalBackendFilePrivate {
 
 
 static void cal_backend_file_class_init (CalBackendFileClass *class);
-static void cal_backend_file_init (CalBackendFile *cbfile, CalBackendFileClass *class);
-static void cal_backend_file_dispose (GObject *object);
-static void cal_backend_file_finalize (GObject *object);
+static void cal_backend_file_init (CalBackendFile *cbfile);
+static void cal_backend_file_destroy (GtkObject *object);
 
 static const char *cal_backend_file_get_uri (CalBackend *backend);
 static gboolean cal_backend_file_is_read_only (CalBackend *backend);
@@ -138,7 +137,6 @@ static gboolean cal_backend_file_set_default_timezone (CalBackend *backend,
 						       const char *tzid);
 
 static void notify_categories_changed (CalBackendFile *cbfile);
-static void notify_error (CalBackendFile *cbfile, const char *message);
 
 static CalBackendClass *parent_class;
 
@@ -153,24 +151,24 @@ static CalBackendClass *parent_class;
  * 
  * Return value: The type ID of the #CalBackendFile class.
  **/
-GType
+GtkType
 cal_backend_file_get_type (void)
 {
-	static GType cal_backend_file_type = 0;
+	static GtkType cal_backend_file_type = 0;
 
 	if (!cal_backend_file_type) {
-		static GTypeInfo info = {
-                        sizeof (CalBackendFileClass),
-                        (GBaseInitFunc) NULL,
-                        (GBaseFinalizeFunc) NULL,
-                        (GClassInitFunc) cal_backend_file_class_init,
-                        NULL, NULL,
-                        sizeof (CalBackendFile),
-                        0,
-                        (GInstanceInitFunc) cal_backend_file_init
-                };
-		cal_backend_file_type = g_type_register_static (CAL_BACKEND_TYPE,
-								"CalBackendFile", &info, 0);
+		static const GtkTypeInfo cal_backend_file_info = {
+			"CalBackendFile",
+			sizeof (CalBackendFile),
+			sizeof (CalBackendFileClass),
+			(GtkClassInitFunc) cal_backend_file_class_init,
+			(GtkObjectInitFunc) cal_backend_file_init,
+			NULL, /* reserved_1 */
+			NULL, /* reserved_2 */
+			(GtkClassInitFunc) NULL
+		};
+
+		cal_backend_file_type = gtk_type_unique (CAL_BACKEND_TYPE, &cal_backend_file_info);
 	}
 
 	return cal_backend_file_type;
@@ -180,16 +178,15 @@ cal_backend_file_get_type (void)
 static void
 cal_backend_file_class_init (CalBackendFileClass *class)
 {
-	GObjectClass *object_class;
+	GtkObjectClass *object_class;
 	CalBackendClass *backend_class;
 
-	object_class = (GObjectClass *) class;
+	object_class = (GtkObjectClass *) class;
 	backend_class = (CalBackendClass *) class;
 
-	parent_class = (CalBackendClass *) g_type_class_peek_parent (class);
+	parent_class = gtk_type_class (CAL_BACKEND_TYPE);
 
-	object_class->dispose = cal_backend_file_dispose;
-	object_class->finalize = cal_backend_file_finalize;
+	object_class->destroy = cal_backend_file_destroy;
 
 	backend_class->get_uri = cal_backend_file_get_uri;
 	backend_class->is_read_only = cal_backend_file_is_read_only;
@@ -218,6 +215,24 @@ cal_backend_file_class_init (CalBackendFileClass *class)
 	backend_class->set_default_timezone = cal_backend_file_set_default_timezone;
 }
 
+static Bonobo_ConfigDatabase
+load_db (void)
+{
+	Bonobo_ConfigDatabase db = CORBA_OBJECT_NIL;
+	CORBA_Environment ev;
+
+	CORBA_exception_init (&ev);
+ 
+	db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", &ev);
+	
+	if (BONOBO_EX (&ev))
+		db = CORBA_OBJECT_NIL;
+		
+	CORBA_exception_free (&ev);
+
+	return db;
+}
+
 static void
 cal_added_cb (CalBackend *backend, gpointer user_data)
 {
@@ -226,7 +241,7 @@ cal_added_cb (CalBackend *backend, gpointer user_data)
 
 /* Object initialization function for the file backend */
 static void
-cal_backend_file_init (CalBackendFile *cbfile, CalBackendFileClass *class)
+cal_backend_file_init (CalBackendFile *cbfile)
 {
 	CalBackendFilePrivate *priv;
 
@@ -246,10 +261,10 @@ cal_backend_file_init (CalBackendFile *cbfile, CalBackendFileClass *class)
 	/* The timezone defaults to UTC. */
 	priv->default_zone = icaltimezone_get_utc_timezone ();
 
-	priv->config_listener = e_config_listener_new ();
+	priv->db = load_db ();
 	
-	g_signal_connect (G_OBJECT (cbfile), "cal_added",
-			  G_CALLBACK (cal_added_cb), NULL);
+	gtk_signal_connect (GTK_OBJECT (cbfile), "cal_added",
+			    GTK_SIGNAL_FUNC (cal_added_cb), NULL);
 }
 
 /* g_hash_table_foreach() callback to destroy a CalComponent */
@@ -259,7 +274,7 @@ free_cal_component (gpointer key, gpointer value, gpointer data)
 	CalComponent *comp;
 
 	comp = CAL_COMPONENT (value);
-	g_object_unref (comp);
+	gtk_object_unref (GTK_OBJECT (comp));
 }
 
 /* Saves the calendar data */
@@ -344,15 +359,22 @@ free_category_cb (gpointer key, gpointer value, gpointer data)
 	g_free (c);
 }
 
-/* Dispose handler for the file backend */
+/* Destroy handler for the file backend */
 static void
-cal_backend_file_dispose (GObject *object)
+cal_backend_file_destroy (GtkObject *object)
 {
 	CalBackendFile *cbfile;
 	CalBackendFilePrivate *priv;
+	GList *clients;
+
+	g_return_if_fail (object != NULL);
+	g_return_if_fail (IS_CAL_BACKEND_FILE (object));
 
 	cbfile = CAL_BACKEND_FILE (object);
 	priv = cbfile->priv;
+
+	clients = CAL_BACKEND (cbfile)->clients;
+	g_assert (clients == NULL);
 
 	/* Save if necessary */
 
@@ -360,6 +382,13 @@ cal_backend_file_dispose (GObject *object)
 		save (cbfile);
 		g_source_remove (priv->idle_id);
 		priv->idle_id = 0;
+	}
+
+	/* Clean up */
+
+	if (priv->uri) {
+	        g_free (priv->uri);
+		priv->uri = NULL;
 	}
 
 	if (priv->comp_uid_hash) {
@@ -376,44 +405,6 @@ cal_backend_file_dispose (GObject *object)
 	priv->todos = NULL;
 	priv->journals = NULL;
 
-	if (priv->icalcomp) {
-		icalcomponent_free (priv->icalcomp);
-		priv->icalcomp = NULL;
-	}
-
-	if (priv->config_listener) {
-		g_object_unref (priv->config_listener);
-		priv->config_listener = NULL;
-	}
-
-	if (G_OBJECT_CLASS (parent_class)->dispose)
-		(* G_OBJECT_CLASS (parent_class)->dispose) (object);
-}
-
-/* Finalize handler for the file backend */
-static void
-cal_backend_file_finalize (GObject *object)
-{
-	CalBackendFile *cbfile;
-	CalBackendFilePrivate *priv;
-	GList *clients;
-
-	g_return_if_fail (object != NULL);
-	g_return_if_fail (IS_CAL_BACKEND_FILE (object));
-
-	cbfile = CAL_BACKEND_FILE (object);
-	priv = cbfile->priv;
-
-	clients = CAL_BACKEND (cbfile)->clients;
-	g_assert (clients == NULL);
-
-	/* Clean up */
-
-	if (priv->uri) {
-	        g_free (priv->uri);
-		priv->uri = NULL;
-	}
-
 	g_hash_table_foreach (priv->categories, free_category_cb, NULL);
 	g_hash_table_destroy (priv->categories);
 	priv->categories = NULL;
@@ -422,11 +413,19 @@ cal_backend_file_finalize (GObject *object)
 	g_hash_table_destroy (priv->removed_categories);
 	priv->removed_categories = NULL;
 
+	if (priv->icalcomp) {
+		icalcomponent_free (priv->icalcomp);
+		priv->icalcomp = NULL;
+	}
+
+	bonobo_object_release_unref (priv->db, NULL);
+	priv->db = CORBA_OBJECT_NIL;
+	
 	g_free (priv);
 	cbfile->priv = NULL;
 
-	if (G_OBJECT_CLASS (parent_class)->finalize)
-		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
+	if (GTK_OBJECT_CLASS (parent_class)->destroy)
+		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
 
@@ -765,7 +764,7 @@ remove_component (CalBackendFile *cbfile, CalComponent *comp)
 
 	update_categories_from_comp (cbfile, comp, FALSE);
 
-	g_object_unref (comp);
+	gtk_object_unref (GTK_OBJECT (comp));
 }
 
 /* Scans the toplevel VCALENDAR component and stores the objects it finds */
@@ -1408,7 +1407,7 @@ cal_backend_file_get_free_busy (CalBackend *backend, GList *users, time_t start,
 	g_return_val_if_fail (start <= end, NULL);
 
 	if (users == NULL) {
-		if (cal_backend_mail_account_get_default (priv->config_listener, &address, &name)) {
+		if (cal_backend_mail_account_get_default (priv->db, &address, &name)) {			
 			vfb = create_user_free_busy (cbfile, address, name, start, end);
 			calobj = icalcomponent_as_ical_string (vfb);
 			obj_list = g_list_append (obj_list, g_strdup (calobj));
@@ -1419,7 +1418,7 @@ cal_backend_file_get_free_busy (CalBackend *backend, GList *users, time_t start,
 	} else {
 		for (l = users; l != NULL; l = l->next ) {
 			address = l->data;			
-			if (cal_backend_mail_account_is_valid (priv->config_listener, address, &name)) {
+			if (cal_backend_mail_account_is_valid (priv->db, address, &name)) {
 				vfb = create_user_free_busy (cbfile, address, name, start, end);
 				calobj = icalcomponent_as_ical_string (vfb);
 				obj_list = g_list_append (obj_list, g_strdup (calobj));
@@ -1467,7 +1466,7 @@ cal_backend_file_compute_changes_foreach_key (const char *key, gpointer data)
 		be_data->change_ids = g_list_prepend (be_data->change_ids, g_strdup (key));
 
 		g_free (calobj);
-		g_object_unref (comp);
+		gtk_object_unref (GTK_OBJECT (comp));
  	}
 }
 
@@ -1785,14 +1784,14 @@ cal_backend_file_update_object (CalBackendFile *cbfile,
 	/* Create a CalComponent wrapper for the icalcomponent. */
 	comp = cal_component_new ();
 	if (!cal_component_set_icalcomponent (comp, icalcomp)) {
-		g_object_unref (comp);
+		gtk_object_unref (GTK_OBJECT (comp));
 		return NULL;
 	}
 
 	/* Get the UID, and check it isn't empty. */
 	cal_component_get_uid (comp, &comp_uid);
 	if (!comp_uid || !comp_uid[0]) {
-		g_object_unref (comp);
+		gtk_object_unref (GTK_OBJECT (comp));
 		return NULL;
 	}
 
@@ -1813,7 +1812,31 @@ cal_backend_file_update_object (CalBackendFile *cbfile,
 	return comp_uid;
 }
 
+static const char*
+cal_backend_file_cancel_object (CalBackendFile *cbfile,
+				icalcomponent *icalcomp)
+{
+	CalComponent *old_comp;
+	icalproperty *uid;
+	const char *comp_uid;
 
+	/* Get the UID, and check it isn't empty. */
+	uid = icalcomponent_get_first_property (icalcomp, ICAL_UID_PROPERTY);
+	if (!uid)
+		return NULL;
+	comp_uid = icalproperty_get_uid (uid);
+	if (!comp_uid || !comp_uid[0])
+		return NULL;
+
+	/* Find the old version of the component. */
+	old_comp = lookup_component (cbfile, comp_uid);
+	if (!old_comp)
+		return NULL;
+
+	/* And remove it */
+	remove_component (cbfile, old_comp);
+	return comp_uid;
+}
 
 /* Update_objects handler for the file backend. */
 static CalBackendResult
@@ -1823,10 +1846,11 @@ cal_backend_file_update_objects (CalBackend *backend, const char *calobj)
 	CalBackendFilePrivate *priv;
 	icalcomponent *toplevel_comp, *icalcomp = NULL;
 	icalcomponent_kind kind;
+	icalproperty_method method;
 	int old_n_categories, new_n_categories;
 	icalcomponent *subcomp;
 	CalBackendResult retval = CAL_BACKEND_RESULT_SUCCESS;
-	GList *comp_uid_list = NULL, *elem;
+	GList *updated_uids = NULL, *removed_uids = NULL, *elem;
 
 	cbfile = CAL_BACKEND_FILE (backend);
 	priv = cbfile->priv;
@@ -1858,6 +1882,8 @@ cal_backend_file_update_objects (CalBackend *backend, const char *calobj)
 		return CAL_BACKEND_RESULT_INVALID_OBJECT;
 	}
 
+	method = icalcomponent_get_method (toplevel_comp);
+
 	/* The list of removed categories must be empty because we are about to
 	 * start a new scanning process.
 	 */
@@ -1878,18 +1904,20 @@ cal_backend_file_update_objects (CalBackend *backend, const char *calobj)
 		    || child_kind == ICAL_VJOURNAL_COMPONENT) {
 			const char *comp_uid;
 
-			comp_uid = cal_backend_file_update_object (cbfile,
-								   subcomp);
-			if (comp_uid) {
-				/* We add a copy of the UID to a list, so we
-				   can emit notification signals later. We do
-				   a g_strdup() in case any of the components
-				   get removed while we are emitting
-				   notification signals. */
-				comp_uid_list = g_list_prepend (comp_uid_list,
-								g_strdup (comp_uid));
+			if (method == ICAL_METHOD_CANCEL) {
+				comp_uid = cal_backend_file_cancel_object (cbfile, subcomp);
+				if (comp_uid) {
+					removed_uids = g_list_prepend (removed_uids,
+								       g_strdup (comp_uid));
+				} else
+					retval = CAL_BACKEND_RESULT_NOT_FOUND;
 			} else {
-				retval = CAL_BACKEND_RESULT_INVALID_OBJECT;
+				comp_uid = cal_backend_file_update_object (cbfile, subcomp);
+				if (comp_uid) {
+					updated_uids = g_list_prepend (updated_uids,
+								       g_strdup (comp_uid));
+				} else
+					retval = CAL_BACKEND_RESULT_INVALID_OBJECT;
 			}
 		}
 		subcomp = icalcomponent_get_next_component (toplevel_comp,
@@ -1907,12 +1935,19 @@ cal_backend_file_update_objects (CalBackend *backend, const char *calobj)
 	/* Now emit notification signals for all of the added components.
 	   We do this after adding them all to make sure the calendar is in a
 	   stable state before emitting signals. */
-	for (elem = comp_uid_list; elem; elem = elem->next) {
+	for (elem = updated_uids; elem; elem = elem->next) {
 		char *comp_uid = elem->data;
 		notify_update (cbfile, comp_uid);
 		g_free (comp_uid);
 	}
-	g_list_free (comp_uid_list);
+	g_list_free (updated_uids);
+
+	for (elem = removed_uids; elem; elem = elem->next) {
+		char *comp_uid = elem->data;
+		notify_remove (cbfile, comp_uid);
+		g_free (comp_uid);
+	}
+	g_list_free (removed_uids);
 
 	if (old_n_categories != new_n_categories ||
 	    g_hash_table_size (priv->removed_categories) != 0) {

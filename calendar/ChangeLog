@@ -1,440 +1,61 @@
-2002-11-27  Not Zed  <NotZed@Ximian.com>
+2002-12-02  Dan Winship  <danw@ximian.com>
 
-	* gui/itip-utils.[ch]: run fix.sh over this.
+	* gui/e-itip-control.c (write_recurrence_piece): Describe
+	recurrences, if we can. #30993
+	(set_date_label): If the meeting has recurrences, call
+	write_recurrence_piece after writing the start and end dates.
+	(write_label_piece): Wrap the timezone in <font size=-1> to
+	de-emphasize it a bit and try to keep the timestamp on a single
+	line even with big Outlook timezone names. Add an option to show
+	just the date, for describing the end of recurrences (since the
+	time in the UNTIL is the *beginning* of the last instance, which
+	would confuse people).
 
-	* gui/dialogs/*.[ch]: run fix.sh over all of this.
+2002-11-30  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/e-meeting-model.c (append_row): Don't leak meeting attendees;
+	unref the attendee after it's assigned to model.
+	(select_names_ok_cb): Free the destinations string after we're done
+	with it.
+
+	* gui/dialogs/meeting-page.c (meeting_page_destroy): Free the actual
+	array of deleted attendees.
+
+	* gui/dialogs/event-editor.c (event_editor_destroy): Free the private
+	structure.
+
+	* gui/itip-utils.c (comp_description): Rework free/busy information
+	composer so we can free date/time information after use. Then free it.
+	(itip_send_comp): Free the allocated CORBA buffer for attachment data.
+
+	* gui/dialogs/comp-editor-util.c (comp_editor_contacts_to_component):
+	Free the destination contacts string once we're done with it.
+
+	* gui/e-calendar-table.c (invisible_destroyed): Unref the invisible.
+
+	* gui/e-day-view.c (invisible_destroyed): Ditto.
+
+	* gui/e-week-view.c (invisible_destroyed): Ditto.
+	
+2002-11-26  Dan Winship  <danw@ximian.com>
+
+	* gui/e-itip-control.c (update_item): Set the VCALENDAR's METHOD.
+	(ok_clicked_cb): Use update_item, not remove_item, to process a
+	cancelation. Part of #33875.
+
+	* pcs/cal-backend-file.c (cal_backend_file_cancel_object): New,
+	handle an ICAL_METHOD_CANCEL update.
+	(cal_backend_file_update_objects): Call
+	cal_backend_file_update_object or cal_backend_file_cancel_object
+	as appropriate.
+
+	* cal-util/cal-component.c (cal_component_set_recurid): If
+	@recur_id is NULL, clear the recurrence-id.
 
 2002-11-26  Richard Li <Richard.Li@Sun.COM>
 
 	* cal-client/cal-client.c (cal_client_construct): removed extra call
 	to CORBA_exception_init.
-
-2002-11-22  Not Zed  <NotZed@Ximian.com>
-
-	* gui/dialogs/delete-comp.c (delete_component_dialog): Changed
-	e_messagebox -> gtk_messagedialog.
-
-2002-11-21  Not Zed  <NotZed@Ximian.com>
-
-	* gui/component-factory.c (create_view): pass type to
-	bonobo_control_set_property.
-
-2002-11-20  Not Zed  <NotZed@Ximian.com>
-
-	* gui/Makefile.am (EXTRA_DIST): fix typo, servers_in_files ->
-	server_in_files.
-
-2002-11-19  Ettore Perazzoli  <ettore@ximian.com>
-
-	* Makefile.am: Added rule to generate
-	GNOME_Evolution_Calendar.server.in from
-	GNOME_Evolution_Calendar.server.in.in, substituting @LIBEXECDIR@.
-	Also, install evolution-calendar in $libexecdir instead of
-	$bindir.
-
-	* gui/GNOME_Evolution_Calendar.server.in.in: Renamed from
-	GNOME_Evolution_Calendar.server.in.  Prepended the executable name
-	with @LIBEXECDIR@.
-
-2002-11-19  Not Zed  <NotZed@Ximian.com>
-
-	* gui/e-meeting-model.c (get_select_name_dialog): pass type to
-	bonobo_widget::set_property.
-	(select_names_ok_cb): ", for get_property.
-
-	* gui/dialogs/e-delegate-dialog.c (e_delegate_dialog_construct):
-	pass type to bonobo_widget::set_property & plug small leak.
-	(e_delegate_dialog_get_delegate): ", for get_property.
-	(e_delegate_dialog_get_delegate_name): "
-
-	* gui/dialogs/comp-editor-util.c (comp_editor_contacts_to_widget):
-	pass type to bonobo_widget::set_property.
-	(comp_editor_contacts_to_component): ", for get_property
-
-2002-11-16  Chris Toshok  <toshok@ximian.com>
-
-	* gui/e-meeting-time-sel.c (e_meeting_time_selector_style_set):
-	use new e_table_header_compute_height signature.
-
-2002-11-15  Rodney Dawes  <dobey@ximian.com>
-
-	* gui/component-factory.c: Use bonobo_main_quit instead of gtk
-	
-2002-11-13  Federico Mena Quintero  <federico@ximian.com>
-
-	* cal-client/cal-query.c: #include <string.h>
-	(obj_removed_cb): Fixed prototype.
-
-	* cal-client/cal-client.c (get_objects_atomically): Fix use of
-	g_signal_handler_disconnect().
-
-	* cal-client/client-test.c (create_client): Add G_CALLBACK casts.
-
-2002-11-12  Federico Mena Quintero  <federico@ximian.com>
-
-	* pcs/cal-backend-util.c: #include <string.h>
-
-	* pcs/cal.c: Fixed prototypes of the CORBA method implementations.
-
-	* pcs/cal-backend-file.c (cal_backend_file_dispose): Added a
-	dispose method.
-	(cal_backend_file_get_free_busy): Converted to use EConfigListener
-	rather than BonoboConfigDatabase.
-
-	* gui/alarm-notify/alarm-notify.c: #include <string.h>, fix use of
-	g_hash_table_lookup_extended().
-
-	* gui/alarm-notify/alarm-notify-dialog.c: Substitute deprecated
-	GTK+ functions for new ones.
-
-	* gui/alarm-notify/alarm-queue.c: Likewise.
-
-	* gui/alarm-notify/notify-main.c: #include <string.h>,
-	<gtk/gtkmain.h>.
-
-	* gui/alarm-notify/save.c: #include <string.h>.
-
-2002-11-08  Ettore Perazzoli  <ettore@ximian.com>
-
-	* gui/calendar-commands.c (calendar_control_deactivate): Use
-	g_object_set_data(..., NULL) instead of gtk_object_remove_data().
-
-	* gui/calendar-commands.c: Use g_object_{set,get}_* functions
-	instead of gtk_object_{set,get}_*.
-	* gui/calendar-commands.c: Likewise.
-	* gui/calendar-config.c: Likewise.
-	* gui/control-factory.c: Likewise.
-	* gui/e-calendar-table.c: Likewise.
-	* gui/e-comp-editor-registry.c: Likewise.
-	* gui/e-day-view-main-item.c: Likewise.
-	* gui/e-day-view-time-item.c: Likewise.
-	* gui/e-day-view-top-item.c: Likewise.
-	* gui/e-day-view.c: Likewise.
-	* gui/e-meeting-attendee.c: Likewise.
-	* gui/e-meeting-model.c: Likewise.
-	* gui/e-meeting-time-sel-item.c: Likewise.
-	* gui/e-meeting-time-sel.c: Likewise.
-	* gui/e-week-view-event-item.c: Likewise.
-	* gui/e-week-view-layout.c: Likewise.
-	* gui/e-week-view-main-item.c: Likewise.
-	* gui/e-week-view-titles-item.c: Likewise.
-	* gui/e-week-view.c: Likewise.
-	* gui/gnome-cal.c: Likewise.
-	* gui/print.c: Likewise.
-
-2002-11-08  Ettore Perazzoli  <ettore@ximian.com>
-
-	* gui/calendar-commands.c: Use g_object_ref()/g_object_unref()
-	instead of gtk_object_ref/gtk_object_unref().
-	* gui/calendar-config.c: Likewise.
-	* gui/calendar-model.c: Likewise.
-	* gui/comp-editor-factory.c: Likewise.
-	* gui/comp-util.c: Likewise.
-	* gui/e-calendar-table.c: Likewise.
-	* gui/e-day-view.c: Likewise.
-	* gui/e-itip-control.c: Likewise.
-	* gui/e-meeting-model.c: Likewise.
-	* gui/e-meeting-time-sel.c: Likewise.
-	* gui/e-tasks.c: Likewise.
-	* gui/e-timezone-entry.c: Likewise.
-	* gui/e-week-view.c: Likewise.
-	* gui/gnome-cal.c: Likewise.
-	* gui/goto.c: Likewise.
-	* gui/itip-utils.c: Likewise.
-	* gui/print.c: Likewise.
-	* gui/tasks-control.c: Likewise.
-	* gui/tasks-migrate.c: Likewise.
-
-	* gui/cal-search-bar.c: Use g_object_new() instead of
-	gtk_type_new().
-	* gui/calendar-model.c: Likewise.
-	* gui/calendar-view-factory.c: Likewise.
-	* gui/calendar-view.c: Likewise.
-	* gui/calendar-view.c: Likewise.
-	* gui/comp-editor-factory.c: Likewise.
-	* gui/e-calendar-table.c: Likewise.
-	* gui/e-cell-date-edit-text.c: Likewise.
-	* gui/e-comp-editor-registry.c: Likewise.
-	* gui/e-day-view.c: Likewise.
-	* gui/e-itip-control.c: Likewise.
-	* gui/e-meeting-attendee.c: Likewise.
-	* gui/e-meeting-attendee.c: Likewise.
-	* gui/e-meeting-model.c: Likewise.
-	* gui/e-meeting-time-sel.c: Likewise.
-	* gui/e-tasks.c: Likewise.
-	* gui/e-timezone-entry.c: Likewise.
-	* gui/e-week-view.c: Likewise.
-	* gui/gnome-cal.c: Likewise.
-	* gui/weekday-picker.c: Likewise.
-
-	* gui/e-itip-control.c (get_servers): g_object_unref the
-	shell_client instead of using bonobo_object_unref().
-
-	* gui/component-factory.c (owner_set_cb): Use
-	evolution_shell_client_corba_objref() instead of
-	bonobo_object_corba_objref().
-
-2002-11-08  Ettore Perazzoli  <ettore@ximian.com>
-
-	* gui/calendar-commands.c: Use g_signal_connect() instead of
-	gtk_signal_connect().
-	* calendar-commands.c: Likewise.
-	* calendar-config.c: Likewise.
-	* calendar-model.c: Likewise.
-	* comp-editor-factory.c: Likewise.
-	* component-factory.c: Likewise.
-	* control-factory.c: Likewise.
-	* e-calendar-table.c: Likewise.
-	* e-comp-editor-registry.c: Likewise.
-	* e-day-view-time-item.c: Likewise.
-	* e-day-view.c: Likewise.
-	* e-itip-control.c: Likewise.
-	* e-meeting-model.c: Likewise.
-	* e-meeting-time-sel.c: Likewise.
-	* e-tasks.c: Likewise.
-	* e-timezone-entry.c: Likewise.
-	* e-week-view.c: Likewise.
-	* gnome-cal.c: Likewise.
-	* goto.c: Likewise.
-	* tasks-control.c: Likewise.
-	* tasks-migrate.c: Likewise.
-	* weekday-picker.c: Likewise.
-
-2002-11-08  Ettore Perazzoli  <ettore@ximian.com>
-
-	* gui/calendar-offline-handler.c
-	(calendar_offline_handler_class_init): GObjectified.
-	(impl_finalize): Finalize impl.
-	(impl_dispose): Dispose impl.
-	(calendar_offline_handler_new): Use g_object_new().
-	(backend_cal_opened): use g_signal_connect() instead of
-	gtk_signal_connect().
-	(backend_go_offline): Likewise.
-	(backend_cal_opened): g_object_unref() instead of
-	gtk_object_unref().
-	(backend_go_offline): Likewise.
-
-2002-11-08  Rodrigo Moya <rodrigo@ximian.com>
-
-	* importers/evolution-calendar-importer.h: use GLib macros.
-
-	* importers/main.c (init_importer): use bonobo_generic_factory_new,
-	not bonobo_generic_factory_new_multi.
-	(main): don't use libgnome functions.
-
-2002-11-07  Rodrigo Moya <rodrigo@ximian.com>
-
-	* cal-client/client-test.c: don't use GTK, we don't need it.
-
-2002-11-07  JP Rosevear  <jpr@ximian.com>
-
-	* Initial port of gui/ subdir to GNOME 2
-
-2002-11-07  Rodrigo Moya <rodrigo@ximian.com>
-
-	* importers/icalendar-importer.c: removed non-existant headers.
-
-	* importers/Makefile.am: changes for BonoboActivation.
-
-	* gui/GNOME_Evolution_Calendar.server.in: install to $libdir, not
-	$datadir.
-
-2002-11-07  Rodrigo Moya <rodrigo@ximian.com>
-
-	* cal-client/query-listener.[ch]: converted to BonoboObject.
-
-	* gui/dialogs/comp-editor-util.c (parse_contact_string): use glib's
-	g_utf8_strchr.
-
-	* gui/dialogs/delete-comp.c: removed non-existant headers. Use
-	GtkStock instead of GnomeStock.
-
-	* gui/dialogs/e-delegate-dialog.c: converted to BonoboActivation.
-	(e_delegate_dialog_construct): adapted to changes in glade_xml_new.
-
-2002-11-07  Rodrigo Moya <rodrigo@ximian.com>
-
-	* pcs/cal.[ch]: converted to BonoboObject.
-	(impl_Cal_get_query): bonobo_object_unref the query returned by
-	cal_backend_get_query if we can't duplicate it.
-
-	* pcs/query.[ch]:
-	* pcs/cal-factory.[ch]: converted to BonoboObject.
-
-	* pcs/query-backend.[ch]:
-	* pcs/cal-backend-file.[ch]:
-	* pcs/cal-backend.[ch]: GObjectify.
-
-2002-11-06  Rodrigo Moya <rodrigo@ximian.com>
-
-	* gui/cal-prefs-dialog.c: #include gtkoptionmenu.h.
-	(cal_prefs_dialog_new): adapted to changes in glade_xml_new.
-
-	* gui/dialogs/event-page.h:
-	* gui/dialogs/meeting-page.h:
-	* gui/dialogs/recurrence-page.h:
-	* gui/dialogs/schedule-page.h:
-	* gui/dialogs/task-details-page.h:
-	* gui/dialogs/task-page.h:
-	* gui/cal-prefs-dialog.h: use correctly the macros.
-
-	* gui/dialogs/cancel-comp.c:
-	* gui/dialogs/changed-comp.c:
-	* gui/dialogs/comp-editor-page.c:
-	* gui/gnome-cal.h: removed non-existent headers.
-
-	* gui/dialogs/comp-editor.c: remove non-existent headers.
-	(close_dialog): gtk_widget_destroy the widget.
-	(setup_widgets, comp_editor_merge_ui): use BonoboWindow correctly.
-	(comp_editor_set_cal_client, comp_editor_send_comp,
-	 comp_editor_edit_comp): use G_OBJECT_GET_CLASS for
-	getting the class of an object.
-
-	* gui/dialogs/comp-editor-page.c (comp_editor_page_class_init):
-	use g_signal_* functions.
-
-	* gui/dialogs/comp-editor-util.c: converted to BonoboActivation.
-
-	* gui/dialogs/comp-editor.h: #include bonobo-window.h, not
-	bonobo-win.h.
-
-2002-11-06  Rodrigo Moya <rodrigo@ximian.com>
-
-	* gui/alarm-notify/GNOME_Evolution_Calendar_AlarmNotify.server.in:
-	* gui/GNOME_Evolution_Calendar.server.in: renmaed .oaf.in files.
-
-	* gui/alarm-notify/Makefile.am:
-	* gui/Makefile.am: fixed rules for .server files.
-
-2002-11-06  Rodrigo Moya <rodrigo@ximian.com>
-
-	* gui/dialogs/comp-editor-util.[ch]
-	(comp_editor_connect_contacts_changed): don't return a
-	Bonobo_EventSource_ListenerId, since it does not exist anymore,
-	and was not even being used.
-
-	* gui/e-timezone-entry.h: use GLib macros.
-
-	* gui/dialogs/*.glade:
-	* gui/alarm-notify/*.glade:
-	* gui/*.glade: converted to Glade2 format.
-
-2002-11-05  Rodrigo Moya <rodrigo@ximian.com>
-
-	* gui/dialogs/alarm-options.c (alarm_options_dialog_run): adapted to
-	to new glade_xml_new signature.
-
-	* gui/calendar-model.h:
-	* gui/dialogs/comp-editor-page.h:
-	* gui/dialogs/alarm-page.[ch]: removed non-existant header files.
-
-	* gui/dialogs/comp-editor-util.h: added missing headers.
-
-2002-11-05  Rodrigo Moya <rodrigo@ximian.com>
-
-	* pcs/cal-backend.c: use libxml2 headers.
-
-	* gui/alarm-notify/Makefile.am:
-	* gui/dialogs/Makefile.am:
-	* gui/Makefile.am: s/XML_I18N/INTLTOOL. Fixed execution of
-	$(ORBIT_IDL).
-
-	* gui/alarm-notify/alarm-notify.[ch]: converted to BonoboObject.
-
-	* gui/alarm-notify/alarm-notify-dialog.c: compilation fixes.
-	(alarm_notify_dialog): adapted to new glade_xml_new signature.
-
-	* gui/alarm-notify/alarm-queue.c: ported to BonoboActivation and
-	GtkStock and GtkDialog.
-
-	* gui/alarm-notify/notify-main.c: ported to BonoboActivation and
-	use GObject functions instead of GtkObject ones.
-
-	* gui/alarm-notify/save.h: removed BonoboConfig related functions.
-
-	* gui/alarm-notify/config-data.c: use GObject functions instead of
-	GtkObject ones.
-
-	* TODO.port: added file for keeping track of disabled things while we
-	port.
-
-2002-11-04  Rodrigo Moya <rodrigo@ximian.com>
-
-	* cal-util/cal-util-marshal.list: added new marshallers.
-
-	* cal-client/cal-client.c (get_objects_atomically): fixed calls to
-	g_signal_handler_disconnect_by_func.
-	(cal_client_class_init): fixed typos.
-
-	* cal-client/cal-client-multi.[ch]:
-	* cal-client/cal-client-types.c:
-	* cal-client/cal-query.[ch]: ported to GObject.
-
-	* cal-client/cal-listener.[ch]: converted to BonoboObject.
-
-	* cal-client/Makefile.am:
-	* pcs/Makefile.am: fixed flags for orbit-idl
-
-2002-11-04  Rodrigo Moya <rodrigo@ximian.com>
-
-	* cal-util/Makefile.am:
-	* cal-util/cal-util-marshal.list: added marshallers.
-
-	* cal-client/cal-client.[ch]: ported to GObject.
-
-2002-11-04  Rodrigo Moya <rodrigo@ximian.com>
-
-	* cal-util/cal-component.[ch]: ported to GObject.
-
-	* cal-util/cal-util.c (cal_util_generate_alarms_for_comp): use
-	g_object_* instead of gtk_object_*.
-
-2002-11-03  Rodrigo Moya <rodrigo@ximian.com>
-
-	* cal-client/cal-client.c (get_default_uri): use EConfigListener
-	instead of BonoboConfig.
-
-	* cal-client/cal-client.c:
-	* cal-client/cal-listener.[ch]:
-	* cal-client/query-listener.c: warning free.
-
-2002-11-03  Rodrigo Moya <rodrigo@ximian.com>
-
-	* pcs/cal-backend-util.[ch]: don't use BonoboConfig, but
-	EConfigListener.
-
-	* gui/calendar-config.c: use /apps/Evolution prefix for all
-	configuration keys.
-
-2002-10-31  Rodrigo Moya <rodrigo@ximian.com>
-
-	* cal-util/cal-component.[ch]:
-	* cal-util/cal-recur.h:
-	* cal-util/cal-util.[ch]:
-	* cal-client/cal-client.h:
-	* cal-client/cal-client-multi.h:
-	* cal-client/cal-client-types.[ch]:
-	* cal-client/cal-listener.h
-	* cal-client/cal-query.[ch]:
-	* cal-client/query-listener.h:
-	* pcs/cal.h:
-	* pcs/cal-backend.[ch]:
-	* pcs/cal-backend-file.h:
-	* pcs/cal-backend-util.h:
-	* pcs/cal-common.h:
-	* pcs/cal-factory.h:
-	* pcs/query.[ch]:
-	* pcs/query-backend.[ch]: started GNOME 2 porting.
-	cal-util, cal-client and pcs compiled ok.
-
-	* cal-client/cal-client.c (cal_client_construct):
-	* pcs/cal-factory.c: use b-a instead of OAF and bonobo-config
-	instead of bonobo-conf.
-
-2002-10-29  Rodrigo Moya <rodrigo@ximian.com>
-
-	* gui/gnome-cal.c (backend_died_cb): cleaned up the status bar
-	messages for all widgets.
 
 2002-10-24  JP Rosevear  <jpr@ximian.com>
 	

@@ -14,7 +14,7 @@ duplicated effort (and to make sure that you aren't basing your work
 on interfaces that are expected to change).
 
 There are mailing list archives available at
-http://lists.ximian.com/archives/public/evolution/     and
+http://lists.ximian.com/archives/public/evolution/ and
 http://lists.ximian.com/archives/public/evolution-hackers/
 
 There is also an #evolution IRC channel on irc.gnome.org.
@@ -26,6 +26,7 @@ evolution" at the command line), and in the --help strings (run
 "evolution --help" at the command line).
 
 The rest of this file is dedicated to building Evolution.
+
 
 PROBLEMS BUILDING EVOLUTION
 ---------------------------
@@ -110,7 +111,6 @@ and -devel packages for each library.
 
  - gnome-xml - 1.8.17 or later in the 1.0 series, but not from the 2.0
    series (If you get this from GNOME CVS, use the tag "LIB_XML_1_BRANCH".)
-   
 
  - gnome-print - 0.35 or later 
 

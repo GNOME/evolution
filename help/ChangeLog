@@ -1,22 +1,10 @@
-2002-11-11  Aaron Weber  <aaron@ximian.com>
+2002-11-12  Frederic Crozat  <fcrozat@mandrakesoft.com>
 
-	* C/config-prefs.xml: fix bug 27336, which is about how the Search
-	Base option description is wrong.
+	reviewed by: Ettore
 
-2002-11-04  Aaron Weber  <aaron@ximian.com>
-
-	* C/*.sgml: All sgml files replaced with xml files. XML files
-	validated. Two new XML files-- apx-fdl.xml and legal.xml
-
-	* C/evolution-C.omf: Altered to fit the GDP template. This may now
-	work with the GNOME 2.0 DTD, although I could be wrong.
-
-	* sgmldocs.make: removed and replaced with xmldocs.make. This will
-	break all translations until they are also ported to XML. I will
-	probably begin doing that tomorrow, since it's just markup and not
-	language stuff.
-
-	* C/Makefile.am: added two files
+	* C/evolution-C.omf:
+	* no/evolution-no.omf:
+	fixe compliance with OMF V1.0 DTD (needed for scrollkeeper >= 0.3)
 
 2002-10-22  Aaron Weber  <aaron@ximian.com>
 

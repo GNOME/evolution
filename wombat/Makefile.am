@@ -1,9 +1,5 @@
 INCLUDES =						\
 	-DG_LOG_DOMAIN=\"wombat\"			\
-	-DPREFIX=\"$(prefix)\"				\
-	-DSYSCONFDIR=\"$(sysconfdir)\"			\
-	-DDATADIR=\"$(datadir)\"			\
-	-DLIBDIR=\"$(libdir)\"				\
 	-I$(top_srcdir)/e-util				\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/addressbook/backend		\
@@ -17,10 +13,32 @@ INCLUDES =						\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"	\
 	$(WOMBAT_CFLAGS)
 
-libexec_PROGRAMS =	\
+bin_PROGRAMS =	\
 	wombat
 
+WOMBAT_IDL = Evolution-Wombat.idl
+
+WOMBAT_IDL_GENERATED =				\
+	Evolution-Wombat.h			\
+	Evolution-Wombat-common.c		\
+	Evolution-Wombat-skels.c		\
+	Evolution-Wombat-stubs.c
+
+$(WOMBAT_IDL_GENERATED): $(WOMBAT_IDL)
+	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl `$(GNOME_CONFIG) --cflags idl` $(WOMBAT_IDL)
+
+idldir = $(datadir)/idl
+
+idl_DATA = $(WOMBAT_IDL)
+
 wombat_SOURCES = 			\
+	$(WOMBAT_IDL_GENERATED)		\
+	wombat-interface-check.c	\
+	wombat-interface-check.h	\
+	wombat-moniker.c		\
+	wombat-moniker.h		\
+	wombat-private-moniker.c	\
+	wombat-private-moniker.h	\
 	wombat.c
 
 if ENABLE_LDAP
@@ -47,32 +65,24 @@ wombat_LDADD =								\
 	$(top_builddir)/libwombat/libwombat.la				\
 	$(WOMBAT_LIBS)
 
-serversdir = $(libdir)/bonobo/servers
+oafdir = $(datadir)/oaf
 
 if ENABLE_LDAP
-SERVER_IN_FILE=GNOME_Evolution_WombatLDAP.server.in.in
+OAF_IN_FILE=GNOME_Evolution_WombatLDAP.oaf.in
 else
-SERVER_IN_FILE=GNOME_Evolution_WombatNOLDAP.server.in.in
+OAF_IN_FILE=GNOME_Evolution_WombatNOLDAP.oaf.in
 endif
 
-GNOME_Evolution_Wombat.server.in.in: $(SERVER_IN_FILE)
+GNOME_Evolution_Wombat.oaf.in: $(OAF_IN_FILE)
 	cp $< $@
 
-server_in_files = GNOME_Evolution_Wombat.server.in.in
+oaf_in_files = GNOME_Evolution_Wombat.oaf.in
+oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)
 
-serverdir = $(libdir)/bonobo/servers
-server_DATA = $(server_in_files:.server.in.in=.server)
-$(server_in_files:.server.in.in=.server.in): $(server_in_files)
-	sed -e "s|\@LIBEXECDIR\@|$(libexecdir)|" $< > $@
+@XML_I18N_MERGE_OAF_RULE@
 
-@INTLTOOL_SERVER_RULE@
-
-idldir = $(datadir)/idl
-
-idl_DATA = Evolution-Wombat.idl
-
-EXTRA_DIST = $(server_DATA) $(server_in_files) $(idl_DATA) \
-	     GNOME_Evolution_WombatLDAP.server.in GNOME_Evolution_WombatNOLDAP.server.in
+EXTRA_DIST = $(oaf_DATA) $(oaf_in_files) $(idl_DATA) \
+	     GNOME_Evolution_WombatLDAP.oaf.in GNOME_Evolution_WombatNOLDAP.oaf.in
 
 if ENABLE_PURIFY
 PLINK = $(LIBTOOL) --mode=link $(PURIFY) $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@

@@ -32,22 +32,20 @@
 
 #include "e-folder-tree.h"
 #include "e-shell-constants.h"
-#include "e-shell-marshal.h"
 
 #include <gtk/gtkobject.h>
 #include <gtk/gtksignal.h>
 
+#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <gal/util/e-util.h>
-
-#include <string.h>
 
 
 #define PARENT_TYPE GTK_TYPE_OBJECT
 static GtkObjectClass *parent_class = NULL;
 
 #define ES_CLASS(obj) \
-	E_STORAGE_CLASS (GTK_OBJECT_GET_CLASS (obj))
+	E_STORAGE_CLASS (GTK_OBJECT (obj)->klass)
 
 struct _EStoragePrivate {
 	/* The set of folders we have in this storage.  */
@@ -87,7 +85,7 @@ folder_destroy_notify (EFolderTree *tree,
 	}
 
 	e_folder = E_FOLDER (data);
-	g_object_unref (e_folder);
+	gtk_object_unref (GTK_OBJECT (e_folder));
 }
 
 
@@ -110,12 +108,13 @@ folder_changed_cb (EFolder *folder,
 	path = e_folder_tree_get_path_for_data (priv->folder_tree, folder);
 	g_assert (path != NULL);
 
-	g_signal_emit (storage, signals[UPDATED_FOLDER], 0, path);
+	gtk_signal_emit (GTK_OBJECT (storage), signals[UPDATED_FOLDER], path);
 
-	highlight = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (folder), "last_highlight"));
+	highlight = GPOINTER_TO_INT (gtk_object_get_data (GTK_OBJECT (folder), "last_highlight"));
 	if (highlight != e_folder_get_highlighted (folder)) {
 		highlight = !highlight;
-		g_object_set_data (G_OBJECT (folder), "last_highlight", GINT_TO_POINTER (highlight));
+		gtk_object_set_data (GTK_OBJECT (folder), "last_highlight",
+				     GINT_TO_POINTER (highlight));
 		p = strrchr (path, '/');
 		if (p && p != path) {
 			char *name;
@@ -130,7 +129,7 @@ folder_changed_cb (EFolder *folder,
 }
 
 
-/* GObject methods.  */
+/* GtkObject methods.  */
 
 static void
 free_folder (gpointer path, gpointer folder, gpointer user_data)
@@ -140,7 +139,7 @@ free_folder (gpointer path, gpointer folder, gpointer user_data)
 }
 
 static void
-impl_finalize (GObject *object)
+destroy (GtkObject *object)
 {
 	EStorage *storage;
 	EStoragePrivate *priv;
@@ -157,9 +156,7 @@ impl_finalize (GObject *object)
 
 	g_free (priv->name);
 
-	g_free (priv);
-
-	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
+	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
 
@@ -265,12 +262,12 @@ impl_async_remove_shared_folder (EStorage *storage,
 static void
 class_init (EStorageClass *class)
 {
-	GObjectClass *object_class;
+	GtkObjectClass *object_class;
 
-	object_class = G_OBJECT_CLASS (class);
-	parent_class = g_type_class_ref(gtk_object_get_type ());
+	object_class = GTK_OBJECT_CLASS (class);
+	parent_class = gtk_type_class (gtk_object_get_type ());
 
-	object_class->finalize = impl_finalize;
+	object_class->destroy = destroy;
 
 	class->get_subfolder_paths = impl_get_subfolder_paths;
 	class->get_folder          = impl_get_folder;
@@ -287,35 +284,37 @@ class_init (EStorageClass *class)
 	signals[NEW_FOLDER] =
 		gtk_signal_new ("new_folder",
 				GTK_RUN_FIRST,
-				GTK_CLASS_TYPE (object_class),
-				G_STRUCT_OFFSET (EStorageClass, new_folder),
-				e_shell_marshal_NONE__STRING,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (EStorageClass, new_folder),
+				gtk_marshal_NONE__STRING,
 				GTK_TYPE_NONE, 1,
 				GTK_TYPE_STRING);
 	signals[UPDATED_FOLDER] =
 		gtk_signal_new ("updated_folder",
 				GTK_RUN_FIRST,
-				GTK_CLASS_TYPE (object_class),
-				G_STRUCT_OFFSET (EStorageClass, updated_folder),
-				e_shell_marshal_NONE__STRING,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (EStorageClass, updated_folder),
+				gtk_marshal_NONE__STRING,
 				GTK_TYPE_NONE, 1,
 				GTK_TYPE_STRING);
 	signals[REMOVED_FOLDER] =
 		gtk_signal_new ("removed_folder",
 				GTK_RUN_FIRST,
-				GTK_CLASS_TYPE (object_class),
-				G_STRUCT_OFFSET (EStorageClass, removed_folder),
-				e_shell_marshal_NONE__STRING,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (EStorageClass, removed_folder),
+				gtk_marshal_NONE__STRING,
 				GTK_TYPE_NONE, 1,
 				GTK_TYPE_STRING);
 	signals[CLOSE_FOLDER] =
 		gtk_signal_new ("close_folder",
 				GTK_RUN_FIRST,
-				GTK_CLASS_TYPE (object_class),
-				G_STRUCT_OFFSET (EStorageClass, close_folder),
-				e_shell_marshal_NONE__STRING,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (EStorageClass, close_folder),
+				gtk_marshal_NONE__STRING,
 				GTK_TYPE_NONE, 1,
 				GTK_TYPE_STRING);
+
+	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 }
 
 static void
@@ -360,7 +359,7 @@ e_storage_new (const char *name,
 {
 	EStorage *new;
 
-	new = g_object_new (e_storage_get_type (), NULL);
+	new = gtk_type_new (e_storage_get_type ());
 
 	e_storage_construct (new, name, root_folder);
 
@@ -711,9 +710,10 @@ e_storage_new_folder (EStorage *storage,
 	}
 	g_free (parent_path);
 
-	g_signal_connect_object (e_folder, "changed", G_CALLBACK (folder_changed_cb), storage, 0);
+	gtk_signal_connect_while_alive (GTK_OBJECT (e_folder), "changed", folder_changed_cb,
+					storage, GTK_OBJECT (storage));
 
-	g_signal_emit (storage, signals[NEW_FOLDER], 0, path);
+	gtk_signal_emit (GTK_OBJECT (storage), signals[NEW_FOLDER], path);
 
 	folder_changed_cb (e_folder, storage);
 
@@ -729,6 +729,7 @@ e_storage_has_subfolders (EStorage *storage,
 	GList *subfolders, *f;
 	EFolder *pseudofolder;
 	char *pseudofolder_path;
+	gboolean retval;
 
 	g_return_val_if_fail (storage != NULL, FALSE);
 	g_return_val_if_fail (E_IS_STORAGE (storage), FALSE);
@@ -738,7 +739,7 @@ e_storage_has_subfolders (EStorage *storage,
 
 	priv = storage->priv;
 
-	g_signal_emit (storage, signals[CLOSE_FOLDER], 0, path);
+	gtk_signal_emit (GTK_OBJECT (storage), signals[CLOSE_FOLDER], path);
 
 	if (g_hash_table_lookup (priv->pseudofolders, path))
 		return TRUE;
@@ -760,7 +761,10 @@ e_storage_has_subfolders (EStorage *storage,
 
 	g_hash_table_insert (priv->pseudofolders, g_strdup (path), pseudofolder);
 
-	return e_storage_new_folder (storage, pseudofolder_path, pseudofolder);
+	retval = e_storage_new_folder (storage, pseudofolder_path, pseudofolder);
+	g_free (pseudofolder_path);
+
+	return retval;
 }
 
 gboolean
@@ -796,7 +800,7 @@ e_storage_removed_folder (EStorage *storage,
 		g_free (parent_path);
 	}
 
-	g_signal_emit (storage, signals[REMOVED_FOLDER], 0, path);
+	gtk_signal_emit (GTK_OBJECT (storage), signals[REMOVED_FOLDER], path);
 
 	e_folder_tree_remove (priv->folder_tree, path);
 

@@ -1,155 +1,29 @@
-2002-12-04  Ettore Perazzoli  <ettore@ximian.com>
+2002-12-05  Ettore Perazzoli  <ettore@ximian.com>
 
-	* configure.in: Define COMPONENT_DIR.
+	* tools/evolution-launch-composer.c: New.
 
-2002-11-22  Jeffrey Stedfast  <fejj@ximian.com>
+2002-11-26  Ettore Perazzoli  <ettore@ximian.com>
 
-	* configure.in: Add NSPR CFLAGS and LDFLAGS to the E_UTIL build
-	flags.
+	* configure.in: Define KILL_PROCESS_CMD.
 
-2002-11-20  Ettore Perazzoli  <ettore@ximian.com>
+2002-11-22  Not Zed  <NotZed@Ximian.com>
 
-	* configure.in: AC_OUTPUT(my-evoluton/Makefile).
+	* configure.in (E_UTIL_CFLAGS/LDFLAGS): Added NSPR stuff, so we
+	can nsprpoll on msgports.
 
-2002-11-20  Ettore Perazzoli  <ettore@ximian.com>
+2002-11-07  Ettore Perazzoli  <ettore@ximian.com>
 
-	* Makefile.am (changelogs): Add my-evolution.
+	* configure.in (VERSION_COMMENT): 1.2.0.99.
 
-2002-11-20  Not Zed  <NotZed@Ximian.com>
+== Version 1.2 ==
 
-	* libibex/*: cvs removed it all.  Not much use having it around
-	anymore.
+2002-11-06  Ettore Perazzoli  <ettore@ximian.com>
 
-2002-11-19  Ettore Perazzoli  <ettore@ximian.com>
+	* configure.in: Version 1.2.0.
 
-	* configure.in: Check for gconftool-2, and added
-	AM_GCONF_SOURCE_2.
+2002-11-05  Ettore Perazzoli  <ettore@ximian.com>
 
-2002-11-18  Not Zed  <NotZed@Ximian.com>
-
-	* configure.in: Added back IMPORTERS_CFLAGS and
-	mail/importers/Makefile
-
-2002-11-16  Chris Toshok  <toshok@ximian.com>
-
-	* configure.in: we require >= 0.0.9.99 of gal.
-
-2002-11-15  Ettore Perazzoli  <ettore@ximian.com>
-
-	* configure.in: Set up the my-evolution flags properly, do not
-	AC_SUBST GNOME_Evolution_Mail.server.in.
-
-2002-11-13  Not Zed  <NotZed@Ximian.com>
-
-	* Makefile.am (SUBDIRS): re-added filter, mail, composer
-
-	* configure.in: Added EVOLUTION_MAIL settings, and mail/makefile.
-
-2002-11-11  Joe Shaw  <joe@ximian.com>
-
-	* Makefile.am (SUBDIRS): remove tools for now, it's not in
-	configure.in.
-
-2002-11-11  Chris Toshok  <toshok@ximian.com>
-
-	* Makefile.am (SUBDIRS): add addressbook.
-
-2002-11-08  Chris Toshok  <toshok@ximian.com>
-
-	* configure.in: add some more addressbook paths.
-
-2002-11-08  Not Zed  <NotZed@Ximian.com>
-
-	* configure.in: Added composer/Makefile & gtkhtml-3.0 deps.
-
-2002-11-07  Chris Toshok  <toshok@ximian.com>
-
-	* configure.in (AC_OUTPUT): GNOME_Evolution_Summary.oaf.in = >
-	GNOME_Evolution_Summary.server.in
-
-2002-11-07  JP Rosevear  <jpr@ximian.com>
-
-	* configure.in: update e-util and calendar compile flags
-
-2002-11-07  Rodrigo Moya <rodrigo@ximian.com>
-
-	* configure.in: added libgnome-2.0 to camel requirements.
-
-2002-11-06  Chris Toshok  <toshok@ximian.com>
-
-	* configure.in: add some more addressbook dirs to AC_OUTPUT.
-
-2002-11-05  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* configure.in: Re-enable the filter cflags/libs stuff.
-
-2002-11-05  Chris Toshok  <toshok@ximian.com>
-
-	* Makefile.am (SUBDIRS): add wombat.
-
-2002-11-05  Chris Toshok  <toshok@ximian.com>
-
-	* configure.in: add wombat and addressbook compile flags, and add
-	wombat and some addressbook dirs to AC_OUTPUT.
-
-2002-11-05  Dan Winship  <danw@ximian.com>
-
-	* configure.in: change the commented-out soup check to refer to
-	the new soup 2.0 in the libsoup module
-
-2002-11-05  Rodrigo Moya <rodrigo@ximian.com>
-
-	* configure.in: use correct libgtkhtml-3.0 for calendar and added
-	generation of calendar GUI's directories.
-
-2002-11-05  Rodrigo Moya <rodrigo@ximian.com>
-
-	* configure.in: enabled libwombat.
-
-2002-11-04  Rodrigo Moya <rodrigo@ximian.com>
-
-	* configure.in:
-	* Makefile.am: added libversit directory to build.
-
-2002-11-04  Ettore Perazzoli  <ettore@ximian.com>
-
-	* Makefile.am (SUBDIRS): Add shell.
-
-2002-11-04  Rodrigo Moya <rodrigo@ximian.com>
-
-	* configure.in: added calendar/idl/Makefile to AC_OUTPUT
-
-2002-11-04  Ettore Perazzoli  <ettore@ximian.com>
-
-	* configure.in: Add an AM_GLIB_GNU_GETTEXT.
-
-2002-11-03  Rodrigo Moya <rodrigo@ximian.com>
-
-	* configure.in:
-	* Makefile.am: re-added calendar component (only non-UI stuff).
-
-	* data/Makefile.am: use intltools instead of xml-i18n-tools.
-
-2002-11-03  Ettore Perazzoli  <ettore@ximian.com>
-
-	* configure.in: AC_PROG_INTLTOOL instead of
-	AM_PROG_XML_I18N_TOOLS.
-
-2002-11-01  Ettore Perazzoli  <ettore@ximian.com>
-
-	* configure.in: Update to use Autoconf 2.53.  Remove checks for
-	scrollkeeper.  Remove intl/Makefile and macros/Makefile from
-	AC_OUTPUT list.  Set up GETTEXT_PACKAGE.  Removed
-	AM_ACLOCAL_INCLUDE(macros).  Added AM_PATH_ORBIT2.
-	(EVO_SET_COMPILE_FLAGS): Use PKG_CHECK_MODULES.
-	(IDL_INCLUDES): New, -I params to pass to $(ORBIT_IDL) when
-	compiling IDL files into stubs.
-
-	* autogen.sh: Changed to use gnome-autogen.sh.
-
-2002-10-30  Ettore Perazzoli  <ettore@ximian.com>
-
-	* configure.in: 1.1.90.99.
+	* configure.in: Version 1.1.90.99.
 
 == Version 1.1.90 (Release Candidate 1) ==
 

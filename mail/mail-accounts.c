@@ -27,9 +27,12 @@
 
 #include "mail-accounts.h"
 
+#include <libgnomeui/gnome-stock.h>
+#include <libgnomeui/gnome-messagebox.h>
 #include <gal/e-table/e-table-memory-store.h>
 #include <gal/e-table/e-table-scrolled.h>
 #include <gal/e-table/e-cell-toggle.h>
+#include <gal/util/e-unicode-i18n.h>
 #include <gal/widgets/e-unicode.h>
 #include <camel/camel-url.h>
 
@@ -47,7 +50,7 @@
 
 static void mail_accounts_tab_class_init (MailAccountsTabClass *class);
 static void mail_accounts_tab_init       (MailAccountsTab *prefs);
-static void mail_accounts_tab_finalise   (GObject *obj);
+static void mail_accounts_tab_finalise   (GtkObject *obj);
 
 static void mail_accounts_load (MailAccountsTab *tab);
 
@@ -60,23 +63,23 @@ static GtkVBoxClass *parent_class = NULL;
 #define PREFS_WINDOW(prefs) GTK_WINDOW (gtk_widget_get_ancestor (GTK_WIDGET (prefs), GTK_TYPE_WINDOW))
 
 
-GType
+GtkType
 mail_accounts_tab_get_type (void)
 {
-	static GType type = 0;
+	static GtkType type = 0;
 	
 	if (!type) {
-		GTypeInfo type_info = {
-			sizeof (MailAccountsTabClass),
-			NULL, NULL,
-			(GClassInitFunc) mail_accounts_tab_class_init,
-			NULL, NULL,
+		GtkTypeInfo type_info = {
+			"MailAccountsTab",
 			sizeof (MailAccountsTab),
-			0,
-			(GInstanceInitFunc) mail_accounts_tab_init,
+			sizeof (MailAccountsTabClass),
+			(GtkClassInitFunc) mail_accounts_tab_class_init,
+			(GtkObjectInitFunc) mail_accounts_tab_init,
+			(GtkArgSetFunc) NULL,
+			(GtkArgGetFunc) NULL
 		};
 		
-		type = g_type_register_static (gtk_vbox_get_type (), "MailAccountsTab", &type_info, 0);
+		type = gtk_type_unique (gtk_vbox_get_type (), &type_info);
 	}
 	
 	return type;
@@ -85,10 +88,10 @@ mail_accounts_tab_get_type (void)
 static void
 mail_accounts_tab_class_init (MailAccountsTabClass *klass)
 {
-	GObjectClass *object_class;
+	GtkObjectClass *object_class;
 	
-	object_class = (GObjectClass *) klass;
-	parent_class = g_type_class_ref(gtk_vbox_get_type ());
+	object_class = (GtkObjectClass *) klass;
+	parent_class = gtk_type_class (gtk_vbox_get_type ());
 	
 	object_class->finalize = mail_accounts_tab_finalise;
 	/* override methods */
@@ -109,30 +112,29 @@ mail_accounts_tab_init (MailAccountsTab *prefs)
 }
 
 static void
-mail_accounts_tab_finalise (GObject *obj)
+mail_accounts_tab_finalise (GtkObject *obj)
 {
 	MailAccountsTab *prefs = (MailAccountsTab *) obj;
 	
-	g_object_unref((prefs->gui));
+	gtk_object_unref (GTK_OBJECT (prefs->gui));
 	gdk_pixmap_unref (prefs->mark_pixmap);
-	g_object_unref (prefs->mark_bitmap);
+	gdk_bitmap_unref (prefs->mark_bitmap);
 	
-        ((GObjectClass *)(parent_class))->finalize (obj);
+        ((GtkObjectClass *)(parent_class))->finalize (obj);
 }
 
 static void
-account_add_finished (MailAccountsTab *prefs, GObject *deadbeef)
+account_add_finished (GtkWidget *widget, gpointer user_data)
 {
 	/* Either Cancel or Finished was clicked in the druid so reload the accounts */
+	MailAccountsTab *prefs = user_data;
+	
 	prefs->druid = NULL;
 	
-#warning "GTK_OBJECT_DESTROYED"
-#if 0	
 	if (!GTK_OBJECT_DESTROYED (prefs))
-#endif
 		mail_accounts_load (prefs);
 	
-	g_object_unref (prefs);
+	gtk_object_unref ((GtkObject *) prefs);
 }
 
 static void
@@ -142,28 +144,27 @@ account_add_clicked (GtkButton *button, gpointer user_data)
 	
 	if (prefs->druid == NULL) {
 		prefs->druid = (GtkWidget *) mail_config_druid_new (prefs->shell);
-		g_object_weak_ref ((GObject *) prefs->druid,
-				   (GWeakNotify) account_add_finished, prefs);
+		gtk_signal_connect (GTK_OBJECT (prefs->druid), "destroy",
+				    GTK_SIGNAL_FUNC (account_add_finished), prefs);
 		
 		gtk_widget_show (prefs->druid);
-		g_object_ref (prefs);
+		gtk_object_ref ((GtkObject *) prefs);
 	} else {
 		gdk_window_raise (prefs->druid->window);
 	}
 }
 
 static void
-account_edit_finished (MailAccountsTab *prefs, GObject *deadbeef)
+account_edit_finished (GtkWidget *widget, gpointer user_data)
 {
+	MailAccountsTab *prefs = user_data;
+	
 	prefs->editor = NULL;
 	
-#warning "GTK_OBJECT_DESTROYED"
-#if 0
 	if (!GTK_OBJECT_DESTROYED (prefs))
-#endif
 		mail_accounts_load (prefs);
 	
-	g_object_unref (prefs);
+	gtk_object_unref ((GtkObject *) prefs);
 }
 
 static void
@@ -190,9 +191,11 @@ account_edit_clicked (GtkButton *button, gpointer user_data)
 			account = gtk_clist_get_row_data (prefs->table, row);
 #endif
 			prefs->editor = (GtkWidget *) mail_account_editor_new (account, GTK_WINDOW (window), prefs);
-			g_object_weak_ref ((GObject *) prefs->editor, (GWeakNotify) account_edit_finished, prefs);
+			gtk_signal_connect (GTK_OBJECT (prefs->editor), "destroy",
+					    GTK_SIGNAL_FUNC (account_edit_finished),
+					    prefs);
 			gtk_widget_show (prefs->editor);
-			g_object_ref (prefs);
+			gtk_object_ref ((GtkObject *) prefs);
 		}
 	} else {
 		gdk_window_raise (prefs->editor->window);
@@ -204,8 +207,7 @@ account_delete_clicked (GtkButton *button, gpointer user_data)
 {
 	MailAccountsTab *prefs = user_data;
 	const MailConfigAccount *account;
-	GtkDialog *confirm;
-	GtkButton *tmp;
+	GnomeDialog *confirm;
 	const GSList *list;
 	int row, ans;
 	
@@ -218,22 +220,19 @@ account_delete_clicked (GtkButton *button, gpointer user_data)
 	/* make sure we have a valid account selected and that we aren't editing anything... */
 	if (row < 0 || prefs->editor != NULL)
 		return;
-
-	confirm = (GtkDialog *)gtk_message_dialog_new(PREFS_WINDOW (prefs),
-						      GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT,
-						      GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,
-						      _("Are you sure you want to delete this account?"));
-	tmp = (GtkButton *)gtk_button_new_from_stock(GTK_STOCK_YES);
-	gtk_button_set_label(tmp, _("Delete"));
-	gtk_dialog_add_action_widget(confirm, (GtkWidget *)tmp, GTK_RESPONSE_YES);
-	tmp = (GtkButton *)gtk_button_new_from_stock(GTK_STOCK_NO);
-	gtk_button_set_label(tmp, _("Don't delete"));
-	gtk_dialog_add_action_widget(confirm, (GtkWidget *)tmp, GTK_RESPONSE_NO);
-	ans = gtk_dialog_run(confirm);
-	gtk_widget_destroy((GtkWidget *)confirm);
-	g_object_unref(confirm);
-
-	if (ans == GTK_RESPONSE_YES) {
+	
+	confirm = GNOME_DIALOG (gnome_message_box_new (_("Are you sure you want to delete this account?"),
+						       GNOME_MESSAGE_BOX_QUESTION,
+						       NULL));
+	gnome_dialog_append_button_with_pixmap (confirm, _("Delete"), GNOME_STOCK_BUTTON_YES);
+	gnome_dialog_append_button_with_pixmap (confirm, _("Don't delete"), GNOME_STOCK_BUTTON_NO);
+	gtk_window_set_policy (GTK_WINDOW (confirm), TRUE, TRUE, TRUE);
+	gtk_window_set_modal (GTK_WINDOW (confirm), TRUE);
+	gtk_window_set_title (GTK_WINDOW (confirm), _("Really delete account?"));
+	gnome_dialog_set_parent (confirm, PREFS_WINDOW (prefs));
+	ans = gnome_dialog_run_and_close (confirm);
+	
+	if (ans == 0) {
 		int select, len;
 		
 #if USE_ETABLE
@@ -457,18 +456,20 @@ mail_accounts_load (MailAccountsTab *prefs)
 #else
 		{
 			const MailConfigAccount *default_account;
-			char *text[3];
+			char *str, *text[3];
 			
 			default_account = mail_config_get_default_account ();
 			
+			str = e_utf8_to_gtk_string (GTK_WIDGET (prefs->table), account->name);
+			
 			text[0] = NULL;
-			text[1] = g_strdup_printf ("%s%s%s", account->name,
-						   account == default_account ? " " : "",
+			text[1] = g_strdup_printf ("%s%s%s", str, account == default_account ? " " : "",
 						   account == default_account ? _("[Default]") : "");
 			text[2] = url && url->protocol ? url->protocol : (char *) _("None");
 			
 			gtk_clist_insert (prefs->table, row, text);
 			
+			g_free (str);
 			g_free (text[1]);
 			
 			if (account->source->enabled)
@@ -543,7 +544,7 @@ mail_accounts_etable_new (char *widget_name, char *string1, char *string2, int i
 	
 	gtk_container_add (GTK_CONTAINER (scrolled), table);
 	
-	g_object_set_data(G_OBJECT(scrolled), "table", table);
+	gtk_object_set_data (GTK_OBJECT (scrolled), "table", table);
 	
 	gtk_widget_show (scrolled);
 	gtk_widget_show (table);
@@ -558,7 +559,7 @@ mail_accounts_tab_construct (MailAccountsTab *prefs)
 	GtkWidget *toplevel, *widget;
 	GladeXML *gui;
 	
-	gui = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config.glade", "accounts_tab", NULL);
+	gui = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config.glade", "accounts_tab");
 	prefs->gui = gui;
 	
 	/* get our toplevel widget */
@@ -576,18 +577,19 @@ mail_accounts_tab_construct (MailAccountsTab *prefs)
 	prefs->table = e_table_scrolled_get_table (E_TABLE_SCROLLED (widget));
 	prefs->model = prefs->table->model;
 	
-	g_signal_connect((prefs->table), "cursor_change",
+	gtk_signal_connect (GTK_OBJECT (prefs->table), "cursor_change",
 			    account_cursor_change, prefs);
 	
-	g_signal_connect((prefs->table), "double_click",
+	gtk_signal_connect (GTK_OBJECT (prefs->table), "double_click",
 			    account_double_click, prefs);
 	
 	mail_accounts_load (prefs);
 #else
-	prefs->table = GTK_CLIST (g_object_get_data(G_OBJECT(widget), "table"));
+	prefs->table = GTK_CLIST (gtk_object_get_data (GTK_OBJECT (widget), "table"));
 	gtk_clist_set_column_justification (prefs->table, 0, GTK_JUSTIFY_RIGHT);
 	
-	g_signal_connect(prefs->table, "select-row", G_CALLBACK(account_cursor_change), prefs);
+	gtk_signal_connect (GTK_OBJECT (prefs->table), "select-row",
+			    account_cursor_change, prefs);
 	
 	mail_accounts_load (prefs);
 	
@@ -601,19 +603,24 @@ mail_accounts_tab_construct (MailAccountsTab *prefs)
 #endif
 	
 	prefs->mail_add = GTK_BUTTON (glade_xml_get_widget (gui, "cmdAccountAdd"));
-	g_signal_connect(prefs->mail_add, "clicked", G_CALLBACK(account_add_clicked), prefs);
-
+	gtk_signal_connect (GTK_OBJECT (prefs->mail_add), "clicked",
+			    account_add_clicked, prefs);
+	
 	prefs->mail_edit = GTK_BUTTON (glade_xml_get_widget (gui, "cmdAccountEdit"));
-	g_signal_connect(prefs->mail_edit, "clicked", G_CALLBACK(account_edit_clicked), prefs);
+	gtk_signal_connect (GTK_OBJECT (prefs->mail_edit), "clicked",
+			    account_edit_clicked, prefs);
 	
 	prefs->mail_delete = GTK_BUTTON (glade_xml_get_widget (gui, "cmdAccountDelete"));
-	g_signal_connect(prefs->mail_delete, "clicked", G_CALLBACK(account_delete_clicked), prefs);
+	gtk_signal_connect (GTK_OBJECT (prefs->mail_delete), "clicked",
+			    account_delete_clicked, prefs);
 	
 	prefs->mail_default = GTK_BUTTON (glade_xml_get_widget (gui, "cmdAccountDefault"));
-	g_signal_connect(prefs->mail_default, "clicked", G_CALLBACK(account_default_clicked), prefs);
+	gtk_signal_connect (GTK_OBJECT (prefs->mail_default), "clicked",
+			    account_default_clicked, prefs);
 	
 	prefs->mail_able = GTK_BUTTON (glade_xml_get_widget (gui, "cmdAccountAble"));
-	g_signal_connect(prefs->mail_able, "clicked", G_CALLBACK(account_able_clicked), prefs);
+	gtk_signal_connect (GTK_OBJECT (prefs->mail_able), "clicked",
+			    account_able_clicked, prefs);
 }
 
 
@@ -622,7 +629,7 @@ mail_accounts_tab_new (GNOME_Evolution_Shell shell)
 {
 	MailAccountsTab *new;
 	
-	new = (MailAccountsTab *) g_object_new (mail_accounts_tab_get_type (), NULL);
+	new = (MailAccountsTab *) gtk_type_new (mail_accounts_tab_get_type ());
 	mail_accounts_tab_construct (new);
 	new->shell = shell;
 	

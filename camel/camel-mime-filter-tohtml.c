@@ -28,34 +28,14 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
-#include <regex.h>
 
 #include "camel-mime-filter-tohtml.h"
 
 #define d(x)
 
-
-struct _UrlRegexPattern {
-	unsigned int mask;
-	char *pattern;
-	char *prefix;
-	regex_t *preg;
-	regmatch_t matches;
-};
-
-static struct _UrlRegexPattern patterns[] = {
-	{ CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS, "(news|nntp|telnet|file|ftp|http|https)://([-a-z0-9]+(:[-a-z0-9]+)?@)?[-a-z0-9.]+[-a-z0-9](:[0-9]*)?(/[-a-z0-9_$.+!*(),;:@%&=?/~#]*[^]'.}>\\) ,?!;:\"]?)?", "", NULL, { 0, 0 } },
-	{ CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS, "www\\.[-a-z0-9.]+[-a-z0-9](:[0-9]*)?(/[-A-Za-z0-9_$.+!*(),;:@%&=?/~#]*[^]'.}>\\) ,?!;:\"]?)?", "http://", NULL, { 0, 0 } },
-	{ CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS, "ftp\\.[-a-z0-9.]+[-a-z0-9](:[0-9]*)?(/[-A-Za-z0-9_$.+!*(),;:@%&=?/~#]*[^]'.}>\\) ,?!;:\"]?)?", "ftp://", NULL, { 0, 0 } },
-	{ CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES, "([-_a-z0-9.\\+]+@[-_a-z0-9.]+)", "mailto:", NULL, { 0, 0 } }
-};
-
-#define NUM_URL_REGEX_PATTERNS (sizeof (patterns) / sizeof (patterns[0]))
-
-
 static void camel_mime_filter_tohtml_class_init (CamelMimeFilterToHTMLClass *klass);
-static void camel_mime_filter_tohtml_init       (CamelMimeFilterToHTML *filter);
-static void camel_mime_filter_tohtml_finalize   (CamelObject *obj);
+static void camel_mime_filter_tohtml_init       (CamelObject *o);
+static void camel_mime_filter_tohtml_finalize   (CamelObject *o);
 
 static CamelMimeFilterClass *camel_mime_filter_tohtml_parent;
 
@@ -80,43 +60,15 @@ camel_mime_filter_tohtml_get_type (void)
 }
 
 static void
-camel_mime_filter_tohtml_finalize (CamelObject *obj)
+camel_mime_filter_tohtml_finalize (CamelObject *o)
 {
-	CamelMimeFilterToHTML *filter = (CamelMimeFilterToHTML *) obj;
-	int i;
-	
-	for (i = 0; i < NUM_URL_REGEX_PATTERNS; i++) {
-		if (filter->patterns[i].preg) {
-			regfree (filter->patterns[i].preg);
-			g_free (filter->patterns[i].preg);
-		}
-	}
-	
-	g_free (filter->patterns);
+	;
 }
 
 static void
-camel_mime_filter_tohtml_init (CamelMimeFilterToHTML *filter)
+camel_mime_filter_tohtml_init (CamelObject *o)
 {
-	int i;
-	
-	/* FIXME: use a global set of patterns instead? */
-	filter->patterns = g_malloc (sizeof (patterns));
-	memcpy (filter->patterns, patterns, sizeof (patterns));
-	
-	for (i = 0; i < NUM_URL_REGEX_PATTERNS; i++) {
-		filter->patterns[i].preg = g_malloc (sizeof (regex_t));
-		if (regcomp (filter->patterns[i].preg, patterns[i].pattern, REG_EXTENDED) == -1) {
-			/* error building the regex_t so we can't use this pattern */
-			filter->patterns[i].preg = NULL;
-			filter->patterns[i].mask = 0;
-		}
-	}
-	
-	filter->flags = 0;
-	filter->colour = 0;
-	filter->column = 0;
-	filter->pre_open = FALSE;
+	;
 }
 
 
@@ -137,94 +89,188 @@ check_size (CamelMimeFilter *filter, char *outptr, char **outend, size_t len)
 	return filter->outbuf + offset;
 }
 
-static int
-citation_depth (const char *in)
+
+static unsigned short special_chars[128] = {
+	  0,  0,  0,  0,  0,  0,  0,  0,  0,  7,  7,  0,  0,  0,  0,  0,
+	  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+	  7,  4,  3,  0,  0,  0,  0,  7,  3,  7,  0,  0,  7, 12, 12,  1,
+	  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  5,  7,  3,  0,  7,  4,
+	  1,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,
+	  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  3,  7,  3,  0,  4,
+	  7,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,
+	  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  0,  7,  4,  0,  0,
+};
+
+
+#define IS_NON_ADDR   (1 << 0)
+#define IS_NON_URL    (1 << 1)
+#define IS_GARBAGE    (1 << 2)
+#define IS_DOMAIN     (1 << 3)
+
+#define NON_EMAIL_CHARS         "()<>@,;:\\\"/[]`'|\n\t "
+#define NON_URL_CHARS           "()<>,;\\\"[]`'|\n\t "
+#define TRAILING_URL_GARBAGE    ",.!?;:>)}\\`'-_|\n\t "
+
+#define is_addr_char(c) ((unsigned char) (c) < 128 && !(special_chars[(unsigned char) (c)] & IS_NON_ADDR))
+#define is_url_char(c)  ((unsigned char) (c) < 128 && !(special_chars[(unsigned char) (c)] & IS_NON_URL))
+#define is_trailing_garbage(c) ((unsigned char) (c) > 127 || (special_chars[(unsigned char) (c)] & IS_GARBAGE))
+#define is_domain_name_char(c) ((unsigned char) (c) < 128 && (special_chars[(unsigned char) (c)] & IS_DOMAIN))
+
+
+#if 0
+static void
+table_init (void)
 {
-	register const char *inptr = in;
-	int depth = 1;
+	int max, ch, i;
+	char *c;
 	
-	if (*inptr++ != '>')
-		return 0;
+	memset (special_chars, 0, sizeof (special_chars));
+	for (c = NON_EMAIL_CHARS; *c; c++)
+		special_chars[(int) *c] |= IS_NON_ADDR;
+	for (c = NON_URL_CHARS; *c; c++)
+		special_chars[(int) *c] |= IS_NON_URL;
+	for (c = TRAILING_URL_GARBAGE; *c; c++)
+		special_chars[(int) *c] |= IS_GARBAGE;
 	
-	/* check that it isn't an escaped From line */
-	if (!strncmp (inptr, "From", 4))
-		return 0;
+#define is_ascii_alpha(c) (((c) >= 'A' && (c) <= 'Z') || ((c) >= 'a' && (c) <= 'z'))
 	
-	while (*inptr != '\n') {
-		if (*inptr == ' ')
-			inptr++;
-		
-		if (*inptr++ != '>')
-			break;
-		
-		depth++;
+	for (ch = 0; ch < 128; ch++) {
+		if (is_ascii_alpha (ch) || isdigit (ch) || ch == '.' || ch == '-')
+			special_chars[ch] |= IS_DOMAIN;
 	}
 	
-	return depth;
+	max = sizeof (special_chars) / sizeof (special_chars[0]);
+	printf ("static unsigned short special_chars[%d] = {", max);
+	for (i = 0; i < max; i++) {
+		if (i % 16 == 0)
+			printf ("\n\t");
+		printf ("%3d,", special_chars[i]);
+	}
+	printf ("\n};\n");
+}
+#endif
+
+static char *
+url_extract (char **in, int inlen, gboolean check, gboolean *backup)
+{
+	unsigned char *inptr, *inend, *p;
+	char *url;
+	
+	inptr = (unsigned char *) *in;
+	inend = inptr + inlen;
+	
+	while (inptr < inend && is_url_char (*inptr))
+		inptr++;
+	
+	if ((char *) inptr == *in)
+		return NULL;
+	
+	/* back up if we probably went too far. */
+	while (inptr > (unsigned char *) *in && is_trailing_garbage (*(inptr - 1)))
+		inptr--;
+	
+	if (check) {
+		/* make sure we weren't fooled. */
+		p = memchr (*in, ':', (char *) inptr - *in);
+		if (!p)
+			return NULL;
+	}
+	
+	if (inptr == inend && backup) {
+		*backup = TRUE;
+		return NULL;
+	}
+	
+	url = g_strndup (*in, (char *) inptr - *in);
+	*in = inptr;
+	
+	return url;
 }
 
 static char *
-writeln (CamelMimeFilter *filter, const char *in, const char *inend, char *outptr, char **outend)
+email_address_extract (char **in, char *inend, char *start, char **outptr, gboolean *backup)
 {
-	CamelMimeFilterToHTML *html = (CamelMimeFilterToHTML *) filter;
-	register const char *inptr = in;
+	char *addr, *pre, *end, *dot;
 	
-	while (inptr < inend) {
-		unsigned char u;
-		
-		outptr = check_size (filter, outptr, outend, 9);
-		
-		switch ((u = (unsigned char) *inptr++)) {
-		case '<':
-			outptr = g_stpcpy (outptr, "&lt;");
-			html->column++;
-			break;
-		case '>':
-			outptr = g_stpcpy (outptr, "&gt;");
-			html->column++;
-			break;
-		case '&':
-			outptr = g_stpcpy (outptr, "&amp;");
-			html->column++;
-			break;
-		case '"':
-			outptr = g_stpcpy (outptr, "&quot;");
-			html->column++;
-			break;
-		case '\t':
-			if (html->flags & (CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES)) {
-				do {
-					outptr = check_size (filter, outptr, outend, 7);
-					outptr = g_stpcpy (outptr, "&nbsp;");
-					html->column++;
-				} while (html->column % 8);
-				break;
-			}
-			/* otherwise, FALL THROUGH */
-		case ' ':
-			if (html->flags & CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES) {
-				if (inptr == (in + 1) || *inptr == ' ' || *inptr == '\t') {
-					outptr = g_stpcpy (outptr, "&nbsp;");
-					html->column++;
-					break;
-				}
-			}
-			/* otherwise, FALL THROUGH */
-		default:
-			if (!(u >= 0x20 && u < 0x80) && !(html->flags & CAMEL_MIME_FILTER_TOHTML_PRESERVE_8BIT)) {
-				if (html->flags & CAMEL_MIME_FILTER_TOHTML_ESCAPE_8BIT)
-					*outptr++ = '?';
-				else
-					outptr += g_snprintf (outptr, 9, "&#%d;", (int) u);
-			} else {
-				*outptr++ = (char) u;
-			}
-			html->column++;
-			break;
-		}
+	/* *in points to the '@'. Look backward for a valid local-part */
+	pre = *in;
+	while (pre - 1 >= start && is_addr_char (*(pre - 1)))
+		pre--;
+	
+	if (pre == *in)
+		return NULL;
+	
+	/* Now look forward for a valid domain part */
+	for (end = *in + 1, dot = NULL; end < inend && is_domain_name_char (*end); end++) {
+		if (*end == '.' && !dot)
+			dot = end;
 	}
 	
-	return outptr;
+	if (end >= inend && backup) {
+		*backup = TRUE;
+		*outptr -= (*in - pre);
+		*in = pre;
+		return NULL;
+	}
+	
+	if (!dot)
+		return NULL;
+	
+	/* Remove trailing garbage */
+	while (end > *in && is_trailing_garbage (*(end - 1)))
+		end--;
+	if (dot > end)
+		return NULL;
+	
+	addr = g_strndup (pre, end - pre);
+	*outptr -= (*in - pre);
+	*in = end;
+	
+	return addr;
+}
+
+static gboolean
+is_citation (char *inptr, char *inend, gboolean saw_citation, gboolean *backup)
+{
+	if (*inptr != '>')
+		return FALSE;
+	
+	if (inend - inptr >= 6) {
+		/* make sure this isn't just mbox From-magling... */
+		if (strncmp (inptr, ">From ", 6) != 0)
+			return TRUE;
+	} else if (backup) {
+		/* we don't have enough data to tell, so return */
+		*backup = TRUE;
+		return saw_citation;
+	}
+	
+	/* if the previous line was a citation, then say this one is too */
+	if (saw_citation)
+		return TRUE;
+	
+	/* otherwise it was just an isolated ">From " line */
+	return FALSE;
+}
+
+static gboolean
+is_protocol (char *inptr, char *inend, gboolean *backup)
+{
+	if (inend - inptr >= 8) {
+		if (!strncasecmp (inptr, "http://", 7) ||
+		    !strncasecmp (inptr, "https://", 8) ||
+		    !strncasecmp (inptr, "ftp://", 6) ||
+		    !strncasecmp (inptr, "nntp://", 7) ||
+		    !strncasecmp (inptr, "mailto:", 7) ||
+		    !strncasecmp (inptr, "news:", 5) ||
+		    !strncasecmp (inptr, "file:", 5))
+			return TRUE;
+	} else if (backup) {
+		*backup = TRUE;
+		return FALSE;
+	}
+	
+	return FALSE;
 }
 
 static void
@@ -232,166 +278,193 @@ html_convert (CamelMimeFilter *filter, char *in, size_t inlen, size_t prespace,
 	      char **out, size_t *outlen, size_t *outprespace, gboolean flush)
 {
 	CamelMimeFilterToHTML *html = (CamelMimeFilterToHTML *) filter;
-	register char *inptr, *outptr;
-	char *start, *outend;
-	const char *inend;
-	int depth;
+	char *inptr, *inend, *outptr, *outend, *start;
+	gboolean backup = FALSE;
 	
 	camel_mime_filter_set_size (filter, inlen * 2 + 6, FALSE);
 	
-	inptr = in;
+	inptr = start = in;
 	inend = in + inlen;
 	outptr = filter->outbuf;
 	outend = filter->outbuf + filter->outsize;
 	
 	if (html->flags & CAMEL_MIME_FILTER_TOHTML_PRE && !html->pre_open) {
-		outptr = g_stpcpy (outptr, "<pre>");
+		outptr += sprintf (outptr, "%s", "<pre>");
 		html->pre_open = TRUE;
 	}
 	
-	start = inptr;
-	while (inptr < inend && *inptr != '\n')
-		inptr++;
-	
 	while (inptr < inend) {
-		html->column = 0;
-		depth = 0;
+		unsigned char u;
 		
-		if (html->flags & CAMEL_MIME_FILTER_TOHTML_MARK_CITATION) {
-			if ((depth = citation_depth (start)) > 0) {
-				char font[25];
-				
-				/* FIXME: we could easily support multiple colour depths here */
-				
-				g_snprintf (font, 25, "<font color=\"#%06x\">", html->colour);
-				
-				outptr = check_size (filter, outptr, &outend, 25);
-				outptr = g_stpcpy (outptr, font);
-			} else if (*start == '>') {
-				/* >From line */
-				start++;
+		if (html->flags & CAMEL_MIME_FILTER_TOHTML_MARK_CITATION && html->column == 0) {
+			html->saw_citation = is_citation (inptr, inend, html->saw_citation,
+							  flush ? &backup : NULL);
+			if (backup)
+				break;
+			
+			if (html->saw_citation) {
+				if (!html->coloured) {
+					char font[25];
+					
+					g_snprintf (font, 25, "<font color=\"#%06x\">", html->colour);
+					
+					outptr = check_size (filter, outptr, &outend, 25);
+					outptr += sprintf (outptr, "%s", font);
+					html->coloured = TRUE;
+				}
+			} else if (html->coloured) {
+				outptr = check_size (filter, outptr, &outend, 10);
+				outptr += sprintf (outptr, "%s", "</font>");
+				html->coloured = FALSE;
 			}
-		} else if (html->flags & CAMEL_MIME_FILTER_TOHTML_CITE) {
+			
+			/* display mbox-mangled ">From " as "From " */
+			if (*inptr == '>' && !html->saw_citation)
+				inptr++;
+		} else if (html->flags & CAMEL_MIME_FILTER_TOHTML_CITE && html->column == 0) {
 			outptr = check_size (filter, outptr, &outend, 6);
-			outptr = g_stpcpy (outptr, "&gt; ");
-			html->column += 2;
+			outptr += sprintf (outptr, "%s", "&gt; ");
 		}
 		
-#define CONVERT_URLS (CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS | CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES)
-		if (html->flags & CONVERT_URLS) {
-			struct _UrlRegexPattern *fmatch, *pat;
-			size_t matchlen, len;
-			regoff_t offset;
-			char *linebuf;
-			char save;
-			int i;
+		if (html->flags & CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS && isalpha ((int) *inptr)) {
+			char *refurl = NULL, *dispurl = NULL;
 			
-			len = inptr - start;
-			linebuf = g_malloc (len + 1);
-			memcpy (linebuf, start, len);
-			linebuf[len] = '\0';
-			
-			start = linebuf;
-			save = '\0';
-			
-			do {
-				/* search for all of our patterns */
-				offset = 0;
-				fmatch = NULL;
-				for (i = 0; i < NUM_URL_REGEX_PATTERNS; i++) {
-					pat = html->patterns + i;
-					if ((html->flags & pat->mask) &&
-					    !regexec (pat->preg, start, 1, &pat->matches, 0)) {
-						if (pat->matches.rm_so < offset) {
-							*(start + offset) = save;
-							fmatch = NULL;
-						}
-						
-						if (!fmatch) {
-							fmatch = pat;
-							offset = pat->matches.rm_so;
-							
-							/* optimisation so we don't have to search the
-							   entire line buffer for the next pattern */
-							save = *(start + offset);
-							*(start + offset) = '\0';
-						}
-					}
-				}
+			if (is_protocol (inptr, inend, flush ? &backup : NULL)) {
+				dispurl = url_extract (&inptr, inend - inptr, TRUE,
+						       flush ? &backup : NULL);
+				if (backup)
+					break;
 				
-				if (fmatch) {
-					/* restore our char */
-					*(start + offset) = save;
+				if (dispurl)
+					refurl = g_strdup (dispurl);
+			} else {
+				if (backup)
+					break;
+				
+				if (!strncasecmp (inptr, "www.", 4) && ((unsigned char) inptr[4]) < 0x80
+				    && isalnum ((int) inptr[4])) {
+					dispurl = url_extract (&inptr, inend - inptr, FALSE,
+							      flush ? &backup : NULL);
+					if (backup)
+						break;
 					
-					/* write out anything before the first regex match */
-					outptr = writeln (filter, start, start + offset, outptr, &outend);
-					start += offset;
-					len -= offset;
-					
-#define MATCHLEN(matches) (matches.rm_eo - matches.rm_so)
-					matchlen = MATCHLEN (fmatch->matches);
-					
-					i = 20 + strlen (fmatch->prefix) + matchlen + matchlen;
-					outptr = check_size (filter, outptr, &outend, i);
-					
-					/* write out the href tag */
-					outptr = g_stpcpy (outptr, "<a href=\"");
-					outptr = g_stpcpy (outptr, fmatch->prefix);
-					memcpy (outptr, start, matchlen);
-					outptr += matchlen;
-					outptr = g_stpcpy (outptr, "\">");
-					
-					/* now write the matched string */
-					memcpy (outptr, start, matchlen);
-					html->column += matchlen;
-					outptr += matchlen;
-					start += matchlen;
-					len -= matchlen;
-					
-					/* close the href tag */
-					outptr = g_stpcpy (outptr, "</a>");
-				} else {
-					/* nothing matched so write out the remainder of this line buffer */
-					outptr = writeln (filter, start, start + len, outptr, &outend);
+					if (dispurl)
+						refurl = g_strdup_printf ("http://%s", dispurl);
+				}
+			}
+			
+			if (dispurl) {
+				outptr = check_size (filter, outptr, &outend,
+						     strlen (refurl) +
+						     strlen (dispurl) + 15);
+				outptr += sprintf (outptr, "<a href=\"%s\">%s</a>",
+						   refurl, dispurl);
+				html->column += strlen (dispurl);
+				g_free (refurl);
+				g_free (dispurl);
+			}
+			
+			if (inptr >= inend)
+				break;
+		}
+		
+		if (*inptr == '@' && (html->flags & CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES)) {
+			char *addr, *outaddr;
+			
+			addr = email_address_extract (&inptr, inend, start, &outptr,
+						      flush ? &backup : NULL);
+			if (backup)
+				break;
+			
+			if (addr) {
+				outaddr = g_strdup_printf ("<a href=\"mailto:%s\">%s</a>",
+							   addr, addr);
+				outptr = check_size (filter, outptr, &outend, strlen (outaddr));
+				outptr += sprintf (outptr, "%s", outaddr);
+				html->column += strlen (addr);
+				g_free (addr);
+				g_free (outaddr);
+			}
+		}
+		
+		outptr = check_size (filter, outptr, &outend, 32);
+		
+		switch ((u = (unsigned char) *inptr++)) {
+		case '<':
+			outptr += sprintf (outptr, "%s", "&lt;");
+			html->column++;
+			break;
+			
+		case '>':
+			outptr += sprintf (outptr, "%s", "&gt;");
+			html->column++;
+			break;
+			
+		case '&':
+			outptr += sprintf (outptr, "%s", "&amp;");
+			html->column++;
+			break;
+			
+		case '"':
+			outptr += sprintf (outptr, "%s", "&quot;");
+			html->column++;
+			break;
+			
+		case '\n':
+			if (html->flags & CAMEL_MIME_FILTER_TOHTML_CONVERT_NL)
+				outptr += sprintf (outptr, "%s", "<br>");
+			
+			*outptr++ = '\n';
+			start = inptr;
+			html->column = 0;
+			break;
+			
+		case '\t':
+			if (html->flags & (CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES)) {
+				do {
+					outptr = check_size (filter, outptr, &outend, 7);
+					outptr += sprintf (outptr, "%s", "&nbsp;");
+					html->column++;
+				} while (html->column % 8);
+				break;
+			}
+			/* otherwise, FALL THROUGH */
+			
+		case ' ':
+			if (html->flags & CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES) {
+				if (inptr == in || (inptr < inend && (*(inptr + 1) == ' ' ||
+								      *(inptr + 1) == '\t' ||
+								      *(inptr - 1) == '\n'))) {
+					outptr += sprintf (outptr, "%s", "&nbsp;");
+					html->column++;
 					break;
 				}
-			} while (len > 0);
+			}
+			/* otherwise, FALL THROUGH */
 			
-			g_free (linebuf);
-		} else {
-			outptr = writeln (filter, start, inptr, outptr, &outend);
+		default:
+			if ((u >= 0x20 && u < 0x80) ||
+			    (u == '\r' || u == '\t') || html->flags & CAMEL_MIME_FILTER_TOHTML_PRESERVE_8BIT) {
+				/* Default case, just copy. */
+				*outptr++ = (char) u;
+			} else {
+				if (html->flags & CAMEL_MIME_FILTER_TOHTML_ESCAPE_8BIT)
+					*outptr++ = '?';
+				else
+					outptr += g_snprintf (outptr, 9, "&#%d;", (int) u);
+			}
+			html->column++;
+			break;
 		}
-		
-		if ((html->flags & CAMEL_MIME_FILTER_TOHTML_MARK_CITATION) && depth > 0) {
-			outptr = check_size (filter, outptr, &outend, 8);
-			outptr = g_stpcpy (outptr, "</font>");
-		}
-		
-		if (html->flags & CAMEL_MIME_FILTER_TOHTML_CONVERT_NL) {
-			outptr = check_size (filter, outptr, &outend, 5);
-			outptr = g_stpcpy (outptr, "<br>");
-		}
-		
-		*outptr++ = '\n';
-		
-		start = ++inptr;
-		while (inptr < inend && *inptr != '\n')
-			inptr++;
 	}
 	
-	if (flush) {
-		/* flush the rest of our input buffer */
-		if (start < inend)
-			outptr = writeln (filter, start, inend, outptr, &outend);
-		
-		if (html->pre_open) {
-			/* close the pre-tag */
-			outptr = check_size (filter, outptr, &outend, 10);
-			outptr = g_stpcpy (outptr, "</pre>");
-		}
-	} else if (start < inend) {
-		/* backup */
-		camel_mime_filter_backup (filter, start, (unsigned) (inend - start));
+	if (inptr < inend)
+		camel_mime_filter_backup (filter, inptr, inend - inptr);
+	
+	if (flush && html->pre_open) {
+		outptr = check_size (filter, outptr, &outend, 10);
+		outptr += sprintf (outptr, "%s", "</pre>");
+		html->pre_open = FALSE;
 	}
 	
 	*out = filter->outbuf;
@@ -420,6 +493,8 @@ filter_reset (CamelMimeFilter *filter)
 	
 	html->column = 0;
 	html->pre_open = FALSE;
+	html->saw_citation = FALSE;
+	html->coloured = FALSE;
 }
 
 static void

@@ -26,11 +26,15 @@
 
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-object.h>
+#include <bonobo/bonobo-object-client.h>
 #include <bonobo/bonobo-moniker-util.h>
+#include <bonobo-conf/bonobo-config-database.h>
+#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <gtk/gtkwidget.h>
 #include <gal/widgets/e-gui-utils.h>
 #include <gal/widgets/e-unicode.h>
+#include <gal/util/e-unicode-i18n.h>
 #include <gal/util/e-util.h>
 #include <ical.h>
 #include <Evolution-Composer.h>
@@ -340,7 +344,7 @@ comp_from (CalComponentItipMethod method, CalComponent *comp)
 	case CAL_COMPONENT_METHOD_ADD:
 		cal_component_get_organizer (comp, &organizer);
 		if (organizer.value == NULL) {
-			e_notice (NULL, GTK_MESSAGE_ERROR,
+			e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
 				  _("An organizer must be set."));
 			return NULL;
 		}
@@ -375,7 +379,7 @@ comp_to_list (CalComponentItipMethod method, CalComponent *comp, GList *users)
 		cal_component_get_attendee_list (comp, &attendees);
 		len = g_slist_length (attendees);
 		if (len <= 0) {
-			e_notice (NULL, GTK_MESSAGE_ERROR,
+			e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
 				  _("At least one attendee is necessary"));
 			cal_component_free_attendee_list (attendees);
 			return NULL;
@@ -411,7 +415,7 @@ comp_to_list (CalComponentItipMethod method, CalComponent *comp, GList *users)
 	case CAL_COMPONENT_METHOD_DECLINECOUNTER:
 		cal_component_get_organizer (comp, &organizer);
 		if (organizer.value == NULL) {
-			e_notice (NULL, GTK_MESSAGE_ERROR,
+			e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
 				  _("An organizer must be set."));
 			return NULL;
 		}
@@ -455,15 +459,15 @@ comp_subject (CalComponentItipMethod method, CalComponent *comp)
 	else {
 		switch (cal_component_get_vtype (comp)) {
 		case CAL_COMPONENT_EVENT:
-			description = _("Event information");
+			description = U_("Event information");
 		case CAL_COMPONENT_TODO:
-			description = _("Task information");
+			description = U_("Task information");
 		case CAL_COMPONENT_JOURNAL:
-			description = _("Journal information");
+			description = U_("Journal information");
 		case CAL_COMPONENT_FREEBUSY:
-			description = _("Free/Busy information");
+			description = U_("Free/Busy information");
 		default:
-			description = _("Calendar information");
+			description = U_("Calendar information");
 		}
 	}
 
@@ -483,13 +487,13 @@ comp_subject (CalComponentItipMethod method, CalComponent *comp)
 
 			switch (a->status) {
 			case ICAL_PARTSTAT_ACCEPTED:
-				prefix = _("Accepted");
+				prefix = U_("Accepted");
 				break;
 			case ICAL_PARTSTAT_TENTATIVE:
-				prefix = _("Tentatively Accepted");
+				prefix = U_("Tentatively Accepted");
 				break;
 			case ICAL_PARTSTAT_DECLINED:
-				prefix = _("Declined");
+				prefix = U_("Declined");
 				break;
 			default:
 				break;
@@ -499,23 +503,23 @@ comp_subject (CalComponentItipMethod method, CalComponent *comp)
 		break;
 
 	case CAL_COMPONENT_METHOD_ADD:
-		prefix = _("Updated");
+		prefix = U_("Updated");
 		break;
 
 	case CAL_COMPONENT_METHOD_CANCEL:
-		prefix = _("Cancel");
+		prefix = U_("Cancel");
 		break;
 
 	case CAL_COMPONENT_METHOD_REFRESH:
-		prefix = _("Refresh");
+		prefix = U_("Refresh");
 		break;
 
 	case CAL_COMPONENT_METHOD_COUNTER:
-		prefix = _("Counter-proposal");
+		prefix = U_("Counter-proposal");
 		break;
 
 	case CAL_COMPONENT_METHOD_DECLINECOUNTER:
-		prefix = _("Declined");
+		prefix = U_("Declined");
 		break;
 
 	default:
@@ -564,19 +568,22 @@ comp_description (CalComponent *comp)
 
         switch (cal_component_get_vtype (comp)) {
         case CAL_COMPONENT_EVENT:
-                return CORBA_string_dup (_("Event information"));
+                return CORBA_string_dup (U_("Event information"));
         case CAL_COMPONENT_TODO:
-                return CORBA_string_dup (_("Task information"));
+                return CORBA_string_dup (U_("Task information"));
         case CAL_COMPONENT_JOURNAL:
-                return CORBA_string_dup (_("Journal information"));
+                return CORBA_string_dup (U_("Journal information"));
         case CAL_COMPONENT_FREEBUSY:
                 cal_component_get_dtstart (comp, &dt);
-                if (dt.value) {
+                if (dt.value)
                         start = get_label (dt.value);
-                        cal_component_get_dtend (comp, &dt);
-                        if (dt.value)
-                                end = get_label (dt.value);
-                }
+		cal_component_free_datetime (&dt);
+
+		cal_component_get_dtend (comp, &dt);
+		if (dt.value)
+			end = get_label (dt.value);
+		cal_component_free_datetime (&dt);
+
                 if (start != NULL && end != NULL) {
                         char *tmp, *tmp_utf;
                         tmp = g_strdup_printf (_("Free/Busy information (%s to %s)"), start, end);
@@ -585,13 +592,13 @@ comp_description (CalComponent *comp)
                         g_free (tmp_utf);
                         g_free (tmp);
                 } else {
-                        description = CORBA_string_dup (_("Free/Busy information"));
+                        description = CORBA_string_dup (U_("Free/Busy information"));
                 }
                 g_free (start);
                 g_free (end);
                 return description;
         default:
-                return CORBA_string_dup (_("iCalendar information"));
+                return CORBA_string_dup (U_("iCalendar information"));
         }
 }
 
@@ -617,7 +624,7 @@ comp_server_send (CalComponentItipMethod method, CalComponent *comp, CalClient *
 		
 		retval = TRUE;
 	} else if (result == CAL_CLIENT_SEND_BUSY) {
-		e_notice (NULL, GTK_MESSAGE_ERROR, error_msg);
+		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR, error_msg);
 
 		retval = FALSE;
 	}
@@ -748,7 +755,7 @@ comp_minimal (CalComponent *comp, gboolean attendee)
 		cal_component_set_attendee_list (clone, attendees);
 
 		if (!comp_limit_attendees (clone)) {
-			e_notice (NULL, GTK_MESSAGE_ERROR,
+			e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
 				  _("You must be an attendee of the event."));
 			goto error;
 		}
@@ -799,7 +806,7 @@ comp_minimal (CalComponent *comp, gboolean attendee)
 	return clone;
 
  error:
-	g_object_unref (clone);
+	gtk_object_unref (GTK_OBJECT (clone));
 	return NULL;
 }
 
@@ -884,7 +891,7 @@ comp_compliant (CalComponentItipMethod method, CalComponent *comp, CalClient *cl
 	case CAL_COMPONENT_METHOD_REFRESH:
 		/* Need to remove almost everything */
 		temp_clone = comp_minimal (clone, TRUE);
-		g_object_unref (clone);
+		gtk_object_unref (GTK_OBJECT (clone));
 		clone = temp_clone;
 		break;
 	case CAL_COMPONENT_METHOD_COUNTER:
@@ -892,7 +899,7 @@ comp_compliant (CalComponentItipMethod method, CalComponent *comp, CalClient *cl
 	case CAL_COMPONENT_METHOD_DECLINECOUNTER:
 		/* Need to remove almost everything */
 		temp_clone = comp_minimal (clone, FALSE);
-		g_object_unref (clone);
+		gtk_object_unref (GTK_OBJECT (clone));
 		clone = temp_clone;
 		break;
 	default:
@@ -906,7 +913,7 @@ gboolean
 itip_send_comp (CalComponentItipMethod method, CalComponent *send_comp,
 		CalClient *client, icalcomponent *zones)
 {
-	BonoboObject *bonobo_server;
+	BonoboObjectClient *bonobo_server;
 	GNOME_Evolution_Composer composer_server;
 	CalComponent *comp = NULL;
 	icalcomponent *top_level = NULL;
@@ -924,7 +931,7 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *send_comp,
 	CORBA_exception_init (&ev);
 
 	/* Obtain an object reference for the Composer. */
-	bonobo_server = bonobo_activation_activate_from_id (GNOME_EVOLUTION_COMPOSER_OAFIID, 0, NULL, &ev);
+	bonobo_server = bonobo_object_activate (GNOME_EVOLUTION_COMPOSER_OAFIID, 0);
 	g_return_val_if_fail (bonobo_server != NULL, FALSE);
 	composer_server = BONOBO_OBJREF (bonobo_server);
 	
@@ -1027,7 +1034,7 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *send_comp,
 	CORBA_exception_free (&ev);
 
 	if (comp != NULL)
-		g_object_unref (comp);
+		gtk_object_unref (GTK_OBJECT (comp));
 	if (top_level != NULL)
 		icalcomponent_free (top_level);
 
@@ -1050,8 +1057,10 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *send_comp,
 		CORBA_free (filename);
 	if (description != NULL)
 		CORBA_free (description);
-	if (attach_data != NULL)
+	if (attach_data != NULL) {
+		CORBA_free (attach_data->_buffer);
 		CORBA_free (attach_data);
+	}
 
 	return retval;
 }

@@ -31,9 +31,10 @@
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtkvbox.h>
 #include <gtk/gtkwindow.h>
+#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
-#include <libgnomeui/gnome-stock-icons.h>
+#include <libgnomeui/gnome-stock.h>
 #include <gal/e-table/e-cell-combo.h>
 #include <gal/e-table/e-cell-text.h>
 #include <gal/e-table/e-table-simple.h>
@@ -163,7 +164,7 @@ meeting_page_class_init (MeetingPageClass *class)
 	editor_page_class = (CompEditorPageClass *) class;
 	object_class = (GtkObjectClass *) class;
 
-	parent_class = g_type_class_ref(TYPE_COMP_EDITOR_PAGE);
+	parent_class = gtk_type_class (TYPE_COMP_EDITOR_PAGE);
 
 	editor_page_class->get_widget = meeting_page_get_widget;
 	editor_page_class->focus_main_widget = meeting_page_focus_main_widget;
@@ -230,7 +231,7 @@ cleanup_attendees (GPtrArray *attendees)
 	int i;
 	
 	for (i = 0; i < attendees->len; i++)
-		g_object_unref((g_ptr_array_index (attendees, i)));
+		gtk_object_unref (GTK_OBJECT (g_ptr_array_index (attendees, i)));
 }
 
 /* Destroy handler for the task page */
@@ -247,17 +248,17 @@ meeting_page_destroy (GtkObject *object)
 	priv = mpage->priv;
 
 	if (priv->comp != NULL)
-		g_object_unref((priv->comp));
+		gtk_object_unref (GTK_OBJECT (priv->comp));
 	
 	cleanup_attendees (priv->deleted_attendees);
-	g_ptr_array_free (priv->deleted_attendees, FALSE);
+	g_ptr_array_free (priv->deleted_attendees, TRUE);
 	
 	itip_addresses_free (priv->addresses);
 
-	g_object_unref((priv->model));
+	gtk_object_unref (GTK_OBJECT (priv->model));
 	
 	if (priv->xml) {
-		g_object_unref((priv->xml));
+		gtk_object_unref (GTK_OBJECT (priv->xml));
 		priv->xml = NULL;
 	}
 
@@ -328,7 +329,7 @@ meeting_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	
 	/* Clean out old data */
 	if (priv->comp != NULL)
-		g_object_unref((priv->comp));
+		gtk_object_unref (GTK_OBJECT (priv->comp));
 	priv->comp = NULL;
 	
 	cleanup_attendees (priv->deleted_attendees);
@@ -409,7 +410,7 @@ meeting_page_fill_component (CompEditorPage *page, CalComponent *comp)
 		
 		/* Sanity Check */
 		if (addr == NULL || strlen (addr) == 0) {
-			e_notice (NULL, GTK_MESSAGE_ERROR,
+			e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
 				  _("An organizer is required."));
 			g_free (addr);
 			g_free (cn);
@@ -433,7 +434,7 @@ meeting_page_fill_component (CompEditorPage *page, CalComponent *comp)
 	}
 
 	if (e_meeting_model_count_actual_attendees (priv->model) < 1) {
-		e_notice (NULL, GTK_MESSAGE_ERROR,
+		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
 			  _("At least one attendee is required."));
 		return FALSE;
 	}
@@ -551,15 +552,15 @@ init_widgets (MeetingPage *mpage)
 	priv = mpage->priv;
 
 	/* Organizer */
-	g_signal_connect((GTK_COMBO (priv->organizer)->entry), "changed",
-			    G_CALLBACK (field_changed_cb), mpage);
+	gtk_signal_connect (GTK_OBJECT (GTK_COMBO (priv->organizer)->entry), "changed",
+			    GTK_SIGNAL_FUNC (field_changed_cb), mpage);
 
-	g_signal_connect((priv->existing_organizer_btn), "clicked",
-			    G_CALLBACK (change_clicked_cb), mpage);
+	gtk_signal_connect (GTK_OBJECT (priv->existing_organizer_btn), "clicked",
+			    GTK_SIGNAL_FUNC (change_clicked_cb), mpage);
 
 	/* Invite button */
-	g_signal_connect((priv->invite), "clicked", 
-			    G_CALLBACK (invite_cb), mpage);
+	gtk_signal_connect (GTK_OBJECT (priv->invite), "clicked", 
+			    GTK_SIGNAL_FUNC (invite_cb), mpage);
 }
 
 #if 0
@@ -589,7 +590,7 @@ popup_delegate_cb (GtkWidget *widget, gpointer data)
 
 		/* Make sure we can add the new delegatee person */
 		if (e_meeting_model_find_attendee (priv->model, address, NULL) != NULL) {
-			e_notice (NULL, GTK_MESSAGE_ERROR,
+			e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
 				  _("That person is already attending the meeting!"));
 			goto cleanup;
 		}
@@ -600,7 +601,7 @@ popup_delegate_cb (GtkWidget *widget, gpointer data)
 			
 			ib = e_meeting_model_find_attendee (priv->model, itip_strip_mailto (e_meeting_attendee_get_delto (ia)), NULL);
 			if (ib != NULL) {
-				g_object_ref((ib));
+				gtk_object_ref (GTK_OBJECT (ib));
 				g_ptr_array_add (priv->deleted_attendees, ib);
 				
 				e_meeting_model_remove_attendee (priv->model, ib);
@@ -619,7 +620,7 @@ popup_delegate_cb (GtkWidget *widget, gpointer data)
  cleanup:
 	g_free (name);
 	g_free (address);
-	g_object_unref((edd));
+	gtk_object_unref (GTK_OBJECT (edd));
 }
 #endif
 
@@ -648,7 +649,7 @@ popup_delete_cb (GtkWidget *widget, gpointer data)
 	while (ia != NULL) {
 		EMeetingAttendee *ib = NULL;
 
-		g_object_ref((ia));
+		gtk_object_ref (GTK_OBJECT (ia));
 		g_ptr_array_add (priv->deleted_attendees, ia);
 		e_meeting_model_remove_attendee (priv->model, ia);
 
@@ -665,12 +666,12 @@ enum {
 
 static EPopupMenu context_menu[] = {
 #if 0
-	E_POPUP_ITEM (N_("_Delegate To..."), G_CALLBACK (popup_delegate_cb),  CAN_DELEGATE),
+	E_POPUP_ITEM (N_("_Delegate To..."), GTK_SIGNAL_FUNC (popup_delegate_cb),  CAN_DELEGATE),
 
 	E_POPUP_SEPARATOR,
 #endif
 
-	E_POPUP_ITEM (N_("_Delete"), G_CALLBACK (popup_delete_cb),   CAN_DELETE),
+	E_POPUP_ITEM (N_("_Delete"), GTK_SIGNAL_FUNC (popup_delete_cb),   CAN_DELETE),
 	
 	E_POPUP_TERMINATOR
 };
@@ -690,10 +691,8 @@ right_click_cb (ETable *etable, gint row, gint col, GdkEvent *event, gpointer da
 	priv->row = e_meeting_model_etable_view_to_model_row (etable, priv->model, view_row);
 	
 	/* FIXME: if you enable Delegate, then change index to '1' */
-#if 0
 	context_menu[0].pixmap_widget = gnome_stock_new_with_icon (GNOME_STOCK_MENU_TRASH);
-#endif
-
+	
 	menu = e_popup_menu_create (context_menu, enable_mask, hide_mask, data);
 	e_auto_kill_popup_menu_on_hide (menu);
 	
@@ -746,7 +745,7 @@ meeting_page_construct (MeetingPage *mpage, EMeetingModel *emm,
 	priv = mpage->priv;
 
 	priv->xml = glade_xml_new (EVOLUTION_GLADEDIR 
-				   "/meeting-page.glade", NULL, NULL);
+				   "/meeting-page.glade", NULL);
 	if (!priv->xml) {
 		g_message ("meeting_page_construct(): "
 			   "Could not load the Glade XML file!");
@@ -780,7 +779,7 @@ meeting_page_construct (MeetingPage *mpage, EMeetingModel *emm,
 	}
 	
 	/* The etable displaying attendees and their status */
-	g_object_ref((emm));
+	gtk_object_ref (GTK_OBJECT (emm));
 	priv->model = emm;
 
 	filename = g_strdup_printf ("%s/config/et-header-meeting-page", evolution_dir);
@@ -790,11 +789,11 @@ meeting_page_construct (MeetingPage *mpage, EMeetingModel *emm,
 	g_free (filename);
 
 	real_table = e_table_scrolled_get_table (priv->etable);
-	g_signal_connect((real_table),
-			    "right_click", G_CALLBACK (right_click_cb), mpage);
+	gtk_signal_connect (GTK_OBJECT (real_table),
+			    "right_click", GTK_SIGNAL_FUNC (right_click_cb), mpage);
 
-	g_signal_connect((real_table->table_canvas), "focus_out_event",
-			    G_CALLBACK (table_canvas_focus_out_cb), mpage);
+	gtk_signal_connect (GTK_OBJECT (real_table->table_canvas), "focus_out_event",
+			    GTK_SIGNAL_FUNC (table_canvas_focus_out_cb), mpage);
 
 	gtk_widget_show (GTK_WIDGET (priv->etable));
 	gtk_box_pack_start (GTK_BOX (priv->main), GTK_WIDGET (priv->etable), TRUE, TRUE, 2);
@@ -820,7 +819,7 @@ meeting_page_new (EMeetingModel *emm, CalClient *client)
 
 	mpage = gtk_type_new (TYPE_MEETING_PAGE);
 	if (!meeting_page_construct (mpage, emm, client)) {
-		g_object_unref((mpage));
+		gtk_object_unref (GTK_OBJECT (mpage));
 		return NULL;
 	}
 

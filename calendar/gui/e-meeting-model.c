@@ -25,9 +25,11 @@
 #endif
 
 #include <glib.h>
+#include <liboaf/liboaf.h>
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-widget.h>
 #include <bonobo/bonobo-exception.h>
+#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
 #include <libgnomevfs/gnome-vfs.h>
@@ -35,6 +37,7 @@
 #include <gal/e-table/e-cell-text.h>
 #include <gal/e-table/e-cell-popup.h>
 #include <gal/e-table/e-cell-combo.h>
+#include <gal/util/e-unicode-i18n.h>
 #include <ebook/e-book.h>
 #include <ebook/e-card-types.h>
 #include <ebook/e-card-cursor.h>
@@ -406,6 +409,7 @@ append_row (ETableModel *etm, ETableModel *source, int row)
 	e_meeting_attendee_set_language (ia, g_strdup (e_table_model_value_at (source, E_MEETING_MODEL_LANGUAGE_COL, row)));
 
 	e_meeting_model_add_attendee (E_MEETING_MODEL (etm), ia);
+	gtk_object_unref (GTK_OBJECT (ia));
 }
 
 static void *
@@ -717,7 +721,7 @@ destroy (GtkObject *obj)
 	priv = im->priv;
 
 	for (i = 0; i < priv->attendees->len; i++)
-		g_object_unref (g_ptr_array_index (priv->attendees, i));
+		gtk_object_unref (GTK_OBJECT (g_ptr_array_index (priv->attendees, i)));
 	g_ptr_array_free (priv->attendees, TRUE); 
 
 	for (l = priv->tables; l != NULL; l = l->next)
@@ -725,10 +729,10 @@ destroy (GtkObject *obj)
 	g_list_free (priv->tables);
 	
 	if (priv->client != NULL)
-		g_object_unref (priv->client);
+		gtk_object_unref (GTK_OBJECT (priv->client));
 
 	if (priv->ebook != NULL)
-		g_object_unref (priv->ebook);
+		gtk_object_unref (GTK_OBJECT (priv->ebook));
 
 	if (priv->corba_select_names != CORBA_OBJECT_NIL) {
 		CORBA_Environment ev;
@@ -751,7 +755,7 @@ destroy (GtkObject *obj)
 GtkObject *
 e_meeting_model_new (void)
 {
-	return g_object_new (E_TYPE_MEETING_MODEL, NULL);
+	return gtk_type_new (E_TYPE_MEETING_MODEL);
 }
 
 
@@ -773,10 +777,10 @@ e_meeting_model_set_cal_client (EMeetingModel *im, CalClient *client)
 	priv = im->priv;
 
 	if (priv->client != NULL)
-		g_object_unref (priv->client);
+		gtk_object_unref (GTK_OBJECT (priv->client));
 	
 	if (client != NULL)
-		g_object_ref (client);
+		gtk_object_ref (GTK_OBJECT (client));
 	priv->client = client;
 }
 
@@ -821,14 +825,14 @@ build_etable (ETableModel *model, const gchar *spec_file, const gchar *state_fil
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
 	popup_cell = e_cell_combo_new ();
 	e_cell_popup_set_child (E_CELL_POPUP (popup_cell), cell);
-	g_object_unref (cell);
+	gtk_object_unref (GTK_OBJECT (cell));
 	
 	strings = NULL;
-	strings = g_list_append (strings, (char*) _("Individual"));
-	strings = g_list_append (strings, (char*) _("Group"));
-	strings = g_list_append (strings, (char*) _("Resource"));
-	strings = g_list_append (strings, (char*) _("Room"));
-	strings = g_list_append (strings, (char*) _("Unknown"));
+	strings = g_list_append (strings, (char*) U_("Individual"));
+	strings = g_list_append (strings, (char*) U_("Group"));
+	strings = g_list_append (strings, (char*) U_("Resource"));
+	strings = g_list_append (strings, (char*) U_("Room"));
+	strings = g_list_append (strings, (char*) U_("Unknown"));
 
 	e_cell_combo_set_popdown_strings (E_CELL_COMBO (popup_cell), strings);
 	e_table_extras_add_cell (extras, "typeedit", popup_cell);
@@ -837,14 +841,14 @@ build_etable (ETableModel *model, const gchar *spec_file, const gchar *state_fil
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
 	popup_cell = e_cell_combo_new ();
 	e_cell_popup_set_child (E_CELL_POPUP (popup_cell), cell);
-	g_object_unref (cell);
+	gtk_object_unref (GTK_OBJECT (cell));
 	
 	strings = NULL;
-	strings = g_list_append (strings, (char*) _("Chair"));
-	strings = g_list_append (strings, (char*) _("Required Participant"));
-	strings = g_list_append (strings, (char*) _("Optional Participant"));
-	strings = g_list_append (strings, (char*) _("Non-Participant"));
-	strings = g_list_append (strings, (char*) _("Unknown"));
+	strings = g_list_append (strings, (char*) U_("Chair"));
+	strings = g_list_append (strings, (char*) U_("Required Participant"));
+	strings = g_list_append (strings, (char*) U_("Optional Participant"));
+	strings = g_list_append (strings, (char*) U_("Non-Participant"));
+	strings = g_list_append (strings, (char*) U_("Unknown"));
 
 	e_cell_combo_set_popdown_strings (E_CELL_COMBO (popup_cell), strings);
 	e_table_extras_add_cell (extras, "roleedit", popup_cell);
@@ -853,11 +857,11 @@ build_etable (ETableModel *model, const gchar *spec_file, const gchar *state_fil
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
 	popup_cell = e_cell_combo_new ();
 	e_cell_popup_set_child (E_CELL_POPUP (popup_cell), cell);
-	g_object_unref (cell);
+	gtk_object_unref (GTK_OBJECT (cell));
 
 	strings = NULL;
-	strings = g_list_append (strings, (char*) _("Yes"));
-	strings = g_list_append (strings, (char*) _("No"));
+	strings = g_list_append (strings, (char*) U_("Yes"));
+	strings = g_list_append (strings, (char*) U_("No"));
 
 	e_cell_combo_set_popdown_strings (E_CELL_COMBO (popup_cell), strings);
 	e_table_extras_add_cell (extras, "rsvpedit", popup_cell);
@@ -866,30 +870,32 @@ build_etable (ETableModel *model, const gchar *spec_file, const gchar *state_fil
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
 	popup_cell = e_cell_combo_new ();
 	e_cell_popup_set_child (E_CELL_POPUP (popup_cell), cell);
-	g_object_unref (cell);
+	gtk_object_unref (GTK_OBJECT (cell));
 
 	strings = NULL;
-	strings = g_list_append (strings, (char*) _("Needs Action"));
-	strings = g_list_append (strings, (char*) _("Accepted"));
-	strings = g_list_append (strings, (char*) _("Declined"));
-	strings = g_list_append (strings, (char*) _("Tentative"));
-	strings = g_list_append (strings, (char*) _("Delegated"));
+	strings = g_list_append (strings, (char*) U_("Needs Action"));
+	strings = g_list_append (strings, (char*) U_("Accepted"));
+	strings = g_list_append (strings, (char*) U_("Declined"));
+	strings = g_list_append (strings, (char*) U_("Tentative"));
+	strings = g_list_append (strings, (char*) U_("Delegated"));
 
 	e_cell_combo_set_popdown_strings (E_CELL_COMBO (popup_cell), strings);
 	e_table_extras_add_cell (extras, "statusedit", popup_cell);
 
 	etable = e_table_scrolled_new_from_spec_file (model, extras, spec_file, NULL);
 	real_table = e_table_scrolled_get_table (E_TABLE_SCROLLED (etable));
-	g_object_set (G_OBJECT (real_table), "uniform_row_height", TRUE, NULL);
+	gtk_object_set (GTK_OBJECT (real_table), "uniform_row_height", TRUE, NULL);
 	e_table_load_state (real_table, state_file);
 
 #if 0
-	g_signal_connect (real_table, "right_click", G_CALLBACK (right_click_cb), mpage);
+	gtk_signal_connect (GTK_OBJECT (real_table),
+			    "right_click", GTK_SIGNAL_FUNC (right_click_cb), mpage);
 #endif
 
-	g_signal_connect (etable, "destroy", G_CALLBACK (table_destroy_state_cb), g_strdup (state_file));
+	gtk_signal_connect (GTK_OBJECT (etable), "destroy", 
+			    GTK_SIGNAL_FUNC (table_destroy_state_cb), g_strdup (state_file));
 
-	g_object_unref (extras);
+	gtk_object_unref (GTK_OBJECT (extras));
 	
 	return E_TABLE_SCROLLED (etable);
 }
@@ -903,10 +909,11 @@ e_meeting_model_add_attendee (EMeetingModel *im, EMeetingAttendee *ia)
 	
 	e_table_model_pre_change (E_TABLE_MODEL (im));
 
-	g_object_ref (ia);
+	gtk_object_ref (GTK_OBJECT (ia));
 	g_ptr_array_add (priv->attendees, ia);
 	
-	g_signal_connect (ia, "changed", G_CALLBACK (attendee_changed_cb), im);
+	gtk_signal_connect (GTK_OBJECT (ia), "changed",
+			    GTK_SIGNAL_FUNC (attendee_changed_cb), im);
 
 	e_table_model_row_inserted (E_TABLE_MODEL (im), row_count (E_TABLE_MODEL (im)) - 1);
 }
@@ -966,7 +973,7 @@ e_meeting_model_remove_attendee (EMeetingModel *im, EMeetingAttendee *ia)
 		e_table_model_pre_change (E_TABLE_MODEL (im));
 
 		g_ptr_array_remove_index (priv->attendees, row);		
-		g_object_unref (ia);
+		gtk_object_unref (GTK_OBJECT (ia));
 
 		e_table_model_row_deleted (E_TABLE_MODEL (im), row);
 	}
@@ -986,7 +993,7 @@ e_meeting_model_remove_all_attendees (EMeetingModel *im)
 
 	for (i = 0; i < len; i++) {
 		EMeetingAttendee *ia = g_ptr_array_index (priv->attendees, i);
-		g_object_unref (ia);
+		gtk_object_unref (GTK_OBJECT (ia));
 	}
 
 	g_ptr_array_set_size (priv->attendees, 0);
@@ -1181,7 +1188,7 @@ refresh_queue_add (EMeetingModel *im, int row,
 		g_ptr_array_add (qdata->data, data);
 	}
 
-	g_object_ref (ia);
+	gtk_object_ref (GTK_OBJECT (ia));
 	g_ptr_array_add (priv->refresh_queue, ia);
 
 	if (priv->refresh_idle_id == -1)
@@ -1207,7 +1214,7 @@ refresh_queue_remove (EMeetingModel *im, EMeetingAttendee *ia)
 
 	/* Unref the attendee */
 	g_ptr_array_remove (priv->refresh_queue, ia);
-	g_object_unref (ia);
+	gtk_object_unref (GTK_OBJECT (ia));
 }
 
 static void
@@ -1454,8 +1461,7 @@ cursor_cb (EBook *book, EBookStatus status, ECardCursor *cursor, gpointer data)
 			continue;
 
 		/* Read in free/busy data from the url */
-		gnome_vfs_async_open (&handle, card->fburl, GNOME_VFS_OPEN_READ, 
-				      GNOME_VFS_PRIORITY_DEFAULT, async_open, qdata);
+		gnome_vfs_async_open (&handle, card->fburl, GNOME_VFS_OPEN_READ, async_open, qdata);
 		return;
 	}
 
@@ -1607,7 +1613,8 @@ e_meeting_model_etable_from_model (EMeetingModel *im, const gchar *spec_file, co
 
 	priv->tables = g_list_prepend (priv->tables, ets);
 
-	g_signal_connect (ets, "destroy", G_CALLBACK (table_destroy_list_cb), im);
+	gtk_signal_connect (GTK_OBJECT (ets), "destroy", 
+			    GTK_SIGNAL_FUNC (table_destroy_list_cb), im);
 	
 	return ets;
 }
@@ -1630,7 +1637,7 @@ e_meeting_model_etable_click_to_add (EMeetingModel *im, gboolean click_to_add)
 		ets = l->data;
 		real_table = e_table_scrolled_get_table (ets);
 
-		g_object_set (G_OBJECT (real_table), "use_click_to_add", click_to_add, NULL);
+		gtk_object_set (GTK_OBJECT (real_table), "use_click_to_add", click_to_add, NULL);
 	}
 }
 
@@ -1711,7 +1718,7 @@ get_select_name_dialog (EMeetingModel *im)
 			
 			control_widget = bonobo_widget_new_control_from_objref (corba_control, CORBA_OBJECT_NIL);
 			
-			bonobo_widget_set_property (BONOBO_WIDGET (control_widget), "text", TC_CORBA_string, "", NULL);		
+			bonobo_widget_set_property (BONOBO_WIDGET (control_widget), "text", "", NULL);		
 		}
 		CORBA_exception_free (&ev);
 
@@ -1720,7 +1727,7 @@ get_select_name_dialog (EMeetingModel *im)
 	
 	CORBA_exception_init (&ev);
 
-	priv->corba_select_names = bonobo_activation_activate_from_id (SELECT_NAMES_OAFID, 0, NULL, &ev);
+	priv->corba_select_names = oaf_activate_from_id (SELECT_NAMES_OAFID, 0, NULL, &ev);
 
 	for (i = 0; sections[i] != NULL; i++)
 		add_section (priv->corba_select_names, sections[i]);
@@ -1809,12 +1816,14 @@ select_names_ok_cb (BonoboListener    *listener,
 		control_widget = bonobo_widget_new_control_from_objref
 			(corba_control, CORBA_OBJECT_NIL);
 		
-		bonobo_widget_get_property (BONOBO_WIDGET (control_widget), "destinations", TC_CORBA_string, &string, NULL);
+		bonobo_widget_get_property (BONOBO_WIDGET (control_widget), "destinations", &string, NULL);
 		destv = e_destination_importv (string);
 		if (destv != NULL) {
 			process_section (im, destv, roles[i]);
 			e_destination_freev (destv);
 		}		
+
+		g_free (string);
 	}
 }
 

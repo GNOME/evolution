@@ -29,22 +29,21 @@
 #include <config.h>
 #endif
 
-#include <time.h>
 #include <errno.h>
-#include <gtkhtml/gtkhtml.h>
-
-#include <gtk/gtkmessagedialog.h>
-
+#include <time.h>
+#include <libgnome/gnome-paper.h>
+#include <libgnomeui/gnome-stock.h>
+#include <libgnome/gnome-paper.h>
 #include <libgnomeprint/gnome-print-master.h>
-#include <libgnomeprintui/gnome-print-dialog.h>
-#include <libgnomeprintui/gnome-print-master-preview.h>
-
+#include <libgnomeprint/gnome-print-master-preview.h>
 #include <bonobo/bonobo-widget.h>
 #include <bonobo/bonobo-socket.h>
 #include <gal/e-table/e-table.h>
 #include <gal/widgets/e-gui-utils.h>
+#include <gal/widgets/e-unicode.h>
 #include <e-util/e-dialog-utils.h>
 #include <filter/filter-editor.h>
+#include <gtkhtml/gtkhtml.h>
 
 #include "mail.h"
 #include "message-browser.h"
@@ -64,6 +63,7 @@
 #include "subscribe-dialog.h"
 #include "message-tag-editor.h"
 #include "message-tag-followup.h"
+#include "e-messagebox.h"
 
 #include "Evolution.h"
 #include "evolution-storage.h"
@@ -73,40 +73,6 @@
 #define d(x) x
 
 #define FB_WINDOW(fb) GTK_WINDOW (gtk_widget_get_ancestor (GTK_WIDGET (fb), GTK_TYPE_WINDOW))
-
-
-/* default is default gtk response
-   if again is != NULL, a checkbox "dont show this again" will appear, and the result stored in *again
-*/
-static gboolean
-e_question(GtkWindow *parent, int def, gboolean *again, const char *fmt, ...)
-{
-	GtkWidget *mbox, *check = NULL;
-	va_list ap;
-	int button;
-	char *str;
-
-	va_start(ap, fmt);
-	str = g_strdup_vprintf(fmt, ap);
-	va_end(ap);
-	mbox = gtk_message_dialog_new(parent, GTK_DIALOG_DESTROY_WITH_PARENT,
-				      GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
-				      "%s", str);
-	g_free(str);
-	gtk_dialog_set_default_response ((GtkDialog *)mbox, def);
-	if (again) {
-		check = gtk_check_button_new_with_label (_("Don't show this message again."));
-		gtk_box_pack_start((GtkBox *)((GtkDialog *)mbox)->vbox, check, TRUE, TRUE, 10);
-		gtk_widget_show(check);
-	}
-
-	button = gtk_dialog_run((GtkDialog *)mbox);
-	if (again)
-		*again = !gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check));
-	gtk_widget_destroy(mbox);
-
-	return button == GTK_RESPONSE_YES;
-}
 
 
 struct _composer_callback_data {
@@ -166,14 +132,14 @@ ccd_unref (struct _composer_callback_data *ccd)
 
 
 static void
-composer_destroy_cb (gpointer user_data, GObject *deadbeef)
+composer_destroy_cb (GtkWidget *composer, gpointer user_data)
 {
 	ccd_unref (user_data);
 }
 
 
 static void
-druid_destroy_cb (gpointer user_data, GObject *deadbeef)
+druid_destroyed (void)
 {
 	gtk_main_quit ();
 }
@@ -182,17 +148,37 @@ static gboolean
 configure_mail (FolderBrowser *fb)
 {
 	MailConfigDruid *druid;
-
-	if (e_question(FB_WINDOW(fb), GTK_RESPONSE_YES, NULL,
-		       _("You have not configured the mail client.\n"
-			 "You need to do this before you can send,\n"
-			 "receive or compose mail.\n"
-			 "Would you like to configure it now?"))) {
+	GtkWidget *dialog;
+	
+	dialog = gnome_message_box_new (
+		_("You have not configured the mail client.\n"
+		  "You need to do this before you can send,\n"
+		  "receive or compose mail.\n"
+		  "Would you like to configure it now?"),
+		GNOME_MESSAGE_BOX_QUESTION,
+		GNOME_STOCK_BUTTON_YES,
+		GNOME_STOCK_BUTTON_NO, NULL);
+	
+	/*
+	 * Focus YES
+	 */
+	gnome_dialog_set_default (GNOME_DIALOG (dialog), 0);
+	gtk_widget_grab_focus (GTK_WIDGET (GNOME_DIALOG (dialog)->buttons->data));
+	
+	e_gnome_dialog_set_parent (GNOME_DIALOG (dialog), FB_WINDOW (fb));
+	
+	switch (gnome_dialog_run_and_close (GNOME_DIALOG (dialog))) {
+	case 0:
 		druid = mail_config_druid_new (fb->shell);
-		g_object_weak_ref ((GObject *) druid, (GWeakNotify) druid_destroy_cb, NULL);
-		gtk_widget_show ((GtkWidget *)druid);
-		gtk_grab_add ((GtkWidget *)druid);
+		gtk_signal_connect (GTK_OBJECT (druid), "destroy",
+				    GTK_SIGNAL_FUNC (druid_destroyed), NULL);
+		gtk_widget_show (GTK_WIDGET (druid));
+		gtk_grab_add (GTK_WIDGET (druid));
 		gtk_main ();
+		break;
+	case 1:
+	default:
+		break;
 	}
 	
 	return mail_config_is_configured ();
@@ -202,7 +188,6 @@ static gboolean
 check_send_configuration (FolderBrowser *fb)
 {
 	const MailConfigAccount *account;
-	GtkWidget *dialog;
 	
 	/* Check general */
 	if (!mail_config_is_configured () && !configure_mail (fb))
@@ -213,31 +198,58 @@ check_send_configuration (FolderBrowser *fb)
 	
 	/* Check for an identity */
 	if (!account) {
-		e_notice(FB_WINDOW(fb), GTK_MESSAGE_WARNING,
-			 _("You need to configure an identity\nbefore you can compose mail."));
+		GtkWidget *message;
+		
+		message = e_gnome_warning_dialog_parented (_("You need to configure an identity\n"
+							     "before you can compose mail."),
+							   FB_WINDOW (fb));
+		
+		gnome_dialog_set_close (GNOME_DIALOG (message), TRUE);
+		gtk_widget_show (message);
+		
 		return FALSE;
 	}
 	
 	/* Check for a transport */
 	if (!account->transport || !account->transport->url) {
-		e_notice(FB_WINDOW(fb), GTK_MESSAGE_WARNING,
-			 _("You need to configure a mail transport\n"
-			   "before you can compose mail."));
+		GtkWidget *message;
+		
+		message = e_gnome_warning_dialog_parented (_("You need to configure a mail transport\n"
+							     "before you can compose mail."),
+							   GTK_WINDOW (gtk_widget_get_ancestor (GTK_WIDGET (fb),
+												GTK_TYPE_WINDOW)));
+		
+		gnome_dialog_set_close (GNOME_DIALOG (message), TRUE);
+		gtk_widget_show (message);
+		
 		return FALSE;
 	}
 	
 	return TRUE;
 }
 
+static void
+msgbox_destroyed (GtkWidget *widget, gpointer data)
+{
+	gboolean *show_again = data;
+	GtkWidget *checkbox;
+	
+	checkbox = e_message_box_get_checkbox (E_MESSAGE_BOX (widget));
+	*show_again = !gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbox));
+}
+
 static gboolean
 ask_confirm_for_unwanted_html_mail (EMsgComposer *composer, EDestination **recipients)
 {
-	gboolean show_again, res;
+	gboolean show_again = TRUE;
 	GString *str;
-	int i;
-
-	if (!mail_config_get_confirm_unwanted_html ())
+	GtkWidget *mbox;
+	int i, button;
+	
+	if (!mail_config_get_confirm_unwanted_html ()) {
+		g_message ("doesn't want to see confirm html messages!");
 		return TRUE;
+	}
 	
 	/* FIXME: this wording sucks */
 	str = g_string_new (_("You are sending an HTML-formatted message. Please make sure that\n"
@@ -245,42 +257,91 @@ ask_confirm_for_unwanted_html_mail (EMsgComposer *composer, EDestination **recip
 	for (i = 0; recipients[i] != NULL; ++i) {
 		if (!e_destination_get_html_mail_pref (recipients[i])) {
 			const char *name;
+			char *buf;
 			
 			name = e_destination_get_textrep (recipients[i]);
+			buf = e_utf8_to_locale_string (name);
 			
-			g_string_sprintfa (str, "     %s\n", name);
+			g_string_sprintfa (str, "     %s\n", buf);
+			g_free (buf);
 		}
 	}
 	
 	g_string_append (str, _("Send anyway?"));
-	res = e_question((GtkWindow *)composer, GTK_RESPONSE_YES, &show_again, "%s", str->str);
-	g_string_free(str, TRUE);
-	mail_config_set_confirm_unwanted_html (show_again);
-
-	return res;
+	
+	mbox = e_message_box_new (str->str,
+				  E_MESSAGE_BOX_QUESTION,
+				  GNOME_STOCK_BUTTON_YES,
+				  GNOME_STOCK_BUTTON_NO,
+				  NULL);
+	
+	g_string_free (str, TRUE);
+	
+	gtk_signal_connect (GTK_OBJECT (mbox), "destroy",
+			    msgbox_destroyed, &show_again);
+	
+	button = gnome_dialog_run_and_close (GNOME_DIALOG (mbox));
+	
+	if (!show_again) {
+		mail_config_set_confirm_unwanted_html (show_again);
+		g_message ("don't show HTML warning again");
+	}
+	
+	if (button == 0)
+		return TRUE;
+	else
+		return FALSE;
 }
 
 static gboolean
 ask_confirm_for_empty_subject (EMsgComposer *composer)
 {
-	gboolean show_again, res;
-	GtkWidget *mbox, *check;
+	/* FIXME: EMessageBox should really handle this stuff
+           automagically. What Miguel thinks would be nice is to pass
+           in a unique id which could be used as a key in the config
+           file and the value would be an int. -1 for always show or
+           the button pressed otherwise. This probably means we'd have
+           to write e_messagebox_run () */
+	gboolean show_again = TRUE;
+	GtkWidget *mbox;
+	int button;
 	
 	if (!mail_config_get_prompt_empty_subject ())
 		return TRUE;
-
-	res = e_question((GtkWindow *)composer, GTK_RESPONSE_YES, &show_again,
-			 _("This message has no subject.\nReally send?"));
+	
+	mbox = e_message_box_new (_("This message has no subject.\nReally send?"),
+				  E_MESSAGE_BOX_QUESTION,
+				  GNOME_STOCK_BUTTON_YES,
+				  GNOME_STOCK_BUTTON_NO,
+				  NULL);
+	
+	gtk_signal_connect (GTK_OBJECT (mbox), "destroy",
+			    msgbox_destroyed, &show_again);
+	
+	button = gnome_dialog_run_and_close (GNOME_DIALOG (mbox));
+	
 	mail_config_set_prompt_empty_subject (show_again);
 	
-	return res;
+	if (button == 0)
+		return TRUE;
+	else
+		return FALSE;
 }
 
 static gboolean
 ask_confirm_for_only_bcc (EMsgComposer *composer, gboolean hidden_list_case)
 {
-	gboolean show_again, res;
+	/* FIXME: EMessageBox should really handle this stuff
+           automagically. What Miguel thinks would be nice is to pass
+           in a message-id which could be used as a key in the config
+           file and the value would be an int. -1 for always show or
+           the button pressed otherwise. This probably means we'd have
+           to write e_messagebox_run () */
+	gboolean show_again = TRUE;
+	GtkWidget *mbox;
+	int button;
 	const char *first_text;
+	char *message_text;
 	
 	if (!mail_config_get_prompt_only_bcc ())
 		return TRUE;
@@ -298,15 +359,30 @@ ask_confirm_for_only_bcc (EMsgComposer *composer, gboolean hidden_list_case)
 	} else {
 		first_text = _("This message contains only Bcc recipients.");
 	}
-
-	res = e_question((GtkWindow *)composer, GTK_RESPONSE_YES, &show_again,
-			 "%s\n%s", first_text,
-			 _("It is possible that the mail server may reveal the recipients "
-			   "by adding an Apparently-To header.\nSend anyway?"));
+	
+	message_text = g_strdup_printf ("%s\n%s", first_text,
+					_("It is possible that the mail server may reveal the recipients "
+					  "by adding an Apparently-To header.\nSend anyway?"));
+	
+	mbox = e_message_box_new (message_text, 
+				  E_MESSAGE_BOX_QUESTION,
+				  GNOME_STOCK_BUTTON_YES,
+				  GNOME_STOCK_BUTTON_NO,
+				  NULL);
+	
+	gtk_signal_connect (GTK_OBJECT (mbox), "destroy",
+			    msgbox_destroyed, &show_again);
+	
+	button = gnome_dialog_run_and_close (GNOME_DIALOG (mbox));
 	
 	mail_config_set_prompt_only_bcc (show_again);
 	
-	return res;
+	g_free (message_text);
+	
+	if (button == 0)
+		return TRUE;
+	else
+		return FALSE;
 }
 
 
@@ -357,20 +433,23 @@ composer_send_queued_cb (CamelFolder *folder, CamelMimeMessage *msg, CamelMessag
 			ccd = ccd_new ();
 			
 			/* disconnect the previous signal handlers */
-			g_signal_handlers_disconnect_matched(send->composer, G_SIGNAL_MATCH_FUNC, 0,
-							     0, NULL, composer_send_cb, NULL);
-			g_signal_handlers_disconnect_matched(send->composer, G_SIGNAL_MATCH_FUNC, 0,
-							     0, NULL, composer_save_draft_cb, NULL);
+			gtk_signal_disconnect_by_func (GTK_OBJECT (send->composer),
+						       GTK_SIGNAL_FUNC (composer_send_cb), NULL);
+			gtk_signal_disconnect_by_func (GTK_OBJECT (send->composer),
+						       GTK_SIGNAL_FUNC (composer_save_draft_cb), NULL);
 			
 			/* reconnect to the signals using a non-NULL ccd for the callback data */
-			g_signal_connect (send->composer, "send", G_CALLBACK (composer_send_cb), ccd);
-			g_signal_connect (send->composer, "save-draft", G_CALLBACK (composer_save_draft_cb), ccd);
-			
-			g_object_weak_ref ((GObject *) send->composer, (GWeakNotify) composer_destroy_cb, ccd);
+			gtk_signal_connect (GTK_OBJECT (send->composer), "send",
+					    GTK_SIGNAL_FUNC (composer_send_cb), ccd);
+			gtk_signal_connect (GTK_OBJECT (send->composer), "save-draft",
+					    GTK_SIGNAL_FUNC (composer_save_draft_cb), ccd);
+			gtk_signal_connect (GTK_OBJECT (send->composer), "destroy",
+					    GTK_SIGNAL_FUNC (composer_destroy_cb), ccd);
 		}
 		
 		e_msg_composer_set_enable_autosave (send->composer, TRUE);
 		gtk_widget_show (GTK_WIDGET (send->composer));
+		gtk_object_unref (GTK_OBJECT (send->composer));
 	}
 	
 	camel_message_info_free (info);
@@ -429,8 +508,15 @@ composer_get_message (EMsgComposer *composer, gboolean post, gboolean save_html_
 	
 	/* I'm sensing a lack of love, er, I mean recipients. */
 	if (num == 0 && !post) {
-		e_notice((GtkWindow *)composer, GTK_MESSAGE_WARNING,
-			 _("You must specify recipients in order to send this message."));
+		GtkWidget *message_box;
+		
+		message_box = gnome_message_box_new (_("You must specify recipients in order to "
+						       "send this message."),
+						     GNOME_MESSAGE_BOX_WARNING,
+						     GNOME_STOCK_BUTTON_OK,
+						     NULL);
+		
+		gnome_dialog_run_and_close (GNOME_DIALOG (message_box));
 		goto finished;
 	}
 	
@@ -507,7 +593,7 @@ got_post_folder (char *uri, CamelFolder *folder, void *data)
 	*fp = folder;
 	
 	if (folder)
-		camel_object_ref (folder);
+		camel_object_ref (CAMEL_OBJECT (folder));
 }
 
 void
@@ -558,7 +644,7 @@ composer_send_cb (EMsgComposer *composer, gpointer user_data)
 		ccd_ref (send->ccd);
 	send->send = !post;
 	send->composer = composer;
-	g_object_ref (composer);
+	gtk_object_ref (GTK_OBJECT (composer));
 	gtk_widget_hide (GTK_WIDGET (composer));
 	
 	e_msg_composer_set_enable_autosave (composer, FALSE);
@@ -593,15 +679,17 @@ save_draft_done (CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *i
 		
 		/* disconnect the previous signal handlers */
 		gtk_signal_disconnect_by_func (GTK_OBJECT (sdi->composer),
-					       G_CALLBACK (composer_send_cb), NULL);
+					       GTK_SIGNAL_FUNC (composer_send_cb), NULL);
 		gtk_signal_disconnect_by_func (GTK_OBJECT (sdi->composer),
-					       G_CALLBACK (composer_save_draft_cb), NULL);
+					       GTK_SIGNAL_FUNC (composer_save_draft_cb), NULL);
 		
 		/* reconnect to the signals using a non-NULL ccd for the callback data */
-		g_signal_connect (sdi->composer, "send", G_CALLBACK (composer_send_cb), ccd);
-		g_signal_connect (sdi->composer, "save-draft", G_CALLBACK (composer_save_draft_cb), ccd);
-		
-		g_object_weak_ref ((GObject *) sdi->composer, (GWeakNotify) composer_destroy_cb, ccd);
+		gtk_signal_connect (GTK_OBJECT (sdi->composer), "send",
+				    GTK_SIGNAL_FUNC (composer_send_cb), ccd);
+		gtk_signal_connect (GTK_OBJECT (sdi->composer), "save-draft",
+				    GTK_SIGNAL_FUNC (composer_save_draft_cb), ccd);
+		gtk_signal_connect (GTK_OBJECT (sdi->composer), "destroy",
+				    GTK_SIGNAL_FUNC (composer_destroy_cb), ccd);
 	}
 	
 	if (ccd->drafts_folder) {
@@ -634,7 +722,7 @@ save_draft_done (CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *i
 		gtk_widget_destroy (GTK_WIDGET (sdi->composer));
 	
  done:
-	g_object_unref (sdi->composer);
+	gtk_object_unref (GTK_OBJECT (sdi->composer));
 	if (sdi->ccd)
 		ccd_unref (sdi->ccd);
 	g_free (info);
@@ -649,7 +737,7 @@ use_default_drafts_cb (int reply, gpointer data)
 	
 	if (reply == 0) {
 		*folder = drafts_folder;
-		camel_object_ref (drafts_folder);
+		camel_object_ref (CAMEL_OBJECT (*folder));
 	}
 }
 
@@ -660,7 +748,7 @@ save_draft_folder (char *uri, CamelFolder *folder, gpointer data)
 	
 	if (folder) {
 		*save = folder;
-		camel_object_ref (folder);
+		camel_object_ref (CAMEL_OBJECT (folder));
 	}
 }
 
@@ -684,18 +772,18 @@ composer_save_draft_cb (EMsgComposer *composer, int quit, gpointer user_data)
 		mail_msg_wait (id);
 		
 		if (!folder) {
-			gboolean res;
-			if (!e_question((GtkWindow *)composer, GTK_RESPONSE_YES, NULL,
-					_("Unable to open the drafts folder for this account.\n"
-					  "Would you like to use the default drafts folder?")))
-				return;
+			GtkWidget *dialog;
 			
-			folder = drafts_folder;
-			camel_object_ref (drafts_folder);
+			dialog = gnome_ok_cancel_dialog_parented (_("Unable to open the drafts folder for this account.\n"
+								    "Would you like to use the default drafts folder?"),
+								  use_default_drafts_cb, &folder, GTK_WINDOW (composer));
+			gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+			if (!folder)
+				return;
 		}
 	} else {
 		folder = drafts_folder;
-		camel_object_ref (folder);
+		camel_object_ref (CAMEL_OBJECT (folder));
 	}
 	
 	msg = e_msg_composer_get_message_draft (composer);
@@ -705,15 +793,15 @@ composer_save_draft_cb (EMsgComposer *composer, int quit, gpointer user_data)
 	
 	sdi = g_malloc (sizeof (struct _save_draft_info));
 	sdi->composer = composer;
-	g_object_ref (composer);
+	gtk_object_ref (GTK_OBJECT (composer));
 	sdi->ccd = user_data;
 	if (sdi->ccd)
 		ccd_ref (sdi->ccd);
 	sdi->quit = quit;
 	
 	mail_append_mail (folder, msg, info, save_draft_done, sdi);
-	camel_object_unref (folder);
-	camel_object_unref (msg);
+	camel_object_unref (CAMEL_OBJECT (folder));
+	camel_object_unref (CAMEL_OBJECT (msg));
 }
 
 static GtkWidget *
@@ -768,10 +856,12 @@ compose_msg (GtkWidget *widget, gpointer user_data)
 	
 	ccd = ccd_new ();
 	
-	g_signal_connect (composer, "send", G_CALLBACK (composer_send_cb), ccd);
-	g_signal_connect (composer, "save-draft", G_CALLBACK (composer_save_draft_cb), ccd);
-	
-	g_object_weak_ref ((GObject *) composer, (GWeakNotify) composer_destroy_cb, ccd);
+	gtk_signal_connect (GTK_OBJECT (composer), "send",
+			    GTK_SIGNAL_FUNC (composer_send_cb), ccd);
+	gtk_signal_connect (GTK_OBJECT (composer), "save-draft",
+			    GTK_SIGNAL_FUNC (composer_save_draft_cb), ccd);
+	gtk_signal_connect (GTK_OBJECT (composer), "destroy",
+			    GTK_SIGNAL_FUNC (composer_destroy_cb), ccd);
 	
 	gtk_widget_show (composer);
 }
@@ -795,10 +885,12 @@ send_to_url (const char *url)
 	
 	ccd = ccd_new ();
 	
-	g_signal_connect (composer, "send", G_CALLBACK (composer_send_cb), ccd);
-	g_signal_connect (composer, "save-draft", G_CALLBACK (composer_save_draft_cb), ccd);
-	
-	g_object_weak_ref ((GObject *) composer, (GWeakNotify) composer_destroy_cb, ccd);
+	gtk_signal_connect (GTK_OBJECT (composer), "send",
+			    GTK_SIGNAL_FUNC (composer_send_cb), ccd);
+	gtk_signal_connect (GTK_OBJECT (composer), "save-draft",
+			    GTK_SIGNAL_FUNC (composer_save_draft_cb), ccd);
+	gtk_signal_connect (GTK_OBJECT (composer), "destroy",
+			    GTK_SIGNAL_FUNC (composer_destroy_cb), ccd);
 	
 	gtk_widget_show (composer);
 }	
@@ -941,7 +1033,7 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 	const CamelInternetAddress *reply_to, *sender, *to_addrs, *cc_addrs;
 	const char *name = NULL, *address = NULL, *source = NULL;
 	const char *message_id, *references, *mlist = NULL;
-	char *text = NULL, *subject, format[256];
+	char *text = NULL, *subject, date_str[100], *format;
 	const MailConfigAccount *def, *account, *me = NULL;
 	const GSList *l, *accounts = NULL;
 	GHashTable *account_hash = NULL;
@@ -1030,7 +1122,7 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 		max = camel_address_length (CAMEL_ADDRESS (to_addrs));
 		for (i = 0; i < max; i++) {
 			camel_internet_address_get (to_addrs, i, &name, &address);
-			if (!strcasecmp (address, mlist))
+			if (!g_strcasecmp (address, mlist))
 				break;
 		}
 		
@@ -1038,7 +1130,7 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 			max = camel_address_length (CAMEL_ADDRESS (cc_addrs));
 			for (i = 0; i < max; i++) {
 				camel_internet_address_get (cc_addrs, i, &name, &address);
-				if (!strcasecmp (address, mlist))
+				if (!g_strcasecmp (address, mlist))
 					break;
 			}
 		}
@@ -1129,7 +1221,7 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 		/* attach the original message as an attachment */
 		part = mail_tool_make_message_attachment (message);
 		e_msg_composer_attach (composer, part);
-		camel_object_unref (part);
+		camel_object_unref (CAMEL_OBJECT (part));
 		break;
 	case MAIL_CONFIG_REPLY_QUOTED:
 	default:
@@ -1142,9 +1234,12 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 		}
 		
 		date = camel_mime_message_get_date (message, NULL);
-		strftime (format, sizeof (format), _("On %a, %Y-%m-%d at %H:%M, %%s wrote:"), localtime (&date));
+		strftime (date_str, sizeof (date_str), _("On %a, %Y-%m-%d at %H:%M, %%s wrote:"),
+			  localtime (&date));
+		format = e_utf8_from_locale_string (date_str);
 		text = mail_tool_quote_message (message, format, name && *name ? name : address);
 		mail_ignore (composer, name, address);
+		g_free (format);
 		if (text) {
 			e_msg_composer_set_body_text (composer, text);
 			g_free (text);
@@ -1157,7 +1252,7 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 	if (!subject)
 		subject = g_strdup ("");
 	else {
-		if (!strncasecmp (subject, "Re: ", 4))
+		if (!g_strncasecmp (subject, "Re: ", 4))
 			subject = g_strndup (subject, MAX_SUBJECT_LEN);
 		else {
 			if (strlen (subject) < MAX_SUBJECT_LEN) {
@@ -1252,10 +1347,12 @@ mail_reply (CamelFolder *folder, CamelMimeMessage *msg, const char *uid, int mod
 		ccd->flags |= CAMEL_MESSAGE_ANSWERED_ALL;
 	ccd->set = ccd->flags;
 	
-	g_signal_connect (composer, "send", G_CALLBACK (composer_send_cb), ccd);
-	g_signal_connect (composer, "save-draft", G_CALLBACK (composer_save_draft_cb), ccd);
-	
-	g_object_weak_ref ((GObject *) composer, (GWeakNotify) composer_destroy_cb, ccd);
+	gtk_signal_connect (GTK_OBJECT (composer), "send",
+			    GTK_SIGNAL_FUNC (composer_send_cb), ccd);
+	gtk_signal_connect (GTK_OBJECT (composer), "save-draft",
+			    GTK_SIGNAL_FUNC (composer_save_draft_cb), ccd);
+	gtk_signal_connect (GTK_OBJECT (composer), "destroy",
+			    GTK_SIGNAL_FUNC (composer_destroy_cb), ccd);
 	
 	gtk_widget_show (GTK_WIDGET (composer));	
 	e_msg_composer_unset_changed (composer);
@@ -1335,10 +1432,12 @@ forward_get_composer (CamelMimeMessage *message, const char *subject)
 	if (composer) {
 		ccd = ccd_new ();
 		
-		g_signal_connect (composer, "send", G_CALLBACK (composer_send_cb), ccd);
-		g_signal_connect (composer, "save-draft", G_CALLBACK (composer_save_draft_cb), ccd);
-		
-		g_object_weak_ref ((GObject *) composer, (GWeakNotify) composer_destroy_cb, ccd);
+		gtk_signal_connect (GTK_OBJECT (composer), "send",
+				    GTK_SIGNAL_FUNC (composer_send_cb), ccd);
+		gtk_signal_connect (GTK_OBJECT (composer), "save-draft",
+				    GTK_SIGNAL_FUNC (composer_save_draft_cb), ccd);
+		gtk_signal_connect (GTK_OBJECT (composer), "destroy",
+				    GTK_SIGNAL_FUNC (composer_destroy_cb), ccd);
 		
 		e_msg_composer_set_headers (composer, account->name, NULL, NULL, NULL, subject);
 	} else {
@@ -1472,10 +1571,12 @@ post_to_url (const char *url)
 	
 	ccd = ccd_new ();
 	
-	g_signal_connect (composer, "send", G_CALLBACK (composer_send_cb), ccd);
-	g_signal_connect (composer, "save-draft", G_CALLBACK (composer_save_draft_cb), ccd);
-	
-	g_object_weak_ref ((GObject *) composer, (GWeakNotify) composer_destroy_cb, ccd);
+	gtk_signal_connect (GTK_OBJECT (composer), "send",
+			    GTK_SIGNAL_FUNC (composer_send_cb), ccd);
+	gtk_signal_connect (GTK_OBJECT (composer), "save-draft",
+			    GTK_SIGNAL_FUNC (composer_save_draft_cb), ccd);
+	gtk_signal_connect (GTK_OBJECT (composer), "destroy",
+			    GTK_SIGNAL_FUNC (composer_destroy_cb), ccd);
 	
 	gtk_widget_show (composer);
 }
@@ -1543,10 +1644,12 @@ redirect_get_composer (CamelMimeMessage *message)
 	if (composer) {
 		ccd = ccd_new ();
 		
-		g_signal_connect (composer, "send", G_CALLBACK (composer_send_cb), ccd);
-		g_signal_connect (composer, "save-draft", G_CALLBACK (composer_save_draft_cb), ccd);
-		
-		g_object_weak_ref ((GObject *) composer, (GWeakNotify) composer_destroy_cb, ccd);
+		gtk_signal_connect (GTK_OBJECT (composer), "send",
+				    GTK_SIGNAL_FUNC (composer_send_cb), ccd);
+		gtk_signal_connect (GTK_OBJECT (composer), "save-draft",
+				    GTK_SIGNAL_FUNC (composer_save_draft_cb), ccd);
+		gtk_signal_connect (GTK_OBJECT (composer), "destroy",
+				    GTK_SIGNAL_FUNC (composer_destroy_cb), ccd);
 	} else {
 		g_warning ("Could not create composer");
 	}
@@ -1612,7 +1715,7 @@ transfer_msg_done (gboolean ok, void *data)
 					     0, 0, FALSE);
 	}
 	
-	g_object_unref (fb);
+	gtk_object_unref (GTK_OBJECT (fb));
 }
 
 static void
@@ -1652,7 +1755,7 @@ transfer_msg (FolderBrowser *fb, gboolean delete_from_source)
 	message_list_foreach (fb->message_list, enumerate_msg, uids);
 	
 	if (delete_from_source) {
-		g_object_ref (fb);
+		gtk_object_ref (GTK_OBJECT (fb));
 		mail_transfer_messages (fb->folder, uids, delete_from_source,
 					folder->physicalUri, 0,
 					transfer_msg_done, fb);
@@ -1660,7 +1763,6 @@ transfer_msg (FolderBrowser *fb, gboolean delete_from_source)
 		mail_transfer_messages (fb->folder, uids, delete_from_source,
 					folder->physicalUri, 0, NULL, NULL);
 	}
-	
 	CORBA_free (folder);
 }
 
@@ -1694,7 +1796,7 @@ find_socket (GtkContainer *container)
 {
         GList *children, *tmp;
 	
-        children = gtk_container_get_children (container);
+        children = gtk_container_children (container);
         while (children) {
                 if (BONOBO_IS_SOCKET (children->data))
                         return children->data;
@@ -1707,14 +1809,13 @@ find_socket (GtkContainer *container)
                 g_list_free_1 (children);
                 children = tmp;
         }
-	
-	return NULL;
+        return NULL;
 }
 
 static void
 popup_listener_cb (BonoboListener *listener,
-		   const char *event_name,
-		   const CORBA_any *any,
+		   char *event_name,
+		   CORBA_any *any,
 		   CORBA_Environment *ev,
 		   gpointer user_data)
 {
@@ -1738,17 +1839,18 @@ addrbook_sender (GtkWidget *widget, gpointer user_data)
 	GtkWidget *socket;
 	GPtrArray *uids;
 	int i;
-	
+
 	if (FOLDER_BROWSER_IS_DESTROYED (fb))
 		return;
-	
-	uids = g_ptr_array_new ();
-	message_list_foreach (fb->message_list, enumerate_msg, uids);
+
+	uids = g_ptr_array_new();
+	message_list_foreach(fb->message_list, enumerate_msg, uids);
 	if (uids->len != 1)
 		goto done;
-	
-	info = camel_folder_get_message_info (fb->folder, uids->pdata[0]);
-	if (info == NULL || (addr_str = camel_message_info_from (info)) == NULL)
+
+	info = camel_folder_get_message_info(fb->folder, uids->pdata[0]);
+	if (info == NULL
+	    || (addr_str = camel_message_info_from(info)) == NULL)
 		goto done;
 	
 	win = gtk_window_new (GTK_WINDOW_TOPLEVEL);
@@ -1757,23 +1859,25 @@ addrbook_sender (GtkWidget *widget, gpointer user_data)
 	control = bonobo_widget_new_control ("OAFIID:GNOME_Evolution_Addressbook_AddressPopup",
 					     CORBA_OBJECT_NIL);
 	bonobo_widget_set_property (BONOBO_WIDGET (control),
-				    "email", TC_CORBA_string, addr_str,
+				    "email", addr_str,
 				    NULL);
 	
 	bonobo_event_source_client_add_listener (bonobo_widget_get_objref (BONOBO_WIDGET (control)),
 						 popup_listener_cb, NULL, NULL, win);
 	
 	socket = find_socket (GTK_CONTAINER (control));
-	
-	g_object_weak_ref ((GObject *) socket, (GWeakNotify) gtk_widget_destroy, win);
+	gtk_signal_connect_object (GTK_OBJECT (socket),
+				   "destroy",
+				   GTK_SIGNAL_FUNC (gtk_widget_destroy),
+				   GTK_OBJECT (win));
 	
 	gtk_container_add (GTK_CONTAINER (win), control);
 	gtk_widget_show_all (win);
 
 done:
-	for (i = 0; i < uids->len; i++)
-		g_free (uids->pdata[i]);
-	g_ptr_array_free (uids, TRUE);
+	for (i=0; i < uids->len; i++)
+		g_free(uids->pdata[i]);
+	g_ptr_array_free(uids, TRUE);
 }
 
 void
@@ -1945,13 +2049,13 @@ toggle_flags (FolderBrowser *fb, guint32 mask)
 		guint32 flags;
 		
 		flags = ~(camel_folder_get_message_flags (fb->folder, uids->pdata[i]));
-		
+
 		/* if we're flagging a message important, always undelete it too */
 		if (mask & flags & CAMEL_MESSAGE_FLAGGED) {
 			flags &= ~CAMEL_MESSAGE_DELETED;
 			mask |= CAMEL_MESSAGE_DELETED;
 		}
-		
+
 		/* if we're flagging a message deleted, mark it seen. If 
 		 * we're undeleting it, we also want it to be seen, so always do this.
 		 */
@@ -1959,9 +2063,9 @@ toggle_flags (FolderBrowser *fb, guint32 mask)
 			flags |= CAMEL_MESSAGE_SEEN;
 			mask |= CAMEL_MESSAGE_SEEN;
 		}
-		
+
 		camel_folder_set_message_flags (fb->folder, uids->pdata[i], mask, flags);
-		
+
 		g_free (uids->pdata[i]);
 	}
 	camel_folder_thaw (fb->folder);
@@ -2038,33 +2142,51 @@ struct _tag_editor_data {
 };
 
 static void
-tag_editor_response(GtkWidget *gd, int button, struct _tag_editor_data *data)
+tag_editor_ok (GtkWidget *button, gpointer user_data)
 {
+	struct _tag_editor_data *data = user_data;
 	CamelFolder *folder;
 	CamelTag *tags, *t;
 	GPtrArray *uids;
 	int i;
-
-	/*if (FOLDER_BROWSER_IS_DESTROYED (data->fb))
-	  goto done;*/
-
-	if (button == GTK_RESPONSE_OK
-	    && (tags = message_tag_editor_get_tag_list (data->editor))) {
-		folder = data->fb->folder;
-		uids = data->uids;
 	
-		camel_folder_freeze (folder);
-		for (i = 0; i < uids->len; i++) {
-			for (t = tags; t; t = t->next)
-				camel_folder_set_message_user_tag (folder, uids->pdata[i], t->name, t->value);
-		}
-		camel_folder_thaw (folder);
-		camel_tag_list_free (&tags);
+	if (FOLDER_BROWSER_IS_DESTROYED (data->fb))
+		goto done;
+	
+	tags = message_tag_editor_get_tag_list (data->editor);
+	if (tags == NULL)
+		goto done;
+	
+	folder = data->fb->folder;
+	uids = data->uids;
+	
+	camel_folder_freeze (folder);
+	for (i = 0; i < uids->len; i++) {
+		for (t = tags; t; t = t->next)
+			camel_folder_set_message_user_tag (folder, uids->pdata[i], t->name, t->value);
 	}
+	camel_folder_thaw (folder);
+	
+	camel_tag_list_free (&tags);
+	
+ done:
+	gtk_widget_destroy (GTK_WIDGET (data->editor));
+}
 
-	gtk_widget_destroy(gd);
+static void
+tag_editor_cancel (GtkWidget *button, gpointer user_data)
+{
+	struct _tag_editor_data *data = user_data;
+	
+	gtk_widget_destroy (GTK_WIDGET (data->editor));
+}
 
-	g_object_unref (data->fb);
+static void
+tag_editor_destroy (GnomeDialog *dialog, gpointer user_data)
+{
+	struct _tag_editor_data *data = user_data;
+	
+	gtk_object_unref (GTK_OBJECT (data->fb));
 	g_ptr_array_free (data->uids, TRUE);
 	g_free (data);
 }
@@ -2100,8 +2222,10 @@ flag_for_followup (BonoboUIComponent *uih, void *user_data, const char *path)
 						     camel_message_info_from (info),
 						     camel_message_info_subject (info));
 	}
-
-	g_signal_connect(editor, "response", G_CALLBACK(tag_editor_response), data);
+	
+	gnome_dialog_button_connect (GNOME_DIALOG (editor), 0, tag_editor_ok, data);
+	gnome_dialog_button_connect (GNOME_DIALOG (editor), 1, tag_editor_cancel, data);
+	gnome_dialog_set_close (GNOME_DIALOG (editor), TRUE);
 	
 	/* special-case... */
 	if (uids->len == 1) {
@@ -2114,6 +2238,9 @@ flag_for_followup (BonoboUIComponent *uih, void *user_data, const char *path)
 			camel_folder_free_message_info (fb->folder, info);
 		}
 	}
+	
+	gtk_signal_connect (GTK_OBJECT (editor), "destroy",
+			    tag_editor_destroy, data);
 	
 	gtk_widget_show (editor);
 }
@@ -2235,10 +2362,12 @@ do_edit_messages (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages, voi
 				ccd->drafts_uid = g_strdup (uids->pdata[i]);
 			}
 			
-			g_signal_connect (composer, "send", G_CALLBACK (composer_send_cb), ccd);
-			g_signal_connect (composer, "save-draft", G_CALLBACK (composer_save_draft_cb), ccd);
-			
-			g_object_weak_ref ((GObject *) composer, (GWeakNotify) composer_destroy_cb, ccd);
+			gtk_signal_connect (GTK_OBJECT (composer), "send",
+					    GTK_SIGNAL_FUNC (composer_send_cb), ccd);
+			gtk_signal_connect (GTK_OBJECT (composer), "save-draft",
+					    GTK_SIGNAL_FUNC (composer_save_draft_cb), ccd);
+			gtk_signal_connect (GTK_OBJECT (composer), "destroy",
+					    GTK_SIGNAL_FUNC (composer_destroy_cb), ccd);
 			
 			gtk_widget_show (GTK_WIDGET (composer));
 		}
@@ -2251,20 +2380,17 @@ are_you_sure (const char *msg, GPtrArray *uids, FolderBrowser *fb)
 	GtkWidget *dialog;
 	char *buf;
 	int button, i;
-
-	dialog = gtk_message_dialog_new (FB_WINDOW (fb), GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT,
-					 GTK_MESSAGE_QUESTION, GTK_BUTTONS_OK_CANCEL,
-					 msg, uids->len);
-	button = gtk_dialog_run((GtkDialog *)dialog);
-	gtk_widget_destroy(dialog);
-
-	if (button != GTK_RESPONSE_OK) {
+	
+	buf = g_strdup_printf (msg, uids->len);
+	dialog = e_gnome_ok_cancel_dialog_parented (buf, NULL, NULL, FB_WINDOW (fb));
+	button = gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+	if (button != 0) {
 		for (i = 0; i < uids->len; i++)
 			g_free (uids->pdata[i]);
 		g_ptr_array_free (uids, TRUE);
 	}
 	
-	return button == GTK_RESPONSE_OK;
+	return button == 0;
 }
 
 static void
@@ -2278,8 +2404,16 @@ edit_msg_internal (FolderBrowser *fb)
 	uids = g_ptr_array_new ();
 	message_list_foreach (fb->message_list, enumerate_msg, uids);
 	
-	if (uids->len > 10 && !are_you_sure (_("Are you sure you want to edit all %d messages?"), uids, fb))
+	if (uids->len > 10 && !are_you_sure (_("Are you sure you want to edit all %d messages?"), uids, fb)) {
+		int i;
+		
+		for (i = 0; i < uids->len; i++)
+			g_free (uids->pdata[i]);
+		
+		g_ptr_array_free (uids, TRUE);
+		
 		return;
+	}
 	
 	mail_get_messages (fb->folder, uids, do_edit_messages, fb);
 }
@@ -2293,8 +2427,13 @@ edit_msg (GtkWidget *widget, gpointer user_data)
 		return;
 	
 	if (!folder_browser_is_drafts (fb)) {
-		e_notice(FB_WINDOW(fb), GTK_MESSAGE_ERROR,
-			 _("You may only edit messages saved\nin the Drafts folder."));
+		GtkWidget *dialog;
+		
+		dialog = gnome_warning_dialog_parented (_("You may only edit messages saved\n"
+							  "in the Drafts folder."),
+							FB_WINDOW (fb));
+		gnome_dialog_set_close (GNOME_DIALOG (dialog), TRUE);
+		gtk_widget_show (dialog);
 		return;
 	}
 	
@@ -2328,9 +2467,12 @@ resend_msg (GtkWidget *widget, gpointer user_data)
 	
 	if (!folder_browser_is_sent (fb)) {
 		GtkWidget *dialog;
-
-		e_notice(FB_WINDOW(fb), GTK_MESSAGE_ERROR,
-			 _("You may only resend messages\nin the Sent folder."));
+		
+		dialog = gnome_warning_dialog_parented (_("You may only resend messages\n"
+							  "in the Sent folder."),
+							FB_WINDOW (fb));
+		gnome_dialog_set_close (GNOME_DIALOG (dialog), TRUE);
+		gtk_widget_show (dialog);
 		return;
 	}
 	
@@ -2340,8 +2482,16 @@ resend_msg (GtkWidget *widget, gpointer user_data)
 	uids = g_ptr_array_new ();
 	message_list_foreach (fb->message_list, enumerate_msg, uids);
 	
-	if (uids->len > 10 && !are_you_sure (_("Are you sure you want to resend all %d messages?"), uids, fb))
+	if (uids->len > 10 && !are_you_sure (_("Are you sure you want to resend all %d messages?"), uids, fb)) {
+		int i;
+		
+		for (i = 0; i < uids->len; i++)
+			g_free (uids->pdata[i]);
+		
+		g_ptr_array_free (uids, TRUE);
+		
 		return;
+	}
 	
 	mail_get_messages (fb->folder, uids, do_resend_messages, fb);
 }
@@ -2358,10 +2508,8 @@ search_msg (GtkWidget *widget, gpointer user_data)
 	if (fb->mail_display->current_message == NULL) {
 		GtkWidget *dialog;
 		
-		dialog = gtk_message_dialog_new(FB_WINDOW(fb), GTK_DIALOG_DESTROY_WITH_PARENT,
-						GTK_MESSAGE_WARNING, GTK_BUTTONS_CLOSE,
-						_("No Message Selected"));
-		g_signal_connect_swapped (dialog, "response", G_CALLBACK (gtk_widget_destroy), dialog);
+		dialog = gnome_warning_dialog_parented (_("No Message Selected"), FB_WINDOW (fb));
+		gnome_dialog_set_close (GNOME_DIALOG (dialog), TRUE);
 		gtk_widget_show (dialog);
 		return;
 	}
@@ -2387,8 +2535,8 @@ save_msg_ok (GtkWidget *widget, gpointer user_data)
 	CamelFolder *folder;
 	GPtrArray *uids;
 	const char *path;
+	int fd, ret = 0;
 	struct stat st;
-	gboolean ret = TRUE;
 	
 	path = gtk_file_selection_get_filename (GTK_FILE_SELECTION (user_data));
 	if (path[0] == '\0')
@@ -2397,21 +2545,33 @@ save_msg_ok (GtkWidget *widget, gpointer user_data)
 	/* make sure we can actually save to it... */
 	if (stat (path, &st) != -1 && !S_ISREG (st.st_mode))
 		return;
-
-	if (access(path, F_OK) == 0) {
-		if (access(path, W_OK) != 0) {
-			e_notice(GTK_WINDOW(user_data), GTK_MESSAGE_ERROR,
-				 _("Cannot save to `%s'\n %s"), path, g_strerror(errno));
-			return;
-		}
-
-		ret = e_question(GTK_WINDOW(user_data), GTK_RESPONSE_NO, NULL,
-				 _("`%s' already exists.\nOverwrite it?"), path);
+	
+	fd = open (path, O_RDONLY);
+	if (fd != -1) {
+		GtkWidget *dialog;
+		GtkWidget *text;
+		
+		close (fd);
+		
+		dialog = gnome_dialog_new (_("Overwrite file?"),
+					   GNOME_STOCK_BUTTON_YES, 
+					   GNOME_STOCK_BUTTON_NO,
+					   NULL);
+		
+		e_gnome_dialog_set_parent (GNOME_DIALOG (dialog), GTK_WINDOW (user_data));
+		
+		text = gtk_label_new (_("A file by that name already exists.\nOverwrite it?"));
+		gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), text, TRUE, TRUE, 4);
+		gtk_window_set_policy (GTK_WINDOW (dialog), FALSE, TRUE, FALSE);
+		gtk_widget_show (text);
+		
+		ret = gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
 	}
 	
-	if (ret == GTK_RESPONSE_OK) {
-		folder = g_object_get_data ((GObject *) user_data, "folder");
-		uids = g_object_steal_data (G_OBJECT (user_data), "uids");
+	if (ret == 0) {
+		folder = gtk_object_get_data (GTK_OBJECT (user_data), "folder");
+		uids = gtk_object_get_data (GTK_OBJECT (user_data), "uids");
+		gtk_object_remove_no_notify (GTK_OBJECT (user_data), "uids");
 		mail_save_messages (folder, uids, path, NULL, NULL);
 		gtk_widget_destroy (GTK_WIDGET (user_data));
 	}
@@ -2455,13 +2615,13 @@ save_msg (GtkWidget *widget, gpointer user_data)
 	path = g_strdup_printf ("%s/", g_get_home_dir ());
 	gtk_file_selection_set_filename (filesel, path);
 	g_free (path);
-	
-	g_object_set_data_full ((GObject *) filesel, "uids", uids, save_msg_destroy);
-	g_object_set_data ((GObject *) filesel, "folder", fb->folder);
-	
-	g_signal_connect (filesel->ok_button, "clicked", G_CALLBACK (save_msg_ok), filesel);
-	g_signal_connect_swapped (filesel->cancel_button, "clicked",
-				  G_CALLBACK (gtk_widget_destroy), filesel);
+	gtk_object_set_data_full (GTK_OBJECT (filesel), "uids", uids, save_msg_destroy);
+	gtk_object_set_data (GTK_OBJECT (filesel), "folder", fb->folder);
+	gtk_signal_connect (GTK_OBJECT (filesel->ok_button),
+			    "clicked", GTK_SIGNAL_FUNC (save_msg_ok), filesel);
+	gtk_signal_connect_object (GTK_OBJECT (filesel->cancel_button),
+				   "clicked", GTK_SIGNAL_FUNC (gtk_widget_destroy),
+				   GTK_OBJECT (filesel));
 	
 	gtk_widget_show (GTK_WIDGET (filesel));
 }
@@ -2491,7 +2651,7 @@ delete_msg (GtkWidget *button, gpointer user_data)
 		
 		/* If this is the last message and deleted messages
                    are hidden, select the previous */
-		if ((row + 1 == e_tree_row_count (fb->message_list->tree))
+		if ((row+1 == e_tree_row_count (fb->message_list->tree))
 		    && mail_config_get_hide_deleted ())
 			message_list_select (fb->message_list, MESSAGE_LIST_SELECT_PREVIOUS,
 					     0, CAMEL_MESSAGE_DELETED, FALSE);
@@ -2512,20 +2672,46 @@ undelete_msg (GtkWidget *button, gpointer user_data)
 static gboolean
 confirm_goto_next_folder (FolderBrowser *fb)
 {
-	gboolean res, show_again;
+	GtkWidget *dialog, *label, *checkbox;
+	int button;
 	
 	if (!mail_config_get_confirm_goto_next_folder ())
 		return mail_config_get_goto_next_folder ();
-
-	/*gtk_window_set_title((GtkWindow *)dialog, _("Go to next folder with unread messages?"));*/
-
-	res = e_question(FB_WINDOW(fb), GTK_RESPONSE_YES, &show_again,
-			 _("There are no more new messages in this folder.\n"
-			   "Would you like to go to the next folder?"));
-	mail_config_set_confirm_goto_next_folder(show_again);
-	mail_config_set_goto_next_folder (res);
-
-	return res;
+	
+	dialog = gnome_dialog_new (_("Go to next folder with unread messages?"),
+				   GNOME_STOCK_BUTTON_YES,
+				   GNOME_STOCK_BUTTON_NO,
+				   NULL);
+	
+	e_gnome_dialog_set_parent (GNOME_DIALOG (dialog), FB_WINDOW (fb));
+	
+	label = gtk_label_new (_("There are no more new messages in this folder.\n"
+				 "Would you like to go to the next folder?"));
+	
+	gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
+	gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
+	gtk_widget_show (label);
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), label, TRUE, TRUE, 4);
+	
+	checkbox = gtk_check_button_new_with_label (_("Do not ask me again."));
+	gtk_object_ref (GTK_OBJECT (checkbox));
+	gtk_widget_show (checkbox);
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), checkbox, TRUE, TRUE, 4);
+	
+	button = gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+	
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbox)))
+		mail_config_set_confirm_goto_next_folder (FALSE);
+	
+	gtk_object_unref (GTK_OBJECT (checkbox));
+	
+	if (button == 0) {
+		mail_config_set_goto_next_folder (TRUE);
+		return TRUE;
+	} else {
+		mail_config_set_goto_next_folder (FALSE);
+		return FALSE;
+	}
 }
 
 static CamelFolderInfo *
@@ -2729,19 +2915,45 @@ expunged_folder (CamelFolder *f, void *data)
 static gboolean
 confirm_expunge (FolderBrowser *fb)
 {
-	gboolean res, show_again;
-
+	GtkWidget *dialog, *label, *checkbox;
+	int button;
+	
 	if (!mail_config_get_confirm_expunge ())
 		return TRUE;
-
-	res = e_question(FB_WINDOW(fb), GTK_RESPONSE_NO, &show_again,
-			 _("This operation will permanently erase all messages marked as\n"
-			   "deleted. If you continue, you will not be able to recover these messages.\n"
-			   "\nReally erase these messages?"));
-
-	mail_config_set_confirm_expunge(show_again);
-
-	return res;
+	
+	dialog = gnome_dialog_new (_("Warning"),
+				   GNOME_STOCK_BUTTON_YES,
+				   GNOME_STOCK_BUTTON_NO,
+				   NULL);
+	
+	e_gnome_dialog_set_parent (GNOME_DIALOG (dialog), FB_WINDOW (fb));
+	
+	label = gtk_label_new (_("This operation will permanently erase all messages marked as deleted. If you continue, you will not be able to recover these messages.\n\nReally erase these messages?"));
+	
+	gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
+	gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
+	gtk_widget_show (label);
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), label, TRUE, TRUE, 4);
+	
+	checkbox = gtk_check_button_new_with_label (_("Do not ask me again."));
+	gtk_object_ref (GTK_OBJECT (checkbox));
+	gtk_widget_show (checkbox);
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), checkbox, TRUE, TRUE, 4);
+	
+	/* Set the 'No' button as the default */
+	gnome_dialog_set_default (GNOME_DIALOG (dialog), 1);
+	
+	button = gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+	
+	if (button == 0 && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbox)))
+		mail_config_set_confirm_expunge (FALSE);
+	
+	gtk_object_unref (GTK_OBJECT (checkbox));
+	
+	if (button == 0)
+		return TRUE;
+	else
+		return FALSE;
 }
 
 void
@@ -2777,22 +2989,28 @@ expunge_folder (BonoboUIComponent *uih, void *user_data, const char *path)
 static GtkWidget *filter_editor = NULL;
 
 static void
-filter_editor_response (GtkWidget *dialog, int button, FolderBrowser *fb)
+filter_editor_destroy (GtkWidget *dialog, gpointer user_data)
+{
+	filter_editor = NULL;
+}
+
+static void
+filter_editor_clicked (GtkWidget *dialog, int button, FolderBrowser *fb)
 {
 	FilterContext *fc;
 	
-	if (button == GTK_RESPONSE_ACCEPT) {
+	if (button == 0) {
 		char *user;
 		
-		fc = g_object_get_data(G_OBJECT(dialog), "context");
+		fc = gtk_object_get_data (GTK_OBJECT (dialog), "context");
 		user = g_strdup_printf ("%s/filters.xml", evolution_dir);
 		rule_context_save ((RuleContext *)fc, user);
 		g_free (user);
 	}
-
-	gtk_widget_destroy(dialog);
-
-	filter_editor = NULL;
+	
+	if (button != -1) {
+		gnome_dialog_close (GNOME_DIALOG (dialog));
+	}
 }
 
 static const char *filter_source_names[] = {
@@ -2820,19 +3038,27 @@ filter_edit (BonoboUIComponent *uih, void *user_data, const char *path)
 	g_free (user);
 	
 	if (((RuleContext *)fc)->error) {
-		e_notice(FB_WINDOW (fb), GTK_MESSAGE_ERROR,
-			 _("Error loading filter information:\n%s"),
-			 ((RuleContext *)fc)->error);
+		GtkWidget *dialog;
+		char *err;
+		
+		err = g_strdup_printf (_("Error loading filter information:\n%s"),
+				       ((RuleContext *)fc)->error);
+		dialog = gnome_warning_dialog_parented (err, FB_WINDOW (fb));
+		g_free (err);
+		
+		gnome_dialog_set_close (GNOME_DIALOG (dialog), TRUE);
+		gtk_widget_show (dialog);
 		return;
 	}
 	
 	filter_editor = (GtkWidget *)filter_editor_new (fc, filter_source_names);
-	/* maybe this needs destroy func? */
-	gtk_window_set_transient_for((GtkWindow *)filter_editor, FB_WINDOW(fb));
+	gnome_dialog_set_parent (GNOME_DIALOG (filter_editor), FB_WINDOW (fb));
 	gtk_window_set_title (GTK_WINDOW (filter_editor), _("Filters"));
-	gtk_dialog_add_button((GtkDialog *)filter_editor, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
-	g_object_set_data_full(G_OBJECT(filter_editor), "context", fc, (GtkDestroyNotify)g_object_unref);
-	g_signal_connect(filter_editor, "response", G_CALLBACK(filter_editor_response), fb);
+	
+	gtk_object_set_data_full (GTK_OBJECT (filter_editor), "context", fc, (GtkDestroyNotify)gtk_object_unref);
+	gtk_signal_connect (GTK_OBJECT (filter_editor), "clicked", filter_editor_clicked, fb);
+	gtk_signal_connect (GTK_OBJECT (filter_editor), "destroy", filter_editor_destroy, NULL);
+	gnome_dialog_append_buttons(GNOME_DIALOG(filter_editor), GNOME_STOCK_BUTTON_CANCEL, NULL);
 	gtk_widget_show (GTK_WIDGET (filter_editor));
 }
 
@@ -2872,9 +3098,7 @@ footer_print_cb (GtkHTML *html, GnomePrintContext *print_context,
 
 	if (info->local_font) {
 		gchar *text = g_strdup_printf (_("Page %d of %d"), info->page_num, info->pages);
-		/*gdouble tw = gnome_font_get_width_string (info->local_font, text);*/
-		/* FIXME: work out how to measure this */
-		gdouble tw = strlen(text) * 8;
+		gdouble tw = gnome_font_get_width_string (info->local_font, text);
 
 		gnome_print_gsave       (print_context);
 		gnome_print_newpath     (print_context);
@@ -2903,7 +3127,7 @@ footer_info_new (GtkHTML *html, GnomePrintContext *pc, gdouble *line)
 	struct footer_info *info;
 
 	info = g_new (struct footer_info, 1);
-	info->local_font = gnome_font_find_closest ("Helvetica", 10.0);
+	info->local_font = gnome_font_new_closest ("Helvetica", GNOME_FONT_BOOK, FALSE, 10);
 	if (info->local_font) {
 		*line = gnome_font_get_ascender (info->local_font) + gnome_font_get_descender (info->local_font);
 	}
@@ -2920,39 +3144,47 @@ do_mail_print (FolderBrowser *fb, gboolean preview)
 	GnomePrintContext *print_context;
 	GnomePrintMaster *print_master;
 	GnomePrintDialog *dialog;
-	GnomePrintConfig *config = NULL;
+	GnomePrinter *printer = NULL;
+	GnomePaper *paper;
 	gdouble line = 0.0;
+	int copies = 1;
+	int collate = FALSE;
 	struct footer_info *info;
 
 	if (!preview) {
 		dialog = GNOME_PRINT_DIALOG (gnome_print_dialog_new (_("Print Message"),
 								     GNOME_PRINT_DIALOG_COPIES));
-		gtk_dialog_set_default_response((GtkDialog *)dialog, GNOME_PRINT_DIALOG_RESPONSE_PRINT);
-		gtk_window_set_transient_for((GtkWindow *)dialog, (GtkWindow *)fb);
+		gnome_dialog_set_default (GNOME_DIALOG (dialog), GNOME_PRINT_PRINT);
+		e_gnome_dialog_set_parent (GNOME_DIALOG (dialog), FB_WINDOW (fb));
 		
-		switch(gtk_dialog_run((GtkDialog *)dialog)) {
-		case GNOME_PRINT_DIALOG_RESPONSE_PRINT:
+		switch (gnome_dialog_run (GNOME_DIALOG (dialog))) {
+		case GNOME_PRINT_PRINT:
 			break;	
-		case GNOME_PRINT_DIALOG_RESPONSE_PREVIEW:
+		case GNOME_PRINT_PREVIEW:
 			preview = TRUE;
 			break;
+		case -1:
+			return;
 		default:
-			gtk_widget_destroy((GtkWidget *)dialog);
+			gnome_dialog_close (GNOME_DIALOG (dialog));
 			return;
 		}
 		
-		config = gnome_print_dialog_get_config(dialog);
-		gtk_widget_destroy((GtkWidget *)dialog);
+		gnome_print_dialog_get_copies (dialog, &copies, &collate);
+		printer = gnome_print_dialog_get_printer (dialog);
+		gnome_dialog_close (GNOME_DIALOG (dialog));
 	}
 	
-	if (config) {
-		print_master = gnome_print_master_new_from_config(config);
-		gnome_print_config_unref(config);
-	} else
-		print_master = gnome_print_master_new ();
+	print_master = gnome_print_master_new ();
 	
-	/* paper size settings? */
-	/*gnome_print_master_set_paper (print_master, paper);*/
+	if (printer)
+		gnome_print_master_set_printer (print_master, printer);
+	paper = (GnomePaper *) gnome_paper_with_name (_("US-Letter"));
+
+	if (!paper)
+		paper = (GnomePaper *) gnome_paper_with_name (gnome_paper_name_default ());
+	gnome_print_master_set_paper (print_master, paper);
+	gnome_print_master_set_copies (print_master, copies, collate);
 	print_context = gnome_print_master_get_context (print_master);
 	
 	html = GTK_HTML (gtk_html_new ());
@@ -2977,15 +3209,19 @@ do_mail_print (FolderBrowser *fb, gboolean preview)
 	gnome_print_master_close (print_master);
 	
 	if (preview){
-		GtkWidget *preview;
-
-		preview = gnome_print_master_preview_new(print_master, _("Print Preview"));
-		gtk_widget_show(preview);
+		gboolean landscape = FALSE;
+		GnomePrintMasterPreview *preview;
+		
+		preview = gnome_print_master_preview_new_with_orientation (
+			print_master, _("Print Preview"), landscape);
+		gtk_widget_show (GTK_WIDGET (preview));
 	} else {
 		int result = gnome_print_master_print (print_master);
 		
-		if (result == -1)
-			e_notice(FB_WINDOW(fb), GTK_MESSAGE_ERROR, _("Printing of message failed"));
+		if (result == -1){
+			e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+				  _("Printing of message failed"));
+		}
 	}
 	
 	/* FIXME: We are leaking the GtkHTML object */
@@ -3088,10 +3324,8 @@ static GtkObject *subscribe_dialog = NULL;
 static void
 subscribe_dialog_destroy (GtkWidget *widget, gpointer user_data)
 {
-	if (subscribe_dialog) {
-		g_object_unref (subscribe_dialog);
-		subscribe_dialog = NULL;
-	}
+	gtk_object_unref (subscribe_dialog);
+	subscribe_dialog = NULL;
 }
 
 void
@@ -3099,8 +3333,8 @@ manage_subscriptions (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	if (!subscribe_dialog) {
 		subscribe_dialog = subscribe_dialog_new ();
-		g_signal_connect (SUBSCRIBE_DIALOG (subscribe_dialog)->app, "destroy",
-				  G_CALLBACK (subscribe_dialog_destroy), NULL);
+		gtk_signal_connect (GTK_OBJECT (SUBSCRIBE_DIALOG (subscribe_dialog)->app), "destroy",
+				    subscribe_dialog_destroy, NULL);
 		
 		subscribe_dialog_show (subscribe_dialog);
 	} else {
@@ -3116,7 +3350,7 @@ local_configure_done(const char *uri, CamelFolder *folder, void *data)
 	FolderBrowser *fb = data;
 
 	if (FOLDER_BROWSER_IS_DESTROYED (fb)) {
-		g_object_unref(fb);
+		gtk_object_unref((GtkObject *)fb);
 		return;
 	}
 
@@ -3124,7 +3358,7 @@ local_configure_done(const char *uri, CamelFolder *folder, void *data)
 		folder = fb->folder;
 
 	message_list_set_folder(fb->message_list, folder, FALSE);
-	g_object_unref(fb);
+	gtk_object_unref((GtkObject *)fb);
 }
 
 void
@@ -3140,7 +3374,7 @@ configure_folder (BonoboUIComponent *uih, void *user_data, const char *path)
 			vfolder_edit_rule (fb->uri);
 		} else {
 			message_list_set_folder(fb->message_list, NULL, FALSE);
-			g_object_ref((GtkObject *)fb);
+			gtk_object_ref((GtkObject *)fb);
 			mail_local_reconfigure_folder(fb->uri, local_configure_done, fb);
 		}
 	}
@@ -3223,7 +3457,7 @@ stop_threads (BonoboUIComponent *uih, void *user_data, const char *path)
 static void
 empty_trash_expunged_cb (CamelFolder *folder, void *data)
 {
-	camel_object_unref (folder);
+	camel_object_unref (CAMEL_OBJECT (folder));
 }
 
 void

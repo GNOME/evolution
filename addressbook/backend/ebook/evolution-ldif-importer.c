@@ -13,6 +13,9 @@
  */
 
 #include <config.h>
+#include <bonobo.h>
+#include <gnome.h>
+#include <liboaf/liboaf.h>
 #include <stdio.h>
 #include <ctype.h>
 
@@ -266,9 +269,9 @@ parseLine( ECardSimple *simple, ECardDeliveryAddress *address, char **buf )
 			}
 			else if (!g_strcasecmp (ptr, "member")) {
 				EList *email;
-				g_object_get (simple->card,
-					      "email", &email,
-					      NULL);
+				gtk_object_get (GTK_OBJECT (simple->card),
+						"email", &email,
+						NULL);
 				e_list_append (email, ldif_value->str);
 			}
 		}
@@ -323,7 +326,7 @@ getNextLDIFEntry( FILE *f )
 	while (buf) {
 		if (!parseLine (simple, address, &buf)) {
 			/* parsing error */
-			g_object_unref (simple);
+			gtk_object_unref (GTK_OBJECT (simple));
 			e_card_delivery_address_unref (address);
 			return NULL;
 		}
@@ -371,17 +374,17 @@ resolve_list_card (LDIFImporter *gci, ECard *card)
 	if (!e_card_evolution_list (card))
 		return;
 
-	g_object_get (card,
-		      "email", &email,
-		      "full_name", &full_name,
-		      NULL);
+	gtk_object_get (GTK_OBJECT (card),
+			"email", &email,
+			"full_name", &full_name,
+			NULL);
 
 	/* set file_as to full_name so we don't later try and figure
            out a first/last name for the list. */
 	if (full_name)
-		g_object_set (card,
-			      "file_as", full_name,
-			      NULL);
+		gtk_object_set (GTK_OBJECT (card),
+				"file_as", full_name,
+				NULL);
 
 	email_iter = e_list_get_iterator (email);
 	while (e_iterator_is_valid (email_iter)) {
@@ -394,7 +397,7 @@ resolve_list_card (LDIFImporter *gci, ECard *card)
 			gchar *dest_xml;
 			e_destination_set_card (dest, dn_card, 0);  /* Hard-wired for default e-mail, since netscape only exports 1 email address */
 			dest_xml = e_destination_export (dest);
-			g_object_unref (dest);
+			gtk_object_unref (GTK_OBJECT (dest));
 			if (dest_xml) {
 				e_iterator_set (email_iter, dest_xml);
 				g_free (dest_xml);
@@ -546,10 +549,10 @@ support_format_fn (EvolutionImporter *importer,
 }
 
 static void
-importer_destroy_cb (GObject *object,
+importer_destroy_cb (GtkObject *object,
 		     LDIFImporter *gci)
 {
-	g_main_quit ();
+	gtk_main_quit ();
 }
 
 static gboolean
@@ -581,8 +584,8 @@ factory_fn (BonoboGenericFactory *_factory,
 	importer = evolution_importer_new (support_format_fn, load_file_fn, 
 					   process_item_fn, NULL, gci);
 	
-	g_signal_connect (importer, "destroy",
-			  G_CALLBACK (importer_destroy_cb), gci);
+	gtk_signal_connect (GTK_OBJECT (importer), "destroy",
+			    GTK_SIGNAL_FUNC (importer_destroy_cb), gci);
 	
 	return BONOBO_OBJECT (importer);
 }
@@ -612,8 +615,8 @@ main (int argc,
 	gnome_init_with_popt_table ("Evolution-LDIF-Importer",
 				    "0.0", argc, argv, oaf_popt_options, 0,
 				    NULL);
-	orb = bonobo_activation_init (argc, argv);
-	if (bonobo_init_full (&argc, argv, orb, CORBA_OBJECT_NIL, CORBA_OBJECT_NIL) == FALSE) {
+	orb = oaf_init (argc, argv);
+	if (bonobo_init (orb, CORBA_OBJECT_NIL, CORBA_OBJECT_NIL) == FALSE) {
 		g_error ("Could not initialize Bonobo.");
 	}
 
