@@ -21,4 +21,6 @@ FilterPart *vfolder_create_part(const char *name);
 void vfolder_gui_add_rule(VfolderRule *rule);
 void vfolder_gui_add_from_message(CamelMimeMessage *msg, int flags, const char *source);
 
+EvolutionStorage *mail_vfolder_get_vfolder_storage (void);
+
 #endif

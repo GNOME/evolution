@@ -43,7 +43,6 @@ void mail_do_append_mail (CamelFolder *folder,
 void mail_do_transfer_messages (CamelFolder *source, GPtrArray *uids,
 				gboolean delete_from_source,
 				gchar *dest_uri);
-void mail_do_setup_trash (const char *name, const char *store_uri, CamelFolder **folder);
 
 /* get a single message, asynchronously */
 void mail_get_message(CamelFolder *folder, const char *uid,
@@ -57,9 +56,6 @@ void mail_get_messages(CamelFolder *folder, GPtrArray *uids,
 /* same for a folder */
 int mail_get_folder(const char *uri,
 		    void (*done) (char *uri, CamelFolder *folder, void *data), void *data);
-
-int mail_get_trash (const char *uri,
-		    void (*done) (char *store_uri, CamelFolder *folder, void *data), void *data);
 
 /* and for a store */
 int mail_get_store(const char *uri,
@@ -119,7 +115,3 @@ void mail_filter_folder(CamelFolder *source_folder, GPtrArray *uids,
 
 /* convenience function for above */
 void mail_filter_on_demand(CamelFolder *folder, GPtrArray *uids);
-
-
-
-

@@ -30,6 +30,7 @@
 #include "composer/evolution-composer.h"
 #include "mail.h"
 #include "mail-mt.h"
+#include "mail-vtrash.h"
 
 #if 0
 static int blowup(int status)
@@ -121,7 +122,9 @@ main (int argc, char *argv [])
 	GDK_THREADS_ENTER ();
 	bonobo_main ();
 	GDK_THREADS_LEAVE ();
-
+	
+	vtrash_cleanup ();
+	
 	mail_config_write_on_exit ();
 
 	return 0;

@@ -344,3 +344,9 @@ vfolder_gui_add_from_message(CamelMimeMessage *msg, int flags, const char *sourc
 	vfolder_gui_add_rule(rule);
 }
 
+EvolutionStorage *
+mail_vfolder_get_vfolder_storage (void)
+{
+	gtk_object_ref (GTK_OBJECT (vfolder_storage));
+	return vfolder_storage;
+}

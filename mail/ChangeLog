@@ -1,3 +1,33 @@
+2001-02-19  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-vfolder.c (mail_vfolder_get_vfolder_storage): New handy
+	dandy function to ref and return the vfolder storage (will
+	probably be disavowed once I figure out how to get the vTrash
+	folder to show up in the EvolutionLocalStorage).
+
+	* main.c (main): Call vtrash_cleanup().
+
+	* mail-vtrash.c: New file.
+	(vtrash_uri_to_folder): vtrash: URI handler
+	(vtrash_create): Replacement async vtrash function for the old one
+	in mail-ops.c
+	(vtrash_cleanup): Cleanup code - unrefs the cached vtrash folders
+	and free's the hashtable.
+
+	* Makefile.am: Added mail-vtrash.[c,h].
+
+	* mail-tools.c (mail_tool_uri_to_folder): If we have a vtrash:
+	URI, call the vtrash URI handler function rather than continuing
+	on. Yes, I know this is a hack and it needs to be fixed.
+
+	* mail-ops.c (mail_do_setup_trash): Removed.
+	(mail_trash_get): Removed.
+
+	* component-factory.c (owner_set_cb): Create the vTrash folder for
+	the LocalStore here.
+
+	* mail-local.c (get_folder_info): Implement.
+
 2001-02-20  Not Zed  <NotZed@Ximian.com>
 
 	* mail-ops.c (fetch_mail_fetch): Unref the driver here, in the

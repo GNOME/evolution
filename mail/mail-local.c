@@ -629,7 +629,7 @@ mail_local_storage_startup (EvolutionShellClient *shellclient,
 		camel_object_unref (CAMEL_OBJECT (local_store));
 		return;
 	}
-
+	
 	local_store->local_storage_listener =
 		evolution_storage_listener_new ();
 	corba_local_storage_listener =

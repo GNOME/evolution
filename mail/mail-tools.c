@@ -31,6 +31,7 @@
 #include "camel/camel.h"
 #include "camel/providers/vee/camel-vee-folder.h"
 #include "mail-vfolder.h"
+#include "mail-vtrash.h"
 #include "filter/vfolder-rule.h"
 #include "filter/vfolder-context.h"
 #include "filter/filter-option.h"
@@ -307,7 +308,14 @@ mail_tool_uri_to_folder (const char *uri, CamelException *ex)
 	CamelURL *url;
 	CamelStore *store = NULL;
 	CamelFolder *folder = NULL;
-
+	
+	/* FIXME: This is a hack. */
+	if (!strncmp (uri, "vtrash:", 7)) {
+		folder = vtrash_uri_to_folder (uri, ex);
+		if (folder)
+			return folder;
+	}
+	
 	url = camel_url_new (uri, ex);
 	if (!url)
 		return NULL;

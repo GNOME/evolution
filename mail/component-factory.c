@@ -43,6 +43,7 @@
 #include "mail-mt.h"
 #include "mail-importer.h"
 #include "mail-vfolder.h"             /* vfolder_create_storage */
+#include "mail-vtrash.h"
 #include "openpgp-utils.h"
 #include <gal/widgets/e-gui-utils.h>
 
@@ -54,7 +55,6 @@
 CamelFolder *drafts_folder = NULL;
 CamelFolder *outbox_folder = NULL;
 CamelFolder *sent_folder = NULL;     /* this one should be configurable? */
-CamelFolder *trash_folder = NULL;
 char *evolution_dir;
 
 #define COMPONENT_FACTORY_ID "OAFIID:GNOME_Evolution_Mail_ShellComponentFactory"
@@ -215,9 +215,7 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 		g_free (uri);
 	}
 	
-	/*mail_msg_wait (mail_get_trash ("file:/", got_folder, &trash_folder));*/
-	mail_do_setup_trash (_("Trash"), "file:/", &trash_folder);
-	mail_operation_wait_for_finish ();
+	mail_msg_wait (vtrash_create ("file:/", NULL, NULL));
 	
 	mail_session_enable_interaction (TRUE);
 	

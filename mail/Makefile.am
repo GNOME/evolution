@@ -93,6 +93,8 @@ evolution_mail_SOURCES =		\
 	mail-vfolder.c			\
 	mail-vfolder.h			\
 	mail-view.c			\
+	mail-vtrash.c			\
+	mail-vtrash.h			\
 	main.c				\
 	message-list.c			\
 	message-list.h			\
