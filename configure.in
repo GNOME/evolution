@@ -417,25 +417,42 @@ fi
 if test x${with_krb4:=no} != xno; then
 	CFLAGS_save="$CFLAGS"
 	LDFLAGS_save="$LDFLAGS"
-	CFLAGS="-I$with_krb4/include -I$with_krb4/include/kerberosIV"
+	CFLAGS="-I$with_krb4/include/kerberosIV -I$with_krb4/include/kerberos"
+	test -f "$with_krb4/include/krb.h" && \
+		CFLAGS="$CFLAGS -I$with_krb4/include"
+	test -f "$with_krb4/include/port-sockets.h" && \
+		CFLAGS="$CFLAGS -I$with_krb4/include"
+
 	LDFLAGS="-L$with_krb4/lib"
 	AC_CHECK_LIB(krb, krb_mk_req,
 	[
 		AC_DEFINE(HAVE_KRB4)
 		KRB4_CFLAGS="$CFLAGS"
-		KRB4_LDFLAGS="$LDFLAGS -lkrb -ldes"
+		KRB4_LDFLAGS="$LDFLAGS -lkrb"
 	],[
-		AC_CHECK_LIB(krb4, krb_mk_req,
+		AC_CHECK_LIB(krb, krb_mk_req,
 		[
 			AC_DEFINE(HAVE_KRB4)
 			KRB4_CFLAGS="$CFLAGS"
-			KRB4_LDFLAGS="$LDFLAGS -lkrb4 -ldes425 $KRB5_LDFLAGS"
+			KRB4_LDFLAGS="$LDFLAGS -lkrb -ldes"
 		],[
-			AC_MSG_WARN([A sample Kerberos 4 program could not be compiled with the
+			AC_CHECK_LIB(krb4, krb_mk_req,
+			[
+				AC_DEFINE(HAVE_KRB4)
+				KRB4_CFLAGS="$CFLAGS"
+				KRB4_LDFLAGS="$LDFLAGS -lkrb4 -ldes425 $KRB5_LDFLAGS"
+			],[
+				AC_MSG_WARN([A sample Kerberos 4 program could not be compiled with the
 Kerberos found in $with_krb4. Please verify that the prefix is correct.])
-			with_krb4=no
-		],[-ldes425 $KRB5_LDFLAGS])
-	], [-ldes])
+				with_krb4=no
+			],[-ldes425 $KRB5_LDFLAGS])
+		],[-ldes])
+	])
+
+	AC_TRY_COMPILE([#include "krb.h"
+	int krb_sendauth;
+	],[return 0],[AC_DEFINE(NEED_KRB_SENDAUTH_PROTO)],)
+
 	CFLAGS="$CFLAGS_save"
 	LDFLAGS="$LIBS_save"
 else

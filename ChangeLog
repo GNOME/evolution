@@ -21,6 +21,14 @@
 	* configure.in: Add default_user/local/Sentbox/Makefile to the
 	list of makefiles to output
 
+2000-08-31  Peter Williams  <peterw@helixcode.com>
+
+	* configure.in (kerberos): Check and see if krb_sendauth needs
+	prototyping. (#define NEED_KRB_SENDAUTH_PROTO). Also check
+	for a libkrb that doesn't need -ldes.
+
+	* acconfig.h: #undef it
+
 2000-08-30  Lauris Kaplinski  <lauris@helixcode.com>
 
 	* configure.in: AC_DEFINE(USING_GNOME_PRINT_0_20)
