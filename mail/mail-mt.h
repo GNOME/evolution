@@ -59,11 +59,13 @@ void mail_msg_wait(unsigned int msgid);
 
 /* set the status-bar message */
 /* start/end a new op */
+#if 0
 void mail_status_start(const char *msg);
 void mail_status_end(void);
 /* set a status during an op */
 void mail_statusf(const char *fmt, ...);
 void mail_status(const char *msg);
+#endif
 
 /* request a string/password */
 char *mail_get_password (const char *prompt, gboolean secret);

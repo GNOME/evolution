@@ -1714,16 +1714,21 @@ static void get_messages_get(struct _mail_msg *mm)
 	int i;
 	CamelMimeMessage *message;
 
+	camel_operation_register(mm->cancel);
+	camel_operation_start(mm->cancel, _("Retrieving %d messsage(s)"), m->uids->len);
 	for (i=0; i<m->uids->len; i++) {
-		mail_statusf(_("Retrieving message number %d of %d (uid \"%s\")"),
-			     i+1, m->uids->len, (char *) m->uids->pdata[i]);
+		int pc = ((i+1) * 100) / m->uids->len;
 
 		message = camel_folder_get_message(m->folder, m->uids->pdata[i], &mm->ex);
+		camel_operation_progress(mm->cancel, pc);
 		if (message == NULL)
 			break;
 
 		g_ptr_array_add(m->messages, message);
 	}
+
+	camel_operation_end(mm->cancel);
+	camel_operation_unregister(mm->cancel);
 }
 
 static void get_messages_got(struct _mail_msg *mm)
@@ -1878,14 +1883,16 @@ static void save_messages_save(struct _mail_msg *mm)
 	camel_stream_filter_add(filtered_stream, (CamelMimeFilter *)from_filter);
 	camel_object_unref((CamelObject *)from_filter);
 	
+	camel_operation_register(mm->cancel);
+	camel_operation_start(mm->cancel, _("Saving %d messsage(s)"), m->uids->len);
+
 	for (i=0; i<m->uids->len; i++) {
 		CamelMimeMessage *message;
+		int pc = ((i+1) * 100) / m->uids->len;
 
-		mail_statusf(_("Saving message %d of %d (uid \"%s\")"),
-			     i+1, m->uids->len, (char *)m->uids->pdata[i]);
-		
 		message = camel_folder_get_message(m->folder, m->uids->pdata[i], &mm->ex);
-		if (!message)
+		camel_operation_progress(mm->cancel, pc);
+		if (message == NULL)
 			break;
 
 		/* we need to flush after each stream write since we are writing to the same fd */
@@ -1906,6 +1913,9 @@ static void save_messages_save(struct _mail_msg *mm)
 
 	camel_object_unref((CamelObject *)filtered_stream);
 	camel_object_unref((CamelObject *)stream);
+
+	camel_operation_end(mm->cancel);
+	camel_operation_unregister(mm->cancel);
 }
 
 static void save_messages_saved(struct _mail_msg *mm)

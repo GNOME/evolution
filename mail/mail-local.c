@@ -717,14 +717,6 @@ mail_local_storage_startup (EvolutionShellClient *shellclient,
 
 */
 
-static void
-update_progress(char *fmt, float percent)
-{
-	if (fmt)
-		mail_status(fmt);
-	/*mail_op_set_percentage (percent);*/
-}
-
 /* ******************** */
 
 /* we should have our own progress bar for this */
@@ -733,29 +725,22 @@ struct _reconfigure_msg {
 	struct _mail_msg msg;
 
 	FolderBrowser *fb;
-	gchar *newtype;
+	char *newtype;
 	GtkWidget *frame;
 	GtkWidget *apply;
 	GtkWidget *cancel;
 	GtkOptionMenu *optionlist;
 };
 
-#if 0
-static gchar *
-describe_reconfigure_folder (gpointer in_data, gboolean gerund)
+static char *
+reconfigure_folder_describe(struct _mail_msg *mm, int done)
 {
-	reconfigure_folder_input_t *input = (reconfigure_folder_input_t *) in_data;
+	struct _reconfigure_msg *m = (struct _reconfigure_msg *)mm;
 
-	if (gerund)
-		return g_strdup_printf (_("Changing folder \"%s\" to \"%s\" format"),
-					input->fb->uri,
-					input->newtype);
-	else
-		return g_strdup_printf (_("Change folder \"%s\" to \"%s\" format"),
-					input->fb->uri,
-					input->newtype);
+	return g_strdup_printf (_("Changing folder \"%s\" to \"%s\" format"),
+				m->fb->uri,
+				m->newtype);
 }
-#endif
 
 static void
 reconfigure_folder_reconfigure(struct _mail_msg *mm)
@@ -774,7 +759,8 @@ reconfigure_folder_reconfigure(struct _mail_msg *mm)
 
 	d(printf("reconfiguring folder: %s to type %s\n", m->fb->uri, m->newtype));
 
-	mail_status (_("Reconfiguring folder"));
+	camel_operation_register(mm->cancel);
+	camel_operation_start(mm->cancel, _("Reconfiguring folder"));
 
 	/* NOTE: This var is cleared by the folder_browser via the set_uri method */
 	m->fb->reconfigure = TRUE;
@@ -803,7 +789,6 @@ reconfigure_folder_reconfigure(struct _mail_msg *mm)
 	g_free(metapath);
 
 	/* first, 'close' the old folder */
-	update_progress(_("Closing current folder"), 0.0);
 	camel_folder_sync(local_folder->folder, FALSE, &mm->ex);
 
 	/* Once for the FolderBrowser, once for the local store */
@@ -830,7 +815,6 @@ reconfigure_folder_reconfigure(struct _mail_msg *mm)
 	/* rename the old mbox and open it again, without indexing */
 	tmpname = g_strdup_printf("%s_reconfig", meta->name);
 	d(printf("renaming %s to %s, and opening it\n", meta->name, tmpname));
-	update_progress(_("Renaming old folder and opening"), 0.0);
 
 	camel_store_rename_folder(fromstore, meta->name, tmpname, &mm->ex);
 	if (camel_exception_is_set(&mm->ex)) {
@@ -848,7 +832,6 @@ reconfigure_folder_reconfigure(struct _mail_msg *mm)
 
 	/* create a new mbox */
 	d(printf("Creating the destination mbox\n"));
-	update_progress(_("Creating new folder"), 0.0);
 
 	flags = CAMEL_STORE_FOLDER_CREATE;
 	if (meta->indexed)
@@ -862,7 +845,6 @@ reconfigure_folder_reconfigure(struct _mail_msg *mm)
 		goto cleanup;
 	}
 
-	update_progress (_("Copying messages"), 0.0);
 	uids = camel_folder_get_uids (fromfolder);
 	camel_folder_move_messages_to (fromfolder, uids, tofolder, &mm->ex);
 	camel_folder_free_uids (fromfolder, uids);
@@ -909,6 +891,9 @@ reconfigure_folder_reconfigure(struct _mail_msg *mm)
 	g_free(tourl);
 	if (url)
 		camel_url_free (url);
+
+	camel_operation_end(mm->cancel);
+	camel_operation_unregister(mm->cancel);
 }
 
 static void
@@ -939,7 +924,7 @@ reconfigure_folder_free(struct _mail_msg *mm)
 }
 
 static struct _mail_msg_op reconfigure_folder_op = {
-	NULL,
+	reconfigure_folder_describe,
 	reconfigure_folder_reconfigure,
 	reconfigure_folder_reconfigured,
 	reconfigure_folder_free,

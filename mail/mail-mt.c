@@ -27,7 +27,11 @@
 #include "e-util/e-msgport.h"
 #include "camel/camel-operation.h"
 
+#include "evolution-activity-client.h"
+
 #include "mail-mt.h"
+
+#include "art/mail-new.xpm"
 
 /*#define MALLOC_CHECK*/
 #define d(x) 
@@ -41,19 +45,22 @@ static void mail_operation_status(struct _CamelOperation *op, const char *what, 
 #define MAIL_MT_LOCK(x) pthread_mutex_lock(&x)
 #define MAIL_MT_UNLOCK(x) pthread_mutex_unlock(&x)
 
+extern EvolutionShellClient *global_shell_client;
+
 /* background operation status stuff */
 struct _mail_msg_priv {
-	GtkProgressBar *bar;
-	GtkLabel *label;
-
-	/* for pending requests, before timeout_id is activated (then bar will be ! NULL) */
-	char *what;
-	int pc;
 	int timeout_id;
+	int activity_state;	/* sigh sigh sigh, we need to keep track of the state external to the
+				 pointer itself for locking/race conditions */
+	EvolutionActivityClient *activity;
+	char *what;
+	unsigned int pc;
 };
 
-static GtkWindow *progress_dialogue;
-static int progress_row;
+/*static GtkWindow *progress_dialogue;*/
+/*static int progress_row;*/
+
+static GdkPixbuf *progress_icon[2] = { NULL, NULL };
 
 /* mail_msg stuff */
 static unsigned int mail_msg_seq; /* sequence number of each message */
@@ -87,12 +94,10 @@ void *mail_msg_new(mail_msg_op_t *ops, EMsgPort *reply_port, size_t size)
 }
 
 /* either destroy the progress (in event_data), or the whole dialogue (in data) */
-static void destroy_widgets(CamelObject *o, void *event_data, void *data)
+static void destroy_objects(CamelObject *o, void *event_data, void *data)
 {
-	if (data)
-		gtk_widget_destroy((GtkWidget *)data);
 	if (event_data)
-		gtk_widget_destroy((GtkWidget *)event_data);
+		gtk_object_unref(event_data);
 }
 
 #ifdef MALLOC_CHECK
@@ -122,7 +127,7 @@ checkmem(void *p)
 void mail_msg_free(void *msg)
 {
 	struct _mail_msg *m = msg;
-	void *bar = NULL, *label = NULL;
+	void *activity = NULL;
 
 #ifdef MALLOC_CHECK
 	checkmem(m);
@@ -139,6 +144,7 @@ void mail_msg_free(void *msg)
 	g_hash_table_remove(mail_msg_active, (void *)m->seq);
 	pthread_cond_broadcast(&mail_msg_cond);
 
+#if 0
 	/* this closes the bar, and/or the whole progress dialogue, once we're out of things to do */
 	if (g_hash_table_size(mail_msg_active) == 0) {
 		if (progress_dialogue != NULL) {
@@ -150,20 +156,31 @@ void mail_msg_free(void *msg)
 		bar = m->priv->bar;
 		label = m->priv->label;
 	}
+#endif
 
 	if (m->priv->timeout_id > 0)
 		gtk_timeout_remove(m->priv->timeout_id);
+
+	/* We need to make sure we dont lose a reference here YUCK YUCK */
+	if (m->priv->activity_state == 1) {
+		m->priv->activity_state = 3; /* tell the other thread
+					      * to free it itself (yuck yuck) */
+		MAIL_MT_UNLOCK(mail_msg_lock);
+		return;
+	} else {
+		activity = m->priv->activity;
+	}
 
 	MAIL_MT_UNLOCK(mail_msg_lock);
 
 	camel_operation_unref(m->cancel);
 	camel_exception_clear(&m->ex);
-	g_free(m->priv->what);
+	/*g_free(m->priv->what);*/
 	g_free(m->priv);
 	g_free(m);
 
-	if (bar || label)
-		mail_proxy_event(destroy_widgets, NULL, bar, label);
+	if (activity)
+		mail_proxy_event(destroy_objects, NULL, activity, NULL);
 }
 
 void mail_msg_check_error(void *msg)
@@ -839,72 +856,14 @@ struct _op_status_msg {
 	void *data;
 };
 
-GtkTable *progress_table;
-
-static int op_status_timeout(void *d)
-{
-	int id = (int)d;
-	struct _mail_msg *msg;
-	struct _mail_msg_priv *data;
-	
-	MAIL_MT_LOCK(mail_msg_lock);
-
-	msg = g_hash_table_lookup(mail_msg_active, (void *)id);
-	if (msg == NULL) {
-		MAIL_MT_UNLOCK(mail_msg_lock);
-		return FALSE;
-	}
-
-	data = msg->priv;
-
-	if (progress_dialogue == NULL) {
-		if (data->pc == 100) {
-			MAIL_MT_UNLOCK(mail_msg_lock);
-			return FALSE;
-		}
-
-		progress_dialogue = (GtkWindow *)gtk_window_new(GTK_WINDOW_DIALOG);
-		gtk_window_set_title(progress_dialogue, _("Evolution progress"));
-		gtk_window_set_policy(progress_dialogue, 0, 0, 1);
-		gtk_window_set_position(progress_dialogue, GTK_WIN_POS_CENTER);
-		progress_table = (GtkTable *)gtk_table_new(1, 2, FALSE);
-		gtk_container_add((GtkContainer *)progress_dialogue, (GtkWidget *)progress_table);
-	}
-
-	data->bar = (GtkProgressBar *)gtk_progress_bar_new();
-	gtk_progress_set_show_text((GtkProgress *)data->bar, TRUE);
-
-	gtk_progress_set_percentage((GtkProgress *)data->bar, (gfloat)(data->pc/100.0));
-	gtk_progress_set_format_string((GtkProgress *)data->bar, data->what);
-
-	if (msg->ops->describe_msg) {
-		char *desc = msg->ops->describe_msg(msg, FALSE);
-		data->label = (GtkLabel *)gtk_label_new(desc);
-		g_free(desc);
-	} else {
-		data->label = (GtkLabel *)gtk_label_new(_("Working"));
-	}
-
-	gtk_table_attach(progress_table, (GtkWidget *)data->label, 0, 1, progress_row, progress_row+1, GTK_EXPAND|GTK_FILL, 0, 3, 1);
-	gtk_table_attach(progress_table, (GtkWidget *)data->bar, 1, 2, progress_row, progress_row+1, GTK_EXPAND|GTK_FILL, 0, 3, 1);
-	progress_row++;
-	
-	gtk_widget_show_all((GtkWidget *)progress_table);
-	gtk_widget_show((GtkWidget *)progress_dialogue);
-
-	data->timeout_id = -1;
-
-	MAIL_MT_UNLOCK(mail_msg_lock);
-
-	return FALSE;
-}
-
 static void do_op_status(struct _mail_msg *mm)
 {
 	struct _op_status_msg *m = (struct _op_status_msg *)mm;
 	struct _mail_msg *msg;
 	struct _mail_msg_priv *data;
 	char *out, *p, *o, c;
+	int pc;
+	EvolutionActivityClient *activity;
 
 	g_assert(mail_gui_thread == pthread_self());
 
@@ -928,26 +887,64 @@ static void do_op_status(struct _mail_msg *mm)
 	}
 	*o = 0;
 
-	if (data->timeout_id == 0) {
-		data->what = g_strdup(out);
-		data->pc = m->pc;
-		data->timeout_id = gtk_timeout_add(2000, op_status_timeout, m->data);
-		MAIL_MT_UNLOCK(mail_msg_lock);
-		return;
+	pc = m->pc;
+
+	/* so whats all this crap about:
+	 * When we call activity_client, we have a chance of coming
+	 * back to code that will call mail_msg_new or one of many
+	 * calls which may deadlock us.  So we need to call corba
+	 * outside of the lock.  The activity_state thing is so we can
+	 * properly lock data->activity without having to hold a lock
+	 * ... of course we have to be careful in the free function to
+	 * keep track of it too.
+	 */
+	if (data->activity == NULL) {
+		char *clientid, *what;
+		int display;
+
+		/* its being created/removed?  well leave it be */
+		if (data->activity_state == 1 || data->activity_state == 3) {
+			MAIL_MT_UNLOCK(mail_msg_lock);
+			return;
+		} else {
+			data->activity_state = 1;
+
+			if (progress_icon[0] == NULL)
+				progress_icon[0] = gdk_pixbuf_new_from_xpm_data((const char **)mail_new_xpm);
+
+			MAIL_MT_UNLOCK(mail_msg_lock);
+			clientid = g_strdup_printf("%p", msg);
+			if (msg->ops->describe_msg)
+				what = msg->ops->describe_msg(msg, FALSE);
+			else
+				what = _("Working");
+			activity = evolution_activity_client_new(global_shell_client, clientid,
+								 progress_icon, what, TRUE, &display);
+			if (msg->ops->describe_msg)
+				g_free(what);
+			g_free(clientid);
+			MAIL_MT_LOCK(mail_msg_lock);
+			if (data->activity_state == 3) {
+				MAIL_MT_UNLOCK(mail_msg_lock);
+				gtk_object_unref((GtkObject *)activity);
+				camel_operation_unref(msg->cancel);
+				camel_exception_clear(&msg->ex);
+				g_free(msg->priv);
+				g_free(msg);
+			} else {
+				data->activity_state = 2;
+				data->activity = activity;
+				MAIL_MT_UNLOCK(mail_msg_lock);
+			}
+			return;
+		}
 	}
 
-	if (data->bar == NULL) {
-		g_free(data->what);
-		data->what = g_strdup(out);
-		data->pc = m->pc;
-		MAIL_MT_UNLOCK(mail_msg_lock);
-		return;
-	}
-
-	gtk_progress_set_percentage((GtkProgress *)data->bar, (gfloat)(m->pc/100.0));
-	gtk_progress_set_format_string((GtkProgress *)data->bar, out);
-
+	activity = data->activity;
+	gtk_object_ref((GtkObject *)activity);
 	MAIL_MT_UNLOCK(mail_msg_lock);
+	evolution_activity_client_update(activity, out, (double)(pc/100.0));
+	gtk_object_unref((GtkObject *)activity);
 }
 
 static void do_op_status_free(struct _mail_msg *mm)

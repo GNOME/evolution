@@ -106,7 +106,7 @@ evolution_mail_SOURCES =		\
 	message-list.h			\
 	subscribe-dialog.c		\
 	subscribe-dialog.h		\
-	mail.h
+	mail.h mcheck.c
 
 evolution_mail_LDADD = 					\
 	$(top_builddir)/camel/libcamel.la		\

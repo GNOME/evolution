@@ -1,3 +1,19 @@
+2001-07-18  Not Zed  <NotZed@Ximian.com>
+
+	* mail-local.c (reconfigure_folder_reconfigure): Changed to use
+	camel_operation rathre than mail_status.
+	(reconfigure_folder_describe): re-enabled this function.
+
+	* mail-ops.c (get_messages_get): Changed to use camel-progress for
+	status reporting.
+	(save_messages_save): Likewise.
+
+2001-07-17  Not Zed  <NotZed@Ximian.com>
+
+	* mail-mt.c (struct _mail_msg_priv, destroy_objects, mail_msg_new,
+	mail_msg_free, do_op_status): Changed to use an EvolutionActivityClient for
+	progress.
+
 2001-07-18  Jason Leach  <jleach@ximian.com>
 
 	* mail-tools.h (mail_tool_get_local_inbox_url): Remove this
