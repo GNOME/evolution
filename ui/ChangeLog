@@ -1,3 +1,7 @@
+2002-07-05  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* evolution-message-composer.xml: Removed the Send Later verb.
+
 2002-07-02  Ettore Perazzoli  <ettore@ximian.com>
 
 	* evolution.xml: Added a bunch of tooltips.

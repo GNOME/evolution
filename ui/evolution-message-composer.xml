@@ -27,9 +27,6 @@
 		accel="*Ctrl*Return"
                 pixtype="pixbuf"/>
 		
-		<cmd name="FileSendLater" _label="Send _later" _tip="Send the message later"
-		pixtype="pixbuf"/>
-		
 		<cmd name="FileAttach" _label="Attach" _tip="Attach a file"
 		accel="*Ctrl**Alt*a"
 		pixtype="pixbuf"/>
@@ -83,7 +80,6 @@
 			<menuitem name="FileOpen" verb="" _label="_Open..."/>
 			<placeholder name="FileOps"/>
 			<menuitem name="FileSend" verb="" _label="Send"/>
-			<menuitem name="FileSendLater" verb="" _label="Send _Later"/>
 
 			<separator f="" name="emailcomposer1"/>
 
