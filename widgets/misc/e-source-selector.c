@@ -403,12 +403,12 @@ pixbuf_cell_data_func (GtkTreeViewColumn *column,
 
 	if (E_IS_SOURCE_GROUP (data)) {
 		g_object_set (renderer,
-			      "pixbuf", NULL,
+			      "visible", FALSE,
 			      NULL);
 	} else {	
 		ESource *source;
 		guint32 color;
-		GdkPixbuf *pixbuf;
+		GdkPixbuf *pixbuf = NULL;
 
 		g_assert (E_IS_SOURCE (data));
 		source = E_SOURCE (data);
@@ -419,6 +419,7 @@ pixbuf_cell_data_func (GtkTreeViewColumn *column,
 		}
 			
 		g_object_set (renderer,
+			      "visible", pixbuf != NULL,
 			      "pixbuf", pixbuf,
 			      NULL);
 			
