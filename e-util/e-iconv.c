@@ -269,11 +269,12 @@ const char *e_iconv_charset_name(const char *charset)
 		if (tmp[0] == '_' || tmp[0] == '-')
 			tmp++;
 #ifdef ICONV_ISO_NEEDS_DASH
-		ret = g_strdup_printf("iso-%s", tmp);
+		ret = g_strdup_printf("ISO-%s", tmp);
 #else
 		ret = g_strdup_printf("ISO%s", tmp);
 #endif
-	} else if (strncmp(name, "windows-", 8) == 0) {
+	} else if ((strncmp(name, "windows-", 8) == 0)
+		   || strncmp(name, "microsoft-", 10) == 0) {
 		/* Convert windows-nnnnn or windows-cpnnnnn to cpnnnn */
 		tmp = name+8;
 		if (strncmp(tmp, "cp", 2))
@@ -422,3 +423,4 @@ const char *e_iconv_locale_charset(void)
 
 	return locale_charset;
 }
+
