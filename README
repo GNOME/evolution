@@ -145,9 +145,33 @@ and -devel packages for each library.
    db3 is available from www.sleepycat.com.  Make sure to get 3.1.17,
    it isn't the newest version.
 
-   *** Note that db3 installs by default in /usr/local/BerkeleyDB.3.1
-   *** so you may need to specify evolution to look in this directory
-   *** for it.  We will add a check for this directory later.
+
+Compiling Berkeley DB
+---------------------
+
+If you don't have 3.1.17 installed on your system or Evolution doesn't
+detect it for some reason, here is a way to get Evolution to link to
+it without messing up your system installation.
+
+  * Get the Sleepycat tarball from:
+
+      http://www.sleepycat.com/update/3.1.17/db-3.1.17.tar.gz
+
+  * Compile according to instructions, but installing into some custom
+    prefix, e.g:
+
+      ../dist/configure --prefix=/home/user/berkeleydb-3.1.17
+
+  * Autogen Evolution specifying that it has to look for the DB
+    library there, eg.:
+
+      ./autogen.sh --prefix=/opt/gnome
+      --with-db3-includes=/home/user/berkeleydb-3.1.17/include
+      --with-db3-libs=/home/user/berkeleydb-3.1.17/lib
+
+
+Compiling Palm Pilot support
+----------------------------
 
 If you want support for PalmPilot syncing (currently experimental so
 please back up your pilot) you will also need to do the following:
@@ -187,7 +211,9 @@ You'll need to `cp ~/.mozilla/default/*.db ~/evolution` on you've
 installed Evolution in order to get a functional SSL-enabled
 Evolution.
 
-The layout of the source tree is:
+
+SOURCE TREE LAYOUT
+------------------
 
 addressbook:	the Address Book UI
 art:		graphics used by evolution
