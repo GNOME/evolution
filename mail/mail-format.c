@@ -28,6 +28,9 @@
 #include "camel/hash-table-utils.h"
 
 #include <libgnome/libgnome.h>
+#include <bonobo.h>
+#include <libgnorba/gnorba.h>
+#include <bonobo/bonobo-stream-memory.h>
 
 #include <ctype.h>    /* for isprint */
 #include <string.h>   /* for strstr  */
@@ -125,49 +128,20 @@ get_cid (CamelMimePart *part, CamelMimeMessage *root)
 	return cid;
 }
 
-/* This tries to create a tag, given a mimetype and the child of a
- * mime message. It can return NULL if it can't match the mimetype to
- * a bonobo object.
- */
-static char *
-get_bonobo_tag_for_object (CamelMimePart *part, CamelMimeMessage *root)
-{
-	GMimeContentField *type;
-	char *cid = get_cid (part, root), *mimetype;
-	const char *goad_id;
-
-	type = camel_data_wrapper_get_mime_type_field (
-		camel_medium_get_content_object (CAMEL_MEDIUM (part)));
-	mimetype = g_strdup_printf ("%s/%s", type->type, type->subtype);
-	goad_id = gnome_mime_get_value (mimetype, "bonobo-goad-id");
-	g_free (mimetype);
-
-	if (!goad_id)
-		goad_id = gnome_mime_get_value (type->type, "bonobo-goad-id");
-
-	if (goad_id) {
-		return g_strdup_printf ("<object classid=\"%s\"> "
-					"<param name=\"uid\" "
-					"value=\"cid:%s\"></object>",
-					goad_id, cid);
-	} else
-		return NULL;
-}
-
 
 /* We're maintaining a hashtable of mimetypes -> functions;
  * Those functions have the following signature...
  */
 typedef void (*mime_handler_fn) (CamelMimePart *part, CamelMimeMessage *root, GtkBox *box);
 
-static GHashTable *mime_function_table;
+static GHashTable *mime_function_table, *mime_fallback_table;
 static GHashTable *mime_icon_table;
 
 static void
 setup_function_table (void)
 {
-	mime_function_table = g_hash_table_new (g_strcase_hash,
-						g_strcase_equal);
+	mime_function_table = g_hash_table_new (g_str_hash, g_str_equal);
+	mime_fallback_table = g_hash_table_new (g_str_hash, g_str_equal);
 
 	g_hash_table_insert (mime_function_table, "text/plain",
 			     handle_text_plain);
@@ -177,16 +151,11 @@ setup_function_table (void)
 			     handle_text_enriched);
 	g_hash_table_insert (mime_function_table, "text/html",
 			     handle_text_html);
-	/* RFC 2046 says unrecognized text subtypes can be treated
-	 * as text/plain (as long as you recognize the character set).
-	 */
-	g_hash_table_insert (mime_function_table, "text",
-			     handle_text_plain);
 
-	g_hash_table_insert (mime_function_table, "image",
+	g_hash_table_insert (mime_function_table, "image/*",
 			     handle_image);
 
-	g_hash_table_insert (mime_function_table, "audio",
+	g_hash_table_insert (mime_function_table, "audio/*",
 			     handle_audio);
 
 	g_hash_table_insert (mime_function_table, "message/rfc822",
@@ -200,10 +169,14 @@ setup_function_table (void)
 			     handle_multipart_mixed);
 	g_hash_table_insert (mime_function_table, "multipart/appledouble",
 			     handle_multipart_appledouble);
-	/* RFC 2046 says unrecognized multipart subtypes should be
-	 * treated like multipart/mixed.
+
+	/* RFC 2046 says unrecognized text subtypes can be treated
+	 * as text/plain (as long as you recognize the character set),
+	 * and unrecognized multipart subtypes as multipart/mixed.
 	 */
-	g_hash_table_insert (mime_function_table, "multipart",
+	g_hash_table_insert (mime_fallback_table, "text/*",
+			     handle_text_plain);
+	g_hash_table_insert (mime_function_table, "multipart/*",
 			     handle_multipart_mixed);
 }
 
@@ -264,11 +237,11 @@ setup_icon_table (void)
 }
 
 static mime_handler_fn
-lookup_handler (CamelMimePart *part)
+lookup_handler (CamelMimePart *part, gboolean *generic)
 {
 	CamelDataWrapper *wrapper;
 	mime_handler_fn handler_function;
-	const char *goad_id;
+	const char *whole_goad_id, *generic_goad_id;
 	char *mimetype_whole = NULL;
 	char *mimetype_main = NULL;
 
@@ -281,40 +254,73 @@ lookup_handler (CamelMimePart *part)
 
 	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));
 
-	/* Try to find a handler function in our own lookup table. */
+	/* OK. There are 6 possibilities, which we try in this order:
+	 *   1) full match in the main table
+	 *   2) partial match in the main table
+	 *   3) full match in bonobo
+	 *   4) full match in the fallback table
+	 *   5) partial match in the fallback table
+	 *   6) partial match in bonobo
+	 *
+	 * Of these, 1-4 are considered exact matches, and 5 and 6 are
+	 * considered generic.
+	 */
+
+	/* Check for full match in mime_function_table. */
 	mimetype_whole = camel_data_wrapper_get_mime_type (wrapper);
 	g_strdown (mimetype_whole);
-
-	handler_function = g_hash_table_lookup (mime_function_table,
-						mimetype_whole);
-	if (handler_function)
-		goto out;
-
-	mimetype_main = g_strdup (wrapper->mime_type->type);
+	mimetype_main = g_strdup_printf ("%s/*", wrapper->mime_type->type);
 	g_strdown (mimetype_main);
 
 	handler_function = g_hash_table_lookup (mime_function_table,
-						mimetype_main);
-	if (handler_function)
-		goto out;
-
-	/* See if there's a bonobo control that can show the object. */
-	goad_id = gnome_mime_get_value (mimetype_whole, "bonobo-goad-id");
-	if (goad_id) {
-		handler_function = handle_via_bonobo;
-		goto out;
+						mimetype_whole);
+	if (!handler_function) {
+		handler_function = g_hash_table_lookup (mime_function_table,
+							mimetype_main);
+		if (handler_function) {
+			/* Optimize this for the next time through. */
+			g_hash_table_insert (mime_function_table,
+					     g_strdup (mimetype_whole),
+					     handler_function);
+		}
 	}
 
-	goad_id = gnome_mime_get_value (mimetype_main, "bonobo-goad-id");
-	if (goad_id)
-		handler_function = handle_via_bonobo;
-
- out:
-	if (mimetype_whole)
+	if (handler_function) {
 		g_free (mimetype_whole);
-	if (mimetype_main)
 		g_free (mimetype_main);
+		*generic = FALSE;
+		return handler_function;
+	}
 
+	whole_goad_id = gnome_mime_get_value (mimetype_whole,
+					      "bonobo-goad-id");
+	generic_goad_id = gnome_mime_get_value (mimetype_main,
+						"bonobo-goad-id");
+
+	if (whole_goad_id && (!generic_goad_id ||
+			      strcmp (whole_goad_id, generic_goad_id) != 0)) {
+		/* Optimize this for the next time through. */
+		g_hash_table_insert (mime_function_table,
+				     mimetype_whole,
+				     handle_via_bonobo);
+		g_free (mimetype_main);
+		*generic = FALSE;
+		return handle_via_bonobo;
+	}
+
+	handler_function = g_hash_table_lookup (mime_fallback_table,
+						mimetype_whole);
+	g_free (mimetype_whole);
+	if (handler_function)
+		*generic = FALSE;
+	else {
+		handler_function = g_hash_table_lookup (mime_fallback_table,
+							mimetype_main);
+		if (!handler_function && generic_goad_id)
+			handler_function = handle_via_bonobo;
+		*generic = TRUE;
+	}
+	g_free (mimetype_main);
 	return handler_function;
 }
 
@@ -324,10 +330,11 @@ call_handler_function (CamelMimePart *part, CamelMimeMessage *root,
 {
 	CamelDataWrapper *wrapper;
 	mime_handler_fn handler_function = NULL;
+	gboolean generic;
 
 	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));
 
-	handler_function = lookup_handler (part);
+	handler_function = lookup_handler (part, &generic);
 
 	if (handler_function)
 		(*handler_function) (part, root, box);
@@ -837,7 +844,7 @@ handle_multipart_related (CamelMimePart *part, CamelMimeMessage *root, GtkBox *b
 		part = CAMEL_MIME_PART (body_part);
 		cid = get_cid (part, root);
 		g_free (cid);
-	}			
+	}
 
 	/* Now, display the displayed part. */
 	call_handler_function (CAMEL_MIME_PART (display_part), root, box);
@@ -849,13 +856,15 @@ find_preferred_alternative (CamelMultipart *multipart)
 {
 	int i, nparts;
 	CamelMimePart *preferred_part = NULL;
+	gboolean generic;
 
 	nparts = camel_multipart_get_number (multipart);
 	for (i = 0; i < nparts; i++) {
 		CamelMimePart *part = CAMEL_MIME_PART (
 			camel_multipart_get_part (multipart, i));
 
-		if (lookup_handler (part))
+		if (lookup_handler (part, &generic) &&
+		    (!preferred_part || !generic))
 			preferred_part = part;
 	}
 
@@ -966,20 +975,110 @@ handle_unknown_type (CamelMimePart *part, CamelMimeMessage *root, GtkBox *box)
 	g_free (id);
 }
 
+static void 
+embeddable_destroy_cb (GtkObject *obj, gpointer user_data)
+{
+	BonoboWidget *be;      /* bonobo embeddable */
+	BonoboViewFrame *vf;   /* the embeddable view frame */
+	BonoboObjectClient* server;
+	CORBA_Environment ev;
+
+	be = BONOBO_WIDGET (obj);
+	server = bonobo_widget_get_server (be);
+
+	vf = bonobo_widget_get_view_frame (be);
+	bonobo_control_frame_control_deactivate (
+		BONOBO_CONTROL_FRAME (vf));
+	/* w = bonobo_control_frame_get_widget (BONOBO_CONTROL_FRAME (vf)); */
+	
+	/* gtk_widget_destroy (w); */
+	
+	CORBA_exception_init (&ev);
+	Bonobo_Unknown_unref (
+		bonobo_object_corba_objref (BONOBO_OBJECT(server)), &ev);
+	CORBA_Object_release (
+		bonobo_object_corba_objref (BONOBO_OBJECT(server)), &ev);
+
+	CORBA_exception_free (&ev);
+	bonobo_object_destroy (BONOBO_OBJECT (vf));
+	/* gtk_object_unref (obj); */
+}
+
 static void
 handle_via_bonobo (CamelMimePart *part, CamelMimeMessage *root, GtkBox *box)
 {
-	GtkHTML *html;
-	GtkHTMLStreamHandle *stream;
-	char *bonobo_tag = get_bonobo_tag_for_object (part, root);
+	CamelDataWrapper *wrapper =
+		camel_medium_get_content_object (CAMEL_MEDIUM (part));
+	GMimeContentField *type;
+	char *mimetype;
+	const char *goad_id;
+	GtkWidget *embedded;
+	BonoboObjectClient *server;
+	Bonobo_PersistStream persist;	
+	CORBA_Environment ev;
+	GByteArray *ba;
+	CamelStream *cstream;
+	BonoboStream *bstream;
 
-	g_return_if_fail (bonobo_tag);
+	type = camel_data_wrapper_get_mime_type_field (
+		camel_medium_get_content_object (CAMEL_MEDIUM (part)));
+	mimetype = g_strdup_printf ("%s/%s", type->type, type->subtype);
+	goad_id = gnome_mime_get_value (mimetype, "bonobo-goad-id");
+	g_free (mimetype);
 
-	mail_html_new (&html, &stream, root, TRUE);
-	mail_html_write (html, stream, bonobo_tag);
-	mail_html_end (html, stream, TRUE, box);
+	if (!goad_id)
+		goad_id = gnome_mime_get_value (type->type, "bonobo-goad-id");
+	if (!goad_id)
+		return;
 
-	g_free (bonobo_tag);
+	embedded = bonobo_widget_new_subdoc (goad_id, NULL);
+	if (!embedded)
+		return;
+	server = bonobo_widget_get_server (BONOBO_WIDGET (embedded));
+	if (!server) {
+		bonobo_object_destroy (BONOBO_OBJECT (embedded));
+		return;
+	}
+
+	persist = (Bonobo_PersistStream) bonobo_object_client_query_interface (
+		server, "IDL:Bonobo/PersistStream:1.0", NULL);
+	if (persist == CORBA_OBJECT_NIL) {
+		bonobo_object_destroy (BONOBO_OBJECT (embedded));
+		return;
+	}
+
+	/* Write the data to a CamelStreamMem... */
+	ba = g_byte_array_new ();
+	cstream = camel_stream_mem_new_with_byte_array (
+		ba, CAMEL_STREAM_MEM_WRITE);
+	camel_data_wrapper_write_to_stream (wrapper, cstream);
+
+	/* ...convert the CamelStreamMem to a BonoboStreamMem... */
+	bstream = bonobo_stream_mem_create (ba->data, ba->len, TRUE, FALSE);
+	camel_stream_close (cstream);
+
+	/* ...and hydrate the PersistStream from the BonoboStream. */
+	CORBA_exception_init (&ev);
+	Bonobo_PersistStream_load (persist,
+				   bonobo_object_corba_objref (
+					   BONOBO_OBJECT (bstream)),
+				   &ev);
+	bonobo_object_unref (BONOBO_OBJECT (bstream));
+	Bonobo_Unknown_unref (persist, &ev);
+	CORBA_Object_release (persist, &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		bonobo_object_unref (BONOBO_OBJECT (embedded));
+		CORBA_exception_free (&ev);				
+		return;
+	}
+	CORBA_exception_free (&ev);				
+
+	/* Embed the widget. */
+	gtk_widget_show (embedded);
+	gtk_box_pack_start (box, embedded, FALSE, FALSE, 0);
+	gtk_signal_connect (GTK_OBJECT (embedded), "destroy",
+			    embeddable_destroy_cb, NULL);
 }
 
 

@@ -1,5 +1,18 @@
 2000-04-25  Dan Winship  <danw@helixcode.com>
 
+	* mail-format.c, mail-display.c: Now that we're not limited to
+	a single GtkHTML for the display, there's no reason to embed
+	Bonobo objects for unrecognized content-types in GtkHTML rather
+	than embedded them into the vbox directly. So do that.
+
+	Meanwhile, fix up the handler-selection code so that we can
+	declare which built-in handlers are more desirable than external
+	handlers and which are less. (Of course, eventually we'll want
+	this to be customizable.) Add some cleverness to
+	handle_multipart_alternative as well so it doesn't accept an
+	alternative which we can display generically over one we can
+	display specifically.
+
 	* mail-format.c (reply_body): Fix some bugs that crept into reply
 	generation. This needs a lot more work to deal correctly with
 	complicated bodies.
