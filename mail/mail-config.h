@@ -172,6 +172,11 @@ void     mail_config_set_prompt_only_bcc (gboolean value);
 gboolean mail_config_get_confirm_expunge (void);
 void     mail_config_set_confirm_expunge (gboolean value);
 
+gboolean mail_config_get_confirm_goto_next_folder (void);
+void     mail_config_set_confirm_goto_next_folder (gboolean value);
+gboolean mail_config_get_goto_next_folder (void);
+void     mail_config_set_goto_next_folder (gboolean value);
+
 CamelPgpType mail_config_pgp_type_detect_from_path (const char *pgp);
 
 CamelPgpType mail_config_get_pgp_type (void);

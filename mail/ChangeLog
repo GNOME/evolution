@@ -1,3 +1,34 @@
+2002-02-19  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (confirm_goto_next_folder): Prompt the user to
+	find out if he/she wants to go to the next folder with unread mail
+	in it.
+	(find_current_folder): Find a given CamelFolderInfo node based on
+	a given uri.
+	(find_next_folder_r): Recursively look for a CamelFOlderInfo node
+	which has unread messages.
+	(find_next_folder): Given a currently selected CamelFolderInfo
+	node, look for the next node containing unread messages.
+	(do_evil_kludgy_goto_next_folder_hack): Find the currently
+	selected folder and then find the very next folder after it that
+	contains unread messages and then select it via a CORBA call to
+	the shell.
+	(next_unread_msg): If we fail to find an unread message in the
+	message-list, prompt the user to find out if we should jump to the
+	next fodler containing unread messages. If so, call
+	do_evil_kludgy_goto_next_folder_hack().
+
+	* message-list.c (message_list_select): Return a boolean value
+	based on whether the call was successfull or not.
+
+	* mail-config.c (mail_config_get_confirm_goto_next_folder):
+	(mail_config_set_confirm_goto_next_folder):
+	(mail_config_get_goto_next_folder):
+	(mail_config_set_goto_next_folder): All new functions, yay.
+	(config_read): Read in the confirm_goto_next_folder and
+	goto_next_folder config options.
+	(mail_config_write_on_exit): Same the options here.
+
 2002-02-15  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-account-gui.c (basename_from_uri): Ack, strip off the

@@ -403,8 +403,10 @@ search_func (ETreeModel *model, ETreePath path, struct search_func_data *data)
  * message, or %MESSAGE_LIST_SELECT_PREVIOUS if it should find the
  * previous. If no suitable row is found, the selection will be
  * unchanged.
+ *
+ * Returns %TRUE if a new message has been selected or %FALSE otherwise.
  **/
-void
+gboolean
 message_list_select (MessageList               *message_list,
 		     MessageListSelectDirection direction,
 		     guint32                    flags,
@@ -413,23 +415,23 @@ message_list_select (MessageList               *message_list,
 {
 	struct search_func_data data;
 	ETreeFindNextParams params = 0;
-
+	
 	if (!GTK_WIDGET_HAS_FOCUS (message_list))
 		gtk_widget_grab_focus (GTK_WIDGET (message_list));
-
+	
 	data.message_list = message_list;
 	data.flags = flags;
 	data.mask = mask;
-
+	
 	if (direction == MESSAGE_LIST_SELECT_NEXT)
 		params |= E_TREE_FIND_NEXT_FORWARD;
 	else
 		params |= E_TREE_FIND_NEXT_BACKWARD;
-
+	
 	if (wraparound)
 		params |= E_TREE_FIND_NEXT_WRAP;
-
-	e_tree_find_next (message_list->tree, params, (ETreePathFunc) search_func, &data);
+	
+	return e_tree_find_next (message_list->tree, params, (ETreePathFunc) search_func, &data);
 }
 
 

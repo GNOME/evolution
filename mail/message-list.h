@@ -116,7 +116,7 @@ void           message_list_foreach    (MessageList *message_list,
 					MessageListForeachFunc callback,
 					gpointer user_data);
 
-void           message_list_select     (MessageList *message_list,
+gboolean       message_list_select     (MessageList *message_list,
 					MessageListSelectDirection direction,
 					guint32 flags,
 					guint32 mask,

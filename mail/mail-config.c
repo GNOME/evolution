@@ -84,6 +84,8 @@ typedef struct {
 	gboolean prompt_empty_subject;
 	gboolean prompt_only_bcc;
 	gboolean confirm_expunge;
+	gboolean confirm_goto_next_folder;
+	gboolean goto_next_folder;
 	gboolean do_seen_timeout;
 	int seen_timeout;
 	gboolean empty_trash_on_exit;
@@ -605,6 +607,10 @@ config_read (void)
 	config->paned_size = bonobo_config_get_long_with_default (config->db, 
                 "/Mail/Display/paned_size", 200, NULL);
 	
+	/* Goto next folder when user has reached the bottom of the message-list */
+	config->goto_next_folder = bonobo_config_get_boolean_with_default (
+		config->db, "/Mail/MessageList/goto_next_folder", FALSE, NULL);
+	
 	/* Empty Subject */
 	config->prompt_empty_subject = bonobo_config_get_boolean_with_default (
 		config->db, "/Mail/Prompts/empty_subject", TRUE, NULL);
@@ -616,6 +622,10 @@ config_read (void)
 	/* Expunge */
 	config->confirm_expunge = bonobo_config_get_boolean_with_default (
 		config->db, "/Mail/Prompts/confirm_expunge", TRUE, NULL);
+	
+	/* Goto next folder */
+	config->confirm_goto_next_folder = bonobo_config_get_boolean_with_default (
+		config->db, "/Mail/Prompts/confirm_goto_next_folder", TRUE, NULL);
 	
 	/* PGP/GPG */
 	config->pgp_path = bonobo_config_get_string (config->db, 
@@ -910,7 +920,7 @@ mail_config_write_on_exit (void)
 	/* Format */
 	bonobo_config_set_boolean (config->db, "/Mail/Format/send_html", 
 				   config->send_html, NULL);
-
+	
 	/* Confirm Sending Unwanted HTML */
 	bonobo_config_set_boolean (config->db, "/Mail/Format/confirm_unwanted_html",
 				   config->confirm_unwanted_html, NULL);
@@ -923,6 +933,10 @@ mail_config_write_on_exit (void)
 	bonobo_config_set_long (config->db, "/Mail/Display/citation_color",
 				config->citation_color, NULL);
 	
+	/* Goto next folder */
+	bonobo_config_set_boolean (config->db, "/Mail/MessageList/goto_next_folder",
+				   config->goto_next_folder, NULL);
+	
 	/* Empty Subject */
 	bonobo_config_set_boolean (config->db, "/Mail/Prompts/empty_subject",
 				   config->prompt_empty_subject, NULL);
@@ -934,6 +948,10 @@ mail_config_write_on_exit (void)
 	/* Expunge */
 	bonobo_config_set_boolean (config->db, "/Mail/Prompts/confirm_expunge",
 				   config->confirm_expunge, NULL);
+	
+	/* Goto next folder */
+	bonobo_config_set_boolean (config->db, "/Mail/Prompts/confirm_goto_next_folder",
+				   config->confirm_goto_next_folder, NULL);
 	
 	/* PGP/GPG */
 	bonobo_config_set_string_wrapper (config->db, "/Mail/PGP/path", 
@@ -1362,6 +1380,29 @@ mail_config_set_confirm_expunge (gboolean value)
 	config->confirm_expunge = value;
 }
 
+gboolean
+mail_config_get_confirm_goto_next_folder (void)
+{
+	return config->confirm_goto_next_folder;
+}
+
+void
+mail_config_set_confirm_goto_next_folder (gboolean value)
+{
+	config->confirm_goto_next_folder = value;
+}
+
+gboolean
+mail_config_get_goto_next_folder (void)
+{
+	return config->goto_next_folder;
+}
+
+void
+mail_config_set_goto_next_folder (gboolean value)
+{
+	config->goto_next_folder = value;
+}
 
 struct {
 	char *bin;

@@ -2331,6 +2331,151 @@ undelete_msg (GtkWidget *button, gpointer user_data)
 	flag_messages (FOLDER_BROWSER (user_data), CAMEL_MESSAGE_DELETED, 0);
 }
 
+
+static gboolean
+confirm_goto_next_folder (FolderBrowser *fb)
+{
+	GtkWidget *dialog, *label, *checkbox;
+	int button;
+	
+	if (!mail_config_get_confirm_goto_next_folder ())
+		return mail_config_get_goto_next_folder ();
+	
+	dialog = gnome_dialog_new (_("Go to next folder with unread messages?"),
+				   GNOME_STOCK_BUTTON_YES,
+				   GNOME_STOCK_BUTTON_NO,
+				   NULL);
+	
+	e_gnome_dialog_set_parent (GNOME_DIALOG (dialog), FB_WINDOW (fb));
+	
+	label = gtk_label_new (_("There are no more new messages in this folder.\n"
+				 "Would you like to go to the next folder?"));
+	
+	gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
+	gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
+	gtk_widget_show (label);
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), label, TRUE, TRUE, 4);
+	
+	checkbox = gtk_check_button_new_with_label (_("Do not ask me again."));
+	gtk_object_ref (GTK_OBJECT (checkbox));
+	gtk_widget_show (checkbox);
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), checkbox, TRUE, TRUE, 4);
+	
+	button = gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+	
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbox)))
+		mail_config_set_confirm_goto_next_folder (FALSE);
+	
+	gtk_object_unref (GTK_OBJECT (checkbox));
+	
+	if (button == 0) {
+		mail_config_set_goto_next_folder (TRUE);
+		return TRUE;
+	} else {
+		mail_config_set_goto_next_folder (FALSE);
+		return FALSE;
+	}
+}
+
+static CamelFolderInfo *
+find_current_folder (CamelFolderInfo *root, const char *current_uri)
+{
+	CamelFolderInfo *node, *current = NULL;
+	
+	node = root;
+	while (node) {
+		if (!strcmp (current_uri, node->url)) {
+			current = node;
+			break;
+		}
+		
+		current = find_current_folder (node->child, current_uri);
+		if (current)
+			break;
+		
+		node = node->sibling;
+	}
+	
+	return current;
+}
+
+static CamelFolderInfo *
+find_next_folder_r (CamelFolderInfo *node)
+{
+	CamelFolderInfo *next;
+	
+	while (node) {
+		if (node->unread_message_count > 0)
+			return node;
+		
+		next = find_next_folder_r (node->child);
+		if (next)
+			return next;
+		
+		node = node->sibling;
+	}
+	
+	return NULL;
+}
+
+static CamelFolderInfo *
+find_next_folder (CamelFolderInfo *current)
+{
+	CamelFolderInfo *next;
+	
+	/* first search subfolders... */
+	next = find_next_folder_r (current->child);
+	if (next)
+		return next;
+	
+	/* now search siblings... */
+	next = find_next_folder_r (current->sibling);
+	if (next)
+		return next;
+	
+	/* now go up one level (if we can) and search... */
+	if (current->parent && current->parent->sibling) {
+		return find_next_folder_r (current->parent->sibling);
+	} else {
+		return NULL;
+	}
+}
+
+static void
+do_evil_kludgy_goto_next_folder_hack (FolderBrowser *fb)
+{
+	CamelFolderInfo *root, *current, *node;
+	CORBA_Environment ev;
+	CamelStore *store;
+	
+	store = camel_folder_get_parent_store (fb->folder);
+	
+	/* FIXME: loop over all available mail stores? */
+	
+	root = camel_store_get_folder_info (store, "", CAMEL_STORE_FOLDER_INFO_RECURSIVE |
+					    CAMEL_STORE_FOLDER_INFO_SUBSCRIBED, NULL);
+	
+	if (!root)
+		return;
+	
+	current = find_current_folder (root, fb->uri);
+	g_assert (current != NULL);
+	
+	node = find_next_folder (current);
+	if (node) {
+		g_warning ("doin' my thang...");
+		CORBA_exception_init (&ev);
+		GNOME_Evolution_ShellView_changeCurrentView (fb->shell_view, "evolution:/local/Inbox", &ev);
+		if (ev._major != CORBA_NO_EXCEPTION)
+			g_warning ("got an exception");
+		CORBA_exception_free (&ev);
+	} else {
+		g_warning ("can't find a folder with unread mail?");
+	}
+	
+	camel_store_free_folder_info (store, root);
+}
+
 void
 next_msg (GtkWidget *button, gpointer user_data)
 {
@@ -2350,8 +2495,10 @@ next_unread_msg (GtkWidget *button, gpointer user_data)
 	if (FOLDER_BROWSER_IS_DESTROYED (fb))
 		return;
 	
-	message_list_select (fb->message_list, MESSAGE_LIST_SELECT_NEXT,
-			     0, CAMEL_MESSAGE_SEEN, TRUE);
+	if (!message_list_select (fb->message_list, MESSAGE_LIST_SELECT_NEXT, 0, CAMEL_MESSAGE_SEEN, TRUE)) {
+		if (confirm_goto_next_folder (fb))
+			do_evil_kludgy_goto_next_folder_hack (fb);
+	}
 }
 
 void

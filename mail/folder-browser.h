@@ -36,7 +36,7 @@ typedef enum _FolderBrowserSelectionState {
 
 struct  _FolderBrowser {
 	GtkTable parent;
-
+	
 	BonoboPropertyBag *properties;
 	
 	GNOME_Evolution_Shell shell;
@@ -57,7 +57,7 @@ struct  _FolderBrowser {
 	char	    *new_uid;	/* place to save the next uid during idle timeout */
 	char	    *loaded_uid; /* what we have loaded */
 	guint	     loading_id, seen_id;
-
+	
 	/* a folder we are expunging, dont use other than to compare the pointer value */
 	CamelFolder *expunging;
 	
@@ -84,10 +84,10 @@ struct  _FolderBrowser {
 	
 	GtkWidget *invisible;
 	GByteArray *clipboard_selection;
-
+	
 	/* for async events */
 	struct _MailAsyncEvent *async_event;
-
+	
 	int get_id;		/* for getting folder op */
 };
 
