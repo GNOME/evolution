@@ -187,7 +187,7 @@ process_header(CamelMedium *medium, const char *header_name, const char *header_
 	/* known, the job is done in the parsing routine. If not,         */
 	/* we simply add the header in a raw fashion                      */
 
-	/* FIXMME: MUST check fields for validity before adding them! */
+	/* FIXME: MUST check fields for validity before adding them! */
 
 	header_type = (CamelHeaderType) g_hash_table_lookup (header_name_table, header_name);
 	switch (header_type) {
@@ -222,39 +222,47 @@ process_header(CamelMedium *medium, const char *header_name, const char *header_
 	return TRUE;
 }
 
+/* Note: It is my understanding that we need to encode the values here as they are
+   not being encoded at the header_raw_* level. */
 
 static void
 set_header (CamelMedium *medium, const char *header_name, const void *header_value)
 {
-	CamelMimePart *part = (CamelMimePart *)medium;
-
-	process_header(medium, header_name, header_value);
-	header_raw_replace(&part->headers, header_name, header_value, -1);
+	CamelMimePart *part = CAMEL_MIME_PART (medium);
+	char *encoded_value = header_encode_string (header_value);
+	
+	process_header (medium, header_name, encoded_value);
+	header_raw_replace (&part->headers, header_name, encoded_value, -1);
+	
+	g_free (encoded_value);
 }
 
 static void
 add_header (CamelMedium *medium, const char *header_name, const void *header_value)
 {
-	CamelMimePart *part = (CamelMimePart *)medium;
-
+	CamelMimePart *part = CAMEL_MIME_PART (medium);
+	char *encoded_value = header_encode_string (header_value);
+	
 	/* Try to parse the header pair. If it corresponds to something   */
 	/* known, the job is done in the parsing routine. If not,         */
 	/* we simply add the header in a raw fashion                      */
 
-	/* FIXMME: MUST check fields for validity before adding them! */
+	/* FIXME: MUST check fields for validity before adding them! */
 
 	/* If it was one of the headers we handled, it must be unique, set it instead of add */
-	if (process_header(medium, header_name, header_value))
-		header_raw_replace(&part->headers, header_name, header_value, -1);
+	if (process_header (medium, header_name, encoded_value))
+		header_raw_replace (&part->headers, header_name, encoded_value, -1);
 	else
-		header_raw_append(&part->headers, header_name, header_value, -1);
+		header_raw_append (&part->headers, header_name, encoded_value, -1);
+	
+	g_free (encoded_value);
 }
 
 static void
 remove_header (CamelMedium *medium, const char *header_name)
 {
 	CamelMimePart *part = (CamelMimePart *)medium;
-
+	
 	process_header(medium, header_name, NULL);
 	header_raw_remove(&part->headers, header_name);
 }
