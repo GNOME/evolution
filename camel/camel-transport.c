@@ -85,7 +85,7 @@ camel_transport_get_type (void)
 					    "CamelTransport",
 					    sizeof (CamelTransport),
 					    sizeof (CamelTransportClass),
-					    NULL,
+					    (CamelObjectClassInitFunc) camel_transport_class_init,
 					    NULL,
 					    (CamelObjectInitFunc) camel_transport_init,
 					    (CamelObjectFinalizeFunc) camel_transport_finalize);
