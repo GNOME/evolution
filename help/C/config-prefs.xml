@@ -405,7 +405,7 @@ smtp.omniport.com:143
               In this section, you will choose and configure a method
               for sending mail.  You may choose <glossterm
               linkend="smtp">SMTP</glossterm>, Microsoft Exchange (if
-              you have purchased the Ximian Connector for Microsoft
+              you have installed the Ximian Connector for Microsoft
               Exchange) or <glossterm
               linkend="sendmail">sendmail</glossterm>.
              </para>
