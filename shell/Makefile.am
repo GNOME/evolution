@@ -41,6 +41,12 @@ $(IDL_GENERATED): $(IDLS)
 	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl `$(GNOME_CONFIG) --cflags idl`	\
 		$(srcdir)/Evolution.idl
 
+# IDL install
+
+idldir = $(datadir)/idl
+
+idl_DATA = $(IDLS)
+
 # Shell library
 
 noinst_LIBRARIES =	\

@@ -1,3 +1,7 @@
+2000-11-25  Peter Williams  <peterw@helixcode.com>
+
+	* Makefile.am (idldir): Install our IDL's into $(datadir)/idl.
+
 2000-11-25  Federico Mena Quintero  <federico@helixcode.com>
 
 	* e-setup.c (check_dir_recur): Plug leaks of the fullname and
