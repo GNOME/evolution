@@ -16,8 +16,10 @@ EXTRA_DIST =			\
 	MAINTAINERS		\
 	NEWS			\
 	$(appicon_DATA)		\
-	$(application_DATA)
-
+	$(application_DATA)	\
+	xml-i18n-merge.in	\
+	xml-i18n-update.in	\
+	xml-i18n-extract.in
 
 SUBDIRS =			\
         intl                    \

@@ -1,3 +1,7 @@
+2001-02-07  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* Makefile.am: xml-i18n-tools adjustment.
+	
 2001-02-07  JP Rosevear  <jpr@ximian.com>
 
 	* README: Update to latest requirements
