@@ -421,16 +421,16 @@ icalrequeststatus icalenum_num_to_reqstat(short major, short minor);
 **********************************************************************/
 
 const char* icalenum_property_kind_to_string(icalproperty_kind kind);
-icalproperty_kind icalenum_string_to_property_kind(char* string);
+icalproperty_kind icalenum_string_to_property_kind(const char* string);
 
 const char* icalenum_value_kind_to_string(icalvalue_kind kind);
 icalvalue_kind icalenum_value_kind_by_prop(icalproperty_kind kind);
 
 const char* icalenum_parameter_kind_to_string(icalparameter_kind kind);
-icalparameter_kind icalenum_string_to_parameter_kind(char* string);
+icalparameter_kind icalenum_string_to_parameter_kind(const char* string);
 
 const char* icalenum_component_kind_to_string(icalcomponent_kind kind);
-icalcomponent_kind icalenum_string_to_component_kind(char* string);
+icalcomponent_kind icalenum_string_to_component_kind(const char* string);
 
 icalvalue_kind icalenum_property_kind_to_value_kind(icalproperty_kind kind);
 

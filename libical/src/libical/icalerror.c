@@ -53,15 +53,29 @@ void icalerror_clear_errno() {
     icalerrno = ICAL_NO_ERROR;
 }
 
-void icalerror_set_errno(icalerrorenum e) {
-
 #ifdef ICAL_ERRORS_ARE_FATAL
-    fprintf(stderr,"libical: icalerrno_set_error: %s",icalerror_strerror(e));
-    icalerror_crash_here();
+int icalerror_errors_are_fatal = 1;
+#else
+int icalerror_errors_are_fatal = 0;
 #endif
 
-    icalerror_stop_here();
+void icalerror_set_errno(icalerrorenum e) {
+
+   
     icalerrno = e;
+    icalerror_stop_here();
+
+    if(icalerror_errors_are_fatal == 1){
+
+	fprintf(stderr,"libical: icalerrno_set_error: %s\n",icalerror_strerror(e));
+#ifdef NDEBUG
+	icalerror_crash_here();
+#else
+	assert(0);
+#endif 
+    }
+
+
 }
 
 
@@ -75,7 +89,7 @@ static struct icalerror_string_map string_map[] =
     {ICAL_BADARG_ERROR,"Bad argument to function"},
     {ICAL_NEWFAILED_ERROR,"Failed to create a new object via a *_new() routine"},
     {ICAL_MALFORMEDDATA_ERROR,"An input string was not correctly formed or a component has missing or extra properties"},
-    {ICAL_PARSE_ERROR,"Failed to parse a part of an iCal componet"},
+    {ICAL_PARSE_ERROR,"Failed to parse a part of an iCal component"},
     {ICAL_INTERNAL_ERROR,"Random internal error. This indicates an error in the library code, not an error in use"}, 
     {ICAL_FILE_ERROR,"An operation on a file failed. Check errno for more detail."},
     {ICAL_ALLOCATION_ERROR,"Failed to allocate memory"},

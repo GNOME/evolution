@@ -131,8 +131,11 @@ typedef enum icalerrorenum {
 
 } icalerrorenum;
 
+/* The libical error enumeration, like errno*/
 extern icalerrorenum icalerrno;
 
+/* If true, libicl aborts after a call to icalerror_set_error*/
+extern int icalerror_errors_are_fatal;
 
 void icalerror_clear_errno(void);
 void icalerror_set_errno(icalerrorenum e);

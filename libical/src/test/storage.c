@@ -113,7 +113,7 @@ void test_fileset()
     struct icaltimetype start, end;
     icalcomponent *c,*clone, *itr;
 
-    start = icaltime_from_timet( time(0),0,0);
+    start = icaltime_from_timet( time(0),0);
     end = start;
     end.hour++;
 
@@ -244,7 +244,7 @@ int test_dirset()
 
     assert(s != 0);
 
-    rtime.start = icaltime_from_timet( time(0),0,0);
+    rtime.start = icaltime_from_timet( time(0),0);
 
     cluster = icalfileset_new(OUTPUT_FILE);
 

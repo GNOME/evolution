@@ -86,6 +86,12 @@ icalproperty** icalcomponent_get_properties(icalcomponent* component,
  */ 
 
 
+/* Return the first VEVENT, VTODO or VJOURNAL sub-component of cop, or
+   comp if it is one of those types */
+
+icalcomponent* icalcomponent_get_inner(icalcomponent* comp);
+
+
 void icalcomponent_add_component(icalcomponent* parent,
 				icalcomponent* child);
 
