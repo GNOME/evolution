@@ -76,16 +76,15 @@ Lastly, we'll have warnings, in cases where you should be careful:
 	  </warning>
         </para>
     </sect1>
+
+
     <sect1 id="whats-new-in-one-two">
       <title>What's New in Evolution 1.2</title>
       <para>
-        If you're already familiar with Ximian Evolution 1.0, you may
-        want to know what has changed in this release. Aside from
-        performance benefits like faster POP server interaction, there
-        are new features and options, including some that may surprise
-        or confuse you. Here is a list of new and changed features:
-      <variablelist>
-
+        If you're already familiar with Ximian Evolution 1.0, our new
+        version has a lot to add.  Here are some of the new and
+        changed features:
+        <variablelist>
 	  <varlistentry>
 	    <term>Configuration Interface</term>
 	    <listitem>
@@ -107,7 +106,151 @@ Lastly, we'll have warnings, in cases where you should be careful:
 	    </listitem>
 	  </varlistentry>
 
+
 	  <varlistentry>
+	    <term>Performance Improvements</term>
+	    <listitem>
+	      <para>
+                Startup time has decreased, POP server interactions
+                are more efficient, and indexing of locally cached
+                mail is now faster.
+              </para>
+	    </listitem>
+	  </varlistentry>
+
+
+	  <varlistentry>
+	    <term>Keyboard Navigation Overhaul</term>
+	    <listitem>
+	      <para>
+                Pressing an unmodified letter key in the Folder Bar
+                now takes you to the next folder that starts with that
+                letter; if there are several, you can press the key
+                again and it will go to the next folder that starts
+                with that letter.  Similarly, you can press a letter
+                key in the message list and the message selection will
+                move to the next message whose sender begins with that
+                letter. For example, you could press the
+                <keycap>r</keycap> key to go to the next message that
+                Russell sent you.
+              </para>
+	      <para>
+                That means that unmodified letter shortcuts from
+                Evolution 1.0 won't work any more. The changes are:
+                <simplelist>
+		  <member>
+                    <keycap>,</keycap> (comma) and <keycap>.</keycap>
+                    (period) are now the keyboard shortcuts for Next
+                    and Previous unread messages
+                 </member>
+		 <member>
+                   <keycap>'</keycap> (the single apostrophe) toggles
+                   the message preview pane.
+                 </member>
+		</simplelist>
+                Shortcuts that used the <keycap>Control</keycap> key
+                are not affected.
+             </para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term>Added Functionality for the "New" Button</term>
+	    <listitem>
+	      <para>
+                The <guibutton>New</guibutton> now has a menu next to
+                it. As in Evolution 1.0, you can click the button once
+                to get a new item for the Evolution tool you're
+                using. However, if you click the small arrow menu to
+                the right of the button, you will find a menu that
+                allows you to create new items for the rest of
+                Evolution: All day appointments, regular appointments,
+                tasks and meetings for the calendar; mail messages for
+                the mail tool; and contacts and contact lists for the
+                address book.
+               </para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term>Import Tool Now Imports Netscape Filters</term>
+	    <listitem>
+	      <para>
+                You can now import your filters, as well as your email
+                messages, from the Netscape mail client.
+              </para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term>Folder Naming Limits Removed</term>
+	    <listitem>
+	      <para>
+                You can now have IMAP folders with names including the
+                ampersand (&amp;) and dash (-) characters, and even
+                UTF-8 (unicode) characters.
+              </para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term>Executive Summary now Reads IMAP</term>
+	    <listitem>
+	      <para>
+                The Executive Summary tool in Evolution now displays
+                email messages in IMAP as well as local mail folders. 
+              </para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term>Additional Message Status Options</term>
+	    <listitem>
+	      <para>
+                You can now mark messages by color (Right click on a
+                menu and select "Labels), or flag them for a follow-up
+                action. Filters can now be based on these criteria.
+              </para>
+	    </listitem>
+	  </varlistentry>
+
+
+	  <varlistentry>
+	    <term>Filters and vFolders Notice Moved or Missing Folders</term>
+	    <listitem>
+	      <para>
+                vFolders and filters now notice if you move or delete
+                a folder that they use, and update themselves
+                accordingly.
+              </para>
+	    </listitem>
+	  </varlistentry>
+
+
+	  <varlistentry>
+	    <term>Signature Editor</term>
+	    <listitem>
+	      <para>
+                 There is now a signature editor, and it supports the
+                 full range of Gtkhtml functionality.
+              </para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term>New Filter Criteria and Actions</term>
+	    <listitem>
+	      <para>
+                 You can now filter based on score, flag-for-followup
+                 or message coloration status, or the existence of
+                 attachments. New actions include beeping, playing
+                 sounds, running shell commands, and piping messages
+                 to external processes.
+              </para>
+	    </listitem>
+	  </varlistentry>
+
+         <varlistentry>
 	    <term>Folder Preferences for Autocompletion and Offline Mode</term>
 	    <listitem>
               <para>
@@ -164,58 +307,6 @@ Lastly, we'll have warnings, in cases where you should be careful:
 	    </listitem>
 	  </varlistentry>
 
-	  <varlistentry>
-	    <term>Letter Keyboard Shortcuts</term>
-	    <listitem>
-	      <para>
-                Pressing an unmodified letter key in the Folder Bar
-                now takes you to the next folder that starts with that
-                letter; if there are several, you can press the key
-                again and it will go to the next folder that starts
-                with that letter.  Similarly, you can press a letter
-                key in the message list and the message selection will
-                move to the next message whose sender begins with that
-                letter. For example, you could press the
-                <keycap>r</keycap> key to go to the next message that
-                Russell sent you.
-              </para>
-	      <para>
-                That means that unmodified letter shortcuts from
-                Evolution 1.0 won't work any more. The changes are:
-                <simplelist>
-		  <member>
-                    <keycap>,</keycap> (comma) and <keycap>.</keycap>
-                    (period) are now the keyboard shortcuts for Next
-                    and Previous unread messages
-                 </member>
-		 <member>
-                   <keycap>'</keycap> (the single apostrophe) toggles
-                   the message preview pane.
-                 </member>
-		</simplelist>
-                Shortcuts that used the <keycap>Control</keycap> key
-                are not affected.
-             </para>
-	    </listitem>
-	  </varlistentry>
-
-	  <varlistentry>
-	    <term>Added Functionality for the "New" Button</term>
-	    <listitem>
-	      <para>
-                The <guibutton>New</guibutton> now has a menu next to
-                it. As in Evolution 1.0, you can click the button once
-                to get a new item for the Evolution tool you're
-                using. However, if you click the small arrow menu to
-                the right of the button, you will find a menu that
-                allows you to create new items for the rest of
-                Evolution: All day appointments, regular appointments,
-                tasks and meetings for the calendar; mail messages for
-                the mail tool; and contacts and contact lists for the
-                address book.
-               </para>
-	    </listitem>
-	  </varlistentry>
 	</variablelist>
       </para>
     </sect1>
