@@ -1681,11 +1681,13 @@ loc4=Charleroi-Brussels\\ South EBCI ------ ---
 loc5=Chievres EBCV ------ ---
 loc6=Elsenborn EBLB ------ ---
 loc7=Florennes EBFS ------ ---
-loc8=Kleine\\ Brogel EBBL ------ ---
-loc9=Koksijde EBFN ------ ---
-loc10=Liege EBLG ------ ---
-loc11=Oostende EBOS ------ ---
-loc12=Schaffen EBDT ------ ---
+loc8=Goetsenhoven EBTN ------ ---
+loc9=Kleine\\ Brogel EBBL ------ ---
+loc10=Koksijde EBFN ------ ---
+loc11=Liege EBLG ------ ---
+loc12=Oostende EBOS ------ ---
+loc13=Schaffen EBDT ------ ---
+loc14=Spa/La\\ Sauveniere EBSP ------ ---
 
 [EU_BA]
 name=Bosnia-Herzegovina
@@ -1750,9 +1752,13 @@ loc0=Egilsstadir BIEG ------ ---
 loc1=Keflavik BIKF ------ ---
 loc2=Reykjavik BIRK ------ ---
 
+[EU_LA]
+name=Latvia
+loc0=Riga EVRA ------ ---
+
 [EU_LT]
 name=Lithuania
-loc0=Vilnius EVRA ------ ---
+loc0=Vilnius EYVI ------ ---
 
 [EU_LU]
 name=Luxembourg
@@ -1790,7 +1796,7 @@ loc13=Fagernes ENFG ------ ---
 loc14=Floro ENFL ------ ---
 loc15=Frigg ENFR ------ ---
 loc16=Gullfax\\ C ENGC ------ ---
-loc17=Oslo/Gardenmoen ENGM ------ ---
+loc17=Oslo/Gardermoen ENGM ------ ---
 loc18=Haugesund ENHD ------ ---
 loc19=Hammerfest ENHF ------ ---
 loc20=Honningsvag ENHV ------ ---
@@ -2457,15 +2463,16 @@ loc4=Cairns YBCS ------ ---
 loc5=Canberra YSCB ------ ---
 loc6=Christmas\\ Island YPXM ------ ---
 loc7=Cocos\\ Island YPCC ------ ---
-loc8=Dubbo YSDU ------ ---
-loc9=Hobart YMHB ------ ---
-loc10=Learmouth YPLM ------ ---
-loc11=Melbourne YMML ------ ---
-loc12=Norfolk\\ Island YSNF ------ ---
-loc13=Perth YPPH ------ ---
-loc14=Port\\ Hedland YPPD ------ ---
-loc15=Sydney YSSY ------ ---
-loc16=Townsville YBTL ------ ---
+loc8=Darwin YPDN ------ ---
+loc9=Dubbo YSDU ------ ---
+loc10=Hobart YMHB ------ ---
+loc11=Learmouth YPLM ------ ---
+loc12=Melbourne YMML ------ ---
+loc13=Norfolk\\ Island YSNF ------ ---
+loc14=Perth YPPH ------ ---
+loc15=Port\\ Hedland YPPD ------ ---
+loc16=Sydney YSSY ------ ---
+loc17=Townsville YBTL ------ ---
 
 [OZ_NZ]
 name=New Zealand

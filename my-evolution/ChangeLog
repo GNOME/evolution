@@ -1,5 +1,9 @@
 2003-04-07  Dan Winship  <danw@ximian.com>
 
+	* Locations: Add Darwin, Australia [#12066]. Fix Vilnius
+	and Riga [#15740]. Fix spelling of Gardermoen, Norway [#18015].
+	Add Goetsenhoven and Spa, Belgium [#32027]
+
 	* GNOME_Evolution_Summary.server.in.in: clean up server names
 
 2003-03-31  Larry Ewing  <lewing@ximian.com>
