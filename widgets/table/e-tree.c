@@ -537,10 +537,12 @@ static void
 item_cursor_activated (ETableItem *eti, int row, ETree *et)
 {
 	ETreePath path = e_tree_table_adapter_node_at_row(et->priv->etta, row);
-	path = e_tree_sorted_view_to_model_path(et->priv->sorted, path);
+	if (path)
+		path = e_tree_sorted_view_to_model_path(et->priv->sorted, path);
 	gtk_signal_emit (GTK_OBJECT (et),
 			 et_signals [CURSOR_ACTIVATED],
 			 row, path);
+	d(g_print("%s: Emitted CURSOR_ACTIVATED signal on row: %d and path: 0x%p\n", __FUNCTION__, row, path));
 }
 
 static void

@@ -2810,16 +2810,13 @@ eti_cursor_activated (ESelectionModel *selection, int row, int col, ETableItem *
 	view_row = model_to_view_row(eti, row);
 	view_col = model_to_view_col(eti, col);
 	
-	if (view_row == -1 || view_col == -1) {
-		e_table_item_leave_edit_(eti);
-		return;
-	}
-
-	if (! e_table_model_has_change_pending (eti->table_model)) {
-		if (!eti->in_key_press) {
-			eti_show_cursor(eti, DOUBLE_CLICK_TIME + 10);
-		} else {
-			eti_show_cursor(eti, 0);
+	if (view_row != -1 && view_col != -1) {
+		if (! e_table_model_has_change_pending (eti->table_model)) {
+			if (!eti->in_key_press) {
+				eti_show_cursor(eti, DOUBLE_CLICK_TIME + 10);
+			} else {
+				eti_show_cursor(eti, 0);
+			}
 		}
 	}
 
