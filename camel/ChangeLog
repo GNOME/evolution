@@ -1,3 +1,8 @@
+2001-07-24  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-url.h (CAMEL_URL_HIDE_ALL): New #define, and there was
+	much rejoicing. Rah.
+
 2001-07-24  Not Zed  <NotZed@Ximian.com>
 
 	* camel-operation.c (camel_operation_register, unregister): Added

@@ -53,6 +53,8 @@ typedef struct {
 #define CAMEL_URL_HIDE_PARAMS	(1 << 1)
 #define CAMEL_URL_HIDE_AUTH	(1 << 2)
 
+#define CAMEL_URL_HIDE_ALL (CAMEL_URL_HIDE_PASSWORD | CAMEL_URL_HIDE_PARAMS | CAMEL_URL_HIDE_AUTH)
+
 CamelURL *camel_url_new_with_base (CamelURL *base, const char *url_string);
 CamelURL *camel_url_new (const char *url_string, CamelException *ex);
 char *camel_url_to_string (CamelURL *url, guint32 flags);
