@@ -1,3 +1,9 @@
+2003-11-06 Leon Zhang <leon.zhang@sun.com>
+
+	* gui/widgets/e-minicard.c: (e_minicard_event):
+	gui/widgets/e-minicard-label.c: (e_minicard_label_event):
+	make sure the declation is at the beginning of the block.
+
 2003-11-08  Chris Toshok  <toshok@ximian.com>
 
 	* backend/ebook/e-book.c (e_book_load_uri): put the URILoading

@@ -365,10 +365,10 @@ e_minicard_label_event (GnomeCanvasItem *item, GdkEvent *event)
 		break;
 	case GDK_FOCUS_CHANGE: {
 		gboolean popup;
+		GdkEventFocus *focus_event = (GdkEventFocus *) event;
+
 		g_object_get (e_minicard_label->field, "has_popup", &popup, NULL);
 		if (popup) break;
-
-		GdkEventFocus *focus_event = (GdkEventFocus *) event;
 
 		e_minicard_label->has_focus = focus_event->in;
 		set_colors (e_minicard_label);

@@ -555,6 +555,8 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 			/* if there is an activated popup menu, skip current event */
 			GList *list;
 			gboolean popup = FALSE;
+			GdkEventFocus *focus_event = (GdkEventFocus *) event;
+
                         for (list = e_minicard->fields; list; list = list->next) {
 				EMinicardField *field = E_MINICARD_FIELD(list->data);
 				EMinicardLabel *e_minicard_label = E_MINICARD_LABEL(GTK_OBJECT(field->label));
@@ -567,7 +569,6 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 			if (popup)
 				break;
 
-			GdkEventFocus *focus_event = (GdkEventFocus *) event;
 			d(g_print("%s: GDK_FOCUS_CHANGE: %s\n", G_GNUC_FUNCTION, focus_event->in?"in":"out"));
 			if (focus_event->in) {
 				/* Chris: When EMinicard gets the cursor, if it doesn't have the focus, it should take it.  */
