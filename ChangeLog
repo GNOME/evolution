@@ -1,3 +1,8 @@
+2000-07-26  Peter Williams  <peterw@helixcode.com>
+
+	* widgets/e-table/e-table-scrolled.c (right_click_proxy): Default
+	the return value to 0.
+
 2000-07-25  Dan Winship  <danw@helixcode.com>
 
 	* configure.in: some unrelated changes: check for mkdtemp,

@@ -65,7 +65,7 @@ double_click_proxy (ETable *et, int row, ETableScrolled *ets)
 static gint
 right_click_proxy (ETable *et, int row, int col, GdkEvent *event, ETableScrolled *ets)
 {
-	int return_val;
+	int return_val = 0;
 	gtk_signal_emit (GTK_OBJECT (ets),
 			 ets_signals [RIGHT_CLICK],
 			 row, col, event, &return_val);
