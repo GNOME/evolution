@@ -82,6 +82,8 @@ free_client_hash (gpointer key, gpointer value, gpointer user_data)
 	char *uri = key;
 	ECal *client = value;
 
+	alarm_queue_remove_client (client);
+
 	g_free (uri);
 	g_object_unref (client);
 }

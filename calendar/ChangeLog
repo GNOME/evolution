@@ -1,5 +1,8 @@
 2004-02-18  Rodrigo Moya <rodrigo@ximian.com>
 
+	* gui/alarm-notify/alarm-notify.c (free_client_hash): remove the client
+	from the queue also.
+
 	* gui/gnome-cal.c (client_cal_opened_cb): set the task pad client to NULL
 	if opening it failed. Show more verbose status bar messages.
 
