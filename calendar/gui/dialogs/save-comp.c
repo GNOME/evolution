@@ -49,9 +49,9 @@ save_component_dialog (GtkWindow *parent)
 
 	dialog = gnome_message_box_new (_("Do you want to save changes?"),
 					GNOME_MESSAGE_BOX_QUESTION,
-					GNOME_STOCK_BUTTON_CANCEL,
-					GNOME_STOCK_BUTTON_NO,
-					GNOME_STOCK_BUTTON_YES,
+					GTK_STOCK_CANCEL,
+					GTK_STOCK_NO,
+					GTK_STOCK_YES,
 					NULL);
 
 	gnome_dialog_set_default (GNOME_DIALOG (dialog), 0);
