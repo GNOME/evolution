@@ -1,3 +1,7 @@
+2001-10-12  Chris Toshok  <toshok@ximian.com>
+
+	* tools/killev: kill evolution-ldif-importer.
+
 2001-10-11  Federico Mena Quintero  <federico@ximian.com>
 
 	* configure.in (AC_OUTPUT): Fix the order of the help/ subdirs.

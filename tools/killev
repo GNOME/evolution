@@ -45,6 +45,8 @@ $killcmd -9 evolution-netscape-importer 2>/dev/null
 $killcmd -9 evolution-netsca 2>/dev/null
 $killcmd -9 evolution-vcard-importer 2>/dev/null
 $killcmd -9 evolution-vcard- 2>/dev/null
+$killcmd -9 evolution-ldif-importer 2>/dev/null
+$killcmd -9 evolution-ldif-i 2>/dev/null
 
 $killcmd -9 evolution-alarm-notify 2>/dev/null
 $killcmd -9 evolution-alarm- 2>/dev/null
