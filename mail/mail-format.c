@@ -59,10 +59,6 @@
 
 #define STANDARD_ISSUE_TABLE_OPEN "<table cellspacing=0 cellpadding=10 width=\"100%\">"
 
-static ssize_t mail_format_data_wrapper_write_to_stream (CamelDataWrapper *wrapper,
-							 MailDisplay *mail_display,
-							 CamelStream *stream);
-
 
 static gboolean handle_text_plain            (CamelMimePart *part, const char *mime_type,
 					      MailDisplay *md, MailDisplayStream *stream);
