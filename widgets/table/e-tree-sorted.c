@@ -110,8 +110,6 @@ ets_sort_idle(gpointer user_data)
 	ets->priv->sort_idle_id = 0;
 	if (ets->priv->root) {
 		resort_node (ets, ets->priv->root, FALSE, FALSE, TRUE);
-	} else {
-		e_tree_model_node_changed (E_TREE_MODEL(ets), ets->priv->root);
 	}
 	return FALSE;
 }
