@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.5.0\n"
-"POT-Creation-Date: 2000-10-05 15:00+0200\n"
+"POT-Creation-Date: 2000-10-07 19:57+0200\n"
 "PO-Revision-Date: 2000-09-26 16:58-04:00\n"
 "Last-Translator: Héctor García Álvarez <hector@scouts-es.org>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -1020,7 +1020,7 @@ msgstr "No pude leer los datos de la aplicación ToDo de la pilot"
 
 #: calendar/gui/calendar-commands.c:59
 msgid "Outline:"
-msgstr ""
+msgstr "Titular:"
 
 #: calendar/gui/calendar-commands.c:60
 msgid "Headings:"
@@ -1113,21 +1113,20 @@ msgstr "Mostrar 1 año"
 #. strftime format of a weekday and a date.
 #: calendar/gui/calendar-model.c:282
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:2495
-#, fuzzy
 msgid "%a %m/%d/%Y"
-msgstr "%a %b %d %Y"
+msgstr "%a %m %d %Y"
 
 #. strftime format of a weekday, a date and a time,
 #. in 24-hour format.
 #: calendar/gui/calendar-model.c:286 calendar/gui/calendar-model.c:740
 msgid "%a %m/%d/%Y %H:%M:%S"
-msgstr ""
+msgstr "%a %m/%d/%Y %H:%M:%S"
 
 #. strftime format of a weekday, a date and a time,
 #. in 12-hour format.
 #: calendar/gui/calendar-model.c:290 calendar/gui/calendar-model.c:743
 msgid "%a %m/%d/%Y %I:%M:%S %p"
-msgstr ""
+msgstr "%a %m/%d/%Y %I:%M:%S %p"
 
 #: calendar/gui/calendar-model.c:344
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:23
@@ -1188,29 +1187,29 @@ msgstr ""
 #: widgets/misc/e-dateedit.c:475 widgets/misc/e-dateedit.c:507
 #: widgets/misc/e-dateedit.c:664 widgets/misc/e-dateedit.c:720
 msgid "%m/%d/%Y"
-msgstr ""
+msgstr "%m/%d/%Y"
 
 #. strptime format for a time of day, in 12-hour format.
 #. If it is is not appropriate in the locale set to an empty string.
 #: calendar/gui/calendar-model.c:867
 msgid "%I:%M:%S %p%n"
-msgstr ""
+msgstr "%I:%M:%S %p%n"
 
 #. strptime format for a time of day, in 24-hour format.
 #: calendar/gui/calendar-model.c:870
 msgid "%H:%M:%S%n"
-msgstr ""
+msgstr "%H:%M:%S%n"
 
 #. strptime format for time of day, without seconds, 12-hour format.
 #. If it is is not appropriate in the locale set to an empty string.
 #: calendar/gui/calendar-model.c:874
 msgid "%I:%M %p%n"
-msgstr ""
+msgstr "%I:%M %p%n"
 
 #. strptime format for time of day, without seconds 24-hour format.
 #: calendar/gui/calendar-model.c:877
 msgid "%H:%M%n"
-msgstr ""
+msgstr "%H:%M%n"
 
 #: calendar/gui/calendar-model.c:997
 msgid ""
@@ -1632,39 +1631,35 @@ msgstr "E_stado:"
 
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:13
 msgid "Not Started"
-msgstr ""
+msgstr "Sin comenzar"
 
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:14
 msgid "In Progress"
-msgstr ""
+msgstr "En progreso"
 
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:15
-#, fuzzy
 msgid "Completed"
-msgstr "% Comp_leto:"
+msgstr "Completado"
 
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:16
 msgid "Cancelled"
-msgstr ""
+msgstr "Cancelado"
 
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:17
 msgid "_Priority:"
-msgstr "_Prioridad"
+msgstr "_Prioridad:"
 
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:18
-#, fuzzy
 msgid "High"
-msgstr "Alto:"
+msgstr "Alta"
 
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:19
-#, fuzzy
 msgid "Normal"
-msgstr "Formatear"
+msgstr "Normal"
 
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:20
-#, fuzzy
 msgid "Low"
-msgstr "ahora"
+msgstr "Baja"
 
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:21
 msgid "C_lassification:"
@@ -1775,22 +1770,20 @@ msgstr "%02i divisiones por minuto"
 #. strftime format %A = full weekday name, %d = day of month,
 #. %B = full month name. Don't use any other specifiers.
 #: calendar/gui/e-day-view.c:1173
-#, fuzzy
 msgid "%A %d %B"
-msgstr "%a %b %d %Y"
+msgstr "%A %b de %B"
 
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.
 #: calendar/gui/e-day-view.c:1187
-#, fuzzy
 msgid "%a %d %b"
-msgstr "%a %b %d %Y"
+msgstr "%a, %d de %b de %Y"
 
 #. strftime format %d = day of month, %b = abbreviated month name.
 #. Don't use any other specifiers.
 #: calendar/gui/e-day-view.c:1200
 msgid "%d %b"
-msgstr ""
+msgstr "%d de %b"
 
 #: calendar/gui/e-day-view.c:2594 calendar/gui/e-day-view.c:2601
 #: calendar/gui/e-day-view.c:2610 calendar/gui/e-week-view.c:2958
@@ -1825,9 +1818,8 @@ msgid "Edit Appointment"
 msgstr "Editar Cita"
 
 #: calendar/gui/event-editor.c:1260
-#, fuzzy
 msgid "FIXME: _Formatting"
-msgstr "ARREGLAME: __Formato"
+msgstr "ARREGLAME: _Formateando"
 
 #: calendar/gui/event-editor.c:1271
 msgid "FIXME: Ca_lendar..."
@@ -1839,7 +1831,7 @@ msgstr "ARREGLAME: _Nueva Cita"
 
 #: calendar/gui/event-editor.c:1318
 msgid "Schedule _Meeting..."
-msgstr ""
+msgstr "Concertar _cita..."
 
 #: calendar/gui/event-editor.c:1320
 msgid "FIXME: Forward as v_Calendar"
@@ -3080,7 +3072,7 @@ msgstr "_Cerrar..."
 
 #: composer/e-msg-composer.c:998
 msgid "Quit the message composer"
-msgstr ""
+msgstr "Cerrar el editor de mensajes"
 
 #: composer/e-msg-composer.c:1011
 msgid "_Edit"
@@ -3124,18 +3116,17 @@ msgstr "Adjuntar un fichero"
 
 #: composer/e-msg-composer.c:1317
 msgid "Compose a message"
-msgstr "Escribir un mensaje de correo"
+msgstr "Nuevo mensaje"
 
 #: composer/e-msg-composer.c:1394
 msgid "Could not create composer window."
-msgstr ""
+msgstr "No pude crear una ventana para escribir el mensaje"
 
 #: filter/filter-datespec.c:61
 msgid "years"
 msgstr "años"
 
 #: filter/filter-datespec.c:62
-#, fuzzy
 msgid "months"
 msgstr "meses"
 
@@ -3814,20 +3805,20 @@ msgstr "Adjuntar mensajes desde \"%s\""
 #: mail/mail-ops.c:1428
 #, c-format
 msgid "Forwarding messages \"%s\""
-msgstr ""
+msgstr "Reenviando mensajes \"%s\""
 
 #: mail/mail-ops.c:1433
 msgid "Forwarding a message without a subject"
-msgstr ""
+msgstr "Reenviando mensajes sin asunto"
 
 #: mail/mail-ops.c:1436
 #, c-format
 msgid "Forward message \"%s\""
-msgstr ""
+msgstr "Reenviar mensaje \"%s\""
 
 #: mail/mail-ops.c:1441
 msgid "Forward a message without a subject"
-msgstr ""
+msgstr "Reenviar mensaje sin asunto"
 
 #: mail/mail-ops.c:1470
 #, c-format
@@ -3838,6 +3829,7 @@ msgstr "Recogiendo menesaje número %d de %d (uid \"%s\")"
 msgid ""
 "Failed to generate mime part from message while generating forwarded message."
 msgstr ""
+"No pude generar un mime del mensaje cuando generaba el mensaje a reenviar."
 
 #: mail/mail-ops.c:1569
 #, c-format
@@ -3861,7 +3853,7 @@ msgstr "Crear \"%s\""
 
 #: mail/mail-ops.c:1721
 msgid "Exception while reporting result to shell component listener."
-msgstr ""
+msgstr "Excepción mientras devolvia los resultados al componente de shell."
 
 #: mail/mail-ops.c:1767
 #, c-format
@@ -3958,11 +3950,11 @@ msgstr ""
 
 #: mail/mail-threads.c:856
 msgid "Could not create dialog box."
-msgstr ""
+msgstr "No pude crear la ventana de diálogo"
 
 #: mail/mail-threads.c:865
 msgid "User cancelled query."
-msgstr ""
+msgstr "El usuario cancelo la consulta."
 
 #: mail/mail-tools.c:206
 #, c-format
@@ -4028,7 +4020,7 @@ msgstr "Responder al remitente de este mensaje"
 
 #: mail/mail-view.c:154 mail/message-list.c:1643
 msgid "Reply to All"
-msgstr "Resp. todos"
+msgstr "Re: Todos"
 
 #: mail/mail-view.c:154
 msgid "Reply to all recipients of this message"
@@ -4294,120 +4286,116 @@ msgid ""
 "Do you really want to remove group\n"
 "`%s' from the shortcut bar?"
 msgstr ""
+"¿Realmente quiere quitar el grupo\n"
+"`%s' del menu de atajos?"
 
 #: shell/e-shortcuts-view.c:239
 msgid "Don't remove"
-msgstr ""
+msgstr "No quitar"
 
 #: shell/e-shortcuts-view.c:250
 msgid "_Small Icons"
-msgstr ""
+msgstr "Icono_s pequeños"
 
 #: shell/e-shortcuts-view.c:251
-#, fuzzy
 msgid "Show the shortcuts as small icons"
-msgstr "Oculta la barra de atajos"
+msgstr "Mostrar los atajos como iconos pequeños"
 
 #: shell/e-shortcuts-view.c:253
-#, fuzzy
 msgid "_Large Icons"
-msgstr "Margenes"
+msgstr "Iconos _grandes"
 
 #: shell/e-shortcuts-view.c:254
-#, fuzzy
 msgid "Show the shortcuts as large icons"
-msgstr "Oculta la barra de atajos"
+msgstr "Mostrar los atajos como iconos grandes"
 
 #: shell/e-shortcuts-view.c:265
-#, fuzzy
 msgid "_New Group..."
-msgstr "Correo _nuevo"
+msgstr "_Nuevo grupo..."
 
 #: shell/e-shortcuts-view.c:266
 msgid "Create a new shortcut group"
-msgstr ""
+msgstr "Crear un nuevo grupo de atajos"
 
 #: shell/e-shortcuts-view.c:268
 msgid "_Remove This Group..."
-msgstr ""
+msgstr "_Quitar este grupo..."
 
 #: shell/e-shortcuts-view.c:269
 msgid "Remove this shortcut group"
-msgstr ""
+msgstr "Quitar este grupo de atajos"
 
 #: shell/e-shortcuts-view.c:353
 msgid "Activate"
-msgstr ""
+msgstr "Activar"
 
 #: shell/e-shortcuts-view.c:353
 msgid "Activate this shortcut"
-msgstr ""
+msgstr "Activar este atajo"
 
 #: shell/e-shortcuts-view.c:356
 msgid "Remove this shortcut from the shortcut bar"
-msgstr ""
+msgstr "Quitar este atajo de la lista de atajos"
 
 #: shell/e-shortcuts.c:358
 msgid "Error saving shortcuts."
-msgstr ""
+msgstr "Error guardando atajos."
 
 #: shell/e-storage.c:127
-#, fuzzy
 msgid "(No name)"
-msgstr "Nombre"
+msgstr "(Sin nombre)"
 
 #: shell/e-storage.c:318
 msgid "No error"
-msgstr ""
+msgstr "Sin errores"
 
 #: shell/e-storage.c:320
 msgid "Generic error"
-msgstr ""
+msgstr "Error genérico"
 
 #: shell/e-storage.c:322
 msgid "A folder with the same name already exists"
-msgstr ""
+msgstr "Ya existe una carpeta con ese nombre"
 
 #: shell/e-storage.c:324
 msgid "The specified folder type is not valid"
-msgstr ""
+msgstr "Es tipo de fichero especificado no es válido"
 
 #: shell/e-storage.c:326
 msgid "I/O error"
-msgstr ""
+msgstr "Error de I/O"
 
 #: shell/e-storage.c:328
 msgid "Not enough space to create the folder"
-msgstr ""
+msgstr "No hay suficiente espacio para crear la carpeta"
 
 #: shell/e-storage.c:330
 msgid "The specified folder was not found"
-msgstr ""
+msgstr "No se encontro la carpeta especificada"
 
 #: shell/e-storage.c:332
 msgid "Function not implemented in this storage"
-msgstr ""
+msgstr "Función sin implementar en este manejador"
 
 #: shell/e-storage.c:334
 msgid "Permission denied"
-msgstr ""
+msgstr "Permiso denegado"
 
 #: shell/e-storage.c:336
 msgid "Operation not supported"
-msgstr ""
+msgstr "Operación no soportada"
 
 #: shell/e-storage.c:338
 msgid "The specified type is not supported in this storage"
-msgstr ""
+msgstr "El tipo especificado no esta soportado poe este manejador"
 
 #: shell/e-storage.c:340
 msgid "Unknown error"
-msgstr ""
+msgstr "Error desconocido"
 
 #: shell/e-storage-set-view.c:221
-#, fuzzy
 msgid "View the selected folder"
-msgstr "Imprimir el mensaje seleccionado"
+msgstr "Ver la carpeta seleccionada"
 
 #: shell/main.c:68
 msgid ""
@@ -4468,35 +4456,32 @@ msgid "Cannot initialize the Bonobo component system."
 msgstr "No puedo inicializar el sistema de componentes Bonobo."
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:386
-#, fuzzy
 msgid "Tentative"
-msgstr "Orientación"
+msgstr "Tentativa"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:387
 msgid "Busy"
-msgstr ""
+msgstr "Ocupado"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:388
-#, fuzzy
 msgid "Out of Office"
-msgstr "Oficina:"
+msgstr "Fuera de la oficina"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:389
 msgid "No Information"
-msgstr ""
+msgstr "Sin información"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:405
 msgid "_Invite Others..."
-msgstr ""
+msgstr "_Invitar a otros..."
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:425
-#, fuzzy
 msgid "_Options"
-msgstr "Opciones"
+msgstr "_Opciones"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:442
 msgid "Show _Only Working Hours"
-msgstr ""
+msgstr "Mostrar _solo las horas de trabajo"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:455
 msgid "Show _Zoomed Out"
@@ -4504,11 +4489,11 @@ msgstr ""
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:473
 msgid "_Update Free/Busy"
-msgstr ""
+msgstr "_Actualizar Libre/Ocupado"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:491
 msgid "_<<"
-msgstr ""
+msgstr "_<<"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:508
 msgid "_Autopick"
@@ -4516,183 +4501,78 @@ msgstr ""
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:522
 msgid ">_>"
-msgstr ""
+msgstr ">_>"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:539
 msgid "_All People and Resources"
-msgstr ""
+msgstr "_Todas las personas y los recursos"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:552
 msgid "All _People and One Resource"
-msgstr ""
+msgstr "Todas las _personas y un recurso"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:565
 msgid "_Required People"
-msgstr ""
+msgstr "Personas _requeridas"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:578
 msgid "Required People and _One Resource"
-msgstr ""
+msgstr "Personas requeridas y _un recurso"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:601
-#, fuzzy
 msgid "Meeting _start time:"
-msgstr "_Petición de reunión"
+msgstr "Hora de _inicio de la reunión:"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:625
-#, fuzzy
 msgid "Meeting _end time:"
-msgstr "_Petición de reunión"
+msgstr "Hora de _fin de la reunión:"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:738
 msgid "All Attendees"
-msgstr ""
+msgstr "Todos los participantes"
 
 #. This is a strftime() format string %A = full weekday name,
 #. %B = full month name, %d = month day, %Y = full year.
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:2468
-#, fuzzy
 msgid "%A, %B %d, %Y"
-msgstr "%a %b %d %Y"
+msgstr "%A, %d de %B de %Y"
 
 #. Translators: These are the first characters of each day of the
 #. week, 'M' for 'Monday', 'T' for Tuesday etc.
 #: widgets/misc/e-calendar-item.c:415
 msgid "MTWTFSS"
-msgstr ""
+msgstr "LMMJVSD"
 
 #. This is a strftime() format. %B = Month name, %Y = Year.
 #: widgets/misc/e-calendar-item.c:1039 widgets/misc/e-calendar-item.c:2671
 msgid "%B %Y"
-msgstr ""
+msgstr "%B %Y"
 
 #: widgets/misc/e-clipped-label.c:106
-#, fuzzy
 msgid "..."
-msgstr "Añadir..."
+msgstr "..."
 
 #: widgets/misc/e-dateedit.c:320
-#, fuzzy
 msgid "Now"
-msgstr "window1"
+msgstr "Ahora"
 
 #: widgets/misc/e-dateedit.c:326
-#, fuzzy
 msgid "Today"
-msgstr "Cuerpo"
+msgstr "Hoy"
 
 #. This is a strptime() format. %H = hour (0-23), %M = minute.
 #: widgets/misc/e-dateedit.c:636 widgets/misc/e-dateedit.c:726
 #: widgets/misc/e-dateedit.c:983
 msgid "%H:%M"
-msgstr ""
+msgstr "%H:%M"
 
 #. This is a strptime() format. %I = hour (1-12), %M = minute, %p = am/pm string.
 #: widgets/misc/e-dateedit.c:639 widgets/misc/e-dateedit.c:729
 #: widgets/misc/e-dateedit.c:986
 msgid "%I:%M %p"
-msgstr ""
+msgstr "%I:%M %p"
 
 #: widgets/shortcut-bar/e-group-bar.c:632
-#, fuzzy, c-format
+#, c-format
 msgid "Group %i"
-msgstr "Agrupando"
-
-#~ msgid "FIXME: _New Contact"
-#~ msgstr "ARREGLAME: _Nuevo contacto"
-
-#~ msgid "FIXME: New _Contact from Same Company"
-#~ msgstr "ARREGLAME: Nuevo _contacto de la misma compañía"
-
-#~ msgid "FIXME: New _Letter to Contact"
-#~ msgstr "ARREGLAME: Nueva _carta para el contacto"
-
-#~ msgid "FIXME: New _Message to Contact"
-#~ msgstr "ARREGLAME: Nuevo _mensaje para el contacto"
-
-#~ msgid "FIXME: New Meetin_g with Contact"
-#~ msgstr "ARREGLAME: Nueva ci_ta con el contacto"
-
-#~ msgid "FIXME: _Plan a Meeting..."
-#~ msgstr "ARREGLAME: _Planificar una cita..."
-
-#~ msgid "FIXME: New _Task for Contact"
-#~ msgstr "ARREGLAME: Nueva _Tarea para el Contacto"
-
-#~ msgid "FIXME: New _Journal Entry for Contact"
-#~ msgstr "ARREGLAME: Nueva Cita para el Contacto"
-
-#~ msgid "FIXME: _Flag for Follow Up..."
-#~ msgstr "ARREGLAME: _Bandera de seguimiento..."
-
-#~ msgid "FIXME: _Display Map of Address"
-#~ msgstr "ARREGLAME: Mostrar un mapa de las _direcciones"
-
-#~ msgid "FIXME: _Open Web Page"
-#~ msgstr "ARREGLAME: _Abrir pagina web"
-
-#~ msgid "FIXME: Forward as _vCard"
-#~ msgstr "ARREGLAME: Reenviar como _vCard"
-
-#~ msgid "Save the appointment and close the dialog box"
-#~ msgstr "Guardar la cita y cerrar la ventana de dialogo"
-
-#~ msgid "Print..."
-#~ msgstr "Imprimir..."
-
-#~ msgid "Delete this item"
-#~ msgstr "Borrar este elemento"
-
-#~ msgid "N_ew Directory Server"
-#~ msgstr "Nu_evo servidor de directorios"
-
-#~ msgid "Gnome Calendar"
-#~ msgstr "Gnome Calendar"
-
-#~ msgid "The GNOME personal calendar and schedule manager."
-#~ msgstr "El calendario personal GNOME y el administrador del horario."
-
-#~ msgid ""
-#~ "Not Started\n"
-#~ "In Progress\n"
-#~ "Completed\n"
-#~ "Cancelled\n"
-#~ msgstr ""
-#~ "No Iniciado\n"
-#~ "En Proceso\n"
-#~ "Completado\n"
-#~ "Cancelado\n"
-
-#~ msgid ""
-#~ "High\n"
-#~ "Normal\n"
-#~ "Low\n"
-#~ msgstr ""
-#~ "Alto\n"
-#~ "Normal\n"
-#~ "Bajo\n"
-
-#~ msgid ""
-#~ "None\n"
-#~ "Public\n"
-#~ "Private\n"
-#~ "Confidential\n"
-#~ msgstr ""
-#~ "Ninguno\n"
-#~ "Público\n"
-#~ "Privado\n"
-#~ "Confidencial\n"
-
-#~ msgid "FIXME: Invite _Attendees..."
-#~ msgstr "ARREGLAME: Invit_ar..."
-
-#~ msgid "FIXME: C_ancel Invitation..."
-#~ msgstr "ARREGLAR: C_ancelar Invitación..."
-
-#, fuzzy
-#~ msgid "_Save as..."
-#~ msgstr "Buscar..."
-
-#, fuzzy
-#~ msgid "Port:"
-#~ msgstr "Prioridad"
+msgstr "Grupo %i"
