@@ -309,7 +309,7 @@ ui_add (FolderBrowser *fb, const char *name, BonoboUIVerb verb[], EPixmap pixcac
 	
 	/*bonobo_ui_component_freeze (uic, NULL);*/
 	
-	file = g_strconcat ("evolution-mail-", name, ".xml", NULL);
+	file = g_strconcat (EVOLUTION_UIDIR "/evolution-mail-", name, ".xml", NULL);
 	bonobo_ui_util_set_ui (uic, EVOLUTION_DATADIR, file, "evolution-mail", NULL);
 	g_free (file);
 	
@@ -359,7 +359,7 @@ folder_browser_ui_setup_view_menus (FolderBrowser *fb)
 		local_dir = gnome_util_prepend_user_home ("/evolution/views/mail/");
 		gal_view_collection_set_storage_directories
 			(collection,
-			 EVOLUTION_DATADIR "/evolution/views/mail/",
+			 EVOLUTION_GALVIEWSDIR "/evolution/views/mail/",
 			 local_dir);
 		g_free (local_dir);
 		

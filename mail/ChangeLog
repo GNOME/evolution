@@ -1,3 +1,38 @@
+2003-01-22  Ettore Perazzoli  <ettore@ximian.com>
+
+	* folder-browser-ui.c (folder_browser_ui_setup_view_menus): Use
+	EVOLUTION_GALVIEWSDIR.
+
+	* message-browser.c (set_bonobo_ui): Get
+	evolution-mail-messagedisplay.xml from EVOLUTION_UIDIR.
+
+	* mail-signature-editor.c (mail_signature_editor): Get
+	evolution-signature-editor.xml from EVOLUTION_UIDIR.
+
+	* folder-browser-ui.c (ui_add): Get the evoluiton-mail* XML files
+	from EVOLUTION_UIDIR.
+
+	* Makefile.am (INCLUDES): Define EVOLUTION_GALVIEWSDIR; update
+	EVOLUTION_IMAGESDIR to include the $(BASE_VERSION).
+	(gladedir): Version using $(BASE_VERSION).
+	(etspecdir): Likewise.
+	(iconsdir): Likewise.
+	(buttonsdir): Likewise.
+	(etspecdir): Likewise.
+
+	* component-factory.c (owner_set_cb): Look for vfoldertypes.xml in
+	the new version-aware location.
+	* mail-summary.c (generate_folder_summaries): Likewise.
+	* mail-search-dialogue.c (mail_search_dialogue_construct): Likewise.
+	* mail-vfolder.c (vfolder_load_storage): Likewise.
+
+	* mail-autofilter.c (filter_gui_add_from_message): Look for
+	filtertypes.xml in the new version-aware location.
+	(mail_filter_rename_uri): Likewise.
+	(mail_filter_delete_uri): Likewise.
+	* mail-session.c (main_get_filter_driver): Likewise.
+	* mail-callbacks.c (filter_edit): Likewise.
+
 2003-01-22  Radek Doulik  <rodo@ximian.com>
 
 	* mail-callbacks.c (do_mail_print): put unrealized html widget

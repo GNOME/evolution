@@ -778,7 +778,8 @@ vfolder_load_storage(GNOME_Evolution_Shell shell)
 	/* load our rules */
 	user = g_strdup_printf ("%s/vfolders.xml", evolution_dir);
 	context = vfolder_context_new ();
-	if (rule_context_load ((RuleContext *)context, EVOLUTION_DATADIR "/evolution/vfoldertypes.xml", user) != 0) {
+	if (rule_context_load ((RuleContext *)context,
+			       EVOLUTION_DATADIR "/evolution-" BASE_VERSION "/vfoldertypes.xml", user) != 0) {
 		g_warning("cannot load vfolders: %s\n", ((RuleContext *)context)->error);
 	}
 	g_free (user);

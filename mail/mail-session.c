@@ -759,7 +759,7 @@ main_get_filter_driver (CamelSession *session, const char *type, CamelException 
 	gconf = gconf_client_get_default ();
 	
 	user = g_strdup_printf ("%s/filters.xml", evolution_dir);
-	system = EVOLUTION_DATADIR "/evolution/filtertypes.xml";
+	system = EVOLUTION_DATADIR "/evolution-" BASE_VERSION "/filtertypes.xml";
 	fc = (RuleContext *) filter_context_new ();
 	rule_context_load (fc, system, user);
 	g_free (user);

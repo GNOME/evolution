@@ -333,7 +333,9 @@ mail_signature_editor (MailConfigSignature *sig)
 	component = bonobo_ui_component_new_default ();
 	bonobo_ui_component_set_container (component, bonobo_object_corba_objref (BONOBO_OBJECT (container)), NULL);
 	bonobo_ui_component_add_verb_list_with_data (component, verbs, editor);
-	bonobo_ui_util_set_ui (component, EVOLUTION_DATADIR, "evolution-signature-editor.xml", "evolution-signature-editor", NULL);
+	bonobo_ui_util_set_ui (component, EVOLUTION_DATADIR,
+			       EVOLUTION_UIDIR "/evolution-signature-editor.xml",
+			       "evolution-signature-editor", NULL);
 	
 	editor->control = bonobo_widget_new_control ("OAFIID:GNOME_GtkHTML_Editor:3.0",
 						     bonobo_ui_component_get_container (component));

@@ -89,7 +89,7 @@ mail_search_dialogue_construct (MailSearchDialogue *o, FilterRule *rule)
 	o->context = rule_context_new ();
 	rule_context_add_part_set (o->context, "partset", filter_part_get_type (),
 				   rule_context_add_part, rule_context_next_part);
-	rule_context_load (o->context, EVOLUTION_DATADIR "/evolution/vfoldertypes.xml", "");
+	rule_context_load (o->context, EVOLUTION_DATADIR "/evolution-" BASE_VERSION "/vfoldertypes.xml", "");
 	if (rule) {
 		o->rule = rule;
 		o->guts = filter_rule_get_widget (o->rule, o->context);

@@ -799,7 +799,7 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	{
 		/* setup the global quick-search context */
 		char *user = g_strdup_printf ("%s/searches.xml", evolution_dir);
-		char *system = g_strdup (EVOLUTION_DATADIR "/evolution/vfoldertypes.xml");
+		char *system = g_strdup (EVOLUTION_DATADIR "/evolution-" BASE_VERSION "/vfoldertypes.xml");
 		
 		search_context = rule_context_new ();
 		g_object_set_data_full(G_OBJECT(search_context), "user", user, g_free);

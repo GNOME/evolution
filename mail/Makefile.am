@@ -6,32 +6,34 @@ SUBDIRS = importers
 
 importerdir = $(privlibdir)/evolution-mail-importers
 
-INCLUDES =							\
-	-I$(top_srcdir)/widgets					\
-	-I$(top_srcdir)/widgets/e-text				\
-	-I$(top_srcdir)/widgets/misc				\
-	-I$(top_srcdir)/camel					\
-	-I$(top_srcdir)						\
-	-I$(top_srcdir)/composer				\
-	-I$(top_builddir)/composer				\
-	-I$(top_builddir)/shell					\
-	-I$(top_srcdir)/shell					\
-	-I$(top_srcdir)/shell/importer				\
-	-I$(top_builddir)/shell/importer			\
-	-I$(top_srcdir)/addressbook/backend			\
-	-I$(top_builddir)/addressbook/backend			\
-	$(EVOLUTION_MAIL_CFLAGS)				\
-	-DEVOLUTION_DATADIR=\""$(datadir)"\"			\
-	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"			\
-	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"		\
-	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"			\
-	-DEVOLUTION_IMAGES=\""$(datadir)/evolution/images"\"	\
-	-DEVOLUTION_BUTTONSDIR=\""$(buttonsdir)"\"		\
-	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"		\
-	-DCAMEL_PROVIDERDIR=\""$(camel_providerdir)"\"		\
-	-DMAIL_IMPORTERSDIR=\""$(importerdir)"\"		\
-	-DG_DISABLE_DEPRECATED					\
-	-DGTK_DISABLE_DEPRECATED				\
+INCLUDES =										\
+	-I$(top_srcdir)/widgets								\
+	-I$(top_srcdir)/widgets/e-text							\
+	-I$(top_srcdir)/widgets/misc							\
+	-I$(top_srcdir)/camel								\
+	-I$(top_srcdir)									\
+	-I$(top_srcdir)/composer							\
+	-I$(top_builddir)/composer							\
+	-I$(top_builddir)/shell								\
+	-I$(top_srcdir)/shell								\
+	-I$(top_srcdir)/shell/importer							\
+	-I$(top_builddir)/shell/importer						\
+	-I$(top_srcdir)/addressbook/backend						\
+	-I$(top_builddir)/addressbook/backend						\
+	$(EVOLUTION_MAIL_CFLAGS)							\
+	-DEVOLUTION_DATADIR=\""$(datadir)"\"						\
+	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"						\
+	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"					\
+	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"						\
+	-DEVOLUTION_IMAGES=\""$(datadir)"/evolution-$(BASE_VERSION)/images\"		\
+	-DEVOLUTION_GALVIEWSDIR=\"$(datadir)/evolution-$(BASE_VERSION)/views\"		\
+	-DEVOLUTION_BUTTONSDIR=\""$(buttonsdir)"\"					\
+	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"					\
+	-DEVOLUTION_UIDIR=\""$(evolutionuidir)"\"					\
+	-DCAMEL_PROVIDERDIR=\""$(camel_providerdir)"\"					\
+	-DMAIL_IMPORTERSDIR=\""$(importerdir)"\"					\
+	-DG_DISABLE_DEPRECATED								\
+	-DGTK_DISABLE_DEPRECATED							\
 	-DG_LOG_DOMAIN=\"evolution-mail\"
 
 componentdir = $(COMPONENT_DIR)
@@ -176,17 +178,17 @@ $(server_in_files:.server.in.in=.server.in): $(server_in_files)
 	sed -e "s|\@COMPONENTDIR\@|$(componentdir)|" $< > $@
 @INTLTOOL_SERVER_RULE@
 
-gladedir   = $(datadir)/evolution/glade
+gladedir   = $(datadir)/evolution-$(BASE_VERSION)/glade
 glade_DATA = mail-config.glade local-config.glade subscribe-dialog.glade message-tags.glade
 
-etspecdir = $(datadir)/evolution/etspec/
+etspecdir = $(datadir)/evolution-$(BASE_VERSION)/etspec/
 etspec_DATA = mail-accounts.etspec message-list.etspec subscribe-dialog.etspec
 
 schemadir   = $(GCONF_SCHEMA_FILE_DIR)
 schema_DATA = evolution-mail.schemas
 
-iconsdir = $(datadir)/evolution/images
-buttonsdir = $(datadir)/evolution/images/buttons
+iconsdir = $(datadir)/evolution-$(BASE_VERSION)/images
+buttonsdir = $(datadir)/evolution-$(BASE_VERSION)/images/buttons
 
 idl_DATA = Mailer.idl
 

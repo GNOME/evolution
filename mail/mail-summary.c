@@ -296,7 +296,7 @@ generate_folder_summaries (MailSummary *summary)
 	int i;
 
 	user = g_strdup_printf ("%s/vfolders.xml", evolution_dir);
-	system = EVOLUTION_DATADIR "/evolution/vfoldertypes.xml";
+	system = EVOLUTION_DATADIR "/evolution-" BASE_VERSION "/vfoldertypes.xml";
 
 	context = vfolder_context_new ();
 	rule_context_load ((RuleContext *)context, system, user);
