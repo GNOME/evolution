@@ -1006,8 +1006,7 @@ embeddable_destroy_cb (GtkObject *obj, gpointer user_data)
 		bonobo_object_corba_objref (BONOBO_OBJECT(server)), &ev);
 
 	CORBA_exception_free (&ev);
-	bonobo_object_destroy (BONOBO_OBJECT (vf));
-	/* gtk_object_unref (obj); */
+	bonobo_object_unref (BONOBO_OBJECT (vf));
 }
 
 static void
@@ -1049,7 +1048,7 @@ handle_via_bonobo (CamelMimePart *part, CamelMimeMessage *root, GtkBox *box)
 	persist = (Bonobo_PersistStream) bonobo_object_client_query_interface (
 		server, "IDL:Bonobo/PersistStream:1.0", NULL);
 	if (persist == CORBA_OBJECT_NIL) {
-		bonobo_object_destroy (BONOBO_OBJECT (embedded));
+		bonobo_object_unref (BONOBO_OBJECT (embedded));
 		handle_undisplayable (part, root, box);
 		return;
 	}
