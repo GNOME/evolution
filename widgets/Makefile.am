@@ -1,3 +1,7 @@
+
+SUBDIRS =
+	meeting-time-sel
+
 INCLUDES =					\
 	-I$(top_srcdir)/camel			\
 	-I$(top_builddir)/camel			\

@@ -1,3 +1,7 @@
+1999-12-19  Damon Chaplin  <damon@karuna.freeserve.co.uk>
+
+	* configure.in (AC_OUTPUT): added widgets/meeting-time-sel/Makefile
+
 1999-12-19  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* camel/camel-folder-utils.c: include camel-log.h

@@ -1,3 +1,20 @@
+1999-12-19  Damon Chaplin  <damon@karuna.freeserve.co.uk>
+
+	* Makefile.am (SUBDIRS): created SUBDIRS with meeting-time-sel.
+
+	* meeting-time-sel/Makefile.am: 
+	* meeting-time-sel/.cvsignore: 
+	* meeting-time-sel/e-meeting-time-sel.h: 
+	* meeting-time-sel/e-meeting-time-sel.c: 
+	* meeting-time-sel/e-meeting-time-sel-item.h: 
+	* meeting-time-sel/e-meeting-time-sel-item.c: 
+	* meeting-time-sel/e-meeting-time-sel-list-item.h: 
+	* meeting-time-sel/e-meeting-time-sel-list-item.c: 
+	* meeting-time-sel/e-meeting-time-sel-mail.xpm: 
+	* meeting-time-sel/e-meeting-time-sel-no-mail.xpm: 
+	* meeting-time-sel/test-meeting-time-sel.c: new files implementing
+	the meeting time selector.
+
 1999-12-12  Miguel de Icaza  <miguel@helixcode.com>
 
 	* e-table-item.c (eti_class_init): X and Y arguments are now
