@@ -1,7 +1,6 @@
 /* Evolution calendar - Delete calendar component dialog
  *
- * Copyright (C) 2000 Helix Code, Inc.
- * Copyright (C) 2000 Ximian, Inc.
+ * Copyright (C) 2001 Ximian, Inc.
  *
  * Author: Federico Mena-Quintero <federico@ximian.com>
  *
@@ -37,68 +36,109 @@
 
 /**
  * delete_component_dialog:
- * @comp: A calendar component.
+ * @comp: A calendar component if a single component is to be deleted, or NULL
+ * if more that one component is to be deleted.
+ * @n_comps: Number of components that are to be deleted.
+ * @vtype: Type of the components that are to be deleted.  This is ignored
+ * if only one component is to be deleted, and the vtype is extracted from
+ * the component instead.
  * @widget: A widget to use as a basis for conversion from UTF8 into font
  * encoding.
  * 
- * Pops up a dialog box asking the user whether he wants to delete a particular
- * calendar component.
+ * Pops up a dialog box asking the user whether he wants to delete a number
+ * of calendar components.
  * 
  * Return value: TRUE if the user clicked Yes, FALSE otherwise.
  **/
 gboolean
-delete_component_dialog (CalComponent *comp, GtkWidget *widget)
+delete_component_dialog (CalComponent *comp,
+			 int n_comps, CalComponentVType vtype,
+			 GtkWidget *widget)
 {
-	CalComponentText summary;
-	CalComponentVType vtype;
-	char *str, *tmp;
+	char *str;
 	GtkWidget *dialog;
 
-	g_return_val_if_fail (comp != NULL, FALSE);
-	g_return_val_if_fail (IS_CAL_COMPONENT (comp), FALSE);
+	if (comp) {
+		g_return_val_if_fail (IS_CAL_COMPONENT (comp), FALSE);
+		g_return_val_if_fail (n_comps == 1, FALSE);
+	} else {
+		g_return_val_if_fail (n_comps > 1, FALSE);
+		g_return_val_if_fail (vtype != CAL_COMPONENT_NO_TYPE, FALSE);
+	}
+
 	g_return_val_if_fail (widget != NULL, FALSE);
 	g_return_val_if_fail (GTK_IS_WIDGET (widget), FALSE);
 
-	vtype = cal_component_get_vtype (comp);
-	cal_component_get_summary (comp, &summary);
+	if (comp) {
+		CalComponentText summary;
+		char *tmp;
 
-	tmp = e_utf8_to_gtk_string (widget, summary.value);
+		vtype = cal_component_get_vtype (comp);
+		cal_component_get_summary (comp, &summary);
 
-	switch (vtype) {
-	case CAL_COMPONENT_EVENT:
-		if (tmp)
-			str = g_strdup_printf (_("Are you sure you want to delete the appointment "
-						 "`%s'?"), tmp);
-		else
-			str = g_strdup (_("Are you sure you want to delete this "
-					  "untitled appointment?"));
-		break;
+		tmp = e_utf8_to_gtk_string (widget, summary.value);
 
-	case CAL_COMPONENT_TODO:
-		if (tmp)
-			str = g_strdup_printf (_("Are you sure you want to delete the task "
-						 "`%s'?"), tmp);
-		else
-			str = g_strdup (_("Are you sure you want to delete this "
-					  "untitled task?"));
-		break;
+		switch (vtype) {
+		case CAL_COMPONENT_EVENT:
+			if (tmp)
+				str = g_strdup_printf (_("Are you sure you want to delete "
+							 "the appointment `%s'?"), tmp);
+			else
+				str = g_strdup (_("Are you sure you want to delete this "
+						  "untitled appointment?"));
+			break;
 
-	case CAL_COMPONENT_JOURNAL:
-		if (tmp)
-			str = g_strdup_printf (_("Are you sure you want to delete the journal entry "
-						 "`%s'?"), tmp);
-		else
-			str = g_strdup (_("Are you sure want to delete this "
-					  "untitled journal entry?"));
-		break;
+		case CAL_COMPONENT_TODO:
+			if (tmp)
+				str = g_strdup_printf (_("Are you sure you want to delete "
+							 "the task `%s'?"), tmp);
+			else
+				str = g_strdup (_("Are you sure you want to delete this "
+						  "untitled task?"));
+			break;
 
-	default:
-		g_message ("delete_component_dialog(): Cannot handle object of type %d", vtype);
-		return FALSE;
+		case CAL_COMPONENT_JOURNAL:
+			if (tmp)
+				str = g_strdup_printf (_("Are you sure you want to delete "
+							 "the journal entry `%s'?"), tmp);
+			else
+				str = g_strdup (_("Are you sure want to delete this "
+						  "untitled journal entry?"));
+			break;
+
+		default:
+			g_message ("delete_component_dialog(): Cannot handle object of type %d",
+				   vtype);
+			g_free (tmp);
+			return FALSE;
+		}
+
+		g_free (tmp);
+	} else {
+		switch (vtype) {
+		case CAL_COMPONENT_EVENT:
+			str = g_strdup_printf (_("Are you sure you want to delete "
+						 "%d appointments?"), n_comps);
+			break;
+
+		case CAL_COMPONENT_TODO:
+			str = g_strdup_printf (_("Are you sure you want to delete "
+						 "%d tasks?"), n_comps);
+			break;
+
+		case CAL_COMPONENT_JOURNAL:
+			str = g_strdup_printf (_("Are you sure you want to delete "
+						 "%d journal entries?"), n_comps);
+			break;
+
+		default:
+			g_message ("delete_component_dialog(): Cannot handle objects of type %d",
+				   vtype);
+			return FALSE;
+		}
 	}
 
 	dialog = gnome_question_dialog_modal (str, NULL, NULL);
-	g_free (tmp);
 	g_free (str);
 
 	if (gnome_dialog_run (GNOME_DIALOG (dialog)) == GNOME_YES)

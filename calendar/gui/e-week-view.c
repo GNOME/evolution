@@ -3450,6 +3450,7 @@ e_week_view_on_delete_appointment (GtkWidget *widget, gpointer data)
 {
 	EWeekView *week_view;
 	EWeekViewEvent *event;
+	CalComponentVType vtype;
 
 	week_view = E_WEEK_VIEW (data);
 
@@ -3459,7 +3460,9 @@ e_week_view_on_delete_appointment (GtkWidget *widget, gpointer data)
 	event = &g_array_index (week_view->events, EWeekViewEvent,
 				week_view->popup_event_num);
 
-	if (delete_component_dialog (event->comp, widget)) {
+	vtype = cal_component_get_vtype (event->comp);
+
+	if (delete_component_dialog (event->comp, 1, vtype, widget)) {
 		const char *uid;
 
 		cal_component_get_uid (event->comp, &uid);

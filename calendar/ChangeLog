@@ -1,3 +1,31 @@
+2001-05-18  Federico Mena Quintero  <federico@ximian.com>
+
+	Fix bug #2829.
+
+	* gui/dialogs/delete-comp.c (delete_component_dialog): Allow the
+	caller to specify whether just one or many components are to be
+	deleted.
+
+	* gui/e-calendar-table.c (tasks_popup_one): Popup menu definition
+	for when one and only one task is selected.
+	(tasks_popup_many): Likewise, for more than one task.
+	(e_calendar_table_on_right_click): Do not create a structure for
+	the closure data; we can simply pass the cal_table.  Use a
+	different menu depending on the number of selected tasks.
+	(mark_as_complete_cb): Renamed; now iterates over the selected
+	rows.
+	(delete_selected_components): New function to delete all the
+	selected components.
+	(delete_cb): Adjusted for delete_component_dialog().
+	(open_task): New function, simply open a CalComponent in the task
+	editor.
+	(open_task_by_row): Renamed; use open_task().
+
+	* gui/e-week-view.c (e_week_view_on_delete_appointment): Updated
+	for delete_component_dialog().
+
+	* gui/e-day-view.c (e_day_view_on_delete_appointment): Likewise.
+
 2001-05-16  Duncan Mak  <duncan@ximian.com>
 
 	* gui/Makefile.am (evolution_calendar_SOURCES): removed

@@ -67,18 +67,11 @@ static gint e_calendar_table_on_right_click	(ETable		*table,
 						 ECalendarTable *cal_table);
 static void e_calendar_table_on_open_task	(GtkWidget	*menuitem,
 						 gpointer	 data);
-static void e_calendar_table_on_mark_task_complete (GtkWidget	*menuitem,
-						    gpointer	 data);
-static void e_calendar_table_on_delete_task	(GtkWidget	*menuitem,
-						 gpointer	 data);
 static gint e_calendar_table_on_key_press	(ETable		*table,
 						 gint		 row,
 						 gint		 col,
 						 GdkEventKey	*event,
 						 ECalendarTable *cal_table);
-
-static void e_calendar_table_open_task		(ECalendarTable *cal_table,
-						 gint		 row);
 
 static void e_calendar_table_apply_filter	(ECalendarTable	*cal_table);
 static void e_calendar_table_on_model_changed	(ETableModel	*model,
@@ -534,6 +527,28 @@ e_calendar_table_set_cal_client (ECalendarTable *cal_table,
 }
 
 
+/* Opens a task in the task editor */
+static void
+open_task (ECalendarTable *cal_table, CalComponent *comp)
+{
+	TaskEditor *tedit;
+
+	tedit = task_editor_new ();
+	task_editor_set_cal_client (tedit, calendar_model_get_cal_client (cal_table->model));
+	task_editor_set_todo_object (tedit, comp);
+	task_editor_focus (tedit);
+}
+
+/* Opens the task in the specified row */
+static void
+open_task_by_row (ECalendarTable *cal_table, int row)
+{
+	CalComponent *comp;
+
+	comp = calendar_model_get_component (cal_table->model, row);
+	open_task (cal_table, comp);
+}
+
 static void
 e_calendar_table_on_double_click (ETable *table,
 				  gint row, 
@@ -541,34 +556,163 @@ e_calendar_table_on_double_click (ETable *table,
 				  GdkEvent *event,
 				  ECalendarTable *cal_table)
 {
-	g_print ("In e_calendar_table_on_double_click\n");
-
-	e_calendar_table_open_task (cal_table, row);
+	open_task_by_row (cal_table, row);
 }
 
+/* Used from e_table_selected_row_foreach() */
+static void
+mark_row_complete_cb (int model_row, gpointer data)
+{
+	ECalendarTable *cal_table;
 
-static GnomeUIInfo e_calendar_table_popup_uiinfo[] = {
-	{ GNOME_APP_UI_ITEM, N_("Mark Complete"),
-	  N_("Mark the task complete"), e_calendar_table_on_mark_task_complete,
-	  NULL, NULL, 0, 0, 0, 0 },
+	cal_table = E_CALENDAR_TABLE (data);
+	calendar_model_mark_task_complete (cal_table->model, model_row);
+}
 
+/* Callback used for the "mark tasks as complete" menu item */
+static void
+mark_as_complete_cb (GtkWidget *menuitem, gpointer data)
+{
+	ECalendarTable *cal_table;
+	ETable *etable;
+
+	cal_table = E_CALENDAR_TABLE (data);
+
+	etable = e_table_scrolled_get_table (E_TABLE_SCROLLED (cal_table->etable));
+	e_table_selected_row_foreach (etable, mark_row_complete_cb, cal_table);
+}
+
+/* Used from e_table_selected_row_foreach(); puts the selected row number in an
+ * int pointed to by the closure data.
+ */
+static void
+get_selected_row_cb (int model_row, gpointer data)
+{
+	int *row;
+
+	row = data;
+	*row = model_row;
+}
+
+/* Returns the component that is selected in the table; only works if there is
+ * one and only one selected row.
+ */
+static CalComponent *
+get_selected_comp (ECalendarTable *cal_table)
+{
+	ETable *etable;
+	int row;
+
+	etable = e_table_scrolled_get_table (E_TABLE_SCROLLED (cal_table->etable));
+	g_assert (e_table_selected_count (etable) == 1);
+
+	row = -1;
+	e_table_selected_row_foreach (etable,
+				      get_selected_row_cb,
+				      &row);
+	g_assert (row != -1);
+
+	return calendar_model_get_component (cal_table->model, row);
+}
+
+struct get_selected_uids_closure {
+	ECalendarTable *cal_table;
+	GSList *uids;
+};
+
+/* Used from e_table_selected_row_foreach(), builds a list of the selected UIDs */
+static void
+add_uid_cb (int model_row, gpointer data)
+{
+	struct get_selected_uids_closure *closure;
+	CalComponent *comp;
+	const char *uid;
+
+	closure = data;
+
+	comp = calendar_model_get_component (closure->cal_table->model, model_row);
+	cal_component_get_uid (comp, &uid);
+
+	closure->uids = g_slist_prepend (closure->uids, (char *) uid);
+}
+
+static GSList *
+get_selected_uids (ECalendarTable *cal_table)
+{
+	struct get_selected_uids_closure closure;
+	ETable *etable;
+
+	closure.cal_table = cal_table;
+	closure.uids = NULL;
+
+	etable = e_table_scrolled_get_table (E_TABLE_SCROLLED (cal_table->etable));
+	e_table_selected_row_foreach (etable, add_uid_cb, &closure);
+
+	return closure.uids;
+}
+
+/* Deletes all of the selected components in the table */
+static void
+delete_selected_components (ECalendarTable *cal_table)
+{
+	CalClient *client;
+	GSList *uids, *l;
+
+	uids = get_selected_uids (cal_table);
+
+	client = calendar_model_get_cal_client (cal_table->model);
+
+	for (l = uids; l; l = l->next) {
+		const char *uid;
+
+		uid = l->data;
+
+		/* We don't check the return value; FALSE can mean the object
+		 * was not in the server anyways.
+		 */
+		cal_client_remove_object (client, uid);
+	}
+
+	g_slist_free (uids);
+}
+
+/* Callback for the "delete tasks" menu item */
+static void
+delete_cb (GtkWidget *menuitem, gpointer data)
+{
+	ECalendarTable *cal_table;
+	ETable *etable;
+	int n_selected;
+	CalComponent *comp;
+
+	cal_table = E_CALENDAR_TABLE (data);
+
+	etable = e_table_scrolled_get_table (E_TABLE_SCROLLED (cal_table->etable));
+
+	n_selected = e_table_selected_count (etable);
+	g_assert (n_selected > 0);
+
+	if (n_selected == 1)
+		comp = get_selected_comp (cal_table);
+	else
+		comp = NULL;
+
+	if (delete_component_dialog (comp, n_selected, CAL_COMPONENT_TODO, GTK_WIDGET (cal_table)))
+		delete_selected_components (cal_table);
+}
+
+static GnomeUIInfo tasks_popup_one[] = {
+	GNOMEUIINFO_ITEM_NONE (N_("Edit this task"), NULL, e_calendar_table_on_open_task),
 	GNOMEUIINFO_SEPARATOR,
-
-	{ GNOME_APP_UI_ITEM, N_("Edit this task..."),
-	  N_("Edit the task"), e_calendar_table_on_open_task,
-	  NULL, NULL, 0, 0, 0, 0 },
-	{ GNOME_APP_UI_ITEM, N_("Delete this task"),
-	  N_("Delete the task"), e_calendar_table_on_delete_task,
-	  NULL, NULL, 0, 0, 0, 0 },
-
+	GNOMEUIINFO_ITEM_NONE (N_("Mark as complete"), NULL, mark_as_complete_cb),
+	GNOMEUIINFO_ITEM_NONE (N_("Delete this task"), NULL, delete_cb),
 	GNOMEUIINFO_END
 };
 
-
-typedef struct _ECalendarMenuData ECalendarMenuData;
-struct _ECalendarMenuData {
-	ECalendarTable *cal_table;
-	gint row;
+static GnomeUIInfo tasks_popup_many[] = {
+	GNOMEUIINFO_ITEM_NONE (N_("Mark tasks as complete"), NULL, mark_as_complete_cb),
+	GNOMEUIINFO_ITEM_NONE (N_("Delete selected tasks"), NULL, delete_cb),
+	GNOMEUIINFO_END
 };
 
 static gint
@@ -578,16 +722,18 @@ e_calendar_table_on_right_click (ETable *table,
 				 GdkEventButton *event,
 				 ECalendarTable *cal_table)
 {
-	ECalendarMenuData menu_data;
 	GtkWidget *popup_menu;
+	int n_selected;
 
-	menu_data.cal_table = cal_table;
-	menu_data.row = row;
+	n_selected = e_table_selected_count (table);
+	g_assert (n_selected > 0);
 
-	popup_menu = gnome_popup_menu_new (e_calendar_table_popup_uiinfo);
-	gnome_popup_menu_do_popup_modal (popup_menu, NULL, NULL, event,
-					 &menu_data);
+	if (n_selected == 1)
+		popup_menu = gnome_popup_menu_new (tasks_popup_one);
+	else
+		popup_menu = gnome_popup_menu_new (tasks_popup_many);
 
+	gnome_popup_menu_do_popup_modal (popup_menu, NULL, NULL, event, cal_table);
 	gtk_widget_destroy (popup_menu);
 
 	return TRUE;
@@ -598,55 +744,14 @@ static void
 e_calendar_table_on_open_task (GtkWidget *menuitem,
 			       gpointer	  data)
 {
-	ECalendarMenuData *menu_data = (ECalendarMenuData*) data;
-
-	e_calendar_table_open_task (menu_data->cal_table,
-				    menu_data->row);
-}
-
-
-static void
-e_calendar_table_on_mark_task_complete (GtkWidget *menuitem,
-					gpointer   data)
-{
-	ECalendarMenuData *menu_data = (ECalendarMenuData*) data;
-
-	calendar_model_mark_task_complete (menu_data->cal_table->model,
-					   menu_data->row);
-}
-
-
-/* Deletes a component from the table */
-static void
-delete_component (CalendarModel *model, int row, GtkWidget *widget)
-{
+	ECalendarTable *cal_table;
 	CalComponent *comp;
 
-	comp = calendar_model_get_component (model, row);
+	cal_table = E_CALENDAR_TABLE (data);
 
-	if (delete_component_dialog (comp, widget)) {
-		CalClient *client;
-		const char *uid;
-
-		client = calendar_model_get_cal_client (model);
-		cal_component_get_uid (comp, &uid);
-
-		/* We don't check the return value; FALSE can mean the object
-		 * was not in the server anyways.
-		 */
-		cal_client_remove_object (client, uid);
-	}
+	comp = get_selected_comp (cal_table);
+	open_task (cal_table, comp);
 }
-
-static void
-e_calendar_table_on_delete_task (GtkWidget *menuitem,
-				 gpointer   data)
-{
-	ECalendarMenuData *menu_data = (ECalendarMenuData*) data;
-
-	delete_component (menu_data->cal_table->model, menu_data->row, menuitem);
-}
-
 
 
 static gint
@@ -657,30 +762,12 @@ e_calendar_table_on_key_press (ETable *table,
 			       ECalendarTable *cal_table)
 {
 	if (event->keyval == GDK_Delete) {
-		delete_component (cal_table->model, row, GTK_WIDGET (table));
+		delete_cb (NULL, cal_table);
 		return TRUE;
 	}
 
 	return FALSE;
 }
-
-
-static void
-e_calendar_table_open_task (ECalendarTable *cal_table,
-			    gint row)
-{
-	TaskEditor *tedit;
-	CalComponent *comp;
-
-	tedit = task_editor_new ();
-	task_editor_set_cal_client (tedit, calendar_model_get_cal_client (cal_table->model));
-
-	comp = calendar_model_get_component (cal_table->model, row);
-	task_editor_set_todo_object (tedit, comp);
-
-	task_editor_focus (tedit);
-}
-
 
 /* Loads the state of the table (headers shown etc.) from the given file. */
 void
