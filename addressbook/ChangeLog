@@ -1,3 +1,9 @@
+2003-09-18  Chris Toshok  <toshok@ximian.com>
+
+	* backend/ebook/e-book.h: add prototypes for e_book_get_self,
+	e_book_set_self, e_book_get_default_addressbook, and
+	e_book_get_addressbooks.
+
 2003-09-17  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/addressbook.c (addressbook_new_control): don't use
