@@ -1711,7 +1711,7 @@ get_select_name_dialog (EMeetingModel *im)
 			
 			control_widget = bonobo_widget_new_control_from_objref (corba_control, CORBA_OBJECT_NIL);
 			
-			bonobo_widget_set_property (BONOBO_WIDGET (control_widget), "text", "", NULL);		
+			bonobo_widget_set_property (BONOBO_WIDGET (control_widget), "text", TC_CORBA_string, "", NULL);		
 		}
 		CORBA_exception_free (&ev);
 
@@ -1809,7 +1809,7 @@ select_names_ok_cb (BonoboListener    *listener,
 		control_widget = bonobo_widget_new_control_from_objref
 			(corba_control, CORBA_OBJECT_NIL);
 		
-		bonobo_widget_get_property (BONOBO_WIDGET (control_widget), "destinations", &string, NULL);
+		bonobo_widget_get_property (BONOBO_WIDGET (control_widget), "destinations", TC_CORBA_string, &string, NULL);
 		destv = e_destination_importv (string);
 		if (destv != NULL) {
 			process_section (im, destv, roles[i]);

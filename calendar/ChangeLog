@@ -1,3 +1,18 @@
+2002-11-19  Not Zed  <NotZed@Ximian.com>
+
+	* gui/e-meeting-model.c (get_select_name_dialog): pass type to
+	bonobo_widget::set_property.
+	(select_names_ok_cb): ", for get_property.
+
+	* gui/dialogs/e-delegate-dialog.c (e_delegate_dialog_construct):
+	pass type to bonobo_widget::set_property & plug small leak.
+	(e_delegate_dialog_get_delegate): ", for get_property.
+	(e_delegate_dialog_get_delegate_name): "
+
+	* gui/dialogs/comp-editor-util.c (comp_editor_contacts_to_widget):
+	pass type to bonobo_widget::set_property.
+	(comp_editor_contacts_to_component): ", for get_property
+
 2002-11-16  Chris Toshok  <toshok@ximian.com>
 
 	* gui/e-meeting-time-sel.c (e_meeting_time_selector_style_set):

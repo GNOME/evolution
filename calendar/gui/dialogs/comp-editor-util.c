@@ -446,7 +446,7 @@ comp_editor_contacts_to_widget (GtkWidget *contacts_entry,
 #endif
 
 	bonobo_widget_set_property (BONOBO_WIDGET (contacts_entry),
-				    "destinations", contacts_string, NULL);
+				    "destinations", TC_CORBA_string, contacts_string, NULL);
 
 	g_free (contacts_string);
 
@@ -471,7 +471,7 @@ comp_editor_contacts_to_component (GtkWidget *contacts_entry,
 	int i;
 
 	bonobo_widget_get_property (BONOBO_WIDGET (contacts_entry),
-				    "destinations", &contacts_string, NULL);
+				    "destinations", TC_CORBA_string, &contacts_string, NULL);
 #if 0
 	g_print ("Contacts string: %s\n", contacts_string ? contacts_string : "");
 #endif
