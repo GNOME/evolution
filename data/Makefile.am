@@ -1,6 +1,8 @@
 desktopdir = $(datadir)/applications
-desktop_in_file = evolution.desktop.in
-desktop_file = $(desktop_in_file:.desktop.in=.desktop)
+desktop_in_in_file = evolution.desktop.in.in
+desktop_file = $(desktop_in_in_file:.desktop.in.in=.desktop)
+%.desktop.in: %.desktop.in.in
+	sed -e "s|\@BASE_VERSION\@|$(BASE_VERSION)|" $< > $@
 @INTLTOOL_DESKTOP_RULE@
 
 keysdir = $(datadir)/mime-info
@@ -14,7 +16,7 @@ mime_file = evolution.mime
 if HAVE_KDE_APPLNK
 
 kdedesktopdir = $(KDE_APPLNK_DIR)/Applications
-kdedesktop_file = $(desktop_in_file:.desktop.in=.desktop)
+kdedesktop_file = $(desktop_in_in_file:.desktop.in.in=.desktop)
 
 install-kde-applnk:
 	$(mkinstalldirs) $(DESTDIR)$(kdedesktopdir);	\
@@ -27,11 +29,11 @@ install-kde-applnk:
 endif
 
 noinst_MANS = evolution.1
-noinst_DATA = $(keys_file)
+noinst_DATA = $(keys_file) $(desktop_file)
 
 SUBDIRS = cde_app_root
 
-install-data-local: install-kde-applnk
+install-data-local: install-kde-applnk $(desktop_file) $(keys_file) $(mime_file)
 	$(mkinstalldirs) $(DESTDIR)$(desktopdir);							\
 	$(INSTALL_DATA) $(desktop_file)									\
 			$(DESTDIR)$(desktopdir)/$(desktop_file:.desktop.in=-$(BASE_VERSION).desktop) ;	\
@@ -55,8 +57,7 @@ dtappunintegrate:
 endif
 
 EXTRA_DIST =					\
-	$(desktop_file)				\
-	$(desktop_in_file)			\
+	$(desktop_in_in_file)			\
 	$(mime_file)				\
 	$(keys_file)				\
 	$(keys_in_file)				\

@@ -1,3 +1,16 @@
+2003-06-23  Ettore Perazzoli  <ettore@ximian.com>
+
+	* data/Makefile.am: Added implicity rule to subst @BASE_VERSION@
+	in evolution.desktop.in.in to generate evolution.desktop.in.
+	(desktop_in_file): Removed.
+	(desktop_in_in_file): New.
+	(kdedesktop_file): Update substitution to use
+	$(desktop_in_in_file) instead of $(desktop_in_file).
+	(noinst_DATA): Add $(desktop_file).
+	(install-data-local): Depend on $(mime_file) and $(keys_file).
+	(EXTRA_DIST): Remove $(desktop_file), replace $(desktop_in_file)
+	with $(desktop_in_in_file).
+
 2003-06-19  Dan Winship  <danw@ximian.com>
 
 	* tools/killev.c (kill_component): clean this up a little and make
