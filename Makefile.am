@@ -34,6 +34,7 @@ SUBDIRS = 			\
         shell                   \
 	camel			\
 	filter			\
+	smime			\
 	addressbook		\
 	calendar		\
         art                     \

@@ -1,3 +1,9 @@
+2003-10-23  Chris Toshok  <toshok@ximian.com>
+
+	* configure.in: add smime/* dirs. to AC_OUTPUT.
+
+	* Makefile.am (SUBDIRS): add smime/.
+
 2003-10-23  Frederic Crozat  <fcrozat@mandrakesoft.com>
 
 	* configure.in: Check for gnome-thumbnail.h existence 
