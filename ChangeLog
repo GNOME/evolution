@@ -1,3 +1,7 @@
+2001-07-11  Peter Williams  <peterw@ximian.com>
+
+	* acconfig.h: Add HAVE_BROKEN_SPOOL here.
+
 2001-07-10  Peter Williams  <peterw@ximian.com>
 
 	* configure.in (have_nss_includes): Fix nss include check to work.
