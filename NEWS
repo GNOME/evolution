@@ -41,6 +41,12 @@ New features:
     - The Send/Receive button is now always accessible from any
       folder.
 
+    - Easier to build on non-GNU, and non-GCC systems (e.g. MacOS/X,
+      HP/UX, Solaris).
+
+    - Now installs some libraries and headers required for external
+      module development.
+
   * Calendar
 
     - Loading speed has been improved.
@@ -74,6 +80,11 @@ New features:
       "... Contains" rules, Evolution will search messages that
       contain all of the words you specified, in any order.
 
+    - More consistent search results for indexed, non-indexed and
+      remote folders.
+
+    - UTF8 (Unicode) used for all searches, even with IMAP servers.
+
     - It is now possible to mark messages for follow-up and other
       flags.  It is also possible to change the color in which a
       specific message is displayed in the mail list.
@@ -83,7 +94,7 @@ New features:
       string by just typing the first few characters.
 							
     - Filters are now updated automatically when the destination folder
-      gets moved.
+      gets moved or removed.
 
     - A new filter rule allows you to pipe mail through an external
       process to find out whether or not to filter it.
@@ -93,6 +104,9 @@ New features:
 
     - All previously read messages are automatically downloaded for
       offline use.
+
+    - Offline state is preserved between sessions.  Generally, offline
+      mode is more stable and complete.
 
     - STARTTLS support for POP, SMTP and IMAP has been added.
 
@@ -104,7 +118,40 @@ New features:
 
     - SMTP error reporting has been improved.
 
-    - Much improved GnuPG support.
+    - Much improved GnuPG support.  Better pgp/mime interoperability.
+
+    - Improved support for external Maildir, MH, and mailbox folders,
+      and trees of folders.  Internally they share more code now and
+      are easier to maintain.
+
+    - External mailbox folders can interoperate with pine/mutt/elm
+      status flags directly (at slightly performance penalty).  See
+      options on the "spool" provider.
+
+    - Many IMAP related bugs fixed.  IMAP now passes current folder
+      regression tests.
+
+    - IMAP body search results are now cached.  Vastly improving
+      body search vFolder performance with IMAP sources.
+
+    - Optional IPv6 support.
+
+    - Progress bar added to subscribe dialogue.
+
+    - Camel's multithread safe object system streamlined and
+      improved.  Many other internal cleanups inside Camel.
+
+    - vFolders can now have an additional column which shows the
+      original location of the message.  Particularly useful for Trash
+      folder.
+
+    - New messages dont "upset" the thread view as much, if no sorting
+      is used.
+
+    - Various vFolder tweaks and fixes.
+
+    - Remote inline HTML images are now downloaded incrementally using
+      libsoup and are fully cancellable.
 
   * Mail Composer
 
