@@ -293,31 +293,42 @@ setup_verb_sensitivity_for_folder (EShellView *shell_view,
 {
 	EShellViewPrivate *priv;
 	BonoboUIComponent *ui_component;
+	EFolder *folder;
 	const char *prop;
 
 	priv = shell_view->priv;
 
+	ui_component = e_shell_view_get_bonobo_ui_component (shell_view);
+
+	if (path == NULL)
+		folder = NULL;
+	else
+		folder = e_storage_set_get_folder (e_shell_get_storage_set (priv->shell), path);
+
 	/* Adjust sensitivity for menu options depending on whether the folder
            selected is a stock folder.  */
 
-	if (path == NULL) {
+	if (folder != NULL && ! e_folder_get_is_stock (folder))
+		prop = "1";
+	else
 		prop = "0";
-	} else {
-		EFolder *folder;
-
-		folder = e_storage_set_get_folder (e_shell_get_storage_set (priv->shell), path);
-		if (folder != NULL && ! e_folder_get_is_stock (folder))
-			prop = "1";
-		else
-			prop = "0";
-	}
-
-	ui_component = e_shell_view_get_bonobo_ui_component (shell_view);
-
 	bonobo_ui_component_set_prop (ui_component, "/commands/MoveFolder", "sensitive", prop, NULL);
 	bonobo_ui_component_set_prop (ui_component, "/commands/CopyFolder", "sensitive", prop, NULL);
 	bonobo_ui_component_set_prop (ui_component, "/commands/DeleteFolder", "sensitive", prop, NULL);
 	bonobo_ui_component_set_prop (ui_component, "/commands/RenameFolder", "sensitive", prop, NULL);
+
+	/* Adjust sensitivity for menu options depending on whether the user
+	   right-clicked a folder whose contents can be viewed.  */
+
+	if (folder != NULL
+	    && e_folder_type_registry_get_handler_for_type (e_shell_get_folder_type_registry (e_shell_view_get_shell (shell_view)),
+							    e_folder_get_type_string (folder)) != NULL)
+		prop = "1";
+	else
+		prop = "0";
+	bonobo_ui_component_set_prop (ui_component, "/commands/ActivateView", "sensitive", prop, NULL);
+	bonobo_ui_component_set_prop (ui_component, "/commands/OpenFolderInNewWindow", "sensitive", prop, NULL);
+	bonobo_ui_component_set_prop (ui_component, "/commands/AddFolderToShortcutBar", "sensitive", prop, NULL);
 }
 
 

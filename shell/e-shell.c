@@ -2200,10 +2200,8 @@ e_shell_prepare_for_quit (EShell *shell)
 
 	/* Make all the views insensitive so we have some modal-like
 	   behavior.  */
-	for (p = priv->views; p != NULL; p = p->next) {
-		g_print ("Insensitive %p\n", p->data);
+	for (p = priv->views; p != NULL; p = p->next)
 		gtk_widget_set_sensitive (GTK_WIDGET (p->data), FALSE);
-	}
 
 	component_ids = e_component_registry_get_id_list (priv->component_registry);
 

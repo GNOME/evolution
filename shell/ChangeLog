@@ -1,5 +1,19 @@
 2002-07-01  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell.c (e_shell_prepare_for_quit): Remove debugging message.
+
+	* e-shell-view.c (setup_verb_sensitivity_for_folder): Set
+	sensitivity of /commands/AddFolderToShortcutBar,
+	/commands/OpenFolder and /commands/OpenFolderInNewWindow too,
+	depending on whether the node that was right-clicked can be opened
+	as a folder.
+
+	* e-storage-set-view.c (popup_folder_menu): Pop up the right-click
+	menu even if we are not clicking on a folder with a proper
+	handler.
+
+2002-07-01  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell.c: New member preparing_to_quit in EShellPrivate.
 	(init): Initialize to FALSE.
 	(e_shell_prepare_for_quit): Set preparing_to_quit to TRUE on

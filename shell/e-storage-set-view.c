@@ -576,19 +576,12 @@ popup_folder_menu (EStorageSetView *storage_set_view,
 	priv = storage_set_view->priv;
 
 	folder = e_storage_set_get_folder (priv->storage_set, priv->right_click_row_path);
-	if (folder == NULL) {
-		/* Uh!?  */
-		return;
-	}
 
 	folder_type_registry = e_storage_set_get_folder_type_registry (priv->storage_set);
 	g_assert (folder_type_registry != NULL);
 
 	handler = e_folder_type_registry_get_handler_for_type (folder_type_registry,
 							       e_folder_get_type_string (folder));
-	if (handler == NULL)
-		return;
-
 	menu = gtk_menu_new ();
 	bonobo_window_add_popup (bonobo_ui_container_get_win (priv->container),
 				 GTK_MENU (menu), "/popups/FolderPopup");
