@@ -1,3 +1,8 @@
+2003-09-25  Rodney Dawes  <dobey@ximian.com>
+
+	* mail-send-recv.c: Make the dialog more HIG-compliant by fixing
+	widget alignment/spacing issues, and removing separators
+	
 2003-09-22  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #32996

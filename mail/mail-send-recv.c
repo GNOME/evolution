@@ -305,11 +305,10 @@ build_dialogue (EAccountList *accounts, CamelFolder *outbox, const char *destina
 	EAccount *account;
 	EIterator *iter;
 	
-	gd = (GtkDialog *)send_recv_dialogue = gtk_dialog_new_with_buttons(_("Send & Receive Mail"), NULL, 0, NULL);
+	gd = (GtkDialog *)send_recv_dialogue = gtk_dialog_new_with_buttons(_("Send & Receive Mail"), NULL, GTK_DIALOG_NO_SEPARATOR, NULL);
 	stop = (GtkButton *)e_gtk_button_new_with_icon(_("Cancel _All"), GTK_STOCK_CANCEL);
 	gtk_widget_show((GtkWidget *)stop);
 	gtk_dialog_add_action_widget(gd, (GtkWidget *)stop, GTK_RESPONSE_CANCEL);
-	g_object_set(gd, "resizable", FALSE, NULL);
 	gnome_window_icon_set_from_file (GTK_WINDOW (gd), EVOLUTION_ICONSDIR "/send-receive.xpm");
 	
 	num_sources = 0;
@@ -327,7 +326,7 @@ build_dialogue (EAccountList *accounts, CamelFolder *outbox, const char *destina
 	g_object_unref (iter);
 	
 	table = (GtkTable *) gtk_table_new (num_sources, 4, FALSE);
-	gtk_container_set_border_width ((GtkContainer *) table, 6);
+	gtk_container_set_border_width ((GtkContainer *) table, 3);
 	
        	gtk_box_pack_start (GTK_BOX (gd->vbox), GTK_WIDGET (table), TRUE, TRUE, 0);
 	
@@ -412,11 +411,6 @@ build_dialogue (EAccountList *accounts, CamelFolder *outbox, const char *destina
 	}
 	
 	g_object_unref (iter);
-	
-	line = (GtkHSeparator *)gtk_hseparator_new ();
-	gtk_table_attach (table, GTK_WIDGET (line), 0, 4, row, row+1, GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 1, 3);
-	row++;
-	gtk_widget_show_all (GTK_WIDGET (table));
 	
 	if (outbox && destination) {
 		info = g_hash_table_lookup (data->active, SEND_URI_KEY);
