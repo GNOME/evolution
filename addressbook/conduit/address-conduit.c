@@ -897,16 +897,14 @@ transmit (GnomePilotConduitStandardAbs *conduit,
 			local->address->entry [ entryFirstname ] = strdup (ecard_name->given);
 		if (ecard_name->family)
 			local->address->entry [ entryLastname ] = strdup (ecard_name->family);
-		e_card_name_free (ecard_name);
+		// e_card_name_free (ecard_name);
 	}
 
 	if (ecard_org) {
 		local->address->entry [ entryCompany ] = strdup (ecard_org);
-		g_free (ecard_org);
 	}
 	if (ecard_title) {
 		local->address->entry [ entryTitle ] = strdup (ecard_title);
-		g_free (ecard_title);
 	}
 	if (ecard_phones) {
 		int phone_entry = entryPhone1;
@@ -928,7 +926,6 @@ transmit (GnomePilotConduitStandardAbs *conduit,
 
 	if (ecard_note) {
 		local->address->entry [ entryNote ] = strdup (ecard_note);
-		g_free (ecard_note);
 	}
 #if 0
 	printf ("transmitting address to pilot [%s] complete=%d/%ld\n",
