@@ -1253,26 +1253,30 @@ handle_multipart_signed (CamelMimePart *part, const char *mime_type,
 	}
 	
 	/* Now display the "seal-of-authenticity" or something... */
-#if 0
 	if (valid) {
+		/* FIXME: maybe the pgp verify func should ALWAYS set
+                   an exception so that we can get more details even
+                   if it did pass the check. */
 		mail_html_write (md->html, md->stream,
-				 "<table><tr valign=top>"
+				 "<hr>\n<table><tr valign=top>"
 				 "<td><img src=\"%s\"></td>"
-				 "<td>%s<br><br></td></table>",
+				 "<td><font size=-1>%s<br><br></font></td></table>",
 				 get_url_for_icon ("wax-seal2.png", md),
 				 _("This message is digitally signed and "
 				   "has been found to be authentic."));
 	} else {
 		mail_html_write (md->html, md->stream,
-				 "<table><tr valign=top>"
-				 "<td><img src=\"%s\"></td><td>",
-				 get_url_for_icon ("wax-seal-broken.png", md));
+				 "<hr>\n<table><tr valign=top>"
+				 "<td><img src=\"%s\"></td>"
+				 "<td><font size=-1>%s<br><br>",
+				 get_url_for_icon ("wax-seal-broken.png", md),
+				 _("This message is digitally signed but can "
+				   "not be proven to be authentic."));
 		mail_error_write (md->html, md->stream,
 				  camel_exception_get_description (ex));
 		mail_html_write (md->html, md->stream,
-				 "<br><br></td></table>");
+				 "<br><br></font></td></table>");
 	}
-#endif
 	camel_exception_free (ex);
 	
 	return TRUE;

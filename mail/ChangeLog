@@ -1,3 +1,9 @@
+2001-01-22  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-format.c (handle_multipart_signed): Just wrote a temp way
+	of reporting success/fail of PGP/MIME signature verification
+	status.
+
 2001-01-22  Iain Holmes  <iain@ximian.com>
 
 	* evolution-outlook-importer.c: Outlook Express 4 .mbx importer.
