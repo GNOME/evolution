@@ -346,9 +346,11 @@ get_description (ECalModelComponent *comp_data)
 	icalproperty *prop;
 	static GString *str = NULL;
 
-	if (str)
+	if (str) {
 		g_string_free (str, TRUE);
-
+		str = NULL;
+	}
+	
 	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_DESCRIPTION_PROPERTY);
 	if (prop) {
 		str = g_string_new ("");
