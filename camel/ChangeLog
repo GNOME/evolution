@@ -1,3 +1,16 @@
+2002-04-19  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-multipart.c (write_to_stream): Don't g_return_val_if_fail
+	here if the boundary is an empty string. See bug #23676 for
+	details. The way I see it, we have 2 options: 1) leave this fix
+	the way it is, thus allowing multipart boundaries to be
+	empty-strings; or 2) make camel_multipart_get_boundary() change
+	the boundary to something legal if the boundary is an
+	empty-string. Since the parser should be able to handle an
+	empty-string boundary *and* more importantly because we want to
+	keep the same boundaries as the original raw message so as to be
+	able to verify multipart/signed parts, I vote for solution #1.
+
 2002-04-19  Not Zed  <NotZed@Ximian.com>
 
 	* devel-docs/camel-index.txt: Start of a white-paperish document

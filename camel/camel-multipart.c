@@ -445,10 +445,10 @@ write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 
 	/* get the bundary text */
 	boundary = camel_multipart_get_boundary (multipart);
-
+	
 	/* we cannot write a multipart without a boundary string */
-	g_return_val_if_fail (boundary && *boundary, -1);
-
+	g_return_val_if_fail (boundary, -1);
+	
 	/*
 	 * write the preface text (usually something like
 	 *   "This is a mime message, if you see this, then
