@@ -170,6 +170,7 @@ camel_service_new (CamelType type, CamelSession *session,
 
 	/*service->connect_level = 0;*/
 
+	service->provider = provider;
 	service->url = url;
 	if (!url->empty && !check_url (service, ex)) {
 		camel_object_unref (CAMEL_OBJECT (service));
@@ -178,9 +179,6 @@ camel_service_new (CamelType type, CamelSession *session,
 
 	service->session = session;
 	camel_object_ref (CAMEL_OBJECT (session));
-
-	service->provider = provider;
-	/* don't ref -- providers are not CamelObjects */
 
 	service->connected = FALSE;
 
