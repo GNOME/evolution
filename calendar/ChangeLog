@@ -1,3 +1,8 @@
+2004-02-09  Kidd Wang  <kidd.wang@sun.com>
+
+	* gui/e-cal-model-tasks.c: (ecmt_set_value_at): refuse to update
+	the task info if due date is before start date.
+
 2004-02-05  JP Rosevear <jpr@ximian.com>
 
 	* Convert the calendar_config_get_timezone and

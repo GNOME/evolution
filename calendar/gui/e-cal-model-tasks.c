@@ -710,6 +710,9 @@ ecmt_set_value_at (ETableModel *etm, int col, int row, const void *value)
 	ECalModelTasksPrivate *priv;
 	ECalModelComponent *comp_data;
 	ECalModelTasks *model = (ECalModelTasks *) etm;
+	icaltimetype start_tt, due_tt;
+	ECellDateEditValue *dv;
+	GtkWidget *dialog;
 
 	g_return_if_fail (E_IS_CAL_MODEL_TASKS (model));
 
@@ -718,14 +721,31 @@ ecmt_set_value_at (ETableModel *etm, int col, int row, const void *value)
 	g_return_if_fail (col >= 0 && col < E_CAL_MODEL_TASKS_FIELD_LAST);
 	g_return_if_fail (row >= 0 && row < e_table_model_row_count (etm));
 
-	if (col < E_CAL_MODEL_FIELD_LAST) {
-		E_TABLE_MODEL_CLASS (parent_class)->set_value_at (etm, col, row, value);
-		return;
-	}
-
 	comp_data = e_cal_model_get_component_at (E_CAL_MODEL (model), row);
 	if (!comp_data)
 		return;
+
+	if (col < E_CAL_MODEL_FIELD_LAST) {
+		if (col == E_CAL_MODEL_FIELD_DTSTART) {
+			dv = (ECellDateEditValue *) value;
+			start_tt = dv->tt;
+			due_tt = icalcomponent_get_due (comp_data->icalcomp);
+
+			if (icaltime_compare (start_tt, due_tt) > 0) {
+				dialog = gtk_message_dialog_new (NULL, 0,
+						GTK_MESSAGE_ERROR,
+						GTK_BUTTONS_OK,
+						_("Due date is before start date!"));
+				g_signal_connect (dialog, "response", G_CALLBACK(gtk_widget_destroy), NULL);
+				gtk_widget_show (dialog);
+
+				return;
+			}
+		}
+
+		E_TABLE_MODEL_CLASS (parent_class)->set_value_at (etm, col, row, value);
+		return;
+	}
 
 	switch (col) {
 	case E_CAL_MODEL_TASKS_FIELD_COMPLETED :
@@ -735,6 +755,20 @@ ecmt_set_value_at (ETableModel *etm, int col, int row, const void *value)
 		set_complete (comp_data, value);
 		break;
 	case E_CAL_MODEL_TASKS_FIELD_DUE :
+		dv = (ECellDateEditValue *) value;
+		start_tt = icalcomponent_get_dtstart (comp_data->icalcomp);
+		due_tt = dv->tt;
+		
+		if (icaltime_compare (start_tt, due_tt) > 0) {
+			dialog = gtk_message_dialog_new (NULL, 0,
+					GTK_MESSAGE_ERROR,
+					GTK_BUTTONS_OK,
+					_("Due date is before start date!"));
+			g_signal_connect (dialog, "response", G_CALLBACK(gtk_widget_destroy), NULL);
+			gtk_widget_show (dialog);
+			
+			return;
+		}
 		set_due (comp_data, value);
 		break;
 	case E_CAL_MODEL_TASKS_FIELD_GEO :
