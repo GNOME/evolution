@@ -1,3 +1,7 @@
+2003-07-23  Dan Winship  <danw@ximian.com>
+
+	* Makefile.am: Use EVO_MARSHAL_RULE
+
 2003-06-13  Larry Ewing  <lewing@ximian.com>
 
 	* filter-source.c (filter_source_finalize): free current_url.
