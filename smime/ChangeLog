@@ -1,3 +1,8 @@
+2004-08-02  Jeffrey Stedfast  <fejj@novell.com>
+
+	* lib/e-pkcs12.c (prompt_for_password): Fixed to work for both LE
+	and BE architectures.
+
 2004-07-16  Chris Toshok  <toshok@ximian.com>
 
 	[ fixes #61490 ]

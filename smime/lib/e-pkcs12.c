@@ -222,26 +222,23 @@ prompt_for_password (char *title, char *prompt, SECItem *pwd)
 					   NULL);
 
 	if (passwd) {
-		int len = g_utf8_strlen (passwd, -1);
-		gunichar2 uni;
-		int i;
-		char *p;
-
+		size_t len = strlen (passwd);
+		const char *inptr = passwd;
+		char *outptr = pwd->data;
+		gunichar2 c;
+		
 		SECITEM_AllocItem(NULL, pwd, sizeof (gunichar2) * (len + 1));
-		memset (pwd->data, 0, sizeof (gunichar2) * (len + 1));
-
-#ifdef IS_LITTLE_ENDIAN
-		p = passwd;
-		for (i=0; i < len; i++) {
-			uni = (gunichar2)(g_utf8_get_char (p) & 0xFFFF);
-			p = g_utf8_next_char (p);
-
-			pwd->data[2*i] = (unsigned char)(uni >> 8);
-			pwd->data[2*i+1] = (unsigned char)(uni & 0xFF);
+		
+		while (inptr && (c = (gunichar2) (g_utf8_get_char (inptr) & 0xffff))) {
+			inptr = g_utf8_next_char (inptr);
+			c = GUINT16_TO_BE (c);
+			*outptr++ = ((char *) &c)[0];
+			*outptr++ = ((char *) &c)[1];
 		}
-#else
-		memcpy (pwd->data, uni, pwd->len-2);
-#endif
+		
+		*outptr++ = 0;
+		*outptr++ = 0;
+		
 		memset (passwd, 0, strlen (passwd));
 		g_free (passwd);
 	}
