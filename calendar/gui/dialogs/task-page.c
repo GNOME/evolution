@@ -426,7 +426,6 @@ task_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 	gboolean start_date_set, due_date_set, time_set;
 	GtkTextBuffer *text_buffer;
 	GtkTextIter text_iter_start, text_iter_end;
-	struct icaltimetype *due_tt2;
 	icaltimezone *start_zone = NULL;
 	icaltimezone *due_zone = NULL;
 

@@ -352,7 +352,6 @@ listen_for_changes (CompEditor *editor)
 static void
 send_timezone (gpointer key, gpointer value, gpointer user_data)
 {
-	char *tzid = key;
 	icaltimezone *zone = value;
 	CompEditor *editor = user_data;
 
