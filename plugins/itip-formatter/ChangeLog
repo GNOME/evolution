@@ -1,3 +1,10 @@
+2005-01-11  JP Rosevear  <jpr@novell.com>
+
+	Fixes #29985
+	
+	* itip-formatter.c (view_response_cb): set the message flags to
+	answered if we send successfully
+
 2005-01-11  Harish Krishnaswamy  <kharish@novell.com>
 
 	* itip-formatter.c (update_item): Fixed a compiler warning. 

@@ -1245,7 +1245,10 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 		}
 		
                 e_cal_component_rescan (comp);
-                itip_send_comp (E_CAL_COMPONENT_METHOD_REPLY, comp, pitip->current_ecal, pitip->top_level, NULL);
+                if (itip_send_comp (E_CAL_COMPONENT_METHOD_REPLY, comp, pitip->current_ecal, pitip->top_level, NULL)) {
+			camel_folder_set_message_flags (((EMFormat *) pitip->pobject.format)->folder, ((EMFormat *) pitip->pobject.format)->uid,
+							CAMEL_MESSAGE_ANSWERED, CAMEL_MESSAGE_ANSWERED);
+		}
 
                 g_object_unref (comp);
 		
