@@ -296,7 +296,7 @@ fetch_mail_fetch(struct _mail_msg *mm)
 		if (path && !camel_exception_is_set (&mm->ex)) {
 			camel_folder_freeze(fm->destination);
 			camel_filter_driver_set_default_folder(fm->driver, fm->destination);
-			camel_filter_driver_filter_mbox(fm->driver, path, &mm->ex);
+			camel_filter_driver_filter_mbox(fm->driver, path, m->source_uri, &mm->ex);
 			camel_folder_thaw(fm->destination);
 			
 			if (!camel_exception_is_set (&mm->ex))
@@ -549,7 +549,7 @@ mail_send_message(CamelMimeMessage *message, const char *destination, CamelFilte
 	
 	if (driver)
 		camel_filter_driver_filter_message (driver, message, info,
-						    NULL, NULL, "", ex);
+						    NULL, NULL, NULL, "", ex);
 	
 	if (sent_folder_uri) {
 		folder = mail_tool_uri_to_folder (sent_folder_uri, NULL);

@@ -75,9 +75,9 @@ void 	camel_filter_driver_add_rule		(CamelFilterDriver *d, const char *name, con
 
 int      camel_filter_driver_filter_message      (CamelFilterDriver *driver, CamelMimeMessage *message,
 						  CamelMessageInfo *info, const char *uri,
-						  CamelFolder *source, const char *source_url,
+						  CamelFolder *source, const char *source_url, const char *original_source_url,
 						  CamelException *ex);
-int      camel_filter_driver_filter_mbox         (CamelFilterDriver *driver, const char *mbox,
+int      camel_filter_driver_filter_mbox         (CamelFilterDriver *driver, const char *mbox, const char *original_source_url,
 						  CamelException *ex);
 int      camel_filter_driver_filter_folder       (CamelFilterDriver *driver, CamelFolder *folder,
 						  GPtrArray *uids, gboolean remove, CamelException *ex);

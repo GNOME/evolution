@@ -1,3 +1,16 @@
+2001-06-07  Jon Trowbridge  <trow@ximian.com>
+
+	* camel-filter-driver.c (camel_filter_driver_filter_mbox): Added
+	an argument, so that the original source URI of the mbox can be
+	passed in.  This is needed because this function is called
+	post-movemail, so we are never reading from the original mbox
+	anymore.  Without the original mbox URI, the X-Evolution-Source
+	tag gets set incorrectly and filter-on-source will fail to work.
+	(camel_filter_driver_filter_message): Also take an extra arg
+	for the original source URI.  It is the original URI, not the
+	source URI, that is used for filtering and for setting the
+	X-Evolution-Source tag.
+
 2001-06-05  Dan Winship  <danw@ximian.com>
 
 	* providers/imap/camel-imap-folder.c (imap_rescan): Don't fetch

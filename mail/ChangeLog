@@ -1,3 +1,10 @@
+2001-06-07  Jon Trowbridge  <trow@ximian.com>
+
+	* mail-ops.c (fetch_mail_fetch): Pass the original source URI
+	to camel_filter_driver_filter_mbox.
+	(mail_send_message): Pass NULL as the orginal source URI
+	to camel_filter_driver_filter_message.
+
 2001-06-06  Jon Trowbridge  <trow@ximian.com>
 
 	* mail-account-gui.c (source_type_changed): Check that the chain

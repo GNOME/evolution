@@ -628,7 +628,7 @@ camel_filter_driver_log (CamelFilterDriver *driver, enum filter_log_t status, co
  *
  **/
 int
-camel_filter_driver_filter_mbox (CamelFilterDriver *driver, const char *mbox, CamelException *ex)
+camel_filter_driver_filter_mbox (CamelFilterDriver *driver, const char *mbox, const char *original_source_url, CamelException *ex)
 {
 	struct _CamelFilterDriverPrivate *p = _PRIVATE (driver);
 	CamelMimeParser *mp = NULL;
@@ -673,7 +673,8 @@ camel_filter_driver_filter_mbox (CamelFilterDriver *driver, const char *mbox, Ca
 			goto fail;
 		}
 		
-		status = camel_filter_driver_filter_message (driver, msg, NULL, NULL, NULL, source_url, ex);
+		status = camel_filter_driver_filter_message (driver, msg, NULL, NULL, NULL, source_url, 
+							     original_source_url ? original_source_url : source_url, ex);
 		camel_object_unref (CAMEL_OBJECT (msg));
 		if (camel_exception_is_set (ex) || status == -1) {
 			report_status (driver, CAMEL_FILTER_STATUS_END, 100, _("Failed message %d"), i);
@@ -762,7 +763,7 @@ camel_filter_driver_filter_folder (CamelFilterDriver *driver, CamelFolder *folde
 			info = NULL;
 		
 		status = camel_filter_driver_filter_message (driver, message, info, uids->pdata[i],
-							     folder, source_url, ex);
+							     folder, source_url, source_url, ex);
 		
 		if (camel_folder_has_summary_capability (folder))
 			camel_folder_free_message_info (folder, info);
@@ -806,6 +807,7 @@ camel_filter_driver_filter_folder (CamelFilterDriver *driver, CamelFolder *folde
  * @uid: message uid or NULL
  * @source: source folder or NULL
  * @source_url: url of source folder or NULL
+ * @original_source_url: url of original source folder (pre-movemail) or NULL
  * @ex: exception
  *
  * Filters a message based on rules defined in the FilterDriver
@@ -822,6 +824,7 @@ int
 camel_filter_driver_filter_message (CamelFilterDriver *driver, CamelMimeMessage *message,
 				    CamelMessageInfo *info, const char *uid,
 				    CamelFolder *source, const char *source_url,
+				    const char *original_source_url,
 				    CamelException *ex)
 {
 	struct _CamelFilterDriverPrivate *p = _PRIVATE (driver);
@@ -848,15 +851,17 @@ camel_filter_driver_filter_message (CamelFilterDriver *driver, CamelMimeMessage 
 	p->info = info;
 	p->uid = uid;
 	p->source = source;
-	
-	if (camel_mime_message_get_source (message) == NULL)
-		camel_mime_message_set_source (message, source_url);
+
+	if (original_source_url && camel_mime_message_get_source (message) == NULL)
+		camel_mime_message_set_source (message, original_source_url);
 	
 	node = (struct _filter_rule *)p->rules.head;
 	while (node->next) {
 		d(fprintf (stderr, "applying rule %s\n action %s\n", node->match, node->action));
 		
-		if (camel_filter_search_match(p->message, p->info, source_url, node->match, p->ex)) {
+		if (camel_filter_search_match(p->message, p->info, 
+					      original_source_url ? original_source_url : source_url,
+					      node->match, p->ex)) {
 			filtered = TRUE;
 			camel_filter_driver_log (driver, FILTER_LOG_START, node->name);
 			
