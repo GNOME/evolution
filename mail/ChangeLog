@@ -1,3 +1,8 @@
+2002-02-15  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-display.c (do_attachment_header): Don't display a
+	down-arrow if the attachment is undisplayable. Fixes bug #6919.
+
 2002-02-14  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-account-gui.c (basename_from_uri): Replacement for using

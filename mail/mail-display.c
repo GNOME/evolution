@@ -893,6 +893,12 @@ do_attachment_header (GtkHTML *html, GtkHTMLEmbedded *eb,
 	gtk_signal_connect (GTK_OBJECT (button), "clicked",
 			    GTK_SIGNAL_FUNC (button_press), part);
 	
+	handler = mail_lookup_handler (eb->type);
+	if (handler && handler->builtin)
+		gtk_widget_set_sensitive (button, TRUE);
+	else
+		gtk_widget_set_sensitive (button, FALSE);
+	
 	/* Drag & Drop */
 	gtk_drag_source_set (button, GDK_BUTTON1_MASK,
 			     drag_types, num_drag_types,
@@ -905,7 +911,7 @@ do_attachment_header (GtkHTML *html, GtkHTMLEmbedded *eb,
 	hbox = gtk_hbox_new (FALSE, 2);
 	gtk_container_set_border_width (GTK_CONTAINER (hbox), 2);
 	
-	if (mail_part_is_displayed_inline (part, md))
+	if (handler && mail_part_is_displayed_inline (part, md))
 		arrow = gnome_stock_new_with_icon (GNOME_STOCK_PIXMAP_DOWN);
 	else
 		arrow = gnome_stock_new_with_icon (GNOME_STOCK_PIXMAP_FORWARD);
@@ -929,12 +935,6 @@ do_attachment_header (GtkHTML *html, GtkHTMLEmbedded *eb,
 	gtk_box_pack_start (GTK_BOX (mainbox), button, TRUE, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (mainbox), popup, TRUE, TRUE, 0);
 	gtk_widget_show_all (mainbox);
-	
-	handler = mail_lookup_handler (eb->type);
-	if (handler && handler->builtin)
-		gtk_widget_set_sensitive (button, TRUE);
-	else
-		gtk_widget_set_sensitive (button, FALSE);
 	
 	gtk_container_add (GTK_CONTAINER (eb), mainbox);
 	
