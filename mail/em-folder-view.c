@@ -1806,9 +1806,6 @@ emfv_activate(EMFolderView *emfv, BonoboUIComponent *uic, int act)
 {
 	struct _EMFolderViewPrivate *p = emfv->priv;
 
-	if (emfv->menu)
-		e_menu_activate((EMenu *)emfv->menu, uic, act);
-
 	if (act) {
 		em_format_mode_t style;
 		gboolean state;
@@ -1821,6 +1818,10 @@ emfv_activate(EMFolderView *emfv, BonoboUIComponent *uic, int act)
 
 		bonobo_ui_component_add_verb_list_with_data(uic, emfv_message_verbs, emfv);
 		e_pixmaps_update(uic, emfv_message_pixmaps);
+
+		/* must do plugin menu's after main ones because of bonobo bustedness */
+		if (emfv->menu)
+			e_menu_activate((EMenu *)emfv->menu, uic, act);
 
 		state = emfv->preview->caret_mode;
 		bonobo_ui_component_set_prop(uic, "/commands/CaretMode", "state", state?"1":"0", NULL);
@@ -1848,6 +1849,9 @@ emfv_activate(EMFolderView *emfv, BonoboUIComponent *uic, int act)
 			emfv_setup_view_instance(emfv);
 	} else {
 		const BonoboUIVerb *v;
+
+		if (emfv->menu)
+			e_menu_activate((EMenu *)emfv->menu, uic, act);
 
 		/* TODO: Should this just rm /? */
 		for (v = &emfv_message_verbs[0]; v->cname; v++)

@@ -1,3 +1,10 @@
+2005-02-09  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #71429
+	
+	* em-folder-view.c (emfv_activate): setup the plugin menu's after
+	the main ones.
+
 2005-02-08  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #72228
