@@ -101,6 +101,7 @@ build_two_radio_group (char *title,
 	gtk_box_pack_start (GTK_BOX (vbox), *radio_2_widget, FALSE, FALSE, 0);
 
 	gtk_toggle_button_set_state (GTK_TOGGLE_BUTTON (*radio_1_widget), radio_1_value);
+	gtk_toggle_button_set_state (GTK_TOGGLE_BUTTON (*radio_2_widget), !radio_1_value);
 
 	gtk_signal_connect (GTK_OBJECT (*radio_1_widget), "toggled",
 			    (GtkSignalFunc) toggled,
@@ -135,6 +136,8 @@ hour_activated (GtkWidget *widget, gpointer data)
 			gtk_option_menu_set_history (GTK_OPTION_MENU (start_omenu), end);
 	} else
 		g_assert_not_reached ();
+
+	gnome_property_box_changed (GNOME_PROPERTY_BOX (prop_win));
 }
 
 /* Builds an option menu of 24 hours */

@@ -1,6 +1,24 @@
-Preferences:
+Month view:
 
-- Add possibility to start weeks also on monday (European calendar mode)
+- Display little boxes for the appointments of each day.
+
+- Double click on a day takes you to the day view.
+
+- DnD of appointments to move them around.
+
+Year view:
+
+- Make it use GnomeMonthItem to make it have a reasonable size.
+
+Week view:
+
+- Nice display as in the Palm Pilot.
+
+Day view:
+
+- Rewrite in terms of the canvas and make it pretty.
+
+Preferences:
 
 - BUG: 12/24 hours stuff is not consistent - I remember that on editing
   new appointment you get the time-selectors always on 12-hr format
@@ -14,21 +32,6 @@ Event editor dialog:
 Gnome date selection widget:
 
 - Make the displayed date be localized properly -- use strftime().
-
-Full day widget:
-
-- Display alarm/whatever flags somewhere.
-
-- Layout the children nicely like M$ Schedule or Netscape Calendar do
-  (i.e. make them not overlap each other).
-
-Month view:
-
-- Write a month view widget.
-
-Week view:
-
-- Replace the calendar by a `task density' widget like in Solaris cm.
 
 General:
 

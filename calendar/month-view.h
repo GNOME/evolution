@@ -31,6 +31,7 @@ struct _MonthView {
 
 	GnomeCalendar *calendar;	/* The calendar we are associated to */
 
+	GnomeCanvasItem *title;		/* The title heading with the month/year */
 	GnomeCanvasItem *mitem;		/* The canvas month item used by this month view */
 };
 
@@ -43,7 +44,16 @@ struct _MonthViewClass {
 GtkType month_view_get_type (void);
 
 /* Creates a new month view widget associated to the specified calendar */
-GtkWidget *month_view_new (GnomeCalendar *calendar);
+GtkWidget *month_view_new (GnomeCalendar *calendar, time_t month);
+
+/* Notifies the month view that a calendar object has changed */
+void month_view_update (MonthView *mv, iCalObject *ico, int flags);
+
+/* Notifies the month view about a change of date */
+void month_view_set (MonthView *mv, time_t month);
+
+/* Notifies the month view that the time format has changed */
+void month_view_time_format_changed (MonthView *mv);
 
 
 END_GNOME_DECLS

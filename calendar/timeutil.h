@@ -23,6 +23,7 @@ char   *isodiff_from_secs       (int secs);
 time_t time_add_minutes  (time_t time, int minutes);
 time_t time_add_day (time_t time, int days);
 time_t time_add_week (time_t time, int weeks);
+time_t time_add_month (time_t time, int months);
 time_t time_add_year (time_t time, int years);
 
 

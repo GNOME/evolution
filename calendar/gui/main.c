@@ -4,7 +4,7 @@
  *
  * Authors:
  *          Miguel de Icaza (miguel@kernel.org)
- *          Federico Mena (quartic@gimp.org)
+ *          Federico Mena (federico@nuclecu.unam.mx)
  */
 
 #include <config.h>
@@ -193,13 +193,8 @@ time_format_changed (void)
 {
 	GList *l;
 
-	/* FIXME: update all the calendars and stuff */
-
-	for (l = all_calendars; l; l = l->next){
-		GnomeCalendar *cal = GNOME_CALENDAR (l->data);
-
-		gtk_widget_queue_resize (cal->notebook);
-	}
+	for (l = all_calendars; l; l = l->next)
+		gnome_calendar_time_format_changed (GNOME_CALENDAR (l->data));
 }
 
 static void
@@ -327,66 +322,51 @@ save_calendar_cmd (GtkWidget *widget, void *data)
 }
 
 static GnomeUIInfo gnome_cal_file_menu [] = {
-	{ GNOME_APP_UI_ITEM, N_("New calendar"),  NULL, new_calendar_cmd, NULL, NULL,
-	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_NEW },
+	GNOMEUIINFO_ITEM_STOCK (N_("New calendar"), NULL, new_calendar_cmd, GNOME_STOCK_MENU_NEW),
+	GNOMEUIINFO_ITEM_STOCK (N_("Open calendar..."), NULL, open_calendar_cmd, GNOME_STOCK_MENU_OPEN),
+	GNOMEUIINFO_ITEM_STOCK (N_("Save calendar"), NULL, save_calendar_cmd, GNOME_STOCK_MENU_SAVE),
+	GNOMEUIINFO_ITEM_STOCK (N_("Save calendar as..."), NULL, save_as_calendar_cmd, GNOME_STOCK_MENU_SAVE),
 
-	{ GNOME_APP_UI_ITEM, N_("Open calendar..."), NULL, open_calendar_cmd, NULL, NULL,
-	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_OPEN },
+	GNOMEUIINFO_SEPARATOR,
 
-	{ GNOME_APP_UI_ITEM, N_("Save calendar"), NULL, save_calendar_cmd, NULL, NULL,
-	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_SAVE },
+	GNOMEUIINFO_ITEM_STOCK (N_("Preferences..."), NULL, properties, GNOME_STOCK_MENU_PREF),
 
-	{ GNOME_APP_UI_ITEM, N_("Save calendar as..."), NULL, save_as_calendar_cmd, NULL, NULL,
-	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_SAVE },
+	GNOMEUIINFO_SEPARATOR,
 
-	{ GNOME_APP_UI_SEPARATOR },
-	{ GNOME_APP_UI_ITEM, N_("Close this calendar"), NULL, close_cmd, NULL, NULL,
-	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_EXIT },
-
-	{ GNOME_APP_UI_ITEM, N_("Exit"), NULL, quit_cmd, NULL, NULL,
-	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_EXIT },
+	GNOMEUIINFO_ITEM_STOCK (N_("Close this calendar"), NULL, close_cmd, GNOME_STOCK_MENU_EXIT),
+	GNOMEUIINFO_ITEM_STOCK (N_("Exit"), NULL, quit_cmd, GNOME_STOCK_MENU_EXIT),
 
 	GNOMEUIINFO_END
 };
 
-static GnomeUIInfo gnome_cal_about_menu [] = {
-	{ GNOME_APP_UI_ITEM, N_("About..."), NULL, about_calendar_cmd, NULL, NULL,
-	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_ABOUT },
+static GnomeUIInfo gnome_cal_help_menu [] = {
+	GNOMEUIINFO_ITEM_STOCK (N_("About Gnomecal..."), NULL, about_calendar_cmd, GNOME_STOCK_MENU_ABOUT),
 	GNOMEUIINFO_SEPARATOR,
 	GNOMEUIINFO_HELP ("cal"),
 	GNOMEUIINFO_END
 };
 
 static GnomeUIInfo gnome_cal_edit_menu [] = {
-	{ GNOME_APP_UI_ITEM, N_("New appointment..."), NULL, display_objedit },
-	{ GNOME_APP_UI_ITEM, N_("New appointment for today..."), NULL, display_objedit_today },
-	GNOMEUIINFO_SEPARATOR,
-	{ GNOME_APP_UI_ITEM, N_("Preferences..."),      NULL, properties, NULL, NULL,
-	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_PREF },
+	GNOMEUIINFO_ITEM_STOCK (N_("New appointment..."), NULL, display_objedit, GNOME_STOCK_MENU_NEW),
+	GNOMEUIINFO_ITEM_STOCK (N_("New appointment for today..."), NULL, display_objedit_today, GNOME_STOCK_MENU_NEW),
 	GNOMEUIINFO_END
 };
 
 static GnomeUIInfo gnome_cal_menu [] = {
-	{ GNOME_APP_UI_SUBTREE, N_("File"), NULL, &gnome_cal_file_menu },
-	{ GNOME_APP_UI_SUBTREE, N_("Calendar"), NULL, &gnome_cal_edit_menu },
-	{ GNOME_APP_UI_SUBTREE, N_("Help"), NULL, &gnome_cal_about_menu },
+	GNOMEUIINFO_SUBTREE (N_("File"), &gnome_cal_file_menu),
+	GNOMEUIINFO_SUBTREE (N_("Edit"), &gnome_cal_edit_menu),
+	GNOMEUIINFO_SUBTREE (N_("Help"), &gnome_cal_help_menu),
 	GNOMEUIINFO_END
 };
 
 static GnomeUIInfo gnome_toolbar [] = {
-	{ GNOME_APP_UI_ITEM, N_("New"), N_("Create a new appointment"), display_objedit, 0, 0,
-	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_PIXMAP_NEW },
+	GNOMEUIINFO_ITEM_STOCK (N_("New"), N_("Create a new appointment"), display_objedit, GNOME_STOCK_PIXMAP_NEW),
 
 	GNOMEUIINFO_SEPARATOR,
 
-	{ GNOME_APP_UI_ITEM, N_("Prev"), N_("Go back in time"), previous_clicked, 0, 0,
-	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_BACK },
-
-	{ GNOME_APP_UI_ITEM, N_("Today"), N_("Go to present time"), today_clicked, 0, 0,
-	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_PIXMAP_HOME },
-
-	{ GNOME_APP_UI_ITEM, N_("Next"), N_("Go forward in time"), next_clicked, 0, 0,
-	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_FORWARD },
+	GNOMEUIINFO_ITEM_STOCK (N_("Prev"), N_("Go back in time"), previous_clicked, GNOME_STOCK_MENU_BACK),
+	GNOMEUIINFO_ITEM_STOCK (N_("Today"), N_("Go to present time"), today_clicked, GNOME_STOCK_PIXMAP_HOME),
+	GNOMEUIINFO_ITEM_STOCK (N_("Next"), N_("Go forward in time"), next_clicked, GNOME_STOCK_MENU_FORWARD),
 
 	GNOMEUIINFO_SEPARATOR,
 

@@ -1,5 +1,52 @@
 1998-08-24  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
+	* prop.c (build_two_radio_group): Doh.  Set the state of the radio
+	buttons properly.
+
+	* month-view.c (month_view_time_format_changed): New public
+	function that notifies the month view of a time format change.
+
+	* gnome-cal.c (gnome_calendar_time_format_changed): New public
+	function that notifies the calendar of a time format change.
+
+	* main.c (time_format_changed): Use gnome_calendar_time_format_changed().
+
+	* month-view.c (month_view_update): New public function to update
+	the month view when an event changes.  This is still unfinished.
+	(month_view_set): New public function to set the month in the
+	month view.
+
+	* gnome-cal.c (gnome_calendar_direction): Add case for month view.
+	(gnome_calendar_set_view): Likewise.
+	(gnome_calendar_update_all): Likewise.
+
+	* timeutil.c (time_add_week): Implemented the time_add_week()
+	function, which was on the header file.
+	(time_add_month): Added public month-adding routine.
+
+	* gnome-cal.c (gnome_calendar_get_current_view_name): Add case for
+	month view.
+	(gnome_calendar_goto): Likewise, and set the time on the month view.
+
+	* month-view.c (month_view_new): Now it takes the calendar plus
+	the time_t representing the month.
+
+	* gnome-month-item.h: Added documentation on the object arguments
+	for the month item.
+
+	* month-view.c (month_view_init): Added a month/year heading to
+	the month view.
+
+	* TODO: Updated the TODO list a bit.
+
+	* main.c (gnome_cal_file_menu): The preferences menu option should
+	go in the File menu.
+	(gnome_cal_edit_menu): Added stock pixmaps to the menu items.
+	(gnome_cal_menu): Renamed the Calendar menu to Edit.
+	(gnome_cal_help_menu): Use "About Gnomecal", not just "About".
+
+	* prop.c (hour_activated): Notify the property box that it has changed.
+
 	* main.c: Changed the Properties menu item to Preferences.  These
 	are global application preferences, not a single calendar's
 	properties.

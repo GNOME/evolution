@@ -46,6 +46,27 @@ typedef enum {
 	GNOME_MONTH_ITEM_LAST       = 147	/* total number of items */
 } GnomeMonthItemChild;
 
+/* The MonthItem canvas item defines a simple monthly calendar.  It is made out of a number of
+ * canvas items, which can be accessed using the functions provided.  The monthly calendar is
+ * anchored with respect to a point.  The following arguments are available:
+ *
+ * name			type		read/write	description
+ * ------------------------------------------------------------------------------------------
+ * year			uint		RW		Full year (1-9999)
+ * month		uint		RW		Number of month (0-11)
+ * x			double		RW		X position of anchor point
+ * y			double		RW		Y position of anchor point
+ * width		double		RW		Width of calendar in canvas units
+ * height		double		RW		Height of calendar in canvas units
+ * anchor		GtkAnchorType	RW		Anchor side for calendar
+ * head_padding		double		RW		Padding inside heading boxes
+ * day_padding		double		RW		Padding inside day boxes
+ * day_names		char **		R		Array of strings corresponding to the day names (sun-sat)
+ * heading_height	double		RW		Height of headings bar in canvas units
+ * heading_anchor	GtkAnchorType	RW		Anchor side for headings inside heading boxes
+ * day_anchor		GtkAnchorType	RW		Anchor side for day numbers inside day boxes
+ * start_on_monday	boolean		RW		Specifies whether the week starts on Monday or Sunday
+ */
 
 #define GNOME_TYPE_MONTH_ITEM            (gnome_month_item_get_type ())
 #define GNOME_MONTH_ITEM(obj)            (GTK_CHECK_CAST ((obj), GNOME_TYPE_MONTH_ITEM, GnomeMonthItem))

@@ -89,6 +89,21 @@ format_simple_hour (int hour, int use_am_pm)
 }
 
 time_t
+time_add_minutes (time_t time, int minutes)
+{
+	struct tm *tm = localtime (&time);
+	time_t new_time;
+
+	tm->tm_min += minutes;
+	if ((new_time = mktime (tm)) == -1){
+		g_warning ("mktime could not handling adding a day with\n");
+		print_time_t (time);
+		return time;
+	}
+	return new_time;
+}
+
+time_t
 time_add_day (time_t time, int days)
 {
 	struct tm *tm = localtime (&time);
@@ -104,14 +119,24 @@ time_add_day (time_t time, int days)
 }
 
 time_t
-time_add_minutes (time_t time, int minutes)
+time_add_week (time_t time, int weeks)
+{
+	return time_add_day (time, weeks * 7);
+}
+
+time_t
+time_add_month (time_t time, int months)
 {
 	struct tm *tm = localtime (&time);
 	time_t new_time;
 
-	tm->tm_min += minutes;
+	/* FIXME: this will not work correctly when switching, say, from a 31-day month to a 30-day
+	 * month.  Figure out the number of days in the month and go to the nearest "limit" day.
+	 */
+
+	tm->tm_mon += months;
 	if ((new_time = mktime (tm)) == -1){
-		g_warning ("mktime could not handling adding a day with\n");
+		g_warning ("mktime could not handling adding a month with\n");
 		print_time_t (time);
 		return time;
 	}

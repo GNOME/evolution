@@ -51,7 +51,7 @@ setup_widgets (GnomeCalendar *gcal)
 	gcal->notebook   = gtk_notebook_new ();
 	gcal->day_view   = gncal_day_panel_new (gcal, now);
 	gcal->week_view  = gncal_week_view_new (gcal, now);
-	gcal->month_view = month_view_new (gcal);
+	gcal->month_view = month_view_new (gcal, now);
 	gcal->year_view  = gncal_year_view_new (gcal, now);
 
 	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->notebook), gcal->day_view,   gtk_label_new (_("Day View")));
@@ -80,6 +80,8 @@ gnome_calendar_get_current_view_name (GnomeCalendar *gcal)
 		return "dayview";
 	else if (page == gcal->week_view)
 		return "weekview";
+	else if (page == gcal->month_view)
+		return "monthview";
 	else if (page == gcal->year_view)
 		return "yearview";
 	else
@@ -99,6 +101,8 @@ gnome_calendar_goto (GnomeCalendar *gcal, time_t new_time)
 		gncal_day_panel_set (GNCAL_DAY_PANEL (gcal->day_view), new_time);
 	else if (current == gcal->week_view)
 		gncal_week_view_set (GNCAL_WEEK_VIEW (gcal->week_view), new_time);
+	else if (current == gcal->month_view)
+		month_view_set (MONTH_VIEW (gcal->month_view), new_time);
 	else if (current == gcal->year_view)
 		gncal_year_view_set (GNCAL_YEAR_VIEW (gcal->year_view), new_time);
 	else {
@@ -118,7 +122,9 @@ gnome_calendar_direction (GnomeCalendar *gcal, int direction)
 	if (cp == gcal->day_view)
 		new_time = time_add_day (gcal->current_display, 1 * direction);
 	else if (cp == gcal->week_view)
-		new_time = time_add_day (gcal->current_display, 7 * direction);
+		new_time = time_add_week (gcal->current_display, 1 * direction);
+	else if (cp == gcal->month_view)
+		new_time = time_add_month (gcal->current_display, 1 * direction);
 	else if (cp == gcal->year_view)
 		new_time = time_add_year (gcal->current_display, 1 * direction);
 	else {
@@ -164,8 +170,10 @@ gnome_calendar_set_view (GnomeCalendar *gcal, char *page_name)
 		page = 0;
 	else if (strcmp (page_name, "weekview") == 0)
 		page = 1;
-	else if (strcmp (page_name, "yearview") == 0)
+	else if (strcmp (page_name, "monthview") == 0)
 		page = 2;
+	else if (strcmp (page_name, "yearview") == 0)
+		page = 3;
 	gtk_notebook_set_page (GTK_NOTEBOOK (gcal->notebook), page);
 }
 
@@ -196,6 +204,7 @@ gnome_calendar_update_all (GnomeCalendar *cal, iCalObject *object, int flags)
 {
 	gncal_day_panel_update (GNCAL_DAY_PANEL (cal->day_view), object, flags);
 	gncal_week_view_update (GNCAL_WEEK_VIEW (cal->week_view), object, flags);
+	month_view_update (MONTH_VIEW (cal->month_view), object, flags);
 	gncal_year_view_update (GNCAL_YEAR_VIEW (cal->year_view), object, flags);
 }
 
@@ -416,4 +425,18 @@ gnome_calendar_tag_calendar (GnomeCalendar *cal, GtkCalendar *gtk_cal)
 	gtk_calendar_clear_marks (gtk_cal);
 	calendar_iterate (cal->cal, month_begin, month_end, mark_gtk_calendar_day, gtk_cal);
 	gtk_calendar_thaw (gtk_cal);
+}
+
+void
+gnome_calendar_time_format_changed (GnomeCalendar *gcal)
+{
+	g_return_if_fail (gcal != NULL);
+	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
+
+	/* FIXME: the queue resizes will do until we rewrite those views... */
+
+	gtk_widget_queue_resize (gcal->day_view);
+	gtk_widget_queue_resize (gcal->week_view);
+	month_view_time_format_changed (MONTH_VIEW (gcal->month_view));
+	gtk_widget_queue_resize (gcal->year_view);
 }
