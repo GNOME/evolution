@@ -39,7 +39,7 @@ evolution_msg_composer_LDADD = 			\
 	$(GNOMEUI_LIBS)				\
 	$(INTLLIBS)				\
 	$(PTHREAD_LIB)				\
-	$(EXTRA_GNOME_LIBS_THREADS)
+	$(EXTRA_GNOME_LIBS)
 
 
 EXTRA_DIST =					\

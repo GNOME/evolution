@@ -117,7 +117,7 @@ else
 fi
 
 if $have_pthread; then 
- 	THREADS_LIBS="$(PTHREAD_LIB) `glib-config --libs gthread`"
+ 	THREADS_LIBS="$PTHREAD_LIB `glib-config --libs gthread`"
 	THREADS_CFLAGS="`glib-config --cflags gthread`"
 else
 	THREADS_LIBS=""
