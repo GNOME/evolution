@@ -17,28 +17,95 @@
 
 static GladeXML *xml;
 static CamelSession *_session;
-
+static CamelFolder *currently_selected_folder = NULL;
 
 static void add_mail_store (const gchar *store_url);
 static void show_folder_messages (CamelFolder *folder);
 
 
-void
-mailbox_row_selected (GtkCTree *ctree, GList *node, gint column, gpointer user_data)
-{
-	GtkCTreeNode *mailbox_node = GTK_CTREE_NODE (node);
-	CamelFolder *folder;
-	const gchar *mailbox_name;
 
-	folder = gtk_ctree_node_get_row_data (ctree, mailbox_node);
-	if (folder && IS_CAMEL_FOLDER (folder)) {
-		mailbox_name = camel_folder_get_name (folder);
-		printf ("Mailbox name : %s\n", mailbox_name);
-		show_folder_messages (folder);
-	} else {
-		printf ("Node is a store\n");
+static void
+_destroy_menu (gpointer data)
+{
+	gtk_widget_destroy (GTK_WIDGET (data));
+}
+
+static void
+_copy_message (GtkWidget *widget, gpointer data)
+{
+	CamelFolder *dest_folder = CAMEL_FOLDER (data);
+	GtkWidget *message_clist;
+	gint current_row;
+	GList *selected;
+	gint selected_row;
+
+	CamelMimeMessage *message;
+
+	printf ("Selected \"copy to folder\" with destination folder %s\n", camel_folder_get_name (dest_folder));
+	message_clist = glade_xml_get_widget (xml, "message-clist");
+	selected = GTK_CLIST (message_clist)->selection;
+	while (selected) {
+		selected_row = GPOINTER_TO_INT (selected->data);
+		message = CAMEL_MIME_MESSAGE (gtk_clist_get_row_data (GTK_CLIST (message_clist), selected_row));
+		camel_folder_copy_message_to (currently_selected_folder, message, dest_folder);
+		selected = selected->next;
 	}
 	
+}
+
+static GnomeUIInfo mailbox_popup_menu[] = {
+	GNOMEUIINFO_ITEM_STOCK ("_Copy selected message here", NULL, _copy_message, GNOME_STOCK_MENU_NEW),
+	GNOMEUIINFO_END
+};
+
+static void
+_show_mailbox_context_menu (CamelFolder *folder) {
+	GtkWidget *menu;
+	GtkCTree *mailbox_and_store_tree;
+
+	mailbox_and_store_tree = GTK_CTREE (glade_xml_get_widget (xml, "store-and-mailbox-tree"));
+	menu = gtk_object_get_data (GTK_OBJECT (mailbox_and_store_tree), "mailbox_popup_menu");
+	if (!menu) {
+		menu = gnome_popup_menu_new (mailbox_popup_menu);
+		gtk_object_set_data_full (GTK_OBJECT (mailbox_and_store_tree), "mailbox_popup_menu", menu, _destroy_menu);
+	}
+	
+	gnome_popup_menu_do_popup (menu, NULL, NULL, NULL, folder);
+
+	
+}
+static gboolean
+mailbox_button_clicked_on_row (gint button, gint row) 
+{
+	GtkCTreeNode *mailbox_node;
+	CamelFolder *folder;
+	GtkCTree *mailbox_and_store_tree;
+	const gchar *mailbox_name;
+	
+	mailbox_and_store_tree = GTK_CTREE (glade_xml_get_widget (xml, "store-and-mailbox-tree"));
+
+	mailbox_node = gtk_ctree_node_nth (mailbox_and_store_tree, row);
+	
+	folder = gtk_ctree_node_get_row_data (mailbox_and_store_tree, mailbox_node);
+	if (folder && IS_CAMEL_FOLDER (folder)) {
+		
+		mailbox_name = camel_folder_get_name (folder);
+		printf ("mailbox %s clicked with button %d\n", mailbox_name, button);
+		switch (button) {
+		case 1:
+			currently_selected_folder = folder;
+			show_folder_messages (folder);
+			break;
+		case 2:
+			break;
+		case 3:
+			_show_mailbox_context_menu (folder);
+		}
+		return TRUE;
+	} else {
+		printf ("Node is a store\n");
+		return FALSE;
+	}
 }
 
 
@@ -271,7 +338,20 @@ on_message_delete_activate (GtkWidget *widget, void *data)
 	delete_selected_messages();
 }
 
+gboolean
+on_store_and_mailbox_tree_button_press_event (GtkWidget *widget,  GdkEventButton *event, void *data)
+{
+	gint row;
+	GtkCList *clist = GTK_CLIST (widget);
 
+	if (!gtk_clist_get_selection_info (clist, event->x, event->y, &row, NULL))
+		return FALSE;
+	if (!mailbox_button_clicked_on_row (event->button, row))
+		return FALSE;
+	
+	return TRUE;
+		
+}
 
 /* ----- init */
 int

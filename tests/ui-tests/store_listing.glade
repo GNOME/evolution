@@ -255,9 +255,9 @@
 	<width>150</width>
 	<can_focus>True</can_focus>
 	<signal>
-	  <name>tree_select_row</name>
-	  <handler>mailbox_row_selected</handler>
-	  <last_modification_time>Tue, 10 Aug 1999 16:25:40 GMT</last_modification_time>
+	  <name>button_press_event</name>
+	  <handler>on_store_and_mailbox_tree_button_press_event</handler>
+	  <last_modification_time>Mon, 16 Aug 1999 13:06:15 GMT</last_modification_time>
 	</signal>
 	<columns>1</columns>
 	<column_widths>80</column_widths>

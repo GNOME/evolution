@@ -22,6 +22,7 @@
  */
 #include <config.h> 
 #include <sys/stat.h> 
+#include <sys/param.h> 
 #include <unistd.h>
 #include <sys/types.h>
 #include <fcntl.h>
@@ -42,6 +43,7 @@ static CamelFolderClass *parent_class=NULL;
 #define CF_CLASS(so) CAMEL_FOLDER_CLASS (GTK_OBJECT(so)->klass)
 #define CMHS_CLASS(so) CAMEL_STORE_CLASS (GTK_OBJECT(so)->klass)
 
+static int copy_reg (const char *src_path, const char *dst_path);
 static void _set_name(CamelFolder *folder, const gchar *name);
 static void _init_with_store (CamelFolder *folder, CamelStore *parent_store);
 static gboolean _exists (CamelFolder *folder);
@@ -460,6 +462,7 @@ _get_message (CamelFolder *folder, gint number)
 			message->message_number = number;
 			gtk_object_set_data_full (GTK_OBJECT (message), "fullpath", 
 						  g_strdup (message_file_name), _filename_free);
+			
 #warning Set flags and all this stuff here
 		}
 		g_free (message_file_name);
@@ -508,29 +511,22 @@ _get_message_count (CamelFolder *folder)
 
 
 
-
-static gint
-_append_message (CamelFolder *folder, CamelMimeMessage *message)
+static gboolean
+_find_next_free_message_file (CamelFolder *folder, gint *new_msg_number, gchar **new_msg_filename)
 {
 	CamelMhFolder *mh_folder = CAMEL_MH_FOLDER(folder);
 	const gchar *directory_path;
 	struct dirent *dir_entry;
 	DIR *dir_handle;
-	guint last_max_message_number = 0;
-	guint current_message_number;
-	guint new_message_number;
-	gchar *new_message_filename;
-	CamelStream *output_stream;
-	gboolean error;
+	gint last_max_message_number = 0;
+	gint current_message_number;
 
-	CAMEL_LOG_FULL_DEBUG ("Entering CamelMhFolder::append_message\n");
-	
 	g_assert(folder);
 
 	directory_path = mh_folder->directory_path;
-	if (!directory_path) return -1;
+	if (!directory_path) return FALSE;
 	
-	if (!camel_folder_exists (folder)) return 0;
+	if (!camel_folder_exists (folder)) return FALSE;
 	
 	dir_handle = opendir (directory_path);
 	
@@ -548,27 +544,42 @@ _append_message (CamelFolder *folder, CamelMimeMessage *message)
 		dir_entry = readdir (dir_handle);
 	}
 	closedir (dir_handle);
+	
+	*new_msg_number = last_max_message_number + 1;
+	*new_msg_filename = g_strdup_printf ("%s/%d", directory_path, *new_msg_number);
+	CAMEL_LOG_FULL_DEBUG ("CamelMhFolder::find_next_free_message_file new message path is %s\n", 
+			      *new_msg_filename);
+	return TRUE;
+	
+	
+}
+static gint
+_append_message (CamelFolder *folder, CamelMimeMessage *message)
+{
+	guint new_msg_number;
+	gchar *new_msg_filename;
+	CamelStream *output_stream;
+	gboolean error;
 
-	new_message_number = last_max_message_number + 1;
-	new_message_filename = g_strdup_printf ("%s/%d", directory_path, new_message_number);
-	CAMEL_LOG_FULL_DEBUG ("CamelMhFolder::append_message new message path is %s\n", 
-			      new_message_filename);
+	CAMEL_LOG_FULL_DEBUG ("Entering CamelMhFolder::append_message\n");
+	if (!_find_next_free_message_file (folder, &new_msg_number, &new_msg_filename))
+		return -1;
 
-	output_stream = camel_stream_fs_new_with_name (new_message_filename, CAMEL_STREAM_FS_WRITE);
+	output_stream = camel_stream_fs_new_with_name (new_msg_filename, CAMEL_STREAM_FS_WRITE);
 	if (output_stream != NULL) {
 		camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), output_stream);
 		camel_stream_close (output_stream);
 	} else {
 		CAMEL_LOG_WARNING ("CamelMhFolder::append_message could not open %s for writing\n", 
-				   new_message_filename);
+				   new_msg_filename);
 		CAMEL_LOG_FULL_DEBUG ("  Full error text is : %s\n", strerror(errno));
 		error = TRUE;
 	}
 
-	g_free (new_message_filename);
+	g_free (new_msg_filename);
 	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMhFolder::append_message\n");
 	if (error) return -1;
-	else return new_message_number;
+	else return new_msg_number;
 }
 
 
@@ -623,13 +634,216 @@ _expunge (CamelFolder *folder)
 static void
 _copy_message_to (CamelFolder *folder, CamelMimeMessage *message, CamelFolder *dest_folder)
 {
-	gchar *filename;
-	gchar *dest_filename;
+	gchar *src_msg_filename;
+	guint dest_msg_number;
+	gchar *dest_msg_filename;
 
 	if (IS_CAMEL_MH_FOLDER (dest_folder)) {
-		/*g_assert (message->parent_folder == folder);*/
-		/* don't have time to finish that today */
-		parent_class->copy_message_to (folder, message, dest_folder);
+		/*g_return_if_fail (message->parent_folder == folder);*/
+		
+		if (!_find_next_free_message_file (dest_folder, &dest_msg_number, &dest_msg_filename))
+			return;
+		src_msg_filename = gtk_object_get_data (GTK_OBJECT (message), "fullpath");
+		CAMEL_LOG_FULL_DEBUG ("CamelMhFolder::copy_to copy file %s to %s\n", src_msg_filename, dest_msg_filename);
+		copy_reg (src_msg_filename, dest_msg_filename);
+		
 	} else 
 		parent_class->copy_message_to (folder, message, dest_folder);
+}
+
+
+
+
+/************************************************************************/
+
+/*** Took directly from GNU fileutils-4.0                             ***/
+/* Copyright (C) 89, 90, 91, 95, 96, 97, 1998 Free Software Foundation. */
+/* This may be rwritten soon. -Bertrand                                 */               
+
+    
+/* Write LEN bytes at PTR to descriptor DESC, retrying if interrupted.
+   Return LEN upon success, write's (negative) error code otherwise.  */
+int
+full_write (int desc, const char *ptr, size_t len)
+{
+  int total_written;
+
+  total_written = 0;
+  while (len > 0)
+    {
+      int written = write (desc, ptr, len);
+      if (written < 0)
+	{
+	  if (errno == EINTR)
+	    continue;
+	  return written;
+	}
+      total_written += written;
+      ptr += written;
+      len -= written;
+    }
+  return total_written;
+}
+
+
+
+
+static int
+copy_reg (const char *src_path, const char *dst_path)
+{
+  char *buf;
+  int buf_size;
+  int dest_desc;
+  int source_desc;
+  int n_read;
+  struct stat sb;
+  char *cp;
+  int *ip;
+  int return_val = 0;
+  off_t n_read_total = 0;
+  int last_write_made_hole = 0;
+  int make_holes = TRUE;
+
+  source_desc = open (src_path, O_RDONLY);
+  if (source_desc < 0)
+    {
+      /* If SRC_PATH doesn't exist, then chances are good that the
+	 user did something like this `cp --backup foo foo': and foo
+	 existed to start with, but copy_internal renamed DST_PATH
+	 with the backup suffix, thus also renaming SRC_PATH.  */
+      if (errno == ENOENT)
+	error (0, 0, "`%s' and `%s' are the same file",
+	       src_path, dst_path);
+      else
+	error (0, errno, "%s", src_path);
+
+      return -1;
+    }
+
+  /* Create the new regular file with small permissions initially,
+     to not create a security hole.  */
+
+  dest_desc = open (dst_path, O_WRONLY | O_CREAT | O_TRUNC, 0600);
+  if (dest_desc < 0)
+    {
+      error (0, errno, "cannot create regular file `%s'", dst_path);
+      return_val = -1;
+      goto ret2;
+    }
+
+  /* Find out the optimal buffer size.  */
+
+  if (fstat (dest_desc, &sb))
+    {
+      error (0, errno, "%s", dst_path);
+      return_val = -1;
+      goto ret;
+    }
+
+  buf_size = 8192;
+
+
+
+  /* Make a buffer with space for a sentinel at the end.  */
+
+  buf = (char *) alloca (buf_size + sizeof (int));
+
+  for (;;)
+    {
+      n_read = read (source_desc, buf, buf_size);
+      if (n_read < 0)
+	{
+	  if (errno == EINTR)
+	    continue;
+	  error (0, errno, "%s", src_path);
+	  return_val = -1;
+	  goto ret;
+	}
+      if (n_read == 0)
+	break;
+
+      n_read_total += n_read;
+
+      ip = 0;
+      if (make_holes)
+	{
+	  buf[n_read] = 1;	/* Sentinel to stop loop.  */
+
+	  /* Find first nonzero *word*, or the word with the sentinel.  */
+
+	  ip = (int *) buf;
+	  while (*ip++ == 0)
+	    ;
+
+	  /* Find the first nonzero *byte*, or the sentinel.  */
+
+	  cp = (char *) (ip - 1);
+	  while (*cp++ == 0)
+	    ;
+
+	  /* If we found the sentinel, the whole input block was zero,
+	     and we can make a hole.  */
+
+	  if (cp > buf + n_read)
+	    {
+	      /* Make a hole.  */
+	      if (lseek (dest_desc, (off_t) n_read, SEEK_CUR) < 0L)
+		{
+		  error (0, errno, "%s", dst_path);
+		  return_val = -1;
+		  goto ret;
+		}
+	      last_write_made_hole = 1;
+	    }
+	  else
+	    /* Clear to indicate that a normal write is needed. */
+	    ip = 0;
+	}
+      if (ip == 0)
+	{
+	  if (full_write (dest_desc, buf, n_read) < 0)
+	    {
+	      error (0, errno, "%s", dst_path);
+	      return_val = -1;
+	      goto ret;
+	    }
+	  last_write_made_hole = 0;
+	}
+    }
+
+  /* If the file ends with a `hole', something needs to be written at
+     the end.  Otherwise the kernel would truncate the file at the end
+     of the last write operation.  */
+
+  if (last_write_made_hole)
+    {
+#if HAVE_FTRUNCATE
+      /* Write a null character and truncate it again.  */
+      if (full_write (dest_desc, "", 1) < 0
+	  || ftruncate (dest_desc, n_read_total) < 0)
+#else
+      /* Seek backwards one character and write a null.  */
+      if (lseek (dest_desc, (off_t) -1, SEEK_CUR) < 0L
+	  || full_write (dest_desc, "", 1) < 0)
+#endif
+	{
+	  error (0, errno, "%s", dst_path);
+	  return_val = -1;
+	}
+    }
+
+ret:
+  if (close (dest_desc) < 0)
+    {
+      error (0, errno, "%s", dst_path);
+      return_val = -1;
+    }
+ret2:
+  if (close (source_desc) < 0)
+    {
+      error (0, errno, "%s", src_path);
+      return_val = -1;
+    }
+
+  return return_val;
 }

@@ -1,3 +1,14 @@
+1999-08-16  bertrand  <Bertrand.Guiheneuf@aful.org>
+
+	* tests/ui-tests/store_listing.c:
+	Now has a popup menu on mailbox tree to allow
+	easier tests. Implemented the copy stuff.
+	Works well for the MH provider :)))
+
+	* camel/providers/MH/camel-mh-folder.c (_copy_message_to): 
+	Test MH provider fast copy implemented.
+	
+	
 1999-08-15  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* camel/camel-folder.c (camel_folder_expunge): 
