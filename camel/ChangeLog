@@ -4,6 +4,16 @@
 	pipes the message source to the user-program and reads back the
 	modified message and replaces driver->priv->message with the new
 	message object.
+	(do_copy): Check p->modified to make sure the message hasn't been
+	modified by the pipe-message action - if it has been modified,
+	default to the slower camel_folder_append_message() way of
+	copying.
+	(do_move): Same.
+	(pipe_to_system): Set p->modified to TRUE if the user-program gave
+	us back a message stream and we were able to parse it.
+	(camel_filter_driver_filter_message): If the message has been
+	modified, always use camel_folder_append_message() when appending
+	it to the default folder.
 
 2003-02-14  Jeffrey Stedfast  <fejj@ximian.com>
 

@@ -108,6 +108,7 @@ struct _CamelFilterDriverPrivate {
 	CamelMessageInfo *info;    /* message summary info */
 	const char *uid;           /* message uid */
 	CamelFolder *source;       /* message source folder */
+	gboolean modified;         /* has the input message been modified? */
 	
 	FILE *logfile;             /* log file */
 	
@@ -469,7 +470,7 @@ do_copy (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriv
 			if (outbox == p->source)
 				break;
 			
-			if (p->uid && p->source && camel_folder_has_summary_capability (p->source)) {
+			if (!p->modified && p->uid && p->source && camel_folder_has_summary_capability (p->source)) {
 				GPtrArray *uids;
 				
 				uids = g_ptr_array_new ();
@@ -480,16 +481,14 @@ do_copy (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriv
 				if (p->message == NULL)
 					p->message = camel_folder_get_message (p->source, p->uid, p->ex);
 				
-				if (!p->message) {
-					/* FIXME: exception? */
+				if (!p->message)
 					continue;
-				}
 				
 				camel_folder_append_message (outbox, p->message, p->info, NULL, p->ex);
 			}
 			
 			if (!camel_exception_is_set (p->ex))
-					p->copied = TRUE;
+				p->copied = TRUE;
 			
 			camel_filter_driver_log (driver, FILTER_LOG_ACTION, "Copy to folder %s",
 						 folder);
@@ -520,7 +519,7 @@ do_move (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriv
 			if (outbox == p->source)
 				break;
 			
-			if (p->uid && p->source && camel_folder_has_summary_capability (p->source)) {
+			if (!p->modified && p->uid && p->source && camel_folder_has_summary_capability (p->source)) {
 				GPtrArray *uids;
 				
 				uids = g_ptr_array_new ();
@@ -531,10 +530,8 @@ do_move (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriv
 				if (p->message == NULL)
 					p->message = camel_folder_get_message (p->source, p->uid, p->ex);
 				
-				if (!p->message) {
-					/* FIXME: exception? */
+				if (!p->message)
 					continue;
-				}
 				
 				camel_folder_append_message (outbox, p->message, p->info, NULL, p->ex);
 			}
@@ -573,7 +570,7 @@ do_colour (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDr
 	d(fprintf (stderr, "setting colour tag\n"));
 	if (argc > 0 && argv[0]->type == ESEXP_RES_STRING) {
 		if (p->source && p->uid && camel_folder_has_summary_capability (p->source))
-			camel_folder_set_message_user_tag(p->source, p->uid, "colour", argv[0]->value.string);
+			camel_folder_set_message_user_tag (p->source, p->uid, "colour", argv[0]->value.string);
 		else
 			camel_tag_set (&p->info->user_tags, "colour", argv[0]->value.string);
 		camel_filter_driver_log (driver, FILTER_LOG_ACTION, "Set colour to %s", argv[0]->value.string);
@@ -593,7 +590,7 @@ do_score (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDri
 		
 		value = g_strdup_printf ("%d", argv[0]->value.number);
 		if (p->source && p->uid && camel_folder_has_summary_capability (p->source))
-			camel_folder_set_message_user_tag(p->source, p->uid, "score", value);
+			camel_folder_set_message_user_tag (p->source, p->uid, "score", value);
 		else
 			camel_tag_set (&p->info->user_tags, "score", value);
 		camel_filter_driver_log (driver, FILTER_LOG_ACTION, "Set score to %d", argv[0]->value.number);
@@ -739,6 +736,7 @@ pipe_to_system (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFil
 	} else {
 		camel_object_unref (p->message);
 		p->message = message;
+		p->modified = TRUE;
 	}
 	
 	camel_object_unref (parser);
@@ -1261,7 +1259,7 @@ get_message_cb (void *data, CamelException *ex)
 	
 	if (p->message) {
 		message = p->message;
-		camel_object_ref (CAMEL_OBJECT (message));
+		camel_object_ref (message);
 	} else {
 		const char *uid;
 		
@@ -1411,7 +1409,7 @@ camel_filter_driver_filter_message (CamelFilterDriver *driver, CamelMimeMessage 
 		/* copy it to the default inbox */
 		filtered = TRUE;
 		camel_filter_driver_log (driver, FILTER_LOG_ACTION, "Copy to default folder");
-		if (p->uid && p->source && camel_folder_has_summary_capability (p->source)) {
+		if (!p->modified && p->uid && p->source && camel_folder_has_summary_capability (p->source)) {
 			GPtrArray *uids;
 			
 			uids = g_ptr_array_new ();
