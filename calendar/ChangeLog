@@ -1,5 +1,13 @@
 2004-01-05  Rodrigo Moya <rodrigo@ximian.com>
 
+	* gui/gnome-cal.c (gnome_calendar_construct): no need to connect to
+	the "cal_opened" signal on the task client. Also, added code to
+	add the client to the ECalendarTable's model.
+	(client_cal_opened_cb, update_e_cal_view_timeout): removed unneeded
+	function.
+
+2004-01-05  Rodrigo Moya <rodrigo@ximian.com>
+
 	* gui/gnome-cal.c (gnome_calendar_construct): display the tasks'
 	primary selection in the task list, and actually open the tasks
 	folder.

@@ -1784,71 +1784,6 @@ update_e_cal_view_timeout (gpointer data)
 	return FALSE;
 }
 
-static void
-client_cal_opened_cb (ECal *client, ECalendarStatus status, gpointer data)
-{
-	GnomeCalendar *gcal;
-	GnomeCalendarPrivate *priv;
-	char *msg;
-	char *uristr;
-
-	gcal = GNOME_CALENDAR (data);
-	priv = gcal->priv;
-
-	switch (status) {
-	case E_CALENDAR_STATUS_OK:
-		/* Set the client's default timezone, if we have one. */
-		if (priv->zone) {
-			/* FIXME Error checking */
-			e_cal_set_default_timezone (client, priv->zone, NULL);
-		}
-
-		/* add the clients to the models */
-		uristr = get_uri_without_password (e_cal_get_uri (client));
-		msg = g_strdup_printf (_("Adding %s"), uristr);
-		g_free (uristr);
-		if (client == priv->task_pad_client) {
-			e_calendar_table_set_status_message (E_CALENDAR_TABLE (priv->todo), msg);
-			e_cal_model_add_client (e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo)),
-						priv->task_pad_client);
-		} else {
-			e_calendar_view_set_status_message (E_CALENDAR_VIEW (priv->week_view), msg);
-			e_cal_model_add_client (e_calendar_view_get_model (E_CALENDAR_VIEW (priv->week_view)), client);
-
-			priv->e_cal_view_timeout = g_timeout_add (100, update_e_cal_view_timeout, gcal);
-		}
-		g_free (msg);
-
-		break;
-
-	case E_CALENDAR_STATUS_OTHER_ERROR:
-		open_error (gcal, e_cal_get_uri (client));
-		break;
-
-	case E_CALENDAR_STATUS_NO_SUCH_CALENDAR:
-		/* bullshit; we did not specify only_if_exists */
-		g_assert_not_reached ();
-		return;
-
-	case E_CALENDAR_STATUS_PROTOCOL_NOT_SUPPORTED:
-		method_error (gcal, e_cal_get_uri (client));
-		break;
-
-	case E_CALENDAR_STATUS_PERMISSION_DENIED :
-		permission_error (gcal, e_cal_get_uri (client));
-		break;
-
-	default:
-		g_assert_not_reached ();
-		return;
-	}
-
-	if (client == priv->task_pad_client)
-		e_calendar_table_set_status_message (E_CALENDAR_TABLE (priv->todo), NULL);
-	else
-		e_calendar_view_set_status_message (E_CALENDAR_VIEW (priv->week_view), NULL);
-}
-
 /* Duplicates an array of categories */
 static GPtrArray *
 copy_categories (GPtrArray *categories)
@@ -2050,8 +1985,6 @@ gnome_calendar_construct (GnomeCalendar *gcal)
 		if (!priv->task_pad_client)
 			return NULL;
 
-		g_signal_connect (priv->task_pad_client, "cal_opened",
-				  G_CALLBACK (client_cal_opened_cb), gcal);	
 		g_signal_connect (priv->task_pad_client, "backend_error",
 				  G_CALLBACK (backend_error_cb), gcal);
 		g_signal_connect (priv->task_pad_client, "categories_changed",
@@ -2063,6 +1996,9 @@ gnome_calendar_construct (GnomeCalendar *gcal)
 
 		if (!e_cal_open (priv->task_pad_client, TRUE, NULL))
 			return NULL;
+
+		e_cal_model_add_client (e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo)),
+					priv->task_pad_client);
 	}
 
 	/* Get the default view to show. */
