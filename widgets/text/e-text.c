@@ -1967,7 +1967,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 
 	fg_gc = widget->style->fg_gc[text->has_selection ? GTK_STATE_SELECTED : GTK_STATE_ACTIVE];
 	if (text->draw_background || text->draw_button) {
-		main_gc = widget->style->text_gc[GTK_STATE_NORMAL];
+		main_gc = widget->style->fg_gc[GTK_WIDGET_STATE (widget)];
 	} else {
 		main_gc = text->gc;
 	}
