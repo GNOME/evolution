@@ -530,9 +530,11 @@ e_summary_weather_set_online (ESummary *summary,
 
 	if (online == TRUE) {
 		e_summary_weather_update (summary);
-		weather->timeout = gtk_timeout_add (summary->preferences->weather_refresh_time * 1000,
-						    (GtkFunction) e_summary_weather_update,
-						    summary);
+
+		if (summary->preferences->weather_refresh_time != 0)
+			weather->timeout = gtk_timeout_add (summary->preferences->weather_refresh_time * 1000,
+							    (GtkFunction) e_summary_weather_update,
+							    summary);
 	} else {
 		for (p = weather->weathers; p; p = p->next) {
 			Weather *w;
@@ -608,10 +610,13 @@ e_summary_weather_init (ESummary *summary)
 	}
 
 	e_summary_weather_update (summary);
-	
-	weather->timeout = gtk_timeout_add (timeout * 1000, 
-					    (GtkFunction) e_summary_weather_update,
-					    summary);
+
+	if (timeout == 0)
+		weather->timeout = 0;
+	else 
+		weather->timeout = gtk_timeout_add (timeout * 1000, 
+						    (GtkFunction) e_summary_weather_update,
+						    summary);
 	return;
 }
 
@@ -789,8 +794,12 @@ e_summary_weather_reconfigure (ESummary *summary)
 		e_summary_weather_add_location (summary, p->data);
 	}
 
-	weather->timeout = gtk_timeout_add (summary->preferences->weather_refresh_time * 1000, 
-					    (GtkFunction) e_summary_weather_update, summary);
+	if (summary->preferences->weather_refresh_time == 0)
+		weather->timeout = 0;
+	else
+		weather->timeout = gtk_timeout_add (summary->preferences->weather_refresh_time * 1000, 
+						    (GtkFunction) e_summary_weather_update, summary);
+
 	e_summary_weather_update (summary);
 }
 

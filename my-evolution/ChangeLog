@@ -1,3 +1,21 @@
+2003-03-05  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-summary-weather.c (e_summary_weather_set_online): Likewise,
+	assume weather_refresh_time of zero means "never update the
+	weather".
+	(e_summary_weather_init): Likewise here.
+	(e_summary_weather_reconfigure): And here.
+
+	* e-summary-rdf.c (e_summary_rdf_init): Don't add the news feeds
+	here -- it should be handled with a GConf schema.  Also, assume
+	that prefs is always not NULL (as is the case with the current
+	code), and interpret a timeout value of zero as "never update
+	automatically".
+	(e_summary_rdf_reconfigure): Likewise here.  If rdf->timeout is
+	zero, assume there is no pending timeout.
+	(e_summary_rdf_set_online): Likewise here.  Sigh, so much
+	duplication in this code.
+
 2003-03-05  Not Zed  <NotZed@Ximian.com>
 
 	* component-factory.c (owner_unset_cb): dont call bonobo_main_quit

@@ -505,9 +505,11 @@ e_summary_rdf_set_online (ESummary *summary,
 
 	if (online == TRUE) {
 		e_summary_rdf_update (summary);
-		rdf->timeout = gtk_timeout_add (summary->preferences->rdf_refresh_time * 1000,
-						(GtkFunction) e_summary_rdf_update,
-						summary);
+
+		if (summary->preferences->rdf_refresh_time != 0)
+			rdf->timeout = gtk_timeout_add (summary->preferences->rdf_refresh_time * 1000,
+							(GtkFunction) e_summary_rdf_update,
+							summary);
 	} else {
 		for (p = rdf->rdfs; p; p = p->next) {
 			RDF *r;
@@ -532,12 +534,15 @@ e_summary_rdf_init (ESummary *summary)
 	ESummaryPrefs *prefs;
 	ESummaryRDF *rdf;
 	ESummaryConnection *connection;
+	GSList *p;
 	int timeout;
 
 	g_return_if_fail (summary != NULL);
 	g_return_if_fail (IS_E_SUMMARY (summary));
 
 	prefs = summary->preferences;
+	g_assert (prefs != NULL);
+
 	rdf = g_new0 (ESummaryRDF, 1);
 	summary->rdf = rdf;
 
@@ -554,22 +559,19 @@ e_summary_rdf_init (ESummary *summary)
 	e_summary_add_online_connection (summary, connection);
 
 	e_summary_add_protocol_listener (summary, "rdf", e_summary_rdf_protocol, rdf);
-	if (prefs == NULL) {
-		e_summary_rdf_add_uri (summary, "http://linuxtoday.com/backend/my-netscape.rdf");
-		e_summary_rdf_add_uri (summary, "http://www.salon.com/feed/RDF/salon_use.rdf");
-		timeout = 600;
-	} else {
-		GSList *p;
 
-		for (p = prefs->rdf_urls; p; p = p->next) {
-			e_summary_rdf_add_uri (summary, p->data);
-		}
-		timeout = prefs->rdf_refresh_time;
+	for (p = prefs->rdf_urls; p; p = p->next) {
+		e_summary_rdf_add_uri (summary, p->data);
 	}
+	timeout = prefs->rdf_refresh_time;
 
 	e_summary_rdf_update (summary);
-	rdf->timeout = gtk_timeout_add (timeout * 1000,
-					(GtkFunction) e_summary_rdf_update, summary);
+
+	if (rdf->timeout == 0)
+		rdf->timeout = 0;
+	else
+		rdf->timeout = gtk_timeout_add (timeout * 1000,
+						(GtkFunction) e_summary_rdf_update, summary);
 
 	return;
 }
@@ -587,7 +589,10 @@ e_summary_rdf_reconfigure (ESummary *summary)
 	rdf = summary->rdf;
 
 	/* Stop timeout */
-	gtk_timeout_remove (rdf->timeout);
+	if (rdf->timeout != 0) {
+		gtk_timeout_remove (rdf->timeout);
+		rdf->timeout = 0;
+	}
 
 	old = rdf->rdfs;
 	rdf->rdfs = NULL;
@@ -603,7 +608,10 @@ e_summary_rdf_reconfigure (ESummary *summary)
 		e_summary_rdf_add_uri (summary, sp->data);
 	}
 
-	rdf->timeout = gtk_timeout_add (summary->preferences->rdf_refresh_time * 1000, (GtkFunction) e_summary_rdf_update, summary);
+	if (summary->preferences->rdf_refresh_time != 0)
+		rdf->timeout = gtk_timeout_add (summary->preferences->rdf_refresh_time * 1000,
+						(GtkFunction) e_summary_rdf_update, summary);
+
 	e_summary_rdf_update (summary);
 }
 
@@ -618,9 +626,9 @@ e_summary_rdf_free (ESummary *summary)
 
 	rdf = summary->rdf;
 
-	if (rdf->timeout != 0) {
+	if (rdf->timeout != 0)
 		gtk_timeout_remove (rdf->timeout);
-	}
+
 	for (p = rdf->rdfs; p; p = p->next) {
 		RDF *r = p->data;
 
