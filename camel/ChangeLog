@@ -1,5 +1,8 @@
 2001-07-02  Not Zed  <NotZed@Ximian.com>
 
+	* camel-lock-client.c (camel_lock_helper_init): properly return
+	error if we can't create pipes.
+
 	* camel-folder-summary.c (summary_build_content_info): re-enable
 	html indexing.
 

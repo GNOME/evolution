@@ -104,12 +104,12 @@ static int write_n(int fd, void *buffer, int inlen)
 
 static int camel_lock_helper_init(CamelException *ex)
 {
-	/* FIXME: check returns */
 	if (pipe(lock_stdin_pipe) == -1
 	    || pipe(lock_stdout_pipe) == -1) {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
 				     _("Cannot build locking helper pipe: %s"),
 				     strerror(errno));
+		return -1;
 	}
 
 	lock_helper_pid = fork();
