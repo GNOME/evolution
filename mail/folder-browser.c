@@ -868,6 +868,23 @@ got_folder(char *uri, CamelFolder *folder, void *data)
 }
 
 void
+folder_browser_set_folder (FolderBrowser *fb, CamelFolder *folder, const char *uri)
+{
+	g_return_if_fail (IS_FOLDER_BROWSER (fb));
+	g_return_if_fail (CAMEL_IS_FOLDER (folder));
+	
+	if (fb->get_id != -1) {
+		/* FIXME: cancel the get_folder request? */
+	}
+	
+	g_free (fb->uri);
+	fb->uri = g_strdup (uri);
+	
+	gtk_object_ref (GTK_OBJECT (fb));
+	got_folder (uri, folder, fb);
+}
+
+void
 folder_browser_set_ui_component (FolderBrowser *fb, BonoboUIComponent *uicomp)
 {
 	g_return_if_fail (IS_FOLDER_BROWSER (fb));
@@ -2176,10 +2193,13 @@ folder_browser_new (const GNOME_Evolution_Shell shell, const char *uri)
 	}
 
 	CORBA_exception_free (&ev);
-
-	folder_browser->uri = g_strdup (uri);
-	gtk_object_ref (GTK_OBJECT (folder_browser));
-	folder_browser->get_id = mail_get_folder (folder_browser->uri, 0, got_folder, folder_browser, mail_thread_new);
+	
+	if (uri) {
+		folder_browser->uri = g_strdup (uri);
+		gtk_object_ref (GTK_OBJECT (folder_browser));
+		folder_browser->get_id = mail_get_folder (folder_browser->uri, 0, got_folder,
+							  folder_browser, mail_thread_new);
+	}
 
 	return GTK_WIDGET (folder_browser);
 }

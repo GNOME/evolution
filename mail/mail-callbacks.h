@@ -73,6 +73,7 @@ void edit_msg              (GtkWidget *widget, gpointer user_data);
 void open_msg              (GtkWidget *widget, gpointer user_data);
 void save_msg              (GtkWidget *widget, gpointer user_data);
 void view_msg              (GtkWidget *widget, gpointer user_data);
+void view_digest           (GtkWidget *widget, gpointer user_data);
 void view_source           (GtkWidget *widget, gpointer user_data);
 void next_msg              (GtkWidget *widget, gpointer user_data);
 void next_unread_msg       (GtkWidget *widget, gpointer user_data);

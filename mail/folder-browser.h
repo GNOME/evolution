@@ -109,6 +109,8 @@ GtkType    folder_browser_get_type             (void);
 GtkWidget *folder_browser_new                  (const GNOME_Evolution_Shell  shell,
 						const char *uri);
 
+void       folder_browser_set_folder           (FolderBrowser *fb, CamelFolder *folder, const char *uri);
+
 void       folder_browser_set_ui_component     (FolderBrowser *fb, BonoboUIComponent *uicomp);
 void       folder_browser_set_shell_view       (FolderBrowser *fb, GNOME_Evolution_ShellView shell_view);
 

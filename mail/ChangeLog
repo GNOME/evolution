@@ -1,3 +1,14 @@
+2002-03-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* folder-browser.c (folder_browser_set_folder): Set the folder on
+	a folder-browser object.
+
+	* folder-browser-window.c (folder_browser_window_new): Simple
+	window to display a folder-browser.
+
+	* mail-callbacks.c (view_digest): New callback to open a
+	folder-browser-window with a digest folder.
+
 2002-03-08  Radek Doulik  <rodo@ximian.com>
 
 	* mail-signature-editor.c (menu_file_save_cb): truncate stream
