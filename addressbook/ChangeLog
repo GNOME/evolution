@@ -1,3 +1,8 @@
+2001-07-09  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* gui/contact-list-editor/e-contact-list-editor.c: Marked a
+	string for translation.
+	
 2001-07-07  Jon Trowbridge  <trow@ximian.com>
 
 	* gui/widgets/e-minicard.c (add_field): Detect the embedded

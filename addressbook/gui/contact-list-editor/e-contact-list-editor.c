@@ -222,7 +222,7 @@ e_contact_list_editor_init (EContactListEditor *editor)
 	editor->visible_addrs_checkbutton = glade_xml_get_widget (gui, "visible-addrs-checkbutton");
 
 	/* Construct the app */
-	bonobo_win = bonobo_window_new ("contact-list-editor", "Contact List Editor");
+	bonobo_win = bonobo_window_new ("contact-list-editor", _("Contact List Editor"));
 
 	/* FIXME: The sucking bit */
 	{
