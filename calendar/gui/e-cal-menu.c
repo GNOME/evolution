@@ -146,6 +146,8 @@ e_cal_menu_target_new_select(ECalMenu *eabp, struct _ECalModel *model, GPtrArray
 
 		if (e_cal_util_component_has_recurrences (comp_data->icalcomp))
 			mask &= ~E_CAL_MENU_SELECT_RECURRING;
+		else if (e_cal_util_component_is_instance (comp_data->icalcomp))
+			mask &= ~E_CAL_MENU_SELECT_RECURRING;
 		else
 			mask &= ~E_CAL_MENU_SELECT_NONRECURRING;
 

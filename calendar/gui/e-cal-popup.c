@@ -151,6 +151,8 @@ e_cal_popup_target_new_select(ECalPopup *eabp, struct _ECalModel *model, GPtrArr
 
 		if (e_cal_util_component_has_recurrences (comp_data->icalcomp))
 			mask &= ~E_CAL_POPUP_SELECT_RECURRING;
+		else if (e_cal_util_component_is_instance (comp_data->icalcomp))
+			mask &= ~E_CAL_POPUP_SELECT_RECURRING;
 		else
 			mask &= ~E_CAL_POPUP_SELECT_NONRECURRING;
 

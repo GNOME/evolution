@@ -1,5 +1,11 @@
 2005-02-01  Rodrigo Moya <rodrigo@novell.com>
 
+	* gui/e-cal-menu.c (e_cal_menu_target_new_select):
+	* gui/e-cal-popup.c (e_cal_popup_target_new_select): add correct mask
+	for detached recurrences.
+
+2005-02-01  Rodrigo Moya <rodrigo@novell.com>
+
 	* gui/calendar-commands.c
 	(calendar_control_sensitize_calendar_commands): only add real data
 	to the array.
