@@ -95,6 +95,7 @@
  *   + IMAP accounts always show INBOX
  * - Shell interactions
  *   + Folders are properly created / delete from folder tree when subscribed / unsubscribed
+ *   + Toplevel as well as subfolders
  *   + Mail Folder Cache doesn't complain
  * - No ETable wackiness
  *   + Verify columns cannot be DnD'd
@@ -133,30 +134,6 @@ recursive_add_folder (EvolutionStorage *storage, const char *path, const char *n
 	evolution_storage_new_folder (storage, path, name, "mail", url, name, FALSE);
 	mail_folder_cache_set_update_estorage (url, storage);
 	mail_folder_cache_note_name (url, name);
-}
-
-static char *
-storage_tree_path (CamelFolderInfo *info)
-{
-	int len;
-	CamelFolderInfo *i;
-	char *path, *p;
-
-	for (len = 0, i = info; i; i = i->parent)
-		len += strlen (i->name) + 1;
-
-	/* We do this backwards because that's the way the pointers point. */
-	path = g_malloc (len + 1);
-	p = path + len;
-	*p = '\0';
-	for (i = info; i; i = i->parent) {
-		len = strlen (i->name);
-		p -= len;
-		memcpy (p, i->name, len);
-		*--p = '/';
-	}
-
-	return path;
 }
 
 /* ** Get one level of folderinfo ****************************************** */
@@ -261,7 +238,7 @@ subscribe_get_short_folderinfo (CamelStore *store,
 	m->user_data = user_data;
 
 	id = m->msg.seq;
-	e_thread_put (mail_thread_new, (EMsg *)m);
+	e_thread_put (mail_thread_queued, (EMsg *)m);
 	return id;
 }
 
@@ -353,7 +330,7 @@ subscribe_do_subscribe_folder (CamelStore *store, const char *full_name, const c
 	camel_object_ref (CAMEL_OBJECT (store));
 
 	id = m->msg.seq;
-	e_thread_put (mail_thread_new, (EMsg *)m);
+	e_thread_put (mail_thread_queued, (EMsg *)m);
 	return id;
 }
 
@@ -466,11 +443,10 @@ typedef struct _ftree_node ftree_node;
 
 struct _ftree_node {
 	guint8    flags;
-	int       path_offset;
 	int       uri_offset;
 	int       full_name_offset;
 
-	/* format: {name}{\0}{path}{\0}{uri}{\0}{full_name}{\0}
+	/* format: {name}{\0}{uri}{\0}{full_name}{\0}
 	 * (No braces). */
 	char   data[1];
 };
@@ -493,7 +469,6 @@ ftree_node_new_root (const char *prefix)
 
 	node                   = g_malloc (size);
 	node->flags            = FTREE_NODE_ROOT;
-	node->path_offset      = 0;
 	node->uri_offset       = 0;
 	node->full_name_offset = 1;
 	node->data[0]          = '\0';
@@ -506,15 +481,11 @@ static ftree_node *
 ftree_node_new (CamelStore *store, CamelFolderInfo *fi)
 {
 	ftree_node *node;
-	int         path_offset, uri_offset, full_name_offset;
+	int         uri_offset, full_name_offset;
 	size_t      size;
-	char       *path;
 	CamelURL   *url;
 
-	path = storage_tree_path (fi);
-
-	path_offset      = strlen (fi->name) + 1;
-	uri_offset       = path_offset + strlen (path) + 1;
+	uri_offset       = strlen (fi->name) + 1;
 	full_name_offset = uri_offset + strlen (fi->url) + 1;
 	size             = full_name_offset + strlen (fi->full_name);
   
@@ -537,18 +508,15 @@ ftree_node_new (CamelStore *store, CamelFolderInfo *fi)
 
 	/* Copy strings */
 
-	node->path_offset      = path_offset;
 	node->uri_offset       = uri_offset;
 	node->full_name_offset = full_name_offset;
 
 	strcpy (node->data,                    fi->name);
-	strcpy (node->data + path_offset,      path);
 	strcpy (node->data + uri_offset,       fi->url);
 	strcpy (node->data + full_name_offset, fi->full_name);
 
 	/* Done */
 
-	g_free (path);
 	return node;
 }
 
@@ -556,7 +524,6 @@ ftree_node_new (CamelStore *store, CamelFolderInfo *fi)
 #define ftree_node_subscribed(node)    ( ((ftree_node *) (node))->flags & FTREE_NODE_SUBSCRIBED )
 #define ftree_node_get_name(node)      ( ((ftree_node *) (node))->data )
 #define ftree_node_get_full_name(node) ( ((ftree_node *) (node))->data + ((ftree_node *) (node))->full_name_offset )
-#define ftree_node_get_path(node)      ( ((ftree_node *) (node))->data + ((ftree_node *) (node))->path_offset )
 #define ftree_node_get_uri(node)       ( ((ftree_node *) (node))->data + ((ftree_node *) (node))->uri_offset )
 
 /* ** Folder Tree Model **************************************************** */
@@ -707,7 +674,6 @@ fe_got_children (CamelStore *store, gchar *prefix, CamelFolderInfo *info, gpoint
 
 	if (!prefix)
 		prefix = "";
-	printf ("CHILDREN OF \"%s\":\n", prefix);
 
 	for (; info; info = info->sibling) {
 		ETreePath   child_path;
@@ -721,8 +687,6 @@ fe_got_children (CamelStore *store, gchar *prefix, CamelFolderInfo *info, gpoint
 							closure->path,
 							0,
 							node);
-
-		printf ("   \"%s\"\n", info->full_name);
 	}
 
 	if (closure->data)
@@ -742,21 +706,12 @@ fe_check_for_children (FolderETree *ftree, ETreePath path)
 	node = e_tree_memory_node_get_data (E_TREE_MEMORY (ftree), path);
 
 	/* have we already gotten these children? */
-	if (node->flags & FTREE_NODE_GOT_CHILDREN) {
-		printf ("CHECK FOR CHILDREN: cancel: below %s, (got children)\n", ftree_node_get_full_name (node));
-		fflush (stdout);
+	if (node->flags & FTREE_NODE_GOT_CHILDREN)
 		return;
-	}
 
 	/* or we're loading them right now? */
-	if (g_hash_table_lookup (ftree->scan_ops, path)) {
-		printf ("CHECK FOR CHILDREN: cancel: below %s, in progress\n", ftree_node_get_full_name (node));
-		fflush (stdout);
+	if (g_hash_table_lookup (ftree->scan_ops, path))
 		return;
-	}
-
-	printf ("CHECK FOR CHILDREN: keepon: below %s\n", ftree_node_get_full_name (node));
-	fflush (stdout);
 
 	/* figure out our search prefix */
 	if (path == ftree->root)
@@ -784,6 +739,7 @@ fe_create_root_node (FolderETree *ftree)
 
 	node = ftree_node_new_root (ftree->search);
 	ftree->root = e_tree_memory_node_insert (E_TREE_MEMORY(ftree), NULL, 0, node);
+	fe_check_for_children (ftree, ftree->root);
 }
 
 static ETreePath
@@ -807,15 +763,26 @@ fe_done_subscribing (const char *full_name, const char *name, gboolean subscribe
 	ftree_op_data *closure = (ftree_op_data *) user_data;
 
 	if (success) {
+		gchar *path;
+
+		/* path = the path component of our uri.
+		 * If the URI is properly encoded there should be no problem
+		 * with this.
+		 */
+
+		path = strstr (ftree_node_get_uri (closure->data), "//") + 3;
+		path = strchr (path, '/');
+
 		if (subscribe) {
 			closure->data->flags |= FTREE_NODE_SUBSCRIBED;
 			recursive_add_folder (closure->ftree->e_storage,
-					      ftree_node_get_path (closure->data),
-					      name,
+					      path, name,
 					      ftree_node_get_uri (closure->data));
 		} else {
 			closure->data->flags &= ~FTREE_NODE_SUBSCRIBED;
-			evolution_storage_removed_folder (closure->ftree->e_storage, ftree_node_get_path (closure->data));
+
+			/* FIXME: recursively remove folder as well? Possible? */
+			evolution_storage_removed_folder (closure->ftree->e_storage, path);
 		}
 
 		e_tree_model_node_data_changed (E_TREE_MODEL (closure->ftree), closure->path);
@@ -912,11 +879,11 @@ folder_etree_construct (FolderETree *ftree,
 {
 	e_tree_memory_construct (E_TREE_MEMORY (ftree));
 
-	fe_create_root_node (ftree);
-
 	ftree->store     = store;
 	camel_object_ref (CAMEL_OBJECT (store));
 	ftree->e_storage = mail_lookup_storage (store);
+
+	fe_create_root_node (ftree);
 
 	return ftree;
 }
@@ -1066,6 +1033,7 @@ store_data_async_get_store (StoreData *sd, StoreDataStoreFunc func, gpointer use
 	}
 
 	if (sd->store) {
+		/* um, is this the best behavior? */
 		func (sd, sd->store, user_data);
 		return;
 	}
@@ -1234,6 +1202,8 @@ struct _SubscribeDialogPrivate {
 	GtkWidget *none_item;
 	GtkWidget *search_entry;
 	GtkWidget *hbox;
+	GtkWidget *filter_radio, *all_radio;
+	GtkWidget *sub_button, *unsub_button, *refresh_button;
 };
 
 static GtkObjectClass *subscribe_dialog_parent_class;
@@ -1242,8 +1212,6 @@ static void
 sc_refresh_pressed (GtkWidget *widget, gpointer user_data)
 {
 	SubscribeDialog *sc = SUBSCRIBE_DIALOG (user_data);
-
-	e_utf8_gtk_entry_set_text (GTK_ENTRY (sc->priv->search_entry), "");
 
 	if (sc->priv->current_store)
 		folder_etree_clear_tree (sc->priv->current_store->ftree);
@@ -1255,10 +1223,6 @@ sc_search_activated (GtkWidget *widget, gpointer user_data)
 	SubscribeDialog *sc = SUBSCRIBE_DIALOG (user_data);
 	StoreData       *store = sc->priv->current_store;
 	char            *search;
-	GtkWidget       *filter_radio;
-
-	filter_radio = glade_xml_get_widget (sc->priv->xml, "filter_radio");
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (filter_radio), TRUE);
 
 	if (!store)
 		return;
@@ -1300,8 +1264,10 @@ sc_all_toggled (GtkWidget *widget, gpointer user_data)
 	if (!store)
 		return;
 
-	if (GTK_TOGGLE_BUTTON (widget)->active)
+	if (GTK_TOGGLE_BUTTON (widget)->active) {
+		gtk_widget_set_sensitive (sc->priv->search_entry, FALSE);
 		folder_etree_set_search (store->ftree, "");
+	}
 }
 
 static void
@@ -1313,8 +1279,10 @@ sc_filter_toggled (GtkWidget *widget, gpointer user_data)
 	if (!store)
 		return;
 
-	if (GTK_TOGGLE_BUTTON (widget)->active)
+	if (GTK_TOGGLE_BUTTON (widget)->active) {
+		gtk_widget_set_sensitive (sc->priv->search_entry, TRUE);
 		sc_search_activated (sc->priv->search_entry, sc);
+	}
 }
 
 static void
@@ -1330,11 +1298,25 @@ populate_store_foreach (MailConfigService *service, SubscribeDialog *sc)
 }
 
 static void
+kill_default_view (SubscribeDialog *sc)
+{
+	gtk_widget_hide (sc->priv->none_item);
+
+	/* the entry will be set sensitive when one of the
+	 * radio buttons is activated, if necessary. */
+
+	gtk_widget_set_sensitive (sc->priv->all_radio, TRUE);
+	gtk_widget_set_sensitive (sc->priv->filter_radio, TRUE);
+	gtk_widget_set_sensitive (sc->priv->sub_button, TRUE);
+	gtk_widget_set_sensitive (sc->priv->unsub_button, TRUE);
+	gtk_widget_set_sensitive (sc->priv->refresh_button, TRUE);
+}
+
+static void
 menu_item_selected (GtkMenuItem *item, gpointer user_data)
 {
 	SubscribeDialog *sc = SUBSCRIBE_DIALOG (user_data);
 	StoreData       *sd = gtk_object_get_data (GTK_OBJECT (item), STORE_DATA_KEY);
-	GtkWidget       *toggle;
 
 	g_return_if_fail (sd);
 
@@ -1345,27 +1327,27 @@ menu_item_selected (GtkMenuItem *item, gpointer user_data)
 		gtk_box_pack_start (GTK_BOX (sc->priv->hbox), widget, TRUE, TRUE, 0);
 	}
 
+	if (sc->priv->current_widget == sc->priv->default_widget)
+		kill_default_view (sc);
+
 	gtk_widget_hide (sc->priv->current_widget);
-	gtk_widget_hide (sc->priv->none_item); /* will happen redundantly... so what? */
 	gtk_widget_show (sd->widget);
 	sc->priv->current_widget = sd->widget;
 	sc->priv->current_store  = sd;
 
-	if (sd->ftree->search) {
+	if (*sd->ftree->search) {
 		e_utf8_gtk_entry_set_text (GTK_ENTRY (sc->priv->search_entry), sd->ftree->search);
-		toggle = glade_xml_get_widget (sc->priv->xml, "filter_radio");
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (sc->priv->filter_radio), TRUE);
 	} else {
 		e_utf8_gtk_entry_set_text (GTK_ENTRY (sc->priv->search_entry), "");
-		toggle = glade_xml_get_widget (sc->priv->xml, "all_radio");
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (sc->priv->all_radio), TRUE);
 	}
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (toggle), TRUE);
 }
 
 static void
 dummy_item_selected (GtkMenuItem *item, gpointer user_data)
 {
 	SubscribeDialog *sc = SUBSCRIBE_DIALOG (user_data);
-	GtkWidget       *all_toggle;
 
 	gtk_widget_hide (sc->priv->current_widget);
 	gtk_widget_show (sc->priv->default_widget);
@@ -1373,9 +1355,6 @@ dummy_item_selected (GtkMenuItem *item, gpointer user_data)
 	sc->priv->current_store  = NULL;
 
 	e_utf8_gtk_entry_set_text (GTK_ENTRY (sc->priv->search_entry), "");
-
-	all_toggle = glade_xml_get_widget (sc->priv->xml, "all_radio");
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (all_toggle), TRUE);
 }
 
 /* wonderful */
@@ -1498,15 +1477,20 @@ static void
 subscribe_dialog_construct (GtkObject *object)
 {
 	SubscribeDialog *sc = SUBSCRIBE_DIALOG (object);
-	GtkWidget       *widget;
 
 	/* Load the XML */
 
-	sc->priv->xml          = glade_xml_new (EVOLUTION_GLADEDIR "/subscribe-dialog.glade", NULL);
-	sc->app                = glade_xml_get_widget (sc->priv->xml, "Manage Subscriptions");
-	sc->priv->hbox         = glade_xml_get_widget (sc->priv->xml, "tree_box");
-	sc->priv->search_entry = glade_xml_get_widget (sc->priv->xml, "search_entry");
-       
+	sc->priv->xml            = glade_xml_new (EVOLUTION_GLADEDIR "/subscribe-dialog.glade", NULL);
+
+	sc->app                  = glade_xml_get_widget (sc->priv->xml, "Manage Subscriptions");
+	sc->priv->hbox           = glade_xml_get_widget (sc->priv->xml, "tree_box");
+	sc->priv->search_entry   = glade_xml_get_widget (sc->priv->xml, "search_entry");
+	sc->priv->filter_radio   = glade_xml_get_widget (sc->priv->xml, "filter_radio");
+	sc->priv->all_radio      = glade_xml_get_widget (sc->priv->xml, "all_radio");
+	sc->priv->sub_button     = glade_xml_get_widget (sc->priv->xml, "subscribe_button");
+	sc->priv->unsub_button   = glade_xml_get_widget (sc->priv->xml, "unsubscribe_button");
+	sc->priv->refresh_button = glade_xml_get_widget (sc->priv->xml, "refresh_button");
+
 	/* create default view */
 
 	sc->priv->default_widget = sc_create_default_widget();
@@ -1514,24 +1498,21 @@ subscribe_dialog_construct (GtkObject *object)
 	gtk_box_pack_start (GTK_BOX (sc->priv->hbox), sc->priv->default_widget, TRUE, TRUE, 0);
 	gtk_widget_show (sc->priv->default_widget);
 
+	gtk_widget_set_sensitive (sc->priv->all_radio, FALSE);
+	gtk_widget_set_sensitive (sc->priv->filter_radio, FALSE);
+	gtk_widget_set_sensitive (sc->priv->search_entry, FALSE);
+	gtk_widget_set_sensitive (sc->priv->sub_button, FALSE);
+	gtk_widget_set_sensitive (sc->priv->unsub_button, FALSE);
+	gtk_widget_set_sensitive (sc->priv->refresh_button, FALSE);
+
 	/* hook up some signals */
 
 	gtk_signal_connect (GTK_OBJECT (sc->priv->search_entry), "activate", sc_search_activated, sc);
-
-	widget = glade_xml_get_widget (sc->priv->xml, "subscribe_button");
-	gtk_signal_connect (GTK_OBJECT (widget), "clicked", sc_subscribe_pressed, sc);
-
-	widget = glade_xml_get_widget (sc->priv->xml, "unsubscribe_button");
-	gtk_signal_connect (GTK_OBJECT (widget), "clicked", sc_unsubscribe_pressed, sc);
-
-	widget = glade_xml_get_widget (sc->priv->xml, "refresh_button");
-	gtk_signal_connect (GTK_OBJECT (widget), "clicked", sc_refresh_pressed, sc);
-
-	widget = glade_xml_get_widget (sc->priv->xml, "all_radio");
-	gtk_signal_connect (GTK_OBJECT (widget), "toggled", sc_all_toggled, sc);
-
-	widget = glade_xml_get_widget (sc->priv->xml, "filter_radio");
-	gtk_signal_connect (GTK_OBJECT (widget), "toggled", sc_filter_toggled, sc);
+	gtk_signal_connect (GTK_OBJECT (sc->priv->sub_button), "clicked", sc_subscribe_pressed, sc);
+	gtk_signal_connect (GTK_OBJECT (sc->priv->unsub_button), "clicked", sc_unsubscribe_pressed, sc);
+	gtk_signal_connect (GTK_OBJECT (sc->priv->refresh_button), "clicked", sc_refresh_pressed, sc);
+	gtk_signal_connect (GTK_OBJECT (sc->priv->all_radio), "toggled", sc_all_toggled, sc);
+	gtk_signal_connect (GTK_OBJECT (sc->priv->filter_radio), "toggled", sc_filter_toggled, sc);
 
 	/* Get the list of stores */
 
