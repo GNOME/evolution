@@ -4,3 +4,5 @@ Makefile
 calendar.conduit
 *.lo
 .libs
+libcalendar_conduit.la
+calendar-conduit-control-applet
