@@ -378,6 +378,72 @@ e_account_set_from_xml (EAccount *account, const char *xml)
 	return changed;
 }
 
+
+/**
+ * e_account_import:
+ * @dest: destination account object
+ * @src: source account object
+ *
+ * Import the settings from @src to @dest.
+ **/
+void
+e_account_import (EAccount *dest, EAccount *src)
+{
+	g_free (dest->name);
+	dest->name = g_strdup (src->name);
+	
+	dest->enabled = src->enabled;
+	
+	g_free (dest->id->name);
+	dest->id->name = g_strdup (src->id->name);
+	g_free (dest->id->address);
+	dest->id->address = g_strdup (src->id->address);
+	g_free (dest->id->reply_to);
+	dest->id->reply_to = g_strdup (src->id->reply_to);
+	g_free (dest->id->organization);
+	dest->id->organization = g_strdup (src->id->organization);
+	dest->id->def_signature = src->id->def_signature;
+	dest->id->auto_signature = src->id->auto_signature;
+	
+	g_free (dest->source->url);
+	dest->source->url = g_strdup (src->source->url);
+	dest->source->keep_on_server = src->source->keep_on_server;
+	dest->source->auto_check = src->source->auto_check;
+	dest->source->auto_check_time = src->source->auto_check_time;
+	dest->source->save_passwd = src->source->save_passwd;
+	
+	g_free (dest->transport->url);
+	dest->transport->url = g_strdup (src->transport->url);
+	dest->transport->save_passwd = src->transport->save_passwd;
+	
+	g_free (dest->drafts_folder_uri);
+	dest->drafts_folder_uri = g_strdup (src->drafts_folder_uri);
+	
+	g_free (dest->sent_folder_uri);
+	dest->sent_folder_uri = g_strdup (src->sent_folder_uri);
+	
+	dest->always_cc = src->always_cc;
+	g_free (dest->cc_addrs);
+	dest->cc_addrs = g_strdup (src->cc_addrs);
+	
+	dest->always_bcc = src->always_bcc;
+	g_free (dest->bcc_addrs);
+	dest->bcc_addrs = g_strdup (src->bcc_addrs);
+	
+	g_free (dest->pgp_key);
+	dest->pgp_key = g_strdup (src->pgp_key);
+	dest->pgp_encrypt_to_self = src->pgp_encrypt_to_self;
+	dest->pgp_always_sign = src->pgp_always_sign;
+	dest->pgp_no_imip_sign = src->pgp_no_imip_sign;
+	dest->pgp_always_trust = src->pgp_always_trust;
+	
+	g_free (dest->smime_key);
+	dest->smime_key = g_strdup (src->smime_key);
+	dest->smime_encrypt_to_self = src->smime_encrypt_to_self;
+	dest->smime_always_sign = src->smime_always_sign;
+}
+
+
 /**
  * e_account_to_xml:
  * @account: an #EAccount

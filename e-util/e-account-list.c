@@ -58,7 +58,7 @@ class_init (GObjectClass *object_class)
 
 	/* signals */
 	signals[ACCOUNT_ADDED] =
-		g_signal_new ("account_added",
+		g_signal_new ("account-added",
 			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EAccountListClass, account_added),
@@ -67,7 +67,7 @@ class_init (GObjectClass *object_class)
 			      G_TYPE_NONE, 1,
 			      E_TYPE_ACCOUNT);
 	signals[ACCOUNT_CHANGED] =
-		g_signal_new ("account_changed",
+		g_signal_new ("account-changed",
 			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EAccountListClass, account_changed),
@@ -76,7 +76,7 @@ class_init (GObjectClass *object_class)
 			      G_TYPE_NONE, 1,
 			      E_TYPE_ACCOUNT);
 	signals[ACCOUNT_REMOVED] =
-		g_signal_new ("account_removed",
+		g_signal_new ("account-removed",
 			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EAccountListClass, account_removed),

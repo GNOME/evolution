@@ -92,6 +92,9 @@ EAccount *e_account_new_from_xml (const char *xml);
 gboolean  e_account_set_from_xml (EAccount   *account,
 				  const char *xml);
 
+void      e_account_import       (EAccount   *dest,
+				  EAccount   *src);
+
 char     *e_account_to_xml       (EAccount   *account);
 
 
