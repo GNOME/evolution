@@ -1,3 +1,15 @@
+2002-03-09  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-settings-dialog.c (load_pages): Use ECorbaConfigPages.
+
+	* e-corba-config-page.c: New.
+	* e-corba-config-page.h: New.
+
+	* Evolution.idl: #include <Evolution-ConfigControl.idl>.
+
+	* Evolution-ConfigControl.idl: New IDL for configuration Controls
+	that will be displayed in the global config dialog.
+
 2002-03-08  Dan Winship  <danw@ximian.com>
 
 	* e-storage-set-view.[ch]: Note that e_storage_set_view_new

@@ -27,6 +27,8 @@
 
 #include "e-shell-settings-dialog.h"
 
+#include "e-corba-config-page.h"
+
 #include <gal/util/e-util.h>
 
 #include <bonobo/bonobo-widget.h>
@@ -99,13 +101,10 @@ load_pages (EShellSettingsDialog *dialog)
 			icon = gdk_pixbuf_new_from_file (icon_path);
 
 		corba_object = oaf_activate_from_id ((char *) info->iid, 0, NULL, &ev);
-		if (ev._major == CORBA_NO_EXCEPTION) {
-			GtkWidget *widget;
-
-			widget = bonobo_widget_new_control_from_objref (corba_object, CORBA_OBJECT_NIL);
+		if (ev._major == CORBA_NO_EXCEPTION)
 			e_multi_config_dialog_add_page (E_MULTI_CONFIG_DIALOG (dialog),
-							title, description, icon, widget);
-		}
+							title, description, icon,
+							E_CONFIG_PAGE (e_corba_config_page_new_from_objref (corba_object)));
 
 		if (icon != NULL)
 			gdk_pixbuf_unref (icon);

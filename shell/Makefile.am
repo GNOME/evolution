@@ -17,6 +17,7 @@ INCLUDES = -O							\
 
 IDLS = \
 	Evolution-Activity.idl			\
+	Evolution-ConfigControl.idl		\
 	Evolution-Offline.idl			\
 	Evolution-Session.idl			\
 	Evolution-Shell.idl			\
@@ -99,6 +100,8 @@ evolution_SOURCES =				\
 	e-activity-handler.h			\
 	e-component-registry.c			\
 	e-component-registry.h			\
+	e-corba-config-page.c			\
+	e-corba-config-page.h			\
 	e-corba-shortcuts.c			\
 	e-corba-shortcuts.h			\
 	e-corba-storage-registry.c		\
