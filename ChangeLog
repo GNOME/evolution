@@ -1,3 +1,7 @@
+2001-11-14  Ettore Perazzoli  <ettore@ximian.com>
+
+	* NEWS: Redone with the bug #s from Bugzilla.
+
 2001-11-14  Federico Mena Quintero  <federico@ximian.com>
 
 	* NEWS: Calendar/tasks NEWS.
