@@ -99,6 +99,7 @@ CamelType camel_block_file_get_type(void);
 
 CamelBlockFile *camel_block_file_new(const char *path, int flags, const char version[8], size_t block_size);
 int camel_block_file_rename(CamelBlockFile *bs, const char *path);
+int camel_block_file_delete(CamelBlockFile *kf);
 
 CamelBlock *camel_block_file_new_block(CamelBlockFile *bs);
 int camel_block_file_free_block(CamelBlockFile *bs, camel_block_t id);
@@ -134,6 +135,7 @@ CamelType      camel_key_file_get_type(void);
 
 CamelKeyFile * camel_key_file_new(const char *path, int flags, const char version[8]);
 int	       camel_key_file_rename(CamelKeyFile *kf, const char *path);
+int	       camel_key_file_delete(CamelKeyFile *kf);
 
 int            camel_key_file_write(CamelKeyFile *kf, camel_block_t *parent, size_t len, camel_key_t *records);
 int            camel_key_file_read(CamelKeyFile *kf, camel_block_t *start, size_t *len, camel_key_t **records);

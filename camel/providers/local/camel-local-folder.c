@@ -79,6 +79,7 @@ static GPtrArray *local_search_by_expression(CamelFolder *folder, const char *ex
 static GPtrArray *local_search_by_uids(CamelFolder *folder, const char *expression, GPtrArray *uids, CamelException *ex);
 static void local_search_free(CamelFolder *folder, GPtrArray * result);
 
+static void local_delete(CamelFolder *folder);
 static void local_rename(CamelFolder *folder, const char *newname);
 
 static void local_finalize(CamelObject * object);
@@ -104,6 +105,7 @@ camel_local_folder_class_init(CamelLocalFolderClass * camel_local_folder_class)
 	camel_folder_class->search_by_uids = local_search_by_uids;
 	camel_folder_class->search_free = local_search_free;
 
+	camel_folder_class->delete = local_delete;
 	camel_folder_class->rename = local_rename;
 
 	camel_local_folder_class->lock = local_lock;
@@ -434,6 +436,16 @@ local_expunge(CamelFolder *folder, CamelException *ex)
 	/* Just do a sync with expunge, serves the same purpose */
 	/* call the callback directly, to avoid locking problems */
 	CAMEL_FOLDER_CLASS (CAMEL_OBJECT_GET_CLASS(folder))->sync(folder, TRUE, ex);
+}
+
+static void
+local_delete(CamelFolder *folder)
+{
+	CamelLocalFolder *lf = (CamelLocalFolder *)folder;
+
+	camel_index_delete(lf->index);
+
+	parent_class->delete(folder);
 }
 
 static void

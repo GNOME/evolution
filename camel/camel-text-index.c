@@ -531,7 +531,15 @@ fail:
 static int
 text_index_delete(CamelIndex *idx)
 {
-	return camel_text_index_remove(idx->path);
+	struct _CamelTextIndexPrivate *p = CTI_PRIVATE(idx);
+	int ret = 0;
+
+	if (camel_block_file_delete(p->blocks) == -1)
+		ret = -1;
+	if (camel_key_file_delete(p->links) == -1)
+		ret = -1;
+
+	return ret;
 }
 
 static int

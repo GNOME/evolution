@@ -43,8 +43,6 @@
 
 #define d(x) /*(printf("%s(%d):%s: ",  __FILE__, __LINE__, __PRETTY_FUNCTION__),(x))*/
 
-#ifdef ENABLE_THREADS
-
 /* Locks must be obtained in the order defined */
 
 struct _CamelBlockFilePrivate {
@@ -54,11 +52,15 @@ struct _CamelBlockFilePrivate {
 
 	struct _CamelBlockFile *base;
 
+#ifdef ENABLE_THREADS
 	pthread_mutex_t root_lock; /* for modifying the root block */
 	pthread_mutex_t cache_lock; /* for refcounting, flag manip, cache manip */
 	pthread_mutex_t io_lock; /* for all io ops */
+#endif
+	unsigned int deleted:1;
 };
 
+#ifdef ENABLE_THREADS
 #define CAMEL_BLOCK_FILE_LOCK(kf, lock) (pthread_mutex_lock(&(kf)->priv->lock))
 #define CAMEL_BLOCK_FILE_TRYLOCK(kf, lock) (pthread_mutex_trylock(&(kf)->priv->lock))
 #define CAMEL_BLOCK_FILE_UNLOCK(kf, lock) (pthread_mutex_unlock(&(kf)->priv->lock))
@@ -237,7 +239,8 @@ camel_block_file_finalise(CamelBlockFile *bs)
 	if (bs->root_block)
 		camel_block_file_unref_block(bs, bs->root_block);
 	g_free(bs->path);
-	close(bs->fd);
+	if (bs->fd != -1)
+		close(bs->fd);
 
 #ifdef ENABLE_THREADS
 	pthread_mutex_destroy(&p->io_lock);
@@ -286,7 +289,11 @@ block_file_use(CamelBlockFile *bs)
 
 	if (bs->fd != -1)
 		return 0;
-	else
+	else if (p->deleted) {
+		CAMEL_BLOCK_FILE_UNLOCK(bs, io_lock);
+		errno = ENOENT;
+		return -1;
+	} else
 		d(printf("Turning block file online: %s\n", bs->path));
 
 	if ((bs->fd = open(bs->path, bs->flags, 0600)) == -1) {
@@ -436,6 +443,31 @@ camel_block_file_rename(CamelBlockFile *bs, const char *path)
 	CAMEL_BLOCK_FILE_UNLOCK(bs, io_lock);
 
 	return ret;
+}
+
+int
+camel_block_file_delete(CamelBlockFile *bs)
+{
+	int ret;
+	struct _CamelBlockFilePrivate *p = bs->priv;
+
+	CAMEL_BLOCK_FILE_LOCK(bs, io_lock);
+
+	if (bs->fd != -1) {
+		LOCK(block_file_lock);
+		block_file_count--;
+		UNLOCK(block_file_lock);
+		close(bs->fd);
+		bs->fd = -1;
+	}
+
+	p->deleted = TRUE;
+	ret = unlink(bs->path);
+
+	CAMEL_BLOCK_FILE_UNLOCK(bs, io_lock);
+
+	return ret;
+	
 }
 
 /**
@@ -779,10 +811,10 @@ struct _CamelKeyFilePrivate {
 	struct _CamelKeyFilePrivate *prev;
 
 	struct _CamelKeyFile *base;
-
 #ifdef ENABLE_THREADS
 	pthread_mutex_t lock;
 #endif
+	unsigned int deleted:1;
 };
 
 #ifdef ENABLE_THREADS
@@ -833,12 +865,14 @@ camel_key_file_finalise(CamelKeyFile *bs)
 
 	LOCK(key_file_lock);
 	e_dlist_remove((EDListNode *)p);
-	UNLOCK(key_file_lock);
 
 	if (bs-> fp) {
 		key_file_count--;
 		fclose(bs->fp);
 	}
+
+	UNLOCK(key_file_lock);
+
 	g_free(bs->path);
 
 #ifdef ENABLE_THREADS
@@ -890,7 +924,11 @@ key_file_use(CamelKeyFile *bs)
 
 	if (bs->fp != NULL)
 		return 0;
-	else
+	else if (p->deleted) {
+		CAMEL_KEY_FILE_UNLOCK(bs, lock);
+		errno = ENOENT;
+		return -1;
+	} else
 		d(printf("Turning key file online: '%s'\n", bs->path));
 
 	if ((bs->flags & O_ACCMODE) == O_RDONLY)
@@ -1031,6 +1069,31 @@ camel_key_file_rename(CamelKeyFile *kf, const char *path)
 	CAMEL_KEY_FILE_UNLOCK(kf, lock);
 
 	return ret;
+}
+
+int
+camel_key_file_delete(CamelKeyFile *kf)
+{
+	int ret;
+	struct _CamelKeyFilePrivate *p = kf->priv;
+
+	CAMEL_KEY_FILE_LOCK(kf, lock);
+
+	if (kf->fp) {
+		LOCK(key_file_lock);
+		key_file_count--;
+		UNLOCK(key_file_lock);
+		fclose(kf->fp);
+		kf->fp = NULL;
+	}
+
+	p->deleted = TRUE;
+	ret = unlink(kf->path);
+
+	CAMEL_KEY_FILE_UNLOCK(kf, lock);
+
+	return ret;
+	
 }
 
 /**

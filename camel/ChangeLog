@@ -15,6 +15,30 @@
 
 2003-04-17  Not Zed  <NotZed@Ximian.com>
 
+	** for #40989
+
+	* camel-text-index.c (text_index_delete): delete the block
+	file/key file directly, not just its files.
+
+	* providers/local/camel-local-folder.c (local_delete): implement,
+	just delete the index file if it exists.
+	camel-store-delete-folder will delete other data (maybe it all
+	should be done here).
+
+	* camel-block-file.c (camel_key_file_finalise): keep lock around
+	decrementing key file use count.
+	(camel_key_file_delete): new function to delete the key file (&
+	close it off).
+	(key_file_use): if we've been deleted, always fail.
+	(camel_block_file_finalise): only close the file if its a valid
+	fd.
+	(block_file_use): if we've been deleted, always fail.
+	(camel_block_file_delete): delete the block file & close.
+	(struct _CamelBlockFilePrivate): fix the !ENABLE_THREADS case to
+	still compile this.
+
+	** for #41163
+
 	* camel-multipart-signed.c (parse_content): Dont assume adding 1
 	to line length will go to the next line.  e.g. for dos lines that
 	end in \r\n.  Fix for #41163.
