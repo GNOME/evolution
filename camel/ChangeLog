@@ -1,3 +1,10 @@
+2003-02-27  Not Zed  <NotZed@Ximian.com>
+
+	* camel-multipart-signed.c: Undo jeff's changes.
+
+	* providers/local/camel-spool-store.c (scan_dir): Fix a paste-o in
+	the object_bag_get key.
+
 2003-02-26  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-multipart-signed.c: Updated to use g_alloca instead of

@@ -23,6 +23,10 @@
 #include <config.h>
 #endif
 
+#ifdef HAVE_ALLOCA_H
+#include <alloca.h>
+#endif
+
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
@@ -273,8 +277,8 @@ static int scan_dir(CamelStore *store, GHashTable *visited, char *root, const ch
 
 	/* look for folders matching the right structure, recursively */
 	if (path) {
-		name = g_alloca (strlen (root) + strlen (path) + 2);
-		sprintf (name, "%s/%s", root, path);
+		name = alloca(strlen(root) + strlen(path) + 2);
+		sprintf(name, "%s/%s", root, path);
 	} else
 		name = root;
 
@@ -346,7 +350,7 @@ static int scan_dir(CamelStore *store, GHashTable *visited, char *root, const ch
 
 			if (S_ISREG(st.st_mode)) {
 				/* first, see if we already have it open */
-				folder = camel_object_bag_get(store->folders, path);
+				folder = camel_object_bag_get(store->folders, fname);
 				if (folder) {
 					/* should this refresh if ! FAST? */
 					unread = camel_folder_get_unread_message_count(folder);
