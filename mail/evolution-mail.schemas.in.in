@@ -643,6 +643,12 @@
       <owner>evolution-mail</owner>
       <type>bool</type>
       <default>true</default>
+      <locale name="C">
+         <short>Use only local spam tests.</short>
+	 <long>
+	 Use only the local spam tests (no DNS).
+	 </long>
+      </locale>	
     </schema>
 
     <schema>

@@ -1,3 +1,8 @@
+2004-01-14  Jeremy Katz  <katzj@redhat.com>
+
+	* evolution-mail.schemas.in.in: Add a description for 
+	/apps/evolution/mail/junk/sa/local_only.
+
 2004-01-14  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-migrate.c: Split out the remapping code into
