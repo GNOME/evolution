@@ -106,10 +106,6 @@ gmime_write_header_with_glist_to_stream (CamelStream *stream,
 static void
 _store_header_pair_from_string (GArray *header_array, gchar *header_line)
 {
-#if 0
-	gchar dich_result;
-	gchar *header_name, *header_value;
-#endif
 	Rfc822Header header;
 
 	g_assert (header_array);
@@ -117,7 +113,6 @@ _store_header_pair_from_string (GArray *header_array, gchar *header_line)
 
 
 	if (header_line) {
-#if 1
 		char *p = strchr(header_line, ':');
 		if (p) {
 			header.name = g_strndup(header_line, p-header_line);
@@ -126,31 +121,6 @@ _store_header_pair_from_string (GArray *header_array, gchar *header_line)
 				     STRING_TRIM_STRIP_LEADING | STRING_TRIM_STRIP_TRAILING);
 			g_array_append_val (header_array, header);
 		}
-#else
-		dich_result = string_dichotomy ( header_line, ':', 
-						   &header_name, &header_value,
-						   STRING_DICHOTOMY_NONE);
-		if (dich_result != 'o') {
-			g_warning ("** WARNING **\n"
-				   "store_header_pair_from_string : "
-				   "dichotomy result is '%c'\n"
-				   "header line is :\n--\n%s\n--\n"
-				   "** \n", dich_result, header_line);	
-			if (header_name) 
-				g_free (header_name);
-			if (header_value) 
-				g_free (header_value);
-			
-		} else {
-			string_trim (header_value, " \t",
-				     STRING_TRIM_STRIP_LEADING | STRING_TRIM_STRIP_TRAILING);
-
-			header.name = header_name;
-			header.value = header_value;
-			g_array_append_val (header_array, header);
-			printf("adding header '%s' : '%s'\n", header_name, header_value);
-		}
-#endif
 	}
 }
 
