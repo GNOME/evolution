@@ -13,7 +13,7 @@
 
   <child>
     <widget class="GtkVBox" id="event-page">
-      <property name="border_width">4</property>
+      <property name="border_width">12</property>
       <property name="visible">True</property>
       <property name="homogeneous">False</property>
       <property name="spacing">6</property>
@@ -135,7 +135,7 @@
 
 	  <child>
 	    <widget class="GtkTable" id="table12">
-	      <property name="border_width">4</property>
+	      <property name="border_width">6</property>
 	      <property name="visible">True</property>
 	      <property name="n_rows">2</property>
 	      <property name="n_columns">4</property>
@@ -373,7 +373,7 @@
 
 	      <child>
 		<widget class="GtkHBox" id="hbox52">
-		  <property name="border_width">2</property>
+		  <property name="border_width">6</property>
 		  <property name="visible">True</property>
 		  <property name="homogeneous">False</property>
 		  <property name="spacing">6</property>
@@ -471,6 +471,7 @@
 
 	      <child>
 		<widget class="GtkHBox" id="hbox55">
+		  <property name="border_width">6</property>
 		  <property name="visible">True</property>
 		  <property name="homogeneous">False</property>
 		  <property name="spacing">6</property>

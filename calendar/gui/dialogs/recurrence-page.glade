@@ -13,7 +13,7 @@
 
   <child>
     <widget class="GtkVBox" id="recurrence-page">
-      <property name="border_width">4</property>
+      <property name="border_width">12</property>
       <property name="visible">True</property>
       <property name="homogeneous">False</property>
       <property name="spacing">6</property>
@@ -27,7 +27,7 @@
 
 	  <child>
 	    <widget class="GtkTable" id="table14">
-	      <property name="border_width">4</property>
+	      <property name="border_width">6</property>
 	      <property name="visible">True</property>
 	      <property name="n_rows">2</property>
 	      <property name="n_columns">2</property>
@@ -161,7 +161,7 @@
 	<widget class="GtkVBox" id="vbox55">
 	  <property name="visible">True</property>
 	  <property name="homogeneous">False</property>
-	  <property name="spacing">6</property>
+	  <property name="spacing">0</property>
 
 	  <child>
 	    <widget class="GtkFrame" id="frame36">
@@ -172,7 +172,7 @@
 
 	      <child>
 		<widget class="GtkVBox" id="vbox56">
-		  <property name="border_width">4</property>
+		  <property name="border_width">6</property>
 		  <property name="visible">True</property>
 		  <property name="homogeneous">False</property>
 		  <property name="spacing">6</property>
@@ -506,7 +506,7 @@
 
 		  <child>
 		    <widget class="GtkHBox" id="hbox60">
-		      <property name="border_width">4</property>
+		      <property name="border_width">6</property>
 		      <property name="visible">True</property>
 		      <property name="homogeneous">False</property>
 		      <property name="spacing">6</property>

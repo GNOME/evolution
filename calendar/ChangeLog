@@ -1,3 +1,15 @@
+2003-04-28  Anna Marie Dirks  <anna@ximian.com>
+
+	* gui/dialogs/recurrence-page.glade: Added padding/spacing
+	to this page as specified by the HIG. Partially fixes #41215.
+
+	* gui/dialogs/alarm-page.glade: Added padding/spacing/stock 
+	buttons to the alarm page. Partially fixes #41215.
+
+	* gui/dialogs/event-page.glade: Added padding/spacing to the
+	event-page (partially fixes #41215)
+
+
 2003-04-27  Rodney Dawes  <dobey@ximian.com>
 
 	Fixes #35814
