@@ -267,13 +267,16 @@ e_time_parse_date_and_time		(const char	*value,
 ETimeParseStatus
 e_time_parse_date (const char *value, struct tm *result)
 {
-	const char *format[1];
+	const char *format[2];
 
 	g_return_val_if_fail (value != NULL, E_TIME_PARSE_INVALID);
 	g_return_val_if_fail (result != NULL, E_TIME_PARSE_INVALID);
 
+	/* strptime format of a weekday and a date. */
+	format[0] = _("%a %m/%d/%Y");
+
 	/* This is the preferred date format for the locale. */
-	format[0] = _("%m/%d/%Y");
+	format[1] = _("%m/%d/%Y");
 
 	return parse_with_strptime (value, result, format, sizeof (format) / sizeof (format[0]));
 }

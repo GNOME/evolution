@@ -1,3 +1,9 @@
+2001-10-30  Damon Chaplin  <damon@ximian.com>
+
+	* e-time-utils.c (e_time_parse_date): added a 2nd format, with the
+	weekday and the date. We need this so we can try to parse DATE values
+	in the ECalendarTable.
+
 2001-10-29  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-dialog-utils.c (e_set_dialog_parent): Remove a g_warning.
