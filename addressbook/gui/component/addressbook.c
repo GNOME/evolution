@@ -39,6 +39,7 @@
 #include <gal/util/e-util.h>
 
 #include "e-util/e-passwords.h"
+#include "shell/e-user-creatable-items-handler.h"
 
 #include "evolution-shell-component-utils.h"
 #include "e-activity-handler.h"
@@ -76,6 +77,7 @@ typedef struct {
 	BonoboPropertyBag *properties;
 	ESourceList *source_list;
 	char *passwd;
+	EUserCreatableItemsHandler *creatable_items_handler;
 } AddressbookView;
 
 static void addressbook_view_ref (AddressbookView *);
@@ -458,6 +460,8 @@ control_activate (BonoboControl     *control,
 
 	e_pixmaps_update (uic, pixmaps);
 
+	e_user_creatable_items_handler_activate (view->creatable_items_handler, uic);
+
 	bonobo_ui_component_thaw (uic, NULL);
 
 	if (v)
@@ -553,6 +557,11 @@ addressbook_view_clear (AddressbookView *view)
 	if (view->uid_to_view) {
 		g_hash_table_destroy (view->uid_to_view);
 		view->uid_to_view = NULL;
+	}
+
+	if (view->creatable_items_handler) {
+		g_object_unref (view->creatable_items_handler);
+		view->creatable_items_handler = NULL;
 	}
 }
 
@@ -1125,6 +1134,8 @@ addressbook_new_control (void)
 	g_signal_connect (view->source_list,
 			  "changed",
 			  G_CALLBACK (source_list_changed_cb), view);
+
+	view->creatable_items_handler = e_user_creatable_items_handler_new ("contacts");
 
 	g_signal_connect (view->control, "activate",
 			  G_CALLBACK (control_activate_cb), view);

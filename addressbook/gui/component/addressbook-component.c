@@ -553,6 +553,7 @@ impl__get_userCreatableItems (PortableServer_Servant servant,
 	list->_buffer[0].tooltip = _("Create a new contact");
 	list->_buffer[0].menuShortcut = 'c';
 	list->_buffer[0].iconName = "evolution-contacts-mini.png";
+	list->_buffer[0].type = GNOME_Evolution_CREATABLE_OBJECT;
 
 	list->_buffer[1].id = "contact_list";
 	list->_buffer[1].description = _("New Contact List");
@@ -560,13 +561,15 @@ impl__get_userCreatableItems (PortableServer_Servant servant,
 	list->_buffer[1].tooltip = _("Create a new contact list");
 	list->_buffer[1].menuShortcut = 'l';
 	list->_buffer[1].iconName = "contact-list-16.png";
+	list->_buffer[1].type = GNOME_Evolution_CREATABLE_OBJECT;
 
 	list->_buffer[2].id = "address_book";
-	list->_buffer[2].description = _("New Addressbook Book");
-	list->_buffer[2].menuDescription = _("_Address Book");
-	list->_buffer[2].tooltip = _("Create a new address book");
-	list->_buffer[2].menuShortcut = 'a';
+	list->_buffer[2].description = _("New Contacts Group");
+	list->_buffer[2].menuDescription = _("_Contacts Group");
+	list->_buffer[2].tooltip = _("Create a new contacts group");
+	list->_buffer[2].menuShortcut = 'g';
 	list->_buffer[2].iconName = "evolution-contacts-mini.png";
+	list->_buffer[2].type = GNOME_Evolution_CREATABLE_FOLDER;
 
 	return list;
 }

@@ -1,3 +1,15 @@
+2004-04-09  Dan Winship  <danw@ximian.com>
+
+	* gui/component/addressbook.c (addressbook_new_control): create an
+	EUserCreatableItemsHandler
+	(addressbook_view_clear): destroy it
+	(control_activate): Activate it
+
+	* gui/component/addressbook-component.c
+	(impl__get_userCreatableItems): Add object/folder flags to the
+	creatable items. Rename "Address Book" to "Contacts Group" per new
+	specs
+
 2004-04-07  Chris Toshok  <toshok@ximian.com>
 
 	* util/e-destination.c (e_destination_copy): we don't have an
