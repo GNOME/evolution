@@ -1,3 +1,11 @@
+2002-11-08  Rodrigo Moya <rodrigo@ximian.com>
+
+	* importers/evolution-calendar-importer.h: use GLib macros.
+
+	* importers/main.c (init_importer): use bonobo_generic_factory_new,
+	not bonobo_generic_factory_new_multi.
+	(main): don't use libgnome functions.
+
 2002-11-07  Rodrigo Moya <rodrigo@ximian.com>
 
 	* cal-client/client-test.c: don't use GTK, we don't need it.

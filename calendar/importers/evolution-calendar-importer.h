@@ -25,13 +25,13 @@
 
 #include <bonobo/bonobo-object.h>
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 BonoboObject *ical_importer_new (void);
 BonoboObject *vcal_importer_new (void);
 
 BonoboObject *gnome_calendar_importer_new (void);
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif

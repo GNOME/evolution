@@ -57,8 +57,8 @@ init_importer (void)
 {
 	BonoboGenericFactory *factory;
 
-	factory = bonobo_generic_factory_new_multi (IMPORTER_FACTORY_ID,
-						    importer_factory_fn, NULL);
+	factory = bonobo_generic_factory_new (IMPORTER_FACTORY_ID,
+					      importer_factory_fn, NULL);
 	if (factory == NULL) {
 		g_error ("Unable to create factory");
 		exit (0);
@@ -75,11 +75,9 @@ main (int argc, char *argv[])
 	bindtextdomain(PACKAGE, EVOLUTION_LOCALEDIR);
 	textdomain(PACKAGE);
 	
-	gnome_init_with_popt_table ("evolution-calendar-importer",
-				    VERSION, argc, argv, oaf_popt_options, 0,
-				    NULL);
-	orb = oaf_init (argc, argv);
-	if (bonobo_init (orb, CORBA_OBJECT_NIL, CORBA_OBJECT_NIL) == FALSE) {
+	g_type_init ();
+	bonobo_activation_init (argc, argv);
+	if (bonobo_init (&argc, argv) == FALSE) {
 		g_error ("Could not initialize Bonobo.");
 		exit (0);
 	}
