@@ -1,5 +1,18 @@
 2001-07-20  Jason Leach  <jleach@ximian.com>
 
+	[Fix a crash if you start evolution with a bad URI.]
+	
+	* e-shell.c (e_shell_create_view): If we can't display the URI,
+	display the default uri.  This is because it's necessary for
+	e_shell_view_display_uri() to run all the way through so corba
+	interfaces get setup.
+	
+	* e-shell-view.c (e_shell_view_display_uri): If we fail to create
+	a new view for a URI (happens if you pass in an invalid URI), be
+	sure to return FALSE.
+
+2001-07-20  Jason Leach  <jleach@ximian.com>
+
 	[This is a better way to have "Local Folders" be shown as the
 	local storage name without breaking current user's shortcuts.]
 

@@ -1875,7 +1875,7 @@ e_shell_view_display_uri (EShellView *shell_view,
 	if (control != NULL) {
 		g_assert (GTK_IS_WIDGET (control));
 		show_existing_view (shell_view, uri, control);
-	} else if (create_new_view_for_uri (shell_view, uri)) {
+	} else if (!create_new_view_for_uri (shell_view, uri)) {
 		cleanup_delayed_selection (shell_view);
 		priv->delayed_selection = g_strdup (uri);
 		gtk_signal_connect_after (GTK_OBJECT (e_shell_get_storage_set (priv->shell)), "new_folder",
