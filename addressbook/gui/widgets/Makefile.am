@@ -49,8 +49,8 @@ minicard_label_test_SOURCES = 	\
 	test-minicard-label.c
 
 minicard_label_test_LDADD =				\
-	$(EXTRA_GNOME_LIBS)				\
 	libeminicard.a					\
+	$(EXTRA_GNOME_LIBS)				\
 	$(BONOBO_GNOME_LIBS)				\
 	$(top_builddir)/e-util/libeutil.la
 

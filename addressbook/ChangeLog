@@ -1,5 +1,10 @@
 2001-03-13  Christopher James Lahey  <clahey@ximian.com>
 
+	* gui/widgets/Makefile.am (minicard_label_test_LDADD): Change to
+	ld order from Greg Williams.
+
+2001-03-13  Christopher James Lahey  <clahey@ximian.com>
+
 	* backend/pas/pas-backend-file.c
 	(pas_backend_file_process_get_book_view): Moved where we call
 	pas_book_respond_get_book_view.
