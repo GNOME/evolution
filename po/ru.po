@@ -4,15 +4,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: E-volution\n"
-"POT-Creation-Date: 2000-04-15 20:41+0400\n"
-"PO-Revision-Date: 2000-04-15 20:48+04:00\n"
+"POT-Creation-Date: 2000-05-01 15:54+0000\n"
+"PO-Revision-Date: 2000-05-01 15:56+00:00\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=koi8-r\n"
 "Content-Transfer-Encoding: 8-bit\n"
 
-#: composer/e-msg-composer-address-dialog.c:183 composer/e-msg-composer.c:349
+#: composer/e-msg-composer-address-dialog.c:183 composer/e-msg-composer.c:452
 msgid "Cut"
 msgstr "Вырезать"
 
@@ -20,7 +20,7 @@ msgstr "Вырезать"
 msgid "Cut selected item into clipboard"
 msgstr "Вырезает выделенный элемент в буфер обмена"
 
-#: composer/e-msg-composer-address-dialog.c:187 composer/e-msg-composer.c:350
+#: composer/e-msg-composer-address-dialog.c:187 composer/e-msg-composer.c:453
 msgid "Copy"
 msgstr "Скопировать"
 
@@ -29,7 +29,7 @@ msgid "Copy selected item into clipboard"
 msgstr "Копирует выделенный элемент в буфер обмена"
 
 #: composer/e-msg-composer-address-dialog.c:191
-#: composer/e-msg-composer-address-dialog.c:199 composer/e-msg-composer.c:351
+#: composer/e-msg-composer-address-dialog.c:199 composer/e-msg-composer.c:454
 msgid "Paste"
 msgstr "Вставить"
 
@@ -42,47 +42,47 @@ msgstr "Вставить элемент из буфера обмена"
 msgid "Select recipients' addresses"
 msgstr "Выбрать адреса получателей"
 
-#: composer/e-msg-composer-attachment-bar.c:73
+#: composer/e-msg-composer-attachment-bar.c:76
 msgid "1 byte"
 msgstr "1 байт"
 
-#: composer/e-msg-composer-attachment-bar.c:75
+#: composer/e-msg-composer-attachment-bar.c:78
 #, c-format
 msgid "%u bytes"
 msgstr "%u байт"
 
-#: composer/e-msg-composer-attachment-bar.c:82
+#: composer/e-msg-composer-attachment-bar.c:85
 #, c-format
 msgid "%.1fK"
 msgstr "%.1fК"
 
-#: composer/e-msg-composer-attachment-bar.c:86
+#: composer/e-msg-composer-attachment-bar.c:89
 #, c-format
 msgid "%.1fM"
 msgstr "%.1fM"
 
-#: composer/e-msg-composer-attachment-bar.c:90
+#: composer/e-msg-composer-attachment-bar.c:93
 #, c-format
 msgid "%.1fG"
 msgstr "%.1fG"
 
-#: composer/e-msg-composer-attachment-bar.c:304
+#: composer/e-msg-composer-attachment-bar.c:307
 msgid "Add attachment"
 msgstr "Добавить вложение"
 
-#: composer/e-msg-composer-attachment-bar.c:361
+#: composer/e-msg-composer-attachment-bar.c:364
 msgid "Remove"
 msgstr "Удалить"
 
-#: composer/e-msg-composer-attachment-bar.c:362
+#: composer/e-msg-composer-attachment-bar.c:365
 msgid "Remove selected items from the attachment list"
 msgstr "Удалить выбранные элементы из списка вложений"
 
-#: composer/e-msg-composer-attachment-bar.c:393
+#: composer/e-msg-composer-attachment-bar.c:396
 msgid "Add attachment..."
 msgstr "Добавить вложение..."
 
-#: composer/e-msg-composer-attachment-bar.c:394
+#: composer/e-msg-composer-attachment-bar.c:397
 msgid "Attach a file to the message"
 msgstr "Присоединить файл к сообщению"
 
@@ -130,64 +130,64 @@ msgstr "Тема:"
 msgid "Enter the subject of the mail"
 msgstr "Введите тему письма"
 
-#: composer/e-msg-composer.c:307
+#: composer/e-msg-composer.c:410
 msgid "Save in _folder..."
 msgstr "Сохранить в папке..."
 
-#: composer/e-msg-composer.c:307
+#: composer/e-msg-composer.c:410
 msgid "Save the message in a specified folder"
 msgstr "Сохранить сообщение в указанной папке"
 
-#: composer/e-msg-composer.c:310 composer/e-msg-composer.c:347
-#: mail/folder-browser-factory.c:145
+#: composer/e-msg-composer.c:413 composer/e-msg-composer.c:450
+#: mail/folder-browser-factory.c:115
 msgid "Send"
 msgstr "Отправить"
 
-#: composer/e-msg-composer.c:310
+#: composer/e-msg-composer.c:413
 msgid "Send the message"
 msgstr "Отправить сообщение"
 
-#: composer/e-msg-composer.c:318
+#: composer/e-msg-composer.c:421
 msgid "View _attachments"
 msgstr "Просмотреть вложения"
 
-#: composer/e-msg-composer.c:318
+#: composer/e-msg-composer.c:421
 msgid "View/hide attachments"
 msgstr "Показать/скрыть вложения"
 
-#: composer/e-msg-composer.c:347
+#: composer/e-msg-composer.c:450
 msgid "Send this message"
 msgstr "Отправить это сообщение"
 
-#: composer/e-msg-composer.c:349
+#: composer/e-msg-composer.c:452
 msgid "Cut selected region into the clipboard"
 msgstr "Вырезать выделенную область в буфер обмена"
 
-#: composer/e-msg-composer.c:350
+#: composer/e-msg-composer.c:453
 msgid "Copy selected region into the clipboard"
 msgstr "Скопировать выделенную область в буфер обмена"
 
-#: composer/e-msg-composer.c:351
+#: composer/e-msg-composer.c:454
 msgid "Paste selected region into the clipboard"
 msgstr "Вставить выделенную область в буфер обмена"
 
-#: composer/e-msg-composer.c:352
+#: composer/e-msg-composer.c:455
 msgid "Undo"
 msgstr "Откат"
 
-#: composer/e-msg-composer.c:352
+#: composer/e-msg-composer.c:455
 msgid "Undo last operation"
 msgstr "Отменить последнюю операцию"
 
-#: composer/e-msg-composer.c:354
+#: composer/e-msg-composer.c:457
 msgid "Attach"
 msgstr "Присоединить"
 
-#: composer/e-msg-composer.c:354
+#: composer/e-msg-composer.c:457
 msgid "Attach a file"
 msgstr "Присоединить файл"
 
-#: mail/folder-browser-factory.c:83
+#: mail/folder-browser-factory.c:88
 msgid ""
 "This is a development version of Evolution.\n"
 "Using the mail component on your mail files\n"
@@ -207,73 +207,75 @@ msgstr ""
 "серверу.<\n"
 "Вы предупреждены\n"
 
-#: mail/folder-browser-factory.c:144
+#: mail/folder-browser-factory.c:114
 msgid "New mail"
 msgstr "Новые почта"
 
-#: mail/folder-browser-factory.c:144
+#: mail/folder-browser-factory.c:114
 msgid "Check for new mail"
 msgstr "Проверить почтовый ящик"
 
-#: mail/folder-browser-factory.c:145
+#: mail/folder-browser-factory.c:115
 msgid "Send a new message"
 msgstr "Отправить новое сообщение"
 
-#: mail/folder-browser-factory.c:146
+#: mail/folder-browser-factory.c:116
 msgid "Find"
 msgstr "Найти"
 
-#: mail/folder-browser-factory.c:146
+#: mail/folder-browser-factory.c:116
 msgid "Find messages"
 msgstr "Найти сообщения"
 
-#: mail/folder-browser-factory.c:150
+#: mail/folder-browser-factory.c:120
 msgid "Reply"
 msgstr "Ответить"
 
-#: mail/folder-browser-factory.c:150
+#: mail/folder-browser-factory.c:120
 msgid "Reply to the sender of this message"
 msgstr "Ответить отправителю этого сообщения"
 
-#: mail/folder-browser-factory.c:151
+#: mail/folder-browser-factory.c:121
 msgid "Reply to All"
 msgstr "Ответить всем"
 
-#: mail/folder-browser-factory.c:151
+#: mail/folder-browser-factory.c:121
 msgid "Reply to all recipients of this message"
 msgstr "Ответить всем получателям этого сообщения"
 
-#: mail/folder-browser-factory.c:153
+#: mail/folder-browser-factory.c:123
 msgid "Forward"
 msgstr "Переслать"
 
-#: mail/folder-browser-factory.c:153
+#: mail/folder-browser-factory.c:123
 msgid "Forward this message"
 msgstr "Переслать это сообщение"
 
-#: mail/folder-browser-factory.c:157
+#: mail/folder-browser-factory.c:127
 msgid "Print"
 msgstr "Печать"
 
-#: mail/folder-browser-factory.c:157
+#: mail/folder-browser-factory.c:127
 msgid "Print the selected message"
 msgstr "Распечатать выделенное сообщение"
 
-#: mail/folder-browser-factory.c:159
+#: mail/folder-browser-factory.c:129
 msgid "Delete"
 msgstr "Удалить"
 
-#: mail/folder-browser-factory.c:159
+#: mail/folder-browser-factory.c:129
 msgid "Delete this message"
 msgstr "Удалить это сообщение"
 
-#: mail/folder-browser-factory.c:174
+#: mail/folder-browser-factory.c:144
 msgid "_Mail"
 msgstr "Почта"
 
-#: mail/folder-browser-factory.c:301
+#: mail/folder-browser-factory.c:269
 msgid "We are sorry, Evolution's Folder Browser can not be initialized."
-msgstr "Извините, программа просмотра папок \"Эволюции\" не может быть инициализирована."
+msgstr ""
+"Извините, программа просмотра папок \"Эволюции\" не может быть "
+"инициализирована."
 
 #: mail/folder-browser.c:189
 msgid "The URI that the Folder Browser will display"
@@ -283,21 +285,9 @@ msgstr "URI, который будет показывать программа просмотра папок"
 msgid "Whether a message preview should be shown"
 msgstr "Будет ли показываться окно просмотра сообщения"
 
-#: mail/mail-component.c:30 mail/main.c:33
+#: mail/mail-component.c:30 mail/main.c:55
 msgid "Mail Component: I could not initialize Bonobo"
 msgstr "Почтовый компонент: не удалось инициализировать Bonobo"
-
-#: mail/mail-display.c:97
-msgid ""
-"An exception occured while trying to load data into the component with "
-"PersistStream"
-msgstr ""
-"При попытке загрузить данные в компонент с PersistStream возникло исключение"
-
-#: mail/mail-display.c:233
-#, c-format
-msgid "The %s component doesn't support PersistStream!\n"
-msgstr "Компонент %s не поддерживает PersistStream!\n"
 
 #: mail/message-list.c:404
 msgid "Priority"
@@ -411,80 +401,96 @@ msgstr "Переименовать ярлык"
 msgid "Properties"
 msgstr "Свойства"
 
-#: shell/e-shell-view-menu.c:105 shell/e-shell-view-menu.c:171
+#: shell/e-shell-view-menu.c:118 shell/e-shell-view-menu.c:184
 msgid "_Folder"
 msgstr "Папка"
 
-#: shell/e-shell-view-menu.c:109
+#: shell/e-shell-view-menu.c:122
 msgid "Evolution _Bar Shortcut"
 msgstr "Строка ярлыков Evolution"
 
-#: shell/e-shell-view-menu.c:115
+#: shell/e-shell-view-menu.c:128
 msgid "_Mail message"
 msgstr "Почтовое сообщение"
 
-#: shell/e-shell-view-menu.c:116 shell/e-shell-view-menu.c:119
+#: shell/e-shell-view-menu.c:129 shell/e-shell-view-menu.c:132
 msgid "Composes a new mail message"
 msgstr "Создать новое сообщение"
 
-#: shell/e-shell-view-menu.c:118
+#: shell/e-shell-view-menu.c:131
 msgid "_Appointment"
 msgstr "Встреча"
 
-#: shell/e-shell-view-menu.c:121
+#: shell/e-shell-view-menu.c:134
 msgid "Meeting Re_quest"
 msgstr "Запрос встречи"
 
-#: shell/e-shell-view-menu.c:124
+#: shell/e-shell-view-menu.c:137
 msgid "_Contact"
 msgstr "Контакт"
 
-#: shell/e-shell-view-menu.c:127
+#: shell/e-shell-view-menu.c:140
 msgid "_Task"
 msgstr "Задание"
 
-#: shell/e-shell-view-menu.c:130
+#: shell/e-shell-view-menu.c:143
 msgid "Task _Request"
 msgstr "Запрос задания"
 
-#: shell/e-shell-view-menu.c:133
+#: shell/e-shell-view-menu.c:146
 msgid "_Journal Entry"
 msgstr "Журнальная строка"
 
-#: shell/e-shell-view-menu.c:136
+#: shell/e-shell-view-menu.c:149
 msgid "_Note"
 msgstr "Заметка"
 
-#: shell/e-shell-view-menu.c:146
+#: shell/e-shell-view-menu.c:159
 msgid "_Selected Items"
 msgstr "Выделенные элементы"
 
-#: shell/e-shell-view-menu.c:154
+#: shell/e-shell-view-menu.c:167
 msgid "_New Folder"
 msgstr "Новая папка"
 
-#: shell/e-shell-view-menu.c:162
+#: shell/e-shell-view-menu.c:175
 msgid "_New"
 msgstr "Новое"
 
-#: shell/e-shell-view-menu.c:163
+#: shell/e-shell-view-menu.c:176
 msgid "_Open"
 msgstr "Открыть"
 
-#: shell/e-shell-view-menu.c:164
+#: shell/e-shell-view-menu.c:177
 msgid "Clos_e All Items"
 msgstr "Закрыть все"
 
-#: shell/e-shell-view-menu.c:164
+#: shell/e-shell-view-menu.c:177
 msgid "Closes all the open items"
 msgstr "Закрыть все что открыто"
 
+#: shell/e-shell-view-menu.c:198
+msgid "_Toggle Shortcut Bar"
+msgstr "Переключить строку ярлыков"
+
+#: shell/e-shell-view-menu.c:199
+msgid "Toggles the shortcut bar"
+msgstr "Переключить строку ярлыков"
+
+#: shell/e-shell-view-menu.c:201
+msgid "_Toggle Treeview"
+msgstr "Переключить просмотр дерева"
+
+#: shell/e-shell-view-menu.c:202
+msgid "Toggles the tree view"
+msgstr "Переключить просмотр дерева"
+
 #. FIXME: add Favorites here
-#: shell/e-shell-view-menu.c:203
+#: shell/e-shell-view-menu.c:222
 msgid "_Tools"
 msgstr "Инструменты"
 
-#: shell/e-shell-view-menu.c:204
+#: shell/e-shell-view-menu.c:223
 msgid "_Actions"
 msgstr "Действия"
 
@@ -556,19 +562,19 @@ msgstr "Другие ярлыки"
 msgid "New group"
 msgstr "Новая группа"
 
-#: shell/main.c:28
+#: shell/main.c:36
 msgid "Enables some debugging functions"
 msgstr "Разрешить некоторые отладочные функции"
 
-#: shell/main.c:28
+#: shell/main.c:36
 msgid "LEVEL"
 msgstr "УРОВЕНЬ"
 
-#: shell/main.c:45
+#: shell/main.c:74
 msgid "Failed to initialize the Bonobo component system"
 msgstr "Не удалось инициализировать компонентную систему Bonobo"
 
-#: shell/main.c:75
+#: shell/main.c:104
 msgid ""
 "It was not possible to setup the Evolution startup files.  Please\n"
 "fix the problem, and restart Evolution"
