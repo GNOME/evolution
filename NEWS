@@ -1,3 +1,13 @@
+Evolution x.x.x, xxxx-xx-xx
+---------------------------
+
+Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
+
+  * Calendar
+
+    #46769 - no waring when create a task which due date is earlier than
+             start date (Harry Lu)
+
 Evolution 1.4.4, 2003-07-28
 ---------------------------
 
