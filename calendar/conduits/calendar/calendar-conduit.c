@@ -66,6 +66,8 @@ void conduit_destroy_gpilot_conduit (GnomePilotConduit*);
 #define WARN(e...) g_log (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING, e)
 #define INFO(e...) g_log (G_LOG_DOMAIN, G_LOG_LEVEL_MESSAGE, e)
 
+#define PILOT_MAX_ADVANCE 99
+
 /* Debug routines */
 static char *
 print_local (ECalLocalRecord *local)
@@ -720,6 +722,54 @@ local_record_from_comp (ECalLocalRecord *local, CalComponent *comp, ECalConduitC
 		*local->appt->exception = icaltimetype_to_tm (dt->value);
 	}
 	cal_component_free_exdate_list (edl);
+
+	/* Alarm */
+	local->appt->alarm = 0;
+	if (cal_component_has_alarms (comp)) {
+		GList *uids, *l;		
+		CalComponentAlarm *alarm;
+		CalAlarmTrigger trigger;
+
+		uids = cal_component_get_alarm_uids (comp);
+		for (l = uids; l != NULL; l = l->next) {
+			alarm = cal_component_get_alarm (comp, l->data);
+			cal_component_alarm_get_trigger (alarm, &trigger);
+			
+			if ((trigger.type == CAL_ALARM_TRIGGER_RELATIVE_START
+			     && trigger.u.rel_duration.is_neg)) {
+				local->appt->advanceUnits = advMinutes;
+				local->appt->advance = 
+					trigger.u.rel_duration.minutes
+					+ trigger.u.rel_duration.hours * 60
+					+ trigger.u.rel_duration.days * 60 * 24
+					+ trigger.u.rel_duration.weeks * 7 * 60 * 24;
+
+				if (local->appt->advance > PILOT_MAX_ADVANCE) {
+					local->appt->advanceUnits = advHours;
+					local->appt->advance = 
+						trigger.u.rel_duration.minutes / 60
+						+ trigger.u.rel_duration.hours
+						+ trigger.u.rel_duration.days * 24
+						+ trigger.u.rel_duration.weeks * 7 * 24;
+				}
+				if (local->appt->advance > PILOT_MAX_ADVANCE) {
+					local->appt->advanceUnits = advDays;
+					local->appt->advance =
+						trigger.u.rel_duration.minutes / (60 * 24)
+						+ trigger.u.rel_duration.hours / 24
+						+ trigger.u.rel_duration.days
+						+ trigger.u.rel_duration.weeks * 7;
+				}
+				if (local->appt->advance > PILOT_MAX_ADVANCE)
+					local->appt->advance = PILOT_MAX_ADVANCE;
+
+				local->appt->alarm = 1;
+				break;
+			}
+			cal_component_alarm_free (alarm);
+		}
+		cal_obj_uid_list_free (uids);
+	}
 	
 	cal_component_get_classification (comp, &classif);
 
@@ -907,6 +957,53 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 	}
 	cal_component_set_exdate_list (comp, edl);
 	cal_component_free_exdate_list (edl);
+
+	/* Alarm */
+	if (appt.alarm) {
+		CalComponentAlarm *alarm = NULL;
+		CalAlarmTrigger trigger;
+		gboolean found = FALSE;
+		
+		if (cal_component_has_alarms (comp)) {
+			GList *uids, *l;
+			
+			uids = cal_component_get_alarm_uids (comp);
+			for (l = uids; l != NULL; l = l->next) {
+				alarm = cal_component_get_alarm (comp, l->data);
+				cal_component_alarm_get_trigger (alarm, &trigger);
+				if ((trigger.type == CAL_ALARM_TRIGGER_RELATIVE_START
+				     && trigger.u.rel_duration.is_neg)) {
+					found = TRUE;
+					break;
+				}
+				cal_component_alarm_free (alarm);
+			}
+			cal_obj_uid_list_free (uids);
+		}
+		if (!found)
+			alarm = cal_component_alarm_new ();
+
+		memset (&trigger, 0, sizeof (CalAlarmTrigger));
+		trigger.type = CAL_ALARM_TRIGGER_RELATIVE_START;
+		trigger.u.rel_duration.is_neg = 1;
+		switch (appt.advanceUnits) {
+		case advMinutes:
+			trigger.u.rel_duration.minutes = appt.advance;
+			break;
+		case advHours:
+			trigger.u.rel_duration.hours = appt.advance;
+			break;
+		case advDays:
+			trigger.u.rel_duration.days = appt.advance;
+			break;
+		}
+		cal_component_alarm_set_trigger (alarm, trigger);
+		cal_component_alarm_set_action (alarm, CAL_ALARM_DISPLAY);
+
+		if (!found)
+			cal_component_add_alarm (comp, alarm);
+		cal_component_alarm_free (alarm);
+	}
 	
 	cal_component_set_transparency (comp, CAL_COMPONENT_TRANSP_NONE);
 

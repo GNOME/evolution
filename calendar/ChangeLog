@@ -1,3 +1,19 @@
+2001-12-07  JP Rosevear  <jpr@ximian.com>
+  
+  	* conduits/calendar/calendar-conduit.c (local_record_from_comp):
+  	if we have an alarm that can be represented on the pilot, set the
+  	appointment fields appropriately, if the duration has values for
+  	minutes and/or hours and/or days, use the lowest common
+  	denominator
+  	(comp_from_remote_record): if the appointment on the pilot has an
+  	alarm, find the first alarm an item currently had that is relative
+  	to the start and with a negative duration and update it (or create
+  	a new one if no valid ones exist)
+  
+ 	* cal-util/cal-component.c (cal_component_get_alarm_uids): build
+  	list in the order they appear in the component so we get
+  	consisting order for the gui and for the pilot
+ 
 2001-12-07  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/calendar-config.c (calendar_config_get_default_uri):
