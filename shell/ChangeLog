@@ -1,3 +1,11 @@
+2002-04-04  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Fix #22047, Crash after running the start-up wizard.]
+
+	* e-shell-startup-wizard.c (startup_wizard_cancel): Unref the
+	ETimezoneDialog.
+	(finish_func): Likewise.
+
 2002-03-04  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Fix #20234, Deleting Folder gratuitiously causes /local to open.]
