@@ -1,3 +1,15 @@
+2000-12-23  Jason Leach  <jasonleach@usa.net>
+
+	* e-shell-view-menu.c (command_run_bugbuddy): Fix a crash when the
+	user tries to "Submit bug report" but doesn't have bug-buddy
+	installed.  Bug #633.
+
+2000-12-23  Jason Leach  <jasonleach@usa.net>
+
+	* e-setup.c (copy_default_stuff): Make the "Evolution
+	installation" dialog resizable. Bug #742.
+	(check_evolution_directory): Here too.
+
 2000-12-14  Iain Holmes  <iain@helixcode.com>
 
 	* e-shell-folder-selection-dialog.c (dbl_click_cb): Modify to suit the

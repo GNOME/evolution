@@ -122,6 +122,8 @@ check_evolution_directory (const char *evolution_directory)
 	gtk_widget_show (label1);
 	gtk_widget_show (label2);
 
+	gtk_window_set_policy (GTK_WINDOW (dialog), FALSE, TRUE, FALSE);
+
 	result = gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
 
 	if (result != 0) {
@@ -195,6 +197,8 @@ copy_default_stuff (const char *evolution_directory)
 	gtk_widget_show (label1);
 	gtk_widget_show (label2);
 	gtk_widget_show (label3);
+
+	gtk_window_set_policy (GTK_WINDOW (dialog), FALSE, TRUE, FALSE);
 
 	result = gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
 	if (result != 0)

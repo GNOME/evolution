@@ -108,15 +108,12 @@ command_run_bugbuddy (BonoboUIComponent *uih,
         };
         args[0] = gnome_is_program_in_path ("bug-buddy");
         if (!args[0]) {
-                /* you might have to call gnome_dialog_run() on the
-                 * dialog returned here, I don't remember...
-                 */
                 gnome_error_dialog (_("Bug buddy was not found in your $PATH."));
+		return;
         }
         pid = gnome_execute_async (NULL, 4, args);
         g_free (args[0]);
         if (pid == -1) {
-                /* same as above */
                 gnome_error_dialog (_("Bug buddy could not be run."));
         }
 }
