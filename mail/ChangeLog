@@ -1,3 +1,16 @@
+2002-09-08  Dan Winship  <danw@ximian.com>
+
+	* upgrade-mailer.c (exchange_url_upgrade): Don't modify the URL if
+	the path doesn't start with "exchange". (Means it's already a 1.2
+	URL.)
+	(shortcuts_upgrade_uri): Need to hex-decode exchange URLs here too.
+	(shortcuts_upgrade_xml_file): Fix an off-by-one error here (twice)
+	so it actually works instead of always claiming shortcuts.xml
+	doesn't need to be upgraded.
+	(mailer_upgrade): Check the size of the accounts hash rather than
+	imap_sources since we have work to do if the user has an exchange
+	account but no imap accounts.
+
 2002-09-06  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* upgrade-mailer.c (upgrade): Sync the database after upgrading

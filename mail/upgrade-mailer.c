@@ -365,13 +365,14 @@ exchange_url_upgrade (const char *uri)
 	base_url = get_base_url ("exchange", uri);
 	folder = (unsigned char *) uri + strlen (base_url) + 1;
 	
-	if (!strncmp (folder, "exchange/", 9)) {
-		folder += 9;
-		while (*folder && *folder != '/')
-			folder++;
-		if (*folder == '/')
-			folder++;
-	}
+	if (strncmp (folder, "exchange/", 9))
+		return g_strdup (uri);
+	
+	folder += 9;
+	while (*folder && *folder != '/')
+		folder++;
+	if (*folder == '/')
+		folder++;
 	
 	folder = hex_decode (folder, strlen (folder));
 	url = g_strdup_printf ("%s/personal/%s", base_url, folder);
@@ -597,13 +598,17 @@ static char *
 shortcuts_upgrade_uri (GHashTable *accounts, GHashTable *imap_sources, const char *account, const char *folder)
 {
 	struct _storeinfo *si;
-	char *url, *new;
+	char *url, *new, *decoded;
 	int type;
 	
 	type = GPOINTER_TO_INT ((si = g_hash_table_lookup (accounts, account)));
 	if (type == 1) {
 		/* exchange */
-		return g_strdup_printf ("personal/%s", folder);
+		decoded = hex_decode (folder, strlen (folder));
+		new = g_strdup_printf ("personal/%s", decoded);
+		g_free (decoded);
+
+		return new;
 	} else {
 		/* imap */
 		url = g_strdup_printf ("%s/%s", si->base_url, folder);
@@ -673,9 +678,9 @@ shortcuts_upgrade_xml_file (GHashTable *accounts, GHashTable *imap_sources, cons
 	url_need_upgrade = FALSE;
 	do {
 		g_free (account);
-		inptr = strstr (inptr, ">evolution:");
+		inptr = strstr (inptr, ">evolution:/");
 		if (inptr) {
-			inptr += 11;
+			inptr += 12;
 			account = inptr;
 			while (*inptr && *inptr != '/')
 				inptr++;
@@ -757,9 +762,9 @@ shortcuts_upgrade_xml_file (GHashTable *accounts, GHashTable *imap_sources, cons
 		url_need_upgrade = FALSE;
 		do {
 			g_free (account);
-			inptr = strstr (inptr, ">evolution:");
+			inptr = strstr (inptr, ">evolution:/");
 			if (inptr) {
-				inptr += 11;
+				inptr += 12;
 				account = inptr;
 				while (*inptr && *inptr != '/')
 					inptr++;
@@ -894,8 +899,8 @@ mailer_upgrade (Bonobo_ConfigDatabase db)
 		g_free (uri);
 	}
 	
-	if (g_hash_table_size (imap_sources) == 0) {
-		/* user doesn't have any imap accounts - nothing to upgrade */
+	if (g_hash_table_size (accounts) == 0) {
+		/* user doesn't have any imap/exchange accounts - nothing to upgrade */
 		g_hash_table_destroy (imap_sources);
 		return 0;
 	}
