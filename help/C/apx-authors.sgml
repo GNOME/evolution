@@ -65,10 +65,18 @@ and other dedicated GNOME programmers.
       url="http://www.gnome.org/gdp/doctable/">GNOME Documentation
       Status Table</ulink>.
     </para>
-    <!-- For translations: uncomment this: <para> Latin translation
-      was done by ME (<email>MYNAME@MYADDRESS</email>). Please send
-      all comments and suggestions regarding this translation to
-      SOMEWHERE.  </para> -->
+      <para>
+       Translations: 
+         <itemizedlist>
+            <listitem><para>
+              Daniel Persson for .se
+            </para></listitem>
+          
+            <listitem><para>
+              Hector Garcia Alvarez for .es
+            </para></listitem>
+           </itemizedlist>
+         </para>          
     </appendix>
 
 

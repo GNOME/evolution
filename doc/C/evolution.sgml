@@ -32,10 +32,12 @@ implemented. -->
     <authorgroup>
       <author><firstname>Aaron</firstname><surname>Weber</surname></author>
       <author><firstname>Kevin</firstname><surname>Breit</surname></author>
+      <author><firstname>Ettore</firstname><surname>Perazzoli</surname></author>
+      <author><firstname>Duncan</firstname><surname>Mak</surname></author>
     </authorgroup>
     <copyright>
       <year>2001</year>
-      <holder> Ximian, Inc., </holder>
+      <holder>Ximian, Inc.</holder>
     </copyright>
     
     <legalnotice id="legalnotice">

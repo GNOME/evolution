@@ -40,10 +40,11 @@
            <para>
              <application>Evolution</application> is not complete, and
              still has a lot of flaws.  Please help improve it by
-             letting us know about them.  You should do this by
-             submitting bug reports with the GNOME <application>Bug
-             Report Tool</application> (known as
-             <command>bug-buddy</command> at the command line).
+             letting us know about them.  You should do this on the
+             Ximian GNOME bug report page at <ulink
+             url="http://bugzilla.ximian.com">bugzilla.ximian.com</ulink>. There
+             are detailed bug reporting instructions in <xref
+             linkend="evolution-faq">.
           </para>
         </note>
       </para>

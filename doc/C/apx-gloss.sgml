@@ -138,8 +138,8 @@
   <glossterm>Forward</glossterm>
   <glossdef>
    <para>
-       the user can send a third party a message
-    which was sent to the user originally.
+    If you get a message intended for someone else, you can use
+    message forwarding to send it on to the right person. 
    </para>
   </glossdef>
  </glossentry>
@@ -150,7 +150,8 @@
    <para>
     Groupware is a term describing an application which helps groups
     of people work together.  Typically, a groupware application will
-    have several productivity features built into one program.
+    have several productivity features built into one program,
+    including email, calendar, and addressbook tools.
    </para>
   </glossdef>
  </glossentry>

@@ -1,23 +1,23 @@
-<!--
+
  <!DOCTYPE Chapter PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN">
--->
+
 <chapter id="usage-mainwindow">
 
   <title>The Main Window: Evolution Basics</title>
   <para>
      Start <application>Evolution</application> by selecting
-     <menuchoice><guimenu>Main Panel Menu</guimenu>
-     <guisubmenu>Applications</guisubmenu>
-     <guimenuitem>Evolution</guimenuitem></menuchoice> or by typing
+     <guimenuitem>Evolution</guimenuitem> from your
+     <guimenu>Programs</guimenu> menu, or by typing
      <command>evolution</command> at the command line.  The first time
      you run the program, it will create a directory called
      <filename>evolution</filename> in your home directory, where it
      will keep all your <application>Evolution</application>-related
-     files.
+     files.  At this point, it will also offer to import old messages
+     from other mail clients, such as Netscape mail.
    </para>
    <para>
-     After <application>Evolution</application> starts
-     up, you will see the <interface>main window</interface>, with the
+     After <application>Evolution</application> starts up, you will
+     see the <interface>main window</interface>, with the
      <interface>Inbox</interface> open.  It should look a lot like the
      picture in <xref linkend="usage-mainwindow-fig">. On the left of
      the <interface>main window</interface> is the <interface>shortcut
@@ -50,9 +50,6 @@
 	The appearance of both <application>Evolution</application>
 	and <application>GNOME</application> is very easy to
 	customize, so your screen might not look like this picture.
-	You might decide to have <application>Evolution</application>
-	start with the calendar and a folder bar, or with the contact
-	manager occupying the entire window.
       </para>
     </note>
   </para>
@@ -215,7 +212,7 @@
   </sect1>
 
   <sect1 id="usage-mainwindow-folderbar">
-    <title>The Folder Bar</title>
+    <title>Folders and The Folder Bar</title>
     <para>
       The <interface>folder bar</interface> is a more comprehensive
       way to view the information you've stored with
@@ -226,14 +223,14 @@
       downwards. On most computers, there will be three or four
       folders at the base.  First is the <guilabel>Local</guilabel>
       folder, which holds all the <application>Evolution</application>
-      data that's stored on your computer.  After that come
-      <guilabel>Virtual Folders</guilabel>, or virtual folders, discussed in
-      <xref linkend="usage-mail-organize-vfolders">, followed by any
-      <glossterm linkend="imap">IMAP</glossterm> mail folders you may
-      have available to you over your network.  Lastly, there are
-      <guilabel>External Directories</guilabel>, <glossterm
+      data that's stored on your computer.  After that are
+      <guilabel>Other Contacts</guilabel>, <glossterm
       linkend="ldap">LDAP</glossterm> contact directories stored on a
-      network.
+      network, followed by any <glossterm
+      linkend="imap">IMAP</glossterm> mail folders you may have
+      available to you over your network.  Lastly, there are
+      <guilabel>Virtual Folders</guilabel>, discussed in <xref
+      linkend="usage-mail-organize-vfolders">,
     </para>
     <para>
        
@@ -250,33 +247,42 @@
 	    <guilabel>Contacts</guilabel>, for address cards.
 	   </para>
 	 </listitem>
-	 <listitem>
-	    <para>
-	     <guilabel>Inbox</guilabel>, for incoming mail. 
-	   </para>
-	 </listitem>
          <listitem>
 	    <para>
 	    <guilabel>Drafts</guilabel>, for messages you started and didn't finish.
 	   </para>
 	 </listitem>
-	<listitem>
+         <listitem>
 	    <para>
-	    <guilabel>Sent</guilabel>, for sent mail.
+	    <guilabel>Executive Summary</guilabel>, the quick guide to everything.
 	   </para>
 	 </listitem>
-	<listitem>
+	 <listitem>
 	    <para>
-	    <guilabel>Trash</guilabel>, which is used to store
-	    messages you don't want, but keep around just in case you
-	    change your mind.
+	     <guilabel>Inbox</guilabel>, for incoming mail. 
 	   </para>
 	 </listitem>
+
 	<listitem>
 	    <para>
 	    <guilabel>Outbox</guilabel>, for messages you have written
 	    but not yet sent.  This will be empty unless you use
 	    <application>Evolution</application> while offline.
+	   </para>
+	 </listitem>
+
+	<listitem>
+	    <para>
+	    <guilabel>Sent</guilabel>, for sent mail.
+	   </para>
+	 </listitem>
+
+	<listitem>
+	    <para>
+	    <guilabel>Trash</guilabel>, a virtual folder view of all
+	    the messages you have marked for deletion but not yet
+	    expunged. Note that once you have expunged a message, it
+	    is gone for good.
 	   </para>
 	 </listitem>
 
@@ -290,16 +296,20 @@
          around the main window. You can use <keycap>Tab</keycap> to
          switch from one part of the window to another, and the folder
          menu on the right side of the window just below the toolbar
-         to move about the folder tree.
+         to move about the folder tree, even with the folder and
+         shortcut bars hidden.
        </para>
      </tip>
 
     <para>
-       To create a new folder, select <menuchoice>
-       <guimenu>File</guimenu> <guisubmenu>New</guisubmenu>
-       <guimenuitem>Folder</guimenuitem></menuchoice>.  You'll be asked where you want to
-       put it, and what kind of folder it should be.  You can choose
-       from three types: <guilabel>Mail</guilabel>, for storing mail,
+       If you get any serious amount of mail, you'll want more folders
+       than just your Inbox.  To create a new folder, select
+       <menuchoice> <guimenu>File</guimenu>
+       <guisubmenu>New</guisubmenu>
+       <guimenuitem>Folder</guimenuitem></menuchoice>.  You'll be
+       asked where you want to put it, and what kind of folder it
+       should be.  You can choose from three types:
+       <guilabel>Mail</guilabel>, for storing mail,
        <guilabel>Calendar</guilabel> for storing calendars, and
        <guilabel>Contacts</guilabel> for storing contacts.
     </para>
@@ -318,34 +328,39 @@
       exception.  If you right-click on a folder, you'll have a
       menu with the following options:
       <itemizedlist>
-	<listitem><para><guimenuitem>FIXME</guimenuitem>, for another purpose. </para></listitem>
-	<listitem><para><guimenuitem>Something else</guimenuitem>, for another purpose. </para></listitem>
-      </itemizedlist>.
+	<listitem><para><guimenuitem>View</guimenuitem>, to view the folder. </para></listitem>
+	<listitem><para><guimenuitem>Open in New Window</guimenuitem>, to see it in a new Evolution window. </para></listitem>
+	<listitem><para><guimenuitem>Move</guimenuitem>, to move the folder to another location. </para></listitem>
+	<listitem><para><guimenuitem>Copy</guimenuitem>, to duplicate the folder. </para></listitem>
+	<listitem><para><guimenuitem>Delete</guimenuitem>, to delete the folder and all its contents. </para></listitem>
+	<listitem><para><guimenuitem>Rename</guimenuitem>, to change its name. </para></listitem>
+	<listitem><para><guimenuitem>Create New Folder</guimenuitem>, to create another folder in the same location. </para></listitem>
+	<listitem><para><guimenuitem>Add to Shortcut Bar</guimenuitem>, to add the folder to your shortcut bar. </para></listitem>
+	<listitem><para><guimenuitem>Properties</guimenuitem>, to view or change the folder properties. </para></listitem>
+
+      </itemizedlist>
     </para>
 
+    <para>
+      You can also rearrange folders and messages with by dragging and
+      dropping them.
+    </para>
+<!--
     <tip>
      <title>Context-Sensitive Help</title>
       <para>
-	GNOME 2.0 will support context-sensitive help, which means you
-	can almost always get help on an item by right-clicking it.
-	If you're not sure what something is, or don't know what you
-	can do with it, choosing <guimenuitem>Help</guimenuitem> from
-	the right-click menu is a good way to find out.
+	GNOME 2.0 offers context-sensitive help, which means you can
+	almost always get help on an item by right-clicking it.  If
+	you're not sure what something is, or don't know what you can
+	do with it, choosing <guimenuitem>Help</guimenuitem> from the
+	right-click menu is a good way to find out.
       </para>
     </tip>
+-->
 
     <para>
       Any time new information arrives in a folder, that folder label
       is displayed in bold text.
-    </para>
-    <para>
-      To delete a folder, right-click it and select
-      <guimenuitem>Delete</guimenuitem> from the menu that pops up.
-      To change the order of folders, or put one inside another, use
-      drag-and-drop.  To move individual
-      messages, appointments, and address cards between folders, you
-      can do the same thing: drag them where you want them, and
-      they'll go.
     </para>
   </sect1>
   <sect1 id="usage-mainwindow-menubar">
@@ -394,14 +409,25 @@
         </varlistentry>
 
         <varlistentry>
-          <term> <guimenu>Settings</guimenu> Menu </term>
-          <listitem><para> Tools for configuring, changing, and
+          <term> <guimenu>Actions</guimenu> Menu </term>
+          <listitem><para>
+            If you've got a direct object in mind, 
+            look for the verb here.
+          </para></listitem>
+        </varlistentry>
+
+
+       <varlistentry>
+          <term> <guimenu>Tools</guimenu> Menu</term>
+          <listitem><para>
+             Tools for configuring, changing, and
           setting up go here.  For mail, that means things like
           <guimenuitem>Mail Configuration</guimenuitem> and the
           <guimenuitem>Virtual Folder Editor</guimenuitem>.  For the
           <interface>Calendar</interface> and the <interface>Contact
           Manager</interface>, it's color, network, and layout
-          configuration. </para></listitem>
+          configuration.
+          </para></listitem>
         </varlistentry>
 
        <varlistentry>
@@ -414,19 +440,11 @@
         </varlistentry>
       </variablelist>
    </para>
-   <para>
-     Other menus, like <guilabel>Folder</guilabel>,
-     <guilabel>Message</guilabel>, and <guilabel>Actions</guilabel>,
-     appear only occasionally.  <guilabel>Message</guilabel> and
-     <guilabel>Folder</guilabel>, for example, have commands that only
-     relate to email, so they're only available when you're looking at
-     email.
-   </para>
+
    <para>
       Once you've familiarized yourself with the <interface>main
       window</interface> you can start doing things with it.  We'll
-      start with your email inbox, since you've got a letter waiting
-      for you already.
+      start with your executive summary.
     </para>
   </sect1>
 </chapter>
