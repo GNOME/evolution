@@ -167,6 +167,7 @@ e_reflow_sorted_remove_item(EReflowSorted *e_reflow_sorted, const gchar *id)
 		EReflow *reflow = E_REFLOW(e_reflow_sorted);
 		reflow->items = g_list_remove_link(reflow->items, list);
 		g_list_free_1(list);
+		gtk_object_unref(GTK_OBJECT(item));
 		gtk_object_destroy(GTK_OBJECT(item));
 		if ( GTK_OBJECT_FLAGS( e_reflow_sorted ) & GNOME_CANVAS_ITEM_REALIZED ) {
 			e_canvas_item_request_reflow(item);
@@ -207,6 +208,7 @@ e_reflow_sorted_reorder_item(EReflowSorted *e_reflow_sorted, const gchar *id)
 	if (item) {
 		EReflow *reflow = E_REFLOW(e_reflow_sorted);
 		reflow->items = g_list_remove_link(reflow->items, list);
+		gtk_object_unref(GTK_OBJECT(item));
 		g_list_free_1(list);
 		e_reflow_sorted_add_item(reflow, item);
 	}
@@ -218,6 +220,7 @@ e_reflow_sorted_add_item(EReflow *reflow, GnomeCanvasItem *item)
 	EReflowSorted *e_reflow_sorted = E_REFLOW_SORTED(reflow);
 	if ( e_reflow_sorted->compare_func ) {
 		reflow->items = g_list_insert_sorted(reflow->items, item, e_reflow_sorted->compare_func);
+		gtk_object_ref(GTK_OBJECT(item));
 
 		if ( GTK_OBJECT_FLAGS( e_reflow_sorted ) & GNOME_CANVAS_ITEM_REALIZED ) {
 			gnome_canvas_item_set(item,

@@ -533,11 +533,13 @@ remodel( EMinicard *e_minicard )
 		GList *list;
 		char *file_as;
 
-		file_as = e_card_simple_get(e_minicard->simple, E_CARD_SIMPLE_FIELD_FILE_AS);
-		gnome_canvas_item_set( e_minicard->header_text,
-				       "text", file_as ? file_as : "",
-				       NULL );
-		g_free(file_as);
+		if (e_minicard->header_text) {
+			file_as = e_card_simple_get(e_minicard->simple, E_CARD_SIMPLE_FIELD_FILE_AS);
+			gnome_canvas_item_set( e_minicard->header_text,
+					       "text", file_as ? file_as : "",
+					       NULL );
+			g_free(file_as);
+		}
 		
 		list = e_minicard->fields;
 		e_minicard->fields = NULL;

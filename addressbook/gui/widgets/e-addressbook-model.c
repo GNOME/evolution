@@ -37,8 +37,6 @@ addressbook_destroy(GtkObject *object)
 
 	if (model->get_view_idle)
 		g_source_remove(model->get_view_idle);
-	if (model->book)
-		gtk_object_unref(GTK_OBJECT(model->book));
 	if (model->book_view && model->create_card_id)
 		gtk_signal_disconnect(GTK_OBJECT (model->book_view),
 				      model->create_card_id);
@@ -48,6 +46,8 @@ addressbook_destroy(GtkObject *object)
 	if (model->book_view && model->modify_card_id)
 		gtk_signal_disconnect(GTK_OBJECT (model->book_view),
 				      model->modify_card_id);
+	if (model->book)
+		gtk_object_unref(GTK_OBJECT(model->book));
 	if (model->book_view)
 		gtk_object_unref(GTK_OBJECT(model->book_view));
 

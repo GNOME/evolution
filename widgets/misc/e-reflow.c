@@ -190,8 +190,11 @@ e_reflow_destroy (GtkObject *object)
 {
 	EReflow *reflow = E_REFLOW(object);
 
+	g_list_foreach(reflow->items, (GFunc) gtk_object_unref, NULL);
 	g_list_free(reflow->items);
 	reflow->items = NULL;
+  
+	GTK_OBJECT_CLASS(parent_class)->destroy (object);
 }
 
 static void
@@ -448,6 +451,7 @@ static void
 e_reflow_real_add_item(EReflow *e_reflow, GnomeCanvasItem *item)
 {
 	e_reflow->items = g_list_append(e_reflow->items, item);
+	gtk_object_ref(item);
 	if ( GTK_OBJECT_FLAGS( e_reflow ) & GNOME_CANVAS_ITEM_REALIZED ) {
 		gnome_canvas_item_set(item,
 				      "width", (double) e_reflow->column_width,

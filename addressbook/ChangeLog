@@ -1,5 +1,24 @@
 2000-05-09  Christopher James Lahey  <clahey@helixcode.com>
 
+	* gui/component/e-addressbook-model.c: Rearranged order of things
+	getting destroyed.
+
+	* gui/minicard/e-minicard-view.c: Rearranged order of things
+	getting destroyed.  Don't set attributes of non-null or destroyed
+	items.  Destroy parent object when destroyed.  Maintain ref_count
+	of items in list.
+
+	* gui/minicard/e-minicard.c: Don't set attributes of non-null
+	items.
+
+	* gui/minicard/e-reflow-sorted.c: Maintain ref_count of items in
+	list.
+
+	* gui/minicard/e-reflow.c: Maintain ref_count of items in list.
+	Destroy parent object when destroyed.
+
+2000-05-09  Christopher James Lahey  <clahey@helixcode.com>
+
 	* backend/ebook/e-card-simple.c: Fixed some indentation.
 
 	* contact-editor/contact-editor.glade,
