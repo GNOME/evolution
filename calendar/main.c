@@ -640,14 +640,14 @@ dump_events (void)
 		te = *localtime (&co->ev_end);
 
 		if (same_day (&today, &ts))
-			format = "%H:%M";
+			format = N_("%H:%M");
 		else
-			format = "%A %d, %H:%M";
-		strftime (start, sizeof (start), format, &ts);
+			format = N_("%A %b %d, %H:%M");
+		strftime (start, sizeof (start), _(format), &ts);
 
 		if (!same_day (&ts, &te))
-			format = "%A %d, %H:%M";
-		strftime (end,   sizeof (start), format, &te);
+			format = N_("%A %b %d, %H:%M");
+		strftime (end,   sizeof (start), _(format), &te);
 
 		printf ("%s -- %s\n", start, end);
 		printf ("  %s\n", co->ico->summary);
@@ -715,7 +715,7 @@ static const struct poptOption options [] = {
 	{ "file", 'F', POPT_ARG_STRING, NULL, 'F', N_("File to load calendar from"), N_("FILE") },
 	{ "userfile", '\0', POPT_ARG_NONE, NULL, USERFILE_KEY, N_("Load the user calendar"), NULL },
 	{ "geometry", '\0', POPT_ARG_STRING, NULL, GEOMETRY_KEY, N_("Geometry for starting up"), N_("GEOMETRY") },
-	{ "view", '\0', POPT_ARG_STRING, NULL, VIEW_KEY, N_("The startup view mode"), N_("VIEW") },
+	{ "view", '\0', POPT_ARG_STRING, NULL, VIEW_KEY, N_("The startup view mode (dayview, weekview, monthview, yearview)"), N_("VIEW") },
 	{ "to", 't', POPT_ARG_STRING, NULL, 't', N_("Specifies ending date [for --events]"), N_("DATE") },
 	{ "hidden", 0, POPT_ARG_NONE, NULL, HIDDEN_KEY, N_("If used, starts in iconic mode"), NULL },
 	{ NULL, '\0', 0, NULL, 0}

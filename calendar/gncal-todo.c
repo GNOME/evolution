@@ -377,7 +377,14 @@ gncal_todo_init (GncalTodo *todo)
 	GtkWidget *w;
 	GtkWidget *sw;
 	GtkWidget *hbox;
-	gchar *titles[2] = {"Summary","Due Date"};
+	gchar *titles[2] = {
+	    N_("Summary"),
+	    N_("Due Date")
+	};
+	char *tmp[2];
+	tmp[0] = _(titles[0]);
+	tmp[1] = _(titles[1]);
+
 	gtk_box_set_spacing (GTK_BOX (todo), 4);
 
 	/* Label */
@@ -395,7 +402,7 @@ gncal_todo_init (GncalTodo *todo)
 	gtk_widget_show (sw);
 
 
-	w = gtk_clist_new_with_titles(2, titles);
+	w = gtk_clist_new_with_titles(2, tmp);
 
 	todo->clist = GTK_CLIST (w);
 	gtk_clist_set_selection_mode (todo->clist, GTK_SELECTION_BROWSE);

@@ -1,3 +1,18 @@
+1999-03-24  Tomas Ogren  <stric@ing.umu.se>
+
+	* gncal-todo.c (gncal_todo_init): Made clist titles i18n:able
+	* main.c (poptOption): Added which views that are possible for
+	--view in the --help text (closes #367)
+	* main.c (dump_events): Added (short) month to the strftime and made
+	the strings i18n:able
+
+1999-03-23  Tomas Ogren  <stric@ing.umu.se>
+
+	* gncal/calobj.c: Added 2 paranthesis..
+	"foobar = d / 60*60" is _NOT_ the same as "foobar = d / (60*60)"
+	which caused heavy alarm-corruption with alarms between 2 hrs and
+	2 days.
+
 1999-03-23  Nat Friedman  <nat@nat.org>
 
 	* eventedit.c (ee_store_recur_rule_to_ical): Set the
