@@ -110,6 +110,8 @@ evolution_mail_LDADD = 					\
 	$(top_builddir)/composer/libcomposer.a		\
 	$(top_builddir)/widgets/misc/libemiscwidgets.a	\
 	$(top_builddir)/camel/libcamel.la		\
+	$(top_builddir)/addressbook/backend/ebook/libebook.la	\
+	$(top_builddir)/libversit/libversit.la		\
 	$(top_builddir)/e-util/ename/libename.la	\
 	$(top_builddir)/libibex/libibex.la		\
 	$(top_builddir)/filter/libfilter.la		\

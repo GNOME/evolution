@@ -310,12 +310,33 @@ e_select_names_model_count (ESelectNamesModel *model)
 const EDestination *
 e_select_names_model_get_destination (ESelectNamesModel *model, gint index)
 {
-	g_return_val_if_fail (model != NULL, NULL);
-	g_return_val_if_fail (E_IS_SELECT_NAMES_MODEL (model), NULL);
+	g_return_val_if_fail (model && E_IS_SELECT_NAMES_MODEL (model), NULL);
 	g_return_val_if_fail (0 <= index, NULL);
 	g_return_val_if_fail (index < g_list_length (model->priv->data), NULL);
 
 	return E_DESTINATION (g_list_nth_data (model->priv->data, index));
+}
+
+gchar *
+e_select_names_model_export_destinationv (ESelectNamesModel *model)
+{
+	EDestination **destv;
+	gchar *str;
+	gint i, len = 0;
+	GList *j;
+	g_return_val_if_fail (model && E_IS_SELECT_NAMES_MODEL (model), NULL);
+
+	len = g_list_length (model->priv->data);
+	destv = g_new0 (EDestination *, len+1);
+	
+	for (i=0, j = model->priv->data; j != NULL; j = g_list_next (j)) {
+		destv[i++] = E_DESTINATION (j->data);
+	}
+
+	str = e_destination_exportv (destv);
+	g_free (destv);
+
+	return str;
 }
 
 ECard *

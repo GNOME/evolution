@@ -34,6 +34,8 @@
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-util.h>
 
+#include <gal/unicode/gunicode.h>
+
 #include <addressbook/backend/ebook/e-book-util.h>
 #include <addressbook/backend/ebook/e-destination.h>
 #include <addressbook/backend/ebook/e-card-simple.h>
@@ -98,6 +100,54 @@ sexp_nickname (ESelectNamesCompletion *comp)
 
 }
 
+static gint
+e_utf8_strncasecmp (const gchar *p, const gchar *q, gint len)
+{
+	if (p == NULL || q == NULL) {
+		if (p) return +1;
+		if (q) return -1;
+		return 0;
+	}
+
+	if (len < 0)
+		len = G_MAXINT;
+	
+	while (*p && *q && len > 0) {
+		gunichar cp = g_utf8_get_char (p);
+		gunichar cq = g_utf8_get_char (q);
+
+		if  (!(g_unichar_validate (cp)
+		       && g_unichar_validate (cq)))
+			break;
+
+		cp = g_unichar_tolower (cp);
+		cq = g_unichar_tolower (cq);
+
+		if (cp != cq)
+			return (cp < cq) - (cp > cq);
+		
+		p = g_utf8_next_char (p);
+		q = g_utf8_next_char (q);
+		--len;
+	}
+
+	if (len) {
+		if (*p)
+			return +1;
+		else if (*q)
+			return -1;
+	}
+		
+	return 0;
+}
+
+static gint
+e_utf8_strcasecmp (const gchar *p, const gchar *q)
+{
+	return e_utf8_strncasecmp (p, q, -1);
+}
+
+
 static gchar *
 match_nickname (ESelectNamesCompletion *comp, EDestination *dest, double *score)
 {
@@ -105,7 +155,7 @@ match_nickname (ESelectNamesCompletion *comp, EDestination *dest, double *score)
 	ECard *card = e_destination_get_card (dest);
 
 	if (card->nickname
-	    && !g_strncasecmp (comp->priv->query_text, card->nickname, len)) {
+	    && !e_utf8_strncasecmp (comp->priv->query_text, card->nickname, len)) {
 		gchar *name = e_card_name_to_string (card->name);
 		gchar *str;
 		
@@ -136,7 +186,7 @@ match_email (ESelectNamesCompletion *comp, EDestination *dest, double *score)
 	ECard *card = e_destination_get_card (dest);
 	const gchar *email = e_destination_get_email (dest);
 	
-	if (email && !g_strncasecmp (comp->priv->query_text, email, len)) {
+	if (email && !e_utf8_strncasecmp (comp->priv->query_text, email, len)) {
 		gchar *name, *str;
 		*score = len * 2; /* 2 points for each matching character */
 		name = e_card_name_to_string (card->name);
@@ -208,7 +258,7 @@ match_name_fragment (const gchar *fragment, const gchar *txt)
 	gint len = strlen (txt);
 
 	while (*fragment) {
-		if (!g_strncasecmp (fragment, txt, len))
+		if (!e_utf8_strncasecmp (fragment, txt, len))
 			return TRUE;
 
 		while (*fragment && !isspace ((gint) *fragment))
@@ -281,9 +331,9 @@ match_name (ESelectNamesCompletion *comp, EDestination *dest, double *score)
 		/* We massively boost the score if the nickname exists and is the same as one of the "real" names.  This keeps the
 		   nickname from matching ahead of the real name for this card. */
 		len = strlen (card->nickname);
-		if ((card->name->given && !g_strncasecmp (card->name->given, card->nickname, MIN (strlen (card->name->given), len)))
-		    || (card->name->family && !g_strncasecmp (card->name->family, card->nickname, MIN (strlen (card->name->family), len)))
-		    || (card->name->additional && !g_strncasecmp (card->name->additional, card->nickname, MIN (strlen (card->name->additional), len))))
+		if ((card->name->given && !e_utf8_strncasecmp (card->name->given, card->nickname, MIN (strlen (card->name->given), len)))
+		    || (card->name->family && !e_utf8_strncasecmp (card->name->family, card->nickname, MIN (strlen (card->name->family), len)))
+		    || (card->name->additional && !e_utf8_strncasecmp (card->name->additional, card->nickname, MIN (strlen (card->name->additional), len))))
 			*score *= 100;
 	}
 
@@ -432,11 +482,11 @@ book_query_score (ESelectNamesCompletion *comp, EDestination *dest, double *scor
 			if (email) {
 				simp = e_card_simple_new (card);
 				simp_email = e_card_simple_get_email (simp, E_CARD_SIMPLE_EMAIL_ID_EMAIL);
-				if (simp_email && !g_strcasecmp (simp_email, email)) {
+				if (simp_email && !e_utf8_strcasecmp (simp_email, email)) {
 					best_score += 0.2;
 				}
 				simp_email = e_card_simple_get_email (simp, E_CARD_SIMPLE_EMAIL_ID_EMAIL_2);
-				if (simp_email && !g_strcasecmp (simp_email, email)) {
+				if (simp_email && !e_utf8_strcasecmp (simp_email, email)) {
 					best_score += 0.1;
 				}
 				gtk_object_unref (GTK_OBJECT (simp));
@@ -856,7 +906,7 @@ e_select_names_completion_do_query (ESelectNamesCompletion *comp, const gchar *q
 
 	can_reuse_cached_cards = (comp->priv->cached_query_text
 				  && (strlen (comp->priv->cached_query_text) <= strlen (clean))
-				  && !g_strncasecmp (comp->priv->cached_query_text, clean, strlen (comp->priv->cached_query_text)));
+				  && !e_utf8_strncasecmp (comp->priv->cached_query_text, clean, strlen (comp->priv->cached_query_text)));
 
 
 	if (can_reuse_cached_cards) {
@@ -912,7 +962,7 @@ search_override_check (SearchOverride *over, const gchar *text)
 	if (over == NULL || text == NULL)
 		return FALSE;
 
-	return !g_strcasecmp (over->trigger, text);
+	return !e_utf8_strcasecmp (over->trigger, text);
 }
 
 

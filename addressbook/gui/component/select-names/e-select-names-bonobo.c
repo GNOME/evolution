@@ -82,8 +82,9 @@ entry_get_property_fn (BonoboPropertyBag *bag,
 			gtk_object_get(GTK_OBJECT(text_model),
 				       "source", &model,
 				       NULL);
-			text = e_select_names_model_get_address_text (model);
+			text = e_select_names_model_export_destinationv (model);
 			BONOBO_ARG_SET_STRING (arg, text);
+			g_free (text);
 		}
 		break;
 	default:

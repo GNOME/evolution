@@ -54,23 +54,40 @@ struct _EDestinationClass {
 
 GtkType e_destination_get_type (void);
 
-EDestination *e_destination_new (void);
-EDestination *e_destination_copy (EDestination *);
 
-gboolean e_destination_is_empty (EDestination *);
+EDestination  *e_destination_new                (void);
+EDestination  *e_destination_copy               (EDestination *);
 
-void e_destination_set_card   (EDestination *, ECard *card, gint email_num);
-void e_destination_set_string (EDestination *, const gchar *string);
+gboolean       e_destination_is_empty           (EDestination *);
 
-ECard       *e_destination_get_card      (const EDestination *);
-gint         e_destination_get_email_num (const EDestination *);
-const gchar *e_destination_get_string    (const EDestination *);
-gint         e_destination_get_strlen    (const EDestination *); /* a convenience function... */
+void           e_destination_set_card           (EDestination *, ECard *card, gint email_num);
+void           e_destination_set_string         (EDestination *, const gchar *string);
+void           e_destination_set_html_mail_pref (EDestination *, gboolean);
 
-const gchar *e_destination_get_name          (const EDestination *);
+ECard         *e_destination_get_card           (const EDestination *);
+gint           e_destination_get_email_num      (const EDestination *);
+const gchar   *e_destination_get_string         (const EDestination *);
+gint           e_destination_get_strlen         (const EDestination *); /* a convenience function... */
 
-const gchar *e_destination_get_email         (const EDestination *);
-const gchar *e_destination_get_email_verbose (const EDestination *);
+const gchar   *e_destination_get_name           (const EDestination *);
+
+const gchar   *e_destination_get_email          (const EDestination *);
+const gchar   *e_destination_get_email_verbose  (const EDestination *);
+
+/* If true, they want HTML mail. */
+gboolean       e_destination_get_html_mail_pref (const EDestination *);
+
+gchar         *e_destination_get_address_textv  (EDestination **);
+
+
+gchar         *e_destination_export             (const EDestination *);
+EDestination  *e_destination_import             (const gchar *str);
+
+gchar         *e_destination_exportv            (EDestination **);
+EDestination **e_destination_importv            (const gchar *str);
+ 
+
+
 
 
 

@@ -38,6 +38,8 @@
 #include <libgnomeui/gnome-app-helper.h>
 #include <libgnomeui/gnome-popup-menu.h>
 
+#include <addressbook/backend/ebook/e-book-util.h>
+#include <addressbook/contact-editor/e-contact-editor.h>
 #include <addressbook/contact-editor/e-contact-quick-add.h>
 #include "e-select-names-popup.h"
 
@@ -88,10 +90,38 @@ popup_info_cleanup (GtkWidget *w, gpointer info)
 	popup_info_free ((PopupInfo *) info);
 }
 
-static void
-do_nothing (gpointer foo)
-{
+/* You are in a maze of twisty little callbacks, all alike... */
 
+static void
+found_fields_cb (EBook *book, EBookStatus status, EList *writable_fields, gpointer user_data)
+{
+	EDestination *dest = E_DESTINATION (user_data);
+	EContactEditor *ce;
+	ECard *card;
+
+	card = (ECard *) e_destination_get_card (dest);
+	ce = e_contact_editor_new (card, FALSE, writable_fields, FALSE);
+	e_contact_editor_raise (ce);
+	gtk_object_unref (GTK_OBJECT (dest));
+}
+
+static void
+edit_contact_info_have_book_cb (EBook *book, gpointer user_data)
+{
+	if (book) {
+		e_book_get_supported_fields (book, found_fields_cb, user_data);
+	}
+}
+
+static void
+edit_contact_info_cb (GtkWidget *w, gpointer user_data)
+{
+	PopupInfo *info = (PopupInfo *) user_data;
+	if (info == NULL)
+		return;
+
+	gtk_object_ref (GTK_OBJECT (info->dest));
+	e_book_use_local_address_book (edit_contact_info_have_book_cb, info->dest);
 }
 
 static void
@@ -147,6 +177,39 @@ add_remove_all_recipients (GnomeUIInfo *uiinfo, PopupInfo *info)
 	uiinfo->moreinfo = remove_all_recipients_cb;
 }
 
+static void
+toggle_html_mail_cb (GtkWidget *w, gpointer user_data)
+{
+	PopupInfo *info = (PopupInfo *) user_data;
+	GtkCheckMenuItem *item = GTK_CHECK_MENU_ITEM (w);
+	const EDestination *dest;
+
+	if (info == NULL)
+		return;
+
+	dest = info->dest;
+
+	item = GTK_CHECK_MENU_ITEM (item);
+	e_destination_set_html_mail_pref ((EDestination *) dest, item->active);
+}
+
+static void
+add_html_mail (GnomeUIInfo *uiinfo, PopupInfo *info)
+{
+	uiinfo->type = GNOME_APP_UI_TOGGLEITEM;
+	uiinfo->label = _("Send HTML Mail?");
+	uiinfo->moreinfo = toggle_html_mail_cb;
+}
+
+static void
+init_html_mail (GnomeUIInfo *uiinfo, PopupInfo *info)
+{
+	gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (uiinfo->widget),
+					e_destination_get_html_mail_pref (info->dest));
+	gtk_check_menu_item_set_show_toggle (GTK_CHECK_MENU_ITEM (uiinfo->widget), TRUE);
+
+}
+
 #define ARBITRARY_UIINFO_LIMIT 64
 static GtkWidget *
 popup_menu_card (PopupInfo *info)
@@ -159,6 +222,7 @@ popup_menu_card (PopupInfo *info)
 	GtkWidget *pop;
 	EIterator *iterator;
 	gchar *name_str;
+	gint html_toggle;
 
 	/*
 	 * Build up our GnomeUIInfo array.
@@ -184,11 +248,14 @@ popup_menu_card (PopupInfo *info)
 
 		iterator = e_list_get_iterator (card->email);
 		for (e_iterator_reset (iterator); e_iterator_is_valid (iterator); e_iterator_next (iterator)) {
+			gchar *label = (gchar *)e_iterator_get (iterator);
 			
-			radioinfo[j].type = GNOME_APP_UI_ITEM;
-			radioinfo[j].label = (gchar *)e_iterator_get (iterator);
-			radioinfo[j].moreinfo = change_email_num_cb;
-			++j;
+			if (label && *label) {
+				radioinfo[j].type = GNOME_APP_UI_ITEM;
+				radioinfo[j].label = label;
+				radioinfo[j].moreinfo = change_email_num_cb;
+				++j;
+			}
 		}
 
 		radioinfo[j].type = GNOME_APP_UI_ENDOFINFO;
@@ -206,9 +273,13 @@ popup_menu_card (PopupInfo *info)
 	uiinfo[i].type = GNOME_APP_UI_SEPARATOR;
 	++i;
 
+	add_html_mail (&(uiinfo[i]), info);
+	html_toggle = i;
+	++i;
+
 	uiinfo[i].type = GNOME_APP_UI_ITEM;
 	uiinfo[i].label = N_("Edit Contact Info");
-	uiinfo[i].moreinfo = do_nothing;
+	uiinfo[i].moreinfo = edit_contact_info_cb;
 	++i;
 
 	add_remove_recipient (&(uiinfo[i]), info);
@@ -236,6 +307,8 @@ popup_menu_card (PopupInfo *info)
 		}
 	}
 
+	init_html_mail (&(uiinfo[html_toggle]), info);
+
 	return pop;
 }
 
@@ -253,6 +326,7 @@ popup_menu_nocard (PopupInfo *info)
 	gint i=0;
 	GtkWidget *pop;
 	const gchar *str;
+	gint html_toggle;
 
 	memset (uiinfo, 0, sizeof (uiinfo));
 
@@ -265,6 +339,10 @@ popup_menu_nocard (PopupInfo *info)
 	uiinfo[i].type = GNOME_APP_UI_SEPARATOR;
 	++i;
 
+	add_html_mail (&(uiinfo[i]), info);
+	html_toggle = i;
+	++i;
+	
 	uiinfo[i].type = GNOME_APP_UI_ITEM;
 	uiinfo[i].label = _("Add to Contacts");
 	uiinfo[i].moreinfo = quick_add_cb;
@@ -279,10 +357,11 @@ popup_menu_nocard (PopupInfo *info)
 	uiinfo[i].type = GNOME_APP_UI_ENDOFINFO;
 
 	pop = gnome_popup_menu_new (uiinfo);
+
+	init_html_mail (&(uiinfo[html_toggle]), info);
 	
 	return pop;
 }
-
 
 void
 e_select_names_popup (ESelectNamesModel *model, GdkEventButton *ev, gint pos)

@@ -1,3 +1,10 @@
+2001-05-18  Jon Trowbridge  <trow@ximian.com>
+
+	* e-msg-composer-hdrs.c (set_recipients): Properly unserialize the
+	string returned by the "text" property of the bonobo control,
+	convert it into EDestinations, and use them to get the e-mail
+	addresses of our recipients.
+
 2001-05-17  Dan Winship  <danw@ximian.com>
 
 	* e-msg-composer.c (save_draft): Draft messages should be marked

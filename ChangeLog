@@ -1,3 +1,8 @@
+2001-05-18  Jon Trowbridge  <trow@ximian.com>
+
+	* Makefile.am (SUBDIRS): Changed build order.  Now addressbook
+	gets built before mail.
+
 2001-05-15  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* configure.in: Create CAMEL_CFLAGS and CAMEL_LIBS so that we

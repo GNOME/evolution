@@ -49,10 +49,11 @@ ESelectNamesModel *e_select_names_model_duplicate (ESelectNamesModel *old);
 const gchar  *e_select_names_model_get_textification (ESelectNamesModel *model);
 const gchar  *e_select_names_model_get_address_text  (ESelectNamesModel *model);
 
-gint                e_select_names_model_count           (ESelectNamesModel *model);
-const EDestination *e_select_names_model_get_destination (ESelectNamesModel *model, gint index);
-ECard              *e_select_names_model_get_card        (ESelectNamesModel *model, gint index);
-const gchar        *e_select_names_model_get_string      (ESelectNamesModel *model, gint index);
+gint                e_select_names_model_count               (ESelectNamesModel *model);
+const EDestination *e_select_names_model_get_destination     (ESelectNamesModel *model, gint index);
+gchar              *e_select_names_model_export_destinationv (ESelectNamesModel *model);
+ECard              *e_select_names_model_get_card            (ESelectNamesModel *model, gint index);
+const gchar        *e_select_names_model_get_string          (ESelectNamesModel *model, gint index);
 
 void          e_select_names_model_insert     (ESelectNamesModel *model, gint index, EDestination *dest);
 void          e_select_names_model_append     (ESelectNamesModel *model, EDestination *dest);

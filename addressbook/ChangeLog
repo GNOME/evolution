@@ -1,3 +1,54 @@
+2001-05-18  Jon Trowbridge  <trow@ximian.com>
+
+	* gui/component/select-names/e-select-names-bonobo.c
+	(entry_get_property_fn): Return the serialized EDestinations
+	(rather than just a string w/ e-mail addresses) through the bonobo
+	component's property bag.
+
+	* gui/component/select-names/e-select-names-model.c
+	(e_select_names_model_export_destinationv): Added.  A convenience routine
+	for serializing the model's EDestinations into a string.
+
+	* gui/component/select-names/e-select-names-popup.c
+	(add_html_mail): Added.  Puts in a check menu item for whether or
+	not the recipient wants HTML mail.
+	(popup_menu_card): Add menu item for HTML mail.  Enable edit
+	contact info item.
+	(popup_menu_nocard): Add menu item for HTML mail.  Enable edit
+	contact info item.
+
+	* backend/ebook/e-book-util.c (e_book_use_local_address_book):
+	Added.  Fetches the local addressbook and caches it on the first
+	call.  This is meant to be an easy and efficient way to get at the
+	local addressbook with the minimum of code.
+	(e_book_query_address_locally): Added.  Convenience code that
+	does an e-mail only e_book_name_and_email_query against the
+	local address book.
+
+	* backend/ebook/e-destination.c
+	(e_destination_set_html_mail_pref): Added.  Allows the intended
+	recipient's HTML mail preference to be manipulated.
+	(e_destination_get_email_verbose): Added.  Cleaned up to use
+	e_destination_get_name.
+	(e_destination_get_html_mail_pref): Added.  Read the recipient's HTML mail
+	preference.  If the destination is linked to a card, the
+	preference is taken from the card (unless it has been explicitly
+	overridden by a called to e_destination_set_html_mail_pref).
+	(e_destination_get_address_textv): Added.  Form a unified address string
+	from a NULL-terminated vector of EDestinations.
+	(e_destination_export): Added.  Serialize an EDestination to a string.
+	(e_destination_import): Added.  Unserialize a string to build an
+	EDestination.
+	(e_destination_exportv): Added.  Serialize a NULL-terminated vector of
+	EDestinations to a string.
+	(e_destination_importv): Added.  Unserialize a string to build a
+	NULL-terminated vector of EDestinations.
+
+	* gui/component/select-names/e-select-names-completion.c:
+	Implemented local versions of g_strcasecmp and g_strncasecmp
+	(which should really be in glib, I think...) for utf8, and used
+	them to make this code utf8-safe.
+
 2001-05-17  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/addressbook.c (update_command_state): no more
@@ -63,6 +114,7 @@
 	(addressbook_factory_new_control): register command_state_change
 	to update the commands.
 
+>>>>>>> 1.504
 2001-05-15  Chris Toshok  <toshok@ximian.com>
 
 	* gui/search/e-addressbook-search-dialog.c
@@ -164,6 +216,7 @@
 	* gui/widgets/e-addressbook-model.h: same.
 
 
+>>>>>>> 1.502
 2001-05-14  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/widgets/e-minicard-view-model.c (remove_card): Fix a small

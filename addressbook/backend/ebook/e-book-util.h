@@ -34,11 +34,15 @@
 BEGIN_GNOME_DECLS
 
 /* Callbacks for asynchronous functions. */
+typedef void (*EBookCommonCallback)      (EBook *book, gpointer closure);
 typedef void (*EBookSimpleQueryCallback) (EBook *book, EBookSimpleQueryStatus status, const GList *cards, gpointer closure);
+typedef void (*EBookHaveAddressCallback) (EBook *book, const gchar *addr, ECard *card, gpointer closure);
 
 gboolean e_book_load_local_address_book (EBook *book, 
 					 EBookCallback open_response, 
 					 gpointer closure);
+
+void     e_book_use_local_address_book  (EBookCommonCallback cb, gpointer closure);
 
 /* Simple Query Interface. */
 
@@ -55,6 +59,12 @@ guint e_book_name_and_email_query (EBook *book,
 				   const char *name,
 				   const char *email,
 				   EBookSimpleQueryCallback cb,
+				   gpointer closure);
+
+/* Returns the ECard associated to email in the callback,
+   or NULL if no match is found in the local address book. */
+void e_book_query_address_locally (const gchar *email,
+				   EBookHaveAddressCallback cb,
 				   gpointer closure);
 
 END_GNOME_DECLS

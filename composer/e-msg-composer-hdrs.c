@@ -44,6 +44,7 @@
 #include <gal/widgets/e-unicode.h>
 
 #include <camel/camel.h>
+#include <e-destination.h>
 #include "e-msg-composer-hdrs.h"
 #include "mail/mail-config.h"
 
@@ -630,20 +631,37 @@ e_msg_composer_hdrs_new (gint visible_flags)
 static void
 set_recipients (CamelMimeMessage *msg, GtkWidget *entry_widget, const gchar *type)
 {
+	EDestination **destv;
 	CamelInternetAddress *addr;
-	char *string;
+	char *string = NULL, *dest_str = NULL;
+	gint i=0;
 	
 	bonobo_widget_get_property (BONOBO_WIDGET (entry_widget), "text", &string, NULL);
+	destv = e_destination_importv (string);
 	
-	addr = camel_internet_address_new ();
-	camel_address_unformat (CAMEL_ADDRESS (addr), string);
+	if (destv) {
+
+		dest_str = e_destination_get_address_textv (destv);
+
+		if (dest_str) {
+			addr = camel_internet_address_new ();
+			camel_address_unformat (CAMEL_ADDRESS (addr), dest_str);
 	
-	/* TODO: In here, we could cross-reference the names with an alias book
-	   or address book, it should be sufficient for unformat to do the parsing too */
+			/* TODO: In here, we could cross-reference the names with an alias book
+			   or address book, it should be sufficient for unformat to do the parsing too */
 	
-	camel_mime_message_set_recipients (msg, type, addr);
+			camel_mime_message_set_recipients (msg, type, addr);
 	
-	camel_object_unref (CAMEL_OBJECT (addr));
+			camel_object_unref (CAMEL_OBJECT (addr));
+
+			g_free (dest_str);
+		}
+
+		for (i=0; destv[i]; ++i)
+			gtk_object_unref (GTK_OBJECT (destv[i]));
+		g_free (destv);
+	}
+
 	g_free (string);
 }
 

@@ -48,10 +48,75 @@ e_book_load_local_address_book (EBook *book, EBookCallback open_response, gpoint
 
 	rv = e_book_load_uri (book, uri, open_response, closure);
 
+	if (!rv) {
+		g_warning ("Couldn't load local addressbook %s", uri);
+	}
+
 	g_free (filename);
 	g_free (uri);
 
 	return rv;
+}
+
+static EBook *common_local_book = NULL;
+
+typedef struct _CommonBookInfo CommonBookInfo;
+struct _CommonBookInfo {
+	EBookCommonCallback cb;
+	gpointer closure;
+};
+
+static void
+got_local_book_cb (EBook *book, EBookStatus status, gpointer closure)
+{
+	CommonBookInfo *info = (CommonBookInfo *) closure;
+
+	if (status == E_BOOK_STATUS_SUCCESS) {
+
+		/* We try not to leak in a race condition where the
+		   local book got loaded twice. */
+
+		if (common_local_book) {
+			gtk_object_unref (GTK_OBJECT (book));
+			book = common_local_book;
+		}
+		
+		info->cb (book, info->closure);
+
+		if (common_local_book == NULL) {
+			common_local_book = book;
+		}
+		
+	} else {
+
+		info->cb (NULL, info->closure);
+
+	}
+	g_free (info);
+}
+
+void
+e_book_use_local_address_book (EBookCommonCallback cb, gpointer closure)
+{
+	EBook *book;
+	CommonBookInfo *info;
+
+	g_return_if_fail (cb != NULL);
+
+	if (common_local_book != NULL) {
+		cb (common_local_book, closure);
+		return;
+	}
+
+	info = g_new0 (CommonBookInfo, 1);
+	info->cb = cb;
+	info->closure = closure;
+
+	book = e_book_new ();
+	if (! e_book_load_local_address_book (book, got_local_book_cb, info)) {
+		gtk_object_unref (GTK_OBJECT (book));
+		g_free (info);
+	}
 }
 
 /*
@@ -440,4 +505,67 @@ e_book_name_and_email_query (EBook *book,
 	g_free (query);
 
 	return tag;
+}
+
+/*
+ *  Convenience routine to check for addresses in the local address book.
+ */
+
+typedef struct _HaveAddressInfo HaveAddressInfo;
+struct _HaveAddressInfo {
+	gchar *email;
+	EBookHaveAddressCallback cb;
+	gpointer closure;
+};
+
+static void
+have_address_query_cb (EBook *book, EBookSimpleQueryStatus status, const GList *cards, gpointer closure)
+{
+	HaveAddressInfo *info = (HaveAddressInfo *) closure;
+
+
+	info->cb (book, 
+		  info->email,
+		  cards && (status == E_BOOK_SIMPLE_QUERY_STATUS_SUCCESS) ? E_CARD (cards->data) : NULL,
+		  info->closure);
+
+	g_free (info->email);
+	g_free (info);
+}
+
+static void
+have_address_book_open_cb (EBook *book, gpointer closure)
+{
+	HaveAddressInfo *info = (HaveAddressInfo *) closure;
+
+	if (book) {
+
+		e_book_name_and_email_query (book, NULL, info->email, have_address_query_cb, info);
+
+	} else {
+
+		info->cb (NULL, info->email, NULL, info->closure);
+
+		g_free (info->email);
+		g_free (info);
+
+	}
+}
+
+void
+e_book_query_address_locally (const gchar *email,
+			      EBookHaveAddressCallback cb,
+			      gpointer closure)
+{
+	HaveAddressInfo *info;
+
+	g_return_if_fail (email != NULL);
+	g_return_if_fail (cb != NULL);
+
+	info = g_new0 (HaveAddressInfo, 1);
+	info->email = g_strdup (email);
+	info->cb = cb;
+	info->closure = closure;
+
+	e_book_use_local_address_book (have_address_book_open_cb, info);
 }

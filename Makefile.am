@@ -25,10 +25,10 @@ SUBDIRS =			\
         camel                   \
         filter                  \
         composer                \
-        mail                    \
         libical                 \
         libversit               \
         addressbook             \
+        mail                    \
         calendar                \
         wombat                  \
 	importers		\
