@@ -23,7 +23,6 @@
 #include <config.h>
 #include "camel-sasl-anonymous.h"
 #include "camel-internet-address.h"
-#include "camel-mime-utils.h"
 #include <string.h>
 
 static CamelSaslClass *parent_class = NULL;

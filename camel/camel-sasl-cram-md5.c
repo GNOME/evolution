@@ -22,7 +22,6 @@
 
 #include <config.h>
 #include "camel-sasl-cram-md5.h"
-#include "camel-mime-utils.h"
 #include <e-util/md5-utils.h>
 #include <stdio.h>
 #include <string.h>
