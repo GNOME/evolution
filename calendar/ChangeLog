@@ -1,3 +1,14 @@
+2003-07-18  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-day-view.[ch]:
+	* gui/e-week-view.[ch]: moved duplicated code to...
+
+	* gui/e-cal-view.[ch]: ...here.
+	(e_cal_view_get_calendar, e_cal_view_set_calendar): new functions.
+
+	* gui/e-week-view-event-item.c (e_week_event_item_double_click):
+	* gui/gnome-cal.c (setup_widgets): adapted to changes in views.
+
 2003-07-17  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/e-cal-view.[ch]: new base class for calendar views.

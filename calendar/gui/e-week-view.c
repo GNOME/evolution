@@ -90,13 +90,6 @@
 #define EVOLUTION_CALENDAR_PROGRESS_IMAGE "evolution-calendar-mini.png"
 static GdkPixbuf *progress_icon[2] = { NULL, NULL };
 
-/* Signal IDs */
-enum {
-	SELECTION_CHANGED,
-	LAST_SIGNAL
-};
-static guint e_week_view_signals[LAST_SIGNAL] = { 0 };
-
 
 static void e_week_view_class_init (EWeekViewClass *class);
 static void e_week_view_init (EWeekView *week_view);
@@ -266,14 +259,6 @@ e_week_view_class_init (EWeekViewClass *class)
 	object_class = (GtkObjectClass *) class;
 	widget_class = (GtkWidgetClass *) class;
 
-	e_week_view_signals[SELECTION_CHANGED] =
-		gtk_signal_new ("selection_changed",
-				GTK_RUN_LAST,
-				G_TYPE_FROM_CLASS (object_class),
-				GTK_SIGNAL_OFFSET (EWeekViewClass, selection_changed),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
-
 	/* Method override */
 	object_class->destroy		= e_week_view_destroy;
 
@@ -287,8 +272,6 @@ e_week_view_class_init (EWeekViewClass *class)
 	widget_class->popup_menu        = e_week_view_popup_menu;
 	widget_class->expose_event	= e_week_view_expose_event;
 	widget_class->focus             = e_week_view_focus;
-
-	class->selection_changed = NULL;
 
 	/* clipboard atom */
 	if (!clipboard_atom)
@@ -306,7 +289,6 @@ e_week_view_init (EWeekView *week_view)
 
 	GTK_WIDGET_SET_FLAGS (week_view, GTK_CAN_FOCUS);
 
-	week_view->calendar = NULL;
 	week_view->client = NULL;
 	week_view->sexp = g_strdup ("#t"); /* match all by default */
 	week_view->query = NULL;
@@ -1136,18 +1118,9 @@ e_week_view_new_appointment (EWeekView *week_view, gboolean meeting)
 		all_day = TRUE;
 	}
 
-	gnome_calendar_new_appointment_for (week_view->calendar, dtstart, dtend, all_day, meeting);
+	gnome_calendar_new_appointment_for (e_cal_view_get_calendar (E_CAL_VIEW (week_view)),
+					    dtstart, dtend, all_day, meeting);
 }
-
-void
-e_week_view_set_calendar	(EWeekView	*week_view,
-				 GnomeCalendar	*calendar)
-{
-	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
-
-	week_view->calendar = calendar;
-}
-
 
 /* Callback used when a component is updated in the live query */
 static void
@@ -2379,8 +2352,8 @@ e_week_view_on_button_release (GtkWidget *widget,
 		start = week_view->day_starts[week_view->selection_start_day];
 		end = week_view->day_starts[week_view->selection_end_day + 1];
 
-		if (week_view->calendar)
-			gnome_calendar_set_selected_time_range (week_view->calendar, start, end);
+		gnome_calendar_set_selected_time_range (e_cal_view_get_calendar (E_CAL_VIEW (week_view)),
+							start, end);
 	}
 
 	return FALSE;
@@ -3060,8 +3033,8 @@ e_week_view_on_adjustment_changed (GtkAdjustment *adjustment,
 	if (week_view->selection_start_day != -1) {
 		start = week_view->day_starts[week_view->selection_start_day];
 		end = week_view->day_starts[week_view->selection_end_day + 1];
-		if (week_view->calendar)
-			gnome_calendar_set_selected_time_range (week_view->calendar, start, end);
+		gnome_calendar_set_selected_time_range (e_cal_view_get_calendar (E_CAL_VIEW (week_view)),
+							start, end);
 	}
 }
 
@@ -3177,10 +3150,13 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 {
 	EWeekViewEvent *event;
 	gint event_num, span_num;
+	GnomeCalendar *calendar;
 
 #if 0
 	g_print ("In e_week_view_on_text_item_event\n");
 #endif
+
+	calendar = e_cal_view_get_calendar (E_CAL_VIEW (week_view));
 
 	switch (gdkevent->type) {
 	case GDK_KEY_PRESS:
@@ -3210,9 +3186,8 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 		event = &g_array_index (week_view->events, EWeekViewEvent,
 					event_num);
 
-		if (week_view->calendar)
-			gnome_calendar_edit_object (week_view->calendar,
-						    event->comp, FALSE);
+		if (calendar)
+			gnome_calendar_edit_object (calendar, event->comp, FALSE);
 		else
 			g_warning ("Calendar not set");
 
@@ -3341,8 +3316,7 @@ e_week_view_on_editing_started (EWeekView *week_view,
 
 	g_object_set (item, "handle_popup", TRUE, NULL);
 
-	gtk_signal_emit (GTK_OBJECT (week_view),
-			 e_week_view_signals[SELECTION_CHANGED]);
+	g_signal_emit_by_name (week_view, "selection_changed");
 }
 
 
@@ -3435,8 +3409,7 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 
 	g_free (text);
 
-	gtk_signal_emit (GTK_OBJECT (week_view),
-			 e_week_view_signals[SELECTION_CHANGED]);
+	g_signal_emit_by_name (week_view, "selection_changed");
 }
 
 
@@ -3738,7 +3711,8 @@ free_view_popup (GtkWidget *widget, gpointer data)
 	if (week_view->view_menu == NULL)
 		return;
 	
-	gnome_calendar_discard_view_popup (week_view->calendar, week_view->view_menu);
+	gnome_calendar_discard_view_popup (e_cal_view_get_calendar (E_CAL_VIEW (week_view)),
+					   week_view->view_menu);
 	week_view->view_menu = NULL;
 }
 
@@ -3765,7 +3739,7 @@ e_week_view_show_popup_menu (EWeekView	     *week_view,
 	being_edited = FALSE;
 
 	if (event_num == -1) {
-		week_view->view_menu = gnome_calendar_setup_view_popup (week_view->calendar);
+		week_view->view_menu = gnome_calendar_setup_view_popup (e_cal_view_get_calendar (E_CAL_VIEW (week_view)));
 		main_items[9].submenu = week_view->view_menu;
 		context_menu = main_items;
 	} else {
@@ -3828,7 +3802,7 @@ e_week_view_on_new_event (GtkWidget *widget, gpointer data)
 	dtstart = week_view->day_starts[week_view->selection_start_day];
 	dtend = week_view->day_starts[week_view->selection_end_day + 1];
 	gnome_calendar_new_appointment_for (
-		week_view->calendar, dtstart, dtend, TRUE, FALSE);
+		e_cal_view_get_calendar (E_CAL_VIEW (week_view)), dtstart, dtend, TRUE, FALSE);
 }
 
 static void
@@ -3844,7 +3818,7 @@ e_week_view_on_new_task (GtkWidget *widget, gpointer data)
 {
 	EWeekView *week_view = E_WEEK_VIEW (data);
 
-	gnome_calendar_new_task (week_view->calendar);
+	gnome_calendar_new_task (e_cal_view_get_calendar (E_CAL_VIEW (week_view)));
 }
 
 static void
@@ -3852,7 +3826,7 @@ e_week_view_on_goto_date (GtkWidget *widget, gpointer data)
 {
 	EWeekView *week_view = E_WEEK_VIEW (data);
 
-	goto_dialog (week_view->calendar);
+	goto_dialog (e_cal_view_get_calendar (E_CAL_VIEW (week_view)));
 }
 
 static void
@@ -3860,7 +3834,7 @@ e_week_view_on_goto_today (GtkWidget *widget, gpointer data)
 {
 	EWeekView *week_view = E_WEEK_VIEW (data);
 
-	calendar_goto_today (week_view->calendar);
+	calendar_goto_today (e_cal_view_get_calendar (E_CAL_VIEW (week_view)));
 }
 
 static void
@@ -3868,6 +3842,7 @@ e_week_view_on_edit_appointment (GtkWidget *widget, gpointer data)
 {
 	EWeekView *week_view;
 	EWeekViewEvent *event;
+	GnomeCalendar *calendar;
 
 	week_view = E_WEEK_VIEW (data);
 
@@ -3877,9 +3852,9 @@ e_week_view_on_edit_appointment (GtkWidget *widget, gpointer data)
 	event = &g_array_index (week_view->events, EWeekViewEvent,
 				week_view->popup_event_num);
 
-	if (week_view->calendar)
-		gnome_calendar_edit_object (week_view->calendar, event->comp, 
-					    FALSE);
+	calendar = e_cal_view_get_calendar (E_CAL_VIEW (week_view));
+	if (calendar)
+		gnome_calendar_edit_object (calendar, event->comp, FALSE);
 	else
 		g_warning ("Calendar not set");
 }
@@ -3894,8 +3869,8 @@ e_week_view_on_print (GtkWidget *widget, gpointer data)
 
 	week_view = E_WEEK_VIEW (data);
 
-	gnome_calendar_get_current_time_range (week_view->calendar, &start, NULL);
-	view_type = gnome_calendar_get_view (week_view->calendar);
+	gnome_calendar_get_current_time_range (e_cal_view_get_calendar (E_CAL_VIEW (week_view)), &start, NULL);
+	view_type = gnome_calendar_get_view (e_cal_view_get_calendar (E_CAL_VIEW (week_view)));
 
 	switch (view_type) {
 	case GNOME_CAL_WEEK_VIEW:
@@ -3911,7 +3886,7 @@ e_week_view_on_print (GtkWidget *widget, gpointer data)
 		return;
 	}
 
-	print_calendar (week_view->calendar, FALSE, start, print_view);
+	print_calendar (e_cal_view_get_calendar (E_CAL_VIEW (week_view)), FALSE, start, print_view);
 }
 
 static void
@@ -3974,6 +3949,7 @@ e_week_view_on_meeting (GtkWidget *widget, gpointer data)
 {
 	EWeekView *week_view;
 	EWeekViewEvent *event;
+	GnomeCalendar *calendar;
 
 	week_view = E_WEEK_VIEW (data);
 
@@ -3983,8 +3959,9 @@ e_week_view_on_meeting (GtkWidget *widget, gpointer data)
 	event = &g_array_index (week_view->events, EWeekViewEvent,
 				week_view->popup_event_num);
 
-	if (week_view->calendar)
-		gnome_calendar_edit_object (week_view->calendar, event->comp, TRUE);
+	calendar = e_cal_view_get_calendar (E_CAL_VIEW (week_view));
+	if (calendar)
+		gnome_calendar_edit_object (calendar, event->comp, TRUE);
 	else
 		g_warning ("Calendar not set");
 }
@@ -4044,7 +4021,7 @@ e_week_view_on_settings (GtkWidget *widget, gpointer data)
 
 	week_view = E_WEEK_VIEW (data);
 
-	control_util_show_settings (week_view->calendar);
+	control_util_show_settings (e_cal_view_get_calendar (E_CAL_VIEW (week_view)));
 }
 
 static void
@@ -4295,9 +4272,12 @@ e_week_view_on_jump_button_event (GnomeCanvasItem *item,
 	if (event->type == GDK_BUTTON_PRESS) {
 		for (day = 0; day < E_WEEK_VIEW_MAX_WEEKS * 7; day++) {
 			if (item == week_view->jump_buttons[day]) {
-				if (week_view->calendar)
+				GnomeCalendar *calendar;
+
+				calendar = e_cal_view_get_calendar (E_CAL_VIEW (week_view));
+				if (calendar)
 					gnome_calendar_dayjump
-						(week_view->calendar,
+						(calendar,
 						 week_view->day_starts[day]);
 				else
 					g_warning ("Calendar not set");

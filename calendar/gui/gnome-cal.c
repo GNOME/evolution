@@ -907,7 +907,7 @@ setup_widgets (GnomeCalendar *gcal)
 
 	/* The Day View. */
 	priv->day_view = e_day_view_new ();
-	e_day_view_set_calendar (E_DAY_VIEW (priv->day_view), gcal);
+	e_cal_view_set_calendar (E_CAL_VIEW (priv->day_view), gcal);
 	gtk_widget_show (priv->day_view);
 	gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook),
 				  priv->day_view, gtk_label_new (""));
@@ -921,7 +921,7 @@ setup_widgets (GnomeCalendar *gcal)
 	e_day_view_set_work_week_view (E_DAY_VIEW (priv->work_week_view),
 				       TRUE);
 	e_day_view_set_days_shown (E_DAY_VIEW (priv->work_week_view), 5);
-	e_day_view_set_calendar (E_DAY_VIEW (priv->work_week_view), gcal);
+	e_cal_view_set_calendar (E_CAL_VIEW (priv->work_week_view), gcal);
 	gtk_widget_show (priv->work_week_view);
 	gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook),
 				  priv->work_week_view, gtk_label_new (""));
@@ -932,7 +932,7 @@ setup_widgets (GnomeCalendar *gcal)
 
 	/* The Week View. */
 	priv->week_view = e_week_view_new ();
-	e_week_view_set_calendar (E_WEEK_VIEW (priv->week_view), gcal);
+	e_cal_view_set_calendar (E_CAL_VIEW (priv->week_view), gcal);
 	gtk_widget_show (priv->week_view);
 	gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook),
 				  priv->week_view, gtk_label_new (""));
@@ -943,7 +943,7 @@ setup_widgets (GnomeCalendar *gcal)
 
 	/* The Month View. */
 	priv->month_view = e_week_view_new ();
-	e_week_view_set_calendar (E_WEEK_VIEW (priv->month_view), gcal);
+	e_cal_view_set_calendar (E_CAL_VIEW (priv->month_view), gcal);
 	e_week_view_set_multi_week_view (E_WEEK_VIEW (priv->month_view), TRUE);
 	gtk_widget_show (priv->month_view);
 	gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook),

@@ -26,6 +26,8 @@
 #include "e-cal-view.h"
 
 struct _ECalViewPrivate {
+	/* The GnomeCalendar we are associated to */
+	GnomeCalendar *calendar;
 };
 
 static void e_cal_view_class_init (ECalViewClass *klass);
@@ -34,6 +36,14 @@ static void e_cal_view_destroy (GtkObject *object);
 
 static GObjectClass *parent_class = NULL;
 
+/* Signal IDs */
+enum {
+	SELECTION_CHANGED,
+	LAST_SIGNAL
+};
+
+static guint e_cal_view_signals[LAST_SIGNAL] = { 0 };
+
 static void
 e_cal_view_class_init (ECalViewClass *klass)
 {
@@ -41,7 +51,20 @@ e_cal_view_class_init (ECalViewClass *klass)
 
 	parent_class = g_type_class_peek_parent (klass);
 
+	/* Create class' signals */
+	e_cal_view_signals[SELECTION_CHANGED] =
+		g_signal_new ("selection_changed",
+			      G_TYPE_FROM_CLASS (klass),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ECalViewClass, selection_changed),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE, 0);
+
+	/* Method override */
 	object_class->destroy = e_cal_view_destroy;
+
+	klass->selection_changed = NULL;
 }
 
 static void
@@ -68,3 +91,19 @@ e_cal_view_destroy (GtkObject *object)
 
 E_MAKE_TYPE (e_cal_view, "ECalView", ECalView, e_cal_view_class_init,
 	     e_cal_view_init, GTK_TYPE_TABLE);
+
+GnomeCalendar *
+e_cal_view_get_calendar (ECalView *cal_view)
+{
+	g_return_val_if_fail (E_IS_CAL_VIEW (cal_view), NULL);
+
+	return cal_view->priv->calendar;
+}
+
+void
+e_cal_view_set_calendar (ECalView *cal_view, GnomeCalendar *calendar)
+{
+	g_return_if_fail (E_IS_CAL_VIEW (cal_view));
+
+	cal_view->priv->calendar = calendar;
+}

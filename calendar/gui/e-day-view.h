@@ -240,9 +240,6 @@ struct _EDayView
 
 	GtkWidget *vscrollbar;
 
-	/* The calendar we are associated with. */
-	GnomeCalendar *calendar;
-
 	/* Calendar client object we are monitoring */
 	CalClient *client;
 
@@ -508,9 +505,6 @@ struct _EDayView
 struct _EDayViewClass
 {
 	ECalViewClass parent_class;
-
-	/* Notification signals */
-	void (* selection_changed) (EDayView *day_view);
 };
 
 

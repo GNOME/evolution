@@ -111,14 +111,6 @@
 #define EVOLUTION_CALENDAR_PROGRESS_IMAGE "evolution-calendar-mini.png"
 static GdkPixbuf *progress_icon[2] = { NULL, NULL };
 
-/* Signal IDs */
-enum {
-	SELECTION_CHANGED,
-	LAST_SIGNAL
-};
-static guint e_day_view_signals[LAST_SIGNAL] = { 0 };
-
-
 /* Drag and Drop stuff. */
 enum {
 	TARGET_CALENDAR_EVENT,
@@ -512,15 +504,6 @@ e_day_view_class_init (EDayViewClass *class)
 	object_class = (GtkObjectClass *) class;
 	widget_class = (GtkWidgetClass *) class;
 
-	e_day_view_signals[SELECTION_CHANGED] =
-		gtk_signal_new ("selection_changed",
-				GTK_RUN_LAST,
-				G_TYPE_FROM_CLASS (object_class),
-				GTK_SIGNAL_OFFSET (EDayViewClass, selection_changed),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
-
-
 	/* Method override */
 	object_class->destroy		= e_day_view_destroy;
 
@@ -533,8 +516,6 @@ e_day_view_class_init (EDayViewClass *class)
 	widget_class->key_press_event	= e_day_view_key_press;
  	widget_class->focus             = e_day_view_focus;
 	widget_class->popup_menu        = e_day_view_popup_menu;
-
-	class->selection_changed = NULL;
 
 	/* clipboard atom */
 	if (!clipboard_atom)
@@ -550,7 +531,6 @@ e_day_view_init (EDayView *day_view)
 
 	GTK_WIDGET_SET_FLAGS (day_view, GTK_CAN_FOCUS);
 
-	day_view->calendar = NULL;
 	day_view->client = NULL;
 	day_view->sexp = g_strdup ("#t"); /* match all by default */
 	day_view->query = NULL;
@@ -1504,17 +1484,6 @@ e_day_view_focus_out (GtkWidget *widget, GdkEventFocus *event)
 
 	return FALSE;
 }
-
-
-void
-e_day_view_set_calendar		(EDayView	*day_view,
-				 GnomeCalendar	*calendar)
-{
-	g_return_if_fail (E_IS_DAY_VIEW (day_view));
-
-	day_view->calendar = calendar;
-}
-
 
 /* Callback used when a component is updated in the live query */
 static void
@@ -3068,7 +3037,7 @@ e_day_view_on_top_canvas_button_press (GtkWidget *widget,
 
 			e_day_view_get_selected_time_range (day_view, &dtstart,
 							    &dtend);
-			gnome_calendar_new_appointment_for (day_view->calendar,
+			gnome_calendar_new_appointment_for (e_cal_view_get_calendar (E_CAL_VIEW (day_view)),
 							    dtstart, dtend,
 							    TRUE, FALSE);
 			return TRUE;
@@ -3190,7 +3159,7 @@ e_day_view_on_main_canvas_button_press (GtkWidget *widget,
 
 			e_day_view_get_selected_time_range (day_view, &dtstart,
 							    &dtend);
-			gnome_calendar_new_appointment_for (day_view->calendar,
+			gnome_calendar_new_appointment_for (e_cal_view_get_calendar (E_CAL_VIEW (day_view)),
 							    dtstart, dtend,
 							    FALSE, FALSE);
 			return TRUE;
@@ -3642,10 +3611,13 @@ e_day_view_on_event_double_click (EDayView *day_view,
 	e_day_view_stop_editing_event (day_view);
 
 	if (!destroyed) {
+		GnomeCalendar *calendar;
+
 		g_object_weak_unref ((GObject *) event->comp, comp_destroy_cb, &destroyed);
 
-		if (day_view->calendar)
-			gnome_calendar_edit_object (day_view->calendar, event->comp, FALSE);
+		calendar = e_cal_view_get_calendar (E_CAL_VIEW (day_view));
+		if (calendar)
+			gnome_calendar_edit_object (calendar, event->comp, FALSE);
 		else
 			g_warning ("Calendar not set");
 	}
@@ -3770,7 +3742,8 @@ free_view_popup (GtkWidget *widget, gpointer data)
 	if (day_view->view_menu == NULL)
 		return;
 	
-	gnome_calendar_discard_view_popup (day_view->calendar, day_view->view_menu);
+	gnome_calendar_discard_view_popup (e_cal_view_get_calendar (E_CAL_VIEW (day_view)),
+								    day_view->view_menu);
 	day_view->view_menu = NULL;
 }
 
@@ -3801,7 +3774,8 @@ e_day_view_show_popup_menu (EDayView *day_view,
 		&& day_view->selection_start_day != -1;
 
 	if (event_num == -1) {
-		day_view->view_menu = gnome_calendar_setup_view_popup (day_view->calendar);
+		day_view->view_menu = gnome_calendar_setup_view_popup (
+			e_cal_view_get_calendar (E_CAL_VIEW (day_view)));
 		main_items[9].submenu = day_view->view_menu;
 		context_menu = main_items;
 	} else {
@@ -3891,7 +3865,7 @@ e_day_view_on_new_appointment (GtkWidget *widget, gpointer data)
 	}
 
 	gnome_calendar_new_appointment_for (
-		day_view->calendar, dtstart, dtend, FALSE, FALSE);
+		e_cal_view_get_calendar (E_CAL_VIEW (day_view)), dtstart, dtend, FALSE, FALSE);
 }
 
 static void
@@ -3902,7 +3876,7 @@ e_day_view_on_new_event (GtkWidget *widget, gpointer data)
 	
 	e_day_view_get_selected_time_range (day_view, &dtstart, &dtend);
 	gnome_calendar_new_appointment_for (
-		day_view->calendar, dtstart, dtend, TRUE, FALSE);
+		e_cal_view_get_calendar (E_CAL_VIEW (day_view)), dtstart, dtend, TRUE, FALSE);
 }
 
 static void
@@ -3932,7 +3906,7 @@ e_day_view_on_new_meeting (GtkWidget *widget, gpointer data)
 	}
 
 	gnome_calendar_new_appointment_for (
-		day_view->calendar, dtstart, dtend, FALSE, TRUE);
+		e_cal_view_get_calendar (E_CAL_VIEW (day_view)), dtstart, dtend, FALSE, TRUE);
 }
 
 static void
@@ -3940,7 +3914,7 @@ e_day_view_on_new_task (GtkWidget *widget, gpointer data)
 {
 	EDayView *day_view = E_DAY_VIEW (data);
 
-	gnome_calendar_new_task (day_view->calendar);
+	gnome_calendar_new_task (e_cal_view_get_calendar (E_CAL_VIEW (day_view)));
 }
 
 static void
@@ -3948,7 +3922,7 @@ e_day_view_on_goto_date (GtkWidget *widget, gpointer data)
 {
 	EDayView *day_view = E_DAY_VIEW (data);
 
-	goto_dialog (day_view->calendar);
+	goto_dialog (e_cal_view_get_calendar (E_CAL_VIEW (day_view)));
 }
 
 static void
@@ -3956,7 +3930,7 @@ e_day_view_on_goto_today (GtkWidget *widget, gpointer data)
 {
 	EDayView *day_view = E_DAY_VIEW (data);
 
-	calendar_goto_today (day_view->calendar);
+	calendar_goto_today (e_cal_view_get_calendar (E_CAL_VIEW (day_view)));
 }
 
 static void
@@ -3964,6 +3938,7 @@ e_day_view_on_edit_appointment (GtkWidget *widget, gpointer data)
 {
 	EDayView *day_view;
 	EDayViewEvent *event;
+	GnomeCalendar *calendar;
 
 	day_view = E_DAY_VIEW (data);
 
@@ -3971,8 +3946,9 @@ e_day_view_on_edit_appointment (GtkWidget *widget, gpointer data)
 	if (event == NULL)
 		return;
 
-	if (day_view->calendar)
-		gnome_calendar_edit_object (day_view->calendar, event->comp, FALSE);
+	calendar = e_cal_view_get_calendar (E_CAL_VIEW (day_view));
+	if (calendar)
+		gnome_calendar_edit_object (calendar, event->comp, FALSE);
 	else
 		g_warning ("Calendar not set");
 }
@@ -4023,8 +3999,8 @@ e_day_view_on_print (GtkWidget *widget, gpointer data)
 
 	day_view = E_DAY_VIEW (data);
 
-	gnome_calendar_get_current_time_range (day_view->calendar, &start, NULL);
-	view_type = gnome_calendar_get_view (day_view->calendar);
+	gnome_calendar_get_current_time_range (e_cal_view_get_calendar (E_CAL_VIEW (day_view)), &start, NULL);
+	view_type = gnome_calendar_get_view (e_cal_view_get_calendar (E_CAL_VIEW (day_view)));
 
 	switch (view_type) {
 	case GNOME_CAL_DAY_VIEW:
@@ -4040,7 +4016,7 @@ e_day_view_on_print (GtkWidget *widget, gpointer data)
 		return;
 	}
 
-	print_calendar (day_view->calendar, FALSE, start, print_view);
+	print_calendar (e_cal_view_get_calendar (E_CAL_VIEW (day_view)), FALSE, start, print_view);
 }
 
 static void
@@ -4063,6 +4039,7 @@ e_day_view_on_meeting (GtkWidget *widget, gpointer data)
 {
 	EDayView *day_view;
 	EDayViewEvent *event;
+	GnomeCalendar *calendar;
 
 	day_view = E_DAY_VIEW (data);
 
@@ -4070,8 +4047,9 @@ e_day_view_on_meeting (GtkWidget *widget, gpointer data)
 	if (event == NULL)
 		return;
 
-	if (day_view->calendar)
-		gnome_calendar_edit_object (day_view->calendar, event->comp, TRUE);
+	e_cal_view_get_calendar (E_CAL_VIEW (day_view));
+	if (calendar)
+		gnome_calendar_edit_object (calendar, event->comp, TRUE);
 	else
 		g_warning ("Calendar not set");
 }
@@ -4129,7 +4107,7 @@ e_day_view_on_settings (GtkWidget *widget, gpointer data)
 
 	day_view = E_DAY_VIEW (data);
 
-	control_util_show_settings (day_view->calendar);
+	control_util_show_settings (e_cal_view_get_calendar (E_CAL_VIEW (day_view)));
 }
 
 static void
@@ -4468,6 +4446,7 @@ static void
 e_day_view_update_calendar_selection_time (EDayView *day_view)
 {
 	time_t start, end;
+	GnomeCalendar *calendar;
 
 	e_day_view_get_selected_time_range (day_view, &start, &end);
 
@@ -4476,8 +4455,9 @@ e_day_view_update_calendar_selection_time (EDayView *day_view)
 	g_print ("End  : %s", ctime (&end));
 #endif
 
-	if (day_view->calendar)
-		gnome_calendar_set_selected_time_range (day_view->calendar,
+	calendar = e_cal_view_get_calendar (E_CAL_VIEW (day_view));
+	if (calendar)
+		gnome_calendar_set_selected_time_range (calendar,
 							start, end);
 }
 
@@ -6241,8 +6221,7 @@ static void
 e_day_view_cursor_key_left (EDayView *day_view, GdkEventKey *event)
 {
 	if (day_view->selection_start_day == 0) {
-		if (day_view->calendar)
-			gnome_calendar_previous (day_view->calendar);
+		gnome_calendar_previous (e_cal_view_get_calendar (E_CAL_VIEW (day_view)));
 	} else {
 		day_view->selection_start_day--;
 		day_view->selection_end_day--;
@@ -6260,8 +6239,7 @@ static void
 e_day_view_cursor_key_right (EDayView *day_view, GdkEventKey *event)
 {
 	if (day_view->selection_end_day == day_view->days_shown - 1) {
-		if (day_view->calendar)
-			gnome_calendar_next (day_view->calendar);
+		gnome_calendar_next (e_cal_view_get_calendar (E_CAL_VIEW (day_view)));
 	} else {
 		day_view->selection_start_day++;
 		day_view->selection_end_day++;
@@ -6540,8 +6518,7 @@ e_day_view_on_editing_started (EDayView *day_view,
 
 	g_object_set (item, "handle_popup", TRUE, NULL);
 
-	gtk_signal_emit (GTK_OBJECT (day_view),
-			 e_day_view_signals[SELECTION_CHANGED]);
+	g_signal_emit_by_name (day_view, "selection_changed");
 }
 
 static void
@@ -6650,8 +6627,7 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 
 	g_free (text);
 
-	gtk_signal_emit (GTK_OBJECT (day_view),
-			 e_day_view_signals[SELECTION_CHANGED]);
+	g_signal_emit_by_name (day_view, "selection_changed");
 }
 
 

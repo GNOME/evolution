@@ -23,7 +23,9 @@
 #ifndef _E_CAL_VIEW_H_
 #define _E_CAL_VIEW_H_
 
+#include <cal-client/cal-client.h>
 #include <gtk/gtktable.h>
+#include "gnome-cal.h"
 
 G_BEGIN_DECLS
 
@@ -46,9 +48,15 @@ struct _ECalView {
 
 struct _ECalViewClass {
 	GtkTableClass parent_class;
+
+	/* Notification signals */
+	void (* selection_changed) (ECalView *cal_view);
 };
 
-GType e_cal_view_get_type (void);
+GType          e_cal_view_get_type (void);
+
+GnomeCalendar *e_cal_view_get_calendar (ECalView *cal_view);
+void           e_cal_view_set_calendar (ECalView *cal_view, GnomeCalendar *calendar);
 
 G_END_DECLS
 

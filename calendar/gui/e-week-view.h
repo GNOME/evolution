@@ -193,9 +193,6 @@ struct _EWeekView
 
 	GtkWidget *vscrollbar;
 
-	/* The calendar we are associated with. */
-	GnomeCalendar *calendar;
-
 	/* Calendar client object we are monitoring */
 	CalClient *client;
 
@@ -376,9 +373,6 @@ struct _EWeekView
 struct _EWeekViewClass
 {
 	ECalViewClass parent_class;
-
-	/* Notification signals */
-	void (* selection_changed) (EWeekView *week_view);
 };
 
 
