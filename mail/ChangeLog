@@ -1,3 +1,11 @@
+2001-07-05  Peter Williams  <peterw@ximian.com>
+
+	* mail-folder-cache.c (mail_folder_cache_set_folder_browser): Clear the
+	shell view label if mailer loses focus.
+
+	* mail-ops.c (do_update_subfolders_rec): Check for NULL url before
+	calling folder cache functions.
+
 2001-07-04  Gediminas Paulauskas <menesis@delfi.lt>
 
 	* folder-browser-ui.c (message_pixcache): set icon for ApplyFilters

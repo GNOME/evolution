@@ -363,10 +363,12 @@ do_update_subfolders_rec (CamelStore *store, CamelFolderInfo *info, EvolutionSto
 {
 	char *path;
 	
-	/* info->url == URI??? */
-	mail_folder_cache_set_update_estorage (info->url, storage);
-	mail_folder_cache_note_folderinfo (info->url, info);
-		
+	if (info->url) {
+		/* info->url == URI??? */
+		mail_folder_cache_set_update_estorage (info->url, storage);
+		mail_folder_cache_note_folderinfo (info->url, info);
+	}
+
 	path = g_strdup_printf("%s/%s", prefix, info->name);
 
 	if (info->child)

@@ -805,6 +805,17 @@ mail_folder_cache_set_folder_browser (FolderBrowser *fb)
 	if (fb) {
 		dm ("Reffing new browser %p", fb);
 		gtk_object_ref (GTK_OBJECT (fb));
+	} else if (shell_view != CORBA_OBJECT_NIL) {
+		CORBA_Environment ev;
+
+		CORBA_exception_init (&ev);
+		GNOME_Evolution_ShellView_setFolderBarLabel (shell_view,
+							     "",
+							     &ev);
+		if (BONOBO_EX (&ev))
+			g_warning ("Exception in folder bar label clear: %s",
+				   bonobo_exception_get_text (&ev));
+		CORBA_exception_free (&ev);
 	}
 
 	LOCK_FOLDERS ();
