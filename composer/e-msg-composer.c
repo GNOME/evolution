@@ -3324,7 +3324,6 @@ create_composer (int visible_mask)
 	int vis;
 	GList *icon_list;
 	BonoboControlFrame *control_frame;
-	GdkPixbuf *attachment_pixbuf;
 	
 	composer = g_object_new (E_TYPE_MSG_COMPOSER, "win_name", _("Compose a message"), NULL);
 	gtk_window_set_title ((GtkWindow *) composer, _("Compose a message"));
@@ -3444,11 +3443,9 @@ create_composer (int visible_mask)
 	gtk_misc_set_alignment (GTK_MISC (composer->attachment_expander_num), 1.0, 0.5);
 	expander_hbox = gtk_hbox_new (FALSE, 0);
 	
-	attachment_pixbuf = e_icon_factory_get_icon ("stock_attach", E_ICON_SIZE_MENU);
-	composer->attachment_expander_icon = gtk_image_new_from_pixbuf (attachment_pixbuf);
+	composer->attachment_expander_icon = e_icon_factory_get_image ("stock_attach", E_ICON_SIZE_MENU);
 	gtk_misc_set_alignment (GTK_MISC (composer->attachment_expander_icon), 1, 0.5);
 	gtk_widget_set_size_request (composer->attachment_expander_icon, 100, -1);
-	g_object_unref (attachment_pixbuf);	
 
 	gtk_box_pack_start (GTK_BOX (expander_hbox), composer->attachment_expander_label,
 			    TRUE, TRUE, 0);

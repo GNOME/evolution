@@ -1,3 +1,8 @@
+2004-11-26  JP Rosevear  <jpr@novell.com>
+
+	* e-msg-composer.c (create_composer): get image from icon factory
+	directly
+
 2004-10-28  Not Zed  <NotZed@Ximian.com>
 
 	* e-msg-composer.c (drag_data_received): fix the popup id.
