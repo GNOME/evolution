@@ -1,3 +1,8 @@
+2002-12-04  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-component-registry.c (component_free): Only invoke
+	wait_for_corba_object_to_die on components that are out-of-proc.
+
 2002-11-27  Not Zed  <NotZed@Ximian.com>
 
 	* main.c (show_development_warning): changed to use a gtkdialog

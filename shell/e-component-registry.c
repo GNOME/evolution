@@ -1,7 +1,7 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 /* e-component-registry.c
  *
- * Copyright (C) 2000  Ximian, Inc.
+ * Copyright (C) 2000, 2001, 2002  Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -145,7 +145,10 @@ component_free (Component *component)
 
 	g_object_unref (component->client);
 
-	wait_for_corba_object_to_die ((Bonobo_Unknown) corba_shell_component, component->id);
+	/* If the component is out-of-proc, wait for the process to die first.  */
+	if (bonobo_object (ORBit_small_get_servant (corba_shell_component)) == NULL)
+		wait_for_corba_object_to_die ((Bonobo_Unknown) corba_shell_component, component->id);
+
 	CORBA_Object_release (corba_shell_component, &ev);
 
 	e_free_string_list (component->folder_type_names);
