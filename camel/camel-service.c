@@ -28,6 +28,9 @@
 #include "camel-log.h"
 #include "camel-exception.h"
 
+#include <ctype.h>
+#include <stdlib.h>
+
 static GtkObjectClass *parent_class=NULL;
 
 /* Returns the class for a CamelService */
@@ -417,4 +420,89 @@ void
 camel_service_free_auth_types (CamelService *service, GList *authtypes)
 {
 	CSERV_CLASS (service)->free_auth_types (service, authtypes);
+}
+
+
+
+/* URL utility routines */
+
+/**
+ * camel_service_gethost: get a hostent for a CamelService's host
+ * @service: a CamelService
+ * @ex: a CamelException
+ *
+ * This is a convenience function to do a gethostbyname on the host
+ * for the service's URL.
+ *
+ * Return value: a (statically-allocated) hostent.
+ **/
+struct hostent *
+camel_service_gethost (CamelService *service, CamelException *ex)
+{
+	struct hostent *h;
+	char *hostname;
+
+	if (service->url->host)
+		hostname = service->url->host;
+	else
+		hostname = "localhost";
+	h = gethostbyname (hostname);
+	if (!h) {
+		extern int h_errno;
+
+		if (h_errno == HOST_NOT_FOUND || h_errno == NO_DATA) {
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_URL_INVALID,
+					      "No such host %s.", hostname);
+		} else {
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+					      "Temporarily unable to look up "
+					      "hostname %s.", hostname);
+		}
+		return NULL;
+	}
+
+	return h;
+}
+
+/**
+ * camel_service_getport: get the port number for a service's URL
+ * @service: a CamelService
+ * @default_name: the default service name if none is provided by the URL
+ * @default_number: the default port number if the @default_name lookup fails
+ * @proto: the protocol (eg, "tcp") to be used
+ * @ex: a CamelExcption
+ *
+ * This is a convenience function to get the port number for a service
+ * based on the service's URL (which may contain either a numeric
+ * or symbolic port name) and the provided defaults.
+ *
+ * Return value: a port number, or -1 if the user specified a port name
+ * that could not be resolved.
+ **/
+int
+camel_service_getport (CamelService *service, char *default_port,
+		       int default_number, char *proto, CamelException *ex)
+{
+	struct servent *s;
+	char *port;
+
+	if (service->url->port)
+		port = service->url->port;
+	else
+		port = default_port;
+
+	if (isdigit (*port))
+		return htons (atoi (port));
+
+	s = getservbyname (port, proto);
+	if (s)
+		return s->s_port;
+
+
+	if (port == service->url->port) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_URL_INVALID,
+				      "Unknown port `%s'", port);
+		return -1;
+	} else
+		return default_number;
 }

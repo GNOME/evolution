@@ -29,7 +29,6 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <errno.h>
-#include <netdb.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -43,6 +42,9 @@
 #include "camel-exception.h"
 #include "md5-utils.h"
 #include "url-util.h"
+
+/* Specified in RFC 1939 */
+#define POP3_PORT 110
 
 static CamelServiceClass *service_class = NULL;
 
@@ -203,28 +205,19 @@ pop3_connect (CamelService *service, CamelException *ex)
 {
 	struct hostent *h;
 	struct sockaddr_in sin;
-	int fd, status, apoplen;
+	int port, fd, status, apoplen;
 	char *buf, *apoptime, *pass;
 	CamelPop3Store *store = CAMEL_POP3_STORE (service);
 
 	if (!service_class->connect (service, ex))
 		return FALSE;
 
-	h = gethostbyname (service->url->host);
-	if (!h) {
-		extern int h_errno;
-		if (h_errno == HOST_NOT_FOUND || h_errno == NO_DATA) {
-			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_URL_INVALID,
-					      "No such host %s.",
-					      service->url->host);
-		} else {
-			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-					      "Temporarily unable to look up "
-					      "hostname %s.",
-					      service->url->host);
-		}
+	h = camel_service_gethost (service, ex);
+	if (!h)
 		return FALSE;
-	}
+	port = camel_service_getport (service, "pop3", POP3_PORT, "tcp", ex);
+	if (port == -1)
+		return FALSE;
 
 	pass = g_strdup (service->url->passwd);
 	if (!pass) {
@@ -240,11 +233,7 @@ pop3_connect (CamelService *service, CamelException *ex)
 	}
 
 	sin.sin_family = h->h_addrtype;
-	/* XXX this is all bad */
-	if (service->url->port && *service->url->port)
-		sin.sin_port = htons (atoi (service->url->port));
-	else
-		sin.sin_port = htons (110);
+	sin.sin_port = port;
 	memcpy (&sin.sin_addr, h->h_addr, sizeof (sin.sin_addr));
 
 	fd = socket (h->h_addrtype, SOCK_STREAM, 0);

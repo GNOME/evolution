@@ -35,6 +35,7 @@ extern "C" {
 #endif /* __cplusplus }*/
 
 #include <gtk/gtk.h>
+#include <netdb.h>
 #include "camel-types.h"
 #include "url-util.h"
 
@@ -113,6 +114,15 @@ CamelSession *      camel_service_get_session        (CamelService *service);
 GList *             camel_service_query_auth_types   (CamelService *service);
 void                camel_service_free_auth_types    (CamelService *service,
 						      GList *authtypes);
+
+/* convenience functions */
+struct hostent *    camel_service_gethost            (CamelService *service,
+						      CamelException *ex);
+int                 camel_service_getport            (CamelService *service,
+						      char *default_name,
+						      int default_number,
+						      char *proto,
+						      CamelException *ex);
 
 /* Standard Gtk function */
 GtkType camel_service_get_type (void);
