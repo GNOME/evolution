@@ -139,6 +139,8 @@ dbl_click_cb (EStorageSetView *essv,
 				 signals[FOLDER_SELECTED],
 				 e_shell_folder_selection_dialog_get_selected_path (folder_selection_dialog));
 	}
+
+	gtk_widget_destroy (GTK_WIDGET (folder_selection_dialog));
 }
 
 

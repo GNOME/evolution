@@ -1,7 +1,8 @@
 2000-12-14  Iain Holmes  <iain@helixcode.com>
 
 	* e-shell-folder-selection-dialog.c (dbl_click_cb): Modify to suit the
-	new double click callback signature.
+	new double click callback signature. Destroy the dialog after the double
+	click as well.
 
 2000-12-14  Ettore Perazzoli  <ettore@helixcode.com>
 
