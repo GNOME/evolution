@@ -13,7 +13,7 @@
 #define PARENT_TYPE gtk_object_get_type()
 
 static ECellView *
-ec_realize (ECell *e_cell, void *view)
+ec_realize (ECell *e_cell, ETableModel *table_model, void *view)
 {
 	return NULL;
 }
@@ -110,10 +110,10 @@ e_cell_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_co
 }
 
 ECellView *
-e_cell_realize (ECell *ecell, void *view)
+e_cell_realize (ECell *ecell, ETableModel *table_model, void *view)
 {
 	return E_CELL_CLASS (GTK_OBJECT (ecell)->klass)->realize (
-		ecell, view);
+		ecell, table_model, view);
 }
 
 void

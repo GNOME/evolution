@@ -14,6 +14,9 @@
 #include "e-table-item.h"
 #include "e-cursors.h"
 #include "e-cell-text.h"
+#include "e-table.h"
+
+#include "table-test.h"
 
 char buffer [1024];
 char **column_labels;
@@ -96,6 +99,16 @@ static void
 load_data ()
 {
 	int i;
+
+	{
+		static int loaded;
+
+		if (loaded)
+			return;
+		
+		loaded = TRUE;
+	}
+	
 
 	parse_headers ();
 
@@ -231,3 +244,49 @@ table_browser_test (void)
 		NULL);
 }
 
+static void
+do_e_table_demo (const char *col_spec, const char *group_spec)
+{
+	GtkWidget *e_table, *window;
+	ETableModel *e_table_model;
+	ECell *cell_left_just;
+	ETableHeader *full_header;
+	int i;
+	
+	/*
+	 * Data model
+	 */
+	e_table_model = e_table_simple_new (
+		col_count, row_count, value_at,
+		set_value_at, is_cell_editable, NULL);
+
+	full_header = e_table_header_new ();
+	cell_left_just = e_cell_text_new (e_table_model, NULL, GTK_JUSTIFY_LEFT);
+
+	for (i = 0; i < cols; i++){
+		ETableCol *ecol = e_table_col_new (
+			i, column_labels [i],
+			80, 20, cell_left_just,
+			g_str_equal, TRUE);
+
+		e_table_header_add_column (full_header, ecol, i);
+	}
+	
+	
+	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+	e_table = e_table_new (full_header, e_table_model, col_spec, group_spec);
+
+	gtk_container_add (GTK_CONTAINER (window), e_table);
+
+	gtk_widget_show (e_table);
+	gtk_widget_show (window);
+}
+
+void
+e_table_test (void)
+{
+	load_data ();
+	do_e_table_demo ("0,1,2,3,4", NULL);
+	do_e_table_demo ("0,1,2,3,4", "3");
+	do_e_table_demo ("0,1,2,3,4", "3,4");
+}

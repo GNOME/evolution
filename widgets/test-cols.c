@@ -16,6 +16,8 @@
 #include "e-cell-text.h"
 #include "e-cell-toggle.h"
 
+#include "table-test.h"
+
 #define LINES 4
 
 static struct {
@@ -90,7 +92,6 @@ multi_cols_test (void)
 	ETableHeader *e_table_header, *e_table_header_multiple;
 	ETableCol *col_0, *col_1;
 	ECell *cell_left_just, *cell_image_toggle;
-	int i;
 
 	gtk_widget_push_visual (gdk_rgb_get_visual ());
 	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
@@ -114,7 +115,7 @@ multi_cols_test (void)
 		images [1] = gdk_pixbuf_new_from_file ("image2.png");
 		images [2] = gdk_pixbuf_new_from_file ("image3.png");
 
-		cell_image_toggle = e_cell_toggle_new (e_table_model, 0, 3, images);
+		cell_image_toggle = e_cell_toggle_new (0, 3, images);
 
 		for (i = 0; i < 3; i++)
 			gdk_pixbuf_unref (images [i]);

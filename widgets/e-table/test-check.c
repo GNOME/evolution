@@ -16,6 +16,8 @@
 #include "e-cell-text.h"
 #include "e-cell-checkbox.h"
 
+#include "table-test.h"
+
 #define LINES 4
 
 static struct {
@@ -105,7 +107,7 @@ check_test (void)
 
 	cell_left_just = e_cell_text_new (e_table_model, NULL, GTK_JUSTIFY_LEFT);
 
-	cell_image_check = e_cell_checkbox_new (e_table_model);
+	cell_image_check = e_cell_checkbox_new ();
 	col_0 = e_table_col_new (0, "", 18, 18, cell_image_check, g_int_equal, TRUE);
 	e_table_header_add_column (e_table_header, col_0, 0);
 	

@@ -11,6 +11,13 @@ The objects are rendered by various view objects.  In the current code
 base, we use we use GnomeCanvasItems to do the rendering.  One for
 each table and one for the headers.
 
+* The main widget
+
+e-table.c, e-table.h:
+
+	Implements a full widget.  Uses various components described
+	below.  Handles column display as well as grouping/nesting
+
 * The Models
 
 All of them are GtkObjects.
@@ -78,6 +85,14 @@ e-cell-text.c, e-cell-text.h
 	implements text display: supports justification and font
 	setting.  Will add color in the future most likely
 
+e-cell-toggle.c, e-cell-toggle.h
+
+	A derivative of e-cell as well that support N-toggle values
+	using images.
+
+e-cell-check.c, e-cell-check.h
+	
+	An e-cell-toggle with two states only (for checkboxes).
 
 * The Filters
 

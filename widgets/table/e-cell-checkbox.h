@@ -18,7 +18,7 @@ typedef struct {
 } ECellCheckboxClass;
 
 GtkType    e_cell_checkbox_get_type (void);
-ECell     *e_cell_checkbox_new      (ETableModel *model);
+ECell     *e_cell_checkbox_new      (void);
 
 #endif /* _E_CELL_CHECKBOX_H_ */
 

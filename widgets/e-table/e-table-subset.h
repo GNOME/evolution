@@ -26,6 +26,7 @@ GtkType      e_table_subset_get_type  (void);
 ETableModel *e_table_subset_new       (ETableModel *etm, int n_vals);
 ETableModel *e_table_subset_construct (ETableSubset *ets, ETableModel *source, int nvals);
 
-ETableModel *e_table_subset_get_toplevel (ETableModel *table_model);
+ETableModel *e_table_subset_get_toplevel (ETableSubset *table_model);
 
 #endif /* _E_TABLE_SUBSET_H_ */
+

@@ -334,8 +334,6 @@ ethi_drag_motion (GtkObject *canvas, GdkDragContext *context,
 static void
 ethi_drag_end (GtkWidget *canvas, GdkDragContext *context, ETableHeaderItem *ethi)
 {
-	printf ("Ending\n");
-	
 	ethi_remove_drop_marker (ethi);
 	ethi_remove_destroy_marker (ethi);
 	ethi->drag_col = -1;

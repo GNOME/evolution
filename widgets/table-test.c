@@ -10,6 +10,7 @@
 #include <fcntl.h>
 #include <gnome.h>
 #include "e-cursors.h"
+#include "table-test.h"
 
 int
 main (int argc, char *argv [])
@@ -33,6 +34,8 @@ main (int argc, char *argv [])
 	table_browser_test ();
 	multi_cols_test ();
 	check_test ();
+	e_table_test ();
+	
 	gtk_main ();
 
 	e_cursors_shutdown ();

@@ -17,6 +17,8 @@ libevolutionwidgets_a_SOURCES = 		\
 	e-cell-toggle.h				\
 	e-cursors.c				\
 	e-cursors.h				\
+	e-table.c				\
+	e-table.h				\
 	e-table-col.c				\
 	e-table-col.h				\
 	e-table-group.c				\
@@ -32,7 +34,9 @@ libevolutionwidgets_a_SOURCES = 		\
 	e-table-simple.c			\
 	e-table-simple.h			\
 	e-table-sorted.c			\
-	e-table-sorted.h
+	e-table-sorted.h			\
+	e-table-subset.c			\
+	e-table-subset.h
 
 noinst_PROGRAMS =	\
 	table-test

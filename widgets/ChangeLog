@@ -1,3 +1,36 @@
+1999-12-12  Miguel de Icaza  <miguel@helixcode.com>
+
+	* e-table-subset.c (etss_proxy_model_row_changed): Added model
+	proxying.
+
+	* e-cell.h: Drop ETableModel from the ECell;  
+	(realize): Now takes an ETableModel
+	
+	* e-cell-checkbox.c: Adapted to new class
+	changes; 
+	* e-cell-toggle.c: ditto
+
+	* e-table-subset.c (etss_row_count): Fix this guy.
+
+1999-12-11  Miguel de Icaza  <miguel@helixcode.com>
+
+	* e-table-item.c (eti_unrealize_cell_views): Null the cell views.
+	(eti_header_structure_changed): Only unrealize/realize if we were
+	realized before.
+
+	* e-table-header.c (e_table_header_add_column): Allow -1 as an
+	insert position
+
+1999-12-11   Miguel de Icaza <miguel@helixcode.com>
+
+	* e-table.c: Massive fixage.
+
+	* test-table.c: Updates to test the mega widget.
+
+1999-12-10   Miguel de Icaza <miguel@helixcode.com>
+
+	* e-table.c: New file, implements the mega widget.
+
 1999-12-09  Miguel de Icaza  <miguel@gnu.org>
 
 	* e-table-header.c (e_table_header_col_diff): fix this routine.

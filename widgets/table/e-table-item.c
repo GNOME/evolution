@@ -73,7 +73,7 @@ eti_realize_cell_views (ETableItem *eti)
 	for (i = 0; i < eti->n_cells; i++){
 		ETableCol *col = e_table_header_get_column (eti->header, i);
 		
-		eti->cell_views [i] = e_cell_realize (col->ecell, eti);
+		eti->cell_views [i] = e_cell_realize (col->ecell, eti->table_model, eti);
 	}
 }
 
@@ -91,6 +91,7 @@ eti_unrealize_cell_views (ETableItem *eti)
 		eti->cell_views [i] = NULL;
 	}
 	g_free (eti->cell_views);
+	eti->cell_views = NULL;
 	eti->n_cells = 0;
 
 }
@@ -368,8 +369,12 @@ eti_header_structure_changed (ETableHeader *eth, ETableItem *eti)
 
 	eti->cols = e_table_header_count (eti->header);
 	eti->width = e_table_header_total_width (eti->header);
-	eti_unrealize_cell_views (eti);
-	eti_realize_cell_views (eti);
+
+	if (eti->cell_views){
+		eti_unrealize_cell_views (eti);
+		eti_realize_cell_views (eti);
+	}
+	
 	eti_update (GNOME_CANVAS_ITEM (eti), NULL, NULL, 0);
 
 	eti_request_redraw (eti);

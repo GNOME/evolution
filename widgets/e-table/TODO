@@ -18,3 +18,7 @@ mouse grabbing for scrolling
 	* Make sure we can boot and shutdown with no memory leaks.
 
 	* Run Insure on the thing.
+
+* Propagation
+
+	* Row changes should be reflected in the subsets.

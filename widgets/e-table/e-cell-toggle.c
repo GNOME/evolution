@@ -38,17 +38,18 @@ etog_queue_redraw (ECellToggleView *text_view, int view_col, int view_row)
  * ECell::realize method
  */
 static ECellView *
-etog_realize (ECell *ecell, void *view)
+etog_realize (ECell *ecell, ETableModel *table_model, void *view)
 {
 	ECellToggleView *toggle_view = g_new0 (ECellToggleView, 1);
 	ETableItem *eti = E_TABLE_ITEM (view);
 	GnomeCanvas *canvas = GNOME_CANVAS_ITEM (eti)->canvas;
 	
 	toggle_view->cell_view.ecell = ecell;
+	toggle_view->cell_view.table_model = table_model;
 	toggle_view->eti = eti;
 	toggle_view->canvas = canvas;
 	toggle_view->gc = gdk_gc_new (GTK_WIDGET (canvas)->window);
-
+	
 	return (ECellView *) toggle_view;
 }
 
@@ -80,7 +81,7 @@ etog_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	ArtPixBuf *art;
 	int x, y, width, height;
 	const int value = GPOINTER_TO_INT (
-		e_table_model_value_at (ecell_view->ecell->table_model, model_col, row));
+		e_table_model_value_at (ecell_view->table_model, model_col, row));
 
 	if (value >= toggle->n_states){
 		g_warning ("Value from the table model is %d, the states we support are [0..%d)\n",
@@ -172,7 +173,8 @@ etog_set_value (ECellToggleView *toggle_view, int model_col, int view_col, int r
 	if (value >= toggle->n_states)
 		value = 0;
 
-	e_table_model_set_value_at (ecell->table_model, model_col, row, GINT_TO_POINTER (value));
+	e_table_model_set_value_at (toggle_view->cell_view.table_model,
+				    model_col, row, GINT_TO_POINTER (value));
 	etog_queue_redraw (toggle_view, view_col, row);
 }
 
@@ -183,7 +185,7 @@ static gint
 etog_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, int row)
 {
 	ECellToggleView *toggle_view = (ECellToggleView *) ecell_view;
-	void *_value = e_table_model_value_at (ecell_view->ecell->table_model, model_col, row);
+	void *_value = e_table_model_value_at (ecell_view->table_model, model_col, row);
 	const int value = GPOINTER_TO_INT (_value);
 	
 	switch (event->type){
@@ -248,13 +250,11 @@ e_cell_toggle_class_init (GtkObjectClass *object_class)
 E_MAKE_TYPE(e_cell_toggle, "ECellToggle", ECellToggle, e_cell_toggle_class_init, NULL, PARENT_TYPE);
 
 void
-e_cell_toggle_construct (ECellToggle *etog, ETableModel *etm, int border, int n_states, GdkPixbuf **images)
+e_cell_toggle_construct (ECellToggle *etog, int border, int n_states, GdkPixbuf **images)
 {
 	int max_height =  0;
 	int i;
 	
-	E_CELL (etog)->table_model = etm;
-
 	etog->border = border;
 	etog->n_states = n_states;
 
@@ -272,11 +272,13 @@ e_cell_toggle_construct (ECellToggle *etog, ETableModel *etm, int border, int n_
 }
 
 ECell *
-e_cell_toggle_new (ETableModel *etm, int border, int n_states, GdkPixbuf **images)
+e_cell_toggle_new (int border, int n_states, GdkPixbuf **images)
 {
 	ECellToggle *etog = gtk_type_new (e_cell_toggle_get_type ());
 
-	e_cell_toggle_construct (etog, etm, border, n_states, images);
+	e_cell_toggle_construct (etog, border, n_states, images);
 
 	return (ECell *) etog;
 }
+
+

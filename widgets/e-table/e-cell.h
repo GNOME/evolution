@@ -15,11 +15,12 @@ typedef struct _ECellView ECellView;
 
 struct _ECell {
 	GtkObject       object;
-	ETableModel    *table_model;
 };
 
 struct _ECellView {
 	ECell *ecell;
+	ETableModel *table_model;
+	
 	gint   focus_x1, focus_y1, focus_x2, focus_y2;
 	gint   focus_col, focus_row;
 };
@@ -29,7 +30,7 @@ struct _ECellView {
 typedef struct {
 	GtkObjectClass parent_class;
 
-	ECellView *(*realize)   (ECell *ecell, void *view);
+	ECellView *(*realize)   (ECell *ecell, ETableModel *table_model, void *view);
 	void       (*unrealize) (ECellView *e_cell_view);
 	void   	   (*draw)      (ECellView *ecell_view, GdkDrawable *drawable,
 	       			 int model_col, int view_col, int row,
@@ -46,7 +47,7 @@ typedef struct {
 
 GtkType    e_cell_get_type  (void);
 void       e_cell_event     (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, int row);
-ECellView *e_cell_realize   (ECell *ecell, void *view);
+ECellView *e_cell_realize   (ECell *ecell, ETableModel *table_model, void *view);
 void       e_cell_unrealize (ECellView *ecell_view);
 void       e_cell_draw      (ECellView *ecell_view, GdkDrawable *dr, 
 			     int model_col, int view_col, int row, gboolean selected,

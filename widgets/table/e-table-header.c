@@ -126,7 +126,7 @@ e_table_header_add_column (ETableHeader *eth, ETableCol *tc, int pos)
 	g_return_if_fail (E_IS_TABLE_HEADER (eth));
 	g_return_if_fail (tc != NULL);
 	g_return_if_fail (E_IS_TABLE_COL (tc));
-	g_return_if_fail (pos >= 0 && pos <= eth->col_count);
+	g_return_if_fail (pos >= -1 && pos <= eth->col_count);
 
 	if (pos == -1)
 		pos = eth->col_count;

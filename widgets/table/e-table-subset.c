@@ -7,6 +7,8 @@
  * (C) 1999 Helix Code, Inc.
  */
 #include <config.h>
+#include <stdlib.h>
+#include <gtk/gtksignal.h>
 #include "e-util.h"
 #include "e-table-subset.h"
 
@@ -36,20 +38,12 @@ etss_column_count (ETableModel *etm)
 	return e_table_model_column_count (etss->source);
 }
 
-static const char *
-etss_column_name (ETableModel *etm, int col)
-{
-	ETableSubset *etss = (ETableSubset *)etm;
-
-	return e_table_model_column_name (etss->source, col);
-}
-
 static int
 etss_row_count (ETableModel *etm)
 {
 	ETableSubset *etss = (ETableSubset *)etm;
 
-	return e_table_model_row_count (etss->source);
+	return etss->n_map;
 }
 
 static void *
@@ -61,7 +55,7 @@ etss_value_at (ETableModel *etm, int col, int row)
 }
 
 static void
-etss_set_value_at (ETableModel *etm, int col, int row, void *val)
+etss_set_value_at (ETableModel *etm, int col, int row, const void *val)
 {
 	ETableSubset *etss = (ETableSubset *)etm;
 
@@ -76,14 +70,6 @@ etss_is_cell_editable (ETableModel *etm, int col, int row)
 	return e_table_model_is_cell_editable (etss->source, col, etss->map_table [row]);
 }
 
-static int
-etss_row_height (ETableModel *etm, int row)
-{
-	ETableSubset *etss = (ETableSubset *)etm;
-
-	return e_table_model_row_height (etss->source, etss->map_table [row]);
-}
-
 static void
 etss_class_init (GtkObjectClass *klass)
 {
@@ -94,16 +80,49 @@ etss_class_init (GtkObjectClass *klass)
 	klass->destroy = etss_destroy;
 
 	table_class->column_count     = etss_column_count;
-	table_class->column_name      = etss_column_name;
 	table_class->row_count        = etss_row_count;
 	table_class->value_at         = etss_value_at;
 	table_class->set_value_at     = etss_set_value_at;
 	table_class->is_cell_editable = etss_is_cell_editable;
-	table_class->row_height       = etss_row_height;
-
 }
 
 E_MAKE_TYPE(e_table_subset, "ETableSubset", ETableSubset, etss_class_init, NULL, PARENT_TYPE);
+
+static void
+etss_proxy_model_changed (ETableModel *etm, ETableSubset *etss)
+{
+	e_table_model_changed (E_TABLE_MODEL (etss));
+}
+
+static void
+etss_proxy_model_row_changed (ETableModel *etm, int row, ETableSubset *etss)
+{
+	const int n = etss->n_map;
+	const int * const map_table = etss->map_table;
+	int i;
+	
+	for (i = 0; i < n; i++){
+		if (map_table [i] == row){
+			e_table_model_row_changed (E_TABLE_MODEL (etss), i);
+			return;
+		}
+	}
+}
+
+static void
+etss_proxy_model_cell_changed (ETableModel *etm, int col, int row, ETableSubset *etss)
+{
+	const int n = etss->n_map;
+	const int * const map_table = etss->map_table;
+	int i;
+	
+	for (i = 0; i < n; i++){
+		if (map_table [i] == row){
+			e_table_model_cell_changed (E_TABLE_MODEL (etss), col, i);
+			return;
+		}
+	}
+}
 
 ETableModel *
 e_table_subset_construct (ETableSubset *etss, ETableModel *source, int nvals)
@@ -111,8 +130,8 @@ e_table_subset_construct (ETableSubset *etss, ETableModel *source, int nvals)
 	unsigned int *buffer;
 	int i;
 
-	buffer = (unsigned int *) malloc (sizeof (unsigned int *) * nvals);
-	if (buffer = NULL)
+	buffer = (unsigned int *) malloc (sizeof (unsigned int) * nvals);
+	if (buffer == NULL)
 		return NULL;
 	etss->map_table = buffer;
 	etss->n_map = nvals;
@@ -123,6 +142,14 @@ e_table_subset_construct (ETableSubset *etss, ETableModel *source, int nvals)
 	for (i = 0; i < nvals; i++)
 		etss->map_table [i] = i;
 
+	gtk_signal_connect (GTK_OBJECT (source), "model_changed",
+			    GTK_SIGNAL_FUNC (etss_proxy_model_changed), etss);
+	gtk_signal_connect (GTK_OBJECT (source), "model_row_changed",
+			    GTK_SIGNAL_FUNC (etss_proxy_model_row_changed), etss);
+	gtk_signal_connect (GTK_OBJECT (source), "model_cell_changed",
+			    GTK_SIGNAL_FUNC (etss_proxy_model_cell_changed), etss);
+	
+	return E_TABLE_MODEL (etss);
 }
 
 ETableModel *
@@ -147,5 +174,5 @@ e_table_subset_get_toplevel (ETableSubset *table)
 	if (E_IS_TABLE_SUBSET (table->source))
 		return e_table_subset_get_toplevel (E_TABLE_SUBSET (table->source));
 	else
-		return table->subset;
+		return table->source;
 }

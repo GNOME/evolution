@@ -26,11 +26,9 @@ typedef struct {
 } ECellToggleClass;
 
 GtkType    e_cell_toggle_get_type  (void);
-ECell     *e_cell_toggle_new       (ETableModel *model, int border,
-				    int n_states,
-				    GdkPixbuf **images);
-void       e_cell_toggle_construct (ECellToggle *etog, ETableModel *etm,
-				    int border, int n_states, GdkPixbuf **images);
+ECell     *e_cell_toggle_new       (int border, int n_states, GdkPixbuf **images);
+void       e_cell_toggle_construct (ECellToggle *etog, int border,
+				    int n_states, GdkPixbuf **images);
 
 #endif /* _E_CELL_TOGGLE_H_ */
 

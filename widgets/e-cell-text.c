@@ -13,6 +13,7 @@
 #include <gtk/gtksignal.h>
 #include <gdk/gdkkeysyms.h>
 #include <libgnomeui/gnome-canvas.h>
+#include <stdio.h>
 #include "e-cell-text.h"
 #include "e-util.h"
 #include "e-table-item.h"
@@ -62,7 +63,7 @@ ect_accept_edits (ECellTextView *text_view)
 	const char *text = gtk_entry_get_text (text_view->edit->entry);
 	CellEdit *edit = text_view->edit;
 	
-	e_table_model_set_value_at (text_view->eti->table_model, edit->model_col, edit->row, text);
+	e_table_model_set_value_at (text_view->cell_view.table_model, edit->model_col, edit->row, text);
 }
 
 /*
@@ -100,7 +101,7 @@ ect_cancel_edit (ECellTextView *text_view)
  * ECell::realize method
  */
 static ECellView *
-ect_realize (ECell *ecell, void *view)
+ect_realize (ECell *ecell, ETableModel *table_model, void *view)
 {
 	ECellText *ect = E_CELL_TEXT (ecell);
 	ECellTextView *text_view = g_new0 (ECellTextView, 1);
@@ -108,6 +109,8 @@ ect_realize (ECell *ecell, void *view)
 	GnomeCanvas *canvas = GNOME_CANVAS_ITEM (eti)->canvas;
 	
 	text_view->cell_view.ecell = ecell;
+	text_view->cell_view.table_model = table_model;
+	
 	text_view->gc = gdk_gc_new (GTK_WIDGET (canvas)->window);
 	if (ect->font_name){
 		GdkFont *f;
@@ -123,7 +126,7 @@ ect_realize (ECell *ecell, void *view)
 
 	text_view->eti = eti;
 	text_view->canvas = canvas;
-
+	
 	return (ECellView *)text_view;
 }
 
@@ -156,7 +159,7 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	ECellTextView *text_view = (ECellTextView *) ecell_view;
 	GtkWidget *w = GTK_WIDGET (text_view->canvas);
 	GdkRectangle rect;
-	const char *str = e_table_model_value_at (ecell_view->ecell->table_model, model_col, row);
+	const char *str = e_table_model_value_at (ecell_view->table_model, model_col, row);
 	GdkFont *font = text_view->font;
 	const int height = font->ascent + font->descent;
 	int xoff;
@@ -389,7 +392,7 @@ static void *
 ect_enter_edit (ECellView *ecell_view, int model_col, int view_col, int row)
 {
 	ECellTextView *text_view = (ECellTextView *) ecell_view;
-	const char *str = e_table_model_value_at (ecell_view->ecell->table_model, model_col, row);
+	const char *str = e_table_model_value_at (ecell_view->table_model, model_col, row);
 	CellEdit *edit;
 
 	edit = g_new (CellEdit, 1);
@@ -476,7 +479,6 @@ e_cell_text_new (ETableModel *etm, const char *fontname, GtkJustification justif
 
 	ect->font_name = g_strdup (fontname);
 	ect->justify = justify;
-	E_CELL (ect)->table_model = etm;
       
 	return (ECell *) ect;
 }

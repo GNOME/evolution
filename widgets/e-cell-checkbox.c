@@ -34,11 +34,11 @@ e_cell_checkbox_class_init (GtkObjectClass *object_class)
 E_MAKE_TYPE(e_cell_checkbox, "ECellCheckbox", ECellCheckbox, e_cell_checkbox_class_init, NULL, PARENT_TYPE);
 
 ECell *
-e_cell_checkbox_new (ETableModel *etm)
+e_cell_checkbox_new (void)
 {
 	ECellCheckbox *eccb = gtk_type_new (e_cell_checkbox_get_type ());
 
-	e_cell_toggle_construct (E_CELL_TOGGLE (eccb), etm, 2, 2, checks);
+	e_cell_toggle_construct (E_CELL_TOGGLE (eccb), 2, 2, checks);
       
 	return (ECell *) eccb;
 }
