@@ -11,24 +11,18 @@
 
 #include "e-categories-master-list-wombat.h"
 #include "e-categories-config.h"
+#include "e-config-listener.h"
 
-#include <tree.h>
-#include <parser.h>
-#include <gal/util/e-i18n.h>
-#include <gal/util/e-xml-utils.h>
-
-#include <bonobo/bonobo-moniker-util.h>
-#include <bonobo/bonobo-exception.h>
-#include <bonobo/bonobo-listener.h>
-#include <bonobo/bonobo-event-source.h>
+#include <libxml/tree.h>
+#include <libxml/parser.h>
 
 #define PARENT_TYPE e_categories_master_list_array_get_type ()
 
 #define d(x)
 
 struct _ECategoriesMasterListWombatPriv {
-	Bonobo_ConfigDatabase db;
-	Bonobo_EventSource_ListenerId listener_id;
+	EConfigListener *listener;
+	guint listener_id;
 };
 
 static ECategoriesMasterListArrayClass *parent_class;
@@ -39,12 +33,10 @@ ecmlw_load (ECategoriesMasterListWombat *ecmlw)
 	char *string;
 	gboolean def;
 
-	string = bonobo_config_get_string_with_default
-		(ecmlw->priv->db,
-		 "General/CategoryMasterList",
-		 NULL,
-		 &def);
-
+	string = e_config_listener_get_string_with_default (ecmlw->priv->listener,
+							    "/apps/Evolution/General/CategoryMasterList",
+							    NULL,
+							    &def);
 	/* parse the XML string */
 	if (!def) {
 		e_categories_master_list_array_from_string (E_CATEGORIES_MASTER_LIST_ARRAY (ecmlw),
@@ -60,20 +52,14 @@ static void
 ecmlw_save (ECategoriesMasterListWombat *ecmlw)
 {
 	char *string;
-	CORBA_Environment ev;
 
 	string = e_categories_master_list_array_to_string (E_CATEGORIES_MASTER_LIST_ARRAY (ecmlw));
 
 	d(g_print ("save: %s\n", string));
 
-	CORBA_exception_init (&ev);
-
-	bonobo_config_set_string (ecmlw->priv->db,
-				  "General/CategoryMasterList",
-				  string,
-				  &ev);
-
-	CORBA_exception_free (&ev);
+	e_config_listener_set_string (ecmlw->priv->listener,
+				      "/apps/Evolution/General/CategoryMasterList",
+				      string);
 
 	g_free (string);
 }
@@ -108,46 +94,43 @@ ecmlw_reset (ECategoriesMasterList *ecml)
 }
 
 static void
-ecmlw_destroy (GtkObject *object)
+ecmlw_dispose (GObject *object)
 {
 	ECategoriesMasterListWombat *ecmlw = E_CATEGORIES_MASTER_LIST_WOMBAT (object);
-	CORBA_Environment ev;
 
-	CORBA_exception_init (&ev);
+	if (ecmlw->priv) {
+		/* remove the listener */
+		g_signal_handler_disconnect (ecmlw->priv->listener,
+					     ecmlw->priv->listener_id);				     
 
-	/* remove the listener */
+		g_object_unref (ecmlw->priv->listener);
 
-	bonobo_event_source_client_remove_listener (ecmlw->priv->db,
-						    ecmlw->priv->listener_id,
-						    &ev);
-	bonobo_object_release_unref (ecmlw->priv->db, &ev);
+		g_free (ecmlw->priv);
+		ecmlw->priv = NULL;
+	}
 
-	CORBA_exception_free (&ev);
-
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	if (G_OBJECT_CLASS (parent_class)->dispose)
+		(* G_OBJECT_CLASS (parent_class)->dispose) (object);
 }
 
 
 static void
-ecmlw_class_init (GtkObjectClass *object_class)
+ecmlw_class_init (GObjectClass *object_class)
 {
 	ECategoriesMasterListClass *ecml_class = E_CATEGORIES_MASTER_LIST_CLASS(object_class);
 
-	parent_class          = gtk_type_class (PARENT_TYPE);
+	parent_class          = g_type_class_ref (PARENT_TYPE);
 
 	ecml_class->commit    = ecmlw_commit;
 
 	ecml_class->reset     = ecmlw_reset ;
 
-	object_class->destroy = ecmlw_destroy;
+	object_class->dispose = ecmlw_dispose;
 }
 
 static void 
-property_change_cb (BonoboListener    *listener,
-		    char              *event_name, 
-		    CORBA_any         *any,
-		    CORBA_Environment *ev,
+property_change_cb (EConfigListener   *listener,
+		    char              *key,
 		    gpointer           user_data)
 {
 	ecmlw_load (user_data);
@@ -156,45 +139,38 @@ property_change_cb (BonoboListener    *listener,
 static void
 ecmlw_init (ECategoriesMasterListWombat *ecmlw)
 {
-	CORBA_Environment ev;
-
-	CORBA_exception_init (&ev);
-
 	ecmlw->priv = g_new (ECategoriesMasterListWombatPriv, 1);
-	ecmlw->priv->db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", &ev);
+	ecmlw->priv->listener = e_config_listener_new ();
 
 	/* add a listener */
 	ecmlw->priv->listener_id =
-		bonobo_event_source_client_add_listener (ecmlw->priv->db, property_change_cb,
-							 NULL, &ev, ecmlw);
-	if (BONOBO_EX (&ev)) {
-		CORBA_exception_free (&ev);
-		return;
-	}
-
-	CORBA_exception_free (&ev);
+		g_signal_connect (ecmlw->priv->listener,
+				  "key_changed",
+				  G_CALLBACK (property_change_cb),
+				  ecmlw);
 
 	ecmlw_load (ecmlw);
 }
 
-guint
+GType
 e_categories_master_list_wombat_get_type (void)
 {
-	static guint type = 0;
-	
+	static GType type = 0;
+
 	if (!type) {
-		GtkTypeInfo info = {
-			"ECategoriesMasterListWombat",
-			sizeof (ECategoriesMasterListWombat),
+		static const GTypeInfo info =  {
 			sizeof (ECategoriesMasterListWombatClass),
-			(GtkClassInitFunc) ecmlw_class_init,
-			(GtkObjectInitFunc) ecmlw_init,
-			/* reserved_1 */ NULL,
-			/* reserved_2 */ NULL,
-			(GtkClassInitFunc) NULL,
+			NULL,           /* base_init */
+			NULL,           /* base_finalize */
+			(GClassInitFunc) ecmlw_class_init,
+			NULL,           /* class_finalize */
+			NULL,           /* class_data */
+			sizeof (ECategoriesMasterListWombat),
+			0,             /* n_preallocs */
+			(GInstanceInitFunc) ecmlw_init,
 		};
 
-		type = gtk_type_unique (PARENT_TYPE, &info);
+		type = g_type_register_static (PARENT_TYPE, "ECategoriesMasterListWombat", &info, 0);
 	}
 
 	return type;
@@ -203,5 +179,5 @@ e_categories_master_list_wombat_get_type (void)
 ECategoriesMasterList *
 e_categories_master_list_wombat_new       (void)
 {
-	return E_CATEGORIES_MASTER_LIST (gtk_type_new (e_categories_master_list_wombat_get_type ()));
+	return E_CATEGORIES_MASTER_LIST (g_object_new (E_TYPE_CATEGORIES_MASTER_LIST_WOMBAT, NULL));
 }

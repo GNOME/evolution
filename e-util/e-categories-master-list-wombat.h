@@ -4,15 +4,13 @@
 
 #include <gal/widgets/e-categories-master-list-array.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
-#define E_CATEGORIES_MASTER_LIST_WOMBAT_TYPE        (e_categories_master_list_wombat_get_type ())
-#define E_CATEGORIES_MASTER_LIST_WOMBAT(o)          (GTK_CHECK_CAST ((o), E_CATEGORIES_MASTER_LIST_WOMBAT_TYPE, ECategoriesMasterListWombat))
-#define E_CATEGORIES_MASTER_LIST_WOMBAT_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_CATEGORIES_MASTER_LIST_WOMBAT_TYPE, ECategoriesMasterListWombatClass))
-#define E_IS_CATEGORIES_MASTER_LIST_WOMBAT(o)       (GTK_CHECK_TYPE ((o), E_CATEGORIES_MASTER_LIST_WOMBAT_TYPE))
-#define E_IS_CATEGORIES_MASTER_LIST_WOMBAT_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_CATEGORIES_MASTER_LIST_WOMBAT_TYPE))
+#define E_TYPE_CATEGORIES_MASTER_LIST_WOMBAT        (e_categories_master_list_wombat_get_type ())
+#define E_CATEGORIES_MASTER_LIST_WOMBAT(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TYPE_CATEGORIES_MASTER_LIST_WOMBAT, ECategoriesMasterListWombat))
+#define E_CATEGORIES_MASTER_LIST_WOMBAT_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_TYPE_CATEGORIES_MASTER_LIST_WOMBAT, ECategoriesMasterListWombatClass))
+#define E_IS_CATEGORIES_MASTER_LIST_WOMBAT(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TYPE_CATEGORIES_MASTER_LIST_WOMBAT))
+#define E_IS_CATEGORIES_MASTER_LIST_WOMBAT_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TYPE_CATEGORIES_MASTER_LIST_WOMBAT))
 
 typedef struct _ECategoriesMasterListWombatPriv ECategoriesMasterListWombatPriv;
 
@@ -25,11 +23,9 @@ typedef struct {
 	ECategoriesMasterListArrayClass parent_class;
 } ECategoriesMasterListWombatClass;
 
-GtkType                e_categories_master_list_wombat_get_type  (void);
+GType                  e_categories_master_list_wombat_get_type  (void);
 ECategoriesMasterList *e_categories_master_list_wombat_new       (void);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* _E_CATEGORIES_MASTER_LIST_WOMBAT_H_ */

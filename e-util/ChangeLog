@@ -1,3 +1,11 @@
+2002-11-08  Chris Toshok  <toshok@ximian.com>
+
+	* Makefile.am (eutilinclude_HEADERS): add e-categories-config.h
+	and e-categories-master-list-wombat.h
+	(libeutil_la_SOURCES): add e-categories-master-list-wombat.c
+
+	* e-categories-master-list-wombat.[ch]: port work.
+
 2002-11-07  JP Rosevear  <jpr@ximian.com>
 
 	* e-categories-config.c (e_categories_config_get_icon_for): pass

@@ -19,6 +19,8 @@ privlib_LTLIBRARIES = libeutil.la libedb3util.la libeconduit.la
 noinst_LTLIBRARIES = libeutil-static.la libeconduit-static.la
 
 eutilinclude_HEADERS = 				\
+	e-categories-config.h			\
+	e-categories-master-list-wombat.h	\
 	e-component-listener.h			\
 	e-config-listener.h			\
 	e-corba-utils.h				\
@@ -44,6 +46,7 @@ eutilinclude_HEADERS = 				\
 libeutil_la_SOURCES =				\
 	$(eutilinclude_HEADERS)			\
 	e-categories-config.c			\
+	e-categories-master-list-wombat.c	\
 	e-component-listener.c			\
 	e-config-listener.c			\
 	e-corba-utils.c				\
@@ -84,8 +87,6 @@ MARSHAL_GENERATED = e-util-marshal.c e-util-marshal.h
 
 
 # FIXME TODO
-#	e-categories-config.c
-#	e-categories-master-list-wombat.[ch]
 #	e-passwords.c
 #	e-proxy.c
 #       bonobo-factory-util.[ch]
