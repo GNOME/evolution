@@ -8,7 +8,7 @@
       You might want to copy this section and tape it to the wall
       next to your computer: it's a very short summary of most of
       the things you'll want to do with
-      <application>Ximian Evolution</application>.
+      Ximian Evolution.
    </para>
 
 
@@ -24,10 +24,10 @@
 	      <para>
                 Press <keycombo action="simul"> <keycap>Ctrl</keycap>
 		  <keycap>N</keycap> </keycombo> to open a new item
-		  for whatever part of <application>Ximian
-		  Evolution</application> you're working on. In mail,
+		  for whatever part of Ximian
+		  Evolution you're working on. In mail,
 		  that means you'll create a new message. If you're
-		  looking at your addressbook, <keycombo
+		  looking at your address book, <keycombo
 		  action="simul"> <keycap>Ctrl</keycap>
 		  <keycap>N</keycap> </keycombo> creates a new contact
 		  card, and in the calendar, a new appointment.
@@ -151,7 +151,7 @@
 	    <listitem>
 	      <para>
                 Press <keycap>F9</keycap>, click the
-                <guibutton>Send/Receive</guibutton> button in the
+                <guilabel>Send/Receive</guilabel> button in the
                 toolbar, or choose
                 <menuchoice><guimenu>Actions</guimenu> 
                  <guimenuitem>Send/Receive</guimenuitem></menuchoice>.
@@ -185,7 +185,7 @@
 	    <listitem>
 	      <para>
                 To reply to the sender of the message only:
-                click <guibutton>Reply</guibutton> in the
+                click <guilabel>Reply</guilabel> in the
                 toolbar, or press
                 <keycombo action="simul">
 		  <keycap>Ctrl</keycap>
@@ -194,8 +194,8 @@
                 </para>
 	      <para>
                 To reply to the sender and all the other visible
-                recipients of the message, click <guibutton>Reply to
-                All</guibutton> or select the message and press
+                recipients of the message, click <guilabel>Reply to
+                All</guilabel> or select the message and press
                 <keycombo action="simul">
 		  <keycap>Shift</keycap>
 		  <keycap>Ctrl</keycap>
@@ -210,7 +210,7 @@
 	    <listitem>
 	      <para>
                 Select the message or messages you want to forward,
-                and click <guibutton>Forward</guibutton> in the
+                and click <guilabel>Forward</guilabel> in the
                 toolbar, or press
                 <keycombo action="simul">
 		  <keycap>Ctrl</keycap>
@@ -320,9 +320,9 @@
         </para>
   </sect1>
     <sect1 id="quickref-contact">
-        <title>Addressbook</title>
+        <title>Address Book</title>
         <para>
-	Here are shortcuts for the most frequent addressbook actions:
+	Here are shortcuts for the most frequent address book actions:
         <variablelist>
 	  <varlistentry>
 	    <term>Edit a Contact:</term>
@@ -353,7 +353,7 @@
 	    <listitem>
 	      <para>
 		Right click on a contact and click <guilabel>Delete</guilabel>
-		or select a contact and press the <guibutton>Delete</guibutton>
+		or select a contact and press the <guilabel>Delete</guilabel>
 		on the toolbar.
 	      </para>
 	    </listitem>
@@ -395,3 +395,4 @@
       </para>
   </sect1>
 </appendix>
+

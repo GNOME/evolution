@@ -1,18 +1,18 @@
   <appendix id="authors">
     <title>Authors</title>
      <para>
-      <application>Evolution</application> was written by the Ximian
+      Evolution was written by the Ximian
       Evolution team and numerous other dedicated GNOME programmers.
       You can see their names by selecting <menuchoice>
       <guimenu>Help</guimenu> <guimenuitem>About</guimenuitem>
       </menuchoice> from any Evolution window.
      </para>
     <para>
-      The <application>Evolution</application> code owes a great debt
+      The Evolution code owes a great debt
        to the <application>GNOME-pim</application> and
        <application>GNOME-Calendar</application> applications, and to
        <application>KHTMLW</application>.  The developers of
-       <application>Evolution</application> acknowledge the efforts
+       Evolution acknowledge the efforts
        and contributions of all who worked on those projects.
     </para>
 
@@ -25,8 +25,8 @@
 
    <para>
       For more information please visit the
-      <application>Evolution</application> <ulink
-      url="http://www.ximian.com/products/ximian_evolution/"
+      Evolution <ulink
+      url="http://www.ximian.com/products/evolution/"
       type="http">Web page</ulink>.  Please send all comments,
       suggestions, and bug reports to the <ulink
       url="http://bugzilla.ximian.com" type="http">Ximian bug tracking

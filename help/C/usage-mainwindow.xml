@@ -8,7 +8,7 @@
         Information is useless unless it's organized and accessible;
         it's hardly even worth the name if you can't look at it and be
         <emphasis>informed</emphasis>.  The goal of
-        <application>Ximian Evolution</application> is to make the
+        Ximian Evolution is to make the
         tasks of storing, organizing, and retrieving your personal
         information easier, so you can work and communicate with
         others.  That is, it's a highly evolved <glossterm
@@ -16,7 +16,7 @@
         part of the Internet-connected desktop.
       </para>
       <para>
-        In other words, <application>Ximian Evolution</application> is
+        In other words, Ximian Evolution is
         a tool to help you get your work done. It can help you work in
         a group by handling email, address and other contact
         information, and one or more calendars.  It can do that on one
@@ -25,11 +25,11 @@
       </para>
 
       <para>
-        With <application>Ximian Evolution</application>, you can
+        With Ximian Evolution, you can
         accomplish your most common daily tasks faster.  For example, it
         takes only one or two clicks to enter an appointment or an
         address card sent to you by email, or to send email to a contact
-        or appointment.  <application>Ximian Evolution</application>
+        or appointment.  Ximian Evolution
         makes displays faster and more efficient, so searches are faster
         and memory usage is lower.  People who get lots of mail will
         appreciate advanced features like <link
@@ -42,7 +42,7 @@
    <sect1 id="usage-mainwindow-starting">
      <title>The First Time you Start Ximian Evolution</title>
      <para>
-       To start <application>Ximian Evolution</application>, do either
+       To start Ximian Evolution, do either
       of the following: 
       <itemizedlist>
       <listitem>
@@ -85,7 +85,9 @@
 
            <listitem>
              <para>
-               To make your web browser use Evolution as the default email client, enter <userinput>evolution "%s"</userinput> as the email handler in your web browser or in the GNOME Control Center.
+               To make your web browser use Evolution as the default
+               email client, enter <userinput>evolution "%s"</userinput> as the email
+               handler in your web browser or in the GNOME Control Center.
             </para>
           </listitem>
         </itemizedlist>
@@ -94,7 +96,7 @@
   </para>
  <para>
      The first time you run the program, it will create a directory
-      called <filename>evolution</filename> in your home directory,
+      called <filename>.evolution</filename> in your home directory,
       where it will store all of its local data.  Then, it will open a
       first-run assistant to help you set up mail accounts and import
       data from other applications.
@@ -102,7 +104,17 @@
     <para>
       Using the first-run assistant will take approximately two to
       five minutes.
-    </para>
+    </para> 
+    <para>
+      Later on, if you want to change the account you are creating, or
+      if you want to create a new one,select
+        <menuchoice><guimenu>Tools</guimenu> <guimenuitem>Configure
+        </guimenuitem></menuchoice>, and click the <guilabel>Mail
+        Accounts</guilabel> button. Then, select the account you want
+        to change and click <guilabel>Edit</guilabel>, or click
+        <guilabel>Add</guilabel> to add a new account. See <xref
+        linkend="config-prefs-mail"/> for details.
+      </para>
 
     <sect2 id="first-step">
       <title>Defining Your Identity</title>
@@ -112,7 +124,7 @@
 	define multiple identities later on with the
 	<menuchoice><guimenu>Tools</guimenu>
 	<guimenuitem>Settings</guimenuitem></menuchoice> tool and
-	clicking the <guibutton>Mail Accounts</guibutton> button.
+	clicking the <guilabel>Mail Accounts</guilabel> button.
 	<itemizedlist>
 	  <listitem>
 	    <para>
@@ -150,7 +162,7 @@
 	  <listitem>
 	    <para>
 	      Server Type: There are numerous types of servers
-	      from which <application>Ximian Evolution</application>
+	      from which Ximian Evolution
 	      can fetch your mail.  Ask your system administrator if
 	      you're not sure which of the following are available to
 	      you:
@@ -158,21 +170,22 @@
 
 		<listitem>
 		  <para>
-		    POP: Downloads your email to your hard disk for
-		    permanent storage.
+		    GroupWise: Select this option if you use a
+                    GroupWise server. GroupWise keeps mail, calendar,
+                    and contact information on the server.
 		  </para>
 		</listitem>
+
 		<listitem>
 		  <para>
 		    Microsoft Exchange: Available only if you have
 		    purchased the Ximian Connector for Microsoft
 		    Exchange, this will allow you to connect to a
-		    Microsoft Exchange 2000 server, which stores
-		    email, calendar, and contact information on the
-		    server. 
+		    Microsoft Exchange 2000 or 2003 server, which
+                    stores email, calendar, and contact information on
+                    the server.
 		  </para>
 		</listitem>
-
 
 		<listitem>
 		  <para>
@@ -183,29 +196,8 @@
 
 		<listitem>
 		  <para>
-		    Standard Unix mbox spool or directory: If you want
-		    to read and store mail in the mail spool on your
-		    local system, choose this option. You'll need to
-		    provide the path to the mail spool
-		    you want to use.
-		  </para>
-		</listitem>
-
-		<listitem>
-		  <para>
-		    Maildir format mail directories: If you download
-		    your mail using qmail or another maildir-style
-		    program, you'll want to use this option.  You'll need
-		    to provide the path to the mail directory you want to
-		    use.
-		  </para>
-		</listitem>
-		<listitem>
-		  <para>
-		    MH format mail directories: If you download your
-		    mail using mh or another MH-style program, you'll
-		    want to use this option.  You'll need to provide
-		    the path to the mail directory you want to use.
+		    POP: Downloads your email to your hard disk for
+		    permanent storage.
 		  </para>
 		</listitem>
 
@@ -219,6 +211,36 @@
 		    spools</guimenuitem> option instead. You'll need
 		    to provide the path to the mail spool you want to
 		    use.
+		  </para>
+		</listitem>
+
+		<listitem>
+		  <para>
+		    MH format mail directories: If you download your
+		    mail using mh or another MH-style program, you'll
+		    want to use this option.  You'll need to provide
+		    the path to the mail directory you want to use.
+		  </para>
+		</listitem>
+
+		<listitem>
+		  <para>
+		    Maildir format mail directories: If you download
+		    your mail using qmail or another maildir-style
+		    program, you'll want to use this option.  You'll need
+		    to provide the path to the mail directory you want to
+		    use.
+		  </para>
+		</listitem>
+
+
+		<listitem>
+		  <para>
+		    Standard Unix mbox spool or directory: If you want
+		    to read and store mail in the mail spool on your
+		    local system, choose this option. You'll need to
+		    provide the path to the mail spool
+		    you want to use.
 		  </para>
 		</listitem>
 
@@ -271,8 +293,9 @@
 			</para>
 		      </listitem>
 		    </itemizedlist>
+
       <tip id="exchange-info">
-	<title>Ximian Evolution Talk to Microsoft Exchange?</title>
+	<title>Use Ximian Evolution with Microsoft Exchange</title>
          <para>
 	   If you have purchased Ximian Connector for Microsoft
 	   Exchange, you can access Microsoft Exchange 2000 servers
@@ -284,18 +307,13 @@
       </tip> 
 
     </sect2>
+
+
     <sect2 id="more-mail-options">
       <title>More Mail Configuration Options</title>
       <para>
-        There are more extensive options for mail preferences,
-        especially if you've chosen POP, Microsoft Exchange, or IMAP
-        as incoming mail server type.  If you want to set these
-        options after you've created the account, you can select
-        <menuchoice><guimenu>Tools</guimenu> <guimenuitem>Configure
-        </guimenuitem></menuchoice>, click the <guibutton>Mail
-        Accounts</guibutton> button. Then, select the account you want
-        to change and click <guibutton>Edit</guibutton>. See <xref
-        linkend="config-prefs-mail"/> for details.
+        Once you have selected a mail delivery mechanism, you may
+        set some preferences for its behavior:
       </para>
         <variablelist>
 	 <varlistentry>
@@ -304,7 +322,7 @@
          <itemizedlist>
 	  <listitem>
 	    <para>Checking for new mail: If you would like
-	    <application>Evolution</application> to check for new mail
+	    Evolution to check for new mail
 	    automatically, check the box and select a frequency in
 	    minutes.
             </para>
@@ -325,7 +343,7 @@
 	  <listitem><para>
         <itemizedlist> <listitem>
 	    <para>Checking for new mail: If you would like
-	    <application>Evolution</application> to check for new mail
+	    Evolution to check for new mail
 	    automatically, check the box and select a frequency in
 	    minutes.
             </para>
@@ -368,23 +386,23 @@
 	  </listitem>
         </itemizedlist>
       </para>
-	  </listitem>
-	</varlistentry>
-	<varlistentry>
+    </listitem>
+  </varlistentry>
+  <varlistentry>
 	  <term>If you chose IMAP:</term>
 	  <listitem>
 	    <para>
          <itemizedlist>
 	  <listitem>
 	    <para>Checking for new mail: If you would like
-	    <application>Evolution</application> to check for new mail
+	    Evolution to check for new mail
 	    automatically, check the box and select a frequency in
 	    minutes.  
             </para>
 	  </listitem>
 
 	  <listitem>
-	    <para>If you want <application>Evolution</application>
+	    <para>If you want Evolution
 	    to check for new messages in <emphasis>all</emphasis> your
 	    IMAP folders, make sure the <guilabel>Check for new
 	    messages in all folders</guilabel> box is selected.</para>
@@ -444,12 +462,14 @@
 	  <listitem>
 	    <para>
 	      Server Type: There are numerous server types that
-	      <application>Ximian Evolution</application> supports for sending your
+	      Ximian Evolution supports for sending your
 	      mail.
 	      <itemizedlist>
 		<listitem>
 		  <para>
-		    SMTP: Sends mail directly from your system.
+		    SMTP: Sends mail using an outbound mail
+                    server. This is the most common choice for sending
+                    mail.
 		  </para>
 		</listitem>
 
@@ -461,6 +481,12 @@
 		    Ximian Connector for Microsoft Exchange. You must
 		    have a valid license key purchased from <ulink
 		    url="http://store.ximian.com">store.ximian.com</ulink>.
+		  </para>
+		</listitem>
+
+		<listitem>
+		  <para>
+		    Groupwise: Sends mail through your GroupWise server. 
 		  </para>
 		</listitem>
 
@@ -500,9 +526,9 @@
 	      your best bet is to leave this set at
 	      <guilabel>Password</guilabel>.  If you're not sure, ask
 	      your system administrator or ISP, or have
-	      <application>Ximian Evolution</application> check for
-	      you by clicking <guibutton>Check for supported
-	      types</guibutton>.
+	      Ximian Evolution check for
+	      you by clicking <guilabel>Check for supported
+	      types</guilabel>.
 	    </para>
 	  </listitem>
 	  <listitem>
@@ -542,7 +568,8 @@
         If you check the box next to the label <guilabel>Make this my
       default account</guilabel>, Evolution will assume that you will
       send messages from this most often, and will set the
-      "From" selector to this account whenever you open a new message. Only one account can be the default.
+      "From" selector to this account whenever you open a new
+      message. Only one account can be the default.
     </para>
     <para>
       If you have not done so already, you may also be asked to choose
@@ -553,7 +580,7 @@
   <sect2 id="fourth-step">
       <title>Importing Mail (Optional)</title>
       <para>
-	If <application>Ximian Evolution</application> finds mail or
+	If Ximian Evolution finds mail or
 	address files from another application, it will offer to
 	import them.  If you're not sure which file format your mail
 	program uses, ask your system administrator.  If you want, you
@@ -562,17 +589,19 @@
 	<menuchoice><guimenu>File</guimenu><guimenuitem>Import</guimenuitem></menuchoice>.
       </para>
       <para>
-	<application>Ximian Evolution</application> can import the following types of
+	Ximian Evolution can import the following types of
 	files:
           <variablelist>
            <varlistentry>
 	    <term>VCard (.vcf, gcrd):</term>
 	    <listitem>
 	      <para>
-	         The addressbook format used by the GNOME, KDE, and
+	         The address book format used by the GNOME, KDE, and
 	         many other contact management applications. You
 	         should be able to export to VCard format from any
-	         address book application.
+                address book application. Failing that, export to CSV
+                format and use the <command>csv2vcard</command>
+              utility before importing.
 	      </para>
 	    </listitem>
 	  </varlistentry>
@@ -581,9 +610,11 @@
 	    <term>Microsoft Outlook Express 4 (.mbx):</term>
 	    <listitem>
 	      <para>
-                 Email file format used by Microsoft Outlook Express
-4. For other versions of Microsoft Outlook and Outlook Express, see
-the workaround described in the note below.
+                Email file format used by Microsoft
+                <application>Outlook Express 4</application>. For
+                other versions of Microsoft Outlook and Outlook
+                Express, see the workaround described in the note
+                below.
 	      </para>
 	    </listitem>
 	  </varlistentry>
@@ -603,39 +634,15 @@ the workaround described in the note below.
     <note>
       <title>Microsoft Outlook and Outlook Express Users</title>
       <para>
-	Microsoft Outlook, and versions of Outlook Express after
-	version 4, use proprietary formats that <application>Ximian
-	Evolution</application> cannot read or import.  For contacts,
+        <application>Microsoft Outlook</application>, and versions of
+        <application>Outlook Express</application> after
+	version 4, use proprietary formats that Ximian
+	Evolution cannot read or import.  For contacts,
 	you may have to email them to yourself and import them that
-	way.  For email, there is a simpler workaround:
-	<orderedlist numeration="arabic">
-
-	<listitem>
-	<para>
-	  While using Windows, import the files into Mozilla Mail (or
-	  another mailer, such as Netscape or Eudora, that uses the
-	  standard mbox format).
-        </para>
-        </listitem>
-	
-	<listitem>
-	<para>
-          Copy the files to the system or partition you use for
-          <application>Ximian Evolution</application>.  
-         </para>
-        </listitem>
-
-	<listitem>
-	<para>
-	  Use the <application>Ximian Evolution</application> import
-          tool to import the files.  There's more information about
-          why this works, and how, at the Ximian <ulink
-          url="http://support.ximian.com">support website.</ulink>
-      </para>
-        </listitem>
-     </orderedlist>
+	way.  For email, see the instructions in <xref
+	      linkend="outlook-migration-mail" />
     </para>
-    </note>     
+  </note>
 
     <note>
       <title>Netscape Users</title>
@@ -643,18 +650,15 @@ the workaround described in the note below.
 	Before importing mail from Netscape, make sure you select
 	<menuchoice><guimenu>File</guimenu><guimenuitem>Compact All
 	Folders</guimenuitem></menuchoice>. If you don't,
-	<application>Ximian Evolution</application> will import and undelete
+	Ximian Evolution will import and undelete
 	the messages in your Trash folders.
       </para>
     </note>     
-
-    </para>
-
-      <tip>
-	<title>Exporting Files From Ximian Evolution</title>
-	<para>
-          Ximian Evolution uses standard file types for all its information,
-          so you should have no trouble taking your information
+    <tip>
+      <title>Exporting Files From Ximian Evolution</title>
+      <para>
+        Ximian Evolution uses standard file types for all its information,
+        so you should have no trouble taking your information
           elsewhere if you want.
         </para>
 	<para>
@@ -663,8 +667,9 @@ the workaround described in the note below.
           in a <filename>.db3</filename> database.
         </para>
       </tip>
-    </sect2>
-  </sect1>
+    </para>
+  </sect2>
+</sect1>
 
   <sect1 id="importing-mail-from-clients">
     <title>Importing Mail from Other Mail Clients</title>
@@ -680,12 +685,12 @@ the workaround described in the note below.
 	which is shipped with many Linux and Unix distributions.
 	<application>mutt</application> uses the standard mbox,
 	maildir, and MH file formats, which makes importing your mail
-	into <application>Evolution</application> easy.  By default,
+	into Evolution relatively simple.  By default,
 	<application>mutt</application> uses the mbox file format.
 	<orderedlist numeration="arabic">
 	  <listitem>
 	    <para>
-	      Open <application>Ximian Evolution</application>
+	      Open Ximian Evolution
 	    </para>
 	  </listitem>
 	  <listitem>
@@ -704,17 +709,17 @@ the workaround described in the note below.
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Click <guibutton>Next</guibutton>.
+	      Click <guilabel>Next</guilabel>.
 	    </para>
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Select <guibutton>Import a Single File</guibutton>
+	      Select <guilabel>Import a Single File</guilabel>
 	    </para>
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Click <guibutton>Browse</guibutton> and select the file
+	      Click <guilabel>Browse</guilabel> and select the file
 	      you would like to import from.  By default, your email
 	      is stored in <filename>~/mbox</filename> for the mbox
 	      format and <filename
@@ -724,7 +729,7 @@ the workaround described in the note below.
 	  <listitem>
 	    <para>
 	      When prompted for what folder in
-	      <application>Evolution</application> to import to,
+	      Evolution to import to,
 	      select a folder.  You can also create a new folder and
 	      drop it in there.
 	    </para>
@@ -735,14 +740,16 @@ the workaround described in the note below.
     <sect2 id="kmail">
       <title>Importing Mail from KMail</title>
       <para>
-	KMail is the mail client which is shipped with the KDE desktop
-	environment.  KMail uses the standard mbox file format, which
+        <application>KMail</application>
+ is the mail client which is shipped with the KDE desktop
+        environment.  <application>KMail</application> uses the
+standard mbox file format, which
 	means that importing your mail into
-	<application>Evolution</application> is easy.
+	Evolution is easy.
 	<orderedlist numeration="arabic">
 	  <listitem>
 	    <para>
-	      Open <application>Ximian Evolution</application>
+	      Open Ximian Evolution
 	    </para>
 	  </listitem>
 	  <listitem>
@@ -761,17 +768,17 @@ the workaround described in the note below.
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Click <guibutton>Next</guibutton>.
+	      Click <guilabel>Next</guilabel>.
 	    </para>
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Select <guibutton>Import a Single File</guibutton>
+	      Select <guilabel>Import a Single File</guilabel>
 	    </para>
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Click <guibutton>Browse</guibutton> and select the file
+	      Click <guilabel>Browse</guilabel> and select the file
 	      you would like to import from.  By default, KMail stores
 	      its information in the Mail directory of your home
 	      directory.
@@ -780,7 +787,7 @@ the workaround described in the note below.
 	  <listitem>
 	    <para>
 	      When prompted for what folder in
-	      <application>Evolution</application> to import to,
+	      Evolution to import to,
 	      select a folder.  You can also create a new folder and
 	      drop it in there.
 	    </para>
@@ -796,7 +803,7 @@ the workaround described in the note below.
         Now that you've gotten the first-run configuration out of the
         way, you're ready to get down to work.  Here's a quick
         explanation of what's going on in your main
-        <application>Ximian Evolution</application> window.
+        Ximian Evolution window.
     </para>
 
     <figure id="preface-basic-interface">
@@ -820,8 +827,8 @@ the workaround described in the note below.
     
     <para>
       The <guilabel>menu bar</guilabel> gives you access to nearly all
-      the features that can be found in <application>Ximian
-      Evolution</application>.
+      the features that can be found in Ximian
+      Evolution.
     </para>
 
     <para>
@@ -840,8 +847,10 @@ the workaround described in the note below.
     </para>
     
     <para>
-      The <guilabel>Shortcut Bar</guilabel> lets you go to your favorite
-      components with the click of a click of a button.  
+      The <guilabel>Shortcut Bar</guilabel> lets you switch between
+    folders and between Evolution tools.  At the bottom of the
+    shortcut bar there are buttons that let you switch tools, and 
+    above that, all the available folders for the current tool.
     </para>
     
     <para>
@@ -850,10 +859,11 @@ the workaround described in the note below.
     </para>
     
     <para>
-      Periodically, <application>Ximian Evolution</application> will need to quietly
+      Periodically, Ximian Evolution will need to quietly
       display a message, or tell you the progress of a task.  This most
       often happens when you're checking or sending email.  These progress
-      queues are shown here, in the <guilabel>Status Bar</guilabel>.  
+    queues are shown here, in the <guilabel>Status Bar</guilabel>.
+    The Online/Offline indicator is here, too, in the lower left of the window.
     </para>
     
     <para>
@@ -866,122 +876,31 @@ the workaround described in the note below.
       with precision so you can easily find what you're looking for.
     </para>
 
-    
-
   <sect2 id="usage-mainwindow-shortcutbar">
     <title>The Shortcut Bar</title>
     <para>
-        <application>Ximian Evolution</application>'s most important job is
+        Ximian Evolution's most important job is
         to give you access to your information and help you use it
         quickly.  One way it does that is through the
         <interface>shortcut bar</interface>, the column on the left
-        hand side of the main window.  The large buttons with names
-        like <guilabel>Inbox</guilabel> and
-        <guilabel>Contacts</guilabel> are the shortcuts, and you can
-        select different groups of shortcuts by clicking the
-        rectangular group buttons.
+        hand side of the main window.  The  buttons with names
+        like <guilabel>Mail</guilabel> and
+        <guilabel>Contacts</guilabel> are the shortcuts. Above them
+        is a list of folders for the current Evolution tool.
     </para>
     <para>
-       Take a look at the <guilabel>Shortcut Bar</guilabel>.
-       The shortcut buttons in that category are:
-
-	    <variablelist>
-	      <varlistentry>
-		<term> <guibutton>Summary</guibutton>:</term>
-		<listitem>
-	    <para>
-		    Start your day here.  The Ximian Evolution
-		    <guilabel>Summary</guilabel> gives you a quick
-		    summary of new or important messages, daily
-		    appointments and urgent tasks.  You can customize
-		    its appearance and content, and use it to access
-		    Ximian Evolution services.
-		  </para>
-		</listitem>
-	      </varlistentry>
-
-	<varlistentry>
-	  <term> <guibutton>Inbox</guibutton>:</term>
-	  <listitem>
-	    <para>
-	      Click the <guibutton>Inbox</guibutton> button to start
-	      reading your mail.  Your Inbox is also where you can
-	      access Ximian Evolution's tools to filter, sort, organize, and
-	      search your mail.
-	    </para>
-	  </listitem>
-	</varlistentry>
-
-	<varlistentry>
-	  <term><guibutton>Calendar</guibutton>:</term>
-	  <listitem>
-	    <para>
-	      The Calendar can store your appointments and task lists
-	      for you.  Connected to a network, you can use it to keep
-	      a group of people on schedule and up to date.
-	    </para>
-	  </listitem>
-	</varlistentry>
-
-       <varlistentry>
-         <term><guibutton>Tasks</guibutton>:</term>
-	<listitem>
-	  <para>
-	     A full-size view of your calendar's task pad.
-	  </para>
-	</listitem>
-      </varlistentry>
-
-	<varlistentry>
-	  <term><guibutton>Contacts</guibutton>:</term>
-	  <listitem>
-	    <para>
-	      The Addressbook holds contacts, with address, phone, and
-	      other personal information. Like calendar information,
-	      contact data can be synchronized with hand-held devices
-	      and shared over a network.
-	   </para>
-	  </listitem>
-	</varlistentry>	  
-	</variablelist>
-      </para>
-    </sect2>
-    <sect2 id="usage-mainwindow-folderbar">
-    <title>Folders and The Folder Bar</title>
-    <para>
-      The <interface>folder bar</interface> is a more comprehensive
-      way to view the information you've stored with
-      <application>Ximian Evolution</application>. It displays all your
-      appointments, address cards, and email in a tree that's a lot
-      like a <glossterm linkend="filetree">file
-      tree</glossterm>&mdash; it starts small at the top, and branches
-      downward. On most computers, there will be three or four
-      folders at the base.  First, of course, is the
-      <guilabel>Summary</guilabel>, a customizable summary of your
-      information. Below that are your <guilabel>Local
-      Folders</guilabel>, which hold all the
-      <application>Ximian Evolution</application> data that's stored on your
-      computer.  After that are your network servers: <glossterm
-      linkend="ldap">LDAP</glossterm> servers that host shared contact
-      directories, and <glossterm linkend="imap">IMAP</glossterm> mail
-      folders to which you subscribe.  Lastly, there are
-      <guilabel>vFolders</guilabel>, or virtual folders, discussed in
-      <xref linkend="usage-mail-organize-vfolders"/>,
+      The folder list organizes your mail, calendars, address books,
+      and task lists in a tree, similar to a <glossterm linkend="filetree">file
+      tree</glossterm>.  Most people will find one to four 
+      folders at the base of the tree, depending on the tool and their
+    system configuration. Each Evolution tool will have at least one,
+    called <guilabel>On This Computer</guilabel>, for local
+    information. For example, the folder list for the email tool will show any
+    remote mail storage you have set up, plus local folders and 
+    <guilabel>vFolders</guilabel>, or virtual folders, discussed in <xref
+    linkend="usage-mail-organize-vfolders"/>. 
     </para>
 
-
-    <figure id="mainwin-folderbar">
-      <title>Using the Folder Bar</title>
-      <screenshot>
-	<screeninfo>Inbox with Folder Bar</screeninfo>
-	  <mediaobject>
-             <imageobject>
-                 <imagedata fileref="figures/folder-bar" format="PNG" srccredit="Aaron Weber"/> 
-             </imageobject>
-          </mediaobject>
-      </screenshot>
-    </figure>
-    
     <para>
        
       A typical <guilabel>Local</guilabel> folder contains the following folders:
@@ -1012,7 +931,7 @@ the workaround described in the note below.
 	   <para>
 	    <guilabel>Outbox</guilabel>, for messages you have written
 	    but not yet sent.  This will be empty unless you use
-	    <application>Ximian Evolution</application> while offline.
+	    Ximian Evolution while offline.
 	   </para>
 	 </listitem>
 
@@ -1041,14 +960,11 @@ the workaround described in the note below.
 
     </para>
     <tip id="foldertips">
-    <title>Navigating without the Folder Bar or the Shortcut Bar</title>
+    <title>Navigating without the Shortcut Bar</title>
        <para>
          You don't need the folder bar or the shortcut bar to move
          around the main window. You can use the <keycap>Tab</keycap>
-         key to switch from one part of the window to another. When
-         you hide the folder bar, there is a menu on the left side of
-         the window just below the toolbar to move about the folder
-         tree, even with the folder and shortcut bars hidden.
+         key to switch from one part of the window to another.
        </para>
      </tip>
 
@@ -1115,7 +1031,7 @@ the workaround described in the note below.
     <sect3 id="subfolders">
     <title>Subfolders</title>
       <para>
-        <application>Ximian Evolution</application> lets you nest folders
+        Ximian Evolution lets you nest folders
 	inside of each other, so that you can have a detailed
 	organizational system.
       </para>
@@ -1130,7 +1046,7 @@ the workaround described in the note below.
 
     <para>
       Right-clicking will bring up a menu for just about anything in
-      <application>Ximian Evolution</application>.  If you right-click on a
+      Ximian Evolution.  If you right-click on a
       folder, you'll have a menu with the following options:
       <itemizedlist>
 	<listitem><para><guimenuitem>View</guimenuitem>, to view the folder. </para></listitem>
@@ -1164,7 +1080,7 @@ the workaround described in the note below.
       provide all the possible actions for any given view of your
       data.  If you're looking at your Inbox, most of the menu items
       will relate to mail; some will relate to other components of
-      <application>Ximian Evolution</application> and some, especially those
+      Ximian Evolution and some, especially those
       in the <guimenu>File Menu</guimenu> will relate to the
       application as a whole. 
    </para> 
@@ -1190,9 +1106,9 @@ the workaround described in the note below.
        <varlistentry>
           <term> <guimenu>View</guimenu>:</term>
           <listitem><para>
-            This menu lets you decide how <application>Ximian Evolution</application> 
+            This menu lets you decide how Ximian Evolution 
             should look. Some of the features control the appearance of 
-            <application>Ximian Evolution</application> as a whole, and others 
+            Ximian Evolution as a whole, and others 
             the way a particular kind of information appears.
           </para></listitem>
         </varlistentry>
@@ -1237,8 +1153,8 @@ the workaround described in the note below.
           <term> <guimenu>Help</guimenu>:</term>
           <listitem><para>
              Select among these items to open the 
-             <application>Help Browser</application> 
-             and read the <application>Ximian Evolution</application> manual.
+             Help Browser 
+             and read the Ximian Evolution manual.
           </para></listitem>
         </varlistentry>
       </variablelist>
@@ -1248,75 +1164,15 @@ the workaround described in the note below.
       Once you've familiarized yourself with the <interface>main
       window</interface> you can start doing things with it.  We'll
       start with the <guilabel>Summary</guilabel>, which provides a
-      quick overview of your <application>Ximian
-      Evolution</application> information.
+      quick overview of your Ximian
+      Evolution information.
     </para>
     </sect2>
-    <sect2 id="basics-summary">
-      <title>Introducing the Summary</title>
-      <para>
-         The Ximian Evolution Summary provides you with a quick
-         run-down of important information: your appointments for a
-         given day, how much new mail you have, headlines from
-         selected news services, and so forth. To see the Summary,
-         click on the <guibutton>Summary</guibutton> button in the
-         shortcut bar, or select the <guilabel>Summary</guilabel>
-         folder in the folder bar.
-      </para>
-
-      <figure>
-	<title>The Evolution Summary</title>
-        <screenshot>
-          <screeninfo>The Evolution Summary gives you a quick view of your day</screeninfo>
-          <mediaobject>
-            <imageobject>
-              <imagedata  format="PNG" fileref="figures/summary" srccredit="Kevin Breit"/>
-            </imageobject>
-          </mediaobject>
-        </screenshot>
-      </figure>
-
-<para>
-<inlinemediaobject><imageobject><imagedata fileref="figures/full-1" format="PNG"/></imageobject></inlinemediaobject> <guilabel>Weather Summary</guilabel>
-</para>
-<para>
-Shows you the latest weather updates from hundreds of cities around the world.
-</para>
-<para>
-<inlinemediaobject><imageobject><imagedata fileref="figures/full-2" format="PNG"/></imageobject></inlinemediaobject> <guilabel>News Feeds</guilabel>
-</para>
-<para>
-Displays up to the minute news from your favorite websites.
-</para>
-<para>
-<inlinemediaobject><imageobject><imagedata fileref="figures/full-3" format="PNG"/></imageobject></inlinemediaobject> <guilabel>Mail Summary</guilabel>
-</para>
-<para>
-Shows you how many email messages you have in your selected folders, waiting to be read.
-</para>
-<para>
-<inlinemediaobject><imageobject><imagedata fileref="figures/full-4" format="PNG"/></imageobject></inlinemediaobject> <guilabel>Calendar Summary</guilabel>
-</para>
-<para>
-Shows you your calendar. Tasks are displayed below calendar appointments.
-</para>
-
-
-      <para>
-        To add additional services to your Summary, or to edit the
-        existing services, select
-        <menuchoice>
-	  <guimenu>Tools</guimenu>
-	  <guimenuitem>Configure</guimenuitem> </menuchoice> and click
-	  the <guibutton>Summary Settings</guibutton> button.
-      </para>
-
-    </sect2>
-
+    
     <sect2 id="basics-mail">
       <title>Introducing Email</title>
       <para>
-         <application>Ximian Evolution</application> email is like other
+         Ximian Evolution email is like other
          email programs in several ways:
      <itemizedlist>
 	  <listitem>
@@ -1349,18 +1205,19 @@ Shows you your calendar. Tasks are displayed below calendar appointments.
 	</itemizedlist>
       </para>
       <para>
-        However, <application>Ximian Evolution</application> has some
+        However, Ximian Evolution has some
         important differences.  First, it's built to handle very large
-        amounts of mail.  Both the <link
+      amounts of mail.  The <link
+      linkend="usage-mail-organize-spam">junk mail</link>, message <link
         linkend="usage-mail-organize-filters">filtering</link> and
         <link linkend="usage-mail-organize-search">searching</link>
         functions were built for speed and efficiency on large volumes
-        of mail. There's also the <application>Ximian Evolution</application>
-        <link linkend="usage-mail-organize-vfolders">vFolder</link>,
-        an advanced organizational feature not found in mainstream
-        mail clients.  If you get a lot of mail, or if you keep every
-        message you get in case you need to refer to it later, you'll
-        find this feature especially useful.
+        of mail. There's also the <link
+linkend="usage-mail-organize-vfolders">vFolder</link>, an advanced
+        organizational feature not found in mainstream mail clients.
+        If you get a lot of mail, or if you keep every message you get
+        in case you need to refer to it later, you'll find this
+        feature especially useful.
      </para>
      <para>
         Here's what the mailer looks like:
@@ -1406,8 +1263,8 @@ Shows you your calendar. Tasks are displayed below calendar appointments.
         and hold on the divider between the two panes.  Then you can drag
         up and down to select the size of the panes.
 
-</para>
-<para> Just like with folders, you can right-click on messages in the
+    </para>
+    <para> Just like with folders, you can right-click on messages in the
         message list and get a menu of possible actions: you can move,
         delete, or undelete them, and create filters or vFolders based
         on them.
@@ -1434,8 +1291,8 @@ Shows you your calendar. Tasks are displayed below calendar appointments.
     <sect2 id="basics-calendar">
       <title>Introducing the Calendar</title>
       <para>
-       To begin using the calendar, select
-       <guibutton>Calendar</guibutton> from the <interface>shortcut
+       To begin using the calendar, click the 
+       <guilabel>Calendar</guilabel> button in the <interface>shortcut
        bar</interface>.  By default, the calendar starts showing
        today's schedule on a ruled background.  At the upper right,
        there's a monthly calendar you can use to switch days.  Below
@@ -1480,7 +1337,8 @@ Shows you your calendar. Tasks are displayed below calendar appointments.
         have complex notes associated with them, and you can also note
         their completeness on a percentage scale. To display more
         information about your notes, drag the column border to the
-        left.
+        left. For a very detailed view of your tasks, click the
+        <guilabel>Tasks</guilabel> button in the shortcut bar.
       </para>
 
       <para>
@@ -1505,25 +1363,24 @@ Shows you your calendar. Tasks are displayed below calendar appointments.
     <sect2 id="basics-contacts">
       <title>Introducing the Address Book</title>
       <para>
-        The <application>Ximian Evolution</application> address book
+        The Ximian Evolution address book
         can handle all of the functions of an address book, phone
         book, or Rolodex.  Of course, it's a lot easier to update
-        <application>Ximian Evolution</application> than it is to
-        change an actual paper book. <application>Ximian
-        Evolution</application> also allows easy synchronization with
+        Ximian Evolution than it is to
+        change an actual paper book. Ximian
+        Evolution also allows easy synchronization with
         hand-held devices and functions with <glossterm
         linkend="ldap">LDAP</glossterm> directories on a network.
       </para>
       <para>
-        Another advantage of the <application>Ximian Evolution</application>
+        Another advantage of the Ximian Evolution
         address book is its integration with the rest of the
         application.  For example, you can create an address card from
         an email just by right-clicking on the sender's email address.
       </para>
       <para>
         To open your address book, click on
-        <guibutton>Contacts</guibutton> in the shortcut bar, or select
-        one of your contacts folders from the folder bar.  <xref
+        <guilabel>Contacts</guilabel> in the shortcut bar.  <xref
         linkend="usage-contact-fig"/> shows the address book in all its
         organizational glory.  By default, the address book shows all
         your cards in alphabetical order, in a <glossterm
@@ -1551,17 +1408,18 @@ Shows you your calendar. Tasks are displayed below calendar appointments.
       </para>
 
       <para>
-        The <guilabel>Contact List</guilabel> lists your contact cards.
-        You can also search through the cards in the same way 
-        that you search email folders, with the search bar just
-        above the contact list.
+        The largest section of the address book lists your
+        contacts. You can also search through the cards in the same way
+        that you search email folders, with the search tool on the
+        right side of the toolbar.
       </para>
 
       <para>
 	<inlinemediaobject><imageobject><imagedata  fileref="figures/full-2" format="PNG"/></imageobject></inlinemediaobject>
 	<guilabel>Alphanumeric Shortcuts</guilabel>
       </para>
-      <para> Click one of the buttons along the right side of the
+      <para>
+        Click one of the buttons along the right side of the
         window to view contacts that begin with the letter or number
         you click.
       </para>

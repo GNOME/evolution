@@ -5,7 +5,7 @@
         Perhaps your mail server has changed names.  Perhaps you've
         grown tired of a certain layout for your appointments.
         Whatever the reason, you want to change your
-        <application>Evolution</application> settings.  This chapter
+        Evolution settings.  This chapter
         will tell you how to do just that.
       </para>
       <para>
@@ -122,19 +122,6 @@
 	</listitem>
       </varlistentry>
 
-      <varlistentry>
-	<term><guiicon>Summary Preferences</guiicon></term>
-	<listitem>
-	  <para>
-             Set the mail folders, news feeds, schedule summary
-             length, and weather locations to be displayed here. For
-             news feeds, enter the web address of any RDF
-            file. Summary customization is covered in <xref
-            linkend="customizing-summary" /> rather than in this
-            chapter.
-          </para>
-	</listitem>
-      </varlistentry>
 
       <varlistentry>
 	<term><guiicon>Out of Office</guiicon></term>
@@ -154,7 +141,7 @@
    <sect1 id="config-prefs-mail-identity">
       <title>Working with Mail Accounts</title> 
       <para>
-         <application>Ximian Evolution</application> allows you to
+         Ximian Evolution allows you to
          maintain multiple accounts, or identities.  This is useful
          want to keep personal and professional email separate, or if
          you wear several hats at work. When you are writing an email
@@ -164,23 +151,23 @@
        </para>
 
        <para>
-         Clicking <guibutton>Send/Receive</guibutton> will refresh any
+         Clicking <guilabel>Send/Receive</guilabel> will refresh any
          IMAP, <filename>mh</filename>, or
          <filename>mbox</filename> listings
          and check and download mail from all POP servers.  In other
-         words, <guibutton>Send/Receive</guibutton> gets your mail, no
+         words, <guilabel>Send/Receive</guilabel> gets your mail, no
          matter how many sources you have, or what types they are.  If
          you don't want to check mail for a given account, select it
          in the <guilabel>Mail Accounts</guilabel> tab and click the
-         <guibutton>Disable</guibutton> button.
+         <guilabel>Disable</guilabel> button.
        </para>
        
       <para>
-         To add a new account, simply click <guibutton>Add</guibutton>
+         To add a new account, simply click <guilabel>Add</guilabel>
          to open the mail configuration assistant. To alter an
          existing identity, select it in the
          <interface>Preferences</interface> window, and then click
-         <guibutton>Edit</guibutton> to open the account editor
+         <guilabel>Edit</guilabel> to open the account editor
          dialog.
       </para>
 
@@ -211,8 +198,8 @@
              that already exist on your desktop computer.  If you use
              a server, it may permit or require you to use a Secure
              Socket Layer (SSL) connection.  To turn SSL connections
-             on, just click the <guibutton>Use Secure Connection
-             (SSL)</guibutton> button.
+             on, just click the <guilabel>Use Secure Connection
+             (SSL)</guilabel> button.
 
 <note id="config-arbitrary-port">
 <title>Specifying Port Numbers</title>
@@ -247,7 +234,7 @@ smtp.omniport.com:143
                    <itemizedlist>
 			  <listitem>
 			    <para>Checking for new mail: If you would
-	                     like <application>Evolution</application>
+	                     like Evolution
 	                     to check for new mail automatically,
 	                     check the box and select a frequency in
 	                     minutes.
@@ -344,14 +331,14 @@ smtp.omniport.com:143
          <itemizedlist>
 	  <listitem>
 	    <para><guilabel>Checking for new mail</guilabel>: If you would like
-	    <application>Evolution</application> to check for new mail
+	    Evolution to check for new mail
 	    automatically, check the box and select a frequency in
 	    minutes.  
             </para>
 	  </listitem>
 
 	  <listitem>
-	    <para>If you want <application>Evolution</application>
+	    <para>If you want Evolution
 	    to check for new messages in <emphasis>all</emphasis> your
 	    IMAP folders, make sure the <guilabel>Check for new
 	    messages in all folders</guilabel> box is selected.</para>
@@ -426,8 +413,8 @@ smtp.omniport.com:143
               Here, you can decide where this account will store the
               messages that it has sent, and the messages that you
               save as drafts. If you wish to revert to the "factory"
-              settings, click the <guibutton>Restore
-            Defaults</guibutton> button.
+              settings, click the <guilabel>Restore
+            Defaults</guilabel> button.
             </para>
             <para>
               If you wish to send someone a copy of every message from
@@ -466,8 +453,8 @@ smtp.omniport.com:143
       </para>
       <para>
         The <guilabel>Offline Folders</guilabel> are the ones which
-        will be cached when you activate the <guibutton>Go
-        Offline</guibutton> feature. 
+        will be cached when you activate the <guilabel>Go
+        Offline</guilabel> feature. 
       </para>
       <para>
         Select one or more folders of contacts for your
@@ -589,7 +576,7 @@ smtp.omniport.com:143
              patterns to confirm "live" addresses and invade your
              privacy. You may elect never to load images
              automatically, to load images only if the sender is in
-             your addressbook, or always load images.
+             your address book, or always load images.
            </para>
            <para>
              If you have chosen not to load images automatically, you
@@ -625,7 +612,7 @@ smtp.omniport.com:143
    <para>
      The <guilabel>Colors</guilabel> tab lets you select different
    color labels for individual messages. You can return to the default
-   settings by clicking the <guibutton>Restore Defaults</guibutton>
+   settings by clicking the <guilabel>Restore Defaults</guilabel>
    button.
  </para>
 </sect1>
@@ -714,7 +701,7 @@ smtp.omniport.com:143
       <menuchoice><guimenu>Tools</guimenu><guisubmenu>Settings</guisubmenu></menuchoice>,
       click on the <guiicon>Composer preferences</guiicon> icon, then
       select the <guilabel>Spell Checking</guilabel> tab and check the
-      <guibutton>Check spelling while i type</guibutton> box, and
+      <guilabel>Check spelling while i type</guilabel> box, and
       choose a color for your misspelled words.
   </para>
 </sect1>
@@ -727,14 +714,14 @@ smtp.omniport.com:143
             reason not to keep them right next to your mail.  When you
             first select the <guilabel>News Servers</guilabel> tab,
             you will see a blank box with the three familiar buttons
-            on the right: <guibutton>Add</guibutton>,
-            <guibutton>Edit</guibutton>, and
-            <guibutton>Delete</guibutton>.
+            on the right: <guilabel>Add</guilabel>,
+            <guilabel>Edit</guilabel>, and
+            <guilabel>Delete</guilabel>.
           </para>
           <para>
-            Click <guibutton>Add</guibutton> to add a news server; you
+            Click <guilabel>Add</guilabel> to add a news server; you
             will be prompted for its name.  Enter the name, click
-            <guibutton>OK</guibutton>, and you're done.  You can have
+            <guilabel>OK</guilabel>, and you're done.  You can have
             as many news servers as you like, of course.  News servers
             will appear next to your IMAP servers in the
             <interface>folder bar</interface>.
@@ -791,7 +778,7 @@ smtp.omniport.com:143
 	      <para>
                 When does your work day start, and when does it end?
 		In the day and week views,
-		<application>Evolution</application> displays all the
+		Evolution displays all the
 		hours in the range you select here, even if there are
 		no appointments for those times.  Of course, you can
 		still schedule an appointment outside of these hours,
@@ -864,7 +851,7 @@ smtp.omniport.com:143
 	    <listitem>
 	      <para>
 		If there is space,
-		<application>Evolution</application> will show the end
+		Evolution will show the end
 		times in the week and month views for each
 		appointment.
               </para>
@@ -913,11 +900,11 @@ smtp.omniport.com:143
   <sect1 id="config-prefs-contact">
     <title>Directory Server Settings</title>
     <para>
-        Addressbook settings are limited to the usage and
+        Address book settings are limited to the usage and
         configuration of directory servers (LDAP and
       Exchange). To learn how to set autocompletion options, see <xref
       linkend="config-prefs-folders" />.
-      Other addressbook controls are available in the addressbook
+      Other address book controls are available in the address book
       window itself.
     </para>
       
@@ -933,13 +920,13 @@ smtp.omniport.com:143
 		<guimenu>Tools</guimenu>
 		<guimenuitem>Settings</guimenuitem>
 	      </menuchoice>
-	      and click the <guibutton>Directory Servers</guibutton>
+	      and click the <guilabel>Directory Servers</guilabel>
 	      shortcut button.
 	    </para>
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Click the <guibutton>Add</guibutton> button on the right
+	      Click the <guilabel>Add</guilabel> button on the right
 	      side to open a Directory Server addition assistant.
 	    </para>
 	  </listitem>
@@ -951,7 +938,7 @@ smtp.omniport.com:143
 		  <term>Server name</term>
 		  <listitem>
 		    <para>
-		      Address of the server where the addressbook is located.
+		      Address of the server where the address book is located.
 		    </para>
 		  </listitem>
 		</varlistentry>
@@ -971,7 +958,7 @@ smtp.omniport.com:143
 		  <listitem>
 		    <para>
 		      The internet port
-		      <application>Evolution</application> connects to
+		      Evolution connects to
 		      in order to access the LDAP database.  This is
 		      normally 389.
 		    </para>
@@ -1075,13 +1062,13 @@ smtp.omniport.com:143
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Click <guibutton>OK</guibutton>.
+	      Click <guilabel>OK</guilabel>.
 	    </para>
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Click <guibutton>OK</guibutton> to permanently make
-	      changes or <guibutton>Apply</guibutton> to temporarily
+	      Click <guilabel>OK</guilabel> to permanently make
+	      changes or <guilabel>Apply</guilabel> to temporarily
 	      set the changes.
 	    </para>
 	  </listitem>

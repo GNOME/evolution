@@ -21,11 +21,10 @@
   <sect1 id="usage-mail-getnsend-read">
     <title>Reading Mail</title>    
     <para>
-      Start the mail client by clicking on the
-      <guibutton>Inbox</guibutton> icon in the shortcut bar, or by
-      selecting a mail folder in the folder bar.  To read a message,
+      If you are not already viewing mail, switch to the mail tool by clicking the
+      <guilabel>Email</guilabel> button in the shortcut bar.  To read a message,
       select it in the message list; if you'd like to see it in its
-      own window, double-click on it or press
+      own window, double-click on it, or press <keycap>Return</keycap> or 
       <keycombo action="simul">
 	<keycap>Ctrl</keycap>
 	<keycap>O</keycap>
@@ -37,25 +36,27 @@
 	<title>Reading Mail with the Keyboard</title>
 	<para>
 	  You can click the space bar to page down while you're reading
-	  an email, and press backspace to page up in an email.  This
-	  may help to make reading your email faster.
+	  an email, and press backspace to page up in an email. 
 	</para>
     
         <para>
-          You can navigate the message list by pressing the arrow keys up
-          and down. To jump to the next unread message, press the
-          <keycap>.</keycap> (period)
-          or <keycap>]</keycap> (close bracket) key. You can go to the
-          previous unread message with
-          <keycap>,</keycap> (comma) or <keycap>[</keycap> (open
-          bracket).
+          Navigate the message list by pressing the arrow keys up
+          and down. To go to the next and previous
+          <emphasis>unread</emphasis> messages, press the
+          <keycap>.</keycap> (period) or <keycap>,</keycap> (comma)
+          keys. On most keyboards, these  keys are also marked
+          with the &gt; and &lt; symbols, which makes a convenient way
+          to remember that they move you forward and backward in your
+          message list. You can also use <keycap>]</keycap> (close
+          bracket) for the next unread message, and <keycap>[</keycap>
+          (open bracket) for the previous unread message.
         </para>
       </tip>
 
     <sect2 id="usage-mail-listorder">
       <title>Sorting the message list</title>
       <para>
-	<application>Evolution</application> helps you work by letting you sort
+	Evolution helps you work by letting you sort
 	your email.  To sort by sender, subject, or date, click
 	on the bars with those labels at the top of the message
 	list. The direction of the arrow next to the label indicates
@@ -63,7 +64,7 @@
 	sort them in reverse order. For example, click once on
 	<guilabel>Date</guilabel> to sort messages by date from
 	oldest to newest.  Click again, and
-	<application>Evolution</application> sorts the list from
+	Evolution sorts the list from
 	newest to oldest. You can also right-click on the message
 	header bars to get a set of sorting options, and add or
 	remove columns from the message list.  You can find detailed
@@ -92,7 +93,7 @@
           <guimenuitem>Threaded</guimenuitem> 
 	</menuchoice> 
 	to turn the threaded view on or off.  When you select this option,
-	<application>Evolution</application> groups the replies to a
+	Evolution groups the replies to a
 	message with the original, so you can follow the thread of a
 	conversation from one message to the next.
       </para>
@@ -128,7 +129,7 @@
 	    <note>
 	      <title>Why do I still see deleted mail?</title>
 	      <para>
-		When you press <guibutton>Delete</guibutton> or click
+		When you press <guilabel>Delete</guilabel> or click
 		the trash button, your mail isn't actually deleted,
 		but is marked for deletion.  Your email is not gone
 		until you have expunged it. When you "Expunge" a
@@ -223,7 +224,7 @@
     <para>
       Now that you've had a look around the
       <interface>Inbox</interface>, it's time to check for new mail.
-      Click <guibutton>Send/Receive</guibutton> in the toolbar to check
+      Click <guilabel>Send/Receive</guilabel> in the toolbar to check
       your mail.  If you haven't entered any mail settings yet, the
       <interface>setup assistant</interface> will ask you for the
       information it needs to check your email.
@@ -265,9 +266,9 @@
 
 
     <para>
-      To check your email, press the <guibutton>Check Mail</guibutton>
+      To check your email, press the <guilabel>Check Mail</guilabel>
       button.  If this is your first time checking mail, or you
-      haven't asked <application>Evolution</application> to store your
+      haven't asked Evolution to store your
       password, you'll be prompted for the password.  Enter your
       password and your email will be downloaded.
     </para>
@@ -286,9 +287,9 @@
           <tip>
             <title>Sharing Mailboxes with Other Mail Programs</title>
             <para>
-              If you want to use <application>Evolution</application>
+              If you want to use Evolution
               and another email client, such as
-              <application>Mutt</application>, at the same time,
+              Mutt, at the same time,
               here's how:
               <orderedlist numeration="arabic">
                 <listitem>
@@ -299,7 +300,7 @@
                   </listitem>
                 <listitem>
                    <para>
-                      In <application>Evolution</application>, select
+                      In Evolution, select
                       <menuchoice><guimenu>Tools</guimenu><guimenuitem>
                       Settings</guimenuitem></menuchoice>, go to the
                       Mail Accounts configuration tool, and pick the account
@@ -319,7 +320,7 @@
                   </listitem>
                 <listitem>
                    <para>
-                      Click the <guibutton>OK</guibutton> button.
+                      Click the <guilabel>OK</guilabel> button.
                    </para>
                   </listitem>
                 </orderedlist>
@@ -336,8 +337,8 @@
 	  news source to your configuration (see <xref
 	  linkend="config-prefs-network-news"/>). The news server will
 	  appear as a remote server, and will look quite similar to an
-        IMAP folder.  When you click <guibutton>Send/Receive</guibutton>,
-	  <application>Evolution</application> will also check for news
+        IMAP folder.  When you click <guilabel>Send/Receive</guilabel>,
+	  Evolution will also check for news
 	  messages.
 	</para>
 	</sect2>
@@ -348,7 +349,7 @@
 	 <para>
 	   If someone sends you an <glossterm linkend="attachment">attachment</glossterm>,
 	   a file attached to an email,
-	   <application>Evolution</application> will display the file
+	   Evolution will display the file
 	   at the bottom of the message to which it's attached.  Text,
 	   including HTML formatting and embedded images, will appear
 	   as part of the message, rather than at the end of the
@@ -359,7 +360,7 @@
      <title>Saving or Opening Attachments</title>
      <para>
         If you get an attachment with an email message,
-        <application>Ximian Evolution</application> can help you save
+        Ximian Evolution can help you save
         it or open it with the appropriate applications.
      </para>
      <para>
@@ -378,7 +379,7 @@
 	 </listitem>
 	 <listitem>
 	   <para>
-	     Click <guibutton>OK</guibutton>.
+	     Click <guilabel>OK</guilabel>.
 	   </para>
 	 </listitem>
        </orderedlist>
@@ -414,8 +415,7 @@
       <para>
          When someone sends you HTML mail that includes an image in
          the body of the message (for example, the welcome message in your
-         Inbox when you first start <application>Ximian
-         Evolution</application>) <application>Evolution</application>
+         Inbox) Evolution
          will display the image inside the message.  You can create
          messages like this by using the
          <menuchoice><guimenu>Insert</guimenu><guimenuitem>Image</guimenuitem></menuchoice>
@@ -424,9 +424,9 @@
 
       <para>
          If the image isn't included in the message, but is, instead,
-         a link to an image, <application>Evolution</application> can 
+         a link to an image, Evolution can 
          download the image from the Internet for you.  However,
-         <application>Evolution</application> will not display the
+         Evolution will not display the
          image unless you ask it to. This is because remotely hosted
          images can be slow to load and display, and can even be used
          by spammers to track who reads their email.  Having images
@@ -440,19 +440,22 @@
 	   <guimenuitem>Load Images</guimenuitem>
          </menuchoice>.  
 
-         If you want <application>Ximian Evolution</application> to
+         If you want Ximian Evolution to
          load remotely hosted images more often, select
          <menuchoice>
 	   <guimenu>Tools</guimenu>
 	   <guimenuitem>Settings</guimenuitem> </menuchoice> and go to
 	   the mail settings tool. There, click the <guilabel>HTML
-           Mail</guilabel> tab and select one of the items there: <guilabel>Never load images off the net</guilabel>, <guilabel>Load images if sender is in addressbook</guilabel>, or <guilabel>Always load images off the net.</guilabel>
+           Mail</guilabel> tab and select one of the items there:
+<guilabel>Never load images off the net</guilabel>, <guilabel>Load
+images if sender is in address book</guilabel>, or <guilabel>Always
+load images off the net.</guilabel>
       </para>
       <note id="http-proxy">
 	<title>Loading Images from the Net through an HTTP Proxy</title>
         <para>
            If you use an HTTP proxy (as in many large organizations),
-          <application>Evolution</application> must be able to find
+          Evolution must be able to find
            it through the <systemitem>gnome-vfs</systemitem> subsystem
            before it can load images from the Internet.  This is also
            the case if you wish to access weather and news information
@@ -465,7 +468,7 @@
          GNOME Control Center. Select
          <menuchoice><guimenu>System</guimenu><guimenuitem>Settings</guimenuitem></menuchoice>
          from your menu panel or from the GNOME menu, and then click
-         the <guibutton>Network Proxies</guibutton> button in the
+         the <guilabel>Network Proxies</guilabel> button in the
          <guilabel>System Settings</guilabel> category. Select the
          <guilabel>Use an HTTP network proxy</guilabel> check box and
          then enter information about your proxy. If you are not sure,
@@ -483,7 +486,7 @@
          <menuchoice> <guimenu>File</guimenu>
          <guisubmenu>New</guisubmenu> <guimenuitem>
          Mail Message</guimenuitem></menuchoice>, or by pressing the
-         <guibutton>New</guibutton> button in the Inbox toolbar.
+         <guilabel>New</guilabel> button in the Inbox toolbar.
          When you do so, the <interface>New Message</interface> window
          will open, as shown in <xref
          linkend="usage-mail-newmsg-fig"/>.
@@ -505,14 +508,14 @@
       wish, enter a subject in the <guilabel>Subject:</guilabel>, and
       a message in the box at the bottom of the window.
       Once you have written your message, press
-      <guibutton>Send</guibutton>.
+      <guilabel>Send</guilabel>.
     </para>
 
      <sect2 id="usage-mail-getnsend-send-delay">
         <title>Sending Composed Messages Later</title>
         <para>
-           <application>Evolution</application> will normally send
-           mail as soon as you click the <guibutton>Send</guibutton>
+           Evolution will normally send
+           mail as soon as you click the <guilabel>Send</guilabel>
            button. However, there are a few ways you can save a
            message to be sent later:
 
@@ -520,7 +523,7 @@
           <listitem>
              <para>
                 If you are offline,
-                <application>Evolution</application> will add your
+                Evolution will add your
                 messages to the <guilabel>Outbox</guilabel> queue. The
                 next time you connect to the Internet and send or
                 receive mail, that message will be sent.
@@ -551,8 +554,9 @@
       <title>Working Offline</title>
     
       <para>
-        Offline mode is a tool designed for use with IMAP or Exchange
-        mail accounts in situations where you will not be connected to
+        Offline mode is a tool designed for use with remote mail
+        storage systems like GroupWise, IMAP or Exchange,
+        in situations where you will not be connected to
         the network at all times. It will keep a local copy of one or
         more folders, and allow you to compose messages, storing them
         in your Outbox to be sent the next time you connect.
@@ -560,11 +564,10 @@
      
       <para>
         While POP mail downloads all messages to your local system,
-        IMAP and Exchange connections usually download just the
-        headers, and fetch the rest only when you want to read the
-        message.  Before you go offline, Evolution will download
-        the unread messages from the folders you have chosen to
-        store.
+        other connections usually download just the headers, and fetch
+        the rest only when you want to read the message.  Before you
+        go offline, Evolution will download the unread messages from
+        the folders you have chosen to store.
       </para>
 
       <para>
@@ -581,7 +584,7 @@
         Your connection status is shown by the small icon in the lower
         left border of the Evolution main window. When you are online,
         it will display two connected cables. When you go offline, the
-        cables will separate.
+        cables will separate. 
       </para>
 
       <para>
@@ -600,7 +603,7 @@
       <title>More About Mail Composition</title>
       <para>
         In the next few sections, you'll see how
-	<application>Evolution</application> handles advanced email
+	Evolution handles advanced email
 	features, including large recipient lists, attachments, and
 	forwarding.
       </para>
@@ -621,14 +624,18 @@
 	    </listitem>
 	    <listitem>
 	      <para>
-		Press <guibutton>OK</guibutton>
+		Press <guilabel>OK</guilabel>
 	      </para>
 	    </listitem>
 	  </orderedlist>
 	</para>
 	<para>
-	  You can drag a file from your desktop into the composer window to
-	  attach it as well.
+          You can drag a file into the address area or, if it is
+          already displayed, the attachment display area, of the composer
+          window. If you are attaching an image and wish to send it
+          inline rather than attached, drag the image into the text
+          composition area of the composer window. Non-image files
+          cannot be dragged into the text composition area.
         </para>
         <para>
             To hide the display of files you've attached to the
@@ -647,7 +654,7 @@
       <sect3 id="usage-mail-getnsend-send-to-types">
 	<title>Specifying Recipients for Email</title>
         <para>
-	  <application>Evolution</application>, like most email
+	  Evolution, like most email
 	   programs, recognizes three types of addressee: primary
 	   recipients, secondary recipients, and hidden ("blind")
 	   recipients.
@@ -690,7 +697,7 @@
 	<tip id="reply-to-per-mail">
 	  <title>Setting Reply-to On a Per-Mail Basis</title>
 	  <para>
-	    <application>Evolution</application> has the ability to
+	    Evolution has the ability to
 	    let you specify the Reply-To in an email. Using this, you
 	    can setup a special Reply-To for an email.  To do this:
 	    <orderedlist numeration="arabic">
@@ -724,14 +731,14 @@
 	      <para>
 		If you have created address cards in the contact manager,
           you can also enter nicknames or other portions of address
-          data, and <application>Evolution</application> will offer a
+          data, and Evolution will offer a
           drop down list of possible address completions from your
           address book.  If you enter a name or nickname that can go
           with more than one card, Evolution will open a dialog box to
           ask you which person you meant. 
 
 <!-- 
-     Also, <application>Evolution</application> will add a
+     Also, Evolution will add a
           domain to any unqualified addresses.  By default, this is
           your domain, but you can choose which one mail preferences
           dialog. NOTE: ex-feature, may be reinstated, but probably not. 
@@ -740,8 +747,8 @@
 
           <para>
             Alternately, you can click on the
-            <guibutton>To:</guibutton>, <guibutton>Cc:</guibutton>, or
-            <guibutton>Bcc:</guibutton> buttons to get a list &mdash;
+            <guilabel>To:</guilabel>, <guilabel>Cc:</guilabel>, or
+            <guilabel>Bcc:</guilabel> buttons to get a list &mdash;
             potentially a very long one &mdash; of the email addresses
             in your contact manager.  Select addresses and click on
             the arrows to move them into the appropriate address
@@ -760,7 +767,7 @@
         <title>Replying to Email Messages</title>
         <para>
            To reply to a message, press the
-           <guibutton>Reply</guibutton> button while it is selected,
+           <guilabel>Reply</guilabel> button while it is selected,
            or choose <guimenuitem>Reply to Sender</guimenuitem> from
            the message's right-click menu.  That will open the
            <interface>message composer</interface>.  The
@@ -787,8 +794,8 @@
         </para>
         <para>
           If you're reading a message with several recipients, you may
-           wish to use <guibutton>Reply to All</guibutton> instead of
-           <guibutton>Reply</guibutton>.  If there are large numbers
+           wish to use <guilabel>Reply to All</guilabel> instead of
+           <guilabel>Reply</guilabel>.  If there are large numbers
            of people in the <guilabel>Cc:</guilabel> or
            <guilabel>To:</guilabel> fields, this can save substantial
            amounts of time.
@@ -798,9 +805,9 @@
               Susan sends an email to a client and sends copies to Tim
               and to an internal company mailing list of co-workers.
               If Tim wants to make a comment for all of them to read,
-              he uses <guibutton>Reply to All</guibutton>, but if he
+              he uses <guilabel>Reply to All</guilabel>, but if he
               just wants to tell Susan that he agrees with her, he
-              uses <guibutton>Reply</guibutton>.  Note that his reply
+              uses <guilabel>Reply</guilabel>.  Note that his reply
               will not reach anyone that Susan put on her
               <guilabel>Bcc</guilabel> list, since that list is not
               shared with anyone.
@@ -810,9 +817,9 @@
         <para>
           If you're subscribed to a mailing list, and want your reply
           to go just to the list, rather than to the sender, choose
-          <guibutton>Reply to List</guibutton> instead of
-          <guibutton>Reply</guibutton> or <guibutton>Reply to
-          All</guibutton>.
+          <guilabel>Reply to List</guilabel> instead of
+          <guilabel>Reply</guilabel> or <guilabel>Reply to
+          All</guilabel>.
           <note>
             <title>What is a Mailing List?</title>
             <para>
@@ -858,7 +865,7 @@
             <varlistentry>
               <term><guimenuitem>Find</guimenuitem></term>
               <listitem><para> Enter a word or phrase, and
-              <application>Evolution</application> will find it
+              Evolution will find it
               in your message.
               </para></listitem>
             </varlistentry>
@@ -922,7 +929,7 @@
             prefer not to receive HTML-enhanced mail because it is
             slower to download and display. Because some people may
             prefer not to get HTML mail,
-            <application>Evolution</application> sends plain text
+            Evolution sends plain text
             unless you explicitly ask for HTML.  
            </para>
 	 </note>
@@ -970,7 +977,7 @@
 		<para>
 		  Instead of using asterisks to mark a bulleted list,
 		  try the Bulleted List style from the style dropdown
-		  list.  <application>Evolution</application> uses
+		  list.  Evolution uses
 		  more attractive bullets and handles word wrap and
 		  multiple levels of indentation.
 		</para>
@@ -990,7 +997,7 @@
 		  <listitem><para>Push <guiicon>bold A</guiicon> for bold text</para></listitem>
 		  <listitem><para>Push <guiicon>italic A</guiicon> for italics</para></listitem>
 		  <listitem><para>Push <guiicon>underlined A</guiicon> to underline</para></listitem>
-		  <listitem><para>Push <guiicon>striked A</guiicon> for a strikethrough.</para></listitem>
+		  <listitem><para>Push <guiicon>strikethrough A</guiicon> for a strikethrough.</para></listitem>
 		</itemizedlist>
 	      </para>
 	    </listitem>
@@ -1050,7 +1057,7 @@
 	      <para>
 		Lets you link some text to a website.  Use this tool to put hyperlinks in your HTML
                   messages.  If you don't want special link text, you can just enter the address
-                  directly, and <application>Evolution</application>
+                  directly, and Evolution
                   will recognize it as a link.  To add a link:
 		<orderedlist numeration="arabic">
 		  <listitem>
@@ -1060,7 +1067,7 @@
 		  </listitem>
 		  <listitem>
 		    <para>
-		      Right click on the text and click on <guibutton>Link</guibutton>.
+		      Right click on the text and click on <guilabel>Link</guilabel>.
 		    </para>
 		  </listitem>
 		  <listitem>
@@ -1070,7 +1077,7 @@
 		  </listitem>
 		  <listitem>
 		    <para>
-		      Click <guibutton>OK</guibutton>.
+		      Click <guilabel>OK</guilabel>.
 		    </para>
 		  </listitem>
 		</orderedlist>
@@ -1103,7 +1110,7 @@
 		  </listitem>
 		  <listitem>
 		    <para>
-		      Click the <guibutton>Insert Image</guibutton> button in the toolbar, or select		   
+		      Click the <guilabel>Insert Image</guilabel> button in the toolbar, or select		   
 		         <menuchoice>
 			<guimenu>Insert</guimenu>
 			<guimenuitem>Image</guimenuitem>
@@ -1112,12 +1119,12 @@
 		  </listitem>
 		  <listitem>
 		    <para>
-		      Choose your image by clicking the <guibutton>Browse</guibutton> button.
+		      Choose your image by clicking the <guilabel>Browse</guilabel> button.
 		    </para>
 		  </listitem>
 		  <listitem>
 		    <para>
-		      Press <guibutton>Insert</guibutton> to insert the image.
+		      Press <guilabel>Insert</guilabel> to insert the image.
 		    </para>
 		  </listitem>
 		</orderedlist>
@@ -1146,7 +1153,7 @@
 		  </listitem>
 		  <listitem>
 		    <para>
-		      Click the <guibutton>Rule</guibutton> button in the <guilabel>Toolbar</guilabel>.
+		      Click the <guilabel>Rule</guilabel> button in the <guilabel>Toolbar</guilabel>.
 		    </para>
 		  </listitem>
 		  <listitem>
@@ -1172,7 +1179,7 @@
 
 		  <listitem>
 		    <para>
-		      Click <guibutton>Insert</guibutton> to insert the rule.
+		      Click <guilabel>Insert</guilabel> to insert the rule.
 		    </para>
 		  </listitem>
 		</orderedlist>
@@ -1201,12 +1208,12 @@
 		  </listitem>
 		  <listitem>
 		    <para>
-		      Click the <guibutton>Table</guibutton> button in the <guilabel>Toolbar</guilabel>.
+		      Click the <guilabel>Table</guilabel> button in the <guilabel>Toolbar</guilabel>.
 		    </para>
 		  </listitem>
 		  <listitem>
 		    <para>
-		      Select the table <guibutton>Template</guibutton>
+		      Select the table <guilabel>Template</guilabel>
                     you wish to use.  Each has a slightly different feel and
                     layout.
 		    </para>
@@ -1219,7 +1226,7 @@
 		  </listitem>
 		  <listitem>
 		    <para>
-		      Click the <guibutton>Insert</guibutton> button.
+		      Click the <guilabel>Insert</guilabel> button.
 		    </para>
 		  </listitem>
 		</orderedlist>
@@ -1237,7 +1244,7 @@
             <term>Templates</term>
             <listitem>
               <para>
-          <application>Evolution</application> not only allows you to
+          Evolution not only allows you to
 	  decorate your email with HTML text and graphics, but
 	  provides you with prebuilt templates for you to use when
 	  making these improvements.  You can use these to emphasize a
@@ -1262,7 +1269,7 @@
 	    </listitem>
 	    <listitem>
 	      <para>
-		Click the <guibutton>HTML Template</guibutton> button in the 
+		Click the <guilabel>HTML Template</guilabel> button in the 
 		<guilabel>Toolbar</guilabel> or select 		
 		<menuchoice>
 		  <guimenu>
@@ -1290,7 +1297,7 @@
 
 	    <listitem>
 	      <para>
-		Click <guibutton>Insert</guibutton> to insert it where the 
+		Click <guilabel>Insert</guilabel> to insert it where the 
 		cursor is.
 	      </para>
 	    </listitem>
@@ -1336,7 +1343,7 @@
         </para>
         <para>
           To forward a message you are reading, press
-          <guibutton>Forward</guibutton> on the toolbar, select
+          <guilabel>Forward</guilabel> on the toolbar, select
           <menuchoice> <guimenu>Actions</guimenu>
           <guimenuitem>Forward</guimenuitem> </menuchoice>, or press
           <keycombo
@@ -1350,7 +1357,7 @@ action="simul"><keycap>Ctrl</keycap><keycap>J</keycap></keycombo>.  If
           subject will already be entered, although you can alter it
           if you wish.  Enter your comments on the message in the
           <interface>composition frame</interface>, and press
-          <guibutton>Send</guibutton>.
+          <guilabel>Send</guilabel>.
         </para>
       </sect2>
 
@@ -1359,7 +1366,6 @@ action="simul"><keycap>Ctrl</keycap><keycap>J</keycap></keycombo>.  If
         <para>
 
           <itemizedlist>
-
             <listitem>
               <para>
                  Don't send spam or forward chain mail.  If you must,
@@ -1389,7 +1395,7 @@ action="simul"><keycap>Ctrl</keycap><keycap>J</keycap></keycombo>.  If
             <listitem>
               <para>
                Check your spelling and use complete sentences. By
-               default, <application>Evolution</application> will put
+               default, Evolution will put
                a red line beneath words it doesn't recognize, as you
                type them.
               </para>
@@ -1424,16 +1430,16 @@ action="simul"><keycap>Ctrl</keycap><keycap>J</keycap></keycombo>.  If
     <para>
       If you create an event in the calendar component, you can then
       send invitations to the attendee list through the
-      <application>Ximian Evolution</application> email tool.  The
+      Ximian Evolution email tool.  The
       invitation card is sent as an attachment in iCal format.
     </para>
     <para>
       If you click on the attachment button and click the
-      <guimenuitem>View Inline</guimenuitem>, <application>Ximian
-      Evolution</application> will show you information about the
+      <guimenuitem>View Inline</guimenuitem>, Ximian
+      Evolution will show you information about the
       meeting, and let you respond to the meeting in several ways.
       Select the response that you would like, and then click the
-      <guibutton>OK</guibutton> button.
+      <guilabel>OK</guilabel> button.
    </para>
    <para>
   Your options are:
@@ -1443,7 +1449,7 @@ action="simul"><keycap>Ctrl</keycap><keycap>J</keycap></keycombo>.  If
 	  <listitem>
 	    <para>
 	  Select this entry if you will attend the meeting.  When you
-	  click the <guibutton>OK</guibutton> button, the meeting will
+	  click the <guilabel>OK</guilabel> button, the meeting will
 	  be entered into your calendar.
 	    </para>
 	  </listitem>
@@ -1454,7 +1460,7 @@ action="simul"><keycap>Ctrl</keycap><keycap>J</keycap></keycombo>.  If
 	  <listitem>
 	    <para>
 	  Select this entry if you will probably attend the meeting.
-	  When you click the <guibutton>OK</guibutton> button, the
+	  When you click the <guilabel>OK</guilabel> button, the
 	  meeting will be entered into your calendar, but marked as
 	  tentative.
 	    </para>
@@ -1467,7 +1473,7 @@ action="simul"><keycap>Ctrl</keycap><keycap>J</keycap></keycombo>.  If
 	    <para>
 	  Select this item if you will be unable to attend the
 	  meeting. The meeting will not be entered into your calendar
-	  when you click the <guibutton>OK</guibutton>, although your
+	  when you click the <guilabel>OK</guilabel>, although your
 	  response will be sent to the meeting host if you have
 	  checked the <guilabel>RSVP</guilabel> box.
 	    </para>
@@ -1493,7 +1499,7 @@ action="simul"><keycap>Ctrl</keycap><keycap>J</keycap></keycombo>.  If
       Since IMAP folders exist on the server, and opening them or
       checking them takes time, you need fine-grained control over the
       way that you use IMAP folders.  That's why
-      <application>Evolution</application> has an IMAP subscriptions
+      Evolution has an IMAP subscriptions
       manager.  If you prefer to have every mail folder displayed, you
       can select that option as well. However, if you'd like to choose
       specific items in your mailbox, and exclude others, you can use
@@ -1515,7 +1521,7 @@ action="simul"><keycap>Ctrl</keycap><keycap>J</keycap></keycombo>.  If
 	  <para>
 	    If you have accounts on multiple IMAP servers, select the
 	    server where you'd like to manage your
-	    subscriptions. <application>Evolution</application> will
+	    subscriptions. Evolution will
 	    display a list of available files and folders.
 	  </para>
 	</listitem>
@@ -1532,7 +1538,7 @@ action="simul"><keycap>Ctrl</keycap><keycap>J</keycap></keycombo>.  If
 
 	<listitem>
 	  <para>
-	    Click the <guibutton>Subscribe</guibutton> to add it to
+	    Click the <guilabel>Subscribe</guilabel> to add it to
 	    the subscribed list.
 	  </para>
 	</listitem>
@@ -1552,9 +1558,9 @@ action="simul"><keycap>Ctrl</keycap><keycap>J</keycap></keycombo>.  If
       <title>What is Encryption?</title>
       <para>
 	Encryption is an ancient method of keeping information safe
-	from prying eyes. <application>Evolution</application> helps
+	from prying eyes. Evolution helps
 	you you protect your privacy by using
-	<application>gpg</application>, an implementation of strong
+	gpg, an implementation of strong
 	<glossterm linkend="public-key-encryption">Public Key
 	Encryption.</glossterm>
       </para>
@@ -1605,7 +1611,7 @@ action="simul"><keycap>Ctrl</keycap><keycap>J</keycap></keycombo>.  If
 	    Kevin wants to send an encrypted message to his friend
 	    Rachel.  He looks up her public key on a general key
 	    server, and then tells
-	    <application>Evolution</application> to encrypt the
+	    Evolution to encrypt the
 	    message.  The message now reads "@#$23ui7yr87#@!48970fsd."
 	    When the information gets to Rachel, she decrypts it using
 	    her private key, and it appears as plain text for her to
@@ -1615,7 +1621,7 @@ action="simul"><keycap>Ctrl</keycap><keycap>J</keycap></keycombo>.  If
       <tip id="always-sign">
 	<title>Always Sign</title>
 	<para>
-	  You can set <application>Evolution</application> to always sign your email messages:
+	  You can set Evolution to always sign your email messages:
 	  <orderedlist numeration="arabic">
 	    <listitem>
 	      <para>
@@ -1634,7 +1640,7 @@ action="simul"><keycap>Ctrl</keycap><keycap>J</keycap></keycombo>.  If
 	    </listitem>
 	    <listitem>
 	      <para>
-		Click the <guibutton>Always sign outgoing messages when using this account</guibutton> button.
+		Click the <guilabel>Always sign outgoing messages when using this account</guilabel> button.
 	      </para>
 	    </listitem>
 	  </orderedlist>
@@ -1682,10 +1688,10 @@ action="simul"><keycap>Ctrl</keycap><keycap>J</keycap></keycombo>.  If
 
 	  <listitem>
       	   <para>
-             Decide if you want your key to expire automatically, and if so, when.
+             Decide if you want your key to expire automatically, and
+             if so, when.
 	  </para>
          </listitem>
-
 
 	  <listitem>
       	   <para>
@@ -1782,7 +1788,7 @@ wwwkeys.pgp.net 32j38dk2</command>.  Substitute your key ID for
       <para>
 	To encrypt a message to your someone else you'll need to use
 	their public key in combination with your private key.
-	<application>Evolution</application> does that for you, but
+	Evolution does that for you, but
 	you still need to get their key and add it to your keyring.
      </para>
      <para>
@@ -1793,7 +1799,7 @@ wwwkeys.pgp.net 32j38dk2</command>.  Substitute your key ID for
 	</command>, substituting "keyid" for your recipient's ID.  You
 	will need to type in your password, and then their ID will
 	automatically be added to your keyring. When you send mail to
-	them, <application>Evolution</application> will allow you to
+	them, Evolution will allow you to
 	encrypt your messages.
       </para>
       <para>
@@ -1813,18 +1819,18 @@ wwwkeys.pgp.net 32j38dk2</command>.  Substitute your key ID for
 	</menuchoice>
 	and select the <guilabel>Mail Accounts</guilabel> button, then
 	select the account you want to use securely, and click the
-	<guibutton>Edit</guibutton> button. Then, select the
+	<guilabel>Edit</guilabel> button. Then, select the
 	<guilabel>Security</guilabel> tab in the account dialog.   In the
 	<guilabel>Security</guilabel> tab is a section labeled
 	<guilabel>Pretty Good Privacy</guilabel>.  Enter your key ID
-	and click <guibutton>OK</guibutton>.  Your key is now
+	and click <guilabel>OK</guilabel>.  Your key is now
 	integrated into your identity in
-	<application>Evolution</application>.
+	Evolution.
       </para>
       <note>
 	<title>What is my Key ID again?</title>
 	<para>
-	  <application>Evolution</application> requires that you know your key ID.  If you don't remember it, you can find it by typing <command>gpg --list-keys</command> in a console window.  Your key ID will be an eight character string with random numbers and letters.
+	  Evolution requires that you know your key ID.  If you don't remember it, you can find it by typing <command>gpg --list-keys</command> in a console window.  Your key ID will be an eight character string with random numbers and letters.
 	</para>
       </note>
     </sect2>
@@ -1847,9 +1853,9 @@ wwwkeys.pgp.net 32j38dk2</command>.  Substitute your key ID for
 	<menuchoice>
 	  <guimenu>Security</guimenu>
 	  <guimenuitem>PGP Sign</guimenuitem>
-	</menuchoice>
-	.  You will be prompted for your encryption password.  Once
-	you enter it, click <guibutton>OK</guibutton> and your message
+	</menuchoice>.
+        You will be prompted for your encryption password.  Once
+	you enter it, click <guilabel>OK</guilabel> and your message
 	will be signed.
       </para>
     </sect2>
@@ -1862,7 +1868,7 @@ wwwkeys.pgp.net 32j38dk2</command>.  Substitute your key ID for
 	  <menuchoice>
 	    <guimenu>Security</guimenu>
 	    <guimenuitem>PGP Encrypt</guimenuitem>
-	  </menuchoice>
+	  </menuchoice>.
 	</para>
       </sect2>
       <sect2 id="unencrypting">
@@ -1874,7 +1880,7 @@ wwwkeys.pgp.net 32j38dk2</command>.  Substitute your key ID for
 	</para>
 	<para>
 	  When you view the message,
-	  <application>Evolution</application> will ask you for your
+	  Evolution will ask you for your
 	  PGP password.  Enter it, and the message will be displayed
 	  properly.  
        </para>

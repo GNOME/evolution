@@ -6,10 +6,10 @@
   <title>Working with Your Contacts</title>
       <para>
         This chapter will show you how to use the
-        <application>Evolution</application> addressbook to organize
+        Evolution address book to organize
         any amount of contact information, share addresses over a
         network, and several ways to save time with everyday tasks. To
-        learn about configuring the addressbook, see <xref
+        learn about configuring the address book, see <xref
         linkend="config-prefs-contact"/>. You can import contacts from
         other contact management tools with the Import tool by
         selecting
@@ -18,15 +18,15 @@
       </para>
 
     <para>
-       The toolbar for the addressbook is quite simple.
+       The toolbar for the address book is quite simple.
        <itemizedlist>
 	<listitem><para>
-	  Click <guibutton>New Contact</guibutton> to create a new card, or double-click 
+	  Click <guilabel>New Contact</guilabel> to create a new card, or double-click 
 	  in a blank space in the contact list. 
 	</para></listitem>
 
 	<listitem><para>
-           Click <guibutton>New List</guibutton> to create a new card, or double-click 
+           Click <guilabel>New List</guilabel> to create a new card, or double-click 
            in a blank space in the contact list. 
 	</para></listitem>
 
@@ -60,7 +60,7 @@
 	</listitem>
 	<listitem>
 	  <para>
-	    Press the <guibutton>Delete</guibutton> button.
+	    Press the <guilabel>Delete</guilabel> button.
 	  </para>
 	</listitem>
       </orderedlist>
@@ -69,7 +69,7 @@
        If you want to add or change cards, you'll use the contact
        editor.  To change a card that already exists, double click on
        it to open the contact editor window.  If you want to create a new
-       card, clicking the <guibutton>New</guibutton> button in the
+       card, clicking the <guilabel>New</guilabel> button in the
        toolbar will open the same window, with blank entry boxes for
        you to fill in.
     </para>
@@ -124,9 +124,9 @@
               <itemizedlist>
 		<listitem>
 		  <para>
-                    You can enter a name into the <guibutton>Full
-                    Name</guibutton> field, but you can also click the
-                    <guibutton>Full Name</guibutton> button to bring
+                    You can enter a name into the <guilabel>Full
+                    Name</guilabel> field, but you can also click the
+                    <guilabel>Full Name</guilabel> button to bring
                     up a small dialog box with a few text boxes
                     <variablelist>
 		      <varlistentry>
@@ -201,7 +201,7 @@
                 you can also choose <guilabel>Email 2</guilabel> and
                 <guilabel>Email 3</guilabel>.  Although the contact
                 editor will only display one of those at any given
-                time, <application>Evolution</application> will store
+                time, Evolution will store
                 them all.  Entries that have information in them have
                 a check mark next to them.  The buttons next to the
                 telephone and postal address fields work in the same
@@ -254,7 +254,7 @@
   <sect1 id="contact-search">
     <title>Searching for Contacts</title>
     <para>
-      <application>Evolution</application> allows searching through contacts
+      Evolution allows searching through contacts
       quickly and easily.
     </para>
     <para>
@@ -301,30 +301,30 @@
 	</listitem>
 	<listitem>
 	  <para>
-	    If you want to add more criteria, click the <guibutton>Add
-	    Criterion</guibutton> button.
+	    If you want to add more criteria, click the <guilabel>Add
+	    Criterion</guilabel> button.
 	  </para>
 	</listitem>
 	<listitem>
 	  <para>
-	    Click <guibutton>Search</guibutton>.
+	    Click <guilabel>Search</guilabel>.
 	  </para>
 	</listitem>
       </orderedlist>
     </para>
     <para>
-      To show all your contacts, select <guibutton>Show All</guibutton> in the
+      To show all your contacts, select <guilabel>Show All</guilabel> in the
       <guilabel>Search Bar</guilabel> or search with an empty query.
     </para>
 
   </sect1>
 
   <sect1 id="usage-contact-organize">
-    <title>Organizing your Addressbook</title>
+    <title>Organizing your Address Book</title>
     <para>
-       Organizing your addressbook is a lot like organizing your
+       Organizing your address book is a lot like organizing your
        mail.  You can have folders and searches the same way you can
-       with mail, but the addressbook does not allow Virtual Folders.  It
+       with mail, but the address book does not allow Virtual Folders.  It
        does, however, allow each card to fall under several
        categories, and allow you to create your own categories.  To
        learn about categories, read <xref
@@ -333,11 +333,11 @@
 
 <!-- UNIMPLEMENTED FEATURE
     <para>
-      Another useful <application>Evolution</application> feature is
+      Another useful Evolution feature is
       its ability to recognize when people live or work together.  If
-      several people in your addressbook share an address, and you
+      several people in your address book share an address, and you
       change the address for one of them,
-      <application>Evolution</application> will ask you if you wish to
+      Evolution will ask you if you wish to
       change the address for all of them, or just for one.
     </para>
 -->
@@ -345,7 +345,7 @@
     <sect2 id="usage-contact-organize-group">
       <title>Groups of contacts</title>
       <para>
-         <application>Evolution</application> offers two ways for you
+         Evolution offers two ways for you
          to organize your cards.  The first way is to use folders;
          this works the same way mail folders do.  For more
          flexibility, you can also mark contacts as elements of
@@ -396,7 +396,7 @@
         </para>
 	<para>
            To mark a card as belonging to a category, click the
-           <guibutton>Categories</guibutton> button at the lower
+           <guilabel>Categories</guilabel> button at the lower
            right.  From the dialog box that appears, you can check as
            many or as few categories as you like.
         </para>
@@ -406,7 +406,7 @@
 
            If the master list of categories doesn't suit you, you can
            add your own.  Just enter the new category's name in the
-           text box, then click <guibutton>Categories</guibutton> and
+           text box, then click <guilabel>Categories</guilabel> and
            choose <guilabel>Add to Master List</guilabel> in the
            window that appears. 
          </para>
@@ -423,7 +423,7 @@
 	    <listitem>
 	      <para>
                 Open the list creation dialog box by clicking the
-                <guibutton>New List</guibutton> button or selecting
+                <guilabel>New List</guilabel> button or selecting
                  <menuchoice>
 		  <guimenu>
                      File
@@ -464,7 +464,7 @@
 	  </orderedlist>
         </para>
 	<para>
-           When you are done, click <guibutton>OK</guibutton>. The
+           When you are done, click <guilabel>OK</guilabel>. The
            list will appear as a contact card, which you can use as
            you would any other. That includes emailing the list to
            another person, and, of course, sending email to the list.
@@ -473,7 +473,7 @@
            To mail the list, open a new email and type the name you
            chose for the list. Ximian Evolution will address the
            message to the entire list when you send it. You can also
-           right-click on the list's address card in the Addressbook
+           right-click on the list's address card in the address book
            and select <guimenuitem>Send Message to List</guimenuitem>.
         </para>
         <para>
@@ -486,7 +486,7 @@
   </sect1>
   
   <sect1 id="usage-contact-sharing">
-    <title>LDAP: Shared Addressbooks on a Network</title>
+    <title>LDAP: Shared Address Books on a Network</title>
 
     <para>
       The <glossterm linkend="ldap">LDAP</glossterm> protocol was
@@ -520,7 +520,7 @@
           <listitem>
 	    <para>
               To prevent excess network traffic,
-              <application>Evolution</application> will not normally
+              Evolution will not normally
               load the contents of LDAP folders immediately upon
               opening.  You must click <guilabel>Display
               All</guilabel> before LDAP folder cards will be loaded
@@ -541,7 +541,7 @@
       <title>Configuring Evolution to use LDAP</title>
       <para>
 	For information about setting up
-	<application>Evolution</application> to use LDAP, please refer
+	Evolution to use LDAP, please refer
 	to <xref linkend="config-prefs-contact" />
       </para>
     </sect2>
@@ -554,7 +554,7 @@
       the mail or in a calendar entry, you can add it to an address
       card.  To do so, right click on any email address or email
       message, and select <guimenuitem>Add Sender to Address Book</guimenuitem> from the menu that appears.
-      <application> Evolution</application> can also add cards from a
+       Evolution can also add cards from a
       hand-held device during HotSync operation.  For more
       information about that, see <xref linkend="usage-sync"/>.
     </para>
@@ -562,16 +562,16 @@
   
 <!-- Unimplemented features:
       <para>
-         You can also use the addressbook to print postal addresses
+         You can also use the address book to print postal addresses
 	 on mailing labels.  Future versions of
-	 <application>Evolution</application> will allow you to you
+	 Evolution will allow you to you
 	 export a group of cards to a spreadsheet, database, or word
 	 processor so you can print address labels or prepare large
 	 mailings.
       </para>
   <para>
-    Need a map or directions? Click <guibutton>MapIt</guibutton> from
-  within the addressbook, and <application>Evolution</application>
+    Need a map or directions? Click <guilabel>MapIt</guilabel> from
+  within the address book, and Evolution
   will map the address for you online.
   </para>
   -->

@@ -31,7 +31,7 @@
 
   <para>
     Previous versions of Ximian Connector for Microsoft Exchange added
-    support for the <guibutton>Flag for Followup</guibutton> feature,
+    support for the <guilabel>Flag for Followup</guilabel> feature,
     public folders, delegation, direct booking, and more. For
     information on setting up delegation, see <xref
   linkend="exchange-delegate" />.
@@ -42,8 +42,8 @@
   <sect1 id="features">
     <title>Connector Features</title>
     <para>
-      In addition to the features listed above, <application>Ximian
-      Connector</application> supports the following basic 
+      In addition to the features listed above, Ximian
+      Connector supports the following basic 
       <application>Microsoft Exchange</application> features:
       <itemizedlist>
 	<listitem>
@@ -52,7 +52,7 @@
 	  </para>
 	  <variablelist>
 	    <varlistentry>
-	      <term>Remote <application>Exchange</application> Information Store</term>
+	      <term>Remote Exchange Information Store</term>
 	      <listitem>
 		<para>
 		  Allows you to access mail, address book (including
@@ -147,7 +147,7 @@
 	      <listitem>
 		<para>
 		  If you receive a VCard attachment and click
-		  <guibutton>Save in Address Book</guibutton>, it will
+		  <guilabel>Save in Address Book</guilabel>, it will
 		  be saved to your Exchange address book.
 		</para>
 	      </listitem>
@@ -191,7 +191,7 @@ There are, however, some features which are not available:
        Connector for Microsoft Exchange channel, select the Ximian
        Connector for Microsoft
        Exchange2000, and click the
-       <guibutton>Install</guibutton> button.  You can also install
+       <guilabel>Install</guilabel> button.  You can also install
        the Connector by downloading the individual packages from
        ftp.ximian.com if you wish.
    </para>
@@ -273,8 +273,8 @@ There are, however, some features which are not available:
             <para>
               If you receive your license key in Ximian Evolution, the
               simple assistant will start when you click the
-              license file attachment and choose <guibutton>Open in
-            Ximian Connector</guibutton>.
+              license file attachment and choose <guilabel>Open in
+            Ximian Connector</guilabel>.
           </para>
         </listitem>
 
@@ -307,7 +307,7 @@ There are, however, some features which are not available:
 	  <guimenu>Tools</guimenu>
 	  <guimenuitem>Mail Settings</guimenuitem>
 	  </menuchoice>
-          from any mail view. Then click the <guibutton>Add</guibutton>
+          from any mail view. Then click the <guilabel>Add</guilabel>
           button in the accounts list. The account creation assistant
           will guide you through the process, which is also described in
           <xref linkend="usage-mainwindow-starting"/>. If you're not
@@ -385,8 +385,8 @@ There are, however, some features which are not available:
 		  <listitem>
 		    <para>
                       Select the kind of authentication your network
-                      uses. You can click the <guibutton>Check for Supported
-                      Types</guibutton> button to see which kinds will work.
+                      uses. You can click the <guilabel>Check for Supported
+                      Types</guilabel> button to see which kinds will work.
                     </para>
 		  </listitem>
 
@@ -505,8 +505,8 @@ There are, however, some features which are not available:
 	  </varlistentry>
 	</variablelist>
 	<para>
-          You're done.  Click <guibutton>Finish</guibutton> and
-          <guibutton>OK</guibutton>, then quit
+          You're done.  Click <guilabel>Finish</guilabel> and
+          <guilabel>OK</guilabel>, then quit
           Evolution and start it again. Now
           you're ready to get to work on the Exchange server.
         </para>
@@ -520,7 +520,7 @@ There are, however, some features which are not available:
 	  <para>
 	    If you have an existing email account, and want to convert it
 	    to use for Exchange, select the account you want to convert
-	    and click the <guibutton>Edit</guibutton> button. You'll want
+	    and click the <guilabel>Edit</guilabel> button. You'll want
 	    to change settings in the following tabs of the account
 	    dialog:
 	  </para>
@@ -600,7 +600,7 @@ There are, however, some features which are not available:
 		       <listitem>
 			 <para>
 			   The Global Address List (GAL) is an
-			   addressbook for everyone represented in
+			   address book for everyone represented in
 			   your organization's Exchange deployment. To
 			   use the GAL, click the tab labeled
 			   <guilabel>Receiving Options</guilabel> and
@@ -669,7 +669,7 @@ There are, however, some features which are not available:
 	<para>
 
         Once you have made those changes, click the
-        <guibutton>OK</guibutton> button.
+        <guilabel>OK</guilabel> button.
       </para>
 	<para>
           Then, quit Evolution and start it
@@ -698,7 +698,7 @@ There are, however, some features which are not available:
       Click on any of the folder tree items to visit them; you may
       have to enter your server password.  You can now create contact
       cards, send and receive email as you would normally. If there
-      are items in your local calendar or addressbook that you'd like
+      are items in your local calendar or address book that you'd like
       to add to your Exchange stores, you
       can copy and paste them over, or just drag items from one folder
       to another as you would with two local stores.
@@ -757,7 +757,7 @@ There are, however, some features which are not available:
           <title>Delegating Access to Others</title>
         <para>
           To add someone to your list of delegates, click the
-          <guibutton>Add</guibutton> button and select them from the
+          <guilabel>Add</guilabel> button and select them from the
           Global Address List. When delegating you can grant different
           levels of access to different types of data. You may also
           decide whether the access you grant applies to items marked
@@ -851,8 +851,8 @@ There are, however, some features which are not available:
               <para>
                 Enter the email address of the user who
                 has delegated to you or click the
-                <guibutton>User</guibutton> button to select them from your
-                addressbook. 
+                <guilabel>User</guilabel> button to select them from your
+                address book. 
               </para>
             </listitem>
           
@@ -864,7 +864,7 @@ There are, however, some features which are not available:
 
             <listitem>
               <para>
-                Click <guibutton>OK</guibutton>.
+                Click <guilabel>OK</guilabel>.
               </para>
             </listitem>
           </orderedlist>
@@ -905,8 +905,8 @@ There are, however, some features which are not available:
           To create an <guilabel>Out of Office</guilabel> message,
         select <menuchoice> <guimenu>Tools</guimenu>
         <guimenuitem>Settings</guimenuitem>
-          </menuchoice> and then click the <guibutton>Out of
-          Office</guibutton> button. 
+          </menuchoice> and then click the <guilabel>Out of
+          Office</guilabel> button. 
         </para>
 
         <para>
@@ -968,7 +968,7 @@ There are, however, some features which are not available:
 	<listitem>
 	  <para> Add attendees, either by entering their email
             addresses into the list, or by clicking the
-            <guibutton>Invite Others</guibutton> button. If you choose
+            <guilabel>Invite Others</guilabel> button. If you choose
             to so, it's best to use the Global Address List (GAL).
             Choose the GAL from the drop-down list of address sources
             at the top of the dialog box.

@@ -9,7 +9,6 @@ figs = \
 	figures/exchange-receive.png		\
 	figures/exchange-delegation.png		\
 	figures/filter-new-fig.png		\
-	figures/folder-bar.png			\
 	figures/full-1.png			\
 	figures/full-2.png			\
 	figures/full-3.png			\

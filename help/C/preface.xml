@@ -6,12 +6,12 @@
         This book is divided into two parts, with several
         appendices. The first part is a <link linkend="usage">guided
         tour</link>, which will explain how to use
-        <application>Evolution</application>.  If you are new to
-        <application>Evolution</application> or to groupware in
+        Evolution.  If you are new to
+        Evolution or to groupware in
         general, this section is for you. The second section, covering
         <link linkend="config">configuration</link>, is targeted at
         more advanced users, but anyone who wants to change the way
-        <application>Evolution</application> looks or acts can benefit
+        Evolution looks or acts can benefit
         from reading it.  
       </para>
       </sect1>
@@ -21,9 +21,7 @@
 	<para>
           In this book, we'll mark some words with special typography:
           <simplelist>
-	    <member><application>Applications</application></member>
 	    <member><command>Commands</command> you type at the command line</member>
-	    <member><guilabel>Labels</guilabel> for buttons and other portions of the graphical interface</member>
 
             <member> Menu selections look like this:
                        <menuchoice>
@@ -32,11 +30,10 @@
                           <guimenuitem>Menu Item</guimenuitem>
                      </menuchoice>
             </member>
-	    <member><guibutton>Buttons</guibutton> you can
-            click</member> <member><userinput>Anything you type
-            in</userinput></member> <member><computeroutput>Text
-            output from a computer</computeroutput></member>
-	  <member><glossterm linkend="apx-gloss">Words</glossterm>
+	    <member><guilabel>Buttons and item labels</guilabel> in the user interface</member> 
+            <member><userinput>Anything you type in</userinput></member> 
+            <member><command>File names or text output from the computer</command></member>
+            <member><glossterm linkend="apx-gloss">Words</glossterm>
             that are defined in the <xref linkend="apx-gloss"/>.</member>
 	  </simplelist>
 </para>
@@ -93,11 +90,8 @@ Examples are also set off from the rest of the text.  They look like this:
     <sect1 id="whats-new-in-one-two">
       <title>What's New in Evolution &appversion;</title>
       <para>
-        If you're already familiar with Ximian Evolution 1.2, there
-        are a number of new features in this version. Most of the
-        changes, however, have been made behind the scenes, as we
-        moved to the GNOME 2 platform. Ximian Connector for Microsoft
-        Exchange also has new features, described in <xref linkend="new-in-connector" />.
+        Even if you're already familiar with earlier versions,
+        Evolution &appversion; has a lot of new features to offer. 
         You can find a complete list of bugs fixed and features added
         in the Evolution release notes at the <ulink
         url="http://developer.ximian.com">Ximian Developer
@@ -105,7 +99,7 @@ Examples are also set off from the rest of the text.  They look like this:
     </para>
         <variablelist>
 	  <varlistentry>
-	    <term>Better Fonts</term>
+	    <term>Junk Mail (Spam) Filtering</term>
 	    <listitem>
 	      <para>
                 Ximian Evolution &appversion; uses the same font
@@ -116,34 +110,54 @@ Examples are also set off from the rest of the text.  They look like this:
 	  </varlistentry>
 
 	  <varlistentry>
-	    <term>Cleaner Shutdowns</term>
+	    <term>GroupWise Connectivity with no Additional Software</term>
 	    <listitem>
 	      <para>
-                We have fixed several bugs that caused Evolution to
-                continue to occupy system resources when it was not
-                running.
+                Now you can access GroupWise servers as well as IMAP
+                and POP mail servers, with no additional installation
+                required. Connection to Microsoft Exchange 2000 and
+                2003 servers is possible with the Ximian Connector.
               </para>
 	    </listitem>
 	  </varlistentry>
 
 
 	  <varlistentry>
-	    <term>Mail Composer HTML Improvements</term>
+            <term>User Interface Updates</term>
 	    <listitem>
 	      <para>
-                 The message composer has continued to improve.
+                The shortcut bar has been replaced with small buttons
+                at the bottom of the folder bar. The folder bar now
+                only displays data for the current function, instead
+                of putting all data together in one tree.
               </para>
 	    </listitem>
 	  </varlistentry>
 
 	  <varlistentry>
-	    <term>New Graphics and Icons</term>
+            <term>Security: S/MIME and Signatures</term>
 	    <listitem>
 	      <para>
-                We've added new graphics and icons.
+                Security with encryption and cryptographic signatures
+                has never been easier or stronger.
               </para>
 	    </listitem>
 	  </varlistentry>
+
+
+	  <varlistentry>
+            <term>Hiding the "Evolution" Directory</term>
+	    <listitem>
+	      <para>
+                The <command>~/evolution/</command>
+                directory has been moved to
+                <command>~/.evolution</command>, and therefore
+                normally tucked out of sight in most directory
+                listings.
+              </para>
+	    </listitem>
+	  </varlistentry>
+
 	</variablelist>
     </sect1>
 
@@ -159,7 +173,7 @@ Examples are also set off from the rest of the text.  They look like this:
           <listitem>
             <para>
               To create a backup of your Evolution data, copy the
-              <guilabel>~/evolution/local/</guilabel> directory to
+              <command>~/.evolution/</command> directory to
               your backup disk.  To access data you
               have backed up, use the <guilabel>Import</guilabel> tool to 
               restore individual files as needed.
@@ -173,7 +187,7 @@ Examples are also set off from the rest of the text.  They look like this:
             <para>
               To set the browser that opens when you click a link in
               an email, open the GNOME preferences tool
-              (<menuchoice><guimenu>System</guimenu><guimenuitem>Settings</guimenuitem></menuchoice>
+              (<menuchoice><guimenu>System</guimenu><guimenuitem>Personal Settings</guimenuitem></menuchoice>
             or <command>gnome-control-center</command>) and start the
             <guilabel>File Associations</guilabel> tool. There, look under
             <guilabel>Internet Services</guilabel>, select
@@ -192,7 +206,7 @@ Examples are also set off from the rest of the text.  They look like this:
           <listitem>
             <para>
               For GNOME desktops, you can set
-              <application>Evolution</application> to be the default
+              Evolution to be the default
               mail client, so that it opens when you click a mailto:
               link in web pages and help tools. To do that, open the
               GNOME preferences tool and start the <guilabel>File
@@ -200,7 +214,7 @@ Examples are also set off from the rest of the text.  They look like this:
               <guilabel>Internet Services</guilabel>, select
               <guilabel>Electronic mail transmission
               (mailto)</guilabel>, and select
-              <application>Evolution</application> from the drop-down
+              <guilabel>Evolution</guilabel> from the drop-down
               list.
             </para>
             <para>

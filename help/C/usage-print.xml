@@ -2,8 +2,8 @@
   <title>Printing with Evolution</title>
   <para>
     If you've printed from most any other
-    <application>Gnome</application> application, you should be able
-    to print from <application>Evolution</application> without much
+    Gnome application, you should be able
+    to print from Evolution without much
     trouble.
   </para>
   <para>
@@ -17,7 +17,7 @@
   <sect1 id="printpreview">
     <title>Print Preview</title>
     <para>
-      <guibutton>Print Preview</guibutton> appears both as a button in
+      <guilabel>Print Preview</guilabel> appears both as a button in
       the printing dialog and as an item in the
       <guimenu>File</guimenu> menu.  In both places, it does the same
       thing: it opens a new window that shows you what would happen if
@@ -27,15 +27,15 @@
     <para>
       That window allows you to select which pages you want to see,
       and how close you'd like to look at them.  Zoom in or out, fit
-      the page to the window (the <guibutton>Fit</guibutton> button)
+      the page to the window (the <guilabel>Fit</guilabel> button)
       or match the width of the page and the window (the
-      <guibutton>Fit Width</guibutton> button).  None of these buttons
+      <guilabel>Fit Width</guilabel> button).  None of these buttons
       changes the way the page will be printed, but they do let you
       get a better look.  If you're satisfied with the way the your paper
-      looks, click <guibutton>Print</guibutton> to send your document
+      looks, click <guilabel>Print</guilabel> to send your document
       on its way.  If you'd like to change it, just close the
       <guilabel>Print Preview</guilabel> window and make the changes
-      you want from your mail, calendar, or addressbook.
+      you want from your mail, calendar, or address book.
     </para>
 
 
@@ -99,9 +99,9 @@
      whether to print only the selected cards, or all of them.
    </para>
     <para>
-      When you're ready, click <guibutton>Print</guibutton> to print,
-      <guibutton>Preview</guibutton> to have a look (or another look)
-      at the preview, or <guibutton>Cancel</guibutton> to cancel the
+      When you're ready, click <guilabel>Print</guilabel> to print,
+      <guilabel>Preview</guilabel> to have a look (or another look)
+      at the preview, or <guilabel>Cancel</guilabel> to cancel the
       whole deal.
     </para>
   </sect1>

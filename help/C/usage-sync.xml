@@ -3,7 +3,7 @@
       <para>
         This chapter is very short.  It describes how to synchronize
         the data on your Palm-OS device with the data you store in
-        <application>Ximian Evolution</application>.  If you need
+        Ximian Evolution.  If you need
         information on how to set up handheld synchronization, consult
         <xref linkend="config-sync"/>.
       </para>
@@ -27,8 +27,8 @@ protection on your handheld.
 </tip>
         <para>
 	 If you have followed the set up instructions properly, your
-	 Palm-OS device will synchronize data with <application>Ximian
-	 Evolution</application>.
+	 Palm-OS device will synchronize data with Ximian
+	 Evolution.
         </para>
 
          <para>

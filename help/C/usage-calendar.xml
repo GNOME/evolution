@@ -49,17 +49,17 @@
       days that you wish to view in your calendar.
     </para>
     <para>
-       The <guibutton>Prev</guibutton> and <guibutton>Next</guibutton>
+       The <guilabel>Prev</guilabel> and <guilabel>Next</guilabel>
        buttons will move you forward and back in your calendar pages.
        If you're looking at only one day, you'll see tomorrow's page,
        or yesterday's.  If you're looking at your calendar by week or
        month, you'll move around by just that much.
        To come back to today's listing, click the
-        <guibutton>Today</guibutton> button in the toolbar.
+        <guilabel>Today</guilabel> button in the toolbar.
     </para>
     <para>
        To visit a specific date's calendar entries, click
-       <guibutton>Go To</guibutton> and select the date in the dialog
+       <guilabel>Go To</guilabel> and select the date in the dialog
        box that appears.
     </para>
 
@@ -86,7 +86,7 @@
 	  <guisubmenu>New</guisubmenu> 
 	  <guimenuitem>Appointment</guimenuitem>
 	</menuchoice>
-	or click the <guibutton>New Appointment</guibutton> button on the left end
+	or click the <guilabel>New Appointment</guilabel> button on the left end
 	of the toolbar. The <interface>New Appointment</interface>
 	dialog will pop up with the menu bar, tool bar, and
 	window full of choices for you.
@@ -115,7 +115,7 @@
         multiple columns in the day view of the calendar.
       </para>
       <para>
-	<application>Evolution</application> supports the use of
+	Evolution supports the use of
 	timezones.  If you share calendar files with friends or
 	co-workers, it is quite possible you will need to configure
 	your timezone.  To configure your timezone:
@@ -132,14 +132,14 @@
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Click the <guibutton>Globe</guibutton> button in the
+	      Click the <guilabel>Globe</guilabel> button in the
 	      <guilabel>Time</guilabel> section, located in the
 	      <guilabel>General</guilabel> tab.
 	    </para>
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Each red dot represents a major city.  Click a dot and click <guibutton>OK</guibutton> to select your time zone.
+	      Each red dot represents a major city.  Click a dot and click <guilabel>OK</guilabel> to select your time zone.
 	    </para>
 	  </listitem>
 	</orderedlist>
@@ -158,9 +158,9 @@
        <title>Multiple Simultaneous Appointments</title>
          <para>
            If you create calendar appointments that overlap,
-           <application>Evolution</application> will display them side
+           Evolution will display them side
            by side in your calendar.  However,
-           <application>Evolution</application> cannot help you do
+           Evolution cannot help you do
            multiple things at once.
          </para>
       </note>
@@ -193,7 +193,7 @@
 	      <para>
 	        Select this if you would like to run a program as a
 	        reminder.  You can enter its name in the text field,
-	        or find it with the <guibutton>Browse</guibutton>
+	        or find it with the <guilabel>Browse</guilabel>
 	        button.
               </para>
 	    </listitem>
@@ -224,7 +224,7 @@
          higher level.
       </para>
       <para>
-	<application>Evolution</application> can handle free/busy
+	Evolution can handle free/busy
 	scheduling Using the Ximian Connector on a Microsoft Exchange
 	2000 server. For more information about Ximian Connector, see
 	<xref linkend="usage-exchange"/>.
@@ -235,7 +235,7 @@
 	<guilabel>Appointment Editor</guilabel>.
       </para>
       <para>
-        <application>Evolution</application> lets you categorize your
+        Evolution lets you categorize your
 	appointments, which can help if you lead a busy life.  The bottom
 	section of the <guilabel>Appointment</guilabel> tab is where your
 	categorization is done.
@@ -245,7 +245,7 @@
       <title>Adding a New Appointment Category</title>
 	<para>
 	 You can add a new category to your category list by clicking on
-         <guibutton>Edit Master Category List</guibutton> and single-clicking
+         <guilabel>Edit Master Category List</guilabel> and single-clicking
 	 on <guilabel> Click here to add a category</guilabel>.
 	</para>
       </tip>
@@ -258,13 +258,13 @@
       </para>
 
       <para>
-	Clicking on the <guibutton>Categories</guibutton> button opens up the category
+	Clicking on the <guilabel>Categories</guilabel> button opens up the category
 	list.  To associate a category to an appointment, simply click the check box. 
       </para>
       <para>
-	Once you've selected your categories, click <guibutton>OK</guibutton> to
+	Once you've selected your categories, click <guilabel>OK</guilabel> to
 	assign these categories to the appointment.  The categories you selected are now
-	listed in the text box to the right of the <guibutton>Categories...</guibutton>
+	listed in the text box to the right of the <guilabel>Categories...</guilabel>
 	button.
       </para>
 
@@ -292,7 +292,7 @@
     <sect2 id="usage-calendar-rsvp">
       <title>Sending an RSVP with the Calendar</title>
       <para>
-	<application>Evolution</application> can be used to schedule
+	Evolution can be used to schedule
 	group meetings and help you manage responses to meeting
 	requests.
       </para>
@@ -344,8 +344,8 @@
 	      Click the space labeled <guilabel>Click here to add an
 	      attendee</guilabel> to enter the names and email
 	      addresses of people you will invite, or click the
-	      <guibutton>Invite Others</guibutton> to select them from
-	      your addressbook.
+	      <guilabel>Invite Others</guilabel> to select them from
+	      your address book.
 	    </para>
 	  </listitem>
 	  <listitem>
@@ -382,7 +382,7 @@
 	    </para>
 	  </listitem>
 	</itemizedlist>
-	Click <guibutton>OK</guibutton> and an email will be sent to
+	Click <guilabel>OK</guilabel> and an email will be sent to
 	the organizer with your answer.  The event will also be added
 	to your calendar if you accept.
       </para>
@@ -420,7 +420,7 @@
 	Once you get a reply to your meeting invitation, you'll need
 	to view it inline in the email.  Click the attachment and
 	select <guimenuitem>View Inline</guimenuitem>.  At the bottom, you
-	can click <guibutton>OK</guibutton> to update your attendee
+	can click <guilabel>OK</guilabel> to update your attendee
 	list.
       </para>
     </sect2>
@@ -430,16 +430,16 @@
     <sect2 id="usage-calendar-apts-group">
       <title>Appointments for Groups</title>
       <para>
-	You can use <application>Evolution</application> to mark a
+	You can use Evolution to mark a
 	meeting request on another person's calendar.  To do it, click
-	<guibutton>New</guibutton> in the calendar toolbar, or select
+	<guilabel>New</guilabel> in the calendar toolbar, or select
 	<menuchoice> <guimenu>File</guimenu>
 	<guisubmenu>New</guisubmenu>
 	<guimenuitem>Appointment</guimenuitem> </menuchoice> to bring
 	up the <interface>new appointment</interface> window.  Then
 	describe the appointment as you would any other. When you are
-	ready to send the invitation <guibutton>OK</guibutton>
-	<application>Evolution</application> will automatically send
+	ready to send the invitation <guilabel>OK</guilabel>
+	Evolution will automatically send
 	email to each person on the request list, notifying of the
 	time and date of the meeting you have requested with them.  In
 	addition, it will mark the appointment on your calendar and on
@@ -458,7 +458,7 @@
         When your meeting attendees get the email inviting them to the
         meeting, they'll be able to enter the information into their
         calendars and let you know if they'll be able to attend; if
-        they use <application>Ximian Evolution</application> or
+        they use Ximian Evolution or
         another iCal compliant mail client, they can do this with just
         one click. When you get a response from them, it will include
         an iCal attachment. Opening and accepting this attachment will
@@ -587,7 +587,7 @@
           Adjust the meeting time, either by dragging the meeting
           borders or by using the <guilabel>Autopick</guilabel>
           buttons to choose a time automatically, then click
-          <guibutton>Save and Close</guibutton>.  Attendees on an
+          <guilabel>Save and Close</guilabel>.  Attendees on an
           Exchange server will have the appointment updated
           automatically; others will receive email notification of any
           change in plans.
@@ -609,12 +609,12 @@
        The Task Pad, located in the lower right corner of the
        calendar, lets you keep a list of tasks separate from your
        calendar appointments.  You can use the list
-       in a larger window by choosing the <guibutton>Tasks</guibutton>
+       in a larger window by choosing the <guilabel>Tasks</guilabel>
        button in the shortcut bar or in the folder tree.
     </para>
     <para>
-       To record a new task, click the <guibutton>Add</guibutton>
-       button in the toolbar.  <application>Evolution</application>
+       To record a new task, click the <guilabel>Add</guilabel>
+       button in the toolbar.  Evolution
        will pop up a small window with five items in it:
      
         <variablelist>
@@ -634,7 +634,7 @@
 	    <para>
 	      Decide when this item is
 	      due.  You can either type in a date and time, or select one from
-	      the <guibutton>Calendar</guibutton> and <guibutton>time</guibutton> drop-down menus.
+	      the <guilabel>Calendar</guilabel> and <guilabel>time</guilabel> drop-down menus.
           </para>
 	  </listitem>
 	</varlistentry>
@@ -673,13 +673,13 @@
        Once you've added a task to your to-do list, its summary
        appears in the <guilabel>Summary</guilabel> section of task
        list.  To view or edit a detailed description of an item,
-       double-click on it, or right click on it and select <guibutton>Open</guibutton>.  You can delete items by selecting
-       them and clicking on the <guibutton>Delete</guibutton> button.
+       double-click on it, or right click on it and select <guilabel>Open</guilabel>.  You can delete items by selecting
+       them and clicking on the <guilabel>Delete</guilabel> button.
     </para>
     <para>
       The list of tasks is sorted in a similar way to the list of
-      email messages in <application>Ximian Evolution
-      Mail</application>.  Click once on the message headers to change
+      email messages in Ximian Evolution
+      Mail.  Click once on the message headers to change
       the direction and type of sorting, or right-click to add or
       remove columns from the display.
     </para>
@@ -687,7 +687,7 @@
       <title>Folders for Your Tasks</title>
       <para>
 	Like any other component in
-	<application>Evolution</application>, you can create a folder
+	Evolution, you can create a folder
 	to help organize your tasks.  To do this:
 	<orderedlist numeration="arabic">
 	  <listitem>
@@ -697,12 +697,12 @@
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Click <guibutton>Tasks</guibutton>.
+	      Click <guilabel>Tasks</guilabel>.
 	    </para>
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Right click on <guibutton>Tasks</guibutton>.
+	      Right click on <guilabel>Tasks</guilabel>.
 	    </para>
 	  </listitem>
 	  <listitem>
@@ -717,7 +717,7 @@
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Click <guibutton>OK</guibutton>
+	      Click <guilabel>OK</guilabel>
 	    </para>
 	  </listitem>
 	</orderedlist>
@@ -728,7 +728,7 @@
   <sect1 id="usage-calendar-multiple">
     <title>Multiple Calendars</title>
     <para>
-       <application>Evolution</application> permits you to have and
+       Evolution permits you to have and
        maintain multiple calendars.  This is useful if you maintain
        schedules for other people, if you are responsible for resource
        or room allocation, or if you have multiple personalities.

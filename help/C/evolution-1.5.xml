@@ -8,7 +8,6 @@
 <!ENTITY GPL SYSTEM "apx-gpl.xml">
 <!ENTITY PREFACE SYSTEM "preface.xml">
 <!ENTITY USAGE-MAINWINDOW SYSTEM "usage-mainwindow.xml">
-<!ENTITY USAGE-EXEC-SUMMARY SYSTEM "usage-exec-summary.xml">
 <!ENTITY USAGE-MAIL SYSTEM "usage-mail.xml">
 <!ENTITY USAGE-MAIL-ORG SYSTEM "usage-mail-org.xml">
 <!ENTITY USAGE-CONTACT SYSTEM "usage-contact.xml">
@@ -24,14 +23,22 @@
 <!ENTITY APX-BUGS SYSTEM "apx-bugs.xml">
 <!ENTITY APX-AUTHORS SYSTEM "apx-authors.xml">
 
-<!ENTITY appversion "1.4">
-<!ENTITY docversion "1.4">
-<!ENTITY pubdate "May, 2003">
+<!ENTITY appversion "1.5">
+<!ENTITY docversion "1.5">
+<!ENTITY pubdate "January, 2004">
 
 ]>
 
 <!-- Almost every chapter is an entity.  Files, Chapter id's, and
 entity names correspond.  APX is for appendix.  -->
+
+<!-- STYLE RULES: Use "guilabel" instead of "guibutton everywhere. -->
+<!-- "Address Book" is two words. -->
+<!-- The "application" tag is not used around "Evolution." -->
+<!-- filenames use  command tags so they appear in the same font as commands -->
+<!-- there is one bar and it is the Shortcut Bar. The folder bar is dead. -->
+
+<!-- FIXME, TODO: Expand spam checking doc, update security docs   take new screenshots. -->
 
 <book id="index">
   <bookinfo>
@@ -55,8 +62,7 @@ entity names correspond.  APX is for appendix.  -->
 
     <legalnotice id="legalnotice">
       <para>
-         Please note that legal and licensing information is in <xref
-         linkend="preface" /> due to formatting issues with its
+         Please note that legal and licensing information is in <xref linkend="preface" /> due to formatting issues with its
          previous location.
        </para>
     </legalnotice>
@@ -73,8 +79,8 @@ entity names correspond.  APX is for appendix.  -->
     <title>Getting Started with Ximian Evolution</title>
      <partintro>
       <para>
-        Part one of the <application>Ximian Evolution</application> manual
-        describes how to use <application>Ximian Evolution</application> for
+        Part one of the Ximian Evolution manual
+        describes how to use Ximian Evolution for
         email, contact management, and appointment and task
         scheduling.  You'll find as you go along that there's more
         than one way to do things, and you can pick whichever method
@@ -83,7 +89,6 @@ entity names correspond.  APX is for appendix.  -->
     </partintro>
 
     &USAGE-MAINWINDOW;
-    &USAGE-EXEC-SUMMARY;
     &USAGE-MAIL;
     &USAGE-MAIL-ORG;
     &USAGE-CONTACT;
@@ -96,12 +101,12 @@ entity names correspond.  APX is for appendix.  -->
   <title>Configuring and Managing Ximian Evolution</title>
     <partintro>
       <para>
-        <application>Ximian Evolution</application> is highly
+        Ximian Evolution is highly
         configurable.  Usually, when developers say that, they mean
         that they didn't test it out thoroughly and have left it to
         other programmers to "configure" themselves a working
-        system. In the case of <application>Ximian
-        Evolution</application>, "configurable" means that, while you
+        system. In the case of Ximian
+        Evolution, "configurable" means that, while you
         can expect the program to work perfectly well with the default
         settings, it's also easy to alter its behavior in a wide
         variety of ways, so that it fits your needs exactly.  This
