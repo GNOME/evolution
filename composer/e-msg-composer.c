@@ -2493,6 +2493,10 @@ drag_data_received (EMsgComposer *composer, GdkDragContext *context,
 			} else {
 				url = camel_url_new (str, NULL);
 				g_free (str);
+
+				if (url == NULL)
+					continue;
+				
 				filename = url->path;
 				url->path = NULL;
 				camel_url_free (url);

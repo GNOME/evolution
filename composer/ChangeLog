@@ -1,5 +1,9 @@
 2003-02-24  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* e-msg-composer.c (drag_data_received): Make sure the url is !=
+	NULL? I can't think of anything else in this code that could
+	possibly cause bug #38382.
+
 	* e-msg-composer-attachment-bar.c (pixbuf_for_mime_type): Fixed a
 	memory leak.
 
