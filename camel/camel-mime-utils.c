@@ -2584,6 +2584,8 @@ header_address_list_format_append(GString *out, struct _header_address *a)
 			break;
 		}
 		a = a->next;
+		if (a)
+			g_string_append(out, ", ");
 	}
 }
 

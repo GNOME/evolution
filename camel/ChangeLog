@@ -1,3 +1,8 @@
+2000-08-23  Dan Winship  <danw@helixcode.com>
+
+	* camel-mime-utils.c (header_address_list_format_append): put
+	commas between addresses.
+
 2000-08-22  Dan Winship  <danw@helixcode.com>
 
 	* providers/imap/camel-imap-folder.c
