@@ -197,11 +197,7 @@ timeout_cb (gpointer data)
 {
 	CamelRemoteStore *store = CAMEL_REMOTE_STORE(data);
 
-	CAMEL_REMOTE_STORE_LOCK(store, stream_lock);
-
 	CRSC (data)->keepalive(store);
-
-	CAMEL_REMOTE_STORE_UNLOCK(store, stream_lock);
 
 	return TRUE;
 }
