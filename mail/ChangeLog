@@ -1,4 +1,22 @@
+2002-09-11  Not Zed  <NotZed@Ximian.com>
+
+	* component-factory.c (configure_folder_popup): Handle file uri's
+	too.
+
+	* mail-callbacks.c (configure_folder): clear message list before
+	calling configure folder.
+	(local_configure_done): completion callback to reset message list
+	when done.
+
+	* mail-local.c (mail_local_reconfigure_folder): changed args to
+	accept uri, and done callback.
+	(reconfigure_got_folder): moved code to callback which presents
+	the configure uri once we have the folder.
+
 2002-09-10  Not Zed  <NotZed@Ximian.com>
+
+	* component-factory.c: Handle file: as well as vfolder: uri's.
+	Pass both to the normal configure_folder callback.  For #20849.
 
 	* folder-browser.c (got_folder): If we already have a folder, make
 	sure we unref/unhook from it.  Fixes a crash on exit.

@@ -390,7 +390,17 @@ configure_folder_popup(BonoboUIComponent *component, void *user_data, const char
 {
 	char *uri = user_data;
 
-	vfolder_edit_rule(uri);
+
+	if (strncmp(uri, "vfolder:", 8) == 0)
+		vfolder_edit_rule(uri);
+	else {
+		FolderBrowser *fb = folder_browser_factory_get_browser(uri);
+
+		if (fb)
+			configure_folder(component, fb, cname);
+		else
+			mail_local_reconfigure_folder(uri, NULL, NULL);
+	}
 }
 
 static void
@@ -413,13 +423,12 @@ populate_folder_context_menu (EvolutionShellComponent *shell_component,
 	/* FIXME: handle other types */
 
 	/* the unmatched test is a bit of a hack but it works */
-	if (strncmp(physical_uri, "vfolder:", 8) != 0
-	    || strstr(physical_uri, "#" CAMEL_UNMATCHED_NAME) != NULL)
-		return;
-
-	bonobo_ui_component_add_verb_full(uic, "ChangeFolderPropertiesPopUp", configure_folder_popup, g_strdup(physical_uri), g_free);
-
-	bonobo_ui_component_set_translate (uic, EVOLUTION_SHELL_COMPONENT_POPUP_PLACEHOLDER,  popup_xml, NULL);
+	if ((strncmp(physical_uri, "vfolder:", 8) == 0
+	     && strstr(physical_uri, "#" CAMEL_UNMATCHED_NAME) == NULL)
+	    || strncmp(physical_uri, "file:", 5) == 0) {
+		bonobo_ui_component_add_verb_full(uic, "ChangeFolderPropertiesPopUp", configure_folder_popup, g_strdup(physical_uri), g_free);
+		bonobo_ui_component_set_translate (uic, EVOLUTION_SHELL_COMPONENT_POPUP_PLACEHOLDER,  popup_xml, NULL);
+	}
 }
 
 static void
@@ -435,13 +444,11 @@ unpopulate_folder_context_menu (EvolutionShellComponent *shell_component,
 	/* FIXME: handle other types */
 
 	/* the unmatched test is a bit of a hack but it works */
-	if (strncmp(physical_uri, "vfolder:", 8) != 0
-	    || strstr(physical_uri, "#" CAMEL_UNMATCHED_NAME) != NULL)
-		return;
-
-	bonobo_ui_component_rm (uic,
-				EVOLUTION_SHELL_COMPONENT_POPUP_PLACEHOLDER "/ChangeFolderPropertiesPopUp",
-				NULL);
+	if ((strncmp(physical_uri, "vfolder:", 8) == 0
+	     && strstr(physical_uri, "#" CAMEL_UNMATCHED_NAME) == NULL)
+	    || strncmp(physical_uri, "file:", 5) == 0) {
+		bonobo_ui_component_rm (uic, EVOLUTION_SHELL_COMPONENT_POPUP_PLACEHOLDER "/ChangeFolderPropertiesPopUp", NULL);
+	}
 }
 
 static char *

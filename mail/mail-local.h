@@ -27,11 +27,10 @@
 #define _MAIL_LOCAL_H
 
 #include "evolution-shell-client.h"
-#include "folder-browser.h"
+#include <camel/camel-folder.h>
 
-void mail_local_storage_startup (EvolutionShellClient *shellclient,
-				 const char *evolution_path);
+void mail_local_storage_startup (EvolutionShellClient *shellclient, const char *evolution_path);
 
-void mail_local_reconfigure_folder (FolderBrowser *fb);
+void mail_local_reconfigure_folder(const char *uri, void (*done)(const char *uri, CamelFolder *folder, void *data), void *done_data);
 
 #endif

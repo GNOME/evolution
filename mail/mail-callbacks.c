@@ -3292,6 +3292,23 @@ manage_subscriptions (BonoboUIComponent *uih, void *user_data, const char *path)
 
 /******************** End Subscription Dialog ***************************/
 
+static void
+local_configure_done(const char *uri, CamelFolder *folder, void *data)
+{
+	FolderBrowser *fb = data;
+
+	if (FOLDER_BROWSER_IS_DESTROYED (fb)) {
+		gtk_object_unref((GtkObject *)fb);
+		return;
+	}
+
+	if (folder == NULL)
+		folder = fb->folder;
+
+	message_list_set_folder(fb->message_list, folder, FALSE);
+	gtk_object_unref((GtkObject *)fb);
+}
+
 void
 configure_folder (BonoboUIComponent *uih, void *user_data, const char *path)
 {
@@ -3300,10 +3317,14 @@ configure_folder (BonoboUIComponent *uih, void *user_data, const char *path)
 	if (FOLDER_BROWSER_IS_DESTROYED (fb))
 		return;
 	
-	if (fb->uri && strncmp (fb->uri, "vfolder:", 8) == 0) {
-		vfolder_edit_rule (fb->uri);
-	} else {
-		mail_local_reconfigure_folder (fb);
+	if (fb->uri) {
+		if (strncmp (fb->uri, "vfolder:", 8) == 0) {
+			vfolder_edit_rule (fb->uri);
+		} else {
+			message_list_set_folder(fb->message_list, NULL, FALSE);
+			gtk_object_ref((GtkObject *)fb);
+			mail_local_reconfigure_folder(fb->uri, local_configure_done, fb);
+		}
 	}
 }
 
