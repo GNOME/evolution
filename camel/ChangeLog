@@ -1,5 +1,19 @@
-2001-11-30  Not Zed  <NotZed@Ximian.com>
+2001-11-14    <NotZed@Ximian.com>
 
+	* camel-vee-folder.c (folder_changed_remove_uid): Use the uid
+	rather than vuid for unmatched.  Also add the uid to unmatched if
+	it wasn't in the unmatched_uids table at all.
+	(folder_changed_change): If checking for added, if the new ones
+	dont match, then try to add them to unmatched.  Fixes #6893.
+
+	* camel-folder-summary.c (camel_folder_summary_index): Change lock
+	order, always summary_lock before ref_lock.
+	(camel_folder_summary_array): "
+	(camel_folder_summary_uid): "
+	(camel_folder_summary_remove_uid): "  Fixes a deadlock.
+
+2001-11-30  Not Zed  <NotZed@Ximian.com>
+  
 	* providers/nntp/camel-nntp-*.c:
 	Completely new implementation of NNTP.
 	

@@ -1166,12 +1166,15 @@ folder_changed_remove_uid(CamelFolder *sub, const char *uid, const char hash[8],
 			if (g_hash_table_lookup_extended(unmatched_uids, vuid, (void **)&oldkey, (void **)&n)) {
 				if (n == 1) {
 					g_hash_table_remove(unmatched_uids, oldkey);
-					if (vee_folder_add_uid(folder_unmatched, sub, vuid, hash))
+					if (vee_folder_add_uid(folder_unmatched, sub, uid, hash))
 						camel_folder_change_info_add_uid(folder_unmatched->changes, oldkey);
 					g_free(oldkey);
 				} else {
 					g_hash_table_insert(unmatched_uids, oldkey, (void *)(n-1));
 				}
+			} else {
+				if (vee_folder_add_uid(folder_unmatched, sub, uid, hash))
+					camel_folder_change_info_add_uid(folder_unmatched->changes, oldkey);
 			}
 		} else {
 			if (g_hash_table_lookup_extended(unmatched_uids, vuid, (void **)&oldkey, (void **)&n)) {
@@ -1343,12 +1346,39 @@ folder_changed_change(CamelSession *session, CamelSessionThreadMsg *msg)
 		folder_changed_remove_uid(sub, changes->uid_removed->pdata[i], hash, FALSE, vf);
 	}
 
-	/* Add any newly matched */
+	/* Add any newly matched or to unmatched folder if they dont */
 	if (matches_added) {
+		matches_hash = g_hash_table_new(g_str_hash, g_str_equal);
 		for (i=0;i<matches_added->len;i++) {
-			dd(printf("  adding uid '%s' [newly matched]\n", (char *)matches_added->pdata[i]));
-			folder_changed_add_uid(sub, matches_added->pdata[i], hash, vf);
+			dd(printf(" %s", (char *)matches_added->pdata[i]));
+			g_hash_table_insert(matches_hash, matches_added->pdata[i], matches_added->pdata[i]);
 		}
+		for (i=0;i<changes->uid_added->len;i++) {
+			uid = changes->uid_added->pdata[i];
+			if (g_hash_table_lookup(matches_hash, uid)) {
+				dd(printf("  adding uid '%s' [newly matched]\n", (char *)uid));
+				folder_changed_add_uid(sub, uid, hash, vf);
+			} else if ((vf->flags & CAMEL_STORE_FOLDER_PRIVATE) == 0) {
+				if (strlen(uid)+9 > vuidlen) {
+					vuidlen = strlen(uid)+64;
+					vuid = g_realloc(vuid, vuidlen);
+				}
+				memcpy(vuid, hash, 8);
+				strcpy(vuid+8, uid);
+				
+				if (g_hash_table_lookup(unmatched_uids, vuid) == NULL) {
+					dd(printf("  adding uid '%s' to Unmatched [newly unmatched]\n", (char *)uid));
+					vinfo = (CamelVeeMessageInfo *)camel_folder_get_message_info((CamelFolder *)folder_unmatched, vuid);
+					if (vinfo == NULL) {
+						if (vee_folder_add_uid(folder_unmatched, sub, uid, hash))
+							camel_folder_change_info_add_uid(folder_unmatched->changes, vuid);
+					} else {
+						camel_folder_free_message_info((CamelFolder *)folder_unmatched, (CamelMessageInfo *)vinfo);
+					}
+				}
+			}
+		}
+		g_hash_table_destroy(matches_hash);
 	}
 
 	/* Change any newly changed */
