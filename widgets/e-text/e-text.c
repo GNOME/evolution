@@ -595,6 +595,7 @@ get_bounds (EText *text, double *px1, double *py1, double *px2, double *py2)
 		*px2 = text->cx + text->max_width;
 		*py2 = text->cy + text->height;
 	}
+
 }
 
 static void
@@ -1057,6 +1058,7 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		else
 			text->needs_calc_line_widths = 1;
 		needs_reflow = 1;
+		text->needs_recalc_bounds = 1;
 		break;
 
 	case ARG_CLIP_HEIGHT:
@@ -1183,6 +1185,7 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		else
 			text->needs_calc_line_widths = 1;
 		needs_reflow = 1;
+		text->needs_recalc_bounds = 1;
 		break;
 
 	default:
@@ -1858,8 +1861,11 @@ e_text_point (GnomeCanvasItem *item, double x, double y,
 	best = 1.0e36;
 
 	lines = text->lines;
+
+#if 0
 	if ( lines )
 		return 1;
+#endif
 
 	for (i = 0; i < text->num_lines; i++) {
 		/* Compute the coordinates of rectangle for the current line,
@@ -2138,6 +2144,7 @@ _blink_scroll_timeout (gpointer data)
 static gboolean
 tooltip_event(GtkWidget *tooltip, GdkEvent *event, EText *text)
 {
+	gint ret_val = FALSE;
 	switch (event->type) {
 	case GDK_LEAVE_NOTIFY:
 		if (text->tooltip_window) {
@@ -2145,10 +2152,21 @@ tooltip_event(GtkWidget *tooltip, GdkEvent *event, EText *text)
 			text->tooltip_window = NULL;
 		}
 		break;
+	case GDK_BUTTON_PRESS:
+	case GDK_BUTTON_RELEASE:
+		if (event->type == GDK_BUTTON_RELEASE) {
+			if (text->tooltip_window) {
+				gtk_widget_destroy (text->tooltip_window);
+				text->tooltip_window = NULL;
+			}
+		}
+		/* Forward events to the text item */
+		gtk_signal_emit_by_name (GTK_OBJECT (text), "event", event,
+					 &ret_val);
 	default:
 		break;
 	}
-	return FALSE;
+	return ret_val;
 }
 
 static gboolean
@@ -2161,7 +2179,7 @@ _do_tooltip (gpointer data)
 	gdouble max_width;
 	gboolean cut_off;
 	double i2c[6];
-	ArtPoint origin = {0, 0};
+	ArtPoint origin = {text->x, text->y};
 	ArtPoint pixel_origin;
 	int canvas_x, canvas_y;
 	GnomeCanvasItem *tooltip_text;
@@ -2189,6 +2207,7 @@ _do_tooltip (gpointer data)
 
 	gnome_canvas_item_i2c_affine(GNOME_CANVAS_ITEM(text), i2c);
 	art_affine_point (&pixel_origin, &origin, i2c);
+
 	gdk_window_get_origin (GTK_WIDGET(GNOME_CANVAS_ITEM(text)->canvas)->window, &canvas_x, &canvas_y);
 	pixel_origin.x += canvas_x;
 	pixel_origin.y += canvas_y;
@@ -2231,6 +2250,8 @@ _do_tooltip (gpointer data)
 					      "clip_width", max_width,
 					      "clip_height", (double)text->height,
 					      "clip", TRUE,
+					      "line_wrap", text->line_wrap,
+					      "max_lines", text->max_lines,
 					      NULL);
 
 	e_canvas_item_move_absolute(tooltip_text, 1, 1);
@@ -2343,7 +2364,7 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 
 			e_canvas_item_grab_focus (item);
 
-			e_tep_event.type = GDK_BUTTON_PRESS;
+			e_tep_event.type = GDK_BUTTON_RELEASE;
 			e_tep_event.button.time = button.time;
 			e_tep_event.button.state = button.state;
 			e_tep_event.button.button = button.button;
