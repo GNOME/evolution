@@ -1,3 +1,21 @@
+2001-01-12  Iain Holmes  <iain@ximian.com>
+
+	* component/e-summary-util.c (e_summary_rm_dir): If base == NULL return;
+	Closes bug #37077
+
+2000-12-30  Iain Holmes  <iain@helixcode.com>
+
+	* component/e-summary.c (e_summary_rebuild_page): The number of columns
+	is no longer hardcoded.
+
+	* component/e-summary-prefs.[ch]: Add a columns member, and all the 
+	necessary code to support it.
+
+	* component/e-summary-callbacks.c: Set the columns member.
+
+	* test-service/rdf-summary.c: Add a "Show title" button for turning off
+	the title if it is taking up too much room.
+
 2000-12-29  Iain Holmes  <iain@helixcode.com>
 
 	* test-service/rdf-summary.c (view_destroyed): Cancel all pending

@@ -102,6 +102,9 @@ e_summary_rm_dir (const char *path)
 		g_warning ("Opening: %s", path);
 		base = opendir (path);
 
+		if (base == NULL)
+			return;
+
 		contents = readdir (base);
 		while (contents != NULL) {
 			char *fullpath;
