@@ -54,6 +54,7 @@
 
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
+#include <libgnome/gnome-sound.h>
 #include <libgnomeui/gnome-ui-init.h>
 
 #include <bonobo/bonobo-main.h>
@@ -600,7 +601,9 @@ main (int argc, char **argv)
 	g_value_unset (&popt_context_value);
 
 	g_idle_add (idle_cb, uri_list);
-
+	
+	gnome_sound_init ("localhost");
+	
 	bonobo_main ();
 	
 	e_icon_factory_shutdown ();

@@ -1,3 +1,7 @@
+2004-06-17  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* main.c (main): Call gnome_sound_init() before bonobo_main().
+
 2004-06-09  Dan Winship  <danw@novell.com>
 
 	* check-empty.xpm, check-filled.xpm, check-missing.xpm:
