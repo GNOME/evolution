@@ -79,6 +79,8 @@ gchar    *e_strstrcase                                                     (cons
 									    const gchar      *needle);
 void      e_filename_make_safe                                             (gchar            *string);
 gchar    *e_format_number                                                  (gint              number);
+gchar    *e_format_number_float                                            (gfloat            number);
+
 gboolean  e_create_directory                                               (gchar            *directory);
 
 
@@ -190,6 +192,11 @@ void      e_marshal_INT__POINTER_POINTER_POINTER_POINTER                   (GtkO
 									    GtkSignalFunc     func,
 									    gpointer          func_data,
 									    GtkArg           *args);
+
+void      e_marshal_NONE__POINTER_INT_INT_INT                              (GtkObject       *object,
+                                                                            GtkSignalFunc    func,
+                                                                            gpointer         func_data,
+                                                                            GtkArg          *args);
 
 #ifdef __cplusplus
 }

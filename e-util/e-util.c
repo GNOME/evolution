@@ -661,6 +661,23 @@ e_marshal_INT__POINTER_POINTER_POINTER_POINTER (GtkObject *object,
 				func_data);
 }
 
+
+void
+e_marshal_NONE__POINTER_INT_INT_INT (GtkObject       *object,
+				     GtkSignalFunc    func,
+				     gpointer         func_data,
+				     GtkArg          *args)
+{
+        (* (void (*)(GtkObject *, gpointer, int, int, int, gpointer)) func)
+                (object,
+		 GTK_VALUE_POINTER (args[0]),
+                 GTK_VALUE_INT (args[1]),
+                 GTK_VALUE_INT (args[2]),
+                 
+                 GTK_VALUE_INT (args[3]),
+                 func_data);
+}
+
 gchar**
 e_strsplit (const gchar *string,
 	    const gchar *delimiter,
@@ -823,6 +840,46 @@ e_format_number (gint number)
 	} else {
 		return g_strdup("0");
 	}
+}
+
+gchar *
+e_format_number_float (gfloat number)
+{
+	gint            int_part;
+	gint            fraction;
+	struct lconv   *locality;
+	gchar          *str_intpart;
+	gchar          *decimal_point;
+	gchar          *str_fraction;
+	gchar          *value;
+
+	locality = localeconv();
+	
+	int_part = (int) number;
+	str_intpart = e_format_number (int_part);
+
+	if (!strcmp(locality->mon_decimal_point, "")) {
+		decimal_point = ".";
+	}
+	else {
+		decimal_point = locality->mon_decimal_point;
+	}
+
+	fraction = (int) ((number - int_part) * 100);
+
+	if (fraction == 0) {
+		str_fraction = g_strdup ("00");
+	}
+	else {
+		str_fraction = g_strdup_printf ("%02d", fraction);
+	}
+
+	value = g_strconcat (str_intpart, decimal_point, str_fraction, NULL);
+
+	g_free (str_intpart);
+	g_free (str_fraction);
+
+	return value;
 }
 
 gboolean
