@@ -1,3 +1,9 @@
+2005-01-24  Hans Petter Jansson  <hpj@novell.com>
+
+	* e-msg-composer-hdrs.c (create_addressbook_entry): Set pointers to the
+	contact editor creation functions in the entries, so they can pop up
+	said editors.
+
 2005-01-12  Not Zed  <NotZed@Ximian.com>
 
 	* e-msg-composer.c (destroy): initialise composer before using it.

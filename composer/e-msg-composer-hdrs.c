@@ -63,6 +63,10 @@
 #include "mail/mail-component.h"
 #include "mail/em-folder-tree.h"
 
+/* TEMPORARY KLUDGE */
+#include "addressbook/gui/contact-editor/e-contact-editor.h"
+#include "addressbook/gui/contact-list-editor/e-contact-list-editor.h"
+
 
 
 /* Indexes in the GtkTable assigned to various items */
@@ -439,6 +443,9 @@ create_addressbook_entry (EMsgComposerHdrs *hdrs, const char *name)
 	name_selector_entry = e_name_selector_peek_section_entry (priv->name_selector, name);
 	g_signal_connect (name_selector_entry, "changed",
 			  G_CALLBACK (addressbook_entry_changed), hdrs);
+
+	e_name_selector_entry_set_contact_editor_func (name_selector_entry, e_contact_editor_new);
+	e_name_selector_entry_set_contact_list_editor_func (name_selector_entry, e_contact_list_editor_new);
 
 	return GTK_WIDGET (name_selector_entry);
 
