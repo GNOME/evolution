@@ -1179,7 +1179,7 @@ do_append (CamelFolder *folder, CamelMimeMessage *message,
 		return response;
 	
 	if (store->capabilities & IMAP_CAPABILITY_UIDPLUS) {
-		*uid = strstrcase (response->status, "[APPENDUID ");
+		*uid = camel_strstrcase (response->status, "[APPENDUID ");
 		if (*uid)
 			*uid = strchr (*uid + 11, ' ');
 		if (*uid) {
@@ -1351,7 +1351,7 @@ handle_copyuid (CamelImapResponse *response, CamelFolder *source,
 	GPtrArray *src, *dest;
 	int i;
 
-	validity = strstrcase (response->status, "[COPYUID ");
+	validity = camel_strstrcase (response->status, "[COPYUID ");
 	if (!validity)
 		return;
 	validity += 9;

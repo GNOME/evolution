@@ -33,6 +33,7 @@
 #undef _
 
 #include <string.h>
+#include "string-utils.h"
 #include "camel-sasl-kerberos4.h"
 #include "camel-service.h"
 
@@ -144,7 +145,7 @@ krb4_challenge (CamelSasl *sasl, GByteArray *token, CamelException *ex)
 		/* Our response is an authenticator including that number. */
 		h = camel_service_gethost (sasl->service, ex);
 		inst = g_strndup (h->h_name, strcspn (h->h_name, "."));
-		g_strdown (inst);
+		camel_strdown (inst);
 		realm = g_strdup (krb_realmofhost (h->h_name));
 		camel_free_host(h);
 		status = krb_mk_req (&authenticator, sasl->service_name, inst, realm, priv->nonce_h);

@@ -1,5 +1,33 @@
 2003-03-06  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/imap/camel-imap-utils.c (imap_next_word):
+	s/g_strncasecmp/strncasecmp/g
+
+	* camel-iconv.c: Updated to be an exact copy of e-iconv (except
+	names changed). We don't use this yet, but we may in the future.
+
+	* camel-url.c (camel_url_new_with_base): Here too.
+
+	* camel-sasl-kerberos4.c (krb4_challenge): Use camel_strdown()
+	here instead of g_strdown() since the latter has been deprecated.
+
+	* providers/imap/camel-imap-utils.c (imap_parse_body): Use
+	camel_strdown() since g_ascii_strdown() does not do what we
+	thought.
+
+	* providers/imap/camel-imap-store.c:
+	s/strstrcase/camel_strstrcase/g
+
+	* providers/imap/camel-imap-folder.c (do_append):
+	s/strstrcase/camel_strstrcase/
+	(handle_copyuid): Same.
+
+	* string-utils.c (camel_strdown): New function because the
+	g_ascii_strdown interface sucks.
+	(camel_strstrcase): Renamed from strstrcase.
+
+2003-03-06  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* camel-text-index.c (camel_utf8_next): Same as below.
 
 	* camel-search-private.c (camel_utf8_getc): Updated since not all
@@ -45,6 +73,7 @@
 	convert any CRLF sequences into plain old line-feeds to work
 	around a bug in some local transport programs.
 
+>>>>>>> 1.1757
 2003-03-04  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-object.h: s/class/klass in one place so that the header is

@@ -34,6 +34,7 @@
 #include <string.h>
 
 #include "camel-url.h"
+#include "string-utils.h"
 #include "camel-exception.h"
 #include "camel-mime-utils.h"
 #include "camel-object.h"
@@ -79,7 +80,7 @@ camel_url_new_with_base (CamelURL *base, const char *url_string)
 
 	if (p > url_string && *p == ':') {
 		url->protocol = g_strndup (url_string, p - url_string);
-		g_ascii_strdown (url->protocol, -1);
+		camel_strdown (url->protocol);
 		url_string = p + 1;
 	}
 

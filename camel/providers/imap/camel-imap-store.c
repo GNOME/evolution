@@ -1202,7 +1202,7 @@ imap_connect_online (CamelService *service, CamelException *ex)
 		imap_namespaces_destroy (namespaces);
 		/* end new code */
 		
-		name = strstrcase (result, "NAMESPACE ((");
+		name = camel_strstrcase (result, "NAMESPACE ((");
 		if (name) {
 			char *sep;
 			
@@ -1528,7 +1528,7 @@ get_folder_status (CamelImapStore *imap_store, const char *folder_name, const ch
 	if (!status)
 		return -1;
 
-	p = strstrcase (status, type);
+	p = camel_strstrcase (status, type);
 	if (p)
 		out = strtoul (p + strlen (type), NULL, 10);
 	else

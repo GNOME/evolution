@@ -1,6 +1,7 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  *  Authors: Jeffrey Stedfast <fejj@ximian.com>
+ *           Michael Zucchi <notzed@ximian.com>
  *
  *  Copyright 2003 Ximian, Inc. (www.ximian.com)
  *
@@ -31,25 +32,58 @@
 #include <string.h>
 #include <errno.h>
 
+#include <locale.h>
+
+#ifdef HAVE_CODESET
+#include <langinfo.h>
+#endif
+
 #include "e-util/e-memory.h"
-#include "camel/camel-charset-map.h"
+#include "camel-charset-map.h"
+#include "string-utils.h"
 #include "camel-iconv.h"
 
+#define d(x)
+
+#ifdef G_THREADS_ENABLED
+static GStaticMutex lock = G_STATIC_MUTEX_INIT;
+#define LOCK() g_static_mutex_lock (&lock)
+#define UNLOCK() g_static_mutex_unlock (&lock)
+#else
+#define LOCK()
+#define UNLOCK()
+#endif
+
+
+struct _iconv_cache_node {
+	struct _iconv_cache_node *next;
+	struct _iconv_cache_node *prev;
+
+	struct _iconv_cache *parent;
+
+	int busy;
+	iconv_t cd;
+};
+
+struct _iconv_cache {
+	struct _iconv_cache *next;
+	struct _iconv_cache *prev;
+
+	char *conv;
+
+	EDList open;		/* stores iconv_cache_nodes, busy ones up front */
+};
 
 #define ICONV_CACHE_SIZE   (16)
 
-struct _iconv_cache_bucket {
-	struct _iconv_cache_bucket *next;
-	struct _iconv_cache_bucket *prev;
-	guint32 refcount:31;
-	guint32 used:1;
-	iconv_t cd;
-	char *key;
-};
+static EDList iconv_cache_list;
+static GHashTable *iconv_cache;
+static GHashTable *iconv_cache_open;
+static unsigned int iconv_cache_size = 0;
 
-
-/* a useful website on charset alaises:
- * http://www.li18nux.org/subgroups/sa/locnameguide/v1.1draft/CodesetAliasTable-V11.html */
+static GHashTable *iconv_charsets = NULL;
+static char *locale_charset = NULL;
+static char *locale_lang = NULL;
 
 struct {
 	char *charset;
@@ -113,190 +147,82 @@ struct {
 };
 
 
-static GHashTable *iconv_charsets;
-
-static EMemChunk *cache_chunk;
-static struct _iconv_cache_bucket *iconv_cache_buckets;
-static GHashTable *iconv_cache;
-static GHashTable *iconv_open_hash;
-static unsigned int iconv_cache_size = 0;
-
-#ifdef G_THREADS_ENABLED
-static GStaticMutex iconv_cache_lock = G_STATIC_MUTEX_INIT;
-static GStaticMutex iconv_charset_lock = G_STATIC_MUTEX_INIT;
-#define ICONV_CACHE_LOCK()   g_static_mutex_lock (&iconv_cache_lock)
-#define ICONV_CACHE_UNLOCK() g_static_mutex_unlock (&iconv_cache_lock)
-#define ICONV_CHARSET_LOCK() g_static_mutex_lock (&iconv_charset_lock)
-#define ICONV_CHARSET_UNLOCK() g_static_mutex_unlock (&iconv_charset_lock)
-#else
-#define ICONV_CACHE_LOCK()
-#define ICONV_CACHE_UNLOCK()
-#define ICONV_CHARSET_LOCK()
-#define ICONV_CHARSET_UNLOCK()
-#endif /* G_THREADS_ENABLED */
-
-
-/* caller *must* hold the iconv_cache_lock to call any of the following functions */
-
-
-/**
- * iconv_cache_bucket_new:
- * @key: cache key
- * @cd: iconv descriptor
- *
- * Creates a new cache bucket, inserts it into the cache and
- * increments the cache size.
- *
- * Returns a pointer to the newly allocated cache bucket.
- **/
-static struct _iconv_cache_bucket *
-iconv_cache_bucket_new (const char *key, iconv_t cd)
-{
-	struct _iconv_cache_bucket *bucket;
-	
-	bucket = e_memchunk_alloc (cache_chunk);
-	bucket->next = NULL;
-	bucket->prev = NULL;
-	bucket->key = g_strdup (key);
-	bucket->refcount = 1;
-	bucket->used = TRUE;
-	bucket->cd = cd;
-	
-	g_hash_table_insert (iconv_cache, bucket->key, bucket);
-	
-	/* FIXME: Since iconv_cache_expire_unused() traverses the list
-	   from head to tail, perhaps it might be better to append new
-	   nodes rather than prepending? This way older cache buckets
-	   expire first? */
-	bucket->next = iconv_cache_buckets;
-	iconv_cache_buckets = bucket;
-	
-	iconv_cache_size++;
-	
-	return bucket;
-}
-
-
-/**
- * iconv_cache_bucket_expire:
- * @bucket: cache bucket
- *
- * Expires a single cache bucket @bucket. This should only ever be
- * called on a bucket that currently has no used iconv descriptors
- * open.
- **/
-static void
-iconv_cache_bucket_expire (struct _iconv_cache_bucket *bucket)
-{
-	g_hash_table_remove (iconv_cache, bucket->key);
-	
-	if (bucket->prev) {
-		bucket->prev->next = bucket->next;
-		if (bucket->next)
-			bucket->next->prev = bucket->prev;
-	} else {
-		iconv_cache_buckets = bucket->next;
-		if (bucket->next)
-			bucket->next->prev = NULL;
-	}
-	
-	g_free (bucket->key);
-	g_iconv_close (bucket->cd);
-	e_memchunk_free (cache_chunk, bucket);
-	
-	iconv_cache_size--;
-}
-
-
-/**
- * iconv_cache_expire_unused:
- *
- * Expires as many unused cache buckets as it needs to in order to get
- * the total number of buckets < ICONV_CACHE_SIZE.
- **/
-static void
-iconv_cache_expire_unused (void)
-{
-	struct _iconv_cache_bucket *bucket, *next;
-	
-	bucket = iconv_cache_buckets;
-	while (bucket && iconv_cache_size >= ICONV_CACHE_SIZE) {
-		next = bucket->next;
-		
-		if (bucket->refcount == 0)
-			iconv_cache_bucket_expire (bucket);
-		
-		bucket = next;
-	}
-}
-
-
-static void
-iconv_charset_free (char *name, char *iname, gpointer user_data)
-{
-	g_free (name);
-	g_free (iname);
-}
-
-void
-camel_iconv_shutdown (void)
-{
-	struct _iconv_cache_bucket *bucket, *next;
-	
-	g_hash_table_foreach (iconv_charsets, (GHFunc) iconv_charset_free, NULL);
-	g_hash_table_destroy (iconv_charsets);
-	
-	bucket = iconv_cache_buckets;
-	while (bucket) {
-		next = bucket->next;
-		
-		g_free (bucket->key);
-		g_iconv_close (bucket->cd);
-		e_memchunk_free (cache_chunk, bucket);
-		
-		bucket = next;
-	}
-	
-	g_hash_table_destroy (iconv_cache);
-	g_hash_table_destroy (iconv_open_hash);
-	
-	e_memchunk_destroy (cache_chunk);
-}
-
-
 /**
  * camel_iconv_init:
  *
  * Initialize Camel's iconv cache. This *MUST* be called before any
  * camel-iconv interfaces will work correctly.
  **/
-void
-camel_iconv_init (void)
+static void
+camel_iconv_init (int keep)
 {
-	static int initialized = FALSE;
 	char *from, *to;
 	int i;
 	
-	if (initialized)
+	LOCK ();
+	
+	if (iconv_charsets != NULL) {
+		if (!keep)
+			UNLOCK();
 		return;
+	}
 	
 	iconv_charsets = g_hash_table_new (g_str_hash, g_str_equal);
 	
 	for (i = 0; known_iconv_charsets[i].charset != NULL; i++) {
 		from = g_strdup (known_iconv_charsets[i].charset);
 		to = g_strdup (known_iconv_charsets[i].iconv_name);
-		g_ascii_strdown (from, -1);
-		
+		e_strdown (from);
 		g_hash_table_insert (iconv_charsets, from, to);
 	}
 	
-	iconv_cache_buckets = NULL;
+	e_dlist_init (&iconv_cache_list);
 	iconv_cache = g_hash_table_new (g_str_hash, g_str_equal);
-	iconv_open_hash = g_hash_table_new (g_direct_hash, g_direct_equal);
+	iconv_cache_open = g_hash_table_new (NULL, NULL);
 	
-	cache_chunk = e_memchunk_new (ICONV_CACHE_SIZE, sizeof (struct _iconv_cache_bucket));
+	locale = setlocale (LC_ALL, NULL);
 	
-	initialized = TRUE;
+	if (!locale || !strcmp (locale, "C") || !strcmp (locale, "POSIX")) {
+		/* The locale "C"  or  "POSIX"  is  a  portable  locale;  its
+		 * LC_CTYPE  part  corresponds  to  the 7-bit ASCII character
+		 * set.
+		 */
+		
+		locale_charset = NULL;
+		locale_lang = NULL;
+	} else {
+#ifdef HAVE_CODESET
+		locale_charset = g_strdup (nl_langinfo (CODESET));
+		camel_strdown (locale_charset);
+#else
+		/* A locale name is typically of  the  form  language[_terri-
+		 * tory][.codeset][@modifier],  where  language is an ISO 639
+		 * language code, territory is an ISO 3166 country code,  and
+		 * codeset  is  a  character  set or encoding identifier like
+		 * ISO-8859-1 or UTF-8.
+		 */
+		char *codeset, *p;
+		
+		codeset = strchr (locale, '.');
+		if (codeset) {
+			codeset++;
+			
+			/* ; is a hack for debian systems and / is a hack for Solaris systems */
+			for (p = codeset; *p && !strchr ("@;/", *p); p++);
+			locale_charset = g_strndup (codeset, p - codeset);
+			camel_strdown (locale_charset);
+		} else {
+			/* charset unknown */
+			locale_charset = NULL;
+		}
+#endif		
+		
+		/* parse the locale lang */
+		locale_parse_lang (locale);
+	}
+	
+	if (!keep)
+		UNLOCK ();
 }
 
 
@@ -319,19 +245,43 @@ camel_iconv_charset_name (const char *charset)
 	
 	name = g_alloca (strlen (charset) + 1);
 	strcpy (name, charset);
-	g_ascii_strdown (name, -1);
+	camel_strdown (name);
 	
-	ICONV_CHARSET_LOCK ();
+	camel_iconv_init (TRUE);
 	if ((iname = g_hash_table_lookup (iconv_charsets, name)) != NULL) {
-		ICONV_CHARSET_UNLOCK ();
+		UNLOCK ();
 		return iname;
 	}
 	
 	/* Unknown, try to convert some basic charset types to something that should work */
 	if (!strncmp (name, "iso", 3)) {
-		/* camel_charset_canonical_name() can handle this case */
-		ICONV_CHARSET_UNLOCK ();
-		return camel_charset_canonical_name (charset);
+		/* Convert iso-####-# or iso####-# or iso_####-# into the canonical form: iso-####-# */
+		int iso, codepage;
+		char *p;
+		
+		tmp = name + 3;
+		if (*tmp == '-' || *tmp == '_')
+			tmp++;
+		
+		iso = strtoul (tmp, &p, 10);
+		if (iso == 10646) {
+			/* they all become iso-10646 */
+			ret = g_strdup ("iso-10646");
+		} else {
+			tmp = p;
+			if (*tmp == '-' || *tmp == '_')
+				tmp++;
+			
+			codepage = strtoul (tmp, &p, 10);
+			
+			if (p > tmp) {
+				/* codepage is numeric */
+				ret = g_strdup_printf ("iso-%d-%d", iso, codepage);
+			} else {
+				/* codepage is a string - probably iso-2022-jp or something */
+				ret = g_strdup_printf ("iso-%d-%s", iso, p);
+			}
+		}
 	} else if (strncmp (name, "windows-", 8) == 0) {
 		/* Convert windows-#### or windows-cp#### to cp#### */
 		tmp = name + 8;
@@ -350,9 +300,29 @@ camel_iconv_charset_name (const char *charset)
 	}
 	
 	g_hash_table_insert (iconv_charsets, g_strdup (name), iname);
-	ICONV_CHARSET_UNLOCK ();
+	UNLOCK ();
 	
 	return iname;
+}
+
+static void
+flush_entry (struct _iconv_cache *ic)
+{
+	struct _iconv_cache_node *in, *nn;
+
+	in = (struct _iconv_cache_node *) ic->open.head;
+	nn = in->next;
+	while (nn) {
+		if (in->cd != (iconv_t) -1) {
+			g_hash_table_remove (iconv_cache_open, in->cd);
+			g_iconv_close (in->cd);
+		}
+		g_free (in);
+		in = nn;
+		nn = in->next;
+	}
+	g_free (ic->conv);
+	g_free (ic);
 }
 
 
@@ -373,7 +343,8 @@ camel_iconv_charset_name (const char *charset)
 iconv_t
 camel_iconv_open (const char *to, const char *from)
 {
-	struct _iconv_cache_bucket *bucket;
+	struct _iconv_cache_node *in;
+	struct _iconv_cache *ic;
 	iconv_t cd;
 	char *key;
 	
@@ -383,7 +354,7 @@ camel_iconv_open (const char *to, const char *from)
 	}
 	
 	if (!strcasecmp (from, "x-unknown"))
-		from = camel_charset_locale_name ();
+		from = camel_iconv_locale_charset ();
 	
 	/* Even tho g_iconv_open will find the appropriate charset
 	 * format(s) for the to/from charset strings (hahaha, yea
@@ -394,55 +365,78 @@ camel_iconv_open (const char *to, const char *from)
 	key = g_alloca (strlen (from) + strlen (to) + 2);
 	sprintf (key, "%s:%s", from, to);
 	
-	ICONV_CACHE_LOCK ();
+	LOCK ();
 	
-	bucket = g_hash_table_lookup (iconv_cache, key);
-	if (bucket) {
-		if (bucket->used) {
-			cd = g_iconv_open (to, from);
-			if (cd == (iconv_t) -1)
-				goto exception;
-		} else {
-			/* Apparently iconv on Solaris <= 7 segfaults if you pass in
-			 * NULL for anything but inbuf; work around that. (NULL outbuf
-			 * or NULL *outbuf is allowed by Unix98.)
-			 */
-			size_t inleft = 0, outleft = 0;
-			char *outbuf = NULL;
-			
-			cd = bucket->cd;
-			bucket->used = TRUE;
-			
-			/* reset the descriptor */
-			g_iconv (cd, NULL, &inleft, &outbuf, &outleft);
+	ic = g_hash_table_lookup (iconv_cache, key);
+	if (ic) {
+		e_dlist_remove ((EDListNode *) ic);
+	} else {
+		struct _iconv_cache *last = (struct _iconv_cache *)iconv_cache_list.tailpred;
+		struct _iconv_cache *prev;
+		
+		prev = last->prev;
+		while (prev && iconv_cache_size > ICONV_CACHE_SIZE) {
+			in = (struct _iconv_cache_node *) last->open.head;
+			if (in->next && !in->busy) {
+				d(printf ("Flushing iconv converter '%s'\n", last->conv));
+				e_dlist_remove ((EDListNode *)last);
+				g_hash_table_remove (iconv_cache, last->conv);
+				flush_entry (last);
+				iconv_cache_size--;
+			}
+			last = prev;
+			prev = last->prev;
 		}
 		
-		bucket->refcount++;
-	} else {
-		cd = g_iconv_open (to, from);
-		if (cd == (iconv_t) -1)
-			goto exception;
+		iconv_cache_size++;
 		
-		iconv_cache_expire_unused ();
+		ic = g_new (struct _iconv_cache, 1);
+		e_dlist_init (&ic->open);
+		ic->conv = g_strdup (tofrom);
+		g_hash_table_insert (iconv_cache, ic->conv, ic);
 		
-		bucket = iconv_cache_bucket_new (key, cd);
+		cd(printf ("Creating iconv converter '%s'\n", ic->conv));
 	}
 	
-	g_hash_table_insert (iconv_open_hash, cd, bucket->key);
+	e_dlist_addhead (&iconv_cache_list, (EDListNode *) ic);
 	
-	ICONV_CACHE_UNLOCK ();
+	/* If we have a free iconv, use it */
+	in = (struct _iconv_cache_node *) ic->open.tailpred;
+	if (in->prev && !in->busy) {
+		cd(printf ("using existing iconv converter '%s'\n", ic->conv));
+		cd = in->cd;
+		if (cd != (iconv_t) -1) {
+			/* work around some broken iconv implementations 
+			 * that die if the length arguments are NULL 
+			 */
+			size_t buggy_iconv_len = 0;
+			char *buggy_iconv_buf = NULL;
+			
+			/* resets the converter */
+			g_iconv (cd, &buggy_iconv_buf, &buggy_iconv_len, &buggy_iconv_buf, &buggy_iconv_len);
+			in->busy = TRUE;
+			e_dlist_remove ((EDListNode *) in);
+			e_dlist_addhead (&ic->open, (EDListNode *) in);
+		}
+	} else {
+		d(printf ("creating new iconv converter '%s'\n", ic->conv));
+		cd = g_iconv_open (to, from);
+		in = g_new (struct _iconv_cache_node, 1);
+		in->cd = cd;
+		in->parent = ic;
+		e_dlist_addhead (&ic->open, (EDListNode *) in);
+		if (cd != (iconv_t) -1) {
+			g_hash_table_insert (iconv_cache_open, cd, in);
+			in->busy = TRUE;
+		} else {
+			errnosav = errno;
+			g_warning ("Could not open converter for '%s' to '%s' charset", from, to);
+			in->busy = FALSE;
+			errno = errnosav;
+		}
+	}
 	
-	return cd;
-	
- exception:
-	
-	ICONV_CACHE_UNLOCK ();
-	
-	if (errno == EINVAL)
-		g_warning ("Conversion from '%s' to '%s' is not supported", from, to);
-	else
-		g_warning ("Could not open converter from '%s' to '%s': %s",
-			   from, to, g_strerror (errno));
+	UNLOCK();
 	
 	return cd;
 }
@@ -477,41 +471,81 @@ camel_iconv (iconv_t cd, const char **inbuf, size_t *inleft, char **outbuf, size
 int
 camel_iconv_close (iconv_t cd)
 {
-	struct _iconv_cache_bucket *bucket;
-	const char *key;
+	struct _iconv_cache_node *in;
 	
-	if (cd == (iconv_t) -1)
-		return 0;
+	if (cd == (iconv_t)-1)
+		return;
 	
-	ICONV_CACHE_LOCK ();
-	
-	key = g_hash_table_lookup (iconv_open_hash, cd);
-	if (key) {
-		g_hash_table_remove (iconv_open_hash, cd);
-		
-		bucket = g_hash_table_lookup (iconv_cache, key);
-		g_assert (bucket);
-		
-		bucket->refcount--;
-		
-		if (cd == bucket->cd)
-			bucket->used = FALSE;
-		else
-			g_iconv_close (cd);
-		
-		if (!bucket->refcount && iconv_cache_size > ICONV_CACHE_SIZE) {
-			/* expire this cache bucket */
-			iconv_cache_bucket_expire (bucket);
-		}
+	LOCK ();
+	in = g_hash_table_lookup (iconv_cache_open, cd);
+	if (in) {
+		d(printf ("closing iconv converter '%s'\n", in->parent->conv));
+		e_dlist_remove ((EDListNode *) in);
+		in->busy = FALSE;
+		e_dlist_addtail (&in->parent->open, (EDListNode *) in);
 	} else {
-		ICONV_CACHE_UNLOCK ();
-		
-		g_warning ("This iconv context wasn't opened using camel_iconv_open()");
-		
-		return g_iconv_close (cd);
+		g_warning ("trying to close iconv i dont know about: %p", cd);
+		g_iconv_close (cd);
+	}
+	UNLOCK ();
+}
+
+const char *
+camel_iconv_locale_charset (void)
+{
+	camel_iconv_init (FALSE);
+	
+	return locale_charset;
+}
+
+
+const char *
+camel_iconv_locale_language (void)
+{
+	camel_iconv_init (FALSE);
+	
+	return locale_lang;
+}
+
+/* map CJKR charsets to their language code */
+/* NOTE: only support charset names that will be returned by
+ * e_iconv_charset_name() so that we don't have to keep track of all
+ * the aliases too. */
+static struct {
+	char *charset;
+	char *lang;
+} cjkr_lang_map[] = {
+	{ "Big5",        "zh" },
+	{ "BIG5HKCS",    "zh" },
+	{ "gb2312",      "zh" },
+	{ "gb18030",     "zh" },
+	{ "gbk",         "zh" },
+	{ "euc-tw",      "zh" },
+	{ "iso-2022-jp", "ja" },
+	{ "sjis",        "ja" },
+	{ "ujis",        "ja" },
+	{ "eucJP",       "ja" },
+	{ "euc-jp",      "ja" },
+	{ "euc-kr",      "ko" },
+	{ "koi8-r",      "ru" },
+	{ "koi8-u",      "uk" }
+};
+
+#define NUM_CJKR_LANGS (sizeof (cjkr_lang_map) / sizeof (cjkr_lang_map[0]))
+
+const char *
+camel_iconv_charset_language (const char *charset)
+{
+	int i;
+	
+	if (!charset)
+		return NULL;
+	
+	charset = camel_iconv_charset_name (charset);
+	for (i = 0; i < NUM_CJKR_LANGS; i++) {
+		if (!strcasecmp (cjkr_lang_map[i].charset, charset))
+			return cjkr_lang_map[i].lang;
 	}
 	
-	ICONV_CACHE_UNLOCK ();
-	
-	return 0;
+	return NULL;
 }

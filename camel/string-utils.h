@@ -36,7 +36,9 @@ guint g_strcase_hash  (gconstpointer v);
 
 void string_list_free (GList *string_list);
 
-char *strstrcase (const char *haystack, const char *needle);
+char *camel_strstrcase (const char *haystack, const char *needle);
+
+const char *camel_strdown (char *str);
 
 #ifdef __cplusplus
 }

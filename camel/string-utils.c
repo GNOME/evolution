@@ -72,7 +72,7 @@ string_list_free (GList *string_list)
 }
 
 char *
-strstrcase (const char *haystack, const char *needle)
+camel_strstrcase (const char *haystack, const char *needle)
 {
 	/* find the needle in the haystack neglecting case */
 	const char *ptr;
@@ -93,4 +93,19 @@ strstrcase (const char *haystack, const char *needle)
 			return (char *) ptr;
 	
 	return NULL;
+}
+
+
+const char *
+camel_strdown (char *str)
+{
+	register char *s = str;
+	
+	while (*s) {
+		if (*s >= 'A' && *s <= 'Z')
+			*s += 0x20;
+		s++;
+	}
+	
+	return str;
 }
