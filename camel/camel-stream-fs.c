@@ -118,7 +118,7 @@ camel_stream_fs_new_with_name (gchar *name, CamelStreamFsMode mode)
 
 	fd = open (name, flags, 0600);
 	if (fd==-1) {
-		CAMEL_LOG_FULL_DEBUG ( "CamelStreamFs::new_with_name can not obtain fd for file \"%s\"\n", name);
+		CAMEL_LOG_WARNING ( "CamelStreamFs::new_with_name can not obtain fd for file \"%s\"\n", name);
 		CAMEL_LOG_FULL_DEBUG ( "  Full error text is : %s\n", strerror(errno));
 		return NULL;
 	}
