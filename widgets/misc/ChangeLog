@@ -1,3 +1,21 @@
+2003-05-29  JP Rosevear  <jpr@ximian.com>
+
+	Fixes #43775
+	
+	* e-calendar-item.c (layout_set_day_text): calculate the day
+	character correctly
+	(e_calendar_item_draw_month): use it
+
+	* e-dateedit.c (rebuild_time_popup): use e_utf8_strftime
+	(e_date_edit_update_date_entry): ditto
+	(e_date_edit_update_time_entry): ditto
+
+	* e-calendar-item.c (layout_set_day_text): calculate the day
+	character correctly
+	(e_calendar_item_draw_month): use e_utf8_strftime and above
+	(e_calendar_item_show_popup_menu): use e_utf8_strftime
+	(e_calendar_item_recalc_sizes): use layout_set_day_text
+
 2003-05-19  Anna Marie Dirks  <anna@ximian.com>
 
 	* e-multi-config-dialog.c (init): Added HIG-appropriate spacing/

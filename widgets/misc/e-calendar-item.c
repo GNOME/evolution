@@ -1001,6 +1001,23 @@ e_calendar_item_draw		(GnomeCanvasItem *canvas_item,
 
 
 static void
+layout_set_day_text (ECalendarItem *calitem, PangoLayout *layout, int day_index)
+{
+	char *day;
+	int char_size = 0;
+
+	day = g_utf8_offset_to_pointer (calitem->days, day_index);
+
+	/* we use strlen because we actually want to count bytes */
+	if (day_index == 6)
+		char_size = strlen (day); 
+	else
+		char_size = strlen (day) - strlen (g_utf8_find_next_char (day, NULL));
+
+	pango_layout_set_text (layout, day, char_size);	
+}
+
+static void
 e_calendar_item_draw_month	(ECalendarItem   *calitem,
 				 GdkDrawable	 *drawable,
 				 int		  x,
@@ -1107,7 +1124,7 @@ e_calendar_item_draw_month	(ECalendarItem   *calitem,
 		gdk_gc_set_clip_rectangle (fg_gc, &clip_rect);
 
 		/* This is a strftime() format. %B = Month name, %Y = Year. */
-		strftime (buffer, sizeof (buffer), _("%B %Y"), &tmp_tm);
+		e_utf8_strftime (buffer, sizeof (buffer), _("%B %Y"), &tmp_tm);
 
 		pango_layout_set_font_description (layout, font_desc);
 		pango_layout_set_text (layout, buffer, -1);
@@ -1165,7 +1182,7 @@ e_calendar_item_draw_month	(ECalendarItem   *calitem,
 	day_index = calitem->week_start_day;
 	pango_layout_set_font_description (layout, font_desc);
 	for (day = 0; day < 7; day++) {
-		pango_layout_set_text (layout, &calitem->days [day_index], 1);
+		layout_set_day_text (calitem, layout, day_index);
 		gdk_draw_layout (drawable, fg_gc,
 				 text_x - calitem->day_widths [day_index],
 				 text_y,
@@ -1624,7 +1641,7 @@ e_calendar_item_recalc_sizes		(ECalendarItem *calitem)
 		PANGO_PIXELS (pango_font_metrics_get_descent (font_metrics));
 
 	for (day = 0; day < 7; day++) {
-		pango_layout_set_text (layout, &calitem->days [day], 1);
+		layout_set_day_text (calitem, layout, day);
 		pango_layout_get_pixel_size (layout, &calitem->day_widths [day], NULL);
 	}
 
@@ -2906,7 +2923,7 @@ e_calendar_item_show_popup_menu		(ECalendarItem	*calitem,
 			tmp_tm.tm_mday = 1;
 			tmp_tm.tm_isdst = -1;
 			mktime (&tmp_tm);
-			strftime (buffer, sizeof (buffer), "%B", &tmp_tm);
+			e_utf8_strftime (buffer, sizeof (buffer), "%B", &tmp_tm);
 
 			menuitem = gtk_menu_item_new ();
 			gtk_widget_show (menuitem);

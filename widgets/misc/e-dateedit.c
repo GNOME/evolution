@@ -56,6 +56,7 @@
 #include <gtk/gtkmain.h>
 #include <gtk/gtkvbox.h>
 #include <libgnome/gnome-i18n.h>
+#include <gal/util/e-util.h>
 #include "e-util/e-time-utils.h"
 #include "e-calendar.h"
 
@@ -1402,7 +1403,7 @@ rebuild_time_popup			(EDateEdit	*dedit)
 				/* This is a strftime() format. %I = hour (1-12), %M = minute, %p = am/pm string. */
 				format = _("%I:%M %p");
 
-			strftime (buffer, sizeof (buffer), format, &tmp_tm);
+			e_utf8_strftime (buffer, sizeof (buffer), format, &tmp_tm);
 
 			listitem = gtk_list_item_new_with_label (buffer);
 			gtk_widget_show (listitem);
@@ -1578,7 +1579,7 @@ e_date_edit_update_date_entry		(EDateEdit	*dedit)
 
 		/* This is a strftime() format for a short date. %m = month,
 		   %d = day of month, %Y = year (all digits). */
-		strftime (buffer, sizeof (buffer), _("%m/%d/%Y"), &tmp_tm);
+		e_utf8_strftime (buffer, sizeof (buffer), _("%m/%d/%Y"), &tmp_tm);
 		gtk_entry_set_text (GTK_ENTRY (priv->date_entry), buffer);
 	}
 }
@@ -1615,7 +1616,7 @@ e_date_edit_update_time_entry		(EDateEdit	*dedit)
 			/* This is a strftime() format. %I = hour (1-12), %M = minute, %p = am/pm string. */
 			format = _("%I:%M %p");
 
-		strftime (buffer, sizeof (buffer), format, &tmp_tm);
+		e_utf8_strftime (buffer, sizeof (buffer), format, &tmp_tm);
 		gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (priv->time_combo)->entry),
 				    buffer);
 	}
