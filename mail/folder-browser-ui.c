@@ -644,8 +644,7 @@ folder_browser_ui_add_global (FolderBrowser *fb)
 	
 	/* listen for user-changes */
 	bonobo_ui_component_add_listener (uic, "ViewPreview", folder_browser_toggle_preview, fb);
-	/* FIXME: this kind of bypasses bonobo but seems the only way when we change components */
-	folder_browser_toggle_preview (uic, "", Bonobo_UIComponent_STATE_CHANGED, show_preview ? "1" : "0", fb);
+	folder_browser_set_message_preview (fb, show_preview);
 	
 	/* Stop button */
 	/* TODO: Go through cache, but we can't becaus eof mail-mt.c:set_stop at the moment */

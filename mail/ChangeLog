@@ -1,5 +1,8 @@
 2003-01-08  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* folder-browser-ui.c (folder_browser_ui_add_global): Call
+	folder_browser_set_message_preview().
+
 	* mail-config.c (mail_config_get_show_preview): Removed.
 	(mail_config_set_show_preview): Removed.
 
