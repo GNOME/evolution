@@ -328,18 +328,20 @@ e_canvas_item_invoke_reflow (GnomeCanvasItem *item, int flags)
 	GnomeCanvasItem *child;
 
 	if (GNOME_IS_CANVAS_GROUP (item)) {
-		group = GNOME_CANVAS_GROUP(item);
+		group = GNOME_CANVAS_GROUP (item);
 		for (list = group->item_list; list; list = list->next) {
-			child = GNOME_CANVAS_ITEM(list->data);
+			child = GNOME_CANVAS_ITEM (list->data);
 			if (child->object.flags & E_CANVAS_ITEM_DESCENDENT_NEEDS_REFLOW)
-				e_canvas_item_invoke_reflow(child, flags);
+				e_canvas_item_invoke_reflow (child, flags);
 		}
 	}
 	
 	if (item->object.flags & E_CANVAS_ITEM_NEEDS_REFLOW) {
-		ECanvasItemReflowFunc func = gtk_object_get_data(GTK_OBJECT(item), "ECanvasItem::reflow_callback");
+		ECanvasItemReflowFunc func;
+		func = gtk_object_get_data (GTK_OBJECT (item),
+					    "ECanvasItem::reflow_callback");
 		if (func)
-			func(item, flags);
+			func (item, flags);
 	}
 
 	item->object.flags &= ~E_CANVAS_ITEM_NEEDS_REFLOW;

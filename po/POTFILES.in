@@ -1,4 +1,3 @@
-calendar/getdate.c
 composer/e-msg-composer-address-dialog.c
 composer/e-msg-composer-attachment-bar.c
 composer/e-msg-composer-attachment.c
