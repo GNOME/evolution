@@ -1,5 +1,8 @@
 2000-04-09  Matt Loper  <matt@helixcode.com>
 
+	* addressbook/gui/component/addressbook.c (control_activate): Make
+	"New Contact" menuitem add a card with new_contact_cb().
+	
 	* addressbook/Makefile.am: Compile contact-editor, _then_ gui,
 	since the gui now depends on the contact editor (shouldn't the
 	contact-editor directory be moved into 'gui'?).

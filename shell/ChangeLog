@@ -1,3 +1,8 @@
+2000-04-09  Matt Loper  <matt@helixcode.com>
+
+	* e-shell-view.c (e_shell_view_setup): Set the default height
+	bigger, to 600, so that everything in the shortcut-bar shows up.
+
 2000-04-07  Matt Loper  <matt@helixcode.com>
 
 	* e-shell-view.c (destroy_folder_view): New function;

@@ -71,13 +71,13 @@ card_added_cb (EBook* book, EBookStatus status, const char *id,
 	g_print ("%s: %s(): a card was added\n", __FILE__, __FUNCTION__);
 }
 
-
 static void
-new_contact_cb (BonoboUIHandler *uih, EBook *book, const char *path)
+new_contact_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 {
 	gint result;
 	GtkWidget* contact_editor =
 		e_contact_editor_new(e_card_new(BLANK_VCARD));
+	EBook *book = E_BOOK (user_data);
 		
 	GtkWidget* dlg = gnome_dialog_new ("Contact Editor", "Save", "Cancel", NULL);
 
@@ -136,7 +136,7 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih, EBook *book)
 					 N_("_New Contact"),       
 					 NULL, -1,
 					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
-					 0, 0, do_nothing_cb, NULL);
+					 0, 0, new_contact_cb, (gpointer)book);
 
 	toolbar = gtk_toolbar_new (GTK_ORIENTATION_HORIZONTAL,
 				   GTK_TOOLBAR_BOTH);

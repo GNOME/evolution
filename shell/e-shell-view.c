@@ -93,7 +93,7 @@ e_shell_view_setup (EShellView *eshell_view)
 	/*
 	 * FIXME, should load the config if (load_config)....
 	 */
-	gtk_window_set_default_size (GTK_WINDOW (eshell_view), 600, 400);
+	gtk_window_set_default_size (GTK_WINDOW (eshell_view), 600, 600);
 }
 
 static void
