@@ -167,6 +167,18 @@ attributetype ( 1.3.6.1.4.1.8506.1.2.25
 	SUP name
 	SINGLE-VALUE )
 
+attributetype ( 1.3.6.1.4.1.8506.1.2.26
+	NAME 'calendarURI'
+        EQUALITY caseExactIA5Match
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+	SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.8506.1.2.27
+	NAME 'freeBusyURI'
+        EQUALITY caseExactIA5Match
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+	SINGLE-VALUE )
+
 # evolutionPerson
 objectclass	( 1.3.6.1.4.1.8506.1.3.1
     NAME 'evolutionPerson'
@@ -178,7 +190,7 @@ objectclass	( 1.3.6.1.4.1.8506.1.3.1
 		otherPhone $ businessRole $ managerName $ assistantName $ assistantPhone $
 		otherPostalAddress $ mailer $ birthDate $ anniversary $ spouseName $
 		note $ companyPhone $ callbackPhone $ otherFacsimileTelephoneNumber $
-		radio $ telex $ tty $ categories )
+		radio $ telex $ tty $ categories $ calendarURI $ freeBusyURI )
 	)
 
 # evolutionPersonList
@@ -188,5 +200,7 @@ objectclass	( 1.3.6.1.4.1.8506.1.3.2
     SUP top
     STRUCTURAL
 	MUST (
-		listName $ mail $ contact )
+		listName )
+	MAY (
+		mail $ contact )
 	)

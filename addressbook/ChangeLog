@@ -1,3 +1,21 @@
+2001-12-05  Chris Toshok  <toshok@ximian.com>
+
+	* gui/contact-editor/e-contact-editor.c (enable_writable_fields):
+	we need to be able to disable non-labels here as well.  since
+	we're using enable_widget and not gtk_widget_set_sensitive, it's
+	okay to handle entries/text's, etc, here.
+	(widget_field_mappings): add label-caluri and label-fburl here.
+
+	* gui/contact-editor/contact-editor.glade: change the label names
+	for the freebusy/calendar urls to have more descriptive names,
+	since we use them in e-contact-editor.c now.
+
+	* backend/pas/pas-backend-ldap.c: add support for
+	caluri/calendarURI, fburl/freeBusyURI.
+
+	* backend/pas/evolutionperson.schema: add calendarURI and
+	freeBusyURI.
+
 2001-12-04  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/contact-editor/contact-editor.glade: Fixed up the

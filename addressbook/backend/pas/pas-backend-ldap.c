@@ -226,7 +226,9 @@ struct prop_info {
 	E_STRING_PROP (E_CARD_SIMPLE_FIELD_FILE_AS,     "file_as", "fileAs"),
 	E_STRING_PROP (E_CARD_SIMPLE_FIELD_CATEGORIES,  "categories", "categories"),
 
-/*      E_CARD_SIMPLE_FIELD_FBURL, */
+	E_STRING_PROP (E_CARD_SIMPLE_FIELD_CALURI,      "caluri", "calendarURI"),
+	E_STRING_PROP (E_CARD_SIMPLE_FIELD_FBURL,       "fburl", "freeBusyURI")
+
 /*  	E_CARD_SIMPLE_FIELD_NAME_OR_ORG, */
 
 
