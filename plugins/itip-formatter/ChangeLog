@@ -1,3 +1,11 @@
+2005-02-02  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	reviewed by Harish Krishnaswamy <kharish@novell.com>
+
+	Fixes #71460
+	* itip-formatter.c: (view_response_cb): If the my_address
+	is not set. Set it from the backend.
+
 2005-01-27  JP Rosevear  <jpr@novell.com>
 
 	* itip-view.c (format_date_and_time_x): make tomorrow and this

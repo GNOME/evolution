@@ -1132,7 +1132,10 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 {
 	FormatItipPObject *pitip = data;
 	gboolean status = FALSE;
-	
+
+	if (!pitip->my_address && pitip->current_ecal != NULL)
+		e_cal_get_cal_address (pitip->current_ecal, &pitip->my_address, NULL);
+
 	switch (response) {
 	case ITIP_VIEW_RESPONSE_ACCEPT:
 		status = change_status (pitip->ical_comp, pitip->my_address, 
