@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-01-28 02:11+0800\n"
-"PO-Revision-Date: 2005-01-28 02:17+0800\n"
+"POT-Creation-Date: 2005-01-29 17:09+0800\n"
+"PO-Revision-Date: 2005-01-29 17:12+0800\n"
 "Last-Translator: Funda Wang <fundawang@linux.net.cn>\n"
 "Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
 "MIME-Version: 1.0\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: a11y/addressbook/ea-addressbook-view.c:94
 #: a11y/addressbook/ea-addressbook-view.c:103
-#: a11y/addressbook/ea-minicard-view.c:172
+#: a11y/addressbook/ea-minicard-view.c:166
 msgid "evolution addressbook"
 msgstr "evolution 地址簿"
 
@@ -52,25 +52,11 @@ msgstr "新建联系人"
 msgid "New Contact List"
 msgstr "新建联系人列表"
 
-#: a11y/addressbook/ea-minicard-view.c:153
-msgid "current addressbook folder "
-msgstr "当前地址簿文件夹 "
-
-#: a11y/addressbook/ea-minicard-view.c:154
-msgid "have "
-msgstr "有 "
-
-#: a11y/addressbook/ea-minicard-view.c:154
-msgid "has "
-msgstr "有"
-
-#: a11y/addressbook/ea-minicard-view.c:156
-msgid " cards"
-msgstr " 张名片"
-
-#: a11y/addressbook/ea-minicard-view.c:156
-msgid " card"
-msgstr " 张名片"
+#: a11y/addressbook/ea-minicard-view.c:149
+#, c-format
+msgid "current addressbook folder has %d card"
+msgid_plural "current addressbook folder has %d cards"
+msgstr[0] "当前地址簿文件夹有 %d 张名片"
 
 #: a11y/calendar/ea-cal-view.c:306
 msgid "New Appointment"
@@ -472,17 +458,16 @@ msgstr "无法读入 Pilot 的地址应用程序块"
 msgid "Accessing LDAP Server anonymously"
 msgstr "匿名访问 LDAP 服务器"
 
-#: addressbook/gui/component/addressbook.c:185
-#: plugins/groupwise-account-setup/camel-gw-listener.c:476
+#: addressbook/gui/component/addressbook.c:186
+#: plugins/groupwise-account-setup/camel-gw-listener.c:478
 msgid "Failed to authenticate.\n"
 msgstr "认证失败。\n"
 
-#: addressbook/gui/component/addressbook.c:192
-#: plugins/groupwise-account-setup/camel-gw-listener.c:460
-#: plugins/send-options/send-options.c:82
+#: addressbook/gui/component/addressbook.c:193
+#: plugins/groupwise-account-setup/camel-gw-listener.c:461
 #, c-format
-msgid "%sEnter password for %s (user %s)"
-msgstr "%s为 %s 输入口令 (用户 %s)"
+msgid "Enter password for %s (user %s)"
+msgstr "为 %s 输入口令 (用户 %s)"
 
 #: addressbook/gui/component/addressbook-component.c:98
 msgid "_Contact"
@@ -537,7 +522,7 @@ msgstr "将地址簿内容复制到本地以进行脱机操作"
 #: calendar/gui/dialogs/calendar-setup.c:361
 #: calendar/gui/dialogs/calendar-setup.c:372
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:25
-#: mail/em-folder-properties.c:214 mail/mail-config.glade.h:85
+#: mail/em-folder-properties.c:214 mail/mail-config.glade.h:84
 #: smime/gui/smime-ui.glade.h:27
 msgid "General"
 msgstr "常规"
@@ -590,7 +575,7 @@ msgstr "升迁“%s”："
 #: addressbook/gui/component/addressbook-migrate.c:493
 #: calendar/gui/migration.c:452 calendar/gui/migration.c:545
 #: mail/em-folder-tree-model.c:196 mail/em-folder-tree-model.c:198
-#: mail/mail-component.c:270 mail/mail-vfolder.c:218
+#: mail/mail-component.c:270 mail/mail-vfolder.c:222
 msgid "On This Computer"
 msgstr "在此计算机中"
 
@@ -602,7 +587,7 @@ msgstr "在此计算机中"
 #: addressbook/gui/contact-editor/contact-editor.glade.h:20
 #: calendar/gui/migration.c:460 calendar/gui/migration.c:553
 #: filter/filter-label.c:123 mail/em-migrate.c:1013 mail/mail-config.c:77
-#: mail/mail-config.glade.h:102
+#: mail/mail-config.glade.h:101
 msgid "Personal"
 msgstr "个人"
 
@@ -795,9 +780,8 @@ msgstr "在此管理您的 S/MIME 证书"
 #: calendar/gui/dialogs/new-task-list.glade.h:1
 #: calendar/gui/dialogs/task-page.glade.h:1
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:1
-#: composer/e-msg-composer-attachment.glade.h:1 mail/mail-config.glade.h:3
-#: mail/mail-dialogs.glade.h:6 mail/message-tags.glade.h:1
-#: plugins/shared-folder/properties.glade.h:1
+#: composer/e-msg-composer-attachment.glade.h:1 mail/mail-dialogs.glade.h:6
+#: mail/message-tags.glade.h:1 plugins/shared-folder/properties.glade.h:1
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:1
 msgid "*"
 msgstr "*"
@@ -1102,7 +1086,7 @@ msgstr "AIM"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:12
 #: addressbook/gui/contact-editor/e-contact-editor.c:270
-#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:168
+#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:169
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.etspec.h:1
 #: addressbook/gui/widgets/e-minicard.c:181
 msgid "Contact"
@@ -1152,7 +1136,7 @@ msgstr "电话"
 #: addressbook/gui/contact-editor/e-contact-editor.c:199
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:235
 #: filter/filter-label.c:122 mail/em-migrate.c:1012 mail/mail-config.c:76
-#: mail/mail-config.glade.h:147
+#: mail/mail-config.glade.h:148
 msgid "Work"
 msgstr "工作"
 
@@ -1174,7 +1158,7 @@ msgid "_Birthday:"
 msgstr "生日(_B)："
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:28
-#: plugins/itip-formatter/itip-view.c:1575
+#: plugins/itip-formatter/itip-view.c:1617
 msgid "_Calendar:"
 msgstr "日历(_C)："
 
@@ -1288,7 +1272,7 @@ msgstr "地址"
 #: addressbook/gui/contact-editor/e-contact-editor.c:298
 #: addressbook/gui/contact-editor/e-contact-editor-fullname.c:95
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:141
-#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:182
+#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:183
 #: addressbook/gui/widgets/e-addressbook-model.c:310
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:398
 #: addressbook/gui/widgets/e-minicard.c:174
@@ -2327,15 +2311,15 @@ msgstr "必需域"
 msgid "Changed"
 msgstr "已更改"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2544
+#: addressbook/gui/contact-editor/e-contact-editor.c:2578
 msgid "Please select an image for this contact"
 msgstr "请选择此联系人的图像"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2545
+#: addressbook/gui/contact-editor/e-contact-editor.c:2579
 msgid "No image"
 msgstr "无图像"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2821
+#: addressbook/gui/contact-editor/e-contact-editor.c:2855
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -2343,7 +2327,7 @@ msgstr ""
 "联系人数据无效：\n"
 "\n"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2873
+#: addressbook/gui/contact-editor/e-contact-editor.c:2907
 msgid "Invalid contact."
 msgstr "无效的联系人。"
 
@@ -2502,7 +2486,7 @@ msgid "Add an email to the List"
 msgstr "将电子邮件添加到列表"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:5
-#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:819
+#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:820
 msgid "Contact List Editor"
 msgstr "联系人列表编辑器"
 
@@ -2534,7 +2518,7 @@ msgstr "选择(_S)"
 msgid "_Type an email address or drag a contact into the list below:"
 msgstr "输入电子邮件地址或者把联系人拖放到下面的列表(_T)："
 
-#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:161
+#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:162
 #: addressbook/gui/widgets/e-addressbook-model.c:296
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:384
 #: addressbook/gui/widgets/e-addressbook-view.c:223
@@ -2543,15 +2527,15 @@ msgstr "输入电子邮件地址或者把联系人拖放到下面的列表(_T)�
 msgid "Book"
 msgstr "地址簿"
 
-#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:175
+#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:176
 msgid "Is New List"
 msgstr "为新列表"
 
-#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:709
+#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:710
 msgid "_Members"
 msgstr "成员(_M)"
 
-#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:712
+#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:713
 msgid "Contact List Members"
 msgstr "联系人列表成员"
 
@@ -2980,9 +2964,9 @@ msgstr "合并电子邮件地址"
 
 #: addressbook/gui/widgets/eab-vcard-control.c:139
 #, c-format
-msgid "and one other contact."
-msgid_plural "and %d other contacts."
-msgstr[0] "以及另外 %d 个联系人。"
+msgid "There is one other contact."
+msgid_plural "There are %d other contacts."
+msgstr[0] "有另外 %d 个联系人。"
 
 #: addressbook/gui/widgets/eab-vcard-control.c:223
 #: addressbook/gui/widgets/eab-vcard-control.c:272
@@ -4031,13 +4015,13 @@ msgstr "约会标题"
 
 #. End time
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:3
-#: plugins/itip-formatter/itip-view.c:832
+#: plugins/itip-formatter/itip-view.c:874
 msgid "End time:"
 msgstr "结束时间："
 
 #. Location
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:4
-#: calendar/gui/e-itip-control.c:1118 plugins/itip-formatter/itip-view.c:815
+#: calendar/gui/e-itip-control.c:1118 plugins/itip-formatter/itip-view.c:857
 msgid "Location:"
 msgstr "位置："
 
@@ -4047,7 +4031,7 @@ msgstr "午睡时间(_T)："
 
 #. Start time
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:6
-#: plugins/itip-formatter/itip-view.c:823
+#: plugins/itip-formatter/itip-view.c:865
 msgid "Start time:"
 msgstr "开始时间："
 
@@ -4303,7 +4287,7 @@ msgid "Whether to show week numbers in date navigator"
 msgstr "是否在日期浏览器中显示周数"
 
 #: calendar/gui/calendar-commands.c:120 calendar/gui/calendar-component.c:568
-#: calendar/gui/dialogs/calendar-setup.c:362 calendar/gui/gnome-cal.c:1925
+#: calendar/gui/dialogs/calendar-setup.c:362 calendar/gui/gnome-cal.c:1942
 #: plugins/groupwise-account-setup/camel-gw-listener.c:382
 #: plugins/groupwise-account-setup/camel-gw-listener.c:412
 msgid "Calendar"
@@ -4621,7 +4605,7 @@ msgstr "添加日历"
 msgid "Add Task List"
 msgstr "添加任务列表"
 
-#: calendar/gui/dialogs/calendar-setup.glade.h:5 mail/mail-config.glade.h:103
+#: calendar/gui/dialogs/calendar-setup.glade.h:5 mail/mail-config.glade.h:102
 msgid "Pick a color"
 msgstr "选取一种颜色"
 
@@ -4728,7 +4712,7 @@ msgstr "附件属性"
 #: calendar/gui/dialogs/cal-attachment.glade.h:3
 #: calendar/gui/e-cal-component-preview.c:267
 #: calendar/gui/e-itip-control.c:1164 calendar/gui/e-itip-control.glade.h:6
-#: composer/e-msg-composer-attachment.glade.h:3 mail/mail-config.glade.h:69
+#: composer/e-msg-composer-attachment.glade.h:3 mail/mail-config.glade.h:68
 msgid "Description:"
 msgstr "描述："
 
@@ -4743,7 +4727,7 @@ msgid "MIME type:"
 msgstr "MIME 类型："
 
 #. g_object_set((GObject *)renderer, "activatable", TRUE, NULL);
-#: calendar/gui/dialogs/cal-prefs-dialog.c:576 mail/em-account-prefs.c:470
+#: calendar/gui/dialogs/cal-prefs-dialog.c:576 mail/em-account-prefs.c:460
 #: mail/em-composer-prefs.c:884 plugins/plugin-manager/plugin-manager.c:213
 msgid "Enabled"
 msgstr "已启用"
@@ -4762,15 +4746,15 @@ msgstr "不删除"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.c:787
 #: calendar/gui/dialogs/cal-prefs-dialog.c:820
-#: calendar/gui/dialogs/cal-prefs-dialog.c:853 mail/em-account-prefs.c:317
-#: mail/em-account-prefs.c:345 mail/em-account-prefs.c:376
+#: calendar/gui/dialogs/cal-prefs-dialog.c:853 mail/em-account-prefs.c:307
+#: mail/em-account-prefs.c:335 mail/em-account-prefs.c:366
 msgid "Disable"
 msgstr "禁用"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.c:787
 #: calendar/gui/dialogs/cal-prefs-dialog.c:820
-#: calendar/gui/dialogs/cal-prefs-dialog.c:855 mail/em-account-prefs.c:317
-#: mail/em-account-prefs.c:345 mail/em-account-prefs.c:378
+#: calendar/gui/dialogs/cal-prefs-dialog.c:855 mail/em-account-prefs.c:307
+#: mail/em-account-prefs.c:335 mail/em-account-prefs.c:368
 msgid "Enable"
 msgstr "启用"
 
@@ -4853,7 +4837,7 @@ msgid "Display"
 msgstr "显示"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:22
-#: mail/mail-config.glade.h:74
+#: mail/mail-config.glade.h:73
 msgid "E_nable"
 msgstr "启用(_N)"
 
@@ -5071,69 +5055,69 @@ msgstr "%s  您还没有进行修改，更新编辑器吗？"
 msgid "Could not update object"
 msgstr "无法更新对象"
 
-#: calendar/gui/dialogs/comp-editor.c:417 composer/e-msg-composer.c:2315
+#: calendar/gui/dialogs/comp-editor.c:436 composer/e-msg-composer.c:2315
 #, c-format
 msgid "<b>%d</b> File Attached"
 msgid_plural "<b>%d</b> Files Attached"
 msgstr[0] "附加了 <b>%d</b> 个文件"
 
-#: calendar/gui/dialogs/comp-editor.c:470 composer/e-msg-composer.c:2344
+#: calendar/gui/dialogs/comp-editor.c:489 composer/e-msg-composer.c:2344
 msgid "Hide _Attachment Bar (drop attachments here)"
 msgstr "隐藏附件栏(将附件拖至此处)(_A)"
 
-#: calendar/gui/dialogs/comp-editor.c:473
-#: calendar/gui/dialogs/comp-editor.c:517 composer/e-msg-composer.c:2347
+#: calendar/gui/dialogs/comp-editor.c:492
+#: calendar/gui/dialogs/comp-editor.c:537 composer/e-msg-composer.c:2347
 #: composer/e-msg-composer.c:3466
 msgid "Show _Attachment Bar (drop attachments here)"
 msgstr "显示附件栏(将附件拖至此处)(_A)"
 
-#: calendar/gui/dialogs/comp-editor.c:1046
-#: calendar/gui/dialogs/comp-editor.c:1089
+#: calendar/gui/dialogs/comp-editor.c:1066
+#: calendar/gui/dialogs/comp-editor.c:1109
 msgid "Edit Appointment"
 msgstr "编辑约会"
 
-#: calendar/gui/dialogs/comp-editor.c:1052
-#: calendar/gui/dialogs/comp-editor.c:1095
+#: calendar/gui/dialogs/comp-editor.c:1072
+#: calendar/gui/dialogs/comp-editor.c:1115
 #, c-format
 msgid "Meeting - %s"
 msgstr "会议 - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:1054
-#: calendar/gui/dialogs/comp-editor.c:1097
+#: calendar/gui/dialogs/comp-editor.c:1074
+#: calendar/gui/dialogs/comp-editor.c:1117
 #, c-format
 msgid "Appointment - %s"
 msgstr "约会 - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:1058
-#: calendar/gui/dialogs/comp-editor.c:1101
+#: calendar/gui/dialogs/comp-editor.c:1078
+#: calendar/gui/dialogs/comp-editor.c:1121
 #, c-format
 msgid "Assigned Task - %s"
 msgstr "指派的任务 - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:1060
-#: calendar/gui/dialogs/comp-editor.c:1103
+#: calendar/gui/dialogs/comp-editor.c:1080
+#: calendar/gui/dialogs/comp-editor.c:1123
 #, c-format
 msgid "Task - %s"
 msgstr "任务 - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:1063
-#: calendar/gui/dialogs/comp-editor.c:1106
+#: calendar/gui/dialogs/comp-editor.c:1083
+#: calendar/gui/dialogs/comp-editor.c:1126
 #, c-format
 msgid "Journal entry - %s"
 msgstr "日志条目 - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:1074
-#: calendar/gui/dialogs/comp-editor.c:1116
+#: calendar/gui/dialogs/comp-editor.c:1094
+#: calendar/gui/dialogs/comp-editor.c:1136
 msgid "No summary"
 msgstr "没有概要"
 
-#: calendar/gui/dialogs/comp-editor.c:1548
-#: calendar/gui/dialogs/comp-editor.c:1581
-#: calendar/gui/dialogs/comp-editor.c:1605
+#: calendar/gui/dialogs/comp-editor.c:1568
+#: calendar/gui/dialogs/comp-editor.c:1601
+#: calendar/gui/dialogs/comp-editor.c:1625
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr "如果更新到达的话，对此项目的更改将被丢弃"
 
-#: calendar/gui/dialogs/comp-editor.c:1629
+#: calendar/gui/dialogs/comp-editor.c:1649
 msgid "Unable to use current version!"
 msgstr "无法使用当前版本！"
 
@@ -5414,7 +5398,7 @@ msgstr "开始时间(_S)："
 #: calendar/gui/e-cal-model-tasks.c:652 calendar/gui/e-itip-control.c:1104
 #: composer/e-msg-composer.c:2122 filter/filter-rule.c:878
 #: mail/em-account-editor.c:675 mail/em-account-editor.c:1269
-#: mail/em-account-prefs.c:431 mail/em-folder-view.c:965
+#: mail/em-account-prefs.c:421 mail/em-folder-view.c:965
 #: plugins/calendar-weather/calendar-weather.c:371
 #: plugins/calendar-weather/calendar-weather.c:425
 #: plugins/itip-formatter/itip-formatter.c:1373
@@ -5638,7 +5622,7 @@ msgstr "日期/时间"
 msgid "<b>Exceptions</b>"
 msgstr "<b>例外</b>"
 
-#: calendar/gui/dialogs/recurrence-page.glade.h:2 mail/mail-config.glade.h:4
+#: calendar/gui/dialogs/recurrence-page.glade.h:2 mail/mail-config.glade.h:3
 msgid "<b>Preview</b>"
 msgstr "<b>预览</b>"
 
@@ -5953,7 +5937,7 @@ msgstr "到期日期："
 #. write status
 #. Status
 #: calendar/gui/e-cal-component-preview.c:222
-#: calendar/gui/e-itip-control.c:1132 plugins/itip-formatter/itip-view.c:840
+#: calendar/gui/e-itip-control.c:1132 plugins/itip-formatter/itip-view.c:882
 msgid "Status:"
 msgstr "状态："
 
@@ -6116,7 +6100,7 @@ msgstr "单击以添加任务"
 msgid "% Complete"
 msgstr "% 完成"
 
-#: calendar/gui/e-calendar-table.etspec.h:5 mail/mail-send-recv.c:611
+#: calendar/gui/e-calendar-table.etspec.h:5 mail/mail-send-recv.c:617
 msgid "Complete"
 msgstr "完成"
 
@@ -6227,8 +6211,8 @@ msgstr "开始日期"
 #: calendar/gui/e-meeting-store.c:159 calendar/gui/e-meeting-store.c:224
 #: mail/em-utils.c:1157 plugins/itip-formatter/itip-formatter.c:251
 #: plugins/itip-formatter/itip-formatter.c:1395
-#: plugins/plugin-manager/plugin-manager.c:72 shell/e-component-registry.c:202
-#: shell/e-component-registry.c:206 widgets/misc/e-charset-picker.c:62
+#: plugins/plugin-manager/plugin-manager.c:72 shell/e-component-registry.c:201
+#: shell/e-component-registry.c:205 widgets/misc/e-charset-picker.c:62
 msgid "Unknown"
 msgstr "未知"
 
@@ -6417,10 +6401,10 @@ msgstr "iCalendar 错误"
 
 #: calendar/gui/e-itip-control.c:1038 calendar/gui/e-itip-control.c:1054
 #: calendar/gui/e-itip-control.c:1065 calendar/gui/e-itip-control.c:1082
-#: plugins/itip-formatter/itip-view.c:287
-#: plugins/itip-formatter/itip-view.c:288
-#: plugins/itip-formatter/itip-view.c:355
-#: plugins/itip-formatter/itip-view.c:356
+#: plugins/itip-formatter/itip-view.c:329
+#: plugins/itip-formatter/itip-view.c:330
+#: plugins/itip-formatter/itip-view.c:397
+#: plugins/itip-formatter/itip-view.c:398
 msgid "An unknown person"
 msgstr "未知的人"
 
@@ -6711,7 +6695,7 @@ msgid "Send Latest Information"
 msgstr "发送最新的信息"
 
 #: calendar/gui/e-itip-control.c:2375 calendar/gui/itip-utils.c:442
-#: mail/mail-send-recv.c:408 mail/mail-send-recv.c:460
+#: mail/mail-send-recv.c:414 mail/mail-send-recv.c:466
 #: ui/evolution-mail-global.xml.h:1
 msgid "Cancel"
 msgstr "取消"
@@ -6916,7 +6900,7 @@ msgstr "%Y-%m-%d"
 msgid "Enter the password for %s"
 msgstr "为 %s 输入密码"
 
-#: calendar/gui/e-tasks.c:734 calendar/gui/gnome-cal.c:2429
+#: calendar/gui/e-tasks.c:760 calendar/gui/gnome-cal.c:2353
 #, c-format
 msgid ""
 "Error on %s:\n"
@@ -6925,28 +6909,28 @@ msgstr ""
 "%s 错误：\n"
 " %s"
 
-#: calendar/gui/e-tasks.c:782
+#: calendar/gui/e-tasks.c:808
 msgid "Loading tasks"
 msgstr "装入任务"
 
-#: calendar/gui/e-tasks.c:864
+#: calendar/gui/e-tasks.c:890
 #, c-format
 msgid "Opening tasks at %s"
 msgstr "在 %s 打开任务"
 
-#: calendar/gui/e-tasks.c:1061
+#: calendar/gui/e-tasks.c:1086
 msgid "Completing tasks..."
 msgstr "正在完成任务..."
 
-#: calendar/gui/e-tasks.c:1084
+#: calendar/gui/e-tasks.c:1109
 msgid "Deleting selected objects..."
 msgstr "正在删除选中的对象..."
 
-#: calendar/gui/e-tasks.c:1111
+#: calendar/gui/e-tasks.c:1136
 msgid "Expunging"
 msgstr "销毁"
 
-#: calendar/gui/e-tasks.c:1189
+#: calendar/gui/e-tasks.c:1214
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:10
 #: calendar/gui/print.c:1822 calendar/gui/tasks-component.c:408
 #: calendar/gui/tasks-component.c:881 calendar/gui/tasks-control.c:408
@@ -6972,34 +6956,34 @@ msgid "Updating query"
 msgstr "更新查询"
 
 #. bonobo displays this string so it must be in locale
-#: calendar/gui/gnome-cal.c:2040 widgets/menus/gal-view-menus.c:351
+#: calendar/gui/gnome-cal.c:2057 widgets/menus/gal-view-menus.c:351
 msgid "Custom View"
 msgstr "当前视图"
 
-#: calendar/gui/gnome-cal.c:2041
+#: calendar/gui/gnome-cal.c:2058
 msgid "Save Custom View"
 msgstr "保存自定义视图"
 
-#: calendar/gui/gnome-cal.c:2046 widgets/menus/gal-view-menus.c:373
+#: calendar/gui/gnome-cal.c:2063 widgets/menus/gal-view-menus.c:373
 msgid "Define Views..."
 msgstr "定义视图..."
 
-#: calendar/gui/gnome-cal.c:2206
+#: calendar/gui/gnome-cal.c:2207
 #, c-format
 msgid "Loading appointments at %s"
 msgstr "装入位于 %s 的约会"
 
-#: calendar/gui/gnome-cal.c:2225
+#: calendar/gui/gnome-cal.c:2226
 #, c-format
 msgid "Loading tasks at %s"
 msgstr "装入位于 %s 的任务"
 
-#: calendar/gui/gnome-cal.c:2318
+#: calendar/gui/gnome-cal.c:2319
 #, c-format
 msgid "Opening %s"
 msgstr "打开 %s"
 
-#: calendar/gui/gnome-cal.c:3286
+#: calendar/gui/gnome-cal.c:3209
 msgid "Purging"
 msgstr "销毁"
 
@@ -9816,19 +9800,19 @@ msgid "years"
 msgstr "年"
 
 #: filter/filter-label.c:121 mail/em-filter-i18n.h:26 mail/em-migrate.c:1011
-#: mail/mail-config.c:75 mail/mail-config.glade.h:91
+#: mail/mail-config.c:75 mail/mail-config.glade.h:90
 msgid "Important"
 msgstr "重要"
 
 #. forest green
 #: filter/filter-label.c:124 mail/em-migrate.c:1014 mail/mail-config.c:78
-#: mail/mail-config.glade.h:139
+#: mail/mail-config.glade.h:140
 msgid "To Do"
 msgstr "待办"
 
 #. blue
 #: filter/filter-label.c:125 mail/em-migrate.c:1015 mail/mail-config.c:79
-#: mail/mail-config.glade.h:94
+#: mail/mail-config.glade.h:93
 msgid "Later"
 msgstr "稍候"
 
@@ -9923,24 +9907,24 @@ msgstr "接收选项"
 msgid "Checking for New Mail"
 msgstr "检查新邮件"
 
-#: mail/em-account-editor.c:2505 mail/mail-config.glade.h:34
+#: mail/em-account-editor.c:2505 mail/mail-config.glade.h:33
 msgid "Account Editor"
 msgstr "账户编辑器"
 
-#: mail/em-account-editor.c:2505 mail/mail-config.glade.h:80
+#: mail/em-account-editor.c:2505 mail/mail-config.glade.h:79
 msgid "Evolution Account Assistant"
 msgstr "Evolution 账户助手"
 
 #. translators: default account indicator
-#: mail/em-account-prefs.c:422
+#: mail/em-account-prefs.c:412
 msgid "[Default]"
 msgstr "[默认]"
 
-#: mail/em-account-prefs.c:476
+#: mail/em-account-prefs.c:466
 msgid "Account name"
 msgstr "账户名"
 
-#: mail/em-account-prefs.c:478
+#: mail/em-account-prefs.c:468
 msgid "Protocol"
 msgstr "协议"
 
@@ -10109,7 +10093,7 @@ msgstr "不是"
 msgid "is not Flagged"
 msgstr "未标志"
 
-#: mail/em-filter-i18n.h:35 mail/mail-config.glade.h:93
+#: mail/em-filter-i18n.h:35 mail/mail-config.glade.h:92
 #: ui/evolution-mail-message.xml.h:48
 msgid "Junk"
 msgstr "垃圾"
@@ -10271,7 +10255,7 @@ msgid "Create New Folder"
 msgstr "创建新文件夹"
 
 #: mail/em-folder-selector.c:166 mail/em-folder-tree.c:2479
-#: mail/mail-component.c:732 plugins/shared-folder/install-shared.c:144
+#: mail/mail-component.c:734 plugins/shared-folder/install-shared.c:144
 #: plugins/shared-folder/share-folder-common.c:345
 msgid "Specify where to create the folder:"
 msgstr "指定在哪里创建文件夹："
@@ -10346,7 +10330,7 @@ msgstr "复制(_O)"
 msgid "Creating folder `%s'"
 msgstr "创建文件夹“%s”"
 
-#: mail/em-folder-tree.c:2479 mail/mail-component.c:732
+#: mail/em-folder-tree.c:2479 mail/mail-component.c:734
 #: plugins/shared-folder/install-shared.c:144
 #: plugins/shared-folder/share-folder-common.c:345
 msgid "Create folder"
@@ -10393,7 +10377,7 @@ msgid "_Rename..."
 msgstr "重命名(_R)..."
 
 #: mail/em-folder-tree-model.c:200 mail/em-folder-tree-model.c:202
-#: mail/mail-vfolder.c:891
+#: mail/mail-vfolder.c:899
 msgid "VFolders"
 msgstr "虚拟文件夹"
 
@@ -11489,7 +11473,7 @@ msgstr "Evolution 邮件首选项控件"
 msgid "Mail Accounts"
 msgstr "邮件账户"
 
-#: mail/GNOME_Evolution_Mail.server.in.in.h:13 mail/mail-config.glade.h:96
+#: mail/GNOME_Evolution_Mail.server.in.in.h:13 mail/mail-config.glade.h:95
 msgid "Mail Preferences"
 msgstr "邮件首选项"
 
@@ -11759,31 +11743,31 @@ msgid ", %d unread"
 msgid_plural ", %d unread"
 msgstr[0] "，%d 封未读"
 
-#: mail/mail-component.c:684
+#: mail/mail-component.c:686
 msgid "New Mail Message"
 msgstr "新建信件"
 
-#: mail/mail-component.c:685
+#: mail/mail-component.c:687
 msgid "_Mail Message"
 msgstr "信件(_M)"
 
-#: mail/mail-component.c:686
+#: mail/mail-component.c:688
 msgid "Compose a new mail message"
 msgstr "撰写一封新信"
 
-#: mail/mail-component.c:692
+#: mail/mail-component.c:694
 msgid "New Mail Folder"
 msgstr "新建邮件文件夹"
 
-#: mail/mail-component.c:693
+#: mail/mail-component.c:695
 msgid "Mail _Folder"
 msgstr "邮件文件夹(_F)"
 
-#: mail/mail-component.c:694
+#: mail/mail-component.c:696
 msgid "Create a new mail folder"
 msgstr "创建新邮件文件夹"
 
-#: mail/mail-component.c:841
+#: mail/mail-component.c:843
 msgid "Failed upgrading Mail settings or folders."
 msgstr "升级邮件设置或文件夹失败。"
 
@@ -11795,223 +11779,223 @@ msgstr "    "
 msgid " Ch_eck for Supported Types "
 msgstr "检查支持的类型(_E)"
 
-#: mail/mail-config.glade.h:5
+#: mail/mail-config.glade.h:4
 msgid "<b>SSL is not supported in this build of Evolution</b>"
 msgstr "<b>(在此版本的 Evolution 中不支持 SSL)</b>"
 
-#: mail/mail-config.glade.h:6
+#: mail/mail-config.glade.h:5
 msgid "<b>S_ignatures</b>"
 msgstr "<b>签名(_I)</b>"
 
-#: mail/mail-config.glade.h:7
+#: mail/mail-config.glade.h:6
 msgid "<b>_Languages</b>"
 msgstr "<b>语言(_L)</b>"
 
-#: mail/mail-config.glade.h:8
+#: mail/mail-config.glade.h:7
 msgid "<small>This will make the the filter more reliable, but slower</small>"
 msgstr "<small>这将让过滤器更可靠，但稍慢</small>"
 
-#: mail/mail-config.glade.h:9
+#: mail/mail-config.glade.h:8
 msgid "<span weight=\"bold\">Account Information</span>"
 msgstr "<span weight=\"bold\">账户信息</span>"
 
-#: mail/mail-config.glade.h:10
+#: mail/mail-config.glade.h:9
 msgid "<span weight=\"bold\">Alerts</span>"
 msgstr "<span weight=\"bold\">警告</span>"
 
-#: mail/mail-config.glade.h:11
+#: mail/mail-config.glade.h:10
 msgid "<span weight=\"bold\">Authentication Type</span>"
 msgstr "<span weight=\"bold\">认证类型</span>"
 
-#: mail/mail-config.glade.h:12
+#: mail/mail-config.glade.h:11
 msgid "<span weight=\"bold\">Authentication</span>"
 msgstr "<span weight=\"bold\">身份验证</span>"
 
-#: mail/mail-config.glade.h:13
+#: mail/mail-config.glade.h:12
 msgid "<span weight=\"bold\">Composing Messages</span>"
 msgstr "<span weight=\"bold\">撰写信件</span>"
 
-#: mail/mail-config.glade.h:14
+#: mail/mail-config.glade.h:13
 msgid "<span weight=\"bold\">Configuration</span>"
 msgstr "<span weight=\"bold\">配置</span>"
 
-#: mail/mail-config.glade.h:15
+#: mail/mail-config.glade.h:14
 msgid "<span weight=\"bold\">Default Behavior</span>"
 msgstr "<span weight=\"bold\">默认行为</span>"
 
-#: mail/mail-config.glade.h:16
+#: mail/mail-config.glade.h:15
 msgid "<span weight=\"bold\">Delete Mail</span>"
 msgstr "<span weight=\"bold\">删除邮件</span>"
 
-#: mail/mail-config.glade.h:17
+#: mail/mail-config.glade.h:16
 msgid "<span weight=\"bold\">Displayed Mail _Headers</span>"
 msgstr "<span weight=\"bold\">显示的邮件头(_H)</span>"
 
-#: mail/mail-config.glade.h:18
+#: mail/mail-config.glade.h:17
 msgid "<span weight=\"bold\">Filter Options</span>"
 msgstr "<span weight=\"bold\">过滤器选项</span>"
 
-#: mail/mail-config.glade.h:19 plugins/itip-formatter/itip-formatter.c:1664
+#: mail/mail-config.glade.h:18 plugins/itip-formatter/itip-formatter.c:1664
 msgid "<span weight=\"bold\">General</span>"
 msgstr "<span weight=\"bold\">常规</span>"
 
-#: mail/mail-config.glade.h:20
+#: mail/mail-config.glade.h:19
 msgid "<span weight=\"bold\">Labels and Colors</span>"
 msgstr "<span weight=\"bold\">标签和颜色</span>"
 
-#: mail/mail-config.glade.h:21
+#: mail/mail-config.glade.h:20
 msgid "<span weight=\"bold\">Loading Images</span>"
 msgstr "<span weight=\"bold\">装入图像</span>"
 
-#: mail/mail-config.glade.h:22
+#: mail/mail-config.glade.h:21
 msgid "<span weight=\"bold\">Message Display</span>"
 msgstr "<span weight=\"bold\">信件显示</span>"
 
-#: mail/mail-config.glade.h:23
+#: mail/mail-config.glade.h:22
 msgid "<span weight=\"bold\">Message Fonts</span>"
 msgstr "<span weight=\"bold\">信件字体</span>"
 
-#: mail/mail-config.glade.h:24
+#: mail/mail-config.glade.h:23
 msgid "<span weight=\"bold\">New Mail Notification</span>"
 msgstr "<span weight=\"bold\">新邮件提醒</span>"
 
-#: mail/mail-config.glade.h:25
+#: mail/mail-config.glade.h:24
 msgid "<span weight=\"bold\">Optional Information</span>"
 msgstr "<span weight=\"bold\">可选信息</span>"
 
-#: mail/mail-config.glade.h:26
+#: mail/mail-config.glade.h:25
 msgid "<span weight=\"bold\">Options</span>"
 msgstr "<span weight=\"bold\">选项</span>"
 
-#: mail/mail-config.glade.h:27
+#: mail/mail-config.glade.h:26
 msgid "<span weight=\"bold\">Pretty Good Privacy (PGP/GPG)</span>"
 msgstr "<span weight=\"bold\">Pretty Good Privacy (PGP/GPG)</span>"
 
-#: mail/mail-config.glade.h:28
+#: mail/mail-config.glade.h:27
 msgid "<span weight=\"bold\">Printed Fonts</span>"
 msgstr "<span weight=\"bold\">打印字体</span>"
 
-#: mail/mail-config.glade.h:29
+#: mail/mail-config.glade.h:28
 msgid "<span weight=\"bold\">Required Information</span>"
 msgstr "<span weight=\"bold\">请求的信息</span>"
 
-#: mail/mail-config.glade.h:30
+#: mail/mail-config.glade.h:29
 msgid "<span weight=\"bold\">Secure MIME (S/MIME)</span>"
 msgstr "<span weight=\"bold\">安全 MIME(S/MIME)</span>"
 
-#: mail/mail-config.glade.h:31
+#: mail/mail-config.glade.h:30
 msgid "<span weight=\"bold\">Security</span>"
 msgstr "<span weight=\"bold\">安全</span>"
 
-#: mail/mail-config.glade.h:32
+#: mail/mail-config.glade.h:31
 msgid "<span weight=\"bold\">Sent and Draft Messages</span>"
 msgstr "<span weight=\"bold\">已发送和草稿信件</span>"
 
-#: mail/mail-config.glade.h:33
+#: mail/mail-config.glade.h:32
 msgid "<span weight=\"bold\">Server Configuration</span>"
 msgstr "<span weight=\"bold\">服务器配置</span>"
 
-#: mail/mail-config.glade.h:35
+#: mail/mail-config.glade.h:34
 msgid "Account Management"
 msgstr "账户管理"
 
-#: mail/mail-config.glade.h:36
+#: mail/mail-config.glade.h:35
 msgid "Add Ne_w Signature..."
 msgstr "添加新签名(_W)..."
 
-#: mail/mail-config.glade.h:37
+#: mail/mail-config.glade.h:36
 msgid "Add _Script"
 msgstr "添加脚本(_S)"
 
-#: mail/mail-config.glade.h:38
+#: mail/mail-config.glade.h:37
 msgid "Al_ways sign outgoing messages when using this account"
 msgstr "当使用该账户时总是发送签名信件(_W)"
 
-#: mail/mail-config.glade.h:39
+#: mail/mail-config.glade.h:38
 msgid "Also encrypt to sel_f when sending encrypted mail"
 msgstr "当发送加密邮件时总是对自身加密(_F)"
 
-#: mail/mail-config.glade.h:40
+#: mail/mail-config.glade.h:39
 msgid "Alway_s carbon-copy (cc) to:"
 msgstr "总是抄送到(_S)："
 
-#: mail/mail-config.glade.h:41
+#: mail/mail-config.glade.h:40
 msgid "Always _blind carbon-copy (bcc) to:"
 msgstr "总是暗送到(_B)："
 
-#: mail/mail-config.glade.h:42
+#: mail/mail-config.glade.h:41
 msgid "Always _trust keys in my keyring when encrypting"
 msgstr "加密时总是信任我的密钥环中的密钥(_T)"
 
-#: mail/mail-config.glade.h:43
+#: mail/mail-config.glade.h:42
 msgid "Always encrypt to _myself when sending encrypted mail"
 msgstr "当发送加密邮件时总是对自身加密(_M)"
 
-#: mail/mail-config.glade.h:44
+#: mail/mail-config.glade.h:43
 msgid "Attach original message"
 msgstr "附加原始信件"
 
-#: mail/mail-config.glade.h:45 mail/message-list.etspec.h:1
+#: mail/mail-config.glade.h:44 mail/message-list.etspec.h:1
 msgid "Attachment"
 msgstr "附件"
 
-#: mail/mail-config.glade.h:46
+#: mail/mail-config.glade.h:45
 msgid "Automatically _insert smiley images"
 msgstr "自动插入笑脸图像(_I)"
 
-#: mail/mail-config.glade.h:47
+#: mail/mail-config.glade.h:46
 msgid "Baltic (ISO-8859-13)"
 msgstr "波罗的语(ISO-8859-13)"
 
-#: mail/mail-config.glade.h:48
+#: mail/mail-config.glade.h:47
 msgid "Baltic (ISO-8859-4)"
 msgstr "波罗的语(ISO-8859-4)"
 
-#: mail/mail-config.glade.h:49
+#: mail/mail-config.glade.h:48
 msgid "Beep w_hen new mail arrives"
 msgstr "新邮件到达时响铃(_H)"
 
-#: mail/mail-config.glade.h:50
+#: mail/mail-config.glade.h:49
 msgid "C_haracter set:"
 msgstr "字符集(_H)"
 
-#: mail/mail-config.glade.h:51
+#: mail/mail-config.glade.h:50
 msgid "Ch_eck for Supported Types "
 msgstr "检查支持的类型(_E)"
 
-#: mail/mail-config.glade.h:52
+#: mail/mail-config.glade.h:51
 msgid "Check _incoming mail for junk"
 msgstr "检查收到的邮件是否是垃圾邮件(_I)"
 
-#: mail/mail-config.glade.h:53
+#: mail/mail-config.glade.h:52
 msgid "Check spelling while I _type"
 msgstr "在我输入时进行拼写检查(_T)"
 
-#: mail/mail-config.glade.h:54
+#: mail/mail-config.glade.h:53
 msgid "Checks incoming mail messages to be Junk"
 msgstr "检查收到的信件是否是垃圾邮件"
 
-#: mail/mail-config.glade.h:55
+#: mail/mail-config.glade.h:54
 msgid "Cle_ar"
 msgstr "清除(_A)"
 
-#: mail/mail-config.glade.h:56
+#: mail/mail-config.glade.h:55
 msgid "Clea_r"
 msgstr "清除(_R)"
 
-#: mail/mail-config.glade.h:57
+#: mail/mail-config.glade.h:56
 msgid "Color for _misspelled words:"
 msgstr "给错误拼写的单词着色(_M)："
 
-#: mail/mail-config.glade.h:58
+#: mail/mail-config.glade.h:57
 msgid "Colors"
 msgstr "颜色"
 
-#: mail/mail-config.glade.h:59
+#: mail/mail-config.glade.h:58
 msgid "Confirm _when expunging a folder"
 msgstr "销毁文件夹时确认(_W)"
 
-#: mail/mail-config.glade.h:60
+#: mail/mail-config.glade.h:59
 msgid ""
 "Congratulations, your mail configuration is complete.\n"
 "\n"
@@ -12026,125 +12010,132 @@ msgstr ""
 "\n"
 "单击“应用”可保存您的设置。"
 
-#: mail/mail-config.glade.h:66
+#: mail/mail-config.glade.h:65
 msgid "De_fault"
 msgstr "默认(_F)"
 
-#: mail/mail-config.glade.h:67
+#: mail/mail-config.glade.h:66
 msgid "Default character e_ncoding:"
 msgstr "默认字符编码(_N)："
 
-#: mail/mail-config.glade.h:68
+#: mail/mail-config.glade.h:67
 msgid "Defaults"
 msgstr "默认"
 
-#: mail/mail-config.glade.h:70
+#: mail/mail-config.glade.h:69
 msgid "Digitally _sign outgoing messages (by default)"
 msgstr "对寄出的信件进行数字签名(默认)(_S)"
 
-#: mail/mail-config.glade.h:71
+#: mail/mail-config.glade.h:70
 msgid "Do not quote original message"
 msgstr "无法引用原始信件"
 
-#: mail/mail-config.glade.h:72 shell/evolution-startup-wizard.glade.h:1
+#: mail/mail-config.glade.h:71 shell/evolution-startup-wizard.glade.h:1
 msgid "Done"
 msgstr "完成"
 
-#: mail/mail-config.glade.h:73
+#: mail/mail-config.glade.h:72
 msgid "Drafts _Folder:"
 msgstr "草稿文件夹(_F)："
 
-#: mail/mail-config.glade.h:75
+#: mail/mail-config.glade.h:74
 msgid "Email Accounts"
 msgstr "电子邮件"
 
-#: mail/mail-config.glade.h:76
+#: mail/mail-config.glade.h:75
 msgid "Email _Address:"
 msgstr "电子邮件地址(_A)："
 
-#: mail/mail-config.glade.h:77
+#: mail/mail-config.glade.h:76
 msgid "Empty trash folders on e_xit"
 msgstr "退出时清空已删除邮件(_X)"
 
-#: mail/mail-config.glade.h:78
+#: mail/mail-config.glade.h:77
 msgid "Encry_ption certificate:"
 msgstr "加密证书(_P)："
 
-#: mail/mail-config.glade.h:79
+#: mail/mail-config.glade.h:78
 msgid "Encrypt out_going messages (by default)"
 msgstr "加密寄出的信件(默认)(_G)"
 
-#: mail/mail-config.glade.h:81
+#: mail/mail-config.glade.h:80
 msgid "Execute Command..."
 msgstr "执行命令..."
 
-#: mail/mail-config.glade.h:82
+#: mail/mail-config.glade.h:81
 msgid "Fi_xed-width:"
 msgstr "等宽(_X)："
 
-#: mail/mail-config.glade.h:83
+#: mail/mail-config.glade.h:82
 msgid "Font Properties"
 msgstr "字体属性"
 
-#: mail/mail-config.glade.h:84
+#: mail/mail-config.glade.h:83
 msgid "Format messages in _HTML"
 msgstr "用 HTML 格式化信件(_H)"
 
-#: mail/mail-config.glade.h:86
+#: mail/mail-config.glade.h:85
 msgid "HTML Mail"
 msgstr "HTML 邮件"
 
-#: mail/mail-config.glade.h:87
+#: mail/mail-config.glade.h:86
 msgid "Headers"
 msgstr "信头"
 
-#: mail/mail-config.glade.h:88
+#: mail/mail-config.glade.h:87
 msgid "Highlight _quotations with"
 msgstr "突出显示引用(_Q)"
 
-#: mail/mail-config.glade.h:89
+#: mail/mail-config.glade.h:88
 msgid "I_nclude remote tests"
 msgstr "包含远程测试(_N)"
 
-#: mail/mail-config.glade.h:90
+#: mail/mail-config.glade.h:89
 msgid "Identity"
 msgstr "标识"
 
-#: mail/mail-config.glade.h:92
+#: mail/mail-config.glade.h:91
 msgid "Inline"
 msgstr "嵌入"
 
-#: mail/mail-config.glade.h:95
+#: mail/mail-config.glade.h:94
 msgid "Mail Configuration"
 msgstr "邮件配置"
 
-#: mail/mail-config.glade.h:97
+#: mail/mail-config.glade.h:96
 msgid "Mailbox location"
 msgstr "邮件箱位置"
 
-#: mail/mail-config.glade.h:98
+#: mail/mail-config.glade.h:97
 msgid "Message Composer"
 msgstr "信件撰写器"
 
-#: mail/mail-config.glade.h:99
+#: mail/mail-config.glade.h:98
 msgid ""
 "Note: you will not be prompted for a password until you connect for the "
 "first time"
 msgstr "注意：直到您第一次连接的时候，才会询问密码。"
 
-#: mail/mail-config.glade.h:100
+#: mail/mail-config.glade.h:99
 msgid "Or_ganization:"
 msgstr "组织(_G)："
 
-#: mail/mail-config.glade.h:101
+#: mail/mail-config.glade.h:100
 msgid "PGP/GPG _Key ID:"
 msgstr "PGP/GPG 键标识(_K)："
 
-#: mail/mail-config.glade.h:104
+#: mail/mail-config.glade.h:103
 msgid "Play sound file when new mail arri_ves"
 msgstr "新邮件到达时播放声音文件(_V)"
 
-#: mail/mail-config.glade.h:105
+#: mail/mail-config.glade.h:104
+msgid ""
+"Please enter a descriptive name for this account in the space below.\n"
+"This name will be used for display purposes only."
+msgstr ""
+"请在下面的空白处输入此账户的描述性名称。\n此名称将只在显示时使用。"
+
+#: mail/mail-config.glade.h:106
 msgid ""
 "Please enter information about the way you will send mail. If you are not "
 "sure, ask your system administrator or Internet Service Provider."
@@ -12152,7 +12143,7 @@ msgstr ""
 "请在下面输入您的发件服务器信息。如果您不太确定的话，请询问您的系统管理员或者"
 "互联网服务提供商ISP。"
 
-#: mail/mail-config.glade.h:106
+#: mail/mail-config.glade.h:107
 msgid ""
 "Please enter your name and email address below. The \"optional\" fields "
 "below do not need to be filled in, unless you wish to include this "
@@ -12161,125 +12152,125 @@ msgstr ""
 "请在下面输入您的姓名和电子邮件地址。下面的“可选”域不必填入，除非您想要在您发"
 "出的邮件中包含此信息。"
 
-#: mail/mail-config.glade.h:107
+#: mail/mail-config.glade.h:108
 msgid "Please select among the following options"
 msgstr "请从以下选项中选择"
 
-#: mail/mail-config.glade.h:108
+#: mail/mail-config.glade.h:109
 msgid "Pr_ompt when sending messages with only Bcc recipients defined"
 msgstr "发送只有暗送收件人的信件时提示(_O)"
 
-#: mail/mail-config.glade.h:109
+#: mail/mail-config.glade.h:110
 msgid "Quote original message"
 msgstr "引用原始信件"
 
-#: mail/mail-config.glade.h:110
+#: mail/mail-config.glade.h:111
 msgid "Quoted"
 msgstr "引用"
 
-#: mail/mail-config.glade.h:111
+#: mail/mail-config.glade.h:112
 msgid "Re_member password"
 msgstr "记住密码(_M)"
 
-#: mail/mail-config.glade.h:112
+#: mail/mail-config.glade.h:113
 msgid "Re_ply-To:"
 msgstr "回复到(_P)："
 
-#: mail/mail-config.glade.h:113
+#: mail/mail-config.glade.h:114
 msgid "Receiving Email"
 msgstr "接收电子邮件"
 
-#: mail/mail-config.glade.h:114
+#: mail/mail-config.glade.h:115
 msgid "Remember _password"
 msgstr "记住密码(_P)"
 
-#: mail/mail-config.glade.h:115
+#: mail/mail-config.glade.h:116
 msgid "S_elect..."
 msgstr "选择(_E)..."
 
-#: mail/mail-config.glade.h:116
+#: mail/mail-config.glade.h:117
 msgid "S_tandard Font:"
 msgstr "标准字体(_T)："
 
-#: mail/mail-config.glade.h:117
+#: mail/mail-config.glade.h:118
 msgid "Se_lect..."
 msgstr "选择(_L)..."
 
-#: mail/mail-config.glade.h:118
+#: mail/mail-config.glade.h:119
 msgid "Security"
 msgstr "安全"
 
-#: mail/mail-config.glade.h:119
+#: mail/mail-config.glade.h:120
 msgid "Select HTML fixed width font"
 msgstr "选择 HTML 固定宽度字体"
 
-#: mail/mail-config.glade.h:120
+#: mail/mail-config.glade.h:121
 msgid "Select HTML fixed width font for printing"
 msgstr "选择用于打印的 HTML 固定宽度字体"
 
-#: mail/mail-config.glade.h:121
+#: mail/mail-config.glade.h:122
 msgid "Select HTML variable width font"
 msgstr "选择 HTML 变宽度字体"
 
-#: mail/mail-config.glade.h:122
+#: mail/mail-config.glade.h:123
 msgid "Select HTML variable width font for printing"
 msgstr "选择用于打印的 HTML 变宽度字体"
 
-#: mail/mail-config.glade.h:123
+#: mail/mail-config.glade.h:124
 msgid "Sending Email"
 msgstr "发送电子邮件"
 
-#: mail/mail-config.glade.h:124
+#: mail/mail-config.glade.h:125
 msgid "Sending Mail"
 msgstr "发送邮件"
 
-#: mail/mail-config.glade.h:125
+#: mail/mail-config.glade.h:126
 msgid "Sent _Messages Folder:"
 msgstr "已发送信件文件夹(_M)："
 
-#: mail/mail-config.glade.h:126
+#: mail/mail-config.glade.h:127
 msgid "Ser_ver requires authentication"
 msgstr "服务器需要认证(_V)"
 
-#: mail/mail-config.glade.h:127
+#: mail/mail-config.glade.h:128
 msgid "Server _Type: "
 msgstr "服务器类型(_T)："
 
-#: mail/mail-config.glade.h:128
+#: mail/mail-config.glade.h:129
 msgid "Sig_ning certificate:"
 msgstr "签名证书(_N)："
 
-#: mail/mail-config.glade.h:129
+#: mail/mail-config.glade.h:130
 msgid "Signat_ure:"
 msgstr "签名(_U)："
 
-#: mail/mail-config.glade.h:130
+#: mail/mail-config.glade.h:131
 msgid "Signatures"
 msgstr "签名"
 
-#: mail/mail-config.glade.h:131
+#: mail/mail-config.glade.h:132
 msgid "Specify _filename:"
 msgstr "指定文件名(_F)："
 
-#: mail/mail-config.glade.h:132
+#: mail/mail-config.glade.h:133
 msgid "Spell Checking"
 msgstr "拼写检查"
 
-#: mail/mail-config.glade.h:133
+#: mail/mail-config.glade.h:134
 msgid "T_erminal Font:"
 msgstr "终端字体(_E)："
 
-#: mail/mail-config.glade.h:134
+#: mail/mail-config.glade.h:135
 msgid "T_ype: "
 msgstr "类型(_Y)："
 
-#: mail/mail-config.glade.h:135
+#: mail/mail-config.glade.h:136
 msgid ""
 "The list of languages here reflects only the languages for which you have a "
 "dictionary installed."
 msgstr "在此列出的语言反映了您所安装的字典。"
 
-#: mail/mail-config.glade.h:136
+#: mail/mail-config.glade.h:137
 msgid ""
 "The output of this script will be used as your\n"
 "signature. The name you specify will be used\n"
@@ -12288,7 +12279,7 @@ msgstr ""
 "此脚本的输出将用于您的签名。您指定的名称将只会\n"
 "用于显示。"
 
-#: mail/mail-config.glade.h:140
+#: mail/mail-config.glade.h:141
 msgid ""
 "Type the name by which you would like to refer to this account.\n"
 "For example: \"Work\" or \"Personal\""
@@ -12296,15 +12287,15 @@ msgstr ""
 "输入您想要给此帐户起的名字。\n"
 "如：“工作”或“私人”"
 
-#: mail/mail-config.glade.h:142
+#: mail/mail-config.glade.h:143
 msgid "User_name:"
 msgstr "用户名(_N)："
 
-#: mail/mail-config.glade.h:143
+#: mail/mail-config.glade.h:144
 msgid "V_ariable-width:"
 msgstr "变宽(_A)："
 
-#: mail/mail-config.glade.h:144
+#: mail/mail-config.glade.h:145
 msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
@@ -12313,17 +12304,6 @@ msgstr ""
 "欢迎使用 Evolution 邮件配置助手。\n"
 "\n"
 "单击“前进”开始。"
-
-#: mail/mail-config.glade.h:148
-msgid ""
-"You are almost done with the mail configuration process. The identity, "
-"incoming mail server and outgoing mail transport method which you provided "
-"will be grouped together to make an Evolution mail account. Please enter a "
-"name for this account in the space below. This name will be used for display "
-"purposes only."
-msgstr ""
-"您即将完成邮件配置的过程了。您提供的用于收件服务器和发送方式将被组合在一起，"
-"成为 Evolution 的邮件帐户。请在下面输入此帐户的名称。此名称只会用作显示。"
 
 #: mail/mail-config.glade.h:149
 msgid "_Add Signature"
@@ -13134,7 +13114,7 @@ msgstr "发送第%d封信，共%d封"
 msgid "Failed to send %d of %d messages"
 msgstr "在第%d封信失败，共%d封"
 
-#: mail/mail-ops.c:720 mail/mail-send-recv.c:607
+#: mail/mail-ops.c:720 mail/mail-send-recv.c:613
 msgid "Cancelled."
 msgstr "已取消。"
 
@@ -13297,15 +13277,15 @@ msgstr "类型：%s"
 msgid "Send & Receive Mail"
 msgstr "发送和接收邮件"
 
-#: mail/mail-send-recv.c:323
+#: mail/mail-send-recv.c:327
 msgid "Cancel _All"
 msgstr "全部取消(_A)"
 
-#: mail/mail-send-recv.c:410
+#: mail/mail-send-recv.c:416
 msgid "Updating..."
 msgstr "正在更新..."
 
-#: mail/mail-send-recv.c:410 mail/mail-send-recv.c:462
+#: mail/mail-send-recv.c:416 mail/mail-send-recv.c:468
 msgid "Waiting..."
 msgstr "正在等待..."
 
@@ -13358,30 +13338,30 @@ msgstr "转发的信件"
 msgid "Invalid folder: `%s'"
 msgstr "无效的文件夹：“%s”"
 
-#: mail/mail-vfolder.c:87
+#: mail/mail-vfolder.c:90
 #, c-format
 msgid "Setting up vfolder: %s"
 msgstr "设置虚拟文件夹：%s"
 
-#: mail/mail-vfolder.c:235
+#: mail/mail-vfolder.c:239
 #, c-format
 msgid "Updating vFolders for '%s:%s'"
 msgstr "更新“%s:%s”的虚拟文件夹"
 
-#: mail/mail-vfolder.c:242
+#: mail/mail-vfolder.c:246
 #, c-format
 msgid "Updating vFolders for '%s'"
 msgstr "更新“%s”的虚拟文件夹"
 
-#: mail/mail-vfolder.c:961
+#: mail/mail-vfolder.c:969
 msgid "vFolders"
 msgstr "虚拟文件夹"
 
-#: mail/mail-vfolder.c:1000
+#: mail/mail-vfolder.c:1008
 msgid "Edit VFolder"
 msgstr "编辑虚拟文件夹"
 
-#: mail/mail-vfolder.c:1084
+#: mail/mail-vfolder.c:1092
 msgid "New VFolder"
 msgstr "新建虚拟文件夹"
 
@@ -13427,7 +13407,7 @@ msgstr "?"
 
 #. strftime format of a time,
 #. in 12-hour format, without seconds.
-#: mail/message-list.c:1348 plugins/itip-formatter/itip-view.c:160
+#: mail/message-list.c:1348 plugins/itip-formatter/itip-view.c:189
 msgid "Today %l:%M %p"
 msgstr "今天 %H:%M"
 
@@ -13821,294 +13801,294 @@ msgid "Select the calendars to search for meeting conflicts"
 msgstr "选择要搜索冲突会议的日历"
 
 #. strftime format of a weekday and a date.
-#: plugins/itip-formatter/itip-view.c:146 ui/evolution-calendar.xml.h:34
+#: plugins/itip-formatter/itip-view.c:175 ui/evolution-calendar.xml.h:34
 #: widgets/misc/e-cell-date-edit.c:240 widgets/misc/e-dateedit.c:450
 msgid "Today"
 msgstr "今天"
 
 #. strftime format of a time,
 #. in 24-hour format, without seconds.
-#: plugins/itip-formatter/itip-view.c:151
+#: plugins/itip-formatter/itip-view.c:180
 msgid "Today %H:%M"
 msgstr "今天 %H:%M"
 
 #. strftime format of a time,
 #. in 24-hour format.
-#: plugins/itip-formatter/itip-view.c:155
+#: plugins/itip-formatter/itip-view.c:184
 msgid "Today %H:%M:%S"
 msgstr "今天 %H:%M:%S"
 
 #. strftime format of a time,
 #. in 12-hour format.
-#: plugins/itip-formatter/itip-view.c:164
+#: plugins/itip-formatter/itip-view.c:193
 msgid "Today %l:%M:%S %p"
 msgstr "今天 %H:%M:%S"
 
 #. strftime format of a weekday and a date.
-#: plugins/itip-formatter/itip-view.c:172
+#: plugins/itip-formatter/itip-view.c:203
 msgid "Tomorrow"
 msgstr "明天"
 
 #. strftime format of a time,
 #. in 24-hour format, without seconds.
-#: plugins/itip-formatter/itip-view.c:177
+#: plugins/itip-formatter/itip-view.c:208
 msgid "Tomorrow %H:%M"
 msgstr "明天 %H:%M"
 
 #. strftime format of a time,
 #. in 24-hour format.
-#: plugins/itip-formatter/itip-view.c:181
+#: plugins/itip-formatter/itip-view.c:212
 msgid "Tomorrow %H:%M:%S"
 msgstr "明天 %H:%M:%S"
 
 #. strftime format of a time,
 #. in 12-hour format, without seconds.
-#: plugins/itip-formatter/itip-view.c:186
+#: plugins/itip-formatter/itip-view.c:217
 msgid "Tomorrow %l:%M %p"
 msgstr "明天 %H:%M"
 
 #. strftime format of a time,
 #. in 12-hour format.
-#: plugins/itip-formatter/itip-view.c:190
+#: plugins/itip-formatter/itip-view.c:221
 msgid "Tomorrow %l:%M:%S %p"
 msgstr "明天 %H:%M:%S"
 
 #. strftime format of a weekday.
-#: plugins/itip-formatter/itip-view.c:198
+#: plugins/itip-formatter/itip-view.c:240
 #, c-format
 msgid "%A"
 msgstr "%A"
 
 #. strftime format of a weekday and a
 #. time, in 24-hour format, without seconds.
-#: plugins/itip-formatter/itip-view.c:203
+#: plugins/itip-formatter/itip-view.c:245
 msgid "%A %H:%M"
 msgstr "%A %H:%M"
 
 #. strftime format of a weekday and a
 #. time, in 24-hour format.
-#: plugins/itip-formatter/itip-view.c:207
+#: plugins/itip-formatter/itip-view.c:249
 msgid "%A %H:%M:%S"
 msgstr "%A %H:%M:%S"
 
 #. strftime format of a weekday and a
 #. time, in 12-hour format, without seconds.
-#: plugins/itip-formatter/itip-view.c:212
+#: plugins/itip-formatter/itip-view.c:254
 msgid "%A %l:%M %p"
 msgstr "%A %H:%M"
 
 #. strftime format of a weekday and a
 #. time, in 12-hour format.
-#: plugins/itip-formatter/itip-view.c:216
+#: plugins/itip-formatter/itip-view.c:258
 msgid "%A %l:%M:%S %p"
 msgstr "%A %H:%M:%S"
 
 #. strftime format of a weekday and a date
 #. without a year.
-#: plugins/itip-formatter/itip-view.c:225
+#: plugins/itip-formatter/itip-view.c:267
 msgid "%A, %B %e"
 msgstr "%-m月%-d日%A"
 
 #. strftime format of a weekday, a date
 #. without a year and a time,
 #. in 24-hour format, without seconds.
-#: plugins/itip-formatter/itip-view.c:231
+#: plugins/itip-formatter/itip-view.c:273
 msgid "%A, %B %e %H:%M"
 msgstr "%-m月%-d日%A %H:%M"
 
 #. strftime format of a weekday, a date without a year
 #. and a time, in 24-hour format.
-#: plugins/itip-formatter/itip-view.c:235
+#: plugins/itip-formatter/itip-view.c:277
 msgid "%A, %B %e %H:%M:%S"
 msgstr "%-m月%-d日%A %H:%M:%S"
 
 #. strftime format of a weekday, a date without a year
 #. and a time, in 12-hour format, without seconds.
-#: plugins/itip-formatter/itip-view.c:240
+#: plugins/itip-formatter/itip-view.c:282
 msgid "%A, %B %e %l:%M %p"
 msgstr "%-m月%-d日%A %H:%M"
 
 #. strftime format of a weekday, a date without a year
 #. and a time, in 12-hour format.
-#: plugins/itip-formatter/itip-view.c:244
+#: plugins/itip-formatter/itip-view.c:286
 msgid "%A, %B %e %l:%M:%S %p"
 msgstr "%-m月%-d日%A %H:%M:%S"
 
 #. strftime format of a weekday and a date.
-#: plugins/itip-formatter/itip-view.c:250
+#: plugins/itip-formatter/itip-view.c:292
 msgid "%A, %B %e, %Y"
 msgstr "%Y年%-m月%-d日%A"
 
 #. strftime format of a weekday, a date and a
 #. time, in 24-hour format, without seconds.
-#: plugins/itip-formatter/itip-view.c:255
+#: plugins/itip-formatter/itip-view.c:297
 msgid "%A, %B %e, %Y %H:%M"
 msgstr "%Y年%-m月%-d日%A %H:%M"
 
 #. strftime format of a weekday, a date and a
 #. time, in 24-hour format.
-#: plugins/itip-formatter/itip-view.c:259
+#: plugins/itip-formatter/itip-view.c:301
 msgid "%A, %B %e, %Y %H:%M:%S"
 msgstr "%Y年%-m月%-d日%A %H:%M:%S"
 
 #. strftime format of a weekday, a date and a
 #. time, in 12-hour format, without seconds.
-#: plugins/itip-formatter/itip-view.c:264
+#: plugins/itip-formatter/itip-view.c:306
 msgid "%A, %B %e, %Y %l:%M %p"
 msgstr "%Y年%-m月%-d日%A %H:%M"
 
 #. strftime format of a weekday, a date and a
 #. time, in 12-hour format.
-#: plugins/itip-formatter/itip-view.c:268
+#: plugins/itip-formatter/itip-view.c:310
 msgid "%A, %B %e, %Y %l:%M:%S %p"
 msgstr "%Y年%-m月%-d日%A %H:%M:%S"
 
-#: plugins/itip-formatter/itip-view.c:293
+#: plugins/itip-formatter/itip-view.c:335
 #, c-format
 msgid "<b>%s</b> through %s has published the following meeting information:"
 msgstr "<b>%s</b> 通过 %s 发布了会议信息："
 
-#: plugins/itip-formatter/itip-view.c:295
+#: plugins/itip-formatter/itip-view.c:337
 #, c-format
 msgid "<b>%s</b> has published the following meeting information:"
 msgstr "<b>%s</b> 发布了会议信息："
 
-#: plugins/itip-formatter/itip-view.c:300
+#: plugins/itip-formatter/itip-view.c:342
 #, c-format
 msgid "<b>%s</b> requests the presence of %s at the following meeting:"
 msgstr "<b>%s</b> 请求 %s 参加下列会议："
 
-#: plugins/itip-formatter/itip-view.c:303
+#: plugins/itip-formatter/itip-view.c:345
 #, c-format
 msgid "<b>%s</b> through %s requests your presence at the following meeting:"
 msgstr "<b>%s</b> 通过 %s 请求您参加下列会议："
 
-#: plugins/itip-formatter/itip-view.c:305
+#: plugins/itip-formatter/itip-view.c:347
 #, c-format
 msgid "<b>%s</b> requests your presence at the following meeting:"
 msgstr "<b>%s</b> 请求您参加下列会议："
 
-#: plugins/itip-formatter/itip-view.c:311
+#: plugins/itip-formatter/itip-view.c:353
 #, c-format
 msgid "<b>%s</b> through %s wishes to add to an existing meeting:"
 msgstr "<b>%s</b> 通过 %s 希望加入到已有的会议："
 
-#: plugins/itip-formatter/itip-view.c:313
+#: plugins/itip-formatter/itip-view.c:355
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing meeting:"
 msgstr "<b>%s</b> 希望加入到已有的会议："
 
-#: plugins/itip-formatter/itip-view.c:316
+#: plugins/itip-formatter/itip-view.c:358
 #, c-format
 msgid ""
 "<b>%s</b> wishes to receive the latest information for the following meeting:"
 msgstr "<b>%s</b> 希望接收到下列会议的最新信息："
 
-#: plugins/itip-formatter/itip-view.c:319
+#: plugins/itip-formatter/itip-view.c:361
 #, c-format
 msgid "<b>%s</b> has sent back the following meeting response:"
 msgstr "<b>%s</b> 发回了下列会议请求的响应："
 
-#: plugins/itip-formatter/itip-view.c:323
+#: plugins/itip-formatter/itip-view.c:365
 #, c-format
 msgid "<b>%s</b> through %s has cancelled the following meeting:"
 msgstr "<b>%s</b> 通过 %s 取消了下列会议："
 
-#: plugins/itip-formatter/itip-view.c:325
+#: plugins/itip-formatter/itip-view.c:367
 #, c-format
 msgid "<b>%s</b> has cancelled the following meeting."
 msgstr "<b>%s</b> 取消了下列会议："
 
-#: plugins/itip-formatter/itip-view.c:328
+#: plugins/itip-formatter/itip-view.c:370
 #, c-format
 msgid "<b>%s</b> has proposed the following meeting changes."
 msgstr "<b>%s</b> 提议了下列会议变更。"
 
-#: plugins/itip-formatter/itip-view.c:332
+#: plugins/itip-formatter/itip-view.c:374
 #, c-format
 msgid "<b>%s</b> through %s has declined the following meeting changes:"
 msgstr "<b>%s</b> 通过 %s 拒绝了下列会议变更："
 
-#: plugins/itip-formatter/itip-view.c:334
+#: plugins/itip-formatter/itip-view.c:376
 #, c-format
 msgid "<b>%s</b> has declined the following meeting changes."
 msgstr "<b>%s</b> 拒绝了下列会议变更。"
 
-#: plugins/itip-formatter/itip-view.c:361
+#: plugins/itip-formatter/itip-view.c:403
 #, c-format
 msgid "<b>%s</b> through %s has published the following task:"
 msgstr "<b>%s</b> 通过 %s 发布了下列任务："
 
-#: plugins/itip-formatter/itip-view.c:363
+#: plugins/itip-formatter/itip-view.c:405
 #, c-format
 msgid "<b>%s</b> has published the following task:"
 msgstr "<b>%s</b> 发布了下列任务："
 
-#: plugins/itip-formatter/itip-view.c:368
+#: plugins/itip-formatter/itip-view.c:410
 #, c-format
 msgid "<b>%s</b> requests the assignment of %s to the following task:"
 msgstr "<b>%s</b> 请求给 %s 指派下列任务："
 
-#: plugins/itip-formatter/itip-view.c:371
+#: plugins/itip-formatter/itip-view.c:413
 #, c-format
 msgid "<b>%s</b> through %s has assigned you a task:"
 msgstr "<b>%s</b> 通过 %s 为您指派了下列任务："
 
-#: plugins/itip-formatter/itip-view.c:373
+#: plugins/itip-formatter/itip-view.c:415
 #, c-format
 msgid "<b>%s</b> has assigned you a task:"
 msgstr "<b>%s</b> 为您指派了一个任务："
 
-#: plugins/itip-formatter/itip-view.c:379
+#: plugins/itip-formatter/itip-view.c:421
 #, c-format
 msgid "<b>%s</b> through %s wishes to add to an existing task:"
 msgstr "<b>%s</b> 通过 %s 希望加入到已有的任务："
 
-#: plugins/itip-formatter/itip-view.c:381
+#: plugins/itip-formatter/itip-view.c:423
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing task:"
 msgstr "<b>%s<b> 希望加入到已存在的任务："
 
-#: plugins/itip-formatter/itip-view.c:384
+#: plugins/itip-formatter/itip-view.c:426
 #, c-format
 msgid ""
 "<b>%s</b> wishes to receive the latest information for the following "
 "assigned task:"
 msgstr "<b>%s</b> 想要收到所指派的下列任务的最新信息："
 
-#: plugins/itip-formatter/itip-view.c:387
+#: plugins/itip-formatter/itip-view.c:429
 #, c-format
 msgid "<b>%s</b> has sent back the following assigned task response:"
 msgstr "<b>%s</b> 发回了下列指派任务的回应："
 
-#: plugins/itip-formatter/itip-view.c:391
+#: plugins/itip-formatter/itip-view.c:433
 #, c-format
 msgid "<b>%s</b> through %s has cancelled the following assigned task:"
 msgstr "<b>%s</b> 通过 %s 取消了下列任务指派："
 
-#: plugins/itip-formatter/itip-view.c:393
+#: plugins/itip-formatter/itip-view.c:435
 #, c-format
 msgid "<b>%s</b> has cancelled the following assigned task:"
 msgstr "<b>%s</b> 取消指派的下列任务："
 
-#: plugins/itip-formatter/itip-view.c:396
+#: plugins/itip-formatter/itip-view.c:438
 #, c-format
 msgid "<b>%s</b> has proposed the following task assignment changes:"
 msgstr "<b>%s</b> 提议了下列任务指派变更："
 
-#: plugins/itip-formatter/itip-view.c:400
+#: plugins/itip-formatter/itip-view.c:442
 #, c-format
 msgid "<b>%s</b> through %s has declined the following assigned task:"
 msgstr "<b>%s</b> 通过 %s 拒绝了下列任务指派："
 
-#: plugins/itip-formatter/itip-view.c:402
+#: plugins/itip-formatter/itip-view.c:444
 #, c-format
 msgid "<b>%s</b> has declined the following assigned task:"
 msgstr "<b>%s</b> 拒绝了指派的下列任务："
 
 #. Comment
-#: plugins/itip-formatter/itip-view.c:848
-#: plugins/itip-formatter/itip-view.c:898
+#: plugins/itip-formatter/itip-view.c:890
+#: plugins/itip-formatter/itip-view.c:940
 msgid "Comment:"
 msgstr "注释："
 
@@ -14151,7 +14131,8 @@ msgid ""
 "You should receive an answer from the mailing list shortly after the message "
 "has been sent."
 msgstr ""
-"将向 URL“{0}”发送电子邮件。您可以自动发送此消息，或者先看看再改改。\n\n"
+"将向 URL“{0}”发送电子邮件。您可以自动发送此消息，或者先看看再改改。\n"
+"\n"
 "稍后这封信发出之后，您应该能够从邮件列表收到响应。"
 
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:15
@@ -14174,7 +14155,9 @@ msgid ""
 "\n"
 "Header: {1}"
 msgstr ""
-"信件的 {0} 头格式不对，无法处理。\n\n头：{1}"
+"信件的 {0} 头格式不对，无法处理。\n"
+"\n"
+"头：{1}"
 
 #. org.gnome.mailing-list-actions:no-action primary
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:24
@@ -14189,7 +14172,9 @@ msgid ""
 "\n"
 "Header: {0}"
 msgstr ""
-"无法执行此动作。这意味着此动作所用的头不包含我们可处理的任何动作。\n\n头：{0}"
+"无法执行此动作。这意味着此动作所用的头不包含我们可处理的任何动作。\n"
+"\n"
+"头：{0}"
 
 #. Create the checkbox we will display, complete with mnemonic that is unique in the dialog
 #: plugins/new-mail-notify/new-mail-notify.c:66
@@ -14329,6 +14314,35 @@ msgid ""
 "The suggested filename extension of this filetype (%s) is unused in the "
 "chosen filename. Do you want to continue?"
 msgstr "此文件类型(%s)所建议的文件扩展名未在所选的文件名中使用。您想要继续吗？"
+
+#: plugins/send-options/send-options.c:82
+#, c-format
+msgid "%sEnter password for %s (user %s)"
+msgstr "%s为 %s 输入口令 (用户 %s)"
+
+#. org.gnome.evolution.mail_shared_folder:invalid-user primary
+#: plugins/shared-folder/org-gnome-shared-folder-errors.xml.h:2
+msgid "Invalid user"
+msgstr "无效的用户"
+
+#. org.gnome.evolution.mail_shared_folder:invalid-user secondary
+#: plugins/shared-folder/org-gnome-shared-folder-errors.xml.h:4
+msgid ""
+"\n"
+"You cannot share folder with specified user \"{0}\" \n"
+msgstr "\n您不能将文件夹与指定用户“{0}”共享\n"
+
+#. org.gnome.evolution.mail_shared_folder:no-user primary
+#: plugins/shared-folder/org-gnome-shared-folder-errors.xml.h:8
+msgid "Specify User"
+msgstr "指定用户"
+
+#. org.gnome.evolution.mail_shared_folder:no-user secondary
+#: plugins/shared-folder/org-gnome-shared-folder-errors.xml.h:10
+msgid ""
+"\n"
+"\tYou have to specify a user name whom you want to add to the list \n"
+msgstr "\n\t您需要指定您想要添加到此列表的用户名\n"
 
 #: plugins/shared-folder/properties.glade.h:2
 msgid "<b>Users :</b>"
@@ -17475,3 +17489,4 @@ msgstr "%s (...)"
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% 完成)"
+
