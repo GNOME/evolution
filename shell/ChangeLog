@@ -1,5 +1,13 @@
 2001-07-23  Ettore Perazzoli  <ettore@ximian.com>
 
+	* main.c (development_warning): Only show the warning dialog
+	instead of using `gnome_dialog_run()' so it is not modal.  Modal
+	would be nice, but unfortunately it works bad with Bonobo.  Plus
+	Sawfish doesn't like to keep the modal dialog on top, so it gets
+	very confusing for users.
+
+2001-07-23  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-task-widget.c (e_task_widget_construct): Uhm, set the usize to
 	`1, -1' instead.
 

@@ -77,10 +77,8 @@ development_warning (void)
 	GtkWidget *label, *warning_dialog;
 	int ret;
 	
-	warning_dialog = gnome_dialog_new (
-		"Evolution" VERSION,
-		GNOME_STOCK_BUTTON_OK,
-		NULL);
+	warning_dialog = gnome_dialog_new ("Evolution " VERSION, GNOME_STOCK_BUTTON_OK, NULL);
+
 	label = gtk_label_new (
 		/* xgettext:no-c-format */
 		_("Hi.  Thanks for taking the time to download this preview release\n"
@@ -114,9 +112,9 @@ development_warning (void)
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (warning_dialog)->vbox), 
 			    label, TRUE, TRUE, 0);
 
-	ret = gnome_dialog_run (GNOME_DIALOG (warning_dialog));
-	if (ret != -1)
-		gtk_object_destroy (GTK_OBJECT (warning_dialog));
+	gnome_dialog_close_hides (GNOME_DIALOG (warning_dialog), FALSE);
+
+	gtk_widget_show (warning_dialog);
 }
 
 
