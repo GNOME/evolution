@@ -347,8 +347,9 @@ arg_address_edit_value(FilterArg *arg, int index)
 		newtext = g_strdup(gtk_entry_get_text(entry));
 		gtk_object_unref((GtkObject *)entry);
 		if (index>=0
-		    && (node = g_list_find(arg->values, text))) {
+		    && (node = g_list_find(arg->values, ad))) {
 			ad = node->data;
+			g_free(ad->email);
 			ad->email = newtext;
 		} else {
 			ad = g_malloc0(sizeof(*ad));
