@@ -1,5 +1,11 @@
 2005-01-03  JP Rosevear  <jpr@novell.com>
 
+	* org-gnome-itip-formatter-errors.xml: remove unused message
+
+	* itip-formatter.c (update_item): use info item, not e-error
+	
+2005-01-03  JP Rosevear  <jpr@novell.com>
+
 	* itip-formatter.c (view_response_cb): implement cancel
 	(update_item): add cancel info item
 

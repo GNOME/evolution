@@ -622,6 +622,7 @@ update_item (FormatItipPObject *pitip, ItipViewResponse response)
 	struct icaltimetype stamp;
 	icalproperty *prop;
 	icalcomponent *clone;
+	ESource *source;
 	GError *error = NULL;
 
 	/* Set X-MICROSOFT-CDO-REPLYTIME to record the time at which
@@ -642,18 +643,19 @@ update_item (FormatItipPObject *pitip, ItipViewResponse response)
 	icalcomponent_add_component (pitip->top_level, clone);
 	icalcomponent_set_method (pitip->top_level, pitip->method);
 
+	source = e_cal_get_source (pitip->current_ecal);
+		
 	if (!e_cal_receive_objects (pitip->current_ecal, pitip->top_level, &error)) {
-		/* FIXME Really use e_error? or should it just be an info item */
-//		e_error_run (NULL, "org.gnome.itip-formatter:meeting-update-failed", error->message, NULL);		
+		itip_view_add_lower_info_item_printf (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_INFO,
+						      _("Unable to send item to calendar '%s'.  %s"), 
+						      e_source_peek_name (source), error->message);
 		g_error_free (error);
 	} else {
-		ESource *source;
 		
 		/* FIXME This makes the UI look ugly */
 		itip_view_set_source_list (ITIP_VIEW (pitip->view), NULL);
 
 		itip_view_clear_lower_info_items (ITIP_VIEW (pitip->view));
-		source = e_cal_get_source (pitip->current_ecal);
 
 		switch (response) {
 		case ITIP_VIEW_RESPONSE_ACCEPT:
